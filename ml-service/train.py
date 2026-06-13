@@ -14,6 +14,7 @@ import argparse
 import json
 import os
 import sys
+from collections import Counter
 
 import numpy as np
 from PIL import Image
@@ -170,13 +171,21 @@ def main():
     ds_train = make_dataset(tr_imgs, tr_lbs, augment=True)
     ds_val   = make_dataset(vl_imgs, vl_lbs, augment=False)
 
+    # class_weight để cân bằng dataset lệch (vd: jiankangshe chiếm ~60%)
+    counts = Counter(tr_lbs)
+    total  = len(tr_lbs)
+    class_weight = {c: total / (NUM_CLASSES * cnt) for c, cnt in counts.items()}
+    print("\n  Phân bố class (top 5 nhiều nhất):")
+    for c, cnt in sorted(counts.items(), key=lambda x: -x[1])[:5]:
+        print(f"    [{c:2d}] {CLASS_NAMES[c]:<16} {cnt:>5} ảnh  weight={class_weight[c]:.2f}")
+
     model = build_model()
     model.compile(optimizer="adam",
                   loss="categorical_crossentropy",
                   metrics=["accuracy"])
     model.summary(line_length=70)
 
-    ckpt_cb = callbacks.ModelCheckpoint(
+    ckpt_cb  = callbacks.ModelCheckpoint(
         OUT_H5, save_best_only=True, monitor="val_accuracy", verbose=1
     )
     early_cb = callbacks.EarlyStopping(patience=8, restore_best_weights=True)
@@ -184,7 +193,8 @@ def main():
     # Phase 1: train head, base frozen
     print(f"\n[Phase 1] Training classification head ({EPOCHS_HEAD} epochs max)...")
     model.fit(ds_train, validation_data=ds_val,
-              epochs=EPOCHS_HEAD, callbacks=[ckpt_cb, early_cb], verbose=1)
+              epochs=EPOCHS_HEAD, callbacks=[ckpt_cb, early_cb],
+              class_weight=class_weight, verbose=1)
 
     # Phase 2: fine-tune 30 layer cuối của base
     print(f"\n[Phase 2] Fine-tuning last 30 layers ({EPOCHS_FINE} epochs max)...")
@@ -197,7 +207,8 @@ def main():
                   loss="categorical_crossentropy",
                   metrics=["accuracy"])
     model.fit(ds_train, validation_data=ds_val,
-              epochs=EPOCHS_FINE, callbacks=[ckpt_cb, early_cb], verbose=1)
+              epochs=EPOCHS_FINE, callbacks=[ckpt_cb, early_cb],
+              class_weight=class_weight, verbose=1)
 
     os.makedirs(os.path.dirname(OUT_H5), exist_ok=True)
     model.save(OUT_H5)
