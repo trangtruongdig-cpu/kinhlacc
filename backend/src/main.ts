@@ -1,9 +1,12 @@
 import { NestFactory } from '@nestjs/core';
+import { json, urlencoded } from 'express';
 import { AppModule } from './app.module';
 import { LoggingInterceptor } from './middlewares/logging.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bodyParser: false });
+  app.use(json({ limit: '20mb' }));
+  app.use(urlencoded({ extended: true, limit: '20mb' }));
   app.useGlobalInterceptors(new LoggingInterceptor());
 
   // CORS: cho phép nhiều domain frontend (prod + local).
