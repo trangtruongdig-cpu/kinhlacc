@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS chan_doan_luoi (
   ket_qua_dong_y   TEXT,
   ghi_chu          TEXT,
 
-  created_by       INTEGER,
+  created_by       VARCHAR(36),
   created_at       TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at       TIMESTAMPTZ NOT NULL DEFAULT now()
 );

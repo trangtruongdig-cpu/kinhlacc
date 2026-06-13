@@ -38,8 +38,8 @@ export class ChanDoanLuoi {
   @Column({ name: 'ghi_chu', type: 'text', nullable: true })
   ghiChu: string | null;
 
-  @Column({ name: 'created_by', type: 'int', nullable: true })
-  createdBy: number | null;
+  @Column({ name: 'created_by', type: 'varchar', length: 36, nullable: true })
+  createdBy: string | null;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

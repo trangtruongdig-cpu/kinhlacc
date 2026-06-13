@@ -43,7 +43,7 @@ export class ChanDoanLuoiService {
     return this.repo.findOneBy({ id });
   }
 
-  async create(dto: CreateChanDoanLuoiDto, userId?: number): Promise<ChanDoanLuoi> {
+  async create(dto: CreateChanDoanLuoiDto, userId?: string): Promise<ChanDoanLuoi> {
     const item = this.repo.create({
       idBenhNhan: dto.idBenhNhan ?? null,
       ngayKham: dto.ngayKham ? new Date(dto.ngayKham) : new Date(),
