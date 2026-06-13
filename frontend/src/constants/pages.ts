@@ -18,7 +18,7 @@ export const APP_PAGES: AppPage[] = [
   { key: 'medicines', label: 'Quản Lý Thuốc' },
   { key: 'symptoms', label: 'Triệu Chứng' },
   { key: 'treatments', label: 'Pháp Trị' },
-  { key: 'chan-doan-luoi', label: 'Chẩn Đoán Lưỡi' },
+  { key: 'chan-doan-luoi', label: 'Chẩn Đoán Lưỡi', always: true },
   { key: 'users', label: 'Quản Lý Người Dùng' },
   { key: 'seo', label: 'SEO Radar' },
 ]
