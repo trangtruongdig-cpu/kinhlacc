@@ -26,9 +26,8 @@ Caddyfile
 
 kinhmach_demo
 
-# AcuKG source repo (clone ngoài, nặng, không push) — chỉ giữ scripts + output
-tools/AcuKG/
-tools/node_modules/
+# Toàn bộ thư mục tools (scripts nháp + dataset nặng — không push)
+tools/
 
 # Khóa Service Account của Google Cloud — TUYỆT ĐỐI không đẩy lên GitHub
 # (file dạng <project>-<hash>.json chứa private key, lộ là mất tài khoản)
@@ -42,4 +41,14 @@ kinhlac-*.json
 # Thư mục tạo ảnh Zalo OA (ảnh bìa + avatar) — chỉ dùng trên máy local, không push
 zalo-oa-assets/
 
+# ml-service: môi trường Python và dataset không push; model/ (atlas-embeddings.json) được push
+ml-service/__pycache__/
+ml-service/**/__pycache__/
+ml-service/.venv/
+ml-service/venv/
+ml-service/.env
+ml-service/datasets/
+ml-service/data/
+
 tools
+

@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+.env
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+# Dataset (không push — chỉ dùng cục bộ để train)
+datasets/
+data/
+*.zip
+# JSON prototypes cũ (thay bằng tongue_cnn.h5)
+model/atlas-embeddings.json
