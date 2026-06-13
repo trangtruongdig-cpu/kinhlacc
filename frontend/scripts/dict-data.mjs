@@ -146,6 +146,31 @@ export function kinhIndexable(m) {
   return kinhBodyLen(m) >= MIN_BODY_CHARS
 }
 
+// ───────────────────────── Phân Loại (traits từ dict-facets.js) ─────────────
+// dict-facets.js comment đầu file chứa '{' → bám lastIndexOf('window.DICT_FACETS') như BENH.
+export const DICT_FACETS = (() => {
+  try {
+    const txt = readFileSync(join(dataDir, 'dict-facets.js'), 'utf8')
+    const asn = txt.lastIndexOf('window.DICT_FACETS')
+    const a = txt.indexOf('{', asn >= 0 ? asn : 0)
+    const b = txt.lastIndexOf('}')
+    if (a < 0 || b <= a) return null
+    return JSON.parse(txt.slice(a, b + 1))
+  } catch { return null }
+})()
+
+// Bản đồ ngược: acuId → [tên trait, …] (thứ tự theo dict-facets.js → đúng thứ tự dict-traits.json).
+export const traitsByAcuId = new Map()
+if (DICT_FACETS && DICT_FACETS.traits) {
+  for (const [, trait] of Object.entries(DICT_FACETS.traits)) {
+    for (const id of (trait.huyetIds || [])) {
+      const list = traitsByAcuId.get(id) || []
+      list.push(trait.ten)
+      traitsByAcuId.set(id, list)
+    }
+  }
+}
+
 // ───────────────────────── Bệnh học + Châm cứu trị bệnh ─────────────────────
 // benh.js: window.BENH = { ccdt:{title,metaLabel,fields,records[]}, benhhoc:{…} }.
 // Mỗi record: { id, ten, slug, _meta?, <các khoá có trong fields> }. fields = [[khoá, Nhãn],…].

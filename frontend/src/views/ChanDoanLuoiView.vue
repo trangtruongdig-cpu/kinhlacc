@@ -653,7 +653,8 @@ const ML_ZONES: Record<string, string[]> = {
 }
 
 function applyMlFeatures(results: AiResult['similarity']) {
-  const top = results.filter(r => r.score >= 35).slice(0, 4)
+  // Threshold 15% = 3x random chance (5% for 20 classes) — bác sĩ kiểm tra lại
+  const top = results.filter(r => r.score >= 15).slice(0, 4)
   if (!top.length) return
 
   const topMauChat = top.find(r => ML_FEATURES[r.id]?.mauChat)

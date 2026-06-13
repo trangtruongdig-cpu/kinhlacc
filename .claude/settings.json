@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(PYTHONIOENCODING=utf-8 \"venv/Scripts/python.exe\" train.py --source dataset)",
+      "Bash(curl -s -X POST http://localhost:3002/reload-model)"
+    ]
+  }
+}

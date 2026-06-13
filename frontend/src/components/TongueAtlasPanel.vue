@@ -1,9 +1,59 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { ATLAS, CATEGORY_LABELS, type TongueAtlasEntry, type AtlasCategory } from '@/data/tongue-atlas'
 import TongueSVGCard from './TongueSVGCard.vue'
+import { api } from '@/services/api'
+
+interface RepresentativeImage { url: string; score: number }
+interface RepBuildStatus {
+  status: 'idle' | 'building' | 'done' | 'error'
+  progress: { current: number; total: number; classId: string }
+  error?: string
+  durationMs?: number
+}
 
 const atlasLoaded = ref(false)
+const representatives = ref<Record<string, RepresentativeImage[]>>({})
+const repBuildStatus = ref<RepBuildStatus>({ status: 'idle', progress: { current: 0, total: 23, classId: '' } })
+
+let pollTimer: ReturnType<typeof setInterval> | null = null
+
+function stopPolling() {
+  if (pollTimer) { clearInterval(pollTimer); pollTimer = null }
+}
+
+async function loadRepresentatives() {
+  try {
+    const data = await api.get<Record<string, RepresentativeImage[]>>('/chan-doan-luoi/atlas-representatives')
+    representatives.value = data ?? {}
+  } catch {}
+}
+
+async function pollStatus() {
+  try {
+    const status = await api.get<RepBuildStatus>('/chan-doan-luoi/atlas-representatives/status')
+    repBuildStatus.value = status
+    if (status.status === 'done') {
+      stopPolling()
+      await loadRepresentatives()
+    } else if (status.status === 'error') {
+      stopPolling()
+    }
+  } catch {
+    stopPolling()
+  }
+}
+
+async function buildRepresentatives() {
+  if (repBuildStatus.value.status === 'building') return
+  try {
+    await api.post<{ status: string }>('/chan-doan-luoi/atlas-representatives/rebuild', {})
+    repBuildStatus.value = { status: 'building', progress: { current: 0, total: 23, classId: '' } }
+    stopPolling()
+    pollTimer = setInterval(pollStatus, 2500)
+  } catch {}
+}
+
 onMounted(async () => {
   try {
     const res = await fetch('/tongue-atlas/atlas-index.json')
@@ -14,7 +64,15 @@ onMounted(async () => {
     })
     atlasLoaded.value = true
   } catch {}
+  await loadRepresentatives()
+  // Nếu server đang build dở (restart trang), tiếp tục polling
+  await pollStatus()
+  if (repBuildStatus.value.status === 'building') {
+    pollTimer = setInterval(pollStatus, 2500)
+  }
 })
+
+onUnmounted(stopPolling)
 
 const props = defineProps<{ filterPatterns?: string[] }>()
 
@@ -77,6 +135,14 @@ function prevPhoto() {
 function nextPhoto() {
   if (!activeEntry.value) return
   activePhotoIdx.value = (activePhotoIdx.value + 1) % activeEntry.value.images.length
+}
+
+function openRepPhoto(repUrl: string) {
+  if (!activeEntry.value?.images.length) return
+  const filename = repUrl.split('/').pop() ?? ''
+  const idx = activeEntry.value.images.findIndex(u => u.endsWith(filename))
+  activePhotoIdx.value = idx >= 0 ? idx : 0
+  imageMode.value = 'photo'
 }
 </script>
 
@@ -263,6 +329,70 @@ function nextPhoto() {
                 </template>
               </div>
               <p class="ap-photo-counter">{{ activePhotoIdx + 1 }} / {{ activeEntry.images.length }}</p>
+            </div>
+          </div>
+
+          <!-- ML representative images -->
+          <div class="ap-rep-section">
+            <div class="ap-rep-hd">
+              <div class="ap-rep-hd-left">
+                <span class="ap-rep-title">Ảnh Đại Diện</span>
+                <span class="ap-rep-source" v-if="Object.keys(representatives).length">
+                  · xếp hạng theo prototype
+                </span>
+              </div>
+              <button
+                class="ap-rep-build-btn"
+                :class="{ loading: repBuildStatus.status === 'building' }"
+                :disabled="repBuildStatus.status === 'building'"
+                :title="repBuildStatus.status === 'building' ? 'Đang xây dựng…' : 'Xây dựng lại ảnh đại diện ML (Python CNN → TF.js fallback)'"
+                @click="buildRepresentatives"
+              >⟳</button>
+            </div>
+
+            <!-- Progress bar khi đang build -->
+            <div v-if="repBuildStatus.status === 'building'" class="ap-rep-progress">
+              <div class="ap-rep-progress-bar-wrap">
+                <div
+                  class="ap-rep-progress-bar"
+                  :style="{ width: repBuildStatus.progress.total > 0
+                    ? `${Math.round(repBuildStatus.progress.current / repBuildStatus.progress.total * 100)}%`
+                    : '0%' }"
+                />
+              </div>
+              <span class="ap-rep-progress-txt">
+                Đang phân tích {{ repBuildStatus.progress.current }}/{{ repBuildStatus.progress.total }} thể
+                <template v-if="repBuildStatus.progress.classId">· {{ repBuildStatus.progress.classId }}</template>
+              </span>
+            </div>
+
+            <!-- Error state -->
+            <div v-else-if="repBuildStatus.status === 'error'" class="ap-rep-error">
+              Lỗi: {{ repBuildStatus.error }} — nhấn ⟳ để thử lại
+            </div>
+
+            <!-- Images ranked by ML -->
+            <div v-else-if="representatives[activeEntry.id]?.length" class="ap-rep-grid">
+              <button
+                v-for="(rep, i) in representatives[activeEntry.id]" :key="i"
+                class="ap-rep-card"
+                :class="{ top: i === 0 }"
+                @click="openRepPhoto(rep.url)"
+                :title="`Độ điển hình: ${rep.score}%`"
+              >
+                <div class="ap-rep-thumb-wrap">
+                  <img :src="rep.url" :alt="`${activeEntry.vi} đại diện ${i+1}`" class="ap-rep-thumb"/>
+                  <span class="ap-rep-rank" :class="{ gold: i === 0 }">{{ i === 0 ? '★' : i + 1 }}</span>
+                </div>
+                <span class="ap-rep-score" :class="{ high: rep.score >= 80, mid: rep.score >= 60 && rep.score < 80 }">
+                  {{ rep.score }}%
+                </span>
+              </button>
+            </div>
+
+            <!-- Empty state -->
+            <div v-else class="ap-rep-empty">
+              Chưa có dữ liệu — nhấn ⟳ để xây dựng
             </div>
           </div>
 
@@ -710,6 +840,155 @@ function nextPhoto() {
 /* ── Photo crossfade ── */
 .ap-fade-enter-active, .ap-fade-leave-active { transition: opacity .18s ease; }
 .ap-fade-enter-from, .ap-fade-leave-to { opacity: 0; }
+
+/* ── ML representative section ── */
+.ap-rep-section {
+  padding: 12px 14px;
+  border-bottom: 1px solid #ede0d4;
+  flex-shrink: 0;
+  background: #fdf9f5;
+}
+.ap-rep-hd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.ap-rep-hd-left {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.ap-rep-title {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: #6b7280;
+}
+.ap-rep-source {
+  font-size: 9px;
+  color: #059669;
+  font-weight: 600;
+}
+.ap-rep-build-btn {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid #d4b8a0;
+  background: #fff;
+  color: #7a4515;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background .12s, transform .2s;
+  flex-shrink: 0;
+}
+.ap-rep-build-btn:hover:not(:disabled) { background: #f3ede7; }
+.ap-rep-build-btn.loading { animation: spin .9s linear infinite; cursor: not-allowed; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.ap-rep-grid {
+  display: flex;
+  gap: 6px;
+}
+.ap-rep-card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: transform .12s;
+}
+.ap-rep-card:hover { transform: translateY(-2px); }
+.ap-rep-card.top .ap-rep-thumb-wrap {
+  box-shadow: 0 0 0 2.5px #d97706, 0 4px 12px rgba(217,119,6,.25);
+}
+
+.ap-rep-thumb-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: 7px;
+  overflow: hidden;
+  background: #f3ede7;
+  box-shadow: 0 1px 4px rgba(74,47,23,.12);
+}
+.ap-rep-thumb {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .15s;
+}
+.ap-rep-card:hover .ap-rep-thumb { transform: scale(1.05); }
+
+.ap-rep-rank {
+  position: absolute;
+  top: 3px; left: 3px;
+  font-size: 9px;
+  font-weight: 800;
+  background: rgba(0,0,0,.55);
+  color: #fff;
+  border-radius: 4px;
+  padding: 1px 4px;
+  line-height: 1.4;
+}
+.ap-rep-rank.gold {
+  background: #d97706;
+  font-size: 10px;
+}
+
+.ap-rep-score {
+  font-size: 10px;
+  font-weight: 700;
+  color: #9ca3af;
+}
+.ap-rep-score.high { color: #059669; }
+.ap-rep-score.mid  { color: #d97706; }
+
+.ap-rep-empty {
+  font-size: 11px;
+  color: #b5a090;
+  font-style: italic;
+  text-align: center;
+  padding: 8px 0;
+}
+
+.ap-rep-progress {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 4px;
+}
+.ap-rep-progress-bar-wrap {
+  height: 4px;
+  background: #ede0d4;
+  border-radius: 2px;
+  overflow: hidden;
+}
+.ap-rep-progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #059669, #10b981);
+  border-radius: 2px;
+  transition: width .4s ease;
+}
+.ap-rep-progress-txt {
+  font-size: 10px;
+  color: #6b7280;
+  font-style: italic;
+}
+
+.ap-rep-error {
+  font-size: 11px;
+  color: #dc2626;
+  padding: 6px 0;
+  font-style: italic;
+}
 
 /* ── Responsive ── */
 @media (max-width: 800px) {

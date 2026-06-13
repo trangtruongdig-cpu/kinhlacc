@@ -41,6 +41,21 @@ export class ChanDoanLuoiRouter {
     return this.service.rebuildEmbeddings();
   }
 
+  @Get('atlas-representatives/status')
+  getRepresentativesStatus() {
+    return this.service.getRepresentativesStatus();
+  }
+
+  @Get('atlas-representatives')
+  async getAtlasRepresentatives() {
+    return this.service.getAtlasRepresentatives();
+  }
+
+  @Post('atlas-representatives/rebuild')
+  buildAtlasRepresentatives() {
+    return this.service.buildAtlasRepresentatives();
+  }
+
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const item = await this.service.findOne(id);

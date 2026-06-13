@@ -18,6 +18,7 @@ import {
   meridianList, records, classify, recOfPoint, sec, kinhSlugOf,
   LOAI_LABEL, HUYET_SECTIONS, KINH_SECTIONS, huyetIndexable, kinhIndexable,
   BENH, BENH_SETS, benhIndexable, benhCross, huyetLinkTargets,
+  traitsByAcuId,
 } from './dict-data.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -85,11 +86,19 @@ function huyetPage(rec) {
       : GENERIC_OG
   const indexable = huyetIndexable(rec)
 
+  const traitNames = traitsByAcuId.get(rec.id) || []
+  const traitHtml = traitNames.map((t) => `<span class="dl-trait-chip">${escText(t)}</span>`).join(' ')
+  const chineseHtml = rec.chinese
+    ? `<span class="dl-cn-char">${escText(rec.chinese)}</span>${rec.pinyin ? ` <em class="dl-cn-pinyin">${escText(rec.pinyin)}</em>` : ''}`
+    : ''
   const infoRows = [
     infoRow('Mã WHO', cls.code ? `<strong>${escText(cls.code)}</strong>` : ''),
     infoRow('Tên khác', escText(sec(rec, 'TÊN KHÁC'))),
     infoRow('Đường kinh', cls.loai === 'kinh' ? `<a href="/kinh/${escAttr(cls.kinhSlug)}/">${escText(cls.kinhTen)}</a>` : ''),
     infoRow('Loại huyệt', escText(LOAI_LABEL[cls.loai])),
+    infoRow('Phân Loại', traitHtml),
+    infoRow('Hán Tự', chineseHtml),
+    infoRow('Tiếng Anh', rec.english ? escText(rec.english) : ''),
     infoRow('Vị trí', escText(clip(sec(rec, 'VỊ TRÍ'), 140))),
   ].join('')
   const infobox = `<aside class="dl-info">
@@ -269,6 +278,9 @@ const DICT_STYLE = `<style>
   .dl-rel-list small{opacity:.7}
   .dl-up{margin-top:1.2rem;font-weight:600}
   .dl-ref{font-size:.9rem;color:#6a5a45}
+  .dl-trait-chip{display:inline-block;background:#f3ebdd;border:1px solid #d4b896;border-radius:6px;padding:.1em .55em;font-size:.85rem;color:#5a4427;margin:.1em .2em .1em 0}
+  .dl-cn-char{font-size:1.15rem;font-weight:700;color:#3d2b0e}
+  .dl-cn-pinyin{font-size:.88rem;color:#7a6a55;font-style:italic}
   @media(max-width:560px){.dl-info-img{width:100%}}
 </style>`
 

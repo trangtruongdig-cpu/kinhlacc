@@ -1,0 +1,28 @@
+
+==================================================
+  TCM Tongue CNN  |  source=dataset
+  Batch=32  lazy-load  no-RAM-spike
+==================================================
+  Dataset: 13438 anh / 20 class
+
+  Phan bo class (tat ca):
+    [ 9] baitaishe         7452 anh  weight=0.07
+    [10] huangtaishe       1636 anh  weight=0.33
+    [ 2] hongshe            634 anh  weight=0.85
+    [ 4] pangdashe          218 anh  weight=2.47
+    [ 3] zishe              147 anh  weight=3.66
+    [11] heitaishe          144 anh  weight=3.73
+    [ 5] shoushe            143 anh  weight=3.76
+    [ 7] liewenshe          127 anh  weight=4.23
+    [ 1] botaishe           120 anh  weight=4.48
+    [ 8] chihenshe           39 anh  weight=10.00
+    [ 0] jiankangshe         24 anh  weight=10.00
+    [13] shenquao            21 anh  weight=10.00
+    [12] huataishe           15 anh  weight=10.00
+    [17] piweiao             14 anh  weight=10.00
+    [ 6] hongdianshe          8 anh  weight=10.00
+    [19] xinfeitu             6 anh  weight=10.00
+    [15] gandanao             2 anh  weight=10.00
+
+[Phase 1] Training head (20 epochs max)...
+Epoch 1/20

@@ -27,6 +27,11 @@ export class ChanDoanLuoiService {
 
   private readonly repCachePath = path.join(__dirname, '../ml/representatives-cache.json');
 
+  private repBuildStatus: 'idle' | 'building' | 'done' | 'error' = 'idle';
+  private repBuildProgress = { current: 0, total: 0, classId: '' };
+  private repBuildStartedAt = 0;
+  private repBuildError = '';
+
   constructor(
     @InjectRepository(ChanDoanLuoi)
     private readonly repo: Repository<ChanDoanLuoi>,
@@ -333,17 +338,115 @@ Mỗi giá trị trong features phải chọn từ danh sách cho phép, không 
     return {};
   }
 
-  async buildAtlasRepresentatives(): Promise<{ classCount: number; totalImages: number; durationMs: number }> {
-    const t0 = Date.now();
+  getRepresentativesStatus() {
+    return {
+      status: this.repBuildStatus,
+      progress: this.repBuildProgress,
+      error: this.repBuildError,
+      durationMs: this.repBuildStatus === 'building' ? Date.now() - this.repBuildStartedAt : undefined,
+    };
+  }
+
+  // Trả về ngay — worker chạy nền
+  buildAtlasRepresentatives(): { status: string } {
+    if (this.repBuildStatus === 'building') return { status: 'already-building' };
+
     const index = this.loadEmbeddingIndex();
     const classIds = Object.keys(index);
-    if (!classIds.length) throw new ServiceUnavailableException('Chưa có atlas-embeddings.json. Chạy rebuild-embeddings trước.');
+    if (!classIds.length) return { status: 'error-no-embeddings' };
 
-    const loaded = await this.loadTfModel();
-    if (!loaded) throw new ServiceUnavailableException('TensorFlow không khả dụng. Cần cài @tensorflow/tfjs-node hoặc @tensorflow/tfjs + @tensorflow/tfjs-backend-cpu.');
+    this.repBuildStatus = 'building';
+    this.repBuildProgress = { current: 0, total: classIds.length, classId: '' };
+    this.repBuildError = '';
+    this.repBuildStartedAt = Date.now();
 
-    const { tf, mn } = loaded;
+    // Fire and forget
+    this._runBuildAtlasRepresentatives(index, classIds).catch(e => {
+      this.repBuildStatus = 'error';
+      this.repBuildError = (e as Error).message;
+    });
 
+    return { status: 'building' };
+  }
+
+  // ── MMR: Maximum Marginal Relevance ──
+  // Chọn k ảnh vừa gần prototype (relevance) vừa khác nhau (diversity).
+  // λ=0.75: nghiêng về relevance nhưng tránh chọn các ảnh trùng nhau.
+  // Khi dataset nhỏ (5 ảnh) = xếp hạng đơn giản; khi dataset lớn = phát huy hết tác dụng.
+  private mmrSelect(
+    candidates: { url: string; vec: number[] }[],
+    prototype: number[],
+    k: number,
+    lambda = 0.75,
+  ): RepresentativeImage[] {
+    const selected: { url: string; vec: number[]; relScore: number }[] = [];
+    const remaining = [...candidates];
+
+    while (selected.length < k && remaining.length > 0) {
+      let bestIdx = -1;
+      let bestScore = -Infinity;
+
+      for (let i = 0; i < remaining.length; i++) {
+        const rel = Math.max(0, this.cosine(remaining[i].vec, prototype));
+        // Độ tương đồng tối đa với các ảnh đã chọn (tránh chọn ảnh giống nhau)
+        const maxSim = selected.length === 0
+          ? 0
+          : Math.max(...selected.map(s => Math.max(0, this.cosine(remaining[i].vec, s.vec))));
+        const mmrScore = lambda * rel - (1 - lambda) * maxSim;
+        if (mmrScore > bestScore) { bestScore = mmrScore; bestIdx = i; }
+      }
+
+      if (bestIdx === -1) break;
+      const picked = remaining.splice(bestIdx, 1)[0];
+      const relScore = Math.max(0, this.cosine(picked.vec, prototype));
+      selected.push({ ...picked, relScore });
+    }
+
+    return selected.map(s => ({
+      url: s.url,
+      score: Math.round(s.relScore * 100),
+    }));
+  }
+
+  // Embed một ảnh từ buffer — dùng tf.node nếu có, fallback về Jimp
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private async embedImage(buf: Buffer, tf: any, mn: any): Promise<number[] | null> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let imgTensor: any, resized: any, batched: any, emb: any;
+    try {
+      if (tf.node?.decodeImage) {
+        imgTensor = tf.node.decodeImage(buf, 3);
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const { Jimp } = require('jimp');
+        const img = await Jimp.read(buf);
+        img.resize({ w: 224, h: 224 });
+        const { data, width, height } = img.bitmap;
+        const pixels = new Float32Array(width * height * 3);
+        for (let k = 0; k < width * height; k++) {
+          pixels[k*3]   = data[k*4]   / 255.0;
+          pixels[k*3+1] = data[k*4+1] / 255.0;
+          pixels[k*3+2] = data[k*4+2] / 255.0;
+        }
+        imgTensor = tf.tensor3d(pixels, [height, width, 3]);
+      }
+      resized = tf.image.resizeBilinear(imgTensor, [224, 224]);
+      batched = resized.expandDims(0);
+      emb     = mn.infer(batched, true);
+      const vec: number[] = Array.from(await emb.data());
+      tf.dispose([imgTensor, resized, batched, emb]);
+      return vec;
+    } catch {
+      tf.dispose([imgTensor, resized, batched, emb].filter(Boolean));
+      return null;
+    }
+  }
+
+  private async _runBuildAtlasRepresentatives(
+    index: EmbeddingIndex,
+    classIds: string[],
+  ): Promise<void> {
+    // ── Tìm đường dẫn atlas và training ──
     const atlasCandidates = [
       path.join(process.cwd(), '..', 'frontend', 'public', 'tongue-atlas'),
       path.join(process.cwd(), 'frontend', 'public', 'tongue-atlas'),
@@ -352,60 +455,73 @@ Mỗi giá trị trong features phải chọn từ danh sách cho phép, không 
     for (const c of atlasCandidates) {
       if (fs.existsSync(c)) { atlasBase = c; break; }
     }
-    if (!atlasBase) throw new ServiceUnavailableException('Không tìm thấy thư mục tongue-atlas trong frontend/public/');
+    if (!atlasBase) {
+      this.repBuildStatus = 'error';
+      this.repBuildError = 'Không tìm thấy thư mục tongue-atlas';
+      return;
+    }
+
+    // Thư mục ảnh đã dán nhãn từ Luồng 3 (bác sỹ label)
+    const trainingBase = path.join(__dirname, '../ml/training');
+
+    const tfLoaded = await this.loadTfModel();
+    if (!tfLoaded) {
+      this.repBuildStatus = 'error';
+      this.repBuildError = 'TensorFlow không khả dụng. Cần cài @tensorflow/tfjs-node.';
+      return;
+    }
+    const { tf, mn } = tfLoaded;
 
     const result: RepresentativesMap = {};
 
-    for (const classId of classIds) {
+    for (let i = 0; i < classIds.length; i++) {
+      const classId = classIds[i];
+      this.repBuildProgress = { current: i, total: classIds.length, classId };
+
       const entry = index[classId];
       if (!entry.prototype?.length) continue;
 
-      const classDir = path.join(atlasBase, classId);
-      if (!fs.existsSync(classDir)) continue;
+      // ── Thu thập toàn bộ ảnh cho class này từ CẢ HAI nguồn ──
+      const sources: { filePath: string; url: string }[] = [];
 
-      const imgFiles = fs.readdirSync(classDir)
-        .filter(f => /\.(jpg|jpeg|png)$/i.test(f))
-        .sort();
-
-      const scored: RepresentativeImage[] = [];
-
-      for (const imgFile of imgFiles) {
-        const imgPath = path.join(classDir, imgFile);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let imgTensor: any, resized: any, batched: any, emb: any;
-        try {
-          const buf = fs.readFileSync(imgPath);
-          if (tf.node?.decodeImage) {
-            imgTensor = tf.node.decodeImage(buf, 3);
-          } else {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            const { Jimp } = require('jimp');
-            const img = await Jimp.read(buf);
-            img.resize({ w: 224, h: 224 });
-            const { data, width, height } = img.bitmap;
-            const pixels = new Float32Array(width * height * 3);
-            for (let i = 0; i < width * height; i++) {
-              pixels[i*3]   = data[i*4]   / 255.0;
-              pixels[i*3+1] = data[i*4+1] / 255.0;
-              pixels[i*3+2] = data[i*4+2] / 255.0;
-            }
-            imgTensor = tf.tensor3d(pixels, [height, width, 3]);
-          }
-          resized = tf.image.resizeBilinear(imgTensor, [224, 224]);
-          batched = resized.expandDims(0);
-          emb     = mn.infer(batched, true);
-          const vec: number[] = Array.from(await emb.data());
-          tf.dispose([imgTensor, resized, batched, emb]);
-
-          const score = Math.round(Math.max(0, this.cosine(vec, entry.prototype)) * 100);
-          scored.push({ url: `/tongue-atlas/${classId}/${imgFile}`, score });
-        } catch {
-          tf.dispose([imgTensor, resized, batched, emb].filter(Boolean));
-        }
+      // Nguồn 1: atlas curated (5 ảnh cố định)
+      const atlasDir = path.join(atlasBase, classId);
+      if (fs.existsSync(atlasDir)) {
+        fs.readdirSync(atlasDir)
+          .filter(f => /\.(jpg|jpeg|png)$/i.test(f))
+          .forEach(f => sources.push({
+            filePath: path.join(atlasDir, f),
+            url: `/tongue-atlas/${classId}/${f}`,
+          }));
       }
 
-      scored.sort((a, b) => b.score - a.score);
-      result[classId] = scored.slice(0, 5);
+      // Nguồn 2: ảnh bác sỹ đã dán nhãn (Luồng 3) — dataset tăng dần theo thời gian
+      const trainDir = path.join(trainingBase, classId);
+      if (fs.existsSync(trainDir)) {
+        fs.readdirSync(trainDir)
+          .filter(f => /\.(jpg|jpeg|png)$/i.test(f))
+          .forEach(f => sources.push({
+            filePath: path.join(trainDir, f),
+            url: `/ml/training/${classId}/${f}`,
+          }));
+      }
+
+      if (sources.length === 0) continue;
+
+      // ── Embed tất cả ảnh ──
+      const candidates: { url: string; vec: number[] }[] = [];
+      for (const src of sources) {
+        try {
+          const buf = fs.readFileSync(src.filePath);
+          const vec = await this.embedImage(buf, tf, mn);
+          if (vec) candidates.push({ url: src.url, vec });
+        } catch { /* skip ảnh lỗi */ }
+      }
+
+      if (candidates.length === 0) continue;
+
+      // ── MMR: chọn 5 ảnh vừa điển hình vừa đa dạng ──
+      result[classId] = this.mmrSelect(candidates, entry.prototype, 5);
     }
 
     this.representativesCache = result;
@@ -415,10 +531,7 @@ Mỗi giá trị trong features phải chọn từ danh sách cho phép, không 
       fs.writeFileSync(this.repCachePath, JSON.stringify(result, null, 2));
     } catch { /* non-fatal */ }
 
-    return {
-      classCount: Object.keys(result).length,
-      totalImages: Object.values(result).reduce((s, imgs) => s + imgs.length, 0),
-      durationMs: Date.now() - t0,
-    };
+    this.repBuildProgress = { current: classIds.length, total: classIds.length, classId: '' };
+    this.repBuildStatus = 'done';
   }
 }

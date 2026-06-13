@@ -104,7 +104,18 @@ def health():
         "service": "tongue-ml",
         "port": int(os.getenv("ML_SERVICE_PORT", 3002)),
         "model": MODEL_PATH,
+        "model_loaded": _model is not None,
     }
+
+@app.post("/reload-model")
+def reload_model():
+    global _model
+    _model = None
+    try:
+        load_model()
+        return {"success": True, "message": "Model reloaded from " + MODEL_PATH}
+    except Exception as e:
+        raise HTTPException(503, str(e))
 
 
 @app.get("/classes")
