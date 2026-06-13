@@ -15,11 +15,17 @@ interface EmbeddingEntry {
 }
 type EmbeddingIndex = Record<string, EmbeddingEntry>;
 
+interface RepresentativeImage { url: string; score: number }
+type RepresentativesMap = Record<string, RepresentativeImage[]>;
+
 @Injectable()
 export class ChanDoanLuoiService {
   private embeddingIndex: EmbeddingIndex | null = null;
+  private representativesCache: RepresentativesMap | null = null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private tfModel: any = null;
+
+  private readonly repCachePath = path.join(__dirname, '../ml/representatives-cache.json');
 
   constructor(
     @InjectRepository(ChanDoanLuoi)
@@ -56,6 +62,8 @@ export class ChanDoanLuoiService {
       vungBatThuong: dto.vungBatThuong ?? null,
       ketQuaDongY: dto.ketQuaDongY ?? null,
       ghiChu: dto.ghiChu ?? null,
+      anhLuoi: dto.anhLuoi ?? null,
+      ketQuaAi: dto.ketQuaAi ?? null,
       createdBy: userId ?? null,
     });
     return this.repo.save(item);
@@ -76,6 +84,8 @@ export class ChanDoanLuoiService {
       ...(dto.vungBatThuong !== undefined && { vungBatThuong: dto.vungBatThuong }),
       ...(dto.ketQuaDongY !== undefined && { ketQuaDongY: dto.ketQuaDongY }),
       ...(dto.ghiChu !== undefined && { ghiChu: dto.ghiChu }),
+      ...(dto.anhLuoi !== undefined && { anhLuoi: dto.anhLuoi }),
+      ...(dto.ketQuaAi !== undefined && { ketQuaAi: dto.ketQuaAi }),
     });
     return this.repo.save(item);
   }
@@ -302,5 +312,113 @@ Mỗi giá trị trong features phải chọn từ danh sách cho phép, không 
         resolve({ success: true, message: stdout?.trim() || 'Rebuild xong', classCount: Object.keys(this.loadEmbeddingIndex()).length });
       });
     });
+  }
+
+  // ── ML: ảnh đại diện tốt nhất cho mỗi thể lưỡi ──
+
+  async getAtlasRepresentatives(): Promise<RepresentativesMap> {
+    if (this.representativesCache) return this.representativesCache;
+    const candidates = [
+      this.repCachePath,
+      path.join(__dirname, '../../src/ml/representatives-cache.json'),
+    ];
+    for (const p of candidates) {
+      if (!fs.existsSync(p)) continue;
+      try {
+        const data = JSON.parse(fs.readFileSync(p, 'utf8')) as RepresentativesMap;
+        this.representativesCache = data;
+        return data;
+      } catch { /* ignore */ }
+    }
+    return {};
+  }
+
+  async buildAtlasRepresentatives(): Promise<{ classCount: number; totalImages: number; durationMs: number }> {
+    const t0 = Date.now();
+    const index = this.loadEmbeddingIndex();
+    const classIds = Object.keys(index);
+    if (!classIds.length) throw new ServiceUnavailableException('Chưa có atlas-embeddings.json. Chạy rebuild-embeddings trước.');
+
+    const loaded = await this.loadTfModel();
+    if (!loaded) throw new ServiceUnavailableException('TensorFlow không khả dụng. Cần cài @tensorflow/tfjs-node hoặc @tensorflow/tfjs + @tensorflow/tfjs-backend-cpu.');
+
+    const { tf, mn } = loaded;
+
+    const atlasCandidates = [
+      path.join(process.cwd(), '..', 'frontend', 'public', 'tongue-atlas'),
+      path.join(process.cwd(), 'frontend', 'public', 'tongue-atlas'),
+    ];
+    let atlasBase = '';
+    for (const c of atlasCandidates) {
+      if (fs.existsSync(c)) { atlasBase = c; break; }
+    }
+    if (!atlasBase) throw new ServiceUnavailableException('Không tìm thấy thư mục tongue-atlas trong frontend/public/');
+
+    const result: RepresentativesMap = {};
+
+    for (const classId of classIds) {
+      const entry = index[classId];
+      if (!entry.prototype?.length) continue;
+
+      const classDir = path.join(atlasBase, classId);
+      if (!fs.existsSync(classDir)) continue;
+
+      const imgFiles = fs.readdirSync(classDir)
+        .filter(f => /\.(jpg|jpeg|png)$/i.test(f))
+        .sort();
+
+      const scored: RepresentativeImage[] = [];
+
+      for (const imgFile of imgFiles) {
+        const imgPath = path.join(classDir, imgFile);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let imgTensor: any, resized: any, batched: any, emb: any;
+        try {
+          const buf = fs.readFileSync(imgPath);
+          if (tf.node?.decodeImage) {
+            imgTensor = tf.node.decodeImage(buf, 3);
+          } else {
+            // eslint-disable-next-line @typescript-eslint/no-var-requires
+            const { Jimp } = require('jimp');
+            const img = await Jimp.read(buf);
+            img.resize({ w: 224, h: 224 });
+            const { data, width, height } = img.bitmap;
+            const pixels = new Float32Array(width * height * 3);
+            for (let i = 0; i < width * height; i++) {
+              pixels[i*3]   = data[i*4]   / 255.0;
+              pixels[i*3+1] = data[i*4+1] / 255.0;
+              pixels[i*3+2] = data[i*4+2] / 255.0;
+            }
+            imgTensor = tf.tensor3d(pixels, [height, width, 3]);
+          }
+          resized = tf.image.resizeBilinear(imgTensor, [224, 224]);
+          batched = resized.expandDims(0);
+          emb     = mn.infer(batched, true);
+          const vec: number[] = Array.from(await emb.data());
+          tf.dispose([imgTensor, resized, batched, emb]);
+
+          const score = Math.round(Math.max(0, this.cosine(vec, entry.prototype)) * 100);
+          scored.push({ url: `/tongue-atlas/${classId}/${imgFile}`, score });
+        } catch {
+          tf.dispose([imgTensor, resized, batched, emb].filter(Boolean));
+        }
+      }
+
+      scored.sort((a, b) => b.score - a.score);
+      result[classId] = scored.slice(0, 5);
+    }
+
+    this.representativesCache = result;
+    try {
+      const cacheDir = path.dirname(this.repCachePath);
+      if (!fs.existsSync(cacheDir)) fs.mkdirSync(cacheDir, { recursive: true });
+      fs.writeFileSync(this.repCachePath, JSON.stringify(result, null, 2));
+    } catch { /* non-fatal */ }
+
+    return {
+      classCount: Object.keys(result).length,
+      totalImages: Object.values(result).reduce((s, imgs) => s + imgs.length, 0),
+      durationMs: Date.now() - t0,
+    };
   }
 }

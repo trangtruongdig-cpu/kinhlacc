@@ -30,6 +30,8 @@ interface ChanDoanRecord {
   vungBatThuong: string | null
   ketQuaDongY: string | null
   ghiChu: string | null
+  anhLuoi: string | null
+  ketQuaAi: string | null
 }
 
 interface Pattern {
@@ -170,6 +172,8 @@ function loadRecord(r: ChanDoanRecord) {
   phanBoReu.value = r.phanBoReu ? r.phanBoReu.split(',').map(s => s.trim()).filter(Boolean) : []
   selectedZones.value = r.vungBatThuong ? r.vungBatThuong.split(',').map(s => s.trim()).filter(Boolean) : []
   ghiChu.value = r.ghiChu || ''
+  imagePreview.value = r.anhLuoi || ''
+  aiResult.value = r.ketQuaAi ? (() => { try { return JSON.parse(r.ketQuaAi!) } catch { return null } })() : null
   saveSuccess.value = false
   saveError.value = ''
 }
@@ -396,6 +400,8 @@ async function save() {
     vungBatThuong: selectedZones.value.join(', ') || null,
     ketQuaDongY: diagnosisText.value || null,
     ghiChu: ghiChu.value || null,
+    anhLuoi: imagePreview.value || null,
+    ketQuaAi: aiResult.value ? JSON.stringify(aiResult.value) : null,
   }
   try {
     if (editingId.value) {
@@ -909,11 +915,14 @@ async function mlSearch() {
               :class="{ active: editingId === r.id }"
               @click="loadRecord(r)"
             >
-              <span class="cdl-hi-date">{{ formatDate(r.ngayKham) }}</span>
-              <span class="cdl-hi-mau">{{ r.mauChat || '—' }}</span>
-              <span v-if="r.ketQuaDongY" class="cdl-hi-diag">
-                {{ r.ketQuaDongY.split('\n')[0].split(':')[0] }}
-              </span>
+              <img v-if="r.anhLuoi" :src="r.anhLuoi" class="cdl-hi-thumb" alt="ảnh lưỡi" />
+              <div class="cdl-hi-info">
+                <span class="cdl-hi-date">{{ formatDate(r.ngayKham) }}</span>
+                <span class="cdl-hi-mau">{{ r.mauChat || '—' }}</span>
+                <span v-if="r.ketQuaDongY" class="cdl-hi-diag">
+                  {{ r.ketQuaDongY.split('\n')[0].split(':')[0] }}
+                </span>
+              </div>
             </button>
           </div>
           <button v-if="selectedPatient" class="btn-new-record" @click="resetForm">+ Bản Ghi Mới</button>
@@ -1321,7 +1330,9 @@ async function mlSearch() {
 .cdl-history__list { display: flex; flex-direction: column; gap: 4px; }
 .cdl-history-item {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 8px;
   gap: 2px;
   padding: 7px 10px;
   border-radius: 8px;
@@ -1333,6 +1344,8 @@ async function mlSearch() {
 }
 .cdl-history-item:hover { border-color: var(--brown-300, #c0956a); background: var(--brown-50, #fdf8f4); }
 .cdl-history-item.active { border-color: var(--brown-500, #a0632a); background: var(--brown-50, #fdf8f4); }
+.cdl-hi-thumb { width: 40px; height: 40px; object-fit: cover; border-radius: 4px; flex-shrink: 0; border: 1px solid var(--gray-200, #e5e7eb); }
+.cdl-hi-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
 .cdl-hi-date { font-size: 11px; font-weight: 700; color: var(--brown-700, #7a4515); }
 .cdl-hi-mau  { font-size: 10px; color: var(--gray-600, #4b5563); }
 .cdl-hi-diag { font-size: 10px; color: var(--gray-400, #9ca3af); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

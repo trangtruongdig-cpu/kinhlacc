@@ -10,6 +10,8 @@ export interface CreateChanDoanLuoiDto {
   vungBatThuong?: string;
   ketQuaDongY?: string;
   ghiChu?: string;
+  anhLuoi?: string;
+  ketQuaAi?: string;
 }
 
 export type UpdateChanDoanLuoiDto = Partial<CreateChanDoanLuoiDto>;

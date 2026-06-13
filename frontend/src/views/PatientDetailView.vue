@@ -312,6 +312,8 @@ interface LuoiRecord {
   tinhChatReu: string | null
   ketQuaDongY: string | null
   ghiChu: string | null
+  anhLuoi: string | null
+  ketQuaAi: string | null
 }
 const luoiRecords = ref<LuoiRecord[]>([])
 const isLoadingLuoi = ref(false)
@@ -640,7 +642,8 @@ function goToLuoiDiagnosis() {
               </div>
               <span class="exam-id">#{{ rec.id }}</span>
             </div>
-            <div class="luoi-card-body">
+            <div class="luoi-card-body" :class="{ 'luoi-card-body--has-img': rec.anhLuoi }">
+              <img v-if="rec.anhLuoi" :src="rec.anhLuoi" class="luoi-thumb" alt="ảnh lưỡi" />
               <div class="luoi-tags" v-if="rec.mauChat || rec.mauReu || rec.doAm || rec.tinhChatReu">
                 <span v-if="rec.mauChat" class="luoi-tag">Chất: {{ rec.mauChat }}</span>
                 <span v-if="rec.mauReu" class="luoi-tag">Rêu: {{ rec.mauReu }}</span>
@@ -832,6 +835,8 @@ function goToLuoiDiagnosis() {
 .luoi-tag{padding:2px 8px;border-radius:var(--radius-full);background:var(--brown-100);color:var(--brown-800);font-size:var(--font-size-xs);font-weight:500}
 .luoi-card--clickable{cursor:pointer}
 .luoi-card--clickable:hover{border-color:var(--brown-500);background:var(--brown-50,#fdf8f3)}
+.luoi-card-body--has-img{display:flex;gap:var(--space-3);align-items:flex-start}
+.luoi-thumb{width:72px;height:72px;object-fit:cover;border-radius:var(--radius-md);flex-shrink:0;border:1px solid var(--gray-200)}
 .luoi-kq{font-size:var(--font-size-sm);color:var(--gray-800);line-height:1.4}
 .luoi-ghi-chu{font-size:var(--font-size-xs);color:var(--gray-500);font-style:italic}
 .luoi-empty{font-size:var(--font-size-sm);color:var(--gray-400);font-style:italic}

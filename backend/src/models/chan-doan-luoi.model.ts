@@ -38,6 +38,12 @@ export class ChanDoanLuoi {
   @Column({ name: 'ghi_chu', type: 'text', nullable: true })
   ghiChu: string | null;
 
+  @Column({ name: 'anh_luoi', type: 'text', nullable: true })
+  anhLuoi: string | null;
+
+  @Column({ name: 'ket_qua_ai', type: 'text', nullable: true })
+  ketQuaAi: string | null;
+
   @Column({ name: 'created_by', type: 'varchar', length: 36, nullable: true })
   createdBy: string | null;
 
