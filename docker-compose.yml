@@ -35,6 +35,21 @@ services:
     # ports:
     #   - "127.0.0.1:3001:3001"
 
+  ml-service:
+    build:
+      context: ./ml-service
+      dockerfile: Dockerfile
+    image: kinhlac/ml-service:latest
+    container_name: kinhlac_ml
+    restart: unless-stopped
+    environment:
+      ML_SERVICE_PORT: "3002"
+    networks:
+      - kinhlac_net
+    # Mặc định KHÔNG expose ra ngoài — backend gọi nội bộ qua http://ml-service:3002
+    # ports:
+    #   - "127.0.0.1:3002:3002"
+
   frontend:
     build:
       context: ./frontend
