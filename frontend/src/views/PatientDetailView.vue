@@ -307,7 +307,9 @@ interface LuoiRecord {
   ngayKham: string
   mauChat: string | null
   hinhDang: string | null
+  doAm: string | null
   mauReu: string | null
+  tinhChatReu: string | null
   ketQuaDongY: string | null
   ghiChu: string | null
 }
@@ -630,7 +632,7 @@ function goToLuoiDiagnosis() {
           <button class="btn-primary" @click="goToLuoiDiagnosis">Thêm Chẩn Đoán Lưỡi</button>
         </div>
         <div v-else class="luoi-list">
-          <div v-for="rec in luoiRecords" :key="rec.id" class="luoi-card">
+          <div v-for="rec in luoiRecords" :key="rec.id" class="luoi-card luoi-card--clickable" @click="goToLuoiDiagnosis">
             <div class="luoi-card-header">
               <div class="exam-date-badge">
                 <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
@@ -639,13 +641,17 @@ function goToLuoiDiagnosis() {
               <span class="exam-id">#{{ rec.id }}</span>
             </div>
             <div class="luoi-card-body">
-              <div class="luoi-tags">
+              <div class="luoi-tags" v-if="rec.mauChat || rec.mauReu || rec.doAm || rec.tinhChatReu">
                 <span v-if="rec.mauChat" class="luoi-tag">Chất: {{ rec.mauChat }}</span>
                 <span v-if="rec.mauReu" class="luoi-tag">Rêu: {{ rec.mauReu }}</span>
                 <span v-if="rec.doAm" class="luoi-tag">Độ ẩm: {{ rec.doAm }}</span>
+                <span v-if="rec.tinhChatReu" class="luoi-tag">{{ rec.tinhChatReu }}</span>
               </div>
               <p v-if="rec.ketQuaDongY" class="luoi-kq">{{ rec.ketQuaDongY }}</p>
               <p v-if="rec.ghiChu" class="luoi-ghi-chu">{{ rec.ghiChu }}</p>
+              <p v-if="!rec.mauChat && !rec.mauReu && !rec.doAm && !rec.ketQuaDongY && !rec.ghiChu" class="luoi-empty">
+                Chưa có kết quả — nhấn để chẩn đoán thêm
+              </p>
             </div>
           </div>
         </div>
@@ -824,8 +830,11 @@ function goToLuoiDiagnosis() {
 .luoi-card-body{display:flex;flex-direction:column;gap:var(--space-1)}
 .luoi-tags{display:flex;flex-wrap:wrap;gap:var(--space-1)}
 .luoi-tag{padding:2px 8px;border-radius:var(--radius-full);background:var(--brown-100);color:var(--brown-800);font-size:var(--font-size-xs);font-weight:500}
+.luoi-card--clickable{cursor:pointer}
+.luoi-card--clickable:hover{border-color:var(--brown-500);background:var(--brown-50,#fdf8f3)}
 .luoi-kq{font-size:var(--font-size-sm);color:var(--gray-800);line-height:1.4}
 .luoi-ghi-chu{font-size:var(--font-size-xs);color:var(--gray-500);font-style:italic}
+.luoi-empty{font-size:var(--font-size-sm);color:var(--gray-400);font-style:italic}
 
 @media(max-width:768px){
   .patient-header-card{flex-direction:column;text-align:center;padding:var(--space-5)}
