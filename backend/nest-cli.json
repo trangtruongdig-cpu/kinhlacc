@@ -6,7 +6,7 @@
     "deleteOutDir": true,
     "assets": [
       { "include": "acu-solver/**/*.cjs", "outDir": "dist" },
-      { "include": "acu-solver/**/*.json", "outDir": "dist" },
+      { "include": "acu-solver/**/*.json", "outDir": "dist" }
     ],
     "watchAssets": true
   }
