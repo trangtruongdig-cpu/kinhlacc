@@ -1,0 +1,11 @@
+# robots.txt — Kinh Lạc (kinhlac.online)
+# Cho phép Google/Bing thu thập trang CÔNG KHAI; chặn app nội bộ + API.
+
+User-agent: *
+Allow: /
+Disallow: /app
+Disallow: /login
+Disallow: /api/
+
+# Bản đồ trang (sinh tự động khi build: npm run sitemap)
+Sitemap: https://kinhlac.online/sitemap.xml

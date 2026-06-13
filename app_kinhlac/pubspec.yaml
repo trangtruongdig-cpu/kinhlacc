@@ -1,0 +1,31 @@
+name: app_kinhlac
+description: "Ứng dụng Kinh Lạc - Phòng khám Đông Y."
+publish_to: 'none'
+
+version: 1.0.0+2
+
+environment:
+  sdk: ^3.11.4
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.8
+  dio: ^5.7.0
+  provider: ^6.1.2
+  shared_preferences: ^2.3.2
+  intl: ^0.19.0
+  change_app_package_name: ^1.5.0
+  flutter_launcher_icons: ^0.13.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+
+flutter:
+  uses-material-design: true
+
+  

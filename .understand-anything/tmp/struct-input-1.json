@@ -1,0 +1,324 @@
+{
+  "projectRoot": "C:/Users/This PC/Desktop/kinhlac",
+  "batchFiles": [
+    {
+      "path": "backend/api/index.ts",
+      "language": "typescript",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/app.module.ts",
+      "language": "typescript",
+      "sizeLines": 183,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/admin.controller.ts",
+      "language": "typescript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/auth.controller.ts",
+      "language": "typescript",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/chung-benh.controller.ts",
+      "language": "typescript",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/kieng-ky.controller.ts",
+      "language": "typescript",
+      "sizeLines": 68,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/patient-auth.controller.ts",
+      "language": "typescript",
+      "sizeLines": 62,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/ton-thuong-tac-nhan.controller.ts",
+      "language": "typescript",
+      "sizeLines": 99,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main.ts",
+      "language": "typescript",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/middlewares/auth/jwt.strategy.ts",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/middlewares/logging.interceptor.ts",
+      "language": "typescript",
+      "sizeLines": 122,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/admin.model.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/chung-benh.dto.ts",
+      "language": "typescript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/chung-benh.model.ts",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/kieng-ky.model.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/patient.model.ts",
+      "language": "typescript",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/ton-thuong-tac-nhan.dto.ts",
+      "language": "typescript",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/ton-thuong-tac-nhan.model.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/admin.router.ts",
+      "language": "typescript",
+      "sizeLines": 4,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/auth.router.ts",
+      "language": "typescript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/chung-benh.router.ts",
+      "language": "typescript",
+      "sizeLines": 48,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/patient-auth.router.ts",
+      "language": "typescript",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/ton-thuong-tac-nhan.router.ts",
+      "language": "typescript",
+      "sizeLines": 61,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/seed-admin.ts",
+      "language": "typescript",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/test/app.e2e-spec.ts",
+      "language": "typescript",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    }
+  ],
+  "batchImportData": {
+    "backend/api/index.ts": [
+      "backend/src/app.module.ts",
+      "backend/src/middlewares/logging.interceptor.ts"
+    ],
+    "backend/src/app.module.ts": [
+      "backend/src/app.controller.ts",
+      "backend/src/app.service.ts",
+      "backend/src/controllers/admin.controller.ts",
+      "backend/src/controllers/ai-suggest.controller.ts",
+      "backend/src/controllers/appointment-slot.controller.ts",
+      "backend/src/controllers/auth.controller.ts",
+      "backend/src/controllers/bai-thuoc.controller.ts",
+      "backend/src/controllers/benh-dong-y-excel.controller.ts",
+      "backend/src/controllers/benh-dong-y-hien-dai.controller.ts",
+      "backend/src/controllers/benh-tay-y.controller.ts",
+      "backend/src/controllers/chu-tri.controller.ts",
+      "backend/src/controllers/chung-benh.controller.ts",
+      "backend/src/controllers/clinic-schedule.controller.ts",
+      "backend/src/controllers/cong-dung.controller.ts",
+      "backend/src/controllers/examination.controller.ts",
+      "backend/src/controllers/firebase.controller.ts",
+      "backend/src/controllers/huyet-vi.controller.ts",
+      "backend/src/controllers/kieng-ky.controller.ts",
+      "backend/src/controllers/kinh-mach.controller.ts",
+      "backend/src/controllers/mach-chan.controller.ts",
+      "backend/src/controllers/meridian.controller.ts",
+      "backend/src/controllers/nhom-lon-duoc-ly.controller.ts",
+      "backend/src/controllers/nhom-nho-duoc-ly.controller.ts",
+      "backend/src/controllers/patient-auth.controller.ts",
+      "backend/src/controllers/patient.controller.ts",
+      "backend/src/controllers/phac-do-chuan.controller.ts",
+      "backend/src/controllers/phac-do-dieu-tri.controller.ts",
+      "backend/src/controllers/phap-tri.controller.ts",
+      "backend/src/controllers/the-benh.controller.ts",
+      "backend/src/controllers/thiet-chan.controller.ts",
+      "backend/src/controllers/ton-thuong-tac-nhan.controller.ts",
+      "backend/src/controllers/trieu-chung.controller.ts",
+      "backend/src/controllers/vi-thuoc.controller.ts",
+      "backend/src/middlewares/auth/jwt.strategy.ts",
+      "backend/src/models/admin.model.ts",
+      "backend/src/models/appointment-slot.model.ts",
+      "backend/src/models/bai-thuoc-chi-tiet.model.ts",
+      "backend/src/models/bai-thuoc-phap-tri.model.ts",
+      "backend/src/models/bai-thuoc.model.ts",
+      "backend/src/models/benh-dong-y-excel.model.ts",
+      "backend/src/models/benh-dong-y-hien-dai.model.ts",
+      "backend/src/models/benh-tay-y.model.ts",
+      "backend/src/models/chu-tri.model.ts",
+      "backend/src/models/chung-benh.model.ts",
+      "backend/src/models/clinic-day-override.model.ts",
+      "backend/src/models/clinic-schedule-config.model.ts",
+      "backend/src/models/cong-dung.model.ts",
+      "backend/src/models/examination.model.ts",
+      "backend/src/models/huyet-vi.model.ts",
+      "backend/src/models/kieng-ky.model.ts",
+      "backend/src/models/kinh-mach.model.ts",
+      "backend/src/models/legacy-meridian-syndrome.model.ts",
+      "backend/src/models/mach-chan.model.ts",
+      "backend/src/models/meridian-syndrome.model.ts",
+      "backend/src/models/nhom-lon-duoc-ly.model.ts",
+      "backend/src/models/nhom-nho-chu-tri.model.ts",
+      "backend/src/models/nhom-nho-duoc-ly.model.ts",
+      "backend/src/models/nhom-nho-vi-thuoc.model.ts",
+      "backend/src/models/patient.model.ts",
+      "backend/src/models/phac-do-chuan.model.ts",
+      "backend/src/models/phac-do-dieu-tri.model.ts",
+      "backend/src/models/phap-tri.model.ts",
+      "backend/src/models/the-benh-phuong-huyet.model.ts",
+      "backend/src/models/the-benh.model.ts",
+      "backend/src/models/thiet-chan.model.ts",
+      "backend/src/models/ton-thuong-tac-nhan.model.ts",
+      "backend/src/models/trieu-chung.model.ts",
+      "backend/src/models/vi-thuoc-chu-tri.model.ts",
+      "backend/src/models/vi-thuoc-cong-dung.model.ts",
+      "backend/src/models/vi-thuoc-kieng-ky.model.ts",
+      "backend/src/models/vi-thuoc-kinh-mach.model.ts",
+      "backend/src/models/vi-thuoc-ten-goi-khac.model.ts",
+      "backend/src/models/vi-thuoc.model.ts",
+      "backend/src/routers/admin.router.ts",
+      "backend/src/routers/ai-suggest.router.ts",
+      "backend/src/routers/appointment-slot.router.ts",
+      "backend/src/routers/auth.router.ts",
+      "backend/src/routers/bai-thuoc.router.ts",
+      "backend/src/routers/benh-dong-y-excel.router.ts",
+      "backend/src/routers/benh-dong-y-hien-dai.router.ts",
+      "backend/src/routers/benh-dong-y.router.ts",
+      "backend/src/routers/benh-tay-y.router.ts",
+      "backend/src/routers/chung-benh.router.ts",
+      "backend/src/routers/clinic-schedule.router.ts",
+      "backend/src/routers/cong-dung.router.ts",
+      "backend/src/routers/examination.router.ts",
+      "backend/src/routers/huyet-vi.router.ts",
+      "backend/src/routers/kinh-mach.router.ts",
+      "backend/src/routers/mach-chan.router.ts",
+      "backend/src/routers/meridian.router.ts",
+      "backend/src/routers/nhom-lon-duoc-ly.router.ts",
+      "backend/src/routers/nhom-nho-duoc-ly.router.ts",
+      "backend/src/routers/patient-auth.router.ts",
+      "backend/src/routers/patient.router.ts",
+      "backend/src/routers/phac-do-chuan.router.ts",
+      "backend/src/routers/phac-do-dieu-tri.router.ts",
+      "backend/src/routers/phap-tri.router.ts",
+      "backend/src/routers/record.router.ts",
+      "backend/src/routers/the-benh.router.ts",
+      "backend/src/routers/thiet-chan.router.ts",
+      "backend/src/routers/ton-thuong-tac-nhan.router.ts",
+      "backend/src/routers/trieu-chung.router.ts",
+      "backend/src/routers/vi-thuoc.router.ts"
+    ],
+    "backend/src/controllers/admin.controller.ts": [
+      "backend/src/models/admin.model.ts"
+    ],
+    "backend/src/controllers/auth.controller.ts": [
+      "backend/src/controllers/admin.controller.ts"
+    ],
+    "backend/src/controllers/chung-benh.controller.ts": [
+      "backend/src/models/chung-benh.dto.ts",
+      "backend/src/models/chung-benh.model.ts"
+    ],
+    "backend/src/controllers/kieng-ky.controller.ts": [
+      "backend/src/models/kieng-ky.model.ts",
+      "backend/src/utils/catalog-label.util.ts"
+    ],
+    "backend/src/controllers/patient-auth.controller.ts": [
+      "backend/src/models/patient.model.ts"
+    ],
+    "backend/src/controllers/ton-thuong-tac-nhan.controller.ts": [
+      "backend/src/models/ton-thuong-tac-nhan.dto.ts",
+      "backend/src/models/ton-thuong-tac-nhan.model.ts"
+    ],
+    "backend/src/main.ts": [
+      "backend/src/app.module.ts",
+      "backend/src/middlewares/logging.interceptor.ts"
+    ],
+    "backend/src/middlewares/auth/jwt.strategy.ts": [],
+    "backend/src/middlewares/logging.interceptor.ts": [],
+    "backend/src/models/admin.model.ts": [],
+    "backend/src/models/chung-benh.dto.ts": [],
+    "backend/src/models/chung-benh.model.ts": [
+      "backend/src/models/benh-tay-y.model.ts"
+    ],
+    "backend/src/models/kieng-ky.model.ts": [],
+    "backend/src/models/patient.model.ts": [],
+    "backend/src/models/ton-thuong-tac-nhan.dto.ts": [],
+    "backend/src/models/ton-thuong-tac-nhan.model.ts": [],
+    "backend/src/routers/admin.router.ts": [],
+    "backend/src/routers/auth.router.ts": [
+      "backend/src/controllers/auth.controller.ts"
+    ],
+    "backend/src/routers/chung-benh.router.ts": [
+      "backend/src/controllers/chung-benh.controller.ts",
+      "backend/src/models/chung-benh.dto.ts"
+    ],
+    "backend/src/routers/patient-auth.router.ts": [
+      "backend/src/controllers/patient-auth.controller.ts"
+    ],
+    "backend/src/routers/ton-thuong-tac-nhan.router.ts": [
+      "backend/src/controllers/ton-thuong-tac-nhan.controller.ts",
+      "backend/src/models/ton-thuong-tac-nhan.dto.ts"
+    ],
+    "backend/src/seed-admin.ts": [
+      "backend/src/app.module.ts",
+      "backend/src/controllers/admin.controller.ts"
+    ],
+    "backend/test/app.e2e-spec.ts": [
+      "backend/src/app.module.ts"
+    ]
+  }
+}

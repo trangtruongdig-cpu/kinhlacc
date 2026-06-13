@@ -1,0 +1,30 @@
+# .understandignore — patterns for files/dirs to exclude from analysis
+# Syntax: same as .gitignore (globs, # comments, ! negation, trailing / for dirs)
+#
+# Built-in defaults (always excluded): node_modules/, .git/, dist/, build/,
+# *.lock, package-lock.json, *.min.js, *.map, images, fonts, .vscode/, etc.
+#
+# Scope chosen with the user: FULL REPO (backend/src + frontend/src +
+# backend/sql migrations + root docs/configs). The exclusions below remove
+# separate apps, one-off scripts, generated artifacts, and bulk data blobs.
+
+# --- Separate / legacy apps (not part of backend+frontend) ---
+app_kinhlac/
+.fvm/
+
+# --- Tooling / meta dirs ---
+.claude/
+.understand-anything/
+
+# --- One-off scripts (not part of the build) ---
+backend/tmp/
+
+# --- Generated / build artifacts ---
+*.tsbuildinfo
+backend/config/*.json
+
+# --- Bulk data blobs (data, not architecture) ---
+*.csv
+*.xlsx
+# 211 KB legacy data dump — pure INSERT rows, no schema/architecture value:
+backend/sql/import-legacy-meridian-syndromes.sql

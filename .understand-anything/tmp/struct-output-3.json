@@ -1,0 +1,2557 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 15,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "backend/src/controllers/ai-suggest.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 555,
+      "nonEmptyLines": 490,
+      "functions": [
+        {
+          "name": "splitNames",
+          "startLine": 400,
+          "endLine": 406,
+          "params": [
+            "raw"
+          ]
+        },
+        {
+          "name": "normKm",
+          "startLine": 409,
+          "endLine": 418,
+          "params": [
+            "s"
+          ]
+        },
+        {
+          "name": "pickString",
+          "startLine": 420,
+          "endLine": 425,
+          "params": [
+            "obj",
+            "key"
+          ]
+        },
+        {
+          "name": "parseClassifyResults",
+          "startLine": 436,
+          "endLine": 530,
+          "params": [
+            "raw"
+          ]
+        },
+        {
+          "name": "parseJsonLoose",
+          "startLine": 532,
+          "endLine": 555,
+          "params": [
+            "raw"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AiSuggestService",
+          "startLine": 59,
+          "endLine": 398,
+          "methods": [
+            "constructor",
+            "getClient",
+            "suggestViThuoc",
+            "classifyViThuoc",
+            "classifyChunk",
+            "mapKinhMachNames"
+          ],
+          "properties": [
+            "client",
+            "clientKey",
+            "clientBase"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AiSuggestService",
+          "line": 58,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 66
+        },
+        {
+          "caller": "getClient",
+          "callee": "this.config.get",
+          "lineNumber": 71
+        },
+        {
+          "caller": "getClient",
+          "callee": "this.config.get",
+          "lineNumber": 76
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "(name || '').trim",
+          "lineNumber": 87
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "this.getClient",
+          "lineNumber": 92
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "this.config.get",
+          "lineNumber": 94
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "client.chat.completions.create",
+          "lineNumber": 98
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "String",
+          "lineNumber": 109
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "response.choices?.[0]?.message?.content?.trim",
+          "lineNumber": 113
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "parseJsonLoose",
+          "lineNumber": 118
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "content.slice",
+          "lineNumber": 121
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "pickString",
+          "lineNumber": 125
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "pickString",
+          "lineNumber": 126
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "pickString",
+          "lineNumber": 127
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "this.mapKinhMachNames",
+          "lineNumber": 129
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "splitNames",
+          "lineNumber": 130
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "matchedNames.join",
+          "lineNumber": 136
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "(input.vi_thuoc ?? []).filter",
+          "lineNumber": 143
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "Number.isFinite",
+          "lineNumber": 144
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "v.ten_vi_thuoc.trim",
+          "lineNumber": 144
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "(input.nhom_nho_candidates ?? []).filter",
+          "lineNumber": 146
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "Number.isFinite",
+          "lineNumber": 147
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "c.ten_nhom.trim",
+          "lineNumber": 147
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "candidates\r\n      .map((c) => {\r\n        const parts = [`id=${c.id}`, `ten=\"${c.ten_nhom.trim()}\"`];\r\n        const lieu = (c.lieu_luong ?? '').trim();\r\n        if (lieu) parts.push(`lieu=\"${lieu}\"`);\r\n        const mota = (c.mo_ta ?? '').trim();\r\n        if (mota) parts.push(`mo_ta=\"${mota.replace(/\\s+/g, ' ').slice(0, 200)}\"`);\r\n        return `{${parts.join(', ')}}`;\r\n      })\r\n      .join",
+          "lineNumber": 156
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "candidates\r\n      .map",
+          "lineNumber": 156
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "c.ten_nhom.trim",
+          "lineNumber": 158
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "(c.lieu_luong ?? '').trim",
+          "lineNumber": 159
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "parts.push",
+          "lineNumber": 160
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "(c.mo_ta ?? '').trim",
+          "lineNumber": 161
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "parts.push",
+          "lineNumber": 162
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "mota.replace(/\\s+/g, ' ').slice",
+          "lineNumber": 162
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "mota.replace",
+          "lineNumber": 162
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "parts.join",
+          "lineNumber": 163
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "candidates.map",
+          "lineNumber": 167
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "chunks.push",
+          "lineNumber": 174
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "viThuocs.slice",
+          "lineNumber": 174
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "console.log",
+          "lineNumber": 181
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "this.classifyChunk",
+          "lineNumber": 189
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "console.error",
+          "lineNumber": 198
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "chunk.map((v) => v.ten_vi_thuoc).join",
+          "lineNumber": 200
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "chunk.map",
+          "lineNumber": 200
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "chunk.map",
+          "lineNumber": 204
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "seen.has",
+          "lineNumber": 213
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "seen.add",
+          "lineNumber": 214
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "out.push",
+          "lineNumber": 215
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "out.filter",
+          "lineNumber": 219
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "console.log",
+          "lineNumber": 221
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "seen.has",
+          "lineNumber": 227
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "out.push",
+          "lineNumber": 228
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "this.getClient",
+          "lineNumber": 241
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "this.config.get",
+          "lineNumber": 242
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "viThuocs\r\n      .map((v) => `{id=${v.id}, ten=\"${v.ten_vi_thuoc.trim()}\"}`)\r\n      .join",
+          "lineNumber": 244
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "viThuocs\r\n      .map",
+          "lineNumber": 244
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "v.ten_vi_thuoc.trim",
+          "lineNumber": 245
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "Math.min",
+          "lineNumber": 270
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "console.log",
+          "lineNumber": 273
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "viThuocs.map((v) => `${v.id}:${v.ten_vi_thuoc}`).join",
+          "lineNumber": 275
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "viThuocs.map",
+          "lineNumber": 275
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "Date.now",
+          "lineNumber": 278
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "client.chat.completions.create",
+          "lineNumber": 279
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "Date.now",
+          "lineNumber": 289
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "response.choices?.[0]?.message?.content?.trim",
+          "lineNumber": 291
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "console.log",
+          "lineNumber": 296
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "console.log",
+          "lineNumber": 300
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "parseClassifyResults",
+          "lineNumber": 306
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "console.error",
+          "lineNumber": 309
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "content.slice",
+          "lineNumber": 309
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "content.slice",
+          "lineNumber": 310
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "console.log",
+          "lineNumber": 313
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "byId.set",
+          "lineNumber": 316
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "Number",
+          "lineNumber": 324
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "Number.isFinite",
+          "lineNumber": 325
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "byId.get",
+          "lineNumber": 326
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "seen.has",
+          "lineNumber": 327
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "seen.add",
+          "lineNumber": 328
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "Number",
+          "lineNumber": 335
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "Number.isFinite",
+          "lineNumber": 337
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "allowedNhomNhoIds.has",
+          "lineNumber": 337
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "raw.ly_do.trim",
+          "lineNumber": 338
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "out.push",
+          "lineNumber": 339
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "seen.has",
+          "lineNumber": 349
+        },
+        {
+          "caller": "classifyChunk",
+          "callee": "out.push",
+          "lineNumber": 350
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "this.kinhMachRepo.find",
+          "lineNumber": 362
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "byKey.set",
+          "lineNumber": 365
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "normKm",
+          "lineNumber": 365
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "byKey.set",
+          "lineNumber": 366
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "normKm",
+          "lineNumber": 366
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "normKm",
+          "lineNumber": 375
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "byKey.get",
+          "lineNumber": 376
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "normKm",
+          "lineNumber": 380
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "key.includes",
+          "lineNumber": 382
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "cKey.includes",
+          "lineNumber": 382
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "seen.has",
+          "lineNumber": 388
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "seen.add",
+          "lineNumber": 389
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "ids.push",
+          "lineNumber": 390
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "matchedNames.push",
+          "lineNumber": 391
+        },
+        {
+          "caller": "mapKinhMachNames",
+          "callee": "unmatched.push",
+          "lineNumber": 393
+        },
+        {
+          "caller": "splitNames",
+          "callee": "raw\r\n    .split(/[,;/]/)\r\n    .map((s) => s.trim())\r\n    .filter",
+          "lineNumber": 402
+        },
+        {
+          "caller": "splitNames",
+          "callee": "raw\r\n    .split(/[,;/]/)\r\n    .map",
+          "lineNumber": 402
+        },
+        {
+          "caller": "splitNames",
+          "callee": "raw\r\n    .split",
+          "lineNumber": 402
+        },
+        {
+          "caller": "splitNames",
+          "callee": "s.trim",
+          "lineNumber": 404
+        },
+        {
+          "caller": "normKm",
+          "callee": "s\r\n    .normalize('NFD')\r\n    .replace(/[̀-ͯ]/g, '')\r\n    .replace(/đ/gi, 'd')\r\n    .toLowerCase()\r\n    .replace(/\\bkinh\\b/g, '')\r\n    .replace(/\\s+/g, ' ')\r\n    .trim",
+          "lineNumber": 410
+        },
+        {
+          "caller": "normKm",
+          "callee": "s\r\n    .normalize('NFD')\r\n    .replace(/[̀-ͯ]/g, '')\r\n    .replace(/đ/gi, 'd')\r\n    .toLowerCase()\r\n    .replace(/\\bkinh\\b/g, '')\r\n    .replace",
+          "lineNumber": 410
+        },
+        {
+          "caller": "normKm",
+          "callee": "s\r\n    .normalize('NFD')\r\n    .replace(/[̀-ͯ]/g, '')\r\n    .replace(/đ/gi, 'd')\r\n    .toLowerCase()\r\n    .replace",
+          "lineNumber": 410
+        },
+        {
+          "caller": "normKm",
+          "callee": "s\r\n    .normalize('NFD')\r\n    .replace(/[̀-ͯ]/g, '')\r\n    .replace(/đ/gi, 'd')\r\n    .toLowerCase",
+          "lineNumber": 410
+        },
+        {
+          "caller": "normKm",
+          "callee": "s\r\n    .normalize('NFD')\r\n    .replace(/[̀-ͯ]/g, '')\r\n    .replace",
+          "lineNumber": 410
+        },
+        {
+          "caller": "normKm",
+          "callee": "s\r\n    .normalize('NFD')\r\n    .replace",
+          "lineNumber": 410
+        },
+        {
+          "caller": "normKm",
+          "callee": "s\r\n    .normalize",
+          "lineNumber": 410
+        },
+        {
+          "caller": "pickString",
+          "callee": "Array.isArray",
+          "lineNumber": 423
+        },
+        {
+          "caller": "pickString",
+          "callee": "v.map((x) => String(x).trim()).filter(Boolean).join",
+          "lineNumber": 423
+        },
+        {
+          "caller": "pickString",
+          "callee": "v.map((x) => String(x).trim()).filter",
+          "lineNumber": 423
+        },
+        {
+          "caller": "pickString",
+          "callee": "v.map",
+          "lineNumber": 423
+        },
+        {
+          "caller": "pickString",
+          "callee": "String(x).trim",
+          "lineNumber": 423
+        },
+        {
+          "caller": "pickString",
+          "callee": "String",
+          "lineNumber": 423
+        },
+        {
+          "caller": "pickString",
+          "callee": "String(v).trim",
+          "lineNumber": 424
+        },
+        {
+          "caller": "pickString",
+          "callee": "String",
+          "lineNumber": 424
+        },
+        {
+          "caller": "tryAdd",
+          "callee": "candidates.push",
+          "lineNumber": 440
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "tryAdd",
+          "lineNumber": 444
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "JSON.parse",
+          "lineNumber": 444
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "raw.match",
+          "lineNumber": 447
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "tryAdd",
+          "lineNumber": 449
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "JSON.parse",
+          "lineNumber": 449
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "raw.indexOf",
+          "lineNumber": 453
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "raw.lastIndexOf",
+          "lineNumber": 454
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "tryAdd",
+          "lineNumber": 456
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "JSON.parse",
+          "lineNumber": 456
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "raw.slice",
+          "lineNumber": 456
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "raw.indexOf",
+          "lineNumber": 460
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "raw.lastIndexOf",
+          "lineNumber": 461
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "tryAdd",
+          "lineNumber": 463
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "JSON.parse",
+          "lineNumber": 463
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "raw.slice",
+          "lineNumber": 463
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "Array.isArray",
+          "lineNumber": 469
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "Array.isArray",
+          "lineNumber": 474
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "Object.entries(obj).filter",
+          "lineNumber": 477
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "Object.entries",
+          "lineNumber": 477
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "entries\r\n          .map(([k, v]) => {\r\n            const o = v as Record<string, unknown>;\r\n            return { ...o, id: o.id ?? Number(k) };\r\n          })\r\n          .filter",
+          "lineNumber": 479
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "entries\r\n          .map",
+          "lineNumber": 479
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "Number",
+          "lineNumber": 482
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "Number.isFinite",
+          "lineNumber": 484
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "Number",
+          "lineNumber": 484
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "JSON.parse",
+          "lineNumber": 512
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "raw.slice",
+          "lineNumber": 512
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "Array.isArray",
+          "lineNumber": 513
+        },
+        {
+          "caller": "parseClassifyResults",
+          "callee": "salvaged.push",
+          "lineNumber": 517
+        },
+        {
+          "caller": "parseJsonLoose",
+          "callee": "JSON.parse",
+          "lineNumber": 534
+        },
+        {
+          "caller": "parseJsonLoose",
+          "callee": "raw.match",
+          "lineNumber": 536
+        },
+        {
+          "caller": "parseJsonLoose",
+          "callee": "JSON.parse",
+          "lineNumber": 539
+        },
+        {
+          "caller": "parseJsonLoose",
+          "callee": "raw.indexOf",
+          "lineNumber": 544
+        },
+        {
+          "caller": "parseJsonLoose",
+          "callee": "raw.lastIndexOf",
+          "lineNumber": 545
+        },
+        {
+          "caller": "parseJsonLoose",
+          "callee": "JSON.parse",
+          "lineNumber": 548
+        },
+        {
+          "caller": "parseJsonLoose",
+          "callee": "raw.slice",
+          "lineNumber": 548
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/controllers/appointment-slot.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 245,
+      "nonEmptyLines": 225,
+      "classes": [
+        {
+          "name": "AppointmentSlotsService",
+          "startLine": 30,
+          "endLine": 245,
+          "methods": [
+            "constructor",
+            "findByDate",
+            "findByRange",
+            "findMy",
+            "findOne",
+            "update",
+            "close",
+            "open",
+            "book",
+            "cancel",
+            "cancelMy",
+            "complete",
+            "remove",
+            "bookMy",
+            "summaryByDate",
+            "notifyStatusChange",
+            "getStatusText"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AppointmentSlotsService",
+          "line": 29,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 32
+        },
+        {
+          "caller": "findByDate",
+          "callee": "this.slotRepo.find",
+          "lineNumber": 39
+        },
+        {
+          "caller": "findByRange",
+          "callee": "this.slotRepo.find",
+          "lineNumber": 46
+        },
+        {
+          "caller": "findByRange",
+          "callee": "Between",
+          "lineNumber": 47
+        },
+        {
+          "caller": "findMy",
+          "callee": "this.slotRepo.find",
+          "lineNumber": 53
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.slotRepo.findOneBy",
+          "lineNumber": 60
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 66
+        },
+        {
+          "caller": "update",
+          "callee": "this.slotRepo.save",
+          "lineNumber": 69
+        },
+        {
+          "caller": "close",
+          "callee": "this.findOne",
+          "lineNumber": 73
+        },
+        {
+          "caller": "close",
+          "callee": "this.slotRepo.save",
+          "lineNumber": 83
+        },
+        {
+          "caller": "open",
+          "callee": "this.findOne",
+          "lineNumber": 87
+        },
+        {
+          "caller": "open",
+          "callee": "this.slotRepo.save",
+          "lineNumber": 96
+        },
+        {
+          "caller": "book",
+          "callee": "this.findOne",
+          "lineNumber": 103
+        },
+        {
+          "caller": "book",
+          "callee": "this.patientsService.findOne",
+          "lineNumber": 110
+        },
+        {
+          "caller": "book",
+          "callee": "this.slotRepo.save",
+          "lineNumber": 116
+        },
+        {
+          "caller": "book",
+          "callee": "this.notifyStatusChange",
+          "lineNumber": 117
+        },
+        {
+          "caller": "cancel",
+          "callee": "this.findOne",
+          "lineNumber": 122
+        },
+        {
+          "caller": "cancel",
+          "callee": "this.slotRepo.save",
+          "lineNumber": 129
+        },
+        {
+          "caller": "cancel",
+          "callee": "this.notifyStatusChange",
+          "lineNumber": 130
+        },
+        {
+          "caller": "cancelMy",
+          "callee": "this.findOne",
+          "lineNumber": 135
+        },
+        {
+          "caller": "cancelMy",
+          "callee": "this.cancel",
+          "lineNumber": 139
+        },
+        {
+          "caller": "complete",
+          "callee": "this.findOne",
+          "lineNumber": 143
+        },
+        {
+          "caller": "complete",
+          "callee": "this.slotRepo.save",
+          "lineNumber": 150
+        },
+        {
+          "caller": "complete",
+          "callee": "this.notifyStatusChange",
+          "lineNumber": 151
+        },
+        {
+          "caller": "remove",
+          "callee": "this.findOne",
+          "lineNumber": 156
+        },
+        {
+          "caller": "remove",
+          "callee": "this.slotRepo.remove",
+          "lineNumber": 162
+        },
+        {
+          "caller": "bookMy",
+          "callee": "this.book",
+          "lineNumber": 170
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "await this.slotRepo\n      .createQueryBuilder('s')\n      .select('s.slotDate', 'date')\n      .addSelect('s.status', 'status')\n      .addSelect('COUNT(*)', 'count')\n      .where('s.slotDate BETWEEN :from AND :to', { from, to })\n      .groupBy('s.slotDate')\n      .addGroupBy('s.status')\n      .getRawMany",
+          "lineNumber": 177
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "this.slotRepo\n      .createQueryBuilder('s')\n      .select('s.slotDate', 'date')\n      .addSelect('s.status', 'status')\n      .addSelect('COUNT(*)', 'count')\n      .where('s.slotDate BETWEEN :from AND :to', { from, to })\n      .groupBy('s.slotDate')\n      .addGroupBy",
+          "lineNumber": 177
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "this.slotRepo\n      .createQueryBuilder('s')\n      .select('s.slotDate', 'date')\n      .addSelect('s.status', 'status')\n      .addSelect('COUNT(*)', 'count')\n      .where('s.slotDate BETWEEN :from AND :to', { from, to })\n      .groupBy",
+          "lineNumber": 177
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "this.slotRepo\n      .createQueryBuilder('s')\n      .select('s.slotDate', 'date')\n      .addSelect('s.status', 'status')\n      .addSelect('COUNT(*)', 'count')\n      .where",
+          "lineNumber": 177
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "this.slotRepo\n      .createQueryBuilder('s')\n      .select('s.slotDate', 'date')\n      .addSelect('s.status', 'status')\n      .addSelect",
+          "lineNumber": 177
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "this.slotRepo\n      .createQueryBuilder('s')\n      .select('s.slotDate', 'date')\n      .addSelect",
+          "lineNumber": 177
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "this.slotRepo\n      .createQueryBuilder('s')\n      .select",
+          "lineNumber": 177
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "this.slotRepo\n      .createQueryBuilder",
+          "lineNumber": 177
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "d.getFullYear",
+          "lineNumber": 196
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "String(d.getMonth() + 1).padStart",
+          "lineNumber": 196
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "String",
+          "lineNumber": 196
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "d.getMonth",
+          "lineNumber": 196
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "String(d.getDate()).padStart",
+          "lineNumber": 196
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "String",
+          "lineNumber": 196
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "d.getDate",
+          "lineNumber": 196
+        },
+        {
+          "caller": "summaryByDate",
+          "callee": "parseInt",
+          "lineNumber": 207
+        },
+        {
+          "caller": "notifyStatusChange",
+          "callee": "this.patientsService.findOne",
+          "lineNumber": 215
+        },
+        {
+          "caller": "notifyStatusChange",
+          "callee": "this.getStatusText",
+          "lineNumber": 218
+        },
+        {
+          "caller": "notifyStatusChange",
+          "callee": "this.firebaseService.sendNotification",
+          "lineNumber": 219
+        },
+        {
+          "caller": "notifyStatusChange",
+          "callee": "slot.id.toString",
+          "lineNumber": 220
+        },
+        {
+          "caller": "notifyStatusChange",
+          "callee": "console.error",
+          "lineNumber": 225
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/controllers/examination.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 232,
+      "nonEmptyLines": 209,
+      "classes": [
+        {
+          "name": "ExaminationsService",
+          "startLine": 10,
+          "endLine": 232,
+          "methods": [
+            "constructor",
+            "findAll",
+            "create",
+            "update",
+            "findByPatient",
+            "findOne",
+            "remove",
+            "fixSequence"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ExaminationsService",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 12
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.examinationRepository.find",
+          "lineNumber": 19
+        },
+        {
+          "caller": "create",
+          "callee": "this.patientsService.findOne",
+          "lineNumber": 25
+        },
+        {
+          "caller": "create",
+          "callee": "this.meridiansService.analyze",
+          "lineNumber": 54
+        },
+        {
+          "caller": "create",
+          "callee": "this.examinationRepository.create",
+          "lineNumber": 58
+        },
+        {
+          "caller": "create",
+          "callee": "this.examinationRepository.save",
+          "lineNumber": 70
+        },
+        {
+          "caller": "create",
+          "callee": "error.detail?.includes",
+          "lineNumber": 82
+        },
+        {
+          "caller": "create",
+          "callee": "error.constraint?.includes",
+          "lineNumber": 82
+        },
+        {
+          "caller": "create",
+          "callee": "console.warn",
+          "lineNumber": 84
+        },
+        {
+          "caller": "create",
+          "callee": "this.fixSequence",
+          "lineNumber": 85
+        },
+        {
+          "caller": "create",
+          "callee": "this.examinationRepository.save",
+          "lineNumber": 86
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 98
+        },
+        {
+          "caller": "update",
+          "callee": "this.patientsService.findOne",
+          "lineNumber": 101
+        },
+        {
+          "caller": "update",
+          "callee": "this.meridiansService.analyze",
+          "lineNumber": 130
+        },
+        {
+          "caller": "update",
+          "callee": "this.examinationRepository.save",
+          "lineNumber": 144
+        },
+        {
+          "caller": "findByPatient",
+          "callee": "this.examinationRepository.find",
+          "lineNumber": 153
+        },
+        {
+          "caller": "findByPatient",
+          "callee": "this.meridiansService.analyze",
+          "lineNumber": 162
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.examinationRepository.findOneBy",
+          "lineNumber": 180
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.meridiansService.analyze",
+          "lineNumber": 188
+        },
+        {
+          "caller": "findOne",
+          "callee": "console.warn",
+          "lineNumber": 200
+        },
+        {
+          "caller": "remove",
+          "callee": "this.findOne",
+          "lineNumber": 208
+        },
+        {
+          "caller": "remove",
+          "callee": "this.examinationRepository.remove",
+          "lineNumber": 209
+        },
+        {
+          "caller": "fixSequence",
+          "callee": "this.examinationRepository.query",
+          "lineNumber": 221
+        },
+        {
+          "caller": "fixSequence",
+          "callee": "console.error",
+          "lineNumber": 228
+        }
+      ],
+      "metrics": {
+        "importCount": 4,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/controllers/firebase.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 61,
+      "nonEmptyLines": 54,
+      "classes": [
+        {
+          "name": "FirebaseService",
+          "startLine": 6,
+          "endLine": 61,
+          "methods": [
+            "onModuleInit",
+            "sendNotification"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "FirebaseService",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "onModuleInit",
+          "callee": "JSON.parse",
+          "lineNumber": 14
+        },
+        {
+          "caller": "onModuleInit",
+          "callee": "admin.credential.cert",
+          "lineNumber": 15
+        },
+        {
+          "caller": "onModuleInit",
+          "callee": "console.log",
+          "lineNumber": 16
+        },
+        {
+          "caller": "onModuleInit",
+          "callee": "console.error",
+          "lineNumber": 18
+        },
+        {
+          "caller": "onModuleInit",
+          "callee": "path.join",
+          "lineNumber": 25
+        },
+        {
+          "caller": "onModuleInit",
+          "callee": "process.cwd",
+          "lineNumber": 25
+        },
+        {
+          "caller": "onModuleInit",
+          "callee": "admin.credential.cert",
+          "lineNumber": 26
+        },
+        {
+          "caller": "onModuleInit",
+          "callee": "console.log",
+          "lineNumber": 27
+        },
+        {
+          "caller": "onModuleInit",
+          "callee": "console.warn",
+          "lineNumber": 29
+        },
+        {
+          "caller": "onModuleInit",
+          "callee": "admin.initializeApp",
+          "lineNumber": 34
+        },
+        {
+          "caller": "sendNotification",
+          "callee": "admin.messaging().send",
+          "lineNumber": 54
+        },
+        {
+          "caller": "sendNotification",
+          "callee": "admin.messaging",
+          "lineNumber": 54
+        },
+        {
+          "caller": "sendNotification",
+          "callee": "console.log",
+          "lineNumber": 55
+        },
+        {
+          "caller": "sendNotification",
+          "callee": "console.error",
+          "lineNumber": 58
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/controllers/patient.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 98,
+      "nonEmptyLines": 84,
+      "functions": [
+        {
+          "name": "normalizePatientDto",
+          "startLine": 18,
+          "endLine": 26,
+          "params": [
+            "dto"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "PatientsService",
+          "startLine": 29,
+          "endLine": 98,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findPaginated",
+            "findOne",
+            "create",
+            "update",
+            "updateFcmToken",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PatientsService",
+          "line": 28,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "normalizePatientDto",
+          "callee": "Object.keys",
+          "lineNumber": 20
+        },
+        {
+          "caller": "normalizePatientDto",
+          "callee": "result[key].trim",
+          "lineNumber": 21
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 31
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.patientRepository.find",
+          "lineNumber": 36
+        },
+        {
+          "caller": "findPaginated",
+          "callee": "this.patientRepository\r\n      .createQueryBuilder('patient')\r\n      .orderBy",
+          "lineNumber": 46
+        },
+        {
+          "caller": "findPaginated",
+          "callee": "this.patientRepository\r\n      .createQueryBuilder",
+          "lineNumber": 46
+        },
+        {
+          "caller": "findPaginated",
+          "callee": "search.trim",
+          "lineNumber": 50
+        },
+        {
+          "caller": "findPaginated",
+          "callee": "search.trim",
+          "lineNumber": 51
+        },
+        {
+          "caller": "findPaginated",
+          "callee": "qb.andWhere",
+          "lineNumber": 52
+        },
+        {
+          "caller": "findPaginated",
+          "callee": "qb.skip(skip).take(limit).getManyAndCount",
+          "lineNumber": 58
+        },
+        {
+          "caller": "findPaginated",
+          "callee": "qb.skip(skip).take",
+          "lineNumber": 58
+        },
+        {
+          "caller": "findPaginated",
+          "callee": "qb.skip",
+          "lineNumber": 58
+        },
+        {
+          "caller": "findPaginated",
+          "callee": "Math.ceil",
+          "lineNumber": 65
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.patientRepository.findOneBy",
+          "lineNumber": 70
+        },
+        {
+          "caller": "create",
+          "callee": "this.patientRepository.create",
+          "lineNumber": 78
+        },
+        {
+          "caller": "create",
+          "callee": "normalizePatientDto",
+          "lineNumber": 78
+        },
+        {
+          "caller": "create",
+          "callee": "this.patientRepository.save",
+          "lineNumber": 79
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 83
+        },
+        {
+          "caller": "update",
+          "callee": "Object.assign",
+          "lineNumber": 84
+        },
+        {
+          "caller": "update",
+          "callee": "normalizePatientDto",
+          "lineNumber": 84
+        },
+        {
+          "caller": "update",
+          "callee": "this.patientRepository.save",
+          "lineNumber": 85
+        },
+        {
+          "caller": "updateFcmToken",
+          "callee": "this.findOne",
+          "lineNumber": 89
+        },
+        {
+          "caller": "updateFcmToken",
+          "callee": "this.patientRepository.save",
+          "lineNumber": 91
+        },
+        {
+          "caller": "remove",
+          "callee": "this.findOne",
+          "lineNumber": 95
+        },
+        {
+          "caller": "remove",
+          "callee": "this.patientRepository.remove",
+          "lineNumber": 96
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/middlewares/auth/jwt-auth.guard.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 5,
+      "nonEmptyLines": 4,
+      "classes": [
+        {
+          "name": "JwtAuthGuard",
+          "startLine": 5,
+          "endLine": 5,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "JwtAuthGuard",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/appointment-slot.dto.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "BookSlotDto",
+          "startLine": 1,
+          "endLine": 5,
+          "methods": [],
+          "properties": [
+            "patientId",
+            "reason",
+            "notes"
+          ]
+        },
+        {
+          "name": "UpdateSlotDto",
+          "startLine": 7,
+          "endLine": 10,
+          "methods": [],
+          "properties": [
+            "reason",
+            "notes"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BookSlotDto",
+          "line": 1,
+          "isDefault": false
+        },
+        {
+          "name": "UpdateSlotDto",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 0,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "backend/src/models/examination.dto.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 59,
+      "nonEmptyLines": 56,
+      "classes": [
+        {
+          "name": "CreateExaminationDto",
+          "startLine": 1,
+          "endLine": 29,
+          "methods": [],
+          "properties": [
+            "patientId",
+            "notes",
+            "tieutruongtrai",
+            "tieutruongphai",
+            "tamtrai",
+            "tamphai",
+            "tamtieutrai",
+            "tamtieuphai",
+            "tambaotrai",
+            "tambaophai",
+            "daitrangtrai",
+            "daitrangphai",
+            "phetrai",
+            "phephai",
+            "bangquangtrai",
+            "bangquangphai",
+            "thantrai",
+            "thanphai",
+            "damtrai",
+            "damphai",
+            "vitrai",
+            "viphai",
+            "cantrai",
+            "canphai",
+            "tytrai",
+            "typhai"
+          ]
+        },
+        {
+          "name": "UpdateExaminationDto",
+          "startLine": 31,
+          "endLine": 59,
+          "methods": [],
+          "properties": [
+            "patientId",
+            "notes",
+            "tieutruongtrai",
+            "tieutruongphai",
+            "tamtrai",
+            "tamphai",
+            "tamtieutrai",
+            "tamtieuphai",
+            "tambaotrai",
+            "tambaophai",
+            "daitrangtrai",
+            "daitrangphai",
+            "phetrai",
+            "phephai",
+            "bangquangtrai",
+            "bangquangphai",
+            "thantrai",
+            "thanphai",
+            "damtrai",
+            "damphai",
+            "vitrai",
+            "viphai",
+            "cantrai",
+            "canphai",
+            "tytrai",
+            "typhai"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateExaminationDto",
+          "line": 1,
+          "isDefault": false
+        },
+        {
+          "name": "UpdateExaminationDto",
+          "line": 31,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 0,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "backend/src/models/examination.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 41,
+      "classes": [
+        {
+          "name": "Examination",
+          "startLine": 9,
+          "endLine": 52,
+          "methods": [],
+          "properties": [
+            "id",
+            "patientId",
+            "inputData",
+            "amDuong",
+            "khi",
+            "huyet",
+            "flags",
+            "syndromes",
+            "selectedModelIds",
+            "notes",
+            "createdAt"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Examination",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/patient.dto.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 22,
+      "classes": [
+        {
+          "name": "CreatePatientDto",
+          "startLine": 1,
+          "endLine": 11,
+          "methods": [],
+          "properties": [
+            "fullName",
+            "gender",
+            "dateOfBirth",
+            "timeOfBirth",
+            "address",
+            "province",
+            "phone",
+            "medicalHistory",
+            "notes"
+          ]
+        },
+        {
+          "name": "UpdatePatientDto",
+          "startLine": 13,
+          "endLine": 23,
+          "methods": [],
+          "properties": [
+            "fullName",
+            "gender",
+            "dateOfBirth",
+            "timeOfBirth",
+            "address",
+            "province",
+            "phone",
+            "medicalHistory",
+            "notes"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreatePatientDto",
+          "line": 1,
+          "isDefault": false
+        },
+        {
+          "name": "UpdatePatientDto",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 0,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "backend/src/routers/ai-suggest.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 21,
+      "classes": [
+        {
+          "name": "AiSuggestRouter",
+          "startLine": 10,
+          "endLine": 24,
+          "methods": [
+            "constructor",
+            "suggestViThuoc",
+            "classifyViThuoc"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AiSuggestRouter",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "suggestViThuoc",
+          "callee": "Body",
+          "lineNumber": 14
+        },
+        {
+          "caller": "suggestViThuoc",
+          "callee": "this.service.suggestViThuoc",
+          "lineNumber": 15
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "Body",
+          "lineNumber": 20
+        },
+        {
+          "caller": "classifyViThuoc",
+          "callee": "this.service.classifyViThuoc",
+          "lineNumber": 21
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/routers/appointment-slot.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 141,
+      "nonEmptyLines": 126,
+      "functions": [
+        {
+          "name": "assertDate",
+          "startLine": 23,
+          "endLine": 27,
+          "params": [
+            "date"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AppointmentSlotsRouter",
+          "startLine": 30,
+          "endLine": 141,
+          "methods": [
+            "constructor",
+            "findMy",
+            "bookMy",
+            "cancelMy",
+            "list",
+            "summary",
+            "findOne",
+            "update",
+            "close",
+            "open",
+            "book",
+            "cancel",
+            "complete",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AppointmentSlotsRouter",
+          "line": 29,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "assertDate",
+          "callee": "DATE_RE.test",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findMy",
+          "callee": "Request",
+          "lineNumber": 36
+        },
+        {
+          "caller": "findMy",
+          "callee": "this.service.findMy",
+          "lineNumber": 37
+        },
+        {
+          "caller": "bookMy",
+          "callee": "Param",
+          "lineNumber": 43
+        },
+        {
+          "caller": "bookMy",
+          "callee": "Request",
+          "lineNumber": 44
+        },
+        {
+          "caller": "bookMy",
+          "callee": "Body",
+          "lineNumber": 45
+        },
+        {
+          "caller": "bookMy",
+          "callee": "this.service.bookMy",
+          "lineNumber": 47
+        },
+        {
+          "caller": "cancelMy",
+          "callee": "Param",
+          "lineNumber": 54
+        },
+        {
+          "caller": "cancelMy",
+          "callee": "Request",
+          "lineNumber": 55
+        },
+        {
+          "caller": "cancelMy",
+          "callee": "this.service.cancelMy",
+          "lineNumber": 57
+        },
+        {
+          "caller": "list",
+          "callee": "Query",
+          "lineNumber": 64
+        },
+        {
+          "caller": "list",
+          "callee": "Query",
+          "lineNumber": 65
+        },
+        {
+          "caller": "list",
+          "callee": "Query",
+          "lineNumber": 66
+        },
+        {
+          "caller": "list",
+          "callee": "assertDate",
+          "lineNumber": 69
+        },
+        {
+          "caller": "list",
+          "callee": "this.service.findByDate",
+          "lineNumber": 70
+        },
+        {
+          "caller": "list",
+          "callee": "assertDate",
+          "lineNumber": 73
+        },
+        {
+          "caller": "list",
+          "callee": "assertDate",
+          "lineNumber": 74
+        },
+        {
+          "caller": "list",
+          "callee": "this.service.findByRange",
+          "lineNumber": 75
+        },
+        {
+          "caller": "summary",
+          "callee": "Query",
+          "lineNumber": 81
+        },
+        {
+          "caller": "summary",
+          "callee": "Query",
+          "lineNumber": 81
+        },
+        {
+          "caller": "summary",
+          "callee": "assertDate",
+          "lineNumber": 85
+        },
+        {
+          "caller": "summary",
+          "callee": "assertDate",
+          "lineNumber": 86
+        },
+        {
+          "caller": "summary",
+          "callee": "this.service.summaryByDate",
+          "lineNumber": 87
+        },
+        {
+          "caller": "findOne",
+          "callee": "Param",
+          "lineNumber": 91
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.service.findOne",
+          "lineNumber": 92
+        },
+        {
+          "caller": "update",
+          "callee": "Param",
+          "lineNumber": 97
+        },
+        {
+          "caller": "update",
+          "callee": "Body",
+          "lineNumber": 98
+        },
+        {
+          "caller": "update",
+          "callee": "this.service.update",
+          "lineNumber": 100
+        },
+        {
+          "caller": "close",
+          "callee": "Param",
+          "lineNumber": 104
+        },
+        {
+          "caller": "close",
+          "callee": "this.service.close",
+          "lineNumber": 105
+        },
+        {
+          "caller": "open",
+          "callee": "Param",
+          "lineNumber": 110
+        },
+        {
+          "caller": "open",
+          "callee": "this.service.open",
+          "lineNumber": 111
+        },
+        {
+          "caller": "book",
+          "callee": "Param",
+          "lineNumber": 117
+        },
+        {
+          "caller": "book",
+          "callee": "Body",
+          "lineNumber": 118
+        },
+        {
+          "caller": "book",
+          "callee": "this.service.book",
+          "lineNumber": 120
+        },
+        {
+          "caller": "cancel",
+          "callee": "Param",
+          "lineNumber": 125
+        },
+        {
+          "caller": "cancel",
+          "callee": "this.service.cancel",
+          "lineNumber": 126
+        },
+        {
+          "caller": "complete",
+          "callee": "Param",
+          "lineNumber": 131
+        },
+        {
+          "caller": "complete",
+          "callee": "this.service.complete",
+          "lineNumber": 132
+        },
+        {
+          "caller": "remove",
+          "callee": "Param",
+          "lineNumber": 137
+        },
+        {
+          "caller": "remove",
+          "callee": "this.service.remove",
+          "lineNumber": 138
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/routers/examination.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 67,
+      "nonEmptyLines": 58,
+      "classes": [
+        {
+          "name": "ExaminationsRouter",
+          "startLine": 18,
+          "endLine": 67,
+          "methods": [
+            "constructor",
+            "findAll",
+            "fixSequence",
+            "create",
+            "update",
+            "findByPatient",
+            "findMyRecords",
+            "findOne",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ExaminationsRouter",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findAll",
+          "callee": "this.examinationsService.findAll",
+          "lineNumber": 23
+        },
+        {
+          "caller": "fixSequence",
+          "callee": "this.examinationsService.fixSequence",
+          "lineNumber": 28
+        },
+        {
+          "caller": "create",
+          "callee": "Body",
+          "lineNumber": 32
+        },
+        {
+          "caller": "create",
+          "callee": "this.examinationsService.create",
+          "lineNumber": 33
+        },
+        {
+          "caller": "update",
+          "callee": "Param",
+          "lineNumber": 39
+        },
+        {
+          "caller": "update",
+          "callee": "Body",
+          "lineNumber": 40
+        },
+        {
+          "caller": "update",
+          "callee": "this.examinationsService.update",
+          "lineNumber": 42
+        },
+        {
+          "caller": "findByPatient",
+          "callee": "Param",
+          "lineNumber": 47
+        },
+        {
+          "caller": "findByPatient",
+          "callee": "this.examinationsService.findByPatient",
+          "lineNumber": 48
+        },
+        {
+          "caller": "findMyRecords",
+          "callee": "Request",
+          "lineNumber": 53
+        },
+        {
+          "caller": "findMyRecords",
+          "callee": "this.examinationsService.findByPatient",
+          "lineNumber": 54
+        },
+        {
+          "caller": "findOne",
+          "callee": "Param",
+          "lineNumber": 58
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.examinationsService.findOne",
+          "lineNumber": 59
+        },
+        {
+          "caller": "remove",
+          "callee": "Param",
+          "lineNumber": 63
+        },
+        {
+          "caller": "remove",
+          "callee": "this.examinationsService.remove",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/routers/patient.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 67,
+      "nonEmptyLines": 60,
+      "classes": [
+        {
+          "name": "PatientsRouter",
+          "startLine": 16,
+          "endLine": 67,
+          "methods": [
+            "constructor",
+            "findPatients",
+            "findOne",
+            "create",
+            "update",
+            "updateFcmToken",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PatientsRouter",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findPatients",
+          "callee": "Query",
+          "lineNumber": 21
+        },
+        {
+          "caller": "findPatients",
+          "callee": "Query",
+          "lineNumber": 22
+        },
+        {
+          "caller": "findPatients",
+          "callee": "Query",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findPatients",
+          "callee": "parseInt",
+          "lineNumber": 25
+        },
+        {
+          "caller": "findPatients",
+          "callee": "parseInt",
+          "lineNumber": 26
+        },
+        {
+          "caller": "findPatients",
+          "callee": "this.patientsService.findPaginated",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findPatients",
+          "callee": "this.patientsService.findAll",
+          "lineNumber": 30
+        },
+        {
+          "caller": "findOne",
+          "callee": "Param",
+          "lineNumber": 34
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.patientsService.findOne",
+          "lineNumber": 35
+        },
+        {
+          "caller": "create",
+          "callee": "Body",
+          "lineNumber": 39
+        },
+        {
+          "caller": "create",
+          "callee": "this.patientsService.create",
+          "lineNumber": 40
+        },
+        {
+          "caller": "update",
+          "callee": "Param",
+          "lineNumber": 46
+        },
+        {
+          "caller": "update",
+          "callee": "Body",
+          "lineNumber": 47
+        },
+        {
+          "caller": "update",
+          "callee": "this.patientsService.update",
+          "lineNumber": 49
+        },
+        {
+          "caller": "updateFcmToken",
+          "callee": "Param",
+          "lineNumber": 55
+        },
+        {
+          "caller": "updateFcmToken",
+          "callee": "Body",
+          "lineNumber": 56
+        },
+        {
+          "caller": "updateFcmToken",
+          "callee": "this.patientsService.updateFcmToken",
+          "lineNumber": 58
+        },
+        {
+          "caller": "remove",
+          "callee": "Param",
+          "lineNumber": 63
+        },
+        {
+          "caller": "remove",
+          "callee": "this.patientsService.remove",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/routers/record.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 72,
+      "nonEmptyLines": 67,
+      "classes": [
+        {
+          "name": "RecordsRouter",
+          "startLine": 17,
+          "endLine": 72,
+          "methods": [
+            "constructor",
+            "getExam",
+            "getSelectedModels",
+            "addModel",
+            "removeModel"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "RecordsRouter",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 19
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 21
+        },
+        {
+          "caller": "getExam",
+          "callee": "this.examRepo.findOneBy",
+          "lineNumber": 26
+        },
+        {
+          "caller": "getSelectedModels",
+          "callee": "Param",
+          "lineNumber": 32
+        },
+        {
+          "caller": "getSelectedModels",
+          "callee": "this.getExam",
+          "lineNumber": 33
+        },
+        {
+          "caller": "getSelectedModels",
+          "callee": "this.syndromeRepo.find",
+          "lineNumber": 36
+        },
+        {
+          "caller": "getSelectedModels",
+          "callee": "In",
+          "lineNumber": 36
+        },
+        {
+          "caller": "getSelectedModels",
+          "callee": "syndromes.map",
+          "lineNumber": 37
+        },
+        {
+          "caller": "addModel",
+          "callee": "Param",
+          "lineNumber": 48
+        },
+        {
+          "caller": "addModel",
+          "callee": "Body",
+          "lineNumber": 49
+        },
+        {
+          "caller": "addModel",
+          "callee": "this.getExam",
+          "lineNumber": 51
+        },
+        {
+          "caller": "addModel",
+          "callee": "Number",
+          "lineNumber": 53
+        },
+        {
+          "caller": "addModel",
+          "callee": "ids.includes",
+          "lineNumber": 54
+        },
+        {
+          "caller": "addModel",
+          "callee": "ids.push",
+          "lineNumber": 55
+        },
+        {
+          "caller": "addModel",
+          "callee": "this.examRepo.save",
+          "lineNumber": 57
+        },
+        {
+          "caller": "removeModel",
+          "callee": "Param",
+          "lineNumber": 64
+        },
+        {
+          "caller": "removeModel",
+          "callee": "Param",
+          "lineNumber": 65
+        },
+        {
+          "caller": "removeModel",
+          "callee": "this.getExam",
+          "lineNumber": 67
+        },
+        {
+          "caller": "removeModel",
+          "callee": "(exam.selectedModelIds || []).filter",
+          "lineNumber": 68
+        },
+        {
+          "caller": "removeModel",
+          "callee": "this.examRepo.save",
+          "lineNumber": 69
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

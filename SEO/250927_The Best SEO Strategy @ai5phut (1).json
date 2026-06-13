@@ -1,0 +1,2729 @@
+{
+  "name": "250927_The Best SEO Strategy @ai5phut",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Competitor_Analysis_Flow\n",
+        "height": 576,
+        "width": 2768
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -168,
+        400
+      ],
+      "typeVersion": 1,
+      "id": "84f29e6a-05d0-4d20-9f67-a091c9a23245",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Internal_Linking_Flow",
+        "height": 624,
+        "width": 2768,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -176,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "1e5a51a7-3ff8-4a91-8a51-a6320eb880ec",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        96,
+        2208
+      ],
+      "id": "ac012307-7446-4d0e-aedd-ee33ad65b967",
+      "name": "Schedule Trigger2"
+    },
+    {
+      "parameters": {
+        "content": "## Luồng 2",
+        "height": 848,
+        "width": 2464,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -32,
+        1856
+      ],
+      "typeVersion": 1,
+      "id": "3a060ad1-5fef-49fd-8fc2-37841f28255c",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2105424075,
+          "mode": "list",
+          "cachedResultName": "Competitor Analysis ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=2105424075"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        544,
+        1920
+      ],
+      "id": "ae02a82a-c87e-4f39-86cc-d1ea29745093",
+      "name": "Competitor",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 42717952,
+          "mode": "list",
+          "cachedResultName": "Posted",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=42717952"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        544,
+        2112
+      ],
+      "id": "921a084a-5839-4015-a4ec-14a5b21e27c4",
+      "name": "Main",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "aa32dc04-9d98-47bd-b1a8-d7bc72c7e568",
+              "leftValue": "={{ $json.Hour }}",
+              "rightValue": "",
+              "operator": {
+                "type": "dateTime",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        2208
+      ],
+      "id": "020890b6-d00e-486c-8759-ad664dcfd538",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "blog_comp",
+        "include": "allFieldsExcept",
+        "fieldsToExclude": "row_number, Url",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        768,
+        1920
+      ],
+      "id": "eba269fe-bd53-481e-9beb-c6a531ded4c4",
+      "name": "Aggregate2"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "blog_main",
+        "include": "allFieldsExcept",
+        "fieldsToExclude": "row_number, Url, Analysed",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        768,
+        2112
+      ],
+      "id": "7e0e961a-734e-452d-b8af-e10109e6b861",
+      "name": "Aggregate3"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 4,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1216,
+        2176
+      ],
+      "id": "5e16b740-9e30-46a5-a0c7-0ace227b7e45",
+      "name": "Merge3"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Đây là blog của đối thủ: {{ Object.keys($json)\n    .filter(k => k.startsWith(\"blog_comp_\"))\n    .map(k => JSON.stringify($json[k], null, 2))\n    .join(\"\\n\\n\") }}\n\nCòn đây là Blog của tối: {{ Object.keys($json)\n    .filter(k => k.startsWith(\"blog_main_\"))\n    .map(k => JSON.stringify($json[k], null, 2))\n    .join(\"\\n\\n\") }}\n\nĐây là các cluster để tạo bài viết: {{ Object.keys($json)\n    .filter(k => k.startsWith(\"cluster\"))\n    .map(k => JSON.stringify($json[k], null, 2))\n    .join(\"\\n\\n\") }}\n\nĐây là nội dung của tôi: {{ JSON.stringify($json.main, null, 2) }}\n\ncòn đây là của đối thủ: {{ JSON.stringify($json.comp, null, 2) }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=## Bối cảnh:\nBạn là chuyên gia phân tích SEO với chuyên môn sâu về ngành nha khoa và dịch vụ răng miệng.\n\n## Nhiệm vụ:\nPhân tích gap content giữa chiến lược nội dung của phòng khám nha khoa và đối thủ cạnh tranh để đề xuất 10 cụm nội dung (clusters) mới có tiềm năng cao.\n\n## Dữ liệu đầu vào:\n**Blog của đối thủ:** {{ Object.keys($json).filter(k => k.startsWith(\"blog_comp_\")).map(k => JSON.stringify($json[k], null, 2)).join(\"\\n\\n\") }}\n\n**Blog của tôi:** {{ Object.keys($json).filter(k => k.startsWith(\"blog_main_\")).map(k => JSON.stringify($json[k], null, 2)).join(\"\\n\\n\") }}\n\n**Clusters hiện tại:** {{ Object.keys($json).filter(k => k.startsWith(\"cluster\")).map(k => JSON.stringify($json[k], null, 2)).join(\"\\n\\n\") }}\n\n## Dịch vụ của phòng khám:\n- Bọc răng sứ thẩm mỹ\n- Niềng răng (traditional braces, Invisalign)\n- Tẩy trắng răng chuyên nghiệp\n- Cấy ghép implant răng\n- Điều trị nha chu, nội nha\n- Phẫu thuật răng khôn\n- Chăm sóc răng miệng tổng quát\n\n## Phương pháp phân tích:\n\n### Bước 1: Gap Analysis\n- Xác định chủ đề/từ khóa về nha khoa mà đối thủ có nhưng tôi thiếu\n- Đánh giá tần suất xuất hiện (chủ đề lặp lại = xu hướng thị trường)\n- Kiểm tra độ liên quan với dịch vụ nha khoa\n\n### Bước 2: Opportunity Scoring\nMỗi gap được chấm điểm dựa trên:\n- **Frequency Score (1-5)**: Có bao nhiêu đối thủ cover chủ đề này\n- **Relevance Score (1-5)**: Mức độ liên quan với dịch vụ nha khoa\n- **Patient Value (1-5)**: Giá trị thông tin cho bệnh nhân\n\n### Bước 3: Cluster Recommendation\n- Nhóm các gaps theo specialty nha khoa\n- Ưu tiên clusters có potential thu hút bệnh nhân\n- Cân nhắc patient journey từ tìm hiểu đến quyết định điều trị\n\n## Output Format (JSON):\n```json\n{\n  \"analysis_summary\": {\n    \"total_competitor_topics\": \"số lượng\",\n    \"total_my_topics\": \"số lượng\", \n    \"identified_gaps\": \"số lượng\",\n    \"high_priority_gaps\": \"số lượng\"\n  },\n  \"recommended_clusters\": [\n    {\n      \"cluster_name\": \"Tên cụm nội dung nha khoa\",\n      \"priority_score\": \"điểm ưu tiên (1-15)\",\n      \"frequency_score\": \"1-5\",\n      \"relevance_score\": \"1-5\", \n      \"patient_value\": \"1-5\",\n      \"target_keywords\": [\"keyword1\", \"keyword2\", \"keyword3\"],\n      \"content_opportunities\": [\"content idea 1\", \"content idea 2\", \"content idea 3\"],\n      \"patient_impact\": \"Tác động dự kiến đến attraction và conversion bệnh nhân\"\n    }\n  ]\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        1440,
+        2208
+      ],
+      "id": "e77f6343-fae0-49eb-9379-3b72a16fd656",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        2432
+      ],
+      "id": "8d8c8f4a-c7c3-4d43-b45f-bbb0f5921877",
+      "name": "Google Gemini Chat Model2",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jJOTcRk6UGnUhgin",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $json.blog_comp;\nconst output = {};\n\ninput.forEach((item, index) => {\n  output[`blog_comp_${index + 1}`] = {\n    topic: item.Topic || \"\",\n    keywords: item.Keywords || \"\",\n    summary: item.Summary || \"\"\n  };\n});\n\nreturn [{ json: output }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        992,
+        1920
+      ],
+      "id": "fbb81bb7-d93e-4441-9073-7f27497fa700",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = $json.blog_main;\nconst output = {};\n\ninput.forEach((item, index) => {\n  output[`blog_main_${index + 1}`] = {\n    topic: item.Topic || \"\",\n    keywords: item.Keywords || \"\",\n    summary: item.Summary || \"\"\n  };\n});\n\nreturn [{ json: output }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        992,
+        2112
+      ],
+      "id": "1ed443e4-8da6-4750-905f-730360102fcb",
+      "name": "Code3"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1792,
+        2208
+      ],
+      "id": "2c778eec-4833-430c-86f4-f38462ec34d4",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  let raw = item.json.output;\n  raw = raw.replace(/```json/g, '').replace(/```/g, '').trim();\n  let parsed;\n  try {\n    parsed = JSON.parse(raw);\n  } catch (e) {\n    parsed = raw;\n  }\n  item.json.output = parsed;\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        1152
+      ],
+      "id": "2e7df538-f6ec-4d97-a347-24cfcc48d000",
+      "name": "format"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1144266987,
+          "mode": "list",
+          "cachedResultName": "blog_competitor",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=1144266987"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Cluster": "={{ $json.output.cluster || $json.output[0].cluster }}"
+          },
+          "matchingColumns": [
+            "Cluster"
+          ],
+          "schema": [
+            {
+              "id": "Cluster",
+              "displayName": "Cluster",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1568,
+        1264
+      ],
+      "id": "ad0dd17b-7f8b-49d5-8c56-c4cd32e986bc",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        544,
+        1608
+      ],
+      "id": "f96adc56-79d1-43ec-8cde-5091c6e81d07",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  let raw = item.json.output;\n  raw = raw.replace(/```json/g, '').replace(/```/g, '').trim();\n  let parsed;\n  try {\n    parsed = JSON.parse(raw);\n  } catch (e) {\n    parsed = raw;\n  }\n  item.json.output = parsed;\n}\n\nreturn $input.all();\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1344,
+        1536
+      ],
+      "id": "b1a39f4b-77fb-4c08-a705-d583f029895f",
+      "name": "format1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1740297291,
+          "mode": "list",
+          "cachedResultName": "blog_main",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=1740297291"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Cluster": "={{ $json.output.cluster || $json.output[0].cluster }}"
+          },
+          "matchingColumns": [
+            "Cluster"
+          ],
+          "schema": [
+            {
+              "id": "Cluster",
+              "displayName": "Cluster",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1568,
+        1616
+      ],
+      "id": "07db6502-feb8-4a76-afeb-a02736611032",
+      "name": "Append or update row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        96,
+        1412
+      ],
+      "id": "a730f543-6589-4b31-88e7-5b6bc5c55e33",
+      "name": "Schedule Trigger4"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Đây là các blog của đối thủ đã đăng: {{ JSON.stringify($json.blog_comp, null, 2) }}",
+        "options": {
+          "systemMessage": "=Bạn là chuyên gia phân tích SEO với nhiều năm kinh nghiệm trong việc phân loại nội dung.\n\n## Nhiệm vụ:\nPhân tích blog post sau và xác định cụm nội dung (content cluster) phù hợp nhất dựa trên:\n- Chủ đề chính (Topic)\n- Từ khóa mục tiêu (Keywords) \n- Nội dung tóm tắt (Summary)\n\n## Nguyên tắc phân cụm:\n1. **Chủ đề liên quan**: Các blog cùng lĩnh vực/dịch vụ nha khoa\n2. **Intent tương đồng**: Cùng mục đích (thông tin, hướng dẫn, so sánh, etc.)\n3. **Target audience**: Cùng nhóm đối tượng quan tâm\n4. **Funnel stage**: Cùng giai đoạn customer journey\n\n## Context ngành:\nĐây là dữ liệu từ các blog nha khoa, các cụm thường gặp:\n- Chăm sóc răng miệng phòng ngừa\n- Điều trị nha khoa (bọc răng, implant, niềng răng)\n- Thẩm mỹ nha khoa (tẩy trắng, veneer)\n- Phẫu thuật răng miệng\n- Tư vấn và hướng dẫn bệnh nhân\n\n## Input data:\nTopic: {{ $json.blog_comp[0].Topic }}\nKeywords: {{ $json.blog_comp[0].Keywords }}\nSummary: {{ $json.blog_comp[0]['Summary '] }}\n## Output format (JSON only):\n{\n  \"cluster\": \"Tên cụm nội dung ngắn gọn, rõ ràng\"\n}\n\n## Quy tắc:\n- Tên cluster phải ngắn (tối đa 5-6 từ)\n- Sử dụng thuật ngữ nha khoa chuẩn\n- Ưu tiên nhóm theo dịch vụ/điều trị\n- Nếu không xác định được, trả về null\n- Chỉ trả về JSON, không giải thích thêm"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        992,
+        1040
+      ],
+      "id": "a496df8b-baaf-4907-bdf9-67641dbc38f0",
+      "name": "AI Agent3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        976,
+        1312
+      ],
+      "id": "3604cd91-90ea-4d75-ba6e-5961d3e98b30",
+      "name": "Google Gemini Chat Model4",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jJOTcRk6UGnUhgin",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        544,
+        1268
+      ],
+      "id": "fc0ba4d9-10b4-4c70-8a65-0657ca94ea75",
+      "name": "Loop Over Items4"
+    },
+    {
+      "parameters": {
+        "content": "## Luồng 1",
+        "height": 848,
+        "width": 1824,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -32,
+        1000
+      ],
+      "typeVersion": 1,
+      "id": "9375d170-00c2-4536-88f0-a66ac22607de",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2105424075,
+          "mode": "list",
+          "cachedResultName": "Competitor Analysis ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=2105424075"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        320,
+        1268
+      ],
+      "id": "07c16504-13e4-4687-a3cc-6a2806f44beb",
+      "name": "Competitor1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 42717952,
+          "mode": "list",
+          "cachedResultName": "Posted",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=42717952"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        320,
+        1608
+      ],
+      "id": "d1b8c84c-f908-4bd6-a459-29b6fa8b2d79",
+      "name": "Main1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "blog_comp",
+        "include": "allFieldsExcept",
+        "fieldsToExclude": "row_number, Url",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        768,
+        1144
+      ],
+      "id": "3b0f9f4d-3852-421e-924f-c8016cd173a4",
+      "name": "Aggregate6"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "blog_main",
+        "include": "allFieldsExcept",
+        "fieldsToExclude": "row_number, Url, Analysed",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        768,
+        1536
+      ],
+      "id": "eea5d041-15b0-4dd5-8efd-325ca75e1e10",
+      "name": "Aggregate7"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"blog_1\": {\n    \"blog_title\": \"viết lại chủ đề\",\n    \"other_keywords\": \"viết lại từ khóa (cách nhau bằng dấu phẩy)\",\n    \"intent\": \"viết lại tóm tắt\",\n    \"cluster\": \"Tên chủ đề hoặc nhóm nội dung chính (được rút ra từ phân tích Cluster)\",\n    \"primary_keywords\": \"từ khóa 1, từ khóa 2, từ khóa 3\"\n  },\n  \"blog_2\": {\n    \"blog_title\": \"viết lại chủ đề\",\n    \"other_keywords\": \"viết lại từ khóa (cách nhau bằng dấu phẩy)\",\n    \"intent\": \"viết lại tóm tắt\",\n    \"cluster\": \"Tên chủ đề hoặc nhóm nội dung chính (được rút ra từ phân tích Cluster)\",\n    \"primary_keywords\": \"từ khóa 1, từ khóa 2, từ khóa 3\"\n  },\n  \"blog_3\": {\n    \"blog_title\": \"viết lại chủ đề\",\n    \"other_keywords\": \"viết lại từ khóa (cách nhau bằng dấu phẩy)\",\n    \"intent\": \"viết lại tóm tắt\",\n    \"cluster\": \"Tên chủ đề hoặc nhóm nội dung chính (được rút ra từ phân tích Cluster)\",\n    \"primary_keywords\": \"từ khóa 1, từ khóa 2, từ khóa 3\"\n  },\n  \"blog_4\": {\n    \"blog_title\": \"viết lại chủ đề\",\n    \"other_keywords\": \"viết lại từ khóa (cách nhau bằng dấu phẩy)\",\n    \"intent\": \"viết lại tóm tắt\",\n    \"cluster\": \"Tên chủ đề hoặc nhóm nội dung chính (được rút ra từ phân tích Cluster)\",\n    \"primary_keywords\": \"từ khóa 1, từ khóa 2, từ khóa 3\"\n  },\n  \"blog_5\": {\n    \"blog_title\": \"viết lại chủ đề\",\n    \"other_keywords\": \"viết lại từ khóa (cách nhau bằng dấu phẩy)\",\n    \"intent\": \"viết lại tóm tắt\",\n    \"cluster\": \"Tên chủ đề hoặc nhóm nội dung chính (được rút ra từ phân tích Cluster)\",\n    \"primary_keywords\": \"từ khóa 1, từ khóa 2, từ khóa 3\"\n  },\n  \"blog_6\": {\n    \"blog_title\": \"viết lại chủ đề\",\n    \"other_keywords\": \"viết lại từ khóa (cách nhau bằng dấu phẩy)\",\n    \"intent\": \"viết lại tóm tắt\",\n    \"cluster\": \"Tên chủ đề hoặc nhóm nội dung chính (được rút ra từ phân tích Cluster)\",\n    \"primary_keywords\": \"từ khóa 1, từ khóa 2, từ khóa 3\"\n  },\n  \"blog_7\": {\n    \"blog_title\": \"viết lại chủ đề\",\n    \"other_keywords\": \"viết lại từ khóa (cách nhau bằng dấu phẩy)\",\n    \"intent\": \"viết lại tóm tắt\",\n    \"cluster\": \"Tên chủ đề hoặc nhóm nội dung chính (được rút ra từ phân tích Cluster)\",\n    \"primary_keywords\": \"từ khóa 1, từ khóa 2, từ khóa 3\"\n  },\n  \"blog_8\": {\n    \"blog_title\": \"viết lại chủ đề\",\n    \"other_keywords\": \"viết lại từ khóa (cách nhau bằng dấu phẩy)\",\n    \"intent\": \"viết lại tóm tắt\",\n    \"cluster\": \"Tên chủ đề hoặc nhóm nội dung chính (được rút ra từ phân tích Cluster)\",\n    \"primary_keywords\": \"từ khóa 1, từ khóa 2, từ khóa 3\"\n  },\n  \"blog_9\": {\n    \"blog_title\": \"viết lại chủ đề\",\n    \"other_keywords\": \"viết lại từ khóa (cách nhau bằng dấu phẩy)\",\n    \"intent\": \"viết lại tóm tắt\",\n    \"cluster\": \"Tên chủ đề hoặc nhóm nội dung chính (được rút ra từ phân tích Cluster)\",\n    \"primary_keywords\": \"từ khóa 1, từ khóa 2, từ khóa 3\"\n  },\n  \"blog_10\": {\n    \"blog_title\": \"viết lại chủ đề\",\n    \"other_keywords\": \"viết lại từ khóa (cách nhau bằng dấu phẩy)\",\n    \"intent\": \"viết lại tóm tắt\",\n    \"cluster\": \"Tên chủ đề hoặc nhóm nội dung chính (được rút ra từ phân tích Cluster)\",\n    \"primary_keywords\": \"từ khóa 1, từ khóa 2, từ khóa 3\"\n  }\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1616,
+        2432
+      ],
+      "id": "698e1b7d-3451-4e74-bde4-19ab6803525c",
+      "name": "Structured Output Parser2"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1811878680,
+          "mode": "list",
+          "cachedResultName": "Clusters",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=1811878680"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Blog Title": "={{ $json.output.blog_title }}",
+            "Other Keywords": "={{ $json.output.other_keywords }}",
+            "Intent": "={{ $json.output.intent }}",
+            "Cluster": "={{ $json.output.cluster }}",
+            "Completed": "No",
+            "Primary Keyword": "={{ $json.output.primary_keywords }}"
+          },
+          "matchingColumns": [
+            "Cluster"
+          ],
+          "schema": [
+            {
+              "id": "Cluster",
+              "displayName": "Cluster",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Primary Keyword",
+              "displayName": "Primary Keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Intent",
+              "displayName": "Intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Blog Title",
+              "displayName": "Blog Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Other Keywords",
+              "displayName": "Other Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Completed",
+              "displayName": "Completed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2240,
+        2208
+      ],
+      "id": "32932b47-72c7-43db-a7f4-c97d2eec8ea7",
+      "name": "Append or update row in sheet2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "comp",
+        "include": "allFieldsExcept",
+        "fieldsToExclude": "row_number",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        992,
+        2496
+      ],
+      "id": "46a37cda-9797-4523-ab72-dd249f910587",
+      "name": "Aggregate8"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1811878680,
+          "mode": "list",
+          "cachedResultName": "Clusters",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=1811878680"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        272,
+        3008
+      ],
+      "id": "2cd29faa-73df-4c85-af6f-109747dfa092",
+      "name": "ClustertoCreate",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "Cluster, Primary Keywords, Intent, Blog Title, Other Keywords",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        496,
+        3008
+      ],
+      "id": "3d2ec2c8-ab25-4b40-bffa-79adb4951d3f",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=## Bạn được cho 5 dữ liệu:\n- Cụm nội dung: {{ $json.Cluster }}\n- Từ khóa chính: {{ $('ClustertoCreate').item.json['Primary Keyword'] }}\n- Ý định: {{ $json.Intent }}\n- Nội dung Blog: {{ $json[\"Blog Title\"] }}\n- TỪ khóa khác: {{ $json[\"Other Keywords\"] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=## Yêu cầu cấu trúc:\n1. Mở bài: Giới thiệu vấn đề, nhấn mạnh tầm quan trọng, khéo léo đưa Từ khóa chính.\n2. Thân bài: Triển khai chi tiết dựa theo Ý định ({{ $json.Intent }}).  \n   - Có tiêu đề phụ (H2, H3) rõ ràng.  \n   - Nội dung bám sát Cụm nội dung ({{ $json.Cluster }}).  \n   - Chèn tự nhiên Từ khóa chính và Từ khóa khác.  \n3. Kết bài: Tóm tắt, nhấn mạnh lại giá trị cốt lõi, thêm CTA kêu gọi hành động.\n\n## Phong cách:\n- Viết tự nhiên, dễ hiểu, đúng ngữ pháp, có tính thuyết phục.  \n- Tối ưu SEO on-page:  \n  - Có meta description ngắn gọn (140–160 ký tự).  \n  - Chèn từ khóa chính ít nhất 3 lần.  \n- Độ dài: tối thiểu 250 từ.  \n- Không thêm ký tự đặc biệt.  \n- Viết thu hút người đọc.\n\n## OUTPUT (trả về JSON đúng format):\n{\n  \"title\": \"{{ $json['Blog Title'] }}\",\n  \"script_blog\": \"Nội dung blog đã viết\"\n}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        944,
+        2896
+      ],
+      "id": "6a3b298e-fe7a-4ee5-a96f-696bdfefedf5",
+      "name": "AI Agent2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        720,
+        3008
+      ],
+      "id": "79eb5ceb-41c8-4c9d-b808-65d94fad9541",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentURL": "={{ $json.id }}",
+        "actionsUi": {
+          "actionFields": [
+            {
+              "action": "insert",
+              "text": "={{ $json.script_blog }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1968,
+        2896
+      ],
+      "id": "3ce81e4e-b2c0-405b-a5e6-0219cdd5de72",
+      "name": "Update a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "cTzcNK0zdlC0AJz3",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "folderId": "=1VZWeD1RZAu-hv0urcNgJJZDGfEi-OUMT",
+        "title": "={{ $json.output.title }}"
+      },
+      "type": "n8n-nodes-base.googleDocs",
+      "typeVersion": 2,
+      "position": [
+        1520,
+        2896
+      ],
+      "id": "deba814d-9d9a-4cf1-a1aa-6ce0f8620d4f",
+      "name": "Create a document",
+      "credentials": {
+        "googleDocsOAuth2Api": {
+          "id": "cTzcNK0zdlC0AJz3",
+          "name": "Google Docs account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"title\": \"\",\n  \"script_blog\": \"\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1072,
+        3120
+      ],
+      "id": "a6456dd2-df30-4675-b870-b6b160e72985",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1740297291,
+          "mode": "list",
+          "cachedResultName": "blog_main",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=1740297291"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        768,
+        2304
+      ],
+      "id": "92b30a96-6538-4373-949d-d488f1f40337",
+      "name": "cluster_main",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1144266987,
+          "mode": "list",
+          "cachedResultName": "blog_competitor",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=1144266987"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        768,
+        2496
+      ],
+      "id": "c953a5cf-7901-4378-b432-d5d30e649594",
+      "name": "cluster_competitor",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1811878680,
+          "mode": "list",
+          "cachedResultName": "Clusters",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=1811878680"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Cluster": "={{ $('ClustertoCreate').item.json.Cluster }}",
+            "Completed": "YES",
+            "Blog Link": "=https://docs.google.com/document/d/{{ $json.documentId }}"
+          },
+          "matchingColumns": [
+            "Cluster"
+          ],
+          "schema": [
+            {
+              "id": "Cluster",
+              "displayName": "Cluster",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Primary Keyword",
+              "displayName": "Primary Keyword",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Intent",
+              "displayName": "Intent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Blog Title",
+              "displayName": "Blog Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Other Keywords",
+              "displayName": "Other Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "Completed",
+              "displayName": "Completed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Blog Link",
+              "displayName": "Blog Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        2192,
+        3008
+      ],
+      "id": "2223654d-f94a-49b9-986b-faf26845dca2",
+      "name": "Update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "main",
+        "include": "allFieldsExcept",
+        "fieldsToExclude": "row_number",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        992,
+        2304
+      ],
+      "id": "e5eacc56-5095-4eff-9e5b-d60030b0ddf7",
+      "name": "Aggregate4"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2016,
+        2208
+      ],
+      "id": "4563ac1e-5712-469d-a131-0e9175a3671f",
+      "name": "Loop Over Items3"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        48,
+        3008
+      ],
+      "id": "07289258-932a-401d-aa3c-748bb3585e5a",
+      "name": "Schedule Trigger3"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        944,
+        3120
+      ],
+      "id": "cd45ca63-fc3b-4518-beaf-9642bbc69281",
+      "name": "Google Gemini Chat Model3",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "jJOTcRk6UGnUhgin",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "53abbca1-11ed-4ae9-b5e1-c5fd1a99334f",
+              "name": "id",
+              "value": "={{ $json.id }}",
+              "type": "string"
+            },
+            {
+              "id": "d4131d9c-1507-4a45-b70b-1eb6f45917a1",
+              "name": "script_blog",
+              "value": "={{ $('Code1').item.json.output.script_blog }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1744,
+        2896
+      ],
+      "id": "8259837f-6a35-4c25-8f5a-5505e6da1822",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "jsCode": "for (const item of $input.all()) {\n  let script = item.json.output[\"script_blog\"] || \"\";\n  script = script\n    .replace(/[#*]+/g, \"\")\n    .replace(/meta description[:]?/gi, \"\")\n    .replace(/<[^>]*>/g, \"\")\n    .trim();\n\n  item.json.output[\"script_blog\"] = script;\n  return item;\n}\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1296,
+        2896
+      ],
+      "id": "151fae29-96dc-4a37-8bde-6d431dfa4864",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "content": "## Luồng 3\n",
+        "height": 544,
+        "width": 2464,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -32,
+        2752
+      ],
+      "typeVersion": 1,
+      "id": "f6132d87-775b-4f9a-9dac-859bbb339012",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini-search-preview",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI-SEARCH-PREVIEW"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Bạn là thành viên của một đội ngũ SEO chuyên nghiệp.\n\nCông việc của bạn là phân tích sitemap của đối thủ cạnh tranh để giúp team đưa ra chiến lược nội dung và từ khóa.\n\nĐể làm được điều này, bạn sẽ xem xét từng URL blog post trong sitemap của đối thủ và xác định những thông tin sau:\n\n- Topic (Chủ đề): Chủ đề chính của bài blog\n- Keywords (Từ khóa): 3 từ khóa SEO hàng đầu trong bài blog có liên quan đến lĩnh vực kinh doanh của đối thủ. Xác định sự kết hợp giữa từ khóa dài (long tail) và từ khóa ngắn (short tail). Từ khóa phải xuất hiện trực tiếp trong blog của đối thủ.\n- Summary (Tóm tắt): Tóm tắt ngắn gọn dạng bullet point về nội dung bài blog. Nội dung này cần ngắn gọn và mỗi bullet point phải thể hiện một chủ đề phụ khác nhau trong bài blog.\n\nSau khi đã xác định được những thông tin trên, bạn format chúng thành một bảng đẹp với các cột sau:\n1. Topic (Chủ đề)\n2. Keywords (Từ khóa) \n3. Summary (Tóm tắt)\n\nĐầu ra của bạn chỉ được là bảng và không có gì khác.\n\nĐối thủ cạnh tranh là một công ty Nha khoa với các dịch vụ sau (lĩnh vực kinh doanh):\n- Bọc răng sứ\n- Niềng răng\n- Tẩy trắng răng\n\nDưới đây là 1 URL blog được trích xuất từ sitemap của họ. Hãy research và phân tích URL này rồi tạo bảng như hướng dẫn:\n\n{{ $json.url }}\n\nĐầu ra của bạn phải tuân theo định dạng bảng mẫu sau:\n\n| Topic | Keywords | Summary |\n|------------------------------------------------------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|\n| Các triệu chứng cho thấy cần nhổ răng khôn | nhổ răng khôn, răng khôn mọc lệch, đau răng, sưng lợi, cứng hàm | - Định nghĩa răng khôn là răng cối thứ ba mọc ở tuổi thiếu niên muộn hoặc đầu 20.<br>- Giải thích các vấn đề thường gặp như mọc lệch do thiếu không gian.<br>- Nêu bật các triệu chứng như đau dai dẳng, cứng hàm và sưng lợi.<br>- Mô tả viêm nướu quanh răng do thức ăn và vi khuẩn bị mắc kẹt.<br>- Khuyên nên tham khảo nha sĩ nếu gặp bất kỳ dấu hiệu nào này. |\n| Cách chăm sóc răng implant | chăm sóc răng implant, vệ sinh răng miệng, phòng ngừa viêm quanh implant, bỏ thuốc lá, khám nha khoa định kỳ | - Nhấn mạnh tầm quan trọng của việc bảo trì implant để tránh viêm quanh implant.<br>- Khuyến nghị sử dụng bàn chải lông mềm.<br>- Khuyên dùng chỉ nha khoa được thiết kế cho implant.<br>- Nêu bật việc hút thuốc là nguy cơ đối với sức khỏe lợi và implant.<br>- Nhấn mạnh nhu cầu khám và vệ sinh nha khoa định kỳ. |\n| Hậu quả của việc không nhổ răng khôn mọc lệch | răng khôn mọc lệch, sưng và nhiễm trùng, đau răng, răng chen chúc, nhổ răng khôn | - Giải thích rủi ro của răng khôn mọc lệch bao gồm nhiễm trùng và sưng.<br>- Mô tả các biến chứng như u nang, u và đau hàm.<br>- Chi tiết cách răng khôn có thể làm lệch hoặc chen chúc các răng khác.<br>- Cảnh báo về các vấn đề nha khoa dài hạn nếu không điều trị.<br>- Khuyến cáo nhổ sớm để ngăn ngừa biến chứng nghiêm trọng hơn. |\n\nKhông xuất ra bất cứ thứ gì khác."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1216,
+        576
+      ],
+      "id": "cceae855-4b02-45e7-a066-a48b1fb339e5",
+      "name": "Analyse",
+      "credentials": {
+        "openAiApi": {
+          "id": "CBG2WAoLkmpwqP3d",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "url"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        992,
+        576
+      ],
+      "id": "740734a2-94eb-46b0-baa4-a2e262435709",
+      "name": "Aggregate5"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1792,
+        640
+      ],
+      "id": "e97595fc-c4d8-4cc7-978b-186d6185d0d7",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1a49eeef-ec4b-43ec-a9d5-50544dd05072",
+              "name": "url",
+              "value": "={{ $json[\"URL \"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        768,
+        640
+      ],
+      "id": "17c34722-6209-4fbc-a683-3663a2b1e138",
+      "name": "Edit Fields3"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        96,
+        640
+      ],
+      "id": "62192834-b83b-4ef6-a4c4-616062ea84a3",
+      "name": "Schedule Trigger5"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        768,
+        448
+      ],
+      "id": "7a2ed78c-f7d5-4ab0-ab7b-740ccb54abfd",
+      "name": "Done2"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 383850528,
+          "mode": "list",
+          "cachedResultName": "Competitor URLs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=383850528"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Analysed ",
+              "lookupValue": "No"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        320,
+        640
+      ],
+      "id": "36a947ee-9aed-402c-8297-e6f38d4bf989",
+      "name": "Competitor URLs1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        544,
+        640
+      ],
+      "id": "73e6d68f-ede9-4b1e-a43f-efe70e19c77d",
+      "name": "Loop Over URLs1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawTable = $input.first().json.message.content;\n\n// Split into rows and filter empty lines\nconst rows = rawTable.split('\\n').filter(row => row.trim() !== '');\n\n// Extract headers (first row)\nconst headers = rows[0]\n  .split('|')\n  .slice(1, -1)\n  .map(h => h.trim());\n\n// Process data rows (skip second separator row)\nconst jsonData = [];\nfor (let i = 2; i < rows.length; i++) {\n  const columns = rows[i]\n    .split('|')\n    .slice(1, -1)\n    .map(c => c.trim());\n  \n  jsonData.push({\n    [headers[0]]: columns[0],\n    [headers[1]]: columns[1],\n    [headers[2]]: columns[2].replace(/<br>/g, '\\n') // Convert <br> to newlines\n  });\n}\n\nreturn jsonData;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        576
+      ],
+      "id": "e4fd8681-5f91-48a3-b830-8df5e1e3c448",
+      "name": "Reformat1"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 2105424075,
+          "mode": "list",
+          "cachedResultName": "Competitor Analysis ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=2105424075"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "URL ": "={{ $json.url }}",
+            "Topic": "={{ $json.Topic }}",
+            "Keywords": "={{ $json.Keywords }}",
+            "Summary ": "={{ $json.Summary }}"
+          },
+          "matchingColumns": [
+            "URL "
+          ],
+          "schema": [
+            {
+              "id": "Topic",
+              "displayName": "Topic",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary ",
+              "displayName": "Summary ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "URL ",
+              "displayName": "URL ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2016,
+        640
+      ],
+      "id": "4fa0bc08-565f-4c4d-83a5-ea70b136e62e",
+      "name": "Add to Sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 383850528,
+          "mode": "list",
+          "cachedResultName": "Competitor URLs",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=383850528"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "URL ": "={{ $json['URL '] }}",
+            "Analysed ": "YES"
+          },
+          "matchingColumns": [
+            "URL "
+          ],
+          "schema": [
+            {
+              "id": "URL ",
+              "displayName": "URL ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Analysed ",
+              "displayName": "Analysed ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2240,
+        720
+      ],
+      "id": "35b094fa-ca20-4f9b-a05b-c2876266811d",
+      "name": "Check Off URL1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const rawTable = $input.first().json.message.content;\n\n// Split into rows and filter empty lines\nconst rows = rawTable.split('\\n').filter(row => row.trim() !== '');\n\n// Extract headers (first row)\nconst headers = rows[0]\n  .split('|')\n  .slice(1, -1)\n  .map(h => h.trim());\n\n// Process data rows (skip second separator row)\nconst jsonData = [];\nfor (let i = 2; i < rows.length; i++) {\n  const columns = rows[i]\n    .split('|')\n    .slice(1, -1)\n    .map(c => c.trim());\n  \n  jsonData.push({\n    [headers[0]]: columns[0],\n    [headers[1]]: columns[1],\n    [headers[2]]: columns[2].replace(/<br>/g, '\\n') // Convert <br> to newlines\n  });\n}\n\nreturn jsonData;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        0
+      ],
+      "id": "08f2c024-eadd-411a-a193-868f71a6927d",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "url"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        992,
+        0
+      ],
+      "id": "3d38108b-d29c-4093-a2db-f078b0f9dca6",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1792,
+        64
+      ],
+      "id": "ce1c1bc8-0aec-44e2-af76-3657985a986a",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1a49eeef-ec4b-43ec-a9d5-50544dd05072",
+              "name": "url",
+              "value": "={{ $json[\"URL\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        768,
+        64
+      ],
+      "id": "5a5422a7-810e-4f38-a2e7-84f2ff93ec77",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        96,
+        64
+      ],
+      "id": "f53a97f7-69dc-4c3d-a74d-02b9a62babf4",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        544,
+        64
+      ],
+      "id": "a1e0d0d7-193e-44f1-be7e-ac13131dd09c",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        768,
+        -128
+      ],
+      "id": "4ff97068-3ea9-4026-abc0-196060c061a8",
+      "name": "Done"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 42717952,
+          "mode": "list",
+          "cachedResultName": "Posted",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=42717952"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Analysed",
+              "lookupValue": "No"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        320,
+        64
+      ],
+      "id": "49345ba2-b0a0-4ace-bb3e-7b016fa11fe6",
+      "name": "Extract URL",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 42717952,
+          "mode": "list",
+          "cachedResultName": "Posted",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=42717952"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Blog Title": "={{ $json.Topic }}",
+            "Keywords": "={{ $json.Keywords }}",
+            "Summary ": "={{ $json.Summary }}",
+            "URL": "={{ $json.url }}",
+            "Analysed": "Yes"
+          },
+          "matchingColumns": [
+            "URL"
+          ],
+          "schema": [
+            {
+              "id": "Blog Title",
+              "displayName": "Blog Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary ",
+              "displayName": "Summary ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Analysed",
+              "displayName": "Analysed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2016,
+        144
+      ],
+      "id": "851ea494-e10d-4dce-9adf-c91db7cdd7f4",
+      "name": "Check Off",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini-search-preview",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI-SEARCH-PREVIEW"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Bạn là thành viên của một đội ngũ SEO chuyên nghiệp.\n\nCông việc của bạn là phân tích sitemap của đối thủ cạnh tranh để giúp team đưa ra chiến lược nội dung và từ khóa.\n\nĐể làm được điều này, bạn sẽ xem xét từng URL blog post trong sitemap của đối thủ và xác định những thông tin sau:\n\n- Topic (Chủ đề): Chủ đề chính của bài blog\n- Keywords (Từ khóa): 3 từ khóa SEO hàng đầu trong bài blog có liên quan đến lĩnh vực kinh doanh của đối thủ. Xác định sự kết hợp giữa từ khóa dài (long tail) và từ khóa ngắn (short tail). Từ khóa phải xuất hiện trực tiếp trong blog của đối thủ.\n- Summary (Tóm tắt): Tóm tắt ngắn gọn dạng bullet point về nội dung bài blog. Nội dung này cần ngắn gọn và mỗi bullet point phải thể hiện một chủ đề phụ khác nhau trong bài blog.\n\nSau khi đã xác định được những thông tin trên, bạn format chúng thành một bảng đẹp với các cột sau:\n1. Topic (Chủ đề)\n2. Keywords (Từ khóa) \n3. Summary (Tóm tắt)\n\nĐầu ra của bạn chỉ được là bảng và không có gì khác.\n\nĐối thủ cạnh tranh là một công ty Nha khoa với các dịch vụ sau (lĩnh vực kinh doanh):\n- Bọc răng sứ\n- Niềng răng\n- Tẩy trắng răng\n\nDưới đây là 1 URL blog được trích xuất từ sitemap của họ. Hãy research và phân tích URL này rồi tạo bảng như hướng dẫn:\n\n{{ $json.url }}\n\nĐầu ra của bạn phải tuân theo định dạng bảng mẫu sau:\n\n| Topic | Keywords | Summary |\n|------------------------------------------------------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|\n| Các triệu chứng cho thấy cần nhổ răng khôn | nhổ răng khôn, răng khôn mọc lệch, đau răng, sưng lợi, cứng hàm | - Định nghĩa răng khôn là răng cối thứ ba mọc ở tuổi thiếu niên muộn hoặc đầu 20.<br>- Giải thích các vấn đề thường gặp như mọc lệch do thiếu không gian.<br>- Nêu bật các triệu chứng như đau dai dẳng, cứng hàm và sưng lợi.<br>- Mô tả viêm nướu quanh răng do thức ăn và vi khuẩn bị mắc kẹt.<br>- Khuyên nên tham khảo nha sĩ nếu gặp bất kỳ dấu hiệu nào này. |\n| Cách chăm sóc răng implant | chăm sóc răng implant, vệ sinh răng miệng, phòng ngừa viêm quanh implant, bỏ thuốc lá, khám nha khoa định kỳ | - Nhấn mạnh tầm quan trọng của việc bảo trì implant để tránh viêm quanh implant.<br>- Khuyến nghị sử dụng bàn chải lông mềm.<br>- Khuyên dùng chỉ nha khoa được thiết kế cho implant.<br>- Nêu bật việc hút thuốc là nguy cơ đối với sức khỏe lợi và implant.<br>- Nhấn mạnh nhu cầu khám và vệ sinh nha khoa định kỳ. |\n| Hậu quả của việc không nhổ răng khôn mọc lệch | răng khôn mọc lệch, sưng và nhiễm trùng, đau răng, răng chen chúc, nhổ răng khôn | - Giải thích rủi ro của răng khôn mọc lệch bao gồm nhiễm trùng và sưng.<br>- Mô tả các biến chứng như u nang, u và đau hàm.<br>- Chi tiết cách răng khôn có thể làm lệch hoặc chen chúc các răng khác.<br>- Cảnh báo về các vấn đề nha khoa dài hạn nếu không điều trị.<br>- Khuyến cáo nhổ sớm để ngăn ngừa biến chứng nghiêm trọng hơn. |\n\nKhông xuất ra bất cứ thứ gì khác."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1216,
+        0
+      ],
+      "id": "3bf6354c-688b-41f1-95e3-da580be34089",
+      "name": "Analyse1",
+      "credentials": {
+        "openAiApi": {
+          "id": "CBG2WAoLkmpwqP3d",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Đây là các blog của đối thủ đã đăng: {{ JSON.stringify($json.blog_main, null, 2) }}",
+        "options": {
+          "systemMessage": "=Bạn là chuyên gia phân tích SEO với nhiều năm kinh nghiệm trong việc phân loại nội dung.\n\n## Nhiệm vụ:\nPhân tích blog post sau và xác định cụm nội dung (content cluster) phù hợp nhất dựa trên:\n- Chủ đề chính (Topic)\n- Từ khóa mục tiêu (Keywords) \n- Nội dung tóm tắt (Summary)\n\n## Nguyên tắc phân cụm:\n1. **Chủ đề liên quan**: Các blog cùng lĩnh vực/dịch vụ nha khoa\n2. **Intent tương đồng**: Cùng mục đích (thông tin, hướng dẫn, so sánh, etc.)\n3. **Target audience**: Cùng nhóm đối tượng quan tâm\n4. **Funnel stage**: Cùng giai đoạn customer journey\n\n## Context ngành:\nĐây là dữ liệu từ các blog nha khoa, các cụm thường gặp:\n- Chăm sóc răng miệng phòng ngừa\n- Điều trị nha khoa (bọc răng, implant, niềng răng)\n- Thẩm mỹ nha khoa (tẩy trắng, veneer)\n- Phẫu thuật răng miệng\n- Tư vấn và hướng dẫn bệnh nhân\n\n## Input data:\nTopic: {{ $json.blog_main[0]['Blog Title'] }}\nKeywords: {{ $json.blog_main[0].Keywords }}\nSummary: {{ $json.blog_main[0]['Summary '] }}\n## Output format (JSON only):\n{\n  \"cluster\": \"Tên cụm nội dung ngắn gọn, rõ ràng\"\n}\n\n## Quy tắc:\n- Tên cluster phải ngắn (tối đa 5-6 từ)\n- Sử dụng thuật ngữ nha khoa chuẩn\n- Ưu tiên nhóm theo dịch vụ/điều trị\n- Nếu không xác định được, trả về null\n- Chỉ trả về JSON, không giải thích thêm"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        992,
+        1536
+      ],
+      "id": "3e0eb574-f158-4f2a-9850-63fdfbb47179",
+      "name": "AI Agent1"
+    }
+  ],
+  "pinData": {
+    "AI Agent": [
+      {
+        "json": {
+          "output": {
+            "blog_1": {
+              "blog_title": "Những biến chứng cấy ghép Implant có thể gặp và cách phòng tránh hiệu quả",
+              "other_keywords": "rủi ro trồng răng implant, dấu hiệu viêm quanh implant, phòng ngừa biến chứng implant",
+              "intent": "Informational",
+              "cluster": "Cấy ghép Implant chuyên sâu",
+              "primary_keywords": "biến chứng implant, cấy ghép implant, viêm quanh implant"
+            },
+            "blog_2": {
+              "blog_title": "So sánh răng sứ toàn sứ và răng sứ kim loại: Ưu nhược điểm và lựa chọn tối ưu",
+              "other_keywords": "ưu nhược điểm răng sứ, giá răng sứ, loại răng sứ tốt nhất",
+              "intent": "Informational, Commercial",
+              "cluster": "Bọc răng sứ thẩm mỹ chuyên sâu",
+              "primary_keywords": "răng sứ toàn sứ, răng sứ kim loại, so sánh răng sứ"
+            },
+            "blog_3": {
+              "blog_title": "Trồng Implant, Cầu răng sứ hay Hàm giả tháo lắp: Giải pháp nào phù hợp cho bạn?",
+              "other_keywords": "ưu nhược điểm implant, chi phí cầu răng sứ, hàm giả tháo lắp",
+              "intent": "Informational, Commercial",
+              "cluster": "Phục hình răng mất toàn diện",
+              "primary_keywords": "trồng implant hay cầu răng sứ, phục hình răng mất, so sánh phương pháp trồng răng"
+            },
+            "blog_4": {
+              "blog_title": "Khi nào cần nhổ răng khôn? Quy trình an toàn và chăm sóc sau phẫu thuật",
+              "other_keywords": "dấu hiệu mọc răng khôn, biến chứng nhổ răng khôn, giá nhổ răng khôn",
+              "intent": "Informational, Commercial",
+              "cluster": "Phẫu thuật răng miệng",
+              "primary_keywords": "nhổ răng khôn, quy trình nhổ răng khôn, chăm sóc sau nhổ răng khôn"
+            },
+            "blog_5": {
+              "blog_title": "Niềng răng mắc cài và Niềng răng trong suốt Invisalign: Nên chọn loại nào?",
+              "other_keywords": "ưu nhược điểm niềng răng, giá niềng răng, thời gian niềng răng",
+              "intent": "Informational, Commercial",
+              "cluster": "Niềng răng thẩm mỹ",
+              "primary_keywords": "niềng răng mắc cài, niềng răng Invisalign, so sánh niềng răng"
+            },
+            "blog_6": {
+              "blog_title": "Có nên bọc răng sứ giá 500k? Cảnh báo rủi ro và tiêu chí chọn nha khoa uy tín",
+              "other_keywords": "hậu quả răng sứ kém chất lượng, tiêu chuẩn bọc răng sứ, kinh nghiệm bọc răng sứ",
+              "intent": "Informational, Commercial",
+              "cluster": "Bọc răng sứ uy tín và chất lượng",
+              "primary_keywords": "bọc răng sứ giá rẻ, răng sứ 500k, chọn nha khoa uy tín"
+            },
+            "blog_7": {
+              "blog_title": "Bệnh nha chu: Dấu hiệu, nguyên nhân và các phương pháp điều trị hiệu quả",
+              "other_keywords": "viêm lợi, cách chữa viêm nha chu, biến chứng bệnh nha chu",
+              "intent": "Informational, Commercial",
+              "cluster": "Điều trị bệnh lý nha khoa",
+              "primary_keywords": "bệnh nha chu, điều trị viêm nha chu, dấu hiệu nha chu"
+            },
+            "blog_8": {
+              "blog_title": "Tẩy trắng răng an toàn: Các phương pháp phổ biến và những điều cần lưu ý",
+              "other_keywords": "tẩy trắng răng tại nhà, giá tẩy trắng răng, hiệu quả tẩy trắng răng",
+              "intent": "Informational, Commercial",
+              "cluster": "Thẩm mỹ nha khoa không xâm lấn",
+              "primary_keywords": "tẩy trắng răng, phương pháp tẩy trắng răng, tẩy trắng răng an toàn"
+            },
+            "blog_9": {
+              "blog_title": "Hướng dẫn chăm sóc răng miệng đúng cách để giữ nụ cười luôn khỏe đẹp",
+              "other_keywords": "phòng ngừa sâu răng, lấy cao răng, cách đánh răng đúng",
+              "intent": "Informational, Navigational",
+              "cluster": "Chăm sóc răng miệng định kỳ",
+              "primary_keywords": "chăm sóc răng miệng, vệ sinh răng miệng, khám răng định kỳ"
+            },
+            "blog_10": {
+              "blog_title": "Bọc răng sứ cho răng khểnh: Giải pháp thẩm mỹ hiệu quả có nên thực hiện?",
+              "other_keywords": "răng khểnh đẹp, quy trình bọc sứ răng khểnh, chi phí bọc sứ răng khểnh",
+              "intent": "Informational, Commercial",
+              "cluster": "Bọc răng sứ thẩm mỹ chuyên biệt",
+              "primary_keywords": "bọc răng sứ răng khểnh, răng khểnh có nên bọc sứ, thẩm mỹ răng khểnh"
+            }
+          }
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger2": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Competitor": {
+      "main": [
+        [
+          {
+            "node": "Aggregate2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Main": {
+      "main": [
+        [
+          {
+            "node": "Aggregate3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Competitor",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Main",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "cluster_main",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "cluster_competitor",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate2": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate3": {
+      "main": [
+        [
+          {
+            "node": "Code3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code3": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "format": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Aggregate7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "format1": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger4": {
+      "main": [
+        [
+          {
+            "node": "Competitor1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Main1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent3": {
+      "main": [
+        [
+          {
+            "node": "format",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items4": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Aggregate6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Competitor1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Main1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate6": {
+      "main": [
+        [
+          {
+            "node": "AI Agent3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate7": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser2": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate8": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "ClustertoCreate": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent2": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [],
+        [
+          {
+            "node": "AI Agent2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update a document": {
+      "main": [
+        [
+          {
+            "node": "Update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a document": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cluster_main": {
+      "main": [
+        [
+          {
+            "node": "Aggregate4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "cluster_competitor": {
+      "main": [
+        [
+          {
+            "node": "Aggregate8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate4": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Loop Over Items3": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Append or update row in sheet2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger3": {
+      "main": [
+        [
+          {
+            "node": "ClustertoCreate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Update a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Create a document",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyse": {
+      "main": [
+        [
+          {
+            "node": "Reformat1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate5": {
+      "main": [
+        [
+          {
+            "node": "Analyse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Add to Sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Aggregate5",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger5": {
+      "main": [
+        [
+          {
+            "node": "Competitor URLs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Competitor URLs1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over URLs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over URLs1": {
+      "main": [
+        [
+          {
+            "node": "Done2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reformat1": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add to Sheet1": {
+      "main": [
+        [
+          {
+            "node": "Check Off URL1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Off URL1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over URLs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Analyse1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Check Off",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Extract URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Done",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract URL": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Off": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyse1": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "format1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "bc7b3f1b-75ca-4c79-b4a8-a21f60ba5c59",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "de18a871dfa80f3ec5b3cce337cb1bb6af20912d880f7c305c8eb11d066ce6d8"
+  },
+  "id": "Ahxxqp1kRrrJJBXI",
+  "tags": [
+    {
+      "name": "Mạnh",
+      "id": "kwb1OjB5ycydVciA",
+      "createdAt": "2025-09-27T16:19:19.064Z",
+      "updatedAt": "2025-09-27T16:19:19.064Z"
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+/* map.css — CSS cho Đồ Hình Kinh Lạc 3D, đóng khung dưới .acu3d để KHÔNG đụng theme app.
+ * Trích từ webapp/app/styles.css (khối .map-* / .dr-* / .leg-* / .hf-*). Biến màu riêng của
+ * viewer (--green, --border…) định nghĩa ngay trên .acu3d, không ghi đè :root của app Vue. */
+
+.acu3d {
+  --green: #2e6b4f;
+  --green-dark: #1f4c38;
+  --accent: #b8763e;
+  --card: #ffffff;
+  --text: #1f2421;
+  --muted: #6b7672;
+  --border: #e3e1d9;
+  /* nhúng: lấp đầy khung cha thay vì tính theo 100vh như app gốc */
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  font-family: "Segoe UI", system-ui, -apple-system, "Noto Sans", Arial, sans-serif;
+  color: var(--text);
+  line-height: 1.6;
+  /* App có .content-area{text-transform:capitalize}; tắt cho viewer để mô tả huyệt giữ đúng casing gốc. */
+  text-transform: none;
+}
+.acu3d *, .acu3d *::before, .acu3d *::after { box-sizing: border-box; }
+.acu3d button { font-family: inherit; }
+
+/* ===== Thanh công cụ ===== */
+.acu3d .map-toolbar {
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+  padding: 8px 16px; background: var(--card); border-bottom: 1px solid var(--border);
+  position: static; flex: none;
+}
+.acu3d .mv-btn { border: 1px solid var(--border); background: var(--card); color: var(--muted); padding: 7px 14px; font-size: 13px; font-weight: 600; cursor: pointer; border-radius: 9px; }
+.acu3d .mv-btn:hover { border-color: var(--green); color: var(--green); }
+.acu3d .mv-btn.active { background: var(--green); color: #fff; border-color: var(--green); }
+.acu3d .map-layers { display: inline-flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-left: auto; }
+.acu3d .map-layer { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.acu3d .map-layer .ml-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--c); flex: none; }
+.acu3d .map-layer input[type=range] { width: 74px; accent-color: var(--c); cursor: pointer; }
+.acu3d .map-search { display: flex; align-items: center; gap: 8px; }
+.acu3d .map-search input { padding: 7px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; min-width: 200px; font-family: inherit; }
+.acu3d .count { font-size: 12px; white-space: nowrap; }
+.acu3d .count.dark { color: var(--muted); }
+/* Chú giải kinh mạch — giờ nằm Ở ĐẦU sidebar phải (cuộn riêng nếu dài), KHÔNG còn trên toolbar. */
+.acu3d .map-legend {
+  display: flex; gap: 6px; flex-wrap: wrap; align-content: flex-start; margin: 0;
+  padding: 12px 14px 10px; border-bottom: 1px solid var(--border);
+  max-height: 42%; overflow-y: auto; flex: none;
+}
+.acu3d .leg-chip {
+  display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
+  border: 1px solid var(--border); background: var(--card); color: var(--text);
+  padding: 5px 10px; border-radius: 20px; font-size: 12.5px; font-weight: 600;
+}
+.acu3d .leg-chip .sw { width: 11px; height: 11px; border-radius: 50%; background: var(--c); }
+.acu3d .leg-chip small { color: var(--muted); font-weight: 600; }
+.acu3d .leg-chip.off { opacity: .4; text-decoration: line-through; }
+.acu3d .leg-chip.sel { background: var(--c); color: #fff; border-color: var(--c); box-shadow: 0 1px 6px rgba(0,0,0,.18); }
+.acu3d .leg-chip.sel .sw { background: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,.5); }
+.acu3d .leg-chip.sel small { color: rgba(255,255,255,.85); }
+
+/* ===== Khung sân khấu 3D + ngăn chi tiết ===== */
+.acu3d .map-body { display: flex; flex: 1; min-height: 0; }
+.acu3d .map-stage { position: relative; flex: 1; min-width: 0; background: #eef1f4; overflow: hidden; touch-action: none; }
+.acu3d .map-stage canvas { display: block; cursor: grab; }
+.acu3d .map-stage canvas:active { cursor: grabbing; }
+/* Ghi công model (BodyParts3D, CC-BY-SA — BẮT BUỘC giữ): thu thành nút ⓘ nhỏ, rê/chạm mới hiện đủ. */
+.acu3d .map-credit { position: absolute; left: 10px; bottom: 8px; z-index: 2; display: inline-flex; align-items: center; cursor: help; outline: none; }
+.acu3d .map-credit-i { width: 18px; height: 18px; display: grid; place-items: center; font-size: 13px; line-height: 1; color: var(--muted); background: rgba(255,255,255,.6); border-radius: 50%; }
+.acu3d .map-credit-text { display: none; margin-left: 6px; font-size: 10.5px; color: var(--muted); background: rgba(255,255,255,.92); padding: 2px 8px; border-radius: 6px; white-space: nowrap; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.acu3d .map-credit:hover .map-credit-text, .acu3d .map-credit:focus-within .map-credit-text { display: inline-block; }
+/* Panel Chấm Tay — DOCK vào đầu sidebar phải (không nổi đè lên mô hình 3D). */
+.acu3d .map-edit-panel { flex: none; width: auto; background: #f0fdf4; border: 0; border-bottom: 1px solid var(--border); border-left: 3px solid #22c55e; border-radius: 0; padding: 12px 14px; font-size: 12.5px; }
+.acu3d .map-edit-panel .mep-title { font-weight: 700; color: #15803d; margin-bottom: 6px; }
+.acu3d .map-edit-panel .mep-status { color: #334155; min-height: 32px; line-height: 1.35; margin-bottom: 8px; }
+.acu3d .map-edit-panel .mep-row { display: flex; gap: 6px; margin-bottom: 6px; }
+.acu3d .map-edit-panel .mep-row .mv-btn { flex: 1; font-size: 12px; padding: 5px 6px; }
+.acu3d .map-edit-panel .mep-count { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
+
+.acu3d .map-drawer {
+  width: 340px; flex: none; background: var(--card); border-left: 1px solid var(--border);
+  display: flex; flex-direction: column; min-height: 0; overflow: hidden;
+}
+/* Vùng nội dung huyệt (welcome / danh sách huyệt / chi tiết) — cuộn riêng, dưới legend. */
+.acu3d .drawer-body { flex: 1; min-height: 0; overflow-y: auto; padding: 16px 18px; }
+.acu3d .dr-welcome h3, .acu3d .dr-head h3 { margin: 6px 0 2px; color: var(--green-dark); }
+.acu3d .dr-welcome .hint { color: var(--muted); font-size: 13px; }
+.acu3d .dr-head { border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 8px; }
+.acu3d .dr-code { display: inline-block; background: var(--c); color: #fff; font-weight: 700; font-size: 12px; padding: 2px 9px; border-radius: 12px; }
+.acu3d .dr-mer { font-size: 13px; font-weight: 600; margin-top: 2px; }
+.acu3d .dr-note { background: #fff7ed; color: #9a3412; border: 1px solid #fed7aa; border-radius: 8px; padding: 7px 10px; font-size: 12.5px; margin: 6px 0 10px; }
+.acu3d .dr-row { margin: 12px 0; }
+.acu3d .dr-row h4 { margin: 0 0 3px; font-size: 12px; text-transform: uppercase; letter-spacing: .4px; color: var(--accent); }
+.acu3d .dr-row p { margin: 0; font-size: 14px; }
+.acu3d .dr-full { display: inline-block; margin-top: 14px; padding: 7px 13px; border: 1px solid var(--green); border-radius: 999px; color: var(--green); font-weight: 700; text-decoration: none; font-size: 13.5px; transition: background .12s, color .12s; }
+.acu3d .dr-full:hover { background: var(--green); color: #fff; }
+/* nút "Xem Thêm" ngay cạnh tên huyệt → bay sang chi tiết huyệt trong Từ Điển */
+.acu3d .dr-more { display: inline-block; margin-top: 8px; padding: 5px 11px; border-radius: 999px; background: var(--green); color: #fff; font-weight: 700; text-decoration: none; font-size: 12.5px; transition: filter .12s; }
+.acu3d .dr-more:hover { filter: brightness(1.12); }
+.acu3d .dr-ptlist { display: flex; flex-direction: column; gap: 3px; margin-top: 10px; max-height: 52vh; overflow-y: auto; padding-right: 2px; }
+.acu3d .dr-pt-row { display: flex; align-items: stretch; gap: 4px; }
+.acu3d .dr-pt-row .dr-pt { flex: 1; min-width: 0; }
+.acu3d .dr-pt { display: block; width: 100%; text-align: left; background: #fff; border: 1px solid var(--border); border-left: 3px solid var(--c, #888); border-radius: 7px; padding: 6px 9px; font-size: 13px; color: #1f2937; cursor: pointer; transition: background .1s, transform .05s; }
+.acu3d .dr-pt:hover { background: #f0fdf4; transform: translateX(2px); }
+.acu3d .dr-pt.active { background: #ecfdf5; border-color: var(--c, var(--green)); box-shadow: inset 0 0 0 1px var(--c, var(--green)); font-weight: 700; }
+.acu3d .dr-pt b { color: var(--c, #555); margin-right: 4px; }
+/* nút 📖 "Xem Thêm" trên TỪNG dòng huyệt → mở chi tiết huyệt đó trong Từ Điển */
+.acu3d .dr-pt-more { flex: none; width: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--border); border-radius: 7px; background: #fff; text-decoration: none; font-size: 14px; line-height: 1; cursor: pointer; transition: background .1s, border-color .1s; }
+.acu3d .dr-pt-more:hover { background: var(--green); border-color: var(--green); }
+.acu3d .dr-detail { border-top: 2px solid var(--border); margin-top: 12px; padding-top: 6px; }
+.acu3d .dr-detail:empty { display: none; }
+
+/* ===== Bảng phóng to bàn tay / bàn chân (inset 2D) ===== */
+.acu3d .hf-inset { position: absolute; left: 12px; bottom: 12px; width: 360px; max-height: 88%;
+  background: rgba(255,255,255,.97); border: 1px solid #d7dfe9; border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(20,40,60,.18); display: none; flex-direction: column;
+  overflow: hidden; z-index: 20; }
+.acu3d .hf-inset.on { display: flex; }
+.acu3d .hf-head { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-bottom: 1px solid #eef2f6; font-size: 13px; }
+.acu3d .hf-head .hf-hint { color: #8a97a6; font-size: 11px; font-weight: 400; flex: 1; }
+.acu3d .hf-close { border: none; background: #f0f3f7; border-radius: 6px; width: 24px; height: 24px; cursor: pointer; color: #556; font-size: 13px; }
+.acu3d .hf-close:hover { background: #e3e9f0; }
+.acu3d .hf-tabs { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 10px 2px; }
+.acu3d .hf-tab { border: 1px solid #dce3ec; background: #f7f9fc; border-radius: 14px; padding: 3px 9px; font-size: 12px; cursor: pointer; color: #46505c; }
+.acu3d .hf-tab.on { background: #2f6f4f; color: #fff; border-color: #2f6f4f; }
+.acu3d .hf-note { padding: 2px 12px 2px; font-size: 11px; color: #7a8696; }
+.acu3d .hf-stage { padding: 2px 8px; display: flex; justify-content: center; }
+.acu3d .hf-svg { width: 100%; max-height: 300px; }
+.acu3d .hf-bone { fill: none; stroke: #c2cdd8; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.acu3d .hf-joint { fill: #d7dee6; }
+.acu3d .hf-pt { cursor: pointer; }
+.acu3d .hf-pt:hover circle { r: 7.5; }
+.acu3d .hf-lbl { font-size: 9px; fill: #2b3640; font-weight: 600; pointer-events: none; }
+.acu3d .hf-list { display: flex; flex-wrap: wrap; gap: 4px; padding: 6px 10px 10px; overflow: auto; border-top: 1px solid #eef2f6; max-height: 96px; }
+.acu3d .hf-chip { display: inline-flex; align-items: center; gap: 4px; border: 1px solid #e1e7ee; background: #fff; border-radius: 12px; padding: 2px 8px; font-size: 11px; cursor: pointer; color: #374049; }
+.acu3d .hf-chip:hover { background: #f3f6f9; }
+.acu3d .hf-chip .hf-sw { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+.acu3d .hf-chip small { color: #8a97a6; }
+
+/* ===== Thu hẹp: xếp dọc khi khung nhỏ ===== */
+@media (max-width: 860px) {
+  /* Mobile: ẩn TOÀN BỘ thanh công cụ (Đặt Lại Góc Nhìn · Dòng Chảy · Hai Bên · Chấm Tay ·
+     bóc lớp Da/Cơ/Xương · Bàn Tay/Chân · Tìm Kiếm) → dồn hết diện tích cho mô hình + danh sách
+     + chi tiết huyệt. Các nút VẪN NẰM trong DOM (chỉ display:none) nên nút "Phóng To" của Vue
+     gọi .click() lên #mapReset để canh lại góc nhìn vẫn chạy bình thường.
+     "Hai Bên" mặc định BẬT → ẩn nút không tắt nó, mô hình vẫn hiện huyệt đối xứng cả hai bên. */
+  .acu3d .map-toolbar { display: none; }
+  /* Mobile: NGĂN CHỌN (chú giải kinh + danh sách huyệt) lên TRÊN, mô hình 3D xuống DƯỚI
+     → thao tác chọn nằm ngay tầm tay, không phải cuộn xuống dưới mô hình. */
+  .acu3d .map-body { flex-direction: column; }
+  .acu3d .map-drawer {
+    order: 1; width: auto; border-left: 0; border-top: 0;
+    border-bottom: 1px solid var(--border); max-height: 44%;
+  }
+  /* min-height:0 → SÂN KHẤU 3D co lại được; thiếu nó canvas giữ chiều cao nội tại
+     và đẩy ngăn chọn ra ngoài .acu3d{overflow:hidden} → bị cắt mất trên điện thoại. */
+  .acu3d .map-stage { order: 2; min-height: 0; }
+  .acu3d .map-drawer .map-legend { max-height: 40%; }
+  .acu3d .hf-inset { width: calc(100% - 24px); }
+}

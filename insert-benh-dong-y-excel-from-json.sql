@@ -1,0 +1,469 @@
+-- Nạp dữ liệu từ disease-rules.json vào bảng benh_dong_y_excel (PostgreSQL)
+-- Chạy file này sau khi đã tạo bảng benh_dong_y_excel
+
+WITH src AS (
+  SELECT *
+  FROM jsonb_to_recordset(
+    $json$
+[
+  {
+    "code": "tam_khi_hu",
+    "name": "Tâm khí hư",
+    "outputCell": "AG2",
+    "excel_formula": "=IF(AND(E11<0;E15<0;E26<0;ABS(E11)>E7);AG2&\", \";\"\")",
+    "logic": "(E11 < 0) AND (E15 < 0) AND (E26 < 0) AND (ABS(E11) > E7)",
+    "sql_case_text": "CASE WHEN E11 < 0 AND E15 < 0 AND E26 < 0 AND ABS(E11) > E7 THEN CONCAT(AG2, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 < 0 AND E15 < 0 AND E26 < 0 AND ABS(E11) > E7 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "tam_duong_hu",
+    "name": "Tâm dương hư",
+    "outputCell": "AG3",
+    "excel_formula": "=IF(AND(E11<0;E23<0;ABS(E11)>E7);AG3&\", \";\"\")",
+    "logic": "(E11 < 0) AND (E23 < 0) AND (ABS(E11) > E7)",
+    "sql_case_text": "CASE WHEN E11 < 0 AND E23 < 0 AND ABS(E11) > E7 THEN CONCAT(AG3, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 < 0 AND E23 < 0 AND ABS(E11) > E7 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "tam_duong_hu_suy",
+    "name": "Tâm dương hư suy",
+    "outputCell": "AG4",
+    "excel_formula": "=IF(AND(E11<0;E12<0;E15>0;E22<0;E26<0;E26<0;ABS(E11)>E7);AG4&\", \";\"\")",
+    "logic": "(E11 < 0) AND (E12 < 0) AND (E15 > 0) AND (E22 < 0) AND (E26 < 0) AND (E26 < 0) AND (ABS(E11) > E7)",
+    "sql_case_text": "CASE WHEN E11 < 0 AND E12 < 0 AND E15 > 0 AND E22 < 0 AND E26 < 0 AND E26 < 0 AND ABS(E11) > E7 THEN CONCAT(AG4, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 < 0 AND E12 < 0 AND E15 > 0 AND E22 < 0 AND E26 < 0 AND E26 < 0 AND ABS(E11) > E7 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "tam_am_hu",
+    "name": "Tâm âm hư",
+    "outputCell": "AG5",
+    "excel_formula": "=IF(AND(E11<0;E15>0;E23>0;ABS(E11)>E7);AG5&\", \";\"\")",
+    "logic": "(E11 < 0) AND (E15 > 0) AND (E23 > 0) AND (ABS(E11) > E7)",
+    "sql_case_text": "CASE WHEN E11 < 0 AND E15 > 0 AND E23 > 0 AND ABS(E11) > E7 THEN CONCAT(AG5, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 < 0 AND E15 > 0 AND E23 > 0 AND ABS(E11) > E7 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "tam_huyet_hu",
+    "name": "Tâm huyết hư",
+    "outputCell": "AG6",
+    "excel_formula": "=IF(AND(E11>E7;E15>0;E22<0;E25<0;E26<0);AG6&\", \";\"\")",
+    "logic": "(E11 > E7) AND (E15 > 0) AND (E22 < 0) AND (E25 < 0) AND (E26 < 0)",
+    "sql_case_text": "CASE WHEN E11 > E7 AND E15 > 0 AND E22 < 0 AND E25 < 0 AND E26 < 0 THEN CONCAT(AG6, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 > E7 AND E15 > 0 AND E22 < 0 AND E25 < 0 AND E26 < 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "tam_huyet_u_tre",
+    "name": "Tâm huyết ứ trệ",
+    "outputCell": "AG7",
+    "excel_formula": "=IF(AND(E13>E7;E23>0;E25>0);AG7&\", \";\"\")",
+    "logic": "(E13 > E7) AND (E23 > 0) AND (E25 > 0)",
+    "sql_case_text": "CASE WHEN E13 > E7 AND E23 > 0 AND E25 > 0 THEN CONCAT(AG7, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E13 > E7 AND E23 > 0 AND E25 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "dam_hoa_noi_nhieu",
+    "name": "Đàm hoả nội nhiễu",
+    "outputCell": "AG8",
+    "excel_formula": "=IF(AND(E13>E7;E24>0;E25>0;E26>0);AG8&\", \";\"\")",
+    "logic": "(E13 > E7) AND (E24 > 0) AND (E25 > 0) AND (E26 > 0)",
+    "sql_case_text": "CASE WHEN E13 > E7 AND E24 > 0 AND E25 > 0 AND E26 > 0 THEN CONCAT(AG8, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E13 > E7 AND E24 > 0 AND E25 > 0 AND E26 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "dam_me_tam_tieu",
+    "name": "Đàm mê tâm tiếu",
+    "outputCell": "AG9",
+    "excel_formula": "=IF(AND(E11<0;E15>0;E25>0);AG9&\", \";\"\")",
+    "logic": "(E11 < 0) AND (E15 > 0) AND (E25 > 0)",
+    "sql_case_text": "CASE WHEN E11 < 0 AND E15 > 0 AND E25 > 0 THEN CONCAT(AG9, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 < 0 AND E15 > 0 AND E25 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "tam_hoa_thuong_viem",
+    "name": "Tâm hoả thượng viêm",
+    "outputCell": "AG10",
+    "excel_formula": "=IF(AND(E11>E7;E24>E18;E12>0;E13>0;E15>0;E23>0;E25>0;E26>0);AG10&\", \";\"\")",
+    "logic": "(E11 > E7) AND (E24 > E18) AND (E12 > 0) AND (E13 > 0) AND (E15 > 0) AND (E23 > 0) AND (E25 > 0) AND (E26 > 0)",
+    "sql_case_text": "CASE WHEN E11 > E7 AND E24 > E18 AND E12 > 0 AND E13 > 0 AND E15 > 0 AND E23 > 0 AND E25 > 0 AND E26 > 0 THEN CONCAT(AG10, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 > E7 AND E24 > E18 AND E12 > 0 AND E13 > 0 AND E15 > 0 AND E23 > 0 AND E25 > 0 AND E26 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "tam_di_nhiet_sang_tieu_truong",
+    "name": "Tâm di nhiệt sang tiểu trường",
+    "outputCell": "AG11",
+    "excel_formula": "=IF(AND(E11>E7;E10>0;E15>0;E21>0);AG11&\", \";\"\")",
+    "logic": "(E11 > E7) AND (E10 > 0) AND (E15 > 0) AND (E21 > 0)",
+    "sql_case_text": "CASE WHEN E11 > E7 AND E10 > 0 AND E15 > 0 AND E21 > 0 THEN CONCAT(AG11, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 > E7 AND E10 > 0 AND E15 > 0 AND E21 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "tieu_truong_khi_thong",
+    "name": "Tiểu trường khí thống",
+    "outputCell": "AG12",
+    "excel_formula": "=IF(AND(E10>E7;E22>0;E25>0);AG12&\", \";\"\")",
+    "logic": "(E10 > E7) AND (E22 > 0) AND (E25 > 0)",
+    "sql_case_text": "CASE WHEN E10 > E7 AND E22 > 0 AND E25 > 0 THEN CONCAT(AG12, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E10 > E7 AND E22 > 0 AND E25 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "can_khi_uat_ket",
+    "name": "Can khí uất kết",
+    "outputCell": "AG13",
+    "excel_formula": "=IF(AND(E23<0;E25>E18);AG13&\", \";\"\")",
+    "logic": "(E23 < 0) AND (E25 > E18)",
+    "sql_case_text": "CASE WHEN E23 < 0 AND E25 > E18 THEN CONCAT(AG13, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E23 < 0 AND E25 > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "can_duong_thuong_sang",
+    "name": "Can dương thượng cang",
+    "outputCell": "AG14",
+    "excel_formula": "=IF(AND(E12>0;E13>0;E15>0;E22>0;E24>0;E25>E18;E26>0);AG14&\", \";\"\")",
+    "logic": "(E12 > 0) AND (E13 > 0) AND (E15 > 0) AND (E22 > 0) AND (E24 > 0) AND (E25 > E18) AND (E26 > 0)",
+    "sql_case_text": "CASE WHEN E12 > 0 AND E13 > 0 AND E15 > 0 AND E22 > 0 AND E24 > 0 AND E25 > E18 AND E26 > 0 THEN CONCAT(AG14, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E12 > 0 AND E13 > 0 AND E15 > 0 AND E22 > 0 AND E24 > 0 AND E25 > E18 AND E26 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "can_am_bat_tuc",
+    "name": "Can âm bất túc",
+    "outputCell": "AG15",
+    "excel_formula": "=IF(AND(E13>0;E15>0;E22>0;E23>0;E24>0;E25>E18);AG15&\", \";\"\")",
+    "logic": "(E13 > 0) AND (E15 > 0) AND (E22 > 0) AND (E23 > 0) AND (E24 > 0) AND (E25 > E18)",
+    "sql_case_text": "CASE WHEN E13 > 0 AND E15 > 0 AND E22 > 0 AND E23 > 0 AND E24 > 0 AND E25 > E18 THEN CONCAT(AG15, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E13 > 0 AND E15 > 0 AND E22 > 0 AND E23 > 0 AND E24 > 0 AND E25 > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "dam_nhiet",
+    "name": "Đởm nhiệt",
+    "outputCell": "AG16",
+    "excel_formula": "=IF(E23>0;AG16&\", \";\"\")",
+    "logic": "(E23 > 0)",
+    "sql_case_text": "CASE WHEN E23 > 0 THEN CONCAT(AG16, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E23 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "ty_duong_hu",
+    "name": "Tỳ dương hư",
+    "outputCell": "AG17",
+    "excel_formula": "=IF(AND(E23<0;E26<0;ABS(E26)>E18);AG17&\", \";\"\")",
+    "logic": "(E23 < 0) AND (E26 < 0) AND (ABS(E26) > E18)",
+    "sql_case_text": "CASE WHEN E23 < 0 AND E26 < 0 AND ABS(E26) > E18 THEN CONCAT(AG17, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E23 < 0 AND E26 < 0 AND ABS(E26) > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "ty_vi_khi_hu",
+    "name": "Tỳ vị khí hư",
+    "outputCell": "AG18",
+    "excel_formula": "=IF(AND(E15<0;E24<0;E26<0;E25>0;ABS(E24)>E18;ABS(E26)>E18);AG18&\", \";\"\")",
+    "logic": "(E15 < 0) AND (E24 < 0) AND (E26 < 0) AND (E25 > 0) AND (ABS(E24) > E18) AND (ABS(E26) > E18)",
+    "sql_case_text": "CASE WHEN E15 < 0 AND E24 < 0 AND E26 < 0 AND E25 > 0 AND ABS(E24) > E18 AND ABS(E26) > E18 THEN CONCAT(AG18, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E15 < 0 AND E24 < 0 AND E26 < 0 AND E25 > 0 AND ABS(E24) > E18 AND ABS(E26) > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "ty_vi_thap_khon",
+    "name": "Tỳ vị thấp khốn",
+    "outputCell": "AG19",
+    "excel_formula": "=IF(AND(E23<0;E24<0;E26<0;ABS(E24)>E18;ABS(E26)>E18);AG19&\", \";\"\")",
+    "logic": "(E23 < 0) AND (E24 < 0) AND (E26 < 0) AND (ABS(E24) > E18) AND (ABS(E26) > E18)",
+    "sql_case_text": "CASE WHEN E23 < 0 AND E24 < 0 AND E26 < 0 AND ABS(E24) > E18 AND ABS(E26) > E18 THEN CONCAT(AG19, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E23 < 0 AND E24 < 0 AND E26 < 0 AND ABS(E24) > E18 AND ABS(E26) > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "thap_nhiet_noi_uan",
+    "name": "Thấp nhiệt nội uẩn",
+    "outputCell": "AG20",
+    "excel_formula": "=IF(AND(E23>0;E24>E18;E26>E18);AG20&\", \";\"\")",
+    "logic": "(E23 > 0) AND (E24 > E18) AND (E26 > E18)",
+    "sql_case_text": "CASE WHEN E23 > 0 AND E24 > E18 AND E26 > E18 THEN CONCAT(AG20, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E23 > 0 AND E24 > E18 AND E26 > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "tam_ty_luong_hu",
+    "name": "Tâm tỳ lưỡng hư",
+    "outputCell": "AG21",
+    "excel_formula": "=IF(AND(E11<0;E26<0;ABS(E11)>E7;ABS(E26)>E18);AG21&\", \";\"\")",
+    "logic": "(E11 < 0) AND (E26 < 0) AND (ABS(E11) > E7) AND (ABS(E26) > E18)",
+    "sql_case_text": "CASE WHEN E11 < 0 AND E26 < 0 AND ABS(E11) > E7 AND ABS(E26) > E18 THEN CONCAT(AG21, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 < 0 AND E26 < 0 AND ABS(E11) > E7 AND ABS(E26) > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "ty_than_duong_hu",
+    "name": "Tỳ thận dương hư",
+    "outputCell": "AG22",
+    "excel_formula": "=IF(AND(E22>E18;E23<0;E26<0;ABS(E23)>E18;ABS(E26)>E18);AG22&\", \";\"\")",
+    "logic": "(E22 > E18) AND (E23 < 0) AND (E26 < 0) AND (ABS(E23) > E18) AND (ABS(E26) > E18)",
+    "sql_case_text": "CASE WHEN E22 > E18 AND E23 < 0 AND E26 < 0 AND ABS(E23) > E18 AND ABS(E26) > E18 THEN CONCAT(AG22, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E22 > E18 AND E23 < 0 AND E26 < 0 AND ABS(E23) > E18 AND ABS(E26) > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "vi_hoa_thinh",
+    "name": "Vị hoả thịnh",
+    "outputCell": "AG23",
+    "excel_formula": "=IF(AND(E13>0;E23>0;E24>E18;E26>E18);AG23&\", \";\"\")",
+    "logic": "(E13 > 0) AND (E23 > 0) AND (E24 > E18) AND (E26 > E18)",
+    "sql_case_text": "CASE WHEN E13 > 0 AND E23 > 0 AND E24 > E18 AND E26 > E18 THEN CONCAT(AG23, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E13 > 0 AND E23 > 0 AND E24 > E18 AND E26 > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "vi_am_hu",
+    "name": "Vị âm hư",
+    "outputCell": "AG24",
+    "excel_formula": "=IF(AND(E11>0;E23>0;E24>E18;E25>0;E26>0);AG24&\", \";\"\")",
+    "logic": "(E11 > 0) AND (E23 > 0) AND (E24 > E18) AND (E25 > 0) AND (E26 > 0)",
+    "sql_case_text": "CASE WHEN E11 > 0 AND E23 > 0 AND E24 > E18 AND E25 > 0 AND E26 > 0 THEN CONCAT(AG24, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 > 0 AND E23 > 0 AND E24 > E18 AND E25 > 0 AND E26 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "can_vi_bat_hoa",
+    "name": "Can vị bất hoà",
+    "outputCell": "AG25",
+    "excel_formula": "=IF(AND(E23<0;E24<0;E25>0;E26<0);AG25&\", \";\"\")",
+    "logic": "(E23 < 0) AND (E24 < 0) AND (E25 > 0) AND (E26 < 0)",
+    "sql_case_text": "CASE WHEN E23 < 0 AND E24 < 0 AND E25 > 0 AND E26 < 0 THEN CONCAT(AG25, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E23 < 0 AND E24 < 0 AND E25 > 0 AND E26 < 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "viem_loet_da_day_ta_trang",
+    "name": "Viêm loét dạ dày tá tràng",
+    "outputCell": "AG26",
+    "excel_formula": "=IF(AND(E11>0;E13>0;E14>0;E15>0;E24>0;E25>0;E26>0);AG26&\", \";\"\")",
+    "logic": "(E11 > 0) AND (E13 > 0) AND (E14 > 0) AND (E15 > 0) AND (E24 > 0) AND (E25 > 0) AND (E26 > 0)",
+    "sql_case_text": "CASE WHEN E11 > 0 AND E13 > 0 AND E14 > 0 AND E15 > 0 AND E24 > 0 AND E25 > 0 AND E26 > 0 THEN CONCAT(AG26, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 > 0 AND E13 > 0 AND E14 > 0 AND E15 > 0 AND E24 > 0 AND E25 > 0 AND E26 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "dau_da_day_hep_mon_vi",
+    "name": "Đau dạ dày hẹp môn vị",
+    "outputCell": "AG27",
+    "excel_formula": "=IF(AND(E23>0;E24>0;E25>0;E26>0);AG27&\", \";\"\")",
+    "logic": "(E23 > 0) AND (E24 > 0) AND (E25 > 0) AND (E26 > 0)",
+    "sql_case_text": "CASE WHEN E23 > 0 AND E24 > 0 AND E25 > 0 AND E26 > 0 THEN CONCAT(AG27, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E23 > 0 AND E24 > 0 AND E25 > 0 AND E26 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "dau_bung_tren_soi_luc_buc",
+    "name": "Đau bụng trên sôi lục bục",
+    "outputCell": "AG28",
+    "excel_formula": "=IF(AND(E12>0;E13>0;E14>0;E15>0;E22>0;E24>0;E25>0);AG28&\", \";\"\")",
+    "logic": "(E12 > 0) AND (E13 > 0) AND (E14 > 0) AND (E15 > 0) AND (E22 > 0) AND (E24 > 0) AND (E25 > 0)",
+    "sql_case_text": "CASE WHEN E12 > 0 AND E13 > 0 AND E14 > 0 AND E15 > 0 AND E22 > 0 AND E24 > 0 AND E25 > 0 THEN CONCAT(AG28, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E12 > 0 AND E13 > 0 AND E14 > 0 AND E15 > 0 AND E22 > 0 AND E24 > 0 AND E25 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "dam_troc_tro_phe",
+    "name": "Đàm trọc trở phế",
+    "outputCell": "AG29",
+    "excel_formula": "=IF(AND(E15>0;E21<0;E22<0;E23<0;E24<0;E25>0;E26>0);AG29&\", \";\"\")",
+    "logic": "(E15 > 0) AND (E21 < 0) AND (E22 < 0) AND (E23 < 0) AND (E24 < 0) AND (E25 > 0) AND (E26 > 0)",
+    "sql_case_text": "CASE WHEN E15 > 0 AND E21 < 0 AND E22 < 0 AND E23 < 0 AND E24 < 0 AND E25 > 0 AND E26 > 0 THEN CONCAT(AG29, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E15 > 0 AND E21 < 0 AND E22 < 0 AND E23 < 0 AND E24 < 0 AND E25 > 0 AND E26 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "phe_han_khai_suyen",
+    "name": "Phế hàn khái suyễn",
+    "outputCell": "AG30",
+    "excel_formula": "=IF(AND(E10<0;E11>0;E12<0;E15>0;E21<0;E22<0;E23<0;E25>0;E26<0);AG30&\", \";\"\")",
+    "logic": "(E10 < 0) AND (E11 > 0) AND (E12 < 0) AND (E15 > 0) AND (E21 < 0) AND (E22 < 0) AND (E23 < 0) AND (E25 > 0) AND (E26 < 0)",
+    "sql_case_text": "CASE WHEN E10 < 0 AND E11 > 0 AND E12 < 0 AND E15 > 0 AND E21 < 0 AND E22 < 0 AND E23 < 0 AND E25 > 0 AND E26 < 0 THEN CONCAT(AG30, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E10 < 0 AND E11 > 0 AND E12 < 0 AND E15 > 0 AND E21 < 0 AND E22 < 0 AND E23 < 0 AND E25 > 0 AND E26 < 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "phe_nhiet_khai_suyen",
+    "name": "Phế nhiệt khái suyễn",
+    "outputCell": "AG31",
+    "excel_formula": "=IF(AND(E12>0;E11>0;E15>E7;E21<0;E22>0;E23>0;E25>0);AG31&\", \";\"\")",
+    "logic": "(E12 > 0) AND (E11 > 0) AND (E15 > E7) AND (E21 < 0) AND (E22 > 0) AND (E23 > 0) AND (E25 > 0)",
+    "sql_case_text": "CASE WHEN E12 > 0 AND E11 > 0 AND E15 > E7 AND E21 < 0 AND E22 > 0 AND E23 > 0 AND E25 > 0 THEN CONCAT(AG31, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E12 > 0 AND E11 > 0 AND E15 > E7 AND E21 < 0 AND E22 > 0 AND E23 > 0 AND E25 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "phe_khi_hu",
+    "name": "Phế khí hư",
+    "outputCell": "AG32",
+    "excel_formula": "=IF(AND(E13>0;E15<0;ABS(E15)>E7;E21<0;E22>0;E23<0;E26<0);AG32&\", \";\"\")",
+    "logic": "(E13 > 0) AND (E15 < 0) AND (ABS(E15) > E7) AND (E21 < 0) AND (E22 > 0) AND (E23 < 0) AND (E26 < 0)",
+    "sql_case_text": "CASE WHEN E13 > 0 AND E15 < 0 AND ABS(E15) > E7 AND E21 < 0 AND E22 > 0 AND E23 < 0 AND E26 < 0 THEN CONCAT(AG32, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E13 > 0 AND E15 < 0 AND ABS(E15) > E7 AND E21 < 0 AND E22 > 0 AND E23 < 0 AND E26 < 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "phe_am_hu",
+    "name": "Phế âm hư",
+    "outputCell": "AG33",
+    "excel_formula": "=IF(AND(E15>E7;E22>0;E23>0;E25>0);AG33&\", \";\"\")",
+    "logic": "(E15 > E7) AND (E22 > 0) AND (E23 > 0) AND (E25 > 0)",
+    "sql_case_text": "CASE WHEN E15 > E7 AND E22 > 0 AND E23 > 0 AND E25 > 0 THEN CONCAT(AG33, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E15 > E7 AND E22 > 0 AND E23 > 0 AND E25 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "phe_ty_luong_hu",
+    "name": "Phế tỳ lưỡng hư",
+    "outputCell": "AG34",
+    "excel_formula": "=IF(AND(E15>E7;E22>0;E23<0;E24<0;E26<0;ABS(E26)>E18);AG34&\", \";\"\")",
+    "logic": "(E15 > E7) AND (E22 > 0) AND (E23 < 0) AND (E24 < 0) AND (E26 < 0) AND (ABS(E26) > E18)",
+    "sql_case_text": "CASE WHEN E15 > E7 AND E22 > 0 AND E23 < 0 AND E24 < 0 AND E26 < 0 AND ABS(E26) > E18 THEN CONCAT(AG34, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E15 > E7 AND E22 > 0 AND E23 < 0 AND E24 < 0 AND E26 < 0 AND ABS(E26) > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "phe_than_luong_hu",
+    "name": "Phế thận lưỡng hư",
+    "outputCell": "AG35",
+    "excel_formula": "=IF(AND(E15>E7;E23>0;E25>0);AG35&\", \";\"\")",
+    "logic": "(E15 > E7) AND (E23 > 0) AND (E25 > 0)",
+    "sql_case_text": "CASE WHEN E15 > E7 AND E23 > 0 AND E25 > 0 THEN CONCAT(AG35, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E15 > E7 AND E23 > 0 AND E25 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "dai_truong_thap_nhiet",
+    "name": "Đại trường thấp nhiệt",
+    "outputCell": "AG36",
+    "excel_formula": "=IF(AND(E11>0;E14>E7;E15>0;E22<0;E24>0;E26>0);AG36&\", \";\"\")",
+    "logic": "(E11 > 0) AND (E14 > E7) AND (E15 > 0) AND (E22 < 0) AND (E24 > 0) AND (E26 > 0)",
+    "sql_case_text": "CASE WHEN E11 > 0 AND E14 > E7 AND E15 > 0 AND E22 < 0 AND E24 > 0 AND E26 > 0 THEN CONCAT(AG36, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 > 0 AND E14 > E7 AND E15 > 0 AND E22 < 0 AND E24 > 0 AND E26 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "than_am_hu",
+    "name": "Thận âm hư",
+    "outputCell": "AG37",
+    "excel_formula": "=IF(AND(E15>0;E22>E18;E23>0);AG37&\", \";\"\")",
+    "logic": "(E15 > 0) AND (E22 > E18) AND (E23 > 0)",
+    "sql_case_text": "CASE WHEN E15 > 0 AND E22 > E18 AND E23 > 0 THEN CONCAT(AG37, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E15 > 0 AND E22 > E18 AND E23 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "than_duong_hu",
+    "name": "Thận dương hư",
+    "outputCell": "AG38",
+    "excel_formula": "=IF(AND(E22>0;E23<0);AG38&\", \";\"\")",
+    "logic": "(E22 > 0) AND (E23 < 0)",
+    "sql_case_text": "CASE WHEN E22 > 0 AND E23 < 0 THEN CONCAT(AG38, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E22 > 0 AND E23 < 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "than_am_duong_luong_hu",
+    "name": "Thận âm dương lưỡng hư",
+    "outputCell": "AG39",
+    "excel_formula": "=IF(AND(E21<0;E22<0;ABS(E22)>E18;E23<0);AG39&\", \";\"\")",
+    "logic": "(E21 < 0) AND (E22 < 0) AND (ABS(E22) > E18) AND (E23 < 0)",
+    "sql_case_text": "CASE WHEN E21 < 0 AND E22 < 0 AND ABS(E22) > E18 AND E23 < 0 THEN CONCAT(AG39, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E21 < 0 AND E22 < 0 AND ABS(E22) > E18 AND E23 < 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "than_am_bat_giao",
+    "name": "Thận âm bất giao",
+    "outputCell": "AG40",
+    "excel_formula": "=IF(AND(E13>E15>0;E22>E18;E23<0;E25>0);AG40&\", \";\"\")",
+    "logic": "(E13 > E15) AND (E15 > 0) AND (E22 > E18) AND (E23 < 0) AND (E25 > 0)",
+    "sql_case_text": "CASE WHEN E13 > E15 AND E15 > 0 AND E22 > E18 AND E23 < 0 AND E25 > 0 THEN CONCAT(AG40, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E13 > E15 AND E15 > 0 AND E22 > E18 AND E23 < 0 AND E25 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "bang_quang_thap_nhiet",
+    "name": "Bàng quang thấp nhiệt",
+    "outputCell": "AG41",
+    "excel_formula": "=IF(AND(E15>0;E21>E18;E22>0;E25>0;E26>0);AG41&\", \";\"\")",
+    "logic": "(E15 > 0) AND (E21 > E18) AND (E22 > 0) AND (E25 > 0) AND (E26 > 0)",
+    "sql_case_text": "CASE WHEN E15 > 0 AND E21 > E18 AND E22 > 0 AND E25 > 0 AND E26 > 0 THEN CONCAT(AG41, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E15 > 0 AND E21 > E18 AND E22 > 0 AND E25 > 0 AND E26 > 0 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "chung_cam_sot",
+    "name": "Chứng cảm sốt",
+    "outputCell": "AG42",
+    "excel_formula": "=IF(AND(E11>E7;E15>E7;E25>E18;E26>E18);AG42&\", \";\"\")",
+    "logic": "(E11 > E7) AND (E15 > E7) AND (E25 > E18) AND (E26 > E18)",
+    "sql_case_text": "CASE WHEN E11 > E7 AND E15 > E7 AND E25 > E18 AND E26 > E18 THEN CONCAT(AG42, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 > E7 AND E15 > E7 AND E25 > E18 AND E26 > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "nhiet_vao_khi_phan",
+    "name": "Nhiệt vào khí phần",
+    "outputCell": "AG43",
+    "excel_formula": "=IF(AND(E11>E7;E15>E7;E25>E18;E26>E18;E14>E7;E24>E18);AG43&\", \";\"\")",
+    "logic": "(E11 > E7) AND (E15 > E7) AND (E25 > E18) AND (E26 > E18) AND (E14 > E7) AND (E24 > E18)",
+    "sql_case_text": "CASE WHEN E11 > E7 AND E15 > E7 AND E25 > E18 AND E26 > E18 AND E14 > E7 AND E24 > E18 THEN CONCAT(AG43, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 > E7 AND E15 > E7 AND E25 > E18 AND E26 > E18 AND E14 > E7 AND E24 > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "nhiet_nhap_tam_bao",
+    "name": "Nhiệt nhập tâm bào",
+    "outputCell": "AG44",
+    "excel_formula": "=IF(AND(E11>E7;E15>E7;E25>E18;E26>E18;E12>E7;E13>E7);AG44&\", \";\"\")",
+    "logic": "(E11 > E7) AND (E15 > E7) AND (E25 > E18) AND (E26 > E18) AND (E12 > E7) AND (E13 > E7)",
+    "sql_case_text": "CASE WHEN E11 > E7 AND E15 > E7 AND E25 > E18 AND E26 > E18 AND E12 > E7 AND E13 > E7 THEN CONCAT(AG44, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E11 > E7 AND E15 > E7 AND E25 > E18 AND E26 > E18 AND E12 > E7 AND E13 > E7 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "co_bap_nhuc_moi",
+    "name": "Cơ bắp nhức mỏi",
+    "outputCell": "AG45",
+    "excel_formula": "=IF(AND(E25>E18;E26>E18);AG45&\", \";\"\")",
+    "logic": "(E25 > E18) AND (E26 > E18)",
+    "sql_case_text": "CASE WHEN E25 > E18 AND E26 > E18 THEN CONCAT(AG45, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E25 > E18 AND E26 > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "co_bap_mem_nheo",
+    "name": "Cơ bắp mềm nhẽo",
+    "outputCell": "AG46",
+    "excel_formula": "=IF(AND(E25<0;E26<0;ABS(E25)>E18;ABS(E26)>E18);AG46&\", \";\"\")",
+    "logic": "(E25 < 0) AND (E26 < 0) AND (ABS(E25) > E18) AND (ABS(E26) > E18)",
+    "sql_case_text": "CASE WHEN E25 < 0 AND E26 < 0 AND ABS(E25) > E18 AND ABS(E26) > E18 THEN CONCAT(AG46, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E25 < 0 AND E26 < 0 AND ABS(E25) > E18 AND ABS(E26) > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "chung_hep_mon_vi",
+    "name": "Chứng hẹp môn vị",
+    "outputCell": "AG47",
+    "excel_formula": "=IF(AND(E23>E18;E24>E18;E25>E18);AG47&\", \";\"\")",
+    "logic": "(E23 > E18) AND (E24 > E18) AND (E25 > E18)",
+    "sql_case_text": "CASE WHEN E23 > E18 AND E24 > E18 AND E25 > E18 THEN CONCAT(AG47, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E23 > E18 AND E24 > E18 AND E25 > E18 THEN 1 ELSE 0 END"
+  },
+  {
+    "code": "chung_gan_lach_sung_to",
+    "name": "Chứng gan lách sưng to",
+    "outputCell": "AG48",
+    "excel_formula": "=IF(AND(E25>E18;E26>E18;E23<0;ABS(E23)>E18);AG48&\", \";\"\")",
+    "logic": "(E25 > E18) AND (E26 > E18) AND (E23 < 0) AND (ABS(E23) > E18)",
+    "sql_case_text": "CASE WHEN E25 > E18 AND E26 > E18 AND E23 < 0 AND ABS(E23) > E18 THEN CONCAT(AG48, ', ') ELSE '' END",
+    "sql_case_boolean": "CASE WHEN E25 > E18 AND E26 > E18 AND E23 < 0 AND ABS(E23) > E18 THEN 1 ELSE 0 END"
+  }
+]
+    $json$::jsonb
+  ) AS x(
+    code text,
+    name text,
+    "outputCell" text,
+    excel_formula text,
+    logic text,
+    sql_case_text text,
+    sql_case_boolean text
+  )
+)
+INSERT INTO benh_dong_y_excel (
+  code,
+  name,
+  output_cell,
+  excel_formula,
+  logic_expression,
+  sql_case_text,
+  sql_case_boolean
+)
+SELECT
+  src.code,
+  src.name,
+  src."outputCell",
+  src.excel_formula,
+  src.logic,
+  src.sql_case_text,
+  src.sql_case_boolean
+FROM src
+ON CONFLICT (code) DO UPDATE
+SET
+  name = EXCLUDED.name,
+  output_cell = EXCLUDED.output_cell,
+  excel_formula = EXCLUDED.excel_formula,
+  logic_expression = EXCLUDED.logic_expression,
+  sql_case_text = EXCLUDED.sql_case_text,
+  sql_case_boolean = EXCLUDED.sql_case_boolean;

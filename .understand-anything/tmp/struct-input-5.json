@@ -1,0 +1,65 @@
+{
+  "projectRoot": "C:/Users/This PC/Desktop/kinhlac",
+  "batchFiles": [
+    {"path": "backend/src/controllers/chu-tri.controller.ts", "language": "typescript", "sizeLines": 68, "fileCategory": "code"},
+    {"path": "backend/src/controllers/nhom-lon-duoc-ly.controller.ts", "language": "typescript", "sizeLines": 77, "fileCategory": "code"},
+    {"path": "backend/src/controllers/nhom-nho-duoc-ly.controller.ts", "language": "typescript", "sizeLines": 193, "fileCategory": "code"},
+    {"path": "backend/src/models/chu-tri.model.ts", "language": "typescript", "sizeLines": 13, "fileCategory": "code"},
+    {"path": "backend/src/models/duoc-ly.dto.ts", "language": "typescript", "sizeLines": 31, "fileCategory": "code"},
+    {"path": "backend/src/models/nhom-lon-duoc-ly.model.ts", "language": "typescript", "sizeLines": 20, "fileCategory": "code"},
+    {"path": "backend/src/models/nhom-nho-chu-tri.model.ts", "language": "typescript", "sizeLines": 23, "fileCategory": "code"},
+    {"path": "backend/src/models/nhom-nho-duoc-ly.model.ts", "language": "typescript", "sizeLines": 36, "fileCategory": "code"},
+    {"path": "backend/src/models/nhom-nho-vi-thuoc.model.ts", "language": "typescript", "sizeLines": 23, "fileCategory": "code"},
+    {"path": "backend/src/routers/nhom-lon-duoc-ly.router.ts", "language": "typescript", "sizeLines": 36, "fileCategory": "code"},
+    {"path": "backend/src/routers/nhom-nho-duoc-ly.router.ts", "language": "typescript", "sizeLines": 40, "fileCategory": "code"},
+    {"path": "backend/src/utils/catalog-label.util.ts", "language": "typescript", "sizeLines": 13, "fileCategory": "code"}
+  ],
+  "batchImportData": {
+    "backend/src/controllers/chu-tri.controller.ts": [
+      "backend/src/models/chu-tri.model.ts",
+      "backend/src/utils/catalog-label.util.ts"
+    ],
+    "backend/src/controllers/nhom-lon-duoc-ly.controller.ts": [
+      "backend/src/models/duoc-ly.dto.ts",
+      "backend/src/models/nhom-lon-duoc-ly.model.ts",
+      "backend/src/utils/catalog-label.util.ts"
+    ],
+    "backend/src/controllers/nhom-nho-duoc-ly.controller.ts": [
+      "backend/src/models/chu-tri.model.ts",
+      "backend/src/models/duoc-ly.dto.ts",
+      "backend/src/models/nhom-lon-duoc-ly.model.ts",
+      "backend/src/models/nhom-nho-chu-tri.model.ts",
+      "backend/src/models/nhom-nho-duoc-ly.model.ts",
+      "backend/src/models/nhom-nho-vi-thuoc.model.ts",
+      "backend/src/models/vi-thuoc.model.ts",
+      "backend/src/utils/catalog-label.util.ts"
+    ],
+    "backend/src/models/chu-tri.model.ts": [],
+    "backend/src/models/duoc-ly.dto.ts": [],
+    "backend/src/models/nhom-lon-duoc-ly.model.ts": [
+      "backend/src/models/nhom-nho-duoc-ly.model.ts"
+    ],
+    "backend/src/models/nhom-nho-chu-tri.model.ts": [
+      "backend/src/models/chu-tri.model.ts",
+      "backend/src/models/nhom-nho-duoc-ly.model.ts"
+    ],
+    "backend/src/models/nhom-nho-duoc-ly.model.ts": [
+      "backend/src/models/nhom-lon-duoc-ly.model.ts",
+      "backend/src/models/nhom-nho-chu-tri.model.ts",
+      "backend/src/models/nhom-nho-vi-thuoc.model.ts"
+    ],
+    "backend/src/models/nhom-nho-vi-thuoc.model.ts": [
+      "backend/src/models/nhom-nho-duoc-ly.model.ts",
+      "backend/src/models/vi-thuoc.model.ts"
+    ],
+    "backend/src/routers/nhom-lon-duoc-ly.router.ts": [
+      "backend/src/controllers/nhom-lon-duoc-ly.controller.ts",
+      "backend/src/models/duoc-ly.dto.ts"
+    ],
+    "backend/src/routers/nhom-nho-duoc-ly.router.ts": [
+      "backend/src/controllers/nhom-nho-duoc-ly.controller.ts",
+      "backend/src/models/duoc-ly.dto.ts"
+    ],
+    "backend/src/utils/catalog-label.util.ts": []
+  }
+}

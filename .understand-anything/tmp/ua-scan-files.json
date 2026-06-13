@@ -1,0 +1,1482 @@
+{
+  "scriptCompleted": true,
+  "files": [
+    {
+      "path": ".env.example",
+      "language": "config",
+      "sizeLines": 17,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/.dockerignore",
+      "language": "unknown",
+      "sizeLines": 19,
+      "fileCategory": "infra"
+    },
+    {
+      "path": "backend/.env.example",
+      "language": "config",
+      "sizeLines": 21,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/api/index.ts",
+      "language": "typescript",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/Dockerfile",
+      "language": "dockerfile",
+      "sizeLines": 46,
+      "fileCategory": "infra"
+    },
+    {
+      "path": "backend/eslint.config.mjs",
+      "language": "javascript",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/nest-cli.json",
+      "language": "json",
+      "sizeLines": 7,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/package.json",
+      "language": "json",
+      "sizeLines": 86,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/README.md",
+      "language": "markdown",
+      "sizeLines": 98,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "backend/sql/add-bai-thuoc-column-benh-dong-y.sql",
+      "language": "sql",
+      "sizeLines": 9,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/add-benh-dong-y-excel-phap-tri.sql",
+      "language": "sql",
+      "sizeLines": 25,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/add-benh-dong-y-excel-trieu-chung-bai-thuoc.sql",
+      "language": "sql",
+      "sizeLines": 33,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/create-benh-dong-y-hien-dai.sql",
+      "language": "sql",
+      "sizeLines": 29,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/create-duoc-ly-schema.sql",
+      "language": "sql",
+      "sizeLines": 48,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/create-legacy-meridian-syndromes.sql",
+      "language": "sql",
+      "sizeLines": 46,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/create-ton-thuong-tac-nhan.sql",
+      "language": "sql",
+      "sizeLines": 28,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/create-vi-thuoc-kinh-mach.sql",
+      "language": "sql",
+      "sizeLines": 15,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/drop-nhom-duoc-ly.sql",
+      "language": "sql",
+      "sizeLines": 27,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/fix_lap_lai.sql",
+      "language": "sql",
+      "sizeLines": 155,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/insert-benh-dong-y-hien-dai.sql",
+      "language": "sql",
+      "sizeLines": 198,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-bai-thuoc-chung-trang.sql",
+      "language": "sql",
+      "sizeLines": 23,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-bai-thuoc-link-phap-tri.sql",
+      "language": "sql",
+      "sizeLines": 173,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-benh-dong-y-excel-phap-tri-m2m.sql",
+      "language": "sql",
+      "sizeLines": 42,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-benh-tay-y-phap-tri.sql",
+      "language": "sql",
+      "sizeLines": 7,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-phac-do-chuan.sql",
+      "language": "sql",
+      "sizeLines": 27,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-phap-tri-bai-thuoc-links-backfill.sql",
+      "language": "sql",
+      "sizeLines": 12,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-phap-tri-bai-thuoc-nhom-duoc-ly.sql",
+      "language": "sql",
+      "sizeLines": 29,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-phap-tri-benhdongy-m2m.sql",
+      "language": "sql",
+      "sizeLines": 17,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-phap-tri-luc-kinh.sql",
+      "language": "sql",
+      "sizeLines": 5,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-phap-tri-multi-benhdongy.sql",
+      "language": "sql",
+      "sizeLines": 18,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-phap-tri-tcm-bang-columns.sql",
+      "language": "sql",
+      "sizeLines": 11,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-phap-tri-trieu-chung-m2m-backfill.sql",
+      "language": "sql",
+      "sizeLines": 16,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-phap-tri-trieu-chung-seed-missing.sql",
+      "language": "sql",
+      "sizeLines": 63,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-tieuket-to-phap-tri.sql",
+      "language": "sql",
+      "sizeLines": 37,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-trieu-chung-normalize.sql",
+      "language": "sql",
+      "sizeLines": 82,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/migrate-vi-thuoc-excel-schema.sql",
+      "language": "sql",
+      "sizeLines": 23,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/README.md",
+      "language": "markdown",
+      "sizeLines": 5,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "backend/sql/rebuild-appointment-system.sql",
+      "language": "sql",
+      "sizeLines": 85,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/rename-phap-tri-chung-trang-to-the-benh.sql",
+      "language": "sql",
+      "sizeLines": 37,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/sync-benh-dong-y-to-chung-trang.sql",
+      "language": "sql",
+      "sizeLines": 35,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/truncate-phap-tri-reset-sequence.sql",
+      "language": "sql",
+      "sizeLines": 15,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/sql/truncate-vi-thuoc.sql",
+      "language": "sql",
+      "sizeLines": 62,
+      "fileCategory": "data"
+    },
+    {
+      "path": "backend/src/app.controller.spec.ts",
+      "language": "typescript",
+      "sizeLines": 22,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/app.controller.ts",
+      "language": "typescript",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/app.module.ts",
+      "language": "typescript",
+      "sizeLines": 183,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/app.service.ts",
+      "language": "typescript",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/admin.controller.ts",
+      "language": "typescript",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/ai-suggest.controller.ts",
+      "language": "typescript",
+      "sizeLines": 555,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/appointment-slot.controller.ts",
+      "language": "typescript",
+      "sizeLines": 245,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/auth.controller.ts",
+      "language": "typescript",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/bai-thuoc.controller.ts",
+      "language": "typescript",
+      "sizeLines": 534,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/benh-dong-y-excel.controller.ts",
+      "language": "typescript",
+      "sizeLines": 262,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/benh-dong-y-hien-dai.controller.ts",
+      "language": "typescript",
+      "sizeLines": 151,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/benh-tay-y.controller.ts",
+      "language": "typescript",
+      "sizeLines": 232,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/chu-tri.controller.ts",
+      "language": "typescript",
+      "sizeLines": 68,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/chung-benh.controller.ts",
+      "language": "typescript",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/clinic-schedule.controller.ts",
+      "language": "typescript",
+      "sizeLines": 298,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/cong-dung.controller.ts",
+      "language": "typescript",
+      "sizeLines": 60,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/examination.controller.ts",
+      "language": "typescript",
+      "sizeLines": 232,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/firebase.controller.ts",
+      "language": "typescript",
+      "sizeLines": 61,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/huyet-vi.controller.ts",
+      "language": "typescript",
+      "sizeLines": 120,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/kieng-ky.controller.ts",
+      "language": "typescript",
+      "sizeLines": 68,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/kinh-mach.controller.ts",
+      "language": "typescript",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/mach-chan.controller.ts",
+      "language": "typescript",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/meridian.controller.ts",
+      "language": "typescript",
+      "sizeLines": 704,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/nhom-lon-duoc-ly.controller.ts",
+      "language": "typescript",
+      "sizeLines": 77,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/nhom-nho-duoc-ly.controller.ts",
+      "language": "typescript",
+      "sizeLines": 193,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/patient-auth.controller.ts",
+      "language": "typescript",
+      "sizeLines": 62,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/patient.controller.ts",
+      "language": "typescript",
+      "sizeLines": 98,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/phac-do-chuan.controller.ts",
+      "language": "typescript",
+      "sizeLines": 246,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/phac-do-dieu-tri.controller.ts",
+      "language": "typescript",
+      "sizeLines": 63,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/phap-tri.controller.ts",
+      "language": "typescript",
+      "sizeLines": 568,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/the-benh.controller.ts",
+      "language": "typescript",
+      "sizeLines": 180,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/thiet-chan.controller.ts",
+      "language": "typescript",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/ton-thuong-tac-nhan.controller.ts",
+      "language": "typescript",
+      "sizeLines": 99,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/trieu-chung.controller.ts",
+      "language": "typescript",
+      "sizeLines": 432,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/controllers/vi-thuoc.controller.ts",
+      "language": "typescript",
+      "sizeLines": 274,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/main.ts",
+      "language": "typescript",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/middlewares/auth/jwt-auth.guard.ts",
+      "language": "typescript",
+      "sizeLines": 5,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/middlewares/auth/jwt.strategy.ts",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/middlewares/logging.interceptor.ts",
+      "language": "typescript",
+      "sizeLines": 122,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/_date-transformer.ts",
+      "language": "typescript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/admin.model.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/appointment-slot.dto.ts",
+      "language": "typescript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/appointment-slot.model.ts",
+      "language": "typescript",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/bai-thuoc-chi-tiet.model.ts",
+      "language": "typescript",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/bai-thuoc-phap-tri.model.ts",
+      "language": "typescript",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/bai-thuoc.model.ts",
+      "language": "typescript",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/benh-dong-y-excel.dto.ts",
+      "language": "typescript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/benh-dong-y-excel.model.ts",
+      "language": "typescript",
+      "sizeLines": 55,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/benh-dong-y-hien-dai.dto.ts",
+      "language": "typescript",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/benh-dong-y-hien-dai.model.ts",
+      "language": "typescript",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/benh-tay-y.dto.ts",
+      "language": "typescript",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/benh-tay-y.model.ts",
+      "language": "typescript",
+      "sizeLines": 71,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/chu-tri.model.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/chung-benh.dto.ts",
+      "language": "typescript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/chung-benh.model.ts",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/clinic-day-override.model.ts",
+      "language": "typescript",
+      "sizeLines": 43,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/clinic-schedule-config.model.ts",
+      "language": "typescript",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/clinic-schedule.dto.ts",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/cong-dung.dto.ts",
+      "language": "typescript",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/cong-dung.model.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/dongy-thuoc.dto.ts",
+      "language": "typescript",
+      "sizeLines": 43,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/duoc-ly.dto.ts",
+      "language": "typescript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/examination.dto.ts",
+      "language": "typescript",
+      "sizeLines": 59,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/examination.model.ts",
+      "language": "typescript",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/huyet-vi.dto.ts",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/huyet-vi.model.ts",
+      "language": "typescript",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/kieng-ky.model.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/kinh-mach.dto.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/kinh-mach.model.ts",
+      "language": "typescript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/legacy-meridian-syndrome.model.ts",
+      "language": "typescript",
+      "sizeLines": 76,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/mach-chan.dto.ts",
+      "language": "typescript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/mach-chan.model.ts",
+      "language": "typescript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/meridian-syndrome.model.ts",
+      "language": "typescript",
+      "sizeLines": 182,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/nhom-lon-duoc-ly.model.ts",
+      "language": "typescript",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/nhom-nho-chu-tri.model.ts",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/nhom-nho-duoc-ly.model.ts",
+      "language": "typescript",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/nhom-nho-vi-thuoc.model.ts",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/patient.dto.ts",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/patient.model.ts",
+      "language": "typescript",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/phac-do-chuan.dto.ts",
+      "language": "typescript",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/phac-do-chuan.model.ts",
+      "language": "typescript",
+      "sizeLines": 77,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/phac-do-dieu-tri.dto.ts",
+      "language": "typescript",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/phac-do-dieu-tri.model.ts",
+      "language": "typescript",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/phap-tri.dto.ts",
+      "language": "typescript",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/phap-tri.model.ts",
+      "language": "typescript",
+      "sizeLines": 107,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/the-benh-phuong-huyet.model.ts",
+      "language": "typescript",
+      "sizeLines": 43,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/the-benh.dto.ts",
+      "language": "typescript",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/the-benh.model.ts",
+      "language": "typescript",
+      "sizeLines": 47,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/thiet-chan.dto.ts",
+      "language": "typescript",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/thiet-chan.model.ts",
+      "language": "typescript",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/ton-thuong-tac-nhan.dto.ts",
+      "language": "typescript",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/ton-thuong-tac-nhan.model.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/trieu-chung.dto.ts",
+      "language": "typescript",
+      "sizeLines": 7,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/trieu-chung.model.ts",
+      "language": "typescript",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/vi-thuoc-chu-tri.model.ts",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/vi-thuoc-cong-dung.model.ts",
+      "language": "typescript",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/vi-thuoc-kieng-ky.model.ts",
+      "language": "typescript",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/vi-thuoc-kinh-mach.model.ts",
+      "language": "typescript",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/vi-thuoc-ten-goi-khac.model.ts",
+      "language": "typescript",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/models/vi-thuoc.model.ts",
+      "language": "typescript",
+      "sizeLines": 46,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/admin.router.ts",
+      "language": "typescript",
+      "sizeLines": 4,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/ai-suggest.router.ts",
+      "language": "typescript",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/appointment-slot.router.ts",
+      "language": "typescript",
+      "sizeLines": 141,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/auth.router.ts",
+      "language": "typescript",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/bai-thuoc.router.ts",
+      "language": "typescript",
+      "sizeLines": 87,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/benh-dong-y-excel.router.ts",
+      "language": "typescript",
+      "sizeLines": 73,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/benh-dong-y-hien-dai.router.ts",
+      "language": "typescript",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/benh-dong-y.router.ts",
+      "language": "typescript",
+      "sizeLines": 43,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/benh-tay-y.router.ts",
+      "language": "typescript",
+      "sizeLines": 67,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/chung-benh.router.ts",
+      "language": "typescript",
+      "sizeLines": 48,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/clinic-schedule.router.ts",
+      "language": "typescript",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/cong-dung.router.ts",
+      "language": "typescript",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/examination.router.ts",
+      "language": "typescript",
+      "sizeLines": 67,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/huyet-vi.router.ts",
+      "language": "typescript",
+      "sizeLines": 65,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/kinh-mach.router.ts",
+      "language": "typescript",
+      "sizeLines": 45,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/mach-chan.router.ts",
+      "language": "typescript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/meridian.router.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/nhom-lon-duoc-ly.router.ts",
+      "language": "typescript",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/nhom-nho-duoc-ly.router.ts",
+      "language": "typescript",
+      "sizeLines": 40,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/patient-auth.router.ts",
+      "language": "typescript",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/patient.router.ts",
+      "language": "typescript",
+      "sizeLines": 67,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/phac-do-chuan.router.ts",
+      "language": "typescript",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/phac-do-dieu-tri.router.ts",
+      "language": "typescript",
+      "sizeLines": 49,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/phap-tri.router.ts",
+      "language": "typescript",
+      "sizeLines": 94,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/record.router.ts",
+      "language": "typescript",
+      "sizeLines": 72,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/the-benh.router.ts",
+      "language": "typescript",
+      "sizeLines": 98,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/thiet-chan.router.ts",
+      "language": "typescript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/ton-thuong-tac-nhan.router.ts",
+      "language": "typescript",
+      "sizeLines": 61,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/trieu-chung.router.ts",
+      "language": "typescript",
+      "sizeLines": 73,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/routers/vi-thuoc.router.ts",
+      "language": "typescript",
+      "sizeLines": 54,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/seed-admin.ts",
+      "language": "typescript",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/utils/catalog-label.util.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/src/utils/excel-rule-engine.ts",
+      "language": "typescript",
+      "sizeLines": 285,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/test_logic.js",
+      "language": "javascript",
+      "sizeLines": 40,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/test/app.e2e-spec.ts",
+      "language": "typescript",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "backend/test/jest-e2e.json",
+      "language": "json",
+      "sizeLines": 9,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/tsconfig.build.json",
+      "language": "json",
+      "sizeLines": 5,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/tsconfig.json",
+      "language": "json",
+      "sizeLines": 25,
+      "fileCategory": "config"
+    },
+    {
+      "path": "backend/vercel.json",
+      "language": "json",
+      "sizeLines": 21,
+      "fileCategory": "config"
+    },
+    {
+      "path": "benh_dong_y_excel.sql",
+      "language": "sql",
+      "sizeLines": 26,
+      "fileCategory": "data"
+    },
+    {
+      "path": "CLAUDE.md",
+      "language": "markdown",
+      "sizeLines": 108,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "DEPLOYMENT.md",
+      "language": "markdown",
+      "sizeLines": 225,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "disease-rules.json",
+      "language": "json",
+      "sizeLines": 425,
+      "fileCategory": "config"
+    },
+    {
+      "path": "docker-compose.yml",
+      "language": "yaml",
+      "sizeLines": 53,
+      "fileCategory": "infra"
+    },
+    {
+      "path": "dongyhiendai.md",
+      "language": "markdown",
+      "sizeLines": 21,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "ecosystem.config.cjs",
+      "language": "javascript",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/.dockerignore",
+      "language": "unknown",
+      "sizeLines": 15,
+      "fileCategory": "infra"
+    },
+    {
+      "path": "frontend/.env",
+      "language": "config",
+      "sizeLines": 1,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/.gitattributes",
+      "language": "unknown",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/.oxlintrc.json",
+      "language": "json",
+      "sizeLines": 10,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/.prettierrc.json",
+      "language": "json",
+      "sizeLines": 6,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/Dockerfile",
+      "language": "dockerfile",
+      "sizeLines": 38,
+      "fileCategory": "infra"
+    },
+    {
+      "path": "frontend/env.d.ts",
+      "language": "typescript",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/eslint.config.ts",
+      "language": "typescript",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/index.html",
+      "language": "html",
+      "sizeLines": 18,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "frontend/nginx.conf",
+      "language": "conf",
+      "sizeLines": 74,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/package.json",
+      "language": "json",
+      "sizeLines": 46,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/README.md",
+      "language": "markdown",
+      "sizeLines": 48,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "frontend/scripts/gen-favicon-ico.cjs",
+      "language": "javascript",
+      "sizeLines": 158,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/App.vue",
+      "language": "vue",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/assets/styles/main.css",
+      "language": "css",
+      "sizeLines": 191,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "frontend/src/components/PharmacologyManager.vue",
+      "language": "vue",
+      "sizeLines": 1565,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/main.ts",
+      "language": "typescript",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/router/index.ts",
+      "language": "typescript",
+      "sizeLines": 118,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/services/api.ts",
+      "language": "typescript",
+      "sizeLines": 113,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/stores/auth.ts",
+      "language": "typescript",
+      "sizeLines": 67,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/stores/counter.ts",
+      "language": "typescript",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/stores/patient.ts",
+      "language": "typescript",
+      "sizeLines": 166,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/AppointmentsView.vue",
+      "language": "vue",
+      "sizeLines": 783,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/DashboardLayout.vue",
+      "language": "vue",
+      "sizeLines": 223,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/HomeView.vue",
+      "language": "vue",
+      "sizeLines": 132,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/HuyetViView.vue",
+      "language": "vue",
+      "sizeLines": 662,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/KinhMachView.vue",
+      "language": "vue",
+      "sizeLines": 567,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/LoginView.vue",
+      "language": "vue",
+      "sizeLines": 151,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/MedicinesView.vue",
+      "language": "vue",
+      "sizeLines": 4471,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/MeridianDiseasesTabsView.vue",
+      "language": "vue",
+      "sizeLines": 81,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/MeridianDiseasesView.vue",
+      "language": "vue",
+      "sizeLines": 2102,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/MeridianResultsView.vue",
+      "language": "vue",
+      "sizeLines": 2293,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/ModernDiseasesView.vue",
+      "language": "vue",
+      "sizeLines": 723,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/NewExaminationView.vue",
+      "language": "vue",
+      "sizeLines": 362,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/PatientDetailView.vue",
+      "language": "vue",
+      "sizeLines": 346,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/PatientsView.vue",
+      "language": "vue",
+      "sizeLines": 448,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/PhacDoDieuTriView.vue",
+      "language": "vue",
+      "sizeLines": 1060,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/ScheduleConfigView.vue",
+      "language": "vue",
+      "sizeLines": 400,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/SymptomsView.vue",
+      "language": "vue",
+      "sizeLines": 927,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/TonThuongTacNhanView.vue",
+      "language": "vue",
+      "sizeLines": 508,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/TreatmentsView.vue",
+      "language": "vue",
+      "sizeLines": 1684,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/src/views/WesternMedicineView.vue",
+      "language": "vue",
+      "sizeLines": 1404,
+      "fileCategory": "code"
+    },
+    {
+      "path": "frontend/tsconfig.app.json",
+      "language": "json",
+      "sizeLines": 18,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/tsconfig.json",
+      "language": "json",
+      "sizeLines": 11,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/tsconfig.node.json",
+      "language": "json",
+      "sizeLines": 27,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/vercel.json",
+      "language": "json",
+      "sizeLines": 8,
+      "fileCategory": "config"
+    },
+    {
+      "path": "frontend/vite.config.ts",
+      "language": "typescript",
+      "sizeLines": 36,
+      "fileCategory": "code"
+    },
+    {
+      "path": "insert-benh-dong-y-excel-from-json.sql",
+      "language": "sql",
+      "sizeLines": 469,
+      "fileCategory": "data"
+    },
+    {
+      "path": "map.md",
+      "language": "markdown",
+      "sizeLines": 87,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "nguyennhan.md",
+      "language": "markdown",
+      "sizeLines": 7,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "start.sh",
+      "language": "shell",
+      "sizeLines": 9,
+      "fileCategory": "script"
+    },
+    {
+      "path": "tam-khi-hu-condition.json",
+      "language": "json",
+      "sizeLines": 5,
+      "fileCategory": "config"
+    },
+    {
+      "path": "tieuketbatcuong.md",
+      "language": "markdown",
+      "sizeLines": 72,
+      "fileCategory": "docs"
+    }
+  ],
+  "totalFiles": 241,
+  "filteredByIgnore": 132,
+  "estimatedComplexity": "large",
+  "stats": {
+    "filesScanned": 241,
+    "byCategory": {
+      "config": 18,
+      "infra": 5,
+      "code": 172,
+      "docs": 9,
+      "data": 34,
+      "markup": 2,
+      "script": 1
+    },
+    "byLanguage": {
+      "config": 3,
+      "unknown": 3,
+      "typescript": 144,
+      "dockerfile": 2,
+      "javascript": 4,
+      "json": 15,
+      "markdown": 9,
+      "sql": 34,
+      "yaml": 1,
+      "html": 1,
+      "conf": 1,
+      "vue": 22,
+      "css": 1,
+      "shell": 1
+    }
+  }
+}

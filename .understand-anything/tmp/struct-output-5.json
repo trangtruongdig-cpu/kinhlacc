@@ -1,0 +1,1199 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 12,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "backend/src/controllers/chu-tri.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 68,
+      "nonEmptyLines": 63,
+      "classes": [
+        {
+          "name": "ChuTriController",
+          "startLine": 17,
+          "endLine": 68,
+          "methods": [
+            "constructor",
+            "findAll",
+            "create",
+            "update",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChuTriController",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 19
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.repo.find",
+          "lineNumber": 25
+        },
+        {
+          "caller": "create",
+          "callee": "Body",
+          "lineNumber": 29
+        },
+        {
+          "caller": "create",
+          "callee": "formatCatalogLabel",
+          "lineNumber": 30
+        },
+        {
+          "caller": "create",
+          "callee": "catalogKey",
+          "lineNumber": 32
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.find",
+          "lineNumber": 33
+        },
+        {
+          "caller": "create",
+          "callee": "rows.find",
+          "lineNumber": 34
+        },
+        {
+          "caller": "create",
+          "callee": "catalogKey",
+          "lineNumber": 34
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.create",
+          "lineNumber": 36
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.save",
+          "lineNumber": 40
+        },
+        {
+          "caller": "update",
+          "callee": "Param",
+          "lineNumber": 44
+        },
+        {
+          "caller": "update",
+          "callee": "Body",
+          "lineNumber": 44
+        },
+        {
+          "caller": "update",
+          "callee": "parseInt",
+          "lineNumber": 45
+        },
+        {
+          "caller": "update",
+          "callee": "formatCatalogLabel",
+          "lineNumber": 48
+        },
+        {
+          "caller": "update",
+          "callee": "catalogKey",
+          "lineNumber": 50
+        },
+        {
+          "caller": "update",
+          "callee": "this.repo.find",
+          "lineNumber": 51
+        },
+        {
+          "caller": "update",
+          "callee": "rows.find",
+          "lineNumber": 52
+        },
+        {
+          "caller": "update",
+          "callee": "catalogKey",
+          "lineNumber": 52
+        },
+        {
+          "caller": "update",
+          "callee": "Object.keys",
+          "lineNumber": 59
+        },
+        {
+          "caller": "update",
+          "callee": "this.repo.update",
+          "lineNumber": 59
+        },
+        {
+          "caller": "update",
+          "callee": "this.repo.findOneBy",
+          "lineNumber": 60
+        },
+        {
+          "caller": "remove",
+          "callee": "Param",
+          "lineNumber": 64
+        },
+        {
+          "caller": "remove",
+          "callee": "this.repo.delete",
+          "lineNumber": 65
+        },
+        {
+          "caller": "remove",
+          "callee": "parseInt",
+          "lineNumber": 65
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/controllers/nhom-lon-duoc-ly.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 77,
+      "nonEmptyLines": 70,
+      "classes": [
+        {
+          "name": "NhomLonDuocLyService",
+          "startLine": 9,
+          "endLine": 77,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findOne",
+            "create",
+            "update",
+            "remove"
+          ],
+          "properties": [
+            "RELATIONS"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "NhomLonDuocLyService",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 11
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.repo.find",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.repo.findOne",
+          "lineNumber": 31
+        },
+        {
+          "caller": "create",
+          "callee": "formatCatalogLabel",
+          "lineNumber": 40
+        },
+        {
+          "caller": "create",
+          "callee": "catalogKey",
+          "lineNumber": 42
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.find",
+          "lineNumber": 43
+        },
+        {
+          "caller": "create",
+          "callee": "rows.find",
+          "lineNumber": 44
+        },
+        {
+          "caller": "create",
+          "callee": "catalogKey",
+          "lineNumber": 44
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.create",
+          "lineNumber": 47
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.save",
+          "lineNumber": 52
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 56
+        },
+        {
+          "caller": "update",
+          "callee": "formatCatalogLabel",
+          "lineNumber": 58
+        },
+        {
+          "caller": "update",
+          "callee": "catalogKey",
+          "lineNumber": 60
+        },
+        {
+          "caller": "update",
+          "callee": "this.repo.find",
+          "lineNumber": 61
+        },
+        {
+          "caller": "update",
+          "callee": "rows.find",
+          "lineNumber": 62
+        },
+        {
+          "caller": "update",
+          "callee": "catalogKey",
+          "lineNumber": 62
+        },
+        {
+          "caller": "update",
+          "callee": "this.repo.save",
+          "lineNumber": 69
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 70
+        },
+        {
+          "caller": "remove",
+          "callee": "this.findOne",
+          "lineNumber": 74
+        },
+        {
+          "caller": "remove",
+          "callee": "this.repo.remove",
+          "lineNumber": 75
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/controllers/nhom-nho-duoc-ly.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 193,
+      "nonEmptyLines": 181,
+      "classes": [
+        {
+          "name": "NhomNhoDuocLyService",
+          "startLine": 17,
+          "endLine": 193,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findOne",
+            "findByNhomLon",
+            "create",
+            "update",
+            "remove",
+            "applyViThuocLinks",
+            "applyChuTriLinks"
+          ],
+          "properties": [
+            "RELATIONS"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "NhomNhoDuocLyService",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 19
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 21
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.repo.find",
+          "lineNumber": 35
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.repo.findOne",
+          "lineNumber": 42
+        },
+        {
+          "caller": "findByNhomLon",
+          "callee": "this.repo.find",
+          "lineNumber": 51
+        },
+        {
+          "caller": "create",
+          "callee": "formatCatalogLabel",
+          "lineNumber": 59
+        },
+        {
+          "caller": "create",
+          "callee": "Number.isFinite",
+          "lineNumber": 61
+        },
+        {
+          "caller": "create",
+          "callee": "this.nhomLonRepo.findOneBy",
+          "lineNumber": 64
+        },
+        {
+          "caller": "create",
+          "callee": "this.dataSource.createQueryRunner",
+          "lineNumber": 67
+        },
+        {
+          "caller": "create",
+          "callee": "qr.connect",
+          "lineNumber": 68
+        },
+        {
+          "caller": "create",
+          "callee": "qr.startTransaction",
+          "lineNumber": 69
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.create",
+          "lineNumber": 71
+        },
+        {
+          "caller": "create",
+          "callee": "qr.manager.save",
+          "lineNumber": 78
+        },
+        {
+          "caller": "create",
+          "callee": "this.applyViThuocLinks",
+          "lineNumber": 79
+        },
+        {
+          "caller": "create",
+          "callee": "this.applyChuTriLinks",
+          "lineNumber": 80
+        },
+        {
+          "caller": "create",
+          "callee": "qr.commitTransaction",
+          "lineNumber": 81
+        },
+        {
+          "caller": "create",
+          "callee": "this.findOne",
+          "lineNumber": 82
+        },
+        {
+          "caller": "create",
+          "callee": "qr.rollbackTransaction",
+          "lineNumber": 84
+        },
+        {
+          "caller": "create",
+          "callee": "qr.release",
+          "lineNumber": 87
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 92
+        },
+        {
+          "caller": "update",
+          "callee": "this.dataSource.createQueryRunner",
+          "lineNumber": 93
+        },
+        {
+          "caller": "update",
+          "callee": "qr.connect",
+          "lineNumber": 94
+        },
+        {
+          "caller": "update",
+          "callee": "qr.startTransaction",
+          "lineNumber": 95
+        },
+        {
+          "caller": "update",
+          "callee": "qr.manager.findOneBy",
+          "lineNumber": 98
+        },
+        {
+          "caller": "update",
+          "callee": "formatCatalogLabel",
+          "lineNumber": 103
+        },
+        {
+          "caller": "update",
+          "callee": "qr.manager.save",
+          "lineNumber": 110
+        },
+        {
+          "caller": "update",
+          "callee": "qr.manager.delete",
+          "lineNumber": 113
+        },
+        {
+          "caller": "update",
+          "callee": "this.applyViThuocLinks",
+          "lineNumber": 114
+        },
+        {
+          "caller": "update",
+          "callee": "qr.manager.delete",
+          "lineNumber": 117
+        },
+        {
+          "caller": "update",
+          "callee": "this.applyChuTriLinks",
+          "lineNumber": 118
+        },
+        {
+          "caller": "update",
+          "callee": "qr.commitTransaction",
+          "lineNumber": 120
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 121
+        },
+        {
+          "caller": "update",
+          "callee": "qr.rollbackTransaction",
+          "lineNumber": 123
+        },
+        {
+          "caller": "update",
+          "callee": "qr.release",
+          "lineNumber": 126
+        },
+        {
+          "caller": "remove",
+          "callee": "this.findOne",
+          "lineNumber": 131
+        },
+        {
+          "caller": "remove",
+          "callee": "this.repo.remove",
+          "lineNumber": 132
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "ids.filter",
+          "lineNumber": 141
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "Number.isFinite",
+          "lineNumber": 141
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "manager.find",
+          "lineNumber": 143
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "In",
+          "lineNumber": 143
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "found.map",
+          "lineNumber": 144
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "allowed.has",
+          "lineNumber": 148
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "rows.push",
+          "lineNumber": 149
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "manager.create",
+          "lineNumber": 150
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "manager\r\n      .createQueryBuilder()\r\n      .insert()\r\n      .into(NhomNhoViThuoc)\r\n      .values(rows)\r\n      .orIgnore()\r\n      .execute",
+          "lineNumber": 156
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "manager\r\n      .createQueryBuilder()\r\n      .insert()\r\n      .into(NhomNhoViThuoc)\r\n      .values(rows)\r\n      .orIgnore",
+          "lineNumber": 156
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "manager\r\n      .createQueryBuilder()\r\n      .insert()\r\n      .into(NhomNhoViThuoc)\r\n      .values",
+          "lineNumber": 156
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "manager\r\n      .createQueryBuilder()\r\n      .insert()\r\n      .into",
+          "lineNumber": 156
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "manager\r\n      .createQueryBuilder()\r\n      .insert",
+          "lineNumber": 156
+        },
+        {
+          "caller": "applyViThuocLinks",
+          "callee": "manager\r\n      .createQueryBuilder",
+          "lineNumber": 156
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "ids.filter",
+          "lineNumber": 171
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "Number.isFinite",
+          "lineNumber": 171
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "manager.find",
+          "lineNumber": 173
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "In",
+          "lineNumber": 173
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "found.map",
+          "lineNumber": 174
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "allowed.has",
+          "lineNumber": 178
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "rows.push",
+          "lineNumber": 179
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "manager.create",
+          "lineNumber": 180
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "manager\r\n      .createQueryBuilder()\r\n      .insert()\r\n      .into(NhomNhoChuTri)\r\n      .values(rows)\r\n      .orIgnore()\r\n      .execute",
+          "lineNumber": 185
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "manager\r\n      .createQueryBuilder()\r\n      .insert()\r\n      .into(NhomNhoChuTri)\r\n      .values(rows)\r\n      .orIgnore",
+          "lineNumber": 185
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "manager\r\n      .createQueryBuilder()\r\n      .insert()\r\n      .into(NhomNhoChuTri)\r\n      .values",
+          "lineNumber": 185
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "manager\r\n      .createQueryBuilder()\r\n      .insert()\r\n      .into",
+          "lineNumber": 185
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "manager\r\n      .createQueryBuilder()\r\n      .insert",
+          "lineNumber": 185
+        },
+        {
+          "caller": "applyChuTriLinks",
+          "callee": "manager\r\n      .createQueryBuilder",
+          "lineNumber": 185
+        }
+      ],
+      "metrics": {
+        "importCount": 8,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/chu-tri.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 10,
+      "classes": [
+        {
+          "name": "ChuTri",
+          "startLine": 4,
+          "endLine": 13,
+          "methods": [],
+          "properties": [
+            "id",
+            "ten_chu_tri",
+            "ghi_chu"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ChuTri",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/duoc-ly.dto.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 28,
+      "classes": [
+        {
+          "name": "CreateNhomLonDuocLyDto",
+          "startLine": 1,
+          "endLine": 5,
+          "methods": [],
+          "properties": [
+            "ten_nhom",
+            "mo_ta",
+            "thu_tu"
+          ]
+        },
+        {
+          "name": "UpdateNhomLonDuocLyDto",
+          "startLine": 7,
+          "endLine": 11,
+          "methods": [],
+          "properties": [
+            "ten_nhom",
+            "mo_ta",
+            "thu_tu"
+          ]
+        },
+        {
+          "name": "CreateNhomNhoDuocLyDto",
+          "startLine": 13,
+          "endLine": 21,
+          "methods": [],
+          "properties": [
+            "id_nhom_lon",
+            "ten_nhom",
+            "lieu_luong",
+            "mo_ta",
+            "thu_tu",
+            "vi_thuoc_ids",
+            "chu_tri_ids"
+          ]
+        },
+        {
+          "name": "UpdateNhomNhoDuocLyDto",
+          "startLine": 23,
+          "endLine": 31,
+          "methods": [],
+          "properties": [
+            "id_nhom_lon",
+            "ten_nhom",
+            "lieu_luong",
+            "mo_ta",
+            "thu_tu",
+            "vi_thuoc_ids",
+            "chu_tri_ids"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateNhomLonDuocLyDto",
+          "line": 1,
+          "isDefault": false
+        },
+        {
+          "name": "UpdateNhomLonDuocLyDto",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "CreateNhomNhoDuocLyDto",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "UpdateNhomNhoDuocLyDto",
+          "line": 23,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 0,
+        "classCount": 4
+      }
+    },
+    {
+      "path": "backend/src/models/nhom-lon-duoc-ly.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 15,
+      "classes": [
+        {
+          "name": "NhomLonDuocLy",
+          "startLine": 5,
+          "endLine": 20,
+          "methods": [],
+          "properties": [
+            "id",
+            "ten_nhom",
+            "mo_ta",
+            "thu_tu",
+            "nhomNhoList"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "NhomLonDuocLy",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/nhom-nho-chu-tri.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 18,
+      "classes": [
+        {
+          "name": "NhomNhoChuTri",
+          "startLine": 6,
+          "endLine": 23,
+          "methods": [],
+          "properties": [
+            "idNhomNho",
+            "idChuTri",
+            "thu_tu",
+            "nhomNho",
+            "chuTri"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "NhomNhoChuTri",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/nhom-nho-duoc-ly.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 27,
+      "classes": [
+        {
+          "name": "NhomNhoDuocLy",
+          "startLine": 7,
+          "endLine": 36,
+          "methods": [],
+          "properties": [
+            "id",
+            "idNhomLon",
+            "ten_nhom",
+            "lieu_luong",
+            "mo_ta",
+            "thu_tu",
+            "nhomLon",
+            "viThuocLinks",
+            "chuTriLinks"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "NhomNhoDuocLy",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/nhom-nho-vi-thuoc.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 18,
+      "classes": [
+        {
+          "name": "NhomNhoViThuoc",
+          "startLine": 6,
+          "endLine": 23,
+          "methods": [],
+          "properties": [
+            "idNhomNho",
+            "idViThuoc",
+            "thu_tu",
+            "nhomNho",
+            "viThuoc"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "NhomNhoViThuoc",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/routers/nhom-lon-duoc-ly.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 30,
+      "classes": [
+        {
+          "name": "NhomLonDuocLyRouter",
+          "startLine": 6,
+          "endLine": 36,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findOne",
+            "create",
+            "update",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "NhomLonDuocLyRouter",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findAll",
+          "callee": "this.service.findAll",
+          "lineNumber": 11
+        },
+        {
+          "caller": "findOne",
+          "callee": "Param",
+          "lineNumber": 15
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.service.findOne",
+          "lineNumber": 16
+        },
+        {
+          "caller": "create",
+          "callee": "Body",
+          "lineNumber": 20
+        },
+        {
+          "caller": "create",
+          "callee": "this.service.create",
+          "lineNumber": 21
+        },
+        {
+          "caller": "update",
+          "callee": "Param",
+          "lineNumber": 26
+        },
+        {
+          "caller": "update",
+          "callee": "Body",
+          "lineNumber": 26
+        },
+        {
+          "caller": "update",
+          "callee": "this.service.update",
+          "lineNumber": 27
+        },
+        {
+          "caller": "remove",
+          "callee": "Param",
+          "lineNumber": 32
+        },
+        {
+          "caller": "remove",
+          "callee": "this.service.remove",
+          "lineNumber": 33
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/routers/nhom-nho-duoc-ly.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 40,
+      "nonEmptyLines": 34,
+      "classes": [
+        {
+          "name": "NhomNhoDuocLyRouter",
+          "startLine": 6,
+          "endLine": 40,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findOne",
+            "create",
+            "update",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "NhomNhoDuocLyRouter",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findAll",
+          "callee": "Query",
+          "lineNumber": 10
+        },
+        {
+          "caller": "findAll",
+          "callee": "Number",
+          "lineNumber": 12
+        },
+        {
+          "caller": "findAll",
+          "callee": "Number.isFinite",
+          "lineNumber": 13
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.service.findByNhomLon",
+          "lineNumber": 13
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.service.findAll",
+          "lineNumber": 15
+        },
+        {
+          "caller": "findOne",
+          "callee": "Param",
+          "lineNumber": 19
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.service.findOne",
+          "lineNumber": 20
+        },
+        {
+          "caller": "create",
+          "callee": "Body",
+          "lineNumber": 24
+        },
+        {
+          "caller": "create",
+          "callee": "this.service.create",
+          "lineNumber": 25
+        },
+        {
+          "caller": "update",
+          "callee": "Param",
+          "lineNumber": 30
+        },
+        {
+          "caller": "update",
+          "callee": "Body",
+          "lineNumber": 30
+        },
+        {
+          "caller": "update",
+          "callee": "this.service.update",
+          "lineNumber": 31
+        },
+        {
+          "caller": "remove",
+          "callee": "Param",
+          "lineNumber": 36
+        },
+        {
+          "caller": "remove",
+          "callee": "this.service.remove",
+          "lineNumber": 37
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/utils/catalog-label.util.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 13,
+      "nonEmptyLines": 12,
+      "functions": [
+        {
+          "name": "formatCatalogLabel",
+          "startLine": 4,
+          "endLine": 8,
+          "params": [
+            "raw"
+          ]
+        },
+        {
+          "name": "catalogKey",
+          "startLine": 11,
+          "endLine": 13,
+          "params": [
+            "raw"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "formatCatalogLabel",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "catalogKey",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "formatCatalogLabel",
+          "callee": "String(raw ?? '')\r\n    .trim()\r\n    .replace",
+          "lineNumber": 5
+        },
+        {
+          "caller": "formatCatalogLabel",
+          "callee": "String(raw ?? '')\r\n    .trim",
+          "lineNumber": 5
+        },
+        {
+          "caller": "formatCatalogLabel",
+          "callee": "String",
+          "lineNumber": 5
+        },
+        {
+          "caller": "catalogKey",
+          "callee": "formatCatalogLabel(raw).toLowerCase",
+          "lineNumber": 12
+        },
+        {
+          "caller": "catalogKey",
+          "callee": "formatCatalogLabel",
+          "lineNumber": 12
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 0
+      }
+    }
+  ]
+}

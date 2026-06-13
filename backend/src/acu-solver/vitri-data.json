@@ -1,0 +1,3247 @@
+{
+ "generated": "tools/acu-solver/00-export-data.js",
+ "total": 361,
+ "nameToCode": {
+  "trung phu": "LU1",
+  "van mon": "LU2",
+  "thien phu": "LU3",
+  "hiep bach": "LU4",
+  "xich trach": "LU5",
+  "khong toi": "LU6",
+  "liet khuyet": "LU7",
+  "kinh cu": "LU8",
+  "thai uyen": "LU9",
+  "ngu te": "LU10",
+  "thieu thuong": "LU11",
+  "thuong duong": "LI1",
+  "nhi gian": "LI2",
+  "tam gian": "LI3",
+  "hop coc": "LI4",
+  "duong khe": "LI5",
+  "thien lich": "LI6",
+  "on luu": "LI7",
+  "ha liem": "LI8",
+  "thuong liem": "LI9",
+  "thu tam ly": "LI10",
+  "khuc tri": "LI11",
+  "truu lieu": "LI12",
+  "thu ngu ly": "LI13",
+  "ty nhu": "LI14",
+  "kien ngung": "LI15",
+  "cu cot": "LI16",
+  "thien dinh": "LI17",
+  "phu dot": "LI18",
+  "hoa lieu": "TE22",
+  "nghinh huong": "LI20",
+  "thua khap": "ST1",
+  "tu bach": "ST2",
+  "cu lieu": "GB29",
+  "dia thuong": "ST4",
+  "dai nghenh": "ST5",
+  "giap xa": "ST6",
+  "ha quan": "CV10",
+  "dau duy": "ST8",
+  "nhan nghenh": "ST9",
+  "thuy dot": "ST10",
+  "khi xa": "ST11",
+  "khuyet bon": "ST12",
+  "khi ho": "ST13",
+  "kho phong": "ST14",
+  "oc e": "ST15",
+  "ung song": "ST16",
+  "nhu trung": "ST17",
+  "nhu can": "ST18",
+  "bat dung": "ST19",
+  "thua man": "ST20",
+  "luong mon": "ST21",
+  "quan mon": "ST22",
+  "thai at": "ST23",
+  "hoat nhuc mon": "ST24",
+  "thien xu": "ST25",
+  "ngoai lang": "ST26",
+  "dai cu": "ST27",
+  "thuy dao": "ST28",
+  "quy lai": "ST29",
+  "khi xung": "ST30",
+  "be quan": "ST31",
+  "phuc tho": "ST32",
+  "am thi": "ST33",
+  "luong khau": "ST34",
+  "doc ty": "ST35",
+  "tuc tam ly": "ST36",
+  "thuong cu hu": "ST37",
+  "dieu khau": "ST38",
+  "ha cu hu": "ST39",
+  "phong long": "ST40",
+  "giai khe": "ST41",
+  "xung duong": "ST42",
+  "ham coc": "ST43",
+  "noi dinh": "ST44",
+  "le doai": "ST45",
+  "an bach": "SP1",
+  "dai do": "SP2",
+  "thai bach": "SP3",
+  "cong ton": "SP4",
+  "thuong khau": "KI17",
+  "tam am giao": "SP6",
+  "lau coc": "SP7",
+  "dia co": "SP8",
+  "am lang tuyen": "SP9",
+  "huyet hai": "SP10",
+  "co mon": "SP11",
+  "xung mon": "SP12",
+  "phu xa": "SP13",
+  "phuc ket": "SP14",
+  "dai hoanh": "SP15",
+  "phuc ai": "SP16",
+  "thuc dau": "SP17",
+  "thien khe": "SP18",
+  "hung huong": "SP19",
+  "chu vinh": "SP20",
+  "dai bao": "SP21",
+  "cuc tuyen": "HT1",
+  "thanh linh": "HT2",
+  "thieu hai": "HT3",
+  "linh dao": "HT4",
+  "thong ly": "HT5",
+  "am khich": "HT6",
+  "than mon": "HT7",
+  "thieu phu": "HT8",
+  "thieu xung": "HT9",
+  "thieu trach": "SI1",
+  "tien coc": "SI2",
+  "hau khe": "SI3",
+  "uyen cot": "SI4",
+  "duong coc": "SI5",
+  "duong lao": "SI6",
+  "chi chinh": "SI7",
+  "tieu hai": "SI8",
+  "kien trinh": "SI9",
+  "nhu du": "SI10",
+  "thien tong": "SI11",
+  "binh phong": "SI12",
+  "khuc vien": "SI13",
+  "kien ngoai du": "SI14",
+  "kien trung du": "SI15",
+  "thien song": "SI16",
+  "thien dung": "SI17",
+  "quyen lieu": "SI18",
+  "thinh cung": "SI19",
+  "tinh minh": "BL1",
+  "toan truc": "BL2",
+  "mi xung": "BL3",
+  "khuc sai": "BL4",
+  "ngu xu": "GB27",
+  "thua quang": "BL6",
+  "thong thien": "BL7",
+  "lac khuoc": "BL8",
+  "ngoc cham": "BL9",
+  "thien tru": "BL10",
+  "dai tru": "BL11",
+  "phong mon": "BL12",
+  "phe du": "BL13",
+  "quyet am du": "BL14",
+  "tam du": "BL15",
+  "doc du": "BL16",
+  "cach du": "BL17",
+  "can du": "BL18",
+  "dom du": "BL19",
+  "ty du": "BL20",
+  "vi du": "BL21",
+  "tam tieu du": "BL22",
+  "than du": "BL23",
+  "khi hai du": "BL24",
+  "dai truong du": "BL25",
+  "quan nguyen du": "BL26",
+  "tieu truong du": "BL27",
+  "bang quang du": "BL28",
+  "trung lu du": "BL29",
+  "bach hoan du": "BL30",
+  "thuong lieu": "BL31",
+  "thu lieu": "BL32",
+  "trung lieu": "BL33",
+  "ha lieu": "BL34",
+  "hoi duong": "BL35",
+  "thua pho": "BL36",
+  "an mon": "BL37",
+  "phu khich": "BL38",
+  "uy duong": "BL39",
+  "uy trung": "BL40",
+  "phu phan": "BL41",
+  "phach ho": "BL42",
+  "cao hoang": "BL43",
+  "than duong": "BL44",
+  "y hy": "BL45",
+  "cach quan": "BL46",
+  "hon mon": "BL47",
+  "duong cuong": "BL48",
+  "y xa": "BL49",
+  "vi thuong": "BL50",
+  "hoang mon": "BL51",
+  "chi that": "BL52",
+  "bao hoang": "BL53",
+  "trat bien": "BL54",
+  "hop duong": "BL55",
+  "thua can": "BL56",
+  "thua son": "BL57",
+  "phi duong": "BL58",
+  "phu duong": "BL59",
+  "con lon": "BL60",
+  "boc tham": "BL61",
+  "than mach": "BL62",
+  "kim mon": "BL63",
+  "kinh cot": "BL64",
+  "thuc cot": "BL65",
+  "thong coc": "KI20",
+  "chi am": "BL67",
+  "dung tuyen": "KI1",
+  "nhien coc": "KI2",
+  "thai khe": "KI3",
+  "dai chung": "KI4",
+  "thuy tuyen": "KI5",
+  "chieu hai": "KI6",
+  "phuc luu": "KI7",
+  "giao tin": "KI8",
+  "truc tan": "KI9",
+  "am coc": "KI10",
+  "hoanh cot": "KI11",
+  "dai hach": "KI12",
+  "khi huyet": "KI13",
+  "tu man": "KI14",
+  "trung chu": "TE3",
+  "hoang du": "KI16",
+  "thach quan": "KI18",
+  "am do": "KI19",
+  "u mon": "KI21",
+  "bo lang": "KI22",
+  "than phong": "KI23",
+  "linh khu": "KI24",
+  "than tang": "KI25",
+  "hoac trung": "KI26",
+  "du phu": "KI27",
+  "thien tri": "PC1",
+  "thien tuyen": "PC2",
+  "khuc trach": "PC3",
+  "khich mon": "PC4",
+  "gian su": "PC5",
+  "noi quan": "PC6",
+  "dai lang": "PC7",
+  "lao cung": "PC8",
+  "trung xung": "GV7",
+  "quan xung": "TE1",
+  "dich mon": "TE2",
+  "duong tri": "TE4",
+  "ngoai quan": "TE5",
+  "chi cau": "TE6",
+  "hoi tong": "TE7",
+  "tam duong lac": "TE8",
+  "tu doc": "TE9",
+  "thien tinh": "TE10",
+  "thanh lanh uyen": "TE11",
+  "tieu lac": "TE12",
+  "nhu hoi": "TE13",
+  "kien lieu": "TE14",
+  "thien lieu": "TE15",
+  "thien du": "TE16",
+  "e phong": "TE17",
+  "khe mach": "TE18",
+  "lu tuc": "TE19",
+  "giac ton": "TE20",
+  "nhi mon": "TE21",
+  "ty truc khong": "TE23",
+  "dong tu lieu": "GB1",
+  "thinh hoi": "GB2",
+  "thuong quan": "CV13",
+  "ham yen": "GB4",
+  "huyen lu": "GB5",
+  "huyen ly": "GB6",
+  "khuc tan": "GB7",
+  "suat coc": "GB8",
+  "thien xung": "GB9",
+  "phu bach": "GB10",
+  "khieu am": "GB11",
+  "hoan cot": "GB12",
+  "ban than": "GB13",
+  "duong bach": "GB14",
+  "lam khap": "GB15",
+  "muc song": "GB16",
+  "chinh dinh": "GB17",
+  "thua linh": "GB18",
+  "nao khong": "GB19",
+  "phong tri": "GB20",
+  "kien tinh": "GB21",
+  "uyen dich": "GB22",
+  "triep can": "GB23",
+  "kinh mon": "GB24",
+  "dai mach": "GB26",
+  "duy dao": "GB28",
+  "hoan khieu": "GB30",
+  "phong thi": "GB31",
+  "trung doc": "GB32",
+  "duong quan": "GB33",
+  "duong lang tuyen": "GB34",
+  "duong giao": "GB35",
+  "ngoai khau": "GB36",
+  "quang minh": "GB37",
+  "duong phu": "GB38",
+  "huyen chung": "GB39",
+  "khau khu": "GB40",
+  "tuc lam khap": "GB41",
+  "dia ngu hoi": "GB42",
+  "hiep khe": "GB43",
+  "tuc khieu am": "GB44",
+  "dai don": "LR1",
+  "hanh gian": "LR2",
+  "thai xung": "LR3",
+  "trung phong": "LR4",
+  "lai cau": "LR5",
+  "trung do": "LR6",
+  "tat quan": "LR7",
+  "khuc tuyen": "LR8",
+  "am bao": "LR9",
+  "ngu ly trach dien": "LR10",
+  "am liem": "LR11",
+  "cap mach": "LR12",
+  "chuong mon": "LR13",
+  "ky mong mon": "LR14",
+  "ky mon": "LR15",
+  "truong cuong": "GV1",
+  "yeu du": "GV2",
+  "yeu duong quan": "GV3",
+  "menh mon": "GV4",
+  "huyen khu": "GV5",
+  "tich trung": "GV6",
+  "can suc": "GV8",
+  "chi duong": "GV9",
+  "linh dai": "GV10",
+  "than dao": "GV11",
+  "than tru": "GV12",
+  "dao dao": "GV13",
+  "dai chuy": "GV14",
+  "a mon": "GV15",
+  "phong phu": "GV16",
+  "nao ho": "GV17",
+  "cuong gian": "GV18",
+  "hau dinh": "GV19",
+  "ba hoi thap tu thich": "GV20",
+  "tien dinh": "GV21",
+  "tin hoi": "GV22",
+  "thuong tinh": "GV23",
+  "than dinh": "GV24",
+  "to lieu": "GV25",
+  "nhan trung": "GV26",
+  "doai doan": "GV27",
+  "hoi am": "CV1",
+  "khuc cot": "CV2",
+  "trung cu": "CV3",
+  "quan nguyen": "CV4",
+  "thach mon": "CV5",
+  "khi hai": "CV6",
+  "am giao": "CV7",
+  "than khuyet": "CV8",
+  "thuy phan": "CV9",
+  "kien ly": "CV11",
+  "trung quan": "CV12",
+  "cu khuyet": "CV14",
+  "cuu vi": "CV15",
+  "trung dinh": "CV16",
+  "chien trung": "CV17",
+  "ngoc duong": "CV18",
+  "tu cung": "CV19",
+  "hoa cai": "CV20",
+  "toan co": "CV21",
+  "thien dot": "CV22",
+  "liem tuyen": "CV23",
+  "thua tuong": "CV24"
+ },
+ "points": [
+  {
+   "code": "LU1",
+   "mer": "LU",
+   "num": 1,
+   "name": "Trung Phủ",
+   "recId": 953,
+   "vitri": "Dưới cuối ngoài xương đòn gánh khoảng 01 thốn, hoặc giữa xương sườn 1 và 2, cách đường giữa ngực 06 thốn."
+  },
+  {
+   "code": "LU2",
+   "mer": "LU",
+   "num": 2,
+   "name": "Vân Môn",
+   "recId": 1028,
+   "vitri": "Bờ dưới xương đòn gánh, nơi chỗ lõm ngang cơ ngực to, giữa cơ Delta, nơi có gian sườn 1, cách đường ngực 06 thốn, trên huyệt Trung Phủ 1,6 thốn."
+  },
+  {
+   "code": "LU3",
+   "mer": "LU",
+   "num": 3,
+   "name": "Thiên Phủ",
+   "recId": 781,
+   "vitri": "Ở bờ trong bắp cánh tay trong, dưới nếp nách trước 3 thốn nơi bờ ngoài cơ 2 đầu cánh tay, trên huyệt Xích Trạch 6 thốn."
+  },
+  {
+   "code": "LU4",
+   "mer": "LU",
+   "num": 4,
+   "name": "Hiệp Bạch",
+   "recId": 318,
+   "vitri": "Ở mặt trong cánh tay, nơi gặp nhau của bờ ngoài cơ 2 đầu cánh tay với đường ngang dưới đầu nếp nách trước 4 thốn, trên khớp khuỷu (Xích Trạch) 5 thốn, dưới huyệt Thiên Phủ 1 thốn."
+  },
+  {
+   "code": "LU5",
+   "mer": "LU",
+   "num": 5,
+   "name": "Xích Trạch",
+   "recId": 1041,
+   "vitri": ""
+  },
+  {
+   "code": "LU6",
+   "mer": "LU",
+   "num": 6,
+   "name": "Khổng Tối",
+   "recId": 395,
+   "vitri": "Ở bờ ngoài cẳng tay, trên cổ tay 7 thốn, nơi gặp nhau của bờ trong cơ ngửa dài hay bờ ngoài của cơ gan tay to với đường ngang trên khớp cổ tay 7 thốn, trên đường thẳng nối huyệt Xích Trạch (P 5) và Thái Uyên (P 9)."
+  },
+  {
+   "code": "LU7",
+   "mer": "LU",
+   "num": 7,
+   "name": "Liệt Khuyết",
+   "recId": 468,
+   "vitri": "Dưới đầu xương quay nối với thân xương, cách lằn chỉ ngang cổ tay 1,5 thốn. Hoặc chéo 2 ngón tay trỏ và ngón tay cái của 2 bàn tay với nhau, huyệt ở chỗ lõm ngay dưới đầu ngón tay trỏ."
+  },
+  {
+   "code": "LU8",
+   "mer": "LU",
+   "num": 8,
+   "name": "Kinh Cừ",
+   "recId": 433,
+   "vitri": "Trên lằn chỉ cổ tay 1 thốn, ở mặt trong đầu dưới xương quay."
+  },
+  {
+   "code": "LU9",
+   "mer": "LU",
+   "num": 9,
+   "name": "Thái Uyên",
+   "recId": 739,
+   "vitri": "Trên lằn chỉ ngang cổ tay, nơi chỗ lõm trên động mạch tay quay, dưới huyệt là rãnh mạch tay quay."
+  },
+  {
+   "code": "LU10",
+   "mer": "LU",
+   "num": 10,
+   "name": "Ngư Tế",
+   "recId": 564,
+   "vitri": "Ở mặt trong lòng bàn tay, trung điểm giữa xương bàn ngón tay cái, nơi phần tiếp giáp lằn da đổi màu. Gấp ngón tay trỏ vào lòng bàn tay, đầu ngón tay trỏ chạm vào chỗ nào ở mô ngón tay cái, đó là huyệt."
+  },
+  {
+   "code": "LU11",
+   "mer": "LU",
+   "num": 11,
+   "name": "Thiếu Thương",
+   "recId": 797,
+   "vitri": "Tại bờ ngoài ngón tay cái, cách góc móng tay 0,1 thốn về phía tay quay. Hoặc huyệt nằm ở nơi gặp nhau tiếp giáp da gan – mu tay và đường ngang qua góc chân móng ngón tay cái."
+  },
+  {
+   "code": "LI1",
+   "mer": "LI",
+   "num": 1,
+   "name": "Thương dương",
+   "recId": 852,
+   "vitri": "Huyệt ở góc ngoài chân móng ngón tay trỏ cách khoảng 1mm."
+  },
+  {
+   "code": "LI2",
+   "mer": "LI",
+   "num": 2,
+   "name": "Nhị gian",
+   "recId": 590,
+   "vitri": "Huyệt ở chỗ lõm, phía trước và bờ ngoài khớp xương bàn và ngón trỏ, trên đường tiếp giáp da gan tay, mu tay."
+  },
+  {
+   "code": "LI3",
+   "mer": "LI",
+   "num": 3,
+   "name": "Tam gian",
+   "recId": 704,
+   "vitri": "Chỗ lõm, sau và ngoài khớp xương bàn – ngón trỏ, trên đường tiếp giáp da gan tay – mu tay."
+  },
+  {
+   "code": "LI4",
+   "mer": "LI",
+   "num": 4,
+   "name": "Hợp cốc",
+   "recId": 352,
+   "vitri": "a. Ở bờ ngoài, giữa xương bàn ngón 2. b. Khép ngón trỏ và ngón cái sát nhau, huyệt ở điểm cao nhất của cơ bắp ngón trỏ – ngón cái. c. Ngón tay cái và ngón tay trỏ xòe rộng, lấy nếp gấp giữa đốt 1 và đốt 2 của ngón tay cái bên kia để vào chỗ da nối ngón trỏ và ngón cái (hổ khẩu tay này, đặt áp đầu ngón cái lên mu bàn tay giữa 2 xương bàn 1 và 2), đầu ngón tay ở đâu, nơi đó là huyệt, ấn vào có cảm giác ê tức."
+  },
+  {
+   "code": "LI5",
+   "mer": "LI",
+   "num": 5,
+   "name": "Dương khê",
+   "recId": 173,
+   "vitri": "Nghiêng bàn tay, đưa ngón tay thẳng về mu bàn tay để hiện rõ hố lào giữa gân cơ duỗi và dạng ngón cái, huyệt ở sát đầu mỏm trâm xương quay."
+  },
+  {
+   "code": "LI6",
+   "mer": "LI",
+   "num": 6,
+   "name": "Thiên lịch",
+   "recId": 778,
+   "vitri": "Cách huyệt Dương Khê 3 thốn, trên đường nối huyệt Dương Khê (Đtr.5) và Khúc Trì (Đtr.11)."
+  },
+  {
+   "code": "LI7",
+   "mer": "LI",
+   "num": 7,
+   "name": "Ôn lưu",
+   "recId": 633,
+   "vitri": "Chỗ sưng trên xương quay khi bàn tay nắm chặt lại, nằm trên đường nối Dương Khê (Đtr 5) – Khúc Trì (Đtr 11), cách Dương Khê 5 thốn."
+  },
+  {
+   "code": "LI8",
+   "mer": "LI",
+   "num": 8,
+   "name": "Hạ liêm",
+   "recId": 288,
+   "vitri": "Trên đường nối Khúc Trì và Dương Khê, cách Khúc Trì 4 thốn."
+  },
+  {
+   "code": "LI9",
+   "mer": "LI",
+   "num": 9,
+   "name": "Thượng liêm",
+   "recId": 860,
+   "vitri": "Trên đường nối huyệt Khúc Trì (Đtr.11) và Dương Khê, cách Khúc Trì 3 thốn, ở bờ sau cơ ngửa dài, bờ ngoài cơ ngửa ngắn."
+  },
+  {
+   "code": "LI10",
+   "mer": "LI",
+   "num": 10,
+   "name": "Thủ tam lý",
+   "recId": 821,
+   "vitri": ""
+  },
+  {
+   "code": "LI11",
+   "mer": "LI",
+   "num": 11,
+   "name": "Khúc trì",
+   "recId": 402,
+   "vitri": "Co khuỷu tay vào ngực, huyệt ở đầu lằn chỉ nếp gấp khuỷu, nơi bám của cơ ngửa dài, cơ quay 1, cơ ngửa ngắn khớp khủy."
+  },
+  {
+   "code": "LI12",
+   "mer": "LI",
+   "num": 12,
+   "name": "Trửu liêu",
+   "recId": 970,
+   "vitri": ""
+  },
+  {
+   "code": "LI13",
+   "mer": "LI",
+   "num": 13,
+   "name": "Thủ ngũ lý",
+   "recId": 820,
+   "vitri": "Bốn chung quanh rốn, cách rốn 0,5 thốn."
+  },
+  {
+   "code": "LI14",
+   "mer": "LI",
+   "num": 14,
+   "name": "Tý nhu",
+   "recId": 1008,
+   "vitri": "Huyệt ở đầu cuối của cơ tam giác cánh tay, trên đường nối huyệt Khúc Trì (Đtr.11) và Kiên Ngung (Đtr.15)."
+  },
+  {
+   "code": "LI15",
+   "mer": "LI",
+   "num": 15,
+   "name": "Kiên ngung",
+   "recId": 415,
+   "vitri": "Dang cánh tay thẳng, huyệt ở chỗ lõm, phía trước và ngoài khớp, mỏm cùng – xương đòn."
+  },
+  {
+   "code": "LI16",
+   "mer": "LI",
+   "num": 16,
+   "name": "Cự cốt",
+   "recId": 126,
+   "vitri": "Chỗ lõm giữa xương đòn với gai sống vai."
+  },
+  {
+   "code": "LI17",
+   "mer": "LI",
+   "num": 17,
+   "name": "Thiên đỉnh",
+   "recId": 775,
+   "vitri": "Nơi gặp nhau của bờ sau bó đòn cơ ức – đòn chũm và đường ngang qua giữa cổ, cách tuyến giáp 3 thốn."
+  },
+  {
+   "code": "LI18",
+   "mer": "LI",
+   "num": 18,
+   "name": "Phù đột",
+   "recId": 652,
+   "vitri": "Trên cơ ức – đòn – chũm, trên đường ngang qua bờ trên sụn giáp trạng, ngang ra 3 thốn."
+  },
+  {
+   "code": "LI19",
+   "mer": "LI",
+   "num": 19,
+   "name": "Hòa liêu",
+   "recId": 322,
+   "vitri": "Huyệt nằm trên đường ngang qua 1/3 trên hoặc 2/3 dưới của rãnh nhân trung, cách đường giữa rãnh 0,5 thốn."
+  },
+  {
+   "code": "LI20",
+   "mer": "LI",
+   "num": 20,
+   "name": "Nghinh hương",
+   "recId": 529,
+   "vitri": "Điểm gặp nhau của đường ngang qua chân cách mũi và rãnh mũi - miệng."
+  },
+  {
+   "code": "ST1",
+   "mer": "ST",
+   "num": 1,
+   "name": "Thừa Khấp",
+   "recId": 838,
+   "vitri": "Dưới đồng tử 0,7 thốn, ở chỗ gặp nhau của bờ dưới xương ổ mắt với đường dọc chính giữa mắt."
+  },
+  {
+   "code": "ST2",
+   "mer": "ST",
+   "num": 2,
+   "name": "Tứ Bạch",
+   "recId": 992,
+   "vitri": "Ngay giữa mi dưới thẳng xuống 1 thốn, chỗ lõm dưới hố mắt, bờ dưới cơ vòng mi."
+  },
+  {
+   "code": "ST3",
+   "mer": "ST",
+   "num": 3,
+   "name": "Cự Liêu",
+   "recId": 133,
+   "vitri": "Tại nơi gặp nhau của đường giữa mắt kéo xuống và chân cánh mũi kéo ra, ngay dưới huyệt Tứ Bạch (Vi 2)."
+  },
+  {
+   "code": "ST4",
+   "mer": "ST",
+   "num": 4,
+   "name": "Địa Thương",
+   "recId": 228,
+   "vitri": "Cách khóe miệng 0,4 thốn, hoặc trên đường ngang qua mép và rãnh mép mũi."
+  },
+  {
+   "code": "ST5",
+   "mer": "ST",
+   "num": 5,
+   "name": "Đại Nghênh",
+   "recId": 206,
+   "vitri": "Cắn chặt răng lại, huyệt ở sát bờ trước cơ cắn và trên bờ dưới xương hàm dưới, ngang một khoát ngón tay, ngay trên rãnh động mạch mặt."
+  },
+  {
+   "code": "ST6",
+   "mer": "ST",
+   "num": 6,
+   "name": "Giáp Xa",
+   "recId": 276,
+   "vitri": "Cắn chặt răng lại, huyệt ở trước góc hàm và ở trên bờ dưới xương hàm dưới một khoát ngón tay, đè vào chỗ lõm có cảm giác ê tức."
+  },
+  {
+   "code": "ST7",
+   "mer": "ST",
+   "num": 7,
+   "name": "Hạ Quan",
+   "recId": 290,
+   "vitri": "Khi ngậm miệng lại, huyệt ở chỗ lõm phía trước tai, dưới xương gò má, nơi góc phía trước của mỏm tiếp xương thái dương và lồi cầu xương hàm dưới."
+  },
+  {
+   "code": "ST8",
+   "mer": "ST",
+   "num": 8,
+   "name": "Đầu Duy",
+   "recId": 212,
+   "vitri": "Nơi góc trán, cách bờ chân tóc 0,5 thốn, trên đường khớp đỉnh trán, từ huyệt Thần Đình (Đc 24) đo ra 4 thốn."
+  },
+  {
+   "code": "ST9",
+   "mer": "ST",
+   "num": 9,
+   "name": "Nhân Nghênh",
+   "recId": 570,
+   "vitri": "Nơi gặp nhau của bờ trước cơ ức – đòn chũm và đường ngang qua chỗ lồi nhất của yết hầu, sờ ở cổ có động mạch cảnh đập."
+  },
+  {
+   "code": "ST10",
+   "mer": "ST",
+   "num": 10,
+   "name": "Thủy Đột",
+   "recId": 831,
+   "vitri": "Tại bờ trước cơ ức – đòn – chũm, giữa huyệt Nhân Nghênh (Vi.9) và Khí Xá (Vi.11), dưới sụn giáp trạng."
+  },
+  {
+   "code": "ST11",
+   "mer": "ST",
+   "num": 11,
+   "name": "Khí Xá",
+   "recId": 386,
+   "vitri": "Ở đáy cổ, ngay chỗ lõm sát bờ trên xương đòn, khe giữa bó ức và bó đòn cơ ức – đòn – chũm. Hoặc giao điểm từ huyệt Nhân Nghênh (Vi 9) kéo thẳng xuống và huyệt Thiên Đột (Nh 22) ngang ra 01 thốn."
+  },
+  {
+   "code": "ST12",
+   "mer": "ST",
+   "num": 12,
+   "name": "Khuyết Bồn",
+   "recId": 407,
+   "vitri": "Ở chỗ lõm sát bờ trên xương đòn, ngay đầu ngực thẳng lên, dưới huyệt là hố trên đòn."
+  },
+  {
+   "code": "ST13",
+   "mer": "ST",
+   "num": 13,
+   "name": "Khí Hộ",
+   "recId": 380,
+   "vitri": "Ở sát dưới xương đòn, dưới huyệt Khuyết Bồn 1 thốn, cách đường giữa ngực 4 thốn."
+  },
+  {
+   "code": "ST14",
+   "mer": "ST",
+   "num": 14,
+   "name": "Khố Phòng",
+   "recId": 393,
+   "vitri": "Ở khoảng gian sườn 1, ngay dưới huyệt Khí Hộ (Vi 13), cách đường giữa ngực 4 thốn."
+  },
+  {
+   "code": "ST15",
+   "mer": "ST",
+   "num": 15,
+   "name": "Ốc Ế",
+   "recId": 632,
+   "vitri": "Ở khoảng gian sườn 2, trên đường thẳng qua đầu ngực, cách đường giữa ngực 4 thốn (ngang h.Tử Cung – Nh.19), nơi cơ ngực to, bờ trên cơ ngực bé."
+  },
+  {
+   "code": "ST16",
+   "mer": "ST",
+   "num": 16,
+   "name": "Ưng Song",
+   "recId": 1027,
+   "vitri": "Ở khoảng gian sườn 3, trên đường thẳng qua đầu ngực, cách đường giữa ngực 4 thốn (ngang huyệt Ngọc Đường – Nh.18), nơi cơ ngực to."
+  },
+  {
+   "code": "ST17",
+   "mer": "ST",
+   "num": 17,
+   "name": "Nhũ Trung",
+   "recId": 608,
+   "vitri": ""
+  },
+  {
+   "code": "ST18",
+   "mer": "ST",
+   "num": 18,
+   "name": "Nhũ Căn",
+   "recId": 605,
+   "vitri": "Ở giữa gian sườn 5, thẳng dưới đầu vú, cách đường giữa ngực 4 thốn."
+  },
+  {
+   "code": "ST19",
+   "mer": "ST",
+   "num": 19,
+   "name": "Bất Dung",
+   "recId": 63,
+   "vitri": "Từ rốn đo lên 6 thốn, ngang ra 2 thốn."
+  },
+  {
+   "code": "ST20",
+   "mer": "ST",
+   "num": 20,
+   "name": "Thừa Mãn",
+   "recId": 840,
+   "vitri": "Trên rốn 5 thốn, cách đường giữa bụng 2 thốn, ngang huyệt Thượng Quản (Nh.13)."
+  },
+  {
+   "code": "ST21",
+   "mer": "ST",
+   "num": 21,
+   "name": "Lương Môn",
+   "recId": 490,
+   "vitri": "Trên rốn 4 thốn, cách đường giữa bụng 2 thốn, ngang huyệt Trung Quản (Nh.12)."
+  },
+  {
+   "code": "ST22",
+   "mer": "ST",
+   "num": 22,
+   "name": "Quan Môn",
+   "recId": 666,
+   "vitri": "Rốn lên 3 thốn (huyệt Kiến Lý – Nh.11), rồi ra ngang 2 bên mỗi bên 2 thốn."
+  },
+  {
+   "code": "ST23",
+   "mer": "ST",
+   "num": 23,
+   "name": "Thái Ất",
+   "recId": 735,
+   "vitri": "Rốn lên 2 thốn (huyệt Hạ Quản – Nh.10), đo ngang ra 2 thốn."
+  },
+  {
+   "code": "ST24",
+   "mer": "ST",
+   "num": 24,
+   "name": "Hoạt Nhục Môn",
+   "recId": 336,
+   "vitri": "Trên rốn 1 thốn, cách đường giữa bụng 2 thốn, ngang huyệt Thủy Phân (Nh 9)."
+  },
+  {
+   "code": "ST25",
+   "mer": "ST",
+   "num": 25,
+   "name": "Thiên Xu",
+   "recId": 790,
+   "vitri": "Từ rốn đo ngang ra 2 thốn."
+  },
+  {
+   "code": "ST26",
+   "mer": "ST",
+   "num": 26,
+   "name": "Ngoại Lăng",
+   "recId": 541,
+   "vitri": "Dưới rốn 1 thốn (huyệt Âm Giao – Nh.7) ra ngang 2 thốn."
+  },
+  {
+   "code": "ST27",
+   "mer": "ST",
+   "num": 27,
+   "name": "Đại Cự",
+   "recId": 195,
+   "vitri": "Rốn đo xuống 2 thốn (huyệt Thạch Môn (Nh.5), đo ngang ra 2 thốn."
+  },
+  {
+   "code": "ST28",
+   "mer": "ST",
+   "num": 28,
+   "name": "Thủy Đạo",
+   "recId": 830,
+   "vitri": "Rốn xuống 3 thốn (huyệt Quan Nguyên – Nh.4), đo ngang ra 2 thốn."
+  },
+  {
+   "code": "ST29",
+   "mer": "ST",
+   "num": 29,
+   "name": "Quy Lai",
+   "recId": 678,
+   "vitri": "Rốn xuống 4 thốn (huyệt Trung Cực (Nh.3), rồi đo ra 2 bên mỗi bên 2 thốn."
+  },
+  {
+   "code": "ST30",
+   "mer": "ST",
+   "num": 30,
+   "name": "Khí Xung",
+   "recId": 387,
+   "vitri": "Rốn xuống 5 thốn (huyệt Khúc Cốt – Nh.2) đo ra ngang 2 thốn."
+  },
+  {
+   "code": "ST31",
+   "mer": "ST",
+   "num": 31,
+   "name": "Bễ Quan",
+   "recId": 64,
+   "vitri": "Trong vùng phễu đùi (scarpa), nơi gặp nhau của đường kẻ ngang qua xương mu và đường thẳng qua gai chậu trước trên, nơi bờ trong cơ may và cơ căng cân đùi, trên lằn gối chân 13 thốn, ngang huyệt Hội Âm (Nh 1)."
+  },
+  {
+   "code": "ST32",
+   "mer": "ST",
+   "num": 32,
+   "name": "Phục Thố",
+   "recId": 663,
+   "vitri": "Ở điểm cách góc trên phía ngoài xương bánh chè 6 thốn, bờ ngoài cơ thẳng trước, bờ trong cơ rộng ngoài. Hoặc bàn tay úp lên đầu gối, các ngón tay khép lại, để ngay giữa lằn cổ tay thứ nhất lên trên giữa đầu gối, đầu ngón tay giữa áp lên da chân ở đầu, nơi đó là huyệt."
+  },
+  {
+   "code": "ST33",
+   "mer": "ST",
+   "num": 33,
+   "name": "Âm Thị",
+   "recId": 25,
+   "vitri": "Ở chỗ lõm trên góc trên ngoài xương bánh chè 3 thốn, sát bờ ngoài gân cơ thẳng trước đùi."
+  },
+  {
+   "code": "ST34",
+   "mer": "ST",
+   "num": 34,
+   "name": "Lương Khâu",
+   "recId": 489,
+   "vitri": "Ở chỗ lõm trên bờ trên ngoài xương đầu gối 2 thốn, thẳng trên huyệt Độc Tỵ (Vi.35)."
+  },
+  {
+   "code": "ST35",
+   "mer": "ST",
+   "num": 35,
+   "name": "Độc Tỵ",
+   "recId": 249,
+   "vitri": "Ngồi co đầu gối, huyệt ở chỗ lõm dưới góc dưới – ngoài xương bánh chè và ở ngoài gân cơ tứ đầu đùi."
+  },
+  {
+   "code": "ST36",
+   "mer": "ST",
+   "num": 36,
+   "name": "Túc Tam Lý",
+   "recId": 981,
+   "vitri": "Dưới mắt gối ngoài 3 thốn, phía ngoài xương mác khoảng 1 khoát ngón tay, nơi cơ cẳng chân trước, khe giữa xương chày và xương mác. Hoặc úp lòng bàn tay vào giữa đầu gối, đầu ngón tay giữa chạm vào xương ống chân (xương chầy), từ đó hơi xịch ra phía ngoài một ít là huyệt. Dưới lõm ngoài xương bánh chè (Độc Tỵ) 3 thốn."
+  },
+  {
+   "code": "ST37",
+   "mer": "ST",
+   "num": 37,
+   "name": "Thượng Cự Hư",
+   "recId": 857,
+   "vitri": "Dưới mắt gối ngoài (Độc Tỵ) 6 thốn, phía ngoài xương mác một khoát ngón tay, dưới huyệt Túc Tam Lý (Vi.36) 3 thốn."
+  },
+  {
+   "code": "ST38",
+   "mer": "ST",
+   "num": 38,
+   "name": "Điều Khẩu",
+   "recId": 230,
+   "vitri": "Ở giữa đoạn nối huyệt Độc Tỷ (Vi 35) và Giải Khê (Vi 41), cách dưới mắt gối ngoài 8 thốn, ngay dưới Thượng Cự Hư 2 thốn."
+  },
+  {
+   "code": "ST39",
+   "mer": "ST",
+   "num": 39,
+   "name": "Hạ Cự Hư",
+   "recId": 282,
+   "vitri": "Dưới huyệt Thượng Cự Hư 3 thốn, phía ngoài xương mác 1 khoát ngón tay, bờ ngoài cơ cẳng chân trước."
+  },
+  {
+   "code": "ST40",
+   "mer": "ST",
+   "num": 40,
+   "name": "Phong Long",
+   "recId": 642,
+   "vitri": "Đỉnh mắt cá chân ngoài lên 8 thốn hoặc lấy huyệt ở điểm giữa nếp kheo chân và mắt cá chân ngoài."
+  },
+  {
+   "code": "ST41",
+   "mer": "ST",
+   "num": 41,
+   "name": "Giải Khê",
+   "recId": 262,
+   "vitri": "Ở chỗ lõm trên nếp gấp trước khớp cổ chân, giữa 2 gân cơ cẳng chân trước và gân cơ duỗi dài ngón chân cái."
+  },
+  {
+   "code": "ST42",
+   "mer": "ST",
+   "num": 42,
+   "name": "Xung Dương",
+   "recId": 1043,
+   "vitri": "Nơi cao nhất của mu bàn chân, có động mạch đập, trên huyệt Nội Đình 5 thốn, nằm giữa huyệt Nội Đình và Giải Khê, bờ trong gân cơ duỗi ngón thứ 2 và cơ duỗi ngắn ngón cái."
+  },
+  {
+   "code": "ST43",
+   "mer": "ST",
+   "num": 43,
+   "name": "Hãm Cốc",
+   "recId": 301,
+   "vitri": "Ở chỗ lõm nối thân và đầu trước xương bàn chân 2, giữa kẽ ngón chân 2 – 3, huyệt Nội Đình (Vi 45) lên 2 thốn."
+  },
+  {
+   "code": "ST44",
+   "mer": "ST",
+   "num": 44,
+   "name": "Nội Đình",
+   "recId": 615,
+   "vitri": "Nơi nối thân với đầu sau xương đốt 1 của ngón chân thứ 2, giữa kẽ ngón chân thứ 2 và thứ 3."
+  },
+  {
+   "code": "ST45",
+   "mer": "ST",
+   "num": 45,
+   "name": "Lệ Đoài",
+   "recId": 466,
+   "vitri": "Ở phía ngoài góc ngoài móng chân ngón thứ 2, cách chân móng 0,1 thốn, trên đường tiếp giáp da gan chân – mu chân."
+  },
+  {
+   "code": "SP1",
+   "mer": "SP",
+   "num": 1,
+   "name": "Ẩn bạch",
+   "recId": 34,
+   "vitri": "Ở góc trong móng ngón chân cái, cách chân móng 1mm."
+  },
+  {
+   "code": "SP2",
+   "mer": "SP",
+   "num": 2,
+   "name": "Đại đô",
+   "recId": 196,
+   "vitri": ""
+  },
+  {
+   "code": "SP3",
+   "mer": "SP",
+   "num": 3,
+   "name": "Thái bạch",
+   "recId": 736,
+   "vitri": "Ở chỗ lõm phía sau dưới đầu xương bàn chân thứ 1, nằm trên đường tiếp giáp lằn da gan chân – mu chân ở bờ trong bàn chân."
+  },
+  {
+   "code": "SP4",
+   "mer": "SP",
+   "num": 4,
+   "name": "Công tôn",
+   "recId": 115,
+   "vitri": "Ở chỗ lõm, nơi tiếp nối của thân và đầu sau xương bàn chân 1. Trên đường tiếp giáp da gan chân – mu chân, ở bờ trong bàn chân. Từ đỉnh cao nhất của xương mu bàn chân kéo xuống ngay dưới lõm xương."
+  },
+  {
+   "code": "SP5",
+   "mer": "SP",
+   "num": 5,
+   "name": "Thương khâu",
+   "recId": 853,
+   "vitri": "Ở chỗ lõm phía dưới – trước mắt cá chân trong, bờ trên gân cơ cẳng chân sau, sát khe khớp gót – sên – thuyền."
+  },
+  {
+   "code": "SP6",
+   "mer": "SP",
+   "num": 6,
+   "name": "Tam âm giao",
+   "recId": 701,
+   "vitri": "Ở sát bờ sau – trong xương chày, bờ trước cơ gấp dài các ngón chân và cơ cẳng chân sau, từ đỉnh cao của mắt cá chân trong đo lên 3 thốn."
+  },
+  {
+   "code": "SP7",
+   "mer": "SP",
+   "num": 7,
+   "name": "Lậu cốc",
+   "recId": 465,
+   "vitri": "Ở chỗ lõm sát bờ sau trong xương chày, từ đỉnh cao của mắt cá trong đo thẳng lên 6 thốn."
+  },
+  {
+   "code": "SP8",
+   "mer": "SP",
+   "num": 8,
+   "name": "Địa cơ",
+   "recId": 224,
+   "vitri": "Ở sát bờ sau trong xương chầy, dưới đường khớp ngang đầu gối 5 thốn, dưới huyệt Âm Lăng Tuyền 3 thốn."
+  },
+  {
+   "code": "SP9",
+   "mer": "SP",
+   "num": 9,
+   "name": "Âm lăng tuyền",
+   "recId": 21,
+   "vitri": "Ở chỗ lõm làm thành bởi bờ sau trong đầu trên xương chầy với đường ngang qua nơi lồi cao nhất của củ cơ cẳng chân trước xương chầy, ở mặt trong đầu gối. Hoặc dùng ngón tay lần theo bờ trong xương ống chân, đến ngay dưới chỗ lồi xương cao nhất, đó là huyệt."
+  },
+  {
+   "code": "SP10",
+   "mer": "SP",
+   "num": 10,
+   "name": "Huyết hải",
+   "recId": 362,
+   "vitri": ""
+  },
+  {
+   "code": "SP11",
+   "mer": "SP",
+   "num": 11,
+   "name": "Cơ môn",
+   "recId": 116,
+   "vitri": "Ở chỗ lõm tạo nên bởi bờ ngoài cơ may, bờ trong cơ thẳng trước đùi và cơ rộng trong. Ngồi ngay, từ đầu gối đo lên 8 thốn, cách Huyết Hải 6 thốn, nơi có động mạch nhảy."
+  },
+  {
+   "code": "SP12",
+   "mer": "SP",
+   "num": 12,
+   "name": "Xung môn",
+   "recId": 1044,
+   "vitri": "Ở ngoài động mạch đùi, trên khớp xương mu (huyệt Khúc Cốt – Nh.2), cách đường giữa bụng ngang ra 3,5 thốn."
+  },
+  {
+   "code": "SP13",
+   "mer": "SP",
+   "num": 13,
+   "name": "Phủ xá",
+   "recId": 654,
+   "vitri": "Xác định huyệt Xung Môn (Ty.12) đo lên 7 thốn, cách ngang đường giữa bụng 4 thốn, trên nếp bẹn, phía ngoài động mạch đùi, ở khe giữa 2 bó cơ đái – chậu."
+  },
+  {
+   "code": "SP14",
+   "mer": "SP",
+   "num": 14,
+   "name": "Phúc kết",
+   "recId": 658,
+   "vitri": "Nơi gặp nhau của đường dọc qua đầu ngực và đường ngang qua rốn dưới rốn 01 thốn."
+  },
+  {
+   "code": "SP15",
+   "mer": "SP",
+   "num": 15,
+   "name": "Đại hoành",
+   "recId": 201,
+   "vitri": "Tại điểm gặp nhau của đường ngang qua rốn và đường dọc qua đầu vú."
+  },
+  {
+   "code": "SP16",
+   "mer": "SP",
+   "num": 16,
+   "name": "Phúc ai",
+   "recId": 657,
+   "vitri": "Tại giao điểm của đường thẳng ở đầu ngực và đường ngang rốn (huyệt Đại Hoành –Ty.15), từ đó đo lên 3 thốn."
+  },
+  {
+   "code": "SP17",
+   "mer": "SP",
+   "num": 17,
+   "name": "Thực đậu",
+   "recId": 847,
+   "vitri": "Ở giữa gian sườn 5, cách đường giữa bụng 6 thốn."
+  },
+  {
+   "code": "SP18",
+   "mer": "SP",
+   "num": 18,
+   "name": "Thiên khê",
+   "recId": 777,
+   "vitri": "Ở khoảng gian sườn 4, cách đường giữa bụng 6 thốn (ngang huyệt Đản Trung (Nh 17), từ đầu ngực đo ra 2 thốn."
+  },
+  {
+   "code": "SP19",
+   "mer": "SP",
+   "num": 19,
+   "name": "Hung hương",
+   "recId": 354,
+   "vitri": "Ở khoảng gian sườn 3, cách đường giữa 6 thốn (ngang huyệt Ngọc Đường – Nh.18)."
+  },
+  {
+   "code": "SP20",
+   "mer": "SP",
+   "num": 20,
+   "name": "Chu vinh",
+   "recId": 108,
+   "vitri": "Ở khoảng gian sườn 2, cách đường giữa bụng 6 thốn, từ huyệt Thiên Khê (Ty 18) đo lên 2 gian sườn, hoặc từ huyệt Trung Phủ (P 1) đo xuống 1 gian sườn."
+  },
+  {
+   "code": "SP21",
+   "mer": "SP",
+   "num": 21,
+   "name": "Đại bao",
+   "recId": 186,
+   "vitri": "Tại điểm gặp nhau của đường nách giữa và bờ trên xương sườn 6, hoặc dưới ổ nách 6 thốn, dưới huyệt Uyên Dịch (Đ 22) 3 thốn, nơi bờ ngoài cơ lưng to."
+  },
+  {
+   "code": "HT1",
+   "mer": "HT",
+   "num": 1,
+   "name": "Cực tuyền",
+   "recId": 134,
+   "vitri": ""
+  },
+  {
+   "code": "HT2",
+   "mer": "HT",
+   "num": 2,
+   "name": "Thanh linh",
+   "recId": 742,
+   "vitri": "Ở phía trên đầu nếp gấp khuỷu tay 3 thốn, ở rãnh giữa cơ nhị đầu cánh tay, cơ cánh tay trước."
+  },
+  {
+   "code": "HT3",
+   "mer": "HT",
+   "num": 3,
+   "name": "Thiếu hải",
+   "recId": 795,
+   "vitri": "Co tay lại, huyệt nằm ở cuối đầu nếp gấp khuỷu tay, mặt trong cánh tay, cách mỏm trên lồi cầu trong 0,5 thốn."
+  },
+  {
+   "code": "HT4",
+   "mer": "HT",
+   "num": 4,
+   "name": "Linh đạo",
+   "recId": 472,
+   "vitri": "Ở mặt trước trong cẳng tay, trên nếp gấp cổ tay 1,5 thốn."
+  },
+  {
+   "code": "HT5",
+   "mer": "HT",
+   "num": 5,
+   "name": "Thông lý",
+   "recId": 807,
+   "vitri": "Mặt trước trong cẳng tay, trên nếp gấp cổ tay 1 thốn (huyệt Thần Môn – Tm.7), khe giữa gân cơ trụ trước và cơ gấp chung nông các ngón tay."
+  },
+  {
+   "code": "HT6",
+   "mer": "HT",
+   "num": 6,
+   "name": "Âm khích",
+   "recId": 20,
+   "vitri": "Mặt trước trong cẳng tay, trên nếp gấp cổ tay 0,5 thốn, ở trong khe gân cơ trụ trước và gân cơ gấp chung nông các ngón tay."
+  },
+  {
+   "code": "HT7",
+   "mer": "HT",
+   "num": 7,
+   "name": "Thần môn",
+   "recId": 754,
+   "vitri": "Ở phía xương trụ, nằm trên lằn chỉ cổ tay, nơi chỗ lõm sát bờ ngoài gân cơ trụ trước và góc ngoài bờ trên xương trụ."
+  },
+  {
+   "code": "HT8",
+   "mer": "HT",
+   "num": 8,
+   "name": "Thiếu phủ",
+   "recId": 796,
+   "vitri": "Trong lòng bàn tay, giữa xương bàn tay thứ 4 và 5, huyệt nằm trên đường văn của lòng bàn tay."
+  },
+  {
+   "code": "HT9",
+   "mer": "HT",
+   "num": 9,
+   "name": "Thiếu xung",
+   "recId": 799,
+   "vitri": "Ở ngón tay út phía tay quay, cách chân góc móng tay út 0,1 thốn, trên đường tiếp giáp da gan tay – mu tay."
+  },
+  {
+   "code": "SI1",
+   "mer": "SI",
+   "num": 1,
+   "name": "Thiếu trạch",
+   "recId": 798,
+   "vitri": "Cạnh góc trong chân móng tay út cách 0,1 thốn trên đường tiếp giáp da gan tay – mu tay."
+  },
+  {
+   "code": "SI2",
+   "mer": "SI",
+   "num": 2,
+   "name": "Tiền cốc",
+   "recId": 878,
+   "vitri": "Huyệt ở chỗ lõm nơi khớp xương ngón tay thứ 5 về phía xương trụ, khi nắm tay lại huyệt ở trước lằn chỉ tay ngón út và bàn, nơi tiếp giáp da gan và mu tay."
+  },
+  {
+   "code": "SI3",
+   "mer": "SI",
+   "num": 3,
+   "name": "Hậu khê",
+   "recId": 308,
+   "vitri": "Chỗ lõm phía sau khớp xương ngón và bàn của ngón thứ 5, ngang với đầu trong đường vân tim ở bàn tay, nơi tiếp giáp da gan tay – mu tay."
+  },
+  {
+   "code": "SI4",
+   "mer": "SI",
+   "num": 4,
+   "name": "Uyển cốt",
+   "recId": 1026,
+   "vitri": "Phía bờ trong bàn tay, nơi chỗ lõm giữa xương móc và xương bàn tay 5, trên đường tiếp giáp da gan tay, mu tay."
+  },
+  {
+   "code": "SI5",
+   "mer": "SI",
+   "num": 5,
+   "name": "Dương cốc",
+   "recId": 169,
+   "vitri": "Ở bờ trong cổ ngón tay, nơi chỗ lõm giữa xương hạt đậu và đầu mỏm trâm xương trụ."
+  },
+  {
+   "code": "SI6",
+   "mer": "SI",
+   "num": 6,
+   "name": "Dưỡng lão",
+   "recId": 182,
+   "vitri": "Co khuỷu tay với lòng bàn tay đặt vào ngực, huyệt ở chỗ mỏm trâm xương trụ, từ huyệt Dương Cốc (Ttr 5) đo lên 1 thốn."
+  },
+  {
+   "code": "SI7",
+   "mer": "SI",
+   "num": 7,
+   "name": "Chi chính",
+   "recId": 97,
+   "vitri": "Tại sát bờ sau xương trụ, cách cổ tay 5 thốn, trên đường nối huyệt Dương Cốc và huyệt Tiểu Hải."
+  },
+  {
+   "code": "SI8",
+   "mer": "SI",
+   "num": 8,
+   "name": "Tiểu hải",
+   "recId": 899,
+   "vitri": "Co khuỷu tay, huyệt ở giữa mỏm khuỷu và mỏm trên ròng rọc đầu dưới xương cánh tay, nơi tận cơ 3 đầu cánh tay."
+  },
+  {
+   "code": "SI9",
+   "mer": "SI",
+   "num": 9,
+   "name": "Kiên trinh",
+   "recId": 422,
+   "vitri": "Đặt cánh tay lên hông sườn, huyệt ở mặt sau vai, từ đầu chỉ nếp nách thẳng lên 1 thốn hoặc chỗ lõm ở giao điểm đường dọc từ Kiên Ngung (Đtr 15) xuống và đường ngang qua lằn sau nách, cách tuyến giữa lưng 6 thốn."
+  },
+  {
+   "code": "SI10",
+   "mer": "SI",
+   "num": 10,
+   "name": "Nhu du",
+   "recId": 600,
+   "vitri": "Huyệt ở phía sau lưng, chỗ lõm nơi đầu xương giáp vai hoặc là nơi gặp nhau của đường nếp nách sau kéo dài và chỗ lõm dưới sống vai."
+  },
+  {
+   "code": "SI11",
+   "mer": "SI",
+   "num": 11,
+   "name": "Thiên tông",
+   "recId": 786,
+   "vitri": "Dưới hố giữa xương gai bả vai hoặc kéo đường ngang qua mỏm gai đốt sống lưng 4 gặp chỗ kéo đường dầy nhất của gai sống vai."
+  },
+  {
+   "code": "SI12",
+   "mer": "SI",
+   "num": 12,
+   "name": "Bỉnh phong",
+   "recId": 68,
+   "vitri": "Bảo người bệnh giơ tay lên, huyệt ở chỗ lõm trên gai xương bả vai, phía thẳng với chỗ dầy nhất của gai xương sống bả vai, trên huyệt Thiên Tông (Ttr 11), giữa huyệt Cự Cốt (Đtr 16) và Khúc Viên (Ttr 13)."
+  },
+  {
+   "code": "SI13",
+   "mer": "SI",
+   "num": 13,
+   "name": "Khúc viên",
+   "recId": 405,
+   "vitri": "Huyệt ở 1/3 trong bờ trên gai xương bả vai, cách huyệt Bỉnh Phong 1,5 thốn, giữa huyệt Nhu Du (Ttr 10) và gai đốt sống lưng 2."
+  },
+  {
+   "code": "SI14",
+   "mer": "SI",
+   "num": 14,
+   "name": "Kiên ngoại du",
+   "recId": 414,
+   "vitri": "Dưới gai bên đốt sống 1, cách giữa lưng 3 thốn, trên đường mép bờ trong xương bả vai."
+  },
+  {
+   "code": "SI15",
+   "mer": "SI",
+   "num": 15,
+   "name": "Kiên trung du",
+   "recId": 424,
+   "vitri": "Cách tuyến giữa lưng 2 thốn, ngang đốt sống cổ 7, trên đường nối huyệt Đại Chùy (Đc 14) và Kiên Tỉnh (Đ 21)."
+  },
+  {
+   "code": "SI16",
+   "mer": "SI",
+   "num": 16,
+   "name": "Thiên song",
+   "recId": 782,
+   "vitri": "Ở phía sau cơ ức – đòn – chũm, sau huyệt Phù Đột (Đtr.18) 0,5 thốn, cách củ hầu 3,5 thốn, ngang huyệt Liêm Tuyền (Nh 23)."
+  },
+  {
+   "code": "SI17",
+   "mer": "SI",
+   "num": 17,
+   "name": "Thiên dung",
+   "recId": 774,
+   "vitri": "Ở phía sau góc xương hàm dưới, bờ trước cơ ức – đòn – chũm, phía dưới cơ hai thân."
+  },
+  {
+   "code": "SI18",
+   "mer": "SI",
+   "num": 18,
+   "name": "Quyền liêu",
+   "recId": 686,
+   "vitri": "Huyệt ở dưới xương gò má, giao điểm của đường chân cánh mũi kéo ngang ra và bờ ngoài của mắt kéo thẳng xuống, dưới huyệt là bờ trước cơ cắn, nơi bám vào xương gò má."
+  },
+  {
+   "code": "SI19",
+   "mer": "SI",
+   "num": 19,
+   "name": "Thính cung",
+   "recId": 800,
+   "vitri": "Khi há miệng, huyệt ở chỗ lõm phía trước bình tai, sau lồi cầu xương hàm dưới."
+  },
+  {
+   "code": "BL1",
+   "mer": "BL",
+   "num": 1,
+   "name": "Tinh minh",
+   "recId": 911,
+   "vitri": "Cách đầu trong góc mắt 0,1 thốn."
+  },
+  {
+   "code": "BL2",
+   "mer": "BL",
+   "num": 2,
+   "name": "Toàn trúc",
+   "recId": 916,
+   "vitri": "Chỗ lõm đầu trong chân mày, thẳng trên góc mắt trong."
+  },
+  {
+   "code": "BL3",
+   "mer": "BL",
+   "num": 3,
+   "name": "Mi xung",
+   "recId": 509,
+   "vitri": "Thẳng trên huyệt Toàn Trúc, vào trong chân tóc 0,5 thốn, ngang huyệt Thần Đình (Đc.24)."
+  },
+  {
+   "code": "BL4",
+   "mer": "BL",
+   "num": 4,
+   "name": "Khúc sai",
+   "recId": 399,
+   "vitri": "Trên trán, cách đường giữa đầu 1,5 thốn, trong chân tóc 0,5 thốn, cách ngang Mi Xung 01 thốn."
+  },
+  {
+   "code": "BL5",
+   "mer": "BL",
+   "num": 5,
+   "name": "Ngũ xứ",
+   "recId": 561,
+   "vitri": "Giữa đường chân tóc trán lên 1 thốn (huyệt Thượng Tinh – Đc.23) đo ngang ra 1,5 thốn hoặc sau huyệt Khúc Sai 0,5 thốn."
+  },
+  {
+   "code": "BL6",
+   "mer": "BL",
+   "num": 6,
+   "name": "Thừa quang",
+   "recId": 844,
+   "vitri": "Ngay sau trên huyệt Ngũ Xứ 1,5 thốn, cách tuyến giữa đầu 1,5 thốn, ngang huyệt Tiền Đình (Đc.21)."
+  },
+  {
+   "code": "BL7",
+   "mer": "BL",
+   "num": 7,
+   "name": "Thông thiên",
+   "recId": 809,
+   "vitri": "Ngay sau huyệt Thừa Quang (Bq 6) 1,5 thốn, hoặc huyệt Bá Hội (Đc 20) ra ngang 1,5 thốn."
+  },
+  {
+   "code": "BL8",
+   "mer": "BL",
+   "num": 8,
+   "name": "Lạc khước",
+   "recId": 447,
+   "vitri": "Ngay sau huyệt Thông Thiên 1,5 thốn, cách tuyến giữa đầu 1,5 thốn."
+  },
+  {
+   "code": "BL9",
+   "mer": "BL",
+   "num": 9,
+   "name": "Ngọc chẩm",
+   "recId": 546,
+   "vitri": "Ngay sau huyệt Lạc Khước 1,5 thốn, ngang huyệt Não Hộ (Đc 17) cách 1,3 thốn, ngang với ụ chẩm 1,5 thốn."
+  },
+  {
+   "code": "BL10",
+   "mer": "BL",
+   "num": 10,
+   "name": "Thiên trụ",
+   "recId": 788,
+   "vitri": "Ở vùng gáy, dưới u lồi chẩm phía ngoài, ngang huyệt Á Môn (Đc 15) ra 1,3 thốn, ở bờ ngoài cơ thang."
+  },
+  {
+   "code": "BL11",
+   "mer": "BL",
+   "num": 11,
+   "name": "Đại trử",
+   "recId": 207,
+   "vitri": "Huyệt là điểm gặp nhau của đường ngang qua mỏm gai đốt sống lưng thứ nhất và đường thẳng đứng ngoài Đốc Mạch 1,5 thốn, ngang huyệt Đào Đạo (Đc 13)."
+  },
+  {
+   "code": "BL12",
+   "mer": "BL",
+   "num": 12,
+   "name": "Phong môn",
+   "recId": 643,
+   "vitri": "Dưới mỏm gai đốt sống lưng 2, ra ngang 1,5 thốn."
+  },
+  {
+   "code": "BL13",
+   "mer": "BL",
+   "num": 13,
+   "name": "Phế du",
+   "recId": 637,
+   "vitri": ""
+  },
+  {
+   "code": "BL14",
+   "mer": "BL",
+   "num": 14,
+   "name": "Quyết âm du",
+   "recId": 688,
+   "vitri": "Dưới gai sống lưng 4, đo ngang ra 1,5 thốn."
+  },
+  {
+   "code": "BL15",
+   "mer": "BL",
+   "num": 15,
+   "name": "Tâm du",
+   "recId": 711,
+   "vitri": "Dưới gai sống lưng 5, đo ngang ra 1,5 thốn."
+  },
+  {
+   "code": "BL16",
+   "mer": "BL",
+   "num": 16,
+   "name": "Đốc du",
+   "recId": 245,
+   "vitri": "Dưới gai đốt sống lưng 6, đo ngang ra 1,5 thốn, ngang huyệt Linh Đài (Đc 10)."
+  },
+  {
+   "code": "BL17",
+   "mer": "BL",
+   "num": 17,
+   "name": "Cách du",
+   "recId": 77,
+   "vitri": "Dưới gai đốt sống lưng 7, đo ngang ra 1,5 thốn, ngang huyệt Chí Dương (Đc 9)."
+  },
+  {
+   "code": "BL18",
+   "mer": "BL",
+   "num": 18,
+   "name": "Can du",
+   "recId": 81,
+   "vitri": "Dưới gai sống lưng 9, đo ngang ra 1,5 thốn, ngang huyệt Cân Súc (Đc 8)."
+  },
+  {
+   "code": "BL19",
+   "mer": "BL",
+   "num": 19,
+   "name": "Đởm du",
+   "recId": 253,
+   "vitri": "Dưới gai sống lưng 10, đo ngang ra 1,5 thốn."
+  },
+  {
+   "code": "BL20",
+   "mer": "BL",
+   "num": 20,
+   "name": "Tỳ du",
+   "recId": 1012,
+   "vitri": "Dưới gai sống lưng 11, đo ngang ra 1,5 thốn, ngang huyệt Tích Trung (Đc.6)."
+  },
+  {
+   "code": "BL21",
+   "mer": "BL",
+   "num": 21,
+   "name": "Vị du",
+   "recId": 1033,
+   "vitri": "Dưới gai sống lưng 12, đo ngang ra 1,5 thốn."
+  },
+  {
+   "code": "BL22",
+   "mer": "BL",
+   "num": 22,
+   "name": "Tam tiêu du",
+   "recId": 708,
+   "vitri": "Dưới gai sống thắt lưng 1, đo ngang ra hai bên 1,5 thốn."
+  },
+  {
+   "code": "BL23",
+   "mer": "BL",
+   "num": 23,
+   "name": "Thận du",
+   "recId": 759,
+   "vitri": "Dưới gai sống thắt lưng 2, đo ngang ra 1,5 thốn, ngang huyệt Mệnh Môn (Đc 4)."
+  },
+  {
+   "code": "BL24",
+   "mer": "BL",
+   "num": 24,
+   "name": "Khí hải du",
+   "recId": 379,
+   "vitri": "Dưới gai sống thắt lưng 3, đo ngang ra 1,5 thốn."
+  },
+  {
+   "code": "BL25",
+   "mer": "BL",
+   "num": 25,
+   "name": "Đại trường du",
+   "recId": 208,
+   "vitri": "Dưới gai sống thắt lưng 4, đo ngang ra 1,5 thốn, ngang huyệt Yêu Dương Quan (Đc 3)."
+  },
+  {
+   "code": "BL26",
+   "mer": "BL",
+   "num": 26,
+   "name": "Quan nguyên du",
+   "recId": 670,
+   "vitri": ""
+  },
+  {
+   "code": "BL27",
+   "mer": "BL",
+   "num": 27,
+   "name": "Tiểu trường du",
+   "recId": 908,
+   "vitri": "Dưới đốt xương thiêng 1, đo ngang 1,5 thốn, chỗ lõm giữa gai chậu sau – trên và xương cùng."
+  },
+  {
+   "code": "BL28",
+   "mer": "BL",
+   "num": 28,
+   "name": "Bàng quang du",
+   "recId": 50,
+   "vitri": ""
+  },
+  {
+   "code": "BL29",
+   "mer": "BL",
+   "num": 29,
+   "name": "Trung lữ du",
+   "recId": 950,
+   "vitri": "Ngang đốt xương thiêng 3, cách đường giữa lưng 1,5 thốn."
+  },
+  {
+   "code": "BL30",
+   "mer": "BL",
+   "num": 30,
+   "name": "Bạch hoàn du",
+   "recId": 42,
+   "vitri": "Ngang đốt xương thiêng 4, cách tuyến giữa lưng 1,5 thốn."
+  },
+  {
+   "code": "BL31",
+   "mer": "BL",
+   "num": 31,
+   "name": "Thượng liêu",
+   "recId": 862,
+   "vitri": "Chỗ lõm ở xương thiêng thứ 1, trung điểm của gai chậu sau – trên và Đốc Mạch."
+  },
+  {
+   "code": "BL32",
+   "mer": "BL",
+   "num": 32,
+   "name": "Thứ liêu",
+   "recId": 834,
+   "vitri": "Nơi lỗ xương thiêng 2, điểm giữa cạnh dưới của gai chậu sau trên và Đốc Mạch."
+  },
+  {
+   "code": "BL33",
+   "mer": "BL",
+   "num": 33,
+   "name": "Trung liêu",
+   "recId": 949,
+   "vitri": "Nơi lỗ xương thiêng 3, điểm giữa huyệt Trung Lữ Du (Bq.29) và Đốc Mạch."
+  },
+  {
+   "code": "BL34",
+   "mer": "BL",
+   "num": 34,
+   "name": "Hạ liêu",
+   "recId": 289,
+   "vitri": "Nơi lỗ xương cùng thứ 4, điểm giữa huyệt Bạch Hoàn Du (Bq 30) và Đốc Mạch."
+  },
+  {
+   "code": "BL35",
+   "mer": "BL",
+   "num": 35,
+   "name": "Hội dương",
+   "recId": 346,
+   "vitri": "Ngang đầu dưới xương cụt, cách đường giữa lưng 0,5 thốn."
+  },
+  {
+   "code": "BL36",
+   "mer": "BL",
+   "num": 36,
+   "name": "Thừa phò",
+   "recId": 843,
+   "vitri": "Điểm giữa nếp mông."
+  },
+  {
+   "code": "BL37",
+   "mer": "BL",
+   "num": 37,
+   "name": "Ân môn",
+   "recId": 32,
+   "vitri": "Dưới nếp mông 6 thốn, mặt sau xương đùi, điểm giữa khe của cơ bám gân và cơ nhị đầu đùi."
+  },
+  {
+   "code": "BL38",
+   "mer": "BL",
+   "num": 38,
+   "name": "Phù khích",
+   "recId": 653,
+   "vitri": "Trên nhượng chân 1 thốn, ở trong góc tạo bởi cơ 2 đầu đùi và bờ ngoài cơ bán mạc."
+  },
+  {
+   "code": "BL39",
+   "mer": "BL",
+   "num": 39,
+   "name": "Ủy dương",
+   "recId": 1022,
+   "vitri": ""
+  },
+  {
+   "code": "BL40",
+   "mer": "BL",
+   "num": 40,
+   "name": "Ủy trung",
+   "recId": 1023,
+   "vitri": "Ngay giữa lằn chỉ ngang nếp nhượng chân."
+  },
+  {
+   "code": "BL41",
+   "mer": "BL",
+   "num": 41,
+   "name": "Phụ phân",
+   "recId": 656,
+   "vitri": "Dưới gai sống lưng 2, đo ra 3 thốn, cách ngang huyệt Phong Môn 1,5 thốn."
+  },
+  {
+   "code": "BL42",
+   "mer": "BL",
+   "num": 42,
+   "name": "Phách hộ",
+   "recId": 634,
+   "vitri": ""
+  },
+  {
+   "code": "BL43",
+   "mer": "BL",
+   "num": 43,
+   "name": "Cao hoang",
+   "recId": 87,
+   "vitri": "Ngay dưới gai sống lưng 4, đo ngang 3 thốn, cách huyệt Quyết Âm Du (Bq 14) 1,5 thốn."
+  },
+  {
+   "code": "BL44",
+   "mer": "BL",
+   "num": 44,
+   "name": "Thần đường",
+   "recId": 750,
+   "vitri": "Dưới gai đốt sống lưng 5, đo ngang 3 thốn, cách huyệt Tâm Du (Bq 15) 1,5 thốn."
+  },
+  {
+   "code": "BL45",
+   "mer": "BL",
+   "num": 45,
+   "name": "Y hy",
+   "recId": 1045,
+   "vitri": "Dưới gai sống lưng 6, đo ngang 3 thốn, cách huyệt Đốc Du 1,5 thốn."
+  },
+  {
+   "code": "BL46",
+   "mer": "BL",
+   "num": 46,
+   "name": "Cách quan",
+   "recId": 78,
+   "vitri": "Dưới gai sống lưng 7, đo ngang 3 thốn, cách huyệt Cách Du 1,5 thốn."
+  },
+  {
+   "code": "BL47",
+   "mer": "BL",
+   "num": 47,
+   "name": "Hồn môn",
+   "recId": 348,
+   "vitri": "Dưới gai sống lưng 9, đo ngang ra 3 thốn, cách Can Du 1,5 thốn."
+  },
+  {
+   "code": "BL48",
+   "mer": "BL",
+   "num": 48,
+   "name": "Dương cương",
+   "recId": 170,
+   "vitri": "Dưới gai sống lưng 10, đo ngang ra 3 thốn, huyệt Đởm Du (Bq.19) đo ra 1,5 thốn."
+  },
+  {
+   "code": "BL49",
+   "mer": "BL",
+   "num": 49,
+   "name": "Ý xá",
+   "recId": 1047,
+   "vitri": "Dưới gai sống lưng 11, đo ngang ra 3 thốn, cách huyệt Tỳ Du 1,5 thốn."
+  },
+  {
+   "code": "BL50",
+   "mer": "BL",
+   "num": 50,
+   "name": "Vị thương",
+   "recId": 1038,
+   "vitri": "Dưới gai sống lưng 12, đo ngang ra 3 thốn, cách Vị Du 1,5 thốn."
+  },
+  {
+   "code": "BL51",
+   "mer": "BL",
+   "num": 51,
+   "name": "Hoang môn",
+   "recId": 330,
+   "vitri": "Dưới gai sống thắt lưng 1, đo ngang ra 3 thốn, cách huyệt Tam Tiêu Du 1,5 thốn."
+  },
+  {
+   "code": "BL52",
+   "mer": "BL",
+   "num": 52,
+   "name": "Chí thất",
+   "recId": 101,
+   "vitri": "Dưới gai sống thắt lưng 2, ngang ra 3 thốn, cách Thận Du 1,5 thốn."
+  },
+  {
+   "code": "BL53",
+   "mer": "BL",
+   "num": 53,
+   "name": "Bào hoang",
+   "recId": 51,
+   "vitri": "Tại điểm gặp nhau của đường ngang qua đầu mỏm gai đốt sống cùng 2, cách mạch Đốc 3 thốn, cách Khí Hải Du 1,5 thốn, nơi cơ mông to."
+  },
+  {
+   "code": "BL54",
+   "mer": "BL",
+   "num": 54,
+   "name": "Trật biên",
+   "recId": 922,
+   "vitri": "Ngang lỗ xương cùng thứ 4, cách Đốc Mạch 3 thốn, cách Trung Lữ Du 1,5 thốn."
+  },
+  {
+   "code": "BL55",
+   "mer": "BL",
+   "num": 55,
+   "name": "Hợp dương",
+   "recId": 353,
+   "vitri": "Ở đỉnh của góc dưới tứ giác kheo chân tạo nên bởi phần trên cơ sinh đôi ngoài, giữa mặt sau đầu trên xương chày. Từ huyệt ủy Trung (Bq 40) đo thẳng xuống 2 thốn."
+  },
+  {
+   "code": "BL56",
+   "mer": "BL",
+   "num": 56,
+   "name": "Thừa cân",
+   "recId": 837,
+   "vitri": "Ở trung điểm nối 2 huyệt Thừa Sơn (Bq.57) và Hợp Dương (Bq.55)."
+  },
+  {
+   "code": "BL57",
+   "mer": "BL",
+   "num": 57,
+   "name": "Thừa sơn",
+   "recId": 845,
+   "vitri": "Ở giữa đường nối huyệt Ủy Trung và gót chân, dưới Ủy Trung 8 thốn, ngay chỗ lõm giữa 2 khe cơ sinh đôi ngoài và trong."
+  },
+  {
+   "code": "BL58",
+   "mer": "BL",
+   "num": 58,
+   "name": "Phi dương",
+   "recId": 639,
+   "vitri": "Đỉnh ngoài mắt cá chân đo lên 7 thốn, ngang huyệt Thừa Sơn (Bq.57) 1 thốn. Nơi tiếp giáp giữa phần thịt và phần gân của bờ ngoài cơ sinh đôi ngoài."
+  },
+  {
+   "code": "BL59",
+   "mer": "BL",
+   "num": 59,
+   "name": "Phụ dương",
+   "recId": 655,
+   "vitri": "Trên mắt cá chân ngoài (huyệt Côn Lôn – Bq.60), đo thẳng lên 3 thốn, ở khe giữa cơ dép và cơ mác bên ngắn."
+  },
+  {
+   "code": "BL60",
+   "mer": "BL",
+   "num": 60,
+   "name": "Côn lôn",
+   "recId": 114,
+   "vitri": "Tại giao điểm của bờ ngoài gót chân và đường kéo từ nơi cao nhất của mắt cá chân, chỗ lõm giữa khe gân cơ mác bên ngắn và gân cơ mác bên dài, trước gân gót chân, ở sau đầu dưới xương chầy."
+  },
+  {
+   "code": "BL61",
+   "mer": "BL",
+   "num": 61,
+   "name": "Bộc tham",
+   "recId": 70,
+   "vitri": "Xác định bờ trên mặt ngoài xương gót chân, huyệt ở sát bờ trên xương gót, thẳng dưới huyệt Côn Lôn, trên đường tiếp giáp lằn da đổi màu."
+  },
+  {
+   "code": "BL62",
+   "mer": "BL",
+   "num": 62,
+   "name": "Thân mạch",
+   "recId": 746,
+   "vitri": ""
+  },
+  {
+   "code": "BL63",
+   "mer": "BL",
+   "num": 63,
+   "name": "Kim môn",
+   "recId": 430,
+   "vitri": "Dưới và trước huyệt Thân Mạch (Bq 62), cách Thân Mạch 0,5 thốn, nơi chỗ lõm chếch về phía trước sát bờ xương hộp, đầu sau xương bàn chân 5."
+  },
+  {
+   "code": "BL64",
+   "mer": "BL",
+   "num": 64,
+   "name": "Kinh cốt",
+   "recId": 432,
+   "vitri": "Bờ ngoài bàn chân, thẳng với ngón út, trước huyệt Kim Môn (Bq 63), đầu sau xương bàn chân 5, nơi tiếp giáp làn da đổi màu."
+  },
+  {
+   "code": "BL65",
+   "mer": "BL",
+   "num": 65,
+   "name": "Thúc cốt",
+   "recId": 829,
+   "vitri": "Ở chỗ lõm phía sau đầu nhỏ của xương bàn chân 5, nơi tiếp giáp da gan chân – mu chân."
+  },
+  {
+   "code": "BL66",
+   "mer": "BL",
+   "num": 66,
+   "name": "Thông cốc",
+   "recId": 805,
+   "vitri": "Ở chỗ lõm phía trước khớp xương bàn và ngón chân 5, bờ ngoài bàn chân, nơi tiếp giáp lằn da gan chân – mu chân."
+  },
+  {
+   "code": "BL67",
+   "mer": "BL",
+   "num": 67,
+   "name": "Chí âm",
+   "recId": 98,
+   "vitri": "Ở bờ ngoài ngón út, cách góc chân móng 0,2 thốn, trên đường tiếp giáp da gan chân – mu chân."
+  },
+  {
+   "code": "KI1",
+   "mer": "KI",
+   "num": 1,
+   "name": "Dũng tuyền",
+   "recId": 163,
+   "vitri": "Dưới lòng bàn chân, huyệt ở điểm nối 2/5 trước với 3/5 sau của đoạn đầu ngón chân thứ 2 và giữa bờ sau gót chân, chỗ lõm dưới bàn chân."
+  },
+  {
+   "code": "KI2",
+   "mer": "KI",
+   "num": 2,
+   "name": "Nhiên cốc",
+   "recId": 596,
+   "vitri": "Ở chỗ lõm sát giữa bờ dưới xương thuyền, trên đường nối da gan chân và mu chân."
+  },
+  {
+   "code": "KI3",
+   "mer": "KI",
+   "num": 3,
+   "name": "Thái khê",
+   "recId": 738,
+   "vitri": "Tại trung điểm giữa đường nối bờ sau mắt cá trong và mép trong gân gót, khe giữa gân gót chân ở phía sau."
+  },
+  {
+   "code": "KI4",
+   "mer": "KI",
+   "num": 4,
+   "name": "Đại chung",
+   "recId": 191,
+   "vitri": "Ở chỗ lõm tạo nên do gân gót bám vào bờ trên trong xương gót, dưới huyệt Thái Khê 0,5 thốn."
+  },
+  {
+   "code": "KI5",
+   "mer": "KI",
+   "num": 5,
+   "name": "Thủy tuyền",
+   "recId": 833,
+   "vitri": "Thẳng dưới huyệt Thái Khê (Th.3) 1 thốn, trên xương gót chân, bờ sau gân gấp dài ngón chân cái."
+  },
+  {
+   "code": "KI6",
+   "mer": "KI",
+   "num": 6,
+   "name": "Chiếu hải",
+   "recId": 106,
+   "vitri": "Ở chỗ lõm ngay dưới mắt cá trong cách 01 thốn, khe giữa gân cơ cẳng chân sau và cơ gấp các ngón chân."
+  },
+  {
+   "code": "KI7",
+   "mer": "KI",
+   "num": 7,
+   "name": "Phục lưu",
+   "recId": 662,
+   "vitri": "Giữa mắt cá chân trong và gân gót (huyệt Thái Khê (Th.3) đo thẳng lên 2 thốn, trong khe của mặt trước gân gót chân và cơ gấp dài riêng ngón cái."
+  },
+  {
+   "code": "KI8",
+   "mer": "KI",
+   "num": 8,
+   "name": "Giao tín",
+   "recId": 267,
+   "vitri": "Huyệt Thái Khê (Th 3) đo lên 2 thốn, trước huyệt Phục Lưu 0,5 thốn, cạnh bờ sau trong xương chầy."
+  },
+  {
+   "code": "KI9",
+   "mer": "KI",
+   "num": 9,
+   "name": "Trúc tân",
+   "recId": 934,
+   "vitri": "Trên huyệt Thái Khê (Th.3) 5 thốn, sau bờ trong xương chày 2 thốn, khe giữa gân gót chân và cơ dép."
+  },
+  {
+   "code": "KI10",
+   "mer": "KI",
+   "num": 10,
+   "name": "Âm cốc",
+   "recId": 14,
+   "vitri": "Ngồi thõng chân hoặc hơi co gối để nổi gân lên, huyệt ở đầu trong nếp gấp nhượng chân, sau lồi cầu trong xương chầy, trong khe của gân cơ bán gân (gân chắc, nhỏ) và gân cơ bán mạc (gân mềm, lớn hơn, nằm ở trên)."
+  },
+  {
+   "code": "KI11",
+   "mer": "KI",
+   "num": 11,
+   "name": "Hoành cốt",
+   "recId": 332,
+   "vitri": "Ở bụng dưới, sát bờ trên xương mu, đo cách đường giữa bụng 0,5 thốn, ngang huyệt Khúc Cốt (Nh 2)."
+  },
+  {
+   "code": "KI12",
+   "mer": "KI",
+   "num": 12,
+   "name": "Đại hách",
+   "recId": 200,
+   "vitri": "Rốn đo xuống 4 thốn (huyệt Trung Cực – Nh.4), đo ngang ra 0,5 thốn, trên huyệt Hoành Cốt 1 thốn."
+  },
+  {
+   "code": "KI13",
+   "mer": "KI",
+   "num": 13,
+   "name": "Khí huyệt",
+   "recId": 381,
+   "vitri": "Từ huyệt Hoành Cốt (Th 11) đo xuống 3 thốn, cách tuyến giữa bụng 0,5 thốn, ngang huyệt Quan Nguyên (Nh 4) hoặc từ rốn xuống 3 thốn (huyệt Quan Nguyên), đo ra ngang 0,5 thốn."
+  },
+  {
+   "code": "KI14",
+   "mer": "KI",
+   "num": 14,
+   "name": "Tứ mãn",
+   "recId": 997,
+   "vitri": "Rốn đo xuống 2 thốn (huyệt Thạch Môn [Nh.5]) ra ngang 0,5 thốn."
+  },
+  {
+   "code": "KI15",
+   "mer": "KI",
+   "num": 15,
+   "name": "Trung chú",
+   "recId": 939,
+   "vitri": "Trên huyệt Hoành Cốt 4 thốn, dưới rốn 1 thốn, cách tuyến giữa bụng 0,5 thốn, ngang huyệt Âm Giao (Nh.7)."
+  },
+  {
+   "code": "KI16",
+   "mer": "KI",
+   "num": 16,
+   "name": "Hoang du",
+   "recId": 328,
+   "vitri": "Rốn (huyệt Thần Khuyết – Nh.8) đo ngang ra 0,5 thốn."
+  },
+  {
+   "code": "KI17",
+   "mer": "KI",
+   "num": 17,
+   "name": "Thương khâu",
+   "recId": 854,
+   "vitri": "Trên rốn 2 thốn, cách đường giữa bụng 0,5 thốn, huyệt Hạ Quản (Nh.10) ra ngang 0,5 thốn."
+  },
+  {
+   "code": "KI18",
+   "mer": "KI",
+   "num": 18,
+   "name": "Thạch quan",
+   "recId": 732,
+   "vitri": ""
+  },
+  {
+   "code": "KI19",
+   "mer": "KI",
+   "num": 19,
+   "name": "Âm đô",
+   "recId": 16,
+   "vitri": "Trên rốn 4 thốn, cách tuyến giữa bụng 0,5 thốn, ngang huyệt Trung Quản (Nh 12)."
+  },
+  {
+   "code": "KI20",
+   "mer": "KI",
+   "num": 20,
+   "name": "Thông cốc",
+   "recId": 804,
+   "vitri": "Rốn đo lên 5 thốn (huyệt Thượng Quản (Nh 13) ra ngang 0,5 thốn."
+  },
+  {
+   "code": "KI21",
+   "mer": "KI",
+   "num": 21,
+   "name": "U môn",
+   "recId": 1020,
+   "vitri": "Trên rốn 6 thốn, cách đường giữa bụng 0,5 thốn, ngang huyệt Cự Khuyết (Nh 14)."
+  },
+  {
+   "code": "KI22",
+   "mer": "KI",
+   "num": 22,
+   "name": "Bộ lang",
+   "recId": 69,
+   "vitri": "Ở vùng ngực, nơi khoảng gian sườn 5, cách đường giữa ngực 2 thốn, ngang huyệt Trung Đình (Nh 16)."
+  },
+  {
+   "code": "KI23",
+   "mer": "KI",
+   "num": 23,
+   "name": "Thần phong",
+   "recId": 755,
+   "vitri": "Ở khoảng gian sườn 4, ngang huyệt Đản Trung (Nh 17), cách đường giữa ngực 2 thốn."
+  },
+  {
+   "code": "KI24",
+   "mer": "KI",
+   "num": 24,
+   "name": "Linh khư",
+   "recId": 473,
+   "vitri": "Ở khoảng gian sườn 3, cách đường giữa ngực 2 thốn, ngang huyệt Ngọc Đường (Nh.18)."
+  },
+  {
+   "code": "KI25",
+   "mer": "KI",
+   "num": 25,
+   "name": "Thần tàng",
+   "recId": 757,
+   "vitri": "Ở khoảng gian sườn 2, cách đường giữa ngực 2 thốn, ngang huyệt Tử Cung (Nh 19)."
+  },
+  {
+   "code": "KI26",
+   "mer": "KI",
+   "num": 26,
+   "name": "Hoặc trung",
+   "recId": 337,
+   "vitri": "Ở khoảng gian sườn 1, cách đường giữa ngực 2 thốn, ngang huyệt Hoa Cái (Nh.20)."
+  },
+  {
+   "code": "KI27",
+   "mer": "KI",
+   "num": 27,
+   "name": "Du phủ",
+   "recId": 160,
+   "vitri": "Ở chỗ lõm giữa bờ dưới xương đòn và xương sườn 1, cách đường giữa ngực 2 thốn, ngang huyệt Toàn Cơ (Nh.21)."
+  },
+  {
+   "code": "PC1",
+   "mer": "PC",
+   "num": 1,
+   "name": "Thiên trì",
+   "recId": 787,
+   "vitri": "Ngang đầu ngực, cách 1 thốn, ở khoảng gian sườn 4, dưới hố nách 3 thốn, giữa huyệt Thiên Khê (Ty.18) và huyệt Nhũ Trung (Vi 17)."
+  },
+  {
+   "code": "PC2",
+   "mer": "PC",
+   "num": 2,
+   "name": "Thiên tuyền",
+   "recId": 789,
+   "vitri": "Dưới đầu nếp nách trước, cách 2 thốn, giữa 2 cơ phần ngắn và cơ phần dài của cơ nhị đầu cánh tay."
+  },
+  {
+   "code": "PC3",
+   "mer": "PC",
+   "num": 3,
+   "name": "Khúc trạch",
+   "recId": 401,
+   "vitri": "Trên nếp gấp khớp khuỷu tay, chỗ lõm phía trong khuỷu tay, bờ trong gân cơ 2 đầu cánh tay."
+  },
+  {
+   "code": "PC4",
+   "mer": "PC",
+   "num": 4,
+   "name": "Khích môn",
+   "recId": 388,
+   "vitri": "Trên khớp cổ tay 5 thốn, giữa 2 khe cơ gan tay lớn và bé."
+  },
+  {
+   "code": "PC5",
+   "mer": "PC",
+   "num": 5,
+   "name": "Gian sử",
+   "recId": 264,
+   "vitri": "Bàn tay để ngửa, huyệt ở trên lằn chỉ cổ tay 3 thốn, giữa khe gân cơ gan tay lớn và bé."
+  },
+  {
+   "code": "PC6",
+   "mer": "PC",
+   "num": 6,
+   "name": "Nội quan",
+   "recId": 624,
+   "vitri": "Trên cổ tay 2 thốn, dưới huyệt Gian Sử (Tb 6) 1 thốn, giữa khe gân cơ gan tay lớn và bé."
+  },
+  {
+   "code": "PC7",
+   "mer": "PC",
+   "num": 7,
+   "name": "Đại lăng",
+   "recId": 202,
+   "vitri": "Ở ngay trên lằn nếp cổ tay, khe giữa gân cơ gan tay lớn và bé, hoặc gấp các ngón tay vào lòng bàn tay, đầu ngón tay giữa chạm vào lằn chỉ (văn) tay ở đâu, đó là huyệt."
+  },
+  {
+   "code": "PC8",
+   "mer": "PC",
+   "num": 8,
+   "name": "Lao cung",
+   "recId": 453,
+   "vitri": "Huyệt ở trên đường văn tim của gan bàn tay, nơi khe của ngón giữa và ngón vô danh (ngón 4) chạm vào đường văn này hoặc gấp các ngón tay vào lòng bàn tay, đầu ngón tay giữa chạm vào đường nếp gấp giữa lòng bàn tay (đường tâm đạo) ở đâu thì đó là huyệt."
+  },
+  {
+   "code": "PC9",
+   "mer": "PC",
+   "num": 9,
+   "name": "Trung xung",
+   "recId": 957,
+   "vitri": "Tại điểm giữa của đầu ngón tay giữa."
+  },
+  {
+   "code": "TE1",
+   "mer": "TE",
+   "num": 1,
+   "name": "Quan xung",
+   "recId": 673,
+   "vitri": "Ở bờ trong ngón tay áp út, cách chân móng 0,1 thốn."
+  },
+  {
+   "code": "TE2",
+   "mer": "TE",
+   "num": 2,
+   "name": "Dịch môn",
+   "recId": 156,
+   "vitri": "Giữa xương bàn ngón tay thứ 4 và 5, nơi chỗ lõm ở kẽ ngón tay, ngang phần tiếp nối của thân với đầu trên xương đốt ngón tay."
+  },
+  {
+   "code": "TE3",
+   "mer": "TE",
+   "num": 3,
+   "name": "Trung chử",
+   "recId": 940,
+   "vitri": "Trên mu tay, giữa ngón tay xương bàn tay thứ 4 và thứ 5, trong chỗ lõm trên kẽ ngón tay 1 thốn."
+  },
+  {
+   "code": "TE4",
+   "mer": "TE",
+   "num": 4,
+   "name": "Dương trì",
+   "recId": 177,
+   "vitri": "Ở chỗ lõm trên lằn ngang khớp xương cổ tay, khe giữa gân cơ duỗi chung ngón tay và cơ duỗi riêng ngón tay trỏ, khe giữa đầu dưới xương quay và xương trụ."
+  },
+  {
+   "code": "TE5",
+   "mer": "TE",
+   "num": 5,
+   "name": "Ngoại quan",
+   "recId": 544,
+   "vitri": "Trên lằn chỉ cổ tay 2 thốn, giữa xương quay và xương trụ, ở mặt giữa sau cánh tay."
+  },
+  {
+   "code": "TE6",
+   "mer": "TE",
+   "num": 6,
+   "name": "Chi câu",
+   "recId": 96,
+   "vitri": "Trên lằn cổ tay 3 thốn, giữa khe xương trụ và xương quay, trên huyệt Ngoại Quan (Ttu.5) 1 thốn."
+  },
+  {
+   "code": "TE7",
+   "mer": "TE",
+   "num": 7,
+   "name": "Hội tông",
+   "recId": 347,
+   "vitri": "Mặt sau cẳng tay, trên lằn cổ tay 3 thốn, ngang huyệt Chi Câu (Ttu 6), cách 1 thốn, về phía sát bờ ngoài xương trụ."
+  },
+  {
+   "code": "TE8",
+   "mer": "TE",
+   "num": 8,
+   "name": "Tam dương lạc",
+   "recId": 702,
+   "vitri": "Trên lằn cổ tay 4 thốn, khe giữa xương quay và trụ, ở mặt sau cẳng tay."
+  },
+  {
+   "code": "TE9",
+   "mer": "TE",
+   "num": 9,
+   "name": "Tứ độc",
+   "recId": 993,
+   "vitri": "Ở mặt sau cẳng tay, dưới khớp khuỷu 5 thốn, giữa khe xương trụ và xương quay."
+  },
+  {
+   "code": "TE10",
+   "mer": "TE",
+   "num": 10,
+   "name": "Thiên tỉnh",
+   "recId": 785,
+   "vitri": "Chỗ lõm trên đầu mỏm khuỷu xương trụ, trên khớp khuỷu một thốn, nơi gân cơ tam đầu cánh tay."
+  },
+  {
+   "code": "TE11",
+   "mer": "TE",
+   "num": 11,
+   "name": "Thanh lãnh uyên",
+   "recId": 741,
+   "vitri": "Co khuỷu tay lại, huyệt ở trên khớp khuỷu tay 2 thốn, trên huyệt Thiên Tỉnh (Ttu 10) 1 thốn."
+  },
+  {
+   "code": "TE12",
+   "mer": "TE",
+   "num": 12,
+   "name": "Tiêu lạc",
+   "recId": 891,
+   "vitri": "Ở giữa đoạn nối huyệt Thanh Lãnh Uyên (Ttu.11) và Nhu Hội (Ttu.13), trên khớp khuỷu tay 5 thốn, khe giữa phần ngoài và phần rộng ngoài của cơ tam đầu cánh tay."
+  },
+  {
+   "code": "TE13",
+   "mer": "TE",
+   "num": 13,
+   "name": "Nhu hội",
+   "recId": 601,
+   "vitri": "Ngay dưới mỏm vai 3 thốn, nằm ở bờ sau cơ delta."
+  },
+  {
+   "code": "TE14",
+   "mer": "TE",
+   "num": 14,
+   "name": "Kiên liêu",
+   "recId": 413,
+   "vitri": "Đưa cánh tay ngang vai, hiện ra 2 chỗ hõm ở mỏm vai, huyệt ở chỗ hõm phía dưới và sau mỏm cùng vai, sau huyệt Kiên Ngung (Đtr 15) 1 thốn, dưới huyệt là khe giữa bó cùng và bó gai sống của cơ delta."
+  },
+  {
+   "code": "TE15",
+   "mer": "TE",
+   "num": 15,
+   "name": "Thiên liêu",
+   "recId": 779,
+   "vitri": "Tại trung điểm của đoạn nối huyệt Đại Chùy (Đc 14) và bờ ngoài phía sau mỏm cùng vai, hoặc trung điểm của đoạn nối từ huyệt Kiên Tỉnh (Đ.21) và Khúc Viên (Ttr.13), nằm ở hố trên gai xương bả vai."
+  },
+  {
+   "code": "TE16",
+   "mer": "TE",
+   "num": 16,
+   "name": "Thiên dũ",
+   "recId": 773,
+   "vitri": "Ở phía ngoài cổ, bờ sau và trong gai xương chũm, bờ sau cơ ức đòn chũm, nơi góc hàm dưới. Hoặc lấy nếp sau gáy làm chuẩn, huyệt ở 1/3 ngoài của đường nối huyệt Thiên Trụ (Bq 12) và Thiên Dung (Ttr.17)."
+  },
+  {
+   "code": "TE17",
+   "mer": "TE",
+   "num": 17,
+   "name": "Ế phong",
+   "recId": 260,
+   "vitri": "Phía sau trái tai, nơi chỗ lõm giữa góc hàm dưới và gai xương chũm, sau mỏm nhọn cao nhất của trái tai, sát bờ trước cơ ức đòn chũm."
+  },
+  {
+   "code": "TE18",
+   "mer": "TE",
+   "num": 18,
+   "name": "Khế mạch",
+   "recId": 375,
+   "vitri": "Phía sau tai, giữa gai xương chũm, hoặc khi ép vành tai vào đầu, huyệt ở chỗ nối 1/3 dưới và 2/3 trên của đường cong theo bờ vành tai từ huyệt Ế Phong (Ttu 17) đến Giác Tôn (Ttu 20), nơi cơ ức – đòn – chũm."
+  },
+  {
+   "code": "TE19",
+   "mer": "TE",
+   "num": 19,
+   "name": "Lư tức",
+   "recId": 487,
+   "vitri": "Sau loa tai, trên huyệt Khế Mạch 1 thốn hoặc ép sát vành tai vào đầu, huyệt ở chỗ nối 2/3 dưới và 1/3 trên của đường cong theo bờ vành tai từ h. Ế Phong đến Giác Tôn."
+  },
+  {
+   "code": "TE20",
+   "mer": "TE",
+   "num": 20,
+   "name": "Giác tôn",
+   "recId": 261,
+   "vitri": "Gấp vành tai về phía trước, huyệt ở bờ trên loa tai, trong chân tóc nơi có cơ cử động khi há miệng nhai, dưới huyệt là cơ tai trên, cơ thái dương."
+  },
+  {
+   "code": "TE21",
+   "mer": "TE",
+   "num": 21,
+   "name": "Nhĩ môn",
+   "recId": 581,
+   "vitri": "Ở ngay phía trước rãnh trên bình tai, đầu trên chân bình tai, nơi cơ tai trước."
+  },
+  {
+   "code": "TE22",
+   "mer": "TE",
+   "num": 22,
+   "name": "Hòa liêu",
+   "recId": 323,
+   "vitri": "Phía trước lỗ tai, trong chân tóc, trước và trên huyệt Nhĩ Môn (Ttu 21). Huyệt ở bờ trên của mỏm tiếp xương thái dương phía trên và sau bờ sau chân tóc mai, sờ thấy động mạch thái dương nông, trước bình tai một đốt ngón tay."
+  },
+  {
+   "code": "TE23",
+   "mer": "TE",
+   "num": 23,
+   "name": "Ty trúc không",
+   "recId": 1007,
+   "vitri": "Tại chỗ lõm bên ngoài đuôi lông mày, ấn vào có cảm giác ê tức, bờ ngoài cơ vòng mi."
+  },
+  {
+   "code": "GB1",
+   "mer": "GB",
+   "num": 1,
+   "name": "Đồng tử liêu",
+   "recId": 252,
+   "vitri": "Cách góc ngoài mắt 0,5 thốn, chỗ lõm sát ngoài đường khớp của mỏm ngoài ổ mắt."
+  },
+  {
+   "code": "GB2",
+   "mer": "GB",
+   "num": 2,
+   "name": "Thính hội",
+   "recId": 801,
+   "vitri": "Phía trước rãnh bình tai, ở chỗ lõm khi há miệng, bờ sau tuyến mang tai, dưới huyệt Thính Cung (Ttr.19)."
+  },
+  {
+   "code": "GB3",
+   "mer": "GB",
+   "num": 3,
+   "name": "Thượng quan",
+   "recId": 867,
+   "vitri": "Ở phía trước tai, bờ trên xương gò má, xác định huyệt Hạ Quan kéo thẳng lên, đến chỗ lõm bờ sau chân tóc mai."
+  },
+  {
+   "code": "GB4",
+   "mer": "GB",
+   "num": 4,
+   "name": "Hàm yến",
+   "recId": 300,
+   "vitri": "Trong chân tóc vùng thái dương, nơi có di động khi há miệng nhai, huyệt Đầu Duy (Vi 8) đo xuống một thốn, tại 1/4 trên và 3/4 dưới của đoạn nối huyệt Đầu Duy và Khúc Tân (Đ 7)."
+  },
+  {
+   "code": "GB5",
+   "mer": "GB",
+   "num": 5,
+   "name": "Huyền lư",
+   "recId": 358,
+   "vitri": "Ở sát động mạch Thái Dương nông, trên đường nối huyệt Hàm Yến (Đ 4) và Khúc Tân (Đ 7), cách Hàm Yến 0,6 thốn."
+  },
+  {
+   "code": "GB6",
+   "mer": "GB",
+   "num": 6,
+   "name": "Huyền ly",
+   "recId": 359,
+   "vitri": "Ở điểm nối 3/4 trên và 1/3 dưới của đoạn nối huyệt Đầu Duy (Vi 8) và Khúc Tân (Đ 7), sát động mạch Thái Dương nông, dưới Huyền Lư 0,5 thốn."
+  },
+  {
+   "code": "GB7",
+   "mer": "GB",
+   "num": 7,
+   "name": "Khúc tân",
+   "recId": 400,
+   "vitri": "Tại giao điểm của đường nằm ngang bờ trên tai ngoài và đường thẳng trước tai ngoài, trên chân tóc, sát động mạch thái dương nông."
+  },
+  {
+   "code": "GB8",
+   "mer": "GB",
+   "num": 8,
+   "name": "Suất cốc",
+   "recId": 693,
+   "vitri": "Gấp vành tai, huyệt ở ngay trên đỉnh vành tai, trong chân tóc 1,5 thốn."
+  },
+  {
+   "code": "GB9",
+   "mer": "GB",
+   "num": 9,
+   "name": "Thiên xung",
+   "recId": 791,
+   "vitri": "Sau huyệt Suất Cốc 0,5 thốn, ở trên và sau tai, trong chân tóc 2 thốn, vùng cơ tai trên."
+  },
+  {
+   "code": "GB10",
+   "mer": "GB",
+   "num": 10,
+   "name": "Phù bạch",
+   "recId": 651,
+   "vitri": "Tại bờ trên chân vành tai, trong chân tóc 01 thốn. Hoặc lấy tỉ lệ 1/3 trên và 2/3 dưới của đoạn nối huyệt Thiên Xung (Đ.9) và Hoàn Cốt (Đ.12)."
+  },
+  {
+   "code": "GB11",
+   "mer": "GB",
+   "num": 11,
+   "name": "Khiếu âm",
+   "recId": 214,
+   "vitri": "Tại trung điểm của đoạn nối hai huyệt Phù Bạch (Đ 10) và Hoàn Cốt (Đ 12)."
+  },
+  {
+   "code": "GB12",
+   "mer": "GB",
+   "num": 12,
+   "name": "Hoàn cốt",
+   "recId": 324,
+   "vitri": "Ở chỗ lõm phía sau và dưới mỏm xương chũm, sát bờ sau cơ ức đòn chũm."
+  },
+  {
+   "code": "GB13",
+   "mer": "GB",
+   "num": 13,
+   "name": "Bản thần",
+   "recId": 44,
+   "vitri": "Trong chân tóc 0,5 thốn, từ khóe mắt ngoài kéo lên chân tóc."
+  },
+  {
+   "code": "GB14",
+   "mer": "GB",
+   "num": 14,
+   "name": "Dương bạch",
+   "recId": 168,
+   "vitri": "Trước trán, trên đường thẳng qua chính giữa mắt và phía trên lông mày cách 1 thốn."
+  },
+  {
+   "code": "GB15",
+   "mer": "GB",
+   "num": 15,
+   "name": "Lâm khấp",
+   "recId": 215,
+   "vitri": "Từ huyệt Dương Bạch (Đ 14) đo thẳng lên trong chân tóc 0,5 thốn."
+  },
+  {
+   "code": "GB16",
+   "mer": "GB",
+   "num": 16,
+   "name": "Mục song",
+   "recId": 514,
+   "vitri": "Trên huyệt Đầu Lâm Khấp 0,1 thốn."
+  },
+  {
+   "code": "GB17",
+   "mer": "GB",
+   "num": 17,
+   "name": "Chính dinh",
+   "recId": 107,
+   "vitri": "Ở trên đường nối huyệt Đầu Lâm Khấp và Phong Trì, sau huyệt Mục Song 1 thốn."
+  },
+  {
+   "code": "GB18",
+   "mer": "GB",
+   "num": 18,
+   "name": "Thừa linh",
+   "recId": 839,
+   "vitri": "Sau huyệt Chính Dinh 1,5 thốn, trên đường nối huyệt Đầu Lâm Khấp (Đ.15) và Phong Trì (Đ.20)."
+  },
+  {
+   "code": "GB19",
+   "mer": "GB",
+   "num": 19,
+   "name": "Não không",
+   "recId": 522,
+   "vitri": "Sau huyệt Thừa Linh 1,5 thốn, trên Phong Trì 1,5 thốn, ngang với ụ chẩm và Não Hộ (Đốc Mạch)."
+  },
+  {
+   "code": "GB20",
+   "mer": "GB",
+   "num": 20,
+   "name": "Phong trì",
+   "recId": 649,
+   "vitri": "Ở chỗ lõm của bờ trong cơ ức–đòn–chũm và bờ ngoài cơ thang bám vào đáy hộp sọ."
+  },
+  {
+   "code": "GB21",
+   "mer": "GB",
+   "num": 21,
+   "name": "Kiên tỉnh",
+   "recId": 421,
+   "vitri": "Tại giao điểm của đường thẳng ngang qua đầu ngực với đường ngang nối huyệt Đại Chùy (Đc 14) và điểm cao nhất của đầu ngoài xương đòn, ấn vào có cảm giác ê tức. Hoặc đứng thẳng, dùng tay áp vào ngực, với sang bả vai phía đối diện, làm sao cho bàn tay úp vào vùng vai – cơ thang, đầu ngón tay giữa chạm vào vùng vai chỗ nào, đó là huyệt."
+  },
+  {
+   "code": "GB22",
+   "mer": "GB",
+   "num": 22,
+   "name": "Uyên dịch",
+   "recId": 1025,
+   "vitri": "Dưới nếp nách trước 3 thốn, ở khoảng gian sườn 4, bờ trước cơ lưng to."
+  },
+  {
+   "code": "GB23",
+   "mer": "GB",
+   "num": 23,
+   "name": "Triếp cân",
+   "recId": 932,
+   "vitri": "Trước huyệt Uyên Dịch 1 thốn, ngang giữa xương sườn thứ 5."
+  },
+  {
+   "code": "GB24",
+   "mer": "GB",
+   "num": 24,
+   "name": "Kinh môn",
+   "recId": 576,
+   "vitri": "Tại giao điểm của đường thẳng ngang qua đầu ngực và khoảng gian sườn 7."
+  },
+  {
+   "code": "GB25",
+   "mer": "GB",
+   "num": 25,
+   "name": "Đái mạch",
+   "recId": 434,
+   "vitri": "Ngang vùng bụng, huyệt ở bờ dưới đầu xương sườn tự do thứ 12."
+  },
+  {
+   "code": "GB26",
+   "mer": "GB",
+   "num": 26,
+   "name": "Đái mạch",
+   "recId": 183,
+   "vitri": "Tại trung điểm của đầu xương sườn thứ 11 và 12, ngang với rốn."
+  },
+  {
+   "code": "GB27",
+   "mer": "GB",
+   "num": 27,
+   "name": "Ngũ xứ",
+   "recId": 556,
+   "vitri": "Ở phía trước gai chậu trước trên, ngang huyệt Quan Nguyên (Nh 4), phía trước và dưới Mạch Đới 3 thốn."
+  },
+  {
+   "code": "GB28",
+   "mer": "GB",
+   "num": 28,
+   "name": "Duy đạo",
+   "recId": 166,
+   "vitri": "Phía trước và dưới gai chậu trước trên, ở trước và dưới huyệt Ngũ Xu 0,5 thốn, dưới huyệt Chương Môn 5,3 thốn."
+  },
+  {
+   "code": "GB29",
+   "mer": "GB",
+   "num": 29,
+   "name": "Cư liêu",
+   "recId": 124,
+   "vitri": "Ở giữa đường nối gai chậu trước trên với điểm cao nhất của mấu chuyển lớn xương đùi, nơi cơ mông lớn và cơ mông bé."
+  },
+  {
+   "code": "GB30",
+   "mer": "GB",
+   "num": 30,
+   "name": "Hoàn khiêu",
+   "recId": 325,
+   "vitri": "Nằm nghiêng co chân đau ở trên, chân dưới duỗi thẳng, huyệt ở vị trí 1/3 ngoài và 2/3 trong của đoạn nối điểm cao nhất của mấu chuyển lớn xương đùi và khe xương cùng. Hoặc nằm sấp, gấp chân vào mông, gót chân chạm mông ở đâu, đó là huyệt."
+  },
+  {
+   "code": "GB31",
+   "mer": "GB",
+   "num": 31,
+   "name": "Phong thị",
+   "recId": 648,
+   "vitri": "Xuôi cánh tay thẳng xuống đùi, ép ngón tay vào bờ sau cơ căng cân đùi, huyệt ở đầu ngón tay giữa áp lên đùi, trên nếp nhượng chân 7 thốn, giữa gân cơ nhị đầu đùi và cơ rộng giữa."
+  },
+  {
+   "code": "GB32",
+   "mer": "GB",
+   "num": 32,
+   "name": "Trung độc",
+   "recId": 945,
+   "vitri": "Xác định huyệt Phong Thị (Đ.31) đo thẳng xuống 2 thốn, trên lằn nhượng chân 5 thốn, bờ sau cân cơ đùi, bờ trước cơ nhị đầu đùi."
+  },
+  {
+   "code": "GB33",
+   "mer": "GB",
+   "num": 33,
+   "name": "Dương quan",
+   "recId": null,
+   "vitri": ""
+  },
+  {
+   "code": "GB34",
+   "mer": "GB",
+   "num": 34,
+   "name": "Dương lăng tuyền",
+   "recId": 174,
+   "vitri": "Ở chỗ lõm phía trước và dưới đầu nhỏ của xương mác, nơi thân nối với đầu trên xương mác, khe giữa cơ mác bên dài và cơ duỗi chung các ngón chân."
+  },
+  {
+   "code": "GB35",
+   "mer": "GB",
+   "num": 35,
+   "name": "Dương giao",
+   "recId": 171,
+   "vitri": "Nằm trên đường nối huyệt Dương Lăng Tuyền (Đ 34) và đỉnh cao mắt cá ngoài, trên mắt cá ngoài 7 thốn, bờ trước xương mác, trong khe cơ mác bên đùi và cơ mác bên ngắn."
+  },
+  {
+   "code": "GB36",
+   "mer": "GB",
+   "num": 36,
+   "name": "Ngoại khâu",
+   "recId": 533,
+   "vitri": "Trên mắt cá chân 7 thốn, phía sau huyệt Dương Giao (Đ 33), đo ngang ra 1 thốn, ở bờ sau xương mác, khe giữa cơ mác bên đùi và cơ dép."
+  },
+  {
+   "code": "GB37",
+   "mer": "GB",
+   "num": 37,
+   "name": "Quang minh",
+   "recId": 674,
+   "vitri": "Trên đỉnh mắt cá ngoài 5 thốn, gần bờ trước xương mác, trong khe duỗi chung các ngón chân và cơ mác bên ngắn."
+  },
+  {
+   "code": "GB38",
+   "mer": "GB",
+   "num": 38,
+   "name": "Dương phụ",
+   "recId": 175,
+   "vitri": "Trên đỉnh mắt cá ngoài 4 thốn, ở bờ trước xương mác."
+  },
+  {
+   "code": "GB39",
+   "mer": "GB",
+   "num": 39,
+   "name": "Huyền chung",
+   "recId": 356,
+   "vitri": "Trên đỉnh mắt cá ngoài 3 thốn, giữa bờ sau xương mác và gân cơ mác bên dài, cơ mác bên ngắn."
+  },
+  {
+   "code": "GB40",
+   "mer": "GB",
+   "num": 40,
+   "name": "Khâu khư",
+   "recId": 373,
+   "vitri": "Ở phía trước và dưới mắt cá ngoài chân, nơi chỗ lõm của khe xương cạnh nhóm cơ duỗi dài các ngón chân, hoặc từ ngón chân thứ 4 kéo thẳng lên mắt cá gặp chỗ lõm hoặc lấy ở chỗ lõm giữa huyệt Thân Mạch (Bq 62) và huyệt Giải Khê (Vi 41), ấn vào thấy tức."
+  },
+  {
+   "code": "GB41",
+   "mer": "GB",
+   "num": 41,
+   "name": "Túc lâm khấp",
+   "recId": 978,
+   "vitri": "Chỗ lõm phía trước khớp xương bàn – ngón chân thứ 4 – 5."
+  },
+  {
+   "code": "GB42",
+   "mer": "GB",
+   "num": 42,
+   "name": "Địa ngũ hội",
+   "recId": 226,
+   "vitri": "Ở trong khoảng gian đốt xương bàn chân thứ 4 và 5, chỗ lõm trước gân cơ duỗi ngón út và cơ duỗi chung các ngón chân, cách huyệt Túc Lâm Khấp 0,5 thốn."
+  },
+  {
+   "code": "GB43",
+   "mer": "GB",
+   "num": 43,
+   "name": "Hiệp khê",
+   "recId": 319,
+   "vitri": "Khe giữa xương bàn chân ngón thứ 4 và 5, huyệt nằm ở đầu kẽ giữa 2 ngón chân, phía trên mu chân."
+  },
+  {
+   "code": "GB44",
+   "mer": "GB",
+   "num": 44,
+   "name": "Túc khiếu âm",
+   "recId": 976,
+   "vitri": "Bên ngoài ngón chân thứ 4, cách góc móng chân chừng 0,1 thốn. Huyệt trên đường tiếp giáp da gan chân – mu chân."
+  },
+  {
+   "code": "LR1",
+   "mer": "LR",
+   "num": 1,
+   "name": "Đại đôn",
+   "recId": 199,
+   "vitri": ""
+  },
+  {
+   "code": "LR2",
+   "mer": "LR",
+   "num": 2,
+   "name": "Hành gian",
+   "recId": 303,
+   "vitri": "Ép ngón chân cái sát vào ngón thứ 2, huyệt nằm ngay trên đầu kẽ của 2 ngón chân, về phía mu chân."
+  },
+  {
+   "code": "LR3",
+   "mer": "LR",
+   "num": 3,
+   "name": "Thái xung",
+   "recId": 740,
+   "vitri": "Sau khe giữa ngón chân 1 và 2, đo lên 1,5 thốn, huyệt ở chỗ lõm tạo nên bởi hai đầu xương ngón chân 1 và 2. Hoặc sờ dọc theo khoảng gian đốt xương bàn chân 1, tìm xác định góc tạo nên bởi 2 đầu xương bàn chân 1 và 2, lấy huyệt ở góc này."
+  },
+  {
+   "code": "LR4",
+   "mer": "LR",
+   "num": 4,
+   "name": "Trung phong",
+   "recId": 952,
+   "vitri": "Ở phía trước bờ dưới mắt cá trong 1 thốn, nơi chỗ lõm ở bờ trong gân cơ chày trước, khe khớp xương sên và xương gót, giữa huyệt Giải Khê (Vị) và Thương Khâu (Tỳ)."
+  },
+  {
+   "code": "LR5",
+   "mer": "LR",
+   "num": 5,
+   "name": "Lãi câu",
+   "recId": 448,
+   "vitri": "Ở bờ sau xương chày, cách trên đỉnh mắt cá trong 5 thốn."
+  },
+  {
+   "code": "LR6",
+   "mer": "LR",
+   "num": 6,
+   "name": "Trung đô",
+   "recId": 944,
+   "vitri": "Ở bờ sau xương chày, trên mắt cá trong 7 thốn."
+  },
+  {
+   "code": "LR7",
+   "mer": "LR",
+   "num": 7,
+   "name": "Tất quan",
+   "recId": 725,
+   "vitri": "Ở bờ sau dưới lồi cầu trong xương chầy, cách sau huyệt Âm Lăng Tuyền (Ty 9) một thốn."
+  },
+  {
+   "code": "LR8",
+   "mer": "LR",
+   "num": 8,
+   "name": "Khúc tuyền",
+   "recId": 404,
+   "vitri": "Ở đầu trong nếp gấp nhượng chân, nơi khe giữa của bờ trước gân cơ bán mạc và cơ thẳng trong."
+  },
+  {
+   "code": "LR9",
+   "mer": "LR",
+   "num": 9,
+   "name": "Âm bao",
+   "recId": 12,
+   "vitri": "Ở cách lồi cầu trên trong xương đùi 4 thốn, hoặc từ huyệt Khúc Tuyền (C 8) đo lên 4 thốn, giữa cơ rộng trong và cơ may."
+  },
+  {
+   "code": "LR10",
+   "mer": "LR",
+   "num": 10,
+   "name": "Ngũ lý trạch điền",
+   "recId": 980,
+   "vitri": "Ở bờ trong đùi, huyệt Âm Liêm (C.11) đo xuống 1 thốn, hoặc dưới nếp nhăn của bẹn 3 thốn."
+  },
+  {
+   "code": "LR11",
+   "mer": "LR",
+   "num": 11,
+   "name": "Âm liêm",
+   "recId": 22,
+   "vitri": "Để bệnh nhân ở tư thế nằm ngửa, sờ động mạch nhảy ở bẹn, huyệt nằm sát bờ trong động mạch đùi, hoặc dưới nếp nhăn của bẹn 1 thốn."
+  },
+  {
+   "code": "LR12",
+   "mer": "LR",
+   "num": 12,
+   "name": "Cấp mạch",
+   "recId": 92,
+   "vitri": "Ở bờ trên xương mu 1 thốn, đo ngang ra 2,5 thốn nằm trên nếp lằn của bẹn, dưới cung đùi."
+  },
+  {
+   "code": "LR13",
+   "mer": "LR",
+   "num": 13,
+   "name": "Chương môn",
+   "recId": 112,
+   "vitri": "Ở đầu xương sườn tự do thứ 11."
+  },
+  {
+   "code": "LR14",
+   "mer": "LR",
+   "num": 14,
+   "name": "Kỳ mông môn",
+   "recId": 438,
+   "vitri": "Huyệt nằm trên đường thẳng ngang qua đầu ngực, trong khoảng gian sườn (của sườn) thứ 6 – 7."
+  },
+  {
+   "code": "LR15",
+   "mer": "LR",
+   "num": 15,
+   "name": "Kỳ môn",
+   "recId": 438,
+   "vitri": "Huyệt nằm trên đường thẳng ngang qua đầu ngực, trong khoảng gian sườn (của sườn) thứ 6 – 7."
+  },
+  {
+   "code": "GV1",
+   "mer": "GV",
+   "num": 1,
+   "name": "Trường cường",
+   "recId": 963,
+   "vitri": "Ở chỗ lõm sau hậu môn và trước đầu xương cụt 0,3 thốn."
+  },
+  {
+   "code": "GV2",
+   "mer": "GV",
+   "num": 2,
+   "name": "Yêu du",
+   "recId": 1050,
+   "vitri": "Tại chỗ lõm dưới mỏm gai đốt sống cùng 4 hoặc ở chính giữa đường nối 2 lỗ cùng 4."
+  },
+  {
+   "code": "GV3",
+   "mer": "GV",
+   "num": 3,
+   "name": "Yêu dương quan",
+   "recId": 1051,
+   "vitri": "Chỗ lõm dưới mỏm gai đốt sống thắt lưng 4 – 5, ngang với mào chậu."
+  },
+  {
+   "code": "GV4",
+   "mer": "GV",
+   "num": 4,
+   "name": "Mệnh môn",
+   "recId": 508,
+   "vitri": "Ở chỗ lõm dưới đầu mỏm gai đốt sống thắt lưng 2."
+  },
+  {
+   "code": "GV5",
+   "mer": "GV",
+   "num": 5,
+   "name": "Huyền khu",
+   "recId": 357,
+   "vitri": "Ở chỗ lõm dưới đầu mỏm gai đốt sống thắt lưng 1."
+  },
+  {
+   "code": "GV6",
+   "mer": "GV",
+   "num": 6,
+   "name": "Tích trung",
+   "recId": 876,
+   "vitri": "Tại chỗ lõm ngay dưới đầu mỏm gai đốt sống lưng 11."
+  },
+  {
+   "code": "GV7",
+   "mer": "GV",
+   "num": 7,
+   "name": "Trung xung",
+   "recId": 948,
+   "vitri": "Chỗ lõm dưới đầu mỏm gai đốt sống lưng 10."
+  },
+  {
+   "code": "GV8",
+   "mer": "GV",
+   "num": 8,
+   "name": "Cân súc",
+   "recId": 91,
+   "vitri": "Chỗ lõm dưới đầu mỏm gai đốt sống lưng 9 (D9)."
+  },
+  {
+   "code": "GV9",
+   "mer": "GV",
+   "num": 9,
+   "name": "Chí dương",
+   "recId": 99,
+   "vitri": ""
+  },
+  {
+   "code": "GV10",
+   "mer": "GV",
+   "num": 10,
+   "name": "Linh đài",
+   "recId": 471,
+   "vitri": "Chỗ lõm dưới đầu mỏm gai đốt sống lưng 6."
+  },
+  {
+   "code": "GV11",
+   "mer": "GV",
+   "num": 11,
+   "name": "Thần đạo",
+   "recId": 748,
+   "vitri": "Chỗ lõm dưới đầu mỏm gai đốt sống lưng 5."
+  },
+  {
+   "code": "GV12",
+   "mer": "GV",
+   "num": 12,
+   "name": "Thân trụ",
+   "recId": 747,
+   "vitri": "Chỗ lõm dưới đầu mỏm gai đốt sống lưng 3."
+  },
+  {
+   "code": "GV13",
+   "mer": "GV",
+   "num": 13,
+   "name": "Đào đạo",
+   "recId": 211,
+   "vitri": "Chỗ lõm dưới đầu mỏm gai đốt sống lưng 1, ngay dưới huyệt Đại Chùy một đốt sống."
+  },
+  {
+   "code": "GV14",
+   "mer": "GV",
+   "num": 14,
+   "name": "Đại chùy",
+   "recId": 192,
+   "vitri": "Ngồi ngay, hơi cúi đầu xuống một ít, phần dưới cổ nổi lên từ 1 – 3 u xương tròn, đặt lên mỗi u xương một ngón tay rồi bảo người bịnh quay đầu qua lại về bên phải, bên trái, cúi ngửa, u xương tròn nào cao nhất động đậy dưới ngón tay nhiều là đốt sống cổ 7, huyệt ở chỗ lõm ngay dưới đầu mỏm gai của đốt này."
+  },
+  {
+   "code": "GV15",
+   "mer": "GV",
+   "num": 15,
+   "name": "Á môn",
+   "recId": 5,
+   "vitri": "Nếu có chân tóc gáy, lấy huyệt ở chỗ lõm giữa gáy và trên chân tóc 0,5 thốn. Nếu không có chân tóc gáy, huyệt ở chỗ lõm giữa gáy, dưới huyệt Phong Phủ 0,5 thốn. Phía dưới mỏm gai của đốt sống cổ 1."
+  },
+  {
+   "code": "GV16",
+   "mer": "GV",
+   "num": 16,
+   "name": "Phong phủ",
+   "recId": 646,
+   "vitri": "Chỗ lõm giữa gáy và ở trên chân tóc gáy 1 thốn. Giữa khe của xương chẩm và đốt sống cổ thứ I. Khi cúi đầu, gân cơ thang nổi lên ở chỗ bám vào hộp sọ, khi ngửa đầu, chỗ khe xương lõm xuống, có thể sờ được đáy hộp sọ, huyệt ở chỗ lõm giữa 2 cơ thang, ngang với đáy hộp sọ."
+  },
+  {
+   "code": "GV17",
+   "mer": "GV",
+   "num": 17,
+   "name": "Não hộ",
+   "recId": 521,
+   "vitri": "Chỗ lõm ngay trên ụ chẩm ngoài, trên huyệt Phong Phủ 1,5 thốn."
+  },
+  {
+   "code": "GV18",
+   "mer": "GV",
+   "num": 18,
+   "name": "Cường gian",
+   "recId": 135,
+   "vitri": "Giữa đoạn nối huyệt Phong Phủ (dưới chẩm) và huyệt Bá Hội (đỉnh giữa đầu)."
+  },
+  {
+   "code": "GV19",
+   "mer": "GV",
+   "num": 19,
+   "name": "Hậu đỉnh",
+   "recId": 306,
+   "vitri": "Tại giữa huyệt Cường Gian (Đc 18) và huyệt Bá Hội (Đc 20), sau huyệt Bá Hội 1,5 thốn."
+  },
+  {
+   "code": "GV20",
+   "mer": "GV",
+   "num": 20,
+   "name": "Bá hội thập tự thích",
+   "recId": 38,
+   "vitri": "Gấp 2 vành tai về phía trước, huyệt ở điểm gặp nhau của đường thẳng dọc giữa đầu và đường ngang qua đỉnh vành tai, sờ vào đó thấy 1 khe xương lõm xuống."
+  },
+  {
+   "code": "GV21",
+   "mer": "GV",
+   "num": 21,
+   "name": "Tiền đỉnh",
+   "recId": 879,
+   "vitri": "Trên đường dọc giữa đầu, phía trước huyệt Bá Hội (Đc.20) 1,5 thốn."
+  },
+  {
+   "code": "GV22",
+   "mer": "GV",
+   "num": 22,
+   "name": "Tín hội",
+   "recId": 909,
+   "vitri": "Trên đường dọc giữa đầu, chính giữa thóp trước, phía trước huyệt Bá Hội (Đc.20) 3 thốn."
+  },
+  {
+   "code": "GV23",
+   "mer": "GV",
+   "num": 23,
+   "name": "Thượng tinh",
+   "recId": 869,
+   "vitri": "Trên đường dọc giữa đầu, chính giữa đoạn nối huyệt Bá Hội (Đc.20) và Ấn Đường."
+  },
+  {
+   "code": "GV24",
+   "mer": "GV",
+   "num": 24,
+   "name": "Thần đình",
+   "recId": 749,
+   "vitri": "Ở sau chân tóc trán 0,5 thốn. Nơi người trán hói, lấy ở huyệt Ấn Đường thẳng lên 3,5 thốn."
+  },
+  {
+   "code": "GV25",
+   "mer": "GV",
+   "num": 25,
+   "name": "Tố liêu",
+   "recId": 917,
+   "vitri": ""
+  },
+  {
+   "code": "GV26",
+   "mer": "GV",
+   "num": 26,
+   "name": "Nhân trung",
+   "recId": 571,
+   "vitri": "Tại điểm nối 1/3 trên và 2/3 dưới của rãnh Nhân trung, giữa đáy rãnh."
+  },
+  {
+   "code": "GV27",
+   "mer": "GV",
+   "num": 27,
+   "name": "Đoài đoan",
+   "recId": 237,
+   "vitri": "Ở chỗ nhọn của môi trên, ngay dưới rãnh nhân trung, chỗ tiếp giáp giữa da và niêm mạc môi trên."
+  },
+  {
+   "code": "CV1",
+   "mer": "CV",
+   "num": 1,
+   "name": "Hội âm",
+   "recId": 345,
+   "vitri": "Giữa tiền âm và hậu âm (Giáp Ất) hoặc ở giữa bìu dái và hậu môn (đàn ông) hoặc ở đường sau của âm thần và hậu môn (phụ nữ), huyệt ở giữa nút đáy chậu (chỗ tụ hội của các nếp da chạy từ hậu môn, phần sinh dục ngoài và 2 bên háng tới)."
+  },
+  {
+   "code": "CV2",
+   "mer": "CV",
+   "num": 2,
+   "name": "Khúc cốt",
+   "recId": 398,
+   "vitri": "Ở trên xương mu, dưới huyệt Trung Cực 1 thốn hoặc chỗ lõm ngay chính giữa bờ trên xương mu."
+  },
+  {
+   "code": "CV3",
+   "mer": "CV",
+   "num": 3,
+   "name": "Trung cự",
+   "recId": 942,
+   "vitri": "Thẳng dưới rốn 4 thốn hoặc trên bờ xương mu 1 thốn."
+  },
+  {
+   "code": "CV4",
+   "mer": "CV",
+   "num": 4,
+   "name": "Quan nguyên",
+   "recId": 669,
+   "vitri": "Thẳng dưới rốn 3 thốn, trên bờ xương mu 2 thốn."
+  },
+  {
+   "code": "CV5",
+   "mer": "CV",
+   "num": 5,
+   "name": "Thạch môn",
+   "recId": 731,
+   "vitri": "Dưới rốn 2 thốn."
+  },
+  {
+   "code": "CV6",
+   "mer": "CV",
+   "num": 6,
+   "name": "Khí hải",
+   "recId": 378,
+   "vitri": "Lỗ rốn thẳng xuống 1,5 thốn."
+  },
+  {
+   "code": "CV7",
+   "mer": "CV",
+   "num": 7,
+   "name": "Âm giao",
+   "recId": 18,
+   "vitri": "Thẳng dưới lỗ rốn 1 thốn."
+  },
+  {
+   "code": "CV8",
+   "mer": "CV",
+   "num": 8,
+   "name": "Thần khuyết",
+   "recId": 752,
+   "vitri": "Chính giữa lỗ rốn."
+  },
+  {
+   "code": "CV9",
+   "mer": "CV",
+   "num": 9,
+   "name": "Thủy phân",
+   "recId": 832,
+   "vitri": "Lỗ rốn thẳng lên 1 thốn."
+  },
+  {
+   "code": "CV10",
+   "mer": "CV",
+   "num": 10,
+   "name": "Hạ quản",
+   "recId": 292,
+   "vitri": "Lỗ rốn thẳng lên 2 thốn."
+  },
+  {
+   "code": "CV11",
+   "mer": "CV",
+   "num": 11,
+   "name": "Kiến lý",
+   "recId": 425,
+   "vitri": "Lỗ rốn thẳng lên 3 thốn, hoặc lấy đường nối 2/8 dưới và 6/8 trên của đoạn nối rốn và điểm gặp nhau của 2 bờ sườn."
+  },
+  {
+   "code": "CV12",
+   "mer": "CV",
+   "num": 12,
+   "name": "Trung quản",
+   "recId": 954,
+   "vitri": "Lỗ rốn thẳng lên 4 thốn hoặc lấy ở điểm giữa của đoạn thẳng nối rốn – và đường gặp nhau của 2 bờ sườn."
+  },
+  {
+   "code": "CV13",
+   "mer": "CV",
+   "num": 13,
+   "name": "Thượng quản",
+   "recId": 868,
+   "vitri": "Trên lỗ rốn 5 thốn, dưới huyệt Cự Khuyết (Nh.14) 1 thốn."
+  },
+  {
+   "code": "CV14",
+   "mer": "CV",
+   "num": 14,
+   "name": "Cự khuyết",
+   "recId": 131,
+   "vitri": "Rốn thẳng lên 6 thốn, dưới huyệt Cưu Vĩ 1 thốn."
+  },
+  {
+   "code": "CV15",
+   "mer": "CV",
+   "num": 15,
+   "name": "Cưu vĩ",
+   "recId": 137,
+   "vitri": "Ở sát đầu mũi ức, chỗ đầu trên của đường trắng, dưới mũi ức 0,5 thốn."
+  },
+  {
+   "code": "CV16",
+   "mer": "CV",
+   "num": 16,
+   "name": "Trung đình",
+   "recId": 943,
+   "vitri": "Chỗ 2 bờ sườn gặp nhau thành một góc nhọn (nơi người không có mũi ức), trên đường dọc giữa xương ức."
+  },
+  {
+   "code": "CV17",
+   "mer": "CV",
+   "num": 17,
+   "name": "Chiên trung",
+   "recId": 105,
+   "vitri": ""
+  },
+  {
+   "code": "CV18",
+   "mer": "CV",
+   "num": 18,
+   "name": "Ngọc đường",
+   "recId": 549,
+   "vitri": "Ở điểm gặp nhau của đường dọc giữa xương ức với đường ngang qua bờ trên khớp ức – sườn 4."
+  },
+  {
+   "code": "CV19",
+   "mer": "CV",
+   "num": 19,
+   "name": "Tử cung",
+   "recId": 1001,
+   "vitri": "Ở điểm gặp nhau của đường dọc giữa xương ức và đường ngang qua giữa 2 khớp ức – sườn 4."
+  },
+  {
+   "code": "CV20",
+   "mer": "CV",
+   "num": 20,
+   "name": "Hoa cái",
+   "recId": 320,
+   "vitri": "Ở điểm gặp nhau của đường dọc giữa xương ức và đường ngang qua giữa 2 khớp xương ức."
+  },
+  {
+   "code": "CV21",
+   "mer": "CV",
+   "num": 21,
+   "name": "Toàn cơ",
+   "recId": 988,
+   "vitri": "Ở điểm gặp nhau của đường dọc giữa xương ức và đường ngang qua bờ trên khớp ức – sườn thứ 1."
+  },
+  {
+   "code": "CV22",
+   "mer": "CV",
+   "num": 22,
+   "name": "Thiên đột",
+   "recId": 776,
+   "vitri": "Giữa chỗ lõm trên bờ trên xương ức."
+  },
+  {
+   "code": "CV23",
+   "mer": "CV",
+   "num": 23,
+   "name": "Liêm tuyền",
+   "recId": 467,
+   "vitri": "Chính giữa bờ trên sụn giáp trạng, trên lằn chỉ ngang chỗ cuống hầu 0,2 thốn (Ngước đầu lên để tìm huyệt)."
+  },
+  {
+   "code": "CV24",
+   "mer": "CV",
+   "num": 24,
+   "name": "Thừa tương",
+   "recId": 846,
+   "vitri": "Ở đáy chỗ lõm, chính giữa và dưới môi dưới, trên đường bổ dọc giữa hàm dưới."
+  }
+ ]
+}

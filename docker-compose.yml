@@ -1,0 +1,61 @@
+# Docker stack cho VPS Ubuntu Linux (Postgres dùng Aiven managed)
+#
+# Quy trình triển khai:
+#   1. cp .env.example .env                  -> sửa HTTP_PORT / VITE_API_URL nếu cần
+#   2. cp backend/.env.example backend/.env  -> dán DATABASE_URL của Aiven + JWT_SECRET
+#   3. docker compose up -d --build
+#
+# Chỉ frontend (nginx) mở ra ngoài internet ở HTTP_PORT (mặc định 80).
+# Backend chạy nội bộ trong network "kinhlac_net", gọi thẳng ra Aiven Postgres qua SSL.
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: kinhlac/backend:latest
+    container_name: kinhlac_backend
+    restart: unless-stopped
+    # Tất cả biến runtime (DATABASE_URL của Aiven, JWT_SECRET, YESCALE_*, FRONTEND_URL …)
+    # đều đến từ backend/.env. KHÔNG override DB_* ở đây vì đã trỏ ra ngoài Aiven.
+    env_file:
+      - ./backend/.env
+    environment:
+      NODE_ENV: production
+      APP_PORT: "3001"
+      # Thư mục backend GHI ảnh AI (cover/body). Bind mount ./data/blog-images dùng CHUNG với nginx
+      # (xem service frontend) → bấm "Vẽ ảnh bìa AI" / "Sinh ảnh minh hoạ" NGAY trên server là ra ảnh.
+      BLOG_IMAGES_DIR: /app/blog-images
+    volumes:
+      - ./data/blog-images:/app/blog-images
+    networks:
+      - kinhlac_net
+    # Mặc định KHÔNG expose backend ra ngoài (đi qua nginx của frontend).
+    # Bỏ comment nếu cần debug API trực tiếp từ máy admin qua SSH tunnel.
+    # ports:
+    #   - "127.0.0.1:3001:3001"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # Bake URL API vào bundle Vite lúc build.
+        # Để mặc định "/api" -> nginx reverse-proxy sang backend (same-origin).
+        VITE_API_URL: ${VITE_API_URL:-/api}
+    image: kinhlac/frontend:latest
+    container_name: kinhlac_frontend
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-80}:80"
+    depends_on:
+      - backend
+    volumes:
+      # Phục vụ ẢNH AI từ CÙNG thư mục backend ghi (đường dẫn web /blog-images/<slug>/...).
+      - ./data/blog-images:/usr/share/nginx/html/blog-images
+    networks:
+      - kinhlac_net
+
+networks:
+  kinhlac_net:
+    driver: bridge

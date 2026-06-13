@@ -1,0 +1,360 @@
+/* ============================================
+   Design System – Y Học Cổ Truyền
+   Brown / Cream / Warm-neutral theme (refined)
+   --------------------------------------------
+   - Tông Nâu/Kem giữ bản sắc Đông Y, làm hài hòa hơn.
+   - Gam trung tính ngả ấm (warm stone) để ăn nhập với nâu.
+   - Token ngữ nghĩa (surface/text/border/status/chip) để
+     toàn bộ view dùng chung, giảm màu hard-code "sặc sỡ".
+   - Nền tảng responsive: typography co giãn (clamp),
+     helper .table-scroll & tiện ích ẩn/hiện theo màn hình.
+   ============================================ */
+
+:root {
+  /* ---- Brown palette (primary identity) ---- */
+  --brown-50:  #faf6ef;
+  --brown-100: #f1e7d6;
+  --brown-200: #e3cfb0;
+  --brown-300: #cfad78;
+  --brown-400: #bd9050;
+  --brown-500: #a4743a;
+  --brown-600: #8a5e28;  /* primary */
+  --brown-700: #6f4a22;
+  --brown-800: #54391d;
+  --brown-900: #3a2715;
+  /* r,g,b của primary (brown-600) — cho rgba() động; theme đổi giá trị này */
+  --primary-rgb: 138, 94, 40;
+
+  /* ---- Neutrals (warm-tinted "stone" — harmonise with brown) ---- */
+  --white:     #ffffff;
+  --gray-50:   #faf9f6;
+  --gray-100:  #f4f1ec;
+  --gray-200:  #e9e4dc;
+  --gray-300:  #dad3c8;
+  --gray-400:  #b9b0a2;
+  --gray-500:  #948b7d;
+  --gray-600:  #6f685c;
+  --gray-700:  #524c42;
+  --gray-800:  #38332b;
+  --gray-900:  #221f19;
+  --black:     #1c1812;
+
+  /* ---- Semantic surfaces / text / borders ---- */
+  --bg-app:         var(--gray-50);
+  --surface:        #ffffff;
+  --surface-2:      #fbf8f2;   /* warm off-white: card bg, table head, empty */
+  --surface-sunken: var(--gray-100);
+  --border:         var(--gray-200);
+  --border-strong:  var(--gray-300);
+  --border-brand:   var(--brown-200);
+
+  --text:           var(--gray-900);
+  --text-muted:     var(--gray-600);
+  --text-subtle:    var(--gray-500);
+  --text-brand:     var(--brown-800);
+
+  /* ---- Primary (brand) ---- */
+  --primary:       var(--brown-600);
+  --primary-light: var(--brown-400);
+  --primary-dark:  var(--brown-800);
+  --primary-bg:    var(--brown-50);
+
+  /* ---- Status (muted, earthy — fits warm theme) ---- */
+  --danger:   #b4452f;
+  --success:  #3f7d4e;
+  --warning:  #b9772a;
+  --info:     #2d6e8e;
+
+  --danger-bg:   #fbeae5;  --danger-border:  #f1c4b7;  --danger-fg:  #9a3620;
+  --success-bg:  #e9f1e8;  --success-border: #cadfc7;  --success-fg: #356a42;
+  --warning-bg:  #f8eed8;  --warning-border: #ead2a1;  --warning-fg: #8a5a1c;
+  --info-bg:     #e6f0f4;  --info-border:    #c3dbe5;  --info-fg:    #245c77;
+
+  /* ---- Chip palette (Ngũ Hành dịu — mỗi nhóm một Hành, đã giảm độ rực & hài hoà) ----
+     Mộc 木 thể bệnh · Hỏa 火 pháp trị · Thổ 土 bài thuốc · Kim 金 triệu chứng · Thủy 水 mạch.
+     Chỉ còn 1 nhóm màu lạnh (Thủy) và rất nhạt → không bị "cầu vồng". */
+  --chip-brand-bg:   var(--brown-100); --chip-brand-fg:   var(--brown-800); --chip-brand-border:   var(--brown-200); /* chứng bệnh (theo theme) */
+  --chip-herb-bg:    #ecd9ad;          --chip-herb-fg:    #6d4f12;          --chip-herb-border:    #ddc483; /* Thổ — bài thuốc (hoàng thổ) */
+  --chip-method-bg:  #f1d8c6;          --chip-method-fg:  #8a4527;          --chip-method-border:  #e2b89e; /* Hỏa — pháp trị (đất nung) */
+  --chip-method-surface: #f9ece4;      /* nền NHẠT cho KHỐI pháp trị (không phải chip) */
+  --chip-pattern-bg: #dde9d4;          --chip-pattern-fg: #3f6140;          --chip-pattern-border: #c2d6b5; /* Mộc — thể bệnh / thiệt chẩn (xanh mộc) */
+  --chip-symptom-bg: #ece5d2;          --chip-symptom-fg: #5c5440;          --chip-symptom-border: #d5cbb4; /* Kim — triệu chứng (kim nhạt, champagne) */
+  --chip-pulse-bg:   #d9e3e7;          --chip-pulse-fg:   #355a68;          --chip-pulse-border:   #bccdd4; /* Thủy — mạch chẩn (thủy lam dịu) */
+
+  /* ---- AI accent (softened indigo/plum — still "special", harmonised) ---- */
+  --ai-bg:      #efeaf4;
+  --ai-fg:      #5b4382;
+  --ai-border:  #d9cce8;
+  --ai-solid:   #6d579b;
+  --ai-solid-2: #574488;
+
+  /* ---- Focus ring (brand) — theo --primary-rgb để đổi cùng theme ---- */
+  --focus-ring: 0 0 0 3px rgba(var(--primary-rgb), .18);
+
+  /* ---- Typography ---- */
+  --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size-xs:   0.75rem;
+  --font-size-sm:   0.875rem;
+  --font-size-base: 1rem;
+  --font-size-md:   1rem;     /* alias used across views */
+  --font-size-lg:   1.125rem;
+  --font-size-xl:   1.25rem;
+  /* Tiêu đề co giãn theo bề rộng màn hình (multi-screen) */
+  --font-size-2xl:  clamp(1.3rem, 1.12rem + 0.9vw, 1.5rem);
+  --font-size-3xl:  clamp(1.5rem, 1.2rem + 1.3vw, 1.875rem);
+  --font-size-4xl:  clamp(1.7rem, 1.3rem + 1.9vw, 2.25rem);
+
+  /* ---- Spacing ---- */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  /* ---- Radius ---- */
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  16px;
+  --radius-xl:  24px;
+  --radius-full: 9999px;
+
+  /* ---- Shadows (warm-tinted, soft) ---- */
+  --shadow-sm:  0 1px 3px rgba(58, 39, 21, .06), 0 1px 2px rgba(58, 39, 21, .04);
+  --shadow-md:  0 4px 14px rgba(58, 39, 21, .08);
+  --shadow-lg:  0 12px 32px rgba(58, 39, 21, .10);
+  --shadow-xl:  0 22px 52px rgba(58, 39, 21, .14);
+
+  /* ---- Transitions ---- */
+  --transition-fast: 150ms cubic-bezier(.4,0,.2,1);
+  --transition-base: 250ms cubic-bezier(.4,0,.2,1);
+  --transition-slow: 400ms cubic-bezier(.4,0,.2,1);
+
+  /* ---- Layout ---- */
+  --sidebar-width: 260px;
+  --sidebar-collapsed-width: 72px;
+  --header-height: 64px;
+
+  /* ---- Breakpoints (tham chiếu — CSS không dùng var trong @media) ----
+     wide ≥1280 · desktop ≤1280 · tablet-land ≤1024 · tablet ≤768 · phone ≤560 */
+}
+
+/* ============================================
+   Global Reset & Base
+   ============================================ */
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  color: var(--text);
+  background: var(--bg-app);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--primary-dark);
+}
+
+button {
+  cursor: pointer;
+  font-family: inherit;
+  border: none;
+  background: none;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+/* Accessible focus for keyboard users (không phá vỡ focus ring tuỳ biến) */
+:focus-visible {
+  outline: 2px solid var(--brown-500);
+  outline-offset: 2px;
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity var(--transition-base);
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  transition: transform var(--transition-base), opacity var(--transition-base);
+}
+
+.slide-enter-from {
+  transform: translateX(-12px);
+  opacity: 0;
+}
+
+.slide-leave-to {
+  transform: translateX(12px);
+  opacity: 0;
+}
+
+/* ---- Responsive helpers (global) ---- */
+
+/* Bọc bảng nhiều cột để cuộn ngang mượt trên màn hình hẹp thay vì vỡ layout */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+.table-scroll > table { min-width: max-content; }
+
+/* Ẩn/hiện theo màn hình */
+.u-hide-mobile { display: revert; }
+.u-only-mobile { display: none; }
+@media (max-width: 768px) {
+  .u-hide-mobile { display: none !important; }
+  .u-only-mobile { display: revert !important; }
+}
+
+/* Scrollbar styling (warm) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--gray-100);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gray-300);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--gray-100);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gray-400);
+}
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--gray-300) transparent;
+}
+
+/* ============================================
+   Responsive root scaling (multi-screen)
+   --------------------------------------------
+   Thu nhỏ nhẹ thang rem trên màn hình nhỏ để toàn bộ
+   khoảng cách / cỡ chữ co lại đồng đều, gọn gàng hơn.
+   ============================================ */
+@media (max-width: 1024px) { html { font-size: 15.5px; } }
+@media (max-width: 768px)  { html { font-size: 15px; } }
+@media (max-width: 400px)  { html { font-size: 14.5px; } }
+
+/* ============================================
+   Mobile: chống iOS tự phóng to khi focus ô nhập
+   --------------------------------------------
+   Safari trên iPhone tự zoom khi cỡ chữ ô nhập < 16px.
+   Ép tối thiểu 16px cho mọi input/select/textarea ở
+   màn hình ≤768px để không bị giật zoom khi gõ.
+   (checkbox/radio/range/color không có chữ → không ảnh hưởng)
+   ============================================ */
+@media (max-width: 768px) {
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]),
+  select,
+  textarea {
+    font-size: 16px;
+  }
+}
+
+
+/* ============================================
+   Viết hoa chữ cái đầu (Title Case) cho toàn UI
+   --------------------------------------------
+   Áp dụng cho vùng nội dung chính (mọi trang + modal render trong
+   .content-area). Viết hoa chữ cái đầu mỗi từ ở các TÊN/nhãn/tiêu đề
+   hiển thị (kể cả tên dữ liệu động lấy từ DB như thể bệnh, thuốc,
+   triệu chứng, kinh mạch, huyệt…). KHÔNG đổi dữ liệu gốc — chỉ là hiển thị.
+   Sidebar/header nằm ngoài .content-area nên không bị ảnh hưởng.
+   ============================================ */
+.content-area {
+  text-transform: capitalize;
+}
+
+/* --- Loại trừ: GIỮ NGUYÊN dạng gốc (không viết hoa tự động) --- */
+
+/* Ô nhập liệu: không can thiệp chữ người dùng gõ / placeholder */
+.content-area input,
+.content-area textarea,
+.content-area select,
+.content-area option,
+.content-area ::placeholder,
+/* Mã / code / công thức / cell reference (Excel, SQL, logic) */
+.content-area .mono,
+.content-area code,
+.content-area pre,
+.content-area .inline-code,
+.content-area .readonly-input,
+.content-area .readonly-panel,
+.content-area .xref,
+.content-area .xref-inline,
+.content-area .xref-formula,
+.content-area .excel-map-panel,
+.content-area .cell-tag,
+.content-area .cell-id,
+.content-area [class$="__id"],
+/* Số đếm / badge / phân trang */
+.content-area .badge,
+.content-area [class*="count"],
+.content-area [class*="-pill"],
+.content-area .pill-count,
+.content-area .page-info,
+.content-area .page-btn,
+.content-area .pho-bien,
+/* Câu mô tả / trạng thái (giữ dạng câu, không Title Case) */
+.content-area .page-subtitle,
+.content-area .page-description,
+.content-area .modal-subtitle,
+.content-area .empty-state,
+.content-area .empty-state-sm,
+.content-area .empty-cell,
+.content-area .loading-state,
+.content-area .disease-empty,
+.content-area .selected-empty,
+.content-area .form-error,
+.content-area .muted,
+.content-area p {
+  text-transform: none;
+}

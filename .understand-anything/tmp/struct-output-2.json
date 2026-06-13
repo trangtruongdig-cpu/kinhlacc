@@ -1,0 +1,3620 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 21,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "backend/src/controllers/bai-thuoc.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 534,
+      "nonEmptyLines": 490,
+      "classes": [
+        {
+          "name": "BaiThuocService",
+          "startLine": 13,
+          "endLine": 534,
+          "methods": [
+            "constructor",
+            "dtoHasPhapTriIds",
+            "dtoHasTrieuChungIds",
+            "formatTrieuChungText",
+            "applyTrieuChung",
+            "applyPhapTriLinks",
+            "findAll",
+            "findOptions",
+            "findLite",
+            "findOne",
+            "create",
+            "update",
+            "remove",
+            "analyzeBaiThuoc"
+          ],
+          "properties": [
+            "BT_VI_RELATIONS"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BaiThuocService",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 15
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 17
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 19
+        },
+        {
+          "caller": "dtoHasPhapTriIds",
+          "callee": "Object.prototype.hasOwnProperty.call",
+          "lineNumber": 41
+        },
+        {
+          "caller": "dtoHasTrieuChungIds",
+          "callee": "Object.prototype.hasOwnProperty.call",
+          "lineNumber": 45
+        },
+        {
+          "caller": "formatTrieuChungText",
+          "callee": "list.map((x) => x.ten_trieu_chung.trim()).filter(Boolean).join",
+          "lineNumber": 49
+        },
+        {
+          "caller": "formatTrieuChungText",
+          "callee": "list.map((x) => x.ten_trieu_chung.trim()).filter",
+          "lineNumber": 49
+        },
+        {
+          "caller": "formatTrieuChungText",
+          "callee": "list.map",
+          "lineNumber": 49
+        },
+        {
+          "caller": "formatTrieuChungText",
+          "callee": "x.ten_trieu_chung.trim",
+          "lineNumber": 49
+        },
+        {
+          "caller": "applyTrieuChung",
+          "callee": "BaiThuocService.dtoHasTrieuChungIds",
+          "lineNumber": 58
+        },
+        {
+          "caller": "applyTrieuChung",
+          "callee": "Object.prototype.hasOwnProperty.call",
+          "lineNumber": 59
+        },
+        {
+          "caller": "applyTrieuChung",
+          "callee": "(dto.trieu_chung_ids ?? []).map((x) => Number(x)).filter",
+          "lineNumber": 69
+        },
+        {
+          "caller": "applyTrieuChung",
+          "callee": "(dto.trieu_chung_ids ?? []).map",
+          "lineNumber": 69
+        },
+        {
+          "caller": "applyTrieuChung",
+          "callee": "Number",
+          "lineNumber": 69
+        },
+        {
+          "caller": "applyTrieuChung",
+          "callee": "Number.isFinite",
+          "lineNumber": 69
+        },
+        {
+          "caller": "applyTrieuChung",
+          "callee": "manager.findBy",
+          "lineNumber": 70
+        },
+        {
+          "caller": "applyTrieuChung",
+          "callee": "In",
+          "lineNumber": 70
+        },
+        {
+          "caller": "applyTrieuChung",
+          "callee": "this.formatTrieuChungText",
+          "lineNumber": 73
+        },
+        {
+          "caller": "applyTrieuChung",
+          "callee": "manager.save",
+          "lineNumber": 74
+        },
+        {
+          "caller": "applyPhapTriLinks",
+          "callee": "BaiThuocService.dtoHasPhapTriIds",
+          "lineNumber": 84
+        },
+        {
+          "caller": "applyPhapTriLinks",
+          "callee": "BaiThuocService.dtoHasPhapTriIds",
+          "lineNumber": 85
+        },
+        {
+          "caller": "applyPhapTriLinks",
+          "callee": "manager.delete",
+          "lineNumber": 89
+        },
+        {
+          "caller": "applyPhapTriLinks",
+          "callee": "(raw ?? []).filter",
+          "lineNumber": 92
+        },
+        {
+          "caller": "applyPhapTriLinks",
+          "callee": "Number.isFinite",
+          "lineNumber": 92
+        },
+        {
+          "caller": "applyPhapTriLinks",
+          "callee": "manager.find",
+          "lineNumber": 96
+        },
+        {
+          "caller": "applyPhapTriLinks",
+          "callee": "In",
+          "lineNumber": 96
+        },
+        {
+          "caller": "applyPhapTriLinks",
+          "callee": "found.map",
+          "lineNumber": 97
+        },
+        {
+          "caller": "applyPhapTriLinks",
+          "callee": "allowed.has",
+          "lineNumber": 100
+        },
+        {
+          "caller": "applyPhapTriLinks",
+          "callee": "manager.save",
+          "lineNumber": 101
+        },
+        {
+          "caller": "applyPhapTriLinks",
+          "callee": "manager.create",
+          "lineNumber": 102
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.repo.find",
+          "lineNumber": 114
+        },
+        {
+          "caller": "findOptions",
+          "callee": "this.repo.find",
+          "lineNumber": 125
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.max",
+          "lineNumber": 156
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.floor",
+          "lineNumber": 156
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.max",
+          "lineNumber": 157
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.min",
+          "lineNumber": 157
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.floor",
+          "lineNumber": 157
+        },
+        {
+          "caller": "findLite",
+          "callee": "(opts.q ?? '').trim",
+          "lineNumber": 158
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number.isFinite",
+          "lineNumber": 160
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 160
+        },
+        {
+          "caller": "findLite",
+          "callee": "(opts.tangPhuIds ?? []).filter",
+          "lineNumber": 161
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number.isFinite",
+          "lineNumber": 161
+        },
+        {
+          "caller": "findLite",
+          "callee": "(opts.tonThuongTacNhans ?? []).map((s) => s.trim()).filter",
+          "lineNumber": 162
+        },
+        {
+          "caller": "findLite",
+          "callee": "(opts.tonThuongTacNhans ?? []).map",
+          "lineNumber": 162
+        },
+        {
+          "caller": "findLite",
+          "callee": "s.trim",
+          "lineNumber": 162
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number.isFinite",
+          "lineNumber": 163
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 163
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 163
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.createQueryBuilder",
+          "lineNumber": 165
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.andWhere",
+          "lineNumber": 168
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.andWhere",
+          "lineNumber": 178
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.andWhere",
+          "lineNumber": 183
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.andWhere",
+          "lineNumber": 186
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.andWhere",
+          "lineNumber": 190
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.andWhere",
+          "lineNumber": 200
+        },
+        {
+          "caller": "findLite",
+          "callee": "tonThuongTacNhans.map",
+          "lineNumber": 211
+        },
+        {
+          "caller": "findLite",
+          "callee": "s.toLowerCase",
+          "lineNumber": 211
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.findOne",
+          "lineNumber": 219
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.clone().andWhere('bt.id = :fid', { fid: focusId }).getCount",
+          "lineNumber": 224
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.clone().andWhere",
+          "lineNumber": 224
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.clone",
+          "lineNumber": 224
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb\r\n            .clone()\r\n            .andWhere(\r\n              '(bt.ten_bai_thuoc < :ften OR (bt.ten_bai_thuoc = :ften AND bt.id < :fid))',\r\n              { ften: target.ten_bai_thuoc, fid: focusId },\r\n            )\r\n            .getCount",
+          "lineNumber": 226
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb\r\n            .clone()\r\n            .andWhere",
+          "lineNumber": 226
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb\r\n            .clone",
+          "lineNumber": 226
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.floor",
+          "lineNumber": 233
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb\r\n      .orderBy('bt.ten_bai_thuoc', 'ASC')\r\n      .addOrderBy('bt.id', 'ASC')\r\n      .skip((page - 1) * limit)\r\n      .take(limit)\r\n      .getManyAndCount",
+          "lineNumber": 238
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb\r\n      .orderBy('bt.ten_bai_thuoc', 'ASC')\r\n      .addOrderBy('bt.id', 'ASC')\r\n      .skip((page - 1) * limit)\r\n      .take",
+          "lineNumber": 238
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb\r\n      .orderBy('bt.ten_bai_thuoc', 'ASC')\r\n      .addOrderBy('bt.id', 'ASC')\r\n      .skip",
+          "lineNumber": 238
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb\r\n      .orderBy('bt.ten_bai_thuoc', 'ASC')\r\n      .addOrderBy",
+          "lineNumber": 238
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb\r\n      .orderBy",
+          "lineNumber": 238
+        },
+        {
+          "caller": "findLite",
+          "callee": "items.map",
+          "lineNumber": 247
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.find",
+          "lineNumber": 248
+        },
+        {
+          "caller": "findLite",
+          "callee": "In",
+          "lineNumber": 249
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.count",
+          "lineNumber": 263
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo\r\n      .createQueryBuilder('bt')\r\n      .where(`EXISTS ${tayYExists} WHERE bty_bt.id_bai_thuoc = bt.id)`)\r\n      .getCount",
+          "lineNumber": 264
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo\r\n      .createQueryBuilder('bt')\r\n      .where",
+          "lineNumber": 264
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo\r\n      .createQueryBuilder",
+          "lineNumber": 264
+        },
+        {
+          "caller": "findLite",
+          "callee": "statsParams.push",
+          "lineNumber": 280
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.query",
+          "lineNumber": 286
+        },
+        {
+          "caller": "findLite",
+          "callee": "tangPhuStatsRows.map",
+          "lineNumber": 300
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 301
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 303
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.query",
+          "lineNumber": 307
+        },
+        {
+          "caller": "findLite",
+          "callee": "tonThuongStatsRows.map",
+          "lineNumber": 328
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 329
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 331
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.repo.findOne",
+          "lineNumber": 350
+        },
+        {
+          "caller": "create",
+          "callee": "this.dataSource.createQueryRunner",
+          "lineNumber": 357
+        },
+        {
+          "caller": "create",
+          "callee": "queryRunner.connect",
+          "lineNumber": 358
+        },
+        {
+          "caller": "create",
+          "callee": "queryRunner.startTransaction",
+          "lineNumber": 359
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.create",
+          "lineNumber": 362
+        },
+        {
+          "caller": "create",
+          "callee": "queryRunner.manager.save",
+          "lineNumber": 363
+        },
+        {
+          "caller": "create",
+          "callee": "chi_tiet.map",
+          "lineNumber": 366
+        },
+        {
+          "caller": "create",
+          "callee": "this.detailRepo.create",
+          "lineNumber": 367
+        },
+        {
+          "caller": "create",
+          "callee": "queryRunner.manager.save",
+          "lineNumber": 377
+        },
+        {
+          "caller": "create",
+          "callee": "this.applyPhapTriLinks",
+          "lineNumber": 379
+        },
+        {
+          "caller": "create",
+          "callee": "this.applyTrieuChung",
+          "lineNumber": 380
+        },
+        {
+          "caller": "create",
+          "callee": "queryRunner.commitTransaction",
+          "lineNumber": 381
+        },
+        {
+          "caller": "create",
+          "callee": "this.findOne",
+          "lineNumber": 382
+        },
+        {
+          "caller": "create",
+          "callee": "queryRunner.rollbackTransaction",
+          "lineNumber": 384
+        },
+        {
+          "caller": "create",
+          "callee": "queryRunner.release",
+          "lineNumber": 387
+        },
+        {
+          "caller": "update",
+          "callee": "this.dataSource.createQueryRunner",
+          "lineNumber": 392
+        },
+        {
+          "caller": "update",
+          "callee": "queryRunner.connect",
+          "lineNumber": 393
+        },
+        {
+          "caller": "update",
+          "callee": "queryRunner.startTransaction",
+          "lineNumber": 394
+        },
+        {
+          "caller": "update",
+          "callee": "queryRunner.manager.update",
+          "lineNumber": 397
+        },
+        {
+          "caller": "update",
+          "callee": "queryRunner.manager.findOneByOrFail",
+          "lineNumber": 398
+        },
+        {
+          "caller": "update",
+          "callee": "queryRunner.manager.delete",
+          "lineNumber": 401
+        },
+        {
+          "caller": "update",
+          "callee": "chi_tiet.map",
+          "lineNumber": 402
+        },
+        {
+          "caller": "update",
+          "callee": "this.detailRepo.create",
+          "lineNumber": 403
+        },
+        {
+          "caller": "update",
+          "callee": "queryRunner.manager.save",
+          "lineNumber": 413
+        },
+        {
+          "caller": "update",
+          "callee": "this.applyPhapTriLinks",
+          "lineNumber": 415
+        },
+        {
+          "caller": "update",
+          "callee": "this.applyTrieuChung",
+          "lineNumber": 416
+        },
+        {
+          "caller": "update",
+          "callee": "queryRunner.commitTransaction",
+          "lineNumber": 417
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 418
+        },
+        {
+          "caller": "update",
+          "callee": "queryRunner.rollbackTransaction",
+          "lineNumber": 420
+        },
+        {
+          "caller": "update",
+          "callee": "queryRunner.release",
+          "lineNumber": 423
+        },
+        {
+          "caller": "remove",
+          "callee": "this.repo.delete",
+          "lineNumber": 428
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "this.findOne",
+          "lineNumber": 433
+        },
+        {
+          "caller": "parseLieu",
+          "callee": "(lieu || '').trim().toLowerCase",
+          "lineNumber": 443
+        },
+        {
+          "caller": "parseLieu",
+          "callee": "(lieu || '').trim",
+          "lineNumber": 443
+        },
+        {
+          "caller": "parseLieu",
+          "callee": "s.match",
+          "lineNumber": 447
+        },
+        {
+          "caller": "parseLieu",
+          "callee": "parseFloat",
+          "lineNumber": 448
+        },
+        {
+          "caller": "parseLieu",
+          "callee": "s.match",
+          "lineNumber": 450
+        },
+        {
+          "caller": "parseLieu",
+          "callee": "parseFloat",
+          "lineNumber": 451
+        },
+        {
+          "caller": "parseLieu",
+          "callee": "s.match",
+          "lineNumber": 453
+        },
+        {
+          "caller": "parseLieu",
+          "callee": "parseFloat",
+          "lineNumber": 454
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "Promise.all",
+          "lineNumber": 459
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "details.map",
+          "lineNumber": 459
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "this.viThuocRepo.findOneBy",
+          "lineNumber": 460
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "parseLieu",
+          "lineNumber": 461
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "items.filter",
+          "lineNumber": 465
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "validItems.reduce",
+          "lineNumber": 470
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "qkStr.split(/[,;，、]/).map(k => k.trim()).filter",
+          "lineNumber": 478
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "qkStr.split(/[,;，、]/).map",
+          "lineNumber": 478
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "qkStr.split",
+          "lineNumber": 478
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "k.trim",
+          "lineNumber": 478
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "Math.max",
+          "lineNumber": 485
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "Object.values",
+          "lineNumber": 485
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "Math.round",
+          "lineNumber": 488
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "[...validItems].sort",
+          "lineNumber": 492
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "quanItem?.vt?.quy_kinh?.split(/[,;，、]/).map",
+          "lineNumber": 494
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "quanItem?.vt?.quy_kinh?.split",
+          "lineNumber": 494
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "k.trim",
+          "lineNumber": 494
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "(item.vt.ten_vi_thuoc || '').toLowerCase",
+          "lineNumber": 499
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "(item.vt.quy_kinh || '').split(/[,;，、]/).map",
+          "lineNumber": 501
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "(item.vt.quy_kinh || '').split",
+          "lineNumber": 501
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "k.trim",
+          "lineNumber": 501
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "ten.includes",
+          "lineNumber": 505
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "vtQuyKinh.some",
+          "lineNumber": 507
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "quanQuyKinh.includes",
+          "lineNumber": 507
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "validItems.map",
+          "lineNumber": 514
+        },
+        {
+          "caller": "analyzeBaiThuoc",
+          "callee": "Math.round",
+          "lineNumber": 522
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/controllers/benh-dong-y-excel.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 262,
+      "nonEmptyLines": 237,
+      "classes": [
+        {
+          "name": "BenhDongYExcelService",
+          "startLine": 21,
+          "endLine": 262,
+          "methods": [
+            "constructor",
+            "isUniqueViolation",
+            "hasKey",
+            "uniqueIds",
+            "resolveTrieuChung",
+            "resolveBaiThuoc",
+            "resolvePhapTri",
+            "findAll",
+            "findLite",
+            "findOne",
+            "create",
+            "update",
+            "remove",
+            "normalizeInput",
+            "evaluateRule",
+            "diagnose"
+          ],
+          "properties": [
+            "RELATIONS"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BenhDongYExcelService",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 29
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 31
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 33
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 35
+        },
+        {
+          "caller": "hasKey",
+          "callee": "Object.prototype.hasOwnProperty.call",
+          "lineNumber": 47
+        },
+        {
+          "caller": "uniqueIds",
+          "callee": "Array.isArray",
+          "lineNumber": 51
+        },
+        {
+          "caller": "uniqueIds",
+          "callee": "Number",
+          "lineNumber": 54
+        },
+        {
+          "caller": "uniqueIds",
+          "callee": "Number.isFinite",
+          "lineNumber": 55
+        },
+        {
+          "caller": "uniqueIds",
+          "callee": "set.add",
+          "lineNumber": 55
+        },
+        {
+          "caller": "uniqueIds",
+          "callee": "Array.from",
+          "lineNumber": 57
+        },
+        {
+          "caller": "resolveTrieuChung",
+          "callee": "this.trieuChungRepo.findBy",
+          "lineNumber": 62
+        },
+        {
+          "caller": "resolveTrieuChung",
+          "callee": "In",
+          "lineNumber": 62
+        },
+        {
+          "caller": "resolveBaiThuoc",
+          "callee": "this.baiThuocRepo.findBy",
+          "lineNumber": 67
+        },
+        {
+          "caller": "resolveBaiThuoc",
+          "callee": "In",
+          "lineNumber": 67
+        },
+        {
+          "caller": "resolvePhapTri",
+          "callee": "this.phapTriRepo.findBy",
+          "lineNumber": 72
+        },
+        {
+          "caller": "resolvePhapTri",
+          "callee": "In",
+          "lineNumber": 72
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.repo.find",
+          "lineNumber": 76
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.max",
+          "lineNumber": 89
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.floor",
+          "lineNumber": 89
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.max",
+          "lineNumber": 90
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.min",
+          "lineNumber": 90
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.floor",
+          "lineNumber": 90
+        },
+        {
+          "caller": "findLite",
+          "callee": "(opts.q ?? '').trim",
+          "lineNumber": 91
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.createQueryBuilder",
+          "lineNumber": 93
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb.andWhere",
+          "lineNumber": 95
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb\r\n      .orderBy('r.id', 'ASC')\r\n      .skip((page - 1) * limit)\r\n      .take(limit)\r\n      .getManyAndCount",
+          "lineNumber": 100
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb\r\n      .orderBy('r.id', 'ASC')\r\n      .skip((page - 1) * limit)\r\n      .take",
+          "lineNumber": 100
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb\r\n      .orderBy('r.id', 'ASC')\r\n      .skip",
+          "lineNumber": 100
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb\r\n      .orderBy",
+          "lineNumber": 100
+        },
+        {
+          "caller": "findLite",
+          "callee": "items.map",
+          "lineNumber": 108
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.find",
+          "lineNumber": 109
+        },
+        {
+          "caller": "findLite",
+          "callee": "In",
+          "lineNumber": 110
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.repo.findOne",
+          "lineNumber": 120
+        },
+        {
+          "caller": "create",
+          "callee": "v.trim",
+          "lineNumber": 139
+        },
+        {
+          "caller": "create",
+          "callee": "String",
+          "lineNumber": 140
+        },
+        {
+          "caller": "create",
+          "callee": "BenhDongYExcelService.uniqueIds",
+          "lineNumber": 144
+        },
+        {
+          "caller": "create",
+          "callee": "BenhDongYExcelService.uniqueIds",
+          "lineNumber": 145
+        },
+        {
+          "caller": "create",
+          "callee": "BenhDongYExcelService.uniqueIds",
+          "lineNumber": 146
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.create",
+          "lineNumber": 147
+        },
+        {
+          "caller": "create",
+          "callee": "dto.code.trim",
+          "lineNumber": 148
+        },
+        {
+          "caller": "create",
+          "callee": "dto.name.trim",
+          "lineNumber": 149
+        },
+        {
+          "caller": "create",
+          "callee": "dto.outputCell.trim",
+          "lineNumber": 150
+        },
+        {
+          "caller": "create",
+          "callee": "this.resolvePhapTri",
+          "lineNumber": 155
+        },
+        {
+          "caller": "create",
+          "callee": "this.resolveTrieuChung",
+          "lineNumber": 156
+        },
+        {
+          "caller": "create",
+          "callee": "this.resolveBaiThuoc",
+          "lineNumber": 157
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.save",
+          "lineNumber": 160
+        },
+        {
+          "caller": "create",
+          "callee": "this.findOne",
+          "lineNumber": 161
+        },
+        {
+          "caller": "create",
+          "callee": "BenhDongYExcelService.isUniqueViolation",
+          "lineNumber": 163
+        },
+        {
+          "caller": "update",
+          "callee": "this.repo.findOne",
+          "lineNumber": 171
+        },
+        {
+          "caller": "update",
+          "callee": "dto.code.trim",
+          "lineNumber": 178
+        },
+        {
+          "caller": "update",
+          "callee": "dto.name.trim",
+          "lineNumber": 179
+        },
+        {
+          "caller": "update",
+          "callee": "dto.outputCell.trim",
+          "lineNumber": 180
+        },
+        {
+          "caller": "update",
+          "callee": "BenhDongYExcelService.hasKey",
+          "lineNumber": 185
+        },
+        {
+          "caller": "update",
+          "callee": "this.resolvePhapTri",
+          "lineNumber": 186
+        },
+        {
+          "caller": "update",
+          "callee": "BenhDongYExcelService.uniqueIds",
+          "lineNumber": 187
+        },
+        {
+          "caller": "update",
+          "callee": "BenhDongYExcelService.hasKey",
+          "lineNumber": 190
+        },
+        {
+          "caller": "update",
+          "callee": "this.resolveTrieuChung",
+          "lineNumber": 191
+        },
+        {
+          "caller": "update",
+          "callee": "BenhDongYExcelService.uniqueIds",
+          "lineNumber": 192
+        },
+        {
+          "caller": "update",
+          "callee": "BenhDongYExcelService.hasKey",
+          "lineNumber": 195
+        },
+        {
+          "caller": "update",
+          "callee": "this.resolveBaiThuoc",
+          "lineNumber": 196
+        },
+        {
+          "caller": "update",
+          "callee": "BenhDongYExcelService.uniqueIds",
+          "lineNumber": 197
+        },
+        {
+          "caller": "update",
+          "callee": "this.repo.save",
+          "lineNumber": 201
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 202
+        },
+        {
+          "caller": "update",
+          "callee": "BenhDongYExcelService.isUniqueViolation",
+          "lineNumber": 204
+        },
+        {
+          "caller": "remove",
+          "callee": "this.repo.delete",
+          "lineNumber": 212
+        },
+        {
+          "caller": "normalizeInput",
+          "callee": "Object.entries",
+          "lineNumber": 221
+        },
+        {
+          "caller": "normalizeInput",
+          "callee": "Number.isFinite",
+          "lineNumber": 224
+        },
+        {
+          "caller": "normalizeInput",
+          "callee": "key.toUpperCase",
+          "lineNumber": 224
+        },
+        {
+          "caller": "normalizeInput",
+          "callee": "key.toUpperCase",
+          "lineNumber": 228
+        },
+        {
+          "caller": "normalizeInput",
+          "callee": "String",
+          "lineNumber": 228
+        },
+        {
+          "caller": "evaluateRule",
+          "callee": "evaluateLogicExpression",
+          "lineNumber": 235
+        },
+        {
+          "caller": "diagnose",
+          "callee": "this.normalizeInput",
+          "lineNumber": 239
+        },
+        {
+          "caller": "diagnose",
+          "callee": "Object.keys",
+          "lineNumber": 240
+        },
+        {
+          "caller": "diagnose",
+          "callee": "this.repo.find",
+          "lineNumber": 244
+        },
+        {
+          "caller": "diagnose",
+          "callee": "rules\r\n      .filter((rule) => this.evaluateRule(rule.logicExpression, input))\r\n      .map",
+          "lineNumber": 245
+        },
+        {
+          "caller": "diagnose",
+          "callee": "rules\r\n      .filter",
+          "lineNumber": 245
+        },
+        {
+          "caller": "diagnose",
+          "callee": "this.evaluateRule",
+          "lineNumber": 246
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/controllers/benh-tay-y.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 232,
+      "nonEmptyLines": 206,
+      "classes": [
+        {
+          "name": "BenhTayYService",
+          "startLine": 13,
+          "endLine": 232,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findLite",
+            "findOne",
+            "create",
+            "update",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "BenhTayYService",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 15
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 17
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 19
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 21
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 23
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 25
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.repo.find",
+          "lineNumber": 30
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.max",
+          "lineNumber": 68
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.floor",
+          "lineNumber": 68
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.max",
+          "lineNumber": 69
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.min",
+          "lineNumber": 69
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.floor",
+          "lineNumber": 69
+        },
+        {
+          "caller": "findLite",
+          "callee": "(opts.q ?? '').trim",
+          "lineNumber": 70
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number.isFinite",
+          "lineNumber": 71
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 71
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number.isFinite",
+          "lineNumber": 72
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 72
+        },
+        {
+          "caller": "applyFilters",
+          "callee": "qb.andWhere",
+          "lineNumber": 75
+        },
+        {
+          "caller": "applyFilters",
+          "callee": "qb.andWhere",
+          "lineNumber": 76
+        },
+        {
+          "caller": "findLite",
+          "callee": "applyFilters(this.repo.createQueryBuilder('bty'))\r\n        .andWhere('bty.id <= :focusId', { focusId })\r\n        .getCount",
+          "lineNumber": 83
+        },
+        {
+          "caller": "findLite",
+          "callee": "applyFilters(this.repo.createQueryBuilder('bty'))\r\n        .andWhere",
+          "lineNumber": 83
+        },
+        {
+          "caller": "findLite",
+          "callee": "applyFilters",
+          "lineNumber": 83
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.createQueryBuilder",
+          "lineNumber": 83
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.ceil",
+          "lineNumber": 86
+        },
+        {
+          "caller": "findLite",
+          "callee": "applyFilters",
+          "lineNumber": 89
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.createQueryBuilder",
+          "lineNumber": 89
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb\r\n      .orderBy('bty.id', 'ASC')\r\n      .skip((page - 1) * limit)\r\n      .take(limit)\r\n      .getManyAndCount",
+          "lineNumber": 90
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb\r\n      .orderBy('bty.id', 'ASC')\r\n      .skip((page - 1) * limit)\r\n      .take",
+          "lineNumber": 90
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb\r\n      .orderBy('bty.id', 'ASC')\r\n      .skip",
+          "lineNumber": 90
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb\r\n      .orderBy",
+          "lineNumber": 90
+        },
+        {
+          "caller": "findLite",
+          "callee": "items.map",
+          "lineNumber": 98
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.find",
+          "lineNumber": 99
+        },
+        {
+          "caller": "findLite",
+          "callee": "In",
+          "lineNumber": 100
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.query",
+          "lineNumber": 116
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 120
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 120
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.repo.findOne",
+          "lineNumber": 126
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.create",
+          "lineNumber": 148
+        },
+        {
+          "caller": "create",
+          "callee": "this.baiThuocRepo.findBy",
+          "lineNumber": 154
+        },
+        {
+          "caller": "create",
+          "callee": "In",
+          "lineNumber": 155
+        },
+        {
+          "caller": "create",
+          "callee": "this.trieuChungRepo.findBy",
+          "lineNumber": 160
+        },
+        {
+          "caller": "create",
+          "callee": "In",
+          "lineNumber": 161
+        },
+        {
+          "caller": "create",
+          "callee": "this.thietChanRepo.findBy",
+          "lineNumber": 166
+        },
+        {
+          "caller": "create",
+          "callee": "In",
+          "lineNumber": 167
+        },
+        {
+          "caller": "create",
+          "callee": "this.machChanRepo.findBy",
+          "lineNumber": 172
+        },
+        {
+          "caller": "create",
+          "callee": "In",
+          "lineNumber": 173
+        },
+        {
+          "caller": "create",
+          "callee": "this.phapTriRepo.findBy",
+          "lineNumber": 178
+        },
+        {
+          "caller": "create",
+          "callee": "In",
+          "lineNumber": 179
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.save",
+          "lineNumber": 183
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 187
+        },
+        {
+          "caller": "update",
+          "callee": "this.baiThuocRepo.findBy",
+          "lineNumber": 198
+        },
+        {
+          "caller": "update",
+          "callee": "In",
+          "lineNumber": 198
+        },
+        {
+          "caller": "update",
+          "callee": "this.trieuChungRepo.findBy",
+          "lineNumber": 204
+        },
+        {
+          "caller": "update",
+          "callee": "In",
+          "lineNumber": 204
+        },
+        {
+          "caller": "update",
+          "callee": "this.thietChanRepo.findBy",
+          "lineNumber": 210
+        },
+        {
+          "caller": "update",
+          "callee": "In",
+          "lineNumber": 210
+        },
+        {
+          "caller": "update",
+          "callee": "this.machChanRepo.findBy",
+          "lineNumber": 216
+        },
+        {
+          "caller": "update",
+          "callee": "In",
+          "lineNumber": 216
+        },
+        {
+          "caller": "update",
+          "callee": "this.phapTriRepo.findBy",
+          "lineNumber": 222
+        },
+        {
+          "caller": "update",
+          "callee": "In",
+          "lineNumber": 222
+        },
+        {
+          "caller": "update",
+          "callee": "this.repo.save",
+          "lineNumber": 225
+        },
+        {
+          "caller": "remove",
+          "callee": "this.findOne",
+          "lineNumber": 229
+        },
+        {
+          "caller": "remove",
+          "callee": "this.repo.remove",
+          "lineNumber": 230
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/controllers/phap-tri.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 568,
+      "nonEmptyLines": 531,
+      "classes": [
+        {
+          "name": "PhapTriService",
+          "startLine": 13,
+          "endLine": 568,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findOptions",
+            "findLite",
+            "findOne",
+            "has",
+            "readTheBenh",
+            "resolveKinhMach",
+            "isPostgresUniqueViolation",
+            "resolveBenhDongY",
+            "applyRefs",
+            "formatMoTaFromTrieuChungList",
+            "applyTrieuChungAndMoTa",
+            "planBaiThuocIds",
+            "syncPhapTriBaiThuocLinks",
+            "create",
+            "update",
+            "remove"
+          ],
+          "properties": [
+            "RELATIONS"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PhapTriService",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 24
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 26
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 28
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 30
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 32
+        },
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 34
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.repo.find",
+          "lineNumber": 39
+        },
+        {
+          "caller": "findOptions",
+          "callee": "this.repo.find",
+          "lineNumber": 50
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.max",
+          "lineNumber": 83
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.floor",
+          "lineNumber": 83
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.max",
+          "lineNumber": 84
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.min",
+          "lineNumber": 84
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.floor",
+          "lineNumber": 84
+        },
+        {
+          "caller": "findLite",
+          "callee": "(opts.q ?? '').trim",
+          "lineNumber": 85
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number.isFinite",
+          "lineNumber": 87
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 87
+        },
+        {
+          "caller": "findLite",
+          "callee": "(opts.tangPhuIds ?? []).filter",
+          "lineNumber": 88
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number.isFinite",
+          "lineNumber": 88
+        },
+        {
+          "caller": "findLite",
+          "callee": "(opts.tonThuongTacNhans ?? []).map((s) => s.trim()).filter",
+          "lineNumber": 89
+        },
+        {
+          "caller": "findLite",
+          "callee": "(opts.tonThuongTacNhans ?? []).map",
+          "lineNumber": 89
+        },
+        {
+          "caller": "findLite",
+          "callee": "s.trim",
+          "lineNumber": 89
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number.isFinite",
+          "lineNumber": 90
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 90
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 90
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.createQueryBuilder",
+          "lineNumber": 110
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.andWhere",
+          "lineNumber": 113
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.andWhere",
+          "lineNumber": 120
+        },
+        {
+          "caller": "findLite",
+          "callee": "tayYExistsClause",
+          "lineNumber": 120
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.andWhere",
+          "lineNumber": 122
+        },
+        {
+          "caller": "findLite",
+          "callee": "tayYExistsClause",
+          "lineNumber": 122
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.andWhere",
+          "lineNumber": 125
+        },
+        {
+          "caller": "findLite",
+          "callee": "tayYExistsClause",
+          "lineNumber": 125
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.andWhere",
+          "lineNumber": 129
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.andWhere",
+          "lineNumber": 135
+        },
+        {
+          "caller": "findLite",
+          "callee": "tonThuongTacNhans.map",
+          "lineNumber": 140
+        },
+        {
+          "caller": "findLite",
+          "callee": "s.toLowerCase",
+          "lineNumber": 140
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.clone().andWhere('pt.id = :focusId', { focusId }).getCount",
+          "lineNumber": 148
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.clone().andWhere",
+          "lineNumber": 148
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.clone",
+          "lineNumber": 148
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.clone().andWhere('pt.id < :focusId', { focusId }).getCount",
+          "lineNumber": 150
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.clone().andWhere",
+          "lineNumber": 150
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb.clone",
+          "lineNumber": 150
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.floor",
+          "lineNumber": 151
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb\r\n      .orderBy('pt.id', 'ASC')\r\n      .skip((page - 1) * limit)\r\n      .take(limit)\r\n      .getManyAndCount",
+          "lineNumber": 155
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb\r\n      .orderBy('pt.id', 'ASC')\r\n      .skip((page - 1) * limit)\r\n      .take",
+          "lineNumber": 155
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb\r\n      .orderBy('pt.id', 'ASC')\r\n      .skip",
+          "lineNumber": 155
+        },
+        {
+          "caller": "findLite",
+          "callee": "baseQb\r\n      .orderBy",
+          "lineNumber": 155
+        },
+        {
+          "caller": "findLite",
+          "callee": "items.map",
+          "lineNumber": 163
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.find",
+          "lineNumber": 164
+        },
+        {
+          "caller": "findLite",
+          "callee": "In",
+          "lineNumber": 165
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.count",
+          "lineNumber": 178
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo\r\n      .createQueryBuilder('pt')\r\n      .where(tayYExistsClause())\r\n      .getCount",
+          "lineNumber": 179
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo\r\n      .createQueryBuilder('pt')\r\n      .where",
+          "lineNumber": 179
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo\r\n      .createQueryBuilder",
+          "lineNumber": 179
+        },
+        {
+          "caller": "findLite",
+          "callee": "tayYExistsClause",
+          "lineNumber": 181
+        },
+        {
+          "caller": "findLite",
+          "callee": "data.map",
+          "lineNumber": 188
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.query",
+          "lineNumber": 189
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 206
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 207
+        },
+        {
+          "caller": "findLite",
+          "callee": "seenByPt.get",
+          "lineNumber": 208
+        },
+        {
+          "caller": "findLite",
+          "callee": "seenByPt.set",
+          "lineNumber": 211
+        },
+        {
+          "caller": "findLite",
+          "callee": "seen.has",
+          "lineNumber": 214
+        },
+        {
+          "caller": "findLite",
+          "callee": "seen.add",
+          "lineNumber": 215
+        },
+        {
+          "caller": "findLite",
+          "callee": "relatedBenhTayYByPtId[ptId].push",
+          "lineNumber": 216
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 219
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.query",
+          "lineNumber": 225
+        },
+        {
+          "caller": "findLite",
+          "callee": "cbStatsRows.map",
+          "lineNumber": 245
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 246
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 248
+        },
+        {
+          "caller": "findLite",
+          "callee": "statsParams.push",
+          "lineNumber": 266
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.query",
+          "lineNumber": 272
+        },
+        {
+          "caller": "findLite",
+          "callee": "tangPhuStatsRows.map",
+          "lineNumber": 285
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 286
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 288
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.query",
+          "lineNumber": 292
+        },
+        {
+          "caller": "findLite",
+          "callee": "tonThuongStatsRows.map",
+          "lineNumber": 308
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 309
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 311
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.repo.findOne",
+          "lineNumber": 332
+        },
+        {
+          "caller": "has",
+          "callee": "Object.prototype.hasOwnProperty.call",
+          "lineNumber": 343
+        },
+        {
+          "caller": "readTheBenh",
+          "callee": "PhapTriService.has",
+          "lineNumber": 348
+        },
+        {
+          "caller": "readTheBenh",
+          "callee": "PhapTriService.has",
+          "lineNumber": 349
+        },
+        {
+          "caller": "resolveKinhMach",
+          "callee": "this.kinhRepo.findBy",
+          "lineNumber": 355
+        },
+        {
+          "caller": "resolveKinhMach",
+          "callee": "In",
+          "lineNumber": 355
+        },
+        {
+          "caller": "resolveBenhDongY",
+          "callee": "this.benhDongYRepo.findBy",
+          "lineNumber": 365
+        },
+        {
+          "caller": "resolveBenhDongY",
+          "callee": "In",
+          "lineNumber": 365
+        },
+        {
+          "caller": "touch",
+          "callee": "PhapTriService.has",
+          "lineNumber": 375
+        },
+        {
+          "caller": "applyRefs",
+          "callee": "PhapTriService.has",
+          "lineNumber": 377
+        },
+        {
+          "caller": "applyRefs",
+          "callee": "PhapTriService.has",
+          "lineNumber": 378
+        },
+        {
+          "caller": "applyRefs",
+          "callee": "ids.filter((x): x is number => Number.isFinite(Number(x))).map",
+          "lineNumber": 385
+        },
+        {
+          "caller": "applyRefs",
+          "callee": "ids.filter",
+          "lineNumber": 385
+        },
+        {
+          "caller": "applyRefs",
+          "callee": "Number.isFinite",
+          "lineNumber": 385
+        },
+        {
+          "caller": "applyRefs",
+          "callee": "Number",
+          "lineNumber": 385
+        },
+        {
+          "caller": "applyRefs",
+          "callee": "Number",
+          "lineNumber": 385
+        },
+        {
+          "caller": "applyRefs",
+          "callee": "this.resolveBenhDongY",
+          "lineNumber": 386
+        },
+        {
+          "caller": "applyRefs",
+          "callee": "touch",
+          "lineNumber": 389
+        },
+        {
+          "caller": "applyRefs",
+          "callee": "this.resolveKinhMach",
+          "lineNumber": 390
+        },
+        {
+          "caller": "applyRefs",
+          "callee": "this.applyTrieuChungAndMoTa",
+          "lineNumber": 395
+        },
+        {
+          "caller": "formatMoTaFromTrieuChungList",
+          "callee": "list\r\n      .map((t) => t.ten_trieu_chung.trim())\r\n      .filter(Boolean)\r\n      .join",
+          "lineNumber": 400
+        },
+        {
+          "caller": "formatMoTaFromTrieuChungList",
+          "callee": "list\r\n      .map((t) => t.ten_trieu_chung.trim())\r\n      .filter",
+          "lineNumber": 400
+        },
+        {
+          "caller": "formatMoTaFromTrieuChungList",
+          "callee": "list\r\n      .map",
+          "lineNumber": 400
+        },
+        {
+          "caller": "formatMoTaFromTrieuChungList",
+          "callee": "t.ten_trieu_chung.trim",
+          "lineNumber": 401
+        },
+        {
+          "caller": "applyTrieuChungAndMoTa",
+          "callee": "PhapTriService.has",
+          "lineNumber": 411
+        },
+        {
+          "caller": "applyTrieuChungAndMoTa",
+          "callee": "PhapTriService.has",
+          "lineNumber": 412
+        },
+        {
+          "caller": "applyTrieuChungAndMoTa",
+          "callee": "(dto.id_trieu_chung_list ?? []).filter",
+          "lineNumber": 424
+        },
+        {
+          "caller": "applyTrieuChungAndMoTa",
+          "callee": "Number.isFinite",
+          "lineNumber": 424
+        },
+        {
+          "caller": "applyTrieuChungAndMoTa",
+          "callee": "this.trieuChungRepo.findBy",
+          "lineNumber": 425
+        },
+        {
+          "caller": "applyTrieuChungAndMoTa",
+          "callee": "In",
+          "lineNumber": 425
+        },
+        {
+          "caller": "applyTrieuChungAndMoTa",
+          "callee": "found.map",
+          "lineNumber": 426
+        },
+        {
+          "caller": "applyTrieuChungAndMoTa",
+          "callee": "ids.map((id) => byId.get(id)).filter",
+          "lineNumber": 427
+        },
+        {
+          "caller": "applyTrieuChungAndMoTa",
+          "callee": "ids.map",
+          "lineNumber": 427
+        },
+        {
+          "caller": "applyTrieuChungAndMoTa",
+          "callee": "byId.get",
+          "lineNumber": 427
+        },
+        {
+          "caller": "applyTrieuChungAndMoTa",
+          "callee": "this.formatMoTaFromTrieuChungList",
+          "lineNumber": 428
+        },
+        {
+          "caller": "planBaiThuocIds",
+          "callee": "PhapTriService.has",
+          "lineNumber": 442
+        },
+        {
+          "caller": "planBaiThuocIds",
+          "callee": "PhapTriService.has",
+          "lineNumber": 443
+        },
+        {
+          "caller": "planBaiThuocIds",
+          "callee": "(dto.id_bai_thuoc_list ?? []).filter",
+          "lineNumber": 446
+        },
+        {
+          "caller": "planBaiThuocIds",
+          "callee": "Number.isFinite",
+          "lineNumber": 446
+        },
+        {
+          "caller": "planBaiThuocIds",
+          "callee": "Number.isFinite",
+          "lineNumber": 450
+        },
+        {
+          "caller": "planBaiThuocIds",
+          "callee": "Number",
+          "lineNumber": 450
+        },
+        {
+          "caller": "planBaiThuocIds",
+          "callee": "Number",
+          "lineNumber": 450
+        },
+        {
+          "caller": "planBaiThuocIds",
+          "callee": "(dto.id_bai_thuoc_list ?? []).filter",
+          "lineNumber": 455
+        },
+        {
+          "caller": "planBaiThuocIds",
+          "callee": "Number.isFinite",
+          "lineNumber": 455
+        },
+        {
+          "caller": "planBaiThuocIds",
+          "callee": "Number.isFinite",
+          "lineNumber": 459
+        },
+        {
+          "caller": "planBaiThuocIds",
+          "callee": "Number",
+          "lineNumber": 459
+        },
+        {
+          "caller": "planBaiThuocIds",
+          "callee": "Number",
+          "lineNumber": 459
+        },
+        {
+          "caller": "syncPhapTriBaiThuocLinks",
+          "callee": "this.planBaiThuocIds",
+          "lineNumber": 469
+        },
+        {
+          "caller": "syncPhapTriBaiThuocLinks",
+          "callee": "this.baiPhapTriLinkRepo.delete",
+          "lineNumber": 474
+        },
+        {
+          "caller": "syncPhapTriBaiThuocLinks",
+          "callee": "this.baiThuocRepo.findOneBy",
+          "lineNumber": 477
+        },
+        {
+          "caller": "syncPhapTriBaiThuocLinks",
+          "callee": "this.baiPhapTriLinkRepo.save",
+          "lineNumber": 481
+        },
+        {
+          "caller": "syncPhapTriBaiThuocLinks",
+          "callee": "this.baiPhapTriLinkRepo.create",
+          "lineNumber": 482
+        },
+        {
+          "caller": "syncPhapTriBaiThuocLinks",
+          "callee": "this.repo.findOne",
+          "lineNumber": 491
+        },
+        {
+          "caller": "syncPhapTriBaiThuocLinks",
+          "callee": "this.baiThuocRepo.findOneBy",
+          "lineNumber": 497
+        },
+        {
+          "caller": "syncPhapTriBaiThuocLinks",
+          "callee": "this.repo.save",
+          "lineNumber": 498
+        },
+        {
+          "caller": "create",
+          "callee": "PhapTriService.readTheBenh",
+          "lineNumber": 502
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.create",
+          "lineNumber": 503
+        },
+        {
+          "caller": "create",
+          "callee": "this.applyRefs",
+          "lineNumber": 523
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.save",
+          "lineNumber": 525
+        },
+        {
+          "caller": "create",
+          "callee": "PhapTriService.isPostgresUniqueViolation",
+          "lineNumber": 527
+        },
+        {
+          "caller": "create",
+          "callee": "this.syncPhapTriBaiThuocLinks",
+          "lineNumber": 530
+        },
+        {
+          "caller": "create",
+          "callee": "this.findOne",
+          "lineNumber": 531
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 535
+        },
+        {
+          "caller": "update",
+          "callee": "PhapTriService.readTheBenh",
+          "lineNumber": 536
+        },
+        {
+          "caller": "update",
+          "callee": "this.applyRefs",
+          "lineNumber": 553
+        },
+        {
+          "caller": "update",
+          "callee": "this.repo.save",
+          "lineNumber": 555
+        },
+        {
+          "caller": "update",
+          "callee": "PhapTriService.isPostgresUniqueViolation",
+          "lineNumber": 557
+        },
+        {
+          "caller": "update",
+          "callee": "this.syncPhapTriBaiThuocLinks",
+          "lineNumber": 560
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 561
+        },
+        {
+          "caller": "remove",
+          "callee": "this.findOne",
+          "lineNumber": 565
+        },
+        {
+          "caller": "remove",
+          "callee": "this.repo.remove",
+          "lineNumber": 566
+        }
+      ],
+      "metrics": {
+        "importCount": 7,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/bai-thuoc-chi-tiet.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 29,
+      "classes": [
+        {
+          "name": "BaiThuocChiTiet",
+          "startLine": 6,
+          "endLine": 39,
+          "methods": [],
+          "properties": [
+            "id",
+            "idBaiThuoc",
+            "idViThuoc",
+            "lieu_luong",
+            "vai_tro",
+            "ghi_chu",
+            "tinh_vi",
+            "quy_kinh",
+            "baiThuoc",
+            "viThuoc"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BaiThuocChiTiet",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/bai-thuoc-phap-tri.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 20,
+      "classes": [
+        {
+          "name": "BaiThuocPhapTri",
+          "startLine": 6,
+          "endLine": 26,
+          "methods": [],
+          "properties": [
+            "idBaiThuoc",
+            "idPhapTri",
+            "doanChungTrang",
+            "thuTu",
+            "baiThuoc",
+            "phapTri"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BaiThuocPhapTri",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/bai-thuoc.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 49,
+      "nonEmptyLines": 37,
+      "classes": [
+        {
+          "name": "BaiThuoc",
+          "startLine": 7,
+          "endLine": 49,
+          "methods": [],
+          "properties": [
+            "id",
+            "ten_bai_thuoc",
+            "nguon_goc",
+            "cong_dung",
+            "cach_dung",
+            "ghi_chu",
+            "chung_trang",
+            "the_benh",
+            "trieu_chung",
+            "trieuChungList",
+            "chiTietViThuoc",
+            "phapTriLinks"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BaiThuoc",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/benh-dong-y-excel.dto.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 28,
+      "classes": [
+        {
+          "name": "DiagnoseBenhDongYExcelDto",
+          "startLine": 1,
+          "endLine": 3,
+          "methods": [],
+          "properties": [
+            "chi_so"
+          ]
+        },
+        {
+          "name": "CreateBenhDongYExcelDto",
+          "startLine": 7,
+          "endLine": 18,
+          "methods": [],
+          "properties": [
+            "code",
+            "name",
+            "outputCell",
+            "excelFormula",
+            "logicExpression",
+            "sqlCaseText",
+            "sqlCaseBoolean",
+            "id_phap_tri_list",
+            "id_trieu_chung_list",
+            "id_bai_thuoc_list"
+          ]
+        },
+        {
+          "name": "UpdateBenhDongYExcelDto",
+          "startLine": 20,
+          "endLine": 31,
+          "methods": [],
+          "properties": [
+            "code",
+            "name",
+            "outputCell",
+            "excelFormula",
+            "logicExpression",
+            "sqlCaseText",
+            "sqlCaseBoolean",
+            "id_phap_tri_list",
+            "id_trieu_chung_list",
+            "id_bai_thuoc_list"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DiagnoseBenhDongYExcelDto",
+          "line": 1,
+          "isDefault": false
+        },
+        {
+          "name": "CreateBenhDongYExcelDto",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "UpdateBenhDongYExcelDto",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 0,
+        "classCount": 3
+      }
+    },
+    {
+      "path": "backend/src/models/benh-dong-y-excel.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 55,
+      "nonEmptyLines": 44,
+      "classes": [
+        {
+          "name": "BenhDongYExcel",
+          "startLine": 7,
+          "endLine": 55,
+          "methods": [],
+          "properties": [
+            "id",
+            "code",
+            "name",
+            "outputCell",
+            "excelFormula",
+            "logicExpression",
+            "sqlCaseText",
+            "sqlCaseBoolean",
+            "phapTriList",
+            "trieuChungList",
+            "baiThuocList"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BenhDongYExcel",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/benh-tay-y.dto.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 19,
+      "classes": [
+        {
+          "name": "CreateBenhTayYDto",
+          "startLine": 1,
+          "endLine": 10,
+          "methods": [],
+          "properties": [
+            "ten_benh",
+            "id_chung_benh",
+            "bai_thuoc_ids",
+            "trieu_chung_ids",
+            "thiet_chan_ids",
+            "mach_chan_ids",
+            "phap_tri_ids"
+          ]
+        },
+        {
+          "name": "UpdateBenhTayYDto",
+          "startLine": 12,
+          "endLine": 20,
+          "methods": [],
+          "properties": [
+            "ten_benh",
+            "id_chung_benh",
+            "bai_thuoc_ids",
+            "trieu_chung_ids",
+            "thiet_chan_ids",
+            "mach_chan_ids",
+            "phap_tri_ids"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateBenhTayYDto",
+          "line": 1,
+          "isDefault": false
+        },
+        {
+          "name": "UpdateBenhTayYDto",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 0,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "backend/src/models/benh-tay-y.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 71,
+      "nonEmptyLines": 62,
+      "classes": [
+        {
+          "name": "BenhTayY",
+          "startLine": 18,
+          "endLine": 71,
+          "methods": [],
+          "properties": [
+            "id",
+            "idChungBenh",
+            "ten_benh",
+            "thietChanList",
+            "machChanList",
+            "chungBenh",
+            "baiThuocList",
+            "trieuChungList",
+            "phapTriList"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BenhTayY",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/mach-chan.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "MachChan",
+          "startLine": 4,
+          "endLine": 10,
+          "methods": [],
+          "properties": [
+            "id",
+            "ten_mach_chan"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MachChan",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/meridian-syndrome.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 182,
+      "nonEmptyLines": 133,
+      "classes": [
+        {
+          "name": "MeridianSyndrome",
+          "startLine": 7,
+          "endLine": 182,
+          "methods": [],
+          "properties": [
+            "id",
+            "nhomid",
+            "tieuket",
+            "trieuchung",
+            "benhly",
+            "phuyet_chamcuu",
+            "giainghia_phuyet",
+            "bai_thuoc",
+            "chung_trang",
+            "duyet",
+            "tieutruong_c8",
+            "tieutruong",
+            "tieutruong_c11",
+            "tam_c8",
+            "tam",
+            "tam_c11",
+            "tamtieu_c8",
+            "tamtieu",
+            "tamtieu_c11",
+            "tambao_c8",
+            "tambao",
+            "tambao_c11",
+            "daitrang_c8",
+            "daitrang",
+            "daitrang_c11",
+            "phe_c8",
+            "phe",
+            "phe_c11",
+            "bangquang_c8",
+            "bangquang",
+            "bangquang_c11",
+            "than_c8",
+            "than",
+            "than_c11",
+            "dam_c8",
+            "dam",
+            "dam_c11",
+            "vi_c8",
+            "vi",
+            "vi_c11",
+            "can_c8",
+            "can",
+            "can_c11",
+            "ty_c8",
+            "ty",
+            "ty_c11",
+            "phap_tri_list",
+            "baiThuocList",
+            "trieuChungList"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MeridianSyndrome",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 3,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/phap-tri.dto.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 55,
+      "classes": [
+        {
+          "name": "CreatePhapTriDto",
+          "startLine": 1,
+          "endLine": 30,
+          "methods": [],
+          "properties": [
+            "chung_trang",
+            "the_benh",
+            "nguyen_tac",
+            "y_nghia_co_che",
+            "bat_phap",
+            "bat_cuong",
+            "luc_dam",
+            "luc_kinh",
+            "am_duong",
+            "ton_thuong",
+            "tac_nhan",
+            "ban_chat",
+            "vi_tri_tien_trinh",
+            "mach_chan",
+            "chat_luoi",
+            "nguyen_nhan",
+            "trieu_chung_mo_ta",
+            "id_bai_thuoc",
+            "id_bai_thuoc_list",
+            "id_benh_dong_y",
+            "id_benh_dong_y_list",
+            "id_kinh_mach_list",
+            "id_trieu_chung_list"
+          ]
+        },
+        {
+          "name": "UpdatePhapTriDto",
+          "startLine": 32,
+          "endLine": 56,
+          "methods": [],
+          "properties": [
+            "chung_trang",
+            "the_benh",
+            "nguyen_tac",
+            "y_nghia_co_che",
+            "bat_phap",
+            "bat_cuong",
+            "luc_dam",
+            "luc_kinh",
+            "am_duong",
+            "ton_thuong",
+            "tac_nhan",
+            "ban_chat",
+            "vi_tri_tien_trinh",
+            "mach_chan",
+            "chat_luoi",
+            "nguyen_nhan",
+            "trieu_chung_mo_ta",
+            "id_bai_thuoc",
+            "id_bai_thuoc_list",
+            "id_benh_dong_y",
+            "id_benh_dong_y_list",
+            "id_kinh_mach_list",
+            "id_trieu_chung_list"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreatePhapTriDto",
+          "line": 1,
+          "isDefault": false
+        },
+        {
+          "name": "UpdatePhapTriDto",
+          "line": 32,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 0,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "backend/src/models/phap-tri.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 107,
+      "nonEmptyLines": 85,
+      "classes": [
+        {
+          "name": "PhapTri",
+          "startLine": 18,
+          "endLine": 107,
+          "methods": [],
+          "properties": [
+            "id",
+            "chung_trang",
+            "nguyen_tac",
+            "y_nghia_co_che",
+            "bat_phap",
+            "bat_cuong",
+            "luc_dam",
+            "luc_kinh",
+            "am_duong",
+            "ton_thuong",
+            "tac_nhan",
+            "ban_chat",
+            "vi_tri_tien_trinh",
+            "mach_chan",
+            "chat_luoi",
+            "nguyen_nhan",
+            "trieu_chung_mo_ta",
+            "bai_thuoc",
+            "bai_thuoc_links",
+            "benh_dong_y_list",
+            "kinh_mach_list",
+            "trieu_chung_list"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "PhapTri",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 5,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/thiet-chan.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "ThietChan",
+          "startLine": 4,
+          "endLine": 10,
+          "methods": [],
+          "properties": [
+            "id",
+            "ten_thiet_chan"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ThietChan",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/trieu-chung.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "TrieuChung",
+          "startLine": 10,
+          "endLine": 19,
+          "methods": [],
+          "properties": [
+            "id",
+            "ten_trieu_chung",
+            "benhTayYList"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "TrieuChung",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/routers/benh-dong-y-excel.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 73,
+      "nonEmptyLines": 65,
+      "classes": [
+        {
+          "name": "BenhDongYExcelRouter",
+          "startLine": 20,
+          "endLine": 73,
+          "methods": [
+            "constructor",
+            "diagnose",
+            "findAll",
+            "findLite",
+            "findOne",
+            "create",
+            "update",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "BenhDongYExcelRouter",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "diagnose",
+          "callee": "Body",
+          "lineNumber": 24
+        },
+        {
+          "caller": "diagnose",
+          "callee": "this.service.diagnose",
+          "lineNumber": 26
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.service.findAll",
+          "lineNumber": 31
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 37
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 38
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 39
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.service.findLite",
+          "lineNumber": 41
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 42
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 43
+        },
+        {
+          "caller": "findOne",
+          "callee": "Param",
+          "lineNumber": 49
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.service.findOne",
+          "lineNumber": 50
+        },
+        {
+          "caller": "create",
+          "callee": "Body",
+          "lineNumber": 54
+        },
+        {
+          "caller": "create",
+          "callee": "this.service.create",
+          "lineNumber": 55
+        },
+        {
+          "caller": "update",
+          "callee": "Param",
+          "lineNumber": 61
+        },
+        {
+          "caller": "update",
+          "callee": "Body",
+          "lineNumber": 62
+        },
+        {
+          "caller": "update",
+          "callee": "this.service.update",
+          "lineNumber": 64
+        },
+        {
+          "caller": "remove",
+          "callee": "Param",
+          "lineNumber": 69
+        },
+        {
+          "caller": "remove",
+          "callee": "this.service.remove",
+          "lineNumber": 70
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/routers/benh-dong-y.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 39,
+      "classes": [
+        {
+          "name": "BenhDongYRouter",
+          "startLine": 5,
+          "endLine": 43,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findOne",
+            "shape"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "BenhDongYRouter",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findAll",
+          "callee": "this.excelService.findAll",
+          "lineNumber": 10
+        },
+        {
+          "caller": "findAll",
+          "callee": "rows.map",
+          "lineNumber": 11
+        },
+        {
+          "caller": "findAll",
+          "callee": "BenhDongYRouter.shape",
+          "lineNumber": 11
+        },
+        {
+          "caller": "findOne",
+          "callee": "Param",
+          "lineNumber": 15
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.excelService.findOne",
+          "lineNumber": 16
+        },
+        {
+          "caller": "findOne",
+          "callee": "BenhDongYRouter.shape",
+          "lineNumber": 17
+        },
+        {
+          "caller": "shape",
+          "callee": "(r.phapTriList ?? []).map",
+          "lineNumber": 34
+        },
+        {
+          "caller": "shape",
+          "callee": "(r.trieuChungList ?? []).map",
+          "lineNumber": 39
+        },
+        {
+          "caller": "shape",
+          "callee": "(r.baiThuocList ?? []).map",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/routers/benh-tay-y.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 67,
+      "nonEmptyLines": 60,
+      "classes": [
+        {
+          "name": "BenhTayYRouter",
+          "startLine": 16,
+          "endLine": 67,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findLite",
+            "findOne",
+            "create",
+            "update",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "BenhTayYRouter",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findAll",
+          "callee": "this.service.findAll",
+          "lineNumber": 21
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 27
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 29
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 30
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 31
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.service.findLite",
+          "lineNumber": 33
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 34
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 35
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 37
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 38
+        },
+        {
+          "caller": "findOne",
+          "callee": "Param",
+          "lineNumber": 43
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.service.findOne",
+          "lineNumber": 44
+        },
+        {
+          "caller": "create",
+          "callee": "Body",
+          "lineNumber": 48
+        },
+        {
+          "caller": "create",
+          "callee": "this.service.create",
+          "lineNumber": 49
+        },
+        {
+          "caller": "update",
+          "callee": "Param",
+          "lineNumber": 55
+        },
+        {
+          "caller": "update",
+          "callee": "Body",
+          "lineNumber": 56
+        },
+        {
+          "caller": "update",
+          "callee": "this.service.update",
+          "lineNumber": 58
+        },
+        {
+          "caller": "remove",
+          "callee": "Param",
+          "lineNumber": 63
+        },
+        {
+          "caller": "remove",
+          "callee": "this.service.remove",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/routers/phap-tri.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 94,
+      "nonEmptyLines": 86,
+      "classes": [
+        {
+          "name": "PhapTriRouter",
+          "startLine": 16,
+          "endLine": 94,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findOptions",
+            "findLite",
+            "findOne",
+            "create",
+            "update",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PhapTriRouter",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findAll",
+          "callee": "this.service.findAll",
+          "lineNumber": 21
+        },
+        {
+          "caller": "findOptions",
+          "callee": "this.service.findOptions",
+          "lineNumber": 27
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 33
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 34
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 35
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 36
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 37
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 38
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 39
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 40
+        },
+        {
+          "caller": "parseIdList",
+          "callee": "raw\r\n        .split(',')\r\n        .map((s) => Number(s.trim()))\r\n        .filter",
+          "lineNumber": 45
+        },
+        {
+          "caller": "parseIdList",
+          "callee": "raw\r\n        .split(',')\r\n        .map",
+          "lineNumber": 45
+        },
+        {
+          "caller": "parseIdList",
+          "callee": "raw\r\n        .split",
+          "lineNumber": 45
+        },
+        {
+          "caller": "parseIdList",
+          "callee": "Number",
+          "lineNumber": 47
+        },
+        {
+          "caller": "parseIdList",
+          "callee": "s.trim",
+          "lineNumber": 47
+        },
+        {
+          "caller": "parseIdList",
+          "callee": "Number.isFinite",
+          "lineNumber": 48
+        },
+        {
+          "caller": "parseStrList",
+          "callee": "raw\r\n        .split(',')\r\n        .map((s) => s.trim())\r\n        .filter",
+          "lineNumber": 52
+        },
+        {
+          "caller": "parseStrList",
+          "callee": "raw\r\n        .split(',')\r\n        .map",
+          "lineNumber": 52
+        },
+        {
+          "caller": "parseStrList",
+          "callee": "raw\r\n        .split",
+          "lineNumber": 52
+        },
+        {
+          "caller": "parseStrList",
+          "callee": "s.trim",
+          "lineNumber": 54
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.service.findLite",
+          "lineNumber": 57
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 58
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 59
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 62
+        },
+        {
+          "caller": "findLite",
+          "callee": "parseIdList",
+          "lineNumber": 63
+        },
+        {
+          "caller": "findLite",
+          "callee": "parseStrList",
+          "lineNumber": 64
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 65
+        },
+        {
+          "caller": "findOne",
+          "callee": "Param",
+          "lineNumber": 70
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.service.findOne",
+          "lineNumber": 71
+        },
+        {
+          "caller": "create",
+          "callee": "Body",
+          "lineNumber": 75
+        },
+        {
+          "caller": "create",
+          "callee": "this.service.create",
+          "lineNumber": 76
+        },
+        {
+          "caller": "update",
+          "callee": "Param",
+          "lineNumber": 82
+        },
+        {
+          "caller": "update",
+          "callee": "Body",
+          "lineNumber": 83
+        },
+        {
+          "caller": "update",
+          "callee": "this.service.update",
+          "lineNumber": 85
+        },
+        {
+          "caller": "remove",
+          "callee": "Param",
+          "lineNumber": 90
+        },
+        {
+          "caller": "remove",
+          "callee": "this.service.remove",
+          "lineNumber": 91
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

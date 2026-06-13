@@ -1,0 +1,3 @@
+# Ép script shell luôn dùng xuống dòng kiểu Unix (LF), kể cả khi commit từ Windows.
+# Nếu để CRLF, bash trên VPS Ubuntu sẽ báo lỗi "bad interpreter" / "\r command not found".
+*.sh text eol=lf

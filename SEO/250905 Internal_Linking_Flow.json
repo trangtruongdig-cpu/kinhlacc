@@ -1,0 +1,414 @@
+{
+  "name": "250905 Internal_Linking_Flow",
+  "nodes": [
+    {
+      "parameters": {
+        "jsCode": "const rawTable = $input.first().json.message.content;\n\n// Split into rows and filter empty lines\nconst rows = rawTable.split('\\n').filter(row => row.trim() !== '');\n\n// Extract headers (first row)\nconst headers = rows[0]\n  .split('|')\n  .slice(1, -1)\n  .map(h => h.trim());\n\n// Process data rows (skip second separator row)\nconst jsonData = [];\nfor (let i = 2; i < rows.length; i++) {\n  const columns = rows[i]\n    .split('|')\n    .slice(1, -1)\n    .map(c => c.trim());\n  \n  jsonData.push({\n    [headers[0]]: columns[0],\n    [headers[1]]: columns[1],\n    [headers[2]]: columns[2].replace(/<br>/g, '\\n') // Convert <br> to newlines\n  });\n}\n\nreturn jsonData;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1424,
+        88
+      ],
+      "id": "aff81718-beb1-4a61-bb8b-67fcf5074a82",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "url"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        848,
+        88
+      ],
+      "id": "02e008ce-3304-4109-9538-56a8ad5e6721",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1648,
+        160
+      ],
+      "id": "10d710b0-bd3d-49cd-87ba-d47ce1942707",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1a49eeef-ec4b-43ec-a9d5-50544dd05072",
+              "name": "url",
+              "value": "={{ $json[\"URL\"] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        160
+      ],
+      "id": "a01eb533-288e-4f13-b2a6-0409f8087743",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "seconds"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -48,
+        160
+      ],
+      "id": "dae38639-6dc1-4f7f-9dba-b16fb8709caf",
+      "name": "Schedule Trigger1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        400,
+        160
+      ],
+      "id": "287eb3f9-1d84-47b6-b0b9-3ef99160c6a8",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        624,
+        -32
+      ],
+      "id": "4c786ee4-a37d-4a50-b4bf-6184e2968272",
+      "name": "Done"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 42717952,
+          "mode": "list",
+          "cachedResultName": "Posted",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=42717952"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "Analysed",
+              "lookupValue": "No"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        176,
+        160
+      ],
+      "id": "410093a6-17c9-4619-b4a2-a25affaaae03",
+      "name": "Extract URL",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o-mini-search-preview",
+          "mode": "list",
+          "cachedResultName": "GPT-4O-MINI-SEARCH-PREVIEW"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Bạn là thành viên của một đội ngũ SEO chuyên nghiệp.\n\nCông việc của bạn là phân tích sitemap của đối thủ cạnh tranh để giúp team đưa ra chiến lược nội dung và từ khóa.\n\nĐể làm được điều này, bạn sẽ xem xét từng URL blog post trong sitemap của đối thủ và xác định những thông tin sau:\n\n- Topic (Chủ đề): Chủ đề chính của bài blog\n- Keywords (Từ khóa): 3 từ khóa SEO hàng đầu trong bài blog có liên quan đến lĩnh vực kinh doanh của đối thủ. Xác định sự kết hợp giữa từ khóa dài (long tail) và từ khóa ngắn (short tail). Từ khóa phải xuất hiện trực tiếp trong blog của đối thủ.\n- Summary (Tóm tắt): Tóm tắt ngắn gọn dạng bullet point về nội dung bài blog. Nội dung này cần ngắn gọn và mỗi bullet point phải thể hiện một chủ đề phụ khác nhau trong bài blog.\n\nSau khi đã xác định được những thông tin trên, bạn format chúng thành một bảng đẹp với các cột sau:\n1. Topic (Chủ đề)\n2. Keywords (Từ khóa) \n3. Summary (Tóm tắt)\n\nĐầu ra của bạn chỉ được là bảng và không có gì khác.\n\nĐối thủ cạnh tranh là một công ty Nha khoa với các dịch vụ sau (lĩnh vực kinh doanh):\n- Bọc răng sứ\n- Niềng răng\n- Tẩy trắng răng\n\nDưới đây là 1 URL blog được trích xuất từ sitemap của họ. Hãy research và phân tích URL này rồi tạo bảng như hướng dẫn:\n\n{{ $json.url }}\n\nĐầu ra của bạn phải tuân theo định dạng bảng mẫu sau:\n\n| Topic | Keywords | Summary |\n|------------------------------------------------------------------|------------------------------------------------------------------|--------------------------------------------------------------------------------------------------|\n| Các triệu chứng cho thấy cần nhổ răng khôn | nhổ răng khôn, răng khôn mọc lệch, đau răng, sưng lợi, cứng hàm | - Định nghĩa răng khôn là răng cối thứ ba mọc ở tuổi thiếu niên muộn hoặc đầu 20.<br>- Giải thích các vấn đề thường gặp như mọc lệch do thiếu không gian.<br>- Nêu bật các triệu chứng như đau dai dẳng, cứng hàm và sưng lợi.<br>- Mô tả viêm nướu quanh răng do thức ăn và vi khuẩn bị mắc kẹt.<br>- Khuyên nên tham khảo nha sĩ nếu gặp bất kỳ dấu hiệu nào này. |\n| Cách chăm sóc răng implant | chăm sóc răng implant, vệ sinh răng miệng, phòng ngừa viêm quanh implant, bỏ thuốc lá, khám nha khoa định kỳ | - Nhấn mạnh tầm quan trọng của việc bảo trì implant để tránh viêm quanh implant.<br>- Khuyến nghị sử dụng bàn chải lông mềm.<br>- Khuyên dùng chỉ nha khoa được thiết kế cho implant.<br>- Nêu bật việc hút thuốc là nguy cơ đối với sức khỏe lợi và implant.<br>- Nhấn mạnh nhu cầu khám và vệ sinh nha khoa định kỳ. |\n| Hậu quả của việc không nhổ răng khôn mọc lệch | răng khôn mọc lệch, sưng và nhiễm trùng, đau răng, răng chen chúc, nhổ răng khôn | - Giải thích rủi ro của răng khôn mọc lệch bao gồm nhiễm trùng và sưng.<br>- Mô tả các biến chứng như u nang, u và đau hàm.<br>- Chi tiết cách răng khôn có thể làm lệch hoặc chen chúc các răng khác.<br>- Cảnh báo về các vấn đề nha khoa dài hạn nếu không điều trị.<br>- Khuyến cáo nhổ sớm để ngăn ngừa biến chứng nghiêm trọng hơn. |\n\nKhông xuất ra bất cứ thứ gì khác."
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        1072,
+        88
+      ],
+      "id": "cfae1fe6-c358-4071-8aaa-fd3e53bc2302",
+      "name": "Analyse",
+      "credentials": {
+        "openAiApi": {
+          "id": "CBG2WAoLkmpwqP3d",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y",
+          "mode": "list",
+          "cachedResultName": "SEO Strategy @ai5phut",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 42717952,
+          "mode": "list",
+          "cachedResultName": "Posted",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1bnBENCDFVq8I85OpMLiSTFdfndB9JDgacp4ojszCj6Y/edit#gid=42717952"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Blog Title": "={{ $json.Topic }}",
+            "Keywords": "={{ $json.Keywords }}",
+            "Summary ": "={{ $json.Summary }}",
+            "URL": "={{ $json.url }}",
+            "Analysed": "Yes"
+          },
+          "matchingColumns": [
+            "URL"
+          ],
+          "schema": [
+            {
+              "id": "Blog Title",
+              "displayName": "Blog Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary ",
+              "displayName": "Summary ",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Analysed",
+              "displayName": "Analysed",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1872,
+        232
+      ],
+      "id": "072cf866-c010-4189-bc70-3ff98ba9b243",
+      "name": "Check Off",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Analyse",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Check Off",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger1": {
+      "main": [
+        [
+          {
+            "node": "Extract URL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Done",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract URL": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyse": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Off": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "183906f4-9b97-4539-ab69-993857e7ccc1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "de18a871dfa80f3ec5b3cce337cb1bb6af20912d880f7c305c8eb11d066ce6d8"
+  },
+  "id": "Kr10XvjWLpBPXIEZ",
+  "tags": []
+}

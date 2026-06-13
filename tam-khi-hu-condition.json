@@ -1,0 +1,5 @@
+{
+  "disease": "Tâm khí hư",
+  "outputCell": "AG2",
+  "conditionFormula": "=IF(AND(E11<0;E15<0;E26<0;ABS(E11)>E7);AG2&\", \";\"\")"
+}

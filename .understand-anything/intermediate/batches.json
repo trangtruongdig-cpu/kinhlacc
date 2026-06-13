@@ -1,0 +1,4430 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "louvain",
+  "totalFiles": 241,
+  "totalBatches": 24,
+  "exportsByPath": {
+    "backend/api/index.ts": [],
+    "backend/eslint.config.mjs": [],
+    "backend/src/app.controller.spec.ts": [],
+    "backend/src/app.controller.ts": [
+      "AppController"
+    ],
+    "backend/src/app.module.ts": [
+      "AppModule"
+    ],
+    "backend/src/app.service.ts": [
+      "AppService"
+    ],
+    "backend/src/controllers/admin.controller.ts": [
+      "AdminsService"
+    ],
+    "backend/src/controllers/ai-suggest.controller.ts": [
+      "AiSuggestService"
+    ],
+    "backend/src/controllers/appointment-slot.controller.ts": [
+      "AppointmentSlotsService"
+    ],
+    "backend/src/controllers/auth.controller.ts": [
+      "AuthService"
+    ],
+    "backend/src/controllers/bai-thuoc.controller.ts": [
+      "BaiThuocService"
+    ],
+    "backend/src/controllers/benh-dong-y-excel.controller.ts": [
+      "BenhDongYExcelService"
+    ],
+    "backend/src/controllers/benh-dong-y-hien-dai.controller.ts": [
+      "BenhDongYHienDaiService"
+    ],
+    "backend/src/controllers/benh-tay-y.controller.ts": [
+      "BenhTayYService"
+    ],
+    "backend/src/controllers/chu-tri.controller.ts": [
+      "ChuTriController"
+    ],
+    "backend/src/controllers/chung-benh.controller.ts": [
+      "ChungBenhService"
+    ],
+    "backend/src/controllers/clinic-schedule.controller.ts": [
+      "ClinicScheduleService"
+    ],
+    "backend/src/controllers/cong-dung.controller.ts": [
+      "CongDungService"
+    ],
+    "backend/src/controllers/examination.controller.ts": [
+      "ExaminationsService"
+    ],
+    "backend/src/controllers/firebase.controller.ts": [
+      "FirebaseService"
+    ],
+    "backend/src/controllers/huyet-vi.controller.ts": [
+      "HuyetViService"
+    ],
+    "backend/src/controllers/kieng-ky.controller.ts": [
+      "KiengKyController"
+    ],
+    "backend/src/controllers/kinh-mach.controller.ts": [
+      "KinhMachService"
+    ],
+    "backend/src/controllers/mach-chan.controller.ts": [
+      "MachChanService"
+    ],
+    "backend/src/controllers/meridian.controller.ts": [
+      "AnalyzeInputDto",
+      "AnalyzeOutputDto",
+      "MeridiansService"
+    ],
+    "backend/src/controllers/nhom-lon-duoc-ly.controller.ts": [
+      "NhomLonDuocLyService"
+    ],
+    "backend/src/controllers/nhom-nho-duoc-ly.controller.ts": [
+      "NhomNhoDuocLyService"
+    ],
+    "backend/src/controllers/patient-auth.controller.ts": [
+      "PatientAuthService"
+    ],
+    "backend/src/controllers/patient.controller.ts": [
+      "PatientsService"
+    ],
+    "backend/src/controllers/phac-do-chuan.controller.ts": [
+      "PhacDoChuanService"
+    ],
+    "backend/src/controllers/phac-do-dieu-tri.controller.ts": [
+      "PhacDoDieuTriService"
+    ],
+    "backend/src/controllers/phap-tri.controller.ts": [
+      "PhapTriService"
+    ],
+    "backend/src/controllers/the-benh.controller.ts": [
+      "TheBenhService",
+      "TheBenhPhuongHuyetService"
+    ],
+    "backend/src/controllers/thiet-chan.controller.ts": [
+      "ThietChanService"
+    ],
+    "backend/src/controllers/ton-thuong-tac-nhan.controller.ts": [
+      "TonThuongTacNhanService"
+    ],
+    "backend/src/controllers/trieu-chung.controller.ts": [
+      "TrieuChungService"
+    ],
+    "backend/src/controllers/vi-thuoc.controller.ts": [
+      "ViThuocService"
+    ],
+    "backend/src/main.ts": [],
+    "backend/src/middlewares/auth/jwt-auth.guard.ts": [
+      "JwtAuthGuard"
+    ],
+    "backend/src/middlewares/auth/jwt.strategy.ts": [
+      "JwtStrategy"
+    ],
+    "backend/src/middlewares/logging.interceptor.ts": [
+      "LoggingInterceptor"
+    ],
+    "backend/src/models/_date-transformer.ts": [
+      "ymdDateTransformer"
+    ],
+    "backend/src/models/admin.model.ts": [
+      "Admin"
+    ],
+    "backend/src/models/appointment-slot.dto.ts": [
+      "BookSlotDto",
+      "UpdateSlotDto"
+    ],
+    "backend/src/models/appointment-slot.model.ts": [
+      "AppointmentSlot"
+    ],
+    "backend/src/models/bai-thuoc-chi-tiet.model.ts": [
+      "BaiThuocChiTiet"
+    ],
+    "backend/src/models/bai-thuoc-phap-tri.model.ts": [
+      "BaiThuocPhapTri"
+    ],
+    "backend/src/models/bai-thuoc.model.ts": [
+      "BaiThuoc"
+    ],
+    "backend/src/models/benh-dong-y-excel.dto.ts": [
+      "DiagnoseBenhDongYExcelDto",
+      "CreateBenhDongYExcelDto",
+      "UpdateBenhDongYExcelDto"
+    ],
+    "backend/src/models/benh-dong-y-excel.model.ts": [
+      "BenhDongYExcel"
+    ],
+    "backend/src/models/benh-dong-y-hien-dai.dto.ts": [
+      "DiagnoseBenhDongYHienDaiDto",
+      "CreateBenhDongYHienDaiDto",
+      "UpdateBenhDongYHienDaiDto"
+    ],
+    "backend/src/models/benh-dong-y-hien-dai.model.ts": [
+      "BenhDongYHienDai"
+    ],
+    "backend/src/models/benh-tay-y.dto.ts": [
+      "CreateBenhTayYDto",
+      "UpdateBenhTayYDto"
+    ],
+    "backend/src/models/benh-tay-y.model.ts": [
+      "BenhTayY"
+    ],
+    "backend/src/models/chu-tri.model.ts": [
+      "ChuTri"
+    ],
+    "backend/src/models/chung-benh.dto.ts": [
+      "CreateChungBenhDto",
+      "UpdateChungBenhDto"
+    ],
+    "backend/src/models/chung-benh.model.ts": [
+      "ChungBenh"
+    ],
+    "backend/src/models/clinic-day-override.model.ts": [
+      "ClinicDayOverride"
+    ],
+    "backend/src/models/clinic-schedule-config.model.ts": [
+      "ClinicScheduleConfig"
+    ],
+    "backend/src/models/clinic-schedule.dto.ts": [
+      "UpdateClinicScheduleConfigDto",
+      "UpsertClinicDayOverrideDto",
+      "GenerateSlotsDto"
+    ],
+    "backend/src/models/cong-dung.dto.ts": [
+      "CreateCongDungDto",
+      "UpdateCongDungDto"
+    ],
+    "backend/src/models/cong-dung.model.ts": [
+      "CongDung"
+    ],
+    "backend/src/models/dongy-thuoc.dto.ts": [
+      "CreateViThuocDto",
+      "UpdateViThuocDto",
+      "CreateBaiThuocDto",
+      "UpdateBaiThuocDto"
+    ],
+    "backend/src/models/duoc-ly.dto.ts": [
+      "CreateNhomLonDuocLyDto",
+      "UpdateNhomLonDuocLyDto",
+      "CreateNhomNhoDuocLyDto",
+      "UpdateNhomNhoDuocLyDto"
+    ],
+    "backend/src/models/examination.dto.ts": [
+      "CreateExaminationDto",
+      "UpdateExaminationDto"
+    ],
+    "backend/src/models/examination.model.ts": [
+      "Examination"
+    ],
+    "backend/src/models/huyet-vi.dto.ts": [
+      "CreateHuyetViDto",
+      "UpdateHuyetViDto"
+    ],
+    "backend/src/models/huyet-vi.model.ts": [
+      "HuyetVi"
+    ],
+    "backend/src/models/kieng-ky.model.ts": [
+      "KiengKy"
+    ],
+    "backend/src/models/kinh-mach.dto.ts": [
+      "CreateKinhMachDto",
+      "UpdateKinhMachDto"
+    ],
+    "backend/src/models/kinh-mach.model.ts": [
+      "KinhMach"
+    ],
+    "backend/src/models/legacy-meridian-syndrome.model.ts": [
+      "LegacyMeridianSyndrome"
+    ],
+    "backend/src/models/mach-chan.dto.ts": [
+      "CreateMachChanDto",
+      "UpdateMachChanDto"
+    ],
+    "backend/src/models/mach-chan.model.ts": [
+      "MachChan"
+    ],
+    "backend/src/models/meridian-syndrome.model.ts": [
+      "MeridianSyndrome"
+    ],
+    "backend/src/models/nhom-lon-duoc-ly.model.ts": [
+      "NhomLonDuocLy"
+    ],
+    "backend/src/models/nhom-nho-chu-tri.model.ts": [
+      "NhomNhoChuTri"
+    ],
+    "backend/src/models/nhom-nho-duoc-ly.model.ts": [
+      "NhomNhoDuocLy"
+    ],
+    "backend/src/models/nhom-nho-vi-thuoc.model.ts": [
+      "NhomNhoViThuoc"
+    ],
+    "backend/src/models/patient.dto.ts": [
+      "CreatePatientDto",
+      "UpdatePatientDto"
+    ],
+    "backend/src/models/patient.model.ts": [
+      "Patient"
+    ],
+    "backend/src/models/phac-do-chuan.dto.ts": [
+      "PhacDoChuanHuyetLineDto",
+      "CreatePhacDoChuanDto",
+      "UpdatePhacDoChuanDto"
+    ],
+    "backend/src/models/phac-do-chuan.model.ts": [
+      "PhacDoChuan",
+      "PhacDoChuanHuyet"
+    ],
+    "backend/src/models/phac-do-dieu-tri.dto.ts": [
+      "CreatePhacDoDieuTriDto",
+      "UpdatePhacDoDieuTriDto"
+    ],
+    "backend/src/models/phac-do-dieu-tri.model.ts": [
+      "PhacDoDieuTri"
+    ],
+    "backend/src/models/phap-tri.dto.ts": [
+      "CreatePhapTriDto",
+      "UpdatePhapTriDto"
+    ],
+    "backend/src/models/phap-tri.model.ts": [
+      "PhapTri"
+    ],
+    "backend/src/models/the-benh-phuong-huyet.model.ts": [
+      "TheBenhPhuongHuyet"
+    ],
+    "backend/src/models/the-benh.dto.ts": [
+      "CreateTheBenhDto",
+      "UpdateTheBenhDto",
+      "CreateTheBenhPhuongHuyetItemDto",
+      "CreateTheBenhPhuongHuyetDto",
+      "UpdateTheBenhPhuongHuyetDto"
+    ],
+    "backend/src/models/the-benh.model.ts": [
+      "TheBenh"
+    ],
+    "backend/src/models/thiet-chan.dto.ts": [
+      "CreateThietChanDto",
+      "UpdateThietChanDto"
+    ],
+    "backend/src/models/thiet-chan.model.ts": [
+      "ThietChan"
+    ],
+    "backend/src/models/ton-thuong-tac-nhan.dto.ts": [
+      "CreateTonThuongTacNhanDto",
+      "UpdateTonThuongTacNhanDto"
+    ],
+    "backend/src/models/ton-thuong-tac-nhan.model.ts": [
+      "TonThuongTacNhan"
+    ],
+    "backend/src/models/trieu-chung.dto.ts": [
+      "CreateTrieuChungDto",
+      "UpdateTrieuChungDto"
+    ],
+    "backend/src/models/trieu-chung.model.ts": [
+      "TrieuChung"
+    ],
+    "backend/src/models/vi-thuoc-chu-tri.model.ts": [
+      "ViThuocChuTri"
+    ],
+    "backend/src/models/vi-thuoc-cong-dung.model.ts": [
+      "ViThuocCongDung"
+    ],
+    "backend/src/models/vi-thuoc-kieng-ky.model.ts": [
+      "ViThuocKiengKy"
+    ],
+    "backend/src/models/vi-thuoc-kinh-mach.model.ts": [
+      "ViThuocKinhMach"
+    ],
+    "backend/src/models/vi-thuoc-ten-goi-khac.model.ts": [
+      "ViThuocTenGoiKhac"
+    ],
+    "backend/src/models/vi-thuoc.model.ts": [
+      "ViThuoc"
+    ],
+    "backend/src/routers/admin.router.ts": [
+      "AdminsRouter"
+    ],
+    "backend/src/routers/ai-suggest.router.ts": [
+      "AiSuggestRouter"
+    ],
+    "backend/src/routers/appointment-slot.router.ts": [
+      "AppointmentSlotsRouter"
+    ],
+    "backend/src/routers/auth.router.ts": [
+      "AuthRouter"
+    ],
+    "backend/src/routers/bai-thuoc.router.ts": [
+      "BaiThuocRouter"
+    ],
+    "backend/src/routers/benh-dong-y-excel.router.ts": [
+      "BenhDongYExcelRouter"
+    ],
+    "backend/src/routers/benh-dong-y-hien-dai.router.ts": [
+      "BenhDongYHienDaiRouter"
+    ],
+    "backend/src/routers/benh-dong-y.router.ts": [
+      "BenhDongYRouter"
+    ],
+    "backend/src/routers/benh-tay-y.router.ts": [
+      "BenhTayYRouter"
+    ],
+    "backend/src/routers/chung-benh.router.ts": [
+      "ChungBenhRouter"
+    ],
+    "backend/src/routers/clinic-schedule.router.ts": [
+      "ClinicScheduleRouter"
+    ],
+    "backend/src/routers/cong-dung.router.ts": [
+      "CongDungRouter"
+    ],
+    "backend/src/routers/examination.router.ts": [
+      "ExaminationsRouter"
+    ],
+    "backend/src/routers/huyet-vi.router.ts": [
+      "HuyetViRouter"
+    ],
+    "backend/src/routers/kinh-mach.router.ts": [
+      "KinhMachRouter"
+    ],
+    "backend/src/routers/mach-chan.router.ts": [
+      "MachChanRouter"
+    ],
+    "backend/src/routers/meridian.router.ts": [
+      "MeridiansRouter"
+    ],
+    "backend/src/routers/nhom-lon-duoc-ly.router.ts": [
+      "NhomLonDuocLyRouter"
+    ],
+    "backend/src/routers/nhom-nho-duoc-ly.router.ts": [
+      "NhomNhoDuocLyRouter"
+    ],
+    "backend/src/routers/patient-auth.router.ts": [
+      "PatientAuthRouter"
+    ],
+    "backend/src/routers/patient.router.ts": [
+      "PatientsRouter"
+    ],
+    "backend/src/routers/phac-do-chuan.router.ts": [
+      "PhacDoChuanRouter"
+    ],
+    "backend/src/routers/phac-do-dieu-tri.router.ts": [
+      "PhacDoDieuTriRouter"
+    ],
+    "backend/src/routers/phap-tri.router.ts": [
+      "PhapTriRouter"
+    ],
+    "backend/src/routers/record.router.ts": [
+      "RecordsRouter"
+    ],
+    "backend/src/routers/the-benh.router.ts": [
+      "TheBenhRouter",
+      "TheBenhPhuongHuyetRouter"
+    ],
+    "backend/src/routers/thiet-chan.router.ts": [
+      "ThietChanRouter"
+    ],
+    "backend/src/routers/ton-thuong-tac-nhan.router.ts": [
+      "TonThuongTacNhanRouter"
+    ],
+    "backend/src/routers/trieu-chung.router.ts": [
+      "TrieuChungRouter"
+    ],
+    "backend/src/routers/vi-thuoc.router.ts": [
+      "ViThuocRouter"
+    ],
+    "backend/src/seed-admin.ts": [],
+    "backend/src/utils/catalog-label.util.ts": [
+      "formatCatalogLabel",
+      "catalogKey"
+    ],
+    "backend/src/utils/excel-rule-engine.ts": [
+      "evaluateLogicExpression"
+    ],
+    "backend/test_logic.js": [],
+    "backend/test/app.e2e-spec.ts": [],
+    "ecosystem.config.cjs": [],
+    "frontend/.gitattributes": [],
+    "frontend/env.d.ts": [],
+    "frontend/eslint.config.ts": [],
+    "frontend/nginx.conf": [],
+    "frontend/scripts/gen-favicon-ico.cjs": [],
+    "frontend/src/App.vue": [],
+    "frontend/src/components/PharmacologyManager.vue": [],
+    "frontend/src/main.ts": [],
+    "frontend/src/router/index.ts": [],
+    "frontend/src/services/api.ts": [
+      "api"
+    ],
+    "frontend/src/stores/auth.ts": [
+      "useAuthStore"
+    ],
+    "frontend/src/stores/counter.ts": [
+      "useCounterStore"
+    ],
+    "frontend/src/stores/patient.ts": [
+      "usePatientStore"
+    ],
+    "frontend/src/views/AppointmentsView.vue": [],
+    "frontend/src/views/DashboardLayout.vue": [],
+    "frontend/src/views/HomeView.vue": [],
+    "frontend/src/views/HuyetViView.vue": [],
+    "frontend/src/views/KinhMachView.vue": [],
+    "frontend/src/views/LoginView.vue": [],
+    "frontend/src/views/MedicinesView.vue": [],
+    "frontend/src/views/MeridianDiseasesTabsView.vue": [],
+    "frontend/src/views/MeridianDiseasesView.vue": [],
+    "frontend/src/views/MeridianResultsView.vue": [],
+    "frontend/src/views/ModernDiseasesView.vue": [],
+    "frontend/src/views/NewExaminationView.vue": [],
+    "frontend/src/views/PatientDetailView.vue": [],
+    "frontend/src/views/PatientsView.vue": [],
+    "frontend/src/views/PhacDoDieuTriView.vue": [],
+    "frontend/src/views/ScheduleConfigView.vue": [],
+    "frontend/src/views/SymptomsView.vue": [],
+    "frontend/src/views/TonThuongTacNhanView.vue": [],
+    "frontend/src/views/TreatmentsView.vue": [],
+    "frontend/src/views/WesternMedicineView.vue": [],
+    "frontend/vite.config.ts": []
+  },
+  "batches": [
+    {
+      "batchIndex": 1,
+      "files": [
+        {
+          "path": "backend/api/index.ts",
+          "language": "typescript",
+          "sizeLines": 49,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/app.module.ts",
+          "language": "typescript",
+          "sizeLines": 183,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/admin.controller.ts",
+          "language": "typescript",
+          "sizeLines": 21,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/auth.controller.ts",
+          "language": "typescript",
+          "sizeLines": 28,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/chung-benh.controller.ts",
+          "language": "typescript",
+          "sizeLines": 44,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/kieng-ky.controller.ts",
+          "language": "typescript",
+          "sizeLines": 68,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/patient-auth.controller.ts",
+          "language": "typescript",
+          "sizeLines": 62,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/ton-thuong-tac-nhan.controller.ts",
+          "language": "typescript",
+          "sizeLines": 99,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/main.ts",
+          "language": "typescript",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/middlewares/auth/jwt.strategy.ts",
+          "language": "typescript",
+          "sizeLines": 19,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/middlewares/logging.interceptor.ts",
+          "language": "typescript",
+          "sizeLines": 122,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/admin.model.ts",
+          "language": "typescript",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/chung-benh.dto.ts",
+          "language": "typescript",
+          "sizeLines": 7,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/chung-benh.model.ts",
+          "language": "typescript",
+          "sizeLines": 19,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/kieng-ky.model.ts",
+          "language": "typescript",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/patient.model.ts",
+          "language": "typescript",
+          "sizeLines": 52,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/ton-thuong-tac-nhan.dto.ts",
+          "language": "typescript",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/ton-thuong-tac-nhan.model.ts",
+          "language": "typescript",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/admin.router.ts",
+          "language": "typescript",
+          "sizeLines": 4,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/auth.router.ts",
+          "language": "typescript",
+          "sizeLines": 17,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/chung-benh.router.ts",
+          "language": "typescript",
+          "sizeLines": 48,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/patient-auth.router.ts",
+          "language": "typescript",
+          "sizeLines": 28,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/ton-thuong-tac-nhan.router.ts",
+          "language": "typescript",
+          "sizeLines": 61,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/seed-admin.ts",
+          "language": "typescript",
+          "sizeLines": 26,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/test/app.e2e-spec.ts",
+          "language": "typescript",
+          "sizeLines": 25,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/api/index.ts": [
+          "backend/src/app.module.ts",
+          "backend/src/middlewares/logging.interceptor.ts"
+        ],
+        "backend/src/app.module.ts": [
+          "backend/src/app.controller.ts",
+          "backend/src/app.service.ts",
+          "backend/src/controllers/admin.controller.ts",
+          "backend/src/controllers/ai-suggest.controller.ts",
+          "backend/src/controllers/appointment-slot.controller.ts",
+          "backend/src/controllers/auth.controller.ts",
+          "backend/src/controllers/bai-thuoc.controller.ts",
+          "backend/src/controllers/benh-dong-y-excel.controller.ts",
+          "backend/src/controllers/benh-dong-y-hien-dai.controller.ts",
+          "backend/src/controllers/benh-tay-y.controller.ts",
+          "backend/src/controllers/chu-tri.controller.ts",
+          "backend/src/controllers/chung-benh.controller.ts",
+          "backend/src/controllers/clinic-schedule.controller.ts",
+          "backend/src/controllers/cong-dung.controller.ts",
+          "backend/src/controllers/examination.controller.ts",
+          "backend/src/controllers/firebase.controller.ts",
+          "backend/src/controllers/huyet-vi.controller.ts",
+          "backend/src/controllers/kieng-ky.controller.ts",
+          "backend/src/controllers/kinh-mach.controller.ts",
+          "backend/src/controllers/mach-chan.controller.ts",
+          "backend/src/controllers/meridian.controller.ts",
+          "backend/src/controllers/nhom-lon-duoc-ly.controller.ts",
+          "backend/src/controllers/nhom-nho-duoc-ly.controller.ts",
+          "backend/src/controllers/patient-auth.controller.ts",
+          "backend/src/controllers/patient.controller.ts",
+          "backend/src/controllers/phac-do-chuan.controller.ts",
+          "backend/src/controllers/phac-do-dieu-tri.controller.ts",
+          "backend/src/controllers/phap-tri.controller.ts",
+          "backend/src/controllers/the-benh.controller.ts",
+          "backend/src/controllers/thiet-chan.controller.ts",
+          "backend/src/controllers/ton-thuong-tac-nhan.controller.ts",
+          "backend/src/controllers/trieu-chung.controller.ts",
+          "backend/src/controllers/vi-thuoc.controller.ts",
+          "backend/src/middlewares/auth/jwt.strategy.ts",
+          "backend/src/models/admin.model.ts",
+          "backend/src/models/appointment-slot.model.ts",
+          "backend/src/models/bai-thuoc-chi-tiet.model.ts",
+          "backend/src/models/bai-thuoc-phap-tri.model.ts",
+          "backend/src/models/bai-thuoc.model.ts",
+          "backend/src/models/benh-dong-y-excel.model.ts",
+          "backend/src/models/benh-dong-y-hien-dai.model.ts",
+          "backend/src/models/benh-tay-y.model.ts",
+          "backend/src/models/chu-tri.model.ts",
+          "backend/src/models/chung-benh.model.ts",
+          "backend/src/models/clinic-day-override.model.ts",
+          "backend/src/models/clinic-schedule-config.model.ts",
+          "backend/src/models/cong-dung.model.ts",
+          "backend/src/models/examination.model.ts",
+          "backend/src/models/huyet-vi.model.ts",
+          "backend/src/models/kieng-ky.model.ts",
+          "backend/src/models/kinh-mach.model.ts",
+          "backend/src/models/legacy-meridian-syndrome.model.ts",
+          "backend/src/models/mach-chan.model.ts",
+          "backend/src/models/meridian-syndrome.model.ts",
+          "backend/src/models/nhom-lon-duoc-ly.model.ts",
+          "backend/src/models/nhom-nho-chu-tri.model.ts",
+          "backend/src/models/nhom-nho-duoc-ly.model.ts",
+          "backend/src/models/nhom-nho-vi-thuoc.model.ts",
+          "backend/src/models/patient.model.ts",
+          "backend/src/models/phac-do-chuan.model.ts",
+          "backend/src/models/phac-do-dieu-tri.model.ts",
+          "backend/src/models/phap-tri.model.ts",
+          "backend/src/models/the-benh-phuong-huyet.model.ts",
+          "backend/src/models/the-benh.model.ts",
+          "backend/src/models/thiet-chan.model.ts",
+          "backend/src/models/ton-thuong-tac-nhan.model.ts",
+          "backend/src/models/trieu-chung.model.ts",
+          "backend/src/models/vi-thuoc-chu-tri.model.ts",
+          "backend/src/models/vi-thuoc-cong-dung.model.ts",
+          "backend/src/models/vi-thuoc-kieng-ky.model.ts",
+          "backend/src/models/vi-thuoc-kinh-mach.model.ts",
+          "backend/src/models/vi-thuoc-ten-goi-khac.model.ts",
+          "backend/src/models/vi-thuoc.model.ts",
+          "backend/src/routers/admin.router.ts",
+          "backend/src/routers/ai-suggest.router.ts",
+          "backend/src/routers/appointment-slot.router.ts",
+          "backend/src/routers/auth.router.ts",
+          "backend/src/routers/bai-thuoc.router.ts",
+          "backend/src/routers/benh-dong-y-excel.router.ts",
+          "backend/src/routers/benh-dong-y-hien-dai.router.ts",
+          "backend/src/routers/benh-dong-y.router.ts",
+          "backend/src/routers/benh-tay-y.router.ts",
+          "backend/src/routers/chung-benh.router.ts",
+          "backend/src/routers/clinic-schedule.router.ts",
+          "backend/src/routers/cong-dung.router.ts",
+          "backend/src/routers/examination.router.ts",
+          "backend/src/routers/huyet-vi.router.ts",
+          "backend/src/routers/kinh-mach.router.ts",
+          "backend/src/routers/mach-chan.router.ts",
+          "backend/src/routers/meridian.router.ts",
+          "backend/src/routers/nhom-lon-duoc-ly.router.ts",
+          "backend/src/routers/nhom-nho-duoc-ly.router.ts",
+          "backend/src/routers/patient-auth.router.ts",
+          "backend/src/routers/patient.router.ts",
+          "backend/src/routers/phac-do-chuan.router.ts",
+          "backend/src/routers/phac-do-dieu-tri.router.ts",
+          "backend/src/routers/phap-tri.router.ts",
+          "backend/src/routers/record.router.ts",
+          "backend/src/routers/the-benh.router.ts",
+          "backend/src/routers/thiet-chan.router.ts",
+          "backend/src/routers/ton-thuong-tac-nhan.router.ts",
+          "backend/src/routers/trieu-chung.router.ts",
+          "backend/src/routers/vi-thuoc.router.ts"
+        ],
+        "backend/src/controllers/admin.controller.ts": [
+          "backend/src/models/admin.model.ts"
+        ],
+        "backend/src/controllers/auth.controller.ts": [
+          "backend/src/controllers/admin.controller.ts"
+        ],
+        "backend/src/controllers/chung-benh.controller.ts": [
+          "backend/src/models/chung-benh.dto.ts",
+          "backend/src/models/chung-benh.model.ts"
+        ],
+        "backend/src/controllers/kieng-ky.controller.ts": [
+          "backend/src/models/kieng-ky.model.ts",
+          "backend/src/utils/catalog-label.util.ts"
+        ],
+        "backend/src/controllers/patient-auth.controller.ts": [
+          "backend/src/models/patient.model.ts"
+        ],
+        "backend/src/controllers/ton-thuong-tac-nhan.controller.ts": [
+          "backend/src/models/ton-thuong-tac-nhan.dto.ts",
+          "backend/src/models/ton-thuong-tac-nhan.model.ts"
+        ],
+        "backend/src/main.ts": [
+          "backend/src/app.module.ts",
+          "backend/src/middlewares/logging.interceptor.ts"
+        ],
+        "backend/src/middlewares/auth/jwt.strategy.ts": [],
+        "backend/src/middlewares/logging.interceptor.ts": [],
+        "backend/src/models/admin.model.ts": [],
+        "backend/src/models/chung-benh.dto.ts": [],
+        "backend/src/models/chung-benh.model.ts": [
+          "backend/src/models/benh-tay-y.model.ts"
+        ],
+        "backend/src/models/kieng-ky.model.ts": [],
+        "backend/src/models/patient.model.ts": [],
+        "backend/src/models/ton-thuong-tac-nhan.dto.ts": [],
+        "backend/src/models/ton-thuong-tac-nhan.model.ts": [],
+        "backend/src/routers/admin.router.ts": [],
+        "backend/src/routers/auth.router.ts": [
+          "backend/src/controllers/auth.controller.ts"
+        ],
+        "backend/src/routers/chung-benh.router.ts": [
+          "backend/src/controllers/chung-benh.controller.ts",
+          "backend/src/models/chung-benh.dto.ts"
+        ],
+        "backend/src/routers/patient-auth.router.ts": [
+          "backend/src/controllers/patient-auth.controller.ts"
+        ],
+        "backend/src/routers/ton-thuong-tac-nhan.router.ts": [
+          "backend/src/controllers/ton-thuong-tac-nhan.controller.ts",
+          "backend/src/models/ton-thuong-tac-nhan.dto.ts"
+        ],
+        "backend/src/seed-admin.ts": [
+          "backend/src/app.module.ts",
+          "backend/src/controllers/admin.controller.ts"
+        ],
+        "backend/test/app.e2e-spec.ts": [
+          "backend/src/app.module.ts"
+        ]
+      },
+      "neighborMap": {
+        "backend/src/app.module.ts": [
+          {
+            "path": "backend/src/models/vi-thuoc.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuoc"
+            ]
+          },
+          {
+            "path": "backend/src/models/bai-thuoc.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BaiThuoc"
+            ]
+          },
+          {
+            "path": "backend/src/models/phap-tri.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "PhapTri"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/vi-thuoc.controller.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuocService"
+            ]
+          },
+          {
+            "path": "backend/src/models/trieu-chung.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "TrieuChung"
+            ]
+          },
+          {
+            "path": "backend/src/models/meridian-syndrome.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "MeridianSyndrome"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/benh-dong-y-excel.controller.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BenhDongYExcelService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/nhom-nho-duoc-ly.controller.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "NhomNhoDuocLyService"
+            ]
+          },
+          {
+            "path": "backend/src/models/benh-tay-y.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BenhTayY"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/bai-thuoc.controller.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BaiThuocService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/benh-tay-y.controller.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BenhTayYService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/phap-tri.controller.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "PhapTriService"
+            ]
+          },
+          {
+            "path": "backend/src/models/kinh-mach.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "KinhMach"
+            ]
+          },
+          {
+            "path": "backend/src/models/huyet-vi.model.ts",
+            "batchIndex": 6,
+            "symbols": [
+              "HuyetVi"
+            ]
+          },
+          {
+            "path": "backend/src/models/nhom-nho-duoc-ly.model.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "NhomNhoDuocLy"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/meridian.controller.ts",
+            "batchIndex": 7,
+            "symbols": [
+              "AnalyzeInputDto",
+              "AnalyzeOutputDto",
+              "MeridiansService"
+            ]
+          },
+          {
+            "path": "backend/src/models/bai-thuoc-phap-tri.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BaiThuocPhapTri"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/appointment-slot.controller.ts",
+            "batchIndex": 3,
+            "symbols": [
+              "AppointmentSlotsService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/benh-dong-y-hien-dai.controller.ts",
+            "batchIndex": 7,
+            "symbols": [
+              "BenhDongYHienDaiService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/clinic-schedule.controller.ts",
+            "batchIndex": 8,
+            "symbols": [
+              "ClinicScheduleService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/examination.controller.ts",
+            "batchIndex": 3,
+            "symbols": [
+              "ExaminationsService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/patient.controller.ts",
+            "batchIndex": 3,
+            "symbols": [
+              "PatientsService"
+            ]
+          },
+          {
+            "path": "backend/src/models/bai-thuoc-chi-tiet.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BaiThuocChiTiet"
+            ]
+          },
+          {
+            "path": "backend/src/models/nhom-nho-vi-thuoc.model.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "NhomNhoViThuoc"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/cong-dung.controller.ts",
+            "batchIndex": 10,
+            "symbols": [
+              "CongDungService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/nhom-lon-duoc-ly.controller.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "NhomLonDuocLyService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/the-benh.controller.ts",
+            "batchIndex": 9,
+            "symbols": [
+              "TheBenhService",
+              "TheBenhPhuongHuyetService"
+            ]
+          },
+          {
+            "path": "backend/src/models/benh-dong-y-excel.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BenhDongYExcel"
+            ]
+          },
+          {
+            "path": "backend/src/models/chu-tri.model.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "ChuTri"
+            ]
+          },
+          {
+            "path": "backend/src/models/nhom-lon-duoc-ly.model.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "NhomLonDuocLy"
+            ]
+          },
+          {
+            "path": "backend/src/models/nhom-nho-chu-tri.model.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "NhomNhoChuTri"
+            ]
+          },
+          {
+            "path": "backend/src/models/phac-do-dieu-tri.model.ts",
+            "batchIndex": 6,
+            "symbols": [
+              "PhacDoDieuTri"
+            ]
+          },
+          {
+            "path": "backend/src/models/vi-thuoc-chu-tri.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuocChuTri"
+            ]
+          },
+          {
+            "path": "backend/src/models/vi-thuoc-cong-dung.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuocCongDung"
+            ]
+          },
+          {
+            "path": "backend/src/models/vi-thuoc-kieng-ky.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuocKiengKy"
+            ]
+          },
+          {
+            "path": "backend/src/models/vi-thuoc-kinh-mach.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuocKinhMach"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/huyet-vi.controller.ts",
+            "batchIndex": 6,
+            "symbols": [
+              "HuyetViService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/kinh-mach.controller.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "KinhMachService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/mach-chan.controller.ts",
+            "batchIndex": 12,
+            "symbols": [
+              "MachChanService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/phac-do-chuan.controller.ts",
+            "batchIndex": 6,
+            "symbols": [
+              "PhacDoChuanService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/phac-do-dieu-tri.controller.ts",
+            "batchIndex": 6,
+            "symbols": [
+              "PhacDoDieuTriService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/thiet-chan.controller.ts",
+            "batchIndex": 13,
+            "symbols": [
+              "ThietChanService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/trieu-chung.controller.ts",
+            "batchIndex": 14,
+            "symbols": [
+              "TrieuChungService"
+            ]
+          },
+          {
+            "path": "backend/src/models/appointment-slot.model.ts",
+            "batchIndex": 8,
+            "symbols": [
+              "AppointmentSlot"
+            ]
+          },
+          {
+            "path": "backend/src/models/mach-chan.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "MachChan"
+            ]
+          },
+          {
+            "path": "backend/src/models/phac-do-chuan.model.ts",
+            "batchIndex": 6,
+            "symbols": [
+              "PhacDoChuan",
+              "PhacDoChuanHuyet"
+            ]
+          },
+          {
+            "path": "backend/src/models/the-benh-phuong-huyet.model.ts",
+            "batchIndex": 9,
+            "symbols": [
+              "TheBenhPhuongHuyet"
+            ]
+          },
+          {
+            "path": "backend/src/models/the-benh.model.ts",
+            "batchIndex": 9,
+            "symbols": [
+              "TheBenh"
+            ]
+          },
+          {
+            "path": "backend/src/models/thiet-chan.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "ThietChan"
+            ]
+          },
+          {
+            "path": "backend/src/models/vi-thuoc-ten-goi-khac.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuocTenGoiKhac"
+            ]
+          }
+        ],
+        "backend/src/controllers/kieng-ky.controller.ts": [
+          {
+            "path": "backend/src/utils/catalog-label.util.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "formatCatalogLabel",
+              "catalogKey"
+            ]
+          }
+        ],
+        "backend/src/models/chung-benh.model.ts": [
+          {
+            "path": "backend/src/models/benh-tay-y.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BenhTayY"
+            ]
+          }
+        ],
+        "backend/src/models/kieng-ky.model.ts": [
+          {
+            "path": "backend/src/models/vi-thuoc-kieng-ky.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuocKiengKy"
+            ]
+          }
+        ],
+        "backend/src/models/patient.model.ts": [
+          {
+            "path": "backend/src/controllers/patient.controller.ts",
+            "batchIndex": 3,
+            "symbols": [
+              "PatientsService"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 2,
+      "files": [
+        {
+          "path": "backend/src/controllers/bai-thuoc.controller.ts",
+          "language": "typescript",
+          "sizeLines": 534,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/benh-dong-y-excel.controller.ts",
+          "language": "typescript",
+          "sizeLines": 262,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/benh-tay-y.controller.ts",
+          "language": "typescript",
+          "sizeLines": 232,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/phap-tri.controller.ts",
+          "language": "typescript",
+          "sizeLines": 568,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/bai-thuoc-chi-tiet.model.ts",
+          "language": "typescript",
+          "sizeLines": 39,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/bai-thuoc-phap-tri.model.ts",
+          "language": "typescript",
+          "sizeLines": 26,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/bai-thuoc.model.ts",
+          "language": "typescript",
+          "sizeLines": 49,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/benh-dong-y-excel.dto.ts",
+          "language": "typescript",
+          "sizeLines": 31,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/benh-dong-y-excel.model.ts",
+          "language": "typescript",
+          "sizeLines": 55,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/benh-tay-y.dto.ts",
+          "language": "typescript",
+          "sizeLines": 20,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/benh-tay-y.model.ts",
+          "language": "typescript",
+          "sizeLines": 71,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/mach-chan.model.ts",
+          "language": "typescript",
+          "sizeLines": 10,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/meridian-syndrome.model.ts",
+          "language": "typescript",
+          "sizeLines": 182,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/phap-tri.dto.ts",
+          "language": "typescript",
+          "sizeLines": 56,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/phap-tri.model.ts",
+          "language": "typescript",
+          "sizeLines": 107,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/thiet-chan.model.ts",
+          "language": "typescript",
+          "sizeLines": 10,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/trieu-chung.model.ts",
+          "language": "typescript",
+          "sizeLines": 19,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/benh-dong-y-excel.router.ts",
+          "language": "typescript",
+          "sizeLines": 73,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/benh-dong-y.router.ts",
+          "language": "typescript",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/benh-tay-y.router.ts",
+          "language": "typescript",
+          "sizeLines": 67,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/phap-tri.router.ts",
+          "language": "typescript",
+          "sizeLines": 94,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/src/controllers/bai-thuoc.controller.ts": [
+          "backend/src/models/bai-thuoc-chi-tiet.model.ts",
+          "backend/src/models/bai-thuoc-phap-tri.model.ts",
+          "backend/src/models/bai-thuoc.model.ts",
+          "backend/src/models/dongy-thuoc.dto.ts",
+          "backend/src/models/phap-tri.model.ts",
+          "backend/src/models/trieu-chung.model.ts",
+          "backend/src/models/vi-thuoc.model.ts"
+        ],
+        "backend/src/controllers/benh-dong-y-excel.controller.ts": [
+          "backend/src/models/bai-thuoc.model.ts",
+          "backend/src/models/benh-dong-y-excel.dto.ts",
+          "backend/src/models/benh-dong-y-excel.model.ts",
+          "backend/src/models/phap-tri.model.ts",
+          "backend/src/models/trieu-chung.model.ts",
+          "backend/src/utils/excel-rule-engine.ts"
+        ],
+        "backend/src/controllers/benh-tay-y.controller.ts": [
+          "backend/src/models/bai-thuoc.model.ts",
+          "backend/src/models/benh-tay-y.dto.ts",
+          "backend/src/models/benh-tay-y.model.ts",
+          "backend/src/models/mach-chan.model.ts",
+          "backend/src/models/phap-tri.model.ts",
+          "backend/src/models/thiet-chan.model.ts",
+          "backend/src/models/trieu-chung.model.ts"
+        ],
+        "backend/src/controllers/phap-tri.controller.ts": [
+          "backend/src/models/bai-thuoc-phap-tri.model.ts",
+          "backend/src/models/bai-thuoc.model.ts",
+          "backend/src/models/kinh-mach.model.ts",
+          "backend/src/models/meridian-syndrome.model.ts",
+          "backend/src/models/phap-tri.dto.ts",
+          "backend/src/models/phap-tri.model.ts",
+          "backend/src/models/trieu-chung.model.ts"
+        ],
+        "backend/src/models/bai-thuoc-chi-tiet.model.ts": [
+          "backend/src/models/bai-thuoc.model.ts",
+          "backend/src/models/vi-thuoc.model.ts"
+        ],
+        "backend/src/models/bai-thuoc-phap-tri.model.ts": [
+          "backend/src/models/bai-thuoc.model.ts",
+          "backend/src/models/phap-tri.model.ts"
+        ],
+        "backend/src/models/bai-thuoc.model.ts": [
+          "backend/src/models/bai-thuoc-chi-tiet.model.ts",
+          "backend/src/models/bai-thuoc-phap-tri.model.ts",
+          "backend/src/models/trieu-chung.model.ts"
+        ],
+        "backend/src/models/benh-dong-y-excel.dto.ts": [],
+        "backend/src/models/benh-dong-y-excel.model.ts": [
+          "backend/src/models/bai-thuoc.model.ts",
+          "backend/src/models/phap-tri.model.ts",
+          "backend/src/models/trieu-chung.model.ts"
+        ],
+        "backend/src/models/benh-tay-y.dto.ts": [],
+        "backend/src/models/benh-tay-y.model.ts": [
+          "backend/src/models/bai-thuoc.model.ts",
+          "backend/src/models/chung-benh.model.ts",
+          "backend/src/models/mach-chan.model.ts",
+          "backend/src/models/phap-tri.model.ts",
+          "backend/src/models/thiet-chan.model.ts",
+          "backend/src/models/trieu-chung.model.ts"
+        ],
+        "backend/src/models/mach-chan.model.ts": [],
+        "backend/src/models/meridian-syndrome.model.ts": [
+          "backend/src/models/bai-thuoc.model.ts",
+          "backend/src/models/phap-tri.model.ts",
+          "backend/src/models/trieu-chung.model.ts"
+        ],
+        "backend/src/models/phap-tri.dto.ts": [],
+        "backend/src/models/phap-tri.model.ts": [
+          "backend/src/models/bai-thuoc-phap-tri.model.ts",
+          "backend/src/models/bai-thuoc.model.ts",
+          "backend/src/models/kinh-mach.model.ts",
+          "backend/src/models/meridian-syndrome.model.ts",
+          "backend/src/models/trieu-chung.model.ts"
+        ],
+        "backend/src/models/thiet-chan.model.ts": [],
+        "backend/src/models/trieu-chung.model.ts": [
+          "backend/src/models/benh-tay-y.model.ts"
+        ],
+        "backend/src/routers/benh-dong-y-excel.router.ts": [
+          "backend/src/controllers/benh-dong-y-excel.controller.ts",
+          "backend/src/models/benh-dong-y-excel.dto.ts"
+        ],
+        "backend/src/routers/benh-dong-y.router.ts": [
+          "backend/src/controllers/benh-dong-y-excel.controller.ts"
+        ],
+        "backend/src/routers/benh-tay-y.router.ts": [
+          "backend/src/controllers/benh-tay-y.controller.ts",
+          "backend/src/models/benh-tay-y.dto.ts"
+        ],
+        "backend/src/routers/phap-tri.router.ts": [
+          "backend/src/controllers/phap-tri.controller.ts",
+          "backend/src/models/phap-tri.dto.ts"
+        ]
+      },
+      "neighborMap": {
+        "backend/src/controllers/bai-thuoc.controller.ts": [
+          {
+            "path": "backend/src/models/dongy-thuoc.dto.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "CreateViThuocDto",
+              "UpdateViThuocDto",
+              "CreateBaiThuocDto",
+              "UpdateBaiThuocDto"
+            ]
+          },
+          {
+            "path": "backend/src/models/vi-thuoc.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuoc"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/routers/bai-thuoc.router.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "BaiThuocRouter"
+            ]
+          }
+        ],
+        "backend/src/controllers/benh-dong-y-excel.controller.ts": [
+          {
+            "path": "backend/src/utils/excel-rule-engine.ts",
+            "batchIndex": 7,
+            "symbols": [
+              "evaluateLogicExpression"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/meridian.controller.ts",
+            "batchIndex": 7,
+            "symbols": [
+              "AnalyzeInputDto",
+              "AnalyzeOutputDto",
+              "MeridiansService"
+            ]
+          }
+        ],
+        "backend/src/controllers/benh-tay-y.controller.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/controllers/phap-tri.controller.ts": [
+          {
+            "path": "backend/src/models/kinh-mach.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "KinhMach"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/bai-thuoc-chi-tiet.model.ts": [
+          {
+            "path": "backend/src/models/vi-thuoc.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuoc"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/bai-thuoc-phap-tri.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/bai-thuoc.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/benh-dong-y-excel.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/benh-tay-y.model.ts": [
+          {
+            "path": "backend/src/models/chung-benh.model.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "ChungBenh"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/mach-chan.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/mach-chan.controller.ts",
+            "batchIndex": 12,
+            "symbols": [
+              "MachChanService"
+            ]
+          }
+        ],
+        "backend/src/models/meridian-syndrome.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/meridian.controller.ts",
+            "batchIndex": 7,
+            "symbols": [
+              "AnalyzeInputDto",
+              "AnalyzeOutputDto",
+              "MeridiansService"
+            ]
+          },
+          {
+            "path": "backend/src/models/phac-do-chuan.model.ts",
+            "batchIndex": 6,
+            "symbols": [
+              "PhacDoChuan",
+              "PhacDoChuanHuyet"
+            ]
+          },
+          {
+            "path": "backend/src/models/phac-do-dieu-tri.model.ts",
+            "batchIndex": 6,
+            "symbols": [
+              "PhacDoDieuTri"
+            ]
+          },
+          {
+            "path": "backend/src/models/the-benh.model.ts",
+            "batchIndex": 9,
+            "symbols": [
+              "TheBenh"
+            ]
+          },
+          {
+            "path": "backend/src/routers/record.router.ts",
+            "batchIndex": 3,
+            "symbols": [
+              "RecordsRouter"
+            ]
+          }
+        ],
+        "backend/src/models/phap-tri.model.ts": [
+          {
+            "path": "backend/src/models/kinh-mach.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "KinhMach"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/thiet-chan.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/thiet-chan.controller.ts",
+            "batchIndex": 13,
+            "symbols": [
+              "ThietChanService"
+            ]
+          }
+        ],
+        "backend/src/models/trieu-chung.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/trieu-chung.controller.ts",
+            "batchIndex": 14,
+            "symbols": [
+              "TrieuChungService"
+            ]
+          }
+        ],
+        "backend/src/routers/benh-dong-y-excel.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/benh-dong-y.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/benh-tay-y.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/phap-tri.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 3,
+      "files": [
+        {
+          "path": "backend/src/controllers/ai-suggest.controller.ts",
+          "language": "typescript",
+          "sizeLines": 555,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/appointment-slot.controller.ts",
+          "language": "typescript",
+          "sizeLines": 245,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/examination.controller.ts",
+          "language": "typescript",
+          "sizeLines": 232,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/firebase.controller.ts",
+          "language": "typescript",
+          "sizeLines": 61,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/patient.controller.ts",
+          "language": "typescript",
+          "sizeLines": 98,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/middlewares/auth/jwt-auth.guard.ts",
+          "language": "typescript",
+          "sizeLines": 5,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/appointment-slot.dto.ts",
+          "language": "typescript",
+          "sizeLines": 10,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/examination.dto.ts",
+          "language": "typescript",
+          "sizeLines": 59,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/examination.model.ts",
+          "language": "typescript",
+          "sizeLines": 52,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/patient.dto.ts",
+          "language": "typescript",
+          "sizeLines": 23,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/ai-suggest.router.ts",
+          "language": "typescript",
+          "sizeLines": 24,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/appointment-slot.router.ts",
+          "language": "typescript",
+          "sizeLines": 141,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/examination.router.ts",
+          "language": "typescript",
+          "sizeLines": 67,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/patient.router.ts",
+          "language": "typescript",
+          "sizeLines": 67,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/record.router.ts",
+          "language": "typescript",
+          "sizeLines": 72,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/src/controllers/ai-suggest.controller.ts": [
+          "backend/src/models/kinh-mach.model.ts"
+        ],
+        "backend/src/controllers/appointment-slot.controller.ts": [
+          "backend/src/controllers/firebase.controller.ts",
+          "backend/src/controllers/patient.controller.ts",
+          "backend/src/models/appointment-slot.dto.ts",
+          "backend/src/models/appointment-slot.model.ts"
+        ],
+        "backend/src/controllers/examination.controller.ts": [
+          "backend/src/controllers/meridian.controller.ts",
+          "backend/src/controllers/patient.controller.ts",
+          "backend/src/models/examination.dto.ts",
+          "backend/src/models/examination.model.ts"
+        ],
+        "backend/src/controllers/firebase.controller.ts": [],
+        "backend/src/controllers/patient.controller.ts": [
+          "backend/src/models/patient.dto.ts",
+          "backend/src/models/patient.model.ts"
+        ],
+        "backend/src/middlewares/auth/jwt-auth.guard.ts": [],
+        "backend/src/models/appointment-slot.dto.ts": [],
+        "backend/src/models/examination.dto.ts": [],
+        "backend/src/models/examination.model.ts": [],
+        "backend/src/models/patient.dto.ts": [],
+        "backend/src/routers/ai-suggest.router.ts": [
+          "backend/src/controllers/ai-suggest.controller.ts",
+          "backend/src/middlewares/auth/jwt-auth.guard.ts"
+        ],
+        "backend/src/routers/appointment-slot.router.ts": [
+          "backend/src/controllers/appointment-slot.controller.ts",
+          "backend/src/middlewares/auth/jwt-auth.guard.ts",
+          "backend/src/models/appointment-slot.dto.ts"
+        ],
+        "backend/src/routers/examination.router.ts": [
+          "backend/src/controllers/examination.controller.ts",
+          "backend/src/middlewares/auth/jwt-auth.guard.ts",
+          "backend/src/models/examination.dto.ts"
+        ],
+        "backend/src/routers/patient.router.ts": [
+          "backend/src/controllers/patient.controller.ts",
+          "backend/src/models/patient.dto.ts"
+        ],
+        "backend/src/routers/record.router.ts": [
+          "backend/src/models/examination.model.ts",
+          "backend/src/models/meridian-syndrome.model.ts"
+        ]
+      },
+      "neighborMap": {
+        "backend/src/controllers/ai-suggest.controller.ts": [
+          {
+            "path": "backend/src/models/kinh-mach.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "KinhMach"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/controllers/appointment-slot.controller.ts": [
+          {
+            "path": "backend/src/models/appointment-slot.model.ts",
+            "batchIndex": 8,
+            "symbols": [
+              "AppointmentSlot"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/controllers/examination.controller.ts": [
+          {
+            "path": "backend/src/controllers/meridian.controller.ts",
+            "batchIndex": 7,
+            "symbols": [
+              "AnalyzeInputDto",
+              "AnalyzeOutputDto",
+              "MeridiansService"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/controllers/firebase.controller.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/controllers/patient.controller.ts": [
+          {
+            "path": "backend/src/models/patient.model.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "Patient"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/examination.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/ai-suggest.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/appointment-slot.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/examination.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/patient.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/record.router.ts": [
+          {
+            "path": "backend/src/models/meridian-syndrome.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "MeridianSyndrome"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 4,
+      "files": [
+        {
+          "path": "backend/src/controllers/kinh-mach.controller.ts",
+          "language": "typescript",
+          "sizeLines": 42,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/vi-thuoc.controller.ts",
+          "language": "typescript",
+          "sizeLines": 274,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/dongy-thuoc.dto.ts",
+          "language": "typescript",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/kinh-mach.dto.ts",
+          "language": "typescript",
+          "sizeLines": 15,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/kinh-mach.model.ts",
+          "language": "typescript",
+          "sizeLines": 31,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/vi-thuoc-chu-tri.model.ts",
+          "language": "typescript",
+          "sizeLines": 23,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/vi-thuoc-cong-dung.model.ts",
+          "language": "typescript",
+          "sizeLines": 24,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/vi-thuoc-kieng-ky.model.ts",
+          "language": "typescript",
+          "sizeLines": 23,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/vi-thuoc-kinh-mach.model.ts",
+          "language": "typescript",
+          "sizeLines": 20,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/vi-thuoc-ten-goi-khac.model.ts",
+          "language": "typescript",
+          "sizeLines": 18,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/vi-thuoc.model.ts",
+          "language": "typescript",
+          "sizeLines": 46,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/bai-thuoc.router.ts",
+          "language": "typescript",
+          "sizeLines": 87,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/kinh-mach.router.ts",
+          "language": "typescript",
+          "sizeLines": 45,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/vi-thuoc.router.ts",
+          "language": "typescript",
+          "sizeLines": 54,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/src/controllers/kinh-mach.controller.ts": [
+          "backend/src/models/kinh-mach.dto.ts",
+          "backend/src/models/kinh-mach.model.ts"
+        ],
+        "backend/src/controllers/vi-thuoc.controller.ts": [
+          "backend/src/models/dongy-thuoc.dto.ts",
+          "backend/src/models/kinh-mach.model.ts",
+          "backend/src/models/nhom-nho-vi-thuoc.model.ts",
+          "backend/src/models/vi-thuoc-chu-tri.model.ts",
+          "backend/src/models/vi-thuoc-cong-dung.model.ts",
+          "backend/src/models/vi-thuoc-kieng-ky.model.ts",
+          "backend/src/models/vi-thuoc-kinh-mach.model.ts",
+          "backend/src/models/vi-thuoc-ten-goi-khac.model.ts",
+          "backend/src/models/vi-thuoc.model.ts",
+          "backend/src/utils/catalog-label.util.ts"
+        ],
+        "backend/src/models/dongy-thuoc.dto.ts": [],
+        "backend/src/models/kinh-mach.dto.ts": [],
+        "backend/src/models/kinh-mach.model.ts": [
+          "backend/src/models/huyet-vi.model.ts"
+        ],
+        "backend/src/models/vi-thuoc-chu-tri.model.ts": [
+          "backend/src/models/chu-tri.model.ts",
+          "backend/src/models/vi-thuoc.model.ts"
+        ],
+        "backend/src/models/vi-thuoc-cong-dung.model.ts": [
+          "backend/src/models/cong-dung.model.ts",
+          "backend/src/models/vi-thuoc.model.ts"
+        ],
+        "backend/src/models/vi-thuoc-kieng-ky.model.ts": [
+          "backend/src/models/kieng-ky.model.ts",
+          "backend/src/models/vi-thuoc.model.ts"
+        ],
+        "backend/src/models/vi-thuoc-kinh-mach.model.ts": [
+          "backend/src/models/kinh-mach.model.ts",
+          "backend/src/models/vi-thuoc.model.ts"
+        ],
+        "backend/src/models/vi-thuoc-ten-goi-khac.model.ts": [
+          "backend/src/models/vi-thuoc.model.ts"
+        ],
+        "backend/src/models/vi-thuoc.model.ts": [
+          "backend/src/models/bai-thuoc-chi-tiet.model.ts",
+          "backend/src/models/vi-thuoc-chu-tri.model.ts",
+          "backend/src/models/vi-thuoc-cong-dung.model.ts",
+          "backend/src/models/vi-thuoc-kieng-ky.model.ts",
+          "backend/src/models/vi-thuoc-kinh-mach.model.ts",
+          "backend/src/models/vi-thuoc-ten-goi-khac.model.ts"
+        ],
+        "backend/src/routers/bai-thuoc.router.ts": [
+          "backend/src/controllers/bai-thuoc.controller.ts",
+          "backend/src/models/dongy-thuoc.dto.ts"
+        ],
+        "backend/src/routers/kinh-mach.router.ts": [
+          "backend/src/controllers/kinh-mach.controller.ts",
+          "backend/src/models/kinh-mach.dto.ts"
+        ],
+        "backend/src/routers/vi-thuoc.router.ts": [
+          "backend/src/controllers/vi-thuoc.controller.ts",
+          "backend/src/models/dongy-thuoc.dto.ts"
+        ]
+      },
+      "neighborMap": {
+        "backend/src/controllers/kinh-mach.controller.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/controllers/vi-thuoc.controller.ts": [
+          {
+            "path": "backend/src/models/nhom-nho-vi-thuoc.model.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "NhomNhoViThuoc"
+            ]
+          },
+          {
+            "path": "backend/src/utils/catalog-label.util.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "formatCatalogLabel",
+              "catalogKey"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/dongy-thuoc.dto.ts": [
+          {
+            "path": "backend/src/controllers/bai-thuoc.controller.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BaiThuocService"
+            ]
+          }
+        ],
+        "backend/src/models/kinh-mach.model.ts": [
+          {
+            "path": "backend/src/models/huyet-vi.model.ts",
+            "batchIndex": 6,
+            "symbols": [
+              "HuyetVi"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/ai-suggest.controller.ts",
+            "batchIndex": 3,
+            "symbols": [
+              "AiSuggestService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/phap-tri.controller.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "PhapTriService"
+            ]
+          },
+          {
+            "path": "backend/src/models/phap-tri.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "PhapTri"
+            ]
+          }
+        ],
+        "backend/src/models/vi-thuoc-chu-tri.model.ts": [
+          {
+            "path": "backend/src/models/chu-tri.model.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "ChuTri"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/vi-thuoc-cong-dung.model.ts": [
+          {
+            "path": "backend/src/models/cong-dung.model.ts",
+            "batchIndex": 10,
+            "symbols": [
+              "CongDung"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/vi-thuoc-kieng-ky.model.ts": [
+          {
+            "path": "backend/src/models/kieng-ky.model.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "KiengKy"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/vi-thuoc-kinh-mach.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/vi-thuoc-ten-goi-khac.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/vi-thuoc.model.ts": [
+          {
+            "path": "backend/src/models/bai-thuoc-chi-tiet.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BaiThuocChiTiet"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/bai-thuoc.controller.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BaiThuocService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/nhom-nho-duoc-ly.controller.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "NhomNhoDuocLyService"
+            ]
+          },
+          {
+            "path": "backend/src/models/nhom-nho-vi-thuoc.model.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "NhomNhoViThuoc"
+            ]
+          }
+        ],
+        "backend/src/routers/bai-thuoc.router.ts": [
+          {
+            "path": "backend/src/controllers/bai-thuoc.controller.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BaiThuocService"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/kinh-mach.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/vi-thuoc.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 5,
+      "files": [
+        {
+          "path": "backend/src/controllers/chu-tri.controller.ts",
+          "language": "typescript",
+          "sizeLines": 68,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/nhom-lon-duoc-ly.controller.ts",
+          "language": "typescript",
+          "sizeLines": 77,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/nhom-nho-duoc-ly.controller.ts",
+          "language": "typescript",
+          "sizeLines": 193,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/chu-tri.model.ts",
+          "language": "typescript",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/duoc-ly.dto.ts",
+          "language": "typescript",
+          "sizeLines": 31,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/nhom-lon-duoc-ly.model.ts",
+          "language": "typescript",
+          "sizeLines": 20,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/nhom-nho-chu-tri.model.ts",
+          "language": "typescript",
+          "sizeLines": 23,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/nhom-nho-duoc-ly.model.ts",
+          "language": "typescript",
+          "sizeLines": 36,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/nhom-nho-vi-thuoc.model.ts",
+          "language": "typescript",
+          "sizeLines": 23,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/nhom-lon-duoc-ly.router.ts",
+          "language": "typescript",
+          "sizeLines": 36,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/nhom-nho-duoc-ly.router.ts",
+          "language": "typescript",
+          "sizeLines": 40,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/utils/catalog-label.util.ts",
+          "language": "typescript",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/src/controllers/chu-tri.controller.ts": [
+          "backend/src/models/chu-tri.model.ts",
+          "backend/src/utils/catalog-label.util.ts"
+        ],
+        "backend/src/controllers/nhom-lon-duoc-ly.controller.ts": [
+          "backend/src/models/duoc-ly.dto.ts",
+          "backend/src/models/nhom-lon-duoc-ly.model.ts",
+          "backend/src/utils/catalog-label.util.ts"
+        ],
+        "backend/src/controllers/nhom-nho-duoc-ly.controller.ts": [
+          "backend/src/models/chu-tri.model.ts",
+          "backend/src/models/duoc-ly.dto.ts",
+          "backend/src/models/nhom-lon-duoc-ly.model.ts",
+          "backend/src/models/nhom-nho-chu-tri.model.ts",
+          "backend/src/models/nhom-nho-duoc-ly.model.ts",
+          "backend/src/models/nhom-nho-vi-thuoc.model.ts",
+          "backend/src/models/vi-thuoc.model.ts",
+          "backend/src/utils/catalog-label.util.ts"
+        ],
+        "backend/src/models/chu-tri.model.ts": [],
+        "backend/src/models/duoc-ly.dto.ts": [],
+        "backend/src/models/nhom-lon-duoc-ly.model.ts": [
+          "backend/src/models/nhom-nho-duoc-ly.model.ts"
+        ],
+        "backend/src/models/nhom-nho-chu-tri.model.ts": [
+          "backend/src/models/chu-tri.model.ts",
+          "backend/src/models/nhom-nho-duoc-ly.model.ts"
+        ],
+        "backend/src/models/nhom-nho-duoc-ly.model.ts": [
+          "backend/src/models/nhom-lon-duoc-ly.model.ts",
+          "backend/src/models/nhom-nho-chu-tri.model.ts",
+          "backend/src/models/nhom-nho-vi-thuoc.model.ts"
+        ],
+        "backend/src/models/nhom-nho-vi-thuoc.model.ts": [
+          "backend/src/models/nhom-nho-duoc-ly.model.ts",
+          "backend/src/models/vi-thuoc.model.ts"
+        ],
+        "backend/src/routers/nhom-lon-duoc-ly.router.ts": [
+          "backend/src/controllers/nhom-lon-duoc-ly.controller.ts",
+          "backend/src/models/duoc-ly.dto.ts"
+        ],
+        "backend/src/routers/nhom-nho-duoc-ly.router.ts": [
+          "backend/src/controllers/nhom-nho-duoc-ly.controller.ts",
+          "backend/src/models/duoc-ly.dto.ts"
+        ],
+        "backend/src/utils/catalog-label.util.ts": []
+      },
+      "neighborMap": {
+        "backend/src/controllers/chu-tri.controller.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/controllers/nhom-lon-duoc-ly.controller.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/controllers/nhom-nho-duoc-ly.controller.ts": [
+          {
+            "path": "backend/src/models/vi-thuoc.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuoc"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/chu-tri.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/models/vi-thuoc-chu-tri.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuocChuTri"
+            ]
+          }
+        ],
+        "backend/src/models/nhom-lon-duoc-ly.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/nhom-nho-chu-tri.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/nhom-nho-duoc-ly.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/nhom-nho-vi-thuoc.model.ts": [
+          {
+            "path": "backend/src/models/vi-thuoc.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuoc"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/vi-thuoc.controller.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuocService"
+            ]
+          }
+        ],
+        "backend/src/routers/nhom-lon-duoc-ly.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/nhom-nho-duoc-ly.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/utils/catalog-label.util.ts": [
+          {
+            "path": "backend/src/controllers/cong-dung.controller.ts",
+            "batchIndex": 10,
+            "symbols": [
+              "CongDungService"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/kieng-ky.controller.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "KiengKyController"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/vi-thuoc.controller.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuocService"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 6,
+      "files": [
+        {
+          "path": "backend/src/controllers/huyet-vi.controller.ts",
+          "language": "typescript",
+          "sizeLines": 120,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/phac-do-chuan.controller.ts",
+          "language": "typescript",
+          "sizeLines": 246,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/phac-do-dieu-tri.controller.ts",
+          "language": "typescript",
+          "sizeLines": 63,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/huyet-vi.dto.ts",
+          "language": "typescript",
+          "sizeLines": 19,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/huyet-vi.model.ts",
+          "language": "typescript",
+          "sizeLines": 41,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/phac-do-chuan.dto.ts",
+          "language": "typescript",
+          "sizeLines": 25,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/phac-do-chuan.model.ts",
+          "language": "typescript",
+          "sizeLines": 77,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/phac-do-dieu-tri.dto.ts",
+          "language": "typescript",
+          "sizeLines": 15,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/phac-do-dieu-tri.model.ts",
+          "language": "typescript",
+          "sizeLines": 38,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/huyet-vi.router.ts",
+          "language": "typescript",
+          "sizeLines": 65,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/phac-do-chuan.router.ts",
+          "language": "typescript",
+          "sizeLines": 56,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/phac-do-dieu-tri.router.ts",
+          "language": "typescript",
+          "sizeLines": 49,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/src/controllers/huyet-vi.controller.ts": [
+          "backend/src/models/huyet-vi.dto.ts",
+          "backend/src/models/huyet-vi.model.ts"
+        ],
+        "backend/src/controllers/phac-do-chuan.controller.ts": [
+          "backend/src/models/phac-do-chuan.dto.ts",
+          "backend/src/models/phac-do-chuan.model.ts"
+        ],
+        "backend/src/controllers/phac-do-dieu-tri.controller.ts": [
+          "backend/src/models/phac-do-dieu-tri.dto.ts",
+          "backend/src/models/phac-do-dieu-tri.model.ts"
+        ],
+        "backend/src/models/huyet-vi.dto.ts": [],
+        "backend/src/models/huyet-vi.model.ts": [
+          "backend/src/models/kinh-mach.model.ts",
+          "backend/src/models/phac-do-dieu-tri.model.ts"
+        ],
+        "backend/src/models/phac-do-chuan.dto.ts": [],
+        "backend/src/models/phac-do-chuan.model.ts": [
+          "backend/src/models/huyet-vi.model.ts",
+          "backend/src/models/meridian-syndrome.model.ts"
+        ],
+        "backend/src/models/phac-do-dieu-tri.dto.ts": [],
+        "backend/src/models/phac-do-dieu-tri.model.ts": [
+          "backend/src/models/huyet-vi.model.ts",
+          "backend/src/models/meridian-syndrome.model.ts"
+        ],
+        "backend/src/routers/huyet-vi.router.ts": [
+          "backend/src/controllers/huyet-vi.controller.ts",
+          "backend/src/models/huyet-vi.dto.ts"
+        ],
+        "backend/src/routers/phac-do-chuan.router.ts": [
+          "backend/src/controllers/phac-do-chuan.controller.ts",
+          "backend/src/models/phac-do-chuan.dto.ts"
+        ],
+        "backend/src/routers/phac-do-dieu-tri.router.ts": [
+          "backend/src/controllers/phac-do-dieu-tri.controller.ts",
+          "backend/src/models/phac-do-dieu-tri.dto.ts"
+        ]
+      },
+      "neighborMap": {
+        "backend/src/controllers/huyet-vi.controller.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/controllers/phac-do-chuan.controller.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/controllers/phac-do-dieu-tri.controller.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/huyet-vi.model.ts": [
+          {
+            "path": "backend/src/models/kinh-mach.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "KinhMach"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/models/the-benh-phuong-huyet.model.ts",
+            "batchIndex": 9,
+            "symbols": [
+              "TheBenhPhuongHuyet"
+            ]
+          }
+        ],
+        "backend/src/models/phac-do-chuan.model.ts": [
+          {
+            "path": "backend/src/models/meridian-syndrome.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "MeridianSyndrome"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/phac-do-dieu-tri.model.ts": [
+          {
+            "path": "backend/src/models/meridian-syndrome.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "MeridianSyndrome"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/huyet-vi.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/phac-do-chuan.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/phac-do-dieu-tri.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 7,
+      "files": [
+        {
+          "path": "backend/src/controllers/benh-dong-y-hien-dai.controller.ts",
+          "language": "typescript",
+          "sizeLines": 151,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/controllers/meridian.controller.ts",
+          "language": "typescript",
+          "sizeLines": 704,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/benh-dong-y-hien-dai.dto.ts",
+          "language": "typescript",
+          "sizeLines": 25,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/benh-dong-y-hien-dai.model.ts",
+          "language": "typescript",
+          "sizeLines": 28,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/legacy-meridian-syndrome.model.ts",
+          "language": "typescript",
+          "sizeLines": 76,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/benh-dong-y-hien-dai.router.ts",
+          "language": "typescript",
+          "sizeLines": 58,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/meridian.router.ts",
+          "language": "typescript",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/utils/excel-rule-engine.ts",
+          "language": "typescript",
+          "sizeLines": 285,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/src/controllers/benh-dong-y-hien-dai.controller.ts": [
+          "backend/src/models/benh-dong-y-hien-dai.dto.ts",
+          "backend/src/models/benh-dong-y-hien-dai.model.ts",
+          "backend/src/utils/excel-rule-engine.ts"
+        ],
+        "backend/src/controllers/meridian.controller.ts": [
+          "backend/src/controllers/benh-dong-y-excel.controller.ts",
+          "backend/src/controllers/benh-dong-y-hien-dai.controller.ts",
+          "backend/src/models/legacy-meridian-syndrome.model.ts",
+          "backend/src/models/meridian-syndrome.model.ts"
+        ],
+        "backend/src/models/benh-dong-y-hien-dai.dto.ts": [],
+        "backend/src/models/benh-dong-y-hien-dai.model.ts": [],
+        "backend/src/models/legacy-meridian-syndrome.model.ts": [],
+        "backend/src/routers/benh-dong-y-hien-dai.router.ts": [
+          "backend/src/controllers/benh-dong-y-hien-dai.controller.ts",
+          "backend/src/models/benh-dong-y-hien-dai.dto.ts"
+        ],
+        "backend/src/routers/meridian.router.ts": [
+          "backend/src/controllers/meridian.controller.ts"
+        ],
+        "backend/src/utils/excel-rule-engine.ts": []
+      },
+      "neighborMap": {
+        "backend/src/controllers/benh-dong-y-hien-dai.controller.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/controllers/meridian.controller.ts": [
+          {
+            "path": "backend/src/controllers/benh-dong-y-excel.controller.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BenhDongYExcelService"
+            ]
+          },
+          {
+            "path": "backend/src/models/meridian-syndrome.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "MeridianSyndrome"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/examination.controller.ts",
+            "batchIndex": 3,
+            "symbols": [
+              "ExaminationsService"
+            ]
+          }
+        ],
+        "backend/src/models/benh-dong-y-hien-dai.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/legacy-meridian-syndrome.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/benh-dong-y-hien-dai.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/meridian.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/utils/excel-rule-engine.ts": [
+          {
+            "path": "backend/src/controllers/benh-dong-y-excel.controller.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "BenhDongYExcelService"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 8,
+      "files": [
+        {
+          "path": "backend/src/controllers/clinic-schedule.controller.ts",
+          "language": "typescript",
+          "sizeLines": 298,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/_date-transformer.ts",
+          "language": "typescript",
+          "sizeLines": 18,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/appointment-slot.model.ts",
+          "language": "typescript",
+          "sizeLines": 50,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/clinic-day-override.model.ts",
+          "language": "typescript",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/clinic-schedule-config.model.ts",
+          "language": "typescript",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/clinic-schedule.dto.ts",
+          "language": "typescript",
+          "sizeLines": 23,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/clinic-schedule.router.ts",
+          "language": "typescript",
+          "sizeLines": 95,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/src/controllers/clinic-schedule.controller.ts": [
+          "backend/src/models/appointment-slot.model.ts",
+          "backend/src/models/clinic-day-override.model.ts",
+          "backend/src/models/clinic-schedule-config.model.ts",
+          "backend/src/models/clinic-schedule.dto.ts"
+        ],
+        "backend/src/models/_date-transformer.ts": [],
+        "backend/src/models/appointment-slot.model.ts": [
+          "backend/src/models/_date-transformer.ts"
+        ],
+        "backend/src/models/clinic-day-override.model.ts": [
+          "backend/src/models/_date-transformer.ts"
+        ],
+        "backend/src/models/clinic-schedule-config.model.ts": [],
+        "backend/src/models/clinic-schedule.dto.ts": [],
+        "backend/src/routers/clinic-schedule.router.ts": [
+          "backend/src/controllers/clinic-schedule.controller.ts",
+          "backend/src/models/clinic-schedule.dto.ts"
+        ]
+      },
+      "neighborMap": {
+        "backend/src/controllers/clinic-schedule.controller.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/appointment-slot.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/controllers/appointment-slot.controller.ts",
+            "batchIndex": 3,
+            "symbols": [
+              "AppointmentSlotsService"
+            ]
+          }
+        ],
+        "backend/src/models/clinic-day-override.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/clinic-schedule-config.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/clinic-schedule.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 9,
+      "files": [
+        {
+          "path": "backend/src/controllers/the-benh.controller.ts",
+          "language": "typescript",
+          "sizeLines": 180,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/the-benh-phuong-huyet.model.ts",
+          "language": "typescript",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/the-benh.dto.ts",
+          "language": "typescript",
+          "sizeLines": 41,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/the-benh.model.ts",
+          "language": "typescript",
+          "sizeLines": 47,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/the-benh.router.ts",
+          "language": "typescript",
+          "sizeLines": 98,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/src/controllers/the-benh.controller.ts": [
+          "backend/src/models/the-benh-phuong-huyet.model.ts",
+          "backend/src/models/the-benh.dto.ts",
+          "backend/src/models/the-benh.model.ts"
+        ],
+        "backend/src/models/the-benh-phuong-huyet.model.ts": [
+          "backend/src/models/huyet-vi.model.ts",
+          "backend/src/models/the-benh.model.ts"
+        ],
+        "backend/src/models/the-benh.dto.ts": [],
+        "backend/src/models/the-benh.model.ts": [
+          "backend/src/models/meridian-syndrome.model.ts"
+        ],
+        "backend/src/routers/the-benh.router.ts": [
+          "backend/src/controllers/the-benh.controller.ts",
+          "backend/src/models/the-benh.dto.ts"
+        ]
+      },
+      "neighborMap": {
+        "backend/src/controllers/the-benh.controller.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/the-benh-phuong-huyet.model.ts": [
+          {
+            "path": "backend/src/models/huyet-vi.model.ts",
+            "batchIndex": 6,
+            "symbols": [
+              "HuyetVi"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/the-benh.model.ts": [
+          {
+            "path": "backend/src/models/meridian-syndrome.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "MeridianSyndrome"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/the-benh.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 10,
+      "files": [
+        {
+          "path": "backend/src/controllers/cong-dung.controller.ts",
+          "language": "typescript",
+          "sizeLines": 60,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/cong-dung.dto.ts",
+          "language": "typescript",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/cong-dung.model.ts",
+          "language": "typescript",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/cong-dung.router.ts",
+          "language": "typescript",
+          "sizeLines": 36,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/src/controllers/cong-dung.controller.ts": [
+          "backend/src/models/cong-dung.dto.ts",
+          "backend/src/models/cong-dung.model.ts",
+          "backend/src/utils/catalog-label.util.ts"
+        ],
+        "backend/src/models/cong-dung.dto.ts": [],
+        "backend/src/models/cong-dung.model.ts": [],
+        "backend/src/routers/cong-dung.router.ts": [
+          "backend/src/controllers/cong-dung.controller.ts",
+          "backend/src/models/cong-dung.dto.ts"
+        ]
+      },
+      "neighborMap": {
+        "backend/src/controllers/cong-dung.controller.ts": [
+          {
+            "path": "backend/src/utils/catalog-label.util.ts",
+            "batchIndex": 5,
+            "symbols": [
+              "formatCatalogLabel",
+              "catalogKey"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/models/cong-dung.model.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          },
+          {
+            "path": "backend/src/models/vi-thuoc-cong-dung.model.ts",
+            "batchIndex": 4,
+            "symbols": [
+              "ViThuocCongDung"
+            ]
+          }
+        ],
+        "backend/src/routers/cong-dung.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 11,
+      "files": [
+        {
+          "path": "backend/src/app.controller.spec.ts",
+          "language": "typescript",
+          "sizeLines": 22,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/app.controller.ts",
+          "language": "typescript",
+          "sizeLines": 12,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/app.service.ts",
+          "language": "typescript",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/src/app.controller.spec.ts": [
+          "backend/src/app.controller.ts",
+          "backend/src/app.service.ts"
+        ],
+        "backend/src/app.controller.ts": [
+          "backend/src/app.service.ts"
+        ],
+        "backend/src/app.service.ts": []
+      },
+      "neighborMap": {
+        "backend/src/app.controller.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/app.service.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 12,
+      "files": [
+        {
+          "path": "backend/src/controllers/mach-chan.controller.ts",
+          "language": "typescript",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/mach-chan.dto.ts",
+          "language": "typescript",
+          "sizeLines": 6,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/mach-chan.router.ts",
+          "language": "typescript",
+          "sizeLines": 31,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/src/controllers/mach-chan.controller.ts": [
+          "backend/src/models/mach-chan.dto.ts",
+          "backend/src/models/mach-chan.model.ts"
+        ],
+        "backend/src/models/mach-chan.dto.ts": [],
+        "backend/src/routers/mach-chan.router.ts": [
+          "backend/src/controllers/mach-chan.controller.ts",
+          "backend/src/models/mach-chan.dto.ts"
+        ]
+      },
+      "neighborMap": {
+        "backend/src/controllers/mach-chan.controller.ts": [
+          {
+            "path": "backend/src/models/mach-chan.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "MachChan"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/mach-chan.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 13,
+      "files": [
+        {
+          "path": "backend/src/controllers/thiet-chan.controller.ts",
+          "language": "typescript",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/thiet-chan.dto.ts",
+          "language": "typescript",
+          "sizeLines": 6,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/thiet-chan.router.ts",
+          "language": "typescript",
+          "sizeLines": 31,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/src/controllers/thiet-chan.controller.ts": [
+          "backend/src/models/thiet-chan.dto.ts",
+          "backend/src/models/thiet-chan.model.ts"
+        ],
+        "backend/src/models/thiet-chan.dto.ts": [],
+        "backend/src/routers/thiet-chan.router.ts": [
+          "backend/src/controllers/thiet-chan.controller.ts",
+          "backend/src/models/thiet-chan.dto.ts"
+        ]
+      },
+      "neighborMap": {
+        "backend/src/controllers/thiet-chan.controller.ts": [
+          {
+            "path": "backend/src/models/thiet-chan.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "ThietChan"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/thiet-chan.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 14,
+      "files": [
+        {
+          "path": "backend/src/controllers/trieu-chung.controller.ts",
+          "language": "typescript",
+          "sizeLines": 432,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/models/trieu-chung.dto.ts",
+          "language": "typescript",
+          "sizeLines": 7,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/src/routers/trieu-chung.router.ts",
+          "language": "typescript",
+          "sizeLines": 73,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/src/controllers/trieu-chung.controller.ts": [
+          "backend/src/models/trieu-chung.dto.ts",
+          "backend/src/models/trieu-chung.model.ts"
+        ],
+        "backend/src/models/trieu-chung.dto.ts": [],
+        "backend/src/routers/trieu-chung.router.ts": [
+          "backend/src/controllers/trieu-chung.controller.ts",
+          "backend/src/models/trieu-chung.dto.ts"
+        ]
+      },
+      "neighborMap": {
+        "backend/src/controllers/trieu-chung.controller.ts": [
+          {
+            "path": "backend/src/models/trieu-chung.model.ts",
+            "batchIndex": 2,
+            "symbols": [
+              "TrieuChung"
+            ]
+          },
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ],
+        "backend/src/routers/trieu-chung.router.ts": [
+          {
+            "path": "backend/src/app.module.ts",
+            "batchIndex": 1,
+            "symbols": [
+              "AppModule"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 15,
+      "files": [
+        {
+          "path": "frontend/src/App.vue",
+          "language": "vue",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/main.ts",
+          "language": "typescript",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/router/index.ts",
+          "language": "typescript",
+          "sizeLines": 118,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "frontend/src/App.vue": [],
+        "frontend/src/main.ts": [
+          "frontend/src/App.vue",
+          "frontend/src/assets/styles/main.css",
+          "frontend/src/router/index.ts"
+        ],
+        "frontend/src/router/index.ts": []
+      },
+      "neighborMap": {
+        "frontend/src/main.ts": [
+          {
+            "path": "frontend/src/assets/styles/main.css",
+            "batchIndex": 23,
+            "symbols": []
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 16,
+      "files": [
+        {
+          "path": "backend/.dockerignore",
+          "language": "unknown",
+          "sizeLines": 19,
+          "fileCategory": "infra"
+        },
+        {
+          "path": "backend/Dockerfile",
+          "language": "dockerfile",
+          "sizeLines": 46,
+          "fileCategory": "infra"
+        }
+      ],
+      "batchImportData": {
+        "backend/.dockerignore": [],
+        "backend/Dockerfile": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 17,
+      "files": [
+        {
+          "path": "frontend/.dockerignore",
+          "language": "unknown",
+          "sizeLines": 15,
+          "fileCategory": "infra"
+        },
+        {
+          "path": "frontend/Dockerfile",
+          "language": "dockerfile",
+          "sizeLines": 38,
+          "fileCategory": "infra"
+        }
+      ],
+      "batchImportData": {
+        "frontend/.dockerignore": [],
+        "frontend/Dockerfile": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 18,
+      "files": [
+        {
+          "path": ".env.example",
+          "language": "config",
+          "sizeLines": 17,
+          "fileCategory": "config"
+        },
+        {
+          "path": "CLAUDE.md",
+          "language": "markdown",
+          "sizeLines": 108,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "DEPLOYMENT.md",
+          "language": "markdown",
+          "sizeLines": 225,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "benh_dong_y_excel.sql",
+          "language": "sql",
+          "sizeLines": 26,
+          "fileCategory": "data"
+        },
+        {
+          "path": "disease-rules.json",
+          "language": "json",
+          "sizeLines": 425,
+          "fileCategory": "config"
+        },
+        {
+          "path": "docker-compose.yml",
+          "language": "yaml",
+          "sizeLines": 53,
+          "fileCategory": "infra"
+        },
+        {
+          "path": "dongyhiendai.md",
+          "language": "markdown",
+          "sizeLines": 21,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "insert-benh-dong-y-excel-from-json.sql",
+          "language": "sql",
+          "sizeLines": 469,
+          "fileCategory": "data"
+        },
+        {
+          "path": "map.md",
+          "language": "markdown",
+          "sizeLines": 87,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "nguyennhan.md",
+          "language": "markdown",
+          "sizeLines": 7,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "start.sh",
+          "language": "shell",
+          "sizeLines": 9,
+          "fileCategory": "script"
+        },
+        {
+          "path": "tam-khi-hu-condition.json",
+          "language": "json",
+          "sizeLines": 5,
+          "fileCategory": "config"
+        },
+        {
+          "path": "tieuketbatcuong.md",
+          "language": "markdown",
+          "sizeLines": 72,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        ".env.example": [],
+        "CLAUDE.md": [],
+        "DEPLOYMENT.md": [],
+        "benh_dong_y_excel.sql": [],
+        "disease-rules.json": [],
+        "docker-compose.yml": [],
+        "dongyhiendai.md": [],
+        "insert-benh-dong-y-excel-from-json.sql": [],
+        "map.md": [],
+        "nguyennhan.md": [],
+        "start.sh": [],
+        "tam-khi-hu-condition.json": [],
+        "tieuketbatcuong.md": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 19,
+      "files": [
+        {
+          "path": "backend/.env.example",
+          "language": "config",
+          "sizeLines": 21,
+          "fileCategory": "config"
+        },
+        {
+          "path": "backend/README.md",
+          "language": "markdown",
+          "sizeLines": 98,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "backend/nest-cli.json",
+          "language": "json",
+          "sizeLines": 7,
+          "fileCategory": "config"
+        },
+        {
+          "path": "backend/package.json",
+          "language": "json",
+          "sizeLines": 86,
+          "fileCategory": "config"
+        },
+        {
+          "path": "backend/tsconfig.build.json",
+          "language": "json",
+          "sizeLines": 5,
+          "fileCategory": "config"
+        },
+        {
+          "path": "backend/tsconfig.json",
+          "language": "json",
+          "sizeLines": 25,
+          "fileCategory": "config"
+        },
+        {
+          "path": "backend/vercel.json",
+          "language": "json",
+          "sizeLines": 21,
+          "fileCategory": "config"
+        }
+      ],
+      "batchImportData": {
+        "backend/.env.example": [],
+        "backend/README.md": [],
+        "backend/nest-cli.json": [],
+        "backend/package.json": [],
+        "backend/tsconfig.build.json": [],
+        "backend/tsconfig.json": [],
+        "backend/vercel.json": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 20,
+      "files": [
+        {
+          "path": "backend/sql/README.md",
+          "language": "markdown",
+          "sizeLines": 5,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "backend/sql/add-bai-thuoc-column-benh-dong-y.sql",
+          "language": "sql",
+          "sizeLines": 9,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/add-benh-dong-y-excel-phap-tri.sql",
+          "language": "sql",
+          "sizeLines": 25,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/add-benh-dong-y-excel-trieu-chung-bai-thuoc.sql",
+          "language": "sql",
+          "sizeLines": 33,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/create-benh-dong-y-hien-dai.sql",
+          "language": "sql",
+          "sizeLines": 29,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/create-duoc-ly-schema.sql",
+          "language": "sql",
+          "sizeLines": 48,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/create-legacy-meridian-syndromes.sql",
+          "language": "sql",
+          "sizeLines": 46,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/create-ton-thuong-tac-nhan.sql",
+          "language": "sql",
+          "sizeLines": 28,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/create-vi-thuoc-kinh-mach.sql",
+          "language": "sql",
+          "sizeLines": 15,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/drop-nhom-duoc-ly.sql",
+          "language": "sql",
+          "sizeLines": 27,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/fix_lap_lai.sql",
+          "language": "sql",
+          "sizeLines": 155,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/insert-benh-dong-y-hien-dai.sql",
+          "language": "sql",
+          "sizeLines": 198,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-bai-thuoc-chung-trang.sql",
+          "language": "sql",
+          "sizeLines": 23,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-bai-thuoc-link-phap-tri.sql",
+          "language": "sql",
+          "sizeLines": 173,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-benh-dong-y-excel-phap-tri-m2m.sql",
+          "language": "sql",
+          "sizeLines": 42,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-benh-tay-y-phap-tri.sql",
+          "language": "sql",
+          "sizeLines": 7,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-phac-do-chuan.sql",
+          "language": "sql",
+          "sizeLines": 27,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-phap-tri-bai-thuoc-links-backfill.sql",
+          "language": "sql",
+          "sizeLines": 12,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-phap-tri-bai-thuoc-nhom-duoc-ly.sql",
+          "language": "sql",
+          "sizeLines": 29,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-phap-tri-benhdongy-m2m.sql",
+          "language": "sql",
+          "sizeLines": 17,
+          "fileCategory": "data"
+        }
+      ],
+      "batchImportData": {
+        "backend/sql/README.md": [],
+        "backend/sql/add-bai-thuoc-column-benh-dong-y.sql": [],
+        "backend/sql/add-benh-dong-y-excel-phap-tri.sql": [],
+        "backend/sql/add-benh-dong-y-excel-trieu-chung-bai-thuoc.sql": [],
+        "backend/sql/create-benh-dong-y-hien-dai.sql": [],
+        "backend/sql/create-duoc-ly-schema.sql": [],
+        "backend/sql/create-legacy-meridian-syndromes.sql": [],
+        "backend/sql/create-ton-thuong-tac-nhan.sql": [],
+        "backend/sql/create-vi-thuoc-kinh-mach.sql": [],
+        "backend/sql/drop-nhom-duoc-ly.sql": [],
+        "backend/sql/fix_lap_lai.sql": [],
+        "backend/sql/insert-benh-dong-y-hien-dai.sql": [],
+        "backend/sql/migrate-bai-thuoc-chung-trang.sql": [],
+        "backend/sql/migrate-bai-thuoc-link-phap-tri.sql": [],
+        "backend/sql/migrate-benh-dong-y-excel-phap-tri-m2m.sql": [],
+        "backend/sql/migrate-benh-tay-y-phap-tri.sql": [],
+        "backend/sql/migrate-phac-do-chuan.sql": [],
+        "backend/sql/migrate-phap-tri-bai-thuoc-links-backfill.sql": [],
+        "backend/sql/migrate-phap-tri-bai-thuoc-nhom-duoc-ly.sql": [],
+        "backend/sql/migrate-phap-tri-benhdongy-m2m.sql": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 21,
+      "files": [
+        {
+          "path": "backend/sql/migrate-phap-tri-luc-kinh.sql",
+          "language": "sql",
+          "sizeLines": 5,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-phap-tri-multi-benhdongy.sql",
+          "language": "sql",
+          "sizeLines": 18,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-phap-tri-tcm-bang-columns.sql",
+          "language": "sql",
+          "sizeLines": 11,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-phap-tri-trieu-chung-m2m-backfill.sql",
+          "language": "sql",
+          "sizeLines": 16,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-phap-tri-trieu-chung-seed-missing.sql",
+          "language": "sql",
+          "sizeLines": 63,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-tieuket-to-phap-tri.sql",
+          "language": "sql",
+          "sizeLines": 37,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-trieu-chung-normalize.sql",
+          "language": "sql",
+          "sizeLines": 82,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/migrate-vi-thuoc-excel-schema.sql",
+          "language": "sql",
+          "sizeLines": 23,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/rebuild-appointment-system.sql",
+          "language": "sql",
+          "sizeLines": 85,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/rename-phap-tri-chung-trang-to-the-benh.sql",
+          "language": "sql",
+          "sizeLines": 37,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/sync-benh-dong-y-to-chung-trang.sql",
+          "language": "sql",
+          "sizeLines": 35,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/truncate-phap-tri-reset-sequence.sql",
+          "language": "sql",
+          "sizeLines": 15,
+          "fileCategory": "data"
+        },
+        {
+          "path": "backend/sql/truncate-vi-thuoc.sql",
+          "language": "sql",
+          "sizeLines": 62,
+          "fileCategory": "data"
+        }
+      ],
+      "batchImportData": {
+        "backend/sql/migrate-phap-tri-luc-kinh.sql": [],
+        "backend/sql/migrate-phap-tri-multi-benhdongy.sql": [],
+        "backend/sql/migrate-phap-tri-tcm-bang-columns.sql": [],
+        "backend/sql/migrate-phap-tri-trieu-chung-m2m-backfill.sql": [],
+        "backend/sql/migrate-phap-tri-trieu-chung-seed-missing.sql": [],
+        "backend/sql/migrate-tieuket-to-phap-tri.sql": [],
+        "backend/sql/migrate-trieu-chung-normalize.sql": [],
+        "backend/sql/migrate-vi-thuoc-excel-schema.sql": [],
+        "backend/sql/rebuild-appointment-system.sql": [],
+        "backend/sql/rename-phap-tri-chung-trang-to-the-benh.sql": [],
+        "backend/sql/sync-benh-dong-y-to-chung-trang.sql": [],
+        "backend/sql/truncate-phap-tri-reset-sequence.sql": [],
+        "backend/sql/truncate-vi-thuoc.sql": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 22,
+      "files": [
+        {
+          "path": "frontend/.env",
+          "language": "config",
+          "sizeLines": 1,
+          "fileCategory": "config"
+        },
+        {
+          "path": "frontend/.oxlintrc.json",
+          "language": "json",
+          "sizeLines": 10,
+          "fileCategory": "config"
+        },
+        {
+          "path": "frontend/.prettierrc.json",
+          "language": "json",
+          "sizeLines": 6,
+          "fileCategory": "config"
+        },
+        {
+          "path": "frontend/README.md",
+          "language": "markdown",
+          "sizeLines": 48,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "frontend/index.html",
+          "language": "html",
+          "sizeLines": 18,
+          "fileCategory": "markup"
+        },
+        {
+          "path": "frontend/package.json",
+          "language": "json",
+          "sizeLines": 46,
+          "fileCategory": "config"
+        },
+        {
+          "path": "frontend/tsconfig.app.json",
+          "language": "json",
+          "sizeLines": 18,
+          "fileCategory": "config"
+        },
+        {
+          "path": "frontend/tsconfig.json",
+          "language": "json",
+          "sizeLines": 11,
+          "fileCategory": "config"
+        },
+        {
+          "path": "frontend/tsconfig.node.json",
+          "language": "json",
+          "sizeLines": 27,
+          "fileCategory": "config"
+        },
+        {
+          "path": "frontend/vercel.json",
+          "language": "json",
+          "sizeLines": 8,
+          "fileCategory": "config"
+        }
+      ],
+      "batchImportData": {
+        "frontend/.env": [],
+        "frontend/.oxlintrc.json": [],
+        "frontend/.prettierrc.json": [],
+        "frontend/README.md": [],
+        "frontend/index.html": [],
+        "frontend/package.json": [],
+        "frontend/tsconfig.app.json": [],
+        "frontend/tsconfig.json": [],
+        "frontend/tsconfig.node.json": [],
+        "frontend/vercel.json": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 23,
+      "files": [
+        {
+          "path": "backend/eslint.config.mjs",
+          "language": "javascript",
+          "sizeLines": 35,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/test_logic.js",
+          "language": "javascript",
+          "sizeLines": 40,
+          "fileCategory": "code"
+        },
+        {
+          "path": "backend/test/jest-e2e.json",
+          "language": "json",
+          "sizeLines": 9,
+          "fileCategory": "config"
+        },
+        {
+          "path": "ecosystem.config.cjs",
+          "language": "javascript",
+          "sizeLines": 31,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/.gitattributes",
+          "language": "unknown",
+          "sizeLines": 1,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/env.d.ts",
+          "language": "typescript",
+          "sizeLines": 1,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/eslint.config.ts",
+          "language": "typescript",
+          "sizeLines": 26,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/nginx.conf",
+          "language": "conf",
+          "sizeLines": 74,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/scripts/gen-favicon-ico.cjs",
+          "language": "javascript",
+          "sizeLines": 158,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/assets/styles/main.css",
+          "language": "css",
+          "sizeLines": 191,
+          "fileCategory": "markup"
+        },
+        {
+          "path": "frontend/src/components/PharmacologyManager.vue",
+          "language": "vue",
+          "sizeLines": 1565,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/services/api.ts",
+          "language": "typescript",
+          "sizeLines": 113,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/stores/auth.ts",
+          "language": "typescript",
+          "sizeLines": 67,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/stores/counter.ts",
+          "language": "typescript",
+          "sizeLines": 12,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/stores/patient.ts",
+          "language": "typescript",
+          "sizeLines": 166,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/AppointmentsView.vue",
+          "language": "vue",
+          "sizeLines": 783,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/DashboardLayout.vue",
+          "language": "vue",
+          "sizeLines": 223,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/HomeView.vue",
+          "language": "vue",
+          "sizeLines": 132,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/HuyetViView.vue",
+          "language": "vue",
+          "sizeLines": 662,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/KinhMachView.vue",
+          "language": "vue",
+          "sizeLines": 567,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/LoginView.vue",
+          "language": "vue",
+          "sizeLines": 151,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/MedicinesView.vue",
+          "language": "vue",
+          "sizeLines": 4471,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/MeridianDiseasesTabsView.vue",
+          "language": "vue",
+          "sizeLines": 81,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/MeridianDiseasesView.vue",
+          "language": "vue",
+          "sizeLines": 2102,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/MeridianResultsView.vue",
+          "language": "vue",
+          "sizeLines": 2293,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "backend/eslint.config.mjs": [],
+        "backend/test_logic.js": [],
+        "backend/test/jest-e2e.json": [],
+        "ecosystem.config.cjs": [],
+        "frontend/.gitattributes": [],
+        "frontend/env.d.ts": [],
+        "frontend/eslint.config.ts": [],
+        "frontend/nginx.conf": [],
+        "frontend/scripts/gen-favicon-ico.cjs": [],
+        "frontend/src/assets/styles/main.css": [],
+        "frontend/src/components/PharmacologyManager.vue": [],
+        "frontend/src/services/api.ts": [],
+        "frontend/src/stores/auth.ts": [],
+        "frontend/src/stores/counter.ts": [],
+        "frontend/src/stores/patient.ts": [],
+        "frontend/src/views/AppointmentsView.vue": [],
+        "frontend/src/views/DashboardLayout.vue": [],
+        "frontend/src/views/HomeView.vue": [],
+        "frontend/src/views/HuyetViView.vue": [],
+        "frontend/src/views/KinhMachView.vue": [],
+        "frontend/src/views/LoginView.vue": [],
+        "frontend/src/views/MedicinesView.vue": [],
+        "frontend/src/views/MeridianDiseasesTabsView.vue": [],
+        "frontend/src/views/MeridianDiseasesView.vue": [],
+        "frontend/src/views/MeridianResultsView.vue": []
+      },
+      "neighborMap": {
+        "frontend/src/assets/styles/main.css": [
+          {
+            "path": "frontend/src/main.ts",
+            "batchIndex": 15,
+            "symbols": []
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 24,
+      "files": [
+        {
+          "path": "frontend/src/views/ModernDiseasesView.vue",
+          "language": "vue",
+          "sizeLines": 723,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/NewExaminationView.vue",
+          "language": "vue",
+          "sizeLines": 362,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/PatientDetailView.vue",
+          "language": "vue",
+          "sizeLines": 346,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/PatientsView.vue",
+          "language": "vue",
+          "sizeLines": 448,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/PhacDoDieuTriView.vue",
+          "language": "vue",
+          "sizeLines": 1060,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/ScheduleConfigView.vue",
+          "language": "vue",
+          "sizeLines": 400,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/SymptomsView.vue",
+          "language": "vue",
+          "sizeLines": 927,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/TonThuongTacNhanView.vue",
+          "language": "vue",
+          "sizeLines": 508,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/TreatmentsView.vue",
+          "language": "vue",
+          "sizeLines": 1684,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/src/views/WesternMedicineView.vue",
+          "language": "vue",
+          "sizeLines": 1404,
+          "fileCategory": "code"
+        },
+        {
+          "path": "frontend/vite.config.ts",
+          "language": "typescript",
+          "sizeLines": 36,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "frontend/src/views/ModernDiseasesView.vue": [],
+        "frontend/src/views/NewExaminationView.vue": [],
+        "frontend/src/views/PatientDetailView.vue": [],
+        "frontend/src/views/PatientsView.vue": [],
+        "frontend/src/views/PhacDoDieuTriView.vue": [],
+        "frontend/src/views/ScheduleConfigView.vue": [],
+        "frontend/src/views/SymptomsView.vue": [],
+        "frontend/src/views/TonThuongTacNhanView.vue": [],
+        "frontend/src/views/TreatmentsView.vue": [],
+        "frontend/src/views/WesternMedicineView.vue": [],
+        "frontend/vite.config.ts": []
+      },
+      "neighborMap": {}
+    }
+  ]
+}

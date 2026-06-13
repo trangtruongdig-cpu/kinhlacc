@@ -1,0 +1,1453 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 14,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "backend/src/controllers/kinh-mach.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 42,
+      "nonEmptyLines": 36,
+      "classes": [
+        {
+          "name": "KinhMachService",
+          "startLine": 8,
+          "endLine": 42,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findOne",
+            "create",
+            "update",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "KinhMachService",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 10
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.repo.find",
+          "lineNumber": 15
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.repo.findOne",
+          "lineNumber": 19
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.create",
+          "lineNumber": 28
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.save",
+          "lineNumber": 29
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 33
+        },
+        {
+          "caller": "update",
+          "callee": "Object.assign",
+          "lineNumber": 34
+        },
+        {
+          "caller": "update",
+          "callee": "this.repo.save",
+          "lineNumber": 35
+        },
+        {
+          "caller": "remove",
+          "callee": "this.findOne",
+          "lineNumber": 39
+        },
+        {
+          "caller": "remove",
+          "callee": "this.repo.remove",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/controllers/vi-thuoc.controller.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 274,
+      "nonEmptyLines": 255,
+      "classes": [
+        {
+          "name": "ViThuocService",
+          "startLine": 24,
+          "endLine": 274,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findLite",
+            "findOne",
+            "pickScalar",
+            "syncLinkedRows",
+            "create",
+            "update",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ViThuocService",
+          "line": 23,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "constructor",
+          "callee": "InjectRepository",
+          "lineNumber": 26
+        },
+        {
+          "caller": "findAll",
+          "callee": "this.repo.find",
+          "lineNumber": 31
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.max",
+          "lineNumber": 50
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.floor",
+          "lineNumber": 50
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.max",
+          "lineNumber": 51
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.min",
+          "lineNumber": 51
+        },
+        {
+          "caller": "findLite",
+          "callee": "Math.floor",
+          "lineNumber": 51
+        },
+        {
+          "caller": "findLite",
+          "callee": "(opts.q ?? '').trim",
+          "lineNumber": 52
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number.isFinite",
+          "lineNumber": 53
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 53
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number.isFinite",
+          "lineNumber": 54
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 54
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.createQueryBuilder",
+          "lineNumber": 56
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb.andWhere",
+          "lineNumber": 59
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb.andWhere",
+          "lineNumber": 65
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb.andWhere",
+          "lineNumber": 70
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb\r\n      .orderBy('vt.ten_vi_thuoc', 'ASC')\r\n      .skip((page - 1) * limit)\r\n      .take(limit)\r\n      .getManyAndCount",
+          "lineNumber": 76
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb\r\n      .orderBy('vt.ten_vi_thuoc', 'ASC')\r\n      .skip((page - 1) * limit)\r\n      .take",
+          "lineNumber": 76
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb\r\n      .orderBy('vt.ten_vi_thuoc', 'ASC')\r\n      .skip",
+          "lineNumber": 76
+        },
+        {
+          "caller": "findLite",
+          "callee": "qb\r\n      .orderBy",
+          "lineNumber": 76
+        },
+        {
+          "caller": "findLite",
+          "callee": "items.map",
+          "lineNumber": 84
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.repo.find",
+          "lineNumber": 85
+        },
+        {
+          "caller": "findLite",
+          "callee": "In",
+          "lineNumber": 86
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.repo.findOne",
+          "lineNumber": 96
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr.delete",
+          "lineNumber": 120
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "Number",
+          "lineNumber": 123
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "Number.isFinite",
+          "lineNumber": 124
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "byCd.set",
+          "lineNumber": 125
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "row.ghi_chu?.trim",
+          "lineNumber": 128
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "formatCatalogLabel",
+          "lineNumber": 128
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr.insert",
+          "lineNumber": 129
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr.delete",
+          "lineNumber": 139
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "Number",
+          "lineNumber": 142
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "Number.isFinite",
+          "lineNumber": 143
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "byCt.set",
+          "lineNumber": 144
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "row.ghi_chu?.trim",
+          "lineNumber": 147
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "formatCatalogLabel",
+          "lineNumber": 147
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr.insert",
+          "lineNumber": 148
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr.delete",
+          "lineNumber": 158
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "Number",
+          "lineNumber": 161
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "Number.isFinite",
+          "lineNumber": 162
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "byKk.set",
+          "lineNumber": 163
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "row.ghi_chu?.trim",
+          "lineNumber": 166
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "formatCatalogLabel",
+          "lineNumber": 166
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr.insert",
+          "lineNumber": 167
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr.delete",
+          "lineNumber": 177
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "formatCatalogLabel",
+          "lineNumber": 180
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "String",
+          "lineNumber": 180
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "catalogKey",
+          "lineNumber": 182
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "seenAlias.has",
+          "lineNumber": 183
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "seenAlias.add",
+          "lineNumber": 184
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr.insert",
+          "lineNumber": 185
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr.delete",
+          "lineNumber": 194
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "Number",
+          "lineNumber": 198
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "Number.isFinite",
+          "lineNumber": 199
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "seenKm.has",
+          "lineNumber": 199
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "seenKm.add",
+          "lineNumber": 200
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "orderedIds.push",
+          "lineNumber": 201
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr.insert",
+          "lineNumber": 202
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr.find",
+          "lineNumber": 210
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "orderedIds.map",
+          "lineNumber": 211
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "rows.map",
+          "lineNumber": 214
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "orderedIds\r\n          .map((id) => byId.get(id)?.ten_kinh_mach?.trim())\r\n          .filter((s): s is string => !!s)\r\n          .join",
+          "lineNumber": 215
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "orderedIds\r\n          .map((id) => byId.get(id)?.ten_kinh_mach?.trim())\r\n          .filter",
+          "lineNumber": 215
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "orderedIds\r\n          .map",
+          "lineNumber": 215
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "byId.get(id)?.ten_kinh_mach?.trim",
+          "lineNumber": 216
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "byId.get",
+          "lineNumber": 216
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr.update",
+          "lineNumber": 219
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr.delete",
+          "lineNumber": 225
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "Number",
+          "lineNumber": 228
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "Number.isFinite",
+          "lineNumber": 229
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "seenNn.add",
+          "lineNumber": 229
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "Array.from(seenNn).map",
+          "lineNumber": 232
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "Array.from",
+          "lineNumber": 232
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr\r\n          .createQueryBuilder()\r\n          .insert()\r\n          .into(NhomNhoViThuoc)\r\n          .values(rows)\r\n          .orIgnore()\r\n          .execute",
+          "lineNumber": 237
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr\r\n          .createQueryBuilder()\r\n          .insert()\r\n          .into(NhomNhoViThuoc)\r\n          .values(rows)\r\n          .orIgnore",
+          "lineNumber": 237
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr\r\n          .createQueryBuilder()\r\n          .insert()\r\n          .into(NhomNhoViThuoc)\r\n          .values",
+          "lineNumber": 237
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr\r\n          .createQueryBuilder()\r\n          .insert()\r\n          .into",
+          "lineNumber": 237
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr\r\n          .createQueryBuilder()\r\n          .insert",
+          "lineNumber": 237
+        },
+        {
+          "caller": "syncLinkedRows",
+          "callee": "mgr\r\n          .createQueryBuilder",
+          "lineNumber": 237
+        },
+        {
+          "caller": "create",
+          "callee": "this.repo.manager.transaction",
+          "lineNumber": 249
+        },
+        {
+          "caller": "create",
+          "callee": "mgr.create",
+          "lineNumber": 250
+        },
+        {
+          "caller": "create",
+          "callee": "this.pickScalar",
+          "lineNumber": 250
+        },
+        {
+          "caller": "create",
+          "callee": "mgr.save",
+          "lineNumber": 251
+        },
+        {
+          "caller": "create",
+          "callee": "this.syncLinkedRows",
+          "lineNumber": 252
+        },
+        {
+          "caller": "create",
+          "callee": "mgr.findOne",
+          "lineNumber": 253
+        },
+        {
+          "caller": "update",
+          "callee": "this.pickScalar",
+          "lineNumber": 261
+        },
+        {
+          "caller": "update",
+          "callee": "Object.keys",
+          "lineNumber": 262
+        },
+        {
+          "caller": "update",
+          "callee": "this.repo.update",
+          "lineNumber": 263
+        },
+        {
+          "caller": "update",
+          "callee": "this.repo.manager.transaction",
+          "lineNumber": 265
+        },
+        {
+          "caller": "update",
+          "callee": "this.syncLinkedRows",
+          "lineNumber": 266
+        },
+        {
+          "caller": "update",
+          "callee": "this.findOne",
+          "lineNumber": 268
+        },
+        {
+          "caller": "remove",
+          "callee": "this.repo.delete",
+          "lineNumber": 272
+        }
+      ],
+      "metrics": {
+        "importCount": 10,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/dongy-thuoc.dto.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 42,
+      "classes": [
+        {
+          "name": "CreateViThuocDto",
+          "startLine": 2,
+          "endLine": 17,
+          "methods": [],
+          "properties": [
+            "ten_vi_thuoc",
+            "tinh",
+            "vi",
+            "quy_kinh",
+            "lieu_dung",
+            "cong_dung_links",
+            "chu_tri_links",
+            "kieng_ky_links",
+            "ten_goi_khac_list",
+            "kinh_mach_ids",
+            "nhom_nho_ids"
+          ]
+        },
+        {
+          "name": "UpdateViThuocDto",
+          "startLine": 18,
+          "endLine": 18,
+          "methods": [],
+          "properties": []
+        },
+        {
+          "name": "CreateBaiThuocDto",
+          "startLine": 21,
+          "endLine": 42,
+          "methods": [],
+          "properties": [
+            "ten_bai_thuoc",
+            "nguon_goc",
+            "cong_dung",
+            "cach_dung",
+            "ghi_chu",
+            "chung_trang",
+            "the_benh",
+            "trieu_chung",
+            "trieu_chung_ids",
+            "phap_tri_ids",
+            "chi_tiet"
+          ]
+        },
+        {
+          "name": "UpdateBaiThuocDto",
+          "startLine": 43,
+          "endLine": 43,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateViThuocDto",
+          "line": 2,
+          "isDefault": false
+        },
+        {
+          "name": "UpdateViThuocDto",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "CreateBaiThuocDto",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "UpdateBaiThuocDto",
+          "line": 43,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 0,
+        "classCount": 4
+      }
+    },
+    {
+      "path": "backend/src/models/kinh-mach.dto.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 15,
+      "nonEmptyLines": 14,
+      "classes": [
+        {
+          "name": "CreateKinhMachDto",
+          "startLine": 1,
+          "endLine": 7,
+          "methods": [],
+          "properties": [
+            "ten_kinh_mach",
+            "ten_viet_tat",
+            "ky_hieu_quoc_te",
+            "ngu_hanh",
+            "tong_so_huyet"
+          ]
+        },
+        {
+          "name": "UpdateKinhMachDto",
+          "startLine": 9,
+          "endLine": 15,
+          "methods": [],
+          "properties": [
+            "ten_kinh_mach",
+            "ten_viet_tat",
+            "ky_hieu_quoc_te",
+            "ngu_hanh",
+            "tong_so_huyet"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CreateKinhMachDto",
+          "line": 1,
+          "isDefault": false
+        },
+        {
+          "name": "UpdateKinhMachDto",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 0,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "backend/src/models/kinh-mach.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 24,
+      "classes": [
+        {
+          "name": "KinhMach",
+          "startLine": 10,
+          "endLine": 31,
+          "methods": [],
+          "properties": [
+            "idKinhMach",
+            "ten_kinh_mach",
+            "ten_viet_tat",
+            "ky_hieu_quoc_te",
+            "ngu_hanh",
+            "tong_so_huyet",
+            "huyetViList"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "KinhMach",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/vi-thuoc-chu-tri.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 18,
+      "classes": [
+        {
+          "name": "ViThuocChuTri",
+          "startLine": 6,
+          "endLine": 23,
+          "methods": [],
+          "properties": [
+            "id_vi_thuoc",
+            "id_chu_tri",
+            "ghi_chu",
+            "viThuoc",
+            "chuTri"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ViThuocChuTri",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/vi-thuoc-cong-dung.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 19,
+      "classes": [
+        {
+          "name": "ViThuocCongDung",
+          "startLine": 6,
+          "endLine": 24,
+          "methods": [],
+          "properties": [
+            "id_vi_thuoc",
+            "id_cong_dung",
+            "ghi_chu",
+            "viThuoc",
+            "congDung"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ViThuocCongDung",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/vi-thuoc-kieng-ky.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 18,
+      "classes": [
+        {
+          "name": "ViThuocKiengKy",
+          "startLine": 6,
+          "endLine": 23,
+          "methods": [],
+          "properties": [
+            "id_vi_thuoc",
+            "id_kieng_ky",
+            "ghi_chu",
+            "viThuoc",
+            "kiengKy"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ViThuocKiengKy",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/vi-thuoc-kinh-mach.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "ViThuocKinhMach",
+          "startLine": 6,
+          "endLine": 20,
+          "methods": [],
+          "properties": [
+            "id_vi_thuoc",
+            "id_kinh_mach",
+            "viThuoc",
+            "kinhMach"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ViThuocKinhMach",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/vi-thuoc-ten-goi-khac.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 14,
+      "classes": [
+        {
+          "name": "ViThuocTenGoiKhac",
+          "startLine": 5,
+          "endLine": 18,
+          "methods": [],
+          "properties": [
+            "id",
+            "id_vi_thuoc",
+            "ten_goi_khac",
+            "viThuoc"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ViThuocTenGoiKhac",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 1,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/models/vi-thuoc.model.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 34,
+      "classes": [
+        {
+          "name": "ViThuoc",
+          "startLine": 10,
+          "endLine": 46,
+          "methods": [],
+          "properties": [
+            "id",
+            "ten_vi_thuoc",
+            "tinh",
+            "vi",
+            "quy_kinh",
+            "lieu_dung",
+            "baiThuocDetails",
+            "congDungLinks",
+            "chuTriLinks",
+            "kiengKyLinks",
+            "tenGoiKhacList",
+            "kinhMachLinks"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ViThuoc",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 6,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/routers/bai-thuoc.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 87,
+      "nonEmptyLines": 78,
+      "classes": [
+        {
+          "name": "BaiThuocRouter",
+          "startLine": 6,
+          "endLine": 87,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findOptions",
+            "findLite",
+            "findOne",
+            "create",
+            "update",
+            "remove",
+            "analyze"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "BaiThuocRouter",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findAll",
+          "callee": "this.service.findAll",
+          "lineNumber": 11
+        },
+        {
+          "caller": "findOptions",
+          "callee": "this.service.findOptions",
+          "lineNumber": 17
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 25
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 26
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 27
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 29
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 30
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 33
+        },
+        {
+          "caller": "parseIdList",
+          "callee": "raw\r\n        .split(',')\r\n        .map((s) => Number(s.trim()))\r\n        .filter",
+          "lineNumber": 36
+        },
+        {
+          "caller": "parseIdList",
+          "callee": "raw\r\n        .split(',')\r\n        .map",
+          "lineNumber": 36
+        },
+        {
+          "caller": "parseIdList",
+          "callee": "raw\r\n        .split",
+          "lineNumber": 36
+        },
+        {
+          "caller": "parseIdList",
+          "callee": "Number",
+          "lineNumber": 38
+        },
+        {
+          "caller": "parseIdList",
+          "callee": "s.trim",
+          "lineNumber": 38
+        },
+        {
+          "caller": "parseIdList",
+          "callee": "Number.isFinite",
+          "lineNumber": 39
+        },
+        {
+          "caller": "parseStrList",
+          "callee": "raw\r\n        .split(',')\r\n        .map((s) => s.trim())\r\n        .filter",
+          "lineNumber": 43
+        },
+        {
+          "caller": "parseStrList",
+          "callee": "raw\r\n        .split(',')\r\n        .map",
+          "lineNumber": 43
+        },
+        {
+          "caller": "parseStrList",
+          "callee": "raw\r\n        .split",
+          "lineNumber": 43
+        },
+        {
+          "caller": "parseStrList",
+          "callee": "s.trim",
+          "lineNumber": 45
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.service.findLite",
+          "lineNumber": 48
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 49
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 50
+        },
+        {
+          "caller": "findLite",
+          "callee": "parseIdList",
+          "lineNumber": 54
+        },
+        {
+          "caller": "findLite",
+          "callee": "parseStrList",
+          "lineNumber": 55
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 56
+        },
+        {
+          "caller": "findOne",
+          "callee": "Param",
+          "lineNumber": 61
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.service.findOne",
+          "lineNumber": 62
+        },
+        {
+          "caller": "create",
+          "callee": "Body",
+          "lineNumber": 66
+        },
+        {
+          "caller": "create",
+          "callee": "this.service.create",
+          "lineNumber": 67
+        },
+        {
+          "caller": "update",
+          "callee": "Param",
+          "lineNumber": 72
+        },
+        {
+          "caller": "update",
+          "callee": "Body",
+          "lineNumber": 72
+        },
+        {
+          "caller": "update",
+          "callee": "this.service.update",
+          "lineNumber": 73
+        },
+        {
+          "caller": "remove",
+          "callee": "Param",
+          "lineNumber": 78
+        },
+        {
+          "caller": "remove",
+          "callee": "this.service.remove",
+          "lineNumber": 79
+        },
+        {
+          "caller": "analyze",
+          "callee": "Param",
+          "lineNumber": 84
+        },
+        {
+          "caller": "analyze",
+          "callee": "this.service.analyzeBaiThuoc",
+          "lineNumber": 85
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/routers/kinh-mach.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 45,
+      "nonEmptyLines": 39,
+      "classes": [
+        {
+          "name": "KinhMachRouter",
+          "startLine": 15,
+          "endLine": 45,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findOne",
+            "create",
+            "update",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "KinhMachRouter",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findAll",
+          "callee": "this.service.findAll",
+          "lineNumber": 20
+        },
+        {
+          "caller": "findOne",
+          "callee": "Param",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.service.findOne",
+          "lineNumber": 25
+        },
+        {
+          "caller": "create",
+          "callee": "Body",
+          "lineNumber": 29
+        },
+        {
+          "caller": "create",
+          "callee": "this.service.create",
+          "lineNumber": 30
+        },
+        {
+          "caller": "update",
+          "callee": "Param",
+          "lineNumber": 35
+        },
+        {
+          "caller": "update",
+          "callee": "Body",
+          "lineNumber": 35
+        },
+        {
+          "caller": "update",
+          "callee": "this.service.update",
+          "lineNumber": 36
+        },
+        {
+          "caller": "remove",
+          "callee": "Param",
+          "lineNumber": 41
+        },
+        {
+          "caller": "remove",
+          "callee": "this.service.remove",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "backend/src/routers/vi-thuoc.router.ts",
+      "language": "typescript",
+      "fileCategory": "code",
+      "totalLines": 54,
+      "nonEmptyLines": 47,
+      "classes": [
+        {
+          "name": "ViThuocRouter",
+          "startLine": 6,
+          "endLine": 54,
+          "methods": [
+            "constructor",
+            "findAll",
+            "findLite",
+            "findOne",
+            "create",
+            "update",
+            "remove"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ViThuocRouter",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "findAll",
+          "callee": "this.service.findAll",
+          "lineNumber": 11
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 17
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 18
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 19
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 20
+        },
+        {
+          "caller": "findLite",
+          "callee": "Query",
+          "lineNumber": 21
+        },
+        {
+          "caller": "findLite",
+          "callee": "this.service.findLite",
+          "lineNumber": 23
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 24
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 25
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 27
+        },
+        {
+          "caller": "findLite",
+          "callee": "Number",
+          "lineNumber": 28
+        },
+        {
+          "caller": "findOne",
+          "callee": "Param",
+          "lineNumber": 33
+        },
+        {
+          "caller": "findOne",
+          "callee": "this.service.findOne",
+          "lineNumber": 34
+        },
+        {
+          "caller": "create",
+          "callee": "Body",
+          "lineNumber": 38
+        },
+        {
+          "caller": "create",
+          "callee": "this.service.create",
+          "lineNumber": 39
+        },
+        {
+          "caller": "update",
+          "callee": "Param",
+          "lineNumber": 44
+        },
+        {
+          "caller": "update",
+          "callee": "Body",
+          "lineNumber": 44
+        },
+        {
+          "caller": "update",
+          "callee": "this.service.update",
+          "lineNumber": 45
+        },
+        {
+          "caller": "remove",
+          "callee": "Param",
+          "lineNumber": 50
+        },
+        {
+          "caller": "remove",
+          "callee": "this.service.remove",
+          "lineNumber": 51
+        }
+      ],
+      "metrics": {
+        "importCount": 2,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

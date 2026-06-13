@@ -1,0 +1,30 @@
+{
+  "_doc": "Bộ TỪ VỰNG phân loại ĐẶC TÍNH huyệt (controlled vocabulary). Mỗi 'trait' = 1 loại huyệt sẽ trở thành 1 mục tra cứu gom huyệt. 'any' = danh sách biểu thức (regex) khớp trên text ĐẶC TÍNH, KHÔNG phân biệt hoa/thường, CÓ phân biệt dấu tiếng Việt. Khớp 1 cái bất kỳ là gắn nhãn (1 huyệt có thể mang nhiều nhãn). Sửa file này thoải mái (thêm/bớt loại, chỉnh regex) rồi chạy lại: node _build-dict.cjs",
+  "traits": [
+    { "id": "ky-huyet",   "ten": "Kỳ Huyệt",                "nhom": "Loại Huyệt", "moTa": "Huyệt ngoài 12 chính kinh và 8 mạch (huyệt ngoài kinh).", "any": ["kỳ huyệt"] },
+    { "id": "huyet-moi",  "ten": "Huyệt Mới",               "nhom": "Loại Huyệt", "moTa": "Huyệt được phát hiện/đặt tên thời hiện đại.",            "any": ["huyệt mới"] },
+    { "id": "chinh-kinh", "ten": "Huyệt Chính Kinh / Mạch", "nhom": "Loại Huyệt", "moTa": "Huyệt nằm trên 12 chính kinh hoặc mạch Nhâm/Đốc.",       "any": ["huyệt thứ \\d+ của (kinh|mạch)"] },
+
+    { "id": "nd-tinh", "ten": "Tỉnh Huyệt",         "nhom": "Ngũ Du Huyệt", "any": ["huyệt tỉnh\\b"] },
+    { "id": "nd-vinh", "ten": "Vinh Huyệt",         "nhom": "Ngũ Du Huyệt", "any": ["huyệt vinh\\b"] },
+    { "id": "nd-du",   "ten": "Du Huyệt (Ngũ Du)",  "nhom": "Ngũ Du Huyệt", "any": ["huyệt du\\b"] },
+    { "id": "nd-kinh", "ten": "Kinh Huyệt (Ngũ Du)","nhom": "Ngũ Du Huyệt", "any": ["huyệt kinh\\b(?! mạch)"] },
+    { "id": "nd-hop",  "ten": "Hợp Huyệt",          "nhom": "Ngũ Du Huyệt", "any": ["huyệt hợp\\b"] },
+
+    { "id": "nh-moc",  "ten": "Hành Mộc",  "nhom": "Ngũ Hành", "any": ["thuộc (hành )?mộc"] },
+    { "id": "nh-hoa",  "ten": "Hành Hỏa",  "nhom": "Ngũ Hành", "any": ["thuộc (hành )?hỏa"] },
+    { "id": "nh-tho",  "ten": "Hành Thổ",  "nhom": "Ngũ Hành", "any": ["thuộc (hành )?thổ"] },
+    { "id": "nh-kim",  "ten": "Hành Kim",  "nhom": "Ngũ Hành", "any": ["thuộc (hành )?kim"] },
+    { "id": "nh-thuy", "ten": "Hành Thủy", "nhom": "Ngũ Hành", "any": ["thuộc (hành )?thủy"] },
+
+    { "id": "dd-nguyen",  "ten": "Nguyên Huyệt",        "nhom": "Huyệt Đặc Dụng", "any": ["huyệt nguyên"] },
+    { "id": "dd-lac",     "ten": "Lạc Huyệt",           "nhom": "Huyệt Đặc Dụng", "any": ["huyệt lạc"] },
+    { "id": "dd-khich",   "ten": "Khích Huyệt",         "nhom": "Huyệt Đặc Dụng", "any": ["huyệt khích"] },
+    { "id": "dd-mo",      "ten": "Mộ Huyệt",            "nhom": "Huyệt Đặc Dụng", "any": ["huyệt mộ"] },
+    { "id": "dd-hoi",     "ten": "Bát Hội Huyệt",       "nhom": "Huyệt Đặc Dụng", "moTa": "Hội của Tạng/Phủ/Khí/Huyết/Cân/Mạch/Cốt/Tủy.", "any": ["huyệt hội của (tạng|phủ|khí|huyết|cân|mạch|cốt|tủy)"] },
+    { "id": "dd-giaohoi", "ten": "Giao Hội Huyệt",      "nhom": "Huyệt Đặc Dụng", "moTa": "Huyệt nơi nhiều kinh/mạch gặp nhau.", "any": ["giao hội", "hội của mạch"] },
+    { "id": "dd-batmach", "ten": "Bát Mạch Giao Hội",   "nhom": "Huyệt Đặc Dụng", "moTa": "Huyệt khai mở 1 trong 8 mạch kỳ kinh.", "any": ["bát mạch giao hội", "huyệt mở của"] },
+    { "id": "dd-bo",      "ten": "Huyệt Bổ",            "nhom": "Huyệt Đặc Dụng", "any": ["huyệt bổ"] },
+    { "id": "dd-ta",      "ten": "Huyệt Tả",            "nhom": "Huyệt Đặc Dụng", "any": ["huyệt tả"] }
+  ]
+}

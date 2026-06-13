@@ -1,0 +1,8 @@
+Bệnh tình chí: =IF(AND(E11>E7;E13>0;E11>E13);AD32&", ";"")
+Bệnh do tình chí: =IF(OR(E11>0;AND(E11>0;E13<0));AD33&", ";"")
+Tức giận thành bệnh: =IF(AND(E11>0;E25>0);AD34&", ";"")
+Lo nghĩ thành bệnh: =IF(AND(E11>0;E26>0);AD35&", ";"")
+Tiếc xót thành bệnh: =IF(AND(E11>0;E22>0);AD36&", ";"")
+Buồn thành bệnh: =IF(AND(E11>0;E15>0);AD37&", ";"")
+Oan uất thành bệnh: =IF(AND(E11>0;E15>0;E23<0;E25>0);AD38&", ";"")
+Bệnh thần kinh chức năng: =IF(AND(E13>0;E13>E11);AD39&", ";"")

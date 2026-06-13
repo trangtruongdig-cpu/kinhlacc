@@ -1,0 +1,1092 @@
+{
+  "name": "251014 SEO FULL TREND POST @ai5phut",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 8 * * 4"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -48,
+        400
+      ],
+      "id": "0a955dee-c280-411b-91e1-225b431f8dfa",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.perplexity.ai/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"sonar-pro\",\n  \"messages\": [\n    {\n      \"role\": \"system\",\n      \"content\": \"Act as a professional news researcher who is capable of finding detailed summaries about a news topic from highly reputable sources.\"\n    },\n    {\n      \"role\": \"user\",\n      \"content\": \" Research the following topic and return everything you can find: '{{ $('Choosing Topic').item.json.message.content }}' \"\n    }\n  ]\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1184,
+        400
+      ],
+      "id": "50e29144-c613-4d5a-8ed6-c82a4a40c80d",
+      "name": "Research",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "okKzkq2hKDsvwJWt",
+          "name": "Perplexity API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "23b8e8c4-9191-415a-9661-1b60d413528a",
+              "name": "research",
+              "value": "={{ $json.choices[0].message.content.replaceAll(\"[1]\", \" - source: \" +$json.citations[0]).replaceAll(\"[2]\",\" - source:\" +$json.citations[1]).replaceAll(\"[3]\",\" - source: \" +$json.citations[2]).replaceAll(\"[4]\",\" - source: \"+$json.citations[3]).replaceAll(\"[5]\",\" - source: \"+$json.citations[4]).replaceAll(\"[6]\",\" - source: \"+$json.citations[5]).replaceAll(\"[7]\",\" - source: \"+$json.citations[6]).replaceAll(\"[8]\",\" - source: \"+$json.citations[7]).replaceAll(\"[9]\",\" - source: \"+$json.citations[8]).replaceAll(\"[10]\",\" - source: \"+$json.citations[9]) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1408,
+        400
+      ],
+      "id": "2e9a16a0-e964-4a30-ac13-de678a8e5b4e",
+      "name": "Fix Links"
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search?engine=google_trends",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "=AI agents"
+            },
+            {
+              "name": "gl",
+              "value": "vn"
+            },
+            {
+              "name": "hl",
+              "value": "vi"
+            },
+            {
+              "name": "date",
+              "value": "={{ $now.minus({ days: 3 }).format('yyyy-MM-dd') }} {{ $now.format('yyyy-MM-dd') }}"
+            },
+            {
+              "name": "data_type",
+              "value": "RELATED_QUERIES"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        160,
+        400
+      ],
+      "id": "14bcc573-d9fe-445b-be5a-8fb9513f8a33",
+      "name": "Trends",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "54vr4nfeOEUDeVng",
+          "name": "SerpAPI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"most-trending\": {\n\n    \"#1\": { \n\n      \"query\":\"{{ $json.related_queries.rising[0].query }}\",\n      \"score\":\"{{ $json.related_queries.rising[0].extracted_value }}\"\n\n    },\n\n\n    \"#2\": { \n\n      \"query\":\"{{ $json.related_queries.rising[1].query }}\",\n      \"score\":\"{{ $json.related_queries.rising[1].extracted_value }}\"\n\n    }\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        352,
+        400
+      ],
+      "id": "ea0af9a7-cb3d-4cc5-a1fe-ab577661c983",
+      "name": "2 Most Trending"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Get the top array from your JSON\nconst topItems = $('Trends').first().json.related_queries.top;\n\n// Filter the items to only include those with extracted_value > 30\nconst filtered = topItems.filter(item => item.extracted_value > 30);\n\n// Map the filtered items to their query values and join them with commas\nconst resultString = filtered.map(item => item.query).join(', ');\n\n// Return the result in a new JSON property\nreturn [{ json: { result: resultString } }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        560,
+        400
+      ],
+      "id": "cb47f9b5-f9ed-4450-86ae-9e2801612ccf",
+      "name": "High search volume keywords"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Bạn là thành viên trong đội chiến lược nội dung của AI5Phut — một công ty sáng tạo về AI, chuyên xây dựng hệ thống tự động hóa thông minh, AI Agent và chia sẻ kiến thức ứng dụng AI thực tế cho doanh nghiệp, freelancer và creator.  \nMục tiêu của mỗi bài blog là **tạo nội dung thực tế, sâu sắc và có thứ hạng cao trên Google**, đồng thời củng cố hình ảnh chuyên gia của AI5Phut trong các lĩnh vực: AI Automation, Prompt Engineering, n8n Workflow và năng suất làm việc.\n\nHiện tại, bạn được cung cấp **2 từ khóa đang thịnh hành nhất** trên Google News trong vài ngày gần đây.  \nMỗi từ khóa có 2 thuộc tính:\n\n1. **query:** Cụm từ tìm kiếm đang trend  \n2. **score:** Tỷ lệ phần trăm tăng trưởng khối lượng tìm kiếm so với giai đoạn trước  \n\nNhiệm vụ của bạn:  \n→ Chọn **1 từ khóa duy nhất** phù hợp nhất với định hướng thương hiệu AI5Phut — ưu tiên **liên quan tới AI, tự động hóa, năng suất hoặc creator economy**, đồng thời có **tiềm năng SEO cao nhất** (dựa vào score).  \n\nChỉ trả về **từ khóa đã chọn**, không giải thích thêm, không thêm bất kỳ nội dung nào khác.\n\n---\n\nKeyword 1:  \n{{ $('2 Most Trending').item.json['most-trending']['#1'].toJsonString() }}  \n\nKeyword 2:  \n{{ $('2 Most Trending').item.json['most-trending']['#2'].toJsonString() }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        784,
+        400
+      ],
+      "id": "6669eda4-b8f7-4e88-9d31-665afba80c0d",
+      "name": "Choosing Topic",
+      "credentials": {
+        "openAiApi": {
+          "id": "CBG2WAoLkmpwqP3d",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Find Trend\n\n",
+        "height": 240,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        80,
+        320
+      ],
+      "typeVersion": 1,
+      "id": "e27748a1-5bbd-4ec9-8941-3e6ab2d84a4d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## High Volume Keywords\n\n",
+        "height": 240,
+        "width": 200
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        528,
+        320
+      ],
+      "typeVersion": 1,
+      "id": "8e356dc6-0e50-4a21-835c-46c6c09b29d0",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Choosing Blog Topic\n\n\n",
+        "height": 240,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        768,
+        320
+      ],
+      "typeVersion": 1,
+      "id": "3f2df42f-5759-4a2f-b46c-9eab7321504b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Research\n\n\n",
+        "height": 240,
+        "width": 460
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1120,
+        320
+      ],
+      "typeVersion": 1,
+      "id": "c8be0bc0-ee8a-428b-b5aa-8d68bbaa2ba2",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Write Post\n\n\n",
+        "height": 240,
+        "width": 360
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1600,
+        320
+      ],
+      "typeVersion": 1,
+      "id": "b6e5b05c-ba37-4055-8f67-6eaea12024f8",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# Trend SEO Post",
+        "height": 80,
+        "width": 420,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        0,
+        0
+      ],
+      "typeVersion": 1,
+      "id": "4a793d37-365c-4f62-9f7f-279f3f3433c0",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "previous-posts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2256,
+        400
+      ],
+      "id": "99f08ff8-7dee-461c-9a80-13ee7f29fbb7",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1KNt9UxMlxUgklhgMjVMr080nlg0FVf4_GGQEkdqHf54",
+          "mode": "list",
+          "cachedResultName": "Completed Keywords @ai5phut SEO Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KNt9UxMlxUgklhgMjVMr080nlg0FVf4_GGQEkdqHf54/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1008473891,
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KNt9UxMlxUgklhgMjVMr080nlg0FVf4_GGQEkdqHf54/edit#gid=1008473891"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2032,
+        400
+      ],
+      "id": "cc620c2c-cc81-4ebb-82b8-56bfc6ff62a5",
+      "name": "Previous Posts",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Hãy tạo **slug** cho bài blog sau:  \n{{ $('Add internal links').item.json.message.content }}\n\n**Slug** trong bài blog là phần của URL nằm sau tên miền, giúp xác định trang cụ thể.  \nSlug thường là một cụm ngắn, mô tả nội dung chính của bài viết, giúp người dùng và công cụ tìm kiếm hiểu rõ bài viết nói về điều gì.  \n\nVí dụ: trong URL `www.example.com/intelligent-agents`, phần slug là `intelligent-agents`.  \nMột slug tốt cần:\n- Ngắn gọn, dễ đọc  \n- Có chứa từ khóa chính liên quan  \n- Tránh các từ thừa, giúp tăng khả năng SEO  \n\nSlug phải gồm **tối đa 4–5 từ**, và **bắt buộc chứa từ khóa chính (primary keyword)** của bài viết là:  \n{{ $('Choosing Topic').item.json.message.content }}\n\nChỉ trả về **slug** (chuỗi slug duy nhất) và **không thêm bất kỳ nội dung nào khác**, để tôi có thể copy và gắn trực tiếp vào cuối URL bài blog.\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        3264,
+        96
+      ],
+      "id": "3aac3789-110e-4379-a4f0-8c714348ddd6",
+      "name": "Slug",
+      "credentials": {
+        "openAiApi": {
+          "id": "CBG2WAoLkmpwqP3d",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Hãy trích xuất **tiêu đề bài blog** từ nội dung bài viết sau:  \n{{ $('Add internal links').item.json.message.content }}\n\nTiêu đề bài blog phải **chứa từ khóa chính (primary keyword)** là:  \n{{ $('Choosing Topic').item.json.message.content }}\nvà phải giúp người đọc **hiểu ngay nội dung hoặc giá trị họ sẽ nhận được** khi đọc bài viết này.  \n\n- Không đặt kết quả trong dấu ngoặc kép \"\".  \n- Kết quả chỉ được là **văn bản thuần túy**, không có markdown hoặc định dạng khác.  \n\nChỉ trả về **tiêu đề bài blog** và **không thêm bất kỳ nội dung nào khác**.\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2576,
+        384
+      ],
+      "id": "61b90023-6d4f-4a6e-acad-03373692733f",
+      "name": "Title",
+      "credentials": {
+        "openAiApi": {
+          "id": "CBG2WAoLkmpwqP3d",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Hãy tạo **meta description** phù hợp cho bài blog sau:  \n{{ $('Add internal links').item.json.message.content }}\n\nMột **meta description** chuẩn SEO cần:\n\n- **Ngắn gọn:** Giữ độ dài trong khoảng **150–160 ký tự** để toàn bộ mô tả hiển thị đầy đủ trên kết quả tìm kiếm.  \n- **Chứa từ khóa chính:** Lồng ghép từ khóa chính (primary keyword) một cách tự nhiên để tăng khả năng hiển thị và mức độ liên quan.  \n  → Primary keyword = {{ $('Choosing Topic').item.json.message.content }}\n- **Bổ sung từ khóa phụ (nếu phù hợp):** [{{ $('High search volume keywords').item.json.result }}]  \n- **Mang lại giá trị:** Nêu rõ người đọc sẽ học được gì hoặc nhận được lợi ích gì khi nhấp vào bài viết.  \n- **Gây hứng thú:** Sử dụng ngôn ngữ thuyết phục, có thể dùng câu hỏi hoặc động từ mạnh để khuyến khích click.  \n- **Phù hợp nội dung:** Đảm bảo mô tả phản ánh đúng nội dung thực tế của bài viết để tránh tăng tỷ lệ thoát (bounce rate).  \n\nChỉ trả về **meta description** (chuỗi mô tả duy nhất) và **không thêm bất kỳ nội dung nào khác**.\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2928,
+        384
+      ],
+      "id": "a8816620-e3bb-4382-a57c-591f76e04ef9",
+      "name": "Meta description",
+      "credentials": {
+        "openAiApi": {
+          "id": "CBG2WAoLkmpwqP3d",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "https://serpapi.com/search?engine=google_images",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpQueryAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "q",
+              "value": "={{ $('Title').item.json.message.content }}"
+            },
+            {
+              "name": "gl",
+              "value": "vn"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        3280,
+        384
+      ],
+      "id": "65eb81f5-4f84-4c23-ae55-0f3fef8a9675",
+      "name": "Image Covers",
+      "credentials": {
+        "httpQueryAuth": {
+          "id": "54vr4nfeOEUDeVng",
+          "name": "SerpAPI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1f0541df-05ab-4e3d-a5d8-3904579fc8a9",
+              "name": "image-url",
+              "value": "={{ $json.images_results[1].original }}",
+              "type": "string"
+            },
+            {
+              "id": "6e617dc5-2446-45b1-8630-bd4d34724885",
+              "name": "data",
+              "value": "={{ $('Markdown Version').item.json.message.content }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3504,
+        384
+      ],
+      "id": "8cd63ad5-d354-4891-af24-69a5c82d98fa",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "content": "## HTML/Markdown\n\n \n \n",
+        "height": 240,
+        "width": 340
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2864,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "fb753545-faf6-468c-aee2-9851b35b139e",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## Slug\n\n\n \n \n",
+        "height": 240,
+        "width": 320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3216,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "feb63100-5773-47cb-abab-f12be8f881ca",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "## Post Title\n\n\n \n \n",
+        "height": 240,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2544,
+        304
+      ],
+      "typeVersion": 1,
+      "id": "0f834986-b5b8-45e9-aa4f-c7b31a1f58b1",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "content": "## Get Image\n\n\n\n \n \n",
+        "height": 240,
+        "width": 360
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3264,
+        304
+      ],
+      "typeVersion": 1,
+      "id": "f60566e7-b3c8-444e-adc3-19f57db45eca",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "## Internal Links\n \n \n",
+        "height": 240,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2528,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "0922f0ef-6183-4119-b271-115b7a0bb290",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Bạn là thành viên của một team tạo ra các blog posts đẳng cấp thế giới.\n\nBạn chịu trách nhiệm về việc tạo internal linking giữa các blog posts.\n\nVới mỗi blog post mới xuất hiện trên bàn làm việc của bạn, nhiệm vụ của bạn là xem qua các blogs đã đăng trước đó và tạo ít nhất 5 internal links.\n\nĐể chọn các cơ hội internal linking tốt nhất, bạn phải:\n\n- Đọc tóm tắt các blog post trước đó và xem qua keywords của chúng. Nếu có sự trùng khớp mà blog post trước đó có liên quan cao, đây chính là cơ hội để tạo internal link.\n\n- Không tạo link nếu không có liên quan cao. Chỉ tạo link khi nó có ý nghĩa và mang lại giá trị cho người đọc.\n\nMột khi bạn đã tìm được các cơ hội linking tốt nhất, bạn phải cập nhật blog post với các internal links. Để làm điều này bạn phải:\n\n- Thêm link của blog post trước đó vào phần liên quan của blog post mới. Đặt URL vào đúng vị trí mà bạn muốn nó xuất hiện trong blog post, đặt nó sát bên cạnh text liên quan. Vị trí đặt link của bạn rất quan trọng.\n\n- Đảm bảo không xóa bất kỳ URL hiện có nào hoặc thay đổi bất cứ điều gì về blog post được cung cấp cho bạn. Bạn chỉ được thêm các URL internal linking mới và output ra blog post đã được chỉnh sửa.\n\nOutput của bạn phải là blog post được cung cấp cho bạn cộng với các URLs mới. Không được xóa bất kỳ thông tin nào.\n\nKhông được trả về các blog posts trước đó. Chỉ trả về blog post hiện tại đã được thêm internal links.\n\nBlog Post Hiện Tại:\n{{ $('Write Blog').item.json.content[0].text }}\n\nCác Blog Posts Trước Đó:\n{{ $json['previous-posts'].toJsonString().split() }}\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2560,
+        96
+      ],
+      "id": "49dd16d4-5bf0-438f-bf6b-f37ace2f1b80",
+      "name": "Add internal links",
+      "credentials": {
+        "openAiApi": {
+          "id": "CBG2WAoLkmpwqP3d",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4.1-mini",
+          "mode": "list",
+          "cachedResultName": "GPT-4.1-MINI"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=KHÔNG ĐƯỢC OUTPUT BẤT KỲ THỨ GÌ NGOÀI CODE MARKDOWN.  \nKhông dùng ```markdown hoặc bất kỳ code fence nào.  \n\n---\n\n## YÊU CẦU CHUNG (bắt buộc):\n\n- Markdown tương thích Substack: chỉ dùng các cú pháp cơ bản (`#`, `##`, `###`, `*`, `-`, `**`, `_`, `[link](url)`, `>`, danh sách số).  \n- KHÔNG dùng HTML tags (`<p>`, `<div>`, `<style>`, `<h1>`...).  \n- Dùng **2 dòng trống giữa các SECTION lớn** để tách rõ ràng.  \n- Tất cả **heading (H1/H2/H3)** phải có **slug id** ở cuối dòng, ví dụ:  \n  `## Tiêu đề phụ {#tieu-de-phu}`  \n- Mọi **liên kết (a)**, **mục trong TOC**, và **câu hỏi trong FAQ** phải là Markdown link `[text](#slug)` với màu hiển thị mặc định của Substack (Substack sẽ tự xử lý theme sáng/tối).  \n- Tất cả đoạn văn thường phải ngắn (2–4 dòng), không chèn HTML xuống dòng.  \n- Không sinh thêm cú pháp ngoài Markdown tiêu chuẩn.\n\n---\n\n## BỐ CỤC VÀ THỨ TỰ (bắt buộc):\n\n1. `# Tiêu đề chính {#tieu-de}`  \n   (Phải chứa **primary keyword**)  \n\n2. **Subhead (mô tả 2–3 dòng ngay dưới tiêu đề)**  \n   Dùng dấu ** để in đậm toàn đoạn.  \n\n3. _Estimated reading time: 8–12 phút_  \n\n---\n\n4. `## Điểm chính {#key-takeaways}`  \n   - Danh sách bullet ngắn gọn (mỗi dòng 1 ý, không thêm dòng trống giữa các bullet).  \n\n---\n\n5. `## Mục lục {#muc-luc}`  \n   Liệt kê các heading dưới dạng liên kết:  \n   - [Phần 1: Giới thiệu](#gioi-thieu)  \n   - [Phần 2: Phân tích dữ liệu](#phan-tich-du-lieu)  \n   - [Phần 3: Kết luận](#ket-luan)  \n\n---\n\n6. **PHẦN NỘI DUNG CHÍNH**  \n   Với mỗi section:  \n   - `## Tên section {#slug}` hoặc `### Tên subsection {#slug}`  \n   - Nội dung bao gồm đoạn văn, danh sách, blockquote.  \n   - Nếu có trích dẫn: dùng `>`  \n   - Nếu có nguồn: giữ nguyên `[anchor text](URL)`  \n\n---\n\n7. `## Câu hỏi thường gặp {#faq}`  \n   Dưới mỗi câu hỏi:  \n   - `**Câu hỏi:**` (in đậm, có thể thêm emoji ❓ nếu muốn)  \n   - Sau đó là đoạn trả lời bằng văn bản thông thường.  \n   Ví dụ:  \n   **Câu hỏi:** Làm sao để tối ưu hiệu suất AI Agent?  \n   Trả lời: Bắt đầu từ dữ liệu huấn luyện. Hầu hết lỗi đến từ đầu vào không chuẩn.  \n\n---\n\n## QUY TẮC STYLE (Markdown)\n\n- `#` H1: tiêu đề chính  \n- `##` H2: section chính  \n- `###` H3: subsection  \n- `**bold**` cho nhấn mạnh, `_italic_` cho mô tả hoặc nhấn nhẹ.  \n- `[text](URL)` giữ nguyên hyperlink.  \n- `>` blockquote cho trích dẫn.  \n- `*` hoặc `-` cho danh sách bullet.  \n- `1.` cho danh sách có thứ tự.  \n\n---\n\n## CHỐNG LỖI THƯỜNG GẶP\n\n- Không dùng bất kỳ thẻ HTML.  \n- Không sinh thêm code block, class, hay style.  \n- Không đổi slug trong anchor (phải trùng 100%).  \n- Không cắt ngắn nội dung bài.  \n- Giữ nguyên mọi URL trong bài gốc.  \n\n---\n\n## NỘI DUNG BÀI (để render):\n\n{{ $json.message.content }}\n\n---\n\n## NHẮC LẠI:\nOutput CHỈ là Markdown theo đúng bố cục + quy tắc trên.  \nKhông bình luận, không giải thích, không sinh thêm mô tả phụ hoặc heading ngoài yêu cầu.\n"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.8,
+      "position": [
+        2912,
+        96
+      ],
+      "id": "8ed924a6-0a88-4031-b7ce-d72183d17b20",
+      "name": "Markdown Version",
+      "credentials": {
+        "openAiApi": {
+          "id": "CBG2WAoLkmpwqP3d",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "ai5phut@gmail.com",
+        "subject": "=[New Blog Post Ready] {{ $('Title').item.json.message.content }}",
+        "message": "=<!DOCTYPE html>\n<html>\n<head>\n    <meta charset=\"UTF-8\">\n    <style>\n        body {\n            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;\n            line-height: 1.6;\n            color: #1a1a1a;\n            max-width: 700px;\n            margin: 0 auto;\n            padding: 20px;\n            background-color: #f8f9fa;\n        }\n        .container {\n            background: white;\n            border-radius: 12px;\n            padding: 30px;\n            box-shadow: 0 2px 8px rgba(0,0,0,0.1);\n        }\n        .header {\n            background: linear-gradient(135deg, #10b981 0%, #059669 100%);\n            color: white;\n            padding: 20px;\n            border-radius: 8px;\n            margin-bottom: 25px;\n            text-align: center;\n        }\n        .header h1 {\n            margin: 0;\n            font-size: 24px;\n        }\n        .status-badge {\n            display: inline-block;\n            background: #10b981;\n            color: white;\n            padding: 6px 16px;\n            border-radius: 20px;\n            font-size: 13px;\n            font-weight: 600;\n            margin-top: 10px;\n        }\n        .info-box {\n            background: #f0fdf4;\n            border-left: 4px solid #10b981;\n            padding: 20px;\n            margin: 20px 0;\n            border-radius: 4px;\n        }\n        .info-box h3 {\n            color: #047857;\n            margin-top: 0;\n            font-size: 16px;\n        }\n        .info-item {\n            margin: 12px 0;\n            padding: 8px 0;\n            border-bottom: 1px solid #d1fae5;\n        }\n        .info-item:last-child {\n            border-bottom: none;\n        }\n        .info-label {\n            font-weight: 600;\n            color: #065f46;\n            font-size: 13px;\n            text-transform: uppercase;\n            letter-spacing: 0.5px;\n        }\n        .info-value {\n            color: #1f2937;\n            margin-top: 5px;\n            font-size: 14px;\n        }\n        .btn {\n            display: inline-block;\n            padding: 14px 30px;\n            margin: 10px 5px;\n            border-radius: 6px;\n            text-decoration: none;\n            font-weight: 600;\n            font-size: 15px;\n            text-align: center;\n        }\n        .btn-primary {\n            background: #10b981;\n            color: white;\n        }\n        .btn-secondary {\n            background: #f59e0b;\n            color: white;\n        }\n        .btn-info {\n            background: #3b82f6;\n            color: white;\n        }\n        .actions {\n            text-align: center;\n            margin: 30px 0;\n            padding: 20px;\n            background: #f9fafb;\n            border-radius: 8px;\n        }\n        .footer {\n            margin-top: 30px;\n            padding-top: 20px;\n            border-top: 2px solid #e5e7eb;\n            text-align: center;\n            color: #6b7280;\n            font-size: 13px;\n        }\n        .code {\n            background: #f3f4f6;\n            padding: 2px 6px;\n            border-radius: 4px;\n            font-family: 'Courier New', monospace;\n            font-size: 13px;\n        }\n        .success-icon {\n            font-size: 48px;\n            margin-bottom: 10px;\n        }\n    </style>\n</head>\n<body>\n    <div class=\"container\">\n        <!-- Header -->\n        <div class=\"header\">\n            <div class=\"success-icon\">✅</div>\n            <h1>Blog Post Processing Complete!</h1>\n            <span class=\"status-badge\">READY TO PUBLISH</span>\n        </div>\n\n        <!-- Title -->\n        <div style=\"background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 8px; margin-bottom: 25px; text-align: center;\">\n            <h2 style=\"color: white; margin: 0; font-size: 20px; line-height: 1.4;\">\n                {{ $('Title').item.json.message.content }}\n            </h2>\n        </div>\n\n        <!-- Main Info -->\n        <div class=\"info-box\">\n            <h3>📋 Blog Post Details</h3>\n            \n            <div class=\"info-item\">\n                <div class=\"info-label\">📄 Markdown File</div>\n                <div class=\"info-value\">\n                    <strong>{{ $json.name }}</strong><br>\n                    <a href=\"{{ $json.webViewLink }}\" style=\"color: #059669; text-decoration: underline;\">View on Google Drive</a>\n                </div>\n            </div>\n\n            <div class=\"info-item\">\n                <div class=\"info-label\">🔗 URL Slug</div>\n                <div class=\"info-value\">\n                    <span class=\"code\">{{ $('Slug').first().json.message.content }}</span>\n                </div>\n            </div>\n\n            <div class=\"info-item\">\n                <div class=\"info-label\">🎯 Meta Description</div>\n                <div class=\"info-value\">\n                    {{ $('Meta description').first().json.message.content }}\n                </div>\n            </div>\n\n            <div class=\"info-item\">\n                <div class=\"info-label\">🔑 Primary Keyword</div>\n                <div class=\"info-value\">\n                    <strong style=\"color: #059669;\">{{ $('Choosing Topic').item.json.message.content }}</strong>\n                </div>\n            </div>\n\n            <div class=\"info-item\">\n                <div class=\"info-label\">📸 Cover Image</div>\n                <div class=\"info-value\">\n                    <a href=\"{{ $('Edit Fields').first().json['image-url'] }}\" style=\"color: #059669; text-decoration: underline;\">View Image</a>\n                </div>\n            </div>\n        </div>\n\n        <!-- Quick Actions -->\n        <div class=\"actions\">\n            <h3 style=\"color: #1f2937; margin-top: 0;\">🚀 Next Steps</h3>\n            <p style=\"color: #6b7280; font-size: 14px; margin-bottom: 20px;\">\n                Your blog post is ready to publish!\n            </p>\n            \n            <a href=\"{{ $json.webViewLink }}\" class=\"btn btn-primary\">\n                📄 Open Markdown File\n            </a>\n            \n            <a href=\"https://ai5phut.substack.com/publish\" class=\"btn btn-secondary\" target=\"_blank\">\n                ✍️ Open Substack Editor\n            </a>\n            \n            <a href=\"https://docs.google.com/spreadsheets/d/1SGqg0JBmNdNfAQU2zHFTXfoKzwzZ1kFei1MBOi0XT-g/edit\" class=\"btn btn-info\" target=\"_blank\">\n                📊 View Cluster Sheet\n            </a>\n        </div>\n\n        <!-- Publishing Checklist -->\n        <div style=\"background: #fffbeb; border-left: 4px solid #f59e0b; padding: 20px; margin: 25px 0; border-radius: 4px;\">\n            <h3 style=\"color: #92400e; margin-top: 0; font-size: 16px;\">✅ Publishing Checklist",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        4080,
+        96
+      ],
+      "id": "003b48a9-1715-4eac-b250-2b2216cda3f4",
+      "name": "Send a message",
+      "webhookId": "68ecb4a0-321e-43e5-87ca-0236351cf529",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "o1yukybuWCsBzDPI",
+          "name": "Gmail 1308"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Completion\n\n\n\n\n\n \n \n",
+        "height": 240,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        3760,
+        304
+      ],
+      "typeVersion": 1,
+      "id": "3755de08-c4d8-475c-9f49-085b0ab91b07",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": "## Post\n\n\n\n\n \n \n",
+        "height": 240,
+        "width": 220
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4016,
+        16
+      ],
+      "typeVersion": 1,
+      "id": "a216ed8b-abd2-4d90-b92a-bac0d4451daa",
+      "name": "Sticky Note12"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1KNt9UxMlxUgklhgMjVMr080nlg0FVf4_GGQEkdqHf54",
+          "mode": "list",
+          "cachedResultName": "Completed Keywords @ai5phut SEO Automation",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KNt9UxMlxUgklhgMjVMr080nlg0FVf4_GGQEkdqHf54/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1008473891,
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1KNt9UxMlxUgklhgMjVMr080nlg0FVf4_GGQEkdqHf54/edit#gid=1008473891"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Blog Title": "={{ $('Title').item.json.message.content }}",
+            "Keywords": "={{ $('Choosing Topic').item.json.message.content }}",
+            "Summary": "={{ $('Meta description').item.json.message.content }}",
+            "URL": "=https://ai5phut.substack.com/p/{{ $('Slug').item.json.message.content }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Blog Title",
+              "displayName": "Blog Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Keywords",
+              "displayName": "Keywords",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Summary",
+              "displayName": "Summary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "URL",
+              "displayName": "URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        4032,
+        368
+      ],
+      "id": "e25ccef4-abc9-4c9f-90ea-962276ee21c1",
+      "name": "Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "7mDokIcqxy1UfxXl",
+          "name": "Google Sheets API 14/8"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Try multiple ways to get markdown content\nlet markdown = '';\n\n// Method 1: From input directly\nif ($input.item.json?.message?.content) {\n  markdown = $input.item.json.message.content;\n}\n// Method 2: From json.content directly\nelse if ($input.item.json?.content) {\n  markdown = $input.item.json.content;\n}\n// Method 3: From Markdown Version node\nelse if ($('Markdown Version')?.item?.json?.message?.content) {\n  markdown = $('Markdown Version').item.json.message.content;\n}\n// Method 4: Check text field\nelse if ($input.item.json?.text) {\n  markdown = $input.item.json.text;\n}\n\n// If still no markdown found, throw error\nif (!markdown || typeof markdown !== 'string') {\n  throw new Error('No markdown content found. Check connection from Markdown Version node.');\n}\n\n// Get title for filename\nlet title = 'blog-post';\ntry {\n  if ($('Title')?.item?.json?.message?.content) {\n    title = $('Title').item.json.message.content;\n  }\n} catch (e) {\n  // Use default title if Title node not available yet\n  title = 'markdown-file-' + Date.now();\n}\n\n// Clean filename (remove special chars)\nconst fileName = title\n  .replace(/[^a-z0-9\\s-]/gi, '')\n  .replace(/\\s+/g, '-')\n  .toLowerCase()\n  .substring(0, 100) + '.md';\n\n// Convert text to binary buffer\nconst buffer = Buffer.from(markdown, 'utf-8');\n\n// Return binary data in format n8n expects\nreturn {\n  json: {\n    fileName: fileName,\n    contentLength: markdown.length\n  },\n  binary: {\n    data: {\n      data: buffer.toString('base64'),\n      mimeType: 'text/markdown',\n      fileName: fileName,\n      fileExtension: 'md'\n    }\n  }\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3632,
+        96
+      ],
+      "id": "4057474c-1b2a-4041-ba53-b9dceedb0ab3",
+      "name": "Convert Markdown to Binary"
+    },
+    {
+      "parameters": {
+        "name": "={{ $json.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1Or46gZKY0anCepNpSiHLspLSYsTNjukl",
+          "mode": "list",
+          "cachedResultName": "251014 Substack ai5phut html files"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        3856,
+        96
+      ],
+      "id": "a20e0a34-eaf9-454c-a687-23dafcf6d67b",
+      "name": "Upload Binary to Drive",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "G0pDUQDLorQuARpU",
+          "name": "Google Drive account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Meta Description\n\n\n \n \n",
+        "height": 240,
+        "width": 300
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2896,
+        304
+      ],
+      "typeVersion": 1,
+      "id": "8f68d9bc-0482-4746-9199-cd4d370b9deb",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-3-7-sonnet-20250219",
+          "mode": "list",
+          "cachedResultName": "claude-3-7-sonnet-20250219"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Bạn là thành viên trong đội sáng tạo nội dung của AI5Phut — một công ty tiên phong về AI Automation và AI Agents tại Việt Nam.  \nMỗi tuần, đội của bạn xuất bản 1 bài blog về **chủ đề AI đang thịnh hành nhất trong tuần**, nhằm vừa mang lại giá trị thật cho người đọc, vừa giúp AI5Phut đạt thứ hạng SEO cao cho các sản phẩm và dịch vụ liên quan đến AI.\n\nLà người viết chính, bạn được cung cấp các thông tin sau:\n\n- **Query:** Chủ đề chính của bài viết tuần này — là tin tức hoặc xu hướng AI đang được quan tâm nhất hiện nay.  \n- **Other keywords:** Danh sách từ khóa có lượng tìm kiếm cao trong lĩnh vực AI. Hãy lồng ghép tự nhiên nếu phù hợp với ngữ cảnh, **tuyệt đối không nhồi nhét**.  \n- **Research findings:** Những thông tin nghiên cứu, dữ liệu và trích dẫn từ các nguồn uy tín liên quan đến chủ đề. Mỗi đoạn nghiên cứu đều có kèm URL nguồn — bạn cần **đề cập hoặc trích dẫn kèm đường dẫn nguồn** trong bài.\n\n---\n\n### YÊU CẦU CỤ THỂ:\n\n- Viết **một bài blog hoàn chỉnh** (từ 1500–2000 từ), không ngắt quãng, không tóm tắt giữa chừng.  \n- **Đưa Query vào tiêu đề (H1), phần mở đầu và xuyên suốt bài viết** một cách tự nhiên.  \n- **Tích hợp toàn bộ nội dung từ Research findings**, đảm bảo người đọc hiểu trọn vẹn thông tin và có thể tra cứu nguồn (ghi rõ URL nguồn).  \n- Giọng văn: **Tự sự, gần gũi, chân thực nhưng vẫn mang hơi hướng chuyên gia.**  \n  → Không \"dạy đời\", không phô trương.  \n  → Giống như bạn đang kể cho người bạn thân nghe về một xu hướng AI thú vị và cách nó đang thay đổi công việc của chúng ta.  \n- Nhịp viết tự nhiên, dễ đọc, phù hợp cho người đọc trình độ trung học (year 5 reading level).  \n- Giữ mạch cảm xúc nhẹ nhàng, có sự tò mò, hứng khởi nhưng vẫn gợi suy nghĩ sâu.  \n- Mục tiêu: giúp người đọc hiểu, cảm, và muốn bắt đầu thử áp dụng AI vào thực tế.\n\n---\n\n### ĐẦU RA:\n- Chỉ trả về **toàn bộ bản nháp blog hoàn chỉnh**, không thêm lời mở đầu, không giải thích, không tóm tắt.  \n- Bài viết phải **đủ độ dài**, có mạch logic rõ ràng, mượt mà, dễ đọc.\n\n---\n\n**Dữ liệu đầu vào:**\n\n**Query:**  \n{{ $('Choosing Topic').item.json.message.content }}\n\n**Detailed Research:**  \n{{ $json.research }}\n\n---\n\nBắt đầu viết bài blog.\n"
+            }
+          ]
+        },
+        "options": {
+          "maxTokens": 8192
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        1664,
+        400
+      ],
+      "id": "3aed4f4f-95f7-4a5f-932f-accfc1becbee",
+      "name": "Write Blog",
+      "credentials": {
+        "anthropicApi": {
+          "id": "OltodkQZb3Xyh4iQ",
+          "name": "Anthropic account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Trends",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Research": {
+      "main": [
+        [
+          {
+            "node": "Fix Links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fix Links": {
+      "main": [
+        [
+          {
+            "node": "Write Blog",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Trends": {
+      "main": [
+        [
+          {
+            "node": "2 Most Trending",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "2 Most Trending": {
+      "main": [
+        [
+          {
+            "node": "High search volume keywords",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "High search volume keywords": {
+      "main": [
+        [
+          {
+            "node": "Choosing Topic",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Choosing Topic": {
+      "main": [
+        [
+          {
+            "node": "Research",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Add internal links",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Previous Posts": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Slug": {
+      "main": [
+        [
+          {
+            "node": "Title",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Title": {
+      "main": [
+        [
+          {
+            "node": "Meta description",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Meta description": {
+      "main": [
+        [
+          {
+            "node": "Image Covers",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Image Covers": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Convert Markdown to Binary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add internal links": {
+      "main": [
+        [
+          {
+            "node": "Markdown Version",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Markdown Version": {
+      "main": [
+        [
+          {
+            "node": "Slug",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert Markdown to Binary": {
+      "main": [
+        [
+          {
+            "node": "Upload Binary to Drive",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Binary to Drive": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Blog": {
+      "main": [
+        [
+          {
+            "node": "Previous Posts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "8e45f1b6-36c6-4ced-89d3-74cdd8bb799a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "de18a871dfa80f3ec5b3cce337cb1bb6af20912d880f7c305c8eb11d066ce6d8"
+  },
+  "id": "N53FSFWBoDtgOSgi",
+  "tags": [
+    {
+      "updatedAt": "2025-10-13T13:41:15.621Z",
+      "createdAt": "2025-10-13T13:41:15.621Z",
+      "id": "WQkhGbGmWr4l83k2",
+      "name": "marketing-automation"
+    }
+  ]
+}

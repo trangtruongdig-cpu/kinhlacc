@@ -1,0 +1,377 @@
+{
+  "nodes": [
+    {
+      "id": "file:backend/src/controllers/bai-thuoc.controller.ts",
+      "type": "file",
+      "name": "bai-thuoc.controller.ts",
+      "filePath": "backend/src/controllers/bai-thuoc.controller.ts",
+      "summary": "Service @Injectable chứa toàn bộ logic nghiệp vụ cho bài thuốc (herbal formula): CRUD trong transaction, phân trang/lọc nâng cao bằng QueryBuilder, đồng bộ liên kết pháp trị và triệu chứng, cùng hàm phân tích quân-thần-tá-sứ theo quy kinh.",
+      "tags": ["service", "api-handler", "data-model", "validation", "transaction"],
+      "complexity": "complex",
+      "languageNotes": "Dùng TypeORM QueryRunner cho transaction thủ công và raw SQL query cho thống kê tạng phủ / tổn thương tác nhân."
+    },
+    {
+      "id": "class:backend/src/controllers/bai-thuoc.controller.ts:BaiThuocService",
+      "type": "class",
+      "name": "BaiThuocService",
+      "filePath": "backend/src/controllers/bai-thuoc.controller.ts",
+      "lineRange": [13, 534],
+      "summary": "Service quản lý bài thuốc: tạo/cập nhật trong transaction với chi tiết vị thuốc, đồng bộ liên kết pháp trị và triệu chứng, phân trang con trỏ (cursor) và phân tích vai trò quân-thần-tá-sứ.",
+      "tags": ["service", "transaction", "validation", "query-builder"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:backend/src/controllers/benh-dong-y-excel.controller.ts",
+      "type": "file",
+      "name": "benh-dong-y-excel.controller.ts",
+      "filePath": "backend/src/controllers/benh-dong-y-excel.controller.ts",
+      "summary": "Service @Injectable cho rule engine chẩn đoán Đông Y dạng Excel: CRUD luật, chuẩn hóa input cell-ref và chạy logicExpression qua evaluateLogicExpression để chẩn đoán ra pháp trị, bài thuốc và triệu chứng tương ứng.",
+      "tags": ["service", "api-handler", "rule-engine", "validation"],
+      "complexity": "complex",
+      "languageNotes": "Đầu vào là cell-ref Excel (C10, F15) được chuẩn hóa thành chữ hoa; luật lưu dưới dạng logicExpression đánh giá bởi excel-rule-engine."
+    },
+    {
+      "id": "class:backend/src/controllers/benh-dong-y-excel.controller.ts:BenhDongYExcelService",
+      "type": "class",
+      "name": "BenhDongYExcelService",
+      "filePath": "backend/src/controllers/benh-dong-y-excel.controller.ts",
+      "lineRange": [21, 262],
+      "summary": "Service rule engine Đông Y Excel: CRUD luật chẩn đoán, resolve liên kết pháp trị/triệu chứng/bài thuốc theo id, và phương thức diagnose() lọc luật khớp logicExpression với input đã chuẩn hóa.",
+      "tags": ["service", "rule-engine", "validation"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:backend/src/controllers/benh-tay-y.controller.ts",
+      "type": "file",
+      "name": "benh-tay-y.controller.ts",
+      "filePath": "backend/src/controllers/benh-tay-y.controller.ts",
+      "summary": "Service @Injectable cho bệnh Tây Y (Western disease): CRUD với liên kết nhiều-nhiều tới bài thuốc, triệu chứng, thiết chẩn, mạch chẩn và pháp trị; phân trang lite với đếm số chứng bệnh liên quan.",
+      "tags": ["service", "api-handler", "data-model", "query-builder"],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:backend/src/controllers/benh-tay-y.controller.ts:BenhTayYService",
+      "type": "class",
+      "name": "BenhTayYService",
+      "filePath": "backend/src/controllers/benh-tay-y.controller.ts",
+      "lineRange": [13, 232],
+      "summary": "Service quản lý bệnh Tây Y: CRUD và gắn quan hệ many-to-many tới bài thuốc, triệu chứng, thiết chẩn, mạch chẩn, pháp trị; hỗ trợ phân trang lọc qua QueryBuilder.",
+      "tags": ["service", "data-model", "query-builder"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:backend/src/controllers/phap-tri.controller.ts",
+      "type": "file",
+      "name": "phap-tri.controller.ts",
+      "filePath": "backend/src/controllers/phap-tri.controller.ts",
+      "summary": "Service @Injectable cho pháp trị (treatment method): CRUD với resolve kinh mạch và bệnh Đông Y, đồng bộ liên kết bài thuốc (bảng nối BaiThuocPhapTri), sinh mô tả từ danh sách triệu chứng và thống kê tạng phủ / chứng bệnh / tổn thương tác nhân.",
+      "tags": ["service", "api-handler", "data-model", "validation", "query-builder"],
+      "complexity": "complex",
+      "languageNotes": "Bắt lỗi unique violation của PostgreSQL (mã 23505) và dùng raw SQL cho các bảng thống kê."
+    },
+    {
+      "id": "class:backend/src/controllers/phap-tri.controller.ts:PhapTriService",
+      "type": "class",
+      "name": "PhapTriService",
+      "filePath": "backend/src/controllers/phap-tri.controller.ts",
+      "lineRange": [13, 568],
+      "summary": "Service quản lý pháp trị: CRUD, resolve kinh mạch/bệnh Đông Y, đồng bộ liên kết bài thuốc qua bảng nối, sinh mô tả từ triệu chứng và xử lý thống kê phân loại.",
+      "tags": ["service", "validation", "query-builder", "transaction"],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:backend/src/models/bai-thuoc-chi-tiet.model.ts",
+      "type": "file",
+      "name": "bai-thuoc-chi-tiet.model.ts",
+      "filePath": "backend/src/models/bai-thuoc-chi-tiet.model.ts",
+      "summary": "TypeORM @Entity dòng chi tiết vị thuốc trong bài thuốc (formula ingredient line): liều lượng, vai trò, ghi chú cùng quan hệ ManyToOne tới BaiThuoc và ViThuoc.",
+      "tags": ["data-model", "entity", "join-table"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/models/bai-thuoc-phap-tri.model.ts",
+      "type": "file",
+      "name": "bai-thuoc-phap-tri.model.ts",
+      "filePath": "backend/src/models/bai-thuoc-phap-tri.model.ts",
+      "summary": "TypeORM @Entity bảng nối many-to-many giữa bài thuốc và pháp trị, lưu thêm đoạn chứng trạng và thứ tự hiển thị.",
+      "tags": ["data-model", "entity", "join-table"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/models/bai-thuoc.model.ts",
+      "type": "file",
+      "name": "bai-thuoc.model.ts",
+      "filePath": "backend/src/models/bai-thuoc.model.ts",
+      "summary": "TypeORM @Entity bài thuốc (herbal formula): tên, nguồn gốc, công dụng, cách dùng cùng quan hệ tới danh sách triệu chứng, chi tiết vị thuốc và liên kết pháp trị.",
+      "tags": ["data-model", "entity"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/models/benh-dong-y-excel.dto.ts",
+      "type": "file",
+      "name": "benh-dong-y-excel.dto.ts",
+      "filePath": "backend/src/models/benh-dong-y-excel.dto.ts",
+      "summary": "DTO types cho rule engine Đông Y Excel: DiagnoseBenhDongYExcelDto (map chỉ số cell), Create/Update DTO mang excelFormula, logicExpression, sqlCase và danh sách id liên kết.",
+      "tags": ["type-definition", "dto", "rule-engine"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/models/benh-dong-y-excel.model.ts",
+      "type": "file",
+      "name": "benh-dong-y-excel.model.ts",
+      "filePath": "backend/src/models/benh-dong-y-excel.model.ts",
+      "summary": "TypeORM @Entity luật chẩn đoán Đông Y Excel: lưu code, outputCell, excelFormula, logicExpression và SQL CASE, cùng quan hệ many-to-many tới pháp trị, triệu chứng và bài thuốc.",
+      "tags": ["data-model", "entity", "rule-engine"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/models/benh-tay-y.dto.ts",
+      "type": "file",
+      "name": "benh-tay-y.dto.ts",
+      "filePath": "backend/src/models/benh-tay-y.dto.ts",
+      "summary": "DTO types Create/Update cho bệnh Tây Y: tên bệnh, id chứng bệnh và các mảng id liên kết tới bài thuốc, triệu chứng, thiết chẩn, mạch chẩn, pháp trị.",
+      "tags": ["type-definition", "dto"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/models/benh-tay-y.model.ts",
+      "type": "file",
+      "name": "benh-tay-y.model.ts",
+      "filePath": "backend/src/models/benh-tay-y.model.ts",
+      "summary": "TypeORM @Entity bệnh Tây Y (Western disease): liên kết tới chứng bệnh và các quan hệ many-to-many tới bài thuốc, triệu chứng, thiết chẩn, mạch chẩn, pháp trị.",
+      "tags": ["data-model", "entity"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:backend/src/models/mach-chan.model.ts",
+      "type": "file",
+      "name": "mach-chan.model.ts",
+      "filePath": "backend/src/models/mach-chan.model.ts",
+      "summary": "TypeORM @Entity mạch chẩn (pulse diagnosis): danh mục đơn giản gồm id và tên mạch chẩn.",
+      "tags": ["data-model", "entity", "catalog"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/models/meridian-syndrome.model.ts",
+      "type": "file",
+      "name": "meridian-syndrome.model.ts",
+      "filePath": "backend/src/models/meridian-syndrome.model.ts",
+      "summary": "TypeORM @Entity hội chứng kinh lạc (meridian syndrome): chứa nhiều cột chỉ số đo kinh mạch theo tạng phủ (cột C8/C11) và quan hệ tới pháp trị, bài thuốc, triệu chứng.",
+      "tags": ["data-model", "entity", "meridian"],
+      "complexity": "moderate",
+      "languageNotes": "Mỗi tạng phủ có ba cột _c8/_c11 ứng với vùng đo trên bảng tính kinh lạc (xem map.md)."
+    },
+    {
+      "id": "file:backend/src/models/phap-tri.dto.ts",
+      "type": "file",
+      "name": "phap-tri.dto.ts",
+      "filePath": "backend/src/models/phap-tri.dto.ts",
+      "summary": "DTO types Create/Update cho pháp trị: các trường chứng trạng, bát pháp, bát cương, tổn thương tác nhân cùng danh sách id bài thuốc, bệnh Đông Y, kinh mạch và triệu chứng.",
+      "tags": ["type-definition", "dto"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/models/phap-tri.model.ts",
+      "type": "file",
+      "name": "phap-tri.model.ts",
+      "filePath": "backend/src/models/phap-tri.model.ts",
+      "summary": "TypeORM @Entity pháp trị (treatment method): chứng trạng, nguyên tắc, bát pháp/bát cương, tổn thương tác nhân cùng quan hệ tới bài thuốc, bệnh Đông Y, kinh mạch và triệu chứng.",
+      "tags": ["data-model", "entity"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:backend/src/models/thiet-chan.model.ts",
+      "type": "file",
+      "name": "thiet-chan.model.ts",
+      "filePath": "backend/src/models/thiet-chan.model.ts",
+      "summary": "TypeORM @Entity thiết chẩn (palpation): danh mục đơn giản gồm id và tên thiết chẩn.",
+      "tags": ["data-model", "entity", "catalog"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/models/trieu-chung.model.ts",
+      "type": "file",
+      "name": "trieu-chung.model.ts",
+      "filePath": "backend/src/models/trieu-chung.model.ts",
+      "summary": "TypeORM @Entity triệu chứng (symptom): id, tên triệu chứng và quan hệ many-to-many ngược tới danh sách bệnh Tây Y.",
+      "tags": ["data-model", "entity", "catalog"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/routers/benh-dong-y-excel.router.ts",
+      "type": "file",
+      "name": "benh-dong-y-excel.router.ts",
+      "filePath": "backend/src/routers/benh-dong-y-excel.router.ts",
+      "summary": "@Controller định tuyến HTTP cho rule engine Đông Y Excel: endpoint diagnose, findAll/findLite, findOne và CRUD ủy thác sang BenhDongYExcelService.",
+      "tags": ["api-handler", "controller", "rest"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/routers/benh-dong-y-excel.router.ts:BenhDongYExcelRouter",
+      "type": "class",
+      "name": "BenhDongYExcelRouter",
+      "filePath": "backend/src/routers/benh-dong-y-excel.router.ts",
+      "lineRange": [20, 73],
+      "summary": "Controller HTTP cho rule engine Đông Y Excel, gồm endpoint diagnose và các route CRUD/phân trang ủy thác cho service.",
+      "tags": ["api-handler", "controller", "rest"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:backend/src/routers/benh-dong-y.router.ts",
+      "type": "file",
+      "name": "benh-dong-y.router.ts",
+      "filePath": "backend/src/routers/benh-dong-y.router.ts",
+      "summary": "@Controller định tuyến HTTP chỉ đọc cho bệnh Đông Y: findAll/findOne lấy dữ liệu từ BenhDongYExcelService và định hình lại (shape) danh sách pháp trị, triệu chứng, bài thuốc cho frontend.",
+      "tags": ["api-handler", "controller", "rest", "serialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:backend/src/routers/benh-dong-y.router.ts:BenhDongYRouter",
+      "type": "class",
+      "name": "BenhDongYRouter",
+      "filePath": "backend/src/routers/benh-dong-y.router.ts",
+      "lineRange": [5, 43],
+      "summary": "Controller HTTP chỉ đọc cho bệnh Đông Y, dùng lại BenhDongYExcelService và hàm shape() để định dạng đầu ra.",
+      "tags": ["api-handler", "controller", "serialization"],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:backend/src/routers/benh-tay-y.router.ts",
+      "type": "file",
+      "name": "benh-tay-y.router.ts",
+      "filePath": "backend/src/routers/benh-tay-y.router.ts",
+      "summary": "@Controller định tuyến HTTP cho bệnh Tây Y: findAll/findLite với tham số lọc, findOne và CRUD ủy thác sang BenhTayYService.",
+      "tags": ["api-handler", "controller", "rest"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/routers/benh-tay-y.router.ts:BenhTayYRouter",
+      "type": "class",
+      "name": "BenhTayYRouter",
+      "filePath": "backend/src/routers/benh-tay-y.router.ts",
+      "lineRange": [16, 67],
+      "summary": "Controller HTTP cho bệnh Tây Y với các route phân trang lọc và CRUD ủy thác cho service.",
+      "tags": ["api-handler", "controller", "rest"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:backend/src/routers/phap-tri.router.ts",
+      "type": "file",
+      "name": "phap-tri.router.ts",
+      "filePath": "backend/src/routers/phap-tri.router.ts",
+      "summary": "@Controller định tuyến HTTP cho pháp trị: findAll/findOptions/findLite với parse danh sách id và chuỗi từ query, findOne và CRUD ủy thác sang PhapTriService.",
+      "tags": ["api-handler", "controller", "rest"],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:backend/src/routers/phap-tri.router.ts:PhapTriRouter",
+      "type": "class",
+      "name": "PhapTriRouter",
+      "filePath": "backend/src/routers/phap-tri.router.ts",
+      "lineRange": [16, 94],
+      "summary": "Controller HTTP cho pháp trị với các route phân trang lọc (parseIdList/parseStrList) và CRUD ủy thác cho service.",
+      "tags": ["api-handler", "controller", "rest"],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {"source": "file:backend/src/controllers/bai-thuoc.controller.ts", "target": "class:backend/src/controllers/bai-thuoc.controller.ts:BaiThuocService", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:backend/src/controllers/bai-thuoc.controller.ts", "target": "class:backend/src/controllers/bai-thuoc.controller.ts:BaiThuocService", "type": "exports", "direction": "forward", "weight": 0.8},
+    {"source": "file:backend/src/controllers/benh-dong-y-excel.controller.ts", "target": "class:backend/src/controllers/benh-dong-y-excel.controller.ts:BenhDongYExcelService", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:backend/src/controllers/benh-dong-y-excel.controller.ts", "target": "class:backend/src/controllers/benh-dong-y-excel.controller.ts:BenhDongYExcelService", "type": "exports", "direction": "forward", "weight": 0.8},
+    {"source": "file:backend/src/controllers/benh-tay-y.controller.ts", "target": "class:backend/src/controllers/benh-tay-y.controller.ts:BenhTayYService", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:backend/src/controllers/benh-tay-y.controller.ts", "target": "class:backend/src/controllers/benh-tay-y.controller.ts:BenhTayYService", "type": "exports", "direction": "forward", "weight": 0.8},
+    {"source": "file:backend/src/controllers/phap-tri.controller.ts", "target": "class:backend/src/controllers/phap-tri.controller.ts:PhapTriService", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:backend/src/controllers/phap-tri.controller.ts", "target": "class:backend/src/controllers/phap-tri.controller.ts:PhapTriService", "type": "exports", "direction": "forward", "weight": 0.8},
+    {"source": "file:backend/src/routers/benh-dong-y-excel.router.ts", "target": "class:backend/src/routers/benh-dong-y-excel.router.ts:BenhDongYExcelRouter", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:backend/src/routers/benh-dong-y-excel.router.ts", "target": "class:backend/src/routers/benh-dong-y-excel.router.ts:BenhDongYExcelRouter", "type": "exports", "direction": "forward", "weight": 0.8},
+    {"source": "file:backend/src/routers/benh-dong-y.router.ts", "target": "class:backend/src/routers/benh-dong-y.router.ts:BenhDongYRouter", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:backend/src/routers/benh-dong-y.router.ts", "target": "class:backend/src/routers/benh-dong-y.router.ts:BenhDongYRouter", "type": "exports", "direction": "forward", "weight": 0.8},
+    {"source": "file:backend/src/routers/benh-tay-y.router.ts", "target": "class:backend/src/routers/benh-tay-y.router.ts:BenhTayYRouter", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:backend/src/routers/benh-tay-y.router.ts", "target": "class:backend/src/routers/benh-tay-y.router.ts:BenhTayYRouter", "type": "exports", "direction": "forward", "weight": 0.8},
+    {"source": "file:backend/src/routers/phap-tri.router.ts", "target": "class:backend/src/routers/phap-tri.router.ts:PhapTriRouter", "type": "contains", "direction": "forward", "weight": 1.0},
+    {"source": "file:backend/src/routers/phap-tri.router.ts", "target": "class:backend/src/routers/phap-tri.router.ts:PhapTriRouter", "type": "exports", "direction": "forward", "weight": 0.8},
+
+    {"source": "file:backend/src/controllers/bai-thuoc.controller.ts", "target": "file:backend/src/models/bai-thuoc-chi-tiet.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/bai-thuoc.controller.ts", "target": "file:backend/src/models/bai-thuoc-phap-tri.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/bai-thuoc.controller.ts", "target": "file:backend/src/models/bai-thuoc.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/bai-thuoc.controller.ts", "target": "file:backend/src/models/dongy-thuoc.dto.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/bai-thuoc.controller.ts", "target": "file:backend/src/models/phap-tri.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/bai-thuoc.controller.ts", "target": "file:backend/src/models/trieu-chung.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/bai-thuoc.controller.ts", "target": "file:backend/src/models/vi-thuoc.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/controllers/benh-dong-y-excel.controller.ts", "target": "file:backend/src/models/bai-thuoc.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/benh-dong-y-excel.controller.ts", "target": "file:backend/src/models/benh-dong-y-excel.dto.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/benh-dong-y-excel.controller.ts", "target": "file:backend/src/models/benh-dong-y-excel.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/benh-dong-y-excel.controller.ts", "target": "file:backend/src/models/phap-tri.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/benh-dong-y-excel.controller.ts", "target": "file:backend/src/models/trieu-chung.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/benh-dong-y-excel.controller.ts", "target": "file:backend/src/utils/excel-rule-engine.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/controllers/benh-tay-y.controller.ts", "target": "file:backend/src/models/bai-thuoc.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/benh-tay-y.controller.ts", "target": "file:backend/src/models/benh-tay-y.dto.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/benh-tay-y.controller.ts", "target": "file:backend/src/models/benh-tay-y.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/benh-tay-y.controller.ts", "target": "file:backend/src/models/mach-chan.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/benh-tay-y.controller.ts", "target": "file:backend/src/models/phap-tri.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/benh-tay-y.controller.ts", "target": "file:backend/src/models/thiet-chan.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/benh-tay-y.controller.ts", "target": "file:backend/src/models/trieu-chung.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/controllers/phap-tri.controller.ts", "target": "file:backend/src/models/bai-thuoc-phap-tri.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/phap-tri.controller.ts", "target": "file:backend/src/models/bai-thuoc.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/phap-tri.controller.ts", "target": "file:backend/src/models/kinh-mach.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/phap-tri.controller.ts", "target": "file:backend/src/models/meridian-syndrome.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/phap-tri.controller.ts", "target": "file:backend/src/models/phap-tri.dto.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/phap-tri.controller.ts", "target": "file:backend/src/models/phap-tri.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/controllers/phap-tri.controller.ts", "target": "file:backend/src/models/trieu-chung.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/models/bai-thuoc-chi-tiet.model.ts", "target": "file:backend/src/models/bai-thuoc.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/bai-thuoc-chi-tiet.model.ts", "target": "file:backend/src/models/vi-thuoc.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/models/bai-thuoc-phap-tri.model.ts", "target": "file:backend/src/models/bai-thuoc.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/bai-thuoc-phap-tri.model.ts", "target": "file:backend/src/models/phap-tri.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/models/bai-thuoc.model.ts", "target": "file:backend/src/models/bai-thuoc-chi-tiet.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/bai-thuoc.model.ts", "target": "file:backend/src/models/bai-thuoc-phap-tri.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/bai-thuoc.model.ts", "target": "file:backend/src/models/trieu-chung.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/models/benh-dong-y-excel.model.ts", "target": "file:backend/src/models/bai-thuoc.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/benh-dong-y-excel.model.ts", "target": "file:backend/src/models/phap-tri.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/benh-dong-y-excel.model.ts", "target": "file:backend/src/models/trieu-chung.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/models/benh-tay-y.model.ts", "target": "file:backend/src/models/bai-thuoc.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/benh-tay-y.model.ts", "target": "file:backend/src/models/chung-benh.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/benh-tay-y.model.ts", "target": "file:backend/src/models/mach-chan.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/benh-tay-y.model.ts", "target": "file:backend/src/models/phap-tri.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/benh-tay-y.model.ts", "target": "file:backend/src/models/thiet-chan.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/benh-tay-y.model.ts", "target": "file:backend/src/models/trieu-chung.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/models/meridian-syndrome.model.ts", "target": "file:backend/src/models/bai-thuoc.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/meridian-syndrome.model.ts", "target": "file:backend/src/models/phap-tri.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/meridian-syndrome.model.ts", "target": "file:backend/src/models/trieu-chung.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/models/phap-tri.model.ts", "target": "file:backend/src/models/bai-thuoc-phap-tri.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/phap-tri.model.ts", "target": "file:backend/src/models/bai-thuoc.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/phap-tri.model.ts", "target": "file:backend/src/models/kinh-mach.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/phap-tri.model.ts", "target": "file:backend/src/models/meridian-syndrome.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/models/phap-tri.model.ts", "target": "file:backend/src/models/trieu-chung.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/models/trieu-chung.model.ts", "target": "file:backend/src/models/benh-tay-y.model.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/routers/benh-dong-y-excel.router.ts", "target": "file:backend/src/controllers/benh-dong-y-excel.controller.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/routers/benh-dong-y-excel.router.ts", "target": "file:backend/src/models/benh-dong-y-excel.dto.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/routers/benh-dong-y.router.ts", "target": "file:backend/src/controllers/benh-dong-y-excel.controller.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/routers/benh-tay-y.router.ts", "target": "file:backend/src/controllers/benh-tay-y.controller.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/routers/benh-tay-y.router.ts", "target": "file:backend/src/models/benh-tay-y.dto.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "file:backend/src/routers/phap-tri.router.ts", "target": "file:backend/src/controllers/phap-tri.controller.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+    {"source": "file:backend/src/routers/phap-tri.router.ts", "target": "file:backend/src/models/phap-tri.dto.ts", "type": "imports", "direction": "forward", "weight": 0.7},
+
+    {"source": "class:backend/src/routers/benh-dong-y-excel.router.ts:BenhDongYExcelRouter", "target": "class:backend/src/controllers/benh-dong-y-excel.controller.ts:BenhDongYExcelService", "type": "calls", "direction": "forward", "weight": 0.8},
+    {"source": "class:backend/src/routers/benh-dong-y.router.ts:BenhDongYRouter", "target": "class:backend/src/controllers/benh-dong-y-excel.controller.ts:BenhDongYExcelService", "type": "calls", "direction": "forward", "weight": 0.8},
+    {"source": "class:backend/src/routers/benh-tay-y.router.ts:BenhTayYRouter", "target": "class:backend/src/controllers/benh-tay-y.controller.ts:BenhTayYService", "type": "calls", "direction": "forward", "weight": 0.8},
+    {"source": "class:backend/src/routers/phap-tri.router.ts:PhapTriRouter", "target": "class:backend/src/controllers/phap-tri.controller.ts:PhapTriService", "type": "calls", "direction": "forward", "weight": 0.8},
+
+    {"source": "class:backend/src/controllers/benh-dong-y-excel.controller.ts:BenhDongYExcelService", "target": "function:backend/src/utils/excel-rule-engine.ts:evaluateLogicExpression", "type": "calls", "direction": "forward", "weight": 0.8}
+  ]
+}
