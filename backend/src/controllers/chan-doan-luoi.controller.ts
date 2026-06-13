@@ -2,12 +2,25 @@ import { Injectable, NotFoundException, ServiceUnavailableException } from '@nes
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import * as fs from 'fs';
+import * as path from 'path';
 import OpenAI from 'openai';
 import { ChanDoanLuoi } from '../models/chan-doan-luoi.model';
 import { CreateChanDoanLuoiDto, UpdateChanDoanLuoiDto } from '../models/chan-doan-luoi.dto';
 
+interface EmbeddingEntry {
+  vi: string;
+  prototype: number[];
+  count: number;
+}
+type EmbeddingIndex = Record<string, EmbeddingEntry>;
+
 @Injectable()
 export class ChanDoanLuoiService {
+  private embeddingIndex: EmbeddingIndex | null = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private tfModel: any = null;
+
   constructor(
     @InjectRepository(ChanDoanLuoi)
     private readonly repo: Repository<ChanDoanLuoi>,
@@ -72,31 +85,120 @@ export class ChanDoanLuoiService {
     if (item) await this.repo.remove(item);
   }
 
-  // ── ML Search — gọi Python ml-service ──
+  // ── ML Similarity Search (không cần API, dùng embedding MobileNetV2) ──
+
+  private loadEmbeddingIndex(): EmbeddingIndex {
+    if (this.embeddingIndex) return this.embeddingIndex;
+    const filePath = path.join(__dirname, '../ml/atlas-embeddings.json');
+    if (!fs.existsSync(filePath)) return {};
+    try {
+      const raw = fs.readFileSync(filePath, 'utf8');
+      this.embeddingIndex = JSON.parse(raw) as EmbeddingIndex;
+      return this.embeddingIndex;
+    } catch {
+      return {};
+    }
+  }
+
+  private async loadTfModel() {
+    if (this.tfModel) return this.tfModel;
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const mobilenet = require('@tensorflow-models/mobilenet');
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const tf = require('@tensorflow/tfjs-node');
+      this.tfModel = { tf, mn: await mobilenet.load({ version: 2, alpha: 1.0 }) };
+      return this.tfModel;
+    } catch {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const tf = require('@tensorflow/tfjs');
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        require('@tensorflow/tfjs-backend-cpu');
+        await tf.setBackend('cpu');
+        await tf.ready();
+        this.tfModel = { tf, mn: await mobilenet.load({ version: 2, alpha: 1.0 }) };
+        return this.tfModel;
+      } catch {
+        return null;
+      }
+    }
+  }
+
+  private cosine(a: number[], b: number[]): number {
+    let dot = 0, na = 0, nb = 0;
+    for (let i = 0; i < a.length; i++) {
+      dot += a[i] * b[i]; na += a[i] * a[i]; nb += b[i] * b[i];
+    }
+    return dot / (Math.sqrt(na) * Math.sqrt(nb) + 1e-8);
+  }
 
   async mlSearch(imageBase64: string): Promise<unknown> {
-    const mlUrl = this.config.get<string>('ML_SERVICE_URL') || 'http://ml-service:3002';
+    const index = this.loadEmbeddingIndex();
+    const classes = Object.keys(index);
 
-    let res: Response;
+    if (!classes.length) {
+      return {
+        error: 'Chưa có embeddings. Chạy: node tools/build-atlas-embeddings.cjs',
+        similarity: [], features: {},
+      };
+    }
+
+    const loaded = await this.loadTfModel();
+    if (!loaded) {
+      return this.mlSearchHistogram(imageBase64, index);
+    }
+
+    const { tf, mn } = loaded;
+    const buf = Buffer.from(imageBase64, 'base64');
+    let imgTensor, resized, batched, emb;
     try {
-      res = await fetch(`${mlUrl}/ml-search`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ image: imageBase64 }),
-        signal: AbortSignal.timeout(30_000),
-      });
+      if (tf.node?.decodeImage) {
+        imgTensor = tf.node.decodeImage(buf, 3);
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const { Jimp } = require('jimp');
+        const img = await Jimp.read(buf);
+        img.resize({ w: 224, h: 224 });
+        const { data, width, height } = img.bitmap;
+        const pixels = new Float32Array(width * height * 3);
+        for (let i = 0; i < width * height; i++) {
+          pixels[i*3]   = data[i*4]   / 255.0;
+          pixels[i*3+1] = data[i*4+1] / 255.0;
+          pixels[i*3+2] = data[i*4+2] / 255.0;
+        }
+        imgTensor = tf.tensor3d(pixels, [height, width, 3]);
+      }
+      resized   = tf.image.resizeBilinear(imgTensor, [224, 224]);
+      batched   = resized.expandDims(0);
+      emb       = mn.infer(batched, true);
+      const queryVec: number[] = Array.from(await emb.data());
+      tf.dispose([imgTensor, resized, batched, emb]);
+
+      const results = classes
+        .filter(id => index[id].prototype?.length)
+        .map(id => ({
+          id,
+          vi: index[id].vi,
+          score: Math.round(Math.max(0, this.cosine(queryVec, index[id].prototype)) * 100),
+          reason: `Độ tương đồng hình ảnh đã học từ ${index[id].count || '?'} mẫu`,
+        }))
+        .filter(r => r.score > 25)
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 5);
+
+      return { similarity: results, features: {}, source: 'ml' };
     } catch (e: unknown) {
-      throw new ServiceUnavailableException(
-        'Không kết nối được ml-service: ' + (e as Error).message,
-      );
+      tf.dispose([imgTensor, resized, batched, emb].filter(Boolean));
+      throw new ServiceUnavailableException('Lỗi inference ML: ' + (e as Error).message);
     }
+  }
 
-    if (!res.ok) {
-      const text = await res.text().catch(() => '');
-      throw new ServiceUnavailableException(`ml-service lỗi ${res.status}: ${text}`);
-    }
-
-    return res.json();
+  private mlSearchHistogram(_imageBase64: string, _index: EmbeddingIndex): unknown {
+    return {
+      error: 'Cần cài @tensorflow/tfjs-node để dùng tính năng ML. Xem tools/build-atlas-embeddings.cjs',
+      similarity: [], features: {}, source: 'fallback',
+    };
   }
 
   // ── Vision AI (GPT-4o) ──
