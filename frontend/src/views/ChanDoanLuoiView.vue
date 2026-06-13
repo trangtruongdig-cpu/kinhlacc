@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
 import { api } from '@/services/api'
 import TongueAtlasPanel from '@/components/TongueAtlasPanel.vue'
 import TongueSVGCard from '@/components/TongueSVGCard.vue'
@@ -60,11 +60,12 @@ const ZONE_INFO: Record<string, { label: string; sub: string }> = {
 }
 
 const router = useRouter()
+const route = useRoute()
 
 // ─────────────────────────────────────────────
 // State
 // ─────────────────────────────────────────────
-const mainTab = ref<'chan-doan' | 'tham-khao'>('chan-doan')
+const mainTab = ref<'chan-doan' | 'dan-nhan' | 'tham-khao'>('chan-doan')
 
 const patientSearch = ref('')
 const patientResults = ref<Patient[]>([])
@@ -377,6 +378,10 @@ watch(diagnosisText, (val) => { if (!ghiChu.value) return; /* don't overwrite no
 // Save
 // ─────────────────────────────────────────────
 async function save() {
+  if (!selectedPatient.value) {
+    saveError.value = 'Vui lòng chọn bệnh nhân trước khi lưu hồ sơ'
+    return
+  }
   saving.value = true
   saveError.value = ''
   saveSuccess.value = false
@@ -521,9 +526,89 @@ onMounted(async () => {
     const res = await fetch('/tongue-atlas/atlas-index.json')
     atlasIndex.value = await res.json()
   } catch {}
+  // Auto-chọn bệnh nhân nếu mở từ hồ sơ bệnh nhân (?patient_id=X)
+  const pid = route.query.patient_id
+  if (pid) {
+    try {
+      const p = await api.get<Patient>(`/patients/${pid}`)
+      selectedPatient.value = p
+      loadHistory(Number(pid))
+    } catch {}
+  }
 })
 function atlasPhoto(id: string): string {
   return atlasIndex.value[id]?.[0] ?? ''
+}
+
+// ── Dán nhãn ML ──
+const labelClassId   = ref('')
+const labelClassVi   = ref('')
+const labelFile      = ref<File | null>(null)
+const labelPreview   = ref('')
+const labelSaving    = ref(false)
+const labelError     = ref('')
+const labelSuccess   = ref('')
+const labelCount     = ref<number | null>(null)
+const rebuilding     = ref(false)
+const rebuildMsg     = ref('')
+
+function onLabelFilePick(e: Event) {
+  const f = (e.target as HTMLInputElement).files?.[0]
+  if (f) setLabelFile(f)
+}
+function onLabelDrop(e: DragEvent) {
+  e.preventDefault()
+  const f = e.dataTransfer?.files?.[0]
+  if (f && f.type.startsWith('image/')) setLabelFile(f)
+}
+function setLabelFile(f: File) {
+  labelFile.value = f
+  const reader = new FileReader()
+  reader.onload = ev => { labelPreview.value = ev.target!.result as string }
+  reader.readAsDataURL(f)
+  labelError.value = ''
+  labelSuccess.value = ''
+}
+function onLabelClassChange() {
+  const entry = ATLAS.find(a => a.id === labelClassId.value)
+  labelClassVi.value = entry?.vi || ''
+}
+async function saveLabel() {
+  if (!labelFile.value) { labelError.value = 'Chưa chọn ảnh'; return }
+  if (!labelClassId.value) { labelError.value = 'Chưa chọn nhãn (loại lưỡi)'; return }
+  labelSaving.value = true
+  labelError.value = ''
+  try {
+    const base64: string = await new Promise((res, rej) => {
+      const r = new FileReader()
+      r.onload = ev => res((ev.target!.result as string).split(',')[1])
+      r.onerror = rej
+      r.readAsDataURL(labelFile.value!)
+    })
+    const result = await api.post<{ saved: number; classId: string }>('/chan-doan-luoi/label-image', {
+      image: base64, classId: labelClassId.value, classVi: labelClassVi.value,
+    })
+    labelCount.value = result.saved
+    labelSuccess.value = `Đã lưu! Class "${labelClassId.value}" có ${result.saved} ảnh dán nhãn.`
+    labelFile.value = null
+    labelPreview.value = ''
+  } catch (e: any) {
+    labelError.value = e?.message || 'Lỗi lưu nhãn'
+  } finally {
+    labelSaving.value = false
+  }
+}
+async function rebuildEmbeddings() {
+  rebuilding.value = true
+  rebuildMsg.value = ''
+  try {
+    const r = await api.post<{ success: boolean; message: string }>('/chan-doan-luoi/rebuild-embeddings', {})
+    rebuildMsg.value = r.success ? `✓ ${r.message}` : `✗ ${r.message}`
+  } catch (e: any) {
+    rebuildMsg.value = `✗ ${e?.message || 'Lỗi rebuild'}`
+  } finally {
+    rebuilding.value = false
+  }
 }
 
 // ── Lightbox ──
@@ -534,6 +619,55 @@ function closeLightbox() { lightboxSrc.value = '' }
 // ── ML Search ──
 const mlSearching = ref(false)
 const mlError     = ref('')
+
+// Suy ra đặc điểm lưỡi từ class ID embedding (vì ML không trả features trực tiếp)
+const ML_FEATURES: Record<string, Partial<{ mauChat: string; hinhDang: string[]; mauReu: string; tinhChatReu: string[] }>> = {
+  jiankangshe: { mauChat: 'Hồng Bình', mauReu: 'Trắng', tinhChatReu: ['Mỏng'] },
+  hongshe:     { mauChat: 'Đỏ' },
+  dosamshe:    { mauChat: 'Đỏ Sẫm' },
+  zishe:       { mauChat: 'Tím / Xanh Tím' },
+  nhashe:      { mauChat: 'Nhạt' },
+  pangdashe:   { hinhDang: ['Phì Đại'] },
+  shoushe:     { hinhDang: ['Teo Nhỏ'] },
+  hongdianshe: { mauChat: 'Đỏ' },
+  liewenshe:   { hinhDang: ['Nứt Nẻ'] },
+  chihenshe:   { hinhDang: ['Răng Cưa'] },
+  baitaishe:   { mauReu: 'Trắng' },
+  huangtaishe: { mauReu: 'Vàng' },
+  heitaishe:   { mauReu: 'Đen' },
+  huataishe:   { tinhChatReu: ['Nhờn / Dính'] },
+  botaishe:    { tinhChatReu: ['Bong Tróc'] },
+  khongreuhe:  { mauReu: 'Không Rêu' },
+}
+const ML_ZONES: Record<string, string[]> = {
+  shenquao: ['chan'], shenqutu: ['chan'],
+  gandanao: ['trai', 'phai'], gandantu: ['trai', 'phai'],
+  piweiao: ['giua'], piweitu: ['giua'],
+  xinfeiao: ['dau'], xinfeitu: ['dau'],
+}
+
+function applyMlFeatures(results: AiResult['similarity']) {
+  const top = results.filter(r => r.score >= 35).slice(0, 4)
+  if (!top.length) return
+
+  const topMauChat = top.find(r => ML_FEATURES[r.id]?.mauChat)
+  if (topMauChat) mauChat.value = ML_FEATURES[topMauChat.id].mauChat!
+
+  const topMauReu = top.find(r => ML_FEATURES[r.id]?.mauReu)
+  if (topMauReu) mauReu.value = ML_FEATURES[topMauReu.id].mauReu!
+
+  const newHinhDang = new Set<string>()
+  const newTinhChat = new Set<string>()
+  const newZones    = new Set<string>()
+  for (const r of top) {
+    ML_FEATURES[r.id]?.hinhDang?.forEach(v => newHinhDang.add(v))
+    ML_FEATURES[r.id]?.tinhChatReu?.forEach(v => newTinhChat.add(v))
+    ML_ZONES[r.id]?.forEach(z => newZones.add(z))
+  }
+  if (newHinhDang.size) hinhDang.value    = [...newHinhDang]
+  if (newTinhChat.size) tinhChatReu.value = [...newTinhChat]
+  if (newZones.size)    selectedZones.value = [...newZones]
+}
 
 async function mlSearch() {
   if (!imageFile.value) return
@@ -549,16 +683,8 @@ async function mlSearch() {
     })
     const data = await api.post<AiResult>('/chan-doan-luoi/ml-search', { image: base64 })
     aiResult.value = data
-    if (data && !data.error) {
-      const f = (data as AiResult).features
-      if (f) {
-        if (f.mauChat) mauChat.value = f.mauChat
-        if (f.hinhDang?.length)    hinhDang.value    = [...f.hinhDang]
-        if (f.doAm)    doAm.value    = f.doAm
-        if (f.mauReu)  mauReu.value  = f.mauReu
-        if (f.tinhChatReu?.length) tinhChatReu.value = [...f.tinhChatReu]
-        if (f.phanBoReu?.length)   phanBoReu.value   = [...f.phanBoReu]
-      }
+    if (data && !data.error && data.similarity?.length) {
+      applyMlFeatures(data.similarity)
     }
   } catch (e: any) {
     mlError.value = e?.message || 'Lỗi phân tích ML'
@@ -615,9 +741,66 @@ async function mlSearch() {
       <button class="cdl-main-tab" :class="{ active: mainTab === 'chan-doan' }" @click="mainTab = 'chan-doan'">
         Chẩn Đoán
       </button>
+      <button class="cdl-main-tab" :class="{ active: mainTab === 'dan-nhan' }" @click="mainTab = 'dan-nhan'">
+        Dán Nhãn ML
+      </button>
       <button class="cdl-main-tab" :class="{ active: mainTab === 'tham-khao' }" @click="mainTab = 'tham-khao'">
         Tham Khảo Atlas
       </button>
+    </div>
+
+    <!-- Dán nhãn ML -->
+    <div v-if="mainTab === 'dan-nhan'" class="cdl-label-wrap">
+      <div class="cdl-label-info">
+        <strong>Dán nhãn ảnh lưỡi</strong> để cải thiện độ chính xác ML. Upload ảnh → chọn loại lưỡi → Lưu Nhãn.
+        Sau khi có đủ ảnh mới, bấm <em>Rebuild Embeddings</em> để cập nhật mô hình.
+      </div>
+
+      <div class="cdl-label-body">
+        <!-- Upload -->
+        <div class="cdl-label-upload"
+          @dragover.prevent @drop="onLabelDrop"
+          :class="{ 'has-image': labelPreview }">
+          <img v-if="labelPreview" :src="labelPreview" class="cdl-label-preview"/>
+          <div v-else class="cdl-label-dropzone">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+            <p>Kéo thả hoặc <label class="cdl-label-browse">chọn ảnh<input type="file" accept="image/*" @change="onLabelFilePick" hidden/></label></p>
+          </div>
+          <button v-if="labelPreview" class="cdl-label-clear" @click="labelFile=null;labelPreview=''">✕</button>
+        </div>
+
+        <!-- Class selector -->
+        <div class="cdl-label-form">
+          <label class="cdl-label-field-label">Loại lưỡi (nhãn)</label>
+          <select v-model="labelClassId" @change="onLabelClassChange" class="cdl-label-select">
+            <option value="">-- Chọn loại lưỡi --</option>
+            <optgroup v-for="cat in ['chat-luoi','hinh-dang','reu-luoi','vung']" :key="cat"
+              :label="cat==='chat-luoi'?'Chất Lưỡi':cat==='hinh-dang'?'Hình Dạng':cat==='reu-luoi'?'Rêu Lưỡi':'Vùng'">
+              <option v-for="a in ATLAS.filter(x=>x.category===cat)" :key="a.id" :value="a.id">
+                {{ a.vi }} ({{ a.id }})
+              </option>
+            </optgroup>
+          </select>
+
+          <div v-if="labelClassId" class="cdl-label-preview-class">
+            <img v-for="img in (atlasIndex[labelClassId]||[]).slice(0,3)" :key="img" :src="img" class="cdl-label-ref-img" @click="openLightbox(img)"/>
+            <span class="cdl-label-ref-count">{{ (atlasIndex[labelClassId]||[]).length }} ảnh mẫu</span>
+          </div>
+
+          <div class="cdl-label-actions">
+            <button class="cdl-label-btn-save" :disabled="labelSaving" @click="saveLabel">
+              {{ labelSaving ? 'Đang lưu...' : 'Lưu Nhãn' }}
+            </button>
+            <button class="cdl-label-btn-rebuild" :disabled="rebuilding" @click="rebuildEmbeddings">
+              {{ rebuilding ? 'Đang rebuild...' : 'Rebuild Embeddings' }}
+            </button>
+          </div>
+
+          <p v-if="labelError" class="cdl-label-msg cdl-label-msg--err">{{ labelError }}</p>
+          <p v-if="labelSuccess" class="cdl-label-msg cdl-label-msg--ok">{{ labelSuccess }}</p>
+          <p v-if="rebuildMsg" class="cdl-label-msg" :class="rebuildMsg.startsWith('✓')?'cdl-label-msg--ok':'cdl-label-msg--err'">{{ rebuildMsg }}</p>
+        </div>
+      </div>
     </div>
 
     <!-- Atlas panel -->
@@ -635,67 +818,67 @@ async function mlSearch() {
           <svg class="tongue-svg" viewBox="0 0 200 280" @mouseleave="hoverZone = null">
             <defs>
               <clipPath id="tc">
-                <ellipse cx="100" cy="147" rx="87" ry="120"/>
+                <ellipse cx="100" cy="147" rx="72" ry="120"/>
               </clipPath>
             </defs>
-            <!-- Tongue base -->
-            <ellipse cx="100" cy="147" rx="87" ry="120" fill="#f8c8c4" stroke="#c49090" stroke-width="1.5"/>
+            <!-- Tongue base (CX±RX = 28…172, width=144) -->
+            <ellipse cx="100" cy="147" rx="72" ry="120" fill="#f8c8c4" stroke="#c49090" stroke-width="1.5"/>
             <!-- Inner tongue texture -->
-            <ellipse cx="100" cy="147" rx="74" ry="107" fill="none" stroke="#e0a0a0" stroke-width="0.5" opacity="0.4"/>
+            <ellipse cx="100" cy="147" rx="61" ry="107" fill="none" stroke="#e0a0a0" stroke-width="0.5" opacity="0.4"/>
 
-            <!-- Zone fills -->
-            <rect x="13" y="27" width="174" height="72"
-                  clip-path="url(#tc)"
-                  :fill="zoneBaseColor('dau')" :opacity="zoneOpacity('dau')"
-                  class="zone-hit" @click="toggleZone('dau')" @mouseenter="hoverZone='dau'"/>
-            <rect x="13" y="99" width="58" height="88"
-                  clip-path="url(#tc)"
-                  :fill="zoneBaseColor('trai')" :opacity="zoneOpacity('trai')"
-                  class="zone-hit" @click="toggleZone('trai')" @mouseenter="hoverZone='trai'"/>
-            <rect x="71" y="99" width="58" height="88"
-                  clip-path="url(#tc)"
-                  :fill="zoneBaseColor('giua')" :opacity="zoneOpacity('giua')"
-                  class="zone-hit" @click="toggleZone('giua')" @mouseenter="hoverZone='giua'"/>
-            <rect x="129" y="99" width="58" height="88"
-                  clip-path="url(#tc)"
-                  :fill="zoneBaseColor('phai')" :opacity="zoneOpacity('phai')"
-                  class="zone-hit" @click="toggleZone('phai')" @mouseenter="hoverZone='phai'"/>
-            <rect x="13" y="187" width="174" height="76"
+            <!-- Zone fills: chân lưỡi trên, đầu lưỡi dưới; 3 cột đều nhau 48px -->
+            <rect x="28" y="27" width="144" height="76"
                   clip-path="url(#tc)"
                   :fill="zoneBaseColor('chan')" :opacity="zoneOpacity('chan')"
                   class="zone-hit" @click="toggleZone('chan')" @mouseenter="hoverZone='chan'"/>
+            <rect x="28" y="103" width="48" height="88"
+                  clip-path="url(#tc)"
+                  :fill="zoneBaseColor('trai')" :opacity="zoneOpacity('trai')"
+                  class="zone-hit" @click="toggleZone('trai')" @mouseenter="hoverZone='trai'"/>
+            <rect x="76" y="103" width="48" height="88"
+                  clip-path="url(#tc)"
+                  :fill="zoneBaseColor('giua')" :opacity="zoneOpacity('giua')"
+                  class="zone-hit" @click="toggleZone('giua')" @mouseenter="hoverZone='giua'"/>
+            <rect x="124" y="103" width="48" height="88"
+                  clip-path="url(#tc)"
+                  :fill="zoneBaseColor('phai')" :opacity="zoneOpacity('phai')"
+                  class="zone-hit" @click="toggleZone('phai')" @mouseenter="hoverZone='phai'"/>
+            <rect x="28" y="191" width="144" height="72"
+                  clip-path="url(#tc)"
+                  :fill="zoneBaseColor('dau')" :opacity="zoneOpacity('dau')"
+                  class="zone-hit" @click="toggleZone('dau')" @mouseenter="hoverZone='dau'"/>
 
             <!-- Zone dividers -->
             <g clip-path="url(#tc)" stroke="#b08080" stroke-width="0.7" stroke-dasharray="3,3" opacity="0.55">
-              <line x1="13" y1="99"  x2="187" y2="99"/>
-              <line x1="13" y1="187" x2="187" y2="187"/>
-              <line x1="71" y1="99"  x2="71"  y2="187"/>
-              <line x1="129" y1="99" x2="129" y2="187"/>
+              <line x1="28" y1="103" x2="172" y2="103"/>
+              <line x1="28" y1="191" x2="172" y2="191"/>
+              <line x1="76" y1="103" x2="76"  y2="191"/>
+              <line x1="124" y1="103" x2="124" y2="191"/>
             </g>
 
             <!-- Zone labels (pointer-events: none) -->
             <g pointer-events="none">
-              <text x="100" y="70"  text-anchor="middle" class="zl-main">{{ ZONE_INFO.dau.label }}</text>
-              <text x="100" y="82"  text-anchor="middle" class="zl-sub">{{ ZONE_INFO.dau.sub }}</text>
-              <text x="42"  y="139" text-anchor="middle" class="zl-main">Trái</text>
-              <text x="42"  y="151" text-anchor="middle" class="zl-sub">Can</text>
-              <text x="42"  y="161" text-anchor="middle" class="zl-sub">Đởm</text>
-              <text x="100" y="139" text-anchor="middle" class="zl-main">Giữa</text>
-              <text x="100" y="151" text-anchor="middle" class="zl-sub">Tỳ • Vị</text>
-              <text x="158" y="139" text-anchor="middle" class="zl-main">Phải</text>
-              <text x="158" y="151" text-anchor="middle" class="zl-sub">Can</text>
-              <text x="158" y="161" text-anchor="middle" class="zl-sub">Đởm</text>
-              <text x="100" y="220" text-anchor="middle" class="zl-main">{{ ZONE_INFO.chan.label }}</text>
-              <text x="100" y="232" text-anchor="middle" class="zl-sub">{{ ZONE_INFO.chan.sub }}</text>
+              <text x="100" y="60"  text-anchor="middle" class="zl-main">{{ ZONE_INFO.chan.label }}</text>
+              <text x="100" y="72"  text-anchor="middle" class="zl-sub">{{ ZONE_INFO.chan.sub }}</text>
+              <text x="52"  y="143" text-anchor="middle" class="zl-main">Trái</text>
+              <text x="52"  y="155" text-anchor="middle" class="zl-sub">Can</text>
+              <text x="52"  y="165" text-anchor="middle" class="zl-sub">Đởm</text>
+              <text x="100" y="143" text-anchor="middle" class="zl-main">Giữa</text>
+              <text x="100" y="155" text-anchor="middle" class="zl-sub">Tỳ • Vị</text>
+              <text x="148" y="143" text-anchor="middle" class="zl-main">Phải</text>
+              <text x="148" y="155" text-anchor="middle" class="zl-sub">Can</text>
+              <text x="148" y="165" text-anchor="middle" class="zl-sub">Đởm</text>
+              <text x="100" y="222" text-anchor="middle" class="zl-main">{{ ZONE_INFO.dau.label }}</text>
+              <text x="100" y="234" text-anchor="middle" class="zl-sub">{{ ZONE_INFO.dau.sub }}</text>
             </g>
 
             <!-- Selected zone checkmarks -->
             <g clip-path="url(#tc)" pointer-events="none">
-              <text v-if="selectedZones.includes('dau')"  x="100" y="55"  text-anchor="middle" font-size="14" fill="#fff">✓</text>
-              <text v-if="selectedZones.includes('trai')" x="42"  y="122" text-anchor="middle" font-size="14" fill="#fff">✓</text>
-              <text v-if="selectedZones.includes('giua')" x="100" y="122" text-anchor="middle" font-size="14" fill="#fff">✓</text>
-              <text v-if="selectedZones.includes('phai')" x="158" y="122" text-anchor="middle" font-size="14" fill="#fff">✓</text>
-              <text v-if="selectedZones.includes('chan')" x="100" y="213" text-anchor="middle" font-size="14" fill="#fff">✓</text>
+              <text v-if="selectedZones.includes('chan')" x="100" y="55"  text-anchor="middle" font-size="14" fill="#fff">✓</text>
+              <text v-if="selectedZones.includes('trai')" x="52"  y="126" text-anchor="middle" font-size="14" fill="#fff">✓</text>
+              <text v-if="selectedZones.includes('giua')" x="100" y="126" text-anchor="middle" font-size="14" fill="#fff">✓</text>
+              <text v-if="selectedZones.includes('phai')" x="148" y="126" text-anchor="middle" font-size="14" fill="#fff">✓</text>
+              <text v-if="selectedZones.includes('dau')"  x="100" y="219" text-anchor="middle" font-size="14" fill="#fff">✓</text>
             </g>
           </svg>
 
@@ -759,9 +942,10 @@ async function mlSearch() {
           </div>
 
           <div v-else class="cdl-img-preview-wrap">
-            <div class="cdl-img-preview">
+            <div class="cdl-img-preview" @click="openLightbox(imagePreview)" title="Phóng to ảnh">
               <img :src="imagePreview" alt="Ảnh lưỡi" class="cdl-preview-img"/>
-              <button class="cdl-preview-clear" @click="clearImage" title="Xóa ảnh">✕</button>
+              <button class="cdl-preview-clear" @click.stop="clearImage" title="Xóa ảnh">✕</button>
+              <span class="cdl-preview-zoom">🔍</span>
             </div>
             <div class="cdl-analyze-btns">
               <button class="btn-analyze btn-analyze--ml" :disabled="mlSearching || aiAnalyzing" @click="mlSearch">
@@ -781,7 +965,7 @@ async function mlSearch() {
         <section v-else class="cdl-section cdl-section--decision">
           <!-- Header bar: ảnh thumbnail + nút đổi ảnh -->
           <div class="cdl-dec-header">
-            <img :src="imagePreview" class="cdl-dec-header__thumb"/>
+            <img :src="imagePreview" class="cdl-dec-header__thumb" @click="openLightbox(imagePreview)" title="Phóng to ảnh lưỡi"/>
             <div class="cdl-dec-header__info">
               <span class="cdl-dec-header__title">Kết Quả Phân Tích AI <span class="cdl-ai-badge">AI</span></span>
               <span class="cdl-dec-header__sub">Form đã được điền tự động — kiểm tra và chỉnh nếu cần</span>
@@ -1022,6 +1206,31 @@ async function mlSearch() {
 }
 .cdl-main-tab:hover { color: var(--brown-700, #7a4515); }
 .cdl-main-tab.active { color: var(--brown-800, #5c3210); border-bottom-color: var(--brown-700, #7a4515); }
+
+/* ── Dán nhãn ML ── */
+.cdl-label-wrap { flex: 1; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 16px; }
+.cdl-label-info { background: #fef9f0; border: 1px solid var(--brown-200, #d4b8a0); border-radius: 8px; padding: 12px 16px; font-size: 13px; color: var(--brown-800, #5c3210); line-height: 1.6; }
+.cdl-label-body { display: flex; gap: 24px; flex-wrap: wrap; }
+.cdl-label-upload { position: relative; width: 260px; min-width: 200px; height: 220px; border: 2px dashed var(--brown-300, #c4a882); border-radius: 12px; background: #fdf8f4; overflow: hidden; flex-shrink: 0; }
+.cdl-label-upload.has-image { border-style: solid; }
+.cdl-label-dropzone { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 10px; color: var(--gray-400, #9ca3af); padding: 16px; text-align: center; }
+.cdl-label-browse { color: var(--brown-700, #7a4515); text-decoration: underline; cursor: pointer; }
+.cdl-label-preview { width: 100%; height: 100%; object-fit: cover; }
+.cdl-label-clear { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,.5); color: #fff; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-size: 13px; line-height: 1; }
+.cdl-label-form { flex: 1; min-width: 260px; display: flex; flex-direction: column; gap: 12px; }
+.cdl-label-field-label { font-size: 12px; font-weight: 600; color: var(--gray-600, #4b5563); }
+.cdl-label-select { width: 100%; padding: 8px 10px; border: 1px solid var(--brown-200, #d4b8a0); border-radius: 8px; font-size: 13px; background: #fff; }
+.cdl-label-preview-class { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.cdl-label-ref-img { width: 52px; height: 52px; object-fit: cover; border-radius: 6px; cursor: pointer; border: 1px solid var(--brown-100, #ede0d4); }
+.cdl-label-ref-count { font-size: 12px; color: var(--gray-500, #6b7280); }
+.cdl-label-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.cdl-label-btn-save { padding: 9px 20px; background: var(--brown-700, #7a4515); color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; }
+.cdl-label-btn-save:disabled { opacity: .5; cursor: not-allowed; }
+.cdl-label-btn-rebuild { padding: 9px 20px; background: #0d9488; color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.cdl-label-btn-rebuild:disabled { opacity: .5; cursor: not-allowed; }
+.cdl-label-msg { font-size: 13px; padding: 8px 12px; border-radius: 6px; }
+.cdl-label-msg--ok { background: #f0fdf4; color: #166534; }
+.cdl-label-msg--err { background: #fef2f2; color: #991b1b; }
 
 .cdl-atlas-wrap {
   flex: 1;
@@ -1392,6 +1601,7 @@ async function mlSearch() {
   width: 120px; height: 120px;
   border-radius: 8px; overflow: hidden;
   border: 2px solid var(--brown-200, #d4b8a0);
+  cursor: zoom-in;
 }
 .cdl-preview-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .cdl-preview-clear {
@@ -1400,6 +1610,12 @@ async function mlSearch() {
   background: rgba(0,0,0,.55); border: none;
   color: #fff; font-size: 10px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
+}
+.cdl-preview-zoom {
+  position: absolute; bottom: 4px; right: 4px;
+  font-size: 11px; background: rgba(0,0,0,.5);
+  border-radius: 4px; padding: 2px 4px;
+  pointer-events: none;
 }
 
 .btn-analyze {
@@ -1474,6 +1690,7 @@ async function mlSearch() {
   width: 52px; height: 52px; border-radius: 8px;
   object-fit: cover; flex-shrink: 0;
   border: 2px solid var(--brown-200, #d4b8a0);
+  cursor: zoom-in;
 }
 .cdl-dec-header__info {
   flex: 1; min-width: 0;

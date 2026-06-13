@@ -85,18 +85,38 @@ export class ChanDoanLuoiService {
     if (item) await this.repo.remove(item);
   }
 
-  // ── ML Similarity Search (không cần API, dùng embedding MobileNetV2) ──
+  // ── ML: Python CNN service (chính) → embedding similarity (fallback) ──
 
   private loadEmbeddingIndex(): EmbeddingIndex {
     if (this.embeddingIndex) return this.embeddingIndex;
-    const filePath = path.join(__dirname, '../ml/atlas-embeddings.json');
-    if (!fs.existsSync(filePath)) return {};
+    const candidates = [
+      path.join(__dirname, '../ml/atlas-embeddings.json'),
+      path.join(__dirname, '../../src/ml/atlas-embeddings.json'),
+    ];
+    for (const filePath of candidates) {
+      if (!fs.existsSync(filePath)) continue;
+      try {
+        this.embeddingIndex = JSON.parse(fs.readFileSync(filePath, 'utf8')) as EmbeddingIndex;
+        return this.embeddingIndex;
+      } catch { /* ignore */ }
+    }
+    return {};
+  }
+
+  // Gọi Python FastAPI service (tongue_cnn.h5 fine-tuned, port 3002)
+  private async mlSearchViaPythonService(imageBase64: string): Promise<unknown | null> {
+    const baseUrl = this.config.get<string>('ML_SERVICE_URL') || 'http://localhost:3002';
     try {
-      const raw = fs.readFileSync(filePath, 'utf8');
-      this.embeddingIndex = JSON.parse(raw) as EmbeddingIndex;
-      return this.embeddingIndex;
+      const res = await fetch(`${baseUrl}/ml-search`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image: imageBase64 }),
+        signal: AbortSignal.timeout(30_000),
+      });
+      if (!res.ok) return null;
+      return await res.json();
     } catch {
-      return {};
+      return null; // service chưa chạy → dùng fallback
     }
   }
 
@@ -134,24 +154,32 @@ export class ChanDoanLuoiService {
   }
 
   async mlSearch(imageBase64: string): Promise<unknown> {
+    // ── Ưu tiên 1: Python CNN service (fine-tuned, ~75-85% accuracy) ──
+    const pyResult = await this.mlSearchViaPythonService(imageBase64);
+    if (pyResult) return pyResult;
+
+    // ── Ưu tiên 2: Embedding similarity (pretrained ImageNet, ~50% accuracy) ──
     const index = this.loadEmbeddingIndex();
     const classes = Object.keys(index);
-
     if (!classes.length) {
       return {
-        error: 'Chưa có embeddings. Chạy: node tools/build-atlas-embeddings.cjs',
-        similarity: [], features: {},
+        error: 'ML service chưa chạy. Khởi động: cd ml-service && python app.py',
+        similarity: [], features: {}, source: 'unavailable',
       };
     }
 
     const loaded = await this.loadTfModel();
     if (!loaded) {
-      return this.mlSearchHistogram(imageBase64, index);
+      return {
+        error: 'ML service chưa chạy (python app.py). Embedding fallback cũng không khả dụng.',
+        similarity: [], features: {}, source: 'unavailable',
+      };
     }
 
     const { tf, mn } = loaded;
     const buf = Buffer.from(imageBase64, 'base64');
-    let imgTensor, resized, batched, emb;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let imgTensor: any, resized: any, batched: any, emb: any;
     try {
       if (tf.node?.decodeImage) {
         imgTensor = tf.node.decodeImage(buf, 3);
@@ -169,9 +197,9 @@ export class ChanDoanLuoiService {
         }
         imgTensor = tf.tensor3d(pixels, [height, width, 3]);
       }
-      resized   = tf.image.resizeBilinear(imgTensor, [224, 224]);
-      batched   = resized.expandDims(0);
-      emb       = mn.infer(batched, true);
+      resized = tf.image.resizeBilinear(imgTensor, [224, 224]);
+      batched = resized.expandDims(0);
+      emb     = mn.infer(batched, true);
       const queryVec: number[] = Array.from(await emb.data());
       tf.dispose([imgTensor, resized, batched, emb]);
 
@@ -181,24 +209,17 @@ export class ChanDoanLuoiService {
           id,
           vi: index[id].vi,
           score: Math.round(Math.max(0, this.cosine(queryVec, index[id].prototype)) * 100),
-          reason: `Độ tương đồng hình ảnh đã học từ ${index[id].count || '?'} mẫu`,
+          reason: `Tương đồng embedding (${index[id].count || '?'} mẫu) — ML service chưa chạy`,
         }))
         .filter(r => r.score > 25)
         .sort((a, b) => b.score - a.score)
         .slice(0, 5);
 
-      return { similarity: results, features: {}, source: 'ml' };
+      return { similarity: results, features: {}, source: 'embedding-fallback' };
     } catch (e: unknown) {
       tf.dispose([imgTensor, resized, batched, emb].filter(Boolean));
       throw new ServiceUnavailableException('Lỗi inference ML: ' + (e as Error).message);
     }
-  }
-
-  private mlSearchHistogram(_imageBase64: string, _index: EmbeddingIndex): unknown {
-    return {
-      error: 'Cần cài @tensorflow/tfjs-node để dùng tính năng ML. Xem tools/build-atlas-embeddings.cjs',
-      similarity: [], features: {}, source: 'fallback',
-    };
   }
 
   // ── Vision AI (GPT-4o) ──
@@ -249,5 +270,37 @@ Mỗi giá trị trong features phải chọn từ danh sách cho phép, không 
     } catch {
       return { error: 'Không phân tích được ảnh', raw };
     }
+  }
+
+  // ── Dán nhãn ảnh lưỡi để train ML ──
+
+  async labelImage(classId: string, classVi: string, imageBase64: string): Promise<{ saved: number; classId: string; path: string }> {
+    const trainingDir = path.join(__dirname, '../ml/training', classId);
+    if (!fs.existsSync(trainingDir)) fs.mkdirSync(trainingDir, { recursive: true });
+
+    const buf = Buffer.from(imageBase64, 'base64');
+    const filename = `${Date.now()}.jpg`;
+    const filePath = path.join(trainingDir, filename);
+    fs.writeFileSync(filePath, buf);
+
+    const files = fs.readdirSync(trainingDir).filter(f => /\.(jpg|jpeg|png)$/i.test(f));
+    this.embeddingIndex = null; // invalidate cache
+    return { saved: files.length, classId, path: filePath };
+  }
+
+  async rebuildEmbeddings(): Promise<{ success: boolean; message: string; classCount?: number }> {
+    const toolPath = path.join(process.cwd(), '..', 'tools', 'build-atlas-embeddings.cjs');
+    if (!fs.existsSync(toolPath)) {
+      return { success: false, message: 'Không tìm thấy tools/build-atlas-embeddings.cjs. Chạy thủ công: node tools/build-atlas-embeddings.cjs' };
+    }
+    return new Promise((resolve) => {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { exec } = require('child_process');
+      exec(`node "${toolPath}"`, { cwd: path.join(process.cwd(), '..'), timeout: 120000 }, (err: Error | null, stdout: string) => {
+        this.embeddingIndex = null;
+        if (err) return resolve({ success: false, message: err.message });
+        resolve({ success: true, message: stdout?.trim() || 'Rebuild xong', classCount: Object.keys(this.loadEmbeddingIndex()).length });
+      });
+    });
   }
 }

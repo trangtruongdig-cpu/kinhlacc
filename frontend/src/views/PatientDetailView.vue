@@ -13,13 +13,17 @@ const examinations = ref<any[]>([])
 const isLoading = ref(true)
 const isLoadingExams = ref(true)
 const error = ref<string | null>(null)
-const activeTab = ref<'info' | 'history' | 'treatment'>('info')
+const activeTab = ref<'info' | 'history' | 'treatment' | 'luoi'>('info')
 
 const patientId = computed(() => Number(route.params.id))
 
 onMounted(async () => {
   await loadPatient()
   await Promise.all([loadExaminations(), loadSlots()])
+  if (route.query.tab === 'luoi') {
+    activeTab.value = 'luoi'
+    loadLuoiRecords()
+  }
 })
 
 async function loadPatient() {
@@ -296,6 +300,34 @@ function getAge(dob: string | null) {
   }
   return `${age} tuổi`
 }
+
+// ── Chẩn đoán lưỡi ──
+interface LuoiRecord {
+  id: number
+  ngayKham: string
+  mauChat: string | null
+  hinhDang: string | null
+  mauReu: string | null
+  ketQuaDongY: string | null
+  ghiChu: string | null
+}
+const luoiRecords = ref<LuoiRecord[]>([])
+const isLoadingLuoi = ref(false)
+
+async function loadLuoiRecords() {
+  isLoadingLuoi.value = true
+  try {
+    luoiRecords.value = await api.get<LuoiRecord[]>(`/chan-doan-luoi?id_benh_nhan=${patientId.value}`)
+  } catch (err: any) {
+    console.error('Failed to load luoi records:', err)
+  } finally {
+    isLoadingLuoi.value = false
+  }
+}
+
+function goToLuoiDiagnosis() {
+  router.push({ name: 'chan-doan-luoi', query: { patient_id: patientId.value } })
+}
 </script>
 
 <template>
@@ -404,6 +436,11 @@ function getAge(dob: string | null) {
           <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
           Lịch Trị Liệu
           <span v-if="slots.length" class="tab-badge">{{ slots.length }}</span>
+        </button>
+        <button class="tab" :class="{ active: activeTab === 'luoi' }" @click="activeTab = 'luoi'; loadLuoiRecords()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="14" rx="7" ry="5"/><path d="M5 14 Q12 4 19 14"/></svg>
+          Chẩn Đoán Lưỡi
+          <span v-if="luoiRecords.length" class="tab-badge">{{ luoiRecords.length }}</span>
         </button>
       </div>
 
@@ -575,6 +612,45 @@ function getAge(dob: string | null) {
         </template>
       </div>
 
+      <!-- Tab: Chẩn Đoán Lưỡi -->
+      <div v-if="activeTab === 'luoi'" class="tab-content">
+        <div class="treatment-toolbar">
+          <button class="btn-primary" @click="goToLuoiDiagnosis">
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/></svg>
+            Thêm Chẩn Đoán Lưỡi Mới
+          </button>
+        </div>
+
+        <div v-if="isLoadingLuoi" class="loading-state loading-state--sm">
+          <div class="spinner"></div>
+        </div>
+        <div v-else-if="luoiRecords.length === 0" class="empty-state-sm">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="empty-icon-sm"><ellipse cx="12" cy="15" rx="7" ry="5"/><path d="M5 15 Q12 5 19 15"/></svg>
+          <p>Chưa có chẩn đoán lưỡi nào</p>
+          <button class="btn-primary" @click="goToLuoiDiagnosis">Thêm Chẩn Đoán Lưỡi</button>
+        </div>
+        <div v-else class="luoi-list">
+          <div v-for="rec in luoiRecords" :key="rec.id" class="luoi-card">
+            <div class="luoi-card-header">
+              <div class="exam-date-badge">
+                <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
+                {{ formatDateTime(rec.ngayKham) }}
+              </div>
+              <span class="exam-id">#{{ rec.id }}</span>
+            </div>
+            <div class="luoi-card-body">
+              <div class="luoi-tags">
+                <span v-if="rec.mauChat" class="luoi-tag">Chất: {{ rec.mauChat }}</span>
+                <span v-if="rec.mauReu" class="luoi-tag">Rêu: {{ rec.mauReu }}</span>
+                <span v-if="rec.doAm" class="luoi-tag">Độ ẩm: {{ rec.doAm }}</span>
+              </div>
+              <p v-if="rec.ketQuaDongY" class="luoi-kq">{{ rec.ketQuaDongY }}</p>
+              <p v-if="rec.ghiChu" class="luoi-ghi-chu">{{ rec.ghiChu }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Modal: bắt đầu / cập nhật liệu trình -->
       <div v-if="showCourseModal" class="modal-overlay" @click.self="closeCourseModal">
         <div class="modal-box">
@@ -740,6 +816,16 @@ function getAge(dob: string | null) {
 .input{padding:10px 12px;border:1px solid var(--gray-300);border-radius:var(--radius-md);font:inherit}
 .input:focus{outline:none;border-color:var(--brown-500)}
 .modal-actions{display:flex;justify-content:flex-end;gap:var(--space-2)}
+
+/* Chẩn Đoán Lưỡi tab */
+.luoi-list{display:flex;flex-direction:column;gap:var(--space-3)}
+.luoi-card{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-lg);padding:var(--space-4);border-left:3px solid var(--brown-400)}
+.luoi-card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-2)}
+.luoi-card-body{display:flex;flex-direction:column;gap:var(--space-1)}
+.luoi-tags{display:flex;flex-wrap:wrap;gap:var(--space-1)}
+.luoi-tag{padding:2px 8px;border-radius:var(--radius-full);background:var(--brown-100);color:var(--brown-800);font-size:var(--font-size-xs);font-weight:500}
+.luoi-kq{font-size:var(--font-size-sm);color:var(--gray-800);line-height:1.4}
+.luoi-ghi-chu{font-size:var(--font-size-xs);color:var(--gray-500);font-style:italic}
 
 @media(max-width:768px){
   .patient-header-card{flex-direction:column;text-align:center;padding:var(--space-5)}

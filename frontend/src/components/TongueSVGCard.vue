@@ -4,17 +4,17 @@ import type { SvgParams, AtlasFeature } from '@/data/tongue-atlas'
 const props = defineProps<{ params: SvgParams; size?: number }>()
 
 const W = 200, H = 280
-const CX = 100, CY = 147, RX = 87, RY = 120
+const CX = 100, CY = 147, RX = 72, RY = 120
 
 function scaledRX() { return RX * (props.params.bodyScale ?? 1) }
 function scaledRY() { return RY * (props.params.bodyScale ?? 1) }
 
 function has(f: AtlasFeature) { return (props.params.features ?? []).includes(f) }
 
-// Coating coverage clip
+// Coating coverage clip (chân lưỡi ở trên → root coating ở trên)
 function coatingRect() {
   const cov = props.params.coatingCoverage
-  if (cov === 'root')    return { x: CX - RX, y: CY + 40, w: RX * 2, h: RY - 40 }
+  if (cov === 'root')    return { x: CX - RX, y: CY - RY, w: RX * 2, h: RY - 40 }
   if (cov === 'partial') return { x: CX - RX * 0.7, y: CY - 20, w: RX * 1.4, h: RY + 10 }
   return { x: CX - RX, y: CY - RY, w: RX * 2, h: RY * 2 }
 }
@@ -42,12 +42,12 @@ const PEELING_PATCHES = [
   'M 108 155 Q 120 148 128 162 Q 125 175 112 172 Q 103 165 108 155',
 ]
 
-// Zone highlight rect (for zone-specific patterns)
+// Zone highlight rect (chân lưỡi ở trên, đầu lưỡi ở dưới; CX±RX = 100±72 = 28…172)
 function zoneHighlight() {
-  if (has('zone-tip'))    return { x: 13, y: 27,  w: 174, h: 72,  fill: '#ff6060' }
-  if (has('zone-root'))   return { x: 13, y: 187, w: 174, h: 76,  fill: '#8080ff' }
+  if (has('zone-tip'))    return { x: 28, y: 191, w: 144, h: 72,  fill: '#ff6060' }
+  if (has('zone-root'))   return { x: 28, y: 27,  w: 144, h: 76,  fill: '#8080ff' }
   if (has('zone-sides'))  return null // handled separately
-  if (has('zone-center')) return { x: 71, y: 99,  w: 58,  h: 88,  fill: '#ffa040' }
+  if (has('zone-center')) return { x: 76, y: 103, w: 48,  h: 88,  fill: '#ffa040' }
   return null
 }
 </script>
@@ -145,10 +145,10 @@ function zoneHighlight() {
         opacity="0.3"
       />
     </g>
-    <!-- Zone-sides: left + right highlight -->
+    <!-- Zone-sides: left + right highlight (each third = 144/3=48px) -->
     <g v-if="has('zone-sides')" clip-path="url(#tsc-clip)">
-      <rect x="13"  y="99" width="58" height="88" fill="#ff9040" opacity="0.3"/>
-      <rect x="129" y="99" width="58" height="88" fill="#ff9040" opacity="0.3"/>
+      <rect x="28"  y="103" width="48" height="88" fill="#ff9040" opacity="0.3"/>
+      <rect x="124" y="103" width="48" height="88" fill="#ff9040" opacity="0.3"/>
     </g>
 
     <!-- ── Crack lines ── -->

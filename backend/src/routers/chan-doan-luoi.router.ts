@@ -29,6 +29,18 @@ export class ChanDoanLuoiRouter {
     return this.service.analyzeImage(body.image);
   }
 
+  @Post('label-image')
+  async labelImage(@Body() body: { image?: string; classId?: string; classVi?: string }) {
+    if (!body.image) throw new BadRequestException('Thiếu ảnh (field: image)');
+    if (!body.classId) throw new BadRequestException('Thiếu nhãn (field: classId)');
+    return this.service.labelImage(body.classId, body.classVi || body.classId, body.image);
+  }
+
+  @Post('rebuild-embeddings')
+  async rebuildEmbeddings() {
+    return this.service.rebuildEmbeddings();
+  }
+
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const item = await this.service.findOne(id);
