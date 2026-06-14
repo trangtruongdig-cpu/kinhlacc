@@ -108,6 +108,16 @@ function onPatientInput() {
   searchTimer = setTimeout(doSearchPatients, 280)
 }
 
+function onPatientBlur() {
+  // Hoãn đóng để cú click vào kết quả kịp đăng ký trước
+  setTimeout(() => { patientDropOpen.value = false }, 180)
+}
+
+function onPatientEnter() {
+  const first = patientResults.value[0]
+  if (first) selectPatient(first)
+}
+
 async function doSearchPatients() {
   const q = patientSearch.value.trim()
   if (!q) { patientResults.value = []; return }
@@ -136,7 +146,7 @@ function clearPatient() {
   selectedPatient.value = null
   patientSearch.value = ''
   history.value = []
-  resetForm()
+  newRecord()
 }
 
 function goToPatient() {
@@ -377,6 +387,19 @@ const diagnosisText = computed<string>(() => {
 })
 
 watch(diagnosisText, (val) => { if (!ghiChu.value) return; /* don't overwrite notes */ })
+
+// Số nhóm đặc điểm đã chọn (6 nhóm) — dùng cho thanh tiến độ
+const FEATURE_GROUPS = 6
+const filledCount = computed(() => {
+  let n = 0
+  if (mauChat.value) n++
+  if (hinhDang.value.length) n++
+  if (doAm.value) n++
+  if (mauReu.value) n++
+  if (tinhChatReu.value.length) n++
+  if (phanBoReu.value.length) n++
+  return n
+})
 
 // ─────────────────────────────────────────────
 // Save
@@ -626,6 +649,13 @@ function closeLightbox() { lightboxSrc.value = '' }
 const mlSearching = ref(false)
 const mlError     = ref('')
 
+// Bắt đầu một bản ghi mới hoàn toàn sạch (xoá cả ảnh + kết quả AI của lần trước)
+function newRecord() {
+  resetForm()
+  clearImage()
+  mlError.value = ''
+}
+
 // Suy ra đặc điểm lưỡi từ class ID embedding (vì ML không trả features trực tiếp)
 const ML_FEATURES: Record<string, Partial<{ mauChat: string; hinhDang: string[]; mauReu: string; tinhChatReu: string[] }>> = {
   jiankangshe: { mauChat: 'Hồng Bình', mauReu: 'Trắng', tinhChatReu: ['Mỏng'] },
@@ -719,7 +749,9 @@ async function mlSearch() {
             placeholder="Tìm bệnh nhân..."
             @input="onPatientInput"
             @focus="patientDropOpen = true"
-            @blur="setTimeout(() => { patientDropOpen = false }, 200)"
+            @blur="onPatientBlur"
+            @keydown.enter.prevent="onPatientEnter"
+            @keydown.esc="patientDropOpen = false"
             autocomplete="off"
           />
           <button v-if="selectedPatient" class="cdl-patient-clear" @click="clearPatient">✕</button>
@@ -926,7 +958,7 @@ async function mlSearch() {
               </div>
             </button>
           </div>
-          <button v-if="selectedPatient" class="btn-new-record" @click="resetForm">+ Bản Ghi Mới</button>
+          <button v-if="selectedPatient" class="btn-new-record" @click="newRecord">+ Bản Ghi Mới</button>
         </div>
       </aside>
 
@@ -965,6 +997,10 @@ async function mlSearch() {
                 <span>{{ aiAnalyzing ? '⏳ Đang phân tích...' : '🔬 Vision AI' }}</span>
               </button>
             </div>
+            <p class="cdl-analyze-hint">
+              <strong>Tìm Giống ML</strong>: so khớp nhanh với thư viện ảnh đã gán nhãn ·
+              <strong>Vision AI</strong>: phân tích chi tiết đặc điểm bằng AI thị giác
+            </p>
           </div>
 
           <p v-if="aiError || mlError" class="cdl-ai-error">{{ aiError || mlError }}</p>
@@ -983,72 +1019,58 @@ async function mlSearch() {
             <button class="cdl-dec-header__retry" @click="clearImage">↺ Ảnh Khác</button>
           </div>
 
-          <!-- 2 nhánh song song -->
-          <div class="cdl-dec-cols">
-
-            <!-- NHÁNH 1: Tương Đồng -->
-            <div class="cdl-dec-col">
-              <div class="cdl-dec-col__label">Nhánh 1 — Tương Đồng</div>
-              <div v-for="m in aiResult.similarity" :key="m.id" class="cdl-dec-sim">
-                <div class="cdl-dec-sim__svg">
-                  <TongueSVGCard v-if="atlasEntry(m.id)" :params="atlasEntry(m.id)!.svg" :size="44"/>
-                  <span v-else class="cdl-dec-sim__fallback">👅</span>
-                </div>
-                <div class="cdl-dec-sim__body">
-                  <span class="cdl-dec-sim__name">{{ m.vi }}</span>
-                  <div class="cdl-dec-sim__track">
-                    <div class="cdl-dec-sim__fill"
-                      :style="{ width: m.score + '%',
-                        background: m.score >= 70 ? '#16a34a' : m.score >= 50 ? '#d97706' : '#94a3b8' }"/>
+          <!-- Danh sách tương đồng — gộp sơ đồ + ảnh mẫu trên cùng một dòng -->
+          <div class="cdl-dec-col__label">Mức Độ Tương Đồng</div>
+          <div class="cdl-dec-list">
+            <div v-for="m in aiResult.similarity" :key="m.id" class="cdl-dec-row">
+              <div class="cdl-dec-row__thumbs">
+                <div class="cdl-dec-row__thumb">
+                  <div class="cdl-dec-row__svg">
+                    <TongueSVGCard v-if="atlasEntry(m.id)" :params="atlasEntry(m.id)!.svg" :size="42"/>
+                    <span v-else class="cdl-dec-sim__fallback">👅</span>
                   </div>
-                  <span class="cdl-dec-sim__reason">{{ m.reason }}</span>
+                  <span class="cdl-dec-row__cap">Sơ đồ</span>
                 </div>
-                <span class="cdl-dec-sim__pct"
-                  :class="m.score >= 70 ? 'pct-hi' : m.score >= 50 ? 'pct-mid' : 'pct-lo'">
-                  {{ m.score }}%
-                </span>
-              </div>
-            </div>
-
-            <!-- NHÁNH 2: Ảnh Thực Tế -->
-            <div class="cdl-dec-col">
-              <div class="cdl-dec-col__label">Nhánh 2 — Ảnh Thực Tế</div>
-              <div v-for="m in aiResult.similarity" :key="m.id + '_photo'" class="cdl-dec-sim">
-                <div class="cdl-dec-sim__photo" @click="atlasPhoto(m.id) && openLightbox(atlasPhoto(m.id))" :class="{ clickable: atlasPhoto(m.id) }">
-                  <img v-if="atlasPhoto(m.id)" :src="atlasPhoto(m.id)" :alt="m.vi" class="cdl-dec-sim__photo-img"/>
-                  <span v-else class="cdl-dec-sim__fallback">👅</span>
-                  <span v-if="atlasPhoto(m.id)" class="cdl-dec-sim__zoom">🔍</span>
-                </div>
-                <div class="cdl-dec-sim__body">
-                  <span class="cdl-dec-sim__name">{{ m.vi }}</span>
-                  <div class="cdl-dec-sim__track">
-                    <div class="cdl-dec-sim__fill"
-                      :style="{ width: m.score + '%',
-                        background: m.score >= 70 ? '#16a34a' : m.score >= 50 ? '#d97706' : '#94a3b8' }"/>
+                <div class="cdl-dec-row__thumb">
+                  <div class="cdl-dec-sim__photo" :class="{ clickable: atlasPhoto(m.id) }"
+                    @click="atlasPhoto(m.id) && openLightbox(atlasPhoto(m.id))">
+                    <img v-if="atlasPhoto(m.id)" :src="atlasPhoto(m.id)" :alt="m.vi" class="cdl-dec-sim__photo-img"/>
+                    <span v-else class="cdl-dec-sim__fallback">👅</span>
+                    <span v-if="atlasPhoto(m.id)" class="cdl-dec-sim__zoom">🔍</span>
                   </div>
-                  <span class="cdl-dec-sim__reason">{{ m.reason }}</span>
-                </div>
-                <span class="cdl-dec-sim__pct"
-                  :class="m.score >= 70 ? 'pct-hi' : m.score >= 50 ? 'pct-mid' : 'pct-lo'">
-                  {{ m.score }}%
-                </span>
-              </div>
-
-              <div v-if="diagnoses.length" class="cdl-dec-diag">
-                <div class="cdl-dec-col__label" style="margin-top:4px">Thể Bệnh Gợi Ý</div>
-                <div class="cdl-dec-diag-chips">
-                  <span v-for="p in diagnoses.slice(0, 4)" :key="p.name"
-                    class="cdl-dec-diag-chip"
-                    :style="{ background: patternColor(p.name) }">
-                    {{ p.viet }} · {{ p.score }}đ
-                  </span>
+                  <span class="cdl-dec-row__cap">Ảnh mẫu</span>
                 </div>
               </div>
+              <div class="cdl-dec-sim__body">
+                <span class="cdl-dec-sim__name">{{ m.vi }}</span>
+                <div class="cdl-dec-sim__track">
+                  <div class="cdl-dec-sim__fill"
+                    :style="{ width: m.score + '%',
+                      background: m.score >= 70 ? '#16a34a' : m.score >= 50 ? '#d97706' : '#94a3b8' }"/>
+                </div>
+                <span class="cdl-dec-sim__reason">{{ m.reason }}</span>
+              </div>
+              <span class="cdl-dec-sim__pct"
+                :class="m.score >= 70 ? 'pct-hi' : m.score >= 50 ? 'pct-mid' : 'pct-lo'">
+                {{ m.score }}%
+              </span>
             </div>
+          </div>
 
-          </div><!-- /cdl-dec-cols -->
+          <div v-if="diagnoses.length" class="cdl-dec-diag">
+            <div class="cdl-dec-col__label">Thể Bệnh Gợi Ý</div>
+            <div class="cdl-dec-diag-chips">
+              <span v-for="p in diagnoses.slice(0, 4)" :key="p.name"
+                class="cdl-dec-diag-chip"
+                :style="{ background: patternColor(p.name) }">
+                {{ p.viet }} · {{ p.score }}đ
+              </span>
+            </div>
+          </div>
         </section>
 
+        <!-- CHẤT LƯỠI + RÊU LƯỠI (cùng một hàng) -->
+        <div class="cdl-feature-row">
         <!-- CHẤT LƯỠI -->
         <section class="cdl-section">
           <h3 class="cdl-section__title">Chất Lưỡi</h3>
@@ -1124,6 +1146,7 @@ async function mlSearch() {
             </div>
           </div>
         </section>
+        </div><!-- /cdl-feature-row -->
 
         <!-- KẾT QUẢ -->
         <section class="cdl-section cdl-section--result">
@@ -1150,28 +1173,54 @@ async function mlSearch() {
             <label class="cdl-field__label">Ghi Chú Thêm</label>
             <textarea v-model="ghiChu" class="cdl-textarea" rows="3" placeholder="Ghi chú bổ sung của bác sĩ..."/>
           </div>
+        </section>
 
-          <div class="cdl-save-row">
-            <p v-if="saveError" class="cdl-save-error">{{ saveError }}</p>
-            <p v-if="saveSuccess" class="cdl-save-ok">Đã lưu thành công ✓</p>
-            <button class="btn-save" :disabled="saving" @click="save">
-              <span v-if="saving">Đang lưu...</span>
-              <span v-else>{{ editingId ? 'Cập Nhật' : 'Lưu Vào Hồ Sơ' }}</span>
-            </button>
+        <!-- ── THANH HÀNH ĐỘNG DÍNH (luôn hiển thị) ── -->
+        <div class="cdl-actionbar">
+          <div class="cdl-actionbar__summary">
+            <div class="cdl-actionbar__progress" :title="`Đã chọn ${filledCount}/${FEATURE_GROUPS} nhóm đặc điểm`">
+              <div class="cdl-actionbar__progress-track">
+                <div class="cdl-actionbar__progress-fill" :style="{ width: (filledCount / FEATURE_GROUPS * 100) + '%' }"/>
+              </div>
+              <span class="cdl-actionbar__progress-text">{{ filledCount }}/{{ FEATURE_GROUPS }} đặc điểm</span>
+            </div>
+            <span v-if="diagnoses.length" class="cdl-actionbar__diag">
+              <span class="cdl-actionbar__dot"/>{{ diagnoses.length }} thể bệnh gợi ý
+            </span>
+            <span v-else class="cdl-actionbar__muted">Chưa đủ dữ liệu chẩn đoán</span>
+          </div>
+
+          <div class="cdl-actionbar__actions">
+            <transition name="cdl-fade">
+              <span v-if="saveError" class="cdl-save-error">{{ saveError }}</span>
+            </transition>
+            <transition name="cdl-fade">
+              <span v-if="saveSuccess" class="cdl-save-ok">Đã lưu ✓</span>
+            </transition>
+            <button
+              v-if="selectedPatient"
+              class="btn-goto-patient"
+              @click="goToPatient"
+              title="Xem toàn bộ hồ sơ bệnh nhân"
+            >Hồ Sơ →</button>
             <button
               v-if="selectedPatient"
               class="btn-goto-examination"
               @click="goToNewExamination"
               title="Tạo phiếu khám mới cho bệnh nhân này"
             >Tạo Phiếu Khám →</button>
+            <span v-if="!selectedPatient" class="cdl-actionbar__need-patient">⚠ Chọn bệnh nhân để lưu</span>
             <button
-              v-if="selectedPatient"
-              class="btn-goto-patient"
-              @click="goToPatient"
-              title="Xem toàn bộ hồ sơ bệnh nhân"
-            >Hồ Sơ Bệnh Nhân →</button>
+              class="btn-save"
+              :disabled="saving || !selectedPatient"
+              :title="!selectedPatient ? 'Chọn bệnh nhân ở thanh trên cùng trước khi lưu' : ''"
+              @click="save"
+            >
+              <span v-if="saving">Đang lưu...</span>
+              <span v-else>{{ editingId ? 'Cập Nhật' : 'Lưu Vào Hồ Sơ' }}</span>
+            </button>
           </div>
-        </section>
+        </div>
       </main>
     </div>
 
@@ -1378,14 +1427,39 @@ async function mlSearch() {
   border: 1px solid var(--brown-100, #ede0d4);
   border-radius: 12px;
   padding: 16px;
+  box-shadow: 0 1px 3px rgba(74, 47, 23, 0.04);
+  transition: box-shadow .18s ease, border-color .18s ease;
+}
+.cdl-section:hover { box-shadow: 0 3px 12px rgba(74, 47, 23, 0.07); }
+
+/* Chất Lưỡi + Rêu Lưỡi nằm cùng một hàng */
+.cdl-feature-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+@media (max-width: 860px) {
+  .cdl-feature-row { grid-template-columns: 1fr; }
 }
 .cdl-section__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   margin: 0 0 12px;
   font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   color: var(--brown-700, #7a4515);
+}
+.cdl-section__title::before {
+  content: '';
+  width: 3px;
+  height: 14px;
+  border-radius: 2px;
+  background: var(--brown-400, #b07840);
+  flex-shrink: 0;
 }
 
 .cdl-field { margin-bottom: 12px; }
@@ -1721,24 +1795,34 @@ async function mlSearch() {
 }
 .cdl-dec-header__retry:hover { background: var(--brown-50, #fdf8f4); }
 
-.cdl-dec-cols {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-@media (max-width: 700px) {
-  .cdl-dec-cols { grid-template-columns: 1fr; }
-}
-
-.cdl-dec-col {
-  background: var(--surface-2, #f8f5f0);
-  border-radius: 10px;
-  padding: 12px;
-  display: flex; flex-direction: column; gap: 8px;
-}
 .cdl-dec-col__label {
   font-size: 10px; font-weight: 800; text-transform: uppercase;
   letter-spacing: .06em; color: var(--gray-500, #6b7280);
+  margin-bottom: 6px;
+}
+
+/* Merged similarity list: sơ đồ + ảnh mẫu trên cùng một dòng */
+.cdl-dec-list { display: flex; flex-direction: column; gap: 8px; }
+.cdl-dec-row {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--white, #fff); border-radius: 10px;
+  padding: 9px 12px;
+  border: 1px solid var(--brown-100, #ede0d4);
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+.cdl-dec-row:hover {
+  border-color: var(--brown-200, #d4b8a0);
+  box-shadow: 0 2px 8px rgba(74, 47, 23, 0.06);
+}
+.cdl-dec-row__thumbs { display: flex; gap: 8px; flex-shrink: 0; }
+.cdl-dec-row__thumb { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+.cdl-dec-row__svg {
+  width: 42px; height: 42px;
+  display: flex; align-items: center; justify-content: center;
+}
+.cdl-dec-row__cap {
+  font-size: 9px; color: var(--gray-400, #9ca3af);
+  text-transform: uppercase; letter-spacing: .04em;
 }
 
 /* Similarity rows in decision col */
@@ -1772,7 +1856,7 @@ async function mlSearch() {
 .pct-lo  { color: #9ca3af; }
 
 /* Diagnosis chips in decision col */
-.cdl-dec-diag { display: flex; flex-direction: column; gap: 6px; }
+.cdl-dec-diag { display: flex; flex-direction: column; gap: 6px; margin-top: 12px; }
 .cdl-dec-diag-chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .cdl-dec-diag-chip {
   font-size: 11px; font-weight: 700; color: #fff;
@@ -1817,4 +1901,65 @@ async function mlSearch() {
 .btn-analyze--ml {
   background: linear-gradient(135deg, #059669, #0d9488) !important;
 }
+.cdl-analyze-hint {
+  margin: 8px 0 0;
+  font-size: 11px; line-height: 1.5;
+  color: var(--gray-500, #6b7280);
+  max-width: 440px;
+}
+.cdl-analyze-hint strong { color: var(--brown-700, #7a4515); font-weight: 700; }
+
+/* ── Sticky action bar ── */
+.cdl-actionbar {
+  position: sticky;
+  bottom: 0;
+  margin: 0 -24px -20px;
+  padding: 12px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid var(--brown-100, #ede0d4);
+  box-shadow: 0 -4px 16px rgba(74, 47, 23, 0.06);
+  z-index: 5;
+}
+.cdl-actionbar__summary {
+  display: flex; align-items: center; gap: 16px;
+  flex-wrap: wrap; min-width: 0;
+}
+.cdl-actionbar__progress { display: flex; align-items: center; gap: 8px; }
+.cdl-actionbar__progress-track {
+  width: 88px; height: 6px; border-radius: 3px;
+  background: var(--brown-100, #ede0d4); overflow: hidden;
+}
+.cdl-actionbar__progress-fill {
+  height: 100%; border-radius: 3px;
+  background: var(--brown-500, #a0632a);
+  transition: width .3s ease;
+}
+.cdl-actionbar__progress-text {
+  font-size: 12px; font-weight: 700; color: var(--brown-700, #7a4515);
+  white-space: nowrap;
+}
+.cdl-actionbar__diag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12px; font-weight: 600; color: var(--gray-600, #4b5563);
+}
+.cdl-actionbar__dot {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #16a34a; flex-shrink: 0;
+}
+.cdl-actionbar__muted { font-size: 12px; color: var(--gray-400, #9ca3af); }
+.cdl-actionbar__actions {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+}
+.cdl-actionbar__need-patient {
+  font-size: 12px; font-weight: 600; color: #b45309;
+  background: #fef3c7; border: 1px solid #fde68a;
+  padding: 4px 10px; border-radius: 999px; white-space: nowrap;
+}
+
+/* Fade transition for save status messages */
+.cdl-fade-enter-active, .cdl-fade-leave-active { transition: opacity .25s ease; }
+.cdl-fade-enter-from, .cdl-fade-leave-to { opacity: 0; }
 </style>
