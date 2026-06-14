@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.7
 
 ############################
-# 1a. Cài TOÀN BỘ deps (dev + prod) để build
+# 1. Cài TOÀN BỘ deps (dev + prod) để build — CHỈ 1 lần npm ci
 ############################
 FROM node:20-alpine AS deps
 WORKDIR /app
@@ -10,23 +10,22 @@ COPY package*.json ./
 RUN --mount=type=cache,target=/root/.npm npm ci --no-audit --no-fund
 
 ############################
-# 1b. Cài CHỈ production deps (song song với stage trên nhờ BuildKit)
-#     Không cần npm prune nữa → tiết kiệm ~30–60s
-############################
-FROM node:20-alpine AS prod-deps
-WORKDIR /app
-COPY package*.json ./
-RUN --mount=type=cache,target=/root/.npm npm ci --omit=dev --no-audit --no-fund
-
-############################
 # 2. Build TypeScript -> dist/
 ############################
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# nest build dùng SWC (xem nest-cli.json) → ~1s. NODE_OPTIONS giữ lại phòng khi ai đổi builder về tsc.
-RUN NODE_OPTIONS=--max-old-space-size=2048 npm run build
+# nest build dùng SWC (xem nest-cli.json) → ~1s. Giới hạn heap thấp cho VPS RAM nhỏ (1GB).
+RUN NODE_OPTIONS=--max-old-space-size=768 npm run build
+
+############################
+# 3. Lọc ra CHỈ production deps bằng npm prune — tái dùng node_modules đã có,
+#    KHÔNG chạy npm ci lần 2 (tránh 2 tiến trình npm song song gây OOM trên VPS 1GB).
+############################
+FROM deps AS prod-deps
+WORKDIR /app
+RUN npm prune --omit=dev
 
 ############################
 # 3. Runtime image (nhỏ, non-root)
