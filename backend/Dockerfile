@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.7
 
 ############################
-# 1. Cài deps (bao gồm dev) để build
+# 1a. Cài TOÀN BỘ deps (dev + prod) để build
 ############################
 FROM node:20-alpine AS deps
 WORKDIR /app
@@ -10,17 +10,23 @@ COPY package*.json ./
 RUN --mount=type=cache,target=/root/.npm npm ci --no-audit --no-fund
 
 ############################
+# 1b. Cài CHỈ production deps (song song với stage trên nhờ BuildKit)
+#     Không cần npm prune nữa → tiết kiệm ~30–60s
+############################
+FROM node:20-alpine AS prod-deps
+WORKDIR /app
+COPY package*.json ./
+RUN --mount=type=cache,target=/root/.npm npm ci --omit=dev --no-audit --no-fund
+
+############################
 # 2. Build TypeScript -> dist/
 ############################
 FROM node:20-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-# nest build (tsc) ngốn RAM → trên VPS ít RAM, V8 tự abort "heap out of memory" (exit 134).
-# Nới trần heap để tsc đủ chỗ. LƯU Ý: nếu VPS RAM thấp (≤1GB) phải BẬT SWAP (xem DEPLOYMENT.md)
-# để backing, nếu không OS sẽ giết tiến trình (exit 137) dù đã nới trần.
-RUN NODE_OPTIONS=--max-old-space-size=2048 npm run build \
- && npm prune --omit=dev
+# nest build dùng SWC (xem nest-cli.json) → ~1s. NODE_OPTIONS giữ lại phòng khi ai đổi builder về tsc.
+RUN NODE_OPTIONS=--max-old-space-size=2048 npm run build
 
 ############################
 # 3. Runtime image (nhỏ, non-root)
@@ -36,9 +42,9 @@ RUN apk add --no-cache tini wget \
  && addgroup -S nodejs \
  && adduser  -S nodejs -G nodejs
 
-COPY --from=builder --chown=nodejs:nodejs /app/package*.json ./
-COPY --from=builder --chown=nodejs:nodejs /app/node_modules  ./node_modules
-COPY --from=builder --chown=nodejs:nodejs /app/dist          ./dist
+COPY --from=prod-deps --chown=nodejs:nodejs /app/node_modules  ./node_modules
+COPY --from=builder  --chown=nodejs:nodejs /app/package*.json ./
+COPY --from=builder  --chown=nodejs:nodejs /app/dist          ./dist
 
 USER nodejs
 EXPOSE 3001
