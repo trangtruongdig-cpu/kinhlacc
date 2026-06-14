@@ -849,10 +849,15 @@ async function mlSearch() {
 
     <!-- Body -->
     <div v-show="mainTab === 'chan-doan'" class="cdl-body">
-      <!-- Left: SVG + History -->
-      <aside class="cdl-left">
-        <!-- Tongue SVG -->
-        <div class="cdl-svg-wrap">
+      <div class="cdl-columns">
+
+      <!-- ══ CỘT 1: ẢNH & VÙNG LƯỠI ══ -->
+      <section class="cdl-col cdl-col--image">
+        <!-- So sánh song song: Sơ đồ vùng ↔ Ảnh thật -->
+        <div class="cdl-compare">
+        <div class="cdl-compare__item">
+          <div class="cdl-compare__cap">Sơ đồ vùng lưỡi</div>
+          <div class="cdl-svg-wrap">
           <p class="cdl-svg-hint">Click vùng lưỡi để đánh dấu bất thường</p>
           <svg class="tongue-svg" viewBox="0 0 200 280" @mouseleave="hoverZone = null">
             <defs>
@@ -930,47 +935,25 @@ async function mlSearch() {
               @click="toggleZone(key)"
             >{{ info.label }}</button>
           </div>
-        </div>
-
-        <!-- History -->
-        <div class="cdl-history">
-          <div class="cdl-history__head">
-            <h4>Lịch Sử Chẩn Đoán</h4>
-            <span v-if="!selectedPatient" class="cdl-history__empty-hint">Chọn bệnh nhân để xem</span>
           </div>
-          <div v-if="historyLoading" class="cdl-history__loading">Đang tải...</div>
-          <div v-else-if="!selectedPatient" class="cdl-history__no-patient">—</div>
-          <div v-else-if="history.length === 0" class="cdl-history__empty">Chưa có bản ghi</div>
-          <div v-else class="cdl-history__list">
-            <button
-              v-for="r in history" :key="r.id"
-              class="cdl-history-item"
-              :class="{ active: editingId === r.id }"
-              @click="loadRecord(r)"
-            >
-              <img v-if="r.anhLuoi" :src="r.anhLuoi" class="cdl-hi-thumb" alt="ảnh lưỡi" />
-              <div class="cdl-hi-info">
-                <span class="cdl-hi-date">{{ formatDate(r.ngayKham) }}</span>
-                <span class="cdl-hi-mau">{{ r.mauChat || '—' }}</span>
-                <span v-if="r.ketQuaDongY" class="cdl-hi-diag">
-                  {{ r.ketQuaDongY.split('\n')[0].split(':')[0] }}
-                </span>
-              </div>
-            </button>
-          </div>
-          <button v-if="selectedPatient" class="btn-new-record" @click="newRecord">+ Bản Ghi Mới</button>
-        </div>
-      </aside>
+        </div><!-- /nửa sơ đồ -->
 
-      <!-- Right: Feature form + result -->
-      <main class="cdl-right">
-        <!-- ── UPLOAD ZONE (trước khi phân tích) ── -->
-        <section v-if="!aiResult || aiResult.error" class="cdl-section cdl-section--upload">
-          <h3 class="cdl-section__title">Phân Tích Ảnh Lưỡi <span class="cdl-ai-badge">AI</span></h3>
-
+        <!-- ẢNH THẬT -->
+        <div class="cdl-compare__item">
+          <div class="cdl-compare__cap">Ảnh thật</div>
           <div
-            v-if="!imagePreview"
-            class="cdl-drop-zone"
+            v-if="imagePreview"
+            class="cdl-compare__photo"
+            @click="openLightbox(imagePreview)"
+            title="Phóng to ảnh lưỡi"
+          >
+            <img :src="imagePreview" alt="Ảnh lưỡi thật"/>
+            <button class="cdl-preview-clear" @click.stop="clearImage" title="Xóa ảnh">✕</button>
+            <span class="cdl-preview-zoom">🔍</span>
+          </div>
+          <div
+            v-else
+            class="cdl-drop-zone cdl-drop-zone--compact"
             :class="{ dragging: isDragging }"
             @dragover.prevent="isDragging = true"
             @dragleave.prevent="isDragging = false"
@@ -978,45 +961,42 @@ async function mlSearch() {
             @click="fileInputRef?.click()"
           >
             <span class="cdl-drop-icon">📷</span>
-            <span class="cdl-drop-text">Kéo thả ảnh lưỡi vào đây</span>
-            <span class="cdl-drop-sub">hoặc nhấn để chọn từ máy tính</span>
+            <span class="cdl-drop-text">Thêm ảnh lưỡi</span>
+            <span class="cdl-drop-sub">kéo thả / nhấn</span>
             <input ref="fileInputRef" type="file" accept="image/*" class="cdl-file-hidden" @change="onFilePick"/>
           </div>
+        </div>
+        </div><!-- /cdl-compare -->
 
-          <div v-else class="cdl-img-preview-wrap">
-            <div class="cdl-img-preview" @click="openLightbox(imagePreview)" title="Phóng to ảnh">
-              <img :src="imagePreview" alt="Ảnh lưỡi" class="cdl-preview-img"/>
-              <button class="cdl-preview-clear" @click.stop="clearImage" title="Xóa ảnh">✕</button>
-              <span class="cdl-preview-zoom">🔍</span>
-            </div>
-            <div class="cdl-analyze-btns">
-              <button class="btn-analyze btn-analyze--ml" :disabled="mlSearching || aiAnalyzing" @click="mlSearch">
-                <span>{{ mlSearching ? '⏳ Đang phân tích...' : '🤖 Tìm Giống ML' }}</span>
-              </button>
-              <button class="btn-analyze" :disabled="aiAnalyzing || mlSearching" @click="analyzeImage">
-                <span>{{ aiAnalyzing ? '⏳ Đang phân tích...' : '🔬 Vision AI' }}</span>
-              </button>
-            </div>
-            <p class="cdl-analyze-hint">
-              <strong>Tìm Giống ML</strong>: so khớp nhanh với thư viện ảnh đã gán nhãn ·
-              <strong>Vision AI</strong>: phân tích chi tiết đặc điểm bằng AI thị giác
-            </p>
+        <!-- ── PHÂN TÍCH AI (nút) ── -->
+        <section v-if="!aiResult || aiResult.error" class="cdl-section">
+          <h3 class="cdl-section__title">Phân Tích AI <span class="cdl-ai-badge">AI</span></h3>
+          <div v-if="imagePreview" class="cdl-analyze-btns">
+            <button class="btn-analyze btn-analyze--ml" :disabled="mlSearching || aiAnalyzing" @click="mlSearch">
+              <span>{{ mlSearching ? '⏳ Đang phân tích...' : '🤖 Tìm Giống ML' }}</span>
+            </button>
+            <button class="btn-analyze" :disabled="aiAnalyzing || mlSearching" @click="analyzeImage">
+              <span>{{ aiAnalyzing ? '⏳ Đang phân tích...' : '🔬 Vision AI' }}</span>
+            </button>
           </div>
+          <p v-if="imagePreview" class="cdl-analyze-hint">
+            <strong>Tìm Giống ML</strong>: so khớp nhanh với thư viện ảnh đã gán nhãn ·
+            <strong>Vision AI</strong>: phân tích chi tiết đặc điểm bằng AI thị giác
+          </p>
+          <p v-else class="cdl-ai-empty">Thêm ảnh lưỡi ở khung "Ảnh thật" bên phải để phân tích bằng AI.</p>
 
           <p v-if="aiError || mlError" class="cdl-ai-error">{{ aiError || mlError }}</p>
           <p v-if="aiResult?.error" class="cdl-ai-error">{{ aiResult.error }}</p>
         </section>
 
-        <!-- ── DECISION PANEL (sau khi AI trả về) ── -->
+        <!-- ── KẾT QUẢ AI (sau khi phân tích) ── -->
         <section v-else class="cdl-section cdl-section--decision">
-          <!-- Header bar: ảnh thumbnail + nút đổi ảnh -->
           <div class="cdl-dec-header">
-            <img :src="imagePreview" class="cdl-dec-header__thumb" @click="openLightbox(imagePreview)" title="Phóng to ảnh lưỡi"/>
-            <div class="cdl-dec-header__info">
+            <div class="cdl-dec-header__bar">
               <span class="cdl-dec-header__title">Kết Quả Phân Tích AI <span class="cdl-ai-badge">AI</span></span>
-              <span class="cdl-dec-header__sub">Form đã được điền tự động — kiểm tra và chỉnh nếu cần</span>
+              <button class="cdl-dec-header__retry" @click="clearImage">↺ Ảnh Khác</button>
             </div>
-            <button class="cdl-dec-header__retry" @click="clearImage">↺ Ảnh Khác</button>
+            <span class="cdl-dec-header__sub">Form đã được điền tự động — kiểm tra và chỉnh nếu cần</span>
           </div>
 
           <!-- Danh sách tương đồng — gộp sơ đồ + ảnh mẫu trên cùng một dòng -->
@@ -1069,8 +1049,38 @@ async function mlSearch() {
           </div>
         </section>
 
-        <!-- CHẤT LƯỠI + RÊU LƯỠI (cùng một hàng) -->
-        <div class="cdl-feature-row">
+        <!-- Lịch sử chẩn đoán -->
+        <div class="cdl-history">
+          <div class="cdl-history__head">
+            <h4>Lịch Sử Chẩn Đoán</h4>
+            <span v-if="!selectedPatient" class="cdl-history__empty-hint">Chọn bệnh nhân để xem</span>
+          </div>
+          <div v-if="historyLoading" class="cdl-history__loading">Đang tải...</div>
+          <div v-else-if="!selectedPatient" class="cdl-history__no-patient">—</div>
+          <div v-else-if="history.length === 0" class="cdl-history__empty">Chưa có bản ghi</div>
+          <div v-else class="cdl-history__list">
+            <button
+              v-for="r in history" :key="r.id"
+              class="cdl-history-item"
+              :class="{ active: editingId === r.id }"
+              @click="loadRecord(r)"
+            >
+              <img v-if="r.anhLuoi" :src="r.anhLuoi" class="cdl-hi-thumb" alt="ảnh lưỡi" />
+              <div class="cdl-hi-info">
+                <span class="cdl-hi-date">{{ formatDate(r.ngayKham) }}</span>
+                <span class="cdl-hi-mau">{{ r.mauChat || '—' }}</span>
+                <span v-if="r.ketQuaDongY" class="cdl-hi-diag">
+                  {{ r.ketQuaDongY.split('\n')[0].split(':')[0] }}
+                </span>
+              </div>
+            </button>
+          </div>
+          <button v-if="selectedPatient" class="btn-new-record" @click="newRecord">+ Bản Ghi Mới</button>
+        </div>
+      </section><!-- /cột 1: ảnh & vùng -->
+
+      <!-- ══ CỘT 2: ĐẶC ĐIỂM LƯỠI ══ -->
+      <section class="cdl-col cdl-col--features">
         <!-- CHẤT LƯỠI -->
         <section class="cdl-section">
           <h3 class="cdl-section__title">Chất Lưỡi</h3>
@@ -1146,8 +1156,10 @@ async function mlSearch() {
             </div>
           </div>
         </section>
-        </div><!-- /cdl-feature-row -->
+      </section><!-- /cột 2: đặc điểm -->
 
+      <!-- ══ CỘT 3: KẾT QUẢ CHẨN ĐOÁN ══ -->
+      <section class="cdl-col cdl-col--result">
         <!-- KẾT QUẢ -->
         <section class="cdl-section cdl-section--result">
           <h3 class="cdl-section__title">Kết Quả Chẩn Đoán</h3>
@@ -1174,9 +1186,12 @@ async function mlSearch() {
             <textarea v-model="ghiChu" class="cdl-textarea" rows="3" placeholder="Ghi chú bổ sung của bác sĩ..."/>
           </div>
         </section>
+      </section><!-- /cột 3: kết quả -->
 
-        <!-- ── THANH HÀNH ĐỘNG DÍNH (luôn hiển thị) ── -->
-        <div class="cdl-actionbar">
+      </div><!-- /cdl-columns -->
+
+      <!-- ── THANH HÀNH ĐỘNG (toàn chiều ngang) ── -->
+      <div class="cdl-actionbar">
           <div class="cdl-actionbar__summary">
             <div class="cdl-actionbar__progress" :title="`Đã chọn ${filledCount}/${FEATURE_GROUPS} nhóm đặc điểm`">
               <div class="cdl-actionbar__progress-track">
@@ -1221,7 +1236,6 @@ async function mlSearch() {
             </button>
           </div>
         </div>
-      </main>
     </div>
 
     <!-- Lightbox -->
@@ -1313,36 +1327,87 @@ async function mlSearch() {
 .cdl-header__sub { font-size: 12px; color: var(--gray-500, #6b7280); margin-left: 8px; }
 
 .cdl-body {
-  display: grid;
-  grid-template-columns: 260px 1fr;
+  display: flex;
+  flex-direction: column;
   flex: 1;
   overflow: hidden;
 }
-@media (max-width: 900px) {
-  .cdl-body { grid-template-columns: 1fr; overflow: auto; }
-}
 
-/* ── Left ── */
-.cdl-left {
+/* ── 3 cột: Ảnh | Đặc điểm | Kết quả ── */
+.cdl-columns {
+  display: grid;
+  grid-template-columns: minmax(360px, 440px) minmax(0, 1fr) minmax(0, 1fr);
+  flex: 1;
+  overflow: hidden;
+}
+.cdl-col {
   display: flex;
   flex-direction: column;
-  background: var(--white, #fff);
-  border-right: 1px solid var(--brown-100, #ede0d4);
+  gap: 16px;
+  padding: 16px;
   overflow-y: auto;
+  min-height: 0;
+}
+.cdl-col--image,
+.cdl-col--features { border-right: 1px solid var(--brown-100, #ede0d4); }
+
+@media (max-width: 1100px) {
+  .cdl-columns { grid-template-columns: 1fr; overflow-y: auto; }
+  .cdl-col { overflow-y: visible; border-right: none; }
+  .cdl-col--image,
+  .cdl-col--features { border-bottom: 1px solid var(--brown-100, #ede0d4); }
+}
+
+/* ── So sánh song song: Sơ đồ vùng ↔ Ảnh thật ── */
+.cdl-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  align-items: start;
+}
+.cdl-compare__item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+.cdl-compare__cap {
+  font-size: 10px; font-weight: 800; text-transform: uppercase;
+  letter-spacing: .06em; color: var(--gray-500, #6b7280);
+  text-align: center;
+}
+.cdl-compare__photo {
+  position: relative;
+  border: 1px solid var(--brown-100, #ede0d4);
+  border-radius: 12px;
+  overflow: hidden;
+  background: #faf6f2;
+  cursor: zoom-in;
+  box-shadow: 0 1px 3px rgba(74, 47, 23, 0.04);
+}
+.cdl-compare__photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 180 / 252;
+  object-fit: cover;
 }
 
 .cdl-svg-wrap {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 16px 12px 12px;
-  border-bottom: 1px solid var(--brown-100, #ede0d4);
+  padding: 12px 8px;
+  background: var(--white, #fff);
+  border: 1px solid var(--brown-100, #ede0d4);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(74, 47, 23, 0.04);
 }
 .cdl-svg-hint { font-size: 10px; color: var(--gray-400, #9ca3af); margin: 0 0 8px; text-align: center; }
 
 .tongue-svg {
-  width: 180px;
-  height: 252px;
+  width: 100%;
+  height: auto;
+  max-width: 180px;
   cursor: crosshair;
   filter: drop-shadow(0 2px 8px rgba(74,47,23,0.12));
 }
@@ -1370,7 +1435,13 @@ async function mlSearch() {
 .cdl-zone-chip.active { background: #ef4444; color: #fff; border-color: #ef4444; }
 
 /* ── History ── */
-.cdl-history { flex: 1; padding: 12px; }
+.cdl-history {
+  padding: 14px;
+  background: var(--white, #fff);
+  border: 1px solid var(--brown-100, #ede0d4);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(74, 47, 23, 0.04);
+}
 .cdl-history__head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
 .cdl-history__head h4 { margin: 0; font-size: 12px; font-weight: 700; color: var(--brown-700, #7a4515); text-transform: uppercase; letter-spacing: 0.06em; }
 .cdl-history__empty-hint,
@@ -1414,14 +1485,6 @@ async function mlSearch() {
 .btn-new-record:hover { background: var(--brown-50, #fdf8f4); }
 
 /* ── Right ── */
-.cdl-right {
-  overflow-y: auto;
-  padding: 20px 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
 .cdl-section {
   background: var(--white, #fff);
   border: 1px solid var(--brown-100, #ede0d4);
@@ -1431,17 +1494,6 @@ async function mlSearch() {
   transition: box-shadow .18s ease, border-color .18s ease;
 }
 .cdl-section:hover { box-shadow: 0 3px 12px rgba(74, 47, 23, 0.07); }
-
-/* Chất Lưỡi + Rêu Lưỡi nằm cùng một hàng */
-.cdl-feature-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
-  align-items: start;
-}
-@media (max-width: 860px) {
-  .cdl-feature-row { grid-template-columns: 1fr; }
-}
 .cdl-section__title {
   display: flex;
   align-items: center;
@@ -1681,6 +1733,19 @@ async function mlSearch() {
 .cdl-drop-sub  { font-size: 11px; color: var(--gray-400, #9ca3af); }
 .cdl-file-hidden { display: none; }
 
+/* Dropzone gọn trong khung "Ảnh thật" cạnh sơ đồ */
+.cdl-drop-zone--compact {
+  padding: 0 10px;
+  aspect-ratio: 180 / 252;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+}
+.cdl-drop-zone--compact .cdl-drop-icon { font-size: 24px; }
+.cdl-drop-zone--compact .cdl-drop-text { font-size: 12px; }
+
+.cdl-ai-empty { font-size: 12px; color: var(--gray-400, #9ca3af); font-style: italic; margin: 0; }
+
 .cdl-img-preview-wrap {
   display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap;
 }
@@ -1769,20 +1834,13 @@ async function mlSearch() {
 .cdl-section--decision { padding: 14px; }
 
 .cdl-dec-header {
-  display: flex; align-items: center; gap: 10px;
+  display: flex; flex-direction: column; gap: 10px;
   margin-bottom: 14px;
   padding-bottom: 12px;
   border-bottom: 1px solid var(--brown-100, #ede0d4);
 }
-.cdl-dec-header__thumb {
-  width: 52px; height: 52px; border-radius: 8px;
-  object-fit: cover; flex-shrink: 0;
-  border: 2px solid var(--brown-200, #d4b8a0);
-  cursor: zoom-in;
-}
-.cdl-dec-header__info {
-  flex: 1; min-width: 0;
-  display: flex; flex-direction: column; gap: 2px;
+.cdl-dec-header__bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
 }
 .cdl-dec-header__title { font-size: 13px; font-weight: 700; color: var(--brown-800, #5c3210); }
 .cdl-dec-header__sub   { font-size: 11px; color: var(--gray-400, #9ca3af); }
@@ -1909,16 +1967,13 @@ async function mlSearch() {
 }
 .cdl-analyze-hint strong { color: var(--brown-700, #7a4515); font-weight: 700; }
 
-/* ── Sticky action bar ── */
+/* ── Action bar (footer toàn chiều ngang) ── */
 .cdl-actionbar {
-  position: sticky;
-  bottom: 0;
-  margin: 0 -24px -20px;
+  flex-shrink: 0;
   padding: 12px 24px;
   display: flex; align-items: center; justify-content: space-between;
   gap: 16px; flex-wrap: wrap;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(8px);
+  background: var(--white, #fff);
   border-top: 1px solid var(--brown-100, #ede0d4);
   box-shadow: 0 -4px 16px rgba(74, 47, 23, 0.06);
   z-index: 5;
