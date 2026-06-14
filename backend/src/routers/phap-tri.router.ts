@@ -38,6 +38,7 @@ export class PhapTriRouter {
     @Query('tangPhuIds') tangPhuIds?: string,
     @Query('tonThuongTacNhans') tonThuongTacNhans?: string,
     @Query('focusId') focusId?: string,
+    @Query('withStats') withStats?: string,
   ) {
     const cat = category === 'dong-y' || category === 'tay-y' ? category : 'all';
     const parseIdList = (raw?: string): number[] => {
@@ -54,6 +55,8 @@ export class PhapTriRouter {
         .map((s) => s.trim())
         .filter(Boolean);
     };
+    // withStats: explicit param hoặc tự động bật khi đang ở tab dong-y/tay-y
+    const loadStats = withStats === 'true' || cat !== 'all';
     return this.service.findLite({
       page: page ? Number(page) : undefined,
       limit: limit ? Number(limit) : undefined,
@@ -63,6 +66,7 @@ export class PhapTriRouter {
       tangPhuIds: parseIdList(tangPhuIds),
       tonThuongTacNhans: parseStrList(tonThuongTacNhans),
       focusId: focusId != null && focusId !== '' ? Number(focusId) : null,
+      withStats: loadStats,
     });
   }
 

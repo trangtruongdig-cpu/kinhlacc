@@ -215,6 +215,7 @@ export class PhapTriService {
     tangPhuIds?: number[];
     tonThuongTacNhans?: string[];
     focusId?: number | null;
+    withStats?: boolean;
   }): Promise<{
     data: PhapTri[];
     total: number;
@@ -235,6 +236,7 @@ export class PhapTriService {
     const tangPhuIds = [...new Set((opts.tangPhuIds ?? []).filter((n) => Number.isFinite(n) && n > 0))];
     const tonThuongTacNhans = [...new Set((opts.tonThuongTacNhans ?? []).map((s) => s.trim()).filter(Boolean))];
     const focusId = Number.isFinite(opts.focusId as number) && Number(opts.focusId) > 0 ? Number(opts.focusId) : null;
+    const withStats = opts.withStats ?? false;
 
     // EXISTS clause cho "pháp trị có liên quan Tây Y": trực tiếp HOẶC qua bài thuốc.
     const tayYExistsClause = (cbIdParam?: string) => {
@@ -305,6 +307,7 @@ export class PhapTriService {
       .take(limit)
       .getManyAndCount();
 
+    // ── Query 2: load full relations cho trang hiện tại ──────────────────────
     let data: PhapTri[] = [];
     if (items.length) {
       const ids = items.map((x) => x.id);
@@ -321,43 +324,56 @@ export class PhapTriService {
       });
     }
 
-    // Counts toàn bộ (không apply search) cho 3 category.
-    const totalAll = await this.repo.count();
-    const totalTayY = await this.repo
-      .createQueryBuilder('pt')
-      .where(tayYExistsClause())
-      .getCount();
+    const ptIds = data.map((x) => x.id);
 
-    // Map pt.id → các bệnh Tây Y liên quan (trực tiếp + qua bài thuốc).
-    // Chỉ load cho các pt trong page hiện tại để giảm payload.
+    // ── Query 3: totalAll + totalTayY gộp 1 CTE (thay 2 queries riêng) ───────
+    const countRow: Array<{ total_all: string; total_tay_y: string }> = await this.repo.query(
+      `SELECT COUNT(*)::int AS total_all,
+              COUNT(*) FILTER (WHERE ${tayYExistsClause()})::int AS total_tay_y
+       FROM phap_tri pt`,
+    );
+    const totalAll  = Number(countRow[0]?.total_all  ?? 0);
+    const totalTayY = Number(countRow[0]?.total_tay_y ?? 0);
+
+    // ── Query 4: relatedBenhTayY + theBenhByPtId gộp 1 lượt ─────────────────
     const relatedBenhTayYByPtId: Record<number, Array<{ id: number; ten_benh: string; chungBenh: { id: number; ten_chung_benh: string } | null }>> = {};
-    if (data.length) {
-      const ptIds = data.map((x) => x.id);
-      const rows: Array<{ pt_id: number; bty_id: number; ten_benh: string; cb_id: number | null; cb_name: string | null }> = await this.repo.query(
-        `SELECT btypt.id_phap_tri AS pt_id, bty.id AS bty_id, bty.ten_benh, bty.id_chung_benh AS cb_id, cb.ten_chung_benh AS cb_name
-         FROM benh_tay_y_phap_tri btypt
-         JOIN benh_tay_y bty ON bty.id = btypt.id_benh_tay_y
-         LEFT JOIN chung_benh cb ON cb.id = bty.id_chung_benh
-         WHERE btypt.id_phap_tri = ANY($1)
-         UNION
-         SELECT btpt.id_phap_tri AS pt_id, bty.id AS bty_id, bty.ten_benh, bty.id_chung_benh AS cb_id, cb.ten_chung_benh AS cb_name
-         FROM bai_thuoc_phap_tri btpt
-         JOIN benh_tay_y_bai_thuoc btybt ON btybt.id_bai_thuoc = btpt.id_bai_thuoc
-         JOIN benh_tay_y bty ON bty.id = btybt.id_benh_tay_y
-         LEFT JOIN chung_benh cb ON cb.id = bty.id_chung_benh
-         WHERE btpt.id_phap_tri = ANY($1)`,
-        [ptIds],
-      );
+    const theBenhByPtId: Record<number, string[]> = {};
+
+    if (ptIds.length) {
+      const [btyRows, tbRows] = await Promise.all([
+        this.repo.query(
+          `SELECT btypt.id_phap_tri AS pt_id, bty.id AS bty_id, bty.ten_benh,
+                  bty.id_chung_benh AS cb_id, cb.ten_chung_benh AS cb_name
+           FROM benh_tay_y_phap_tri btypt
+           JOIN benh_tay_y bty ON bty.id = btypt.id_benh_tay_y
+           LEFT JOIN chung_benh cb ON cb.id = bty.id_chung_benh
+           WHERE btypt.id_phap_tri = ANY($1)
+           UNION
+           SELECT btpt.id_phap_tri AS pt_id, bty.id AS bty_id, bty.ten_benh,
+                  bty.id_chung_benh AS cb_id, cb.ten_chung_benh AS cb_name
+           FROM bai_thuoc_phap_tri btpt
+           JOIN benh_tay_y_bai_thuoc btybt ON btybt.id_bai_thuoc = btpt.id_bai_thuoc
+           JOIN benh_tay_y bty ON bty.id = btybt.id_benh_tay_y
+           LEFT JOIN chung_benh cb ON cb.id = bty.id_chung_benh
+           WHERE btpt.id_phap_tri = ANY($1)`,
+          [ptIds],
+        ) as Promise<Array<{ pt_id: number; bty_id: number; ten_benh: string; cb_id: number | null; cb_name: string | null }>>,
+        this.repo.query(
+          `SELECT DISTINCT bdpt.id_phap_tri AS pt_id, tbe.ten_the_benh
+           FROM benh_dong_y_phap_tri bdpt
+           JOIN the_benh tbe ON tbe.id_benh = bdpt.id_benh_dong_y
+           WHERE bdpt.id_phap_tri = ANY($1)
+           ORDER BY tbe.ten_the_benh`,
+          [ptIds],
+        ) as Promise<Array<{ pt_id: number; ten_the_benh: string }>>,
+      ]);
+
       const seenByPt = new Map<number, Set<number>>();
-      for (const r of rows) {
+      for (const r of btyRows) {
         const ptId = Number(r.pt_id);
         const btyId = Number(r.bty_id);
         let seen = seenByPt.get(ptId);
-        if (!seen) {
-          seen = new Set();
-          seenByPt.set(ptId, seen);
-          relatedBenhTayYByPtId[ptId] = [];
-        }
+        if (!seen) { seen = new Set(); seenByPt.set(ptId, seen); relatedBenhTayYByPtId[ptId] = []; }
         if (seen.has(btyId)) continue;
         seen.add(btyId);
         relatedBenhTayYByPtId[ptId].push({
@@ -366,58 +382,14 @@ export class PhapTriService {
           chungBenh: r.cb_id != null ? { id: Number(r.cb_id), ten_chung_benh: r.cb_name ?? '' } : null,
         });
       }
-    }
-
-    // Thể bệnh (thực thể the_benh) dẫn xuất theo pháp trị: pt → benh_dong_y_phap_tri → the_benh.id_benh.
-    // Dùng cho "Thể Bệnh → Triệu Chứng" trên card; frontend fallback về chung_trang (text) nếu rỗng.
-    const theBenhByPtId: Record<number, string[]> = {};
-    if (data.length) {
-      const ptIds = data.map((x) => x.id);
-      const tbRows: Array<{ pt_id: number; ten_the_benh: string }> = await this.repo.query(
-        `SELECT DISTINCT bdpt.id_phap_tri AS pt_id, tbe.ten_the_benh
-         FROM benh_dong_y_phap_tri bdpt
-         JOIN the_benh tbe ON tbe.id_benh = bdpt.id_benh_dong_y
-         WHERE bdpt.id_phap_tri = ANY($1)
-         ORDER BY tbe.ten_the_benh`,
-        [ptIds],
-      );
       for (const r of tbRows) {
         const k = Number(r.pt_id);
-        const arr = theBenhByPtId[k] ?? [];
-        arr.push(r.ten_the_benh);
-        theBenhByPtId[k] = arr;
+        (theBenhByPtId[k] ??= []).push(r.ten_the_benh);
       }
     }
 
-    // Stats theo chủng bệnh Tây Y (toàn DB, không lệ thuộc page) — để render sub-sub-tabs.
-    const cbStatsRows: Array<{ cb_id: number; cb_name: string; cnt: number }> = await this.repo.query(
-      `WITH related AS (
-        SELECT DISTINCT btypt.id_phap_tri AS pt_id, bty.id_chung_benh AS cb_id
-        FROM benh_tay_y_phap_tri btypt
-        JOIN benh_tay_y bty ON bty.id = btypt.id_benh_tay_y
-        WHERE bty.id_chung_benh IS NOT NULL
-        UNION
-        SELECT DISTINCT btpt.id_phap_tri AS pt_id, bty.id_chung_benh AS cb_id
-        FROM bai_thuoc_phap_tri btpt
-        JOIN benh_tay_y_bai_thuoc btybt ON btybt.id_bai_thuoc = btpt.id_bai_thuoc
-        JOIN benh_tay_y bty ON bty.id = btybt.id_benh_tay_y
-        WHERE bty.id_chung_benh IS NOT NULL
-      )
-      SELECT cb.id AS cb_id, cb.ten_chung_benh AS cb_name, COUNT(DISTINCT r.pt_id)::int AS cnt
-      FROM related r
-      JOIN chung_benh cb ON cb.id = r.cb_id
-      GROUP BY cb.id, cb.ten_chung_benh
-      HAVING COUNT(DISTINCT r.pt_id) > 0
-      ORDER BY cb.ten_chung_benh`,
-    );
-    const tayYChungBenhStats = cbStatsRows.map((r) => ({
-      id: Number(r.cb_id),
-      name: r.cb_name,
-      count: Number(r.cnt),
-    }));
-
-    // SQL pool filter phản ánh category (+ chungBenhId khi tay-y). Bỏ qua chính 2 filter tangPhu/tonThuong
-    // để stats hiển thị tất cả lựa chọn còn lại theo pool, không tự co lại khi user click chọn.
+    // ── Queries 5-7: sub-filter stats — CHỈ chạy khi withStats=true ──────────
+    // (category=all không cần stats này; chỉ dong-y/tay-y tabs mới hiển thị sub-filter)
     const tayYExistsBare = `(
       EXISTS (SELECT 1 FROM benh_tay_y_phap_tri btypt
               JOIN benh_tay_y bty ON bty.id = btypt.id_benh_tay_y
@@ -436,48 +408,66 @@ export class PhapTriService {
       poolFilter = `AND NOT ${tayYExistsBare}`;
     }
 
-    // Stats theo Tạng phủ (kinh mạch) trên pool hiện tại — render sub-sub-tabs khi ở tab Đông Y / Tây Y.
-    const tangPhuStatsRows: Array<{ id: number; name: string; cnt: number }> = await this.repo.query(
-      `SELECT km.id_kinh_mach AS id,
-              km.ten_kinh_mach AS name,
-              COUNT(DISTINCT pkm.id_phap_tri)::int AS cnt
-       FROM phap_tri_kinh_mach pkm
-       JOIN phap_tri pt ON pt.id = pkm.id_phap_tri
-       JOIN kinh_mach km ON km.id_kinh_mach = pkm.id_kinh_mach
-       WHERE 1=1 ${poolFilter}
-       GROUP BY km.id_kinh_mach, km.ten_kinh_mach
-       HAVING COUNT(DISTINCT pkm.id_phap_tri) > 0
-       ORDER BY km.ten_kinh_mach`,
-      statsParams,
-    );
-    const tangPhuStats = tangPhuStatsRows.map((r) => ({
-      id: Number(r.id),
-      name: r.name,
-      count: Number(r.cnt),
-    }));
+    let tayYChungBenhStats: Array<{ id: number; name: string; count: number }> = [];
+    let tangPhuStats:       Array<{ id: number; name: string; count: number }> = [];
+    let tonThuongStats:     Array<{ id: number; name: string; count: number }> = [];
 
-    // Stats theo Tổn thương - Tác nhân: catalog ton_thuong_tac_nhan + đếm pháp trị có name xuất hiện trong luc_kinh.
-    const tonThuongStatsRows: Array<{ id: number; name: string; cnt: number }> = await this.repo.query(
-      `SELECT tt.id AS id, tt.ten AS name,
-              COUNT(DISTINCT pt.id)::int AS cnt
-       FROM ton_thuong_tac_nhan tt
-       LEFT JOIN phap_tri pt
-         ON pt.luc_kinh IS NOT NULL
-        AND EXISTS (
-          SELECT 1 FROM unnest(string_to_array(pt.luc_kinh, ',')) AS u(v)
-          WHERE LOWER(TRIM(u.v)) = LOWER(TRIM(tt.ten))
-        )
-        ${poolFilter}
-       GROUP BY tt.id, tt.ten
-       HAVING COUNT(DISTINCT pt.id) > 0
-       ORDER BY tt.ten`,
-      statsParams,
-    );
-    const tonThuongStats = tonThuongStatsRows.map((r) => ({
-      id: Number(r.id),
-      name: r.name,
-      count: Number(r.cnt),
-    }));
+    if (withStats) {
+      const [cbStatsRows, tangPhuStatsRows, tonThuongStatsRows] = await Promise.all([
+        this.repo.query(
+          `WITH related AS (
+            SELECT DISTINCT btypt.id_phap_tri AS pt_id, bty.id_chung_benh AS cb_id
+            FROM benh_tay_y_phap_tri btypt
+            JOIN benh_tay_y bty ON bty.id = btypt.id_benh_tay_y
+            WHERE bty.id_chung_benh IS NOT NULL
+            UNION
+            SELECT DISTINCT btpt.id_phap_tri AS pt_id, bty.id_chung_benh AS cb_id
+            FROM bai_thuoc_phap_tri btpt
+            JOIN benh_tay_y_bai_thuoc btybt ON btybt.id_bai_thuoc = btpt.id_bai_thuoc
+            JOIN benh_tay_y bty ON bty.id = btybt.id_benh_tay_y
+            WHERE bty.id_chung_benh IS NOT NULL
+          )
+          SELECT cb.id AS cb_id, cb.ten_chung_benh AS cb_name, COUNT(DISTINCT r.pt_id)::int AS cnt
+          FROM related r
+          JOIN chung_benh cb ON cb.id = r.cb_id
+          GROUP BY cb.id, cb.ten_chung_benh
+          HAVING COUNT(DISTINCT r.pt_id) > 0
+          ORDER BY cb.ten_chung_benh`,
+        ) as Promise<Array<{ cb_id: number; cb_name: string; cnt: number }>>,
+        this.repo.query(
+          `SELECT km.id_kinh_mach AS id, km.ten_kinh_mach AS name,
+                  COUNT(DISTINCT pkm.id_phap_tri)::int AS cnt
+           FROM phap_tri_kinh_mach pkm
+           JOIN phap_tri pt ON pt.id = pkm.id_phap_tri
+           JOIN kinh_mach km ON km.id_kinh_mach = pkm.id_kinh_mach
+           WHERE 1=1 ${poolFilter}
+           GROUP BY km.id_kinh_mach, km.ten_kinh_mach
+           HAVING COUNT(DISTINCT pkm.id_phap_tri) > 0
+           ORDER BY km.ten_kinh_mach`,
+          statsParams,
+        ) as Promise<Array<{ id: number; name: string; cnt: number }>>,
+        this.repo.query(
+          `SELECT tt.id AS id, tt.ten AS name,
+                  COUNT(DISTINCT pt.id)::int AS cnt
+           FROM ton_thuong_tac_nhan tt
+           LEFT JOIN phap_tri pt
+             ON pt.luc_kinh IS NOT NULL
+            AND EXISTS (
+              SELECT 1 FROM unnest(string_to_array(pt.luc_kinh, ',')) AS u(v)
+              WHERE LOWER(TRIM(u.v)) = LOWER(TRIM(tt.ten))
+            )
+            ${poolFilter}
+           GROUP BY tt.id, tt.ten
+           HAVING COUNT(DISTINCT pt.id) > 0
+           ORDER BY tt.ten`,
+          statsParams,
+        ) as Promise<Array<{ id: number; name: string; cnt: number }>>,
+      ]);
+
+      tayYChungBenhStats = cbStatsRows.map((r)  => ({ id: Number(r.cb_id), name: r.cb_name, count: Number(r.cnt) }));
+      tangPhuStats       = tangPhuStatsRows.map((r) => ({ id: Number(r.id),   name: r.name,    count: Number(r.cnt) }));
+      tonThuongStats     = tonThuongStatsRows.map((r) => ({ id: Number(r.id), name: r.name,    count: Number(r.cnt) }));
+    }
 
     return {
       data,
