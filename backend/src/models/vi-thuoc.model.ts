@@ -1,10 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { BaiThuocChiTiet } from './bai-thuoc-chi-tiet.model';
-import { ViThuocCongDung } from './vi-thuoc-cong-dung.model';
-import { ViThuocChuTri } from './vi-thuoc-chu-tri.model';
-import { ViThuocKiengKy } from './vi-thuoc-kieng-ky.model';
-import { ViThuocTenGoiKhac } from './vi-thuoc-ten-goi-khac.model';
-import { ViThuocKinhMach } from './vi-thuoc-kinh-mach.model';
+// import type chỉ dùng cho TypeScript type checking, không tạo runtime circular dep
+import type { BaiThuocChiTiet } from './bai-thuoc-chi-tiet.model';
+import type { ViThuocCongDung } from './vi-thuoc-cong-dung.model';
+import type { ViThuocChuTri } from './vi-thuoc-chu-tri.model';
+import type { ViThuocKiengKy } from './vi-thuoc-kieng-ky.model';
+import type { ViThuocTenGoiKhac } from './vi-thuoc-ten-goi-khac.model';
+import type { ViThuocKinhMach } from './vi-thuoc-kinh-mach.model';
 
 @Entity('vi_thuoc')
 export class ViThuoc {
@@ -26,21 +27,22 @@ export class ViThuoc {
   @Column({ type: 'varchar', length: 255, nullable: true })
   lieu_dung: string;
 
-  @OneToMany(() => BaiThuocChiTiet, (detail) => detail.viThuoc)
+  // Dùng string reference để tránh circular import với các child models
+  @OneToMany('BaiThuocChiTiet', 'viThuoc')
   baiThuocDetails: BaiThuocChiTiet[];
 
-  @OneToMany(() => ViThuocCongDung, (link) => link.viThuoc)
+  @OneToMany('ViThuocCongDung', 'viThuoc')
   congDungLinks: ViThuocCongDung[];
 
-  @OneToMany(() => ViThuocChuTri, (link) => link.viThuoc)
+  @OneToMany('ViThuocChuTri', 'viThuoc')
   chuTriLinks: ViThuocChuTri[];
 
-  @OneToMany(() => ViThuocKiengKy, (link) => link.viThuoc)
+  @OneToMany('ViThuocKiengKy', 'viThuoc')
   kiengKyLinks: ViThuocKiengKy[];
 
-  @OneToMany(() => ViThuocTenGoiKhac, (row) => row.viThuoc)
+  @OneToMany('ViThuocTenGoiKhac', 'viThuoc')
   tenGoiKhacList: ViThuocTenGoiKhac[];
 
-  @OneToMany(() => ViThuocKinhMach, (link) => link.viThuoc)
+  @OneToMany('ViThuocKinhMach', 'viThuoc')
   kinhMachLinks: ViThuocKinhMach[];
 }

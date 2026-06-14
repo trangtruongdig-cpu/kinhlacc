@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToMany, JoinTable } from 'typeorm';
-import { BaiThuocChiTiet } from './bai-thuoc-chi-tiet.model';
-import { BaiThuocPhapTri } from './bai-thuoc-phap-tri.model';
+import type { BaiThuocChiTiet } from './bai-thuoc-chi-tiet.model';
+import type { BaiThuocPhapTri } from './bai-thuoc-phap-tri.model';
 import { TrieuChung } from './trieu-chung.model';
 
 @Entity('bai_thuoc')
@@ -41,9 +41,9 @@ export class BaiThuoc {
   })
   trieuChungList: TrieuChung[];
 
-  @OneToMany(() => BaiThuocChiTiet, (detail) => detail.baiThuoc)
+  @OneToMany('BaiThuocChiTiet', 'baiThuoc')
   chiTietViThuoc: BaiThuocChiTiet[];
 
-  @OneToMany(() => BaiThuocPhapTri, (link) => link.baiThuoc)
+  @OneToMany('BaiThuocPhapTri', 'baiThuoc')
   phapTriLinks: BaiThuocPhapTri[];
 }

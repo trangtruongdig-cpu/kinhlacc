@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { NhomLonDuocLy } from './nhom-lon-duoc-ly.model';
-import { NhomNhoViThuoc } from './nhom-nho-vi-thuoc.model';
-import { NhomNhoChuTri } from './nhom-nho-chu-tri.model';
+import type { NhomNhoViThuoc } from './nhom-nho-vi-thuoc.model';
+import type { NhomNhoChuTri } from './nhom-nho-chu-tri.model';
 
 @Entity('nhom_nho_duoc_ly')
 export class NhomNhoDuocLy {
@@ -28,9 +28,9 @@ export class NhomNhoDuocLy {
   @JoinColumn({ name: 'id_nhom_lon' })
   nhomLon: NhomLonDuocLy;
 
-  @OneToMany(() => NhomNhoViThuoc, (link) => link.nhomNho, { cascade: true })
+  @OneToMany('NhomNhoViThuoc', 'nhomNho', { cascade: true })
   viThuocLinks: NhomNhoViThuoc[];
 
-  @OneToMany(() => NhomNhoChuTri, (link) => link.nhomNho, { cascade: true })
+  @OneToMany('NhomNhoChuTri', 'nhomNho', { cascade: true })
   chuTriLinks: NhomNhoChuTri[];
 }

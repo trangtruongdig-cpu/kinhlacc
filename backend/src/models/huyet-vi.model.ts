@@ -7,7 +7,7 @@ import {
   OneToMany,
 } from 'typeorm';
 import { KinhMach } from './kinh-mach.model';
-import { PhacDoDieuTri } from './phac-do-dieu-tri.model';
+import type { PhacDoDieuTri } from './phac-do-dieu-tri.model';
 
 @Entity('huyet_vi')
 export class HuyetVi {
@@ -36,6 +36,6 @@ export class HuyetVi {
   @JoinColumn({ name: 'id_kinh_mach' })
   kinhMach: KinhMach;
 
-  @OneToMany(() => PhacDoDieuTri, (p) => p.huyetVi)
+  @OneToMany('PhacDoDieuTri', 'huyetVi')
   phacDoList: PhacDoDieuTri[];
 }

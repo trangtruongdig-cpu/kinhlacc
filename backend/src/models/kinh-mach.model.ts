@@ -4,7 +4,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
 } from 'typeorm';
-import { HuyetVi } from './huyet-vi.model';
+import type { HuyetVi } from './huyet-vi.model';
 
 @Entity('kinh_mach')
 export class KinhMach {
@@ -26,6 +26,6 @@ export class KinhMach {
   @Column({ type: 'int', nullable: true })
   tong_so_huyet: number;
 
-  @OneToMany(() => HuyetVi, (h) => h.kinhMach)
+  @OneToMany('HuyetVi', 'kinhMach')
   huyetViList: HuyetVi[];
 }

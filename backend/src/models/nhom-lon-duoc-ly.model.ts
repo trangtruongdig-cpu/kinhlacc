@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { NhomNhoDuocLy } from './nhom-nho-duoc-ly.model';
+import type { NhomNhoDuocLy } from './nhom-nho-duoc-ly.model';
 
 @Entity('nhom_lon_duoc_ly')
 export class NhomLonDuocLy {
@@ -15,6 +15,6 @@ export class NhomLonDuocLy {
   @Column({ type: 'int', default: 0 })
   thu_tu: number;
 
-  @OneToMany(() => NhomNhoDuocLy, (nho) => nho.nhomLon)
+  @OneToMany('NhomNhoDuocLy', 'nhomLon')
   nhomNhoList: NhomNhoDuocLy[];
 }

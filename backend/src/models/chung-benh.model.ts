@@ -4,7 +4,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
 } from 'typeorm';
-import { BenhTayY } from './benh-tay-y.model';
+import type { BenhTayY } from './benh-tay-y.model';
 
 @Entity('chung_benh')
 export class ChungBenh {
@@ -14,6 +14,6 @@ export class ChungBenh {
   @Column({ type: 'varchar', length: 255 })
   ten_chung_benh: string;
 
-  @OneToMany(() => BenhTayY, (b) => b.chungBenh)
+  @OneToMany('BenhTayY', 'chungBenh')
   benhTayYList: BenhTayY[];
 }
