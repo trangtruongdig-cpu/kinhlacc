@@ -1583,7 +1583,6 @@ async function mlSearch() {
 }
 .cdl-textarea:focus { outline: none; border-color: var(--brown-400, #b07840); }
 
-.cdl-save-row { display: flex; align-items: center; gap: 12px; margin-top: 12px; flex-wrap: wrap; }
 .cdl-save-error { font-size: 12px; color: #ef4444; margin: 0; }
 .cdl-save-ok    { font-size: 12px; color: #16a34a; margin: 0; }
 .btn-save {
@@ -1746,17 +1745,6 @@ async function mlSearch() {
 
 .cdl-ai-empty { font-size: 12px; color: var(--gray-400, #9ca3af); font-style: italic; margin: 0; }
 
-.cdl-img-preview-wrap {
-  display: flex; align-items: flex-start; gap: 12px; flex-wrap: wrap;
-}
-.cdl-img-preview {
-  position: relative; flex-shrink: 0;
-  width: 120px; height: 120px;
-  border-radius: 8px; overflow: hidden;
-  border: 2px solid var(--brown-200, #d4b8a0);
-  cursor: zoom-in;
-}
-.cdl-preview-img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .cdl-preview-clear {
   position: absolute; top: 4px; right: 4px;
   width: 20px; height: 20px; border-radius: 50%;
@@ -1784,51 +1772,6 @@ async function mlSearch() {
 .btn-analyze:disabled { opacity: .5; cursor: not-allowed; }
 
 .cdl-ai-error { font-size: 12px; color: #ef4444; margin: 8px 0 0; }
-
-.cdl-ai-result { margin-top: 14px; display: flex; flex-direction: column; gap: 12px; }
-
-.cdl-ai-block { background: var(--surface-2, #f8f5f0); border-radius: 8px; padding: 12px; }
-.cdl-ai-block__title {
-  font-size: 11px; font-weight: 700; text-transform: uppercase;
-  letter-spacing: .05em; color: var(--gray-500, #6b7280);
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-/* Similarity list */
-.cdl-sim-list { display: flex; flex-direction: column; gap: 8px; }
-.cdl-sim-row {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--white, #fff); border-radius: 8px; padding: 8px 10px;
-  border: 1px solid var(--brown-100, #ede0d4);
-}
-.cdl-sim-svg { flex-shrink: 0; }
-.cdl-sim-fallback { font-size: 28px; }
-.cdl-sim-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
-.cdl-sim-name   { font-size: 12px; font-weight: 700; color: var(--brown-800, #5c3210); }
-.cdl-sim-reason { font-size: 11px; color: var(--gray-500, #6b7280); line-height: 1.4; }
-.cdl-sim-score  { font-size: 14px; font-weight: 800; flex-shrink: 0; }
-.score-high { color: #16a34a; }
-.score-mid  { color: #d97706; }
-.score-low  { color: #9ca3af; }
-
-/* Feature chips */
-.cdl-ai-feats { display: flex; flex-wrap: wrap; gap: 6px; }
-.cdl-ai-feat {
-  font-size: 11px; font-weight: 600;
-  padding: 3px 10px; border-radius: 999px;
-  background: var(--brown-100, #ede0d4); color: var(--brown-800, #5c3210);
-  border: 1px solid var(--brown-200, #d4b8a0);
-}
-
-.btn-autofill {
-  font-size: 11px; font-weight: 700; padding: 3px 10px;
-  border-radius: 6px; border: none;
-  background: var(--brown-700, #7a4515); color: #fff;
-  cursor: pointer; white-space: nowrap;
-  transition: background .12s;
-}
-.btn-autofill:hover { background: var(--brown-800, #5c3210); }
 
 /* ── Decision Panel ── */
 .cdl-section--decision { padding: 14px; }
@@ -1883,14 +1826,7 @@ async function mlSearch() {
   text-transform: uppercase; letter-spacing: .04em;
 }
 
-/* Similarity rows in decision col */
-.cdl-dec-sim {
-  display: flex; align-items: center; gap: 8px;
-  background: var(--white, #fff); border-radius: 8px;
-  padding: 7px 9px;
-  border: 1px solid var(--brown-100, #ede0d4);
-}
-.cdl-dec-sim__svg,
+/* Hàng kết quả tương đồng (ảnh mẫu + thanh %) */
 .cdl-dec-sim__photo { flex-shrink: 0; }
 .cdl-dec-sim__photo {
   width: 44px; height: 44px;
