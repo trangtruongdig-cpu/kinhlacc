@@ -24,8 +24,15 @@ export class PatientsRouter {
   ) {
     const pageNum = page ? parseInt(page, 10) : 0;
     const limitNum = limit ? parseInt(limit, 10) : 0;
-    if (pageNum > 0 && limitNum > 0) {
-      return this.patientsService.findPaginated(pageNum, limitNum, search);
+    const hasSearch = !!(search && search.trim());
+    // Chạy nhánh có lọc khi: phân trang, HOẶC có từ khoá tìm kiếm.
+    // (Trước đây thiếu `page` thì rơi vào findAll() và bỏ qua search.)
+    if ((pageNum > 0 && limitNum > 0) || hasSearch) {
+      return this.patientsService.findPaginated(
+        pageNum > 0 ? pageNum : 1,
+        limitNum > 0 ? limitNum : 20,
+        search
+      );
     }
     return this.patientsService.findAll();
   }
