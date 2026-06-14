@@ -90,13 +90,17 @@ const dataList = ref<Symptom[]>([])
 const filterCategory = ref<'all' | 'dong-y' | 'tay-y'>('all')
 const selectedTangPhuIds = ref<number[]>([])
 const selectedTonThuong = ref<string[]>([])
+// Thể Bệnh Tây Y (Chủng Bệnh) — chỉ áp khi đang lọc nhánh Tây Y.
+const selectedChungBenhIds = ref<number[]>([])
 const tangPhuOptions = ref<FilterOption[]>([])
 const tonThuongOptions = ref<FilterOption[]>([])
+const chungBenhOptions = ref<FilterOption[]>([])
 const hasActiveFilter = computed(
   () =>
     filterCategory.value !== 'all' ||
     selectedTangPhuIds.value.length > 0 ||
-    selectedTonThuong.value.length > 0,
+    selectedTonThuong.value.length > 0 ||
+    selectedChungBenhIds.value.length > 0,
 )
 // Cell đang mở rộng (hiện phần "mờ"): key = `${rowId}:${dim}`.
 const expandedCells = ref<Set<string>>(new Set())
@@ -159,11 +163,15 @@ async function fetchData() {
     if (filterCategory.value !== 'all') params.set('category', filterCategory.value)
     if (selectedTangPhuIds.value.length) params.set('tangPhu', selectedTangPhuIds.value.join(','))
     if (selectedTonThuong.value.length) params.set('tonThuong', selectedTonThuong.value.join('||'))
+    // Chủng Bệnh chỉ có nghĩa ở nhánh Tây Y (server cũng bỏ qua nếu category khác).
+    if (filterCategory.value === 'tay-y' && selectedChungBenhIds.value.length)
+      params.set('chungBenh', selectedChungBenhIds.value.join(','))
     const res: any = await api.get(`/trieu-chung?${params.toString()}`)
     const payload = Array.isArray(res) ? { data: res } : res || {}
     dataList.value = payload.data || []
     tangPhuOptions.value = payload.tangPhuOptions ?? tangPhuOptions.value
     tonThuongOptions.value = payload.tonThuongOptions ?? tonThuongOptions.value
+    chungBenhOptions.value = payload.chungBenhOptions ?? chungBenhOptions.value
   } catch (err: any) {
     console.error(err)
     error.value = 'Lỗi khi tải dữ liệu: ' + err.message
@@ -182,11 +190,21 @@ function toggleTonThuong(name: string) {
     ? selectedTonThuong.value.filter((x) => x !== name)
     : [...selectedTonThuong.value, name]
 }
+function toggleChungBenh(id: number) {
+  selectedChungBenhIds.value = selectedChungBenhIds.value.includes(id)
+    ? selectedChungBenhIds.value.filter((x) => x !== id)
+    : [...selectedChungBenhIds.value, id]
+}
 function clearFilters() {
   filterCategory.value = 'all'
   selectedTangPhuIds.value = []
   selectedTonThuong.value = []
+  selectedChungBenhIds.value = []
 }
+// Rời nhánh Tây Y → bỏ chọn Chủng Bệnh để không còn bộ lọc ẩn (group cũng bị giấu).
+watch(filterCategory, (c) => {
+  if (c !== 'tay-y' && selectedChungBenhIds.value.length) selectedChungBenhIds.value = []
+})
 
 // ----- Chip cell: matched (đậm) lên trước, other (mờ) ẩn sau "xem thêm" -----
 function cellKey(rowId: number, dim: string): string {
@@ -369,6 +387,7 @@ const filterKey = computed(() =>
     filterCategory.value,
     [...selectedTangPhuIds.value].sort((a, b) => a - b).join(','),
     [...selectedTonThuong.value].sort().join('||'),
+    [...selectedChungBenhIds.value].sort((a, b) => a - b).join(','),
   ].join('|'),
 )
 watch(filterKey, () => {
@@ -683,6 +702,22 @@ const unexplainedSymptoms = computed<DiagnosisMatchedSymptom[]>(() => {
                 type="button"
                 :class="{ active: selectedTonThuong.includes(o.name) }"
                 @click="toggleTonThuong(o.name)"
+              >{{ o.name }}</button>
+            </div>
+          </div>
+          <!-- Thể Bệnh Tây Y (Chủng Bệnh): chỉ hiện ở nhánh Tây Y, tương tự bộ lọc bên Pháp Trị / Bài Thuốc. -->
+          <div
+            v-if="filterCategory === 'tay-y' && chungBenhOptions.length"
+            class="filter-group filter-group--grow"
+          >
+            <span class="filter-label">Thể Bệnh Tây Y</span>
+            <div class="chip-select">
+              <button
+                v-for="o in chungBenhOptions"
+                :key="o.id"
+                type="button"
+                :class="{ active: selectedChungBenhIds.includes(o.id) }"
+                @click="toggleChungBenh(o.id)"
               >{{ o.name }}</button>
             </div>
           </div>

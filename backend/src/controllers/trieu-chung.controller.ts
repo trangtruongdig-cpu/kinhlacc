@@ -38,6 +38,8 @@ export interface TrieuChungFilter {
   category?: 'all' | 'dong-y' | 'tay-y';
   tangPhuIds?: number[];
   tonThuong?: string[];
+  /** Chủng Bệnh (Thể Bệnh Tây Y) — chỉ áp khi category = 'tay-y'. */
+  chungBenhIds?: number[];
 }
 
 export interface TrieuChungStatsResult {
@@ -46,6 +48,8 @@ export interface TrieuChungStatsResult {
   tangPhuOptions: Array<{ id: number; name: string }>;
   /** Tổn Thương - Tác Nhân (catalog) — option cho bộ lọc. */
   tonThuongOptions: Array<{ id: number; name: string }>;
+  /** Chủng Bệnh (Thể Bệnh Tây Y) có bệnh Tây Y dẫn xuất từ Pháp Trị có triệu chứng — option cho bộ lọc (chỉ dùng khi category = 'tay-y'). */
+  chungBenhOptions: Array<{ id: number; name: string }>;
 }
 
 /** Một triệu chứng khớp trong kết quả chẩn đoán. */
@@ -143,7 +147,17 @@ export class TrieuChungService {
     const tonThuong = [
       ...new Set((filter.tonThuong ?? []).map((s) => String(s).trim()).filter(Boolean)),
     ];
-    const hasFilter = category !== 'all' || tangPhuIds.length > 0 || tonThuong.length > 0;
+    // Chủng Bệnh (Thể Bệnh Tây Y) chỉ có nghĩa trong nhánh Tây Y — bỏ qua khi không phải 'tay-y'.
+    const chungBenhIds =
+      category === 'tay-y'
+        ? [
+            ...new Set(
+              (filter.chungBenhIds ?? []).map((x) => Number(x)).filter((x) => Number.isFinite(x) && x > 0),
+            ),
+          ]
+        : [];
+    const hasFilter =
+      category !== 'all' || tangPhuIds.length > 0 || tonThuong.length > 0 || chungBenhIds.length > 0;
 
     // Pháp trị có bệnh Tây Y liên quan (trực tiếp + qua bài thuốc) — cho category Đông Y / Tây Y.
     const tayYExists = `(
@@ -171,6 +185,24 @@ export class TrieuChungService {
         WHERE LOWER(TRIM(u.v)) = ANY($${params.length})
       )`;
     }
+    // Chủng Bệnh: pháp trị dẫn tới ≥1 bệnh Tây Y (trực tiếp ∪ qua bài thuốc) thuộc chủng bệnh đã chọn.
+    let chungBenhClause = 'TRUE';
+    if (chungBenhIds.length) {
+      params.push(chungBenhIds);
+      chungBenhClause = `(
+        EXISTS (
+          SELECT 1 FROM benh_tay_y_phap_tri btypt
+          JOIN benh_tay_y b ON b.id = btypt.id_benh_tay_y
+          WHERE btypt.id_phap_tri = pt.id AND b.id_chung_benh = ANY($${params.length})
+        )
+        OR EXISTS (
+          SELECT 1 FROM bai_thuoc_phap_tri btpt
+          JOIN benh_tay_y_bai_thuoc btybt ON btybt.id_bai_thuoc = btpt.id_bai_thuoc
+          JOIN benh_tay_y b ON b.id = btybt.id_benh_tay_y
+          WHERE btpt.id_phap_tri = pt.id AND b.id_chung_benh = ANY($${params.length})
+        )
+      )`;
+    }
     const symptomFilter = hasFilter
       ? `WHERE EXISTS (SELECT 1 FROM phap_tri_trieu_chung x JOIN matching_pt m ON m.id = x.id_phap_tri WHERE x.id_trieu_chung = tc.id)`
       : '';
@@ -190,7 +222,7 @@ export class TrieuChungService {
       `
       WITH matching_pt AS (
         SELECT pt.id FROM phap_tri pt
-        WHERE ${categoryClause} AND ${tangPhuClause} AND ${tonThuongClause}
+        WHERE ${categoryClause} AND ${tangPhuClause} AND ${tonThuongClause} AND ${chungBenhClause}
       )
       SELECT
         tc.id,
@@ -349,11 +381,34 @@ export class TrieuChungService {
     const tonThuongRows: Array<{ id: number; name: string }> = await this.repo.query(`
       SELECT id, ten AS name FROM ton_thuong_tac_nhan ORDER BY ten
     `);
+    // Chủng Bệnh có ≥1 bệnh Tây Y dẫn xuất từ một Pháp Trị mang triệu chứng (trực tiếp ∪ qua bài thuốc).
+    const chungBenhRows: Array<{ id: number; name: string }> = await this.repo.query(`
+      SELECT cb.id, cb.ten_chung_benh AS name
+      FROM chung_benh cb
+      WHERE EXISTS (
+        SELECT 1 FROM benh_tay_y b
+        WHERE b.id_chung_benh = cb.id AND (
+          EXISTS (
+            SELECT 1 FROM benh_tay_y_phap_tri btypt
+            JOIN phap_tri_trieu_chung ptc ON ptc.id_phap_tri = btypt.id_phap_tri
+            WHERE btypt.id_benh_tay_y = b.id
+          )
+          OR EXISTS (
+            SELECT 1 FROM benh_tay_y_bai_thuoc btybt
+            JOIN bai_thuoc_phap_tri btpt ON btpt.id_bai_thuoc = btybt.id_bai_thuoc
+            JOIN phap_tri_trieu_chung ptc ON ptc.id_phap_tri = btpt.id_phap_tri
+            WHERE btybt.id_benh_tay_y = b.id
+          )
+        )
+      )
+      ORDER BY cb.ten_chung_benh
+    `);
 
     return {
       data,
       tangPhuOptions: tangPhuRows.map((o) => ({ id: Number(o.id), name: o.name })),
       tonThuongOptions: tonThuongRows.map((o) => ({ id: Number(o.id), name: o.name })),
+      chungBenhOptions: chungBenhRows.map((o) => ({ id: Number(o.id), name: o.name })),
     };
   }
 

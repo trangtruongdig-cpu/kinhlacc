@@ -25,6 +25,7 @@ export class TrieuChungRouter {
     @Query('category') category?: string,
     @Query('tangPhu') tangPhu?: string,
     @Query('tonThuong') tonThuong?: string,
+    @Query('chungBenh') chungBenh?: string,
   ) {
     if (stats === '1' || stats === 'true') {
       return this.service.findAllWithStats({
@@ -38,6 +39,10 @@ export class TrieuChungRouter {
           .split('||')
           .map((s) => s.trim())
           .filter(Boolean),
+        chungBenhIds: (chungBenh ?? '')
+          .split(',')
+          .map((x) => parseInt(x, 10))
+          .filter((x) => Number.isFinite(x) && x > 0),
       });
     }
     const pageNum = page ? parseInt(page, 10) : 0;
