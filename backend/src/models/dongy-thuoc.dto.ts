@@ -5,6 +5,14 @@ export class CreateViThuocDto {
   vi?: string;
   quy_kinh?: string;
   lieu_dung?: string;
+  /** Tên khoa học Latin (vd. "Radix Paeoniae Alba"). */
+  ten_khoa_hoc?: string;
+  /** Tên Hán / chữ Trung (vd. "白芍"). */
+  ten_han?: string;
+  /** Phiên âm Pinyin (vd. "Bái Sháo"). */
+  ten_pinyin?: string;
+  /** Bộ phận dùng (vd. "rễ", "vỏ thân", "hạt"). */
+  bo_phan_dung?: string;
   /** Mỗi phần tử: id_cong_dung + ghi_chu (ghi chú gắn với vị thuốc này). */
   cong_dung_links?: { id_cong_dung: number; ghi_chu?: string }[];
   chu_tri_links?: { id_chu_tri: number; ghi_chu?: string }[];

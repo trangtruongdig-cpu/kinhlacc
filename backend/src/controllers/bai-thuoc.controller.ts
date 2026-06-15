@@ -8,6 +8,12 @@ import { PhapTri } from '../models/phap-tri.model';
 import { ViThuoc } from '../models/vi-thuoc.model';
 import { TrieuChung } from '../models/trieu-chung.model';
 import { CreateBaiThuocDto, UpdateBaiThuocDto } from '../models/dongy-thuoc.dto';
+import {
+  analyzeFormula,
+  parseLieuToGram,
+  type AnalysisHerbInput,
+  type FormulaAnalysis,
+} from './tcm-analysis.util';
 
 @Injectable()
 export class BaiThuocService {
@@ -588,107 +594,122 @@ export class BaiThuocService {
     await this.repo.delete(id);
   }
 
-  // ─── PHÂN TÍCH BÀI THUỐC (Radar Chart Algorithm) ────────────────────────────
-  async analyzeBaiThuoc(id: number): Promise<any> {
+  // ─── PHÂN TÍCH BÀI THUỐC (engine ở tcm-analysis.util.ts) ─────────────────────
+  /**
+   * Phân tích đầy đủ một bài thuốc: Tứ Khí, Ngũ Vị, Quy Kinh, Thăng-Giáng-Phù-Trầm,
+   * Quân-Thần-Tá-Sứ, chứng trạng & kiêng kỵ. Toàn bộ tính toán nằm ở backend (nguồn sự thật).
+   *
+   * @param overrides Tùy chọn gram theo từng vị (mô phỏng "kéo gram" từ UI) — key = id vị thuốc.
+   */
+  async analyzeBaiThuoc(
+    id: number,
+    overrides?: Array<{ idViThuoc: number; gram: number }>,
+  ): Promise<
+    | (FormulaAnalysis & { success: true; tuongPhan: TuongPhanWarning[] })
+    | { success: false; error: string }
+  > {
     const baiThuoc = await this.findOne(id);
     if (!baiThuoc || !baiThuoc.chiTietViThuoc || baiThuoc.chiTietViThuoc.length === 0) {
       return { success: false, error: 'Không tìm thấy bài thuốc hoặc bài thuốc chưa có vị thuốc.' };
     }
 
-    const details = baiThuoc.chiTietViThuoc;
+    // Map override gram theo id vị thuốc (chỉ nhận số hữu hạn, >= 0).
+    const gramOverride = new Map<number, number>();
+    for (const o of overrides ?? []) {
+      const vid = Number(o?.idViThuoc);
+      const g = Number(o?.gram);
+      if (Number.isFinite(vid) && Number.isFinite(g) && g >= 0) gramOverride.set(vid, g);
+    }
 
-    // Bước 1: Chuẩn hóa liều lượng sang gram (số thực)
-    const parseLieu = (lieu: string | null | undefined): number => {
-      if (!lieu) return 9; // default 9g
-      const s = (lieu || '').trim().toLowerCase();
-      if (s === '*') return 2.25;  // 1.5g - 3g avg
-      if (s === '#') return 22.5;  // 15g - 30g avg
-      // Xử lý "X tiền" -> gram (1 tiền ≈ 3g)
-      const tienMatch = s.match(/^([\d.]+)\s*tiền?$/);
-      if (tienMatch) return parseFloat(tienMatch[1]) * 3;
-      // Xử lý "X lượng" -> gram (1 lượng ≈ 30g)
-      const luongMatch = s.match(/^([\d.]+)\s*lư?ợng?$/);
-      if (luongMatch) return parseFloat(luongMatch[1]) * 30;
-      // Xử lý "Xg"
-      const gMatch = s.match(/^([\d.]+)\s*g?$/);
-      if (gMatch) return parseFloat(gMatch[1]);
-      return 9; // fallback
-    };
-
-    // Lấy dữ liệu vị thuốc đầy đủ
-    const items = await Promise.all(details.map(async (d) => {
-      const vt = d.viThuoc || await this.viThuocRepo.findOneBy({ id: d.idViThuoc });
-      const gram = parseLieu(d.lieu_luong);
-      return { d, vt, gram };
-    }));
-
-    const validItems = items.filter(x => x.vt != null);
-    if (validItems.length === 0) {
+    // Chuẩn hoá chi tiết → input thuần cho engine (gram đã giải quyết, quy kinh ưu tiên vị thuốc).
+    const herbs: AnalysisHerbInput[] = [];
+    for (const d of baiThuoc.chiTietViThuoc) {
+      const vt = d.viThuoc;
+      if (!vt) continue;
+      const gram = gramOverride.has(vt.id) ? gramOverride.get(vt.id)! : parseLieuToGram(d.lieu_luong);
+      herbs.push({
+        id: vt.id,
+        ten_vi_thuoc: vt.ten_vi_thuoc || '',
+        tinh: vt.tinh || '',
+        vi: vt.vi || '',
+        quy_kinh: vt.quy_kinh || d.quy_kinh || '',
+        gram,
+        vai_tro_nhap: d.vai_tro || '',
+        congNang: (vt.congDungLinks ?? [])
+          .map((l) => (l.congDung?.ten_cong_dung || '').trim())
+          .filter(Boolean),
+      });
+    }
+    if (!herbs.length) {
       return { success: false, error: 'Không có dữ liệu vị thuốc để phân tích.' };
     }
 
-    const totalWeight = validItems.reduce((sum, x) => sum + x.gram, 0);
-    if (totalWeight === 0) return { success: false, error: 'Tổng liều lượng = 0, không thể tính.' };
+    // Chứng trạng: gộp từ bài thuốc + pháp trị liên kết (distinct).
+    const ctParts = [
+      (baiThuoc.chung_trang || '').trim(),
+      ...[...(baiThuoc.phapTriLinks ?? [])]
+        .sort((a, b) => (a.thuTu ?? 0) - (b.thuTu ?? 0))
+        .map((l) => (l.phapTri?.chung_trang || '').trim()),
+    ].filter(Boolean);
+    const chungTrang = [
+      ...new Set(ctParts.join(', ').split(/[,;]+/).map((s) => s.trim()).filter(Boolean)),
+    ].join(', ');
 
-    // Quy Kinh tổng (tích lũy liều lượng)
-    const quyKinhRadar: Record<string, number> = {};
-    for (const { d, vt, gram } of validItems) {
-      // Ưu tiên quy_kinh của vị thuốc; nếu không có thì dùng quy_kinh trong chi tiết
-      const qkStr = vt.quy_kinh || d.quy_kinh || '';
-      const kinhList = qkStr.split(/[,;，、]/).map(k => k.trim()).filter(Boolean);
-      for (const k of kinhList) {
-        quyKinhRadar[k] = (quyKinhRadar[k] || 0) + gram;
+    // Kiêng kỵ: gộp trực tiếp từ các vị thuốc.
+    const seenKk = new Set<string>();
+    const kiengKy: string[] = [];
+    for (const d of baiThuoc.chiTietViThuoc) {
+      for (const l of d.viThuoc?.kiengKyLinks ?? []) {
+        const n = (l.kiengKy?.ten_kieng_ky || '').trim();
+        if (!n) continue;
+        const g = (l.ghi_chu || '').trim();
+        const display = g ? `${n} (${g})` : n;
+        const key = display.toLowerCase();
+        if (seenKk.has(key)) continue;
+        seenKk.add(key);
+        kiengKy.push(display);
       }
     }
 
-    // Normalize Quy Kinh về 0-100
-    const maxQK = Math.max(...Object.values(quyKinhRadar), 1);
-    const quyKinhNormalized: Record<string, number> = {};
-    for (const k in quyKinhRadar) {
-      quyKinhNormalized[k] = Math.round((quyKinhRadar[k] / maxQK) * 100);
-    }
+    const analysis = analyzeFormula({ ten: baiThuoc.ten_bai_thuoc, herbs, chungTrang, kiengKy });
 
-    // Bước 3: Phân loại Quân - Thần - Tá - Sứ
-    const sortedByGram = [...validItems].sort((a, b) => b.gram - a.gram);
-    let quanItem = sortedByGram[0];
-    const quanQuyKinh = quanItem?.vt?.quy_kinh?.split(/[,;，、]/).map(k => k.trim()) || [];
+    // Cấm kỵ phối ngũ: quét mọi cặp vị trong bài trúng bảng tương phản/tương úy.
+    const tuongPhan = await this.scanTuongPhan(herbs.map((h) => h.id));
 
-    const roleMap: Record<number, string> = {};
-    for (const item of sortedByGram) {
-      const vithuocId = item.vt.id;
-      const ten = (item.vt.ten_vi_thuoc || '').toLowerCase();
-      const phanTramLieu = item.gram / totalWeight;
-      const vtQuyKinh = (item.vt.quy_kinh || '').split(/[,;，、]/).map(k => k.trim());
-
-      if (item === quanItem) {
-        roleMap[vithuocId] = 'Quân';
-      } else if ((ten === 'cam thảo' || ten === 'đại táo' || ten.includes('cam thảo')) && phanTramLieu < 0.1) {
-        roleMap[vithuocId] = 'Sứ';
-      } else if (phanTramLieu > 0.15 && vtQuyKinh.some(k => quanQuyKinh.includes(k))) {
-        roleMap[vithuocId] = 'Thần';
-      } else {
-        roleMap[vithuocId] = 'Tá';
-      }
-    }
-
-    const viThuocList = validItems.map(({ d, vt, gram }) => ({
-      id: vt.id,
-      ten: vt.ten_vi_thuoc,
-      lieu_luong_text: d.lieu_luong,
-      lieu_gram: gram,
-      quy_kinh: vt.quy_kinh || '',
-      vai_tro_phan_tich: roleMap[vt.id] || 'Tá',
-      vai_tro_nhap: d.vai_tro || '',
-      phan_tram: Math.round((gram / totalWeight) * 100),
-    }));
-
-    return {
-      success: true,
-      ten_bai_thuoc: baiThuoc.ten_bai_thuoc,
-      tong_lieu_luong: totalWeight,
-      quy_kinh_radar: quyKinhNormalized,
-      quy_kinh_raw: quyKinhRadar,
-      vi_thuoc_list: viThuocList,
-    };
+    return { success: true, ...analysis, tuongPhan };
   }
+
+  /** Quét cặp vị thuốc tương phản (18 phản) / tương úy (19 úy) trong một tập vị thuốc. */
+  private async scanTuongPhan(viThuocIds: number[]): Promise<TuongPhanWarning[]> {
+    const ids = [...new Set(viThuocIds.filter((x) => Number.isFinite(x) && x > 0))];
+    if (ids.length < 2) return [];
+    try {
+      const rows: Array<{ loai: string; ghi_chu: string | null; ten_a: string; ten_b: string }> =
+        await this.repo.query(
+          `SELECT tp.loai, tp.ghi_chu, a.ten_vi_thuoc AS ten_a, b.ten_vi_thuoc AS ten_b
+           FROM vi_thuoc_tuong_phan tp
+           JOIN vi_thuoc a ON a.id = tp.id_vi_thuoc_a
+           JOIN vi_thuoc b ON b.id = tp.id_vi_thuoc_b
+           WHERE tp.id_vi_thuoc_a = ANY($1) AND tp.id_vi_thuoc_b = ANY($1)`,
+          [ids],
+        );
+      return rows.map((r) => ({
+        loai: r.loai === 'úy' ? 'úy' : 'phản',
+        tenA: r.ten_a,
+        tenB: r.ten_b,
+        ghiChu: (r.ghi_chu || '').trim() || null,
+      }));
+    } catch {
+      // Bảng chưa được tạo (chưa chạy migration) → coi như không có cảnh báo.
+      return [];
+    }
+  }
+}
+
+/** Cảnh báo một cặp vị thuốc kỵ nhau trong bài. */
+export interface TuongPhanWarning {
+  loai: 'phản' | 'úy';
+  tenA: string;
+  tenB: string;
+  ghiChu: string | null;
 }

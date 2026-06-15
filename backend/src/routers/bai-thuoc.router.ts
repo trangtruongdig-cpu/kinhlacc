@@ -81,7 +81,10 @@ export class BaiThuocRouter {
   }
 
   @Post(':id/analyze')
-  async analyze(@Param('id') id: string) {
-    return this.service.analyzeBaiThuoc(+id);
+  async analyze(
+    @Param('id') id: string,
+    @Body() body?: { overrides?: Array<{ idViThuoc: number; gram: number }> },
+  ) {
+    return this.service.analyzeBaiThuoc(+id, body?.overrides);
   }
 }

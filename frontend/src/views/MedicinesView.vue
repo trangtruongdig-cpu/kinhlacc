@@ -1,6 +1,9 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watch, nextTick, reactive } from 'vue'
+import { ref, onMounted, computed, watch, nextTick, reactive, defineAsyncComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+
+// Đồ thị tri thức (cytoscape) — nạp động để không gộp vào chunk chính.
+const BaiThuocGraph = defineAsyncComponent(() => import('@/components/BaiThuocGraph.vue'))
 
 const router = useRouter()
 
@@ -102,6 +105,10 @@ interface ViThuoc {
   vi: string | null
   quy_kinh: string | null
   lieu_dung?: string | null
+  ten_khoa_hoc?: string | null
+  ten_han?: string | null
+  ten_pinyin?: string | null
+  bo_phan_dung?: string | null
   kinhMachLinks?: KinhMachLink[] | null
 }
 
@@ -125,6 +132,10 @@ interface ViThuocForm {
   vi: string
   quy_kinh: string
   lieu_dung: string
+  ten_khoa_hoc: string
+  ten_han: string
+  ten_pinyin: string
+  bo_phan_dung: string
   kinh_mach_ids: number[]
   nhom_nho_ids: number[]
 }
@@ -1289,6 +1300,19 @@ function normalizeKinh(raw: string): string {
   return YHCT_KINH_ALIAS[s.toLowerCase()] ?? s
 }
 
+// Tên tạng/phủ ngắn, ưu tiên khớp tên dài trước ("Tâm Bào" trước "Tâm") để tránh nhận nhầm.
+const YHCT_KINH_BY_LEN = [...YHCT_KINH_ORDER].sort((a, b) => b.length - a.length)
+// Rút gọn chuỗi quy kinh đầy đủ (vd "Thủ Thiếu Âm Tâm, Túc Thiếu Âm Thận") về tạng/phủ ("Tâm, Thận").
+function shortKinh(raw: string | null | undefined): string {
+  const out: string[] = []
+  for (const part of String(raw || '').split(/[,;，、]/).map((s) => s.trim()).filter(Boolean)) {
+    const norm = normalizeKinh(part)
+    if ((YHCT_KINH_ORDER as readonly string[]).includes(norm)) out.push(norm)
+    else out.push(YHCT_KINH_BY_LEN.find((ref) => norm.includes(ref)) ?? part)
+  }
+  return [...new Set(out)].join(', ')
+}
+
 interface AnalysisVtRow {
   id: number
   ten: string
@@ -1350,8 +1374,10 @@ function parseLieuToGram(s: string | null | undefined): number {
   if (t === '*') return 2.25
   if (t === '#') return 22.5
   let m: RegExpMatchArray | null
-  m = t.match(/^([\d.]+)\s*(?:lượng|lạng)\b/); if (m && m[1]) return parseFloat(m[1]) * 30
-  m = t.match(/^([\d.]+)\s*(?:tiền|chỉ)\b/);   if (m && m[1]) return parseFloat(m[1]) * 3
+  // "bán" / "nửa" = 1/2 vị (vd "bán tiền" = 0.5 tiền = 1.5g, "bán lượng" = 0.5 lượng = 15g).
+  const qty = (raw: string) => (raw === 'bán' || raw === 'nửa' ? 0.5 : parseFloat(raw))
+  m = t.match(/^(bán|nửa|[\d.]+)\s*(?:lượng|lạng)\b/); if (m && m[1]) return qty(m[1]) * 30
+  m = t.match(/^(bán|nửa|[\d.]+)\s*(?:tiền|chỉ)\b/);   if (m && m[1]) return qty(m[1]) * 3
   m = t.match(/^([\d.]+)/);                     if (m && m[1]) return parseFloat(m[1])
   return 9
 }
@@ -1368,13 +1394,14 @@ function gramPreviewText(lieu: string | null | undefined): string {
     return isNaN(val) ? lieu : `${val}g`
   }
   if (/(tiền|chỉ|lượng|lạng)/.test(lower)) {
+    const qtyVal = (p: string) => (p === 'bán' || p === 'nửa' ? 0.5 : parseFloat(p.replace(',', '.')))
     return lower
-      .replace(/([\d.,]+)\s*(lượng|lạng)/gi, (match, p1) => {
-        const val = parseFloat(p1.replace(',', '.'))
+      .replace(/(bán|nửa|[\d.,]+)\s*(lượng|lạng)/gi, (match, p1) => {
+        const val = qtyVal(p1)
         return isNaN(val) ? match : `${Math.round(val * 30 * 100) / 100}g`
       })
-      .replace(/([\d.,]+)\s*(tiền|chỉ)/gi, (match, p1) => {
-        const val = parseFloat(p1.replace(',', '.'))
+      .replace(/(bán|nửa|[\d.,]+)\s*(tiền|chỉ)/gi, (match, p1) => {
+        const val = qtyVal(p1)
         return isNaN(val) ? match : `${Math.round(val * 3 * 100) / 100}g`
       })
   }
@@ -1704,7 +1731,18 @@ const TU_KHI_SEGS = [
 ]
 
 const anaShowModal = ref(false)
+const anaTab = ref<'phantich' | 'dothi'>('phantich')
 const anaResult = ref<AnalysisResult | null>(null)
+
+// Bổ sung tính ở backend (nguồn sự thật): luận giải tổng hợp + cấm kỵ phối ngũ (18 phản/19 úy).
+interface AnalysisEnrich {
+  luanGiai: string
+  congNang: { ten: string; score: number }[]
+  tuongPhan: { loai: 'phản' | 'úy'; tenA: string; tenB: string; ghiChu: string | null }[]
+  nhanDinh: string[]
+}
+const anaEnrich = ref<AnalysisEnrich | null>(null)
+
 // Reactive copy of viThuocList so input bindings & template re-render khi sửa gram
 const anaVtRows = reactive<AnalysisVtRow[]>([])
 
@@ -1757,6 +1795,7 @@ function destroyAnaCharts() {
 
 async function openAnalysis(bt: BaiThuoc) {
   anaLoading.value = true
+  anaTab.value = 'phantich'
   anaResult.value = null
   anaVtRows.splice(0, anaVtRows.length)
   anaShowModal.value = true
@@ -1773,6 +1812,20 @@ async function openAnalysis(bt: BaiThuoc) {
     anaResult.value = r
     anaVtRows.splice(0, anaVtRows.length, ...r.viThuocList)
     nextTick(() => initAnaCharts())
+    // Bổ sung từ backend (luận giải + cấm kỵ phối ngũ) — không chặn render radar; lỗi thì bỏ qua.
+    api
+      .post<any>(`/bai-thuoc/${bt.id}/analyze`, {})
+      .then((res) => {
+        anaEnrich.value = res?.success
+          ? {
+              luanGiai: res.luanGiai ?? '',
+              congNang: res.congNang ?? [],
+              tuongPhan: res.tuongPhan ?? [],
+              nhanDinh: res.nhanDinh ?? [],
+            }
+          : null
+      })
+      .catch(() => { anaEnrich.value = null })
   } finally {
     anaLoading.value = false
   }
@@ -1782,6 +1835,7 @@ function closeAnalysis() {
   destroyAnaCharts()
   anaShowModal.value = false
   anaResult.value = null
+  anaEnrich.value = null
   anaVtRows.splice(0, anaVtRows.length)
 }
 
@@ -2082,6 +2136,10 @@ const emptyViThuocForm = (): ViThuocForm => ({
   vi: '',
   quy_kinh: '',
   lieu_dung: '',
+  ten_khoa_hoc: '',
+  ten_han: '',
+  ten_pinyin: '',
+  bo_phan_dung: '',
   kinh_mach_ids: [],
   nhom_nho_ids: [],
 })
@@ -2174,6 +2232,10 @@ function openEditViThuoc(vt: ViThuoc) {
     vi: vt.vi ?? '',
     quy_kinh: vt.quy_kinh ?? '',
     lieu_dung: vt.lieu_dung ?? '',
+    ten_khoa_hoc: vt.ten_khoa_hoc ?? '',
+    ten_han: vt.ten_han ?? '',
+    ten_pinyin: vt.ten_pinyin ?? '',
+    bo_phan_dung: vt.bo_phan_dung ?? '',
     kinh_mach_ids: kmIds,
     nhom_nho_ids: nhomNhoIdsForViThuoc(vt.id),
   }
@@ -2207,6 +2269,10 @@ async function submitViThuoc() {
         tinh: f.tinh.trim() || undefined,
         vi: f.vi.trim() || undefined,
         lieu_dung: f.lieu_dung.trim() || undefined,
+        ten_khoa_hoc: f.ten_khoa_hoc.trim() || undefined,
+        ten_han: f.ten_han.trim() || undefined,
+        ten_pinyin: f.ten_pinyin.trim() || undefined,
+        bo_phan_dung: f.bo_phan_dung.trim() || undefined,
         kinh_mach_ids: f.kinh_mach_ids,
         nhom_nho_ids: f.nhom_nho_ids,
       }
@@ -2217,6 +2283,10 @@ async function submitViThuoc() {
         tinh: f.tinh.trim() || undefined,
         vi: f.vi.trim() || undefined,
         lieu_dung: f.lieu_dung.trim() || undefined,
+        ten_khoa_hoc: f.ten_khoa_hoc.trim() || undefined,
+        ten_han: f.ten_han.trim() || undefined,
+        ten_pinyin: f.ten_pinyin.trim() || undefined,
+        bo_phan_dung: f.bo_phan_dung.trim() || undefined,
         kinh_mach_ids: f.kinh_mach_ids,
         nhom_nho_ids: f.nhom_nho_ids,
       }
@@ -2406,7 +2476,7 @@ async function suggestViThuocAi() {
             />
             <button v-if="baiThuocSearch" type="button" class="search-clear" @click="baiThuocSearch = ''" aria-label="Xóa tìm kiếm">✕</button>
           </div>
-          <span class="toolbar-count">{{ filteredBaiThuoc.length }} / {{ baiThuocList.length }} bài thuốc</span>
+          <span class="toolbar-count">{{ filteredBaiThuoc.length }} / {{ baiThuocTotal }} bài thuốc</span>
         </div>
         <div class="sub-tabs" role="tablist" aria-label="Phân loại bài thuốc">
           <button
@@ -2761,7 +2831,7 @@ async function suggestViThuocAi() {
             class="filter-clear"
             @click="clearViThuocFilters"
           >Bỏ lọc</button>
-          <span class="toolbar-count">{{ filteredViThuoc.length }} / {{ viThuocList.length }} vị thuốc</span>
+          <span class="toolbar-count">{{ filteredViThuoc.length }} / {{ viThuocTotal }} vị thuốc</span>
         </div>
         <div class="data-card" :class="{ 'data-card--loading': viThuocPageLoading }">
           <div v-if="viThuocPageLoading" class="loading-bar" aria-hidden="true"></div>
@@ -2781,7 +2851,14 @@ async function suggestViThuocAi() {
               <header class="vt-card__head">
                 <div class="vt-card__title">
                   <span class="vt-card__id">#{{ vt.id }}</span>
-                  <h4 class="vt-card__name">{{ vt.ten_vi_thuoc }}</h4>
+                  <h4 class="vt-card__name">
+                    {{ vt.ten_vi_thuoc }}
+                    <span v-if="vt.ten_han" class="vt-card__han">{{ vt.ten_han }}</span>
+                  </h4>
+                  <div v-if="vt.ten_khoa_hoc || vt.ten_pinyin" class="vt-card__sci">
+                    <em v-if="vt.ten_khoa_hoc" class="vt-card__latin">{{ vt.ten_khoa_hoc }}</em>
+                    <span v-if="vt.ten_pinyin" class="vt-card__pinyin">{{ vt.ten_pinyin }}</span>
+                  </div>
                 </div>
                 <div class="row-actions">
                   <button type="button" class="btn-action btn-edit" @click="openEditViThuoc(vt)">Sửa</button>
@@ -2802,6 +2879,10 @@ async function suggestViThuocAi() {
                     </div>
                     <span v-else class="vt-meta__val">—</span>
                   </div>
+                </div>
+                <div v-if="vt.bo_phan_dung" class="vt-meta">
+                  <span class="vt-meta__label">Bộ phận dùng</span>
+                  <span class="vt-meta__val">{{ vt.bo_phan_dung }}</span>
                 </div>
                 <div v-if="vt.lieu_dung" class="vt-meta">
                   <span class="vt-meta__label">Liều dùng</span>
@@ -3197,6 +3278,26 @@ async function suggestViThuocAi() {
               <input v-model="vtForm.vi" class="input" placeholder="vd. Ngọt, Cay, Đắng..." />
             </label>
 
+            <label class="field field--full">
+              <span>Tên khoa học (Latin)</span>
+              <input v-model="vtForm.ten_khoa_hoc" class="input" placeholder="vd. Radix Paeoniae Alba" />
+            </label>
+
+            <label class="field">
+              <span>Tên Hán</span>
+              <input v-model="vtForm.ten_han" class="input" placeholder="vd. 白芍" />
+            </label>
+
+            <label class="field">
+              <span>Pinyin</span>
+              <input v-model="vtForm.ten_pinyin" class="input" placeholder="vd. Bái Sháo" />
+            </label>
+
+            <label class="field field--full">
+              <span>Bộ phận dùng</span>
+              <input v-model="vtForm.bo_phan_dung" class="input" placeholder="vd. rễ, vỏ thân, hạt, toàn cây" />
+            </label>
+
             <div class="field field--full">
               <span>Liều dùng</span>
               <input
@@ -3274,7 +3375,12 @@ async function suggestViThuocAi() {
           <h3>Phân tích: {{ anaResult?.ten ?? '' }}</h3>
           <button type="button" class="modal-close" @click="closeAnalysis">✕</button>
         </div>
+        <div class="ana-tabs" role="tablist" aria-label="Chế độ phân tích bài thuốc">
+          <button type="button" role="tab" class="ana-tab" :class="{ active: anaTab === 'phantich' }" :aria-selected="anaTab === 'phantich'" @click="anaTab = 'phantich'">Phân tích</button>
+          <button type="button" role="tab" class="ana-tab" :class="{ active: anaTab === 'dothi' }" :aria-selected="anaTab === 'dothi'" @click="anaTab = 'dothi'">Đồ thị tri thức</button>
+        </div>
         <div class="modal-body ana-body">
+          <template v-if="anaTab === 'phantich'">
           <div v-if="anaLoading" class="ana-loading">
             <div class="spinner"></div>
             <p>Đang tải dữ liệu phân tích…</p>
@@ -3394,6 +3500,43 @@ async function suggestViThuocAi() {
                   </div>
                   <div v-else class="ana-muted">Chưa có kiêng kỵ từ các vị thuốc trong bài.</div>
                 </div>
+
+                <!-- 6) Luận giải tổng hợp + cảnh báo cấm kỵ phối ngũ (tính ở backend) -->
+                <div v-if="anaEnrich" class="ana-card">
+                  <div class="ana-section-title">6) Luận giải &amp; Cảnh báo phối ngũ</div>
+
+                  <p v-if="anaEnrich.luanGiai" class="ana-luangiai">{{ anaEnrich.luanGiai }}</p>
+
+                  <ul v-if="anaEnrich.nhanDinh.length" class="ana-nhandinh">
+                    <li v-for="(n, i) in anaEnrich.nhanDinh" :key="'nd-' + i">{{ n }}</li>
+                  </ul>
+
+                  <template v-if="anaEnrich.congNang.length">
+                    <div class="ana-sub-title">Công năng tổng hợp <span class="ana-sub-hint">(trọng số theo liều)</span></div>
+                    <div class="ana-chip-row">
+                      <span
+                        v-for="(c, i) in anaEnrich.congNang.slice(0, 12)"
+                        :key="'cn-' + i"
+                        class="ana-chip ana-chip-tacdung"
+                      >{{ c.ten }}</span>
+                    </div>
+                  </template>
+
+                  <div class="ana-sub-title">Cấm kỵ phối ngũ <span class="ana-sub-hint">(18 phản / 19 úy)</span></div>
+                  <div v-if="anaEnrich.tuongPhan.length" class="ana-camky-list">
+                    <div
+                      v-for="(w, i) in anaEnrich.tuongPhan"
+                      :key="'tp-' + i"
+                      class="ana-camky"
+                      :class="w.loai === 'phản' ? 'is-phan' : 'is-uy'"
+                    >
+                      <span class="ana-camky-badge">{{ w.loai === 'phản' ? '⚠ Tương phản' : '⚠ Tương úy' }}</span>
+                      <span class="ana-camky-pair">{{ w.tenA }} ✕ {{ w.tenB }}</span>
+                      <span v-if="w.ghiChu" class="ana-camky-note">{{ w.ghiChu }}</span>
+                    </div>
+                  </div>
+                  <div v-else class="ana-muted">Không phát hiện cặp tương phản / tương úy trong bài.</div>
+                </div>
               </div>
 
               <div class="ana-right">
@@ -3446,7 +3589,7 @@ async function suggestViThuocAi() {
                           <td class="ana-vt-role">
                             <span class="ana-role-chip" :style="{ background: v.color }">{{ v.vai_tro }}</span>
                           </td>
-                          <td class="ana-vt-qk">{{ v.quy_kinh || '—' }}</td>
+                          <td class="ana-vt-qk">{{ shortKinh(v.quy_kinh) || '—' }}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -3457,6 +3600,17 @@ async function suggestViThuocAi() {
 
           </template>
           <div v-else class="ana-empty">Bài thuốc chưa có vị thuốc nào để phân tích.</div>
+          </template>
+
+          <!-- Tab Đồ thị tri thức -->
+          <div v-else class="ana-graph-wrap">
+            <BaiThuocGraph
+              v-if="anaResult && !anaResult.empty"
+              :key="'graph-' + anaResult.idBaiThuoc"
+              :root-id="anaResult.idBaiThuoc"
+            />
+            <div v-else class="ana-empty">Chưa có dữ liệu để dựng đồ thị.</div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-secondary" @click="closeAnalysis">Đóng</button>
@@ -3925,6 +4079,7 @@ async function suggestViThuocAi() {
 .vt-card__title {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 6px;
   min-width: 0;
   flex: 1;
@@ -3947,6 +4102,29 @@ async function suggestViThuocAi() {
   color: var(--brown-900);
   line-height: 1.35;
   word-break: break-word;
+}
+.vt-card__han {
+  margin-left: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brown-500);
+}
+.vt-card__sci {
+  flex-basis: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+  margin-top: 2px;
+}
+.vt-card__latin {
+  font-size: 12px;
+  color: var(--brown-600);
+  font-style: italic;
+}
+.vt-card__pinyin {
+  font-size: 12px;
+  color: var(--brown-400);
 }
 .vt-card__body {
   flex: 1 1 auto;
@@ -4343,6 +4521,27 @@ async function suggestViThuocAi() {
   max-height: 95vh;
 }
 .ana-body { padding: var(--space-4); background: #FAF8F3; }
+.ana-tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 var(--space-4);
+  border-bottom: 1px solid var(--border, #e5e0d6);
+  background: var(--surface, #fff);
+}
+.ana-tab {
+  padding: 9px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-500);
+  background: transparent;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  cursor: pointer;
+}
+.ana-tab:hover { color: var(--brown-700, #6b4f2a); }
+.ana-tab.active { color: var(--brown-800, #5b3a1a); border-bottom-color: var(--brown-600, #8a6d3b); }
+.ana-graph-wrap { padding: 2px; }
 .ana-empty {
   text-align: center;
   padding: 40px 20px;
@@ -4540,6 +4739,45 @@ async function suggestViThuocAi() {
 .ana-chip-tacdung { border-color: #C49A6C; background: #FAEBD8; color: #5B3A1A; }
 .ana-chip-tayy { border-color: var(--chip-brand-border); background: var(--chip-brand-bg); color: var(--chip-brand-fg); }
 .ana-sub-hint { font-weight: 400; color: var(--gray-400); font-size: 10px; }
+
+/* 6) Luận giải & cảnh báo phối ngũ */
+.ana-luangiai {
+  margin: 4px 0 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--brown-900, #4a2f1a);
+  background: #F7F3EC;
+  border-left: 3px solid var(--brown-500, #8a6d3b);
+  border-radius: 6px;
+}
+.ana-camky-list { display: flex; flex-direction: column; gap: 6px; }
+.ana-camky {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  border: 1px solid #E8A598;
+  background: #FDF5F3;
+}
+.ana-camky.is-phan { border-color: #DC2626; background: #FEF2F2; }
+.ana-camky.is-uy { border-color: #D97706; background: #FFF7ED; }
+.ana-camky-badge { font-weight: 700; font-size: 11px; white-space: nowrap; }
+.ana-camky.is-phan .ana-camky-badge { color: #B91C1C; }
+.ana-camky.is-uy .ana-camky-badge { color: #B45309; }
+.ana-camky-pair { font-weight: 600; color: var(--brown-900, #4a2f1a); }
+.ana-camky-note { color: var(--gray-500); font-size: 11px; }
+.ana-nhandinh {
+  margin: 0 0 8px;
+  padding-left: 18px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--brown-800, #5b3a1a);
+}
+.ana-nhandinh li { margin: 2px 0; }
 
 /* ─── Responsive: tiêu đề trang, nút chuyển tab, thanh công cụ ─── */
 @media (max-width: 900px) {

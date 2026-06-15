@@ -27,6 +27,22 @@ export class ViThuoc {
   @Column({ type: 'varchar', length: 255, nullable: true })
   lieu_dung: string;
 
+  // Tên khoa học Latin (vd. "Radix Paeoniae Alba")
+  @Column({ type: 'varchar', length: 400, nullable: true })
+  ten_khoa_hoc: string;
+
+  // Tên Hán / chữ Trung (vd. "白芍")
+  @Column({ type: 'varchar', length: 150, nullable: true })
+  ten_han: string;
+
+  // Phiên âm Pinyin (vd. "Bái Sháo")
+  @Column({ type: 'varchar', length: 150, nullable: true })
+  ten_pinyin: string;
+
+  // Bộ phận dùng (vd. "rễ", "vỏ thân", "hạt", "toàn cây")
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  bo_phan_dung: string;
+
   // Dùng string reference để tránh circular import với các child models
   @OneToMany('BaiThuocChiTiet', 'viThuoc')
   baiThuocDetails: BaiThuocChiTiet[];
