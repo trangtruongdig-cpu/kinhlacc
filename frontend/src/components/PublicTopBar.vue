@@ -43,6 +43,7 @@ function enter() {
       </div>
 
       <div class="ptb-actions">
+        <RouterLink class="ptb-link" to="/duoc-lieu">Dược Liệu</RouterLink>
         <a class="ptb-link" href="/blog/">Cẩm Nang</a>
         <button class="ptb-link" @click="goHome">← Trang Chủ</button>
         <button class="ptb-cta" @click="enter">{{ ctaLabel }}</button>

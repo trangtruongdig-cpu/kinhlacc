@@ -6,6 +6,8 @@ import { useRoute, useRouter } from 'vue-router'
 const BaiThuocGraph = defineAsyncComponent(() => import('@/components/BaiThuocGraph.vue'))
 // So sánh bài thuốc — cũng nạp động (dùng chart.js).
 const BaiThuocCompare = defineAsyncComponent(() => import('@/components/BaiThuocCompare.vue'))
+// Chi tiết vị thuốc (từ điển + thư viện ảnh) — nạp động.
+const ViThuocDetail = defineAsyncComponent(() => import('@/components/ViThuocDetail.vue'))
 
 const router = useRouter()
 
@@ -2126,6 +2128,11 @@ function vaiTroMatchSuyLuan(row: AnalysisVtRow): boolean {
   return k !== '' && k === row.vai_tro
 }
 
+// ─── VỊ THUỐC: chi tiết (từ điển + thư viện ảnh) ───────────────────────────
+const vtDetailId = ref<number | null>(null)
+function openViThuocDetail(vt: { id: number }) { vtDetailId.value = vt.id }
+function closeViThuocDetail() { vtDetailId.value = null }
+
 // ─── VỊ THUỐC CRUD ────────────────────────────────────────────────────────
 const vtShowModal = ref(false)
 const vtEditingId = ref<number | null>(null)
@@ -2863,6 +2870,7 @@ async function suggestViThuocAi() {
                   </div>
                 </div>
                 <div class="row-actions">
+                  <button type="button" class="btn-action btn-view" @click="openViThuocDetail(vt)">Xem</button>
                   <button type="button" class="btn-action btn-edit" @click="openEditViThuoc(vt)">Sửa</button>
                   <button type="button" class="btn-action btn-delete" @click="confirmDeleteViThuoc(vt)">Xóa</button>
                 </div>
@@ -3205,6 +3213,22 @@ async function suggestViThuocAi() {
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-primary" @click="btShowImportResult = false">Đóng</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- VỊ THUỐC — CHI TIẾT (từ điển + thư viện ảnh) -->
+    <div v-if="vtDetailId != null" class="modal-overlay" @click.self="closeViThuocDetail">
+      <div class="modal vtd-modal" @click.stop>
+        <div class="modal-header">
+          <h3>Chi tiết vị thuốc</h3>
+          <button type="button" class="modal-close" @click="closeViThuocDetail">✕</button>
+        </div>
+        <div class="modal-body">
+          <ViThuocDetail :vi-thuoc-id="vtDetailId" source="admin" />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" @click="closeViThuocDetail">Đóng</button>
         </div>
       </div>
     </div>
@@ -4395,7 +4419,11 @@ async function suggestViThuocAi() {
 
 .row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 .btn-action { padding: 4px 10px; font-size: 12px; font-weight: 600; border-radius: var(--radius-sm); border: 1px solid var(--gray-200); background: var(--white); cursor: pointer; transition: all var(--transition-fast); }
+.btn-view { color: var(--brown-700); }
+.btn-view:hover { background: var(--brown-50); border-color: var(--brown-400); color: var(--brown-800); }
 .btn-edit:hover { background: var(--brown-50); border-color: var(--brown-400); color: var(--brown-700); }
+.vtd-modal { max-width: 760px; width: 100%; max-height: 92vh; }
+.vtd-modal .modal-body { overflow-y: auto; }
 .btn-delete { color: var(--danger); }
 .btn-delete:hover { background: var(--danger-bg); border-color: var(--danger-border); }
 .btn-mini { padding: 4px 10px; font-size: 12px; font-weight: 600; border-radius: var(--radius-sm); border: 1px solid var(--brown-300); background: var(--brown-50); color: var(--brown-700); cursor: pointer; }
