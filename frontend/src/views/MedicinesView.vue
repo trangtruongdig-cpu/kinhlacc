@@ -4,6 +4,8 @@ import { useRoute, useRouter } from 'vue-router'
 
 // Đồ thị tri thức (cytoscape) — nạp động để không gộp vào chunk chính.
 const BaiThuocGraph = defineAsyncComponent(() => import('@/components/BaiThuocGraph.vue'))
+// So sánh bài thuốc — cũng nạp động (dùng chart.js).
+const BaiThuocCompare = defineAsyncComponent(() => import('@/components/BaiThuocCompare.vue'))
 
 const router = useRouter()
 
@@ -1731,7 +1733,7 @@ const TU_KHI_SEGS = [
 ]
 
 const anaShowModal = ref(false)
-const anaTab = ref<'phantich' | 'dothi'>('phantich')
+const anaTab = ref<'phantich' | 'dothi' | 'sosanh'>('phantich')
 const anaResult = ref<AnalysisResult | null>(null)
 
 // Bổ sung tính ở backend (nguồn sự thật): luận giải tổng hợp + cấm kỵ phối ngũ (18 phản/19 úy).
@@ -3378,6 +3380,7 @@ async function suggestViThuocAi() {
         <div class="ana-tabs" role="tablist" aria-label="Chế độ phân tích bài thuốc">
           <button type="button" role="tab" class="ana-tab" :class="{ active: anaTab === 'phantich' }" :aria-selected="anaTab === 'phantich'" @click="anaTab = 'phantich'">Phân tích</button>
           <button type="button" role="tab" class="ana-tab" :class="{ active: anaTab === 'dothi' }" :aria-selected="anaTab === 'dothi'" @click="anaTab = 'dothi'">Đồ thị tri thức</button>
+          <button type="button" role="tab" class="ana-tab" :class="{ active: anaTab === 'sosanh' }" :aria-selected="anaTab === 'sosanh'" @click="anaTab = 'sosanh'">So sánh</button>
         </div>
         <div class="modal-body ana-body">
           <template v-if="anaTab === 'phantich'">
@@ -3603,13 +3606,23 @@ async function suggestViThuocAi() {
           </template>
 
           <!-- Tab Đồ thị tri thức -->
-          <div v-else class="ana-graph-wrap">
+          <div v-else-if="anaTab === 'dothi'" class="ana-graph-wrap">
             <BaiThuocGraph
               v-if="anaResult && !anaResult.empty"
               :key="'graph-' + anaResult.idBaiThuoc"
               :root-id="anaResult.idBaiThuoc"
             />
             <div v-else class="ana-empty">Chưa có dữ liệu để dựng đồ thị.</div>
+          </div>
+
+          <!-- Tab So sánh -->
+          <div v-else class="ana-compare-wrap">
+            <BaiThuocCompare
+              v-if="anaResult"
+              :key="'cmp-' + anaResult.idBaiThuoc"
+              :base-id="anaResult.idBaiThuoc"
+              :base-ten="anaResult.ten"
+            />
           </div>
         </div>
         <div class="modal-footer">
@@ -4542,6 +4555,7 @@ async function suggestViThuocAi() {
 .ana-tab:hover { color: var(--brown-700, #6b4f2a); }
 .ana-tab.active { color: var(--brown-800, #5b3a1a); border-bottom-color: var(--brown-600, #8a6d3b); }
 .ana-graph-wrap { padding: 2px; }
+.ana-compare-wrap { padding: 4px 2px; }
 .ana-empty {
   text-align: center;
   padding: 40px 20px;

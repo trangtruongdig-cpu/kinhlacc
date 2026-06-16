@@ -679,6 +679,60 @@ export class BaiThuocService {
     return { success: true, ...analysis, tuongPhan };
   }
 
+  /**
+   * So sánh nhiều bài thuốc: phân tích từng bài + đối chiếu thành phần vị thuốc.
+   * Trả radar (qua từng analysis) để UI chồng lên, và bảng diff vị chung / chỉ-ở-A / chỉ-ở-B.
+   */
+  async compareBaiThuoc(ids: number[]): Promise<{
+    formulas: Array<FormulaAnalysis & { id: number }>;
+    composition: Array<{ id: number; ten: string; grams: Array<number | null> }>;
+  }> {
+    const uniq = [...new Set(ids.filter((x) => Number.isFinite(x) && x > 0))].slice(0, 4);
+    if (uniq.length < 2) {
+      throw new BadRequestException('Cần ít nhất 2 bài thuốc để so sánh (ids=a,b).');
+    }
+    const analyses = await Promise.all(uniq.map((id) => this.analyzeBaiThuoc(id)));
+
+    const formulas: Array<FormulaAnalysis & { id: number }> = [];
+    const okIndex: number[] = []; // index trong uniq của các bài phân tích thành công
+    analyses.forEach((a, i) => {
+      if (a && (a as { success: boolean }).success) {
+        const { success: _ok, tuongPhan: _tp, ...rest } = a as FormulaAnalysis & {
+          success: true;
+          tuongPhan: unknown;
+        };
+        formulas.push({ id: uniq[i], ...(rest as FormulaAnalysis) });
+        okIndex.push(i);
+      }
+    });
+    if (formulas.length < 2) {
+      throw new BadRequestException('Không đủ bài thuốc hợp lệ (có vị thuốc) để so sánh.');
+    }
+
+    // Bảng đối chiếu thành phần: hợp tất cả vị thuốc, mỗi cột là gram trong từng bài (null nếu vắng).
+    const merged = new Map<number, { ten: string; grams: Array<number | null> }>();
+    formulas.forEach((f, col) => {
+      for (const v of f.viThuocList) {
+        let row = merged.get(v.id);
+        if (!row) {
+          row = { ten: v.ten, grams: new Array<number | null>(formulas.length).fill(null) };
+          merged.set(v.id, row);
+        }
+        row.grams[col] = v.gram;
+      }
+    });
+    const composition = [...merged.entries()]
+      .map(([id, r]) => ({ id, ten: r.ten, grams: r.grams }))
+      .sort((a, b) => {
+        // Vị chung (xuất hiện ≥2 bài) lên trước, rồi theo tên.
+        const ca = a.grams.filter((g) => g != null).length;
+        const cb = b.grams.filter((g) => g != null).length;
+        return cb - ca || a.ten.localeCompare(b.ten, 'vi');
+      });
+
+    return { formulas, composition };
+  }
+
   /** Quét cặp vị thuốc tương phản (18 phản) / tương úy (19 úy) trong một tập vị thuốc. */
   private async scanTuongPhan(viThuocIds: number[]): Promise<TuongPhanWarning[]> {
     const ids = [...new Set(viThuocIds.filter((x) => Number.isFinite(x) && x > 0))];

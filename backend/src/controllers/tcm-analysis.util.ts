@@ -45,6 +45,21 @@ export const ROLE_COLORS: Record<string, string> = {
   Quân: '#DC2626', Thần: '#F97316', Tá: '#16A34A', Sứ: '#2563EB',
 };
 
+type Role = 'Quân' | 'Thần' | 'Tá' | 'Sứ';
+/** Trọng số đóng góp công năng theo vai trò (Quân nặng nhất → Sứ nhẹ nhất). */
+const ROLE_WEIGHT: Record<Role, number> = { Quân: 1.5, Thần: 1.2, Tá: 1, Sứ: 0.8 };
+
+/** Chuẩn hoá vai trò người nhập về Quân/Thần/Tá/Sứ (null nếu không nhận diện được). */
+export function normalizeRole(raw: string | null | undefined): Role | null {
+  const t = (raw || '').trim().toLowerCase();
+  if (!t) return null;
+  if (t.includes('quân') || t === 'quan') return 'Quân';
+  if (t.includes('thần') || t === 'than') return 'Thần';
+  if (t.includes('sứ') || t === 'su') return 'Sứ';
+  if (t.includes('tá') || t === 'ta') return 'Tá';
+  return null;
+}
+
 // ───────────────────────── Liều lượng → gram ─────────────────────────
 export function parseLieuToGram(s: string | null | undefined): number {
   if (!s) return 9;
@@ -153,8 +168,10 @@ export interface AnalysisVtRow {
   ten: string;
   gram: number;
   pct: number;
-  /** Vai trò suy luận (heuristic). */
+  /** Vai trò hiệu lực: ưu tiên người nhập, fallback suy luận. */
   vai_tro: 'Quân' | 'Thần' | 'Tá' | 'Sứ';
+  /** Vai trò suy luận thuần heuristic (để đối chiếu với người nhập). */
+  vai_tro_suy_luan: 'Quân' | 'Thần' | 'Tá' | 'Sứ';
   vai_tro_nhap: string;
   color: string;
   quy_kinh: string;
@@ -279,19 +296,22 @@ export function analyzeFormula(input: {
   const quyKinhNorm: Record<string, number> = {};
   YHCT_KINH_ORDER.forEach((k) => { quyKinhNorm[k] = Math.round(((qkRaw[k] ?? 0) / qkMax) * 10) / 10; });
 
-  // Vai trò Quân – Thần – Tá – Sứ (heuristic theo gram + đồng quy kinh với Quân).
+  // Vai trò Quân – Thần – Tá – Sứ:
+  //   - suyLuanMap: heuristic theo gram + đồng quy kinh với Quân.
+  //   - effRole: ƯU TIÊN vai trò người nhập (vai_tro_nhap), fallback heuristic.
   const sorted = [...herbs].sort((a, b) => b.gram - a.gram);
   const quanQK = (sorted[0]?.quy_kinh || '').split(/[,;，、]/).map((k) => normalizeKinh(k.trim()));
-  const roleMap: Record<number, 'Quân' | 'Thần' | 'Tá' | 'Sứ'> = {};
+  const suyLuanMap: Record<number, Role> = {};
   sorted.forEach((x, i) => {
     const name = (x.ten_vi_thuoc || '').toLowerCase();
     const pct = x.gram / W;
     const vtQK = (x.quy_kinh || '').split(/[,;，、]/).map((k) => normalizeKinh(k.trim()));
-    if (i === 0) roleMap[x.id] = 'Quân';
-    else if ((name.includes('cam thảo') || name.includes('đại táo')) && pct < 0.1) roleMap[x.id] = 'Sứ';
-    else if (pct >= 0.15 && vtQK.some((k) => quanQK.includes(k))) roleMap[x.id] = 'Thần';
-    else roleMap[x.id] = 'Tá';
+    if (i === 0) suyLuanMap[x.id] = 'Quân';
+    else if ((name.includes('cam thảo') || name.includes('đại táo')) && pct < 0.1) suyLuanMap[x.id] = 'Sứ';
+    else if (pct >= 0.15 && vtQK.some((k) => quanQK.includes(k))) suyLuanMap[x.id] = 'Thần';
+    else suyLuanMap[x.id] = 'Tá';
   });
+  const effRole = (h: AnalysisHerbInput): Role => normalizeRole(h.vai_tro_nhap) ?? suyLuanMap[h.id] ?? 'Tá';
 
   const tuKhi = { daiHan: 0, han: 0, luong: 0, binh: 0, on: 0, nhiet: 0, daiNhiet: 0 };
   const nguVi = { chua: 0, dang: 0, ngot: 0, cay: 0, man: 0 };
@@ -303,25 +323,29 @@ export function analyzeFormula(input: {
     addTgptBucket(tgpt, { tinh: h.tinh || '', quy_kinh: h.quy_kinh || '' }, wPct);
   }
 
-  const viThuocList: AnalysisVtRow[] = herbs.map((h) => ({
-    id: h.id,
-    ten: h.ten_vi_thuoc || '—',
-    gram: h.gram,
-    pct: Math.round((h.gram / W) * 100),
-    vai_tro: roleMap[h.id] ?? 'Tá',
-    vai_tro_nhap: (h.vai_tro_nhap || '').trim(),
-    color: ROLE_COLORS[roleMap[h.id] ?? 'Tá'] ?? '#9CA3AF',
-    quy_kinh: h.quy_kinh || '',
-  }));
+  const viThuocList: AnalysisVtRow[] = herbs.map((h) => {
+    const eff = effRole(h);
+    return {
+      id: h.id,
+      ten: h.ten_vi_thuoc || '—',
+      gram: h.gram,
+      pct: Math.round((h.gram / W) * 100),
+      vai_tro: eff,
+      vai_tro_suy_luan: suyLuanMap[h.id] ?? 'Tá',
+      vai_tro_nhap: (h.vai_tro_nhap || '').trim(),
+      color: ROLE_COLORS[eff] ?? '#9CA3AF',
+      quy_kinh: h.quy_kinh || '',
+    };
+  });
 
-  // Công năng tổng hợp — gộp công năng từng vị, trọng số theo gram.
+  // Công năng tổng hợp — gộp công năng từng vị, trọng số theo gram × vai trò (Quân nặng hơn Sứ).
   const cnAgg = new Map<string, number>();
   for (const h of herbs) {
-    const wPct = h.gram / W;
+    const w = (h.gram / W) * ROLE_WEIGHT[effRole(h)];
     for (const c of h.congNang ?? []) {
       const name = (c || '').trim();
       if (!name) continue;
-      cnAgg.set(name, (cnAgg.get(name) ?? 0) + wPct);
+      cnAgg.set(name, (cnAgg.get(name) ?? 0) + w);
     }
   }
   const congNang = [...cnAgg.entries()]
