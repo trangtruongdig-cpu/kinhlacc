@@ -1,0 +1,11 @@
+{
+  "_note": "Thư viện ảnh Cam Thảo (vị thuốc id=25). Ảnh mẫu là SVG placeholder — thay bằng ảnh thật khi có.",
+  "images": [
+    { "file": "1.svg", "giai_doan": "Cây thuốc", "mo_ta": "Glycyrrhiza uralensis — cây cam thảo nơi nguyên thuỷ." },
+    { "file": "2.svg", "giai_doan": "Thu hái", "mo_ta": "Đào lấy rễ và thân rễ vào mùa thu." },
+    { "file": "3.svg", "giai_doan": "Sơ chế", "mo_ta": "Rửa sạch đất, cắt khúc." },
+    { "file": "4.svg", "giai_doan": "Phơi/sấy", "mo_ta": "Phơi hoặc sấy khô để bảo quản." },
+    { "file": "5.svg", "giai_doan": "Bào chế", "mo_ta": "Chích cam thảo — tẩm mật, sao vàng (tăng tính bổ)." },
+    { "file": "6.svg", "giai_doan": "Phiến/thành phẩm", "mo_ta": "Cam thảo phiến — sẵn sàng bốc thuốc." }
+  ]
+}

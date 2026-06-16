@@ -5,6 +5,8 @@ const LandingView = () => import('@/views/LandingView.vue')
 const LoginView = () => import('@/views/LoginView.vue')
 const PublicKinhMach3DView = () => import('@/views/PublicKinhMach3DView.vue')
 const PublicTuDienView = () => import('@/views/PublicTuDienView.vue')
+const DuocLieuListView = () => import('@/views/DuocLieuListView.vue')
+const DuocLieuDetailView = () => import('@/views/DuocLieuDetailView.vue')
 const DemoKetQuaDoView = () => import('@/views/DemoKetQuaDoView.vue')
 const DemoBaiThuocView = () => import('@/views/DemoBaiThuocView.vue')
 // Trang "Tin Cậy" (YMYL/E-E-A-T) — công khai, có meta + prerender riêng.
@@ -71,6 +73,19 @@ const router = createRouter({
       path: '/thu-vien',
       name: 'thu-vien',
       component: PublicTuDienView,
+      meta: { requiresAuth: false },
+    },
+    // Từ điển dược liệu CÔNG KHAI (vị thuốc + thư viện ảnh theo giai đoạn).
+    {
+      path: '/duoc-lieu',
+      name: 'duoc-lieu',
+      component: DuocLieuListView,
+      meta: { requiresAuth: false },
+    },
+    {
+      path: '/duoc-lieu/:id',
+      name: 'duoc-lieu-detail',
+      component: DuocLieuDetailView,
       meta: { requiresAuth: false },
     },
     // Trang "Tin Cậy" (YMYL) — công khai.

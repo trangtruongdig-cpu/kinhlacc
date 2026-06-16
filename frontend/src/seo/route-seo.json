@@ -59,6 +59,33 @@
       }
     },
     {
+      "name": "duoc-lieu",
+      "path": "/duoc-lieu",
+      "breadcrumb": [{ "name": "Từ Điển Dược Liệu", "path": "/duoc-lieu" }],
+      "priority": "0.9",
+      "changefreq": "weekly",
+      "ogType": "website",
+      "title": "Từ Điển Dược Liệu — Tra Cứu Vị Thuốc Đông Y",
+      "description": "Tra cứu vị thuốc Đông Y: tính, vị, quy kinh, công dụng, chủ trị, kiêng kỵ và hình ảnh từ nguyên liệu đến thành phẩm. Miễn phí, không cần đăng nhập.",
+      "keywords": [
+        "từ điển dược liệu",
+        "tra cứu vị thuốc",
+        "vị thuốc Đông Y",
+        "dược liệu cổ truyền",
+        "công dụng vị thuốc",
+        "hình ảnh dược liệu"
+      ],
+      "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Từ Điển Dược Liệu Đông Y",
+        "description": "Thư viện tra cứu vị thuốc Đông Y công khai: tính, vị, quy kinh, công dụng, chủ trị, kiêng kỵ và hình ảnh theo giai đoạn (nguyên liệu → thành phẩm).",
+        "url": "https://kinhlac.online/duoc-lieu",
+        "inLanguage": "vi",
+        "isAccessibleForFree": true
+      }
+    },
+    {
       "name": "thu-vien",
       "path": "/thu-vien",
       "breadcrumb": [{ "name": "Từ Điển", "path": "/thu-vien" }],
