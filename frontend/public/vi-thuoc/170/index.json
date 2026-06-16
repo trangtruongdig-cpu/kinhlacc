@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Mentha canadensis",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bạc Hà (Mentha canadensis). Ảnh: Photo by David J. Stang / Wikimedia Commons — CC BY-SA 4.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Mentha_canadensis_1zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bạc Hà (Mentha canadensis). Ảnh: Ryan Hodnett / Wikimedia Commons — CC BY-SA 4.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:American_Cornmint_(Mentha_canadensis)_-_Waterloo,_Ontario.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ryan Hodnett"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bạc Hà (Mentha canadensis). Ảnh: Doug McGrady / Wikimedia Commons — CC BY 2.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Mentha_canadensis_(32017597572).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "Doug McGrady"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Astragalus propinquus",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Hoàng Kỳ (Astragalus propinquus). Ảnh: Doronenko / Wikimedia Commons — CC BY 2.5",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Astragalus_membranaceus.jpg",
+      "giay_phep": "CC BY 2.5",
+      "tac_gia": "Doronenko"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Hoa",
+      "mo_ta": "Hoàng Kỳ (Astragalus propinquus). Ảnh: Averater / Wikimedia Commons — CC BY-SA 3.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Astragalus_mongolicus_flowers.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Averater"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Lá",
+      "mo_ta": "Hoàng Kỳ (Astragalus propinquus). Ảnh: Averater / Wikimedia Commons — CC BY-SA 3.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Astragalus_mongolicus_leaves.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Averater"
+    }
+  ]
+}

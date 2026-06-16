@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Lycium barbarum",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Kỷ Tử (Lycium barbarum). Ảnh: Sten Porse / Wikimedia Commons — CC BY-SA 3.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycium-barbarum-fruits.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Sten Porse"
+    },
+    {
+      "file": "2.png",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Kỷ Tử (Lycium barbarum). Ảnh: Wikimedia Commons / Wikimedia Commons — Public domain",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycium_barbarum_BB.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Wikimedia Commons"
+    },
+    {
+      "file": "3.png",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Kỷ Tử (Lycium barbarum). Ảnh: Wikimedia Commons / Wikimedia Commons — Public domain",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycium_barbarum_seed.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Wikimedia Commons"
+    }
+  ]
+}

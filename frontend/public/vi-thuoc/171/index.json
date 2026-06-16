@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Pueraria montana",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cát Căn (Pueraria montana). Ảnh: Dalgial / Wikimedia Commons — CC BY-SA 3.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pueraria_montana.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Dalgial"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cát Căn (Pueraria montana). Ảnh: Dalgial / Wikimedia Commons — CC BY-SA 3.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pueraria_montana_2.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Dalgial"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cát Căn (Pueraria montana). Ảnh: Schurdl / Wikimedia Commons — CC BY-SA 4.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pueraria_montana_190929_01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Schurdl"
+    }
+  ]
+}

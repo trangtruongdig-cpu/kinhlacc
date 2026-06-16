@@ -1,11 +1,30 @@
 {
-  "_note": "Thư viện ảnh Cam Thảo (vị thuốc id=25). Ảnh mẫu là SVG placeholder — thay bằng ảnh thật khi có.",
+  "_source": "Wikimedia Commons",
+  "_sci": "Glycyrrhiza uralensis",
   "images": [
-    { "file": "1.svg", "giai_doan": "Cây thuốc", "mo_ta": "Glycyrrhiza uralensis — cây cam thảo nơi nguyên thuỷ." },
-    { "file": "2.svg", "giai_doan": "Thu hái", "mo_ta": "Đào lấy rễ và thân rễ vào mùa thu." },
-    { "file": "3.svg", "giai_doan": "Sơ chế", "mo_ta": "Rửa sạch đất, cắt khúc." },
-    { "file": "4.svg", "giai_doan": "Phơi/sấy", "mo_ta": "Phơi hoặc sấy khô để bảo quản." },
-    { "file": "5.svg", "giai_doan": "Bào chế", "mo_ta": "Chích cam thảo — tẩm mật, sao vàng (tăng tính bổ)." },
-    { "file": "6.svg", "giai_doan": "Phiến/thành phẩm", "mo_ta": "Cam thảo phiến — sẵn sàng bốc thuốc." }
+    {
+      "file": "1.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cam Thảo (Glycyrrhiza uralensis). Ảnh: Erin Silversmith / Wikimedia Commons — CC BY-SA 4.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Glycyrrhiza_glabra_(Pile_of_Spanish_wood_chips).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Erin Silversmith"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cam Thảo (Glycyrrhiza uralensis). Ảnh: Stickpen / Wikimedia Commons — Public domain",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Glycyrrhizauralensis.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Stickpen"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cam Thảo (Glycyrrhiza uralensis). Ảnh: Tanohei at Japanese Wikipedia / Wikimedia Commons — CC BY 3.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Glycyrrhiza_uralensis_stolon.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Tanohei at Japanese Wikipedia"
+    }
   ]
 }

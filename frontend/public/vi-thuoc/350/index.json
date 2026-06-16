@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Forsythia suspensa",
+  "images": [
+    {
+      "file": "1.png",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Liên Kiều (Forsythia suspensa). Ảnh: Philipp Franz von Siebold and Joseph Gerhard Zuccarini / Wikimedia Commons — Public domain",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Forsythia_suspensa_SZ3.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Philipp Franz von Siebold and Joseph Gerhard Zuccarini"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Liên Kiều (Forsythia suspensa). Ảnh: KENPEI / Wikimedia Commons — CC BY-SA 3.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Forsythia_suspensa1.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "KENPEI"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Liên Kiều (Forsythia suspensa). Ảnh: Ishizaki Yūshi / Wikimedia Commons — Public domain",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Naturalis_Biodiversity_Center_-_RMNH.ART.845_-_Forsythia_suspensa_-_Y%C5%ABshi_Ishizaki_-_Cock_Blomhoff_Collection_-_pencil_drawing_-_water_colour.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Ishizaki Yūshi"
+    }
+  ]
+}
