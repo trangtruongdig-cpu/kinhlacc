@@ -17,6 +17,16 @@ export class BaiThuocRouter {
     return this.service.findOptions();
   }
 
+  // Phải đứng TRƯỚC @Get(':id') để route 'compare' không bị match như id.
+  @Get('compare')
+  compare(@Query('ids') ids?: string) {
+    const list = (ids ?? '')
+      .split(',')
+      .map((s) => parseInt(s.trim(), 10))
+      .filter((n) => Number.isFinite(n) && n > 0);
+    return this.service.compareBaiThuoc(list);
+  }
+
   // Phải đứng TRƯỚC @Get(':id') để route 'lite' không bị match như id.
   @Get('lite')
   findLite(
@@ -81,7 +91,10 @@ export class BaiThuocRouter {
   }
 
   @Post(':id/analyze')
-  async analyze(@Param('id') id: string) {
-    return this.service.analyzeBaiThuoc(+id);
+  async analyze(
+    @Param('id') id: string,
+    @Body() body?: { overrides?: Array<{ idViThuoc: number; gram: number }> },
+  ) {
+    return this.service.analyzeBaiThuoc(+id, body?.overrides);
   }
 }

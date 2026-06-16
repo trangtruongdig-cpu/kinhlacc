@@ -2,7 +2,14 @@
   "permissions": {
     "allow": [
       "Bash(PYTHONIOENCODING=utf-8 \"venv/Scripts/python.exe\" train.py --source dataset)",
-      "Bash(curl -s -X POST http://localhost:3002/reload-model)"
+      "Bash(curl -s -X POST http://localhost:3002/reload-model)",
+      "Bash(NODE_PATH=\"c:/Users/This PC/Desktop/kinhlac/backend/node_modules\" node tools/_fill-vi-thuoc-latin.cjs)",
+      "WebSearch",
+      "Bash(NODE_PATH=\"c:/Users/This PC/Desktop/kinhlac/backend/node_modules\" node tools/enrich-vi-thuoc.cjs --limit=6)",
+      "Bash(NODE_PATH=\"c:/Users/This PC/Desktop/kinhlac/backend/node_modules\" node tools/import-new-vi-thuoc.cjs --limit=5 --dry)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\This PC\\.claude\\projects\\c--Users-This-PC-Desktop-kinhlac\\memory"
     ]
   }
 }

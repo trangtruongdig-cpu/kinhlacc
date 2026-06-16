@@ -75,6 +75,19 @@ function normalizeKinh(raw: string): string {
   return YHCT_KINH_ALIAS[s.toLowerCase()] ?? s
 }
 
+// Tên tạng/phủ ngắn, ưu tiên khớp tên dài trước ("Tâm Bào" trước "Tâm") để tránh nhận nhầm.
+const YHCT_KINH_BY_LEN = [...YHCT_KINH_ORDER].sort((a, b) => b.length - a.length)
+// Rút gọn chuỗi quy kinh đầy đủ (vd "Thủ Thiếu Âm Tâm, Túc Thiếu Âm Thận") về tạng/phủ ("Tâm, Thận").
+function shortKinh(raw: string | null | undefined): string {
+  const out: string[] = []
+  for (const part of String(raw || '').split(/[,;，、]/).map((s) => s.trim()).filter(Boolean)) {
+    const norm = normalizeKinh(part)
+    if ((YHCT_KINH_ORDER as readonly string[]).includes(norm)) out.push(norm)
+    else out.push(YHCT_KINH_BY_LEN.find((ref) => norm.includes(ref)) ?? part)
+  }
+  return [...new Set(out)].join(', ')
+}
+
 const ROLE_COLORS: Record<string, string> = {
   'Quân': '#DC2626', 'Thần': '#F97316', 'Tá': '#16A34A', 'Sứ': '#2563EB',
 }
@@ -85,8 +98,10 @@ function parseLieuToGram(s: string | null | undefined): number {
   if (t === '*') return 2.25
   if (t === '#') return 22.5
   let m: RegExpMatchArray | null
-  m = t.match(/^([\d.]+)\s*(?:lượng|lạng)\b/); if (m && m[1]) return parseFloat(m[1]) * 30
-  m = t.match(/^([\d.]+)\s*(?:tiền|chỉ)\b/); if (m && m[1]) return parseFloat(m[1]) * 3
+  // "bán" / "nửa" = 1/2 vị (vd "bán tiền" = 0.5 tiền = 1.5g, "bán lượng" = 0.5 lượng = 15g).
+  const qty = (raw: string) => (raw === 'bán' || raw === 'nửa' ? 0.5 : parseFloat(raw))
+  m = t.match(/^(bán|nửa|[\d.]+)\s*(?:lượng|lạng)\b/); if (m && m[1]) return qty(m[1]) * 30
+  m = t.match(/^(bán|nửa|[\d.]+)\s*(?:tiền|chỉ)\b/); if (m && m[1]) return qty(m[1]) * 3
   m = t.match(/^([\d.]+)/); if (m && m[1]) return parseFloat(m[1])
   return 9
 }
@@ -493,7 +508,7 @@ onBeforeUnmount(destroyCharts)
                   <td class="ana-vt-role">
                     <span class="ana-role-chip" :style="{ background: v.color }">{{ v.vai_tro }}</span>
                   </td>
-                  <td class="ana-vt-qk">{{ v.quy_kinh || '—' }}</td>
+                  <td class="ana-vt-qk">{{ shortKinh(v.quy_kinh) || '—' }}</td>
                 </tr>
               </tbody>
             </table>

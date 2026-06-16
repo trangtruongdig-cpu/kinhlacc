@@ -57,7 +57,7 @@ export class ViThuocService {
     if (q) {
       const term = `%${q}%`;
       qb.andWhere(
-        '(vt.ten_vi_thuoc ILIKE :term OR vt.tinh ILIKE :term OR vt.vi ILIKE :term OR vt.quy_kinh ILIKE :term OR vt.lieu_dung ILIKE :term)',
+        '(vt.ten_vi_thuoc ILIKE :term OR vt.tinh ILIKE :term OR vt.vi ILIKE :term OR vt.quy_kinh ILIKE :term OR vt.lieu_dung ILIKE :term OR vt.ten_khoa_hoc ILIKE :term OR vt.ten_han ILIKE :term OR vt.ten_pinyin ILIKE :term OR vt.bo_phan_dung ILIKE :term)',
         { term },
       );
     }
@@ -106,6 +106,10 @@ export class ViThuocService {
     if (dto.vi !== undefined) o.vi = dto.vi;
     if (dto.quy_kinh !== undefined) o.quy_kinh = dto.quy_kinh;
     if (dto.lieu_dung !== undefined) o.lieu_dung = dto.lieu_dung;
+    if (dto.ten_khoa_hoc !== undefined) o.ten_khoa_hoc = dto.ten_khoa_hoc;
+    if (dto.ten_han !== undefined) o.ten_han = dto.ten_han;
+    if (dto.ten_pinyin !== undefined) o.ten_pinyin = dto.ten_pinyin;
+    if (dto.bo_phan_dung !== undefined) o.bo_phan_dung = dto.bo_phan_dung;
     return o;
   }
 
