@@ -101,7 +101,12 @@ import MedicalDisclaimer from '@/components/MedicalDisclaimer.vue'
     </p>
     <ul>
       <li>
-        Gửi yêu cầu tới email <a href="mailto:baomat@kinhlac.online">baomat@kinhlac.online</a> hoặc gọi
+        <strong>Tự xoá trực tuyến:</strong> truy cập trang
+        <a href="/xoa-tai-khoan">kinhlac.online/xoa-tai-khoan</a>, xác minh bằng số điện thoại và mật khẩu
+        rồi gửi yêu cầu — không cần cài đặt ứng dụng.
+      </li>
+      <li>
+        Hoặc gửi yêu cầu tới email <a href="mailto:baomat@kinhlac.online">baomat@kinhlac.online</a> hoặc gọi
         <a href="tel:0353247247">0353.247.247</a>, ghi rõ số điện thoại đăng ký tài khoản.
       </li>
       <li>

@@ -304,6 +304,25 @@
       }
     },
     {
+      "name": "xoa-tai-khoan",
+      "path": "/xoa-tai-khoan",
+      "breadcrumb": [{ "name": "Yêu Cầu Xoá Tài Khoản", "path": "/xoa-tai-khoan" }],
+      "priority": "0.2",
+      "changefreq": "yearly",
+      "ogType": "website",
+      "index": false,
+      "title": "Yêu Cầu Xoá Tài Khoản & Dữ Liệu — Kinh Lạc Trương Gia",
+      "description": "Trang để người dùng ứng dụng Kinh Lạc Trương Gia yêu cầu xoá tài khoản và dữ liệu cá nhân: xác minh bằng số điện thoại và mật khẩu, hoặc gửi yêu cầu qua email.",
+      "keywords": ["xoá tài khoản", "xoá dữ liệu", "account deletion"],
+      "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Yêu Cầu Xoá Tài Khoản & Dữ Liệu — Kinh Lạc Trương Gia",
+        "url": "https://kinhlac.online/xoa-tai-khoan",
+        "inLanguage": "vi"
+      }
+    },
+    {
       "name": "dieu-khoan",
       "path": "/dieu-khoan",
       "breadcrumb": [{ "name": "Điều Khoản Sử Dụng", "path": "/dieu-khoan" }],

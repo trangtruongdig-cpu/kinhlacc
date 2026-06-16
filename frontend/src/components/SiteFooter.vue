@@ -14,6 +14,7 @@ const trustLinks = [
   { to: '/lien-he', label: 'Liên Hệ' },
   { to: '/chinh-sach-bao-mat', label: 'Chính Sách Bảo Mật' },
   { to: '/quyen-rieng-tu-app', label: 'Quyền Riêng Tư (App)' },
+  { to: '/xoa-tai-khoan', label: 'Xoá Tài Khoản' },
   { to: '/dieu-khoan', label: 'Điều Khoản Sử Dụng' },
   { to: '/quy-trinh-bien-tap', label: 'Quy Trình Biên Tập' },
 ]
