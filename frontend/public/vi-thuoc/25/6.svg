@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="600" height="450" viewBox="0 0 600 450" role="img" aria-label="Cam Thảo - Phiến thành phẩm">
-  <defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C8A96A"/><stop offset="1" stop-color="#A07D3E"/></linearGradient></defs>
-  <rect width="600" height="450" fill="url(#g)"/>
-  <text x="36" y="150" font-family="Segoe UI, Arial, sans-serif" font-size="160" font-weight="800" fill="rgba(255,255,255,0.25)">6</text>
-  <text x="300" y="210" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="42" font-weight="800" fill="#ffffff">Cam Thảo</text>
-  <text x="300" y="262" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="700" letter-spacing="1" fill="#ffffff">PHIẾN / THÀNH PHẨM</text>
-  <text x="300" y="300" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="rgba(255,255,255,0.92)">Sẵn sàng bốc thuốc</text>
-  <text x="300" y="424" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="13" fill="rgba(255,255,255,0.7)">Ảnh minh hoạ — thay bằng ảnh thật</text>
-</svg>

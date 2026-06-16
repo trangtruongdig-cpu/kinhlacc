@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Angelica dahurica",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bạch Chỉ (Angelica dahurica). Ảnh: Alicia-C / Wikimedia Commons — CC BY 2.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Angelica_dahurica_(8855221294).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "Alicia-C"
+    },
+    {
+      "file": "2.png",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bạch Chỉ (Angelica dahurica). Ảnh: Chu chong chiong / Wikimedia Commons — Public domain",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Angelica_dahurica_Text.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Chu chong chiong"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bạch Chỉ (Angelica dahurica). Ảnh: Turczaninow, Nicolaus, 1796-1864 Turczaninow, Nicolaus, 1796-1864 / Wikimedia Commons — Public domain",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Addenda,_emendanda_ad_Floram_Baicalensi-Dahuricam_(IA_addendaemendanda00turc).pdf",
+      "giay_phep": "Public domain",
+      "tac_gia": "Turczaninow, Nicolaus, 1796-1864 Turczaninow, Nicolaus, 1796-1864"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Ziziphus jujuba",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Đại Táo (Ziziphus jujuba). Ảnh: Javier martin / Wikimedia Commons — Public domain",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ziziphus_jujuba_Habitus_2010-10-26_ArboretoParqueElPilarCiudadReal.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Javier martin"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Đại Táo (Ziziphus jujuba). Ảnh: L.H. @ USDA-NRCS PLANTS Database / Wikimedia Commons — Public domain",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ziziphus_jujuba_line_drawing.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "L.H. @ USDA-NRCS PLANTS Database"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Đại Táo (Ziziphus jujuba). Ảnh: Harmanis de Alwis / Wikimedia Commons — Public domain",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ziziphus_jujuba_by_H._de_Alwis.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Harmanis de Alwis"
+    }
+  ]
+}

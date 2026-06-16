@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Chrysanthemum morifolium",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cúc Hoa (Chrysanthemum morifolium). Ảnh: 池田正樹 (talk)masaki ikeda / Wikimedia Commons — Public domain",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chrysanthemum_morifolium_08NOV.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "池田正樹 (talk)masaki ikeda"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cúc Hoa (Chrysanthemum morifolium). Ảnh: Jebulon / Wikimedia Commons — CC0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chrysanthemum_%C3%97_morifolium_Dompierre_1.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Jebulon"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cúc Hoa (Chrysanthemum morifolium). Ảnh: Jebulon / Wikimedia Commons — CC0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chrysanthemum_x_morifolium_Dompierre_2.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Jebulon"
+    }
+  ]
+}

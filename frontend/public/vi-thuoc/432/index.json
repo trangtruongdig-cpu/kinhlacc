@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Scutellaria baicalensis",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Hoa",
+      "mo_ta": "Hoàng Cầm (Scutellaria baicalensis). Ảnh: Doronenko / Wikimedia Commons — CC BY 3.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Scutellaria_baicalensis_flowers.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Doronenko"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Hoàng Cầm (Scutellaria baicalensis). Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons — CC BY-SA 4.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Scutellaria_baicalensis_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Hoàng Cầm (Scutellaria baicalensis). Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons — CC BY-SA 4.0",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Scutellaria_baicalensis_kz04.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    }
+  ]
+}
