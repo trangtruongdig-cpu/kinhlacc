@@ -161,6 +161,8 @@ export interface AnalysisHerbInput {
   vai_tro_nhap: string;
   /** Công năng (功效) của vị — từ vi_thuoc_cong_dung. */
   congNang?: string[];
+  /** Nhóm dược lý (nhóm nhỏ) của vị — vd "Tân Ôn Giải Biểu". Thường 1 nhóm. */
+  nhomNho?: string[];
 }
 
 export interface AnalysisVtRow {
@@ -190,6 +192,8 @@ export interface FormulaAnalysis {
   kiengKy: string[];
   /** Công năng tổng hợp của bài (gộp từ các vị, trọng số theo gram), giảm dần. */
   congNang: Array<{ ten: string; score: number }>;
+  /** Phân bố nhóm dược lý của bài (gộp nhóm các vị, trọng số gram × vai trò), giảm dần. */
+  nhomPhanBo: Array<{ ten: string; score: number; soVi: number }>;
   /** Câu luận giải tổng hợp (template, không LLM). */
   luanGiai: string;
   /** Nhận định rule-based: cảnh báo Tứ Khí lệch + tương tác ngũ vị (sinh hóa). */
@@ -226,32 +230,69 @@ const NGU_VI_LABEL: Record<string, string> = {
   chua: 'chua', dang: 'đắng', ngot: 'ngọt', cay: 'cay', man: 'mặn',
 };
 
-/** Sinh câu luận giải tổng hợp từ các trục đã tính (rule-based). */
+/**
+ * Sinh câu luận giải tổng hợp (rule-based, không LLM).
+ * Dệt cấu trúc Quân–Thần–Tá–Sứ (tên vị + tỉ trọng Quân + đồng quy kinh Quân–Thần) cùng trục
+ * Tứ khí / Ngũ vị / Quy kinh và công năng nổi bật, để câu luận có chất "phương giải" (方解).
+ */
 function buildLuanGiai(a: {
-  quanTen: string;
   tuKhi: FormulaAnalysis['tuKhi'];
   nguVi: FormulaAnalysis['nguVi'];
   quyKinhNorm: Record<string, number>;
   congNang: Array<{ ten: string; score: number }>;
+  viThuocList: AnalysisVtRow[];
+  W: number;
 }): string {
   const topKey = (obj: Record<string, number>, min = 0): string[] =>
     Object.entries(obj).filter(([, v]) => v > min).sort((x, y) => y[1] - x[1]).map(([k]) => k);
 
+  // ── Cấu trúc Quân–Thần–Tá–Sứ: nêu tên vị theo từng vai trò ──
+  const byRole = (r: Role) => a.viThuocList.filter((v) => v.vai_tro === r);
+  const joinTen = (rows: AnalysisVtRow[], n = 3) => {
+    const t = rows.map((v) => v.ten);
+    return t.length > n ? `${t.slice(0, n).join(', ')}…` : t.join(', ');
+  };
+  const quan = byRole('Quân');
+  const than = byRole('Thần');
+  const ta = byRole('Tá');
+  const su = byRole('Sứ');
+
+  const vaiTro: string[] = [];
+  if (quan.length) {
+    const pct = Math.round((quan.reduce((s, v) => s + v.gram, 0) / (a.W || 1)) * 100);
+    vaiTro.push(`lấy ${joinTen(quan)} làm Quân${pct ? ` (~${pct}% tổng liều)` : ''}`);
+  }
+  if (than.length) vaiTro.push(`${joinTen(than)} làm Thần phụ trợ`);
+  if (ta.length) vaiTro.push(`${joinTen(ta)} làm Tá`);
+  if (su.length) vaiTro.push(`${joinTen(su)} làm Sứ dẫn kinh – điều hoà`);
+  const cauTruc = vaiTro.length ? `Bài ${vaiTro.join('; ')}.` : '';
+
+  // ── Đồng quy kinh Quân–Thần: dấu hiệu hợp lực, tăng tính kết dính của bài ──
+  const kinhSet = (rows: AnalysisVtRow[]) =>
+    new Set(rows.flatMap((v) => (v.quy_kinh || '')
+      .split(/[,;，、]/).map((k) => normalizeKinh(k.trim())).filter(Boolean)));
+  let hopLuc = '';
+  if (quan.length && than.length) {
+    const qk = kinhSet(quan);
+    const chung = [...kinhSet(than)].filter((k) => qk.has(k)).slice(0, 3);
+    if (chung.length) hopLuc = `Thần đồng quy ${chung.join(', ')} với Quân, hợp lực tăng hiệu lực chủ đạo.`;
+  }
+
+  // ── Tính – Vị – Quy kinh tổng thể ──
   const tuKhiKey = topKey(a.tuKhi)[0];
   const viList = topKey(a.nguVi).slice(0, 3).map((k) => NGU_VI_LABEL[k] ?? k);
   const kinhList = topKey(a.quyKinhNorm, 0.5).slice(0, 3); // quy kinh chuẩn hoá 0–1
-  const cnList = a.congNang.slice(0, 3).map((c) => c.ten);
-
-  const parts: string[] = [];
-  if (a.quanTen) parts.push(`Bài lấy ${a.quanTen} làm Quân`);
   const tinhPhrase = tuKhiKey ? `thiên ${TU_KHI_LABEL[tuKhiKey] ?? tuKhiKey}` : '';
   const viPhrase = viList.length ? `vị ${viList.join('-')}` : '';
   const kinhPhrase = kinhList.length ? `quy chủ yếu ${kinhList.join(', ')}` : '';
   const tvk = [tinhPhrase, viPhrase, kinhPhrase].filter(Boolean).join(', ');
-  if (tvk) parts.push(tvk);
-  const body = parts.join('; ');
+  const tinhVi = tvk ? `Tổng thể ${tvk}.` : '';
+
+  // ── Công năng nổi bật ──
+  const cnList = a.congNang.slice(0, 3).map((c) => c.ten);
   const cnPhrase = cnList.length ? `Công năng nổi bật: ${cnList.join(', ')}.` : '';
-  return [body ? body + '.' : '', cnPhrase].filter(Boolean).join(' ');
+
+  return [cauTruc, hopLuc, tinhVi, cnPhrase].filter(Boolean).join(' ');
 }
 
 /**
@@ -273,7 +314,7 @@ export function analyzeFormula(input: {
     tuKhi: { daiHan: 0, han: 0, luong: 0, binh: 0, on: 0, nhiet: 0, daiNhiet: 0 },
     nguVi: { chua: 0, dang: 0, ngot: 0, cay: 0, man: 0 },
     tgpt: { thang: 0, phu: 0, giang: 0, tram: 0 },
-    chungTrang, kiengKy, congNang: [], luanGiai: '', nhanDinh: [],
+    chungTrang, kiengKy, congNang: [], nhomPhanBo: [], luanGiai: '', nhanDinh: [],
   });
   if (!herbs.length) return empty();
 
@@ -352,9 +393,25 @@ export function analyzeFormula(input: {
     .map(([ten, score]) => ({ ten, score: Math.round(score * 100) / 100 }))
     .sort((a, b) => b.score - a.score);
 
-  const quanTen = viThuocList.find((v) => v.vai_tro === 'Quân')?.ten ?? '';
-  const luanGiai = buildLuanGiai({ quanTen, tuKhi, nguVi, quyKinhNorm, congNang });
+  // Phân bố nhóm dược lý — gộp nhóm từng vị, trọng số gram × vai trò + đếm số vị.
+  const nhomAgg = new Map<string, { score: number; soVi: number }>();
+  for (const h of herbs) {
+    const w = (h.gram / W) * ROLE_WEIGHT[effRole(h)];
+    for (const nm of h.nhomNho ?? []) {
+      const name = (nm || '').trim();
+      if (!name) continue;
+      const cur = nhomAgg.get(name) ?? { score: 0, soVi: 0 };
+      cur.score += w;
+      cur.soVi += 1;
+      nhomAgg.set(name, cur);
+    }
+  }
+  const nhomPhanBo = [...nhomAgg.entries()]
+    .map(([ten, v]) => ({ ten, score: Math.round(v.score * 100) / 100, soVi: v.soVi }))
+    .sort((a, b) => b.score - a.score);
+
+  const luanGiai = buildLuanGiai({ tuKhi, nguVi, quyKinhNorm, congNang, viThuocList, W });
   const nhanDinh = buildNhanDinh(tuKhi, nguVi);
 
-  return { empty: false, ten, W, quyKinhNorm, tuKhi, nguVi, tgpt, viThuocList, chungTrang, kiengKy, congNang, luanGiai, nhanDinh };
+  return { empty: false, ten, W, quyKinhNorm, tuKhi, nguVi, tgpt, viThuocList, chungTrang, kiengKy, congNang, nhomPhanBo, luanGiai, nhanDinh };
 }

@@ -671,6 +671,24 @@ export class BaiThuocService {
       }
     }
 
+    // Gắn nhóm dược lý (nhóm nhỏ) cho từng vị → engine tính phân bố nhóm của bài.
+    const herbIds = herbs.map((h) => h.id);
+    if (herbIds.length) {
+      const nhomRows: Array<{ id_vi_thuoc: number; ten_nhom: string }> = await this.repo.query(
+        `SELECT nv.id_vi_thuoc, nn.ten_nhom
+           FROM nhom_nho_vi_thuoc nv JOIN nhom_nho_duoc_ly nn ON nn.id = nv.id_nhom_nho
+          WHERE nv.id_vi_thuoc = ANY($1)`,
+        [herbIds],
+      );
+      const byHerb = new Map<number, string[]>();
+      for (const r of nhomRows) {
+        const arr = byHerb.get(r.id_vi_thuoc) ?? [];
+        arr.push(r.ten_nhom);
+        byHerb.set(r.id_vi_thuoc, arr);
+      }
+      for (const h of herbs) h.nhomNho = byHerb.get(h.id) ?? [];
+    }
+
     const analysis = analyzeFormula({ ten: baiThuoc.ten_bai_thuoc, herbs, chungTrang, kiengKy });
 
     // Cấm kỵ phối ngũ: quét mọi cặp vị trong bài trúng bảng tương phản/tương úy.

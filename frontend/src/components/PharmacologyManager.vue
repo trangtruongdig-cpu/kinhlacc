@@ -39,6 +39,45 @@ const selectedNhomLon = computed(
   () => nhomLonList.value.find((n) => n.id === selectedNhomLonId.value) || null,
 )
 
+// ── Số liệu + tìm kiếm ─────────────────────────────────────────
+const searchTerm = ref('')
+
+function herbCountOfNhomLon(nl: NhomLon): number {
+  return (nl.nhomNhoList ?? []).reduce((s, nn) => s + (nn.viThuocLinks?.length ?? 0), 0)
+}
+
+const totals = computed(() => {
+  let nho = 0
+  let herbs = 0
+  for (const nl of nhomLonList.value) {
+    nho += nl.nhomNhoList?.length ?? 0
+    herbs += herbCountOfNhomLon(nl)
+  }
+  return { lon: nhomLonList.value.length, nho, herbs }
+})
+
+function nhomNhoMatches(nn: NhomNho, q: string): boolean {
+  if (nn.ten_nhom.toLowerCase().includes(q)) return true
+  return (nn.viThuocLinks ?? []).some((l) =>
+    (l.viThuoc?.ten_vi_thuoc || viThuocName(l.idViThuoc)).toLowerCase().includes(q),
+  )
+}
+
+/** Số nhóm nhỏ của 1 nhóm lớn khớp từ khoá (gợi ý ở cột trái khi đang tìm). */
+function matchCountOfNhomLon(nl: NhomLon): number {
+  const q = searchTerm.value.trim().toLowerCase()
+  if (!q) return 0
+  return (nl.nhomNhoList ?? []).filter((nn) => nhomNhoMatches(nn, q)).length
+}
+
+/** Nhóm nhỏ hiển thị trong cột phải (đã lọc theo từ khoá nếu có). */
+const visibleNhomNho = computed<NhomNho[]>(() => {
+  const list = selectedNhomLon.value?.nhomNhoList ?? []
+  const q = searchTerm.value.trim().toLowerCase()
+  if (!q) return list
+  return list.filter((nn) => nhomNhoMatches(nn, q))
+})
+
 // ── Modals state ───────────────────────────────────────────────
 const showNhomLonModal = ref(false)
 const editingNhomLon = ref<NhomLon | null>(null)
@@ -852,10 +891,17 @@ async function onImportFileChange(ev: Event) {
             @change="onImportFileChange"
           />
         </div>
-        <p class="toolbar-hint">
-          Cột «Vị thuốc», «Chủ trị» dùng dấu phẩy để ngăn cách. Trùng tên nhóm sẽ được cập nhật, vị
-          thuốc / chủ trị mới sẽ được tự tạo.
-        </p>
+        <div class="toolbar-search">
+          <input
+            v-model="searchTerm"
+            type="search"
+            class="search-input"
+            placeholder="🔍 Tìm nhóm hoặc vị thuốc…"
+          />
+          <span class="totals-badge" title="Tổng quan">
+            {{ totals.lon }} nhóm lớn · {{ totals.nho }} nhóm nhỏ · {{ totals.herbs }} vị
+          </span>
+        </div>
       </div>
 
     <div class="duoc-ly-grid">
@@ -878,7 +924,12 @@ async function onImportFileChange(ev: Event) {
             @click="selectedNhomLonId = nl.id"
           >
             <div class="nhom-lon-name">{{ nl.ten_nhom }}</div>
-            <div class="nhom-lon-meta">{{ nl.nhomNhoList?.length || 0 }} nhóm nhỏ</div>
+            <div class="nhom-lon-meta">
+              {{ nl.nhomNhoList?.length || 0 }} nhóm nhỏ · {{ herbCountOfNhomLon(nl) }} vị
+              <span v-if="searchTerm.trim() && matchCountOfNhomLon(nl) > 0" class="match-badge">
+                {{ matchCountOfNhomLon(nl) }} khớp
+              </span>
+            </div>
             <div class="row-actions">
               <button class="icon-btn" title="Sửa" @click.stop="openEditNhomLon(nl)">✎</button>
               <button
@@ -910,11 +961,16 @@ async function onImportFileChange(ev: Event) {
           <p>Chưa có nhóm nhỏ. Nhấn «+ Nhóm nhỏ» để tạo.</p>
         </div>
 
+        <div v-else-if="!visibleNhomNho.length" class="empty-state">
+          <p>Không có nhóm nhỏ nào khớp «{{ searchTerm.trim() }}» trong nhóm lớn này.</p>
+        </div>
+
         <div v-else class="disease-grid">
-          <article v-for="nn in selectedNhomLon.nhomNhoList" :key="nn.id" class="disease-card">
+          <article v-for="nn in visibleNhomNho" :key="nn.id" class="disease-card">
             <header class="disease-card__head">
               <div class="disease-card__title">
                 <h4 class="disease-card__name">{{ nn.ten_nhom }}</h4>
+                <span class="count-chip">{{ nn.viThuocLinks?.length || 0 }} vị</span>
                 <span v-if="nn.lieu_luong" class="lieu-chip">{{ nn.lieu_luong }}</span>
               </div>
               <div class="row-actions">
@@ -1272,6 +1328,12 @@ async function onImportFileChange(ev: Event) {
 .toolbar { display: flex; flex-direction: column; gap: 6px; margin-bottom: var(--space-4); }
 .toolbar-left { display: flex; gap: var(--space-2); flex-wrap: wrap; }
 .toolbar-hint { margin: 0; font-size: var(--font-size-xs); color: var(--gray-500); }
+.toolbar-search { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.search-input { flex: 1 1 240px; max-width: 360px; padding: 7px 12px; border: 1px solid var(--brown-200); border-radius: var(--radius-full); font-size: var(--font-size-sm); }
+.search-input:focus { outline: none; border-color: var(--brown-400); }
+.totals-badge { font-size: var(--font-size-xs); color: var(--brown-700); background: var(--brown-50); border: 1px solid var(--brown-100); padding: 4px 10px; border-radius: var(--radius-full); white-space: nowrap; }
+.match-badge { display: inline-block; margin-left: 6px; padding: 1px 7px; background: var(--brown-700); color: #fff; border-radius: var(--radius-full); font-size: 10px; font-weight: 700; }
+.count-chip { display: inline-block; padding: 3px 9px; background: var(--brown-50); color: var(--brown-700); border: 1px solid var(--brown-100); border-radius: var(--radius-full); font-size: var(--font-size-xs); font-weight: 700; }
 .hidden-input { display: none; }
 
 /* Import progress */

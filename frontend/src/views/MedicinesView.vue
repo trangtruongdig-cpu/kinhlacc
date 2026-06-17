@@ -1346,7 +1346,6 @@ interface AnalysisResult {
   nguVi: { chua: number; dang: number; ngot: number; cay: number; man: number }
   tgpt: { thang: number; phu: number; giang: number; tram: number }
   chungTrangBaiThuoc: string
-  tacDungChips: string[]
   chuTriBaiThuoc: string[]
   kiengKyBaiThuoc: string[]
 }
@@ -1546,32 +1545,23 @@ function mergeChungTrangFromBt(bt: BaiThuoc): string {
 }
 
 /**
- * Chủ trị + Kiêng kỵ + Tác dụng cho bài thuốc.
+ * Chủ trị + Kiêng kỵ cho bài thuốc.
  * - Chủ trị: lấy từ `nhom_nho_chu_tri` của các nhóm nhỏ mà các vị thuốc thuộc về (theo yêu cầu).
- * - Tác dụng: chip "Nhóm lớn - Nhóm nhỏ" cho mọi nhóm các vị thuốc thuộc về (loại trùng).
  * - Kiêng kỵ: giữ nguyên — từ `vi_thuoc_kieng_ky` trực tiếp trên vị thuốc.
+ * Phân bố nhóm dược lý nay chỉ hiển thị ở mục 6 (bản định lượng theo liều × vai trò).
  */
 function deriveBaiThuocAggregates(items: { vt: ViThuocLite }[]) {
   const normKey = (s: string) => s.trim().toLowerCase().replace(/\s+/g, ' ')
   const seenCt = new Set<string>()
   const seenKk = new Set<string>()
-  const seenTd = new Set<string>()
   const ct: string[] = []
   const kk: string[] = []
-  const td: string[] = []
   const groupsMap = vtIdToGroups.value
 
   for (const { vt } of items) {
-    // Tác dụng + chủ trị từ nhóm dược lý
+    // Chủ trị từ nhóm dược lý
     const groups = groupsMap.get(vt.id) ?? []
     for (const g of groups) {
-      const tenNho = (g.ten_nhom || '').trim()
-      const tenLon = (g.nhomLon?.ten_nhom || '').trim()
-      const label = tenLon && tenNho ? `${tenLon} - ${tenNho}` : (tenNho || tenLon)
-      if (label) {
-        const k = normKey(label)
-        if (!seenTd.has(k)) { seenTd.add(k); td.push(label) }
-      }
       for (const l of g.chuTriLinks ?? []) {
         const n = (l.chuTri?.ten_chu_tri || '').trim()
         if (!n) continue
@@ -1595,8 +1585,7 @@ function deriveBaiThuocAggregates(items: { vt: ViThuocLite }[]) {
   }
   ct.sort((a, b) => a.localeCompare(b, 'vi'))
   kk.sort((a, b) => a.localeCompare(b, 'vi'))
-  td.sort((a, b) => a.localeCompare(b, 'vi'))
-  return { chuTriBaiThuoc: ct, kiengKyBaiThuoc: kk, tacDungChips: td }
+  return { chuTriBaiThuoc: ct, kiengKyBaiThuoc: kk }
 }
 
 function analyzeBaiThuoc(bt: BaiThuoc): AnalysisResult {
@@ -1621,7 +1610,6 @@ function analyzeBaiThuoc(bt: BaiThuoc): AnalysisResult {
       nguVi: { chua: 0, dang: 0, ngot: 0, cay: 0, man: 0 },
       tgpt: { thang: 0, phu: 0, giang: 0, tram: 0 },
       chungTrangBaiThuoc: '',
-      tacDungChips: [],
       chuTriBaiThuoc: [],
       kiengKyBaiThuoc: [],
     }
@@ -1707,7 +1695,7 @@ function analyzeBaiThuoc(bt: BaiThuoc): AnalysisResult {
     addTgptBucket(tgpt, v, wPct)
   }
 
-  const { chuTriBaiThuoc, kiengKyBaiThuoc, tacDungChips } = deriveBaiThuocAggregates(items)
+  const { chuTriBaiThuoc, kiengKyBaiThuoc } = deriveBaiThuocAggregates(items)
 
   return {
     empty: false,
@@ -1720,7 +1708,6 @@ function analyzeBaiThuoc(bt: BaiThuoc): AnalysisResult {
     nguVi,
     tgpt,
     chungTrangBaiThuoc: mergeChungTrangFromBt(bt),
-    tacDungChips,
     chuTriBaiThuoc,
     kiengKyBaiThuoc,
   }
@@ -1745,6 +1732,7 @@ interface AnalysisEnrich {
   luanGiai: string
   congNang: { ten: string; score: number }[]
   tuongPhan: { loai: 'phản' | 'úy'; tenA: string; tenB: string; ghiChu: string | null }[]
+  nhomPhanBo: { ten: string; score: number; soVi: number }[]
   nhanDinh: string[]
 }
 const anaEnrich = ref<AnalysisEnrich | null>(null)
@@ -1827,6 +1815,7 @@ async function openAnalysis(bt: BaiThuoc) {
               luanGiai: res.luanGiai ?? '',
               congNang: res.congNang ?? [],
               tuongPhan: res.tuongPhan ?? [],
+              nhomPhanBo: res.nhomPhanBo ?? [],
               nhanDinh: res.nhanDinh ?? [],
             }
           : null
@@ -1843,6 +1832,17 @@ function closeAnalysis() {
   anaResult.value = null
   anaEnrich.value = null
   anaVtRows.splice(0, anaVtRows.length)
+}
+
+/** Cross-link: từ phân bố nhóm trong phân tích → mở tab Vị thuốc lọc theo nhóm nhỏ đó. */
+function goToNhom(tenNhom: string) {
+  const key = tenNhom.trim().toLowerCase()
+  const nn = nhomNhoList.value.find((x) => (x.ten_nhom || '').trim().toLowerCase() === key)
+  closeAnalysis()
+  activeTab.value = 'vi-thuoc'
+  viFilterNhomLonId.value = null
+  viFilterNhomNhoId.value = nn ? nn.id : null
+  // watcher trên viFilterNhomNhoId tự gọi loadViThuocPage()
 }
 
 function onGramInput(id: number, raw: string) {
@@ -3494,7 +3494,10 @@ async function suggestViThuocAi() {
                 </div>
 
                 <div class="ana-card">
-                  <div class="ana-section-title">5) Tổng hợp</div>
+                  <div class="ana-section-title">5) Định vị lâm sàng</div>
+                  <div class="ana-hint">Bài trị chứng/bệnh nào, chỉ định cụ thể ra sao và ai cần tránh.</div>
+
+                  <div class="ana-sub-title">Chứng trạng &amp; bệnh tương ứng</div>
                   <div
                     v-if="
                       anaResult.chungTrangBaiThuoc ||
@@ -3516,17 +3519,7 @@ async function suggestViThuocAi() {
                   </div>
                   <div v-else class="ana-muted">Chưa gán chứng trạng.</div>
 
-                  <div class="ana-sub-title">Tác dụng <span class="ana-sub-hint">(nhóm lớn - nhóm nhỏ)</span></div>
-                  <div v-if="anaResult.tacDungChips.length" class="ana-chip-row">
-                    <span
-                      v-for="(t, i) in anaResult.tacDungChips"
-                      :key="'td-' + i"
-                      class="ana-chip ana-chip-tacdung"
-                    >{{ t }}</span>
-                  </div>
-                  <div v-else class="ana-muted">Vị thuốc trong bài chưa được gán nhóm dược lý.</div>
-
-                  <div class="ana-sub-title">Chủ trị <span class="ana-sub-hint">(từ nhóm dược lý)</span></div>
+                  <div class="ana-sub-title">Chủ trị <span class="ana-sub-hint">(chỉ định, từ nhóm dược lý)</span></div>
                   <div v-if="anaResult.chuTriBaiThuoc.length" class="ana-chip-row">
                     <span
                       v-for="(t, i) in anaResult.chuTriBaiThuoc"
@@ -3536,7 +3529,7 @@ async function suggestViThuocAi() {
                   </div>
                   <div v-else class="ana-muted">Nhóm dược lý của các vị thuốc chưa gắn chủ trị.</div>
 
-                  <div class="ana-sub-title">Kiêng kỵ</div>
+                  <div class="ana-sub-title">Kiêng kỵ <span class="ana-sub-hint">(chống chỉ định)</span></div>
                   <div v-if="anaResult.kiengKyBaiThuoc.length" class="ana-chip-row">
                     <span
                       v-for="(t, i) in anaResult.kiengKyBaiThuoc"
@@ -3547,9 +3540,10 @@ async function suggestViThuocAi() {
                   <div v-else class="ana-muted">Chưa có kiêng kỵ từ các vị thuốc trong bài.</div>
                 </div>
 
-                <!-- 6) Luận giải tổng hợp + cảnh báo cấm kỵ phối ngũ (tính ở backend) -->
+                <!-- 6) Luận giải định lượng + cảnh báo cấm kỵ phối ngũ (tính ở backend) -->
                 <div v-if="anaEnrich" class="ana-card">
                   <div class="ana-section-title">6) Luận giải &amp; Cảnh báo phối ngũ</div>
+                  <div class="ana-hint">Bài vận hành thế nào — suy luận định lượng theo liều × vai trò Quân–Thần–Tá–Sứ.</div>
 
                   <p v-if="anaEnrich.luanGiai" class="ana-luangiai">{{ anaEnrich.luanGiai }}</p>
 
@@ -3558,7 +3552,7 @@ async function suggestViThuocAi() {
                   </ul>
 
                   <template v-if="anaEnrich.congNang.length">
-                    <div class="ana-sub-title">Công năng tổng hợp <span class="ana-sub-hint">(trọng số theo liều)</span></div>
+                    <div class="ana-sub-title">Công năng tổng hợp <span class="ana-sub-hint">(功效 · trọng số liều × vai trò)</span></div>
                     <div class="ana-chip-row">
                       <span
                         v-for="(c, i) in anaEnrich.congNang.slice(0, 12)"
@@ -3568,7 +3562,21 @@ async function suggestViThuocAi() {
                     </div>
                   </template>
 
-                  <div class="ana-sub-title">Cấm kỵ phối ngũ <span class="ana-sub-hint">(18 phản / 19 úy)</span></div>
+                  <template v-if="anaEnrich.nhomPhanBo.length">
+                    <div class="ana-sub-title">Cơ cấu nhóm dược lý <span class="ana-sub-hint">(trọng số liều × vai trò · số vị · bấm để lọc)</span></div>
+                    <div class="ana-chip-row">
+                      <button
+                        v-for="(n, i) in anaEnrich.nhomPhanBo"
+                        :key="'np-' + i"
+                        type="button"
+                        class="ana-chip ana-chip-nhom"
+                        :title="`Lọc tab Vị thuốc theo nhóm: ${n.ten}`"
+                        @click="goToNhom(n.ten)"
+                      >{{ n.ten }} · {{ n.soVi }} vị</button>
+                    </div>
+                  </template>
+
+                  <div class="ana-sub-title">Cấm kỵ phối ngũ <span class="ana-sub-hint">(18 phản · 19 úy)</span></div>
                   <div v-if="anaEnrich.tuongPhan.length" class="ana-camky-list">
                     <div
                       v-for="(w, i) in anaEnrich.tuongPhan"
@@ -4806,6 +4814,8 @@ async function suggestViThuocAi() {
 .ana-chip-cong { border-color: #D4C5A0; background: #F5F0E8; color: #5B3A1A; }
 .ana-chip-kk { border-color: #E8A598; background: #FDF5F3; color: #7A2E23; }
 .ana-chip-tacdung { border-color: #C49A6C; background: #FAEBD8; color: #5B3A1A; }
+.ana-chip-nhom { border-color: #6FB1C4; background: #E6F4F8; color: #0E5566; cursor: pointer; transition: filter .12s; }
+.ana-chip-nhom:hover { filter: brightness(0.95); text-decoration: underline; }
 .ana-chip-tayy { border-color: var(--chip-brand-border); background: var(--chip-brand-bg); color: var(--chip-brand-fg); }
 .ana-sub-hint { font-weight: 400; color: var(--gray-400); font-size: 10px; }
 
