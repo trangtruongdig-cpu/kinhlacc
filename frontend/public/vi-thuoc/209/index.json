@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Magnolia officinalis",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Hoa",
+      "mo_ta": "Hoa Hậu Phác lớn, cánh trắng kem, nhị màu hồng đỏ ở giữa · Ảnh: Karlostachys / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Magnolia_au_Jardin_Jungle_Karlostachys.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Karlostachys"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cây Hậu Phác non mọc trong vườn rừng · Ảnh: Crusier / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Magnolia_officinalis_Rog%C3%B3w_2.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Crusier"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Lá",
+      "mo_ta": "Cụm lá lớn hình bầu dục xếp vòng, soi ngược nền trời · Ảnh: Crusier / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Magnolia_officinalis_Rog%C3%B3w.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Crusier"
+    }
+  ]
+}

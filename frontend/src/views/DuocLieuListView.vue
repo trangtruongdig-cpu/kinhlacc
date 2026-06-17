@@ -26,7 +26,15 @@ const items = ref<HerbLite[]>([])
 const total = ref(0)
 const loading = ref(true)
 const error = ref<string | null>(null)
+const thumbs = ref<Record<string, { thumb: string; giai_doan: string }>>({})
 let debounce: ReturnType<typeof setTimeout> | null = null
+
+async function loadThumbs() {
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL || '/'}vi-thuoc/thumbs.json`, { cache: 'no-cache' })
+    if (res.ok) thumbs.value = await res.json()
+  } catch { /* chưa có ảnh → bỏ qua */ }
+}
 
 async function load() {
   loading.value = true
@@ -53,6 +61,7 @@ watch(q, () => {
 watch(page, load)
 
 onMounted(() => {
+  loadThumbs()
   document.title = 'Từ điển dược liệu — tra cứu vị thuốc Đông Y | Kinh Lạc Trương Gia'
   const m = document.querySelector('meta[name="description"]')
   if (m) m.setAttribute('content', 'Tra cứu vị thuốc Đông Y: tính, vị, quy kinh, công dụng, chủ trị, kiêng kỵ và hình ảnh từ nguyên liệu đến thành phẩm.')
@@ -82,6 +91,14 @@ onMounted(() => {
         <ul class="dl-grid">
           <li v-for="vt in items" :key="vt.id">
             <RouterLink :to="{ name: 'duoc-lieu-detail', params: { id: vt.id } }" class="dl-card">
+              <img
+                v-if="thumbs[vt.id]"
+                class="dl-card-thumb"
+                :src="thumbs[vt.id]?.thumb"
+                :alt="`Ảnh ${vt.ten_vi_thuoc}`"
+                :title="thumbs[vt.id]?.giai_doan"
+                loading="lazy"
+              />
               <h3 class="dl-card-name">
                 {{ vt.ten_vi_thuoc }}
                 <span v-if="vt.ten_han" class="dl-card-han">{{ vt.ten_han }}</span>
@@ -118,6 +135,7 @@ onMounted(() => {
 .dl-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
 .dl-card { display: block; height: 100%; padding: 14px; border: 1px solid var(--border, #e5e0d6); border-radius: 12px; background: var(--surface, #fff); text-decoration: none; transition: all 0.18s ease; }
 .dl-card:hover { border-color: var(--brown-400, #b9935a); box-shadow: 0 4px 14px rgba(0,0,0,0.06); transform: translateY(-2px); }
+.dl-card-thumb { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; margin-bottom: 8px; background: #f3eee3; display: block; }
 .dl-card-name { font-size: 16px; font-weight: 700; color: var(--brown-800, #5b3a1a); margin: 0 0 2px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .dl-card-han { font-size: 14px; font-weight: 500; color: var(--brown-500, #8a6d3b); }
 .dl-card-latin { display: block; font-size: 12px; color: var(--gray-500); margin-bottom: 8px; }

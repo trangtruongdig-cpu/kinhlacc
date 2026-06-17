@@ -223,7 +223,8 @@ function benhTayYGroupsForBaiThuoc(btId: number): BenhTayYGroup[] {
 }
 
 // Pagination
-const itemsPerPage = ref(12)
+// 15 = bội của 3 (lưới bài thuốc ~3 cột) và 5 (lưới vị thuốc ~5 cột) → lấp đầy hàng, không khuyết ô.
+const itemsPerPage = ref(15)
 const baiThuocPage = ref(1)
 const viThuocPage = ref(1)
 
@@ -552,6 +553,7 @@ const route = useRoute()
 const highlightBtId = ref<number | null>(null)
 
 onMounted(async () => {
+  void loadVtThumbs()
   const qTab = route.query.tab
   if (qTab === 'bai-thuoc' || qTab === 'vi-thuoc' || qTab === 'duoc-ly') {
     activeTab.value = qTab
@@ -2133,6 +2135,15 @@ const vtDetailId = ref<number | null>(null)
 function openViThuocDetail(vt: { id: number }) { vtDetailId.value = vt.id }
 function closeViThuocDetail() { vtDetailId.value = null }
 
+// Ảnh đại diện (ưu tiên dược liệu thành phẩm) cho thẻ danh sách — nạp 1 lần từ thumbs.json tĩnh.
+const vtThumbs = ref<Record<string, { thumb: string; giai_doan: string }>>({})
+async function loadVtThumbs() {
+  try {
+    const res = await fetch(`${import.meta.env.BASE_URL || '/'}vi-thuoc/thumbs.json`, { cache: 'no-cache' })
+    if (res.ok) vtThumbs.value = await res.json()
+  } catch { /* chưa có ảnh → bỏ qua */ }
+}
+
 // ─── VỊ THUỐC CRUD ────────────────────────────────────────────────────────
 const vtShowModal = ref(false)
 const vtEditingId = ref<number | null>(null)
@@ -2857,6 +2868,14 @@ async function suggestViThuocAi() {
 
           <div v-else class="vt-grid">
             <article v-for="vt in pagedViThuoc" :key="vt.id" class="vt-card">
+              <img
+                v-if="vtThumbs[vt.id]"
+                class="vt-card__thumb"
+                :src="vtThumbs[vt.id]?.thumb"
+                :alt="`Ảnh ${vt.ten_vi_thuoc}`"
+                :title="vtThumbs[vt.id]?.giai_doan"
+                loading="lazy"
+              />
               <header class="vt-card__head">
                 <div class="vt-card__title">
                   <span class="vt-card__id">#{{ vt.id }}</span>
@@ -4103,6 +4122,14 @@ async function suggestViThuocAi() {
   box-shadow: 0 6px 18px rgba(74, 47, 23, 0.08);
   border-color: var(--brown-200);
   transform: translateY(-1px);
+}
+.vt-card__thumb {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  display: block;
+  background: #f3eee3;
+  border-bottom: 1px solid var(--brown-100);
 }
 .vt-card__head {
   display: flex;

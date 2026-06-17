@@ -4,27 +4,27 @@
   "images": [
     {
       "file": "1.jpg",
-      "giai_doan": "Quả / hạt",
-      "mo_ta": "Kỷ Tử (Lycium barbarum). Ảnh: Sten Porse / Wikimedia Commons — CC BY-SA 3.0",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Lycium-barbarum-fruits.JPG",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bụi cây Kỷ Tử cành lá xanh, mang hoa tím nhỏ · Ảnh: Wikimedia Commons / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:LyciumBarbarum-plant-hr.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Wikimedia Commons"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Hoa",
+      "mo_ta": "Cận cảnh cành lá hình mác và hoa tím hình chuông của Kỷ Tử · Ảnh: Sten Porse / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycium-halimifolium-flower.JPG",
       "giay_phep": "CC BY-SA 3.0",
       "tac_gia": "Sten Porse"
     },
     {
-      "file": "2.png",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Kỷ Tử (Lycium barbarum). Ảnh: Wikimedia Commons / Wikimedia Commons — Public domain",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Lycium_barbarum_BB.png",
-      "giay_phep": "Public domain",
-      "tac_gia": "Wikimedia Commons"
-    },
-    {
-      "file": "3.png",
+      "file": "3.jpg",
       "giai_doan": "Quả / hạt",
-      "mo_ta": "Kỷ Tử (Lycium barbarum). Ảnh: Wikimedia Commons / Wikimedia Commons — Public domain",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Lycium_barbarum_seed.png",
-      "giay_phep": "Public domain",
-      "tac_gia": "Wikimedia Commons"
+      "mo_ta": "Cành cây mang chùm quả Kỷ Tử chín đỏ · Ảnh: Frank Vincentz / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycium_barbarum_-_Oberhausen_-_Lipperstra%C3%9Fe_-_Knappenhalde_-_Y_01_ies.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Frank Vincentz"
     }
   ]
 }

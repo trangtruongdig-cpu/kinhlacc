@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Perilla frutescens",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Hoa",
+      "mo_ta": "Cận cảnh cụm hoa tử tô với các hoa nhỏ màu trắng, đài và thân phủ lông · Ảnh: Michael Becker / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Perilla_frutescens%27_inflorescence_details.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Michael Becker"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Lá",
+      "mo_ta": "Cây tử tô tím với lá màu tím đỏ và các cành hoa đang trổ · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Perilla_frutescens_Pachnotka_zwyczajna_2017-10-15_01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bụi tử tô xanh mọc ngoài ruộng, lá hình trứng mép răng cưa · Ảnh: Dalgial / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Perilla_frutescens_in_Gimpo.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Dalgial"
+    }
+  ]
+}

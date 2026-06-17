@@ -4,27 +4,19 @@
   "images": [
     {
       "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cát Căn (Pueraria montana). Ảnh: Dalgial / Wikimedia Commons — CC BY-SA 3.0",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Pueraria_montana.JPG",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Dalgial"
+      "giai_doan": "Hoa",
+      "mo_ta": "Cụm hoa Cát Căn màu tím hình chùm dài, cánh hoa hình đậu đặc trưng họ Đậu · Ảnh: Photo by Peggy Greb. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Flowering_kudzu.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Photo by Peggy Greb."
     },
     {
       "file": "2.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cát Căn (Pueraria montana). Ảnh: Dalgial / Wikimedia Commons — CC BY-SA 3.0",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Pueraria_montana_2.JPG",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Dalgial"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cát Căn (Pueraria montana). Ảnh: Schurdl / Wikimedia Commons — CC BY-SA 4.0",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Pueraria_montana_190929_01.jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "Schurdl"
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Chùm quả đậu Cát Căn dẹt, phủ lông nâu vàng dày đặc · Ảnh: Pollinator at English Wikipedia / Wikimedia Commons (CC BY 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Kudzu_seedpods_6580.JPG",
+      "giay_phep": "CC BY 2.5",
+      "tac_gia": "Pollinator at English Wikipedia"
     }
   ]
 }
