@@ -27,4 +27,26 @@ export class PatientAuthRouter {
     }
     return this.patientAuthService.register(registerDto.phone, registerDto.password, registerDto.fullName);
   }
+
+  /**
+   * Yêu cầu xoá tài khoản & dữ liệu (soft delete). Người dùng phải xác minh bằng
+   * SĐT + mật khẩu của chính tài khoản đó. Dùng cho trang web công khai /xoa-tai-khoan
+   * (URL "Account deletion" khai báo trong Google Play Console).
+   */
+  @HttpCode(HttpStatus.OK)
+  @Post('request-deletion')
+  async requestDeletion(@Body() dto: Record<string, any>) {
+    if (!dto.phone || !dto.password) {
+      throw new BadRequestException('Vui lòng cung cấp số điện thoại và mật khẩu.');
+    }
+    const ok = await this.patientAuthService.requestDeletion(dto.phone, dto.password);
+    if (!ok) {
+      throw new UnauthorizedException('Số điện thoại hoặc mật khẩu không đúng!');
+    }
+    return {
+      success: true,
+      message:
+        'Đã tiếp nhận yêu cầu xoá. Tài khoản của bạn đã được vô hiệu hoá và sẽ được xoá khỏi hệ thống theo chính sách lưu trữ.',
+    };
+  }
 }

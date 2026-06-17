@@ -13,6 +13,10 @@ const DemoBaiThuocView = () => import('@/views/DemoBaiThuocView.vue')
 const VeChungToiView = () => import('@/views/VeChungToiView.vue')
 const LienHeView = () => import('@/views/LienHeView.vue')
 const ChinhSachBaoMatView = () => import('@/views/ChinhSachBaoMatView.vue')
+// Chính sách quyền riêng tư cho APP (Google Play) — app bệnh nhân, khác với website.
+const QuyenRiengTuAppView = () => import('@/views/QuyenRiengTuAppView.vue')
+// Trang tự xoá tài khoản (Google Play "Account deletion URL").
+const XoaTaiKhoanView = () => import('@/views/XoaTaiKhoanView.vue')
 const DieuKhoanView = () => import('@/views/DieuKhoanView.vue')
 const QuyTrinhBienTapView = () => import('@/views/QuyTrinhBienTapView.vue')
 const DashboardLayout = () => import('@/views/DashboardLayout.vue')
@@ -105,6 +109,20 @@ const router = createRouter({
       path: '/chinh-sach-bao-mat',
       name: 'chinh-sach-bao-mat',
       component: ChinhSachBaoMatView,
+      meta: { requiresAuth: false },
+    },
+    // Chính sách quyền riêng tư cho ứng dụng Android — dán URL này vào Google Play Console.
+    {
+      path: '/quyen-rieng-tu-app',
+      name: 'quyen-rieng-tu-app',
+      component: QuyenRiengTuAppView,
+      meta: { requiresAuth: false },
+    },
+    // Trang tự xoá tài khoản & dữ liệu — dán URL này vào ô "Account deletion" của Play Console.
+    {
+      path: '/xoa-tai-khoan',
+      name: 'xoa-tai-khoan',
+      component: XoaTaiKhoanView,
       meta: { requiresAuth: false },
     },
     {

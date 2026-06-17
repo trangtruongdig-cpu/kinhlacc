@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Ginkgo biloba",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cây bạch quả trưởng thành, dáng tháp cao, tán lá xanh dày in trên nền trời · Ảnh: Cayambe / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:EecherplazGinkgo06.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Cayambe"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cây bạch quả mùa thu với tán lá vàng óng đặc trưng trong công viên · Ảnh: Warburg / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Fond.Beyeler_Gingko.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Warburg"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cây bạch quả cổ thụ tán lá xanh rậm, thân to trong khuôn viên · Ảnh: Cayambe / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:EecherplazGinkgo05.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Cayambe"
+    }
+  ]
+}

@@ -4,17 +4,25 @@
   "images": [
     {
       "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Sinh Khương (Zingiber officinale). Ảnh: Wikimedia Commons / Wikimedia Commons — CC BY 4.0",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Ginger_(Zingiber_officinale_Roscoe)_Wellcome_V0042885.jpg",
-      "giay_phep": "CC BY 4.0",
-      "tac_gia": "Wikimedia Commons"
+      "giai_doan": "Hoa",
+      "mo_ta": "Cụm hoa gừng màu đỏ hồng nhô lên giữa tán lá xanh · Ảnh: Pisofrix / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hojas_y_flor_de_jengibre_(Zingiber_officinale).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Pisofrix"
     },
     {
       "file": "2.jpg",
       "giai_doan": "Cây thuốc",
-      "mo_ta": "Sinh Khương (Zingiber officinale). Ảnh: Martín Huamán / Wikimedia Commons — CC BY-SA 4.0",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Cultivo_de_Jengibre_(Zingiber_officinale),_Takiwasi,_Per%C3%BA.jpg",
+      "mo_ta": "Bụi cây gừng với thân giả và lá mọc trên nền đất · Ảnh: Martín Huamán / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Planta_de_Jengibre_(Zingiber_officinale),_hojas.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Martín Huamán"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Lá",
+      "mo_ta": "Lá gừng hình mác xanh mọc xen kẽ trên thân · Ảnh: Martín Huamán / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hojas_del_Jengibre_(Zingiber_officinale).jpg",
       "giay_phep": "CC BY-SA 4.0",
       "tac_gia": "Martín Huamán"
     }

@@ -4,27 +4,27 @@
   "images": [
     {
       "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cam Thảo (Glycyrrhiza uralensis). Ảnh: Erin Silversmith / Wikimedia Commons — CC BY-SA 4.0",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Glycyrrhiza_glabra_(Pile_of_Spanish_wood_chips).jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "Erin Silversmith"
+      "giai_doan": "Hoa",
+      "mo_ta": "Cụm hoa cam thảo màu tím trắng dạng chùm cùng lá kép lông chim trên cây ngoài tự nhiên · Ảnh: Michael Wolf ( Webseite ) / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Glycyrrhiza_uralensis_IMG_1086.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Michael Wolf ( Webseite )"
     },
     {
       "file": "2.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cam Thảo (Glycyrrhiza uralensis). Ảnh: Stickpen / Wikimedia Commons — Public domain",
+      "giai_doan": "Lá",
+      "mo_ta": "Cây cam thảo non với lá kép xanh, phiến lá hình bầu dục · Ảnh: Stickpen / Wikimedia Commons (Public domain)",
       "nguon": "https://commons.wikimedia.org/wiki/File:Glycyrrhizauralensis.jpg",
       "giay_phep": "Public domain",
       "tac_gia": "Stickpen"
     },
     {
       "file": "3.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cam Thảo (Glycyrrhiza uralensis). Ảnh: Tanohei at Japanese Wikipedia / Wikimedia Commons — CC BY 3.0",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Glycyrrhiza_uralensis_stolon.jpg",
-      "giay_phep": "CC BY 3.0",
-      "tac_gia": "Tanohei at Japanese Wikipedia"
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Cam thảo phiến: rễ cam thảo thái lát mỏng phơi khô, mặt cắt vàng nâu · Ảnh: Erin Silversmith / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Glycyrrhiza_glabra_(Pile_of_Spanish_wood_chips).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Erin Silversmith"
     }
   ]
 }

@@ -286,6 +286,43 @@
       }
     },
     {
+      "name": "quyen-rieng-tu-app",
+      "path": "/quyen-rieng-tu-app",
+      "breadcrumb": [{ "name": "Chính Sách Quyền Riêng Tư (Ứng Dụng)", "path": "/quyen-rieng-tu-app" }],
+      "priority": "0.3",
+      "changefreq": "yearly",
+      "ogType": "website",
+      "title": "Chính Sách Quyền Riêng Tư Ứng Dụng — Kinh Lạc Trương Gia",
+      "description": "Chính sách quyền riêng tư của ứng dụng Android Kinh Lạc Trương Gia: dữ liệu thu thập, quyền thiết bị, bảo mật và cách xoá tài khoản & dữ liệu.",
+      "keywords": ["chính sách quyền riêng tư", "ứng dụng Đông Y", "xoá tài khoản", "bảo vệ dữ liệu cá nhân"],
+      "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Chính Sách Quyền Riêng Tư Ứng Dụng — Kinh Lạc Trương Gia",
+        "url": "https://kinhlac.online/quyen-rieng-tu-app",
+        "inLanguage": "vi"
+      }
+    },
+    {
+      "name": "xoa-tai-khoan",
+      "path": "/xoa-tai-khoan",
+      "breadcrumb": [{ "name": "Yêu Cầu Xoá Tài Khoản", "path": "/xoa-tai-khoan" }],
+      "priority": "0.2",
+      "changefreq": "yearly",
+      "ogType": "website",
+      "index": false,
+      "title": "Yêu Cầu Xoá Tài Khoản & Dữ Liệu — Kinh Lạc Trương Gia",
+      "description": "Trang để người dùng ứng dụng Kinh Lạc Trương Gia yêu cầu xoá tài khoản và dữ liệu cá nhân: xác minh bằng số điện thoại và mật khẩu, hoặc gửi yêu cầu qua email.",
+      "keywords": ["xoá tài khoản", "xoá dữ liệu", "account deletion"],
+      "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Yêu Cầu Xoá Tài Khoản & Dữ Liệu — Kinh Lạc Trương Gia",
+        "url": "https://kinhlac.online/xoa-tai-khoan",
+        "inLanguage": "vi"
+      }
+    },
+    {
       "name": "dieu-khoan",
       "path": "/dieu-khoan",
       "breadcrumb": [{ "name": "Điều Khoản Sử Dụng", "path": "/dieu-khoan" }],

@@ -4,8 +4,8 @@
   "images": [
     {
       "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Đan Sâm (Salvia miltiorrhiza). Ảnh: Nianahsiwgoa / Wikimedia Commons — CC BY-SA 3.0",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Rễ Đan Sâm phơi khô màu đỏ nâu (vị thuốc thành phẩm 丹參) · Ảnh: Nianahsiwgoa / Wikimedia Commons (CC BY-SA 3.0)",
       "nguon": "https://commons.wikimedia.org/wiki/File:HK_SW_CMMA_%E9%A6%99%E6%B8%AF%E4%B8%AD%E8%97%A5%E8%81%AF%E5%95%86%E6%9C%83_Chinese_Medicine_Merchants_Association_-_%E4%B8%B9%E5%8F%83_Salvia_miltiorrhiza_Jan-2014.JPG",
       "giay_phep": "CC BY-SA 3.0",
       "tac_gia": "Nianahsiwgoa"
@@ -13,18 +13,18 @@
     {
       "file": "2.jpg",
       "giai_doan": "Cây thuốc",
-      "mo_ta": "Đan Sâm (Salvia miltiorrhiza). Ảnh: First Light (talk) / Wikimedia Commons — CC BY 3.0",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Salviamiltiorrhiza.jpg",
-      "giay_phep": "CC BY 3.0",
-      "tac_gia": "First Light (talk)"
+      "mo_ta": "Bụi cây Đan Sâm mọc ngoài vườn, thân lá xanh đang ra hoa · Ảnh: Raffi Kojian / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Gardenology.org-IMG_2925_rbgs11jan.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Raffi Kojian"
     },
     {
       "file": "3.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Đan Sâm (Salvia miltiorrhiza). Ảnh: Photo by David J. Stang / Wikimedia Commons — CC BY-SA 4.0",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Salvia_splendens_Vista_Red_2zz.jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "Photo by David J. Stang"
+      "giai_doan": "Hoa",
+      "mo_ta": "Cụm hoa Đan Sâm màu tím nhạt mọc thành tầng trên thân · Ảnh: First Light ( talk ) / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Salviamiltiorrhiza.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "First Light ( talk )"
     }
   ]
 }

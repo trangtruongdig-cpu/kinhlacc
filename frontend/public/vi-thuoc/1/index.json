@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Ephedra sinica",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Vị thuốc Ma Hoàng khô (Ephedrae Herba) - các đoạn thân khô màu vàng nâu đựng trong lọ trưng bày · Ảnh: Hanabishi / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Maou.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Hanabishi"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cây Ma Hoàng (Ephedra sinica) mọc thành bụi với thân xanh phân đốt, không lá rõ · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ephedra_sinica_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Hạt Ma Hoàng màu nâu sẫm, hình bầu dục nhọn đầu · Ảnh: Omar hoftun / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ephedra_sinica_seeds,_by_Omar_Hoftun.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Omar hoftun"
+    }
+  ]
+}

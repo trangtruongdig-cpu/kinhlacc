@@ -48,6 +48,21 @@ export class PatientAuthService {
     return null;
   }
 
+  /**
+   * Tự xoá tài khoản (soft delete) — bệnh nhân xác minh bằng SĐT + mật khẩu rồi yêu cầu xoá.
+   * Trả về true nếu xác minh đúng và đã đánh dấu xoá; false nếu sai thông tin đăng nhập.
+   * Sau khi xoá: bản ghi vẫn còn trong DB nhưng `deletedAt` đã set → không đăng nhập được,
+   * không hiện ở các danh sách (TypeORM tự lọc).
+   */
+  async requestDeletion(phone: string, pass: string): Promise<boolean> {
+    const patient = await this.validatePatient(phone, pass);
+    if (!patient) {
+      return false;
+    }
+    await this.patientRepository.softDelete(patient.id);
+    return true;
+  }
+
   async login(patient: Patient) {
     const payload = { phone: patient.phone, sub: patient.id, role: 'patient' };
     return {

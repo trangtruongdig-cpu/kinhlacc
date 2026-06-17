@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Leonurus japonicus",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Toàn cây Ích Mẫu Thảo thân vuông mọc đứng, lá xẻ thùy sâu, cụm hoa tím mọc thành vòng quanh các đốt thân · Ảnh: Franz Xaver / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Leonurus_japonicus_1.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Franz Xaver"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Hoa",
+      "mo_ta": "Cận cảnh cụm hoa màu hồng tím mọc vòng ở nách lá, đài hoa có gai nhọn đặc trưng · Ảnh: Harry Rose from South West Rocks, Australia / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Leonurus_japonicus_flowerhead4_(14632876415).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "Harry Rose from South West Rocks, Australia"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Lá",
+      "mo_ta": "Đoạn thân mang lá xẻ thùy hình lông chim và các vòng hoa nhỏ màu hồng tím ở các đốt · Ảnh: Dalgial / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Leonurus_japonicus_02.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Dalgial"
+    }
+  ]
+}

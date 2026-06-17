@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Citrus reticulata",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cây quýt (Citrus reticulata) trồng bên tường đá, mang nhiều quả chín màu cam · Ảnh: Daderot / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Limonaia_del_Castel_-_DSC02147.JPG",
+      "giay_phep": "Public domain",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Cành quýt với quả chín màu cam và lá xanh trên nền trời · Ảnh: Amada44 / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Mandarins_tree_006.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Amada44"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Lá",
+      "mo_ta": "Cận cảnh lá quýt hình mác, xanh, mọc dày trên cành · Ảnh: Dinkum / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Citrus_reticula.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Dinkum"
+    }
+  ]
+}

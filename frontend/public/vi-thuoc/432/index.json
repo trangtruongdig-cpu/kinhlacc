@@ -4,27 +4,27 @@
   "images": [
     {
       "file": "1.jpg",
-      "giai_doan": "Hoa",
-      "mo_ta": "Hoàng Cầm (Scutellaria baicalensis). Ảnh: Doronenko / Wikimedia Commons — CC BY 3.0",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Scutellaria_baicalensis_flowers.jpg",
-      "giay_phep": "CC BY 3.0",
-      "tac_gia": "Doronenko"
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bụi cây Hoàng Cầm mọc trong vườn với nhiều cành mang hoa tím · Ảnh: Dalgial / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%ED%99%A9%EA%B8%88.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Dalgial"
     },
     {
       "file": "2.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Hoàng Cầm (Scutellaria baicalensis). Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons — CC BY-SA 4.0",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Scutellaria_baicalensis_kz01.jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+      "giai_doan": "Hoa",
+      "mo_ta": "Cận cảnh hoa Hoàng Cầm màu tím hình môi có mũ đặc trưng · Ảnh: Dalgial / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%ED%99%A9%EA%B8%88_2.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Dalgial"
     },
     {
       "file": "3.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Hoàng Cầm (Scutellaria baicalensis). Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons — CC BY-SA 4.0",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Scutellaria_baicalensis_kz04.jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+      "giai_doan": "Lá",
+      "mo_ta": "Cành cây với lá hình mác mọc đối và cụm hoa tím trên ngọn · Ảnh: Dalgial / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%ED%99%A9%EA%B8%88_3.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Dalgial"
     }
   ]
 }

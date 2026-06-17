@@ -3,7 +3,8 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  UpdateDateColumn
+  UpdateDateColumn,
+  DeleteDateColumn
 } from 'typeorm';
 import { ymdDateTransformer } from './_date-transformer';
 
@@ -59,4 +60,11 @@ export class Patient {
 
   @UpdateDateColumn()
   updatedAt: Date;
+
+  // Soft delete: bệnh nhân tự yêu cầu xoá tài khoản (qua app / trang /xoa-tai-khoan).
+  // TypeORM tự thêm điều kiện `deletedAt IS NULL` cho find/findOne/QueryBuilder, nên
+  // tài khoản đã xoá KHÔNG đăng nhập được và biến mất khỏi các danh sách; dữ liệu vẫn
+  // được giữ lại trong DB để tuân thủ quy định lưu hồ sơ khám chữa bệnh (xoá hẳn theo lịch).
+  @DeleteDateColumn({ nullable: true })
+  deletedAt: Date | null;
 }

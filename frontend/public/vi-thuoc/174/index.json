@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Arctium lappa",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Toàn cây ngưu bàng ngoài đồng, thân cao có lá to và các cụm hoa hình cầu gai · Ảnh: Christian Fischer / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:ArctiumLappa1.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Christian Fischer"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Lá",
+      "mo_ta": "Cụm lá gốc to bản hình tim, mặt lá xanh với gân nổi rõ · Ảnh: No machine-readable author provided. Bogdan assumed (based on copyright claims). / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Arctium_lappa_bgiu.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "No machine-readable author provided. Bogdan assumed (based on copyright claims)."
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Hoa",
+      "mo_ta": "Cận cảnh cụm hoa hình cầu gai móc, đỉnh có hoa nhỏ màu tím · Ảnh: No machine-readable author provided. Bogdan assumed (based on copyright claims). / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Arctium_lappa_02_bgiu.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "No machine-readable author provided. Bogdan assumed (based on copyright claims)."
+    }
+  ]
+}

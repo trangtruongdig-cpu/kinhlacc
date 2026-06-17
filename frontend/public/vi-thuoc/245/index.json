@@ -1,0 +1,30 @@
+{
+  "_source": "Wikimedia Commons",
+  "_sci": "Rheum palmatum",
+  "images": [
+    {
+      "file": "1.jpg",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cây đại hoàng trồng trong vườn, lá to và cụm hoa cao màu hồng đỏ · Ảnh: H. Zell / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rheum_officinale_001.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "H. Zell"
+    },
+    {
+      "file": "2.jpg",
+      "giai_doan": "Hoa",
+      "mo_ta": "Cận cảnh cụm hoa đại hoàng nhỏ màu hồng đỏ trên nền lá lớn · Ảnh: H. Zell / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rheum_officinale_002.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "H. Zell"
+    },
+    {
+      "file": "3.jpg",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Dược liệu đại hoàng đã chế, các phiến rễ khô màu vàng nâu thái nhỏ · Ảnh: Rillke / Wikimedia Commons (CC BY-SA 3.0 de)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rhei_radix_157232.jpg",
+      "giay_phep": "CC BY-SA 3.0 de",
+      "tac_gia": "Rillke"
+    }
+  ]
+}
