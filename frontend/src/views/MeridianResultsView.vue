@@ -348,6 +348,16 @@ const phapTriLoading = ref(false)
 const phapTriError = ref<string | null>(null)
 const phapTriBenhTayYMap = ref<Record<number, PtmBenhTayYLite[]>>({})
 let phapTriSearchTimer: ReturnType<typeof setTimeout> | null = null
+
+// Hướng A — tra cứu thể bệnh trên Google (nguồn ngoài, mở tab mới) để bệnh nhân đọc tường tận hơn.
+// Ưu tiên từ khóa người dùng đang gõ, nếu trống thì dùng mô hình bệnh đang mở.
+const phapTriLookupTerm = computed(() => (phapTriQuery.value.trim() || phapTriModalContext.value || '').trim())
+const googleLookupUrl = computed(() => {
+  const term = phapTriLookupTerm.value
+  if (!term) return ''
+  const q = `"${term}" y học cổ truyền triệu chứng nguyên nhân điều trị`
+  return `https://www.google.com/search?q=${encodeURIComponent(q)}`
+})
 let suppressPhapTriWatch = false
 
 function openPhapTriSearch(item: { name?: string | null }) {
@@ -1814,6 +1824,18 @@ function footerDiffClassMerged() {
           <button v-if="phapTriQuery" type="button" class="ptm-search__clear" aria-label="Xóa" @click="phapTriQuery = ''">✕</button>
         </div>
 
+        <!-- Hướng A: tra cứu Google cho bệnh nhân đọc tường tận hơn (nguồn ngoài) -->
+        <div v-if="googleLookupUrl" class="ptm-learn">
+          <a :href="googleLookupUrl" target="_blank" rel="noopener noreferrer" class="ptm-learn__btn">
+            <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" width="15" height="15">
+              <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="2" />
+              <path d="m17 17-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            Tìm hiểu thêm về “{{ phapTriLookupTerm }}” trên Google
+          </a>
+          <span class="ptm-learn__note">Nguồn bên ngoài để tham khảo — không thay thế tư vấn của thầy thuốc.</span>
+        </div>
+
         <div class="ptm-body">
           <div v-if="phapTriLoading" class="ptm-state">
             <div class="spinner"></div>
@@ -2742,6 +2764,11 @@ function footerDiffClassMerged() {
 .ptm-search__input:focus { outline: none; border-color: var(--brown-500); box-shadow: var(--focus-ring); }
 .ptm-search__clear { position: absolute; right: calc(var(--space-5) + 8px); width: 22px; height: 22px; display: inline-flex; align-items: center; justify-content: center; border: 0; background: var(--gray-100); color: var(--gray-600); border-radius: 50%; font-size: 12px; cursor: pointer; }
 .ptm-search__clear:hover { background: var(--gray-200); color: var(--gray-800); }
+
+.ptm-learn { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 12px; padding: var(--space-2) var(--space-5) var(--space-3); border-bottom: 1px solid var(--gray-100); }
+.ptm-learn__btn { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 600; text-decoration: none; color: var(--white); background: linear-gradient(135deg, var(--brown-600, #8a6d3b), var(--brown-700, #6b4f2a)); transition: transform var(--transition-fast), box-shadow var(--transition-fast); }
+.ptm-learn__btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(74, 47, 23, 0.18); }
+.ptm-learn__note { font-size: var(--font-size-xs); color: var(--gray-500); font-style: italic; }
 
 .ptm-body { padding: var(--space-4) var(--space-5); overflow-y: auto; flex: 1; background: var(--surface-2); }
 .ptm-state { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); padding: var(--space-8) 0; color: var(--gray-500); }
