@@ -26,6 +26,8 @@ const TYPE_META: Record<string, { color: string; label: string }> = {
   'cong-dung': { color: '#2563EB', label: 'Công năng' },
   'kinh-mach': { color: '#7C3AED', label: 'Quy kinh' },
   'nhom-duoc-ly': { color: '#0891B2', label: 'Nhóm dược lý' },
+  'nhom-lon-duoc-ly': { color: '#0E7490', label: 'Nhóm lớn dược lý' },
+  'chu-tri': { color: '#BE185D', label: 'Chủ trị' },
   'kieng-ky': { color: '#92400E', label: 'Kiêng kỵ' },
 }
 const typeColor = (t: string) => TYPE_META[t]?.color ?? '#6B7280'

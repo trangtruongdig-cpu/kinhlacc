@@ -18,6 +18,8 @@ export type NodeType =
   | 'cong-dung'
   | 'kinh-mach'
   | 'nhom-duoc-ly'
+  | 'nhom-lon-duoc-ly'
+  | 'chu-tri'
   | 'kieng-ky';
 
 export interface GraphNode {
@@ -66,6 +68,8 @@ export class GraphService {
     'cong-dung': `SELECT ten_cong_dung AS label FROM cong_dung WHERE id = $1`,
     'kinh-mach': `SELECT ten_kinh_mach AS label FROM kinh_mach WHERE id_kinh_mach = $1`,
     'nhom-duoc-ly': `SELECT ten_nhom AS label FROM nhom_nho_duoc_ly WHERE id = $1`,
+    'nhom-lon-duoc-ly': `SELECT ten_nhom AS label FROM nhom_lon_duoc_ly WHERE id = $1`,
+    'chu-tri': `SELECT ten_chu_tri AS label FROM chu_tri WHERE id = $1`,
     'kieng-ky': `SELECT ten_kieng_ky AS label FROM kieng_ky WHERE id = $1`,
   };
 
@@ -81,7 +85,9 @@ export class GraphService {
       { type: 'cong-dung', rel: 'công năng', sql: `SELECT cd.id, cd.ten_cong_dung AS label FROM vi_thuoc_cong_dung vc JOIN cong_dung cd ON cd.id = vc.id_cong_dung WHERE vc.id_vi_thuoc = $1` },
       { type: 'kinh-mach', rel: 'quy kinh', sql: `SELECT km.id_kinh_mach AS id, km.ten_kinh_mach AS label FROM vi_thuoc_kinh_mach vk JOIN kinh_mach km ON km.id_kinh_mach = vk.id_kinh_mach WHERE vk.id_vi_thuoc = $1` },
       { type: 'nhom-duoc-ly', rel: 'nhóm dược lý', sql: `SELECT nn.id, nn.ten_nhom AS label FROM nhom_nho_vi_thuoc nv JOIN nhom_nho_duoc_ly nn ON nn.id = nv.id_nhom_nho WHERE nv.id_vi_thuoc = $1` },
+      { type: 'chu-tri', rel: 'chủ trị', sql: `SELECT ct.id, ct.ten_chu_tri AS label FROM vi_thuoc_chu_tri vc JOIN chu_tri ct ON ct.id = vc.id_chu_tri WHERE vc.id_vi_thuoc = $1` },
       { type: 'kieng-ky', rel: 'kiêng kỵ', sql: `SELECT kk.id, kk.ten_kieng_ky AS label FROM vi_thuoc_kieng_ky vk JOIN kieng_ky kk ON kk.id = vk.id_kieng_ky WHERE vk.id_vi_thuoc = $1` },
+      { type: 'vi-thuoc', rel: 'tương kỵ', sql: `SELECT vt.id, vt.ten_vi_thuoc AS label, ('tương ' || tp.loai) AS rel FROM vi_thuoc_tuong_phan tp JOIN vi_thuoc vt ON vt.id = (CASE WHEN tp.id_vi_thuoc_a = $1 THEN tp.id_vi_thuoc_b ELSE tp.id_vi_thuoc_a END) WHERE tp.id_vi_thuoc_a = $1 OR tp.id_vi_thuoc_b = $1` },
       { type: 'bai-thuoc', rel: 'có trong bài', sql: `SELECT bt.id, bt.ten_bai_thuoc AS label FROM bai_thuoc_chi_tiet ct JOIN bai_thuoc bt ON bt.id = ct.id_bai_thuoc WHERE ct.id_vi_thuoc = $1` },
     ],
     'phap-tri': [
@@ -112,7 +118,16 @@ export class GraphService {
       { type: 'phap-tri', rel: 'pháp trị', sql: `SELECT pt.id, COALESCE(NULLIF(btrim(pt.the_benh), ''), 'Pháp trị #' || pt.id) AS label FROM phap_tri_kinh_mach pk JOIN phap_tri pt ON pt.id = pk.id_phap_tri WHERE pk.id_kinh_mach = $1` },
     ],
     'nhom-duoc-ly': [
+      { type: 'nhom-lon-duoc-ly', rel: 'thuộc nhóm lớn', sql: `SELECT nl.id, nl.ten_nhom AS label FROM nhom_nho_duoc_ly nn JOIN nhom_lon_duoc_ly nl ON nl.id = nn.id_nhom_lon WHERE nn.id = $1` },
       { type: 'vi-thuoc', rel: 'vị thuốc', sql: `SELECT vt.id, vt.ten_vi_thuoc AS label FROM nhom_nho_vi_thuoc nv JOIN vi_thuoc vt ON vt.id = nv.id_vi_thuoc WHERE nv.id_nhom_nho = $1` },
+      { type: 'chu-tri', rel: 'chủ trị', sql: `SELECT ct.id, ct.ten_chu_tri AS label FROM nhom_nho_chu_tri nc JOIN chu_tri ct ON ct.id = nc.id_chu_tri WHERE nc.id_nhom_nho = $1` },
+    ],
+    'nhom-lon-duoc-ly': [
+      { type: 'nhom-duoc-ly', rel: 'nhóm nhỏ', sql: `SELECT id, ten_nhom AS label FROM nhom_nho_duoc_ly WHERE id_nhom_lon = $1` },
+    ],
+    'chu-tri': [
+      { type: 'vi-thuoc', rel: 'vị thuốc', sql: `SELECT vt.id, vt.ten_vi_thuoc AS label FROM vi_thuoc_chu_tri vc JOIN vi_thuoc vt ON vt.id = vc.id_vi_thuoc WHERE vc.id_chu_tri = $1` },
+      { type: 'nhom-duoc-ly', rel: 'nhóm dược lý', sql: `SELECT nn.id, nn.ten_nhom AS label FROM nhom_nho_chu_tri nc JOIN nhom_nho_duoc_ly nn ON nn.id = nc.id_nhom_nho WHERE nc.id_chu_tri = $1` },
     ],
     'kieng-ky': [
       { type: 'vi-thuoc', rel: 'vị thuốc', sql: `SELECT vt.id, vt.ten_vi_thuoc AS label FROM vi_thuoc_kieng_ky vk JOIN vi_thuoc vt ON vt.id = vk.id_vi_thuoc WHERE vk.id_kieng_ky = $1` },
