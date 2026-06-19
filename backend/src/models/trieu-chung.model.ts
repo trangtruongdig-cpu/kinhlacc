@@ -14,6 +14,10 @@ export class TrieuChung {
   @Column({ type: 'varchar', length: 255 })
   ten_trieu_chung: string;
 
+  /** Nhóm triệu chứng (tinh-than | tieu-hoa | than-kinh-co-the | phu-khoa | luoi-mach | toan-trang | khac). */
+  @Column({ type: 'varchar', length: 40, nullable: true })
+  nhom: string | null;
+
   @ManyToMany(() => BenhTayY, (b) => b.trieuChungList)
   benhTayYList: BenhTayY[];
 }

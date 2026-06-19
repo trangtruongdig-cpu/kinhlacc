@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, OnModuleInit, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Examination } from '../models/examination.model';
+import { Examination, ChanDoanLuu } from '../models/examination.model';
 import { CreateExaminationDto, UpdateExaminationDto } from '../models/examination.dto';
 import { MeridiansService, AnalyzeInputDto } from './meridian.controller';
 import { PatientsService } from './patient.controller';
@@ -191,6 +191,19 @@ export class ExaminationsService implements OnModuleInit {
     (saved as any).excelSyndromes = result.excelSyndromes ?? [];
     (saved as any).comparisonRows = result.comparisonRows ?? [];
     return saved;
+  }
+
+  /**
+   * Lưu CHẨN ĐOÁN cho 1 ca khám (D5) — chỉ ghi trường chanDoan, KHÔNG phân tích lại
+   * kinh lạc (nhẹ). Truyền null để xoá chẩn đoán đã lưu.
+   */
+  async saveChanDoan(id: number, chanDoan: ChanDoanLuu | null): Promise<Examination> {
+    const exam = await this.examinationRepository.findOneBy({ id });
+    if (!exam) {
+      throw new NotFoundException(`Ca khám #${id} không tồn tại`);
+    }
+    exam.chanDoan = chanDoan;
+    return this.examinationRepository.save(exam);
   }
 
   async findByPatient(patientId: number): Promise<Examination[]> {

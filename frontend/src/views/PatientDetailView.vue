@@ -510,6 +510,9 @@ function goToLuoiDiagnosis() {
                 </span>
                 <span v-if="exam.syndromes.length > 3" class="syndrome-more">+{{ exam.syndromes.length - 3 }}</span>
               </div>
+              <div v-if="exam.chanDoan && exam.chanDoan.ket_luan" class="exam-chandoan">
+                <span class="exam-chandoan-ic">✓</span> Chẩn đoán: <b>{{ exam.chanDoan.ket_luan }}</b>
+              </div>
               <p v-if="exam.notes" class="exam-notes">{{ exam.notes }}</p>
             </div>
           </div>
@@ -753,6 +756,8 @@ function goToLuoiDiagnosis() {
 .syndromes-label{font-size:var(--font-size-xs);color:var(--gray-500);font-weight:600}
 .syndrome-chip{display:inline-block;padding:2px 8px;border-radius:var(--radius-sm);background:var(--gray-100);color:var(--gray-700);font-size:var(--font-size-xs)}
 .syndrome-more{font-size:var(--font-size-xs);color:var(--gray-400);font-weight:600}
+.exam-chandoan{margin-bottom:var(--space-2);font-size:var(--font-size-xs);color:#15803d;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:var(--radius-sm);padding:3px 8px;display:inline-block}
+.exam-chandoan-ic{font-weight:800}
 .exam-notes{font-size:var(--font-size-sm);color:var(--gray-600);line-height:1.5;padding-top:var(--space-2);border-top:1px solid var(--gray-100);margin-top:var(--space-2)}
 
 .btn-secondary{padding:10px 20px;background:var(--white);color:var(--gray-700);font-size:var(--font-size-sm);font-weight:600;border-radius:var(--radius-md);border:1px solid var(--gray-300);transition:all var(--transition-fast)}

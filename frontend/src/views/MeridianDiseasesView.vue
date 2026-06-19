@@ -22,7 +22,29 @@ function phapTriHref(id: number): string {
 interface TrieuChungLite {
   id: number
   ten_trieu_chung: string
+  nhom?: string | null
 }
+
+interface NguyenNhanItem {
+  nhom: string // tinh-than | sinh-hoat | tang-phu
+  noi_dung: string
+}
+
+// Nhóm nguyên nhân + nhóm triệu chứng — đồng bộ slug với TreatmentsView / backend.
+const NHOM_NGUYEN_NHAN: { slug: string; label: string }[] = [
+  { slug: 'tinh-than', label: 'Yếu tố tinh thần' },
+  { slug: 'sinh-hoat', label: 'Chế độ sinh hoạt' },
+  { slug: 'tang-phu', label: 'Ảnh hưởng tạng phủ khác' },
+]
+const NHOM_TRIEU_CHUNG: { slug: string; label: string }[] = [
+  { slug: 'tinh-than', label: 'Tinh thần / Cảm xúc' },
+  { slug: 'tieu-hoa', label: 'Tiêu hóa / Ăn ngủ' },
+  { slug: 'than-kinh-co-the', label: 'Thần kinh / Cơ thể' },
+  { slug: 'phu-khoa', label: 'Phụ khoa' },
+  { slug: 'luoi-mach', label: 'Lưỡi / Mạch' },
+  { slug: 'toan-trang', label: 'Toàn trạng' },
+  { slug: 'khac', label: 'Khác' },
+]
 
 interface BaiThuocLite {
   id: number
@@ -58,6 +80,7 @@ interface BenhDongYExcelRow {
   phapTriList?: PhapTriLite[] | null
   trieuChungList?: TrieuChungLite[] | null
   baiThuocList?: BaiThuocLite[] | null
+  nguyen_nhan_list?: Array<{ nhom: string | null; noi_dung: string | null; thu_tu?: number }> | null
 }
 
 interface KinhMachLite {
@@ -91,6 +114,7 @@ interface FormState {
   id_phap_tri_list: number[]
   id_trieu_chung_list: number[]
   id_bai_thuoc_list: number[]
+  nguyen_nhan_list: NguyenNhanItem[]
 }
 
 const isLoading = ref(true)
@@ -128,10 +152,28 @@ const emptyForm = (): FormState => ({
   id_phap_tri_list: [],
   id_trieu_chung_list: [],
   id_bai_thuoc_list: [],
+  nguyen_nhan_list: [],
 })
 
 function toggleId(list: number[], id: number): number[] {
   return list.includes(id) ? list.filter((x) => x !== id) : [...list, id]
+}
+
+const nguyenNhanLabel = (slug?: string | null) =>
+  NHOM_NGUYEN_NHAN.find((n) => n.slug === slug)?.label ?? 'Khác'
+const trieuChungNhomLabel = (slug?: string | null) =>
+  NHOM_TRIEU_CHUNG.find((n) => n.slug === slug)?.label ?? 'Khác'
+
+function addNguyenNhan(nhom: string) {
+  form.value.nguyen_nhan_list = [...form.value.nguyen_nhan_list, { nhom, noi_dung: '' }]
+}
+function removeNguyenNhan(idx: number) {
+  form.value.nguyen_nhan_list = form.value.nguyen_nhan_list.filter((_, i) => i !== idx)
+}
+function nguyenNhanByNhom(nhom: string): { item: NguyenNhanItem; idx: number }[] {
+  return form.value.nguyen_nhan_list
+    .map((item, idx) => ({ item, idx }))
+    .filter((x) => x.item.nhom === nhom)
 }
 
 const form = ref<FormState>(emptyForm())
@@ -221,6 +263,22 @@ const filteredTrieuChungOptions = computed(() => {
     (t.ten_trieu_chung || '').toLowerCase().includes(q),
   )
 })
+// Bộ chọn triệu chứng gom theo NHÓM (đồng bộ TreatmentsView).
+const filteredTrieuChungGroups = computed<{ slug: string; label: string; items: TrieuChungLite[] }[]>(() => {
+  const byNhom: Record<string, TrieuChungLite[]> = {}
+  for (const t of filteredTrieuChungOptions.value) {
+    const slug = t.nhom && NHOM_TRIEU_CHUNG.some((g) => g.slug === t.nhom) ? t.nhom : '__none'
+    ;(byNhom[slug] ??= []).push(t)
+  }
+  const out: { slug: string; label: string; items: TrieuChungLite[] }[] = []
+  for (const g of NHOM_TRIEU_CHUNG) {
+    const items = byNhom[g.slug]
+    if (items && items.length) out.push({ slug: g.slug, label: g.label, items })
+  }
+  const none = byNhom['__none']
+  if (none && none.length) out.push({ slug: '__none', label: 'Chưa phân nhóm', items: none })
+  return out
+})
 /** Cho phép tạo nhanh triệu chứng khi từ khóa tìm chưa khớp tên nào (so khớp không phân biệt hoa thường). */
 const canCreateTrieuChung = computed(() => {
   const q = trieuChungSearch.value.trim()
@@ -282,6 +340,40 @@ function phapTriLabel(p: PhapTriLite): string {
 
 function trieuChungLabelsForBenh(item: BenhDongYExcelRow): string[] {
   return (item.trieuChungList ?? []).map((t) => t.ten_trieu_chung).filter(Boolean)
+}
+
+// Gom triệu chứng theo NHÓM để hiển thị mạch lạc trên thẻ (đồng bộ TreatmentsView).
+function trieuChungGroups(item: BenhDongYExcelRow): { label: string; items: string[] }[] {
+  const list = item.trieuChungList ?? []
+  if (!list.length) return []
+  const byNhom: Record<string, string[]> = {}
+  for (const t of list) {
+    if (!t.ten_trieu_chung) continue
+    const slug = t.nhom && NHOM_TRIEU_CHUNG.some((g) => g.slug === t.nhom) ? t.nhom : '__none'
+    ;(byNhom[slug] ??= []).push(t.ten_trieu_chung)
+  }
+  const out: { label: string; items: string[] }[] = []
+  for (const g of NHOM_TRIEU_CHUNG) {
+    const items = byNhom[g.slug]
+    if (items && items.length) out.push({ label: g.label, items })
+  }
+  const none = byNhom['__none']
+  if (none && none.length) out.push({ label: 'Chưa phân nhóm', items: none })
+  return out
+}
+
+// Nguyên nhân của thể (gom theo nhóm) — để hiển thị trên thẻ.
+function nguyenNhanGroups(item: BenhDongYExcelRow): { label: string; items: string[] }[] {
+  const list = (item.nguyen_nhan_list ?? []).filter((n) => (n.noi_dung ?? '').trim())
+  if (!list.length) return []
+  const out: { label: string; items: string[] }[] = []
+  for (const g of NHOM_NGUYEN_NHAN) {
+    const items = list.filter((n) => n.nhom === g.slug).map((n) => String(n.noi_dung))
+    if (items.length) out.push({ label: g.label, items })
+  }
+  const other = list.filter((n) => !NHOM_NGUYEN_NHAN.some((g) => g.slug === n.nhom)).map((n) => String(n.noi_dung))
+  if (other.length) out.push({ label: 'Khác', items: other })
+  return out
 }
 
 function baiThuocLabelsForBenh(item: BenhDongYExcelRow): string[] {
@@ -417,6 +509,9 @@ function resetPickerSearches() {
   phapTriSearch.value = ''
   trieuChungSearch.value = ''
   baiThuocSearch.value = ''
+  aiUnmatchedTrieuChung.value = []
+  aiPhapTriCount.value = null
+  aiNewTcCount.value = null
 }
 
 async function openCreateModal() {
@@ -445,6 +540,9 @@ async function openEditModal(row: BenhDongYExcelRow) {
     id_phap_tri_list: (row.phapTriList ?? []).map((p) => p.id),
     id_trieu_chung_list: (row.trieuChungList ?? []).map((t) => t.id),
     id_bai_thuoc_list: (row.baiThuocList ?? []).map((b) => b.id),
+    nguyen_nhan_list: (row.nguyen_nhan_list ?? [])
+      .filter((n) => (n.noi_dung ?? '').trim())
+      .map((n) => ({ nhom: n.nhom || 'tinh-than', noi_dung: String(n.noi_dung) })),
   }
   formError.value = null
   resetPickerSearches()
@@ -485,6 +583,9 @@ async function handleSubmit() {
     id_phap_tri_list: f.id_phap_tri_list,
     id_trieu_chung_list: f.id_trieu_chung_list,
     id_bai_thuoc_list: f.id_bai_thuoc_list,
+    nguyen_nhan_list: f.nguyen_nhan_list
+      .map((n) => ({ nhom: n.nhom, noi_dung: n.noi_dung.trim() }))
+      .filter((n) => n.noi_dung),
   }
   isSubmitting.value = true
   try {
@@ -499,6 +600,167 @@ async function handleSubmit() {
     formError.value = err.message || 'Không lưu được dữ liệu'
   } finally {
     isSubmitting.value = false
+  }
+}
+
+// ─── Gợi ý AI điền dữ liệu cho thể (yescale → deepseek) ────────────────────
+// Tái dùng 2 endpoint sẵn có: /ai-suggest/the-benh (triệu chứng) + /ai-suggest/the-do-phap-tri (pháp trị).
+const aiLoading = ref(false)
+const aiUnmatchedTrieuChung = ref<{ ten: string; nhom: string | null }[]>([])
+const aiCreatingTcKey = ref<string | null>(null)
+const aiPhapTriCount = ref<number | null>(null)
+const aiNewTcCount = ref<number | null>(null)
+const unmatchedKey = (t: { ten: string; nhom: string | null }) =>
+  `${t.nhom ?? ''}::${(t.ten ?? '').trim().toLowerCase()}`
+
+async function suggestTheAi() {
+  if (aiLoading.value || isSubmitting.value) return
+  const ten = form.value.name.trim()
+  if (!ten) {
+    formError.value = 'Nhập Tên hiển thị (tên thể) trước khi gợi ý AI'
+    return
+  }
+  aiLoading.value = true
+  formError.value = null
+  aiUnmatchedTrieuChung.value = []
+  aiPhapTriCount.value = null
+  aiNewTcCount.value = null
+  try {
+    const [tcRes, ptRes] = await Promise.all([
+      api.post<{
+        success: boolean
+        data: {
+          nguyen_nhan_list: { nhom: string; noi_dung: string }[]
+          trieu_chung_ids: number[]
+          trieu_chung_unmatched: { ten: string; nhom: string | null }[]
+        }
+      }>('/ai-suggest/the-benh', { the_benh: ten }),
+      api
+        .post<{
+          success: boolean
+          data: { id: number; name: string; phap_tri_ids: number[] }[]
+        }>('/ai-suggest/the-do-phap-tri', {
+          items: [{ id: editingId.value ?? 1, name: ten }],
+        })
+        .catch((err) => {
+          console.warn('Gợi ý pháp trị AI lỗi:', err?.message ?? err)
+          return null
+        }),
+    ])
+
+    const d = tcRes?.data
+    if (!d) throw new Error('AI không trả về dữ liệu')
+
+    // Nguyên nhân: gộp mục mới, bỏ qua mục trùng nội dung trong cùng nhóm.
+    const existingNn = new Set(
+      form.value.nguyen_nhan_list.map((n) => `${n.nhom}::${n.noi_dung.trim().toLowerCase()}`),
+    )
+    const addedNn: NguyenNhanItem[] = []
+    for (const n of d.nguyen_nhan_list ?? []) {
+      const noi_dung = (n.noi_dung ?? '').trim()
+      if (!noi_dung) continue
+      const nhom = NHOM_NGUYEN_NHAN.some((g) => g.slug === n.nhom) ? n.nhom : 'tinh-than'
+      const key = `${nhom}::${noi_dung.toLowerCase()}`
+      if (existingNn.has(key)) continue
+      existingNn.add(key)
+      addedNn.push({ nhom, noi_dung })
+    }
+    if (addedNn.length) form.value.nguyen_nhan_list = [...form.value.nguyen_nhan_list, ...addedNn]
+
+    // Triệu chứng đã có trong danh mục → chọn luôn.
+    if (Array.isArray(d.trieu_chung_ids) && d.trieu_chung_ids.length) {
+      const merged = new Set<number>(form.value.id_trieu_chung_list)
+      for (const id of d.trieu_chung_ids) merged.add(id)
+      form.value.id_trieu_chung_list = Array.from(merged)
+    }
+    // Triệu chứng chưa có trong danh mục → TỰ TẠO (kèm nhóm) rồi chọn luôn,
+    // để được lưu + phân loại + hiển thị ngay (bác sĩ vẫn duyệt/bỏ chọn trước khi Lưu).
+    const unmatched = Array.isArray(d.trieu_chung_unmatched)
+      ? d.trieu_chung_unmatched.filter((x) => (x?.ten ?? '').trim())
+      : []
+    const leftover: { ten: string; nhom: string | null }[] = []
+    let createdCount = 0
+    for (const u of unmatched) {
+      try {
+        const cr: any = await api.post('/trieu-chung', {
+          ten_trieu_chung: u.ten.trim(),
+          nhom: u.nhom ?? null,
+        })
+        const created: TrieuChungLite = cr?.data ?? {
+          id: cr?.id,
+          ten_trieu_chung: u.ten.trim(),
+          nhom: u.nhom ?? null,
+        }
+        if (created?.id != null) {
+          if (!trieuChungOptions.value.some((t) => t.id === created.id)) {
+            trieuChungOptions.value = [...trieuChungOptions.value, created]
+          }
+          if (!form.value.id_trieu_chung_list.includes(created.id)) {
+            form.value.id_trieu_chung_list = [...form.value.id_trieu_chung_list, created.id]
+          }
+          createdCount++
+        } else {
+          leftover.push(u)
+        }
+      } catch (e) {
+        console.warn('Tạo triệu chứng AI lỗi:', u.ten, e)
+        leftover.push(u)
+      }
+    }
+    aiNewTcCount.value = createdCount
+    aiUnmatchedTrieuChung.value = leftover // chỉ còn lại mục tạo lỗi (hiếm) để thử lại tay
+
+    // Pháp trị AI gợi ý (best-effort) → chọn các id có trong danh mục.
+    const ptIds = ptRes?.data?.[0]?.phap_tri_ids ?? []
+    if (Array.isArray(ptIds) && ptIds.length) {
+      const valid = new Set(phapTriOptions.value.map((p) => p.id))
+      const merged = new Set<number>(form.value.id_phap_tri_list)
+      let added = 0
+      for (const id of ptIds) {
+        if (valid.has(id) && !merged.has(id)) {
+          merged.add(id)
+          added++
+        }
+      }
+      form.value.id_phap_tri_list = Array.from(merged)
+      aiPhapTriCount.value = added
+    }
+  } catch (err: any) {
+    formError.value = 'Gợi ý AI thất bại: ' + (err?.message ?? err)
+  } finally {
+    aiLoading.value = false
+  }
+}
+
+/** Tạo nhanh một triệu chứng AI gợi ý (chưa có trong DB, kèm nhóm) rồi chọn vào thể. */
+async function createAiTrieuChung(item: { ten: string; nhom: string | null }) {
+  const ten = (item.ten ?? '').trim()
+  if (!ten || aiCreatingTcKey.value) return
+  const key = unmatchedKey(item)
+  aiCreatingTcKey.value = key
+  try {
+    const res: any = await api.post('/trieu-chung', { ten_trieu_chung: ten, nhom: item.nhom ?? null })
+    const created: TrieuChungLite = res?.data ?? { id: res?.id, ten_trieu_chung: ten }
+    if (created?.id != null) {
+      if (!trieuChungOptions.value.some((t) => t.id === created.id)) {
+        trieuChungOptions.value = [...trieuChungOptions.value, created]
+      }
+      if (!form.value.id_trieu_chung_list.includes(created.id)) {
+        form.value.id_trieu_chung_list = [...form.value.id_trieu_chung_list, created.id]
+      }
+      aiUnmatchedTrieuChung.value = aiUnmatchedTrieuChung.value.filter((x) => unmatchedKey(x) !== key)
+    }
+  } catch (err: any) {
+    formError.value = err.message || 'Không tạo được triệu chứng'
+  } finally {
+    aiCreatingTcKey.value = null
+  }
+}
+
+/** Tạo & chọn tất cả triệu chứng AI gợi ý chưa khớp (tuần tự). */
+async function createAllAiTrieuChung() {
+  for (const item of [...aiUnmatchedTrieuChung.value]) {
+    await createAiTrieuChung(item)
   }
 }
 
@@ -896,17 +1158,28 @@ async function handleDelete() {
                 </div>
               </section>
 
-              <section v-if="trieuChungLabelsForBenh(item).length" class="disease-section">
+              <section v-if="nguyenNhanGroups(item).length" class="disease-section">
+                <span class="disease-section__label">Nguyên nhân</span>
+                <dl class="dx-groups">
+                  <div v-for="(g, gi) in nguyenNhanGroups(item)" :key="'nn' + gi" class="dx-group">
+                    <dt class="dx-group__tag">{{ g.label }}</dt>
+                    <dd class="dx-group__items">
+                      <span v-for="(n, i) in g.items" :key="'nn' + gi + '-' + i" class="dx-chip dx-chip--nn">{{ n }}</span>
+                    </dd>
+                  </div>
+                </dl>
+              </section>
+
+              <section v-if="trieuChungGroups(item).length" class="disease-section">
                 <span class="disease-section__label">Triệu chứng</span>
-                <div class="chip-row chip-row--wrap">
-                  <span
-                    v-for="(t, i) in trieuChungLabelsForBenh(item)"
-                    :key="i"
-                    class="chip chip-trieu"
-                  >
-                    {{ t }}
-                  </span>
-                </div>
+                <dl class="dx-groups">
+                  <div v-for="(g, gi) in trieuChungGroups(item)" :key="'tc' + gi" class="dx-group">
+                    <dt class="dx-group__tag">{{ g.label }}</dt>
+                    <dd class="dx-group__items">
+                      <span v-for="(t, i) in g.items" :key="'tc' + gi + '-' + i" class="dx-chip dx-chip--tc">{{ t }}</span>
+                    </dd>
+                  </div>
+                </dl>
               </section>
 
               <section v-if="baiThuocItemsForBenh(item).length" class="disease-section">
@@ -998,6 +1271,22 @@ async function handleDelete() {
               <span>Ô output (Excel) <abbr title="bắt buộc">*</abbr></span>
               <input v-model="form.outputCell" class="input" maxlength="20" placeholder="vd. K12" />
             </label>
+
+            <div class="field field--full ai-suggest-row">
+              <button
+                type="button"
+                class="btn-ai"
+                :disabled="aiLoading || isSubmitting || !form.name.trim()"
+                @click="suggestTheAi"
+              >
+                <span v-if="aiLoading">⏳ Đang gợi ý…</span>
+                <span v-else>✨ Gợi ý AI</span>
+              </button>
+              <span class="ai-hint">AI điền Nguyên nhân + Triệu chứng (kèm nhóm) + gợi ý Pháp trị theo tên thể. Hãy duyệt lại trước khi lưu.</span>
+              <span v-if="aiNewTcCount" class="ai-note">+{{ aiNewTcCount }} triệu chứng mới</span>
+              <span v-if="aiPhapTriCount" class="ai-note">+{{ aiPhapTriCount }} pháp trị</span>
+            </div>
+
             <details class="field field--full readonly-panel">
               <summary class="readonly-summary">
                 <span>Chi tiết kỹ thuật (chỉ xem)</span>
@@ -1083,17 +1372,22 @@ async function handleDelete() {
                 <div class="picker-search">
                   <input v-model="trieuChungSearch" type="search" class="input input--sm" placeholder="Tìm triệu chứng..." />
                 </div>
-                <div class="chip-picker chip-picker--scroll">
-                  <button
-                    v-for="t in filteredTrieuChungOptions"
-                    :key="t.id"
-                    type="button"
-                    class="chip-toggle"
-                    :class="{ active: form.id_trieu_chung_list.includes(t.id) }"
-                    @click="form.id_trieu_chung_list = toggleId(form.id_trieu_chung_list, t.id)"
-                  >
-                    {{ t.ten_trieu_chung }}
-                  </button>
+                <div class="tc-picker-groups">
+                  <div v-for="g in filteredTrieuChungGroups" :key="g.slug" class="tc-picker-group">
+                    <div class="tc-picker-group__label">{{ g.label }} <span>({{ g.items.length }})</span></div>
+                    <div class="chip-picker">
+                      <button
+                        v-for="t in g.items"
+                        :key="t.id"
+                        type="button"
+                        class="chip-toggle"
+                        :class="{ active: form.id_trieu_chung_list.includes(t.id) }"
+                        @click="form.id_trieu_chung_list = toggleId(form.id_trieu_chung_list, t.id)"
+                      >
+                        {{ t.ten_trieu_chung }}
+                      </button>
+                    </div>
+                  </div>
                   <button
                     v-if="canCreateTrieuChung"
                     type="button"
@@ -1106,6 +1400,51 @@ async function handleDelete() {
                   <span v-if="filteredTrieuChungOptions.length === 0 && !canCreateTrieuChung" class="muted">Không khớp "{{ trieuChungSearch }}"</span>
                 </div>
               </template>
+            </div>
+
+            <div v-if="aiUnmatchedTrieuChung.length" class="field field--full ai-unmatched">
+              <div class="field-head">
+                <span>🤖 Triệu chứng AI gợi ý (chưa có trong danh mục)</span>
+                <button type="button" class="ai-addall" :disabled="aiCreatingTcKey != null" @click="createAllAiTrieuChung">
+                  + Tạo & thêm tất cả
+                </button>
+              </div>
+              <div class="chip-picker">
+                <button
+                  v-for="(t, i) in aiUnmatchedTrieuChung"
+                  :key="i"
+                  type="button"
+                  class="chip-toggle chip-create"
+                  :disabled="aiCreatingTcKey === unmatchedKey(t)"
+                  :title="`Nhóm: ${trieuChungNhomLabel(t.nhom)} — bấm để tạo & thêm`"
+                  @click="createAiTrieuChung(t)"
+                >
+                  + {{ t.ten }}
+                </button>
+              </div>
+              <small class="field-hint">Bấm để tạo triệu chứng mới (kèm nhóm) và chọn vào thể.</small>
+            </div>
+
+            <div class="field field--full">
+              <div class="field-head">
+                <span class="field-label">Nguyên nhân (theo nhóm)</span>
+                <span class="field-count">{{ form.nguyen_nhan_list.length }} mục</span>
+              </div>
+              <div v-for="g in NHOM_NGUYEN_NHAN" :key="g.slug" class="nn-group">
+                <div class="nn-group__head">
+                  <span class="nn-group__label">{{ g.label }}</span>
+                  <button type="button" class="nn-add" @click="addNguyenNhan(g.slug)">+ Thêm dòng</button>
+                </div>
+                <div v-for="row in nguyenNhanByNhom(g.slug)" :key="row.idx" class="nn-row">
+                  <input
+                    v-model="row.item.noi_dung"
+                    type="text"
+                    class="input input--sm"
+                    :placeholder="g.slug === 'tinh-than' ? 'vd. Căng thẳng, kìm nén cảm xúc kéo dài' : g.slug === 'sinh-hoat' ? 'vd. Ăn uống thất thường, ít vận động' : 'vd. Tỳ hư không sinh đủ huyết nuôi Can'"
+                  />
+                  <button type="button" class="nn-del" aria-label="Xóa" @click="removeNguyenNhan(row.idx)">✕</button>
+                </div>
+              </div>
             </div>
 
             <div class="field field--full">
@@ -1991,6 +2330,61 @@ async function handleDelete() {
   color: var(--chip-herb-fg);
   border-color: var(--chip-herb-border);
 }
+.chip-nn { background: #fef3e2; color: #92400e; border-color: #f3d6a8; }
+
+/* Editor nguyên nhân (modal) — đồng bộ TreatmentsView */
+.nn-group { margin-bottom: 8px; }
+.nn-group__head { display: flex; align-items: center; justify-content: space-between; margin: 4px 0 2px; }
+.nn-group__label { font-size: 12px; font-weight: 700; color: var(--brown-700, #6b4f2a); }
+.nn-add { font-size: 11.5px; padding: 2px 8px; border: 1px dashed var(--brown-300, #c9a66b); background: var(--brown-50, #f7f3ec); color: var(--brown-700, #6b4f2a); border-radius: 6px; cursor: pointer; }
+.nn-row { display: flex; align-items: center; gap: 6px; margin: 3px 0; }
+.nn-row .input { flex: 1; }
+.nn-del { flex: none; width: 26px; height: 26px; border: 1px solid var(--gray-200); background: #fff; border-radius: 6px; color: var(--danger, #b91c1c); cursor: pointer; }
+/* Hiển thị Nguyên nhân / Triệu chứng theo nhóm trên thẻ.
+ * Hallmark · component: dx-groups · pre-emit critique: P5 H5 E5 S4 R5 V4
+ * Phân cấp: eyebrow (mục) › nhãn nhóm (thường, mờ) › nội dung (đậm). Căn theo cột nhãn. */
+.dx-groups { display: grid; gap: var(--space-2); margin: 2px 0 0; }
+.dx-group {
+  display: grid;
+  grid-template-columns: minmax(104px, 160px) 1fr;
+  gap: var(--space-3);
+  align-items: baseline;
+}
+.dx-group__tag {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--gray-600);
+  line-height: 1.5;
+}
+.dx-group__items {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px 6px;
+}
+/* Chip nội dung — tinh gọn, một tông/mục, viền mảnh; nổi bật vừa phải trên nền giấy. */
+.dx-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.5;
+  border: 1px solid transparent;
+  border-radius: 999px;
+}
+.dx-chip--nn { background: var(--brown-50); color: var(--brown-800); border-color: var(--brown-200); }
+.dx-chip--tc { background: var(--chip-symptom-bg); color: var(--chip-symptom-fg); border-color: var(--chip-symptom-border); }
+@media (max-width: 600px) {
+  .dx-group { grid-template-columns: 1fr; gap: 2px; }
+}
+/* Bộ chọn triệu chứng gom theo nhóm */
+.tc-picker-groups { max-height: 280px; overflow-y: auto; border: 1px solid var(--gray-200); border-radius: var(--radius-md); background: var(--gray-50); padding: var(--space-2); }
+.tc-picker-group + .tc-picker-group { margin-top: 8px; }
+.tc-picker-group__label { font-size: 11px; font-weight: 800; color: var(--brown-700, #6b4f2a); text-transform: uppercase; letter-spacing: 0.03em; margin: 2px 0 4px; }
+.tc-picker-group__label span { font-weight: 400; color: var(--gray-500); }
+.tc-picker-group .chip-picker { border: 0; background: transparent; padding: 0; }
 .chip-link,
 .chip-link-the,
 .chip-link-phap {
@@ -2087,6 +2481,46 @@ async function handleDelete() {
 .chip-create { border-style: dashed; border-color: var(--brown-400); color: var(--brown-700); background: var(--brown-50); }
 .chip-create:hover:not(:disabled) { background: var(--brown-100); border-color: var(--brown-500); }
 .chip-create:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ─── Gợi ý AI điền dữ liệu cho thể ─── */
+.ai-suggest-row { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.btn-ai {
+  padding: var(--space-2) var(--space-4);
+  background: linear-gradient(135deg, var(--ai-solid), var(--ai-solid-2));
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  cursor: pointer;
+  transition: filter var(--transition-fast);
+}
+.btn-ai:hover:not(:disabled) { filter: brightness(1.08); }
+.btn-ai:disabled { opacity: 0.6; cursor: not-allowed; }
+.ai-hint { font-size: 11px; color: var(--gray-500); }
+.ai-note {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ai-solid);
+  background: color-mix(in srgb, var(--ai-solid) 12%, white);
+  border-radius: 999px;
+  padding: 2px 8px;
+}
+.ai-unmatched .field-head > span:first-child { color: var(--ai-solid); }
+.field-hint { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+.ai-addall {
+  margin-left: auto;
+  padding: 2px 10px;
+  background: none;
+  border: 1px solid var(--ai-solid);
+  color: var(--ai-solid);
+  border-radius: var(--radius-md);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ai-addall:hover:not(:disabled) { background: var(--ai-solid); color: var(--white); }
+.ai-addall:disabled { opacity: 0.6; cursor: not-allowed; }
 
 @media (max-width: 640px) {
   .form-grid {

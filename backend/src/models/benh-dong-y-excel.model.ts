@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { PhapTri } from './phap-tri.model';
 import { TrieuChung } from './trieu-chung.model';
 import { BaiThuoc } from './bai-thuoc.model';
+import type { BenhDongYExcelNguyenNhan } from './benh-dong-y-excel-nguyen-nhan.model';
 
 @Entity('benh_dong_y_excel')
 export class BenhDongYExcel {
@@ -52,4 +53,8 @@ export class BenhDongYExcel {
     inverseJoinColumn: { name: 'id_bai_thuoc', referencedColumnName: 'id' },
   })
   baiThuocList: BaiThuoc[];
+
+  /** Nguyên nhân có cấu trúc (theo nhóm tinh-than / sinh-hoat / tang-phu). */
+  @OneToMany('BenhDongYExcelNguyenNhan', 'benhDongYExcel')
+  nguyen_nhan_list: BenhDongYExcelNguyenNhan[];
 }

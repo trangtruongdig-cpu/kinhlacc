@@ -15,6 +15,8 @@ export interface PaginatedTrieuChung {
 export interface TrieuChungWithStats {
   id: number;
   ten_trieu_chung: string;
+  /** Nhóm triệu chứng (tinh-than | tieu-hoa | ...). */
+  nhom: string | null;
   /** matched = chip đến từ ≥1 Pháp Trị thuộc bộ lọc đang chọn (để UI in đậm "đúng filter", còn lại làm mờ). */
   benhTayYList: Array<{
     id: number;
@@ -210,6 +212,7 @@ export class TrieuChungService {
     const rows: Array<{
       id: number;
       ten_trieu_chung: string;
+      nhom: string | null;
       benhTayYList:
         | Array<{ id: number; ten_benh: string; matched: boolean; chungBenh: string | null; chungBenhId: number | null }>
         | string
@@ -227,6 +230,7 @@ export class TrieuChungService {
       SELECT
         tc.id,
         tc.ten_trieu_chung,
+        tc.nhom,
         COALESCE(bty.benh_list, '[]'::json) AS "benhTayYList",
         COALESCE(bty.cnt, 0)::int           AS "benhTayYCount",
         COALESCE(bt.bai_thuoc_list, '[]'::json) AS "baiThuocList",
@@ -360,6 +364,7 @@ export class TrieuChungService {
       return {
         id: Number(r.id),
         ten_trieu_chung: r.ten_trieu_chung,
+        nhom: r.nhom ?? null,
         benhTayYList,
         baiThuocList,
         theBenhList,
@@ -709,6 +714,86 @@ export class TrieuChungService {
 
   /** Số ứng viên tối đa trả về mỗi loại. */
   private static readonly DIAGNOSIS_TOP_N = 20;
+
+  /**
+   * Dữ liệu cho "Bảng phân biệt thể bệnh" (đối chiếu triệu chứng giữa các thể ứng viên).
+   * Input: danh sách id pháp trị (thành phần của các thể đo được).
+   * Trả: hợp triệu chứng (kèm trọng số IDF như diagnose) + triệu chứng theo từng pháp trị
+   *      (để FE gom về thể) + nguyên nhân/mạch/lưỡi từng pháp trị (gợi ý hỏi thêm).
+   */
+  async phanBietByPhapTriIds(rawIds: number[]): Promise<{
+    symptoms: Array<{ id: number; ten: string; weight: number; nhom: string | null }>;
+    byPhapTri: Record<number, number[]>;
+    phapTriMeta: Record<number, { nguyen_nhan: string | null; mach_chan: string | null; chat_luoi: string | null }>;
+    phapTriNguyenNhan: Record<number, Array<{ nhom: string | null; noi_dung: string }>>;
+  }> {
+    const ids = [
+      ...new Set((Array.isArray(rawIds) ? rawIds : []).map((x) => Number(x)).filter((n) => Number.isInteger(n) && n > 0)),
+    ];
+    const empty = { symptoms: [], byPhapTri: {}, phapTriMeta: {}, phapTriNguyenNhan: {} };
+    if (!ids.length) return empty;
+
+    // Trọng số IDF trên toàn kho pháp trị (df = số pháp trị chứa triệu chứng) — đồng pha với diagnose().
+    const dfRows: Array<{ id_trieu_chung: number; df: string }> = await this.repo.query(
+      `SELECT id_trieu_chung, COUNT(DISTINCT id_phap_tri)::text AS df FROM phap_tri_trieu_chung GROUP BY id_trieu_chung`,
+    );
+    const df = new Map<number, number>();
+    for (const r of dfRows) df.set(Number(r.id_trieu_chung), Number(r.df));
+    const nRows: Array<{ n: string }> = await this.repo.query(
+      `SELECT COUNT(DISTINCT id_phap_tri)::text AS n FROM phap_tri_trieu_chung`,
+    );
+    const N = Number(nRows[0]?.n ?? 0);
+    const weight = (tid: number): number => {
+      const d = df.get(tid) ?? 0;
+      return d > 0 ? Math.round(Math.log(1 + N / d) * 1000) / 1000 : 0;
+    };
+
+    // Triệu chứng của từng pháp trị (kèm nhóm ngữ nghĩa để FE gom theo nhóm).
+    const rows: Array<{ pt_id: number; tc_id: number; ten: string; nhom: string | null }> = await this.repo.query(
+      `SELECT j.id_phap_tri AS pt_id, j.id_trieu_chung AS tc_id, tc.ten_trieu_chung AS ten, tc.nhom AS nhom
+       FROM phap_tri_trieu_chung j
+       JOIN trieu_chung tc ON tc.id = j.id_trieu_chung
+       WHERE j.id_phap_tri = ANY($1)`,
+      [ids],
+    );
+    const byPhapTri: Record<number, number[]> = {};
+    const symMap = new Map<number, { id: number; ten: string; weight: number; nhom: string | null }>();
+    for (const r of rows) {
+      const ptId = Number(r.pt_id);
+      const tcId = Number(r.tc_id);
+      (byPhapTri[ptId] ??= []).push(tcId);
+      if (!symMap.has(tcId))
+        symMap.set(tcId, { id: tcId, ten: r.ten, weight: weight(tcId), nhom: r.nhom ?? null });
+    }
+
+    // Nguyên nhân / mạch / lưỡi của từng pháp trị (văn bản — gợi ý hỏi thêm).
+    const metaRows: Array<{ id: number; nguyen_nhan: string | null; mach_chan: string | null; chat_luoi: string | null }> =
+      await this.repo.query(`SELECT id, nguyen_nhan, mach_chan, chat_luoi FROM phap_tri WHERE id = ANY($1)`, [ids]);
+    const phapTriMeta: Record<number, { nguyen_nhan: string | null; mach_chan: string | null; chat_luoi: string | null }> = {};
+    for (const m of metaRows) {
+      phapTriMeta[Number(m.id)] = {
+        nguyen_nhan: (m.nguyen_nhan || '').trim() || null,
+        mach_chan: (m.mach_chan || '').trim() || null,
+        chat_luoi: (m.chat_luoi || '').trim() || null,
+      };
+    }
+
+    // Nguyên nhân có cấu trúc (bảng chuẩn hoá) — để FE gom theo nhóm khi hỏi tìm gốc.
+    const nnRows: Array<{ id_phap_tri: number; nhom: string | null; noi_dung: string | null }> =
+      await this.repo.query(
+        `SELECT id_phap_tri, nhom, noi_dung FROM phap_tri_nguyen_nhan
+         WHERE id_phap_tri = ANY($1) ORDER BY id_phap_tri, thu_tu, id`,
+        [ids],
+      );
+    const phapTriNguyenNhan: Record<number, Array<{ nhom: string | null; noi_dung: string }>> = {};
+    for (const r of nnRows) {
+      const noi = (r.noi_dung || '').trim();
+      if (!noi) continue;
+      (phapTriNguyenNhan[Number(r.id_phap_tri)] ??= []).push({ nhom: r.nhom ?? null, noi_dung: noi });
+    }
+
+    return { symptoms: [...symMap.values()], byPhapTri, phapTriMeta, phapTriNguyenNhan };
+  }
 
   async findPaginated(
     page: number = 1,

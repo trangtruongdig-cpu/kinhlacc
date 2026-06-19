@@ -22,6 +22,8 @@ interface BenhLite {
   name?: string | null
   tieuket?: string | null
   chung_trang?: string | null
+  phuyet_chamcuu?: string | null
+  giainghia_phuyet?: string | null
 }
 
 interface PhacDoRow {
@@ -65,7 +67,7 @@ const isLoading = ref(true)
 const isSubmitting = ref(false)
 const error = ref<string | null>(null)
 const formError = ref<string | null>(null)
-const dataList = ref<PhacDoRow[]>([])
+const phGroups = ref<BenhGroup[]>([])
 const huyetViOptions = ref<HuyetViLite[]>([])
 const benhOptions = ref<BenhLite[]>([])
 const searchQuery = ref('')
@@ -76,6 +78,11 @@ const showDeleteConfirm = ref(false)
 const editingBenhId = ref<number | null>(null)
 const editingItems = ref<PhacDoRow[]>([])
 const deletingGroup = ref<BenhGroup | null>(null)
+
+// ─── Tách huyệt từ văn bản phương huyệt (AI) ───────────────────────────────
+const aiParsingBenhId = ref<number | null>(null)
+const aiUnmatchedHuyet = ref<{ ten: string; phuong_phap: string; ghi_chu: string }[]>([])
+const aiParsedCount = ref<number | null>(null)
 
 const emptyForm = (): FormState => ({
   id_benh: null,
@@ -136,6 +143,26 @@ function toggleNoteExpanded(id: number) {
   expandedNotes.value = next
 }
 
+// Cắt gọn các khối văn bản dài (Phương huyệt / Giải nghĩa) — clamp 4 dòng + nút Xem thêm.
+const SECTION_TRUNCATE_LEN = 160
+const expandedText = ref<Set<string>>(new Set())
+function isLongText(s: string | null | undefined): boolean {
+  return !!s && s.trim().length > SECTION_TRUNCATE_LEN
+}
+function toggleText(key: string) {
+  const next = new Set(expandedText.value)
+  if (next.has(key)) next.delete(key)
+  else next.add(key)
+  expandedText.value = next
+}
+
+// Cắt gọn danh sách huyệt cấu trúc trên thẻ (giữ chiều cao đồng đều) — đủ xem ở modal Sửa.
+const HUYET_CAP = 6
+function visibleItems(group: BenhGroup): PhacDoRow[] {
+  if (expandedText.value.has('hv-' + group.idBenh)) return group.items
+  return group.items.slice(0, HUYET_CAP)
+}
+
 const currentPage = ref(1)
 const itemsPerPage = ref(10)
 
@@ -151,8 +178,8 @@ async function fetchData() {
   isLoading.value = true
   error.value = null
   try {
-    const res: any = await api.get('/phac-do-dieu-tri')
-    dataList.value = Array.isArray(res) ? res : res?.data ?? []
+    const res: any = await api.get('/phac-do-dieu-tri/phuong-huyet-the')
+    phGroups.value = Array.isArray(res) ? res : res?.data ?? []
   } catch (err: any) {
     console.error(err)
     error.value = 'Lỗi khi tải dữ liệu: ' + (err.message || String(err))
@@ -214,19 +241,11 @@ const filteredBenhOptions = computed(() => {
   })
 })
 
-const groupedList = computed<BenhGroup[]>(() => {
-  const map = new Map<number, BenhGroup>()
-  for (const row of dataList.value) {
-    let g = map.get(row.idBenh)
-    if (!g) {
-      g = { idBenh: row.idBenh, benh: row.benh, items: [] }
-      map.set(row.idBenh, g)
-    }
-    if (!g.benh && row.benh) g.benh = row.benh
-    g.items.push(row)
-  }
-  return Array.from(map.values()).sort((a, b) => a.idBenh - b.idBenh)
-})
+// Server đã gom theo thể bệnh (kèm phương huyệt nguyên văn + huyệt cấu trúc).
+const groupedList = computed<BenhGroup[]>(() =>
+  [...phGroups.value].sort((a, b) => a.idBenh - b.idBenh),
+)
+const linkCount = computed(() => groupedList.value.reduce((n, g) => n + g.items.length, 0))
 
 const filteredList = computed<BenhGroup[]>(() => {
   const q = searchQuery.value.trim().toLowerCase()
@@ -235,6 +254,10 @@ const filteredList = computed<BenhGroup[]>(() => {
     const hay = [
       benhLabel(g.benh, g.idBenh),
       g.benh?.code,
+      g.benh?.tieuket,
+      g.benh?.chung_trang,
+      g.benh?.phuyet_chamcuu,
+      g.benh?.giainghia_phuyet,
       ...g.items.flatMap((row) => [
         huyetViLabel(row.huyetVi),
         row.huyetVi?.ma_huyet,
@@ -275,6 +298,8 @@ function openCreateModal() {
   formError.value = null
   huyetAddSearch.value = ''
   benhSearch.value = ''
+  aiUnmatchedHuyet.value = []
+  aiParsedCount.value = null
   showModal.value = true
 }
 
@@ -292,6 +317,8 @@ function openEditModal(group: BenhGroup) {
   formError.value = null
   huyetAddSearch.value = ''
   benhSearch.value = ''
+  aiUnmatchedHuyet.value = []
+  aiParsedCount.value = null
   showModal.value = true
 }
 
@@ -299,6 +326,48 @@ function closeModal() {
   showModal.value = false
   editingBenhId.value = null
   editingItems.value = []
+  aiUnmatchedHuyet.value = []
+  aiParsedCount.value = null
+}
+
+/**
+ * AI tách văn bản phương huyệt (dữ liệu cũ) của thể bệnh thành huyệt CÓ CẤU TRÚC,
+ * mở modal sửa đã điền sẵn để bác sĩ duyệt/chỉnh rồi lưu. Huyệt chưa khớp → liệt kê để thêm tay.
+ */
+async function parseHuyetAi(group: BenhGroup) {
+  const text = group.benh?.phuyet_chamcuu?.trim()
+  if (!text || aiParsingBenhId.value != null) return
+  aiParsingBenhId.value = group.idBenh
+  try {
+    const res = await api.post<{
+      success: boolean
+      data: {
+        matched: { idHuyet: number; ten_huyet: string; phuong_phap: string; ghi_chu: string }[]
+        unmatched: { ten: string; phuong_phap: string; ghi_chu: string }[]
+      }
+    }>('/ai-suggest/phuong-huyet', { text })
+    const d = res?.data
+    if (!d) throw new Error('AI không trả về dữ liệu')
+
+    openEditModal(group) // nạp huyệt sẵn có + id_benh, đặt chế độ sửa
+    const have = new Set(form.value.rows.map((r) => r.idHuyet))
+    for (const m of d.matched ?? []) {
+      if (have.has(m.idHuyet)) continue
+      have.add(m.idHuyet)
+      form.value.rows.push({
+        idHuyet: m.idHuyet,
+        phuong_phap_tac_dong: m.phuong_phap || '',
+        ghi_chu_ky_thuat: m.ghi_chu || '',
+      })
+    }
+    aiParsedCount.value = (d.matched ?? []).length
+    aiUnmatchedHuyet.value = (d.unmatched ?? []).filter((x) => (x?.ten ?? '').trim())
+  } catch (err: any) {
+    formError.value = 'Tách huyệt AI thất bại: ' + (err?.message ?? err)
+    showModal.value = true // hiển thị lỗi nếu modal chưa mở
+  } finally {
+    aiParsingBenhId.value = null
+  }
 }
 
 async function handleSubmit() {
@@ -427,7 +496,7 @@ async function handleDelete() {
       <div class="data-card">
         <div class="card-header">
           <h3>Danh Sách Phương Huyệt</h3>
-          <span class="badge badge-success">{{ filteredList.length }} bệnh · {{ dataList.length }} liên kết</span>
+          <span class="badge badge-success">{{ filteredList.length }} bệnh · {{ linkCount }} liên kết huyệt</span>
         </div>
         <div v-if="pagedList.length === 0" class="empty-state">
           {{ searchQuery.trim() ? 'Không khớp bản ghi nào' : 'Chưa có dữ liệu' }}
@@ -448,8 +517,48 @@ async function handleDelete() {
             </header>
 
             <div class="disease-card__body">
+              <section v-if="group.benh?.phuyet_chamcuu" class="disease-section">
+                <div class="ph-head">
+                  <span class="disease-section__label">Phương huyệt (dữ liệu cũ)</span>
+                  <button
+                    type="button"
+                    class="btn-ai-sm"
+                    :disabled="aiParsingBenhId != null"
+                    :title="'AI tách văn bản này thành huyệt có cấu trúc để bác sĩ duyệt'"
+                    @click="parseHuyetAi(group)"
+                  >
+                    <span v-if="aiParsingBenhId === group.idBenh">⏳ Đang tách…</span>
+                    <span v-else>✨ Tách huyệt (AI)</span>
+                  </button>
+                </div>
+                <p
+                  class="ph-text"
+                  :class="{ 'ph-text--clamp': isLongText(group.benh.phuyet_chamcuu) && !expandedText.has('pc-' + group.idBenh) }"
+                >{{ group.benh.phuyet_chamcuu }}</p>
+                <button
+                  v-if="isLongText(group.benh.phuyet_chamcuu)"
+                  type="button"
+                  class="note-toggle"
+                  @click="toggleText('pc-' + group.idBenh)"
+                >{{ expandedText.has('pc-' + group.idBenh) ? 'Thu gọn ▲' : 'Xem thêm ▼' }}</button>
+              </section>
+
+              <section v-if="group.benh?.giainghia_phuyet" class="disease-section">
+                <span class="disease-section__label">Giải nghĩa phương huyệt</span>
+                <p
+                  class="ph-text ph-text--muted"
+                  :class="{ 'ph-text--clamp': isLongText(group.benh.giainghia_phuyet) && !expandedText.has('gn-' + group.idBenh) }"
+                >{{ group.benh.giainghia_phuyet }}</p>
+                <button
+                  v-if="isLongText(group.benh.giainghia_phuyet)"
+                  type="button"
+                  class="note-toggle"
+                  @click="toggleText('gn-' + group.idBenh)"
+                >{{ expandedText.has('gn-' + group.idBenh) ? 'Thu gọn ▲' : 'Xem thêm ▼' }}</button>
+              </section>
+
               <section v-if="group.items.length" class="disease-section">
-                <span class="disease-section__label">Huyệt vị ({{ group.items.length }})</span>
+                <span class="disease-section__label">Huyệt vị — cấu trúc ({{ group.items.length }})</span>
                 <div class="huyet-table">
                   <div class="huyet-table__head">
                     <span class="ht-col ht-col--name">Huyệt</span>
@@ -457,7 +566,7 @@ async function handleDelete() {
                     <span class="ht-col ht-col--note">Ghi chú</span>
                   </div>
                   <div
-                    v-for="row in group.items"
+                    v-for="row in visibleItems(group)"
                     :key="row.idPhacDo"
                     class="huyet-table__row"
                   >
@@ -491,9 +600,15 @@ async function handleDelete() {
                     </div>
                   </div>
                 </div>
+                <button
+                  v-if="group.items.length > HUYET_CAP"
+                  type="button"
+                  class="note-toggle"
+                  @click="toggleText('hv-' + group.idBenh)"
+                >{{ expandedText.has('hv-' + group.idBenh) ? 'Thu gọn ▲' : `Xem thêm ${group.items.length - HUYET_CAP} huyệt ▼` }}</button>
               </section>
 
-              <p v-else class="disease-empty muted">Chưa có huyệt vị nào.</p>
+              <p v-if="!group.benh?.phuyet_chamcuu && !group.items.length" class="disease-empty muted">Chưa có phương huyệt.</p>
             </div>
           </article>
         </div>
@@ -566,6 +681,24 @@ async function handleDelete() {
               <small v-if="editingBenhId != null" class="field-hint">
                 Khi lưu: huyệt bị xóa sẽ bị bỏ khỏi bệnh, huyệt mới sẽ được thêm.
               </small>
+
+              <div v-if="aiParsedCount != null" class="ai-parse-note">
+                🤖 AI đã tách <b>{{ aiParsedCount }}</b> huyệt từ văn bản — hãy duyệt/chỉnh
+                <b>Phương pháp</b> &amp; <b>Ghi chú</b> bên dưới rồi bấm Lưu.
+              </div>
+              <div v-if="aiUnmatchedHuyet.length" class="ai-unmatched-huyet">
+                <span class="field-hint">🤖 Huyệt AI nêu nhưng chưa khớp danh mục (tự thêm tay nếu cần):</span>
+                <div class="chip-row">
+                  <span
+                    v-for="(u, i) in aiUnmatchedHuyet"
+                    :key="i"
+                    class="chip chip-warn"
+                    :title="[u.phuong_phap, u.ghi_chu].filter(Boolean).join(' · ')"
+                  >
+                    {{ u.ten }}<small v-if="u.phuong_phap"> · {{ u.phuong_phap }}</small>
+                  </span>
+                </div>
+              </div>
 
               <div v-if="form.rows.length" class="huyet-rows">
                 <div class="huyet-rows__head">
@@ -738,9 +871,9 @@ async function handleDelete() {
 }
 
 .disease-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
-  gap: var(--space-4);
+  /* Masonry bằng CSS multi-column: thẻ xếp KHÍT theo cột, không còn kẽ hở (đọc theo cột dọc). */
+  column-width: 340px;
+  column-gap: var(--space-4);
   padding: var(--space-4) var(--space-5);
   background: var(--surface-2);
 }
@@ -754,6 +887,12 @@ async function handleDelete() {
   box-shadow: 0 1px 2px rgba(74, 47, 23, 0.04);
   transition: box-shadow var(--transition-fast), transform var(--transition-fast),
     border-color var(--transition-fast);
+  /* Masonry: không cho thẻ bị cắt ngang giữa 2 cột; dùng margin (multicol không áp dụng gap dọc). */
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  width: 100%;
+  margin-bottom: var(--space-4);
 }
 .disease-card:hover {
   box-shadow: 0 6px 18px rgba(74, 47, 23, 0.08);
@@ -822,6 +961,55 @@ async function handleDelete() {
   line-height: 1.5;
 }
 .disease-empty { margin: 0; font-size: var(--font-size-sm); text-align: center; padding: var(--space-3) 0; }
+/* Phương huyệt nguyên văn (dữ liệu cũ) — giữ xuống dòng gốc, đóng khung như một "đơn" */
+.ph-text {
+  margin: 0;
+  white-space: pre-line;
+  padding: 10px 12px;
+  background: var(--brown-50);
+  border: 1px solid var(--brown-100);
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: var(--gray-800);
+  line-height: 1.6;
+}
+.ph-text--muted { background: var(--gray-50); border-color: var(--gray-200); color: var(--gray-700); font-size: 13px; }
+/* Cắt gọn 4 dòng khi chưa "Xem thêm" — giữ chiều cao thẻ đồng đều, lưới gọn mắt. */
+.ph-text--clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* Nút + ghi chú AI tách huyệt */
+.ph-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.btn-ai-sm {
+  padding: 3px 10px;
+  background: linear-gradient(135deg, var(--ai-solid), var(--ai-solid-2));
+  color: var(--white);
+  border: none;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter var(--transition-fast);
+  white-space: nowrap;
+}
+.btn-ai-sm:hover:not(:disabled) { filter: brightness(1.08); }
+.btn-ai-sm:disabled { opacity: 0.6; cursor: not-allowed; }
+.ai-parse-note {
+  margin: 6px 0;
+  padding: 8px 12px;
+  background: color-mix(in srgb, var(--ai-solid) 8%, white);
+  border: 1px solid color-mix(in srgb, var(--ai-solid) 25%, white);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--gray-800);
+}
+.ai-unmatched-huyet { margin: 6px 0; display: flex; flex-direction: column; gap: 4px; }
+.ai-unmatched-huyet .chip-row { display: flex; flex-wrap: wrap; gap: 5px; }
+.chip-warn { background: #fdf0dc; color: #9a6313; border: 1px solid #f0dcc0; border-radius: 999px; padding: 2px 9px; font-size: 12.5px; }
 
 .chip-row { display: flex; flex-wrap: wrap; gap: 4px; }
 .chip-row--wrap { gap: 6px; }

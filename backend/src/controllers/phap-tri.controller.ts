@@ -19,6 +19,7 @@ export class PhapTriService {
     'benh_dong_y_list',
     'kinh_mach_list',
     'trieu_chung_list',
+    'nguyen_nhan_list',
   ] as const;
 
   constructor(
@@ -319,6 +320,7 @@ export class PhapTriService {
           'bai_thuoc',
           'bai_thuoc_links',
           'bai_thuoc_links.baiThuoc',
+          'nguyen_nhan_list',
         ],
         order: { id: 'ASC' },
       });
@@ -717,8 +719,29 @@ export class PhapTriService {
       throw e;
     }
     await this.syncPhapTriBaiThuocLinks(entity.id, dto, 'create');
+    await this.applyNguyenNhanList(entity.id, dto, 'create');
     await this.syncDerivedTrieuChungBaiThuoc((entity.trieu_chung_list ?? []).map((t) => t.id));
     return this.findOne(entity.id);
+  }
+
+  /** Đồng bộ nguyên nhân có cấu trúc (xoá cũ → chèn mới theo thứ tự). Update chỉ khi body có key. */
+  private async applyNguyenNhanList(
+    phapTriId: number,
+    dto: CreatePhapTriDto | UpdatePhapTriDto,
+    mode: 'create' | 'update',
+  ): Promise<void> {
+    const has = Object.prototype.hasOwnProperty.call(dto, 'nguyen_nhan_list');
+    if (!has) return; // không gửi → không đổi (cả create lẫn update)
+    await this.repo.query(`DELETE FROM phap_tri_nguyen_nhan WHERE id_phap_tri = $1`, [phapTriId]);
+    const items = (dto.nguyen_nhan_list ?? []).filter((x) => x && String(x.noi_dung ?? '').trim());
+    let ord = 0;
+    for (const it of items) {
+      await this.repo.query(
+        `INSERT INTO phap_tri_nguyen_nhan (id_phap_tri, nhom, noi_dung, thu_tu) VALUES ($1, $2, $3, $4)`,
+        [phapTriId, (it.nhom ?? '').trim() || null, String(it.noi_dung).trim(), Number.isFinite(it.thu_tu as number) ? it.thu_tu : ord],
+      );
+      ord += 1;
+    }
   }
 
   async update(id: number, dto: UpdatePhapTriDto): Promise<PhapTri> {
@@ -750,6 +773,7 @@ export class PhapTriService {
       throw e;
     }
     await this.syncPhapTriBaiThuocLinks(id, dto, 'update');
+    await this.applyNguyenNhanList(id, dto, 'update');
     const newTcIds = (item.trieu_chung_list ?? []).map((t) => t.id);
     await this.syncDerivedTrieuChungBaiThuoc([...oldTcIds, ...newTcIds]);
     return this.findOne(id);

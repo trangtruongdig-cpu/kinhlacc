@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watch } from 'vue'
+import { ref, onMounted, computed, watch, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { usePatientStore, type Patient } from '@/stores/patient'
 import { api } from '@/services/api'
@@ -141,151 +141,6 @@ const matchedBaiThuocList = computed(() => {
   return out
 })
 
-const matchedTrieuChungList = computed(() => {
-  const seen = new Set<number>()
-  const out: TrieuChungLite[] = []
-  for (const id of matchedBenhIds.value) {
-    const detail = benhDetailsMap.value.get(id)
-    if (!detail?.trieu_chung_list) continue
-    for (const t of detail.trieu_chung_list) {
-      if (seen.has(t.id)) continue
-      seen.add(t.id)
-      out.push(t)
-    }
-  }
-  return out
-})
-
-// ===== Chẩn đoán từ triệu chứng (Section VI) =====
-interface DiagnosisMatchedSymptom {
-  id: number
-  ten_trieu_chung: string
-}
-// Đông Y: pháp trị thành phần của một thể bệnh (gộp & cộng dồn bằng chứng).
-interface DiagnosisPhapTriRef {
-  id: number
-  nguyen_tac: string | null
-  matchedCount: number
-}
-// Tây Y: pháp trị cầu nối (đối chiếu chuỗi triệu chứng → pháp trị → bệnh).
-interface DiagnosisViaRef {
-  id: number
-  label: string
-  percent: number
-}
-interface DiagnosisCandidate {
-  id: number
-  label: string
-  subLabel: string | null
-  groupLabel: string | null
-  groupId: number | null
-  score: number
-  percent: number
-  matchedCount: number
-  total: number
-  matched: DiagnosisMatchedSymptom[]
-  members?: DiagnosisPhapTriRef[]
-  via?: DiagnosisViaRef[]
-}
-interface DiagnosisResult {
-  input: DiagnosisMatchedSymptom[]
-  phapTri: DiagnosisCandidate[]
-  phapTriTotal: number
-  benhTayY: DiagnosisCandidate[]
-  benhTayYTotal: number
-}
-
-const selectedDiagSymptomIds = ref<number[]>([])
-const isDiagnosing = ref(false)
-const diagError = ref<string | null>(null)
-const diagResult = ref<DiagnosisResult | null>(null)
-const hasRunDiagnosis = ref(false)
-
-// Thu gọn kết quả: mặc định chỉ hiện top N mỗi cột, bấm để xem thêm (gọn trên màn nhỏ).
-const DIAG_COLLAPSED_COUNT = 3
-const expandDongY = ref(false)
-const expandTayY = ref(false)
-const phapTriShown = computed(() => {
-  const list = diagResult.value?.phapTri ?? []
-  return expandDongY.value ? list : list.slice(0, DIAG_COLLAPSED_COUNT)
-})
-const benhTayYShown = computed(() => {
-  const list = diagResult.value?.benhTayY ?? []
-  return expandTayY.value ? list : list.slice(0, DIAG_COLLAPSED_COUNT)
-})
-
-// Ô chọn MỞ RỘNG: toàn bộ triệu chứng (không giới hạn ở triệu chứng của bệnh đo được).
-// Triệu chứng từ phép đo được tô đậm & chọn sẵn làm điểm xuất phát.
-const allDiagSymptoms = ref<TrieuChungLite[]>([])
-const diagSymptomSearch = ref('')
-const measuredIdSet = computed(() => new Set(matchedTrieuChungList.value.map((t) => t.id)))
-// Chọn sẵn triệu chứng từ phép đo MỘT LẦN (thực hiện trong loadData sau khi có dữ liệu).
-// KHÔNG dùng watch ở đây: watch đánh giá hàm nguồn ngay khi đăng ký (trong setup), ép
-// matchedBenhIds chạy trước khi excelFocusRuleId (khai báo bên dưới) khởi tạo → crash trắng màn.
-const diagPreselected = ref(false)
-// Gợi ý để THÊM (loại cái đã chọn cho gọn). CHƯA gõ → chỉ triệu chứng từ phép đo;
-// CÓ gõ → tìm toàn bộ, ưu tiên triệu chứng từ phép đo, giới hạn cho gọn.
-const DIAG_SUGGEST_LIMIT = 30
-const filteredDiagSymptomOptions = computed<TrieuChungLite[]>(() => {
-  const q = diagSymptomSearch.value.trim().toLowerCase()
-  const selected = new Set(selectedDiagSymptomIds.value)
-  if (!q) {
-    return matchedTrieuChungList.value.filter((t) => !selected.has(t.id))
-  }
-  const m = measuredIdSet.value
-  return allDiagSymptoms.value
-    .filter((t) => !selected.has(t.id) && t.ten_trieu_chung.toLowerCase().includes(q))
-    .sort(
-      (a, b) =>
-        Number(m.has(b.id)) - Number(m.has(a.id)) ||
-        a.ten_trieu_chung.localeCompare(b.ten_trieu_chung, 'vi'),
-    )
-    .slice(0, DIAG_SUGGEST_LIMIT)
-})
-const selectedDiagSymptomList = computed<TrieuChungLite[]>(() => {
-  const byId = new Map(allDiagSymptoms.value.map((t) => [t.id, t] as const))
-  return selectedDiagSymptomIds.value
-    .map((id) => byId.get(id))
-    .filter((t): t is TrieuChungLite => t != null)
-})
-
-function toggleDiagSymptom(id: number) {
-  selectedDiagSymptomIds.value = selectedDiagSymptomIds.value.includes(id)
-    ? selectedDiagSymptomIds.value.filter((x) => x !== id)
-    : [...selectedDiagSymptomIds.value, id]
-}
-// Hợp triệu chứng từ phép đo vào lựa chọn (không xoá triệu chứng bác sĩ tự thêm).
-function selectMeasuredSymptoms() {
-  const ids = new Set(selectedDiagSymptomIds.value)
-  for (const t of matchedTrieuChungList.value) ids.add(t.id)
-  selectedDiagSymptomIds.value = [...ids]
-}
-function clearDiagSymptoms() {
-  selectedDiagSymptomIds.value = []
-  diagResult.value = null
-  hasRunDiagnosis.value = false
-  diagError.value = null
-}
-async function runMeridianDiagnosis() {
-  const ids = Array.from(new Set(selectedDiagSymptomIds.value))
-  if (!ids.length || isDiagnosing.value) return
-  isDiagnosing.value = true
-  diagError.value = null
-  expandDongY.value = false
-  expandTayY.value = false
-  try {
-    const res = await api.post<DiagnosisResult>('/trieu-chung/chan-doan', {
-      trieu_chung_ids: ids,
-    })
-    diagResult.value = res
-    hasRunDiagnosis.value = true
-  } catch (err: any) {
-    console.error(err)
-    diagError.value = 'Lỗi khi chẩn đoán: ' + (err.message || String(err))
-  } finally {
-    isDiagnosing.value = false
-  }
-}
 
 function phapTriHref(id: number): string {
   return router.resolve({ name: 'treatments', query: { ptId: id } }).href
@@ -296,27 +151,395 @@ function benhTayYHref(id: number): string {
     query: { tab: 'benh-tay-y', btyId: id },
   }).href
 }
-function confidenceClass(percent: number): string {
-  if (percent >= 60) return 'conf-high'
-  if (percent >= 30) return 'conf-mid'
-  return 'conf-low'
+
+// ===== Bảng phân biệt thể bệnh (đối chiếu triệu chứng giữa các thể ứng viên) =====
+type PbAnswer = 'co' | 'khong' | 'kho'
+interface PbComponent { label: string; phapTriIds: number[]; symptomIds: Set<number> }
+interface PbCandidate { key: string; label: string; percentDo: number; phapTriIds: number[]; symptomIds: Set<number>; enabled: boolean; isKep?: boolean; unsynced?: boolean; components?: PbComponent[] }
+interface PbSymptom { id: number; ten: string; weight: number; nhom: string | null }
+interface PbNguyenNhan { nhom: string | null; noi_dung: string }
+interface KepPick { id: number; label: string; tc?: number }
+
+// Nhóm ngữ nghĩa triệu chứng (đồng bộ Pha 2 / SymptomsView).
+const PB_NHOM_TC: Record<string, string> = {
+  'tinh-than': 'Tinh thần / Cảm xúc',
+  'tieu-hoa': 'Tiêu hóa / Ăn ngủ',
+  'than-kinh-co-the': 'Thần kinh / Cơ thể',
+  'phu-khoa': 'Phụ khoa',
+  'luoi-mach': 'Lưỡi / Mạch',
+  'toan-trang': 'Toàn trạng',
+  khac: 'Khác',
 }
-function confidenceLabel(percent: number): string {
-  if (percent >= 60) return 'Rất phù hợp'
-  if (percent >= 30) return 'Khá phù hợp'
-  return 'Gợi ý'
+const PB_NHOM_TC_ORDER = ['tinh-than', 'tieu-hoa', 'than-kinh-co-the', 'phu-khoa', 'luoi-mach', 'toan-trang', 'khac']
+// Nhóm nguyên nhân (đồng bộ Pha 3 / TreatmentsView).
+const PB_NHOM_NN: Record<string, string> = {
+  'tinh-than': 'Yếu tố tinh thần',
+  'sinh-hoat': 'Chế độ sinh hoạt',
+  'tang-phu': 'Ảnh hưởng tạng phủ khác',
 }
-const hasAnyDiagResults = computed(
-  () => !!diagResult.value && (diagResult.value.phapTri.length > 0 || diagResult.value.benhTayY.length > 0),
+const PB_NHOM_NN_ORDER = ['tinh-than', 'sinh-hoat', 'tang-phu']
+
+const showPhanBietModal = ref(false)
+const phanBietLoading = ref(false)
+const phanBietError = ref<string | null>(null)
+const phanBietSymptoms = ref<PbSymptom[]>([])
+const phanBietByPhapTri = ref<Record<number, number[]>>({})
+const phanBietMeta = ref<Record<number, { nguyen_nhan: string | null; mach_chan: string | null; chat_luoi: string | null }>>({})
+const phanBietNguyenNhan = ref<Record<number, PbNguyenNhan[]>>({})
+const phanBietCandidates = ref<PbCandidate[]>([])
+const phanBietAnswers = reactive<Record<number, PbAnswer>>({})
+// Pha 5 — ghép thể kép
+const kepSearch = ref('')
+const kepResults = ref<KepPick[]>([])
+const kepPicks = ref<KepPick[]>([])
+const kepSearching = ref(false)
+const kepError = ref<string | null>(null)
+let kepTimer: ReturnType<typeof setTimeout> | null = null
+// D5 — lưu chẩn đoán vào bệnh án
+const chanDoanKetLuanKey = ref('')
+const chanDoanNote = ref('')
+const chanDoanSaving = ref(false)
+const chanDoanSavedMsg = ref('')
+const savedChanDoan = computed<{ ket_luan: string; luu_luc: string } | null>(
+  () => (examination.value && examination.value.chanDoan) || null,
 )
-const unexplainedDiagSymptoms = computed<DiagnosisMatchedSymptom[]>(() => {
-  const res = diagResult.value
-  if (!res) return []
-  const matchedIds = new Set<number>()
-  for (const c of res.phapTri) for (const m of c.matched) matchedIds.add(m.id)
-  for (const c of res.benhTayY) for (const m of c.matched) matchedIds.add(m.id)
-  return res.input.filter((s) => !matchedIds.has(s.id))
+
+// Top 3 thể ứng viên (Đông Y) làm tâm để phân biệt.
+// D4: Hỏi & Chẩn đoán chạy TỪ thể đo (Section III). Ứng viên = các thể bệnh đo được;
+// triệu chứng + nguyên nhân lấy qua bridge (đồng bộ D2) → pháp trị. Thể kép nối ≥2
+// pháp trị → components để tính điểm min.
+interface TheDoPhanBietCandidate {
+  theDoId: number
+  name: string
+  is_kep: boolean
+  phapTriIds: number[]
+  symptomIds: number[]
+  components: { phapTriId: number; label: string; symptomIds: number[] }[]
+}
+async function openPhanBiet() {
+  const theDos = excelSyndromesList.value as Array<{ id: number; name: string }>
+  if (!theDos.length) return
+  showPhanBietModal.value = true
+  phanBietLoading.value = true
+  phanBietError.value = null
+  phanBietSymptoms.value = []
+  phanBietNguyenNhan.value = {}
+  kepSearch.value = ''
+  kepResults.value = []
+  kepPicks.value = []
+  kepError.value = null
+  // Prefill từ chẩn đoán đã lưu (nếu mở lại).
+  const prev = examination.value?.chanDoan
+  chanDoanKetLuanKey.value = prev?.ket_luan_key ?? ''
+  chanDoanNote.value = prev?.ghi_chu ?? ''
+  chanDoanSavedMsg.value = ''
+  Object.keys(phanBietAnswers).forEach((k) => delete phanBietAnswers[Number(k)])
+  if (Array.isArray(prev?.trieu_chung)) {
+    for (const t of prev.trieu_chung) if (t && t.id != null) phanBietAnswers[t.id] = t.tra_loi
+  }
+
+  const ids = [...new Set(theDos.map((t) => t.id))]
+  try {
+    const res = await api.get<{
+      symptoms: PbSymptom[]
+      phapTriMeta: Record<string, { nguyen_nhan: string | null; mach_chan: string | null; chat_luoi: string | null }>
+      phapTriNguyenNhan: Record<string, PbNguyenNhan[]>
+      candidates: TheDoPhanBietCandidate[]
+    }>(`/benh-dong-y-excel/phan-biet?ids=${ids.join(',')}`)
+    phanBietSymptoms.value = res.symptoms ?? []
+    phanBietMeta.value = res.phapTriMeta ?? {}
+    phanBietNguyenNhan.value = res.phapTriNguyenNhan ?? {}
+    phanBietByPhapTri.value = {}
+    phanBietCandidates.value = (res.candidates ?? []).map((c) => ({
+      key: 'tdo:' + c.theDoId,
+      label: c.name,
+      percentDo: 0,
+      phapTriIds: c.phapTriIds,
+      symptomIds: new Set<number>(c.symptomIds),
+      enabled: true,
+      isKep: c.is_kep,
+      unsynced: c.phapTriIds.length === 0,
+      // Điểm min chỉ áp cho THỂ KÉP nối ≥2 pháp trị thành phần. Thể đơn dù nối nhiều
+      // pháp trị (điều trị thay thế) vẫn tính gộp 1 tập, không min.
+      components:
+        c.is_kep && c.components.length > 1
+          ? c.components.map((comp) => ({
+              label: comp.label,
+              phapTriIds: [comp.phapTriId],
+              symptomIds: new Set<number>(comp.symptomIds),
+            }))
+          : undefined,
+    }))
+  } catch (e: unknown) {
+    phanBietError.value = e instanceof Error ? e.message : String(e)
+  } finally {
+    phanBietLoading.value = false
+  }
+}
+function closePhanBiet() { showPhanBietModal.value = false }
+function togglePbCandidate(key: string) {
+  const c = phanBietCandidates.value.find((x) => x.key === key)
+  if (c && !(c.enabled && phanBietCandidates.value.filter((x) => x.enabled).length <= 1)) c.enabled = !c.enabled
+}
+function setPbAnswer(id: number, val: PbAnswer) {
+  if (phanBietAnswers[id] === val) delete phanBietAnswers[id]
+  else phanBietAnswers[id] = val
+}
+function pbCandIndex(key: string): number { return phanBietCandidates.value.findIndex((c) => c.key === key) }
+
+const pbActiveCandidates = computed(() => phanBietCandidates.value.filter((c) => c.enabled))
+// Trạng thái dữ liệu các thể đo: bao nhiêu thể thực sự có triệu chứng để hỏi.
+const pbDataStatus = computed(() => {
+  const all = phanBietCandidates.value
+  return {
+    total: all.length,
+    withData: all.filter((c) => c.symptomIds.size > 0).length,
+    unsynced: all.filter((c) => c.phapTriIds.length === 0).length,
+    syncedEmpty: all.filter((c) => c.phapTriIds.length > 0 && c.symptomIds.size === 0).length,
+  }
 })
+interface PbRow extends PbSymptom { supports: string[] }
+const pbRows = computed<PbRow[]>(() => {
+  const active = pbActiveCandidates.value
+  return phanBietSymptoms.value
+    .map((s) => ({ ...s, supports: active.filter((c) => c.symptomIds.has(s.id)).map((c) => c.key) }))
+    .filter((r) => r.supports.length > 0)
+    .sort((a, b) => a.supports.length - b.supports.length || b.weight - a.weight || a.ten.localeCompare(b.ten, 'vi'))
+})
+// Gom triệu chứng theo NHÓM ngữ nghĩa (Tinh thần / Tiêu hóa / …). Trong mỗi nhóm,
+// pbRows đã sắp đặc-trưng (1 thể) trước → triệu chứng phân biệt nổi lên đầu.
+interface PbGroup { slug: string; label: string; rows: PbRow[] }
+const pbGroups = computed<PbGroup[]>(() => {
+  const buckets: Record<string, PbRow[]> = {}
+  for (const r of pbRows.value) {
+    const slug = r.nhom && PB_NHOM_TC[r.nhom] ? r.nhom : '__none'
+    ;(buckets[slug] ??= []).push(r)
+  }
+  const out: PbGroup[] = []
+  for (const slug of PB_NHOM_TC_ORDER) {
+    const rows = buckets[slug]
+    if (rows && rows.length) out.push({ slug, label: PB_NHOM_TC[slug] ?? slug, rows })
+  }
+  const none = buckets['__none']
+  if (none && none.length) out.push({ slug: '__none', label: 'Chưa phân nhóm', rows: none })
+  return out
+})
+// % "theo lời kể" của một tập triệu chứng: Σ IDF "Có" / Σ IDF cả tập.
+// hasData=false khi thể chưa có triệu chứng liên kết (tránh kéo điểm kép về 0 oan).
+function pbScoreOf(symIds: Set<number>): { percent: number; hasData: boolean } {
+  let confirmed = 0
+  let total = 0
+  for (const s of phanBietSymptoms.value) {
+    if (!symIds.has(s.id)) continue
+    total += s.weight
+    if (phanBietAnswers[s.id] === 'co') confirmed += s.weight
+  }
+  return { percent: total > 0 ? Math.round((confirmed / total) * 100) : 0, hasData: total > 0 }
+}
+interface PbScorePart { label: string; percent: number; hasData: boolean }
+interface PbScore { key: string; label: string; percentDo: number; percent: number; isKep: boolean; parts: PbScorePart[]; missing: boolean }
+// Xếp hạng theo lời kể. Thể kép: cả hai thành phần đều phải đủ → điểm = min(các thành phần CÓ dữ liệu).
+const pbScores = computed<PbScore[]>(() =>
+  pbActiveCandidates.value
+    .map((c) => {
+      if (c.components && c.components.length) {
+        const parts = c.components.map((comp) => {
+          const r = pbScoreOf(comp.symptomIds)
+          return { label: comp.label, percent: r.percent, hasData: r.hasData }
+        })
+        const withData = parts.filter((p) => p.hasData)
+        return {
+          key: c.key,
+          label: c.label,
+          percentDo: c.percentDo,
+          percent: withData.length ? Math.min(...withData.map((p) => p.percent)) : 0,
+          isKep: true,
+          parts,
+          missing: parts.some((p) => !p.hasData),
+        }
+      }
+      const r = pbScoreOf(c.symptomIds)
+      return { key: c.key, label: c.label, percentDo: c.percentDo, percent: r.percent, isKep: false, parts: [], missing: false }
+    })
+    .sort((a, b) => b.percent - a.percent),
+)
+// Nguyên nhân có cấu trúc của 1 thể (gộp các pháp trị thành phần), gom theo nhóm + khử trùng.
+interface PbNnGroup { slug: string; label: string; items: string[] }
+function pbNguyenNhanGroups(ptIds: number[]): PbNnGroup[] {
+  const buckets: Record<string, string[]> = {}
+  const seen = new Set<string>()
+  for (const pt of ptIds) {
+    for (const it of phanBietNguyenNhan.value[pt] ?? []) {
+      const noi = (it.noi_dung || '').trim()
+      if (!noi) continue
+      const slug = it.nhom && PB_NHOM_NN[it.nhom] ? it.nhom : '__none'
+      const k = slug + '|' + noi
+      if (seen.has(k)) continue
+      seen.add(k)
+      ;(buckets[slug] ??= []).push(noi)
+    }
+  }
+  const out: PbNnGroup[] = []
+  for (const slug of PB_NHOM_NN_ORDER) {
+    const items = buckets[slug]
+    if (items && items.length) out.push({ slug, label: PB_NHOM_NN[slug] ?? slug, items })
+  }
+  const none = buckets['__none']
+  if (none && none.length) out.push({ slug: '__none', label: 'Khác', items: none })
+  return out
+}
+const pbContext = computed(() =>
+  pbActiveCandidates.value
+    .map((c) => {
+      const metas = c.phapTriIds.map((pt) => phanBietMeta.value[pt]).filter(Boolean)
+      const join = (k: 'nguyen_nhan' | 'mach_chan' | 'chat_luoi') =>
+        [...new Set(metas.map((m) => (m as Record<string, string | null>)[k]).filter((x): x is string => !!x))].join(' · ')
+      const nnGroups = pbNguyenNhanGroups(c.phapTriIds)
+      return {
+        key: c.key,
+        label: c.label,
+        nnGroups,
+        // Văn bản nguyên nhân cũ chỉ hiện khi chưa có nguyên nhân cấu trúc.
+        nguyen_nhan: nnGroups.length ? '' : join('nguyen_nhan'),
+        mach_chan: join('mach_chan'),
+        chat_luoi: join('chat_luoi'),
+      }
+    })
+    .filter((x) => x.nnGroups.length || x.nguyen_nhan || x.mach_chan || x.chat_luoi),
+)
+
+// ===== Pha 5: ghép THỂ KÉP (Tâm Tỳ Lưỡng Hư, Tâm Thận Bất Giao…) =====
+function onKepSearchInput() {
+  if (kepTimer) clearTimeout(kepTimer)
+  const q = kepSearch.value.trim()
+  if (!q) {
+    kepResults.value = []
+    return
+  }
+  kepTimer = setTimeout(() => void runKepSearch(q), 250)
+}
+async function runKepSearch(q: string) {
+  kepSearching.value = true
+  try {
+    const res = await api.get<{
+      data: { id: number; chung_trang: string | null; trieu_chung_list?: unknown[] }[]
+    }>(`/phap-tri/lite?q=${encodeURIComponent(q)}&limit=8`)
+    const picked = new Set(kepPicks.value.map((p) => p.id))
+    kepResults.value = (res.data ?? [])
+      .map((r) => ({
+        id: r.id,
+        label: r.chung_trang || `Pháp trị #${r.id}`,
+        tc: Array.isArray(r.trieu_chung_list) ? r.trieu_chung_list.length : undefined,
+      }))
+      .filter((r) => !picked.has(r.id))
+  } catch {
+    kepResults.value = []
+  } finally {
+    kepSearching.value = false
+  }
+}
+function pickKep(p: KepPick) {
+  if (kepPicks.value.length >= 2 || kepPicks.value.some((x) => x.id === p.id)) return
+  kepPicks.value = [...kepPicks.value, p]
+  kepResults.value = kepResults.value.filter((r) => r.id !== p.id)
+  kepSearch.value = ''
+}
+function unpickKep(id: number) {
+  kepPicks.value = kepPicks.value.filter((p) => p.id !== id)
+}
+// Nạp thêm triệu chứng/ngữ cảnh cho các pháp trị chưa có trong dữ liệu phân biệt.
+async function loadMorePhapTri(ids: number[]) {
+  const missing = ids.filter((id) => !(String(id) in phanBietByPhapTri.value))
+  if (!missing.length) return
+  const res = await api.get<{
+    symptoms: PbSymptom[]
+    byPhapTri: Record<string, number[]>
+    phapTriMeta: Record<string, { nguyen_nhan: string | null; mach_chan: string | null; chat_luoi: string | null }>
+    phapTriNguyenNhan: Record<string, PbNguyenNhan[]>
+  }>(`/trieu-chung/phan-biet?phapTriIds=${missing.join(',')}`)
+  const merged = new Map(phanBietSymptoms.value.map((s) => [s.id, s]))
+  for (const s of res.symptoms ?? []) if (!merged.has(s.id)) merged.set(s.id, s)
+  phanBietSymptoms.value = [...merged.values()]
+  phanBietByPhapTri.value = { ...phanBietByPhapTri.value, ...(res.byPhapTri ?? {}) }
+  phanBietMeta.value = { ...phanBietMeta.value, ...(res.phapTriMeta ?? {}) }
+  phanBietNguyenNhan.value = { ...phanBietNguyenNhan.value, ...(res.phapTriNguyenNhan ?? {}) }
+}
+async function addKepCandidate() {
+  if (kepPicks.value.length !== 2) return
+  const [a, b] = kepPicks.value as [KepPick, KepPick]
+  const key = `kep:${[a.id, b.id].sort((x, y) => x - y).join('-')}`
+  if (phanBietCandidates.value.some((c) => c.key === key)) {
+    kepError.value = 'Đã ghép cặp thể này rồi.'
+    return
+  }
+  kepError.value = null
+  try {
+    await loadMorePhapTri([a.id, b.id])
+  } catch (e: unknown) {
+    kepError.value = e instanceof Error ? e.message : String(e)
+    return
+  }
+  const symA = new Set<number>(phanBietByPhapTri.value[a.id] ?? [])
+  const symB = new Set<number>(phanBietByPhapTri.value[b.id] ?? [])
+  phanBietCandidates.value = [
+    ...phanBietCandidates.value,
+    {
+      key,
+      label: `${a.label} × ${b.label}`,
+      percentDo: 0,
+      phapTriIds: [a.id, b.id],
+      symptomIds: new Set<number>([...symA, ...symB]),
+      enabled: true,
+      isKep: true,
+      components: [
+        { label: a.label, phapTriIds: [a.id], symptomIds: symA },
+        { label: b.label, phapTriIds: [b.id], symptomIds: symB },
+      ],
+    },
+  ]
+  kepPicks.value = []
+  kepResults.value = []
+  kepSearch.value = ''
+}
+function removeKepCandidate(key: string) {
+  phanBietCandidates.value = phanBietCandidates.value.filter((c) => c.key !== key)
+}
+
+// D5 — lưu kết luận chẩn đoán vào ca khám (bệnh án + lịch sử).
+const chanDoanConclusionKey = computed(() => chanDoanKetLuanKey.value || pbScores.value[0]?.key || '')
+async function saveChanDoan() {
+  const key = chanDoanConclusionKey.value
+  const cand = phanBietCandidates.value.find((c) => c.key === key)
+  if (!cand) {
+    chanDoanSavedMsg.value = 'Chưa chọn thể kết luận.'
+    return
+  }
+  const trieu_chung: { id: number; ten: string; nhom: string | null; tra_loi: PbAnswer }[] = []
+  for (const s of phanBietSymptoms.value) {
+    const a = phanBietAnswers[s.id]
+    if (!a) continue
+    trieu_chung.push({ id: s.id, ten: s.ten, nhom: s.nhom, tra_loi: a })
+  }
+  const payload = {
+    ket_luan: cand.label,
+    ket_luan_key: key,
+    xep_hang: pbScores.value.map((s) => ({ label: s.label, percent: s.percent, is_kep: s.isKep })),
+    trieu_chung,
+    ghi_chu: chanDoanNote.value.trim() || undefined,
+    luu_luc: new Date().toISOString(),
+  }
+  chanDoanSaving.value = true
+  chanDoanSavedMsg.value = ''
+  try {
+    await api.put(`/examinations/${examId.value}/chan-doan`, { chanDoan: payload })
+    if (examination.value) examination.value.chanDoan = payload
+    chanDoanSavedMsg.value = 'Đã lưu vào bệnh án.'
+  } catch (e: unknown) {
+    chanDoanSavedMsg.value = 'Lỗi lưu: ' + (e instanceof Error ? e.message : String(e))
+  } finally {
+    chanDoanSaving.value = false
+  }
+}
 
 // ===== Popup tra cứu Danh sách pháp trị (bấm vào mô hình bệnh Đông Y ở Section III) =====
 interface PhapTriSearchRow {
@@ -816,20 +1039,16 @@ async function loadData() {
   isLoading.value = true
   try {
     // Dùng /bai-thuoc/lite (limit lớn) để tránh load nested relations nặng từ endpoint cũ.
-    const [patientRes, examRes, benhListRes, phacDoRes, baiThuocRes, trieuChungRes] = await Promise.all([
+    const [patientRes, examRes, benhListRes, phacDoRes, baiThuocRes] = await Promise.all([
       api.get<Patient>(`/patients/${patientId.value}`),
       api.get<any>(`/examinations/${examId.value}`),
       api.get<any>('/benh-dong-y'),
       api.get<any>('/phac-do-dieu-tri'),
       api.get<any>('/bai-thuoc/lite?page=1&limit=100000'),
-      api.get<any>('/trieu-chung'),
     ])
     patient.value = patientRes
     examination.value = examRes
 
-    // Toàn bộ triệu chứng cho ô chọn MỞ RỘNG ở Section VI (cho phép chọn ngoài phạm vi phép đo).
-    const tcArr: TrieuChungLite[] = Array.isArray(trieuChungRes) ? trieuChungRes : trieuChungRes?.data ?? []
-    allDiagSymptoms.value = tcArr.map((t) => ({ id: t.id, ten_trieu_chung: t.ten_trieu_chung }))
 
     const benhArr: BenhDetail[] = Array.isArray(benhListRes) ? benhListRes : benhListRes?.data ?? []
     const map = new Map<number, BenhDetail>()
@@ -843,11 +1062,6 @@ async function loadData() {
     for (const b of btArr) btMap.set(b.id, b)
     baiThuocFullMap.value = btMap
 
-    // Chọn sẵn triệu chứng từ phép đo làm điểm xuất phát (một lần, sau khi đã có examination + benh map).
-    if (!diagPreselected.value && matchedTrieuChungList.value.length) {
-      selectedDiagSymptomIds.value = matchedTrieuChungList.value.map((t) => t.id)
-      diagPreselected.value = true
-    }
   } catch (err: any) {
     error.value = err.message
   } finally {
@@ -1374,218 +1588,6 @@ function footerDiffClassMerged() {
             </div>
           </section>
 
-          <section class="result-section mt-6">
-            <h2 class="section-title">
-              <span class="section-num">VI</span> TRIỆU CHỨNG
-              <span v-if="selectedDiagSymptomIds.length" class="section-count">
-                ({{ selectedDiagSymptomIds.length }} đã chọn)
-              </span>
-            </h2>
-            <div class="result-card p-4">
-              <p v-if="!allDiagSymptoms.length" class="suggested-empty">
-                Đang tải danh sách triệu chứng…
-              </p>
-              <div v-else class="tc-diag">
-                <div class="ph-group ph-group--trieu-chung">
-                  <div class="ph-group__head">
-                    <span class="ph-group__method">Chọn triệu chứng để chẩn đoán</span>
-                    <span class="tc-pick__actions">
-                      <button
-                        v-if="matchedTrieuChungList.length"
-                        type="button"
-                        class="tc-link"
-                        @click="selectMeasuredSymptoms"
-                      >Chọn từ phép đo ({{ matchedTrieuChungList.length }})</button>
-                      <button
-                        v-if="selectedDiagSymptomIds.length"
-                        type="button"
-                        class="tc-link"
-                        @click="clearDiagSymptoms"
-                      >Bỏ chọn</button>
-                    </span>
-                  </div>
-
-                  <!-- Đã chọn (triệu chứng từ phép đo có viền đậm) -->
-                  <div v-if="selectedDiagSymptomList.length" class="tc-pick__selected">
-                    <span
-                      v-for="t in selectedDiagSymptomList"
-                      :key="'sel-' + t.id"
-                      class="ph-chip ph-chip--active ph-chip--sel"
-                      :class="{ 'ph-chip--measured': measuredIdSet.has(t.id) }"
-                    >
-                      <span class="ph-chip__name">{{ t.ten_trieu_chung }}</span>
-                      <button
-                        type="button"
-                        class="ph-chip__x"
-                        aria-label="Bỏ chọn"
-                        @click="toggleDiagSymptom(t.id)"
-                      >×</button>
-                    </span>
-                  </div>
-
-                  <!-- Gõ để thêm: chưa gõ chỉ gợi ý từ phép đo; gõ mới tìm toàn bộ -->
-                  <div class="tc-pick__search">
-                    <input
-                      v-model="diagSymptomSearch"
-                      type="search"
-                      class="tc-pick__input"
-                      placeholder="Gõ để tìm &amp; thêm triệu chứng…"
-                      autocomplete="off"
-                    />
-                  </div>
-
-                  <div v-if="filteredDiagSymptomOptions.length" class="tc-pick__suggest">
-                    <span class="tc-pick__suggest-label">{{ diagSymptomSearch.trim() ? 'Kết quả tìm kiếm' : 'Gợi ý từ phép đo' }}</span>
-                    <div class="ph-group__chips ph-group__chips--scroll">
-                      <button
-                        v-for="t in filteredDiagSymptomOptions"
-                        :key="t.id"
-                        type="button"
-                        class="ph-chip ph-chip--pick"
-                        :class="{ 'ph-chip--measured': measuredIdSet.has(t.id) }"
-                        @click="toggleDiagSymptom(t.id)"
-                      >
-                        <span class="ph-chip__name">{{ t.ten_trieu_chung }}</span>
-                      </button>
-                    </div>
-                  </div>
-                  <p v-else-if="diagSymptomSearch.trim()" class="tc-pick__hint muted">Không tìm thấy “{{ diagSymptomSearch }}”.</p>
-                </div>
-
-                <button
-                  type="button"
-                  class="tc-diag-btn"
-                  :disabled="!selectedDiagSymptomIds.length || isDiagnosing"
-                  @click="runMeridianDiagnosis"
-                >
-                  <span v-if="isDiagnosing" class="tc-spinner" aria-hidden="true"></span>
-                  {{ isDiagnosing ? 'Đang phân tích…' : selectedDiagSymptomIds.length ? `Chẩn đoán (${selectedDiagSymptomIds.length})` : 'Chẩn đoán' }}
-                </button>
-
-                <p v-if="isDiagnosing || hasRunDiagnosis || diagError" class="tc-hint">
-                  Kết quả hiển thị ở mục <strong>VII — Gợi ý chẩn đoán</strong> (cột bên phải).
-                </p>
-
-                <!-- Kết quả gợi ý — teleport sang cột phải (mục VII) -->
-                <Teleport defer to="#diag-results-host">
-                <div v-if="diagError" class="tc-error">{{ diagError }}</div>
-                <div v-else-if="isDiagnosing" class="tc-loading">
-                  <div v-for="n in 2" :key="n" class="tc-skeleton"></div>
-                </div>
-                <div v-else-if="hasRunDiagnosis && !hasAnyDiagResults" class="tc-empty">
-                  Không tìm thấy thể bệnh / bệnh Tây Y phù hợp với các triệu chứng đã chọn.
-                </div>
-                <div v-else-if="hasRunDiagnosis" class="tc-results">
-                  <div v-if="unexplainedDiagSymptoms.length" class="tc-unexplained">
-                    <span class="tc-unexplained__label">⚠ Chưa được giải thích:</span>
-                    <span v-for="s in unexplainedDiagSymptoms" :key="s.id" class="tc-tag tc-tag--warn">{{ s.ten_trieu_chung }}</span>
-                  </div>
-
-                  <div class="tc-cols">
-                    <!-- Đông Y -->
-                    <div class="tc-col">
-                      <h3 class="tc-col__title tc-col__title--dongy">
-                        <span class="tc-dot"></span>
-                        Thể bệnh &amp; Pháp trị (Đông Y)
-                        <span class="tc-col__count">{{ diagResult?.phapTri.length || 0 }}<template v-if="(diagResult?.phapTriTotal || 0) > (diagResult?.phapTri.length || 0)">/{{ diagResult?.phapTriTotal }}</template></span>
-                      </h3>
-                      <p v-if="!diagResult?.phapTri.length" class="tc-none">Không có thể bệnh phù hợp.</p>
-                      <a
-                        v-for="(c, i) in phapTriShown"
-                        :key="'pt-' + c.id"
-                        :href="phapTriHref(c.id)"
-                        target="_blank"
-                        rel="noopener"
-                        class="tc-card"
-                        :class="{ 'tc-card--top': i === 0 }"
-                        :title="`Mở pháp trị: ${c.label}`"
-                      >
-                        <div class="tc-card__rank" :class="`tc-rank--${Math.min(i + 1, 4)}`">{{ i + 1 }}</div>
-                        <div class="tc-card__main">
-                          <div class="tc-card__head">
-                            <span class="tc-card__name">{{ c.label }}</span>
-                            <span v-if="i === 0" class="tc-top-tag">Phù hợp nhất</span>
-                          </div>
-                          <p v-if="c.subLabel" class="tc-card__sub">{{ c.subLabel }}</p>
-                          <p v-if="c.members && c.members.length > 1" class="tc-card__members">
-                            Cộng dồn từ <strong>{{ c.members.length }}</strong> pháp trị cùng thể bệnh
-                          </p>
-                          <div class="tc-card__matched">
-                            <span class="tc-pill" title="Số triệu chứng đã chọn được giải thích">{{ c.matchedCount }}/{{ c.total }}</span>
-                            <span v-for="m in c.matched" :key="m.id" class="tc-tag tc-tag--trieu">{{ m.ten_trieu_chung }}</span>
-                          </div>
-                        </div>
-                        <div class="tc-card__score">
-                          <span class="tc-pct" :class="confidenceClass(c.percent)">{{ c.percent }}<small>%</small></span>
-                          <span class="tc-pct-label" :class="confidenceClass(c.percent)">{{ confidenceLabel(c.percent) }}</span>
-                        </div>
-                        <div class="tc-bar"><span :class="confidenceClass(c.percent)" :style="{ width: c.percent + '%' }"></span></div>
-                      </a>
-                      <button
-                        v-if="(diagResult?.phapTri.length || 0) > DIAG_COLLAPSED_COUNT"
-                        type="button"
-                        class="tc-more"
-                        @click="expandDongY = !expandDongY"
-                      >
-                        {{ expandDongY ? '▴ Thu gọn' : `▾ Xem thêm ${(diagResult?.phapTri.length || 0) - DIAG_COLLAPSED_COUNT}` }}
-                      </button>
-                    </div>
-
-                    <!-- Tây Y -->
-                    <div class="tc-col">
-                      <h3 class="tc-col__title tc-col__title--tayy">
-                        <span class="tc-dot"></span>
-                        Bệnh Tây Y
-                        <span class="tc-col__count">{{ diagResult?.benhTayY.length || 0 }}<template v-if="(diagResult?.benhTayYTotal || 0) > (diagResult?.benhTayY.length || 0)">/{{ diagResult?.benhTayYTotal }}</template></span>
-                      </h3>
-                      <p v-if="!diagResult?.benhTayY.length" class="tc-none">Không có bệnh Tây Y phù hợp.</p>
-                      <a
-                        v-for="(c, i) in benhTayYShown"
-                        :key="'bty-' + c.id"
-                        :href="benhTayYHref(c.id)"
-                        target="_blank"
-                        rel="noopener"
-                        class="tc-card"
-                        :class="{ 'tc-card--top': i === 0 }"
-                        :title="`Mở bệnh Tây Y: ${c.label}`"
-                      >
-                        <div class="tc-card__rank" :class="`tc-rank--${Math.min(i + 1, 4)}`">{{ i + 1 }}</div>
-                        <div class="tc-card__main">
-                          <div class="tc-card__head">
-                            <span class="tc-card__name">{{ c.label }}</span>
-                            <span v-if="c.groupLabel" class="tc-tag tc-tag--cb" title="Thể Bệnh Lớn (chủng bệnh)">{{ c.groupLabel }}</span>
-                            <span v-if="i === 0" class="tc-top-tag">Phù hợp nhất</span>
-                          </div>
-                          <p v-if="c.via && c.via.length" class="tc-card__via">
-                            <span class="tc-via-label">Qua pháp trị:</span>
-                            <span v-for="v in c.via" :key="v.id" class="tc-via-chip">{{ v.label }} <small>{{ v.percent }}%</small></span>
-                          </p>
-                          <div class="tc-card__matched">
-                            <span class="tc-pill" title="Số triệu chứng đã chọn được giải thích">{{ c.matchedCount }}/{{ c.total }}</span>
-                            <span v-for="m in c.matched" :key="m.id" class="tc-tag tc-tag--trieu">{{ m.ten_trieu_chung }}</span>
-                          </div>
-                        </div>
-                        <div class="tc-card__score">
-                          <span class="tc-pct" :class="confidenceClass(c.percent)">{{ c.percent }}<small>%</small></span>
-                          <span class="tc-pct-label" :class="confidenceClass(c.percent)">{{ confidenceLabel(c.percent) }}</span>
-                        </div>
-                        <div class="tc-bar"><span :class="confidenceClass(c.percent)" :style="{ width: c.percent + '%' }"></span></div>
-                      </a>
-                      <button
-                        v-if="(diagResult?.benhTayY.length || 0) > DIAG_COLLAPSED_COUNT"
-                        type="button"
-                        class="tc-more"
-                        @click="expandTayY = !expandTayY"
-                      >
-                        {{ expandTayY ? '▴ Thu gọn' : `▾ Xem thêm ${(diagResult?.benhTayY.length || 0) - DIAG_COLLAPSED_COUNT}` }}
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                </Teleport>
-              </div>
-            </div>
-          </section>
         </div>
 
         <!-- Right Column: 35% -->
@@ -1673,7 +1675,20 @@ function footerDiffClassMerged() {
             </h2>
             <div class="result-card p-5">
               <div class="info-group">
-                <h4 class="info-label mb-3">Mô hình bệnh YHCT - Đông Y</h4>
+                <div class="dongy-head">
+                  <h4 class="info-label mb-0">Mô hình bệnh YHCT - Đông Y</h4>
+                  <button
+                    v-if="excelSyndromesList.length"
+                    type="button"
+                    class="tc-phanbiet-btn"
+                    title="Hỏi bệnh nhân xác nhận triệu chứng để chẩn đoán thể bệnh đo được"
+                    @click="openPhanBiet"
+                  >🩺 Hỏi & Chẩn đoán bệnh nhân</button>
+                </div>
+                <div v-if="savedChanDoan" class="dongy-saved">
+                  ✓ Đã chẩn đoán: <b>{{ savedChanDoan.ket_luan }}</b>
+                  <span class="dongy-saved-time">({{ new Date(savedChanDoan.luu_luc).toLocaleString('vi-VN') }})</span>
+                </div>
                 <div v-if="excelSyndromesList.length" class="comparison-list">
                   <div
                     v-for="(item, idx) in excelSyndromesList"
@@ -1777,26 +1792,177 @@ function footerDiffClassMerged() {
         </div>
       </div>
 
-      <!-- Section VII: kết quả gợi ý chẩn đoán — FULL WIDTH để 2 cột Đông Y / Tây Y nằm song song -->
-      <section class="result-section mt-6">
-        <h2 class="section-title">
-          <span class="section-num">VII</span> GỢI Ý CHẨN ĐOÁN
-          <span v-if="hasRunDiagnosis && diagResult" class="section-count">
-            (dựa trên {{ diagResult.input.length }} triệu chứng)
-          </span>
-        </h2>
-        <div class="result-card p-4">
-          <p
-            v-if="!isDiagnosing && !hasRunDiagnosis && !diagError"
-            class="tc-placeholder"
-          >
-            Chọn triệu chứng ở <strong>mục VI</strong> rồi bấm “Chẩn đoán” để xem gợi ý
-            thể bệnh / pháp trị (Đông Y) và bệnh Tây Y phù hợp nhất.
-          </p>
-          <div id="diag-results-host" class="tc-results-host"></div>
-        </div>
-      </section>
     </template>
+
+    <!-- Bảng phân biệt thể bệnh: đối chiếu triệu chứng giữa các thể ứng viên -->
+    <div v-if="showPhanBietModal" class="pb-overlay" @click.self="closePhanBiet">
+      <div class="pb-modal" role="dialog" aria-modal="true">
+        <div class="pb-head">
+          <div>
+            <h3>Đối chiếu triệu chứng — phân biệt thể bệnh</h3>
+            <span class="pb-sub">Bác sĩ hỏi, bệnh nhân xác nhận → xem lời kể ủng hộ thể nào nhất.</span>
+          </div>
+          <button type="button" class="ptm-close" aria-label="Đóng" @click="closePhanBiet">✕</button>
+        </div>
+
+        <div class="pb-body">
+          <div v-if="phanBietLoading" class="ptm-state"><div class="spinner"></div><p>Đang nạp triệu chứng…</p></div>
+          <div v-else-if="phanBietError" class="ptm-error">{{ phanBietError }}</div>
+          <div v-else-if="!phanBietSymptoms.length" class="ptm-state"><p class="muted-italic">Các thể đo được chưa liên kết pháp trị nên chưa có triệu chứng để hỏi. Vào <strong>Bệnh đo kinh lạc → Bệnh YHCT - Đông Y</strong>, mở thể đo và <strong>chọn pháp trị</strong> để nối dữ liệu.</p></div>
+          <template v-else>
+            <!-- Chọn thể để so sánh -->
+            <div class="pb-cands">
+              <div
+                v-for="(c, i) in phanBietCandidates"
+                :key="c.key"
+                class="pb-cand"
+                :class="{ off: !c.enabled, 'pb-cand--kep': c.isKep }"
+              >
+                <button type="button" class="pb-cand-toggle" @click="togglePbCandidate(c.key)">
+                  <span class="pb-no" :data-i="i">{{ i + 1 }}</span>
+                  <span class="pb-cand-name">{{ c.label }}</span>
+                  <span v-if="c.unsynced" class="pb-cand-warn">chưa đồng bộ</span>
+                  <span v-else-if="!c.symptomIds.size" class="pb-cand-warn">chưa có triệu chứng</span>
+                  <span v-else-if="c.isKep" class="pb-cand-tag">kép</span>
+                  <span v-else class="pb-cand-do">đo được</span>
+                </button>
+                <button v-if="c.key.startsWith('kep:')" type="button" class="pb-cand-x" aria-label="Bỏ ghép" @click="removeKepCandidate(c.key)">✕</button>
+              </div>
+            </div>
+
+            <div v-if="pbDataStatus.withData < pbDataStatus.total" class="pb-databanner">
+              ⚠ Chỉ <b>{{ pbDataStatus.withData }}/{{ pbDataStatus.total }}</b> thể đo có triệu chứng để hỏi.
+              <template v-if="pbDataStatus.unsynced"> {{ pbDataStatus.unsynced }} thể chưa đồng bộ pháp trị.</template>
+              <template v-if="pbDataStatus.syncedEmpty"> {{ pbDataStatus.syncedEmpty }} thể đã nối nhưng pháp trị chưa nhập triệu chứng.</template>
+              Bảng phân biệt vì vậy chưa đầy đủ — mở thể đo ở <b>Bệnh đo kinh lạc → Bệnh YHCT - Đông Y</b>, chọn pháp trị cho thể đó và nhập triệu chứng cho pháp trị.
+            </div>
+
+            <!-- Ghép thể kép (nghi thể phối hợp) -->
+            <div class="pb-kep">
+              <div class="pb-kep-title">Ghép thể kép <span>(nghi thể phối hợp — vd Tâm Tỳ Lưỡng Hư, Tâm Thận Bất Giao)</span></div>
+              <div v-if="kepPicks.length" class="pb-kep-picks">
+                <span v-for="p in kepPicks" :key="p.id" class="pb-kep-chip">
+                  {{ p.label }}
+                  <button type="button" aria-label="Bỏ chọn" @click="unpickKep(p.id)">✕</button>
+                </span>
+              </div>
+              <div v-if="kepPicks.length < 2" class="pb-kep-search">
+                <input
+                  v-model="kepSearch"
+                  type="search"
+                  class="pb-kep-input"
+                  :placeholder="kepPicks.length ? 'Tìm thể nền thứ hai…' : 'Tìm thể nền để ghép…'"
+                  autocomplete="off"
+                  @input="onKepSearchInput"
+                />
+                <div v-if="kepSearching" class="pb-kep-hint">Đang tìm…</div>
+                <div v-else-if="kepResults.length" class="pb-kep-results">
+                  <button v-for="r in kepResults" :key="r.id" type="button" class="pb-kep-result" @click="pickKep(r)">
+                    <span class="pb-kep-result-name">{{ r.label }}</span>
+                    <span class="pb-kep-tc" :class="{ 'pb-kep-tc--zero': !r.tc }">{{ r.tc ?? '?' }} tc</span>
+                  </button>
+                </div>
+              </div>
+              <div v-else class="pb-kep-actions">
+                <button type="button" class="pb-kep-add" @click="addKepCandidate">＋ Ghép &amp; so sánh</button>
+              </div>
+              <div v-if="kepError" class="pb-kep-err">{{ kepError }}</div>
+            </div>
+
+            <!-- Xếp hạng theo lời kể -->
+            <div class="pb-scores">
+              <div class="pb-scores-title">Theo lời kể</div>
+              <template v-for="s in pbScores" :key="'sc-' + s.key">
+                <div class="pb-score-row">
+                  <span class="pb-no" :data-i="pbCandIndex(s.key)">{{ pbCandIndex(s.key) + 1 }}</span>
+                  <span class="pb-score-name">{{ s.label }}<span v-if="s.isKep" class="pb-cand-tag">ghép</span></span>
+                  <span class="pb-score-bar"><span :style="{ width: s.percent + '%' }"></span></span>
+                  <span class="pb-score-pct">{{ s.percent }}%</span>
+                </div>
+                <div v-if="s.isKep" class="pb-score-parts">
+                  <span class="pb-parts-lbl">= min:</span>
+                  <span v-for="(p, pi) in s.parts" :key="pi" class="pb-part" :class="{ 'pb-part--nodata': !p.hasData }">
+                    {{ p.label }} · {{ p.hasData ? p.percent + '%' : 'chưa có dữ liệu' }}
+                  </span>
+                  <span v-if="s.missing" class="pb-parts-warn">⚠ thành phần thiếu triệu chứng — điểm kép chưa đáng tin</span>
+                  <span v-else class="pb-parts-note">cả hai thể đều phải đủ</span>
+                </div>
+              </template>
+            </div>
+
+            <div class="pb-hint">Hỏi theo nhóm · dấu <span class="pb-tag-key">đặc trưng</span> = chỉ một thể có (giúp phân biệt).</div>
+            <template v-for="g in pbGroups" :key="'g-' + g.slug">
+              <div class="pb-group-title">{{ g.label }} <span>({{ g.rows.length }})</span></div>
+              <div
+                v-for="r in g.rows"
+                :key="g.slug + '-' + r.id"
+                class="pb-row"
+                :class="{ 'pb-row--key': r.supports.length === 1 }"
+              >
+                <div class="pb-row-info">
+                  <span v-for="k in r.supports" :key="k" class="pb-no pb-no--sm" :data-i="pbCandIndex(k)">{{ pbCandIndex(k) + 1 }}</span>
+                  <span class="pb-sym-name">{{ r.ten }}</span>
+                  <span v-if="r.supports.length === 1 && pbDataStatus.withData >= 2" class="pb-tag-key">đặc trưng</span>
+                </div>
+                <div class="pb-ans">
+                  <button type="button" class="pb-ans-btn pb-co" :class="{ on: phanBietAnswers[r.id] === 'co' }" @click="setPbAnswer(r.id, 'co')">Có</button>
+                  <button type="button" class="pb-ans-btn pb-khong" :class="{ on: phanBietAnswers[r.id] === 'khong' }" @click="setPbAnswer(r.id, 'khong')">Không</button>
+                  <button type="button" class="pb-ans-btn pb-kho" :class="{ on: phanBietAnswers[r.id] === 'kho' }" @click="setPbAnswer(r.id, 'kho')">Không rõ</button>
+                </div>
+              </div>
+            </template>
+
+            <template v-if="pbContext.length">
+              <div class="pb-group-title">Nguyên nhân — hỏi tìm gốc <span>(theo thể · mạch · lưỡi)</span></div>
+              <div v-for="c in pbContext" :key="'ctx-' + c.key" class="pb-ctx">
+                <span class="pb-no" :data-i="pbCandIndex(c.key)">{{ pbCandIndex(c.key) + 1 }}</span>
+                <div class="pb-ctx-body">
+                  <strong>{{ c.label }}</strong>
+                  <div v-for="ng in c.nnGroups" :key="ng.slug" class="pb-nn-group">
+                    <span class="pb-nn-label">{{ ng.label }}:</span>
+                    <span v-for="(it, ii) in ng.items" :key="ii" class="pb-nn-chip">{{ it }}</span>
+                  </div>
+                  <p v-if="c.nguyen_nhan"><b>Nguyên nhân:</b> {{ c.nguyen_nhan }}</p>
+                  <p v-if="c.mach_chan"><b>Mạch:</b> {{ c.mach_chan }}</p>
+                  <p v-if="c.chat_luoi"><b>Lưỡi:</b> {{ c.chat_luoi }}</p>
+                </div>
+              </div>
+            </template>
+
+            <!-- D5: kết luận & lưu vào bệnh án -->
+            <div class="pb-conclude">
+              <div class="pb-group-title">Kết luận chẩn đoán <span>(lưu vào bệnh án)</span></div>
+              <div class="pb-conclude-row">
+                <label class="pb-conclude-lbl">Thể kết luận</label>
+                <select v-model="chanDoanKetLuanKey" class="pb-conclude-select">
+                  <option value="">— Chọn thể (mặc định cao điểm nhất) —</option>
+                  <option v-for="s in pbScores" :key="'opt-' + s.key" :value="s.key">
+                    {{ s.label }} — {{ s.percent }}%{{ s.isKep ? ' (kép)' : '' }}
+                  </option>
+                </select>
+              </div>
+              <textarea
+                v-model="chanDoanNote"
+                class="pb-conclude-note"
+                rows="2"
+                placeholder="Ghi chú của thầy thuốc (tuỳ chọn)…"
+              ></textarea>
+              <div class="pb-conclude-actions">
+                <button type="button" class="pb-save-btn" :disabled="chanDoanSaving" @click="saveChanDoan">
+                  {{ chanDoanSaving ? 'Đang lưu…' : '💾 Lưu vào bệnh án' }}
+                </button>
+                <span v-if="chanDoanSavedMsg" class="pb-save-msg">{{ chanDoanSavedMsg }}</span>
+                <span v-else-if="savedChanDoan" class="pb-save-prev">
+                  Đã lưu: <b>{{ savedChanDoan.ket_luan }}</b> · {{ new Date(savedChanDoan.luu_luc).toLocaleString('vi-VN') }}
+                </span>
+              </div>
+            </div>
+
+            <p class="pb-disclaimer">Công cụ hỗ trợ đối chiếu — không thay thế chẩn đoán của thầy thuốc.</p>
+          </template>
+        </div>
+      </div>
+    </div>
 
     <!-- Popup tra cứu Danh sách pháp trị (bấm vào mô hình bệnh Đông Y - Section III) -->
     <div v-if="showPhapTriModal" class="ptm-overlay" @click.self="closePhapTriModal">
@@ -2769,6 +2935,110 @@ function footerDiffClassMerged() {
 .ptm-learn__btn { display: inline-flex; align-items: center; gap: 7px; padding: 7px 14px; border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 600; text-decoration: none; color: var(--white); background: linear-gradient(135deg, var(--brown-600, #8a6d3b), var(--brown-700, #6b4f2a)); transition: transform var(--transition-fast), box-shadow var(--transition-fast); }
 .ptm-learn__btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(74, 47, 23, 0.18); }
 .ptm-learn__note { font-size: var(--font-size-xs); color: var(--gray-500); font-style: italic; }
+
+/* ── Nút "Hỏi phân biệt triệu chứng" trong cột Đông Y ── */
+.tc-phanbiet-btn { width: 100%; margin: 2px 0 8px; padding: 8px; border: 1px solid var(--brown-300); border-radius: var(--radius-md); background: linear-gradient(135deg, var(--brown-600, #8a6d3b), var(--brown-700, #6b4f2a)); color: #fff; font-size: 12.5px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all var(--transition-fast); }
+.dongy-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.dongy-head .tc-phanbiet-btn { width: auto; margin: 0; padding: 8px 14px; flex: none; }
+.dongy-saved { margin: 0 0 12px; padding: 6px 10px; border-radius: 8px; background: #f0fdf4; border: 1px solid #bbf7d0; font-size: 12.5px; color: #15803d; }
+.dongy-saved-time { color: var(--gray-500); font-weight: 400; }
+.tc-phanbiet-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(74, 47, 23, 0.2); }
+
+/* ── Modal phân biệt thể bệnh ── */
+.pb-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.45); display: flex; align-items: center; justify-content: center; padding: var(--space-4); z-index: 320; animation: ptm-fade 0.18s ease; }
+.pb-modal { width: 100%; max-width: 680px; max-height: 92vh; background: var(--surface, #fff); border-radius: var(--radius-lg); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.pb-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--gray-100); }
+.pb-head h3 { margin: 0; font-size: var(--font-size-lg); color: var(--brown-800, #5b3a1a); }
+.pb-sub { font-size: var(--font-size-xs); color: var(--gray-500); }
+.pb-body { padding: var(--space-4) var(--space-5); overflow-y: auto; flex: 1; background: var(--surface-2, #faf8f3); }
+.pb-cands { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.pb-cand { display: inline-flex; align-items: center; border: 1px solid var(--border, #e5e0d6); border-radius: 999px; background: #fff; }
+.pb-cand.off { opacity: 0.4; }
+.pb-cand--kep { border-color: #c084fc; background: #faf5ff; }
+.pb-cand-toggle { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px 5px 5px; border: 0; background: transparent; cursor: pointer; font-size: 13px; border-radius: 999px; }
+.pb-cand-name { font-weight: 600; color: var(--brown-800, #5b3a1a); }
+.pb-cand-do { font-size: 11px; color: var(--gray-500); }
+.pb-cand-tag { font-size: 10px; font-weight: 700; color: #7c3aed; background: #f3e8ff; border: 1px solid #e9d5ff; border-radius: 6px; padding: 1px 6px; margin-left: 4px; }
+.pb-cand-warn { font-size: 10px; font-weight: 700; color: #b45309; background: #fef3c7; border: 1px solid #fde68a; border-radius: 6px; padding: 1px 6px; margin-left: 4px; }
+.pb-databanner { margin: 0 0 12px; padding: 9px 12px; border: 1px solid #fde68a; background: #fffbeb; border-radius: 8px; font-size: 12px; color: #92400e; line-height: 1.5; }
+.pb-databanner b { color: #b45309; }
+.pb-cand-x { border: 0; background: transparent; color: var(--gray-400, #9ca3af); cursor: pointer; font-size: 12px; padding: 0 9px 0 2px; line-height: 1; }
+.pb-cand-x:hover { color: #dc2626; }
+/* Ghép thể kép */
+.pb-kep { margin: 0 0 14px; padding: 10px 12px; border: 1px dashed #d8b4fe; border-radius: 10px; background: #fdfaff; }
+.pb-kep-title { font-size: 12px; font-weight: 800; color: #7c3aed; margin-bottom: 8px; }
+.pb-kep-title span { font-weight: 400; color: var(--gray-500); }
+.pb-kep-picks { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.pb-kep-chip { display: inline-flex; align-items: center; gap: 4px; font-size: 12.5px; font-weight: 600; color: #6b21a8; background: #f3e8ff; border: 1px solid #e9d5ff; border-radius: 999px; padding: 3px 6px 3px 10px; }
+.pb-kep-chip button { border: 0; background: transparent; color: #a855f7; cursor: pointer; font-size: 11px; padding: 0 2px; line-height: 1; }
+.pb-kep-chip button:hover { color: #dc2626; }
+.pb-kep-search { position: relative; }
+.pb-kep-input { width: 100%; box-sizing: border-box; padding: 7px 10px; border: 1px solid var(--border, #e5e0d6); border-radius: 8px; font-size: 13px; background: #fff; }
+.pb-kep-input:focus { outline: none; border-color: #c084fc; }
+.pb-kep-hint { font-size: 12px; color: var(--gray-500); padding: 6px 2px; }
+.pb-kep-results { display: flex; flex-direction: column; gap: 2px; margin-top: 6px; max-height: 180px; overflow-y: auto; border: 1px solid var(--gray-100); border-radius: 8px; background: #fff; }
+.pb-kep-result { display: flex; align-items: center; justify-content: space-between; gap: 8px; text-align: left; border: 0; background: transparent; padding: 7px 10px; font-size: 13px; color: var(--brown-800, #5b3a1a); cursor: pointer; border-bottom: 1px solid var(--gray-100); }
+.pb-kep-result:last-child { border-bottom: 0; }
+.pb-kep-result:hover { background: #faf5ff; }
+.pb-kep-result-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pb-kep-tc { flex: none; font-size: 10.5px; font-weight: 700; color: #0d9488; background: #f0fdfa; border: 1px solid #ccfbf1; border-radius: 6px; padding: 1px 6px; }
+.pb-kep-tc--zero { color: #9ca3af; background: #f3f4f6; border-color: #e5e7eb; }
+.pb-kep-actions { display: flex; }
+.pb-kep-add { border: 0; background: #7c3aed; color: #fff; font-weight: 700; font-size: 13px; border-radius: 8px; padding: 7px 14px; cursor: pointer; }
+.pb-kep-add:hover { background: #6d28d9; }
+.pb-kep-err { margin-top: 6px; font-size: 12px; color: #dc2626; }
+.pb-score-parts { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin: 0 0 6px 28px; font-size: 11.5px; color: var(--gray-500); }
+.pb-parts-lbl { font-weight: 700; color: #7c3aed; }
+.pb-part { background: #f3e8ff; border: 1px solid #e9d5ff; border-radius: 6px; padding: 1px 7px; color: #6b21a8; }
+.pb-part--nodata { background: #f3f4f6; border-color: #e5e7eb; color: #9ca3af; }
+.pb-parts-note { font-style: italic; }
+.pb-parts-warn { font-style: italic; color: #b45309; }
+.pb-no { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 50%; color: #fff; font-size: 11px; font-weight: 800; flex: none; background: #6B7280; }
+.pb-no--sm { width: 16px; height: 16px; font-size: 9px; }
+.pb-no[data-i='0'] { background: #B45309; }
+.pb-no[data-i='1'] { background: #0D9488; }
+.pb-no[data-i='2'] { background: #9F1239; }
+.pb-no[data-i='3'] { background: #7c3aed; }
+.pb-no[data-i='4'] { background: #2563eb; }
+.pb-no[data-i='5'] { background: #db2777; }
+.pb-scores { margin-bottom: 14px; padding: 10px 12px; border: 1px solid var(--border, #e5e0d6); border-radius: 10px; background: #fff; }
+.pb-scores-title { font-size: 11px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 6px; }
+.pb-score-row { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+.pb-score-name { flex: 0 0 38%; font-size: 13px; font-weight: 600; color: var(--brown-800, #5b3a1a); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pb-score-bar { flex: 1; height: 9px; background: var(--gray-100); border-radius: 5px; overflow: hidden; }
+.pb-score-bar > span { display: block; height: 100%; background: linear-gradient(90deg, var(--brown-500, #8a6d3b), var(--brown-700, #6b4f2a)); transition: width 0.25s ease; }
+.pb-score-pct { flex: none; width: 40px; text-align: right; font-size: 13px; font-weight: 700; color: var(--brown-700, #6b4f2a); }
+.pb-group-title { font-size: 12px; font-weight: 800; color: var(--brown-700, #6b4f2a); margin: 14px 0 6px; }
+.pb-group-title span { font-weight: 400; color: var(--gray-500); }
+.pb-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--gray-100); }
+.pb-row-info { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.pb-sym-name { font-size: 13.5px; color: var(--text, #2c2017); }
+.pb-ans { display: flex; gap: 4px; flex: none; }
+.pb-ans-btn { padding: 4px 9px; border: 1px solid var(--border, #e5e0d6); background: #fff; border-radius: 7px; font-size: 12px; cursor: pointer; color: var(--gray-600); }
+.pb-ans-btn.on.pb-co { background: #16A34A; border-color: #16A34A; color: #fff; }
+.pb-ans-btn.on.pb-khong { background: #DC2626; border-color: #DC2626; color: #fff; }
+.pb-ans-btn.on.pb-kho { background: #9CA3AF; border-color: #9CA3AF; color: #fff; }
+.pb-ctx { display: flex; gap: 8px; padding: 8px 0; border-bottom: 1px solid var(--gray-100); }
+.pb-ctx-body { font-size: 12.5px; color: var(--gray-700); }
+.pb-ctx-body strong { color: var(--brown-800, #5b3a1a); }
+.pb-ctx-body p { margin: 2px 0; }
+.pb-hint { font-size: 11.5px; color: var(--gray-500); margin: 4px 0 2px; }
+.pb-tag-key { flex: none; font-size: 10px; font-weight: 700; color: #b45309; background: #fef3c7; border: 1px solid #fde68a; border-radius: 6px; padding: 1px 6px; }
+.pb-row--key { background: linear-gradient(90deg, #fffbeb 0%, transparent 60%); }
+.pb-nn-group { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 6px; margin: 3px 0; }
+.pb-nn-label { font-size: 11.5px; font-weight: 700; color: var(--brown-700, #6b4f2a); flex: none; }
+.pb-nn-chip { font-size: 12px; color: var(--gray-700); background: var(--gray-50, #f7f5f0); border: 1px solid var(--gray-200, #e8e3d8); border-radius: 6px; padding: 1px 8px; }
+.pb-conclude { margin-top: 16px; padding: 12px; border: 1px solid var(--brown-200, #e7d9c2); border-radius: 10px; background: #fdfbf6; }
+.pb-conclude-row { display: flex; align-items: center; gap: 8px; margin: 4px 0 8px; flex-wrap: wrap; }
+.pb-conclude-lbl { font-size: 12.5px; font-weight: 700; color: var(--brown-700, #6b4f2a); flex: none; }
+.pb-conclude-select { flex: 1; min-width: 200px; padding: 6px 10px; border: 1px solid var(--border, #e5e0d6); border-radius: 8px; font-size: 13px; background: #fff; }
+.pb-conclude-note { width: 100%; box-sizing: border-box; padding: 7px 10px; border: 1px solid var(--border, #e5e0d6); border-radius: 8px; font-size: 13px; resize: vertical; font-family: inherit; }
+.pb-conclude-actions { display: flex; align-items: center; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
+.pb-save-btn { border: 0; background: var(--brown-700, #6b4f2a); color: #fff; font-weight: 700; font-size: 13px; border-radius: 8px; padding: 8px 16px; cursor: pointer; }
+.pb-save-btn:disabled { opacity: 0.5; cursor: default; }
+.pb-save-msg { font-size: 12.5px; font-weight: 600; color: #15803d; }
+.pb-save-prev { font-size: 12px; color: var(--gray-600); }
+.pb-disclaimer { margin-top: 14px; font-size: 11.5px; font-style: italic; color: var(--gray-500); }
 
 .ptm-body { padding: var(--space-4) var(--space-5); overflow-y: auto; flex: 1; background: var(--surface-2); }
 .ptm-state { display: flex; flex-direction: column; align-items: center; gap: var(--space-2); padding: var(--space-8) 0; color: var(--gray-500); }

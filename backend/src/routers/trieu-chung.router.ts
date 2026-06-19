@@ -64,6 +64,19 @@ export class TrieuChungRouter {
     return this.service.diagnose(Array.isArray(ids) ? ids : []);
   }
 
+  /**
+   * Bảng phân biệt thể bệnh: dữ liệu đối chiếu triệu chứng giữa các thể ứng viên.
+   * Phải đứng TRƯỚC @Get(':id') để 'phan-biet' không bị match như id.
+   */
+  @Get('phan-biet')
+  phanBiet(@Query('phapTriIds') phapTriIds?: string) {
+    const ids = (phapTriIds ?? '')
+      .split(',')
+      .map((x) => parseInt(x, 10))
+      .filter((x) => Number.isFinite(x) && x > 0);
+    return this.service.phanBietByPhapTriIds(ids);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.service.findOne(id);
