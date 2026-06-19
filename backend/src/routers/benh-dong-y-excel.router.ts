@@ -31,6 +31,16 @@ export class BenhDongYExcelRouter {
     return this.service.findAll();
   }
 
+  /** Dữ liệu Hỏi & Chẩn đoán từ thể đo (D4). Query: ?ids=1,2,3 */
+  @Get('phan-biet')
+  phanBiet(@Query('ids') ids?: string) {
+    const list = (ids ?? '')
+      .split(',')
+      .map((x) => Number(x.trim()))
+      .filter((n) => Number.isInteger(n) && n > 0);
+    return this.service.phanBiet(list);
+  }
+
   // Phải đứng TRƯỚC @Get(':id').
   @Get('lite')
   findLite(

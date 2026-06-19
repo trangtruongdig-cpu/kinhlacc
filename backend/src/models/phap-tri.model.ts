@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { BaiThuoc } from './bai-thuoc.model';
 import type { BaiThuocPhapTri } from './bai-thuoc-phap-tri.model';
+import type { PhapTriNguyenNhan } from './phap-tri-nguyen-nhan.model';
 import { KinhMach } from './kinh-mach.model';
 import { MeridianSyndrome } from './meridian-syndrome.model';
 import { TrieuChung } from './trieu-chung.model';
@@ -104,4 +105,8 @@ export class PhapTri {
     inverseJoinColumn: { name: 'id_trieu_chung', referencedColumnName: 'id' },
   })
   trieu_chung_list: TrieuChung[];
+
+  /** Nguyên nhân có cấu trúc (theo nhóm tinh-than / sinh-hoat / tang-phu). */
+  @OneToMany('PhapTriNguyenNhan', 'phapTri')
+  nguyen_nhan_list: PhapTriNguyenNhan[];
 }

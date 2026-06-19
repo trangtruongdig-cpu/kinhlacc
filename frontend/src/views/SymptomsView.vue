@@ -29,11 +29,24 @@ interface FilterOption {
 interface Symptom {
   id: number
   ten_trieu_chung: string
+  nhom?: string | null
   theBenhList?: TheBenhItem[]
   baiThuocList?: BaiThuocLite[]
   benhTayYList?: BenhTayYLite[]
   doPhoBien?: number
 }
+
+// Nhóm triệu chứng (đồng bộ slug với backend TRIEU_CHUNG_NHOM).
+const NHOM_TRIEU_CHUNG: { slug: string; label: string }[] = [
+  { slug: 'tinh-than', label: 'Tinh thần / Cảm xúc' },
+  { slug: 'tieu-hoa', label: 'Tiêu hóa / Ăn ngủ' },
+  { slug: 'than-kinh-co-the', label: 'Thần kinh / Cơ thể' },
+  { slug: 'phu-khoa', label: 'Phụ khoa' },
+  { slug: 'luoi-mach', label: 'Lưỡi / Mạch' },
+  { slug: 'toan-trang', label: 'Toàn trạng' },
+  { slug: 'khac', label: 'Khác' },
+]
+const nhomLabel = (slug?: string | null) => NHOM_TRIEU_CHUNG.find((n) => n.slug === slug)?.label ?? ''
 
 // ----- Chẩn đoán (diagnosis) -----
 interface DiagnosisMatchedSymptom {
@@ -109,7 +122,7 @@ const expandedCells = ref<Set<string>>(new Set())
 const showModal = ref(false)
 const isEditing = ref(false)
 const editingId = ref<number | null>(null)
-const formData = ref<{ ten_trieu_chung: string }>({ ten_trieu_chung: '' })
+const formData = ref<{ ten_trieu_chung: string; nhom: string | null }>({ ten_trieu_chung: '', nhom: null })
 const isSaving = ref(false)
 
 // Delete confirmation
@@ -294,14 +307,14 @@ function btyToggleLabel(item: Symptom): string {
 function openCreateModal() {
   isEditing.value = false
   editingId.value = null
-  formData.value = { ten_trieu_chung: '' }
+  formData.value = { ten_trieu_chung: '', nhom: null }
   showModal.value = true
 }
 
 function openEditModal(item: Symptom) {
   isEditing.value = true
   editingId.value = item.id
-  formData.value = { ten_trieu_chung: item.ten_trieu_chung }
+  formData.value = { ten_trieu_chung: item.ten_trieu_chung, nhom: item.nhom ?? null }
   showModal.value = true
 }
 
@@ -328,6 +341,58 @@ async function handleSave() {
     alert('Lỗi khi lưu: ' + err.message)
   } finally {
     isSaving.value = false
+  }
+}
+
+// ===== Gợi ý NHÓM bằng AI (theo lô) → bác sĩ duyệt → lưu hàng loạt =====
+const AI_NHOM_BATCH = 30
+interface AiNhomRow { id: number; ten: string; nhom: string | null; ly_do?: string }
+const aiNhomLoading = ref(false)
+const aiNhomSaving = ref(false)
+const aiNhomModal = ref(false)
+const aiNhomRows = ref<AiNhomRow[]>([])
+const untaggedCount = computed(() => dataList.value.filter((s) => !s.nhom).length)
+
+async function runAiNhomSuggest() {
+  const batch = dataList.value.filter((s) => !s.nhom).slice(0, AI_NHOM_BATCH)
+  if (!batch.length) {
+    alert('Tất cả triệu chứng đã có nhóm.')
+    return
+  }
+  aiNhomLoading.value = true
+  try {
+    const res: any = await api.post('/ai-suggest/trieu-chung-nhom', {
+      items: batch.map((s) => ({ id: s.id, ten_trieu_chung: s.ten_trieu_chung })),
+    })
+    const data: Array<{ id: number; ten_trieu_chung: string; nhom: string | null; ly_do?: string }> = res?.data ?? []
+    aiNhomRows.value = data.map((d) => ({ id: d.id, ten: d.ten_trieu_chung, nhom: d.nhom, ly_do: d.ly_do }))
+    aiNhomModal.value = true
+  } catch (err: any) {
+    alert('Lỗi gợi ý AI: ' + (err?.message || err))
+  } finally {
+    aiNhomLoading.value = false
+  }
+}
+
+async function saveAiNhom() {
+  const rows = aiNhomRows.value.filter((r) => r.nhom)
+  if (!rows.length) {
+    aiNhomModal.value = false
+    return
+  }
+  aiNhomSaving.value = true
+  try {
+    // Lưu tuần tự để tránh dồn tải; mỗi triệu chứng chỉ cập nhật trường nhom.
+    for (const r of rows) {
+      const src = dataList.value.find((s) => s.id === r.id)
+      await api.put(`/trieu-chung/${r.id}`, { ten_trieu_chung: src?.ten_trieu_chung ?? r.ten, nhom: r.nhom })
+    }
+    aiNhomModal.value = false
+    await fetchData()
+  } catch (err: any) {
+    alert('Lỗi khi lưu nhóm: ' + (err?.message || err))
+  } finally {
+    aiNhomSaving.value = false
   }
 }
 
@@ -668,6 +733,9 @@ const unexplainedSymptoms = computed<DiagnosisMatchedSymptom[]>(() => {
               @click="searchQuery = ''"
             >×</button>
           </div>
+          <button type="button" class="btn-ai-nhom" :disabled="aiNhomLoading" title="AI gợi ý nhóm cho các triệu chứng chưa phân nhóm (theo lô), bác sĩ duyệt trước khi lưu" @click="runAiNhomSuggest">
+            {{ aiNhomLoading ? 'Đang gợi ý…' : `✨ Gợi ý nhóm (AI · ${untaggedCount} chưa nhóm)` }}
+          </button>
           <span class="badge badge-warning">{{ filteredList.length }}<template v-if="searchQuery">/{{ dataList.length }}</template> triệu chứng</span>
         </div>
 
@@ -747,6 +815,7 @@ const unexplainedSymptoms = computed<DiagnosisMatchedSymptom[]>(() => {
                 <td class="font-bold text-brown-900">
                   {{ item.ten_trieu_chung }}
                   <span v-if="item.doPhoBien" class="pho-bien" :title="`Tham chiếu bởi ${item.doPhoBien} bản ghi`">{{ item.doPhoBien }}</span>
+                  <span v-if="item.nhom" class="nhom-chip">{{ nhomLabel(item.nhom) }}</span>
                 </td>
                 <!-- Thể bệnh: deeplink mở Pháp Trị đại diện (thể bệnh dẫn xuất qua Pháp Trị) -->
                 <td>
@@ -1217,6 +1286,13 @@ const unexplainedSymptoms = computed<DiagnosisMatchedSymptom[]>(() => {
               @keyup.enter="handleSave"
             />
           </div>
+          <div class="form-group">
+            <label>Nhóm</label>
+            <select v-model="formData.nhom" class="nhom-select">
+              <option :value="null">— Chưa phân nhóm —</option>
+              <option v-for="n in NHOM_TRIEU_CHUNG" :key="n.slug" :value="n.slug">{{ n.label }}</option>
+            </select>
+          </div>
         </div>
         <div class="modal-footer">
           <button class="btn-secondary" @click="closeModal">Hủy</button>
@@ -1238,6 +1314,40 @@ const unexplainedSymptoms = computed<DiagnosisMatchedSymptom[]>(() => {
         <div class="modal-footer">
           <button class="btn-secondary" @click="closeDeleteModal">Hủy</button>
           <button class="btn-danger" :disabled="isDeleting" @click="handleDelete">{{ isDeleting ? 'Đang xóa...' : 'Xóa' }}</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Duyệt gợi ý NHÓM (AI) -->
+    <div v-if="aiNhomModal" class="modal-overlay" @click.self="aiNhomModal = false">
+      <div class="modal-content modal-lg">
+        <div class="modal-header">
+          <h3>Duyệt gợi ý nhóm (AI) — {{ aiNhomRows.length }} triệu chứng</h3>
+          <button class="modal-close" @click="aiNhomModal = false">×</button>
+        </div>
+        <div class="modal-body">
+          <p class="ai-nhom-hint">AI chỉ <strong>gợi ý</strong> — bác sĩ chỉnh/duyệt rồi lưu. Dòng để "Chưa phân nhóm" sẽ bỏ qua.</p>
+          <table class="ai-nhom-table">
+            <thead>
+              <tr><th>Triệu chứng</th><th>Nhóm (AI gợi ý)</th><th>Lý do</th></tr>
+            </thead>
+            <tbody>
+              <tr v-for="r in aiNhomRows" :key="r.id">
+                <td class="font-bold">{{ r.ten }}</td>
+                <td>
+                  <select v-model="r.nhom" class="nhom-select nhom-select--sm">
+                    <option :value="null">— Chưa phân nhóm —</option>
+                    <option v-for="n in NHOM_TRIEU_CHUNG" :key="n.slug" :value="n.slug">{{ n.label }}</option>
+                  </select>
+                </td>
+                <td class="ai-nhom-ly">{{ r.ly_do }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button class="btn-secondary" :disabled="aiNhomSaving" @click="aiNhomModal = false">Hủy</button>
+          <button class="btn-primary" :disabled="aiNhomSaving" @click="saveAiNhom">{{ aiNhomSaving ? 'Đang lưu…' : 'Lưu nhóm đã duyệt' }}</button>
         </div>
       </div>
     </div>
@@ -1605,15 +1715,29 @@ const unexplainedSymptoms = computed<DiagnosisMatchedSymptom[]>(() => {
 
 /* Modal */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; animation: fadeIn 0.2s ease; padding: var(--space-4); }
-.modal-content { background: var(--white); border-radius: var(--radius-xl); width: 100%; max-width: 520px; box-shadow: var(--shadow-xl); animation: slideUp 0.25s ease; }
+.modal-content { background: var(--white); border-radius: var(--radius-xl); width: 100%; max-width: 520px; box-shadow: var(--shadow-xl); animation: slideUp 0.25s ease; display: flex; flex-direction: column; max-height: calc(100vh - 2 * var(--space-4)); max-height: calc(100dvh - 2 * var(--space-4)); overflow: hidden; }
 @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 .modal-sm { max-width: 400px; }
-.modal-header { display: flex; justify-content: space-between; align-items: center; padding: var(--space-5); border-bottom: 1px solid var(--gray-200); }
+.modal-lg { max-width: 760px; }
+
+.nhom-chip { display: inline-block; margin-left: 6px; padding: 1px 8px; border-radius: 999px; background: #EEF2FF; border: 1px solid #C7D2FE; color: #3730A3; font-size: 11px; font-weight: 600; vertical-align: middle; }
+.nhom-select { width: 100%; padding: 8px 10px; border: 1px solid var(--gray-300); border-radius: var(--radius-md); font-size: 14px; font-family: inherit; background: var(--white); }
+.nhom-select--sm { padding: 5px 8px; font-size: 13px; }
+.btn-ai-nhom { padding: 7px 12px; border-radius: var(--radius-md); border: 1px solid var(--brown-300); background: linear-gradient(135deg, var(--brown-600), var(--brown-700)); color: #fff; font-size: 12.5px; font-weight: 600; cursor: pointer; white-space: nowrap; }
+.btn-ai-nhom:hover:not(:disabled) { transform: translateY(-1px); }
+.btn-ai-nhom:disabled { opacity: 0.6; cursor: default; }
+.ai-nhom-hint { font-size: 12.5px; color: var(--gray-500); margin-bottom: 10px; }
+.ai-nhom-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+.ai-nhom-table th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--gray-500); padding: 4px 8px; border-bottom: 1px solid var(--gray-200); }
+.ai-nhom-table td { padding: 6px 8px; border-bottom: 1px solid var(--gray-100); vertical-align: middle; }
+.ai-nhom-table td.font-bold { font-weight: 700; color: var(--brown-900, #4a2f1a); }
+.ai-nhom-ly { color: var(--gray-500); font-size: 12px; font-style: italic; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding: var(--space-5); border-bottom: 1px solid var(--gray-200); flex-shrink: 0; }
 .modal-header h3 { margin: 0; font-size: var(--font-size-lg); font-weight: 700; color: var(--brown-900); }
 .modal-close { background: none; border: none; font-size: 28px; line-height: 1; color: var(--gray-400); cursor: pointer; padding: 0; width: 32px; height: 32px; }
 .modal-close:hover { color: var(--gray-700); }
-.modal-body { padding: var(--space-5); }
-.modal-footer { display: flex; justify-content: flex-end; gap: var(--space-3); padding: var(--space-5); border-top: 1px solid var(--gray-200); }
+.modal-body { padding: var(--space-5); overflow-y: auto; flex: 1 1 auto; -webkit-overflow-scrolling: touch; }
+.modal-footer { display: flex; justify-content: flex-end; gap: var(--space-3); padding: var(--space-5); border-top: 1px solid var(--gray-200); flex-shrink: 0; }
 
 .form-group { margin-bottom: var(--space-4); }
 .form-group label { display: block; margin-bottom: var(--space-2); font-weight: 600; font-size: var(--font-size-sm); color: var(--gray-700); }

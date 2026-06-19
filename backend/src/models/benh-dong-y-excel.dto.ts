@@ -1,3 +1,5 @@
+import type { NguyenNhanInput } from './phap-tri.dto';
+
 export class DiagnoseBenhDongYExcelDto {
   chi_so?: Record<string, number | string | null | undefined>;
 }
@@ -15,6 +17,8 @@ export class CreateBenhDongYExcelDto {
   id_phap_tri_list?: number[];
   id_trieu_chung_list?: number[];
   id_bai_thuoc_list?: number[];
+  /** Nguyên nhân có cấu trúc theo nhóm (tinh-than | sinh-hoat | tang-phu). */
+  nguyen_nhan_list?: NguyenNhanInput[];
 }
 
 export class UpdateBenhDongYExcelDto {
@@ -28,4 +32,5 @@ export class UpdateBenhDongYExcelDto {
   id_phap_tri_list?: number[];
   id_trieu_chung_list?: number[];
   id_bai_thuoc_list?: number[];
+  nguyen_nhan_list?: NguyenNhanInput[];
 }

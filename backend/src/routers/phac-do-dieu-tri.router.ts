@@ -24,6 +24,12 @@ export class PhacDoDieuTriRouter {
     return this.service.findAll();
   }
 
+  /** Phương huyệt gom theo thể bệnh (cấu trúc + nguyên văn dữ liệu cũ). Phải đứng TRƯỚC @Get(':id'). */
+  @Get('phuong-huyet-the')
+  findPhuongHuyetTheBenh() {
+    return this.service.findPhuongHuyetTheBenh();
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.service.findOne(id);

@@ -37,9 +37,11 @@ import { ViThuocTenGoiKhac } from './models/vi-thuoc-ten-goi-khac.model';
 import { ViThuocKinhMach } from './models/vi-thuoc-kinh-mach.model';
 import { CongDung } from './models/cong-dung.model';
 import { PhapTri } from './models/phap-tri.model';
+import { PhapTriNguyenNhan } from './models/phap-tri-nguyen-nhan.model';
 import { BaiThuocPhapTri } from './models/bai-thuoc-phap-tri.model';
 import { LegacyMeridianSyndrome } from './models/legacy-meridian-syndrome.model';
 import { BenhDongYExcel } from './models/benh-dong-y-excel.model';
+import { BenhDongYExcelNguyenNhan } from './models/benh-dong-y-excel-nguyen-nhan.model';
 import { BenhDongYHienDai } from './models/benh-dong-y-hien-dai.model';
 import { TonThuongTacNhan } from './models/ton-thuong-tac-nhan.model';
 import { KinhMach3dAnchor } from './models/kinh-mach-3d-anchor.model';
@@ -192,7 +194,7 @@ import { JwtAuthGuard } from './middlewares/auth/jwt-auth.guard';
       },
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([ChanDoanLuoi, Admin, VaiTro, MeridianSyndrome, LegacyMeridianSyndrome, Patient, Examination, ChungBenh, BenhTayY, TrieuChung, KinhMach, HuyetVi, PhacDoDieuTri, PhacDoChuan, PhacDoChuanHuyet, ViThuoc, BaiThuoc, BaiThuocChiTiet, BaiThuocPhapTri, TheBenh, TheBenhPhuongHuyet, ClinicScheduleConfig, ClinicDayOverride, AppointmentSlot, ThietChan, MachChan, ViThuocCongDung, ViThuocChuTri, ViThuocKiengKy, ViThuocTenGoiKhac, ViThuocKinhMach, CongDung, ChuTri, KiengKy, PhapTri, BenhDongYExcel, BenhDongYHienDai, NhomLonDuocLy, NhomNhoDuocLy, NhomNhoViThuoc, NhomNhoChuTri, TonThuongTacNhan, KinhMach3dAnchor, SeoDoiThu, SeoUrl, SeoCum, SeoBaiViet]),
+    TypeOrmModule.forFeature([ChanDoanLuoi, Admin, VaiTro, MeridianSyndrome, LegacyMeridianSyndrome, Patient, Examination, ChungBenh, BenhTayY, TrieuChung, KinhMach, HuyetVi, PhacDoDieuTri, PhacDoChuan, PhacDoChuanHuyet, ViThuoc, BaiThuoc, BaiThuocChiTiet, BaiThuocPhapTri, TheBenh, TheBenhPhuongHuyet, ClinicScheduleConfig, ClinicDayOverride, AppointmentSlot, ThietChan, MachChan, ViThuocCongDung, ViThuocChuTri, ViThuocKiengKy, ViThuocTenGoiKhac, ViThuocKinhMach, CongDung, ChuTri, KiengKy, PhapTri, PhapTriNguyenNhan, BenhDongYExcel, BenhDongYExcelNguyenNhan, BenhDongYHienDai, NhomLonDuocLy, NhomNhoDuocLy, NhomNhoViThuoc, NhomNhoChuTri, TonThuongTacNhan, KinhMach3dAnchor, SeoDoiThu, SeoUrl, SeoCum, SeoBaiViet]),
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],

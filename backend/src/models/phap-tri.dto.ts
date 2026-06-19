@@ -1,3 +1,10 @@
+/** Một dòng nguyên nhân có cấu trúc của pháp trị. */
+export interface NguyenNhanInput {
+  nhom?: string | null; // tinh-than | sinh-hoat | tang-phu
+  noi_dung?: string | null;
+  thu_tu?: number | null;
+}
+
 export class CreatePhapTriDto {
   chung_trang?: string | null;
   the_benh?: string | null;
@@ -27,6 +34,8 @@ export class CreatePhapTriDto {
   id_kinh_mach_list?: number[];
   /** Danh sách id triệu chứng (bảng trieu_chung) — ưu tiên đồng bộ quan hệ + trieu_chung_mo_ta */
   id_trieu_chung_list?: number[];
+  /** Nguyên nhân có cấu trúc theo nhóm. */
+  nguyen_nhan_list?: NguyenNhanInput[];
 }
 
 export class UpdatePhapTriDto {
@@ -53,4 +62,5 @@ export class UpdatePhapTriDto {
   id_benh_dong_y_list?: number[];
   id_kinh_mach_list?: number[];
   id_trieu_chung_list?: number[];
+  nguyen_nhan_list?: NguyenNhanInput[];
 }
