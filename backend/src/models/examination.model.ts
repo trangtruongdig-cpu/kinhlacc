@@ -5,6 +5,22 @@ import {
   CreateDateColumn
 } from 'typeorm';
 
+/** Chẩn đoán đã lưu từ luồng "Hỏi & Chẩn đoán" (D5) — kết luận thầy thuốc + bằng chứng. */
+export interface ChanDoanLuu {
+  /** Tên thể bệnh kết luận. */
+  ket_luan: string;
+  /** Khóa ứng viên (tdo:<id> hoặc kep:...). */
+  ket_luan_key?: string;
+  /** Bảng xếp hạng theo lời kể lúc chốt (snapshot bằng chứng). */
+  xep_hang: { label: string; percent: number; is_kep: boolean }[];
+  /** Triệu chứng đã hỏi + câu trả lời (chỉ những câu đã trả lời). */
+  trieu_chung: { id: number; ten: string; nhom: string | null; tra_loi: 'co' | 'khong' | 'kho' }[];
+  /** Ghi chú thầy thuốc. */
+  ghi_chu?: string;
+  /** Thời điểm lưu (ISO). */
+  luu_luc: string;
+}
+
 @Entity('examinations')
 export class Examination {
   @PrimaryGeneratedColumn()
@@ -46,6 +62,9 @@ export class Examination {
 
   @Column({ type: 'text', nullable: true })
   notes: string | null;
+
+  @Column({ type: 'jsonb', nullable: true })
+  chanDoan: ChanDoanLuu | null;
 
   @CreateDateColumn()
   createdAt: Date;
