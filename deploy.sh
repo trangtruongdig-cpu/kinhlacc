@@ -36,9 +36,15 @@ docker compose build frontend
 echo "==> [5/6] Khởi động lại các service"
 docker compose up -d
 
-echo "==> [6/6] Dọn image cũ để giải phóng đĩa"
-docker image prune -f
+echo "==> [6/6] Tối ưu đĩa tự động: xoá image cũ + cắt cache build (GIỮ ~3GB gần đây cho nhanh)"
+# Xoá mọi image KHÔNG còn container nào dùng (các bản build cũ) — an toàn, stack đang chạy được giữ.
+docker image prune -af || true
+# Cắt cache build BuildKit nhưng giữ tối đa 3GB gần nhất → đĩa gọn mà lần build sau vẫn nhanh.
+docker builder prune -f --keep-storage=3GB || docker builder prune -f --filter "until=72h" || true
 
 echo ""
-echo "==> ✅ Xong. Trạng thái container:"
+echo "==> ✅ Xong. Đĩa còn trống:"
+df -h / | awk 'NR==1 || /\/$/'
+echo ""
+echo "==> Trạng thái container:"
 docker compose ps

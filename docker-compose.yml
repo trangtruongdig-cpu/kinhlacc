@@ -16,6 +16,12 @@ services:
     image: kinhlac/backend:latest
     container_name: kinhlac_backend
     restart: unless-stopped
+    # Giới hạn log để KHÔNG phình đĩa (mặc định json-file là vô hạn).
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     # Tất cả biến runtime (DATABASE_URL của Aiven, JWT_SECRET, YESCALE_*, FRONTEND_URL …)
     # đều đến từ backend/.env. KHÔNG override DB_* ở đây vì đã trỏ ra ngoài Aiven.
     env_file:
@@ -42,6 +48,11 @@ services:
     image: kinhlac/ml-service:latest
     container_name: kinhlac_ml
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     environment:
       ML_SERVICE_PORT: "3002"
     networks:
@@ -61,6 +72,11 @@ services:
     image: kinhlac/frontend:latest
     container_name: kinhlac_frontend
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     ports:
       - "${HTTP_PORT:-8080}:80"
     depends_on:
