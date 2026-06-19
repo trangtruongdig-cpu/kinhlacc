@@ -126,6 +126,14 @@ const matchedPhuongHuyetList = computed(() => {
   return out
 })
 
+// Thể đo nào CHƯA có phương huyệt (không có dòng phác đồ nào trỏ tới) — để nhắc bác sĩ nhập.
+const phuongHuyetBenhIds = computed(() => new Set(phacDoAllList.value.map((r) => r.idBenh)))
+const theDoThieuPhuongHuyet = computed(() =>
+  (excelSyndromesList.value as Array<{ id: number; name: string }>).filter(
+    (s) => !phuongHuyetBenhIds.value.has(s.id),
+  ),
+)
+
 const matchedBaiThuocList = computed(() => {
   const seen = new Set<number>()
   const out: BaiThuocLite[] = []
@@ -1504,6 +1512,12 @@ function footerDiffClassMerged() {
                   </template>
                 </div>
               </div>
+              <div v-if="theDoThieuPhuongHuyet.length" class="ph-missing-warn">
+                ⚠ <b>{{ theDoThieuPhuongHuyet.length }}</b> thể đo chưa có phương huyệt:
+                <template v-for="(t, i) in theDoThieuPhuongHuyet" :key="t.id"
+                  ><b>{{ t.name }}</b><span v-if="i < theDoThieuPhuongHuyet.length - 1">, </span></template
+                >. Vào tab <b>Phương Huyệt</b> để thêm phác đồ huyệt cho các thể này.
+              </div>
             </div>
           </section>
 
@@ -2156,6 +2170,8 @@ function footerDiffClassMerged() {
 
 /* Phương huyệt — group theo phương pháp */
 .ph-groups { display: flex; flex-direction: column; gap: var(--space-3); }
+.ph-missing-warn { margin-top: var(--space-3); padding: 8px 12px; border: 1px solid #fde68a; background: #fffbeb; border-radius: var(--radius-md); font-size: 12px; color: #92400e; line-height: 1.55; }
+.ph-missing-warn b { color: #b45309; }
 .ph-group {
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-md);
