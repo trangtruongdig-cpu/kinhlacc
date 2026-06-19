@@ -143,6 +143,26 @@ function toggleNoteExpanded(id: number) {
   expandedNotes.value = next
 }
 
+// Cắt gọn các khối văn bản dài (Phương huyệt / Giải nghĩa) — clamp 4 dòng + nút Xem thêm.
+const SECTION_TRUNCATE_LEN = 160
+const expandedText = ref<Set<string>>(new Set())
+function isLongText(s: string | null | undefined): boolean {
+  return !!s && s.trim().length > SECTION_TRUNCATE_LEN
+}
+function toggleText(key: string) {
+  const next = new Set(expandedText.value)
+  if (next.has(key)) next.delete(key)
+  else next.add(key)
+  expandedText.value = next
+}
+
+// Cắt gọn danh sách huyệt cấu trúc trên thẻ (giữ chiều cao đồng đều) — đủ xem ở modal Sửa.
+const HUYET_CAP = 6
+function visibleItems(group: BenhGroup): PhacDoRow[] {
+  if (expandedText.value.has('hv-' + group.idBenh)) return group.items
+  return group.items.slice(0, HUYET_CAP)
+}
+
 const currentPage = ref(1)
 const itemsPerPage = ref(10)
 
@@ -511,12 +531,30 @@ async function handleDelete() {
                     <span v-else>✨ Tách huyệt (AI)</span>
                   </button>
                 </div>
-                <p class="ph-text">{{ group.benh.phuyet_chamcuu }}</p>
+                <p
+                  class="ph-text"
+                  :class="{ 'ph-text--clamp': isLongText(group.benh.phuyet_chamcuu) && !expandedText.has('pc-' + group.idBenh) }"
+                >{{ group.benh.phuyet_chamcuu }}</p>
+                <button
+                  v-if="isLongText(group.benh.phuyet_chamcuu)"
+                  type="button"
+                  class="note-toggle"
+                  @click="toggleText('pc-' + group.idBenh)"
+                >{{ expandedText.has('pc-' + group.idBenh) ? 'Thu gọn ▲' : 'Xem thêm ▼' }}</button>
               </section>
 
               <section v-if="group.benh?.giainghia_phuyet" class="disease-section">
                 <span class="disease-section__label">Giải nghĩa phương huyệt</span>
-                <p class="ph-text ph-text--muted">{{ group.benh.giainghia_phuyet }}</p>
+                <p
+                  class="ph-text ph-text--muted"
+                  :class="{ 'ph-text--clamp': isLongText(group.benh.giainghia_phuyet) && !expandedText.has('gn-' + group.idBenh) }"
+                >{{ group.benh.giainghia_phuyet }}</p>
+                <button
+                  v-if="isLongText(group.benh.giainghia_phuyet)"
+                  type="button"
+                  class="note-toggle"
+                  @click="toggleText('gn-' + group.idBenh)"
+                >{{ expandedText.has('gn-' + group.idBenh) ? 'Thu gọn ▲' : 'Xem thêm ▼' }}</button>
               </section>
 
               <section v-if="group.items.length" class="disease-section">
@@ -528,7 +566,7 @@ async function handleDelete() {
                     <span class="ht-col ht-col--note">Ghi chú</span>
                   </div>
                   <div
-                    v-for="row in group.items"
+                    v-for="row in visibleItems(group)"
                     :key="row.idPhacDo"
                     class="huyet-table__row"
                   >
@@ -562,6 +600,12 @@ async function handleDelete() {
                     </div>
                   </div>
                 </div>
+                <button
+                  v-if="group.items.length > HUYET_CAP"
+                  type="button"
+                  class="note-toggle"
+                  @click="toggleText('hv-' + group.idBenh)"
+                >{{ expandedText.has('hv-' + group.idBenh) ? 'Thu gọn ▲' : `Xem thêm ${group.items.length - HUYET_CAP} huyệt ▼` }}</button>
               </section>
 
               <p v-if="!group.benh?.phuyet_chamcuu && !group.items.length" class="disease-empty muted">Chưa có phương huyệt.</p>
@@ -827,9 +871,9 @@ async function handleDelete() {
 }
 
 .disease-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
-  gap: var(--space-4);
+  /* Masonry bằng CSS multi-column: thẻ xếp KHÍT theo cột, không còn kẽ hở (đọc theo cột dọc). */
+  column-width: 340px;
+  column-gap: var(--space-4);
   padding: var(--space-4) var(--space-5);
   background: var(--surface-2);
 }
@@ -843,6 +887,12 @@ async function handleDelete() {
   box-shadow: 0 1px 2px rgba(74, 47, 23, 0.04);
   transition: box-shadow var(--transition-fast), transform var(--transition-fast),
     border-color var(--transition-fast);
+  /* Masonry: không cho thẻ bị cắt ngang giữa 2 cột; dùng margin (multicol không áp dụng gap dọc). */
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  width: 100%;
+  margin-bottom: var(--space-4);
 }
 .disease-card:hover {
   box-shadow: 0 6px 18px rgba(74, 47, 23, 0.08);
@@ -924,6 +974,14 @@ async function handleDelete() {
   line-height: 1.6;
 }
 .ph-text--muted { background: var(--gray-50); border-color: var(--gray-200); color: var(--gray-700); font-size: 13px; }
+/* Cắt gọn 4 dòng khi chưa "Xem thêm" — giữ chiều cao thẻ đồng đều, lưới gọn mắt. */
+.ph-text--clamp {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 /* Nút + ghi chú AI tách huyệt */
 .ph-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
 .btn-ai-sm {
