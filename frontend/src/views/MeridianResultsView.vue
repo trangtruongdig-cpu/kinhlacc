@@ -3,6 +3,7 @@ import { ref, onMounted, computed, watch, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { usePatientStore, type Patient } from '@/stores/patient'
 import { api } from '@/services/api'
+import BatCuongDiagram from '@/components/BatCuongDiagram.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -128,12 +129,38 @@ function phNormName(s: string | null | undefined): string {
     .replace(/\s+/g, ' ')
     .trim()
 }
+// Ánh xạ tên thể ĐO → tên thể trong thư viện (benh_dong_y) khi khác chữ nhưng cùng phác đồ
+// huyệt (9 cặp bác sĩ đã duyệt) — để Section IV lấy đúng phương huyệt.
+const PH_THE_ALIAS: Record<string, string> = (() => {
+  const pairs: [string, string][] = [
+    ['Thận âm dương lưỡng hư', 'Thận Âm Hư, Thận Dương Hư'],
+    ['Tâm Dương Hư Suy', 'Tâm Dương Hư'],
+    ['Tỳ vị khí hư', 'Tỳ Khí Hư'],
+    ['Tỳ vị thấp khốn', 'Tỳ Thấp Khốn'],
+    ['Đởm nhiệt', 'Đởm Thấp Nhiệt'],
+    ['Đàm hoả nội nhiễu', 'Đàm Hỏa Nhiễu Tâm'],
+    ['Tâm tỳ lưỡng hư', 'Tâm Khí Hư, Tỳ Khí Hư'],
+    ['Đàm trọc trở phế', 'Đàm Thấp Trở Phế'],
+    ['Phế tỳ lưỡng hư', 'Phế Tỳ Khí Hư'],
+  ]
+  const m: Record<string, string> = {}
+  for (const [a, b] of pairs) m[phNormName(a)] = phNormName(b)
+  return m
+})()
+// Tên chuẩn hoá để khớp phương huyệt cho 1 thể đo: chính nó + alias (nếu có).
+function phNamesOf(name: string): string[] {
+  const k = phNormName(name)
+  const alias = PH_THE_ALIAS[k]
+  return alias ? [k, alias] : [k]
+}
 // Tên các thể ĐO đang xét (tôn trọng excelFocusRuleId nếu bác sĩ bấm chọn 1 thể).
 const measuredThemeNames = computed<Set<string>>(() => {
   const list = excelSyndromesList.value as Array<{ id: number; name: string }>
   const focus = excelFocusRuleId.value
   const src = focus != null && list.some((s) => s.id === focus) ? list.filter((s) => s.id === focus) : list
-  return new Set(src.map((s) => phNormName(s.name)).filter(Boolean))
+  const out = new Set<string>()
+  for (const s of src) for (const n of phNamesOf(s.name)) if (n) out.add(n)
+  return out
 })
 const matchedPhuongHuyetList = computed(() => {
   const names = measuredThemeNames.value
@@ -156,7 +183,7 @@ const phuongHuyetNames = computed(
 )
 const theDoThieuPhuongHuyet = computed(() =>
   (excelSyndromesList.value as Array<{ id: number; name: string }>).filter(
-    (s) => !phuongHuyetNames.value.has(phNormName(s.name)),
+    (s) => !phNamesOf(s.name).some((n) => phuongHuyetNames.value.has(n)),
   ),
 )
 
@@ -1079,17 +1106,32 @@ const diagnosis = computed(() => {
   return { amDuong, khi, huyet }
 })
 
+// Một tạng phủ đã phân loại Bát Cương — giữ row.name để soi đúng hàng bảng đo khi bấm.
+interface BcOrgan {
+  name: string // mã kinh (row.name)
+  label: string // tên đầy đủ + bên (vd "Tâm trái")
+  organ: string // tên tạng phủ (vd "Tâm")
+  side: string // "trái" | "phải" | ""
+}
+
 const batCuong = computed(() => {
   const lyNhiet: string[] = []
   const bieuNhiet: string[] = []
   const lyHan: string[] = []
   const bieuHan: string[] = []
 
-  // Tập mã kinh (row.name) đóng góp vào từng nhóm — để highlight bảng đo khi bấm
-  const setLyNhiet = new Set<string>()
-  const setBieuNhiet = new Set<string>()
-  const setLyHan = new Set<string>()
-  const setBieuHan = new Set<string>()
+  // Item kèm row.name → vừa vẽ icon tạng phủ, vừa soi đúng hàng bảng đo khi bấm.
+  const itLyNhiet: BcOrgan[] = []
+  const itBieuNhiet: BcOrgan[] = []
+  const itLyHan: BcOrgan[] = []
+  const itBieuHan: BcOrgan[] = []
+
+  const mkOrgan = (rowName: string, organ: string, label: string): BcOrgan => ({
+    name: rowName,
+    label,
+    organ,
+    side: label.slice(organ.length).trim(),
+  })
 
   const process = (row: any, saiSo: number) => {
     const tenKinh = CHANNELS_FULL[row.name as keyof typeof CHANNELS_FULL]
@@ -1105,10 +1147,10 @@ const batCuong = computed(() => {
     // Phát hiện nhóm nào "lớn lên" sau khi phân loại → quy về mã kinh của hàng này
     const n0 = lyNhiet.length, n1 = bieuNhiet.length, n2 = lyHan.length, n3 = bieuHan.length
     groupingV2(lyNhiet, bieuNhiet, lyHan, bieuHan, tenKinh, dauC8, dauC10, dauC11, row.diff, saiSo)
-    if (lyNhiet.length > n0) setLyNhiet.add(row.name)
-    if (bieuNhiet.length > n1) setBieuNhiet.add(row.name)
-    if (lyHan.length > n2) setLyHan.add(row.name)
-    if (bieuHan.length > n3) setBieuHan.add(row.name)
+    if (lyNhiet.length > n0) itLyNhiet.push(mkOrgan(row.name, tenKinh, lyNhiet[lyNhiet.length - 1]!))
+    if (bieuNhiet.length > n1) itBieuNhiet.push(mkOrgan(row.name, tenKinh, bieuNhiet[bieuNhiet.length - 1]!))
+    if (lyHan.length > n2) itLyHan.push(mkOrgan(row.name, tenKinh, lyHan[lyHan.length - 1]!))
+    if (bieuHan.length > n3) itBieuHan.push(mkOrgan(row.name, tenKinh, bieuHan[bieuHan.length - 1]!))
   }
 
   upperRows.value.forEach((row: any) => process(row, upperStats.value.sd))
@@ -1119,81 +1161,23 @@ const batCuong = computed(() => {
     hanLy: lyHan.join(', '),
     nhietBieu: bieuNhiet.join(', '),
     nhietLy: lyNhiet.join(', '),
-    arr: { bieuHan, lyHan, bieuNhiet, lyNhiet },
-    sets: {
-      hanBieu: setBieuHan,
-      hanLy: setLyHan,
-      nhietBieu: setBieuNhiet,
-      nhietLy: setLyNhiet,
-    },
+    items: { bieuHan: itBieuHan, lyHan: itLyHan, bieuNhiet: itBieuNhiet, lyNhiet: itLyNhiet },
   }
 })
 
 /**
- * Bát Cương gộp về 4 mục cương theo vị trí & tính chất:
+ * Bát Cương gộp về 4 mục theo vị trí & tính chất (mỗi tạng phủ kèm icon, bấm để soi bảng đo):
  *  Biểu = Biểu Hàn ∪ Biểu Nhiệt · Lý = Lý Hàn ∪ Lý Nhiệt
  *  Hàn  = Biểu Hàn ∪ Lý Hàn     · Nhiệt = Biểu Nhiệt ∪ Lý Nhiệt
- * Mỗi mục giữ tập kinh để bấm-soi bảng đo (union các tập tiểu kết gốc).
  */
-const batCuongPairs = computed(() => {
-  const { arr, sets } = batCuong.value
-  const union = (...src: Set<string>[]) => {
-    const out = new Set<string>()
-    for (const s of src) for (const x of s) out.add(x)
-    return out
-  }
+const batCuongOrgans = computed(() => {
+  const it = batCuong.value.items
   return {
-    bieu: { value: [...arr.bieuHan, ...arr.bieuNhiet].join(', '), set: union(sets.hanBieu, sets.nhietBieu) },
-    ly: { value: [...arr.lyHan, ...arr.lyNhiet].join(', '), set: union(sets.hanLy, sets.nhietLy) },
-    han: { value: [...arr.bieuHan, ...arr.lyHan].join(', '), set: union(sets.hanBieu, sets.hanLy) },
-    nhiet: { value: [...arr.bieuNhiet, ...arr.lyNhiet].join(', '), set: union(sets.nhietBieu, sets.nhietLy) },
+    bieu: [...it.bieuHan, ...it.bieuNhiet],
+    ly: [...it.lyHan, ...it.lyNhiet],
+    han: [...it.bieuHan, ...it.lyHan],
+    nhiet: [...it.bieuNhiet, ...it.lyNhiet],
   }
-})
-
-/** 4 cặp cương đúng tinh thần Đông Y — render khối dọc & bấm để soi bảng đo */
-interface BcLine {
-  key: BatCuongFocusKey
-  label: string
-  value: string
-  tag?: boolean
-}
-interface BcPair {
-  no: string
-  name: string
-  sub: string
-  variant: 'tong' | 'vitri' | 'tinhchat' | 'trangthai'
-  lines: BcLine[]
-}
-const batCuongView = computed<BcPair[]>(() => {
-  const p = batCuongPairs.value
-  const d = diagnosis.value
-  return [
-    {
-      no: '①', name: 'Âm — Dương', sub: 'Tổng cương', variant: 'tong',
-      lines: [{ key: 'amDuong', label: '', value: d.amDuong, tag: true }],
-    },
-    {
-      no: '②', name: 'Biểu — Lý', sub: 'Vị trí bệnh', variant: 'vitri',
-      lines: [
-        { key: 'bieu', label: 'Biểu', value: p.bieu.value },
-        { key: 'ly', label: 'Lý', value: p.ly.value },
-      ],
-    },
-    {
-      no: '③', name: 'Hàn — Nhiệt', sub: 'Tính chất bệnh', variant: 'tinhchat',
-      lines: [
-        { key: 'han', label: 'Hàn', value: p.han.value },
-        { key: 'nhiet', label: 'Nhiệt', value: p.nhiet.value },
-      ],
-    },
-    {
-      no: '④', name: 'Hư — Thực', sub: 'Trạng thái sức khỏe', variant: 'trangthai',
-      lines: [
-        { key: 'khi', label: 'Khí', value: d.khi },
-        { key: 'huyet', label: 'Huyết', value: d.huyet },
-      ],
-    },
-  ]
 })
 
 function getSignClass(sign: string) {
@@ -1256,17 +1240,14 @@ function goBack() {
   router.push({ name: 'patient-detail', params: { id: patientId.value } })
 }
 
-/** Tab Chẩn đoán Bát cương → highlight ô liên quan ở bảng I */
-type TieuKetFocusKey = 'bieu' | 'ly' | 'han' | 'nhiet'
-type BatCuongFocusKey = 'amDuong' | 'khi' | 'huyet' | TieuKetFocusKey
-const batCuongFocus = ref<BatCuongFocusKey | null>(null)
+/** Chẩn đoán Bát cương → highlight ô liên quan ở bảng I.
+ * focus: 'amDuong' | 'khi' | 'huyet' (theo mảng/cột) hoặc 'organ:<mã kinh>' (soi 1 tạng phủ). */
+const batCuongFocus = ref<string | null>(null)
 
-// Tập mã kinh đang được soi khi focus là 1 trong các mục Biểu / Lý / Hàn / Nhiệt
+// Tập mã kinh đang được soi khi bấm 1 tạng phủ cụ thể (Biểu/Lý/Hàn/Nhiệt) — chỉ 1 hàng.
 function focusedTieuKetSet(): Set<string> | null {
   const f = batCuongFocus.value
-  if (f === 'bieu' || f === 'ly' || f === 'han' || f === 'nhiet') {
-    return batCuongPairs.value[f].set
-  }
+  if (f && f.startsWith('organ:')) return new Set([f.slice(6)])
   return null
 }
 
@@ -1447,7 +1428,7 @@ function toggleModernFocus(id: number) {
   modernFocusRuleId.value = modernFocusRuleId.value === id ? null : id
 }
 
-function toggleBatCuongFocus(key: BatCuongFocusKey) {
+function toggleBatCuongFocus(key: string) {
   excelFocusRuleId.value = null
   modernFocusRuleId.value = null
   batCuongFocus.value = batCuongFocus.value === key ? null : key
@@ -1547,7 +1528,8 @@ function printPhieuKetQua() {
   const p = patient.value
   const ex = examDisplay.value
   const dg = diagnosis.value
-  const bcp = batCuongPairs.value
+  const bco = batCuongOrgans.value
+  const joinOrgans = (list: { label: string }[]) => list.map((o) => o.label).join(', ')
   const cd = savedChanDoan.value
   const dash = (v: unknown) => (v != null && String(v).trim() ? escHtml(v) : '—')
 
@@ -1726,8 +1708,8 @@ function printPhieuKetQua() {
   <div class="sec-h">II. Chẩn đoán Bát Cương</div>
   <div class="tk-grid">
     <div class="tk"><b>① Âm — Dương</b> · Tổng cương: ${dash(dg.amDuong)}</div>
-    <div class="tk"><b>② Biểu — Lý</b> · Vị trí bệnh — Biểu: ${dash(bcp.bieu.value)} · Lý: ${dash(bcp.ly.value)}</div>
-    <div class="tk"><b>③ Hàn — Nhiệt</b> · Tính chất bệnh — Hàn: ${dash(bcp.han.value)} · Nhiệt: ${dash(bcp.nhiet.value)}</div>
+    <div class="tk"><b>② Biểu — Lý</b> · Vị trí bệnh — Biểu: ${dash(joinOrgans(bco.bieu))} · Lý: ${dash(joinOrgans(bco.ly))}</div>
+    <div class="tk"><b>③ Hàn — Nhiệt</b> · Tính chất bệnh — Hàn: ${dash(joinOrgans(bco.han))} · Nhiệt: ${dash(joinOrgans(bco.nhiet))}</div>
     <div class="tk"><b>④ Hư — Thực</b> · Trạng thái sức khỏe — Khí: ${dash(dg.khi)} · Huyết: ${dash(dg.huyet)}</div>
   </div>
 
@@ -2094,41 +2076,17 @@ function printPhieuKetQua() {
               <div class="info-group p-5">
                 <h4 class="info-label mb-3">Chẩn Đoán Bát Cương</h4>
 
-                <div class="bat-cuong">
-                  <div
-                    v-for="pair in batCuongView"
-                    :key="pair.no"
-                    class="bc-pair"
-                    :class="'bc-pair--' + pair.variant"
-                  >
-                    <div class="bc-pair-head">
-                      <span class="bc-pair-no">{{ pair.no }}</span>
-                      <span class="bc-pair-name">{{ pair.name }}</span>
-                      <span class="bc-pair-sub">{{ pair.sub }}</span>
-                    </div>
-                    <div class="bc-pair-body" :class="{ 'bc-pair-body--single': pair.lines.length === 1 }">
-                      <div
-                        v-for="ln in pair.lines"
-                        :key="ln.key"
-                        class="bc-line"
-                        :class="{
-                          'bc-line--tag': ln.tag,
-                          'bc-line--clickable': !!ln.value,
-                          'bc-line--active': batCuongFocus === ln.key,
-                        }"
-                        :role="ln.value ? 'button' : undefined"
-                        :tabindex="ln.value ? 0 : undefined"
-                        :title="ln.value ? 'Xem các kinh liên quan trên bảng đo' : undefined"
-                        @click="ln.value && toggleBatCuongFocus(ln.key)"
-                        @keydown.enter.prevent="ln.value && toggleBatCuongFocus(ln.key)"
-                        @keydown.space.prevent="ln.value && toggleBatCuongFocus(ln.key)"
-                      >
-                        <span v-if="ln.label" class="bc-line-key">{{ ln.label }}</span>
-                        <span class="bc-line-val" :class="{ 'bc-line-val--tag': ln.tag }">{{ ln.value || '—' }}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <BatCuongDiagram
+                  :am-duong="diagnosis.amDuong"
+                  :khi="diagnosis.khi"
+                  :huyet="diagnosis.huyet"
+                  :bieu="batCuongOrgans.bieu"
+                  :ly="batCuongOrgans.ly"
+                  :han="batCuongOrgans.han"
+                  :nhiet="batCuongOrgans.nhiet"
+                  :focus="batCuongFocus"
+                  @toggle="toggleBatCuongFocus"
+                />
               </div>
 
             </div>
@@ -3033,110 +2991,6 @@ function printPhieuKetQua() {
 
 .bg-gray { background-color: var(--gray-50); }
 .text-brown-600 { color: var(--brown-600); }
-/* Bat Cuong Design — 3 thẻ: Âm/Dương, Khí, Huyết */
-/* Bát Cương — 4 cặp cương xếp dọc theo tinh thần Đông Y */
-.bat-cuong {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-3);
-}
-.bc-pair {
-  background: var(--surface-2);
-  border: 1px solid var(--brown-100);
-  border-left: 3px solid var(--brown-300);
-  border-radius: var(--radius-md);
-  padding: var(--space-3) var(--space-4);
-}
-.bc-pair--tong { border-left-color: var(--brown-600); background: var(--brown-50); }
-.bc-pair--vitri { border-left-color: #0e7490; }
-.bc-pair--tinhchat { border-left-color: #b45309; }
-.bc-pair--trangthai { border-left-color: #15803d; }
-
-.bc-pair-head {
-  display: flex;
-  align-items: baseline;
-  gap: var(--space-2);
-  margin-bottom: var(--space-2);
-}
-.bc-pair-no {
-  font-size: var(--font-size-base);
-  font-weight: 700;
-  color: var(--brown-700);
-  line-height: 1;
-}
-.bc-pair-name {
-  font-size: var(--font-size-sm);
-  font-weight: 700;
-  color: var(--gray-800);
-  text-transform: uppercase;
-  letter-spacing: 0.02em;
-}
-.bc-pair-sub {
-  margin-left: auto;
-  font-size: var(--font-size-xs);
-  font-weight: 500;
-  font-style: italic;
-  color: var(--gray-500);
-  flex-shrink: 0;
-}
-
-.bc-pair-body {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-1);
-}
-.bc-line {
-  display: flex;
-  gap: var(--space-2);
-  align-items: flex-start;
-  font-size: var(--font-size-sm);
-  line-height: 1.5;
-  border: 1px solid transparent;
-  border-radius: var(--radius-sm);
-  padding: var(--space-1) var(--space-2);
-  margin: 0 calc(var(--space-2) * -1);
-}
-.bc-line-key {
-  font-weight: 700;
-  color: var(--brown-700);
-  min-width: 48px;
-  flex-shrink: 0;
-}
-.bc-line-val {
-  color: var(--gray-800);
-  font-weight: 500;
-  word-break: break-word;
-}
-.bc-line-val--tag {
-  display: inline-block;
-  background: var(--brown-600);
-  color: var(--white);
-  font-weight: 700;
-  padding: 2px 12px;
-  border-radius: 999px;
-  font-size: var(--font-size-sm);
-}
-.bc-line--clickable {
-  cursor: pointer;
-  transition: box-shadow var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
-}
-.bc-line--clickable:hover {
-  border-color: var(--brown-300);
-  background: var(--white);
-}
-.bc-line--active {
-  border-color: var(--brown-500);
-  box-shadow: 0 0 0 2px rgba(120, 53, 15, 0.15);
-  background: var(--white);
-}
-.bc-line--tag.bc-line--active {
-  box-shadow: none;
-  border-color: transparent;
-  background: transparent;
-}
-.bc-line--tag.bc-line--active .bc-line-val--tag {
-  box-shadow: 0 0 0 3px rgba(120, 53, 15, 0.2);
-}
 
 /* Bảng I: làm nổi ô theo tab Bát cương */
 .bc-stats--dim {
