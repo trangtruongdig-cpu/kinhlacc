@@ -1129,6 +1129,17 @@ const HUYET_ALIAS: Record<string, string> = {
   'dam du': 'dom du', // Đảm du → Đởm du
   'chien trung': 'dan trung', // Chiên trung → Đản trung
   'than tan': 'than tang', // Thận tân (gõ lỗi) → Thận tàng (nếu có)
+  // Typo phổ biến phát hiện khi quét 46 thể (đích đã xác minh có trong danh mục):
+  'quang nguyen': 'quan nguyen', // Quang nguyên → Quan Nguyên
+  'quang nguyen du': 'quan nguyen du', // Quang nguyên du → Quan Nguyên Du
+  'duong lang truyen': 'duong lang tuyen', // Dương lăng truyền → Dương Lăng Tuyền
+  'hou khe': 'hau khe', // Hởu khê → Hậu Khê
+  'on lu': 'on luu', // Ôn lư → Ôn Lưu
+  'kich mon': 'khich mon', // Kích môn → Khích Môn
+  'nhan nghinh': 'nhan nghenh', // Nhân nghinh → Nhân Nghênh
+  'tran bien': 'trat bien', // Trận biên → Trật Biên
+  'dai truy': 'dai chuy', // Đại truỳ → Đại Chùy (KHÔNG phải Đại Trữ)
+  'ap thong diem': 'a thi huyet', // Áp thống điểm = A Thị Huyệt (điểm đau)
 };
 
 /** Chuẩn hoá một giá trị (mảng / chuỗi) AI trả về thành mảng chuỗi gọn, đã khử trùng lặp. */
