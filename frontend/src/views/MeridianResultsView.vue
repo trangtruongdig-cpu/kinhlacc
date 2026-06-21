@@ -3,7 +3,11 @@ import { ref, onMounted, computed, watch, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { usePatientStore, type Patient } from '@/stores/patient'
 import { api } from '@/services/api'
-import BatCuongDiagram from '@/components/BatCuongDiagram.vue'
+import BatCuongFigure from '@/components/BatCuongFigure.vue'
+import BatCuongFigure3D from '@/components/BatCuongFigure3D.vue'
+import BatCuongSummary from '@/components/BatCuongSummary.vue'
+import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
+import { ORGAN_ART } from '@/lib/organArt'
 
 const router = useRouter()
 const route = useRoute()
@@ -14,6 +18,8 @@ const patient = ref<Patient | null>(null)
 const examination = ref<any>(null)
 const isLoading = ref(true)
 const error = ref<string | null>(null)
+// Tham chiếu component đồ hình 3D → gọi captureViews() chụp 4 góc đưa vào phiếu in.
+const batCuongFigureRef = ref<InstanceType<typeof BatCuongFigure3D> | null>(null)
 
 const currentSyndromesList = computed(() => {
   return examination.value?.currentSyndromes || examination.value?.syndromes || []
@@ -1039,7 +1045,7 @@ function groupingV2(
 }
 
 const diagnosis = computed(() => {
-  if (!examination.value?.inputData) return { amDuong: '—', khi: '—', huyet: '—' }
+  if (!examination.value?.inputData) return { amDuong: '—', khi: '—', huyet: '—', explain: null }
   
   const lower = lowerStats.value
 
@@ -1103,7 +1109,17 @@ const diagnosis = computed(() => {
     }
   }
   
-  return { amDuong, khi, huyet }
+  // Lộ rõ các con số trung gian → bảng tóm tắt giải thích VÌ SAO ra kết luận (không giấu công thức).
+  return {
+    amDuong,
+    khi,
+    huyet,
+    explain: {
+      amDuong: { avgDam, midTuc: round2(midTuc), diff: diffAmDuong },
+      khi: { huCount: huTrenCount, total: upperRows.value.length, sum: round2(sumDiffTren), mean: round2(upperStats.value.mean) },
+      huyet: { huCount: huDuoiCount, total: lowerRows.value.length, sum: round2(sumDiffDuoi), mean: round2(lowerStats.value.mean) },
+    },
+  }
 })
 
 // Một tạng phủ đã phân loại Bát Cương — giữ row.name để soi đúng hàng bảng đo khi bấm.
@@ -1112,6 +1128,11 @@ interface BcOrgan {
   label: string // tên đầy đủ + bên (vd "Tâm trái")
   organ: string // tên tạng phủ (vd "Tâm")
   side: string // "trái" | "phải" | ""
+}
+// Tạng phủ đã phân loại Bát Cương (kèm độ sâu + tính chất; 'mixed' khi rơi vào nhiều nhóm).
+interface OrganState extends BcOrgan {
+  depth: 'bieu' | 'ly' | 'mixed'
+  temp: 'han' | 'nhiet' | 'mixed'
 }
 
 const batCuong = computed(() => {
@@ -1180,6 +1201,59 @@ const batCuongOrgans = computed(() => {
   }
 })
 
+/**
+ * Danh sách tạng phủ đang bệnh kèm độ sâu (Biểu/Lý) + tính chất (Hàn/Nhiệt).
+ * GỘP theo tạng phủ: 1 kinh có thể rơi vào >1 nhóm (vd vừa Biểu Hàn vừa Biểu Nhiệt do 2 bên) —
+ * khi đó hợp nhất thành 1 mục, đánh dấu 'mixed' để hình & bảng tóm tắt không mâu thuẫn nhau.
+ */
+const affectedOrgans = computed<OrganState[]>(() => {
+  const it = batCuong.value.items
+  const tag = (list: BcOrgan[], depth: 'bieu' | 'ly', temp: 'han' | 'nhiet'): OrganState[] =>
+    list.map((o) => ({ ...o, depth, temp }))
+  const all = [
+    ...tag(it.bieuHan, 'bieu', 'han'),
+    ...tag(it.lyHan, 'ly', 'han'),
+    ...tag(it.bieuNhiet, 'bieu', 'nhiet'),
+    ...tag(it.lyNhiet, 'ly', 'nhiet'),
+  ]
+  const byOrgan = new Map<string, OrganState>()
+  for (const o of all) {
+    const ex = byOrgan.get(o.organ)
+    if (!ex) {
+      byOrgan.set(o.organ, { ...o })
+      continue
+    }
+    if (ex.temp !== o.temp) ex.temp = 'mixed'
+    if (ex.depth !== o.depth) ex.depth = 'mixed'
+    if (ex.side !== o.side) ex.side = [ex.side, o.side].filter(Boolean).join('/')
+  }
+  return [...byOrgan.values()]
+})
+
+/** Đủ 12 tạng phủ (mã kinh ngắn → tên) để bày QUANH hình người; gắn trạng thái Bát Cương nếu có. */
+const ALL_ORGANS: { name: string; organ: string }[] = [
+  { name: 'Tâm', organ: 'Tâm' },
+  { name: 'Bào', organ: 'Tâm bào' },
+  { name: 'Phế', organ: 'Phế' },
+  { name: 'Can', organ: 'Can' },
+  { name: 'Tỳ', organ: 'Tỳ' },
+  { name: 'Thận', organ: 'Thận' },
+  { name: 'Tiểu', organ: 'Tiểu Trường' },
+  { name: 'Đại', organ: 'Đại Trường' },
+  { name: 'Vị', organ: 'Vị' },
+  { name: 'Đởm', organ: 'Đởm' },
+  { name: 'Bàng', organ: 'Bàng quang' },
+  { name: 'Tam', organ: 'Tam tiêu' },
+]
+const organStateMap = computed(() => new Map(affectedOrgans.value.map((o) => [o.name, o])))
+function organsWith(names: string[]) {
+  const m = organStateMap.value
+  return ALL_ORGANS.filter((o) => names.includes(o.name)).map((o) => ({ ...o, state: m.get(o.name) ?? null }))
+}
+// Tạng (lục tạng) bày bên trái · Phủ (lục phủ) bày bên phải hình người.
+const organsTang = computed(() => organsWith(['Tâm', 'Bào', 'Phế', 'Can', 'Tỳ', 'Thận']))
+const organsPhu = computed(() => organsWith(['Tiểu', 'Đại', 'Vị', 'Đởm', 'Bàng', 'Tam']))
+
 function getSignClass(sign: string) {
   if (sign === '+') return 'text-brown-600 font-bold text-center'
   if (sign === '-') return 'text-blue-600 font-bold text-center'
@@ -1245,10 +1319,97 @@ function goBack() {
 const batCuongFocus = ref<string | null>(null)
 
 // Tập mã kinh đang được soi khi bấm 1 tạng phủ cụ thể (Biểu/Lý/Hàn/Nhiệt) — chỉ 1 hàng.
+// Tạng phủ thuộc 1 NHÓM Bát Cương (theo độ sâu Biểu/Lý hoặc tính chất Hàn/Nhiệt; 'mixed' tính cả hai).
+function organInGroup(o: OrganState, g: string): boolean {
+  if (g === 'bieu') return o.depth === 'bieu' || o.depth === 'mixed'
+  if (g === 'ly') return o.depth === 'ly' || o.depth === 'mixed'
+  if (g === 'han') return o.temp === 'han' || o.temp === 'mixed'
+  if (g === 'nhiet') return o.temp === 'nhiet' || o.temp === 'mixed'
+  return false
+}
+// Nhóm CỐ ĐỊNH theo bộ kinh (không theo dữ liệu): Khí = 6 kinh chi trên · Huyết = 6 kinh chi dưới.
+const GROUP_FIXED: Record<string, string[]> = {
+  khi: ['Tiểu', 'Tâm', 'Tam', 'Bào', 'Đại', 'Phế'],
+  huyet: ['Bàng', 'Thận', 'Đởm', 'Vị', 'Can', 'Tỳ'],
+}
+function groupOrganSet(g: string): Set<string> {
+  if (GROUP_FIXED[g]) return new Set(GROUP_FIXED[g])
+  const set = new Set<string>()
+  for (const o of affectedOrgans.value) if (organInGroup(o, g)) set.add(o.name)
+  return set
+}
 function focusedTieuKetSet(): Set<string> | null {
   const f = batCuongFocus.value
   if (f && f.startsWith('organ:')) return new Set([f.slice(6)])
+  if (f && f.startsWith('group:')) return groupOrganSet(f.slice(6))
   return null
+}
+
+/**
+ * NHẤP NHÁY các chỉ số TƯƠNG QUAN ở bảng I theo tiêu điểm Bát Cương → người xem thấy NGAY mọi số đem so.
+ *  cells[mã kinh][cột] / mean / bound = 'high' (cao hơn → đỏ) · 'low' (thấp hơn → lam) · 'ref' (mốc/ngưỡng = nâu).
+ *  Cột bảng đo: 1 dấu±trái · 2 trị trái · 3 avg · 4 chênh · 5 trị phải · 6 dấu±phải.
+ */
+type HLTone = 'high' | 'low' | 'ref'
+const bcCellHL = computed(() => {
+  const cells: Record<string, Record<number, HLTone>> = {}
+  const stat = { upperMean: '' as HLTone | '', lowerMean: '' as HLTone | '', upperBound: '' as HLTone | '', lowerBound: '' as HLTone | '' }
+  const put = (name: string, col: number, t: HLTone) => {
+    ;(cells[name] ??= {})[col] = t
+  }
+  const f = batCuongFocus.value
+  if (!f) return { cells, stat }
+  const e = diagnosis.value.explain
+  // ① Âm–Dương: Đởm (avg) so TB chi dưới — cao hơn 1 màu, thấp hơn 1 màu (CẢ HAI cùng nháy).
+  if (f === 'amDuong') {
+    if (!e) return { cells, stat }
+    const dam = e.amDuong.avgDam
+    const mid = e.amDuong.midTuc
+    put('Đởm', 3, dam === mid ? 'ref' : dam < mid ? 'low' : 'high')
+    stat.lowerMean = dam === mid ? 'ref' : dam < mid ? 'high' : 'low'
+    return { cells, stat }
+  }
+  // ④ Khí/Huyết: TB là MỐC, từng kinh (avg) lệch trên/dưới.
+  if (f === 'group:khi') {
+    stat.upperMean = 'ref'
+    for (const r of upperRows.value) put(r.name, 3, r.avg < upperStats.value.mean ? 'low' : r.avg > upperStats.value.mean ? 'high' : 'ref')
+    return { cells, stat }
+  }
+  if (f === 'group:huyet') {
+    stat.lowerMean = 'ref'
+    for (const r of lowerRows.value) put(r.name, 3, r.avg < lowerStats.value.mean ? 'low' : r.avg > lowerStats.value.mean ? 'high' : 'ref')
+    return { cells, stat }
+  }
+  // ②③ hoặc 1 tạng: nháy CẢ trị trái · avg · trị phải của kinh đang soi (Hàn lam / Nhiệt đỏ) + NGƯỠNG (mốc nâu).
+  const set = focusedTieuKetSet()
+  if (set) {
+    let tu = false
+    let tl = false
+    const flash = (r: { name: string }) => {
+      const o = affectedOrgans.value.find((x) => x.name === r.name)
+      const t: HLTone = !o ? 'ref' : o.temp === 'han' ? 'low' : o.temp === 'nhiet' ? 'high' : 'ref'
+      put(r.name, 2, t)
+      put(r.name, 3, t)
+      put(r.name, 5, t)
+    }
+    for (const r of upperRows.value) if (set.has(r.name)) { flash(r); tu = true }
+    for (const r of lowerRows.value) if (set.has(r.name)) { flash(r); tl = true }
+    if (tu) stat.upperBound = 'ref'
+    if (tl) stat.lowerBound = 'ref'
+  }
+  return { cells, stat }
+})
+function bcCellClass(name: string, col: number): string {
+  const t = bcCellHL.value.cells[name]?.[col]
+  return t ? 'bc-flash bc-flash--' + t : ''
+}
+function bcMeanClass(which: 'upper' | 'lower'): string {
+  const t = which === 'upper' ? bcCellHL.value.stat.upperMean : bcCellHL.value.stat.lowerMean
+  return t ? 'bc-flash bc-flash--' + t : ''
+}
+function bcBoundClass(which: 'upper' | 'lower'): string {
+  const t = which === 'upper' ? bcCellHL.value.stat.upperBound : bcCellHL.value.stat.lowerBound
+  return t ? 'bc-flash bc-flash--' + t : ''
 }
 
 function sectionHasTieuKetFocus(which: 'upper' | 'lower'): boolean {
@@ -1528,14 +1689,12 @@ function printPhieuKetQua() {
   const p = patient.value
   const ex = examDisplay.value
   const dg = diagnosis.value
-  const bco = batCuongOrgans.value
-  const joinOrgans = (list: { label: string }[]) => list.map((o) => o.label).join(', ')
+  const organs = affectedOrgans.value
   const cd = savedChanDoan.value
   const dash = (v: unknown) => (v != null && String(v).trim() ? escHtml(v) : '—')
 
   const dongYModels = excelSyndromesList.value as Array<{ name: string; outputCell?: string }>
   const modernModels = modernSyndromesList.value as Array<{ name: string; outputCell?: string }>
-  const huyetList = matchedPhuongHuyetList.value
   const baiThuoc = matchedBaiThuocList.value
 
   const colHead =
@@ -1546,19 +1705,23 @@ function printPhieuKetQua() {
       ? arr.map((m) => escHtml(m.name)).join(' · ')
       : `<span class="empty">${emptyMsg}</span>`
 
-  const phPart = (label: string, val: unknown) =>
-    val != null && String(val).trim() ? ` · <span class="ph-k">${label}:</span> ${escHtml(val)}` : ''
-  const phRaw = (val: unknown) => (val != null && String(val).trim() ? ` · ${escHtml(val)}` : '')
-  const huyetHtml = huyetList.length
-    ? `<div class="ph-list">${huyetList
-        .map((h, i) => {
-          const ten = h.huyetVi?.ten_huyet || `Huyệt #${h.huyetVi?.idHuyet ?? ''}`
-          const parts =
-            phRaw(h.phuong_phap_tac_dong) +
-            phPart('Vị trí', h.huyetVi?.vi_tri_giai_phau) +
-            phPart('Tác dụng', h.huyetVi?.tac_dung) +
-            phPart('Ghi chú', h.ghi_chu_ky_thuat)
-          return `<div class="ph-item"><b class="ph-name">${i + 1}. ${escHtml(ten)}</b>${parts}</div>`
+  // Nhóm phương huyệt theo phương pháp (Châm/Cứu/Bấm huyệt…); mỗi nhóm = 1 nhãn + dãy CHIP huyệt cuộn
+  // dòng cho gọn. Ghi chú kỹ thuật (nếu có) gom 1 dòng nhỏ dưới nhóm thay vì mỗi huyệt 1 dòng.
+  const huyetHtml = phuongHuyetGroups.value.length
+    ? `<div class="ph-groups">${phuongHuyetGroups.value
+        .map((g) => {
+          const chips = g.items
+            .map((h) => {
+              const ten = h.huyetVi?.ten_huyet || `#${h.huyetVi?.idHuyet ?? ''}`
+              const ma = h.huyetVi?.ma_huyet ? ` <span class="ph-code">${escHtml(h.huyetVi.ma_huyet)}</span>` : ''
+              return `<span class="ph-chip">${escHtml(ten)}${ma}</span>`
+            })
+            .join('')
+          const notes = g.items
+            .filter((h) => h.ghi_chu_ky_thuat && String(h.ghi_chu_ky_thuat).trim())
+            .map((h) => `${escHtml(h.huyetVi?.ten_huyet || '')}: ${escHtml(h.ghi_chu_ky_thuat)}`)
+          const noteLine = notes.length ? `<div class="ph-note">Ghi chú — ${notes.join(' · ')}</div>` : ''
+          return `<div class="ph-grp"><span class="ph-grp-m">${escHtml(g.method)} <i>${g.items.length}</i></span>${chips}${noteLine}</div>`
         })
         .join('')}</div>`
     : '<span class="empty">Chưa có phương huyệt cho các thể bệnh đo được.</span>'
@@ -1602,6 +1765,117 @@ function printPhieuKetQua() {
       : '<div class="row"><b>Triệu chứng xác nhận:</b> <span class="empty">không ghi nhận</span></div>'
     : '<div class="row"><span class="empty">Chưa thực hiện hỏi &amp; chẩn đoán bệnh nhân.</span></div>'
 
+  // ===== Bát Cương: tóm tắt giàu như màn hình (Âm/Dương · Biểu/Lý · Hàn/Nhiệt · Khí/Huyết + vì sao) =====
+  const numF = (n: number) => String(n).replace('.', ',')
+  const signF = (n: number) => (n > 0 ? '+' : '') + numF(n)
+  const amWhy = (() => {
+    const e = dg.explain?.amDuong
+    if (!e) return ''
+    const rel =
+      e.diff < 0 ? 'thấp hơn → Dương suy' : e.diff > 0 ? 'cao hơn → Âm suy' : 'tương đương → cân bằng'
+    return `Đởm ${numF(e.avgDam)} so TB chi dưới ${numF(e.midTuc)} (chênh ${signF(e.diff)}): Đởm ${rel}.`
+  })()
+  const hutWhy = (e: { huCount: number; total: number; sum: number; mean: number } | undefined, hu: string, thuc: string) => {
+    if (!e) return ''
+    const half = e.total / 2
+    let reason: string
+    if (e.huCount > half) reason = `${e.huCount}/${e.total} kinh dưới mức TB → ${hu}`
+    else if (e.huCount < half) reason = `${e.huCount}/${e.total} kinh dưới mức TB → ${thuc}`
+    else reason = `${e.huCount}/${e.total} dưới TB, tổng chênh ${signF(e.sum)} → ${e.sum < 0 ? hu : e.sum > 0 ? thuc : 'cân bằng'}`
+    return `TB ${numF(e.mean)}; ${reason}.`
+  }
+  const khiWhy = hutWhy(dg.explain?.khi, 'Khí hư', 'Khí thịnh')
+  const huyetWhy = hutWhy(dg.explain?.huyet, 'Huyết hư', 'Huyết thịnh')
+  const toneCls = (v: string) => {
+    if (!v) return 'tone-none'
+    if (v.includes('thịnh') || v.includes('thực')) return 'tone-thuc'
+    if (v.includes('hư') && !v.includes('thường')) return 'tone-hu'
+    return 'tone-neutral'
+  }
+  const organChip = (o: OrganState) =>
+    `<span class="o-chip o-${o.temp}">${escHtml(o.organ)}${o.side ? `<i>${escHtml(o.side)}</i>` : ''}</span>`
+  const chipsOr = (list: OrganState[]) =>
+    list.length ? list.map(organChip).join('') : '<span class="empty">—</span>'
+  const bieuL = organs.filter((o) => o.depth === 'bieu' || o.depth === 'mixed')
+  const lyL = organs.filter((o) => o.depth === 'ly' || o.depth === 'mixed')
+  const hanL = organs.filter((o) => o.temp === 'han' || o.temp === 'mixed')
+  const nhietL = organs.filter((o) => o.temp === 'nhiet' || o.temp === 'mixed')
+
+  const batCuongHtml = `
+    <div class="bc-verdicts">
+      <div class="bcv"><span class="bcv-l">① Âm — Dương</span><span class="bcv-v">${dash(dg.amDuong)}</span></div>
+      <div class="bcv"><span class="bcv-l">④ Khí · chi trên</span><span class="bcv-v ${toneCls(dg.khi)}">${dg.khi || '—'}</span></div>
+      <div class="bcv"><span class="bcv-l">④ Huyết · chi dưới</span><span class="bcv-v ${toneCls(dg.huyet)}">${dg.huyet || '—'}</span></div>
+    </div>
+    ${amWhy ? `<div class="bc-why">${escHtml(amWhy)}</div>` : ''}
+    ${khiWhy ? `<div class="bc-why">Khí — ${escHtml(khiWhy)}</div>` : ''}
+    ${huyetWhy ? `<div class="bc-why">Huyết — ${escHtml(huyetWhy)}</div>` : ''}
+    <div class="bc-rows">
+      <div class="bc-row"><span class="bc-row-l">② Biểu (nông)</span><span class="bc-row-c">${chipsOr(bieuL)}</span></div>
+      <div class="bc-row"><span class="bc-row-l">② Lý (sâu)</span><span class="bc-row-c">${chipsOr(lyL)}</span></div>
+      <div class="bc-row"><span class="bc-row-l">③ Hàn (lạnh)</span><span class="bc-row-c">${chipsOr(hanL)}</span></div>
+      <div class="bc-row"><span class="bc-row-l">③ Nhiệt (nóng)</span><span class="bc-row-c">${chipsOr(nhietL)}</span></div>
+    </div>
+    <div class="bc-legend"><span class="o-chip o-han">Hàn</span> lạnh · <span class="o-chip o-nhiet">Nhiệt</span> nóng · <span class="o-chip o-mixed">cả hai</span> · Biểu = nông, Lý = sâu · Hư = suy yếu, Thịnh = dư thừa</div>`
+
+  const statsLine = (s: ReturnType<typeof calculateBounds>) =>
+    `Bình quân ${fmt(s.mean, 2)} · Khoảng bình thường ${fmt(s.lowerBound, 2)}–${fmt(s.upperBound, 2)}`
+
+  // Chụp ĐỒ HÌNH kinh lạc đưa vào phiếu in. Ưu tiên 4 GÓC xoay của hình 3D (như xoay trên màn hình);
+  // nếu chưa sẵn sàng / không có WebGL → rơi về 1 ảnh canvas, rồi tới SVG 2D, rồi thông báo.
+  const figBlock = (() => {
+    const VIEW_CAPS = ['Mặt trước', 'Bên phải', 'Mặt sau', 'Bên trái']
+    let views: string[] = []
+    try {
+      views = (batCuongFigureRef.value?.captureViews?.(4) ?? []).filter(
+        (u): u is string => typeof u === 'string' && u.length > 2000,
+      )
+    } catch {
+      /* component chưa sẵn sàng → fallback bên dưới */
+    }
+    if (views.length) {
+      return `<div class="bc-fig-grid">${views
+        .map(
+          (u, i) =>
+            `<div class="bc-fig-cell"><img class="bc-fig-img" src="${u}" alt="Đồ hình góc ${i + 1}" /><span class="bc-fig-cap">${VIEW_CAPS[i] ?? 'Góc ' + (i + 1)}</span></div>`,
+        )
+        .join('')}</div>`
+    }
+    const canvas = document.querySelector('.bcf3d-host canvas') as HTMLCanvasElement | null
+    if (canvas && canvas.width > 0 && canvas.height > 0) {
+      try {
+        const url = canvas.toDataURL('image/png')
+        if (url && url.length > 2000)
+          return `<div class="bc-fig-grid"><div class="bc-fig-cell bc-fig-cell--solo"><img class="bc-fig-img" src="${url}" alt="Đồ hình kinh lạc Bát Cương" /></div></div>`
+      } catch {
+        /* canvas tainted / mất context → rơi về SVG hoặc thông báo */
+      }
+    }
+    const svg = document.querySelector('.bcf3d-fallback svg') as SVGSVGElement | null
+    if (svg) return `<div class="bc-fig-svg">${svg.outerHTML}</div>`
+    return '<div class="bc-fig-empty">Cuộn tới mục Bát Cương cho đồ hình hiện đủ rồi in lại để đưa hình kinh lạc vào phiếu.</div>'
+  })()
+
+  // Cột tạng phủ (lục tạng trái · lục phủ phải) vây quanh hình — tái tạo y component BatCuongOrgans:
+  // mỗi tạng = icon SVG (ORGAN_ART) + tên + nhãn Hàn/Nhiệt theo trạng thái đo.
+  const ORGAN_TEMP_COLOR: Record<string, string> = { han: '#2f6690', nhiet: '#c0452a', mixed: '#8a4fbf' }
+  const tempLabelP = (t: string) => (t === 'han' ? 'Hàn' : t === 'nhiet' ? 'Nhiệt' : 'Hàn+Nhiệt')
+  const organCard = (o: { organ: string; state: OrganState | null }) => {
+    const paths = (ORGAN_ART[o.organ] || [])
+      .map(
+        (p) =>
+          `<path d="${p.d}" fill="${p.fill || 'none'}" opacity="${p.opacity ?? 1}" stroke="${p.stroke || 'none'}" stroke-width="${p.sw || 0}" stroke-linejoin="round" stroke-linecap="round"/>`,
+      )
+      .join('')
+    const temp = o.state?.temp
+    const tag = temp ? `<span class="og-tag" style="background:${ORGAN_TEMP_COLOR[temp]}">${tempLabelP(temp)}</span>` : ''
+    const side = o.state?.side ? `<small>${escHtml(o.state.side)}</small>` : ''
+    const cls = temp ? `og-card og-${temp}` : 'og-card og-off'
+    return `<div class="${cls}"><svg class="og-svg" viewBox="0 0 64 64" aria-hidden="true">${paths}</svg><span class="og-name">${escHtml(o.organ)}${side}</span>${tag}</div>`
+  }
+  const organCol = (list: { organ: string; state: OrganState | null }[]) =>
+    `<div class="og-col">${list.map(organCard).join('')}</div>`
+
   const printedAt = new Date().toLocaleString('vi-VN')
 
   const html = `<!doctype html>
@@ -1611,7 +1885,7 @@ function printPhieuKetQua() {
 <title>Phiếu kết quả khám bệnh - ${escHtml(p.fullName)}</title>
 <style>
   * { box-sizing: border-box; }
-  body { font-family: "Segoe UI", Roboto, Arial, sans-serif; color: #1f2937; margin: 0; padding: 0; font-size: 8px; line-height: 1.3; }
+  body { font-family: "Times New Roman", Times, "Liberation Serif", serif; color: #1f2937; margin: 0; padding: 0; font-size: 8.5px; line-height: 1.32; -webkit-print-color-adjust: exact; print-color-adjust: exact; -webkit-user-select: none; user-select: none; }
   h1, h2, h3 { margin: 0; }
   .sheet { padding: 0; }
   .doc-head { text-align: center; border-bottom: 1.5px solid #78350f; padding-bottom: 2px; margin-bottom: 3px; }
@@ -1663,6 +1937,60 @@ function printPhieuKetQua() {
   .ph-name { color: #78350f; }
   .ph-k { color: #6b7280; font-weight: 600; }
   .empty { color: #9ca3af; font-style: italic; }
+  .tbl-sub { font-size: 6.3px; color: #6b7280; padding: 1px 4px; border: 1px solid #d1d5db; border-top: none; background: #fff; }
+  .md-foot { margin-top: 2px; font-size: 7px; color: #6b7280; }
+  .md-foot b { color: #78350f; }
+  /* Bát Cương — dải đầy đủ: cột tạng phủ 2 bên + khung 4 góc hình + tóm tắt bên dưới */
+  .bc-band { display: flex; gap: 5px; align-items: stretch; margin-bottom: 3px; }
+  .og-col { display: flex; flex-direction: column; gap: 3px; flex: 0 0 16mm; justify-content: center; }
+  .og-card { display: flex; flex-direction: column; align-items: center; padding: 2px 1px; border: 1px solid #e5e0d8; border-radius: 4px; background: #fff; }
+  .og-svg { width: 26px; height: 26px; display: block; }
+  .og-name { font-size: 6.5px; font-weight: 700; color: #374151; line-height: 1.1; text-align: center; }
+  .og-name small { font-weight: 500; color: #9ca3af; }
+  .og-tag { font-size: 5.6px; font-weight: 700; color: #fff; padding: 0 4px; border-radius: 999px; line-height: 1.5; margin-top: 1px; }
+  .og-han { border-color: #6e9ec4; }
+  .og-nhiet { border-color: #d98a73; }
+  .og-mixed { border-color: #b48ad6; }
+  .og-off { opacity: .82; }
+  .og-off .og-svg { filter: grayscale(.35); }
+  .bc-fig-frame { flex: 1; min-width: 0; border: 1px solid #e7e5e4; border-radius: 5px; background: #eef1f4; padding: 2px; display: flex; align-items: center; }
+  .bc-fig-frame > * { width: 100%; }
+  .bc-fig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .bc-fig-cell { min-width: 0; text-align: center; }
+  .bc-fig-cell--solo { grid-column: 1 / -1; }
+  .bc-fig-img { width: 100%; height: auto; max-height: 52mm; object-fit: contain; display: block; border: 1px solid #d6dde4; border-radius: 4px; background: #fff; }
+  .bc-fig-cap { display: block; font-size: 6px; color: #6b7280; font-weight: 600; margin-top: 1px; }
+  .bc-fig-svg svg { width: 100%; max-height: 60mm; height: auto; display: block; }
+  .bc-fig-empty { font-size: 6.5px; color: #9ca3af; font-style: italic; border: 1px dashed #d1d5db; border-radius: 4px; padding: 6px; text-align: center; line-height: 1.4; }
+  .bc-info { min-width: 0; margin-top: 1px; }
+  /* Bát Cương — kết luận lớn + tạng phủ tô màu nóng/lạnh */
+  .bc-verdicts { display: flex; gap: 5px; margin-bottom: 2px; }
+  .bcv { flex: 1; border: 1px solid #e7e5e4; border-radius: 4px; padding: 2px 6px; text-align: center; background: #fffdf7; }
+  .bcv-l { display: block; font-size: 6px; text-transform: uppercase; color: #6b7280; font-weight: 700; }
+  .bcv-v { font-size: 9.5px; font-weight: 800; color: #78350f; }
+  .bc-why { font-size: 6.4px; font-style: italic; color: #6b7280; line-height: 1.35; }
+  .bc-rows { margin-top: 2px; }
+  .bc-row { display: flex; gap: 4px; align-items: baseline; margin: 1px 0; }
+  .bc-row-l { flex: 0 0 66px; font-size: 6.8px; font-weight: 700; color: #b45309; }
+  .bc-row-c { flex: 1; min-width: 0; }
+  .o-chip { display: inline-block; border-radius: 999px; padding: 0 5px; margin: 1px; font-size: 6.6px; line-height: 1.55; border: 1px solid #d1d5db; white-space: nowrap; }
+  .o-chip i { font-style: normal; opacity: .6; margin-left: 2px; }
+  .o-han { background: #eef4f8; border-color: #9bbbd2; color: #1e4258; }
+  .o-nhiet { background: #fbeeea; border-color: #dba99a; color: #7a2c1a; }
+  .o-mixed { background: linear-gradient(90deg,#eef4f8 0 50%,#fbeeea 50% 100%); border-color: #c0a0a0; color: #3a3a3a; }
+  .tone-hu { color: #2f6690; }
+  .tone-thuc { color: #c0452a; }
+  .tone-neutral, .tone-none { color: #6b7280; }
+  .bc-legend { margin-top: 2px; font-size: 6px; color: #9ca3af; }
+  .bc-legend .o-chip { font-size: 5.6px; padding: 0 3px; }
+  /* Phương huyệt — nhãn phương pháp + chip huyệt cuộn dòng (gọn) */
+  .ph-groups { display: flex; flex-direction: column; gap: 2px; }
+  .ph-grp { break-inside: avoid; page-break-inside: avoid; line-height: 1.6; }
+  .ph-grp-m { display: inline-block; background: #fef3e2; color: #b45309; border: 1px solid #f0d6b0; border-radius: 999px; padding: 0 6px; font-size: 6.6px; font-weight: 800; margin-right: 3px; vertical-align: middle; }
+  .ph-grp-m i { font-style: normal; color: #b08968; font-weight: 600; }
+  .ph-chip { display: inline-block; background: #faf7f2; border: 1px solid #e4dcd0; border-radius: 3px; padding: 0 4px; margin: 1px; font-size: 6.6px; color: #44372a; white-space: nowrap; vertical-align: middle; }
+  .ph-code { color: #9ca3af; font-weight: 600; }
+  .ph-note { font-size: 6px; color: #6b7280; font-style: italic; margin: 0 0 1px 2px; line-height: 1.35; }
   .sign-row { display: flex; justify-content: space-around; margin-top: 7px; }
   .sign-box { text-align: center; width: 45%; }
   .sign-box .role { font-weight: 700; font-size: 7.5px; }
@@ -1698,20 +2026,23 @@ function printPhieuKetQua() {
     <div class="md-col">
       <div class="tbl-cap">Chi trên</div>
       <table class="md"><thead>${colHead}</thead><tbody>${meridianRowsHtml(upperRows.value)}</tbody></table>
+      <div class="tbl-sub">${statsLine(upperStats.value)}</div>
     </div>
     <div class="md-col">
       <div class="tbl-cap">Chi dưới</div>
       <table class="md"><thead>${colHead}</thead><tbody>${meridianRowsHtml(lowerRows.value)}</tbody></table>
+      <div class="tbl-sub">${statsLine(lowerStats.value)}</div>
     </div>
   </div>
+  <div class="md-foot">Chênh bình quân chi trên – chi dưới: <b>${fmt(Math.abs(upperStats.value.mean - lowerStats.value.mean), 2)}</b> · càng nhỏ càng cân bằng trên – dưới. (Dấu <span class="pos">+</span> = cao hơn bình thường, <span class="neg">−</span> = thấp hơn)</div>
 
-  <div class="sec-h">II. Chẩn đoán Bát Cương</div>
-  <div class="tk-grid">
-    <div class="tk"><b>① Âm — Dương</b> · Tổng cương: ${dash(dg.amDuong)}</div>
-    <div class="tk"><b>② Biểu — Lý</b> · Vị trí bệnh — Biểu: ${dash(joinOrgans(bco.bieu))} · Lý: ${dash(joinOrgans(bco.ly))}</div>
-    <div class="tk"><b>③ Hàn — Nhiệt</b> · Tính chất bệnh — Hàn: ${dash(joinOrgans(bco.han))} · Nhiệt: ${dash(joinOrgans(bco.nhiet))}</div>
-    <div class="tk"><b>④ Hư — Thực</b> · Trạng thái sức khỏe — Khí: ${dash(dg.khi)} · Huyết: ${dash(dg.huyet)}</div>
+  <div class="sec-h">II. Kết luận Bát Cương (8 cương lĩnh)</div>
+  <div class="bc-band">
+    ${organCol(organsTang.value)}
+    <div class="bc-fig-frame">${figBlock}</div>
+    ${organCol(organsPhu.value)}
   </div>
+  <div class="bc-info">${batCuongHtml}</div>
 
   <div class="sec-h sec-h--main">III. Mô hình bệnh lý &amp; Chẩn đoán</div>
   <div class="dx-box">
@@ -1799,72 +2130,59 @@ function printPhieuKetQua() {
     </div>
 
     <template v-else-if="patient">
-      <!-- 65 / 35 Layout -->
+      <!-- Thông tin bệnh nhân: dải gọn ngang trên đầu trang (gỡ khỏi Mục I để bảng đo gọn lại) -->
+      <div class="patient-info-bar">
+        <div class="pi-field"><span class="pi-label">Họ và tên</span><span class="pi-value pi-strong">{{ patient.fullName }}</span></div>
+        <div class="pi-field"><span class="pi-label">Tuổi</span><span class="pi-value">{{ getAge(patient.dateOfBirth) }}</span></div>
+        <div class="pi-field"><span class="pi-label">Giới tính</span><span class="pi-value">{{ patient.gender || '—' }}</span></div>
+        <div class="pi-field pi-grow"><span class="pi-label">Địa chỉ</span><span class="pi-value">{{ patient.address || '—' }}</span></div>
+        <div class="pi-field"><span class="pi-label">Thời gian đo</span><span class="pi-value">{{ examDisplay.date }}</span></div>
+        <div class="pi-field"><span class="pi-label">Huyết áp</span><span class="pi-value">120/90</span></div>
+        <div class="pi-field"><span class="pi-label">Chiều cao</span><span class="pi-value">—</span></div>
+        <div class="pi-field"><span class="pi-label">Cân nặng</span><span class="pi-value">—</span></div>
+        <div class="pi-field"><span class="pi-label">BMI</span><span class="pi-value">—</span></div>
+      </div>
+
+      <!-- Lưới kết quả: I | III · II (full-width) · IV | V -->
       <div class="results-layout">
-        
-        <!-- Left Column: 65% -->
-        <div class="layout-left">
-          <section class="result-section">
+          <section class="result-section" style="order: 1; grid-column: 2; grid-row: 1;">
             <h2 class="section-title">
               <span class="section-num">I</span> KẾT QUẢ ĐO KINH LẠC
             </h2>
             
             <div class="result-card p-0 overflow-hidden">
-              <!-- Patient Info Header -->
-              <div class="patient-table-header">
-                <table class="data-table mb-0">
-                  <tbody>
-                    <tr>
-                      <td class="font-medium text-gray-500 w-24">Họ và tên</td>
-                      <td class="font-bold text-brown-800" colspan="2">{{ patient?.fullName }}</td>
-                      <td class="font-medium text-gray-500 w-16">Tuổi</td>
-                      <td class="font-bold">{{ getAge(patient?.dateOfBirth) }}</td>
-                    </tr>
-                    <tr>
-                      <td class="font-medium text-gray-500">Địa chỉ</td>
-                      <td colspan="4">{{ patient?.address || '—' }}</td>
-                    </tr>
-                    <tr>
-                      <td class="font-medium text-gray-500">Giới tính</td>
-                      <td colspan="4">{{ patient?.gender || '—' }}</td>
-                    </tr>
-                    <tr>
-                      <td class="font-medium text-gray-500">Thời gian đo</td>
-                      <td>{{ examDisplay.date }}</td>
-                      <td class="font-medium text-gray-500 text-right pr-4">Huyết áp</td>
-                      <td colspan="2">120/90</td>
-                    </tr>
-                    <tr>
-                      <td class="font-medium text-gray-500">Chiều cao</td>
-                      <td>—</td>
-                      <td class="font-medium text-gray-500 text-right pr-4">Cân nặng <span class="text-black ml-2">—</span></td>
-                      <td class="font-medium text-gray-500">BMI</td>
-                      <td>—</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
               <!-- Chi Trên -->
               <div class="table-section-title" :class="sectionTitleClassMerged('upper')">Chi trên</div>
               <div class="stats-summary-row" :class="statsRowClassMerged('upper')">
-                <div class="stat-col" :class="excelStatColClass('upper', 0)"><span class="val max-val">{{ fmt(upperStats.max, 1) }}</span><br/><span class="val min-val">{{ fmt(upperStats.min, 1) }}</span></div>
-                <div class="stat-col" :class="excelStatColClass('upper', 1)"><span class="val">{{ fmt(upperStats.range, 1) }}</span><br/><span>&nbsp;</span></div>
-                <div class="stat-col" :class="excelStatColClass('upper', 2)"><span class="val bg-gray">{{ fmt(upperStats.mean, 2) }}</span><br/><span>&nbsp;</span></div>
-                <div class="stat-col" :class="excelStatColClass('upper', 3)"><span class="val">{{ fmt(upperStats.sd, 2) }}</span><br/><span>&nbsp;</span></div>
-                <div class="stat-col" :class="excelStatColClass('upper', 4)"><span class="val text-brown-600">{{ fmt(upperStats.upperBound, 2) }}</span><br/><span class="val text-brown-600">{{ fmt(upperStats.lowerBound, 2) }}</span></div>
+                <div class="stat-col" :class="excelStatColClass('upper', 0)"><span class="stat-label" title="Số đo cao nhất (trên) và thấp nhất (dưới) của cả chi trên">Cao/Thấp</span><span class="stat-vals"><span class="val max-val">{{ fmt(upperStats.max, 1) }}</span> / <span class="val min-val">{{ fmt(upperStats.min, 1) }}</span></span></div>
+                <div class="stat-col" :class="excelStatColClass('upper', 1)"><span class="stat-label" title="Biên độ = Cao nhất − Thấp nhất">Biên độ</span><span class="val">{{ fmt(upperStats.range, 1) }}</span></div>
+                <div class="stat-col" :class="excelStatColClass('upper', 2)"><span class="stat-label" title="Trị số bình quân chung = (Cao nhất + Thấp nhất) / 2">Bình quân</span><span class="val bg-gray" :class="bcMeanClass('upper')">{{ fmt(upperStats.mean, 2) }}</span></div>
+                <div class="stat-col" :class="excelStatColClass('upper', 3)"><span class="stat-label" title="Dung sai = Biên độ / 6">Dung sai</span><span class="val">{{ fmt(upperStats.sd, 2) }}</span></div>
+                <div class="stat-col" :class="[excelStatColClass('upper', 4), bcBoundClass('upper')]"><span class="stat-label" title="Cận trên = Bình quân + Dung sai (trên); Cận dưới = Bình quân − Dung sai (dưới)">Cận trên/dưới</span><span class="stat-vals"><span class="val text-brown-600">{{ fmt(upperStats.upperBound, 2) }}</span> / <span class="val text-brown-600">{{ fmt(upperStats.lowerBound, 2) }}</span></span></div>
               </div>
 
               <div class="table-responsive table-scroll">
                 <table class="data-table meridian-data-table">
+                  <thead>
+                    <tr class="meridian-head-row">
+                      <th title="Tên đường kinh được đo">Đường kinh</th>
+                      <th title="Đánh giá bên trái: + cao hơn cận trên, − thấp hơn cận dưới, 0 trong khoảng bình thường">Dấu trái</th>
+                      <th title="Trị số đo bên trái">Đo trái</th>
+                      <th title="Trung bình hai bên = (trái + phải) / 2">TB 2 bên</th>
+                      <th title="Chênh lệch so với trị số bình quân chung của chi (số dương = cao hơn, số âm = thấp hơn)">Lệch BQ</th>
+                      <th title="Trị số đo bên phải">Đo phải</th>
+                      <th title="Đánh giá bên phải: + cao hơn cận trên, − thấp hơn cận dưới, 0 trong khoảng bình thường">Dấu phải</th>
+                      <th title="Chênh lệch tuyệt đối giữa trái và phải = |trái − phải|">Lệch T–P</th>
+                    </tr>
+                  </thead>
                   <tbody>
                     <tr v-for="(item, idx) in upperRows" :key="'upper-'+idx" :class="upperRowClassMerged(idx)">
                       <td class="font-bold" :class="excelTdClass('upper', idx, 0)">{{ item.name }}</td>
                       <td :class="[getSignClass(item.leftSign), excelTdClass('upper', idx, 1)]">{{ item.leftSign }}</td>
-                      <td class="font-medium" :class="excelTdClass('upper', idx, 2)">{{ fmt(item.left, 1) }}</td>
-                      <td class="bg-gray" :class="excelTdClass('upper', idx, 3)">{{ fmt(item.avg, 2) }}</td>
+                      <td class="font-medium" :class="[excelTdClass('upper', idx, 2), bcCellClass(item.name, 2)]">{{ fmt(item.left, 1) }}</td>
+                      <td class="bg-gray" :class="[excelTdClass('upper', idx, 3), bcCellClass(item.name, 3)]">{{ fmt(item.avg, 2) }}</td>
                       <td :class="[item.diff > 0 ? 'text-brown-600' : (item.diff < 0 ? 'text-blue-600' : ''), excelTdClass('upper', idx, 4)]">{{ item.diff > 0 ? '+' : '' }}{{ fmt(item.diff, 2) }}</td>
-                      <td class="font-medium" :class="excelTdClass('upper', idx, 5)">{{ fmt(item.right, 1) }}</td>
+                      <td class="font-medium" :class="[excelTdClass('upper', idx, 5), bcCellClass(item.name, 5)]">{{ fmt(item.right, 1) }}</td>
                       <td :class="[getSignClass(item.rightSign), excelTdClass('upper', idx, 6)]">{{ item.rightSign }}</td>
                       <td :class="excelTdClass('upper', idx, 7)">{{ fmt(item.absDiff, 1) }}</td>
                     </tr>
@@ -1875,23 +2193,35 @@ function printPhieuKetQua() {
               <!-- Chi Dưới -->
               <div class="table-section-title" :class="sectionTitleClassMerged('lower')">Chi dưới</div>
               <div class="stats-summary-row" :class="statsRowClassMerged('lower')">
-                <div class="stat-col" :class="excelStatColClass('lower', 0)"><span class="val max-val">{{ fmt(lowerStats.max, 1) }}</span><br/><span class="val min-val">{{ fmt(lowerStats.min, 1) }}</span></div>
-                <div class="stat-col" :class="excelStatColClass('lower', 1)"><span class="val">{{ fmt(lowerStats.range, 1) }}</span><br/><span>&nbsp;</span></div>
-                <div class="stat-col" :class="excelStatColClass('lower', 2)"><span class="val bg-gray">{{ fmt(lowerStats.mean, 2) }}</span><br/><span>&nbsp;</span></div>
-                <div class="stat-col" :class="excelStatColClass('lower', 3)"><span class="val">{{ fmt(lowerStats.sd, 2) }}</span><br/><span>&nbsp;</span></div>
-                <div class="stat-col" :class="excelStatColClass('lower', 4)"><span class="val text-brown-600">{{ fmt(lowerStats.upperBound, 2) }}</span><br/><span class="val text-brown-600">{{ fmt(lowerStats.lowerBound, 2) }}</span></div>
+                <div class="stat-col" :class="excelStatColClass('lower', 0)"><span class="stat-label" title="Số đo cao nhất (trên) và thấp nhất (dưới) của cả chi dưới">Cao/Thấp</span><span class="stat-vals"><span class="val max-val">{{ fmt(lowerStats.max, 1) }}</span> / <span class="val min-val">{{ fmt(lowerStats.min, 1) }}</span></span></div>
+                <div class="stat-col" :class="excelStatColClass('lower', 1)"><span class="stat-label" title="Biên độ = Cao nhất − Thấp nhất">Biên độ</span><span class="val">{{ fmt(lowerStats.range, 1) }}</span></div>
+                <div class="stat-col" :class="excelStatColClass('lower', 2)"><span class="stat-label" title="Trị số bình quân chung = (Cao nhất + Thấp nhất) / 2">Bình quân</span><span class="val bg-gray" :class="bcMeanClass('lower')">{{ fmt(lowerStats.mean, 2) }}</span></div>
+                <div class="stat-col" :class="excelStatColClass('lower', 3)"><span class="stat-label" title="Dung sai = Biên độ / 6">Dung sai</span><span class="val">{{ fmt(lowerStats.sd, 2) }}</span></div>
+                <div class="stat-col" :class="[excelStatColClass('lower', 4), bcBoundClass('lower')]"><span class="stat-label" title="Cận trên = Bình quân + Dung sai (trên); Cận dưới = Bình quân − Dung sai (dưới)">Cận trên/dưới</span><span class="stat-vals"><span class="val text-brown-600">{{ fmt(lowerStats.upperBound, 2) }}</span> / <span class="val text-brown-600">{{ fmt(lowerStats.lowerBound, 2) }}</span></span></div>
               </div>
 
               <div class="table-responsive table-scroll">
                 <table class="data-table meridian-data-table">
+                  <thead>
+                    <tr class="meridian-head-row">
+                      <th title="Tên đường kinh được đo">Đường kinh</th>
+                      <th title="Đánh giá bên trái: + cao hơn cận trên, − thấp hơn cận dưới, 0 trong khoảng bình thường">Dấu trái</th>
+                      <th title="Trị số đo bên trái">Đo trái</th>
+                      <th title="Trung bình hai bên = (trái + phải) / 2">TB 2 bên</th>
+                      <th title="Chênh lệch so với trị số bình quân chung của chi (số dương = cao hơn, số âm = thấp hơn)">Lệch BQ</th>
+                      <th title="Trị số đo bên phải">Đo phải</th>
+                      <th title="Đánh giá bên phải: + cao hơn cận trên, − thấp hơn cận dưới, 0 trong khoảng bình thường">Dấu phải</th>
+                      <th title="Chênh lệch tuyệt đối giữa trái và phải = |trái − phải|">Lệch T–P</th>
+                    </tr>
+                  </thead>
                   <tbody>
                     <tr v-for="(item, idx) in lowerRows" :key="'lower-'+idx" :class="lowerRowClassMerged(idx)">
                       <td class="font-bold" :class="excelTdClass('lower', idx, 0)">{{ item.name }}</td>
                       <td :class="[getSignClass(item.leftSign), excelTdClass('lower', idx, 1)]">{{ item.leftSign }}</td>
-                      <td class="font-medium" :class="excelTdClass('lower', idx, 2)">{{ fmt(item.left, 1) }}</td>
-                      <td class="bg-gray" :class="excelTdClass('lower', idx, 3)">{{ fmt(item.avg, 2) }}</td>
+                      <td class="font-medium" :class="[excelTdClass('lower', idx, 2), bcCellClass(item.name, 2)]">{{ fmt(item.left, 1) }}</td>
+                      <td class="bg-gray" :class="[excelTdClass('lower', idx, 3), bcCellClass(item.name, 3)]">{{ fmt(item.avg, 2) }}</td>
                       <td :class="[item.diff > 0 ? 'text-brown-600' : (item.diff < 0 ? 'text-blue-600' : ''), excelTdClass('lower', idx, 4)]">{{ item.diff > 0 ? '+' : '' }}{{ fmt(item.diff, 2) }}</td>
-                      <td class="font-medium" :class="excelTdClass('lower', idx, 5)">{{ fmt(item.right, 1) }}</td>
+                      <td class="font-medium" :class="[excelTdClass('lower', idx, 5), bcCellClass(item.name, 5)]">{{ fmt(item.right, 1) }}</td>
                       <td :class="[getSignClass(item.rightSign), excelTdClass('lower', idx, 6)]">{{ item.rightSign }}</td>
                       <td :class="excelTdClass('lower', idx, 7)">{{ fmt(item.absDiff, 1) }}</td>
                     </tr>
@@ -1901,13 +2231,74 @@ function printPhieuKetQua() {
 
               <!-- Footer Stats -->
               <div class="table-footer-stat" :class="footerDiffClassMerged()">
-                <span>Chênh lệch trung bình chi trên và chi dưới:</span>
-                <span class="font-bold text-brown-700 ml-4">{{ fmt(Math.abs(upperStats.mean - lowerStats.mean), 2) }}</span>
+                <div class="footer-stat-line">
+                  <span title="Hiệu hai đường cơ sở (trị số bình quân): |bình quân chi trên − bình quân chi dưới| = |D7 − D18|. Càng nhỏ càng cân bằng thượng – hạ; chênh lớn gợi ý mất cân bằng trên – dưới (vd thượng thịnh hạ hư).">Chênh lệch trung bình chi trên và chi dưới:</span>
+                  <span class="font-bold text-brown-700 ml-4">{{ fmt(Math.abs(upperStats.mean - lowerStats.mean), 2) }}</span>
+                </div>
+                <span class="footer-stat-note">Chỉ số tham khảo, không tự động ra chẩn đoán.</span>
               </div>
             </div>
           </section>
 
-          <section class="result-section mt-6">
+      <!-- KẾT LUẬN BÁT CƯƠNG — dải full-width, đồ hình 3D lớn (đặt sau số đo kinh lạc) -->
+      <section class="result-section bc-band" style="order: 3; grid-column: 1; grid-row: 1 / span 2;">
+        <h2 class="section-title">
+          <span class="section-num">II</span> KẾT LUẬN BÁT CƯƠNG & CHẨN ĐOÁN
+        </h2>
+        <div class="result-card p-4">
+          <div class="bc-wrap bc-wrap--band">
+            <!-- Hình người + tạng phủ vây QUANH: lục tạng trái · lục phủ phải -->
+            <div class="bc-figblock">
+              <BatCuongOrgans
+                class="bc-organs-col"
+                :items="organsTang"
+                :focus="batCuongFocus"
+                @toggle="toggleBatCuongFocus"
+              />
+              <BatCuongFigure3D
+                ref="batCuongFigureRef"
+                :key="patient?.gender || 'na'"
+                class="bc-figure"
+                :am-duong="diagnosis.amDuong"
+                :khi="diagnosis.khi"
+                :huyet="diagnosis.huyet"
+                :organs="affectedOrgans"
+                :focus="batCuongFocus"
+                :gender="patient?.gender"
+                @toggle="toggleBatCuongFocus"
+              >
+                <!-- Rơi về đồ hình 2D khi máy không hỗ trợ WebGL -->
+                <BatCuongFigure
+                  :am-duong="diagnosis.amDuong"
+                  :khi="diagnosis.khi"
+                  :huyet="diagnosis.huyet"
+                  :organs="affectedOrgans"
+                  :focus="batCuongFocus"
+                  @toggle="toggleBatCuongFocus"
+                />
+              </BatCuongFigure3D>
+              <BatCuongOrgans
+                class="bc-organs-col"
+                :items="organsPhu"
+                :focus="batCuongFocus"
+                @toggle="toggleBatCuongFocus"
+              />
+            </div>
+            <BatCuongSummary
+              class="bc-summary"
+              :am-duong="diagnosis.amDuong"
+              :khi="diagnosis.khi"
+              :huyet="diagnosis.huyet"
+              :explain="diagnosis.explain"
+              :organs="affectedOrgans"
+              :focus="batCuongFocus"
+              @toggle="toggleBatCuongFocus"
+            />
+          </div>
+        </div>
+      </section>
+
+          <section class="result-section" style="order: 4; grid-column: 1; grid-row: 3;">
             <h2 class="section-title">
               <span class="section-num">IV</span> PHƯƠNG HUYỆT
               <span v-if="matchedPhuongHuyetList.length" class="section-count">
@@ -1982,7 +2373,7 @@ function printPhieuKetQua() {
             </div>
           </section>
 
-          <section class="result-section mt-6">
+          <section class="result-section" style="order: 5; grid-column: 2; grid-row: 3;">
             <h2 class="section-title">
               <span class="section-num">V</span> PHƯƠNG DƯỢC
               <span v-if="matchedBaiThuocList.length" class="section-count">
@@ -2063,40 +2454,11 @@ function printPhieuKetQua() {
             </div>
           </section>
 
-        </div>
-
-        <!-- Right Column: 35% -->
-        <div class="layout-right">
-          
-          <section class="result-section">
-            <h2 class="section-title">
-              <span class="section-num">II</span> KẾT LUẬN BÁT CƯƠNG & CHẨN ĐOÁN
-            </h2>
-            <div class="result-card p-0">
-              <div class="info-group p-5">
-                <h4 class="info-label mb-3">Chẩn Đoán Bát Cương</h4>
-
-                <BatCuongDiagram
-                  :am-duong="diagnosis.amDuong"
-                  :khi="diagnosis.khi"
-                  :huyet="diagnosis.huyet"
-                  :bieu="batCuongOrgans.bieu"
-                  :ly="batCuongOrgans.ly"
-                  :han="batCuongOrgans.han"
-                  :nhiet="batCuongOrgans.nhiet"
-                  :focus="batCuongFocus"
-                  @toggle="toggleBatCuongFocus"
-                />
-              </div>
-
-            </div>
-          </section>
-
-          <section class="result-section mt-6">
+          <section class="result-section" style="order: 2; grid-column: 2; grid-row: 2;">
             <h2 class="section-title">
               <span class="section-num">III</span> MÔ HÌNH BỆNH LÝ
             </h2>
-            <div class="result-card p-5">
+            <div class="result-card p-4">
               <div class="info-group">
                 <div class="dongy-head">
                   <h4 class="info-label mb-0">Mô hình bệnh YHCT - Đông Y</h4>
@@ -2212,7 +2574,6 @@ function printPhieuKetQua() {
             </div>
           </section>
 
-        </div>
       </div>
 
     </template>
@@ -2521,9 +2882,9 @@ function printPhieuKetQua() {
 .page-header {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  margin-bottom: var(--space-6);
-  padding-bottom: var(--space-4);
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  padding-bottom: var(--space-3);
   border-bottom: 2px solid var(--brown-100);
 }
 
@@ -2540,16 +2901,61 @@ function printPhieuKetQua() {
 .print-btn:active { transform: translateY(1px); }
 .divider { margin: 0 var(--space-2); color: var(--gray-300); }
 
+/* Thông tin bệnh nhân: dải gọn ngang trên đầu trang (thay bảng dọc cũ trong Mục I) */
+.patient-info-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2) var(--space-6);
+  margin-bottom: var(--space-3);
+  padding: var(--space-2) var(--space-4);
+  background: var(--white);
+  border: 1px solid var(--brown-200);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+.pi-field { display: flex; align-items: baseline; gap: 6px; font-size: var(--font-size-sm); min-width: 0; }
+.pi-field.pi-grow { flex: 1 1 240px; }
+.pi-label { font-size: var(--font-size-xs); font-weight: 600; color: var(--gray-500); white-space: nowrap; }
+.pi-value { font-weight: 700; color: var(--gray-800); }
+.pi-value.pi-strong { color: var(--brown-800, #5c2e0e); }
+@media (max-width: 640px) {
+  .patient-info-bar { gap: var(--space-2) var(--space-4); padding: var(--space-3); }
+  .pi-field, .pi-value { font-size: var(--font-size-xs); }
+}
+
 /* Layout 65 / 35 */
 .results-layout {
   display: grid;
-  grid-template-columns: 65fr 35fr;
-  gap: var(--space-6);
+  grid-template-columns: 1.3fr 1fr;
+  gap: var(--space-4);
   align-items: start;
+}
+@media (max-width: 1024px) {
+  .results-layout { grid-template-columns: 1fr; }
+  .results-layout > .result-section { grid-column: 1 !important; grid-row: auto !important; }
+}
+
+/* ===== Màn THẤP (≤920px cao): nén để I+II+III vừa 1 màn — màn 1080 KHÔNG bị ảnh hưởng ===== */
+@media (max-height: 920px) {
+  .page-header { gap: var(--space-1); margin-bottom: var(--space-2); padding-bottom: var(--space-2); }
+  .patient-info-bar { margin-bottom: var(--space-2); padding: 3px var(--space-3); gap: 2px var(--space-4); }
+  .pi-field, .pi-value, .pi-label { font-size: var(--font-size-xs); }
+  .results-layout { gap: var(--space-3); }
+  .result-section { gap: var(--space-1); }
+  .section-title { font-size: var(--font-size-sm); }
+  .section-num { width: 22px; height: 22px; }
+  .table-section-title { padding: 3px var(--space-3) 2px; }
+  .stat-col { padding: 2px var(--space-1); }
+  .stat-label { font-size: 9px; }
+  .data-table td { padding: 2px 8px; font-size: var(--font-size-xs); }
+  .meridian-head-row th { padding: 2px 4px; font-size: 9px; }
+  .table-footer-stat { padding: 4px var(--space-3); }
+  .bc-wrap--band > .bc-figblock { height: clamp(280px, 40vh, 380px); }
 }
 
 /* Sections */
-.result-section { display: flex; flex-direction: column; gap: var(--space-4); }
+.result-section { display: flex; flex-direction: column; gap: var(--space-2); }
 .section-title {
   font-size: var(--font-size-lg);
   font-weight: 700;
@@ -2976,21 +3382,113 @@ function printPhieuKetQua() {
 /* Left Column Specifics */
 .patient-table-header { padding: var(--space-4); border-bottom: 1px solid var(--brown-200); }
 .data-table { width: 100%; border-collapse: collapse; font-size: var(--font-size-sm); }
-.data-table td { padding: 6px 12px; border: 1px solid var(--gray-200); }
+.data-table td { padding: 4px 12px; border: 1px solid var(--gray-200); }
 .data-table.mb-0 { margin-bottom: 0; }
 .meridian-data-table td { text-align: center; border-color: var(--gray-100); }
 .meridian-data-table td:first-child { text-align: left; }
+/* Hàng tiêu đề cột (ghi nhỏ để biết mỗi ô là chỉ số gì) */
+.meridian-head-row th {
+  padding: 4px 6px;
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--gray-500);
+  background: var(--surface-2);
+  border: 1px solid var(--gray-200);
+  text-align: center;
+  text-transform: none;
+  white-space: nowrap;
+  cursor: help;
+}
+.meridian-head-row th:first-child { text-align: left; }
 
-.table-section-title { font-weight: 700; color: var(--brown-700); padding: var(--space-4) var(--space-4) var(--space-2); text-transform: uppercase; font-size: var(--font-size-sm); }
+.table-section-title { font-weight: 700; color: var(--brown-700); padding: var(--space-2) var(--space-4) 6px; text-transform: uppercase; font-size: var(--font-size-sm); }
 .stats-summary-row { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; border-top: 1px solid var(--brown-200); border-bottom: 1px solid var(--brown-200); background: var(--surface-2); }
-.stat-col { padding: var(--space-2); text-align: center; font-size: var(--font-size-sm); font-weight: 600; border-right: 1px solid var(--gray-200); display: flex; flex-direction: column; justify-content: center; }
+.stat-col { padding: 5px var(--space-2); text-align: center; font-size: var(--font-size-sm); font-weight: 600; border-right: 1px solid var(--gray-200); display: flex; flex-direction: column; justify-content: center; }
 .stat-col:last-child { border-right: none; }
+/* Nhãn nhỏ giải thích từng ô thống kê (số vẫn hiện to bên dưới) */
+.stat-label {
+  display: block;
+  font-size: 10px;
+  line-height: 1.1;
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: none;
+  margin-bottom: 2px;
+  cursor: help;
+}
 .stat-col .val { display: inline-block; }
+/* Hai giá trị (Cao/Thấp, Cận trên/dưới) nằm CÙNG một dòng → hàng thống kê thấp lại */
+.stat-vals { white-space: nowrap; line-height: 1.2; }
 .max-val { color: #dc2626; }
 .min-val { color: #0284c7; }
 
 .bg-gray { background-color: var(--gray-50); }
 .text-brown-600 { color: var(--brown-600); }
+
+/* Bát Cương: đồ hình (3D/2D) + bảng tóm tắt cạnh nhau, tự xuống dòng khi hẹp */
+.bc-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: flex-start;
+}
+.bc-figure {
+  flex: 1 1 240px;
+  min-width: 230px;
+}
+.bc-summary {
+  flex: 1 1 200px;
+  min-width: 190px;
+}
+/* Dải Bát Cương full-width ở trên cùng: tạng phủ vây quanh hình người + tóm tắt bên phải */
+.bc-band {
+  /* khoảng cách do gap của lưới .results-layout lo, không cần margin riêng */
+  margin-bottom: 0;
+}
+.bc-wrap--band {
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.bc-wrap--band > .bc-figblock,
+.bc-wrap--band > .bc-summary {
+  flex: 0 0 auto !important;
+  width: 100%;
+  min-width: 0;
+}
+.bc-wrap--band > .bc-figblock {
+  /* chiều cao XÁC ĐỊNH cho khối hình → canvas 3D không tự phình to (vỡ vòng lặp resize) */
+  height: clamp(360px, 50vh, 500px);
+}
+.bc-figblock {
+  flex: 1.7 1 520px;
+  display: flex;
+  gap: var(--space-2);
+  align-items: stretch;
+  min-width: 0;
+}
+.bc-organs-col {
+  flex: 0 0 92px;
+}
+.bc-band .bc-figure {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0; /* chiều cao do .bc-figblock quy định (xác định, không phình) */
+}
+.bc-band .bc-summary {
+  flex: 1 1 300px;
+  min-width: 260px;
+}
+@media (max-width: 900px) {
+  .bc-figblock {
+    flex-wrap: wrap;
+  }
+  .bc-organs-col {
+    flex: 1 1 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}
 
 /* Bảng I: làm nổi ô theo tab Bát cương */
 .bc-stats--dim {
@@ -3002,6 +3500,45 @@ function printPhieuKetQua() {
   transition: box-shadow 0.2s ease;
   box-shadow: inset 0 0 0 2px rgba(180, 83, 9, 0.35);
   border-radius: var(--radius-sm);
+}
+
+/* NHÁY chỉ số tương quan: cao hơn = đỏ ấm · thấp hơn = lam mát · mốc TB = nâu.
+   Dùng viền-TRONG (inset) + sáng nhấp → KHÔNG bị cắt dù ô có overflow (cả <td> lẫn <span> đều rõ). */
+@keyframes bc-flash-blink {
+  0%,
+  100% {
+    box-shadow: inset 0 0 0 0 transparent;
+    filter: brightness(1);
+  }
+  50% {
+    box-shadow: inset 0 0 0 2px currentColor, 0 0 6px currentColor;
+    filter: brightness(1.18);
+  }
+}
+.bc-flash {
+  position: relative;
+  z-index: 2;
+  font-weight: 800 !important;
+  border-radius: 4px;
+  animation: bc-flash-blink 0.95s ease-in-out infinite;
+}
+.bc-flash--high {
+  background: rgba(192, 69, 42, 0.24) !important;
+  color: #b23a25 !important;
+}
+.bc-flash--low {
+  background: rgba(47, 102, 144, 0.24) !important;
+  color: #2f6690 !important;
+}
+.bc-flash--ref {
+  background: rgba(120, 53, 15, 0.2) !important;
+  color: #8a5a1e !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .bc-flash {
+    animation: none;
+    box-shadow: inset 0 0 0 2px currentColor;
+  }
 }
 .table-section-title.bc-section-title--dim {
   opacity: 0.4;
@@ -3073,7 +3610,9 @@ function printPhieuKetQua() {
 .px-5 { padding-left: var(--space-5); padding-right: var(--space-5); }
 .pb-5 { padding-bottom: var(--space-5); }
 
-.table-footer-stat { padding: var(--space-4); background: var(--brown-50); border-top: 1px solid var(--brown-200); font-size: var(--font-size-sm); display: flex; align-items: center; justify-content: flex-end; }
+.table-footer-stat { padding: var(--space-2) var(--space-4); background: var(--brown-50); border-top: 1px solid var(--brown-200); font-size: var(--font-size-sm); display: flex; flex-wrap: wrap; align-items: baseline; justify-content: flex-end; gap: 2px var(--space-3); }
+.footer-stat-line { display: flex; align-items: center; cursor: help; }
+.footer-stat-note { max-width: 520px; font-size: 10px; font-weight: 400; font-style: italic; line-height: 1.3; color: var(--gray-500); text-align: right; }
 
 /* Right Column Specifics */
 .info-group { display: flex; flex-direction: column; gap: var(--space-2); }

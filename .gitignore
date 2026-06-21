@@ -52,3 +52,5 @@ ml-service/data/
 
 tools
 
+# Thư mục nháp soi/chỉnh model 3D .glb (có node_modules + file glb nặng) — không push
+.tmp-glb-inspect/

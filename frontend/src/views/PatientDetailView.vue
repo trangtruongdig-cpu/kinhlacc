@@ -235,6 +235,62 @@ async function endCourse() {
   }
 }
 
+// ---- Modal: sửa thông tin bệnh nhân ----
+const showEditModal = ref(false)
+const editSaving = ref(false)
+const editForm = ref({
+  fullName: '',
+  gender: 'Nam',
+  dateOfBirth: '',
+  timeOfBirth: '',
+  phone: '',
+  province: '',
+  address: '',
+  medicalHistory: '',
+  notes: '',
+})
+
+function openEditModal() {
+  const p = patient.value
+  if (!p) return
+  editForm.value = {
+    fullName: p.fullName || '',
+    gender: p.gender || 'Nam',
+    dateOfBirth: ymd(p.dateOfBirth), // <input type="date"> cần 'YYYY-MM-DD'
+    timeOfBirth: p.timeOfBirth || '',
+    phone: p.phone || '',
+    province: p.province || '',
+    address: p.address || '',
+    medicalHistory: p.medicalHistory || '',
+    notes: p.notes || '',
+  }
+  showEditModal.value = true
+}
+
+function closeEditModal() {
+  showEditModal.value = false
+}
+
+async function saveEdit() {
+  if (!editForm.value.fullName.trim()) {
+    alert('Vui lòng nhập họ tên bệnh nhân')
+    return
+  }
+  editSaving.value = true
+  try {
+    await api.put(`/patients/${patientId.value}`, {
+      ...editForm.value,
+      dateOfBirth: editForm.value.dateOfBirth || null,
+    })
+    await loadPatient()
+    showEditModal.value = false
+  } catch (err: any) {
+    alert('Lỗi: ' + err.message)
+  } finally {
+    editSaving.value = false
+  }
+}
+
 function goBack() {
   router.push({ name: 'patients' })
 }
@@ -450,6 +506,12 @@ function goToLuoiDiagnosis() {
 
       <!-- Tab: Thông tin -->
       <div v-if="activeTab === 'info'" class="tab-content">
+        <div class="treatment-toolbar">
+          <button class="btn-meridian" @click="openEditModal">
+            <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg>
+            Sửa Thông Tin
+          </button>
+        </div>
         <div class="info-grid">
           <div class="info-card">
             <h4 class="info-card-title">Thông tin cá nhân</h4>
@@ -683,6 +745,66 @@ function goToLuoiDiagnosis() {
           </div>
         </div>
       </div>
+
+      <!-- Modal: sửa thông tin bệnh nhân -->
+      <div v-if="showEditModal" class="modal-overlay" @click.self="closeEditModal">
+        <div class="modal-box modal-box--wide">
+          <h3 class="modal-title">Sửa Thông Tin Bệnh Nhân</h3>
+          <div class="edit-form">
+            <div class="form-row">
+              <div class="form-group form-group--grow">
+                <label>Họ và tên <span class="req">*</span></label>
+                <input v-model="editForm.fullName" type="text" class="input" placeholder="Nguyễn Văn A" />
+              </div>
+              <div class="form-group">
+                <label>Giới tính</label>
+                <select v-model="editForm.gender" class="input">
+                  <option value="Nam">Nam</option>
+                  <option value="Nữ">Nữ</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group form-group--grow">
+                <label>Ngày sinh</label>
+                <input v-model="editForm.dateOfBirth" type="date" class="input" />
+              </div>
+              <div class="form-group form-group--grow">
+                <label>Giờ sinh</label>
+                <input v-model="editForm.timeOfBirth" type="text" class="input" placeholder="VD: 10:30" />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group form-group--grow">
+                <label>Số điện thoại</label>
+                <input v-model="editForm.phone" type="text" class="input" placeholder="0901234567" />
+              </div>
+              <div class="form-group form-group--grow">
+                <label>Tỉnh/Thành phố</label>
+                <input v-model="editForm.province" type="text" class="input" placeholder="TP. Hồ Chí Minh" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Địa chỉ</label>
+              <input v-model="editForm.address" type="text" class="input" placeholder="Số nhà, đường, phường/xã..." />
+            </div>
+            <div class="form-group">
+              <label>Tiền sử bệnh</label>
+              <textarea v-model="editForm.medicalHistory" class="input" rows="3" placeholder="Ghi chú tiền sử bệnh..."></textarea>
+            </div>
+            <div class="form-group">
+              <label>Ghi chú</label>
+              <textarea v-model="editForm.notes" class="input" rows="2" placeholder="Ghi chú thêm..."></textarea>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-secondary" @click="closeEditModal">Huỷ</button>
+            <button class="btn-primary" :disabled="editSaving" @click="saveEdit">
+              {{ editSaving ? 'Đang lưu...' : 'Lưu' }}
+            </button>
+          </div>
+        </div>
+      </div>
     </template>
   </div>
 </template>
@@ -830,6 +952,15 @@ function goToLuoiDiagnosis() {
 .input{padding:10px 12px;border:1px solid var(--gray-300);border-radius:var(--radius-md);font:inherit}
 .input:focus{outline:none;border-color:var(--brown-500)}
 .modal-actions{display:flex;justify-content:flex-end;gap:var(--space-2)}
+
+/* Edit patient modal */
+.modal-box--wide{width:560px}
+.edit-form{display:flex;flex-direction:column;gap:var(--space-3);max-height:65vh;overflow-y:auto;margin-bottom:var(--space-4);padding-right:var(--space-1)}
+.form-row{display:flex;gap:var(--space-3)}
+.form-group--grow{flex:1;min-width:0}
+.req{color:var(--danger)}
+textarea.input{resize:vertical;font:inherit;width:100%}
+@media(max-width:560px){.form-row{flex-direction:column;gap:var(--space-3)}}
 
 /* Chẩn Đoán Lưỡi tab */
 .luoi-list{display:flex;flex-direction:column;gap:var(--space-3)}

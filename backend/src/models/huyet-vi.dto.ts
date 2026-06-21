@@ -4,6 +4,7 @@ export class CreateHuyetViDto {
   ten_huyet: string;
   ma_huyet?: string;
   vi_tri_giai_phau?: string;
+  tac_dung?: string;
   loai_huyet?: string;
   chong_chi_dinh?: string;
 }
@@ -14,6 +15,7 @@ export class UpdateHuyetViDto {
   ten_huyet?: string;
   ma_huyet?: string;
   vi_tri_giai_phau?: string;
+  tac_dung?: string;
   loai_huyet?: string;
   chong_chi_dinh?: string;
 }

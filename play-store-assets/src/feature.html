@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<style>
+  html, body { margin: 0; padding: 0; }
+  * { box-sizing: border-box; }
+  .fg {
+    width: 1024px; height: 500px; position: relative; overflow: hidden;
+    background: linear-gradient(125deg, #7a5126 0%, #4d3219 56%, #2f1f0e 100%);
+    font-family: "Segoe UI", "Be Vietnam Pro", system-ui, Arial, sans-serif;
+    color: #faf6ef;
+  }
+  .deco { position: absolute; inset: 0; }
+  .left {
+    position: absolute; left: 70px; top: 0; height: 100%; width: 600px;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: 9px; width: fit-content;
+    padding: 8px 16px; border: 1px solid rgba(207,173,120,.55); border-radius: 999px;
+    color: #e6c98c; font-size: 15px; font-weight: 700; letter-spacing: .14em;
+    text-transform: uppercase; margin-bottom: 22px;
+  }
+  .badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #cfad78; }
+  .title { font-size: 70px; font-weight: 800; line-height: 1.04; letter-spacing: -.01em; margin: 0; }
+  .title .gold { color: #e6c98c; }
+  .sub { font-size: 27px; color: #e3cfb0; margin: 20px 0 0; line-height: 1.35; font-weight: 500; }
+  .chips { display: flex; gap: 12px; margin-top: 30px; }
+  .chip {
+    padding: 11px 20px; border-radius: 12px; font-size: 19px; font-weight: 700;
+    background: rgba(250,246,239,.10); border: 1px solid rgba(250,246,239,.18); color: #faf6ef;
+  }
+  .emblem { position: absolute; right: 56px; top: 50%; transform: translateY(-50%); }
+</style>
+</head>
+<body>
+<div class="fg">
+  <!-- vòng kinh lạc trang trí bên phải -->
+  <svg class="deco" viewBox="0 0 1024 500" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <radialGradient id="g" cx="0.78" cy="0.34" r="0.6">
+        <stop offset="0" stop-color="#cfad78" stop-opacity="0.22" />
+        <stop offset="1" stop-color="#cfad78" stop-opacity="0" />
+      </radialGradient>
+    </defs>
+    <rect width="1024" height="500" fill="url(#g)" />
+    <g fill="none" stroke="#cfad78" stroke-opacity="0.16" stroke-width="1.5">
+      <circle cx="812" cy="250" r="250" />
+      <circle cx="812" cy="250" r="190" />
+    </g>
+  </svg>
+
+  <div class="left">
+    <span class="badge"><span class="dot"></span>Phần Mềm Y Học Cổ Truyền</span>
+    <h1 class="title">Kinh Lạc<br /><span class="gold">Trương Gia</span></h1>
+    <p class="sub">Đặt lịch khám, theo dõi hồ sơ và kết quả đo kinh lạc của bạn — ngay trên điện thoại.</p>
+    <div class="chips">
+      <span class="chip">Đặt lịch khám</span>
+      <span class="chip">Hồ sơ &amp; tiền sử</span>
+      <span class="chip">Đo kinh lạc</span>
+    </div>
+  </div>
+
+  <!-- biểu tượng (đồng bộ với icon app) -->
+  <div class="emblem">
+    <svg width="300" height="300" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="flame" x1="0.5" y1="0" x2="0.5" y2="1">
+          <stop offset="0" stop-color="#fbf3e2" /><stop offset="0.42" stop-color="#e6c98c" /><stop offset="1" stop-color="#bd9050" />
+        </linearGradient>
+        <radialGradient id="core" cx="0.5" cy="0.42" r="0.6">
+          <stop offset="0" stop-color="#ffffff" /><stop offset="0.7" stop-color="#fbf3e2" /><stop offset="1" stop-color="#e3cfb0" />
+        </radialGradient>
+      </defs>
+      <circle cx="256" cy="256" r="232" fill="none" stroke="#cfad78" stroke-opacity="0.5" stroke-width="2.5" />
+      <g fill="#cfad78">
+        <circle cx="256" cy="40" r="7"/><circle cx="364" cy="69" r="6"/><circle cx="443" cy="148" r="6"/>
+        <circle cx="472" cy="256" r="7"/><circle cx="443" cy="364" r="6"/><circle cx="364" cy="443" r="6"/>
+        <circle cx="256" cy="472" r="7"/><circle cx="148" cy="443" r="6"/><circle cx="69" cy="364" r="6"/>
+        <circle cx="40" cy="256" r="7"/><circle cx="69" cy="148" r="6"/><circle cx="148" cy="69" r="6"/>
+      </g>
+      <path d="M256 120 C256 120,168 196,168 280 C168 329,207 368,256 368 C305 368,344 329,344 280 C344 196,256 120,256 120 Z" fill="url(#flame)" />
+      <circle cx="256" cy="286" r="30" fill="url(#core)" />
+    </svg>
+  </div>
+</div>
+</body>
+</html>

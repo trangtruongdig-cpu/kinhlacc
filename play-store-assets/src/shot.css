@@ -1,0 +1,99 @@
+/* ===== Khung ảnh chụp màn hình Google Play — 1080 x 1920 ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { margin: 0; padding: 0; }
+:root{
+  --b50:#faf6ef; --b100:#f1e7d6; --b200:#e3cfb0; --b300:#cfad78; --b400:#bd9050;
+  --b500:#a4743a; --b600:#8a5e28; --b700:#6f4a22; --b800:#54391d; --b900:#3a2715;
+  --ink:#3a2715; --muted:#7a6f60; --line:#ece4d6;
+  --green:#3f7d57; --greenbg:#e7f1ea;
+}
+.shot{
+  width:1080px; height:1920px; overflow:hidden;
+  background:linear-gradient(160deg,#7a5126 0%,#4d3219 58%,#2f1f0e 100%);
+  font-family:"Segoe UI","Be Vietnam Pro",system-ui,Arial,sans-serif;
+  display:flex; flex-direction:column; align-items:center;
+  padding:104px 80px 0; color:#faf6ef;
+}
+/* caption phía trên */
+.cap{ text-align:center; }
+.cap .step{
+  display:inline-flex; align-items:center; gap:10px; padding:11px 22px; border-radius:999px;
+  border:1px solid rgba(207,173,120,.55); color:#e6c98c; font-size:22px; font-weight:700;
+  letter-spacing:.06em; text-transform:uppercase;
+}
+.cap .step .d{ width:9px;height:9px;border-radius:50%;background:#cfad78; }
+.cap h2{ font-size:66px; font-weight:800; line-height:1.08; margin-top:26px; letter-spacing:-.01em; }
+.cap p{ font-size:31px; color:#e3cfb0; margin-top:18px; font-weight:500; }
+/* điện thoại */
+.phone{
+  margin-top:62px; width:760px; flex:1 1 auto; background:#241708;
+  border-radius:60px 60px 0 0; padding:20px 20px 0;
+  box-shadow:0 -10px 60px rgba(0,0,0,.35), inset 0 0 0 2px rgba(207,173,120,.18);
+}
+.screen{
+  height:100%; border-radius:44px 44px 0 0; background:#faf9f6; overflow:hidden;
+  display:flex; flex-direction:column; color:var(--ink);
+}
+/* thanh ứng dụng */
+.bar{ height:14px; }
+.appbar{
+  background:linear-gradient(135deg,#8a5e28,#6f4a22); color:#fff; padding:30px 34px 28px;
+  display:flex; align-items:center; gap:16px;
+}
+.appbar .mark{ width:46px;height:46px;border-radius:13px;background:rgba(255,255,255,.14);
+  display:flex;align-items:center;justify-content:center; }
+.appbar .ttl{ font-size:34px; font-weight:700; }
+.appbar .sp{ margin-left:auto; font-size:30px; opacity:.85; }
+.body{ padding:34px; display:flex; flex-direction:column; gap:24px; overflow:hidden; }
+/* thẻ chung */
+.card{ background:#fff; border:1px solid var(--line); border-radius:26px; padding:30px; box-shadow:0 8px 24px rgba(58,39,21,.05); }
+.label{ font-size:24px; color:var(--muted); font-weight:600; }
+.h3{ font-size:34px; font-weight:800; color:var(--b800); }
+.row{ display:flex; align-items:center; justify-content:space-between; padding:22px 0; border-bottom:1px solid var(--line); }
+.row:last-child{ border-bottom:none; }
+.row .k{ font-size:27px; color:var(--muted); }
+.row .v{ font-size:29px; font-weight:700; color:var(--ink); }
+.chip{ display:inline-flex; align-items:center; padding:12px 22px; border-radius:999px; font-size:25px; font-weight:700; }
+.chip-brown{ background:var(--b100); color:var(--b800); border:1px solid var(--b200); }
+.chip-green{ background:var(--greenbg); color:var(--green); border:1px solid #cfe3d6; }
+.btn{ background:linear-gradient(135deg,#8a5e28,#6f4a22); color:#fff; font-size:31px; font-weight:800;
+  text-align:center; padding:30px; border-radius:20px; box-shadow:0 12px 26px rgba(138,94,40,.32); }
+/* lưới khung giờ */
+.slots{ display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+.slot{ text-align:center; padding:24px 0; border-radius:18px; border:1px solid var(--line); background:#fff;
+  font-size:30px; font-weight:700; color:var(--b700); }
+.slot.on{ background:linear-gradient(135deg,#8a5e28,#6f4a22); color:#fff; border-color:transparent; }
+.slot.off{ color:#bcae9b; background:#f4f1ec; }
+.days{ display:flex; gap:14px; }
+.day{ flex:1; text-align:center; padding:18px 0; border-radius:18px; border:1px solid var(--line); background:#fff; }
+.day .dn{ font-size:23px; color:var(--muted); }
+.day .dd{ font-size:34px; font-weight:800; color:var(--ink); margin-top:4px; }
+.day.on{ background:var(--b600); border-color:transparent; }
+.day.on .dn, .day.on .dd{ color:#fff; }
+/* avatar */
+.avatar{ width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#cfad78,#8a5e28);
+  display:flex;align-items:center;justify-content:center;color:#fff;font-size:50px;font-weight:800; }
+.tags{ display:flex; flex-wrap:wrap; gap:14px; margin-top:18px; }
+/* mục lịch sử */
+.hist{ display:flex; gap:20px; align-items:flex-start; }
+.hist .dot{ width:18px;height:18px;border-radius:50%;background:var(--b500); margin-top:8px; flex:none; }
+.hist .date{ font-size:25px; color:var(--muted); font-weight:600; }
+.hist .dx{ font-size:30px; font-weight:800; color:var(--b800); margin-top:4px; }
+.hist .tx{ font-size:26px; color:#5b5247; margin-top:6px; }
+/* biểu đồ cột 12 kinh */
+.chart{ display:flex; align-items:flex-end; gap:10px; height:300px; padding:10px 4px 0; }
+.bar-col{ flex:1; display:flex; flex-direction:column; align-items:center; gap:10px; justify-content:flex-end; height:100%; }
+.bar-col .bv{ width:100%; border-radius:8px 8px 0 0; }
+.bar-col .bn{ font-size:18px; color:var(--muted); font-weight:600; }
+.batcuong{ display:flex; gap:14px; }
+.bc{ flex:1; text-align:center; background:var(--b50); border:1px solid var(--b200); border-radius:18px; padding:20px 8px; }
+.bc .bk{ font-size:23px; color:var(--muted); font-weight:600; }
+.bc .bv2{ font-size:30px; font-weight:800; color:var(--b800); margin-top:6px; }
+/* màn hình chào */
+.welcome{ flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:60px 50px; text-align:center;
+  background:radial-gradient(circle at 50% 30%, #fff 0%, #faf6ef 100%); }
+.welcome .name{ font-size:52px; font-weight:800; color:var(--b800); margin-top:30px; }
+.welcome .role{ font-size:28px; color:var(--b500); font-weight:700; margin-top:10px; letter-spacing:.04em; }
+.welcome .hi{ font-size:30px; color:#5b5247; margin-top:40px; line-height:1.5; }
+.welcome .btn{ margin-top:54px; width:100%; }
+.welcome .alt{ font-size:26px; color:var(--muted); margin-top:30px; }

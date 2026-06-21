@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<style>
+  html, body { margin: 0; padding: 0; }
+  .icon { width: 512px; height: 512px; overflow: hidden; }
+  svg { display: block; }
+</style>
+</head>
+<body>
+<div class="icon">
+  <svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- Nền nâu Đông Y, có chiều sâu -->
+      <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#7a5126" />
+        <stop offset="0.55" stop-color="#4d3219" />
+        <stop offset="1" stop-color="#33220f" />
+      </linearGradient>
+      <!-- Vầng sáng nhẹ phía trên -->
+      <radialGradient id="glow" cx="0.32" cy="0.26" r="0.75">
+        <stop offset="0" stop-color="#cfad78" stop-opacity="0.34" />
+        <stop offset="0.5" stop-color="#cfad78" stop-opacity="0.08" />
+        <stop offset="1" stop-color="#cfad78" stop-opacity="0" />
+      </radialGradient>
+      <!-- Ngọn lửa / giọt huyệt — ánh kim -->
+      <linearGradient id="flame" x1="0.5" y1="0" x2="0.5" y2="1">
+        <stop offset="0" stop-color="#fbf3e2" />
+        <stop offset="0.42" stop-color="#e6c98c" />
+        <stop offset="1" stop-color="#bd9050" />
+      </linearGradient>
+      <radialGradient id="core" cx="0.5" cy="0.42" r="0.6">
+        <stop offset="0" stop-color="#ffffff" />
+        <stop offset="0.7" stop-color="#fbf3e2" />
+        <stop offset="1" stop-color="#e3cfb0" />
+      </radialGradient>
+    </defs>
+
+    <!-- nền full-bleed vuông (Google Play tự bo góc khi hiển thị) -->
+    <rect x="0" y="0" width="512" height="512" fill="url(#bg)" />
+    <rect x="0" y="0" width="512" height="512" fill="url(#glow)" />
+
+    <!-- vòng kinh lạc đồng tâm -->
+    <circle cx="256" cy="256" r="186" fill="none" stroke="#cfad78" stroke-opacity="0.30" stroke-width="2" />
+    <circle cx="256" cy="256" r="150" fill="none" stroke="#cfad78" stroke-opacity="0.18" stroke-width="1.5" />
+
+    <!-- 12 huyệt trên vòng (12 chính kinh) -->
+    <g fill="#cfad78">
+      <circle cx="256" cy="70"  r="6" />
+      <circle cx="349" cy="95"  r="5" />
+      <circle cx="417" cy="163" r="5" />
+      <circle cx="442" cy="256" r="6" />
+      <circle cx="417" cy="349" r="5" />
+      <circle cx="349" cy="417" r="5" />
+      <circle cx="256" cy="442" r="6" />
+      <circle cx="163" cy="417" r="5" />
+      <circle cx="95"  cy="349" r="5" />
+      <circle cx="70"  cy="256" r="6" />
+      <circle cx="95"  cy="163" r="5" />
+      <circle cx="163" cy="95"  r="5" />
+    </g>
+
+    <!-- Ngọn lửa / giọt — biểu tượng huyệt đạo & sinh khí -->
+    <path d="M256 120
+             C256 120, 168 196, 168 280
+             C168 329, 207 368, 256 368
+             C305 368, 344 329, 344 280
+             C344 196, 256 120, 256 120 Z"
+          fill="url(#flame)" />
+    <!-- lõi huyệt -->
+    <circle cx="256" cy="286" r="30" fill="url(#core)" />
+    <circle cx="256" cy="286" r="30" fill="none" stroke="#bd9050" stroke-opacity="0.35" stroke-width="2" />
+  </svg>
+</div>
+</body>
+</html>

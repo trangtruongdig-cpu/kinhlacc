@@ -13,7 +13,11 @@ import { PhapTri } from '../models/phap-tri.model';
 import { TrieuChung } from '../models/trieu-chung.model';
 import { HuyetVi } from '../models/huyet-vi.model';
 import { safeUpstreamStatus } from '../utils/external-error.util';
-import { topPhapTriCandidates, normName, type PhapTriNameRow } from '../utils/the-do-match.util';
+import {
+  topPhapTriCandidates,
+  normName,
+  type PhapTriNameRow,
+} from '../utils/the-do-match.util';
 
 export interface ViThuocAiSuggestion {
   tinh: string;
@@ -103,22 +107,27 @@ export interface TheDoPhapTriSuggestion {
 }
 
 /** Bộ nhóm triệu chứng chuẩn hoá (slug → nhãn) dùng cho AI + UI. */
-export const TRIEU_CHUNG_NHOM: ReadonlyArray<{ slug: string; label: string }> = [
-  { slug: 'tinh-than', label: 'Tinh thần / Cảm xúc' },
-  { slug: 'tieu-hoa', label: 'Tiêu hóa / Ăn ngủ' },
-  { slug: 'than-kinh-co-the', label: 'Thần kinh / Cơ thể (đau, mỏi, sốt, nóng-lạnh…)' },
-  { slug: 'phu-khoa', label: 'Phụ khoa (kinh nguyệt, thai sản…)' },
-  { slug: 'luoi-mach', label: 'Lưỡi / Mạch (dấu hiệu khám)' },
-  { slug: 'toan-trang', label: 'Toàn trạng (mệt mỏi, sắc mặt, cân nặng…)' },
-  { slug: 'khac', label: 'Khác' },
-];
+export const TRIEU_CHUNG_NHOM: ReadonlyArray<{ slug: string; label: string }> =
+  [
+    { slug: 'tinh-than', label: 'Tinh thần / Cảm xúc' },
+    { slug: 'tieu-hoa', label: 'Tiêu hóa / Ăn ngủ' },
+    {
+      slug: 'than-kinh-co-the',
+      label: 'Thần kinh / Cơ thể (đau, mỏi, sốt, nóng-lạnh…)',
+    },
+    { slug: 'phu-khoa', label: 'Phụ khoa (kinh nguyệt, thai sản…)' },
+    { slug: 'luoi-mach', label: 'Lưỡi / Mạch (dấu hiệu khám)' },
+    { slug: 'toan-trang', label: 'Toàn trạng (mệt mỏi, sắc mặt, cân nặng…)' },
+    { slug: 'khac', label: 'Khác' },
+  ];
 
 /** Bộ nhóm NGUYÊN NHÂN của thể bệnh (đồng bộ frontend NHOM_NGUYEN_NHAN). */
-export const NGUYEN_NHAN_NHOM: ReadonlyArray<{ slug: string; label: string }> = [
-  { slug: 'tinh-than', label: 'Yếu tố tinh thần' },
-  { slug: 'sinh-hoat', label: 'Chế độ sinh hoạt' },
-  { slug: 'tang-phu', label: 'Ảnh hưởng tạng phủ khác' },
-];
+export const NGUYEN_NHAN_NHOM: ReadonlyArray<{ slug: string; label: string }> =
+  [
+    { slug: 'tinh-than', label: 'Yếu tố tinh thần' },
+    { slug: 'sinh-hoat', label: 'Chế độ sinh hoạt' },
+    { slug: 'tang-phu', label: 'Ảnh hưởng tạng phủ khác' },
+  ];
 
 /**
  * Gợi ý AI điền dữ liệu cho một THỂ BỆNH (pháp trị): nguyên nhân có cấu trúc + triệu chứng.
@@ -164,8 +173,37 @@ QUY TẮC:
  * matched: huyệt khớp được trong danh mục huyet_vi; unmatched: tên huyệt AI nêu nhưng không khớp.
  */
 export interface PhuongHuyetParsed {
-  matched: Array<{ idHuyet: number; ten_huyet: string; phuong_phap: string; ghi_chu: string }>;
+  matched: Array<{
+    idHuyet: number;
+    ten_huyet: string;
+    phuong_phap: string;
+    ghi_chu: string;
+  }>;
   unmatched: Array<{ ten: string; phuong_phap: string; ghi_chu: string }>;
+}
+
+/** Một vị thuốc thành viên trong cụm nghi trùng (gửi cho AI xác nhận cùng vị). */
+export interface DuplicateClusterMember {
+  id: number;
+  ten_vi_thuoc: string;
+  ten_han?: string | null;
+  ten_pinyin?: string | null;
+  ten_khoa_hoc?: string | null;
+}
+
+/** Một cụm vị thuốc nghi trùng (≥2 thành viên) cần AI xác nhận có CÙNG một vị hay không. */
+export interface DuplicateClusterInput {
+  /** Khoá định danh cụm (vd "12-48-103") — trả lại y nguyên trong verdict để frontend ghép. */
+  key: string;
+  members: DuplicateClusterMember[];
+}
+
+/** Phán quyết của AI cho một cụm nghi trùng. */
+export interface DuplicateClusterVerdict {
+  key: string;
+  /** `true` nếu AI chắc chắn tất cả là CÙNG một vị thuốc. Lỗi/không chắc → `false`. */
+  same: boolean;
+  reason: string;
 }
 
 @Injectable()
@@ -184,7 +222,7 @@ export class AiSuggestService {
     private readonly trieuChungRepo: Repository<TrieuChung>,
     @InjectRepository(HuyetVi)
     private readonly huyetViRepo: Repository<HuyetVi>,
-  ) { }
+  ) {}
 
   private getClient(): OpenAI {
     const apiKey = this.config.get<string>('YESCALE_API_KEY');
@@ -194,7 +232,11 @@ export class AiSuggestService {
     const baseURL =
       this.config.get<string>('YESCALE_BASE_URL') || YESCALE_DEFAULT_BASE_URL;
 
-    if (!this.client || this.clientKey !== apiKey || this.clientBase !== baseURL) {
+    if (
+      !this.client ||
+      this.clientKey !== apiKey ||
+      this.clientBase !== baseURL
+    ) {
       this.client = new OpenAI({ apiKey, baseURL });
       this.clientKey = apiKey;
       this.clientBase = baseURL;
@@ -226,7 +268,10 @@ export class AiSuggestService {
     } catch (err: any) {
       // KHÔNG relay 401/403 của Yescale: frontend sẽ tưởng phiên hết hạn → đá ra /login.
       const detail = err?.error?.message || err?.message || String(err);
-      throw new HttpException(`yescale lỗi: ${detail}`, safeUpstreamStatus(err?.status));
+      throw new HttpException(
+        `yescale lỗi: ${detail}`,
+        safeUpstreamStatus(err?.status),
+      );
     }
 
     const content = response.choices?.[0]?.message?.content?.trim() ?? '';
@@ -317,7 +362,10 @@ export class AiSuggestService {
     } catch (err: any) {
       // KHÔNG relay 401/403 của Yescale: frontend sẽ tưởng phiên hết hạn → đá ra /login.
       const detail = err?.error?.message || err?.message || String(err);
-      throw new HttpException(`yescale lỗi: ${detail}`, safeUpstreamStatus(err?.status));
+      throw new HttpException(
+        `yescale lỗi: ${detail}`,
+        safeUpstreamStatus(err?.status),
+      );
     }
 
     const content = response.choices?.[0]?.message?.content?.trim() ?? '';
@@ -397,12 +445,22 @@ export class AiSuggestService {
     }
   }
 
-  async classifyViThuoc(input: ClassifyViThuocInput): Promise<ViThuocClassification[]> {
+  async classifyViThuoc(
+    input: ClassifyViThuocInput,
+  ): Promise<ViThuocClassification[]> {
     const viThuocs = (input.vi_thuoc ?? []).filter(
-      (v) => v && Number.isFinite(v.id) && typeof v.ten_vi_thuoc === 'string' && v.ten_vi_thuoc.trim().length > 0,
+      (v) =>
+        v &&
+        Number.isFinite(v.id) &&
+        typeof v.ten_vi_thuoc === 'string' &&
+        v.ten_vi_thuoc.trim().length > 0,
     );
     const candidates = (input.nhom_nho_candidates ?? []).filter(
-      (c) => c && Number.isFinite(c.id) && typeof c.ten_nhom === 'string' && c.ten_nhom.trim().length > 0,
+      (c) =>
+        c &&
+        Number.isFinite(c.id) &&
+        typeof c.ten_nhom === 'string' &&
+        c.ten_nhom.trim().length > 0,
     );
     if (!viThuocs.length) {
       throw new BadRequestException('Danh sách vị thuốc rỗng');
@@ -417,7 +475,8 @@ export class AiSuggestService {
         const lieu = (c.lieu_luong ?? '').trim();
         if (lieu) parts.push(`lieu="${lieu}"`);
         const mota = (c.mo_ta ?? '').trim();
-        if (mota) parts.push(`mo_ta="${mota.replace(/\s+/g, ' ').slice(0, 200)}"`);
+        if (mota)
+          parts.push(`mo_ta="${mota.replace(/\s+/g, ' ').slice(0, 200)}"`);
         return `{${parts.join(', ')}}`;
       })
       .join('\n');
@@ -435,7 +494,6 @@ export class AiSuggestService {
     const out: ViThuocClassification[] = [];
     const seen = new Set<number>();
 
-    // eslint-disable-next-line no-console
     console.log(
       `[AI classifyViThuoc] START total=${viThuocs.length} candidates=${candidates.length} chunkSize=${CHUNK_SIZE} chunks=${chunks.length}`,
     );
@@ -452,7 +510,6 @@ export class AiSuggestService {
           chunks.length,
         );
       } catch (err: any) {
-        // eslint-disable-next-line no-console
         console.error(
           `[AI classifyViThuoc] chunk ${idx + 1}/${chunks.length} lỗi, các vị thuốc trong chunk sẽ trả null:`,
           chunk.map((v) => v.ten_vi_thuoc).join(', '),
@@ -475,7 +532,7 @@ export class AiSuggestService {
     }
 
     const classifiedCount = out.filter((r) => r.id_nhom_nho != null).length;
-    // eslint-disable-next-line no-console
+
     console.log(
       `[AI classifyViThuoc] DONE total=${out.length} classified=${classifiedCount} unclassified=${out.length - classifiedCount}`,
     );
@@ -497,7 +554,8 @@ export class AiSuggestService {
   ): Promise<ViThuocClassification[]> {
     const tag = `[AI chunk ${chunkIndex}/${totalChunks}]`;
     const client = this.getClient();
-    const model = this.config.get<string>('YESCALE_MODEL') || YESCALE_DEFAULT_MODEL;
+    const model =
+      this.config.get<string>('YESCALE_MODEL') || YESCALE_DEFAULT_MODEL;
 
     const viThuocBlock = viThuocs
       .map((v) => `{id=${v.id}, ten="${v.ten_vi_thuoc.trim()}"}`)
@@ -527,7 +585,6 @@ Phân loại tất cả vị thuốc trên vào các nhóm nhỏ ứng viên (th
 
     const maxTokens = Math.min(4096, 512 + viThuocs.length * 200);
 
-    // eslint-disable-next-line no-console
     console.log(
       `${tag} REQUEST model=${model} maxTokens=${maxTokens} items=${viThuocs.length}:`,
       viThuocs.map((v) => `${v.id}:${v.ten_vi_thuoc}`).join(' | '),
@@ -550,11 +607,10 @@ Phân loại tất cả vị thuốc trên vào các nhóm nhỏ ứng viên (th
     const usage = response.usage;
     const finishReason = response.choices?.[0]?.finish_reason;
 
-    // eslint-disable-next-line no-console
     console.log(
       `${tag} RESPONSE elapsed=${elapsedMs}ms finish=${finishReason} tokens=${usage?.total_tokens ?? '?'} (prompt=${usage?.prompt_tokens ?? '?'}, completion=${usage?.completion_tokens ?? '?'}) contentLen=${content.length}`,
     );
-    // eslint-disable-next-line no-console
+
     console.log(`${tag} RAW:`, content);
 
     if (!content) {
@@ -563,11 +619,12 @@ Phân loại tất cả vị thuốc trên vào các nhóm nhỏ ứng viên (th
 
     const parsed = parseClassifyResults(content);
     if (!parsed) {
-      // eslint-disable-next-line no-console
       console.error(`${tag} không parse được JSON:`, content.slice(0, 1000));
-      throw new Error(`Không parse được JSON từ AI. Trích đoạn: ${content.slice(0, 200)}`);
+      throw new Error(
+        `Không parse được JSON từ AI. Trích đoạn: ${content.slice(0, 200)}`,
+      );
     }
-    // eslint-disable-next-line no-console
+
     console.log(`${tag} PARSED ${parsed.length} entries`);
 
     const byId = new Map<number, { id: number; ten_vi_thuoc: string }>();
@@ -592,7 +649,9 @@ Phân loại tất cả vị thuốc trên vào các nhóm nhỏ ứng viên (th
             ? nnRaw
             : Number(nnRaw);
       const idNhomNho =
-        nnNum != null && Number.isFinite(nnNum) && allowedNhomNhoIds.has(nnNum) ? nnNum : null;
+        nnNum != null && Number.isFinite(nnNum) && allowedNhomNhoIds.has(nnNum)
+          ? nnNum
+          : null;
       const lyDo = typeof raw.ly_do === 'string' ? raw.ly_do.trim() : '';
       out.push({
         id: v.id,
@@ -611,6 +670,95 @@ Phân loại tất cả vị thuốc trên vào các nhóm nhỏ ứng viên (th
   }
 
   /**
+   * AI xác nhận từng CỤM vị thuốc nghi trùng có thật sự là CÙNG MỘT vị thuốc (chỉ khác cách
+   * viết / hoa-thường / dấu / tên Hán-pinyin / tên gọi khác) hay là các vị KHÁC NHAU. Dùng cho
+   * bước "gom biến thể" — tránh nhầm 2 vị khác nhau (vd Bạch truật vs Thương truật). AI chỉ
+   * GỢI Ý — bác sĩ duyệt. Lỗi 1 cụm → same=false (an toàn: không tự gợi ý gộp).
+   */
+  async confirmDuplicateViThuoc(
+    clusters: DuplicateClusterInput[],
+  ): Promise<DuplicateClusterVerdict[]> {
+    const list = (clusters ?? []).filter(
+      (c) =>
+        c &&
+        typeof c.key === 'string' &&
+        Array.isArray(c.members) &&
+        c.members.length >= 2,
+    );
+    const out: DuplicateClusterVerdict[] = [];
+    for (const c of list) {
+      try {
+        out.push(await this.confirmOneCluster(c));
+      } catch (err: unknown) {
+        console.error(
+          '[AI confirmDuplicateViThuoc] lỗi cụm',
+          c.key,
+          '-',
+          (err as Error)?.message ?? err,
+        );
+        out.push({
+          key: c.key,
+          same: false,
+          reason: 'AI lỗi — chưa xác nhận được, cần kiểm tra tay',
+        });
+      }
+    }
+    return out;
+  }
+
+  private async confirmOneCluster(
+    c: DuplicateClusterInput,
+  ): Promise<DuplicateClusterVerdict> {
+    const client = this.getClient();
+    const model =
+      this.config.get<string>('YESCALE_MODEL') || YESCALE_DEFAULT_MODEL;
+    const block = c.members
+      .map((m, i) => {
+        const parts = [`${i + 1}. "${(m.ten_vi_thuoc || '').trim()}"`];
+        if (m.ten_han?.trim()) parts.push(`Hán="${m.ten_han.trim()}"`);
+        if (m.ten_pinyin?.trim()) parts.push(`pinyin="${m.ten_pinyin.trim()}"`);
+        if (m.ten_khoa_hoc?.trim())
+          parts.push(`khoa_hoc="${m.ten_khoa_hoc.trim()}"`);
+        return parts.join(', ');
+      })
+      .join('\n');
+
+    const systemPrompt = `Bạn là chuyên gia Y học Cổ truyền (Đông Y) Việt Nam. Cho một danh sách TÊN vị thuốc nghi là trùng nhau, hãy xác định chúng có phải CÙNG MỘT vị thuốc (chỉ khác cách viết, viết hoa/thường, dấu, tên Hán/pinyin, hoặc tên gọi khác) hay là các vị thuốc KHÁC NHAU.
+QUY TẮC:
+- CHỈ trả "same": true khi CHẮC CHẮN tất cả các tên đều là cùng một vị thuốc.
+- Nếu có ít nhất một tên là vị thuốc KHÁC (vd "Bạch truật" vs "Thương truật", "Bạch thược" vs "Xích thược") → "same": false.
+- Trả DUY NHẤT một JSON object: {"same": <true|false>, "reason": "<lý do ngắn 1 câu tiếng Việt>"}.
+- KHÔNG markdown, KHÔNG \`\`\`, KHÔNG văn bản thừa.`;
+    const userPrompt = `Các tên nghi trùng:
+${block}
+
+Chúng có phải cùng một vị thuốc không? Trả JSON đúng định dạng.`;
+
+    const response = await client.chat.completions.create({
+      model,
+      temperature: 0.1,
+      max_tokens: 200,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: systemPrompt },
+        { role: 'user', content: userPrompt },
+      ],
+    });
+    const content = response.choices?.[0]?.message?.content?.trim() ?? '';
+    if (!content) throw new Error('yescale trả về nội dung rỗng');
+    const parsed = parseJsonLoose(content);
+    const same = Boolean(parsed?.same);
+    const reasonRaw = parsed?.reason;
+    const reason = typeof reasonRaw === 'string' ? reasonRaw.trim() : '';
+    return {
+      key: c.key,
+      same,
+      reason:
+        reason || (same ? 'Cùng một vị thuốc' : 'Có thể là các vị khác nhau'),
+    };
+  }
+
+  /**
    * Phân loại NHÓM cho danh sách triệu chứng (slug cố định). Mirror classifyViThuoc:
    * chunk nhỏ + cô lập lỗi từng chunk + parse JSON lỏng. AI chỉ GỢI Ý — bác sĩ duyệt.
    */
@@ -618,15 +766,23 @@ Phân loại tất cả vị thuốc trên vào các nhóm nhỏ ứng viên (th
     items: { id: number; ten_trieu_chung: string }[],
   ): Promise<TrieuChungNhomResult[]> {
     const list = (items ?? []).filter(
-      (v) => v && Number.isFinite(v.id) && typeof v.ten_trieu_chung === 'string' && v.ten_trieu_chung.trim().length > 0,
+      (v) =>
+        v &&
+        Number.isFinite(v.id) &&
+        typeof v.ten_trieu_chung === 'string' &&
+        v.ten_trieu_chung.trim().length > 0,
     );
-    if (!list.length) throw new BadRequestException('Danh sách triệu chứng rỗng');
+    if (!list.length)
+      throw new BadRequestException('Danh sách triệu chứng rỗng');
 
     const allowed = new Set(TRIEU_CHUNG_NHOM.map((n) => n.slug));
-    const nhomBlock = TRIEU_CHUNG_NHOM.map((n) => `- ${n.slug}: ${n.label}`).join('\n');
+    const nhomBlock = TRIEU_CHUNG_NHOM.map(
+      (n) => `- ${n.slug}: ${n.label}`,
+    ).join('\n');
     const CHUNK = 10;
     const chunks: { id: number; ten_trieu_chung: string }[][] = [];
-    for (let i = 0; i < list.length; i += CHUNK) chunks.push(list.slice(i, i + CHUNK));
+    for (let i = 0; i < list.length; i += CHUNK)
+      chunks.push(list.slice(i, i + CHUNK));
 
     const out: TrieuChungNhomResult[] = [];
     const seen = new Set<number>();
@@ -635,9 +791,16 @@ Phân loại tất cả vị thuốc trên vào các nhóm nhỏ ứng viên (th
       try {
         res = await this.classifyNhomChunk(chunk, nhomBlock, allowed);
       } catch (err: any) {
-        // eslint-disable-next-line no-console
-        console.error('[AI classifyTrieuChungNhom] chunk lỗi:', err?.message || err);
-        res = chunk.map((v) => ({ id: v.id, ten_trieu_chung: v.ten_trieu_chung, nhom: null, ly_do: 'AI lỗi — chưa phân loại được' }));
+        console.error(
+          '[AI classifyTrieuChungNhom] chunk lỗi:',
+          err?.message || err,
+        );
+        res = chunk.map((v) => ({
+          id: v.id,
+          ten_trieu_chung: v.ten_trieu_chung,
+          nhom: null,
+          ly_do: 'AI lỗi — chưa phân loại được',
+        }));
       }
       for (const r of res) {
         if (seen.has(r.id)) continue;
@@ -645,7 +808,9 @@ Phân loại tất cả vị thuốc trên vào các nhóm nhỏ ứng viên (th
         out.push(r);
       }
     }
-    for (const v of list) if (!seen.has(v.id)) out.push({ id: v.id, ten_trieu_chung: v.ten_trieu_chung, nhom: null });
+    for (const v of list)
+      if (!seen.has(v.id))
+        out.push({ id: v.id, ten_trieu_chung: v.ten_trieu_chung, nhom: null });
     return out;
   }
 
@@ -655,8 +820,11 @@ Phân loại tất cả vị thuốc trên vào các nhóm nhỏ ứng viên (th
     allowed: Set<string>,
   ): Promise<TrieuChungNhomResult[]> {
     const client = this.getClient();
-    const model = this.config.get<string>('YESCALE_MODEL') || YESCALE_DEFAULT_MODEL;
-    const block = items.map((v) => `{id=${v.id}, ten="${v.ten_trieu_chung.trim()}"}`).join('\n');
+    const model =
+      this.config.get<string>('YESCALE_MODEL') || YESCALE_DEFAULT_MODEL;
+    const block = items
+      .map((v) => `{id=${v.id}, ten="${v.ten_trieu_chung.trim()}"}`)
+      .join('\n');
 
     const systemPrompt = `Bạn là chuyên gia Y học Cổ truyền (Đông Y). Nhiệm vụ: phân loại mỗi TRIỆU CHỨNG vào ĐÚNG MỘT nhóm phù hợp nhất, chọn từ danh sách slug cố định.
 QUY TẮC:
@@ -685,7 +853,8 @@ Phân loại tất cả triệu chứng trên. Trả JSON đúng định dạng 
     const content = response.choices?.[0]?.message?.content?.trim() ?? '';
     if (!content) throw new Error('yescale trả về nội dung rỗng');
     const parsed = parseClassifyResults(content);
-    if (!parsed) throw new Error(`Không parse được JSON từ AI: ${content.slice(0, 200)}`);
+    if (!parsed)
+      throw new Error(`Không parse được JSON từ AI: ${content.slice(0, 200)}`);
 
     const byId = new Map(items.map((v) => [v.id, v]));
     const out: TrieuChungNhomResult[] = [];
@@ -701,9 +870,16 @@ Phân loại tất cả triệu chứng trên. Trả JSON đúng định dạng 
       const slug = String(raw.nhom ?? '').trim();
       const nhom = allowed.has(slug) ? slug : null;
       const ly = typeof raw.ly_do === 'string' ? raw.ly_do.trim() : '';
-      out.push({ id: v.id, ten_trieu_chung: v.ten_trieu_chung, nhom, ly_do: ly || undefined });
+      out.push({
+        id: v.id,
+        ten_trieu_chung: v.ten_trieu_chung,
+        nhom,
+        ly_do: ly || undefined,
+      });
     }
-    for (const v of items) if (!seen.has(v.id)) out.push({ id: v.id, ten_trieu_chung: v.ten_trieu_chung, nhom: null });
+    for (const v of items)
+      if (!seen.has(v.id))
+        out.push({ id: v.id, ten_trieu_chung: v.ten_trieu_chung, nhom: null });
     return out;
   }
 
@@ -716,21 +892,34 @@ Phân loại tất cả triệu chứng trên. Trả JSON đúng định dạng 
     items: { id: number; name: string }[],
   ): Promise<TheDoPhapTriSuggestion[]> {
     const list = (items ?? []).filter(
-      (v) => v && Number.isFinite(v.id) && typeof v.name === 'string' && v.name.trim().length > 0,
+      (v) =>
+        v &&
+        Number.isFinite(v.id) &&
+        typeof v.name === 'string' &&
+        v.name.trim().length > 0,
     );
     if (!list.length) throw new BadRequestException('Danh sách thể đo rỗng');
 
     const all: PhapTriNameRow[] = (
-      await this.phapTriRepo.query('SELECT id, the_benh FROM phap_tri WHERE the_benh IS NOT NULL')
-    ).map((r: { id: number | string; the_benh: string }) => ({ id: Number(r.id), the_benh: r.the_benh }));
+      await this.phapTriRepo.query(
+        'SELECT id, the_benh FROM phap_tri WHERE the_benh IS NOT NULL',
+      )
+    ).map((r: { id: number | string; the_benh: string }) => ({
+      id: Number(r.id),
+      the_benh: r.the_benh,
+    }));
 
     const out: TheDoPhapTriSuggestion[] = [];
     for (const item of list) {
       try {
         out.push(await this.suggestOneTheDo(item, all));
       } catch (err: unknown) {
-        // eslint-disable-next-line no-console
-        console.error('[AI suggestPhapTriForTheDo] lỗi thể', item.name, '-', (err as Error)?.message ?? err);
+        console.error(
+          '[AI suggestPhapTriForTheDo] lỗi thể',
+          item.name,
+          '-',
+          (err as Error)?.message ?? err,
+        );
         out.push({
           id: item.id,
           name: item.name,
@@ -762,8 +951,11 @@ Phân loại tất cả triệu chứng trên. Trả JSON đúng định dạng 
     }
 
     const client = this.getClient();
-    const model = this.config.get<string>('YESCALE_MODEL') || YESCALE_DEFAULT_MODEL;
-    const candBlock = candidates.map((c) => `{id=${c.id}, ten="${c.the_benh}"}`).join('\n');
+    const model =
+      this.config.get<string>('YESCALE_MODEL') || YESCALE_DEFAULT_MODEL;
+    const candBlock = candidates
+      .map((c) => `{id=${c.id}, ten="${c.the_benh}"}`)
+      .join('\n');
     const systemPrompt = `Bạn là chuyên gia Y học Cổ truyền (Đông Y). Cho MỘT thể bệnh (đo kinh lạc) và danh sách PHÁP TRỊ ứng viên (theo tên thể), hãy chọn pháp trị KHỚP THỂ nhất.
 QUY TẮC:
 - Thể KÉP (phối hợp 2 tạng/thể: "... lưỡng hư", "... bất giao", tên ghép 2 tạng):
@@ -798,14 +990,14 @@ Chọn pháp trị khớp thể nhất. Trả JSON đúng định dạng.`;
     let ids: number[] = [];
     let lyDo = '';
     if (parsed) {
-      isKep = Boolean((parsed as Record<string, unknown>).is_kep);
-      const raw = (parsed as Record<string, unknown>).phap_tri_ids;
+      isKep = Boolean(parsed.is_kep);
+      const raw = parsed.phap_tri_ids;
       if (Array.isArray(raw)) {
         ids = raw
           .map((x) => Number(x))
           .filter((n) => Number.isFinite(n) && byId.has(n));
       }
-      const ly = (parsed as Record<string, unknown>).ly_do;
+      const ly = parsed.ly_do;
       lyDo = typeof ly === 'string' ? ly.trim() : '';
     }
     ids = Array.from(new Set(ids)).slice(0, 2);
@@ -833,9 +1025,12 @@ Chọn pháp trị khớp thể nhất. Trả JSON đúng định dạng.`;
     if (!ten) throw new BadRequestException('Thiếu tên thể bệnh');
 
     const client = this.getClient();
-    const model = this.config.get<string>('YESCALE_MODEL') || YESCALE_DEFAULT_MODEL;
+    const model =
+      this.config.get<string>('YESCALE_MODEL') || YESCALE_DEFAULT_MODEL;
 
-    const nnBlock = NGUYEN_NHAN_NHOM.map((n) => `    "${n.slug}": [...]  // ${n.label}`).join('\n');
+    const nnBlock = NGUYEN_NHAN_NHOM.map(
+      (n) => `    "${n.slug}": [...]  // ${n.label}`,
+    ).join('\n');
     // Bỏ "khac" trong gợi ý triệu chứng — frontend gom phần lệch nhóm vào "Chưa phân nhóm".
     const tcBlock = TRIEU_CHUNG_NHOM.filter((n) => n.slug !== 'khac')
       .map((n) => `    "${n.slug}": [...]  // ${n.label}`)
@@ -875,14 +1070,20 @@ QUY TẮC:
     } catch (err: any) {
       // KHÔNG relay 401/403 của Yescale: frontend sẽ tưởng phiên hết hạn → đá ra /login.
       const detail = err?.error?.message || err?.message || String(err);
-      throw new HttpException(`yescale lỗi: ${detail}`, safeUpstreamStatus(err?.status));
+      throw new HttpException(
+        `yescale lỗi: ${detail}`,
+        safeUpstreamStatus(err?.status),
+      );
     }
 
     const content = response.choices?.[0]?.message?.content?.trim() ?? '';
-    if (!content) throw new ServiceUnavailableException('yescale trả về nội dung rỗng');
+    if (!content)
+      throw new ServiceUnavailableException('yescale trả về nội dung rỗng');
     const parsed = parseJsonLoose(content);
     if (!parsed || typeof parsed !== 'object') {
-      throw new ServiceUnavailableException(`Không parse được JSON từ AI: ${content.slice(0, 200)}`);
+      throw new ServiceUnavailableException(
+        `Không parse được JSON từ AI: ${content.slice(0, 200)}`,
+      );
     }
 
     const nnObj = (parsed.nguyen_nhan ?? {}) as Record<string, unknown>;
@@ -906,7 +1107,8 @@ QUY TẮC:
       }
     }
 
-    const { ids, matched, unmatched } = await this.mapTrieuChungNames(suggested);
+    const { ids, matched, unmatched } =
+      await this.mapTrieuChungNames(suggested);
     return {
       nguyen_nhan_list,
       trieu_chung_ids: ids,
@@ -918,7 +1120,11 @@ QUY TẮC:
   /** Khớp tên triệu chứng AI đề xuất với bảng `trieu_chung` (chuẩn hoá bỏ dấu). */
   private async mapTrieuChungNames(
     suggested: Array<{ ten: string; nhom: string }>,
-  ): Promise<{ ids: number[]; matched: string[]; unmatched: Array<{ ten: string; nhom: string | null }> }> {
+  ): Promise<{
+    ids: number[];
+    matched: string[];
+    unmatched: Array<{ ten: string; nhom: string | null }>;
+  }> {
     if (!suggested.length) return { ids: [], matched: [], unmatched: [] };
     const all = await this.trieuChungRepo.find();
     const byKey = new Map<string, TrieuChung>();
@@ -953,7 +1159,8 @@ QUY TẮC:
     const raw = (text || '').trim();
     if (!raw) throw new BadRequestException('Thiếu nội dung phương huyệt');
     const client = this.getClient();
-    const model = this.config.get<string>('YESCALE_MODEL') || YESCALE_DEFAULT_MODEL;
+    const model =
+      this.config.get<string>('YESCALE_MODEL') || YESCALE_DEFAULT_MODEL;
     const sys = `Bạn là chuyên gia Châm cứu Y học Cổ truyền. Cho đoạn MÔ TẢ PHƯƠNG HUYỆT, hãy TRÍCH ra danh sách HUYỆT.
 Mỗi huyệt là một object:
 - "ten_huyet": TÊN HUYỆT (vd "Thần môn", "Túc tam lý", "Đảm du"). TUYỆT ĐỐI không kèm động từ.
@@ -980,21 +1187,27 @@ QUY TẮC:
       });
     } catch (err: any) {
       const detail = err?.error?.message || err?.message || String(err);
-      throw new HttpException(`yescale lỗi: ${detail}`, safeUpstreamStatus(err?.status));
+      throw new HttpException(
+        `yescale lỗi: ${detail}`,
+        safeUpstreamStatus(err?.status),
+      );
     }
     const content = response.choices?.[0]?.message?.content?.trim() ?? '';
-    if (!content) throw new ServiceUnavailableException('yescale trả về nội dung rỗng');
+    if (!content)
+      throw new ServiceUnavailableException('yescale trả về nội dung rỗng');
     const parsed = parseJsonLoose(content);
-    const arr = Array.isArray((parsed as Record<string, unknown> | null)?.huyet)
-      ? ((parsed as Record<string, unknown>).huyet as unknown[])
-      : [];
+    const arr = Array.isArray(parsed?.huyet) ? (parsed.huyet as unknown[]) : [];
     const items = arr
       .map((x) => {
         const o = (x ?? {}) as Record<string, unknown>;
         return {
-          ten: String(o.ten_huyet ?? '').replace(/\s+/g, ' ').trim(),
+          ten: String(o.ten_huyet ?? '')
+            .replace(/\s+/g, ' ')
+            .trim(),
           phuong_phap: normPhuongPhap(String(o.phuong_phap ?? '')),
-          ghi_chu: String(o.ghi_chu ?? '').replace(/\s+/g, ' ').trim(),
+          ghi_chu: String(o.ghi_chu ?? '')
+            .replace(/\s+/g, ' ')
+            .trim(),
         };
       })
       .filter((x) => x.ten);
@@ -1026,9 +1239,18 @@ QUY TẮC:
       if (h) {
         if (seen.has(h.idHuyet)) continue; // 1 huyệt 1 dòng (giữ lần đầu)
         seen.add(h.idHuyet);
-        matched.push({ idHuyet: h.idHuyet, ten_huyet: h.ten_huyet, phuong_phap: it.phuong_phap, ghi_chu: it.ghi_chu });
+        matched.push({
+          idHuyet: h.idHuyet,
+          ten_huyet: h.ten_huyet,
+          phuong_phap: it.phuong_phap,
+          ghi_chu: it.ghi_chu,
+        });
       } else {
-        unmatched.push({ ten: it.ten, phuong_phap: it.phuong_phap, ghi_chu: it.ghi_chu });
+        unmatched.push({
+          ten: it.ten,
+          phuong_phap: it.phuong_phap,
+          ghi_chu: it.ghi_chu,
+        });
       }
     }
     return { matched, unmatched };
@@ -1102,7 +1324,11 @@ function normKm(s: string): string {
 function pickString(obj: Record<string, unknown>, key: string): string {
   const v = obj[key];
   if (v == null) return '';
-  if (Array.isArray(v)) return v.map((x) => String(x).trim()).filter(Boolean).join(', ');
+  if (Array.isArray(v))
+    return v
+      .map((x) => String(x).trim())
+      .filter(Boolean)
+      .join(', ');
   return String(v).trim();
 }
 
@@ -1144,7 +1370,11 @@ const HUYET_ALIAS: Record<string, string> = {
 
 /** Chuẩn hoá một giá trị (mảng / chuỗi) AI trả về thành mảng chuỗi gọn, đã khử trùng lặp. */
 function pickStringArray(v: unknown): string[] {
-  const raw = Array.isArray(v) ? v : typeof v === 'string' ? v.split(/[;\n]+/) : [];
+  const raw = Array.isArray(v)
+    ? v
+    : typeof v === 'string'
+      ? v.split(/[;\n]+/)
+      : [];
   const out: string[] = [];
   const seen = new Set<string>();
   for (const x of raw) {
@@ -1187,29 +1417,52 @@ function parseClassifyResults(raw: string): unknown[] | null {
   };
 
   // 1) Parse trực tiếp
-  try { tryAdd(JSON.parse(raw)); } catch { /* noop */ }
+  try {
+    tryAdd(JSON.parse(raw));
+  } catch {
+    /* noop */
+  }
 
   // 2) Bóc markdown fence
   const fence = raw.match(/```(?:json)?\s*([\s\S]*?)```/i);
   if (fence?.[1]) {
-    try { tryAdd(JSON.parse(fence[1])); } catch { /* noop */ }
+    try {
+      tryAdd(JSON.parse(fence[1]));
+    } catch {
+      /* noop */
+    }
   }
 
   // 3) Cắt theo dấu { ... } đầu/cuối
   const fObj = raw.indexOf('{');
   const lObj = raw.lastIndexOf('}');
   if (fObj >= 0 && lObj > fObj) {
-    try { tryAdd(JSON.parse(raw.slice(fObj, lObj + 1))); } catch { /* noop */ }
+    try {
+      tryAdd(JSON.parse(raw.slice(fObj, lObj + 1)));
+    } catch {
+      /* noop */
+    }
   }
 
   // 4) Cắt theo dấu [ ... ] đầu/cuối
   const fArr = raw.indexOf('[');
   const lArr = raw.lastIndexOf(']');
   if (fArr >= 0 && lArr > fArr) {
-    try { tryAdd(JSON.parse(raw.slice(fArr, lArr + 1))); } catch { /* noop */ }
+    try {
+      tryAdd(JSON.parse(raw.slice(fArr, lArr + 1)));
+    } catch {
+      /* noop */
+    }
   }
 
-  const ARRAY_KEYS = ['results', 'data', 'classifications', 'items', 'list', 'phan_loai'];
+  const ARRAY_KEYS = [
+    'results',
+    'data',
+    'classifications',
+    'items',
+    'list',
+    'phan_loai',
+  ];
 
   for (const cand of candidates) {
     if (Array.isArray(cand)) return cand;
@@ -1220,7 +1473,9 @@ function parseClassifyResults(raw: string): unknown[] | null {
         if (Array.isArray(v)) return v;
       }
       // Object dạng map id → suggestion → biến về mảng entries
-      const entries = Object.entries(obj).filter(([, v]) => v && typeof v === 'object');
+      const entries = Object.entries(obj).filter(
+        ([, v]) => v && typeof v === 'object',
+      );
       if (entries.length) {
         const arr = entries
           .map(([k, v]) => {
@@ -1242,12 +1497,21 @@ function parseClassifyResults(raw: string): unknown[] | null {
   for (let i = 0; i < raw.length; i++) {
     const ch = raw[i];
     if (inString) {
-      if (escape) { escape = false; continue; }
-      if (ch === '\\') { escape = true; continue; }
+      if (escape) {
+        escape = false;
+        continue;
+      }
+      if (ch === '\\') {
+        escape = true;
+        continue;
+      }
       if (ch === '"') inString = false;
       continue;
     }
-    if (ch === '"') { inString = true; continue; }
+    if (ch === '"') {
+      inString = true;
+      continue;
+    }
     if (ch === '{') {
       if (depth === 0) start = i;
       depth++;
@@ -1291,7 +1555,10 @@ function parseJsonLoose(raw: string): Record<string, unknown> | null {
     const last = raw.lastIndexOf('}');
     if (first >= 0 && last > first) {
       try {
-        return JSON.parse(raw.slice(first, last + 1)) as Record<string, unknown>;
+        return JSON.parse(raw.slice(first, last + 1)) as Record<
+          string,
+          unknown
+        >;
       } catch {
         // fall through
       }

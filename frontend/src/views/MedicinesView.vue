@@ -8,6 +8,8 @@ const BaiThuocGraph = defineAsyncComponent(() => import('@/components/BaiThuocGr
 const BaiThuocCompare = defineAsyncComponent(() => import('@/components/BaiThuocCompare.vue'))
 // Chi tiết vị thuốc (từ điển + thư viện ảnh) — nạp động.
 const ViThuocDetail = defineAsyncComponent(() => import('@/components/ViThuocDetail.vue'))
+// Kiểm định vị thuốc (gom biến thể + rà soát) — nạp động, chỉ tải khi mở tab.
+const ViThuocAudit = defineAsyncComponent(() => import('@/components/ViThuocAudit.vue'))
 
 const router = useRouter()
 
@@ -144,7 +146,7 @@ interface ViThuocForm {
   nhom_nho_ids: number[]
 }
 
-const activeTab = ref<'bai-thuoc' | 'vi-thuoc' | 'duoc-ly'>('bai-thuoc')
+const activeTab = ref<'bai-thuoc' | 'vi-thuoc' | 'duoc-ly' | 'kiem-dinh'>('bai-thuoc')
 const isLoading = ref(true)
 const error = ref<string | null>(null)
 /** Loading khi reload page list (search/page change/filter) — overlay nhẹ trên grid. */
@@ -555,7 +557,7 @@ const highlightBtId = ref<number | null>(null)
 onMounted(async () => {
   void loadVtThumbs()
   const qTab = route.query.tab
-  if (qTab === 'bai-thuoc' || qTab === 'vi-thuoc' || qTab === 'duoc-ly') {
+  if (qTab === 'bai-thuoc' || qTab === 'vi-thuoc' || qTab === 'duoc-ly' || qTab === 'kiem-dinh') {
     activeTab.value = qTab
   }
 
@@ -2466,11 +2468,23 @@ async function suggestViThuocAi() {
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2L2 7l10 5 10-5-10-5z"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 17l10 5 10-5"/><path stroke-linecap="round" stroke-linejoin="round" d="M2 12l10 5 10-5"/></svg>
           Dược Lý
         </button>
+        <button
+          class="toggle-btn"
+          :class="{ active: activeTab === 'kiem-dinh' }"
+          @click="activeTab = 'kiem-dinh'"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4"/><path stroke-linecap="round" stroke-linejoin="round" d="M21 12c0 1.66-4.03 3-9 3s-9-1.34-9-3m18 0c0-1.66-4.03-3-9-3s-9 1.34-9 3m18 0v6c0 1.66-4.03 3-9 3s-9-1.34-9-3v-6"/></svg>
+          Kiểm Định
+        </button>
       </div>
     </div>
 
     <div v-if="activeTab === 'duoc-ly'" class="content-body">
       <PharmacologyManager />
+    </div>
+
+    <div v-else-if="activeTab === 'kiem-dinh'" class="content-body">
+      <ViThuocAudit />
     </div>
 
     <div v-else-if="isLoading" class="loading-state">

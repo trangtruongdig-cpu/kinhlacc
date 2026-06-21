@@ -26,6 +26,9 @@ export class HuyetVi {
   @Column({ type: 'text', nullable: true })
   vi_tri_giai_phau: string;
 
+  @Column({ type: 'text', nullable: true })
+  tac_dung: string;
+
   @Column({ type: 'varchar', length: 100, nullable: true })
   loai_huyet: string;
 

@@ -33,7 +33,7 @@ export class HuyetViService {
     const qb = this.repo.createQueryBuilder('hv');
     if (q) {
       qb.andWhere(
-        '(hv.ten_huyet ILIKE :term OR hv.ma_huyet ILIKE :term OR hv.vi_tri_giai_phau ILIKE :term OR hv.loai_huyet ILIKE :term OR hv.chong_chi_dinh ILIKE :term)',
+        '(hv.ten_huyet ILIKE :term OR hv.ma_huyet ILIKE :term OR hv.vi_tri_giai_phau ILIKE :term OR hv.tac_dung ILIKE :term OR hv.loai_huyet ILIKE :term OR hv.chong_chi_dinh ILIKE :term)',
         { term: `%${q}%` },
       );
     }
@@ -81,6 +81,7 @@ export class HuyetViService {
       idKinhMach: dto.id_kinh_mach || dto.idKinhMach,
       ma_huyet: dto.ma_huyet,
       vi_tri_giai_phau: dto.vi_tri_giai_phau,
+      tac_dung: dto.tac_dung,
       loai_huyet: dto.loai_huyet,
       chong_chi_dinh: dto.chong_chi_dinh,
     });
@@ -104,6 +105,7 @@ export class HuyetViService {
     
     if (dto.ma_huyet !== undefined) item.ma_huyet = dto.ma_huyet;
     if (dto.vi_tri_giai_phau !== undefined) item.vi_tri_giai_phau = dto.vi_tri_giai_phau;
+    if (dto.tac_dung !== undefined) item.tac_dung = dto.tac_dung;
     if (dto.loai_huyet !== undefined) item.loai_huyet = dto.loai_huyet;
     if (dto.chong_chi_dinh !== undefined) item.chong_chi_dinh = dto.chong_chi_dinh;
     

@@ -15,6 +15,7 @@ interface HuyetViRow {
   ten_huyet: string | null
   ma_huyet: string | null
   vi_tri_giai_phau: string | null
+  tac_dung: string | null
   loai_huyet: string | null
   chong_chi_dinh: string | null
   kinhMach: KinhMachLite | null
@@ -25,6 +26,7 @@ interface FormState {
   ten_huyet: string
   ma_huyet: string
   vi_tri_giai_phau: string
+  tac_dung: string
   loai_huyet: string
   chong_chi_dinh: string
 }
@@ -51,6 +53,7 @@ const emptyForm = (): FormState => ({
   ten_huyet: '',
   ma_huyet: '',
   vi_tri_giai_phau: '',
+  tac_dung: '',
   loai_huyet: '',
   chong_chi_dinh: '',
 })
@@ -175,6 +178,7 @@ function openEditModal(row: HuyetViRow) {
     ten_huyet: row.ten_huyet ?? '',
     ma_huyet: row.ma_huyet ?? '',
     vi_tri_giai_phau: row.vi_tri_giai_phau ?? '',
+    tac_dung: row.tac_dung ?? '',
     loai_huyet: row.loai_huyet ?? '',
     chong_chi_dinh: row.chong_chi_dinh ?? '',
   }
@@ -205,6 +209,7 @@ async function handleSubmit() {
     ten_huyet: f.ten_huyet.trim(),
     ma_huyet: f.ma_huyet.trim() || null,
     vi_tri_giai_phau: f.vi_tri_giai_phau.trim() || null,
+    tac_dung: f.tac_dung.trim() || null,
     loai_huyet: f.loai_huyet.trim() || null,
     chong_chi_dinh: f.chong_chi_dinh.trim() || null,
   }
@@ -387,6 +392,10 @@ async function handleDelete() {
             <label class="field">
               <span>Vị trí giải phẫu</span>
               <textarea v-model="form.vi_tri_giai_phau" class="textarea" rows="2" placeholder="vd. Giữa xương bàn 1 và 2"></textarea>
+            </label>
+            <label class="field field--full">
+              <span>Tác dụng <small class="field-hint">(huyệt này để làm gì — in vào phiếu cho bệnh nhân tự day bấm)</small></span>
+              <textarea v-model="form.tac_dung" class="textarea" rows="2" placeholder="vd. Giảm đau đầu, hạ sốt, thông kinh lạc..."></textarea>
             </label>
             <label class="field field--full">
               <span>Chống chỉ định</span>

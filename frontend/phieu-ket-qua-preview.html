@@ -1,0 +1,286 @@
+<!doctype html>
+<!--
+  PREVIEW TĨNH — xem trước bố cục Phiếu kết quả khám bệnh trên khổ A5.
+  Dùng dữ liệu MẪU, CSS giống hệt hàm printPhieuKetQua() trong src/views/MeridianResultsView.vue.
+  File này CHỈ để xem trước, không được import vào app — có thể xoá sau khi duyệt xong.
+  Mở bằng trình duyệt → Ctrl+P để xem trên khổ A5 thật.
+-->
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Preview — Phiếu kết quả khám bệnh (A5)</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: "Times New Roman", Times, "Liberation Serif", serif; color: #1f2937; margin: 0; padding: 0; font-size: 8.5px; line-height: 1.32; background: #e5e7eb; }
+  h1, h2, h3 { margin: 0; }
+  .sheet { padding: 0; }
+  .doc-head { text-align: center; border-bottom: 1.5px solid #78350f; padding-bottom: 2px; margin-bottom: 3px; }
+  .clinic { font-size: 8.5px; font-weight: 700; color: #78350f; letter-spacing: .03em; text-transform: uppercase; }
+  .doc-title { font-size: 12.5px; font-weight: 800; color: #1f2937; margin-top: 1px; }
+  .doc-sub { font-size: 7.5px; color: #6b7280; }
+  .pinfo { width: 100%; border-collapse: collapse; margin-bottom: 4px; font-size: 8px; }
+  .pinfo td { padding: 1px 4px; vertical-align: top; }
+  .pinfo .lbl { color: #6b7280; white-space: nowrap; }
+  .pinfo .v { font-weight: 600; }
+  .sec-h { font-size: 8.5px; font-weight: 800; color: #78350f; text-transform: uppercase; border-left: 3px solid #b45309; padding-left: 5px; margin: 4px 0 2px; }
+  .sec-h--main { font-size: 10px; }
+  .sec-h--sub { font-size: 7.5px; opacity: .85; }
+  .md-wrap { display: flex; gap: 6px; }
+  .md-col { flex: 1; min-width: 0; }
+  table.md { width: 100%; border-collapse: collapse; font-size: 7px; }
+  table.md th, table.md td { border: 1px solid #d1d5db; padding: 1px 2px; text-align: center; }
+  table.md th { background: #f3f4f6; font-weight: 700; }
+  table.md td.k { text-align: left; font-weight: 700; }
+  .tbl-cap { font-weight: 700; font-size: 7.5px; background: #fafaf9; padding: 1px 4px; border: 1px solid #d1d5db; border-bottom: none; }
+  .pos { color: #92400e; font-weight: 700; }
+  .neg { color: #1d4ed8; font-weight: 700; }
+  .muted { color: #6b7280; }
+  .dg-grid { display: flex; gap: 5px; margin-bottom: 3px; }
+  .tk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  .tk { margin: 1px 0; font-size: 8px; }
+  .tk b { color: #78350f; }
+  .row { margin: 2px 0; }
+  .dx-box { border: 1.5px solid #d4a373; border-radius: 5px; padding: 4px 8px; background: #fffdf7; font-size: 9px; }
+  .dx-box .row { margin: 2px 0; }
+  .dx-model { margin-bottom: 2px; }
+  .dx-model-l { font-size: 6.5px; text-transform: uppercase; color: #6b7280; font-weight: 700; letter-spacing: .02em; }
+  .dx-model-v { font-size: 11px; font-weight: 800; color: #78350f; line-height: 1.2; }
+  .dx-conc { margin: 3px 0; line-height: 1.25; }
+  .dx-conc-l { color: #6b7280; font-weight: 600; }
+  .dx-conc-v { font-weight: 700; color: #166534; font-size: 9.5px; }
+  .sym-block { margin: 3px 0 0; }
+  .sym-head { font-weight: 700; margin-bottom: 2px; }
+  .sym-cols { column-count: 2; column-gap: 10px; }
+  .sym-group { break-inside: avoid; page-break-inside: avoid; margin: 0 0 3px; }
+  .sym-group-name { display: block; font-size: 7px; font-weight: 700; color: #b45309; margin-bottom: 1px; }
+  .sym-tags { display: flex; flex-wrap: wrap; gap: 1px 2px; }
+  .sym-tag { display: inline-block; background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; border-radius: 3px; padding: 0 3px; font-size: 6.8px; line-height: 1.45; white-space: nowrap; }
+  /* Phương huyệt — nhãn phương pháp + chip huyệt cuộn dòng (gọn) */
+  .ph-groups { display: flex; flex-direction: column; gap: 2px; }
+  .ph-grp { break-inside: avoid; page-break-inside: avoid; line-height: 1.6; }
+  .ph-grp-m { display: inline-block; background: #fef3e2; color: #b45309; border: 1px solid #f0d6b0; border-radius: 999px; padding: 0 6px; font-size: 6.6px; font-weight: 800; margin-right: 3px; vertical-align: middle; }
+  .ph-grp-m i { font-style: normal; color: #b08968; font-weight: 600; }
+  .ph-chip { display: inline-block; background: #faf7f2; border: 1px solid #e4dcd0; border-radius: 3px; padding: 0 4px; margin: 1px; font-size: 6.6px; color: #44372a; white-space: nowrap; vertical-align: middle; }
+  .ph-code { color: #9ca3af; font-weight: 600; }
+  .ph-note { font-size: 6px; color: #6b7280; font-style: italic; margin: 0 0 1px 2px; line-height: 1.35; }
+  .empty { color: #9ca3af; font-style: italic; }
+  .tbl-sub { font-size: 6.3px; color: #6b7280; padding: 1px 4px; border: 1px solid #d1d5db; border-top: none; background: #fff; }
+  .md-foot { margin-top: 2px; font-size: 7px; color: #6b7280; }
+  .md-foot b { color: #78350f; }
+  /* Bát Cương — dải đầy đủ: cột tạng phủ 2 bên + khung 4 góc hình + tóm tắt bên dưới */
+  .bc-band { display: flex; gap: 5px; align-items: stretch; margin-bottom: 3px; }
+  .og-col { display: flex; flex-direction: column; gap: 3px; flex: 0 0 16mm; justify-content: center; }
+  .og-card { display: flex; flex-direction: column; align-items: center; padding: 2px 1px; border: 1px solid #e5e0d8; border-radius: 4px; background: #fff; }
+  .og-svg { width: 26px; height: 26px; display: block; }
+  .og-name { font-size: 6.5px; font-weight: 700; color: #374151; line-height: 1.1; text-align: center; }
+  .og-name small { font-weight: 500; color: #9ca3af; }
+  .og-tag { font-size: 5.6px; font-weight: 700; color: #fff; padding: 0 4px; border-radius: 999px; line-height: 1.5; margin-top: 1px; }
+  .og-han { border-color: #6e9ec4; } .og-nhiet { border-color: #d98a73; } .og-mixed { border-color: #b48ad6; }
+  .bc-fig-frame { flex: 1; min-width: 0; border: 1px solid #e7e5e4; border-radius: 5px; background: #eef1f4; padding: 2px; display: flex; align-items: center; }
+  .bc-fig-frame > * { width: 100%; }
+  .bc-fig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .bc-fig-cell { min-width: 0; text-align: center; }
+  .bc-fig-img, .bc-fig-cell svg { width: 100%; height: auto; max-height: 52mm; object-fit: contain; display: block; border: 1px solid #d6dde4; border-radius: 4px; background: #fff; }
+  .bc-fig-cap { display: block; font-size: 6px; color: #6b7280; font-weight: 600; margin-top: 1px; }
+  .bc-info { min-width: 0; margin-top: 1px; }
+  /* Bát Cương — kết luận lớn + tạng phủ tô màu nóng/lạnh */
+  .bc-verdicts { display: flex; gap: 5px; margin-bottom: 2px; }
+  .bcv { flex: 1; border: 1px solid #e7e5e4; border-radius: 4px; padding: 2px 6px; text-align: center; background: #fffdf7; }
+  .bcv-l { display: block; font-size: 6px; text-transform: uppercase; color: #6b7280; font-weight: 700; }
+  .bcv-v { font-size: 9.5px; font-weight: 800; color: #78350f; }
+  .bc-why { font-size: 6.4px; font-style: italic; color: #6b7280; line-height: 1.35; }
+  .bc-rows { margin-top: 2px; }
+  .bc-row { display: flex; gap: 4px; align-items: baseline; margin: 1px 0; }
+  .bc-row-l { flex: 0 0 66px; font-size: 6.8px; font-weight: 700; color: #b45309; }
+  .bc-row-c { flex: 1; min-width: 0; }
+  .o-chip { display: inline-block; border-radius: 999px; padding: 0 5px; margin: 1px; font-size: 6.6px; line-height: 1.55; border: 1px solid #d1d5db; white-space: nowrap; }
+  .o-chip i { font-style: normal; opacity: .6; margin-left: 2px; }
+  .o-han { background: #eef4f8; border-color: #9bbbd2; color: #1e4258; }
+  .o-nhiet { background: #fbeeea; border-color: #dba99a; color: #7a2c1a; }
+  .o-mixed { background: linear-gradient(90deg,#eef4f8 0 50%,#fbeeea 50% 100%); border-color: #c0a0a0; color: #3a3a3a; }
+  .tone-hu { color: #2f6690; }
+  .tone-thuc { color: #c0452a; }
+  .tone-neutral, .tone-none { color: #6b7280; }
+  .bc-legend { margin-top: 2px; font-size: 6px; color: #9ca3af; }
+  .bc-legend .o-chip { font-size: 5.6px; padding: 0 3px; }
+  .ph-method-list { column-count: 2; column-gap: 12px; }
+  .ph-method { break-inside: avoid; page-break-inside: avoid; margin-bottom: 2px; }
+  .ph-method-h { font-size: 7px; font-weight: 800; color: #b45309; }
+  .ph-method-n { color: #9ca3af; font-weight: 600; }
+  .sign-row { display: flex; justify-content: space-around; margin-top: 7px; }
+  .sign-box { text-align: center; width: 45%; }
+  .sign-box .role { font-weight: 700; font-size: 7.5px; }
+  .sign-box .hint { font-size: 6.5px; color: #6b7280; }
+  .sign-space { height: 24px; }
+  .foot { margin-top: 4px; font-size: 6.5px; color: #9ca3af; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 2px; }
+  @page { size: A5 portrait; margin: 7mm; }
+  @media screen { .sheet { width: 148mm; min-height: 210mm; margin: 8px auto; padding: 7mm; box-shadow: 0 0 6px rgba(0,0,0,.2); background: #fff; } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="doc-head">
+    <div class="clinic">Phòng khám Y Học Cổ Truyền</div>
+    <div class="doc-title">PHIẾU KẾT QUẢ KHÁM BỆNH</div>
+    <div class="doc-sub">Mã phiếu #1024 · Ngày khám 21/06/2026 09:30</div>
+  </div>
+
+  <table class="pinfo">
+    <tr>
+      <td class="lbl">Họ tên</td><td class="v">Nguyễn Thị Hoa</td>
+      <td class="lbl">Tuổi</td><td class="v">52</td>
+      <td class="lbl">Giới</td><td class="v">Nữ</td>
+      <td class="lbl">HA</td><td class="v">120/90</td>
+    </tr>
+    <tr>
+      <td class="lbl">Địa chỉ</td><td class="v" colspan="5">123 Nguyễn Trãi, P. Bến Thành, Q.1, TP.HCM</td>
+    </tr>
+  </table>
+
+  <div class="sec-h">I. Kết quả đo kinh lạc</div>
+  <div class="md-wrap">
+    <div class="md-col">
+      <div class="tbl-cap">Chi trên</div>
+      <table class="md">
+        <thead><tr><th>Kinh</th><th>±</th><th>Trái</th><th>TB</th><th>Lệch</th><th>Phải</th><th>±</th><th>|Δ|</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Tiểu</td><td class="pos">+</td><td>44,0</td><td class="muted">43,00</td><td class="pos">+5,50</td><td>42,0</td><td class="pos">+</td><td>2,0</td></tr>
+          <tr><td class="k">Tâm</td><td class="pos">+</td><td>46,0</td><td class="muted">45,00</td><td class="pos">+7,50</td><td>44,0</td><td class="pos">+</td><td>2,0</td></tr>
+          <tr><td class="k">Tam</td><td></td><td>38,0</td><td class="muted">37,50</td><td>0,00</td><td>37,0</td><td></td><td>1,0</td></tr>
+          <tr><td class="k">Bào</td><td></td><td>36,0</td><td class="muted">35,50</td><td class="neg">-2,00</td><td>35,0</td><td></td><td>1,0</td></tr>
+          <tr><td class="k">Đại</td><td class="neg">−</td><td>30,0</td><td class="muted">30,50</td><td class="neg">-7,00</td><td>31,0</td><td class="neg">−</td><td>1,0</td></tr>
+          <tr><td class="k">Phế</td><td class="neg">−</td><td>28,0</td><td class="muted">29,00</td><td class="neg">-8,50</td><td>30,0</td><td class="neg">−</td><td>2,0</td></tr>
+        </tbody>
+      </table>
+      <div class="tbl-sub">Bình quân 37,50 · Khoảng bình thường 34,50–40,50</div>
+    </div>
+    <div class="md-col">
+      <div class="tbl-cap">Chi dưới</div>
+      <table class="md">
+        <thead><tr><th>Kinh</th><th>±</th><th>Trái</th><th>TB</th><th>Lệch</th><th>Phải</th><th>±</th><th>|Δ|</th></tr></thead>
+        <tbody>
+          <tr><td class="k">Bàng</td><td class="neg">−</td><td>22,0</td><td class="muted">22,50</td><td class="neg">-5,50</td><td>23,0</td><td class="neg">−</td><td>1,0</td></tr>
+          <tr><td class="k">Thận</td><td class="neg">−</td><td>20,0</td><td class="muted">20,50</td><td class="neg">-7,50</td><td>21,0</td><td class="neg">−</td><td>1,0</td></tr>
+          <tr><td class="k">Đởm</td><td></td><td>27,0</td><td class="muted">27,00</td><td class="neg">-1,00</td><td>27,0</td><td></td><td>0,0</td></tr>
+          <tr><td class="k">Vị</td><td class="pos">+</td><td>34,0</td><td class="muted">33,00</td><td class="pos">+5,00</td><td>32,0</td><td class="pos">+</td><td>2,0</td></tr>
+          <tr><td class="k">Can</td><td class="pos">+</td><td>36,0</td><td class="muted">35,00</td><td class="pos">+7,00</td><td>34,0</td><td class="pos">+</td><td>2,0</td></tr>
+          <tr><td class="k">Tỳ</td><td class="neg">−</td><td>21,0</td><td class="muted">21,50</td><td class="neg">-6,50</td><td>22,0</td><td class="neg">−</td><td>1,0</td></tr>
+        </tbody>
+      </table>
+      <div class="tbl-sub">Bình quân 28,00 · Khoảng bình thường 24,50–31,50</div>
+    </div>
+  </div>
+  <div class="md-foot">Chênh bình quân chi trên – chi dưới: <b>9,50</b> · càng nhỏ càng cân bằng trên – dưới. (Dấu <span class="pos">+</span> = cao hơn bình thường, <span class="neg">−</span> = thấp hơn)</div>
+
+  <div class="sec-h">II. Kết luận Bát Cương (8 cương lĩnh)</div>
+  <!-- MINH HOẠ: cột tạng phủ (icon đơn giản) | khung 4 ẢNH CHỤP đồ hình 3D | cột tạng phủ -->
+  <div class="bc-band">
+   <div class="og-col">
+    <div class="og-card og-han"><svg class="og-svg" viewBox="0 0 64 64"><path d="M32 18C27 12 16 13 15 23 14 31 20 38 32 50 44 38 50 31 49 23 48 13 37 12 32 18Z" fill="#c0392b"/></svg><span class="og-name">Tâm<small> trái</small></span><span class="og-tag" style="background:#2f6690">Hàn</span></div>
+    <div class="og-card og-han"><svg class="og-svg" viewBox="0 0 64 64"><ellipse cx="32" cy="32" rx="20" ry="18" fill="#e8a7b0"/><path d="M32 20C28 16 19 17 18 25 17 32 22 38 32 47 42 38 47 32 46 25 45 17 36 16 32 20Z" fill="#c0392b"/></svg><span class="og-name">Tâm bào<small> trái</small></span><span class="og-tag" style="background:#2f6690">Hàn</span></div>
+    <div class="og-card og-han"><svg class="og-svg" viewBox="0 0 64 64"><path d="M24 14c-2 10-12 14-12 26 0 8 6 12 12 8z M40 14c2 10 12 14 12 26 0 8-6 12-12 8z" fill="#e2a3a0"/></svg><span class="og-name">Phế<small> trái</small></span><span class="og-tag" style="background:#2f6690">Hàn</span></div>
+    <div class="og-card og-nhiet"><svg class="og-svg" viewBox="0 0 64 64"><path d="M14 24c8-8 30-8 38 0 4 6 2 18-6 20-10 3-22 3-30-2-6-4-6-14-2-18Z" fill="#8a5a2b"/></svg><span class="og-name">Can</span><span class="og-tag" style="background:#c0452a">Nhiệt</span></div>
+    <div class="og-card og-nhiet"><svg class="og-svg" viewBox="0 0 64 64"><ellipse cx="32" cy="32" rx="21" ry="14" fill="#d8a657"/></svg><span class="og-name">Tỳ</span><span class="og-tag" style="background:#c0452a">Nhiệt</span></div>
+    <div class="og-card og-han"><svg class="og-svg" viewBox="0 0 64 64"><path d="M20 16c-6 4-6 16 2 20-6 2-6 12 2 14M44 16c6 4 6 16-2 20 6 2 6 12-2 14" fill="#7a4a36"/><ellipse cx="20" cy="24" rx="9" ry="11" fill="#7a4a36"/><ellipse cx="44" cy="24" rx="9" ry="11" fill="#7a4a36"/></svg><span class="og-name">Thận<small> phải</small></span><span class="og-tag" style="background:#2f6690">Hàn</span></div>
+   </div>
+   <div class="bc-fig-frame">
+   <div class="bc-fig-grid">
+   <div class="bc-fig-cell">
+    <svg viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="200" fill="#eef1f4"/>
+      <g fill="#d9c4a8" stroke="#b9a079" stroke-width="0.8"><circle cx="60" cy="26" r="13"/><path d="M44 42 q16 -6 32 0 l4 56 q-20 8 -40 0 Z"/><path d="M46 96 l-6 60 h12 l6 -52 6 52 h12 l-6 -60 Z"/><path d="M45 50 l-20 44 6 3 22 -40 Z"/><path d="M75 50 l20 44 -6 3 -22 -40 Z"/></g>
+      <g stroke-width="2.2" fill="none" stroke-linecap="round"><path d="M52 46 L40 92" stroke="#c0452a"/><path d="M68 46 L80 92" stroke="#c0452a"/><path d="M50 100 L44 152" stroke="#2f6690"/><path d="M70 100 L76 152" stroke="#2f6690"/><path d="M60 44 L60 96" stroke="#2f6690"/></g>
+    </svg>
+    <span class="bc-fig-cap">Mặt trước</span>
+   </div>
+   <div class="bc-fig-cell">
+    <svg viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="200" fill="#eef1f4"/>
+      <g fill="#d9c4a8" stroke="#b9a079" stroke-width="0.8"><circle cx="62" cy="26" r="12"/><path d="M52 42 q12 -4 18 2 l2 56 q-12 6 -22 0 Z"/><path d="M54 98 l-4 58 h10 l4 -50 Z"/><path d="M56 100 l6 56 h10 l-6 -56 Z"/></g>
+      <g stroke-width="2.2" fill="none" stroke-linecap="round"><path d="M62 46 L60 92" stroke="#c0452a"/><path d="M60 100 L58 152" stroke="#2f6690"/></g>
+    </svg>
+    <span class="bc-fig-cap">Bên phải</span>
+   </div>
+   <div class="bc-fig-cell">
+    <svg viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="200" fill="#eef1f4"/>
+      <g fill="#d9c4a8" stroke="#b9a079" stroke-width="0.8"><circle cx="60" cy="26" r="13"/><path d="M44 42 q16 -6 32 0 l4 56 q-20 8 -40 0 Z"/><path d="M46 96 l-6 60 h12 l6 -52 6 52 h12 l-6 -60 Z"/><path d="M45 50 l-20 44 6 3 22 -40 Z"/><path d="M75 50 l20 44 -6 3 -22 -40 Z"/></g>
+      <g stroke-width="2.2" fill="none" stroke-linecap="round" opacity="0.55"><path d="M52 46 L40 92" stroke="#2f6690"/><path d="M68 46 L80 92" stroke="#2f6690"/><path d="M60 44 L60 150" stroke="#2f6690"/></g>
+    </svg>
+    <span class="bc-fig-cap">Mặt sau</span>
+   </div>
+   <div class="bc-fig-cell">
+    <svg viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg">
+      <rect width="120" height="200" fill="#eef1f4"/>
+      <g fill="#d9c4a8" stroke="#b9a079" stroke-width="0.8"><circle cx="58" cy="26" r="12"/><path d="M50 44 q12 -6 18 -2 l2 56 q-12 6 -22 0 Z"/><path d="M54 98 l-4 58 h10 l4 -50 Z"/><path d="M56 100 l6 56 h10 l-6 -56 Z"/></g>
+      <g stroke-width="2.2" fill="none" stroke-linecap="round"><path d="M58 46 L60 92" stroke="#c0452a"/><path d="M60 100 L62 152" stroke="#2f6690"/></g>
+    </svg>
+    <span class="bc-fig-cap">Bên trái</span>
+   </div>
+   </div>
+   </div>
+   <div class="og-col">
+    <div class="og-card og-han"><svg class="og-svg" viewBox="0 0 64 64"><path d="M16 18c8-2 28-2 32 6 4 8-2 18-10 20-8 2-16 0-20-6-4-6-6-18-2-20Z" fill="#e0b97a"/></svg><span class="og-name">Tiểu Trường</span><span class="og-tag" style="background:#2f6690">Hàn</span></div>
+    <div class="og-card og-nhiet"><svg class="og-svg" viewBox="0 0 64 64"><path d="M16 20h8v24h16V20h8v32H16Z" fill="#cdb27a"/></svg><span class="og-name">Đại Trường<small> phải</small></span><span class="og-tag" style="background:#c0452a">Nhiệt</span></div>
+    <div class="og-card og-han"><svg class="og-svg" viewBox="0 0 64 64"><path d="M22 16c12-4 22 4 22 16 0 10-8 18-18 16-8-2-10-12-8-20 1-5 2-7 4-8Z" fill="#e3b06a"/></svg><span class="og-name">Vị<small> trái</small></span><span class="og-tag" style="background:#2f6690">Hàn</span></div>
+    <div class="og-card og-han"><svg class="og-svg" viewBox="0 0 64 64"><ellipse cx="32" cy="34" rx="14" ry="18" fill="#6fae5a"/></svg><span class="og-name">Đởm<small> phải</small></span><span class="og-tag" style="background:#2f6690">Hàn</span></div>
+    <div class="og-card og-han"><svg class="og-svg" viewBox="0 0 64 64"><path d="M18 28c0-8 28-8 28 0v10c0 8-28 8-28 0Z" fill="#e6cf72"/></svg><span class="og-name">Bàng quang</span><span class="og-tag" style="background:#2f6690">Hàn</span></div>
+    <div class="og-card og-han"><svg class="og-svg" viewBox="0 0 64 64"><rect x="16" y="18" width="32" height="28" rx="8" fill="#d9b48a"/></svg><span class="og-name">Tam tiêu<small> trái</small></span><span class="og-tag" style="background:#2f6690">Hàn</span></div>
+   </div>
+  </div>
+  <div class="bc-info">
+  <div class="bc-verdicts">
+    <div class="bcv"><span class="bcv-l">① Âm — Dương</span><span class="bcv-v">Dương hư</span></div>
+    <div class="bcv"><span class="bcv-l">④ Khí · chi trên</span><span class="bcv-v tone-thuc">Khí thịnh</span></div>
+    <div class="bcv"><span class="bcv-l">④ Huyết · chi dưới</span><span class="bcv-v tone-hu">Huyết hư</span></div>
+  </div>
+  <div class="bc-why">Đởm 27,0 so TB chi dưới 28,0 (chênh -1,0): Đởm thấp hơn → Dương suy.</div>
+  <div class="bc-why">Khí — TB 37,5; 2/6 kinh dưới mức TB → Khí thịnh.</div>
+  <div class="bc-why">Huyết — TB 28,0; 4/6 kinh dưới mức TB → Huyết hư.</div>
+  <div class="bc-rows">
+    <div class="bc-row"><span class="bc-row-l">② Biểu (nông)</span><span class="bc-row-c"><span class="o-chip o-nhiet">Tâm<i>trái</i></span><span class="o-chip o-han">Phế<i>phải</i></span></span></div>
+    <div class="bc-row"><span class="bc-row-l">② Lý (sâu)</span><span class="bc-row-c"><span class="o-chip o-nhiet">Can</span><span class="o-chip o-nhiet">Vị</span><span class="o-chip o-han">Thận</span><span class="o-chip o-han">Tỳ</span><span class="o-chip o-han">Bàng quang</span></span></div>
+    <div class="bc-row"><span class="bc-row-l">③ Hàn (lạnh)</span><span class="bc-row-c"><span class="o-chip o-han">Thận</span><span class="o-chip o-han">Tỳ</span><span class="o-chip o-han">Bàng quang</span><span class="o-chip o-han">Phế<i>phải</i></span></span></div>
+    <div class="bc-row"><span class="bc-row-l">③ Nhiệt (nóng)</span><span class="bc-row-c"><span class="o-chip o-nhiet">Tâm<i>trái</i></span><span class="o-chip o-nhiet">Can</span><span class="o-chip o-nhiet">Vị</span></span></div>
+  </div>
+  <div class="bc-legend"><span class="o-chip o-han">Hàn</span> lạnh · <span class="o-chip o-nhiet">Nhiệt</span> nóng · <span class="o-chip o-mixed">cả hai</span> · Biểu = nông, Lý = sâu · Hư = suy yếu, Thịnh = dư thừa</div>
+  </div>
+
+  <div class="sec-h sec-h--main">III. Mô hình bệnh lý &amp; Chẩn đoán</div>
+  <div class="dx-box">
+    <div class="dx-model"><div class="dx-model-l">Mô hình bệnh Đông Y</div><div class="dx-model-v">Tỳ Khí Hư · Thận Dương Hư · Can Vị Bất Hòa</div></div>
+    <div class="dx-model"><div class="dx-model-l">Mô hình bệnh Y học hiện đại</div><div class="dx-model-v">Rối loạn tiêu hóa chức năng · Suy nhược cơ thể</div></div>
+    <div class="dx-conc"><span class="dx-conc-l">Kết luận chẩn đoán:</span> <span class="dx-conc-v">Tỳ Khí Hư</span></div>
+    <div class="sym-block"><div class="sym-head">Triệu chứng bệnh nhân xác nhận có (7):</div><div class="sym-cols">
+      <div class="sym-group"><span class="sym-group-name">Tiêu hóa / Ăn ngủ</span><div class="sym-tags"><span class="sym-tag">Ăn kém</span><span class="sym-tag">Đầy bụng</span><span class="sym-tag">Đại tiện lỏng</span></div></div>
+      <div class="sym-group"><span class="sym-group-name">Toàn trạng</span><div class="sym-tags"><span class="sym-tag">Mệt mỏi</span><span class="sym-tag">Sợ lạnh</span><span class="sym-tag">Tay chân lạnh</span></div></div>
+      <div class="sym-group"><span class="sym-group-name">Lưỡi / Mạch</span><div class="sym-tags"><span class="sym-tag">Lưỡi nhợt rêu trắng</span></div></div>
+    </div></div>
+  </div>
+
+  <div class="sec-h sec-h--sub">IV. Phương huyệt — gợi ý tự day bấm</div>
+  <div class="ph-groups">
+    <div class="ph-grp"><span class="ph-grp-m">Châm <i>4</i></span><span class="ph-chip">Bản Môn</span><span class="ph-chip">Thận Tân</span><span class="ph-chip">Hạ Hiệp Bạch</span><span class="ph-chip">Thượng Khích Môn</span></div>
+    <div class="ph-grp"><span class="ph-grp-m">Cứu <i>3</i></span><span class="ph-chip">Thần Môn <span class="ph-code">HT7</span></span><span class="ph-chip">Bách Hội <span class="ph-code">GV20</span></span><span class="ph-chip">Dũng Tuyền <span class="ph-code">KI1</span></span></div>
+    <div class="ph-grp"><span class="ph-grp-m">Bổ <i>13</i></span><span class="ph-chip">Chi Chính <span class="ph-code">SI7</span></span><span class="ph-chip">Tỳ Du <span class="ph-code">BL20</span></span><span class="ph-chip">Ý Xá <span class="ph-code">BL49</span></span><span class="ph-chip">Đởm Du <span class="ph-code">BL19</span></span><span class="ph-chip">Túc Tam Lý <span class="ph-code">ST36</span></span><span class="ph-chip">Đản Trung <span class="ph-code">CV17</span></span><span class="ph-chip">Du Phủ <span class="ph-code">KI27</span></span><span class="ph-chip">Thái Khê <span class="ph-code">KI3</span></span><span class="ph-chip">Côn Lôn <span class="ph-code">BL60</span></span><span class="ph-chip">Chương Môn <span class="ph-code">LR13</span></span><span class="ph-chip">Công Tôn <span class="ph-code">SP4</span></span><div class="ph-note">Ghi chú — Chương Môn: Uất kết lâu ngày gan lách sưng to · Công Tôn: uất kết lâu ngày gan lách sưng to</div></div>
+    <div class="ph-grp"><span class="ph-grp-m">Tả <i>6</i></span><span class="ph-chip">Đại Chùy <span class="ph-code">GV14</span></span><span class="ph-chip">Trung Phủ <span class="ph-code">LU1</span></span><span class="ph-chip">Khố Phòng <span class="ph-code">ST14</span></span><span class="ph-chip">Nội Quan <span class="ph-code">PC6</span></span><span class="ph-chip">Thái Xung <span class="ph-code">LR3</span></span><span class="ph-chip">Chi Câu <span class="ph-code">TE6</span></span></div>
+  </div>
+  <div class="row"><b>Bài thuốc gợi ý:</b> Quát Lâu Phỉ Bạch Quế Chi Thang (KL) · Bảo Nguyên Thang (Trung Y) · Chích Cam Thảo Thang (Trung Y) · Qua Lâu Giới Bạch Thang (Trung Y)</div>
+
+  <div class="sign-row">
+    <div class="sign-box">
+      <div class="role">Bệnh nhân</div>
+      <div class="hint">(Ký, ghi rõ họ tên)</div>
+      <div class="sign-space"></div>
+    </div>
+    <div class="sign-box">
+      <div class="role">Bác sĩ điều trị</div>
+      <div class="hint">(Ký, ghi rõ họ tên)</div>
+      <div class="sign-space"></div>
+    </div>
+  </div>
+
+  <div class="foot">Phiếu in lúc 21/06/2026 09:35 · Kết quả mang tính tham khảo, vui lòng tuân thủ hướng dẫn của bác sĩ.</div>
+</div>
+</body>
+</html>

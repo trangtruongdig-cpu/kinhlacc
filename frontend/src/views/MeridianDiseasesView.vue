@@ -483,8 +483,8 @@ const EXCEL_CELL_HINTS: Record<string, string> = (() => {
   h.F18 = 'D18+E18'
   h.F19 = 'D18−E18'
 
-  const lL = ['Bàng trái', 'Thận trái', 'Đảm trái', 'Vị trái', 'Can trái', 'Tỳ trái']
-  const lR = ['Bàng phải', 'Thận phải', 'Đảm phải', 'Vị phải', 'Can phải', 'Tỳ phải']
+  const lL = ['Bàng trái', 'Thận trái', 'Đởm trái', 'Vị trái', 'Can trái', 'Tỳ trái']
+  const lR = ['Bàng phải', 'Thận phải', 'Đởm phải', 'Vị phải', 'Can phải', 'Tỳ phải']
   for (let i = 0; i < 6; i++) {
     const r = 21 + i
     const L = lL[i]
@@ -1007,7 +1007,7 @@ async function handleDelete() {
                 </tr>
                 <tr>
                   <th class="excel-row-head">23</th>
-                  <td class="xc-label" title="Tên kinh (nhãn hiển thị)">Đảm</td>
+                  <td class="xc-label" title="Tên kinh (nhãn hiển thị)">Đởm</td>
                   <td class="xc-note" title="Cột ghi dấu ± (hiển thị phụ, không có công thức trong map.md)">±</td>
                   <td class="xc xc-c" :title="excelCellHint('C23')"><span class="xref">C23</span></td>
                   <td class="xc xc-d" :title="excelCellHint('D23')"><span class="xref">D23</span></td>

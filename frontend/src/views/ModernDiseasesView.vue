@@ -126,8 +126,8 @@ const EXCEL_CELL_HINTS: Record<string, string> = (() => {
   h.F18 = 'D18+E18'
   h.F19 = 'D18−E18'
 
-  const lL = ['Bàng trái', 'Thận trái', 'Đảm trái', 'Vị trái', 'Can trái', 'Tỳ trái']
-  const lR = ['Bàng phải', 'Thận phải', 'Đảm phải', 'Vị phải', 'Can phải', 'Tỳ phải']
+  const lL = ['Bàng trái', 'Thận trái', 'Đởm trái', 'Vị trái', 'Can trái', 'Tỳ trái']
+  const lR = ['Bàng phải', 'Thận phải', 'Đởm phải', 'Vị phải', 'Can phải', 'Tỳ phải']
   for (let i = 0; i < 6; i++) {
     const r = 21 + i
     const L = lL[i]
@@ -366,7 +366,7 @@ async function handleDelete() {
                   <th class="excel-row-head">20</th>
                   <td colspan="8" class="xc-gap"></td>
                 </tr>
-                <tr v-for="(label, i) in ['Bàng','Thận','Đảm','Vị','Can','Tỳ']" :key="'l' + i">
+                <tr v-for="(label, i) in ['Bàng','Thận','Đởm','Vị','Can','Tỳ']" :key="'l' + i">
                   <th class="excel-row-head">{{ 21 + i }}</th>
                   <td class="xc-label">{{ label }}</td>
                   <td class="xc-note">±</td>

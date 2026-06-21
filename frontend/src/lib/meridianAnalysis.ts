@@ -58,7 +58,7 @@ export function rawLower(d: InputData | null | undefined): RawRow[] {
   return [
     { name: 'Bàng', left: d.bangquangtrai || 0, right: d.bangquangphai || 0 },
     { name: 'Thận', left: d.thantrai || 0, right: d.thanphai || 0 },
-    { name: 'Đảm', left: d.damtrai || 0, right: d.damphai || 0 },
+    { name: 'Đởm', left: d.damtrai || 0, right: d.damphai || 0 },
     { name: 'Vị', left: d.vitrai || 0, right: d.viphai || 0 },
     { name: 'Can', left: d.cantrai || 0, right: d.canphai || 0 },
     { name: 'Tỳ', left: d.tytrai || 0, right: d.typhai || 0 },
@@ -113,15 +113,15 @@ export function processRows(data: RawRow[], stats: MeridianStats): ProcessedRow[
 }
 
 const CHANNELS_FULL: Record<string, string> = {
-  Tiểu: 'Tiêu trường',
+  Tiểu: 'Tiểu Trường',
   Tâm: 'Tâm',
   Tam: 'Tam tiêu',
   Bào: 'Tâm bào',
-  Đại: 'Đại tràng',
+  Đại: 'Đại Trường',
   Phế: 'Phế',
   Bàng: 'Bàng quang',
   Thận: 'Thận',
-  Đảm: 'Đảm',
+  Đởm: 'Đởm',
   Vị: 'Vị',
   Can: 'Can',
   Tỳ: 'Tỳ',
