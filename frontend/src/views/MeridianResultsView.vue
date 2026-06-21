@@ -73,12 +73,15 @@ interface PhacDoApiRow {
   idPhacDo: number
   idBenh: number
   idHuyet: number
+  benh?: { chung_trang?: string | null } | null
   phuong_phap_tac_dong: string | null
   ghi_chu_ky_thuat: string | null
   huyetVi: {
     idHuyet: number
     ten_huyet: string | null
     ma_huyet: string | null
+    vi_tri_giai_phau?: string | null
+    tac_dung?: string | null
     kinhMach?: { ten_kinh_mach: string | null; ten_viet_tat: string | null } | null
   } | null
 }
@@ -112,13 +115,34 @@ const matchedBenhIds = computed<number[]>(() => {
   return all
 })
 
+// Khớp phương huyệt theo TÊN thể, không theo id: thể ĐO (benh_dong_y_excel) và bảng
+// phac_do_dieu_tri (keyed theo benh_dong_y) khác không gian id (chỉ trùng 10/47) → tra
+// theo id sẽ lấy nhầm huyệt thể khác. Dùng tên (đã chuẩn hoá) là chính xác.
+function phNormName(s: string | null | undefined): string {
+  return (s || '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/đ/gi, 'd')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+// Tên các thể ĐO đang xét (tôn trọng excelFocusRuleId nếu bác sĩ bấm chọn 1 thể).
+const measuredThemeNames = computed<Set<string>>(() => {
+  const list = excelSyndromesList.value as Array<{ id: number; name: string }>
+  const focus = excelFocusRuleId.value
+  const src = focus != null && list.some((s) => s.id === focus) ? list.filter((s) => s.id === focus) : list
+  return new Set(src.map((s) => phNormName(s.name)).filter(Boolean))
+})
 const matchedPhuongHuyetList = computed(() => {
-  const ids = new Set(matchedBenhIds.value)
-  if (!ids.size) return [] as PhacDoApiRow[]
+  const names = measuredThemeNames.value
+  if (!names.size) return [] as PhacDoApiRow[]
   const seenHuyet = new Set<number>()
   const out: PhacDoApiRow[] = []
   for (const row of phacDoAllList.value) {
-    if (!ids.has(row.idBenh)) continue
+    const bn = phNormName(row.benh?.chung_trang)
+    if (!bn || !names.has(bn)) continue
     if (seenHuyet.has(row.idHuyet)) continue
     seenHuyet.add(row.idHuyet)
     out.push(row)
@@ -126,11 +150,13 @@ const matchedPhuongHuyetList = computed(() => {
   return out
 })
 
-// Thể đo nào CHƯA có phương huyệt (không có dòng phác đồ nào trỏ tới) — để nhắc bác sĩ nhập.
-const phuongHuyetBenhIds = computed(() => new Set(phacDoAllList.value.map((r) => r.idBenh)))
+// Thể đo nào CHƯA có phương huyệt (không có phác đồ nào TRÙNG TÊN) — nhắc bác sĩ nhập.
+const phuongHuyetNames = computed(
+  () => new Set(phacDoAllList.value.map((r) => phNormName(r.benh?.chung_trang)).filter(Boolean)),
+)
 const theDoThieuPhuongHuyet = computed(() =>
   (excelSyndromesList.value as Array<{ id: number; name: string }>).filter(
-    (s) => !phuongHuyetBenhIds.value.has(s.id),
+    (s) => !phuongHuyetNames.value.has(phNormName(s.name)),
   ),
 )
 
@@ -887,7 +913,7 @@ const rawLower = computed(() => {
   return [
     { name: 'Bàng', left: d.bangquangtrai || 0, right: d.bangquangphai || 0 },
     { name: 'Thận', left: d.thantrai || 0, right: d.thanphai || 0 },
-    { name: 'Đảm', left: d.damtrai || 0, right: d.damphai || 0 },
+    { name: 'Đởm', left: d.damtrai || 0, right: d.damphai || 0 },
     { name: 'Vị', left: d.vitrai || 0, right: d.viphai || 0 },
     { name: 'Can', left: d.cantrai || 0, right: d.canphai || 0 },
     { name: 'Tỳ', left: d.tytrai || 0, right: d.typhai || 0 },
@@ -923,15 +949,15 @@ const upperRows = computed(() => processRows(rawUpper.value, upperStats.value))
 const lowerRows = computed(() => processRows(rawLower.value, lowerStats.value))
 
 const CHANNELS_FULL = {
-  'Tiểu': 'Tiêu trường',
+  'Tiểu': 'Tiểu Trường',
   'Tâm': 'Tâm',
   'Tam': 'Tam tiêu',
   'Bào': 'Tâm bào',
-  'Đại': 'Đại tràng',
+  'Đại': 'Đại Trường',
   'Phế': 'Phế',
   'Bàng': 'Bàng quang',
   'Thận': 'Thận',
-  'Đảm': 'Đảm',
+  'Đởm': 'Đởm',
   'Vị': 'Vị',
   'Can': 'Can',
   'Tỳ': 'Tỳ'
@@ -1059,6 +1085,12 @@ const batCuong = computed(() => {
   const lyHan: string[] = []
   const bieuHan: string[] = []
 
+  // Tập mã kinh (row.name) đóng góp vào từng nhóm — để highlight bảng đo khi bấm
+  const setLyNhiet = new Set<string>()
+  const setBieuNhiet = new Set<string>()
+  const setLyHan = new Set<string>()
+  const setBieuHan = new Set<string>()
+
   const process = (row: any, saiSo: number) => {
     const tenKinh = CHANNELS_FULL[row.name as keyof typeof CHANNELS_FULL]
     if (!tenKinh) return
@@ -1070,7 +1102,13 @@ const batCuong = computed(() => {
     const dauC12 = row.absDiff > saiSo ? (row.left > row.right ? 1 : -1) : 0
     void dauC12 // Giữ biến để đồng bộ ngữ nghĩa với thuật toán gốc
 
+    // Phát hiện nhóm nào "lớn lên" sau khi phân loại → quy về mã kinh của hàng này
+    const n0 = lyNhiet.length, n1 = bieuNhiet.length, n2 = lyHan.length, n3 = bieuHan.length
     groupingV2(lyNhiet, bieuNhiet, lyHan, bieuHan, tenKinh, dauC8, dauC10, dauC11, row.diff, saiSo)
+    if (lyNhiet.length > n0) setLyNhiet.add(row.name)
+    if (bieuNhiet.length > n1) setBieuNhiet.add(row.name)
+    if (lyHan.length > n2) setLyHan.add(row.name)
+    if (bieuHan.length > n3) setBieuHan.add(row.name)
   }
 
   upperRows.value.forEach((row: any) => process(row, upperStats.value.sd))
@@ -1081,7 +1119,81 @@ const batCuong = computed(() => {
     hanLy: lyHan.join(', '),
     nhietBieu: bieuNhiet.join(', '),
     nhietLy: lyNhiet.join(', '),
+    arr: { bieuHan, lyHan, bieuNhiet, lyNhiet },
+    sets: {
+      hanBieu: setBieuHan,
+      hanLy: setLyHan,
+      nhietBieu: setBieuNhiet,
+      nhietLy: setLyNhiet,
+    },
   }
+})
+
+/**
+ * Bát Cương gộp về 4 mục cương theo vị trí & tính chất:
+ *  Biểu = Biểu Hàn ∪ Biểu Nhiệt · Lý = Lý Hàn ∪ Lý Nhiệt
+ *  Hàn  = Biểu Hàn ∪ Lý Hàn     · Nhiệt = Biểu Nhiệt ∪ Lý Nhiệt
+ * Mỗi mục giữ tập kinh để bấm-soi bảng đo (union các tập tiểu kết gốc).
+ */
+const batCuongPairs = computed(() => {
+  const { arr, sets } = batCuong.value
+  const union = (...src: Set<string>[]) => {
+    const out = new Set<string>()
+    for (const s of src) for (const x of s) out.add(x)
+    return out
+  }
+  return {
+    bieu: { value: [...arr.bieuHan, ...arr.bieuNhiet].join(', '), set: union(sets.hanBieu, sets.nhietBieu) },
+    ly: { value: [...arr.lyHan, ...arr.lyNhiet].join(', '), set: union(sets.hanLy, sets.nhietLy) },
+    han: { value: [...arr.bieuHan, ...arr.lyHan].join(', '), set: union(sets.hanBieu, sets.hanLy) },
+    nhiet: { value: [...arr.bieuNhiet, ...arr.lyNhiet].join(', '), set: union(sets.nhietBieu, sets.nhietLy) },
+  }
+})
+
+/** 4 cặp cương đúng tinh thần Đông Y — render khối dọc & bấm để soi bảng đo */
+interface BcLine {
+  key: BatCuongFocusKey
+  label: string
+  value: string
+  tag?: boolean
+}
+interface BcPair {
+  no: string
+  name: string
+  sub: string
+  variant: 'tong' | 'vitri' | 'tinhchat' | 'trangthai'
+  lines: BcLine[]
+}
+const batCuongView = computed<BcPair[]>(() => {
+  const p = batCuongPairs.value
+  const d = diagnosis.value
+  return [
+    {
+      no: '①', name: 'Âm — Dương', sub: 'Tổng cương', variant: 'tong',
+      lines: [{ key: 'amDuong', label: '', value: d.amDuong, tag: true }],
+    },
+    {
+      no: '②', name: 'Biểu — Lý', sub: 'Vị trí bệnh', variant: 'vitri',
+      lines: [
+        { key: 'bieu', label: 'Biểu', value: p.bieu.value },
+        { key: 'ly', label: 'Lý', value: p.ly.value },
+      ],
+    },
+    {
+      no: '③', name: 'Hàn — Nhiệt', sub: 'Tính chất bệnh', variant: 'tinhchat',
+      lines: [
+        { key: 'han', label: 'Hàn', value: p.han.value },
+        { key: 'nhiet', label: 'Nhiệt', value: p.nhiet.value },
+      ],
+    },
+    {
+      no: '④', name: 'Hư — Thực', sub: 'Trạng thái sức khỏe', variant: 'trangthai',
+      lines: [
+        { key: 'khi', label: 'Khí', value: d.khi },
+        { key: 'huyet', label: 'Huyết', value: d.huyet },
+      ],
+    },
+  ]
 })
 
 function getSignClass(sign: string) {
@@ -1145,31 +1257,61 @@ function goBack() {
 }
 
 /** Tab Chẩn đoán Bát cương → highlight ô liên quan ở bảng I */
-type BatCuongFocusKey = 'amDuong' | 'khi' | 'huyet'
+type TieuKetFocusKey = 'bieu' | 'ly' | 'han' | 'nhiet'
+type BatCuongFocusKey = 'amDuong' | 'khi' | 'huyet' | TieuKetFocusKey
 const batCuongFocus = ref<BatCuongFocusKey | null>(null)
+
+// Tập mã kinh đang được soi khi focus là 1 trong các mục Biểu / Lý / Hàn / Nhiệt
+function focusedTieuKetSet(): Set<string> | null {
+  const f = batCuongFocus.value
+  if (f === 'bieu' || f === 'ly' || f === 'han' || f === 'nhiet') {
+    return batCuongPairs.value[f].set
+  }
+  return null
+}
+
+function sectionHasTieuKetFocus(which: 'upper' | 'lower'): boolean {
+  const set = focusedTieuKetSet()
+  if (!set) return false
+  const rows = which === 'upper' ? upperRows.value : lowerRows.value
+  return rows.some((r: any) => set.has(r.name))
+}
 
 function statsRowClass(which: 'upper' | 'lower') {
   const f = batCuongFocus.value
   if (!f) return ''
+  if (focusedTieuKetSet()) {
+    return sectionHasTieuKetFocus(which) ? 'bc-stats--focus' : 'bc-stats--dim'
+  }
   const rel =
     (which === 'upper' && f === 'khi') ||
     (which === 'lower' && (f === 'amDuong' || f === 'huyet'))
   return rel ? 'bc-stats--focus' : 'bc-stats--dim'
 }
 
-function upperRowClass(_idx: number) {
+function upperRowClass(idx: number) {
   const f = batCuongFocus.value
   if (!f) return ''
+  const set = focusedTieuKetSet()
+  if (set) {
+    const row = upperRows.value[idx]
+    return row && set.has(row.name) ? 'meridian-row--focus' : 'meridian-row--dim'
+  }
   return f === 'khi' ? 'meridian-row--focus' : 'meridian-row--dim'
 }
 
 function lowerRowClass(idx: number) {
   const f = batCuongFocus.value
   if (!f) return ''
+  const set = focusedTieuKetSet()
+  if (set) {
+    const row = lowerRows.value[idx]
+    return row && set.has(row.name) ? 'meridian-row--focus' : 'meridian-row--dim'
+  }
   if (f === 'huyet') return 'meridian-row--focus'
   if (f === 'amDuong') {
     const row = lowerRows.value[idx]
-    return row?.name === 'Đảm' ? 'meridian-row--focus' : 'meridian-row--dim'
+    return row?.name === 'Đởm' ? 'meridian-row--focus' : 'meridian-row--dim'
   }
   return 'meridian-row--dim'
 }
@@ -1177,6 +1319,9 @@ function lowerRowClass(idx: number) {
 function sectionTitleClass(which: 'upper' | 'lower') {
   const f = batCuongFocus.value
   if (!f) return ''
+  if (focusedTieuKetSet()) {
+    return sectionHasTieuKetFocus(which) ? '' : 'bc-section-title--dim'
+  }
   const rel = (which === 'upper' && f === 'khi') || (which === 'lower' && (f === 'amDuong' || f === 'huyet'))
   return rel ? '' : 'bc-section-title--dim'
 }
@@ -1369,6 +1514,264 @@ function footerDiffClassMerged() {
   }
   return footerDiffClass()
 }
+
+/* --- In phiếu kết quả khám bệnh cho bệnh nhân cầm về --- */
+function escHtml(s: unknown): string {
+  return String(s ?? '').replace(/[&<>"]/g, (c) =>
+    c === '&' ? '&amp;' : c === '<' ? '&lt;' : c === '>' ? '&gt;' : '&quot;',
+  )
+}
+
+function meridianRowsHtml(rows: any[]): string {
+  return rows
+    .map((r) => {
+      const lCls = r.leftSign === '+' ? 'pos' : r.leftSign === '-' ? 'neg' : ''
+      const rCls = r.rightSign === '+' ? 'pos' : r.rightSign === '-' ? 'neg' : ''
+      const dCls = r.diff > 0 ? 'pos' : r.diff < 0 ? 'neg' : ''
+      return `<tr>
+        <td class="k">${escHtml(r.name)}</td>
+        <td class="${lCls}">${escHtml(r.leftSign)}</td>
+        <td>${fmt(r.left, 1)}</td>
+        <td class="muted">${fmt(r.avg, 2)}</td>
+        <td class="${dCls}">${r.diff > 0 ? '+' : ''}${fmt(r.diff, 2)}</td>
+        <td>${fmt(r.right, 1)}</td>
+        <td class="${rCls}">${escHtml(r.rightSign)}</td>
+        <td>${fmt(r.absDiff, 1)}</td>
+      </tr>`
+    })
+    .join('')
+}
+
+function printPhieuKetQua() {
+  if (!patient.value) return
+  const p = patient.value
+  const ex = examDisplay.value
+  const dg = diagnosis.value
+  const bcp = batCuongPairs.value
+  const cd = savedChanDoan.value
+  const dash = (v: unknown) => (v != null && String(v).trim() ? escHtml(v) : '—')
+
+  const dongYModels = excelSyndromesList.value as Array<{ name: string; outputCell?: string }>
+  const modernModels = modernSyndromesList.value as Array<{ name: string; outputCell?: string }>
+  const huyetList = matchedPhuongHuyetList.value
+  const baiThuoc = matchedBaiThuocList.value
+
+  const colHead =
+    '<tr><th>Kinh</th><th>±</th><th>Trái</th><th>TB</th><th>Lệch</th><th>Phải</th><th>±</th><th>|Δ|</th></tr>'
+
+  const modelInline = (arr: Array<{ name: string }>, emptyMsg: string) =>
+    arr.length
+      ? arr.map((m) => escHtml(m.name)).join(' · ')
+      : `<span class="empty">${emptyMsg}</span>`
+
+  const phPart = (label: string, val: unknown) =>
+    val != null && String(val).trim() ? ` · <span class="ph-k">${label}:</span> ${escHtml(val)}` : ''
+  const phRaw = (val: unknown) => (val != null && String(val).trim() ? ` · ${escHtml(val)}` : '')
+  const huyetHtml = huyetList.length
+    ? `<div class="ph-list">${huyetList
+        .map((h, i) => {
+          const ten = h.huyetVi?.ten_huyet || `Huyệt #${h.huyetVi?.idHuyet ?? ''}`
+          const parts =
+            phRaw(h.phuong_phap_tac_dong) +
+            phPart('Vị trí', h.huyetVi?.vi_tri_giai_phau) +
+            phPart('Tác dụng', h.huyetVi?.tac_dung) +
+            phPart('Ghi chú', h.ghi_chu_ky_thuat)
+          return `<div class="ph-item"><b class="ph-name">${i + 1}. ${escHtml(ten)}</b>${parts}</div>`
+        })
+        .join('')}</div>`
+    : '<span class="empty">Chưa có phương huyệt cho các thể bệnh đo được.</span>'
+
+  const baiThuocHtml = baiThuoc.length
+    ? `<div class="row"><b>Bài thuốc gợi ý:</b> ${baiThuoc.map((b) => escHtml(b.ten_bai_thuoc)).join(' · ')}</div>`
+    : ''
+
+  // Triệu chứng bệnh nhân đã xác nhận "có" ở bước Hỏi & Chẩn đoán (tra_loi === 'co'),
+  // gom theo nhóm + hiển thị dạng thẻ cho dễ đọc (giống bảng "Đối chiếu triệu chứng").
+  const cdSyms =
+    (examination.value?.chanDoan?.trieu_chung as
+      | Array<{ ten?: string; nhom?: string | null; tra_loi?: string }>
+      | undefined) ?? []
+  const confirmedSyms = cdSyms.filter((t) => t && t.tra_loi === 'co' && t.ten)
+  const symGroups = new Map<string, string[]>()
+  for (const s of confirmedSyms) {
+    const slug = (s.nhom && String(s.nhom).trim()) || 'khac'
+    const arr = symGroups.get(slug) ?? []
+    arr.push(String(s.ten))
+    symGroups.set(slug, arr)
+  }
+  // Sắp xếp nhóm theo thứ tự chuẩn (PB_NHOM_TC_ORDER); nhóm lạ đẩy xuống cuối.
+  const symOrder = [...symGroups.keys()].sort((a, b) => {
+    const ia = PB_NHOM_TC_ORDER.indexOf(a)
+    const ib = PB_NHOM_TC_ORDER.indexOf(b)
+    return (ia < 0 ? 99 : ia) - (ib < 0 ? 99 : ib)
+  })
+  const symGroupsHtml = symOrder
+    .map((slug) => {
+      const items = symGroups.get(slug) ?? []
+      const label = PB_NHOM_TC[slug] ?? slug
+      return `<div class="sym-group"><span class="sym-group-name">${escHtml(label)}</span><div class="sym-tags">${items
+        .map((t) => `<span class="sym-tag">${escHtml(t)}</span>`)
+        .join('')}</div></div>`
+    })
+    .join('')
+  const confirmedSymHtml = cd
+    ? confirmedSyms.length
+      ? `<div class="sym-block"><div class="sym-head">Triệu chứng bệnh nhân xác nhận có (${confirmedSyms.length}):</div><div class="sym-cols">${symGroupsHtml}</div></div>`
+      : '<div class="row"><b>Triệu chứng xác nhận:</b> <span class="empty">không ghi nhận</span></div>'
+    : '<div class="row"><span class="empty">Chưa thực hiện hỏi &amp; chẩn đoán bệnh nhân.</span></div>'
+
+  const printedAt = new Date().toLocaleString('vi-VN')
+
+  const html = `<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>Phiếu kết quả khám bệnh - ${escHtml(p.fullName)}</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: "Segoe UI", Roboto, Arial, sans-serif; color: #1f2937; margin: 0; padding: 0; font-size: 8px; line-height: 1.3; }
+  h1, h2, h3 { margin: 0; }
+  .sheet { padding: 0; }
+  .doc-head { text-align: center; border-bottom: 1.5px solid #78350f; padding-bottom: 2px; margin-bottom: 3px; }
+  .clinic { font-size: 8.5px; font-weight: 700; color: #78350f; letter-spacing: .03em; text-transform: uppercase; }
+  .doc-title { font-size: 12.5px; font-weight: 800; color: #1f2937; margin-top: 1px; }
+  .doc-sub { font-size: 7.5px; color: #6b7280; }
+  .pinfo { width: 100%; border-collapse: collapse; margin-bottom: 4px; font-size: 8px; }
+  .pinfo td { padding: 1px 4px; vertical-align: top; }
+  .pinfo .lbl { color: #6b7280; white-space: nowrap; }
+  .pinfo .v { font-weight: 600; }
+  .sec-h { font-size: 8.5px; font-weight: 800; color: #78350f; text-transform: uppercase; border-left: 3px solid #b45309; padding-left: 5px; margin: 4px 0 2px; }
+  .sec-h--main { font-size: 10px; }
+  .sec-h--sub { font-size: 7.5px; opacity: .85; }
+  .md-wrap { display: flex; gap: 6px; }
+  .md-col { flex: 1; min-width: 0; }
+  table.md { width: 100%; border-collapse: collapse; font-size: 7px; }
+  table.md th, table.md td { border: 1px solid #d1d5db; padding: 1px 2px; text-align: center; }
+  table.md th { background: #f3f4f6; font-weight: 700; }
+  table.md td.k { text-align: left; font-weight: 700; }
+  .tbl-cap { font-weight: 700; font-size: 7.5px; background: #fafaf9; padding: 1px 4px; border: 1px solid #d1d5db; border-bottom: none; }
+  .pos { color: #92400e; font-weight: 700; }
+  .neg { color: #1d4ed8; font-weight: 700; }
+  .muted { color: #6b7280; }
+  .dg-grid { display: flex; gap: 5px; margin-bottom: 3px; }
+  .dg-card { flex: 1; border: 1px solid #e7e5e4; border-radius: 4px; padding: 2px 6px; }
+  .dg-card .l { font-size: 7px; text-transform: uppercase; color: #6b7280; font-weight: 700; }
+  .dg-card .v { font-size: 9px; font-weight: 700; color: #78350f; }
+  .tk-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+  .tk { margin: 1px 0; font-size: 8px; }
+  .tk b { color: #78350f; }
+  .row { margin: 2px 0; }
+  .dx-box { border: 1.5px solid #d4a373; border-radius: 5px; padding: 4px 8px; background: #fffdf7; font-size: 9px; }
+  .dx-box .row { margin: 2px 0; }
+  .dx-model { margin-bottom: 2px; }
+  .dx-model-l { font-size: 6.5px; text-transform: uppercase; color: #6b7280; font-weight: 700; letter-spacing: .02em; }
+  .dx-model-v { font-size: 11px; font-weight: 800; color: #78350f; line-height: 1.2; }
+  .dx-conc { margin: 3px 0; line-height: 1.25; }
+  .dx-conc-l { color: #6b7280; font-weight: 600; }
+  .dx-conc-v { font-weight: 700; color: #166534; font-size: 9.5px; }
+  .sym-block { margin: 3px 0 0; }
+  .sym-head { font-weight: 700; margin-bottom: 2px; }
+  .sym-cols { column-count: 2; column-gap: 10px; }
+  .sym-group { break-inside: avoid; page-break-inside: avoid; margin: 0 0 3px; }
+  .sym-group-name { display: block; font-size: 7px; font-weight: 700; color: #b45309; margin-bottom: 1px; }
+  .sym-tags { display: flex; flex-wrap: wrap; gap: 1px 2px; }
+  .sym-tag { display: inline-block; background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; border-radius: 3px; padding: 0 3px; font-size: 6.8px; line-height: 1.45; white-space: nowrap; }
+  .ph-list { column-count: 2; column-gap: 12px; }
+  .ph-item { font-size: 7px; line-height: 1.3; padding: 0; margin-bottom: 1px; break-inside: avoid; page-break-inside: avoid; }
+  .ph-name { color: #78350f; }
+  .ph-k { color: #6b7280; font-weight: 600; }
+  .empty { color: #9ca3af; font-style: italic; }
+  .sign-row { display: flex; justify-content: space-around; margin-top: 7px; }
+  .sign-box { text-align: center; width: 45%; }
+  .sign-box .role { font-weight: 700; font-size: 7.5px; }
+  .sign-box .hint { font-size: 6.5px; color: #6b7280; }
+  .sign-space { height: 24px; }
+  .foot { margin-top: 4px; font-size: 6.5px; color: #9ca3af; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 2px; }
+  @page { size: A5 portrait; margin: 7mm; }
+  @media screen { .sheet { width: 148mm; min-height: 210mm; margin: 8px auto; padding: 7mm; box-shadow: 0 0 6px rgba(0,0,0,.2); } }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <div class="doc-head">
+    <div class="clinic">Phòng khám Y Học Cổ Truyền</div>
+    <div class="doc-title">PHIẾU KẾT QUẢ KHÁM BỆNH</div>
+    <div class="doc-sub">Mã phiếu ${escHtml(ex.ticketNumber)} · Ngày khám ${escHtml(ex.date)} ${escHtml(ex.time)}</div>
+  </div>
+
+  <table class="pinfo">
+    <tr>
+      <td class="lbl">Họ tên</td><td class="v">${dash(p.fullName)}</td>
+      <td class="lbl">Tuổi</td><td class="v">${dash(getAge(p.dateOfBirth))}</td>
+      <td class="lbl">Giới</td><td class="v">${dash(p.gender)}</td>
+      <td class="lbl">HA</td><td class="v">120/90</td>
+    </tr>
+    <tr>
+      <td class="lbl">Địa chỉ</td><td class="v" colspan="5">${dash(p.address)}</td>
+    </tr>
+  </table>
+
+  <div class="sec-h">I. Kết quả đo kinh lạc</div>
+  <div class="md-wrap">
+    <div class="md-col">
+      <div class="tbl-cap">Chi trên</div>
+      <table class="md"><thead>${colHead}</thead><tbody>${meridianRowsHtml(upperRows.value)}</tbody></table>
+    </div>
+    <div class="md-col">
+      <div class="tbl-cap">Chi dưới</div>
+      <table class="md"><thead>${colHead}</thead><tbody>${meridianRowsHtml(lowerRows.value)}</tbody></table>
+    </div>
+  </div>
+
+  <div class="sec-h">II. Chẩn đoán Bát Cương</div>
+  <div class="tk-grid">
+    <div class="tk"><b>① Âm — Dương</b> · Tổng cương: ${dash(dg.amDuong)}</div>
+    <div class="tk"><b>② Biểu — Lý</b> · Vị trí bệnh — Biểu: ${dash(bcp.bieu.value)} · Lý: ${dash(bcp.ly.value)}</div>
+    <div class="tk"><b>③ Hàn — Nhiệt</b> · Tính chất bệnh — Hàn: ${dash(bcp.han.value)} · Nhiệt: ${dash(bcp.nhiet.value)}</div>
+    <div class="tk"><b>④ Hư — Thực</b> · Trạng thái sức khỏe — Khí: ${dash(dg.khi)} · Huyết: ${dash(dg.huyet)}</div>
+  </div>
+
+  <div class="sec-h sec-h--main">III. Mô hình bệnh lý &amp; Chẩn đoán</div>
+  <div class="dx-box">
+    <div class="dx-model"><div class="dx-model-l">Mô hình bệnh Đông Y</div><div class="dx-model-v">${modelInline(dongYModels, 'Không có mô hình khớp.')}</div></div>
+    <div class="dx-model"><div class="dx-model-l">Mô hình bệnh Y học hiện đại</div><div class="dx-model-v">${modelInline(modernModels, 'Không có mô hình khớp.')}</div></div>
+    ${cd ? `<div class="dx-conc"><span class="dx-conc-l">Kết luận chẩn đoán:</span> <span class="dx-conc-v">${escHtml(cd.ket_luan)}</span></div>` : ''}
+    ${confirmedSymHtml}
+  </div>
+
+  <div class="sec-h sec-h--sub">IV. Phương huyệt — gợi ý tự day bấm</div>
+  ${huyetHtml}
+  ${baiThuocHtml}
+
+  <div class="sign-row">
+    <div class="sign-box">
+      <div class="role">Bệnh nhân</div>
+      <div class="hint">(Ký, ghi rõ họ tên)</div>
+      <div class="sign-space"></div>
+    </div>
+    <div class="sign-box">
+      <div class="role">Bác sĩ điều trị</div>
+      <div class="hint">(Ký, ghi rõ họ tên)</div>
+      <div class="sign-space"></div>
+    </div>
+  </div>
+
+  <div class="foot">Phiếu in lúc ${escHtml(printedAt)} · Kết quả mang tính tham khảo, vui lòng tuân thủ hướng dẫn của bác sĩ.</div>
+</div>
+  <script>window.onload=function(){setTimeout(function(){window.print()},120)}<\/script>
+</body>
+</html>`
+
+  const w = window.open('', '_blank', 'width=900,height=1200')
+  if (!w) {
+    alert('Trình duyệt đang chặn cửa sổ in. Vui lòng cho phép pop-up cho trang này rồi thử lại.')
+    return
+  }
+  w.document.open()
+  w.document.write(html)
+  w.document.close()
+  w.focus()
+}
 </script>
 
 <template>
@@ -1380,13 +1783,26 @@ function footerDiffClassMerged() {
         <span>Quay lại hồ sơ</span>
       </button>
       
-      <div v-if="patient" class="exam-summary">
-        <h1 class="page-title">Kết quả Khám bệnh - {{ examDisplay.ticketNumber }}</h1>
-        <div class="exam-meta">
-          <span>Bệnh nhân: <strong>{{ patient.fullName }}</strong></span>
-          <span class="divider">|</span>
-          <span>Ngày khám: {{ examDisplay.date }} {{ examDisplay.time }}</span>
+      <div v-if="patient" class="exam-summary-row">
+        <div class="exam-summary">
+          <h1 class="page-title">Kết quả Khám bệnh - {{ examDisplay.ticketNumber }}</h1>
+          <div class="exam-meta">
+            <span>Bệnh nhân: <strong>{{ patient.fullName }}</strong></span>
+            <span class="divider">|</span>
+            <span>Ngày khám: {{ examDisplay.date }} {{ examDisplay.time }}</span>
+          </div>
         </div>
+        <button
+          type="button"
+          class="print-btn"
+          title="In phiếu kết quả khám bệnh cho bệnh nhân"
+          @click="printPhieuKetQua"
+        >
+          <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path d="M6 2.5A1.5 1.5 0 0 0 4.5 4v2H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h.5v1.5A1.5 1.5 0 0 0 6 17h8a1.5 1.5 0 0 0 1.5-1.5V14h.5a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-.5V4A1.5 1.5 0 0 0 14 2.5H6ZM14 6H6V4h8v2Zm0 6H6v3.5h8V12Zm1.5-3.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+          </svg>
+          <span>In phiếu kết quả</span>
+        </button>
       </div>
     </div>
 
@@ -1675,74 +2091,46 @@ function footerDiffClassMerged() {
               <span class="section-num">II</span> KẾT LUẬN BÁT CƯƠNG & CHẨN ĐOÁN
             </h2>
             <div class="result-card p-0">
-              <div class="info-group p-5 border-b border-gray-100">
+              <div class="info-group p-5">
                 <h4 class="info-label mb-3">Chẩn Đoán Bát Cương</h4>
-                
-                <div class="bc-summary-grid">
-                  <div
-                    class="bc-summary-card bc-summary-card--clickable"
-                    :class="{ 'bc-summary-card--active': batCuongFocus === 'amDuong' }"
-                    role="button"
-                    tabindex="0"
-                    title="Xem chỉ số kinh lạc liên quan Âm/Dương"
-                    @click="toggleBatCuongFocus('amDuong')"
-                    @keydown.enter.prevent="toggleBatCuongFocus('amDuong')"
-                    @keydown.space.prevent="toggleBatCuongFocus('amDuong')"
-                  >
-                    <span class="bc-card-label">Âm / Dương</span>
-                    <span class="bc-card-value">{{ diagnosis.amDuong }}</span>
-                  </div>
-                  <div
-                    class="bc-summary-card bc-summary-card--clickable"
-                    :class="{ 'bc-summary-card--active': batCuongFocus === 'khi' }"
-                    role="button"
-                    tabindex="0"
-                    title="Xem chỉ số kinh lạc liên quan Khí"
-                    @click="toggleBatCuongFocus('khi')"
-                    @keydown.enter.prevent="toggleBatCuongFocus('khi')"
-                    @keydown.space.prevent="toggleBatCuongFocus('khi')"
-                  >
-                    <span class="bc-card-label">Khí</span>
-                    <span class="bc-card-value">{{ diagnosis.khi || '—' }}</span>
-                  </div>
-                  <div
-                    class="bc-summary-card bc-summary-card--clickable"
-                    :class="{ 'bc-summary-card--active': batCuongFocus === 'huyet' }"
-                    role="button"
-                    tabindex="0"
-                    title="Xem chỉ số kinh lạc liên quan Huyết"
-                    @click="toggleBatCuongFocus('huyet')"
-                    @keydown.enter.prevent="toggleBatCuongFocus('huyet')"
-                    @keydown.space.prevent="toggleBatCuongFocus('huyet')"
-                  >
-                    <span class="bc-card-label">Huyết</span>
-                    <span class="bc-card-value">{{ diagnosis.huyet || '—' }}</span>
-                  </div>
-                </div>
 
-                <div class="bc-tieu-ket mt-4">
-                  <h4 class="info-label mb-3">TIỂU KẾT BÁT CƯƠNG (V2.0)</h4>
-                  <div class="tieu-ket-list">
-                    <div class="tk-item">
-                      <span class="tk-label">Lý Hàn:</span>
-                      <span class="tk-val">{{ batCuong.hanLy || '—' }}</span>
+                <div class="bat-cuong">
+                  <div
+                    v-for="pair in batCuongView"
+                    :key="pair.no"
+                    class="bc-pair"
+                    :class="'bc-pair--' + pair.variant"
+                  >
+                    <div class="bc-pair-head">
+                      <span class="bc-pair-no">{{ pair.no }}</span>
+                      <span class="bc-pair-name">{{ pair.name }}</span>
+                      <span class="bc-pair-sub">{{ pair.sub }}</span>
                     </div>
-                    <div class="tk-item">
-                      <span class="tk-label">Biểu Hàn:</span>
-                      <span class="tk-val">{{ batCuong.hanBieu || '—' }}</span>
-                    </div>
-                    <div class="tk-item">
-                      <span class="tk-label">Biểu Nhiệt:</span>
-                      <span class="tk-val">{{ batCuong.nhietBieu || '—' }}</span>
-                    </div>
-                    <div class="tk-item">
-                      <span class="tk-label">Lý Nhiệt:</span>
-                      <span class="tk-val">{{ batCuong.nhietLy || '—' }}</span>
+                    <div class="bc-pair-body" :class="{ 'bc-pair-body--single': pair.lines.length === 1 }">
+                      <div
+                        v-for="ln in pair.lines"
+                        :key="ln.key"
+                        class="bc-line"
+                        :class="{
+                          'bc-line--tag': ln.tag,
+                          'bc-line--clickable': !!ln.value,
+                          'bc-line--active': batCuongFocus === ln.key,
+                        }"
+                        :role="ln.value ? 'button' : undefined"
+                        :tabindex="ln.value ? 0 : undefined"
+                        :title="ln.value ? 'Xem các kinh liên quan trên bảng đo' : undefined"
+                        @click="ln.value && toggleBatCuongFocus(ln.key)"
+                        @keydown.enter.prevent="ln.value && toggleBatCuongFocus(ln.key)"
+                        @keydown.space.prevent="ln.value && toggleBatCuongFocus(ln.key)"
+                      >
+                        <span v-if="ln.label" class="bc-line-key">{{ ln.label }}</span>
+                        <span class="bc-line-val" :class="{ 'bc-line-val--tag': ln.tag }">{{ ln.value || '—' }}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              
+
             </div>
           </section>
 
@@ -2184,10 +2572,14 @@ function footerDiffClassMerged() {
 .back-btn { display: inline-flex; align-items: center; gap: var(--space-2); font-size: var(--font-size-sm); color: var(--gray-600); font-weight: 500; padding: var(--space-2) var(--space-3); border-radius: var(--radius-sm); transition: all var(--transition-fast); align-self: flex-start; }
 .back-btn:hover { color: var(--brown-700); background: var(--brown-50); }
 
+.exam-summary-row { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--space-4); flex-wrap: wrap; }
 .exam-summary { display: flex; flex-direction: column; gap: var(--space-1); }
 .page-title { font-size: var(--font-size-2xl); font-weight: 700; color: var(--brown-800); }
 .exam-meta { font-size: var(--font-size-sm); color: var(--gray-600); }
 .exam-meta strong { color: var(--brown-700); font-weight: 600; }
+.print-btn { display: inline-flex; align-items: center; gap: var(--space-2); flex-shrink: 0; font-size: var(--font-size-sm); font-weight: 600; color: var(--white); background: var(--brown-600, #92400e); border: 1px solid var(--brown-700, #78350f); padding: var(--space-2) var(--space-4); border-radius: var(--radius-md); cursor: pointer; transition: background var(--transition-fast), box-shadow var(--transition-fast); }
+.print-btn:hover { background: var(--brown-700, #78350f); box-shadow: 0 1px 4px rgba(120, 53, 15, 0.25); }
+.print-btn:active { transform: translateY(1px); }
 .divider { margin: 0 var(--space-2); color: var(--gray-300); }
 
 /* Layout 65 / 35 */
@@ -2642,51 +3034,108 @@ function footerDiffClassMerged() {
 .bg-gray { background-color: var(--gray-50); }
 .text-brown-600 { color: var(--brown-600); }
 /* Bat Cuong Design — 3 thẻ: Âm/Dương, Khí, Huyết */
-.bc-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--space-2);
-}
-@media (max-width: 1024px) {
-  .bc-summary-grid { grid-template-columns: 1fr; }
-}
-.bc-summary-card {
+/* Bát Cương — 4 cặp cương xếp dọc theo tinh thần Đông Y */
+.bat-cuong {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
-  background: var(--brown-50);
+  gap: var(--space-3);
+}
+.bc-pair {
+  background: var(--surface-2);
   border: 1px solid var(--brown-100);
+  border-left: 3px solid var(--brown-300);
   border-radius: var(--radius-md);
   padding: var(--space-3) var(--space-4);
-  min-width: 0;
 }
-.bc-card-label {
-  font-size: var(--font-size-xs);
+.bc-pair--tong { border-left-color: var(--brown-600); background: var(--brown-50); }
+.bc-pair--vitri { border-left-color: #0e7490; }
+.bc-pair--tinhchat { border-left-color: #b45309; }
+.bc-pair--trangthai { border-left-color: #15803d; }
+
+.bc-pair-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
+}
+.bc-pair-no {
+  font-size: var(--font-size-base);
   font-weight: 700;
-  color: var(--gray-600);
+  color: var(--brown-700);
+  line-height: 1;
+}
+.bc-pair-name {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--gray-800);
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
-.bc-card-value {
-  font-size: var(--font-size-sm);
-  color: var(--brown-800);
-  font-weight: 700;
-  line-height: 1.35;
-  word-break: break-word;
+.bc-pair-sub {
+  margin-left: auto;
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  font-style: italic;
+  color: var(--gray-500);
+  flex-shrink: 0;
 }
 
-.bc-summary-card--clickable {
+.bc-pair-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.bc-line {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  font-size: var(--font-size-sm);
+  line-height: 1.5;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  padding: var(--space-1) var(--space-2);
+  margin: 0 calc(var(--space-2) * -1);
+}
+.bc-line-key {
+  font-weight: 700;
+  color: var(--brown-700);
+  min-width: 48px;
+  flex-shrink: 0;
+}
+.bc-line-val {
+  color: var(--gray-800);
+  font-weight: 500;
+  word-break: break-word;
+}
+.bc-line-val--tag {
+  display: inline-block;
+  background: var(--brown-600);
+  color: var(--white);
+  font-weight: 700;
+  padding: 2px 12px;
+  border-radius: 999px;
+  font-size: var(--font-size-sm);
+}
+.bc-line--clickable {
   cursor: pointer;
   transition: box-shadow var(--transition-fast), border-color var(--transition-fast), background var(--transition-fast);
 }
-.bc-summary-card--clickable:hover {
+.bc-line--clickable:hover {
   border-color: var(--brown-300);
   background: var(--white);
 }
-.bc-summary-card--active {
+.bc-line--active {
   border-color: var(--brown-500);
   box-shadow: 0 0 0 2px rgba(120, 53, 15, 0.15);
   background: var(--white);
+}
+.bc-line--tag.bc-line--active {
+  box-shadow: none;
+  border-color: transparent;
+  background: transparent;
+}
+.bc-line--tag.bc-line--active .bc-line-val--tag {
+  box-shadow: 0 0 0 3px rgba(120, 53, 15, 0.2);
 }
 
 /* Bảng I: làm nổi ô theo tab Bát cương */
@@ -2758,12 +3207,6 @@ function footerDiffClassMerged() {
 .bc-row { display: flex; flex-direction: column; gap: 2px; }
 .bc-sub-label { font-weight: 600; font-size: var(--font-size-xs); text-transform: uppercase; opacity: 0.8; }
 .bc-sub-val { color: var(--gray-800); font-weight: 500; min-height: 20px; }
-
-.bc-tieu-ket { background: var(--surface-2); border: 1px solid var(--brown-100); border-radius: var(--radius-md); padding: var(--space-4); }
-.tieu-ket-list { display: flex; flex-direction: column; gap: var(--space-3); }
-.tk-item { display: flex; gap: var(--space-2); align-items: flex-start; font-size: var(--font-size-sm); line-height: 1.5; }
-.tk-label { font-weight: 700; color: var(--brown-700); min-width: 85px; flex-shrink: 0; }
-.tk-val { color: var(--gray-800); font-weight: 500; }
 
 .text-blue-600 { color: #2563eb; }
 .text-red-600 { color: #dc2626; }

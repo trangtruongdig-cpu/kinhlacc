@@ -79,10 +79,6 @@ const editingBenhId = ref<number | null>(null)
 const editingItems = ref<PhacDoRow[]>([])
 const deletingGroup = ref<BenhGroup | null>(null)
 
-// ─── Tách huyệt từ văn bản phương huyệt (AI) ───────────────────────────────
-const aiParsingBenhId = ref<number | null>(null)
-const aiUnmatchedHuyet = ref<{ ten: string; phuong_phap: string; ghi_chu: string }[]>([])
-const aiParsedCount = ref<number | null>(null)
 
 const emptyForm = (): FormState => ({
   id_benh: null,
@@ -298,8 +294,6 @@ function openCreateModal() {
   formError.value = null
   huyetAddSearch.value = ''
   benhSearch.value = ''
-  aiUnmatchedHuyet.value = []
-  aiParsedCount.value = null
   showModal.value = true
 }
 
@@ -317,8 +311,6 @@ function openEditModal(group: BenhGroup) {
   formError.value = null
   huyetAddSearch.value = ''
   benhSearch.value = ''
-  aiUnmatchedHuyet.value = []
-  aiParsedCount.value = null
   showModal.value = true
 }
 
@@ -326,49 +318,8 @@ function closeModal() {
   showModal.value = false
   editingBenhId.value = null
   editingItems.value = []
-  aiUnmatchedHuyet.value = []
-  aiParsedCount.value = null
 }
 
-/**
- * AI tách văn bản phương huyệt (dữ liệu cũ) của thể bệnh thành huyệt CÓ CẤU TRÚC,
- * mở modal sửa đã điền sẵn để bác sĩ duyệt/chỉnh rồi lưu. Huyệt chưa khớp → liệt kê để thêm tay.
- */
-async function parseHuyetAi(group: BenhGroup) {
-  const text = group.benh?.phuyet_chamcuu?.trim()
-  if (!text || aiParsingBenhId.value != null) return
-  aiParsingBenhId.value = group.idBenh
-  try {
-    const res = await api.post<{
-      success: boolean
-      data: {
-        matched: { idHuyet: number; ten_huyet: string; phuong_phap: string; ghi_chu: string }[]
-        unmatched: { ten: string; phuong_phap: string; ghi_chu: string }[]
-      }
-    }>('/ai-suggest/phuong-huyet', { text })
-    const d = res?.data
-    if (!d) throw new Error('AI không trả về dữ liệu')
-
-    openEditModal(group) // nạp huyệt sẵn có + id_benh, đặt chế độ sửa
-    const have = new Set(form.value.rows.map((r) => r.idHuyet))
-    for (const m of d.matched ?? []) {
-      if (have.has(m.idHuyet)) continue
-      have.add(m.idHuyet)
-      form.value.rows.push({
-        idHuyet: m.idHuyet,
-        phuong_phap_tac_dong: m.phuong_phap || '',
-        ghi_chu_ky_thuat: m.ghi_chu || '',
-      })
-    }
-    aiParsedCount.value = (d.matched ?? []).length
-    aiUnmatchedHuyet.value = (d.unmatched ?? []).filter((x) => (x?.ten ?? '').trim())
-  } catch (err: any) {
-    formError.value = 'Tách huyệt AI thất bại: ' + (err?.message ?? err)
-    showModal.value = true // hiển thị lỗi nếu modal chưa mở
-  } finally {
-    aiParsingBenhId.value = null
-  }
-}
 
 async function handleSubmit() {
   if (isSubmitting.value) return
@@ -518,19 +469,7 @@ async function handleDelete() {
 
             <div class="disease-card__body">
               <section v-if="group.benh?.phuyet_chamcuu" class="disease-section">
-                <div class="ph-head">
-                  <span class="disease-section__label">Phương huyệt (dữ liệu cũ)</span>
-                  <button
-                    type="button"
-                    class="btn-ai-sm"
-                    :disabled="aiParsingBenhId != null"
-                    :title="'AI tách văn bản này thành huyệt có cấu trúc để bác sĩ duyệt'"
-                    @click="parseHuyetAi(group)"
-                  >
-                    <span v-if="aiParsingBenhId === group.idBenh">⏳ Đang tách…</span>
-                    <span v-else>✨ Tách huyệt (AI)</span>
-                  </button>
-                </div>
+                <span class="disease-section__label">Phương huyệt (dữ liệu cũ)</span>
                 <p
                   class="ph-text"
                   :class="{ 'ph-text--clamp': isLongText(group.benh.phuyet_chamcuu) && !expandedText.has('pc-' + group.idBenh) }"
@@ -681,24 +620,6 @@ async function handleDelete() {
               <small v-if="editingBenhId != null" class="field-hint">
                 Khi lưu: huyệt bị xóa sẽ bị bỏ khỏi bệnh, huyệt mới sẽ được thêm.
               </small>
-
-              <div v-if="aiParsedCount != null" class="ai-parse-note">
-                🤖 AI đã tách <b>{{ aiParsedCount }}</b> huyệt từ văn bản — hãy duyệt/chỉnh
-                <b>Phương pháp</b> &amp; <b>Ghi chú</b> bên dưới rồi bấm Lưu.
-              </div>
-              <div v-if="aiUnmatchedHuyet.length" class="ai-unmatched-huyet">
-                <span class="field-hint">🤖 Huyệt AI nêu nhưng chưa khớp danh mục (tự thêm tay nếu cần):</span>
-                <div class="chip-row">
-                  <span
-                    v-for="(u, i) in aiUnmatchedHuyet"
-                    :key="i"
-                    class="chip chip-warn"
-                    :title="[u.phuong_phap, u.ghi_chu].filter(Boolean).join(' · ')"
-                  >
-                    {{ u.ten }}<small v-if="u.phuong_phap"> · {{ u.phuong_phap }}</small>
-                  </span>
-                </div>
-              </div>
 
               <div v-if="form.rows.length" class="huyet-rows">
                 <div class="huyet-rows__head">
