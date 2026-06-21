@@ -969,7 +969,9 @@ QUY TẮC:
       response = await client.chat.completions.create({
         model,
         temperature: 0.1,
-        max_tokens: 1600,
+        // Tăng từ 1600: gemini-flash-lite trả JSON dài (ghi_chu/markdown) + text phương
+        // huyệt dài → 1600 bị cắt cụt (finish=length) → JSON dở → 0 huyệt. 8000 đủ rộng.
+        max_tokens: 8000,
         response_format: { type: 'json_object' },
         messages: [
           { role: 'system', content: sys },
