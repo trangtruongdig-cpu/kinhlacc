@@ -28,13 +28,7 @@ const props = defineProps<{
   huyet: string
   organs: OrganState[]
   focus: string | null
-  gender?: string | null // 'Nam' | 'Nữ' | null — chọn thân hình 3D nam/nữ theo bệnh nhân
 }>()
-
-/** Giới tính bệnh nhân → biến thể thân hình ('Nữ' → nữ, còn lại → nam). */
-function bodyVariant(): 'male' | 'female' {
-  return (props.gender || '').includes('Nữ') ? 'female' : 'male'
-}
 const emit = defineEmits<{ (e: 'toggle', key: string): void }>()
 
 const host = ref<HTMLDivElement | null>(null)
@@ -887,11 +881,19 @@ async function init(modelBuf: ArrayBuffer) {
   buildMeridiansDeferred()
 }
 
+let resizeRetries = 0
 function onResize() {
   const el = host.value
   if (!el || !renderer || !camera) return
   const w = Math.max(1, el.clientWidth)
-  const h = Math.max(1, el.clientHeight)
+  let h = el.clientHeight
+  // Hình 3D đôi khi reveal TRƯỚC khi layout giãn host → tránh đóng đinh canvas cao 1px (trắng): đợi khung sau.
+  if (h < 40 && resizeRetries < 40) {
+    resizeRetries++
+    requestAnimationFrame(onResize)
+    return
+  }
+  h = Math.max(1, h)
   renderer.setSize(w, h)
   camera.aspect = w / h
   camera.updateProjectionMatrix()
@@ -996,7 +998,7 @@ async function boot() {
       fetchModelBuffer((f) => {
         modelFrac = f
         recompute()
-      }, bodyVariant()).then((b) => {
+      }).then((b) => {
         buf = b
       }),
     ])
@@ -1074,7 +1076,11 @@ function captureViews(count = 4): string[] {
     figure.rotation.y = savedY
     figure.updateMatrixWorld(true)
     renderer.setPixelRatio(savedPR)
-    onResize() // đặt lại size + camera.aspect theo host + updateProjectionMatrix + vẽ lại 1 khung
+    onResize() // đặt lại size + camera.aspect theo host + updateProjectionMatrix
+    // VẼ NGAY khung đã khôi phục (mặt trước, zoom thường). KHÔNG dựa vào rAF của onResize: khi đang
+    // mở hộp thoại IN, trình duyệt tạm dừng requestAnimationFrame của trang → canvas sẽ kẹt ở KHUNG
+    // CHỤP CUỐI (nghiêng + zoom gần). Render đồng bộ ở đây đảm bảo màn hình về đúng khung xem ngay.
+    if (renderer && scene && camera) renderer.render(scene, camera)
   }
   return out
 }
@@ -1146,6 +1152,12 @@ onBeforeUnmount(() => {
   box-shadow: inset 0 0 0 1px rgba(120, 90, 60, 0.1), 0 1px 4px rgba(60, 40, 20, 0.12);
 }
 .bcf3d-host :deep(canvas) {
+  /* TÁCH canvas khỏi luồng (absolute) → cỡ buffer (vd 350×700 lúc chụp phiếu IN) KHÔNG còn "đẩy"
+     chiều cao khối hình phình to theo (layout dùng min-height) → hết bị phóng to + triệt vòng lặp
+     resize. Chiều cao khối hình giờ CHỈ do cột tạng phủ quy định; canvas phủ kín bằng inset:0. */
+  position: absolute;
+  inset: 0;
+  z-index: 0; /* dưới vòng % tải (z=2) và chú thích "Kéo để xoay" (z=1) */
   width: 100% !important;
   height: 100% !important;
   display: block;
@@ -1155,6 +1167,7 @@ onBeforeUnmount(() => {
   left: 0;
   right: 0;
   bottom: 8px;
+  z-index: 1; /* trên canvas (z=0) để chú thích không bị canvas che */
   text-align: center;
   font-size: 11px;
   font-weight: 600;

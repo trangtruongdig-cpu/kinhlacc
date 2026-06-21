@@ -30,14 +30,7 @@ const THREE_SRC = ver(`${BASE}vendor/three.min.js`)
 const GLTF_SRC = ver(`${BASE}vendor/GLTFLoader.js`)
 const MESHOPT_SRC = ver(`${BASE}vendor/meshopt_decoder.js`)
 const COORDS_SRC = ver(`${BASE}data/acu-coords3d.js`)
-// Thân NAM (mặc định) và thân NỮ — chọn theo giới tính bệnh nhân. Cùng tư thế (tay buông cạnh hông),
-// cùng quy ước hướng/tỉ lệ → đường kinh (rải bằng raycast lên da, chuẩn hoá theo chiều cao thân) tự bám
-// đúng cả hai. Nếu CHƯA có file nữ, fetchModelBuffer('female') tự rơi về model nam (không vỡ hình).
 const MODEL_SRC = ver(`${BASE}models/body-layers.glb`)
-const MODEL_SRC_FEMALE = ver(`${BASE}models/body-layers-female.glb`)
-
-/** Giới tính thân hình 3D cần dựng. */
-export type BodyVariant = 'male' | 'female'
 
 // Kích thước ước lượng (byte) — chỉ dùng làm mẫu số cho thanh % khi máy chủ KHÔNG gửi Content-Length.
 const SIZE_HINT: Record<string, number> = {
@@ -46,7 +39,6 @@ const SIZE_HINT: Record<string, number> = {
   [MESHOPT_SRC]: 25 * 1024,
   [COORDS_SRC]: 30 * 1024,
   [MODEL_SRC]: 612 * 1024,
-  [MODEL_SRC_FEMALE]: 612 * 1024,
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -182,23 +174,10 @@ export async function ensureModelDeps(onProgress?: ProgressFn): Promise<ThreeNS>
   return THREE
 }
 
-/**
- * Tải file .glb của thân hình theo `variant` (nam/nữ) dạng dòng (đo %), trả ArrayBuffer để
- * GLTFLoader.parse(). Nếu chọn 'female' mà file nữ chưa có / lỗi tải → RƠI VỀ model nam (không vỡ hình).
- */
-export async function fetchModelBuffer(onProgress?: ProgressFn, variant: BodyVariant = 'male'): Promise<ArrayBuffer> {
-  const src = variant === 'female' ? MODEL_SRC_FEMALE : MODEL_SRC
-  try {
-    const bytes = await fetchBytes(src, onProgress)
-    return bytes.buffer as ArrayBuffer
-  } catch (e) {
-    if (variant === 'female' && src !== MODEL_SRC) {
-      console.warn('[heroThree] không tải được model nữ → dùng model nam:', e)
-      const bytes = await fetchBytes(MODEL_SRC, onProgress)
-      return bytes.buffer as ArrayBuffer
-    }
-    throw e
-  }
+/** Tải file .glb dạng dòng (đo %), trả ArrayBuffer để GLTFLoader.parse() — chỉ tải 1 lần. */
+export async function fetchModelBuffer(onProgress?: ProgressFn): Promise<ArrayBuffer> {
+  const bytes = await fetchBytes(MODEL_SRC, onProgress)
+  return bytes.buffer as ArrayBuffer
 }
 
 /** Trình duyệt có hỗ trợ WebGL không (để rơi-về hình SVG khi không có). */

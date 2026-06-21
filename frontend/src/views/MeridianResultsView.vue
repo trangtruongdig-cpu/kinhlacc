@@ -1927,11 +1927,11 @@ function printPhieuKetQua() {
   .dx-conc-v { font-weight: 700; color: #166534; font-size: 9.5px; }
   .sym-block { margin: 3px 0 0; }
   .sym-head { font-weight: 700; margin-bottom: 2px; }
-  .sym-cols { column-count: 2; column-gap: 10px; }
-  .sym-group { break-inside: avoid; page-break-inside: avoid; margin: 0 0 3px; }
-  .sym-group-name { display: block; font-size: 7px; font-weight: 700; color: #b45309; margin-bottom: 1px; }
+  .sym-cols { column-count: 3; column-gap: 8px; }
+  .sym-group { break-inside: avoid; page-break-inside: avoid; margin: 0 0 2px; }
+  .sym-group-name { display: block; font-size: 6.6px; font-weight: 700; color: #b45309; margin-bottom: 1px; }
   .sym-tags { display: flex; flex-wrap: wrap; gap: 1px 2px; }
-  .sym-tag { display: inline-block; background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; border-radius: 3px; padding: 0 3px; font-size: 6.8px; line-height: 1.45; white-space: nowrap; }
+  .sym-tag { display: inline-block; background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; border-radius: 3px; padding: 0 2px; font-size: 6.2px; line-height: 1.35; white-space: nowrap; }
   .ph-list { column-count: 2; column-gap: 12px; }
   .ph-item { font-size: 7px; line-height: 1.3; padding: 0; margin-bottom: 1px; break-inside: avoid; page-break-inside: avoid; }
   .ph-name { color: #78350f; }
@@ -1942,9 +1942,9 @@ function printPhieuKetQua() {
   .md-foot b { color: #78350f; }
   /* Bát Cương — dải đầy đủ: cột tạng phủ 2 bên + khung 4 góc hình + tóm tắt bên dưới */
   .bc-band { display: flex; gap: 5px; align-items: stretch; margin-bottom: 3px; }
-  .og-col { display: flex; flex-direction: column; gap: 3px; flex: 0 0 16mm; justify-content: center; }
-  .og-card { display: flex; flex-direction: column; align-items: center; padding: 2px 1px; border: 1px solid #e5e0d8; border-radius: 4px; background: #fff; }
-  .og-svg { width: 26px; height: 26px; display: block; }
+  .og-col { display: flex; flex-direction: column; gap: 2px; flex: 0 0 15mm; justify-content: center; }
+  .og-card { display: flex; flex-direction: column; align-items: center; padding: 1px; border: 1px solid #e5e0d8; border-radius: 4px; background: #fff; }
+  .og-svg { width: 18px; height: 18px; display: block; }
   .og-name { font-size: 6.5px; font-weight: 700; color: #374151; line-height: 1.1; text-align: center; }
   .og-name small { font-weight: 500; color: #9ca3af; }
   .og-tag { font-size: 5.6px; font-weight: 700; color: #fff; padding: 0 4px; border-radius: 999px; line-height: 1.5; margin-top: 1px; }
@@ -1955,10 +1955,11 @@ function printPhieuKetQua() {
   .og-off .og-svg { filter: grayscale(.35); }
   .bc-fig-frame { flex: 1; min-width: 0; border: 1px solid #e7e5e4; border-radius: 5px; background: #eef1f4; padding: 2px; display: flex; align-items: center; }
   .bc-fig-frame > * { width: 100%; }
-  .bc-fig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  /* 4 góc xếp 1 HÀNG NGANG (thay vì 2×2) → khối hình thấp hẳn, phiếu lọt 1 trang A4 */
+  .bc-fig-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
   .bc-fig-cell { min-width: 0; text-align: center; }
   .bc-fig-cell--solo { grid-column: 1 / -1; }
-  .bc-fig-img { width: 100%; height: auto; max-height: 52mm; object-fit: contain; display: block; border: 1px solid #d6dde4; border-radius: 4px; background: #fff; }
+  .bc-fig-img { width: 100%; height: auto; max-height: 46mm; object-fit: contain; display: block; border: 1px solid #d6dde4; border-radius: 4px; background: #fff; }
   .bc-fig-cap { display: block; font-size: 6px; color: #6b7280; font-weight: 600; margin-top: 1px; }
   .bc-fig-svg svg { width: 100%; max-height: 60mm; height: auto; display: block; }
   .bc-fig-empty { font-size: 6.5px; color: #9ca3af; font-style: italic; border: 1px dashed #d1d5db; border-radius: 4px; padding: 6px; text-align: center; line-height: 1.4; }
@@ -1991,14 +1992,14 @@ function printPhieuKetQua() {
   .ph-chip { display: inline-block; background: #faf7f2; border: 1px solid #e4dcd0; border-radius: 3px; padding: 0 4px; margin: 1px; font-size: 6.6px; color: #44372a; white-space: nowrap; vertical-align: middle; }
   .ph-code { color: #9ca3af; font-weight: 600; }
   .ph-note { font-size: 6px; color: #6b7280; font-style: italic; margin: 0 0 1px 2px; line-height: 1.35; }
-  .sign-row { display: flex; justify-content: space-around; margin-top: 7px; }
+  .sign-row { display: flex; justify-content: space-around; margin-top: 4px; }
   .sign-box { text-align: center; width: 45%; }
   .sign-box .role { font-weight: 700; font-size: 7.5px; }
   .sign-box .hint { font-size: 6.5px; color: #6b7280; }
-  .sign-space { height: 24px; }
+  .sign-space { height: 14px; }
   .foot { margin-top: 4px; font-size: 6.5px; color: #9ca3af; text-align: center; border-top: 1px solid #e5e7eb; padding-top: 2px; }
-  @page { size: A5 portrait; margin: 7mm; }
-  @media screen { .sheet { width: 148mm; min-height: 210mm; margin: 8px auto; padding: 7mm; box-shadow: 0 0 6px rgba(0,0,0,.2); } }
+  @page { size: A4 portrait; margin: 10mm; }
+  @media screen { .sheet { width: 210mm; min-height: 297mm; margin: 8px auto; padding: 10mm; box-shadow: 0 0 6px rgba(0,0,0,.2); } }
 </style>
 </head>
 <body>
@@ -2257,14 +2258,12 @@ function printPhieuKetQua() {
               />
               <BatCuongFigure3D
                 ref="batCuongFigureRef"
-                :key="patient?.gender || 'na'"
                 class="bc-figure"
                 :am-duong="diagnosis.amDuong"
                 :khi="diagnosis.khi"
                 :huyet="diagnosis.huyet"
                 :organs="affectedOrgans"
                 :focus="batCuongFocus"
-                :gender="patient?.gender"
                 @toggle="toggleBatCuongFocus"
               >
                 <!-- Rơi về đồ hình 2D khi máy không hỗ trợ WebGL -->
@@ -3483,6 +3482,12 @@ function printPhieuKetQua() {
   flex: 1 1 auto;
   min-width: 0;
   min-height: 0; /* chiều cao do .bc-figblock quy định (xác định, không phình) */
+  /* CẦN để hình 3D hiện đúng: .bc-figblock chỉ có min-height (không phải height xác định) nên height:100%
+     của host KHÔNG resolve → host co theo canvas → vòng lặp resize kẹt canvas cao 1px (trắng xoá). Để
+     height:auto + align-self:stretch thì align-items:stretch của .bc-figblock giãn host theo chiều cao
+     hàng (do cột tạng phủ quy định) — độc lập với canvas. */
+  height: auto;
+  align-self: stretch;
 }
 .bc-band .bc-summary {
   flex: 1 1 300px;
