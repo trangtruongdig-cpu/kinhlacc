@@ -2951,7 +2951,13 @@ function printPhieuKetQua() {
   .data-table td { padding: 2px 8px; font-size: var(--font-size-xs); }
   .meridian-head-row th { padding: 2px 4px; font-size: 9px; }
   .table-footer-stat { padding: 4px var(--space-3); }
-  .bc-wrap--band > .bc-figblock { height: clamp(280px, 40vh, 380px); }
+  .bc-wrap--band > .bc-figblock { min-height: clamp(280px, 40vh, 380px); }
+  /* Màn thấp: nén thẻ tạng phủ (icon + đệm nhỏ lại) → 6 thẻ/cột vừa khít, khối hình không bị
+     cao quá mà vẫn không tràn/đè (min-height ở trên đã đảm bảo không đè). */
+  .bc-wrap--band .bc-organs-col :deep(.organ-card) { padding: 3px; gap: 0; }
+  .bc-wrap--band .bc-organs-col :deep(.organ-svg) { width: 28px; height: 28px; }
+  .bc-wrap--band .bc-organs-col :deep(.organ-card-name) { font-size: 10px; }
+  .bc-wrap--band .bc-organs-col :deep(.organ-card-tag) { font-size: 8px; }
 }
 
 /* Sections */
@@ -3457,8 +3463,11 @@ function printPhieuKetQua() {
   min-width: 0;
 }
 .bc-wrap--band > .bc-figblock {
-  /* chiều cao XÁC ĐỊNH cho khối hình → canvas 3D không tự phình to (vỡ vòng lặp resize) */
-  height: clamp(360px, 50vh, 500px);
+  /* min-height (KHÔNG phải height cố định): cao TỐI THIỂU cho khối hình 3D, nhưng GIÃN ra chứa
+     trọn 2 cột tạng phủ (6 thẻ/cột) trên màn thấp/hẹp → tóm tắt bên dưới KHÔNG đè lên tỳ/thận/
+     bàng quang/tam tiêu. Canvas vẫn có chiều cao xác định nhờ align-items:stretch (chiều cao do
+     cột tạng phủ quy định — độc lập với canvas → không vỡ vòng lặp resize). */
+  min-height: clamp(360px, 50vh, 500px);
 }
 .bc-figblock {
   flex: 1.7 1 520px;
