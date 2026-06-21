@@ -289,10 +289,6 @@ function togglePbCandidate(key: string) {
   const c = phanBietCandidates.value.find((x) => x.key === key)
   if (c && !(c.enabled && phanBietCandidates.value.filter((x) => x.enabled).length <= 1)) c.enabled = !c.enabled
 }
-function setPbAnswer(id: number, val: PbAnswer) {
-  if (phanBietAnswers[id] === val) delete phanBietAnswers[id]
-  else phanBietAnswers[id] = val
-}
 function pbCandIndex(key: string): number { return phanBietCandidates.value.findIndex((c) => c.key === key) }
 
 const pbActiveCandidates = computed(() => phanBietCandidates.value.filter((c) => c.enabled))
@@ -306,13 +302,61 @@ const pbDataStatus = computed(() => {
     syncedEmpty: all.filter((c) => c.phapTriIds.length > 0 && c.symptomIds.size === 0).length,
   }
 })
-interface PbRow extends PbSymptom { supports: string[] }
+interface PbRow extends PbSymptom { ids: number[]; supports: string[] }
+
+// Chuẩn hoá tên triệu chứng để gộp trùng nghĩa: bỏ dấu, bỏ từ đệm (hay/dễ/thường…), tách token.
+const SYM_FILLER = new Set(['hay', 'de', 'thuong', 'hoi', 'bi', 'rat', 'co', 'cac', 'va', 'hoac', 'cam', 'giac'])
+function symTokens(s: string): string[] {
+  return (s || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w && !SYM_FILLER.has(w))
+}
+
 const pbRows = computed<PbRow[]>(() => {
   const active = pbActiveCandidates.value
-  return phanBietSymptoms.value
-    .map((s) => ({ ...s, supports: active.filter((c) => c.symptomIds.has(s.id)).map((c) => c.key) }))
+  const base = phanBietSymptoms.value
+    .map((s) => ({ ...s, ids: [s.id], supports: active.filter((c) => c.symptomIds.has(s.id)).map((c) => c.key) }))
     .filter((r) => r.supports.length > 0)
-    .sort((a, b) => a.supports.length - b.supports.length || b.weight - a.weight || a.ten.localeCompare(b.ten, 'vi'))
+  // Gộp trùng nghĩa: ưu tiên tên NGẮN làm đại diện; gộp khi token TRÙNG HOÀN TOÀN
+  // hoặc TẬP CON (cả hai ≥2 token, tránh gộp nhầm "Đau" nuốt "Đau Bụng"/"Đau Đầu").
+  base.sort((a, b) => symTokens(a.ten).length - symTokens(b.ten).length || b.weight - a.weight)
+  const reps: PbRow[] = []
+  const repTokens: Set<string>[] = []
+  for (const r of base) {
+    const tks = new Set(symTokens(r.ten))
+    let merged = false
+    for (let i = 0; i < reps.length; i++) {
+      const rt = repTokens[i]
+      if (!rt || !tks.size || !rt.size) continue
+      const aInB = [...tks].every((t) => rt.has(t))
+      const bInA = [...rt].every((t) => tks.has(t))
+      const equal = tks.size === rt.size && aInB
+      const subset = tks.size >= 2 && rt.size >= 2 && (aInB || bInA)
+      if (equal || subset) {
+        const rep = reps[i]
+        if (rep) {
+          rep.ids.push(...r.ids)
+          rep.supports = [...new Set([...rep.supports, ...r.supports])]
+          rep.weight = Math.max(rep.weight, r.weight)
+        }
+        merged = true
+        break
+      }
+    }
+    if (!merged) {
+      reps.push({ ...r })
+      repTokens.push(tks)
+    }
+  }
+  // Sắp xếp: đặc trưng (1 thể) lên trước, rồi theo trọng số, rồi A→Z.
+  return reps.sort(
+    (a, b) => a.supports.length - b.supports.length || b.weight - a.weight || a.ten.localeCompare(b.ten, 'vi'),
+  )
 })
 // Gom triệu chứng theo NHÓM ngữ nghĩa (Tinh thần / Tiêu hóa / …). Trong mỗi nhóm,
 // pbRows đã sắp đặc-trưng (1 thể) trước → triệu chứng phân biệt nổi lên đầu.
@@ -332,6 +376,25 @@ const pbGroups = computed<PbGroup[]>(() => {
   if (none && none.length) out.push({ slug: '__none', label: 'Chưa phân nhóm', rows: none })
   return out
 })
+// Rút gọn mỗi nhóm: mặc định chỉ hỏi vài câu quan trọng nhất (đặc trưng + trọng số cao),
+// còn lại ẩn sau "Xem thêm" cho gọn.
+const PB_GROUP_CAP = 6
+const pbExpandedGroups = reactive<Record<string, boolean>>({})
+function pbShownRows(g: PbGroup): PbRow[] {
+  return pbExpandedGroups[g.slug] ? g.rows : g.rows.slice(0, PB_GROUP_CAP)
+}
+function togglePbGroup(slug: string) {
+  pbExpandedGroups[slug] = !pbExpandedGroups[slug]
+}
+// Trả lời 1 dòng (gồm mọi id triệu chứng đã gộp) — set/bỏ đồng loạt để chấm điểm đúng.
+function answerPbRow(r: PbRow, val: PbAnswer) {
+  const cur = phanBietAnswers[r.id]
+  if (cur === val) {
+    for (const id of r.ids) delete phanBietAnswers[id]
+  } else {
+    for (const id of r.ids) phanBietAnswers[id] = val
+  }
+}
 // % "theo lời kể" của một tập triệu chứng: Σ IDF "Có" / Σ IDF cả tập.
 // hasData=false khi thể chưa có triệu chứng liên kết (tránh kéo điểm kép về 0 oan).
 function pbScoreOf(symIds: Set<number>): { percent: number; hasData: boolean } {
@@ -1908,7 +1971,7 @@ function footerDiffClassMerged() {
             <template v-for="g in pbGroups" :key="'g-' + g.slug">
               <div class="pb-group-title">{{ g.label }} <span>({{ g.rows.length }})</span></div>
               <div
-                v-for="r in g.rows"
+                v-for="r in pbShownRows(g)"
                 :key="g.slug + '-' + r.id"
                 class="pb-row"
                 :class="{ 'pb-row--key': r.supports.length === 1 }"
@@ -1919,11 +1982,19 @@ function footerDiffClassMerged() {
                   <span v-if="r.supports.length === 1 && pbDataStatus.withData >= 2" class="pb-tag-key">đặc trưng</span>
                 </div>
                 <div class="pb-ans">
-                  <button type="button" class="pb-ans-btn pb-co" :class="{ on: phanBietAnswers[r.id] === 'co' }" @click="setPbAnswer(r.id, 'co')">Có</button>
-                  <button type="button" class="pb-ans-btn pb-khong" :class="{ on: phanBietAnswers[r.id] === 'khong' }" @click="setPbAnswer(r.id, 'khong')">Không</button>
-                  <button type="button" class="pb-ans-btn pb-kho" :class="{ on: phanBietAnswers[r.id] === 'kho' }" @click="setPbAnswer(r.id, 'kho')">Không rõ</button>
+                  <button type="button" class="pb-ans-btn pb-co" :class="{ on: phanBietAnswers[r.id] === 'co' }" @click="answerPbRow(r, 'co')">Có</button>
+                  <button type="button" class="pb-ans-btn pb-khong" :class="{ on: phanBietAnswers[r.id] === 'khong' }" @click="answerPbRow(r, 'khong')">Không</button>
+                  <button type="button" class="pb-ans-btn pb-kho" :class="{ on: phanBietAnswers[r.id] === 'kho' }" @click="answerPbRow(r, 'kho')">Không rõ</button>
                 </div>
               </div>
+              <button
+                v-if="g.rows.length > PB_GROUP_CAP"
+                type="button"
+                class="pb-more-btn"
+                @click="togglePbGroup(g.slug)"
+              >
+                {{ pbExpandedGroups[g.slug] ? '▲ Thu gọn' : `▼ Xem thêm ${g.rows.length - PB_GROUP_CAP} câu` }}
+              </button>
             </template>
 
             <template v-if="pbContext.length">
@@ -3040,6 +3111,8 @@ function footerDiffClassMerged() {
 .pb-ctx-body p { margin: 2px 0; }
 .pb-hint { font-size: 11.5px; color: var(--gray-500); margin: 4px 0 2px; }
 .pb-tag-key { flex: none; font-size: 10px; font-weight: 700; color: #b45309; background: #fef3c7; border: 1px solid #fde68a; border-radius: 6px; padding: 1px 6px; }
+.pb-more-btn { margin: 4px 0 2px; border: 1px dashed var(--border, #e5e0d6); background: #fff; color: var(--brown-700, #6b4f2a); border-radius: 8px; padding: 5px 12px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.pb-more-btn:hover { background: var(--gray-50, #f7f5f0); }
 .pb-row--key { background: linear-gradient(90deg, #fffbeb 0%, transparent 60%); }
 .pb-nn-group { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 6px; margin: 3px 0; }
 .pb-nn-label { font-size: 11.5px; font-weight: 700; color: var(--brown-700, #6b4f2a); flex: none; }
