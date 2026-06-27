@@ -308,7 +308,7 @@ function writeFromGap(c: Cum) {
 }
 
 // ===== Phase 2: Lò Viết Bài =====
-type Tab = 'index' | 'radar' | 'viet' | 'trend' | 'gsc'
+type Tab = 'index' | 'dtop' | 'radar' | 'viet' | 'trend' | 'gsc'
 const tab = ref<Tab>('index')
 
 interface BaiViet {
@@ -1497,6 +1497,55 @@ function idxShort(u: string): string {
   return u.replace(/^https?:\/\/[^/]+/, '') || '/'
 }
 
+// ===== TRỤ 3 — ĐẨY TOP (striking distance → audit on-page + checklist sửa) =====
+interface StRow {
+  query: string
+  page: string
+  position: number
+  impressions: number
+  clicks: number
+  coHoi: number
+  title: string
+  words: number
+  hasFaq: boolean
+  inTitle: boolean
+  inH1: boolean
+  inBody: boolean
+  fixes: string[]
+}
+const stRows = ref<StRow[]>([])
+const stLoading = ref(false)
+const stLoaded = ref(false)
+const stPosMax = ref(30)
+const stPushing = ref<string | null>(null)
+
+async function loadStriking() {
+  stLoading.value = true
+  try {
+    const res = await api.get<{ data: StRow[] }>(`/seo/striking/audit?posMax=${stPosMax.value}&minImpr=3&limit=20`)
+    stRows.value = res.data
+    stLoaded.value = true
+  } catch (e: any) {
+    flash('err', e.message || 'Không tải được dữ liệu Đẩy Top (GSC tắt?)')
+  } finally {
+    stLoading.value = false
+  }
+}
+
+async function stPushIndex(url: string) {
+  if (stPushing.value) return
+  stPushing.value = url
+  try {
+    const res = await api.post<{ data: { pinged: number; skipped?: string } }>('/seo/index/indexnow-url', { url })
+    if (res.data.skipped) flash('info', 'IndexNow: ' + res.data.skipped)
+    else flash('ok', 'Đã đẩy IndexNow + xin crawl lại trang này.')
+  } catch (e: any) {
+    flash('err', e.message || 'Đẩy index thất bại')
+  } finally {
+    stPushing.value = null
+  }
+}
+
 // Vào tab lần đầu → tự nạp (lazy).
 watch(tab, (t) => {
   if (t === 'gsc' && !gscStatus.value) checkGscStatus()
@@ -1504,6 +1553,7 @@ watch(tab, (t) => {
     loadIndexOverview()
     loadIndexRows()
   }
+  if (t === 'dtop' && !stLoaded.value) loadStriking()
 })
 
 // ESC = đóng nhanh overlay đang mở (chuẩn a11y). Ưu tiên overlay "Đăng" trước editor.
@@ -1552,6 +1602,7 @@ onUnmounted(() => window.removeEventListener('keydown', onGlobalKeydown))
     <!-- Thanh chuyển tab -->
     <div class="tabbar" role="tablist" aria-label="Khu vực SEO">
       <button type="button" role="tab" :aria-selected="tab === 'index'" class="tab" :class="{ on: tab === 'index' }" @click="tab = 'index'">🚀 Tăng Tốc Index</button>
+      <button type="button" role="tab" :aria-selected="tab === 'dtop'" class="tab" :class="{ on: tab === 'dtop' }" @click="tab = 'dtop'">🎯 Đẩy Top</button>
       <button type="button" role="tab" :aria-selected="tab === 'radar'" class="tab" :class="{ on: tab === 'radar' }" @click="tab = 'radar'">🛰️ Radar Đối Thủ</button>
       <button type="button" role="tab" :aria-selected="tab === 'viet'" class="tab" :class="{ on: tab === 'viet' }" @click="tab = 'viet'">✍️ Lò Viết Bài</button>
       <button type="button" role="tab" :aria-selected="tab === 'trend'" class="tab" :class="{ on: tab === 'trend' }" @click="tab = 'trend'">📈 Xu Hướng</button>
@@ -1631,6 +1682,63 @@ onUnmounted(() => window.removeEventListener('keydown', onGlobalKeydown))
               </tr>
             </tbody>
           </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===== TAB ĐẨY TOP ===== -->
+    <div v-show="tab === 'dtop'" class="tabwrap">
+      <section class="card">
+        <div class="card-head">
+          <h3>🎯 Đẩy Top — từ khoá sắp lên top 3</h3>
+          <div style="display: flex; gap: 8px; align-items: center">
+            <label class="gsc-ctl-lbl">Hạng tối đa:
+              <select v-model.number="stPosMax" class="inp inp--sm inp--num" @change="loadStriking">
+                <option :value="20">20</option>
+                <option :value="30">30</option>
+                <option :value="40">40</option>
+              </select>
+            </label>
+            <button class="btn btn--sm btn--ghost" :disabled="stLoading" @click="loadStriking">{{ stLoading ? 'Đang quét…' : '🔄 Quét lại' }}</button>
+          </div>
+        </div>
+        <p class="muted" style="margin: 0 0 var(--space-3)">
+          Từ khoá đang ở hạng 5–{{ stPosMax }} (gần top, đã có hiển thị) = cơ hội lên top NHANH nhất. Mỗi dòng đã
+          <b>tải trang đang xếp hạng về kiểm on-page thật</b> → checklist sửa cụ thể. (Phản ánh bản web ĐANG chạy.)
+        </p>
+
+        <div v-if="stLoading && !stRows.length" class="muted">Đang tải trang & đối chiếu GSC…</div>
+        <div v-else-if="!stRows.length" class="muted">
+          Chưa có từ khoá nào ở hạng 5–{{ stPosMax }}. Khi site được index nhiều hơn (Trụ 1) danh sách sẽ dài ra.
+        </div>
+        <div v-else class="st-list">
+          <div v-for="r in stRows" :key="r.query + r.page" class="st-card">
+            <div class="st-head">
+              <div class="st-q">{{ r.query }}</div>
+              <div class="st-metrics">
+                <span class="st-pos">Hạng {{ r.position.toFixed(1) }}</span>
+                <span>{{ r.impressions }} hiển thị</span>
+                <span class="muted">cơ hội {{ r.coHoi }}</span>
+              </div>
+            </div>
+            <a :href="r.page" target="_blank" rel="noopener" class="st-url">{{ idxShort(r.page) }}</a>
+            <div class="st-checks">
+              <span class="st-chk" :class="r.inTitle ? 'ok' : 'no'">{{ r.inTitle ? '✓' : '✗' }} title</span>
+              <span class="st-chk" :class="r.inH1 ? 'ok' : 'no'">{{ r.inH1 ? '✓' : '✗' }} H1</span>
+              <span class="st-chk" :class="r.hasFaq ? 'ok' : 'no'">{{ r.hasFaq ? '✓' : '✗' }} FAQ</span>
+              <span class="st-chk" :class="r.inBody ? 'ok' : 'no'">{{ r.inBody ? '✓' : '✗' }} trong bài</span>
+              <span class="st-chk" :class="r.words >= 300 ? 'ok' : 'no'">{{ r.words }} từ</span>
+            </div>
+            <ul class="st-fixes">
+              <li v-for="(f, i) in r.fixes" :key="i">{{ f }}</li>
+            </ul>
+            <div class="st-actions">
+              <button class="btn btn--sm btn--primary" :disabled="stPushing === r.page" @click="stPushIndex(r.page)">
+                {{ stPushing === r.page ? 'Đang đẩy…' : '⚡ Đẩy index lại' }}
+              </button>
+              <button class="btn btn--sm btn--ghost" @click="vietTuKhoa(r.query)">✍️ Viết bài bồi từ khoá</button>
+            </div>
+          </div>
         </div>
       </section>
     </div>
@@ -2714,6 +2822,23 @@ onUnmounted(() => window.removeEventListener('keydown', onGlobalKeydown))
 .idx-badge--khong_ro { background: #fffaeb; color: #b54708; }
 .idx-badge--loi { background: #fef3f2; color: #b42318; }
 .idx-badge--chua_kiem { background: var(--gray-100); color: var(--text-subtle); }
+
+/* Đẩy Top (striking distance) */
+.st-list { display: flex; flex-direction: column; gap: var(--space-3); }
+.st-card { border: 1px solid var(--border); border-radius: var(--radius-md); padding: var(--space-3) var(--space-4); background: var(--surface); }
+.st-head { display: flex; justify-content: space-between; align-items: baseline; gap: var(--space-3); flex-wrap: wrap; }
+.st-q { font-size: 15px; font-weight: 700; color: var(--brown-800); }
+.st-metrics { display: flex; gap: var(--space-3); font-size: 12.5px; color: var(--text-muted); white-space: nowrap; }
+.st-pos { font-weight: 700; color: #b54708; }
+.st-url { display: inline-block; margin: 4px 0; font-size: 12.5px; color: var(--brown-600); text-decoration: none; word-break: break-all; }
+.st-url:hover { text-decoration: underline; }
+.st-checks { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+.st-chk { font-size: 11.5px; font-weight: 600; padding: 2px 8px; border-radius: var(--radius-full); }
+.st-chk.ok { background: #ecfdf3; color: #067647; }
+.st-chk.no { background: #fef3f2; color: #b42318; }
+.st-fixes { margin: 6px 0 10px; padding-left: 18px; font-size: 13px; color: var(--text); }
+.st-fixes li { margin: 2px 0; }
+.st-actions { display: flex; gap: var(--space-2); flex-wrap: wrap; }
 
 /* Biểu đồ cột theo ngày — "website là thực thể sống" */
 .gsc-chart-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-2); }

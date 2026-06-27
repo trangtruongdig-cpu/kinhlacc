@@ -97,6 +97,31 @@ export class SeoRouter {
     return { success: true, data };
   }
 
+  // Ping IndexNow cho ĐÚNG 1 URL (dùng ở Đẩy Top sau khi sửa on-page). body { url }
+  @Post('index/indexnow-url')
+  async indexNowUrl(@Body('url') url: string) {
+    const data = await this.service.indexNowUrl(url);
+    return { success: true, data };
+  }
+
+  // ---- Đẩy Top (striking distance → audit on-page + checklist sửa) ---------
+  @Get('striking/audit')
+  async strikingAudit(
+    @Query('days') days?: string,
+    @Query('posMax') posMax?: string,
+    @Query('minImpr') minImpr?: string,
+    @Query('limit') limit?: string,
+  ) {
+    const data = await this.service.strikingAudit(
+      Number(days) || 28,
+      5,
+      Number(posMax) || 30,
+      Number(minImpr) || 3,
+      Number(limit) || 20,
+    );
+    return { success: true, data };
+  }
+
   // ---- URL -----------------------------------------------------------------
   @Get('url')
   async listUrls(

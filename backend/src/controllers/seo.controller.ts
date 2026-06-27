@@ -1064,6 +1064,76 @@ Trả về JSON {chu_de, tu_khoa, tom_tat} theo đúng quy tắc.`;
     return this.indexNowPing(urls);
   }
 
+  /** Ping IndexNow cho ĐÚNG 1 URL (dùng ở Đẩy Top sau khi sửa on-page → xin crawl lại ngay). */
+  async indexNowUrl(url: string): Promise<{ pinged: number; skipped?: string }> {
+    if (!/^https?:\/\//.test(url || '')) throw new BadRequestException('URL không hợp lệ.');
+    return this.indexNowPing([url]);
+  }
+
+  // ===========================================================================
+  // TRỤ 3: STRIKING DISTANCE → HÀNH ĐỘNG (đẩy từ khoá hạng 5-30 lên top 3)
+  // ===========================================================================
+  // GSC cho biết từ khoá nào ĐANG ở "cửa ngõ top" (hạng 5-30, có hiển thị). Với MỖI từ, tải trang
+  // đang xếp hạng về và audit on-page THẬT: cụm từ khoá đã có trong <title>/H1/FAQ chưa, nội dung
+  // có mỏng không → xuất checklist sửa CỤ THỂ. Đây là cách lên top NHANH NHẤT (trang đã gần top sẵn).
+  async strikingAudit(
+    days = 28,
+    posMin = 5,
+    posMax = 30,
+    minImpr = 3,
+    limit = 20,
+  ): Promise<Array<Record<string, unknown>>> {
+    const rows = await this.gsc.strikingDistance(days, posMin, posMax, minImpr, Math.min(limit, 40));
+    const top = rows.slice(0, Math.min(Math.max(1, limit), 25));
+    const out: Array<Record<string, unknown>> = [];
+    for (const r of top) {
+      const html = await fetchTextSafe(r.page);
+      let title = '';
+      let h1 = '';
+      let body = '';
+      let words = 0;
+      let hasFaq = false;
+      if (html) {
+        title = stripTags(html.match(/<title>([\s\S]*?)<\/title>/i)?.[1] || '');
+        h1 = stripTags(html.match(/<h1[^>]*>([\s\S]*?)<\/h1>/i)?.[1] || '');
+        const bodyHtml = html.match(/<body[\s\S]*?>([\s\S]*?)<\/body>/i)?.[1] || html;
+        body = stripTags(bodyHtml);
+        words = body ? body.split(/\s+/).length : 0;
+        hasFaq = /Câu Hỏi Thường Gặp/i.test(html) || /"@type"\s*:\s*"FAQPage"/i.test(html);
+      }
+      const inTitle = queryHit(r.query, title);
+      const inH1 = queryHit(r.query, h1);
+      const inBody = queryHit(r.query, body);
+      const fixes: string[] = [];
+      if (!html) {
+        fixes.push('Không tải được trang để kiểm — kiểm thủ công.');
+      } else {
+        if (!inTitle.phrase) fixes.push(`Đưa đúng cụm "${r.query}" vào <title> / tiêu đề.`);
+        if (!inH1.phrase && inH1.coverage < 1) fixes.push(`Nhắc "${r.query}" trong H1 hoặc đoạn mở đầu.`);
+        if (!hasFaq) fixes.push(`Thêm mục FAQ trả lời đúng "${r.query}".`);
+        else if (!inBody.phrase) fixes.push(`Bổ sung 1 câu/đoạn chứa đúng cụm "${r.query}".`);
+        if (words && words < 300) fixes.push(`Nội dung mỏng (~${words} từ) — bồi thêm chi tiết.`);
+        fixes.push(`Thêm 2-3 internal link trỏ tới trang này, anchor "${r.query}".`);
+      }
+      out.push({
+        query: r.query,
+        page: r.page,
+        position: r.position,
+        impressions: r.impressions,
+        clicks: r.clicks,
+        coHoi: r.coHoi,
+        title,
+        words,
+        hasFaq,
+        inTitle: inTitle.phrase,
+        inH1: inH1.phrase || inH1.coverage >= 1,
+        inBody: inBody.phrase,
+        fixes,
+      });
+    }
+    return out;
+  }
+
   // ===========================================================================
   // PHASE 2: LÒ VIẾT BÀI (sinh nháp blog → van YMYL → xuất .md)
   // ===========================================================================
@@ -2062,6 +2132,40 @@ async function fetchTextSafe(url: string): Promise<string> {
   } finally {
     clearTimeout(timer);
   }
+}
+
+/** Bỏ thẻ HTML + entity → text thuần (để audit nội dung trang). */
+function stripTags(s: string): string {
+  return String(s || '')
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&[a-z]+;/gi, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/** Gấp tiếng Việt: bỏ dấu, đ→d, hạ thường, gom khoảng trắng — để so khớp KHÔNG phân biệt dấu. */
+function foldVi(s: string): string {
+  return String(s || '')
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/** Truy vấn xuất hiện trong text? phrase = đúng cả cụm; coverage = tỉ lệ từ khoá xuất hiện rời rạc. */
+function queryHit(query: string, text: string): { phrase: boolean; coverage: number } {
+  const fq = foldVi(query);
+  const ft = foldVi(text);
+  if (!fq) return { phrase: false, coverage: 0 };
+  const phrase = ft.includes(fq);
+  const toks = fq.split(' ').filter((t) => t.length > 1);
+  const present = toks.filter((t) => ft.includes(t)).length;
+  return { phrase, coverage: toks.length ? present / toks.length : 0 };
 }
 
 function extractLocs(xml: string): string[] {

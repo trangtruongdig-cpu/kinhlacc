@@ -118,6 +118,52 @@ function benhFaq(rec, set, cfg) {
   return out
 }
 
+// ── INTERNAL LINK ENGINE (Trụ 4) — tự nối MỌI lần nhắc tên huyệt trong thân bài → /huyet/<slug>/ ──
+// Trụ 3 chỉ ra: trang huyệt đã tốt on-page, thứ còn thiếu để lên top là INTERNAL LINK trỏ tới (anchor
+// = đúng tên huyệt = đúng từ khoá). Mỗi trang kinh/bệnh/huyệt đều nhắc nhiều huyệt khác trong y văn
+// (Chủ Trị, Phối Huyệt, điều trị…) → nối tự động = hàng nghìn link anchor-khớp, dồn sức cho trang đích.
+// An toàn: KHÔNG đụng nguyên văn (chỉ bọc <a>), bỏ qua chữ trong <a>/<h1-3>, mỗi huyệt 1 link/trang, cap 24.
+let _autolinkCount = 0
+function autolinkHtml(html, selfSlug, cap = 24) {
+  if (!html) return html
+  const lower = html.toLowerCase()
+  // Lọc nhanh: chỉ giữ target có tên xuất hiện trong trang (tránh chạy 700+ regex mỗi đoạn).
+  const targets = huyetLinkTargets().filter(
+    (t) => t.slug !== selfSlug && lower.includes(t.ten.toLowerCase()),
+  )
+  if (!targets.length) return html
+
+  const parts = html.split(/(<[^>]+>)/)
+  const openSkip = /^<(a|h1|h2|h3)\b/i
+  const closeSkip = /^<\/(a|h1|h2|h3)\s*>/i
+  let skip = 0
+  let linked = 0
+  const used = new Set()
+  for (let i = 0; i < parts.length; i++) {
+    const p = parts[i]
+    if (!p) continue
+    if (p[0] === '<') {
+      if (closeSkip.test(p)) { if (skip > 0) skip-- }
+      else if (openSkip.test(p) && !/\/>\s*$/.test(p)) skip++
+      continue
+    }
+    if (skip > 0 || linked >= cap) continue
+    let seg = p
+    for (const t of targets) {
+      if (linked >= cap) break
+      if (used.has(t.slug)) continue
+      const m = t.re.exec(seg) // re cờ 'iu' (không 'g') → khớp lần ĐẦU, stateless
+      if (!m) continue
+      seg = `${seg.slice(0, m.index)}<a href="/huyet/${t.slug}/">${m[0]}</a>${seg.slice(m.index + m[0].length)}`
+      used.add(t.slug)
+      linked++
+    }
+    parts[i] = seg
+  }
+  _autolinkCount += linked
+  return parts.join('')
+}
+
 // ───────────────────────── TRANG HUYỆT ──────────────────────────────────────
 function leadHuyet(rec, cls) {
   let h
@@ -183,6 +229,7 @@ function huyetPage(rec) {
   body += bodySection('Phối Huyệt', rec.phoiHuyet, false)
   body += bodySection('Ghi Chú', rec.ghiChu, false)
   if (rec.thamKhao) body += `<section class="dl-sec dl-ref"><h2>Tham Khảo</h2>${para(rec.thamKhao)}</section>`
+  body = autolinkHtml(body, slug) // nối tên huyệt nhắc trong bài (Chủ Trị, Phối Huyệt…) → trang huyệt đó
 
   let cungKinhHtml = ''
   if (cls.loai === 'kinh' && cls.mer) {
@@ -276,6 +323,7 @@ function kinhPage(m) {
 
   let body = ''
   for (const [k, label, caution] of KINH_SECTIONS) body += bodySection(label, m[k], caution)
+  body = autolinkHtml(body, kinhSlugOf(m)) // nối tên huyệt nhắc trong mô tả đường kinh → trang huyệt
 
   const pts = (m.points || []).map((p) => ({ rec: recOfPoint(p), ten: p.ten, code: p.code }))
   const ptsHtml = pts.length
@@ -454,6 +502,7 @@ function benhPage(rec, set, cfg) {
     if (!rec[k]) continue
     body += bodySection(label, rec[k], cfg.cautionKey === k)
   }
+  body = autolinkHtml(body, slug) // nối tên huyệt nhắc trong bài bệnh → trang huyệt tương ứng
 
   // Bệnh liên quan cùng bộ (lân cận trong danh mục) — tăng liên kết nội bộ + độ sâu crawl.
   const idx = set.records.indexOf(rec)
@@ -605,3 +654,4 @@ for (const cfg of BENH_SETS) {
   console.log(`  ${set.title}: ${n} trang (${noindex} noindex) → /${cfg.dir}/`)
 }
 console.log(`✓ build-dict bệnh: tổng ${nBenh} trang.`)
+console.log(`✓ internal link engine: đã tự nối ${_autolinkCount} link nội bộ (anchor = tên huyệt) trong thân bài.`)
