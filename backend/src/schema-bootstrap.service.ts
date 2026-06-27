@@ -42,6 +42,21 @@ export class SchemaBootstrapService implements OnApplicationBootstrap {
     `CREATE INDEX IF NOT EXISTS idx_bdyenn_benh_dong_y_excel ON benh_dong_y_excel_nguyen_nhan (id_benh_dong_y_excel)`,
     // Chẩn đoán (Hỏi & Chẩn đoán) lưu vào ca khám
     `ALTER TABLE examinations ADD COLUMN IF NOT EXISTS "chanDoan" jsonb`,
+    // Cockpit Index — trạng thái index từng URL sitemap (GSC URL Inspection)
+    `CREATE TABLE IF NOT EXISTS seo_index_status (
+       id              SERIAL PRIMARY KEY,
+       url             TEXT NOT NULL,
+       verdict         VARCHAR(30),
+       coverage_state  VARCHAR(160),
+       robots_state    VARCHAR(80),
+       fetch_state     VARCHAR(80),
+       google_canonical TEXT,
+       last_crawl_time TEXT,
+       loi             TEXT,
+       checked_at      TIMESTAMPTZ,
+       created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
+     )`,
+    `CREATE UNIQUE INDEX IF NOT EXISTS ux_seo_index_status_url ON seo_index_status (url)`,
   ];
 
   async onApplicationBootstrap(): Promise<void> {

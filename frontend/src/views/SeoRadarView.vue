@@ -308,8 +308,8 @@ function writeFromGap(c: Cum) {
 }
 
 // ===== Phase 2: Lò Viết Bài =====
-type Tab = 'radar' | 'viet' | 'trend' | 'gsc'
-const tab = ref<Tab>('radar')
+type Tab = 'index' | 'radar' | 'viet' | 'trend' | 'gsc'
+const tab = ref<Tab>('index')
 
 interface BaiViet {
   id: number
@@ -1373,9 +1373,137 @@ async function runInspect() {
   }
 }
 
-// Vào tab GSC lần đầu → tự kiểm tra kết nối (lazy).
+// ===== COCKPIT INDEX — ép Google index toàn bộ sitemap (nút thắt #1 của site mới) =====
+interface IndexOverview {
+  sitemapTotal: number
+  daKiemTra: number
+  chuaKiemTra: number
+  indexed: number
+  chuaIndex: number
+  khongRo: number
+  loi: number
+  lastCheckedAt: string | null
+}
+type IndexBucket = 'all' | 'indexed' | 'chua_index' | 'khong_ro' | 'loi' | 'chua_kiem'
+interface IndexRow {
+  url: string
+  bucket: IndexBucket
+  verdict: string | null
+  coverageState: string | null
+  lastCrawlTime: string | null
+  googleCanonical: string | null
+  loi: string | null
+  checkedAt: string | null
+}
+const idxOverview = ref<IndexOverview | null>(null)
+const idxLoaded = ref(false)
+const idxLoadingOverview = ref(false)
+const idxScanning = ref(false)
+const idxScanMsg = ref('')
+const idxBucket = ref<IndexBucket>('chua_index')
+const idxRows = ref<IndexRow[]>([])
+const idxRowsLoading = ref(false)
+const idxResubmitting = ref(false)
+const idxPinging = ref(false)
+
+async function loadIndexOverview() {
+  idxLoadingOverview.value = true
+  try {
+    const res = await api.get<{ data: IndexOverview }>('/seo/index/overview')
+    idxOverview.value = res.data
+    idxLoaded.value = true
+  } catch (e: any) {
+    flash('err', e.message || 'Không tải được tổng quan index')
+  } finally {
+    idxLoadingOverview.value = false
+  }
+}
+
+async function loadIndexRows() {
+  idxRowsLoading.value = true
+  try {
+    const res = await api.get<{ data: IndexRow[] }>(`/seo/index/list?bucket=${idxBucket.value}`)
+    idxRows.value = res.data
+  } catch (e: any) {
+    flash('err', e.message || 'Không tải được danh sách URL')
+  } finally {
+    idxRowsLoading.value = false
+  }
+}
+
+// Quét lặp: gọi /seo/index/scan từng lô tới khi remaining=0 (hoặc gặp stop = hết quota/sai quyền).
+async function runIndexScan() {
+  if (idxScanning.value) return
+  idxScanning.value = true
+  idxScanMsg.value = 'Bắt đầu quét…'
+  try {
+    let guard = 0
+    while (guard++ < 300) {
+      const res = await api.post<{
+        data: { ok: number; fail: number; remaining: number; stop: boolean; firstError: string }
+      }>('/seo/index/scan', { batch: 20 })
+      const d = res.data
+      await loadIndexOverview()
+      const done = idxOverview.value?.daKiemTra ?? 0
+      const total = idxOverview.value?.sitemapTotal ?? 0
+      idxScanMsg.value = `Đã kiểm ${done}/${total} URL… (lô vừa rồi: ${d.ok} ok, ${d.fail} lỗi)`
+      if (d.stop) {
+        flash('err', 'GSC dừng quét (thường do hết quota ~2000/ngày hoặc sai quyền): ' + (d.firstError || ''))
+        break
+      }
+      if (d.remaining <= 0) {
+        idxScanMsg.value = `Hoàn tất — đã kiểm ${done}/${total} URL.`
+        flash('ok', 'Đã quét xong trạng thái index toàn bộ sitemap.')
+        break
+      }
+    }
+    await loadIndexRows()
+  } catch (e: any) {
+    flash('err', e.message || 'Quét index thất bại')
+  } finally {
+    idxScanning.value = false
+  }
+}
+
+async function resubmitSitemap() {
+  if (idxResubmitting.value) return
+  idxResubmitting.value = true
+  try {
+    await api.post('/seo/index/resubmit-sitemap', {})
+    flash('ok', 'Đã nộp lại sitemap.xml cho Google.')
+  } catch (e: any) {
+    flash('err', e.message || 'Nộp sitemap thất bại')
+  } finally {
+    idxResubmitting.value = false
+  }
+}
+
+async function pingIndexNow() {
+  if (idxPinging.value) return
+  idxPinging.value = true
+  try {
+    const res = await api.post<{ data: { pinged: number; skipped?: string } }>('/seo/index/indexnow', {})
+    if (res.data.skipped) flash('info', 'IndexNow: ' + res.data.skipped)
+    else flash('ok', `Đã gửi ${res.data.pinged} URL chưa index tới IndexNow (Bing, Cốc Cốc...).`)
+  } catch (e: any) {
+    flash('err', e.message || 'Ping IndexNow thất bại')
+  } finally {
+    idxPinging.value = false
+  }
+}
+
+/** Rút gọn URL còn path để bảng gọn (giữ link đầy đủ ở href). */
+function idxShort(u: string): string {
+  return u.replace(/^https?:\/\/[^/]+/, '') || '/'
+}
+
+// Vào tab lần đầu → tự nạp (lazy).
 watch(tab, (t) => {
   if (t === 'gsc' && !gscStatus.value) checkGscStatus()
+  if (t === 'index' && !idxLoaded.value) {
+    loadIndexOverview()
+    loadIndexRows()
+  }
 })
 
 // ESC = đóng nhanh overlay đang mở (chuẩn a11y). Ưu tiên overlay "Đăng" trước editor.
@@ -1393,6 +1521,9 @@ onMounted(() => {
   loadCum()
   loadBaiViet()
   loadAcuIndex()
+  // Tab mặc định là "Tăng Tốc Index" → nạp ngay (watch chỉ chạy khi ĐỔI tab).
+  loadIndexOverview()
+  loadIndexRows()
   window.addEventListener('keydown', onGlobalKeydown)
 })
 onUnmounted(() => window.removeEventListener('keydown', onGlobalKeydown))
@@ -1420,10 +1551,88 @@ onUnmounted(() => window.removeEventListener('keydown', onGlobalKeydown))
 
     <!-- Thanh chuyển tab -->
     <div class="tabbar" role="tablist" aria-label="Khu vực SEO">
+      <button type="button" role="tab" :aria-selected="tab === 'index'" class="tab" :class="{ on: tab === 'index' }" @click="tab = 'index'">🚀 Tăng Tốc Index</button>
       <button type="button" role="tab" :aria-selected="tab === 'radar'" class="tab" :class="{ on: tab === 'radar' }" @click="tab = 'radar'">🛰️ Radar Đối Thủ</button>
       <button type="button" role="tab" :aria-selected="tab === 'viet'" class="tab" :class="{ on: tab === 'viet' }" @click="tab = 'viet'">✍️ Lò Viết Bài</button>
       <button type="button" role="tab" :aria-selected="tab === 'trend'" class="tab" :class="{ on: tab === 'trend' }" @click="tab = 'trend'">📈 Xu Hướng</button>
       <button type="button" role="tab" :aria-selected="tab === 'gsc'" class="tab" :class="{ on: tab === 'gsc' }" @click="tab = 'gsc'">🔍 Search Console</button>
+    </div>
+
+    <!-- ===== TAB TĂNG TỐC INDEX ===== -->
+    <div v-show="tab === 'index'" class="tabwrap">
+      <section class="card">
+        <div class="card-head">
+          <h3>🚀 Tăng Tốc Index — đưa toàn bộ trang vào Google</h3>
+          <button class="btn btn--sm btn--ghost" :disabled="idxLoadingOverview" @click="loadIndexOverview(); loadIndexRows()">
+            {{ idxLoadingOverview ? 'Đang tải…' : '🔄 Làm mới' }}
+          </button>
+        </div>
+        <p class="muted" style="margin: 0 0 var(--space-3)">
+          Nút thắt lớn nhất của site mới: trang chưa được Google <b>index</b> thì không thể lên top. Bảng này hỏi
+          Google từng URL trong sitemap đã index chưa → lọc trang chưa index → thúc Google/Bing/Cốc Cốc crawl.
+        </p>
+
+        <div v-if="idxOverview" class="gsc-stats">
+          <div class="gsc-stat"><span class="gsc-stat-num">{{ fmtNum(idxOverview.sitemapTotal) }}</span><span class="gsc-stat-lbl">URL trong sitemap</span></div>
+          <div class="gsc-stat idx-stat--ok"><span class="gsc-stat-num">{{ fmtNum(idxOverview.indexed) }}</span><span class="gsc-stat-lbl">✅ Đã index</span></div>
+          <div class="gsc-stat idx-stat--bad"><span class="gsc-stat-num">{{ fmtNum(idxOverview.chuaIndex) }}</span><span class="gsc-stat-lbl">🔴 Chưa index</span></div>
+          <div class="gsc-stat"><span class="gsc-stat-num">{{ fmtNum(idxOverview.khongRo) }}</span><span class="gsc-stat-lbl">❔ Google chưa biết</span></div>
+          <div class="gsc-stat"><span class="gsc-stat-num">{{ fmtNum(idxOverview.chuaKiemTra) }}</span><span class="gsc-stat-lbl">⏳ Chưa kiểm</span></div>
+        </div>
+
+        <div class="idx-actions">
+          <button class="btn btn--primary" :disabled="idxScanning" @click="runIndexScan">
+            {{ idxScanning ? '⏳ Đang quét GSC…' : '🔎 Quét trạng thái index (GSC)' }}
+          </button>
+          <button class="btn btn--ghost" :disabled="idxResubmitting" @click="resubmitSitemap">
+            {{ idxResubmitting ? 'Đang nộp…' : '🗺️ Nộp lại sitemap' }}
+          </button>
+          <button class="btn btn--ghost" :disabled="idxPinging" @click="pingIndexNow">
+            {{ idxPinging ? 'Đang gửi…' : '⚡ Ping IndexNow (trang chưa index)' }}
+          </button>
+        </div>
+        <p v-if="idxScanMsg" class="idx-scanmsg">{{ idxScanMsg }}</p>
+        <p v-if="idxOverview?.lastCheckedAt" class="muted" style="font-size: 12px">
+          Kiểm gần nhất: {{ new Date(idxOverview.lastCheckedAt).toLocaleString('vi-VN') }} · URL Inspection trần ~2000 lượt/ngày.
+        </p>
+      </section>
+
+      <section class="card">
+        <div class="card-head">
+          <h3>Chi tiết URL</h3>
+          <label class="gsc-ctl-lbl">Lọc:
+            <select v-model="idxBucket" class="inp inp--sm" @change="loadIndexRows">
+              <option value="chua_index">🔴 Chưa index</option>
+              <option value="indexed">✅ Đã index</option>
+              <option value="khong_ro">❔ Google chưa biết</option>
+              <option value="chua_kiem">⏳ Chưa kiểm</option>
+              <option value="loi">⚠️ Lỗi</option>
+              <option value="all">Tất cả</option>
+            </select>
+          </label>
+        </div>
+        <div v-if="idxRowsLoading" class="muted">Đang tải…</div>
+        <div v-else-if="!idxRows.length" class="muted">
+          Không có URL trong nhóm này.
+          <template v-if="idxBucket === 'chua_index'"> 🎉 Tuyệt — không còn trang nào chưa index!</template>
+        </div>
+        <div v-else class="table-wrap">
+          <p class="muted" style="margin: 0 0 var(--space-2); font-size: 12px">{{ idxRows.length }} URL</p>
+          <table class="tbl">
+            <thead><tr><th>URL</th><th>Trạng thái Google</th><th>Crawl gần nhất</th></tr></thead>
+            <tbody>
+              <tr v-for="r in idxRows" :key="r.url">
+                <td>
+                  <a :href="r.url" target="_blank" rel="noopener" class="idx-url">{{ idxShort(r.url) }}</a>
+                  <div v-if="r.googleCanonical && r.googleCanonical !== r.url" class="muted idx-canon">↳ canonical Google chọn: {{ idxShort(r.googleCanonical) }}</div>
+                </td>
+                <td><span class="idx-badge" :class="'idx-badge--' + r.bucket">{{ r.coverageState || (r.bucket === 'chua_kiem' ? 'Chưa kiểm' : r.loi || '—') }}</span></td>
+                <td class="muted">{{ r.lastCrawlTime ? new Date(r.lastCrawlTime).toLocaleDateString('vi-VN') : '—' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
 
     <!-- ===== TAB RADAR ===== -->
@@ -2488,6 +2697,23 @@ onUnmounted(() => window.removeEventListener('keydown', onGlobalKeydown))
 .gsc-stat { display: flex; flex-direction: column; gap: 2px; padding: var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--brown-50); }
 .gsc-stat-num { font-size: 22px; font-weight: 800; color: var(--brown-800); }
 .gsc-stat-lbl { font-size: var(--font-size-xs); color: var(--text-subtle); text-transform: uppercase; letter-spacing: .03em; }
+
+/* Cockpit Index */
+.idx-stat--ok { background: #ecfdf3; border-color: #a6f4c5; }
+.idx-stat--ok .gsc-stat-num { color: #067647; }
+.idx-stat--bad { background: #fef3f2; border-color: #fecdca; }
+.idx-stat--bad .gsc-stat-num { color: #b42318; }
+.idx-actions { display: flex; gap: var(--space-2); flex-wrap: wrap; margin-top: var(--space-2); }
+.idx-scanmsg { margin: var(--space-2) 0 0; font-size: 13px; font-weight: 600; color: var(--brown-700); }
+.idx-url { color: var(--brown-700); text-decoration: none; word-break: break-all; }
+.idx-url:hover { text-decoration: underline; }
+.idx-canon { font-size: 11.5px; margin-top: 2px; }
+.idx-badge { display: inline-block; padding: 2px 8px; border-radius: var(--radius-full); font-size: 11.5px; font-weight: 600; line-height: 1.5; }
+.idx-badge--indexed { background: #ecfdf3; color: #067647; }
+.idx-badge--chua_index { background: #fef3f2; color: #b42318; }
+.idx-badge--khong_ro { background: #fffaeb; color: #b54708; }
+.idx-badge--loi { background: #fef3f2; color: #b42318; }
+.idx-badge--chua_kiem { background: var(--gray-100); color: var(--text-subtle); }
 
 /* Biểu đồ cột theo ngày — "website là thực thể sống" */
 .gsc-chart-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); margin-bottom: var(--space-2); }

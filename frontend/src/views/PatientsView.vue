@@ -29,7 +29,10 @@ const form = ref<CreatePatientDto>({
 })
 
 onMounted(() => {
-  store.fetchPatients()
+  // Luôn nạp lại từ đầu (trang 1, bỏ lọc tìm kiếm) mỗi khi vào/quay lại trang — tránh thấy
+  // dữ liệu cũ còn sót trong store. Đồng bộ luôn ô tìm kiếm cục bộ cho khớp.
+  searchInput.value = ''
+  store.reload()
 })
 
 function onSearchInput() {

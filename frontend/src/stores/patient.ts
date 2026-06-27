@@ -133,6 +133,18 @@ export const usePatientStore = defineStore('patient', () => {
     }
   }
 
+  // Nạp lại danh sách "từ đầu": về trang 1, xoá ô tìm kiếm, dọn dữ liệu cũ để hiện trạng thái đang tải
+  // (không bị nháy danh sách cũ), rồi gọi API. Dùng khi vào / quay lại trang Bệnh Nhân — vì store là
+  // singleton sống xuyên suốt điều hướng nên page/search/patients cũ vẫn còn, trông như bị "cache".
+  async function reload() {
+    page.value = 1
+    search.value = ''
+    patients.value = []
+    total.value = 0
+    totalPages.value = 1
+    await fetchPatients()
+  }
+
   function setPage(p: number) {
     page.value = p
     fetchPatients()
@@ -163,6 +175,7 @@ export const usePatientStore = defineStore('patient', () => {
     createPatient,
     updatePatient,
     deletePatient,
+    reload,
     setPage,
     setSearch,
     clearError,

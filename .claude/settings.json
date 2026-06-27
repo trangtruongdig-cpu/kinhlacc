@@ -10,7 +10,8 @@
       "PowerShell($tools = @{}; foreach \\($t in 'magick','convert','inkscape','rsvg-convert','node','npm','chrome','msedge'\\){ $c = Get-Command $t -ErrorAction SilentlyContinue; $tools[$t] = if\\($c\\){$c.Source}else{'\\(not found\\)'} }; $tools.GetEnumerator\\(\\) | ForEach-Object { \"{0} = {1}\" -f $_.Key, $_.Value }; \"`n--- sharp installed? ---\"; Test-Path \"C:\\\\Users\\\\This PC\\\\Desktop\\\\kinhlac\\\\frontend\\\\node_modules\\\\sharp\"; \"--- puppeteer? ---\"; Test-Path \"C:\\\\Users\\\\This PC\\\\Desktop\\\\kinhlac\\\\frontend\\\\node_modules\\\\puppeteer\")",
       "PowerShell(& \"C:\\\\Users\\\\This PC\\\\Desktop\\\\kinhlac\\\\play-store-assets\\\\src\\\\render.ps1\" -Html \"icon.html\" -Width 512 -Height 512 -Out \"icon-512.png\" -Scale 1)",
       "PowerShell(& \"C:\\\\Users\\\\This PC\\\\Desktop\\\\kinhlac\\\\play-store-assets\\\\src\\\\render.ps1\" -Html \"feature.html\" -Width 1024 -Height 500 -Out \"feature-graphic-1024x500.png\" -Scale 1)",
-      "PowerShell(& \"C:\\\\Users\\\\This PC\\\\Desktop\\\\kinhlac\\\\play-store-assets\\\\src\\\\render.ps1\" -Html \"shot1.html\" -Width 1080 -Height 1920 -Out \"screenshot-1-welcome.png\" -Scale 1)"
+      "PowerShell(& \"C:\\\\Users\\\\This PC\\\\Desktop\\\\kinhlac\\\\play-store-assets\\\\src\\\\render.ps1\" -Html \"shot1.html\" -Width 1080 -Height 1920 -Out \"screenshot-1-welcome.png\" -Scale 1)",
+      "Read(//d/in hinh kinhlac/**)"
     ],
     "additionalDirectories": [
       "c:\\Users\\This PC\\.claude\\projects\\c--Users-This-PC-Desktop-kinhlac\\memory"

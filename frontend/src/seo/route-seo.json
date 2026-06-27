@@ -26,36 +26,135 @@
       ],
       "jsonLd": {
         "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Phần Mềm Đo Kinh Lạc & Quản Lý Phòng Khám Đông Y",
-        "description": "Phần mềm Y Học Cổ Truyền số hoá: đo nhiệt độ 12 đường kinh thành biểu đồ, tự gợi ý thể bệnh và pháp trị, đồ hình kinh lạc 3D, tra cứu hơn 1.000 huyệt vị và quản lý hồ sơ bệnh nhân phòng khám Đông Y.",
-        "url": "https://kinhlac.online/",
-        "inLanguage": "vi",
-        "applicationCategory": "HealthApplication",
-        "operatingSystem": "Web",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "VND",
-          "description": "Khám phá kho tri thức, đồ hình 3D và ca đo mẫu miễn phí, không cần đăng nhập."
-        },
-        "featureList": [
-          "Đo nhiệt độ kinh lạc 12 đường kinh",
-          "Chẩn đoán thể bệnh và pháp trị bằng dữ liệu",
-          "Đồ hình kinh lạc 3D với hơn 1.000 huyệt vị",
-          "Phân tích bài thuốc theo tính vị quy kinh",
-          "Quản lý hồ sơ bệnh nhân phòng khám Đông Y"
-        ],
-        "author": {
-          "@type": "Person",
-          "name": "Trương Đình Trang",
-          "jobTitle": "Y Sỹ Y Học Cổ Truyền (đang theo học)"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "Kinh Lạc Trương Gia",
-          "url": "https://kinhlac.online"
-        }
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://kinhlac.online/#org",
+            "name": "Kinh Lạc Trương Gia",
+            "alternateName": "Phần Mềm Đo Kinh Lạc Trương Gia",
+            "url": "https://kinhlac.online",
+            "logo": { "@type": "ImageObject", "url": "https://kinhlac.online/og-default.png" },
+            "image": "https://kinhlac.online/og-default.png",
+            "description": "Nền tảng số hoá Y Học Cổ Truyền: đo nhiệt độ kinh lạc, đồ hình kinh lạc 3D, tra cứu hơn 1.000 huyệt vị và bài thuốc, quản lý phòng khám Đông Y.",
+            "email": "lienhe@kinhlac.online",
+            "telephone": "+84353247247",
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "telephone": "+84353247247",
+              "email": "lienhe@kinhlac.online",
+              "contactType": "customer support",
+              "availableLanguage": ["Vietnamese"]
+            },
+            "founder": {
+              "@type": "Person",
+              "name": "Trương Đình Trang",
+              "jobTitle": "Y Sỹ Y Học Cổ Truyền (đang theo học)"
+            },
+            "knowsAbout": [
+              "Đo kinh lạc",
+              "Biện chứng luận trị",
+              "Huyệt vị",
+              "Châm cứu",
+              "Bài thuốc Đông Y",
+              "12 đường kinh"
+            ],
+            "sameAs": [
+              "https://www.facebook.com/trangTD1/",
+              "https://www.youtube.com/@TrangTruong.DIGITAL"
+            ]
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://kinhlac.online/#website",
+            "name": "Kinh Lạc Trương Gia",
+            "url": "https://kinhlac.online",
+            "inLanguage": "vi",
+            "publisher": { "@id": "https://kinhlac.online/#org" }
+          },
+          {
+            "@type": "WebApplication",
+            "name": "Phần Mềm Đo Kinh Lạc & Quản Lý Phòng Khám Đông Y",
+            "description": "Phần mềm Y Học Cổ Truyền số hoá: đo nhiệt độ 12 đường kinh thành biểu đồ, tự gợi ý thể bệnh và pháp trị, đồ hình kinh lạc 3D, tra cứu hơn 1.000 huyệt vị và quản lý hồ sơ bệnh nhân phòng khám Đông Y.",
+            "url": "https://kinhlac.online/",
+            "inLanguage": "vi",
+            "applicationCategory": "HealthApplication",
+            "operatingSystem": "Web",
+            "isAccessibleForFree": true,
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "VND",
+              "description": "Khám phá kho tri thức, đồ hình 3D và ca đo mẫu miễn phí, không cần đăng nhập."
+            },
+            "featureList": [
+              "Đo nhiệt độ kinh lạc 12 đường kinh",
+              "Chẩn đoán thể bệnh và pháp trị bằng dữ liệu",
+              "Đồ hình kinh lạc 3D với hơn 1.000 huyệt vị",
+              "Phân tích bài thuốc theo tính vị quy kinh",
+              "Quản lý hồ sơ bệnh nhân phòng khám Đông Y"
+            ],
+            "author": {
+              "@type": "Person",
+              "name": "Trương Đình Trang",
+              "jobTitle": "Y Sỹ Y Học Cổ Truyền (đang theo học)"
+            },
+            "publisher": { "@id": "https://kinhlac.online/#org" }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://kinhlac.online/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "Phần mềm đo kinh lạc là gì?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Là công cụ số hoá phương pháp đo nhiệt độ 12 đường kinh tại các tỉnh huyệt, giúp lượng hoá kinh cường – kinh nhược và hỗ trợ biện chứng luận trị Đông Y. Đây là công cụ tham khảo, không thay thế chẩn đoán hoặc điều trị của thầy thuốc."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Dùng Kinh Lạc Trương Gia có mất phí không?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Kho tri thức, đồ hình kinh lạc 3D và bản đo mẫu được xem thử miễn phí, không cần đăng nhập."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Đo kinh lạc được thực hiện bằng cách nào?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Đo nhiệt độ tại 24 tỉnh huyệt ở chi trên và chi dưới; phần mềm dựng biểu đồ, so sánh kinh cường – kinh nhược, kết luận Bát Cương và gợi ý thể bệnh Đông Y."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Có đồ hình kinh lạc 3D không?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Có. Mô hình 3D tương tác hiển thị 12 đường kinh và hơn 1.000 huyệt vị; bạn có thể xoay, bấm vào huyệt để tra cứu và tìm kiếm bay tới huyệt, chạy trực tiếp trên trình duyệt."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Phần mềm phân tích bài thuốc Đông Y thế nào?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Phân tích bài thuốc theo Tứ Khí, Ngũ Vị, Quy Kinh và cấu trúc Quân – Thần – Tá – Sứ, trực quan hoá bằng biểu đồ radar để thấy xu hướng tính vị quy kinh của cả bài."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Thông tin trên website có thay thế việc khám bệnh không?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Không. Toàn bộ nội dung mang tính tham khảo và giáo dục. Khi có triệu chứng, bạn cần thăm khám và tư vấn trực tiếp bởi thầy thuốc Y Học Cổ Truyền có chuyên môn."
+                }
+              }
+            ]
+          }
+        ]
       }
     },
     {

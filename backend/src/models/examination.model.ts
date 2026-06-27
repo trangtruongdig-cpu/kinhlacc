@@ -7,10 +7,12 @@ import {
 
 /** Chẩn đoán đã lưu từ luồng "Hỏi & Chẩn đoán" (D5) — kết luận thầy thuốc + bằng chứng. */
 export interface ChanDoanLuu {
-  /** Tên thể bệnh kết luận. */
+  /** Tên thể bệnh kết luận (gộp nhiều thể bằng ", " khi chọn nhiều thể). */
   ket_luan: string;
-  /** Khóa ứng viên (tdo:<id> hoặc kep:...). */
+  /** Khóa ứng viên của thể đầu tiên (tdo:<id> hoặc kep:...) — giữ tương thích bản cũ. */
   ket_luan_key?: string;
+  /** Danh sách thể kết luận khi chốt NHIỀU thể bệnh (mỗi thể: nhãn + khóa). */
+  ket_luan_items?: { label: string; key: string }[];
   /** Bảng xếp hạng theo lời kể lúc chốt (snapshot bằng chứng). */
   xep_hang: { label: string; percent: number; is_kep: boolean }[];
   /** Triệu chứng đã hỏi + câu trả lời (chỉ những câu đã trả lời). */

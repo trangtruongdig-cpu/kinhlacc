@@ -1,0 +1,37 @@
+{
+  "name": "Kinh Lạc Trương Gia",
+  "alternateName": "Phần Mềm Đo Kinh Lạc Trương Gia",
+  "url": "https://kinhlac.online",
+  "language": "vi",
+  "tagline": "Phần mềm đo kinh lạc & Y Học Cổ Truyền số hoá",
+  "description": "Nền tảng số hoá Y Học Cổ Truyền (Đông Y): đo nhiệt độ 12 đường kinh thành biểu đồ, gợi ý thể bệnh và pháp trị theo Bát Cương, đồ hình kinh lạc 3D, tra cứu hơn 1.000 huyệt vị và dược liệu, phân tích bài thuốc theo tính vị quy kinh, quản lý hồ sơ phòng khám.",
+  "category": "Health / Traditional Chinese Medicine software",
+  "audience": ["Thầy thuốc Y Học Cổ Truyền", "Phòng khám Đông Y", "Học viên & người quan tâm Đông Y"],
+  "features": [
+    "Đo nhiệt độ kinh lạc 12 đường kinh và lập biểu đồ",
+    "Phân tích kinh cường – kinh nhược, kết luận Bát Cương, gợi ý thể bệnh",
+    "Đồ hình kinh lạc 3D với hơn 1.000 huyệt vị",
+    "Phân tích bài thuốc theo Tứ Khí, Ngũ Vị, Quy Kinh, Quân–Thần–Tá–Sứ",
+    "Từ điển huyệt vị, 12 đường kinh và dược liệu",
+    "Quản lý hồ sơ bệnh nhân phòng khám Đông Y"
+  ],
+  "key_pages": [
+    { "title": "Kết quả đo kinh lạc", "url": "https://kinhlac.online/xem-ket-qua-do" },
+    { "title": "Đồ hình kinh lạc 3D", "url": "https://kinhlac.online/xem-3d" },
+    { "title": "Phân tích bài thuốc", "url": "https://kinhlac.online/xem-bai-thuoc" },
+    { "title": "Từ điển huyệt vị & kinh lạc", "url": "https://kinhlac.online/thu-vien" },
+    { "title": "Từ điển dược liệu", "url": "https://kinhlac.online/duoc-lieu" },
+    { "title": "Cẩm Nang Đông Y", "url": "https://kinhlac.online/blog/" },
+    { "title": "Về chúng tôi", "url": "https://kinhlac.online/ve-chung-toi" },
+    { "title": "Quy trình biên tập & minh bạch AI", "url": "https://kinhlac.online/quy-trinh-bien-tap" }
+  ],
+  "contact": {
+    "email": "lienhe@kinhlac.online",
+    "telephone": "+84353247247",
+    "zalo": "0353247247"
+  },
+  "isAccessibleForFree": true,
+  "disclaimer": "Công cụ tham khảo, không thay thế chẩn đoán và điều trị y khoa. Khi có triệu chứng cần thăm khám và tư vấn bởi thầy thuốc Y Học Cổ Truyền.",
+  "license": "Nội dung công khai có thể được trích dẫn nếu ghi nguồn về https://kinhlac.online",
+  "updated": "2026-06-27"
+}

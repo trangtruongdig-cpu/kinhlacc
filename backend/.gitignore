@@ -54,3 +54,13 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Build output sinh CẠNH file .ts (tsc chạy không có outDir) — chỉ giữ nguồn .ts, KHÔNG commit .js
+api/*.js
+api/*.d.ts
+api/*.js.map
+test/*.js
+test/*.d.ts
+test/*.js.map
+# Cache build TS (đổi liên tục, vô nghĩa khi commit)
+*.tsbuildinfo

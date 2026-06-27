@@ -20,6 +20,8 @@ import { SeoDoiThu } from '../models/seo-doi-thu.model';
 import { SeoUrl } from '../models/seo-url.model';
 import { SeoCum } from '../models/seo-cum.model';
 import { SeoBaiViet } from '../models/seo-bai-viet.model';
+import { SeoIndexStatus } from '../models/seo-index-status.model';
+import { GscService } from './gsc.controller';
 import { renderArticleHtml, renderNotFoundHtml } from './seo-blog.renderer';
 import { safeUpstreamStatus } from '../utils/external-error.util';
 import {
@@ -280,6 +282,9 @@ export class SeoService implements OnModuleInit {
     private readonly cumRepo: Repository<SeoCum>,
     @InjectRepository(SeoBaiViet)
     private readonly baiVietRepo: Repository<SeoBaiViet>,
+    @InjectRepository(SeoIndexStatus)
+    private readonly indexStatusRepo: Repository<SeoIndexStatus>,
+    private readonly gsc: GscService,
   ) {}
 
   /** Bật cron tuần nếu SEO_TREND_CRON=true (mặc định TẮT — bấm tay trước, tự động sau). */
@@ -817,6 +822,246 @@ Trả về JSON {chu_de, tu_khoa, tom_tat} theo đúng quy tắc.`;
       }
     }
     return [...pageUrls];
+  }
+
+  // ===========================================================================
+  // COCKPIT INDEX — theo dõi & ép Google index toàn bộ URL trong sitemap của mình
+  // ===========================================================================
+  // Nút thắt số 1 của site mới: 907 URL nộp nhưng gần như chưa được index → không thể lên top.
+  // Quy trình: đọc sitemap của CHÍNH MÌNH → hỏi GSC từng URL đã index chưa (URL Inspection) →
+  // lọc trang chưa index → nộp lại sitemap + ping IndexNow để thúc Google/Bing/Cốc Cốc crawl.
+
+  private ownSitemapCache: { at: number; urls: string[] } | null = null;
+
+  /** Domain site mình (không http, không dấu "/" cuối) — từ SITE_DOMAIN, mặc định kinhlac.online. */
+  private ownDomain(): string {
+    return (this.config.get<string>('SITE_DOMAIN') || 'https://kinhlac.online')
+      .replace(/^https?:\/\//, '')
+      .replace(/\/+$/, '');
+  }
+
+  /** Lấy TOÀN BỘ URL trang trong sitemap của chính mình (KHÔNG cắt 300 như crawl đối thủ). Cache 60s. */
+  async collectOwnSitemapUrls(): Promise<string[]> {
+    if (this.ownSitemapCache && Date.now() - this.ownSitemapCache.at < 60_000) {
+      return this.ownSitemapCache.urls;
+    }
+    const domain = this.ownDomain();
+    const seen = new Set<string>();
+    const pages = new Set<string>();
+    const queue = [`https://${domain}/sitemap.xml`, `https://${domain}/sitemap_index.xml`];
+    let fetched = 0;
+    const HARD_CAP = 5000; // dư cho ~907 URL hiện tại + tăng trưởng
+    while (queue.length && fetched < 50 && pages.size < HARD_CAP) {
+      const sm = queue.shift()!;
+      if (seen.has(sm)) continue;
+      seen.add(sm);
+      if (/\.gz($|\?)/i.test(sm)) continue;
+      const xml = await fetchTextSafe(sm);
+      fetched++;
+      if (!xml) continue;
+      const locs = extractLocs(xml);
+      if (/<sitemapindex[\s>]/i.test(xml)) {
+        for (const loc of locs) if (!seen.has(loc)) queue.push(loc);
+      } else {
+        for (const loc of locs) {
+          if (
+            /^https?:\/\//i.test(loc) &&
+            !/\.(jpe?g|png|gif|webp|svg|css|js|pdf|zip|mp4|mp3|ico|xml|woff2?|ttf)(\?|$)/i.test(loc)
+          ) {
+            pages.add(loc);
+          }
+          if (pages.size >= HARD_CAP) break;
+        }
+      }
+    }
+    const urls = [...pages];
+    this.ownSitemapCache = { at: Date.now(), urls };
+    return urls;
+  }
+
+  /** Quy verdict/coverageState của GSC về 1 nhóm: indexed | chua_index | khong_ro | loi. */
+  private static indexBucket(row: {
+    verdict: string | null;
+    coverage_state: string | null;
+    loi: string | null;
+  }): 'indexed' | 'chua_index' | 'khong_ro' | 'loi' {
+    if (row.loi) return 'loi';
+    const cs = (row.coverage_state || '').toLowerCase();
+    if (!cs && !row.verdict) return 'khong_ro';
+    if (cs.includes('unknown')) return 'khong_ro';
+    if (cs.includes('indexed') && !cs.includes('not indexed')) return 'indexed';
+    if (row.verdict === 'PASS' && !cs.includes('not indexed')) return 'indexed';
+    return 'chua_index';
+  }
+
+  /** Tổng quan độ phủ index: tổng URL sitemap, đã kiểm, phân theo nhóm. */
+  async indexOverview() {
+    const [all, rows] = await Promise.all([
+      this.collectOwnSitemapUrls().catch(() => [] as string[]),
+      this.indexStatusRepo.find(),
+    ]);
+    const byUrl = new Map(rows.map((r) => [r.url, r]));
+    let indexed = 0;
+    let chuaIndex = 0;
+    let khongRo = 0;
+    let loi = 0;
+    let chuaKiem = 0;
+    let lastChecked: string | null = null;
+    for (const u of all) {
+      const r = byUrl.get(u);
+      if (!r || !r.checked_at) {
+        chuaKiem++;
+        continue;
+      }
+      const b = SeoService.indexBucket(r);
+      if (b === 'indexed') indexed++;
+      else if (b === 'chua_index') chuaIndex++;
+      else if (b === 'khong_ro') khongRo++;
+      else loi++;
+      const t = r.checked_at instanceof Date ? r.checked_at.toISOString() : String(r.checked_at);
+      if (!lastChecked || t > lastChecked) lastChecked = t;
+    }
+    return {
+      sitemapTotal: all.length,
+      daKiemTra: all.length - chuaKiem,
+      chuaKiemTra: chuaKiem,
+      indexed,
+      chuaIndex,
+      khongRo,
+      loi,
+      lastCheckedAt: lastChecked,
+    };
+  }
+
+  /** Danh sách URL theo nhóm (all|indexed|chua_index|khong_ro|loi|chua_kiem) để hiện bảng. */
+  async indexList(bucket?: string, limit = 1000) {
+    const [all, rows] = await Promise.all([
+      this.collectOwnSitemapUrls().catch(() => [] as string[]),
+      this.indexStatusRepo.find(),
+    ]);
+    const byUrl = new Map(rows.map((r) => [r.url, r]));
+    const out: Array<Record<string, unknown>> = [];
+    for (const u of all) {
+      const r = byUrl.get(u);
+      const b = !r || !r.checked_at ? 'chua_kiem' : SeoService.indexBucket(r);
+      if (bucket && bucket !== 'all' && b !== bucket) continue;
+      out.push({
+        url: u,
+        bucket: b,
+        verdict: r?.verdict ?? null,
+        coverageState: r?.coverage_state ?? null,
+        lastCrawlTime: r?.last_crawl_time ?? null,
+        googleCanonical: r?.google_canonical ?? null,
+        loi: r?.loi ?? null,
+        checkedAt: r?.checked_at ?? null,
+      });
+      if (out.length >= limit) break;
+    }
+    return out;
+  }
+
+  /**
+   * Kiểm tra (inspect) 1 LÔ URL chưa từng kiểm (hoặc cũ nhất nếu đã kiểm hết) qua GSC URL Inspection.
+   * Gọi TUẦN TỰ cho nhẹ + tránh chạm trần ~600 req/phút của GSC. Frontend gọi lặp tới khi remaining=0.
+   * Trả `stop=true` nếu cả lô đều lỗi (thường là hết quota/sai quyền) để frontend dừng, không đốt tiếp.
+   */
+  async indexScan(batch = 20) {
+    const n = Math.min(Math.max(1, Math.floor(batch) || 20), 40);
+    const all = await this.collectOwnSitemapUrls();
+    if (!all.length) {
+      throw new BadRequestException(
+        'Không đọc được sitemap.xml của site. Kiểm tra SITE_DOMAIN và sitemap đã deploy chưa.',
+      );
+    }
+    const rows = await this.indexStatusRepo.find();
+    const byUrl = new Map(rows.map((r) => [r.url, r]));
+    const neverChecked = all.filter((u) => !byUrl.has(u) || !byUrl.get(u)!.checked_at);
+    let rescan = false;
+    let target: string[];
+    if (neverChecked.length) {
+      target = neverChecked.slice(0, n);
+    } else {
+      rescan = true;
+      const ts = (u: string) => {
+        const c = byUrl.get(u)?.checked_at;
+        return c ? new Date(c as unknown as string).getTime() : 0;
+      };
+      target = [...all].sort((a, b) => ts(a) - ts(b)).slice(0, n);
+    }
+
+    let ok = 0;
+    let fail = 0;
+    let firstError = '';
+    for (const url of target) {
+      let patch: Partial<SeoIndexStatus>;
+      try {
+        const r = await this.gsc.inspectUrl(url);
+        patch = {
+          url,
+          verdict: r.verdict ?? null,
+          coverage_state: r.coverageState ?? null,
+          robots_state: r.robotsTxtState ?? null,
+          fetch_state: r.pageFetchState ?? null,
+          google_canonical: r.googleCanonical ?? null,
+          last_crawl_time: (r.lastCrawlTime as string | null) ?? null,
+          loi: null,
+          checked_at: new Date(),
+        };
+        ok++;
+      } catch (e) {
+        const msg = e instanceof Error ? e.message : String(e);
+        if (!firstError) firstError = msg;
+        patch = { url, loi: msg, checked_at: new Date() };
+        fail++;
+      }
+      const existing = byUrl.get(url);
+      if (existing) await this.indexStatusRepo.update({ id: existing.id }, patch);
+      else {
+        const saved = await this.indexStatusRepo.save(this.indexStatusRepo.create(patch));
+        byUrl.set(url, saved);
+      }
+    }
+    const stop = ok === 0 && fail === target.length && target.length > 0;
+    const remaining = rescan ? 0 : Math.max(0, neverChecked.length - target.length);
+    return { scanned: target.length, ok, fail, remaining, rescan, stop, firstError, sitemapTotal: all.length };
+  }
+
+  /** Nộp (lại) sitemap.xml của mình cho Google → thúc Google đọc lại danh sách URL. */
+  async resubmitOwnSitemap() {
+    return this.gsc.submitSitemap(`https://${this.ownDomain()}/sitemap.xml`);
+  }
+
+  /** Ping IndexNow cho 1 loạt URL đầy đủ (Bing, Cốc Cốc, Yandex, Seznam, Naver). Google KHÔNG dùng. */
+  private async indexNowPing(urls: string[]): Promise<{ pinged: number; skipped?: string }> {
+    const key = this.config.get<string>('INDEXNOW_KEY');
+    if (!key) return { pinged: 0, skipped: 'Chưa cấu hình INDEXNOW_KEY ở backend (.env).' };
+    const domain = `https://${this.ownDomain()}`;
+    const list = (urls || []).filter((u) => typeof u === 'string' && /^https?:\/\//.test(u)).slice(0, 10000);
+    if (!list.length) return { pinged: 0, skipped: 'Không có URL hợp lệ để gửi.' };
+    try {
+      await fetch('https://api.indexnow.org/indexnow', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json; charset=utf-8' },
+        body: JSON.stringify({
+          host: new URL(domain).host,
+          key,
+          keyLocation: `${domain}/${key}.txt`,
+          urlList: list,
+        }),
+      });
+      return { pinged: list.length };
+    } catch (e) {
+      return { pinged: 0, skipped: e instanceof Error ? e.message : String(e) };
+    }
+  }
+
+  /** Ping IndexNow: mặc định chỉ các URL CHƯA index (chua_index + khong_ro + chua_kiem + lỗi); all=true gửi hết. */
+  async indexNowPush(onlyNotIndexed = true): Promise<{ pinged: number; skipped?: string }> {
+    const list = await this.indexList('all', 10000);
+    const urls = (onlyNotIndexed ? list.filter((r) => r.bucket !== 'indexed') : list).map(
+      (r) => r.url as string,
+    );
+    return this.indexNowPing(urls);
   }
 
   // ===========================================================================

@@ -329,6 +329,36 @@ const playlists: Playlist[] = [
 ]
 const ytPlaylist = (id: string) => `https://www.youtube-nocookie.com/embed/videoseries?list=${id}`
 const ytPlaylistPage = (id: string) => `https://www.youtube.com/playlist?list=${id}`
+
+// ── Câu hỏi thường gặp (hiển thị trên trang + FAQPage JSON-LD ở route-seo.json) ──
+// LƯU Ý: nội dung câu trả lời phải KHỚP với FAQPage trong route-seo.json (Google yêu cầu
+// schema trùng với nội dung hiển thị). Sửa ở đây thì sửa luôn bên route-seo.json.
+const faqs: { q: string; a: string }[] = [
+  {
+    q: 'Phần mềm đo kinh lạc là gì?',
+    a: 'Là công cụ số hoá phương pháp đo nhiệt độ 12 đường kinh tại các tỉnh huyệt, giúp lượng hoá kinh cường – kinh nhược và hỗ trợ biện chứng luận trị Đông Y. Đây là công cụ tham khảo, không thay thế chẩn đoán hoặc điều trị của thầy thuốc.',
+  },
+  {
+    q: 'Dùng Kinh Lạc Trương Gia có mất phí không?',
+    a: 'Kho tri thức, đồ hình kinh lạc 3D và bản đo mẫu được xem thử miễn phí, không cần đăng nhập.',
+  },
+  {
+    q: 'Đo kinh lạc được thực hiện bằng cách nào?',
+    a: 'Đo nhiệt độ tại 24 tỉnh huyệt ở chi trên và chi dưới; phần mềm dựng biểu đồ, so sánh kinh cường – kinh nhược, kết luận Bát Cương và gợi ý thể bệnh Đông Y.',
+  },
+  {
+    q: 'Có đồ hình kinh lạc 3D không?',
+    a: 'Có. Mô hình 3D tương tác hiển thị 12 đường kinh và hơn 1.000 huyệt vị; bạn có thể xoay, bấm vào huyệt để tra cứu và tìm kiếm bay tới huyệt, chạy trực tiếp trên trình duyệt.',
+  },
+  {
+    q: 'Phần mềm phân tích bài thuốc Đông Y thế nào?',
+    a: 'Phân tích bài thuốc theo Tứ Khí, Ngũ Vị, Quy Kinh và cấu trúc Quân – Thần – Tá – Sứ, trực quan hoá bằng biểu đồ radar để thấy xu hướng tính vị quy kinh của cả bài.',
+  },
+  {
+    q: 'Thông tin trên website có thay thế việc khám bệnh không?',
+    a: 'Không. Toàn bộ nội dung mang tính tham khảo và giáo dục. Khi có triệu chứng, bạn cần thăm khám và tư vấn trực tiếp bởi thầy thuốc Y Học Cổ Truyền có chuyên môn.',
+  },
+]
 </script>
 
 <template>
@@ -351,6 +381,7 @@ const ytPlaylistPage = (id: string) => `https://www.youtube.com/playlist?list=${
           <button @click="scrollTo('thu-vien')">Thư Viện</button>
           <button @click="scrollTo('hoc-lieu')">Học Liệu</button>
           <button @click="scrollTo('bang-gia')">Bảng Giá</button>
+          <button @click="scrollTo('faq')">Hỏi Đáp</button>
         </nav>
         <button class="lp-btn lp-btn--primary" @click="enter">{{ ctaLabel }}</button>
       </div>
@@ -824,6 +855,21 @@ const ytPlaylistPage = (id: string) => `https://www.youtube.com/playlist?list=${
       <p class="lp-learn-note">Nguồn video thuộc kênh YouTube “Trang Trương” · chỉ dùng cho mục đích học tập &amp; tham khảo.</p>
     </section>
 
+    <!-- ============ Câu Hỏi Thường Gặp (FAQ · AEO) ============ -->
+    <section class="lp-faq" id="faq">
+      <div class="lp-section-head">
+        <span class="lp-eyebrow">Hỏi &amp; Đáp</span>
+        <h2 class="lp-h2">Câu Hỏi Thường Gặp</h2>
+        <p class="lp-section-sub">Những thắc mắc phổ biến về phần mềm đo kinh lạc và Y Học Cổ Truyền số hoá.</p>
+      </div>
+      <div class="lp-faq-list">
+        <details v-for="(f, i) in faqs" :key="i" class="lp-faq-item" :open="i === 0">
+          <summary class="lp-faq-q">{{ f.q }}</summary>
+          <p class="lp-faq-a">{{ f.a }}</p>
+        </details>
+      </div>
+    </section>
+
     <!-- ============ Chân trang ============ -->
     <footer class="lp-footer">
       <div class="lp-footer-inner">
@@ -869,6 +915,56 @@ const ytPlaylistPage = (id: string) => `https://www.youtube.com/playlist?list=${
      xuống dòng cuối (orphan). Heading được đặt riêng `text-wrap: balance` để chia
      dòng cân nhau — declaration riêng đó sẽ đè lên giá trị di truyền này. */
   text-wrap: pretty;
+}
+
+/* ---------- Câu hỏi thường gặp (FAQ) ---------- */
+.lp-faq {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-6);
+}
+.lp-faq-list {
+  margin-top: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.lp-faq-item {
+  background: var(--surface, #fff);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-4) var(--space-5);
+  transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+.lp-faq-item[open] {
+  border-color: var(--brown-300);
+  box-shadow: 0 6px 18px rgba(var(--primary-rgb), 0.08);
+}
+.lp-faq-q {
+  list-style: none;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: var(--font-size-base);
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+.lp-faq-q::-webkit-details-marker { display: none; }
+.lp-faq-q::after {
+  content: '+';
+  font-size: 1.4em;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--brown-600);
+  transition: transform var(--transition-fast);
+}
+.lp-faq-item[open] .lp-faq-q::after { transform: rotate(45deg); }
+.lp-faq-a {
+  margin: var(--space-3) 0 0;
+  color: var(--text-muted, #555);
+  line-height: 1.7;
 }
 
 /* ---------- Nút chung ---------- */

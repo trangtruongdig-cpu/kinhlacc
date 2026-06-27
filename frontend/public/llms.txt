@@ -1,0 +1,32 @@
+# Kinh Lạc Trương Gia — Phần Mềm Đo Kinh Lạc & Y Học Cổ Truyền Số Hoá
+
+> Nền tảng số hoá Y Học Cổ Truyền (Đông Y) của Việt Nam: đo nhiệt độ 12 đường kinh thành biểu đồ, gợi ý thể bệnh và pháp trị theo Bát Cương, đồ hình kinh lạc 3D, tra cứu hơn 1.000 huyệt vị và dược liệu, phân tích bài thuốc theo tính vị quy kinh, và quản lý hồ sơ phòng khám. Kho tri thức và bản đo mẫu xem thử miễn phí, không cần đăng nhập.
+
+Kinh Lạc Trương Gia số hoá phương pháp đo nhiệt độ kinh lạc (24 tỉnh huyệt, theo hướng nghiên cứu của Lê Văn Sửu) và biện chứng luận trị Đông Y. Nội dung do người có chuyên môn Y Học Cổ Truyền biên tập và kiểm chứng (xem Quy Trình Biên Tập). Website bằng tiếng Việt.
+
+## Công cụ chính
+- [Đo & xem kết quả đo kinh lạc](https://kinhlac.online/xem-ket-qua-do): bảng nhiệt độ 12 đường kinh chi trên/chi dưới, suy ra kinh cường – kinh nhược, kết luận Bát Cương và thể bệnh Đông Y.
+- [Đồ hình kinh lạc 3D](https://kinhlac.online/xem-3d): mô hình 3D tương tác 12 đường kinh và hơn 1.000 huyệt vị — xoay, bấm vào huyệt, tìm kiếm bay tới huyệt.
+- [Phân tích bài thuốc](https://kinhlac.online/xem-bai-thuoc): phân tích bài thuốc theo Tứ Khí, Ngũ Vị, Quy Kinh và cấu trúc Quân–Thần–Tá–Sứ bằng biểu đồ radar.
+
+## Tra cứu
+- [Từ điển huyệt vị, 12 đường kinh & kinh lạc](https://kinhlac.online/thu-vien): vị trí, chủ trị, châm cứu trị bệnh của hơn 1.000 huyệt, 12 chính kinh và kỳ kinh bát mạch.
+- [Từ điển dược liệu](https://kinhlac.online/duoc-lieu): tính, vị, quy kinh, công dụng, chủ trị, kiêng kỵ và hình ảnh vị thuốc Đông Y.
+- [Cẩm Nang Đông Y (blog)](https://kinhlac.online/blog/): bài viết hướng dẫn đo kinh lạc, huyệt vị, bệnh học và bài thuốc.
+
+## Về & minh bạch (E-E-A-T)
+- [Về chúng tôi](https://kinhlac.online/ve-chung-toi): nguồn gốc phương pháp, đội ngũ chuyên môn và dữ liệu thật.
+- [Quy trình biên tập & minh bạch AI](https://kinhlac.online/quy-trinh-bien-tap): ai viết, ai duyệt, nguồn tham khảo và cách dùng AI.
+- [Liên hệ](https://kinhlac.online/lien-he): email lienhe@kinhlac.online · điện thoại/Zalo 0353.247.247.
+
+## Câu hỏi thường gặp
+- **Phần mềm đo kinh lạc là gì?** Là công cụ số hoá phương pháp đo nhiệt độ 12 đường kinh tại các tỉnh huyệt, để lượng hoá kinh cường – kinh nhược và hỗ trợ biện chứng luận trị Đông Y. Đây là công cụ tham khảo, không thay thế chẩn đoán/điều trị của thầy thuốc.
+- **Dùng có mất phí không?** Kho tri thức, đồ hình 3D và bản đo mẫu được xem thử miễn phí, không cần đăng nhập.
+- **Đo kinh lạc bằng cách nào?** Đo nhiệt độ tại 24 tỉnh huyệt (chi trên và chi dưới); phần mềm dựng biểu đồ, so kinh cường – kinh nhược, kết luận Bát Cương và gợi ý thể bệnh.
+- **Có đồ hình 3D không?** Có — mô hình 3D tương tác 12 đường kinh và hơn 1.000 huyệt vị, dùng trực tiếp trên trình duyệt.
+- **Thông tin trên web có thay thế khám bệnh không?** Không. Nội dung mang tính tham khảo; cần thăm khám và tư vấn bởi thầy thuốc Y Học Cổ Truyền.
+
+## Liên hệ
+- Email: lienhe@kinhlac.online
+- Điện thoại / Zalo: 0353.247.247
+- Website: https://kinhlac.online

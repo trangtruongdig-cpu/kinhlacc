@@ -262,8 +262,8 @@ const kepPicks = ref<KepPick[]>([])
 const kepSearching = ref(false)
 const kepError = ref<string | null>(null)
 let kepTimer: ReturnType<typeof setTimeout> | null = null
-// D5 — lưu chẩn đoán vào bệnh án
-const chanDoanKetLuanKey = ref('')
+// D5 — lưu chẩn đoán vào bệnh án (cho phép chốt NHIỀU thể bệnh)
+const chanDoanKetLuanKeys = ref<string[]>([])
 const chanDoanNote = ref('')
 const chanDoanSaving = ref(false)
 const chanDoanSavedMsg = ref('')
@@ -297,7 +297,11 @@ async function openPhanBiet() {
   kepError.value = null
   // Prefill từ chẩn đoán đã lưu (nếu mở lại).
   const prev = examination.value?.chanDoan
-  chanDoanKetLuanKey.value = prev?.ket_luan_key ?? ''
+  chanDoanKetLuanKeys.value = Array.isArray(prev?.ket_luan_items)
+    ? prev.ket_luan_items.map((i: { key: string }) => i.key)
+    : prev?.ket_luan_key
+      ? [prev.ket_luan_key]
+      : []
   chanDoanNote.value = prev?.ghi_chu ?? ''
   chanDoanSavedMsg.value = ''
   Object.keys(phanBietAnswers).forEach((k) => delete phanBietAnswers[Number(k)])
@@ -635,12 +639,22 @@ function removeKepCandidate(key: string) {
   phanBietCandidates.value = phanBietCandidates.value.filter((c) => c.key !== key)
 }
 
-// D5 — lưu kết luận chẩn đoán vào ca khám (bệnh án + lịch sử).
-const chanDoanConclusionKey = computed(() => chanDoanKetLuanKey.value || pbScores.value[0]?.key || '')
+// D5 — lưu kết luận chẩn đoán vào ca khám (bệnh án + lịch sử). Cho phép chốt NHIỀU thể bệnh.
+// Sắp theo thứ tự xếp hạng (cao điểm trước); chưa chọn gì → mặc định lấy thể cao điểm nhất.
+const chanDoanConclusionKeys = computed<string[]>(() => {
+  const picked = new Set(chanDoanKetLuanKeys.value)
+  const ordered = pbScores.value.filter((s) => picked.has(s.key)).map((s) => s.key)
+  if (ordered.length) return ordered
+  const top = pbScores.value[0]?.key
+  return top ? [top] : []
+})
 async function saveChanDoan() {
-  const key = chanDoanConclusionKey.value
-  const cand = phanBietCandidates.value.find((c) => c.key === key)
-  if (!cand) {
+  const items: { label: string; key: string }[] = []
+  for (const k of chanDoanConclusionKeys.value) {
+    const cand = phanBietCandidates.value.find((c) => c.key === k)
+    if (cand) items.push({ label: cand.label, key: cand.key })
+  }
+  if (!items.length) {
     chanDoanSavedMsg.value = 'Chưa chọn thể kết luận.'
     return
   }
@@ -651,8 +665,10 @@ async function saveChanDoan() {
     trieu_chung.push({ id: s.id, ten: s.ten, nhom: s.nhom, tra_loi: a })
   }
   const payload = {
-    ket_luan: cand.label,
-    ket_luan_key: key,
+    // ket_luan: ghép nhãn các thể để các chỗ hiển thị/in (đang đọc ket_luan) hiện đủ tất cả thể.
+    ket_luan: items.map((i) => i.label).join(', '),
+    ket_luan_key: items[0]?.key,
+    ket_luan_items: items,
     xep_hang: pbScores.value.map((s) => ({ label: s.label, percent: s.percent, is_kep: s.isKep })),
     trieu_chung,
     ghi_chu: chanDoanNote.value.trim() || undefined,
@@ -2723,15 +2739,23 @@ function printPhieuKetQua() {
             <!-- D5: kết luận & lưu vào bệnh án -->
             <div class="pb-conclude">
               <div class="pb-group-title">Kết luận chẩn đoán <span>(lưu vào bệnh án)</span></div>
-              <div class="pb-conclude-row">
-                <label class="pb-conclude-lbl">Thể kết luận</label>
-                <select v-model="chanDoanKetLuanKey" class="pb-conclude-select">
-                  <option value="">— Chọn thể (mặc định cao điểm nhất) —</option>
-                  <option v-for="s in pbScores" :key="'opt-' + s.key" :value="s.key">
-                    {{ s.label }} — {{ s.percent }}%{{ s.isKep ? ' (kép)' : '' }}
-                  </option>
-                </select>
+              <div class="pb-conclude-row pb-conclude-row--multi">
+                <label class="pb-conclude-lbl">Thể kết luận <span class="pb-conclude-sub">(chọn 1 hoặc nhiều thể)</span></label>
+                <div class="pb-conclude-checks">
+                  <label
+                    v-for="s in pbScores"
+                    :key="'ck-' + s.key"
+                    class="pb-conclude-check"
+                    :class="{ on: chanDoanKetLuanKeys.includes(s.key) }"
+                  >
+                    <input type="checkbox" :value="s.key" v-model="chanDoanKetLuanKeys" />
+                    <span>{{ s.label }} — {{ s.percent }}%{{ s.isKep ? ' (kép)' : '' }}</span>
+                  </label>
+                </div>
               </div>
+              <p v-if="!chanDoanKetLuanKeys.length" class="pb-conclude-empty">
+                Chưa chọn — khi lưu sẽ mặc định lấy thể cao điểm nhất.
+              </p>
               <textarea
                 v-model="chanDoanNote"
                 class="pb-conclude-note"
@@ -3971,6 +3995,14 @@ function printPhieuKetQua() {
 .pb-conclude-row { display: flex; align-items: center; gap: 8px; margin: 4px 0 8px; flex-wrap: wrap; }
 .pb-conclude-lbl { font-size: 12.5px; font-weight: 700; color: var(--brown-700, #6b4f2a); flex: none; }
 .pb-conclude-select { flex: 1; min-width: 200px; padding: 6px 10px; border: 1px solid var(--border, #e5e0d6); border-radius: 8px; font-size: 13px; background: #fff; }
+.pb-conclude-row--multi { align-items: flex-start; flex-direction: column; gap: 6px; }
+.pb-conclude-sub { font-weight: 500; font-size: 11.5px; color: var(--gray-500); }
+.pb-conclude-checks { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+.pb-conclude-check { display: flex; align-items: center; gap: 8px; padding: 6px 10px; border: 1px solid var(--border, #e5e0d6); border-radius: 8px; font-size: 13px; background: #fff; cursor: pointer; transition: border-color .15s, background .15s; }
+.pb-conclude-check:hover { border-color: var(--brown-300, #d6bd92); }
+.pb-conclude-check.on { border-color: var(--brown-500, #a07d45); background: var(--brown-50, #f7efe1); font-weight: 600; }
+.pb-conclude-check input { accent-color: var(--brown-600, #8a5e28); cursor: pointer; flex: none; }
+.pb-conclude-empty { margin: 0 0 8px; font-size: 11.5px; font-style: italic; color: var(--gray-500); }
 .pb-conclude-note { width: 100%; box-sizing: border-box; padding: 7px 10px; border: 1px solid var(--border, #e5e0d6); border-radius: 8px; font-size: 13px; resize: vertical; font-family: inherit; }
 .pb-conclude-actions { display: flex; align-items: center; gap: 10px; margin-top: 8px; flex-wrap: wrap; }
 .pb-save-btn { border: 0; background: var(--brown-700, #6b4f2a); color: #fff; font-weight: 700; font-size: 13px; border-radius: 8px; padding: 8px 16px; cursor: pointer; }

@@ -61,6 +61,42 @@ export class SeoRouter {
     return { success: true, data };
   }
 
+  // ---- Cockpit Index (ép Google index toàn bộ sitemap) --------------------
+  // Tổng quan độ phủ index: bao nhiêu URL đã index / chưa index / chưa kiểm.
+  @Get('index/overview')
+  async indexOverview() {
+    const data = await this.service.indexOverview();
+    return { success: true, data };
+  }
+
+  // Danh sách URL theo nhóm: ?bucket=indexed|chua_index|khong_ro|loi|chua_kiem|all
+  @Get('index/list')
+  async indexList(@Query('bucket') bucket?: string) {
+    const data = await this.service.indexList(bucket);
+    return { success: true, data };
+  }
+
+  // Quét 1 lô (mặc định 20) URL chưa kiểm qua GSC. Frontend gọi lặp tới khi remaining=0.
+  @Post('index/scan')
+  async indexScan(@Body('batch') batch?: number) {
+    const data = await this.service.indexScan(Number(batch) || 20);
+    return { success: true, data };
+  }
+
+  // Nộp lại sitemap.xml cho Google (thúc đọc lại danh sách URL).
+  @Post('index/resubmit-sitemap')
+  async indexResubmit() {
+    const data = await this.service.resubmitOwnSitemap();
+    return { success: true, data };
+  }
+
+  // Ping IndexNow (Bing/Cốc Cốc/...): mặc định chỉ URL chưa index; body {all:true} = gửi hết.
+  @Post('index/indexnow')
+  async indexNow(@Body('all') all?: boolean) {
+    const data = await this.service.indexNowPush(!all);
+    return { success: true, data };
+  }
+
   // ---- URL -----------------------------------------------------------------
   @Get('url')
   async listUrls(
