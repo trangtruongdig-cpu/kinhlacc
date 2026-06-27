@@ -60,6 +60,64 @@ function bodySection(label, body, caution) {
   return `<section class="dl-sec${caution ? ' dl-caution' : ''}"><h2>${escText(label)}</h2>${note}${para(body)}</section>`
 }
 
+// ── FAQ (AEO) — dựng câu hỏi theo ĐÚNG MẪU TRUY VẤN THẬT từ chính y văn (KHÔNG để AI viết lại) ──
+// Dữ liệu GSC cho thấy người dùng gõ "huyệt X nằm ở đâu", "tác dụng huyệt X", "cách bấm huyệt X",
+// "[bệnh] là gì". Mỗi câu trả lời rút NGUYÊN VĂN từ đúng mục (VỊ TRÍ / CHỦ TRỊ / CHÂM CỨU / …) →
+// vừa khớp truy vấn (lên hạng), vừa đủ điều kiện FAQ rich result (chiếm thêm chỗ trên SERP).
+function faqBlock(faq) {
+  if (!faq.length) return ''
+  const items = faq
+    .map((f) => `<div class="dl-faq-item"><h3>${escText(f.q)}</h3>${para(f.a)}</div>`)
+    .join('')
+  return `<section class="dl-faq"><h2>Câu Hỏi Thường Gặp</h2>${items}</section>`
+}
+function faqLd(faq) {
+  return ld({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: clip(String(f.a).replace(/\s+/g, ' ').trim(), 600) },
+    })),
+  })
+}
+function huyetFaq(rec, cls, dispName) {
+  const out = []
+  const vt = sec(rec, 'VỊ TRÍ')
+  const ct = sec(rec, 'CHỦ TRỊ') || sec(rec, 'TÁC DỤNG')
+  const cc = sec(rec, 'CHÂM CỨU')
+  if (vt) out.push({ q: `${dispName} nằm ở đâu?`, a: vt })
+  if (ct) out.push({ q: `${dispName} có tác dụng gì?`, a: ct })
+  if (cc) out.push({ q: `Cách châm cứu, bấm ${dispName} thế nào?`, a: cc })
+  if (cls.loai === 'kinh' && cls.kinhTen)
+    out.push({
+      q: `${dispName} thuộc đường kinh nào?`,
+      a: `${dispName}${cls.code ? ` (${cls.code})` : ''} thuộc ${cls.kinhTen}.`,
+    })
+  return out
+}
+function benhFaq(rec, set, cfg) {
+  const out = []
+  const pick = (re) => {
+    for (const [k, l] of set.fields) if (re.test(l) && rec[k]) return rec[k]
+    return ''
+  }
+  const first = (() => {
+    for (const [k] of set.fields) if (rec[k]) return rec[k]
+    return ''
+  })()
+  const dai = pick(/đại cương|khái niệm|định nghĩa|là gì/i) || first
+  const nguyen = pick(/nguyên nhân|bệnh nguyên|cơ chế|nguyên do/i)
+  const trieu = pick(/triệu chứng|biểu hiện|lâm sàng/i)
+  const dieu = pick(/điều trị|phép trị|cách trị|châm cứu|phương huyệt|biện chứng/i)
+  if (dai) out.push({ q: `${rec.ten} là gì?`, a: dai })
+  if (nguyen) out.push({ q: `Nguyên nhân ${rec.ten} theo Đông Y?`, a: nguyen })
+  if (trieu) out.push({ q: `Triệu chứng của ${rec.ten} là gì?`, a: trieu })
+  if (dieu) out.push({ q: `Đông Y ${cfg.key === 'ccdt' ? 'châm cứu ' : ''}điều trị ${rec.ten} thế nào?`, a: dieu })
+  return out
+}
+
 // ───────────────────────── TRANG HUYỆT ──────────────────────────────────────
 function leadHuyet(rec, cls) {
   let h
@@ -77,7 +135,18 @@ function huyetPage(rec) {
   const url = `${DOMAIN}/huyet/${slug}/`
   const namePrefix = /huyệt/i.test(rec.ten) ? '' : 'Huyệt '
   const title = `${namePrefix}${rec.ten}${cls.loai === 'kinh' && cls.code ? ` (${cls.code})` : ''}`
+  const dispName = `${namePrefix}${rec.ten}`
+  // <title> SEO: chèn ý định tìm kiếm thật ("vị trí", "tác dụng", "cách châm cứu"). H1/breadcrumb/schema giữ tên NGẮN.
+  const seoTitle = `${title}: Vị Trí, Tác Dụng & Cách Châm Cứu`
+  const faq = huyetFaq(rec, cls, dispName)
   const lead = leadHuyet(rec, cls)
+  // Mô tả meta bám đúng cụm truy vấn dài đuôi (nằm ở đâu / tác dụng chủ trị / cách châm cứu – bấm).
+  const vtForDesc = sec(rec, 'VỊ TRÍ')
+  const metaDesc = clip(
+    `${dispName}${cls.code ? ` (${cls.code})` : ''}${cls.loai === 'kinh' && cls.kinhTen ? ` thuộc ${cls.kinhTen}` : ''}: vị trí nằm ở đâu, tác dụng (chủ trị) gì, cách châm cứu – bấm huyệt.` +
+      (vtForDesc ? ` Vị trí: ${clip(vtForDesc, 80)}` : ''),
+    160,
+  )
   const img = rec.image ? ASSET_BASE + String(rec.image).replace(/^\/+/, '') : null
   const ogImg = img
     ? DOMAIN + img
@@ -150,6 +219,7 @@ function huyetPage(rec) {
       image: ogImg,
     }),
     ld({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: crumbItems }),
+    ...(faq.length ? [faqLd(faq)] : []),
   ]
 
   const crumbHtml = `<nav class="bl-crumb"><a href="/">Trang Chủ</a> › <a href="/thu-vien">Từ Điển</a>${
@@ -157,7 +227,7 @@ function huyetPage(rec) {
   } › <span>${escText(rec.ten)}</span></nav>`
 
   const htmlDoc = head({
-    title: `${title} — ${SITE}`, description: clip(lead, 160), canonical: url,
+    title: `${seoTitle} — ${SITE}`, description: metaDesc, canonical: url,
     jsonLds, ogImage: ogImg, index: indexable, extraHead: DICT_STYLE,
   }) +
     `<body>${topbar}
@@ -168,6 +238,7 @@ function huyetPage(rec) {
   ${infobox}
   <p class="dl-lead">${escText(lead)}</p>
   <div class="bl-body">${body}</div>
+  ${faqBlock(faq)}
   <div class="bl-cta"><a href="/xem-3d">Khám Phá Đồ Hình Kinh Lạc 3D →</a></div>
   ${cungKinhHtml}
   ${cls.loai === 'kinh' ? `<p class="dl-up">↑ <a href="/kinh/${escAttr(cls.kinhSlug)}/">Về ${escText(cls.kinhTen)}</a></p>` : ''}
@@ -276,6 +347,11 @@ const DICT_STYLE = `<style>
   .dl-rel-list li a,.dl-rel-list li{display:inline-block;background:#f3ebdd;border-radius:8px;padding:.3rem .7rem;font-size:.92rem;text-decoration:none;color:#5a4427}
   .dl-rel-list li a:hover{background:#e7d8bf}
   .dl-rel-list small{opacity:.7}
+  .dl-faq{margin-top:2rem;border-top:1px dashed #e3d6c2;padding-top:1.1rem}
+  .dl-faq>h2{font-size:1.25rem;color:#5a4427;margin:0 0 .8rem}
+  .dl-faq-item{margin:0 0 1rem}
+  .dl-faq-item h3{font-size:1.05rem;color:#6b4423;margin:0 0 .3rem}
+  .dl-faq-item p{margin:.2rem 0;line-height:1.65}
   .dl-up{margin-top:1.2rem;font-weight:600}
   .dl-ref{font-size:.9rem;color:#6a5a45}
   .dl-trait-chip{display:inline-block;background:#f3ebdd;border:1px solid #d4b896;border-radius:6px;padding:.1em .55em;font-size:.85rem;color:#5a4427;margin:.1em .2em .1em 0}
@@ -362,6 +438,15 @@ function benhPage(rec, set, cfg) {
     240,
   )
   const indexable = benhIndexable(rec, set.fields)
+  const faq = benhFaq(rec, set, cfg)
+  // <title> SEO + meta theo ý định tìm kiếm thật ("[bệnh] là gì / triệu chứng / cách điều trị Đông Y").
+  const seoSuffix = cfg.key === 'ccdt' ? 'Cách Châm Cứu Điều Trị' : 'Triệu Chứng & Điều Trị Đông Y'
+  const seoTitle = `${title}: ${seoSuffix}`
+  const metaDesc = clip(
+    `${rec.ten}${rec._meta ? ` (${rec._meta})` : ''}: triệu chứng, nguyên nhân và cách ${cfg.key === 'ccdt' ? 'châm cứu điều trị' : 'điều trị'} theo Đông Y.` +
+      (firstBody ? ` ${clip(firstBody, 90)}` : ''),
+    160,
+  )
 
   // Thân bài: in nguyên văn từng trường có nội dung; trường "điều trị" châm cứu → đóng khung cảnh báo.
   let body = ''
@@ -425,11 +510,12 @@ function benhPage(rec, set, cfg) {
         { '@type': 'ListItem', position: 4, name: title, item: url },
       ],
     }),
+    ...(faq.length ? [faqLd(faq)] : []),
   ]
 
   const htmlDoc = head({
-    title: `${title} — ${set.title} — ${SITE}`,
-    description: clip(lead, 160), canonical: url, jsonLds, ogImage: GENERIC_OG, index: indexable, extraHead: DICT_STYLE,
+    title: `${seoTitle} — ${SITE}`,
+    description: metaDesc, canonical: url, jsonLds, ogImage: GENERIC_OG, index: indexable, extraHead: DICT_STYLE,
   }) +
     `<body>${topbar}
 <main class="bl-main"><article class="bl-article dl-article">
@@ -440,6 +526,7 @@ function benhPage(rec, set, cfg) {
   <p class="dl-lead">${escText(lead)}</p>
   ${crossHtml}
   <div class="bl-body">${body}</div>
+  ${faqBlock(faq)}
   <div class="bl-cta"><a href="/xem-ket-qua-do">Đo Kinh Lạc — Đọc Kết Quả Thành Biểu Đồ →</a></div>
   ${huyetRelHtml}
   ${relHtml}
