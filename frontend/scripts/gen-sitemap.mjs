@@ -9,6 +9,10 @@ import { listDictPages } from './dict-data.mjs'
 const here = dirname(fileURLToPath(import.meta.url))
 const seo = JSON.parse(readFileSync(resolve(here, '../src/seo/route-seo.json'), 'utf8'))
 const DOMAIN = seo.domain
+// Chuẩn hoá path sang dạng CÓ dấu "/" cuối (trừ trang chủ) — KHỚP canonical + redirect "thêm /" của host.
+// Nếu sitemap liệt kê bản KHÔNG "/" (vd /thu-vien) trong khi host redirect sang /thu-vien/ → Google
+// coi là "Page with redirect" và bỏ index. Blog/từ điển vốn đã có "/" nên không đổi.
+const slashify = (p) => (p === '/' ? '/' : '/' + p.replace(/^\/+|\/+$/g, '') + '/')
 const today = process.env.SITEMAP_DATE || new Date().toISOString().slice(0, 10)
 
 // 1) Trang công khai của app
@@ -44,7 +48,7 @@ for (const p of listDictPages()) {
 const urls = routes
   .map(
     (r) => `  <url>
-    <loc>${DOMAIN}${r.path}</loc>
+    <loc>${DOMAIN}${slashify(r.path)}</loc>
     <lastmod>${r.lastmod}</lastmod>
     <changefreq>${r.changefreq}</changefreq>
     <priority>${r.priority}</priority>

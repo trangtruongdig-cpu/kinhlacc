@@ -30,6 +30,11 @@ const escAttr = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 const escText = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
+// Chuẩn hoá path sang dạng CÓ dấu "/" cuối (trừ trang chủ). Phải KHỚP canonical Google đã chọn +
+// redirect "thêm /" của host (nginx try_files / Vercel) — nếu lệch, Google báo "Page with redirect"
+// và KHÔNG index trang. Áp cho canonical, og:url và link điều hướng trong khối stub.
+const slashify = (p) => (p === '/' ? '/' : '/' + p.replace(/^\/+|\/+$/g, '') + '/')
+
 function setTitle(html, title) {
   return html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escText(title)}</title>`)
 }
@@ -59,7 +64,7 @@ function setJsonLd(html, obj) {
 function injectStub(html, page) {
   const links = seo.pages
     .filter((p) => p.path !== page.path)
-    .map((p) => `<a href="${escAttr(p.path)}">${escText(p.title)}</a>`)
+    .map((p) => `<a href="${escAttr(slashify(p.path))}">${escText(p.title)}</a>`)
     .join(' · ')
   const stub =
     `<div data-seo-stub>` +
@@ -73,7 +78,7 @@ function injectStub(html, page) {
 
 let count = 0
 for (const page of seo.pages) {
-  const url = seo.domain + page.path
+  const url = seo.domain + slashify(page.path)
   let html = baseHtml
   html = setTitle(html, page.title)
   html = setMeta(html, 'name', 'description', page.description)

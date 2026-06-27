@@ -102,9 +102,19 @@ function setBreadcrumbLd(items: { name: string; path: string }[] | undefined) {
   el.textContent = JSON.stringify(data)
 }
 
+/**
+ * Chuẩn hoá path sang dạng CÓ dấu "/" cuối (trừ trang chủ), bỏ query/hash. Phải KHỚP canonical
+ * Google đã chọn + redirect "thêm /" của host — nếu lệch, Google báo "Page with redirect" → không index.
+ */
+function slashify(path: string): string {
+  const clean = path.replace(/[?#].*$/, '')
+  if (clean === '/' || clean === '') return '/'
+  return '/' + clean.replace(/^\/+|\/+$/g, '') + '/'
+}
+
 /** Áp toàn bộ thẻ SEO cho 1 trang. Gọi lại mỗi lần đổi route. */
 export function applySeo(seo: SeoData, path: string) {
-  const canonical = seo.canonical || DOMAIN + path
+  const canonical = seo.canonical || DOMAIN + slashify(path)
   const ogImage = seo.ogImage || DEFAULT_OG_IMAGE
   const ogType = seo.ogType || 'website'
 
