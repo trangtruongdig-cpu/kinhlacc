@@ -15,13 +15,15 @@ const DOMAIN = seo.domain
 const slashify = (p) => (p === '/' ? '/' : '/' + p.replace(/^\/+|\/+$/g, '') + '/')
 const today = process.env.SITEMAP_DATE || new Date().toISOString().slice(0, 10)
 
-// 1) Trang công khai của app
-const routes = seo.pages.map((p) => ({
-  path: p.path,
-  priority: p.priority || '0.8',
-  changefreq: p.changefreq || 'monthly',
-  lastmod: today,
-}))
+// 1) Trang công khai của app — BỎ trang noindex (vd /xoa-tai-khoan) khỏi sitemap để khớp robots meta.
+const routes = seo.pages
+  .filter((p) => p.index !== false)
+  .map((p) => ({
+    path: p.path,
+    priority: p.priority || '0.8',
+    changefreq: p.changefreq || 'monthly',
+    lastmod: today,
+  }))
 
 // 2) Blog (trang index + từng bài). Bỏ bài index:false (bản nháp/chờ duyệt) khỏi sitemap.
 const posts = readArticles().filter((p) => p.index !== false)
