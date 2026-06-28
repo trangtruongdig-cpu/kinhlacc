@@ -37,6 +37,8 @@ const YESCALE_DEFAULT_MODEL = 'deepseek-v3.2';
 // ---- Giới hạn an toàn (tránh crawl/đốt token quá tay) ----------------------
 const FETCH_TIMEOUT_MS = 15000;
 const MAX_SITEMAPS = 15; // số sitemap con tối đa đi sâu
+// Khóa IndexNow mặc định — CÔNG KHAI (khớp file public/<key>.txt đã deploy). Cho phép ghi đè bằng env INDEXNOW_KEY.
+const DEFAULT_INDEXNOW_KEY = '3ca42ea20a96a20d494868c1877e263c';
 const MAX_URLS_PER_CRAWL = 300; // trần URL gom mỗi lần quét
 const MAX_PAGE_CHARS = 5000; // cắt bớt text trang đối thủ trước khi đưa cho AI
 const MAX_ANALYZE_BATCH = 30;
@@ -1031,10 +1033,18 @@ Trả về JSON {chu_de, tu_khoa, tom_tat} theo đúng quy tắc.`;
     return this.gsc.submitSitemap(`https://${this.ownDomain()}/sitemap.xml`);
   }
 
+  /**
+   * Khóa IndexNow là CÔNG KHAI (đặt sẵn ở public/<key>.txt, ai cũng đọc được) → có fallback mặc định
+   * để IndexNow chạy ở MỌI nơi deploy mà KHỎI cần set env (Vercel/VPS hay quên). Vẫn cho ghi đè qua
+   * INDEXNOW_KEY nếu đổi khóa. Khóa này khớp file https://kinhlac.online/3ca42ea20a96a20d494868c1877e263c.txt
+   */
+  private indexNowKey(): string {
+    return (this.config.get<string>('INDEXNOW_KEY') || DEFAULT_INDEXNOW_KEY).trim();
+  }
+
   /** Ping IndexNow cho 1 loạt URL đầy đủ (Bing, Cốc Cốc, Yandex, Seznam, Naver). Google KHÔNG dùng. */
   private async indexNowPing(urls: string[]): Promise<{ pinged: number; skipped?: string }> {
-    const key = this.config.get<string>('INDEXNOW_KEY');
-    if (!key) return { pinged: 0, skipped: 'Chưa cấu hình INDEXNOW_KEY ở backend (.env).' };
+    const key = this.indexNowKey();
     const domain = `https://${this.ownDomain()}`;
     const list = (urls || []).filter((u) => typeof u === 'string' && /^https?:\/\//.test(u)).slice(0, 10000);
     if (!list.length) return { pinged: 0, skipped: 'Không có URL hợp lệ để gửi.' };
@@ -1349,8 +1359,7 @@ Trả về JSON {chu_de, tu_khoa, tom_tat} theo đúng quy tắc.`;
    * SITE_DOMAIN ghi đè domain (mặc định https://kinhlac.online).
    */
   private async pingIndexNow(slug: string): Promise<void> {
-    const key = this.config.get<string>('INDEXNOW_KEY');
-    if (!key) return; // chưa cấu hình khoá → bỏ qua, không báo lỗi
+    const key = this.indexNowKey(); // có fallback khóa công khai → luôn chạy
     const domain = (this.config.get<string>('SITE_DOMAIN') || 'https://kinhlac.online').replace(
       /\/+$/,
       '',
