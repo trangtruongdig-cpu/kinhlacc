@@ -11,6 +11,7 @@ import { KinhMach } from '../models/kinh-mach.model';
 import { NhomNhoViThuoc } from '../models/nhom-nho-vi-thuoc.model';
 import { CreateViThuocDto, UpdateViThuocDto } from '../models/dongy-thuoc.dto';
 import { catalogKey, formatCatalogLabel } from '../utils/catalog-label.util';
+import { AiSuggestService } from './ai-suggest.controller';
 
 const VI_THUOC_RELATIONS = {
   congDungLinks: { congDung: true },
@@ -25,7 +26,120 @@ export class ViThuocService {
   constructor(
     @InjectRepository(ViThuoc)
     private repo: Repository<ViThuoc>,
+    private readonly aiSuggest: AiSuggestService,
   ) {}
+
+  /** Điều kiện "thiếu" 1 trong 4 trường tên khoa học/Hán/pinyin/bộ phận dùng (coi chuỗi rỗng = thiếu). */
+  private static readonly MISSING_TKH =
+    "(v.ten_khoa_hoc IS NULL OR v.ten_khoa_hoc = '' OR v.ten_han IS NULL OR v.ten_han = '' " +
+    "OR v.ten_pinyin IS NULL OR v.ten_pinyin = '' OR v.bo_phan_dung IS NULL OR v.bo_phan_dung = '')";
+
+  /** Đếm số vị thuốc còn thiếu tên khoa học/Hán/pinyin/bộ phận dùng. */
+  async countMissingTenKhoaHoc(): Promise<number> {
+    return this.repo
+      .createQueryBuilder('v')
+      .where(ViThuocService.MISSING_TKH)
+      .getCount();
+  }
+
+  /**
+   * AI điền tên khoa học/Hán/pinyin/bộ phận dùng cho 1 LÔ vị thuốc còn thiếu, lưu DB.
+   * Dùng con trỏ `afterId` (id tăng dần) để KHÔNG lặp lại vị AI không điền được → frontend gọi
+   * tới khi processed=0. Chỉ điền trường đang TRỐNG (không ghi đè dữ liệu đã có). AI chỉ điền dữ
+   * liệu tham chiếu (Latin/Hán/pinyin/bộ phận) — chuẩn, ít rủi ro; vẫn nên rà lại.
+   */
+  async aiFillTenKhoaHocBatch(
+    limit = 15,
+    afterId = 0,
+  ): Promise<{
+    processed: number;
+    filled: number;
+    remaining: number;
+    lastId: number;
+    items: Array<{
+      id: number;
+      ten: string;
+      ten_khoa_hoc: string;
+      ten_han: string;
+      ten_pinyin: string;
+      bo_phan_dung: string;
+      loi?: string;
+    }>;
+  }> {
+    const n = Math.min(Math.max(1, Math.floor(limit) || 15), 30);
+    const after = Math.max(0, Math.floor(afterId) || 0);
+    const rows = await this.repo
+      .createQueryBuilder('v')
+      .where(ViThuocService.MISSING_TKH)
+      .andWhere('v.id > :after', { after })
+      .orderBy('v.id', 'ASC')
+      .take(n)
+      .getMany();
+
+    let filled = 0;
+    const items: Array<{
+      id: number;
+      ten: string;
+      ten_khoa_hoc: string;
+      ten_han: string;
+      ten_pinyin: string;
+      bo_phan_dung: string;
+      loi?: string;
+    }> = [];
+    for (const v of rows) {
+      try {
+        const s = await this.aiSuggest.suggestTenKhoaHoc(v.ten_vi_thuoc);
+        let changed = false;
+        if (!v.ten_khoa_hoc && s.ten_khoa_hoc) {
+          v.ten_khoa_hoc = s.ten_khoa_hoc;
+          changed = true;
+        }
+        if (!v.ten_han && s.ten_han) {
+          v.ten_han = s.ten_han;
+          changed = true;
+        }
+        if (!v.ten_pinyin && s.ten_pinyin) {
+          v.ten_pinyin = s.ten_pinyin;
+          changed = true;
+        }
+        if (!v.bo_phan_dung && s.bo_phan_dung) {
+          v.bo_phan_dung = s.bo_phan_dung;
+          changed = true;
+        }
+        if (changed) {
+          await this.repo.save(v);
+          filled++;
+        }
+        items.push({
+          id: v.id,
+          ten: v.ten_vi_thuoc,
+          ten_khoa_hoc: v.ten_khoa_hoc || '',
+          ten_han: v.ten_han || '',
+          ten_pinyin: v.ten_pinyin || '',
+          bo_phan_dung: v.bo_phan_dung || '',
+        });
+      } catch (e) {
+        items.push({
+          id: v.id,
+          ten: v.ten_vi_thuoc,
+          ten_khoa_hoc: '',
+          ten_han: '',
+          ten_pinyin: '',
+          bo_phan_dung: '',
+          loi: e instanceof Error ? e.message : String(e),
+        });
+      }
+    }
+
+    const lastId = rows.length ? rows[rows.length - 1].id : after;
+    // remaining = số vị THIẾU còn lại SAU con trỏ này (đảm bảo hội tụ về 0).
+    const remaining = await this.repo
+      .createQueryBuilder('v')
+      .where(ViThuocService.MISSING_TKH)
+      .andWhere('v.id > :lastId', { lastId })
+      .getCount();
+    return { processed: rows.length, filled, remaining, lastId, items };
+  }
 
   findAll(): Promise<ViThuoc[]> {
     return this.repo.find({

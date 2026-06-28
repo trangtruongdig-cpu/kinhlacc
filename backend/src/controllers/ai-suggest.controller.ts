@@ -30,6 +30,14 @@ export interface ViThuocAiSuggestion {
   kinh_mach_unmatched: string[];
 }
 
+/** AI điền tên khoa học/Hán/pinyin/bộ phận dùng cho vị thuốc (trường không chắc → ""). */
+export interface ViThuocTenKhoaHoc {
+  ten_khoa_hoc: string;
+  ten_han: string;
+  ten_pinyin: string;
+  bo_phan_dung: string;
+}
+
 export interface NhomNhoCandidate {
   id: number;
   ten_nhom: string;
@@ -153,6 +161,17 @@ QUY TẮC:
 - Chỉ trả về JSON thuần, KHÔNG kèm văn bản, KHÔNG markdown, KHÔNG \`\`\`.
 - Nếu không chắc chắn về vị thuốc, vẫn cố gắng đưa giá trị phổ biến nhất trong y văn cổ truyền Việt Nam.
 - Dùng tiếng Việt có dấu, viết hoa chữ cái đầu.`;
+
+const TEN_KHOA_HOC_SYSTEM_PROMPT = `Bạn là chuyên gia Dược liệu học cổ truyền. Khi nhận tên một vị thuốc Đông Y (tiếng Việt), trả về CHÍNH XÁC một JSON object với 4 trường:
+- "ten_khoa_hoc": tên khoa học Latin chuẩn của dược liệu (vd "Radix Paeoniae Alba", "Flos Carthami"). Ưu tiên dạng dược liệu (Radix/Rhizoma/Flos/Semen/Fructus/Herba/Cortex/Ramulus...).
+- "ten_han": tên chữ Hán/Trung của vị thuốc (vd "白芍", "红花").
+- "ten_pinyin": phiên âm Pinyin có dấu thanh (vd "Bái Sháo", "Hóng Huā").
+- "bo_phan_dung": bộ phận dùng làm thuốc, tiếng Việt ngắn gọn (vd "rễ", "hoa", "hạt", "vỏ thân", "toàn cây", "thân rễ").
+
+QUY TẮC:
+- Chỉ trả JSON thuần, KHÔNG văn bản, KHÔNG markdown, KHÔNG \`\`\`.
+- Nếu KHÔNG chắc chắn một trường, để chuỗi rỗng "" cho trường đó — TUYỆT ĐỐI không bịa.
+- Đúng chính tả Latin/Pinyin; ten_han dùng chữ Hán phổ biến.`;
 
 const HUYET_SYSTEM_PROMPT = `Bạn là chuyên gia Y học Cổ truyền (Đông Y) và Châm cứu Việt Nam. Khi nhận tên một HUYỆT (có thể kèm mã quốc tế và tên đường kinh), hãy trả về CHÍNH XÁC một JSON object với các trường:
 - "ten_khac": các tên gọi khác của huyệt, cách nhau dấu phẩy. Để "" nếu không có.
@@ -300,6 +319,42 @@ export class AiSuggestService {
       quy_kinh: matchedNames.join(', '),
       kinh_mach_ids: ids,
       kinh_mach_unmatched: unmatched,
+    };
+  }
+
+  /** AI điền tên khoa học (Latin) / Hán / pinyin / bộ phận dùng cho 1 vị thuốc. Trường không chắc → "". */
+  async suggestTenKhoaHoc(name: string): Promise<ViThuocTenKhoaHoc> {
+    const ten = (name || '').trim();
+    if (!ten) throw new BadRequestException('Thiếu tên vị thuốc');
+    const client = this.getClient();
+    const model = this.config.get<string>('YESCALE_MODEL') || YESCALE_DEFAULT_MODEL;
+    let response;
+    try {
+      response = await client.chat.completions.create({
+        model,
+        temperature: 0.1,
+        max_tokens: 300,
+        response_format: { type: 'json_object' },
+        messages: [
+          { role: 'system', content: TEN_KHOA_HOC_SYSTEM_PROMPT },
+          { role: 'user', content: `Tên vị thuốc: ${ten}` },
+        ],
+      });
+    } catch (err: any) {
+      const detail = err?.error?.message || err?.message || String(err);
+      throw new HttpException(`yescale lỗi: ${detail}`, safeUpstreamStatus(err?.status));
+    }
+    const content = response.choices?.[0]?.message?.content?.trim() ?? '';
+    if (!content) throw new ServiceUnavailableException('yescale trả về nội dung rỗng');
+    const parsed = parseJsonLoose(content);
+    if (!parsed || typeof parsed !== 'object') {
+      throw new ServiceUnavailableException(`Không parse được JSON từ AI: ${content.slice(0, 200)}`);
+    }
+    return {
+      ten_khoa_hoc: pickString(parsed, 'ten_khoa_hoc'),
+      ten_han: pickString(parsed, 'ten_han'),
+      ten_pinyin: pickString(parsed, 'ten_pinyin'),
+      bo_phan_dung: pickString(parsed, 'bo_phan_dung'),
     };
   }
 

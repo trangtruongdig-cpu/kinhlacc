@@ -556,6 +556,7 @@ const highlightBtId = ref<number | null>(null)
 
 onMounted(async () => {
   void loadVtThumbs()
+  void loadVtMissingCount()
   const qTab = route.query.tab
   if (qTab === 'bai-thuoc' || qTab === 'vi-thuoc' || qTab === 'duoc-ly' || qTab === 'kiem-dinh') {
     activeTab.value = qTab
@@ -2375,7 +2376,7 @@ async function suggestViThuocAi() {
         lieu_luong: null,
       }))
     const fakeId = vtEditingId.value ?? 1
-    const [generalRes, classifyRes] = await Promise.all([
+    const [generalRes, classifyRes, sciRes] = await Promise.all([
       api.post<{
         success: boolean
         data: {
@@ -2405,6 +2406,15 @@ async function suggestViThuocAi() {
               return null
             })
         : Promise.resolve(null),
+      api
+        .post<{
+          success: boolean
+          data: { ten_khoa_hoc: string; ten_han: string; ten_pinyin: string; bo_phan_dung: string }
+        }>('/ai-suggest/vi-thuoc-ten-khoa-hoc', { ten_vi_thuoc: ten })
+        .catch((err) => {
+          console.warn('AI tên khoa học lỗi:', err?.message ?? err)
+          return null
+        }),
     ])
 
     const d = generalRes?.data
@@ -2428,10 +2438,62 @@ async function suggestViThuocAi() {
       vtAiSuggestedNhomNhoId.value = id
       vtAiNhomLyDo.value = classified.ly_do ?? ''
     }
+
+    // Điền tên khoa học/Hán/pinyin/bộ phận dùng — CHỈ điền ô đang trống (không ghi đè dữ liệu đã có).
+    const sci = sciRes?.data
+    if (sci) {
+      if (sci.ten_khoa_hoc && !vtForm.value.ten_khoa_hoc) vtForm.value.ten_khoa_hoc = sci.ten_khoa_hoc
+      if (sci.ten_han && !vtForm.value.ten_han) vtForm.value.ten_han = sci.ten_han
+      if (sci.ten_pinyin && !vtForm.value.ten_pinyin) vtForm.value.ten_pinyin = sci.ten_pinyin
+      if (sci.bo_phan_dung && !vtForm.value.bo_phan_dung) vtForm.value.bo_phan_dung = sci.bo_phan_dung
+    }
   } catch (err: any) {
     vtFormError.value = 'Gợi ý AI thất bại: ' + (err?.message ?? err)
   } finally {
     vtAiLoading.value = false
+  }
+}
+
+// ===== Batch: AI điền tên khoa học cho hàng loạt vị thiếu (con trỏ afterId, gọi tới processed=0) =====
+const vtMissingCount = ref<number | null>(null)
+const vtBatchRunning = ref(false)
+const vtBatchMsg = ref('')
+
+async function loadVtMissingCount() {
+  try {
+    const res = await api.get<{ data: { count: number } }>('/vi-thuoc/thieu-ten-khoa-hoc/count')
+    vtMissingCount.value = res.data.count
+  } catch {
+    vtMissingCount.value = null
+  }
+}
+
+async function runVtAiBatch() {
+  if (vtBatchRunning.value) return
+  if (!confirm('AI sẽ tự điền tên khoa học/Hán/pinyin/bộ phận dùng cho các vị còn thiếu rồi LƯU. AI có thể sai vài vị — nên rà lại sau. Tiếp tục?')) return
+  vtBatchRunning.value = true
+  vtBatchMsg.value = 'Bắt đầu…'
+  let afterId = 0
+  let totalFilled = 0
+  try {
+    let guard = 0
+    while (guard++ < 200) {
+      const res = await api.post<{
+        data: { processed: number; filled: number; remaining: number; lastId: number }
+      }>('/vi-thuoc/ai-dien-ten-khoa-hoc', { limit: 12, afterId })
+      const d = res.data
+      totalFilled += d.filled
+      afterId = d.lastId
+      vtBatchMsg.value = `Đã điền ${totalFilled} vị… (còn lại ~${d.remaining})`
+      if (d.processed === 0 || d.remaining <= 0) break
+    }
+    vtBatchMsg.value = `Hoàn tất — đã điền ${totalFilled} vị.`
+    await loadVtMissingCount()
+    await loadViThuocPage()
+  } catch (e: any) {
+    vtBatchMsg.value = 'Lỗi: ' + (e?.message ?? e)
+  } finally {
+    vtBatchRunning.value = false
   }
 }
 </script>
@@ -2874,8 +2936,23 @@ async function suggestViThuocAi() {
               <h3>Danh Sách Vị Thuốc</h3>
               <span class="badge badge-success">{{ filteredViThuoc.length }} vị thuốc</span>
             </div>
-            <button type="button" class="btn-primary" @click="openCreateViThuoc">+ Thêm vị thuốc</button>
+            <div class="vt-header-actions">
+              <button
+                v-if="vtMissingCount != null && vtMissingCount > 0"
+                type="button"
+                class="btn-ai"
+                :disabled="vtBatchRunning"
+                :title="'AI tự điền tên khoa học/Hán/pinyin/bộ phận dùng cho ' + vtMissingCount + ' vị còn thiếu (nên rà lại sau)'"
+                @click="runVtAiBatch"
+              >
+                <span v-if="vtBatchRunning">⏳ {{ vtBatchMsg }}</span>
+                <span v-else>✨ AI điền tên khoa học ({{ vtMissingCount }} vị thiếu)</span>
+              </button>
+              <span v-else-if="vtMissingCount === 0" class="vt-tkh-done">✓ Đủ tên khoa học</span>
+              <button type="button" class="btn-primary" @click="openCreateViThuoc">+ Thêm vị thuốc</button>
+            </div>
           </div>
+          <p v-if="vtBatchMsg && !vtBatchRunning" class="vt-batch-msg">{{ vtBatchMsg }}</p>
           <div v-if="pagedViThuoc.length === 0" class="empty-state">
             Chưa có dữ liệu vị thuốc
           </div>
@@ -3286,7 +3363,7 @@ async function suggestViThuocAi() {
               <span v-if="vtAiLoading">⏳ Đang gợi ý…</span>
               <span v-else>✨ Gợi ý AI</span>
             </button>
-            <span class="vt-ai-hint">AI điền Tính / Vị / Quy kinh + gợi ý Nhóm dược lý.</span>
+            <span class="vt-ai-hint">AI điền Tính / Vị / Quy kinh + Tên khoa học/Hán/pinyin/Bộ phận dùng + gợi ý Nhóm dược lý.</span>
           </div>
 
           <div v-if="vtForm.nhom_nho_ids.length || vtAiSuggestedNhomNhoId != null" class="vt-nhom-card">
@@ -4376,6 +4453,9 @@ async function suggestViThuocAi() {
 .btn-ai { padding: var(--space-2) var(--space-4); background: linear-gradient(135deg, var(--ai-solid), var(--ai-solid-2)); color: var(--white); border: none; border-radius: var(--radius-md); font-weight: 600; font-size: var(--font-size-sm); cursor: pointer; transition: filter var(--transition-fast); }
 .btn-ai:hover:not(:disabled) { filter: brightness(1.08); }
 .btn-ai:disabled { opacity: 0.6; cursor: not-allowed; }
+.vt-header-actions { display: flex; gap: var(--space-2); align-items: center; flex-wrap: wrap; }
+.vt-tkh-done { font-size: var(--font-size-xs); color: #067647; font-weight: 600; }
+.vt-batch-msg { margin: var(--space-2) 0 0; font-size: var(--font-size-sm); font-weight: 600; color: var(--brown-700); }
 .vt-ai-row { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; padding: var(--space-2) var(--space-3); background: var(--ai-bg); border: 1px dashed var(--ai-border); border-radius: var(--radius-md); margin-bottom: var(--space-3); }
 
 .vt-nhom-card {

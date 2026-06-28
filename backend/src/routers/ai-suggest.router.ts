@@ -16,6 +16,13 @@ export class AiSuggestRouter {
     return { success: true, data };
   }
 
+  /** AI điền tên khoa học / Hán / pinyin / bộ phận dùng cho 1 vị thuốc (để form điền sẵn, người duyệt rồi lưu). */
+  @Post('vi-thuoc-ten-khoa-hoc')
+  async suggestTenKhoaHoc(@Body() body: { ten_vi_thuoc?: string }) {
+    const data = await this.service.suggestTenKhoaHoc(body?.ten_vi_thuoc ?? '');
+    return { success: true, data };
+  }
+
   @Post('huyet')
   async suggestHuyet(
     @Body() body: { ten_huyet?: string; ma_huyet?: string; kinh_mach?: string },

@@ -29,6 +29,20 @@ export class ViThuocRouter {
     });
   }
 
+  // Đếm số vị thuốc còn thiếu tên khoa học/Hán/pinyin/bộ phận dùng. (Phải đứng TRƯỚC @Get(':id').)
+  @Get('thieu-ten-khoa-hoc/count')
+  async countMissing() {
+    const count = await this.service.countMissingTenKhoaHoc();
+    return { success: true, data: { count } };
+  }
+
+  // AI điền tên khoa học cho 1 lô vị thiếu (con trỏ afterId). Frontend gọi lặp tới processed=0.
+  @Post('ai-dien-ten-khoa-hoc')
+  async aiDienTenKhoaHoc(@Body() body: { limit?: number; afterId?: number }) {
+    const data = await this.service.aiFillTenKhoaHocBatch(body?.limit ?? 15, body?.afterId ?? 0);
+    return { success: true, data };
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(+id);
