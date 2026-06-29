@@ -13,6 +13,19 @@ export class CreateViThuocDto {
   ten_pinyin?: string;
   /** Bộ phận dùng (vd. "rễ", "vỏ thân", "hạt"). */
   bo_phan_dung?: string;
+  // ---- Nội dung y văn (nhập từ từ điển Đông Y cũ) ----
+  xuat_xu?: string;
+  ho_khoa_hoc?: string;
+  ten_khac?: string;
+  mo_ta?: string;
+  thanh_phan?: string;
+  duoc_ly?: string;
+  tinh_vi_quy_kinh?: string;
+  nuoi_duong?: string;
+  bao_che?: string;
+  don_thuoc?: string;
+  chu_tri?: string;
+  tham_khao?: string;
   /** Mỗi phần tử: id_cong_dung + ghi_chu (ghi chú gắn với vị thuốc này). */
   cong_dung_links?: { id_cong_dung: number; ghi_chu?: string }[];
   chu_tri_links?: { id_chu_tri: number; ghi_chu?: string }[];

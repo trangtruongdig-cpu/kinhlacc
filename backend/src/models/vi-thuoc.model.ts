@@ -43,6 +43,32 @@ export class ViThuoc {
   @Column({ type: 'varchar', length: 255, nullable: true })
   bo_phan_dung: string;
 
+  // ---- Nội dung y văn (nhập từ từ điển Đông Y cũ "Thuynhan DBF") — văn bản nguyên văn theo mục ----
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  xuat_xu: string | null; // Xuất xứ (vd "Khai Bảo Bản Thảo")
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  ho_khoa_hoc: string | null; // Họ khoa học (vd "Họ Bàng (Combretaceae)")
+  @Column({ type: 'text', nullable: true })
+  ten_khac: string | null; // Tên khác (nguyên văn, kèm nguồn)
+  @Column({ type: 'text', nullable: true })
+  mo_ta: string | null;
+  @Column({ type: 'text', nullable: true })
+  thanh_phan: string | null;
+  @Column({ type: 'text', nullable: true })
+  duoc_ly: string | null;
+  @Column({ type: 'text', nullable: true })
+  tinh_vi_quy_kinh: string | null; // bản y văn (khác cột tinh/vi/quy_kinh có cấu trúc)
+  @Column({ type: 'text', nullable: true })
+  nuoi_duong: string | null;
+  @Column({ type: 'text', nullable: true })
+  bao_che: string | null;
+  @Column({ type: 'text', nullable: true })
+  don_thuoc: string | null;
+  @Column({ type: 'text', nullable: true })
+  chu_tri: string | null; // bản y văn (khác bảng liên kết chuTriLinks)
+  @Column({ type: 'text', nullable: true })
+  tham_khao: string | null;
+
   // Dùng string reference để tránh circular import với các child models
   @OneToMany('BaiThuocChiTiet', 'viThuoc')
   baiThuocDetails: BaiThuocChiTiet[];

@@ -43,6 +43,13 @@ export class ViThuocRouter {
     return { success: true, data };
   }
 
+  // Tên khác của vị này có trùng vị thuốc khác trong kho không (nghi biến thể). Trước @Get(':id').
+  @Get(':id/bien-the')
+  async bienThe(@Param('id') id: string) {
+    const data = await this.service.bienTheTenKhac(+id);
+    return { success: true, data };
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.service.findOne(+id);

@@ -57,6 +57,19 @@ export class SchemaBootstrapService implements OnApplicationBootstrap {
        created_at      TIMESTAMPTZ NOT NULL DEFAULT now()
      )`,
     `CREATE UNIQUE INDEX IF NOT EXISTS ux_seo_index_status_url ON seo_index_status (url)`,
+    // vi_thuoc — nội dung y văn nhập từ từ điển Đông Y cũ (12 mục text)
+    `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS xuat_xu VARCHAR(500)`,
+    `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS ho_khoa_hoc VARCHAR(500)`,
+    `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS ten_khac TEXT`,
+    `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS mo_ta TEXT`,
+    `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS thanh_phan TEXT`,
+    `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS duoc_ly TEXT`,
+    `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS tinh_vi_quy_kinh TEXT`,
+    `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS nuoi_duong TEXT`,
+    `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS bao_che TEXT`,
+    `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS don_thuoc TEXT`,
+    `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS chu_tri TEXT`,
+    `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS tham_khao TEXT`,
   ];
 
   async onApplicationBootstrap(): Promise<void> {

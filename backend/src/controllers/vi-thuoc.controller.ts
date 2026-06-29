@@ -213,6 +213,45 @@ export class ViThuocService {
     });
   }
 
+  /**
+   * Dò các "tên khác" của 1 vị thuốc xem có TRÙNG tên một vị thuốc KHÁC đang có trong kho không
+   * → có thể là biến thể/bản trùng. Trả danh sách vị khớp để hiện cảnh báo + link đối chiếu.
+   */
+  async bienTheTenKhac(id: number): Promise<Array<{ ten: string; id: number; ten_vi_thuoc: string }>> {
+    const herb = await this.repo.findOne({ where: { id }, relations: { tenGoiKhacList: true } });
+    if (!herb) return [];
+    const names = new Set<string>();
+    // từ prose "tên khác" (bỏ phần trong ngoặc = nguồn) + danh sách tên gọi khác có cấu trúc
+    for (const n of String(herb.ten_khac || '').replace(/\([^)]*\)/g, '').split(/[,;、，\n]/)) {
+      const t = n.trim();
+      if (t.length >= 2) names.add(t);
+    }
+    for (const g of herb.tenGoiKhacList || []) {
+      const t = (g.ten_goi_khac || '').trim();
+      if (t.length >= 2) names.add(t);
+    }
+    if (!names.size) return [];
+    const norm = (s: string) =>
+      s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/g, 'd').replace(/\s+/g, ' ').trim();
+    const all = await this.repo.find({ select: { id: true, ten_vi_thuoc: true } });
+    const byNorm = new Map<string, { id: number; ten_vi_thuoc: string }>();
+    for (const v of all) {
+      if (v.id === id) continue;
+      const k = norm(v.ten_vi_thuoc);
+      if (k && !byNorm.has(k)) byNorm.set(k, { id: v.id, ten_vi_thuoc: v.ten_vi_thuoc });
+    }
+    const out: Array<{ ten: string; id: number; ten_vi_thuoc: string }> = [];
+    const seen = new Set<number>();
+    for (const n of names) {
+      const hit = byNorm.get(norm(n));
+      if (hit && !seen.has(hit.id)) {
+        seen.add(hit.id);
+        out.push({ ten: n, id: hit.id, ten_vi_thuoc: hit.ten_vi_thuoc });
+      }
+    }
+    return out;
+  }
+
   private pickScalar(dto: Partial<CreateViThuocDto>): Partial<ViThuoc> {
     const o: Partial<ViThuoc> = {};
     if (dto.ten_vi_thuoc !== undefined) o.ten_vi_thuoc = dto.ten_vi_thuoc;
@@ -224,6 +263,9 @@ export class ViThuocService {
     if (dto.ten_han !== undefined) o.ten_han = dto.ten_han;
     if (dto.ten_pinyin !== undefined) o.ten_pinyin = dto.ten_pinyin;
     if (dto.bo_phan_dung !== undefined) o.bo_phan_dung = dto.bo_phan_dung;
+    for (const f of ['xuat_xu', 'ho_khoa_hoc', 'ten_khac', 'mo_ta', 'thanh_phan', 'duoc_ly', 'tinh_vi_quy_kinh', 'nuoi_duong', 'bao_che', 'don_thuoc', 'chu_tri', 'tham_khao'] as const) {
+      if (dto[f] !== undefined) (o as Record<string, unknown>)[f] = dto[f];
+    }
     return o;
   }
 
