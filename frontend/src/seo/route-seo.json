@@ -185,6 +185,33 @@
       }
     },
     {
+      "name": "bai-thuoc",
+      "path": "/bai-thuoc",
+      "breadcrumb": [{ "name": "Từ Điển Bài Thuốc", "path": "/bai-thuoc" }],
+      "priority": "0.9",
+      "changefreq": "weekly",
+      "ogType": "website",
+      "title": "Từ Điển Bài Thuốc Đông Y — 13.942 Cổ Phương",
+      "description": "Tra cứu hơn 13.900 bài thuốc, cổ phương Đông Y: thành phần vị thuốc, liều lượng, cách dùng, tác dụng và xuất xứ. Miễn phí, không cần đăng nhập.",
+      "keywords": [
+        "từ điển bài thuốc",
+        "tra cứu bài thuốc đông y",
+        "cổ phương",
+        "phương thang",
+        "bài thuốc cổ truyền",
+        "thành phần bài thuốc"
+      ],
+      "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        "name": "Từ Điển Bài Thuốc Đông Y",
+        "description": "Thư viện tra cứu hơn 13.900 bài thuốc / cổ phương Đông Y công khai: thành phần, liều lượng, cách dùng, tác dụng, xuất xứ; liên kết tới từng vị thuốc.",
+        "url": "https://kinhlac.online/bai-thuoc",
+        "inLanguage": "vi",
+        "isAccessibleForFree": true
+      }
+    },
+    {
       "name": "thu-vien",
       "path": "/thu-vien",
       "breadcrumb": [{ "name": "Từ Điển", "path": "/thu-vien" }],

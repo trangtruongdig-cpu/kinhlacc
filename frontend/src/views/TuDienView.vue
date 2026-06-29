@@ -13,6 +13,9 @@
 import { ref, computed, onMounted, nextTick, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ensureDictData, ensureBenhData, BASE } from '@/lib/acuMap3d'
+import PhuongThuocBrowser from '@/components/PhuongThuocBrowser.vue'
+import NguonBrowser from '@/components/NguonBrowser.vue'
+import DuocLieuBrowser from '@/components/DuocLieuBrowser.vue'
 
 // Đặt TÊN component để <keep-alive :include="['TuDienView']"> ở DashboardLayout giữ lại trang này:
 // dữ liệu nặng (~5MB) + việc dựng các bản đồ tra cứu chỉ chạy MỘT lần ở onMounted, các lần vào tab
@@ -105,7 +108,10 @@ const route = useRoute()
 const loading = ref(true)
 const error = ref<string | null>(null)
 const ready = ref(false)
-const subtab = ref<'huyet' | 'kinh' | 'nguon' | 'ccdt' | 'benhhoc'>('huyet')
+const subtab = ref<'huyet' | 'kinh' | 'nguon' | 'ccdt' | 'benhhoc' | 'baithuoc' | 'duoclieu'>('huyet')
+// Thư Mục Nguồn (sổ cái thống nhất) — mục muốn mở (deep-link huyệt/bài thuốc/?nguon=) + cờ in-app (cho CRUD).
+const nguonTarget = ref<{ slug?: string; name?: string } | null>(null)
+const inApp = computed(() => String(route.path || '').startsWith('/app'))
 
 // Huyệt vị
 const acuRecords = ref<AcuRecord[]>([])
@@ -404,11 +410,19 @@ const huyetOf = (ids: number[]) =>
     .map((id) => ({ id, ten: facetHuyet.value[id]?.ten || '#' + id, code: facetHuyet.value[id]?.code || '' }))
     .sort((a, b) => fold(a.ten).localeCompare(fold(b.ten)))
 
+// Từ chi tiết huyệt (data-source-id = slug nguồn) → mở Thư Mục Nguồn tới đúng nguồn (sổ cái thống nhất).
 function openSource(id?: string | null) {
-  if (!id || !rawSources.value[id]) return
+  if (!id) return
   subtab.value = 'nguon'
-  activeSourceId.value = id
+  nguonTarget.value = { slug: id }
 }
+// Từ "Xuất xứ" của bài thuốc (văn bản) → mở Thư Mục Nguồn + tự khớp theo tên (bỏ phần ", Q.x").
+function openSourceByName(name?: string | null) {
+  subtab.value = 'nguon'
+  nguonTarget.value = { name: (name || '').replace(/,?\s*(q\.?|quyển|quyen)\b.*$/i, '').trim() }
+}
+// Deep-link ?nguon=<slug> (từ trang dược liệu/bài thuốc khác sang) → mở thẳng tab + nguồn đó.
+watch(() => route.query.nguon, (v) => { if (v) { subtab.value = 'nguon'; nguonTarget.value = { slug: String(v) } } }, { immediate: true })
 function openTrait(id?: string | null) {
   if (!id || !traits.value[id]) return
   // "Tra theo đặc tính" giờ là BỘ LỌC trong tab Huyệt Vị: mở tab huyệt, xoá ô tìm rồi đặt bộ lọc.
@@ -599,6 +613,9 @@ onMounted(async () => {
 })
 
 // ═══════════════════════ HUYỆT VỊ ═══════════════════════
+// Sắp huyệt: 'phobien' = huyệt THƯỜNG DÙNG (nhiều bệnh dùng) lên đầu (mặc định, đỡ dàn trải) · 'ten' = A→Z.
+const acuSort = ref<'phobien' | 'ten'>('phobien')
+const acuBenhCount = (id: number) => acuToBenh.get(id)?.length || 0
 const acuFiltered = computed<AcuRecord[]>(() => {
   if (!ready.value) return []
   // BỘ LỌC ĐẶC TÍNH
@@ -610,7 +627,13 @@ const acuFiltered = computed<AcuRecord[]>(() => {
   const ind = activeIndication.value
   if (ind) base = base.filter((r) => r.indications?.includes(ind))
   const q = norm(huyetSearch.value.trim())
-  if (!q) return base
+  if (!q) {
+    // benhReady để computed chạy lại khi dữ liệu bệnh nạp xong (acuToBenh là Map thường, không reactive).
+    if (acuSort.value === 'phobien' && benhReady.value) {
+      return [...base].sort((a, b) => acuBenhCount(b.id) - acuBenhCount(a.id) || (a._name || '').localeCompare(b._name || ''))
+    }
+    return base
+  }
   const tokens = tokenize(q)
   const hits: { r: AcuRecord; s: number }[] = []
   for (const r of base) {
@@ -1049,10 +1072,28 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
       <button v-if="benhData.benhhoc" class="td-tab" :class="{ active: subtab === 'benhhoc' }" @click="subtab = 'benhhoc'">
         Bệnh Học
       </button>
+      <!-- Dược Liệu = từ điển vị thuốc — tab NỘI TUYẾN (chạy cả admin lẫn public). -->
+      <button class="td-tab" :class="{ active: subtab === 'duoclieu' }" @click="subtab = 'duoclieu'">
+        Dược Liệu
+      </button>
+      <!-- Bài Thuốc = từ điển cổ phương (13.942 bài) — tab NỘI TUYẾN (chạy cả admin lẫn public). -->
+      <button class="td-tab" :class="{ active: subtab === 'baithuoc' }" @click="subtab = 'baithuoc'">
+        Bài Thuốc
+      </button>
       <!-- ↓↓↓ luôn giữ Thư Mục Nguồn ở CUỐI cùng ↓↓↓ -->
       <button v-if="facetsReady" class="td-tab" :class="{ active: subtab === 'nguon' }" @click="subtab = 'nguon'">
         Thư Mục Nguồn
       </button>
+    </div>
+
+    <!-- ═════ TAB DƯỢC LIỆU — từ điển vị thuốc, nội tuyến ═════ -->
+    <div v-show="subtab === 'duoclieu'" class="td-duoclieu">
+      <DuocLieuBrowser />
+    </div>
+
+    <!-- ═════ TAB BÀI THUỐC (cổ phương 13.942) — nội tuyến, không điều hướng ═════ -->
+    <div v-show="subtab === 'baithuoc'" class="td-baithuoc">
+      <PhuongThuocBrowser @open-source="openSourceByName" />
     </div>
 
     <div v-if="error" class="td-error">
@@ -1127,7 +1168,11 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
             <button type="button" class="pill-x" title="Bỏ lọc chỉ định" @click="clearIndication">✕</button>
           </div>
         </div>
-        <div class="td-alpha">
+        <div class="td-acusort">
+          <button type="button" :class="{ on: acuSort === 'phobien' }" @click="acuSort = 'phobien'">Thường dùng</button>
+          <button type="button" :class="{ on: acuSort === 'ten' }" @click="acuSort = 'ten'">A–Z</button>
+        </div>
+        <div v-show="acuSort === 'ten'" class="td-alpha">
           <button v-for="l in acuLetters" :key="l" type="button" @click="jumpAcuLetter(l)">{{ l }}</button>
         </div>
         <ul ref="acuListEl" class="td-list">
@@ -1141,6 +1186,7 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
             <img v-if="r.image" class="thumb" loading="lazy" :src="assetUrl(r.image)" alt="" @error="onThumbError" />
             <span v-else class="thumb no-thumb">◉</span>
             <span class="nm">{{ r.ten }}<small v-if="r._tenKhac">{{ r._tenKhac.split('\n')[0]?.slice(0, 60) }}</small></span>
+            <span v-if="benhReady && acuBenhCount(r.id)" class="acu-nbenh" title="Số bệnh dùng huyệt này">{{ acuBenhCount(r.id) }} bệnh</span>
           </li>
           <li v-if="!acuFiltered.length" class="td-empty">Không khớp huyệt nào.</li>
         </ul>
@@ -1323,65 +1369,9 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
       </div>
     </div>
 
-    <!-- ═════ THƯ MỤC NGUỒN (XUẤT XỨ) ═════ -->
-    <div v-show="!loading && !error && subtab === 'nguon'" class="td-shell">
-      <aside class="td-aside">
-        <div class="td-search">
-          <input v-model="sourceSearch" type="search" class="td-input" placeholder="Tìm nguồn / sách…" autocomplete="off" />
-          <span class="td-count">{{ sourceList.length }} / {{ sourceTotal }}</span>
-        </div>
-        <ul class="td-list">
-          <li
-            v-for="s in sourceList"
-            :key="s.id"
-            :class="{ active: s.id === activeSourceId }"
-            @click="activeSourceId = s.id"
-          >
-            <span class="src-count">{{ s.count }}</span>
-            <span class="nm">{{ s.ten }}</span>
-          </li>
-          <li v-if="!sourceList.length" class="td-empty">Không khớp nguồn nào.</li>
-        </ul>
-      </aside>
-
-      <div class="td-main">
-        <!-- Chi tiết 1 nguồn -->
-        <template v-if="sourceActive">
-          <header class="mer-head">
-            <h2>{{ sourceActive.ten }}</h2>
-            <div class="mer-badges">
-              <span class="badge">{{ sourceActive.count }} huyệt</span>
-              <span v-if="sourceActive.isParent" class="badge sec">Bộ Kinh Điển</span>
-              <span v-else-if="sourceActive.parent" class="badge sec">Thuộc: {{ rawSources[sourceActive.parent]?.ten || sourceActive.parent }}</span>
-            </div>
-          </header>
-          <dl class="src-meta">
-            <div v-if="sourceActive.tacGia" class="m-row"><dt>Tác Giả</dt><dd>{{ sourceActive.tacGia }}</dd></div>
-            <div v-if="sourceActive.nienDai" class="m-row"><dt>Niên Đại</dt><dd>{{ sourceActive.nienDai }}</dd></div>
-            <div v-if="sourceActive.thien" class="m-row"><dt>Thiên</dt><dd>{{ sourceActive.thien }}<span v-if="sourceActive.chapter"> · chương {{ sourceActive.chapter }}</span></dd></div>
-            <div v-if="sourceActive.ghiChu" class="m-row"><dt>Ghi Chú</dt><dd>{{ sourceActive.ghiChu }}</dd></div>
-            <div class="m-row">
-              <dt>Đối Chiếu</dt>
-              <dd>
-                <a v-if="sourceActive.link" :href="sourceActive.link" target="_blank" rel="noopener" class="src-extlink">🔗 Mở nguồn tham khảo</a>
-                <span v-else class="empty-note">Chưa có link — thêm trường "link" trong dict-sources.json.</span>
-              </dd>
-            </div>
-          </dl>
-
-          <h4 class="mer-subhead">{{ sourceActive.count }} Huyệt Trích Từ Nguồn Này</h4>
-          <div class="mer-points">
-            <a v-for="h in huyetOf(sourceActive.huyetIds)" :key="h.id" class="pt link" role="button" @click="openAcu(h.id)">
-              <b v-if="h.code">{{ h.code }}</b> {{ h.ten }}
-            </a>
-          </div>
-        </template>
-
-        <div v-else class="mer-welcome">
-          <h3>Thư Mục Nguồn (Xuất Xứ)</h3>
-          <p>Chọn một nguồn ở danh sách bên trái để xem thông tin, link đối chiếu, và các huyệt trích dẫn từ nguồn đó.</p>
-        </div>
-      </div>
+    <!-- ═════ THƯ MỤC NGUỒN — SỔ CÁI TRÍCH DẪN THỐNG NHẤT (sách + tác giả; tra ngược huyệt/dược liệu/bài thuốc) ═════ -->
+    <div v-show="subtab === 'nguon'" class="td-nguon">
+      <NguonBrowser :target="nguonTarget" :huyet-map="facetHuyet" :can-edit="inApp" @open-acu="openAcu" />
     </div>
 
     <!-- ═════ CHÂM CỨU TRỊ BỆNH · BỆNH HỌC (2 tab con dùng chung khung) ═════ -->
@@ -1487,6 +1477,12 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
 .td-list .no-thumb { display: flex; align-items: center; justify-content: center; color: var(--gray-400); font-size: 16px; }
 .td-list .nm { font-weight: 600; min-width: 0; }
 .td-list .nm small { display: block; color: var(--gray-500); font-weight: 400; font-size: 11.5px; font-style: italic; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+/* Toggle sắp huyệt (Thường dùng / A–Z) + badge "số bệnh dùng huyệt" ở danh sách */
+.td-acusort { display: flex; gap: 4px; padding: var(--space-2) var(--space-2) 0; }
+.td-acusort button { flex: 1; padding: 5px 8px; border: 1px solid var(--border); background: #fff; color: var(--brown-700); border-radius: var(--radius-sm); font-size: 12px; font-weight: 700; cursor: pointer; }
+.td-acusort button.on { background: var(--brown-700); color: #fff; border-color: var(--brown-700); }
+.acu-nbenh { flex: none; margin-left: auto; padding: 1px 8px; border-radius: 999px; background: var(--brown-50); color: var(--brown-700); font-size: 11px; font-weight: 800; white-space: nowrap; }
+.td-list li.active .acu-nbenh { background: rgba(255, 255, 255, 0.25); color: #fff; }
 .td-list .mer-code { flex: none; min-width: 36px; height: 24px; padding: 0 7px; border-radius: var(--radius-sm); background: var(--brown-100); color: var(--brown-800); font-size: 11.5px; font-weight: 800; display: flex; align-items: center; justify-content: center; letter-spacing: 0.3px; }
 .td-list .mer-code.mach, .td-list .mer-code.ky { background: #f0e3d2; color: var(--brown-700); }
 .td-list li.active .mer-code { background: rgba(255, 255, 255, 0.25); color: #fff; }

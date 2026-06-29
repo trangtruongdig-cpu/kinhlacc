@@ -17,6 +17,7 @@ interface HerbLite {
   ten_pinyin?: string | null
   tinh?: string | null
   vi?: string | null
+  so_bai_thuoc?: number | null
 }
 
 const q = ref('')
@@ -28,6 +29,15 @@ const loading = ref(true)
 const error = ref<string | null>(null)
 const thumbs = ref<Record<string, { thumb: string; giai_doan: string }>>({})
 let debounce: ReturnType<typeof setTimeout> | null = null
+
+const THUMB_BASE = import.meta.env.BASE_URL || '/'
+// Thumb có thể là URL http, đường dẫn /vi-thuoc/.., hay TÊN FILE TRẦN → prefix path tĩnh cho tên trần.
+function thumbSrc(id: number): string {
+  const f = thumbs.value[id]?.thumb
+  if (!f) return ''
+  if (/^https?:\/\//i.test(f) || f.startsWith('/')) return f
+  return `${THUMB_BASE}vi-thuoc/${id}/${f}`.replace(/([^:])\/{2,}/g, '$1/')
+}
 
 async function loadThumbs() {
   try {
@@ -94,10 +104,11 @@ onMounted(() => {
               <img
                 v-if="thumbs[vt.id]"
                 class="dl-card-thumb"
-                :src="thumbs[vt.id]?.thumb"
+                :src="thumbSrc(vt.id)"
                 :alt="`Ảnh ${vt.ten_vi_thuoc}`"
                 :title="thumbs[vt.id]?.giai_doan"
                 loading="lazy"
+                @error="($event.target as HTMLImageElement).style.display = 'none'"
               />
               <h3 class="dl-card-name">
                 {{ vt.ten_vi_thuoc }}
@@ -108,6 +119,7 @@ onMounted(() => {
                 <span v-if="vt.tinh" class="dl-chip dl-chip-tinh">{{ vt.tinh }}</span>
                 <span v-for="(v, i) in (vt.vi || '').split(/[,/、，]/).map(s => s.trim()).filter(Boolean)" :key="i" class="dl-chip dl-chip-vi">{{ v }}</span>
               </div>
+              <p v-if="vt.so_bai_thuoc" class="dl-card-nbai">Dùng trong {{ vt.so_bai_thuoc.toLocaleString('vi-VN') }} bài thuốc</p>
             </RouterLink>
           </li>
         </ul>
@@ -143,6 +155,7 @@ onMounted(() => {
 .dl-chip { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11.5px; border: 1px solid var(--border, #e5e0d6); background: #fff; }
 .dl-chip-tinh { background: #FFF1E6; border-color: #F0C9A0; color: #7a4a1a; }
 .dl-chip-vi { background: #FDECEC; border-color: #F0B9B9; color: #7a2e23; }
+.dl-card-nbai { margin: 8px 0 0; font-size: 11.5px; font-weight: 700; color: var(--brown-600, #7a5a30); }
 .dl-pager { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: var(--space-6); }
 .dl-pg { padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border, #e5e0d6); background: #fff; cursor: pointer; font-size: 13px; }
 .dl-pg:disabled { opacity: 0.5; cursor: default; }

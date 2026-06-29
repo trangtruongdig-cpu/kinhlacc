@@ -6,9 +6,11 @@
 import { ref, watch, onMounted, computed } from 'vue'
 import { api } from '@/services/api'
 import ViThuocGallery from '@/components/ViThuocGallery.vue'
+import { useDictLinks } from '@/lib/dictLinks'
 
 const props = defineProps<{ viThuocId: number; source?: 'admin' | 'public' }>()
-const emit = defineEmits<{ loaded: [{ id: number; ten: string }] }>()
+const emit = defineEmits<{ loaded: [{ id: number; ten: string }]; merged: [] }>()
+const links = useDictLinks()
 
 interface LinkCongDung { congDung?: { ten_cong_dung?: string } | null; ghi_chu?: string | null }
 interface LinkChuTri { chuTri?: { ten_chu_tri?: string } | null; ghi_chu?: string | null }
@@ -49,9 +51,27 @@ const herb = ref<Herb | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
 const activeYvan = ref(0) // tab y văn đang chọn
-interface Variant { ten: string; id: number; ten_vi_thuoc: string }
-const bienThe = ref<Variant[]>([]) // tên khác trùng vị đã có (nghi biến thể)
-const isTenKhacTab = computed(() => (yvanSections.value[activeYvan.value]?.title || '') === 'Tên khác')
+interface Variant { ten: string; id: number; ten_vi_thuoc: string; ten_han?: string; loai?: 'trung' | 'goi-y' }
+const bienThe = ref<Variant[]>([]) // vị nghi biến thể/trùng + vị gần giống
+const gopping = ref<number | null>(null) // đang gộp vị nào
+const bienTheTrung = computed(() => bienThe.value.filter((v) => v.loai !== 'goi-y'))
+const bienTheGoiY = computed(() => bienThe.value.filter((v) => v.loai === 'goi-y'))
+
+async function gopBienThe(v: Variant) {
+  if (!herb.value || gopping.value) return
+  const keepName = herb.value.ten_vi_thuoc
+  if (!confirm(`Gộp "${v.ten_vi_thuoc}" VÀO "${keepName}"?\n\n• Mọi bài thuốc đang dùng "${v.ten_vi_thuoc}" sẽ chuyển sang "${keepName}".\n• "${v.ten_vi_thuoc}" thành tên gọi khác và bản trùng bị XOÁ.\n\nKhông thể hoàn tác.`)) return
+  gopping.value = v.id
+  try {
+    await api.post(`/vi-thuoc/${herb.value.id}/gop`, { fromId: v.id })
+    emit('merged')
+    await load(herb.value.id) // làm mới: biến thể + tên gọi khác cập nhật
+  } catch (e: unknown) {
+    alert('Gộp thất bại: ' + (e instanceof Error ? e.message : String(e)))
+  } finally {
+    gopping.value = null
+  }
+}
 
 const congDung = computed(() =>
   (herb.value?.congDungLinks ?? []).map((l) => l.congDung?.ten_cong_dung?.trim()).filter((x): x is string => !!x),
@@ -101,35 +121,35 @@ const yvanSections = computed(() =>
 // ── Thư mục nguồn (như ở huyệt): dò TÊN NGUỒN đã biết trong y văn → link dẫn tới nguồn ──
 // Chỉ link tên sách/nguồn có trong dict-sources (KHÔNG đụng liều lượng "(30g)", tên Latin "(Equus...)").
 const srcRe = ref<RegExp | null>(null)
-const srcMap = ref<Map<string, { ten: string; href: string }>>(new Map())
+const srcMap = ref<Map<string, { ten: string; slug: string }>>(new Map())
+const xuatXuSlug = ref<string | null>(null)
 const normSrc = (s: string) => s.toLowerCase().normalize('NFC').replace(/\s+/g, ' ').trim()
 
-async function loadSources() {
-  if (srcRe.value) return
+// Nạp ĐÚNG các nguồn mà vị này trích (từ sổ cái nguon) → link NỘI BỘ Thư Mục Nguồn (theo ngữ cảnh in-app/public).
+async function loadSources(viId: number) {
+  srcRe.value = null; srcMap.value = new Map(); xuatXuSlug.value = null
   try {
-    const j = await fetch('/kinhmach3d/data/dict-sources.json').then((r) => r.json())
-    const recs = (j && j.sources) || {}
-    const map = new Map<string, { ten: string; href: string }>()
+    const recs = await api.get<{ slug: string; ten: string; ten_khac?: string | null; context: string }[]>(`/nguon/by-vi-thuoc/${viId}`)
+    const map = new Map<string, { ten: string; slug: string }>()
     const names: string[] = []
-    for (const k of Object.keys(recs)) {
-      const r = recs[k]
+    for (const r of recs || []) {
       if (!r || !r.ten) continue
-      const href = r.link || `https://www.google.com/search?q=${encodeURIComponent(r.ten + ' đông y')}`
-      for (const nm of [r.ten, ...(Array.isArray(r.alias) ? r.alias : [])]) {
+      if (r.context === 'xuat_xu') xuatXuSlug.value = r.slug
+      for (const nm of [r.ten, ...(r.ten_khac ? r.ten_khac.split(' | ') : [])]) {
         const t = String(nm || '').trim()
         if (t.length < 4) continue
         const key = normSrc(t)
-        if (!map.has(key)) { map.set(key, { ten: t, href }); names.push(t) }
+        if (!map.has(key)) { map.set(key, { ten: t, slug: r.slug }); names.push(t) }
       }
     }
     names.sort((a, b) => b.length - a.length)
     const esc = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     srcRe.value = names.length ? new RegExp('(' + names.map(esc).join('|') + ')', 'gi') : null
     srcMap.value = map
-  } catch { /* nguồn là phụ — lỗi tải thì hiện text thường */ }
+  } catch { /* nguồn là phụ — lỗi thì hiện text thường */ }
 }
 
-type Part = { t: string; href?: string }
+type Part = { t: string; slug?: string }
 function decorate(text: string): Part[] {
   const re = srcRe.value
   if (!re) return [{ t: text }]
@@ -140,7 +160,7 @@ function decorate(text: string): Part[] {
   while ((m = re.exec(text))) {
     if (m.index > last) out.push({ t: text.slice(last, m.index) })
     const hit = srcMap.value.get(normSrc(m[0]))
-    out.push({ t: m[0], href: hit ? hit.href : undefined })
+    out.push({ t: m[0], slug: hit ? hit.slug : undefined })
     last = m.index + m[0].length
   }
   if (last < text.length) out.push({ t: text.slice(last) })
@@ -159,6 +179,7 @@ async function load(id: number) {
     const base = props.source === 'public' ? '/duoc-lieu' : '/vi-thuoc'
     herb.value = await api.get<Herb>(`${base}/${id}`)
     activeYvan.value = 0
+    void loadSources(id)
     // Dò "tên khác" trùng vị đã có (chỉ khu admin — endpoint cần đăng nhập).
     bienThe.value = []
     if (props.source !== 'public') {
@@ -174,7 +195,7 @@ async function load(id: number) {
   }
 }
 
-onMounted(() => { void loadSources(); load(props.viThuocId) })
+onMounted(() => { load(props.viThuocId) })
 watch(() => props.viThuocId, (id) => load(id))
 </script>
 
@@ -193,9 +214,34 @@ watch(() => props.viThuocId, (id) => load(id))
           <span v-if="herb.ten_pinyin" class="vtd-pinyin">{{ herb.ten_pinyin }}</span>
           <span v-if="herb.ho_khoa_hoc" class="vtd-bpd">Họ KH: {{ herb.ho_khoa_hoc }}</span>
           <span v-if="herb.bo_phan_dung" class="vtd-bpd">Bộ phận dùng: {{ herb.bo_phan_dung }}</span>
-          <span v-if="herb.xuat_xu" class="vtd-bpd">Xuất xứ: {{ herb.xuat_xu }}</span>
+          <span v-if="herb.xuat_xu" class="vtd-bpd">Xuất xứ:
+            <RouterLink v-if="xuatXuSlug" :to="links.nguon(xuatXuSlug)" class="vtd-src">{{ herb.xuat_xu }}</RouterLink>
+            <template v-else>{{ herb.xuat_xu }}</template>
+          </span>
         </div>
       </header>
+
+      <!-- Cảnh báo trùng / gợi ý gộp (chỉ admin — bienThe rỗng ở bản công khai) -->
+      <div v-if="bienThe.length" class="vtd-bienthe">
+        <div v-if="bienTheTrung.length" class="vtd-bt-block">
+          ⚠️ Tên khác trùng vị đã có — <strong>khả năng là bản trùng</strong>, nên kiểm tra:
+          <div class="vtd-bt-list">
+            <span v-for="v in bienTheTrung" :key="v.id" class="vtd-bt-row">
+              <button type="button" class="vtd-bienthe-chip" title="Xem vị này" @click="load(v.id)">{{ v.ten_vi_thuoc }}<span v-if="v.ten_han" class="vtd-bt-han">{{ v.ten_han }}</span></button>
+              <button type="button" class="vtd-gop-btn" :disabled="gopping === v.id" :title="'Gộp ' + v.ten_vi_thuoc + ' vào ' + (herb?.ten_vi_thuoc || '')" @click="gopBienThe(v)">{{ gopping === v.id ? 'Đang gộp…' : '⤵ Gộp vào đây' }}</button>
+            </span>
+          </div>
+        </div>
+        <div v-if="bienTheGoiY.length" class="vtd-bt-block vtd-bt-soft">
+          🔎 Vị <strong>gần giống</strong> (cùng gốc tên) — kiểm tra kỹ, có thể chỉ là bộ phận/loại khác, hoặc <em>cây khác hẳn</em> (vd. Thổ phục linh ≠ Phục linh):
+          <div class="vtd-bt-list">
+            <span v-for="v in bienTheGoiY" :key="v.id" class="vtd-bt-row">
+              <button type="button" class="vtd-bienthe-chip" title="Xem vị này" @click="load(v.id)">{{ v.ten_vi_thuoc }}<span v-if="v.ten_han" class="vtd-bt-han">{{ v.ten_han }}</span></button>
+              <button type="button" class="vtd-gop-btn" :disabled="gopping === v.id" :title="'Gộp ' + v.ten_vi_thuoc + ' vào ' + (herb?.ten_vi_thuoc || '')" @click="gopBienThe(v)">{{ gopping === v.id ? 'Đang gộp…' : '⤵ Gộp vào đây' }}</button>
+            </span>
+          </div>
+        </div>
+      </div>
 
       <!-- Nội dung y văn (dạng tab) — đặt LÊN TRÊN, ngay dưới tên & TRÊN ảnh -->
       <section v-if="yvanSections.length" class="vtd-yvan">
@@ -212,11 +258,7 @@ watch(() => props.viThuocId, (id) => load(id))
           >{{ sec.title }}</button>
         </div>
         <div class="vtd-tabpanel" role="tabpanel">
-          <div v-if="isTenKhacTab && bienThe.length" class="vtd-bienthe">
-            ⚠️ Một số tên khác trùng vị thuốc đã có — <strong>có thể là biến thể/bản trùng</strong>, nên kiểm tra:
-            <button v-for="v in bienThe" :key="v.id" type="button" class="vtd-bienthe-chip" @click="load(v.id)">{{ v.ten_vi_thuoc }}</button>
-          </div>
-          <p v-for="(parts, i) in activeParas" :key="i" class="vtd-para"><template v-for="(part, j) in parts" :key="j"><a v-if="part.href" :href="part.href" target="_blank" rel="noopener" class="vtd-src" :title="'Nguồn: ' + part.t">{{ part.t }}</a><template v-else>{{ part.t }}</template></template></p>
+          <p v-for="(parts, i) in activeParas" :key="i" class="vtd-para"><template v-for="(part, j) in parts" :key="j"><RouterLink v-if="part.slug" :to="links.nguon(part.slug)" class="vtd-src" :title="'Nguồn: ' + part.t">{{ part.t }}</RouterLink><template v-else>{{ part.t }}</template></template></p>
         </div>
       </section>
 
@@ -286,8 +328,9 @@ watch(() => props.viThuocId, (id) => load(id))
 .vtd-kk { margin: 0; padding-left: 18px; font-size: 13.5px; line-height: 1.6; color: #7a2e23; }
 .vtd-kk li { margin: 2px 0; }
 .vtd-yvan { margin: 0 0 16px; }
-.vtd-tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 2px solid var(--brown-200, #e7d9c2); margin-bottom: 12px; }
-.vtd-tab { padding: 6px 13px; border: 1px solid var(--border, #e5e0d6); border-bottom: none; border-radius: 8px 8px 0 0; background: #faf6ef; color: var(--brown-700, #6b4f2a); font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: -2px; transition: background .12s, color .12s; }
+/* Tab y văn dạng "pill" — wrap đều & nhất quán dù 8 hay 9 mục (không còn cảnh "Tham khảo" lệch viền khi xuống dòng). */
+.vtd-tabs { display: flex; flex-wrap: wrap; gap: 6px; padding-bottom: 12px; margin-bottom: 12px; border-bottom: 1px solid var(--brown-200, #e7d9c2); }
+.vtd-tab { padding: 5px 13px; border: 1px solid var(--border, #e5e0d6); border-radius: 999px; background: #faf6ef; color: var(--brown-700, #6b4f2a); font-size: 13px; font-weight: 600; cursor: pointer; line-height: 1.45; transition: background .12s, color .12s; }
 .vtd-tab:hover { background: #f1e7d6; }
 .vtd-tab.on { background: var(--brown-700, #6b4f2a); color: #fff; border-color: var(--brown-700, #6b4f2a); }
 .vtd-tabpanel { min-height: 60px; }
@@ -297,4 +340,13 @@ watch(() => props.viThuocId, (id) => load(id))
 .vtd-bienthe { margin: 0 0 12px; padding: 8px 11px; background: #fff7e6; border: 1px solid #f0c98a; border-radius: 8px; font-size: 13px; color: #8a5a2b; line-height: 1.6; }
 .vtd-bienthe-chip { display: inline-block; margin: 4px 4px 0 0; padding: 2px 9px; border-radius: 999px; border: 1px solid #d9a566; background: #fff; color: #7a4a1a; font-size: 12.5px; font-weight: 600; cursor: pointer; }
 .vtd-bienthe-chip:hover { background: #fdecd0; }
+.vtd-bt-block { margin: 0 0 8px; }
+.vtd-bt-block:last-child { margin-bottom: 0; }
+.vtd-bt-soft { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e3c79a; color: #6b6256; }
+.vtd-bt-han { margin-left: 5px; font-size: 11px; opacity: 0.75; }
+.vtd-bt-list { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.vtd-bt-row { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.vtd-gop-btn { padding: 2px 10px; border-radius: 999px; border: 1px solid #b45309; background: #b45309; color: #fff; font-size: 12px; font-weight: 700; cursor: pointer; }
+.vtd-gop-btn:hover:not(:disabled) { background: #92400e; }
+.vtd-gop-btn:disabled { opacity: 0.6; cursor: default; }
 </style>

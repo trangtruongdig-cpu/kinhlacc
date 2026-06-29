@@ -7,6 +7,8 @@ const PublicKinhMach3DView = () => import('@/views/PublicKinhMach3DView.vue')
 const PublicTuDienView = () => import('@/views/PublicTuDienView.vue')
 const DuocLieuListView = () => import('@/views/DuocLieuListView.vue')
 const DuocLieuDetailView = () => import('@/views/DuocLieuDetailView.vue')
+const PhuongThuocListView = () => import('@/views/PhuongThuocListView.vue')
+const PhuongThuocDetailView = () => import('@/views/PhuongThuocDetailView.vue')
 const DemoKetQuaDoView = () => import('@/views/DemoKetQuaDoView.vue')
 const DemoBaiThuocView = () => import('@/views/DemoBaiThuocView.vue')
 // Trang "Tin Cậy" (YMYL/E-E-A-T) — công khai, có meta + prerender riêng.
@@ -90,6 +92,19 @@ const router = createRouter({
       path: '/duoc-lieu/:id',
       name: 'duoc-lieu-detail',
       component: DuocLieuDetailView,
+      meta: { requiresAuth: false },
+    },
+    // Từ điển BÀI THUỐC / cổ phương CÔNG KHAI (13.942 bài, nguồn legacy Đông Y Dược).
+    {
+      path: '/bai-thuoc',
+      name: 'bai-thuoc',
+      component: PhuongThuocListView,
+      meta: { requiresAuth: false },
+    },
+    {
+      path: '/bai-thuoc/:slug',
+      name: 'bai-thuoc-detail',
+      component: PhuongThuocDetailView,
       meta: { requiresAuth: false },
     },
     // Trang "Tin Cậy" (YMYL) — công khai.
@@ -208,6 +223,19 @@ const router = createRouter({
           path: 'tu-dien',
           name: 'tu-dien',
           component: TuDienView,
+          meta: { page: 'tu-dien' },
+        },
+        // Chi tiết dược liệu / bài thuốc XEM TRONG APP (giữ trong DashboardLayout — không văng ra trang public).
+        {
+          path: 'duoc-lieu/:id',
+          name: 'app-duoc-lieu-detail',
+          component: DuocLieuDetailView,
+          meta: { page: 'tu-dien' },
+        },
+        {
+          path: 'bai-thuoc/:slug',
+          name: 'app-bai-thuoc-detail',
+          component: PhuongThuocDetailView,
           meta: { page: 'tu-dien' },
         },
         {

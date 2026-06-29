@@ -19,6 +19,7 @@ export class ViThuocRouter {
     @Query('q') q?: string,
     @Query('idNhomNho') idNhomNho?: string,
     @Query('idNhomLon') idNhomLon?: string,
+    @Query('sort') sort?: string,
   ) {
     return this.service.findLite({
       page: page ? Number(page) : undefined,
@@ -26,6 +27,7 @@ export class ViThuocRouter {
       q: q ?? undefined,
       idNhomNho: idNhomNho != null && idNhomNho !== '' ? Number(idNhomNho) : null,
       idNhomLon: idNhomLon != null && idNhomLon !== '' ? Number(idNhomLon) : null,
+      sort: sort === 'ten' ? 'ten' : 'phobien',
     });
   }
 
@@ -47,6 +49,13 @@ export class ViThuocRouter {
   @Get(':id/bien-the')
   async bienThe(@Param('id') id: string) {
     const data = await this.service.bienTheTenKhac(+id);
+    return { success: true, data };
+  }
+
+  // Gộp vị trùng/biến thể `fromId` VÀO vị `:id` (giữ :id). body { fromId }
+  @Post(':id/gop')
+  async gop(@Param('id') id: string, @Body('fromId') fromId: number) {
+    const data = await this.service.gop(+id, Number(fromId));
     return { success: true, data };
   }
 

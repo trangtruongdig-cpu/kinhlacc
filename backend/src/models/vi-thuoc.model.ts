@@ -43,6 +43,10 @@ export class ViThuoc {
   @Column({ type: 'varchar', length: 255, nullable: true })
   bo_phan_dung: string;
 
+  // Số BÀI THUỐC vị này xuất hiện (đếm sẵn từ phuong_thang) → sắp "vị thường dùng" lên đầu + badge.
+  @Column({ type: 'int', default: 0 })
+  so_bai_thuoc: number;
+
   // ---- Nội dung y văn (nhập từ từ điển Đông Y cũ "Thuynhan DBF") — văn bản nguyên văn theo mục ----
   @Column({ type: 'varchar', length: 500, nullable: true })
   xuat_xu: string | null; // Xuất xứ (vd "Khai Bảo Bản Thảo")

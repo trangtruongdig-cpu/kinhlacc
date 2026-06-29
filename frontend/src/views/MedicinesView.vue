@@ -115,6 +115,7 @@ interface ViThuoc {
   ten_han?: string | null
   ten_pinyin?: string | null
   bo_phan_dung?: string | null
+  so_bai_thuoc?: number | null
   kinhMachLinks?: KinhMachLink[] | null
 }
 
@@ -2140,6 +2141,16 @@ function closeViThuocDetail() { vtDetailId.value = null }
 
 // Ảnh đại diện (ưu tiên dược liệu thành phẩm) cho thẻ danh sách — nạp 1 lần từ thumbs.json tĩnh.
 const vtThumbs = ref<Record<string, { thumb: string; giai_doan: string }>>({})
+const VT_IMG_BASE = import.meta.env.BASE_URL || '/'
+// Thumb có thể là URL http, đường dẫn tuyệt đối (/vi-thuoc/..), hay TÊN FILE TRẦN (3.png) — phải prefix
+// path tĩnh cho tên trần, nếu không trình duyệt resolve sai (vd /app/3.png → 404).
+function vtThumbSrc(id: number): string {
+  const f = vtThumbs.value[id]?.thumb
+  if (!f) return ''
+  if (/^https?:\/\//i.test(f)) return f
+  if (f.startsWith('/')) return f
+  return `${VT_IMG_BASE}vi-thuoc/${id}/${f}`.replace(/([^:])\/{2,}/g, '$1/')
+}
 async function loadVtThumbs() {
   try {
     const res = await fetch(`${import.meta.env.BASE_URL || '/'}vi-thuoc/thumbs.json`, { cache: 'no-cache' })
@@ -2962,10 +2973,11 @@ async function runVtAiBatch() {
               <img
                 v-if="vtThumbs[vt.id]"
                 class="vt-card__thumb"
-                :src="vtThumbs[vt.id]?.thumb"
+                :src="vtThumbSrc(vt.id)"
                 :alt="`Ảnh ${vt.ten_vi_thuoc}`"
                 :title="vtThumbs[vt.id]?.giai_doan"
                 loading="lazy"
+                @error="($event.target as HTMLImageElement).style.display = 'none'"
               />
               <header class="vt-card__head">
                 <div class="vt-card__title">
@@ -2986,6 +2998,7 @@ async function runVtAiBatch() {
                 </div>
               </header>
               <div class="vt-card__body">
+                <div v-if="vt.so_bai_thuoc" class="vt-card__nbai">Dùng trong {{ vt.so_bai_thuoc.toLocaleString('vi-VN') }} bài thuốc</div>
                 <div class="vt-meta-row">
                   <div class="vt-meta">
                     <span class="vt-meta__label">Tính</span>
@@ -3335,7 +3348,7 @@ async function runVtAiBatch() {
           <button type="button" class="modal-close" @click="closeViThuocDetail">✕</button>
         </div>
         <div class="modal-body">
-          <ViThuocDetail :vi-thuoc-id="vtDetailId" source="admin" />
+          <ViThuocDetail :vi-thuoc-id="vtDetailId" source="admin" @merged="loadViThuocPage(); loadVtMissingCount()" />
         </div>
         <div class="modal-footer">
           <button type="button" class="btn-secondary" @click="closeViThuocDetail">Đóng</button>
@@ -4288,6 +4301,17 @@ async function runVtAiBatch() {
 .vt-card__pinyin {
   font-size: 12px;
   color: var(--brown-400);
+}
+.vt-card__nbai {
+  display: inline-block;
+  margin: 0 0 8px;
+  padding: 2px 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--brown-700, #6b4f2a);
+  background: var(--brown-50, #f7f3ec);
+  border: 1px solid var(--brown-200, #e7d9c2);
+  border-radius: 999px;
 }
 .vt-card__body {
   flex: 1 1 auto;
