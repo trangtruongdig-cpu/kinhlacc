@@ -79,7 +79,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "a-huyet-1",
-      "image": "images/acupoints/0002-a-huyet-1.png"
+      "image": "images/acupoints/0002-a-huyet-1.webp"
     },
     {
       "id": 3,
@@ -115,7 +115,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "a-huyet-2",
-      "image": "images/acupoints/0003-a-huyet-2.png"
+      "image": "images/acupoints/0003-a-huyet-2.webp"
     },
     {
       "id": 4,
@@ -151,7 +151,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "a-minh",
-      "image": "images/acupoints/0004-a-minh.png"
+      "image": "images/acupoints/0004-a-minh.webp"
     },
     {
       "id": 5,
@@ -199,7 +199,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "a-mon",
-      "image": "images/acupoints/0005-a-mon.png",
+      "image": "images/acupoints/0005-a-mon.webp",
       "international_code": "GV15",
       "code_dash": "GV-15",
       "chinese": "瘂門 (啞門)",
@@ -252,7 +252,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ach-nghich",
-      "image": "images/acupoints/0006-ach-nghich.png"
+      "image": "images/acupoints/0006-ach-nghich.webp"
     },
     {
       "id": 7,
@@ -288,7 +288,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "an-mien-1",
-      "image": "images/acupoints/0007-an-mien-1.png"
+      "image": "images/acupoints/0007-an-mien-1.webp"
     },
     {
       "id": 8,
@@ -324,7 +324,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "an-mien-2",
-      "image": "images/acupoints/0008-an-mien-2.png"
+      "image": "images/acupoints/0008-an-mien-2.webp"
     },
     {
       "id": 9,
@@ -360,7 +360,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "an-mien-3",
-      "image": "images/acupoints/0009-an-mien-3.png"
+      "image": "images/acupoints/0009-an-mien-3.webp"
     },
     {
       "id": 10,
@@ -396,7 +396,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "an-mien-4",
-      "image": "images/acupoints/0010-an-mien-4.png"
+      "image": "images/acupoints/0010-an-mien-4.webp"
     },
     {
       "id": 11,
@@ -476,7 +476,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-bao",
-      "image": "images/acupoints/0012-am-bao.png",
+      "image": "images/acupoints/0012-am-bao.webp",
       "international_code": "LR9",
       "code_dash": "LR-9",
       "chinese": "陰包",
@@ -524,7 +524,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-bien",
-      "image": "images/acupoints/0013-am-bien.png"
+      "image": "images/acupoints/0013-am-bien.webp"
     },
     {
       "id": 14,
@@ -568,7 +568,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-coc",
-      "image": "images/acupoints/0014-am-coc.png",
+      "image": "images/acupoints/0014-am-coc.webp",
       "international_code": "KI10",
       "code_dash": "KI-10",
       "chinese": "陰谷",
@@ -618,7 +618,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-duong",
-      "image": "images/acupoints/0015-am-duong.png"
+      "image": "images/acupoints/0015-am-duong.webp"
     },
     {
       "id": 16,
@@ -662,7 +662,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-do",
-      "image": "images/acupoints/0016-am-do.png",
+      "image": "images/acupoints/0016-am-do.webp",
       "international_code": "KI19",
       "code_dash": "KI-19",
       "chinese": "陰都",
@@ -754,7 +754,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-giao",
-      "image": "images/acupoints/0018-am-giao.png",
+      "image": "images/acupoints/0018-am-giao.webp",
       "international_code": "CV7",
       "code_dash": "CV-7",
       "chinese": "陰交",
@@ -802,7 +802,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-khang",
-      "image": "images/acupoints/0019-am-khang.png"
+      "image": "images/acupoints/0019-am-khang.webp"
     },
     {
       "id": 20,
@@ -850,7 +850,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-khich",
-      "image": "images/acupoints/0020-am-khich.png"
+      "image": "images/acupoints/0020-am-khich.webp"
     },
     {
       "id": 21,
@@ -898,7 +898,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-lang-tuyen",
-      "image": "images/acupoints/0021-am-lang-tuyen.png",
+      "image": "images/acupoints/0021-am-lang-tuyen.webp",
       "international_code": "SP9",
       "code_dash": "SP-9",
       "chinese": "陰陵泉",
@@ -957,7 +957,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-liem",
-      "image": "images/acupoints/0022-am-liem.png",
+      "image": "images/acupoints/0022-am-liem.webp",
       "international_code": "LR11",
       "code_dash": "LR-11",
       "chinese": "陰廉",
@@ -1001,7 +1001,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "yeu-thong-iii",
-      "image": "images/acupoints/0023-yeu-thong-iii.png"
+      "image": "images/acupoints/0023-yeu-thong-iii.webp"
     },
     {
       "id": 24,
@@ -1033,7 +1033,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-nang-phung",
-      "image": "images/acupoints/0024-am-nang-phung.png"
+      "image": "images/acupoints/0024-am-nang-phung.webp"
     },
     {
       "id": 25,
@@ -1081,7 +1081,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-thi",
-      "image": "images/acupoints/0025-am-thi.png",
+      "image": "images/acupoints/0025-am-thi.webp",
       "international_code": "ST33",
       "code_dash": "ST-33",
       "chinese": "陰市",
@@ -1127,7 +1127,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-tri",
-      "image": "images/acupoints/0026-am-tri.png"
+      "image": "images/acupoints/0026-am-tri.webp"
     },
     {
       "id": 27,
@@ -1163,7 +1163,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-uy-1",
-      "image": "images/acupoints/0027-am-uy-1.png"
+      "image": "images/acupoints/0027-am-uy-1.webp"
     },
     {
       "id": 28,
@@ -1199,7 +1199,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-uy-2",
-      "image": "images/acupoints/0028-am-uy-2.png"
+      "image": "images/acupoints/0028-am-uy-2.webp"
     },
     {
       "id": 29,
@@ -1235,7 +1235,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-uy-3",
-      "image": "images/acupoints/0029-am-uy-3.png"
+      "image": "images/acupoints/0029-am-uy-3.webp"
     },
     {
       "id": 30,
@@ -1271,7 +1271,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "am-khich",
-      "image": "images/acupoints/0030-am-khich.png",
+      "image": "images/acupoints/0030-am-khich.webp",
       "international_code": "HE6",
       "code_dash": "HE-6",
       "chinese": "陰郄",
@@ -1313,7 +1313,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "an-ha",
-      "image": "images/acupoints/0031-an-ha.png"
+      "image": "images/acupoints/0031-an-ha.webp"
     },
     {
       "id": 32,
@@ -1353,7 +1353,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "an-mon",
-      "image": "images/acupoints/0032-an-mon.png",
+      "image": "images/acupoints/0032-an-mon.webp",
       "international_code": "BL37",
       "code_dash": "BL-37",
       "chinese": "殷門",
@@ -1403,7 +1403,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "an-thuong",
-      "image": "images/acupoints/0033-an-thuong.png"
+      "image": "images/acupoints/0033-an-thuong.webp"
     },
     {
       "id": 34,
@@ -1451,7 +1451,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "an-bach",
-      "image": "images/acupoints/0034-an-bach.png",
+      "image": "images/acupoints/0034-an-bach.webp",
       "international_code": "SP1",
       "code_dash": "SP-1",
       "chinese": "隱白",
@@ -1509,7 +1509,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "an-duong",
-      "image": "images/acupoints/0035-an-duong.png"
+      "image": "images/acupoints/0035-an-duong.webp"
     },
     {
       "id": 36,
@@ -1537,7 +1537,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ba-hoi-thap-tu-thich",
-      "image": "images/acupoints/0036-ba-hoi-thap-tu-thich.png"
+      "image": "images/acupoints/0036-ba-hoi-thap-tu-thich.webp"
     },
     {
       "id": 37,
@@ -1577,7 +1577,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bach-chung-phong",
-      "image": "images/acupoints/0037-bach-chung-phong.png"
+      "image": "images/acupoints/0037-bach-chung-phong.webp"
     },
     {
       "id": 38,
@@ -1625,7 +1625,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bach-hoi",
-      "image": "images/acupoints/0038-bach-hoi.png",
+      "image": "images/acupoints/0038-bach-hoi.webp",
       "international_code": "GV20",
       "code_dash": "GV-20",
       "chinese": "百會",
@@ -1674,7 +1674,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bach-lao",
-      "image": "images/acupoints/0039-bach-lao.png"
+      "image": "images/acupoints/0039-bach-lao.webp"
     },
     {
       "id": 40,
@@ -1714,7 +1714,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bach-trung-sao",
-      "image": "images/acupoints/0040-bach-trung-sao.png"
+      "image": "images/acupoints/0040-bach-trung-sao.webp"
     },
     {
       "id": 41,
@@ -1794,7 +1794,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bach-hoan-du",
-      "image": "images/acupoints/0042-bach-hoan-du.png",
+      "image": "images/acupoints/0042-bach-hoan-du.webp",
       "international_code": "BL30",
       "code_dash": "BL-30",
       "chinese": "白環俞",
@@ -1847,7 +1847,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ban-mon",
-      "image": "images/acupoints/0043-ban-mon.png"
+      "image": "images/acupoints/0043-ban-mon.webp"
     },
     {
       "id": 44,
@@ -1895,7 +1895,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ban-than",
-      "image": "images/acupoints/0044-ban-than.png",
+      "image": "images/acupoints/0044-ban-than.webp",
       "international_code": "GB13",
       "code_dash": "GB-13",
       "chinese": "本神",
@@ -1938,7 +1938,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bang-coc",
-      "image": "images/acupoints/0045-bang-coc.png"
+      "image": "images/acupoints/0045-bang-coc.webp"
     },
     {
       "id": 46,
@@ -1970,7 +1970,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bang-dinh",
-      "image": "images/acupoints/0046-bang-dinh.png"
+      "image": "images/acupoints/0046-bang-dinh.webp"
     },
     {
       "id": 47,
@@ -2002,7 +2002,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bang-ho",
-      "image": "images/acupoints/0047-bang-ho.png"
+      "image": "images/acupoints/0047-bang-ho.webp"
     },
     {
       "id": 48,
@@ -2034,7 +2034,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bang-lao-cung",
-      "image": "images/acupoints/0048-bang-lao-cung.png"
+      "image": "images/acupoints/0048-bang-lao-cung.webp"
     },
     {
       "id": 49,
@@ -2066,7 +2066,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bang-liem-tuyen",
-      "image": "images/acupoints/0049-bang-liem-tuyen.png"
+      "image": "images/acupoints/0049-bang-liem-tuyen.webp"
     },
     {
       "id": 50,
@@ -2110,7 +2110,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bang-quang-du",
-      "image": "images/acupoints/0050-bang-quang-du.png",
+      "image": "images/acupoints/0050-bang-quang-du.webp",
       "international_code": "BL28",
       "code_dash": "BL-28",
       "chinese": "膀胱俞",
@@ -2168,7 +2168,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bao-hoang",
-      "image": "images/acupoints/0051-bao-hoang.png",
+      "image": "images/acupoints/0051-bao-hoang.webp",
       "international_code": "BL53",
       "code_dash": "BL-53",
       "chinese": "胞肓",
@@ -2215,7 +2215,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bat-chuy-ha",
-      "image": "images/acupoints/0052-bat-chuy-ha.png"
+      "image": "images/acupoints/0052-bat-chuy-ha.webp"
     },
     {
       "id": 53,
@@ -2287,7 +2287,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bat-du",
-      "image": "images/acupoints/0054-bat-du.png"
+      "image": "images/acupoints/0054-bat-du.webp"
     },
     {
       "id": 55,
@@ -2359,7 +2359,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bat-lieu",
-      "image": "images/acupoints/0056-bat-lieu.png"
+      "image": "images/acupoints/0056-bat-lieu.webp"
     },
     {
       "id": 57,
@@ -2403,7 +2403,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bat-phong",
-      "image": "images/acupoints/0057-bat-phong.png"
+      "image": "images/acupoints/0057-bat-phong.webp"
     },
     {
       "id": 58,
@@ -2447,7 +2447,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bat-ta",
-      "image": "images/acupoints/0058-bat-ta.png"
+      "image": "images/acupoints/0058-bat-ta.webp"
     },
     {
       "id": 59,
@@ -2515,7 +2515,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ban-huyet-linh",
-      "image": "images/acupoints/0060-ban-huyet-linh.png"
+      "image": "images/acupoints/0060-ban-huyet-linh.webp"
     },
     {
       "id": 61,
@@ -2555,7 +2555,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ban-cot",
-      "image": "images/acupoints/0061-ban-cot.png"
+      "image": "images/acupoints/0061-ban-cot.webp"
     },
     {
       "id": 62,
@@ -2591,7 +2591,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ban-cuu",
-      "image": "images/acupoints/0062-ban-cuu.png"
+      "image": "images/acupoints/0062-ban-cuu.webp"
     },
     {
       "id": 63,
@@ -2635,7 +2635,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bat-dung",
-      "image": "images/acupoints/0063-bat-dung.png",
+      "image": "images/acupoints/0063-bat-dung.webp",
       "international_code": "ST19",
       "code_dash": "ST-19",
       "chinese": "不容",
@@ -2690,7 +2690,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "be-quan",
-      "image": "images/acupoints/0064-be-quan.png",
+      "image": "images/acupoints/0064-be-quan.webp",
       "international_code": "ST31",
       "code_dash": "ST-31",
       "chinese": "髀關",
@@ -2734,7 +2734,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "be-khong",
-      "image": "images/acupoints/0065-be-khong.png"
+      "image": "images/acupoints/0065-be-khong.webp"
     },
     {
       "id": 66,
@@ -2774,7 +2774,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bi-can",
-      "image": "images/acupoints/0066-bi-can.png"
+      "image": "images/acupoints/0066-bi-can.webp"
     },
     {
       "id": 67,
@@ -2814,7 +2814,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bien-dao",
-      "image": "images/acupoints/0067-bien-dao.png"
+      "image": "images/acupoints/0067-bien-dao.webp"
     },
     {
       "id": 68,
@@ -2858,7 +2858,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "binh-phong",
-      "image": "images/acupoints/0068-binh-phong.png",
+      "image": "images/acupoints/0068-binh-phong.webp",
       "international_code": "SI12",
       "code_dash": "SI-12",
       "chinese": "秉風",
@@ -2914,7 +2914,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "bo-lang",
-      "image": "images/acupoints/0069-bo-lang.png",
+      "image": "images/acupoints/0069-bo-lang.webp",
       "international_code": "KI22",
       "code_dash": "KI-22",
       "chinese": "步廊",
@@ -2977,7 +2977,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "boc-tham",
-      "image": "images/acupoints/0070-boc-tham.png",
+      "image": "images/acupoints/0070-boc-tham.webp",
       "international_code": "BL61",
       "code_dash": "BL-61",
       "chinese": "僕參",
@@ -3055,7 +3055,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "boi-giap-trung-gian",
-      "image": "images/acupoints/0072-boi-giap-trung-gian.png"
+      "image": "images/acupoints/0072-boi-giap-trung-gian.webp"
     },
     {
       "id": 73,
@@ -3119,7 +3119,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "boi-phung",
-      "image": "images/acupoints/0074-boi-phung.png"
+      "image": "images/acupoints/0074-boi-phung.webp"
     },
     {
       "id": 75,
@@ -3151,7 +3151,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "boi-tam-cham",
-      "image": "images/acupoints/0075-boi-tam-cham.png"
+      "image": "images/acupoints/0075-boi-tam-cham.webp"
     },
     {
       "id": 76,
@@ -3231,7 +3231,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cach-du",
-      "image": "images/acupoints/0077-cach-du.png",
+      "image": "images/acupoints/0077-cach-du.webp",
       "international_code": "BL17",
       "code_dash": "BL-17",
       "chinese": "膈俞",
@@ -3288,7 +3288,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cach-quan",
-      "image": "images/acupoints/0078-cach-quan.png",
+      "image": "images/acupoints/0078-cach-quan.webp",
       "international_code": "BL46",
       "code_dash": "BL-46",
       "chinese": "膈關",
@@ -3409,7 +3409,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "can-du",
-      "image": "images/acupoints/0081-can-du.png",
+      "image": "images/acupoints/0081-can-du.webp",
       "international_code": "BL18",
       "code_dash": "BL-18",
       "chinese": "肝俞",
@@ -3462,7 +3462,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "can-nhiet-huyet",
-      "image": "images/acupoints/0082-can-nhiet-huyet.png"
+      "image": "images/acupoints/0082-can-nhiet-huyet.webp"
     },
     {
       "id": 83,
@@ -3526,7 +3526,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "canh-trung",
-      "image": "images/acupoints/0084-canh-trung.png"
+      "image": "images/acupoints/0084-canh-trung.webp"
     },
     {
       "id": 85,
@@ -3562,7 +3562,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "canh-ty",
-      "image": "images/acupoints/0085-canh-ty.png"
+      "image": "images/acupoints/0085-canh-ty.webp"
     },
     {
       "id": 86,
@@ -3642,7 +3642,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cao-hoang",
-      "image": "images/acupoints/0087-cao-hoang.png",
+      "image": "images/acupoints/0087-cao-hoang.webp",
       "international_code": "BL43",
       "code_dash": "BL-43",
       "chinese": "膏肓俞",
@@ -3692,7 +3692,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cat-lam",
-      "image": "images/acupoints/0088-cat-lam.png"
+      "image": "images/acupoints/0088-cat-lam.webp"
     },
     {
       "id": 89,
@@ -3808,7 +3808,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "can-suc",
-      "image": "images/acupoints/0091-can-suc.png",
+      "image": "images/acupoints/0091-can-suc.webp",
       "international_code": "GV8",
       "code_dash": "GV-8",
       "chinese": "筋縮",
@@ -3862,7 +3862,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cap-mach",
-      "image": "images/acupoints/0092-cap-mach.png",
+      "image": "images/acupoints/0092-cap-mach.webp",
       "international_code": "LR12",
       "code_dash": "LR-12",
       "chinese": "急脈",
@@ -3908,7 +3908,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cau-hau",
-      "image": "images/acupoints/0093-cau-hau.png"
+      "image": "images/acupoints/0093-cau-hau.webp"
     },
     {
       "id": 94,
@@ -3940,7 +3940,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chau-dinh",
-      "image": "images/acupoints/0094-chau-dinh.png"
+      "image": "images/acupoints/0094-chau-dinh.webp"
     },
     {
       "id": 95,
@@ -3972,7 +3972,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chau-hoan",
-      "image": "images/acupoints/0095-chau-hoan.png"
+      "image": "images/acupoints/0095-chau-hoan.webp"
     },
     {
       "id": 96,
@@ -4020,7 +4020,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chi-cau",
-      "image": "images/acupoints/0096-chi-cau.png",
+      "image": "images/acupoints/0096-chi-cau.webp",
       "international_code": "TE6",
       "code_dash": "TE-6",
       "chinese": "支溝",
@@ -4086,7 +4086,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chi-chinh",
-      "image": "images/acupoints/0097-chi-chinh.png",
+      "image": "images/acupoints/0097-chi-chinh.webp",
       "international_code": "SI7",
       "code_dash": "SI-7",
       "chinese": "支正",
@@ -4148,7 +4148,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chi-am",
-      "image": "images/acupoints/0098-chi-am.png",
+      "image": "images/acupoints/0098-chi-am.webp",
       "international_code": "BL67",
       "code_dash": "BL-67",
       "chinese": "至陰",
@@ -4211,7 +4211,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chi-duong",
-      "image": "images/acupoints/0099-chi-duong.png",
+      "image": "images/acupoints/0099-chi-duong.webp",
       "international_code": "GV9",
       "code_dash": "GV-9",
       "chinese": "至陽",
@@ -4308,7 +4308,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chi-that",
-      "image": "images/acupoints/0101-chi-that.png",
+      "image": "images/acupoints/0101-chi-that.webp",
       "international_code": "BL52",
       "code_dash": "BL-52",
       "chinese": "志室",
@@ -4360,7 +4360,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chi-can",
-      "image": "images/acupoints/0102-chi-can.png"
+      "image": "images/acupoints/0102-chi-can.webp"
     },
     {
       "id": 103,
@@ -4400,7 +4400,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chi-ta",
-      "image": "images/acupoints/0103-chi-ta.png"
+      "image": "images/acupoints/0103-chi-ta.webp"
     },
     {
       "id": 104,
@@ -4476,7 +4476,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chien-trung",
-      "image": "images/acupoints/0105-chien-trung.png",
+      "image": "images/acupoints/0105-chien-trung.webp",
       "international_code": "CV17",
       "code_dash": "CV-17",
       "chinese": "膻中",
@@ -4538,7 +4538,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chieu-hai",
-      "image": "images/acupoints/0106-chieu-hai.png",
+      "image": "images/acupoints/0106-chieu-hai.webp",
       "international_code": "KI6",
       "code_dash": "KI-6",
       "chinese": "照海",
@@ -4604,7 +4604,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chinh-dinh",
-      "image": "images/acupoints/0107-chinh-dinh.png",
+      "image": "images/acupoints/0107-chinh-dinh.webp",
       "international_code": "GB17",
       "code_dash": "GB-17",
       "chinese": "正營",
@@ -4657,7 +4657,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chu-vinh",
-      "image": "images/acupoints/0108-chu-vinh.png",
+      "image": "images/acupoints/0108-chu-vinh.webp",
       "international_code": "SP20",
       "code_dash": "SP-20",
       "chinese": "周榮",
@@ -4704,7 +4704,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chu-thi",
-      "image": "images/acupoints/0109-chu-thi.png"
+      "image": "images/acupoints/0109-chu-thi.webp"
     },
     {
       "id": 110,
@@ -4740,7 +4740,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chuy-ha",
-      "image": "images/acupoints/0110-chuy-ha.png"
+      "image": "images/acupoints/0110-chuy-ha.webp"
     },
     {
       "id": 111,
@@ -4772,7 +4772,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chuyen-coc",
-      "image": "images/acupoints/0111-chuyen-coc.png"
+      "image": "images/acupoints/0111-chuyen-coc.webp"
     },
     {
       "id": 112,
@@ -4820,7 +4820,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "chuong-mon",
-      "image": "images/acupoints/0112-chuong-mon.png",
+      "image": "images/acupoints/0112-chuong-mon.webp",
       "international_code": "LR13",
       "code_dash": "LR-13",
       "chinese": "章門",
@@ -4913,7 +4913,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "con-lon",
-      "image": "images/acupoints/0114-con-lon.png",
+      "image": "images/acupoints/0114-con-lon.webp",
       "international_code": "BL60",
       "code_dash": "BL-60",
       "chinese": "昆侖; 崑崙[7]",
@@ -4975,7 +4975,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cong-ton",
-      "image": "images/acupoints/0115-cong-ton.png",
+      "image": "images/acupoints/0115-cong-ton.webp",
       "international_code": "SP4",
       "code_dash": "SP-4",
       "chinese": "公孫",
@@ -5033,7 +5033,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "co-mon",
-      "image": "images/acupoints/0116-co-mon.png",
+      "image": "images/acupoints/0116-co-mon.webp",
       "international_code": "SP11",
       "code_dash": "SP-11",
       "chinese": "箕門",
@@ -5080,7 +5080,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "co-quan",
-      "image": "images/acupoints/0117-co-quan.png"
+      "image": "images/acupoints/0117-co-quan.webp"
     },
     {
       "id": 118,
@@ -5112,7 +5112,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cu-ngoai-phien",
-      "image": "images/acupoints/0118-cu-ngoai-phien.png"
+      "image": "images/acupoints/0118-cu-ngoai-phien.webp"
     },
     {
       "id": 119,
@@ -5144,7 +5144,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cu-ngoai-phien-ii",
-      "image": "images/acupoints/0119-cu-ngoai-phien-ii.png"
+      "image": "images/acupoints/0119-cu-ngoai-phien-ii.webp"
     },
     {
       "id": 120,
@@ -5176,7 +5176,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cu-noi-phien",
-      "image": "images/acupoints/0120-cu-noi-phien.png"
+      "image": "images/acupoints/0120-cu-noi-phien.webp"
     },
     {
       "id": 121,
@@ -5208,7 +5208,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cung-tri",
-      "image": "images/acupoints/0121-cung-tri.png"
+      "image": "images/acupoints/0121-cung-tri.webp"
     },
     {
       "id": 122,
@@ -5244,7 +5244,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cung-cot",
-      "image": "images/acupoints/0122-cung-cot.png"
+      "image": "images/acupoints/0122-cung-cot.webp"
     },
     {
       "id": 123,
@@ -5328,7 +5328,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cu-lieu",
-      "image": "images/acupoints/0124-cu-lieu.png"
+      "image": "images/acupoints/0124-cu-lieu.webp"
     },
     {
       "id": 125,
@@ -5360,7 +5360,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cu-ty",
-      "image": "images/acupoints/0125-cu-ty.png"
+      "image": "images/acupoints/0125-cu-ty.webp"
     },
     {
       "id": 126,
@@ -5404,7 +5404,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cu-cot",
-      "image": "images/acupoints/0126-cu-cot.png",
+      "image": "images/acupoints/0126-cu-cot.webp",
       "international_code": "LI16",
       "code_dash": "LI-16",
       "chinese": "巨骨",
@@ -5451,7 +5451,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cu-cot-ha",
-      "image": "images/acupoints/0127-cu-cot-ha.png"
+      "image": "images/acupoints/0127-cu-cot-ha.webp"
     },
     {
       "id": 128,
@@ -5571,7 +5571,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cu-khuyet",
-      "image": "images/acupoints/0131-cu-khuyet.png",
+      "image": "images/acupoints/0131-cu-khuyet.webp",
       "international_code": "CV14",
       "code_dash": "CV-14",
       "chinese": "巨闕",
@@ -5623,7 +5623,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cu-khuyet-du",
-      "image": "images/acupoints/0132-cu-khuyet-du.png"
+      "image": "images/acupoints/0132-cu-khuyet-du.webp"
     },
     {
       "id": 133,
@@ -5667,7 +5667,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cu-lieu",
-      "image": "images/acupoints/0133-cu-lieu.png",
+      "image": "images/acupoints/0133-cu-lieu.webp",
       "international_code": "GB29",
       "code_dash": "GB-29",
       "chinese": "居髎",
@@ -5724,7 +5724,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cuc-tuyen",
-      "image": "images/acupoints/0134-cuc-tuyen.png",
+      "image": "images/acupoints/0134-cuc-tuyen.webp",
       "international_code": "HE1",
       "code_dash": "HE-1",
       "chinese": "極泉",
@@ -5778,7 +5778,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cuong-gian",
-      "image": "images/acupoints/0135-cuong-gian.png",
+      "image": "images/acupoints/0135-cuong-gian.webp",
       "international_code": "GV18",
       "code_dash": "GV-18",
       "chinese": "強間",
@@ -5821,7 +5821,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cuu-ky",
-      "image": "images/acupoints/0136-cuu-ky.png"
+      "image": "images/acupoints/0136-cuu-ky.webp"
     },
     {
       "id": 137,
@@ -5869,7 +5869,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cuu-vi",
-      "image": "images/acupoints/0137-cuu-vi.png",
+      "image": "images/acupoints/0137-cuu-vi.webp",
       "international_code": "CV15",
       "code_dash": "CV-15",
       "chinese": "鳩尾",
@@ -5924,7 +5924,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cuu-vi-cot-doan",
-      "image": "images/acupoints/0138-cuu-vi-cot-doan.png"
+      "image": "images/acupoints/0138-cuu-vi-cot-doan.webp"
     },
     {
       "id": 139,
@@ -5960,7 +5960,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cuu-dien-phong",
-      "image": "images/acupoints/0139-cuu-dien-phong.png"
+      "image": "images/acupoints/0139-cuu-dien-phong.webp"
     },
     {
       "id": 140,
@@ -6036,7 +6036,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cuu-huyet-benh",
-      "image": "images/acupoints/0141-cuu-huyet-benh.png"
+      "image": "images/acupoints/0141-cuu-huyet-benh.webp"
     },
     {
       "id": 142,
@@ -6132,7 +6132,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "cuu-khuc-trung-phu",
-      "image": "images/acupoints/0144-cuu-khuc-trung-phu.png"
+      "image": "images/acupoints/0144-cuu-khuc-trung-phu.webp"
     },
     {
       "id": 145,
@@ -6196,7 +6196,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "da-nieu-diem",
-      "image": "images/acupoints/0146-da-nieu-diem.png"
+      "image": "images/acupoints/0146-da-nieu-diem.webp"
     },
     {
       "id": 147,
@@ -6228,7 +6228,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dan-mon",
-      "image": "images/acupoints/0147-dan-mon.png"
+      "image": "images/acupoints/0147-dan-mon.webp"
     },
     {
       "id": 148,
@@ -6264,7 +6264,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "di-du",
-      "image": "images/acupoints/0148-di-du.png"
+      "image": "images/acupoints/0148-di-du.webp"
     },
     {
       "id": 149,
@@ -6296,7 +6296,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "di-dao",
-      "image": "images/acupoints/0149-di-dao.png"
+      "image": "images/acupoints/0149-di-dao.webp"
     },
     {
       "id": 150,
@@ -6328,7 +6328,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "di-nieu",
-      "image": "images/acupoints/0150-di-nieu.png"
+      "image": "images/acupoints/0150-di-nieu.webp"
     },
     {
       "id": 151,
@@ -6392,7 +6392,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "di-tinh",
-      "image": "images/acupoints/0152-di-tinh.png"
+      "image": "images/acupoints/0152-di-tinh.webp"
     },
     {
       "id": 153,
@@ -6428,7 +6428,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dich-ha",
-      "image": "images/acupoints/0153-dich-ha.png"
+      "image": "images/acupoints/0153-dich-ha.webp"
     },
     {
       "id": 154,
@@ -6460,7 +6460,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dich-khi",
-      "image": "images/acupoints/0154-dich-khi.png"
+      "image": "images/acupoints/0154-dich-khi.webp"
     },
     {
       "id": 155,
@@ -6492,7 +6492,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dich-linh",
-      "image": "images/acupoints/0155-dich-linh.png"
+      "image": "images/acupoints/0155-dich-linh.webp"
     },
     {
       "id": 156,
@@ -6536,7 +6536,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dich-mon",
-      "image": "images/acupoints/0156-dich-mon.png",
+      "image": "images/acupoints/0156-dich-mon.webp",
       "international_code": "TE2",
       "code_dash": "TE-2",
       "chinese": "液門",
@@ -6581,7 +6581,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dien-nham",
-      "image": "images/acupoints/0157-dien-nham.png"
+      "image": "images/acupoints/0157-dien-nham.webp"
     },
     {
       "id": 158,
@@ -6689,7 +6689,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "du-phu",
-      "image": "images/acupoints/0160-du-phu.png",
+      "image": "images/acupoints/0160-du-phu.webp",
       "international_code": "KI27",
       "code_dash": "KI-27",
       "chinese": "俞府",
@@ -6731,7 +6731,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duc-doan-san",
-      "image": "images/acupoints/0161-duc-doan-san.png"
+      "image": "images/acupoints/0161-duc-doan-san.webp"
     },
     {
       "id": 162,
@@ -6815,7 +6815,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dung-tuyen",
-      "image": "images/acupoints/0163-dung-tuyen.png",
+      "image": "images/acupoints/0163-dung-tuyen.webp",
       "international_code": "KI1",
       "code_dash": "KI-1",
       "chinese": "湧泉",
@@ -6864,7 +6864,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duy-bao",
-      "image": "images/acupoints/0164-duy-bao.png"
+      "image": "images/acupoints/0164-duy-bao.webp"
     },
     {
       "id": 165,
@@ -6896,7 +6896,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duy-cung",
-      "image": "images/acupoints/0165-duy-cung.png"
+      "image": "images/acupoints/0165-duy-cung.webp"
     },
     {
       "id": 166,
@@ -6944,7 +6944,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duy-dao",
-      "image": "images/acupoints/0166-duy-dao.png",
+      "image": "images/acupoints/0166-duy-dao.webp",
       "international_code": "GB28",
       "code_dash": "GB-28",
       "chinese": "維道",
@@ -7031,7 +7031,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duong-bach",
-      "image": "images/acupoints/0168-duong-bach.png",
+      "image": "images/acupoints/0168-duong-bach.webp",
       "international_code": "GB14",
       "code_dash": "GB-14",
       "chinese": "陽白",
@@ -7085,7 +7085,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duong-coc",
-      "image": "images/acupoints/0169-duong-coc.png",
+      "image": "images/acupoints/0169-duong-coc.webp",
       "international_code": "SI5",
       "code_dash": "SI-5",
       "chinese": "陽谷",
@@ -7141,7 +7141,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duong-cuong",
-      "image": "images/acupoints/0170-duong-cuong.png",
+      "image": "images/acupoints/0170-duong-cuong.webp",
       "international_code": "BL48",
       "code_dash": "BL-48",
       "chinese": "陽綱",
@@ -7197,7 +7197,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duong-giao",
-      "image": "images/acupoints/0171-duong-giao.png",
+      "image": "images/acupoints/0171-duong-giao.webp",
       "international_code": "GB35",
       "code_dash": "GB-35",
       "chinese": "陽交",
@@ -7288,7 +7288,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duong-khe",
-      "image": "images/acupoints/0173-duong-khe.png",
+      "image": "images/acupoints/0173-duong-khe.webp",
       "international_code": "LI5",
       "code_dash": "LI-5",
       "chinese": "陽谿",
@@ -7350,7 +7350,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duong-lang-tuyen",
-      "image": "images/acupoints/0174-duong-lang-tuyen.png",
+      "image": "images/acupoints/0174-duong-lang-tuyen.webp",
       "international_code": "GB34",
       "code_dash": "GB-34",
       "chinese": "陽陵泉",
@@ -7413,7 +7413,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duong-phu",
-      "image": "images/acupoints/0175-duong-phu.png",
+      "image": "images/acupoints/0175-duong-phu.webp",
       "international_code": "GB38",
       "code_dash": "GB-38",
       "chinese": "陽輔",
@@ -7509,7 +7509,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duong-tri",
-      "image": "images/acupoints/0177-duong-tri.png",
+      "image": "images/acupoints/0177-duong-tri.webp",
       "international_code": "TE4",
       "code_dash": "TE-4",
       "chinese": "陽池",
@@ -7558,7 +7558,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duong-uy-1",
-      "image": "images/acupoints/0178-duong-uy-1.png"
+      "image": "images/acupoints/0178-duong-uy-1.webp"
     },
     {
       "id": 179,
@@ -7594,7 +7594,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duong-uy-2",
-      "image": "images/acupoints/0179-duong-uy-2.png"
+      "image": "images/acupoints/0179-duong-uy-2.webp"
     },
     {
       "id": 180,
@@ -7630,7 +7630,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duong-uy-3",
-      "image": "images/acupoints/0180-duong-uy-3.png"
+      "image": "images/acupoints/0180-duong-uy-3.webp"
     },
     {
       "id": 181,
@@ -7662,7 +7662,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duong-yeu",
-      "image": "images/acupoints/0181-duong-yeu.png"
+      "image": "images/acupoints/0181-duong-yeu.webp"
     },
     {
       "id": 182,
@@ -7706,7 +7706,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "duong-lao",
-      "image": "images/acupoints/0182-duong-lao.png",
+      "image": "images/acupoints/0182-duong-lao.webp",
       "international_code": "SI6",
       "code_dash": "SI-6",
       "chinese": "養老",
@@ -7765,7 +7765,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-mach",
-      "image": "images/acupoints/0183-dai-mach.png",
+      "image": "images/acupoints/0183-dai-mach.webp",
       "international_code": "GB26",
       "code_dash": "GB-26",
       "chinese": "帶脈",
@@ -7811,7 +7811,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-kien",
-      "image": "images/acupoints/0184-dai-kien.png"
+      "image": "images/acupoints/0184-dai-kien.webp"
     },
     {
       "id": 185,
@@ -7895,7 +7895,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-bao",
-      "image": "images/acupoints/0186-dai-bao.png",
+      "image": "images/acupoints/0186-dai-bao.webp",
       "international_code": "SP21",
       "code_dash": "SP-21",
       "chinese": "大包",
@@ -8083,7 +8083,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-chung",
-      "image": "images/acupoints/0191-dai-chung.png",
+      "image": "images/acupoints/0191-dai-chung.webp",
       "international_code": "KI4",
       "code_dash": "KI-4",
       "chinese": "大鐘",
@@ -8146,7 +8146,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-chuy",
-      "image": "images/acupoints/0192-dai-chuy.png",
+      "image": "images/acupoints/0192-dai-chuy.webp",
       "international_code": "GV14",
       "code_dash": "GV-14",
       "chinese": "大椎",
@@ -8195,7 +8195,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-chuy-tu-huyet",
-      "image": "images/acupoints/0193-dai-chuy-tu-huyet.png"
+      "image": "images/acupoints/0193-dai-chuy-tu-huyet.webp"
     },
     {
       "id": 194,
@@ -8271,7 +8271,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-cu",
-      "image": "images/acupoints/0195-dai-cu.png",
+      "image": "images/acupoints/0195-dai-cu.webp",
       "international_code": "ST27",
       "code_dash": "ST-27",
       "chinese": "大巨",
@@ -8326,7 +8326,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-do",
-      "image": "images/acupoints/0196-dai-do.png",
+      "image": "images/acupoints/0196-dai-do.webp",
       "international_code": "SP2",
       "code_dash": "SP-2",
       "chinese": "大都",
@@ -8369,7 +8369,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-do-ii",
-      "image": "images/acupoints/0197-dai-do-ii.png"
+      "image": "images/acupoints/0197-dai-do-ii.webp"
     },
     {
       "id": 198,
@@ -8397,7 +8397,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-do-iii",
-      "image": "images/acupoints/0198-dai-do-iii.png"
+      "image": "images/acupoints/0198-dai-do-iii.webp"
     },
     {
       "id": 199,
@@ -8445,7 +8445,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-don",
-      "image": "images/acupoints/0199-dai-don.png",
+      "image": "images/acupoints/0199-dai-don.webp",
       "international_code": "LR1",
       "code_dash": "LR-1",
       "chinese": "大敦",
@@ -8505,7 +8505,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-hach",
-      "image": "images/acupoints/0200-dai-hach.png",
+      "image": "images/acupoints/0200-dai-hach.webp",
       "international_code": "KI12",
       "code_dash": "KI-12",
       "chinese": "大赫",
@@ -8565,7 +8565,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-hoanh",
-      "image": "images/acupoints/0201-dai-hoanh.png",
+      "image": "images/acupoints/0201-dai-hoanh.webp",
       "international_code": "SP15",
       "code_dash": "SP-15",
       "chinese": "大横",
@@ -8625,7 +8625,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-lang",
-      "image": "images/acupoints/0202-dai-lang.png",
+      "image": "images/acupoints/0202-dai-lang.webp",
       "international_code": "PC7",
       "code_dash": "PC-7",
       "chinese": "大陵",
@@ -8676,7 +8676,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-luan",
-      "image": "images/acupoints/0203-dai-luan.png"
+      "image": "images/acupoints/0203-dai-luan.webp"
     },
     {
       "id": 204,
@@ -8740,7 +8740,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-mon",
-      "image": "images/acupoints/0205-dai-mon.png"
+      "image": "images/acupoints/0205-dai-mon.webp"
     },
     {
       "id": 206,
@@ -8788,7 +8788,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-nghenh",
-      "image": "images/acupoints/0206-dai-nghenh.png",
+      "image": "images/acupoints/0206-dai-nghenh.webp",
       "international_code": "ST5",
       "code_dash": "ST-5",
       "chinese": "大迎",
@@ -8844,7 +8844,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-tru",
-      "image": "images/acupoints/0207-dai-tru.png",
+      "image": "images/acupoints/0207-dai-tru.webp",
       "international_code": "BL11",
       "code_dash": "BL-11",
       "chinese": "大杼",
@@ -8903,7 +8903,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dai-truong-du",
-      "image": "images/acupoints/0208-dai-truong-du.png",
+      "image": "images/acupoints/0208-dai-truong-du.webp",
       "international_code": "BL25",
       "code_dash": "BL-25",
       "chinese": "大腸俞",
@@ -8988,7 +8988,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dam-suyen",
-      "image": "images/acupoints/0210-dam-suyen.png"
+      "image": "images/acupoints/0210-dam-suyen.webp"
     },
     {
       "id": 211,
@@ -9032,7 +9032,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dao-dao",
-      "image": "images/acupoints/0211-dao-dao.png",
+      "image": "images/acupoints/0211-dao-dao.webp",
       "international_code": "GV13",
       "code_dash": "GV-13",
       "chinese": "陶道",
@@ -9091,7 +9091,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dau-duy",
-      "image": "images/acupoints/0212-dau-duy.png",
+      "image": "images/acupoints/0212-dau-duy.webp",
       "international_code": "ST8",
       "code_dash": "ST-8",
       "chinese": "頭維",
@@ -9186,7 +9186,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dau-khieu-am",
-      "image": "images/acupoints/0214-dau-khieu-am.png",
+      "image": "images/acupoints/0214-dau-khieu-am.webp",
       "international_code": "GB11",
       "code_dash": "GB-11",
       "chinese": "頭竅陰",
@@ -9246,7 +9246,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dau-lam-khap",
-      "image": "images/acupoints/0215-dau-lam-khap.png",
+      "image": "images/acupoints/0215-dau-lam-khap.webp",
       "international_code": "GB15",
       "code_dash": "GB-15",
       "chinese": "頭臨泣",
@@ -9328,7 +9328,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dau-quang-minh",
-      "image": "images/acupoints/0217-dau-quang-minh.png"
+      "image": "images/acupoints/0217-dau-quang-minh.webp"
     },
     {
       "id": 218,
@@ -9596,7 +9596,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dia-co",
-      "image": "images/acupoints/0224-dia-co.png",
+      "image": "images/acupoints/0224-dia-co.webp",
       "international_code": "SP8",
       "code_dash": "SP-8",
       "chinese": "地機",
@@ -9691,7 +9691,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dia-ngu-hoi",
-      "image": "images/acupoints/0226-dia-ngu-hoi.png",
+      "image": "images/acupoints/0226-dia-ngu-hoi.webp",
       "international_code": "GB42",
       "code_dash": "GB-42",
       "chinese": "地五會",
@@ -9783,7 +9783,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dia-thuong",
-      "image": "images/acupoints/0228-dia-thuong.png",
+      "image": "images/acupoints/0228-dia-thuong.webp",
       "international_code": "ST4",
       "code_dash": "ST-4",
       "chinese": "地倉",
@@ -9877,7 +9877,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dieu-khau",
-      "image": "images/acupoints/0230-dieu-khau.png",
+      "image": "images/acupoints/0230-dieu-khau.webp",
       "international_code": "ST38",
       "code_dash": "ST-38",
       "chinese": "條口",
@@ -9957,7 +9957,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dinh-du",
-      "image": "images/acupoints/0232-dinh-du.png"
+      "image": "images/acupoints/0232-dinh-du.webp"
     },
     {
       "id": 233,
@@ -10021,7 +10021,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dinh-dau",
-      "image": "images/acupoints/0234-dinh-dau.png"
+      "image": "images/acupoints/0234-dinh-dau.webp"
     },
     {
       "id": 235,
@@ -10085,7 +10085,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dinh-suyen",
-      "image": "images/acupoints/0236-dinh-suyen.png"
+      "image": "images/acupoints/0236-dinh-suyen.webp"
     },
     {
       "id": 237,
@@ -10133,7 +10133,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "doai-doan",
-      "image": "images/acupoints/0237-doai-doan.png",
+      "image": "images/acupoints/0237-doai-doan.webp",
       "international_code": "GV27",
       "code_dash": "GV-27",
       "chinese": "兌端",
@@ -10341,7 +10341,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "doan-hong",
-      "image": "images/acupoints/0243-doan-hong.png"
+      "image": "images/acupoints/0243-doan-hong.webp"
     },
     {
       "id": 244,
@@ -10377,7 +10377,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "doat-menh",
-      "image": "images/acupoints/0244-doat-menh.png"
+      "image": "images/acupoints/0244-doat-menh.webp"
     },
     {
       "id": 245,
@@ -10425,7 +10425,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "doc-du",
-      "image": "images/acupoints/0245-doc-du.png",
+      "image": "images/acupoints/0245-doc-du.webp",
       "international_code": "BL16",
       "code_dash": "BL-16",
       "chinese": "督俞",
@@ -10574,7 +10574,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "doc-ty",
-      "image": "images/acupoints/0249-doc-ty.png",
+      "image": "images/acupoints/0249-doc-ty.webp",
       "international_code": "ST35",
       "code_dash": "ST-35",
       "chinese": "犢鼻",
@@ -10617,7 +10617,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "don-trung",
-      "image": "images/acupoints/0250-don-trung.png"
+      "image": "images/acupoints/0250-don-trung.webp"
     },
     {
       "id": 251,
@@ -10649,7 +10649,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dong-minh",
-      "image": "images/acupoints/0251-dong-minh.png"
+      "image": "images/acupoints/0251-dong-minh.webp"
     },
     {
       "id": 252,
@@ -10697,7 +10697,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dong-tu-lieu",
-      "image": "images/acupoints/0252-dong-tu-lieu.png",
+      "image": "images/acupoints/0252-dong-tu-lieu.webp",
       "international_code": "GB1",
       "code_dash": "GB-1",
       "chinese": "瞳子髎",
@@ -10755,7 +10755,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dom-du",
-      "image": "images/acupoints/0253-dom-du.png",
+      "image": "images/acupoints/0253-dom-du.webp",
       "international_code": "BL19",
       "code_dash": "BL-19",
       "chinese": "膽俞",
@@ -10840,7 +10840,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "dom-nang-huyet",
-      "image": "images/acupoints/0255-dom-nang-huyet.png"
+      "image": "images/acupoints/0255-dom-nang-huyet.webp"
     },
     {
       "id": 256,
@@ -10940,7 +10940,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "e-minh",
-      "image": "images/acupoints/0258-e-minh.png"
+      "image": "images/acupoints/0258-e-minh.webp"
     },
     {
       "id": 259,
@@ -10980,7 +10980,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "e-minh-ha",
-      "image": "images/acupoints/0259-e-minh-ha.png"
+      "image": "images/acupoints/0259-e-minh-ha.webp"
     },
     {
       "id": 260,
@@ -11024,7 +11024,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "e-phong",
-      "image": "images/acupoints/0260-e-phong.png",
+      "image": "images/acupoints/0260-e-phong.webp",
       "international_code": "TE17",
       "code_dash": "TE-17",
       "chinese": "翳風",
@@ -11083,7 +11083,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "giac-ton",
-      "image": "images/acupoints/0261-giac-ton.png",
+      "image": "images/acupoints/0261-giac-ton.webp",
       "international_code": "TE20",
       "code_dash": "TE-20",
       "chinese": "角孫",
@@ -11145,7 +11145,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "giai-khe",
-      "image": "images/acupoints/0262-giai-khe.png",
+      "image": "images/acupoints/0262-giai-khe.webp",
       "international_code": "ST41",
       "code_dash": "ST-41",
       "chinese": "解谿",
@@ -11243,7 +11243,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "gian-su",
-      "image": "images/acupoints/0264-gian-su.png",
+      "image": "images/acupoints/0264-gian-su.webp",
       "international_code": "PC5",
       "code_dash": "PC-5",
       "chinese": "間使",
@@ -11330,7 +11330,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "giang-ap",
-      "image": "images/acupoints/0266-giang-ap.png"
+      "image": "images/acupoints/0266-giang-ap.webp"
     },
     {
       "id": 267,
@@ -11378,7 +11378,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "giao-tin",
-      "image": "images/acupoints/0267-giao-tin.png",
+      "image": "images/acupoints/0267-giao-tin.webp",
       "international_code": "KI8",
       "code_dash": "KI-8",
       "chinese": "交信",
@@ -11457,7 +11457,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "giap-can",
-      "image": "images/acupoints/0269-giap-can.png"
+      "image": "images/acupoints/0269-giap-can.webp"
     },
     {
       "id": 270,
@@ -11493,7 +11493,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "giap-ly",
-      "image": "images/acupoints/0270-giap-ly.png"
+      "image": "images/acupoints/0270-giap-ly.webp"
     },
     {
       "id": 271,
@@ -11525,7 +11525,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "giap-nhan-trung",
-      "image": "images/acupoints/0271-giap-nhan-trung.png"
+      "image": "images/acupoints/0271-giap-nhan-trung.webp"
     },
     {
       "id": 272,
@@ -11633,7 +11633,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "giap-thuong-tinh",
-      "image": "images/acupoints/0274-giap-thuong-tinh.png"
+      "image": "images/acupoints/0274-giap-thuong-tinh.webp"
     },
     {
       "id": 275,
@@ -11669,7 +11669,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "giap-ty",
-      "image": "images/acupoints/0275-giap-ty.png"
+      "image": "images/acupoints/0275-giap-ty.webp"
     },
     {
       "id": 276,
@@ -11717,7 +11717,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "giap-xa",
-      "image": "images/acupoints/0276-giap-xa.png",
+      "image": "images/acupoints/0276-giap-xa.webp",
       "international_code": "ST6",
       "code_dash": "ST-6",
       "chinese": "頰車",
@@ -11762,7 +11762,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ha-khau",
-      "image": "images/acupoints/0277-ha-khau.png"
+      "image": "images/acupoints/0277-ha-khau.webp"
     },
     {
       "id": 278,
@@ -11798,7 +11798,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ha-a-mon",
-      "image": "images/acupoints/0278-ha-a-mon.png"
+      "image": "images/acupoints/0278-ha-a-mon.webp"
     },
     {
       "id": 279,
@@ -11834,7 +11834,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ha-ba-lao",
-      "image": "images/acupoints/0279-ha-ba-lao.png"
+      "image": "images/acupoints/0279-ha-ba-lao.webp"
     },
     {
       "id": 280,
@@ -11866,7 +11866,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ha-chuy",
-      "image": "images/acupoints/0280-ha-chuy.png"
+      "image": "images/acupoints/0280-ha-chuy.webp"
     },
     {
       "id": 281,
@@ -11906,7 +11906,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ha-con-lon",
-      "image": "images/acupoints/0281-ha-con-lon.png"
+      "image": "images/acupoints/0281-ha-con-lon.webp"
     },
     {
       "id": 282,
@@ -11954,7 +11954,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ha-cu-hu",
-      "image": "images/acupoints/0282-ha-cu-hu.png",
+      "image": "images/acupoints/0282-ha-cu-hu.webp",
       "international_code": "ST39",
       "code_dash": "ST-39",
       "chinese": "下巨虛",
@@ -11998,7 +11998,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ha-cuc-du",
-      "image": "images/acupoints/0283-ha-cuc-du.png"
+      "image": "images/acupoints/0283-ha-cuc-du.webp"
     },
     {
       "id": 284,
@@ -12182,7 +12182,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ha-liem",
-      "image": "images/acupoints/0288-ha-liem.png",
+      "image": "images/acupoints/0288-ha-liem.webp",
       "international_code": "LI8",
       "code_dash": "LI-8",
       "chinese": "下廉",
@@ -12238,7 +12238,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ha-lieu",
-      "image": "images/acupoints/0289-ha-lieu.png",
+      "image": "images/acupoints/0289-ha-lieu.webp",
       "international_code": "BL34",
       "code_dash": "BL-34",
       "chinese": "下髎",
@@ -12294,7 +12294,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ha-quan",
-      "image": "images/acupoints/0290-ha-quan.png"
+      "image": "images/acupoints/0290-ha-quan.webp"
     },
     {
       "id": 291,
@@ -12334,7 +12334,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ha-quan-ha",
-      "image": "images/acupoints/0291-ha-quan-ha.png"
+      "image": "images/acupoints/0291-ha-quan-ha.webp"
     },
     {
       "id": 292,
@@ -12382,7 +12382,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ha-quan",
-      "image": "images/acupoints/0292-ha-quan.png",
+      "image": "images/acupoints/0292-ha-quan.webp",
       "international_code": "CV10",
       "code_dash": "CV-10",
       "chinese": "下脘",
@@ -12539,7 +12539,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hac-dinh",
-      "image": "images/acupoints/0296-hac-dinh.png"
+      "image": "images/acupoints/0296-hac-dinh.webp"
     },
     {
       "id": 297,
@@ -12651,7 +12651,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hai-tuyen",
-      "image": "images/acupoints/0299-hai-tuyen.png"
+      "image": "images/acupoints/0299-hai-tuyen.webp"
     },
     {
       "id": 300,
@@ -12691,7 +12691,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ham-yen",
-      "image": "images/acupoints/0300-ham-yen.png",
+      "image": "images/acupoints/0300-ham-yen.webp",
       "international_code": "GB4",
       "code_dash": "GB-4",
       "chinese": "頷厭",
@@ -12749,7 +12749,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ham-coc",
-      "image": "images/acupoints/0301-ham-coc.png",
+      "image": "images/acupoints/0301-ham-coc.webp",
       "international_code": "ST43",
       "code_dash": "ST-43",
       "chinese": "陷谷",
@@ -12842,7 +12842,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hanh-gian",
-      "image": "images/acupoints/0303-hanh-gian.png",
+      "image": "images/acupoints/0303-hanh-gian.webp",
       "international_code": "LR2",
       "code_dash": "LR-2",
       "chinese": "行間",
@@ -12965,7 +12965,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hau-dinh",
-      "image": "images/acupoints/0306-hau-dinh.png",
+      "image": "images/acupoints/0306-hau-dinh.webp",
       "international_code": "GV19",
       "code_dash": "GV-19",
       "chinese": "後頂",
@@ -13048,7 +13048,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hau-khe",
-      "image": "images/acupoints/0308-hau-khe.png",
+      "image": "images/acupoints/0308-hau-khe.webp",
       "international_code": "SI3",
       "code_dash": "SI-3",
       "chinese": "後谿",
@@ -13205,7 +13205,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hau-thai-xung",
-      "image": "images/acupoints/0312-hau-thai-xung.png"
+      "image": "images/acupoints/0312-hau-thai-xung.webp"
     },
     {
       "id": 313,
@@ -13433,7 +13433,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hiep-bach",
-      "image": "images/acupoints/0318-hiep-bach.png",
+      "image": "images/acupoints/0318-hiep-bach.webp",
       "international_code": "LU4",
       "code_dash": "LU-4",
       "chinese": "俠白",
@@ -13487,7 +13487,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hiep-khe",
-      "image": "images/acupoints/0319-hiep-khe.png",
+      "image": "images/acupoints/0319-hiep-khe.webp",
       "international_code": "GB43",
       "code_dash": "GB-43",
       "chinese": "俠谿",
@@ -13548,7 +13548,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoa-cai",
-      "image": "images/acupoints/0320-hoa-cai.png",
+      "image": "images/acupoints/0320-hoa-cai.webp",
       "international_code": "CV20",
       "code_dash": "CV-20",
       "chinese": "華蓋",
@@ -13593,7 +13593,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoa-da-huyet",
-      "image": "images/acupoints/0321-hoa-da-huyet.png"
+      "image": "images/acupoints/0321-hoa-da-huyet.webp"
     },
     {
       "id": 322,
@@ -13641,7 +13641,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoa-lieu",
-      "image": "images/acupoints/0322-hoa-lieu.png",
+      "image": "images/acupoints/0322-hoa-lieu.webp",
       "international_code": "TE22",
       "code_dash": "TE-22",
       "chinese": "耳和髎",
@@ -13699,7 +13699,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoa-lieu",
-      "image": "images/acupoints/0323-hoa-lieu.png",
+      "image": "images/acupoints/0323-hoa-lieu.webp",
       "international_code": "LI19",
       "code_dash": "LI-19",
       "chinese": "口禾髎",
@@ -13757,7 +13757,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoan-cot",
-      "image": "images/acupoints/0324-hoan-cot.png",
+      "image": "images/acupoints/0324-hoan-cot.webp",
       "international_code": "GB12",
       "code_dash": "GB-12",
       "chinese": "完骨",
@@ -13819,7 +13819,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoan-khieu",
-      "image": "images/acupoints/0325-hoan-khieu.png",
+      "image": "images/acupoints/0325-hoan-khieu.webp",
       "international_code": "GB30",
       "code_dash": "GB-30",
       "chinese": "環跳",
@@ -13894,7 +13894,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoan-mon",
-      "image": "images/acupoints/0327-hoan-mon.png"
+      "image": "images/acupoints/0327-hoan-mon.webp"
     },
     {
       "id": 328,
@@ -13938,7 +13938,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoang-du",
-      "image": "images/acupoints/0328-hoang-du.png",
+      "image": "images/acupoints/0328-hoang-du.webp",
       "international_code": "KI16",
       "code_dash": "KI-16",
       "chinese": "肓俞",
@@ -13982,7 +13982,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoang-mo",
-      "image": "images/acupoints/0329-hoang-mo.png"
+      "image": "images/acupoints/0329-hoang-mo.webp"
     },
     {
       "id": 330,
@@ -14026,7 +14026,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoang-mon",
-      "image": "images/acupoints/0330-hoang-mon.png",
+      "image": "images/acupoints/0330-hoang-mon.webp",
       "international_code": "BL51",
       "code_dash": "BL-51",
       "chinese": "肓門",
@@ -14218,7 +14218,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoanh-van",
-      "image": "images/acupoints/0335-hoanh-van.png"
+      "image": "images/acupoints/0335-hoanh-van.webp"
     },
     {
       "id": 336,
@@ -14266,7 +14266,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoat-nhuc-mon",
-      "image": "images/acupoints/0336-hoat-nhuc-mon.png",
+      "image": "images/acupoints/0336-hoat-nhuc-mon.webp",
       "international_code": "ST24",
       "code_dash": "ST-24",
       "chinese": "滑肉門",
@@ -14364,7 +14364,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ho-hap-huyet",
-      "image": "images/acupoints/0338-ho-hap-huyet.png"
+      "image": "images/acupoints/0338-ho-hap-huyet.webp"
     },
     {
       "id": 339,
@@ -14396,7 +14396,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ho-bien",
-      "image": "images/acupoints/0339-ho-bien.png"
+      "image": "images/acupoints/0339-ho-bien.webp"
     },
     {
       "id": 340,
@@ -14428,7 +14428,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ho-khau",
-      "image": "images/acupoints/0340-ho-khau.png"
+      "image": "images/acupoints/0340-ho-khau.webp"
     },
     {
       "id": 341,
@@ -14492,7 +14492,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoi-duong",
-      "image": "images/acupoints/0342-hoi-duong.png"
+      "image": "images/acupoints/0342-hoi-duong.webp"
     },
     {
       "id": 343,
@@ -14612,7 +14612,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoi-am",
-      "image": "images/acupoints/0345-hoi-am.png",
+      "image": "images/acupoints/0345-hoi-am.webp",
       "international_code": "CV1",
       "code_dash": "CV-1",
       "chinese": "會陰",
@@ -14674,7 +14674,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoi-duong",
-      "image": "images/acupoints/0346-hoi-duong.png",
+      "image": "images/acupoints/0346-hoi-duong.webp",
       "international_code": "BL35",
       "code_dash": "BL-35",
       "chinese": "會陽",
@@ -14731,7 +14731,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hoi-tong",
-      "image": "images/acupoints/0347-hoi-tong.png",
+      "image": "images/acupoints/0347-hoi-tong.webp",
       "international_code": "TE7",
       "code_dash": "TE-7",
       "chinese": "會宗",
@@ -14786,7 +14786,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hon-mon",
-      "image": "images/acupoints/0348-hon-mon.png",
+      "image": "images/acupoints/0348-hon-mon.webp",
       "international_code": "BL47",
       "code_dash": "BL-47",
       "chinese": "魂門",
@@ -14830,7 +14830,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hon-xa",
-      "image": "images/acupoints/0349-hon-xa.png"
+      "image": "images/acupoints/0349-hon-xa.webp"
     },
     {
       "id": 350,
@@ -14866,7 +14866,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hong-am",
-      "image": "images/acupoints/0350-hong-am.png"
+      "image": "images/acupoints/0350-hong-am.webp"
     },
     {
       "id": 351,
@@ -14942,7 +14942,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hop-coc",
-      "image": "images/acupoints/0352-hop-coc.png",
+      "image": "images/acupoints/0352-hop-coc.webp",
       "international_code": "LI4",
       "code_dash": "LI-4",
       "chinese": "合谷",
@@ -15006,7 +15006,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hop-duong",
-      "image": "images/acupoints/0353-hop-duong.png",
+      "image": "images/acupoints/0353-hop-duong.webp",
       "international_code": "BL55",
       "code_dash": "BL-55",
       "chinese": "合陽",
@@ -15060,7 +15060,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "hung-huong",
-      "image": "images/acupoints/0354-hung-huong.png",
+      "image": "images/acupoints/0354-hung-huong.webp",
       "international_code": "SP19",
       "code_dash": "SP-19",
       "chinese": "胸鄉",
@@ -15155,7 +15155,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "huyen-chung",
-      "image": "images/acupoints/0356-huyen-chung.png",
+      "image": "images/acupoints/0356-huyen-chung.webp",
       "international_code": "GB39",
       "code_dash": "GB-39",
       "chinese": "懸鐘[d]",
@@ -15218,7 +15218,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "huyen-khu",
-      "image": "images/acupoints/0357-huyen-khu.png",
+      "image": "images/acupoints/0357-huyen-khu.webp",
       "international_code": "GV5",
       "code_dash": "GV-5",
       "chinese": "懸樞",
@@ -15277,7 +15277,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "huyen-lu",
-      "image": "images/acupoints/0358-huyen-lu.png",
+      "image": "images/acupoints/0358-huyen-lu.webp",
       "international_code": "GB5",
       "code_dash": "GB-5",
       "chinese": "懸顱",
@@ -15331,7 +15331,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "huyen-ly",
-      "image": "images/acupoints/0359-huyen-ly.png",
+      "image": "images/acupoints/0359-huyen-ly.webp",
       "international_code": "GB6",
       "code_dash": "GB-6",
       "chinese": "懸厘",
@@ -15410,7 +15410,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "huyet-ap-diem",
-      "image": "images/acupoints/0361-huyet-ap-diem.png"
+      "image": "images/acupoints/0361-huyet-ap-diem.webp"
     },
     {
       "id": 362,
@@ -15458,7 +15458,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "huyet-hai",
-      "image": "images/acupoints/0362-huyet-hai.png",
+      "image": "images/acupoints/0362-huyet-hai.webp",
       "international_code": "SP10",
       "code_dash": "SP-10",
       "chinese": "血海",
@@ -15545,7 +15545,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "huyet-phu",
-      "image": "images/acupoints/0364-huyet-phu.png"
+      "image": "images/acupoints/0364-huyet-phu.webp"
     },
     {
       "id": 365,
@@ -15581,7 +15581,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "huyet-sau",
-      "image": "images/acupoints/0365-huyet-sau.png"
+      "image": "images/acupoints/0365-huyet-sau.webp"
     },
     {
       "id": 366,
@@ -15645,7 +15645,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "huu-du",
-      "image": "images/acupoints/0367-huu-du.png"
+      "image": "images/acupoints/0367-huu-du.webp"
     },
     {
       "id": 368,
@@ -15677,7 +15677,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "huu-nghi",
-      "image": "images/acupoints/0368-huu-nghi.png"
+      "image": "images/acupoints/0368-huu-nghi.webp"
     },
     {
       "id": 369,
@@ -15741,7 +15741,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ket-hach-huyet",
-      "image": "images/acupoints/0370-ket-hach-huyet.png"
+      "image": "images/acupoints/0370-ket-hach-huyet.webp"
     },
     {
       "id": 371,
@@ -15777,7 +15777,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khai-thau-huyet",
-      "image": "images/acupoints/0371-khai-thau-huyet.png"
+      "image": "images/acupoints/0371-khai-thau-huyet.webp"
     },
     {
       "id": 372,
@@ -15809,7 +15809,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khao-son",
-      "image": "images/acupoints/0372-khao-son.png"
+      "image": "images/acupoints/0372-khao-son.webp"
     },
     {
       "id": 373,
@@ -15857,7 +15857,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khau-khu",
-      "image": "images/acupoints/0373-khau-khu.png",
+      "image": "images/acupoints/0373-khau-khu.webp",
       "international_code": "GB40",
       "code_dash": "GB-40",
       "chinese": "丘墟",
@@ -15953,7 +15953,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khe-mach",
-      "image": "images/acupoints/0375-khe-mach.png",
+      "image": "images/acupoints/0375-khe-mach.webp",
       "international_code": "TE18",
       "code_dash": "TE-18",
       "chinese": "契脈",
@@ -15996,7 +15996,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khi-doan",
-      "image": "images/acupoints/0376-khi-doan.png"
+      "image": "images/acupoints/0376-khi-doan.webp"
     },
     {
       "id": 377,
@@ -16028,7 +16028,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khi-duong",
-      "image": "images/acupoints/0377-khi-duong.png"
+      "image": "images/acupoints/0377-khi-duong.webp"
     },
     {
       "id": 378,
@@ -16076,7 +16076,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khi-hai",
-      "image": "images/acupoints/0378-khi-hai.png",
+      "image": "images/acupoints/0378-khi-hai.webp",
       "international_code": "CV6",
       "code_dash": "CV-6",
       "chinese": "氣海",
@@ -16148,7 +16148,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khi-hai-du",
-      "image": "images/acupoints/0379-khi-hai-du.png",
+      "image": "images/acupoints/0379-khi-hai-du.webp",
       "international_code": "BL24",
       "code_dash": "BL-24",
       "chinese": "氣海俞",
@@ -16203,7 +16203,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khi-ho",
-      "image": "images/acupoints/0380-khi-ho.png",
+      "image": "images/acupoints/0380-khi-ho.webp",
       "international_code": "ST13",
       "code_dash": "ST-13",
       "chinese": "氣戶",
@@ -16264,7 +16264,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khi-huyet",
-      "image": "images/acupoints/0381-khi-huyet.png",
+      "image": "images/acupoints/0381-khi-huyet.webp",
       "international_code": "KI13",
       "code_dash": "KI-13",
       "chinese": "氣穴",
@@ -16308,7 +16308,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khi-mon",
-      "image": "images/acupoints/0382-khi-mon.png"
+      "image": "images/acupoints/0382-khi-mon.webp"
     },
     {
       "id": 383,
@@ -16344,7 +16344,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khi-suyen",
-      "image": "images/acupoints/0383-khi-suyen.png"
+      "image": "images/acupoints/0383-khi-suyen.webp"
     },
     {
       "id": 384,
@@ -16376,7 +16376,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khi-trung",
-      "image": "images/acupoints/0384-khi-trung.png"
+      "image": "images/acupoints/0384-khi-trung.webp"
     },
     {
       "id": 385,
@@ -16440,7 +16440,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khi-xa",
-      "image": "images/acupoints/0386-khi-xa.png",
+      "image": "images/acupoints/0386-khi-xa.webp",
       "international_code": "ST11",
       "code_dash": "ST-11",
       "chinese": "氣舍",
@@ -16501,7 +16501,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khi-xung",
-      "image": "images/acupoints/0387-khi-xung.png",
+      "image": "images/acupoints/0387-khi-xung.webp",
       "international_code": "ST30",
       "code_dash": "ST-30",
       "chinese": "氣沖",
@@ -16560,7 +16560,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khich-mon",
-      "image": "images/acupoints/0388-khich-mon.png",
+      "image": "images/acupoints/0388-khich-mon.webp",
       "international_code": "PC4",
       "code_dash": "PC-4",
       "chinese": "郄門",
@@ -16615,7 +16615,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khien-chinh-huyet",
-      "image": "images/acupoints/0389-khien-chinh-huyet.png"
+      "image": "images/acupoints/0389-khien-chinh-huyet.webp"
     },
     {
       "id": 390,
@@ -16719,7 +16719,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khoan-cot",
-      "image": "images/acupoints/0392-khoan-cot.png"
+      "image": "images/acupoints/0392-khoan-cot.webp"
     },
     {
       "id": 393,
@@ -16759,7 +16759,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kho-phong",
-      "image": "images/acupoints/0393-kho-phong.png",
+      "image": "images/acupoints/0393-kho-phong.webp",
       "international_code": "ST14",
       "code_dash": "ST-14",
       "chinese": "庫房",
@@ -16801,7 +16801,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khong-cap",
-      "image": "images/acupoints/0394-khong-cap.png"
+      "image": "images/acupoints/0394-khong-cap.webp"
     },
     {
       "id": 395,
@@ -16845,7 +16845,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khong-toi",
-      "image": "images/acupoints/0395-khong-toi.png",
+      "image": "images/acupoints/0395-khong-toi.webp",
       "international_code": "LU6",
       "code_dash": "LU-6",
       "chinese": "孔最",
@@ -16935,7 +16935,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khuat-duong-uy",
-      "image": "images/acupoints/0397-khuat-duong-uy.png"
+      "image": "images/acupoints/0397-khuat-duong-uy.webp"
     },
     {
       "id": 398,
@@ -16979,7 +16979,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khuc-cot",
-      "image": "images/acupoints/0398-khuc-cot.png",
+      "image": "images/acupoints/0398-khuc-cot.webp",
       "international_code": "CV2",
       "code_dash": "CV-2",
       "chinese": "曲骨",
@@ -17043,7 +17043,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khuc-sai",
-      "image": "images/acupoints/0399-khuc-sai.png",
+      "image": "images/acupoints/0399-khuc-sai.webp",
       "international_code": "BL4",
       "code_dash": "BL-4",
       "chinese": "曲差",
@@ -17103,7 +17103,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khuc-tan",
-      "image": "images/acupoints/0400-khuc-tan.png",
+      "image": "images/acupoints/0400-khuc-tan.webp",
       "international_code": "GB7",
       "code_dash": "GB-7",
       "chinese": "曲鬢",
@@ -17159,7 +17159,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khuc-trach",
-      "image": "images/acupoints/0401-khuc-trach.png",
+      "image": "images/acupoints/0401-khuc-trach.webp",
       "international_code": "PC3",
       "code_dash": "PC-3",
       "chinese": "曲澤",
@@ -17224,7 +17224,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khuc-tri",
-      "image": "images/acupoints/0402-khuc-tri.png",
+      "image": "images/acupoints/0402-khuc-tri.webp",
       "international_code": "LI11",
       "code_dash": "LI-11",
       "chinese": "曲池",
@@ -17318,7 +17318,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khuc-tuyen",
-      "image": "images/acupoints/0404-khuc-tuyen.png",
+      "image": "images/acupoints/0404-khuc-tuyen.webp",
       "international_code": "LR8",
       "code_dash": "LR-8",
       "chinese": "曲泉",
@@ -17377,7 +17377,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khuc-vien",
-      "image": "images/acupoints/0405-khuc-vien.png",
+      "image": "images/acupoints/0405-khuc-vien.webp",
       "international_code": "SI13",
       "code_dash": "SI-13",
       "chinese": "曲垣",
@@ -17418,7 +17418,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khuc-xich",
-      "image": "images/acupoints/0406-khuc-xich.png"
+      "image": "images/acupoints/0406-khuc-xich.webp"
     },
     {
       "id": 407,
@@ -17466,7 +17466,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "khuyet-bon",
-      "image": "images/acupoints/0407-khuyet-bon.png",
+      "image": "images/acupoints/0407-khuyet-bon.webp",
       "international_code": "ST12",
       "code_dash": "ST-12",
       "chinese": "缺盆",
@@ -17601,7 +17601,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kien-du",
-      "image": "images/acupoints/0411-kien-du.png"
+      "image": "images/acupoints/0411-kien-du.webp"
     },
     {
       "id": 412,
@@ -17637,7 +17637,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kien-dau",
-      "image": "images/acupoints/0412-kien-dau.png"
+      "image": "images/acupoints/0412-kien-dau.webp"
     },
     {
       "id": 413,
@@ -17681,7 +17681,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kien-lieu",
-      "image": "images/acupoints/0413-kien-lieu.png",
+      "image": "images/acupoints/0413-kien-lieu.webp",
       "international_code": "TE14",
       "code_dash": "TE-14",
       "chinese": "肩髎",
@@ -17740,7 +17740,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kien-ngoai-du",
-      "image": "images/acupoints/0414-kien-ngoai-du.png",
+      "image": "images/acupoints/0414-kien-ngoai-du.webp",
       "international_code": "SI14",
       "code_dash": "SI-14",
       "chinese": "肩外俞",
@@ -17843,7 +17843,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kien-noi-du",
-      "image": "images/acupoints/0416-kien-noi-du.png"
+      "image": "images/acupoints/0416-kien-noi-du.webp"
     },
     {
       "id": 417,
@@ -17875,7 +17875,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kien-noi-lang",
-      "image": "images/acupoints/0417-kien-noi-lang.png"
+      "image": "images/acupoints/0417-kien-noi-lang.webp"
     },
     {
       "id": 418,
@@ -18019,7 +18019,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kien-tinh",
-      "image": "images/acupoints/0421-kien-tinh.png",
+      "image": "images/acupoints/0421-kien-tinh.webp",
       "international_code": "GB21",
       "code_dash": "GB-21",
       "chinese": "肩井",
@@ -18080,7 +18080,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kien-trinh",
-      "image": "images/acupoints/0422-kien-trinh.png",
+      "image": "images/acupoints/0422-kien-trinh.webp",
       "international_code": "SI9",
       "code_dash": "SI-9",
       "chinese": "肩貞",
@@ -18170,7 +18170,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kien-trung-du",
-      "image": "images/acupoints/0424-kien-trung-du.png",
+      "image": "images/acupoints/0424-kien-trung-du.webp",
       "international_code": "SI15",
       "code_dash": "SI-15",
       "chinese": "肩中俞",
@@ -18226,7 +18226,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kien-ly",
-      "image": "images/acupoints/0425-kien-ly.png",
+      "image": "images/acupoints/0425-kien-ly.webp",
       "international_code": "CV11",
       "code_dash": "CV-11",
       "chinese": "建里",
@@ -18271,7 +18271,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kien-minh",
-      "image": "images/acupoints/0426-kien-minh.png"
+      "image": "images/acupoints/0426-kien-minh.webp"
     },
     {
       "id": 427,
@@ -18335,7 +18335,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kien-ly-tam-huyet",
-      "image": "images/acupoints/0428-kien-ly-tam-huyet.png"
+      "image": "images/acupoints/0428-kien-ly-tam-huyet.webp"
     },
     {
       "id": 429,
@@ -18371,7 +18371,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kien-tat",
-      "image": "images/acupoints/0429-kien-tat.png"
+      "image": "images/acupoints/0429-kien-tat.webp"
     },
     {
       "id": 430,
@@ -18419,7 +18419,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kim-mon",
-      "image": "images/acupoints/0430-kim-mon.png",
+      "image": "images/acupoints/0430-kim-mon.webp",
       "international_code": "BL63",
       "code_dash": "BL-63",
       "chinese": "金門",
@@ -18515,7 +18515,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kinh-cot",
-      "image": "images/acupoints/0432-kinh-cot.png",
+      "image": "images/acupoints/0432-kinh-cot.webp",
       "international_code": "BL64",
       "code_dash": "BL-64",
       "chinese": "京骨",
@@ -18581,7 +18581,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kinh-cu",
-      "image": "images/acupoints/0433-kinh-cu.png",
+      "image": "images/acupoints/0433-kinh-cu.webp",
       "international_code": "LU8",
       "code_dash": "LU-8",
       "chinese": "經渠",
@@ -18642,7 +18642,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kinh-mon",
-      "image": "images/acupoints/0434-kinh-mon.png",
+      "image": "images/acupoints/0434-kinh-mon.webp",
       "international_code": "GB25",
       "code_dash": "GB-25",
       "chinese": "京門",
@@ -18722,7 +18722,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kinh-mon-tu-hoa",
-      "image": "images/acupoints/0436-kinh-mon-tu-hoa.png"
+      "image": "images/acupoints/0436-kinh-mon-tu-hoa.webp"
     },
     {
       "id": 437,
@@ -18754,7 +18754,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "kinh-trung",
-      "image": "images/acupoints/0437-kinh-trung.png"
+      "image": "images/acupoints/0437-kinh-trung.webp"
     },
     {
       "id": 438,
@@ -18834,7 +18834,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ky-mon",
-      "image": "images/acupoints/0439-ky-mon.png",
+      "image": "images/acupoints/0439-ky-mon.webp",
       "international_code": "LR14",
       "code_dash": "LR-14",
       "chinese": "期門",
@@ -18904,7 +18904,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ky-truc-ma",
-      "image": "images/acupoints/0441-ky-truc-ma.png"
+      "image": "images/acupoints/0441-ky-truc-ma.webp"
     },
     {
       "id": 442,
@@ -18936,7 +18936,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "lac-canh",
-      "image": "images/acupoints/0442-lac-canh.png"
+      "image": "images/acupoints/0442-lac-canh.webp"
     },
     {
       "id": 443,
@@ -18972,7 +18972,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "lac-cham",
-      "image": "images/acupoints/0443-lac-cham.png"
+      "image": "images/acupoints/0443-lac-cham.webp"
     },
     {
       "id": 444,
@@ -18988,7 +18988,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "lac-cham",
-      "image": "images/acupoints/0444-lac-cham.png"
+      "image": "images/acupoints/0444-lac-cham.webp"
     },
     {
       "id": 445,
@@ -19092,7 +19092,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "lac-khuoc",
-      "image": "images/acupoints/0447-lac-khuoc.png",
+      "image": "images/acupoints/0447-lac-khuoc.webp",
       "international_code": "BL8",
       "code_dash": "BL-8",
       "chinese": "絡卻",
@@ -19151,7 +19151,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "lai-cau",
-      "image": "images/acupoints/0448-lai-cau.png",
+      "image": "images/acupoints/0448-lai-cau.webp",
       "international_code": "LR5",
       "code_dash": "LR-5",
       "chinese": "蠡溝",
@@ -19274,7 +19274,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "lan-vi",
-      "image": "images/acupoints/0451-lan-vi.png"
+      "image": "images/acupoints/0451-lan-vi.webp"
     },
     {
       "id": 452,
@@ -19358,7 +19358,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "lao-cung",
-      "image": "images/acupoints/0453-lao-cung.png",
+      "image": "images/acupoints/0453-lao-cung.webp",
       "international_code": "PC8",
       "code_dash": "PC-8",
       "chinese": "勞宮",
@@ -19790,7 +19790,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "lau-coc",
-      "image": "images/acupoints/0465-lau-coc.png",
+      "image": "images/acupoints/0465-lau-coc.webp",
       "international_code": "SP7",
       "code_dash": "SP-7",
       "chinese": "漏谷",
@@ -19853,7 +19853,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "le-doai",
-      "image": "images/acupoints/0466-le-doai.png",
+      "image": "images/acupoints/0466-le-doai.webp",
       "international_code": "ST45",
       "code_dash": "ST-45",
       "chinese": "厲兌",
@@ -19920,7 +19920,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "liem-tuyen",
-      "image": "images/acupoints/0467-liem-tuyen.png",
+      "image": "images/acupoints/0467-liem-tuyen.webp",
       "international_code": "CV23",
       "code_dash": "CV-23",
       "chinese": "廉泉",
@@ -19984,7 +19984,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "liet-khuyet",
-      "image": "images/acupoints/0468-liet-khuyet.png",
+      "image": "images/acupoints/0468-liet-khuyet.webp",
       "international_code": "LU7",
       "code_dash": "LU-7",
       "chinese": "列缺",
@@ -20035,7 +20035,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "lieu-lieu",
-      "image": "images/acupoints/0469-lieu-lieu.png"
+      "image": "images/acupoints/0469-lieu-lieu.webp"
     },
     {
       "id": 470,
@@ -20067,7 +20067,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "linh-bao",
-      "image": "images/acupoints/0470-linh-bao.png"
+      "image": "images/acupoints/0470-linh-bao.webp"
     },
     {
       "id": 471,
@@ -20111,7 +20111,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "linh-dai",
-      "image": "images/acupoints/0471-linh-dai.png",
+      "image": "images/acupoints/0471-linh-dai.webp",
       "international_code": "GV10",
       "code_dash": "GV-10",
       "chinese": "靈台",
@@ -20163,7 +20163,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "linh-dao",
-      "image": "images/acupoints/0472-linh-dao.png",
+      "image": "images/acupoints/0472-linh-dao.webp",
       "international_code": "HE4",
       "code_dash": "HE-4",
       "chinese": "靈道",
@@ -20217,7 +20217,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "linh-khu",
-      "image": "images/acupoints/0473-linh-khu.png",
+      "image": "images/acupoints/0473-linh-khu.webp",
       "international_code": "KI24",
       "code_dash": "KI-24",
       "chinese": "靈墟",
@@ -20293,7 +20293,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "long-ham",
-      "image": "images/acupoints/0475-long-ham.png"
+      "image": "images/acupoints/0475-long-ham.webp"
     },
     {
       "id": 476,
@@ -20329,7 +20329,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "long-huyen",
-      "image": "images/acupoints/0476-long-huyen.png"
+      "image": "images/acupoints/0476-long-huyen.webp"
     },
     {
       "id": 477,
@@ -20461,7 +20461,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "luc-canh-chuy-bang",
-      "image": "images/acupoints/0480-luc-canh-chuy-bang.png"
+      "image": "images/acupoints/0480-luc-canh-chuy-bang.webp"
     },
     {
       "id": 481,
@@ -20529,7 +20529,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "luc-phung",
-      "image": "images/acupoints/0482-luc-phung.png"
+      "image": "images/acupoints/0482-luc-phung.webp"
     },
     {
       "id": 483,
@@ -20705,7 +20705,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "lu-tuc",
-      "image": "images/acupoints/0487-lu-tuc.png",
+      "image": "images/acupoints/0487-lu-tuc.webp",
       "international_code": "TE19",
       "code_dash": "TE-19",
       "chinese": "顱息",
@@ -20744,7 +20744,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "lu-thuong",
-      "image": "images/acupoints/0488-lu-thuong.png"
+      "image": "images/acupoints/0488-lu-thuong.webp"
     },
     {
       "id": 489,
@@ -20792,7 +20792,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "luong-khau",
-      "image": "images/acupoints/0489-luong-khau.png",
+      "image": "images/acupoints/0489-luong-khau.webp",
       "international_code": "ST34",
       "code_dash": "ST-34",
       "chinese": "梁丘",
@@ -20848,7 +20848,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "luong-mon",
-      "image": "images/acupoints/0490-luong-mon.png",
+      "image": "images/acupoints/0490-luong-mon.webp",
       "international_code": "ST21",
       "code_dash": "ST-21",
       "chinese": "梁門",
@@ -20892,7 +20892,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "luong-nhan",
-      "image": "images/acupoints/0491-luong-nhan.png"
+      "image": "images/acupoints/0491-luong-nhan.webp"
     },
     {
       "id": 492,
@@ -20956,7 +20956,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ly-ngoai",
-      "image": "images/acupoints/0493-ly-ngoai.png"
+      "image": "images/acupoints/0493-ly-ngoai.webp"
     },
     {
       "id": 494,
@@ -20988,7 +20988,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ly-noi-dinh",
-      "image": "images/acupoints/0494-ly-noi-dinh.png"
+      "image": "images/acupoints/0494-ly-noi-dinh.webp"
     },
     {
       "id": 495,
@@ -21024,7 +21024,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ly-thuong",
-      "image": "images/acupoints/0495-ly-thuong.png"
+      "image": "images/acupoints/0495-ly-thuong.webp"
     },
     {
       "id": 496,
@@ -21060,7 +21060,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ly-tat-man-cam-diem",
-      "image": "images/acupoints/0496-ly-tat-man-cam-diem.png"
+      "image": "images/acupoints/0496-ly-tat-man-cam-diem.webp"
     },
     {
       "id": 497,
@@ -21096,7 +21096,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "mach-lap-thung",
-      "image": "images/acupoints/0497-mach-lap-thung.png"
+      "image": "images/acupoints/0497-mach-lap-thung.webp"
     },
     {
       "id": 498,
@@ -21132,7 +21132,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "mai-hoa-huyet",
-      "image": "images/acupoints/0498-mai-hoa-huyet.png"
+      "image": "images/acupoints/0498-mai-hoa-huyet.webp"
     },
     {
       "id": 499,
@@ -21292,7 +21292,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "mau-chi-gian",
-      "image": "images/acupoints/0503-mau-chi-gian.png"
+      "image": "images/acupoints/0503-mau-chi-gian.webp"
     },
     {
       "id": 504,
@@ -21324,7 +21324,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "mau-chi-hoanh-ly-tam-mao",
-      "image": "images/acupoints/0504-mau-chi-hoanh-ly-tam-mao.png"
+      "image": "images/acupoints/0504-mau-chi-hoanh-ly-tam-mao.webp"
     },
     {
       "id": 505,
@@ -21356,7 +21356,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "mau-chi-ly-hoanh-van",
-      "image": "images/acupoints/0505-mau-chi-ly-hoanh-van.png"
+      "image": "images/acupoints/0505-mau-chi-ly-hoanh-van.webp"
     },
     {
       "id": 506,
@@ -21388,7 +21388,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "mau-chi-tiet-hoanh-van",
-      "image": "images/acupoints/0506-mau-chi-tiet-hoanh-van.png"
+      "image": "images/acupoints/0506-mau-chi-tiet-hoanh-van.webp"
     },
     {
       "id": 507,
@@ -21420,7 +21420,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "mau-chi-tu-mao",
-      "image": "images/acupoints/0507-mau-chi-tu-mao.png"
+      "image": "images/acupoints/0507-mau-chi-tu-mao.webp"
     },
     {
       "id": 508,
@@ -21468,7 +21468,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "menh-mon",
-      "image": "images/acupoints/0508-menh-mon.png",
+      "image": "images/acupoints/0508-menh-mon.webp",
       "international_code": "GV4",
       "code_dash": "GV-4",
       "chinese": "命門",
@@ -21531,7 +21531,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "mi-xung",
-      "image": "images/acupoints/0509-mi-xung.png",
+      "image": "images/acupoints/0509-mi-xung.webp",
       "international_code": "BL3",
       "code_dash": "BL-3",
       "chinese": "眉衝",
@@ -21574,7 +21574,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "minh-nhan",
-      "image": "images/acupoints/0510-minh-nhan.png"
+      "image": "images/acupoints/0510-minh-nhan.webp"
     },
     {
       "id": 511,
@@ -21634,7 +21634,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "muc-minh",
-      "image": "images/acupoints/0512-muc-minh.png"
+      "image": "images/acupoints/0512-muc-minh.webp"
     },
     {
       "id": 513,
@@ -21714,7 +21714,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "muc-song",
-      "image": "images/acupoints/0514-muc-song.png",
+      "image": "images/acupoints/0514-muc-song.webp",
       "international_code": "GB16",
       "code_dash": "GB-16",
       "chinese": "目窗",
@@ -21794,7 +21794,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nan-lap",
-      "image": "images/acupoints/0516-nan-lap.png"
+      "image": "images/acupoints/0516-nan-lap.webp"
     },
     {
       "id": 517,
@@ -21830,7 +21830,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nan-phuc",
-      "image": "images/acupoints/0517-nan-phuc.png"
+      "image": "images/acupoints/0517-nan-phuc.webp"
     },
     {
       "id": 518,
@@ -21970,7 +21970,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nao-ho",
-      "image": "images/acupoints/0521-nao-ho.png",
+      "image": "images/acupoints/0521-nao-ho.webp",
       "international_code": "GV17",
       "code_dash": "GV-17",
       "chinese": "腦戶",
@@ -22029,7 +22029,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nao-khong",
-      "image": "images/acupoints/0522-nao-khong.png",
+      "image": "images/acupoints/0522-nao-khong.webp",
       "international_code": "GB19",
       "code_dash": "GB-19",
       "chinese": "腦空",
@@ -22146,7 +22146,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngach-trung",
-      "image": "images/acupoints/0525-ngach-trung.png"
+      "image": "images/acupoints/0525-ngach-trung.webp"
     },
     {
       "id": 526,
@@ -22182,7 +22182,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngan-binh",
-      "image": "images/acupoints/0526-ngan-binh.png"
+      "image": "images/acupoints/0526-ngan-binh.webp"
     },
     {
       "id": 527,
@@ -22226,7 +22226,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngan-giao",
-      "image": "images/acupoints/0527-ngan-giao.png",
+      "image": "images/acupoints/0527-ngan-giao.webp",
       "international_code": "GV28",
       "code_dash": "GV-28",
       "chinese": "齦交",
@@ -22269,7 +22269,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngan-khau",
-      "image": "images/acupoints/0528-ngan-khau.png"
+      "image": "images/acupoints/0528-ngan-khau.webp"
     },
     {
       "id": 529,
@@ -22317,7 +22317,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nghenh-huong",
-      "image": "images/acupoints/0529-nghenh-huong.png",
+      "image": "images/acupoints/0529-nghenh-huong.webp",
       "international_code": "LI20",
       "code_dash": "LI-20",
       "chinese": "迎香",
@@ -22427,7 +22427,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoai-dinh-suyen",
-      "image": "images/acupoints/0532-ngoai-dinh-suyen.png"
+      "image": "images/acupoints/0532-ngoai-dinh-suyen.webp"
     },
     {
       "id": 533,
@@ -22475,7 +22475,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoai-khau",
-      "image": "images/acupoints/0533-ngoai-khau.png",
+      "image": "images/acupoints/0533-ngoai-khau.webp",
       "international_code": "GB36",
       "code_dash": "GB-36",
       "chinese": "外丘",
@@ -22553,7 +22553,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoai-khoa-tiem",
-      "image": "images/acupoints/0535-ngoai-khoa-tiem.png"
+      "image": "images/acupoints/0535-ngoai-khoa-tiem.webp"
     },
     {
       "id": 536,
@@ -22649,7 +22649,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoai-lao-cung",
-      "image": "images/acupoints/0538-ngoai-lao-cung.png"
+      "image": "images/acupoints/0538-ngoai-lao-cung.webp"
     },
     {
       "id": 539,
@@ -22681,7 +22681,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoai-lao-cung-ii",
-      "image": "images/acupoints/0539-ngoai-lao-cung-ii.png"
+      "image": "images/acupoints/0539-ngoai-lao-cung-ii.webp"
     },
     {
       "id": 540,
@@ -22713,7 +22713,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoai-lao-cung-iii",
-      "image": "images/acupoints/0540-ngoai-lao-cung-iii.png"
+      "image": "images/acupoints/0540-ngoai-lao-cung-iii.webp"
     },
     {
       "id": 541,
@@ -22757,7 +22757,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoai-lang",
-      "image": "images/acupoints/0541-ngoai-lang.png",
+      "image": "images/acupoints/0541-ngoai-lang.webp",
       "international_code": "ST26",
       "code_dash": "ST-26",
       "chinese": "外陵",
@@ -22803,7 +22803,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoai-minh",
-      "image": "images/acupoints/0542-ngoai-minh.png"
+      "image": "images/acupoints/0542-ngoai-minh.webp"
     },
     {
       "id": 543,
@@ -22835,7 +22835,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoai-nhi-dao-khau",
-      "image": "images/acupoints/0543-ngoai-nhi-dao-khau.png"
+      "image": "images/acupoints/0543-ngoai-nhi-dao-khau.webp"
     },
     {
       "id": 544,
@@ -22879,7 +22879,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoai-quan",
-      "image": "images/acupoints/0544-ngoai-quan.png",
+      "image": "images/acupoints/0544-ngoai-quan.webp",
       "international_code": "TE5",
       "code_dash": "TE-5",
       "chinese": "外關",
@@ -22929,7 +22929,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoai-tu-man",
-      "image": "images/acupoints/0545-ngoai-tu-man.png"
+      "image": "images/acupoints/0545-ngoai-tu-man.webp"
     },
     {
       "id": 546,
@@ -22973,7 +22973,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoc-cham",
-      "image": "images/acupoints/0546-ngoc-cham.png",
+      "image": "images/acupoints/0546-ngoc-cham.webp",
       "international_code": "BL9",
       "code_dash": "BL-9",
       "chinese": "玉枕",
@@ -23053,7 +23053,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoc-dien",
-      "image": "images/acupoints/0548-ngoc-dien.png"
+      "image": "images/acupoints/0548-ngoc-dien.webp"
     },
     {
       "id": 549,
@@ -23101,7 +23101,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngoc-duong",
-      "image": "images/acupoints/0549-ngoc-duong.png",
+      "image": "images/acupoints/0549-ngoc-duong.webp",
       "international_code": "CV18",
       "code_dash": "CV-18",
       "chinese": "玉堂",
@@ -23208,7 +23208,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngu-chi-huyet",
-      "image": "images/acupoints/0552-ngu-chi-huyet.png"
+      "image": "images/acupoints/0552-ngu-chi-huyet.webp"
     },
     {
       "id": 553,
@@ -23240,7 +23240,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngu-chi-huyet-ii",
-      "image": "images/acupoints/0553-ngu-chi-huyet-ii.png"
+      "image": "images/acupoints/0553-ngu-chi-huyet-ii.webp"
     },
     {
       "id": 554,
@@ -23308,7 +23308,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngu-ho",
-      "image": "images/acupoints/0555-ngu-ho.png"
+      "image": "images/acupoints/0555-ngu-ho.webp"
     },
     {
       "id": 556,
@@ -23356,7 +23356,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngu-khu",
-      "image": "images/acupoints/0556-ngu-khu.png",
+      "image": "images/acupoints/0556-ngu-khu.webp",
       "international_code": "GB27",
       "code_dash": "GB-27",
       "chinese": "五樞",
@@ -23400,7 +23400,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngu-linh",
-      "image": "images/acupoints/0557-ngu-linh.png"
+      "image": "images/acupoints/0557-ngu-linh.webp"
     },
     {
       "id": 558,
@@ -23552,7 +23552,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngu-xu",
-      "image": "images/acupoints/0561-ngu-xu.png",
+      "image": "images/acupoints/0561-ngu-xu.webp",
       "international_code": "BL5",
       "code_dash": "BL-5",
       "chinese": "五處",
@@ -23591,7 +23591,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngu-xu-ii",
-      "image": "images/acupoints/0562-ngu-xu-ii.png"
+      "image": "images/acupoints/0562-ngu-xu-ii.webp"
     },
     {
       "id": 563,
@@ -23671,7 +23671,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngu-te",
-      "image": "images/acupoints/0564-ngu-te.png",
+      "image": "images/acupoints/0564-ngu-te.webp",
       "international_code": "LU10",
       "code_dash": "LU-10",
       "chinese": "魚際",
@@ -23716,7 +23716,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngu-vi",
-      "image": "images/acupoints/0565-ngu-vi.png"
+      "image": "images/acupoints/0565-ngu-vi.webp"
     },
     {
       "id": 566,
@@ -23756,7 +23756,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ngu-yeu",
-      "image": "images/acupoints/0566-ngu-yeu.png"
+      "image": "images/acupoints/0566-ngu-yeu.webp"
     },
     {
       "id": 567,
@@ -23792,7 +23792,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nguoc-mon",
-      "image": "images/acupoints/0567-nguoc-mon.png"
+      "image": "images/acupoints/0567-nguoc-mon.webp"
     },
     {
       "id": 568,
@@ -23824,7 +23824,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nha-thong",
-      "image": "images/acupoints/0568-nha-thong.png"
+      "image": "images/acupoints/0568-nha-thong.webp"
     },
     {
       "id": 569,
@@ -23856,7 +23856,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nham-tri",
-      "image": "images/acupoints/0569-nham-tri.png"
+      "image": "images/acupoints/0569-nham-tri.webp"
     },
     {
       "id": 570,
@@ -23904,7 +23904,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhan-nghenh",
-      "image": "images/acupoints/0570-nhan-nghenh.png",
+      "image": "images/acupoints/0570-nhan-nghenh.webp",
       "international_code": "ST9",
       "code_dash": "ST-9",
       "chinese": "人迎",
@@ -23964,7 +23964,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhan-trung",
-      "image": "images/acupoints/0571-nhan-trung.png",
+      "image": "images/acupoints/0571-nhan-trung.webp",
       "international_code": "GV26",
       "code_dash": "GV-26",
       "chinese": "人中",
@@ -24082,7 +24082,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhat-phien-mon",
-      "image": "images/acupoints/0574-nhat-phien-mon.png"
+      "image": "images/acupoints/0574-nhat-phien-mon.webp"
     },
     {
       "id": 575,
@@ -24162,7 +24162,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhat-nguyet",
-      "image": "images/acupoints/0576-nhat-nguyet.png",
+      "image": "images/acupoints/0576-nhat-nguyet.webp",
       "international_code": "GB24",
       "code_dash": "GB-24",
       "chinese": "日月",
@@ -24207,7 +24207,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhi-binh-ngoai-tam-huyet",
-      "image": "images/acupoints/0577-nhi-binh-ngoai-tam-huyet.png"
+      "image": "images/acupoints/0577-nhi-binh-ngoai-tam-huyet.webp"
     },
     {
       "id": 578,
@@ -24239,7 +24239,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhi-boi-tinh-mach-tam-dieu",
-      "image": "images/acupoints/0578-nhi-boi-tinh-mach-tam-dieu.png"
+      "image": "images/acupoints/0578-nhi-boi-tinh-mach-tam-dieu.webp"
     },
     {
       "id": 579,
@@ -24307,7 +24307,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhi-khong-trung",
-      "image": "images/acupoints/0580-nhi-khong-trung.png"
+      "image": "images/acupoints/0580-nhi-khong-trung.webp"
     },
     {
       "id": 581,
@@ -24463,7 +24463,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhi-thuy",
-      "image": "images/acupoints/0584-nhi-thuy.png"
+      "image": "images/acupoints/0584-nhi-thuy.webp"
     },
     {
       "id": 585,
@@ -24499,7 +24499,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhi-thuong",
-      "image": "images/acupoints/0585-nhi-thuong.png"
+      "image": "images/acupoints/0585-nhi-thuong.webp"
     },
     {
       "id": 586,
@@ -24539,7 +24539,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhi-tiem",
-      "image": "images/acupoints/0586-nhi-tiem.png"
+      "image": "images/acupoints/0586-nhi-tiem.webp"
     },
     {
       "id": 587,
@@ -24575,7 +24575,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhi-bach",
-      "image": "images/acupoints/0587-nhi-bach.png"
+      "image": "images/acupoints/0587-nhi-bach.webp"
     },
     {
       "id": 588,
@@ -24647,7 +24647,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhi-chuy-ha",
-      "image": "images/acupoints/0589-nhi-chuy-ha.png"
+      "image": "images/acupoints/0589-nhi-chuy-ha.webp"
     },
     {
       "id": 590,
@@ -24695,7 +24695,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhi-gian",
-      "image": "images/acupoints/0590-nhi-gian.png",
+      "image": "images/acupoints/0590-nhi-gian.webp",
       "international_code": "LI2",
       "code_dash": "LI-2",
       "chinese": "二間",
@@ -24742,7 +24742,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhi-ly-ban",
-      "image": "images/acupoints/0591-nhi-ly-ban.png"
+      "image": "images/acupoints/0591-nhi-ly-ban.webp"
     },
     {
       "id": 592,
@@ -24806,7 +24806,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhi-phien-mon",
-      "image": "images/acupoints/0593-nhi-phien-mon.png"
+      "image": "images/acupoints/0593-nhi-phien-mon.webp"
     },
     {
       "id": 594,
@@ -24918,7 +24918,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhien-coc",
-      "image": "images/acupoints/0596-nhien-coc.png",
+      "image": "images/acupoints/0596-nhien-coc.webp",
       "international_code": "KI2",
       "code_dash": "KI-2",
       "chinese": "然谷",
@@ -25071,7 +25071,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhu-du",
-      "image": "images/acupoints/0600-nhu-du.png",
+      "image": "images/acupoints/0600-nhu-du.webp",
       "international_code": "SI10",
       "code_dash": "SI-10",
       "chinese": "臑俞",
@@ -25127,7 +25127,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhu-hoi",
-      "image": "images/acupoints/0601-nhu-hoi.png",
+      "image": "images/acupoints/0601-nhu-hoi.webp",
       "international_code": "TE13",
       "code_dash": "TE-13",
       "chinese": "臑會",
@@ -25173,7 +25173,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhu-thuong",
-      "image": "images/acupoints/0602-nhu-thuong.png"
+      "image": "images/acupoints/0602-nhu-thuong.webp"
     },
     {
       "id": 603,
@@ -25285,7 +25285,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhu-can",
-      "image": "images/acupoints/0605-nhu-can.png",
+      "image": "images/acupoints/0605-nhu-can.webp",
       "international_code": "ST18",
       "code_dash": "ST-18",
       "chinese": "乳根",
@@ -25401,7 +25401,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nhu-trung",
-      "image": "images/acupoints/0608-nhu-trung.png",
+      "image": "images/acupoints/0608-nhu-trung.webp",
       "international_code": "ST17",
       "code_dash": "ST-17",
       "chinese": "乳中",
@@ -25531,7 +25531,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "noi-chi-am",
-      "image": "images/acupoints/0612-noi-chi-am.png"
+      "image": "images/acupoints/0612-noi-chi-am.webp"
     },
     {
       "id": 613,
@@ -25603,7 +25603,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "noi-duong-tri",
-      "image": "images/acupoints/0614-noi-duong-tri.png"
+      "image": "images/acupoints/0614-noi-duong-tri.webp"
     },
     {
       "id": 615,
@@ -25647,7 +25647,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "noi-dinh",
-      "image": "images/acupoints/0615-noi-dinh.png",
+      "image": "images/acupoints/0615-noi-dinh.webp",
       "international_code": "ST44",
       "code_dash": "ST-44",
       "chinese": "内庭",
@@ -25764,7 +25764,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "noi-hop-coc",
-      "image": "images/acupoints/0618-noi-hop-coc.png"
+      "image": "images/acupoints/0618-noi-hop-coc.webp"
     },
     {
       "id": 619,
@@ -25808,7 +25808,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "noi-khoa-tiem",
-      "image": "images/acupoints/0619-noi-khoa-tiem.png"
+      "image": "images/acupoints/0619-noi-khoa-tiem.webp"
     },
     {
       "id": 620,
@@ -25908,7 +25908,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "noi-minh",
-      "image": "images/acupoints/0622-noi-minh.png"
+      "image": "images/acupoints/0622-noi-minh.webp"
     },
     {
       "id": 623,
@@ -25988,7 +25988,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "noi-quan",
-      "image": "images/acupoints/0624-noi-quan.png",
+      "image": "images/acupoints/0624-noi-quan.webp",
       "international_code": "PC6",
       "code_dash": "PC-6",
       "chinese": "內關",
@@ -26089,7 +26089,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "noi-thai-xung",
-      "image": "images/acupoints/0626-noi-thai-xung.png"
+      "image": "images/acupoints/0626-noi-thai-xung.webp"
     },
     {
       "id": 627,
@@ -26129,7 +26129,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "noi-tinh-minh",
-      "image": "images/acupoints/0627-noi-tinh-minh.png"
+      "image": "images/acupoints/0627-noi-tinh-minh.webp"
     },
     {
       "id": 628,
@@ -26193,7 +26193,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "nu-tat",
-      "image": "images/acupoints/0629-nu-tat.png"
+      "image": "images/acupoints/0629-nu-tat.webp"
     },
     {
       "id": 630,
@@ -26297,7 +26297,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "oc-e",
-      "image": "images/acupoints/0632-oc-e.png",
+      "image": "images/acupoints/0632-oc-e.webp",
       "international_code": "ST15",
       "code_dash": "ST-15",
       "chinese": "屋翳",
@@ -26359,7 +26359,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "on-luu",
-      "image": "images/acupoints/0633-on-luu.png",
+      "image": "images/acupoints/0633-on-luu.webp",
       "international_code": "LI7",
       "code_dash": "LI-7",
       "chinese": "溫溜",
@@ -26413,7 +26413,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phach-ho",
-      "image": "images/acupoints/0634-phach-ho.png",
+      "image": "images/acupoints/0634-phach-ho.webp",
       "international_code": "BL42",
       "code_dash": "BL-42",
       "chinese": "魄戶",
@@ -26535,7 +26535,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phe-du",
-      "image": "images/acupoints/0637-phe-du.png",
+      "image": "images/acupoints/0637-phe-du.webp",
       "international_code": "BL13",
       "code_dash": "BL-13",
       "chinese": "肺俞",
@@ -26580,7 +26580,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phe-nhiet-huyet",
-      "image": "images/acupoints/0638-phe-nhiet-huyet.png"
+      "image": "images/acupoints/0638-phe-nhiet-huyet.webp"
     },
     {
       "id": 639,
@@ -26628,7 +26628,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phi-duong",
-      "image": "images/acupoints/0639-phi-duong.png",
+      "image": "images/acupoints/0639-phi-duong.webp",
       "international_code": "BL58",
       "code_dash": "BL-58",
       "chinese": "飛陽",
@@ -26750,7 +26750,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phong-long",
-      "image": "images/acupoints/0642-phong-long.png",
+      "image": "images/acupoints/0642-phong-long.webp",
       "international_code": "ST40",
       "code_dash": "ST-40",
       "chinese": "豐隆",
@@ -26820,7 +26820,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phong-mon",
-      "image": "images/acupoints/0643-phong-mon.png",
+      "image": "images/acupoints/0643-phong-mon.webp",
       "international_code": "BL12",
       "code_dash": "BL-12",
       "chinese": "風門",
@@ -26865,7 +26865,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phong-nham",
-      "image": "images/acupoints/0644-phong-nham.png"
+      "image": "images/acupoints/0644-phong-nham.webp"
     },
     {
       "id": 645,
@@ -26945,7 +26945,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phong-phu",
-      "image": "images/acupoints/0646-phong-phu.png",
+      "image": "images/acupoints/0646-phong-phu.webp",
       "international_code": "GV16",
       "code_dash": "GV-16",
       "chinese": "風府",
@@ -27041,7 +27041,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phong-thi",
-      "image": "images/acupoints/0648-phong-thi.png",
+      "image": "images/acupoints/0648-phong-thi.webp",
       "international_code": "GB31",
       "code_dash": "GB-31",
       "chinese": "風市",
@@ -27099,7 +27099,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phong-tri",
-      "image": "images/acupoints/0649-phong-tri.png",
+      "image": "images/acupoints/0649-phong-tri.webp",
       "international_code": "GB20",
       "code_dash": "GB-20",
       "chinese": "風池",
@@ -27159,7 +27159,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phong-xi-thong",
-      "image": "images/acupoints/0650-phong-xi-thong.png"
+      "image": "images/acupoints/0650-phong-xi-thong.webp"
     },
     {
       "id": 651,
@@ -27199,7 +27199,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phu-bach",
-      "image": "images/acupoints/0651-phu-bach.png",
+      "image": "images/acupoints/0651-phu-bach.webp",
       "international_code": "GB10",
       "code_dash": "GB-10",
       "chinese": "浮白",
@@ -27257,7 +27257,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phu-dot",
-      "image": "images/acupoints/0652-phu-dot.png",
+      "image": "images/acupoints/0652-phu-dot.webp",
       "international_code": "LI18",
       "code_dash": "LI-18",
       "chinese": "扶突",
@@ -27314,7 +27314,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phu-khich",
-      "image": "images/acupoints/0653-phu-khich.png",
+      "image": "images/acupoints/0653-phu-khich.webp",
       "international_code": "BL38",
       "code_dash": "BL-38",
       "chinese": "浮郄",
@@ -27368,7 +27368,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phu-xa",
-      "image": "images/acupoints/0654-phu-xa.png",
+      "image": "images/acupoints/0654-phu-xa.webp",
       "international_code": "SP13",
       "code_dash": "SP-13",
       "chinese": "府舍",
@@ -27425,7 +27425,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phu-duong",
-      "image": "images/acupoints/0655-phu-duong.png",
+      "image": "images/acupoints/0655-phu-duong.webp",
       "international_code": "BL59",
       "code_dash": "BL-59",
       "chinese": "跗陽",
@@ -27482,7 +27482,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phu-phan",
-      "image": "images/acupoints/0656-phu-phan.png",
+      "image": "images/acupoints/0656-phu-phan.webp",
       "international_code": "BL41",
       "code_dash": "BL-41",
       "chinese": "附分",
@@ -27541,7 +27541,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phuc-ai",
-      "image": "images/acupoints/0657-phuc-ai.png",
+      "image": "images/acupoints/0657-phuc-ai.webp",
       "international_code": "SP16",
       "code_dash": "SP-16",
       "chinese": "腹哀",
@@ -27600,7 +27600,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phuc-ket",
-      "image": "images/acupoints/0658-phuc-ket.png",
+      "image": "images/acupoints/0658-phuc-ket.webp",
       "international_code": "SP14",
       "code_dash": "SP-14",
       "chinese": "腹結",
@@ -27756,7 +27756,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phuc-luu",
-      "image": "images/acupoints/0662-phuc-luu.png",
+      "image": "images/acupoints/0662-phuc-luu.webp",
       "international_code": "KI7",
       "code_dash": "KI-7",
       "chinese": "復溜",
@@ -27815,7 +27815,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phuc-tho",
-      "image": "images/acupoints/0663-phuc-tho.png",
+      "image": "images/acupoints/0663-phuc-tho.webp",
       "international_code": "ST32",
       "code_dash": "ST-32",
       "chinese": "伏兔",
@@ -27901,7 +27901,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "phuong-nhan",
-      "image": "images/acupoints/0665-phuong-nhan.png"
+      "image": "images/acupoints/0665-phuong-nhan.webp"
     },
     {
       "id": 666,
@@ -27949,7 +27949,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quan-mon",
-      "image": "images/acupoints/0666-quan-mon.png",
+      "image": "images/acupoints/0666-quan-mon.webp",
       "international_code": "ST22",
       "code_dash": "ST-22",
       "chinese": "關門",
@@ -27990,7 +27990,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quan-mon-ii",
-      "image": "images/acupoints/0667-quan-mon-ii.png"
+      "image": "images/acupoints/0667-quan-mon-ii.webp"
     },
     {
       "id": 668,
@@ -28022,7 +28022,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quan-nghi",
-      "image": "images/acupoints/0668-quan-nghi.png"
+      "image": "images/acupoints/0668-quan-nghi.webp"
     },
     {
       "id": 669,
@@ -28140,7 +28140,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quan-nguyen-du",
-      "image": "images/acupoints/0670-quan-nguyen-du.png",
+      "image": "images/acupoints/0670-quan-nguyen-du.webp",
       "international_code": "BL26",
       "code_dash": "BL-26",
       "chinese": "關元俞",
@@ -28185,7 +28185,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quan-tho",
-      "image": "images/acupoints/0671-quan-tho.png"
+      "image": "images/acupoints/0671-quan-tho.webp"
     },
     {
       "id": 672,
@@ -28217,7 +28217,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quan-thon",
-      "image": "images/acupoints/0672-quan-thon.png"
+      "image": "images/acupoints/0672-quan-thon.webp"
     },
     {
       "id": 673,
@@ -28261,7 +28261,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quan-xung",
-      "image": "images/acupoints/0673-quan-xung.png",
+      "image": "images/acupoints/0673-quan-xung.webp",
       "international_code": "TE1",
       "code_dash": "TE-1",
       "chinese": "關衝",
@@ -28318,7 +28318,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quang-minh",
-      "image": "images/acupoints/0674-quang-minh.png",
+      "image": "images/acupoints/0674-quang-minh.webp",
       "international_code": "GB37",
       "code_dash": "GB-37",
       "chinese": "光明",
@@ -28365,7 +28365,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quang-thai",
-      "image": "images/acupoints/0675-quang-thai.png"
+      "image": "images/acupoints/0675-quang-thai.webp"
     },
     {
       "id": 676,
@@ -28397,7 +28397,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quan-dan",
-      "image": "images/acupoints/0676-quan-dan.png"
+      "image": "images/acupoints/0676-quan-dan.webp"
     },
     {
       "id": 677,
@@ -28523,7 +28523,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quy-duong",
-      "image": "images/acupoints/0679-quy-duong.png"
+      "image": "images/acupoints/0679-quy-duong.webp"
     },
     {
       "id": 680,
@@ -28555,7 +28555,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quy-khoc",
-      "image": "images/acupoints/0680-quy-khoc.png"
+      "image": "images/acupoints/0680-quy-khoc.webp"
     },
     {
       "id": 681,
@@ -28619,7 +28619,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quy-nhan",
-      "image": "images/acupoints/0682-quy-nhan.png"
+      "image": "images/acupoints/0682-quy-nhan.webp"
     },
     {
       "id": 683,
@@ -28711,7 +28711,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quy-duong",
-      "image": "images/acupoints/0685-quy-duong.png"
+      "image": "images/acupoints/0685-quy-duong.webp"
     },
     {
       "id": 686,
@@ -28759,7 +28759,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quyen-lieu",
-      "image": "images/acupoints/0686-quyen-lieu.png",
+      "image": "images/acupoints/0686-quyen-lieu.webp",
       "international_code": "SI18",
       "code_dash": "SI-18",
       "chinese": "顴髎",
@@ -28804,7 +28804,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "quyen-tiem",
-      "image": "images/acupoints/0687-quyen-tiem.png"
+      "image": "images/acupoints/0687-quyen-tiem.webp"
     },
     {
       "id": 688,
@@ -28896,7 +28896,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "san-khi-huyet",
-      "image": "images/acupoints/0689-san-khi-huyet.png"
+      "image": "images/acupoints/0689-san-khi-huyet.webp"
     },
     {
       "id": 690,
@@ -28996,7 +28996,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "son-can",
-      "image": "images/acupoints/0692-son-can.png"
+      "image": "images/acupoints/0692-son-can.webp"
     },
     {
       "id": 693,
@@ -29044,7 +29044,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "suat-coc",
-      "image": "images/acupoints/0693-suat-coc.png",
+      "image": "images/acupoints/0693-suat-coc.webp",
       "international_code": "GB8",
       "code_dash": "GB-8",
       "chinese": "率谷",
@@ -29087,7 +29087,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "sung-cot",
-      "image": "images/acupoints/0694-sung-cot.png"
+      "image": "images/acupoints/0694-sung-cot.webp"
     },
     {
       "id": 695,
@@ -29119,7 +29119,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "suyen-luc-huyet",
-      "image": "images/acupoints/0695-suyen-luc-huyet.png"
+      "image": "images/acupoints/0695-suyen-luc-huyet.webp"
     },
     {
       "id": 696,
@@ -29159,7 +29159,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "suyen-tuc",
-      "image": "images/acupoints/0696-suyen-tuc.png"
+      "image": "images/acupoints/0696-suyen-tuc.webp"
     },
     {
       "id": 697,
@@ -29191,7 +29191,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ta-du",
-      "image": "images/acupoints/0697-ta-du.png"
+      "image": "images/acupoints/0697-ta-du.webp"
     },
     {
       "id": 698,
@@ -29255,7 +29255,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ta-nghi",
-      "image": "images/acupoints/0699-ta-nghi.png"
+      "image": "images/acupoints/0699-ta-nghi.webp"
     },
     {
       "id": 700,
@@ -29331,7 +29331,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tam-am-giao",
-      "image": "images/acupoints/0701-tam-am-giao.png",
+      "image": "images/acupoints/0701-tam-am-giao.webp",
       "international_code": "SP6",
       "code_dash": "SP-6",
       "chinese": "三陰交",
@@ -29405,7 +29405,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tam-duong-lac",
-      "image": "images/acupoints/0702-tam-duong-lac.png",
+      "image": "images/acupoints/0702-tam-duong-lac.webp",
       "international_code": "TE8",
       "code_dash": "TE-8",
       "chinese": "三陽絡",
@@ -29455,7 +29455,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tam-giac-cuu",
-      "image": "images/acupoints/0703-tam-giac-cuu.png"
+      "image": "images/acupoints/0703-tam-giac-cuu.webp"
     },
     {
       "id": 704,
@@ -29503,7 +29503,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tam-gian",
-      "image": "images/acupoints/0704-tam-gian.png",
+      "image": "images/acupoints/0704-tam-gian.webp",
       "international_code": "LI3",
       "code_dash": "LI-3",
       "chinese": "三間",
@@ -29549,7 +29549,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tam-ly-ngoai",
-      "image": "images/acupoints/0705-tam-ly-ngoai.png"
+      "image": "images/acupoints/0705-tam-ly-ngoai.webp"
     },
     {
       "id": 706,
@@ -29617,7 +29617,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tam-thuong",
-      "image": "images/acupoints/0707-tam-thuong.png"
+      "image": "images/acupoints/0707-tam-thuong.webp"
     },
     {
       "id": 708,
@@ -29661,7 +29661,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tam-tieu-du",
-      "image": "images/acupoints/0708-tam-tieu-du.png",
+      "image": "images/acupoints/0708-tam-tieu-du.webp",
       "international_code": "BL22",
       "code_dash": "BL-22",
       "chinese": "三焦俞",
@@ -29713,7 +29713,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tam-tri",
-      "image": "images/acupoints/0709-tam-tri.png"
+      "image": "images/acupoints/0709-tam-tri.webp"
     },
     {
       "id": 710,
@@ -29797,7 +29797,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tam-du",
-      "image": "images/acupoints/0711-tam-du.png",
+      "image": "images/acupoints/0711-tam-du.webp",
       "international_code": "BL15",
       "code_dash": "BL-15",
       "chinese": "心俞",
@@ -30010,7 +30010,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tan-thuc",
-      "image": "images/acupoints/0717-tan-thuc.png"
+      "image": "images/acupoints/0717-tan-thuc.webp"
     },
     {
       "id": 718,
@@ -30074,7 +30074,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tat-can",
-      "image": "images/acupoints/0719-tat-can.png"
+      "image": "images/acupoints/0719-tat-can.webp"
     },
     {
       "id": 720,
@@ -30106,7 +30106,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tat-can-ii",
-      "image": "images/acupoints/0720-tat-can-ii.png"
+      "image": "images/acupoints/0720-tat-can-ii.webp"
     },
     {
       "id": 721,
@@ -30138,7 +30138,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tat-ha",
-      "image": "images/acupoints/0721-tat-ha.png"
+      "image": "images/acupoints/0721-tat-ha.webp"
     },
     {
       "id": 722,
@@ -30198,7 +30198,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tat-ngoai",
-      "image": "images/acupoints/0723-tat-ngoai.png"
+      "image": "images/acupoints/0723-tat-ngoai.webp"
     },
     {
       "id": 724,
@@ -30234,7 +30234,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tat-nhan",
-      "image": "images/acupoints/0724-tat-nhan.png"
+      "image": "images/acupoints/0724-tat-nhan.webp"
     },
     {
       "id": 725,
@@ -30282,7 +30282,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tat-quan",
-      "image": "images/acupoints/0725-tat-quan.png",
+      "image": "images/acupoints/0725-tat-quan.webp",
       "international_code": "LR7",
       "code_dash": "LR-7",
       "chinese": "膝關",
@@ -30327,7 +30327,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tat-thuong",
-      "image": "images/acupoints/0726-tat-thuong.png"
+      "image": "images/acupoints/0726-tat-thuong.webp"
     },
     {
       "id": 727,
@@ -30427,7 +30427,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "te-thuong-ha",
-      "image": "images/acupoints/0729-te-thuong-ha.png"
+      "image": "images/acupoints/0729-te-thuong-ha.webp"
     },
     {
       "id": 730,
@@ -30459,7 +30459,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "te-trung-tu-bien",
-      "image": "images/acupoints/0730-te-trung-tu-bien.png"
+      "image": "images/acupoints/0730-te-trung-tu-bien.webp"
     },
     {
       "id": 731,
@@ -30507,7 +30507,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thach-mon",
-      "image": "images/acupoints/0731-thach-mon.png",
+      "image": "images/acupoints/0731-thach-mon.webp",
       "international_code": "CV5",
       "code_dash": "CV-5",
       "chinese": "石門",
@@ -30568,7 +30568,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thach-quan",
-      "image": "images/acupoints/0732-thach-quan.png",
+      "image": "images/acupoints/0732-thach-quan.webp",
       "international_code": "KI18",
       "code_dash": "KI-18",
       "chinese": "石關",
@@ -30648,7 +30648,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thai-am-kieu",
-      "image": "images/acupoints/0734-thai-am-kieu.png"
+      "image": "images/acupoints/0734-thai-am-kieu.webp"
     },
     {
       "id": 735,
@@ -30692,7 +30692,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thai-at",
-      "image": "images/acupoints/0735-thai-at.png",
+      "image": "images/acupoints/0735-thai-at.webp",
       "international_code": "ST23",
       "code_dash": "ST-23",
       "chinese": "太乙",
@@ -30747,7 +30747,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thai-bach",
-      "image": "images/acupoints/0736-thai-bach.png",
+      "image": "images/acupoints/0736-thai-bach.webp",
       "international_code": "SP3",
       "code_dash": "SP-3",
       "chinese": "太白",
@@ -30803,7 +30803,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thai-duong",
-      "image": "images/acupoints/0737-thai-duong.png"
+      "image": "images/acupoints/0737-thai-duong.webp"
     },
     {
       "id": 738,
@@ -30851,7 +30851,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thai-khe",
-      "image": "images/acupoints/0738-thai-khe.png",
+      "image": "images/acupoints/0738-thai-khe.webp",
       "international_code": "KI3",
       "code_dash": "KI-3",
       "chinese": "太谿",
@@ -30920,7 +30920,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thai-uyen",
-      "image": "images/acupoints/0739-thai-uyen.png",
+      "image": "images/acupoints/0739-thai-uyen.webp",
       "international_code": "LU9",
       "code_dash": "LU-9",
       "chinese": "太淵",
@@ -30979,7 +30979,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thai-xung",
-      "image": "images/acupoints/0740-thai-xung.png",
+      "image": "images/acupoints/0740-thai-xung.webp",
       "international_code": "LR3",
       "code_dash": "LR-3",
       "chinese": "太沖",
@@ -31035,7 +31035,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thanh-lanh-uyen",
-      "image": "images/acupoints/0741-thanh-lanh-uyen.png",
+      "image": "images/acupoints/0741-thanh-lanh-uyen.webp",
       "international_code": "TE11",
       "code_dash": "TE-11",
       "chinese": "清冷淵",
@@ -31091,7 +31091,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thanh-linh",
-      "image": "images/acupoints/0742-thanh-linh.png",
+      "image": "images/acupoints/0742-thanh-linh.webp",
       "international_code": "HE2",
       "code_dash": "HE-2",
       "chinese": "青靈",
@@ -31129,7 +31129,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thanh-cot",
-      "image": "images/acupoints/0743-thanh-cot.png"
+      "image": "images/acupoints/0743-thanh-cot.webp"
     },
     {
       "id": 744,
@@ -31241,7 +31241,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "than-mach",
-      "image": "images/acupoints/0746-than-mach.png",
+      "image": "images/acupoints/0746-than-mach.webp",
       "international_code": "BL62",
       "code_dash": "BL-62",
       "chinese": "申脈",
@@ -31303,7 +31303,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "than-tru",
-      "image": "images/acupoints/0747-than-tru.png",
+      "image": "images/acupoints/0747-than-tru.webp",
       "international_code": "GV12",
       "code_dash": "GV-12",
       "chinese": "身柱",
@@ -31364,7 +31364,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "than-dao",
-      "image": "images/acupoints/0748-than-dao.png",
+      "image": "images/acupoints/0748-than-dao.webp",
       "international_code": "GV11",
       "code_dash": "GV-11",
       "chinese": "神道",
@@ -31426,7 +31426,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "than-dinh",
-      "image": "images/acupoints/0749-than-dinh.png",
+      "image": "images/acupoints/0749-than-dinh.webp",
       "international_code": "GV24",
       "code_dash": "GV-24",
       "chinese": "神庭",
@@ -31488,7 +31488,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "than-duong",
-      "image": "images/acupoints/0750-than-duong.png",
+      "image": "images/acupoints/0750-than-duong.webp",
       "international_code": "BL44",
       "code_dash": "BL-44",
       "chinese": "神堂",
@@ -31582,7 +31582,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "than-khuyet",
-      "image": "images/acupoints/0752-than-khuyet.png",
+      "image": "images/acupoints/0752-than-khuyet.webp",
       "international_code": "CV8",
       "code_dash": "CV-8",
       "chinese": "神闕",
@@ -31674,7 +31674,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "than-mon",
-      "image": "images/acupoints/0754-than-mon.png",
+      "image": "images/acupoints/0754-than-mon.webp",
       "international_code": "HE7",
       "code_dash": "HE-7",
       "chinese": "神門",
@@ -31720,7 +31720,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "than-phong",
-      "image": "images/acupoints/0755-than-phong.png",
+      "image": "images/acupoints/0755-than-phong.webp",
       "international_code": "K23",
       "code_dash": "K-23",
       "chinese": "神封",
@@ -31798,7 +31798,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "than-tang",
-      "image": "images/acupoints/0757-than-tang.png",
+      "image": "images/acupoints/0757-than-tang.webp",
       "international_code": "KI25",
       "code_dash": "KI-25",
       "chinese": "神藏",
@@ -31884,7 +31884,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "than-du",
-      "image": "images/acupoints/0759-than-du.png",
+      "image": "images/acupoints/0759-than-du.webp",
       "international_code": "BL23",
       "code_dash": "BL-23",
       "chinese": "腎俞",
@@ -31937,7 +31937,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "than-he",
-      "image": "images/acupoints/0760-than-he.png"
+      "image": "images/acupoints/0760-than-he.webp"
     },
     {
       "id": 761,
@@ -31969,7 +31969,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "than-nhiet-huyet",
-      "image": "images/acupoints/0761-than-nhiet-huyet.png"
+      "image": "images/acupoints/0761-than-nhiet-huyet.webp"
     },
     {
       "id": 762,
@@ -32073,7 +32073,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thap-that-chuy-ha",
-      "image": "images/acupoints/0764-thap-that-chuy-ha.png"
+      "image": "images/acupoints/0764-thap-that-chuy-ha.webp"
     },
     {
       "id": 765,
@@ -32109,7 +32109,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thap-tuyen",
-      "image": "images/acupoints/0765-thap-tuyen.png"
+      "image": "images/acupoints/0765-thap-tuyen.webp"
     },
     {
       "id": 766,
@@ -32141,7 +32141,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thap-vuong",
-      "image": "images/acupoints/0766-thap-vuong.png"
+      "image": "images/acupoints/0766-thap-vuong.webp"
     },
     {
       "id": 767,
@@ -32173,7 +32173,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "that-canh-chuy-bang",
-      "image": "images/acupoints/0767-that-canh-chuy-bang.png"
+      "image": "images/acupoints/0767-that-canh-chuy-bang.webp"
     },
     {
       "id": 768,
@@ -32385,7 +32385,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-du",
-      "image": "images/acupoints/0773-thien-du.png",
+      "image": "images/acupoints/0773-thien-du.webp",
       "international_code": "TE16",
       "code_dash": "TE-16",
       "chinese": "天牖",
@@ -32441,7 +32441,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-dung",
-      "image": "images/acupoints/0774-thien-dung.png",
+      "image": "images/acupoints/0774-thien-dung.webp",
       "international_code": "SI17",
       "code_dash": "SI-17",
       "chinese": "天容",
@@ -32502,7 +32502,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-dinh",
-      "image": "images/acupoints/0775-thien-dinh.png",
+      "image": "images/acupoints/0775-thien-dinh.webp",
       "international_code": "LI17",
       "code_dash": "LI-17",
       "chinese": "天鼎",
@@ -32561,7 +32561,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-dot",
-      "image": "images/acupoints/0776-thien-dot.png",
+      "image": "images/acupoints/0776-thien-dot.webp",
       "international_code": "CV22",
       "code_dash": "CV-22",
       "chinese": "天突",
@@ -32620,7 +32620,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-khe",
-      "image": "images/acupoints/0777-thien-khe.png",
+      "image": "images/acupoints/0777-thien-khe.webp",
       "international_code": "SP18",
       "code_dash": "SP-18",
       "chinese": "天谿",
@@ -32679,7 +32679,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-lich",
-      "image": "images/acupoints/0778-thien-lich.png",
+      "image": "images/acupoints/0778-thien-lich.webp",
       "international_code": "LI6",
       "code_dash": "LI-6",
       "chinese": "偏歴",
@@ -32738,7 +32738,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-lieu",
-      "image": "images/acupoints/0779-thien-lieu.png",
+      "image": "images/acupoints/0779-thien-lieu.webp",
       "international_code": "TE15",
       "code_dash": "TE-15",
       "chinese": "天髎",
@@ -32824,7 +32824,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-phu",
-      "image": "images/acupoints/0781-thien-phu.png",
+      "image": "images/acupoints/0781-thien-phu.webp",
       "international_code": "LU3",
       "code_dash": "LU-3",
       "chinese": "天府",
@@ -32882,7 +32882,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-song",
-      "image": "images/acupoints/0782-thien-song.png",
+      "image": "images/acupoints/0782-thien-song.webp",
       "international_code": "SI16",
       "code_dash": "SI-16",
       "chinese": "天窗",
@@ -32927,7 +32927,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-thinh",
-      "image": "images/acupoints/0783-thien-thinh.png"
+      "image": "images/acupoints/0783-thien-thinh.webp"
     },
     {
       "id": 784,
@@ -33003,7 +33003,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-tinh",
-      "image": "images/acupoints/0785-thien-tinh.png",
+      "image": "images/acupoints/0785-thien-tinh.webp",
       "international_code": "TE10",
       "code_dash": "TE-10",
       "chinese": "天井",
@@ -33061,7 +33061,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-tong",
-      "image": "images/acupoints/0786-thien-tong.png",
+      "image": "images/acupoints/0786-thien-tong.webp",
       "international_code": "SI11",
       "code_dash": "SI-11",
       "chinese": "天宗",
@@ -33120,7 +33120,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-tri",
-      "image": "images/acupoints/0787-thien-tri.png",
+      "image": "images/acupoints/0787-thien-tri.webp",
       "international_code": "PC1",
       "code_dash": "PC-1",
       "chinese": "天池",
@@ -33167,7 +33167,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-tru",
-      "image": "images/acupoints/0788-thien-tru.png",
+      "image": "images/acupoints/0788-thien-tru.webp",
       "international_code": "BL10",
       "code_dash": "BL-10",
       "chinese": "天柱",
@@ -33228,7 +33228,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-tuyen",
-      "image": "images/acupoints/0789-thien-tuyen.png",
+      "image": "images/acupoints/0789-thien-tuyen.webp",
       "international_code": "PC2",
       "code_dash": "PC-2",
       "chinese": "天泉",
@@ -33285,7 +33285,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-xu",
-      "image": "images/acupoints/0790-thien-xu.png",
+      "image": "images/acupoints/0790-thien-xu.webp",
       "international_code": "ST25",
       "code_dash": "ST-25",
       "chinese": "天樞",
@@ -33349,7 +33349,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thien-xung",
-      "image": "images/acupoints/0791-thien-xung.png",
+      "image": "images/acupoints/0791-thien-xung.webp",
       "international_code": "GB9",
       "code_dash": "GB-9",
       "chinese": "天沖",
@@ -33393,7 +33393,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thiet-ha",
-      "image": "images/acupoints/0792-thiet-ha.png"
+      "image": "images/acupoints/0792-thiet-ha.webp"
     },
     {
       "id": 793,
@@ -33425,7 +33425,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thiet-tru",
-      "image": "images/acupoints/0793-thiet-tru.png"
+      "image": "images/acupoints/0793-thiet-tru.webp"
     },
     {
       "id": 794,
@@ -33457,7 +33457,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thieu-duong-duy",
-      "image": "images/acupoints/0794-thieu-duong-duy.png"
+      "image": "images/acupoints/0794-thieu-duong-duy.webp"
     },
     {
       "id": 795,
@@ -33559,7 +33559,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thieu-phu",
-      "image": "images/acupoints/0796-thieu-phu.png",
+      "image": "images/acupoints/0796-thieu-phu.webp",
       "international_code": "HE8",
       "code_dash": "HE-8",
       "chinese": "少府",
@@ -33613,7 +33613,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thieu-thuong",
-      "image": "images/acupoints/0797-thieu-thuong.png",
+      "image": "images/acupoints/0797-thieu-thuong.webp",
       "international_code": "LU11",
       "code_dash": "LU-11",
       "chinese": "少商",
@@ -33676,7 +33676,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thieu-trach",
-      "image": "images/acupoints/0798-thieu-trach.png",
+      "image": "images/acupoints/0798-thieu-trach.webp",
       "international_code": "SI1",
       "code_dash": "SI-1",
       "chinese": "少澤",
@@ -33738,7 +33738,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thieu-xung",
-      "image": "images/acupoints/0799-thieu-xung.png",
+      "image": "images/acupoints/0799-thieu-xung.webp",
       "international_code": "HE9",
       "code_dash": "HE-9",
       "chinese": "少沖",
@@ -33792,7 +33792,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thinh-cung",
-      "image": "images/acupoints/0800-thinh-cung.png",
+      "image": "images/acupoints/0800-thinh-cung.webp",
       "international_code": "SI19",
       "code_dash": "SI-19",
       "chinese": "聽宮",
@@ -33852,7 +33852,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thinh-hoi",
-      "image": "images/acupoints/0801-thinh-hoi.png",
+      "image": "images/acupoints/0801-thinh-hoi.webp",
       "international_code": "GB2",
       "code_dash": "GB-2",
       "chinese": "聽會",
@@ -33902,7 +33902,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thon-binh",
-      "image": "images/acupoints/0802-thon-binh.png"
+      "image": "images/acupoints/0802-thon-binh.webp"
     },
     {
       "id": 803,
@@ -33982,7 +33982,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thong-coc",
-      "image": "images/acupoints/0804-thong-coc.png",
+      "image": "images/acupoints/0804-thong-coc.webp",
       "international_code": "KI20",
       "code_dash": "KI-20",
       "chinese": "腹通谷",
@@ -34041,7 +34041,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thong-coc-ii",
-      "image": "images/acupoints/0805-thong-coc-ii.png",
+      "image": "images/acupoints/0805-thong-coc-ii.webp",
       "international_code": "BL66",
       "code_dash": "BL-66",
       "chinese": "足通谷",
@@ -34081,7 +34081,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thong-coc-iii",
-      "image": "images/acupoints/0806-thong-coc-iii.png"
+      "image": "images/acupoints/0806-thong-coc-iii.webp"
     },
     {
       "id": 807,
@@ -34125,7 +34125,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thong-ly",
-      "image": "images/acupoints/0807-thong-ly.png",
+      "image": "images/acupoints/0807-thong-ly.webp",
       "international_code": "HE5",
       "code_dash": "HE-5",
       "chinese": "通里",
@@ -34163,7 +34163,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thong-ly-ii",
-      "image": "images/acupoints/0808-thong-ly-ii.png"
+      "image": "images/acupoints/0808-thong-ly-ii.webp"
     },
     {
       "id": 809,
@@ -34211,7 +34211,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thong-thien",
-      "image": "images/acupoints/0809-thong-thien.png",
+      "image": "images/acupoints/0809-thong-thien.webp",
       "international_code": "BL7",
       "code_dash": "BL-7",
       "chinese": "通天",
@@ -34515,7 +34515,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thu-kim-mon",
-      "image": "images/acupoints/0818-thu-kim-mon.png"
+      "image": "images/acupoints/0818-thu-kim-mon.webp"
     },
     {
       "id": 819,
@@ -34595,7 +34595,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thu-ngu-ly",
-      "image": "images/acupoints/0820-thu-ngu-ly.png",
+      "image": "images/acupoints/0820-thu-ngu-ly.webp",
       "international_code": "LI13",
       "code_dash": "LI-13",
       "chinese": "手五里",
@@ -34655,7 +34655,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thu-tam-ly",
-      "image": "images/acupoints/0821-thu-tam-ly.png",
+      "image": "images/acupoints/0821-thu-tam-ly.webp",
       "international_code": "LI10",
       "code_dash": "LI-10",
       "chinese": "手三里",
@@ -34733,7 +34733,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thu-tam",
-      "image": "images/acupoints/0823-thu-tam.png"
+      "image": "images/acupoints/0823-thu-tam.webp"
     },
     {
       "id": 824,
@@ -34797,7 +34797,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thu-trung-binh",
-      "image": "images/acupoints/0825-thu-trung-binh.png"
+      "image": "images/acupoints/0825-thu-trung-binh.webp"
     },
     {
       "id": 826,
@@ -34941,7 +34941,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuc-cot",
-      "image": "images/acupoints/0829-thuc-cot.png",
+      "image": "images/acupoints/0829-thuc-cot.webp",
       "international_code": "BL65",
       "code_dash": "BL-65",
       "chinese": "束骨",
@@ -34998,7 +34998,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuy-dao",
-      "image": "images/acupoints/0830-thuy-dao.png",
+      "image": "images/acupoints/0830-thuy-dao.webp",
       "international_code": "ST28",
       "code_dash": "ST-28",
       "chinese": "水道",
@@ -35059,7 +35059,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuy-dot",
-      "image": "images/acupoints/0831-thuy-dot.png",
+      "image": "images/acupoints/0831-thuy-dot.webp",
       "international_code": "ST10",
       "code_dash": "ST-10",
       "chinese": "水突",
@@ -35117,7 +35117,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuy-phan",
-      "image": "images/acupoints/0832-thuy-phan.png",
+      "image": "images/acupoints/0832-thuy-phan.webp",
       "international_code": "CV9",
       "code_dash": "CV-9",
       "chinese": "水分",
@@ -35169,7 +35169,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuy-tuyen",
-      "image": "images/acupoints/0833-thuy-tuyen.png",
+      "image": "images/acupoints/0833-thuy-tuyen.webp",
       "international_code": "KI5",
       "code_dash": "KI-5",
       "chinese": "水泉",
@@ -35226,7 +35226,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thu-lieu",
-      "image": "images/acupoints/0834-thu-lieu.png",
+      "image": "images/acupoints/0834-thu-lieu.webp",
       "international_code": "BL32",
       "code_dash": "BL-32",
       "chinese": "次髎",
@@ -35362,7 +35362,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thua-can",
-      "image": "images/acupoints/0837-thua-can.png",
+      "image": "images/acupoints/0837-thua-can.webp",
       "international_code": "BL56",
       "code_dash": "BL-56",
       "chinese": "承筋",
@@ -35420,7 +35420,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thua-khap",
-      "image": "images/acupoints/0838-thua-khap.png",
+      "image": "images/acupoints/0838-thua-khap.webp",
       "international_code": "ST1",
       "code_dash": "ST-1",
       "chinese": "承泣",
@@ -35478,7 +35478,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thua-linh",
-      "image": "images/acupoints/0839-thua-linh.png",
+      "image": "images/acupoints/0839-thua-linh.webp",
       "international_code": "GB18",
       "code_dash": "GB-18",
       "chinese": "承靈",
@@ -35535,7 +35535,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thua-man",
-      "image": "images/acupoints/0840-thua-man.png",
+      "image": "images/acupoints/0840-thua-man.webp",
       "international_code": "ST20",
       "code_dash": "ST-20",
       "chinese": "承滿",
@@ -35594,7 +35594,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thua-pho",
-      "image": "images/acupoints/0842-thua-pho.png"
+      "image": "images/acupoints/0842-thua-pho.webp"
     },
     {
       "id": 843,
@@ -35700,7 +35700,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thua-quang",
-      "image": "images/acupoints/0844-thua-quang.png",
+      "image": "images/acupoints/0844-thua-quang.webp",
       "international_code": "BL6",
       "code_dash": "BL-6",
       "chinese": "承光",
@@ -35758,7 +35758,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thua-son",
-      "image": "images/acupoints/0845-thua-son.png",
+      "image": "images/acupoints/0845-thua-son.webp",
       "international_code": "BL57",
       "code_dash": "BL-57",
       "chinese": "承山",
@@ -35818,7 +35818,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thua-tuong",
-      "image": "images/acupoints/0846-thua-tuong.png",
+      "image": "images/acupoints/0846-thua-tuong.webp",
       "international_code": "CV24",
       "code_dash": "CV-24",
       "chinese": "承漿",
@@ -35880,7 +35880,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuc-dau",
-      "image": "images/acupoints/0847-thuc-dau.png",
+      "image": "images/acupoints/0847-thuc-dau.webp",
       "international_code": "SP17",
       "code_dash": "SP-17",
       "chinese": "食竇",
@@ -36075,7 +36075,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuong-duong",
-      "image": "images/acupoints/0852-thuong-duong.png",
+      "image": "images/acupoints/0852-thuong-duong.webp",
       "international_code": "LI1",
       "code_dash": "LI-1",
       "chinese": "商陽",
@@ -36137,7 +36137,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuong-khau",
-      "image": "images/acupoints/0853-thuong-khau.png",
+      "image": "images/acupoints/0853-thuong-khau.webp",
       "international_code": "SP5",
       "code_dash": "SP-5",
       "chinese": "商丘",
@@ -36197,7 +36197,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuong-khuc",
-      "image": "images/acupoints/0854-thuong-khuc.png",
+      "image": "images/acupoints/0854-thuong-khuc.webp",
       "international_code": "KI17",
       "code_dash": "KI-17",
       "chinese": "商曲",
@@ -36239,7 +36239,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuong-bat-phong",
-      "image": "images/acupoints/0855-thuong-bat-phong.png"
+      "image": "images/acupoints/0855-thuong-bat-phong.webp"
     },
     {
       "id": 856,
@@ -36271,7 +36271,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuong-bat-ta",
-      "image": "images/acupoints/0856-thuong-bat-ta.png"
+      "image": "images/acupoints/0856-thuong-bat-ta.webp"
     },
     {
       "id": 857,
@@ -36319,7 +36319,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuong-cu-hu",
-      "image": "images/acupoints/0857-thuong-cu-hu.png",
+      "image": "images/acupoints/0857-thuong-cu-hu.webp",
       "international_code": "ST37",
       "code_dash": "ST-37",
       "chinese": "上巨虛",
@@ -36443,7 +36443,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuong-liem",
-      "image": "images/acupoints/0860-thuong-liem.png",
+      "image": "images/acupoints/0860-thuong-liem.webp",
       "international_code": "LI9",
       "code_dash": "LI-9",
       "chinese": "上廉",
@@ -36533,7 +36533,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuong-lieu",
-      "image": "images/acupoints/0862-thuong-lieu.png",
+      "image": "images/acupoints/0862-thuong-lieu.webp",
       "international_code": "BL31",
       "code_dash": "BL-31",
       "chinese": "上髎",
@@ -36730,7 +36730,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuong-quan",
-      "image": "images/acupoints/0867-thuong-quan.png"
+      "image": "images/acupoints/0867-thuong-quan.webp"
     },
     {
       "id": 868,
@@ -36778,7 +36778,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuong-quan",
-      "image": "images/acupoints/0868-thuong-quan.png",
+      "image": "images/acupoints/0868-thuong-quan.webp",
       "international_code": "CV13",
       "code_dash": "CV-13",
       "chinese": "上脘",
@@ -36839,7 +36839,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "thuong-tinh",
-      "image": "images/acupoints/0869-thuong-tinh.png",
+      "image": "images/acupoints/0869-thuong-tinh.webp",
       "international_code": "GV23",
       "code_dash": "GV-23",
       "chinese": "上星",
@@ -37099,7 +37099,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tich-trung",
-      "image": "images/acupoints/0876-tich-trung.png",
+      "image": "images/acupoints/0876-tich-trung.webp",
       "international_code": "GV6",
       "code_dash": "GV-6",
       "chinese": "脊中",
@@ -37191,7 +37191,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tien-coc",
-      "image": "images/acupoints/0878-tien-coc.png",
+      "image": "images/acupoints/0878-tien-coc.webp",
       "international_code": "SI2",
       "code_dash": "SI-2",
       "chinese": "前谷",
@@ -37251,7 +37251,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tien-dinh",
-      "image": "images/acupoints/0879-tien-dinh.png",
+      "image": "images/acupoints/0879-tien-dinh.webp",
       "international_code": "GV21",
       "code_dash": "GV-21",
       "chinese": "前頂",
@@ -37667,7 +37667,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tieu-lac",
-      "image": "images/acupoints/0891-tieu-lac.png",
+      "image": "images/acupoints/0891-tieu-lac.webp",
       "international_code": "TE12",
       "code_dash": "TE-12",
       "chinese": "消濼",
@@ -37922,7 +37922,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tieu-cot-khong",
-      "image": "images/acupoints/0898-tieu-cot-khong.png"
+      "image": "images/acupoints/0898-tieu-cot-khong.webp"
     },
     {
       "id": 899,
@@ -37970,7 +37970,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tieu-hai",
-      "image": "images/acupoints/0899-tieu-hai.png",
+      "image": "images/acupoints/0899-tieu-hai.webp",
       "international_code": "SI8",
       "code_dash": "SI-8",
       "chinese": "小海",
@@ -38096,7 +38096,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tieu-nhi-giang-suyen",
-      "image": "images/acupoints/0902-tieu-nhi-giang-suyen.png"
+      "image": "images/acupoints/0902-tieu-nhi-giang-suyen.webp"
     },
     {
       "id": 903,
@@ -38136,7 +38136,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tieu-nhi-ke-hung-huyet",
-      "image": "images/acupoints/0903-tieu-nhi-ke-hung-huyet.png"
+      "image": "images/acupoints/0903-tieu-nhi-ke-hung-huyet.webp"
     },
     {
       "id": 904,
@@ -38172,7 +38172,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tieu-nhi-thuy-kinh",
-      "image": "images/acupoints/0904-tieu-nhi-thuy-kinh.png"
+      "image": "images/acupoints/0904-tieu-nhi-thuy-kinh.webp"
     },
     {
       "id": 905,
@@ -38204,7 +38204,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tieu-nhi-thuc-gian",
-      "image": "images/acupoints/0905-tieu-nhi-thuc-gian.png"
+      "image": "images/acupoints/0905-tieu-nhi-thuc-gian.webp"
     },
     {
       "id": 906,
@@ -38268,7 +38268,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tieu-thien-tam",
-      "image": "images/acupoints/0907-tieu-thien-tam.png"
+      "image": "images/acupoints/0907-tieu-thien-tam.webp"
     },
     {
       "id": 908,
@@ -38312,7 +38312,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tieu-truong-du",
-      "image": "images/acupoints/0908-tieu-truong-du.png",
+      "image": "images/acupoints/0908-tieu-truong-du.webp",
       "international_code": "BL27",
       "code_dash": "BL-27",
       "chinese": "小腸俞",
@@ -38376,7 +38376,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tin-hoi",
-      "image": "images/acupoints/0909-tin-hoi.png",
+      "image": "images/acupoints/0909-tin-hoi.webp",
       "international_code": "GV22",
       "code_dash": "GV-22",
       "chinese": "囟會",
@@ -38467,7 +38467,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tinh-minh",
-      "image": "images/acupoints/0911-tinh-minh.png",
+      "image": "images/acupoints/0911-tinh-minh.webp",
       "international_code": "BL1",
       "code_dash": "BL-1",
       "chinese": "睛明",
@@ -38662,7 +38662,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "toan-truc",
-      "image": "images/acupoints/0916-toan-truc.png",
+      "image": "images/acupoints/0916-toan-truc.webp",
       "international_code": "BL2",
       "code_dash": "BL-2",
       "chinese": "攢竹",
@@ -38727,7 +38727,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "to-lieu",
-      "image": "images/acupoints/0917-to-lieu.png",
+      "image": "images/acupoints/0917-to-lieu.webp",
       "international_code": "GV25",
       "code_dash": "GV-25",
       "chinese": "素髎",
@@ -38807,7 +38807,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trach-ha",
-      "image": "images/acupoints/0919-trach-ha.png"
+      "image": "images/acupoints/0919-trach-ha.webp"
     },
     {
       "id": 920,
@@ -38839,7 +38839,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trach-tien",
-      "image": "images/acupoints/0920-trach-tien.png"
+      "image": "images/acupoints/0920-trach-tien.webp"
     },
     {
       "id": 921,
@@ -38915,7 +38915,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trat-bien",
-      "image": "images/acupoints/0922-trat-bien.png",
+      "image": "images/acupoints/0922-trat-bien.webp",
       "international_code": "BL54",
       "code_dash": "BL-54",
       "chinese": "秩邊",
@@ -39002,7 +39002,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tri-chuyen-can",
-      "image": "images/acupoints/0924-tri-chuyen-can.png"
+      "image": "images/acupoints/0924-tri-chuyen-can.webp"
     },
     {
       "id": 925,
@@ -39352,7 +39352,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "troc-duc",
-      "image": "images/acupoints/0933-troc-duc.png"
+      "image": "images/acupoints/0933-troc-duc.webp"
     },
     {
       "id": 934,
@@ -39400,7 +39400,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "truc-tan",
-      "image": "images/acupoints/0934-truc-tan.png",
+      "image": "images/acupoints/0934-truc-tan.webp",
       "international_code": "KI9",
       "code_dash": "KI-9",
       "chinese": "築賓",
@@ -39443,7 +39443,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "truc-truong",
-      "image": "images/acupoints/0935-truc-truong.png"
+      "image": "images/acupoints/0935-truc-truong.webp"
     },
     {
       "id": 936,
@@ -39587,7 +39587,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-chu",
-      "image": "images/acupoints/0939-trung-chu.png"
+      "image": "images/acupoints/0939-trung-chu.webp"
     },
     {
       "id": 940,
@@ -39635,7 +39635,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-chu",
-      "image": "images/acupoints/0940-trung-chu.png",
+      "image": "images/acupoints/0940-trung-chu.webp",
       "international_code": "TE3",
       "code_dash": "TE-3",
       "chinese": "中渚",
@@ -39735,7 +39735,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-cuc",
-      "image": "images/acupoints/0942-trung-cuc.png",
+      "image": "images/acupoints/0942-trung-cuc.webp",
       "international_code": "CV3",
       "code_dash": "CV-3",
       "chinese": "中極",
@@ -39799,7 +39799,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-dinh",
-      "image": "images/acupoints/0943-trung-dinh.png",
+      "image": "images/acupoints/0943-trung-dinh.webp",
       "international_code": "CV16",
       "code_dash": "CV-16",
       "chinese": "中庭",
@@ -39861,7 +39861,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-do",
-      "image": "images/acupoints/0944-trung-do.png",
+      "image": "images/acupoints/0944-trung-do.webp",
       "international_code": "LR6",
       "code_dash": "LR-6",
       "chinese": "中都",
@@ -39918,7 +39918,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-doc",
-      "image": "images/acupoints/0945-trung-doc.png",
+      "image": "images/acupoints/0945-trung-doc.webp",
       "international_code": "GB32",
       "code_dash": "GB-32",
       "chinese": "中瀆",
@@ -39968,7 +39968,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-khoi",
-      "image": "images/acupoints/0946-trung-khoi.png"
+      "image": "images/acupoints/0946-trung-khoi.webp"
     },
     {
       "id": 947,
@@ -40000,7 +40000,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-khong",
-      "image": "images/acupoints/0947-trung-khong.png"
+      "image": "images/acupoints/0947-trung-khong.webp"
     },
     {
       "id": 948,
@@ -40048,7 +40048,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-khu",
-      "image": "images/acupoints/0948-trung-khu.png",
+      "image": "images/acupoints/0948-trung-khu.webp",
       "international_code": "GV7",
       "code_dash": "GV-7",
       "chinese": "中樞",
@@ -40106,7 +40106,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-lieu",
-      "image": "images/acupoints/0949-trung-lieu.png",
+      "image": "images/acupoints/0949-trung-lieu.webp",
       "international_code": "BL33",
       "code_dash": "BL-33",
       "chinese": "中髎",
@@ -40163,7 +40163,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-lu-du",
-      "image": "images/acupoints/0950-trung-lu-du.png",
+      "image": "images/acupoints/0950-trung-lu-du.webp",
       "international_code": "BL29",
       "code_dash": "BL-29",
       "chinese": "中膂俞",
@@ -40254,7 +40254,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-phong",
-      "image": "images/acupoints/0952-trung-phong.png",
+      "image": "images/acupoints/0952-trung-phong.webp",
       "international_code": "LR4",
       "code_dash": "LR-4",
       "chinese": "中封",
@@ -40314,7 +40314,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-phu",
-      "image": "images/acupoints/0953-trung-phu.png",
+      "image": "images/acupoints/0953-trung-phu.webp",
       "international_code": "LU1",
       "code_dash": "LU-1",
       "chinese": "中府",
@@ -40380,7 +40380,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-quan",
-      "image": "images/acupoints/0954-trung-quan.png",
+      "image": "images/acupoints/0954-trung-quan.webp",
       "international_code": "CV12",
       "code_dash": "CV-12",
       "chinese": "中脘",
@@ -40470,7 +40470,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-tuyen",
-      "image": "images/acupoints/0956-trung-tuyen.png"
+      "image": "images/acupoints/0956-trung-tuyen.webp"
     },
     {
       "id": 957,
@@ -40514,7 +40514,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "trung-xung",
-      "image": "images/acupoints/0957-trung-xung.png",
+      "image": "images/acupoints/0957-trung-xung.webp",
       "international_code": "PC9",
       "code_dash": "PC-9",
       "chinese": "中衝",
@@ -40763,7 +40763,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "truong-cuong",
-      "image": "images/acupoints/0963-truong-cuong.png",
+      "image": "images/acupoints/0963-truong-cuong.webp",
       "international_code": "GV1",
       "code_dash": "GV-1",
       "chinese": "長強",
@@ -40809,7 +40809,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "truong-di",
-      "image": "images/acupoints/0964-truong-di.png"
+      "image": "images/acupoints/0964-truong-di.webp"
     },
     {
       "id": 965,
@@ -40873,7 +40873,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "truong-phong",
-      "image": "images/acupoints/0966-truong-phong.png"
+      "image": "images/acupoints/0966-truong-phong.webp"
     },
     {
       "id": 967,
@@ -41021,7 +41021,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "truu-lieu",
-      "image": "images/acupoints/0970-truu-lieu.png",
+      "image": "images/acupoints/0970-truu-lieu.webp",
       "international_code": "LI12",
       "code_dash": "LI-12",
       "chinese": "肘髎",
@@ -41069,7 +41069,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "truu-tiem",
-      "image": "images/acupoints/0971-truu-tiem.png"
+      "image": "images/acupoints/0971-truu-tiem.webp"
     },
     {
       "id": 972,
@@ -41105,7 +41105,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tu-tuyen",
-      "image": "images/acupoints/0972-tu-tuyen.png"
+      "image": "images/acupoints/0972-tu-tuyen.webp"
     },
     {
       "id": 973,
@@ -41253,7 +41253,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tuc-khieu-am",
-      "image": "images/acupoints/0976-tuc-khieu-am.png",
+      "image": "images/acupoints/0976-tuc-khieu-am.webp",
       "international_code": "GB44",
       "code_dash": "GB-44",
       "chinese": "足竅陰",
@@ -41298,7 +41298,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tuc-la",
-      "image": "images/acupoints/0977-tuc-la.png"
+      "image": "images/acupoints/0977-tuc-la.webp"
     },
     {
       "id": 978,
@@ -41342,7 +41342,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tuc-lam-khap",
-      "image": "images/acupoints/0978-tuc-lam-khap.png",
+      "image": "images/acupoints/0978-tuc-lam-khap.webp",
       "international_code": "GB41",
       "code_dash": "GB-41",
       "chinese": "足臨泣",
@@ -41392,7 +41392,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tuc-minh",
-      "image": "images/acupoints/0979-tuc-minh.png"
+      "image": "images/acupoints/0979-tuc-minh.webp"
     },
     {
       "id": 980,
@@ -41436,7 +41436,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tuc-ngu-ly",
-      "image": "images/acupoints/0980-tuc-ngu-ly.png",
+      "image": "images/acupoints/0980-tuc-ngu-ly.webp",
       "international_code": "LR10",
       "code_dash": "LR-10",
       "chinese": "足五里",
@@ -41494,7 +41494,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tuc-tam-ly",
-      "image": "images/acupoints/0981-tuc-tam-ly.png",
+      "image": "images/acupoints/0981-tuc-tam-ly.webp",
       "international_code": "ST36",
       "code_dash": "ST-36",
       "chinese": "足三里",
@@ -41556,7 +41556,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tuc-tam",
-      "image": "images/acupoints/0982-tuc-tam.png"
+      "image": "images/acupoints/0982-tuc-tam.webp"
     },
     {
       "id": 983,
@@ -41652,7 +41652,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tuc-trung-binh",
-      "image": "images/acupoints/0985-tuc-trung-binh.png"
+      "image": "images/acupoints/0985-tuc-trung-binh.webp"
     },
     {
       "id": 986,
@@ -41760,7 +41760,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tuyen-co",
-      "image": "images/acupoints/0988-tuyen-co.png",
+      "image": "images/acupoints/0988-tuyen-co.webp",
       "international_code": "CV21",
       "code_dash": "CV-21",
       "chinese": "璇璣",
@@ -41834,7 +41834,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tuyen-sinh-tuc",
-      "image": "images/acupoints/0990-tuyen-sinh-tuc.png"
+      "image": "images/acupoints/0990-tuyen-sinh-tuc.webp"
     },
     {
       "id": 991,
@@ -41870,7 +41870,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tuyet-dung",
-      "image": "images/acupoints/0991-tuyet-dung.png"
+      "image": "images/acupoints/0991-tuyet-dung.webp"
     },
     {
       "id": 992,
@@ -41914,7 +41914,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tu-bach",
-      "image": "images/acupoints/0992-tu-bach.png",
+      "image": "images/acupoints/0992-tu-bach.webp",
       "international_code": "ST2",
       "code_dash": "ST-2",
       "chinese": "四白",
@@ -41971,7 +41971,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tu-doc",
-      "image": "images/acupoints/0993-tu-doc.png",
+      "image": "images/acupoints/0993-tu-doc.webp",
       "international_code": "TE9",
       "code_dash": "TE-9",
       "chinese": "四瀆",
@@ -42015,7 +42015,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tu-hoa",
-      "image": "images/acupoints/0994-tu-hoa.png"
+      "image": "images/acupoints/0994-tu-hoa.webp"
     },
     {
       "id": 995,
@@ -42083,7 +42083,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tu-ly",
-      "image": "images/acupoints/0996-tu-ly.png"
+      "image": "images/acupoints/0996-tu-ly.webp"
     },
     {
       "id": 997,
@@ -42131,7 +42131,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tu-man",
-      "image": "images/acupoints/0997-tu-man.png",
+      "image": "images/acupoints/0997-tu-man.webp",
       "international_code": "KI14",
       "code_dash": "KI-14",
       "chinese": "四滿",
@@ -42185,7 +42185,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tu-phung",
-      "image": "images/acupoints/0998-tu-phung.png"
+      "image": "images/acupoints/0998-tu-phung.webp"
     },
     {
       "id": 999,
@@ -42225,7 +42225,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tu-than-thong",
-      "image": "images/acupoints/0999-tu-than-thong.png"
+      "image": "images/acupoints/0999-tu-than-thong.webp"
     },
     {
       "id": 1000,
@@ -42301,7 +42301,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tu-cung",
-      "image": "images/acupoints/1001-tu-cung.png",
+      "image": "images/acupoints/1001-tu-cung.webp",
       "international_code": "CV19",
       "code_dash": "CV-19",
       "chinese": "紫宮",
@@ -42347,7 +42347,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "tu-cung-ii",
-      "image": "images/acupoints/1002-tu-cung-ii.png"
+      "image": "images/acupoints/1002-tu-cung-ii.webp"
     },
     {
       "id": 1003,
@@ -42527,7 +42527,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ty-truc-khong",
-      "image": "images/acupoints/1007-ty-truc-khong.png",
+      "image": "images/acupoints/1007-ty-truc-khong.webp",
       "international_code": "TE23",
       "code_dash": "TE-23",
       "chinese": "絲竹空",
@@ -42589,7 +42589,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ty-nhu",
-      "image": "images/acupoints/1008-ty-nhu.png",
+      "image": "images/acupoints/1008-ty-nhu.webp",
       "international_code": "LI14",
       "code_dash": "LI-14",
       "chinese": "臂臑",
@@ -42826,7 +42826,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ty-nhiet-huyet",
-      "image": "images/acupoints/1014-ty-nhiet-huyet.png"
+      "image": "images/acupoints/1014-ty-nhiet-huyet.webp"
     },
     {
       "id": 1015,
@@ -42926,7 +42926,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ty-luu",
-      "image": "images/acupoints/1017-ty-luu.png"
+      "image": "images/acupoints/1017-ty-luu.webp"
     },
     {
       "id": 1018,
@@ -42962,7 +42962,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ty-tieu",
-      "image": "images/acupoints/1018-ty-tieu.png"
+      "image": "images/acupoints/1018-ty-tieu.webp"
     },
     {
       "id": 1019,
@@ -43042,7 +43042,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "u-mon",
-      "image": "images/acupoints/1020-u-mon.png",
+      "image": "images/acupoints/1020-u-mon.webp",
       "international_code": "KI21",
       "code_dash": "KI-21",
       "chinese": "幽門",
@@ -43132,7 +43132,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "uy-duong",
-      "image": "images/acupoints/1022-uy-duong.png",
+      "image": "images/acupoints/1022-uy-duong.webp",
       "international_code": "BL39",
       "code_dash": "BL-39",
       "chinese": "委陽",
@@ -43195,7 +43195,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "uy-trung",
-      "image": "images/acupoints/1023-uy-trung.png",
+      "image": "images/acupoints/1023-uy-trung.webp",
       "international_code": "BL40",
       "code_dash": "BL-40",
       "chinese": "委中",
@@ -43294,7 +43294,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "uyen-dich",
-      "image": "images/acupoints/1025-uyen-dich.png",
+      "image": "images/acupoints/1025-uyen-dich.webp",
       "international_code": "GB22",
       "code_dash": "GB-22",
       "chinese": "淵腋",
@@ -43350,7 +43350,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "uyen-cot",
-      "image": "images/acupoints/1026-uyen-cot.png",
+      "image": "images/acupoints/1026-uyen-cot.webp",
       "international_code": "SI4",
       "code_dash": "SI-4",
       "chinese": "腕骨",
@@ -43407,7 +43407,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "ung-song",
-      "image": "images/acupoints/1027-ung-song.png",
+      "image": "images/acupoints/1027-ung-song.webp",
       "international_code": "ST16",
       "code_dash": "ST-16",
       "chinese": "膺窗",
@@ -43465,7 +43465,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "van-mon",
-      "image": "images/acupoints/1028-van-mon.png",
+      "image": "images/acupoints/1028-van-mon.webp",
       "international_code": "LU2",
       "code_dash": "LU-2",
       "chinese": "雲門",
@@ -43646,7 +43646,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "vi-du",
-      "image": "images/acupoints/1033-vi-du.png",
+      "image": "images/acupoints/1033-vi-du.webp",
       "international_code": "BL21",
       "code_dash": "BL-21",
       "chinese": "胃俞",
@@ -43726,7 +43726,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "vi-nhiet-huyet",
-      "image": "images/acupoints/1035-vi-nhiet-huyet.png"
+      "image": "images/acupoints/1035-vi-nhiet-huyet.webp"
     },
     {
       "id": 1036,
@@ -43762,7 +43762,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "vi-quan-ha-du",
-      "image": "images/acupoints/1036-vi-quan-ha-du.png"
+      "image": "images/acupoints/1036-vi-quan-ha-du.webp"
     },
     {
       "id": 1037,
@@ -43794,7 +43794,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "vi-thu",
-      "image": "images/acupoints/1037-vi-thu.png"
+      "image": "images/acupoints/1037-vi-thu.webp"
     },
     {
       "id": 1038,
@@ -43838,7 +43838,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "vi-thuong",
-      "image": "images/acupoints/1038-vi-thuong.png",
+      "image": "images/acupoints/1038-vi-thuong.webp",
       "international_code": "BL50",
       "code_dash": "BL-50",
       "chinese": "胃倉",
@@ -43881,7 +43881,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "xich-huyet",
-      "image": "images/acupoints/1039-xich-huyet.png"
+      "image": "images/acupoints/1039-xich-huyet.webp"
     },
     {
       "id": 1040,
@@ -43917,7 +43917,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "xich-nhieu",
-      "image": "images/acupoints/1040-xich-nhieu.png"
+      "image": "images/acupoints/1040-xich-nhieu.webp"
     },
     {
       "id": 1041,
@@ -43965,7 +43965,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "xich-trach",
-      "image": "images/acupoints/1041-xich-trach.png",
+      "image": "images/acupoints/1041-xich-trach.webp",
       "international_code": "LU5",
       "code_dash": "LU-5",
       "chinese": "尺澤",
@@ -44014,7 +44014,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "xuat-khi-huyet",
-      "image": "images/acupoints/1042-xuat-khi-huyet.png"
+      "image": "images/acupoints/1042-xuat-khi-huyet.webp"
     },
     {
       "id": 1043,
@@ -44062,7 +44062,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "xung-duong",
-      "image": "images/acupoints/1043-xung-duong.png",
+      "image": "images/acupoints/1043-xung-duong.webp",
       "international_code": "ST42",
       "code_dash": "ST-42",
       "chinese": "沖陽",
@@ -44123,7 +44123,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "xung-mon",
-      "image": "images/acupoints/1044-xung-mon.png",
+      "image": "images/acupoints/1044-xung-mon.webp",
       "international_code": "SP12",
       "code_dash": "SP-12",
       "chinese": "衝門",
@@ -44177,7 +44177,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "y-hy",
-      "image": "images/acupoints/1045-y-hy.png",
+      "image": "images/acupoints/1045-y-hy.webp",
       "international_code": "BL45",
       "code_dash": "BL-45",
       "chinese": "譩譆",
@@ -44220,7 +44220,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "y-lung",
-      "image": "images/acupoints/1046-y-lung.png"
+      "image": "images/acupoints/1046-y-lung.webp"
     },
     {
       "id": 1047,
@@ -44264,7 +44264,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "y-xa",
-      "image": "images/acupoints/1047-y-xa.png",
+      "image": "images/acupoints/1047-y-xa.webp",
       "international_code": "BL49",
       "code_dash": "BL-49",
       "chinese": "意舍",
@@ -44308,7 +44308,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "yen-khau",
-      "image": "images/acupoints/1048-yen-khau.png"
+      "image": "images/acupoints/1048-yen-khau.webp"
     },
     {
       "id": 1049,
@@ -44340,7 +44340,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "yeu-can",
-      "image": "images/acupoints/1049-yeu-can.png"
+      "image": "images/acupoints/1049-yeu-can.webp"
     },
     {
       "id": 1050,
@@ -44388,7 +44388,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "yeu-du",
-      "image": "images/acupoints/1050-yeu-du.png",
+      "image": "images/acupoints/1050-yeu-du.webp",
       "international_code": "GV2",
       "code_dash": "GV-2",
       "chinese": "腰俞",
@@ -44449,7 +44449,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "yeu-duong-quan",
-      "image": "images/acupoints/1051-yeu-duong-quan.png",
+      "image": "images/acupoints/1051-yeu-duong-quan.webp",
       "international_code": "GV3",
       "code_dash": "GV-3",
       "chinese": "腰陽關",
@@ -44497,7 +44497,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "yeu-ky",
-      "image": "images/acupoints/1052-yeu-ky.png"
+      "image": "images/acupoints/1052-yeu-ky.webp"
     },
     {
       "id": 1053,
@@ -44561,7 +44561,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "yeu-nghi",
-      "image": "images/acupoints/1054-yeu-nghi.png"
+      "image": "images/acupoints/1054-yeu-nghi.webp"
     },
     {
       "id": 1055,
@@ -44601,7 +44601,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "yeu-nhan",
-      "image": "images/acupoints/1055-yeu-nhan.png"
+      "image": "images/acupoints/1055-yeu-nhan.webp"
     },
     {
       "id": 1056,
@@ -44633,7 +44633,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "yeu-thong",
-      "image": "images/acupoints/1056-yeu-thong.png"
+      "image": "images/acupoints/1056-yeu-thong.webp"
     },
     {
       "id": 1057,
@@ -44665,7 +44665,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "yeu-thong-ii",
-      "image": "images/acupoints/1057-yeu-thong-ii.png"
+      "image": "images/acupoints/1057-yeu-thong-ii.webp"
     },
     {
       "id": 1058,
@@ -44697,7 +44697,7 @@ window.ACUPOINTS = {
         }
       ],
       "slug": "yeu-thong-iii",
-      "image": "images/acupoints/1058-yeu-thong-iii.png"
+      "image": "images/acupoints/1058-yeu-thong-iii.webp"
     },
     {
       "id": 1059,

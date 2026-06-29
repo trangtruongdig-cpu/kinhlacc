@@ -1054,6 +1054,10 @@
     console.log('[ACU-DEBUG] HIỆN xong lúc', Math.round(performance.now()), 'ms · do:', reason || '?'); // TẠM: đo tốc độ, sẽ gỡ
     window.ACU_MODEL_READY = true;                    // báo Vue tắt MÀN CHỜ TO khi huyệt đã sẵn sàng
     if (typeof window.ACU_ON_MODEL_READY === 'function') window.ACU_ON_MODEL_READY();
+    // Mở từ Từ Điển với ?focus=<mã> nhưng lúc gọi CHẤM HUYỆT chưa dựng (placeAllPoints chạy sau) → focus bị
+    // hoãn vào pendingFocus. Giờ chấm đã sẵn sàng → bay tới huyệt cho đúng (trước đây chỉ xử lý ở onload model,
+    // sớm hơn lúc có chấm nên "không bay thẳng tới huyệt").
+    if (pendingFocus) { const c = pendingFocus, o = pendingOpts; pendingFocus = pendingOpts = null; setTimeout(() => focusPoint(c, o), 60); }
   }
   function loadUserAnchors() {
     let settled = false;
