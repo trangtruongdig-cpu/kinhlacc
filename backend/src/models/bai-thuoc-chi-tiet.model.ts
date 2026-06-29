@@ -33,7 +33,10 @@ export class BaiThuocChiTiet {
   @JoinColumn({ name: 'id_bai_thuoc' })
   baiThuoc: BaiThuoc;
 
-  @ManyToOne(() => ViThuoc, (vt) => vt.baiThuocDetails, { onDelete: 'CASCADE' })
+  // RESTRICT (không CASCADE): không cho xoá vị thuốc khi còn được dùng trong bài thuốc nào.
+  // Tránh tái diễn sự cố 29/06/2026: xoá nhầm vị thuốc CASCADE cuốn theo thành phần bài thuốc.
+  // Đồng bộ với migration backend/sql/migrate-bai-thuoc-chi-tiet-restrict-vithuoc.sql.
+  @ManyToOne(() => ViThuoc, (vt) => vt.baiThuocDetails, { onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'id_vi_thuoc' })
   viThuoc: ViThuoc;
 }
