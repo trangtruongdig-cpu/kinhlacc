@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Aristolochia debilis",
+  "_bo_phan": "Thân và lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Atrophaneura%20alcinous%20(laying%20eggs%20n2).JPG?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Atrophaneura alcinous (Byasa alcinous) laying eggs under the leaf of Aristolochia debilis in Aichi Prefecture, Japan. · Ảnh: Alpsdake / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Atrophaneura_alcinous_(laying_eggs_n2).JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Alpsdake"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Aristolochia%20debilis%205.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Aristolochia debilis, Hama-dori area, Fukushima pref., Japan · Ảnh: Qwert1234 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Aristolochia_debilis_5.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Qwert1234"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/673136828/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Aristolochia debilis Siebold & Zucc. · Japan · Ảnh: carex1002 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6399845469",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "carex1002"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/673136849/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Aristolochia debilis Siebold & Zucc. · Japan · Ảnh: carex1002 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6399845469",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "carex1002"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/229854178/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Aristolochia debilis · quan sát thực địa · (c) WATANABE Hitoshi 渡辺仁, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/229854178",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) WATANABE Hitoshi 渡辺仁, some rights reserved (CC BY)"
+    }
+  ]
+}

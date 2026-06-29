@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Alpinia oxyphylla",
+  "_bo_phan": "quả (bỏ vỏ lấy hạt)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Alpinia%20oxyphylla01.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Alpinia oxyphylla · Ảnh: Meneerke bloem / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Alpinia_oxyphylla01.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Meneerke bloem"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dried%20alpinia%20oxyphylla.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Dried alpinia oxyphylla · Ảnh: Fumikas Sagisavas / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dried_alpinia_oxyphylla.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Fumikas Sagisavas"
+    },
+    {
+      "file": "https://collections.nmnh.si.edu/media/?i=13738788&h=2000",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Alpinia oxyphylla Miq. · United States of America · Ảnh: W. J. Kress & Q. J. Li / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6341286416",
+      "giay_phep": "CC0",
+      "tac_gia": "W. J. Kress & Q. J. Li"
+    },
+    {
+      "file": "https://d2jcv3kl45hlgi.cloudfront.net/cc993a3e18437e4f21af5215f98c5f81.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Alpinia oxyphylla Miq. · Hong Kong · Ảnh: Hu, S.Y.; But, P.P. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4607926906",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Hu, S.Y.; But, P.P."
+    }
+  ]
+}

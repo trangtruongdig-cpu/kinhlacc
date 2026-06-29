@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Camellia sinensis",
+  "_bo_phan": "lá chè",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Csinensis.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Closeup of leaves of tea plant Camellia sinensis · Ảnh: AxelBoldt at en.wikipedia / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Csinensis.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "AxelBoldt at en.wikipedia"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Camellia%20sinensis%20MHNT.BOT.2016.12.24.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Camellia sinensis, Tea plant, seeds · Ảnh: Roger Culos / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Camellia_sinensis_MHNT.BOT.2016.12.24.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Roger Culos"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/664607331/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Camellia sinensis (L.) Kuntze · Madagascar · Ảnh: amantedarmanin / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6335031390",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "amantedarmanin"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/664607367/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Camellia sinensis (L.) Kuntze · Madagascar · Ảnh: amantedarmanin / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6335031390",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "amantedarmanin"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/6574686/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Camellia sinensis · quan sát thực địa · (c) Kristof & Yulia, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/6574686",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Kristof & Yulia, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/6574687/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Camellia sinensis · quan sát thực địa · (c) Kristof Zyskowski, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/6574687",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Kristof Zyskowski, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Camellia%20sinensis%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-025.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Teestrauch. A blühender Zweig, natürl. Grösse; 1 Blüthe im Längsschnitt, vergrössert; 2 Staubgefäss, desgl.; 3 Fruchtknoten im Querschnitt, desgl.; 4  · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Camellia_sinensis_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-025.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Senna tora",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Young%20'Senna%20Tora'.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "this a young 'Senna Tora' plant captured in India · Ảnh: SameerUNO / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Young_%27Senna_Tora%27.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "SameerUNO"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Senna%20tora%20(1250292137).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Fabaceae (pea, or legume family) » Senna tora SEN-nuh -- Latin form of Arabic word for a thorny bush TOR-uh -- most probably, from the vernacular name of the pl · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Senna_tora_(1250292137).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00188.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Sickle Senna Seed (Cassiae Semen · 決明子) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00188",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/657957530/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Senna tora (L.) Roxb. · Sri Lanka · Ảnh: Tim / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6320925029",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Tim"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/657957576/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Senna tora (L.) Roxb. · Sri Lanka · Ảnh: Tim / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6320925029",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Tim"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Senna%20tora%20Blanco1.122.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Senna_tora_Blanco1.122.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

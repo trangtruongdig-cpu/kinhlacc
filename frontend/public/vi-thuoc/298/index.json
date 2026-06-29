@@ -1,6 +1,13 @@
 {
-  "_source": "Wikimedia Commons",
+  "_source": "Wikimedia Commons + cmmid + gbif + inat + bencao",
   "_sci": "Artemisia capillaris",
+  "_bo_phan": "toàn cây non",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
   "images": [
     {
       "file": "1.jpg",
@@ -25,6 +32,46 @@
       "nguon": "https://commons.wikimedia.org/wiki/File:Artemisia_capillaris.jpg",
       "giay_phep": "CC0",
       "tac_gia": "Stickpen"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00293.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Capillary Wormwood Herb (Artemisiae Scopariae Herba · 茵陳) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00293",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/618963414/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Artemisia capillaris Thunb. · Chinese Taipei · Ảnh: 葉子 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6171173633",
+      "giay_phep": "CC0",
+      "tac_gia": "葉子"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/618963405/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Artemisia capillaris Thunb. · Chinese Taipei · Ảnh: 葉子 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6171173633",
+      "giay_phep": "CC0",
+      "tac_gia": "葉子"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/57993817/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Artemisia capillaris · quan sát thực địa · (c) Yoshimasa Uchiyama, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/57993817",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Yoshimasa Uchiyama, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/57993816/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Artemisia capillaris · quan sát thực địa · (c) Yoshimasa Uchiyama, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/57993816",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Yoshimasa Uchiyama, some rights reserved (CC BY)"
     }
   ]
 }

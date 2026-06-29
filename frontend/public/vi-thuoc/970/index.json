@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Eucalyptus robusta",
+  "_bo_phan": "Lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr-091127-1519-Eucalyptus%20robusta-habit%20with%20Forest%20on%20deer%20trail-Olinda-Maui%20(24897785741).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Eucalyptus robusta (Swamp mahogany) Habit with Forest on deer trail at Olinda, Maui, Hawaii. November 27, 2009 #091127-1519 Image Use Policy · Ảnh: Forest and Kim Starr / Wikimedia Commons (CC BY 3.0 us)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr-091127-1519-Eucalyptus_robusta-habit_with_Forest_on_deer_trail-Olinda-Maui_(24897785741).jpg",
+      "giay_phep": "CC BY 3.0 us",
+      "tac_gia": "Forest and Kim Starr"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr-110513-5543-Eucalyptus%20robusta-habitat%20and%20nene%20in%20flight-Hawea%20Pl%20Olinda-Maui%20(24468138923).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Eucalyptus robusta (Swamp mahogany) Habitat and nene in flight at Hawea Pl Olinda, Maui, Hawaii. May 13, 2011 #110513-5543 Image Use Policy · Ảnh: Forest and Kim Starr / Wikimedia Commons (CC BY 3.0 us)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr-110513-5543-Eucalyptus_robusta-habitat_and_nene_in_flight-Hawea_Pl_Olinda-Maui_(24468138923).jpg",
+      "giay_phep": "CC BY 3.0 us",
+      "tac_gia": "Forest and Kim Starr"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604672942/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Eucalyptus robusta Sm. · Australia · Ảnh: Scott W. Gavins / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938273303",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Scott W. Gavins"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604672927/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Eucalyptus robusta Sm. · Australia · Ảnh: Scott W. Gavins / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938273303",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Scott W. Gavins"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Eucalyptus%20robusta%20(Sowerby).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "This is an image of a print of a hand coloured engraving by James Sowerby (1757-1822), based on drawing nominally by John White but probably by the co · James Sowerby / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Eucalyptus_robusta_(Sowerby).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "James Sowerby"
+    }
+  ]
+}

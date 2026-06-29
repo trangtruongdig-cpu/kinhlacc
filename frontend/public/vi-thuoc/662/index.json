@@ -1,0 +1,77 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Paris polyphylla",
+  "_bo_phan": "Thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Paris%20polyphylla%20BotGardBln07122011E.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "At Botanical Gardens Berlin-Dahlem Species Paris polyphylla · Ảnh: User:BotBln / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Paris_polyphylla_BotGardBln07122011E.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "User:BotBln"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Paris%20polyphylla%20kz06.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Paris polyphylla in the Botanischer Garten, Berlin-Dahlem · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Paris_polyphylla_kz06.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00042.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Chinese Manyleaf Paris Rhizome (Paridis Rhizoma · 重樓) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00042",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/622430810/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Paris polyphylla Sm. · Chinese Taipei · Ảnh: 呂一起(Lyu yi-chi) / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6179366210",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "呂一起(Lyu yi-chi)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/622430806/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Paris polyphylla Sm. · Chinese Taipei · Ảnh: 呂一起(Lyu yi-chi) / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6179366210",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "呂一起(Lyu yi-chi)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/66021865/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Paris polyphylla · quan sát thực địa · (c) Licheng Shih, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/66021865",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Licheng Shih, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/66022399/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Paris polyphylla · quan sát thực địa · (c) Licheng Shih, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/66022399",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Licheng Shih, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Illustrations%20of%20Himalayan%20plants%20(Plate%20XXIV)%20BHL620736.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Illustrations of Himalayan plants :chiefly selected from drawings made for the late J.F. Cathcart, Esq.re of the Bengal Civil Service /the description · Cathcart, John Fergusson; Fitch, W. H.; Hooker, Joseph Dalton / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Illustrations_of_Himalayan_plants_(Plate_XXIV)_BHL620736.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Cathcart, John Fergusson; Fitch, W. H.; Hooker, Joseph Dalton"
+    }
+  ]
+}

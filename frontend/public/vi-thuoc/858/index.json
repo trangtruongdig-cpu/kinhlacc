@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Polygonum pubescens",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E4%BC%8F%E6%AF%9B%E8%93%BC%20Polygonum%20pubescens%20-%E9%A6%99%E6%B8%AF%E8%A5%BF%E8%B2%A2%E7%8D%85%E5%AD%90%E6%9C%83%E8%87%AA%E7%84%B6%E6%95%99%E8%82%B2%E4%B8%AD%E5%BF%83%20Saikung%2C%20Hong%20Kong-%20(9227077577).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "伏毛蓼 Polygonum pubescens [香港西貢獅子會自然教育中心 Saikung, Hong Kong] · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E4%BC%8F%E6%AF%9B%E8%93%BC_Polygonum_pubescens_-%E9%A6%99%E6%B8%AF%E8%A5%BF%E8%B2%A2%E7%8D%85%E5%AD%90%E6%9C%83%E8%87%AA%E7%84%B6%E6%95%99%E8%82%B2%E4%B8%AD%E5%BF%83_Saikung,_Hong_Kong-_(9227077577).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://iiif.rbge.org.uk/herb/iiif/E01582115/full/1600,/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Polygonum pubescens Blume · Nepal · Ảnh: Edinburgh Kathmandu Tokyo Expedition, / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5830202749",
+      "giay_phep": "CC0",
+      "tac_gia": "Edinburgh Kathmandu Tokyo Expedition,"
+    },
+    {
+      "file": "https://iiif.rbge.org.uk/herb/iiif/E01582115/full/300,/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Polygonum pubescens Blume · Nepal · Ảnh: Edinburgh Kathmandu Tokyo Expedition, / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5830202749",
+      "giay_phep": "CC0",
+      "tac_gia": "Edinburgh Kathmandu Tokyo Expedition,"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/433063540/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Persicaria extremiorientalis · quan sát thực địa · (c) Tom Scavo, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/433063540",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Tom Scavo, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/433063589/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Persicaria extremiorientalis · quan sát thực địa · (c) Tom Scavo, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/433063589",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Tom Scavo, some rights reserved (CC BY)"
+    }
+  ]
+}

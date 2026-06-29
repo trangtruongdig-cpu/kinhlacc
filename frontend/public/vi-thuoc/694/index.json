@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Schefflera heptaphylla",
+  "_bo_phan": "Vỏ cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E9%B5%9D%E6%8E%8C%E6%9F%B4%20Schefflera%20heptaphylla%2020221028210435%2002.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Native to China and Taiwan. The leaves of young Schefflera heptaphylla have irregular clefts. San Ding Shan, Taiping District, Taichung, Taiwan. 2022/10/28. · Ảnh: Ping an Chang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E9%B5%9D%E6%8E%8C%E6%9F%B4_Schefflera_heptaphylla_20221028210435_02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ping an Chang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E9%B5%9D%E6%8E%8C%E6%9F%B4%20Schefflera%20heptaphylla%2020221028210435%2001.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Native to China and Taiwan. The leaves of young Schefflera heptaphylla have irregular clefts. San Ding Shan, Taiping District, Taichung, Taiwan. 2022/10/28. · Ảnh: Ping an Chang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E9%B5%9D%E6%8E%8C%E6%9F%B4_Schefflera_heptaphylla_20221028210435_01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ping an Chang"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/55a43f6990b7b0d92b239e2c381437d695cb3c13",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Schefflera heptaphylla (L.) Frodin · Chinese Taipei · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5109809073",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/929ee3b5ef91a6915a6caef717af410e7d54e9d4",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Schefflera heptaphylla (L.) Frodin · Hong Kong · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/3997852588",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    }
+  ]
+}

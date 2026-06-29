@@ -1,22 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Pueraria montana",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Hoa",
-      "mo_ta": "Cụm hoa Cát Căn màu tím hình chùm dài, cánh hoa hình đậu đặc trưng họ Đậu · Ảnh: Photo by Peggy Greb. / Wikimedia Commons (Public domain)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Flowering_kudzu.jpg",
-      "giay_phep": "Public domain",
-      "tac_gia": "Photo by Peggy Greb."
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Quả / hạt",
-      "mo_ta": "Chùm quả đậu Cát Căn dẹt, phủ lông nâu vàng dày đặc · Ảnh: Pollinator at English Wikipedia / Wikimedia Commons (CC BY 2.5)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Kudzu_seedpods_6580.JPG",
-      "giay_phep": "CC BY 2.5",
-      "tac_gia": "Pollinator at English Wikipedia"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00063.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Lobed Kudzuvine Root (Puerariae Lobatae Radix · 葛根) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00063",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

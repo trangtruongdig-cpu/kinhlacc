@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Ligusticum sinense",
+  "_bo_phan": "thân rễ và rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ligusticum%20sinense%20'Chuanxiong'%20slices.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Ligusticum sinense 'Chuanxiong' slices · Ảnh: Fumikas Sagisavas / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ligusticum_sinense_%27Chuanxiong%27_slices.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Fumikas Sagisavas"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ligusticum%20sinense%20'Chuanxiong'%20slices%20(1).jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Ligusticum sinense 'Chuanxiong' slices · Ảnh: Fumikas Sagisavas / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ligusticum_sinense_%27Chuanxiong%27_slices_(1).jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Fumikas Sagisavas"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00061.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Chinese Ligusticum Rhizome (Ligustici Rhizoma et Radix · 藁本) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00061",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://www.digitalis.uzh.ch/media/specimen/216/Z-000216262.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ligusticum sinense Oliv. · China · Ảnh: United Herbaria of the University and ETH Zurich / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3383269556",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "United Herbaria of the University and ETH Zurich"
+    },
+    {
+      "file": "https://www.digitalis.uzh.ch/media/specimen/216/Z-000216261.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ligusticum sinense Oliv. · China · Ảnh: United Herbaria of the University and ETH Zurich / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3383271540",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "United Herbaria of the University and ETH Zurich"
+    }
+  ]
+}

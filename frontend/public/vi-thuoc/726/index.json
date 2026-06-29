@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Orostachys fimbriata",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Orostachys%20fimbriata%2001.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Orostachys fimbriata · Ảnh: Michael Wolf / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Orostachys_fimbriata_01.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Michael Wolf"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Orostachys%20fimbriata%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Orostachys fimbriata in the Botanischer Garten Halle · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Orostachys_fimbriata_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/670316564/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Orostachys fimbriata (Turcz.) A.Berger · China · Ảnh: Jane Charlen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6399153020",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Jane Charlen"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/670317016/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Orostachys fimbriata (Turcz.) A.Berger · China · Ảnh: Jane Charlen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6399153020",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Jane Charlen"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/164622219/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Orostachys fimbriata · quan sát thực địa · (c) Andreas Taeger, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/164622219",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Andreas Taeger, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/164622246/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Orostachys fimbriata · quan sát thực địa · (c) Andreas Taeger, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/164622246",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Andreas Taeger, some rights reserved (CC BY)"
+    }
+  ]
+}

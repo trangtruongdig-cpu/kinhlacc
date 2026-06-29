@@ -1,0 +1,77 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Geranium carolinianum",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Geranium%20carolinianum%20NPS-01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Geranium carolinianum. Santa Monica Mountains National Recreation Area, California, USA. Taken at Stunt Ranch. NPS photo, no copyright. · Ảnh: Anthony Valois and the National Park Service / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Geranium_carolinianum_NPS-01.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Anthony Valois and the National Park Service"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Geranium%20carolinianum%20NPS-03.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Geranium carolinianum Carolina geranium/crane's-bill - Stunt Ranch: Stunt High Trail, chaparral, March 2005. · Ảnh: U.S. National Park Service / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Geranium_carolinianum_NPS-03.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "U.S. National Park Service"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00258.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Heron’s Bill Herb (Erodii Herba;Geranii Herba · 老鸛草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00258",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605225198/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Geranium carolinianum L. · United States of America · Ảnh: Dan Johnson / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938599491",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Dan Johnson"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/607283163/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Geranium carolinianum L. · United States of America · Ảnh: Philip Vanbergen / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6130115936",
+      "giay_phep": "CC0",
+      "tac_gia": "Philip Vanbergen"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/18282885/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Geranium carolinianum · quan sát thực địa · (c) Sam Kieschnick, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/18282885",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Sam Kieschnick, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/18282897/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Geranium carolinianum · quan sát thực địa · (c) Sam Kieschnick, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/18282897",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Sam Kieschnick, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Geranium%20carolinianum%20BB-1913.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Geranium carolinianum illustration · Britton, N.L., and A. Brown / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Geranium_carolinianum_BB-1913.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Britton, N.L., and A. Brown"
+    }
+  ]
+}

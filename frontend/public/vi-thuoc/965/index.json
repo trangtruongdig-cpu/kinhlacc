@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Achyranthes aspera",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Achyranthes%20aspera%20plant%2C%20April%202023.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "View of a plant in a sunny day · Ảnh: Grace789 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Achyranthes_aspera_plant,_April_2023.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Grace789"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Medicinal%20plant%20(Achyranthes%20aspera)%20Uttareni%20in%20Andhra%20University%20campus.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Medicinal plant (Achyranthes aspera) Uttareni in Andhra University campus, Visakhapatnam · Ảnh: Paryavarana Margadarsi Vaisakhi / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Medicinal_plant_(Achyranthes_aspera)_Uttareni_in_Andhra_University_campus.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Paryavarana Margadarsi Vaisakhi"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604669121/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Achyranthes aspera L. · Australia · Ảnh: Damien O'Donnell / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938611975",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Damien O'Donnell"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604669155/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Achyranthes aspera L. · Australia · Ảnh: Damien O'Donnell / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938611975",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Damien O'Donnell"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/27523605/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Achyranthes aspera · quan sát thực địa · (c) 陳度度, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/27523605",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 陳度度, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/27524801/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Achyranthes aspera · quan sát thực địa · (c) 陳度度, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/27524801",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 陳度度, some rights reserved (CC BY)"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Peristrophe baphica",
+  "_bo_phan": "toàn cây (phần trên mặt đất)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Green%20plant%20%E8%A7%80%E9%9F%B3%E8%8D%89%20Peristrophe%20baphica%20%E7%9F%B3%E8%93%AE%E8%8A%B1%20%E9%A2%A8%E8%BB%8A%E8%8D%89%20%E8%A7%80%E9%9F%B3%E7%9F%B3%E8%93%AE%E8%8A%B1%20%E7%9F%B3%E8%86%BD%E8%8D%89%20%E8%93%AE%E5%BA%A7%E8%8D%89%20%E6%9D%B1%E7%BE%8E%E4%BA%BA%20%E7%8E%89%E8%93%AE%2001.JPG?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "觀音草 Peristrophe baphica 石蓮花 風車草 觀音石蓮花 石膽草 蓮座草 東美人 玉蓮 · Ảnh: Daigedingea / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Green_plant_%E8%A7%80%E9%9F%B3%E8%8D%89_Peristrophe_baphica_%E7%9F%B3%E8%93%AE%E8%8A%B1_%E9%A2%A8%E8%BB%8A%E8%8D%89_%E8%A7%80%E9%9F%B3%E7%9F%B3%E8%93%AE%E8%8A%B1_%E7%9F%B3%E8%86%BD%E8%8D%89_%E8%93%AE%E5%BA%A7%E8%8D%89_%E6%9D%B1%E7%BE%8E%E4%BA%BA_%E7%8E%89%E8%93%AE_01.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Daigedingea"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Green%20plant%20%E8%A7%80%E9%9F%B3%E8%8D%89%20Peristrophe%20baphica%20%E7%9F%B3%E8%93%AE%E8%8A%B1%20%E9%A2%A8%E8%BB%8A%E8%8D%89%20%E8%A7%80%E9%9F%B3%E7%9F%B3%E8%93%AE%E8%8A%B1%20%E7%9F%B3%E8%86%BD%E8%8D%89%20%E8%93%AE%E5%BA%A7%E8%8D%89%20%E6%9D%B1%E7%BE%8E%E4%BA%BA%20%E7%8E%89%E8%93%AE%2006.JPG?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Green plant 觀音草 Peristrophe baphica 石蓮花 風車草 觀音石蓮花 石膽草 蓮座草 東美人 玉蓮 06 · Ảnh: Daigedingea / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Green_plant_%E8%A7%80%E9%9F%B3%E8%8D%89_Peristrophe_baphica_%E7%9F%B3%E8%93%AE%E8%8A%B1_%E9%A2%A8%E8%BB%8A%E8%8D%89_%E8%A7%80%E9%9F%B3%E7%9F%B3%E8%93%AE%E8%8A%B1_%E7%9F%B3%E8%86%BD%E8%8D%89_%E8%93%AE%E5%BA%A7%E8%8D%89_%E6%9D%B1%E7%BE%8E%E4%BA%BA_%E7%8E%89%E8%93%AE_06.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Daigedingea"
+    },
+    {
+      "file": "https://medialib.naturalis.nl/file/id/U.1044904/format/large",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Peristrophe baphica (Spreng.) Bremek. · Thailand · Ảnh: Naturalis Biodiversity Center / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/2515423175",
+      "giay_phep": "CC0",
+      "tac_gia": "Naturalis Biodiversity Center"
+    },
+    {
+      "file": "https://s3.amazonaws.com/huhspecimenimages/JPG/02634431.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Peristrophe baphica (Spreng.) Bremek. · Indonesia · Ảnh: President and Fellows of Harvard College / GBIF (Public Domain)",
+      "nguon": "https://www.gbif.org/occurrence/6147725433",
+      "giay_phep": "Public Domain",
+      "tac_gia": "President and Fellows of Harvard College"
+    }
+  ]
+}

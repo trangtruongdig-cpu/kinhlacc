@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Polygala fallax",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Polygala%20(812195617).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "NB. This image is not Gelsemium elegans. Appears to be Polygala fallax as seen in MacLehose Trail in Sai Kung · Ảnh: Geographer / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Polygala_(812195617).jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Geographer"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604831524/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Polygaloides chamaebuxus (L.) O.Schwarz · Italy · Ảnh: Codrin Bucur / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938027378",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Codrin Bucur"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605249289/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Senega paniculata (L.) J.F.B.Pastore & J.R.Abbott · Australia · Ảnh: Martin Rady / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938279261",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Martin Rady"
+    }
+  ]
+}

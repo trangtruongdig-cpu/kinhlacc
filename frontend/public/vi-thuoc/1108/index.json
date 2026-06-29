@@ -1,0 +1,26 @@
+{
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid"
+  ],
+  "images": [
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00215.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Fennel Fruit (Foeniculi Fructus · 小茴香) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00215",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00224.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Gardenia Fruit (Gardeniae Fructus · 梔子) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00224",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Hordeum vulgare",
+  "_bo_phan": "hạt đại mạch",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Champ%20d'Orge%20carr%C3%A9e%20(Hordeum%20vulgare).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Champ d'Orge carrée (Hordeum vulgare) à Monchecourt · Ảnh: JackyM59 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Champ_d%27Orge_carr%C3%A9e_(Hordeum_vulgare).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "JackyM59"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hordeum%20vulgare%20MHNT.BOT.2015.2.39.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Hordeum vulgare, seeds · Ảnh: Roger Culos / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hordeum_vulgare_MHNT.BOT.2015.2.39.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Roger Culos"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hordeum%20vulgare%20illustration%20(01b).png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Hordeum vulgare illustration from Icones et descriptiones Graminum austriacorum · https://www.biodiversitylibrary.org/item/9921#page/142/mode/1up Icones et descriptiones Graminum austriacorum Author: Host, Nikolaus Thomas Publisher: Vindobonae : A. Schmidt, 1801-1809. Background removed by uploader. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hordeum_vulgare_illustration_(01b).png",
+      "giay_phep": "Public domain",
+      "tac_gia": "https://www.biodiversitylibrary.org/item/9921#page/142/mode/1up Icones et descriptiones Graminum austriacorum Author: Host, Nikolaus Thomas Publisher: Vindobonae : A. Schmidt, 1801-1809. Background removed by uploader."
+    }
+  ]
+}

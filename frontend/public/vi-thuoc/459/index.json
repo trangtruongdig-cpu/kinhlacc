@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Allium tuberosum",
+  "_bo_phan": "hạt (hẹ)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Allium%20tuberosum%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Allium tuberosum in Wrocław University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Allium_tuberosum_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Allium%20tuberosum%20kz02.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Allium tuberosum in Wrocław University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Allium_tuberosum_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00187.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Tuber Onion Seed (Allii Tuberosi Semen · 韭菜子) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00187",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://images.ala.org.au/image/proxyImageThumbnailLarge?imageId=1d4d03c0-8f07-4681-855e-2e10ba8eb09a",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Allium tuberosum Rottler ex Spreng. · Australia · Ảnh: abread111 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6317938880",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "abread111"
+    },
+    {
+      "file": "https://images.ala.org.au/image/proxyImageThumbnailLarge?imageId=087d7b2c-8d0b-4f4f-a59b-e5879ea3f194",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Allium tuberosum Rottler ex Spreng. · Australia · Ảnh: abread111 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6317938880",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "abread111"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Allium%20sp%20Blanco1.87.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book — Allium tricoccum, trivial name: ramp, ramps, ramson, wild leek, wood leek, or wild garlic · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Allium_sp_Blanco1.87.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

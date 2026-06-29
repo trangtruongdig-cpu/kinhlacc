@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Siraitia grosvenorii",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Siraitia%20grosvenorii%20%E7%BE%85%E6%BC%A2%E6%9E%9C.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Siraitia grosvenorii · Ảnh: François Nguyen / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Siraitia_grosvenorii_%E7%BE%85%E6%BC%A2%E6%9E%9C.jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "François Nguyen"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dried%20Siraitia%20grosvenorii%20(luohanguo)%20fruit%20(opened).jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Opened Siraitia grosvenorii (luohanguo) fruit, dried. · Ảnh: Kanashimi / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dried_Siraitia_grosvenorii_(luohanguo)_fruit_(opened).jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Kanashimi"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00231.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Lohanguo Siraitia Fruit (Siraitiae Fructus · 羅漢果) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00231",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://collections.nmnh.si.edu/media/?i=17195254&h=2000",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Siraitia grosvenorii (Swingle) C.Jeffrey ex A.M.Lu & Zhi Y.Zhang · China · Ảnh: J. Wen, M. Appelhans, L. Ang & J. Luo / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6341076394",
+      "giay_phep": "CC0",
+      "tac_gia": "J. Wen, M. Appelhans, L. Ang & J. Luo"
+    },
+    {
+      "file": "https://d2jcv3kl45hlgi.cloudfront.net/186c923f03cdff64f23e70dde74313cb.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Momordica grosvenorii Swingle · China · Ảnh: Leon, C.J.; Pearman, G.; Yu-Lin, L. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5836641519",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Leon, C.J.; Pearman, G.; Yu-Lin, L."
+    }
+  ]
+}

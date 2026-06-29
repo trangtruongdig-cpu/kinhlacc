@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Notholirion bulbuliferum",
+  "_bo_phan": "vảy hành",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Whf%20pink%2010.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Notholirion, maybe N. thomsonianum or N. bulbuliferum. 3300 m, July, near Tengboche, Khumbu region, Nepal · Ảnh: Woudloper / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Whf_pink_10.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Woudloper"
+    },
+    {
+      "file": "https://s3.amazonaws.com/huhspecimenimages/JPG/00311713.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Notholirion bulbuliferum (Lingelsh.) Stearn · China · Ảnh: President and Fellows of Harvard College / GBIF (Public Domain)",
+      "nguon": "https://www.gbif.org/occurrence/1998481939",
+      "giay_phep": "Public Domain",
+      "tac_gia": "President and Fellows of Harvard College"
+    },
+    {
+      "file": "https://s3.amazonaws.com/huhspecimenimages/JPG/00311714.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Notholirion bulbuliferum (Lingelsh.) Stearn · China · Ảnh: President and Fellows of Harvard College / GBIF (Public Domain)",
+      "nguon": "https://www.gbif.org/occurrence/1998481939",
+      "giay_phep": "Public Domain",
+      "tac_gia": "President and Fellows of Harvard College"
+    }
+  ]
+}

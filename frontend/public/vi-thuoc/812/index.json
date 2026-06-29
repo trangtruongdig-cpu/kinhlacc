@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Prunus mume",
+  "_bo_phan": "hoa",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Prunus%20mume%20single%20leaf%20-%20HLABG.png?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Single leaf from a Prunus Mume 'Shiro Kaga'. On display at the Huntington Botanical Garden, San Marino, California, USA. · Ảnh: Eric Polk / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Prunus_mume_single_leaf_-_HLABG.png",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Eric Polk"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Prunus%20mume%20-%20Kunming%20Botanical%20Garden%20-%20DSC02922.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Plant specimen in the Kunming Botanical Garden, Kunming, Yunnan, China. · Ảnh: Daderot / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Prunus_mume_-_Kunming_Botanical_Garden_-_DSC02922.JPG",
+      "giay_phep": "Public domain",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/7402048c5d2cdaf4c1ef7ae0f36f6d499e1f4b6d",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Prunus mume (Siebold) Siebold & Zucc. · Chinese Taipei · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110516177",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/2639543e6d2f578f3abf2e31ea916e24ec22adf6",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Prunus mume (Siebold) Siebold & Zucc. · Hong Kong · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110303992",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/173122050/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Prunus mume · quan sát thực địa · (c) Richard Littauer, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/173122050",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Richard Littauer, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Prunus%20mume%20SZ11.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Philipp Franz von Siebold and Joseph Gerhard Zuccarini / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Prunus_mume_SZ11.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Philipp Franz von Siebold and Joseph Gerhard Zuccarini"
+    }
+  ]
+}

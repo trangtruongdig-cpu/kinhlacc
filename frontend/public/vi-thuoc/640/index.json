@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao + cmmid",
+  "_sci": "Citrus reticulata",
+  "_bo_phan": "vỏ ngoài quả",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Mandarin%20Oranges%20(Citrus%20Reticulata).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Mandarin oranges (Citrus Reticulata). · Ảnh: Joe Ravi / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Mandarin_Oranges_(Citrus_Reticulata).jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Joe Ravi"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Mandarinier%20Gortyne.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Mandarine tree with fruits (Citrus reticulata), in Gortys, Crete, Greece. · Ảnh: Jebulon / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Mandarinier_Gortyne.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Jebulon"
+    },
+    {
+      "file": "https://storage.googleapis.com/blaast-spel.appspot.com/observation/nSblsoLj93g3RE9bjV7GDIvp4eD2/ce1HZpg4R2ZBAmrYStW9/ccb418b8-ecd8-47aa-aac3-5e2bc7767708_500x500.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Citrus reticulata Blanco · Norway · Ảnh: Deividas / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5294443388",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Deividas"
+    },
+    {
+      "file": "https://indiabiodiversity.org/biodiv/observations//7ec88574-42be-4e51-b037-e71209314f22/8e9c1ec52acd4238a117b6ca5342c4c0.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Citrus reticulata Blanco · India · Ảnh: Aanisha Satapathy / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4866468972",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Aanisha Satapathy"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00200.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Immature Tangerine Fruit (Citri Reticulatae Pericarpium Viride · 青皮) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00200",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

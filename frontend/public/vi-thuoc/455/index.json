@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Arisaema erubescens",
+  "_bo_phan": "thân rễ (đã chế)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Arisaema%20erubescens%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Arisaema erubescens in Wrocław University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Arisaema_erubescens_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Arisaema%20erubescens%20Arizema%202016-07-23%2002.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Arisaema erubescens infructescence, plant cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Arisaema_erubescens_Arizema_2016-07-23_02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://s3.amazonaws.com/huhspecimenimages/JPG/00421409.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Arisaema erubescens (Wall.) Schott · China · Ảnh: President and Fellows of Harvard College / GBIF (Public Domain)",
+      "nguon": "https://www.gbif.org/occurrence/1999142883",
+      "giay_phep": "Public Domain",
+      "tac_gia": "President and Fellows of Harvard College"
+    },
+    {
+      "file": "https://s3.amazonaws.com/huhspecimenimages/JPG/00421409_a.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Arisaema erubescens (Wall.) Schott · China · Ảnh: President and Fellows of Harvard College / GBIF (Public Domain)",
+      "nguon": "https://www.gbif.org/occurrence/1999142883",
+      "giay_phep": "Public Domain",
+      "tac_gia": "President and Fellows of Harvard College"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/65832478/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Arisaema erubescens · ảnh đại diện · (c) desertnaturalist, some rights reserved (CC BY), uploaded by desertnaturalist (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/65832478",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) desertnaturalist, some rights reserved (CC BY), uploaded by desertnaturalist"
+    }
+  ]
+}

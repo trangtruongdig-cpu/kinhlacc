@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Piper kadsura",
+  "_bo_phan": "thân dây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Piper%20kadsura%20(leaf%20s2).jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Piper kadsura in Mount Mankan, Shizuoka Prefecture, Japan. · Ảnh: Alpsdake / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Piper_kadsura_(leaf_s2).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Alpsdake"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Piper%20kadsura%20(leaf).jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Piper kadsura in Tahara, Aichi Prefecture, Japan. · Ảnh: Alpsdake / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Piper_kadsura_(leaf).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Alpsdake"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/607662138/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Piper kadsura (Choisy) Ohwi · Chinese Taipei · Ảnh: 五色鳥 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6129967450",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "五色鳥"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608597726/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Piper kadsura (Choisy) Ohwi · Chinese Taipei · Ảnh: 五色鳥 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6131228430",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "五色鳥"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/5979569/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Piper kadsura · ảnh đại diện · (c) Alpsdake, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/5979569",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Alpsdake, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/256601022/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Piper kadsura · quan sát thực địa · (c) 岸本年郎, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/256601022",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 岸本年郎, some rights reserved (CC BY)"
+    }
+  ]
+}

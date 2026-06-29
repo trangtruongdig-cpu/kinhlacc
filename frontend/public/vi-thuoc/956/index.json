@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao + cmmid",
+  "_sci": "Severinia buxifolia",
+  "_bo_phan": "Rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Severinia%20buxifolia%2011zz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location taken: Fairchild Tropical Botanic Garden, Miami, FL USA. Names: Atalantia buxifolia (Poir.) Oliv., Chinese Boxorang Classification: Plantae &gt; Magnol · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Severinia_buxifolia_11zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Severinia%20buxifolia%2012zz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location taken: Fairchild Tropical Botanic Garden, Miami, FL USA. Names: Atalantia buxifolia (Poir.) Oliv., Chinese Boxorang Classification: Plantae &gt; Magnol · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Severinia_buxifolia_12zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "https://media01.symbiota.org/media/cnh/UniversityofNewHampshire_NHA/NHA-523/NHA-523730.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Severinia buxifolia (Poir.) Ten. · United States of America · Ảnh: Albion Hodgdon Herbarium, University of New Hampshire / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5067997131",
+      "giay_phep": "CC0",
+      "tac_gia": "Albion Hodgdon Herbarium, University of New Hampshire"
+    },
+    {
+      "file": "https://oxalis.br.fgov.be/images/BR0/000/023/385/382/BR0000023385382.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Severinia buxifolia (Poir.) Ten. · Ảnh: Meise Botanic Garden / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4072715780",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Meise Botanic Garden"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00200.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Immature Tangerine Fruit (Citri Reticulatae Pericarpium Viride · 青皮) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00200",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Crataegus pinnatifida",
+  "_bo_phan": "quả sơn tra (sao thán)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Crataegus%20pinnatifida%20v.%20pubescens%20leaves.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Photo taken at Gothenburg botanical garden. Specimen id: 1983-38f W Collected in 1983 from the wild (Kwanak). · Ảnh: Averater / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Crataegus_pinnatifida_v._pubescens_leaves.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Averater"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Crataegus%20pinnatifida%20v.%20pubescens.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Photo taken at Gothenburg botanical garden. Specimen id: 1983-38f W Collected in 1983 from the wild (Kwanak). · Ảnh: Averater / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Crataegus_pinnatifida_v._pubescens.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Averater"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/670183206/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Crataegus pinnatifida Bunge · Russian Federation · Ảnh: Tatyana Petrenko / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6352688665",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Tatyana Petrenko"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/674251493/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Crataegus pinnatifida Bunge · Russian Federation · Ảnh: Tatyana Petrenko / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6398757669",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Tatyana Petrenko"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/349733825/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Crataegus pinnatifida · quan sát thực địa · (c) Andrew Bazdyrev, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/349733825",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Andrew Bazdyrev, some rights reserved (CC BY)"
+    }
+  ]
+}

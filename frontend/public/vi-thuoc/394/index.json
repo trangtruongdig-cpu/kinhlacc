@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Ophiopogon japonicus",
+  "_bo_phan": "rễ củ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ophiopogon%20japonicus%20Nanus%200zz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location taken: American Plant Food Company, 7405 River Road, Bethesda MD.. Names: Ophiopogon japonicus 'Nanus' , Dwarf Mondo Gras Classification: Plantae &gt;  · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ophiopogon_japonicus_Nanus_0zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ophiopogon%20japonicus%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Ophiopogon japonicus in Botanical Garden of PBA Institute in Bydgoszcz · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ophiopogon_japonicus_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00084.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Dwarf Lilyturf Root Tuber (Ophiopogonis Radix · 麥冬) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00084",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/612008109/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ophiopogon japonicus (Thunb.) Ker Gawl. · United States of America · Ảnh: John Thomlinson / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6133575017",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "John Thomlinson"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/620452498/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ophiopogon japonicus (Thunb.) Ker Gawl. · Japan · Ảnh: りなべる / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6185007182",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "りなべる"
+    }
+  ]
+}

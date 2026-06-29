@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao + cmmid",
+  "_sci": "Hemerocallis middendorffii",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hemerocallis%20Middendorffii%202zz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location taken: American Plant Food Company, 7405 River Road, Bethesda MD.. Names: Hemerocallis'Middendorffii' , Middendorf Daylil Classification: Plantae &gt;  · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hemerocallis_Middendorffii_2zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hemerocallis%20middendorffii%20Liliowiec%20Middendorffa%202020-07-10%2003.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Amur daylily (Hemerocallis middendorffii) fruit and seeds, plant cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hemerocallis_middendorffii_Liliowiec_Middendorffa_2020-07-10_03.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/657776464/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hemerocallis middendorffii Trautv. & C.A.Mey. · Russian Federation · Ảnh: Svyatoslav Knyazev / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6273944330",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Svyatoslav Knyazev"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/670183409/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hemerocallis middendorffii Trautv. & C.A.Mey. · Russian Federation · Ảnh: Tatyana Petrenko / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6352624116",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Tatyana Petrenko"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00020.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Dan - shen Root (Salviae Miltiorrhizae Radix et Rhizoma · 丹參) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00020",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Rubus chingii",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Chinese%20drugs%20personified%3B%20Lithograph%2C%201935%20Wellcome%20L0039457.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Yaohui tukao(Illustrated Congregation of Drugs), published in 1935 (24th year of the Republic of China), presents the materia medica in dramatic form. It consis · Ảnh: Wikimedia Commons / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chinese_drugs_personified;_Lithograph,_1935_Wellcome_L0039457.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Wikimedia Commons"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00243.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Palmleaf Raspberry Fruit (Rubi Fructus · 覆盆子) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00243",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/467546900/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Rubus chingii Hu · China · Ảnh: 王天 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5087114954",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "王天"
+    }
+  ]
+}

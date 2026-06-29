@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Phyllostachys",
+  "_bo_phan": "nước cất từ thân tre",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Phyllostachys%20nigra%20Fred%20Hornaday.png?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Phyllostachys nigra, black bamboo, photographed at the Royal Botanical Gardens in Madrid, Spain. Fred Hornaday is an international bamboo consultant and founder · Ảnh: FredHornaday / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Phyllostachys_nigra_Fred_Hornaday.png",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "FredHornaday"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Phyllostachys%20Aureosulcata%20'Spectabilis%20-20200524-RM-073500.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Tip of a young bamboo shoot of Phyllostachys Aureosulcata 'Spectabilis · Ảnh: Ermell / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Phyllostachys_Aureosulcata_%27Spectabilis_-20200524-RM-073500.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ermell"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/1878%20Riviere%20Bull-Soc-Accl-Fr%20Phyllostachys-viridiglaucescens%20turion.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Turion (jeune pousse) de Phyllostachys viridiglaucescens · Courtin (dessin) &amp; Bisson (gravure) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:1878_Riviere_Bull-Soc-Accl-Fr_Phyllostachys-viridiglaucescens_turion.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Courtin (dessin) &amp; Bisson (gravure)"
+    }
+  ]
+}

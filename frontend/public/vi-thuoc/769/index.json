@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Berberis soulieana",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Berberis%20stenophylla%20'Carollina%20compacta'%203.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Berberis stenophylla 'Carollina Compacta' · Ảnh: Ghislain118 http://www.fleurs-des-montagnes.net / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Berberis_stenophylla_%27Carollina_compacta%27_3.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Ghislain118 http://www.fleurs-des-montagnes.net"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Berberis%20stenophylla%20a1.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Berberis x stenophylla · Ảnh: Jerzy Opioła / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Berberis_stenophylla_a1.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Jerzy Opioła"
+    },
+    {
+      "file": "https://media.tepapa.govt.nz/collection/867749/preview",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Berberis soulieana C.K.Schneid. · New Zealand · Ảnh: Museum of New Zealand Te Papa Tongarewa / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4850285759",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Museum of New Zealand Te Papa Tongarewa"
+    },
+    {
+      "file": "https://media.tepapa.govt.nz/collection/867760/preview",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Berberis soulieana C.K.Schneid. · New Zealand · Ảnh: Museum of New Zealand Te Papa Tongarewa / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4850285759",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Museum of New Zealand Te Papa Tongarewa"
+    }
+  ]
+}

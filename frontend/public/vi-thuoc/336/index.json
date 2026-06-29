@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Arnebia euchroma",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Arnebia%20euchroma%20(Flora%20of%20Tajikistan).png?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Arnebia euchroma, Tajikistan · Ảnh: Arkadiusz Nowak, Marcin Nobis, Sylwia Nowak, Agnieszka Nobis, Anna Wróbel, Sebastian Świerszcz, Ewelina Klichowska, Iwona Dembicz &amp; Grzegorz Kusza / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Arnebia_euchroma_(Flora_of_Tajikistan).png",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Arkadiusz Nowak, Marcin Nobis, Sylwia Nowak, Agnieszka Nobis, Anna Wróbel, Sebastian Świerszcz, Ewelina Klichowska, Iwona Dembicz &amp; Grzegorz Kusza"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00127.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Redroot Gromwell (Arnebiae Radix · 紫草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00127",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/440270446/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Arnebia euchroma (Royle ex Benth.) I.M.Johnst. · India · Ảnh: Sagnik Dutta Roy / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5062819238",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Sagnik Dutta Roy"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/440270406/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Arnebia euchroma (Royle ex Benth.) I.M.Johnst. · India · Ảnh: Sagnik Dutta Roy / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5062819238",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Sagnik Dutta Roy"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Croton tiglium",
+  "_bo_phan": "quả chín",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Jamalgota-Croton-Tiglium-Fruits%2003.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "It is Croton Tiglium plant plant (also called Jamalgota plant). · Ảnh: Ayur Times / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Jamalgota-Croton-Tiglium-Fruits_03.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ayur Times"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Jamalgota-Croton-Tiglium-Fruits%2002.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "It is Croton Tiglium plant plant (also called Jamalgota plant). · Ảnh: Ayurtimes / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Jamalgota-Croton-Tiglium-Fruits_02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ayurtimes"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00238.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Purging Croton Seed (Crotonis Fructus · 巴豆) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00238",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/4af59fe645c0fbb29c2c797fbec6ac9e82e50f3f",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Croton tiglium L. · China · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/2645779713",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/a7b2938f4b4677a19abd312b39355ef1de5cbf65",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Croton tiglium L. · China · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/2645779713",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Croton%20tiglium%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-197.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Croton tiglium. · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Croton_tiglium_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-197.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

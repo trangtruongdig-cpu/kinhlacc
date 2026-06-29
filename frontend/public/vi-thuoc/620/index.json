@@ -1,0 +1,77 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Plantago major",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Plantago%20major%20-%20whole%20plant%20(18440737953).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Broadleaf plantain. For more information on identification and control, visit &lt;a href=\"http://turfweeds.cals.cornell.edu/plant/identify/226\" rel=\"nofollow\"&g · Ảnh: NY State IPM Program at Cornell University from New York, USA / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Plantago_major_-_whole_plant_(18440737953).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "NY State IPM Program at Cornell University from New York, USA"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Plantago%20major%20'Rubrifolia'%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Plantago major 'Rubrifolia' in Wrocław University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Plantago_major_%27Rubrifolia%27_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00262.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Asiatic Plantain Herb (Plantaginis Herba · 車前草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00262",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604469331/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Plantago major L. · Portugal · Ảnh: Duarte Frade / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938506705",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Duarte Frade"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604469302/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Plantago major L. · Portugal · Ảnh: Duarte Frade / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938506705",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Duarte Frade"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/96609861/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Plantago major · quan sát thực địa · (c) Юлия, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/96609861",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Юлия, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/96609869/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Plantago major · quan sát thực địa · (c) Юлия, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/96609869",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Юлия, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Plantago%20major%20-%20Diagramma%20fiorale.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plantago major - Diagramma fiorale · Gustav Fischer / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Plantago_major_-_Diagramma_fiorale.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Gustav Fischer"
+    }
+  ]
+}

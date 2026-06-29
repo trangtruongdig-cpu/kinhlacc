@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Fibraurea tinctoria",
+  "_bo_phan": "thân, cành",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Fibraurea%20tinctoria%20232557342.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Fibraurea tinctoria · Ảnh: Caleb Catto / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Fibraurea_tinctoria_232557342.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Caleb Catto"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Fibraurea%20tinctoria%20186873029.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Fibraurea tinctoria · Ảnh: Samuel Lee / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Fibraurea_tinctoria_186873029.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Samuel Lee"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/256590045/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Fibraurea tinctoria Lour. · Singapore · Ảnh: pbsg / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4171736670",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "pbsg"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/287456175/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Fibraurea tinctoria Lour. · Singapore · Ảnh: Samuel Lee / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4133719840",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Samuel Lee"
+    }
+  ]
+}

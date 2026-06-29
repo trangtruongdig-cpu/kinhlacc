@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Costazia",
+  "_bo_phan": "khoáng (xương xốp biển)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Costazia%20costazi.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Costazia costazi · Ảnh: Wikimedia Commons / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Costazia_costazi.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Wikimedia Commons"
+    },
+    {
+      "file": "https://data.nhm.ac.uk/media/7b37940f-4ea9-4fd9-815c-8a8927463311",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Costazia Neviani, 1895 · Japan · Ảnh: GBIF contributor / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/1055862517",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://data.nhm.ac.uk/media/39edaba6-bafd-495e-b009-b2f22273e057",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Costazia Neviani, 1895 · Mauritius · Ảnh: GBIF contributor / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/1055869060",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/450146585/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Celleporina robertsoniae · quan sát thực địa · (c) Benny Albro, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/450146585",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Benny Albro, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/450146567/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Celleporina robertsoniae · quan sát thực địa · (c) Benny Albro, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/450146567",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Benny Albro, some rights reserved (CC BY)"
+    }
+  ]
+}

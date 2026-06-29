@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Bombyx mori",
+  "_bo_phan": "tằm khô (chết bởi nấm)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Bombyx%20mori%20Morus%20Zetarra%20marugatze%20zuhaitzean1.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bombyx mori on Morus nigra plant. · Ảnh: Gorkaazk / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Bombyx_mori_Morus_Zetarra_marugatze_zuhaitzean1.JPG",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Gorkaazk"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Silkworm%20mulberry%20tree%20zetarra%20marugatze%20arbolean2.JPG?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Silkworm. Bombyx mori. Mulberry_tree. Morus (plant). · Ảnh: Gorkaazk / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Silkworm_mulberry_tree_zetarra_marugatze_arbolean2.JPG",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Gorkaazk"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00379.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Stiff Silkworm (Bombyx Batryticatus · 僵蠶) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00379",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://indiabiodiversity.org/biodiv/observations//6e4a97f2-43ed-4237-a409-6ce0e3215dce/00c50b29f5d04a83b9ba0490ecf3256b.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Bombyx mori Linnaeus, 1758 · India · Ảnh: NAGABHUSHAN JYOTHI / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4866465488",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "NAGABHUSHAN JYOTHI"
+    },
+    {
+      "file": "https://indiabiodiversity.org/biodiv/observations//0652af19-7a52-4150-8925-78b806a6305a/6110c35a4576489188b49be7ffb03b17.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Bombyx mori Linnaeus, 1758 · India · Ảnh: NAGABHUSHAN JYOTHI / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4866473452",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "NAGABHUSHAN JYOTHI"
+    }
+  ]
+}

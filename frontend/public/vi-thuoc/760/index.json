@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Achillea alpina",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Achillea%20millefolium%20(leaf).jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Achillea millefolium, in Mount Ibuki, Maibara, Shiga prefecure, Japan. · Ảnh: Alpsdake / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Achillea_millefolium_(leaf).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Alpsdake"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Achillea%20millefolium%20(leaf%20s2).jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Achillea millefolium, in Mount Ibuki, Maibara, Shiga prefecure, Japan. · Ảnh: Alpsdake / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Achillea_millefolium_(leaf_s2).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Alpsdake"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/662487945/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Achillea alpina L. · Canada · Ảnh: Alex Baxter / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6333904738",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Alex Baxter"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/672889669/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Achillea alpina L. · Canada · Ảnh: Arthur Whiting / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6400954528",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Arthur Whiting"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Achillea%20alpina%2C%20achillea%20lingulata.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "achillea alpina, achillea lingulata · artvintage1800s.etsy.com / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Achillea_alpina,_achillea_lingulata.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "artvintage1800s.etsy.com"
+    }
+  ]
+}

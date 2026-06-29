@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Clematis chinensis",
+  "_bo_phan": "rễ và thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Clematis%20recta%20Powojnik%20prosty%202021-10-02%2003.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Clematis recta fruits, plant cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Clematis_recta_Powojnik_prosty_2021-10-02_03.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E5%A8%81%E9%9D%88%E4%BB%99%20Clematis%20chinensis%20-%E9%A6%99%E6%B8%AF%E5%A4%AA%E5%B9%B3%E5%B1%B1%20Victoria%20Peak%2C%20Hong%20Kong-%20(9227101063).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "威靈仙 Clematis chinensis [香港太平山 Victoria Peak, Hong Kong] · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E5%A8%81%E9%9D%88%E4%BB%99_Clematis_chinensis_-%E9%A6%99%E6%B8%AF%E5%A4%AA%E5%B9%B3%E5%B1%B1_Victoria_Peak,_Hong_Kong-_(9227101063).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00131.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Chinese Clematis Root and Rhizome (Clematidis Radix et Rhizoma · 威靈仙) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00131",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/469313460/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Clematis chinensis var. tatushanensis T.Y.A.Yang · Chinese Taipei · Ảnh: 葉子 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5064129401",
+      "giay_phep": "CC0",
+      "tac_gia": "葉子"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/469313469/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Clematis chinensis var. tatushanensis T.Y.A.Yang · Chinese Taipei · Ảnh: 葉子 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5064129401",
+      "giay_phep": "CC0",
+      "tac_gia": "葉子"
+    }
+  ]
+}

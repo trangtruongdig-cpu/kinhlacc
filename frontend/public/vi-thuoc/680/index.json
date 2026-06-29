@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Pterocephalus hookeri",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Scabiosa%20hookeri%20144-8774.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Scabiosa hookeri (= Pterocephalus hookeri), Dipsacaceae · Ảnh: M.S. del., J.N.Fitch lith. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Scabiosa_hookeri_144-8774.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "M.S. del., J.N.Fitch lith."
+    },
+    {
+      "file": "https://ibss-images.calacademy.org/static/botany/originals/d6/0e/d60ebc7f-cbb3-47bc-aa8c-62a0fe8a6f76.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Pterocephalus hookeri (C.B.Clarke) E.Pritz. · China · Ảnh: Boufford, D. E.; Bartholomew, Bruce; GUO, Jianling; Harber, Julian F. / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6366635906",
+      "giay_phep": "CC0",
+      "tac_gia": "Boufford, D. E.; Bartholomew, Bruce; GUO, Jianling; Harber, Julian F."
+    },
+    {
+      "file": "https://ibss-images.calacademy.org/static/botany/originals/d0/60/d060fa88-f0aa-45d0-b428-f91eca913403.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Pterocephalus hookeri (C.B.Clarke) E.Pritz. · China · Ảnh: Boufford, D. E.; Bartholomew, Bruce; GUO, Jianling; Harber, Julian F. / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6366646405",
+      "giay_phep": "CC0",
+      "tac_gia": "Boufford, D. E.; Bartholomew, Bruce; GUO, Jianling; Harber, Julian F."
+    }
+  ]
+}

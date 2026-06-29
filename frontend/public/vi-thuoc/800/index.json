@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Daucus carota",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Daucus%20carota%20subsp.%20carota%20sl8.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Stem with leaf Taxonym: Daucus carota subsp. carota ss Fischer et al. EfÖLS 2008 ISBN 978-3-85474-187-9 Location: Steinberg near Niederhollabrunn, district Korn · Ảnh: Stefan.lefnaer / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Daucus_carota_subsp._carota_sl8.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Stefan.lefnaer"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Daucus%20carota%20subsp.%20carota%20sl10.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Stem with leaf Taxonym: Daucus carota subsp. carota ss Fischer et al. EfÖLS 2008 ISBN 978-3-85474-187-9 Location: Steinberg near Niederhollabrunn, district Korn · Ảnh: Stefan.lefnaer / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Daucus_carota_subsp._carota_sl10.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Stefan.lefnaer"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00237.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Wild Carrot Fruit (Carotae Fructus · 南鶴虱) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00237",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605366692/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Daucus carota L. · United Kingdom of Great Britain and Northern Ireland · Ảnh: Karen Fry / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938173442",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Karen Fry"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605366725/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Daucus carota L. · United Kingdom of Great Britain and Northern Ireland · Ảnh: Karen Fry / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938173442",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Karen Fry"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Daucus%20carota%20Sturm12033.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Daucus carota L. Original Description Echte Möhre, Daucus carota · Johann Georg Sturm (Painter: Jacob Sturm) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Daucus_carota_Sturm12033.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Johann Georg Sturm (Painter: Jacob Sturm)"
+    }
+  ]
+}

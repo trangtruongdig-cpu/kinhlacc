@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Gleditsia sinensis",
+  "_bo_phan": "gai",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Gleditsia%20sinensis%20-%20Chengdu%20Botanical%20Garden%20-%20Chengdu%2C%20China%20-%20DSC03477.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Botanical specimen in the Chengdu Botanical Garden - Chengdu, China. · Ảnh: Daderot / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Gleditsia_sinensis_-_Chengdu_Botanical_Garden_-_Chengdu,_China_-_DSC03477.JPG",
+      "giay_phep": "CC0",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Gleditsia%20macracantha%20kz02.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Gleditsia macracantha in botanical garden of the Bulgarian Academy of Sciences · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Gleditsia_macracantha_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00151.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Chinese Honeylocust Spine (Gleditsiae Spina · 皂角刺) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00151",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/ab84fc7fe0538cdae4f086e6043b849dbbe0bc9f",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Gleditsia sinensis Lam. · India · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110501433",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/41894175/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Gleditsia sinensis Lam. · China · Ảnh: Marco Mussita / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/2980986338",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Marco Mussita"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Arboretum%20et%20fruticetum%20Britannicum-%20or%2C%20the%20trees%20and%20shrubs%20of%20Britain%20-%20DPLA%20-%20f01785c97d7746e7c41d20a79b077f88%20(page%20107).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Arboretum et fruticetum Britannicum- or, the trees and shrubs of Britain - DPLA - f01785c97d7746e7c41d20a79b077f88 (page 107) · Loudon, J. C., (John Claudius), 1783-1843, author; Longman, Orme, Brown, Green, and Longmans, publisher / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Arboretum_et_fruticetum_Britannicum-_or,_the_trees_and_shrubs_of_Britain_-_DPLA_-_f01785c97d7746e7c41d20a79b077f88_(page_107).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Loudon, J. C., (John Claudius), 1783-1843, author; Longman, Orme, Brown, Green, and Longmans, publisher"
+    }
+  ]
+}

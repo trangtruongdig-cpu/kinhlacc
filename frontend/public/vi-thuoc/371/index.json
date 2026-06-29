@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Lophatherum gracile",
+  "_bo_phan": "lá và thân",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Lophatherum%20gracile%20(10.3897-zookeys.716.20952)%20Figure%201.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Figure 1; Lophatherum gracile, host plant of Asprothrips atermaculosus sp. n. · Ảnh: Wang Z, Tong X (2017) Variation in colour markings of an unusual new Asprothrips species from China (Thysanoptera, Thripidae). ZooKeys 716: 19-28. https://doi.org/10.3897/zookeys.716.20952 / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lophatherum_gracile_(10.3897-zookeys.716.20952)_Figure_1.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Wang Z, Tong X (2017) Variation in colour markings of an unusual new Asprothrips species from China (Thysanoptera, Thripidae). ZooKeys 716: 19-28. https://doi.org/10.3897/zookeys.716.20952"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E6%B7%A1%E7%AB%B9%E8%91%89%20Lophatherum%20gracile%20-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92%20Hong%20Kong%20Botanical%20Garden-%20(9222671532).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "淡竹葉 Lophatherum gracile [香港動植物公園 Hong Kong Botanical Garden] · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E6%B7%A1%E7%AB%B9%E8%91%89_Lophatherum_gracile_-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92_Hong_Kong_Botanical_Garden-_(9222671532).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00267.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Lophatherum Herb (Lophatheri Herba · 淡竹葉) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00267",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/628401688/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lophatherum gracile Brongn. · Chinese Taipei · Ảnh: chiuluan / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6184739365",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "chiuluan"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/628401582/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lophatherum gracile Brongn. · Chinese Taipei · Ảnh: chiuluan / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6184786574",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "chiuluan"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/21772753/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Lophatherum gracile · ảnh đại diện · (c) Cheng-Tao Lin, some rights reserved (CC BY), uploaded by Cheng-Tao Lin (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/21772753",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Cheng-Tao Lin, some rights reserved (CC BY), uploaded by Cheng-Tao Lin"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/21772760/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Lophatherum gracile · quan sát thực địa · (c) Cheng-Tao Lin, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/21772760",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Cheng-Tao Lin, some rights reserved (CC BY)"
+    }
+  ]
+}

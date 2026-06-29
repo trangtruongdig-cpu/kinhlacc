@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Panthera tigris",
+  "_bo_phan": "xương hổ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Panthera%20tigris%20altaica%2013%20-%20Buffalo%20Zoo.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Amur tiger (Panthera tigris altaica) at the Buffalo Zoo. One of the cubs Thyme and Warner, with its mother Sungari. The cubs were born at the zoo to Sungari, an · Ảnh: Dave Pape / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Panthera_tigris_altaica_13_-_Buffalo_Zoo.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Dave Pape"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Stamp%20of%20Indonesia%20-%202007%20-%20Colnect%20384842%20-%20Tiger%20Panthera%20tigris%20Sheep%20Ovis%20ammon%20aries%20Rafflesia.jpeg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Stamp · Ảnh: Post of Indonesia / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Stamp_of_Indonesia_-_2007_-_Colnect_384842_-_Tiger_Panthera_tigris_Sheep_Ovis_ammon_aries_Rafflesia.jpeg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Post of Indonesia"
+    },
+    {
+      "file": "https://zenodo.org/records/18923778/files/f7e33c75-e487-44bf-9dbc-3a7fb9153ebe_1768792230.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Panthera tigris (Linnaeus, 1758) · India · Ảnh: Ahirbudhnyan M / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6168473706",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Ahirbudhnyan M"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/622360935/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Panthera tigris tigris (Linnaeus, 1758) · India · Ảnh: Кирилл / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6178490117",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Кирилл"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hume%20bookplate.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Bookplate of Allan Octavian Hume (d. 1912) - motto - Industria et Perseverantia - from a book in the library of the South London Botanical Institute,  · Shyamal / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hume_bookplate.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Shyamal"
+    }
+  ]
+}

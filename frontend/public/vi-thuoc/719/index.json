@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Firmiana simplex",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/20250501%20Firmiana%20simplex.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "A Chinese parasol tree (Firmiana simplex) in the Botanical Garden of the University of Vienna. · Ảnh: Flocci Nivis / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:20250501_Firmiana_simplex.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Flocci Nivis"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Firmiana%20simplex%20kz1.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Firmiana simplex in botanical garden in Batumi · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Firmiana_simplex_kz1.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/639943990/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Firmiana simplex (L.) W.Wight · Chinese Taipei · Ảnh: Rick Chou / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6235286753",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Rick Chou"
+    }
+  ]
+}

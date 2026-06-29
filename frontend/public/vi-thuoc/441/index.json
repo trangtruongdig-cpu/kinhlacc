@@ -1,0 +1,21 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Amomum kravanh",
+  "_bo_phan": "hạt",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Thai%20cardamom.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Siam cardamom, Thai cardamom, round cardamom (Amomum kravanh) · Ảnh: Susan Slater / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Thai_cardamom.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Susan Slater"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

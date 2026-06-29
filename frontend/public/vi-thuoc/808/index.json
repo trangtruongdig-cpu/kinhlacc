@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Artemisia japonica",
+  "_bo_phan": "toàn cây",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Artemisia%20japonica%20kz1.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Artemisia japonica in Warsaw University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Artemisia_japonica_kz1.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Farm%20and%20garden%20annual%20(16201207860).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": ") ^A.CURRIE &amp; CT cV«S!Le i=. r^ ^A^iNTT .^ HARDY PERENNIAL PLANTS Add for Postage if Ordered by Parcel Post. i! Antheuiis Tinetoria. AaUILEGIA (Columbine).  · Ảnh: A. Currie &amp; Company.; Henry G. Gilbert Nursery and Seed Trade Catalog Collection. / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Farm_and_garden_annual_(16201207860).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "A. Currie &amp; Company.; Henry G. Gilbert Nursery and Seed Trade Catalog Collection."
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

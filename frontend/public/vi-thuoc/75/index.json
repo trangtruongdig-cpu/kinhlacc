@@ -1,30 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Ophiopogon japonicus",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "rễ củ",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Bụi cây Mạch Môn mọc trên đất, lá hẹp dài hình dải xanh đậm túm thành khóm · Ảnh: James Steakley / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Ophiopogon_japonicus_(DITSL).JPG",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "James Steakley"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Lá",
-      "mo_ta": "Lá Mạch Môn xanh, hẹp dài giống cỏ, mọc dày thành thảm · Ảnh: Loadmaster (David R. Tribble) This image was made by Loadmaster (David R. Tribble) . Email the author: David R. Tribble Also see my personal gallery at Google Photos / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:MonkeyGrass-3001.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Loadmaster (David R. Tribble) This image was made by Loadmaster (David R. Tribble) . Email the author: David R. Tribble Also see my personal gallery at Google Photos"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Quả / hạt",
-      "mo_ta": "Quả Mạch Môn chín màu xanh lam mọng, mọc thành chùm giữa các lá · Ảnh: harum.koh from Kobe city, Japan / Wikimedia Commons (CC BY-SA 2.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Dwarf_Lily-turf_(Ophiopogon_japonicus)_(23843684941).jpg",
-      "giay_phep": "CC BY-SA 2.0",
-      "tac_gia": "harum.koh from Kobe city, Japan"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00084.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Dwarf Lilyturf Root Tuber (Ophiopogonis Radix · 麥冬) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00084",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Osmanthus fragrans",
+  "_bo_phan": "hoa",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Osmanthus%20fragrans%20kz2.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Osmanthus fragrans in botanical garden in Batumi · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Osmanthus_fragrans_kz2.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Osmanthus%20fragrans%20kz1.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Osmanthus fragrans in botanical garden in Batumi · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Osmanthus_fragrans_kz1.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/465969429/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Osmanthus fragrans Lour. · United States of America · Ảnh: Megan “Moe” Morelock / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5063389202",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Megan “Moe” Morelock"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/506319142/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Osmanthus fragrans · quan sát thực địa · (c) froggymum, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/506319142",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) froggymum, some rights reserved (CC BY)"
+    }
+  ]
+}

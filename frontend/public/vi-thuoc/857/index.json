@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Geum aleppicum",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Yellow%20Avens%20(Geum%20aleppicum)%205718.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Ísland, Akureyri Botanical Gardens: Yellow_Avens_(Geum_aleppicum) · Ảnh: Hedwig Storch / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Yellow_Avens_(Geum_aleppicum)_5718.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Hedwig Storch"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E8%B7%AF%E9%82%8A%E9%9D%92%20Geum%20aleppicum%20-%E6%9D%AD%E5%B7%9E%E6%A4%8D%E7%89%A9%E5%9C%92%20Hangzhou%20Botanical%20Garden%2C%20China-%20(18006765375).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "路邊青 Geum aleppicum [杭州植物園 Hangzhou Botanical Garden, China] · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E8%B7%AF%E9%82%8A%E9%9D%92_Geum_aleppicum_-%E6%9D%AD%E5%B7%9E%E6%A4%8D%E7%89%A9%E5%9C%92_Hangzhou_Botanical_Garden,_China-_(18006765375).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/646871485/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Geum aleppicum Jacq. · Russian Federation · Ảnh: Алёна Осипова / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6234751294",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Алёна Осипова"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Wild%20flowers%20east%20of%20the%20Rockies%20(Page%20160)%20(8229883195).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "A. CREEPING DALIBARDA. Dalibarda repens. B. YELLOW AVENS. Geum strictum. · Reed, Chester A. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Wild_flowers_east_of_the_Rockies_(Page_160)_(8229883195).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Reed, Chester A."
+    }
+  ]
+}

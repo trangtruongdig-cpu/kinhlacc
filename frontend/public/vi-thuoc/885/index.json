@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao + cmmid",
+  "_sci": "Croton crassifolius",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E9%9B%9E%E9%AA%A8%E9%A6%99%20Croton%20crassifolius%20-%E9%A6%99%E6%B8%AF%E8%A5%BF%E8%B2%A2%E7%8D%85%E5%AD%90%E6%9C%83%E8%87%AA%E7%84%B6%E6%95%99%E8%82%B2%E4%B8%AD%E5%BF%83%20Saikung%2C%20Hong%20Kong-%20(9237503209).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "雞骨香 Croton crassifolius [香港西貢獅子會自然教育中心 Saikung, Hong Kong] · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E9%9B%9E%E9%AA%A8%E9%A6%99_Croton_crassifolius_-%E9%A6%99%E6%B8%AF%E8%A5%BF%E8%B2%A2%E7%8D%85%E5%AD%90%E6%9C%83%E8%87%AA%E7%84%B6%E6%95%99%E8%82%B2%E4%B8%AD%E5%BF%83_Saikung,_Hong_Kong-_(9237503209).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Croton%20crassifolius%2065174220.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Croton crassifolius · Ảnh: Cheng-Tao Lin / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Croton_crassifolius_65174220.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Cheng-Tao Lin"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/578053504/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Croton crassifolius Geiseler · Chinese Taipei · Ảnh: 曾昱承 Yu-Cheng Zeng / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5844094038",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "曾昱承 Yu-Cheng Zeng"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/578053377/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Croton crassifolius Geiseler · Chinese Taipei · Ảnh: 曾昱承 Yu-Cheng Zeng / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5844094038",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "曾昱承 Yu-Cheng Zeng"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00275.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Christina Loosestrife Herb (Lysimachiae Herba · 金錢草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00275",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

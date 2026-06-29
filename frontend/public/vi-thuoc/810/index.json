@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao + cmmid",
+  "_sci": "Jasminum sambac",
+  "_bo_phan": "hoa",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Jasminum%20sambac%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Jasminum sambac in PAN Botanical Garden in Warsaw · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Jasminum_sambac_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr%20080117-1708%20Jasminum%20sambac.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Jasminum sambac (habit). Location: Maui, Walmart Kahului · Ảnh: Forest &amp; Kim Starr / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr_080117-1708_Jasminum_sambac.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Forest &amp; Kim Starr"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Jasminum%20sambac%20Blanco1.6-cropped.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Jasminum_sambac_Blanco1.6-cropped.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00319.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Safflower (Carthami Flos · 紅花) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00319",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

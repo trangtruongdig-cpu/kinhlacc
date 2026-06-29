@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Psychotria serpens",
+  "_bo_phan": "Thân, cành mang lá",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Psychotria%20serpens%20siratamakzr01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Psychotria serpens：シラタマカズラ 2008/08/12 沖縄本島：Okinawa Island, Japan · Ảnh: Keisotyo / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Psychotria_serpens_siratamakzr01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Keisotyo"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Psychotria%20serpens.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "%u62CE%u58C1%u9F8D Psychotria serpens, L. · Ảnh: Shih-Shiuan Kao from Taipei, Taiwan / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Psychotria_serpens.jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Shih-Shiuan Kao from Taipei, Taiwan"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Lamiophlomis rotata",
+  "_bo_phan": "toàn cây (phần trên mặt đất)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Whf%20purple%2021.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "See User:Woudloper/Himalayan flora. Phlomoides rotata (= Lamiophlomis rotata, Phlomis rotata), 5000 m, July, near Lobuche, Khumbu region, Nepal · Ảnh: Woudloper / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Whf_purple_21.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Woudloper"
+    },
+    {
+      "file": "https://collections.nmnh.si.edu/media/?i=12546107&h=2000",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lamiophlomis rotata (Benth. ex Hook.f.) Kudô · China · Ảnh: Tibet-MacArthur, J. Wen, Z. Nie, L. Xie, Y. Niu, G. Li, F. Yang, S. Lutz & J. Van De Veire / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/1318349358",
+      "giay_phep": "CC0",
+      "tac_gia": "Tibet-MacArthur, J. Wen, Z. Nie, L. Xie, Y. Niu, G. Li, F. Yang, S. Lutz & J. Van De Veire"
+    },
+    {
+      "file": "https://collections.nmnh.si.edu/media/?i=12549744&h=2000",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lamiophlomis rotata (Benth. ex Hook.f.) Kudô · China · Ảnh: Tibet-MacArthur, J. Wen, Z. Nie, L. Xie, Y. Niu, G. Li, F. Yang, S. Lutz & J. Van De Veire / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/1320075658",
+      "giay_phep": "CC0",
+      "tac_gia": "Tibet-MacArthur, J. Wen, Z. Nie, L. Xie, Y. Niu, G. Li, F. Yang, S. Lutz & J. Van De Veire"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Polyporus umbellatus",
+  "_bo_phan": "nấm",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Polyporus%20umbellatus.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Eichhase · Ảnh: László Németh, Dr. / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Polyporus_umbellatus.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "László Németh, Dr."
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Polyporus%20squamosus%202013%20G1.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Immature bracket fungi Dryad's saddle Polyporus squamosus and beetles Diaperis boleti. Ukraine. · Ảnh: George Chernilevsky / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Polyporus_squamosus_2013_G1.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "George Chernilevsky"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00360.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Agaric (Polyporus · 豬苓) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00360",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/660745074/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Polyporus umbellatus (Pers.) Fr. · United States of America · Ảnh: Jessica Precht / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6320391851",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Jessica Precht"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/660745163/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Polyporus umbellatus (Pers.) Fr. · United States of America · Ảnh: Jessica Precht / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6320391851",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Jessica Precht"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/4931093/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Polyporus umbellatus · ảnh đại diện · (c) Katja Schulz, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/4931093",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Katja Schulz, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/4931089/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Polyporus umbellatus · quan sát thực địa · (c) Katja Schulz, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/4931089",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Katja Schulz, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Bresadola%20-%20Polyporus%20umbellatus.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Giacomo Bresadola: Polyporus umbellatus (Christian Hendrik Persoon, 1801 ex Elias Magnus Fries, 1821) · Giacomo Bresadola / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Bresadola_-_Polyporus_umbellatus.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Giacomo Bresadola"
+    }
+  ]
+}

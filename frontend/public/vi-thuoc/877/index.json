@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Euphorbia royleana",
+  "_bo_phan": "Hoa",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Euphorbia%20royleana%20D35%208058nx-01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Euphorbia royleana plant at IIT Mandi, HP, India. A succulent that has an almost cactus-like appearance. · Ảnh: Adarsh Patel / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Euphorbia_royleana_D35_8058nx-01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Adarsh Patel"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Euphorbia%20royleana%20NP.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Euphorbia royleana plant in Kavre district Nepal. · Ảnh: Krish Dulal / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Euphorbia_royleana_NP.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Krish Dulal"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/463922335/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Euphorbia royleana Boiss. · Nepal · Ảnh: Sagnik Dutta Roy / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5188247441",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Sagnik Dutta Roy"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/463922339/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Euphorbia royleana Boiss. · Nepal · Ảnh: Sagnik Dutta Roy / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5188247441",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Sagnik Dutta Roy"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Illustrations%20of%20the%20botany%20and%20other%20branches%20of%20the%20natural%20history%20of%20the%20Himalayan%20Mountains%20(Pl.%2082)%20(7128190415).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "I ■ . I V. fVI ^ 1 1 ' a Ji« 1^ \\ \\ .-^ •? / / / y V f /f' ^^r^ f^^^f ^. '. iy /:r 'f!/f //^ ^ y .■. -. . / ^ ( /? .7y//7 /f y^^f' ^\"^ (^ry^y'/^ r-.^^ · Royle, J. Forbes / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Illustrations_of_the_botany_and_other_branches_of_the_natural_history_of_the_Himalayan_Mountains_(Pl._82)_(7128190415).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Royle, J. Forbes"
+    }
+  ]
+}

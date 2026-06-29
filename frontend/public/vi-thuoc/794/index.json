@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Jasminum elongatum",
+  "_bo_phan": "non thân và lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Jasminum%20elongatum%20Bot.%20Reg.%206.%20436.%201820.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Jasminum elongatum · Ảnh: Ker Gawler / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Jasminum_elongatum_Bot._Reg._6._436._1820.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Ker Gawler"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E6%89%AD%E8%82%9A%E8%97%A4%20Jasminum%20elongatum%20-%E6%96%B0%E5%8A%A0%E5%9D%A1%E6%A4%8D%E7%89%A9%E5%9C%92%20Singapore%20Botanic%20Gardens-%20(14913315233).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "扭肚藤 Jasminum elongatum [新加坡植物園 Singapore Botanic Gardens] · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E6%89%AD%E8%82%9A%E8%97%A4_Jasminum_elongatum_-%E6%96%B0%E5%8A%A0%E5%9D%A1%E6%A4%8D%E7%89%A9%E5%9C%92_Singapore_Botanic_Gardens-_(14913315233).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/457409583/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Jasminum elongatum (P.J.Bergius) Willd. · Australia · Ảnh: Thomas Mesaglio / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5062908014",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Thomas Mesaglio"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/457409592/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Jasminum elongatum (P.J.Bergius) Willd. · Australia · Ảnh: Thomas Mesaglio / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5062908014",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Thomas Mesaglio"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/251507904/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Jasminum elongatum · quan sát thực địa · (c) Matt B, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/251507904",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Matt B, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/251507928/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Jasminum elongatum · quan sát thực địa · (c) Matt B, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/251507928",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Matt B, some rights reserved (CC BY)"
+    }
+  ]
+}

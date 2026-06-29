@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Buddleja officinalis",
+  "_bo_phan": "hoa và nụ hoa",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Buddleja%20officinalis%20in%20Jardin%20des%20Plantes%2002.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Buddleja officinalis. Cultivée dans l'école de botanique du Jardin des Plantes de Paris. Muséum national d'Histoire naturelle. 75005 Paris, France. · Ảnh: Salix / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Buddleja_officinalis_in_Jardin_des_Plantes_02.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Salix"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Buddleja%20officinalis%20in%20Jardin%20des%20Plantes%2003.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Buddleja officinalis. Cultivée dans l'école de botanique du Jardin des Plantes de Paris. Muséum national d'Histoire naturelle. 75005 Paris, France. · Ảnh: Salix / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Buddleja_officinalis_in_Jardin_des_Plantes_03.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Salix"
+    },
+    {
+      "file": "https://d2jcv3kl45hlgi.cloudfront.net/0cc772631fcbafe34c7bc8706a7948c2.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Buddleja officinalis Maxim. · United Kingdom of Great Britain and Northern Ireland · Ảnh: Leon, C.J. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4911515260",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Leon, C.J."
+    },
+    {
+      "file": "https://ibss-images.calacademy.org/static/botany/originals/b5/f5/b5f5ef1c-6c2f-4914-8a23-fe5315452cc7.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Buddleja officinalis Maxim. · China · Ảnh: Gaoligong Shan Biodiversity Survey / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/1426054810",
+      "giay_phep": "CC0",
+      "tac_gia": "Gaoligong Shan Biodiversity Survey"
+    }
+  ]
+}

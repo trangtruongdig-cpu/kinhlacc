@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Anemone raddeana",
+  "_bo_phan": "Thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Anemone%20raddeana%20(leaf%20s2).JPG?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Leaf of Anemone raddeana, in Maibara, Shiga prefecture, Japan. · Ảnh: Alpsdake / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Anemone_raddeana_(leaf_s2).JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Alpsdake"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Anemone%20raddeana%201.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Anemone raddeana, Aizu area, Fukushima pref., Japan · Ảnh: Qwert1234 / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Anemone_raddeana_1.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Qwert1234"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/635384337/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Anemonoides raddeana (Regel) Holub · Japan · Ảnh: Timur Kalininsky / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6195772024",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Timur Kalininsky"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/635384369/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Anemonoides raddeana (Regel) Holub · Japan · Ảnh: Timur Kalininsky / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6195772024",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Timur Kalininsky"
+    }
+  ]
+}

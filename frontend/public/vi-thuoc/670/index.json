@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Rosa chinensis",
+  "_bo_phan": "hoa",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/The%20American%20Flora.%20Vol.%202%2C%201855%20-%20pl.%2031%20Polygonatum%20odoratum%2C%20Rosa%20chinensis%20-%20cropped%20(14763414124).jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "1. Solomon's Seal (Convallaria polygonatum, syn. Polygonatum odoratum), and 2. Ever-blooming Rose (Rosa semperflorens, syn. Rosa chinensis var. chinensis?, or v · Ảnh: AnonymousUnknown author [illustrator not stated, no signature] / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:The_American_Flora._Vol._2,_1855_-_pl._31_Polygonatum_odoratum,_Rosa_chinensis_-_cropped_(14763414124).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "AnonymousUnknown author [illustrator not stated, no signature]"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rosa%20chinensis%20var.%20viridiflora%20-%20Obt.%20M.%20Schneider%201855%20plant%20P2230031%20(49574590358).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Rosa chinensis viridiflora Obt. M. Schneider - 1855 &lt;a href=\"https://ca.wikipedia.org/wiki/Rosa_chinensis\" rel=\"noreferrer nofollow\"&gt;ca.wikipedia.org/wiki · Ảnh: Teresa Grau Ros from Barcelona / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rosa_chinensis_var._viridiflora_-_Obt._M._Schneider_1855_plant_P2230031_(49574590358).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Teresa Grau Ros from Barcelona"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00318.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Chinese Rose Flower (Rosae Chinensis Flos · 月季花) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00318",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "http://jbrj-public-img.s3-sa-east-1.amazonaws.com/JPG/evb/evb/0/0/74/49/evb00007449.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Rosa chinensis Jacq. · Brazil · Ảnh: EVALDO BUTTURA / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6392817649",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "EVALDO BUTTURA"
+    },
+    {
+      "file": "https://media01.symbiota.org/media/seinet/sernec/ERSK/ERSK0004/ERSK0004634.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Rosa chinensis Jacq. · United States of America · Ảnh: Russell, D. / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5139303484",
+      "giay_phep": "CC0",
+      "tac_gia": "Russell, D."
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rosa%20chinensis%201795.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "“Dark &amp; pale everblooming rose (Rosa semperflorens)”, now Rosa chinensis. Illustrated by F.J. Bertuch / Text · Friedrich Justin Bertuch / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rosa_chinensis_1795.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Friedrich Justin Bertuch"
+    }
+  ]
+}

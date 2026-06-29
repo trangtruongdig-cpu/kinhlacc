@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Sesamum indicum",
+  "_bo_phan": "hạt vừng đen",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Sesamum%20indicum1373.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Sesamum indicum is a flowering plant in the genus Sesamum. There are three varieties; black, white &amp; red. Taken at Madayipara, Kerala. · Ảnh: Vengolis / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Sesamum_indicum1373.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Vengolis"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Sesame%20Plants%20by%20Ramesh%20Kunnappully%2020210807%20115754.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Sesame is a flowering plant in the genus Sesamum, also called benne. Sesame seed is one of the oldest oilseed crops known. · Ảnh: Ramesh Kunnappully / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Sesame_Plants_by_Ramesh_Kunnappully_20210807_115754.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ramesh Kunnappully"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/673371768/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Sesamum indicum L. · India · Ảnh: renjus box / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6399310333",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "renjus box"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/673371819/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Sesamum indicum L. · India · Ảnh: renjus box / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6399310333",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "renjus box"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/221858075/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Sesamum indicum · quan sát thực địa · (c) Stan Shebs, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/221858075",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Stan Shebs, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/221858408/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Sesamum indicum · quan sát thực địa · (c) Stan Shebs, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/221858408",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Stan Shebs, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Sesamum%20indicum%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-129.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Sesam. A Wurzel. B Blühende und fruchttragende Pflanze. 1 Blüte, von der Seite gesehen; 2 Blüte im Längsschnitt; 3 Stempel; 3a Querschnitt des Stempel · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Sesamum_indicum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-129.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

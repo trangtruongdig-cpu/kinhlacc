@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Cyathea spinulosa",
+  "_bo_phan": "Thân cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cyathea%20spinulosa%20(Alsophila%20spinulosa)%20-%20Chengdu%20Botanical%20Garden%20-%20Chengdu%2C%20China%20-%20DSC03228.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Botanical specimen in the Chengdu Botanical Garden - Chengdu, China. · Ảnh: Daderot / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cyathea_spinulosa_(Alsophila_spinulosa)_-_Chengdu_Botanical_Garden_-_Chengdu,_China_-_DSC03228.JPG",
+      "giay_phep": "CC0",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cyathea%20spinulosa%20(Alsophila%20spinulosa)%20-%20Chengdu%20Botanical%20Garden%20-%20Chengdu%2C%20China%20-%20DSC03230.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Botanical specimen in the Chengdu Botanical Garden - Chengdu, China. · Ảnh: Daderot / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cyathea_spinulosa_(Alsophila_spinulosa)_-_Chengdu_Botanical_Garden_-_Chengdu,_China_-_DSC03230.JPG",
+      "giay_phep": "CC0",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "http://biodiversity.bt/biodiv/observations//6d95d04c-6735-4dce-afd2-dc157afc58ec/359.JPG",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cyathea spinulosa Wall. · Bhutan · Ảnh: Dorji Duba / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3334779467",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Dorji Duba"
+    },
+    {
+      "file": "http://biodiversity.bt/biodiv/observations//f22134f4-f946-4bde-bb75-852bc6b000c6/513.JPG",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cyathea spinulosa Wall. · Bhutan · Ảnh: Choki Gyeltshen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3334780609",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Choki Gyeltshen"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Album%20of%20Indian%20ferns%20(Plate%209)%20(6025784144).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "PI, ATI-: · Baynes, C. E. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Album_of_Indian_ferns_(Plate_9)_(6025784144).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Baynes, C. E."
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Melia azedarach",
+  "_bo_phan": "vỏ rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Melia%20azedarach%20during%20winter%20season%2C%20Burj%20Bhalaike.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Melia azedarach (Cape lilac, syringa berrytree, Persian lilac, white cedar, Indian lilac, bead-tree, bead-tree, pride of India or chinaberry tree) during winter · Ảnh: Kuldeepburjbhalaike / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Melia_azedarach_during_winter_season,_Burj_Bhalaike.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Kuldeepburjbhalaike"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Melia%20azedarach%203.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Juvenile plant, Melia azedarach, with flowers · Ảnh: Obsidian Soul / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Melia_azedarach_3.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Obsidian Soul"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604786211/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Melia azedarach L. · United States of America · Ảnh: jrcagle / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938031486",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "jrcagle"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604786240/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Melia azedarach L. · United States of America · Ảnh: jrcagle / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938031486",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "jrcagle"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/361361594/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Melia azedarach · quan sát thực địa · (c) Tony Rebelo, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/361361594",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Tony Rebelo, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Melia%20azedarach%20Govindoo.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Melia azedarach · Govindoo / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Melia_azedarach_Govindoo.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Govindoo"
+    }
+  ]
+}

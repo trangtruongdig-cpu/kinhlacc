@@ -1,0 +1,77 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Oroxylum indicum",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Oroxylum%20indicum%20leaves.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Oroxylum indicum leaves - പലകപ്പയ്യാനി · Ảnh: Vinayaraj / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Oroxylum_indicum_leaves.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Vinayaraj"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Oroxylum%20indicum%20(2748886411).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Bignoniaceae (bignonia, or jacaranda family) » Oroxylum indicum or-oh-ZY-lum -- from the Greek oros (mountain) and xylon (wood) IN-dih-kum or in-DEE-kum -- of o · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Oroxylum_indicum_(2748886411).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00250.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Indian Trunpetflower Seed (Oroxyli Semen · 木蝴蝶) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00250",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/612097426/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Oroxylum indicum (L.) Kurz · India · Ảnh: prodewald / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6147378942",
+      "giay_phep": "CC0",
+      "tac_gia": "prodewald"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/465651614/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Oroxylum indicum (L.) Kurz · Thailand · Ảnh: 呂一起(Lyu yi-chi) / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5087136017",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "呂一起(Lyu yi-chi)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/124509277/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Oroxylum indicum · quan sát thực địa · (c) portioid, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/124509277",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) portioid, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/227268084/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Oroxylum indicum · quan sát thực địa · (c) Utain Pummarin, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/227268084",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Utain Pummarin, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Oroxylum%20indicum%20Blanco1.219.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Oroxylum_indicum_Blanco1.219.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

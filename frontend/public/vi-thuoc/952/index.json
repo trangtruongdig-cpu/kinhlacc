@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Anthriscus sylvestris",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cow%20Parsley%20(Anthriscus%20sylvestris)%20-%20geograph.org.uk%20-%20819643.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Cow Parsley (Anthriscus sylvestris) The leaves of this hedge row plant are deeply divided and feathery. · Ảnh: Kate Jewell / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cow_Parsley_(Anthriscus_sylvestris)_-_geograph.org.uk_-_819643.jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Kate Jewell"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Warming-Skudbygning-Fig5-Anthriscus-sylvestris.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Anthriscus sylvestris; A 2nd year plant in september; B young layer · Ảnh: Eugen Warming / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Warming-Skudbygning-Fig5-Anthriscus-sylvestris.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Eugen Warming"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605341754/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Anthriscus sylvestris (L.) Hoffm. · United Kingdom of Great Britain and Northern Ireland · Ảnh: spoonbilling / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938126853",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "spoonbilling"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604787850/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Anthriscus sylvestris (L.) Hoffm. · United Kingdom of Great Britain and Northern Ireland · Ảnh: Stephen James McWilliam / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938256492",
+      "giay_phep": "CC0",
+      "tac_gia": "Stephen James McWilliam"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Anthriscus%20sylvestris%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-162.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "(publishing number 37, volume 3) Wild Chervil, Anthriscus sylvestris (L.) Hoffm.. caption on scanned page 184 (biodiversitylibrary.org): Plate descrip · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen; Max Vogtherr; M. Gurke; / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Anthriscus_sylvestris_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-162.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen; Max Vogtherr; M. Gurke;"
+    }
+  ]
+}

@@ -1,30 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Glycyrrhiza uralensis",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "rễ và thân rễ",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Hoa",
-      "mo_ta": "Cụm hoa cam thảo màu tím trắng dạng chùm cùng lá kép lông chim trên cây ngoài tự nhiên · Ảnh: Michael Wolf ( Webseite ) / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Glycyrrhiza_uralensis_IMG_1086.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Michael Wolf ( Webseite )"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Lá",
-      "mo_ta": "Cây cam thảo non với lá kép xanh, phiến lá hình bầu dục · Ảnh: Stickpen / Wikimedia Commons (Public domain)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Glycyrrhizauralensis.jpg",
-      "giay_phep": "Public domain",
-      "tac_gia": "Stickpen"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Dược liệu (đã chế)",
-      "mo_ta": "Cam thảo phiến: rễ cam thảo thái lát mỏng phơi khô, mặt cắt vàng nâu · Ảnh: Erin Silversmith / Wikimedia Commons (CC BY-SA 4.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Glycyrrhiza_glabra_(Pile_of_Spanish_wood_chips).jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "Erin Silversmith"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00129.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Liquorice Root (Glycyrrhizae Radix et Rhizoma · 甘草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00129",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

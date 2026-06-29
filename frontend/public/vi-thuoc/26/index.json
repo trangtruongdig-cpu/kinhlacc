@@ -1,30 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Ziziphus jujuba",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cành cây táo tàu với lá xanh và gai đặc trưng của Ziziphus jujuba · Ảnh: Thamizhpparithi Maari / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:A_shot_of_Jujube_Tree.JPG",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Thamizhpparithi Maari"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Hoa",
-      "mo_ta": "Cành cây ra hoa nhỏ màu vàng lục mọc dọc theo nách lá · Ảnh: Sengai Podhuvan / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Jujube_in_flowers.JPG",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Sengai Podhuvan"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Quả / hạt",
-      "mo_ta": "Cây sai trĩu quả táo tàu chín màu đỏ nâu · Ảnh: Michel Chauvet / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Jujubes_%C3%A0_Fossano.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Michel Chauvet"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00171.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Jujube (Jujubae Fructus · 大棗) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00171",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

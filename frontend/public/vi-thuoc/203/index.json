@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Trachycarpus fortunei",
+  "_bo_phan": "xơ bẹ lá cọ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Trachycarpus%20fortunei%20Szorstkowiec%20Fortunego%202024-02-29%20Graz%2001.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Chusan palm (Trachycarpus fortunei) cultivated in a greenhouse in the Botanical Garden of the University of Graz, Austria. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Trachycarpus_fortunei_Szorstkowiec_Fortunego_2024-02-29_Graz_01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Trachycarpus%20fortunei%20Szorstkowiec%20Fortunego%202024-02-29%20Graz%2004.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Chusan palm (Trachycarpus fortunei) cultivated in a greenhouse in the Botanical Garden of the University of Graz, Austria. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Trachycarpus_fortunei_Szorstkowiec_Fortunego_2024-02-29_Graz_04.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00339.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Fortune Windmillpalm Petiole (Trachycarpi Petiolus · 棕櫚) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00339",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/607989822/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Trachycarpus fortunei (Hook.) H.Wendl. · Italy · Ảnh: Marcello Manara / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130974957",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Marcello Manara"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/607989812/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Trachycarpus fortunei (Hook.) H.Wendl. · Italy · Ảnh: Marcello Manara / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130974957",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Marcello Manara"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Curtis's%20botanical%20magazine%20(Tab.%205221)%20(9441954883).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "5ni. ■ Jd-etM. · Bentham-Moxon Trust.; Curtis, William; Curtis's botanical magazine dedications, 1827-1927 : portraits and biographical notes.; Royal Botanic Gardens, Kew.; Stanley Smith Horticultural Trust. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Curtis%27s_botanical_magazine_(Tab._5221)_(9441954883).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Bentham-Moxon Trust.; Curtis, William; Curtis's botanical magazine dedications, 1827-1927 : portraits and biographical notes.; Royal Botanic Gardens, Kew.; Stanley Smith Horticultural Trust."
+    }
+  ]
+}

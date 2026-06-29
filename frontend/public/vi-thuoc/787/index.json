@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Schefflera arboricola",
+  "_bo_phan": "Thân và lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Schefflera%20arboricola%204zz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location taken: Merrifield Garden Center, Fairfax VA USA. Names: Schefflera arboricola (Hayata) Merr., Abicola, Arboricola, Arboricola Tree, Arbre Ombelle Arbre · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Schefflera_arboricola_4zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Schefflera%20arboricola%207zz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location taken: Merrifield Garden Center, Fairfax VA USA. Names: Schefflera arboricola (Hayata) Merr., Abicola, Arboricola, Arboricola Tree, Arbre Ombelle Arbre · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Schefflera_arboricola_7zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "http://media.api.aucklandmuseum.com/id/media/v/1024398?rendering=original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Schefflera arboricola Hayata, 1916 · New Zealand · Ảnh: E K Cameron / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4144920869",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "E K Cameron"
+    },
+    {
+      "file": "http://media.api.aucklandmuseum.com/id/media/v/1048953?rendering=original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Schefflera arboricola Hayata, 1916 · New Zealand · Ảnh: E K Cameron / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4144920869",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "E K Cameron"
+    }
+  ]
+}

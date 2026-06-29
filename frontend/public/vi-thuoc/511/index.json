@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Lonicera japonica",
+  "_bo_phan": "hoa (kim ngân)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Xuclamel%20japon%C3%A8s%20Lonicera%20japonica.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Lonicera japonica, cultivated plant, Castelltallat, Catalonia · Ảnh: Victor M. Vicente Selvas / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Xuclamel_japon%C3%A8s_Lonicera_japonica.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Victor M. Vicente Selvas"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Lonicera%20japonica%20-%20whole%20plant%20(18435957464).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Japanese honeysuckle. For more information on identification and control, visit &lt;a href=\"http://turfweeds.cals.cornell.edu/plant/identify/474\" rel=\"nofollow\" · Ảnh: NY State IPM Program at Cornell University from New York, USA / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lonicera_japonica_-_whole_plant_(18435957464).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "NY State IPM Program at Cornell University from New York, USA"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604554472/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lonicera japonica Thunb. · United States of America · Ảnh: Greg Walker / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938100601",
+      "giay_phep": "CC0",
+      "tac_gia": "Greg Walker"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604554466/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lonicera japonica Thunb. · United States of America · Ảnh: Greg Walker / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938100601",
+      "giay_phep": "CC0",
+      "tac_gia": "Greg Walker"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Naturalis%20Biodiversity%20Center%20-%20RMNH.ART.338%20-%20Lonicera%20japonica%20-%20Vicia%20angustifolia%20-%20Parthenocissus%20tricuspidata%20-%20indets%20-%20Y%C5%ABshi%20Ishizaki%20-%20Cock%20Blomhoff%20Collection%20-%20pencil%20drawing%20-%20water%20colour.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Lonicera japonica - Vicia angustifolia - Parthenocissus tricuspidata - indets · Ishizaki Yūshi / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Naturalis_Biodiversity_Center_-_RMNH.ART.338_-_Lonicera_japonica_-_Vicia_angustifolia_-_Parthenocissus_tricuspidata_-_indets_-_Y%C5%ABshi_Ishizaki_-_Cock_Blomhoff_Collection_-_pencil_drawing_-_water_colour.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Ishizaki Yūshi"
+    }
+  ]
+}

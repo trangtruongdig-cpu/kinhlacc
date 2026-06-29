@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Kummerowia striata",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Kummerowia%20striata%20(Lespedeza%20striata)%20leaf.JPG?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Kummerowia striata (Lespedeza striata) · Ảnh: Show_ryu / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Kummerowia_striata_(Lespedeza_striata)_leaf.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Show_ryu"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Kummerowia%20striata%20leaf3%20(10355244074).jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Leaves have 3 leaflets; each oblong to obovate, hairless and 8-15 mm long, with pale veins often contrasting with the green leaf. Stipules are ovate to lanceola · Ảnh: Harry Rose from South West Rocks, Australia / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Kummerowia_striata_leaf3_(10355244074).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "Harry Rose from South West Rocks, Australia"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/678142400/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Kummerowia striata (Thunb.) Schindl. · Chinese Taipei · Ảnh: chiuluan / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6400491206",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "chiuluan"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/678142424/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Kummerowia striata (Thunb.) Schindl. · Chinese Taipei · Ảnh: chiuluan / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6400491206",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "chiuluan"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/5370736/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Kummerowia striata · quan sát thực địa · (c) Sam Kieschnick, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/5370736",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Sam Kieschnick, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/5370737/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Kummerowia striata · quan sát thực địa · (c) Sam Kieschnick, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/5370737",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Sam Kieschnick, some rights reserved (CC BY)"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid",
+  "_sci": "Aconitum kusnezoffii",
+  "_bo_phan": "củ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Aconitum%20carmichaelii%20var.%20wilsonii%20002.JPG?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Aconitum carmichaelii var. wilsonii, Ranunculaceae, Carmichael's Monkshood, inflorescence; Botanical Garden KIT, Karlsruhe, Germany. · Ảnh: H. Zell / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Aconitum_carmichaelii_var._wilsonii_002.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "H. Zell"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Aconitum%20carmichaelii%20'Arendsii'%20Tojad%20Carmichaela%202021-10-09%2004.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Aconitum carmichaelii 'Arendsii' cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Aconitum_carmichaelii_%27Arendsii%27_Tojad_Carmichaela_2021-10-09_04.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00037.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Kusnezoff Monkshood Mother Root (Aconiti Kusnezoffii Radix · 草烏) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00037",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

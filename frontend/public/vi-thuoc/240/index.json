@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Trogopterus xanthipes",
+  "_bo_phan": "phân chồn bay",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Trogopterus%20xanthipes.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Trogopterus xanthipes · Ảnh: Milne-Edwards, H. (Henri), 1800-1885 / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Trogopterus_xanthipes.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Milne-Edwards, H. (Henri), 1800-1885"
+    },
+    {
+      "file": "https://collections.nmnh.si.edu/media/?i=14596720&h=2000",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Trogopterus xanthipes (Milne-Edwards, 1867) · China · Ảnh: D. Graham / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/1318297387",
+      "giay_phep": "CC0",
+      "tac_gia": "D. Graham"
+    },
+    {
+      "file": "https://collections.nmnh.si.edu/media/?i=14600848&h=2000",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Trogopterus xanthipes (Milne-Edwards, 1867) · China · Ảnh: D. Graham / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/1322047982",
+      "giay_phep": "CC0",
+      "tac_gia": "D. Graham"
+    }
+  ]
+}

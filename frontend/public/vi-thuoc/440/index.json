@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Panax notoginseng",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Panax%20notoginseng%20plant.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "​种植棚中人工种植的三七。拍摄于中国云南省文山州马关县八寨镇。 · Ảnh: Zhangmoon618 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Panax_notoginseng_plant.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Zhangmoon618"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E4%B8%89%E4%B8%83%20Panax%20notoginseng%2020191223112303.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Root, medicinal part. Native to China. Taken in Dongchuan District, Kunming, Yunnan Province, China. 2019. · Ảnh: Ping an Chang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E4%B8%89%E4%B8%83_Panax_notoginseng_20191223112303.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ping an Chang"
+    },
+    {
+      "file": "http://mediaphoto.mnhn.fr/media/1441337658430hEKLSNBEZKhIrVBV",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Panax notoginseng (Burkill) F.H.Chen ex C.H.Chow · Ảnh: GBIF contributor / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/438090877",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "http://mediaphoto.mnhn.fr/media/1441337658412nXHxGZZfcjjpaV97",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Panax notoginseng (Burkill) F.H.Chen ex C.H.Chow · Viet Nam · Ảnh: Tixier, P. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/438424099",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Tixier, P."
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Panax%20notoginseng.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "The structure of Panax notoginseng · 中国科学院植物研究所 / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Panax_notoginseng.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "中国科学院植物研究所"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Cyrtomium fortunei",
+  "_bo_phan": "thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cyrtomium%20fortunei%202zz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location taken: American Plant Food Company, 7405 River Road, Bethesda MD.. Names: Cyrtomium fortunei var. clivicola Mak. Tag., Asian Netvein Hollyfern, Fortune · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cyrtomium_fortunei_2zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cyrtomium%20fortunei%203zz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location taken: American Plant Food Company, 7405 River Road, Bethesda MD.. Names: Cyrtomium fortunei var. clivicola Mak. Tag., Asian Netvein Hollyfern, Fortune · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cyrtomium_fortunei_3zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "https://arter.dk/media/2b6debf4-a753-4f07-b914-8d01f7b052df.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cyrtomium fortunei J.Sm. · Denmark · Ảnh: Morten Kofoed-Hansen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5955999494",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Morten Kofoed-Hansen"
+    },
+    {
+      "file": "https://arter.dk/media/cf62a116-0382-4f58-99c6-564f49c1b42b.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cyrtomium fortunei J.Sm. · Denmark · Ảnh: Morten Kofoed-Hansen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5955999494",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Morten Kofoed-Hansen"
+    }
+  ]
+}

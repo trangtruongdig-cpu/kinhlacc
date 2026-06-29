@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Selaginella tamariscina",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Selaginella%20tamariscina%20-%20Copenhagen%20Botanical%20Garden%20-%20DSC07986.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Botanical specimen in the University of Copenhagen Botanical Garden, Copenhagen, Denmark. · Ảnh: Daderot / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Selaginella_tamariscina_-_Copenhagen_Botanical_Garden_-_DSC07986.JPG",
+      "giay_phep": "CC0",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Selaginella%20tamariscina%20(Selaginella%20involvens)%20-%20Wilhelma%20Zoo%20-%20Stuttgart%2C%20Germany%20-%20DSC02025.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Botanical specimen in Wilhelma Zoo - Stuttgart, Germany. · Ảnh: Daderot / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Selaginella_tamariscina_(Selaginella_involvens)_-_Wilhelma_Zoo_-_Stuttgart,_Germany_-_DSC02025.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00276.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Tamarisklike Spikemoss Herb (Selaginellae Herba · 卷柏) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00276",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/636347873/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Selaginella tamariscina (P.Beauv.) Spring · Chinese Taipei · Ảnh: 葉子 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6195476375",
+      "giay_phep": "CC0",
+      "tac_gia": "葉子"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/636347985/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Selaginella tamariscina (P.Beauv.) Spring · Chinese Taipei · Ảnh: 葉子 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6196043698",
+      "giay_phep": "CC0",
+      "tac_gia": "葉子"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/525327579/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Selaginella tamariscina · quan sát thực địa · (c) 村山史世 （Fumiyo MURAYAMA), some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/525327579",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 村山史世 （Fumiyo MURAYAMA), some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/525328003/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Selaginella tamariscina · quan sát thực địa · (c) 村山史世 （Fumiyo MURAYAMA), some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/525328003",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 村山史世 （Fumiyo MURAYAMA), some rights reserved (CC BY)"
+    }
+  ]
+}

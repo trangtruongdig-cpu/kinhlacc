@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Cleistocalyx operculatus",
+  "_bo_phan": "nụ hoa non",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cleistocalyx%20operculatus%20NP.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Cleistocalyx operculatus tree in winter leaves. · Ảnh: Krish Dulal / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cleistocalyx_operculatus_NP.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Krish Dulal"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/HK%20CWB%20%E9%AB%98%E5%A3%AB%E5%A8%81%E9%81%93%20Causeway%20Bay%20Road%20%E7%B6%AD%E5%A4%9A%E5%88%A9%E4%BA%9E%E5%85%AC%E5%9C%92%20Victoria%20Park%20tree%20Sept%202017%20IX1%20%E6%B0%B4%E7%BF%81%20Cleistocalyx%20operculatus%2003.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "HK CWB zh:高士威道 Causeway Bay Road zh:維多利亞公園 Victoria Park tree Sept 2017 zh:水翁 Cleistocalyx operculatus · Ảnh: WU Hung Ting miucu / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:HK_CWB_%E9%AB%98%E5%A3%AB%E5%A8%81%E9%81%93_Causeway_Bay_Road_%E7%B6%AD%E5%A4%9A%E5%88%A9%E4%BA%9E%E5%85%AC%E5%9C%92_Victoria_Park_tree_Sept_2017_IX1_%E6%B0%B4%E7%BF%81_Cleistocalyx_operculatus_03.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "WU Hung Ting miucu"
+    },
+    {
+      "file": "https://d2jcv3kl45hlgi.cloudfront.net/19518c9a2a93ef3d5d094fbc1ceb351d.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cleistocalyx operculatus (Roxb.) Merr. & L.M.Perry · Malaysia · Ảnh: Yap, J.W. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4873775387",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Yap, J.W."
+    },
+    {
+      "file": "https://medialib.naturalis.nl/file/id/L.2502309/format/large",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cleistocalyx operculatus (Roxb.) Merr. & L.M.Perry · Lao People’s Democratic Republic · Ảnh: Naturalis Biodiversity Center / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/2514450593",
+      "giay_phep": "CC0",
+      "tac_gia": "Naturalis Biodiversity Center"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/133904385/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Syzygium nervosum · quan sát thực địa · (c) Yj, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/133904385",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Yj, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/133904448/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Syzygium nervosum · quan sát thực địa · (c) Yj, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/133904448",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Yj, some rights reserved (CC BY)"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Syneilesis aconitifolia",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Syneilesis%20aconitifolia%20Synejlesis%20tojadolistna%202021-04-27%2001.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Syneilesis aconitifolia cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Syneilesis_aconitifolia_Synejlesis_tojadolistna_2021-04-27_01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Syneilesis%20aconitifolia%20Synejlesis%20tojadolistna%202021-04-27%2002.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Syneilesis aconitifolia cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Syneilesis_aconitifolia_Synejlesis_tojadolistna_2021-04-27_02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/674251873/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Syneilesis aconitifolia (Bunge) Maxim. · Russian Federation · Ảnh: Tatyana Petrenko / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6399215819",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Tatyana Petrenko"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/672617731/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Syneilesis aconitifolia (Bunge) Maxim. · Russian Federation · Ảnh: Violetta Dzizyurova / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6399227975",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Violetta Dzizyurova"
+    }
+  ]
+}

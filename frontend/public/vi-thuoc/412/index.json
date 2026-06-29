@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Perilla frutescens",
+  "_bo_phan": "quả (tử tô tử)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Perilla%20frutescens'%20foliage.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Perilla frutescens's foliage in Gimpo, Korea · Ảnh: User:Dalgial / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Perilla_frutescens%27_foliage.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "User:Dalgial"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Perilla%20frutescens%20var.%20purpurascens%20kz02.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Perilla frutescens var. purpurascens in botanical garden in Kraków · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Perilla_frutescens_var._purpurascens_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608440152/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Perilla frutescens (L.) Britton · United States of America · Ảnh: Jess Miller-Camp / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6130524394",
+      "giay_phep": "CC0",
+      "tac_gia": "Jess Miller-Camp"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608440172/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Perilla frutescens (L.) Britton · United States of America · Ảnh: Jess Miller-Camp / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6130524394",
+      "giay_phep": "CC0",
+      "tac_gia": "Jess Miller-Camp"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/349759555/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Perilla frutescens · quan sát thực địa · (c) Andrew Conboy, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/349759555",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Andrew Conboy, some rights reserved (CC BY)"
+    }
+  ]
+}

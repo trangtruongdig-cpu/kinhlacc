@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Solidago decurrens",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Solidago%20decurrens%2093244779.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Solidago decurrens · Ảnh: Repina Tatyana / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Solidago_decurrens_93244779.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Repina Tatyana"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Solidago%20decurrens%2027043782.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Solidago decurrens · Ảnh: portioid / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Solidago_decurrens_27043782.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "portioid"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/545109475/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Solidago decurrens Lour. · Japan · Ảnh: 岸本年郎 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5281901613",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "岸本年郎"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/544656134/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Solidago decurrens Lour. · Japan · Ảnh: Timur Kalininsky / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5282539661",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Timur Kalininsky"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/27043782/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Solidago decurrens · ảnh đại diện · (c) portioid, some rights reserved (CC BY), uploaded by portioid (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/27043782",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) portioid, some rights reserved (CC BY), uploaded by portioid"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/66351458/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Solidago decurrens · quan sát thực địa · (c) 黃美滿, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/66351458",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 黃美滿, some rights reserved (CC BY)"
+    }
+  ]
+}

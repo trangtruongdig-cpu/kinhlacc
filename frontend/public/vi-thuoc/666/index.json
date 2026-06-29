@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Cinnamomum camphora",
+  "_bo_phan": "gỗ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E6%A8%9F%E6%A8%B9Cinnamomum%20camphora%2020210410164703%2003.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Native to China and Taiwan. Botanical Garden of National Museum of Natural Science, Taichung, Taiwan. · Ảnh: Ping an Chang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E6%A8%9F%E6%A8%B9Cinnamomum_camphora_20210410164703_03.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ping an Chang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cinnamomum%20camphora%205zz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location taken: the New York Botanical Garden. Names: Cinnamomum camphora (L.) J. Presl, árvore-Da-Camphora, Albero Della Canfora, Alcanfor, Alcanforero, Alkach · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cinnamomum_camphora_5zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608616554/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Camphora officinarum Nees · South Africa · Ảnh: Dave Richardson / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6129942177",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Dave Richardson"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608616572/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Camphora officinarum Nees · South Africa · Ảnh: Dave Richardson / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6129942177",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Dave Richardson"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/245245724/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Camphora officinarum · ảnh đại diện · (c) Greg Tasney, some rights reserved (CC BY-SA), uploaded by Greg Tasney (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/245245724",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Greg Tasney, some rights reserved (CC BY-SA), uploaded by Greg Tasney"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/7881697/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Camphora officinarum · quan sát thực địa · (c) Marco Mussita, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/7881697",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Marco Mussita, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cinnamomum%20camphora%20(K%C3%B6hler).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Planche botanique n° I-76 de l'\"Atlas des Plantes médicinales de Köhler en images réalistes avec brèves notes explicatives\" consacrée au camphre. · Hermann Adolf Köhler (1834 - 1879) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cinnamomum_camphora_(K%C3%B6hler).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Hermann Adolf Köhler (1834 - 1879)"
+    }
+  ]
+}

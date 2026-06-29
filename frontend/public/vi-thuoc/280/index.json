@@ -1,6 +1,13 @@
 {
-  "_source": "Wikimedia Commons",
+  "_source": "Wikimedia Commons + cmmid + gbif + inat + bencao",
   "_sci": "Cinnamomum cassia",
+  "_bo_phan": "vỏ thân và cành lớn",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
   "images": [
     {
       "file": "1.jpg",
@@ -25,6 +32,54 @@
       "nguon": "https://commons.wikimedia.org/wiki/File:Cinnamomum_cassia_003.jpg",
       "giay_phep": "CC BY-SA 3.0",
       "tac_gia": "H. Zell"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00351.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Cassia Bark (Cinnamomi Cortex · 肉桂) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00351",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605310004/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Endiandra muelleri Meisn. · Australia · Ảnh: Damien O'Donnell / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938036955",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Damien O'Donnell"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605310021/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Endiandra muelleri Meisn. · Australia · Ảnh: Damien O'Donnell / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938036955",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Damien O'Donnell"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/258224646/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Cinnamomum cassia · quan sát thực địa · (c) 胡正恆(Jackson Hu), some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/258224646",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 胡正恆(Jackson Hu), some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/258224679/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Cinnamomum cassia · quan sát thực địa · (c) 胡正恆(Jackson Hu), some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/258224679",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 胡正恆(Jackson Hu), some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cinnamomum%20aromaticum%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-039%20cropped.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Zimtkassie. A blühender Zweig in natürl. Grösse; 1 Blüthe, vergrössert; 2 dieselbe im Längsschnitt, desgl.; 3 Staubgefäss, desgl.; 4 Stempel, desgl.;  · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cinnamomum_aromaticum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-039_cropped.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
     }
   ]
 }

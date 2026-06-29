@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Sargentodoxa cuneata",
+  "_bo_phan": "thân dây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Sargentodoxa%20fruit.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "fruit of Sargentodoxa · Ảnh: JohnJGasper2 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Sargentodoxa_fruit.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "JohnJGasper2"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/259519247/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Sargentodoxa cuneata (Oliv.) Rehder & E.H.Wilson · China · Ảnh: Wang.QG / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4509998801",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Wang.QG"
+    }
+  ]
+}

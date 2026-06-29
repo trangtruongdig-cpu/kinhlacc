@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Piper puberulum",
+  "_bo_phan": "Thân và lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr%20080716-9403%20Macropiper%20puberulum.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Macropiper puberulum, syn. Piper puberulum (habit). Location: Maui, Enchanting Gardens of Kula · Ảnh: Forest &amp; Kim Starr / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr_080716-9403_Macropiper_puberulum.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Forest &amp; Kim Starr"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr%20080716-9404%20Macropiper%20puberulum.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Macropiper puberulum, syn. Piper puberulum (habit). Location: Maui, Enchanting Gardens of Kula · Ảnh: Forest &amp; Kim Starr / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr_080716-9404_Macropiper_puberulum.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Forest &amp; Kim Starr"
+    },
+    {
+      "file": "https://media01.symbiota.org/media/seinet/sernec/MU/000137/000137004_lg.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Piper puberulum Benth., 1868 · China · Ảnh: Luo-Linbo / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/4850297996",
+      "giay_phep": "CC0",
+      "tac_gia": "Luo-Linbo"
+    },
+    {
+      "file": "http://jbrj-public-img.s3-sa-east-1.amazonaws.com/JPG/rb/0/30/19/50/00301950.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Piper puberulum Benth., 1868 · Colombia · Ảnh: Rio de Janeiro Botanical Garden / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/1424063409",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Rio de Janeiro Botanical Garden"
+    }
+  ]
+}

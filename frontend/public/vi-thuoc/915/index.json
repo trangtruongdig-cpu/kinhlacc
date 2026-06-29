@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Alocasia macrorrhizos",
+  "_bo_phan": "Thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Alocasia%20macrorrhizos%20001.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Alocasia macrorrhizos, Araceae, Giant Taro, Elephant Ear Taro, habitus; Botanical Garden KIT, Karlsruhe, Germany. · Ảnh: H. Zell / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Alocasia_macrorrhizos_001.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "H. Zell"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Giant%20taro%20(Alocasia%20macrorhizos)%20Philippines.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Giant taro plant found in the Philippines. · Ảnh: Daramlagon / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Giant_taro_(Alocasia_macrorhizos)_Philippines.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Daramlagon"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604729623/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Alocasia macrorrhizos (L.) G.Don · China · Ảnh: observe-syz / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938614630",
+      "giay_phep": "CC0",
+      "tac_gia": "observe-syz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604729634/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Alocasia macrorrhizos (L.) G.Don · China · Ảnh: observe-syz / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938614630",
+      "giay_phep": "CC0",
+      "tac_gia": "observe-syz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/243332938/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Alocasia macrorrhizos · quan sát thực địa · (c) Greg III Espera, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/243332938",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Greg III Espera, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Alocasia%20macrorrhizos%20BYN.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Alocasia macrorrhizos BYN · Megustanlasframbuesas / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Alocasia_macrorrhizos_BYN.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Megustanlasframbuesas"
+    }
+  ]
+}

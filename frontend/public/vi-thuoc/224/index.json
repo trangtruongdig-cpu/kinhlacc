@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Curcuma longa",
+  "_bo_phan": "thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Curcuma%20longa%2C%20Nativeplants%20Botanical%20Garden.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Nativeplants Botanical Garden (botanical garden in Kerala, India) · Ảnh: Nativeplants garden / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Curcuma_longa,_Nativeplants_Botanical_Garden.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Nativeplants garden"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr-140925-1977-Curcuma%20longa-flowering%20habit-Pali%20o%20Waipio%20Huelo-Maui%20(25128294462).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Curcuma longa (Turmeric, olena) Flowering habit at Pali o Waipio Huelo, Maui, Hawaii. September 25, 2014 #140925-1977 Image Use Policy Also known as Curcuma dom · Ảnh: Forest and Kim Starr / Wikimedia Commons (CC BY 3.0 us)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr-140925-1977-Curcuma_longa-flowering_habit-Pali_o_Waipio_Huelo-Maui_(25128294462).jpg",
+      "giay_phep": "CC BY 3.0 us",
+      "tac_gia": "Forest and Kim Starr"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00005.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Turmeric Rhizome (Curcumae Longae Rhizoma · 薑黃) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00005",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/53411125d28064f116cb80c6b621bcf744432e26",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Curcuma longa L. · Indonesia · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110335307",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/28fe2ee039de9a3ac743165647aab37a4a4e509a",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Curcuma longa L. · Indonesia · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110470415",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Curcuma%20longa%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-199.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Kurkuma. A Pflanze, verkleinert; B Blatt, nat. Grösse; C Blüthenähre, desgl.; 1 Blüthe, etwas vergrössert; 2 dieselbe im Längsschnitt, desgl.; 3 inner · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Curcuma_longa_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-199.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

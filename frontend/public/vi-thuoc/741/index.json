@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Pinus",
+  "_bo_phan": "Nhựa cây thông (từ cây Thông Mã Vĩ hoặc các cây thuộc chi Thông) sau khi chưng cất hoặc chiết xuất loại bỏ tinh dầu.",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pinus%20taeda%2029%20NBG%20LR.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Pinus taeda (Loblolly Pine) bark at the Colonial Garden at Norfolk Botanical Garden, Norfolk, Virginia. Area shown is about 4-5\" both directions. Focus stacked  · Ảnh: PumpkinSky / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pinus_taeda_29_NBG_LR.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "PumpkinSky"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Leaning%20pinus%20over%20the%20grassy%20tumulus%20of%20Munhosa%20Shrine%20in%20Gyeongju%20South%20Korea.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Leaning pinus over the grassy tumulus of Munhosa Shrine (觀瀾李先生倡義碑 - Guanlan Mr. Li’s Memorial Monument) in the Tumuli Park of Gyeongju Historic Site Wolseong Di · Ảnh: Basile Morin / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Leaning_pinus_over_the_grassy_tumulus_of_Munhosa_Shrine_in_Gyeongju_South_Korea.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Basile Morin"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/638440764/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Pinus strobus · ảnh đại diện · (c) Forest and Kim Starr, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/638440764",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Forest and Kim Starr, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pinus%20sylvestris%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-106.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Gemeine Kiefer. A Zweig mit Blüthen und ein- und zweijährigen Früchten, natürl. Grösse; 1 u. 2 männliches Blüthenkätzchen geschlossen und geöffnet, ve · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pinus_sylvestris_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-106.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

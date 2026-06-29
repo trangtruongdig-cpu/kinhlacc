@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Canis lupus familiaris",
+  "_bo_phan": "Dương vật và tinh hoàn của chó",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dobermann%20dog.%20%E2%80%9CCanis%20lupus%20familiaris%E2%80%9D.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Specimen of Dobermann skeleton prepared by the bone maceration technique and on display at the Museum of Veterinary Anatomy, FMVZ USP · Ảnh: Museum of Veterinary Anatomy FMVZ USP / Wagner Souza e Silva, edited by Rodrigo Tetsuo Argenton / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dobermann_dog._%E2%80%9CCanis_lupus_familiaris%E2%80%9D.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Museum of Veterinary Anatomy FMVZ USP / Wagner Souza e Silva, edited by Rodrigo Tetsuo Argenton"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/German%20Shepherd%20dog.%20%E2%80%9CCanis%20lupus%20familiaris%E2%80%9D.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Specimen of German Shepherd skeleton prepared by the bone maceration technique and on display at the Museum of Veterinary Anatomy, FMVZ USP · Ảnh: Museum of Veterinary Anatomy FMVZ USP / Wagner Souza e Silva edited by Rodrigo Tetsuo Argenton / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:German_Shepherd_dog._%E2%80%9CCanis_lupus_familiaris%E2%80%9D.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Museum of Veterinary Anatomy FMVZ USP / Wagner Souza e Silva edited by Rodrigo Tetsuo Argenton"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605680708/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Canis familiaris Linnaeus, 1758 · Russian Federation · Ảnh: Полина Полежанкина / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938535564",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Полина Полежанкина"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605680854/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Canis familiaris Linnaeus, 1758 · Russian Federation · Ảnh: Полина Полежанкина / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938535564",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Полина Полежанкина"
+    }
+  ]
+}

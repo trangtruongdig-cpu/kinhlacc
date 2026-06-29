@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao + cmmid",
+  "_sci": "Platycodon grandiflorus",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Platycodon%20grandiflorus%20in%20La%20Jaysinia%20(8).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Platycodon grandiflorus in La Jaÿsinia Botanical Garden in Samoëns, Haute-Savoie, France · Ảnh: Krzysztof Golik / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Platycodon_grandiflorus_in_La_Jaysinia_(8).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Golik"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Platycodon%20grandiflorus%20'Duplex'%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Platycodon grandiflorus 'Duplex' in Wrocław University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Platycodon_grandiflorus_%27Duplex%27_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/46711305/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Platycodon grandiflorus · quan sát thực địa · (c) Kim, Hyun-tae, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/46711305",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Kim, Hyun-tae, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Platycodon%20grandiflorus%20Plaxton%20061.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Platycodon grandiflorus (Jacq.) A.DC., syn. Platycodon chinensis Lindl. &amp; Paxton · John Lindley and Joseph Paxton, drawing by L. A. L. Constans / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Platycodon_grandiflorus_Plaxton_061.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "John Lindley and Joseph Paxton, drawing by L. A. L. Constans"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00063.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Lobed Kudzuvine Root (Puerariae Lobatae Radix · 葛根) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00063",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Gastrodia elata",
+  "_bo_phan": "thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Gastrodia%20elata%201.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Gastrodia elata, Aizu area, Fukushima pref., Japan · Ảnh: Qwert1234 / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Gastrodia_elata_1.JPG",
+      "giay_phep": "Public domain",
+      "tac_gia": "Qwert1234"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Gastrodia%20elata%20tablets.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Gastrodia elata tablets · Ảnh: Fumikas Sagisavas / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Gastrodia_elata_tablets.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Fumikas Sagisavas"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00003.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Tall Gastrodiae (Gastrodiae Rhizoma · 天麻) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00003",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/512681579/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Gastrodia elata Blume · Japan · Ảnh: Brad Barker / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5177213816",
+      "giay_phep": "CC0",
+      "tac_gia": "Brad Barker"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/512681564/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Gastrodia elata Blume · Japan · Ảnh: Brad Barker / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5177213816",
+      "giay_phep": "CC0",
+      "tac_gia": "Brad Barker"
+    }
+  ]
+}

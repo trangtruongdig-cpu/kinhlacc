@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Artemisia anomala",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Red%20Valley%20-%20Flickr%20-%20aspidoscelis%20(1).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Red Valley, about a mile west of the New Mexico state line, 36.5850 -109.0712, Apache County, Arizona, 17 May 2014. Lomatium parryi, Yucca baileyi, Artemisia bi · Ảnh: Patrick Alexander from Las Cruces, NM / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Red_Valley_-_Flickr_-_aspidoscelis_(1).jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Patrick Alexander from Las Cruces, NM"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Salt%20Creek%20Canyon%20-%20Flickr%20-%20aspidoscelis.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Salt Creek Canyon, between the Dolores River and Sinbad Valley, 38.52678 -108.95650, Mesa County, Colorado, 27 May 2018. Yucca angustissima, Artemisia tridentat · Ảnh: Patrick Alexander from Las Cruces, NM / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Salt_Creek_Canyon_-_Flickr_-_aspidoscelis.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Patrick Alexander from Las Cruces, NM"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/574516916/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Artemisia anomala S.Moore · Chinese Taipei · Ảnh: 鄭雪雲 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5867762518",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "鄭雪雲"
+    }
+  ]
+}

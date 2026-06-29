@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Mesona chinensis",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Chao%20guay%20thai%20grass%20jelly.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Chao kuai (Thai: เฉาก๊วย, grass cake) is a jelly which is made by boiling the aged and slightly oxidized stalks and leaves of Mesona chinensis, a type of mint,  · Ảnh: Takeaway / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chao_guay_thai_grass_jelly.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Takeaway"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Platostoma%20palustre%2043898467.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Chinese Mesona (Platostoma palustre) in Taiwan · Ảnh: 葉子 / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Platostoma_palustre_43898467.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "葉子"
+    },
+    {
+      "file": "https://medialib.naturalis.nl/file/id/L.3902561/format/large",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Mesona chinensis Benth. · China · Ảnh: Naturalis Biodiversity Center / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/2516709674",
+      "giay_phep": "CC0",
+      "tac_gia": "Naturalis Biodiversity Center"
+    },
+    {
+      "file": "https://dbs.kaum.kagoshima-u.ac.jp/musedb/s_plant/picture/KAG018404/KAG018404.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Mesona chinensis Benth. · Chinese Taipei · Ảnh: GBIF contributor / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4054316590",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/236221916/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Platostoma palustre · quan sát thực địa · (c) 胡正恆(Jackson Hu), some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/236221916",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 胡正恆(Jackson Hu), some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/236221926/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Platostoma palustre · quan sát thực địa · (c) 胡正恆(Jackson Hu), some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/236221926",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 胡正恆(Jackson Hu), some rights reserved (CC BY)"
+    }
+  ]
+}

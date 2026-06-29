@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Pedicularis",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pedicularis%20palustris%20(plant).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Marsh Lousewort. Belgium Identification of subspecies · Ảnh: Hans Hillewaert / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pedicularis_palustris_(plant).jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Hans Hillewaert"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pedicularis%20atropurpurea.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Lousewort (Pedicularis atropurpurea) in a native habitat on the Alpine meadows at an altitude of 2000 m above sea level near Krasnaya Polyana, Sochi, Krasnodars · Ảnh: SKas / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pedicularis_atropurpurea.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "SKas"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605716632/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Pedicularis densiflora Benth. · United States of America · Ảnh: T. J. Samojedny / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938063632",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "T. J. Samojedny"
+    },
+    {
+      "file": "https://arter.dk/media/820067a1-0984-4845-a86e-082d6ac37137.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Pedicularis palustris L. · Denmark · Ảnh: emil christensen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6116444579",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "emil christensen"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pedicularis%20groenlandica%20illustration.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Illustration of the plant Pedicularis groenlandica by CJ Marvin, published in Wild Flowers and Trees of Colorado, by Francis Ramaley 1909. It was know · CJ Marvin, published in Wild Flowers and Trees of Colorado, by Francis Ramaley 1909 / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pedicularis_groenlandica_illustration.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "CJ Marvin, published in Wild Flowers and Trees of Colorado, by Francis Ramaley 1909"
+    }
+  ]
+}

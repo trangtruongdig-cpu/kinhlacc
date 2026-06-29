@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Wolfiporia extensa",
+  "_bo_phan": "nấm phục linh có lõi thông",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Tuckahoe.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Wolfiporia extensa sclerotium · Ảnh: Trappem at English Wikipedia / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Tuckahoe.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Trappem at English Wikipedia"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Wolfiporia%20extensa%20cube.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Wolfiporia extensa cube · Ảnh: François Nguyen / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Wolfiporia_extensa_cube.jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "François Nguyen"
+    },
+    {
+      "file": "https://biocoll.inhs.illinois.edu/media/idigbio/dbg/mycology/00018/18914_F00_lg.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Wolfiporia extensa (Peck) Ginns · United States of America · Ảnh: Rosa-Lee Brace / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/2243339349",
+      "giay_phep": "CC0",
+      "tac_gia": "Rosa-Lee Brace"
+    },
+    {
+      "file": "https://biocoll.inhs.illinois.edu/media/idigbio/dbg/mycology/00018/18914_F1_lg.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Wolfiporia extensa (Peck) Ginns · United States of America · Ảnh: Rosa-Lee Brace / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/2243339349",
+      "giay_phep": "CC0",
+      "tac_gia": "Rosa-Lee Brace"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/54758845/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Wolfiporia cocos · ảnh đại diện · (c) Alan Rockefeller, some rights reserved (CC BY), uploaded by Alan Rockefeller (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/54758845",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Alan Rockefeller, some rights reserved (CC BY), uploaded by Alan Rockefeller"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Vigna umbellata",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Vigna%20umbellata.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Vigna umbellata in Panchkhal VDC, Nepal. · Ảnh: Krish Dulal / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Vigna_umbellata.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Krish Dulal"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Leiden%20University%20Library%20-%20Seikei%20Zusetsu%20vol.%2018%2C%20page%20018%20-%20%E7%AB%B9%E5%B0%8F%E8%B1%86%20-%20Vigna%20umbellata%20(Thunb.)%20Ohwi%20%26%20H.Ohashi%2C%201804.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Common English name: Adzuki beans; Name in Kanji: 赤小豆蔓種; English translation of Kanji: red small bean vine type; Modern Kanji: 竹小豆; Modern Katakana: タケ・アズキ; Fam · Ảnh: AnonymousUnknown author / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Leiden_University_Library_-_Seikei_Zusetsu_vol._18,_page_018_-_%E7%AB%B9%E5%B0%8F%E8%B1%86_-_Vigna_umbellata_(Thunb.)_Ohwi_%26_H.Ohashi,_1804.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "AnonymousUnknown author"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00164.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Rice Bean (Vignae Semen · 赤小豆) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00164",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/e500fce433d67ba080f7d24bd0446ef18a0fa732",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Vigna umbellata (Thunb.) Ohwi & H.Ohashi · China · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110459721",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://oxalis.br.fgov.be/images/V/BR0/000/026/624/013/BR0000026624013V.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Vigna umbellata (Thunb.) Ohwi & H.Ohashi · Belgium · Ảnh: Meise Botanic Garden / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5223287578",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Meise Botanic Garden"
+    }
+  ]
+}

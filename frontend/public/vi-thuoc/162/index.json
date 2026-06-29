@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Ailanthus altissima",
+  "_bo_phan": "vỏ rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ailanthus%20altissima%20august%202012%20Sierra%20Nevada%20Andalusia%20Spain.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Tree of Heaven, Ailanthus altissima, loads of seeds (samaras) and foliage, Sierra Nevada, August 2012, Andalusia, Spain. · Ảnh: Jebulon / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ailanthus_altissima_august_2012_Sierra_Nevada_Andalusia_Spain.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Jebulon"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ailanthus%20altissima%20sl1.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Arms and infructescences Taxonym: Ailanthus altissima ss Fischer et al. EfÖLS 2008 ISBN 978-3-85474-187-9 Location: Bruckhaufen, Vienna-Floridsdorf - ca. 160 m  · Ảnh: Stefan.lefnaer / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ailanthus_altissima_sl1.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Stefan.lefnaer"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604520818/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ailanthus altissima (Mill.) Swingle · Russian Federation · Ảnh: Юрий Данилевский (Yuriy Danilevsky) / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938031313",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Юрий Данилевский (Yuriy Danilevsky)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604520787/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ailanthus altissima (Mill.) Swingle · Russian Federation · Ảnh: Юрий Данилевский (Yuriy Danilevsky) / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938031313",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Юрий Данилевский (Yuriy Danilevsky)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/215759282/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Ailanthus altissima · quan sát thực địa · (c) John Abrams, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/215759282",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) John Abrams, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/215759337/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Ailanthus altissima · quan sát thực địa · (c) John Abrams, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/215759337",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) John Abrams, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ailanthus%20altissima%20drawing.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Tree of Heaven; · Britton, N.L., and A. Brown. 1913. Illustrated flora of the northern states and Canada. Vol. 2: 446. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ailanthus_altissima_drawing.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Britton, N.L., and A. Brown. 1913. Illustrated flora of the northern states and Canada. Vol. 2: 446."
+    }
+  ]
+}

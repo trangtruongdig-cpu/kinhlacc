@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Oxalis corniculata",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Oxalis%20corniculata%20leaves.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Oxalis corniculata leaves, a bug (possibly Cicadella viridis) is seen sitting on one of them. The plant grew on moist soil. · Ảnh: Symoum Syfullah Priyo / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Oxalis_corniculata_leaves.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Symoum Syfullah Priyo"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Larval%20Host%20Plant%20(Oxalis%20corniculata)%20of%20Pseudozizeeria%20maha%20(Kollar%2C%20(1844))%20%E2%80%93%20Pale%20Grass%20Blue.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Total life cycle completion period: 28 days. · Ảnh: Butterflyrajib / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Larval_Host_Plant_(Oxalis_corniculata)_of_Pseudozizeeria_maha_(Kollar,_(1844))_%E2%80%93_Pale_Grass_Blue.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Butterflyrajib"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605317566/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Oxalis corniculata L. · Portugal · Ảnh: Duarte Frade / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938084470",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Duarte Frade"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605317571/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Oxalis corniculata L. · Portugal · Ảnh: Duarte Frade / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938084470",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Duarte Frade"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/279196/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Oxalis corniculata · ảnh đại diện · (c) jacinta lluch valero, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/279196",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) jacinta lluch valero, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/289239525/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Oxalis corniculata · quan sát thực địa · (c) Douglas Goldman, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/289239525",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Douglas Goldman, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Oxalis%20corniculata%20Sturm10.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Oxalis corniculata L. Original Description Gehörnter Sauerklee, Oxalis corniculata · Johann Georg Sturm (Painter: Jacob Sturm) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Oxalis_corniculata_Sturm10.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Johann Georg Sturm (Painter: Jacob Sturm)"
+    }
+  ]
+}

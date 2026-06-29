@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid",
+  "_sci": "Periploca sepium",
+  "_bo_phan": "rễ cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Periploca-sepium-fruits.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Periploca sepium: Fruits (Photo from the Botanical Garden of Aarhus, Denmark) · Ảnh: Sten Porse / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Periploca-sepium-fruits.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Sten Porse"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Periploca-sepium-foliage.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Periploca sepium: Foliage (Photo from the Botanical Garden of Aarhus, Denmark) · Ảnh: Sten Porse / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Periploca-sepium-foliage.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Sten Porse"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00355.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Chinese Silkvine Root - bark (Periplocae Cortex · 香加皮) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00355",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

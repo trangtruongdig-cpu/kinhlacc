@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Oryza sativa",
+  "_bo_phan": "gạo tẻ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rice%20plant%20(Oryza%20sativa).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Rice plant (Oryza sativa) · Ảnh: Kalaiyarasiselvam / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rice_plant_(Oryza_sativa).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Kalaiyarasiselvam"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Oryza%20sativa%20(Asian%20rice)-%20Plants.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "This picture focus on Oryza sativa (Asian rice) plant · Ảnh: Debdas Gain / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Oryza_sativa_(Asian_rice)-_Plants.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Debdas Gain"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Oryza%20sativa%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-232.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Reis. A blühendes Exemplar der Pflanze (var. melanoceras Alef.), unterer Teil. B Blütenrispe. C Fruchtrispe der var. italica Körnicke. D Fruchtzweig d · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Oryza_sativa_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-232.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

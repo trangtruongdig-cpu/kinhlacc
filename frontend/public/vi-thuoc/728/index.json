@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Pseudolarix amabilis",
+  "_bo_phan": "Rễ hoặc vỏ cây gần rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pseudolarix%20amabilis%202.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Pseudolarix amabilis, photographed at The San Francisco Botanical Garden at Strybing Arboretum · Ảnh: Eric Hunt / Wikimedia Commons (CC BY 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pseudolarix_amabilis_2.jpg",
+      "giay_phep": "CC BY 2.5",
+      "tac_gia": "Eric Hunt"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pseudolarix%20amabilis%20OB%20Wroc%C5%82aw.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Pseudolarix amabilis in Botanical Garden in Wrocław, Poland · Ảnh: Crusier / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pseudolarix_amabilis_OB_Wroc%C5%82aw.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Crusier"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/467554826/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Pseudolarix amabilis (J.Nelson) Rehd. · China · Ảnh: 王天 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5063723770",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "王天"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/467571103/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Pseudolarix amabilis (J.Nelson) Rehd. · China · Ảnh: 王天 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5063723770",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "王天"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/10837877/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Pseudolarix amabilis · ảnh đại diện · (c) Krzysztof Ziarnek, Kenraiz, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/10837877",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Krzysztof Ziarnek, Kenraiz, some rights reserved (CC BY-SA)"
+    }
+  ]
+}

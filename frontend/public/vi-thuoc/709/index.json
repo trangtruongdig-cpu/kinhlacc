@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Gypsophila oldhamiana",
+  "_bo_phan": "rễ",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Gypsophila%20oldhamiana.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Gypsophila oldhamiana in Gyeyangsan, Korea · Ảnh: Dalgial / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Gypsophila_oldhamiana.JPG",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Dalgial"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Gypsophila%20oldhamiana%203.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Gypsophila oldhamiana · Ảnh: Dalgial / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Gypsophila_oldhamiana_3.JPG",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Dalgial"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

@@ -1,30 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Angelica sinensis",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Tiêu bản thực vật Đương Quy với thân, lá xẻ lông chim và cụm hoa/quả · Ảnh: Dr Aug. Henry, 1889, China Hupeh / Wikimedia Commons (CC BY-SA 4.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Danggui_Angelica_sinensis_herbier.jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "Dr Aug. Henry, 1889, China Hupeh"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Dược liệu (đã chế)",
-      "mo_ta": "Phiến rễ Đương Quy thái lát phơi khô đựng trong lọ thủy tinh · Ảnh: SwarmCheng / Wikimedia Commons (CC BY-SA 4.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Chinatown_Museum_Collections_in_Binondo_10.jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "SwarmCheng"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Dược liệu (đã chế)",
-      "mo_ta": "Rễ Đương Quy khô nguyên củ trưng bày trong ngăn kéo, có nhãn Angelica sinensis · Ảnh: SwarmCheng / Wikimedia Commons (CC BY-SA 4.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Chinatown_Museum_Collections_in_Binondo_33.jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "SwarmCheng"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00049.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Chinese Angelica (Angelicae Sinensis Radix · 當歸) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00049",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

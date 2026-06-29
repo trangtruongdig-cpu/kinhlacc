@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Hemerocallis fulva",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/00%206322%20Hemerocallis%20fulva%20-%20Gelbroten%20Taglilie.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Flower of the ornge daylily (Hemerocallis fulva). The photo shows the zymose inflorescence (blooming time up to 6 weeks). Some of the flowers have already faded · Ảnh: W. Bulach / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:00_6322_Hemerocallis_fulva_-_Gelbroten_Taglilie.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "W. Bulach"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Daylily%20(Hemerocallis%20fulva)%20v2.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Photo prise d'une Hémérocalle. · Ảnh: en:User:Laineypaige / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Daylily_(Hemerocallis_fulva)_v2.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "en:User:Laineypaige"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/616727612/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hemerocallis fulva (L.) L. · Brazil · Ảnh: Frank Thomas Sautter / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6162891783",
+      "giay_phep": "CC0",
+      "tac_gia": "Frank Thomas Sautter"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/617829388/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hemerocallis fulva (L.) L. · United States of America · Ảnh: Chris Stahl / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6162922402",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Chris Stahl"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hemerocallis%20fulva%20in%20Les%20liliacees.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Hémérocalle fauve, Lis rouge · Pierre-Joseph Redouté / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hemerocallis_fulva_in_Les_liliacees.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Pierre-Joseph Redouté"
+    }
+  ]
+}

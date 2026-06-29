@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Kalimeris indica",
+  "_bo_phan": "toàn cây hoặc rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Kalimeris-indica-by-Taraxacumseeds-06.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Boiled Kalimeris indica leaves served with salted peanuts · Ảnh: Taraxacumseeds / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Kalimeris-indica-by-Taraxacumseeds-06.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Taraxacumseeds"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr-141027-2666-Kalimeris%20indica%20subsp%20indica-flowering%20habit-Keanae%20School-Maui%20(25129840752).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Kalimeris indica subsp. indica (Indian aster) Flowering habit at Keanae School, Maui, Hawaii. October 27, 2014 #141027-2666 Image Use Policy Also known as Bolto · Ảnh: Forest and Kim Starr / Wikimedia Commons (CC BY 3.0 us)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr-141027-2666-Kalimeris_indica_subsp_indica-flowering_habit-Keanae_School-Maui_(25129840752).jpg",
+      "giay_phep": "CC BY 3.0 us",
+      "tac_gia": "Forest and Kim Starr"
+    },
+    {
+      "file": "https://indiabiodiversity.org/biodiv/observations//28e798fa-3f33-4101-b156-1045ebe5c792/b8869cec8c5e4fccb930b08c4345b797.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Kalimeris indica (L.) Sch.Bip. · India · Ảnh: Phalee Biodiversity Management Committee / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3423960154",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Phalee Biodiversity Management Committee"
+    },
+    {
+      "file": "https://dbs.kaum.kagoshima-u.ac.jp/musedb/s_plant/picture/KAG023742/KAG023742.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Aster indicus L. · Japan · Ảnh: GBIF contributor / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4522297531",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "GBIF contributor"
+    }
+  ]
+}

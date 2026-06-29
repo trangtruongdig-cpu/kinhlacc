@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Canavalia ensiformis",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Wonder%20Bean%20plant%20(1964592634).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Fabaceae (pea, or legume family) » Canavalia ensiformis kan-uh-VAY-lee-uh -- Latinized form of the Malabar vernacular kanavali en-see-FORM-iss -- meaning sword- · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Wonder_Bean_plant_(1964592634).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Tsamma%20Kaya%20(Telugu-%20%E0%B0%9A%E0%B0%AE%E0%B1%8D%E0%B0%AE%E0%B0%95%E0%B0%BE%E0%B0%AF)%20(1964527610).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Fabaceae (pea, or legume family) » Canavalia ensiformis kan-uh-VAY-lee-uh -- Latinized form of the Malabar vernacular kanavali en-see-FORM-iss -- meaning sword- · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Tsamma_Kaya_(Telugu-_%E0%B0%9A%E0%B0%AE%E0%B1%8D%E0%B0%AE%E0%B0%95%E0%B0%BE%E0%B0%AF)_(1964527610).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00169.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Sword Jackbean Seed (Canavaliae Semen · 刀豆) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00169",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/7f8ee7ae119215a918789da031b18935f19a83b3",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Canavalia ensiformis (L.) DC. · Indonesia · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110477686",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/dab99efc8f53c467778a180f3ed8d4e352d46b36",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Canavalia ensiformis (L.) DC. · Brazil · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5109808697",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/65983665/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Canavalia ensiformis · quan sát thực địa · (c) Siddarth Machado, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/65983665",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Siddarth Machado, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/65983692/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Canavalia ensiformis · quan sát thực địa · (c) Siddarth Machado, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/65983692",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Siddarth Machado, some rights reserved (CC BY)"
+    }
+  ]
+}

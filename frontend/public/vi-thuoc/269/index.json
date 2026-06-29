@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Phytolacca acinosa",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Phytolacca%20acinosa%20Szkar%C5%82atka%20jagodowa%202007-08-11%2003.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Phytolacca acinosa, fruiting plant, cultivated in Wrocław University Botanical Garden, Wrocław, Polska. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Phytolacca_acinosa_Szkar%C5%82atka_jagodowa_2007-08-11_03.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Phytolacca%20acinosa%20Szkar%C5%82atka%20jagodowa%202007-08-11%2002.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Phytolacca acinosa, fruits, plant cultivated in Wrocław University Botanical Garden, Wrocław, Polska. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Phytolacca_acinosa_Szkar%C5%82atka_jagodowa_2007-08-11_02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00097.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Indian Pokwees Roxb (Phytolaccae Radix · 商陸) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00097",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://observation.org/photos/147815466.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Phytolacca acinosa Roxb. · Netherlands · Ảnh: Stichting Observation International / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6213214885",
+      "giay_phep": "CC0",
+      "tac_gia": "Stichting Observation International"
+    },
+    {
+      "file": "https://observation.org/photos/147815467.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Phytolacca acinosa Roxb. · Netherlands · Ảnh: Stichting Observation International / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6213214885",
+      "giay_phep": "CC0",
+      "tac_gia": "Stichting Observation International"
+    }
+  ]
+}

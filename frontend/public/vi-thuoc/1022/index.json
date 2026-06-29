@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Smilax china",
+  "_bo_phan": "Thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Smilax%20china%20different%20leaf%20color%20stages%20all%20on%20the%20same%20plant.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "w:Smilax china with different leaf color stages all on the same plant. Indeed, w:disruptive coloration! · Ảnh: Jidanni / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Smilax_china_different_leaf_color_stages_all_on_the_same_plant.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Jidanni"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Smilax%20china%20(20115625616).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "The plant what previous butterfly perched on. · Ảnh: harum.koh from Kobe city, Japan / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Smilax_china_(20115625616).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "harum.koh from Kobe city, Japan"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00035.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Chinaroot Greenbrier Rhizome (Smilacis Chinae Rhizoma · 菝葜) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00035",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/607071831/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Smilax china L. · Hong Kong · Ảnh: Toby Y / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130040452",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Toby Y"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/619121713/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Smilax china L. · Chinese Taipei · Ảnh: 葉子 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6170991463",
+      "giay_phep": "CC0",
+      "tac_gia": "葉子"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/3288292/medium.JPG",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Smilax china · quan sát thực địa · (c) harum.koh, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/3288292",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) harum.koh, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00230.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Puncturevine Caltrap Fruit (Tribuli Fructus · 蒺藜) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00230",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

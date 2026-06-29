@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Canarium album",
+  "_bo_phan": "quả chín",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Canarium%20harveyi%2C%20leaves%2C%20fruits.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Canarium harveyi; (ʻai), ʻEneʻio botanical garden, Vavaʻu · Ảnh: Tauʻolunga / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Canarium_harveyi,_leaves,_fruits.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Tauʻolunga"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Nam%20liap%20mu%20sap.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Nam liap mu sap (Thai script: หนำเลี๊ยบหมูสับ) is minced pork stir-fried with garlic and minced nam liap (the fruit of the Canarium album, which resembles a bla · Ảnh: Takeaway / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Nam_liap_mu_sap.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Takeaway"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00199.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "White Canarytree Fruit (Canarii Fructus · 青果) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00199",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "http://mediaphoto.mnhn.fr/media/1441453394226pIEDC96CvZcsyEXx",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Canarium album (Lour.) Raeusch. ex DC. · Cambodia · Ảnh: Cheng, K.C.|David, B.|Leti, M. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/438830312",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Cheng, K.C.|David, B.|Leti, M."
+    },
+    {
+      "file": "https://iiif.rbge.org.uk/herb/iiif/E00313100/full/1600,/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Canarium album (Lour.) Raeusch. · Lao People’s Democratic Republic · Ảnh: Nanthavong, K. / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/574896016",
+      "giay_phep": "CC0",
+      "tac_gia": "Nanthavong, K."
+    }
+  ]
+}

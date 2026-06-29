@@ -1,0 +1,77 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Senegalia catechu",
+  "_bo_phan": "Vỏ cành và thân cây phơi khô của cây Convolvulus pluricaulis, dạng cao khô",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Plant%20of%20Senegalia%20catechu.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Senegalia catechu is a deciduous, thorny tree which grows up to 15 m in height. The plant is called khair in Hindi, and kachu in Malay, hence the name was Latin · Ảnh: NISHANT NANU 2 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Plant_of_Senegalia_catechu.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "NISHANT NANU 2"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/BD%20n229%20w1150%20(37917734036).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Senegalia catechu // Plantæ utiliores :. London :Whittaker &amp; Co.,1842-1850.. biodiversitylibrary.org/page/53727922 · Ảnh: Biodiversity Heritage Library / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:BD_n229_w1150_(37917734036).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "Biodiversity Heritage Library"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00416.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Cutch (Catechu · 兒茶) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00416",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/665561474/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Senegalia catechu (L.f.) P.J.H.Hurter & Mabb. · India · Ảnh: Ravuri Krishna Chaitanya / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6333876080",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Ravuri Krishna Chaitanya"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/665561508/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Senegalia catechu (L.f.) P.J.H.Hurter & Mabb. · India · Ảnh: Ravuri Krishna Chaitanya / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6333876080",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Ravuri Krishna Chaitanya"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/518405607/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Senegalia catechu · quan sát thực địa · (c) Vikas D Prasad, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/518405607",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Vikas D Prasad, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/518405640/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Senegalia catechu · quan sát thực địa · (c) Vikas D Prasad, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/518405640",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Vikas D Prasad, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Acacia%20catechu%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-003.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Catechu-Acacie. A blühender Zweig, nat. Grösse; 1 Blüthe, vergrössert; 2 dieselbe im Längsschnitt, desgl.; 3 Staubgefässe von verschiedenen Seiten, de · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Acacia_catechu_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-003.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

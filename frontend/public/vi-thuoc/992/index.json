@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Clerodendrum bungei",
+  "_bo_phan": "toàn cây có rễ hoặc phần trên mặt đất phơi khô",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Clerodendrum%20bungei%20in%20Christchurch%20Botanic%20Gardens%2004.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Leaf of Clerodendrum bungei in Christchurch Botanic Gardens in Christchurch, Canterbury Region, New Zealand · Ảnh: Krzysztof Golik / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Clerodendrum_bungei_in_Christchurch_Botanic_Gardens_04.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Golik"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Clerodendrum%20bungei%20JdP.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Clérodendron, Clerodendrum bungei, Jardin des Plantes, Paris. · Ảnh: Jebulon / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Clerodendrum_bungei_JdP.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Jebulon"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/634052807/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Clerodendrum bungei Steud. · United States of America · Ảnh: Ashwin Srinivasan / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6188047608",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Ashwin Srinivasan"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/634052801/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Clerodendrum bungei Steud. · United States of America · Ảnh: Ashwin Srinivasan / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6188047608",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Ashwin Srinivasan"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/217727995/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Clerodendrum bungei · quan sát thực địa · (c) Анна Кириченко, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/217727995",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Анна Кириченко, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/217728041/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Clerodendrum bungei · quan sát thực địa · (c) Анна Кириченко, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/217728041",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Анна Кириченко, some rights reserved (CC BY)"
+    }
+  ]
+}

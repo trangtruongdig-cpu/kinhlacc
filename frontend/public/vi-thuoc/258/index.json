@@ -1,0 +1,77 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Xanthium strumarium",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Xanthium%20strumarium%20-%20whole%20plant%20(19059401496).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Common cocklebur. For more information on identification and control, visit &lt;a href=\"http://turfweeds.cals.cornell.edu/plant/identify/152.Poisonous\" rel=\"nof · Ảnh: NY State IPM Program at Cornell University from New York, USA / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Xanthium_strumarium_-_whole_plant_(19059401496).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "NY State IPM Program at Cornell University from New York, USA"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Xanthium%20strumarium%20-%20whole%20plant%20(19088896681).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Common cocklebur. For more information on identification and control, visit &lt;a href=\"http://turfweeds.cals.cornell.edu/plant/identify/152\" rel=\"nofollow\"&gt; · Ảnh: NY State IPM Program at Cornell University from New York, USA / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Xanthium_strumarium_-_whole_plant_(19088896681).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "NY State IPM Program at Cornell University from New York, USA"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00241.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Siberian Cocklebur Fruit (Xanthii Fructus · 蒼耳子) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00241",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605704291/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Xanthium strumarium L. · United States of America · Ảnh: Sam Kieschnick / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938092741",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Sam Kieschnick"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605704315/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Xanthium strumarium L. · United States of America · Ảnh: Sam Kieschnick / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938092741",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Sam Kieschnick"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/482251914/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Xanthium strumarium · quan sát thực địa · (c) Corey Koala, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/482251914",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Corey Koala, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/482252153/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Xanthium strumarium · quan sát thực địa · (c) Corey Koala, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/482252153",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Corey Koala, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Xanthium%20strumarium%20DESC%20Thom%C3%A8.JPG?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Xanthium strumarium DESC Thomè · Prof. Dr. Otto Wilhelm Thomè / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Xanthium_strumarium_DESC_Thom%C3%A8.JPG",
+      "giay_phep": "Public domain",
+      "tac_gia": "Prof. Dr. Otto Wilhelm Thomè"
+    }
+  ]
+}

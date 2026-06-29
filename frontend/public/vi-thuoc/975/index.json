@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Blumea balsamifera",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Sambong%20(Blumea%20balsamifera)%20leaf.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "leaf of the sambong plant (Blumea balsamifera), cultivated for medicinal use, northern Buton Island, Southeast Sulawesi, Indonesia · Ảnh: David E Mead / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Sambong_(Blumea_balsamifera)_leaf.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "David E Mead"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Sambong%20(Blumea%20balsamifera).jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "leaves of the sambong plant (Blumea balsamifera), cultivated for medicinal use, northern Buton Island, Southeast Sulawesi, Indonesia · Ảnh: David E Mead / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Sambong_(Blumea_balsamifera).jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "David E Mead"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/624472018/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Blumea balsamifera (L.) DC. · Chinese Taipei · Ảnh: Yi-fan翊凡 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6195460286",
+      "giay_phep": "CC0",
+      "tac_gia": "Yi-fan翊凡"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/652814009/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Blumea balsamifera (L.) DC. · Chinese Taipei · Ảnh: Yi-fan翊凡 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6252119305",
+      "giay_phep": "CC0",
+      "tac_gia": "Yi-fan翊凡"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Blumea%20balsamifera%20Blanco2.403.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Blumea_balsamifera_Blanco2.403.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Terminalia chebula",
+  "_bo_phan": "thịt quả",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Terminalia%20chebula%20-%20South%20China%20Botanical%20Garden%202013.11.02%2011-07-25.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "诃子（学名：Terminalia chebula），摄于广州华南植物园 · Ảnh: Zhangzhugang / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Terminalia_chebula_-_South_China_Botanical_Garden_2013.11.02_11-07-25.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Zhangzhugang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A4%A1%E0%A4%BE%2C%20%E0%A4%A7%E0%A4%BE%E0%A4%AE%E0%A4%A3%E0%A4%B5%E0%A4%A8%2C%20%E0%A4%85%E0%A4%95%E0%A5%8B%E0%A4%B2%E0%A5%87%2C%20%E0%A4%85%E0%A4%B9%E0%A4%AE%E0%A4%A6%E0%A4%A8%E0%A4%97%E0%A4%B0%20Hirada%2C%20Dhamanvan%2C%20Akole%2C%20Ahamadnagar(Terminalia%20chebula).jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Medicinal plant – Hirda (Marathi Name), Botanical Name – Terminalia chebula, Place – Dhamanvan, Taluka – Akole Dist – Ahamednagar, State – Maharashtra, Country  · Ảnh: MGB CEE / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E0%A4%B9%E0%A4%BF%E0%A4%B0%E0%A4%A1%E0%A4%BE,_%E0%A4%A7%E0%A4%BE%E0%A4%AE%E0%A4%A3%E0%A4%B5%E0%A4%A8,_%E0%A4%85%E0%A4%95%E0%A5%8B%E0%A4%B2%E0%A5%87,_%E0%A4%85%E0%A4%B9%E0%A4%AE%E0%A4%A6%E0%A4%A8%E0%A4%97%E0%A4%B0_Hirada,_Dhamanvan,_Akole,_Ahamadnagar(Terminalia_chebula).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "MGB CEE"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/4b33a5928a5a0a25200da1d4504061cfbb0d8603",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Terminalia chebula Retz. · India · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5109958258",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/355223707/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Terminalia chebula Retz. · India · Ảnh: Aruna Gamuz / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/4535722978",
+      "giay_phep": "CC0",
+      "tac_gia": "Aruna Gamuz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/236757944/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Terminalia chebula · quan sát thực địa · (c) Dinesh Valke, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/236757944",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Dinesh Valke, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/236757953/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Terminalia chebula · quan sát thực địa · (c) Dinesh Valke, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/236757953",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Dinesh Valke, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Terminalia%20chebula%20Govindoo.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Terminalia chebula · Govindoo / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Terminalia_chebula_Govindoo.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Govindoo"
+    }
+  ]
+}

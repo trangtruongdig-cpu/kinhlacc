@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Prinsepia uniflora",
+  "_bo_phan": "quả hạch chín",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Prinsepia%20uniflora%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Prinsepia uniflora in Bucharest Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Prinsepia_uniflora_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Prinsepia%20uniflora%20jd%20plt%201.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Prinsepia uniflora, Jardin des Plantes, Paris · Ảnh: Pancrat / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Prinsepia_uniflora_jd_plt_1.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Pancrat"
+    },
+    {
+      "file": "https://www.plantarium.ru/dat/plants/8/824/538824_79bc6700.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Prinsepia uniflora Batalin · Ukraine · Ảnh: Евгений Спиваковский / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5900464335",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Евгений Спиваковский"
+    },
+    {
+      "file": "https://purl.org/gbifnorway/img/ipt-specimens/barstow-garden/new/2010/P4293884.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Prinsepia uniflora Batalin · Norway · Ảnh: Stephen Barstow / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3045035120",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Stephen Barstow"
+    }
+  ]
+}

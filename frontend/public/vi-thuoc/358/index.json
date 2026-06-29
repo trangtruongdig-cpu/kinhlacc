@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Isatis indigotica",
+  "_bo_phan": "lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Isatis%20tinctoria%20Urzet%20barwierski%202022-05-22%2007.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Isatis tinctoria leaves, plant cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Isatis_tinctoria_Urzet_barwierski_2022-05-22_07.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Isatis%20tinctoria%20001.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Isatis tinctoria, Brassicaceae, Woad, habitus; Botanical Garden KIT, Karlsruhe, Germany. · Ảnh: H. Zell / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Isatis_tinctoria_001.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "H. Zell"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00325.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Indigowoad Leaf (Isatidis Folium · 大青葉) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00325",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://purl.org/gbifnorway/img/ipt-specimens/barstow-garden/new/2011/P7061293.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Isatis indigotica Fortune ex Lindl. · Norway · Ảnh: Stephen Barstow / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3045024604",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Stephen Barstow"
+    },
+    {
+      "file": "https://purl.org/gbifnorway/img/ipt-specimens/barstow-garden/new/2011/P7061294.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Isatis indigotica Fortune ex Lindl. · Norway · Ảnh: Stephen Barstow / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3045024604",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Stephen Barstow"
+    }
+  ]
+}

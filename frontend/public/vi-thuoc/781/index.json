@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Gomphrena globosa",
+  "_bo_phan": "đầu状花序 (cụm hoa)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr%20020304-9001%20Gomphrena%20globosa.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Gomphrena globosa (plant). Location: Maui, Kanaha Beach · Ảnh: Forest &amp; Kim Starr / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr_020304-9001_Gomphrena_globosa.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Forest &amp; Kim Starr"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Gomphrena%20globosa%20plant.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Gomphrena globosa · Ảnh: Sabina Bajracharya / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Gomphrena_globosa_plant.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Sabina Bajracharya"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Gomphrena%20globosa%20Blanco1.68-original.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Gomphrena_globosa_Blanco1.68-original.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

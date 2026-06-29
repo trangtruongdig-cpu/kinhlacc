@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Bufo gargarizans",
+  "_bo_phan": "da cóc (chế)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Bufo%20gargarizans%20profile.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Profile view of an adult Bufo gargarizans, the Asiatic toad. Specimen collected on mountainside in Miryang, South Korea. · Ảnh: Visviva / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Bufo_gargarizans_profile.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Visviva"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Bufo%20gargarizans%20126590768.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Asiatic Toad (Bufo gargarizans) · Ảnh: Wang.QG / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Bufo_gargarizans_126590768.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Wang.QG"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/616295422/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Bufo gargarizans Cantor, 1842 · China · Ảnh: angryphyco / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6159453384",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "angryphyco"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/616295435/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Bufo gargarizans Cantor, 1842 · China · Ảnh: angryphyco / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6159453384",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "angryphyco"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/424755675/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Bufo gargarizans · quan sát thực địa · (c) Jiao Sun (孙娇), some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/424755675",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Jiao Sun (孙娇), some rights reserved (CC BY)"
+    }
+  ]
+}

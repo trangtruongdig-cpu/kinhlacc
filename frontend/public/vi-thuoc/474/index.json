@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Laminaria japonica",
+  "_bo_phan": "toàn tảo bẹ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/FMIB%2041730%20Laminaria%20japonica.jpeg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Laminaria japonica Subject: Marine algae, Laminaria Tag: Aquatic Botany · Ảnh: Hugh McCormick Smith / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:FMIB_41730_Laminaria_japonica.jpeg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Hugh McCormick Smith"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/552259888/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Saccharina japonica (Aresch.) C.E.Lane, C.Mayes, Druehl & G.W.Saunders, 2006 · Russian Federation · Ảnh: Andrew Bazdyrev / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5291966023",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Andrew Bazdyrev"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/552259891/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Saccharina japonica (Aresch.) C.E.Lane, C.Mayes, Druehl & G.W.Saunders, 2006 · Russian Federation · Ảnh: Andrew Bazdyrev / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5291966023",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Andrew Bazdyrev"
+    }
+  ]
+}

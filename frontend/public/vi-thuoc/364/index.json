@@ -1,0 +1,23 @@
+{
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "toàn cây trên mặt đất",
+  "_src_done": [
+    "cmmid"
+  ],
+  "images": [
+    {
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00295.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Heartleaf Houttuynia Herb (Houttuyniae Herba · 魚腥草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00295",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

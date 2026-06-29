@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Mylabris",
+  "_bo_phan": "toàn thân côn trùng",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/1.%20Mylabris%20cichorii2.%20Spanish%20fly3.%20Red-striped%20Oil%20Beetle4.%20Mylabris%20sidae5.%20blister%20beetles.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Scientific (biological, zoological, botanical) illustration from Dictionnaire Universel D'histoire Naturelle (1841-1849 in sixteen volumes, second edition in 18 · Ảnh: Free Public Domain Illustrations by rawpixel / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:1._Mylabris_cichorii2._Spanish_fly3._Red-striped_Oil_Beetle4._Mylabris_sidae5._blister_beetles.jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "Free Public Domain Illustrations by rawpixel"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Mylabris%20quadripunctata%20MHNT%20Profil%20Fronton.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Mylabris quadripunctata, side view. · Ảnh: Didier Descouens / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Mylabris_quadripunctata_MHNT_Profil_Fronton.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Didier Descouens"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00367.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Chinese Blistering Beetle (Mylabris · 斑蝥) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00367",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/645432981/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Mylabris quadripunctata (Linnaeus, 1767) · Israel · Ảnh: Chaym Turak / GBIF (CC BY-SA 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6236473534",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Chaym Turak"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/645432968/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Mylabris quadripunctata (Linnaeus, 1767) · Israel · Ảnh: Chaym Turak / GBIF (CC BY-SA 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6236473534",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Chaym Turak"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/404604070/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Mylabris variabilis · quan sát thực địa · (c) mnauky, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/404604070",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) mnauky, some rights reserved (CC BY)"
+    }
+  ]
+}

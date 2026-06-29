@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Lycopus lucidus",
+  "_bo_phan": "toàn cây trên mặt đất",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Lycopus%20lucidus%201.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Lycopus lucidus, Lake Hibara-ko, Fukushima pref., Japan · Ảnh: Qwert1234 / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycopus_lucidus_1.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Qwert1234"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Lycopus%20lucidus%202.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Lycopus lucidus · Ảnh: Dalgial / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycopus_lucidus_2.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Dalgial"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00298.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Hirsute Bugleweed Herb (Lycopi Herba · 澤蘭) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00298",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/142344529/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Lycopus americanus · quan sát thực địa · (c) Mary Krieger, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/142344529",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Mary Krieger, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/142344476/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Lycopus americanus · quan sát thực địa · (c) Mary Krieger, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/142344476",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Mary Krieger, some rights reserved (CC BY)"
+    }
+  ]
+}

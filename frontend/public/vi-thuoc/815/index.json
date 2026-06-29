@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Rhododendron dauricum",
+  "_bo_phan": "Lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rhododendron%20dauricum%20in%20Marburg%20BG%20(5).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Rhododendron dauricum in Marburg Botanical Garden in Marburg, Hesse, Germany · Ảnh: Krzysztof Golik / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rhododendron_dauricum_in_Marburg_BG_(5).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Golik"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rhododendron%20dauricum%20Dahurianalppiruusu%20IM7366%20C.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Rhododendron dauricum in The University of Helsinki Botanical Garden in Kaisaniemi · Ảnh: Anneli Salo / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rhododendron_dauricum_Dahurianalppiruusu_IM7366_C.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Anneli Salo"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/632539958/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Rhododendron dauricum L. · Russian Federation · Ảnh: Сергей / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6188439515",
+      "giay_phep": "CC0",
+      "tac_gia": "Сергей"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/632539957/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Rhododendron dauricum L. · Russian Federation · Ảnh: Сергей / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6188439515",
+      "giay_phep": "CC0",
+      "tac_gia": "Сергей"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/3323515/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Rhododendron mucronulatum · ảnh đại diện · (c) Kim, Hyun-tae, some rights reserved (CC BY), uploaded by Kim, Hyun-tae (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/3323515",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Kim, Hyun-tae, some rights reserved (CC BY), uploaded by Kim, Hyun-tae"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rhododendron%20dauricum%20var.%20sempervirens.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Рододендрон Ледебура · Lilian Snelling / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rhododendron_dauricum_var._sempervirens.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Lilian Snelling"
+    }
+  ]
+}

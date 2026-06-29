@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Opuntia dillenii",
+  "_bo_phan": "toàn cây (trừ gai)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Opuntia%20stricta%20-%20Tenerife%2001.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Opuntia stricta (Haw.) Haw. (1812), Habitus; Punta de Teno, Tenerife, Canary Islands, Spain. · Ảnh: H. Zell / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Opuntia_stricta_-_Tenerife_01.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "H. Zell"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Opuntia%20dillenii%20(prickly-pear%20cactus)%20(San%20Salvador%20Island%2C%20Bahamas)%202%20(15582185318).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Opuntia dillenii (Ker Gawler, 1818) - common prickly-pear cactus in the Bahamas. Plants are multicellular, photosynthesizing eucaryotes. Most species occupy ter · Ảnh: James St. John / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Opuntia_dillenii_(prickly-pear_cactus)_(San_Salvador_Island,_Bahamas)_2_(15582185318).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "James St. John"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/610127357/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Opuntia dillenii (Ker Gawl.) Haw. · Brazil · Ảnh: stephen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6129983301",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "stephen"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/610247574/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Opuntia dillenii (Ker Gawl.) Haw. · Brazil · Ảnh: stephen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130177160",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "stephen"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/64002244/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Opuntia dillenii · ảnh đại diện · (c) chiuluan, some rights reserved (CC BY), uploaded by chiuluan (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/64002244",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) chiuluan, some rights reserved (CC BY), uploaded by chiuluan"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/428187132/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Opuntia dillenii · quan sát thực địa · (c) Giacomo Navari, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/428187132",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Giacomo Navari, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/The%20Cactaceae%20(Plate%20XXXVIII)%20(6026512888).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "BRITTON AND ROSE PLATE XXVIll M. E, Eaton del 1. Flowering joint of Opiintia laevis. 2. Flowering joint of Opicntia dillenii. 3. Upper part of floweri · Britton, Nathaniel Lord; Rose, J. N. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:The_Cactaceae_(Plate_XXXVIII)_(6026512888).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Britton, Nathaniel Lord; Rose, J. N."
+    }
+  ]
+}

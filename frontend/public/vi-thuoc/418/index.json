@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Cirsium setosum",
+  "_bo_phan": "toàn cây trên mặt đất",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cirsium%20arvense%202025-07-23-8.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Leaf and thorns of a field thistle (Cirsium arvense) · Ảnh: Renée Kools / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cirsium_arvense_2025-07-23-8.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Renée Kools"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cirsium%20arvense%20with%20Bees%20Richard%20Bartz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "2 Bees on a Creeping Thistle Cirsium arvense · Ảnh: Richard Bartz, Munich aka Makro Freak / Wikimedia Commons (CC BY-SA 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cirsium_arvense_with_Bees_Richard_Bartz.jpg",
+      "giay_phep": "CC BY-SA 2.5",
+      "tac_gia": "Richard Bartz, Munich aka Makro Freak"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00266.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Thistle (Cirsii Herba · 小薊) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00266",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "http://biobase.179.ru/flora/2019-moscow-flora/2019-08-04_19-10-58-.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cirsium setosum (Willd.) Besser ex M.Bieb. · Russian Federation · Ảnh: Bioclass, School #179, Moscow / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/2573690190",
+      "giay_phep": "CC0",
+      "tac_gia": "Bioclass, School #179, Moscow"
+    },
+    {
+      "file": "http://biobase.179.ru/flora/2019-moscow-flora/2019-08-04_19-11-08-.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cirsium setosum (Willd.) Besser ex M.Bieb. · Russian Federation · Ảnh: Bioclass, School #179, Moscow / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/2573690190",
+      "giay_phep": "CC0",
+      "tac_gia": "Bioclass, School #179, Moscow"
+    }
+  ]
+}

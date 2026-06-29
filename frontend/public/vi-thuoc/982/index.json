@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Amaranthus spinosus",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/.%E0%AE%AE%E0%AF%81%E0%AE%B3%E0%AF%8D%E0%AE%B3%E0%AF%81%E0%AE%95%E0%AF%8D%E0%AE%95%E0%AF%80%E0%AE%B0%E0%AF%88-%20(Amaranthus%20spinosus)%202.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "முள்ளுக் கீரை Botanical name: Amaranthus spinosus Common name: Prickly Amaranth Tamil name: Mullukkeerai ‘thorny pot-herb’ This is used as antidote for snake-po · Ảnh: Dr.S.Soundarapandian / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:.%E0%AE%AE%E0%AF%81%E0%AE%B3%E0%AF%8D%E0%AE%B3%E0%AF%81%E0%AE%95%E0%AF%8D%E0%AE%95%E0%AF%80%E0%AE%B0%E0%AF%88-_(Amaranthus_spinosus)_2.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Dr.S.Soundarapandian"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/.%E0%AE%AE%E0%AF%81%E0%AE%B3%E0%AF%8D%E0%AE%B3%E0%AF%81%E0%AE%95%E0%AF%8D%E0%AE%95%E0%AF%80%E0%AE%B0%E0%AF%88-%20(Amaranthus%20spinosus%20)%203.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "முள்ளுக் கீரை Botanical name: Amaranthus spinosus Common name: Prickly Amaranth Tamil name: Mullukkeerai ‘thorny pot-herb’ This is used as antidote for snake-po · Ảnh: Dr.S.Soundarapandian / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:.%E0%AE%AE%E0%AF%81%E0%AE%B3%E0%AF%8D%E0%AE%B3%E0%AF%81%E0%AE%95%E0%AF%8D%E0%AE%95%E0%AF%80%E0%AE%B0%E0%AF%88-_(Amaranthus_spinosus_)_3.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Dr.S.Soundarapandian"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604609941/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Amaranthus spinosus L. · United States of America · Ảnh: Josiah Londerée / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6179458822",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Josiah Londerée"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/163593189/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Amaranthus spinosus · quan sát thực địa · (c) Leila Dasher, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/163593189",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Leila Dasher, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/163593196/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Amaranthus spinosus · quan sát thực địa · (c) Leila Dasher, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/163593196",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Leila Dasher, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Flore%20m%C3%A9dicale%20des%20Antilles%2C%20ou%2C%20Trait%C3%A9%20des%20plantes%20usuelles%20(Pl.%20314)%20(7795676498).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Amarante épineuse · Descourtilz, J. Theodore.; Descourtilz, M. E.; Pichard. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Flore_m%C3%A9dicale_des_Antilles,_ou,_Trait%C3%A9_des_plantes_usuelles_(Pl._314)_(7795676498).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Descourtilz, J. Theodore.; Descourtilz, M. E.; Pichard."
+    }
+  ]
+}

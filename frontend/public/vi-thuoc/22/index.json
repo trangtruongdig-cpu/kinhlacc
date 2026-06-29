@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Dioscorea oppositifolia",
+  "_bo_phan": "thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dioscorea%20oppositifolia%20L.%20(53488474778).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Dioscorea oppositifolia L. · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dioscorea_oppositifolia_L._(53488474778).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E0%B0%A4%E0%B1%87%E0%B0%97%20%E0%B0%A6%E0%B1%81%E0%B0%82%E0%B0%AA%20dioscorea%20oppositifolia.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Xutxyic · Ảnh: Krishna satya 333 / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E0%B0%A4%E0%B1%87%E0%B0%97_%E0%B0%A6%E0%B1%81%E0%B0%82%E0%B0%AA_dioscorea_oppositifolia.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Krishna satya 333"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/126279200/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dioscorea oppositifolia L. · India · Ảnh: Seema Merchant / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3337866481",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Seema Merchant"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/126279226/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dioscorea oppositifolia L. · India · Ảnh: Seema Merchant / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3337866481",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Seema Merchant"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/222757012/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Dioscorea oppositifolia · quan sát thực địa · (c) Dinesh Valke, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/222757012",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Dinesh Valke, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/222757027/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Dioscorea oppositifolia · quan sát thực địa · (c) Dinesh Valke, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/222757027",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Dinesh Valke, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Storia%20delle%20piante%20forastiere%20le%20pi%C3%B9%20importanti%20nell'uso%20medico%2C%20od%20economico%2C%201793%20-%20Igname%20-%20BEIC%20IE24577591.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Storia delle piante forastiere le più importanti nell'uso medico, od economico, 1793 - Igname (Dioscorea oppositifolia) · Wikimedia Commons / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Storia_delle_piante_forastiere_le_pi%C3%B9_importanti_nell%27uso_medico,_od_economico,_1793_-_Igname_-_BEIC_IE24577591.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Wikimedia Commons"
+    }
+  ]
+}

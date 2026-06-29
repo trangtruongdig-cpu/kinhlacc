@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Curculigo orchioides",
+  "_bo_phan": "thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Curculigo%20orchioides.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Yellow Ground Star (Curculigo orchioides) · Ảnh: Viren Vaz (self) / Wikimedia Commons (CC BY-SA 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Curculigo_orchioides.jpg",
+      "giay_phep": "CC BY-SA 2.5",
+      "tac_gia": "Viren Vaz (self)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Curculigo%20orchioides%204.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Curculigo orchioides · Ảnh: George Muttathil Pulikurumba / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Curculigo_orchioides_4.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "George Muttathil Pulikurumba"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00110.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Vurculigo Rhizome (Curculiginis Rhizoma · 仙茅) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00110",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/635066715/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Curculigo orchioides Gaertn. · Guam · Ảnh: Chuck Wilson / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6195969439",
+      "giay_phep": "CC0",
+      "tac_gia": "Chuck Wilson"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/635066732/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Curculigo orchioides Gaertn. · Guam · Ảnh: Chuck Wilson / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6195969439",
+      "giay_phep": "CC0",
+      "tac_gia": "Chuck Wilson"
+    }
+  ]
+}

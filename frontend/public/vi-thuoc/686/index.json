@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Anemone vitifolia",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Anemone%20tomentosa%20-%20Hopeasyysvuokko%2C%20Silvrig%20h%C3%B6stanemon%2C%20Hardy%20Grape%20Leaf%20Anemone%20IMG%202822%20C.JPG?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Seed heads of Hardy Grape Leaf Anemone (Anemone tomentosa) in Kaisaniemi Botanical Garden. · Ảnh: Anneli Salo / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Anemone_tomentosa_-_Hopeasyysvuokko,_Silvrig_h%C3%B6stanemon,_Hardy_Grape_Leaf_Anemone_IMG_2822_C.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Anneli Salo"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Anemone%20tomentosa%20-%20Hopeasyysvuokko%2C%20Silvrig%20h%C3%B6stanemon%2C%20Hardy%20Grape%20Leaf%20Anemone%20IMG%202821%20C.JPG?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Seed heads of Hardy Grape Leaf Anemone (Anemone tomentosa) in Kaisaniemi Botanical Garden. · Ảnh: Anneli Salo / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Anemone_tomentosa_-_Hopeasyysvuokko,_Silvrig_h%C3%B6stanemon,_Hardy_Grape_Leaf_Anemone_IMG_2821_C.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Anneli Salo"
+    },
+    {
+      "file": "https://iiif.rbge.org.uk/herb/iiif/E01579820/full/1600,/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Anemone vitifolia Buch.-Ham. ex DC. · Nepal · Ảnh: Edinburgh Kathmandu Tokyo Expedition, / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5826581579",
+      "giay_phep": "CC0",
+      "tac_gia": "Edinburgh Kathmandu Tokyo Expedition,"
+    },
+    {
+      "file": "https://iiif.rbge.org.uk/herb/iiif/E01579820/full/300,/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Anemone vitifolia Buch.-Ham. ex DC. · Nepal · Ảnh: Edinburgh Kathmandu Tokyo Expedition, / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5826581579",
+      "giay_phep": "CC0",
+      "tac_gia": "Edinburgh Kathmandu Tokyo Expedition,"
+    }
+  ]
+}

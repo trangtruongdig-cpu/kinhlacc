@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Achyranthes bidentata",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Achyranthes%20bidentata.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Achyranthes bidentata · Ảnh: Stanislav Doronenko / Wikimedia Commons (CC BY 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Achyranthes_bidentata.jpg",
+      "giay_phep": "CC BY 2.5",
+      "tac_gia": "Stanislav Doronenko"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Achyranthes%20bidentata%20var.%20fauriei.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "ヒナタイノコヅチ（茨城県常陸太田市にて） · Ảnh: 小石川人晃 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Achyranthes_bidentata_var._fauriei.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "小石川人晃"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/648256908/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Achyranthes japonica (Miq.) Nakai · United States of America · Ảnh: Jonah McDonald / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6234365914",
+      "giay_phep": "CC0",
+      "tac_gia": "Jonah McDonald"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/643748901/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Achyranthes japonica (Miq.) Nakai · United States of America · Ảnh: dinnie16 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6234709812",
+      "giay_phep": "CC0",
+      "tac_gia": "dinnie16"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/421416887/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Achyranthes japonica · quan sát thực địa · (c) daksu, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/421416887",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) daksu, some rights reserved (CC BY)"
+    }
+  ]
+}

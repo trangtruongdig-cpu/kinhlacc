@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Hibiscus syriacus",
+  "_bo_phan": "Vỏ thân hoặc vỏ rễ cây Mộc Cẩm (Hibiscus syriacus L.)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hibiscus%20syriacus%20Ketmia%20syryjska%202019-04-06%2001.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Common Hibiscus (Hibiscus syriacus) dry fruit remainings from previous season and young leaves. Plant cultivated in Wrocław University Botanical Garden, Wrocław · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hibiscus_syriacus_Ketmia_syryjska_2019-04-06_01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hibiscus%20syriacus%20Ketmia%20syryjska%202019-04-06%2002.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Common Hibiscus (Hibiscus syriacus) dry fruit remainings from previous season and young leaves. Plant cultivated in Wrocław University Botanical Garden, Wrocław · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hibiscus_syriacus_Ketmia_syryjska_2019-04-06_02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/611896866/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hibiscus syriacus L. · Argentina · Ảnh: Lauu / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6133313781",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Lauu"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/609401166/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hibiscus syriacus L. · India · Ảnh: prodewald / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6195589880",
+      "giay_phep": "CC0",
+      "tac_gia": "prodewald"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/344673227/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Hibiscus syriacus · quan sát thực địa · (c) Douglas Goldman, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/344673227",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Douglas Goldman, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/344673501/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Hibiscus syriacus · quan sát thực địa · (c) Douglas Goldman, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/344673501",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Douglas Goldman, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hibiscus%20syriacus%20Blanco2.346.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hibiscus_syriacus_Blanco2.346.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

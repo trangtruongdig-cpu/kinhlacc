@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Iris pallasii",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Iris%20pallasii%2041420904.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Iris pallasii · Ảnh: Svyatoslav Knyazev / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Iris_pallasii_41420904.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Svyatoslav Knyazev"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Siberian%20Iris.%20Eastern%20Siberia.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Ирис двучешуйный (Iris lactea f. biglumis). Восточная Сибирь. · Ảnh: Oleg Bor / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Siberian_Iris._Eastern_Siberia.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Oleg Bor"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/41420904/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Iris pallasii · ảnh đại diện · (c) Svyatoslav Knyazev, some rights reserved (CC BY), uploaded by Svyatoslav Knyazev (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/41420904",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Svyatoslav Knyazev, some rights reserved (CC BY), uploaded by Svyatoslav Knyazev"
+    }
+  ]
+}

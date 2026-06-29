@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao + cmmid",
+  "_sci": "Ophioglossum pendulum",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ribbon%20Fern%20Sea%20Acres.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Ribbon Fern (Ophioglossum pendulum) Sea Acres National Park. NSW, Australia. Location: -31462122 152.93238 · Ảnh: Poyt448, Peter Woodard / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ribbon_Fern_Sea_Acres.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Poyt448, Peter Woodard"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ophioglossum%20pendulum%20L.%20(AM%20AK111303).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Ophioglossum pendulum L. (AM AK111303) · Ảnh: T. F. Cheeseman / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ophioglossum_pendulum_L._(AM_AK111303).jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "T. F. Cheeseman"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/bf667a70d763d8c64e7b43aa63eec7eff327b54a",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ophioglossum pendulum L. · Australia · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5109309091",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://web.corral.tacc.utexas.edu/brit/BRIT/BRIT0959000/BRIT959379.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ophioglossum pendulum L. · Philippines · Ảnh: Botanical Research Institute of Texas / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/4873160327",
+      "giay_phep": "CC0",
+      "tac_gia": "Botanical Research Institute of Texas"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/610509236/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Ophioderma pendulum · quan sát thực địa · (c) Dennis Vollmar, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/610509236",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Dennis Vollmar, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00016.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Achyranthes (Achyranthis Bidentatae Radix · 牛膝) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00016",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

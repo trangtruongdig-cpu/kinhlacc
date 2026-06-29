@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Allium fistulosum",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Allium%20fistulosum%20MHNT.BOT.2011.3.23.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Welsh onion , fruits and seeds · Ảnh: Roger Culos / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Allium_fistulosum_MHNT.BOT.2011.3.23.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Roger Culos"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Allium%20fistulosum%20Ypey26.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Allium fistulosum Ypey26 · Ảnh: Wikimedia Commons / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Allium_fistulosum_Ypey26.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Wikimedia Commons"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/652280967/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Allium fistulosum L. · Russian Federation · Ảnh: Алёна Осипова / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6252732653",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Алёна Осипова"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/652280780/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Allium fistulosum L. · Russian Federation · Ảnh: Алёна Осипова / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6252732653",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Алёна Осипова"
+    }
+  ]
+}

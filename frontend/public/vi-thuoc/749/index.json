@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Triplostegia glandulifera",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Triplostegia%20glandulifera%2024169067.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Triplostegia glandulifera · Ảnh: Cheng-Tao Lin / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Triplostegia_glandulifera_24169067.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Cheng-Tao Lin"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Triplostegia%20glandulifera%2024169247.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Triplostegia glandulifera · Ảnh: Cheng-Tao Lin / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Triplostegia_glandulifera_24169247.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Cheng-Tao Lin"
+    },
+    {
+      "file": "https://iiif.rbge.org.uk/herb/iiif/E01579968/full/1600,/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Triplostegia glandulifera Wall. ex DC. · Nepal · Ảnh: Edinburgh Kathmandu Tokyo Expedition, / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5826582438",
+      "giay_phep": "CC0",
+      "tac_gia": "Edinburgh Kathmandu Tokyo Expedition,"
+    },
+    {
+      "file": "https://iiif.rbge.org.uk/herb/iiif/E01579968/full/300,/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Triplostegia glandulifera Wall. ex DC. · Nepal · Ảnh: Edinburgh Kathmandu Tokyo Expedition, / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5826582438",
+      "giay_phep": "CC0",
+      "tac_gia": "Edinburgh Kathmandu Tokyo Expedition,"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/24169247/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Triplostegia glandulifera · quan sát thực địa · (c) Cheng-Tao Lin, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/24169247",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Cheng-Tao Lin, some rights reserved (CC BY)"
+    }
+  ]
+}

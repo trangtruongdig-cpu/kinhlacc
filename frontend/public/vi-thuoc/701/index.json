@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Valeriana officinalis",
+  "_bo_phan": "Thân rễ và rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Valeriana%20officinalis%20(Valerianaceae)%20plant.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Taken in the Cambridge University Botanic Garden · Ảnh: Magnus Manske / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Valeriana_officinalis_(Valerianaceae)_plant.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Magnus Manske"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Valeriana%20sambucifolia%20-%20Bergianska%20tr%C3%A4dg%C3%A5rden%20-%20Stockholm%2C%20Sweden%20-%20DSC00195.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Botanical specimen in the Bergianska trädgården - Stockholm, Sweden. · Ảnh: Daderot / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Valeriana_sambucifolia_-_Bergianska_tr%C3%A4dg%C3%A5rden_-_Stockholm,_Sweden_-_DSC00195.JPG",
+      "giay_phep": "CC0",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/617821481/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Valeriana officinalis L. · Netherlands · Ảnh: Bernd De Bosscher / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6162913111",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Bernd De Bosscher"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Valeriana%20officinalis%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-143.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Baldrian. A B Pflanze der schmalblätterigen Form in natürl. Grösse; 1 Blüthenästchen, vergrössert; 2 Blüthenknospe mit Deckblättchen, desgl.; 3, 4, 5  · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Valeriana_officinalis_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-143.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

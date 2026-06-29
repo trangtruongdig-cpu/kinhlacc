@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Nigella sativa",
+  "_bo_phan": "hạt chín phơi khô",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Nsativa001Wien.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "File:b1243427731corek_otu_yagi.jpg Nigella sativa, photographed in the Vienna Botanical Garden, Rennweg 14, 1030 Wien, Austria · Ảnh: AndreHolz at English Wikipedia / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Nsativa001Wien.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "AndreHolz at English Wikipedia"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Nigella%20sativa%20kz01.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Nigella sativa seedling in PAN Botanical Garden in Warsaw · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Nigella_sativa_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/23b53e81368551f6b5bd6e9f1b63a88f97838f22",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Nigella sativa L. · Italy · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110354097",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/7710e5a1d3e7a816f451742e39b4e45b2f4cbe8b",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Nigella sativa L. · Iran (Islamic Republic of) · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110521591",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/43983194/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Nigella sativa · ảnh đại diện · (c) Conrad Altmann, some rights reserved (CC BY), uploaded by Conrad Altmann (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/43983194",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Conrad Altmann, some rights reserved (CC BY), uploaded by Conrad Altmann"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/43983155/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Nigella sativa · quan sát thực địa · (c) Conrad Altmann, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/43983155",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Conrad Altmann, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Nigella%20sativa%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-227.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Schwarzkümmel. a) Nigella sativa L. A Blühende Pflanze. 1 Kelchblatt; 2 Blumenblatt; 3 Pistille; 4 Querschnitt derselben; 5 Samen, natürl. Grösse; 6 d · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Nigella_sativa_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-227.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

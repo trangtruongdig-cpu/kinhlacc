@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Duchesnea indica",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Duchesnea%20indica%20immature%20fruit.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Picture of a mock strawberry plant, showing a developing fruit and a mature fruit · Ảnh: Andrewbogott / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Duchesnea_indica_immature_fruit.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Andrewbogott"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Duchesnea%20indicaLilleLamiot143.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "On the edge of a big fishing pond (pond named \"Grand Square\"), in the wood of the Vauban's Citadel in Lille, on a area moderately trampled by fishermen and walk · Ảnh: Lamiot / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Duchesnea_indicaLilleLamiot143.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Lamiot"
+    },
+    {
+      "file": "https://s3.amazonaws.com/huhspecimenimages/JPG/02265841.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Duchesnea indica (Andrews) Focke · United States of America · Ảnh: President and Fellows of Harvard College / GBIF (Public Domain)",
+      "nguon": "https://www.gbif.org/occurrence/5156339341",
+      "giay_phep": "Public Domain",
+      "tac_gia": "President and Fellows of Harvard College"
+    },
+    {
+      "file": "https://object.jacq.org/europeana/PRC/2058037.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Duchesnea indica (Andrews) Focke · Czechia · Ảnh: Zdvořák,P. s.n. [2022-06-13] / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6184339077",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Zdvořák,P. s.n. [2022-06-13]"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Naturalis%20Biodiversity%20Center%20-%20RMNH.ART.337%20-%20Pisum%20sativum%20-%20Vicia%20faba%20-%20Vigna%20unguiculata%20-%20Duchesnea%20chrysantha%20-%20Fragaria%20sp.%20-%20indet%20-%20Y%C5%ABshi%20Ishizaki%20-%20Cock%20Blomhoff%20Collection%20-%20pencil%20drawing%20-%20water%20colour.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Pisum sativum - Vicia faba - Vigna unguiculata - Duchesnea chrysantha - Fragaria sp. - indet · Ishizaki Yūshi / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Naturalis_Biodiversity_Center_-_RMNH.ART.337_-_Pisum_sativum_-_Vicia_faba_-_Vigna_unguiculata_-_Duchesnea_chrysantha_-_Fragaria_sp._-_indet_-_Y%C5%ABshi_Ishizaki_-_Cock_Blomhoff_Collection_-_pencil_drawing_-_water_colour.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Ishizaki Yūshi"
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Homo sapiens",
+  "_bo_phan": "nhau thai người",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Kamianske%20(Homo%20Sapiens%20Ukrainian)%201.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "View of Freedom Avenue and the plant in the city of Kamenskoye, Dnepropetrovsk region of Ukraine · Ảnh: Homo Sapiens Ukrainian / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Kamianske_(Homo_Sapiens_Ukrainian)_1.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Homo Sapiens Ukrainian"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Fpls-02-00019-g001.png?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Structural comparison of the human and Arabidopsis BRCA1 and BARD1. BRCA1 and BARD1 proteins of Homo sapiens and Arabidopsis thaliana: Despite their difference  · Ảnh: Oliver Trapp, Katharina Seeliger, Holger Puchta / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Fpls-02-00019-g001.png",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Oliver Trapp, Katharina Seeliger, Holger Puchta"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

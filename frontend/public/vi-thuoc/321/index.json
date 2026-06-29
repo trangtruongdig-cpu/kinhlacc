@@ -1,30 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Gardenia jasminoides",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cây Chi Tử (Gardenia jasminoides) trồng trong vườn, dáng bụi nhỏ có biển tên · Ảnh: 天問 小窩 / Wikimedia Commons (CC BY 2.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Gardenia_jasminoides_002.jpg",
-      "giay_phep": "CC BY 2.0",
-      "tac_gia": "天問 小窩"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Lá",
-      "mo_ta": "Cành lá Chi Tử xanh bóng, lá đơn mọc đối, có biển tên 栀子 · Ảnh: 天問 小窩 / Wikimedia Commons (CC BY 2.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Gardenia_jasminoides_001.jpg",
-      "giay_phep": "CC BY 2.0",
-      "tac_gia": "天問 小窩"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Hoa",
-      "mo_ta": "Hoa Chi Tử màu trắng kép, cánh dày, lá xanh bóng đặc trưng · Ảnh: Ayman Babelly ( Aymanbabelly at en.wikipedia ) / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Gardenia_flower.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Ayman Babelly ( Aymanbabelly at en.wikipedia )"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00224.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Gardenia Fruit (Gardeniae Fructus · 梔子) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00224",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

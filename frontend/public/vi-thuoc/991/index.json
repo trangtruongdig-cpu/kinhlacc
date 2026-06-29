@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Clerodendrum trichotomum",
+  "_bo_phan": "lá hoặc cành non có lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Clerodendrum%20trichotomum%20kz02.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Clerodendrum trichotomum in Wrocław University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Clerodendrum_trichotomum_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Clerodendrum%20trichotomum%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Clerodendrum trichotomum in Wrocław University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Clerodendrum_trichotomum_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/634741012/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Clerodendrum trichotomum Thunb. · Japan · Ảnh: Saryu Mae 前 朝琉 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6195266118",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Saryu Mae 前 朝琉"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Addisonia%20(PLATE%20015)%20(8575338300).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "ADD1SON1A ■&amp;- JDRON TRICHOTOMUM · New York Botanical Garden. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Addisonia_(PLATE_015)_(8575338300).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "New York Botanical Garden."
+    }
+  ]
+}

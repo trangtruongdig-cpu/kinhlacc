@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Laggera alata",
+  "_bo_phan": "toàn cây (phần trên mặt đất phơi khô)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Blumea%20alata%20Rungiah.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Laggera alata (D. Don) Sch.Bip. ex Oliver [as Blumea alata (D. Don) DC.] · Ảnh: art: Rungiah; text: Robert Wight; / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Blumea_alata_Rungiah.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "art: Rungiah; text: Robert Wight;"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Laggera%20alata%2C%20Paithalmala.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Laggera alata, Paithalmala · Ảnh: Nativeplants garden / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Laggera_alata,_Paithalmala.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Nativeplants garden"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/464917751/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Laggera alata (D.Don) Sch.Bip. ex Oliv. · India · Ảnh: S.MORE / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5153010505",
+      "giay_phep": "CC0",
+      "tac_gia": "S.MORE"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/464918042/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Laggera alata (D.Don) Sch.Bip. ex Oliv. · India · Ảnh: S.MORE / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5153010505",
+      "giay_phep": "CC0",
+      "tac_gia": "S.MORE"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/190930131/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Laggera alata · quan sát thực địa · (c) Sunčana Bradley, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/190930131",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Sunčana Bradley, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/190930157/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Laggera alata · quan sát thực địa · (c) Sunčana Bradley, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/190930157",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Sunčana Bradley, some rights reserved (CC BY)"
+    }
+  ]
+}

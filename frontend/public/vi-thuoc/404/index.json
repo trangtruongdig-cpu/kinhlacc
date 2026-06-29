@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Trichosanthes kirilowii",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Trichosanthes%20kirilowii.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Trichosanthes kirilowii · Ảnh: Michael Wolf / Wikimedia Commons (CC BY 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Trichosanthes_kirilowii.jpg",
+      "giay_phep": "CC BY 2.5",
+      "tac_gia": "Michael Wolf"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Trichosanthes%20kirilowii%20sprout.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Trichosanthes kirilowii sprout · Ảnh: 杉山龍彦 / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Trichosanthes_kirilowii_sprout.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "杉山龍彦"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/461403775/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Trichosanthes kirilowii var. japonica (Miq.) Kitam. · Japan · Ảnh: Simone Littledale / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5007595595",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Simone Littledale"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/461403798/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Trichosanthes kirilowii var. japonica (Miq.) Kitam. · Japan · Ảnh: Simone Littledale / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5007595595",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Simone Littledale"
+    }
+  ]
+}

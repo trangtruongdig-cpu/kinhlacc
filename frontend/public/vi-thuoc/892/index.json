@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Clausena lansium",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Clausena%20lanseium%20seeds.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Seeds of Clausena lansium, photo taken in Hong Kong, plant grown in Hong Kong · Ảnh: WingkLEE / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Clausena_lanseium_seeds.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "WingkLEE"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Clausena%20lansium%20-%20Fruit%20and%20Spice%20Park%20-%20Homestead%2C%20Florida%20-%20DSC09093.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Plant specimen in the Fruit and Spice Park - Homestead, Florida, USA. · Ảnh: Daderot / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Clausena_lansium_-_Fruit_and_Spice_Park_-_Homestead,_Florida_-_DSC09093.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/463069794/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Clausena lansium (Lour.) Skeels · Chinese Taipei · Ảnh: 謝麗霦 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5036720634",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "謝麗霦"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/462881928/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Clausena lansium (Lour.) Skeels · Chinese Taipei · Ảnh: 謝麗霦 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5037256713",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "謝麗霦"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pomological%20Watercolor%20POM00001117.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Image of the Whampi variety of wampee (scientific name: Clausena lansium), with this specimen originating in Santa Barbara, Santa Barbara County, Cali · Elsie Lower Pomeroy / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pomological_Watercolor_POM00001117.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Elsie Lower Pomeroy"
+    }
+  ]
+}

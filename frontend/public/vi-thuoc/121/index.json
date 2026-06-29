@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Vigna radiata",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Vigna%20radiata20230627%2020775.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Vigna radiata (L.) R.Wilczek Mung bean as a houseplants. Habit of fruiting plants. The length of the plants is from 30 to 35 cm. · Ảnh: Bff / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Vigna_radiata20230627_20775.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Bff"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Green%20Mung%20Beans.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Seeds of the plant Mung Bean (Vigna radiata). Size of seed in this picture is about 3 mm x 4.5 mm. · Ảnh: Sanjay Acharya / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Green_Mung_Beans.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Sanjay Acharya"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/464462490/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Vigna radiata (L.) R.Wilczek · India · Ảnh: renjus box / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5069769099",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "renjus box"
+    },
+    {
+      "file": "https://portal.wiktrop.org/biodiv/observations//51937e85-0b76-4fbc-9c23-309a23264611/4c56ce7fb157426482b58060381b0615.JPG",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Vigna radiata (L.) R.Wilczek · Réunion · Ảnh: Basile Hélie / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6134220605",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Basile Hélie"
+    }
+  ]
+}

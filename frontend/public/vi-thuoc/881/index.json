@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao + cmmid",
+  "_sci": "Reineckea carnea",
+  "_bo_phan": "toàn thảo",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Reineckea%20carnea%20-%20Botanischer%20Garten%20-%20Heidelberg%2C%20Germany%20-%20DSC01009.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Botanical specimen in the Botanischer Garten - Heidelberg, Germany. · Ảnh: Daderot / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Reineckea_carnea_-_Botanischer_Garten_-_Heidelberg,_Germany_-_DSC01009.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Reineckea%20carnea.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Reineckea carnea in Mount Kinka, Gifu City, Gifu Prefecture, Japan. · Ảnh: Alpsdake / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Reineckea_carnea.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Alpsdake"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/675862631/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Reineckea carnea (Andrews) Kunth · Japan · Ảnh: Saryu Mae 前 朝琉 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6400074897",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Saryu Mae 前 朝琉"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/453506419/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Reineckea carnea (Andrews) Kunth · Japan · Ảnh: WATANABE Hitoshi 渡辺仁 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4994568522",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "WATANABE Hitoshi 渡辺仁"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/1476301/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Reineckea carnea · ảnh đại diện · (c) scott.zona, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/1476301",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) scott.zona, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Reineckea%20carnea%20Ill.%20Hort.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Reineckea carnea · P. Stroobant / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Reineckea_carnea_Ill._Hort.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "P. Stroobant"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00292.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Motherwort Herb (Leonuri Herba · 益母草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00292",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

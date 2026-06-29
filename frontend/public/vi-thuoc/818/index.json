@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Coriaria sinica",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Coriaria%20nepalensis.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Nepalesischer Gerberstrauch (Coriaria nepalensis Wallich); Farbentafel angefertigt nach einer Pflanze in Fischbach im Riesengebirge (Karpniki), im Garten von Ul · Ảnh: Unknown authorUnknown author (illustrator not stated in source publication) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Coriaria_nepalensis.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Unknown authorUnknown author (illustrator not stated in source publication)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Coriaria%20nepalensis%202017-05-23%201103.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Coriaria nepalensis, Botanischer Garten Berlin. · Ảnh: Salicyna / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Coriaria_nepalensis_2017-05-23_1103.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Salicyna"
+    },
+    {
+      "file": "https://d2jcv3kl45hlgi.cloudfront.net/56b74656b5272ada77133f39401643e1.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Coriaria sinica Maxim. · China · Ảnh: Zhou, F.J. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4850411150",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Zhou, F.J."
+    },
+    {
+      "file": "https://d2jcv3kl45hlgi.cloudfront.net/2c659e6aa04db08483da0e19a38fcfac.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Coriaria sinica Maxim. · China · Ảnh: Liu, Z.Y. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4850406699",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Liu, Z.Y."
+    }
+  ]
+}

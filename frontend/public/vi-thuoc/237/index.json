@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Dracaena cochinchinensis",
+  "_bo_phan": "nhựa cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dracaena%20loureiri.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Dracaena loureiri habitat · Ảnh: Meneerke bloem / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dracaena_loureiri.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Meneerke bloem"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dracaena%20loureiri%20habitat.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Dracaena loureiri habitat · Ảnh: Meneerke bloem / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dracaena_loureiri_habitat.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Meneerke bloem"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00366.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Dragon’s Blood (Draconis Sanguis · 血竭) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00366",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/627960981/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dracaena cochinchinensis (Lour.) S.C.Chen · Viet Nam · Ảnh: Mark Clarke / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6184783790",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Mark Clarke"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/627966682/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dracaena cochinchinensis (Lour.) S.C.Chen · Viet Nam · Ảnh: Mark Clarke / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6184783790",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Mark Clarke"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/207439534/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Dracaena cochinchinensis · ảnh đại diện · (c) Sarka Masova, some rights reserved (CC BY), uploaded by Sarka Masova (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/207439534",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Sarka Masova, some rights reserved (CC BY), uploaded by Sarka Masova"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/201185187/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Dracaena cochinchinensis · quan sát thực địa · (c) Utain Pummarin, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/201185187",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Utain Pummarin, some rights reserved (CC BY)"
+    }
+  ]
+}

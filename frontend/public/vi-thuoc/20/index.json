@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Pseudostellaria heterophylla",
+  "_bo_phan": "rễ củ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pseudostellaria%20heterophylla%201.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Pseudostellaria heterophylla, Naka-dori area, Fukushima pref., Japan · Ảnh: Qwert1234 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pseudostellaria_heterophylla_1.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Qwert1234"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dried%20pseudostellaria%20heterophylla.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Dried pseudostellaria heterophylla · Ảnh: Fumikas Sagisavas / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dried_pseudostellaria_heterophylla.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Fumikas Sagisavas"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00019.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Different Leaves Pseudostellaria (Pseudostellariae Radix · 太子參) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00019",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/30086217/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Pseudostellaria heterophylla · quan sát thực địa · (c) Yuan Zhuang, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/30086217",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Yuan Zhuang, some rights reserved (CC BY-SA)"
+    }
+  ]
+}

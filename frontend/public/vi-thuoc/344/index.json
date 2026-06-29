@@ -1,14 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Phellodendron chinense",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "vỏ thân",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Thân cây Hoàng Bá (Phellodendron chinense) với lớp vỏ thân - bộ phận dùng làm thuốc, có biển ghi tên khoa học. · Ảnh: Canudo / Wikimedia Commons (CC BY-SA 4.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Phellodendron_chinense-DSC_7301.jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "Canudo"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00346.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Amur Corktree Bark (Phellodendri Chinensis Cortex · 黃柏) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00346",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

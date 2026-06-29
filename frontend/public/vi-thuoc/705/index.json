@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao + cmmid",
+  "_sci": "Justicia gendarussa",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Leave%20of%20Justicia%20gendarussa.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "A leave of Justicia gendarussa plant · Ảnh: Snehit Jamere / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Leave_of_Justicia_gendarussa.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Snehit Jamere"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Gendarussa.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Justicia gendarussa - Acanthceae shrub, often cultivated as a hedge plant · Ảnh: Drorchidaceae / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Gendarussa.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Drorchidaceae"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/29febb1dcb6144845acc2edf9a7b6bfd4ec6169f",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Justicia gendarussa Burm.fil. · India · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110465090",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Justicia%20gendarussa%20Blanco1.80.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Justicia_gendarussa_Blanco1.80.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00261.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Wild Mint Herb (Menthae Haplocalycis Herba · 薄荷) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00261",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

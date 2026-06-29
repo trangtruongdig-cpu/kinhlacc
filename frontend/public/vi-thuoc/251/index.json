@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Bombyx mori",
+  "_bo_phan": "phân tằm",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Bombyx%20mori%20Morus%20Zetarra%20marugatze%20zuhaitzean1.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bombyx mori on Morus nigra plant. · Ảnh: Gorkaazk / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Bombyx_mori_Morus_Zetarra_marugatze_zuhaitzean1.JPG",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Gorkaazk"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Silkworm%20mulberry%20tree%20zetarra%20marugatze%20arbolean2.JPG?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Silkworm. Bombyx mori. Mulberry_tree. Morus (plant). · Ảnh: Gorkaazk / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Silkworm_mulberry_tree_zetarra_marugatze_arbolean2.JPG",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Gorkaazk"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

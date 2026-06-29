@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Coptis chinensis",
+  "_bo_phan": "thân rễ (hoàng liên)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Coptis%20japonica%E3%80%815026696%E3%80%81%E9%BB%84%E8%93%AE%E3%83%BB%E4%B8%B9%E6%B3%A2%E5%B8%82%E7%AB%8B%E8%96%AC%E8%8D%89%E8%96%AC%E6%A8%B9%E5%85%AC%E5%9C%92.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Coptis japonica · Ảnh: 松岡明芳 / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Coptis_japonica%E3%80%815026696%E3%80%81%E9%BB%84%E8%93%AE%E3%83%BB%E4%B8%B9%E6%B3%A2%E5%B8%82%E7%AB%8B%E8%96%AC%E8%8D%89%E8%96%AC%E6%A8%B9%E5%85%AC%E5%9C%92.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "松岡明芳"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Chinese%20woodcut%2C%20dietary%20prohibitions%20during%20medication%20Wellcome%20L0034696.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Fuyao shiji(dietary prohibitions during medication) refers to foods that are counterindicated for patients taking certain drugs. According toYinshan zhengyao, d · Ảnh: Wikimedia Commons / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chinese_woodcut,_dietary_prohibitions_during_medication_Wellcome_L0034696.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Wikimedia Commons"
+    },
+    {
+      "file": "https://collections.nmnh.si.edu/media/?i=13999899&h=2000",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Coptis chinensis Franch. · China · Ảnh: J. Wen / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/1319684265",
+      "giay_phep": "CC0",
+      "tac_gia": "J. Wen"
+    },
+    {
+      "file": "https://s3.amazonaws.com/huhspecimenimages/JPG/00429282.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Coptis chinensis Franch. · China · Ảnh: President and Fellows of Harvard College / GBIF (Public Domain)",
+      "nguon": "https://www.gbif.org/occurrence/2425398706",
+      "giay_phep": "Public Domain",
+      "tac_gia": "President and Fellows of Harvard College"
+    }
+  ]
+}

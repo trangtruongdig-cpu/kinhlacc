@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Alpinia katsumadai",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Alpinia%20sp.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Nativeplants Botanical Garden (botanical garden in Kerala, India) · Ảnh: Nativeplants garden / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Alpinia_sp.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Nativeplants garden"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Alpinia%20sp%202.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Nativeplants Botanical Garden (botanical garden in Kerala, India) · Ảnh: Nativeplants garden / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Alpinia_sp_2.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Nativeplants garden"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00160.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Katsumada Galangal Seed (Alpiniae Katsumadai Semen · 草豆蔻) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00160",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://collections.nmnh.si.edu/media/?i=10296470&h=2000",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Alpinia katsumadai Hayata, 1915 · China · Ảnh: F. How & N. K. Chun / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/1317760504",
+      "giay_phep": "CC0",
+      "tac_gia": "F. How & N. K. Chun"
+    },
+    {
+      "file": "https://collections.nmnh.si.edu/media/?i=13677701&h=2000",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Alpinia katsumadai Hayata, 1915 · China · Ảnh: W. T. Tsang / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/1317203473",
+      "giay_phep": "CC0",
+      "tac_gia": "W. T. Tsang"
+    }
+  ]
+}

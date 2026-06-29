@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Erinaceus sp.",
+  "_bo_phan": "da",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Erinaceus-sp-2012-07-06-PV.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "hedgehog · Ảnh: Peter Valic / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Erinaceus-sp-2012-07-06-PV.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Peter Valic"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/HERICIUM%20ERINACEUS%20R.H.%20(34).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bearded Tooth Fungus · Ảnh: Rob Hille / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:HERICIUM_ERINACEUS_R.H._(34).jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Rob Hille"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/599850371/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Phaeomarasmius sp. 'erinaceus-PNW07' · quan sát thực địa · (c) Alex Reitan, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/599850371",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Alex Reitan, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/599850399/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Phaeomarasmius sp. 'erinaceus-PNW07' · quan sát thực địa · (c) Alex Reitan, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/599850399",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Alex Reitan, some rights reserved (CC BY)"
+    }
+  ]
+}

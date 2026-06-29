@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Aerodramus fuciphagus",
+  "_bo_phan": "Tổ yến làm từ nước bọt hoặc nước bọt trộn lẫn lông vũ của chim yến thuộc họ Apodidae, chi Collocalia và các loài yến khác cùng chi.",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Edible-nest%20Swiftlet%20Aerodramus%20fuciphagus%20nest%20best%20by%20Raju%20Kasambe%2001.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Edible-nest Swiftlet or White-nest Swiftlet (Aerodramus fuciphagus inexpectatus) nests in Andaman Islands, India. Photograph by Dr. Raju Kasambe. · Ảnh: Dr. Raju Kasambe / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Edible-nest_Swiftlet_Aerodramus_fuciphagus_nest_best_by_Raju_Kasambe_01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Dr. Raju Kasambe"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Edible-nest%20Swiftlet%20Aerodramus%20fuciphagus%20nest%20best%20by%20Raju%20Kasambe%2002.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Edible-nest Swiftlet or White-nest Swiftlet (Aerodramus fuciphagus inexpectatus) nests in Andaman Islands, India. Photograph by Dr. Raju Kasambe. · Ảnh: Dr. Raju Kasambe / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Edible-nest_Swiftlet_Aerodramus_fuciphagus_nest_best_by_Raju_Kasambe_02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Dr. Raju Kasambe"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608290314/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Aerodramus fuciphagus (Thunberg, 1812) · Viet Nam · Ảnh: sucker69420 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6131020870",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "sucker69420"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608290316/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Aerodramus fuciphagus (Thunberg, 1812) · Viet Nam · Ảnh: sucker69420 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6131020870",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "sucker69420"
+    }
+  ]
+}

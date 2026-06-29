@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Tamarix chinensis",
+  "_bo_phan": "nhánh non và lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Tamarix%20chinensis%2003.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Tamarix chinensis in Bupyung, Korea · Ảnh: Dalgial / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Tamarix_chinensis_03.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Dalgial"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Tamarix%20chinensis%2002.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Tamarix chinensis's bark in Bupyung, Korea · Ảnh: Dalgial / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Tamarix_chinensis_02.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Dalgial"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Tamarix%20chinensis%20SZ71.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Philipp Franz von Siebold and Joseph Gerhard Zuccarini / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Tamarix_chinensis_SZ71.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Philipp Franz von Siebold and Joseph Gerhard Zuccarini"
+    }
+  ]
+}

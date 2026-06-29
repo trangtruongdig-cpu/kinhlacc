@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Ulmus macrocarpa",
+  "_bo_phan": "quả du chế",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Macrocarpa%20leaves.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Photo of the leaves of Ulmus macrocarpa. · Ảnh: Ptelea / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Macrocarpa_leaves.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Ptelea"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Macrocarpa%20leaf%20001.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Photo of a leaf from a juvenile (5 years old) Ulmus macrocarpa. · Ảnh: Ptelea / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Macrocarpa_leaf_001.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Ptelea"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/670127930/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ulmus macrocarpa Hance · Russian Federation · Ảnh: Святослав Власенко / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6352403859",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Святослав Власенко"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/670127986/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ulmus macrocarpa Hance · Russian Federation · Ảnh: Святослав Власенко / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6352403859",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Святослав Власенко"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/516425027/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Ulmus macrocarpa · quan sát thực địa · (c) Святослав Власенко, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/516425027",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Святослав Власенко, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/516425060/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Ulmus macrocarpa · quan sát thực địa · (c) Святослав Власенко, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/516425060",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Святослав Власенко, some rights reserved (CC BY)"
+    }
+  ]
+}

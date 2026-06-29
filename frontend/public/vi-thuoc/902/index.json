@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Dioscorea cirrhosa",
+  "_bo_phan": "Thân rễ",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dioscorea%20cirrhosa%20(leaves).jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Dioscorea cirrhosa - leaves · Ảnh: Shih-Shiuan Kao / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dioscorea_cirrhosa_(leaves).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Shih-Shiuan Kao"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Thuc%20vat%20nhuom%20vai-4.png?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Củ nâu (Dioscorea cirrhosa) · Ảnh: Sonquan1421988 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Thuc_vat_nhuom_vai-4.png",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Sonquan1421988"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

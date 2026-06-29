@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Bauhinia championii",
+  "_bo_phan": "rễ hoặc thân",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/SH-2-196%20Bauhinia%20championi.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "SH-2-196 Bauhinia championi · Ảnh: Wikimedia Commons / Wikimedia Commons (CC BY-SA 2.5 cn)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:SH-2-196_Bauhinia_championi.jpg",
+      "giay_phep": "CC BY-SA 2.5 cn",
+      "tac_gia": "Wikimedia Commons"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E7%BC%BA%E8%91%89%E8%97%A4(%E9%BE%8D%E9%AC%9A%E8%97%A4)%20Bauhinia%20championii%20-%E9%A6%99%E6%B8%AF%E8%8D%94%E6%9E%9D%E8%A7%92%E5%85%AC%E5%9C%92%20Lai%20Chi%20Kok%20Park%2C%20Hong%20Kong-%20(9240222798).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "中草藥-九龍藤,九龍藤葉,過江龍子 · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E7%BC%BA%E8%91%89%E8%97%A4(%E9%BE%8D%E9%AC%9A%E8%97%A4)_Bauhinia_championii_-%E9%A6%99%E6%B8%AF%E8%8D%94%E6%9E%9D%E8%A7%92%E5%85%AC%E5%9C%92_Lai_Chi_Kok_Park,_Hong_Kong-_(9240222798).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://medialib.naturalis.nl/file/id/L.3814910/format/large",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Bauhinia championii (Benth.) Benth. · Viet Nam · Ảnh: Naturalis Biodiversity Center / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/2515090757",
+      "giay_phep": "CC0",
+      "tac_gia": "Naturalis Biodiversity Center"
+    },
+    {
+      "file": "https://ibss-images.calacademy.org/static/botany/originals/bd/05/bd05167c-3a91-44d4-8a10-f2acfd7a6edc.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Bauhinia championii (Benth.) Benth. · Chinese Taipei · Ảnh: Huang, Chien-I / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6326185463",
+      "giay_phep": "CC0",
+      "tac_gia": "Huang, Chien-I"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/29120544/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Phanera championii · quan sát thực địa · (c) Cheng-Tao Lin, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/29120544",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Cheng-Tao Lin, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/29120543/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Phanera championii · quan sát thực địa · (c) Cheng-Tao Lin, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/29120543",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Cheng-Tao Lin, some rights reserved (CC BY)"
+    }
+  ]
+}

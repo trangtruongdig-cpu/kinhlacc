@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Thlaspi arvense",
+  "_bo_phan": "toàn cây (phần trên mặt đất, có mang hạt)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Thlaspi%20arvense%20kz01.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Thlaspi arvense seedling. Plant cultivated in Szczecin, NW Poland · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Thlaspi_arvense_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Thlaspi%20arvense%20-%20whole%20plant%20(19067951151).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Field pennycress. For more information on identification and control, visit &lt;a href=\"http://turfweeds.cals.cornell.edu/plant/identify/184\" rel=\"nofollow\"&gt; · Ảnh: NY State IPM Program at Cornell University from New York, USA / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Thlaspi_arvense_-_whole_plant_(19067951151).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "NY State IPM Program at Cornell University from New York, USA"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/606284238/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Thlaspi arvense L. · United States of America · Ảnh: Sandy Wolkenberg / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6129828689",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Sandy Wolkenberg"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/615817626/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Thlaspi arvense L. · Austria · Ảnh: Michael Pongratz / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6159317704",
+      "giay_phep": "CC0",
+      "tac_gia": "Michael Pongratz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Thlaspi%20arvense%20penning%C3%B6rt.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Penningört (Thlaspi arvense) rot och stjälkbas, blom- och fruktställning, blomma (5/1), skida avskuren på tvären (2/1), frö och tvärsnitt därav (6/1). · Carl Axel Magnus Lindman / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Thlaspi_arvense_penning%C3%B6rt.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Carl Axel Magnus Lindman"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Dictamnus dasycarpus",
+  "_bo_phan": "vỏ rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dictamnus%20dasycarpus%20(Rutaceae)%20(34955848314).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Novogeorgievka village, Primorsky Krai, the Russian Far East. · Ảnh: yakovlev.alexey from Moscow, Russia / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dictamnus_dasycarpus_(Rutaceae)_(34955848314).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "yakovlev.alexey from Moscow, Russia"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dictamnus%20dasycarpus%20(Rutaceae)%20(49874180042).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Russian Far East, Khabarovsk Krai, IVO Bikin city · Ảnh: Dr. Alexey Yakovlev / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dictamnus_dasycarpus_(Rutaceae)_(49874180042).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dr. Alexey Yakovlev"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00341.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Denesefruit Pittany Root - bark (Dictamni Cortex · 白鮮皮) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00341",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/667727409/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dictamnus dasycarpus Turcz. · Russian Federation · Ảnh: Tatyana Petrenko / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6352233347",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Tatyana Petrenko"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/676386526/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dictamnus dasycarpus Turcz. · Russian Federation · Ảnh: Владимир Преловский / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6399313590",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Владимир Преловский"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/230220947/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Dictamnus albus · quan sát thực địa · (c) Bastien Alegot, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/230220947",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Bastien Alegot, some rights reserved (CC BY)"
+    }
+  ]
+}

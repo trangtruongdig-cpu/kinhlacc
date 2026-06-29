@@ -1,30 +1,24 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Angelica dahurica",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "rễ",
+  "_enriched": true,
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cây Bạch Chỉ mọc trong rừng, thân cao với cụm hoa tán màu trắng và lá kép xẻ · Ảnh: Oleg Kosterin / Wikimedia Commons (CC BY 4.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Angelica_dahurica_99141342.jpg",
-      "giay_phep": "CC BY 4.0",
-      "tac_gia": "Oleg Kosterin"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Hoa",
-      "mo_ta": "Cận cảnh cụm hoa tán kép màu trắng đặc trưng của Angelica dahurica · Ảnh: Alicia-C / Wikimedia Commons (CC BY 2.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Angelica_dahurica_(8855221294).jpg",
-      "giay_phep": "CC BY 2.0",
-      "tac_gia": "Alicia-C"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Dược liệu (đã chế)",
-      "mo_ta": "Phiến Bạch Chỉ thái lát khô, mặt cắt tròn màu trắng ngà bày trong tủ thuốc · Ảnh: 三猎 / Wikimedia Commons (CC BY-SA 4.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:%E7%99%BD%E8%8A%B7%E9%A5%AE%E7%89%87.jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "三猎"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00031.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Taiwan Angelica Root (Angelicae Dahuricae Radix · 白芷) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00031",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
+  ],
+  "_src_done": [
+    "cmmid"
   ]
 }

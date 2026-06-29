@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Ilex asprella",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ilex%20asprella%20-%20South%20China%20Botanical%20Garden%202013.11.02%2012-09-52.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "梅叶冬青 （学名： Ilex asprella），摄于广州华南植物园 · Ảnh: Zhangzhugang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ilex_asprella_-_South_China_Botanical_Garden_2013.11.02_12-09-52.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Zhangzhugang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ilex%20asprella%20-%20South%20China%20Botanical%20Garden%202013.11.02%2012-09-29.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "梅叶冬青 （学名： Ilex asprella），摄于广州华南植物园 · Ảnh: Zhangzhugang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ilex_asprella_-_South_China_Botanical_Garden_2013.11.02_12-09-29.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Zhangzhugang"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608819959/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ilex asprella (Hook. & Arn.) Champ. ex Benth. · Chinese Taipei · Ảnh: 如此甚好 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130170639",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "如此甚好"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608586871/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ilex asprella (Hook. & Arn.) Champ. ex Benth. · Chinese Taipei · Ảnh: 呂一起(Lyu yi-chi) / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130323340",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "呂一起(Lyu yi-chi)"
+    }
+  ]
+}

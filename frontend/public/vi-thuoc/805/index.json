@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Auricularia auricula-judae",
+  "_bo_phan": "tử实体",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Echt%20judasoor%20(Auricularia%20auricula-judae)%20op%20een%20stam%20van%20een%20vlier.%2015-02-2024.%20(actm.)%2015-02-2024.%20(actm.).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "A rain-soaked jelly ear (Auricularia auricula-judae), family Auriculariaceae, on a stem of a Sambucus. Focus stack of 20 photos. · Ảnh: Agnes Monkelbaan / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Echt_judasoor_(Auricularia_auricula-judae)_op_een_stam_van_een_vlier._15-02-2024._(actm.)_15-02-2024._(actm.).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnes Monkelbaan"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Echt%20judasoor%20(Auricularia%20auricula-judae%2C%20synoniem%2C%20Hirneola%20auricula-judae)%20bedekt%20met%20rijp.%20Locatie%2C%20Natuurterrein%20De%20Famberhorst%2002.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Really Auricularia auricula-judae (Auricularia auricula-judae, synonym, Hirneola auricula-judae) covered with hoarfrost. location, De Famberhorst. · Ảnh: Dominicus Johannes Bergsma / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Echt_judasoor_(Auricularia_auricula-judae,_synoniem,_Hirneola_auricula-judae)_bedekt_met_rijp._Locatie,_Natuurterrein_De_Famberhorst_02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Dominicus Johannes Bergsma"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605682266/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Auricularia auricula-judae (Bull.) Quél. · United Kingdom of Great Britain and Northern Ireland · Ảnh: fernium / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938063868",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "fernium"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605682257/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Auricularia auricula-judae (Bull.) Quél. · United Kingdom of Great Britain and Northern Ireland · Ảnh: fernium / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938063868",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "fernium"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/441012834/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Auricularia auricula-judae · ảnh đại diện · (c) Matej Frančeškin, some rights reserved (CC BY), uploaded by Matej Frančeškin (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/441012834",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Matej Frančeškin, some rights reserved (CC BY), uploaded by Matej Frančeškin"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Atlas%20des%20champignons%20comestibles%20et%20v%C3%A9n%C3%A9neux%20(Planche%2076)%20(6358031815).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Dufour. Champignons. Planche 70 No. 176. Tremella mesenterica. Trémelle mésentérique. (comestible). No. 177. Auricularia Auricula Judæ. Auriculaire Or · Dufour, L. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Atlas_des_champignons_comestibles_et_v%C3%A9n%C3%A9neux_(Planche_76)_(6358031815).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Dufour, L."
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Erythrina variegata",
+  "_bo_phan": "vỏ thân",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Erythrina%20variegata%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Erythrina variegata in Botanical garden of Eilat · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Erythrina_variegata_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr-080608-7566-Erythrina%20variegata-leaves-Midway%20Mall%20Sand%20Island-Midway%20Atoll%20(24547182949).jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Erythrina variegata (Indian coral tree) Leaves at Midway Mall Sand Island, Midway Atoll, Hawaii. June 08, 2008 #080608-7566 Image Use Policy Also known as Eryth · Ảnh: Forest and Kim Starr / Wikimedia Commons (CC BY 3.0 us)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr-080608-7566-Erythrina_variegata-leaves-Midway_Mall_Sand_Island-Midway_Atoll_(24547182949).jpg",
+      "giay_phep": "CC BY 3.0 us",
+      "tac_gia": "Forest and Kim Starr"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/616271772/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Erythrina variegata L. · India · Ảnh: Paulmathi Vinod / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6159501098",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Paulmathi Vinod"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/628299968/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Erythrina variegata L. · India · Ảnh: T R Shankar Raman / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6185762583",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "T R Shankar Raman"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/170612666/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Erythrina variegata · quan sát thực địa · (c) ONG SOS Biodiversity, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/170612666",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) ONG SOS Biodiversity, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Erythrina%20variegata%20Blanco1.217-cropped.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book Erythrina variegata · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Erythrina_variegata_Blanco1.217-cropped.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

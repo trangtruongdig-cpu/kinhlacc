@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Paeonia suffruticosa",
+  "_bo_phan": "vỏ rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Paeonia%20rockii%202013%20G1.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Rock's tree peony (Paeonia rockii), unripe fruit. The plant is grown up in a garden. Ukraine. · Ảnh: George Chernilevsky / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Paeonia_rockii_2013_G1.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "George Chernilevsky"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pfingstrose%20%22Colorado%22%20im%20botanischen%20Garten%20in%20M%C3%BCnchen%2002.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Peony Paeonia Suffruticosa\" \"Colorado\" in the botanical garden in Munich · Ảnh: Kritzolina / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pfingstrose_%22Colorado%22_im_botanischen_Garten_in_M%C3%BCnchen_02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Kritzolina"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00349.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Tree Peony Root - bark (Moutan Cortex · 牡丹皮) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00349",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/660805157/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Paeonia × suffruticosa Andrews · Ukraine · Ảnh: Oleksii Vasyliuk / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6320111366",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Oleksii Vasyliuk"
+    },
+    {
+      "file": "https://minka-sdg.org/attachments/local_photos/files/985928/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Paeonia × suffruticosa Andrews · Ukraine · Ảnh: ykvach / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6359106319",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "ykvach"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Paeonia%20suffruticosa%20illustration%20Henry%20Andrews.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "La description a été faite à partir de spécimens introduits en Grande Bretagne à partir de Chine, en 1794. · Henry Cranke Andrews (1770-1830) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Paeonia_suffruticosa_illustration_Henry_Andrews.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Henry Cranke Andrews (1770-1830)"
+    }
+  ]
+}

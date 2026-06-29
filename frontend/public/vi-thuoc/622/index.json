@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Fritillaria cirrhosa",
+  "_bo_phan": "củ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Fritillaria%20cirrhosa%20(Sikkim%2C%20India)%20cropped%20%26%20sharpened.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "A cropped, focus-sharpened and brightened version of an original image of a wild plant of Fritillaria cirrhosa D. Don, created by Siddarth Machado and adapted ( · Ảnh: Siddarth Machado / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Fritillaria_cirrhosa_(Sikkim,_India)_cropped_%26_sharpened.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Siddarth Machado"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Fritillaria%20cirrhosa%20(Sikkim%2C%20India).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Yellow Himalayan fritillary (Fritillaria cirrhosa) in North Sikkim, Sikkim, India · Ảnh: Siddarth Machado / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Fritillaria_cirrhosa_(Sikkim,_India).jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Siddarth Machado"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/196137854/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Fritillaria cirrhosa D.Don · Nepal · Ảnh: John Kenrick Gibson / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/3961475472",
+      "giay_phep": "CC0",
+      "tac_gia": "John Kenrick Gibson"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/196137887/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Fritillaria cirrhosa D.Don · Nepal · Ảnh: John Kenrick Gibson / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/3961475472",
+      "giay_phep": "CC0",
+      "tac_gia": "John Kenrick Gibson"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/61307066/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Fritillaria cirrhosa · ảnh đại diện · (c) Siddarth Machado, some rights reserved (CC BY), uploaded by Siddarth Machado (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/61307066",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Siddarth Machado, some rights reserved (CC BY), uploaded by Siddarth Machado"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/61307058/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Fritillaria cirrhosa · quan sát thực địa · (c) Siddarth Machado, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/61307058",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Siddarth Machado, some rights reserved (CC BY)"
+    }
+  ]
+}

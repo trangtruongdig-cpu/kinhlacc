@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Citrus medica",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Blue%20Mormon%20Butterfly%20emerging%20out%20of%20Caterpillar%20from%20Citrus%20Medica%20plant%201.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Blue Mormon Butterfly emerging out of caterpillar from it's host plant Citrus medica. · Ảnh: Prasoon Prakash / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Blue_Mormon_Butterfly_emerging_out_of_Caterpillar_from_Citrus_Medica_plant_1.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Prasoon Prakash"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Diamante%20citron%20(Citrus%20medica%20cv.%20Diamante).jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Citrus medica cv. Diamante plant with fruit · Ảnh: Shantham11 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Diamante_citron_(Citrus_medica_cv._Diamante).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Shantham11"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00214.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Medical Citron Fruit (Citri Fructus · 香櫞) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00214",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608147098/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Citrus medica L. · India · Ảnh: S.MORE / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6131632359",
+      "giay_phep": "CC0",
+      "tac_gia": "S.MORE"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608147105/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Citrus medica L. · India · Ảnh: S.MORE / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6131632359",
+      "giay_phep": "CC0",
+      "tac_gia": "S.MORE"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/356738692/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Citrus medica · ảnh đại diện · (c) Johann Werfring, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/356738692",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Johann Werfring, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/K%C3%B6hler's%20Medizinal-Pflanzen%20in%20naturgetreuen%20Abbildungen%20mit%20kurz%20erl%C3%A4uterndem%20Texte%20(Plate%203)%20(6972229396).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Aur an tie a e x + F Citrus limouum Sisso . IT U 1 3 · Brandt, Wilhelm; Gürke, M.; Köhler, F. E.; Pabst, G.; Schellenberg, G.; Vogtherr, Max. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:K%C3%B6hler%27s_Medizinal-Pflanzen_in_naturgetreuen_Abbildungen_mit_kurz_erl%C3%A4uterndem_Texte_(Plate_3)_(6972229396).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Brandt, Wilhelm; Gürke, M.; Köhler, F. E.; Pabst, G.; Schellenberg, G.; Vogtherr, Max."
+    }
+  ]
+}

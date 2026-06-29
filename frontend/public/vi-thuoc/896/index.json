@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Physochlaina infundibularis",
+  "_bo_phan": "rễ",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Physochlaina%20infundibularis%20single%20flower%20image%20brightened.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Brightened image of botanical illustration by user Flobbadob of single flower of Physochlaina infundibularis · Ảnh: Flobbadob / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Physochlaina_infundibularis_single_flower_image_brightened.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Flobbadob"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Physochlaina%20infundibularis%20single%20flower.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Botanical drawing of single flower of Physochlaina infundibularis Kuang. Not drawn directly from life : based on the very small number of photos and line drawin · Ảnh: Flobbadob / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Physochlaina_infundibularis_single_flower.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Flobbadob"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Trachelospermum jasminoides",
+  "_bo_phan": "Thân và lá phơi khô",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Trachelospermum%20jasminoides%20B.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Star-jasmine or Confederate-jasmine. The label attached to this plant was Rhynchospermum jasminoides · Ảnh: Wouter Hagens / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Trachelospermum_jasminoides_B.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Wouter Hagens"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Autographa%20gamma%20en%20Trachelospermum%20jasminoides%20-%2001.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Autographa gamma on Trachelospermum jasminoides. · Ảnh: Carlos Delgado / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Autographa_gamma_en_Trachelospermum_jasminoides_-_01.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Carlos Delgado"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00142.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Chinese Starasmine Stem (Trachelospermi Caulis et Folium · 絡石藤) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00142",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/616307185/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Trachelospermum jasminoides (Lindl.) Lem. · China · Ảnh: angryphyco / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6159317291",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "angryphyco"
+    }
+  ]
+}

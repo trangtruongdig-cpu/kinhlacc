@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Chrysanthemum indicum",
+  "_bo_phan": "hoa",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Chrysanthemum%20indicum%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Chrysanthemum indicum in Botanical Garden of PBA Institute in Bydgoszcz · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chrysanthemum_indicum_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Chrysanthemum%20indicum%20kz02.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Chrysanthemum indicum in Botanical Garden of PBA Institute in Bydgoszcz · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chrysanthemum_indicum_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00316.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Wild Dendranthema Flower (Chrysanthemi Indici Flos · 野菊花) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00316",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Chrysanthemum%20indicum%20(BM%201899%2C0713.208.5).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate 5: Purple Indian Chrysanthemum; branch with three blossoms at the top, in profile and front view fully opened; three buds among the leaves along · Print made by: Ackermann Published by: Ackermann / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chrysanthemum_indicum_(BM_1899,0713.208.5).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Print made by: Ackermann Published by: Ackermann"
+    }
+  ]
+}

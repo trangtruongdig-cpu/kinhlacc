@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Gekko swinhonis",
+  "_bo_phan": "toàn con",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Gekko%20swinhonis%20162849552.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Peking Gecko (Gekko swinhonis) · Ảnh: Zinogre / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Gekko_swinhonis_162849552.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Zinogre"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Gekko%20swinhonis%20167382486.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Peking Gecko (Gekko swinhonis) · Ảnh: ttimmy / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Gekko_swinhonis_167382486.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "ttimmy"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/625299470/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Gekko swinhonis Günther, 1864 · China · Ảnh: 欧阳泽鹏 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6178503411",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "欧阳泽鹏"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/625299500/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Gekko swinhonis Günther, 1864 · China · Ảnh: 欧阳泽鹏 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6178503411",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "欧阳泽鹏"
+    }
+  ]
+}

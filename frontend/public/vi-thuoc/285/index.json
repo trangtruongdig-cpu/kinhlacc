@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Artemisia argyi",
+  "_bo_phan": "lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Artemis%20argyi%20plant.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Artemisia argyi, commonly known as silvery wormwood or Chinese mugwort, is a herbaceous perennial plant with a creeping rhizome. It is native to China, Korea, M · Ảnh: V.Thamaraiselvi / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Artemis_argyi_plant.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "V.Thamaraiselvi"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Auspicious%20plants%20(Dragon%20Boat%20Festival).jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Auspicious plants (Acorus calamus, Artemisia argyi, and banyan leaves) are hung over the house door to protect against evil spirits during the Dragon Boat Festi · Ảnh: Mk2010 / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Auspicious_plants_(Dragon_Boat_Festival).jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Mk2010"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/429171890/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Artemisia argyi H.Lév. & Vaniot · Russian Federation · Ảnh: Repina Tatyana / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4946227115",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Repina Tatyana"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/429172023/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Artemisia argyi H.Lév. & Vaniot · Russian Federation · Ảnh: Repina Tatyana / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4946227115",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Repina Tatyana"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/150614737/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Artemisia argyi · quan sát thực địa · (c) Dmitriy Bochkov, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/150614737",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Dmitriy Bochkov, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/150614797/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Artemisia argyi · quan sát thực địa · (c) Dmitriy Bochkov, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/150614797",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Dmitriy Bochkov, some rights reserved (CC BY)"
+    }
+  ]
+}

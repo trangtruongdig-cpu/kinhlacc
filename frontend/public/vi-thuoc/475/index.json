@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Lygodium japonicum",
+  "_bo_phan": "bào tử",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Japanese%20climbing%20fern%20(Lygodium%20japonicum)%20habit.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Japanese climbing fern (Lygodium japonicum) on the slender trunk of a clove tree seedling, northern Buton Island, Southeast Sulawesi, Indonesia · Ảnh: David E Mead / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Japanese_climbing_fern_(Lygodium_japonicum)_habit.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "David E Mead"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Lygodium%20japonicum%20kz02.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Lygodium japonicum in Wrocław University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lygodium_japonicum_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00357.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Japanese Climbing Fern Spore (Lygodii Spora · 海金沙) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00357",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605377475/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lygodium japonicum (Thunb.) Sw. · United States of America · Ảnh: Kim / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938073611",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Kim"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604963193/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lygodium japonicum (Thunb.) Sw. · United States of America · Ảnh: Laura Gaudette / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938257949",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Laura Gaudette"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/110549255/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Lygodium japonicum · quan sát thực địa · (c) Michael J. Papay, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/110549255",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Michael J. Papay, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/110549375/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Lygodium japonicum · quan sát thực địa · (c) Michael J. Papay, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/110549375",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Michael J. Papay, some rights reserved (CC BY)"
+    }
+  ]
+}

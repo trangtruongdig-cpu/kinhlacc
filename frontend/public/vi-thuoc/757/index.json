@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Lysionotus pauciflorus",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Shishinran%20Lysionotus%20pauciflorus%20plant%20community%20Iron%20fence%20to%20prevent%20theft.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Shishinran Lysionotus pauciflorus plant community Iron fence to prevent theft. · Ảnh: さかおり / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Shishinran_Lysionotus_pauciflorus_plant_community_Iron_fence_to_prevent_theft.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "さかおり"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Quercus%20sessilifolia%20tree%20on%20the%20south%20side%20of%20Shishinran%20Lysionotus%20pauciflorus%20plant%20community.%20C.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Quercus sessilifolia tree on the south side of Shishinran Lysionotus pauciflorus plant community. · Ảnh: さかおり / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Quercus_sessilifolia_tree_on_the_south_side_of_Shishinran_Lysionotus_pauciflorus_plant_community._C.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "さかおり"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/611400281/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lysionotus pauciflorus Maxim. · Chinese Taipei · Ảnh: 黃美滿 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6133534405",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "黃美滿"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/611400282/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lysionotus pauciflorus Maxim. · Chinese Taipei · Ảnh: 黃美滿 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6133534405",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "黃美滿"
+    }
+  ]
+}

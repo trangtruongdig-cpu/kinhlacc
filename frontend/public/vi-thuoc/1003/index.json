@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Alocasia cucullata",
+  "_bo_phan": "Thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Alocasia%20cucullata-2-bsi-yercaud-salem-India.JPG?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Chinese taro-shapely plant,leaves deep green. · Ảnh: Yercaud-elango / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Alocasia_cucullata-2-bsi-yercaud-salem-India.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Yercaud-elango"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Alocasia%20cucullata-1-bsi-yercaud-salem-India.JPG?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Chinese taro-shapely plant,leaves deep green. · Ảnh: Yercaud-elango / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Alocasia_cucullata-1-bsi-yercaud-salem-India.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Yercaud-elango"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/606309005/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Alocasia cucullata (Lour.) G.Don · Martinique · Ảnh: Matteo Bellucci / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130236136",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Matteo Bellucci"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/606309002/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Alocasia cucullata (Lour.) G.Don · Martinique · Ảnh: Matteo Bellucci / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130236136",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Matteo Bellucci"
+    }
+  ]
+}

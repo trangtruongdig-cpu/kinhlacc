@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Melastoma dodecandrum",
+  "_bo_phan": "rễ",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Melastoma%20dodecandrum%20-%20Palmengarten%20Frankfurt%20-%20DSC01888.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Botanical specimen in the Palmengarten, Frankfurt am Main, Germany. · Ảnh: Daderot / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Melastoma_dodecandrum_-_Palmengarten_Frankfurt_-_DSC01888.JPG",
+      "giay_phep": "CC0",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E5%9C%B0%E8%8F%8D%20Melastoma%20dodecandrum%20-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92%20Hong%20Kong%20Botanical%20Garden-%20(9198133387).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "地菍 Melastoma dodecandrum [香港動植物公園 Hong Kong Botanical Garden] · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E5%9C%B0%E8%8F%8D_Melastoma_dodecandrum_-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92_Hong_Kong_Botanical_Garden-_(9198133387).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

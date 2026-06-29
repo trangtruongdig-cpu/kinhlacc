@@ -1,30 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Eucommia ulmoides",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "vỏ thân",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Thân cây Đỗ Trọng trưởng thành với vỏ thân nứt dọc, mọc trong vườn thực vật. · Ảnh: Vojtěch Zavadil / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:3558-Eucommia_ulmoides-Arb.Brno-9.12.JPG",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Vojtěch Zavadil"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Lá",
-      "mo_ta": "Lá đơn hình bầu dục, mép răng cưa, gân lá nổi rõ, đặc trưng của Eucommia ulmoides. · Ảnh: Vojtěch Zavadil / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:3573-Eucommia_ulmoides-Arb.Brno-9.12.JPG",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Vojtěch Zavadil"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Quả / hạt",
-      "mo_ta": "Quả có cánh (quả dực) màu xanh treo thành chùm cùng tán lá. · Ảnh: A. Barra / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Eucommia_ulmoides_ABL.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "A. Barra"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00344.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Eucommia Bark (Eucommiae Cortex · 杜仲) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00344",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

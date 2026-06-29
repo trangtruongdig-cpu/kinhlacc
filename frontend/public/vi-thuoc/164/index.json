@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Triticum aestivum",
+  "_bo_phan": "hạt lép nổi",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Triticum%20aestivum%20(black%20and%20white).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "A photo showing common wheat plant (Triticum aestivum) in black and white) · Ảnh: Ibu Petrovic / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Triticum_aestivum_(black_and_white).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ibu Petrovic"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Experimental%20design%20triticum%20aestivum.png?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Plant Triticum aestivum growth under Static Magnetic Field ; while other physical factors such as temperature, light exposure, soil pH, etc. are held constant.  · Ảnh: Deepanshu Sharma , Alpa Rajput &amp; Surya Priya Ulaganathan (three scientists) / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Experimental_design_triticum_aestivum.png",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Deepanshu Sharma , Alpa Rajput &amp; Surya Priya Ulaganathan (three scientists)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/606677230/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Triticum aestivum L. · United States of America · Ảnh: Gregory Wada / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6147510331",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Gregory Wada"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/622357626/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Triticum aestivum L. · United States of America · Ảnh: Adam J. Searcy / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6179359338",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Adam J. Searcy"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/127585014/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Triticum aestivum · ảnh đại diện · (c) Cole Shoemaker, some rights reserved (CC BY), uploaded by Cole Shoemaker (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/127585014",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Cole Shoemaker, some rights reserved (CC BY), uploaded by Cole Shoemaker"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/662621546/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Triticum aestivum · quan sát thực địa · (c) zebedeugalinha, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/662621546",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) zebedeugalinha, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/K%C3%B6hler's%20Medizinal-Pflanzen%20in%20naturgetreuen%20Abbildungen%20mit%20kurz%20erl%C3%A4uterndem%20Texte%20(Plate%2087)%20(8231709397).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Triticum vulOare L, · Brandt, Wilhelm; Gürke, M.; Köhler, F. E.; Pabst, G.; Schellenberg, G.; Vogtherr, Max. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:K%C3%B6hler%27s_Medizinal-Pflanzen_in_naturgetreuen_Abbildungen_mit_kurz_erl%C3%A4uterndem_Texte_(Plate_87)_(8231709397).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Brandt, Wilhelm; Gürke, M.; Köhler, F. E.; Pabst, G.; Schellenberg, G.; Vogtherr, Max."
+    }
+  ]
+}

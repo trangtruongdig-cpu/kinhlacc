@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Alangium chinense",
+  "_bo_phan": "rễ con hoặc rễ tơ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Alangium%20chinense%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Alangium chinense in Wrocław University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Alangium_chinense_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Alangium%20chinense%20kz02.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Alangium chinense in Wrocław University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Alangium_chinense_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/644879383/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Alangium chinense (Lour.) Harms · Hong Kong · Ảnh: Toby Y / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6236048517",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Toby Y"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/656290836/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Alangium chinense (Lour.) Harms · Chinese Taipei · Ảnh: Zheng-An Wang / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6273236502",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Zheng-An Wang"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/397006203/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Alangium chinense · quan sát thực địa · (c) Zihao Wang, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/397006203",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Zihao Wang, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/397006291/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Alangium chinense · quan sát thực địa · (c) Zihao Wang, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/397006291",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Zihao Wang, some rights reserved (CC BY)"
+    }
+  ]
+}

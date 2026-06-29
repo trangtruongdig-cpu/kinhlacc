@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Momordica cochinchinensis",
+  "_bo_phan": "hạt đã phơi khô",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Momordica%20cochinchinensis%2031515633.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Gac (Momordica cochinchinensis) in Taiwan · Ảnh: 呂一起(Lu i-chi) / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Momordica_cochinchinensis_31515633.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "呂一起(Lu i-chi)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Momordica%20cochinchinensis%20seeds%2C%20by%20Omar%20Hoftun.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Momordica cochinchinensis (gac fruit) seeds. · Ảnh: Omar hoftun / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Momordica_cochinchinensis_seeds,_by_Omar_Hoftun.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Omar hoftun"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00249.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Cochinchina Momordica Seed (Momordicae Semen · 木鱉子) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00249",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/618971341/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Momordica cochinchinensis (Lour.) Spreng. · Chinese Taipei · Ảnh: 葉子 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6170892009",
+      "giay_phep": "CC0",
+      "tac_gia": "葉子"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/672774187/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Momordica cochinchinensis (Lour.) Spreng. · Thailand · Ảnh: lallen / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6398822375",
+      "giay_phep": "CC0",
+      "tac_gia": "lallen"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Momordica%20sp%20Blanco2.380-cropped.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Momordica_sp_Blanco2.380-cropped.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid",
+  "_sci": "Fraxinus rhynchophylla",
+  "_bo_phan": "vỏ thân, vỏ cành",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/2023%20Bonsai%20Fraxinus%20Chinensis%20Bot%20Zahr%20Praha.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bonsai exhibited in the Botanical Garden Prague-Troja in the Japanese Garden section. Grower: Botanical Garden Prague; Species: Chinese ash (Fraxinus chinensis) · Ảnh: Mojmir Churavy / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:2023_Bonsai_Fraxinus_Chinensis_Bot_Zahr_Praha.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Mojmir Churavy"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E8%8A%B1%E6%9B%B2%E6%9F%B3(%E8%8B%A6%E6%AB%AA%E7%99%BD%E8%87%98%E6%A8%B9)%20Fraxinus%20rhynchophylla%20-%E7%80%8B%E9%99%BD%E6%A4%8D%E7%89%A9%E5%9C%92%20Shenyang%20Botanical%20Garden%2C%20China-%20(9222669146).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "中草藥-秦皮 · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E8%8A%B1%E6%9B%B2%E6%9F%B3(%E8%8B%A6%E6%AB%AA%E7%99%BD%E8%87%98%E6%A8%B9)_Fraxinus_rhynchophylla_-%E7%80%8B%E9%99%BD%E6%A4%8D%E7%89%A9%E5%9C%92_Shenyang_Botanical_Garden,_China-_(9222669146).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00350.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Ash Bark (Fraxini Cortex · 秦皮) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00350",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

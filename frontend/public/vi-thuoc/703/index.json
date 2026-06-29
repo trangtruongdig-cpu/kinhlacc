@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Euphorbia thymifolia",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr-010722-9001-Euphorbia%20thymifolia-plant-Kahului-Maui%20(24450567841).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Euphorbia thymifolia (Spurge) Plant at Kahului, Maui, Hawaii. July 22, 2001 &gt;#010722-9001 Image Use Policy Also known as Chamaesyce thymifolia. Prostrate. Pl · Ảnh: Forest and Kim Starr / Wikimedia Commons (CC BY 3.0 us)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr-010722-9001-Euphorbia_thymifolia-plant-Kahului-Maui_(24450567841).jpg",
+      "giay_phep": "CC BY 3.0 us",
+      "tac_gia": "Forest and Kim Starr"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Chamaesyce%20thymifolia%20(2696436656).jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Euphorbiaceae (castor, euphorbia, or spurge family) » Chamaesyce thymifolia kam-ay-SY-kee -- from the Greek chamai (on the ground) and skyon (fig) ty-mih-FOH-le · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chamaesyce_thymifolia_(2696436656).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/611481960/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Euphorbia thymifolia L. · French Polynesia · Ảnh: Eric Knight / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6133458246",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Eric Knight"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/611481961/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Euphorbia thymifolia L. · French Polynesia · Ảnh: Eric Knight / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6133458246",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Eric Knight"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/182648600/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Euphorbia thymifolia · quan sát thực địa · (c) portioid, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/182648600",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) portioid, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/45368379/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Euphorbia thymifolia · quan sát thực địa · (c) Gilles Deacur, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/45368379",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Gilles Deacur, some rights reserved (CC BY)"
+    }
+  ]
+}

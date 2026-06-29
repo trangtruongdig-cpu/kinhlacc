@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Prunus pseudocerasus",
+  "_bo_phan": "Quả hạch phơi khô của cây Anh Đào (Cerasus pseudocerasus (Lindl.) G.Don)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/359%20Cherry%20Root%20stock%20Prunus%20avium%20x%20Prunus%20pseudocerasus%20CV%20Colt%20LEAF%20epidermis%20print.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Cherry Root stock Prunus avium x Prunus pseudocerasus CV Colt LEAF epidermis print · Ảnh: ChrisInMilton / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:359_Cherry_Root_stock_Prunus_avium_x_Prunus_pseudocerasus_CV_Colt_LEAF_epidermis_print.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "ChrisInMilton"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/A%20cherry%20(Prunus%20paniculata)%3B%20branch%20with%20leaves.%20Pencil%20dra%20Wellcome%20V0043619.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "A cherry (Prunus paniculata): branch with leaves. Pencil drawing by S. Kawano. Iconographic Collections Keywords: S. Kawano · Ảnh: Wikimedia Commons / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:A_cherry_(Prunus_paniculata);_branch_with_leaves._Pencil_dra_Wellcome_V0043619.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Wikimedia Commons"
+    },
+    {
+      "file": "https://collections.nmnh.si.edu/media/?i=14297385&h=2000",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Prunus pseudocerasus Lindl. · China · Ảnh: J. Wen / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/1320111479",
+      "giay_phep": "CC0",
+      "tac_gia": "J. Wen"
+    },
+    {
+      "file": "https://collections.nmnh.si.edu/media/?i=14296821&h=2000",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Prunus pseudocerasus Lindl. · China · Ảnh: J. Wen, J. K. Triplett & Yunpeng Zhao / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/1318959485",
+      "giay_phep": "CC0",
+      "tac_gia": "J. Wen, J. K. Triplett & Yunpeng Zhao"
+    }
+  ]
+}

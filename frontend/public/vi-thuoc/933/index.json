@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Persicaria perfoliata",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Persicaria%20perfoliata%20Photo%2023497217-iNaturalist.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Persicaria perfoliata image of habitus. Source iNaturalist (researchgrade) · Ảnh: mefisher / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Persicaria_perfoliata_Photo_23497217-iNaturalist.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "mefisher"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Persicaria%20perfoliata%207.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Persicaria perfoliata · Ảnh: Dalgial / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Persicaria_perfoliata_7.JPG",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Dalgial"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604859502/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Persicaria perfoliata (L.) H.Gross · United States of America · Ảnh: gwt2102 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938196017",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "gwt2102"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/617316239/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Persicaria perfoliata (L.) H.Gross · United States of America · Ảnh: betsyyyy / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6162877726",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "betsyyyy"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/321123240/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Persicaria perfoliata · quan sát thực địa · (c) Fyodor Pudovikov, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/321123240",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Fyodor Pudovikov, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/321123262/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Persicaria perfoliata · quan sát thực địa · (c) Fyodor Pudovikov, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/321123262",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Fyodor Pudovikov, some rights reserved (CC BY)"
+    }
+  ]
+}

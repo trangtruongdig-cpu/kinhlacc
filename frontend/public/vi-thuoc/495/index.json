@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Litchi chinensis",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr%20061108-9610%20Litchi%20chinensis%20subsp.%20chinensis.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Litchi chinensis subsp. chinensis (habit). Location: Maui, Hoolawa Farms · Ảnh: Forest &amp; Kim Starr / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr_061108-9610_Litchi_chinensis_subsp._chinensis.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Forest &amp; Kim Starr"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr%20061108-9702%20Litchi%20chinensis%20subsp.%20chinensis.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Litchi chinensis subsp. chinensis (habit). Location: Maui, Hoolawa Farms · Ảnh: Forest &amp; Kim Starr / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr_061108-9702_Litchi_chinensis_subsp._chinensis.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Forest &amp; Kim Starr"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/636024799/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Litchi chinensis Sonn. · Madagascar · Ảnh: amantedarmanin / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6195405871",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "amantedarmanin"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/636024801/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Litchi chinensis Sonn. · Madagascar · Ảnh: amantedarmanin / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6195405871",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "amantedarmanin"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Litchi%20chinensis%20NF.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Frukt av Litchi chinensis. Ur Nordisk Familjebok. Ursprunglig bildtext: A frukt af Litchi chinensis, B densamma längdskuren. · Unknown authorUnknown author / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Litchi_chinensis_NF.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Unknown authorUnknown author"
+    }
+  ]
+}

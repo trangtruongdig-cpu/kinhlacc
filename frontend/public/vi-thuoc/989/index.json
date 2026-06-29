@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Maclura cochinchinensis",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Maclura%20cochinchinensis%20leaf%20DC6.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Cockspur Thorn (Maclura cochichinensis) is a native climber or shrub which has curved spines (like the spur on a roosters leg). It is in the family Moraceae (th · Ảnh: Macleay Grass Man / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Maclura_cochinchinensis_leaf_DC6.jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "Macleay Grass Man"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Maclura%20cochinchinensis%20leaf%20DC5.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Cockspur Thorn (Maclura cochichinensis) is a native climber or shrub which has curved spines (like the spur on a roosters leg). It is in the family Moraceae (th · Ảnh: Macleay Grass Man / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Maclura_cochinchinensis_leaf_DC5.jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "Macleay Grass Man"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604416652/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Maclura cochinchinensis (Lour.) Corner · Australia · Ảnh: Damien O'Donnell / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938045991",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Damien O'Donnell"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/609191376/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Maclura cochinchinensis (Lour.) Corner · Australia · Ảnh: Martin Hannan-Jones / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130124425",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Martin Hannan-Jones"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/328113034/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Maclura cochinchinensis · quan sát thực địa · (c) 呂一起(Lyu yi-chi), some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/328113034",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 呂一起(Lyu yi-chi), some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/328113009/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Maclura cochinchinensis · quan sát thực địa · (c) 呂一起(Lyu yi-chi), some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/328113009",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 呂一起(Lyu yi-chi), some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Maclura%20cochinchinensis%20Blanco2.418.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Maclura_cochinchinensis_Blanco2.418.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

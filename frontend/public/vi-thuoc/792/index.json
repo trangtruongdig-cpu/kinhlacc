@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Spiranthes sinensis",
+  "_bo_phan": "rễ và toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Spiranthes%20sinensis%202.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Photograph of Spiranthes sinensis, taken in Tama city, Tokyo, Japan. · Ảnh: Sphl / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Spiranthes_sinensis_2.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Sphl"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Spiranthes%20sinensis%20subsp.%20australis.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Spiranthes sinensis subsp. australis in Nachikatsuura, Wakayama Prefecture, Japan. · Ảnh: Alpsdake / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Spiranthes_sinensis_subsp._australis.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Alpsdake"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605872314/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Spiranthes sinensis (Pers.) Ames · China · Ảnh: 王天明 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6133027712",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "王天明"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605872340/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Spiranthes sinensis (Pers.) Ames · China · Ảnh: 王天明 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6133218868",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "王天明"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/664820649/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Spiranthes sinensis · ảnh đại diện · (c) Motohiro Sunouchi, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/664820649",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Motohiro Sunouchi, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Spiranthes%20sinensis%20(Pers.)%20Ames%20(as%20Spiranthes%20papuana%20Schltr.)%20-%20Orchidaceen%20von%20Deutsch%20Neu-Guinea%20Tafel%2020%20fig.%20Nr.%2064%20(1923).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Figurenatlas zu den Orchidaceen von Deutsch-Neu-Guinea Tafel 20 · Biodiversity Heritage Library, Friedrich Richard Rudolf Schlechter / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Spiranthes_sinensis_(Pers.)_Ames_(as_Spiranthes_papuana_Schltr.)_-_Orchidaceen_von_Deutsch_Neu-Guinea_Tafel_20_fig._Nr._64_(1923).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Biodiversity Heritage Library, Friedrich Richard Rudolf Schlechter"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Ulmus parvifolia",
+  "_bo_phan": "Vỏ cây hoặc vỏ rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Chinese%20Elm%20Ulmus%20parvifolia%20(32-0052-A)%20Bark%202.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "A closeup of the trunk bark of a Chinese Elm (Ulmus parvifolia en ). Identified by tag at the Morris Arboretum with accession #1932-0052-A, it was listed as rec · Ảnh: Photo by and (c)2014 Derek Ramsey (Ram-Man) / Wikimedia Commons (GFDL 1.2)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chinese_Elm_Ulmus_parvifolia_(32-0052-A)_Bark_2.JPG",
+      "giay_phep": "GFDL 1.2",
+      "tac_gia": "Photo by and (c)2014 Derek Ramsey (Ram-Man)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Chinese%20Elm%20Ulmus%20parvifolia%20(32-0052-A)%20Bark%201.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "A closeup of the trunk bark of a Chinese Elm (Ulmus parvifolia en ). Identified by tag at the Morris Arboretum with accession #1932-0052-A, it was listed as rec · Ảnh: Photo by and (c)2014 Derek Ramsey (Ram-Man) / Wikimedia Commons (GFDL 1.2)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chinese_Elm_Ulmus_parvifolia_(32-0052-A)_Bark_1.JPG",
+      "giay_phep": "GFDL 1.2",
+      "tac_gia": "Photo by and (c)2014 Derek Ramsey (Ram-Man)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/609030172/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ulmus parvifolia Jacq. · United States of America · Ảnh: Andrew Conboy / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130868451",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Andrew Conboy"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/609030143/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ulmus parvifolia Jacq. · United States of America · Ảnh: Andrew Conboy / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130868451",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Andrew Conboy"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/231455411/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Ulmus parvifolia · ảnh đại diện · (c) Reid Hardin, some rights reserved (CC BY), uploaded by Reid Hardin (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/231455411",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Reid Hardin, some rights reserved (CC BY), uploaded by Reid Hardin"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/233093151/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Ulmus parvifolia · quan sát thực địa · (c) Douglas Goldman, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/233093151",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Douglas Goldman, some rights reserved (CC BY-SA)"
+    }
+  ]
+}

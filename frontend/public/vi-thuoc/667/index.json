@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Costus speciosus",
+  "_bo_phan": "Thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hellenia%20speciosa%20-%20%E0%B4%9A%E0%B4%A3%E0%B5%8D%E0%B4%A3%E0%B4%95%E0%B5%8D%E0%B4%95%E0%B4%BF%E0%B4%B4%E0%B4%99%E0%B5%8D%E0%B4%99%E0%B5%8D.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cheilocostus speciosus at Neeliyarkottam · Ảnh: FarEnd2018 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hellenia_speciosa_-_%E0%B4%9A%E0%B4%A3%E0%B5%8D%E0%B4%A3%E0%B4%95%E0%B5%8D%E0%B4%95%E0%B4%BF%E0%B4%B4%E0%B4%99%E0%B5%8D%E0%B4%99%E0%B5%8D.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "FarEnd2018"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Costus%20speciosus%20NP%2002.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "An unknown herb form Nepal. · Ảnh: Krish Dulal / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Costus_speciosus_NP_02.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Krish Dulal"
+    },
+    {
+      "file": "https://ngcpr.org/magnify/smImg/CostusSpeciosusNgcpr01492.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Costus speciosus (J.Koenig) Sm. · India · Ảnh: S. Bramhadande / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4126438059",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "S. Bramhadande"
+    },
+    {
+      "file": "https://objects.oab.tw/nmns/siflora/specimens/SITW06548-TNM-001-01.JPG",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Costus speciosus (J.Koenig) Sm. · Solomon Islands · Ảnh: T.-Y. Aleck YANG|Hsien-Chun LIAO|Patrick FATAGA|Ruvie PITAVOQA|Moffat FANERII|Michael RAURAU / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6182173752",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "T.-Y. Aleck YANG|Hsien-Chun LIAO|Patrick FATAGA|Ruvie PITAVOQA|Moffat FANERII|Michael RAURAU"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Costus%20speciosus%20Blanco2.442.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Costus_speciosus_Blanco2.442.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

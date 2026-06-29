@@ -1,6 +1,13 @@
 {
-  "_source": "Wikimedia Commons",
+  "_source": "Wikimedia Commons + cmmid + gbif + inat + bencao",
   "_sci": "Zingiber officinale",
+  "_bo_phan": "thân rễ tươi",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
   "images": [
     {
       "file": "1.jpg",
@@ -25,6 +32,38 @@
       "nguon": "https://commons.wikimedia.org/wiki/File:Hojas_del_Jengibre_(Zingiber_officinale).jpg",
       "giay_phep": "CC BY-SA 4.0",
       "tac_gia": "Martín Huamán"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00012.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Fresh Ginger (Zingiberis Rhizoma Recens · 生薑) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00012",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/7a9483eda0227f1e944c9c3864533bb8cf6e1240",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Zingiber officinale Roscoe · Cambodia · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110520586",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/3b6dee458a40c5e0af2642b0288eee1e947bb7c9",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Zingiber officinale Roscoe · India · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110331215",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Zingiber%20officinale%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-146.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Illustration of Zingiber officinale Roscoe · Franz Eugen Köhler / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Zingiber_officinale_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-146.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler"
     }
   ]
 }

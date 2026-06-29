@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Aconitum carmichaelii",
+  "_bo_phan": "rễ củ (bào)",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Aconitum%20carmichaelii%20var.%20wilsonii%20002.JPG?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Aconitum carmichaelii var. wilsonii, Ranunculaceae, Carmichael's Monkshood, inflorescence; Botanical Garden KIT, Karlsruhe, Germany. · Ảnh: H. Zell / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Aconitum_carmichaelii_var._wilsonii_002.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "H. Zell"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Aconitum%20carmichaelii%20var.%20wilsonii%20001.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Aconitum carmichaelii var. wilsonii, Ranunculaceae, Carmichael's Monkshood, habitus; Botanical Garden KIT, Karlsruhe, Germany. · Ảnh: H. Zell / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Aconitum_carmichaelii_var._wilsonii_001.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "H. Zell"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

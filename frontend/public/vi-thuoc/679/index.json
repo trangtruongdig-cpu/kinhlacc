@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Cinnamomum burmannii",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E9%99%B0%E9%A6%99%20Cinnamomum%20burmanni%2020210627102154%2016.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Cinnamomum burmanni is native to China. Aromatic oil can be extracted from its skin, leaves, and roots. Its bark is used as a substitute for cinnamon bark (Cinn · Ảnh: Ping an Chang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E9%99%B0%E9%A6%99_Cinnamomum_burmanni_20210627102154_16.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ping an Chang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E9%99%B0%E9%A6%99%20Cinnamomum%20burmanni%2020210627102154%2014.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Cinnamomum burmanni is native to China. Aromatic oil can be extracted from its skin, leaves, and roots. Its bark is used as a substitute for cinnamon bark (Cinn · Ảnh: Ping an Chang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E9%99%B0%E9%A6%99_Cinnamomum_burmanni_20210627102154_14.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ping an Chang"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/606055991/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cinnamomum burmanni (Nees & T.Nees) Blume · Chinese Taipei · Ảnh: 賴碧珠 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130091911",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "賴碧珠"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/606056033/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cinnamomum burmanni (Nees & T.Nees) Blume · Chinese Taipei · Ảnh: 賴碧珠 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130091911",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "賴碧珠"
+    }
+  ]
+}

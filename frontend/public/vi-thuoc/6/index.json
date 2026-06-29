@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid",
+  "_sci": "Pheretima",
+  "_bo_phan": "toàn con (giun đất)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pheretima%20praepinguis%20(Big%20earthworm%20of%20Mount%20Emei).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Pheretima praepinguis, an about half meter long species of earthworm living on the Emei mountain, Sichuan Province, China · Ảnh: Panzer VI-II / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pheretima_praepinguis_(Big_earthworm_of_Mount_Emei).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Panzer VI-II"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Close%20wing%20Basking%20of%20Rapala%20pheretima%20(Hewitson%2C%201863)%20-%20Copper%20Flash%20WLB.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Close wing Basking of Rapala pheretima (Hewitson, 1863) - Copper Flash WLB .jpg. The copper flash is a species of lycaenid. · Ảnh: Anitava Roy / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Close_wing_Basking_of_Rapala_pheretima_(Hewitson,_1863)_-_Copper_Flash_WLB.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Anitava Roy"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00372.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Earthworm (Pheretima · 地龍) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00372",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Photinia serratifolia",
+  "_bo_phan": "Lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Photinia%20sp.%20Bodnant%20-%20Flickr%20-%20peganum.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Trying to get a good shot of this plant so I can sell some. Bodnant Gardens nursery sell this plant as P.serratifolia but it's clearly different to the one comm · Ảnh: peganum from Small Dole, England / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Photinia_sp._Bodnant_-_Flickr_-_peganum.jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "peganum from Small Dole, England"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Photinia%20serratifolia%206.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Photinia serratifolia, Koishikawa, Botanical Gardens, the University of Tokyo, Japan · Ảnh: Qwert1234 / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Photinia_serratifolia_6.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Qwert1234"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605485056/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Photinia serratifolia (Desf.) Kalkman · United States of America · Ảnh: Vince Hale / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938031073",
+      "giay_phep": "CC0",
+      "tac_gia": "Vince Hale"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605485123/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Photinia serratifolia (Desf.) Kalkman · United States of America · Ảnh: Vince Hale / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938031073",
+      "giay_phep": "CC0",
+      "tac_gia": "Vince Hale"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Arboretum%20et%20fruticetum%20britannicum%2C%20or%20(Plate%20157)%20(7064328055).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Photinia serrulata. The serrulated-fcavirf Photinia. 157 12 ft. high, 2 in. diam. · Loudon, J. C. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Arboretum_et_fruticetum_britannicum,_or_(Plate_157)_(7064328055).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Loudon, J. C."
+    }
+  ]
+}

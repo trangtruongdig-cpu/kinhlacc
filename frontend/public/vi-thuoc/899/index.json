@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Tadehagi triquetrum",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Tadehagi%20triquetrum%20plant.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Tadehagi triquetrum plant · Ảnh: Nativeplants garden / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Tadehagi_triquetrum_plant.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Nativeplants garden"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Tadehagi%20triquetrum%207.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Nativeplants botanical garden, Pulikurumba · Ảnh: Nativeplants garden / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Tadehagi_triquetrum_7.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Nativeplants garden"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/510921309/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Tadehagi triquetrum (L.) H.Ohashi · India · Ảnh: chiragmunje / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5199136562",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "chiragmunje"
+    }
+  ]
+}

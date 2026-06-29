@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid",
+  "_sci": "Ampelopsis japonica",
+  "_bo_phan": "củ/rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ampelopsis%20japonica%20Winnik%202018-09-02%2002.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Ampelopsis japonica, leaves, fruits, plant cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ampelopsis_japonica_Winnik_2018-09-02_02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ampelopsis%20japonica%20Winnik%202018-09-02%2001.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Ampelopsis japonica, fruits, cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ampelopsis_japonica_Winnik_2018-09-02_01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00029.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Japanese Ampelopsis Root Tuber (Ampelopsis Radix · 白蘞) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00029",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

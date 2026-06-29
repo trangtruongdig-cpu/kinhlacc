@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Dysosma versipellis",
+  "_bo_phan": "Rễ và thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Curtis's%20botanical%20magazine%20(Tab.%208154)%20(9598151339).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Listed as Podophyllum versipelle, now known as Dysosma versipellis · Ảnh: Bentham-Moxon Trust.; Curtis, William; Curtis's botanical magazine dedications, 1827-1927 : portraits and biographical notes.; Royal Botanic Gardens, Kew.; Stanley Smith Horticultural Trust. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Curtis%27s_botanical_magazine_(Tab._8154)_(9598151339).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Bentham-Moxon Trust.; Curtis, William; Curtis's botanical magazine dedications, 1827-1927 : portraits and biographical notes.; Royal Botanic Gardens, Kew.; Stanley Smith Horticultural Trust."
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dysosma%20versipellis%20'Spotty%20Dotty'%20(Podophyllum%20versipelle)%20-%20Savill%20Garden%20-%20Windsor%20Great%20Park%2C%20England%20-%20DSC06476.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Horticultural specimen in Savill Garden - Windsor Great Park, England. · Ảnh: Daderot / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dysosma_versipellis_%27Spotty_Dotty%27_(Podophyllum_versipelle)_-_Savill_Garden_-_Windsor_Great_Park,_England_-_DSC06476.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "https://purl.org/gbifnorway/img/ipt-specimens/barstow-garden/new/2010/P7215950.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dysosma versipellis (Hance) M.Cheng · Norway · Ảnh: Stephen Barstow / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3045027446",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Stephen Barstow"
+    },
+    {
+      "file": "https://purl.org/gbifnorway/img/ipt-specimens/barstow-garden/new/2010/P7215951.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dysosma versipellis (Hance) M.Cheng · Norway · Ảnh: Stephen Barstow / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3045027446",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Stephen Barstow"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Fritillaria",
+  "_bo_phan": "củ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Fritillaria%20imperialis%20Szachownica%20cesarska%202021-04-24%2002.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Imperial fritillary (Fritillaria imperialis) inflorescence, plant cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Fritillaria_imperialis_Szachownica_cesarska_2021-04-24_02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Fritillaria%20conica%20in%20situ.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "This image shows Fritillaria conica in its natural habitat in Greece (Peloponnes). · Ảnh: Conan Wolff / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Fritillaria_conica_in_situ.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Conan Wolff"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Fritillaria%20meleagris%3B%20Fritullaria%20lutea%20eller%20Fritullaria%20latifolia%20var%20lutea%3B%20Fritillaria%20pyrenaica.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Fritillaria meleagris; Fritullaria lutea eller Fritullaria latifolia var lutea; Fritillaria pyrenaica · Hans Simon Holtzbecker / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Fritillaria_meleagris;_Fritullaria_lutea_eller_Fritullaria_latifolia_var_lutea;_Fritillaria_pyrenaica.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Hans Simon Holtzbecker"
+    }
+  ]
+}

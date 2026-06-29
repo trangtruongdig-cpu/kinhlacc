@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Moschus moschiferus",
+  "_bo_phan": "xạ hương (từ túi tuyến)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Porte%20musc%20perspective%205.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Skull of Siberian Musk Deer Moschus moschiferus (View ¾ face.) - Siberia Size : 17,5 × 8 × 6 cm. · Ảnh: Didier Descouens / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Porte_musc_perspective_5.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Didier Descouens"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Porte%20musc%20Profil%202.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Skull of Siberian Musk Deer Moschus moschiferus (Linnaeus 1758) (View profil.) - Siberia Size : 17,5 × 8 × 6 cm. · Ảnh: Didier Descouens / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Porte_musc_Profil_2.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Didier Descouens"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00389.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Forest Musk (Moschus · 麝香) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00389",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/676962449/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Moschus moschiferus Linnaeus, 1758 · Russian Federation · Ảnh: Юлия / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6400113828",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Юлия"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/676962468/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Moschus moschiferus Linnaeus, 1758 · Russian Federation · Ảnh: Юлия / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6400113828",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Юлия"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/437210795/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Moschus moschiferus · quan sát thực địa · (c) Dmitry Ivanov, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/437210795",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Dmitry Ivanov, some rights reserved (CC BY)"
+    }
+  ]
+}

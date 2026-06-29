@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Mussaenda pubescens",
+  "_bo_phan": "rễ, cành, lá hoặc toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Mussaenda%20arcuata%2C%20jong%20vrugte%2C%20b%2C%20Manie%20van%20der%20Schijff%20BT.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Young fruit of a Forest star in the Manie van der Schijff Botanical Garden, Pretoria, South Africa · Ảnh: JMK / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Mussaenda_arcuata,_jong_vrugte,_b,_Manie_van_der_Schijff_BT.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "JMK"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E7%8E%89%E8%91%89%E9%87%91%E8%8A%B1%20Mussaenda%20pubescens%20-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92%20Hong%20Kong%20Botanical%20Garden-%20(9252405663).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "玉葉金花 Mussaenda pubescens [香港動植物公園 Hong Kong Botanical Garden] · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E7%8E%89%E8%91%89%E9%87%91%E8%8A%B1_Mussaenda_pubescens_-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92_Hong_Kong_Botanical_Garden-_(9252405663).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/612385924/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Mussaenda pubescens Dryand. · Viet Nam · Ảnh: russnamitz / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6133177294",
+      "giay_phep": "CC0",
+      "tac_gia": "russnamitz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/612385942/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Mussaenda pubescens Dryand. · Viet Nam · Ảnh: russnamitz / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6133177294",
+      "giay_phep": "CC0",
+      "tac_gia": "russnamitz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/72421297/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Mussaenda pubescens · quan sát thực địa · (c) 黃美滿, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/72421297",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 黃美滿, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/72421314/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Mussaenda pubescens · quan sát thực địa · (c) 黃美滿, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/72421314",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 黃美滿, some rights reserved (CC BY)"
+    }
+  ]
+}

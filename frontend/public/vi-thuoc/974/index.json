@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Hydnocarpus anthelminticus",
+  "_bo_phan": "Hạt chín",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hydnocarpus%20castanea%201.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Hydnocarpus castanea · Ảnh: Lannafolium / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hydnocarpus_castanea_1.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Lannafolium"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hydnocarpus%20castanea%202.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Hydnocarpus castanea · Ảnh: Lannafolium / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hydnocarpus_castanea_2.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Lannafolium"
+    },
+    {
+      "file": "https://media01.symbiota.org/media/seinet/swnode/ASU_Plants/CSP03/CSP03225_lg.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hydnocarpus anthelminthicus Pierre ex Laness. · United States of America · Ảnh: GBIF contributor / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3762894342",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://medialib.naturalis.nl/file/id/L.3956653/format/large",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hydnocarpus anthelminthicus Pierre ex Laness. · Cambodia · Ảnh: Naturalis Biodiversity Center / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/2515033685",
+      "giay_phep": "CC0",
+      "tac_gia": "Naturalis Biodiversity Center"
+    }
+  ]
+}

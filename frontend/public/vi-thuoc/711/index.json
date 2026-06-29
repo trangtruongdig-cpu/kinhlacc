@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Isodon lophanthoides",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E7%B7%9A%E7%B4%8B%E9%A6%99%E8%8C%B6%E8%8F%9C(%E6%BA%AA%E9%BB%83%E8%8D%89)%20Isodon%20lophanthoides%20-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92%20Hong%20Kong%20Botanical%20Garden-%20(9240228642).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "中草藥-溪黃草 · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E7%B7%9A%E7%B4%8B%E9%A6%99%E8%8C%B6%E8%8F%9C(%E6%BA%AA%E9%BB%83%E8%8D%89)_Isodon_lophanthoides_-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92_Hong_Kong_Botanical_Garden-_(9240228642).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Isodon%20lophanthoides%20at%20Tadiandamol%20(7).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Photos from Tadiandamol, Tadiyantamol during GRV2019 · Ảnh: Vinayaraj / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Isodon_lophanthoides_at_Tadiandamol_(7).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Vinayaraj"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/585506066/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Isodon lophanthoides (Buch.-Ham. ex D.Don) H.Hara · Nepal · Ảnh: Anastasia Titovets / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5889342998",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Anastasia Titovets"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/585512129/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Isodon lophanthoides (Buch.-Ham. ex D.Don) H.Hara · Nepal · Ảnh: Anastasia Titovets / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5889548487",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Anastasia Titovets"
+    }
+  ]
+}

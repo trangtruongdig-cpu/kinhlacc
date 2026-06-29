@@ -1,30 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Prunus persica",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "nhân hạt đào",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cây đào (Prunus persica) với cành lá thuôn dài, có quả non màu xanh, trồng cạnh tường. · Ảnh: Andybryan1997 / Wikimedia Commons (CC BY-SA 4.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Guaytambo.jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "Andybryan1997"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Quả / hạt",
-      "mo_ta": "Các giai đoạn phát triển của đào: nụ, hoa hồng nhạt, quả non và quả chín đỏ trên cành. · Ảnh: jjron / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Nectarine_Fruit_Development.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "jjron"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Lá",
-      "mo_ta": "Bụi cây đào với tán lá thuôn nhọn đặc trưng mọc ngoài đồng cỏ. · Ảnh: Forest Kim Starr / Wikimedia Commons (CC BY 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Starr_980630-1513_Prunus_persica.jpg",
-      "giay_phep": "CC BY 3.0",
-      "tac_gia": "Forest Kim Starr"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00207.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Peach Seed (Persicae Semen · 桃仁) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00207",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Urena lobata",
+  "_bo_phan": "rễ hoặc toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Urena%20lobata%20at%20Kadavoor.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Urena lobata, Caesarweed is an annual, variable, erect, ascendant under shrub and measuring up to 0.5 to 2.5 meters tall. The stems are covered with minute star · Ảnh: Jeevan Jose, Kerala, India / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Urena_lobata_at_Kadavoor.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Jeevan Jose, Kerala, India"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Urena%20lobata%2004213.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Urena lobata @, Kerala, India · Ảnh: Vengolis / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Urena_lobata_04213.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Vengolis"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604673339/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Urena lobata L. · Australia · Ảnh: Scott W. Gavins / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938117247",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Scott W. Gavins"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604673382/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Urena lobata L. · Australia · Ảnh: Scott W. Gavins / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938117247",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Scott W. Gavins"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/116895996/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Urena lobata · ảnh đại diện · (c) Ong Jyh Seng, some rights reserved (CC BY-SA), uploaded by Ong Jyh Seng (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/116895996",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Ong Jyh Seng, some rights reserved (CC BY-SA), uploaded by Ong Jyh Seng"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Urena%20heterophylla%20Blanco2.243.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Urena_heterophylla_Blanco2.243.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

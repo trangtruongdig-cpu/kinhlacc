@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Cayratia japonica",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cayratia%20japonica1.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "ヤブカラシ · Ảnh: KENPEI / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cayratia_japonica1.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "KENPEI"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Stizus%20pulcherrimus%20and%20Cayratia%20japonica%202020.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "日本、東海地方 · Ảnh: Phonon.b / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Stizus_pulcherrimus_and_Cayratia_japonica_2020.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Phonon.b"
+    },
+    {
+      "file": "https://id.digitarium.fi/api/C.49452/Preview001.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cayratia japonica Griseb. · Ảnh: GBIF contributor / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3439515249",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://id.digitarium.fi/api/C.49453/Preview001.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cayratia japonica Griseb. · Ảnh: GBIF contributor / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3439517648",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/258170585/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Causonis japonica · quan sát thực địa · (c) Stephen Thorpe, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/258170585",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Stephen Thorpe, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/258170610/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Causonis japonica · quan sát thực địa · (c) Stephen Thorpe, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/258170610",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Stephen Thorpe, some rights reserved (CC BY)"
+    }
+  ]
+}

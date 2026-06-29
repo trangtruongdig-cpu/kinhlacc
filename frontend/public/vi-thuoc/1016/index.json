@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Serissa serissoides",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E7%99%BD%E9%A6%AC%E9%AA%A8(%E6%BB%BF%E5%A4%A9%E6%98%9F)%20Serissa%20serissoides%20-%E9%A6%99%E6%B8%AF%E5%98%89%E9%81%93%E7%90%86%E8%BE%B2%E5%A0%B4%20Kadoorie%20Farm%2C%20Hong%20Kong-%20(9237373941).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "白馬骨(滿天星) Serissa serissoides [香港嘉道理農場 Kadoorie Farm, Hong Kong] · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E7%99%BD%E9%A6%AC%E9%AA%A8(%E6%BB%BF%E5%A4%A9%E6%98%9F)_Serissa_serissoides_-%E9%A6%99%E6%B8%AF%E5%98%89%E9%81%93%E7%90%86%E8%BE%B2%E5%A0%B4_Kadoorie_Farm,_Hong_Kong-_(9237373941).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://oxalis.br.fgov.be/images/BR0/000/006/781/705/BR0000006781705.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Serissa serissoides (DC.) Druce · China · Ảnh: Meise Botanic Garden / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4072430449",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Meise Botanic Garden"
+    },
+    {
+      "file": "https://oxalis.br.fgov.be/images/BR0/000/006/783/020/BR0000006783020.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Serissa serissoides (DC.) Druce · China · Ảnh: Meise Botanic Garden / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4072430463",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Meise Botanic Garden"
+    }
+  ]
+}

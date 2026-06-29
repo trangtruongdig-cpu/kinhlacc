@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Cynanchum auriculatum",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cynanchum%20auriculatum%20(7763805474).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cynanchum auriculatum · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cynanchum_auriculatum_(7763805474).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cynanchum%20auriculatum%20(7763816664).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cynanchum auriculatum · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cynanchum_auriculatum_(7763816664).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/538377477/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Vincetoxicum auriculatum (Royle ex Wight) Kuntze · Nepal · Ảnh: Sagnik Dutta Roy / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5903725559",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Sagnik Dutta Roy"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/538377473/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Vincetoxicum auriculatum (Royle ex Wight) Kuntze · Nepal · Ảnh: Sagnik Dutta Roy / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5903725559",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Sagnik Dutta Roy"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/538377535/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Vincetoxicum auriculatum · quan sát thực địa · (c) Sagnik Dutta Roy, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/538377535",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Sagnik Dutta Roy, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/538377528/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Vincetoxicum auriculatum · quan sát thực địa · (c) Sagnik Dutta Roy, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/538377528",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Sagnik Dutta Roy, some rights reserved (CC BY)"
+    }
+  ]
+}

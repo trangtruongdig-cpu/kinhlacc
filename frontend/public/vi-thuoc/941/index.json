@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Pteris multifida",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pteris%20multifida%20Poir.%20(spider%20brake)%20in%20Southern%20China's%20rural%20areas.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Pteris multifida Poir. (spider brake) is common on the walls of many old people's homes in southern China. This plant is usually 20-30 centimeters tall, with sh · Ảnh: FlyingBatt / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pteris_multifida_Poir._(spider_brake)_in_Southern_China%27s_rural_areas.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "FlyingBatt"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pteris%20multifida%20kz1.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Pteris multifida in botanical garden in Batumi · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pteris_multifida_kz1.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/611784260/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Pteris multifida Poir. · China · Ảnh: Gao Lezhe / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6133044095",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Gao Lezhe"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605639720/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Pteris multifida Poir. · Japan · Ảnh: りなべる / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6178444035",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "りなべる"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/617387316/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Pteris multifida · quan sát thực địa · (c) zebedeugalinha, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/617387316",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) zebedeugalinha, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/617387976/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Pteris multifida · quan sát thực địa · (c) zebedeugalinha, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/617387976",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) zebedeugalinha, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pteris%20multifida.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Figure from book · Udo Dammer, see http://de.wikipedia.org/wiki/Carl_Lebrecht_Udo_Dammer / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pteris_multifida.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Udo Dammer, see http://de.wikipedia.org/wiki/Carl_Lebrecht_Udo_Dammer"
+    }
+  ]
+}

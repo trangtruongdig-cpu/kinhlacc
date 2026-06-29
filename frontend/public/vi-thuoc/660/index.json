@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Sus scrofa",
+  "_bo_phan": "Dịch mật khô",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Wild%20Boar%20Habbitat%202.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "The Wild Boar (Sus scrofa) is the wild ancestor of the domestic pig. As shown in his natural habitat. · Ảnh: Richard Bartz, Munich Makro Freak / Wikimedia Commons (CC BY-SA 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Wild_Boar_Habbitat_2.jpg",
+      "giay_phep": "CC BY-SA 2.5",
+      "tac_gia": "Richard Bartz, Munich Makro Freak"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Wild%20Boar%20Habbitat%203.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "The Wild Boar (Sus scrofa) is the wild ancestor of the domestic pig. As shown in his natural habitat. · Ảnh: Richard Bartz, Munich Makro Freak / Wikimedia Commons (CC BY-SA 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Wild_Boar_Habbitat_3.jpg",
+      "giay_phep": "CC BY-SA 2.5",
+      "tac_gia": "Richard Bartz, Munich Makro Freak"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604445137/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Sus scrofa Linnaeus, 1758 · Hong Kong · Ảnh: Stephen Matthews / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938104700",
+      "giay_phep": "CC0",
+      "tac_gia": "Stephen Matthews"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604624117/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Sus scrofa domesticus Linnaeus, 1758 · United States of America · Ảnh: Anne Parker / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938246628",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Anne Parker"
+    }
+  ]
+}

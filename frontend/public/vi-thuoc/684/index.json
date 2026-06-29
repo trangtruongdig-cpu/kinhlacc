@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Euphorbia heterophylla",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Euphorbia%20heterophylla%20var.%20heterophylla%201DS-II%201-7121.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Euphorbia heterophylla var. heterophylla, cyathia with developing fruit; naturalised weed, Lowveld National Botanical Garden, Nelspruit, Mpumalanga, South Afric · Ảnh: SAplants / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Euphorbia_heterophylla_var._heterophylla_1DS-II_1-7121.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "SAplants"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Euphorbia%20heterophylla%20Plant.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Euphorbia heterophylla Plant found in the Eastern region of Ghana · Ảnh: Kwameghana(Bright Kwame Ayisi) / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Euphorbia_heterophylla_Plant.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Kwameghana(Bright Kwame Ayisi)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604620549/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Euphorbia cyathophora Murray · Colombia · Ảnh: EstebanMH / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938427340",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "EstebanMH"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604620527/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Euphorbia cyathophora Murray · Colombia · Ảnh: EstebanMH / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938427340",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "EstebanMH"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/39012061/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Euphorbia cyathophora · quan sát thực địa · (c) Ben Machado, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/39012061",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Ben Machado, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/39012067/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Euphorbia cyathophora · quan sát thực địa · (c) Ben Machado, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/39012067",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Ben Machado, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Vick's%20garden%20and%20floral%20guide%20(16537210776).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "JAMES VICKS SONS, ROCHESTER, N. Y. FLOWER SEEDS 27 DIGITALIS — Foxglove. The Digitalis is quite a stately plant when well grown, with flower stems at  · Henry G. Gilbert Nursery and Seed Trade Catalog Collection.; James Vick's Sons (Rochester, N.Y.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Vick%27s_garden_and_floral_guide_(16537210776).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Henry G. Gilbert Nursery and Seed Trade Catalog Collection.; James Vick's Sons (Rochester, N.Y.)"
+    }
+  ]
+}

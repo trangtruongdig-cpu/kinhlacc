@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Dichroa febrifuga",
+  "_bo_phan": "Rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dichroa%20febrifuga%20kz3.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Dichroa febrifuga in the San Francisco Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dichroa_febrifuga_kz3.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dichroa%20febrifuga%20kz2.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Dichroa febrifuga in the San Francisco Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dichroa_febrifuga_kz2.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00039.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Antifebrile Dichroa Root (Dichroae Radix · 常山) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00039",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://s3.amazonaws.com/huhspecimenimages/JPG/00970891.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dichroa febrifuga Lour. · China · Ảnh: President and Fellows of Harvard College / GBIF (Public Domain)",
+      "nguon": "https://www.gbif.org/occurrence/3989250314",
+      "giay_phep": "Public Domain",
+      "tac_gia": "President and Fellows of Harvard College"
+    },
+    {
+      "file": "https://ibss-images.calacademy.org/static/botany/originals/ad/f8/adf8d87f-1952-4b32-8deb-533bb49dc8f0.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dichroa febrifuga Lour. · China · Ảnh: Boufford, David E.; GUO, Jianling; Su, Lin; Yu, Xin / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6326192305",
+      "giay_phep": "CC0",
+      "tac_gia": "Boufford, David E.; GUO, Jianling; Su, Lin; Yu, Xin"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dichroa%20febrifuga%20Paxton%205.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Dichroa febrifuga Lour. · John Lindley and Joseph Paxton, drawing by L. A. L. Constans / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dichroa_febrifuga_Paxton_5.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "John Lindley and Joseph Paxton, drawing by L. A. L. Constans"
+    }
+  ]
+}

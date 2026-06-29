@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Capsella bursa-pastoris",
+  "_bo_phan": "toàn cây có hoa",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Capsella%20bursa-pastoris%2015-p.bot-capse.bupa-03.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Nom français : bourse-à-pasteur. Nom anglais : common shepherd's purse. Plant entier (fleurs, fruits, tige, feuilles, racines) de bourse-à-pasteur. · Ảnh: Ayotte, Gilles, 1948- / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Capsella_bursa-pastoris_15-p.bot-capse.bupa-03.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ayotte, Gilles, 1948-"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Capsella%20bursa-pastoris%201DS-II%207816.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Capsella bursa-pastoris, plant in flower and fruit; weed of cultivation, vicinity of Wolmaransstad, North West, South Africa · Ảnh: SAplants / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Capsella_bursa-pastoris_1DS-II_7816.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "SAplants"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604514756/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Capsella bursa-pastoris (L.) Medik. · United Kingdom of Great Britain and Northern Ireland · Ảnh: Daniel Cahen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938029312",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Daniel Cahen"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604619424/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Capsella bursa-pastoris (L.) Medik. · United Kingdom of Great Britain and Northern Ireland · Ảnh: Elliot Greiner / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938048147",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Elliot Greiner"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Capsella%20bursa-pastoris%2C%20kiembol%20(Hanstein).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Capsella bursa-pastoris, kiembol bij herderstasje. Tekening van Hanstein, Ontwikkeling embryo bij herderstasje. a:proëmbryo, h:hypofyse, b:viercellige · Johannes von Hanstein 1822-1880 / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Capsella_bursa-pastoris,_kiembol_(Hanstein).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Johannes von Hanstein 1822-1880"
+    }
+  ]
+}

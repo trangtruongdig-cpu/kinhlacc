@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Cordyceps cicadae",
+  "_bo_phan": "Tử tọa và ký chủ (hạch nấm)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Isaria%20Cicadae%20Range%20Map.png?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "This range map depicts global occurrances of Isaria cicadae and synonomous species including Cordyceps cicadae Shing and and Massee, and Paecilomyces cicadae. · Ảnh: GBIF Secretariat / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Isaria_Cicadae_Range_Map.png",
+      "giay_phep": "CC0",
+      "tac_gia": "GBIF Secretariat"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/535726965/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cordyceps cicadae S.Z.Shing · United States of America · Ảnh: Bethany Teigen / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5837753443",
+      "giay_phep": "CC0",
+      "tac_gia": "Bethany Teigen"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/546882440/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cordyceps cicadae S.Z.Shing · Japan · Ảnh: Atsushi Nakajima / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5282593212",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Atsushi Nakajima"
+    }
+  ]
+}

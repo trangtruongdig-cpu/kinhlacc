@@ -1,0 +1,77 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Chinemys reevesii",
+  "_bo_phan": "yếm rùa",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Chinemys%20reevesii%2002.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "クサガメ (学名:Chinemys reevesii) · Ảnh: Σ64 / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chinemys_reevesii_02.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Σ64"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Chinemys%20reevesii%2001.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "クサガメ (学名:Chinemys reevesii) · Ảnh: Σ64 / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chinemys_reevesii_01.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Σ64"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00376.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Tortose's Carapae and Plastron (Testudinis Carapax et Plastrum · 龜甲) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00376",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "http://www.archive.org/stream/catalogueofspeci02unse#page/266/mode/2up",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Chinemys reevesii (Gray, 1831) · China · Ảnh: A.W.C.T. Herre / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/543744040",
+      "giay_phep": "CC0",
+      "tac_gia": "A.W.C.T. Herre"
+    },
+    {
+      "file": "http://www.archive.org/stream/catalogueofspeci02unse#page/268/mode/2up",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Chinemys reevesii (Gray, 1831) · China · Ảnh: A.W.C.T. Herre / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/543744044",
+      "giay_phep": "CC0",
+      "tac_gia": "A.W.C.T. Herre"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/249782015/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Mauremys reevesii · quan sát thực địa · (c) Samuele Papeschi, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/249782015",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Samuele Papeschi, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/249782024/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Mauremys reevesii · quan sát thực địa · (c) Samuele Papeschi, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/249782024",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Samuele Papeschi, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Naturalis%20Biodiversity%20Center%20-%20RMNH.ART.274%20-%20Chinemys%20reevesii%20-%20Mauremys%20reevesii%20-%20Kawahara%20Keiga%20-%201823%20-%201829%20-%20Siebold%20Collection%20-%20white%20background.jpeg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Chinemys reevesii = Mauremys reevesii · Kawahara Keiga / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Naturalis_Biodiversity_Center_-_RMNH.ART.274_-_Chinemys_reevesii_-_Mauremys_reevesii_-_Kawahara_Keiga_-_1823_-_1829_-_Siebold_Collection_-_white_background.jpeg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Kawahara Keiga"
+    }
+  ]
+}

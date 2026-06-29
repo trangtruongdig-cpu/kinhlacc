@@ -1,14 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Atractylodes macrocephala",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "thân rễ",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Dược liệu (đã chế)",
-      "mo_ta": "Phiến rễ khô Bạch Truật (Atractylodes macrocephala) màu nâu nhạt, mặt cắt xốp, đựng trong túi · Ảnh: Hiorenidrmea Noewidfacoo / Wikimedia Commons (CC BY-SA 4.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Baizhu_roots.jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "Hiorenidrmea Noewidfacoo"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00032.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Largehead Atractylodes Rhizome (Atractylodis Macrocephalae Rhizoma · 白朮) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00032",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

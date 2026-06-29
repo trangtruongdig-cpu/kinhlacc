@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Dipsacus asper",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dipsacus%20asper%20(9392158424).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Dipsacus asper · Ảnh: peganum from Henfield, England / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dipsacus_asper_(9392158424).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "peganum from Henfield, England"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dipsacus%20asper%20(9389385881).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Chinese teasel · Ảnh: peganum from Henfield, England / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dipsacus_asper_(9389385881).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "peganum from Henfield, England"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00116.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Asper - like Teasel Root (Dipsaci Radix · 續斷) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00116",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://d2jcv3kl45hlgi.cloudfront.net/7dadfb50d512472a8993fbd8ec122e35.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dipsacus asperoides C.Y.Cheng & Ai · China · Ảnh: Cowley, E.J. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5896343503",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Cowley, E.J."
+    },
+    {
+      "file": "https://d2jcv3kl45hlgi.cloudfront.net/1b1e868f278cf0895094077b188e5534.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dipsacus asperoides C.Y.Cheng & Ai · China · Ảnh: Hua, P.; et al. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5058399322",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Hua, P.; et al."
+    }
+  ]
+}

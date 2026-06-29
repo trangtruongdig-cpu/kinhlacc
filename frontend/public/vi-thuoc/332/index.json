@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Rhinoceros unicornis",
+  "_bo_phan": "sừng tê (cấm dùng)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rhinoceros%20eating%20pod%20of%20Gymnocladus.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "This Indian rhinoceros, at The Wilds Conservation and Preserve (eastern Ohio), was happy to eat more than a dozen pulp-filled pods of Kentucky coffee tree, sugg · Ảnh: Cbarlow / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rhinoceros_eating_pod_of_Gymnocladus.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Cbarlow"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Indian%20rhinoceros%20(Rhinoceros%20unicornis)%201.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Indian rhinoceros (Rhinoceros unicornis), near Narayani River, Chitwan Community Forest buffer zone, Nepal · Ảnh: Charles J. Sharp / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Indian_rhinoceros_(Rhinoceros_unicornis)_1.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Charles J. Sharp"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/619916057/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Rhinoceros unicornis Linnaeus, 1758 · India · Ảnh: Siddarth Machado / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6170849757",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Siddarth Machado"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/619916230/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Rhinoceros unicornis Linnaeus, 1758 · India · Ảnh: Siddarth Machado / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6170899468",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Siddarth Machado"
+    }
+  ]
+}

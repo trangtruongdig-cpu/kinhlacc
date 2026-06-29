@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Polygala japonica",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Polygala%20japonica%2012.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Polygala japonica, Aizu area, Fukushima pref., Japan · Ảnh: Qwert1234 / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Polygala_japonica_12.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Qwert1234"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Polygala%20japonica%203.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Polygala japonica · Ảnh: Dalgial / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Polygala_japonica_3.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Dalgial"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/627965534/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Polygala japonica Houtt. · Japan · Ảnh: Mason Brock / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6185856603",
+      "giay_phep": "CC0",
+      "tac_gia": "Mason Brock"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/642396565/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Polygala japonica Houtt. · Chinese Taipei · Ảnh: chrisdt / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6234192194",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "chrisdt"
+    }
+  ]
+}

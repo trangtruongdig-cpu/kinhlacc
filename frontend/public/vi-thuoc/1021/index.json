@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Mallotus apelta",
+  "_bo_phan": "Rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E7%99%BD%E8%83%8C%E8%91%89(%E7%99%BD%E8%91%89%E9%87%8E%E6%A1%90)-%E9%9B%8C%E8%8A%B1%20Mallotus%20apelta%20-%E9%A6%99%E6%B8%AF%E8%A5%BF%E8%B2%A2%E7%8D%85%E5%AD%90%E6%9C%83%E8%87%AA%E7%84%B6%E6%95%99%E8%82%B2%E4%B8%AD%E5%BF%83%20Saikung%2C%20Hong%20Kong-%20(20402730898).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "pistillate · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E7%99%BD%E8%83%8C%E8%91%89(%E7%99%BD%E8%91%89%E9%87%8E%E6%A1%90)-%E9%9B%8C%E8%8A%B1_Mallotus_apelta_-%E9%A6%99%E6%B8%AF%E8%A5%BF%E8%B2%A2%E7%8D%85%E5%AD%90%E6%9C%83%E8%87%AA%E7%84%B6%E6%95%99%E8%82%B2%E4%B8%AD%E5%BF%83_Saikung,_Hong_Kong-_(20402730898).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E7%99%BD%E8%83%8C%E8%91%89(%E7%99%BD%E8%91%89%E9%87%8E%E6%A1%90)-%E9%9B%84%E8%8A%B1%20Mallotus%20apelta%20-%E9%A6%99%E6%B8%AF%E5%9F%8E%E9%96%80%E9%83%8A%E9%87%8E%E5%85%AC%E5%9C%92%20Shing%20Mun%20Country%20Park%2C%20Hong%20Kong-%20(9237370023).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "staminate · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E7%99%BD%E8%83%8C%E8%91%89(%E7%99%BD%E8%91%89%E9%87%8E%E6%A1%90)-%E9%9B%84%E8%8A%B1_Mallotus_apelta_-%E9%A6%99%E6%B8%AF%E5%9F%8E%E9%96%80%E9%83%8A%E9%87%8E%E5%85%AC%E5%9C%92_Shing_Mun_Country_Park,_Hong_Kong-_(9237370023).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/102716904/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Mallotus apelta · quan sát thực địa · (c) portioid, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/102716904",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) portioid, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/102716927/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Mallotus apelta · quan sát thực địa · (c) portioid, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/102716927",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) portioid, some rights reserved (CC BY)"
+    }
+  ]
+}

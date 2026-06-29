@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Spongilla fragilis",
+  "_bo_phan": "toàn thể khô của động vật脆针海绵Spongilla fragilis (Leidy)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/FMIB%2047900%20Spongilla%20Flies-%20Climacia%20dictyona%20Needham-%201%20Imago%2C%20lateral%20view%3B%202%20Imago%2C%20dorsal%20view%3B%203%20Larva%2C%20dorsal%20view%3B%204%20Pupal%20cases%2C%20in.jpeg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Spongilla Flies: Climacia dictyona Needham: 1. Imago, lateral view; 2. Imago, dorsal view; 3. Larva, dorsal view; 4. Pupal cases, in situ; 5. One of the same... · Ảnh: Louis Hippolyte Joutel / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:FMIB_47900_Spongilla_Flies-_Climacia_dictyona_Needham-_1_Imago,_lateral_view;_2_Imago,_dorsal_view;_3_Larva,_dorsal_view;_4_Pupal_cases,_in.jpeg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Louis Hippolyte Joutel"
+    },
+    {
+      "file": "https://images.collections.yale.edu/iiif/2/ypm:d3d7768b-fbdf-4cba-9ebd-0fe1ced23c60/full/!1920,1920/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Spongilla fragilis Leidy, 1851 · United States of America · Ảnh: Yale Peabody Museum / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/1310132987",
+      "giay_phep": "CC0",
+      "tac_gia": "Yale Peabody Museum"
+    },
+    {
+      "file": "https://images.collections.yale.edu/iiif/2/ypm:e3923028-8730-4739-9052-49c76522fe83/full/!1920,1920/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Spongilla fragilis Leidy, 1851 · United States of America · Ảnh: Yale Peabody Museum / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/1310132987",
+      "giay_phep": "CC0",
+      "tac_gia": "Yale Peabody Museum"
+    }
+  ]
+}

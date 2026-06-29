@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Rorippa indica",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rorippa%20indica%20(8384525636).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Rorippa indica · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rorippa_indica_(8384525636).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rorippa%20indica%20(8383439439).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Rorippa indica · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rorippa_indica_(8383439439).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608828227/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Rorippa indica (L.) Hiern · Chinese Taipei · Ảnh: 如此甚好 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130656520",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "如此甚好"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608828252/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Rorippa indica (L.) Hiern · Chinese Taipei · Ảnh: 如此甚好 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130656520",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "如此甚好"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/260672955/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Rorippa indica · quan sát thực địa · (c) Yung-Lun Lin, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/260672955",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Yung-Lun Lin, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/260672965/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Rorippa indica · quan sát thực địa · (c) Yung-Lun Lin, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/260672965",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Yung-Lun Lin, some rights reserved (CC BY)"
+    }
+  ]
+}

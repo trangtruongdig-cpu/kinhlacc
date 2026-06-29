@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Eupolyphaga sinensis",
+  "_bo_phan": "bọ xít đất khô",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Eupolyphaga%20sinensis1.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Shot in entomology museum of National Taiwan University. · Ảnh: Jerrythebest / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Eupolyphaga_sinensis1.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Jerrythebest"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/214334847/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Eupolyphaga sinensis · ảnh đại diện · (c) Zinogre, some rights reserved (CC BY-SA), uploaded by Zinogre (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/214334847",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Zinogre, some rights reserved (CC BY-SA), uploaded by Zinogre"
+    }
+  ]
+}

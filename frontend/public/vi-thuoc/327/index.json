@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Eriocaulon buergerianum",
+  "_bo_phan": "hoa và cuống hoa",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E5%8F%B0%E7%81%A3%E6%B0%B4%E9%9F%AD.JPG?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "​台灣水韭(Isoetes taiwanensis)，左下角伴生開花的是另外一種植物：連萼穀精草(Eriocaulon buergerianum)，拍攝地點:陽明山國家公園夢幻湖。 · Ảnh: Ianbu / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E5%8F%B0%E7%81%A3%E6%B0%B4%E9%9F%AD.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ianbu"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00300.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Buerger Pipewort Head (Eriocauli Flos · 穀精草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00300",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/560814168/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Eriocaulon buergerianum Körn. · Chinese Taipei · Ảnh: 曾昱承 Yu-Cheng Zeng / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5827987171",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "曾昱承 Yu-Cheng Zeng"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/560814154/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Eriocaulon buergerianum Körn. · Chinese Taipei · Ảnh: 曾昱承 Yu-Cheng Zeng / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5827987171",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "曾昱承 Yu-Cheng Zeng"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/422850809/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Eriocaulon buergerianum · quan sát thực địa · (c) Cheng-Te Hsu, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/422850809",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Cheng-Te Hsu, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/422850833/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Eriocaulon buergerianum · quan sát thực địa · (c) Cheng-Te Hsu, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/422850833",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Cheng-Te Hsu, some rights reserved (CC BY)"
+    }
+  ]
+}

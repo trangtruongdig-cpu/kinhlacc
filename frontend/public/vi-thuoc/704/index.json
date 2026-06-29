@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Berberis amurensis",
+  "_bo_phan": "Rễ hoặc vỏ thân",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%22%D0%91%D0%B0%D1%80%D0%B1%D0%B0%D1%80%D0%B8%D1%81%20%D0%B0%D0%BC%D1%83%D1%80%D1%81%D0%BA%D0%B8%D0%B9%20(%D0%BB%D0%B0%D1%82.%20Berberis%20amurensis)%22.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Berberis amurensis, commonly known as Amur barberry. Photo of a branch with berries and yellow leaves. · Ảnh: Stranger / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%22%D0%91%D0%B0%D1%80%D0%B1%D0%B0%D1%80%D0%B8%D1%81_%D0%B0%D0%BC%D1%83%D1%80%D1%81%D0%BA%D0%B8%D0%B9_(%D0%BB%D0%B0%D1%82._Berberis_amurensis)%22.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Stranger"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Berberis%20amurensis%202016-04-28%209494.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Berberys amurski (Berberis amurensis), Ogród Botaniczny UMCS w Lublinie. · Ảnh: Salicyna / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Berberis_amurensis_2016-04-28_9494.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Salicyna"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/676546349/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Berberis amurensis Rupr. · Russian Federation · Ảnh: Владимир Преловский / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6400153630",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Владимир Преловский"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/676546436/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Berberis amurensis Rupr. · Russian Federation · Ảnh: Владимир Преловский / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6400153630",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Владимир Преловский"
+    }
+  ]
+}

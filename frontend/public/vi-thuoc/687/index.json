@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Eupatorium lindleyanum",
+  "_bo_phan": "toàn bộ phần trên mặt đất",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Eupatorium%20lindleyanum%20(21922425868).jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "may be サワヒヨドリ. in Fruit and Flower park. · Ảnh: harum.koh from Kobe city, Japan / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Eupatorium_lindleyanum_(21922425868).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "harum.koh from Kobe city, Japan"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Eupatorium%20lindleyanum%20(22097773462).jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "may be サワヒヨドリ. in Fruit and Flower park. · Ảnh: harum.koh from Kobe city, Japan / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Eupatorium_lindleyanum_(22097773462).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "harum.koh from Kobe city, Japan"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/583853297/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Eupatorium lindleyanum DC. · Chinese Taipei · Ảnh: 葉子 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5889827937",
+      "giay_phep": "CC0",
+      "tac_gia": "葉子"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/583853113/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Eupatorium lindleyanum DC. · Chinese Taipei · Ảnh: 葉子 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5889827937",
+      "giay_phep": "CC0",
+      "tac_gia": "葉子"
+    }
+  ]
+}

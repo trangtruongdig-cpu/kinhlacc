@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Murraya paniculata",
+  "_bo_phan": "Lá và cành non có lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Murraya%20paniculata%201DS-II%204-5161.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Murraya paniculata, fruit; KZN National Botanical Garden, Pietermaritzburg, KwaZulu-Natal, South Africa · Ảnh: SAplants / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Murraya_paniculata_1DS-II_4-5161.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "SAplants"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Murraya%20paniculata%201DS-II%204-5160.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Murraya paniculata, fruit; KZN National Botanical Garden, Pietermaritzburg, KwaZulu-Natal, South Africa · Ảnh: SAplants / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Murraya_paniculata_1DS-II_4-5160.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "SAplants"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00330.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Jasminorange Twig and Leaf (Murrayae Folium et Cacumen · 九里香) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00330",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/609634375/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Murraya paniculata (L.) Jacq. · Chinese Taipei · Ảnh: John Baur / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130802245",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "John Baur"
+    }
+  ]
+}

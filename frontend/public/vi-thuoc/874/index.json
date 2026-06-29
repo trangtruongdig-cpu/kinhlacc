@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Fagopyrum dibotrys",
+  "_bo_phan": "Rễ củ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Fagopyrum%20dibotrys%2C%20Hangzhou%20Botanical%20Garden%202018.06.03%2016-35-37.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "杭州植物园 野荞麦 · Ảnh: Zhangzhugang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Fagopyrum_dibotrys,_Hangzhou_Botanical_Garden_2018.06.03_16-35-37.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Zhangzhugang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Fagopyrum%20dibotrys%20(7759802574).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Fagopyrum dibotrys · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Fagopyrum_dibotrys_(7759802574).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00078.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Wild Buckwheat Rhizome (Fagopyri Dibotrydis Rhizoma · 金蕎麥) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00078",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://iiif.rbge.org.uk/herb/iiif/E01594044/full/1600,/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Fagopyrum dibotrys (D.Don) H.Hara · Myanmar · Ảnh: Baba, Yumiko, Kertsawang, Kittiphong, Puglisi, Carmen, Rodda, Michele, Ruchisansakun, Saroj, Srisanga, Prachaya, Shin, Thant & El, Yo / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5857163213",
+      "giay_phep": "CC0",
+      "tac_gia": "Baba, Yumiko, Kertsawang, Kittiphong, Puglisi, Carmen, Rodda, Michele, Ruchisansakun, Saroj, Srisanga, Prachaya, Shin, Thant & El, Yo"
+    },
+    {
+      "file": "https://iiif.rbge.org.uk/herb/iiif/E01594044/full/300,/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Fagopyrum dibotrys (D.Don) H.Hara · Myanmar · Ảnh: Baba, Yumiko, Kertsawang, Kittiphong, Puglisi, Carmen, Rodda, Michele, Ruchisansakun, Saroj, Srisanga, Prachaya, Shin, Thant & El, Yo / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5857163213",
+      "giay_phep": "CC0",
+      "tac_gia": "Baba, Yumiko, Kertsawang, Kittiphong, Puglisi, Carmen, Rodda, Michele, Ruchisansakun, Saroj, Srisanga, Prachaya, Shin, Thant & El, Yo"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/411347754/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Fagopyrum cymosum · quan sát thực địa · (c) Ramnarayan K, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/411347754",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Ramnarayan K, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/411347792/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Fagopyrum cymosum · quan sát thực địa · (c) Ramnarayan K, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/411347792",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Ramnarayan K, some rights reserved (CC BY)"
+    }
+  ]
+}

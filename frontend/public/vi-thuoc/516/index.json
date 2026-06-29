@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Aconitum fortunei",
+  "_bo_phan": "rễ củ (đã chế)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Aconitum%20carmichaelii%20var.%20wilsonii%20002.JPG?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Aconitum carmichaelii var. wilsonii, Ranunculaceae, Carmichael's Monkshood, inflorescence; Botanical Garden KIT, Karlsruhe, Germany. · Ảnh: H. Zell / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Aconitum_carmichaelii_var._wilsonii_002.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "H. Zell"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Aconitum%20carmichaelii%20'Arendsii'%20Tojad%20Carmichaela%202021-10-09%2004.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Aconitum carmichaelii 'Arendsii' cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Aconitum_carmichaelii_%27Arendsii%27_Tojad_Carmichaela_2021-10-09_04.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "http://mediaphoto.mnhn.fr/media/1441325539850U0WSuumQMHKgeu9l",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Aconitum fortunei Hemsl. · Viet Nam · Ảnh: Poilane, E. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/437308293",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Poilane, E."
+    },
+    {
+      "file": "http://mediaphoto.mnhn.fr/media/1441326140741SOUFSIOiyWYWuI6w",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Aconitum fortunei Hemsl. · Viet Nam · Ảnh: Pételot, P.A. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/438972677",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Pételot, P.A."
+    }
+  ]
+}

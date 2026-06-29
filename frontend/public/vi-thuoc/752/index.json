@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Fallopia multiflora",
+  "_bo_phan": "dây thân",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Polygonummultiflorumrootdried.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Organic dried Fallopia multiflora (syn. Polygonum multiflorum) root. Photo taken in Kent, Ohio with a Panasonic Lumix digital camera (model DMC-LS75). Wildharve · Ảnh: Badagnani / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Polygonummultiflorumrootdried.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Badagnani"
+    },
+    {
+      "file": "https://plant.tbn.org.tw/sites/dpplant/files/occurrence/photo/2020/01/file-2019710-43rmxfh4.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Fallopia multiflora (Thunb.) Haraldson · Chinese Taipei · Ảnh: 詹明輝 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3784586621",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "詹明輝"
+    },
+    {
+      "file": "https://plant.tbn.org.tw/sites/dpplant/files/occurrence/photo/2020/01/file-2019632-w6e095ew.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Fallopia multiflora (Thunb.) Haraldson · Chinese Taipei · Ảnh: 詹明輝 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3784588067",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "詹明輝"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao + cmmid",
+  "_sci": "Rehmannia glutinosa",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rehmannia.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "地黄 · Ảnh: Shizhao / Wikimedia Commons (CC BY 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rehmannia.JPG",
+      "giay_phep": "CC BY 2.5",
+      "tac_gia": "Shizhao"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rehmannia%20glutinosa%2C%20son%20aire%20de%20r%C3%A9partition%20est%20la%20Chine.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Plantes en fleur · Ảnh: Wikimedia Commons / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rehmannia_glutinosa,_son_aire_de_r%C3%A9partition_est_la_Chine.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Wikimedia Commons"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rehmannia%20glutinosa%20illustration.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Ілюстрація Rehmannia glutinosa · S.A. Drake / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rehmannia_glutinosa_illustration.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "S.A. Drake"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00050.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Adhesive Rehmannia Root Tuber (Rehmanniae Radix · 地黃) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00050",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Stephania cepharantha",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Stephania%20cephalantha%20%E7%8E%89%E5%92%B2%E8%91%9B%E8%97%A4%20(%E5%A4%A9%E5%95%8F)%20001.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Stephania cephalantha à Taïwan · Ảnh: 天問 / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Stephania_cephalantha_%E7%8E%89%E5%92%B2%E8%91%9B%E8%97%A4_(%E5%A4%A9%E5%95%8F)_001.jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "天問"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/677937639/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Stephania cephalantha Hayata · Chinese Taipei · Ảnh: 許文俊 / GBIF (CC BY-SA 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6399278281",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "許文俊"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/677937674/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Stephania cephalantha Hayata · Chinese Taipei · Ảnh: 許文俊 / GBIF (CC BY-SA 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6399278281",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "許文俊"
+    }
+  ]
+}

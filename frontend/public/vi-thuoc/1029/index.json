@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Ardisia japonica",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ardisia%20japonica%20kz1.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Ardisia japonica in botanical garden in Batumi · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ardisia_japonica_kz1.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ardisia%20japonica%2001.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Ardisia japonica Blume Place taken: Ise, Mie, Japan. · Ảnh: Hamachidori / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ardisia_japonica_01.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Hamachidori"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/677916518/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ardisia japonica (Thunb.) Blume · Japan · Ảnh: Timur Kalininsky / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6400675564",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Timur Kalininsky"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/677916588/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ardisia japonica (Thunb.) Blume · Japan · Ảnh: Timur Kalininsky / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6400675564",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Timur Kalininsky"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Nova%20Genera%20Plantarum01a.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Tab XVI from \"Nova genera plantarum\" showing Wurmbea capensis Thunb., Bladhia japonica Thunb. a synonym of Ardisia japonica (Thunb.) Blume, and Deutzi · Claës Fredrik Hornstedt (1758-1809) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Nova_Genera_Plantarum01a.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Claës Fredrik Hornstedt (1758-1809)"
+    }
+  ]
+}

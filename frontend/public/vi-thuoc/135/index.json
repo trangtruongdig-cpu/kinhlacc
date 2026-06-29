@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Phyllostachys nigra",
+  "_bo_phan": "lớp vỏ giữa thân tre",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Phyllostachys%20nigra%20Fred%20Hornaday.png?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Phyllostachys nigra, black bamboo, photographed at the Royal Botanical Gardens in Madrid, Spain. Fred Hornaday is an international bamboo consultant and founder · Ảnh: FredHornaday / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Phyllostachys_nigra_Fred_Hornaday.png",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "FredHornaday"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Phyllostachys%20nigra%20(Black%20Bamboo)%20in%20Beijing%2C%20China.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Phyllostachys nigra (Black Bamboo) in Beijing, China. Photo by Shouyong / Linda Wong · Ảnh: FlyingBatt / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Phyllostachys_nigra_(Black_Bamboo)_in_Beijing,_China.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "FlyingBatt"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00149.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Bamboo Shavings (Bambusae Caulis in Taenias · 竹茹) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00149",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/77255278/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Phyllostachys nigra · quan sát thực địa · (c) the swamp ass, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/77255278",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) the swamp ass, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/77255304/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Phyllostachys nigra · quan sát thực địa · (c) the swamp ass, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/77255304",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) the swamp ass, some rights reserved (CC BY)"
+    }
+  ]
+}

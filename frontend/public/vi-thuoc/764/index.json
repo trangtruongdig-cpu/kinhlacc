@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Helicteres angustifolia",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Helicteres%20angustifolia%20habit%20in%20Ishigaki%2C%20Okinawa.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "ヤンバルゴマの生育（2025年6月 沖縄県石垣市） · Ảnh: M108t / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Helicteres_angustifolia_habit_in_Ishigaki,_Okinawa.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "M108t"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Abaxial%20leaf%20and%20stipule%20of%20Helicteres%20angustifolia%20in%20Ishigaki%2C%20Okinawa.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "ヤンバルゴマの葉裏と托葉（2025年6月 沖縄県石垣市） · Ảnh: M108t / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Abaxial_leaf_and_stipule_of_Helicteres_angustifolia_in_Ishigaki,_Okinawa.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "M108t"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/483768774/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Helicteres angustifolia L. · Chinese Taipei · Ảnh: 許文俊 / GBIF (CC BY-SA 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5134254702",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "許文俊"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/483768798/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Helicteres angustifolia L. · Chinese Taipei · Ảnh: 許文俊 / GBIF (CC BY-SA 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5134254702",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "許文俊"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/299442298/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Helicteres angustifolia · quan sát thực địa · (c) chiuluan, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/299442298",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) chiuluan, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/299442318/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Helicteres angustifolia · quan sát thực địa · (c) chiuluan, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/299442318",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) chiuluan, some rights reserved (CC BY)"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Haliotis",
+  "_bo_phan": "vỏ bào ngư",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Snailsksk.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Loving snails on the wonderful nature. Gastropods are among the few groups of animals to have become successful in all three major habitats: the ocean, fresh wa · Ảnh: சசிகுமார் காமராஜ் / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Snailsksk.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "சசிகுமார் காமராஜ்"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/1.%20Vermetus%20lumbricalis%20(Worm%20shells)%3B2.%20Magilus%20antiquus%20(Magilus%20coral%20snail)%3B3%20%26%204%20Scalaria%20coronata%20(Wentletrap%20-%20sea%20snail)%3B5.%20Turbo%20petholatus%20(%20Tapestry%20turban-%20sea%20snail)%3B6%20%26%207%20Haliotis%20radiata%20(Abalone)%3B.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Scientific (biological, zoological, botanical) illustration from Dictionnaire Universel D'histoire Naturelle (1841-1849 in sixteen volumes, second edition in 18 · Ảnh: Free Public Domain Illustrations by rawpixel / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:1._Vermetus_lumbricalis_(Worm_shells);2._Magilus_antiquus_(Magilus_coral_snail);3_%26_4_Scalaria_coronata_(Wentletrap_-_sea_snail);5._Turbo_petholatus_(_Tapestry_turban-_sea_snail);6_%26_7_Haliotis_radiata_(Abalone);.jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "Free Public Domain Illustrations by rawpixel"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00390.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Sea-ear Shell (Haliotidis Concha · 石決明) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00390",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604764440/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Haliotis rubra Leach, 1814 · Australia · Ảnh: ttsquid / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938074059",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "ttsquid"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604764403/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Haliotis rubra Leach, 1814 · Australia · Ảnh: ttsquid / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938074059",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "ttsquid"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/51548/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Haliotis rufescens · quan sát thực địa · (c) dloarie, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/51548",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) dloarie, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/51549/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Haliotis rufescens · quan sát thực địa · (c) dloarie, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/51549",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) dloarie, some rights reserved (CC BY)"
+    }
+  ]
+}

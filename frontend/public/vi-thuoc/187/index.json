@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Coriandrum sativum",
+  "_bo_phan": "toàn cây (rau mùi)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Coriander%20Seeds.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Seeds of the Coriander (Coriandrum sativum) Plant. Size of each seed is about 3.5 mm x 5 mm. · Ảnh: Sanjay Acharya / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Coriander_Seeds.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Sanjay Acharya"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Coriandrum%20sativum%20Blattl%C3%A4use%2C%20Josef%20Schlaghecken.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "The aphids damage the coriander (Coriandrum sativum) plant through their sucking activity. · Ảnh: Schlaghecken Josef / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Coriandrum_sativum_Blattl%C3%A4use,_Josef_Schlaghecken.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Schlaghecken Josef"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/336329773/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Coriandrum sativum · quan sát thực địa · (c) Rodolfo Salinas Villarreal, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/336329773",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Rodolfo Salinas Villarreal, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/144735260/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Coriandrum sativum · quan sát thực địa · (c) Георгий Виноградов (Georgy Vinogradov), some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/144735260",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Георгий Виноградов (Georgy Vinogradov), some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Coriandrum%20sativum%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-193.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Echter Koriander. A B Pflanze in natürl. Grösse; 1 Scheibenblüthe, vergrössert; 2 Randblüthe, desgl.; 3 Kronblatt der Scheibenblüthe, desgl.; 4 Kronen · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Coriandrum_sativum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-193.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

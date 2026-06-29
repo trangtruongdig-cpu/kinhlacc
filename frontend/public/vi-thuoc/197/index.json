@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Rubia cordifolia",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rubia%20cordifolia%20L.%20(16162380370).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Rubiaceae (madder, bedstraw, or coffee family) » Rubia cordifolia L. ROO-bee-uh -- Latin: ruber (red), referring to the reddish dye obtained from the roots of t · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rubia_cordifolia_L._(16162380370).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Majitha%20(Gujarati-%20%E0%AA%AE%E0%AA%9C%E0%AB%80%E0%AA%A0)%20(4846791432).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Rubiaceae (madder, bedstraw, or coffee family) » Rubia cordifolia L. ROO-bee-uh -- Latin: ruber (red), referring to the reddish dye obtained from the roots of t · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Majitha_(Gujarati-_%E0%AA%AE%E0%AA%9C%E0%AB%80%E0%AA%A0)_(4846791432).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00091.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Indian Madder Root (Rubiae Radix et Rhizoma · 茜草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00091",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/667707891/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Rubia cordifolia L. · Russian Federation · Ảnh: Tatyana Petrenko / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6353027837",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Tatyana Petrenko"
+    }
+  ]
+}

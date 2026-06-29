@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Diospyros kaki",
+  "_bo_phan": "cuống quả hồng",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Kaki%20FR%202013.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Autumnal foliage of a kaki (Diospyros kaki), in a garden, France. · Ảnh: JLPC / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Kaki_FR_2013.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "JLPC"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Diospyros%20kaki%205zz.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Location taken: the United States National Arboretum, Washington D.C.. Names: Diospyros kaki L.f., Almindelig Kaki, Buah Kaki, Buah Kesemek, Buah Samak, cachi,  · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Diospyros_kaki_5zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00420.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Persimmon Calyx and Receptacle (Kaki Calyx · 柿蒂) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00420",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Naturalis%20Biodiversity%20Center%20-%20RMNH.ART.628%20-%20Diospyros%20kaki%20-%20Y%C5%ABshi%20Ishizaki%20-%20Cock%20Blomhoff%20Collection%20-%20pencil%20drawing%20-%20water%20colour.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Diospyros kaki · Ishizaki Yūshi / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Naturalis_Biodiversity_Center_-_RMNH.ART.628_-_Diospyros_kaki_-_Y%C5%ABshi_Ishizaki_-_Cock_Blomhoff_Collection_-_pencil_drawing_-_water_colour.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Ishizaki Yūshi"
+    }
+  ]
+}

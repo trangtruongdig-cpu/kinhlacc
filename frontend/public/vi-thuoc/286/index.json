@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Piper longum",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Piper%20longum%20kz02.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Piper longum in Wrocław University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Piper_longum_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Piper%20longum%20plant.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Plant of Piper longum · Ảnh: Kembangraps / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Piper_longum_plant.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Kembangraps"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/4a470f35e4a88e16a6a9f6841415bfb655a43b34",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Piper longum L. · India · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110513885",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/a9bc0b36628c72c616589d80679e3fb5fd512899",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Piper longum L. · India · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110513885",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/283311958/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Piper longum · quan sát thực địa · (c) Surabhi Srivastava, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/283311958",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Surabhi Srivastava, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/283311965/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Piper longum · quan sát thực địa · (c) Surabhi Srivastava, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/283311965",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Surabhi Srivastava, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Piper%20longum%20print.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Piper longum print · Wikimedia Commons / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Piper_longum_print.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Wikimedia Commons"
+    }
+  ]
+}

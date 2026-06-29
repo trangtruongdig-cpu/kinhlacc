@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Bidens bipinnata",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Aquatic%20and%20wetland%20plants%20of%20southwestern%20United%20States%20(1972)%20(19565077939).jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Title: Aquatic and wetland plants of southwestern United States Identifier: aquaticwetlandpl00corr (find matches) Year: 1972 (1970s) Authors: Correll, Donovan S · Ảnh: Internet Archive Book Images / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Aquatic_and_wetland_plants_of_southwestern_United_States_(1972)_(19565077939).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Internet Archive Book Images"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Bidens%20bipinnata%20-%20Spanish%20Needles.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Photo of Bidens bipinnata in flower. This is a native plant growing wild along the Potomac Heritage Trail, in Fairfax county Virginia, USA. This species is a me · Ảnh: Fritzflohrreynolds / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Bidens_bipinnata_-_Spanish_Needles.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Fritzflohrreynolds"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/609584214/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Bidens bipinnata L. · United States of America · Ảnh: swords / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6147366549",
+      "giay_phep": "CC0",
+      "tac_gia": "swords"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/609584377/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Bidens bipinnata L. · United States of America · Ảnh: swords / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6147366549",
+      "giay_phep": "CC0",
+      "tac_gia": "swords"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/231864123/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Bidens bipinnata · quan sát thực địa · (c) Douglas Goldman, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/231864123",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Douglas Goldman, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/231864454/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Bidens bipinnata · quan sát thực địa · (c) Douglas Goldman, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/231864454",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Douglas Goldman, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Bidens%20bipinnata%20-%20Distribuzione.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Bidente bipennato (Bidens bipinnata) - Distribuzione in Italia · Enrico Blasutto / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Bidens_bipinnata_-_Distribuzione.png",
+      "giay_phep": "CC0",
+      "tac_gia": "Enrico Blasutto"
+    }
+  ]
+}

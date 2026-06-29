@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Entada phaseoloides",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Entada%20phaseoloides%20MHNT%20graines.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Entada phaseoloides, seeds. The seeds can float in water, as there is an air cavity between the two cotyledons (Hydrochory). · Ảnh: Didier Descouens / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Entada_phaseoloides_MHNT_graines.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Didier Descouens"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Entada%20phaseoloides%20MHNT.BOT.2007.26.55.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Entada phaseoloides - Ripe fruit - Old collection of de Benjamin Balansa (1825-1891) Size : 90 cm · Ảnh: Didier Descouens / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Entada_phaseoloides_MHNT.BOT.2007.26.55.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Didier Descouens"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/871054739f17ef1c5b2d094efae9e0ef1cb1f415",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Entada phaseoloides (L.) Merr. · Philippines · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110306128",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/516968872/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Entada phaseoloides (L.) Merr. · Australia · Ảnh: Suzanne Muzic / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5187509849",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Suzanne Muzic"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/332077046/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Entada phaseoloides · quan sát thực địa · (c) catchwords, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/332077046",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) catchwords, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/332077047/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Entada phaseoloides · quan sát thực địa · (c) catchwords, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/332077047",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) catchwords, some rights reserved (CC BY)"
+    }
+  ]
+}

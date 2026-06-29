@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Chloranthus serratus",
+  "_bo_phan": "Rễ và thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/(Chloranthus%20serratus%20close-up%20in%20Koishikawa%20Botanical%20Garden%2C%20Japan)%20-%20DPLA%20-%2034f1d6af7b7bce4afb36f6d8366d03e2.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Close-up photograph of Chloranthus serratus in Koishikawa Botanical Garden, Japan. The plant is dark green and has large leaves. The leaves have veins that are  · Ảnh: Carlquist, Sherwin John, 1930-2021 / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:(Chloranthus_serratus_close-up_in_Koishikawa_Botanical_Garden,_Japan)_-_DPLA_-_34f1d6af7b7bce4afb36f6d8366d03e2.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Carlquist, Sherwin John, 1930-2021"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/(Chloranthus%20serratus%20close-up%20in%20Mount%20Unzen%2C%20Japan)%20-%20DPLA%20-%200e79a09c434723fe2d14dd0db8388468.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Close-up photograph of Chloranthus serratus (Serrate-leaf Chloranthus or Futarii-Sizukain) flowers in Mount Unzen, Japan. A terminal spike of the plant shows se · Ảnh: Carlquist, Sherwin John, 1930-2021 / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:(Chloranthus_serratus_close-up_in_Mount_Unzen,_Japan)_-_DPLA_-_0e79a09c434723fe2d14dd0db8388468.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Carlquist, Sherwin John, 1930-2021"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/641705548/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Chloranthus serratus (Thunb.) Roem. & Schult. · Japan · Ảnh: mami_t_t / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6234599664",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "mami_t_t"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/649035693/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Chloranthus serratus (Thunb.) Roem. & Schult. · Japan · Ảnh: FUKUDA Kazuhito 福田一人 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6251544981",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "FUKUDA Kazuhito 福田一人"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/196997605/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Chloranthus serratus · quan sát thực địa · (c) mami_t_t, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/196997605",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) mami_t_t, some rights reserved (CC BY)"
+    }
+  ]
+}

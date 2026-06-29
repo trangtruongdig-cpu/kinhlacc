@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Macleaya cordata",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Macleaya%20cordata%20Bokkonia%20sercowata%202019-07-20%2003.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Five-seeded plume-poppy (Macleaya cordata) cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Macleaya_cordata_Bokkonia_sercowata_2019-07-20_03.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Macleaya%20cordata%20(at%20Tsukuba%20Botanical%20Garden%2C%20Ibaraki%2C%20Japan).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "タケニグサ（筑波実験植物園） · Ảnh: 小石川人晃 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Macleaya_cordata_(at_Tsukuba_Botanical_Garden,_Ibaraki,_Japan).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "小石川人晃"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/652240795/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Macleaya cordata (Willd.) R.Br. · United States of America · Ảnh: jillone / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6252838402",
+      "giay_phep": "CC0",
+      "tac_gia": "jillone"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/652241309/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Macleaya cordata (Willd.) R.Br. · United States of America · Ảnh: jillone / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6252838402",
+      "giay_phep": "CC0",
+      "tac_gia": "jillone"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/401074749/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Macleaya cordata · ảnh đại diện · (c) WATANABE Hitoshi 渡辺仁, some rights reserved (CC BY), uploaded by WATANABE Hitoshi 渡辺仁 (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/401074749",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) WATANABE Hitoshi 渡辺仁, some rights reserved (CC BY), uploaded by WATANABE Hitoshi 渡辺仁"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Fragmenta%20botanica%2C%20figuris%20coloratis%20illustrata%20(T.%2093)%20BHL287722.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Fragmenta botanica, figuris coloratis illustrata :ab anno 1800 ad annum 1809 per sex fasciculos edita /opera et sumptibus Nicolai Josephi Jacquin. · Jacquin, Nikolaus Joseph; Mathiae Andreae Schmidt. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Fragmenta_botanica,_figuris_coloratis_illustrata_(T._93)_BHL287722.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Jacquin, Nikolaus Joseph; Mathiae Andreae Schmidt."
+    }
+  ]
+}

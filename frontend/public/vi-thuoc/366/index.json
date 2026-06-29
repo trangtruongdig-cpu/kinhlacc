@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Patrinia scabiosifolia",
+  "_bo_phan": "toàn cây trên mặt đất",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Patrinia%20scabiosifolia%20kz1.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Patrinia scabiosifolia at the New York Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Patrinia_scabiosifolia_kz1.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Patrinia%20scabiosifolia%20kz2.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Patrinia scabiosifolia at the New York Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Patrinia_scabiosifolia_kz2.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/53111068/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Patrinia scabiosifolia · quan sát thực địa · (c) Dmitry Kulakov, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/53111068",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Dmitry Kulakov, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/673275724/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Patrinia scabiosifolia · quan sát thực địa · (c) Violetta Dzizyurova, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/673275724",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Violetta Dzizyurova, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Naturalis%20Biodiversity%20Center%20-%20RMNH.ART.752%20-%20Patrinia%20scabiosifolia%20-%20Y%C5%ABshi%20Ishizaki%20-%20Cock%20Blomhoff%20Collection%20-%20pencil%20drawing%20-%20water%20colour.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Patrinia scabiosifolia · Ishizaki Yūshi / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Naturalis_Biodiversity_Center_-_RMNH.ART.752_-_Patrinia_scabiosifolia_-_Y%C5%ABshi_Ishizaki_-_Cock_Blomhoff_Collection_-_pencil_drawing_-_water_colour.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Ishizaki Yūshi"
+    }
+  ]
+}

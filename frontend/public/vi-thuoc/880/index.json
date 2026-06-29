@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Impatiens balsamina",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E0%AE%95%E0%AE%BE%E0%AE%9A%E0%AE%BF%E0%AE%A4%E0%AF%8D%20%E0%AE%A4%E0%AF%81%E0%AE%AE%E0%AF%8D%E0%AE%AA%E0%AF%88%201(Impatiens%20balsamina%20).jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "காசித் தும்பை Botanical name - Impatiens balsamina Common name: Spotted snapweed Aivartenkittumpai, Aivartyenki Leaf –lotion is used to treat eczema and insect  · Ảnh: Dr.S.Soundarapandian / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E0%AE%95%E0%AE%BE%E0%AE%9A%E0%AE%BF%E0%AE%A4%E0%AF%8D_%E0%AE%A4%E0%AF%81%E0%AE%AE%E0%AF%8D%E0%AE%AA%E0%AF%88_1(Impatiens_balsamina_).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Dr.S.Soundarapandian"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/IMG20240822085819%20Impatiens%20balsamina.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Impatiens balsamina is commonly known as balsom.This species of plant native to India and Myanmar. · Ảnh: Rajesh Choorappadavu / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:IMG20240822085819_Impatiens_balsamina.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Rajesh Choorappadavu"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/606416053/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Impatiens balsamina L. · India · Ảnh: Ahirbudhnyan M / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6131033457",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Ahirbudhnyan M"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/606416065/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Impatiens balsamina L. · India · Ảnh: Ahirbudhnyan M / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6131033457",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Ahirbudhnyan M"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/180544670/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Impatiens balsamina · quan sát thực địa · (c) Greg III Espera, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/180544670",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Greg III Espera, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Impatiens%20balsamina%20Blanco2.424-cropped.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Impatiens_balsamina_Blanco2.424-cropped.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Cervus nippon",
+  "_bo_phan": "keo sừng nai",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%D0%9F%D0%BE%D1%80%D1%82%D1%80%D0%B5%D1%82%20%D0%BE%D0%BB%D0%B5%D0%BD%D1%8F.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cervus nippon in Halileo's Dacha Nature Reserve, Ternopil Oblast, Ukraine. · Ảnh: Byrdyak / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%D0%9F%D0%BE%D1%80%D1%82%D1%80%D0%B5%D1%82_%D0%BE%D0%BB%D0%B5%D0%BD%D1%8F.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Byrdyak"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%D0%9F%D0%BE%D1%80%D1%82%D1%80%D0%B5%D1%82%20%D0%BE%D0%BB%D0%B5%D0%BD%D1%8F%20%D0%B2%D0%B7%D0%B8%D0%BC%D0%BA%D1%83.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Cervus nippon in Kremenets Hills, Ternopil Oblast, Ukraine. · Ảnh: Byrdyak / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%D0%9F%D0%BE%D1%80%D1%82%D1%80%D0%B5%D1%82_%D0%BE%D0%BB%D0%B5%D0%BD%D1%8F_%D0%B2%D0%B7%D0%B8%D0%BC%D0%BA%D1%83.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Byrdyak"
+    },
+    {
+      "file": "https://arter.dk/media/138a8bf8-2142-4728-8156-9a1cb1df2024.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cervus nippon Temminck, 1838 · Denmark · Ảnh: Christian Harboe Nielsen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5995451749",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Christian Harboe Nielsen"
+    },
+    {
+      "file": "https://arter.dk/media/bbf28fbd-cbc2-4bb8-be65-7897ce5e683c.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Cervus nippon Temminck, 1838 · Denmark · Ảnh: Christian Harboe Nielsen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5995451749",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Christian Harboe Nielsen"
+    }
+  ]
+}

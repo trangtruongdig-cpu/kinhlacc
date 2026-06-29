@@ -1,30 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Magnolia officinalis",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "vỏ thân, vỏ cành, vỏ rễ",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Hoa",
-      "mo_ta": "Hoa Hậu Phác lớn, cánh trắng kem, nhị màu hồng đỏ ở giữa · Ảnh: Karlostachys / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Magnolia_au_Jardin_Jungle_Karlostachys.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Karlostachys"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cây Hậu Phác non mọc trong vườn rừng · Ảnh: Crusier / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Magnolia_officinalis_Rog%C3%B3w_2.JPG",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Crusier"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Lá",
-      "mo_ta": "Cụm lá lớn hình bầu dục xếp vòng, soi ngược nền trời · Ảnh: Crusier / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Magnolia_officinalis_Rog%C3%B3w.JPG",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Crusier"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00347.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Officinal Magnolia Bark (Magnoliae Officinalis Cortex · 厚朴) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00347",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

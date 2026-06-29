@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Polygonum multiflorum",
+  "_bo_phan": "thân dây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Polygonatum%20%C3%97%20hybridum%20kz03.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Polygonatum × hybridum wild growing after being kicked out of the garden in Morzyczyn, NW Poland (no natural habitats and populations of Polygonum multiflorum n · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Polygonatum_%C3%97_hybridum_kz03.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Polygonatum%20%C3%97%20hybridum%20kz02.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Polygonatum × hybridum wild growing after being kicked out of the garden in Morzyczyn, NW Poland (no natural habitats and populations of Polygonum multiflorum n · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Polygonatum_%C3%97_hybridum_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://media01.symbiota.org/media/seinet/sernec/MU/000073/000073542_lg.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Polygonum multiflorum Thunb. · Chinese Taipei · Ảnh: He, T. / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/4850270114",
+      "giay_phep": "CC0",
+      "tac_gia": "He, T."
+    },
+    {
+      "file": "https://media01.symbiota.org/media/seinet/sernec/USCH/USCH0097/USCH0097946.JPG",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Polygonum multiflorum Thunb. · United States of America · Ảnh: Clarke, O.F. / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6258532429",
+      "giay_phep": "CC0",
+      "tac_gia": "Clarke, O.F."
+    }
+  ]
+}

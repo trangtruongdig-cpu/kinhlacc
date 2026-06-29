@@ -1,0 +1,70 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Microcos paniculata",
+  "_bo_phan": "Lá",
+  "_enriched": true,
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Microcos%20paniculata%202.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Microcos paniculata · Ảnh: Nativeplants garden / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Microcos_paniculata_2.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Nativeplants garden"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Microcos%20paniculata%204.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Microcos paniculata · Ảnh: Nativeplants garden / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Microcos_paniculata_4.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Nativeplants garden"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/609918262/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Microcos paniculata L. · Hong Kong · Ảnh: 黃美滿 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130690788",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "黃美滿"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/609918261/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Microcos paniculata L. · Hong Kong · Ảnh: 黃美滿 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130690788",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "黃美滿"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/118532402/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Microcos paniculata · quan sát thực địa · (c) Dinesh Valke, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/118532402",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Dinesh Valke, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/118532404/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Microcos paniculata · quan sát thực địa · (c) Dinesh Valke, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/118532404",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Dinesh Valke, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Illustrations%20of%20Indian%20Botany%2C%20Vol.%201%20(page%20182%20crop).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Desc: Includes hand coloured illustrations Prov: Book-plate of Mr. Craig, Surgeon, Ludgate Lodge, Ratho Note: Robert Wight was born at Milton, East Lo · Robert Wight / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Illustrations_of_Indian_Botany,_Vol._1_(page_182_crop).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Robert Wight"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

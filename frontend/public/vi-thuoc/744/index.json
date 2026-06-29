@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Ilex chinensis",
+  "_bo_phan": "Lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ilex%20chinensis1.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Ilex chinensis · Ảnh: KENPEI / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ilex_chinensis1.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "KENPEI"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ilex%20chinensis%20kz02.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Ilex chinensis in Hackfalls Arboretum, Hawkes's Bay (NZ) · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ilex_chinensis_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/330179795/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ilex chinensis Sims · Japan · Ảnh: りなべる / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4431231126",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "りなべる"
+    },
+    {
+      "file": "https://dbs.kaum.kagoshima-u.ac.jp/musedb/s_plant/picture/KAG023825/KAG023825.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Ilex chinensis Sims · Japan · Ảnh: GBIF contributor / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4522300790",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "GBIF contributor"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Parthenocissus tricuspidata",
+  "_bo_phan": "Thân, cành phơi khô",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Poertschach%20Hauptstrasse%20Parthenocissus%20tricuspidata%20Blattwerk%2004062015%204423.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Parthenocissus tricuspidata (leaves) on Hauptstrasse, municipality Pörtschach am Wörther See, district Klagenfurt Land, Carinthia, Austria, EU · Ảnh: Johann Jaritz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Poertschach_Hauptstrasse_Parthenocissus_tricuspidata_Blattwerk_04062015_4423.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Johann Jaritz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Poertschach%20Hauptstrasse%20Parthenocissus%20tricuspidata%20Blattwerk%2013112016%205389.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Autumnal leaves of parthenocissus tricuspidata on Hauptstrasse, municipality Pörtschach am Wörther See, district Klagenfurt Land, Carinthia, Austria, EU · Ảnh: Johann Jaritz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Poertschach_Hauptstrasse_Parthenocissus_tricuspidata_Blattwerk_13112016_5389.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Johann Jaritz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Parthenocissus%20tricuspidata%20135-8287.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Parthenocissus tricuspidata, Vitaceae · M.S. del., J.N.Fitch lith. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Parthenocissus_tricuspidata_135-8287.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "M.S. del., J.N.Fitch lith."
+    }
+  ]
+}

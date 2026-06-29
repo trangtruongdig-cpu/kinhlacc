@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Sophora tonkinensis",
+  "_bo_phan": "rễ và thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E8%B6%8A%E5%8D%97%E6%A7%90(%E5%B1%B1%E8%B1%86%E6%A0%B9)%20Sophora%20tonkinensis%20-%E6%B7%B1%E5%9C%B3%E4%BB%99%E6%B9%96%E6%A4%8D%E7%89%A9%E5%9C%92%20Fairy%20Lake%20Botanical%20Garden%2C%20China-%20(9213334873).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "中草藥-山豆根 · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E8%B6%8A%E5%8D%97%E6%A7%90(%E5%B1%B1%E8%B1%86%E6%A0%B9)_Sophora_tonkinensis_-%E6%B7%B1%E5%9C%B3%E4%BB%99%E6%B9%96%E6%A4%8D%E7%89%A9%E5%9C%92_Fairy_Lake_Botanical_Garden,_China-_(9213334873).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Sophora%20tomentosa%204zz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location taken: Fairchild Tropical Botanic Garden, Miami, FL USA. Names: Sophora tonkinensis Gagnep., Hòe Bắc Bộ, Shan Dou Gen, Vietnamese Sophor Classification · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Sophora_tomentosa_4zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00008.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Tonkin Sophora Root (Sophorae Tonkinensis Radix et Rhizoma · 山豆根) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00008",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://s3.amazonaws.com/huhspecimenimages/JPG/00196181.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Sophora tonkinensis Gagnep. · China · Ảnh: President and Fellows of Harvard College / GBIF (Public Domain)",
+      "nguon": "https://www.gbif.org/occurrence/1998408200",
+      "giay_phep": "Public Domain",
+      "tac_gia": "President and Fellows of Harvard College"
+    },
+    {
+      "file": "https://s3.amazonaws.com/huhspecimenimages/JPG/00196246.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Sophora tonkinensis Gagnep. · China · Ảnh: President and Fellows of Harvard College / GBIF (Public Domain)",
+      "nguon": "https://www.gbif.org/occurrence/1998630258",
+      "giay_phep": "Public Domain",
+      "tac_gia": "President and Fellows of Harvard College"
+    }
+  ]
+}

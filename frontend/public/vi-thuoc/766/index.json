@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Psychotria asiatica",
+  "_bo_phan": "Lá và cành non",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E4%B9%9D%E7%AF%80%E6%9C%A8Psychotria%20rubra%2020210609155251%2020.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Opposite leaves. Native to Taiwan, southern China and Japan. Photo taken in Botanical Garden of National Museum of Natural Science, Taichung, Taiwan. · Ảnh: Ping an Chang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E4%B9%9D%E7%AF%80%E6%9C%A8Psychotria_rubra_20210609155251_20.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ping an Chang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E4%B9%9D%E7%AF%80%E6%9C%A8Psychotria%20rubra%2020210609155251%2021.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Opposite leaves. Native to Taiwan, southern China and Japan. Photo taken in Botanical Garden of National Museum of Natural Science, Taichung, Taiwan. · Ảnh: Ping an Chang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E4%B9%9D%E7%AF%80%E6%9C%A8Psychotria_rubra_20210609155251_21.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ping an Chang"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/609919621/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Psychotria asiatica L. · Hong Kong · Ảnh: 黃美滿 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6129961928",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "黃美滿"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/609919615/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Psychotria asiatica L. · Hong Kong · Ảnh: 黃美滿 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6129961928",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "黃美滿"
+    }
+  ]
+}

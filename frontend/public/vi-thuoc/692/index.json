@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Boenninghausenia albiflora",
+  "_bo_phan": "Thân và lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Boenninghausenia%20albiflora%20BotGardBln271207A.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location: Boenninghausenia albiflora, Botanical Gardens Berlin Dahlem · Ảnh: User:BotBln / Wikimedia Commons (CC BY 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Boenninghausenia_albiflora_BotGardBln271207A.jpg",
+      "giay_phep": "CC BY 2.5",
+      "tac_gia": "User:BotBln"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Boenninghausenia%20albiflora%20(2558372293).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Boenninghausenia albiflora · Ảnh: Dinesh Valke from Thane, India / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Boenninghausenia_albiflora_(2558372293).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Dinesh Valke from Thane, India"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/673735916/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Boenninghausenia albiflora (Hook.) Rchb. ex Meisn. · India · Ảnh: P Jeganathan / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6399524132",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "P Jeganathan"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/673735956/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Boenninghausenia albiflora (Hook.) Rchb. ex Meisn. · India · Ảnh: P Jeganathan / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6399524132",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "P Jeganathan"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/49371417/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Boenninghausenia albiflora · ảnh đại diện · (c) Marco Mussita, some rights reserved (CC BY), uploaded by Marco Mussita (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/49371417",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Marco Mussita, some rights reserved (CC BY), uploaded by Marco Mussita"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/27438664/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Boenninghausenia albiflora · quan sát thực địa · (c) John Doyle, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/27438664",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) John Doyle, some rights reserved (CC BY)"
+    }
+  ]
+}

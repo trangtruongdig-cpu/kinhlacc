@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Urtica dioica",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/2020%20year.%20Herbarium.%20Urtica%20dioica.%20img-028.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Urtica dioica. Leaf abaxial side. Herbarium of the city Elektrostal Moscow Oblast, 2020 year. Created by scanography. Collection D.Makeev. Scale 1 unit = 1 mm.  · Ảnh: Dmitry Makeev / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Urtica_dioica._img-028.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Dmitry Makeev"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/2020%20year.%20Herbarium.%20Urtica%20dioica.%20img-029.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Urtica dioica. Leaf adaxial side. Herbarium of the city Elektrostal Moscow Oblast, 2020 year. Created by scanography. Collection D.Makeev. Scale 1 unit = 1 mm.  · Ảnh: Dmitry Makeev / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:2020_year._Herbarium._Urtica_dioica._img-029.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Dmitry Makeev"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604798046/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Urtica dioica L. · United Kingdom of Great Britain and Northern Ireland · Ảnh: Elliot Greiner / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938030446",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Elliot Greiner"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604787956/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Urtica dioica L. · United Kingdom of Great Britain and Northern Ireland · Ảnh: Stephen James McWilliam / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938049774",
+      "giay_phep": "CC0",
+      "tac_gia": "Stephen James McWilliam"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/80103365/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Urtica dioica · quan sát thực địa · (c) Pavel Komkov, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/80103365",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Pavel Komkov, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/80103300/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Urtica dioica · quan sát thực địa · (c) Pavel Komkov, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/80103300",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Pavel Komkov, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Illustration%20Urtica%20dioica0%20clean.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Name Urtica dioica Family Urticaceae · User:Kilom691 / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Illustration_Urtica_dioica0_clean.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "User:Kilom691"
+    }
+  ]
+}

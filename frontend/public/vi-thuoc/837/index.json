@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Sauropus androgynus",
+  "_bo_phan": "Lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr-120606-7011-Sauropus%20androgynus-habit-Kahanu%20Gardens%20Veggie%20Garden%20Hana-Maui%20(25026415842).jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Sauropus androgynus (Star gooseberry, sweet leaf, katuk) Habit at Kahanu Gardens Veggie Garden Hana, Maui, Hawaii. June 06, 2012 #120606-7011 Image Use Policy · Ảnh: Forest and Kim Starr / Wikimedia Commons (CC BY 3.0 us)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr-120606-7011-Sauropus_androgynus-habit-Kahanu_Gardens_Veggie_Garden_Hana-Maui_(25026415842).jpg",
+      "giay_phep": "CC BY 3.0 us",
+      "tac_gia": "Forest and Kim Starr"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Sauropus%20androgynus%203.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Nativeplants botanical garden, Pulikurumba · Ảnh: Nativeplants garden / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Sauropus_androgynus_3.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Nativeplants garden"
+    },
+    {
+      "file": "https://indiabiodiversity.org/biodiv/observations//77fa9b15-1de2-4ad2-8bf0-5ad505f9070d/33418.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Sauropus androgynus (L.) Merr. · India · Ảnh: Sreelakshmi S / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3034571132",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Sreelakshmi S"
+    },
+    {
+      "file": "https://indiabiodiversity.org/biodiv/observations//1a479aa7-de0e-4777-824b-06240758e7a9/30912.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Sauropus androgynus (L.) Merr. · India · Ảnh: Augnes jose / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3034593229",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Augnes jose"
+    }
+  ]
+}

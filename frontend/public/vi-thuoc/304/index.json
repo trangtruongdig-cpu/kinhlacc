@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Plantago asiatica",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Chinese%20Materia%20medica%2C%20C17%3B%20Plant%20drugs%2C%20Plantago%20Wellcome%20L0039336.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Bencao yuanshi(Origins of Materia Medica) by Li Zhongli is a herbal in 12 volumes, containing 379 illustrations. It was first published in 1612. This illustrati · Ảnh: Wikimedia Commons / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chinese_Materia_medica,_C17;_Plant_drugs,_Plantago_Wellcome_L0039336.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Wikimedia Commons"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Plantago%20asiatica%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Plantago asiatica in Botanical garden in Vácrátót · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Plantago_asiatica_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00163.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Asiatic Plantain Seed (Plantaginis Semen · 車前子) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00163",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Naturalis%20Biodiversity%20Center%20-%20RMNH.ART.693%20-%20Plantago%20asiatica%20-%20Y%C5%ABshi%20Ishizaki%20-%20Cock%20Blomhoff%20Collection%20-%20pencil%20drawing%20-%20water%20colour.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plantago asiatica · Ishizaki Yūshi / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Naturalis_Biodiversity_Center_-_RMNH.ART.693_-_Plantago_asiatica_-_Y%C5%ABshi_Ishizaki_-_Cock_Blomhoff_Collection_-_pencil_drawing_-_water_colour.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Ishizaki Yūshi"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Eryngium foetidum",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Culantro%20(Eryngium%20foetidum).jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Eryngium foetidum. Common names: Culantro. False Coriander. Sawtooth coriander. Stinking Shoreweed. Ketumbar Jawa (Malay). 假香荽 (Chinese). Family: UMBELLIFERAE O · Ảnh: Mokkie / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Culantro_(Eryngium_foetidum).jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Mokkie"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Culantro%20(Eryngium%20foetidum)%207.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Eryngium foetidum. Common names: Culantro. False Coriander. Sawtooth coriander. Stinking Shoreweed. Ketumbar Jawa (Malay). 假香荽 (Chinese). Family: UMBELLIFERAE O · Ảnh: Mokkie / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Culantro_(Eryngium_foetidum)_7.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Mokkie"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605522356/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Eryngium foetidum L. · Costa Rica · Ảnh: Emily Franzen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938695488",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Emily Franzen"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608164675/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Eryngium foetidum L. · Costa Rica · Ảnh: Tom Lawrence / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130219873",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Tom Lawrence"
+    }
+  ]
+}

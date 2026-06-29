@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Hosta ventricosa",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hosta%20ventricosa%20'Aureomarginata'%20Funkia%20rozd%C4%99ta%202019-06-01%2001.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Hosta ventricosa 'Aureomarginata', leaves, plant cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hosta_ventricosa_%27Aureomarginata%27_Funkia_rozd%C4%99ta_2019-06-01_01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hosta%20ventricosa%20'Aureomarginata'%20Funkia%20rozd%C4%99ta%202010-05-15%2002.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Hosta ventricosa 'Aureomarginata', leaves, plant cultivated in Wrocław University Botanical Garden, Wrocław, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hosta_ventricosa_%27Aureomarginata%27_Funkia_rozd%C4%99ta_2010-05-15_02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://www.artsobservasjoner.no/MediaLibrary/2026/6/a39e8fe2-a35d-46a6-83dd-e057380016b6_image.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hosta ventricosa Stearn · Norway · Ảnh: Bård Haugsrud / GBIF (CC BY-SA 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6405701475",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Bård Haugsrud"
+    },
+    {
+      "file": "https://www.artsobservasjoner.no/MediaLibrary/2026/6/e6db3e6c-aae4-49c6-9da4-3c5b0ebb564c_image.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hosta ventricosa Stearn · Norway · Ảnh: Bård Haugsrud / GBIF (CC BY-SA 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6405701475",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Bård Haugsrud"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/55554213/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Hosta ventricosa · ảnh đại diện · (c) User:Vmenkov, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/55554213",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) User:Vmenkov, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/A%20selection%20of%20Hexandrian%20plants%2C%20belonging%20to%20the%20natural%20orders%20Amaryllidae%20and%20Liliacae%20(Pl.%2050)%20BHL288140.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "A selection of Hexandrian plants, belonging to the natural orders Amaryllidae and Liliacae /from drawings by Mrs. Edward Bury, Liverpool ; engraved by · Bury, Priscilla Susan; Havell, Robert / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:A_selection_of_Hexandrian_plants,_belonging_to_the_natural_orders_Amaryllidae_and_Liliacae_(Pl._50)_BHL288140.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Bury, Priscilla Susan; Havell, Robert"
+    }
+  ]
+}

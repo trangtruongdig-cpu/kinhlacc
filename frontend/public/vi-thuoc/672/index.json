@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Hypericum sampsonii",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hypericum%20sampsonii.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Specimen of Hypericum sampsonii (Catalog Number BM001203683) at the National History Museum Online Data Portal recorded by Edouard-Ernest Maire. · Ảnh: Recorded by: Edouard-Ernest Maire / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hypericum_sampsonii.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Recorded by: Edouard-Ernest Maire"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/474229547/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hypericum sampsonii Hance · China · Ảnh: 王天 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5087578848",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "王天"
+    }
+  ]
+}

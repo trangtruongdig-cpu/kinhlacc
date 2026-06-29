@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Schizonepeta tenuifolia",
+  "_bo_phan": "toàn cây (sao thán)",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Schizonepeta%20multifida%201.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Schizonepeta multifida · Ảnh: Doronenko / Wikimedia Commons (CC BY 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Schizonepeta_multifida_1.jpg",
+      "giay_phep": "CC BY 2.5",
+      "tac_gia": "Doronenko"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/C19%20Chinese%20ink%20drawing%3B%20Boil%20directly%20opposite%20the%20mouth%20Wellcome%20L0038835.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Ink and brush drawing from a handwritten copy of the anonymous textDingchuang yaojue(Essential Art of Boils), executed in 1874 (13th year of the Tongzhi reign p · Ảnh: Wikimedia Commons / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:C19_Chinese_ink_drawing;_Boil_directly_opposite_the_mouth_Wellcome_L0038835.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Wikimedia Commons"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

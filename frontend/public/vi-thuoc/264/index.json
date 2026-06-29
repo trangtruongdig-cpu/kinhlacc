@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Lycopodium japonicum",
+  "_bo_phan": "toàn cây trên mặt đất",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Lycopodiii%20herba1.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Lycopodii herba, Lycopodium clavatum · Ảnh: Maša Sinreih in Valentina Vivod / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycopodiii_herba1.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Maša Sinreih in Valentina Vivod"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Lycopodii2.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Lycopodii herba, Lycopodium clavatum · Ảnh: Maša Sinreih in Valentina Vivod / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycopodii2.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Maša Sinreih in Valentina Vivod"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00284.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Japanese Clubmoss Herb (Lycopodii Herba · 伸筋草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00284",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/503856922/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lycopodium japonicum Thunb. · Japan · Ảnh: りなべる / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130771083",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "りなべる"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/585295805/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lycopodium japonicum Thunb. · Nepal · Ảnh: V_Nebenfuehr / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5890055135",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "V_Nebenfuehr"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Maianthemum japonicum",
+  "_bo_phan": "Rễ và thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Maianthemum%20japonicum%20'Tomakomai'%20(A.Gray)%20LaFrankie%20in%20Taxon%2035-%20588%20(1986)%2020240529%20171311.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Plant derived from Tomakomai, Hokkaido, Japan Japanese Name ユキザサ, 雪笹 Taxonomy Family ユリ科 Liliaceae Genus マイヅルソウ属 Maianthemum Distribution Russia Far East to C.  · Ảnh: Motohiro Sunouchi / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Maianthemum_japonicum_%27Tomakomai%27_(A.Gray)_LaFrankie_in_Taxon_35-_588_(1986)_20240529_171311.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Motohiro Sunouchi"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Maianthemum%20japonicum%20'Tomakomai'%20(A.Gray)%20LaFrankie%20in%20Taxon%2035-%20588%20(1986)%2020240529%20171704.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Plant derived from Tomakomai, Hokkaido, Japan Japanese Name ユキザサ, 雪笹 Taxonomy Family ユリ科 Liliaceae Genus マイヅルソウ属 Maianthemum Distribution Russia Far East to C.  · Ảnh: Motohiro Sunouchi / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Maianthemum_japonicum_%27Tomakomai%27_(A.Gray)_LaFrankie_in_Taxon_35-_588_(1986)_20240529_171704.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Motohiro Sunouchi"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/650015959/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Maianthemum japonicum (A.Gray) LaFrankie · Russian Federation · Ảnh: Violetta Dzizyurova / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6251577050",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Violetta Dzizyurova"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/650015996/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Maianthemum japonicum (A.Gray) LaFrankie · Russian Federation · Ảnh: Violetta Dzizyurova / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6251577050",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Violetta Dzizyurova"
+    }
+  ]
+}

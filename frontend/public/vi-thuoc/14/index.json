@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Tribulus terrestris",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr%20030612-0070%20Tribulus%20terrestris.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Tribulus terrestris (habit). Location: Maui, Kahului · Ảnh: Forest &amp; Kim Starr / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr_030612-0070_Tribulus_terrestris.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Forest &amp; Kim Starr"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Tribulus%20terrestris%20kz02.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Tribulus terrestris in Botanical garden in Vácrátót, Hungary · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Tribulus_terrestris_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604328172/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Tribulus terrestris L. · Australia · Ảnh: insiderelic / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938534543",
+      "giay_phep": "CC0",
+      "tac_gia": "insiderelic"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604329120/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Tribulus terrestris L. · Australia · Ảnh: insiderelic / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938672178",
+      "giay_phep": "CC0",
+      "tac_gia": "insiderelic"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/308492669/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Tribulus terrestris · quan sát thực địa · (c) Clifton Ladd, C.W.B., some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/308492669",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Clifton Ladd, C.W.B., some rights reserved (CC BY)"
+    }
+  ]
+}

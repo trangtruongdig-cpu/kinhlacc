@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Hippophae rhamnoides",
+  "_bo_phan": "quả chín",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hippophae%20rhamnoides%20'Hikul'%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Hippophae rhamnoides 'Hikul' in PAN Botanical Garden in Warsaw · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hippophae_rhamnoides_%27Hikul%27_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hippophae%20rhamnoides%20'Askola'%20kz02.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Hippophae rhamnoides 'Askola' in PAN Botanical Garden in Warsaw · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hippophae_rhamnoides_%27Askola%27_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605337825/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hippophae rhamnoides L. · Russian Federation · Ảnh: Anastasia_Surkova / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938150775",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Anastasia_Surkova"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605353006/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hippophae rhamnoides L. · Russian Federation · Ảnh: Anastasia_Surkova / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938155641",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Anastasia_Surkova"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/73725868/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Hippophae rhamnoides · quan sát thực địa · (c) Нурхайдарова Татьяна, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/73725868",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Нурхайдарова Татьяна, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/73725879/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Hippophae rhamnoides · quan sát thực địa · (c) Нурхайдарова Татьяна, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/73725879",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Нурхайдарова Татьяна, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hippophae%20rhamnoides%20Sturm41.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Elaeagnus rhamnoides (L.) A.Nelson, syn. Hippophae rhamnoides L. Original Caption Sanddorn, Hippophaë rhamnoides · Johann Georg Sturm (Painter: Jacob Sturm) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hippophae_rhamnoides_Sturm41.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Johann Georg Sturm (Painter: Jacob Sturm)"
+    }
+  ]
+}

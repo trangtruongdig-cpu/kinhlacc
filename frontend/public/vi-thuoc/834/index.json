@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Sambucus chinensis",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E6%8E%A5%E9%AA%A8%E8%8D%89%20Sambucus%20chinensis%2020210419095420%2015.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Yellow nectary. Native to Taiwan and China, Pistacia chinensis is known as a medicinal plant. Photo taken in Taichung, Taiwan. · Ảnh: Ping an Chang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E6%8E%A5%E9%AA%A8%E8%8D%89_Sambucus_chinensis_20210419095420_15.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ping an Chang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E6%8E%A5%E9%AA%A8%E8%8D%89%20Sambucus%20chinensis%2020210419095420%2011.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Yellow nectary. Native to Taiwan and China, Pistacia chinensis is known as a medicinal plant. Photo taken in Taichung, Taiwan. · Ảnh: Ping an Chang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E6%8E%A5%E9%AA%A8%E8%8D%89_Sambucus_chinensis_20210419095420_11.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ping an Chang"
+    },
+    {
+      "file": "https://plant.tbn.org.tw/sites/dpplant/files/occurrence/photo/2020/03/file-2026647-is61s43h.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Sambucus chinensis Lindl. · Chinese Taipei · Ảnh: 詹明輝 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3784587142",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "詹明輝"
+    },
+    {
+      "file": "https://media-service.nrm.se/images?dataset=fbo&id=large/S19-012001/S19-12859_001.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Sambucus chinensis Lindl. · Viet Nam · Ảnh: Sylvain Razafimandimbison, Do Van Truong, Hoang Manh Quyen & Ulf Swenson / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/2618453384",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Sylvain Razafimandimbison, Do Van Truong, Hoang Manh Quyen & Ulf Swenson"
+    }
+  ]
+}

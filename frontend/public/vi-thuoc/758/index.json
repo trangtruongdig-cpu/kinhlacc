@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Peperomia dindigulensis",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Peperomia%20dindigulensis-yercaud-salem-India.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Epiphytic herb in the shade,spikes terminal. · Ảnh: Yercaud-elango / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Peperomia_dindigulensis-yercaud-salem-India.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Yercaud-elango"
+    },
+    {
+      "file": "https://medialib.naturalis.nl/file/id/L.4533128/format/large",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Peperomia dindygulensis Miq. · Myanmar · Ảnh: Naturalis Biodiversity Center / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/4948034712",
+      "giay_phep": "CC0",
+      "tac_gia": "Naturalis Biodiversity Center"
+    },
+    {
+      "file": "https://iiif.rbge.org.uk/herb/iiif/E01597376/full/1600,/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Peperomia dindygulensis Miq. · Myanmar · Ảnh: Baba, Yumiko, Kertsawang, Kittiphong, Puglisi, Carmen, Rodda, Michele, Ruchisansakun, Saroj, Srisanga, Prachaya, Shin, Thant & El, Yo / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5839651637",
+      "giay_phep": "CC0",
+      "tac_gia": "Baba, Yumiko, Kertsawang, Kittiphong, Puglisi, Carmen, Rodda, Michele, Ruchisansakun, Saroj, Srisanga, Prachaya, Shin, Thant & El, Yo"
+    }
+  ]
+}

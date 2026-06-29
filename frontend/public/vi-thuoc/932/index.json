@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Mahonia fortunei",
+  "_bo_phan": "thân cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E5%8D%81%E5%A4%A7%E5%8A%9F%E5%8B%9EMahonia%20fortunei%2020191223162046%2002.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Plant. Shilin, Yunnan, China. · Ảnh: Ping an Chang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E5%8D%81%E5%A4%A7%E5%8A%9F%E5%8B%9EMahonia_fortunei_20191223162046_02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ping an Chang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E5%8D%81%E5%A4%A7%E5%8A%9F%E5%8B%9EMahonia%20fortunei%2020191223162046%2003.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Plant. Shilin, Yunnan, China. · Ảnh: Ping an Chang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E5%8D%81%E5%A4%A7%E5%8A%9F%E5%8B%9EMahonia_fortunei_20191223162046_03.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ping an Chang"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/173848090/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Berberis fortunei Lindl. · China · Ảnh: Wang.QG / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3456508522",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Wang.QG"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/173848262/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Berberis fortunei Lindl. · China · Ảnh: Wang.QG / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3456508522",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Wang.QG"
+    }
+  ]
+}

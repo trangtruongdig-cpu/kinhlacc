@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Foeniculum vulgare",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Foeniculum%20vulgare%20sl9.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Stipe with leaf Taxonym: Foeniculum vulgare ss Fischer et al. EfÖLS 2008 ISBN 978-3-85474-187-9 Location: Neue Donau, Vienna-Floridsdorf - ca. 160 m a.s.l. Habi · Ảnh: Stefan.lefnaer / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Foeniculum_vulgare_sl9.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Stefan.lefnaer"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Foeniculum%20vulgare%20sl7.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Habitus Taxonym: Foeniculum vulgare ss Fischer et al. EfÖLS 2008 ISBN 978-3-85474-187-9 Location: Neue Donau, Vienna-Floridsdorf - ca. 160 m a.s.l. Habitat: dry · Ảnh: Stefan.lefnaer / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Foeniculum_vulgare_sl7.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Stefan.lefnaer"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604750309/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Foeniculum vulgare Mill. · South Africa · Ảnh: Andrew Gillespie / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938142291",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Andrew Gillespie"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604474130/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Foeniculum vulgare Mill. · Portugal · Ảnh: Duarte Frade / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938166335",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Duarte Frade"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/658908045/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Foeniculum vulgare · quan sát thực địa · (c) zebedeugalinha, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/658908045",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) zebedeugalinha, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Foeniculum%20vulgare%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-148.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Fenchel. A blühende und fruchtende Pflanze in natürl. Grösse; 1 Blüthenknospe, vergrössert; 2, 3 Blüthe desgl.; 4 Kronblatt, desgl.; 5 Staubgefässe, d · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Foeniculum_vulgare_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-148.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

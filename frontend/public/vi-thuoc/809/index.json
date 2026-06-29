@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Eclipta prostrata",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Leaves%20-%20Bhringraj%20Plant%20-%20Eclipta%20prostrata.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Bhringraj is a weedy plant that is being used since ancient times as a haircare remedy in Indian Ayurveda. · Ảnh: Aseedtolife / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Leaves_-_Bhringraj_Plant_-_Eclipta_prostrata.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Aseedtolife"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Eclipta%20prostrata%20(Asteraceae)%2001.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "False Daisy, herbaceous plant · Ảnh: Filo gèn' / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Eclipta_prostrata_(Asteraceae)_01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Filo gèn'"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608062554/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Eclipta prostrata (L.) L. · Mexico · Ảnh: Sinaloa Silvestre / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6129845666",
+      "giay_phep": "CC0",
+      "tac_gia": "Sinaloa Silvestre"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608062568/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Eclipta prostrata (L.) L. · Mexico · Ảnh: Sinaloa Silvestre / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6129845666",
+      "giay_phep": "CC0",
+      "tac_gia": "Sinaloa Silvestre"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Eclipta%20prostrata-linedrawing2.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Eclipta prostrata · USDA Natural Resources Conservation Service. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Eclipta_prostrata-linedrawing2.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "USDA Natural Resources Conservation Service."
+    }
+  ]
+}

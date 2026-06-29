@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Inula",
+  "_bo_phan": "toàn cây trên mặt đất",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Inula%20magnifica%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Inula magnifica in botanical garden in Poznań · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Inula_magnifica_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Inula%20racemosa.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Indian Elecampane (Inula racemosa). Species of plant. · Ảnh: Hume Douglas / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Inula_racemosa.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Hume Douglas"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/K%C3%B6hler%20Inula%201887.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Abbildung von Inula helenium · Unknown authorUnknown author / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:K%C3%B6hler_Inula_1887.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Unknown authorUnknown author"
+    }
+  ]
+}

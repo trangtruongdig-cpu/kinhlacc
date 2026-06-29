@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Hedyotis diffusa",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Starr%20030523-0123%20Hedyotis%20corymbosa.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Hedyotis corymbosa (habit). Location: Maui, State nursery Kahului · Ảnh: Forest &amp; Kim Starr / Wikimedia Commons (CC BY 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Starr_030523-0123_Hedyotis_corymbosa.jpg",
+      "giay_phep": "CC BY 3.0",
+      "tac_gia": "Forest &amp; Kim Starr"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hedyotis%20corymbosa%3F%2008417.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Hedyotis corymbosa? · Ảnh: Vengolis / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hedyotis_corymbosa%3F_08417.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Vengolis"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00259.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Spreading Hedyotis Herb (Hedyotidis Herba · 白花蛇舌草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00259",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604543822/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Galium saxatile L. · United Kingdom of Great Britain and Northern Ireland · Ảnh: considerthelilies / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938031326",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "considerthelilies"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604630344/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Psychotria nervosa Sw. · United States of America · Ảnh: naturedom12 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938052434",
+      "giay_phep": "CC0",
+      "tac_gia": "naturedom12"
+    }
+  ]
+}

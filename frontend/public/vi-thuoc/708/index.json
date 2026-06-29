@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Corydalis decumbens",
+  "_bo_phan": "củ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Corydalis%20decumbens%205.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Corydalis decumbens, north area, Tochigi pref., Japan · Ảnh: Qwert1234 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Corydalis_decumbens_5.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Qwert1234"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Corydalis%20decumbens%206.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Corydalis decumbens, Nanbu town, Yamanashi pref., Japan · Ảnh: Qwert1234 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Corydalis_decumbens_6.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Qwert1234"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/628526857/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Corydalis decumbens (Thunb.) Pers. · China · Ảnh: angryphyco / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6251904327",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "angryphyco"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/635197382/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Corydalis decumbens (Thunb.) Pers. · Japan · Ảnh: mami_t_t / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6195239586",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "mami_t_t"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/60631300/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Corydalis decumbens · quan sát thực địa · (c) Cheng-Tao Lin, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/60631300",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Cheng-Tao Lin, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/60631309/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Corydalis decumbens · quan sát thực địa · (c) Cheng-Tao Lin, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/60631309",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Cheng-Tao Lin, some rights reserved (CC BY)"
+    }
+  ]
+}

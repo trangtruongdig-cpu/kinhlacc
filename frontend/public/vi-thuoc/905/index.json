@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Monascus purpureus",
+  "_bo_phan": "Sản phẩm lên men từ gạo",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Red%20yeast%20rice.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "White rice fermented with the mold Monascus purpureus. · Ảnh: FotoosVanRobin / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Red_yeast_rice.jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "FotoosVanRobin"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hongqu%202.png?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Red Yeast Rice (Hongqu) a dried culture of Monascus purpureus. · Ảnh: Uranassbandit / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hongqu_2.png",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Uranassbandit"
+    },
+    {
+      "file": "http://sweetgum.nybg.org/images3/2108/959/02935198.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Monascus purpureus Went · United States of America · Ảnh: The New York Botanical Garden / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/1930968483",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "The New York Botanical Garden"
+    },
+    {
+      "file": "http://sweetgum.nybg.org/images3/2108/958/02935197.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Monascus purpureus Went · United States of America · Ảnh: The New York Botanical Garden / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/1929187817",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "The New York Botanical Garden"
+    }
+  ]
+}

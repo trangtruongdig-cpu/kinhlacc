@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Trigonella foenum-graecum",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Washed%20fenugreek%20leaves%20for%20cooking%20methi-chadachadi.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Washed fenugreek (Trigonella foenum-graecum) leaves for cooking methi-chadachadi, a cooked dish from Odisha, India · Ảnh: Subhashish Panigrahi / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Washed_fenugreek_leaves_for_cooking_methi-chadachadi.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Subhashish Panigrahi"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Trigonella%20foenum%20graecum-3-xavier%20cottage-yercaud-salem-India.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Fabaceae-Fenugreek,வெந்தயம் ;Annual plant,flowers yellow,seeds yellow to amber coloured. · Ảnh: Yercaud-elango / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Trigonella_foenum_graecum-3-xavier_cottage-yercaud-salem-India.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Yercaud-elango"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00185.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Fenugreek Seed (Trigonellae Semen · 胡蘆巴) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00185",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/7b8a31aef9c0e0adcaf496d0b8791bca39bd1382",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Trigonella foenum-graecum L. · India · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110514589",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/f84e98ddf09c9997a8a000bd845827c209b9eabd",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Trigonella foenum-graecum L. · Spain · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110469519",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/81999497/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Trigonella gladiata · quan sát thực địa · (c) Максим Шумских, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/81999497",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Максим Шумских, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Trigonella%20foenum-graecum%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-273.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Bockshornklee. A B Pflanze in natürlicher Grösse; 1 Blüthe vergrössert; 2,3,4 Theile der Blüthe (Fahne, Flügel und Schiffchen), desgl.; 5 Staubgefässe · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Trigonella_foenum-graecum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-273.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

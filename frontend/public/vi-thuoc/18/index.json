@@ -1,30 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Panax ginseng",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "rễ và thân rễ",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Dược liệu (đã chế)",
-      "mo_ta": "Hồng sâm Triều Tiên đã chế, các rễ khô màu nâu đỏ xếp trong hộp gỗ · Ảnh: IsaacMao / Wikimedia Commons (CC BY 2.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Korean_red_ginseng.jpg",
-      "giay_phep": "CC BY 2.0",
-      "tac_gia": "IsaacMao"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Dược liệu (đã chế)",
-      "mo_ta": "Một củ nhân sâm khô nguyên rễ, sạch trên nền trắng, thấy rõ thân rễ và rễ con · Ảnh: 안진수 / Wikimedia Commons (CC BY-SA 4.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:%EC%9D%B8%EC%82%BC%EC%82%AC%EC%A7%84.jpg",
-      "giay_phep": "CC BY-SA 4.0",
-      "tac_gia": "안진수"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Dược liệu (đã chế)",
-      "mo_ta": "Bó nhiều củ nhân sâm tươi vừa thu hoạch còn nguyên rễ con · Ảnh: User:Lohrie / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:%C5%BBe%C5%84-sze%C5%84.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "User:Lohrie"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00002.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Ginseng Root (Ginseng Radix et Rhizoma · 人參) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00002",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

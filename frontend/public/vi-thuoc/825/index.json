@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Humulus scandens",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Humulus%20japonicus%20plant.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Plant · Ảnh: Siebold &amp; Zucc / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Humulus_japonicus_plant.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Siebold &amp; Zucc"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Humulus%20japonicus%20(Dammer).png?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Japanese hop (Humulus japonicus) · Ảnh: Prof. Dr. Carl Lebrecht Udo Dammer (8.1.1860–20.11.1919) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Humulus_japonicus_(Dammer).png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Prof. Dr. Carl Lebrecht Udo Dammer (8.1.1860–20.11.1919)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/618127794/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Humulus scandens (Lour.) Merr. · Chinese Taipei · Ảnh: MIMI / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6162972684",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "MIMI"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/53160180/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Humulus scandens · quan sát thực địa · (c) Ryan Donnelly, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/53160180",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Ryan Donnelly, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/53160193/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Humulus scandens · quan sát thực địa · (c) Ryan Donnelly, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/53160193",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Ryan Donnelly, some rights reserved (CC BY)"
+    }
+  ]
+}

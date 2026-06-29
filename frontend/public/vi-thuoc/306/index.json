@@ -1,0 +1,77 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Kochia scoparia",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Kochia%20scoparia%2001.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bassia scoparia (Syn. Kochia scoparia L. · Ảnh: WildBoar / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Kochia_scoparia_01.JPG",
+      "giay_phep": "Public domain",
+      "tac_gia": "WildBoar"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Kochia%20scoparia%20(5129971536).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "By late summer kochia form a tall and round tumbleweed often interconnected with adjacent plants. · Ảnh: Matt Lavin from Bozeman, Montana, USA / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Kochia_scoparia_(5129971536).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Matt Lavin from Bozeman, Montana, USA"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00172.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Belvedere Fruit (Kochiae Fructus · 地膚子) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00172",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://mebs72.kz/HERBARIUM_2024/PHOTO_7/MANG07670_screen.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Kochia scoparia (L.) Schrad. · Kazakhstan · Ảnh: Иманбаева А.А.|Дуйсенова Н.И. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4538549354",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Иманбаева А.А.|Дуйсенова Н.И."
+    },
+    {
+      "file": "https://ibss-images.calacademy.org/static/botany/originals/31/ba/31ba7bb9-f9a9-4c25-97f0-8d152a8f97fe.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Kochia scoparia (L.) Schrad. · United States of America · Ảnh: Schweich, Tom / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5107201736",
+      "giay_phep": "CC0",
+      "tac_gia": "Schweich, Tom"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/175838996/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Bassia scoparia · quan sát thực địa · (c) Matt Lavin, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/175838996",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Matt Lavin, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/175838998/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Bassia scoparia · quan sát thực địa · (c) Matt Lavin, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/175838998",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Matt Lavin, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Kochia%20trichophylla1.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Illustration de Kochia trichophylla cultivée pour son beau feuillage, dans un article sur les cactées dansla Revue hprticole par Georges Durovault · Dessinateur inconnu / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Kochia_trichophylla1.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Dessinateur inconnu"
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Equisetum arvense",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Equisetum%20arvense%20kz09.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Equisetum arvense strobil. Plant from Szczecin, NW Poland. Stacked from 20 photos. · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Equisetum_arvense_kz09.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Equisetum%20arvense%20kz10.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Equisetum arvense strobil. Plant from Szczecin, NW Poland. Stacked from 20 photos. · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Equisetum_arvense_kz10.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://arter.dk/media/0f636778-3a14-4c71-9f73-75a2b93d2e79.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Equisetum arvense L. · Denmark · Ảnh: Jens Søgaard Hansen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5995449589",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Jens Søgaard Hansen"
+    },
+    {
+      "file": "https://arter.dk/media/126a654e-5f90-447a-9d16-f877e0d04d79.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Equisetum arvense L. · Denmark · Ảnh: Jens Søgaard Hansen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5995449589",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Jens Søgaard Hansen"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Equisetum%20arvense%20Lindman%20DESC.jpeg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Equisetum arvense · Carl Axel Magnus Lindman / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Equisetum_arvense_Lindman_DESC.jpeg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Carl Axel Magnus Lindman"
+    }
+  ]
+}

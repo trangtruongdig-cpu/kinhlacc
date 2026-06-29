@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao + cmmid",
+  "_sci": "Rheum palmatum",
+  "_bo_phan": "rễ và thân rễ (đã chế)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rheum%20tanguticum%20Rabarbar%20tangucki%202024-05-10%2003.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Rheum tanguticum (Maxim. ex Regel) Balf. (syn. Rheum palmatum subsp. tanguticum (Maxim.) Stampf), leaves, plant cultivated in the Wrocław University Botanical G · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rheum_tanguticum_Rabarbar_tangucki_2024-05-10_03.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rheum%20officinale%20001.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Rheum palmatum, Polygonaceae, Chinese Rhubarb, habitus. Karlsruhe, Germany. · Ảnh: H. Zell / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rheum_officinale_001.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "H. Zell"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/92b74dcc2080fa9d46b1a2a45fb6f4c8c2f57237",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Rheum palmatum L. · United Kingdom of Great Britain and Northern Ireland · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5109966706",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/ed1f8d7eaa9606f74e0470139029c741726928cf",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Rheum palmatum L. · United Kingdom of Great Britain and Northern Ireland · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110149547",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Rheum%20palmatum%20Woodville.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Rheum palmatum. · Woodville, William (1802 - 1851) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Rheum_palmatum_Woodville.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Woodville, William (1802 - 1851)"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00006.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Rhubarb (Rhei Radix et Rhizoma · 大黃) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00006",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

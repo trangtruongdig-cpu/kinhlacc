@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Lycium barbarum",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Lycium%20barbarum%20sl20.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Leaf scar Taxonym: Lycium barbarum ss Fischer et al. EfÖLS 2008 ISBN 978-3-85474-187-9 Location: Donauinsel nect to Nordbrücke, Vienna-Floridsdorf - ca. 160 m a · Ảnh: Stefan.lefnaer / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycium_barbarum_sl20.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Stefan.lefnaer"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/LyciumBarbarum-plant-hr.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "LyciumBarbarum-plant-hr · Ảnh: Wikimedia Commons / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:LyciumBarbarum-plant-hr.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Wikimedia Commons"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/635575189/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lycium barbarum L. · Czechia · Ảnh: bogsuckers / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6195985591",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "bogsuckers"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/579761660/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Lycium barbarum · quan sát thực địa · (c) SteveM4560, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/579761660",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) SteveM4560, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/579761861/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Lycium barbarum · quan sát thực địa · (c) SteveM4560, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/579761861",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) SteveM4560, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Lycium%20barbarum%20seed.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Lycium barbarum seed · Wikimedia Commons / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycium_barbarum_seed.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Wikimedia Commons"
+    }
+  ]
+}

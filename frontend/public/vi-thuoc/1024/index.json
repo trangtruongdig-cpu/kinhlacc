@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Saussurea japonica",
+  "_bo_phan": "thân, cành",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E9%A2%A8%E6%AF%9B%E8%8F%8A%20Saussurea%20japonica%20-%E9%A6%99%E6%B8%AF%E8%A5%BF%E8%B2%A2%E7%8D%85%E5%AD%90%E6%9C%83%E8%87%AA%E7%84%B6%E6%95%99%E8%82%B2%E4%B8%AD%E5%BF%83%20Saikung%2C%20Hong%20Kong-%20(9198184589).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "風毛菊 Saussurea japonica [香港西貢獅子會自然教育中心 Saikung, Hong Kong] · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E9%A2%A8%E6%AF%9B%E8%8F%8A_Saussurea_japonica_-%E9%A6%99%E6%B8%AF%E8%A5%BF%E8%B2%A2%E7%8D%85%E5%AD%90%E6%9C%83%E8%87%AA%E7%84%B6%E6%95%99%E8%82%B2%E4%B8%AD%E5%BF%83_Saikung,_Hong_Kong-_(9198184589).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Saussurea%20riederi%20subsp.%20yezoensis%20var.%20japonica%202.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Saussurea riederi subsp. yezoensis ver. japonica, Mount Chokai, Yamagata pref., Japan · Ảnh: Qwert1234 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Saussurea_riederi_subsp._yezoensis_var._japonica_2.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Qwert1234"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

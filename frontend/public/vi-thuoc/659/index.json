@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao + cmmid",
+  "_sci": "Panax japonicus",
+  "_bo_phan": "Thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Panax%20japonicus%202.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Panax japonicus, Kaetsu area, Niigata pref., Japan · Ảnh: Qwert1234 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Panax_japonicus_2.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Qwert1234"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Panax%20japonicus%204.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Panax japonicus, Niigata pref., Japan · Ảnh: Qwert1234 / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Panax_japonicus_4.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Qwert1234"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/444449762/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Panax japonicus (T.Nees) C.A.Mey. · Japan · Ảnh: Mason Brock / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/4976478107",
+      "giay_phep": "CC0",
+      "tac_gia": "Mason Brock"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/444449769/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Panax japonicus (T.Nees) C.A.Mey. · Japan · Ảnh: Mason Brock / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/4976478107",
+      "giay_phep": "CC0",
+      "tac_gia": "Mason Brock"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00054.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Divaricate Saposhnikovia (Saposhnikoviae Radix · 防風) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00054",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

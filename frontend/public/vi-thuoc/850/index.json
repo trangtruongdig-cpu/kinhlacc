@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Glechoma longituba",
+  "_bo_phan": "toàn cây",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E6%B4%BB%E8%A1%80%E4%B8%B9%20Glechoma%20longituba%20-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92%20Hong%20Kong%20Botanical%20Garden-%20(9200926876).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "中草藥-連錢草 · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E6%B4%BB%E8%A1%80%E4%B8%B9_Glechoma_longituba_-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92_Hong_Kong_Botanical_Garden-_(9200926876).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Glechoma%20longituba-IMG%2020170303%20150721.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Glechoma longituba, photographed in Central China Normal University, Wuhan, Hubei Province, China · Ảnh: Sun Jiao (Interaccoonale) / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Glechoma_longituba-IMG_20170303_150721.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Sun Jiao (Interaccoonale)"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

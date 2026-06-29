@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Sanguisorba officinalis",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Sanguisorba%20officinalis%20near%20Biberwier%2C%20Tyrol.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Red plant in Tyrol, Austria: Sanguisorba officinalis. · Ảnh: Tiia Monto / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Sanguisorba_officinalis_near_Biberwier,_Tyrol.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Tiia Monto"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Sanguisorba%20officinalis%20001.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Sanguisorba officinalis, Rosaceae, Great Burnet, habitus. Stutensee, Germany. · Ảnh: H. Zell / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Sanguisorba_officinalis_001.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "H. Zell"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00051.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Longleaf Garden Burnet Root (Sanguisorbae Radix · 地榆) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00051",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/634386509/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Sanguisorba officinalis L. · United Kingdom of Great Britain and Northern Ireland · Ảnh: guywallbanks / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6188057961",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "guywallbanks"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Sanguisorba%20officinalis%20Sturm58.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Sanguisorba officinalis L. Original Description Wiesenknopf, Sanguisorba officinalis · Johann Georg Sturm (Painter: Jacob Sturm) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Sanguisorba_officinalis_Sturm58.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Johann Georg Sturm (Painter: Jacob Sturm)"
+    }
+  ]
+}

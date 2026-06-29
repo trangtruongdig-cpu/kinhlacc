@@ -1,0 +1,77 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Juncus effusus",
+  "_bo_phan": "tủy cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Pitrus%20plant%20(Juncus%20effusus)%20(1).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Juncus effusus · Ảnh: Rasbak / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Pitrus_plant_(Juncus_effusus)_(1).jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Rasbak"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Juncus%20effusus%20ssp.%20effusus.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Common Rush (Juncus effusus ssp. effusus). Subspecies of plant. · Ảnh: Radek Walkowiak / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Juncus_effusus_ssp._effusus.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Radek Walkowiak"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00268.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Rush Pith or Herba (Junci Medulla · 燈心草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00268",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://arter.dk/media/a426be15-319a-42d5-a9fd-5d8bbba72181.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Juncus effusus L. · Denmark · Ảnh: Christian Harboe Nielsen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5956000265",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Christian Harboe Nielsen"
+    },
+    {
+      "file": "https://arter.dk/media/55203aa4-8455-46b6-938a-f3f19237fefb.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Juncus effusus L. · Denmark · Ảnh: Aske Keiser-Nielsen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5956002835",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Aske Keiser-Nielsen"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/208271199/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Juncus effusus · quan sát thực địa · (c) Douglas Goldman, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/208271199",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Douglas Goldman, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/208271473/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Juncus effusus · quan sát thực địa · (c) Douglas Goldman, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/208271473",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Douglas Goldman, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Juncus%20effusus%20illustration%20(01).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Juncus effusus illustration (01) · Wikimedia Commons / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Juncus_effusus_illustration_(01).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Wikimedia Commons"
+    }
+  ]
+}

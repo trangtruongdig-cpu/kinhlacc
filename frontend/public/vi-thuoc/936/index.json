@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Toxicodendron vernicifluum",
+  "_bo_phan": "nhựa cây phơi khô",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Toxicodendron%20vernicifluum%2001.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Toxicodendron vernicifluum foliage · Ảnh: Aomorikuma / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Toxicodendron_vernicifluum_01.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Aomorikuma"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Leaves%20and%20immature%20fruit%20on%20a%20mature%20Toxicodendron%20vernicifluum%2C%20Edinburgh.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Leaves and immature fruit on a mature Toxicodendron vernicifluum, Edinburgh · Ảnh: Stephencdickson / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Leaves_and_immature_fruit_on_a_mature_Toxicodendron_vernicifluum,_Edinburgh.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Stephencdickson"
+    },
+    {
+      "file": "https://www.plantarium.ru/dat/plants/3/321/823321_77be73dd.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Toxicodendron vernicifluum (Stokes) F.A.Barkley · Ukraine · Ảnh: Михаил Лучкин / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5900456678",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Михаил Лучкин"
+    },
+    {
+      "file": "https://www.plantarium.ru/dat/plants/3/320/823320_05510e14.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Toxicodendron vernicifluum (Stokes) F.A.Barkley · Ukraine · Ảnh: Михаил Лучкин / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5900456678",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Михаил Лучкин"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Storia%20delle%20piante%20forastiere%20le%20pi%C3%B9%20importanti%20nell'uso%20medico%2C%20od%20economico%2C%201792%20-%20Rhus%20vernicifera%20-%20BEIC%20IE2554519.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Storia delle piante forastiere le più importanti nell'uso medico, od economico, 1792 - Rhus vernicifera · Wikimedia Commons / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Storia_delle_piante_forastiere_le_pi%C3%B9_importanti_nell%27uso_medico,_od_economico,_1792_-_Rhus_vernicifera_-_BEIC_IE2554519.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Wikimedia Commons"
+    }
+  ]
+}

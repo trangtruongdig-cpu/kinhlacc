@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Alpinia officinarum",
+  "_bo_phan": "thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E9%AB%98%E8%89%AF%E8%96%91%20Alpinia%20officinarum%20-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92%20Hong%20Kong%20Botanical%20Garden-%20(9252478061).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "高良薑 Alpinia officinarum [香港動植物公園 Hong Kong Botanical Garden] · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E9%AB%98%E8%89%AF%E8%96%91_Alpinia_officinarum_-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92_Hong_Kong_Botanical_Garden-_(9252478061).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Shanjiang%20(Alpinia%20japonica)%2C%20medicinal%20plant.%20Chinese%2C%201655%20Wellcome%20L0034692.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Theshanjiangplant (Alpinia japonica), woodblock print coloured by hand. Shunzhi reign period of the Qing dynasty. The roots, flowers and seeds ofshanjiangare al · Ảnh: Wikimedia Commons / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Shanjiang_(Alpinia_japonica),_medicinal_plant._Chinese,_1655_Wellcome_L0034692.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Wikimedia Commons"
+    },
+    {
+      "file": "https://purl.org/gbifnorway/img/ipt-specimens/barstow-garden/new/2012/PB045637.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Alpinia officinarum Hance · Norway · Ảnh: Stephen Barstow / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3045019097",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Stephen Barstow"
+    },
+    {
+      "file": "https://purl.org/gbifnorway/img/ipt-specimens/barstow-garden/new/2012/PB045638.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Alpinia officinarum Hance · Norway · Ảnh: Stephen Barstow / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3045019097",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Stephen Barstow"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Alpinia%20officinarum%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-156.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Echter Galgant. A B Theile der Pflanze in natürl. Grösse; 1 Blüthe, vergrössert; 2 oberer Theil des Staubgefässes mit durchlaufendem Griffel, desgl.;  · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Alpinia_officinarum_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-156.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

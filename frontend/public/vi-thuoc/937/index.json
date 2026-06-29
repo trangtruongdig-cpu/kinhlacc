@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Hibiscus rosa-sinensis",
+  "_bo_phan": "hoa",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hibiscus%20rosa-sinensis%20plant%201.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Hibiscus rosa-sinensis, Las Indias (Fuencaliente de la Palma, Canaries, Spain) · Ảnh: Syrio / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hibiscus_rosa-sinensis_plant_1.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Syrio"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hibiscus%20August%202012-2.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Flower of a Chinese Hibiscus (Hibiscus rosa-sinensis) at the Botanical Garden of Lisbon · Ảnh: Alvesgaspar / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hibiscus_August_2012-2.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Alvesgaspar"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/610905140/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hibiscus rosa-sinensis L. · Brazil · Ảnh: Jhonatan Matheus / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6353106771",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Jhonatan Matheus"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/610812146/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hibiscus rosa-sinensis L. · Brazil · Ảnh: Jhonatan Matheus / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6353266693",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Jhonatan Matheus"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/113271154/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Hibiscus schizopetalus · quan sát thực địa · (c) Vis M, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/113271154",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Vis M, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/113271149/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Hibiscus schizopetalus · quan sát thực địa · (c) Vis M, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/113271149",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Vis M, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hibiscus%20rosa-sinensis%20Blanco2.270-cropped.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hibiscus_rosa-sinensis_Blanco2.270-cropped.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

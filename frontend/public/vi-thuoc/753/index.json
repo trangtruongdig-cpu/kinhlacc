@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Lycoris radiata",
+  "_bo_phan": "Vảy hành",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Lycoris%20radiata%2C%20botanical%20illustration%20by%20H.C.%20Andrews.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "This picture is botanical illustration of plant called Lycoris radiata · Ảnh: Henry Cranke Andrews / Wikimedia Commons (CC BY-SA 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycoris_radiata,_botanical_illustration_by_H.C._Andrews.jpg",
+      "giay_phep": "CC BY-SA 2.5",
+      "tac_gia": "Henry Cranke Andrews"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Lycoris%20radiata%20'%E9%95%B7%E5%B7%9E%E6%A1%83%E8%8F%AF%20-%20Cyousyutouka'%20(L'H%C3%A9r.)%20Herb.-%20Bot.%20Mag.%2047-%20t.%202113-%20p.%205%20(1819).%2020210903%20215938.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Plant derived from Yamaguchi, Japan Japanese Name ヒガンバナ, 彼岸花 Distribution Nepal to C. &amp; S. Japan ((29) sey 36 CHC CHN CHS 38 JAP KOR nns 40 NEP (74) ill (78 · Ảnh: Motohiro Sunouchi / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycoris_radiata_%27%E9%95%B7%E5%B7%9E%E6%A1%83%E8%8F%AF_-_Cyousyutouka%27_(L%27H%C3%A9r.)_Herb.-_Bot._Mag._47-_t._2113-_p._5_(1819)._20210903_215938.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Motohiro Sunouchi"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/464506666/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lycoris radiata (L'Hér.) Herb. · Chinese Taipei · Ảnh: chiuluan / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5063114760",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "chiuluan"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/464506743/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lycoris radiata (L'Hér.) Herb. · Chinese Taipei · Ảnh: chiuluan / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5063114760",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "chiuluan"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Lycoris%20radiata.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Lycoris radiata illustration · Herbert / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lycoris_radiata.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Herbert"
+    }
+  ]
+}

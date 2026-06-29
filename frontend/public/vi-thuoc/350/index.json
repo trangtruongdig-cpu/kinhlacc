@@ -1,30 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Forsythia suspensa",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "quả",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Toàn cây bụi Liên Kiều rủ cành, phủ đầy hoa vàng vào mùa xuân · Ảnh: KENPEI / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Forsythia_suspensa3.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "KENPEI"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Hoa",
-      "mo_ta": "Cận cảnh hoa Liên Kiều màu vàng tươi với 4 cánh hình chuông · Ảnh: KENPEI / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Forsythia_suspensa5.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "KENPEI"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Lá",
-      "mo_ta": "Cận cảnh lá Liên Kiều hình trứng nhọn, mép có răng cưa · Ảnh: KENPEI / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Forsythia_suspensa2.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "KENPEI"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00190.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Weeping Forsythia Fruit (Forsythiae Fructus · 連翹) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00190",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

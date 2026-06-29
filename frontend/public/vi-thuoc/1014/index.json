@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Quartz",
+  "_bo_phan": "khoáng vật",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Squartiticus-2.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Schoenus quartziticus from its native renosterveld habitat. · Ảnh: Tle003 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Squartiticus-2.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Tle003"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Chesapeake%20Minerals%20Quartz%20Plant%20(52721214147).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Governor Moore visits Chesapeake Minerals Quartz Plant by Anthony DePanise at 1079 Belvidere Road, Port Deposit, Maryland 21904 · Ảnh: Maryland GovPics / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Chesapeake_Minerals_Quartz_Plant_(52721214147).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "Maryland GovPics"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Kohl%20jar%20MET%2034.1.212%20EGDP015871.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Kohl jar · Wikimedia Commons / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Kohl_jar_MET_34.1.212_EGDP015871.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Wikimedia Commons"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Dioscorea nipponica",
+  "_bo_phan": "Thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dioscorea%20nipponea%20(28696705922).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "The Royal Botanical Gardens is headquartered in Burlington and also include lands in Hamilton, Ontario, Canada. We were able to spend the morning there, on our  · Ảnh: Leonora (Ellie) Enking from East Preston, United Kingdom / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dioscorea_nipponea_(28696705922).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "Leonora (Ellie) Enking from East Preston, United Kingdom"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dioscorea%20nipponica%20joung%20leaves.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Dioscorea nipponica, young leaves · Ảnh: Doronenko / Wikimedia Commons (CC BY-SA 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dioscorea_nipponica_joung_leaves.jpg",
+      "giay_phep": "CC BY-SA 2.5",
+      "tac_gia": "Doronenko"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/152921927/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Dioscorea nipponica · quan sát thực địa · (c) Nina Filippova, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/152921927",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Nina Filippova, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/152921960/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Dioscorea nipponica · quan sát thực địa · (c) Nina Filippova, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/152921960",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Nina Filippova, some rights reserved (CC BY)"
+    }
+  ]
+}

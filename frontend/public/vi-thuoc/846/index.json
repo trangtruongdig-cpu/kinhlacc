@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Zanthoxylum nitidum",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Zanthoxylum-nitidum-SF23282-04.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Foliage of Zanthoxylum nitidum · Ảnh: Junglenut / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Zanthoxylum-nitidum-SF23282-04.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Junglenut"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Zanthoxylum-nitidum-SF23282-05.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Stem and foliage of Zanthoxylum nitidum · Ảnh: Junglenut / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Zanthoxylum-nitidum-SF23282-05.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Junglenut"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00080.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Shinyleaf Pricklyash Root (Zanthoxyl Radix · 兩面針) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00080",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/609910157/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Zanthoxylum nitidum (Roxb.) DC. · Hong Kong · Ảnh: 黃美滿 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130923173",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "黃美滿"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/328113067/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Zanthoxylum nitidum · quan sát thực địa · (c) 呂一起(Lyu yi-chi), some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/328113067",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 呂一起(Lyu yi-chi), some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/328113058/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Zanthoxylum nitidum · quan sát thực địa · (c) 呂一起(Lyu yi-chi), some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/328113058",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) 呂一起(Lyu yi-chi), some rights reserved (CC BY)"
+    }
+  ]
+}

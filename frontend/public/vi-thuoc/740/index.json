@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Aesculus chinensis",
+  "_bo_phan": "hạt chín",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Aesculus%20chinensis%2C%20Hangzhou%20Botanical%20Garden%202018.06.03%2015-20-57.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "七叶树，杭州植物园 · Ảnh: Zhangzhugang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Aesculus_chinensis,_Hangzhou_Botanical_Garden_2018.06.03_15-20-57.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Zhangzhugang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/AesculusChinensisLeaf.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "AesculusChinensisLeaf · Ảnh: Wikimedia Commons / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:AesculusChinensisLeaf.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Wikimedia Commons"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/119123307/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Aesculus chinensis Bunge · China · Ảnh: Wang.QG / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/3383891616",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Wang.QG"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/397725838/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Aesculus chinensis Bunge · China · Ảnh: Jiao Sun (孙娇) / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5292064037",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Jiao Sun (孙娇)"
+    }
+  ]
+}

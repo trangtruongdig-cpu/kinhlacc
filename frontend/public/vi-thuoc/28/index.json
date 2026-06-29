@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Apis",
+  "_bo_phan": "mật ong",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Bee%20in%20Loto%20in%20Botanical%20Garden%20of%20S%C3%A3o%20Paulo.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Bee (Apis mellifera scutellata) in lotus (Nelumbo nucifera) in Botanical Garden of São Paulo · Ảnh: Wilfredor / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Bee_in_Loto_in_Botanical_Garden_of_S%C3%A3o_Paulo.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Wilfredor"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Thomisus%20onustus%20with%20Apis%20mellifera.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Crab spider (Thomisus onustus) and honey bee (Apis mellifera), Donetsk, Ukraine. · Ảnh: Andrey Butko / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Thomisus_onustus_with_Apis_mellifera.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Andrey Butko"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Kohler2.JPG?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "The Kohler (Kohlerhof) in Mazon, north-western aspect · Plentn / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Kohler2.JPG",
+      "giay_phep": "CC0",
+      "tac_gia": "Plentn"
+    }
+  ]
+}

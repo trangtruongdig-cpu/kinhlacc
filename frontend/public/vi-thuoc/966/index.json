@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Swertia chirayita",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Swertia%20chirayita%20-%20Chirayita.%2C%20%E0%B4%95%E0%B4%BF%E0%B4%B0%E0%B4%BF%E0%B4%AF%E0%B4%BE%E0%B4%A4%E0%B5%8D%E0%B4%A4%E0%B5%8D%2C%E0%B4%A8%E0%B4%BF%E0%B4%B2%E0%B4%B5%E0%B5%87%E0%B4%AA%E0%B5%8D%E0%B4%AA%E0%B5%8D.%20(38946007972).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Swertia chirayita - Chirayita., കിരിയാത്ത്,നിലവേപ്പ്. · Ảnh: Rison Thumboor from Thrissur, India / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Swertia_chirayita_-_Chirayita.,_%E0%B4%95%E0%B4%BF%E0%B4%B0%E0%B4%BF%E0%B4%AF%E0%B4%BE%E0%B4%A4%E0%B5%8D%E0%B4%A4%E0%B5%8D,%E0%B4%A8%E0%B4%BF%E0%B4%B2%E0%B4%B5%E0%B5%87%E0%B4%AA%E0%B5%8D%E0%B4%AA%E0%B5%8D._(38946007972).jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "Rison Thumboor from Thrissur, India"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Swertia%20chirayita%20(Roxb.)%20H.Karst.%20912645583.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Swertia chirayita (Roxb.) H.Karst. 912645583 · Ảnh: Royal Botanic Gardens, Kew, Burkill, I.H. / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Swertia_chirayita_(Roxb.)_H.Karst._912645583.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Royal Botanic Gardens, Kew, Burkill, I.H."
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/0d24aca88421996b3de17fbb4d4f6ad3ee07175b",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Swertia chirayita (Roxb.) H.Karst. · India · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110228388",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://iiif.rbge.org.uk/herb/iiif/E01582139/full/1600,/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Swertia chirayita (Roxb.) H.Karst. · Nepal · Ảnh: Edinburgh Kathmandu Tokyo Expedition, / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5830203174",
+      "giay_phep": "CC0",
+      "tac_gia": "Edinburgh Kathmandu Tokyo Expedition,"
+    }
+  ]
+}

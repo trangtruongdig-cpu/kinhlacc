@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao + cmmid",
+  "_sci": "Botrypus virginianus",
+  "_bo_phan": "rễ hoặc toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Botrypus%20virginianus%2015-p.bot-botr.virgi-01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Nom français : botryche de Virginie. Nom anglais : rattlesnake fern. Plant en début de fructification de botryche de Virginie, en milieu naturel. · Ảnh: Ayotte, Gilles, 1948- / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Botrypus_virginianus_15-p.bot-botr.virgi-01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ayotte, Gilles, 1948-"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Botrypus%20virginianus%2015-p.bot-botr.virgi-12.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Nom français : botryche de Virginie. Nom anglais : rattlesnake fern. Plant fructifié (fructifications) de botryche de Virginie, en milieu naturel. · Ảnh: Ayotte, Gilles, 1948- / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Botrypus_virginianus_15-p.bot-botr.virgi-12.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Ayotte, Gilles, 1948-"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/628697750/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Botrypus virginianus (L.) Michx. · United States of America · Ảnh: Patricia W. Lloyd / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6184785943",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Patricia W. Lloyd"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/626155253/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Botrypus virginianus (L.) Michx. · United States of America · Ảnh: Niyan Shehan / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6185084421",
+      "giay_phep": "CC0",
+      "tac_gia": "Niyan Shehan"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/390296091/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Botrypus virginianus · quan sát thực địa · (c) olha_chusova, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/390296091",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) olha_chusova, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/390296129/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Botrypus virginianus · quan sát thực địa · (c) olha_chusova, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/390296129",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) olha_chusova, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00275.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Christina Loosestrife Herb (Lysimachiae Herba · 金錢草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00275",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

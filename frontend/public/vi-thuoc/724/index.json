@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Triadica sebifera",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Leaves%20of%20Triadica%20sebifera%20plant.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Leaves of the Triadica sebifera plant · Ảnh: Snehit Jamere / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Leaves_of_Triadica_sebifera_plant.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Snehit Jamere"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dorsiventral%20(bilateral)%20leaves%20of%20Syzygium%20gerrardii%20and%20Triadica%20sebifera%20IMG%201994c.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Dorsiventral (bilateral) leaves of Syzygium gerrardii and Triadica sebifera are examples of species with leave that differ visibly (and in their internal tissue · Ảnh: JonRichfield / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dorsiventral_(bilateral)_leaves_of_Syzygium_gerrardii_and_Triadica_sebifera_IMG_1994c.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "JonRichfield"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605148391/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Triadica sebifera (L.) Small · United States of America · Ảnh: Brandon Corder / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938481832",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Brandon Corder"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/607257544/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Triadica sebifera (L.) Small · United States of America · Ảnh: Nathan May / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130028502",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Nathan May"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/5370728/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Triadica sebifera · quan sát thực địa · (c) Sam Kieschnick, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/5370728",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Sam Kieschnick, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/5370729/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Triadica sebifera · quan sát thực địa · (c) Sam Kieschnick, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/5370729",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Sam Kieschnick, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Ou-Kieou-mou.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Ou-Kieou-mou en caractrèes chinois · own Work / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Ou-Kieou-mou.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "own Work"
+    }
+  ]
+}

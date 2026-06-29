@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Camptotheca acuminata",
+  "_bo_phan": "quả",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Camptotheca%20acuminata%20-%20Chengdu%20Botanical%20Garden%20-%20Chengdu%2C%20China%20-%20DSC03562.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Botanical specimen in the Chengdu Botanical Garden - Chengdu, China. · Ảnh: Daderot / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Camptotheca_acuminata_-_Chengdu_Botanical_Garden_-_Chengdu,_China_-_DSC03562.JPG",
+      "giay_phep": "CC0",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Camptotheca%20acuminata%20-%20United%20States%20Botanic%20Garden%20-%20DSC09523.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Botanical specimen in the United States Botanic Garden, Washington, DC, USA. · Ảnh: Daderot / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Camptotheca_acuminata_-_United_States_Botanic_Garden_-_DSC09523.JPG",
+      "giay_phep": "CC0",
+      "tac_gia": "Daderot"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

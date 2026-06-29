@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Phyllanthus emblica",
+  "_bo_phan": "Vỏ cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Phyllanthus%20emblica%20leaves.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Phyllanthus emblica leaves - നെല്ലിയുടെ തളിരില · Ảnh: Vinayaraj / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Phyllanthus_emblica_leaves.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Vinayaraj"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Phyllanthus%20officinalis.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Phyllanthus officinalis · Ảnh: L. Shyamal / Wikimedia Commons (CC BY 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Phyllanthus_officinalis.jpg",
+      "giay_phep": "CC BY 2.5",
+      "tac_gia": "L. Shyamal"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/610874266/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Phyllanthus emblica L. · India · Ảnh: Raja Sekhar Chimirala / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130583145",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Raja Sekhar Chimirala"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/610874307/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Phyllanthus emblica L. · India · Ảnh: Raja Sekhar Chimirala / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130583145",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Raja Sekhar Chimirala"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Phyllanthus%20emblica%20Bra52.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Phyllanthus emblica Bra52 · Wikimedia Commons / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Phyllanthus_emblica_Bra52.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Wikimedia Commons"
+    }
+  ]
+}

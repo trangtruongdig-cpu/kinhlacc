@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Juglans regia",
+  "_bo_phan": "vách gỗ giữa quả óc chó",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/2026-03-07%20D500-2006%20Achim-Lammerts%20Juglans-regia.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "A solitary, leafless Walnut tree (Juglans regia) standing on a green field. · Ảnh: Achim Lammerts (Syntaxys) / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:2026-03-07_D500-2006_Achim-Lammerts_Juglans-regia.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Achim Lammerts (Syntaxys)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Juglans%20regia%20Herbstlaub%2001.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Autumn colored leaves of common walnut (Juglans regia) next to Vorderötscher, nature park Ötscher-Tormäuer, Lower Austria · Ảnh: Uoaei1 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Juglans_regia_Herbstlaub_01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Uoaei1"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/606298244/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Juglans regia L. · United States of America · Ảnh: Thomas Koffel / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6129831643",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Thomas Koffel"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/606298275/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Juglans regia L. · United States of America · Ảnh: Thomas Koffel / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6129831643",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Thomas Koffel"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/146867462/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Juglans regia · ảnh đại diện · (c) Ed Alverson, some rights reserved (CC BY), uploaded by Ed Alverson (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/146867462",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Ed Alverson, some rights reserved (CC BY), uploaded by Ed Alverson"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Juglans%20regia%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-081.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Echte Walnuss. A Zweig mit männlichen und weiblichen Blüthen, natürl. Grösse; B Zweig mit weiblichen Blüthen, desgl.; C Früchte, desgl.; 1 Theil des m · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Juglans_regia_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-081.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

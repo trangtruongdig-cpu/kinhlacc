@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Naemorhedus",
+  "_bo_phan": "sừng dê núi",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Naemorhedus%20goral%20171746498.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Grey Himalayan Goral (Naemorhedus goral) · Ảnh: thibaudaronson / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Naemorhedus_goral_171746498.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "thibaudaronson"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Naemorhedus%20goral%20112436277.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Grey Himalayan Goral (Naemorhedus goral) · Ảnh: Dinesh Valke / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Naemorhedus_goral_112436277.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Dinesh Valke"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604740916/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Naemorhedus goral goral (Hardwicke, 1825) · Bhutan · Ảnh: Philip Precey / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938052476",
+      "giay_phep": "CC0",
+      "tac_gia": "Philip Precey"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604740929/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Naemorhedus goral goral (Hardwicke, 1825) · Bhutan · Ảnh: Philip Precey / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938052476",
+      "giay_phep": "CC0",
+      "tac_gia": "Philip Precey"
+    }
+  ]
+}

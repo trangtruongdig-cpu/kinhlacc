@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Eriobotrya japonica",
+  "_bo_phan": "lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Trauttmansdorff%20gardens%20-%20Eriobotrya%20japonica%2001.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Botanical garden of Trauttmansdorff Castle, Merano (Trentino-South Tyrol, Italy) - Eriobotrya japonica · Ảnh: Syrio / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Trauttmansdorff_gardens_-_Eriobotrya_japonica_01.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Syrio"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Trauttmansdorff%20gardens%20-%20Eriobotrya%20japonica%2003.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Botanical garden of Trauttmansdorff Castle, Merano (Trentino-South Tyrol, Italy) - Eriobotrya japonica · Ảnh: Syrio / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Trauttmansdorff_gardens_-_Eriobotrya_japonica_03.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Syrio"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00333.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Loquat Leaf (Eriobotryae Folium · 枇杷葉) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00333",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Eriobotrya%20japonica%20SZ97.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Eryobotrya japonica - 1: Pétalo; 2: Cáliz abierto con estambres, 3: Estambre: vistas ventral y dorsal; 4: Pístilo con lóculo abierto y óvulo visible;  · Philipp Franz von Siebold and Joseph Gerhard Zuccarini / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Eriobotrya_japonica_SZ97.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Philipp Franz von Siebold and Joseph Gerhard Zuccarini"
+    }
+  ]
+}

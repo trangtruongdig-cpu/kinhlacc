@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Viola yedoensis",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Viola%20tricolor%20Fio%C5%82ek%20tr%C3%B3jbarwny%202022-06-29%2003.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Wild pansy (Viola tricolor), flowering plant, pine wood on dunes, coast of the Baltic Sea, Łazy, Poland. · Ảnh: Agnieszka Kwiecień, Nova / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Viola_tricolor_Fio%C5%82ek_tr%C3%B3jbarwny_2022-06-29_03.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Agnieszka Kwiecień, Nova"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Viola%20yedoensis%203.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Viola yedoensis, Aizu area, Fukushima pref., Japan · Ảnh: Qwert1234 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Viola_yedoensis_3.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Qwert1234"
+    },
+    {
+      "file": "https://d2jcv3kl45hlgi.cloudfront.net/991ba411610d387d098e2cfc265013ae.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Viola yedoensis Makino · China · Ảnh: Leon, C.J. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/4911506486",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Leon, C.J."
+    },
+    {
+      "file": "https://collections.nmnh.si.edu/media/?i=13159317&h=2000",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Viola yedoensis Makino · China · Ảnh: Guo cheng-yong / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/2235834616",
+      "giay_phep": "CC0",
+      "tac_gia": "Guo cheng-yong"
+    }
+  ]
+}

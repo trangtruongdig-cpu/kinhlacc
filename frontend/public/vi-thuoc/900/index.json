@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Elaeagnus pungens",
+  "_bo_phan": "Lá cây Hồ Đồ Tử (Elaeagnus pungens Thunb.)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Elaeagnus%20pungens%20-%20Kunming%20Botanical%20Garden%20-%20DSC03020.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Plant specimen in the Kunming Botanical Garden, Kunming, Yunnan, China. · Ảnh: Daderot / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Elaeagnus_pungens_-_Kunming_Botanical_Garden_-_DSC03020.JPG",
+      "giay_phep": "Public domain",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Elaeagnus%20pungens%202307057.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Elaeagnus pungens Thunb. - thorny olive · Ảnh: James H. Miller, USDA Forest Service, Bugwood.org / Wikimedia Commons (CC BY 3.0 us)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Elaeagnus_pungens_2307057.jpg",
+      "giay_phep": "CC BY 3.0 us",
+      "tac_gia": "James H. Miller, USDA Forest Service, Bugwood.org"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/605490860/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Elaeagnus pungens Thunb. · United States of America · Ảnh: Vince Hale / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938166529",
+      "giay_phep": "CC0",
+      "tac_gia": "Vince Hale"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/609774414/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Elaeagnus pungens Thunb. · United States of America · Ảnh: smokeybear33 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6131147530",
+      "giay_phep": "CC0",
+      "tac_gia": "smokeybear33"
+    }
+  ]
+}

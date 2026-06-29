@@ -1,30 +1,23 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Ginkgo biloba",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "nhân hạt",
+  "_src_done": [
+    "cmmid"
+  ],
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cây bạch quả trưởng thành, dáng tháp cao, tán lá xanh dày in trên nền trời · Ảnh: Cayambe / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:EecherplazGinkgo06.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Cayambe"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cây bạch quả mùa thu với tán lá vàng óng đặc trưng trong công viên · Ảnh: Warburg / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Fond.Beyeler_Gingko.JPG",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Warburg"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Cây bạch quả cổ thụ tán lá xanh rậm, thân to trong khuôn viên · Ảnh: Cayambe / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:EecherplazGinkgo05.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Cayambe"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00153.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Ginkgo Seed (Ginkgo Semen · 白果) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00153",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

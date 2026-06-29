@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Buddleja lindleyana",
+  "_bo_phan": "Thân và lá",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Buddleja%20lindleyana%20(20306938039).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Buddleja lindleyana · Ảnh: peganum from Small Dole, England / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Buddleja_lindleyana_(20306938039).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "peganum from Small Dole, England"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Buddleja%20lindleyana%20-%20Flickr%20-%20peganum.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Buddleja lindleyana · Ảnh: peganum from Small Dole, England / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Buddleja_lindleyana_-_Flickr_-_peganum.jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "peganum from Small Dole, England"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/616635770/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Buddleja lindleyana Fortune ex Lindl. · China · Ảnh: 王天明 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6163141995",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "王天明"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/670634637/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Buddleja lindleyana Fortune ex Lindl. · China · Ảnh: admire-l_song / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6353170781",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "admire-l_song"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/1091430/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Buddleja lindleyana · ảnh đại diện · (c) Laura Clark, some rights reserved (CC BY), uploaded by Laura Clark (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/1091430",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Laura Clark, some rights reserved (CC BY), uploaded by Laura Clark"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Buddleja%20spp%20EP-IV2-027.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Buddleja spp.A. B. brasiliensis: Habitus.B-E. B. globosa: B. Habitus. C. Flower. D. Petals w/ anthers. E. Ovary.F/G. B. americana: F. Flower. G. Petal · Solereder? / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Buddleja_spp_EP-IV2-027.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Solereder?"
+    }
+  ]
+}

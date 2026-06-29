@@ -1,30 +1,24 @@
 {
-  "_source": "Wikimedia Commons",
-  "_sci": "Paeonia lactiflora",
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "rễ",
+  "_enriched": true,
   "images": [
     {
-      "file": "1.jpg",
-      "giai_doan": "Cây thuốc",
-      "mo_ta": "Bụi cây Bạch Thược với hai hoa trắng nở và tán lá xanh, thể hiện dáng cây thuốc · Ảnh: Pasman22 / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Chinesische_Pfingstrose_1.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Pasman22"
+      "file": "legacy.jpg",
+      "giai_doan": "Cây thuốc & vị thuốc",
+      "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
     },
     {
-      "file": "2.jpg",
-      "giai_doan": "Hoa",
-      "mo_ta": "Hoa Bạch Thược màu hồng nở rộ, nhị vàng ở giữa, lá xanh phía sau · Ảnh: Ulf Eliasson / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Lactiflora1b.UME.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Ulf Eliasson"
-    },
-    {
-      "file": "3.jpg",
-      "giai_doan": "Lá",
-      "mo_ta": "Lá kép xanh của cây Bạch Thược nổi bật quanh một bông hoa trắng · Ảnh: Pasman22 / Wikimedia Commons (CC BY-SA 3.0)",
-      "nguon": "https://commons.wikimedia.org/wiki/File:Chinesische_Pfingstrose_3.jpg",
-      "giay_phep": "CC BY-SA 3.0",
-      "tac_gia": "Pasman22"
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00026.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "White Peony Root (Paeoniae Radix Alba · 白芍) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00026",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
+  ],
+  "_src_done": [
+    "cmmid"
   ]
 }

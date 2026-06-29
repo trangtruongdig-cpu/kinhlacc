@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Menispermum dauricum",
+  "_bo_phan": "Thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Menispermum-dauricum-fruits.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Menispermum dauricum: Fruits (Photo from the Botanical Garden of Aarhus, Denmark) · Ảnh: Sten Porse / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Menispermum-dauricum-fruits.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Sten Porse"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Menispermum-dauricum-foliage.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Menispermum dauricum: Foliage (Photo from the Botanical Garden of Aarhus, Denmark) · Ảnh: Sten Porse / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Menispermum-dauricum-foliage.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Sten Porse"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00036.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Asiatic Moonseed Rhizome (Menispermi Rhizoma · 北豆根) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00036",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/660572327/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Menispermum dauricum DC. · Russian Federation · Ảnh: Святослав Власенко / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6320972389",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Святослав Власенко"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/660572974/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Menispermum dauricum DC. · Russian Federation · Ảnh: Святослав Власенко / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6320972389",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Святослав Власенко"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Icones%20selectae%20plantarum%20quas%20in%20systemate%20universali%20(Tab.%20100).jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Icones selectae plantarum quas in systemate universali :ex herbariis parisiensibus, praesertim ex Lessertiano /descripsit Aug. Pyr. de Candolle, ex ar · Candolle, Augustin Pyramus de; Delessert, Benjamin; Turpin, P. J. F. / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Icones_selectae_plantarum_quas_in_systemate_universali_(Tab._100).jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Candolle, Augustin Pyramus de; Delessert, Benjamin; Turpin, P. J. F."
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Curcuma zedoaria",
+  "_bo_phan": "thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Curcuma%20zedoaria%2013zz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location taken: Else Kientzler Botanical Garden, Sarchi Norte, Costa Rica. Names: Curcuma aromatica Salisb., Aromatic Turmeric, Curcuma, Ganghoang, Jangalii Hal · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Curcuma_zedoaria_13zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Curcuma%20zedoaria%209zz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location taken: Else Kientzler Botanical Garden, Sarchi Norte, Costa Rica. Names: Curcuma aromatica Salisb., Aromatic Turmeric, Curcuma, Ganghoang, Jangalii Hal · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Curcuma_zedoaria_9zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00053.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Blue Turmeric Rhizome (Curcumae Rhizoma · 莪朮) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00053",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Curcuma%20zedoaria%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-048.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Zitwerwurzel. A Pflanze in natürl. Grösse unter Benutzung einer Zeichnung im Bot. Mag. und Nees v. Esenbeck; B Blatt, desgl.; 1 Blüthe im Längsschnitt · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Curcuma_zedoaria_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-048.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

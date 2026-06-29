@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Lobelia chinensis",
+  "_bo_phan": "toàn cây trên mặt đất",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Lobelia%20chinensis%2001.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Lobelia chinensis, taken in Hong Kong. · Ảnh: Lokionly / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Lobelia_chinensis_01.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Lokionly"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Creeping%20Lobelia%20(Lobelia%20chinensis).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Lobelia chinensis. Common name: Creeping lobelia. · Ảnh: Mokkie / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Creeping_Lobelia_(Lobelia_chinensis).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Mokkie"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00260.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Chinese Lobelia Herb (Lobeliae Chinensis Herba · 半邊蓮) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00260",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/648010467/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lobelia chinensis Lour. · Chinese Taipei · Ảnh: 胡正恆(Jackson Hu) / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6234538380",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "胡正恆(Jackson Hu)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/648010497/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Lobelia chinensis Lour. · Chinese Taipei · Ảnh: 胡正恆(Jackson Hu) / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6234538380",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "胡正恆(Jackson Hu)"
+    }
+  ]
+}

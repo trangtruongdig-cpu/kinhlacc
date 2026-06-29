@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Amomum villosum",
+  "_bo_phan": "quả (lấy hạt)",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Amomum%20villosum%20-%20Hong%20Kong%20Botanical%20Garden%20-%20IMG%209580.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Amomum villosum. Plant specimen in the Hong Kong Zoological and Botanical Gardens, Hong Kong. · Ảnh: Daderot / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Amomum_villosum_-_Hong_Kong_Botanical_Garden_-_IMG_9580.JPG",
+      "giay_phep": "Public domain",
+      "tac_gia": "Daderot"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dried%20amomum%20villosum.jpg?width=1000",
+      "giai_doan": "Dược liệu (đã chế)",
+      "mo_ta": "Dried amomum villosum · Ảnh: Fumikas Sagisavas / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dried_amomum_villosum.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Fumikas Sagisavas"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00254.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Villous Amomum Fruit (Amomi Fructus · 砂仁) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00254",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "http://mediaphoto.mnhn.fr/media/1446826635242seSsMTUIrBEMwIMO",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Amomum villosum Lour. · Lao People’s Democratic Republic · Ảnh: Lamxay, V. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/1019560599",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Lamxay, V."
+    },
+    {
+      "file": "http://mediaphoto.mnhn.fr/media/1446826633823BxLPUt1ukn6WeaFF",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Amomum villosum Lour. · Lao People’s Democratic Republic · Ảnh: Lamxay, V. / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/1019560612",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Lamxay, V."
+    }
+  ]
+}

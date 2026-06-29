@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Gnaphalium affine",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Naturalis%20Biodiversity%20Center%20-%20RMNH.ART.765%20-%20Unidentified%20plant%20-%20Kawahara%20Keiga%20-%201823%20-%201829%20-%20Siebold%20Collection%20-%20pencil%20drawing%20-%20water%20colour.jpeg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Gnaphalium affine · Ảnh: Kawahara Keiga / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Naturalis_Biodiversity_Center_-_RMNH.ART.765_-_Unidentified_plant_-_Kawahara_Keiga_-_1823_-_1829_-_Siebold_Collection_-_pencil_drawing_-_water_colour.jpeg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Kawahara Keiga"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Gnaphalium%20affine1.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Gnaphalium affine · Ảnh: KENPEI / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Gnaphalium_affine1.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "KENPEI"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604866839/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Sonchus oleraceus L. · United Kingdom of Great Britain and Northern Ireland · Ảnh: Stephen James McWilliam / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/5938027405",
+      "giay_phep": "CC0",
+      "tac_gia": "Stephen James McWilliam"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604909579/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Encelia californica Nutt. · United States of America · Ảnh: Cricket Raspet / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938027428",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Cricket Raspet"
+    }
+  ]
+}

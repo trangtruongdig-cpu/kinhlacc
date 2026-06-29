@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Stichopus sp.",
+  "_bo_phan": "toàn thân (đã bỏ nội tạng)",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Stichopus%20sp.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Stichopus sp. (espèce probablement à décrire) trouvée à la Réunion. cf. Bourjon P. and Morcel E., 2017. Biodiversity in holothurians at Reunion Island: Two prev · Ảnh: Elisabeth Morcel et Philippe Bourjon / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Stichopus_sp.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Elisabeth Morcel et Philippe Bourjon"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Stichopus%20horrens%20-%20dorsal%20and%20ventral.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Stichopus horrens Selenka, 1867 (USM/MSL/PP001), dorsal (A) and ventral (B) views. · Ảnh: Woo SP, Zulfigar Y, Tan SH, Kajihara H, Fujita T (2015) Sea cucumbers of the genus Stichopus Brandt, 1835 (Holothuroidea, Stichopodidae) in Straits of Malacca with description of a new species. ZooKeys 545: 1–26. doi: 10.3897/zookeys.545.6415 / Wikimedia Commons (CC BY 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Stichopus_horrens_-_dorsal_and_ventral.jpg",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Woo SP, Zulfigar Y, Tan SH, Kajihara H, Fujita T (2015) Sea cucumbers of the genus Stichopus Brandt, 1835 (Holothuroidea, Stichopodidae) in Straits of Malacca with description of a new species. ZooKeys 545: 1–26. doi: 10.3897/zookeys.545.6415"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

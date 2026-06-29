@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Tripterygium wilfordii",
+  "_bo_phan": "rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Tripterygium%20wilfordii%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Tripterygium wilfordii in Wrocław University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Tripterygium_wilfordii_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Tripterygium%20wilfordii%20kz02.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Tripterygium wilfordii in Wrocław University Botanical Garden · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Tripterygium_wilfordii_kz02.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/641710175/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Tripterygium wilfordii Hook.fil. · Chinese Taipei · Ảnh: 葉淑蓮 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6235812001",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "葉淑蓮"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/660497347/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Tripterygium wilfordii Hook.fil. · Chinese Taipei · Ảnh: 古淑玲 / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6320182435",
+      "giay_phep": "CC0",
+      "tac_gia": "古淑玲"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/9636410/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Tripterygium wilfordii · ảnh đại diện · (c) Aaron Liston, some rights reserved (CC BY), uploaded by Aaron Liston (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/9636410",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Aaron Liston, some rights reserved (CC BY), uploaded by Aaron Liston"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/89519025/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Tripterygium wilfordii · quan sát thực địa · (c) Jacy Chen, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/89519025",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Jacy Chen, some rights reserved (CC BY)"
+    }
+  ]
+}

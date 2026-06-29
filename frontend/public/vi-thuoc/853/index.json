@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Wikstroemia indica",
+  "_bo_phan": "rễ hoặc vỏ rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Wikstroemia%20indica%20foliage.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Wikstroemia indica foliage · Ảnh: Mark Marathon / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Wikstroemia_indica_foliage.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Mark Marathon"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/%E4%BA%86%E5%93%A5%E7%8E%8B%20Wikstroemia%20indica%20-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92%20Hong%20Kong%20Botanical%20Garden-%20(9216065958).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "了哥王 Wikstroemia indica [香港動植物公園 Hong Kong Botanical Garden] · Ảnh: 阿橋 HQ / Wikimedia Commons (CC BY-SA 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:%E4%BA%86%E5%93%A5%E7%8E%8B_Wikstroemia_indica_-%E9%A6%99%E6%B8%AF%E5%8B%95%E6%A4%8D%E7%89%A9%E5%85%AC%E5%9C%92_Hong_Kong_Botanical_Garden-_(9216065958).jpg",
+      "giay_phep": "CC BY-SA 2.0",
+      "tac_gia": "阿橋 HQ"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/610118297/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Wikstroemia indica (L.) C.A.Mey. · Australia · Ảnh: Martin Hannan-Jones / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130272911",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Martin Hannan-Jones"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/610118324/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Wikstroemia indica (L.) C.A.Mey. · Australia · Ảnh: Martin Hannan-Jones / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6130272911",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Martin Hannan-Jones"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/27044466/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Wikstroemia indica · quan sát thực địa · (c) portioid, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/27044466",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) portioid, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/27044608/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Wikstroemia indica · quan sát thực địa · (c) portioid, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/27044608",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) portioid, some rights reserved (CC BY)"
+    }
+  ]
+}

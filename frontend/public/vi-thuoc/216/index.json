@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Aquilaria crassna",
+  "_bo_phan": "gỗ có chứa nhựa",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Aquilaria%20crassna%202%20-%20Chiang%20Mai.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Aquilaria crassna · Ảnh: Lannafolium / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Aquilaria_crassna_2_-_Chiang_Mai.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Lannafolium"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Aquilaria%20crassna%201%20-%20Chiang%20Mai.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Aquilaria crassna · Ảnh: Lannafolium / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Aquilaria_crassna_1_-_Chiang_Mai.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Lannafolium"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00421.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Tambac (Aquilariae Lignum Resinatum · 沉香) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00421",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://medialib.naturalis.nl/file/id/L.2472357/format/large",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Aquilaria crassna Pierre · Viet Nam · Ảnh: Naturalis Biodiversity Center / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/2514412091",
+      "giay_phep": "CC0",
+      "tac_gia": "Naturalis Biodiversity Center"
+    },
+    {
+      "file": "https://medialib.naturalis.nl/file/id/L.4204528/format/large",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Aquilaria crassna Pierre · Viet Nam · Ảnh: Naturalis Biodiversity Center / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/2515316768",
+      "giay_phep": "CC0",
+      "tac_gia": "Naturalis Biodiversity Center"
+    }
+  ]
+}

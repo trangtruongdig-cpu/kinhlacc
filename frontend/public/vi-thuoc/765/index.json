@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Kaempferia galanga",
+  "_bo_phan": "Thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Kaempferia%20galanga-1-bsi-yercaud-salem-India.JPG?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Tuberous plant,leaves green. · Ảnh: Yercaud-elango / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Kaempferia_galanga-1-bsi-yercaud-salem-India.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Yercaud-elango"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Kaempferia%20galanga-2-bsi-yercaud-salem-India.JPG?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Tuberous plant,leaves green. · Ảnh: Yercaud-elango / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Kaempferia_galanga-2-bsi-yercaud-salem-India.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Yercaud-elango"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00099.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Galanga Resurrectionlily Rhizome (Kaempferiae Rhizoma · 山柰) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00099",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/68e1222067bd7ad48a60cc7cd9afaa17d679ef3d",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Kaempferia galanga L. · Malaysia · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5109971849",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/115717fbae680734a60cc3ad9f8b1e4a3732d764",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Kaempferia galanga L. · Thailand · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110234320",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Linnaeus%20Hortus%20Cliffortianus%20plate%2003.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Linnaeus, C. (1738), Hortus Cliffortianus, plate III, Kaempferia, drawn and engraved by Jan Wandelaar. · Linnaeus, C. (1707-1778) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Linnaeus_Hortus_Cliffortianus_plate_03.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Linnaeus, C. (1707-1778)"
+    }
+  ]
+}

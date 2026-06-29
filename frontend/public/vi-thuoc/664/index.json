@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Catharanthus roseus",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Catharanthus%20roseus(L.)G.Don.%20-%20Flickr%20-%20lalithamba.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Fy: Apocyanaceae Local name(Telugu) : Billa ganneru, Distribution: Cultivated and runs wild also; Widely naturalized in Tropics. Under shrubs, 30-60cm tall, Lea · Ảnh: Lalithamba from India / Wikimedia Commons (CC BY 2.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Catharanthus_roseus(L.)G.Don._-_Flickr_-_lalithamba.jpg",
+      "giay_phep": "CC BY 2.0",
+      "tac_gia": "Lalithamba from India"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Catharanthus%20roseus%2C%20Kurigram%2C%20Bangladesh.jpg?width=1000",
+      "giai_doan": "Hoa",
+      "mo_ta": "Catharanthus roseus, also known as Madagascar periwinkle, is a tropical plant valued for its bright flowers. It's often used in traditional medicine for its alk · Ảnh: Tanvir Rahat / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Catharanthus_roseus,_Kurigram,_Bangladesh.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Tanvir Rahat"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604661633/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Catharanthus roseus (L.) G.Don · Australia · Ảnh: Lukas Clews / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938157568",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Lukas Clews"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/604989838/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Catharanthus roseus (L.) G.Don · United States of America · Ảnh: Ben Gruhot / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5938352118",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Ben Gruhot"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/520018239/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Catharanthus roseus · quan sát thực địa · (c) Bailey Duncan, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/520018239",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Bailey Duncan, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/520018308/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Catharanthus roseus · quan sát thực địa · (c) Bailey Duncan, some rights reserved (CC BY-SA) (CC-BY-SA)",
+      "nguon": "https://www.inaturalist.org/photos/520018308",
+      "giay_phep": "CC-BY-SA",
+      "tac_gia": "(c) Bailey Duncan, some rights reserved (CC BY-SA)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Catharanthus%20roseus%20Blanco1.42-cropped.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Catharanthus_roseus_Blanco1.42-cropped.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Saururus chinensis",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Saururus%20chinensis%20kz03.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Saururus chinensis in botanical garden in Poznań · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Saururus_chinensis_kz03.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Saururus%20chinensis%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Saururus chinensis in botanical garden in Poznań · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Saururus_chinensis_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/629031145/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Saururus chinensis (Lour.) Baill. · Viet Nam · Ảnh: Mark Clarke / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6253285926",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Mark Clarke"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/629054012/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Saururus chinensis (Lour.) Baill. · Viet Nam · Ảnh: Mark Clarke / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6253285926",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Mark Clarke"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/662630155/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Saururus chinensis · quan sát thực địa · (c) りなべる, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/662630155",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) りなべる, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/409869354/medium.jpeg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Saururus chinensis · quan sát thực địa · (c) W Rao, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/409869354",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) W Rao, some rights reserved (CC BY)"
+    }
+  ]
+}

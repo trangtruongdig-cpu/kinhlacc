@@ -1,0 +1,69 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Dianthus chinensis",
+  "_bo_phan": "toàn cây trên mặt đất",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dianthus%20chinensis%20kz01.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Dianthus chinensis (labelled as Dianthus amurensis) in botanical garden in Kraków · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dianthus_chinensis_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dianthus%20chinensis%20Telstar%20Picotee%202zz.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Location taken: American Plant Food Company, 7405 River Road, Bethesda MD.. Names: Dianthus chinensis, China Pink, China Pinks, China-Nelke, Chinese anjer, Chin · Ảnh: Photo by David J. Stang / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dianthus_chinensis_Telstar_Picotee_2zz.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Photo by David J. Stang"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00282.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Fringed Pink Herb (Dianthi Herba · 瞿麥) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00282",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://bs.plantnet.org/image/o/270495a9c186667645e15fa08f0eec56fdb7fbde",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dianthus chinensis L. · Hong Kong · Ảnh: GBIF contributor / GBIF (CC BY-SA)",
+      "nguon": "https://www.gbif.org/occurrence/5110537722",
+      "giay_phep": "CC BY-SA",
+      "tac_gia": "GBIF contributor"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/507855357/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dianthus chinensis L. · Russian Federation · Ảnh: Алёна Осипова / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5187551585",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Алёна Осипова"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/540658712/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Dianthus chinensis · quan sát thực địa · (c) Алёна Осипова, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/540658712",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) Алёна Осипова, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dianthus%20chinensis%20Blanco1.94b.png?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Plate from book · Francisco Manuel Blanco (O.S.A.) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dianthus_chinensis_Blanco1.94b.png",
+      "giay_phep": "Public domain",
+      "tac_gia": "Francisco Manuel Blanco (O.S.A.)"
+    }
+  ]
+}

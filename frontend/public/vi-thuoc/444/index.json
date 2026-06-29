@@ -1,0 +1,45 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Patrinia villosa",
+  "_bo_phan": "toàn cây trên mặt đất",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Patrinia%20villosa%20-%20plant%20(aka).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "This image shows a plant of the species Patrinia villosa. · Ảnh: André Karwath aka Aka / Wikimedia Commons (CC BY-SA 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Patrinia_villosa_-_plant_(aka).jpg",
+      "giay_phep": "CC BY-SA 2.5",
+      "tac_gia": "André Karwath aka Aka"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Patrinia%20villosa%20-%20blossoms%20(aka).jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "This image shows a few blossoms of a plant of the species Patrinia villosa. · Ảnh: André Karwath aka Aka / Wikimedia Commons (CC BY-SA 2.5)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Patrinia_villosa_-_blossoms_(aka).jpg",
+      "giay_phep": "CC BY-SA 2.5",
+      "tac_gia": "André Karwath aka Aka"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/558469177/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Patrinia villosa (Thunb.) Juss. · Japan · Ảnh: pavlaki1968 / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5760423145",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "pavlaki1968"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/568894317/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Patrinia villosa (Thunb.) Juss. · Japan · Ảnh: ITÔ, Hiroki / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5830502722",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "ITÔ, Hiroki"
+    }
+  ]
+}

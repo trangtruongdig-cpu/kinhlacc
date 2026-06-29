@@ -1,0 +1,26 @@
+{
+  "_source": "cmmid",
+  "_sci": "",
+  "_bo_phan": "hạt nảy mầm",
+  "_src_done": [
+    "cmmid"
+  ],
+  "images": [
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00178.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Foxtail Millet Sprout (Setariae Fructus Germinatus · 穀芽) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00178",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00292.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Motherwort Herb (Leonuri Herba · 益母草) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00292",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

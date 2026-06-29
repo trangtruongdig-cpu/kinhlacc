@@ -1,0 +1,29 @@
+{
+  "_source": "Google CSE + Wikimedia",
+  "_sci": "Loropetalum chinense",
+  "_bo_phan": "Lá",
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Loropetalum%20chinense%20leaf%20-%20HLABG.png?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Single leaf of a Loropetalum chinense. On display at the Huntington Botanical Garden, San Marino, California, USA. · Ảnh: Eric Polk / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Loropetalum_chinense_leaf_-_HLABG.png",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Eric Polk"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Trauttmansdorff%20gardens%20-%20Loropetalum%20chinense%20Burgundy%2001.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Botanical garden of Trauttmansdorff Castle, Merano (Trentino-South Tyrol, Italy) - Loropetalum chinense, var. \"Burgundy\" · Ảnh: Syrio / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Trauttmansdorff_gardens_-_Loropetalum_chinense_Burgundy_01.JPG",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Syrio"
+    }
+  ],
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ]
+}

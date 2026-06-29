@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Nardostachys jatamansi",
+  "_bo_phan": "rễ và thân rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Nardostachys%20grandiflora.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Illustration of Nardostachys grandiflora · Ảnh: Joseph Dalton Hooker (1817-1911) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Nardostachys_grandiflora.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Joseph Dalton Hooker (1817-1911)"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Spikenard%20(Nardostachys%20jatamansi)%20essential%20oil%20from%20Nepal.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Эфирное масло Нарда (Nardostachys jatamansi) зеленого цвета из Непала. Чистое и высококачественное. · Ảnh: Plantagenet / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Spikenard_(Nardostachys_jatamansi)_essential_oil_from_Nepal.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Plantagenet"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00059.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Chinese Nardostachys Root and Rhizome (Nardostachyos Radix et Rhizoma · 甘松) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00059",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/428971637/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Nardostachys jatamansi (D.Don) DC. · India · Ảnh: Morten Ross / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5133562016",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Morten Ross"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/428971791/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Nardostachys jatamansi (D.Don) DC. · India · Ảnh: Morten Ross / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5133562016",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Morten Ross"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Indian%20spikenard%20Nardostachys%20jatamansi%20al-naridin%20al-sunbul%20al-hindi%20fol%2022v%20NYPL.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Indian spikenard (Nardostachys jatamansi), labelled in Arabic as al-nâridîn, i.e. al-sunbul al-hindî, fol. 22v. From Fī Hayūlā al-ṭibb, an Arabic vers · Dioscorides (text); Mirza Baqir (artist/calligrapher) / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Indian_spikenard_Nardostachys_jatamansi_al-naridin_al-sunbul_al-hindi_fol_22v_NYPL.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Dioscorides (text); Mirza Baqir (artist/calligrapher)"
+    }
+  ]
+}

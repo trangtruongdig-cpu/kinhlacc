@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Dalbergia odorifera",
+  "_bo_phan": "gỗ lõi rễ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Dalbergia%20odorifera.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Dalbergia odorifera. Species of plant. · Ảnh: Agnes Trekker / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Dalbergia_odorifera.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Agnes Trekker"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Narrow%20table%20with%20recessed%20legs%2C%20everted%20flanges%20and%20inserted%20shoulder%20joints.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "narrow table with recessed legs, everted flanges and inserted shoulder joints, Huanghuali wood (Dalbergia odorifera)，Ming Dynasty (1368 to 1644), a collection o · Ảnh: Doctoroftcm / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Narrow_table_with_recessed_legs,_everted_flanges_and_inserted_shoulder_joints.jpg",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "Doctoroftcm"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00139.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Rosewood Heart Wood (Dalbergiae Odoriferae Lignum · 降香) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00139",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://medialib.naturalis.nl/file/id/L.1988503/format/large",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dalbergia odorifera T.C.Chen · China · Ảnh: Naturalis Biodiversity Center / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/2515468254",
+      "giay_phep": "CC0",
+      "tac_gia": "Naturalis Biodiversity Center"
+    },
+    {
+      "file": "https://iiif.rbge.org.uk/herb/iiif/E00937126/full/1600,/0/default.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Dalbergia odorifera T.C.Chen · China · Ảnh: Xing, Fu-Wu / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/3312504858",
+      "giay_phep": "CC0",
+      "tac_gia": "Xing, Fu-Wu"
+    }
+  ]
+}

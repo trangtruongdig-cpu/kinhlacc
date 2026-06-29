@@ -1,0 +1,37 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid",
+  "_sci": "Cremastra appendiculata",
+  "_bo_phan": "củ",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cremastra%20appendiculata%202.JPG?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Cremastra appendiculata ,Leaf, Aizu area, Fukushima pref., Japan · Ảnh: Qwert1234 / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cremastra_appendiculata_2.JPG",
+      "giay_phep": "Public domain",
+      "tac_gia": "Qwert1234"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Cremastra%20appendiculata%20var.%20variabilis%20(leaf).jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Cremastra appendiculata var. variabilis, in Mount Mominuka, Hida, Gifu prefecture, Japan. · Ảnh: Alpsdake / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Cremastra_appendiculata_var._variabilis_(leaf).jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Alpsdake"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00009.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Appendiculate Cremastra Pseudobulb (Cremastrae Pseudobulbus Pleiones Pseudobulbus · 山慈菇) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00009",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    }
+  ]
+}

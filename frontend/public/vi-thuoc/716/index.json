@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Citrullus lanatus",
+  "_bo_phan": "Vỏ ngoài quả",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Citrullus%20lanatus%20afghan%20melon.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Citrullus Lanatus, known as the Afghan, Camel or Wild Melon in Australia, where it is a weed. Very closely related to the watermelon which is Citrullus lanatus  · Ảnh: Golden-elm / Wikimedia Commons (CC0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Citrullus_lanatus_afghan_melon.jpg",
+      "giay_phep": "CC0",
+      "tac_gia": "Golden-elm"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Citrullus%20lanatus%20kz01.jpg?width=1000",
+      "giai_doan": "Quả / hạt",
+      "mo_ta": "Citrullus lanatus seedling in UMCS Botanical Garden in Lublin · Ảnh: Krzysztof Ziarnek, Kenraiz / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Citrullus_lanatus_kz01.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Krzysztof Ziarnek, Kenraiz"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/611639600/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Citrullus lanatus (Thunb.) Matsum. & Nakai · Brazil · Ảnh: stephen / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6133316693",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "stephen"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/622092227/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Citrullus lanatus (Thunb.) Matsum. & Nakai · Brazil · Ảnh: Jhonatan Matheus / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6352988735",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "Jhonatan Matheus"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Citrullus%20lanatus%20%E3%82%B9%E3%82%A4%E3%82%AB.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Citrullus lanatus, National Museum of Ethnology, Leiden · Kawahara Keiga / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Citrullus_lanatus_%E3%82%B9%E3%82%A4%E3%82%AB.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Kawahara Keiga"
+    }
+  ]
+}

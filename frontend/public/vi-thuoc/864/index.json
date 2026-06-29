@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + gbif + inat + bencao",
+  "_sci": "Elephantopus scaber",
+  "_bo_phan": "toàn cây",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Elephantopus%20scaber%208.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Nativeplants botanical garden, Pulikurumba · Ảnh: Nativeplants garden / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Elephantopus_scaber_8.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Nativeplants garden"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Elephantopus%20scaber%207.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Nativeplants botanical garden, Pulikurumba · Ảnh: Nativeplants garden / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Elephantopus_scaber_7.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Nativeplants garden"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/471734293/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Elephantopus scaber L. · Malaysia · Ảnh: jonsense / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5077083568",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "jonsense"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/471734298/original.jpeg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Elephantopus scaber L. · Malaysia · Ảnh: jonsense / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/5077083568",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "jonsense"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/11620368/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Elephantopus scaber · quan sát thực địa · (c) portioid, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/11620368",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) portioid, some rights reserved (CC BY)"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/11620359/medium.jpg",
+      "giai_doan": "Cây thuốc (iNaturalist)",
+      "mo_ta": "Elephantopus scaber · quan sát thực địa · (c) portioid, some rights reserved (CC BY) (CC-BY)",
+      "nguon": "https://www.inaturalist.org/photos/11620359",
+      "giay_phep": "CC-BY",
+      "tac_gia": "(c) portioid, some rights reserved (CC BY)"
+    }
+  ]
+}

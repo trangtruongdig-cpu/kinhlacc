@@ -1,0 +1,61 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Hyoscyamus niger",
+  "_bo_phan": "hạt",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hyoscyamus%20niger%20sl19.jpg?width=1000",
+      "giai_doan": "Lá",
+      "mo_ta": "Habitus (basal leaves) Taxonym: Hyoscyamus niger ss Fischer et al. EfÖLS 2008 ISBN 978-3-85474-187-9 Location: \"Übertal\" northeast of Gaweinstal, district Miste · Ảnh: Stefan.lefnaer / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hyoscyamus_niger_sl19.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Stefan.lefnaer"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hyoscyamus%20niger%20sl41.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Stem with glandular hairs Taxonym: Hyoscyamus niger ss Fischer et al. EfÖLS 2008 ISBN 978-3-85474-187-9 Location: S Hollabrunn, district Hollabrunn, Lower Austr · Ảnh: Stefan.lefnaer / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hyoscyamus_niger_sl41.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Stefan.lefnaer"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00257.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Henbane Seed (Hyosyami Semen · 天仙子) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00257",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://arter.dk/media/1722ee6f-7c2b-4497-add9-68e99607027f.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hyoscyamus niger L. · Denmark · Ảnh: mogens thornberg / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6168915251",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "mogens thornberg"
+    },
+    {
+      "file": "https://arter.dk/media/6a61d83c-dbd7-47c6-9f4d-16c249534c8f.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Hyoscyamus niger L. · Denmark · Ảnh: mogens thornberg / GBIF (CC BY 4.0)",
+      "nguon": "https://www.gbif.org/occurrence/6168915251",
+      "giay_phep": "CC BY 4.0",
+      "tac_gia": "mogens thornberg"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Hyoscyamus%20niger%20-%20K%C3%B6hler%E2%80%93s%20Medizinal-Pflanzen-073.jpg?width=1000",
+      "giai_doan": "Tranh thực vật cổ điển",
+      "mo_ta": "Schwarzes Bilsenkraut. A oberer Theil der Pflanze in natürl. Grösse; 1 Kelch mit Blumenkrone, desgl.; 2 aufgeschnittene und ausgebreitete Blumenkrone, · Franz Eugen Köhler, Köhler's Medizinal-Pflanzen / Wikimedia Commons (Public domain)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Hyoscyamus_niger_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-073.jpg",
+      "giay_phep": "Public domain",
+      "tac_gia": "Franz Eugen Köhler, Köhler's Medizinal-Pflanzen"
+    }
+  ]
+}

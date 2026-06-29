@@ -1,0 +1,53 @@
+{
+  "_source": "Google CSE + Wikimedia + cmmid + gbif + inat + bencao",
+  "_sci": "Andrographis paniculata",
+  "_bo_phan": "toàn cây trên mặt đất",
+  "_src_done": [
+    "cmmid",
+    "gbif",
+    "inat",
+    "bencao"
+  ],
+  "images": [
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Andrographis%20paniculata%20from%20Trivandrum.jpg?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Andrographis paniculata. small plant · Ảnh: Deoxyribose12 / Wikimedia Commons (CC BY-SA 4.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Andrographis_paniculata_from_Trivandrum.jpg",
+      "giay_phep": "CC BY-SA 4.0",
+      "tac_gia": "Deoxyribose12"
+    },
+    {
+      "file": "https://commons.wikimedia.org/wiki/Special:FilePath/Andrographis%20paniculata%20001.JPG?width=1000",
+      "giai_doan": "Cây thuốc",
+      "mo_ta": "Andrographis paniculata, Acanthaceae, Green Chirayta, Creat, King of Bitters, India Echinacea, habitus; Botanical Garden KIT, Karlsruhe, Germany. The plant is u · Ảnh: H. Zell / Wikimedia Commons (CC BY-SA 3.0)",
+      "nguon": "https://commons.wikimedia.org/wiki/File:Andrographis_paniculata_001.JPG",
+      "giay_phep": "CC BY-SA 3.0",
+      "tac_gia": "H. Zell"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00263.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Common Andrographis Herb (Andrographitis Herba · 穿心蓮) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00263",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608086765/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Andrographis paniculata (Burm.fil.) Nees · India · Ảnh: Haneesh K M / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6130159437",
+      "giay_phep": "CC0",
+      "tac_gia": "Haneesh K M"
+    },
+    {
+      "file": "https://inaturalist-open-data.s3.amazonaws.com/photos/608086772/original.jpg",
+      "giai_doan": "Cây thuốc (GBIF)",
+      "mo_ta": "Andrographis paniculata (Burm.fil.) Nees · India · Ảnh: Haneesh K M / GBIF (CC0)",
+      "nguon": "https://www.gbif.org/occurrence/6130159437",
+      "giay_phep": "CC0",
+      "tac_gia": "Haneesh K M"
+    }
+  ]
+}
