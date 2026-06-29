@@ -12,8 +12,16 @@ const root = resolve(here, '..')            // frontend/
 const repoRoot = resolve(root, '..')        // repo
 const BE = join(repoRoot, 'backend')
 const require = createRequire(import.meta.url)
-const { Client } = require(join(BE, 'node_modules/pg'))
-require(join(BE, 'node_modules/dotenv')).config({ path: join(BE, '.env') })
+// Nạp pg linh hoạt: thử pg của frontend trước, rồi tới backend. Nếu môi trường build KHÔNG có
+// (vd build Docker frontend tách rời) → BỎ QUA prerender thay vì làm gãy cả build.
+let Client
+try {
+  try { ({ Client } = require('pg')) } catch { ({ Client } = require(join(BE, 'node_modules/pg'))) }
+} catch (e) {
+  console.warn('⚠ build-phuong: không nạp được module pg (' + e.message + ') — BỎ QUA prerender cổ phương (build vẫn tiếp tục).')
+  process.exit(0)
+}
+try { require(join(BE, 'node_modules/dotenv')).config({ path: join(BE, '.env') }) } catch { /* env đã có sẵn từ môi trường runtime */ }
 
 const distDir = process.env.DIST_DIR ? resolve(process.env.DIST_DIR) : resolve(root, 'dist')
 const DOMAIN = (process.env.SITE_DOMAIN || 'https://kinhlac.online').replace(/\/+$/, '')
@@ -61,6 +69,12 @@ function stub(b) {
 }
 
 ;(async () => {
+  // Thiếu cấu hình DB (vd Docker build không truyền env) → bỏ qua, không làm gãy build.
+  const hasDb = process.env.DATABASE_URL || process.env.POSTGRES_URL || process.env.DB_HOST || process.env.POSTGRES_HOST
+  if (!hasDb) {
+    console.warn('⚠ build-phuong: thiếu cấu hình DB — BỎ QUA prerender cổ phương (build vẫn tiếp tục).')
+    process.exit(0)
+  }
   const client = new Client({
     connectionString: process.env.DATABASE_URL || process.env.POSTGRES_URL,
     host: process.env.DB_HOST || process.env.POSTGRES_HOST,
@@ -70,7 +84,12 @@ function stub(b) {
     database: process.env.DB_NAME || process.env.POSTGRES_DATABASE,
     ssl: process.env.DB_SSL === 'false' ? false : { rejectUnauthorized: false },
   })
-  await client.connect()
+  try {
+    await client.connect()
+  } catch (e) {
+    console.warn('⚠ build-phuong: không kết nối được DB (' + e.message + ') — BỎ QUA prerender cổ phương (build vẫn tiếp tục).')
+    process.exit(0)
+  }
   const rows = (await client.query(
     'SELECT id, ten, slug, xuat_xu, tac_gia, thanh_phan, cach_dung, tac_dung, ghi_chu FROM phuong_thang ORDER BY id',
   )).rows
@@ -117,4 +136,4 @@ function stub(b) {
   }
 
   console.log(`✓ build-phuong: ${n} trang bài thuốc tĩnh + ${urls.length} URL vào sitemap.`)
-})().catch((e) => { console.error('FATAL', e); process.exit(1) })
+})().catch((e) => { console.warn('⚠ build-phuong: lỗi khi prerender (' + (e && e.message) + ') — BỎ QUA, build vẫn tiếp tục.'); process.exit(0) })
