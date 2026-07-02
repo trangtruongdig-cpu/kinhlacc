@@ -1426,6 +1426,24 @@ function tinhChipClass(tinh: string): string {
   return 'vt-tinh--binh'
 }
 
+/** Chữ Hán hiển thị trong đĩa tròn của thẻ (dùng ten_han; fallback ký tự đầu tên Việt). */
+function discGlyph(vt: { ten_han?: string | null; ten_vi_thuoc: string }): string {
+  const h = (vt.ten_han || '').trim()
+  return h || (vt.ten_vi_thuoc || '?').trim().charAt(0)
+}
+/** Cỡ chữ Hán trong đĩa theo số ký tự (n1..n4) — càng nhiều chữ càng nhỏ để vừa khít. */
+function hanDiscClass(vt: { ten_han?: string | null; ten_vi_thuoc: string }): string {
+  const n = Math.min(4, Math.max(1, [...discGlyph(vt)].length))
+  return 'n' + n
+}
+/** Thu nhỏ tên vị theo độ dài để không tràn thẻ. */
+function tenLenClass(ten: string): string {
+  const n = (ten || '').length
+  if (n > 13) return 'xlong'
+  if (n > 9) return 'long'
+  return ''
+}
+
 const KINH_ABBREV: [string, string][] = [
   ['tâm bào', 'Tâm Bào'], ['tam tiêu', 'Tam Tiêu'], ['tiểu trường', 'Tiểu Trường'],
   ['đại trường', 'Đại Trường'], ['bàng quang', 'Bàng Quang'],
@@ -2969,66 +2987,55 @@ async function runVtAiBatch() {
           </div>
 
           <div v-else class="vt-grid">
-            <article v-for="vt in pagedViThuoc" :key="vt.id" class="vt-card">
+            <article v-for="vt in pagedViThuoc" :key="vt.id" class="vt-card" :class="'vt-card--c' + (vt.id % 8)">
+              <span class="vt-frame" aria-hidden="true"></span>
+              <i class="vt-corner tl" aria-hidden="true"></i><i class="vt-corner tr" aria-hidden="true"></i>
+              <i class="vt-corner bl" aria-hidden="true"></i><i class="vt-corner br" aria-hidden="true"></i>
+
               <img
                 v-if="vtThumbs[vt.id]"
-                class="vt-card__thumb"
+                class="vt-photo"
                 :src="vtThumbSrc(vt.id)"
                 :alt="`Ảnh ${vt.ten_vi_thuoc}`"
                 :title="vtThumbs[vt.id]?.giai_doan"
                 loading="lazy"
                 @error="($event.target as HTMLImageElement).style.display = 'none'"
               />
-              <header class="vt-card__head">
-                <div class="vt-card__title">
-                  <span class="vt-card__id">#{{ vt.id }}</span>
-                  <h4 class="vt-card__name">
-                    {{ vt.ten_vi_thuoc }}
-                    <span v-if="vt.ten_han" class="vt-card__han">{{ vt.ten_han }}</span>
-                  </h4>
-                  <div v-if="vt.ten_khoa_hoc || vt.ten_pinyin" class="vt-card__sci">
-                    <em v-if="vt.ten_khoa_hoc" class="vt-card__latin">{{ vt.ten_khoa_hoc }}</em>
-                    <span v-if="vt.ten_pinyin" class="vt-card__pinyin">{{ vt.ten_pinyin }}</span>
+
+              <div class="vt-top">
+                <div class="vt-media">
+                  <div class="vt-disc"><span class="vt-han-art" :class="hanDiscClass(vt)">{{ discGlyph(vt) }}</span></div>
+                  <div v-if="vt.bo_phan_dung" class="vt-bophan" :title="vt.bo_phan_dung">{{ vt.bo_phan_dung }}</div>
+                </div>
+                <div class="vt-headtext">
+                  <span class="vt-idtag">#{{ vt.id }}</span>
+                  <h4 class="vt-name" :class="tenLenClass(vt.ten_vi_thuoc)">{{ vt.ten_vi_thuoc }}</h4>
+                  <div v-if="vt.ten_han || vt.ten_pinyin" class="vt-hanline">
+                    <span v-if="vt.ten_han" class="vt-han">{{ vt.ten_han }}</span>
+                    <span v-if="vt.ten_pinyin" class="vt-pinyin">{{ vt.ten_pinyin }}</span>
                   </div>
+                  <em v-if="vt.ten_khoa_hoc" class="vt-latin">{{ vt.ten_khoa_hoc }}</em>
                 </div>
-                <div class="row-actions">
-                  <button type="button" class="btn-action btn-view" @click="openViThuocDetail(vt)">Xem</button>
-                  <button type="button" class="btn-action btn-edit" @click="openEditViThuoc(vt)">Sửa</button>
-                  <button type="button" class="btn-action btn-delete" @click="confirmDeleteViThuoc(vt)">Xóa</button>
+              </div>
+
+              <div class="vt-rule"></div>
+
+              <div class="vt-metablock">
+                <div v-if="vt.tinh || vt.vi" class="vt-line">
+                  <span class="k">Tính vị:</span>
+                  <span v-if="vt.tinh" class="vt-tinh-dot" :class="tinhChipClass(vt.tinh)">{{ vt.tinh }}</span>
+                  <template v-if="vt.vi"> · {{ vt.vi.split('/').join(', ') }}</template>
                 </div>
-              </header>
-              <div class="vt-card__body">
-                <div v-if="vt.so_bai_thuoc" class="vt-card__nbai">Dùng trong {{ vt.so_bai_thuoc.toLocaleString('vi-VN') }} bài thuốc</div>
-                <div class="vt-meta-row">
-                  <div class="vt-meta">
-                    <span class="vt-meta__label">Tính</span>
-                    <span v-if="vt.tinh" :class="['vt-tinh-chip', tinhChipClass(vt.tinh)]">{{ vt.tinh }}</span>
-                    <span v-else class="vt-meta__val">—</span>
-                  </div>
-                  <div class="vt-meta">
-                    <span class="vt-meta__label">Vị</span>
-                    <div v-if="vt.vi" class="vt-vi-chips">
-                      <span v-for="flavor in vt.vi.split('/')" :key="flavor.trim()" class="vt-vi-chip">{{ flavor.trim() }}</span>
-                    </div>
-                    <span v-else class="vt-meta__val">—</span>
-                  </div>
-                </div>
-                <div v-if="vt.bo_phan_dung" class="vt-meta">
-                  <span class="vt-meta__label">Bộ phận dùng</span>
-                  <span class="vt-meta__val">{{ vt.bo_phan_dung }}</span>
-                </div>
-                <div v-if="vt.lieu_dung" class="vt-meta">
-                  <span class="vt-meta__label">Liều dùng</span>
-                  <span class="vt-meta__val">
-                    {{ vt.lieu_dung }}
-                    <span class="vt-lieu-preview">≈ {{ gramPreviewText(vt.lieu_dung) }}</span>
-                  </span>
-                </div>
-                <div v-if="vt.quy_kinh" class="vt-meta">
-                  <span class="vt-meta__label">Quy kinh</span>
-                  <div class="vt-qk-chips">
-                    <span v-for="k in abbrevKinhList(vt.quy_kinh)" :key="k" class="vt-qk-chip">{{ k }}</span>
-                  </div>
+                <div v-if="vt.quy_kinh" class="vt-line"><span class="k">Quy kinh:</span> {{ abbrevKinhList(vt.quy_kinh).join(' · ') }}</div>
+                <div v-if="vt.lieu_dung" class="vt-line"><span class="k">Liều:</span> {{ vt.lieu_dung }} <span class="vt-lieu-preview">≈ {{ gramPreviewText(vt.lieu_dung) }}</span></div>
+              </div>
+
+              <div class="vt-foot">
+                <span v-if="vt.so_bai_thuoc" class="vt-nbai">Dùng trong {{ vt.so_bai_thuoc.toLocaleString('vi-VN') }} bài thuốc</span>
+                <div class="vt-actions">
+                  <button type="button" class="vt-act" @click="openViThuocDetail(vt)">Xem</button>
+                  <button type="button" class="vt-act" @click="openEditViThuoc(vt)">Sửa</button>
+                  <button type="button" class="vt-act vt-act--del" @click="confirmDeleteViThuoc(vt)">Xóa</button>
                 </div>
               </div>
             </article>
@@ -4214,167 +4221,135 @@ async function runVtAiBatch() {
 }
 /* Vị thuốc card grid */
 .vt-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-  gap: var(--space-3);
+  /* Masonry theo cột: các thẻ cao–thấp khác nhau xếp KHÍT, không để lại ô khuyết. */
+  column-width: 290px;
+  column-gap: var(--space-4);
   padding: var(--space-4) var(--space-5);
   background: var(--surface-2);
 }
+
+/* ===== Thẻ vị thuốc theo phong cách "nhãn thuốc Đông Y" ===== */
 .vt-card {
+  --accent: #9d2b25; --bg1: #f7f0de; --bg2: #efe3c6; --gold: #a9843f; --ink: #2a211c; --muted: #6b5a44;
+  position: relative;
   display: flex;
   flex-direction: column;
-  background: var(--white);
-  border: 1px solid var(--brown-100);
-  border-radius: var(--radius-lg);
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin-bottom: var(--space-4);
+  padding: 15px 16px 14px;
+  border-radius: 12px;
+  background: linear-gradient(157deg, var(--bg1) 0%, var(--bg1) 42%, var(--bg2) 100%);
+  color: var(--ink);
+  font-family: "Noto Serif", Georgia, "Times New Roman", serif;
   overflow: hidden;
-  box-shadow: 0 1px 2px rgba(74, 47, 23, 0.04);
-  transition: box-shadow .15s, transform .15s, border-color .15s;
+  box-shadow: 0 1px 3px rgba(74, 47, 23, 0.08);
+  transition: box-shadow .18s, transform .18s;
 }
-.vt-card:hover {
-  box-shadow: 0 6px 18px rgba(74, 47, 23, 0.08);
-  border-color: var(--brown-200);
-  transform: translateY(-1px);
+.vt-card:hover { box-shadow: 0 12px 28px rgba(74, 47, 23, 0.16); transform: translateY(-2px); }
+
+/* 8 gam màu xoay vòng theo id (giống thẻ trà: mỗi vị một gam) */
+.vt-card--c0 { --accent:#a8324a; --bg1:#fdeef1; --bg2:#f6d7de; }
+.vt-card--c1 { --accent:#b45a24; --bg1:#fdf0e5; --bg2:#f5dabf; }
+.vt-card--c2 { --accent:#957a1a; --bg1:#fbf4dc; --bg2:#efe2b2; }
+.vt-card--c3 { --accent:#3b7a49; --bg1:#ecf4ec; --bg2:#d1e6d2; }
+.vt-card--c4 { --accent:#2f7576; --bg1:#e8f3f2; --bg2:#cce5e4; }
+.vt-card--c5 { --accent:#7c3f82; --bg1:#f4edf6; --bg2:#e2d3ea; }
+.vt-card--c6 { --accent:#a5382f; --bg1:#fceeec; --bg2:#f5d5cf; }
+.vt-card--c7 { --accent:#38548c; --bg1:#edf0fa; --bg2:#d5dcee; }
+
+/* khung viền kép theo màu + 4 góc "ngoặc" cổ */
+.vt-frame {
+  position: absolute; inset: 6px; z-index: 1; pointer-events: none;
+  border: 1.5px solid var(--accent); border-radius: 8px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6), inset 0 0 0 2.5px var(--accent);
 }
-.vt-card__thumb {
-  width: 100%;
-  height: 130px;
-  object-fit: cover;
-  display: block;
-  background: #f3eee3;
-  border-bottom: 1px solid var(--brown-100);
+.vt-corner { position: absolute; width: 14px; height: 14px; z-index: 3; pointer-events: none; border: 1.4px solid var(--gold); }
+.vt-corner.tl { top: 9px; left: 9px; border-right: 0; border-bottom: 0; }
+.vt-corner.tr { top: 9px; right: 9px; border-left: 0; border-bottom: 0; }
+.vt-corner.bl { bottom: 9px; left: 9px; border-right: 0; border-top: 0; }
+.vt-corner.br { bottom: 9px; right: 9px; border-left: 0; border-top: 0; }
+/* mọi nội dung nằm trên khung */
+.vt-card > *:not(.vt-frame):not(.vt-corner) { position: relative; z-index: 2; }
+
+/* hàng chân thẻ: badge số bài thuốc (trái) + nút thao tác (phải) — KHÔNG đè lên ảnh */
+.vt-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 11px; }
+.vt-actions { display: flex; gap: 4px; flex: 0 0 auto; }
+.vt-act {
+  font-family: Inter, system-ui, sans-serif; font-size: 11px; font-weight: 600; cursor: pointer;
+  padding: 3px 9px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88); color: var(--accent); border: 1px solid var(--accent);
 }
-.vt-card__head {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-3) var(--space-2);
-  background: linear-gradient(135deg, var(--brown-50) 0%, #fff 100%);
-  border-bottom: 1px solid var(--brown-100);
+.vt-act:hover { background: var(--accent); color: #fff; }
+.vt-act--del { color: #b42318; border-color: #e0a59e; }
+.vt-act--del:hover { background: #b42318; color: #fff; border-color: #b42318; }
+
+/* ảnh dược liệu (banner trên cùng) */
+.vt-photo {
+  width: 100%; height: 116px; object-fit: cover; display: block;
+  border-radius: 6px; margin-bottom: 12px; border: 1px solid var(--accent);
+  box-shadow: 0 1px 4px rgba(74, 47, 23, 0.12);
+  -webkit-mask-image: linear-gradient(#000 80%, transparent 100%);
+          mask-image: linear-gradient(#000 80%, transparent 100%);
 }
-.vt-card__title {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px;
-  min-width: 0;
-  flex: 1;
+
+/* hàng: đĩa chữ Hán | tên vị */
+.vt-top { display: flex; align-items: center; gap: 12px; }
+.vt-media { flex: 0 0 auto; width: 64px; display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.vt-disc {
+  width: 62px; height: 62px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 40%, #fffdf6 0%, var(--bg1) 72%, var(--bg2) 100%);
+  box-shadow: 0 0 0 1.6px var(--accent), 0 0 0 3px rgba(255, 255, 255, 0.7), 0 0 0 4.2px var(--gold);
 }
-.vt-card__id {
-  flex: 0 0 auto;
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--brown-700);
-  background: var(--white);
-  border: 1px solid var(--brown-200);
-  padding: 2px 8px;
-  border-radius: 999px;
-  letter-spacing: 0.02em;
+.vt-han-art {
+  font-family: "Noto Serif SC", serif; font-weight: 700; color: var(--accent);
+  line-height: 1; white-space: nowrap; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
 }
-.vt-card__name {
-  margin: 0;
-  font-size: var(--font-size-md);
-  font-weight: 700;
-  color: var(--brown-900);
-  line-height: 1.35;
-  word-break: break-word;
+.vt-han-art.n1 { font-size: 34px; }
+.vt-han-art.n2 { font-size: 23px; }
+.vt-han-art.n3 { font-size: 16px; }
+.vt-han-art.n4 { font-size: 12px; letter-spacing: -0.5px; }
+.vt-bophan {
+  max-width: 78px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  font-family: "Noto Serif SC", "Noto Serif", serif; font-size: 9.5px; line-height: 1.3;
+  color: #fff; background: var(--accent); padding: 1px 8px; border-radius: 999px;
 }
-.vt-card__han {
-  margin-left: 6px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--brown-500);
+
+.vt-headtext { flex: 1; min-width: 0; }
+.vt-idtag { font-family: Inter, sans-serif; font-size: 10px; font-weight: 700; color: var(--muted); }
+.vt-name {
+  margin: 1px 0 3px; font-weight: 900; font-size: 18px; line-height: 1.08;
+  text-transform: uppercase; letter-spacing: 0.3px; color: var(--ink); word-break: break-word;
 }
-.vt-card__sci {
-  flex-basis: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 4px 10px;
-  margin-top: 2px;
+.vt-name.long { font-size: 15px; }
+.vt-name.xlong { font-size: 13px; }
+.vt-hanline { display: flex; align-items: baseline; flex-wrap: wrap; gap: 3px 8px; }
+.vt-han { font-family: "Noto Serif SC", serif; font-weight: 600; font-size: 13px; color: var(--accent); }
+.vt-pinyin { font-style: italic; font-size: 11px; color: var(--muted); }
+.vt-latin { display: block; margin-top: 2px; font-style: italic; font-size: 11.5px; color: var(--muted); }
+
+.vt-rule { position: relative; height: 0; width: 62%; margin: 11px auto 8px; border-top: 1px solid var(--gold); }
+.vt-rule::after {
+  content: "❖"; position: absolute; left: 50%; top: -8px; transform: translateX(-50%);
+  color: var(--accent); font-size: 9px; background: var(--bg1); padding: 0 4px;
 }
-.vt-card__latin {
-  font-size: 12px;
-  color: var(--brown-600);
-  font-style: italic;
-}
-.vt-card__pinyin {
-  font-size: 12px;
-  color: var(--brown-400);
-}
-.vt-card__nbai {
-  display: inline-block;
-  margin: 0 0 8px;
-  padding: 2px 10px;
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--brown-700, #6b4f2a);
-  background: var(--brown-50, #f7f3ec);
-  border: 1px solid var(--brown-200, #e7d9c2);
-  border-radius: 999px;
-}
-.vt-card__body {
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: var(--space-3);
-}
-.vt-meta-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-.vt-meta { display: flex; flex-direction: column; gap: 2px; }
-.vt-meta__label {
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--gray-500);
-}
-.vt-meta__val {
-  font-size: var(--font-size-sm);
-  color: var(--gray-800);
-  word-break: break-word;
-  line-height: 1.4;
-}
-.vt-tinh-chip {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 2px 10px;
-  border-radius: 999px;
-  line-height: 1.6;
-  white-space: nowrap;
-}
+
+.vt-metablock { display: flex; flex-direction: column; gap: 3px; }
+.vt-line { font-size: 12.5px; line-height: 1.42; color: #4a3b2c; }
+.vt-line .k { color: var(--accent); font-weight: 700; }
+.vt-tinh-dot { display: inline-block; font-weight: 700; font-size: 11.5px; padding: 0 8px; border-radius: 999px; }
 .vt-tinh--han   { background: #dbeafe; color: #1d4ed8; }
 .vt-tinh--luong { background: #e0f2fe; color: #0369a1; }
-.vt-tinh--binh  { background: #f3f4f6; color: #374151; }
+.vt-tinh--binh  { background: #eef0f2; color: #374151; }
 .vt-tinh--on    { background: #ffedd5; color: #c2410c; }
 .vt-tinh--nhiet { background: #fee2e2; color: #dc2626; }
-.vt-vi-chips, .vt-qk-chips { display: flex; flex-wrap: wrap; gap: 4px; }
-.vt-vi-chip {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 1px 8px;
-  border-radius: 999px;
-  background: #fef9c3;
-  color: #713f12;
-  border: 1px solid #fde68a;
-  white-space: nowrap;
-}
-.vt-qk-chip {
-  display: inline-block;
-  font-size: 10px;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 4px;
-  background: #f0fdf4;
-  color: #166534;
-  border: 1px solid #bbf7d0;
-  white-space: nowrap;
+.vt-lieu-preview { color: var(--muted); font-style: italic; }
+
+.vt-nbai {
+  padding: 2px 11px;
+  font-family: Inter, sans-serif; font-size: 11px; font-weight: 700;
+  color: var(--accent); background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--accent); border-radius: 999px;
 }
 
 .bt-text-clamp {
