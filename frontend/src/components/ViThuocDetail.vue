@@ -45,6 +45,8 @@ interface Herb {
   kiengKyLinks?: LinkKiengKy[]
   kinhMachLinks?: LinkKinhMach[]
   tenGoiKhacList?: Array<{ ten_goi_khac?: string }>
+  anh_dai_dien?: string | null
+  anhUploads?: Array<{ id: number; url: string; giai_doan?: string | null; mo_ta?: string | null }>
 }
 
 const herb = ref<Herb | null>(null)
@@ -263,7 +265,14 @@ watch(() => props.viThuocId, (id) => load(id))
       </section>
 
       <!-- Thư viện ảnh theo giai đoạn -->
-      <ViThuocGallery :vi-thuoc-id="herb.id" :vi-thuoc-ten="herb.ten_vi_thuoc" />
+      <ViThuocGallery
+        :vi-thuoc-id="herb.id"
+        :vi-thuoc-ten="herb.ten_vi_thuoc"
+        :uploaded="herb.anhUploads"
+        :anh-dai-dien="herb.anh_dai_dien"
+        :editable="source !== 'public'"
+        @changed="load(herb.id)"
+      />
 
       <!-- Thuộc tính cơ bản -->
       <div class="vtd-props">

@@ -4,6 +4,14 @@
       "file": "legacy.jpg",
       "giai_doan": "Cây thuốc & vị thuốc",
       "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00385.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Long-nosed Pit Viper (Agkistrodon · 蘄蛇) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00385",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ],
   "_src_done": [

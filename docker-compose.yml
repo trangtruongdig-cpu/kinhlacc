@@ -32,8 +32,12 @@ services:
       # Thư mục backend GHI ảnh AI (cover/body). Bind mount ./data/blog-images dùng CHUNG với nginx
       # (xem service frontend) → bấm "Vẽ ảnh bìa AI" / "Sinh ảnh minh hoạ" NGAY trên server là ra ảnh.
       BLOG_IMAGES_DIR: /app/blog-images
+      # Thư mục backend GHI ảnh DƯỢC LIỆU do người dùng upload. Backend tự phục vụ tại /uploads;
+      # nginx reverse-proxy /api/ → /api/uploads/... hiển thị được. Volume để ảnh BỀN qua các lần deploy.
+      UPLOAD_DIR: /app/uploads
     volumes:
       - ./data/blog-images:/app/blog-images
+      - ./data/vi-thuoc-uploads:/app/uploads
     networks:
       - kinhlac_net
     # Mặc định KHÔNG expose backend ra ngoài (đi qua nginx của frontend).

@@ -1,0 +1,115 @@
+/* =========================================================================
+   Thẻ vị thuốc phong cách "NHÃN THUỐC ĐÔNG Y" (.hlc) — CSS toàn cục dùng chung.
+   Áp cho: Từ Điển (DuocLieuBrowser) + trang công khai (DuocLieuListView).
+   (Trang admin Quản Lý Thuốc dùng bộ .vt-* riêng nhưng cùng phong cách.)
+   ========================================================================= */
+
+/* Lưới đều: các thẻ cùng hàng CAO BẰNG NHAU, xếp thẳng hàng (không so le). */
+.hlc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+
+.hlc {
+  --accent: #9d2b25; --bg1: #f7f0de; --bg2: #efe3c6; --gold: #a9843f; --ink: #2a211c; --muted: #6b5a44;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;                 /* lấp đầy ô lưới -> mọi thẻ cùng hàng cao bằng nhau */
+  padding: 15px 16px 14px;
+  border-radius: 12px;
+  background: linear-gradient(157deg, var(--bg1) 0%, var(--bg1) 42%, var(--bg2) 100%);
+  color: var(--ink);
+  font-family: "Noto Serif", Georgia, "Times New Roman", serif;
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(74, 47, 23, 0.08);
+  transition: box-shadow .18s, transform .18s;
+}
+.hlc:hover, .hlc:focus-visible { box-shadow: 0 12px 28px rgba(74, 47, 23, 0.16); transform: translateY(-2px); outline: none; }
+
+/* 8 gam màu xoay vòng theo id */
+.hlc--c0 { --accent:#a8324a; --bg1:#fdeef1; --bg2:#f6d7de; }
+.hlc--c1 { --accent:#b45a24; --bg1:#fdf0e5; --bg2:#f5dabf; }
+.hlc--c2 { --accent:#957a1a; --bg1:#fbf4dc; --bg2:#efe2b2; }
+.hlc--c3 { --accent:#3b7a49; --bg1:#ecf4ec; --bg2:#d1e6d2; }
+.hlc--c4 { --accent:#2f7576; --bg1:#e8f3f2; --bg2:#cce5e4; }
+.hlc--c5 { --accent:#7c3f82; --bg1:#f4edf6; --bg2:#e2d3ea; }
+.hlc--c6 { --accent:#a5382f; --bg1:#fceeec; --bg2:#f5d5cf; }
+.hlc--c7 { --accent:#38548c; --bg1:#edf0fa; --bg2:#d5dcee; }
+
+/* khung viền kép + 4 góc "ngoặc" cổ */
+.hlc-frame {
+  position: absolute; inset: 6px; z-index: 1; pointer-events: none;
+  border: 1.5px solid var(--accent); border-radius: 8px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6), inset 0 0 0 2.5px var(--accent);
+}
+.hlc-corner { position: absolute; width: 14px; height: 14px; z-index: 3; pointer-events: none; border: 1.4px solid var(--gold); }
+.hlc-corner.tl { top: 9px; left: 9px; border-right: 0; border-bottom: 0; }
+.hlc-corner.tr { top: 9px; right: 9px; border-left: 0; border-bottom: 0; }
+.hlc-corner.bl { bottom: 9px; left: 9px; border-right: 0; border-top: 0; }
+.hlc-corner.br { bottom: 9px; right: 9px; border-left: 0; border-top: 0; }
+.hlc > *:not(.hlc-frame):not(.hlc-corner) { position: relative; z-index: 2; }
+
+/* ảnh dược liệu (banner) */
+.hlc-photo {
+  width: 100%; height: 116px; object-fit: cover; display: block;
+  border-radius: 6px; margin-bottom: 12px; border: 1px solid var(--accent);
+  box-shadow: 0 1px 4px rgba(74, 47, 23, 0.12);
+  -webkit-mask-image: linear-gradient(#000 80%, transparent 100%);
+          mask-image: linear-gradient(#000 80%, transparent 100%);
+}
+
+/* hàng: đĩa chữ Hán | tên vị */
+.hlc-top { display: flex; align-items: center; gap: 12px; }
+.hlc-disc {
+  flex: 0 0 auto; width: 60px; height: 60px; border-radius: 50%; display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 40%, #fffdf6 0%, var(--bg1) 72%, var(--bg2) 100%);
+  box-shadow: 0 0 0 1.6px var(--accent), 0 0 0 3px rgba(255, 255, 255, 0.7), 0 0 0 4.2px var(--gold);
+}
+.hlc-han-art {
+  font-family: "Noto Serif SC", serif; font-weight: 700; color: var(--accent);
+  line-height: 1; white-space: nowrap; text-shadow: 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+.hlc-han-art.n1 { font-size: 33px; }
+.hlc-han-art.n2 { font-size: 22px; }
+.hlc-han-art.n3 { font-size: 16px; }
+.hlc-han-art.n4 { font-size: 12px; letter-spacing: -0.5px; }
+
+.hlc-headtext { flex: 1; min-width: 0; }
+.hlc-name {
+  margin: 0 0 3px; font-weight: 900; font-size: 18px; line-height: 1.08;
+  text-transform: uppercase; letter-spacing: 0.3px; color: var(--ink); word-break: break-word;
+}
+.hlc-name.long { font-size: 15px; }
+.hlc-name.xlong { font-size: 13px; }
+.hlc-hanline { display: flex; align-items: baseline; flex-wrap: wrap; gap: 3px 8px; }
+.hlc-han { font-family: "Noto Serif SC", serif; font-weight: 600; font-size: 13px; color: var(--accent); }
+.hlc-pinyin { font-style: italic; font-size: 11px; color: var(--muted); }
+.hlc-latin { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 2px; font-style: italic; font-size: 11.5px; color: var(--muted); }
+
+.hlc-rule { position: relative; height: 0; width: 62%; margin: 11px auto 8px; border-top: 1px solid var(--gold); }
+.hlc-rule::after {
+  content: "❖"; position: absolute; left: 50%; top: -8px; transform: translateX(-50%);
+  color: var(--accent); font-size: 9px; background: var(--bg1); padding: 0 4px;
+}
+
+.hlc-meta { display: flex; flex-direction: column; gap: 3px; }
+.hlc-line { font-size: 12.5px; line-height: 1.42; color: #4a3b2c; }
+.hlc-line .k { color: var(--accent); font-weight: 700; }
+.hlc-tinh { display: inline-block; font-weight: 700; font-size: 11.5px; padding: 0 8px; border-radius: 999px; }
+.hlc-tinh--han   { background: #dbeafe; color: #1d4ed8; }
+.hlc-tinh--luong { background: #e0f2fe; color: #0369a1; }
+.hlc-tinh--binh  { background: #eef0f2; color: #374151; }
+.hlc-tinh--on    { background: #ffedd5; color: #c2410c; }
+.hlc-tinh--nhiet { background: #fee2e2; color: #dc2626; }
+
+.hlc-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 11px; }
+.hlc-nbai {
+  padding: 2px 11px; font-family: Inter, sans-serif; font-size: 11px; font-weight: 700;
+  color: var(--accent); background: rgba(255, 255, 255, 0.6);
+  border: 1px solid var(--accent); border-radius: 999px;
+}

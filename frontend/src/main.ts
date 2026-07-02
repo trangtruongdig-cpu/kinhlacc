@@ -4,6 +4,7 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import './assets/styles/main.css'
+import './assets/styles/herb-label-card.css'
 import { initTheme } from '@/composables/useTheme'
 import { useAuthStore } from '@/stores/auth'
 

@@ -1,4 +1,12 @@
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+export const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+
+/** Dựng URL hiển thị cho ảnh: http tuyệt đối giữ nguyên; "/uploads/..." (backend serve) ghép API_BASE. */
+export function assetUrl(u?: string | null): string {
+  if (!u) return ''
+  if (/^https?:\/\//i.test(u)) return u
+  if (u.startsWith('/uploads/')) return `${API_BASE}${u}`
+  return u
+}
 
 const SENSITIVE_KEYS = new Set([
   'password',
@@ -109,5 +117,17 @@ export const api = {
   },
   delete<T>(path: string): Promise<T> {
     return request<T>('DELETE', path)
+  },
+  /** Upload multipart (FormData). KHÔNG set Content-Type để trình duyệt tự thêm boundary. */
+  async upload<T>(path: string, formData: FormData): Promise<T> {
+    const startedAt = Date.now()
+    console.log(`[API] → POST(upload) ${path}`)
+    const token = localStorage.getItem('access_token')
+    const res = await fetch(`${API_BASE}${path}`, {
+      method: 'POST',
+      headers: token ? { Authorization: `Bearer ${token}` } : {},
+      body: formData,
+    })
+    return handleResponse<T>(res, 'POST', path, startedAt)
   },
 }

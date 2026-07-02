@@ -6,6 +6,7 @@ import type { ViThuocChuTri } from './vi-thuoc-chu-tri.model';
 import type { ViThuocKiengKy } from './vi-thuoc-kieng-ky.model';
 import type { ViThuocTenGoiKhac } from './vi-thuoc-ten-goi-khac.model';
 import type { ViThuocKinhMach } from './vi-thuoc-kinh-mach.model';
+import type { ViThuocAnh } from './vi-thuoc-anh.model';
 
 @Entity('vi_thuoc')
 export class ViThuoc {
@@ -73,6 +74,11 @@ export class ViThuoc {
   @Column({ type: 'text', nullable: true })
   tham_khao: string | null;
 
+  // Ảnh ĐẠI DIỆN (avatar thẻ) do người dùng tự đặt — URL tương đối "/uploads/..." hoặc http đầy đủ.
+  // Nếu trống, thẻ dùng ảnh từ thumbs.json như cũ.
+  @Column({ type: 'text', nullable: true })
+  anh_dai_dien: string | null;
+
   // Dùng string reference để tránh circular import với các child models
   @OneToMany('BaiThuocChiTiet', 'viThuoc')
   baiThuocDetails: BaiThuocChiTiet[];
@@ -91,4 +97,8 @@ export class ViThuoc {
 
   @OneToMany('ViThuocKinhMach', 'viThuoc')
   kinhMachLinks: ViThuocKinhMach[];
+
+  // Ảnh dược liệu do người dùng tự upload (khác ảnh tĩnh trong public/vi-thuoc/).
+  @OneToMany('ViThuocAnh', 'viThuoc')
+  anhUploads: ViThuocAnh[];
 }

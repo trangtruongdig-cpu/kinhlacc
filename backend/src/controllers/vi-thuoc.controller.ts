@@ -7,11 +7,19 @@ import { ViThuocChuTri } from '../models/vi-thuoc-chu-tri.model';
 import { ViThuocKiengKy } from '../models/vi-thuoc-kieng-ky.model';
 import { ViThuocTenGoiKhac } from '../models/vi-thuoc-ten-goi-khac.model';
 import { ViThuocKinhMach } from '../models/vi-thuoc-kinh-mach.model';
+import { ViThuocAnh } from '../models/vi-thuoc-anh.model';
 import { KinhMach } from '../models/kinh-mach.model';
 import { NhomNhoViThuoc } from '../models/nhom-nho-vi-thuoc.model';
 import { CreateViThuocDto, UpdateViThuocDto } from '../models/dongy-thuoc.dto';
 import { catalogKey, formatCatalogLabel } from '../utils/catalog-label.util';
 import { AiSuggestService } from './ai-suggest.controller';
+import { join } from 'path';
+import { mkdirSync, writeFileSync, existsSync, unlinkSync } from 'fs';
+
+/** Cùng đường dẫn với main.ts (không import chéo để tránh vòng lặp module). */
+const UPLOAD_DIR = process.env.UPLOAD_DIR || join(process.cwd(), 'uploads');
+/** File ảnh upload (multer) — khai báo tối giản để khỏi thêm @types/multer. */
+interface UploadedImage { buffer: Buffer; mimetype: string; originalname: string; size: number }
 
 const VI_THUOC_RELATIONS = {
   congDungLinks: { congDung: true },
@@ -19,6 +27,7 @@ const VI_THUOC_RELATIONS = {
   kiengKyLinks: { kiengKy: true },
   tenGoiKhacList: true,
   kinhMachLinks: { kinhMach: true },
+  anhUploads: true,
 } as const;
 
 @Injectable()
@@ -26,6 +35,8 @@ export class ViThuocService {
   constructor(
     @InjectRepository(ViThuoc)
     private repo: Repository<ViThuoc>,
+    @InjectRepository(ViThuocAnh)
+    private anhRepo: Repository<ViThuocAnh>,
     private readonly aiSuggest: AiSuggestService,
   ) {}
 
@@ -552,5 +563,71 @@ export class ViThuocService {
       );
       await m.delete(ViThuoc, { id }); // CASCADE dọn bai_thuoc_chi_tiet + các link riêng
     });
+  }
+
+  // ===== ẢNH DƯỢC LIỆU do người dùng UPLOAD =====
+  /** Lưu 1 file ảnh cho vị `id`, trả bản ghi. Nếu vị chưa có ảnh đại diện → đặt luôn ảnh này. */
+  async uploadAnh(
+    id: number,
+    file: UploadedImage,
+    meta: { giai_doan?: string; mo_ta?: string },
+  ): Promise<ViThuocAnh> {
+    const herb = await this.repo.findOneBy({ id });
+    if (!herb) throw new NotFoundException('Vị thuốc không tồn tại.');
+    if (!file || !file.buffer || !file.buffer.length) throw new BadRequestException('Thiếu file ảnh.');
+    if (file.size > 8 * 1024 * 1024) throw new BadRequestException('Ảnh quá lớn (tối đa 8MB).');
+    const mt = /^image\/(jpe?g|png|webp|gif)$/i.exec(file.mimetype || '');
+    if (!mt) throw new BadRequestException('Chỉ nhận ảnh JPG/PNG/WebP/GIF.');
+    const ext = mt[1].toLowerCase().replace('jpeg', 'jpg');
+    const dir = join(UPLOAD_DIR, 'vi-thuoc', String(id));
+    mkdirSync(dir, { recursive: true });
+    const fname = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+    writeFileSync(join(dir, fname), file.buffer);
+    const url = `/uploads/vi-thuoc/${id}/${fname}`;
+    const thu_tu = await this.anhRepo.count({ where: { id_vi_thuoc: id } });
+    const saved = await this.anhRepo.save(
+      this.anhRepo.create({
+        id_vi_thuoc: id,
+        url,
+        giai_doan: meta.giai_doan?.trim() || null,
+        mo_ta: meta.mo_ta?.trim() || null,
+        thu_tu,
+      }),
+    );
+    if (!herb.anh_dai_dien) {
+      herb.anh_dai_dien = url;
+      await this.repo.save(herb);
+    }
+    return saved;
+  }
+
+  async listAnh(id: number): Promise<ViThuocAnh[]> {
+    return this.anhRepo.find({ where: { id_vi_thuoc: id }, order: { thu_tu: 'ASC', id: 'ASC' } });
+  }
+
+  /** Xoá 1 ảnh upload (kèm file trên đĩa); nếu là ảnh đại diện thì gỡ đại diện của vị. */
+  async deleteAnh(anhId: number): Promise<{ ok: true }> {
+    const rec = await this.anhRepo.findOneBy({ id: anhId });
+    if (!rec) throw new NotFoundException('Ảnh không tồn tại.');
+    try {
+      const p = join(UPLOAD_DIR, rec.url.replace(/^\/?uploads\//, ''));
+      if (existsSync(p)) unlinkSync(p);
+    } catch { /* file có thể đã mất */ }
+    await this.repo
+      .createQueryBuilder()
+      .update(ViThuoc)
+      .set({ anh_dai_dien: null })
+      .where('id = :id AND anh_dai_dien = :url', { id: rec.id_vi_thuoc, url: rec.url })
+      .execute();
+    await this.anhRepo.delete({ id: anhId });
+    return { ok: true };
+  }
+
+  /** Đặt/gỡ ảnh đại diện (avatar thẻ). url rỗng → gỡ. */
+  async setAnhDaiDien(id: number, url: string | null): Promise<ViThuoc> {
+    const herb = await this.repo.findOneBy({ id });
+    if (!herb) throw new NotFoundException('Vị thuốc không tồn tại.');
+    herb.anh_dai_dien = url && url.trim() ? url.trim() : null;
+    return this.repo.save(herb);
   }
 }

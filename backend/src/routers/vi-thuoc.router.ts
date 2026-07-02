@@ -1,6 +1,10 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ViThuocService } from '../controllers/vi-thuoc.controller';
 import { CreateViThuocDto, UpdateViThuocDto } from '../models/dongy-thuoc.dto';
+
+/** File ảnh multer (khai báo tối giản, khỏi thêm @types/multer). */
+interface UploadedImage { buffer: Buffer; mimetype: string; originalname: string; size: number }
 
 @Controller('vi-thuoc')
 export class ViThuocRouter {
@@ -56,6 +60,37 @@ export class ViThuocRouter {
   @Post(':id/gop')
   async gop(@Param('id') id: string, @Body('fromId') fromId: number) {
     const data = await this.service.gop(+id, Number(fromId));
+    return { success: true, data };
+  }
+
+  // ===== ẢNH DƯỢC LIỆU do người dùng upload =====
+  // Upload 1 ảnh (multipart field "file") + tuỳ chọn giai_doan / mo_ta.
+  @Post(':id/anh')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadAnh(
+    @Param('id') id: string,
+    @UploadedFile() file: UploadedImage,
+    @Body() body: { giai_doan?: string; mo_ta?: string },
+  ) {
+    const data = await this.service.uploadAnh(+id, file, { giai_doan: body?.giai_doan, mo_ta: body?.mo_ta });
+    return { success: true, data };
+  }
+
+  @Get(':id/anh')
+  async listAnh(@Param('id') id: string) {
+    const data = await this.service.listAnh(+id);
+    return { success: true, data };
+  }
+
+  @Delete('anh/:anhId')
+  async deleteAnh(@Param('anhId') anhId: string) {
+    return this.service.deleteAnh(+anhId);
+  }
+
+  // Đặt ảnh đại diện (avatar thẻ). body { url } — url rỗng để gỡ.
+  @Put(':id/anh-dai-dien')
+  async setAnhDaiDien(@Param('id') id: string, @Body('url') url: string) {
+    const data = await this.service.setAnhDaiDien(+id, url ?? null);
     return { success: true, data };
   }
 

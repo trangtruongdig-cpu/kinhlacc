@@ -40,6 +40,14 @@
       "nguon": "https://www.gbif.org/occurrence/6398590226",
       "giay_phep": "CC BY 4.0",
       "tac_gia": "りなべる"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00124.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Chekiang Fritillary Bulb (Fritillariae Thunbergii Bulbus · 浙貝母) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00124",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ]
 }

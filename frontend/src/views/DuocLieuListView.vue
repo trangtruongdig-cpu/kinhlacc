@@ -7,7 +7,8 @@
 import { ref, watch, onMounted } from 'vue'
 import PublicTopBar from '@/components/PublicTopBar.vue'
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue'
-import { api } from '@/services/api'
+import { api, assetUrl } from '@/services/api'
+import { discGlyph, hanDiscClass, tenLenClass, tinhLabelClass, cardColorClass } from '@/lib/herbCard'
 
 interface HerbLite {
   id: number
@@ -18,6 +19,7 @@ interface HerbLite {
   tinh?: string | null
   vi?: string | null
   so_bai_thuoc?: number | null
+  anh_dai_dien?: string | null
 }
 
 const q = ref('')
@@ -37,6 +39,10 @@ function thumbSrc(id: number): string {
   if (!f) return ''
   if (/^https?:\/\//i.test(f) || f.startsWith('/')) return f
   return `${THUMB_BASE}vi-thuoc/${id}/${f}`.replace(/([^:])\/{2,}/g, '$1/')
+}
+// Ảnh thẻ: ưu tiên ảnh đại diện người dùng đặt, fallback thumbs.json.
+function cardImg(vt: HerbLite): string {
+  return vt.anh_dai_dien ? assetUrl(vt.anh_dai_dien) : thumbSrc(vt.id)
 }
 
 async function loadThumbs() {
@@ -98,31 +104,55 @@ onMounted(() => {
       <div v-else-if="!items.length" class="dl-msg">Không tìm thấy vị thuốc phù hợp.</div>
 
       <template v-else>
-        <ul class="dl-grid">
-          <li v-for="vt in items" :key="vt.id">
-            <RouterLink :to="{ name: 'duoc-lieu-detail', params: { id: vt.id } }" class="dl-card">
-              <img
-                v-if="thumbs[vt.id]"
-                class="dl-card-thumb"
-                :src="thumbSrc(vt.id)"
-                :alt="`Ảnh ${vt.ten_vi_thuoc}`"
-                :title="thumbs[vt.id]?.giai_doan"
-                loading="lazy"
-                @error="($event.target as HTMLImageElement).style.display = 'none'"
-              />
-              <h3 class="dl-card-name">
-                {{ vt.ten_vi_thuoc }}
-                <span v-if="vt.ten_han" class="dl-card-han">{{ vt.ten_han }}</span>
-              </h3>
-              <em v-if="vt.ten_khoa_hoc" class="dl-card-latin">{{ vt.ten_khoa_hoc }}</em>
-              <div class="dl-card-props">
-                <span v-if="vt.tinh" class="dl-chip dl-chip-tinh">{{ vt.tinh }}</span>
-                <span v-for="(v, i) in (vt.vi || '').split(/[,/、，]/).map(s => s.trim()).filter(Boolean)" :key="i" class="dl-chip dl-chip-vi">{{ v }}</span>
+        <div class="hlc-grid">
+          <RouterLink
+            v-for="vt in items"
+            :key="vt.id"
+            :to="{ name: 'duoc-lieu-detail', params: { id: vt.id } }"
+            class="hlc"
+            :class="cardColorClass(vt.id)"
+          >
+            <span class="hlc-frame" aria-hidden="true"></span>
+            <i class="hlc-corner tl" aria-hidden="true"></i><i class="hlc-corner tr" aria-hidden="true"></i>
+            <i class="hlc-corner bl" aria-hidden="true"></i><i class="hlc-corner br" aria-hidden="true"></i>
+
+            <img
+              v-if="cardImg(vt)"
+              class="hlc-photo"
+              :src="cardImg(vt)"
+              :alt="`Ảnh ${vt.ten_vi_thuoc}`"
+              :title="thumbs[vt.id]?.giai_doan"
+              loading="lazy"
+              @error="($event.target as HTMLImageElement).style.display = 'none'"
+            />
+
+            <div class="hlc-top">
+              <div class="hlc-disc"><span class="hlc-han-art" :class="hanDiscClass(vt)">{{ discGlyph(vt) }}</span></div>
+              <div class="hlc-headtext">
+                <h3 class="hlc-name" :class="tenLenClass(vt.ten_vi_thuoc)">{{ vt.ten_vi_thuoc }}</h3>
+                <div v-if="vt.ten_han || vt.ten_pinyin" class="hlc-hanline">
+                  <span v-if="vt.ten_han" class="hlc-han">{{ vt.ten_han }}</span>
+                  <span v-if="vt.ten_pinyin" class="hlc-pinyin">{{ vt.ten_pinyin }}</span>
+                </div>
+                <em v-if="vt.ten_khoa_hoc" class="hlc-latin" :title="vt.ten_khoa_hoc">{{ vt.ten_khoa_hoc }}</em>
               </div>
-              <p v-if="vt.so_bai_thuoc" class="dl-card-nbai">Dùng trong {{ vt.so_bai_thuoc.toLocaleString('vi-VN') }} bài thuốc</p>
-            </RouterLink>
-          </li>
-        </ul>
+            </div>
+
+            <div class="hlc-rule"></div>
+
+            <div class="hlc-meta">
+              <div v-if="vt.tinh || vt.vi" class="hlc-line">
+                <span class="k">Tính vị:</span>
+                <span v-if="vt.tinh" class="hlc-tinh" :class="tinhLabelClass(vt.tinh)">{{ vt.tinh }}</span>
+                <template v-if="vt.vi"> · {{ (vt.vi || '').split(/[,/、，]/).map(s => s.trim()).filter(Boolean).join(', ') }}</template>
+              </div>
+            </div>
+
+            <div v-if="vt.so_bai_thuoc" class="hlc-foot">
+              <span class="hlc-nbai">Dùng trong {{ vt.so_bai_thuoc.toLocaleString('vi-VN') }} bài thuốc</span>
+            </div>
+          </RouterLink>
+        </div>
 
         <div v-if="totalPages() > 1" class="dl-pager">
           <button class="dl-pg" :disabled="page <= 1" @click="page--">‹ Trước</button>
@@ -144,18 +174,7 @@ onMounted(() => {
 .dl-input { width: 100%; padding: 10px 14px; font-size: 14px; border: 1px solid var(--border, #e5e0d6); border-radius: 10px; }
 .dl-msg { text-align: center; padding: var(--space-10); color: var(--text-muted); }
 .dl-err { color: var(--danger, #b91c1c); }
-.dl-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
-.dl-card { display: block; height: 100%; padding: 14px; border: 1px solid var(--border, #e5e0d6); border-radius: 12px; background: var(--surface, #fff); text-decoration: none; transition: all 0.18s ease; }
-.dl-card:hover { border-color: var(--brown-400, #b9935a); box-shadow: 0 4px 14px rgba(0,0,0,0.06); transform: translateY(-2px); }
-.dl-card-thumb { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; margin-bottom: 8px; background: #f3eee3; display: block; }
-.dl-card-name { font-size: 16px; font-weight: 700; color: var(--brown-800, #5b3a1a); margin: 0 0 2px; display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
-.dl-card-han { font-size: 14px; font-weight: 500; color: var(--brown-500, #8a6d3b); }
-.dl-card-latin { display: block; font-size: 12px; color: var(--gray-500); margin-bottom: 8px; }
-.dl-card-props { display: flex; flex-wrap: wrap; gap: 5px; }
-.dl-chip { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11.5px; border: 1px solid var(--border, #e5e0d6); background: #fff; }
-.dl-chip-tinh { background: #FFF1E6; border-color: #F0C9A0; color: #7a4a1a; }
-.dl-chip-vi { background: #FDECEC; border-color: #F0B9B9; color: #7a2e23; }
-.dl-card-nbai { margin: 8px 0 0; font-size: 11.5px; font-weight: 700; color: var(--brown-600, #7a5a30); }
+/* Lưới + thẻ dùng bộ .hlc-* toàn cục (herb-label-card.css). */
 .dl-pager { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: var(--space-6); }
 .dl-pg { padding: 7px 14px; border-radius: 8px; border: 1px solid var(--border, #e5e0d6); background: #fff; cursor: pointer; font-size: 13px; }
 .dl-pg:disabled { opacity: 0.5; cursor: default; }

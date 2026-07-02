@@ -35,7 +35,7 @@ import {
   Legend,
   RadialLinearScale,
 } from 'chart.js'
-import { api } from '@/services/api'
+import { api, assetUrl } from '@/services/api'
 import PharmacologyManager from '@/components/PharmacologyManager.vue'
 
 Chart.register(RadarController, PointElement, LineElement, Filler, Tooltip, Legend, RadialLinearScale)
@@ -116,6 +116,7 @@ interface ViThuoc {
   ten_pinyin?: string | null
   bo_phan_dung?: string | null
   so_bai_thuoc?: number | null
+  anh_dai_dien?: string | null
   kinhMachLinks?: KinhMachLink[] | null
 }
 
@@ -2169,6 +2170,10 @@ function vtThumbSrc(id: number): string {
   if (f.startsWith('/')) return f
   return `${VT_IMG_BASE}vi-thuoc/${id}/${f}`.replace(/([^:])\/{2,}/g, '$1/')
 }
+// Ảnh đại diện thẻ: ưu tiên ảnh người dùng đã đặt (anh_dai_dien), fallback thumbs.json.
+function vtCardImg(vt: { id: number; anh_dai_dien?: string | null }): string {
+  return vt.anh_dai_dien ? assetUrl(vt.anh_dai_dien) : vtThumbSrc(vt.id)
+}
 async function loadVtThumbs() {
   try {
     const res = await fetch(`${import.meta.env.BASE_URL || '/'}vi-thuoc/thumbs.json`, { cache: 'no-cache' })
@@ -2993,9 +2998,9 @@ async function runVtAiBatch() {
               <i class="vt-corner bl" aria-hidden="true"></i><i class="vt-corner br" aria-hidden="true"></i>
 
               <img
-                v-if="vtThumbs[vt.id]"
+                v-if="vtCardImg(vt)"
                 class="vt-photo"
-                :src="vtThumbSrc(vt.id)"
+                :src="vtCardImg(vt)"
                 :alt="`Ảnh ${vt.ten_vi_thuoc}`"
                 :title="vtThumbs[vt.id]?.giai_doan"
                 loading="lazy"
@@ -3014,7 +3019,7 @@ async function runVtAiBatch() {
                     <span v-if="vt.ten_han" class="vt-han">{{ vt.ten_han }}</span>
                     <span v-if="vt.ten_pinyin" class="vt-pinyin">{{ vt.ten_pinyin }}</span>
                   </div>
-                  <em v-if="vt.ten_khoa_hoc" class="vt-latin">{{ vt.ten_khoa_hoc }}</em>
+                  <em v-if="vt.ten_khoa_hoc" class="vt-latin" :title="vt.ten_khoa_hoc">{{ vt.ten_khoa_hoc }}</em>
                 </div>
               </div>
 
@@ -4221,9 +4226,11 @@ async function runVtAiBatch() {
 }
 /* Vị thuốc card grid */
 .vt-grid {
-  /* Masonry theo cột: các thẻ cao–thấp khác nhau xếp KHÍT, không để lại ô khuyết. */
-  column-width: 290px;
-  column-gap: var(--space-4);
+  /* Lưới đều: các thẻ cùng hàng CAO BẰNG NHAU, xếp thẳng hàng (không so le). */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: var(--space-4);
+  align-items: stretch;
   padding: var(--space-4) var(--space-5);
   background: var(--surface-2);
 }
@@ -4234,9 +4241,7 @@ async function runVtAiBatch() {
   position: relative;
   display: flex;
   flex-direction: column;
-  break-inside: avoid;
-  -webkit-column-break-inside: avoid;
-  margin-bottom: var(--space-4);
+  height: 100%;                 /* lấp đầy ô lưới -> mọi thẻ cùng hàng cao bằng nhau */
   padding: 15px 16px 14px;
   border-radius: 12px;
   background: linear-gradient(157deg, var(--bg1) 0%, var(--bg1) 42%, var(--bg2) 100%);
@@ -4273,7 +4278,7 @@ async function runVtAiBatch() {
 .vt-card > *:not(.vt-frame):not(.vt-corner) { position: relative; z-index: 2; }
 
 /* hàng chân thẻ: badge số bài thuốc (trái) + nút thao tác (phải) — KHÔNG đè lên ảnh */
-.vt-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: 11px; }
+.vt-foot { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 11px; }
 .vt-actions { display: flex; gap: 4px; flex: 0 0 auto; }
 .vt-act {
   font-family: Inter, system-ui, sans-serif; font-size: 11px; font-weight: 600; cursor: pointer;
@@ -4326,7 +4331,7 @@ async function runVtAiBatch() {
 .vt-hanline { display: flex; align-items: baseline; flex-wrap: wrap; gap: 3px 8px; }
 .vt-han { font-family: "Noto Serif SC", serif; font-weight: 600; font-size: 13px; color: var(--accent); }
 .vt-pinyin { font-style: italic; font-size: 11px; color: var(--muted); }
-.vt-latin { display: block; margin-top: 2px; font-style: italic; font-size: 11.5px; color: var(--muted); }
+.vt-latin { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: 2px; font-style: italic; font-size: 11.5px; color: var(--muted); }
 
 .vt-rule { position: relative; height: 0; width: 62%; margin: 11px auto 8px; border-top: 1px solid var(--gold); }
 .vt-rule::after {

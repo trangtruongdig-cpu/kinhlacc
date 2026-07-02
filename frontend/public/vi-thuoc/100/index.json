@@ -4,6 +4,14 @@
       "file": "legacy.jpg",
       "giai_doan": "Cây thuốc & vị thuốc",
       "mo_ta": "Hình từ từ điển Đông Y Dược (bản chuẩn)"
+    },
+    {
+      "file": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/images/eB00216.jpg",
+      "giai_doan": "Dược liệu (饮片)",
+      "mo_ta": "Ansu Apricot Seed (Armeniacae Semen Amarum · 苦杏仁) · Nguồn: HKBU CMMID",
+      "nguon": "https://sys01.lib.hkbu.edu.hk/cmed/mmid/detail.php?lang=eng&pid=B00216",
+      "giay_phep": "Ảnh tham khảo (bản quyền © HKBU School of Chinese Medicine)",
+      "tac_gia": "HKBU CMMID"
     }
   ],
   "_src_done": [
