@@ -15,3 +15,6 @@ data/
 *.zip
 # JSON prototypes cũ (thay bằng tongue_cnn.h5)
 model/atlas-embeddings.json
+# Log lúc train + model baseline KHÔNG dùng (serve chỉ nạp model/tongue_cnn.h5)
+*.log
+model/tongue_cnn_epoch1_baseline.h5

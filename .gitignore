@@ -66,3 +66,21 @@ frontend/public/vi-thuoc/**/*.jpg
 frontend/public/vi-thuoc/**/*.jpeg
 frontend/public/vi-thuoc/**/*.png
 frontend/public/vi-thuoc/**/*.webp
+
+# ---- Nội dung KHÔNG chạy trên VPS (đã ngừng theo dõi để không clone xuống server) ----
+# File vẫn nằm nguyên trên máy local + trong lịch sử git; chỉ không clone về VPS nữa.
+# (Lưu ý: .gitignore KHÔNG hỗ trợ comment cùng dòng — mỗi ghi chú phải để riêng 1 dòng.)
+# app mobile Flutter — nên tách repo riêng (web không dùng)
+app_kinhlac/
+# ảnh/đồ hoạ nộp Play Store (marketing, không deploy)
+play-store-assets/
+# tài liệu kế hoạch SEO (JSON) — không cần lúc chạy
+SEO/
+SEO-PLAN.md
+YMYL-PLAN.md
+RA-SOAT-BAI-THUOC-THIEU-VI.md
+dongyhiendai.md
+nguyennhan.md
+tieuketbatcuong.md
+# bản xuất CSV tạm — không đọc lúc chạy
+kinhhlac.csv
