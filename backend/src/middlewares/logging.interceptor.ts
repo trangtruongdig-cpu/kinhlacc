@@ -30,6 +30,11 @@ const SENSITIVE_KEYS = new Set([
 const MAX_BODY_LEN = 1500;
 const MAX_RES_LEN = 1500;
 
+// Log THÂN request/response tốn CPU/GC (JSON.stringify + redact MỖI request) — nặng trên VPS thấp
+// với các endpoint trả list lớn. Mặc định TẮT; bật lại khi debug bằng LOG_HTTP_BODIES=true.
+// Dòng tóm tắt (method/url/status/thời gian/lỗi) VẪN log đầy đủ để quan sát.
+const LOG_BODIES = process.env.LOG_HTTP_BODIES === 'true';
+
 function redact(value: unknown, depth = 0): unknown {
   if (value === null || value === undefined) return value;
   if (depth > 12) return '[deep]';
@@ -92,10 +97,10 @@ export class LoggingInterceptor implements NestInterceptor {
       typeof req.body === 'object' &&
       Object.keys(req.body as object).length > 0;
     const queryStr =
-      req.query && Object.keys(req.query).length
+      LOG_BODIES && req.query && Object.keys(req.query).length
         ? ` query=${shortJson(req.query, 300)}`
         : '';
-    const bodyStr = hasBody ? ` body=${shortJson(req.body, MAX_BODY_LEN)}` : '';
+    const bodyStr = LOG_BODIES && hasBody ? ` body=${shortJson(req.body, MAX_BODY_LEN)}` : '';
 
     this.logger.log(`→ ${method} ${url} ip=${ip}${userPart}${queryStr}${bodyStr}`);
 
@@ -104,9 +109,8 @@ export class LoggingInterceptor implements NestInterceptor {
         next: (data) => {
           const elapsed = Date.now() - startedAt;
           const status = res.statusCode;
-          this.logger.log(
-            `← ${method} ${url} ${status} ${elapsed}ms body=${shortJson(data, MAX_RES_LEN)}`,
-          );
+          const bodyPart = LOG_BODIES ? ` body=${shortJson(data, MAX_RES_LEN)}` : '';
+          this.logger.log(`← ${method} ${url} ${status} ${elapsed}ms${bodyPart}`);
         },
         error: (err) => {
           const elapsed = Date.now() - startedAt;

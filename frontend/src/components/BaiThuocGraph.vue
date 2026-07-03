@@ -5,9 +5,12 @@
  * Dữ liệu từ backend: GET /graph/node?type=&id=  (1-hop neighborhood).
  */
 import { ref, onMounted, onBeforeUnmount, shallowRef, nextTick } from 'vue'
-import cytoscape from 'cytoscape'
-import type { Core, ElementDefinition, NodeSingular } from 'cytoscape'
+import type { Core, ElementDefinition, NodeSingular, LayoutOptions } from 'cytoscape'
 import { api } from '@/services/api'
+
+// cytoscape (~426KB) nạp LƯỜI — chỉ tải khi component THẬT SỰ dựng đồ thị (nhẹ chunk trang Vị thuốc).
+type CyFactory = (options?: import('cytoscape').CytoscapeOptions) => Core
+let cyFactory: CyFactory | null = null
 
 const props = defineProps<{ rootId: number; rootType?: string }>()
 
@@ -57,7 +60,7 @@ async function fetchNode(type: string, id: number): Promise<GResp> {
 function relayout() {
   const c = cy.value
   if (!c) return
-  c.layout({ name: 'cose', animate: false, padding: 24, nodeRepulsion: () => 9000, idealEdgeLength: () => 90 } as cytoscape.LayoutOptions).run()
+  c.layout({ name: 'cose', animate: false, padding: 24, nodeRepulsion: () => 9000, idealEdgeLength: () => 90 } as LayoutOptions).run()
   c.fit(undefined, 30)
 }
 
@@ -88,8 +91,8 @@ async function expand(node: NodeSingular) {
 }
 
 function buildCy(elements: ElementDefinition[]) {
-  if (!containerRef.value) return
-  const c = cytoscape({
+  if (!containerRef.value || !cyFactory) return
+  const c = cyFactory({
     container: containerRef.value,
     elements,
     style: [
@@ -145,6 +148,10 @@ async function init() {
   error.value = null
   try {
     const root = props.rootType ?? 'bai-thuoc'
+    if (!cyFactory) {
+      const mod = (await import('cytoscape')) as unknown as { default: CyFactory }
+      cyFactory = mod.default
+    }
     const resp = await fetchNode(root, props.rootId)
     await nextTick()
     buildCy(toElements(resp))

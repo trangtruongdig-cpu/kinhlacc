@@ -23,6 +23,10 @@ const SENSITIVE_KEYS = new Set([
 ])
 const MAX_LOG_LEN = 1500
 
+// Log chi tiết mỗi request (kèm JSON.stringify thân bài) chỉ bật khi DEV.
+// Prod: bỏ hẳn để đỡ CPU/GC trên máy yếu; lỗi/401 vẫn luôn log (xem console.warn/error bên dưới).
+const DEBUG_API = import.meta.env.DEV
+
 function redact(value: unknown, depth = 0): unknown {
   if (value === null || value === undefined) return value
   if (depth > 12) return '[deep]'
@@ -81,14 +85,16 @@ async function handleResponse<T>(response: Response, method: string, path: strin
     throw new Error(msg)
   }
   const data = (await response.json()) as T
-  console.log(`[API] ← ${method} ${path} ${response.status} ${elapsed}ms body=${shortJson(data)}`)
+  if (DEBUG_API) console.log(`[API] ← ${method} ${path} ${response.status} ${elapsed}ms body=${shortJson(data)}`)
   return data
 }
 
 async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
   const startedAt = Date.now()
-  const bodyPart = body !== undefined ? ` body=${shortJson(body)}` : ''
-  console.log(`[API] → ${method} ${path}${bodyPart}`)
+  if (DEBUG_API) {
+    const bodyPart = body !== undefined ? ` body=${shortJson(body)}` : ''
+    console.log(`[API] → ${method} ${path}${bodyPart}`)
+  }
   try {
     const res = await fetch(`${API_BASE}${path}`, {
       method,
@@ -121,7 +127,7 @@ export const api = {
   /** Upload multipart (FormData). KHÔNG set Content-Type để trình duyệt tự thêm boundary. */
   async upload<T>(path: string, formData: FormData): Promise<T> {
     const startedAt = Date.now()
-    console.log(`[API] → POST(upload) ${path}`)
+    if (DEBUG_API) console.log(`[API] → POST(upload) ${path}`)
     const token = localStorage.getItem('access_token')
     const res = await fetch(`${API_BASE}${path}`, {
       method: 'POST',

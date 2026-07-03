@@ -26,6 +26,11 @@ COPY . .
 #   blog:post = mini-prerender meta SEO tĩnh + build-blog (Markdown -> HTML tĩnh), đều cần dist/ đã có
 RUN npm run blog:pre && npm run build-only && npm run blog:post
 
+# Nén sẵn asset tĩnh (.gz) để nginx "gzip_static on" phục vụ trực tiếp — khỏi nén lại mỗi request.
+# Bỏ qua file < 1KB (nén không lợi). Dùng gzip -c (khỏi cần -k) cho tương thích busybox alpine.
+RUN find dist -type f \( -name '*.js' -o -name '*.mjs' -o -name '*.css' -o -name '*.json' -o -name '*.svg' -o -name '*.xml' \) -size +1k \
+    | while read -r f; do gzip -9 -c "$f" > "$f.gz"; done
+
 ############################
 # 2. Phục vụ static bằng nginx
 ############################

@@ -20,8 +20,6 @@ import os
 
 import numpy as np
 from PIL import Image
-import tensorflow as tf
-from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -62,7 +60,7 @@ ALIAS_SRC = {"nhashe": "jiankangshe", "dosamshe": "hongshe", "khongreuhe": "jian
 _model = None
 
 
-def load_model() -> tf.keras.Model:
+def load_model():
     global _model
     if _model is None:
         if not os.path.exists(MODEL_PATH):
@@ -70,6 +68,8 @@ def load_model() -> tf.keras.Model:
                 f"Chưa có model tại {MODEL_PATH}\n"
                 "Chạy: python ml-service/train.py"
             )
+        # Import TensorFlow LƯỜI (chỉ khi thật sự cần) — tránh ngốn ~300-400MB RAM lúc khởi động.
+        import tensorflow as tf
         log.info("Loading %s ...", MODEL_PATH)
         _model = tf.keras.models.load_model(MODEL_PATH)
         log.info("Model loaded  input=%s  output=%s", _model.input_shape, _model.output_shape)
@@ -77,6 +77,7 @@ def load_model() -> tf.keras.Model:
 
 
 def predict(image_bytes: bytes) -> np.ndarray:
+    from tensorflow.keras.applications.mobilenet_v2 import preprocess_input
     img = Image.open(io.BytesIO(image_bytes)).convert("RGB").resize((IMG_SIZE, IMG_SIZE))
     arr = preprocess_input(np.array(img, dtype=np.float32))   # → [-1, 1]
     arr = np.expand_dims(arr, 0)
@@ -88,12 +89,9 @@ class MlSearchRequest(BaseModel):
     image: str  # base64-encoded JPEG / PNG
 
 
-@app.on_event("startup")
-async def startup():
-    try:
-        load_model()
-    except RuntimeError as e:
-        log.warning(str(e))
+# LƯU Ý: KHÔNG nạp model lúc khởi động — tiết kiệm ~300-400MB RAM trên VPS RAM thấp.
+# TensorFlow + model chỉ nạp LƯỜI ở lần POST /ml-search đầu tiên (lần đầu chậm ~3-5s, sau đó cache).
+# Muốn "làm nóng" trước khi có traffic thật: gọi POST /reload-model.
 
 
 @app.get("/health")

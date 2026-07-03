@@ -33,8 +33,11 @@ RUN npm prune --omit=dev
 FROM node:20-alpine AS runner
 WORKDIR /app
 
+# Giới hạn heap Node LÚC CHẠY (không chỉ lúc build) → GC ép sớm, tránh phình RAM/OOM trên VPS 2GB.
+# 512MB đủ rộng cho Nest + TypeORM; chỉnh qua env nếu cần.
 ENV NODE_ENV=production \
-    APP_PORT=3001
+    APP_PORT=3001 \
+    NODE_OPTIONS=--max-old-space-size=512
 
 # tini để forward signal (SIGTERM) đúng cách + wget cho healthcheck
 RUN apk add --no-cache tini wget \

@@ -16,6 +16,9 @@ services:
     image: kinhlac/backend:latest
     container_name: kinhlac_backend
     restart: unless-stopped
+    # Trần RAM để 1 service rò rỉ KHÔNG kéo sập cả VPS 2GB (kernel OOM giết đúng container quá hạn).
+    # Backend thực tế chạy ~200-300MB; 768m dư cho heap 512 (--max-old-space-size) + overhead.
+    mem_limit: 768m
     # Giới hạn log để KHÔNG phình đĩa (mặc định json-file là vô hạn).
     logging:
       driver: json-file
@@ -35,6 +38,10 @@ services:
       # Thư mục backend GHI ảnh DƯỢC LIỆU do người dùng upload. Backend tự phục vụ tại /uploads;
       # nginx reverse-proxy /api/ → /api/uploads/... hiển thị được. Volume để ảnh BỀN qua các lần deploy.
       UPLOAD_DIR: /app/uploads
+      # Pool Postgres nhỏ lại (DB Aiven ở ngoài, chỉ 1 instance backend) — đỡ giữ socket + RAM.
+      DB_POOL_MAX: "5"
+      # Không log THÂN request/response trong prod (tiết kiệm CPU/GC). Bật "true" khi cần debug.
+      LOG_HTTP_BODIES: "false"
     volumes:
       - ./data/blog-images:/app/blog-images
       - ./data/vi-thuoc-uploads:/app/uploads
@@ -52,6 +59,9 @@ services:
     image: kinhlac/ml-service:latest
     container_name: kinhlac_ml
     restart: unless-stopped
+    # Nạp model LƯỜI (xem app.py) nên khi rảnh chỉ ~120MB; khi soi lưỡi mới nạp TF (~700MB).
+    # 896m dư cho lúc nạp model; nếu vượt, kernel chỉ restart RIÊNG service này, không sập VPS.
+    mem_limit: 896m
     logging:
       driver: json-file
       options:
@@ -76,6 +86,8 @@ services:
     image: kinhlac/frontend:latest
     container_name: kinhlac_frontend
     restart: unless-stopped
+    # nginx tĩnh — RAM rất thấp (~20-40MB). 128m là dư.
+    mem_limit: 128m
     logging:
       driver: json-file
       options:

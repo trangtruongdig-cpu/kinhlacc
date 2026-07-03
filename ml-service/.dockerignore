@@ -1,0 +1,40 @@
+# Docker build context cho ml-service.
+# Runtime chỉ cần: app.py + requirements.txt + model/tongue_cnn.h5.
+# Loại MỌI thứ nặng/không cần để build NHANH và image NHỎ trên VPS RAM thấp
+# (Docker KHÔNG đọc .gitignore nên phải khai báo lại ở đây).
+
+# Môi trường Python cục bộ — RẤT NẶNG (~1.7GB). Image tự `pip install` lại từ requirements.txt.
+venv/
+.venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.pytest_cache/
+
+# Log & artefact lúc train (không dùng khi serve)
+*.log
+
+# Model nháp/baseline KHÔNG dùng (app.py chỉ nạp model/tongue_cnn.h5)
+model/tongue_cnn_epoch1_baseline.h5
+model/atlas-embeddings.json
+
+# Script train + dataset — chỉ chạy cục bộ, không cần trong image serve
+train.py
+train.bat
+start.bat
+build_embeddings.py
+datasets/
+data/
+*.zip
+
+# Lặt vặt
+.env
+.env.*
+!.env.example
+.git
+.gitignore
+.dockerignore
+.DS_Store
+Thumbs.db
