@@ -31,8 +31,11 @@ const uploading = ref(false)
 const newGiaiDoan = ref('')
 const fileInput = ref<HTMLInputElement | null>(null)
 const lightbox = ref<number | null>(null)
+// Ảnh tải lỗi/hết hạn → ẩn khỏi thư viện (tránh icon vỡ).
+const brokenSrc = ref<string[]>([])
+function markBroken(src: string) { if (src && !brokenSrc.value.includes(src)) brokenSrc.value.push(src) }
 
-// Ảnh upload lên trước, ảnh tĩnh sau.
+// Ảnh upload lên trước, ảnh tĩnh sau; loại ảnh đã lỗi.
 const images = computed<ResolvedImage[]>(() => [
   ...(props.uploaded ?? []).map((u) => ({
     src: assetUrl(u.url),
@@ -42,7 +45,7 @@ const images = computed<ResolvedImage[]>(() => [
     rawUrl: u.url,
   })),
   ...staticImages.value,
-])
+].filter((im) => !brokenSrc.value.includes(im.src)))
 const current = computed<ResolvedImage | null>(() =>
   lightbox.value != null ? images.value[lightbox.value] ?? null : null,
 )
@@ -144,7 +147,7 @@ watch(() => props.viThuocId, (id) => { close(); loadStatic(id) })
     <ol v-else class="vtg-grid">
       <li v-for="(img, i) in images" :key="i" class="vtg-item">
         <button type="button" class="vtg-thumb" :aria-label="`Xem ảnh ${i + 1}`" @click="open(i)">
-          <img :src="img.src" :alt="img.mo_ta || img.giai_doan || viThuocTen || 'ảnh vị thuốc'" loading="lazy" />
+          <img :src="img.src" :alt="img.mo_ta || img.giai_doan || viThuocTen || 'ảnh vị thuốc'" loading="lazy" @error="markBroken(img.src)" />
           <span v-if="img.giai_doan" class="vtg-stage">{{ i + 1 }}. {{ img.giai_doan }}</span>
           <span v-if="img.rawUrl && anhDaiDien === img.rawUrl" class="vtg-badge-avatar">★ Đại diện</span>
         </button>
@@ -169,7 +172,7 @@ watch(() => props.viThuocId, (id) => { close(); loadStatic(id) })
       <button type="button" class="vtg-lb-x" aria-label="Đóng" @click="close">✕</button>
       <button v-if="images.length > 1" type="button" class="vtg-lb-nav vtg-lb-prev" aria-label="Trước" @click="prev">‹</button>
       <figure class="vtg-lb-fig">
-        <img :src="current.src" :alt="current.mo_ta || viThuocTen || 'ảnh vị thuốc'" />
+        <img :src="current.src" :alt="current.mo_ta || viThuocTen || 'ảnh vị thuốc'" @error="markBroken(current.src)" />
         <figcaption class="vtg-lb-cap">
           <span v-if="current.giai_doan" class="vtg-lb-stage">{{ lightbox + 1 }}/{{ images.length }} · {{ current.giai_doan }}</span>
           <span v-if="current.mo_ta">{{ current.mo_ta }}</span>
