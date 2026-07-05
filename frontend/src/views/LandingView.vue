@@ -18,8 +18,14 @@ import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import CosmicWheel from '@/components/CosmicWheel.vue'
+// Vòng xoay KHUNG cho hero: tự XOAY + luân chuyển lớp Lục Kinh → Lục Khí → Tạng Phủ (trang trí).
+import HeroKhungWheel from '@/components/HeroKhungWheel.vue'
 import HeroMeridianFigure from '@/components/HeroMeridianFigure.vue'
 import BanXoayBienChung from '@/components/BanXoayBienChung.vue'
+// Khối Bát Cương "y như app": hình người 3D XOAY được + 2 cột tạng phủ hai bên.
+import BatCuongOrgans from '@/components/BatCuongOrgans.vue' // 2 cột thẻ tạng phủ (SVG, nhẹ)
+// 3D nặng (three.js) → nạp ĐỘNG (chunk riêng); component tự HOÃN tải three tới khi cuộn tới (IntersectionObserver).
+const BatCuongFigure3D = defineAsyncComponent(() => import('@/components/BatCuongFigure3D.vue'))
 // Nạp ĐỘNG: chart.js (nặng) chỉ tải khi component phân tích bài thuốc thực sự được dựng,
 // nên KHÔNG còn nằm trong chunk trang chủ → trang chủ tải nhẹ & nhanh hơn.
 const BaiThuocAnalysis = defineAsyncComponent(() => import('@/components/BaiThuocAnalysis.vue'))
@@ -30,6 +36,8 @@ import {
   calculateBounds,
   processRows,
   computeDiagnosis,
+  computeBatCuong,
+  computeAffectedOrgans,
   fmt,
   type InputData,
 } from '@/lib/meridianAnalysis'
@@ -219,6 +227,66 @@ const diag = computed(() =>
     lowerStats.value,
   ),
 )
+
+// ── Bát Cương ĐẦY ĐỦ (Biểu/Lý × Hàn/Nhiệt) — CHUNG engine với trang Kết Quả Đo thật ──
+const batCuong = computed(() =>
+  computeBatCuong(upperRows.value, lowerRows.value, upperStats.value, lowerStats.value),
+)
+const splitCh = (s: string): string[] =>
+  s ? s.split(',').map((x) => x.trim()).filter(Boolean) : []
+// Gộp 4 ô góc (Hàn/Nhiệt × Biểu/Lý) thành 4 danh sách theo trục để hiển thị chip.
+const bcLists = computed(() => {
+  const b = batCuong.value
+  const hanBieu = splitCh(b.hanBieu)
+  const hanLy = splitCh(b.hanLy)
+  const nhietBieu = splitCh(b.nhietBieu)
+  const nhietLy = splitCh(b.nhietLy)
+  return {
+    bieu: [...hanBieu, ...nhietBieu],
+    ly: [...hanLy, ...nhietLy],
+    han: [...hanBieu, ...hanLy],
+    nhiet: [...nhietBieu, ...nhietLy],
+  }
+})
+function toneOf(v: string): 'hu' | 'thuc' | 'neutral' | 'none' {
+  if (!v) return 'none'
+  if (v.includes('thịnh') || v.includes('thực')) return 'thuc'
+  if (v.includes('hư') && !v.includes('thường')) return 'hu'
+  return 'neutral'
+}
+
+// ── Tạng phủ đang bệnh để VẼ lên hình người 3D (BatCuongFigure3D) + 2 cột thẻ (BatCuongOrgans) ──
+const affectedOrgans = computed(() =>
+  computeAffectedOrgans(upperRows.value, lowerRows.value, upperStats.value, lowerStats.value),
+)
+// 12 tạng phủ bày QUANH hình: lục tạng trái · lục phủ phải; gắn trạng thái Bát Cương nếu có.
+const ALL_ORGANS: { name: string; organ: string }[] = [
+  { name: 'Tâm', organ: 'Tâm' },
+  { name: 'Bào', organ: 'Tâm bào' },
+  { name: 'Phế', organ: 'Phế' },
+  { name: 'Can', organ: 'Can' },
+  { name: 'Tỳ', organ: 'Tỳ' },
+  { name: 'Thận', organ: 'Thận' },
+  { name: 'Tiểu', organ: 'Tiểu Trường' },
+  { name: 'Đại', organ: 'Đại Trường' },
+  { name: 'Vị', organ: 'Vị' },
+  { name: 'Đởm', organ: 'Đởm' },
+  { name: 'Bàng', organ: 'Bàng quang' },
+  { name: 'Tam', organ: 'Tam tiêu' },
+]
+const organStateMap = computed(() => new Map(affectedOrgans.value.map((o) => [o.name, o])))
+function organsWith(names: string[]) {
+  const m = organStateMap.value
+  return ALL_ORGANS.filter((o) => names.includes(o.name)).map((o) => ({ ...o, state: m.get(o.name) ?? null }))
+}
+const organsTang = computed(() => organsWith(['Tâm', 'Bào', 'Phế', 'Can', 'Tỳ', 'Thận']))
+const organsPhu = computed(() => organsWith(['Tiểu', 'Đại', 'Vị', 'Đởm', 'Bàng', 'Tam']))
+// Tiêu điểm cục bộ: bấm 1 tạng phủ → nổi trên hình + 2 cột (self-contained, không cần bảng đo).
+const bcFocus = ref<string | null>(null)
+function toggleBcFocus(key: string) {
+  bcFocus.value = bcFocus.value === key ? null : key
+}
+
 // Gộp 2 nhóm để render bảng bằng 1 vòng v-for (đỡ lặp markup).
 const limbGroups = computed(() => [
   { label: 'Chi Trên (Tay)', rows: upperRows.value, stats: upperStats.value },
@@ -413,7 +481,8 @@ const faqs: { q: string; a: string }[] = [
         </div>
 
         <div class="lp-hero-art">
-          <div class="lp-wheel"><CosmicWheel /></div>
+          <!-- Vòng xoay Khung: tự xoay + đổi lớp Lục Kinh → Lục Khí → Tạng Phủ cho đỡ nhàm -->
+          <div class="lp-hero-wheel"><HeroKhungWheel /></div>
         </div>
       </div>
     </section>
@@ -431,6 +500,12 @@ const faqs: { q: string; a: string }[] = [
       <!-- Bàn xoay biện chứng THẬT: số hoá, chạy bằng dữ liệu DB, chạm để xoay & lọc sáng. -->
       <div class="lp-dials-live">
         <BanXoayBienChung />
+      </div>
+
+      <!-- CTA: nhảy sang trang tra cứu ĐẦY ĐỦ (công khai, miễn phí) -->
+      <div class="lp-dials-cta">
+        <RouterLink to="/tra-cuu-bien-chung" class="lp-dials-cta-btn">🧭 Vào tra cứu đầy đủ — miễn phí →</RouterLink>
+        <span class="lp-dials-cta-note">Không cần đăng nhập · khung Lục Kinh·Tạng Phủ·Lục Khí · 6 nhánh Tây Y + 4 trục Đông Y · soi thể bệnh–pháp trị–bài thuốc</span>
       </div>
 
       <!-- Hai loại quan hệ: 1→n và n↔n -->
@@ -548,6 +623,28 @@ const faqs: { q: string; a: string }[] = [
       </div>
 
       <div class="lp-measure-card">
+        <!-- Dải Bát Cương full-width: hình người 3D XOAY + 2 cột tạng phủ hai bên (y như trang Kết Quả Đo). -->
+        <div class="mc-figband">
+          <span class="lp-eyebrow">Bát Cương Trên Thân Người 3D · Kéo Để Xoay</span>
+          <div class="bc-figblock">
+            <BatCuongOrgans class="bc-organs-col" :items="organsTang" :focus="bcFocus" @toggle="toggleBcFocus" />
+            <BatCuongFigure3D
+              class="bc-figure"
+              :am-duong="diag.amDuong"
+              :khi="diag.khi"
+              :huyet="diag.huyet"
+              :organs="affectedOrgans"
+              :focus="bcFocus"
+              @toggle="toggleBcFocus"
+            />
+            <BatCuongOrgans class="bc-organs-col" :items="organsPhu" :focus="bcFocus" @toggle="toggleBcFocus" />
+          </div>
+          <p class="mc-figure-cap">
+            Tạng phủ tô <span class="mc-sign-lo">Hàn</span> / <span class="mc-sign-hi">Nhiệt</span> theo số đo ·
+            nền đặc = Lý (sâu) · quầng nét đứt = Biểu (nông) · hào quang trên/dưới = Khí/Huyết. Bấm 1 tạng phủ để soi.
+          </p>
+        </div>
+
         <div class="mc-chart">
           <!-- Đầu thẻ: ca nào · ai (ẩn danh) · lý do khám + nút lật ca -->
           <div class="mc-casehead">
@@ -628,11 +725,61 @@ const faqs: { q: string; a: string }[] = [
         </div>
 
         <aside class="mc-readout">
-          <span class="lp-eyebrow">Phần Mềm Tự Đọc</span>
-          <div class="mc-batcuong">
-            <span class="mc-bc"><b>Âm / Dương</b>{{ diag.amDuong || '—' }}</span>
-            <span class="mc-bc"><b>Khí</b>{{ diag.khi || '—' }}</span>
-            <span class="mc-bc"><b>Huyết</b>{{ diag.huyet || '—' }}</span>
+          <span class="lp-eyebrow">Phần Mềm Tự Đọc · Tóm Tắt Bát Cương</span>
+          <!-- Bát Cương ĐẦY ĐỦ (4 cương) — giống trang Kết Quả Đo thật. -->
+          <div class="mc-bc4">
+            <div class="mc-bc4-row">
+              <span class="mc-bc4-key">① Âm — Dương</span>
+              <span class="mc-bc4-pill">{{ diag.amDuong || '—' }}</span>
+            </div>
+
+            <div class="mc-bc4-row mc-bc4-row--stack">
+              <span class="mc-bc4-key">② Biểu — Lý</span>
+              <div class="mc-bc4-grps">
+                <div class="mc-bc4-grp">
+                  <b class="mc-bc4-lb">Biểu</b>
+                  <template v-if="bcLists.bieu.length">
+                    <span v-for="c in bcLists.bieu" :key="'b' + c" class="mc-chip">{{ c }}</span>
+                  </template>
+                  <span v-else class="mc-chip-empty">—</span>
+                </div>
+                <div class="mc-bc4-grp">
+                  <b class="mc-bc4-lb">Lý</b>
+                  <template v-if="bcLists.ly.length">
+                    <span v-for="c in bcLists.ly" :key="'l' + c" class="mc-chip">{{ c }}</span>
+                  </template>
+                  <span v-else class="mc-chip-empty">—</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mc-bc4-row mc-bc4-row--stack">
+              <span class="mc-bc4-key">③ Hàn — Nhiệt</span>
+              <div class="mc-bc4-grps">
+                <div class="mc-bc4-grp">
+                  <b class="mc-bc4-lb mc-bc4-lb--han">Hàn</b>
+                  <template v-if="bcLists.han.length">
+                    <span v-for="c in bcLists.han" :key="'h' + c" class="mc-chip mc-chip--han">{{ c }}</span>
+                  </template>
+                  <span v-else class="mc-chip-empty">—</span>
+                </div>
+                <div class="mc-bc4-grp">
+                  <b class="mc-bc4-lb mc-bc4-lb--nhiet">Nhiệt</b>
+                  <template v-if="bcLists.nhiet.length">
+                    <span v-for="c in bcLists.nhiet" :key="'n' + c" class="mc-chip mc-chip--nhiet">{{ c }}</span>
+                  </template>
+                  <span v-else class="mc-chip-empty">—</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="mc-bc4-row">
+              <span class="mc-bc4-key">④ Hư — Thực</span>
+              <span class="mc-bc4-ht">
+                <span class="mc-bc4-ht-item">Khí<b :class="'mc-tone-' + toneOf(diag.khi)">{{ diag.khi || '—' }}</b></span>
+                <span class="mc-bc4-ht-item">Huyết<b :class="'mc-tone-' + toneOf(diag.huyet)">{{ diag.huyet || '—' }}</b></span>
+              </span>
+            </div>
           </div>
           <dl class="mc-dx">
             <div>
@@ -1191,6 +1338,14 @@ const faqs: { q: string; a: string }[] = [
   justify-content: center;
   width: clamp(260px, 30vw, 400px);
 }
+/* Hero dùng vòng KHUNG tự xoay + đổi lớp (HeroKhungWheel) làm "hình" trang trí. */
+.lp-hero-wheel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: clamp(280px, 34vw, 460px);
+  max-width: 100%; /* điện thoại hẹp: không cho đĩa tràn ngang khỏi cột hero */
+}
 
 /* ---------- Đồ hình 3D (band tối để đường kinh phát sáng nổi lên) ---------- */
 .lp-model {
@@ -1505,33 +1660,147 @@ const faqs: { q: string; a: string }[] = [
   padding: var(--space-6);
   align-self: start;
 }
-.mc-batcuong {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+/* ── Dải Bát Cương full-width (hình người 3D + 2 cột tạng phủ) — y như trang Kết Quả Đo ── */
+.mc-figband {
+  grid-column: 1 / -1; /* trải hết bề ngang thẻ (đè lên lưới 2 cột bên dưới) */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+}
+.mc-figband .bc-figblock {
+  display: flex;
+  gap: var(--space-2);
+  align-items: stretch; /* CẦN: giãn host hình 3D theo chiều cao hàng (do 2 cột tạng phủ quy định) */
+  width: 100%;
+  max-width: 820px;
+  min-width: 0;
+  /* min-height (KHÔNG phải height): cho canvas 3D chiều cao xác định mà vẫn chứa trọn 6 thẻ/cột */
+  min-height: clamp(340px, 46vh, 480px);
+}
+.mc-figband .bc-organs-col {
+  flex: 0 0 92px;
+}
+.mc-figband .bc-figure {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  align-self: stretch;
+}
+.mc-figure-cap {
+  margin: 0;
+  max-width: 760px;
+  font-size: 11px;
+  line-height: 1.55;
+  color: var(--text-subtle);
+  text-align: center;
+}
+@media (max-width: 640px) {
+  .mc-figband .bc-organs-col { flex: 0 0 76px; }
+  .mc-figband .bc-figblock { min-height: clamp(300px, 62vh, 440px); }
+}
+
+/* ── Bát Cương ĐẦY ĐỦ (4 cương) trên khối "Phần Mềm Tự Đọc" ── */
+.mc-bc4 {
+  display: flex;
+  flex-direction: column;
   gap: var(--space-2);
   margin-bottom: var(--space-5);
 }
-.mc-bc {
+.mc-bc4-row {
   display: flex;
-  flex-direction: column;
-  gap: 3px;
-  padding: var(--space-3) var(--space-2);
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-3);
   background: var(--surface);
   border: 1px solid var(--border);
+  border-left: 3px solid var(--brown-400);
   border-radius: var(--radius-md);
-  text-align: center;
-  font-size: var(--font-size-sm);
+}
+.mc-bc4-row--stack {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+.mc-bc4-key {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+.mc-bc4-pill {
+  margin-left: auto;
+  background: var(--brown-600);
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--font-size-xs);
+  padding: 3px 14px;
+  border-radius: var(--radius-full);
+}
+.mc-bc4-grps {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.mc-bc4-grp {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+.mc-bc4-lb {
+  flex: none;
+  min-width: 42px;
+  font-size: var(--font-size-xs);
   font-weight: 700;
   color: var(--text-brand);
-  text-transform: capitalize;
 }
-.mc-bc b {
+.mc-bc4-lb--han { color: var(--info-fg); }
+.mc-bc4-lb--nhiet { color: var(--danger-fg); }
+.mc-chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-brand);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+.mc-chip--han { color: var(--info-fg); }
+.mc-chip--nhiet { color: var(--danger-fg); }
+.mc-chip-empty { color: var(--text-subtle); font-size: 11px; }
+.mc-bc4-ht {
+  margin-left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2) var(--space-4);
+}
+.mc-bc4-ht-item {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 5px;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.03em;
   text-transform: uppercase;
   color: var(--text-subtle);
 }
+.mc-bc4-ht-item b {
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.mc-tone-hu { color: var(--info-fg); }
+.mc-tone-thuc { color: var(--danger-fg); }
+.mc-tone-neutral,
+.mc-tone-none { color: var(--text-subtle); }
 .mc-dx {
   display: flex;
   flex-direction: column;
@@ -2400,8 +2669,22 @@ const faqs: { q: string; a: string }[] = [
 }
 /* Khung chứa bàn xoay biện chứng tương tác (component BanXoayBienChung) */
 .lp-dials-live {
-  margin: 0 auto var(--space-8);
+  margin: 0 auto var(--space-5);
 }
+/* CTA sang trang tra cứu đầy đủ (công khai) */
+.lp-dials-cta {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  margin: 0 auto var(--space-8); text-align: center;
+}
+.lp-dials-cta-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: clamp(15px, 2.4vw, 18px); font-weight: 800; text-decoration: none;
+  padding: 13px 28px; border-radius: 999px; color: #fff;
+  background: linear-gradient(135deg, #8a5a2a, #2e1d0d);
+  box-shadow: 0 10px 26px rgba(60, 40, 15, 0.32); transition: transform 0.15s, box-shadow 0.15s;
+}
+.lp-dials-cta-btn:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(60, 40, 15, 0.4); }
+.lp-dials-cta-note { font-size: 12.5px; color: var(--text-muted, #8a7a60); max-width: 60ch; }
 
 /* Hai thẻ quan hệ 1→n và n↔n */
 .dl-rels {
