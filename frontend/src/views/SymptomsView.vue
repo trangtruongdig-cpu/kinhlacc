@@ -2,6 +2,7 @@
 import { ref, onMounted, computed, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '@/services/api'
+import FilterBar, { type FbGroup } from '@/components/FilterBar.vue'
 
 // matched = chip đến từ ≥1 Pháp Trị thuộc bộ lọc đang chọn (in đậm); !matched = làm mờ, ẩn sau "xem thêm".
 interface BenhTayYLite {
@@ -213,6 +214,68 @@ function clearFilters() {
   selectedTangPhuIds.value = []
   selectedTonThuong.value = []
   selectedChungBenhIds.value = []
+}
+
+// ── Bộ lọc triệu chứng (dùng chung FilterBar) ──
+const filterGroups = computed<FbGroup[]>(() => {
+  const groups: FbGroup[] = [
+    {
+      id: 'category',
+      label: 'Phân loại',
+      variant: 'segmented',
+      options: [
+        { key: 'all', label: 'Tất Cả' },
+        { key: 'dong-y', label: 'Đông Y' },
+        { key: 'tay-y', label: 'Tây Y' },
+      ],
+      selected: [filterCategory.value],
+    },
+  ]
+  if (tangPhuOptions.value.length) {
+    groups.push({
+      id: 'tang-phu',
+      label: 'Tạng phủ',
+      options: tangPhuOptions.value.map((o) => ({ key: o.id, label: o.name })),
+      selected: selectedTangPhuIds.value,
+      searchable: true,
+      collapse: 14,
+      shorten: 'kinh-mach',
+    })
+  }
+  if (tonThuongOptions.value.length) {
+    groups.push({
+      id: 'ton-thuong',
+      label: 'Tổn thương - Tác nhân',
+      options: tonThuongOptions.value.map((o) => ({ key: o.name, label: o.name })),
+      selected: selectedTonThuong.value,
+      axis: true,
+      searchable: true,
+      shorten: 'ton-thuong',
+    })
+  }
+  if (filterCategory.value === 'tay-y' && chungBenhOptions.value.length) {
+    groups.push({
+      id: 'chung-benh',
+      label: 'Thể bệnh Tây Y',
+      options: chungBenhOptions.value.map((o) => ({ key: o.id, label: o.name })),
+      selected: selectedChungBenhIds.value,
+      searchable: true,
+      collapse: 12,
+    })
+  }
+  return groups
+})
+
+function onSymptomFilterPick(groupId: string, key: string | number | null) {
+  if (groupId === 'category') {
+    if (key != null) filterCategory.value = key as 'all' | 'dong-y' | 'tay-y'
+  } else if (groupId === 'tang-phu') {
+    if (key != null) toggleTangPhu(Number(key))
+  } else if (groupId === 'ton-thuong') {
+    if (key != null) toggleTonThuong(String(key))
+  } else if (groupId === 'chung-benh') {
+    if (key != null) toggleChungBenh(Number(key))
+  }
 }
 // Rời nhánh Tây Y → bỏ chọn Chủng Bệnh để không còn bộ lọc ẩn (group cũng bị giấu).
 watch(filterCategory, (c) => {
@@ -739,58 +802,8 @@ const unexplainedSymptoms = computed<DiagnosisMatchedSymptom[]>(() => {
           <span class="badge badge-warning">{{ filteredList.length }}<template v-if="searchQuery">/{{ dataList.length }}</template> triệu chứng</span>
         </div>
 
-        <!-- Bộ lọc cấu trúc — đều áp QUA Pháp Trị. Chip "đúng filter" in đậm, phần còn lại làm mờ + ẩn sau "xem thêm". -->
-        <div class="filter-bar">
-          <div class="filter-group">
-            <span class="filter-label">Phân Loại</span>
-            <div class="seg">
-              <button type="button" :class="{ active: filterCategory === 'all' }" @click="filterCategory = 'all'">Tất Cả</button>
-              <button type="button" :class="{ active: filterCategory === 'dong-y' }" @click="filterCategory = 'dong-y'">Đông Y</button>
-              <button type="button" :class="{ active: filterCategory === 'tay-y' }" @click="filterCategory = 'tay-y'">Tây Y</button>
-            </div>
-          </div>
-          <div v-if="tangPhuOptions.length" class="filter-group filter-group--grow">
-            <span class="filter-label">Tạng Phủ</span>
-            <div class="chip-select">
-              <button
-                v-for="o in tangPhuOptions"
-                :key="o.id"
-                type="button"
-                :class="{ active: selectedTangPhuIds.includes(o.id) }"
-                @click="toggleTangPhu(o.id)"
-              >{{ o.name }}</button>
-            </div>
-          </div>
-          <div v-if="tonThuongOptions.length" class="filter-group filter-group--grow">
-            <span class="filter-label">Tổn Thương</span>
-            <div class="chip-select">
-              <button
-                v-for="o in tonThuongOptions"
-                :key="o.id"
-                type="button"
-                :class="{ active: selectedTonThuong.includes(o.name) }"
-                @click="toggleTonThuong(o.name)"
-              >{{ o.name }}</button>
-            </div>
-          </div>
-          <!-- Thể Bệnh Tây Y (Chủng Bệnh): chỉ hiện ở nhánh Tây Y, tương tự bộ lọc bên Pháp Trị / Bài Thuốc. -->
-          <div
-            v-if="filterCategory === 'tay-y' && chungBenhOptions.length"
-            class="filter-group filter-group--grow"
-          >
-            <span class="filter-label">Thể Bệnh Tây Y</span>
-            <div class="chip-select">
-              <button
-                v-for="o in chungBenhOptions"
-                :key="o.id"
-                type="button"
-                :class="{ active: selectedChungBenhIds.includes(o.id) }"
-                @click="toggleChungBenh(o.id)"
-              >{{ o.name }}</button>
-            </div>
-          </div>
-          <button v-if="hasActiveFilter" type="button" class="filter-clear" @click="clearFilters">✕ Xóa Lọc</button>
-        </div>
+        <!-- Bộ lọc cấu trúc — đều áp QUA Pháp Trị (dùng chung FilterBar). -->
+        <FilterBar :groups="filterGroups" @pick="onSymptomFilterPick" @clear="clearFilters" />
 
         <div class="table-responsive">
           <table class="data-table">

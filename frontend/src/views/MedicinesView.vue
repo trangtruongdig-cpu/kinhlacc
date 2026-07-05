@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch, nextTick, reactive, defineAsyncComponent } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
+import FilterBar, { type FbGroup } from '@/components/FilterBar.vue'
 
 // Đồ thị tri thức (cytoscape) — nạp động để không gộp vào chunk chính.
 const BaiThuocGraph = defineAsyncComponent(() => import('@/components/BaiThuocGraph.vue'))
@@ -432,6 +433,73 @@ function toggleTonThuong(name: string) {
 function clearExtraFilters() {
   selectedTangPhuIds.value = []
   selectedTonThuongList.value = []
+}
+
+// ── Bộ lọc bài thuốc (dùng chung FilterBar) ──
+const baiThuocFilterGroups = computed<FbGroup[]>(() => {
+  const counts = baiThuocCategoryCounts.value
+  const groups: FbGroup[] = [
+    {
+      id: 'category',
+      label: 'Phân loại',
+      variant: 'segmented',
+      options: [
+        { key: 'dong-y', label: 'Đông Y', count: counts['dong-y'] },
+        { key: 'tay-y', label: 'Tây Y', count: counts['tay-y'] },
+        { key: 'all', label: 'Tất Cả', count: counts['all'] },
+      ],
+      selected: [baiThuocCategory.value],
+    },
+  ]
+  if (baiThuocCategory.value === 'tay-y' && chungBenhTayYOptions.value.length) {
+    groups.push({
+      id: 'chung-benh',
+      label: 'Thể bệnh Tây Y',
+      multi: false,
+      allOption: { label: 'Tất Cả', count: counts['tay-y'] },
+      options: chungBenhTayYOptions.value.map((o) => ({ key: o.id, label: o.name, count: o.count })),
+      selected: selectedChungBenhId.value != null ? [selectedChungBenhId.value] : [],
+      searchable: true,
+      collapse: 12,
+    })
+  }
+  if (baiThuocCategory.value !== 'all') {
+    if (tangPhuStats.value.length) {
+      groups.push({
+        id: 'tang-phu',
+        label: 'Tạng phủ',
+        options: tangPhuStats.value.map((o) => ({ key: o.id, label: o.name, count: o.count })),
+        selected: selectedTangPhuIds.value,
+        searchable: true,
+        collapse: 14,
+        shorten: 'kinh-mach',
+      })
+    }
+    if (tonThuongStats.value.length) {
+      groups.push({
+        id: 'ton-thuong',
+        label: 'Tổn thương - Tác nhân',
+        options: tonThuongStats.value.map((o) => ({ key: o.name, label: o.name, count: o.count })),
+        selected: selectedTonThuongList.value,
+        axis: true,
+        searchable: true,
+        shorten: 'ton-thuong',
+      })
+    }
+  }
+  return groups
+})
+
+function onBaiThuocFilterPick(groupId: string, key: string | number | null) {
+  if (groupId === 'category') {
+    if (key != null) baiThuocCategory.value = key as BaiThuocCategory
+  } else if (groupId === 'chung-benh') {
+    selectedChungBenhId.value = key == null ? null : Number(key)
+  } else if (groupId === 'tang-phu') {
+    if (key != null) toggleTangPhu(Number(key))
+  } else if (groupId === 'ton-thuong') {
+    if (key != null) toggleTonThuong(String(key))
+  }
 }
 
 // Đổi trang → reload page mới từ server.
@@ -2608,123 +2676,11 @@ async function runVtAiBatch() {
           </div>
           <span class="toolbar-count">{{ filteredBaiThuoc.length }} / {{ baiThuocTotal }} bài thuốc</span>
         </div>
-        <div class="sub-tabs" role="tablist" aria-label="Phân loại bài thuốc">
-          <button
-            type="button"
-            role="tab"
-            class="sub-tab"
-            :class="{ active: baiThuocCategory === 'dong-y' }"
-            :aria-selected="baiThuocCategory === 'dong-y'"
-            @click="baiThuocCategory = 'dong-y'"
-          >
-            Đông Y
-            <span class="sub-tab__count">{{ baiThuocCategoryCounts['dong-y'] }}</span>
-          </button>
-          <button
-            type="button"
-            role="tab"
-            class="sub-tab"
-            :class="{ active: baiThuocCategory === 'tay-y' }"
-            :aria-selected="baiThuocCategory === 'tay-y'"
-            @click="baiThuocCategory = 'tay-y'"
-          >
-            Tây Y
-            <span class="sub-tab__count">{{ baiThuocCategoryCounts['tay-y'] }}</span>
-          </button>
-          <button
-            type="button"
-            role="tab"
-            class="sub-tab"
-            :class="{ active: baiThuocCategory === 'all' }"
-            :aria-selected="baiThuocCategory === 'all'"
-            @click="baiThuocCategory = 'all'"
-          >
-            Tất Cả
-            <span class="sub-tab__count">{{ baiThuocCategoryCounts['all'] }}</span>
-          </button>
-        </div>
-        <div
-          v-if="baiThuocCategory === 'tay-y' && chungBenhTayYOptions.length"
-          class="sub-sub-tabs"
-          role="tablist"
-          aria-label="Chủng bệnh Tây Y"
-        >
-          <button
-            type="button"
-            role="tab"
-            class="sub-sub-tab"
-            :class="{ active: selectedChungBenhId === null }"
-            :aria-selected="selectedChungBenhId === null"
-            @click="selectedChungBenhId = null"
-          >
-            Tất Cả
-            <span class="sub-sub-tab__count">{{ baiThuocCategoryCounts['tay-y'] }}</span>
-          </button>
-          <button
-            v-for="cb in chungBenhTayYOptions"
-            :key="cb.id"
-            type="button"
-            role="tab"
-            class="sub-sub-tab"
-            :class="{ active: selectedChungBenhId === cb.id }"
-            :aria-selected="selectedChungBenhId === cb.id"
-            @click="selectedChungBenhId = cb.id"
-          >
-            {{ cb.name }}
-            <span class="sub-sub-tab__count">{{ cb.count }}</span>
-          </button>
-        </div>
-        <div
-          v-if="baiThuocCategory !== 'all' && (tangPhuStats.length || tonThuongStats.length)"
-          class="extra-filters"
-        >
-          <div v-if="tangPhuStats.length" class="filter-row">
-            <span class="filter-row__label">Tạng phủ</span>
-            <div class="sub-sub-tabs sub-sub-tabs--inline" role="group" aria-label="Lọc theo tạng phủ">
-              <button
-                v-for="opt in tangPhuStats"
-                :key="'tp-' + opt.id"
-                type="button"
-                class="sub-sub-tab"
-                :class="{ active: selectedTangPhuIds.includes(opt.id) }"
-                :aria-pressed="selectedTangPhuIds.includes(opt.id)"
-                @click="toggleTangPhu(opt.id)"
-              >
-                {{ opt.name }}
-                <span class="sub-sub-tab__count">{{ opt.count }}</span>
-              </button>
-            </div>
-          </div>
-          <div v-if="tonThuongStats.length" class="filter-row">
-            <span class="filter-row__label">Tổn thương</span>
-            <div
-              class="sub-sub-tabs sub-sub-tabs--inline sub-sub-tabs--alt"
-              role="group"
-              aria-label="Lọc theo tổn thương - tác nhân"
-            >
-              <button
-                v-for="opt in tonThuongStats"
-                :key="'tt-' + opt.id"
-                type="button"
-                class="sub-sub-tab"
-                :class="{ active: selectedTonThuongList.includes(opt.name) }"
-                :aria-pressed="selectedTonThuongList.includes(opt.name)"
-                @click="toggleTonThuong(opt.name)"
-              >
-                {{ opt.name }}
-                <span class="sub-sub-tab__count">{{ opt.count }}</span>
-              </button>
-            </div>
-            <button
-              v-if="selectedTangPhuIds.length || selectedTonThuongList.length"
-              type="button"
-              class="filter-clear-btn"
-              @click="clearExtraFilters"
-            >
-              Bỏ chọn
-            </button>
-          </div>
-        </div>
+        <FilterBar
+          :groups="baiThuocFilterGroups"
+          @pick="onBaiThuocFilterPick"
+          @clear="clearExtraFilters"
+        />
         <div class="data-card" :class="{ 'data-card--loading': baiThuocPageLoading }">
           <div v-if="baiThuocPageLoading" class="loading-bar" aria-hidden="true"></div>
           <div class="card-header">

@@ -2,6 +2,7 @@
 import { ref, onMounted, computed, watch, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { api } from '@/services/api'
+import FilterBar, { type FbGroup } from '@/components/FilterBar.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -341,6 +342,27 @@ const btyChungBenhFilterOptions = computed<BtyChungBenhFilterOption[]>(() => {
   }
   return out.sort((a, b) => a.name.localeCompare(b.name, 'vi'))
 })
+
+// ── Bộ lọc bệnh Tây Y theo chủng bệnh (dùng chung FilterBar) ──
+const btyFilterGroups = computed<FbGroup[]>(() => {
+  if (!btyChungBenhFilterOptions.value.length) return []
+  return [
+    {
+      id: 'chung-benh',
+      label: 'Chủng bệnh',
+      multi: false,
+      allOption: { label: 'Tất Cả', count: benhTayYList.value.length },
+      options: btyChungBenhFilterOptions.value.map((o) => ({ key: o.id, label: o.name, count: o.count })),
+      selected: selectedBtyChungBenhId.value != null ? [selectedBtyChungBenhId.value] : [],
+      searchable: true,
+      collapse: 14,
+    },
+  ]
+})
+
+function onBtyFilterPick(_groupId: string, key: string | number | null) {
+  selectedBtyChungBenhId.value = key == null ? null : Number(key)
+}
 
 const filteredCbList = computed(() => {
   const q = cbSearch.value.trim().toLowerCase()
@@ -700,37 +722,11 @@ async function doDelete() {
           <button class="btn-primary" @click="openCreateBty">+ Thêm bệnh Tây Y</button>
         </div>
 
-        <div
-          v-if="btyChungBenhFilterOptions.length"
-          class="sub-sub-tabs"
-          role="tablist"
-          aria-label="Lọc theo chủng bệnh"
-        >
-          <button
-            type="button"
-            role="tab"
-            class="sub-sub-tab"
-            :class="{ active: selectedBtyChungBenhId === null }"
-            :aria-selected="selectedBtyChungBenhId === null"
-            @click="selectedBtyChungBenhId = null"
-          >
-            Tất Cả
-            <span class="sub-sub-tab__count">{{ benhTayYList.length }}</span>
-          </button>
-          <button
-            v-for="cb in btyChungBenhFilterOptions"
-            :key="cb.id"
-            type="button"
-            role="tab"
-            class="sub-sub-tab"
-            :class="{ active: selectedBtyChungBenhId === cb.id }"
-            :aria-selected="selectedBtyChungBenhId === cb.id"
-            @click="selectedBtyChungBenhId = cb.id"
-          >
-            {{ cb.name }}
-            <span class="sub-sub-tab__count">{{ cb.count }}</span>
-          </button>
-        </div>
+        <FilterBar
+          v-if="btyFilterGroups.length"
+          :groups="btyFilterGroups"
+          @pick="onBtyFilterPick"
+        />
 
         <div class="data-card" :class="{ 'data-card--loading': btyPageLoading }">
           <div v-if="btyPageLoading" class="loading-bar" aria-hidden="true"></div>

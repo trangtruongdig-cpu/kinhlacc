@@ -2,6 +2,9 @@
 import { ref, onMounted, computed, watch, nextTick } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { api } from '@/services/api'
+import FilterBar, { type FbGroup } from '@/components/FilterBar.vue'
+import { groupTonThuongByAxis, shortTonThuongLabel } from '@/constants/tonThuong'
+import { shortKinhMachLabel } from '@/constants/kinhMach'
 
 const router = useRouter()
 const route = useRoute()
@@ -124,6 +127,7 @@ const tonThuongStats = ref<ExtraFilterOption[]>([])
 interface TonThuongTacNhanLite {
   id: number
   ten: string
+  nhom: string | null
   ghi_chu: string | null
 }
 
@@ -175,6 +179,17 @@ const creatingTrieuChung = ref(false)
 const lucKinhOptionNames = computed<string[]>(() =>
   tonThuongOptions.value.map((o) => o.ten).filter(Boolean),
 )
+
+// Gom danh mục Tổn thương theo 3 trục — taxonomy dùng chung với bộ lọc (constants/tonThuong).
+const tonThuongAxes = computed(() => groupTonThuongByAxis(tonThuongOptions.value))
+
+// Số mục đã chọn trong một trục — hiện ở badge tiêu đề trục.
+function axisSelectedCount(ax: (typeof tonThuongAxes.value)[number]): number {
+  const chosen = new Set(form.value.luc_kinh_list)
+  let n = 0
+  for (const sg of ax.subgroups) for (const opt of sg.items) if (opt.ten && chosen.has(opt.ten)) n++
+  return n
+}
 
 const showModal = ref(false)
 const showDeleteConfirm = ref(false)
@@ -390,6 +405,73 @@ function toggleTonThuong(name: string) {
 function clearExtraFilters() {
   selectedTangPhuIds.value = []
   selectedTonThuongList.value = []
+}
+
+// ── Bộ lọc pháp trị (dùng chung FilterBar) ──
+const phapTriFilterGroups = computed<FbGroup[]>(() => {
+  const counts = phapTriCategoryCounts.value
+  const groups: FbGroup[] = [
+    {
+      id: 'category',
+      label: 'Phân loại',
+      variant: 'segmented',
+      options: [
+        { key: 'dong-y', label: 'Đông Y', count: counts['dong-y'] },
+        { key: 'tay-y', label: 'Tây Y', count: counts['tay-y'] },
+        { key: 'all', label: 'Tất Cả', count: counts['all'] },
+      ],
+      selected: [phapTriCategory.value],
+    },
+  ]
+  if (phapTriCategory.value === 'tay-y' && tayYChungBenhFilterOptions.value.length) {
+    groups.push({
+      id: 'chung-benh',
+      label: 'Thể bệnh Tây Y',
+      multi: false,
+      allOption: { label: 'Tất Cả', count: counts['tay-y'] },
+      options: tayYChungBenhFilterOptions.value.map((o) => ({ key: o.id, label: o.name, count: o.count })),
+      selected: selectedTayYChungBenhId.value != null ? [selectedTayYChungBenhId.value] : [],
+      searchable: true,
+      collapse: 12,
+    })
+  }
+  if (phapTriCategory.value !== 'all') {
+    if (tangPhuStats.value.length) {
+      groups.push({
+        id: 'tang-phu',
+        label: 'Tạng phủ',
+        options: tangPhuStats.value.map((o) => ({ key: o.id, label: o.name, count: o.count })),
+        selected: selectedTangPhuIds.value,
+        searchable: true,
+        collapse: 14,
+        shorten: 'kinh-mach',
+      })
+    }
+    if (tonThuongStats.value.length) {
+      groups.push({
+        id: 'ton-thuong',
+        label: 'Tổn thương - Tác nhân',
+        options: tonThuongStats.value.map((o) => ({ key: o.name, label: o.name, count: o.count })),
+        selected: selectedTonThuongList.value,
+        axis: true,
+        searchable: true,
+        shorten: 'ton-thuong',
+      })
+    }
+  }
+  return groups
+})
+
+function onPhapTriFilterPick(groupId: string, key: string | number | null) {
+  if (groupId === 'category') {
+    if (key != null) phapTriCategory.value = key as PhapTriCategory
+  } else if (groupId === 'chung-benh') {
+    selectedTayYChungBenhId.value = key == null ? null : Number(key)
+  } else if (groupId === 'tang-phu') {
+    if (key != null) toggleTangPhu(Number(key))
+  } else if (groupId === 'ton-thuong') {
+    if (key != null) toggleTonThuong(String(key))
+  }
 }
 
 // Cờ chặn reload thừa khi currentPage bị set lại từ focusId (deep link).
@@ -857,125 +939,11 @@ async function handleDelete() {
         <div class="toolbar-count">{{ filteredList.length }} / {{ dataList.length }} pháp trị</div>
       </div>
 
-      <div class="sub-tabs" role="tablist" aria-label="Phân loại pháp trị">
-        <button
-          type="button"
-          role="tab"
-          class="sub-tab"
-          :class="{ active: phapTriCategory === 'dong-y' }"
-          :aria-selected="phapTriCategory === 'dong-y'"
-          @click="phapTriCategory = 'dong-y'"
-        >
-          Đông Y
-          <span class="sub-tab__count">{{ phapTriCategoryCounts['dong-y'] }}</span>
-        </button>
-        <button
-          type="button"
-          role="tab"
-          class="sub-tab"
-          :class="{ active: phapTriCategory === 'tay-y' }"
-          :aria-selected="phapTriCategory === 'tay-y'"
-          @click="phapTriCategory = 'tay-y'"
-        >
-          Tây Y
-          <span class="sub-tab__count">{{ phapTriCategoryCounts['tay-y'] }}</span>
-        </button>
-        <button
-          type="button"
-          role="tab"
-          class="sub-tab"
-          :class="{ active: phapTriCategory === 'all' }"
-          :aria-selected="phapTriCategory === 'all'"
-          @click="phapTriCategory = 'all'"
-        >
-          Tất Cả
-          <span class="sub-tab__count">{{ phapTriCategoryCounts['all'] }}</span>
-        </button>
-      </div>
-
-      <div
-        v-if="phapTriCategory !== 'all' && (tangPhuStats.length || tonThuongStats.length)"
-        class="extra-filters"
-      >
-        <div v-if="tangPhuStats.length" class="filter-row">
-          <span class="filter-row__label">Tạng phủ</span>
-          <div class="sub-sub-tabs sub-sub-tabs--inline" role="group" aria-label="Lọc theo tạng phủ">
-            <button
-              v-for="opt in tangPhuStats"
-              :key="'tp-' + opt.id"
-              type="button"
-              class="sub-sub-tab"
-              :class="{ active: selectedTangPhuIds.includes(opt.id) }"
-              :aria-pressed="selectedTangPhuIds.includes(opt.id)"
-              @click="toggleTangPhu(opt.id)"
-            >
-              {{ opt.name }}
-              <span class="sub-sub-tab__count">{{ opt.count }}</span>
-            </button>
-          </div>
-        </div>
-        <div v-if="tonThuongStats.length" class="filter-row">
-          <span class="filter-row__label">Tổn thương</span>
-          <div
-            class="sub-sub-tabs sub-sub-tabs--inline sub-sub-tabs--alt"
-            role="group"
-            aria-label="Lọc theo tổn thương - tác nhân"
-          >
-            <button
-              v-for="opt in tonThuongStats"
-              :key="'tt-' + opt.id"
-              type="button"
-              class="sub-sub-tab"
-              :class="{ active: selectedTonThuongList.includes(opt.name) }"
-              :aria-pressed="selectedTonThuongList.includes(opt.name)"
-              @click="toggleTonThuong(opt.name)"
-            >
-              {{ opt.name }}
-              <span class="sub-sub-tab__count">{{ opt.count }}</span>
-            </button>
-          </div>
-          <button
-            v-if="selectedTangPhuIds.length || selectedTonThuongList.length"
-            type="button"
-            class="filter-clear-btn"
-            @click="clearExtraFilters"
-          >
-            Bỏ chọn
-          </button>
-        </div>
-      </div>
-
-      <div
-        v-if="phapTriCategory === 'tay-y' && tayYChungBenhFilterOptions.length"
-        class="sub-sub-tabs"
-        role="tablist"
-        aria-label="Lọc theo chủng bệnh"
-      >
-        <button
-          type="button"
-          role="tab"
-          class="sub-sub-tab"
-          :class="{ active: selectedTayYChungBenhId === null }"
-          :aria-selected="selectedTayYChungBenhId === null"
-          @click="selectedTayYChungBenhId = null"
-        >
-          Tất Cả
-          <span class="sub-sub-tab__count">{{ phapTriCategoryCounts['tay-y'] }}</span>
-        </button>
-        <button
-          v-for="cb in tayYChungBenhFilterOptions"
-          :key="cb.id"
-          type="button"
-          role="tab"
-          class="sub-sub-tab"
-          :class="{ active: selectedTayYChungBenhId === cb.id }"
-          :aria-selected="selectedTayYChungBenhId === cb.id"
-          @click="selectedTayYChungBenhId = cb.id"
-        >
-          {{ cb.name }}
-          <span class="sub-sub-tab__count">{{ cb.count }}</span>
-        </button>
-      </div>
+      <FilterBar
+        :groups="phapTriFilterGroups"
+        @pick="onPhapTriFilterPick"
+        @clear="clearExtraFilters"
+      />
 
       <div class="data-card" :class="{ 'data-card--loading': pageLoading }">
         <div v-if="pageLoading" class="loading-bar" aria-hidden="true"></div>
@@ -1181,19 +1149,52 @@ async function handleDelete() {
               <div v-if="lucKinhOptionNames.length === 0" class="muted">
                 Chưa có dữ liệu — thêm ở tab "Bệnh đo kinh lạc → Tổn thương - Tác nhân"
               </div>
-              <div v-else class="chip-picker">
-                <button
-                  v-for="opt in lucKinhOptionNames"
-                  :key="opt"
-                  type="button"
-                  class="chip-toggle"
-                  :class="{ active: form.luc_kinh_list.includes(opt) }"
-                  @click="toggleLucKinh(opt)"
-                >
-                  {{ opt }}
-                </button>
-              </div>
-              <small class="field-hint">Có thể chọn nhiều. Bấm lại lựa chọn đang chọn để bỏ.</small>
+              <template v-else>
+                <!-- Tổng quan lựa chọn: luôn thấy đã chọn gì dù cuộn xuống -->
+                <div v-if="form.luc_kinh_list.length" class="tt-selected">
+                  <span class="tt-selected-lead">Đã chọn</span>
+                  <button
+                    v-for="opt in form.luc_kinh_list"
+                    :key="'sel-' + opt"
+                    type="button"
+                    class="tt-selected-chip"
+                    :title="'Bỏ chọn ' + opt"
+                    @click="toggleLucKinh(opt)"
+                  >
+                    {{ shortTonThuongLabel(opt) }}<span class="tt-selected-x" aria-hidden="true">✕</span>
+                  </button>
+                </div>
+
+                <div class="tt-axes">
+                  <section v-for="ax in tonThuongAxes" :key="ax.key" class="tt-axis">
+                    <header class="tt-axis-head">
+                      <span class="tt-axis-num">{{ ax.num }}</span>
+                      <span class="tt-axis-title">{{ ax.title }}</span>
+                      <span class="tt-axis-sub">{{ ax.sub }}</span>
+                      <span v-if="axisSelectedCount(ax)" class="tt-axis-count">{{ axisSelectedCount(ax) }}</span>
+                    </header>
+                    <div class="tt-subgroups">
+                      <div v-for="sg in ax.subgroups" :key="sg.nhom" class="tt-subgroup">
+                        <div v-if="ax.subgroups.length > 1" class="tt-subgroup-label">{{ sg.label }}</div>
+                        <div class="chip-picker">
+                          <button
+                            v-for="opt in sg.items"
+                            :key="opt.id"
+                            type="button"
+                            class="chip-toggle"
+                            :class="{ active: form.luc_kinh_list.includes(opt.ten) }"
+                            :title="shortTonThuongLabel(opt.ten) !== opt.ten ? opt.ten : undefined"
+                            @click="toggleLucKinh(opt.ten)"
+                          >
+                            {{ shortTonThuongLabel(opt.ten) }}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+                <small class="field-hint">3 trục theo Thương Hàn Luận / Ôn bệnh — ① định vị (giai đoạn) · ② tác nhân (khí/tà) · ③ tính chất tổn thương. Bấm để chọn, bấm lại để bỏ.</small>
+              </template>
             </div>
 
             <div class="field field--full">
@@ -1227,9 +1228,10 @@ async function handleDelete() {
                     type="button"
                     class="chip-toggle"
                     :class="{ active: form.id_kinh_mach_list.includes(k.idKinhMach) }"
+                    :title="shortKinhMachLabel(kinhMachLabel(k)) !== kinhMachLabel(k) ? kinhMachLabel(k) : undefined"
                     @click="form.id_kinh_mach_list = toggleMultiId(form.id_kinh_mach_list, k.idKinhMach)"
                   >
-                    {{ kinhMachLabel(k) }}
+                    {{ shortKinhMachLabel(kinhMachLabel(k)) }}
                   </button>
                   <span v-if="filteredKinhMachOptions.length === 0" class="muted">
                     Không khớp "{{ kinhMachSearch }}"
@@ -2031,6 +2033,61 @@ async function handleDelete() {
 .tc-picker-group__label { font-size: 11px; font-weight: 800; color: var(--brown-700, #6b4f2a); text-transform: uppercase; letter-spacing: 0.03em; margin: 2px 0 4px; }
 .tc-picker-group__label span { font-weight: 400; color: var(--gray-500); }
 .tc-picker-group .chip-picker { border: 0; background: transparent; padding: 0; }
+/* ─── Tổn thương - Tác nhân: 3 trục chẩn đoán (định vị · tác nhân · tính chất) ─── */
+/* Tổng quan lựa chọn — luôn hiển thị đã chọn gì, bấm để bỏ */
+.tt-selected {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  padding: 7px 10px; margin-bottom: 8px;
+  border: 1px solid var(--border-brand, var(--brown-200)); border-radius: var(--radius-md);
+  background: var(--brown-50);
+}
+.tt-selected-lead { font-size: 11px; font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; color: var(--brown-700); margin-right: 2px; }
+.tt-selected-chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 6px 3px 9px; font-size: 12px; font-weight: 600;
+  border: 1px solid var(--brown-600); border-radius: var(--radius-full, 999px);
+  background: var(--brown-600); color: var(--white); cursor: pointer;
+  transition: filter var(--transition-fast);
+}
+.tt-selected-chip:hover { filter: brightness(1.12); }
+.tt-selected-x { font-size: 9px; opacity: 0.8; }
+
+.tt-axes { display: flex; flex-direction: column; gap: 10px; }
+.tt-axis {
+  border: 1px solid var(--gray-200); border-radius: var(--radius-md);
+  background: var(--surface-2, #fbf8f2); overflow: hidden;
+}
+.tt-axis-head {
+  display: flex; align-items: center; gap: 8px;
+  padding: 6px 10px;
+  background: var(--gray-100);
+  border-bottom: 1px solid var(--gray-200);
+}
+.tt-axis-num {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 20px; height: 20px; flex: none;
+  font-size: 12px; font-weight: 800; line-height: 1;
+  color: var(--white); background: var(--brown-600); border-radius: 50%;
+}
+.tt-axis-title { font-size: 12px; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; color: var(--brown-800); }
+.tt-axis-sub { font-size: 11px; color: var(--gray-500); }
+.tt-axis-count {
+  margin-left: auto; min-width: 18px; height: 18px; padding: 0 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; color: var(--brown-700);
+  background: var(--brown-100); border-radius: var(--radius-full, 999px);
+}
+/* Sub-nhóm chia cột co giãn theo bề rộng modal (auto-fit → 1 nhóm chiếm hết bề ngang) */
+.tt-subgroups {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 8px 14px; padding: 10px; align-items: start;
+}
+.tt-subgroup-label {
+  font-size: 11px; font-weight: 700; color: var(--brown-700);
+  margin: 0 0 5px; padding-bottom: 3px;
+  border-bottom: 1px dashed var(--gray-200);
+}
+.tt-subgroup .chip-picker { border: 0; background: transparent; padding: 0; }
 .chip-toggle {
   padding: 4px 10px;
   font-size: 13px;
