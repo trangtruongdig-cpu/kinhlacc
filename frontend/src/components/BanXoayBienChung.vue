@@ -498,10 +498,10 @@ function glow(token: string) {
           <svg viewBox="0 0 720 720" class="bx-svg" role="img" :aria-label="`Bàn xoay biện chứng ${schema.tabLabel}`">
             <defs>
               <radialGradient id="bx-stone" cx="50%" cy="42%" r="64%">
-                <stop offset="0%" stop-color="#5b3f20" />
-                <stop offset="46%" stop-color="#4a3219" />
-                <stop offset="80%" stop-color="#37230f" />
-                <stop offset="100%" stop-color="#2a1a0a" />
+                <stop offset="0%" style="stop-color: var(--brown-700)" />
+                <stop offset="46%" style="stop-color: var(--brown-800)" />
+                <stop offset="80%" style="stop-color: var(--brown-900)" />
+                <stop offset="100%" style="stop-color: var(--brown-900)" />
               </radialGradient>
               <radialGradient id="bx-glow" cx="50%" cy="45%" r="52%">
                 <stop offset="0%" stop-color="rgba(252,243,222,.40)" />
@@ -510,9 +510,9 @@ function glow(token: string) {
                 <stop offset="100%" stop-color="rgba(248,236,212,0)" />
               </radialGradient>
               <linearGradient id="bx-rim" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#fbf2dd" />
-                <stop offset="48%" stop-color="#e3cd9a" />
-                <stop offset="100%" stop-color="#a4743a" />
+                <stop offset="0%" style="stop-color: var(--brown-100)" />
+                <stop offset="48%" style="stop-color: var(--brown-300)" />
+                <stop offset="100%" style="stop-color: var(--brown-600)" />
               </linearGradient>
               <radialGradient id="bx-inner-shadow" cx="50%" cy="50%" r="50%">
                 <stop offset="0%" stop-color="rgba(0,0,0,0)" />
@@ -569,7 +569,7 @@ function glow(token: string) {
 
             <!-- Lõi giữa -->
             <g class="bx-hub">
-              <circle :cx="CX" :cy="CY" :r="HUB_R" fill="#2a1a0a" stroke="url(#bx-rim)" stroke-width="2" />
+              <circle :cx="CX" :cy="CY" :r="HUB_R" style="fill: var(--brown-900)" stroke="url(#bx-rim)" stroke-width="2" />
               <template v-if="headlineLabel">
                 <text class="bx-hub-count" x="360" :y="CY - 10">{{ matchedSpokes.length }}</text>
                 <text class="bx-hub-cap" x="360" :y="CY + 10">{{ schema.hubName }}</text>

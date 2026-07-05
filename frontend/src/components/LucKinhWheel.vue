@@ -279,10 +279,10 @@ function toggle(i: number) {
       <title>Biện chứng Lục Kinh — biểu-lý · Kinh · Bản khí · Tạng/Phủ · Ngũ Hành sinh khắc</title>
       <defs>
         <radialGradient id="lk-stone" cx="50%" cy="40%" r="64%">
-          <stop offset="0%" stop-color="#5b3f20" />
-          <stop offset="46%" stop-color="#4a3219" />
-          <stop offset="80%" stop-color="#37230f" />
-          <stop offset="100%" stop-color="#2a1a0a" />
+          <stop offset="0%" style="stop-color: var(--brown-700)" />
+          <stop offset="46%" style="stop-color: var(--brown-800)" />
+          <stop offset="80%" style="stop-color: var(--brown-900)" />
+          <stop offset="100%" style="stop-color: var(--brown-900)" />
         </radialGradient>
         <radialGradient id="lk-glow" cx="50%" cy="46%" r="48%">
           <stop offset="0%" stop-color="rgba(250,240,218,.30)" />
@@ -290,9 +290,9 @@ function toggle(i: number) {
           <stop offset="100%" stop-color="rgba(248,236,212,0)" />
         </radialGradient>
         <linearGradient id="lk-rim" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#fbf2dd" />
-          <stop offset="48%" stop-color="#e3cd9a" />
-          <stop offset="100%" stop-color="#a4743a" />
+          <stop offset="0%" style="stop-color: var(--brown-100)" />
+          <stop offset="48%" style="stop-color: var(--brown-300)" />
+          <stop offset="100%" style="stop-color: var(--brown-600)" />
         </linearGradient>
         <radialGradient id="lk-shadow" cx="50%" cy="50%" r="50%">
           <stop offset="0%" stop-color="rgba(0,0,0,0)" />

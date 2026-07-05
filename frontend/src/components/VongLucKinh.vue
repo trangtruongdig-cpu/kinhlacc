@@ -132,11 +132,11 @@ const cnt = (slug: string) => props.counts?.[slug] ?? 0
     <svg class="vlk-svg" viewBox="0 0 420 420" role="img" aria-label="Đồ hình Lục Kinh Thương Hàn: truyền biến, biểu-lý (Trung kiến), khai-hạp-xu, nối Tạng Phủ · Lục Khí · Lục Kinh">
       <defs>
         <radialGradient id="vlk-stone" cx="50%" cy="42%" r="62%">
-          <stop offset="0%" stop-color="#5b3f20" /><stop offset="46%" stop-color="#4a3219" />
-          <stop offset="80%" stop-color="#37230f" /><stop offset="100%" stop-color="#2a1a0a" />
+          <stop offset="0%" style="stop-color: var(--brown-700)" /><stop offset="46%" style="stop-color: var(--brown-800)" />
+          <stop offset="80%" style="stop-color: var(--brown-900)" /><stop offset="100%" style="stop-color: var(--brown-900)" />
         </radialGradient>
         <radialGradient id="vlk-rim" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#fbf2dd" /><stop offset="50%" stop-color="#e3cd9a" /><stop offset="100%" stop-color="#a4743a" />
+          <stop offset="0%" style="stop-color: var(--brown-100)" /><stop offset="50%" style="stop-color: var(--brown-300)" /><stop offset="100%" style="stop-color: var(--brown-600)" />
         </radialGradient>
         <path v-for="(w, i) in wedges" :id="'vk-ak' + i" :key="'pak' + i" :d="w.arcKinh" />
         <path v-for="(w, i) in wedges" :id="'vk-ah' + i" :key="'pah' + i" :d="w.arcKhhx" />

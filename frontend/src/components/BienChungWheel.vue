@@ -453,8 +453,8 @@ onBeforeUnmount(() => {
     <svg class="bcw-svg" viewBox="0 0 420 420" role="img" aria-label="Đồ hình Ngũ Hành: tương sinh – tương khắc, bóc lớp Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh">
       <defs>
         <radialGradient id="bcw-stone" cx="50%" cy="40%" r="64%">
-          <stop offset="0%" stop-color="#5b3f20" /><stop offset="46%" stop-color="#4a3219" />
-          <stop offset="80%" stop-color="#37230f" /><stop offset="100%" stop-color="#2a1a0a" />
+          <stop offset="0%" style="stop-color: var(--brown-700)" /><stop offset="46%" style="stop-color: var(--brown-800)" />
+          <stop offset="80%" style="stop-color: var(--brown-900)" /><stop offset="100%" style="stop-color: var(--brown-900)" />
         </radialGradient>
         <radialGradient id="bcw-glow" cx="50%" cy="46%" r="50%">
           <stop offset="0%" stop-color="rgba(250,240,218,.30)" /><stop offset="58%" stop-color="rgba(248,236,212,.07)" />
@@ -465,7 +465,7 @@ onBeforeUnmount(() => {
           <stop offset="100%" stop-color="rgba(12,6,2,.5)" />
         </radialGradient>
         <linearGradient id="bcw-rim" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#fbf2dd" /><stop offset="48%" stop-color="#e3cd9a" /><stop offset="100%" stop-color="#a4743a" />
+          <stop offset="0%" style="stop-color: var(--brown-100)" /><stop offset="48%" style="stop-color: var(--brown-300)" /><stop offset="100%" style="stop-color: var(--brown-600)" />
         </linearGradient>
         <!-- vệt sáng quét tiêu–trưởng (lớp Âm Dương) -->
         <radialGradient id="bcw-beam" cx="50%" cy="50%" r="50%">
