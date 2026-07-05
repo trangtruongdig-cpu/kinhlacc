@@ -427,6 +427,7 @@ const faqs: { q: string; a: string }[] = [
           <span class="lp-brand-text">Kinh Lạc Trương Gia</span>
         </div>
         <nav class="lp-nav-links">
+          <button @click="scrollTo('dials')">Biện Chứng</button>
           <button @click="scrollTo('measure')">Kết Quả Đo</button>
           <button @click="scrollTo('phan-tich-bai-thuoc')">Phân Tích Bài Thuốc</button>
           <button @click="scrollTo('thu-vien')">Thư Viện</button>
@@ -1002,11 +1003,15 @@ const faqs: { q: string; a: string }[] = [
   min-height: 100vh;
   background: var(--bg-app);
   color: var(--text);
-  overflow-x: hidden;
+  overflow-x: clip; /* clip (KHÔNG phải hidden) → chặn tràn ngang mà KHÔNG tạo scroll-container → .lp-nav position:sticky vẫn dính */
   /* Di truyền xuống MỌI đoạn chữ con: trình duyệt tự tránh để 1 từ rớt lẻ loi
      xuống dòng cuối (orphan). Heading được đặt riêng `text-wrap: balance` để chia
      dòng cân nhau — declaration riêng đó sẽ đè lên giá trị di truyền này. */
   text-wrap: pretty;
+}
+/* Nav ĐÃ sticky → mọi section khi cuộn tới (từ menu) chừa chỗ cho thanh nav (~68px) để không bị che. */
+.landing section {
+  scroll-margin-top: 84px;
 }
 
 /* ---------- Câu hỏi thường gặp (FAQ) ---------- */
