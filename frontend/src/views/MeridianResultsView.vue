@@ -3,7 +3,6 @@ import { ref, onMounted, computed, watch, reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { usePatientStore, type Patient } from '@/stores/patient'
 import { api } from '@/services/api'
-import BatCuongFigure from '@/components/BatCuongFigure.vue'
 import BatCuongFigure3D from '@/components/BatCuongFigure3D.vue'
 import BatCuongSummary from '@/components/BatCuongSummary.vue'
 import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
@@ -1838,7 +1837,7 @@ function printPhieuKetQua() {
     `Bình quân ${fmt(s.mean, 2)} · Khoảng bình thường ${fmt(s.lowerBound, 2)}–${fmt(s.upperBound, 2)}`
 
   // Chụp ĐỒ HÌNH kinh lạc đưa vào phiếu in. Ưu tiên 4 GÓC xoay của hình 3D (như xoay trên màn hình);
-  // nếu chưa sẵn sàng / không có WebGL → rơi về 1 ảnh canvas, rồi tới SVG 2D, rồi thông báo.
+  // nếu chưa sẵn sàng → rơi về 1 ảnh canvas, rồi tới thông báo (đã bỏ đồ hình 2D dự phòng).
   const figBlock = (() => {
     const VIEW_CAPS = ['Mặt trước', 'Bên phải', 'Mặt sau', 'Bên trái']
     let views: string[] = []
@@ -1867,8 +1866,6 @@ function printPhieuKetQua() {
         /* canvas tainted / mất context → rơi về SVG hoặc thông báo */
       }
     }
-    const svg = document.querySelector('.bcf3d-fallback svg') as SVGSVGElement | null
-    if (svg) return `<div class="bc-fig-svg">${svg.outerHTML}</div>`
     return '<div class="bc-fig-empty">Cuộn tới mục Bát Cương cho đồ hình hiện đủ rồi in lại để đưa hình kinh lạc vào phiếu.</div>'
   })()
 
@@ -2281,17 +2278,7 @@ function printPhieuKetQua() {
                 :organs="affectedOrgans"
                 :focus="batCuongFocus"
                 @toggle="toggleBatCuongFocus"
-              >
-                <!-- Rơi về đồ hình 2D khi máy không hỗ trợ WebGL -->
-                <BatCuongFigure
-                  :am-duong="diagnosis.amDuong"
-                  :khi="diagnosis.khi"
-                  :huyet="diagnosis.huyet"
-                  :organs="affectedOrgans"
-                  :focus="batCuongFocus"
-                  @toggle="toggleBatCuongFocus"
-                />
-              </BatCuongFigure3D>
+              />
               <BatCuongOrgans
                 class="bc-organs-col"
                 :items="organsPhu"

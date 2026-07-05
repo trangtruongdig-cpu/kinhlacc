@@ -290,6 +290,89 @@ export function computeBatCuong(
   }
 }
 
+/** Một tạng phủ đã phân loại Bát Cương (kèm mã kinh để soi bảng đo). */
+export interface BcOrgan {
+  name: string // mã kinh (row.name)
+  label: string // tên đầy đủ + bên (vd "Tâm trái")
+  organ: string // tên tạng phủ (khớp CHANNELS_FULL, vd "Tâm")
+  side: string // "trái" | "phải" | "" | "trái/phải"
+}
+/** Tạng phủ đang bệnh kèm độ sâu (Biểu/Lý) + tính chất (Hàn/Nhiệt); 'mixed' khi rơi vào nhiều nhóm. */
+export interface OrganState extends BcOrgan {
+  depth: 'bieu' | 'ly' | 'mixed'
+  temp: 'han' | 'nhiet' | 'mixed'
+}
+
+/**
+ * Danh sách tạng phủ đang bệnh (Biểu/Lý × Hàn/Nhiệt) để VẼ lên hình người 3D (BatCuongFigure3D).
+ * GỘP theo tạng: 1 kinh có thể rơi vào >1 nhóm (vừa Hàn vừa Nhiệt do 2 bên) → hợp nhất, đánh dấu 'mixed'.
+ * Dùng CHUNG cho trang Kết Quả Đo thật lẫn khối demo trang chủ (một nguồn sự thật).
+ */
+export function computeAffectedOrgans(
+  upperRows: ProcessedRow[],
+  lowerRows: ProcessedRow[],
+  upperStats: MeridianStats,
+  lowerStats: MeridianStats,
+): OrganState[] {
+  const lyNhiet: string[] = []
+  const bieuNhiet: string[] = []
+  const lyHan: string[] = []
+  const bieuHan: string[] = []
+  const itLyNhiet: BcOrgan[] = []
+  const itBieuNhiet: BcOrgan[] = []
+  const itLyHan: BcOrgan[] = []
+  const itBieuHan: BcOrgan[] = []
+
+  const mkOrgan = (rowName: string, organ: string, label: string): BcOrgan => ({
+    name: rowName,
+    label,
+    organ,
+    side: label.slice(organ.length).trim(),
+  })
+
+  const process = (row: ProcessedRow, saiSo: number) => {
+    const tenKinh = CHANNELS_FULL[row.name]
+    if (!tenKinh) return
+    const dauC8 = signToInt(row.leftSign)
+    const dauC10 = signToInt(row.diff > 0 ? '+' : row.diff < 0 ? '-' : '0')
+    const dauC11 = signToInt(row.rightSign)
+    // Phát hiện nhóm nào "lớn lên" sau khi phân loại → quy về đúng mã kinh của hàng này.
+    const n0 = lyNhiet.length
+    const n1 = bieuNhiet.length
+    const n2 = lyHan.length
+    const n3 = bieuHan.length
+    groupingV2(lyNhiet, bieuNhiet, lyHan, bieuHan, tenKinh, dauC8, dauC10, dauC11, row.diff, saiSo)
+    if (lyNhiet.length > n0) itLyNhiet.push(mkOrgan(row.name, tenKinh, lyNhiet[lyNhiet.length - 1]!))
+    if (bieuNhiet.length > n1) itBieuNhiet.push(mkOrgan(row.name, tenKinh, bieuNhiet[bieuNhiet.length - 1]!))
+    if (lyHan.length > n2) itLyHan.push(mkOrgan(row.name, tenKinh, lyHan[lyHan.length - 1]!))
+    if (bieuHan.length > n3) itBieuHan.push(mkOrgan(row.name, tenKinh, bieuHan[bieuHan.length - 1]!))
+  }
+
+  upperRows.forEach((row) => process(row, upperStats.sd))
+  lowerRows.forEach((row) => process(row, lowerStats.sd))
+
+  const tag = (list: BcOrgan[], depth: 'bieu' | 'ly', temp: 'han' | 'nhiet'): OrganState[] =>
+    list.map((o) => ({ ...o, depth, temp }))
+  const all = [
+    ...tag(itBieuHan, 'bieu', 'han'),
+    ...tag(itLyHan, 'ly', 'han'),
+    ...tag(itBieuNhiet, 'bieu', 'nhiet'),
+    ...tag(itLyNhiet, 'ly', 'nhiet'),
+  ]
+  const byOrgan = new Map<string, OrganState>()
+  for (const o of all) {
+    const ex = byOrgan.get(o.organ)
+    if (!ex) {
+      byOrgan.set(o.organ, { ...o })
+      continue
+    }
+    if (ex.temp !== o.temp) ex.temp = 'mixed'
+    if (ex.depth !== o.depth) ex.depth = 'mixed'
+    if (ex.side !== o.side) ex.side = [ex.side, o.side].filter(Boolean).join('/')
+  }
+  return [...byOrgan.values()]
+}
+
 /** Định dạng số kiểu VN: dùng dấu phẩy thập phân. */
 export function fmt(val: number, decimals = 2): string {
   return val.toFixed(decimals).replace('.', ',')

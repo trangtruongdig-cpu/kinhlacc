@@ -1119,8 +1119,10 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <!-- Không WebGL / lỗi tải → render hình rơi-về 2D do cha truyền vào slot -->
-  <div v-if="!canRender" class="bcf3d-fallback"><slot /></div>
+  <!-- Không WebGL / lỗi tải → thông báo ngắn (đã bỏ đồ hình 2D dự phòng, 3D là chính) -->
+  <div v-if="!canRender" class="bcf3d-fallback">
+    <p class="bcf3d-nowebgl">Thiết bị/trình duyệt chưa hỗ trợ đồ hoạ 3D (WebGL) để hiện đồ hình kinh lạc. Vui lòng cập nhật trình duyệt hoặc dùng máy khác.</p>
+  </div>
   <div v-else ref="host" class="bcf3d-host">
     <!-- Vòng tròn % tải (giữ y như HeroMeridianFigure) -->
     <div v-if="loadState !== 'idle'" class="hf-loader" :class="{ 'is-done': loadState === 'done' }">
@@ -1136,7 +1138,18 @@ onBeforeUnmount(() => {
 <style scoped>
 .bcf3d-fallback {
   width: 100%;
-  min-height: 360px;
+  min-height: 240px;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.bcf3d-nowebgl {
+  max-width: 360px;
+  margin: 0;
+  text-align: center;
+  color: var(--text-muted, #6b5a44);
+  font-size: 13.5px;
+  line-height: 1.5;
 }
 .bcf3d-host {
   position: relative;
