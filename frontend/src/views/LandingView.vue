@@ -6,21 +6,18 @@
  *   • Sinh viên & giảng viên Y Học Cổ Truyền
  *   • Y sỹ, bác sỹ tại bệnh viện / phòng khám
  * Chiến thuật marketing: "nhá hàng" trực tiếp các tính năng thật ở chế độ CHỈ-XEM để hấp dẫn:
- *   • Đồ hình kinh lạc 3D — kéo xoay, xem đường kinh + huyệt, KHÔNG có công cụ chỉnh sửa.
- *   • Một bản kết quả đo kinh lạc mẫu (biểu đồ 12 đường kinh + gợi ý chẩn đoán).
+ *   • Một bản kết quả đo kinh lạc mẫu (biểu đồ 12 đường kinh + gợi ý chẩn đoán) — có hình người 3D XOAY.
  *   • Kho tri thức: vài bài thuốc / thể bệnh / pháp trị thật, phần còn lại "khoá" → mời đăng nhập.
  *
  * Trang nằm NGOÀI DashboardLayout (không có .content-area) nên tự viết Title Case.
- * Hiệu năng: hero dùng vòng CosmicWheel (SVG nhẹ); hình người 3D nặng đặt ở khu "Đồ Hình 3D" phía
- * dưới, tự lazy-load khi cuộn tới (kể cả trên điện thoại — vòng SVG chỉ là phương án dự phòng).
+ * Hiệu năng: hero dùng vòng SVG nhẹ; hình người 3D nặng (khu "Kết Quả Đo") tự lazy-load khi cuộn tới
+ * (IntersectionObserver bên trong component) nên KHÔNG làm chậm lúc mới mở trang.
  */
 import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
-import CosmicWheel from '@/components/CosmicWheel.vue'
 // Vòng xoay KHUNG cho hero: tự XOAY + luân chuyển lớp Lục Kinh → Lục Khí → Tạng Phủ (trang trí).
 import HeroKhungWheel from '@/components/HeroKhungWheel.vue'
-import HeroMeridianFigure from '@/components/HeroMeridianFigure.vue'
 import BanXoayBienChung from '@/components/BanXoayBienChung.vue'
 // Khối Bát Cương "y như app": hình người 3D XOAY được + 2 cột tạng phủ hai bên.
 import BatCuongOrgans from '@/components/BatCuongOrgans.vue' // 2 cột thẻ tạng phủ (SVG, nhẹ)
@@ -76,19 +73,6 @@ onMounted(async () => {
     formulaLoading.value = false
   }
 })
-
-// Dựng hình người 3D trên MỌI màn hình (kể cả điện thoại) → luôn có vòng tròn % khi tải.
-// Hình tự lazy-load khi cuộn tới khu "Đồ Hình 3D" (IntersectionObserver bên trong component) nên
-// KHÔNG làm chậm lúc mới mở trang. Vòng SVG (nhánh v-else) chỉ còn là phương án dự phòng.
-const showFigure = ref(true)
-
-// ── "Nhá hàng" đồ hình 3D ──
-const model3d = [
-  'Xoay 360° — quan sát đường kinh từ mọi góc, ngay trên màn hình.',
-  '14 đường kinh chính phát sáng cùng hệ thống huyệt vị định vị chính xác.',
-  'Chế độ chỉ-xem: kéo để xoay, không lo chỉnh sửa nhầm dữ liệu.',
-  'Giáo cụ trực quan cho học – giảng dạy và tra cứu tại phòng khám.',
-]
 
 // ── "Nhá hàng" kết quả đo kinh lạc — XOAY QUA NHIỀU CA THẬT (đã ẩn danh) ──
 // Mỗi ca là số đo nhiệt độ 12 đường kinh (× trái/phải). Dùng CHUNG engine meridianAnalysis
@@ -443,7 +427,6 @@ const faqs: { q: string; a: string }[] = [
           <span class="lp-brand-text">Kinh Lạc Trương Gia</span>
         </div>
         <nav class="lp-nav-links">
-          <button @click="scrollTo('model3d')">Đồ Hình 3D</button>
           <button @click="scrollTo('measure')">Kết Quả Đo</button>
           <button @click="scrollTo('phan-tich-bai-thuoc')">Phân Tích Bài Thuốc</button>
           <button @click="scrollTo('thu-vien')">Thư Viện</button>
@@ -564,44 +547,6 @@ const faqs: { q: string; a: string }[] = [
             <li v-for="(s, i) in shiftNew" :key="i">{{ s }}</li>
           </ul>
         </article>
-      </div>
-    </section>
-
-    <!-- ============ Đồ hình 3D (điểm nhấn — xem trước CHỈ-XEM) ============ -->
-    <section class="lp-model" id="model3d">
-      <div class="lp-model-inner">
-        <div class="lp-model-art">
-          <!-- Khung "cửa sổ app" để giống ảnh chụp sản phẩm thật -->
-          <div class="lp-stage">
-            <div class="lp-stage-bar">
-              <span class="lp-dot"></span><span class="lp-dot"></span><span class="lp-dot"></span>
-              <span class="lp-stage-title">Đồ Hình Kinh Lạc 3D</span>
-              <span class="lp-stage-badge">Chỉ Xem</span>
-            </div>
-            <div class="lp-stage-body">
-              <div v-if="showFigure" class="lp-figure">
-                <HeroMeridianFigure interactive show-points />
-              </div>
-              <div v-else class="lp-wheel lp-wheel--model"><CosmicWheel /></div>
-            </div>
-            <span v-if="showFigure" class="lp-stage-hint">Kéo để xoay · Bấm “Mở Đồ Hình 3D Đầy Đủ” để xem toàn bộ kinh – huyệt</span>
-          </div>
-        </div>
-        <div class="lp-model-copy">
-          <span class="lp-eyebrow lp-eyebrow--light">Chạm Thử · Không Cần Đăng Nhập</span>
-          <h2 class="lp-h2 lp-h2--light">Lần Đầu Tiên, Bạn Nhìn Thấy Đường Kinh.</h2>
-          <p class="lp-model-sub">
-            14 đường kinh chính, hơn 1.000 huyệt vị định vị chính xác trên mô hình cơ thể 3D. Kéo để xoay, chạm để bay tới từng huyệt — cái vô hình giờ hiện rõ trước mắt.
-          </p>
-          <ul class="lp-checks">
-            <li v-for="(p, i) in model3d" :key="i">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.704 5.29a1 1 0 010 1.42l-7.5 7.5a1 1 0 01-1.42 0l-3.5-3.5a1 1 0 111.42-1.42l2.79 2.79 6.79-6.79a1 1 0 011.42 0z" clip-rule="evenodd" /></svg>
-              <span>{{ p }}</span>
-            </li>
-          </ul>
-          <button class="lp-btn lp-btn--primary lp-btn--lg" @click="openDemo('xem-3d')">Mở Đồ Hình 3D Đầy Đủ →</button>
-          <p class="lp-free-note">Miễn phí · Không cần đăng nhập · Đầy đủ danh sách kinh – huyệt &amp; bay tới huyệt</p>
-        </div>
       </div>
     </section>
 
