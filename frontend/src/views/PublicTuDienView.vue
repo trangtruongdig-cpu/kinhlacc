@@ -33,6 +33,8 @@ import PublicTopBar from '@/components/PublicTopBar.vue'
   max-width: 1280px;
   margin: 0 auto;
   padding: var(--space-4) var(--space-5) var(--space-6);
+  /* Thanh tab (.td-tabs) dính DƯỚI PublicTopBar (cao 60px) khi cuộn. */
+  --sticky-top: 60px;
 }
 @media (max-width: 768px) {
   .pub-td-body {

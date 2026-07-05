@@ -1420,12 +1420,21 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
   animation: tdFade 0.35s ease;
 }
 @keyframes tdFade {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  /* chỉ mờ dần — KHÔNG dùng transform (transform ở tổ tiên sẽ phá position:sticky của .td-tabs) */
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-/* ── tab con ── */
-.td-tabs { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+/* ── tab con — DÍNH khi cuộn để đổi mục mà không phải cuộn lên đầu ── */
+.td-tabs {
+  display: flex; gap: var(--space-2); flex-wrap: wrap;
+  position: sticky;
+  top: var(--sticky-top, 0);   /* public: 60px (dưới PublicTopBar) · admin: 0 */
+  z-index: 30;
+  background: var(--bg-app);
+  padding: 10px 0;
+  box-shadow: 0 8px 8px -8px rgba(74, 47, 23, 0.18);
+}
 .td-tab {
   padding: var(--space-3) var(--space-5);
   border: 1px solid var(--border);
