@@ -152,9 +152,31 @@ export class ViThuocService {
     return { processed: rows.length, filled, remaining, lastId, items };
   }
 
+  /**
+   * Danh sách ĐẦY ĐỦ (mọi vị) cho dropdown chọn vị + phân tích bài thuốc
+   * (MedicinesView.ensureFullViThuocList — người dùng DUY NHẤT của endpoint này).
+   *
+   * CHỈ lấy các cột SCALAR cần thiết; BỎ toàn bộ quan hệ (ảnh, quy-kinh-links, công dụng…) VÀ
+   * các cột y-văn TEXT dài (mô tả, thành phần, dược lý, đơn thuốc, chủ trị…). Trước đây
+   * find({ relations: VI_THUOC_RELATIONS }) kéo ~5MB / ~63s với ~1100 vị → modal "Thêm bài thuốc"
+   * treo. Bản gọn này chỉ ~12 cột, không join → nhanh & nhẹ. (findOne(:id) vẫn trả đầy đủ quan hệ.)
+   */
   findAll(): Promise<ViThuoc[]> {
     return this.repo.find({
-      relations: VI_THUOC_RELATIONS,
+      select: {
+        id: true,
+        ten_vi_thuoc: true,
+        tinh: true,
+        vi: true,
+        quy_kinh: true,
+        lieu_dung: true,
+        ten_khoa_hoc: true,
+        ten_han: true,
+        ten_pinyin: true,
+        bo_phan_dung: true,
+        so_bai_thuoc: true,
+        anh_dai_dien: true,
+      },
       order: { ten_vi_thuoc: 'ASC' },
     });
   }
