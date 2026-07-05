@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import { api } from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
 import type { Patient } from '@/stores/patient'
-import CosmicWheel from '@/components/CosmicWheel.vue'
+import LucKinhWheel from '@/components/LucKinhWheel.vue'
 import HeroMeridianFigure from '@/components/HeroMeridianFigure.vue'
 
 const router = useRouter()
@@ -202,9 +202,9 @@ onMounted(loadDashboard)
       <div class="hero-person">
         <HeroMeridianFigure />
       </div>
-      <!-- Vòng Lục Kinh / Ngũ Hành / Tứ Khí — giữ ở GÓC PHẢI như cũ -->
+      <!-- Đồ hình Biện chứng Lục Kinh (Kinh → Bản khí → Tạng/Phủ) — GÓC PHẢI -->
       <div class="hero-art">
-        <CosmicWheel />
+        <LucKinhWheel />
       </div>
     </section>
 
@@ -398,7 +398,7 @@ onMounted(loadDashboard)
 /* Nền tối ấm sau lưng người → hình nổi rõ mà không cần sáng gắt */
 .hero-person::before { content: ''; position: absolute; inset: -8% -16%; z-index: -1; border-radius: 50%; background: radial-gradient(circle at 50% 46%, rgba(16, 9, 3, .55) 0%, rgba(16, 9, 3, .26) 46%, rgba(16, 9, 3, 0) 72%); pointer-events: none }
 /* Vòng Lục Kinh / Ngũ Hành / Tứ Khí — GÓC PHẢI như cũ */
-.hero-art { position: relative; z-index: 1; width: clamp(200px, 22vw, 300px); justify-self: end }
+.hero-art { position: relative; z-index: 1; width: clamp(240px, 27vw, 372px); justify-self: end }
 /* Vầng sáng ấm + "ổ" tối phía sau bánh xe, để medallion như được gắn chìm vào hero (không dùng ảnh) */
 .hero-art::before {
   content: '';
@@ -518,7 +518,7 @@ onMounted(loadDashboard)
     position: absolute;
     top: var(--space-3);
     right: var(--space-3);
-    width: 128px;
+    width: 150px;
     opacity: 0.7;
     z-index: 0;
     pointer-events: none;

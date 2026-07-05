@@ -74,6 +74,7 @@ const navItems = [
   { name: 'Quản Lý Thuốc', routeName: 'medicines', icon: 'pill' },
   { name: 'Triệu Chứng', routeName: 'symptoms', icon: 'clipboard' },
   { name: 'Pháp Trị', routeName: 'treatments', icon: 'shield' },
+  { name: 'Biện Chứng Luận Trị', routeName: 'bien-chung-luan-tri', icon: 'compass' },
   { name: 'Quản Lý Người Dùng', routeName: 'users', icon: 'users' },
   { name: 'SEO Radar', routeName: 'seo', icon: 'radar' },
 ]
@@ -169,6 +170,8 @@ function handleLogout() {
             <svg v-if="item.icon === 'clipboard'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>
             <!-- Shield (Treatments) icon -->
             <svg v-if="item.icon === 'shield'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
+            <!-- Compass (Bàn Xoay Biện Chứng) icon -->
+            <svg v-if="item.icon === 'compass'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9" /><path stroke-linecap="round" stroke-linejoin="round" d="M15.5 8.5l-2 5-5 2 2-5 5-2z" /></svg>
             <!-- Patients icon -->
             <svg v-if="item.icon === 'patients'" width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
               <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>

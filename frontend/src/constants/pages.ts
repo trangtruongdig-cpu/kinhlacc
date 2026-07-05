@@ -18,6 +18,9 @@ export const APP_PAGES: AppPage[] = [
   { key: 'medicines', label: 'Quản Lý Thuốc' },
   { key: 'symptoms', label: 'Triệu Chứng' },
   { key: 'treatments', label: 'Pháp Trị' },
+  { key: 'bien-chung-luan-tri', label: 'Biện Chứng Luận Trị' },
+  { key: 'thuong-han', label: 'Thương Hàn Tạp Luận Bệnh' }, // route cũ, giữ truy cập trực tiếp (không ở sidebar)
+  { key: 'ban-xoay-bien-chung', label: 'Bàn Xoay Biện Chứng' }, // route cũ, giữ truy cập trực tiếp
   { key: 'chan-doan-luoi', label: 'Chẩn Đoán Lưỡi', always: true },
   { key: 'users', label: 'Quản Lý Người Dùng' },
   { key: 'seo', label: 'SEO Radar' },

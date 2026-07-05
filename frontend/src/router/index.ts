@@ -34,6 +34,10 @@ const MeridianDiseasesTabsView = () => import('@/views/MeridianDiseasesTabsView.
 const MedicinesView = () => import('@/views/MedicinesView.vue')
 const SymptomsView = () => import('@/views/SymptomsView.vue')
 const TreatmentsView = () => import('@/views/TreatmentsView.vue')
+const ThuongHanView = () => import('@/views/ThuongHanView.vue')
+const BanXoayBienChungView = () => import('@/views/BanXoayBienChungView.vue')
+const BienChungLuanTriView = () => import('@/views/BienChungLuanTriView.vue')
+const TraCuuBienChungView = () => import('@/views/TraCuuBienChungView.vue')
 const KinhMach3DView = () => import('@/views/KinhMach3DView.vue')
 const TuDienView = () => import('@/views/TuDienView.vue')
 const UsersView = () => import('@/views/UsersView.vue')
@@ -79,6 +83,13 @@ const router = createRouter({
       path: '/thu-vien',
       name: 'thu-vien',
       component: PublicTuDienView,
+      meta: { requiresAuth: false },
+    },
+    // Bàn Xoay Biện Chứng CÔNG KHAI — tra cứu miễn phí (không cần đăng nhập).
+    {
+      path: '/tra-cuu-bien-chung',
+      name: 'tra-cuu-bien-chung',
+      component: TraCuuBienChungView,
       meta: { requiresAuth: false },
     },
     // Từ điển dược liệu CÔNG KHAI (vị thuốc + thư viện ảnh theo giai đoạn).
@@ -212,6 +223,24 @@ const router = createRouter({
           name: 'treatments',
           component: TreatmentsView,
           meta: { page: 'treatments' },
+        },
+        {
+          path: 'thuong-han',
+          name: 'thuong-han',
+          component: ThuongHanView,
+          meta: { page: 'thuong-han' },
+        },
+        {
+          path: 'ban-xoay-bien-chung',
+          name: 'ban-xoay-bien-chung',
+          component: BanXoayBienChungView,
+          meta: { page: 'ban-xoay-bien-chung' },
+        },
+        {
+          path: 'bien-chung-luan-tri',
+          name: 'bien-chung-luan-tri',
+          component: BienChungLuanTriView,
+          meta: { page: 'bien-chung-luan-tri' },
         },
         {
           path: 'kinh-mach-3d',

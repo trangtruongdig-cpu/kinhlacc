@@ -18,17 +18,17 @@
 import { ref, reactive, computed, onMounted, onBeforeUnmount, nextTick } from 'vue'
 import { api } from '@/services/api'
 
-interface WheelLink {
+export interface WheelLink {
   id: number
   label: string
   [key: string]: unknown
 }
-interface RingCfg {
+export interface RingCfg {
   key: string
   label: string
   token: 'symptom' | 'brand' | 'pulse' | 'pattern' | 'herb' | 'method'
 }
-interface Schema {
+export interface Schema {
   type: 'dong-y' | 'tay-y'
   tabLabel: string
   hubName: string
@@ -63,6 +63,20 @@ const SCHEMAS: Schema[] = [
   },
 ]
 
+// Chế độ NHÚNG: nhận schema + links từ ngoài (vd bàn xoay scoped 1 nhóm khoa).
+// Không truyền props → tự fetch /demo/ban-xoay như cũ (landing giữ nguyên).
+const props = defineProps<{
+  externalSchema?: Schema
+  externalLinks?: WheelLink[]
+  scopeTitle?: string
+  drillRingKey?: string // vòng mà bấm 1 wedge → phát 'drill' (mặc định = vòng ngoài cùng)
+}>()
+const emit = defineEmits<{
+  drill: [{ id: number; name: string }]
+  selectKhung: [{ axis: 'kinh' | 'tang' | 'khi'; value: string }]
+}>()
+const external = computed(() => !!props.externalSchema && !!props.externalLinks)
+
 const CX = 360
 const CY = 360
 const OUTER = 348
@@ -92,6 +106,21 @@ function donut(rOut: number, rIn: number, a0: number, a1: number): string {
 function trunc(s: string, n: number): string {
   return s.length > n ? s.slice(0, n - 1).trimEnd() + '…' : s
 }
+// Bài thuốc: lấy SỐ trong ngoặc cuối tên ("Thạch Vi Tán (6)" → "6") để nhãn vòng gọn; không có số thì rút gọn tên.
+function baiThuocSo(name: string): string | null {
+  const m = name.match(/\((\d+)\)\s*$/)
+  return m?.[1] ?? null
+}
+// Cung để chữ BÁM theo vành khăn (textPath). Nửa dưới đảo chiều cho chữ luôn đọc xuôi (học BienChungWheel).
+function arcPath(r: number, deg: number, span: number): string {
+  const bottom = deg > 90 && deg < 270
+  const a0 = bottom ? deg + span : deg - span
+  const a1 = bottom ? deg - span : deg + span
+  const p0 = pt(r, a0)
+  const p1 = pt(r, a1)
+  const f = (n: number) => n.toFixed(2)
+  return `M${f(p0.x)} ${f(p0.y)} A${r} ${r} 0 0 ${bottom ? 0 : 1} ${f(p1.x)} ${f(p1.y)}`
+}
 
 // ── Dữ liệu ──────────────────────────────────────────────────────────────
 const loading = ref(true)
@@ -99,8 +128,8 @@ const failed = ref(false)
 const data = reactive<{ 'dong-y': WheelLink[]; 'tay-y': WheelLink[] }>({ 'dong-y': [], 'tay-y': [] })
 
 const activeType = ref<'dong-y' | 'tay-y'>('tay-y')
-const schema = computed<Schema>(() => SCHEMAS.find((s) => s.type === activeType.value)!)
-const links = computed<WheelLink[]>(() => data[activeType.value] ?? [])
+const schema = computed<Schema>(() => props.externalSchema ?? SCHEMAS.find((s) => s.type === activeType.value)!)
+const links = computed<WheelLink[]>(() => props.externalLinks ?? data[activeType.value] ?? [])
 
 // ── Hình học mỗi vòng ───────────────────────────────────────────────────────
 interface Wedge {
@@ -111,6 +140,7 @@ interface Wedge {
   labelR: number
   short: string
   fs: number
+  arc: string
 }
 interface RingData extends RingCfg {
   items: Wedge[]
@@ -135,22 +165,26 @@ const ringData = computed<RingData[]>(() => {
     }
     const names = [...map.entries()]
       .sort((a, b) => b[1].size - a[1].size || a[0].localeCompare(b[0], 'vi'))
-      .slice(0, 16)
+      .slice(0, external.value ? 10 : 16) // nhúng scoped → ít nan hơn cho đỡ rối chữ
 
     const n = names.length
     const step = n > 0 ? 360 / n : 360
     const arc = (2 * Math.PI * labelR) / Math.max(n, 1)
     const trCap = Math.max(5, Math.min(18, Math.floor(arc / 8)))
     const fs = Math.max(9, Math.min(13.5, Math.min(band * 0.32, arc * 0.5)))
-    const items: Wedge[] = names.map(([name, pts], i) => ({
-      name,
-      pts,
-      mid: i * step + step / 2,
-      d: donut(rOut, rIn, i * step + GAP / 2, (i + 1) * step - GAP / 2),
-      labelR,
-      short: trunc(name, trCap),
-      fs,
-    }))
+    const items: Wedge[] = names.map(([name, pts], i) => {
+      const mid = i * step + step / 2
+      return {
+        name,
+        pts,
+        mid,
+        d: donut(rOut, rIn, i * step + GAP / 2, (i + 1) * step - GAP / 2),
+        labelR,
+        short: cfg.key === 'baiThuoc' ? (baiThuocSo(name) ?? trunc(name, trCap)) : trunc(name, trCap),
+        fs,
+        arc: arcPath(labelR, mid, Math.max(2, (step - GAP) / 2)),
+      }
+    })
     return { ...cfg, items }
   })
 })
@@ -192,6 +226,18 @@ const chain = computed(() => {
   return schema.value.rings
     .map((r) => ({ label: r.label, token: r.token, value: ((fl[r.key] as string[] | undefined) ?? [])[0] ?? null }))
     .filter((x) => x.value)
+})
+// Nhúng scoped: gộp toạ độ KHUNG (Tổn thương=Tạng Phủ · Tác nhân=Lục Khí · Lục Kinh) của các bệnh đang khớp.
+const khungAgg = computed(() => {
+  if (!external.value) return null
+  const kinh = new Set<string>(), tang = new Set<string>(), khi = new Set<string>()
+  for (const l of matchedSpokes.value) {
+    for (const x of (l.khungKinh as string[] | undefined) ?? []) kinh.add(x)
+    for (const x of (l.khungTang as string[] | undefined) ?? []) tang.add(x)
+    for (const x of (l.khungKhi as string[] | undefined) ?? []) khi.add(x)
+  }
+  if (!kinh.size && !tang.size && !khi.size) return null
+  return { kinh: [...kinh], tang: [...tang], khi: [...khi] }
 })
 const headlineLabel = computed(() => display.name || null)
 const quickKey = computed(() => (ringData.value.find((r) => r.key === schema.value.readKey) ?? ringData.value[0])?.key)
@@ -298,6 +344,11 @@ function onPick(ringKey: string, name: string) {
   const ring = ringData.value.find((r) => r.key === ringKey)
   const w = ring?.items.find((x) => x.name === name)
   if (!w) return
+  // Nhúng: bấm 1 wedge ở vòng DRILL (mặc định vòng ngoài) → phát 'drill' để trang cha bóc xuống lớp bệnh.
+  if (external.value && ringKey === (props.drillRingKey ?? schema.value.rings[0]?.key ?? '')) {
+    const id = [...w.pts][0]
+    if (id != null) { emit('drill', { id, name: w.name }); return }
+  }
   if (frozen.value && display.ringKey === ringKey && display.name === name) {
     resumeSpin()
     return
@@ -309,6 +360,7 @@ function onPick(ringKey: string, name: string) {
 function onPickPt(id: number) {
   const l = links.value.find((x) => x.id === id)
   if (!l) return
+  if (external.value) { emit('drill', { id, name: l.label }); return } // nhúng: chạm bệnh khớp → bóc xuống lớp bệnh
   frozen.value = true
   setDisplay(schema.value.rings[0].key === 'chungBenh' ? 'benhTayY' : schema.value.rings[0].key, l.label, [id])
   scheduleResume()
@@ -350,16 +402,18 @@ async function switchType(t: 'dong-y' | 'tay-y') {
 }
 
 onMounted(async () => {
-  try {
-    const res = await api.get<{ dongY: { links: WheelLink[] }; tayY: { links: WheelLink[] } }>('/demo/ban-xoay')
-    data['dong-y'] = Array.isArray(res?.dongY?.links) ? res.dongY.links : []
-    data['tay-y'] = Array.isArray(res?.tayY?.links) ? res.tayY.links : []
-    if (data['tay-y'].length === 0 && data['dong-y'].length > 0) activeType.value = 'dong-y'
-  } catch {
-    failed.value = true
+  if (!external.value) {
+    try {
+      const res = await api.get<{ dongY: { links: WheelLink[] }; tayY: { links: WheelLink[] } }>('/demo/ban-xoay')
+      data['dong-y'] = Array.isArray(res?.dongY?.links) ? res.dongY.links : []
+      data['tay-y'] = Array.isArray(res?.tayY?.links) ? res.tayY.links : []
+      if (data['tay-y'].length === 0 && data['dong-y'].length > 0) activeType.value = 'dong-y'
+    } catch {
+      failed.value = true
+    }
   }
   loading.value = false
-  if (failed.value || (data['dong-y'].length === 0 && data['tay-y'].length === 0)) return
+  if (failed.value || links.value.length === 0) return
   // Sau khi tắt loading, các vòng mới render → đợi 1 nhịp cho ref gắn xong rồi mới áp transform.
   initEngine()
   await nextTick()
@@ -396,18 +450,17 @@ function tokenVar(token: string, part: 'bg' | 'fg' | 'border') {
   return `var(--chip-${token}-${part})`
 }
 
-// Bảng màu cho cung bàn xoay — MỘT họ ấm Nâu/Kem (tông chủ đạo), KHÔNG còn cầu vồng Ngũ Hành.
-// Các vòng chỉ khác nhau ở SẮC ĐỘ: đậm ở ngoài → sáng dần vào tâm, như một đĩa sơn son
-// thếp vàng của tiệm thuốc Đông Y. fill = lớp "men" trong mờ phủ trên nền đá nâu; chữ ấm sáng.
-// (Độ sáng tile do CẢ alpha lẫn độ sáng màu quyết định — vòng trong alpha thấp hơn để ánh
-//  sáng tâm hắt qua, nhưng vẫn sáng nhất nhờ màu nhạt hơn.)
+// Bảng màu cung bàn xoay theo NGŨ HÀNH (men đất TRẦM, không neon) — để nhìn ra NHÓM và lần
+// theo LIÊN KẾT: chọn 1 bệnh → chuỗi thể bệnh→pháp trị→triệu chứng→bài thuốc sáng theo màu Hành.
+// fill = lớp "men" trong mờ phủ trên nền đá nâu (alpha ~.46 nên hue bị nền hãm lại, hài hoà, không rực).
+//   Mộc(pattern)=lục · Thủy(pulse)=lam · Kim(symptom)=champagne · Thổ(herb)=vàng · Hỏa(method)/brand=đất nung.
 const GLOW: Record<string, { fill: string; text: string }> = {
-  brand: { fill: 'rgba(150,78,48,.52)', text: '#f3dac4' }, // đất nung trầm — vòng ngoài (Chủng Bệnh / Pháp Trị)
-  pattern: { fill: 'rgba(168,118,64,.46)', text: '#f6e2cb' }, // đồng nâu — Hội Chứng / Bệnh
-  pulse: { fill: 'rgba(190,138,72,.46)', text: '#f9e8c7' }, // hổ phách — Tạng Phủ
-  symptom: { fill: 'rgba(210,172,102,.44)', text: '#fbf0d6' }, // hoàng thổ champagne — Triệu Chứng
-  herb: { fill: 'rgba(228,200,138,.42)', text: '#fdf7e6' }, // kim/kem phát quang — Bài Thuốc (vòng trong)
-  method: { fill: 'rgba(150,78,48,.52)', text: '#f3dac4' }, // đất nung (dự phòng)
+  brand: { fill: 'rgba(176,96,62,.52)', text: '#f3d6c5' }, // đất nung — Chủng Bệnh (vòng ngoài)
+  pattern: { fill: 'rgba(116,158,92,.47)', text: '#dcecca' }, // Mộc lục — Hội Chứng / Thể bệnh
+  pulse: { fill: 'rgba(92,148,180,.47)', text: '#d2e6f1' }, // Thủy lam — Tạng Phủ
+  symptom: { fill: 'rgba(208,180,120,.44)', text: '#f8edd1' }, // Kim champagne — Triệu Chứng
+  herb: { fill: 'rgba(216,178,96,.46)', text: '#fbeeca' }, // Thổ vàng — Bài Thuốc (vòng trong)
+  method: { fill: 'rgba(198,102,60,.50)', text: '#f6d3be' }, // Hỏa đất nung — Pháp Trị
 }
 function glow(token: string) {
   return GLOW[token] ?? GLOW.symptom
@@ -415,15 +468,15 @@ function glow(token: string) {
 </script>
 
 <template>
-  <div class="bx" ref="rootEl">
+  <div class="bx" :class="{ 'bx-embed': external }" ref="rootEl">
     <div v-if="loading" class="bx-state">Đang dựng bàn xoay từ dữ liệu…</div>
-    <div v-else-if="failed || (data['dong-y'].length === 0 && data['tay-y'].length === 0)" class="bx-state">
-      Chưa lấy được dữ liệu bàn xoay. Bạn cứ xem các phần khác phía dưới nhé.
+    <div v-else-if="failed || links.length === 0" class="bx-state">
+      {{ external ? 'Nhánh này chưa có bệnh để dựng bàn xoay.' : 'Chưa lấy được dữ liệu bàn xoay. Bạn cứ xem các phần khác phía dưới nhé.' }}
     </div>
 
     <template v-else>
-      <!-- Tab chuyển Đông ⇄ Tây -->
-      <div class="bx-tabs" role="tablist">
+      <!-- Tab chuyển Đông ⇄ Tây (ẩn khi nhúng scoped) -->
+      <div v-if="!external" class="bx-tabs" role="tablist">
         <button
           v-for="s in SCHEMAS"
           :key="s.type"
@@ -437,6 +490,7 @@ function glow(token: string) {
           {{ s.tabLabel }}
         </button>
       </div>
+      <div v-else-if="scopeTitle" class="bx-scope">{{ scopeTitle }}</div>
 
       <div class="bx-stage">
         <!-- ============ Bàn xoay (SVG) ============ -->
@@ -479,7 +533,7 @@ function glow(token: string) {
             <g v-for="ring in ringData" :key="activeType + ring.key">
               <g class="bx-rot" :ref="(el) => setRingEl(ring.key, el)">
                 <g
-                  v-for="w in ring.items"
+                  v-for="(w, wi) in ring.items"
                   :key="ring.key + w.name"
                   class="bx-wedge"
                   :class="{
@@ -492,17 +546,14 @@ function glow(token: string) {
                 >
                   <title>{{ ring.label }}: {{ w.name }}</title>
                   <path :d="w.d" :fill="glow(ring.token).fill" />
-                  <g :transform="`rotate(${w.mid} ${CX} ${CY})`">
-                    <text
-                      class="bx-label"
-                      x="360"
-                      :y="CY - w.labelR"
-                      :fill="glow(ring.token).text"
-                      :style="{ fontSize: w.fs + 'px' }"
-                    >
-                      {{ w.short }}
-                    </text>
-                  </g>
+                  <path :id="`bxa-${activeType}-${ring.key}-${wi}`" :d="w.arc" fill="none" />
+                  <text
+                    class="bx-label"
+                    :fill="glow(ring.token).text"
+                    :style="{ fontSize: w.fs + 'px' }"
+                  >
+                    <textPath :href="`#bxa-${activeType}-${ring.key}-${wi}`" startOffset="50%">{{ w.short }}</textPath>
+                  </text>
                 </g>
               </g>
             </g>
@@ -584,6 +635,21 @@ function glow(token: string) {
               </template>
             </div>
 
+            <div v-if="khungAgg" class="bx-khung">
+              <div v-if="khungAgg.tang.length" class="bx-khung-row">
+                <b>Tổn thương</b><i>Tạng Phủ</i>
+                <button v-for="v in khungAgg.tang" :key="v" type="button" class="bx-khung-chip tang" @click="emit('selectKhung', { axis: 'tang', value: v })">{{ v }}</button>
+              </div>
+              <div v-if="khungAgg.khi.length" class="bx-khung-row">
+                <b>Tác nhân</b><i>Lục Khí</i>
+                <button v-for="v in khungAgg.khi" :key="v" type="button" class="bx-khung-chip khi" @click="emit('selectKhung', { axis: 'khi', value: v })">{{ v }}</button>
+              </div>
+              <div v-if="khungAgg.kinh.length" class="bx-khung-row">
+                <b>Lục Kinh</b><i>biện chứng</i>
+                <button v-for="v in khungAgg.kinh" :key="v" type="button" class="bx-khung-chip kinh" @click="emit('selectKhung', { axis: 'kinh', value: v })">{{ v }}</button>
+              </div>
+            </div>
+
             <div class="bx-pt-list">
               <span class="bx-pt-cap">{{ schema.hubName }} khớp ({{ matchedSpokes.length }}) — chạm để soi ngược:</span>
               <div class="bx-pt-chips">
@@ -630,6 +696,15 @@ function glow(token: string) {
   gap: 0.4rem;
   margin-bottom: 1.4rem;
   flex-wrap: wrap;
+}
+.bx-scope {
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--brown-700, #6b4a24);
+  margin-bottom: 1rem;
 }
 .bx-tab {
   border: 1px solid var(--border-strong, #cdbfa3);
@@ -721,7 +796,7 @@ function glow(token: string) {
 }
 .bx-wedge.is-on path {
   opacity: 1;
-  filter: drop-shadow(0 0 6px rgba(250, 238, 210, 0.35));
+  filter: brightness(1.14) saturate(1.15) drop-shadow(0 0 7px rgba(250, 238, 210, 0.4));
 }
 .bx-wedge.is-sel path {
   stroke: #fbf2dd;
@@ -763,6 +838,7 @@ function glow(token: string) {
 
 .bx-panel {
   min-width: 0;
+  overflow-wrap: break-word; /* nhãn/chip dài tự xuống dòng, không đẩy panel tràn phải */
 }
 .bx-quick {
   display: flex;
@@ -833,6 +909,11 @@ function glow(token: string) {
   border-radius: 16px;
   padding: 1.1rem 1.2rem;
 }
+/* Nhúng (scoped 1 nhánh): panel cao TỰ DO — bỏ khung cuộn cố định của landing để thấy hết chip. */
+/* Nhúng: bảng đọc CAO ỔN ĐỊNH (khớp cỡ vòng ~58vh) → KHÔNG giật khi kim chỉ đổi mục mỗi 0,6s.
+   Đủ cao để hiện chuỗi + Liên kết Khung; danh sách bệnh khớp giới hạn riêng (cuộn cục bộ). */
+.bx-embed .bx-readout { height: 58vh; min-height: 26rem; overflow-y: auto; }
+.bx-embed .bx-pt-chips { max-height: 6.5rem; overflow-y: auto; }
 .bx-readout-eyebrow {
   font-size: 0.72rem;
   text-transform: uppercase;
@@ -884,6 +965,63 @@ function glow(token: string) {
   font-weight: 700;
 }
 
+.bx-khung {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding: 0.55rem 0.7rem;
+  margin-bottom: 0.2rem;
+  background: var(--brown-50, #f7efe2);
+  border: 1px solid var(--brown-200, #e6d3b3);
+  border-left: 3px solid var(--brown-500, #8a5a2a);
+  border-radius: 0.6rem;
+}
+.bx-khung-cap {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--brown-600, #6b4a24);
+}
+.bx-khung-row {
+  font-size: 0.82rem;
+  color: var(--text, #2a1c0e);
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.bx-khung-row b {
+  font-weight: 800;
+  color: var(--brown-700, #6b4a24);
+  min-width: 68px;
+}
+.bx-khung-row i {
+  font-style: normal;
+  font-size: 0.68rem;
+  color: var(--text-muted, #8a7a60);
+  background: var(--brown-100, #efe2cc);
+  border-radius: 999px;
+  padding: 0 0.4rem;
+}
+.bx-khung-chip {
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 1px 0.5rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong, #cdbfa3);
+  background: #fff;
+  color: var(--text, #2a1c0e);
+  transition: background 0.12s, border-color 0.12s, color 0.12s, transform 0.1s;
+}
+.bx-khung-chip:hover {
+  transform: translateY(-1px);
+}
+.bx-khung-chip.tang:hover { background: #6b4a24; border-color: #6b4a24; color: #fff; }
+.bx-khung-chip.khi:hover { background: #b1502f; border-color: #b1502f; color: #fff; }
+.bx-khung-chip.kinh:hover { background: #b7822e; border-color: #b7822e; color: #fff; }
 .bx-pt-list {
   margin-top: auto; /* ghim cụm chip xuống đáy readout → vị trí cố định, không nhảy theo độ dài chuỗi */
   display: flex;
