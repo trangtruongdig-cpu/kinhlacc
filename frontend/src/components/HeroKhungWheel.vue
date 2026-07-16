@@ -158,4 +158,15 @@ onBeforeUnmount(() => {
     transition: none;
   }
 }
+
+/* Mobile (≤860px): hero xếp DỌC (đĩa trên · chữ dưới). Thẻ chi tiết nổi absolute
+   (top:100%, không chiếm chỗ trong luồng) sẽ ĐÈ lên tiêu đề/CTA hero.
+   → Ẩn thẻ trang trí này trên mobile; vòng vẫn crossfade "chạy đèn" bình thường.
+   (Vòng xoay TƯƠNG TÁC thật nằm ở section "Biện Chứng" bên dưới, không bị ảnh hưởng.) */
+@media (max-width: 860px) {
+  .hkw-layer :deep(.bcw-hoverinfo),
+  .hkw-layer :deep(.bcw-quainote) {
+    display: none !important;
+  }
+}
 </style>
