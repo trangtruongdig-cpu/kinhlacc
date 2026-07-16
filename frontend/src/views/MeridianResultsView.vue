@@ -211,6 +211,9 @@ const matchedBaiThuocList = computed(() => {
 function phapTriHref(id: number): string {
   return router.resolve({ name: 'treatments', query: { ptId: id } }).href
 }
+function baiThuocHref(id: number): string {
+  return router.resolve({ name: 'medicines', query: { tab: 'bai-thuoc', btId: id } }).href
+}
 function benhTayYHref(id: number): string {
   return router.resolve({
     name: 'western-medicine',
@@ -767,6 +770,102 @@ watch(phapTriQuery, () => {
   if (!showPhapTriModal.value) return
   if (phapTriSearchTimer) clearTimeout(phapTriSearchTimer)
   phapTriSearchTimer = setTimeout(() => void runPhapTriSearch(), 350)
+})
+
+// ── Popup "Chi tiết bệnh" (bấm vào mô hình bệnh Đông Y - Section III) — nạp đúng
+// bản ghi Bệnh Đo Kinh Lạc (nguyên nhân, triệu chứng, pháp trị, bài thuốc) ngay tại
+// trang này, thay vì chỉ xem tên rút gọn ở bảng so sánh hoặc phải mở trang khác. ──
+const NHOM_NGUYEN_NHAN_BCT: { slug: string; label: string }[] = [
+  { slug: 'tinh-than', label: 'Yếu tố tinh thần' },
+  { slug: 'sinh-hoat', label: 'Chế độ sinh hoạt' },
+  { slug: 'tang-phu', label: 'Ảnh hưởng tạng phủ khác' },
+]
+const NHOM_TRIEU_CHUNG_BCT: { slug: string; label: string }[] = [
+  { slug: 'tinh-than', label: 'Tinh thần / Cảm xúc' },
+  { slug: 'tieu-hoa', label: 'Tiêu hóa / Ăn ngủ' },
+  { slug: 'than-kinh-co-the', label: 'Thần kinh / Cơ thể' },
+  { slug: 'phu-khoa', label: 'Phụ khoa' },
+  { slug: 'luoi-mach', label: 'Lưỡi / Mạch' },
+  { slug: 'toan-trang', label: 'Toàn trạng' },
+  { slug: 'khac', label: 'Khác' },
+]
+
+interface BenhChiTietDetail {
+  id: number
+  code: string
+  name: string
+  outputCell: string
+  phapTriList?: Array<{ id: number; chung_trang: string | null; nguyen_tac: string | null }> | null
+  trieuChungList?: Array<{ id: number; ten_trieu_chung: string; nhom?: string | null }> | null
+  baiThuocList?: Array<{ id: number; ten_bai_thuoc: string }> | null
+  nguyen_nhan_list?: Array<{ nhom: string | null; noi_dung: string | null }> | null
+}
+
+const showBenhChiTietModal = ref(false)
+const benhChiTietLoading = ref(false)
+const benhChiTietError = ref<string | null>(null)
+const benhChiTiet = ref<BenhChiTietDetail | null>(null)
+
+async function openBenhChiTiet(item: { id: number }) {
+  showBenhChiTietModal.value = true
+  benhChiTietLoading.value = true
+  benhChiTietError.value = null
+  benhChiTiet.value = null
+  try {
+    benhChiTiet.value = await api.get<BenhChiTietDetail>(`/benh-dong-y-excel/${item.id}`)
+  } catch (e: any) {
+    benhChiTietError.value = e?.message || 'Không tải được chi tiết bệnh.'
+  } finally {
+    benhChiTietLoading.value = false
+  }
+}
+function closeBenhChiTietModal() {
+  showBenhChiTietModal.value = false
+}
+const benhChiTietTheBenh = computed(() =>
+  (benhChiTiet.value?.phapTriList ?? [])
+    .map((p) => ({ id: p.id, name: (p.chung_trang || '').trim() }))
+    .filter((x) => x.name),
+)
+const benhChiTietPhapTri = computed(() =>
+  (benhChiTiet.value?.phapTriList ?? [])
+    .map((p) => ({ id: p.id, name: (p.nguyen_tac || p.chung_trang || `#${p.id}`).trim() }))
+    .filter((x) => x.name),
+)
+const benhChiTietBaiThuoc = computed(() =>
+  (benhChiTiet.value?.baiThuocList ?? [])
+    .map((b) => ({ id: b.id, name: b.ten_bai_thuoc }))
+    .filter((x) => !!x.name),
+)
+const benhChiTietNguyenNhan = computed(() => {
+  const list = (benhChiTiet.value?.nguyen_nhan_list ?? []).filter((n) => (n.noi_dung ?? '').trim())
+  if (!list.length) return []
+  const out: { label: string; items: string[] }[] = []
+  for (const g of NHOM_NGUYEN_NHAN_BCT) {
+    const items = list.filter((n) => n.nhom === g.slug).map((n) => String(n.noi_dung))
+    if (items.length) out.push({ label: g.label, items })
+  }
+  const other = list.filter((n) => !NHOM_NGUYEN_NHAN_BCT.some((g) => g.slug === n.nhom)).map((n) => String(n.noi_dung))
+  if (other.length) out.push({ label: 'Khác', items: other })
+  return out
+})
+const benhChiTietTrieuChung = computed(() => {
+  const list = benhChiTiet.value?.trieuChungList ?? []
+  if (!list.length) return []
+  const byNhom: Record<string, string[]> = {}
+  for (const t of list) {
+    if (!t.ten_trieu_chung) continue
+    const slug = t.nhom && NHOM_TRIEU_CHUNG_BCT.some((g) => g.slug === t.nhom) ? t.nhom : '__none'
+    ;(byNhom[slug] ??= []).push(t.ten_trieu_chung)
+  }
+  const out: { label: string; items: string[] }[] = []
+  for (const g of NHOM_TRIEU_CHUNG_BCT) {
+    const items = byNhom[g.slug]
+    if (items && items.length) out.push({ label: g.label, items })
+  }
+  const none = byNhom['__none']
+  if (none && none.length) out.push({ label: 'Chưa phân nhóm', items: none })
+  return out
 })
 
 function ptKinhMachLabel(k: {
@@ -2495,6 +2594,19 @@ function printPhieuKetQua() {
                     <button
                       type="button"
                       class="pt-search-btn"
+                      title="Xem chi tiết bệnh này (nguyên nhân, triệu chứng, pháp trị, bài thuốc — theo dữ liệu Bệnh Đo Kinh Lạc)"
+                      @click.stop="openBenhChiTiet(item)"
+                      @keydown.stop
+                    >
+                      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
+                        <path d="M4 10c1.8-3.3 4.2-5 6-5s4.2 1.7 6 5c-1.8 3.3-4.2 5-6 5s-4.2-1.7-6-5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                        <circle cx="10" cy="10" r="2" stroke="currentColor" stroke-width="2" />
+                      </svg>
+                      Chi tiết
+                    </button>
+                    <button
+                      type="button"
+                      class="pt-search-btn"
                       title="Tìm pháp trị cho mô hình bệnh này"
                       @click.stop="openPhapTriSearch(item)"
                       @keydown.stop
@@ -2872,6 +2984,94 @@ function printPhieuKetQua() {
                 </article>
               </div>
             </div>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <!-- Popup "Chi tiết bệnh" (bấm nút Chi tiết ở mô hình bệnh Đông Y - Section III) -->
+    <div v-if="showBenhChiTietModal" class="ptm-overlay" @click.self="closeBenhChiTietModal">
+      <div class="ptm-modal bct-modal" role="dialog" aria-modal="true">
+        <div class="ptm-head">
+          <div class="ptm-head__title">
+            <h3>{{ benhChiTiet?.name || 'Chi Tiết Bệnh' }}</h3>
+            <span v-if="benhChiTiet?.outputCell" class="ptm-context">Ô kết quả: {{ benhChiTiet.outputCell }}</span>
+          </div>
+          <button type="button" class="ptm-close" aria-label="Đóng" @click="closeBenhChiTietModal">✕</button>
+        </div>
+
+        <div class="ptm-body">
+          <div v-if="benhChiTietLoading" class="ptm-state">
+            <div class="spinner"></div>
+            <p>Đang tải chi tiết bệnh…</p>
+          </div>
+          <div v-else-if="benhChiTietError" class="ptm-error">{{ benhChiTietError }}</div>
+          <template v-else-if="benhChiTiet">
+            <div v-if="benhChiTietTheBenh.length" class="ptm-row">
+              <span class="ptm-row__label">Thể bệnh</span>
+              <a
+                v-for="t in benhChiTietTheBenh"
+                :key="'the-' + t.id"
+                :href="phapTriHref(t.id)"
+                target="_blank"
+                rel="noopener"
+                class="ptm-tag ptm-tag--tang"
+                :title="`Mở pháp trị: ${t.name}`"
+              >{{ t.name }}</a>
+            </div>
+
+            <div v-if="benhChiTietPhapTri.length" class="ptm-row">
+              <span class="ptm-row__label">Pháp trị</span>
+              <a
+                v-for="p in benhChiTietPhapTri"
+                :key="'pt-' + p.id"
+                :href="phapTriHref(p.id)"
+                target="_blank"
+                rel="noopener"
+                class="ptm-tag ptm-tag--phap"
+                :title="`Mở pháp trị: ${p.name}`"
+              >{{ p.name }}</a>
+            </div>
+
+            <div v-if="benhChiTietNguyenNhan.length" class="bct-groups">
+              <p class="ptm-row__label">Nguyên nhân</p>
+              <div v-for="(g, gi) in benhChiTietNguyenNhan" :key="'nn' + gi" class="bct-group">
+                <span class="bct-group__tag">{{ g.label }}</span>
+                <span class="bct-group__items">
+                  <span v-for="(n, i) in g.items" :key="'nn' + gi + '-' + i" class="ptm-tag ptm-tag--nn">{{ n }}</span>
+                </span>
+              </div>
+            </div>
+
+            <div v-if="benhChiTietTrieuChung.length" class="bct-groups">
+              <p class="ptm-row__label">Triệu chứng</p>
+              <div v-for="(g, gi) in benhChiTietTrieuChung" :key="'tc' + gi" class="bct-group">
+                <span class="bct-group__tag">{{ g.label }}</span>
+                <span class="bct-group__items">
+                  <span v-for="(t, i) in g.items" :key="'tc' + gi + '-' + i" class="ptm-tag ptm-tag--trieu">{{ t }}</span>
+                </span>
+              </div>
+            </div>
+
+            <div v-if="benhChiTietBaiThuoc.length" class="ptm-row">
+              <span class="ptm-row__label">Bài thuốc</span>
+              <a
+                v-for="b in benhChiTietBaiThuoc"
+                :key="'bt-' + b.id"
+                :href="baiThuocHref(b.id)"
+                target="_blank"
+                rel="noopener"
+                class="ptm-tag ptm-tag--bai"
+                :title="`Mở bài thuốc: ${b.name}`"
+              >{{ b.name }}</a>
+            </div>
+
+            <p
+              v-if="!benhChiTietTheBenh.length && !benhChiTietPhapTri.length && !benhChiTietNguyenNhan.length && !benhChiTietTrieuChung.length && !benhChiTietBaiThuoc.length"
+              class="ptm-state"
+            >
+              <span class="muted-italic">Bệnh này chưa liên kết nguyên nhân, triệu chứng, pháp trị hay bài thuốc nào.</span>
+            </p>
           </template>
         </div>
       </div>
@@ -3860,6 +4060,7 @@ function printPhieuKetQua() {
   display: flex; flex-direction: column; overflow: hidden;
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.22);
 }
+.bct-modal { max-width: 640px; }
 .ptm-head {
   display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-3);
   padding: var(--space-4) var(--space-5);
@@ -4034,6 +4235,15 @@ function printPhieuKetQua() {
 .ptm-tag--tang { background: var(--chip-pattern-bg); color: var(--chip-pattern-fg); border-color: var(--chip-pattern-border); }
 .ptm-tag--trieu { background: var(--chip-symptom-bg); color: var(--chip-symptom-fg); border-color: var(--chip-symptom-border); }
 .ptm-tag--bai { background: var(--chip-herb-bg); color: var(--chip-herb-fg); border-color: var(--chip-herb-border); }
+.ptm-tag--phap { background: var(--brown-100); color: var(--brown-800); border-color: var(--brown-200); text-decoration: none; }
+.ptm-tag--phap:hover { background: var(--brown-200); }
+.ptm-tag--nn { background: var(--brown-50); color: var(--brown-800); border-color: var(--brown-200); }
+
+/* Popup "Chi tiết bệnh" — nhóm nguyên nhân / triệu chứng theo nhãn, mỗi nhóm 1 hàng */
+.bct-groups { display: flex; flex-direction: column; gap: 6px; padding: 8px 0; border-top: 1px solid var(--gray-100); }
+.bct-group { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px; }
+.bct-group__tag { flex: none; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em; color: var(--gray-500); min-width: 120px; }
+.bct-group__items { display: inline-flex; flex-wrap: wrap; gap: 5px; }
 
 /* Bệnh Tây Y — gộp theo chủng bệnh, giống section pháp trị */
 .ptm-row--tayy { align-items: flex-start; }
