@@ -126,6 +126,7 @@ onBeforeUnmount(() => {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh; /* dvh: trừ thanh URL mobile → không nhảy layout */
   background: var(--bg-app);
 }
 
@@ -169,6 +170,7 @@ onBeforeUnmount(() => {
   margin: var(--space-3) auto 0;
   padding: 0 var(--space-5) var(--space-5);
   height: calc(100vh - 120px);
+  height: calc(100dvh - 120px); /* dvh: canvas 3D không bị thanh URL mobile che/đẩy */
   min-height: 440px;
 }
 
@@ -213,6 +215,7 @@ onBeforeUnmount(() => {
 @media (max-width: 768px) {
   .pub3d-mount {
     height: calc(100vh - 150px);
+    height: calc(100dvh - 150px); /* dvh: canvas 3D không bị thanh URL mobile che/đẩy */
     padding: 0 var(--space-3) var(--space-3);
   }
   .pub3d-hint {

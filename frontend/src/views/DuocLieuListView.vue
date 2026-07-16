@@ -165,7 +165,7 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.dl { min-height: 100vh; background: var(--bg-app); }
+.dl { min-height: 100vh; min-height: 100dvh; background: var(--bg-app); }
 .dl-body { max-width: 1100px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-12); }
 .dl-head { text-align: center; margin-bottom: var(--space-6); }
 .dl-title { font-size: var(--font-size-2xl); font-weight: 800; color: var(--text-brand); margin-bottom: 6px; }

@@ -121,7 +121,7 @@ function handleLogout() {
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="sidebar-header">
-        <div class="sidebar-logo" @click="navigate('home')">
+        <button type="button" class="sidebar-logo" @click="navigate('home')" aria-label="Về Trang Chủ">
           <svg class="logo-svg" width="36" height="36" viewBox="0 0 64 64" fill="none">
             <circle cx="32" cy="32" r="30" stroke="var(--brown-300)" stroke-width="2"/>
             <path d="M32 12C32 12 20 22 20 32C20 38.627 25.373 44 32 44C38.627 44 44 38.627 44 32C44 22 32 12 32 12Z" fill="var(--brown-600)"/>
@@ -130,7 +130,7 @@ function handleLogout() {
           <Transition name="fade-text">
             <span v-show="!isSidebarCollapsed" class="logo-text">Y Học Cổ Truyền</span>
           </Transition>
-        </div>
+        </button>
         <button class="sidebar-toggle" @click="toggleSidebar" aria-label="Toggle sidebar">
           <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor">
             <path v-if="!isSidebarCollapsed" fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
@@ -271,7 +271,10 @@ function handleLogout() {
                   :key="t.id"
                   class="theme-opt"
                   :class="{ active: mode === t.id }"
+                  tabindex="0"
                   @click="pickTheme(t.id)"
+                  @keydown.enter.prevent="pickTheme(t.id)"
+                  @keydown.space.prevent="pickTheme(t.id)"
                   role="menuitem"
                 >
                   <span class="theme-swatch">
@@ -358,7 +361,7 @@ function handleLogout() {
 </template>
 
 <style scoped>
-.dashboard-layout{display:flex;min-height:100vh;background:var(--bg-app)}
+.dashboard-layout{display:flex;min-height:100vh;min-height:100dvh;background:var(--bg-app)}
 
 /* Backdrop (chỉ dùng ở chế độ drawer ≤1024px) */
 .sidebar-backdrop{position:fixed;inset:0;background:rgba(28,24,18,.45);backdrop-filter:blur(2px);z-index:90;opacity:0;visibility:hidden;transition:opacity var(--transition-base),visibility var(--transition-base)}
@@ -368,7 +371,7 @@ function handleLogout() {
 .collapsed .sidebar{width:var(--sidebar-collapsed-width)}
 
 .sidebar-header{display:flex;align-items:center;justify-content:space-between;padding:var(--space-5) var(--space-4);border-bottom:1px solid var(--gray-100);min-height:var(--header-height)}
-.sidebar-logo{display:flex;align-items:center;gap:var(--space-3);cursor:pointer;overflow:hidden}
+.sidebar-logo{display:flex;align-items:center;gap:var(--space-3);cursor:pointer;overflow:hidden;padding:0;text-align:left}
 .logo-svg{flex-shrink:0}
 .logo-text{font-size:var(--font-size-sm);font-weight:700;color:var(--brown-800);white-space:nowrap}
 
@@ -404,7 +407,7 @@ function handleLogout() {
 .fade-text-enter-from,.fade-text-leave-to{opacity:0}
 
 /* Main content */
-.main-content{flex:1;min-width:0;margin-left:var(--sidebar-width);transition:margin-left var(--transition-base);display:flex;flex-direction:column;min-height:100vh}
+.main-content{flex:1;min-width:0;margin-left:var(--sidebar-width);transition:margin-left var(--transition-base);display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
 .collapsed .main-content{margin-left:var(--sidebar-collapsed-width)}
 
 .top-header{height:var(--header-height);padding:0 var(--space-8);display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}

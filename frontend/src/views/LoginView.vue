@@ -63,7 +63,7 @@ async function handleLogin() {
           </div>
 
           <Transition name="fade">
-            <div v-if="authStore.error" class="error-alert" @click="authStore.clearError()">
+            <div v-if="authStore.error" class="error-alert" role="alert" @click="authStore.clearError()">
               <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
               <span>{{ authStore.error }}</span>
             </div>
@@ -104,7 +104,7 @@ async function handleLogin() {
 </template>
 
 <style scoped>
-.login-page{min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--gray-50);position:relative;overflow:hidden}
+.login-page{min-height:100vh;min-height:100dvh;display:flex;align-items:center;justify-content:center;background:var(--gray-50);position:relative;overflow:hidden}
 .login-bg{position:fixed;inset:0;pointer-events:none;z-index:0}
 .bg-circle{position:absolute;border-radius:50%;opacity:.07}
 .bg-circle--1{width:600px;height:600px;background:var(--brown-400);top:-200px;right:-100px;animation:float 20s ease-in-out infinite}
@@ -149,6 +149,15 @@ async function handleLogin() {
 .btn-login:disabled{opacity:.7;cursor:not-allowed}
 .btn-spinner{display:inline-block;width:20px;height:20px;border:2.5px solid rgba(255,255,255,.3);border-top-color:var(--white);border-radius:50%;animation:spin .7s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
+/* Giảm chuyển động: tắt animation trang trí chạy vô hạn (float, pulse-glow).
+   Spinner (spin) là chỉ báo đang tải → giữ nguyên. */
+@media (prefers-reduced-motion: reduce) {
+  .bg-circle--1,
+  .bg-circle--2,
+  .hero-icon {
+    animation: none !important;
+  }
+}
 .form-footer{margin-top:var(--space-8);text-align:center;font-size:var(--font-size-xs);color:var(--gray-400)}
 .fade-enter-active,.fade-leave-active{transition:opacity var(--transition-base)}
 .fade-enter-from,.fade-leave-to{opacity:0}

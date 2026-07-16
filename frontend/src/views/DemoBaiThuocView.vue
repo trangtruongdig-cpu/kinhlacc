@@ -176,6 +176,7 @@ onMounted(async () => {
 <style scoped>
 .dbt {
   min-height: 100vh;
+  min-height: 100dvh; /* dvh: trừ thanh URL mobile → không nhảy layout */
   background: var(--bg-app);
   color: var(--text);
 }

@@ -196,6 +196,7 @@ onBeforeUnmount(() => {
 .km3d-mount {
   flex: none;
   height: calc(100vh - 140px);
+  height: calc(100dvh - 140px); /* dvh: canvas 3D không bị thanh URL mobile che/đẩy */
   min-height: 440px;
   position: relative;
 }
@@ -252,6 +253,7 @@ onBeforeUnmount(() => {
   inset: 0;
   z-index: 1000;
   height: 100vh;
+  height: 100dvh; /* dvh: trừ thanh URL mobile */
   height: 100dvh; /* trừ thanh địa chỉ trình duyệt mobile để không bị tràn */
   min-height: 0;
   margin: 0;
@@ -293,7 +295,7 @@ onBeforeUnmount(() => {
 }
 @media (max-width: 768px) {
   /* Trừ thêm chiều cao của nút gạt phía trên (≈54px) để khung không tràn quá viewport. */
-  .km3d-mount { height: calc(100vh - 162px); }
+  .km3d-mount { height: calc(100vh - 162px); height: calc(100dvh - 162px); }
 }
 @media (max-width: 480px) {
   /* Điện thoại nhỏ: hạ chiều cao tối thiểu để đồ hình không lấn quá nhiều. */
@@ -301,6 +303,6 @@ onBeforeUnmount(() => {
 }
 @media (max-height: 480px) {
   /* Điện thoại xoay NGANG (màn thấp): không ép khung cao hơn viewport. */
-  .km3d-mount { height: calc(100vh - 144px); min-height: 240px; }
+  .km3d-mount { height: calc(100vh - 144px); height: calc(100dvh - 144px); min-height: 240px; }
 }
 </style>

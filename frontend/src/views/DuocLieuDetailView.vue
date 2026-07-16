@@ -72,7 +72,7 @@ function onLoaded(h: { id: number; ten: string }) {
 </template>
 
 <style scoped>
-.dld { min-height: 100vh; background: var(--bg-app); }
+.dld { min-height: 100vh; min-height: 100dvh; background: var(--bg-app); }
 .dld-body { max-width: 920px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-12); }
 .dld-back { margin-bottom: var(--space-4); padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border, #e5e0d6); background: #fff; cursor: pointer; font-size: 13px; color: var(--brown-700, #6b4f2a); }
 .dld-back:hover { background: var(--brown-50, #f7f3ec); }

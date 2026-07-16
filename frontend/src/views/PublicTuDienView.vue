@@ -25,6 +25,7 @@ import PublicTopBar from '@/components/PublicTopBar.vue'
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  min-height: 100dvh; /* dvh: trừ thanh URL mobile → không nhảy layout */
   background: var(--bg-app);
 }
 .pub-td-body {

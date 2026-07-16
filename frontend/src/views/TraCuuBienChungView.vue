@@ -30,7 +30,7 @@ import BienChungLuanTriView from './BienChungLuanTriView.vue'
 </template>
 
 <style scoped>
-.pub { min-height: 100vh; background: var(--bg, #faf6ee); display: flex; flex-direction: column; }
+.pub { min-height: 100vh; min-height: 100dvh; background: var(--bg, #faf6ee); display: flex; flex-direction: column; }
 .pub-head {
   position: sticky; top: 0; z-index: 20;
   display: flex; align-items: center; justify-content: space-between; gap: 12px;

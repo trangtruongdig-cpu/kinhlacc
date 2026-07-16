@@ -1014,6 +1014,10 @@ function openAcu(id?: number) {
 function gotoMap(code: string) {
   router.push({ name: props.mapRouteName, query: { focus: code } })
 }
+// mở thẳng Đồ Hình 3D (không kèm huyệt cụ thể) — nút riêng trên thanh tab.
+function goto3D() {
+  router.push({ name: props.mapRouteName })
+}
 // từ chi tiết huyệt → tab "Lý Thuyết · Tra Cứu Kinh": chọn đúng đường kinh, mở "Các Huyệt",
 // cuộn tới + tô sáng huyệt vừa xem (Kỳ Huyệt thì hiện thẳng danh sách kỳ huyệt).
 function openMerForAcu(i: number, acuId: number | null) {
@@ -1080,6 +1084,8 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
       <button class="td-tab" :class="{ active: subtab === 'baithuoc' }" @click="subtab = 'baithuoc'">
         Bài Thuốc
       </button>
+      <!-- Đồ Hình 3D = điều hướng SANG trang xem 3D (không phải subtab nội tuyến). -->
+      <button type="button" class="td-tab td-tab--link" @click="goto3D">🧭 Đồ Hình 3D</button>
       <!-- ↓↓↓ luôn giữ Thư Mục Nguồn ở CUỐI cùng ↓↓↓ -->
       <button v-if="facetsReady" class="td-tab" :class="{ active: subtab === 'nguon' }" @click="subtab = 'nguon'">
         Thư Mục Nguồn
@@ -1448,6 +1454,8 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
 }
 .td-tab:hover { border-color: var(--brown-300); color: var(--brown-700); background: var(--brown-50); }
 .td-tab.active { background: var(--brown-600); border-color: var(--brown-600); color: #fff; }
+/* Đồ Hình 3D điều hướng sang trang khác (không phải subtab) — viền nét đứt để phân biệt. */
+.td-tab--link { border-style: dashed; }
 
 /* ── trạng thái ── */
 .td-error { background: var(--danger-bg); color: var(--danger); border: 1px solid var(--danger-border); border-radius: var(--radius-lg); padding: var(--space-4) var(--space-5); font-size: var(--font-size-sm); }
@@ -1460,6 +1468,7 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
 .td-shell {
   display: flex;
   height: calc(100vh - 210px);
+  height: calc(100dvh - 210px); /* dvh: trừ thanh URL mobile */
   min-height: 480px;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);

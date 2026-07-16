@@ -800,7 +800,7 @@ async function mlSearch() {
         <div class="cdl-label-upload"
           @dragover.prevent @drop="onLabelDrop"
           :class="{ 'has-image': labelPreview }">
-          <img v-if="labelPreview" :src="labelPreview" class="cdl-label-preview"/>
+          <img v-if="labelPreview" :src="labelPreview" class="cdl-label-preview" alt="Xem trước ảnh nhãn đã chọn"/>
           <div v-else class="cdl-label-dropzone">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
             <p>Kéo thả hoặc <label class="cdl-label-browse">chọn ảnh<input type="file" accept="image/*" @change="onLabelFilePick" hidden/></label></p>
@@ -822,7 +822,7 @@ async function mlSearch() {
           </select>
 
           <div v-if="labelClassId" class="cdl-label-preview-class">
-            <img v-for="img in (atlasIndex[labelClassId]||[]).slice(0,3)" :key="img" :src="img" class="cdl-label-ref-img" @click="openLightbox(img)"/>
+            <img v-for="img in (atlasIndex[labelClassId]||[]).slice(0,3)" :key="img" :src="img" class="cdl-label-ref-img" @click="openLightbox(img)" alt="Ảnh tham chiếu chẩn đoán lưỡi"/>
             <span class="cdl-label-ref-count">{{ (atlasIndex[labelClassId]||[]).length }} ảnh mẫu</span>
           </div>
 
@@ -1242,7 +1242,7 @@ async function mlSearch() {
     <Teleport to="body">
       <div v-if="lightboxSrc" class="cdl-lightbox" @click.self="closeLightbox">
         <button class="cdl-lightbox__close" @click="closeLightbox">✕</button>
-        <img :src="lightboxSrc" class="cdl-lightbox__img" @click.stop/>
+        <img :src="lightboxSrc" class="cdl-lightbox__img" @click.stop alt="Ảnh phóng to"/>
       </div>
     </Teleport>
   </div>

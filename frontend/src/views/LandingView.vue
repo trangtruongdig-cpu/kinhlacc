@@ -49,8 +49,13 @@ const ctaLabel = computed(() => (isAuthed.value ? 'Vào Hệ Thống' : 'Đăng 
 function enter() {
   router.push({ name: isAuthed.value ? 'dashboard' : 'login' })
 }
+// Trạng thái mở/đóng menu trên di động (nav 7 mục ẩn sau nút hamburger ở ≤768px).
+const mobileNavOpen = ref(false)
 function scrollTo(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  mobileNavOpen.value = false // chạm 1 mục → cuộn tới & đóng menu mobile
+  // Tôn trọng "giảm chuyển động": người bật prefers-reduced-motion thì nhảy thẳng, không cuộn mượt.
+  const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  document.getElementById(id)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
 }
 // Mở một trang "xem thử" CÔNG KHAI (không cần đăng nhập): 3D, kết quả đo, bài thuốc.
 function openDemo(name: 'xem-3d' | 'xem-ket-qua-do' | 'xem-bai-thuoc' | 'thu-vien') {
@@ -292,8 +297,11 @@ const stats = [
 const libraryCats = [
   { icon: 'acu', title: 'Huyệt Vị · Châm Cứu', count: '1.058 Huyệt', desc: 'Vị trí, chủ trị, cách châm cứu và giải phẫu từng huyệt.' },
   { icon: 'meridian', title: 'Lý Thuyết Kinh Mạch', count: '12 Chính Kinh + 8 Mạch', desc: 'Đường vận hành, chủ trị, đồ hình và danh sách huyệt mỗi đường kinh.' },
+  { icon: '3d', title: 'Đồ Hình 3D Kinh Lạc', count: '12 Đường Kinh', desc: 'Mô hình 3D tương tác — xoay, bấm huyệt tra cứu ngay trên trình duyệt.' },
   { icon: 'needle', title: 'Châm Cứu Trị Bệnh', count: '100 Bệnh', desc: 'Phác đồ châm cứu theo từng bệnh, công thức huyệt cụ thể.' },
   { icon: 'book', title: 'Bệnh Học', count: '99 Bệnh', desc: 'Bệnh học Đông Y, đối chiếu với bệnh danh hiện đại.' },
+  { icon: 'herb', title: 'Dược Liệu · Vị Thuốc', count: '1.043 Vị', desc: 'Tính vị, quy kinh, công dụng, chủ trị và hình ảnh từng vị thuốc.' },
+  { icon: 'formula', title: 'Bài Thuốc Cổ Phương', count: '13.942 Bài', desc: 'Thành phần, cấu trúc Quân – Thần – Tá – Sứ và xuất xứ từng bài thuốc.' },
   { icon: 'source', title: 'Thư Mục Nguồn', count: '93 Nguồn', desc: 'Trích dẫn xuất xứ từ các y thư kinh điển.' },
 ]
 
@@ -418,17 +426,18 @@ const faqs: { q: string; a: string }[] = [
     <!-- ============ Thanh điều hướng ============ -->
     <header class="lp-nav">
       <div class="lp-nav-inner">
-        <div class="lp-brand" @click="scrollTo('top')">
+        <button type="button" class="lp-brand" aria-label="Về đầu trang" @click="scrollTo('top')">
           <svg width="34" height="34" viewBox="0 0 64 64" fill="none">
             <circle cx="32" cy="32" r="30" stroke="var(--brown-300)" stroke-width="2" />
             <path d="M32 12C32 12 20 22 20 32C20 38.627 25.373 44 32 44C38.627 44 44 38.627 44 32C44 22 32 12 32 12Z" fill="var(--brown-600)" />
             <circle cx="32" cy="32" r="4" fill="var(--white)" />
           </svg>
           <span class="lp-brand-text">Kinh Lạc Trương Gia</span>
-        </div>
-        <nav class="lp-nav-links">
+        </button>
+        <nav id="lp-nav-menu" class="lp-nav-links" :class="{ open: mobileNavOpen }" aria-label="Điều hướng trang">
           <button @click="scrollTo('dials')">Biện Chứng</button>
           <button @click="scrollTo('measure')">Kết Quả Đo</button>
+          <button @click="openDemo('xem-3d')">Đồ Hình 3D</button>
           <button @click="scrollTo('phan-tich-bai-thuoc')">Phân Tích Bài Thuốc</button>
           <button @click="scrollTo('thu-vien')">Thư Viện</button>
           <button @click="scrollTo('hoc-lieu')">Học Liệu</button>
@@ -436,6 +445,17 @@ const faqs: { q: string; a: string }[] = [
           <button @click="scrollTo('faq')">Hỏi Đáp</button>
         </nav>
         <button class="lp-btn lp-btn--primary" @click="enter">{{ ctaLabel }}</button>
+        <button
+          type="button"
+          class="lp-nav-toggle"
+          :aria-expanded="mobileNavOpen"
+          aria-controls="lp-nav-menu"
+          :aria-label="mobileNavOpen ? 'Đóng menu' : 'Mở menu'"
+          @click="mobileNavOpen = !mobileNavOpen"
+        >
+          <svg v-if="!mobileNavOpen" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+          <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" /></svg>
+        </button>
       </div>
     </header>
 
@@ -497,7 +517,7 @@ const faqs: { q: string; a: string }[] = [
         <article v-for="c in relCards" :key="c.tag" class="dl-rel">
           <div class="dl-rel-head">
             <span class="dl-rel-tag">{{ c.tag }}</span>
-            <h4 class="dl-rel-title">{{ c.title }}</h4>
+            <h3 class="dl-rel-title">{{ c.title }}</h3>
           </div>
           <p class="dl-rel-desc">{{ c.desc }}</p>
           <div class="dl-rel-chain">
@@ -601,8 +621,16 @@ const faqs: { q: string; a: string }[] = [
             </div>
             <div class="mc-casenav">
               <button class="mc-navbtn" @click="gotoCase(activeCase - 1)" aria-label="Ca trước">‹</button>
-              <span class="mc-dots">
-                <i v-for="(c, i) in measureCases" :key="c.id" :class="{ on: i === activeCase }" @click="gotoCase(i)"></i>
+              <span class="mc-dots" role="tablist" aria-label="Chọn ca đo mẫu">
+                <button
+                  v-for="(c, i) in measureCases"
+                  :key="c.id"
+                  type="button"
+                  :class="{ on: i === activeCase }"
+                  :aria-label="`Xem ${c.id}`"
+                  :aria-current="i === activeCase ? 'true' : undefined"
+                  @click="gotoCase(i)"
+                ></button>
               </span>
               <button class="mc-navbtn" @click="gotoCase(activeCase + 1)" aria-label="Ca sau">›</button>
             </div>
@@ -790,6 +818,9 @@ const faqs: { q: string; a: string }[] = [
             <svg v-else-if="c.icon === 'meridian'" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M22 12h-4l-3 9L9 3l-3 9H2" /></svg>
             <svg v-else-if="c.icon === 'needle'" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 20.5L3.5 13.5a5 5 0 017.07-7.07l7 7a5 5 0 01-7.07 7.07z" /><path stroke-linecap="round" stroke-linejoin="round" d="M8.5 8.5l7 7" /></svg>
             <svg v-else-if="c.icon === 'book'" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.5C10.5 5 8 4.5 4 4.5v13c4 0 6.5.5 8 2 1.5-1.5 4-2 8-2v-13c-4 0-6.5.5-8 2zM12 6.5v13" /></svg>
+            <svg v-else-if="c.icon === 'herb'" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 4C10 4 4 10 4 20c10 0 16-6 16-16z" /><path stroke-linecap="round" d="M8 20C8 14 12 9 18 6" /></svg>
+            <svg v-else-if="c.icon === 'formula'" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 4h9L18 8H6l1.5-4z" /><path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16l-1.5 12a2 2 0 01-2 1.8H7.5a2 2 0 01-2-1.8L4 8z" /><path stroke-linecap="round" d="M9 12c0 1.7 1.3 3 3 3s3-1.3 3-3" /></svg>
+            <svg v-else-if="c.icon === '3d'" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 12v9M12 12l8-4.5M12 12L4 7.5" /></svg>
             <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" /></svg>
           </span>
           <div class="lp-lib-text">
@@ -1001,6 +1032,7 @@ const faqs: { q: string; a: string }[] = [
 <style scoped>
 .landing {
   min-height: 100vh;
+  min-height: 100dvh; /* dvh: trừ thanh URL trên mobile → không nhảy layout (fallback 100vh ở dòng trên) */
   background: var(--bg-app);
   color: var(--text);
   overflow-x: clip; /* clip (KHÔNG phải hidden) → chặn tràn ngang mà KHÔNG tạo scroll-container → .lp-nav position:sticky vẫn dính */
@@ -1012,6 +1044,20 @@ const faqs: { q: string; a: string }[] = [
 /* Nav ĐÃ sticky → mọi section khi cuộn tới (từ menu) chừa chỗ cho thanh nav (~68px) để không bị che. */
 .landing section {
   scroll-margin-top: 84px;
+}
+
+/* Giảm chuyển động: tôn trọng người bật "prefers-reduced-motion".
+   Các vòng xoay/3D nặng đã tự xử lý trong component; block này phủ nốt
+   hover/transition của bản thân trang landing (hover-lift, lpTraceIn…). */
+@media (prefers-reduced-motion: reduce) {
+  .landing *,
+  .landing *::before,
+  .landing *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 
 /* ---------- Câu hỏi thường gặp (FAQ) ---------- */
@@ -1136,6 +1182,7 @@ const faqs: { q: string; a: string }[] = [
   display: flex;
   align-items: center;
   gap: var(--space-3);
+  padding: 0; /* trung hoà padding mặc định của <button> (logo nav nay bấm được bằng bàn phím) */
   cursor: pointer;
 }
 .lp-brand-text {
@@ -1160,6 +1207,19 @@ const faqs: { q: string; a: string }[] = [
 }
 .lp-nav-links button:hover {
   color: var(--brown-700);
+  background: var(--brown-50);
+}
+/* Nút hamburger: ẩn ở desktop, chỉ hiện ở ≤768px (xem @media cuối file). */
+.lp-nav-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
+  color: var(--brown-700);
+  transition: background var(--transition-fast);
+}
+.lp-nav-toggle:hover {
   background: var(--brown-50);
 }
 
@@ -1894,17 +1954,22 @@ const faqs: { q: string; a: string }[] = [
   align-items: center;
   gap: 6px;
 }
-.mc-dots i {
+.mc-dots button {
   width: 8px;
   height: 8px;
+  padding: 0;
   border-radius: 50%;
   background: var(--border-strong);
   cursor: pointer;
   transition: transform var(--transition-fast), background var(--transition-fast);
 }
-.mc-dots i.on {
+.mc-dots button.on {
   background: var(--brown-600);
   transform: scale(1.25);
+}
+.mc-dots button:focus-visible {
+  outline: 2px solid var(--brown-500);
+  outline-offset: 2px;
 }
 
 /* Cụm nút: xem thật (free) + mở khoá "của bạn" (điểm chuyển đổi) */
@@ -3163,7 +3228,7 @@ const faqs: { q: string; a: string }[] = [
 }
 .lp-lib-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: var(--space-5);
 }
 .lp-lib-card {
@@ -3294,8 +3359,34 @@ const faqs: { q: string; a: string }[] = [
   }
 }
 @media (max-width: 768px) {
+  /* Menu 7 mục xổ xuống từ nút hamburger (thay vì biến mất hẳn). */
+  .lp-nav-toggle {
+    display: inline-flex;
+  }
   .lp-nav-links {
     display: none;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    margin-left: 0;
+    padding: var(--space-2) var(--space-4) var(--space-4);
+    background: rgba(250, 246, 239, 0.98);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    box-shadow: var(--shadow-lg);
+  }
+  .lp-nav-links.open {
+    display: flex;
+  }
+  .lp-nav-links button {
+    width: 100%;
+    text-align: left;
+    padding: var(--space-3);
+    font-size: var(--font-size-base);
   }
   .lp-nav-inner {
     gap: var(--space-3);

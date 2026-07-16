@@ -44,6 +44,7 @@ defineProps<{
 <style scoped>
 .legal-page {
   min-height: 100vh;
+  min-height: 100dvh; /* dvh: trừ thanh URL mobile → không nhảy layout */
   display: flex;
   flex-direction: column;
   background: var(--bg-app);

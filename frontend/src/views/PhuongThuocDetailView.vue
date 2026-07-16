@@ -115,7 +115,7 @@ onMounted(() => load(String(route.params.slug)))
 </template>
 
 <style scoped>
-.pd { min-height: 100vh; background: var(--bg-app); }
+.pd { min-height: 100vh; min-height: 100dvh; background: var(--bg-app); }
 .pd-body { max-width: 760px; margin: 0 auto; padding: var(--space-6) var(--space-5) var(--space-12); }
 .pd-msg { text-align: center; padding: var(--space-10); color: var(--text-muted); }
 .pd-err { color: var(--danger, #b91c1c); }
