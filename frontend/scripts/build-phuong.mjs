@@ -117,7 +117,10 @@ function stub(b) {
     html = setMeta(html, 'property', 'og:type', 'article')
     html = setMeta(html, 'property', 'og:url', url)
     html = setJsonLd(html, jsonLd)
-    html = html.replace(/<div id="app">\s*<\/div>/i, `<div id="app">${stub(b)}</div>`)
+    // Không dùng \s* (chỉ khớp div RỖNG): nếu prerender-seo.mjs (route "/") chạy trước và đã
+    // ghi đè dist/index.html với stub của TRANG CHỦ, div không còn rỗng nữa → [\s\S]*? khớp
+    // được nội dung cũ và thay đúng, tránh mọi trang bài thuốc lặp lại nội dung trang chủ.
+    html = html.replace(/<div id="app">[\s\S]*?<\/div>/i, `<div id="app">${stub(b)}</div>`)
 
     const outDir = join(distDir, 'bai-thuoc', b.slug)
     mkdirSync(outDir, { recursive: true })

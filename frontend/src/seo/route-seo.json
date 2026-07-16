@@ -346,6 +346,36 @@
       }
     },
     {
+      "name": "tra-cuu-bien-chung",
+      "path": "/tra-cuu-bien-chung",
+      "breadcrumb": [{ "name": "Bàn Xoay Biện Chứng", "path": "/tra-cuu-bien-chung" }],
+      "priority": "0.8",
+      "changefreq": "monthly",
+      "ogType": "website",
+      "title": "Bàn Xoay Biện Chứng — Tra Cứu Thương Hàn Luận Miễn Phí",
+      "description": "Tra cứu Biện Chứng Luận Trị Thương Hàn: bàn xoay Âm Dương → Lục Kinh, bệnh cơ và pháp trị tương ứng. Công cụ tham khảo, miễn phí, không cần đăng nhập.",
+      "keywords": [
+        "biện chứng luận trị",
+        "bàn xoay biện chứng",
+        "thương hàn luận",
+        "lục kinh",
+        "bệnh cơ Đông Y",
+        "tra cứu thương hàn"
+      ],
+      "jsonLd": {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Bàn Xoay Biện Chứng — Tra Cứu Thương Hàn Luận",
+        "description": "Công cụ tra cứu Biện Chứng Luận Trị theo Thương Hàn Luận: bàn xoay Âm Dương → Lục Kinh, bệnh cơ và pháp trị tương ứng, tra cứu trực quan trên trình duyệt.",
+        "url": "https://kinhlac.online/tra-cuu-bien-chung",
+        "inLanguage": "vi",
+        "applicationCategory": "HealthApplication",
+        "operatingSystem": "Web",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "VND" }
+      }
+    },
+    {
       "name": "ve-chung-toi",
       "path": "/ve-chung-toi",
       "breadcrumb": [{ "name": "Về Chúng Tôi", "path": "/ve-chung-toi" }],

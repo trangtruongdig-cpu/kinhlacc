@@ -7,5 +7,35 @@ Disallow: /app
 Disallow: /login
 Disallow: /api/
 
+# Bot AI được xác minh tôn trọng robots.txt, khai báo rõ thay vì chỉ dựa vào "*" ở trên.
+# Không khai báo PerplexityBot: mục đích/tuân thủ robots.txt của bot này chưa được xác minh
+# đáng tin cậy (có báo cáo dùng crawler không khai báo để né robots.txt).
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Google-CloudVertexBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 # Bản đồ trang (sinh tự động khi build: npm run sitemap)
 Sitemap: https://kinhlac.online/sitemap.xml
