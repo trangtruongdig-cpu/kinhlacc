@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { ExaminationsService } from '../controllers/examination.controller';
 import { CreateExaminationDto, UpdateExaminationDto } from '../models/examination.dto';
-import { ChanDoanLuu } from '../models/examination.model';
+import { ChanDoanLuu, DonThuocLuu } from '../models/examination.model';
 import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
 
 @Controller('examinations')
@@ -52,6 +52,16 @@ export class ExaminationsRouter {
   ) {
     const item = await this.examinationsService.saveChanDoan(id, body?.chanDoan ?? null);
     return { success: true, data: item.chanDoan };
+  }
+
+  /** Lưu đơn thuốc tùy chỉnh (thang đặc trị) cho ca khám. Body: { donThuoc: {...} | null }. */
+  @Put(':id/don-thuoc')
+  async saveDonThuoc(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: { donThuoc?: DonThuocLuu | null },
+  ) {
+    const item = await this.examinationsService.saveDonThuoc(id, body?.donThuoc ?? null);
+    return { success: true, data: item.donThuoc };
   }
 
   @Get('patient/:patientId')

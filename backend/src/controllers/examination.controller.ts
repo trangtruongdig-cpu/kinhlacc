@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, OnModuleInit, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Examination, ChanDoanLuu } from '../models/examination.model';
+import { Examination, ChanDoanLuu, DonThuocLuu } from '../models/examination.model';
 import { CreateExaminationDto, UpdateExaminationDto } from '../models/examination.dto';
 import { MeridiansService, AnalyzeInputDto } from './meridian.controller';
 import { PatientsService } from './patient.controller';
@@ -203,6 +203,15 @@ export class ExaminationsService implements OnModuleInit {
       throw new NotFoundException(`Ca khám #${id} không tồn tại`);
     }
     exam.chanDoan = chanDoan;
+    return this.examinationRepository.save(exam);
+  }
+
+  async saveDonThuoc(id: number, donThuoc: DonThuocLuu | null): Promise<Examination> {
+    const exam = await this.examinationRepository.findOneBy({ id });
+    if (!exam) {
+      throw new NotFoundException(`Ca khám #${id} không tồn tại`);
+    }
+    exam.donThuoc = donThuoc;
     return this.examinationRepository.save(exam);
   }
 

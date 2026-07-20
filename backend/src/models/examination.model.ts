@@ -23,6 +23,33 @@ export interface ChanDoanLuu {
   luu_luc: string;
 }
 
+/**
+ * Đơn thuốc TÙY CHỈNH (thang đặc trị) cho 1 ca khám — gộp vị thuốc từ các bài thuốc
+ * của các thể bệnh khớp (bỏ trùng), thầy thuốc tích chọn/bỏ vị và chỉnh liều.
+ */
+export interface DonThuocLuu {
+  items: {
+    /** id vị thuốc (null nếu bài nguồn chưa gắn vị chuẩn). */
+    id_vi_thuoc: number | null;
+    /** Tên vị thuốc hiển thị. */
+    ten: string;
+    /** Liều lượng (thầy thuốc chỉnh; mặc định gợi ý từ bài nguồn). */
+    lieu_luong?: string | null;
+    /** Vai trò Quân/Thần/Tá/Sứ (nếu có). */
+    vai_tro?: string | null;
+    /** Số bài thuốc nguồn có chứa vị này (dùng xếp thông dụng → đặc trị). */
+    so_bai: number;
+    /** Tên các bài thuốc nguồn chứa vị này. */
+    tu_bai?: string[];
+    /** Thầy thuốc có đưa vị này vào đơn không. */
+    chon: boolean;
+  }[];
+  /** Ghi chú thầy thuốc. */
+  ghi_chu?: string;
+  /** Thời điểm lưu (ISO). */
+  luu_luc: string;
+}
+
 @Entity('examinations')
 export class Examination {
   @PrimaryGeneratedColumn()
@@ -67,6 +94,9 @@ export class Examination {
 
   @Column({ type: 'jsonb', nullable: true })
   chanDoan: ChanDoanLuu | null;
+
+  @Column({ type: 'jsonb', nullable: true })
+  donThuoc: DonThuocLuu | null;
 
   @CreateDateColumn()
   createdAt: Date;

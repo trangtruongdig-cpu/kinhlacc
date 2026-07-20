@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watch, reactive } from 'vue'
+import { ref, onMounted, computed, watch, reactive, defineAsyncComponent } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { usePatientStore, type Patient } from '@/stores/patient'
 import { api } from '@/services/api'
@@ -50,6 +50,10 @@ interface BaiThuocLite {
 interface ViThuocLite {
   id: number
   ten_vi_thuoc: string | null
+  // Tính–Vị–Quy Kinh: có sẵn trong /bai-thuoc/lite (cột thẳng trên ViThuoc) → dùng để phân tích thang.
+  tinh?: string | null
+  vi?: string | null
+  quy_kinh?: string | null
 }
 interface BaiThuocChiTietLite {
   id: number
@@ -206,6 +210,121 @@ const matchedBaiThuocList = computed(() => {
   }
   return out
 })
+
+// ── V. THANG ĐẶC TRỊ: gộp vị thuốc từ MỌI bài của các thể khớp, bỏ trùng theo vị,
+//    đếm SỐ BÀI chứa vị rồi xếp giảm dần (thông dụng → đặc trị). Thầy thuốc tích/bỏ
+//    vị + chỉnh liều → lưu thành đơn riêng của ca khám (như phương huyệt).
+interface TongHopViItem {
+  key: string
+  id_vi_thuoc: number | null
+  ten: string
+  so_bai: number
+  tu_bai: string[]
+  vai_tro: string | null
+  lieu_goi_y: string | null
+  viThuoc: ViThuocLite | null // giữ tính–vị–quy-kinh để phân tích thang
+}
+const tongHopViThuoc = computed<TongHopViItem[]>(() => {
+  const map = new Map<string, TongHopViItem>()
+  for (const bt of matchedBaiThuocList.value) {
+    const seenInBai = new Set<string>() // 1 vị trùng trong CÙNG 1 bài chỉ tính 1 lần
+    for (const ct of baiThuocChiTietOf(bt.id)) {
+      const ten = viThuocLabel(ct)
+      const key = ct.id_vi_thuoc != null ? 'id:' + ct.id_vi_thuoc : 'ten:' + ten.toLowerCase()
+      if (seenInBai.has(key)) continue
+      seenInBai.add(key)
+      let it = map.get(key)
+      if (!it) {
+        it = { key, id_vi_thuoc: ct.id_vi_thuoc, ten, so_bai: 0, tu_bai: [], vai_tro: ct.vai_tro || null, lieu_goi_y: ct.lieu_luong || null, viThuoc: ct.viThuoc ?? null }
+        map.set(key, it)
+      }
+      it.so_bai++
+      if (!it.tu_bai.includes(bt.ten_bai_thuoc)) it.tu_bai.push(bt.ten_bai_thuoc)
+      if (!it.lieu_goi_y && ct.lieu_luong) it.lieu_goi_y = ct.lieu_luong
+      if (!it.vai_tro && ct.vai_tro) it.vai_tro = ct.vai_tro
+    }
+  }
+  return [...map.values()].sort((a, b) => b.so_bai - a.so_bai || a.ten.localeCompare(b.ten, 'vi'))
+})
+
+// Trạng thái đơn thuốc tùy chỉnh
+const dtChon = ref<Set<string>>(new Set()) // vị đưa vào đơn (mặc định TÍCH HẾT)
+const dtLieu = ref<Record<string, string>>({}) // liều đã chỉnh (theo key)
+const dtGhiChu = ref('')
+const dtSaving = ref(false)
+const dtSavedMsg = ref('')
+const dtInited = ref(false)
+const showBaiThuocNguon = ref(false)
+
+const dtChonCount = computed(() => tongHopViThuoc.value.filter((it) => dtChon.value.has(it.key)).length)
+
+function toggleDtChon(key: string) {
+  const s = new Set(dtChon.value)
+  if (s.has(key)) s.delete(key)
+  else s.add(key)
+  dtChon.value = s
+}
+function setDtLieu(key: string, e: Event) {
+  dtLieu.value = { ...dtLieu.value, [key]: (e.target as HTMLInputElement).value }
+}
+function dtLieuOf(it: TongHopViItem): string {
+  return dtLieu.value[it.key] ?? it.lieu_goi_y ?? ''
+}
+
+// Phân tích thang: dựng "bài thuốc ảo" từ các vị ĐÃ CHỌN (kèm liều đang chỉnh) → đưa vào
+// BaiThuocAnalysis (radar Tứ Khí · Ngũ Vị · Quy Kinh · Quân-Thần-Tá-Sứ). Chart.js nặng → nạp động.
+const BaiThuocAnalysis = defineAsyncComponent(() => import('@/components/BaiThuocAnalysis.vue'))
+const showPhanTich = ref(false)
+const phanTichThang = computed(() => ({
+  id: -1,
+  ten_bai_thuoc: 'Thang Đặc Trị',
+  chiTietViThuoc: tongHopViThuoc.value
+    .filter((it) => dtChon.value.has(it.key))
+    .map((it) => ({
+      id_vi_thuoc: it.id_vi_thuoc ?? undefined,
+      lieu_luong: dtLieuOf(it) || null,
+      vai_tro: it.vai_tro,
+      quy_kinh: it.viThuoc?.quy_kinh ?? null,
+      viThuoc: {
+        id: it.viThuoc?.id ?? it.id_vi_thuoc ?? 0,
+        ten_vi_thuoc: it.viThuoc?.ten_vi_thuoc || it.ten,
+        tinh: it.viThuoc?.tinh ?? null,
+        vi: it.viThuoc?.vi ?? null,
+        quy_kinh: it.viThuoc?.quy_kinh ?? null,
+      },
+    })),
+}))
+
+// LƯU Ý: watch khởi tạo đơn thuốc được đăng ký ở CUỐI <script setup> (tìm "watch(tongHopViThuoc").
+// Lý do: watch đọc source `tongHopViThuoc` MỘT LẦN lúc đăng ký → chuỗi matchedBenhIds tham chiếu
+// `excelFocusRuleId` (khai báo phía dưới) → nếu đăng ký ở đây sẽ lỗi TDZ (trắng trang).
+
+async function saveDonThuoc() {
+  const payload = {
+    items: tongHopViThuoc.value.map((it) => ({
+      id_vi_thuoc: it.id_vi_thuoc,
+      ten: it.ten,
+      lieu_luong: dtLieuOf(it).trim() || null,
+      vai_tro: it.vai_tro,
+      so_bai: it.so_bai,
+      tu_bai: it.tu_bai,
+      chon: dtChon.value.has(it.key),
+    })),
+    ghi_chu: dtGhiChu.value.trim() || undefined,
+    luu_luc: new Date().toISOString(),
+  }
+  dtSaving.value = true
+  dtSavedMsg.value = ''
+  try {
+    await api.put(`/examinations/${examId.value}/don-thuoc`, { donThuoc: payload })
+    if (examination.value) examination.value.donThuoc = payload
+    dtSavedMsg.value = 'Đã lưu đơn vào bệnh án.'
+  } catch (e: unknown) {
+    dtSavedMsg.value = 'Lỗi lưu: ' + (e instanceof Error ? e.message : String(e))
+  } finally {
+    dtSaving.value = false
+  }
+}
 
 
 function phapTriHref(id: number): string {
@@ -1390,16 +1509,40 @@ onMounted(async () => {
   await loadData()
 })
 
+// Nạp TOÀN BỘ bài thuốc (kèm chi tiết vị + tính–vị–quy-kinh). Endpoint /bai-thuoc/lite CHẶN
+// limit tối đa 200/trang, nên phải PHÂN TRANG hết — nếu chỉ gọi 1 trang thì các bài xếp sau
+// (theo tên A→Z) bị thiếu vị → Thang Đặc Trị & danh sách bài nguồn hụt vị. Trang 1 lấy total,
+// các trang còn lại tải song song rồi gộp.
+type BaiThuocLiteResp = { data?: BaiThuocFull[]; total?: number }
+async function loadAllBaiThuocLite(): Promise<BaiThuocFull[]> {
+  const LIMIT = 200
+  const unwrap = (r: BaiThuocFull[] | BaiThuocLiteResp): BaiThuocFull[] =>
+    Array.isArray(r) ? r : (r.data ?? [])
+  const first = await api.get<BaiThuocFull[] | BaiThuocLiteResp>(`/bai-thuoc/lite?page=1&limit=${LIMIT}`)
+  const all: BaiThuocFull[] = unwrap(first)
+  const total: number = Array.isArray(first) ? all.length : (first.total ?? all.length)
+  const pages = Math.ceil(total / LIMIT)
+  if (pages > 1) {
+    const rest = await Promise.all(
+      Array.from({ length: pages - 1 }, (_, i) =>
+        api.get<BaiThuocFull[] | BaiThuocLiteResp>(`/bai-thuoc/lite?page=${i + 2}&limit=${LIMIT}`).then(unwrap),
+      ),
+    )
+    for (const arr of rest) all.push(...arr)
+  }
+  return all
+}
+
 async function loadData() {
   isLoading.value = true
   try {
-    // Dùng /bai-thuoc/lite (limit lớn) để tránh load nested relations nặng từ endpoint cũ.
+    // /bai-thuoc/lite: cắt nested relations nặng (nhanh) + PHÂN TRANG nạp đủ mọi bài (limit cap 200/trang).
     const [patientRes, examRes, benhListRes, phacDoRes, baiThuocRes] = await Promise.all([
       api.get<Patient>(`/patients/${patientId.value}`),
       api.get<any>(`/examinations/${examId.value}`),
       api.get<any>('/benh-dong-y'),
       api.get<any>('/phac-do-dieu-tri'),
-      api.get<any>('/bai-thuoc/lite?page=1&limit=100000'),
+      loadAllBaiThuocLite(),
     ])
     patient.value = patientRes
     examination.value = examRes
@@ -1412,7 +1555,7 @@ async function loadData() {
 
     phacDoAllList.value = Array.isArray(phacDoRes) ? phacDoRes : phacDoRes?.data ?? []
 
-    const btArr: BaiThuocFull[] = Array.isArray(baiThuocRes) ? baiThuocRes : baiThuocRes?.data ?? []
+    const btArr: BaiThuocFull[] = baiThuocRes
     const btMap = new Map<number, BaiThuocFull>()
     for (const b of btArr) btMap.set(b.id, b)
     baiThuocFullMap.value = btMap
@@ -2198,6 +2341,43 @@ function printPhieuKetQua() {
   w.document.close()
   w.focus()
 }
+
+// Khởi tạo đơn thuốc TÙY CHỈNH khi có dữ liệu: nạp đơn đã lưu (nếu có) hoặc mặc định TÍCH HẾT
+// + liều gợi ý. ĐẶT Ở CUỐI setup: watch đọc `tongHopViThuoc` (→ matchedBenhIds → excelFocusRuleId)
+// một lần lúc đăng ký; tới đây excelFocusRuleId đã khai báo nên không còn lỗi TDZ.
+watch(tongHopViThuoc, (items) => {
+  if (dtInited.value || !items.length) return
+  const saved = examination.value?.donThuoc
+  const chon = new Set<string>()
+  const lieu: Record<string, string> = {}
+  if (saved?.items?.length) {
+    const savedMap = new Map<string, { chon?: boolean; lieu_luong?: string | null }>(
+      saved.items.map((s: { id_vi_thuoc: number | null; ten?: string; chon?: boolean; lieu_luong?: string | null }) => [
+        s.id_vi_thuoc != null ? 'id:' + s.id_vi_thuoc : 'ten:' + String(s.ten || '').toLowerCase(),
+        s,
+      ]),
+    )
+    for (const it of items) {
+      const s = savedMap.get(it.key)
+      if (s) {
+        if (s.chon !== false) chon.add(it.key)
+        if (s.lieu_luong) lieu[it.key] = s.lieu_luong
+      } else {
+        chon.add(it.key) // vị mới xuất hiện sau lần lưu → tích mặc định
+        if (it.lieu_goi_y) lieu[it.key] = it.lieu_goi_y
+      }
+    }
+    dtGhiChu.value = saved.ghi_chu || ''
+  } else {
+    for (const it of items) {
+      chon.add(it.key)
+      if (it.lieu_goi_y) lieu[it.key] = it.lieu_goi_y
+    }
+  }
+  dtChon.value = chon
+  dtLieu.value = lieu
+  dtInited.value = true
+})
 </script>
 
 <template>
@@ -2488,70 +2668,144 @@ function printPhieuKetQua() {
               <p v-else-if="!matchedBaiThuocList.length" class="suggested-empty">
                 Các bệnh YHCT khớp chưa được gắn bài thuốc nào.
               </p>
-              <div v-else class="ph-groups">
-                <div class="ph-group ph-group--bai-thuoc">
-                  <div class="ph-group__head">
-                    <span class="ph-group__method">Bài thuốc</span>
-                    <span class="ph-group__count">{{ matchedBaiThuocList.length }} bài</span>
+              <template v-else>
+                <!-- THANG ĐẶC TRỊ: gộp vị thuốc (bỏ trùng, xếp thông dụng → đặc trị), tích/sửa liều rồi lưu -->
+                <div class="dt-block">
+                  <div class="dt-head">
+                    <span class="dt-title">Thang Đặc Trị</span>
+                    <span class="dt-sub">
+                      {{ dtChonCount }}/{{ tongHopViThuoc.length }} vị · gộp {{ matchedBaiThuocList.length }} bài · bỏ trùng · thông dụng → đặc trị
+                    </span>
                   </div>
-                  <div class="ph-group__chips">
-                    <button
-                      v-for="bt in matchedBaiThuocList"
-                      :key="bt.id"
-                      type="button"
-                      class="ph-chip ph-chip--has-note"
-                      :class="{ 'ph-chip--active': expandedBaiThuoc.has(bt.id) }"
-                      :title="`${baiThuocChiTietOf(bt.id).length} vị thuốc`"
-                      @click="toggleBaiThuoc(bt.id)"
+
+                  <div class="dt-table">
+                    <div class="dt-row dt-row--head">
+                      <span class="dt-c dt-c--chk" aria-hidden="true"></span>
+                      <span class="dt-c dt-c--name">Vị thuốc</span>
+                      <span class="dt-c dt-c--freq" title="Số bài thuốc chứa vị này">Số bài</span>
+                      <span class="dt-c dt-c--lieu">Liều</span>
+                      <span class="dt-c dt-c--role">Vai trò</span>
+                    </div>
+                    <div
+                      v-for="it in tongHopViThuoc"
+                      :key="it.key"
+                      class="dt-row"
+                      :class="{ 'dt-row--off': !dtChon.has(it.key) }"
                     >
-                      <span class="ph-chip__name">{{ bt.ten_bai_thuoc }}</span>
-                      <span class="ph-chip__dot" aria-hidden="true"></span>
+                      <span class="dt-c dt-c--chk">
+                        <input
+                          type="checkbox"
+                          class="dt-chk"
+                          :checked="dtChon.has(it.key)"
+                          :aria-label="'Đưa ' + it.ten + ' vào đơn'"
+                          @change="toggleDtChon(it.key)"
+                        />
+                      </span>
+                      <span class="dt-c dt-c--name">
+                        <span class="dt-vi-ten">{{ it.ten }}</span>
+                        <span v-if="it.tu_bai.length" class="dt-from" :title="'Từ: ' + it.tu_bai.join(' · ')">{{ it.tu_bai.length }} bài</span>
+                      </span>
+                      <span class="dt-c dt-c--freq">
+                        <span class="dt-freq" :class="{ 'dt-freq--core': it.so_bai >= 2 }">{{ it.so_bai }}</span>
+                      </span>
+                      <span class="dt-c dt-c--lieu">
+                        <input
+                          type="text"
+                          class="dt-lieu"
+                          :value="dtLieuOf(it)"
+                          :placeholder="it.lieu_goi_y || '—'"
+                          :aria-label="'Liều ' + it.ten"
+                          @input="setDtLieu(it.key, $event)"
+                        />
+                      </span>
+                      <span class="dt-c dt-c--role">{{ it.vai_tro || '—' }}</span>
+                    </div>
+                  </div>
+
+                  <div class="dt-foot">
+                    <input v-model="dtGhiChu" class="dt-note" placeholder="Ghi chú đơn: cách sắc, kiêng kỵ, số thang…" />
+                    <div class="dt-actions">
+                      <span v-if="dtSavedMsg" class="dt-saved-msg">{{ dtSavedMsg }}</span>
+                      <button type="button" class="dt-save" :disabled="dtSaving || !dtChonCount" @click="saveDonThuoc">
+                        {{ dtSaving ? 'Đang lưu…' : '💾 Lưu đơn' }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="dt-toggles">
+                    <button type="button" class="dt-toggle" @click="showPhanTich = !showPhanTich">
+                      {{ showPhanTich ? '▲ Ẩn phân tích' : '📊 Phân tích thang (Tứ Khí · Ngũ Vị · Quy Kinh)' }}
+                    </button>
+                    <button type="button" class="dt-toggle" @click="showBaiThuocNguon = !showBaiThuocNguon">
+                      {{ showBaiThuocNguon ? '▲ Ẩn bài thuốc nguồn' : `▼ Xem ${matchedBaiThuocList.length} bài thuốc nguồn` }}
                     </button>
                   </div>
-                  <template
-                    v-for="bt in matchedBaiThuocList.filter((b) => expandedBaiThuoc.has(b.id))"
-                    :key="'btnote-' + bt.id"
-                  >
-                    <div class="ph-group__note ph-group__note--bt">
-                      <div class="bt-note-head">
-                        <strong>{{ bt.ten_bai_thuoc }}</strong>
-                        <span class="bt-note-count">{{ baiThuocChiTietOf(bt.id).length }} vị</span>
-                        <button
-                          type="button"
-                          class="ph-note-close"
-                          aria-label="Đóng"
-                          @click="toggleBaiThuoc(bt.id)"
-                        >✕</button>
-                      </div>
-                      <p v-if="!baiThuocChiTietOf(bt.id).length" class="bt-note-empty">
-                        Bài thuốc này chưa có thành phần vị thuốc.
-                      </p>
-                      <div v-else class="bt-detail-table">
-                        <div class="bt-detail-table__head">
-                          <span class="btd-col btd-col--name">Vị thuốc</span>
-                          <span class="btd-col btd-col--lieu">Liều</span>
-                          <span class="btd-col btd-col--role">Vai trò</span>
-                        </div>
-                        <div
-                          v-for="ct in baiThuocChiTietOf(bt.id)"
-                          :key="ct.id"
-                          class="bt-detail-table__row"
-                        >
-                          <div class="btd-col btd-col--name">{{ viThuocLabel(ct) }}</div>
-                          <div class="btd-col btd-col--lieu">
-                            <span v-if="ct.lieu_luong">{{ ct.lieu_luong }}</span>
-                            <span v-else class="muted">—</span>
-                          </div>
-                          <div class="btd-col btd-col--role">
-                            <span v-if="ct.vai_tro">{{ ct.vai_tro }}</span>
-                            <span v-else class="muted">—</span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </template>
+
+                  <div v-if="showPhanTich" class="dt-phantich">
+                    <p v-if="!phanTichThang.chiTietViThuoc.length" class="dt-phantich-empty">
+                      Chưa chọn vị thuốc nào để phân tích.
+                    </p>
+                    <BaiThuocAnalysis v-else :bai-thuoc="phanTichThang" />
+                  </div>
                 </div>
-              </div>
+
+                <!-- BÀI THUỐC NGUỒN (ẩn mặc định — chỉ hiện khi cần) -->
+                <div v-if="showBaiThuocNguon" class="ph-groups dt-source">
+                  <div class="ph-group ph-group--bai-thuoc">
+                    <div class="ph-group__chips">
+                      <button
+                        v-for="bt in matchedBaiThuocList"
+                        :key="bt.id"
+                        type="button"
+                        class="ph-chip ph-chip--has-note"
+                        :class="{ 'ph-chip--active': expandedBaiThuoc.has(bt.id) }"
+                        :title="`${baiThuocChiTietOf(bt.id).length} vị thuốc`"
+                        @click="toggleBaiThuoc(bt.id)"
+                      >
+                        <span class="ph-chip__name">{{ bt.ten_bai_thuoc }}</span>
+                        <span class="ph-chip__dot" aria-hidden="true"></span>
+                      </button>
+                    </div>
+                    <template
+                      v-for="bt in matchedBaiThuocList.filter((b) => expandedBaiThuoc.has(b.id))"
+                      :key="'btnote-' + bt.id"
+                    >
+                      <div class="ph-group__note ph-group__note--bt">
+                        <div class="bt-note-head">
+                          <strong>{{ bt.ten_bai_thuoc }}</strong>
+                          <span class="bt-note-count">{{ baiThuocChiTietOf(bt.id).length }} vị</span>
+                          <button type="button" class="ph-note-close" aria-label="Đóng" @click="toggleBaiThuoc(bt.id)">✕</button>
+                        </div>
+                        <p v-if="!baiThuocChiTietOf(bt.id).length" class="bt-note-empty">
+                          Bài thuốc này chưa có thành phần vị thuốc.
+                        </p>
+                        <div v-else class="bt-detail-table">
+                          <div class="bt-detail-table__head">
+                            <span class="btd-col btd-col--name">Vị thuốc</span>
+                            <span class="btd-col btd-col--lieu">Liều</span>
+                            <span class="btd-col btd-col--role">Vai trò</span>
+                          </div>
+                          <div
+                            v-for="ct in baiThuocChiTietOf(bt.id)"
+                            :key="ct.id"
+                            class="bt-detail-table__row"
+                          >
+                            <div class="btd-col btd-col--name">{{ viThuocLabel(ct) }}</div>
+                            <div class="btd-col btd-col--lieu">
+                              <span v-if="ct.lieu_luong">{{ ct.lieu_luong }}</span>
+                              <span v-else class="muted">—</span>
+                            </div>
+                            <div class="btd-col btd-col--role">
+                              <span v-if="ct.vai_tro">{{ ct.vai_tro }}</span>
+                              <span v-else class="muted">—</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+              </template>
             </div>
           </section>
 
@@ -3586,6 +3840,50 @@ function printPhieuKetQua() {
 .btd-col { font-size: var(--font-size-sm); color: var(--gray-800); min-width: 0; word-break: break-word; }
 .btd-col--name { font-weight: 600; color: var(--brown-900); }
 .btd-col--lieu { font-family: ui-monospace, monospace; }
+
+/* ── Thang Đặc Trị (V. Phương Dược — gộp vị thuốc, tích/sửa liều, lưu đơn) ── */
+.dt-block { display: flex; flex-direction: column; gap: var(--space-3); }
+.dt-head { display: flex; flex-direction: column; gap: 2px; }
+.dt-title { font-size: var(--font-size-md); font-weight: 800; color: var(--brown-900); }
+.dt-sub { font-size: var(--font-size-xs); color: var(--gray-500); }
+.dt-table { display: flex; flex-direction: column; border: 1px solid var(--gray-200); border-radius: var(--radius-md); overflow: hidden; background: var(--white); }
+.dt-row { display: grid; grid-template-columns: 30px minmax(110px, 1.8fr) 58px minmax(84px, 1fr) minmax(66px, 0.9fr); gap: var(--space-2); align-items: center; padding: 6px var(--space-3); }
+.dt-row + .dt-row { border-top: 1px solid var(--gray-100); }
+.dt-row--head { background: var(--surface-2); border-bottom: 1px solid var(--gray-200); font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gray-500); }
+.dt-row:not(.dt-row--head):hover { background: var(--surface-2); }
+.dt-row--off { opacity: 0.5; }
+.dt-row--off .dt-vi-ten { text-decoration: line-through; }
+.dt-c { font-size: var(--font-size-sm); min-width: 0; }
+.dt-c--chk { display: flex; align-items: center; justify-content: center; }
+.dt-chk { width: 16px; height: 16px; accent-color: var(--brown-600); cursor: pointer; }
+.dt-c--name { display: flex; align-items: baseline; gap: 6px; flex-wrap: wrap; }
+.dt-vi-ten { font-weight: 600; color: var(--brown-900); word-break: break-word; }
+.dt-from { font-size: 10px; color: var(--gray-400); white-space: nowrap; }
+.dt-c--freq { text-align: center; }
+.dt-freq { display: inline-flex; align-items: center; justify-content: center; min-width: 22px; height: 20px; padding: 0 6px; border-radius: var(--radius-full); background: var(--gray-100); color: var(--gray-600); font-size: 11px; font-weight: 700; }
+.dt-freq--core { background: var(--brown-100); color: var(--brown-800); }
+.dt-lieu { width: 100%; height: 28px; padding: 0 8px; border: 1px solid var(--gray-300); border-radius: var(--radius-sm); font-size: var(--font-size-sm); font-family: ui-monospace, monospace; color: var(--black); background: var(--white); }
+.dt-lieu:focus { outline: none; border-color: var(--brown-400); box-shadow: var(--focus-ring); }
+.dt-c--role { color: var(--gray-700); }
+.dt-foot { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; }
+.dt-note { flex: 1; min-width: 180px; height: 34px; padding: 0 var(--space-3); border: 1px solid var(--gray-300); border-radius: var(--radius-md); font-size: var(--font-size-sm); background: var(--white); color: var(--black); }
+.dt-note:focus { outline: none; border-color: var(--brown-400); box-shadow: var(--focus-ring); }
+.dt-actions { display: flex; align-items: center; gap: var(--space-3); margin-left: auto; }
+.dt-saved-msg { font-size: var(--font-size-sm); color: var(--success); }
+.dt-save { height: 34px; padding: 0 var(--space-4); border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 700; color: var(--white); background: var(--brown-600); transition: background var(--transition-fast); }
+.dt-save:hover:not(:disabled) { background: var(--brown-700); }
+.dt-save:disabled { opacity: 0.5; cursor: not-allowed; }
+.dt-toggles { display: flex; gap: var(--space-4); flex-wrap: wrap; align-items: center; }
+.dt-toggle { font-size: var(--font-size-sm); font-weight: 600; color: var(--brown-700); padding: 4px 0; }
+.dt-toggle:hover { color: var(--brown-900); text-decoration: underline; }
+.dt-phantich { margin-top: var(--space-2); padding-top: var(--space-3); border-top: 1px dashed var(--border); }
+.dt-phantich-empty { font-size: var(--font-size-sm); color: var(--gray-500); }
+/* BaiThuocAnalysis vốn layout 2 cột (radar | bảng QTTS) cho container RỘNG. Section V ở cột hẹp
+   của lưới kết quả → ép các lưới con về 1 cột để radar giãn hết bề rộng cột, xếp dọc, không bị bóp. */
+.dt-phantich :deep(.ana-layout) { grid-template-columns: 1fr !important; }
+.dt-phantich :deep(.ana-radar-card) { grid-template-columns: 1fr !important; }
+.dt-phantich :deep(.ana-radar-canvas-wrap) { height: 240px; }
+.dt-source { margin-top: var(--space-2); padding-top: var(--space-3); border-top: 1px dashed var(--border); }
 
 .result-card {
   background: var(--white);
