@@ -70,6 +70,8 @@ export class SchemaBootstrapService implements OnApplicationBootstrap {
     `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS don_thuoc TEXT`,
     `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS chu_tri TEXT`,
     `ALTER TABLE vi_thuoc ADD COLUMN IF NOT EXISTS tham_khao TEXT`,
+    // kinh_mach — biểu hiện lâm sàng khi kinh bị tắc nghẽn/rối loạn (popup "Chi tiết kinh mạch")
+    `ALTER TABLE kinh_mach ADD COLUMN IF NOT EXISTS bieu_hien_tac_nghen TEXT`,
   ];
 
   async onApplicationBootstrap(): Promise<void> {

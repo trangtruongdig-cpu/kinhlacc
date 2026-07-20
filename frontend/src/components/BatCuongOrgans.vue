@@ -13,7 +13,7 @@ interface OrganItem {
 }
 
 const props = defineProps<{ items: OrganItem[]; focus: string | null }>()
-const emit = defineEmits<{ (e: 'toggle', key: string): void }>()
+const emit = defineEmits<{ (e: 'toggle', key: string): void; (e: 'detail', name: string): void }>()
 
 function art(organ: string) {
   return ORGAN_ART[organ] || []
@@ -57,32 +57,38 @@ function tempLabel(t: string) {
 
 <template>
   <div class="bc-organs">
-    <button
-      v-for="o in items"
-      :key="o.name"
-      type="button"
-      class="organ-card"
-      :class="[o.state ? 'temp-' + o.state.temp : 'is-off', { 'is-active': isActive(o), 'is-dim': isDim(o) }]"
-      :title="'Soi kinh ' + o.organ + ' trên hình + bảng đo'"
-      :aria-pressed="isActive(o)"
-      @click="emit('toggle', 'organ:' + o.name)"
-    >
-      <svg class="organ-svg" viewBox="0 0 64 64" aria-hidden="true">
-        <path
-          v-for="(p, i) in art(o.organ)"
-          :key="i"
-          :d="p.d"
-          :fill="p.fill || 'none'"
-          :opacity="p.opacity ?? 1"
-          :stroke="p.stroke || 'none'"
-          :stroke-width="p.sw || 0"
-          stroke-linejoin="round"
-          stroke-linecap="round"
-        />
-      </svg>
-      <span class="organ-card-name">{{ o.organ }}<small v-if="o.state?.side"> {{ o.state.side }}</small></span>
-      <span v-if="o.state" class="organ-card-tag">{{ tempLabel(o.state.temp) }}</span>
-    </button>
+    <div v-for="o in items" :key="o.name" class="organ-card-wrap">
+      <button
+        type="button"
+        class="organ-card"
+        :class="[o.state ? 'temp-' + o.state.temp : 'is-off', { 'is-active': isActive(o), 'is-dim': isDim(o) }]"
+        :title="'Soi kinh ' + o.organ + ' trên hình + bảng đo'"
+        :aria-pressed="isActive(o)"
+        @click="emit('toggle', 'organ:' + o.name)"
+      >
+        <svg class="organ-svg" viewBox="0 0 64 64" aria-hidden="true">
+          <path
+            v-for="(p, i) in art(o.organ)"
+            :key="i"
+            :d="p.d"
+            :fill="p.fill || 'none'"
+            :opacity="p.opacity ?? 1"
+            :stroke="p.stroke || 'none'"
+            :stroke-width="p.sw || 0"
+            stroke-linejoin="round"
+            stroke-linecap="round"
+          />
+        </svg>
+        <span class="organ-card-name">{{ o.organ }}<small v-if="o.state?.side"> {{ o.state.side }}</small></span>
+        <span v-if="o.state" class="organ-card-tag">{{ tempLabel(o.state.temp) }}</span>
+      </button>
+      <button
+        type="button"
+        class="organ-card__detail"
+        :title="'Chi tiết kinh ' + o.organ"
+        @click.stop="emit('detail', o.name)"
+      >i</button>
+    </div>
   </div>
 </template>
 
@@ -91,6 +97,11 @@ function tempLabel(t: string) {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+}
+.organ-card-wrap {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
 }
 .organ-card {
   display: flex;
@@ -107,6 +118,31 @@ function tempLabel(t: string) {
   cursor: pointer;
   transition: opacity var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast),
     transform var(--transition-fast);
+}
+.organ-card__detail {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 1;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--brown-500);
+  background: var(--white);
+  border: 1px solid var(--brown-200);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.organ-card__detail:hover {
+  background: var(--brown-600);
+  color: #fff;
+  border-color: var(--brown-600);
 }
 .organ-card:hover {
   border-color: var(--brown-300);

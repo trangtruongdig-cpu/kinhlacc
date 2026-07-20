@@ -26,6 +26,10 @@ export class KinhMach {
   @Column({ type: 'int', nullable: true })
   tong_so_huyet: number;
 
+  // Biểu hiện lâm sàng khi kinh này bị tắc nghẽn/rối loạn (vd Can: uất ức, dễ nổi giận...).
+  @Column({ type: 'text', nullable: true })
+  bieu_hien_tac_nghen: string;
+
   @OneToMany('HuyetVi', 'kinhMach')
   huyetViList: HuyetVi[];
 }

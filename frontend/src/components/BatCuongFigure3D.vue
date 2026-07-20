@@ -1,3 +1,24 @@
+<script lang="ts">
+// Map mã kinh NGẮN (đo) → khoá 3D (Western abbr trong window.ACU_COORDS3D.meridians).
+// Export dùng lại ở MeridianResultsView.vue (khớp cột kinh_mach.ky_hieu_quoc_te) để tra
+// "Chi tiết kinh mạch". Đặt ở <script> THƯỜNG vì <script setup> không được chứa ES export;
+// binding vẫn dùng được trong <script setup> bên dưới.
+export const MER3D: Record<string, string> = {
+  Tiểu: 'SI',
+  Tâm: 'HT',
+  Tam: 'TE',
+  Bào: 'PC',
+  Đại: 'LI',
+  Phế: 'LU',
+  Bàng: 'BL',
+  Thận: 'KI',
+  Đởm: 'GB',
+  Vị: 'ST',
+  Can: 'LR',
+  Tỳ: 'SP',
+}
+</script>
+
 <script setup lang="ts">
 /**
  * BatCuongFigure3D — Hình người kinh lạc 3D CHỈ-XEM cho bảng "Bát Cương" (chẩn đoán Đông Y).
@@ -97,21 +118,6 @@ let downY = 0
 let lastX = 0
 let lastY = 0
 
-// ── Map mã kinh NGẮN (đo) → khoá 3D (Western abbr trong window.ACU_COORDS3D.meridians) ──
-const MER3D: Record<string, string> = {
-  Tiểu: 'SI',
-  Tâm: 'HT',
-  Tam: 'TE',
-  Bào: 'PC',
-  Đại: 'LI',
-  Phế: 'LU',
-  Bàng: 'BL',
-  Thận: 'KI',
-  Đởm: 'GB',
-  Vị: 'ST',
-  Can: 'LR',
-  Tỳ: 'SP',
-}
 const UPPER_LIMB = new Set(['SI', 'HT', 'TE', 'PC', 'LI', 'LU']) // chi trên = Khí
 const LOWER_LIMB = new Set(['BL', 'KI', 'GB', 'ST', 'LR', 'SP']) // chi dưới = Huyết
 

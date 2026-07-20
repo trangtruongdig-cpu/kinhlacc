@@ -9,6 +9,7 @@ interface KinhMachRow {
   ky_hieu_quoc_te: string | null
   ngu_hanh: string | null
   tong_so_huyet: number | null
+  bieu_hien_tac_nghen: string | null
 }
 
 interface FormState {
@@ -17,6 +18,7 @@ interface FormState {
   ky_hieu_quoc_te: string
   ngu_hanh: string
   tong_so_huyet: number | null
+  bieu_hien_tac_nghen: string
 }
 
 const NGU_HANH_OPTIONS = ['Kim', 'Mộc', 'Thủy', 'Hỏa', 'Thổ'] as const
@@ -41,6 +43,7 @@ const emptyForm = (): FormState => ({
   ky_hieu_quoc_te: '',
   ngu_hanh: '',
   tong_so_huyet: null,
+  bieu_hien_tac_nghen: '',
 })
 
 const form = ref<FormState>(emptyForm())
@@ -118,6 +121,7 @@ function openEditModal(row: KinhMachRow) {
     ky_hieu_quoc_te: row.ky_hieu_quoc_te ?? '',
     ngu_hanh: row.ngu_hanh ?? '',
     tong_so_huyet: row.tong_so_huyet ?? null,
+    bieu_hien_tac_nghen: row.bieu_hien_tac_nghen ?? '',
   }
   formError.value = null
   showModal.value = true
@@ -144,6 +148,7 @@ async function handleSubmit() {
     tong_so_huyet: f.tong_so_huyet != null && !Number.isNaN(f.tong_so_huyet)
       ? Number(f.tong_so_huyet)
       : null,
+    bieu_hien_tac_nghen: f.bieu_hien_tac_nghen.trim() || null,
   }
   isSubmitting.value = true
   try {
@@ -337,6 +342,15 @@ async function handleDelete() {
                 class="input"
                 placeholder="vd. 11"
               />
+            </label>
+            <label class="field field--full">
+              <span>Biểu hiện khi tắc nghẽn/rối loạn</span>
+              <textarea
+                v-model="form.bieu_hien_tac_nghen"
+                class="input textarea"
+                rows="4"
+                placeholder="vd. Uất ức, dễ nổi giận, mệt mỏi, kinh nguyệt không đều, bệnh tuyến vú"
+              ></textarea>
             </label>
           </div>
           <div class="modal-footer">
@@ -553,6 +567,7 @@ async function handleDelete() {
   font-family: inherit;
 }
 .input:focus { outline: none; border-color: var(--brown-500); box-shadow: var(--focus-ring); }
+.textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
 
 .chip-picker { display: flex; flex-wrap: wrap; gap: 6px; padding: var(--space-2); border: 1px solid var(--gray-200); border-radius: var(--radius-md); background: var(--gray-50); }
 .chip-toggle { padding: 4px 10px; font-size: 13px; font-weight: 600; border-radius: 999px; border: 1px solid var(--gray-300); background: var(--white); color: var(--gray-700); cursor: pointer; transition: all var(--transition-fast); }

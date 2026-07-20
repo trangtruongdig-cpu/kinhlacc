@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { ref, onMounted, computed, watch, reactive, defineAsyncComponent } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed, watch, reactive, defineAsyncComponent } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { usePatientStore, type Patient } from '@/stores/patient'
 import { api } from '@/services/api'
-import BatCuongFigure3D from '@/components/BatCuongFigure3D.vue'
-import BatCuongSummary from '@/components/BatCuongSummary.vue'
+import BatCuongFigure3D, { MER3D } from '@/components/BatCuongFigure3D.vue'
 import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
+import BatCuongSummary from '@/components/BatCuongSummary.vue'
 import { ORGAN_ART } from '@/lib/organArt'
 
 const router = useRouter()
@@ -99,6 +99,7 @@ interface PhacDoApiRow {
 const benhDetailsMap = ref<Map<number, BenhDetail>>(new Map())
 const phacDoAllList = ref<PhacDoApiRow[]>([])
 const baiThuocFullMap = ref<Map<number, BaiThuocFull>>(new Map())
+const baiThuocLoading = ref(false) // bài thuốc nạp nền (không chặn render View 1)
 const expandedBaiThuoc = ref<Set<number>>(new Set())
 
 function toggleBaiThuoc(id: number) {
@@ -274,7 +275,12 @@ function dtLieuOf(it: TongHopViItem): string {
 // Phân tích thang: dựng "bài thuốc ảo" từ các vị ĐÃ CHỌN (kèm liều đang chỉnh) → đưa vào
 // BaiThuocAnalysis (radar Tứ Khí · Ngũ Vị · Quy Kinh · Quân-Thần-Tá-Sứ). Chart.js nặng → nạp động.
 const BaiThuocAnalysis = defineAsyncComponent(() => import('@/components/BaiThuocAnalysis.vue'))
-const showPhanTich = ref(false)
+const showPhanTich = ref(false) // modal phân tích toàn màn hình
+function onPhanTichEsc(e: KeyboardEvent) {
+  if (e.key === 'Escape' && showPhanTich.value) showPhanTich.value = false
+}
+onMounted(() => window.addEventListener('keydown', onPhanTichEsc))
+onBeforeUnmount(() => window.removeEventListener('keydown', onPhanTichEsc))
 const phanTichThang = computed(() => ({
   id: -1,
   ten_bai_thuoc: 'Thang Đặc Trị',
@@ -987,6 +993,40 @@ const benhChiTietTrieuChung = computed(() => {
   return out
 })
 
+// ── Popup "Chi tiết kinh mạch" (nút "i" trên thẻ tạng phủ ở mục II Bát Cương) — hiện biểu
+// hiện lâm sàng khi kinh đó bị tắc nghẽn/rối loạn (kinh_mach.bieu_hien_tac_nghen). Mã kinh
+// NGẮN hiển thị (Can, Tỳ...) map sang kinh_mach qua ky_hieu_quoc_te (MER3D). ──
+interface KinhMachChiTietRow {
+  idKinhMach: number
+  ten_kinh_mach: string | null
+  ten_viet_tat: string | null
+  ky_hieu_quoc_te: string | null
+  bieu_hien_tac_nghen: string | null
+}
+const showKinhMachChiTietModal = ref(false)
+const kinhMachChiTiet = ref<KinhMachChiTietRow | null>(null)
+let kinhMachListCache: KinhMachChiTietRow[] | null = null
+async function openKinhMachChiTiet(shortCode: string) {
+  showKinhMachChiTietModal.value = true
+  kinhMachChiTiet.value = null
+  const symbol = MER3D[shortCode]
+  try {
+    if (!kinhMachListCache) kinhMachListCache = await api.get<KinhMachChiTietRow[]>('/kinh-mach')
+    kinhMachChiTiet.value = kinhMachListCache.find((k) => k.ky_hieu_quoc_te === symbol) ?? null
+  } catch {
+    kinhMachChiTiet.value = null
+  }
+}
+function closeKinhMachChiTietModal() {
+  showKinhMachChiTietModal.value = false
+}
+const kinhMachChiTietParas = computed(() =>
+  String(kinhMachChiTiet.value?.bieu_hien_tac_nghen ?? '')
+    .split(/\n+/)
+    .map((s) => s.trim())
+    .filter(Boolean),
+)
+
 function ptKinhMachLabel(k: {
   idKinhMach: number
   ten_kinh_mach: string | null
@@ -1536,17 +1576,15 @@ async function loadAllBaiThuocLite(): Promise<BaiThuocFull[]> {
 async function loadData() {
   isLoading.value = true
   try {
-    // /bai-thuoc/lite: cắt nested relations nặng (nhanh) + PHÂN TRANG nạp đủ mọi bài (limit cap 200/trang).
-    const [patientRes, examRes, benhListRes, phacDoRes, baiThuocRes] = await Promise.all([
+    // 4 call CHẶN (nhẹ) → render View 1 (bảng đo + Bát Cương) ngay, không đợi bài thuốc.
+    const [patientRes, examRes, benhListRes, phacDoRes] = await Promise.all([
       api.get<Patient>(`/patients/${patientId.value}`),
       api.get<any>(`/examinations/${examId.value}`),
       api.get<any>('/benh-dong-y'),
       api.get<any>('/phac-do-dieu-tri'),
-      loadAllBaiThuocLite(),
     ])
     patient.value = patientRes
     examination.value = examRes
-
 
     const benhArr: BenhDetail[] = Array.isArray(benhListRes) ? benhListRes : benhListRes?.data ?? []
     const map = new Map<number, BenhDetail>()
@@ -1554,17 +1592,24 @@ async function loadData() {
     benhDetailsMap.value = map
 
     phacDoAllList.value = Array.isArray(phacDoRes) ? phacDoRes : phacDoRes?.data ?? []
-
-    const btArr: BaiThuocFull[] = baiThuocRes
-    const btMap = new Map<number, BaiThuocFull>()
-    for (const b of btArr) btMap.set(b.id, b)
-    baiThuocFullMap.value = btMap
-
   } catch (err: any) {
     error.value = err.message
   } finally {
     isLoading.value = false
   }
+
+  // Bài thuốc (~685 bài, chỉ cần cho Thang Đặc Trị ở View 2) → nạp NỀN, KHÔNG chặn render.
+  baiThuocLoading.value = true
+  loadAllBaiThuocLite()
+    .then((arr) => {
+      const btMap = new Map<number, BaiThuocFull>()
+      for (const b of arr) btMap.set(b.id, b)
+      baiThuocFullMap.value = btMap
+    })
+    .catch(() => {})
+    .finally(() => {
+      baiThuocLoading.value = false
+    })
 }
 
 function goBack() {
@@ -1745,6 +1790,28 @@ const showMoHinhBenhLy = ref(false)
 const anyRuleFocusActive = computed(
   () => excelFocusRuleId.value != null || modernFocusRuleId.value != null,
 )
+
+// Tên thể bệnh đang focus ở Section III (Mô Hình Bệnh). Thang Đặc Trị TỰ lọc theo thể này
+// (matchedBenhIds đã tôn trọng excelFocusRuleId) → dùng để hiện chỉ báo "đang lọc theo thể: X".
+const focusedTheName = computed<string | null>(() => {
+  if (excelFocusRuleId.value == null) return null
+  return (
+    excelSyndromesList.value.find((x: { id: number; name: string }) => x.id === excelFocusRuleId.value)?.name ?? null
+  )
+})
+
+// ── Bố cục 2-VIEW: state ──
+const activeView = ref<1 | 2>(1)
+const showPatientMore = ref(false)
+// Verdict Bát Cương gọn cho thanh ngữ cảnh dính (nén khối Tóm Tắt to → luôn thấy 8 cương).
+const batCuongVerdictTokens = computed(() => {
+  const d = diagnosis.value
+  const out: { key: string; label: string }[] = []
+  if (d.amDuong && d.amDuong !== '—') out.push({ key: 'amDuong', label: d.amDuong })
+  if (d.khi && d.khi !== '—') out.push({ key: 'khi', label: 'Khí ' + d.khi })
+  if (d.huyet && d.huyet !== '—') out.push({ key: 'huyet', label: 'Huyết ' + d.huyet })
+  return out
+})
 
 watch(
   () => excelSyndromesList.value,
@@ -2423,22 +2490,54 @@ watch(tongHopViThuoc, (items) => {
     </div>
 
     <template v-else-if="patient">
-      <!-- Thông tin bệnh nhân: dải gọn ngang trên đầu trang (gỡ khỏi Mục I để bảng đo gọn lại) -->
-      <div class="patient-info-bar">
-        <div class="pi-field"><span class="pi-label">Họ và tên</span><span class="pi-value pi-strong">{{ patient.fullName }}</span></div>
-        <div class="pi-field"><span class="pi-label">Tuổi</span><span class="pi-value">{{ getAge(patient.dateOfBirth) }}</span></div>
-        <div class="pi-field"><span class="pi-label">Giới tính</span><span class="pi-value">{{ patient.gender || '—' }}</span></div>
-        <div class="pi-field pi-grow"><span class="pi-label">Địa chỉ</span><span class="pi-value">{{ patient.address || '—' }}</span></div>
-        <div class="pi-field"><span class="pi-label">Thời gian đo</span><span class="pi-value">{{ examDisplay.date }}</span></div>
+      <!-- ═══ Thanh ngữ cảnh DÍNH: bệnh nhân gọn + verdict Bát Cương + chip lọc ═══ -->
+      <div class="mr-ctxbar">
+        <div class="mr-ctx-patient">
+          <strong class="mr-ctx-name">{{ patient.fullName }}</strong>
+          <span class="mr-ctx-meta">{{ getAge(patient.dateOfBirth) }} · {{ patient.gender || '—' }} · {{ examDisplay.ticketNumber }}</span>
+          <button type="button" class="mr-ctx-more" :aria-expanded="showPatientMore" title="Thêm thông tin bệnh nhân" @click="showPatientMore = !showPatientMore">ⓘ</button>
+        </div>
+        <div class="mr-verdict">
+          <span class="mr-vd-label">Bát Cương</span>
+          <button v-for="t in batCuongVerdictTokens" :key="t.key" type="button" class="mr-vd-badge" title="Xem chi tiết ở Mục II" @click="activeView = 1">{{ t.label }}</button>
+          <span v-if="!batCuongVerdictTokens.length" class="mr-vd-empty">—</span>
+          <template v-if="affectedOrgans.length">
+            <span class="mr-vd-sep">Tạng phủ</span>
+            <button v-for="o in affectedOrgans.slice(0, 4)" :key="'org-' + o.name" type="button" class="mr-vd-badge mr-vd-badge--organ" @click="activeView = 1">{{ o.name }}</button>
+            <span v-if="affectedOrgans.length > 4" class="mr-vd-more">+{{ affectedOrgans.length - 4 }}</span>
+          </template>
+        </div>
+        <div class="mr-ctx-right">
+          <span v-if="focusedTheName" class="mr-focus-chip">
+            Đang lọc: <b>{{ focusedTheName }}</b>
+            <button type="button" aria-label="Bỏ lọc" @click="excelFocusRuleId = null">✕</button>
+          </span>
+        </div>
+      </div>
+      <div v-if="showPatientMore" class="mr-patient-more">
+        <div class="pi-field"><span class="pi-label">Địa chỉ</span><span class="pi-value">{{ patient.address || '—' }}</span></div>
+        <div class="pi-field"><span class="pi-label">Thời gian đo</span><span class="pi-value">{{ examDisplay.date }} {{ examDisplay.time }}</span></div>
         <div class="pi-field"><span class="pi-label">Huyết áp</span><span class="pi-value">120/90</span></div>
         <div class="pi-field"><span class="pi-label">Chiều cao</span><span class="pi-value">—</span></div>
         <div class="pi-field"><span class="pi-label">Cân nặng</span><span class="pi-value">—</span></div>
         <div class="pi-field"><span class="pi-label">BMI</span><span class="pi-value">—</span></div>
       </div>
 
-      <!-- Lưới kết quả: I | III · II (full-width) · IV | V -->
-      <div class="results-layout">
-          <section class="result-section" style="order: 1; grid-column: 2; grid-row: 1;">
+      <!-- ═══ 2 TAB (v-show để giữ mount 3D + state) ═══ -->
+      <nav class="mr-tabs" aria-label="Chuyển view kết quả">
+        <button type="button" class="mr-tab" :class="{ active: activeView === 1 }" @click="activeView = 1">
+          <b>1</b> Kết Quả Đo &amp; Bát Cương
+        </button>
+        <button type="button" class="mr-tab" :class="{ active: activeView === 2 }" @click="activeView = 2">
+          <b>2</b> Chẩn Đoán &amp; Điều Trị
+          <span class="mr-tab-badge">{{ excelSyndromesList.length }} thể · {{ matchedPhuongHuyetList.length }} huyệt · {{ matchedBaiThuocList.length }} bài</span>
+        </button>
+      </nav>
+
+      <!-- ═══ VIEW 1: Kết quả đo (I) + Bát Cương (II) ═══ -->
+      <section class="mr-view" v-show="activeView === 1">
+        <div class="mr-grid mr-grid--v1">
+          <section class="result-section">
             <h2 class="section-title">
               <span class="section-num">I</span> KẾT QUẢ ĐO KINH LẠC
             </h2>
@@ -2534,7 +2633,7 @@ watch(tongHopViThuoc, (items) => {
           </section>
 
       <!-- KẾT LUẬN BÁT CƯƠNG — dải full-width, đồ hình 3D lớn (đặt sau số đo kinh lạc) -->
-      <section class="result-section bc-band" style="order: 3; grid-column: 1; grid-row: 1 / span 2;">
+      <section class="result-section bc-band">
         <h2 class="section-title">
           <span class="section-num">II</span> KẾT LUẬN BÁT CƯƠNG & CHẨN ĐOÁN
         </h2>
@@ -2547,6 +2646,7 @@ watch(tongHopViThuoc, (items) => {
                 :items="organsTang"
                 :focus="batCuongFocus"
                 @toggle="toggleBatCuongFocus"
+                @detail="openKinhMachChiTiet"
               />
               <BatCuongFigure3D
                 ref="batCuongFigureRef"
@@ -2563,6 +2663,7 @@ watch(tongHopViThuoc, (items) => {
                 :items="organsPhu"
                 :focus="batCuongFocus"
                 @toggle="toggleBatCuongFocus"
+                @detail="openKinhMachChiTiet"
               />
             </div>
             <BatCuongSummary
@@ -2574,12 +2675,24 @@ watch(tongHopViThuoc, (items) => {
               :organs="affectedOrgans"
               :focus="batCuongFocus"
               @toggle="toggleBatCuongFocus"
+              @detail="openKinhMachChiTiet"
             />
           </div>
         </div>
       </section>
+        </div><!-- /mr-grid--v1 -->
+      </section><!-- /mr-view VIEW 1 -->
 
-          <section class="result-section" style="order: 4; grid-column: 1; grid-row: 3;">
+      <!-- ═══ VIEW 2: Chẩn đoán (III) + Phác đồ điều trị (IV+V) cạnh nhau ═══ -->
+      <section class="mr-view" v-show="activeView === 2">
+        <div class="mr-grid mr-grid--v2">
+          <div class="phacdo-col">
+            <div class="phacdo-head">
+              <span class="phacdo-title">🩹 Phác Đồ Điều Trị</span>
+              <span v-if="focusedTheName" class="phacdo-focus">theo thể <b>{{ focusedTheName }}</b></span>
+              <span v-else class="phacdo-focus phacdo-focus--all">gộp tất cả — bấm 1 thể bên trái để lọc riêng</span>
+            </div>
+          <section class="result-section">
             <h2 class="section-title">
               <span class="section-num">IV</span> PHƯƠNG HUYỆT
               <span v-if="matchedPhuongHuyetList.length" class="section-count">
@@ -2654,7 +2767,7 @@ watch(tongHopViThuoc, (items) => {
             </div>
           </section>
 
-          <section class="result-section" style="order: 5; grid-column: 2; grid-row: 3;">
+          <section class="result-section">
             <h2 class="section-title">
               <span class="section-num">V</span> PHƯƠNG DƯỢC
               <span v-if="matchedBaiThuocList.length" class="section-count">
@@ -2676,9 +2789,19 @@ watch(tongHopViThuoc, (items) => {
                     <span class="dt-sub">
                       {{ dtChonCount }}/{{ tongHopViThuoc.length }} vị · gộp {{ matchedBaiThuocList.length }} bài · bỏ trùng · thông dụng → đặc trị
                     </span>
+                    <div class="dt-filter">
+                      <template v-if="focusedTheName">
+                        <span class="dt-filter-on">Đang lọc theo thể: <b>{{ focusedTheName }}</b></span>
+                        <button type="button" class="dt-filter-clear" @click="excelFocusRuleId = null">✕ Bỏ lọc · gộp tất cả thể</button>
+                      </template>
+                      <span v-else class="dt-filter-all">
+                        Gộp tất cả {{ matchedBenhIds.length }} thể bệnh khớp — bấm 1 thể ở “Mô Hình Bệnh” để chỉ hiện vị của thể đó
+                      </span>
+                    </div>
                   </div>
 
-                  <div class="dt-table">
+                  <p v-if="baiThuocLoading && !tongHopViThuoc.length" class="dt-loading">⏳ Đang tải dữ liệu bài thuốc…</p>
+                  <div v-else class="dt-table">
                     <div class="dt-row dt-row--head">
                       <span class="dt-c dt-c--chk" aria-hidden="true"></span>
                       <span class="dt-c dt-c--name">Vị thuốc</span>
@@ -2733,19 +2856,17 @@ watch(tongHopViThuoc, (items) => {
                   </div>
 
                   <div class="dt-toggles">
-                    <button type="button" class="dt-toggle" @click="showPhanTich = !showPhanTich">
-                      {{ showPhanTich ? '▲ Ẩn phân tích' : '📊 Phân tích thang (Tứ Khí · Ngũ Vị · Quy Kinh)' }}
+                    <button
+                      type="button"
+                      class="dt-toggle dt-toggle--btn"
+                      :disabled="!phanTichThang.chiTietViThuoc.length"
+                      @click="showPhanTich = true"
+                    >
+                      📊 Phân tích thang (Tứ Khí · Ngũ Vị · Quy Kinh)
                     </button>
                     <button type="button" class="dt-toggle" @click="showBaiThuocNguon = !showBaiThuocNguon">
                       {{ showBaiThuocNguon ? '▲ Ẩn bài thuốc nguồn' : `▼ Xem ${matchedBaiThuocList.length} bài thuốc nguồn` }}
                     </button>
-                  </div>
-
-                  <div v-if="showPhanTich" class="dt-phantich">
-                    <p v-if="!phanTichThang.chiTietViThuoc.length" class="dt-phantich-empty">
-                      Chưa chọn vị thuốc nào để phân tích.
-                    </p>
-                    <BaiThuocAnalysis v-else :bai-thuoc="phanTichThang" />
                   </div>
                 </div>
 
@@ -2808,8 +2929,9 @@ watch(tongHopViThuoc, (items) => {
               </template>
             </div>
           </section>
+          </div><!-- /phacdo-col (IV + V) -->
 
-          <section class="result-section" style="order: 2; grid-column: 2; grid-row: 2;">
+          <section class="result-section">
             <h2 class="section-title">
               <span class="section-num">III</span> MÔ HÌNH BỆNH LÝ
             </h2>
@@ -2941,12 +3063,28 @@ watch(tongHopViThuoc, (items) => {
               </div>
             </div>
           </section>
-
-      </div>
+        </div><!-- /mr-grid--v2 -->
+      </section><!-- /mr-view VIEW 2 -->
 
     </template>
 
     <!-- Bảng phân biệt thể bệnh: đối chiếu triệu chứng giữa các thể ứng viên -->
+    <!-- Modal PHÂN TÍCH THANG ĐẶC TRỊ (toàn màn hình) -->
+    <div v-if="showPhanTich" class="dtpt-overlay" @click.self="showPhanTich = false">
+      <div class="dtpt-modal" role="dialog" aria-modal="true" aria-label="Phân tích thang đặc trị">
+        <div class="dtpt-head">
+          <h3>Phân Tích Thang Đặc Trị <span class="dtpt-sub">{{ dtChonCount }} vị đã chọn</span></h3>
+          <button type="button" class="ptm-close" aria-label="Đóng" @click="showPhanTich = false">✕</button>
+        </div>
+        <div class="dtpt-body">
+          <p v-if="!phanTichThang.chiTietViThuoc.length" class="dt-phantich-empty">
+            Chưa chọn vị thuốc nào để phân tích.
+          </p>
+          <BaiThuocAnalysis v-else :bai-thuoc="phanTichThang" />
+        </div>
+      </div>
+    </div>
+
     <div v-if="showPhanBietModal" class="pb-overlay" @click.self="closePhanBiet">
       <div class="pb-modal" role="dialog" aria-modal="true">
         <div class="pb-head">
@@ -3330,6 +3468,30 @@ watch(tongHopViThuoc, (items) => {
         </div>
       </div>
     </div>
+
+    <!-- Popup "Chi tiết kinh mạch" (bấm nút "i" trên thẻ tạng phủ ở mục II Bát Cương) -->
+    <div v-if="showKinhMachChiTietModal" class="ptm-overlay" @click.self="closeKinhMachChiTietModal">
+      <div class="ptm-modal bct-modal" role="dialog" aria-modal="true">
+        <div class="ptm-head">
+          <div class="ptm-head__title">
+            <h3>{{ kinhMachChiTiet?.ten_kinh_mach || 'Chi Tiết Kinh Mạch' }}</h3>
+            <span v-if="kinhMachChiTiet?.ky_hieu_quoc_te" class="ptm-context">{{ kinhMachChiTiet.ky_hieu_quoc_te }}</span>
+          </div>
+          <button type="button" class="ptm-close" aria-label="Đóng" @click="closeKinhMachChiTietModal">✕</button>
+        </div>
+        <div class="ptm-body">
+          <template v-if="kinhMachChiTiet">
+            <p class="ptm-row__label">Biểu hiện khi tắc nghẽn/rối loạn</p>
+            <p v-for="(line, i) in kinhMachChiTietParas" :key="i">{{ line }}</p>
+            <p v-if="!kinhMachChiTietParas.length" class="ptm-state">
+              <span class="muted-italic">Chưa có dữ liệu — cập nhật ở
+                <RouterLink to="/app/meridian-diseases">Quản Lý Kinh Mạch</RouterLink>.</span>
+            </p>
+          </template>
+          <p v-else class="ptm-state"><span class="muted-italic">Không tìm thấy dữ liệu kinh mạch này.</span></p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -3389,15 +3551,81 @@ watch(tongHopViThuoc, (items) => {
 }
 
 /* Layout 65 / 35 */
-.results-layout {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: var(--space-4);
-  align-items: start;
+/* ═══════════ BỐ CỤC 2-VIEW: thanh ngữ cảnh dính + 2 tab + grid ═══════════ */
+.mr-ctxbar {
+  position: sticky; top: 0; z-index: 40;
+  display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap;
+  padding: var(--space-2) var(--space-4);
+  background: rgba(250, 246, 239, 0.96); backdrop-filter: blur(8px);
+  border: 1px solid var(--border); border-radius: var(--radius-lg);
+  margin-bottom: var(--space-2);
 }
+.mr-ctx-patient { display: inline-flex; align-items: baseline; gap: var(--space-2); flex-shrink: 0; }
+.mr-ctx-name { font-size: var(--font-size-base); font-weight: 700; color: var(--brown-900); }
+.mr-ctx-meta { font-size: var(--font-size-sm); color: var(--gray-600); white-space: nowrap; }
+.mr-ctx-more { width: 22px; height: 22px; border-radius: var(--radius-full); color: var(--brown-600); font-weight: 700; }
+.mr-ctx-more:hover { background: var(--brown-50); }
+.mr-verdict { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; flex: 1; min-width: 0; }
+.mr-vd-label, .mr-vd-sep { font-size: var(--font-size-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--text-subtle); }
+.mr-vd-sep { margin-left: 6px; }
+.mr-vd-badge { font-size: var(--font-size-sm); font-weight: 600; color: var(--brown-800); background: var(--brown-100); border: 1px solid var(--brown-200); border-radius: var(--radius-full); padding: 2px 10px; transition: background var(--transition-fast); }
+.mr-vd-badge:hover { background: var(--brown-200); }
+.mr-vd-badge--organ { color: var(--info-fg); background: var(--info-bg); border-color: var(--info-border); }
+.mr-vd-more { font-size: var(--font-size-xs); color: var(--gray-500); }
+.mr-vd-empty { color: var(--gray-400); }
+.mr-ctx-right { margin-left: auto; flex-shrink: 0; }
+.mr-focus-chip { display: inline-flex; align-items: center; gap: 6px; font-size: var(--font-size-sm); color: var(--brown-800); background: var(--brown-50); border: 1px solid var(--brown-200); border-radius: var(--radius-full); padding: 2px 6px 2px 10px; }
+.mr-focus-chip button { color: var(--danger); font-weight: 700; width: 18px; height: 18px; border-radius: var(--radius-full); }
+.mr-focus-chip button:hover { background: var(--danger-bg); }
+.mr-patient-more { display: flex; flex-wrap: wrap; gap: 4px var(--space-5); padding: var(--space-2) var(--space-4); margin-bottom: var(--space-2); background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-md); }
+
+.mr-tabs { position: sticky; top: 48px; z-index: 39; display: flex; gap: var(--space-2); margin-bottom: var(--space-3); }
+.mr-tab { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: var(--space-2); padding: var(--space-2) var(--space-3); border-radius: var(--radius-md); font-size: var(--font-size-sm); font-weight: 700; color: var(--gray-600); background: var(--surface); border: 1px solid var(--border); transition: all var(--transition-fast); }
+.mr-tab b { display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; border-radius: var(--radius-full); background: var(--gray-200); color: var(--gray-600); font-size: var(--font-size-xs); }
+.mr-tab:hover { border-color: var(--brown-300); color: var(--brown-700); }
+.mr-tab.active { background: linear-gradient(135deg, var(--brown-600), var(--brown-700)); color: #fff; border-color: var(--brown-700); }
+.mr-tab.active b { background: rgba(255,255,255,.25); color: #fff; }
+.mr-tab-badge { font-size: var(--font-size-xs); font-weight: 600; opacity: .85; }
+
+.mr-view { animation: mr-fade .18s ease; }
+@keyframes mr-fade { from { opacity: 0; } to { opacity: 1; } }
+.mr-grid { display: grid; gap: var(--space-4); align-items: start; }
+/* View 1: 1 cột — Mục I (bảng đo) trên, Bát Cương band (hình 3D + tóm tắt cạnh nhau) dưới,
+   mỗi mục full-width cho thoáng, không chen chúc cột hẹp. */
+.mr-grid--v1 { grid-template-columns: 1fr; }
+.mr-grid--v2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); }
+.mr-grid--v2 > .result-section { order: 1; }
+.mr-grid--v2 > .phacdo-col { order: 2; }
+.phacdo-col { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
+.phacdo-head { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; }
+.phacdo-title { font-size: var(--font-size-base); font-weight: 700; color: var(--brown-900); }
+.phacdo-focus { font-size: var(--font-size-sm); color: var(--brown-700); }
+.phacdo-focus--all { color: var(--gray-500); font-style: italic; }
+
+/* VIEW 2: MỖI CỘT cuộn TRONG theo chiều cao màn → thấy cả 2 cột, KHÔNG phải cuộn TRANG.
+   (~108px = ctxbar + tabs dính; chừa thêm cho lề) */
+.mr-grid--v2 > .result-section,
+.mr-grid--v2 > .phacdo-col {
+  max-height: calc(100vh - 128px);
+  overflow-y: auto;
+  padding-right: 4px;
+}
+/* Cuộn mảnh + đổ bóng mép trên/dưới báo còn nội dung (tránh tưởng bị cắt) */
+.mr-grid--v2 > .result-section, .mr-grid--v2 > .phacdo-col { scrollbar-width: thin; }
+
 @media (max-width: 1024px) {
-  .results-layout { grid-template-columns: 1fr; }
-  .results-layout > .result-section { grid-column: 1 !important; grid-row: auto !important; }
+  .mr-grid--v1, .mr-grid--v2 { grid-template-columns: 1fr; }
+  .mr-grid--v2 > .result-section, .mr-grid--v2 > .phacdo-col { order: initial; max-height: none; overflow: visible; }
+  .mr-ctxbar { position: static; }
+  .mr-tabs { top: 0; }
+}
+
+/* IN: bỏ dính, hiện CẢ 2 view + bỏ cap cột để in đủ 5 mục */
+@media print {
+  .mr-ctxbar, .mr-tabs { position: static; }
+  .mr-view { display: block !important; }
+  .mr-view + .mr-view { margin-top: var(--space-4); }
+  .mr-grid--v2 > .result-section, .mr-grid--v2 > .phacdo-col { max-height: none; overflow: visible; }
 }
 
 /* ===== Màn THẤP (≤920px cao): nén để I+II+III vừa 1 màn — màn 1080 KHÔNG bị ảnh hưởng ===== */
@@ -3846,6 +4074,12 @@ watch(tongHopViThuoc, (items) => {
 .dt-head { display: flex; flex-direction: column; gap: 2px; }
 .dt-title { font-size: var(--font-size-md); font-weight: 800; color: var(--brown-900); }
 .dt-sub { font-size: var(--font-size-xs); color: var(--gray-500); }
+.dt-filter { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; margin-top: 4px; }
+.dt-filter-on { font-size: var(--font-size-sm); color: var(--brown-800); background: var(--brown-50); border: 1px solid var(--brown-200); border-radius: var(--radius-full); padding: 2px 10px; }
+.dt-filter-on b { color: var(--brown-900); }
+.dt-filter-clear { font-size: var(--font-size-xs); font-weight: 600; color: var(--danger); }
+.dt-filter-clear:hover { text-decoration: underline; }
+.dt-filter-all { font-size: var(--font-size-xs); color: var(--gray-500); font-style: italic; }
 .dt-table { display: flex; flex-direction: column; border: 1px solid var(--gray-200); border-radius: var(--radius-md); overflow: hidden; background: var(--white); }
 .dt-row { display: grid; grid-template-columns: 30px minmax(110px, 1.8fr) 58px minmax(84px, 1fr) minmax(66px, 0.9fr); gap: var(--space-2); align-items: center; padding: 6px var(--space-3); }
 .dt-row + .dt-row { border-top: 1px solid var(--gray-100); }
@@ -3876,13 +4110,17 @@ watch(tongHopViThuoc, (items) => {
 .dt-toggles { display: flex; gap: var(--space-4); flex-wrap: wrap; align-items: center; }
 .dt-toggle { font-size: var(--font-size-sm); font-weight: 600; color: var(--brown-700); padding: 4px 0; }
 .dt-toggle:hover { color: var(--brown-900); text-decoration: underline; }
-.dt-phantich { margin-top: var(--space-2); padding-top: var(--space-3); border-top: 1px dashed var(--border); }
-.dt-phantich-empty { font-size: var(--font-size-sm); color: var(--gray-500); }
-/* BaiThuocAnalysis vốn layout 2 cột (radar | bảng QTTS) cho container RỘNG. Section V ở cột hẹp
-   của lưới kết quả → ép các lưới con về 1 cột để radar giãn hết bề rộng cột, xếp dọc, không bị bóp. */
-.dt-phantich :deep(.ana-layout) { grid-template-columns: 1fr !important; }
-.dt-phantich :deep(.ana-radar-card) { grid-template-columns: 1fr !important; }
-.dt-phantich :deep(.ana-radar-canvas-wrap) { height: 240px; }
+.dt-phantich-empty { font-size: var(--font-size-sm); color: var(--gray-500); padding: var(--space-4); text-align: center; }
+.dt-loading { font-size: var(--font-size-sm); color: var(--gray-500); padding: var(--space-5); text-align: center; }
+.dt-toggle--btn:disabled { opacity: 0.45; cursor: not-allowed; text-decoration: none; }
+
+/* Modal PHÂN TÍCH THANG — toàn màn hình; analysis dùng layout 2 cột rộng tự nhiên của nó. */
+.dtpt-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.5); display: flex; align-items: center; justify-content: center; padding: var(--space-4); z-index: 340; animation: ptm-fade 0.18s ease; }
+.dtpt-modal { width: 100%; max-width: 1120px; max-height: 94vh; background: var(--surface, #fff); border-radius: var(--radius-lg); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 24px 64px rgba(0, 0, 0, 0.32); }
+.dtpt-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-3); padding: var(--space-4) var(--space-5); border-bottom: 1px solid var(--gray-100); flex-shrink: 0; }
+.dtpt-head h3 { font-size: var(--font-size-md); font-weight: 800; color: var(--brown-900); }
+.dtpt-sub { font-size: var(--font-size-sm); font-weight: 600; color: var(--gray-500); }
+.dtpt-body { padding: var(--space-5); overflow-y: auto; }
 .dt-source { margin-top: var(--space-2); padding-top: var(--space-3); border-top: 1px dashed var(--border); }
 
 .result-card {

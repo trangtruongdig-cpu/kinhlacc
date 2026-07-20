@@ -29,7 +29,7 @@ const props = defineProps<{
   focus: string | null
 }>()
 
-const emit = defineEmits<{ (e: 'toggle', key: string): void }>()
+const emit = defineEmits<{ (e: 'toggle', key: string): void; (e: 'detail', name: string): void }>()
 
 import { computed } from 'vue'
 
@@ -122,15 +122,21 @@ const huyetWhy = computed(() => hutWhy(props.explain?.huyet, 'Huyết hư', 'Huy
             @click="emit('toggle', 'group:' + g.key)"
           ><i class="dot" :class="g.dot" />{{ g.lb }}</button>
           <div class="organ-cloud">
-            <button
-              v-for="o in g.list"
-              :key="g.key + o.name"
-              type="button"
-              class="organ-pill"
-              :class="{ 'is-active': focus === 'organ:' + o.name }"
-              :title="'Soi ' + o.organ + ' trên bảng đo'"
-              @click="emit('toggle', 'organ:' + o.name)"
-            >{{ o.organ }}<small v-if="o.side"> {{ o.side }}</small></button>
+            <span v-for="o in g.list" :key="g.key + o.name" class="organ-pill-wrap">
+              <button
+                type="button"
+                class="organ-pill"
+                :class="{ 'is-active': focus === 'organ:' + o.name }"
+                :title="'Soi ' + o.organ + ' trên bảng đo'"
+                @click="emit('toggle', 'organ:' + o.name)"
+              >{{ o.organ }}<small v-if="o.side"> {{ o.side }}</small></button>
+              <button
+                type="button"
+                class="organ-pill__detail"
+                :title="'Chi tiết kinh ' + o.organ"
+                @click.stop="emit('detail', o.name)"
+              >i</button>
+            </span>
             <span v-if="!g.list.length" class="sub-empty">—</span>
           </div>
         </div>
@@ -159,15 +165,21 @@ const huyetWhy = computed(() => hutWhy(props.explain?.huyet, 'Huyết hư', 'Huy
             @click="emit('toggle', 'group:' + g.key)"
           ><i class="dot" :class="g.dot" />{{ g.lb }}</button>
           <div class="organ-cloud">
-            <button
-              v-for="o in g.list"
-              :key="g.key + o.name"
-              type="button"
-              class="organ-pill"
-              :class="{ 'is-active': focus === 'organ:' + o.name }"
-              :title="'Soi ' + o.organ + ' trên bảng đo'"
-              @click="emit('toggle', 'organ:' + o.name)"
-            >{{ o.organ }}<small v-if="o.side"> {{ o.side }}</small></button>
+            <span v-for="o in g.list" :key="g.key + o.name" class="organ-pill-wrap">
+              <button
+                type="button"
+                class="organ-pill"
+                :class="{ 'is-active': focus === 'organ:' + o.name }"
+                :title="'Soi ' + o.organ + ' trên bảng đo'"
+                @click="emit('toggle', 'organ:' + o.name)"
+              >{{ o.organ }}<small v-if="o.side"> {{ o.side }}</small></button>
+              <button
+                type="button"
+                class="organ-pill__detail"
+                :title="'Chi tiết kinh ' + o.organ"
+                @click.stop="emit('detail', o.name)"
+              >i</button>
+            </span>
             <span v-if="!g.list.length" class="sub-empty">—</span>
           </div>
         </div>
@@ -374,6 +386,34 @@ const huyetWhy = computed(() => hutWhy(props.explain?.huyet, 'Huyết hư', 'Huy
   border-color: var(--brown-600);
   background: var(--brown-50);
   box-shadow: 0 0 0 2px rgba(120, 53, 15, 0.16);
+}
+.organ-pill-wrap {
+  display: inline-flex;
+  align-items: stretch;
+}
+.organ-pill-wrap .organ-pill {
+  border-radius: 999px 0 0 999px;
+  border-right: none;
+}
+.organ-pill__detail {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  font-size: 10px;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--brown-500);
+  background: var(--white);
+  border: 1px solid var(--brown-200);
+  border-radius: 0 999px 999px 0;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.organ-pill__detail:hover {
+  background: var(--brown-600);
+  color: #fff;
+  border-color: var(--brown-600);
 }
 .sub-empty {
   color: var(--gray-400);
