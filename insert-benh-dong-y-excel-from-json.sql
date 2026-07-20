@@ -134,7 +134,7 @@ WITH src AS (
   },
   {
     "code": "dam_nhiet",
-    "name": "Đởm nhiệt",
+    "name": "Can Đởm Hỏa Vượng, Thấp Nhiệt",
     "outputCell": "AG16",
     "excel_formula": "=IF(E23>0;AG16&\", \";\"\")",
     "logic": "(E23 > 0)",
