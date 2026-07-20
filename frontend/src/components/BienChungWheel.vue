@@ -346,9 +346,10 @@ const dvTaiji = computed(() => {
   const poleDeg = c.pole === 'duong' ? 90 : 270
   const shiftDeg = c.mode === 'khuyet' ? poleDeg + 180 : poleDeg
   const ref = pt(TR * c.shift, shiftDeg)
-  // 1 MÀU XANH duy nhất cho cả 2 cực (bỏ cặp đỏ/xanh theo Dương/Âm cũ) — đồng bộ trắng-xanh của cả
-  // đồ hình; DƯ/KHUYẾT phân biệt bằng ĐẬM/NHẠT (xem .dv-tj-band--du/--khuyet), không phải màu sắc.
-  const color = '#2d6e8e'
+  // TRẢ LẠI cặp đỏ (Dương/Nhiệt) · xanh (Âm/Hàn) theo cực — khớp đúng AmDuongTaiji.vue ở tab 1
+  // ("Biểu Thực Nhiệt" → hồng/đỏ). Trước gộp về 1 màu xanh cho "đồng bộ" nhưng lại MẤT Ý NGHĨA
+  // (không phân biệt được Dương/Âm nữa) — 2 màu theo cực rõ hơn hẳn, giữ đúng như tab 1.
+  const color = c.pole === 'duong' ? '#c0452a' : '#245c8a'
   // DƯ: lưỡi liềm của vòng nét đứt (đã dịch) lồi ra NGOÀI Thái Cực chuẩn (cố định tại CX,CY).
   // KHUYẾT: lưỡi liềm của Thái Cực chuẩn mà vòng nét đứt (đã dịch) KHÔNG còn phủ tới.
   const fillD = c.mode === 'du' ? fullCircleD(ref.x, ref.y, TR) : fullCircleD(CX, CY, TR)
@@ -422,9 +423,12 @@ const layerOpacity = (n: number) => (n > props.lop ? 0 : (FOCUS_OP[props.lop - n
 // PHÓNG TO LỚP HIỆN TẠI: lớp đang xem lấp gần hết đĩa (chữ to, rõ); lớp cũ thu nhỏ + mờ vào tâm. Bóc lớp = phóng lớp mới.
 const DISC = 200 // đĩa nền CỐ ĐỊNH
 const FRAME = 197 // lớp hiện tại lấp SÁT vành (gần = đĩa) → không thừa diện tích
-const EXTENT = [66, 104, 152, 178, 204] // bán kính NGOÀI THẬT của mỗi lớp; zoom = FRAME/EXTENT (lớp ngoài ~1, không co chữ)
-// GIỮ 66 để lớp 1 (Thái Cực) đồng bộ đường kính với các lớp khác — vòng nét đứt DƯ/KHUYẾT dịch
-// ra ngoài (TR+12.4) thì để LÒI ra ngoài đĩa/khung, KHÔNG co lại toàn bộ Thái Cực để vừa khung.
+// bán kính NGOÀI THẬT của mỗi lớp; zoom = FRAME/EXTENT → lớp nào cũng lấp ĐÚNG tới FRAME (chạm
+// sát đĩa/viền ngoài), không hụt (hở viền, thấy Thái Cực nhỏ lọt thỏm trong đĩa to) hay tràn (đè
+// khung/nút). Lớp 1: EXTENT = ĐÚNG bán kính THÁI CỰC (TR=62) — bản thân Thái Cực phải to CHẠM
+// khít viền ngoài; vòng nét đứt DƯ/KHUYẾT tính LỒI RA/LÕM VÀO tính từ chính cạnh đó (dư → tràn ra
+// ngoài đĩa 1 chút, đúng như "phần thừa"; khuyết → nằm gọn trong, không tính vào EXTENT).
+const EXTENT = [62, 104, 152, 178, 204]
 const zoom = computed(() => FRAME / EXTENT[Math.min(5, Math.max(1, props.lop)) - 1])
 
 // ── BẤM 1 cung → CHỐT chọn (pick: giữ sáng) + BÁO panel (emit select). Rê chỉ xem trước. ──
