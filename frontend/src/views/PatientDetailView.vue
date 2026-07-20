@@ -562,6 +562,7 @@ function goToLuoiDiagnosis() {
             <div class="exam-body">
               <div class="exam-tags">
                 <span class="exam-tag tag--am-duong">{{ exam.amDuong }}</span>
+                <span v-if="exam.huThuc" class="exam-tag tag--hu-thuc">{{ exam.huThuc }}</span>
                 <span class="exam-tag tag--khi">Khí: {{ exam.khi }}</span>
                 <span class="exam-tag tag--huyet">Huyết: {{ exam.huyet }}</span>
               </div>
@@ -872,6 +873,7 @@ function goToLuoiDiagnosis() {
 .exam-tags{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-3)}
 .exam-tag{display:inline-block;padding:3px 10px;border-radius:var(--radius-full);font-size:var(--font-size-xs);font-weight:600}
 .tag--am-duong{background:var(--brown-100);color:var(--brown-700)}
+.tag--hu-thuc{background:var(--warning-bg);color:var(--warning-fg)}
 .tag--khi{background:var(--info-bg);color:var(--info-fg)}
 .tag--huyet{background:var(--danger-bg);color:var(--danger-fg)}
 .exam-syndromes{display:flex;align-items:center;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-3)}

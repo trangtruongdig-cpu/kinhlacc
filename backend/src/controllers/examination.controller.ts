@@ -49,6 +49,7 @@ export class ExaminationsService implements OnModuleInit {
     exam.amDuong = fresh.am_duong;
     exam.khi = fresh.khi;
     exam.huyet = fresh.huyet;
+    exam.huThuc = fresh.hu_thuc;
     exam.flags = fresh.flags;
     exam.syndromes = fresh.syndromes as any[];
     (exam as any).currentSyndromes = fresh.currentSyndromes ?? fresh.syndromes ?? [];
@@ -105,6 +106,7 @@ export class ExaminationsService implements OnModuleInit {
       amDuong: result.am_duong,
       khi: result.khi,
       huyet: result.huyet,
+      huThuc: result.hu_thuc,
       flags: result.flags,
       syndromes: result.syndromes as any[],
       notes: dto.notes ?? null,
@@ -179,6 +181,7 @@ export class ExaminationsService implements OnModuleInit {
     existing.amDuong = result.am_duong;
     existing.khi = result.khi;
     existing.huyet = result.huyet;
+    existing.huThuc = result.hu_thuc;
     existing.flags = result.flags;
     existing.syndromes = result.syndromes as any[];
     if (dto.notes !== undefined) {
@@ -229,6 +232,7 @@ export class ExaminationsService implements OnModuleInit {
           exam.amDuong = fresh.am_duong;
           exam.khi = fresh.khi;
           exam.huyet = fresh.huyet;
+          exam.huThuc = fresh.hu_thuc;
           exam.flags = fresh.flags;
           exam.syndromes = fresh.syndromes as any[];
           (exam as any).currentSyndromes = fresh.currentSyndromes ?? fresh.syndromes ?? [];
@@ -255,6 +259,7 @@ export class ExaminationsService implements OnModuleInit {
         examination.amDuong = fresh.am_duong;
         examination.khi = fresh.khi;
         examination.huyet = fresh.huyet;
+        examination.huThuc = fresh.hu_thuc;
         examination.flags = fresh.flags;
         examination.syndromes = fresh.syndromes as any[];
         (examination as any).currentSyndromes = fresh.currentSyndromes ?? fresh.syndromes ?? [];

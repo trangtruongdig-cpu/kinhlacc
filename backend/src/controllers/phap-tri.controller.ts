@@ -9,6 +9,7 @@ import { KinhMach } from '../models/kinh-mach.model';
 import { MeridianSyndrome } from '../models/meridian-syndrome.model';
 import { TrieuChung } from '../models/trieu-chung.model';
 import { BenhTayY } from '../models/benh-tay-y.model';
+import { PhacDoDieuTri } from '../models/phac-do-dieu-tri.model';
 
 @Injectable()
 export class PhapTriService {
@@ -37,6 +38,8 @@ export class PhapTriService {
     private readonly trieuChungRepo: Repository<TrieuChung>,
     @InjectRepository(BenhTayY)
     private readonly benhTayYRepo: Repository<BenhTayY>,
+    @InjectRepository(PhacDoDieuTri)
+    private readonly phacDoRepo: Repository<PhacDoDieuTri>,
   ) {}
 
   findAll(): Promise<PhapTri[]> {
@@ -55,6 +58,49 @@ export class PhapTriService {
       select: ['id', 'chung_trang', 'nguyen_tac'],
       order: { id: 'ASC' },
     });
+  }
+
+  /**
+   * ĐỊNH VỊ BỆNH — từ danh sách BÀI THUỐC (thể bệnh kinh lạc → bài thuốc là link ĐÚNG; thể → pháp
+   * trị trực tiếp chưa chuẩn), truy ra các PHÁP TRỊ chứa từng bài → tag `luc_kinh` (giai đoạn Lục
+   * Kinh / tác nhân / tính chất) + tạng phủ (kinh_mach). Nhẹ: chỉ cột cần cho định vị, gom theo bài.
+   */
+  async findByBaiThuoc(baiThuocIds: number[]): Promise<
+    Array<{
+      idBaiThuoc: number;
+      phapTri: Array<{
+        id: number;
+        chung_trang: string | null;
+        luc_kinh: string | null;
+        doan_chung_trang: string | null;
+        kinh_mach: Array<{ id: number; ten: string }>;
+      }>;
+    }>
+  > {
+    if (!baiThuocIds.length) return [];
+    const links = await this.baiPhapTriLinkRepo.find({
+      where: { idBaiThuoc: In(baiThuocIds) },
+      relations: ['phapTri', 'phapTri.kinh_mach_list'],
+      order: { idBaiThuoc: 'ASC', thuTu: 'ASC' },
+    });
+    const byBai = new Map<number, { idBaiThuoc: number; phapTri: any[] }>();
+    for (const link of links) {
+      const pt = link.phapTri;
+      if (!pt) continue;
+      let entry = byBai.get(link.idBaiThuoc);
+      if (!entry) {
+        entry = { idBaiThuoc: link.idBaiThuoc, phapTri: [] };
+        byBai.set(link.idBaiThuoc, entry);
+      }
+      entry.phapTri.push({
+        id: pt.id,
+        chung_trang: pt.chung_trang ?? null,
+        luc_kinh: pt.luc_kinh ?? null,
+        doan_chung_trang: link.doanChungTrang ?? null,
+        kinh_mach: (pt.kinh_mach_list ?? []).map((km) => ({ id: km.idKinhMach, ten: km.ten_kinh_mach })),
+      });
+    }
+    return [...byBai.values()];
   }
 
   /**
@@ -486,6 +532,75 @@ export class PhapTriService {
       tayYChungBenhStats,
       tangPhuStats,
       tonThuongStats,
+    };
+  }
+
+  /**
+   * Gợi ý điều trị theo BÁT CƯƠNG TÍNH TOÁN (từ số đo kinh mạch, xem
+   * frontend/src/lib/meridianAnalysis.ts's mapTongCuongToTinhChat): nhận nhãn "Tính chất" (bát
+   * cương · chính khí — 8 giá trị cố định của nhóm 'tinh' trong ton_thuong_tac_nhan), trả về Pháp
+   * Trị đã gắn nhãn đó + Bài Thuốc/Phương Huyệt đã liên kết SẴN (100% dữ liệu curate sẵn có,
+   * KHÔNG suy diễn thêm — không có ngũ du huyệt bổ/tả trong hệ thống nên KHÔNG tự chọn huyệt theo
+   * kinh lệch cao/thấp; chỉ trả các Phương Huyệt đã gắn với thể bệnh mà Pháp Trị khớp nhãn có).
+   * Đây là kết quả THAM KHẢO — biện chứng theo thể bệnh đo được vẫn là nguồn xác định chính.
+   */
+  async findGoiYBatCuong(tags: string[]): Promise<{
+    tags: string[];
+    phapTriList: PhapTri[];
+    baiThuocList: BaiThuoc[];
+    phuongHuyetList: PhacDoDieuTri[];
+  }> {
+    const cleanTags = [...new Set(tags.map((s) => s.trim()).filter(Boolean))];
+    if (!cleanTags.length) {
+      return { tags: [], phapTriList: [], baiThuocList: [], phuongHuyetList: [] };
+    }
+
+    const ptIds: Array<{ id: number }> = await this.repo
+      .createQueryBuilder('pt')
+      .select('pt.id', 'id')
+      .where(
+        `pt.luc_kinh IS NOT NULL AND EXISTS (
+          SELECT 1 FROM unnest(string_to_array(pt.luc_kinh, ',')) AS tt(name)
+          WHERE LOWER(TRIM(tt.name)) IN (:...tags)
+        )`,
+        { tags: cleanTags.map((s) => s.toLowerCase()) },
+      )
+      .getRawMany();
+
+    if (!ptIds.length) {
+      return { tags: cleanTags, phapTriList: [], baiThuocList: [], phuongHuyetList: [] };
+    }
+
+    const phapTriList = await this.repo.find({
+      where: { id: In(ptIds.map((r) => Number(r.id))) },
+      relations: ['bai_thuoc_links', 'bai_thuoc_links.baiThuoc', 'benh_dong_y_list'],
+      order: { id: 'ASC' },
+    });
+
+    const baiThuocById = new Map<number, BaiThuoc>();
+    const benhIds = new Set<number>();
+    for (const pt of phapTriList) {
+      for (const link of pt.bai_thuoc_links ?? []) {
+        if (link.baiThuoc) baiThuocById.set(link.baiThuoc.id, link.baiThuoc);
+      }
+      for (const benh of pt.benh_dong_y_list ?? []) {
+        benhIds.add(benh.id);
+      }
+    }
+
+    const phuongHuyetList = benhIds.size
+      ? await this.phacDoRepo.find({
+          where: { idBenh: In([...benhIds]) },
+          relations: ['huyetVi', 'huyetVi.kinhMach', 'benh'],
+          order: { idPhacDo: 'ASC' },
+        })
+      : [];
+
+    return {
+      tags: cleanTags,
+      phapTriList,
+      baiThuocList: [...baiThuocById.values()],
+      phuongHuyetList,
     };
   }
 

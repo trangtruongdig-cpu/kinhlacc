@@ -12,7 +12,7 @@ interface OrganItem {
   state: { temp: 'han' | 'nhiet' | 'mixed'; depth: 'bieu' | 'ly' | 'mixed'; side: string } | null
 }
 
-const props = defineProps<{ items: OrganItem[]; focus: string | null }>()
+const props = defineProps<{ items: OrganItem[]; focus: string | null; lechNames?: string[] }>()
 const emit = defineEmits<{ (e: 'toggle', key: string): void; (e: 'detail', name: string): void }>()
 
 function art(organ: string) {
@@ -23,10 +23,13 @@ const GROUP_FIXED: Record<string, string[]> = {
   khi: ['Tiểu', 'Tâm', 'Tam', 'Bào', 'Đại', 'Phế'],
   huyet: ['Bàng', 'Thận', 'Đởm', 'Vị', 'Can', 'Tỳ'],
 }
-// Tạng phủ thuộc 1 NHÓM: Khí/Huyết theo bộ kinh cố định · Biểu/Lý/Hàn/Nhiệt theo trạng thái đo.
+// Tạng phủ thuộc 1 NHÓM: Khí/Huyết theo bộ kinh cố định · Hư-Thực theo danh sách kinh "lệch"
+// (props.lechNames, tính từ diagnosis.explain.huThuc — KHÔNG cố định, đổi theo từng ca đo) ·
+// Biểu/Lý/Hàn/Nhiệt theo trạng thái đo.
 function inGroup(o: OrganItem, g: string): boolean {
   const fixed = GROUP_FIXED[g]
   if (fixed) return fixed.includes(o.name)
+  if (g === 'huthuc') return (props.lechNames || []).includes(o.name)
   const s = o.state
   if (!s) return false
   if (g === 'bieu') return s.depth === 'bieu' || s.depth === 'mixed'

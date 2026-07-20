@@ -70,6 +70,11 @@ export class Examination {
   @Column({ type: 'varchar', length: 50 })
   huyet: string;
 
+  // Hư-Thực: cương ĐỘC LẬP (biên độ/diện rộng phản ứng toàn thân), KHÔNG gắn Khí/Huyết ở trên —
+  // nullable vì các ca đo TRƯỚC khi thêm cột này chưa có giá trị.
+  @Column({ type: 'varchar', length: 50, nullable: true })
+  huThuc: string;
+
   @Column({ type: 'jsonb' })
   flags: Array<{
     channelIndex: number;

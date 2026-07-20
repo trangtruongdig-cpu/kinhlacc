@@ -7,6 +7,10 @@ import BatCuongFigure3D, { MER3D } from '@/components/BatCuongFigure3D.vue'
 import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
 import BatCuongSummary from '@/components/BatCuongSummary.vue'
 import { ORGAN_ART } from '@/lib/organArt'
+import { computeTongCuong, type TongCuong } from '@/lib/meridianAnalysis'
+import { buildDinhVi, parseAmDuong, type PhapTriByBaiThuoc } from '@/lib/dinhVi'
+import BienChungWheel from '@/components/BienChungWheel.vue'
+import AmDuongTaiji from '@/components/AmDuongTaiji.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -57,7 +61,8 @@ interface ViThuocLite {
 }
 interface BaiThuocChiTietLite {
   id: number
-  id_vi_thuoc: number | null
+  // Backend (TypeORM BaiThuocChiTiet.idViThuoc) serializes camelCase — KHÔNG phải id_vi_thuoc.
+  idViThuoc: number | null
   lieu_luong: string | null
   vai_tro: string | null
   ghi_chu: string | null
@@ -114,7 +119,7 @@ function baiThuocChiTietOf(id: number): BaiThuocChiTietLite[] {
 }
 
 function viThuocLabel(ct: BaiThuocChiTietLite): string {
-  return ct.viThuoc?.ten_vi_thuoc?.trim() || (ct.id_vi_thuoc != null ? `#${ct.id_vi_thuoc}` : '—')
+  return ct.viThuoc?.ten_vi_thuoc?.trim() || (ct.idViThuoc != null ? `#${ct.idViThuoc}` : '—')
 }
 
 const matchedBenhIds = computed<number[]>(() => {
@@ -212,6 +217,62 @@ const matchedBaiThuocList = computed(() => {
   return out
 })
 
+// ── TAB 3 "Biện chứng – Pháp trị": ĐỊNH VỊ bệnh nhân.
+// Thể bệnh (đã chốt) → bài thuốc (link ĐÚNG) → pháp trị chứa bài đó → tag luc_kinh → phân trục.
+// Không trọng số: thể bệnh đo ra là xác định; chỉ union tag, trục nào không có để trống.
+const dinhViRows = ref<PhapTriByBaiThuoc[]>([])
+const dinhViLoading = ref(false)
+async function loadDinhVi() {
+  const ids = matchedBaiThuocList.value.map((b) => b.id)
+  if (!ids.length) {
+    dinhViRows.value = []
+    return
+  }
+  dinhViLoading.value = true
+  try {
+    dinhViRows.value = await api.get<PhapTriByBaiThuoc[]>(
+      `/phap-tri/by-bai-thuoc?baiThuocIds=${ids.join(',')}`,
+    )
+  } catch {
+    dinhViRows.value = []
+  } finally {
+    dinhViLoading.value = false
+  }
+}
+// (watch kích hoạt loadDinhVi ĐẶT Ở CUỐI setup — xem chú thích ở đó — vì source đọc
+//  matchedBaiThuocList → matchedBenhIds → excelFocusRuleId (khai báo phía dưới) → TDZ nếu đăng ký ở đây.)
+const dinhVi = computed(() => buildDinhVi(dinhViRows.value))
+// ③ Tính chất (bát cương · chính khí) tách riêng để đặt NGANG HÀNG với đồ hình Thái Cực
+// (AmDuongTaiji) — cùng gốc chính khí/Hư-Thực nên xem cạnh nhau dễ đối chiếu hơn là để tuốt
+// xuống dưới đồ hình 5 vòng, phải cuộn mới thấy. ①②  Định vị/Tác nhân vẫn giữ nguyên vị trí cũ.
+const tinhChatAxis = computed(() => dinhVi.value.axes.find((ax) => ax.key === 'tinh-chat') ?? null)
+const otherAxes = computed(() => dinhVi.value.axes.filter((ax) => ax.key !== 'tinh-chat'))
+// Chiếu định vị vào không gian đồ hình: {kinh, khi, tang, amDuong} cho DinhViWheel tô sáng.
+const dinhViWheel = computed(() => {
+  const tagsOf = (nhom: string): string[] => {
+    for (const ax of dinhVi.value.axes) for (const sg of ax.subgroups) if (sg.nhom === nhom) return sg.tags.map((t) => t.label)
+    return []
+  }
+  return {
+    kinh: tagsOf('gd-luc-kinh'), // nhãn đã rút gọn: 'Thái Dương'…
+    khi: tagsOf('tn-luc-khi'), // 'Hàn','Nhiệt','Thấp'…
+    tang: dinhVi.value.tangPhu.map((t) => t.label),
+    amDuong: parseAmDuong(tongCuong.value.amDuong),
+    amLoai: tongCuong.value.loai, // để wheel vẽ vành khăn DƯ/KHUYẾT ở tâm Thái Cực (lớp 1)
+  }
+})
+// Bóc lớp đồ hình (như Biện Chứng Luận Trị): 1 Âm Dương … 5 Lục Kinh. Mặc định lớp 1 (Âm Dương)
+// — vào tab là thấy Thái Cực DƯ/KHUYẾT ngay, không phải bấm mới thấy.
+const dinhViLop = ref<1 | 2 | 3 | 4 | 5>(1)
+// BỎ Ngũ Hành (lớp 2) khỏi thanh bóc lớp — chỉ giữ Âm Dương · Tạng Phủ · Lục Khí · Lục Kinh.
+// (lớp 3 vẫn cộng dồn vòng Ngũ Hành ở nền, nhưng không còn là bước "định vị" riêng.)
+const DINH_VI_LOP: ReadonlyArray<{ n: 1 | 2 | 3 | 4 | 5; ten: string; han: string }> = [
+  { n: 1, ten: 'Âm Dương', han: '太極' },
+  { n: 3, ten: 'Tạng Phủ', han: '臟腑' },
+  { n: 4, ten: 'Lục Khí', han: '六氣' },
+  { n: 5, ten: 'Lục Kinh', han: '六經' },
+]
+
 // ── V. THANG ĐẶC TRỊ: gộp vị thuốc từ MỌI bài của các thể khớp, bỏ trùng theo vị,
 //    đếm SỐ BÀI chứa vị rồi xếp giảm dần (thông dụng → đặc trị). Thầy thuốc tích/bỏ
 //    vị + chỉnh liều → lưu thành đơn riêng của ca khám (như phương huyệt).
@@ -231,12 +292,12 @@ const tongHopViThuoc = computed<TongHopViItem[]>(() => {
     const seenInBai = new Set<string>() // 1 vị trùng trong CÙNG 1 bài chỉ tính 1 lần
     for (const ct of baiThuocChiTietOf(bt.id)) {
       const ten = viThuocLabel(ct)
-      const key = ct.id_vi_thuoc != null ? 'id:' + ct.id_vi_thuoc : 'ten:' + ten.toLowerCase()
+      const key = ct.idViThuoc != null ? 'id:' + ct.idViThuoc : 'ten:' + ten.toLowerCase()
       if (seenInBai.has(key)) continue
       seenInBai.add(key)
       let it = map.get(key)
       if (!it) {
-        it = { key, id_vi_thuoc: ct.id_vi_thuoc, ten, so_bai: 0, tu_bai: [], vai_tro: ct.vai_tro || null, lieu_goi_y: ct.lieu_luong || null, viThuoc: ct.viThuoc ?? null }
+        it = { key, id_vi_thuoc: ct.idViThuoc, ten, so_bai: 0, tu_bai: [], vai_tro: ct.vai_tro || null, lieu_goi_y: ct.lieu_luong || null, viThuoc: ct.viThuoc ?? null }
         map.set(key, it)
       }
       it.so_bai++
@@ -1006,7 +1067,24 @@ interface KinhMachChiTietRow {
 const showKinhMachChiTietModal = ref(false)
 const kinhMachChiTiet = ref<KinhMachChiTietRow | null>(null)
 let kinhMachListCache: KinhMachChiTietRow[] | null = null
+// Nút "i" ở mục Hư-Thực (BatCuongSummary) dùng CHUNG kênh emit('detail', ...) với tạng phủ —
+// phân biệt bằng mã riêng này để mở popup TĨNH (không gọi API) thay vì tra kinh mạch.
+const HUTHUC_INFO_KEY = '__huthuc_info__'
+const showHuThucInfoModal = ref(false)
+const HU_THUC_INFO: Record<'thuc' | 'hu', { title: string; body: string }> = {
+  thuc: { title: 'Mạch Hữu Lực', body: 'Tà khí đang mạnh, cơ thể phản ứng dữ dội, nhiều nơi lệch rõ.' },
+  hu: { title: 'Mạch Vô Lực', body: 'Chính khí suy, phản ứng yếu ớt, lệch ít hoặc lệch nhẹ dù có bệnh.' },
+}
+const huThucInfoForModal = computed(() => {
+  const v = (diagnosis.value?.huThuc || '').toLowerCase()
+  const t: 'thuc' | 'hu' | null = v.includes('thực') ? 'thuc' : v.includes('hư') && !v.includes('thường') ? 'hu' : null
+  return t ? HU_THUC_INFO[t] : null
+})
 async function openKinhMachChiTiet(shortCode: string) {
+  if (shortCode === HUTHUC_INFO_KEY) {
+    showHuThucInfoModal.value = true
+    return
+  }
   showKinhMachChiTietModal.value = true
   kinhMachChiTiet.value = null
   const symbol = MER3D[shortCode]
@@ -1019,6 +1097,9 @@ async function openKinhMachChiTiet(shortCode: string) {
 }
 function closeKinhMachChiTietModal() {
   showKinhMachChiTietModal.value = false
+}
+function closeHuThucInfoModal() {
+  showHuThucInfoModal.value = false
 }
 const kinhMachChiTietParas = computed(() =>
   String(kinhMachChiTiet.value?.bieu_hien_tac_nghen ?? '')
@@ -1318,20 +1399,11 @@ function groupingV2(
 }
 
 const diagnosis = computed(() => {
-  if (!examination.value?.inputData) return { amDuong: '—', khi: '—', huyet: '—', explain: null }
+  if (!examination.value?.inputData) return { khi: '—', huyet: '—', huThuc: '—', explain: null }
   
-  const lower = lowerStats.value
+  // 1. Âm / Dương = TỔNG CƯƠNG — không tính ở đây; suy từ ma trận Hàn·Nhiệt × Hư·Thực
+  //    trong computed `tongCuong` (cần affectedOrgans khai báo sau). Xem computeTongCuong().
 
-  // 1. Âm / Dương (Dựa trên kinh Đảm so với trị số bình quân nhóm Chi dưới)
-  const d = examination.value.inputData
-  const avgDam = round2(((d.damtrai || 0) + (d.damphai || 0)) / 2)
-  const midTuc = lower.mean
-  const diffAmDuong = round2(avgDam - midTuc)
-
-  let amDuong = 'Bình thường'
-  if (diffAmDuong < 0) amDuong = 'Dương hư'
-  else if (diffAmDuong > 0) amDuong = 'Âm hư'
-  
   // 2. Khí (Dựa trên 6 kinh Chi trên)
   let huTrenCount = 0
   let sumDiffTren = 0
@@ -1382,17 +1454,87 @@ const diagnosis = computed(() => {
     }
   }
   
+  // 4. Hư — Thực (CƯƠNG ĐỘC LẬP, KHÔNG còn gắn với Khí/Huyết chi trên/chi dưới — trước đây mục
+  // "④ Hư-Thực" thực chất chỉ lặp lại cách tính Hàn/Nhiệt theo hướng lệch, không đo cường độ phản
+  // ứng nên chỉ còn "Lục Cương". Đúng bản chất kinh điển: Hư-Thực đo BIÊN ĐỘ/DIỆN RỘNG phản ứng
+  // toàn thân (giống "mạch hữu lực → Thực, vô lực → Hư"), không phải hướng lệch nóng/lạnh.
+  // Gộp cả 12 kinh (chi trên dùng bounds/sd của upperStats, chi dưới dùng của lowerStats); kinh nào
+  // vượt khoảng bình thường [lowerBound, upperBound] của NHÓM nó → tính là "lệch". Ngưỡng Thực tự
+  // tham chiếu theo chính dung sai (sd) của người bệnh — không dùng số liệu quần thể ngoài.
+  let lechCount = 0
+  let totalLech = 0
+  let tongDoTren = 0
+  let tongDoDuoi = 0
+  // Danh sách kinh "lệch" (mã ngắn + hướng cao/thấp) → dùng để SOI đúng các kinh này ở bảng đo +
+  // hình 3D khi bấm vào verdict Hư-Thực (giống cách Biểu-Lý/Hàn-Nhiệt đã soi được).
+  const lechRows: { name: string; tone: 'high' | 'low' }[] = []
+  upperRows.value.forEach(r => {
+    if (r.avg === 0) return
+    tongDoTren++
+    if (r.avg > upperStats.value.upperBound || r.avg < upperStats.value.lowerBound) {
+      lechCount++
+      totalLech += Math.abs(r.avg - upperStats.value.mean)
+      lechRows.push({ name: r.name, tone: r.avg > upperStats.value.upperBound ? 'high' : 'low' })
+    }
+  })
+  lowerRows.value.forEach(r => {
+    if (r.avg === 0) return
+    tongDoDuoi++
+    if (r.avg > lowerStats.value.upperBound || r.avg < lowerStats.value.lowerBound) {
+      lechCount++
+      totalLech += Math.abs(r.avg - lowerStats.value.mean)
+      lechRows.push({ name: r.name, tone: r.avg > lowerStats.value.upperBound ? 'high' : 'low' })
+    }
+  })
+  const tongDo = tongDoTren + tongDoDuoi
+  totalLech = round2(totalLech)
+  // Ngưỡng chỉ lấy TRUNG BÌNH dung sai 2 nhóm khi CẢ hai đều có đo; nhóm nào chưa đo (dungSai=0
+  // vì calculateBounds không có dữ liệu) thì bỏ qua — tránh kéo ngưỡng xuống còn một nửa oan uổng.
+  let avgSd = 0
+  if (tongDoTren > 0 && tongDoDuoi > 0) avgSd = (upperStats.value.sd + lowerStats.value.sd) / 2
+  else if (tongDoTren > 0) avgSd = upperStats.value.sd
+  else if (tongDoDuoi > 0) avgSd = lowerStats.value.sd
+  const nguong = round2(avgSd * tongDo)
+
+  let huThuc = ''
+  if (tongDo > 0) {
+    if (lechCount === 0) huThuc = 'Bình thường'
+    else if (lechCount >= Math.ceil(tongDo / 2) || totalLech >= nguong) huThuc = 'Thực'
+    else huThuc = 'Hư'
+  }
+
   // Lộ rõ các con số trung gian → bảng tóm tắt giải thích VÌ SAO ra kết luận (không giấu công thức).
   return {
-    amDuong,
     khi,
     huyet,
+    huThuc,
     explain: {
-      amDuong: { avgDam, midTuc: round2(midTuc), diff: diffAmDuong },
       khi: { huCount: huTrenCount, total: upperRows.value.length, sum: round2(sumDiffTren), mean: round2(upperStats.value.mean) },
       huyet: { huCount: huDuoiCount, total: lowerRows.value.length, sum: round2(sumDiffDuoi), mean: round2(lowerStats.value.mean) },
+      huThuc: { lechCount, tongDo, totalLech, nguong, lechRows },
     },
   }
+})
+
+// Mã kinh NGẮN đang "lệch" theo Hư-Thực → truyền xuống BatCuongOrgans/BatCuongFigure3D để soi
+// nhóm 'huthuc' (giống cách Biểu-Lý/Hàn-Nhiệt soi theo affectedOrgans).
+const huThucLechNames = computed(() => (diagnosis.value.explain?.huThuc?.lechRows ?? []).map((r) => r.name))
+
+// Kinh "lệch" kèm tên tạng phủ + bên + hướng (cao vượt ngưỡng / thấp dưới ngưỡng) → BatCuongSummary
+// hiện 2 nhóm chip theo BIÊN ĐỘ. Lưu ý: cao/thấp là biên độ, KHÔNG phải nhãn thực/hư từng tạng
+// (hướng nóng/lạnh đã nằm ở Hàn-Nhiệt) — Hư-Thực vẫn là kết luận TOÀN THÂN.
+const huThucLechOrgans = computed(() => {
+  const rows = diagnosis.value.explain?.huThuc?.lechRows ?? []
+  const m = organStateMap.value
+  return rows.map((r) => {
+    const st = m.get(r.name)
+    return {
+      name: r.name,
+      organ: st?.organ ?? CHANNELS_FULL[r.name as keyof typeof CHANNELS_FULL] ?? r.name,
+      side: st?.side ?? '',
+      tone: r.tone,
+    }
+  })
 })
 
 // Một tạng phủ đã phân loại Bát Cương — giữ row.name để soi đúng hàng bảng đo khi bấm.
@@ -1501,6 +1643,20 @@ const affectedOrgans = computed<OrganState[]>(() => {
     if (ex.side !== o.side) ex.side = [ex.side, o.side].filter(Boolean).join('/')
   }
   return [...byOrgan.values()]
+})
+
+/**
+ * TỔNG CƯƠNG (Âm-Dương) — cương tổng quát suy từ ma trận Hàn·Nhiệt × Hư·Thực (chuẩn Bát Cương),
+ * KHÔNG còn so riêng kinh Đởm. Đếm số kinh nghiêng Nhiệt/Hàn + Biểu/Lý từ affectedOrgans (đã gộp),
+ * lấy Hư/Thực từ cương Hư-Thực (diagnosis.huThuc). Xem computeTongCuong() ở lib/meridianAnalysis.
+ */
+const tongCuong = computed<TongCuong>(() => {
+  const orgs = affectedOrgans.value
+  const nhiet = orgs.filter((o) => o.temp === 'nhiet' || o.temp === 'mixed').length
+  const han = orgs.filter((o) => o.temp === 'han' || o.temp === 'mixed').length
+  const bieu = orgs.filter((o) => o.depth === 'bieu' || o.depth === 'mixed').length
+  const ly = orgs.filter((o) => o.depth === 'ly' || o.depth === 'mixed').length
+  return computeTongCuong(nhiet, han, bieu, ly, diagnosis.value.huThuc)
 })
 
 /** Đủ 12 tạng phủ (mã kinh ngắn → tên) để bày QUANH hình người; gắn trạng thái Bát Cương nếu có. */
@@ -1662,15 +1818,6 @@ const bcCellHL = computed(() => {
   const f = batCuongFocus.value
   if (!f) return { cells, stat }
   const e = diagnosis.value.explain
-  // ① Âm–Dương: Đởm (avg) so TB chi dưới — cao hơn 1 màu, thấp hơn 1 màu (CẢ HAI cùng nháy).
-  if (f === 'amDuong') {
-    if (!e) return { cells, stat }
-    const dam = e.amDuong.avgDam
-    const mid = e.amDuong.midTuc
-    put('Đởm', 3, dam === mid ? 'ref' : dam < mid ? 'low' : 'high')
-    stat.lowerMean = dam === mid ? 'ref' : dam < mid ? 'high' : 'low'
-    return { cells, stat }
-  }
   // ④ Khí/Huyết: TB là MỐC, từng kinh (avg) lệch trên/dưới.
   if (f === 'group:khi') {
     stat.upperMean = 'ref'
@@ -1680,6 +1827,13 @@ const bcCellHL = computed(() => {
   if (f === 'group:huyet') {
     stat.lowerMean = 'ref'
     for (const r of lowerRows.value) put(r.name, 3, r.avg < lowerStats.value.mean ? 'low' : r.avg > lowerStats.value.mean ? 'high' : 'ref')
+    return { cells, stat }
+  }
+  // Hư-Thực: soi đúng các kinh "lệch" (bất kể chi trên/dưới) + mốc ngưỡng bình thường cả 2 nhóm.
+  if (f === 'group:huthuc') {
+    const rows = e?.huThuc?.lechRows ?? []
+    if (rows.length) { stat.upperBound = 'ref'; stat.lowerBound = 'ref' }
+    for (const lr of rows) { put(lr.name, 2, lr.tone); put(lr.name, 3, lr.tone); put(lr.name, 5, lr.tone) }
     return { cells, stat }
   }
   // ②③ hoặc 1 tạng: nháy CẢ trị trái · avg · trị phải của kinh đang soi (Hàn lam / Nhiệt đỏ) + NGƯỠNG (mốc nâu).
@@ -1729,7 +1883,7 @@ function statsRowClass(which: 'upper' | 'lower') {
   }
   const rel =
     (which === 'upper' && f === 'khi') ||
-    (which === 'lower' && (f === 'amDuong' || f === 'huyet'))
+    (which === 'lower' && f === 'huyet')
   return rel ? 'bc-stats--focus' : 'bc-stats--dim'
 }
 
@@ -1753,10 +1907,6 @@ function lowerRowClass(idx: number) {
     return row && set.has(row.name) ? 'meridian-row--focus' : 'meridian-row--dim'
   }
   if (f === 'huyet') return 'meridian-row--focus'
-  if (f === 'amDuong') {
-    const row = lowerRows.value[idx]
-    return row?.name === 'Đởm' ? 'meridian-row--focus' : 'meridian-row--dim'
-  }
   return 'meridian-row--dim'
 }
 
@@ -1766,7 +1916,7 @@ function sectionTitleClass(which: 'upper' | 'lower') {
   if (focusedTieuKetSet()) {
     return sectionHasTieuKetFocus(which) ? '' : 'bc-section-title--dim'
   }
-  const rel = (which === 'upper' && f === 'khi') || (which === 'lower' && (f === 'amDuong' || f === 'huyet'))
+  const rel = (which === 'upper' && f === 'khi') || (which === 'lower' && f === 'huyet')
   return rel ? '' : 'bc-section-title--dim'
 }
 
@@ -1801,17 +1951,31 @@ const focusedTheName = computed<string | null>(() => {
 })
 
 // ── Bố cục 2-VIEW: state ──
-const activeView = ref<1 | 2>(1)
+const activeView = ref<1 | 2 | 3>(1)
 const showPatientMore = ref(false)
-// Verdict Bát Cương gọn cho thanh ngữ cảnh dính (nén khối Tóm Tắt to → luôn thấy 8 cương).
+// Verdict Bát Cương gọn cho thanh ngữ cảnh dính (nén khối Tóm Tắt to → luôn thấy các cương).
+// CHỈ 3 kết luận thật của Bát Cương: Âm-Dương (tổng cương) · Biểu-Lý (tc.viTri) · Hư-Thực.
+// Khí/Huyết KHÔNG còn là 1 cương (đã hạ thành "Thể Chất" tham khảo) → tách riêng nhóm bên dưới,
+// hiển thị nguyên giá trị (đã tự có tiền tố "Khí"/"Huyết"), không lặp lại nhãn.
 const batCuongVerdictTokens = computed(() => {
   const d = diagnosis.value
+  const tc = tongCuong.value
   const out: { key: string; label: string }[] = []
-  if (d.amDuong && d.amDuong !== '—') out.push({ key: 'amDuong', label: d.amDuong })
-  if (d.khi && d.khi !== '—') out.push({ key: 'khi', label: 'Khí ' + d.khi })
-  if (d.huyet && d.huyet !== '—') out.push({ key: 'huyet', label: 'Huyết ' + d.huyet })
+  if (tc.amDuong) out.push({ key: 'amDuong', label: tc.amDuong })
+  if (tc.viTri) out.push({ key: 'bieuly', label: tc.viTri })
+  if (d.huThuc && d.huThuc !== '—') out.push({ key: 'huthuc', label: d.huThuc })
   return out
 })
+const theChatVerdictTokens = computed(() => {
+  const d = diagnosis.value
+  const out: { key: string; label: string }[] = []
+  if (d.khi && d.khi !== '—') out.push({ key: 'khi', label: d.khi })
+  if (d.huyet && d.huyet !== '—') out.push({ key: 'huyet', label: d.huyet })
+  return out
+})
+// Tạng phủ hiện trên thanh ngữ cảnh CHỈ lấy nhóm Lý (bệnh vào sâu) — Biểu (nông) xem ở Mục II,
+// tránh liệt kê hết 12 tạng phủ gây rối mắt trên 1 dòng gọn.
+const lyOrgans = computed(() => affectedOrgans.value.filter((o) => o.depth === 'ly' || o.depth === 'mixed'))
 
 watch(
   () => excelSyndromesList.value,
@@ -2013,6 +2177,7 @@ function printPhieuKetQua() {
   const p = patient.value
   const ex = examDisplay.value
   const dg = diagnosis.value
+  const tc = tongCuong.value
   const organs = affectedOrgans.value
   const cd = savedChanDoan.value
   const dash = (v: unknown) => (v != null && String(v).trim() ? escHtml(v) : '—')
@@ -2091,31 +2256,26 @@ function printPhieuKetQua() {
 
   // ===== Bát Cương: tóm tắt giàu như màn hình (Âm/Dương · Biểu/Lý · Hàn/Nhiệt · Khí/Huyết + vì sao) =====
   const numF = (n: number) => String(n).replace('.', ',')
-  const signF = (n: number) => (n > 0 ? '+' : '') + numF(n)
-  const amWhy = (() => {
-    const e = dg.explain?.amDuong
+  // Âm-Dương (tổng cương) suy từ ma trận Hàn·Nhiệt × Hư·Thực — câu giải thích lấy thẳng từ tongCuong.
+  const amWhy = tc.reason
+  // Hư-Thực: cương ĐỘC LẬP (biên độ/diện rộng phản ứng toàn thân), KHÔNG còn gắn Khí/Huyết —
+  // xem công thức đầy đủ ở diagnosis computed. Khí/Huyết ở trên giữ lại chỉ để tham khảo.
+  const huThucWhy = (() => {
+    const e = dg.explain?.huThuc
     if (!e) return ''
-    const rel =
-      e.diff < 0 ? 'thấp hơn → Dương suy' : e.diff > 0 ? 'cao hơn → Âm suy' : 'tương đương → cân bằng'
-    return `Đởm ${numF(e.avgDam)} so TB chi dưới ${numF(e.midTuc)} (chênh ${signF(e.diff)}): Đởm ${rel}.`
+    if (e.lechCount === 0) return `0/${e.tongDo} kinh lệch khỏi khoảng bình thường → Bình thường.`
+    return `${e.lechCount}/${e.tongDo} kinh lệch khỏi khoảng bình thường, tổng lệch ${numF(e.totalLech)} (ngưỡng ~${numF(e.nguong)}).`
   })()
-  const hutWhy = (e: { huCount: number; total: number; sum: number; mean: number } | undefined, hu: string, thuc: string) => {
-    if (!e) return ''
-    const half = e.total / 2
-    let reason: string
-    if (e.huCount > half) reason = `${e.huCount}/${e.total} kinh dưới mức TB → ${hu}`
-    else if (e.huCount < half) reason = `${e.huCount}/${e.total} kinh dưới mức TB → ${thuc}`
-    else reason = `${e.huCount}/${e.total} dưới TB, tổng chênh ${signF(e.sum)} → ${e.sum < 0 ? hu : e.sum > 0 ? thuc : 'cân bằng'}`
-    return `TB ${numF(e.mean)}; ${reason}.`
-  }
-  const khiWhy = hutWhy(dg.explain?.khi, 'Khí hư', 'Khí thịnh')
-  const huyetWhy = hutWhy(dg.explain?.huyet, 'Huyết hư', 'Huyết thịnh')
   const toneCls = (v: string) => {
     if (!v) return 'tone-none'
-    if (v.includes('thịnh') || v.includes('thực')) return 'tone-thuc'
-    if (v.includes('hư') && !v.includes('thường')) return 'tone-hu'
+    // toLowerCase(): "Hư"/"Thực" đứng đầu câu viết hoa (khác "Khí hư"/"Khí thịnh" viết thường giữa câu).
+    const s = v.toLowerCase()
+    if (s.includes('thịnh') || s.includes('thực')) return 'tone-thuc'
+    if (s.includes('hư') && !s.includes('thường')) return 'tone-hu'
     return 'tone-neutral'
   }
+  // Nhãn cột đã ghi rõ "Khí"/"Huyết" — bỏ tiền tố trùng trong giá trị ("Khí hư" → "hư").
+  const stripLabel = (v: string, label: string) => (v && v.startsWith(label + ' ') ? v.slice(label.length + 1) : v)
   const organChip = (o: OrganState) =>
     `<span class="o-chip o-${o.temp}">${escHtml(o.organ)}${o.side ? `<i>${escHtml(o.side)}</i>` : ''}</span>`
   const chipsOr = (list: OrganState[]) =>
@@ -2127,20 +2287,22 @@ function printPhieuKetQua() {
 
   const batCuongHtml = `
     <div class="bc-verdicts">
-      <div class="bcv"><span class="bcv-l">① Âm — Dương</span><span class="bcv-v">${dash(dg.amDuong)}</span></div>
-      <div class="bcv"><span class="bcv-l">④ Khí · chi trên</span><span class="bcv-v ${toneCls(dg.khi)}">${dg.khi || '—'}</span></div>
-      <div class="bcv"><span class="bcv-l">④ Huyết · chi dưới</span><span class="bcv-v ${toneCls(dg.huyet)}">${dg.huyet || '—'}</span></div>
+      <div class="bcv"><span class="bcv-l">Tổng cương · Âm — Dương</span><span class="bcv-v">${dash(tc.amDuong)}${tc.hoiChung ? ` <small>(${escHtml(tc.hoiChung)})</small>` : ''}</span></div>
+      <div class="bcv"><span class="bcv-l">Hư — Thực</span><span class="bcv-v ${toneCls(dg.huThuc)}">${dg.huThuc || '—'}</span></div>
+    </div>
+    <div class="bc-verdicts">
+      <div class="bcv"><span class="bcv-l">Thể Chất · Khí</span><span class="bcv-v ${toneCls(dg.khi)}">${escHtml(stripLabel(dg.khi, 'Khí')) || '—'}</span></div>
+      <div class="bcv"><span class="bcv-l">Thể Chất · Huyết</span><span class="bcv-v ${toneCls(dg.huyet)}">${escHtml(stripLabel(dg.huyet, 'Huyết')) || '—'}</span></div>
     </div>
     ${amWhy ? `<div class="bc-why">${escHtml(amWhy)}</div>` : ''}
-    ${khiWhy ? `<div class="bc-why">Khí — ${escHtml(khiWhy)}</div>` : ''}
-    ${huyetWhy ? `<div class="bc-why">Huyết — ${escHtml(huyetWhy)}</div>` : ''}
+    ${huThucWhy ? `<div class="bc-why">${escHtml(huThucWhy)}</div>` : ''}
     <div class="bc-rows">
       <div class="bc-row"><span class="bc-row-l">② Biểu (nông)</span><span class="bc-row-c">${chipsOr(bieuL)}</span></div>
       <div class="bc-row"><span class="bc-row-l">② Lý (sâu)</span><span class="bc-row-c">${chipsOr(lyL)}</span></div>
       <div class="bc-row"><span class="bc-row-l">③ Hàn (lạnh)</span><span class="bc-row-c">${chipsOr(hanL)}</span></div>
       <div class="bc-row"><span class="bc-row-l">③ Nhiệt (nóng)</span><span class="bc-row-c">${chipsOr(nhietL)}</span></div>
     </div>
-    <div class="bc-legend"><span class="o-chip o-han">Hàn</span> lạnh · <span class="o-chip o-nhiet">Nhiệt</span> nóng · <span class="o-chip o-mixed">cả hai</span> · Biểu = nông, Lý = sâu · Hư = suy yếu, Thịnh = dư thừa</div>`
+    <div class="bc-legend"><span class="o-chip o-han">Hàn</span> lạnh · <span class="o-chip o-nhiet">Nhiệt</span> nóng · <span class="o-chip o-mixed">cả hai</span> · Biểu = nông, Lý = sâu · Hư = suy yếu, Thực = dư thừa · Thể Chất: Khí = chi trên, Huyết = chi dưới</div>`
 
   const statsLine = (s: ReturnType<typeof calculateBounds>) =>
     `Bình quân ${fmt(s.mean, 2)} · Khoảng bình thường ${fmt(s.lowerBound, 2)}–${fmt(s.upperBound, 2)}`
@@ -2445,6 +2607,15 @@ watch(tongHopViThuoc, (items) => {
   dtLieu.value = lieu
   dtInited.value = true
 })
+
+// ĐỊNH VỊ (Tab 3): nạp pháp trị theo bài thuốc của thể bệnh khớp. ĐẶT Ở CUỐI setup — source đọc
+// matchedBaiThuocList → matchedBenhIds → excelFocusRuleId (khai báo phía trên nhưng SAU khối định vị);
+// tới đây đã init nên đăng ký watch (kể cả immediate, đọc source 1 lần) không còn lỗi TDZ (trắng trang).
+watch(
+  () => matchedBaiThuocList.value.map((b) => b.id).join(','),
+  () => loadDinhVi(),
+  { immediate: true },
+)
 </script>
 
 <template>
@@ -2501,10 +2672,14 @@ watch(tongHopViThuoc, (items) => {
           <span class="mr-vd-label">Bát Cương</span>
           <button v-for="t in batCuongVerdictTokens" :key="t.key" type="button" class="mr-vd-badge" title="Xem chi tiết ở Mục II" @click="activeView = 1">{{ t.label }}</button>
           <span v-if="!batCuongVerdictTokens.length" class="mr-vd-empty">—</span>
-          <template v-if="affectedOrgans.length">
-            <span class="mr-vd-sep">Tạng phủ</span>
-            <button v-for="o in affectedOrgans.slice(0, 4)" :key="'org-' + o.name" type="button" class="mr-vd-badge mr-vd-badge--organ" @click="activeView = 1">{{ o.name }}</button>
-            <span v-if="affectedOrgans.length > 4" class="mr-vd-more">+{{ affectedOrgans.length - 4 }}</span>
+          <template v-if="theChatVerdictTokens.length">
+            <span class="mr-vd-sep">Thể chất</span>
+            <button v-for="t in theChatVerdictTokens" :key="t.key" type="button" class="mr-vd-badge mr-vd-badge--tc" title="Xem chi tiết ở Mục II" @click="activeView = 1">{{ t.label }}</button>
+          </template>
+          <template v-if="lyOrgans.length">
+            <span class="mr-vd-sep">Tạng phủ (Lý)</span>
+            <button v-for="o in lyOrgans.slice(0, 4)" :key="'org-' + o.name" type="button" class="mr-vd-badge mr-vd-badge--organ" @click="activeView = 1">{{ o.name }}</button>
+            <span v-if="lyOrgans.length > 4" class="mr-vd-more">+{{ lyOrgans.length - 4 }}</span>
           </template>
         </div>
         <div class="mr-ctx-right">
@@ -2523,7 +2698,7 @@ watch(tongHopViThuoc, (items) => {
         <div class="pi-field"><span class="pi-label">BMI</span><span class="pi-value">—</span></div>
       </div>
 
-      <!-- ═══ 2 TAB (v-show để giữ mount 3D + state) ═══ -->
+      <!-- ═══ 3 TAB (v-show để giữ mount 3D + state) ═══ -->
       <nav class="mr-tabs" aria-label="Chuyển view kết quả">
         <button type="button" class="mr-tab" :class="{ active: activeView === 1 }" @click="activeView = 1">
           <b>1</b> Kết Quả Đo &amp; Bát Cương
@@ -2531,6 +2706,9 @@ watch(tongHopViThuoc, (items) => {
         <button type="button" class="mr-tab" :class="{ active: activeView === 2 }" @click="activeView = 2">
           <b>2</b> Chẩn Đoán &amp; Điều Trị
           <span class="mr-tab-badge">{{ excelSyndromesList.length }} thể · {{ matchedPhuongHuyetList.length }} huyệt · {{ matchedBaiThuocList.length }} bài</span>
+        </button>
+        <button type="button" class="mr-tab" :class="{ active: activeView === 3 }" @click="activeView = 3">
+          <b>3</b> Biện Chứng – Pháp Trị
         </button>
       </nav>
 
@@ -2645,32 +2823,36 @@ watch(tongHopViThuoc, (items) => {
                 class="bc-organs-col"
                 :items="organsTang"
                 :focus="batCuongFocus"
+                :lech-names="huThucLechNames"
                 @toggle="toggleBatCuongFocus"
                 @detail="openKinhMachChiTiet"
               />
               <BatCuongFigure3D
                 ref="batCuongFigureRef"
                 class="bc-figure"
-                :am-duong="diagnosis.amDuong"
-                :khi="diagnosis.khi"
-                :huyet="diagnosis.huyet"
+                :am-duong="tongCuong.amDuong"
+                :hu-thuc="diagnosis.huThuc"
                 :organs="affectedOrgans"
                 :focus="batCuongFocus"
+                :lech-names="huThucLechNames"
                 @toggle="toggleBatCuongFocus"
               />
               <BatCuongOrgans
                 class="bc-organs-col"
                 :items="organsPhu"
                 :focus="batCuongFocus"
+                :lech-names="huThucLechNames"
                 @toggle="toggleBatCuongFocus"
                 @detail="openKinhMachChiTiet"
               />
             </div>
             <BatCuongSummary
               class="bc-summary"
-              :am-duong="diagnosis.amDuong"
+              :tong-cuong="tongCuong"
               :khi="diagnosis.khi"
               :huyet="diagnosis.huyet"
+              :hu-thuc="diagnosis.huThuc"
+              :hu-thuc-organs="huThucLechOrgans"
               :explain="diagnosis.explain"
               :organs="affectedOrgans"
               :focus="batCuongFocus"
@@ -2800,6 +2982,20 @@ watch(tongHopViThuoc, (items) => {
                     </div>
                   </div>
 
+                  <div class="dt-toggles">
+                    <button
+                      type="button"
+                      class="dt-toggle dt-toggle--btn"
+                      :disabled="!phanTichThang.chiTietViThuoc.length"
+                      @click="showPhanTich = true"
+                    >
+                      📊 Phân tích thang (Tứ Khí · Ngũ Vị · Quy Kinh)
+                    </button>
+                    <button type="button" class="dt-toggle" @click="showBaiThuocNguon = !showBaiThuocNguon">
+                      {{ showBaiThuocNguon ? '▲ Ẩn bài thuốc nguồn' : `▼ Xem ${matchedBaiThuocList.length} bài thuốc nguồn` }}
+                    </button>
+                  </div>
+
                   <p v-if="baiThuocLoading && !tongHopViThuoc.length" class="dt-loading">⏳ Đang tải dữ liệu bài thuốc…</p>
                   <div v-else class="dt-table">
                     <div class="dt-row dt-row--head">
@@ -2853,20 +3049,6 @@ watch(tongHopViThuoc, (items) => {
                         {{ dtSaving ? 'Đang lưu…' : '💾 Lưu đơn' }}
                       </button>
                     </div>
-                  </div>
-
-                  <div class="dt-toggles">
-                    <button
-                      type="button"
-                      class="dt-toggle dt-toggle--btn"
-                      :disabled="!phanTichThang.chiTietViThuoc.length"
-                      @click="showPhanTich = true"
-                    >
-                      📊 Phân tích thang (Tứ Khí · Ngũ Vị · Quy Kinh)
-                    </button>
-                    <button type="button" class="dt-toggle" @click="showBaiThuocNguon = !showBaiThuocNguon">
-                      {{ showBaiThuocNguon ? '▲ Ẩn bài thuốc nguồn' : `▼ Xem ${matchedBaiThuocList.length} bài thuốc nguồn` }}
-                    </button>
                   </div>
                 </div>
 
@@ -2929,6 +3111,7 @@ watch(tongHopViThuoc, (items) => {
               </template>
             </div>
           </section>
+
           </div><!-- /phacdo-col (IV + V) -->
 
           <section class="result-section">
@@ -3065,6 +3248,81 @@ watch(tongHopViThuoc, (items) => {
           </section>
         </div><!-- /mr-grid--v2 -->
       </section><!-- /mr-view VIEW 2 -->
+
+      <!-- ═══ VIEW 3: Biện chứng – Pháp trị (ĐỊNH VỊ bệnh nhân theo taxonomy Pháp Trị) ═══ -->
+      <section class="mr-view" v-show="activeView === 3">
+        <div class="bcpt">
+          <!-- Thể bệnh đã chốt (ngữ cảnh nguồn định vị) -->
+          <div class="bcpt-the">
+            <span class="bcpt-the-lb">Thể bệnh:</span>
+            <template v-if="excelSyndromesList.length">
+              <span v-for="s in (excelSyndromesList as Array<{ id: number; name: string }>)" :key="s.id" class="bcpt-the-chip">{{ s.name }}</span>
+            </template>
+            <span v-else class="bcpt-empty">chưa xác định thể bệnh</span>
+          </div>
+
+          <!-- ③ Tính chất (bát cương · chính khí) đưa lên gần đầu — khỏi cuộn hết đồ hình 5 vòng mới
+          thấy. (Thái Cực Âm-Dương tổng cương đã chuyển sang Tab 1, thuộc kết luận Bát Cương.) -->
+          <div class="bcpt-taiji-row">
+            <section v-if="!dinhViLoading && tinhChatAxis" class="bcpt-axis bcpt-axis--tinhchat">
+              <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ tinhChatAxis.num }}</span> {{ tinhChatAxis.title }} <em>{{ tinhChatAxis.sub }}</em></h3>
+              <div v-for="sg in tinhChatAxis.subgroups" :key="sg.nhom" class="bcpt-sub">
+                <span class="bcpt-sub-lb">{{ sg.label }}</span>
+                <div class="bcpt-chips">
+                  <span v-for="t in sg.tags" :key="t.name" class="bcpt-chip bcpt-chip--on" :title="t.name">{{ t.label }}</span>
+                  <span v-if="!sg.tags.length" class="bcpt-empty">—</span>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- ĐỒ HÌNH ĐỊNH VỊ Đông Y — 5 vòng: Âm Dương · Ngũ Hành · Tạng Phủ · Lục Khí · Lục Kinh -->
+          <p v-if="dinhViLoading" class="bcpt-loading">Đang tổng hợp định vị…</p>
+          <template v-else>
+            <div class="bcpt-wheel-block">
+              <!-- BÓC LỚP: 1 Âm Dương → 5 Lục Kinh (như Biện Chứng Luận Trị); tô sáng ô bệnh nhân có -->
+              <div class="bcpt-wheel-main">
+                <nav class="bcpt-lop" aria-label="Bóc lớp đồ hình">
+                  <button
+                    v-for="l in DINH_VI_LOP"
+                    :key="l.n"
+                    type="button"
+                    class="bcpt-lop-btn"
+                    :class="{ on: dinhViLop === l.n, done: dinhViLop >= l.n }"
+                    @click="dinhViLop = l.n"
+                  ><b>{{ l.n }}</b> {{ l.ten }} <i>{{ l.han }}</i></button>
+                </nav>
+                <!-- MỌI lớp dùng CHUNG đồ hình (cùng cỡ + cùng đĩa tối); lớp 1 = Thái Cực + vành
+                khăn DƯ/KHUYẾT nhúng ở tâm (dinhvi.amLoai) — đồng bộ kích thước & màu giữa các lớp -->
+                <BienChungWheel class="bcpt-wheel" :lop="dinhViLop" :dinhvi="dinhViWheel" />
+              </div>
+              <div class="bcpt-wheel-side">
+                <p class="bcpt-wheel-cap">Bấm bóc từng lớp (Âm Dương → Lục Kinh). Ô <b>sáng vàng</b> = bệnh nhân có; mờ = không.</p>
+                <p v-if="dinhVi.isEmpty" class="bcpt-empty-note">
+                  Các thể bệnh trên chưa có liên kết bài thuốc → chưa suy được định vị.
+                </p>
+                <div class="bcpt-mini">
+                  <span class="bcpt-mini-lb">Tạng phủ tổn thương:</span>
+                  <span v-for="o in dinhVi.tangPhu" :key="o.name" class="bcpt-chip bcpt-chip--on">{{ o.label }}</span>
+                  <span v-if="!dinhVi.tangPhu.length" class="bcpt-empty">—</span>
+                </div>
+                <!-- ①② Định vị/Tác nhân — CỘT PHẢI, ngang hàng đồ hình (gồm cả mục không có vòng:
+                Vệ-Khí-Dinh-Huyết · Tam Tiêu · Nội Sinh). ③ Tính chất đã ở trên cùng ngang Thái Cực. -->
+                <section v-for="ax in otherAxes" :key="ax.key" class="bcpt-axis bcpt-axis--side">
+                  <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ ax.num }}</span> {{ ax.title }} <em>{{ ax.sub }}</em></h3>
+                  <div v-for="sg in ax.subgroups" :key="sg.nhom" class="bcpt-sub">
+                    <span class="bcpt-sub-lb">{{ sg.label }}</span>
+                    <div class="bcpt-chips">
+                      <span v-for="t in sg.tags" :key="t.name" class="bcpt-chip bcpt-chip--on" :title="t.name">{{ t.label }}</span>
+                      <span v-if="!sg.tags.length" class="bcpt-empty">—</span>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </template>
+        </div>
+      </section><!-- /mr-view VIEW 3 -->
 
     </template>
 
@@ -3492,6 +3750,22 @@ watch(tongHopViThuoc, (items) => {
         </div>
       </div>
     </div>
+
+    <!-- Popup "Giải thích Hư/Thực" (bấm nút "i" cạnh pill Hư-Thực ở mục II Bát Cương) — nội dung
+         tĩnh, không gọi API, dùng chung khung ptm-overlay/ptm-modal cho nhất quán với các popup khác. -->
+    <div v-if="showHuThucInfoModal" class="ptm-overlay" @click.self="closeHuThucInfoModal">
+      <div class="ptm-modal bct-modal" role="dialog" aria-modal="true">
+        <div class="ptm-head">
+          <div class="ptm-head__title">
+            <h3>{{ huThucInfoForModal?.title || 'Giải Thích Hư/Thực' }}</h3>
+          </div>
+          <button type="button" class="ptm-close" aria-label="Đóng" @click="closeHuThucInfoModal">✕</button>
+        </div>
+        <div class="ptm-body">
+          <p v-if="huThucInfoForModal">{{ huThucInfoForModal.body }}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -3571,6 +3845,7 @@ watch(tongHopViThuoc, (items) => {
 .mr-vd-badge { font-size: var(--font-size-sm); font-weight: 600; color: var(--brown-800); background: var(--brown-100); border: 1px solid var(--brown-200); border-radius: var(--radius-full); padding: 2px 10px; transition: background var(--transition-fast); }
 .mr-vd-badge:hover { background: var(--brown-200); }
 .mr-vd-badge--organ { color: var(--info-fg); background: var(--info-bg); border-color: var(--info-border); }
+.mr-vd-badge--tc { color: var(--gray-600); background: var(--surface-2); border-color: var(--border); font-weight: 500; }
 .mr-vd-more { font-size: var(--font-size-xs); color: var(--gray-500); }
 .mr-vd-empty { color: var(--gray-400); }
 .mr-ctx-right { margin-left: auto; flex-shrink: 0; }
@@ -3590,9 +3865,19 @@ watch(tongHopViThuoc, (items) => {
 .mr-view { animation: mr-fade .18s ease; }
 @keyframes mr-fade { from { opacity: 0; } to { opacity: 1; } }
 .mr-grid { display: grid; gap: var(--space-4); align-items: start; }
-/* View 1: 1 cột — Mục I (bảng đo) trên, Bát Cương band (hình 3D + tóm tắt cạnh nhau) dưới,
-   mỗi mục full-width cho thoáng, không chen chúc cột hẹp. */
+/* View 1: 1 cột — BÁT CƯƠNG lên TRÊN (hình 3D | tóm tắt = 2 cột), KẾT QUẢ ĐO xuống CUỐI. */
 .mr-grid--v1 { grid-template-columns: 1fr; }
+.mr-grid--v1 > .bc-band { order: -1; } /* Mục II (Bát Cương) lên đầu, trước Mục I (bảng đo) */
+/* Trong Bát Cương band: hình 3D (trái, rộng) | tóm tắt (phải, gọn) — 2 cột */
+.mr-grid--v1 .bc-wrap--band {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .mr-grid--v1 .bc-wrap--band { grid-template-columns: 1fr; }
+}
 .mr-grid--v2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); }
 .mr-grid--v2 > .result-section { order: 1; }
 .mr-grid--v2 > .phacdo-col { order: 2; }
@@ -3612,6 +3897,107 @@ watch(tongHopViThuoc, (items) => {
 }
 /* Cuộn mảnh + đổ bóng mép trên/dưới báo còn nội dung (tránh tưởng bị cắt) */
 .mr-grid--v2 > .result-section, .mr-grid--v2 > .phacdo-col { scrollbar-width: thin; }
+
+/* ═══════════ TAB 3: Biện chứng – Pháp trị (bảng ĐỊNH VỊ) ═══════════ */
+.bcpt { display: flex; flex-direction: column; gap: var(--space-3); max-width: 1100px; }
+.bcpt-the {
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px;
+  padding: var(--space-2) var(--space-3);
+  background: var(--surface-2); border: 1px solid var(--brown-100);
+  border-left: 3px solid var(--brown-600); border-radius: var(--radius-md);
+}
+.bcpt-the-lb { font-size: var(--font-size-xs); font-weight: 700; text-transform: uppercase; letter-spacing: .03em; color: var(--gray-500); }
+.bcpt-the-chip {
+  font-size: var(--font-size-sm); font-weight: 700; color: var(--brown-800);
+  background: var(--brown-50); border: 1px solid var(--brown-200);
+  padding: 2px 10px; border-radius: 999px;
+}
+.bcpt-axis {
+  padding: var(--space-3);
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+}
+/* Thái Cực (AmDuongTaiji) + ③ Tính chất ngang hàng — cùng gốc chính khí/Hư-Thực. */
+.bcpt-taiji-row { display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--space-3); }
+.bcpt-taiji-row > :deep(.ad-card) { flex: 1 1 320px; }
+.bcpt-axis--tinhchat { flex: 1 1 260px; min-width: 0; }
+.bcpt-axis--tinhchat .bcpt-sub { grid-template-columns: 130px 1fr; }
+@media (max-width: 640px) {
+  .bcpt-axis--tinhchat .bcpt-sub { grid-template-columns: 1fr; gap: 4px; }
+}
+.bcpt-axis-title {
+  margin: 0 0 var(--space-2); display: flex; align-items: baseline; gap: 8px;
+  font-size: var(--font-size-base); font-weight: 800; color: var(--brown-800);
+}
+.bcpt-axis-title em { font-style: normal; font-size: var(--font-size-xs); font-weight: 500; color: var(--gray-500); }
+.bcpt-axis-num {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 24px;
+  padding: 0 6px; border-radius: 999px; background: var(--brown-600); color: #fff;
+  font-size: var(--font-size-sm); font-weight: 800;
+}
+.bcpt-axis-num--tp { background: #15803d; }
+.bcpt-sub {
+  display: grid; grid-template-columns: 190px 1fr; gap: var(--space-2) var(--space-3);
+  align-items: baseline; padding: 5px 0;
+}
+.bcpt-sub + .bcpt-sub { border-top: 1px dashed var(--brown-100); }
+.bcpt-sub-lb { font-size: var(--font-size-xs); font-weight: 700; color: var(--brown-700); }
+.bcpt-chips { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+.bcpt-chip {
+  font-size: var(--font-size-sm); font-weight: 600; color: var(--gray-500);
+  background: var(--surface-2); border: 1px solid var(--border);
+  padding: 3px 12px; border-radius: 999px; white-space: nowrap;
+}
+/* Chip "có" (định vị của bệnh nhân) — nổi bật màu nâu Đông Y */
+.bcpt-chip--on { color: #fff; background: var(--brown-600); border-color: var(--brown-700); font-weight: 700; }
+.bcpt-chip small { font-weight: 500; opacity: .8; margin-left: 2px; }
+/* Tạng phủ tô theo Hàn/Nhiệt */
+.bcpt-chip.temp-han { background: #2f6690; border-color: #245c8a; }
+.bcpt-chip.temp-nhiet { background: #c0452a; border-color: #a83a20; }
+.bcpt-chip.temp-mixed { background: linear-gradient(90deg, #2f6690 0 50%, #c0452a 50%); border-color: #8a4fbf; }
+.bcpt-empty { color: var(--gray-400); font-size: var(--font-size-sm); }
+.bcpt-empty-note { color: var(--gray-500); font-style: italic; font-size: var(--font-size-sm); padding: var(--space-2) var(--space-3); background: var(--surface-2); border-radius: var(--radius-md); }
+.bcpt-loading { color: var(--gray-500); font-style: italic; padding: var(--space-3); }
+/* Khối đồ hình định vị: vòng bên trái + chú giải/tạng phủ bên phải */
+.bcpt-wheel-block {
+  display: grid; grid-template-columns: minmax(320px, 500px) 1fr; gap: var(--space-4);
+  align-items: start;
+  padding: var(--space-3); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
+}
+.bcpt-wheel-main { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.bcpt-wheel { min-width: 0; }
+/* Thanh bóc lớp 1→5 */
+.bcpt-lop { display: flex; flex-wrap: wrap; gap: 5px; }
+.bcpt-lop-btn {
+  flex: 1 1 auto; display: inline-flex; align-items: center; gap: 5px; justify-content: center;
+  padding: 5px 8px; border: 1px solid var(--brown-200); border-radius: 999px;
+  background: var(--surface-2); color: var(--brown-700); font-size: var(--font-size-xs); font-weight: 700; cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.bcpt-lop-btn i { font-style: normal; opacity: .6; font-size: 11px; }
+.bcpt-lop-btn b {
+  display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; border-radius: 50%;
+  background: var(--brown-200); color: var(--brown-700); font-size: 10px;
+}
+.bcpt-lop-btn:hover { border-color: var(--brown-400); }
+.bcpt-lop-btn.done { border-color: var(--brown-400); }
+.bcpt-lop-btn.on { background: linear-gradient(135deg, var(--brown-600), var(--brown-700)); color: #fff; border-color: var(--brown-700); }
+.bcpt-lop-btn.on b { background: rgba(255,255,255,.25); color: #fff; }
+.bcpt-lop-btn.on i { opacity: .8; }
+.bcpt-wheel-side { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.bcpt-wheel-cap { font-size: var(--font-size-xs); color: var(--gray-600); line-height: 1.5; margin: 0; }
+.bcpt-wheel-cap b { color: var(--brown-700); }
+.bcpt-mini { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; padding-top: var(--space-2); border-top: 1px dashed var(--brown-100); }
+.bcpt-mini-lb { font-size: var(--font-size-xs); font-weight: 700; color: var(--brown-700); }
+/* ①② ở cột phải: gọn hơn, sub-nhóm xếp dọc cho vừa cột hẹp */
+.bcpt-axis--side { padding: var(--space-2) var(--space-3); }
+.bcpt-axis--side .bcpt-sub { grid-template-columns: 1fr; gap: 2px 0; padding: 4px 0; }
+.bcpt-axis--side .bcpt-sub-lb { font-size: 11px; }
+@media (max-width: 820px) {
+  .bcpt-wheel-block { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .bcpt-sub { grid-template-columns: 1fr; gap: 3px; }
+}
 
 @media (max-width: 1024px) {
   .mr-grid--v1, .mr-grid--v2 { grid-template-columns: 1fr; }

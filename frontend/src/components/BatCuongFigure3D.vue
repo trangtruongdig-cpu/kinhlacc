@@ -27,7 +27,8 @@ export const MER3D: Record<string, string> = {
  * rải đường kinh bằng raycast, ống phát sáng + dòng chảy, dựng-trễ theo ngân sách khung, vòng % tải,
  * lazy-boot qua IntersectionObserver, tự huỷ). Khác biệt: KHÔNG còn là banner trang trí — đây là đồ
  * hình TÔ MÀU theo CHẨN ĐOÁN: mỗi đường kinh đo được tô theo hàn/nhiệt; kinh không đo → xám mờ. Có thể
- * "soi" 1 tạng (click), thêm 2 quầng sáng Khí/Huyết (hư–thực). Recolor KHÔNG dựng lại hình học.
+ * "soi" 1 tạng (click), thêm 2 quầng sáng (ngực+bụng) cùng phản ánh 1 verdict Hư-Thực (cương độc lập
+ * toàn thân — không còn tách riêng Khí=ngực/Huyết=bụng). Recolor KHÔNG dựng lại hình học.
  *
  * Khi không có WebGL / lỗi tải → render DEFAULT SLOT (cha truyền hình 2D rơi-về vào).
  */
@@ -45,10 +46,10 @@ interface OrganState {
 }
 const props = defineProps<{
   amDuong: string
-  khi: string
-  huyet: string
+  huThuc: string
   organs: OrganState[]
   focus: string | null
+  lechNames?: string[] // mã kinh NGẮN "lệch" theo Hư-Thực (diagnosis.explain.huThuc) — để soi nhóm 'huthuc'
 }>()
 const emit = defineEmits<{ (e: 'toggle', key: string): void }>()
 
@@ -144,10 +145,19 @@ function inGroup(st: OrganState, g: string): boolean {
   if (g === 'nhiet') return st.temp === 'nhiet' || st.temp === 'mixed'
   return false
 }
-// 1 đường kinh (mer 3D) thuộc nhóm: Khí/Huyết theo BỘ KINH cố định (chi trên/chi dưới) · còn lại theo state.
+// mã kinh NGẮN ← mã 3D (đảo ngược MER3D) — dùng để tra props.lechNames theo mer khi soi nhóm 'huthuc'.
+const SHORT_BY_MER3D: Record<string, string> = Object.fromEntries(
+  Object.entries(MER3D).map(([short, mer]) => [mer, short]),
+)
+// 1 đường kinh (mer 3D) thuộc nhóm: Khí/Huyết theo BỘ KINH cố định (chi trên/chi dưới) · Hư-Thực theo
+// danh sách kinh "lệch" (props.lechNames, đổi theo từng ca đo) · còn lại theo state.
 function meridianInGroup(mer: string, st: OrganState | undefined, g: string): boolean {
   if (g === 'khi') return UPPER_LIMB.has(mer)
   if (g === 'huyet') return LOWER_LIMB.has(mer)
+  if (g === 'huthuc') {
+    const short = SHORT_BY_MER3D[mer]
+    return !!short && (props.lechNames || []).includes(short)
+  }
   return !!st && inGroup(st, g)
 }
 
@@ -453,18 +463,19 @@ function makeAura(y: number): Any {
   return sp
 }
 
-/** Cập nhật màu/độ mờ 2 quầng theo props.khi / props.huyet (gọi trong applyStyles + watch). */
+/** Cập nhật màu/độ mờ 2 quầng theo props.huThuc (gọi trong applyStyles + watch). Hư-Thực giờ là
+ * cương ĐỘC LẬP toàn thân (không còn tách Khí=ngực/Huyết=bụng) — cả 2 quầng cùng phản ánh 1
+ * verdict, giữ nguyên 2 vị trí trực quan (ngực+bụng) để đỡ xáo trộn hình 3D. */
 function applyAura() {
+  const t = tone(props.huThuc)
   if (auraKhi) {
-    const tk = tone(props.khi)
-    auraKhi.material.color.set(tk.hex)
-    auraKhi.material.opacity = tk.opacity
+    auraKhi.material.color.set(t.hex)
+    auraKhi.material.opacity = t.opacity
     auraKhi.material.needsUpdate = true
   }
   if (auraHuyet) {
-    const th = tone(props.huyet)
-    auraHuyet.material.color.set(th.hex)
-    auraHuyet.material.opacity = th.opacity
+    auraHuyet.material.color.set(t.hex)
+    auraHuyet.material.opacity = t.opacity
     auraHuyet.material.needsUpdate = true
   }
 }
@@ -1036,7 +1047,7 @@ onMounted(() => {
 })
 
 // Recolor (không dựng lại hình học) khi chẩn đoán / tiêu điểm đổi.
-watch(() => [props.organs, props.focus, props.khi, props.huyet], applyStyles, { deep: true })
+watch(() => [props.organs, props.focus, props.huThuc], applyStyles, { deep: true })
 
 /**
  * Chụp đồ hình ở `count` góc xoay quanh trục đứng (mặc định 4: mặt trước → phải → sau → trái) để đưa

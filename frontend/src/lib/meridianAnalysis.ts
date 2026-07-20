@@ -137,9 +137,10 @@ export interface DiagnosisSummary {
   amDuong: string
   khi: string
   huyet: string
+  huThuc: string
 }
 
-/** Chẩn đoán Âm/Dương · Khí · Huyết từ chỉ số chi trên/chi dưới. */
+/** Chẩn đoán Âm/Dương · Khí · Huyết · Hư-Thực từ chỉ số chi trên/chi dưới. */
 export function computeDiagnosis(
   d: InputData | null | undefined,
   upperRows: ProcessedRow[],
@@ -147,14 +148,7 @@ export function computeDiagnosis(
   upperStats: MeridianStats,
   lowerStats: MeridianStats,
 ): DiagnosisSummary {
-  if (!d) return { amDuong: '—', khi: '—', huyet: '—' }
-
-  // 1. Âm / Dương (dựa trên kinh Đảm so với trị số bình quân nhóm Chi dưới).
-  const avgDam = round2(((d.damtrai || 0) + (d.damphai || 0)) / 2)
-  const diffAmDuong = round2(avgDam - lowerStats.mean)
-  let amDuong = 'Bình thường'
-  if (diffAmDuong < 0) amDuong = 'Dương hư'
-  else if (diffAmDuong > 0) amDuong = 'Âm hư'
+  if (!d) return { amDuong: '—', khi: '—', huyet: '—', huThuc: '—' }
 
   // 2. Khí (dựa trên 6 kinh Chi trên).
   let huTrenCount = 0
@@ -206,7 +200,202 @@ export function computeDiagnosis(
     huyet = ''
   }
 
-  return { amDuong, khi, huyet }
+  // 4. Hư — Thực (cương độc lập, đo biên độ/diện rộng phản ứng toàn thân — KHÔNG gắn với
+  // Khí/Huyết chi trên/chi dưới; xem chú thích đầy đủ ở MeridianResultsView.vue's diagnosis computed).
+  let lechCount = 0
+  let totalLech = 0
+  let tongDoTren = 0
+  let tongDoDuoi = 0
+  upperRows.forEach((r) => {
+    if (r.avg === 0) return
+    tongDoTren++
+    if (r.avg > upperStats.upperBound || r.avg < upperStats.lowerBound) {
+      lechCount++
+      totalLech += Math.abs(r.avg - upperStats.mean)
+    }
+  })
+  lowerRows.forEach((r) => {
+    if (r.avg === 0) return
+    tongDoDuoi++
+    if (r.avg > lowerStats.upperBound || r.avg < lowerStats.lowerBound) {
+      lechCount++
+      totalLech += Math.abs(r.avg - lowerStats.mean)
+    }
+  })
+  const tongDo = tongDoTren + tongDoDuoi
+  totalLech = round2(totalLech)
+  // Ngưỡng chỉ lấy TRUNG BÌNH dung sai 2 nhóm khi CẢ hai đều có đo; nhóm nào chưa đo (dungSai=0
+  // vì calculateBounds không có dữ liệu) thì bỏ qua — tránh kéo ngưỡng xuống còn một nửa oan uổng.
+  let avgSd = 0
+  if (tongDoTren > 0 && tongDoDuoi > 0) avgSd = (upperStats.sd + lowerStats.sd) / 2
+  else if (tongDoTren > 0) avgSd = upperStats.sd
+  else if (tongDoDuoi > 0) avgSd = lowerStats.sd
+  const nguong = round2(avgSd * tongDo)
+  let huThuc = ''
+  if (tongDo > 0) {
+    if (lechCount === 0) huThuc = 'Bình thường'
+    else if (lechCount >= Math.ceil(tongDo / 2) || totalLech >= nguong) huThuc = 'Thực'
+    else huThuc = 'Hư'
+  }
+
+  // 1. Âm / Dương = TỔNG CƯƠNG — suy từ ma trận Hàn·Nhiệt (tính chất) × Hư·Thực (chính khí),
+  //    KHÔNG còn so riêng kinh Đởm. Đếm số kinh nghiêng Nhiệt/Hàn từ phân loại Bát Cương chung.
+  const organs = computeAffectedOrgans(upperRows, lowerRows, upperStats, lowerStats)
+  const nhietN = organs.filter((o) => o.temp === 'nhiet' || o.temp === 'mixed').length
+  const hanN = organs.filter((o) => o.temp === 'han' || o.temp === 'mixed').length
+  const bieuN = organs.filter((o) => o.depth === 'bieu' || o.depth === 'mixed').length
+  const lyN = organs.filter((o) => o.depth === 'ly' || o.depth === 'mixed').length
+  const amDuong = computeTongCuong(nhietN, hanN, bieuN, lyN, huThuc).amDuong
+
+  return { amDuong, khi, huyet, huThuc }
+}
+
+/** Loại kết luận tổng cương (để tô màu nhất quán ở UI). */
+export type TongCuongLoai =
+  | 'duong-thinh'
+  | 'am-hu'
+  | 'am-thinh'
+  | 'duong-hu'
+  | 'thien-duong'
+  | 'thien-am'
+  | 'can-bang'
+  | 'unknown'
+
+export interface TongCuong {
+  /** Kết luận Âm/Dương: 'Dương thịnh' | 'Âm hư' | 'Âm thịnh' | 'Dương hư' | 'Thiên Dương' | 'Thiên Âm' | 'Âm Dương cân bằng' | ''. */
+  amDuong: string
+  /** Tính chất chủ đạo: 'Nhiệt' | 'Hàn' | 'Hàn Nhiệt lẫn lộn' | ''. */
+  tinhChat: string
+  /** Vị trí chủ đạo: 'Biểu' | 'Lý' | 'Biểu Lý' | ''. */
+  viTri: string
+  /** Chính khí (từ cương Hư-Thực): 'Thực' | 'Hư' | 'Bình thường' | ''. */
+  chinhKhi: string
+  /** Hội chứng đầy đủ ghép Bát Cương, vd 'Lý Thực Nhiệt'. */
+  hoiChung: string
+  /** Câu giải thích vì sao ra kết luận (đọc hiểu cho thầy thuốc). */
+  reason: string
+  loai: TongCuongLoai
+}
+
+/**
+ * TỔNG CƯƠNG (Âm-Dương) — cương tổng quát của Bát Cương, suy ra từ hai cương thành phần:
+ *   • Tính chất  = Hàn / Nhiệt (đếm số kinh nghiêng nóng vs lạnh)
+ *   • Chính khí  = Hư / Thực (từ cương Hư-Thực)
+ * Ma trận chuẩn Đông Y:
+ *   Nhiệt + Thực → Dương thịnh (thực nhiệt) · Nhiệt + Hư → Âm hư (hư nhiệt)
+ *   Hàn  + Thực → Âm thịnh  (thực hàn)   · Hàn  + Hư → Dương hư (hư hàn)
+ * Chính khí "Bình thường" (bệnh nhẹ, chưa rõ hư/thực) → chỉ nghiêng nhẹ: Thiên Dương / Thiên Âm.
+ * Hàn-Nhiệt ngang nhau (thác tạp) hoặc không đủ dữ liệu → Âm Dương cân bằng.
+ */
+export function computeTongCuong(
+  nhietCount: number,
+  hanCount: number,
+  bieuCount: number,
+  lyCount: number,
+  huThuc: string,
+): TongCuong {
+  // Tính chất chủ đạo (Hàn/Nhiệt) theo đa số kinh nghiêng.
+  let tinhChat = ''
+  if (nhietCount > hanCount) tinhChat = 'Nhiệt'
+  else if (hanCount > nhietCount) tinhChat = 'Hàn'
+  else if (nhietCount > 0) tinhChat = 'Hàn Nhiệt lẫn lộn'
+
+  // Vị trí chủ đạo (Biểu/Lý) — chỉ để ghép tên hội chứng đầy đủ.
+  let viTri = ''
+  if (bieuCount > lyCount) viTri = 'Biểu'
+  else if (lyCount > bieuCount) viTri = 'Lý'
+  else if (bieuCount > 0) viTri = 'Biểu Lý'
+
+  const chinhKhi = huThuc || ''
+  const isThuc = chinhKhi === 'Thực'
+  const isHu = chinhKhi === 'Hư'
+  const nhiet = tinhChat === 'Nhiệt'
+  const han = tinhChat === 'Hàn'
+
+  let amDuong = ''
+  let loai: TongCuongLoai = 'unknown'
+  if (nhiet && isThuc) {
+    amDuong = 'Dương thịnh'
+    loai = 'duong-thinh'
+  } else if (nhiet && isHu) {
+    amDuong = 'Âm hư'
+    loai = 'am-hu'
+  } else if (han && isThuc) {
+    amDuong = 'Âm thịnh'
+    loai = 'am-thinh'
+  } else if (han && isHu) {
+    amDuong = 'Dương hư'
+    loai = 'duong-hu'
+  } else if (nhiet) {
+    amDuong = 'Thiên Dương'
+    loai = 'thien-duong'
+  } else if (han) {
+    amDuong = 'Thiên Âm'
+    loai = 'thien-am'
+  } else if (tinhChat || chinhKhi) {
+    amDuong = 'Âm Dương cân bằng'
+    loai = 'can-bang'
+  }
+
+  // Hội chứng đầy đủ: [Vị trí] [Chính khí] [Tính chất] (bỏ phần thiếu dữ liệu).
+  const hc: string[] = []
+  if (viTri) hc.push(viTri)
+  if (isThuc) hc.push('Thực')
+  else if (isHu) hc.push('Hư')
+  if (tinhChat === 'Nhiệt') hc.push('Nhiệt')
+  else if (tinhChat === 'Hàn') hc.push('Hàn')
+  else if (tinhChat === 'Hàn Nhiệt lẫn lộn') hc.push('Hàn Nhiệt thác tạp')
+  const hoiChung = hc.join(' ')
+
+  // Câu giải thích.
+  let reason = ''
+  if (!amDuong) {
+    reason = 'Chưa đủ dữ liệu Hàn-Nhiệt / Hư-Thực để kết luận Âm-Dương.'
+  } else {
+    const tcTxt =
+      tinhChat === 'Nhiệt'
+        ? `thiên Nhiệt (${nhietCount} kinh nhiệt / ${hanCount} kinh hàn)`
+        : tinhChat === 'Hàn'
+          ? `thiên Hàn (${hanCount} kinh hàn / ${nhietCount} kinh nhiệt)`
+          : tinhChat === 'Hàn Nhiệt lẫn lộn'
+            ? `Hàn-Nhiệt lẫn lộn (${hanCount} hàn / ${nhietCount} nhiệt)`
+            : 'chưa rõ tính chất'
+    const ckTxt = isThuc
+      ? 'chính khí còn Thực'
+      : isHu
+        ? 'chính khí đã Hư'
+        : chinhKhi === 'Bình thường'
+          ? 'chính khí bình thường'
+          : 'chưa rõ chính khí'
+    reason = `Bệnh ${tcTxt}, ${ckTxt} → ${amDuong}.`
+  }
+
+  return { amDuong, tinhChat, viTri, chinhKhi, hoiChung, reason, loai }
+}
+
+/**
+ * Ánh xạ kết quả Bát Cương TÍNH TOÁN (từ số đo) → nhãn "Tính chất" (bát cương · chính khí) đã có
+ * sẵn trong taxonomy "Tổn Thương — Tác Nhân" (8 giá trị cố định, xem
+ * backend/src/controllers/ton-thuong-tac-nhan.controller.ts's CHUAN_TON_THUONG nhóm 'tinh' /
+ * frontend/src/constants/tonThuong.ts). Dùng để tra Pháp Trị/Bài Thuốc/Phương Huyệt đã gắn nhãn
+ * phù hợp — xem GET /phap-tri/goi-y-bat-cuong.
+ *
+ * CỐ Ý KHÔNG map (tránh suy diễn ngoài dữ liệu thật):
+ *   - Dương thịnh / Âm thịnh: taxonomy không có "Dương Thịnh"/"Âm Thịnh" — ý này đã có trong tag
+ *     "Thực" chung (qua chinhKhi) nên không lặp lại bằng 1 tag Âm/Dương méo nghĩa.
+ *   - Khí thịnh / Huyết thịnh: không có nhãn "…Thịnh" tương ứng trong taxonomy.
+ *   - Tân Dịch Khuy: app không đo/tính khái niệm tân dịch — không có tín hiệu để suy ra, để trống.
+ */
+export function mapTongCuongToTinhChat(tongCuong: TongCuong, khi: string, huyet: string): string[] {
+  const tags = new Set<string>()
+  if (tongCuong.loai === 'am-hu') tags.add('Âm Hư')
+  if (tongCuong.loai === 'duong-hu') tags.add('Dương Hư')
+  if (tongCuong.chinhKhi === 'Thực') tags.add('Thực')
+  if (tongCuong.chinhKhi === 'Hư') tags.add('Hư')
+  if (khi === 'Khí hư') tags.add('Khí Hư')
+  if (huyet === 'Huyết hư') tags.add('Huyết Hư')
+  if (khi === 'Khí hư' && huyet === 'Huyết hư') tags.add('Khí Huyết')
+  return [...tags]
 }
 
 export interface BatCuongSummary {

@@ -37,6 +37,7 @@ export class AnalyzeOutputDto {
   am_duong: string;
   khi: string;
   huyet: string;
+  hu_thuc: string;
   flags: Array<{
     channelIndex: number;
     channelName: string;
@@ -110,6 +111,57 @@ export class MeridiansService {
 
   private round2(n: number): number {
     return Math.round(n * 100) / 100;
+  }
+
+  /**
+   * Phân loại 1 kinh nghiêng Hàn / Nhiệt / Hàn+Nhiệt (mirror groupingV2 ở frontend meridianAnalysis.ts).
+   * dauC8/dauC11 = trái/phải so corridor · dauC10 = sign(avg − midpoint) · gate = avg ngoài corridor.
+   */
+  private classifyChannelTemp(
+    f: { c8: number; c10Legacy?: number; c11: number; Avg: number },
+    bounds: { midPoint: number; dungSai: number },
+  ): 'han' | 'nhiet' | 'mixed' | 'none' {
+    const dauC8 = f.c8;
+    const dauC10 = f.c10Legacy ?? 0;
+    const dauC11 = f.c11;
+    const overSaiSo = Math.abs(f.Avg - bounds.midPoint) > bounds.dungSai; // ⟺ ngoài corridor
+    const sum = dauC8 + dauC10 + dauC11;
+    if (sum === -3 && overSaiSo) return 'han';
+    if (sum === 3 && overSaiSo) return 'nhiet';
+    if (sum === 2) return 'nhiet';
+    if (sum === -2) return 'han';
+    if (sum === 1) return 'nhiet';
+    if (sum === -1) return 'han';
+    if (dauC8 + dauC11 === 0 && dauC10 === 0) return 'mixed';
+    if (dauC8 + dauC11 === 1) return 'nhiet';
+    if (dauC8 + dauC11 === -1) return 'han';
+    return 'none';
+  }
+
+  /**
+   * TỔNG CƯƠNG (Âm-Dương) từ ma trận Hàn·Nhiệt × Hư·Thực (chuẩn Bát Cương — khớp computeTongCuong FE):
+   *   Nhiệt+Thực→Dương thịnh · Nhiệt+Hư→Âm hư · Hàn+Thực→Âm thịnh · Hàn+Hư→Dương hư
+   *   Nhiệt/Hàn + Bình thường→Thiên Dương/Thiên Âm · lẫn lộn/không rõ→Âm Dương cân bằng.
+   */
+  private tongCuongAmDuong(nhietCount: number, hanCount: number, huThuc: string): string {
+    let tinhChat = '';
+    if (nhietCount > hanCount) tinhChat = 'Nhiệt';
+    else if (hanCount > nhietCount) tinhChat = 'Hàn';
+    else if (nhietCount > 0) tinhChat = 'lẫn lộn';
+
+    const isThuc = huThuc === 'Thực';
+    const isHu = huThuc === 'Hư';
+    const nhiet = tinhChat === 'Nhiệt';
+    const han = tinhChat === 'Hàn';
+
+    if (nhiet && isThuc) return 'Dương thịnh';
+    if (nhiet && isHu) return 'Âm hư';
+    if (han && isThuc) return 'Âm thịnh';
+    if (han && isHu) return 'Dương hư';
+    if (nhiet) return 'Thiên Dương';
+    if (han) return 'Thiên Âm';
+    if (tinhChat || huThuc) return 'Âm Dương cân bằng';
+    return 'Bình thường'; // không đủ dữ liệu → giữ mặc định (cột NOT NULL)
   }
 
   private buildConditionMap(
@@ -507,18 +559,9 @@ export class MeridiansService {
       flags.push({ channelIndex: i, channelName: CHANNELS[i], L, R, Avg: avg, c8, c10, c10Legacy, c11, c12 });
     }
 
-    // --- Bước 3: Suy luận Âm-Dương & Khí-Huyết ---
-    // Âm / Dương: Dựa trên trung bình kinh Đảm so với trị số bình quân nhóm Chi dưới
-    const avg_dam = this.round2((data.damtrai + data.damphai) / 2.0);
-    const mid_tuc = boundsLower.midPoint; // (Max + Min) / 2 của nhóm Chi dưới
-    const diff_am_duong = this.round2(avg_dam - mid_tuc);
-    
-    let am_duong = 'Bình thường';
-    if (diff_am_duong < 0) {
-      am_duong = 'Dương hư';
-    } else if (diff_am_duong > 0) {
-      am_duong = 'Âm hư';
-    }
+    // --- Bước 3: Suy luận Khí-Huyết ---
+    // (Âm-Dương = TỔNG CƯƠNG được tính SAU khi có Hư-Thực — xem Bước 3.4 bên dưới; KHÔNG còn
+    //  so riêng kinh Đởm mà suy từ ma trận Hàn·Nhiệt × Hư·Thực cho đúng chuẩn Bát Cương.)
 
     // --- Bước 3.1: Chẩn đoán Khí (Dựa trên 6 kinh Chi trên) ---
     let huTrenCount = 0;
@@ -577,6 +620,60 @@ export class MeridiansService {
         else huyet = '';
       }
     }
+
+    // --- Bước 3.3: Chẩn đoán Hư-Thực (cương ĐỘC LẬP, đo biên độ/diện rộng phản ứng toàn thân —
+    // KHÔNG gắn với Khí/Huyết chi trên/chi dưới. Gộp cả 12 kinh; kinh nào vượt corridor
+    // [lowerLimit, upperLimit] của NHÓM nó → tính là "lệch". Ngưỡng Thực tự tham chiếu theo
+    // chính dung sai (dungSai) của người bệnh, không dùng số liệu quần thể ngoài.) ---
+    let lechCount = 0;
+    let totalLech = 0;
+    let tongDoTren = 0;
+    let tongDoDuoi = 0;
+    for (let i = 0; i < 12; i++) {
+      const f = flags[i];
+      const bounds = i < 6 ? boundsUpper : boundsLower;
+      if (f.Avg === 0) continue;
+      if (i < 6) tongDoTren++;
+      else tongDoDuoi++;
+      if (f.Avg > bounds.upperLimit || f.Avg < bounds.lowerLimit) {
+        lechCount++;
+        totalLech += Math.abs(f.Avg - bounds.midPoint);
+      }
+    }
+    const tongDo = tongDoTren + tongDoDuoi;
+    totalLech = this.round2(totalLech);
+    // Ngưỡng chỉ lấy TRUNG BÌNH dungSai 2 nhóm khi CẢ hai đều có đo; nhóm nào chưa đo (dungSai=0
+    // vì calculateBounds không có dữ liệu) thì bỏ qua — tránh kéo ngưỡng xuống còn một nửa oan uổng.
+    let avgDungSai = 0;
+    if (tongDoTren > 0 && tongDoDuoi > 0) avgDungSai = (boundsUpper.dungSai + boundsLower.dungSai) / 2;
+    else if (tongDoTren > 0) avgDungSai = boundsUpper.dungSai;
+    else if (tongDoDuoi > 0) avgDungSai = boundsLower.dungSai;
+    const nguongLech = this.round2(avgDungSai * tongDo);
+
+    let hu_thuc = '';
+    if (tongDo > 0) {
+      if (lechCount === 0) hu_thuc = 'Bình thường';
+      else if (lechCount >= Math.ceil(tongDo / 2) || totalLech >= nguongLech) hu_thuc = 'Thực';
+      else hu_thuc = 'Hư';
+    }
+
+    // --- Bước 3.4: TỔNG CƯƠNG (Âm-Dương) — suy từ ma trận Hàn·Nhiệt (tính chất) × Hư·Thực (chính khí),
+    // chuẩn Bát Cương. Đếm số kinh nghiêng Nhiệt/Hàn (phân loại như groupingV2 ở frontend), rồi ghép
+    // với Hư-Thực. Lưu ý: nền thống kê backend (midpoint/dungSai) khác frontend (mean/sd) nên kết luận
+    // có thể lệch nhẹ so với màn hình — màn hình luôn tính lại; giá trị này để LƯU vào bệnh án.
+    let nhietCount = 0;
+    let hanCount = 0;
+    for (let i = 0; i < 12; i++) {
+      const bounds = i < 6 ? boundsUpper : boundsLower;
+      const temp = this.classifyChannelTemp(flags[i], bounds);
+      if (temp === 'nhiet') nhietCount++;
+      else if (temp === 'han') hanCount++;
+      else if (temp === 'mixed') {
+        nhietCount++;
+        hanCount++;
+      }
+    }
+    const am_duong = this.tongCuongAmDuong(nhietCount, hanCount, hu_thuc);
 
     // --- Bước 4: Khớp CSDL bệnh chứng luận trị (Logic chấm điểm tương đồng) ---
     const allSyndromes = await this.meridianRepo.find();
@@ -692,6 +789,7 @@ export class MeridiansService {
       am_duong,
       khi,
       huyet,
+      hu_thuc,
       flags,
       currentSyndromes: suggested,
       legacySyndromes: legacySuggested,

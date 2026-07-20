@@ -8,7 +8,13 @@
  */
 import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue'
 
-const props = defineProps<{ lop: number; activeTang?: string | null; auto?: boolean }>()
+const props = defineProps<{
+  lop: number
+  activeTang?: string | null
+  auto?: boolean
+  /** ĐỊNH VỊ bệnh nhân (đọc-chỉ): tô sáng NHIỀU ô CÓ trên mỗi lớp, làm mờ ô không. Vắng = như cũ. */
+  dinhvi?: { kinh: string[]; khi: string[]; tang: string[]; amDuong: 'duong' | 'am' | 'both' | null; amLoai?: string | null } | null
+}>()
 // Trỏ vào 1 cung → báo cho panel biết đang trỏ Lục Kinh / Lục Khí / Tạng Phủ nào.
 const emit = defineEmits<{ select: [{ type: 'kinh' | 'khi' | 'tang' | 'hanh'; key: string; label: string; organs?: string[] }] }>()
 const KINH_SLUG: Record<string, string> = {
@@ -149,6 +155,24 @@ const organBtns = PENTA.flatMap((p) => {
 const lucKhi = wedges6(R.lkhiOut, R.lkhiIn).map((s) => ({ ...s, arc: arcPath(170, s.deg, 26), arcSub: arcPath(160, s.deg, 26) }))
 const lucKinh = wedges6(R.lkinhOut, R.lkinhIn).map((s) => ({ ...s, arc: arcPath(192, s.deg, 26) }))
 
+// ── ĐỊNH VỊ bệnh nhân (đọc-chỉ): tô sáng NHIỀU ô CÓ, mờ ô không — đè lên trạng thái bóc lớp ──
+const dvActive = computed(() => !!props.dinhvi)
+const dvNorm = (s: string) => s.toLowerCase().trim()
+const dvKinhSet = computed(() => new Set((props.dinhvi?.kinh ?? []).map(dvNorm)))
+const dvKhiSet = computed(() => new Set((props.dinhvi?.khi ?? []).map(dvNorm)))
+const dvTangSet = computed(() => new Set((props.dinhvi?.tang ?? []).map(dvNorm)))
+const dvLitKinh = (k: string) => dvKinhSet.value.has(dvNorm(k))
+const dvLitKhi = (k: string) => dvKhiSet.value.has(dvNorm(k))
+const dvLitTang = (name: string) => dvTangSet.value.has(dvNorm(name))
+// Ngũ Hành SUY RA: hành sáng nếu có tạng/khí thuộc hành đó đang bệnh.
+const dvHanhSet = computed(() => {
+  const s = new Set<string>()
+  for (const b of organBtns) if (dvLitTang(b.name)) s.add(fam(b.hanh))
+  for (const h of HEXA) if (dvLitKhi(h.khi)) s.add(fam(h.hanh))
+  return s
+})
+const dvLitHanh = (h: string) => dvHanhSet.value.has(fam(h))
+
 // TƯƠNG SINH (相生): cung XANH KĐH giữa 2 hành liền kề, mũi tên ở đích (không cần chữ).
 const sinh = PENTA.map((p, i) => {
   const d0 = p.deg + 16
@@ -277,10 +301,15 @@ const khiInfo = computed(() => {
 const khiBadges = HEXA.map((s) => ({ order: KHI_INFO[s.kinh]?.chuOrder ?? 0, ...pt(R.lkhiIn - 7, s.deg) }))
 
 // Thái Cực (Âm Dương) ở TÂM — lớp 1 to (nguyên thủy), lớp ≥2 thu về medallion nhỏ giữa ngũ giác.
-const yang = '#f4e7d1'
-const yin = '#4b3319'
+// Trắng-xanh (không dùng cặp kem/nâu như AmDuongTaiji.vue) — đồng bộ với nền đĩa của lớp bóc-lớp này.
+const yang = '#eef5f8'
+const yin = '#1b3a4b'
 const taiji = computed(() => {
-  const TR = props.lop === 1 ? 62 : 14 // LỚP 1: Thái Cực TO lấp đĩa (chỉ mình nó); lớp ngoài: medallion nhỏ ở tâm
+  // LỚP 1: Thái Cực TO lấp đĩa (nguyên bản 62 — ĐÚNG bằng các lớp khác, KHÔNG phóng to thêm nữa;
+  // lần trước phóng to 62→74.4 làm tràn hẳn ra ngoài đĩa, đè cả nút bóc lớp lẫn chú thích dưới —
+  // "khoảng hở lộ màu xanh" thật ra là do filter glow cũ, đã bỏ riêng ở .dv-tj-band--du rồi, không
+  // cần phóng to để che nữa). Lớp ngoài: medallion nhỏ ở tâm.
+  const TR = props.lop === 1 ? 62 : 14
   return {
     TR,
     dotR: TR / 5,
@@ -289,6 +318,42 @@ const taiji = computed(() => {
     dn: CY + TR / 2,
     halfLeft: `M${CX} ${CY - TR} A${TR} ${TR} 0 0 0 ${CX} ${CY + TR} Z`,
   }
+})
+
+// ĐỊNH VỊ: vòng NÉT ĐỨT DƯ/KHUYẾT ở tâm Thái Cực (khi có amLoai) — ĐÚNG kiểu sách giáo khoa,
+// đồng bộ với AmDuongTaiji.vue: Thái Cực đen-trắng LUÔN cố định (mốc chuẩn); vòng nét đứt CÙNG
+// bán kính TR, chỉ DỊCH TÂM sang trái/phải (không phình to/thu nhỏ) — dịch VỀ cực nào thì cực đó
+// lồi ra (DƯ, cần tả), dịch RA XA cực nào thì cực đó hụt vào (KHUYẾT, cần bổ). Dương=90° · Âm=270°.
+const DV_TAIJI_CFG: Record<string, { pole: 'duong' | 'am'; mode: 'du' | 'khuyet'; shift: number }> = {
+  'duong-thinh': { pole: 'duong', mode: 'du', shift: 0.2 },
+  'am-thinh': { pole: 'am', mode: 'du', shift: 0.2 },
+  'am-hu': { pole: 'am', mode: 'khuyet', shift: 0.2 },
+  'duong-hu': { pole: 'duong', mode: 'khuyet', shift: 0.2 },
+  'thien-duong': { pole: 'duong', mode: 'du', shift: 0.11 },
+  'thien-am': { pole: 'am', mode: 'du', shift: 0.11 },
+}
+function fullCircleD(cx: number, cy: number, r: number): string {
+  return `M${N(cx + r)} ${N(cy)} A${r} ${r} 0 1 0 ${N(cx - r)} ${N(cy)} A${r} ${r} 0 1 0 ${N(cx + r)} ${N(cy)} Z`
+}
+function outsideCircleClip(cx: number, cy: number, r: number): string {
+  return `M0 0 H420 V420 H0 Z ${fullCircleD(cx, cy, r)}`
+}
+const dvTaiji = computed(() => {
+  const loai = props.dinhvi?.amLoai
+  const c = loai ? DV_TAIJI_CFG[loai] : undefined
+  if (!c) return null
+  const TR = taiji.value.TR
+  const poleDeg = c.pole === 'duong' ? 90 : 270
+  const shiftDeg = c.mode === 'khuyet' ? poleDeg + 180 : poleDeg
+  const ref = pt(TR * c.shift, shiftDeg)
+  // 1 MÀU XANH duy nhất cho cả 2 cực (bỏ cặp đỏ/xanh theo Dương/Âm cũ) — đồng bộ trắng-xanh của cả
+  // đồ hình; DƯ/KHUYẾT phân biệt bằng ĐẬM/NHẠT (xem .dv-tj-band--du/--khuyet), không phải màu sắc.
+  const color = '#2d6e8e'
+  // DƯ: lưỡi liềm của vòng nét đứt (đã dịch) lồi ra NGOÀI Thái Cực chuẩn (cố định tại CX,CY).
+  // KHUYẾT: lưỡi liềm của Thái Cực chuẩn mà vòng nét đứt (đã dịch) KHÔNG còn phủ tới.
+  const fillD = c.mode === 'du' ? fullCircleD(ref.x, ref.y, TR) : fullCircleD(CX, CY, TR)
+  const clipD = c.mode === 'du' ? outsideCircleClip(CX, CY, TR) : outsideCircleClip(ref.x, ref.y, TR)
+  return { refX: ref.x, refY: ref.y, TR, fillD, clipD, color, mode: c.mode }
 })
 
 // ── LỚP 1 (Âm Dương) = TRỤC SINH THÀNH: Thái Cực → Lưỡng Nghi → Tứ Tượng → Bát Quái (đồng tâm) ──
@@ -358,6 +423,8 @@ const layerOpacity = (n: number) => (n > props.lop ? 0 : (FOCUS_OP[props.lop - n
 const DISC = 200 // đĩa nền CỐ ĐỊNH
 const FRAME = 197 // lớp hiện tại lấp SÁT vành (gần = đĩa) → không thừa diện tích
 const EXTENT = [66, 104, 152, 178, 204] // bán kính NGOÀI THẬT của mỗi lớp; zoom = FRAME/EXTENT (lớp ngoài ~1, không co chữ)
+// GIỮ 66 để lớp 1 (Thái Cực) đồng bộ đường kính với các lớp khác — vòng nét đứt DƯ/KHUYẾT dịch
+// ra ngoài (TR+12.4) thì để LÒI ra ngoài đĩa/khung, KHÔNG co lại toàn bộ Thái Cực để vừa khung.
 const zoom = computed(() => FRAME / EXTENT[Math.min(5, Math.max(1, props.lop)) - 1])
 
 // ── BẤM 1 cung → CHỐT chọn (pick: giữ sáng) + BÁO panel (emit select). Rê chỉ xem trước. ──
@@ -456,6 +523,13 @@ onBeforeUnmount(() => {
           <stop offset="0%" style="stop-color: var(--brown-700)" /><stop offset="46%" style="stop-color: var(--brown-800)" />
           <stop offset="80%" style="stop-color: var(--brown-900)" /><stop offset="100%" style="stop-color: var(--brown-900)" />
         </radialGradient>
+        <!-- Bản XANH-NAVY của đĩa/viền — CHỈ dùng khi có dinhvi (tab Định Vị Âm Dương), để đồng bộ
+        với Thái Cực trắng-xanh; 2 chỗ dùng lại BienChungWheel khác (trang chủ, Thương Hàn) không
+        truyền dinhvi nên vẫn giữ nguyên đĩa nâu gốc, không bị ảnh hưởng. -->
+        <radialGradient id="bcw-stone-dv" cx="50%" cy="40%" r="64%">
+          <stop offset="0%" stop-color="#2c4a5c" /><stop offset="46%" stop-color="#1e3a4a" />
+          <stop offset="80%" stop-color="#132835" /><stop offset="100%" stop-color="#132835" />
+        </radialGradient>
         <radialGradient id="bcw-glow" cx="50%" cy="46%" r="50%">
           <stop offset="0%" stop-color="rgba(250,240,218,.30)" /><stop offset="58%" stop-color="rgba(248,236,212,.07)" />
           <stop offset="100%" stop-color="rgba(248,236,212,0)" />
@@ -466,6 +540,9 @@ onBeforeUnmount(() => {
         </radialGradient>
         <linearGradient id="bcw-rim" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" style="stop-color: var(--brown-100)" /><stop offset="48%" style="stop-color: var(--brown-300)" /><stop offset="100%" style="stop-color: var(--brown-600)" />
+        </linearGradient>
+        <linearGradient id="bcw-rim-dv" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#dceaf0" /><stop offset="48%" stop-color="#8fb4c4" /><stop offset="100%" stop-color="#3a6478" />
         </linearGradient>
         <!-- vệt sáng quét tiêu–trưởng (lớp Âm Dương) -->
         <radialGradient id="bcw-beam" cx="50%" cy="50%" r="50%">
@@ -482,8 +559,8 @@ onBeforeUnmount(() => {
         <path v-for="(b, i) in organBtns" :id="'a-ob' + i" :key="'pob' + i" :d="b.arc" />
       </defs>
 
-      <!-- Đĩa nền CỐ ĐỊNH -->
-      <circle :cx="CX" :cy="CY" :r="DISC" fill="url(#bcw-stone)" />
+      <!-- Đĩa nền CỐ ĐỊNH — bản navy khi đang ở tab Định Vị Âm Dương (dvActive), giữ nâu gốc nơi khác -->
+      <circle :cx="CX" :cy="CY" :r="DISC" :fill="dvActive ? 'url(#bcw-stone-dv)' : 'url(#bcw-stone)'" />
       <circle :cx="CX" :cy="CY" :r="DISC" fill="url(#bcw-shadow)" />
       <circle :cx="CX" :cy="CY" :r="DISC * 0.8" fill="url(#bcw-glow)" />
 
@@ -498,7 +575,7 @@ onBeforeUnmount(() => {
       <!-- ===== Lục Kinh (lớp 5) ===== -->
       <g class="ring" :class="{ shown: shows(5), current: isCurrent(5) }" :style="{ opacity: layerOpacity(5) }">
         <circle :cx="CX" :cy="CY" :r="R.lkinhOut" fill="none" class="rim" />
-        <g v-for="(s, i) in lucKinh" :key="'lk' + i" class="seg" :class="{ dim: dimHex(i, s.hanh), hot: hotHex(i, s.hanh), partner: isPartner(i) }" @mouseenter="hoverKinh(s, i)" @mouseleave="leaveWedge()" @click="onKinh(s, i)">
+        <g v-for="(s, i) in lucKinh" :key="'lk' + i" class="seg" :class="{ dim: dimHex(i, s.hanh), hot: hotHex(i, s.hanh), partner: isPartner(i), 'dv-on': dvActive && dvLitKinh(s.kinh), 'dv-dim': dvActive && !dvLitKinh(s.kinh) }" @mouseenter="hoverKinh(s, i)" @mouseleave="leaveWedge()" @click="onKinh(s, i)">
           <path :d="s.d" class="wedge hoverable" :style="{ fill: s.nhom === 'duong' ? DUONG : AM }" />
           <text class="t-vi t-lk"><textPath :href="'#a-lk' + i" startOffset="50%">{{ s.kinh }}</textPath></text>
         </g>
@@ -507,7 +584,7 @@ onBeforeUnmount(() => {
       <!-- ===== Lục Khí (lớp 4) ===== -->
       <g class="ring" :class="{ shown: shows(4), current: isCurrent(4) }" :style="{ opacity: layerOpacity(4) }">
         <circle :cx="CX" :cy="CY" :r="R.lkhiOut" fill="none" class="rim" />
-        <g v-for="(s, i) in lucKhi" :key="'lq' + i" class="seg" :class="{ dim: dimHex(i, s.hanh), hot: hotHex(i, s.hanh), partner: isPartner(i) }" @mouseenter="hoverKhi(s, i)" @mouseleave="leaveWedge()" @click="onKhi(s, i)">
+        <g v-for="(s, i) in lucKhi" :key="'lq' + i" class="seg" :class="{ dim: dimHex(i, s.hanh), hot: hotHex(i, s.hanh), partner: isPartner(i), 'dv-on': dvActive && dvLitKhi(s.khi), 'dv-dim': dvActive && !dvLitKhi(s.khi) }" @mouseenter="hoverKhi(s, i)" @mouseleave="leaveWedge()" @click="onKhi(s, i)">
           <path :d="s.d" class="wedge hoverable" :style="{ fill: HANH[s.hanh].fill }" />
           <text class="t-vi t-khi" :style="{ fill: HANH[s.hanh].bright }"><textPath :href="'#a-lq' + i" startOffset="50%">{{ s.khi }}</textPath></text>
           <text class="t-han t-sm" :style="{ fill: HANH[s.hanh].bright }"><textPath :href="'#a-lqs' + i" startOffset="50%">{{ s.khiHan }} · {{ s.mua }}</textPath></text>
@@ -524,25 +601,32 @@ onBeforeUnmount(() => {
       <!-- ===== Tạng Phủ (lớp 3) — mỗi organ = 1 NÚT (băng bấm) rõ ràng; Hỏa: Tâm ngoài to, Tiểu Trường·Tam Tiêu ngang hàng trong ===== -->
       <g class="ring" :class="{ shown: shows(3), current: isCurrent(3) }" :style="{ opacity: layerOpacity(3) }">
         <circle :cx="CX" :cy="CY" :r="R.tpOut" fill="none" class="rim" />
-        <g v-for="(b, i) in organBtns" :key="'ob' + i" class="seg organ-btn" :class="{ dim: dimmed(b.hanh), hot: hot(b.hanh), affected: affected(b.hanh), big: b.big, sel: activeTang === b.key }" @mouseenter="hoverOrgan(b.name, b.hanh, b.type)" @mouseleave="leaveWedge()" @click="pickOrgan(b.name, b.hanh, b.type)">
+        <g v-for="(b, i) in organBtns" :key="'ob' + i" class="seg organ-btn" :class="{ dim: dimmed(b.hanh), hot: hot(b.hanh), affected: affected(b.hanh), big: b.big, sel: activeTang === b.key, 'dv-on': dvActive && dvLitTang(b.name), 'dv-dim': dvActive && !dvLitTang(b.name) }" @mouseenter="hoverOrgan(b.name, b.hanh, b.type)" @mouseleave="leaveWedge()" @click="pickOrgan(b.name, b.hanh, b.type)">
           <path :d="b.d" class="ob-bg hoverable" :style="{ fill: HANH[b.hanh].fill }" />
           <text class="t-vi" :class="b.big ? 't-org-lg' : 't-org-sm'"><textPath :href="'#a-ob' + i" startOffset="50%">{{ b.name }}</textPath></text>
         </g>
       </g>
 
       <!-- ===== Thái Cực (Âm Dương) — lớp 1 to, lớp ≥2 thu về medallion giữa ===== -->
-      <g class="taiji">
+      <g class="taiji" :class="{ 'taiji--static': dvTaiji }">
         <circle :cx="CX" :cy="CY" :r="taiji.TR" :fill="yang" stroke="rgba(247,239,222,.6)" stroke-width="1" class="tj-r" />
         <path :d="taiji.halfLeft" :fill="yin" />
         <circle :cx="CX" :cy="taiji.up" :r="taiji.half" :fill="yin" class="tj-r" />
         <circle :cx="CX" :cy="taiji.dn" :r="taiji.half" :fill="yang" class="tj-r" />
         <circle :cx="CX" :cy="taiji.up" :r="taiji.dotR" :fill="yang" class="tj-r" />
         <circle :cx="CX" :cy="taiji.dn" :r="taiji.dotR" :fill="yin" class="tj-r" />
+
+        <!-- ĐỊNH VỊ: lưỡi liềm DƯ (lồi ra, cần tả) / KHUYẾT (hụt vào, cần bổ) — xem dvTaiji -->
+        <template v-if="dvTaiji">
+          <clipPath id="dv-tj-clip"><path fill-rule="evenodd" :d="dvTaiji.clipD" /></clipPath>
+          <path :d="dvTaiji.fillD" :fill="dvTaiji.color" class="dv-tj-band" :class="'dv-tj-band--' + dvTaiji.mode" clip-path="url(#dv-tj-clip)" />
+          <circle :cx="dvTaiji.refX" :cy="dvTaiji.refY" :r="dvTaiji.TR" fill="none" class="dv-tj-ring" />
+        </template>
       </g>
 
       <!-- ===== Ngũ Hành: 5 VÒNG TRÒN ở đỉnh ngũ giác (lớp 2) — chữ VIỆT lớn, Hán nhỏ ===== -->
       <g class="nodes" :class="{ shown: shows(2), current: isCurrent(2) }" :style="{ opacity: isCurrent(3) && relMode ? 0.6 : layerOpacity(2) }">
-        <g v-for="(n, i) in nodes" :key="'nd' + i" class="seg" :class="{ dim: nodeDim(n.hanh), hot: hot(n.hanh), affected: affected(n.hanh), 'rel-dim': relMode && !hot(n.hanh) }" @mouseenter="hoverHanh(n)" @mouseleave="leaveWedge()" @click="onHanh(n)">
+        <g v-for="(n, i) in nodes" :key="'nd' + i" class="seg" :class="{ dim: nodeDim(n.hanh), hot: hot(n.hanh), affected: affected(n.hanh), 'rel-dim': relMode && !hot(n.hanh), 'dv-on': dvActive && dvLitHanh(n.hanh), 'dv-dim': dvActive && !dvLitHanh(n.hanh) }" @mouseenter="hoverHanh(n)" @mouseleave="leaveWedge()" @click="onHanh(n)">
           <circle :cx="n.x" :cy="n.y" :r="NODE_R" :fill="HANH[n.hanh].node" class="node-c hoverable" />
           <text class="t-node-vi" :x="n.x" :y="n.y - 1.5">{{ n.ten }}</text>
           <text class="t-node-han" :x="n.x" :y="n.y + 8">{{ n.han }}</text>
@@ -569,7 +653,7 @@ onBeforeUnmount(() => {
       </g><!-- /zoom: hết vùng phóng -->
 
       <!-- vành ngoài CỐ ĐỊNH -->
-      <circle :cx="CX" :cy="CY" :r="DISC - 1" fill="none" stroke="url(#bcw-rim)" stroke-width="2.4" stroke-opacity=".92" />
+      <circle :cx="CX" :cy="CY" :r="DISC - 1" fill="none" :stroke="dvActive ? 'url(#bcw-rim-dv)' : 'url(#bcw-rim)'" stroke-width="2.4" stroke-opacity=".92" />
     </svg>
 
     <!-- LỚP 3: bảng đọc TÀNG TƯỢNG · BIỂU-LÝ · QUẺ khi rê 1 tạng/phủ -->
@@ -652,6 +736,20 @@ onBeforeUnmount(() => {
 .seg.hot .wedge { stroke: rgba(251, 242, 221, 0.9); stroke-width: 1.4; filter: drop-shadow(0 0 6px rgba(250, 233, 200, 0.55)); }
 .seg.hot .node-c { stroke: rgba(255, 248, 226, 0.95); stroke-width: 2.4; filter: drop-shadow(0 0 9px rgba(250, 233, 200, 0.65)); }
 .seg.hot .t-vi { fill: #fff8ea; }
+/* ĐỊNH VỊ bệnh nhân (đọc-chỉ): ô CÓ = sáng vàng nổi; ô KHÔNG = mờ hẳn. Đè lên trạng thái bóc lớp. */
+.seg.dv-dim { opacity: 0.24; }
+.seg.dv-on .wedge, .seg.dv-on .ob-bg { stroke: #ffd98a; stroke-width: 1.8; filter: drop-shadow(0 0 7px rgba(255, 210, 120, 0.78)); }
+.seg.dv-on .node-c { stroke: #ffd98a; stroke-width: 2.6; filter: drop-shadow(0 0 9px rgba(255, 210, 120, 0.82)); }
+.seg.dv-on .t-vi { fill: #fff8ea; }
+/* Lưỡi liềm DƯ/KHUYẾT + vòng nét đứt ở tâm Thái Cực (định vị Âm-Dương) — đồng bộ AmDuongTaiji.vue:
+   DƯ tô ĐẬM (đang thừa) · KHUYẾT tô NHẠT (đang thiếu) — ngược hẳn nhau để phân biệt tả/bổ. */
+.dv-tj-band { stroke: rgba(251, 242, 221, 0.85); stroke-width: 1.1; }
+/* KHÔNG dùng filter:drop-shadow (blur) ở đây — lớp 1 bị .zoom phóng to ~3 lần (197/66), 1 quầng
+   mờ 6px trước khi zoom biến thành quầng ~18px SAU zoom, nhìn như 1 vòng tròn lạ tách hẳn ra
+   khỏi Thái Cực. Chỉ tô màu ĐẶC (không glow) là đủ rõ, tránh bị khuếch đại biến dạng. */
+.dv-tj-band--du { opacity: 0.82; }
+.dv-tj-band--khuyet { opacity: 0.32; stroke-dasharray: 4 3; }
+.dv-tj-ring { stroke: rgba(251, 242, 221, 0.75); stroke-width: 1.3; stroke-dasharray: 3 3; }
 /* Kinh ĐỐI biểu-lý (Trung kiến): không mờ + viền VÀNG nổi để thấy quan hệ cặp */
 .seg.partner { opacity: 1; }
 .seg.partner .wedge { stroke: #f2d79a; stroke-width: 1.6; filter: drop-shadow(0 0 6px rgba(242, 215, 154, 0.6)); }
@@ -697,8 +795,10 @@ onBeforeUnmount(() => {
 .sinh g.faded, .khac g.faded { opacity: 0.1; transition: opacity 0.25s ease; }
 .seg.rel-dim { opacity: 0.55; transition: opacity 0.2s ease; }
 
-/* Thái Cực xoay chậm + co/giãn mượt theo lớp */
+/* Thái Cực xoay chậm + co/giãn mượt theo lớp — NGƯNG xoay khi đang đọc ĐỊNH VỊ (dvTaiji có giá
+   trị): Dương/Âm phải đứng yên đúng vị trí phải/trái thì vòng nét đứt DƯ/KHUYẾT mới có nghĩa. */
 .taiji { transform-box: view-box; transform-origin: 210px 210px; animation: bcw-spin 48s linear infinite; }
+.taiji--static { animation: none; }
 /* LỚP 1 — trục sinh thành (Thái Cực → Lưỡng Nghi → Tứ Tượng → Bát Quái), chỉ lớp Âm Dương.
    Rời lớp 1: THU VỀ TÂM + mờ dần (lớp 2 trồi lên chỗ đó) → chuyển lớp mượt, không "đè xoá". */
 .sinhthanh { opacity: 0; transition: opacity 0.5s ease; pointer-events: none; }

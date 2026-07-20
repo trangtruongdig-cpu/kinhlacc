@@ -597,8 +597,7 @@ const faqs: { q: string; a: string }[] = [
             <BatCuongFigure3D
               class="bc-figure"
               :am-duong="diag.amDuong"
-              :khi="diag.khi"
-              :huyet="diag.huyet"
+              :hu-thuc="diag.huThuc"
               :organs="affectedOrgans"
               :focus="bcFocus"
               @toggle="toggleBcFocus"
@@ -607,7 +606,7 @@ const faqs: { q: string; a: string }[] = [
           </div>
           <p class="mc-figure-cap">
             Tạng phủ tô <span class="mc-sign-lo">Hàn</span> / <span class="mc-sign-hi">Nhiệt</span> theo số đo ·
-            nền đặc = Lý (sâu) · quầng nét đứt = Biểu (nông) · hào quang trên/dưới = Khí/Huyết. Bấm 1 tạng phủ để soi.
+            nền đặc = Lý (sâu) · quầng nét đứt = Biểu (nông) · hào quang = Hư/Thực (cường độ phản ứng toàn thân). Bấm 1 tạng phủ để soi.
           </p>
         </div>
 

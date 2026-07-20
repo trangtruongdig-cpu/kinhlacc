@@ -1,8 +1,8 @@
 <script setup lang="ts">
 /**
  * BatCuongSummary — Bảng tóm tắt chữ của Bát Cương, đặt cạnh đồ hình (2D hoặc 3D).
- * Đọc nhanh kết luận: ① Âm/Dương · ② Biểu·Lý · ③ Hàn·Nhiệt · ④ Khí·Huyết + chú giải.
- * Bấm hàng Âm/Dương hoặc Khí/Huyết → phát 'toggle' để soi bảng đo (như đồ hình).
+ * Đọc nhanh kết luận: ① Âm/Dương (tổng cương) · ② Biểu·Lý · ③ Hư·Thực · ④ Thể Chất (Khí·Huyết).
+ * Bấm hàng Âm/Dương, Hư-Thực hoặc Khí/Huyết → phát 'toggle' để soi bảng đo (như đồ hình).
  */
 interface OrganState {
   name: string
@@ -15,15 +15,22 @@ interface OrganState {
 
 // Các con số trung gian của công thức → để GIẢI THÍCH vì sao ra kết luận (không giấu công thức).
 interface Explain {
-  amDuong: { avgDam: number; midTuc: number; diff: number }
   khi: { huCount: number; total: number; sum: number; mean: number }
   huyet: { huCount: number; total: number; sum: number; mean: number }
+  huThuc: { lechCount: number; tongDo: number; totalLech: number; nguong: number }
 }
 
+import type { TongCuong } from '@/lib/meridianAnalysis'
+import AmDuongTaiji from './AmDuongTaiji.vue'
+
 const props = defineProps<{
-  amDuong: string
+  /** Tổng cương (Âm-Dương) — suy từ ma trận Hàn·Nhiệt × Hư·Thực. */
+  tongCuong: TongCuong
   khi: string
   huyet: string
+  huThuc: string
+  /** Kinh "lệch" (bằng chứng Hư-Thực) kèm hướng biên độ: 'high' vượt ngưỡng / 'low' dưới ngưỡng. */
+  huThucOrgans?: { name: string; organ: string; side: string; tone: 'high' | 'low' }[]
   explain: Explain | null
   organs: OrganState[]
   focus: string | null
@@ -33,20 +40,17 @@ const emit = defineEmits<{ (e: 'toggle', key: string): void; (e: 'detail', name:
 
 import { computed } from 'vue'
 
-const amLabel = computed(() => props.amDuong?.trim() || 'Chưa rõ')
-const amActive = computed(() => props.focus === 'amDuong')
-
 // 'mixed' xuất hiện ở CẢ hai danh sách của cặp (đúng bản chất vừa Hàn vừa Nhiệt / vừa Biểu vừa Lý).
 const bieuList = computed(() => props.organs.filter((o) => o.depth === 'bieu' || o.depth === 'mixed'))
 const lyList = computed(() => props.organs.filter((o) => o.depth === 'ly' || o.depth === 'mixed'))
-const hanList = computed(() => props.organs.filter((o) => o.temp === 'han' || o.temp === 'mixed'))
-const nhietList = computed(() => props.organs.filter((o) => o.temp === 'nhiet' || o.temp === 'mixed'))
 
 function tone(v: string): 'hu' | 'thuc' | 'neutral' | 'none' {
   if (!v) return 'none'
-  if (v.includes('thịnh') || v.includes('thực')) return 'thuc'
+  // toLowerCase(): "Hư"/"Thực" đứng đầu câu viết hoa (khác "Khí hư"/"Khí thịnh" viết thường giữa câu).
+  const s = v.toLowerCase()
+  if (s.includes('thịnh') || s.includes('thực')) return 'thuc'
   // "Bình thường" có chứa "hư" (trong "thường") → loại trừ để không nhận nhầm là hư.
-  if (v.includes('hư') && !v.includes('thường')) return 'hu'
+  if (s.includes('hư') && !s.includes('thường')) return 'hu'
   return 'neutral'
 }
 const khiTone = computed(() => tone(props.khi))
@@ -54,56 +58,56 @@ const huyetTone = computed(() => tone(props.huyet))
 // ④ giờ làm nổi cả NHÓM kinh (Khí = chi trên · Huyết = chi dưới) trên hình + bảng đo.
 const khiActive = computed(() => props.focus === 'group:khi')
 const huyetActive = computed(() => props.focus === 'group:huyet')
+// Giá trị gốc là "Khí hư"/"Khí thịnh" — nút bên cạnh đã ghi rõ "Khí" rồi nên bỏ tiền tố khi hiển thị
+// (tránh lặp chữ "Khí Khí hư"); giữ nguyên props.khi/huyet (có tiền tố) cho tone()/toneCls() so khớp.
+function stripLabel(v: string, label: string): string {
+  return v && v.startsWith(label + ' ') ? v.slice(label.length + 1) : v
+}
+const khiVerdict = computed(() => stripLabel(props.khi, 'Khí'))
+const huyetVerdict = computed(() => stripLabel(props.huyet, 'Huyết'))
 
 // ── Giải thích VÌ SAO (lộ con số trung gian) ──
 const numF = (n: number) => String(n).replace('.', ',')
-const signF = (n: number) => (n > 0 ? '+' : '') + numF(n)
 
-const amDuongWhy = computed(() => {
-  const e = props.explain?.amDuong
-  if (!e) return ''
-  const rel =
-    e.diff < 0 ? 'thấp hơn → Dương suy' : e.diff > 0 ? 'cao hơn → Âm suy' : 'tương đương → cân bằng'
-  return `Đởm ${numF(e.avgDam)} so TB chi dưới ${numF(e.midTuc)} (chênh ${signF(e.diff)}): Đởm ${rel}.`
-})
-function hutWhy(e: Explain['khi'] | undefined, hu: string, thuc: string): string {
-  if (!e) return ''
-  const half = e.total / 2
-  let reason: string
-  if (e.huCount > half) reason = `${e.huCount}/${e.total} kinh dưới mức TB → ${hu}`
-  else if (e.huCount < half) reason = `${e.huCount}/${e.total} kinh dưới mức TB → ${thuc}`
-  else reason = `${e.huCount}/${e.total} dưới TB, tổng chênh ${signF(e.sum)} → ${e.sum < 0 ? hu : e.sum > 0 ? thuc : 'cân bằng'}`
-  return `TB ${numF(e.mean)}; ${reason}.`
+// Hư-Thực: cương ĐỘC LẬP (biên độ/diện rộng phản ứng toàn thân — cả 12 kinh), KHÔNG còn gắn
+// với Khí/Huyết chi trên/chi dưới. Xem công thức đầy đủ ở MeridianResultsView.vue's diagnosis.
+// Bấm → soi đúng các kinh "lệch" trên hình + bảng đo (giống Biểu-Lý/Hàn-Nhiệt đã soi được).
+const huThucTone = computed(() => tone(props.huThuc))
+const huThucActive = computed(() => props.focus === 'group:huthuc')
+// 2 nhóm chip theo BIÊN ĐỘ (không phải thực/hư từng tạng): cao = vượt ngưỡng trên · thấp = dưới ngưỡng dưới.
+const htCao = computed(() => (props.huThucOrgans ?? []).filter((o) => o.tone === 'high'))
+const htThap = computed(() => (props.huThucOrgans ?? []).filter((o) => o.tone === 'low'))
+// Giải thích biểu hiện lâm sàng của cường độ mạch — ứng với Hư/Thực (không áp dụng khi Bình thường).
+const HU_THUC_INFO: Record<'thuc' | 'hu', { title: string; body: string }> = {
+  thuc: { title: 'Mạch Hữu Lực', body: 'Tà khí đang mạnh, cơ thể phản ứng dữ dội, nhiều nơi lệch rõ.' },
+  hu: { title: 'Mạch Vô Lực', body: 'Chính khí suy, phản ứng yếu ớt, lệch ít hoặc lệch nhẹ dù có bệnh.' },
 }
-const khiWhy = computed(() => hutWhy(props.explain?.khi, 'Khí hư', 'Khí thịnh'))
-const huyetWhy = computed(() => hutWhy(props.explain?.huyet, 'Huyết hư', 'Huyết thịnh'))
+const huThucInfo = computed(() => {
+  const t = huThucTone.value
+  return t === 'thuc' || t === 'hu' ? HU_THUC_INFO[t] : null
+})
+const huThucWhy = computed(() => {
+  const e = props.explain?.huThuc
+  if (!e) return ''
+  if (e.lechCount === 0) return `0/${e.tongDo} kinh lệch khỏi khoảng bình thường → Bình thường.`
+  return `${e.lechCount}/${e.tongDo} kinh lệch khỏi khoảng bình thường, tổng lệch ${numF(e.totalLech)} (ngưỡng ~${numF(e.nguong)}).`
+})
 </script>
 
 <template>
   <aside class="bcs">
     <h5 class="sum-title">Tóm tắt Bát Cương</h5>
 
-    <!-- ① Âm — Dương -->
-    <div
-      class="sum-row sum-row--am sum-row--clickable"
-      :class="{ 'is-active': amActive }"
-      role="button"
-      tabindex="0"
-      :aria-pressed="amActive"
-      @click="emit('toggle', 'amDuong')"
-      @keydown.enter.prevent="emit('toggle', 'amDuong')"
-      @keydown.space.prevent="emit('toggle', 'amDuong')"
-    >
-      <div class="sum-head">
-        <span class="sum-pair">① Âm — Dương</span>
-        <span class="sum-pill">{{ amLabel }}</span>
-      </div>
-      <span v-if="amDuongWhy" class="sum-why">{{ amDuongWhy }}</span>
+    <!-- ① Âm — Dương = TỔNG CƯƠNG (kết luận tổng quát, suy từ Hàn·Nhiệt × Hư·Thực) — không bấm soi.
+    Dùng chung AmDuongTaiji (đồ hình Thái Cực thừa/thiếu) với Tab "Biện Chứng – Pháp Trị" — tránh
+    2 nơi cùng vẽ lại 1 kết luận Âm-Dương theo 2 kiểu khác nhau. -->
+    <div class="sum-tong-wrap">
+      <AmDuongTaiji :tong-cuong="tongCuong" />
     </div>
 
     <!-- ② Biểu — Lý -->
     <div class="sum-row sum-row--bl">
-      <div class="sum-head"><span class="sum-pair">② Biểu — Lý</span></div>
+      <div class="sum-head"><span class="sum-pair">② Biểu — Lý</span><span class="sum-tempkey"><i class="dot dot--han" />Hàn<i class="dot dot--nhiet" />Nhiệt</span></div>
       <div class="sum-groups">
         <div
           v-for="g in [
@@ -126,8 +130,8 @@ const huyetWhy = computed(() => hutWhy(props.explain?.huyet, 'Huyết hư', 'Huy
               <button
                 type="button"
                 class="organ-pill"
-                :class="{ 'is-active': focus === 'organ:' + o.name }"
-                :title="'Soi ' + o.organ + ' trên bảng đo'"
+                :class="['temp-' + o.temp, { 'is-active': focus === 'organ:' + o.name }]"
+                :title="o.organ + ' — ' + (o.temp === 'han' ? 'Hàn' : o.temp === 'nhiet' ? 'Nhiệt' : 'Hàn+Nhiệt') + '. Bấm soi bảng đo'"
                 @click="emit('toggle', 'organ:' + o.name)"
               >{{ o.organ }}<small v-if="o.side"> {{ o.side }}</small></button>
               <button
@@ -141,56 +145,68 @@ const huyetWhy = computed(() => hutWhy(props.explain?.huyet, 'Huyết hư', 'Huy
           </div>
         </div>
       </div>
-      <span class="sum-why">Lệch 1 bên (trái/phải) → Biểu (nông); lệch cả 2 bên so TB → Lý (sâu). Bấm 1 kinh để soi chỉ số ở bảng I.</span>
+      <span class="sum-why">Nhóm theo độ sâu: Biểu (nông) / Lý (sâu); màu chip = Hàn (lạnh) / Nhiệt (nóng). Bấm 1 kinh soi bảng I.</span>
     </div>
 
-    <!-- ③ Hàn — Nhiệt -->
-    <div class="sum-row sum-row--hn">
-      <div class="sum-head"><span class="sum-pair">③ Hàn — Nhiệt</span></div>
-      <div class="sum-groups">
+    <!-- ③ Hư — Thực (cương độc lập — biên độ/diện rộng phản ứng toàn thân, KHÔNG gắn Khí/Huyết) -->
+    <div
+      class="sum-row sum-row--ht sum-row--clickable"
+      :class="{ 'is-active': huThucActive }"
+      role="button"
+      tabindex="0"
+      :aria-pressed="huThucActive"
+      :title="'Soi các kinh lệch (Hư-Thực) trên hình + bảng đo'"
+      @click="emit('toggle', 'group:huthuc')"
+      @keydown.enter.prevent="emit('toggle', 'group:huthuc')"
+      @keydown.space.prevent="emit('toggle', 'group:huthuc')"
+    >
+      <div class="sum-head">
+        <span class="sum-pair">③ Hư — Thực</span>
+        <span class="sum-pill-group">
+          <span class="sum-pill" :class="'tone-bg-' + huThucTone">{{ huThuc || '—' }}</span>
+          <button
+            v-if="huThucInfo"
+            type="button"
+            class="sum-info-btn"
+            :title="huThucInfo.title + ' — ' + huThucInfo.body"
+            aria-label="Giải thích biểu hiện Hư/Thực"
+            @click.stop="emit('detail', '__huthuc_info__')"
+          >i</button>
+        </span>
+      </div>
+      <!-- Kinh LỆCH (bằng chứng) chia theo BIÊN ĐỘ: cao ↑ vượt ngưỡng · thấp ↓ dưới ngưỡng.
+           KHÔNG gọi thực/hư từng tạng (hướng nóng/lạnh đã ở Hàn-Nhiệt). Bấm 1 kinh → soi bảng đo. -->
+      <div v-if="htCao.length || htThap.length" class="sum-groups sum-groups--ht" @click.stop>
         <div
           v-for="g in [
-            { lb: 'Hàn', key: 'han', dot: 'dot--han', list: hanList },
-            { lb: 'Nhiệt', key: 'nhiet', dot: 'dot--nhiet', list: nhietList },
+            { lb: 'Cao', arrow: '↑', key: 'cao', hint: 'vượt ngưỡng trên', list: htCao },
+            { lb: 'Thấp', arrow: '↓', key: 'thap', hint: 'dưới ngưỡng dưới', list: htThap },
           ]"
           :key="g.key"
           class="sum-grp"
         >
-          <button
-            type="button"
-            class="grp-btn"
-            :class="{ 'is-active': focus === 'group:' + g.key }"
-            :disabled="!g.list.length"
-            :title="'Soi cả nhóm ' + g.lb + ' trên hình + bảng đo'"
-            @click="emit('toggle', 'group:' + g.key)"
-          ><i class="dot" :class="g.dot" />{{ g.lb }}</button>
+          <span class="ht-grp-lb" :class="'ht-grp-lb--' + g.key">{{ g.lb }} <b class="ht-arrow">{{ g.arrow }}</b></span>
           <div class="organ-cloud">
-            <span v-for="o in g.list" :key="g.key + o.name" class="organ-pill-wrap">
-              <button
-                type="button"
-                class="organ-pill"
-                :class="{ 'is-active': focus === 'organ:' + o.name }"
-                :title="'Soi ' + o.organ + ' trên bảng đo'"
-                @click="emit('toggle', 'organ:' + o.name)"
-              >{{ o.organ }}<small v-if="o.side"> {{ o.side }}</small></button>
-              <button
-                type="button"
-                class="organ-pill__detail"
-                :title="'Chi tiết kinh ' + o.organ"
-                @click.stop="emit('detail', o.name)"
-              >i</button>
-            </span>
+            <button
+              v-for="o in g.list"
+              :key="g.key + o.name"
+              type="button"
+              class="organ-pill ht-pill"
+              :class="['ht-pill--' + g.key, { 'is-active': focus === 'organ:' + o.name }]"
+              :title="o.organ + ' — ' + g.hint + '. Bấm soi bảng đo'"
+              @click.stop="emit('toggle', 'organ:' + o.name)"
+            >{{ o.organ }}<small v-if="o.side"> {{ o.side }}</small></button>
             <span v-if="!g.list.length" class="sub-empty">—</span>
           </div>
         </div>
       </div>
-      <span class="sum-why">Trị số dưới mức trung bình → Hàn (lạnh); trên trung bình → Nhiệt (nóng). Bấm 1 kinh để soi chỉ số ở bảng I.</span>
+      <span v-if="huThucWhy" class="sum-why">{{ huThucWhy }}</span>
     </div>
 
-    <!-- ④ Hư — Thực -->
-    <div class="sum-row sum-row--ht">
-      <div class="sum-head"><span class="sum-pair">④ Hư — Thực</span></div>
-      <div class="sum-groups">
+    <!-- ④ Thể Chất (Khí — chi trên / Huyết — chi dưới) — biện chứng ĐỘC LẬP, tách khỏi Hư-Thực -->
+    <div class="sum-row sum-row--tc">
+      <div class="sum-head"><span class="sum-pair">④ Thể Chất</span></div>
+      <div class="sum-groups sum-groups--tc">
         <div class="sum-grp sum-grp--kh">
           <button
             type="button"
@@ -200,9 +216,8 @@ const huyetWhy = computed(() => hutWhy(props.explain?.huyet, 'Huyết hư', 'Huy
             title="Soi cả nhóm Khí (6 kinh chi trên) trên hình + bảng đo"
             @click="khiTone !== 'none' && emit('toggle', 'group:khi')"
           >Khí</button>
-          <b class="kh-verdict" :class="'tone-' + khiTone">{{ khi || '—' }}</b>
+          <b class="kh-verdict" :class="'tone-' + khiTone">{{ khiVerdict || '—' }}</b>
         </div>
-        <span v-if="khiWhy" class="sum-why sum-why--sub">{{ khiWhy }}</span>
         <div class="sum-grp sum-grp--kh">
           <button
             type="button"
@@ -212,10 +227,10 @@ const huyetWhy = computed(() => hutWhy(props.explain?.huyet, 'Huyết hư', 'Huy
             title="Soi cả nhóm Huyết (6 kinh chi dưới) trên hình + bảng đo"
             @click="huyetTone !== 'none' && emit('toggle', 'group:huyet')"
           >Huyết</button>
-          <b class="kh-verdict" :class="'tone-' + huyetTone">{{ huyet || '—' }}</b>
+          <b class="kh-verdict" :class="'tone-' + huyetTone">{{ huyetVerdict || '—' }}</b>
         </div>
-        <span v-if="huyetWhy" class="sum-why sum-why--sub">{{ huyetWhy }}</span>
       </div>
+      <span class="sum-why">Khí = chi trên (6 kinh) · Huyết = chi dưới (6 kinh) — phản ánh thể trạng khí huyết hiện tại.</span>
     </div>
 
     <div class="sum-legend">
@@ -232,7 +247,7 @@ const huyetWhy = computed(() => hutWhy(props.explain?.huyet, 'Huyết hư', 'Huy
 .bcs {
   flex: 1 1 200px;
   min-width: 190px;
-  /* CHIA ĐÔI: 4 mục Bát cương xếp 2 cột (①② trên · ③④ dưới) → tóm tắt thấp một nửa */
+  /* ① và ④ chiếm trọn hàng (banner); ②③ chia đôi cột ở giữa → tóm tắt thấp một nửa */
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--space-2);
@@ -256,18 +271,18 @@ const huyetWhy = computed(() => hutWhy(props.explain?.huyet, 'Huyết hư', 'Huy
 .sum-row {
   display: flex;
   flex-direction: column;
-  gap: 5px;
-  padding: var(--space-2) var(--space-3);
+  gap: 3px;
+  padding: 5px var(--space-2);
   border: 1px solid var(--brown-100);
   border-left: 3px solid var(--brown-300);
   border-radius: var(--radius-md);
   background: var(--surface-2);
 }
 /* Viền màu theo từng cặp cương cho dễ phân biệt */
-.sum-row--am { border-left-color: var(--brown-600); }
 .sum-row--bl { border-left-color: #0e7490; }
-.sum-row--hn { border-left-color: #b45309; }
 .sum-row--ht { border-left-color: #15803d; }
+/* ④ Thể Chất — hàng ĐỘC LẬP, chiếm trọn chiều rộng (giống ① tổng cương) để Khí/Huyết nằm ngang hàng */
+.sum-row--tc { border-left-color: #7c3aed; grid-column: 1 / -1; }
 .sum-row--clickable {
   cursor: pointer;
   transition: box-shadow var(--transition-fast), border-color var(--transition-fast);
@@ -300,11 +315,64 @@ const huyetWhy = computed(() => hutWhy(props.explain?.huyet, 'Huyết hư', 'Huy
   padding: 2px 12px;
   border-radius: 999px;
 }
+.sum-pill.tone-bg-hu { background: #2f6690; }
+.sum-pill.tone-bg-thuc { background: #c0452a; }
+.sum-pill.tone-bg-neutral,
+.sum-pill.tone-bg-none { background: var(--brown-600); }
+
+/* ① TỔNG CƯƠNG (Âm-Dương) = AmDuongTaiji, chiếm cả 2 cột làm banner đầu bảng. */
+.sum-tong-wrap { grid-column: 1 / -1; }
+/* Nhóm pill + nút "i" làm 1 khối — bọc cả 2 xuống dòng cùng nhau, không để icon tách lẻ 1 mình */
+.sum-pill-group { display: inline-flex; align-items: center; gap: 4px; flex-wrap: nowrap; }
+/* "i" giải thích biểu hiện lâm sàng của Hư/Thực — giống nút "i" ở thẻ tạng phủ, đứng riêng cạnh pill */
+.sum-info-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  font-size: 9px;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--brown-500);
+  background: var(--white);
+  border: 1px solid var(--brown-200);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+.sum-info-btn:hover {
+  background: var(--brown-600);
+  color: #fff;
+  border-color: var(--brown-600);
+}
 
 .sum-groups {
   display: flex;
   flex-direction: column;
   gap: 5px;
+}
+/* ④ Thể Chất — Khí/Huyết nằm NGANG hàng (hàng độc lập rộng rãi, khác kiểu xếp dọc của ② Biểu-Lý) */
+.sum-groups--tc {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--space-5);
+}
+/* ③ Hư-Thực: 2 nhóm chip theo biên độ (cao ↑ / thấp ↓) — nhãn xanh theo màu cương, chip trung tính. */
+.sum-groups--ht { margin-top: 3px; }
+.ht-grp-lb {
+  flex: none;
+  min-width: 52px;
+  margin-top: 2px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: #15803d;
+}
+.ht-arrow { font-size: var(--font-size-sm); font-weight: 800; }
+.ht-pill.is-active {
+  border-color: #15803d;
+  background: #eef6f0;
+  box-shadow: 0 0 0 2px rgba(21, 128, 61, 0.16);
 }
 .sum-grp {
   display: flex;
@@ -387,6 +455,12 @@ const huyetWhy = computed(() => hutWhy(props.explain?.huyet, 'Huyết hư', 'Huy
   background: var(--brown-50);
   box-shadow: 0 0 0 2px rgba(120, 53, 15, 0.16);
 }
+/* Màu chip theo Hàn/Nhiệt (đã lồng Hàn-Nhiệt vào Biểu-Lý — bỏ ô Hàn-Nhiệt riêng) */
+.organ-pill.temp-han { border-color: #4b7ea3; color: #285a80; background: #eef4f9; }
+.organ-pill.temp-nhiet { border-color: #cf6b52; color: #a83a20; background: #fbeeea; }
+.organ-pill.temp-mixed { border-color: #9070a0; color: #6a3d6d; background: linear-gradient(90deg, #eef4f9 0 50%, #fbeeea 50%); }
+.sum-tempkey { display: inline-flex; align-items: center; font-size: 10px; color: var(--gray-500); }
+.sum-tempkey .dot { width: 8px; height: 8px; margin: 0 2px 0 5px; }
 .organ-pill-wrap {
   display: inline-flex;
   align-items: stretch;

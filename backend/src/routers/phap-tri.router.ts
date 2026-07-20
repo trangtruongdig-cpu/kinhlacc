@@ -70,6 +70,31 @@ export class PhapTriRouter {
     });
   }
 
+  // Gợi ý điều trị theo Bát Cương TÍNH TOÁN (từ số đo) → nhãn "Tính chất" → Pháp Trị/Bài Thuốc/
+  // Phương Huyệt đã gắn nhãn đó. Phải đứng TRƯỚC @Get(':id').
+  @Get('goi-y-bat-cuong')
+  findGoiYBatCuong(@Query('tags') tags?: string) {
+    const parseStrList = (raw?: string): string[] => {
+      if (raw == null || raw === '') return [];
+      return raw
+        .split(',')
+        .map((s) => s.trim())
+        .filter(Boolean);
+    };
+    return this.service.findGoiYBatCuong(parseStrList(tags));
+  }
+
+  // Định vị bệnh: từ BÀI THUỐC (thể bệnh → bài thuốc là link đúng) truy ra PHÁP TRỊ chứa bài đó
+  // → tag luc_kinh (giai đoạn Lục Kinh / tác nhân / tính chất). Phải đứng TRƯỚC @Get(':id').
+  @Get('by-bai-thuoc')
+  findByBaiThuoc(@Query('baiThuocIds') baiThuocIds?: string) {
+    const ids = (baiThuocIds ?? '')
+      .split(',')
+      .map((s) => Number(s.trim()))
+      .filter((n) => Number.isFinite(n) && n > 0);
+    return this.service.findByBaiThuoc(ids);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.service.findOne(id);
