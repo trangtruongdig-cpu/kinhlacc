@@ -521,7 +521,13 @@ onBeforeUnmount(() => {
 
 <template>
   <div class="bcw">
-    <svg class="bcw-svg" viewBox="0 0 420 420" role="img" aria-label="Đồ hình Ngũ Hành: tương sinh – tương khắc, bóc lớp Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh">
+    <!-- viewBox nới rộng ra -40..460 (thay vì 0..420) — CX/CY=210 vẫn ở ĐÚNG TÂM như cũ, không đụng
+    tới bất kỳ toạ độ nào khác trong file. Chỉ để chừa biên: vòng nét đứt DƯ/KHUYẾT ở lớp 1 (Âm
+    Dương) lồi ra xa tâm tới ~236 đơn vị (vượt quá 210 = nửa viewBox CŨ) → dựa vào overflow:visible
+    để không bị cắt, nhưng ở màn hình rộng phần lồi đó tràn ra khỏi khung .bcw-svg, đè lên chữ cột
+    bên cạnh. Nới viewBox to hơn phần lồi xa nhất (250 > 236) để nó luôn nằm TRỌN trong khung SVG
+    của chính nó, không cần tràn ra ngoài nữa. -->
+    <svg class="bcw-svg" viewBox="-40 -40 500 500" role="img" aria-label="Đồ hình Ngũ Hành: tương sinh – tương khắc, bóc lớp Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh">
       <defs>
         <radialGradient id="bcw-stone" cx="50%" cy="40%" r="64%">
           <stop offset="0%" style="stop-color: var(--brown-700)" /><stop offset="46%" style="stop-color: var(--brown-800)" />
