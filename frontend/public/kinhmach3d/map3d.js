@@ -1058,6 +1058,7 @@
     // hoãn vào pendingFocus. Giờ chấm đã sẵn sàng → bay tới huyệt cho đúng (trước đây chỉ xử lý ở onload model,
     // sớm hơn lúc có chấm nên "không bay thẳng tới huyệt").
     if (pendingFocus) { const c = pendingFocus, o = pendingOpts; pendingFocus = pendingOpts = null; setTimeout(() => focusPoint(c, o), 60); }
+    if (pendingExports.length) { const q = pendingExports; pendingExports = []; q.forEach(fn => fn()); }
   }
   function loadUserAnchors() {
     let settled = false;
@@ -1323,6 +1324,239 @@
   initRO.observe(stage);
   if (stage.clientWidth && stage.clientHeight) { initScene(); initRO.disconnect(); }
 
+  // Che vùng nhạy cảm (bẹn/mông) khi CHỤP ẢNH IN — mô hình giải phẫu 3D không mặc gì, không phù hợp
+  // đưa thẳng vào phiếu phát cho bệnh nhân. Dựng "quần lót" ÔM SÁT DA bằng cách bắn tia đo bán kính
+  // thân quanh vùng chậu ở nhiều tầng/nhiều hướng (PORT NGUYÊN VẸN kỹ thuật addBriefs() của
+  // BatCuongFigure3D.vue — cùng thuật toán, chỉ đổi `targets`→`skinTargets` cho khớp biến ở file này) —
+  // cho hình vừa khít cơ thể như quần thật, thay vì 1 khối nổi cứng đè lên. Chỉ thêm vào cảnh LÚC CHỤP,
+  // gỡ ngay sau đó → không đụng màn 3D người dùng đang xem/bấm huyệt trong vùng đó lúc bình thường.
+  function buildBriefsMesh() {
+    if (!skinTargets.length) return null;
+    const RINGS = 7, SEG = 48;
+    const yTop = bodyMinY + 0.57 * bodyHeight;
+    const offset = 0.006 * bodyHeight;
+    const o = new THREE.Vector3(), c = new THREE.Vector3(), dir = new THREE.Vector3();
+    const verts = [];
+    const def = 0.12 * bodyHeight;
+
+    // DÒ ĐÁY VÙNG KÍN ở mặt trước: hạ dần tia bắn thẳng mặt trước tới khi hết trúng thân trước → gấu
+    // giữa-trước cần hạ tới đó để che kín.
+    let yFront = bodyMinY + 0.46 * bodyHeight;
+    for (let f = 0.5; f >= 0.3; f -= 0.01) {
+      const yy = bodyMinY + f * bodyHeight;
+      o.set(0, yy, bodyHeight); c.set(0, yy, 0);
+      raycaster.set(o, dir.copy(c).sub(o).normalize());
+      const hits = raycaster.intersectObjects(skinTargets, true);
+      if (hits.length && hits[0] && hits[0].point.z > 0.005 * bodyHeight) yFront = yy;
+      else break;
+    }
+    yFront = Math.max(yFront, bodyMinY + 0.34 * bodyHeight);
+    // DÒ ĐÁY MÔNG ở mặt sau (tương tự) → gấu giữa-sau hạ xuống che kín mông & rãnh mông.
+    let yBack = bodyMinY + 0.46 * bodyHeight;
+    for (let f = 0.5; f >= 0.3; f -= 0.01) {
+      const yy = bodyMinY + f * bodyHeight;
+      o.set(0, yy, -bodyHeight); c.set(0, yy, 0);
+      raycaster.set(o, dir.copy(c).sub(o).normalize());
+      const hits = raycaster.intersectObjects(skinTargets, true);
+      if (hits.length && hits[0] && hits[0].point.z < -0.005 * bodyHeight) yBack = yy;
+      else break;
+    }
+    yBack = Math.max(yBack, bodyMinY + 0.34 * bodyHeight);
+
+    // GẤU CẮT KIỂU QUẦN LÓT: hai bên (hông) giữ cao — giữa-trước hạ tới yFront, giữa-sau hạ tới yBack.
+    const ySide = Math.min(bodyMinY + 0.46 * bodyHeight, Math.max(yFront, yBack) + 0.04 * bodyHeight);
+    const drop = 0.035 * bodyHeight;
+    const hemFloor = bodyMinY + 0.32 * bodyHeight;
+    const hemY = (deg) => {
+      const cd = Math.cos((deg * Math.PI) / 180);
+      const front = Math.max(0, cd) ** 1.1;
+      const back = Math.max(0, -cd) ** 1.1;
+      const base = ySide + (yFront - ySide) * front + (yBack - ySide) * back;
+      return Math.max(base - drop, hemFloor);
+    };
+
+    // Độ nhô ra trước nhất của vùng kín → làm "sàn túi" đẩy mặt trước ra ôm trọn, không lộ.
+    let gf = 0;
+    for (let f = 0.4; f <= 0.54; f += 0.02) {
+      const yy = bodyMinY + f * bodyHeight;
+      o.set(0, yy, bodyHeight); c.set(0, yy, 0);
+      raycaster.set(o, dir.copy(c).sub(o).normalize());
+      const hits = raycaster.intersectObjects(skinTargets, true);
+      if (hits.length && hits[0]) gf = Math.max(gf, Math.hypot(hits[0].point.x, hits[0].point.z));
+    }
+    const gTop = bodyMinY + 0.52 * bodyHeight;
+    const isProtected = (deg) => deg < 35 || deg > 325 || (deg > 145 && deg < 215);
+
+    for (let r = 0; r < RINGS; r++) {
+      const t = r / (RINGS - 1);
+      const raw = [];
+      const yArr = [];
+      for (let s = 0; s < SEG; s++) {
+        const az = (s / SEG) * Math.PI * 2;
+        const y = yTop + (hemY((s / SEG) * 360) - yTop) * t;
+        yArr.push(y);
+        o.set(Math.sin(az) * bodyHeight, y, Math.cos(az) * bodyHeight);
+        c.set(0, y, 0);
+        raycaster.set(o, dir.copy(c).sub(o).normalize());
+        const hits = raycaster.intersectObjects(skinTargets, true);
+        raw.push(hits.length && hits[0] ? Math.hypot(hits[0].point.x, hits[0].point.z) : null);
+      }
+      const known = raw.filter((val) => val != null).sort((a, b) => a - b);
+      const med = known.length ? (known[Math.floor(known.length / 2)] ?? def) : def;
+      for (let s = 0; s < SEG; s++) {
+        const val = raw[s];
+        if (val != null && !isProtected((s / SEG) * 360) && val > med * 1.45) raw[s] = null;
+      }
+      const fill = (i) => {
+        const cur = raw[i];
+        if (cur != null) return cur;
+        let lv = null, rv = null, ld = 0, rd = 0;
+        for (let k = 1; k <= SEG; k++) {
+          const val = raw[(i - k + SEG) % SEG];
+          if (val != null) { lv = val; ld = k; break; }
+        }
+        for (let k = 1; k <= SEG; k++) {
+          const val = raw[(i + k) % SEG];
+          if (val != null) { rv = val; rd = k; break; }
+        }
+        if (lv != null && rv != null) return (lv * rd + rv * ld) / (ld + rd);
+        return lv ?? rv ?? def;
+      };
+      for (let s = 0; s < SEG; s++) {
+        const deg = (s / SEG) * 360;
+        const az = (s / SEG) * Math.PI * 2;
+        const yv = yArr[s] ?? yTop;
+        let R = Math.min(fill(s), med * 1.6);
+        if (deg < 35 || deg > 325) {
+          const floorFrac = yv >= gTop ? Math.max(0, (yTop - yv) / (yTop - gTop)) : 1;
+          R = Math.max(R, gf * floorFrac);
+        }
+        R += offset;
+        verts.push(Math.sin(az) * R, yv, Math.cos(az) * R);
+      }
+    }
+
+    const indices = [];
+    const at = (r, s) => r * SEG + (s % SEG);
+    for (let r = 0; r < RINGS - 1; r++) {
+      for (let s = 0; s < SEG; s++) {
+        const a = at(r, s), b = at(r, s + 1), d = at(r + 1, s), e = at(r + 1, s + 1);
+        indices.push(a, d, b, b, d, e);
+      }
+    }
+
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute('position', new THREE.Float32BufferAttribute(verts, 3));
+    geo.setIndex(indices);
+    geo.computeVertexNormals();
+    const mat = new THREE.MeshStandardMaterial({ color: 0x59636f, roughness: 0.95, metalness: 0, side: THREE.DoubleSide });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.renderOrder = 2;
+    return mesh;
+  }
+  let _modestyMesh = null;
+  function addModestyCover() {
+    _modestyMesh = buildBriefsMesh();
+    if (_modestyMesh) scene.add(_modestyMesh);
+  }
+  function removeModestyCover() {
+    if (!_modestyMesh) return;
+    scene.remove(_modestyMesh);
+    _modestyMesh.geometry.dispose();
+    _modestyMesh.material.dispose();
+    _modestyMesh = null;
+  }
+
+  // ---- API: XUẤT ẢNH "PHIẾU CHÂM HUYỆT" (2 ảnh nền trước/sau + toạ độ % từng huyệt) ----
+  // Chụp bằng camera trực giao TẠM (không đụng camera/khung đang xem) rồi .project() CHÍNH camera đó
+  // → toạ độ % khớp tuyệt đối với ảnh vừa chụp. Vue tự vẽ chấm/nhãn/đường dẫn chỉ đè lên (SVG) khi in;
+  // hàm này CHỈ trả ảnh nền + toạ độ, không vẽ overlay (giữ đúng phần việc render 3D ở đây, phần trình
+  // bày phiếu in ở Vue).
+  function runExportPrintDiagram(codes, opts) {
+    opts = opts || {};
+    const W = opts.width || 900, H = opts.height || 1400;
+    const list = (codes || []).filter(c => dotByCode[c]);
+    const missing = (codes || []).filter(c => !dotByCode[c]);
+    if (!list.length) return { width: W, height: H, front: null, back: null, points: [], missing };
+
+    // Snapshot trạng thái hiện tại → khôi phục nguyên vẹn sau khi chụp (không đổi giao diện đang xem).
+    const prevDots = dotsGroup.visible, prevLines = linesGroup.visible, prevFlow = flowGroup.visible, prevNeedle = needleGroup.visible;
+    const prevLayerState = Object.assign({}, layerState);
+    const prevSize = new THREE.Vector2(); renderer.getSize(prevSize);
+    const prevRatio = renderer.getPixelRatio();
+
+    // Ảnh nền sạch: ẩn chấm/đường kinh/kim, hiện đủ Da (không cần Cơ/Xương vì Da phủ kín).
+    dotsGroup.visible = false; linesGroup.visible = false; flowGroup.visible = false; needleGroup.visible = false;
+    layerState.skin = 1; layerState.muscle = 1; layerState.bone = 1;
+    applyLayers();
+
+    const box = new THREE.Box3().setFromObject(modelRoot);
+    const size = new THREE.Vector3(); box.getSize(size);
+    const center = new THREE.Vector3(); box.getCenter(center);
+    addModestyCover();
+    const padY = size.y * 0.06;
+    const top = box.max.y + padY, bottom = box.min.y - padY;
+    const camH = top - bottom;
+    const camW = camH * (W / H);
+    const dist = Math.max(size.x, size.z, camH) * 3;   // đặt camera đủ xa, tránh cắt hình
+
+    const cam = new THREE.OrthographicCamera(-camW / 2, camW / 2, camH / 2, -camH / 2, 0.01, dist * 4);
+    renderer.setPixelRatio(1);
+    renderer.setSize(W, H, false);
+
+    function shoot(camPos) {
+      cam.position.copy(camPos);
+      cam.up.set(0, 1, 0);
+      cam.lookAt(center);
+      cam.updateProjectionMatrix();
+      cam.updateMatrixWorld(true);
+      renderer.render(scene, cam);
+      const image = renderer.domElement.toDataURL('image/png');
+      const proj = {};
+      for (const code of list) {
+        const p = dotByCode[code].position.clone().project(cam);
+        proj[code] = { x: (p.x + 1) / 2, y: (1 - p.y) / 2 };
+      }
+      return { image, proj };
+    }
+
+    const frontShot = shoot(new THREE.Vector3(center.x, center.y, box.max.z + dist));
+    const backShot = shoot(new THREE.Vector3(center.x, center.y, box.min.z - dist));
+
+    // khôi phục nguyên trạng khung đang xem.
+    removeModestyCover();
+    renderer.setPixelRatio(prevRatio);
+    renderer.setSize(prevSize.x || stage.clientWidth || W, prevSize.y || stage.clientHeight || H, false);
+    dotsGroup.visible = prevDots; linesGroup.visible = prevLines; flowGroup.visible = prevFlow; needleGroup.visible = prevNeedle;
+    Object.assign(layerState, prevLayerState);
+    applyLayers();
+    if (camera) { camera.updateProjectionMatrix(); renderer.render(scene, camera); }
+    wake();
+
+    // side: huyệt nằm mặt trước hay sau thân — theo hướng pháp tuyến bề mặt tại điểm đó (đã raycast-snap
+    // vào da), KHÔNG suy từ toạ độ nguồn (một số kinh giữa/bên hông dễ sai) → luôn khớp mặt đang thấy huyệt.
+    const points = list.map(code => {
+      const m = dotByCode[code];
+      const n = m.userData.normal || new THREE.Vector3(0, 0, 1);
+      const mer = m.userData.mer;
+      const merInfo = COORDS.meridians[mer];
+      return {
+        code, mer, name: nameOf(code),
+        merName: merInfo ? merInfo.name : mer,
+        color: merInfo ? merInfo.color : '#8a6d3b',
+        side: n.z >= 0 ? 'front' : 'back',
+        front: frontShot.proj[code],
+        back: backShot.proj[code],
+      };
+    });
+
+    return { width: W, height: H, front: frontShot.image, back: backShot.image, points, missing };
+  }
+
+  // Gọi trước khi chấm huyệt sẵn sàng (vd bấm "In phiếu" ngay lúc vừa vào trang) → xếp hàng, chạy lại
+  // khi revealAcuOverlay() báo chấm đã đặt xong (giống cơ chế pendingFocus của focus()).
+  let pendingExports = [];
+
   // ---- API TOÀN CỤC: cho module khác (Tra cứu, chi tiết huyệt) gọi "load tới huyệt trên 3D" ----
   // window.AcuMap.focus('LU9')  → mở đồ hình 3D + camera bay tới huyệt LU9 + cắm kim + chi tiết.
   window.AcuMap = {
@@ -1338,6 +1572,21 @@
       requestAnimationFrame(onResize);
     },
     ready() { return !!modelRoot; },
+    // huyệt đã đặt xong lên mô hình (bảo đảm dotByCode có dữ liệu) → điều kiện gọi exportPrintDiagram ngay.
+    pointsReady() { return _acuRevealed; },
+    // Promise<{width,height,front,back,points,missing}> — front/back là data URL PNG; points[i] có
+    // {code, mer, merName, name, color, side, front:{x,y}, back:{x,y}} với x/y là tỉ lệ % (0..1) trên ẢNH TƯƠNG ỨNG.
+    exportPrintDiagram(codes, opts) {
+      return new Promise((resolve, reject) => {
+        const run = () => {
+          try { resolve(runExportPrintDiagram(codes, opts)); }
+          catch (e) { reject(e); }
+        };
+        initScene();
+        if (_acuRevealed && modelRoot) run();
+        else pendingExports.push(run);
+      });
+    },
   };
   // hỗ trợ link dạng #map/LU9 (mở thẳng tới huyệt)
   function focusFromHash() { const m = /^#map\/([A-Z]{2}\d+)/.exec(location.hash); if (m) window.AcuMap.focus(m[1]); }

@@ -1177,6 +1177,22 @@ function togglePhuongHuyetNote(id: number) {
   expandedPhuongHuyetNotes.value = next
 }
 
+// Nhảy sang Kinh Mạch 3D, bay tới đúng huyệt (KinhMach3DView đọc query.focus sau khi engine sẵn sàng),
+// kèm dữ liệu để hiện nút "Quay lại" đúng ca khám + đúng tab.
+function gotoAcuMap(code?: string | null) {
+  if (!code) return
+  router.push({
+    name: 'kinh-mach-3d',
+    query: {
+      focus: code,
+      from: 'meridian-results',
+      patientId: String(patientId.value),
+      examId: String(examId.value),
+      view: '2',
+    },
+  })
+}
+
 const PHUONG_PHAP_ORDER = [
   'Châm',
   'Cứu',
@@ -1187,9 +1203,9 @@ const PHUONG_PHAP_ORDER = [
   'Tả',
 ] as const
 
-const phuongHuyetGroups = computed(() => {
+function groupPhuongHuyetByMethod(rows: PhacDoApiRow[]): Array<{ method: string; items: PhacDoApiRow[] }> {
   const grouped = new Map<string, PhacDoApiRow[]>()
-  for (const row of matchedPhuongHuyetList.value) {
+  for (const row of rows) {
     const key = (row.phuong_phap_tac_dong || '').trim() || 'Khác'
     const arr = grouped.get(key) ?? []
     arr.push(row)
@@ -1205,7 +1221,83 @@ const phuongHuyetGroups = computed(() => {
   }
   for (const [m, items] of grouped) out.push({ method: m, items })
   return out
-})
+}
+
+const phuongHuyetGroups = computed(() => groupPhuongHuyetByMethod(matchedPhuongHuyetList.value))
+
+// Phương huyệt CHỈ của 1 thể bệnh (không phụ thuộc excelFocusRuleId đang lọc hay không) — dùng cho nút
+// "in riêng" đặt cạnh Chi tiết/Pháp trị của từng thể ở mục III, khác với matchedPhuongHuyetList vốn
+// gộp mọi thể đang được xét (tất cả hoặc theo focus).
+function phuongHuyetForThe(item: { name: string }): PhacDoApiRow[] {
+  const names = new Set(phNamesOf(item.name))
+  const seenHuyet = new Set<number>()
+  const out: PhacDoApiRow[] = []
+  for (const row of phacDoAllList.value) {
+    const bn = phNormName(row.benh?.chung_trang)
+    if (!bn || !names.has(bn)) continue
+    if (seenHuyet.has(row.idHuyet)) continue
+    seenHuyet.add(row.idHuyet)
+    out.push(row)
+  }
+  return out
+}
+
+// In "Phiếu châm huyệt": để tên huyệt + ghi chú kỹ thuật lại sessionStorage (map3d.js chỉ biết mã +
+// toạ độ 3D, không có tên/ghi chú), rồi điều hướng sang Kinh Mạch 3D với ?diagram=<mã,mã,...> —
+// KinhMach3DView tự chụp ảnh mặt trước/sau + dựng phiếu in khi engine 3D sẵn sàng.
+// Truyền `theItem` để in RIÊNG phương huyệt của 1 thể bệnh (nút cạnh Chi tiết/Pháp trị ở mục III);
+// bỏ trống để in GỘP mọi thể đang được xét (nút chung ở đầu trang).
+function inPhieuChamHuyet(theItem?: { name: string } | null) {
+  const rows = theItem ? phuongHuyetForThe(theItem) : matchedPhuongHuyetList.value
+  const codes = [
+    ...new Set(rows.map((r) => r.huyetVi?.ma_huyet).filter((c): c is string => !!c)),
+  ]
+  if (!codes.length) {
+    alert(
+      theItem
+        ? `Thể "${theItem.name}" chưa có phương huyệt để in.`
+        : 'Chưa có huyệt nào có mã để dựng phiếu châm huyệt.',
+    )
+    return
+  }
+  const payload = {
+    patientName: patient.value?.fullName || '',
+    examDate: examDisplay.value.date,
+    theBenh: theItem?.name || '',
+    groups: groupPhuongHuyetByMethod(rows).map((g) => ({
+      method: g.method,
+      items: g.items
+        .filter((r) => r.huyetVi?.ma_huyet)
+        .map((r) => ({
+          code: r.huyetVi!.ma_huyet as string,
+          name: r.huyetVi?.ten_huyet || '',
+          note: r.ghi_chu_ky_thuat || '',
+        })),
+    })),
+  }
+  try {
+    sessionStorage.setItem('kinhlac:acu-print-payload', JSON.stringify(payload))
+  } catch {
+    /* storage đầy/bị chặn — vẫn điều hướng, KinhMach3DView tự lấy tên huyệt từ dữ liệu 3D nếu thiếu payload */
+  }
+  // Mở TAB MỚI để dựng phiếu (cần tải engine 3D + chụp ảnh) — KHÔNG router.push, để trang "Kết quả
+  // khám" đang xem giữ nguyên, không bị điều hướng đi mất. Tab mới tự đóng lại sau khi mở xong cửa sổ
+  // in (xem `printAcuDiagram` trong KinhMach3DView.vue) — chỉ còn phiếu in đọng lại cho bác sĩ.
+  const url = router.resolve({
+    name: 'kinh-mach-3d',
+    query: {
+      diagram: codes.join(','),
+      from: 'meridian-results',
+      patientId: String(patientId.value),
+      examId: String(examId.value),
+      view: '2',
+    },
+  }).href
+  const w = window.open(url, '_blank')
+  if (!w) {
+    alert('Trình duyệt đang chặn cửa sổ mới. Vui lòng cho phép pop-up cho trang này rồi thử lại.')
+  }
+}
 
 function methodChipClass(method: string): string {
   const slug = method
@@ -1951,7 +2043,13 @@ const focusedTheName = computed<string | null>(() => {
 })
 
 // ── Bố cục 2-VIEW: state ──
-const activeView = ref<1 | 2 | 3>(1)
+// Quay lại từ Kinh Mạch 3D (gotoAcuMap kèm ?view=2) → mở đúng tab thay vì reset về tab I.
+const initialView = ((): 1 | 2 | 3 => {
+  const v = route.query.view
+  const s = Array.isArray(v) ? v[0] : v
+  return s === '1' || s === '2' || s === '3' ? (Number(s) as 1 | 2 | 3) : 1
+})()
+const activeView = ref<1 | 2 | 3>(initialView)
 const showPatientMore = ref(false)
 // Verdict Bát Cương gọn cho thanh ngữ cảnh dính (nén khối Tóm Tắt to → luôn thấy các cương).
 // CHỈ 3 kết luận thật của Bát Cương: Âm-Dương (tổng cương) · Biểu-Lý (tc.viTri) · Hư-Thực.
@@ -2636,17 +2734,31 @@ watch(
             <span>Ngày khám: {{ examDisplay.date }} {{ examDisplay.time }}</span>
           </div>
         </div>
-        <button
-          type="button"
-          class="print-btn"
-          title="In phiếu kết quả khám bệnh cho bệnh nhân"
-          @click="printPhieuKetQua"
-        >
-          <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-            <path d="M6 2.5A1.5 1.5 0 0 0 4.5 4v2H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h.5v1.5A1.5 1.5 0 0 0 6 17h8a1.5 1.5 0 0 0 1.5-1.5V14h.5a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-.5V4A1.5 1.5 0 0 0 14 2.5H6ZM14 6H6V4h8v2Zm0 6H6v3.5h8V12Zm1.5-3.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
-          </svg>
-          <span>In phiếu kết quả</span>
-        </button>
+        <div class="print-btns">
+          <button
+            type="button"
+            class="print-btn"
+            title="In phiếu kết quả khám bệnh cho bệnh nhân"
+            @click="printPhieuKetQua"
+          >
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M6 2.5A1.5 1.5 0 0 0 4.5 4v2H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h.5v1.5A1.5 1.5 0 0 0 6 17h8a1.5 1.5 0 0 0 1.5-1.5V14h.5a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-.5V4A1.5 1.5 0 0 0 14 2.5H6ZM14 6H6V4h8v2Zm0 6H6v3.5h8V12Zm1.5-3.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z"/>
+            </svg>
+            <span>In phiếu kết quả</span>
+          </button>
+          <button
+            v-if="matchedPhuongHuyetList.length"
+            type="button"
+            class="print-btn print-btn--acu"
+            title="In phiếu châm huyệt riêng — kèm hình vị trí từng huyệt"
+            @click="inPhieuChamHuyet()"
+          >
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M10 2a1 1 0 0 1 1 1v1.06A6.002 6.002 0 0 1 15.94 9H17a1 1 0 1 1 0 2h-1.06A6.002 6.002 0 0 1 11 15.94V17a1 1 0 1 1-2 0v-1.06A6.002 6.002 0 0 1 4.06 11H3a1 1 0 1 1 0-2h1.06A6.002 6.002 0 0 1 9 4.06V3a1 1 0 0 1 1-1Zm0 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0 2.5A1.5 1.5 0 1 1 10 11.5a1.5 1.5 0 0 1 0-3Z"/>
+            </svg>
+            <span>In phiếu châm huyệt</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -2900,20 +3012,28 @@ watch(
                     <span class="ph-group__count">{{ g.items.length }} huyệt</span>
                   </div>
                   <div class="ph-group__chips">
-                    <button
-                      v-for="row in g.items"
-                      :key="row.idPhacDo"
-                      type="button"
-                      class="ph-chip ph-chip--has-note"
-                      :class="{
-                        'ph-chip--active': expandedPhuongHuyetNotes.has(row.idPhacDo),
-                      }"
-                      :title="row.ghi_chu_ky_thuat || phuongHuyetKinhMach(row) || ''"
-                      @click="togglePhuongHuyetNote(row.idPhacDo)"
-                    >
-                      <span class="ph-chip__name">{{ phuongHuyetDisplayLabel(row) }}</span>
-                      <span v-if="row.ghi_chu_ky_thuat" class="ph-chip__dot" aria-hidden="true"></span>
-                    </button>
+                    <span v-for="row in g.items" :key="row.idPhacDo" class="ph-chip-wrap">
+                      <button
+                        type="button"
+                        class="ph-chip ph-chip--has-note"
+                        :class="{
+                          'ph-chip--active': expandedPhuongHuyetNotes.has(row.idPhacDo),
+                        }"
+                        :title="row.ghi_chu_ky_thuat || phuongHuyetKinhMach(row) || ''"
+                        @click="togglePhuongHuyetNote(row.idPhacDo)"
+                      >
+                        <span class="ph-chip__name">{{ phuongHuyetDisplayLabel(row) }}</span>
+                        <span v-if="row.ghi_chu_ky_thuat" class="ph-chip__dot" aria-hidden="true"></span>
+                      </button>
+                      <button
+                        v-if="row.huyetVi?.ma_huyet"
+                        type="button"
+                        class="ph-chip__map-btn"
+                        title="Xem huyệt này trên đồ hình 3D"
+                        aria-label="Xem trên đồ hình 3D"
+                        @click.stop="gotoAcuMap(row.huyetVi?.ma_huyet)"
+                      >🧭</button>
+                    </span>
                   </div>
                   <template
                     v-for="row in g.items.filter((r) => expandedPhuongHuyetNotes.has(r.idPhacDo))"
@@ -3147,35 +3267,52 @@ watch(
                     @keydown.enter.prevent="toggleExcelFocus(item.id)"
                     @keydown.space.prevent="toggleExcelFocus(item.id)"
                   >
-                    <span class="synd-idx">{{ Number(idx) + 1 }}</span>
-                    <span class="synd-name">{{ item.name }}</span>
-                    <span class="synd-rate">{{ item.outputCell }}</span>
-                    <button
-                      type="button"
-                      class="pt-search-btn"
-                      title="Xem chi tiết bệnh này (nguyên nhân, triệu chứng, pháp trị, bài thuốc — theo dữ liệu Bệnh Đo Kinh Lạc)"
-                      @click.stop="openBenhChiTiet(item)"
-                      @keydown.stop
-                    >
-                      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
-                        <path d="M4 10c1.8-3.3 4.2-5 6-5s4.2 1.7 6 5c-1.8 3.3-4.2 5-6 5s-4.2-1.7-6-5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
-                        <circle cx="10" cy="10" r="2" stroke="currentColor" stroke-width="2" />
-                      </svg>
-                      Chi tiết
-                    </button>
-                    <button
-                      type="button"
-                      class="pt-search-btn"
-                      title="Tìm pháp trị cho mô hình bệnh này"
-                      @click.stop="openPhapTriSearch(item)"
-                      @keydown.stop
-                    >
-                      <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
-                        <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="2" />
-                        <path d="m17 17-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                      </svg>
-                      Pháp trị
-                    </button>
+                    <div class="synd-info">
+                      <span class="synd-idx">{{ Number(idx) + 1 }}</span>
+                      <span class="synd-name">{{ item.name }}</span>
+                      <span class="synd-rate">{{ item.outputCell }}</span>
+                    </div>
+                    <div class="synd-actions">
+                      <button
+                        type="button"
+                        class="pt-search-btn"
+                        title="Xem chi tiết bệnh này (nguyên nhân, triệu chứng, pháp trị, bài thuốc — theo dữ liệu Bệnh Đo Kinh Lạc)"
+                        @click.stop="openBenhChiTiet(item)"
+                        @keydown.stop
+                      >
+                        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
+                          <path d="M4 10c1.8-3.3 4.2-5 6-5s4.2 1.7 6 5c-1.8 3.3-4.2 5-6 5s-4.2-1.7-6-5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                          <circle cx="10" cy="10" r="2" stroke="currentColor" stroke-width="2" />
+                        </svg>
+                        Chi tiết
+                      </button>
+                      <button
+                        type="button"
+                        class="pt-search-btn"
+                        title="Tìm pháp trị cho mô hình bệnh này"
+                        @click.stop="openPhapTriSearch(item)"
+                        @keydown.stop
+                      >
+                        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
+                          <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="2" />
+                          <path d="m17 17-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                        </svg>
+                        Pháp trị
+                      </button>
+                      <button
+                        v-if="phuongHuyetForThe(item).length"
+                        type="button"
+                        class="pt-search-btn"
+                        title="In phiếu châm huyệt riêng cho thể bệnh này"
+                        @click.stop="inPhieuChamHuyet(item)"
+                        @keydown.stop
+                      >
+                        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
+                          <path d="M6 2.5A1.5 1.5 0 0 0 4.5 4v2H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h.5v1.5A1.5 1.5 0 0 0 6 17h8a1.5 1.5 0 0 0 1.5-1.5V14h.5a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-.5V4A1.5 1.5 0 0 0 14 2.5H6ZM14 6H6V4h8v2Zm0 6H6v3.5h8V12Z" stroke="none" fill="currentColor" />
+                        </svg>
+                        Châm huyệt
+                      </button>
+                    </div>
                   </div>
                 </div>
                 <div v-else class="pathology-placeholder">
@@ -3796,9 +3933,12 @@ watch(
 .page-title { font-size: var(--font-size-2xl); font-weight: 700; color: var(--brown-800); }
 .exam-meta { font-size: var(--font-size-sm); color: var(--gray-600); }
 .exam-meta strong { color: var(--brown-700); font-weight: 600; }
+.print-btns { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap; flex-shrink: 0; }
 .print-btn { display: inline-flex; align-items: center; gap: var(--space-2); flex-shrink: 0; font-size: var(--font-size-sm); font-weight: 600; color: var(--white); background: var(--brown-600, #92400e); border: 1px solid var(--brown-700, #78350f); padding: var(--space-2) var(--space-4); border-radius: var(--radius-md); cursor: pointer; transition: background var(--transition-fast), box-shadow var(--transition-fast); }
 .print-btn:hover { background: var(--brown-700, #78350f); box-shadow: 0 1px 4px rgba(120, 53, 15, 0.25); }
 .print-btn:active { transform: translateY(1px); }
+.print-btn--acu { background: var(--chip-pulse-fg, #2f6690); border-color: var(--chip-pulse-fg, #2f6690); }
+.print-btn--acu:hover { background: var(--brown-700, #78350f); }
 .divider { margin: 0 var(--space-2); color: var(--gray-300); }
 
 /* Thông tin bệnh nhân: dải gọn ngang trên đầu trang (thay bảng dọc cũ trong Mục I) */
@@ -4012,6 +4152,7 @@ watch(
   .mr-view { display: block !important; }
   .mr-view + .mr-view { margin-top: var(--space-4); }
   .mr-grid--v2 > .result-section, .mr-grid--v2 > .phacdo-col { max-height: none; overflow: visible; }
+  .ph-chip__map-btn { display: none; }
 }
 
 /* ===== Màn THẤP (≤920px cao): nén để I+II+III vừa 1 màn — màn 1080 KHÔNG bị ảnh hưởng ===== */
@@ -4147,6 +4288,32 @@ watch(
   border-radius: 50%;
   background: currentColor;
   opacity: 0.6;
+}
+.ph-chip-wrap {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+.ph-chip__map-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  padding: 0;
+  font-size: 11px;
+  line-height: 1;
+  border-radius: 50%;
+  border: 1px solid var(--chip-pulse-border);
+  background: var(--white);
+  color: var(--chip-pulse-fg);
+  cursor: pointer;
+  transition: background .12s, border-color .12s, transform .12s;
+}
+.ph-chip__map-btn:hover {
+  background: var(--chip-pulse-border);
+  border-color: var(--chip-pulse-fg);
+  transform: scale(1.08);
 }
 .ph-group__note {
   display: flex;
@@ -4828,12 +4995,30 @@ watch(
 }
 .comparison-cell {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--space-2);
   background: var(--white);
   border: 1px solid var(--brown-200);
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-md);
+}
+/* Hàng mô hình bệnh Đông Y (mục III) có tới 3 nút hành động (Chi tiết/Pháp trị/Châm huyệt) — tách
+   riêng cụm tên/mã (.synd-info) và cụm nút (.synd-actions) để khi hẹp chỗ, CỤM NÚT tự xuống dòng
+   dưới tên thay vì ép chữ tên co lại từng chữ một (mất thẩm mỹ). */
+.synd-info {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1 1 140px;
+  min-width: 0;
+}
+.synd-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 .comparison-cell--clickable {
   cursor: pointer;
@@ -4933,6 +5118,7 @@ watch(
 }
 .synd-name {
   flex: 1;
+  min-width: 56px;
   font-weight: 600;
   color: var(--gray-800);
 }

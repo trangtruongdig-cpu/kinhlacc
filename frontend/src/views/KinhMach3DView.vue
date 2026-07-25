@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { mountAcuMap, unmountAcuMap } from '@/lib/acuMap3d'
 
@@ -11,12 +11,42 @@ const progress = ref(0) // % tải model cho màn chờ to (0 = chưa có số �
 const error = ref<string | null>(null)
 
 // Kênh tiến trình từ engine map3d.js (đặt trên window) → màn chờ to của Vue.
+interface AcuExportPoint {
+  code: string
+  mer: string
+  name: string
+  merName: string
+  color: string
+  side: 'front' | 'back'
+  front: { x: number; y: number } | null
+  back: { x: number; y: number } | null
+}
+interface AcuExportResult {
+  width: number
+  height: number
+  front: string | null
+  back: string | null
+  points: AcuExportPoint[]
+  missing: string[]
+}
 interface AcuWin {
   ACU_MODEL_READY?: boolean
   ACU_ON_MODEL_PROGRESS?: (pct: number) => void
   ACU_ON_MODEL_READY?: () => void
-  AcuMap?: { focus: (c: string) => void }
+  AcuMap?: {
+    focus: (c: string) => void
+    exportPrintDiagram?: (codes: string[], opts?: { width?: number; height?: number }) => Promise<AcuExportResult>
+  }
 }
+// Payload MeridianResultsView để lại trong sessionStorage trước khi điều hướng sang đây với
+// ?diagram=<mã huyệt,...> — cho phiếu in tên đầy đủ + ghi chú kỹ thuật (map3d.js chỉ biết toạ độ 3D).
+interface AcuPrintPayload {
+  patientName: string
+  examDate: string
+  theBenh?: string
+  groups: Array<{ method: string; items: Array<{ code: string; name: string; note?: string }> }>
+}
+const ACU_PRINT_PAYLOAD_KEY = 'kinhlac:acu-print-payload'
 let safetyTimer: ReturnType<typeof setTimeout> | null = null
 function finishLoading() {
   progress.value = 100
@@ -59,6 +89,214 @@ function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape' && expanded.value) toggleExpand()
 }
 
+// Mở từ kết quả khám (?from=meridian-results&patientId&examId&view) → hiện nút "Quay lại kết quả
+// khám" bay đúng ca khám + đúng tab (thay vì reset về tab đầu).
+function qp(name: string): string | null {
+  const v = route.query[name]
+  const s = Array.isArray(v) ? v[0] : v
+  return s ? String(s) : null
+}
+const backTarget = computed(() => {
+  if (qp('from') !== 'meridian-results') return null
+  const patientId = qp('patientId')
+  const examId = qp('examId')
+  if (!patientId || !examId) return null
+  return { patientId, examId, view: qp('view') || '2' }
+})
+function goBackToResults() {
+  const t = backTarget.value
+  if (!t) return
+  router.push({
+    name: 'meridian-results',
+    params: { patientId: t.patientId, examId: t.examId },
+    query: { view: t.view },
+  })
+}
+
+// ───────────────────────── "In phiếu châm huyệt" (?diagram=LU9,ST36,...) ─────────────────────────
+function escHtml(v: unknown): string {
+  return String(v ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c] as string)
+}
+
+const ACP_MARGIN = 190 // lề trái/phải quanh ảnh thân người, dành chỗ cho nhãn + đường dẫn chỉ
+
+// Xếp nhãn dọc theo lề, tránh đè nhau: sắp theo chiều cao thực tế trên ảnh rồi đẩy xuống tối thiểu
+// `minGap` mỗi khi 2 nhãn kề nhau quá gần (kỹ thuật "callout ladder" quen thuộc trong bản đồ/atlas).
+function layoutLabelSlots<T extends { y: number }>(points: T[], imgH: number, minGap: number): (T & { labelY: number })[] {
+  const sorted = [...points].sort((a, b) => a.y - b.y)
+  let prevY = -Infinity
+  return sorted.map((p) => {
+    const desired = p.y * imgH
+    const y = Math.max(desired, prevY + minGap)
+    prevY = y
+    return { ...p, labelY: Math.min(y, imgH - 10) }
+  })
+}
+
+function buildSideSvg(
+  side: 'front' | 'back',
+  imgDataUrl: string | null,
+  points: AcuExportPoint[],
+  labelOf: (code: string) => string,
+  W: number,
+  H: number,
+): string {
+  if (!imgDataUrl) {
+    return `<div class="acp-empty">Không chụp được ảnh ${side === 'front' ? 'mặt trước' : 'mặt sau'}.</div>`
+  }
+  const M = ACP_MARGIN
+  const totalW = W + M * 2
+  const pts = points
+    .filter((p) => p.side === side && p[side])
+    .map((p) => {
+      const proj = p[side] as { x: number; y: number }
+      return { code: p.code, name: labelOf(p.code) || p.name, color: p.color, x: proj.x, y: proj.y }
+    })
+  const left = layoutLabelSlots(
+    pts.filter((p) => p.x < 0.5),
+    H,
+    24,
+  )
+  const right = layoutLabelSlots(
+    pts.filter((p) => p.x >= 0.5),
+    H,
+    24,
+  )
+
+  const dotsMarkup = pts
+    .map((p) => `<circle cx="${(M + p.x * W).toFixed(1)}" cy="${(p.y * H).toFixed(1)}" r="4.2" fill="${p.color}" stroke="#fff" stroke-width="1.2" />`)
+    .join('')
+  const leaderAndLabel = (p: { code: string; name: string; color: string; x: number; y: number; labelY: number }, anchor: 'start' | 'end', labelX: number) => {
+    const dotX = M + p.x * W
+    const dotY = p.y * H
+    const textX = anchor === 'end' ? labelX - 6 : labelX + 6
+    return (
+      `<line x1="${labelX.toFixed(1)}" y1="${p.labelY.toFixed(1)}" x2="${dotX.toFixed(1)}" y2="${dotY.toFixed(1)}" stroke="${p.color}" stroke-width="1" opacity="0.8" />` +
+      `<circle cx="${labelX.toFixed(1)}" cy="${p.labelY.toFixed(1)}" r="2.4" fill="${p.color}" />` +
+      `<text x="${textX.toFixed(1)}" y="${p.labelY.toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle" class="acp-label">${escHtml(p.code)} <tspan class="acp-label-name">${escHtml(p.name)}</tspan></text>`
+    )
+  }
+  const leftMarkup = left.map((p) => leaderAndLabel(p, 'end', M - 10)).join('')
+  const rightMarkup = right.map((p) => leaderAndLabel(p, 'start', M + W + 10)).join('')
+
+  return `<svg class="acp-svg" viewBox="0 0 ${totalW} ${H}" xmlns="http://www.w3.org/2000/svg">
+    <image href="${imgDataUrl}" x="${M}" y="0" width="${W}" height="${H}" preserveAspectRatio="xMidYMid meet" />
+    ${dotsMarkup}
+    ${leftMarkup}
+    ${rightMarkup}
+  </svg>`
+}
+
+function renderAcuPrintSheet(result: AcuExportResult, payload: AcuPrintPayload | null) {
+  const labelOf = (code: string): string => {
+    if (!payload) return ''
+    for (const g of payload.groups) {
+      const it = g.items.find((i) => i.code === code)
+      if (it) return it.name
+    }
+    return ''
+  }
+  const frontSvg = buildSideSvg('front', result.front, result.points, labelOf, result.width, result.height)
+  const backSvg = buildSideSvg('back', result.back, result.points, labelOf, result.width, result.height)
+
+  const legendHtml = payload
+    ? payload.groups
+        .map(
+          (g) =>
+            `<div class="acp-grp"><div class="acp-grp-h">${escHtml(g.method)} <i>(${g.items.length})</i></div><ul class="acp-list">${g.items
+              .map(
+                (it) =>
+                  `<li><b>${escHtml(it.code)}</b> ${escHtml(it.name)}${it.note ? ` <span class="acp-note">— ${escHtml(it.note)}</span>` : ''}</li>`,
+              )
+              .join('')}</ul></div>`,
+        )
+        .join('')
+    : `<ul class="acp-list">${result.points
+        .map((p) => `<li><b>${escHtml(p.code)}</b> ${escHtml(p.name)} <span class="acp-note">(${escHtml(p.merName)})</span></li>`)
+        .join('')}</ul>`
+
+  const missingHtml = result.missing.length
+    ? `<div class="acp-missing">⚠ Không xác định được vị trí trên đồ hình 3D: ${result.missing.map((c) => escHtml(c)).join(', ')}</div>`
+    : ''
+
+  const printedAt = new Date().toLocaleString('vi-VN')
+  const heading = payload?.theBenh ? `PHIẾU CHÂM HUYỆT — ${payload.theBenh.toUpperCase()}` : 'PHIẾU CHÂM HUYỆT'
+  const title = payload?.patientName ? `Phiếu châm huyệt - ${payload.patientName}` : 'Phiếu châm huyệt'
+
+  const html = `<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<title>${escHtml(title)}</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: "Times New Roman", Times, "Liberation Serif", serif; color: #1f2937; margin: 0; padding: 16px 20px; font-size: 11px; line-height: 1.4; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  h1 { font-size: 16px; margin: 0 0 2px; }
+  .acp-meta { font-size: 11px; color: #4b5563; margin-bottom: 10px; }
+  .acp-diagrams { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .acp-diagram { text-align: center; }
+  .acp-svg { width: 320px; height: auto; border: 1px solid #e5e7eb; border-radius: 6px; background: #fff; }
+  .acp-cap { font-weight: 700; font-size: 11px; margin-top: 4px; }
+  .acp-label { font-size: 9px; fill: #1f2937; font-family: Arial, sans-serif; }
+  .acp-label-name { font-weight: 700; }
+  .acp-legend { margin-top: 14px; column-count: 2; column-gap: 22px; }
+  .acp-grp { break-inside: avoid; margin-bottom: 8px; }
+  .acp-grp-h { font-weight: 700; font-size: 11.5px; border-bottom: 1px solid #d6cbb8; padding-bottom: 2px; margin-bottom: 3px; }
+  .acp-list { margin: 0; padding-left: 14px; }
+  .acp-list li { margin-bottom: 2px; }
+  .acp-note { color: #6b7280; font-size: 10px; }
+  .acp-missing { margin-top: 10px; font-size: 10.5px; color: #b45309; }
+  .acp-empty { width: 320px; padding: 40px 10px; text-align: center; color: #9ca3af; border: 1px dashed #d1d5db; border-radius: 6px; }
+  .foot { margin-top: 16px; font-size: 9.5px; color: #6b7280; text-align: center; }
+  @media print { body { padding: 8px 12px; } }
+</style>
+</head>
+<body>
+  <h1>${escHtml(heading)}</h1>
+  <div class="acp-meta">${payload?.patientName ? `Bệnh nhân: <b>${escHtml(payload.patientName)}</b>` : ''}${payload?.examDate ? ` · Ngày khám: ${escHtml(payload.examDate)}` : ''}</div>
+  <div class="acp-diagrams">
+    <div class="acp-diagram">${frontSvg}<div class="acp-cap">Mặt trước</div></div>
+    <div class="acp-diagram">${backSvg}<div class="acp-cap">Mặt sau</div></div>
+  </div>
+  ${missingHtml}
+  <div class="acp-legend">${legendHtml}</div>
+  <div class="foot">Phiếu in lúc ${escHtml(printedAt)} · Vị trí huyệt trên đồ hình mang tính minh hoạ tương đối, tham khảo thêm hướng dẫn của bác sĩ.</div>
+  <script>window.onload=function(){setTimeout(function(){window.print()},150)}<\/script>
+</body>
+</html>`
+
+  const win = window.open('', '_blank', 'width=900,height=1200')
+  if (!win) {
+    alert('Trình duyệt đang chặn cửa sổ in. Vui lòng cho phép pop-up cho trang này rồi thử lại.')
+    return false
+  }
+  win.document.open()
+  win.document.write(html)
+  win.document.close()
+  win.focus()
+  return true
+}
+
+// Trang này được MỞ RIÊNG (window.open, không router.push) chỉ để tải engine 3D + chụp ảnh phiếu in —
+// trang "Kết quả khám" gốc vẫn đứng yên. Sau khi mở được cửa sổ phiếu in, tự đóng tab tạm này lại →
+// bác sĩ chỉ còn thấy phiếu in đọng lại, không phải dọn thêm 1 tab đồ hình 3D thừa.
+function printAcuDiagram(codes: string[], payload: AcuPrintPayload | null) {
+  const w = window as unknown as AcuWin
+  if (!w.AcuMap?.exportPrintDiagram) {
+    alert('Đồ hình 3D chưa sẵn sàng, vui lòng thử lại.')
+    return
+  }
+  w.AcuMap.exportPrintDiagram(codes, { width: 900, height: 1400 })
+    .then((result) => {
+      const opened = renderAcuPrintSheet(result, payload)
+      if (opened && window.opener) window.close()
+    })
+    .catch((e: unknown) => {
+      console.error(e)
+      alert('Không dựng được phiếu châm huyệt: ' + (e instanceof Error ? e.message : String(e)))
+    })
+}
+
 /**
  * Cầu nối engine → SPA: drawer 3D có sẵn 2 link "Xem thêm" (href #acu/<id>) và "Lý thuyết kinh
  * đầy đủ" (href #meridian/<mã>) — di sản từ webapp gốc, không tự điều hướng trong SPA. Bắt sự kiện
@@ -98,6 +336,24 @@ onMounted(async () => {
     const focus = route.query.focus
     const code = Array.isArray(focus) ? focus[0] : focus
     if (code) w.AcuMap?.focus(code)
+    // Mở từ "Kết quả khám" với ?diagram=LU9,ST36,... → tự dựng + mở cửa sổ in "Phiếu châm huyệt".
+    // Tên huyệt/ghi chú kỹ thuật (nếu có) lấy từ payload MeridianResultsView để lại trong sessionStorage
+    // trước khi điều hướng (exportPrintDiagram của map3d.js chỉ biết mã + toạ độ 3D, không biết ghi chú).
+    const diagram = qp('diagram')
+    if (diagram) {
+      const codes = [...new Set(diagram.split(',').map((s) => s.trim()).filter(Boolean))]
+      if (codes.length) {
+        let payload: AcuPrintPayload | null = null
+        try {
+          const raw = sessionStorage.getItem(ACU_PRINT_PAYLOAD_KEY)
+          if (raw) payload = JSON.parse(raw) as AcuPrintPayload
+          sessionStorage.removeItem(ACU_PRINT_PAYLOAD_KEY)
+        } catch {
+          /* payload hỏng/bị chặn storage — vẫn in được, chỉ thiếu tên đầy đủ + ghi chú kỹ thuật */
+        }
+        printAcuDiagram(codes, payload)
+      }
+    }
   } catch (e: unknown) {
     error.value = e instanceof Error ? e.message : String(e)
     finishLoading()
@@ -126,6 +382,14 @@ onBeforeUnmount(() => {
       <p><strong>Không tải được đồ hình 3D.</strong></p>
       <p>{{ error }}</p>
     </div>
+
+    <!-- Chỉ hiện khi mở từ trang Kết Quả Khám (kèm ?from=meridian-results...) — bay về đúng ca + đúng tab. -->
+    <button v-if="backTarget" type="button" class="km3d-back" @click="goBackToResults">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7" />
+      </svg>
+      <span>Quay lại kết quả khám</span>
+    </button>
 
     <!-- Nút gạt ẩn/hiện mô hình 3D — chỉ hiện trên mobile (CSS), để dành chỗ cho danh sách. -->
     <button
@@ -266,6 +530,24 @@ onBeforeUnmount(() => {
 .km3d-mount.is-expanded .km3d-expand {
   display: inline-flex !important;
 }
+
+/* Nút quay lại kết quả khám — chỉ hiện khi đến từ MeridianResultsView (?from=...). */
+.km3d-back {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 8px var(--space-4);
+  background: var(--surface);
+  color: var(--brown-700);
+  border: 1px solid var(--brown-200);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  transition: all var(--transition-fast);
+}
+.km3d-back:hover { background: var(--brown-50); border-color: var(--brown-300); }
+.km3d-back svg { flex: none; }
 
 /* Nút gạt ẩn/hiện mô hình 3D — mặc định ẨN, chỉ hiện trên mobile (≤860px). */
 .km3d-toggle {
