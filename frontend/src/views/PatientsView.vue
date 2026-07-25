@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, watch, computed } from 'vue'
+import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePatientStore, type CreatePatientDto, type Patient } from '@/stores/patient'
 import { api } from '@/services/api'
@@ -14,6 +14,22 @@ const editingPatient = ref<Patient | null>(null)
 const deletingPatientId = ref<number | null>(null)
 const searchInput = ref('')
 let searchTimeout: ReturnType<typeof setTimeout> | null = null
+
+// Modal đang mở (tạo/sửa HOẶC xoá) → khoá cuộn trang nền (trước đây modal mở mà nền vẫn cuộn được,
+// gây cảm giác "cuộn đúp" khó chịu) + Esc để đóng, giống các modal khác trong app đã làm tốt việc này.
+const anyModalOpen = computed(() => showModal.value || showDeleteConfirm.value)
+watch(anyModalOpen, (open) => {
+  document.body.style.overflow = open ? 'hidden' : ''
+})
+function onModalEscape(e: KeyboardEvent) {
+  if (e.key !== 'Escape') return
+  if (showDeleteConfirm.value) showDeleteConfirm.value = false
+  else if (showModal.value) closeModal()
+}
+onBeforeUnmount(() => {
+  document.body.style.overflow = ''
+  window.removeEventListener('keydown', onModalEscape)
+})
 
 // Form data
 const form = ref<CreatePatientDto>({
@@ -33,6 +49,7 @@ onMounted(() => {
   // dữ liệu cũ còn sót trong store. Đồng bộ luôn ô tìm kiếm cục bộ cho khớp.
   searchInput.value = ''
   store.reload()
+  window.addEventListener('keydown', onModalEscape)
 })
 
 function onSearchInput() {
@@ -247,20 +264,20 @@ const pageNumbers = computed(() => {
     <!-- Create / Edit Modal -->
     <Transition name="fade">
       <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
-        <div class="modal" @click.stop>
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="patient-modal-title" @click.stop>
           <div class="modal-header">
-            <h3>{{ editingPatient ? 'Chỉnh sửa bệnh nhân' : 'Thêm bệnh nhân mới' }}</h3>
+            <h3 id="patient-modal-title">{{ editingPatient ? 'Chỉnh sửa bệnh nhân' : 'Thêm bệnh nhân mới' }}</h3>
             <button class="modal-close" @click="closeModal">✕</button>
           </div>
           <form @submit.prevent="handleSubmit" class="modal-body">
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Họ và tên <span class="required">*</span></label>
-                <input v-model="form.fullName" type="text" class="form-input" placeholder="Nguyễn Văn A"/>
+                <label class="form-label" for="pf-fullname">Họ và tên <span class="required">*</span></label>
+                <input id="pf-fullname" v-model="form.fullName" type="text" class="form-input" placeholder="Nguyễn Văn A"/>
               </div>
               <div class="form-group form-group--sm">
-                <label class="form-label">Giới tính</label>
-                <select v-model="form.gender" class="form-input">
+                <label class="form-label" for="pf-gender">Giới tính</label>
+                <select id="pf-gender" v-model="form.gender" class="form-input">
                   <option value="Nam">Nam</option>
                   <option value="Nữ">Nữ</option>
                 </select>
@@ -268,35 +285,35 @@ const pageNumbers = computed(() => {
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Ngày sinh</label>
-                <input v-model="form.dateOfBirth" type="date" class="form-input"/>
+                <label class="form-label" for="pf-dob">Ngày sinh</label>
+                <input id="pf-dob" v-model="form.dateOfBirth" type="date" class="form-input"/>
               </div>
               <div class="form-group">
-                <label class="form-label">Giờ sinh</label>
-                <input v-model="form.timeOfBirth" type="text" class="form-input" placeholder="VD: 10:30"/>
+                <label class="form-label" for="pf-tob">Giờ sinh</label>
+                <input id="pf-tob" v-model="form.timeOfBirth" type="text" class="form-input" placeholder="VD: 10:30"/>
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
-                <label class="form-label">Số điện thoại</label>
-                <input v-model="form.phone" type="text" class="form-input" placeholder="0901234567"/>
+                <label class="form-label" for="pf-phone">Số điện thoại</label>
+                <input id="pf-phone" v-model="form.phone" type="text" class="form-input" placeholder="0901234567"/>
               </div>
               <div class="form-group">
-                <label class="form-label">Tỉnh/Thành phố</label>
-                <input v-model="form.province" type="text" class="form-input" placeholder="TP. Hồ Chí Minh"/>
+                <label class="form-label" for="pf-province">Tỉnh/Thành phố</label>
+                <input id="pf-province" v-model="form.province" type="text" class="form-input" placeholder="TP. Hồ Chí Minh"/>
               </div>
             </div>
             <div class="form-group">
-              <label class="form-label">Địa chỉ</label>
-              <input v-model="form.address" type="text" class="form-input" placeholder="Số nhà, đường, phường/xã..."/>
+              <label class="form-label" for="pf-address">Địa chỉ</label>
+              <input id="pf-address" v-model="form.address" type="text" class="form-input" placeholder="Số nhà, đường, phường/xã..."/>
             </div>
             <div class="form-group">
-              <label class="form-label">Tiền sử bệnh</label>
-              <textarea v-model="form.medicalHistory" class="form-input form-textarea" rows="3" placeholder="Ghi chú tiền sử bệnh..."></textarea>
+              <label class="form-label" for="pf-history">Tiền sử bệnh</label>
+              <textarea id="pf-history" v-model="form.medicalHistory" class="form-input form-textarea" rows="3" placeholder="Ghi chú tiền sử bệnh..."></textarea>
             </div>
             <div class="form-group">
-              <label class="form-label">Ghi chú</label>
-              <textarea v-model="form.notes" class="form-input form-textarea" rows="2" placeholder="Ghi chú thêm..."></textarea>
+              <label class="form-label" for="pf-notes">Ghi chú</label>
+              <textarea id="pf-notes" v-model="form.notes" class="form-input form-textarea" rows="2" placeholder="Ghi chú thêm..."></textarea>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn-secondary" @click="closeModal">Hủy</button>
@@ -313,9 +330,9 @@ const pageNumbers = computed(() => {
     <!-- Delete Confirmation -->
     <Transition name="fade">
       <div v-if="showDeleteConfirm" class="modal-overlay" @click.self="showDeleteConfirm = false">
-        <div class="modal modal--sm" @click.stop>
+        <div class="modal modal--sm" role="dialog" aria-modal="true" aria-labelledby="patient-delete-title" @click.stop>
           <div class="modal-header">
-            <h3>Xác nhận xóa</h3>
+            <h3 id="patient-delete-title">Xác nhận xóa</h3>
             <button class="modal-close" @click="showDeleteConfirm = false">✕</button>
           </div>
           <div class="modal-body">

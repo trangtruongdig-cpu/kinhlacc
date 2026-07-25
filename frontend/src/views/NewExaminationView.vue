@@ -187,7 +187,7 @@ async function saveExamination() {
               <div v-for="meridian in upperMeridians" :key="'ul-'+meridian" class="meridian-row">
                 <span class="col-kinh">{{ meridian }}</span>
                 <div class="input-wrap">
-                  <input type="number" step="0.1" v-model="meridianTemps.upperLeft[meridian]" placeholder="Trái" class="form-input text-right" />
+                  <input type="number" step="0.1" v-model="meridianTemps.upperLeft[meridian]" placeholder="Trái" :aria-label="`${meridian} - chi trên trái`" class="form-input text-right" />
                 </div>
               </div>
             </div>
@@ -204,7 +204,7 @@ async function saveExamination() {
               <div v-for="meridian in upperMeridians" :key="'ur-'+meridian" class="meridian-row">
                 <span class="col-kinh">{{ meridian }}</span>
                 <div class="input-wrap">
-                  <input type="number" step="0.1" v-model="meridianTemps.upperRight[meridian]" placeholder="Phải" class="form-input text-right" />
+                  <input type="number" step="0.1" v-model="meridianTemps.upperRight[meridian]" placeholder="Phải" :aria-label="`${meridian} - chi trên phải`" class="form-input text-right" />
                 </div>
               </div>
             </div>
@@ -221,7 +221,7 @@ async function saveExamination() {
               <div v-for="meridian in lowerMeridians" :key="'ll-'+meridian" class="meridian-row">
                 <span class="col-kinh">{{ meridian }}</span>
                 <div class="input-wrap">
-                  <input type="number" step="0.1" v-model="meridianTemps.lowerLeft[meridian]" placeholder="Trái" class="form-input text-right" />
+                  <input type="number" step="0.1" v-model="meridianTemps.lowerLeft[meridian]" placeholder="Trái" :aria-label="`${meridian} - chi dưới trái`" class="form-input text-right" />
                 </div>
               </div>
             </div>
@@ -238,7 +238,7 @@ async function saveExamination() {
               <div v-for="meridian in lowerMeridians" :key="'lr-'+meridian" class="meridian-row">
                 <span class="col-kinh">{{ meridian }}</span>
                 <div class="input-wrap">
-                  <input type="number" step="0.1" v-model="meridianTemps.lowerRight[meridian]" placeholder="Phải" class="form-input text-right" />
+                  <input type="number" step="0.1" v-model="meridianTemps.lowerRight[meridian]" placeholder="Phải" :aria-label="`${meridian} - chi dưới phải`" class="form-input text-right" />
                 </div>
               </div>
             </div>

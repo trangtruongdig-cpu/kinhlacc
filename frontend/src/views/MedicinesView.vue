@@ -26,20 +26,33 @@ function benhTayYHref(id: number): string {
 }
 // xlsx (~nặng) được nạp ĐỘNG ngay trong hàm Xuất/Nhập Excel bên dưới — xem `await import('xlsx')`.
 // Nhờ vậy thư viện này KHÔNG nằm trong chunk trang Quản Lý Thuốc, chỉ tải khi người dùng bấm nút.
-import {
-  Chart,
-  RadarController,
-  PointElement,
-  LineElement,
-  Filler,
-  Tooltip,
-  Legend,
-  RadialLinearScale,
-} from 'chart.js'
+// chart.js CŨNG nạp động tương tự (xem `ensureChartJs()` bên dưới) — chỉ dùng cho 2 radar chart trong
+// modal "Phân tích", không phải ai mở trang Quản Lý Thuốc cũng bấm vào đó. Import ở đây là TYPE-ONLY
+// (bị xoá lúc build, không kéo runtime của chart.js vào chunk chính).
+import type { Chart as ChartInstance } from 'chart.js'
 import { api, assetUrl } from '@/services/api'
 import PharmacologyManager from '@/components/PharmacologyManager.vue'
 
-Chart.register(RadarController, PointElement, LineElement, Filler, Tooltip, Legend, RadialLinearScale)
+let ChartCtor: typeof import('chart.js').Chart | null = null
+let chartJsLoading: Promise<void> | null = null
+function ensureChartJs(): Promise<void> {
+  if (ChartCtor) return Promise.resolve()
+  if (!chartJsLoading) {
+    chartJsLoading = import('chart.js').then((mod) => {
+      mod.Chart.register(
+        mod.RadarController,
+        mod.PointElement,
+        mod.LineElement,
+        mod.Filler,
+        mod.Tooltip,
+        mod.Legend,
+        mod.RadialLinearScale,
+      )
+      ChartCtor = mod.Chart
+    })
+  }
+  return chartJsLoading
+}
 
 interface CongDungLink { id_cong_dung?: number; ghi_chu?: string | null; congDung?: { ten_cong_dung?: string | null } | null }
 interface ChuTriLink { id_chu_tri?: number; ghi_chu?: string | null; chuTri?: { ten_chu_tri?: string | null } | null }
@@ -1862,15 +1875,15 @@ const anaSimDirty = computed(() => {
 const radarNguViRef = ref<HTMLCanvasElement | null>(null)
 const radarQuyKinhRef = ref<HTMLCanvasElement | null>(null)
 const radarTgptRef = ref<HTMLCanvasElement | null>(null)
-const chartNguVi = ref<Chart | null>(null)
-const chartQuyKinh = ref<Chart | null>(null)
-const chartTgpt = ref<Chart | null>(null)
+const chartNguVi = ref<ChartInstance | null>(null)
+const chartQuyKinh = ref<ChartInstance | null>(null)
+const chartTgpt = ref<ChartInstance | null>(null)
 
 function destroyAnaCharts() {
   for (const ref_ of [chartNguVi, chartQuyKinh, chartTgpt]) {
     const c = ref_.value
     if (c) {
-      const cleanup = (c as Chart & { _yhctDragCleanup?: () => void })._yhctDragCleanup
+      const cleanup = (c as ChartInstance & { _yhctDragCleanup?: () => void })._yhctDragCleanup
       if (cleanup) try { cleanup() } catch { /* noop */ }
       try { c.destroy() } catch { /* noop */ }
     }
@@ -1886,11 +1899,13 @@ async function openAnalysis(bt: BaiThuoc) {
   anaShowModal.value = true
   try {
     // Phân tích cần full chi tiết vị thuốc (với congDung/chuTri/kiengKy), full vị thuốc list (cho map id→data),
-    // và nhóm dược lý (để derive tác dụng / chủ trị bài thuốc).
+    // và nhóm dược lý (để derive tác dụng / chủ trị bài thuốc); chart.js nạp song song (chỉ cần trước
+    // lúc initAnaCharts() vẽ, không cần chặn phần dữ liệu).
     await Promise.all([
       loadBaiThuocFull(bt.id),
       ensureFullViThuocList(),
       ensureNhomNhoList(),
+      ensureChartJs(),
     ])
     const full = baiThuocFullCache.value.get(bt.id) ?? bt
     const r = analyzeBaiThuoc(full)
@@ -1960,7 +1975,7 @@ function refreshOverlays() {
   }
 }
 
-function radarValueFromPointer(chart: Chart, datasetIndex: number, index: number, pos: { x: number; y: number }) {
+function radarValueFromPointer(chart: ChartInstance, datasetIndex: number, index: number, pos: { x: number; y: number }) {
   const scale = chart.scales.r as unknown as {
     getCenterPoint(): { x: number; y: number }
     getValueForDistanceFromCenter?: (d: number) => number
@@ -2008,7 +2023,7 @@ function redistributeGramsByRadarTarget(kind: 'nguVi' | 'tgpt', targetArr: numbe
   list.forEach((v, i) => { v.simGram = W * (scores[i] ?? 0) / sumS })
 }
 
-function attachRadarDrag(chart: Chart, kind: 'nguVi' | 'tgpt') {
+function attachRadarDrag(chart: ChartInstance, kind: 'nguVi' | 'tgpt') {
   const canvas = chart.canvas
   canvas.style.cursor = 'grab'
   canvas.style.touchAction = 'none'
@@ -2093,7 +2108,7 @@ function attachRadarDrag(chart: Chart, kind: 'nguVi' | 'tgpt') {
   canvas.addEventListener('pointerup', onUp)
   canvas.addEventListener('pointercancel', onUp)
   canvas.addEventListener('lostpointercapture', onUp)
-  ;(chart as Chart & { _yhctDragCleanup?: () => void })._yhctDragCleanup = () => {
+  ;(chart as ChartInstance & { _yhctDragCleanup?: () => void })._yhctDragCleanup = () => {
     canvas.removeEventListener('pointerdown', onDown)
     canvas.removeEventListener('pointermove', onMove)
     canvas.removeEventListener('pointerup', onUp)
@@ -2105,7 +2120,8 @@ function attachRadarDrag(chart: Chart, kind: 'nguVi' | 'tgpt') {
 function initAnaCharts() {
   destroyAnaCharts()
   const r = anaResult.value
-  if (!r || r.empty) return
+  if (!r || r.empty || !ChartCtor) return
+  const Chart = ChartCtor
 
   const baseOpts = {
     responsive: true,

@@ -822,7 +822,7 @@ async function mlSearch() {
           </select>
 
           <div v-if="labelClassId" class="cdl-label-preview-class">
-            <img v-for="img in (atlasIndex[labelClassId]||[]).slice(0,3)" :key="img" :src="img" class="cdl-label-ref-img" @click="openLightbox(img)" alt="Ảnh tham chiếu chẩn đoán lưỡi"/>
+            <img v-for="img in (atlasIndex[labelClassId]||[]).slice(0,3)" :key="img" :src="img" class="cdl-label-ref-img" loading="lazy" @click="openLightbox(img)" alt="Ảnh tham chiếu chẩn đoán lưỡi"/>
             <span class="cdl-label-ref-count">{{ (atlasIndex[labelClassId]||[]).length }} ảnh mẫu</span>
           </div>
 
@@ -1014,7 +1014,7 @@ async function mlSearch() {
                 <div class="cdl-dec-row__thumb">
                   <div class="cdl-dec-sim__photo" :class="{ clickable: atlasPhoto(m.id) }"
                     @click="atlasPhoto(m.id) && openLightbox(atlasPhoto(m.id))">
-                    <img v-if="atlasPhoto(m.id)" :src="atlasPhoto(m.id)" :alt="m.vi" class="cdl-dec-sim__photo-img"/>
+                    <img v-if="atlasPhoto(m.id)" :src="atlasPhoto(m.id)" :alt="m.vi" class="cdl-dec-sim__photo-img" loading="lazy"/>
                     <span v-else class="cdl-dec-sim__fallback">👅</span>
                     <span v-if="atlasPhoto(m.id)" class="cdl-dec-sim__zoom">🔍</span>
                   </div>
@@ -1065,7 +1065,7 @@ async function mlSearch() {
               :class="{ active: editingId === r.id }"
               @click="loadRecord(r)"
             >
-              <img v-if="r.anhLuoi" :src="r.anhLuoi" class="cdl-hi-thumb" alt="ảnh lưỡi" />
+              <img v-if="r.anhLuoi" :src="r.anhLuoi" class="cdl-hi-thumb" alt="ảnh lưỡi" loading="lazy" />
               <div class="cdl-hi-info">
                 <span class="cdl-hi-date">{{ formatDate(r.ngayKham) }}</span>
                 <span class="cdl-hi-mau">{{ r.mauChat || '—' }}</span>
@@ -1581,7 +1581,7 @@ async function mlSearch() {
   font-family: inherit;
   box-sizing: border-box;
 }
-.cdl-textarea:focus { outline: none; border-color: var(--brown-400, #b07840); }
+.cdl-textarea:focus { outline: none; border-color: var(--brown-400, #b07840); box-shadow: var(--focus-ring); }
 
 .cdl-save-error { font-size: 12px; color: #ef4444; margin: 0; }
 .cdl-save-ok    { font-size: 12px; color: #16a34a; margin: 0; }
@@ -1639,7 +1639,7 @@ async function mlSearch() {
   outline: none;
   box-sizing: border-box;
 }
-.cdl-patient-input:focus { border-color: var(--brown-400, #b07840); }
+.cdl-patient-input:focus { border-color: var(--brown-400, #b07840); box-shadow: var(--focus-ring); }
 .cdl-patient-clear,
 .cdl-patient-icon {
   position: absolute;

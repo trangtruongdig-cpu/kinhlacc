@@ -551,7 +551,16 @@ function goToLuoiDiagnosis() {
           <p>Chưa có lịch sử khám bệnh</p>
         </div>
         <div v-else class="exam-list">
-          <div v-for="exam in pagedExaminations" :key="exam.id" class="exam-card" @click="goToMeridianResults(exam.id)">
+          <div
+            v-for="exam in pagedExaminations"
+            :key="exam.id"
+            class="exam-card"
+            role="button"
+            tabindex="0"
+            @click="goToMeridianResults(exam.id)"
+            @keydown.enter.prevent="goToMeridianResults(exam.id)"
+            @keydown.space.prevent="goToMeridianResults(exam.id)"
+          >
             <div class="exam-header">
               <div class="exam-date-badge">
                 <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
@@ -700,7 +709,16 @@ function goToLuoiDiagnosis() {
           <button class="btn-primary" @click="goToLuoiDiagnosis">Thêm Chẩn Đoán Lưỡi</button>
         </div>
         <div v-else class="luoi-list">
-          <div v-for="rec in luoiRecords" :key="rec.id" class="luoi-card luoi-card--clickable" @click="goToLuoiDiagnosis">
+          <div
+            v-for="rec in luoiRecords"
+            :key="rec.id"
+            class="luoi-card luoi-card--clickable"
+            role="button"
+            tabindex="0"
+            @click="goToLuoiDiagnosis"
+            @keydown.enter.prevent="goToLuoiDiagnosis"
+            @keydown.space.prevent="goToLuoiDiagnosis"
+          >
             <div class="luoi-card-header">
               <div class="exam-date-badge">
                 <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
@@ -709,7 +727,7 @@ function goToLuoiDiagnosis() {
               <span class="exam-id">#{{ rec.id }}</span>
             </div>
             <div class="luoi-card-body" :class="{ 'luoi-card-body--has-img': rec.anhLuoi }">
-              <img v-if="rec.anhLuoi" :src="rec.anhLuoi" class="luoi-thumb" alt="ảnh lưỡi" />
+              <img v-if="rec.anhLuoi" :src="rec.anhLuoi" class="luoi-thumb" alt="ảnh lưỡi" loading="lazy" />
               <div class="luoi-tags" v-if="rec.mauChat || rec.mauReu || rec.doAm || rec.tinhChatReu">
                 <span v-if="rec.mauChat" class="luoi-tag">Chất: {{ rec.mauChat }}</span>
                 <span v-if="rec.mauReu" class="luoi-tag">Rêu: {{ rec.mauReu }}</span>

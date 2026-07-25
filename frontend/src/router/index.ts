@@ -46,6 +46,12 @@ const ChanDoanLuoiView = () => import('@/views/ChanDoanLuoiView.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+  // Chuyển trang mới → cuộn về đầu (mặc định người dùng mong đợi); bấm Back/Forward → giữ nguyên vị
+  // trí cuộn cũ (savedPosition, do trình duyệt lưu) thay vì giật về đầu — chuẩn khuyến nghị Vue Router.
+  scrollBehavior(_to, _from, savedPosition) {
+    if (savedPosition) return savedPosition
+    return { top: 0 }
+  },
   routes: [
     {
       path: '/',
