@@ -3,10 +3,13 @@ import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePatientStore, type CreatePatientDto, type Patient } from '@/stores/patient'
 import { api } from '@/services/api'
+import PatientStatsPanel from '@/components/PatientStatsPanel.vue'
 
 const router = useRouter()
 
 const store = usePatientStore()
+
+const activeTab = ref<'list' | 'stats'>('list')
 
 const showModal = ref(false)
 const showDeleteConfirm = ref(false)
@@ -159,6 +162,17 @@ const pageNumbers = computed(() => {
 
 <template>
   <div class="patients-page">
+    <!-- Tab: Danh sách ⇄ Thống kê -->
+    <div class="sub-tab-bar">
+      <button type="button" class="sub-tab-btn" :class="{ active: activeTab === 'list' }" @click="activeTab = 'list'">
+        Danh Sách
+      </button>
+      <button type="button" class="sub-tab-btn" :class="{ active: activeTab === 'stats' }" @click="activeTab = 'stats'">
+        Thống Kê
+      </button>
+    </div>
+
+    <template v-if="activeTab === 'list'">
     <!-- Header -->
     <div class="page-header">
       <div>
@@ -260,6 +274,9 @@ const pageNumbers = computed(() => {
         <button class="page-btn" :disabled="store.page >= store.totalPages" @click="store.setPage(store.page + 1)">›</button>
       </div>
     </div>
+    </template>
+
+    <PatientStatsPanel v-else />
 
     <!-- Create / Edit Modal -->
     <Transition name="fade">
@@ -354,6 +371,37 @@ const pageNumbers = computed(() => {
 <style scoped>
 .patients-page{width:100%;animation:fadeIn .4s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* Tab Danh sách ⇄ Thống kê — style y hệt .sub-tab-bar/.sub-tab-btn của MeridianDiseasesTabsView.vue */
+.sub-tab-bar {
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  margin: 0 0 var(--space-4);
+  background: var(--white);
+  border: 1px solid var(--brown-200);
+  border-radius: var(--radius-lg);
+  width: fit-content;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+  flex-wrap: wrap;
+}
+.sub-tab-btn {
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-md);
+  border: none;
+  background: transparent;
+  font-weight: 600;
+  font-size: var(--font-size-sm);
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+.sub-tab-btn:hover { color: var(--brown-700); }
+.sub-tab-btn.active {
+  background: var(--brown-600);
+  color: var(--white);
+  box-shadow: 0 2px 4px rgba(161, 98, 7, 0.2);
+}
 
 /* Header */
 .page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:var(--space-6);gap:var(--space-4);flex-wrap:wrap}

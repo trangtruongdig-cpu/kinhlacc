@@ -26,20 +26,21 @@ function benhTayYHref(id: number): string {
 }
 // xlsx (~nặng) được nạp ĐỘNG ngay trong hàm Xuất/Nhập Excel bên dưới — xem `await import('xlsx')`.
 // Nhờ vậy thư viện này KHÔNG nằm trong chunk trang Quản Lý Thuốc, chỉ tải khi người dùng bấm nút.
-// chart.js CŨNG nạp động tương tự (xem `ensureChartJs()` bên dưới) — chỉ dùng cho 2 radar chart trong
-// modal "Phân tích", không phải ai mở trang Quản Lý Thuốc cũng bấm vào đó. Import ở đây là TYPE-ONLY
-// (bị xoá lúc build, không kéo runtime của chart.js vào chunk chính).
+// chart.js CŨNG nạp động tương tự qua composable dùng chung (useChartJs.ts — cùng 1 instance chart.js
+// với PatientStatsPanel.vue) — chỉ dùng cho 2 radar chart trong modal "Phân tích", không phải ai mở
+// trang Quản Lý Thuốc cũng bấm vào đó. Import ở đây là TYPE-ONLY (bị xoá lúc build).
 import type { Chart as ChartInstance } from 'chart.js'
 import { api, assetUrl } from '@/services/api'
 import PharmacologyManager from '@/components/PharmacologyManager.vue'
+import { loadChartJs, registerChartJs } from '@/composables/useChartJs'
 
 let ChartCtor: typeof import('chart.js').Chart | null = null
 let chartJsLoading: Promise<void> | null = null
 function ensureChartJs(): Promise<void> {
   if (ChartCtor) return Promise.resolve()
   if (!chartJsLoading) {
-    chartJsLoading = import('chart.js').then((mod) => {
-      mod.Chart.register(
+    chartJsLoading = loadChartJs().then((mod) => {
+      ChartCtor = registerChartJs(mod, [
         mod.RadarController,
         mod.PointElement,
         mod.LineElement,
@@ -47,8 +48,7 @@ function ensureChartJs(): Promise<void> {
         mod.Tooltip,
         mod.Legend,
         mod.RadialLinearScale,
-      )
-      ChartCtor = mod.Chart
+      ])
     })
   }
   return chartJsLoading
