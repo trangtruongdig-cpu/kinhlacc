@@ -86,6 +86,16 @@ export interface ThongKeResponse {
   pivot: ThongKePivot;
 }
 
+/** 1 pivot 1-chiều (rows=đại lượng, cols=null) cho MỖI đại lượng trong THONG_KE_DIMENSIONS — dùng
+ * cho lưới widget "mọi đại lượng luôn hiện" của dashboard. Trả trong 1 lần gọi thay vì 1 request/đại
+ * lượng (xem thongKeGrid() — lý do hiệu năng ghi ở đó). */
+export interface ThongKeGridResponse {
+  totalPatients: number;
+  totalExaminations: number;
+  dimensions: typeof THONG_KE_DIMENSIONS;
+  pivots: Record<string, ThongKePivot>;
+}
+
 /** Nhóm tuổi lâm sàng thường dùng — 'Không rõ' khi thiếu/hỏng ngày sinh. */
 function ageGroupOf(dateOfBirth: string | null | undefined): string {
   if (!dateOfBirth) return 'Không rõ';
@@ -112,6 +122,24 @@ function dimValues(rec: ThongKeRecord, dim: string): string[] {
 }
 
 const THONG_KE_MAX_CATEGORIES = 25;
+
+/** "dim1:value1,dim2:value2" → [{dim,value}] — bỏ qua entry rỗng/sai định dạng/đại lượng không hợp lệ. */
+function parseThongKeFilters(
+  filtersRaw?: string,
+): { dim: string; value: string }[] {
+  return (filtersRaw || '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .map((s) => {
+      const idx = s.indexOf(':');
+      return idx > 0 ? { dim: s.slice(0, idx), value: s.slice(idx + 1) } : null;
+    })
+    .filter(
+      (f): f is { dim: string; value: string } =>
+        !!f && THONG_KE_DIM_KEYS.has(f.dim as keyof ThongKeRecord),
+    );
+}
 
 /** Dựng bảng pivot rows×cols (đếm theo CA KHÁM) từ tập bản ghi đã làm phẳng — đại lượng ĐA TRỊ ở
  * rows/cols khiến 1 ca cộng vào NHIỀU ô (đúng ý "1 ca có thể khớp nhiều thể bệnh/tổn thương"), không
@@ -410,20 +438,7 @@ export class PatientsService {
       colsDim && THONG_KE_DIM_KEYS.has(colsDim as keyof ThongKeRecord)
         ? colsDim
         : null;
-    const filters = (filtersRaw || '')
-      .split(',')
-      .map((s) => s.trim())
-      .filter(Boolean)
-      .map((s) => {
-        const idx = s.indexOf(':');
-        return idx > 0
-          ? { dim: s.slice(0, idx), value: s.slice(idx + 1) }
-          : null;
-      })
-      .filter(
-        (f): f is { dim: string; value: string } =>
-          !!f && THONG_KE_DIM_KEYS.has(f.dim as keyof ThongKeRecord),
-      );
+    const filters = parseThongKeFilters(filtersRaw);
 
     const pivot = computePivot(records, rows, cols, filters);
 
@@ -432,6 +447,36 @@ export class PatientsService {
       totalExaminations: records.length,
       dimensions: THONG_KE_DIMENSIONS,
       pivot,
+    };
+  }
+
+  /**
+   * Toàn bộ lưới widget (1 pivot 1-chiều / đại lượng) trong 1 LẦN GỌI, mỗi đại lượng tự loại trừ bộ
+   * lọc của CHÍNH nó (giống hệt ngữ nghĩa từng widget khi gọi thongKe() riêng lẻ trước đây) — dùng thay
+   * cho 11 request rows=<dim> riêng biệt mà frontend từng gọi khi vào tab Thống Kê.
+   *
+   * Lý do cần gộp: backend chạy trên Vercel serverless (xem backend/api/index.ts) — mỗi request có thể
+   * rơi vào 1 instance NGUỘI khác nhau, và 11 request bắn gần như đồng thời dễ khiến Vercel scale ra
+   * nhiều instance song song, MỖI instance phải tự bootstrap NestJS + tính lại buildThongKeDataset()
+   * (bước nặng: ~9.5k ca khám) từ đầu vì cache trong RAM là theo-từng-instance, không chia sẻ được —
+   * khuếch đại đúng phần chậm nhất lên nhiều lần. Gộp còn 1 request giúp chỉ tối đa 1 lần nguội và tính
+   * dataset đúng 1 lần, cắt luôn 10 vòng round-trip mạng + (nếu cross-origin) 10 lượt CORS preflight.
+   */
+  async thongKeGrid(filtersRaw?: string): Promise<ThongKeGridResponse> {
+    const records = await this.buildThongKeDataset();
+    const filters = parseThongKeFilters(filtersRaw);
+
+    const pivots: Record<string, ThongKePivot> = {};
+    for (const dim of THONG_KE_DIMENSIONS) {
+      const dimFilters = filters.filter((f) => f.dim !== dim.key);
+      pivots[dim.key] = computePivot(records, dim.key, null, dimFilters);
+    }
+
+    return {
+      totalPatients: new Set(records.map((r) => r.patientId)).size,
+      totalExaminations: records.length,
+      dimensions: THONG_KE_DIMENSIONS,
+      pivots,
     };
   }
 }

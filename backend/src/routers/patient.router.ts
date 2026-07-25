@@ -20,7 +20,7 @@ export class PatientsRouter {
   findPatients(
     @Query('page') page?: string,
     @Query('limit') limit?: string,
-    @Query('search') search?: string
+    @Query('search') search?: string,
   ) {
     const pageNum = page ? parseInt(page, 10) : 0;
     const limitNum = limit ? parseInt(limit, 10) : 0;
@@ -31,7 +31,7 @@ export class PatientsRouter {
       return this.patientsService.findPaginated(
         pageNum > 0 ? pageNum : 1,
         limitNum > 0 ? limitNum : 20,
-        search
+        search,
       );
     }
     return this.patientsService.findAll();
@@ -49,6 +49,13 @@ export class PatientsRouter {
     return this.patientsService.thongKe(rows, cols, filters);
   }
 
+  // Lưới widget (mọi đại lượng cùng lúc) — 1 request thay vì 1 request/đại lượng, xem comment ở
+  // PatientsService.thongKeGrid() để biết lý do (né cold-start-stampede trên Vercel serverless).
+  @Get('thong-ke/grid')
+  thongKeGrid(@Query('filters') filters?: string) {
+    return this.patientsService.thongKeGrid(filters);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.patientsService.findOne(id);
@@ -63,7 +70,7 @@ export class PatientsRouter {
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() dto: UpdatePatientDto
+    @Body() dto: UpdatePatientDto,
   ) {
     const item = await this.patientsService.update(id, dto);
     return { success: true, id, data: item };
@@ -72,7 +79,7 @@ export class PatientsRouter {
   @Put(':id/fcm-token')
   async updateFcmToken(
     @Param('id', ParseIntPipe) id: number,
-    @Body('fcmToken') fcmToken: string
+    @Body('fcmToken') fcmToken: string,
   ) {
     await this.patientsService.updateFcmToken(id, fcmToken);
     return { success: true };

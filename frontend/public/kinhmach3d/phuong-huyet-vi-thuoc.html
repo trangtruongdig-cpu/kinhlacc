@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Phương huyệt · Vị thuốc · Công năng</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: "Times New Roman", Times, "Liberation Serif", serif;
+    color: #1f2937; font-size: 11px; line-height: 1.4;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+
+  /* Khung engine 3D — chạy NGẦM ngoài màn hình chỉ để chụp ảnh thân người. Không in ra. */
+  #engine-host {
+    position: fixed; left: -20000px; top: 0;
+    width: 760px; height: 1120px; overflow: hidden;
+    pointer-events: none; opacity: 0;
+  }
+  #engine-host .map-body { display: flex; width: 100%; height: 100%; }
+  #engine-host .map-stage { position: relative; flex: 1; width: 100%; height: 100%; }
+  #engine-host .map-toolbar,
+  #engine-host .map-drawer,
+  #engine-host .hf-inset,
+  #engine-host .map-credit { display: none !important; }
+  @media print { #engine-host { display: none !important; } }
+
+  /* ── Phiếu in ── */
+  #print-root { padding: 16px 20px; }
+  .loading { padding: 60px 20px; text-align: center; color: #6b7280; font-size: 13px; }
+  .loading .spin {
+    width: 26px; height: 26px; margin: 0 auto 14px; border-radius: 50%;
+    border: 3px solid #e5e7eb; border-top-color: #b45309; animation: sp 0.8s linear infinite;
+  }
+  @keyframes sp { to { transform: rotate(360deg); } }
+
+  h1 { font-size: 17px; margin: 0 0 2px; }
+  .subtitle { font-size: 11px; color: #6b7280; margin-bottom: 12px; }
+
+  .acp-diagrams { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .acp-diagram { text-align: center; }
+  .acp-svg { width: 320px; height: auto; border: 1px solid #e5e7eb; border-radius: 6px; background: #fff; }
+  .acp-cap { font-weight: 700; font-size: 11px; margin-top: 4px; }
+  .acp-empty { width: 320px; padding: 40px 10px; text-align: center; color: #9ca3af; border: 1px dashed #d1d5db; border-radius: 6px; }
+  .acp-label { font-size: 9px; fill: #1f2937; font-family: Arial, sans-serif; }
+  .acp-label-name { font-weight: 700; }
+  .acp-missing { margin-top: 8px; font-size: 10.5px; color: #b45309; }
+
+  /* Chú giải & bảng 2 mục */
+  .acp-legend { margin-top: 16px; display: flex; gap: 22px; flex-wrap: wrap; }
+  .sec { flex: 1 1 340px; break-inside: avoid; }
+  .sec-h {
+    font-weight: 700; font-size: 12.5px; padding: 4px 8px; border-radius: 5px;
+    color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+  }
+  .sec-h i { font-weight: 400; font-style: normal; opacity: 0.9; font-size: 11px; }
+  table.tbl { width: 100%; border-collapse: collapse; font-size: 10.5px; }
+  table.tbl th, table.tbl td { border: 1px solid #e2ddd3; padding: 3px 6px; text-align: left; vertical-align: top; }
+  table.tbl thead th { background: #f6f1e8; font-weight: 700; font-size: 10px; }
+  table.tbl td.huyet { white-space: nowrap; }
+  table.tbl td .ma { font-weight: 700; }
+  table.tbl td .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+  table.tbl td.vithuoc { font-weight: 600; white-space: nowrap; }
+
+  .toolbar { text-align: center; margin: 4px 0 14px; }
+  .toolbar button {
+    font: inherit; font-size: 12px; padding: 6px 16px; cursor: pointer;
+    border: 1px solid #b45309; background: #b45309; color: #fff; border-radius: 5px;
+  }
+  .toolbar button.ghost { background: #fff; color: #b45309; margin-left: 8px; }
+  .foot { margin-top: 18px; font-size: 9.5px; color: #6b7280; text-align: center; }
+  @media print {
+    #print-root { padding: 8px 12px; }
+    .toolbar { display: none; }
+  }
+</style>
+</head>
+<body>
+  <!-- Phiếu in (nội dung được dựng sau khi engine 3D chụp xong ảnh thân người) -->
+  <div id="print-root">
+    <div class="loading">
+      <div class="spin"></div>
+      Đang tải đồ hình 3D và định vị huyệt… (lần đầu tải mô hình có thể mất vài giây)
+    </div>
+  </div>
+
+  <!-- Khung engine 3D chạy ngầm ngoài màn hình. TRÙNG cấu trúc HOST_HTML trong acuMap3d.ts. -->
+  <div id="engine-host">
+    <div id="acu3dRoot" class="acu3d">
+      <div class="map-toolbar">
+        <button id="mapReset" class="mv-btn active">↻</button>
+        <button id="mapFlow" class="mv-btn">✦</button>
+        <button id="mapMirror" class="mv-btn active">⇋</button>
+        <button id="mapInsetBtn" class="mv-btn">✋</button>
+        <button id="mapEdit" class="mv-btn">✎</button>
+        <div class="map-layers" id="mapLayers"></div>
+        <div class="map-search">
+          <input id="mapSearch" type="search" autocomplete="off" />
+          <span id="mapCount" class="count dark"></span>
+        </div>
+      </div>
+      <div class="map-body">
+        <div class="map-stage" id="mapStage">
+          <div class="map-credit"><span class="map-credit-text"></span></div>
+          <div class="hf-inset" id="hfInset"></div>
+        </div>
+        <aside class="map-drawer" id="mapDrawer">
+          <div class="map-legend" id="mapLegend"></div>
+          <div class="drawer-body" id="drawerBody"></div>
+        </aside>
+      </div>
+    </div>
+  </div>
+
+  <!-- Đặt các biến toàn cục TRƯỚC khi map3d.js chạy (giống ensureBooted trong acuMap3d.ts). -->
+  <script>
+    // File này nằm cùng thư mục /kinhmach3d/ với engine + data + models → base path là './'.
+    window.ACU_MAP_BASE = './';
+    window.ACU_ASSET_VER = '';
+    window.ACU_API_BASE = ''; // không dùng tính năng Chấm Tay ở phiếu in
+    // Bật render-on-demand của engine (animate chỉ vẽ khi 2 cờ này đúng).
+    document.body.dataset.view = 'meridian';
+    document.body.dataset.msub = 'map';
+  </script>
+
+  <!-- THỨ TỰ nạp = thứ tự thực thi (script ngoài, không async, chạy theo thứ tự trong DOM). -->
+  <!-- 1) Three.js + bộ mở rộng -->
+  <script src="vendor/three.min.js"></script>
+  <script src="vendor/OrbitControls.js"></script>
+  <script src="vendor/GLTFLoader.js"></script>
+  <script src="vendor/meshopt_decoder.js"></script>
+  <!-- 2) Dữ liệu thuần (gán window.ACUPOINTS / ACU_INDEX / ACU_COORDS3D / MERIDIANS …) -->
+  <script src="data/acupoints.js"></script>
+  <script src="data/acu-index.js"></script>
+  <script src="data/acu-coords3d.js"></script>
+  <script src="data/meridians.js"></script>
+  <script src="data/dict-facets.js"></script>
+  <script src="data/spacing.js"></script>
+  <script src="data/handfoot-bones.js"></script>
+  <!-- 3) Engine (chạy IIFE, gán window.AcuMap) -->
+  <script src="map3d.js"></script>
+  <script src="hand-foot-inset.js"></script>
+
+  <!-- 4) Dữ liệu phiếu + dựng ảnh + bảng + in -->
+  <script>
+  (function () {
+    'use strict';
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // DỮ LIỆU GÁN CỨNG — 2 mục "phương huyệt ⇄ vị thuốc ⇄ công năng".
+    // code : mã dùng cho engine 3D (KHÔNG gạch nối, vd "LR13").
+    // ma   : mã hiển thị trên phiếu (có gạch nối, vd "LR-13").
+    // ─────────────────────────────────────────────────────────────────────────
+    var SECTIONS = [
+      {
+        title: 'Phương I',
+        color: '#b45309', // nâu/cam
+        rows: [
+          { code: 'LR13', ma: 'LR-13', ten: 'Chương Môn',      vithuoc: 'Nhân sâm',  congnang: 'Đại bổ nguyên khí, an thần' },
+          { code: 'ST36', ma: 'ST-36', ten: 'Túc Tam Lý',      vithuoc: 'Bạch truật', congnang: 'Kiện Tỳ hòa Vị' },
+          { code: 'PC6',  ma: 'PC-6',  ten: 'Nội Quan',        vithuoc: 'Phục linh',  congnang: 'Ninh Tâm, trừ thấp' },
+          { code: 'CV12', ma: 'CV-12', ten: 'Trung Quản',      vithuoc: 'Cam thảo',   congnang: 'Ích Vị khí, điều hòa' },
+          { code: 'SP6',  ma: 'SP-6',  ten: 'Tam Âm Giao',     vithuoc: 'Đương quy',  congnang: 'Dưỡng huyết hòa doanh' },
+          { code: 'LI4',  ma: 'LI-4',  ten: 'Hợp Cốc',         vithuoc: 'Hoàng kỳ',   congnang: 'Cố biểu, bổ vệ khí' },
+          { code: 'CV4',  ma: 'CV-4',  ten: 'Quan Nguyên',     vithuoc: 'Thục địa',   congnang: 'Tư âm dưỡng huyết' },
+        ],
+      },
+      {
+        title: 'Phương II',
+        color: '#1d4ed8', // xanh
+        rows: [
+          { code: 'LR3',  ma: 'LR-3',  ten: 'Thái Xung',       vithuoc: 'Bạch thược', congnang: 'Bình Can, chỉ thống' },
+          { code: 'LI11', ma: 'LI-11', ten: 'Khúc Trì',        vithuoc: 'Xuyên khung', congnang: 'Hành khí hoạt huyết' },
+          { code: 'GB34', ma: 'GB-34', ten: 'Dương Lăng Tuyền', vithuoc: 'Nhục quế',  congnang: 'Ôn thông kinh lạc' },
+          { code: 'ST40', ma: 'ST-40', ten: 'Phong Long',      vithuoc: 'Trần bì',    congnang: 'Hóa đờm, lý khí' },
+          { code: 'PC5',  ma: 'PC-5',  ten: 'Gian Sử',         vithuoc: 'Thăng ma',   congnang: 'Thăng đề dương khí' },
+          { code: 'SI7',  ma: 'SI-7',  ten: 'Chi Chính',       vithuoc: 'Sài hồ',     congnang: 'Sơ tiết Thiếu dương' },
+        ],
+      },
+    ];
+
+    // Tra ngược: engine-code → { meta, color } để tô màu chấm & nhãn theo mục.
+    var META = {};
+    SECTIONS.forEach(function (s) {
+      s.rows.forEach(function (r) { META[r.code] = { row: r, color: s.color }; });
+    });
+    var ALL_CODES = SECTIONS.reduce(function (a, s) { return a.concat(s.rows.map(function (r) { return r.code; })); }, []);
+
+    function escHtml(v) {
+      return String(v == null ? '' : v).replace(/[&<>"]/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+      });
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Vẽ SVG 1 mặt (front/back): ảnh thân người + chấm huyệt + đường dẫn nhãn.
+    // Port từ KinhMach3DView.vue (buildSideSvg / layoutLabelSlots), tô màu theo mục.
+    // ─────────────────────────────────────────────────────────────────────────
+    var ACP_MARGIN = 190;
+
+    function layoutLabelSlots(points, imgH, minGap) {
+      var sorted = points.slice().sort(function (a, b) { return a.y - b.y; });
+      var prevY = -Infinity;
+      return sorted.map(function (p) {
+        var desired = p.y * imgH;
+        var y = Math.max(desired, prevY + minGap);
+        prevY = y;
+        var out = {}; for (var k in p) out[k] = p[k];
+        out.labelY = Math.min(y, imgH - 10);
+        return out;
+      });
+    }
+
+    function buildSideSvg(side, imgDataUrl, allPoints, W, H) {
+      if (!imgDataUrl) {
+        return '<div class="acp-empty">Không chụp được ảnh ' + (side === 'front' ? 'mặt trước' : 'mặt sau') + '.</div>';
+      }
+      var M = ACP_MARGIN;
+      var totalW = W + M * 2;
+      var pts = allPoints.filter(function (p) { return p.side === side && p[side]; }).map(function (p) {
+        var proj = p[side];
+        var meta = META[p.code] || {};
+        var row = meta.row || {};
+        return {
+          code: p.code,
+          label: (row.ma || p.code) + ' ' + (row.ten || p.name || ''),
+          color: meta.color || p.color || '#8a6d3b',
+          x: proj.x, y: proj.y,
+        };
+      });
+      var left = layoutLabelSlots(pts.filter(function (p) { return p.x < 0.5; }), H, 24);
+      var right = layoutLabelSlots(pts.filter(function (p) { return p.x >= 0.5; }), H, 24);
+
+      var dots = pts.map(function (p) {
+        return '<circle cx="' + (M + p.x * W).toFixed(1) + '" cy="' + (p.y * H).toFixed(1) + '" r="4.2" fill="' + p.color + '" stroke="#fff" stroke-width="1.2" />';
+      }).join('');
+
+      function leaderAndLabel(p, anchor, labelX) {
+        var dotX = M + p.x * W, dotY = p.y * H;
+        var textX = anchor === 'end' ? labelX - 6 : labelX + 6;
+        return '<line x1="' + labelX.toFixed(1) + '" y1="' + p.labelY.toFixed(1) + '" x2="' + dotX.toFixed(1) + '" y2="' + dotY.toFixed(1) + '" stroke="' + p.color + '" stroke-width="1" opacity="0.8" />'
+          + '<circle cx="' + labelX.toFixed(1) + '" cy="' + p.labelY.toFixed(1) + '" r="2.4" fill="' + p.color + '" />'
+          + '<text x="' + textX.toFixed(1) + '" y="' + p.labelY.toFixed(1) + '" text-anchor="' + anchor + '" dominant-baseline="middle" class="acp-label">' + escHtml(p.label) + '</text>';
+      }
+      var leftMarkup = left.map(function (p) { return leaderAndLabel(p, 'end', M - 10); }).join('');
+      var rightMarkup = right.map(function (p) { return leaderAndLabel(p, 'start', M + W + 10); }).join('');
+
+      return '<svg class="acp-svg" viewBox="0 0 ' + totalW + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">'
+        + '<image href="' + imgDataUrl + '" x="' + M + '" y="0" width="' + W + '" height="' + H + '" preserveAspectRatio="xMidYMid meet" />'
+        + dots + leftMarkup + rightMarkup
+        + '</svg>';
+    }
+
+    // Bảng 1 mục.
+    function sectionTableHtml(s) {
+      var rows = s.rows.map(function (r) {
+        return '<tr>'
+          + '<td class="huyet"><span class="dot" style="background:' + s.color + '"></span><span class="ma">' + escHtml(r.ma) + '</span> ' + escHtml(r.ten) + '</td>'
+          + '<td class="vithuoc">' + escHtml(r.vithuoc) + '</td>'
+          + '<td>' + escHtml(r.congnang) + '</td>'
+          + '</tr>';
+      }).join('');
+      return '<div class="sec">'
+        + '<div class="sec-h" style="background:' + s.color + '">' + escHtml(s.title) + ' <i>(' + s.rows.length + ' huyệt)</i></div>'
+        + '<table class="tbl"><thead><tr><th>Huyệt</th><th>Vị thuốc</th><th>Công năng</th></tr></thead><tbody>'
+        + rows + '</tbody></table></div>';
+    }
+
+    function renderSheet(result) {
+      var frontSvg = buildSideSvg('front', result.front, result.points, result.width, result.height);
+      var backSvg = buildSideSvg('back', result.back, result.points, result.width, result.height);
+
+      var missingHtml = '';
+      if (result.missing && result.missing.length) {
+        missingHtml = '<div class="acp-missing">⚠ Không xác định được vị trí trên đồ hình 3D: ' + result.missing.map(escHtml).join(', ') + '</div>';
+      }
+      var legendHtml = SECTIONS.map(sectionTableHtml).join('');
+      var printedAt = new Date().toLocaleString('vi-VN');
+
+      document.getElementById('print-root').innerHTML =
+          '<h1>PHƯƠNG HUYỆT · VỊ THUỐC · CÔNG NĂNG</h1>'
+        + '<div class="subtitle">Vị trí huyệt trên đồ hình cơ thể — kèm vị thuốc &amp; công năng tương ứng</div>'
+        + '<div class="toolbar"><button onclick="window.print()">🖶 In phiếu</button>'
+        + '<button class="ghost" onclick="location.reload()">↻ Dựng lại</button></div>'
+        + '<div class="acp-diagrams">'
+        + '<div class="acp-diagram">' + frontSvg + '<div class="acp-cap">Mặt trước</div></div>'
+        + '<div class="acp-diagram">' + backSvg + '<div class="acp-cap">Mặt sau</div></div>'
+        + '</div>'
+        + missingHtml
+        + '<div class="acp-legend">' + legendHtml + '</div>'
+        + '<div class="foot">Phiếu in lúc ' + escHtml(printedAt) + ' · Vị trí huyệt trên đồ hình mang tính minh hoạ tương đối, tham khảo thêm hướng dẫn của thầy thuốc.</div>';
+
+      // Tự mở hộp thoại in sau khi ảnh (data URL) đã sẵn trong DOM.
+      setTimeout(function () { window.print(); }, 250);
+    }
+
+    function fail(msg) {
+      document.getElementById('print-root').innerHTML =
+        '<div class="loading" style="color:#b91c1c">✖ ' + escHtml(msg)
+        + '<div style="margin-top:12px"><button onclick="location.reload()" style="font:inherit;padding:6px 16px;cursor:pointer">Thử lại</button></div></div>';
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // Chờ engine sẵn sàng (model tải xong + huyệt đã đặt) rồi chụp ảnh & dựng phiếu.
+    // exportPrintDiagram tự xếp hàng tới khi pointsReady, nhưng vẫn chờ AcuMap tồn tại.
+    // ─────────────────────────────────────────────────────────────────────────
+    var waited = 0, MAX_WAIT = 45000, STEP = 200;
+    function tryExport() {
+      if (window.AcuMap && typeof window.AcuMap.exportPrintDiagram === 'function') {
+        window.AcuMap.exportPrintDiagram(ALL_CODES, { width: 900, height: 1400 })
+          .then(function (result) {
+            if (!result || (!result.front && !result.back)) {
+              fail('Không dựng được đồ hình (không chụp được ảnh thân người).');
+              return;
+            }
+            renderSheet(result);
+          })
+          .catch(function (e) {
+            fail('Lỗi khi dựng đồ hình: ' + (e && e.message ? e.message : String(e)));
+          });
+        return;
+      }
+      waited += STEP;
+      if (waited >= MAX_WAIT) { fail('Engine 3D không khởi động được (quá thời gian chờ).'); return; }
+      setTimeout(tryExport, STEP);
+    }
+
+    // Kích ResizeObserver của engine: #mapStage đã có kích thước cố định (CSS) nên initScene chạy ngay.
+    // Chờ 1 nhịp để map3d.js gắn xong observer rồi bắt đầu poll.
+    setTimeout(tryExport, 400);
+  })();
+  </script>
+</body>
+</html>

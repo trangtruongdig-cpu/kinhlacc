@@ -71,9 +71,13 @@ async function fetchPivot(rows: string, opts: { cols?: string; excludeFilterDim?
 }
 
 // ── Lưới widget: 1 pivot 1-chiều / đại lượng, LOẠI TRỪ bộ lọc của CHÍNH đại lượng đó (để widget vẫn
-// hiện đủ lựa chọn kể cả giá trị đang lọc, cho phép đổi/bỏ lọc dễ dàng thay vì chỉ thấy 1 dòng 100%). ──
+// hiện đủ lựa chọn kể cả giá trị đang lọc, cho phép đổi/bỏ lọc dễ dàng thay vì chỉ thấy 1 dòng 100%).
+// Gọi 1 LẦN qua /patients/thong-ke/grid thay vì 1 request/đại lượng (11 request riêng lẻ) — trên
+// backend serverless (Vercel), bắn 11 request gần như đồng thời dễ khiến nó scale ra nhiều instance
+// nguội song song, MỖI instance phải tự tính lại toàn bộ dataset (~9.5k ca khám) từ đầu vì cache RAM
+// không chia sẻ được giữa các instance — đây là nguyên nhân chính khiến tab "load hơi lâu" trên web đã
+// deploy dù chạy nhanh ở local (chỉ 1 instance ấm, cache dùng chung). ──
 const widgetPivots = ref<Record<string, ThongKePivot | null>>({})
-const widgetLoading = ref<Record<string, boolean>>({})
 const totals = ref<{ totalPatients: number; totalExaminations: number } | null>(null)
 const bootLoading = ref(true)
 const bootError = ref<string | null>(null)
@@ -87,25 +91,19 @@ async function loadAll() {
   bootLoading.value = true
   bootError.value = null
   try {
-    const first = await fetchPivot('amDuong', { excludeFilterDim: 'amDuong' })
+    const params = new URLSearchParams()
+    const fq = filtersQuery()
+    if (fq) params.set('filters', fq)
+    const res = await api.get<{
+      totalPatients: number
+      totalExaminations: number
+      dimensions: DimMeta[]
+      pivots: Record<string, ThongKePivot>
+    }>(`/patients/thong-ke/grid?${params.toString()}`)
     if (myGen !== loadGeneration) return
-    dimensions.value = first.dimensions
-    totals.value = { totalPatients: first.totalPatients, totalExaminations: first.totalExaminations }
-    widgetPivots.value = { ...widgetPivots.value, amDuong: first.pivot }
-
-    const restKeys = first.dimensions.map((d) => d.key).filter((k) => k !== 'amDuong')
-    await Promise.all(
-      restKeys.map(async (key) => {
-        widgetLoading.value = { ...widgetLoading.value, [key]: true }
-        try {
-          const res = await fetchPivot(key, { excludeFilterDim: key })
-          if (myGen !== loadGeneration) return
-          widgetPivots.value = { ...widgetPivots.value, [key]: res.pivot }
-        } finally {
-          if (myGen === loadGeneration) widgetLoading.value = { ...widgetLoading.value, [key]: false }
-        }
-      }),
-    )
+    dimensions.value = res.dimensions
+    totals.value = { totalPatients: res.totalPatients, totalExaminations: res.totalExaminations }
+    widgetPivots.value = res.pivots
   } catch (e) {
     if (myGen === loadGeneration) bootError.value = e instanceof Error ? e.message : 'Không tải được thống kê.'
   } finally {
@@ -394,7 +392,7 @@ onBeforeUnmount(() => {
               <h4 class="pst-widget-title">{{ d.label }}</h4>
               <button type="button" class="pst-widget-zoom" title="Xem chi tiết" @click="focusOnDim(d.key)">🔍</button>
             </div>
-            <div v-if="widgetLoading[d.key] || bootLoading" class="pst-widget-loading"><div class="spinner spinner--sm"></div></div>
+            <div v-if="bootLoading" class="pst-widget-loading"><div class="spinner spinner--sm"></div></div>
             <ul v-else-if="widgetRows(d.key).length" class="pst-widget-list">
               <li
                 v-for="row in widgetRows(d.key)"
@@ -425,7 +423,7 @@ onBeforeUnmount(() => {
               <h4 class="pst-widget-title">{{ d.label }}</h4>
               <button type="button" class="pst-widget-zoom" title="Xem chi tiết" @click="focusOnDim(d.key)">🔍</button>
             </div>
-            <div v-if="widgetLoading[d.key] || bootLoading" class="pst-widget-loading"><div class="spinner spinner--sm"></div></div>
+            <div v-if="bootLoading" class="pst-widget-loading"><div class="spinner spinner--sm"></div></div>
             <ul v-else-if="widgetRows(d.key).length" class="pst-widget-list">
               <li
                 v-for="row in widgetRows(d.key)"
