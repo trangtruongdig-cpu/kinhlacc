@@ -459,6 +459,26 @@ export class MeridiansService {
     };
   }
 
+  /**
+   * Chuẩn hoá 24 giá trị + dựng bộ chỉ số kiểu Excel (D7/E10/AN10/...) — TÁCH từ 2 bước đầu của
+   * analyze() thành method public riêng, để nơi cần khớp luật Excel HÀNG LOẠT (PatientsService's
+   * thongKe(), lặp qua hàng nghìn ca khám) gọi được mà không phải chạy trọn analyze() (nặng, nhiều
+   * query DB cho khớp mô hình bệnh hiện đại/legacy không cần cho việc này). Không đổi hành vi
+   * analyze() hiện có — analyze() vẫn tự làm 2 bước này y hệt như trước.
+   * Ném BadRequestException nếu có giá trị ngoài khoảng hợp lệ (giống hệt analyze()) — bên gọi hàng
+   * loạt nên tự bắt lỗi từng bản ghi để 1 ca dữ liệu hỏng không làm hỏng cả lượt.
+   */
+  buildExcelIndicatorsForInput(data: AnalyzeInputDto): Record<string, number | string> {
+    const normalized: any = { ...data };
+    for (const ch of CHANNELS) {
+      const leftKey = `${ch}trai` as keyof AnalyzeInputDto;
+      const rightKey = `${ch}phai` as keyof AnalyzeInputDto;
+      normalized[leftKey] = this.normalizeChannelValue(normalized[leftKey], String(leftKey));
+      normalized[rightKey] = this.normalizeChannelValue(normalized[rightKey], String(rightKey));
+    }
+    return this.buildExcelIndicators(normalized as AnalyzeInputDto);
+  }
+
   async analyze(data: AnalyzeInputDto): Promise<AnalyzeOutputDto> {
     // Chuẩn hoá/validate 24 giá trị trước khi tính toán ngưỡng
     // (mutate tại chỗ để các nơi lưu inputData về sau cũng có giá trị chuẩn)

@@ -37,6 +37,18 @@ export class PatientsRouter {
     return this.patientsService.findAll();
   }
 
+  // Phải đứng TRƯỚC @Get(':id') để route 'thong-ke' không bị match như id.
+  // rows/cols = tên đại lượng (xem THONG_KE_DIMENSIONS trong patient.controller.ts) · filters =
+  // "dim1:value1,dim2:value2" (AND).
+  @Get('thong-ke')
+  thongKe(
+    @Query('rows') rows?: string,
+    @Query('cols') cols?: string,
+    @Query('filters') filters?: string,
+  ) {
+    return this.patientsService.thongKe(rows, cols, filters);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.patientsService.findOne(id);

@@ -382,4 +382,22 @@ export class BenhDongYExcelService {
       matched,
     };
   }
+
+  /**
+   * Khớp luật HÀNG LOẠT — fetch `rules` MỘT LẦN rồi lặp qua từng input (thay vì `diagnose()` re-fetch
+   * rules mỗi lần gọi). Dùng cho thống kê tổng hợp (PatientsService.thongKe(), lặp qua hàng nghìn ca
+   * khám) — tránh N lượt round-trip DB chỉ để lấy lại đúng 1 danh sách luật không đổi.
+   */
+  async diagnoseMany(
+    rawInputs: Record<string, unknown>[],
+  ): Promise<Array<{ id: number; code: string; name: string; outputCell: string }[]>> {
+    const rules = await this.repo.find({ order: { id: 'ASC' } });
+    return rawInputs.map((rawInput) => {
+      const input = this.normalizeInput(rawInput);
+      if (!Object.keys(input).length) return [];
+      return rules
+        .filter((rule) => this.evaluateRule(rule.logicExpression, input))
+        .map((rule) => ({ id: rule.id, code: rule.code, name: rule.name, outputCell: rule.outputCell }));
+    });
+  }
 }
