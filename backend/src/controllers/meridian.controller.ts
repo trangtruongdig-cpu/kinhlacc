@@ -67,6 +67,7 @@ export class AnalyzeOutputDto {
     name: string;
     outputCell: string;
     logicExpression?: string;
+    aliases?: string[];
   }>;
   modernSyndromes?: Array<{
     id: number;
@@ -74,6 +75,7 @@ export class AnalyzeOutputDto {
     name: string;
     outputCell: string;
     logicExpression?: string;
+    aliases?: string[];
   }>;
 }
 
@@ -92,7 +94,7 @@ const CHANNELS = [
   'phe',        // 5: Phế
   'bangquang',  // 6: Bàng quang
   'than',       // 7: Thận
-  'dam',        // 8: Đảm
+  'dam',        // 8: Đởm
   'vi',         // 9: Vị
   'can',        // 10: Can
   'ty',         // 11: Tỳ
@@ -452,7 +454,7 @@ export class MeridiansService {
       AP15: apOf(an15, aq15, 'Phế'),
       AP21: apOf(an21, aq21, 'Bàng quang'),
       AP22: apOf(an22, aq22, 'Thận'),
-      AP23: apOf(an23, aq23, 'Đảm'),
+      AP23: apOf(an23, aq23, 'Đởm'),
       AP24: apOf(an24, aq24, 'Vị'),
       AP25: apOf(an25, aq25, 'Can'),
       AP26: apOf(an26, aq26, 'Tỳ'),
