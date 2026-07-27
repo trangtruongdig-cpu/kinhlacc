@@ -77,6 +77,7 @@ interface BenhDongYExcelRow {
   logicExpression: string
   sqlCaseText: string
   sqlCaseBoolean: string
+  aliases?: string[] | null
   phapTriList?: PhapTriLite[] | null
   trieuChungList?: TrieuChungLite[] | null
   baiThuocList?: BaiThuocLite[] | null
@@ -111,6 +112,7 @@ interface FormState {
   logicExpression: string
   sqlCaseText: string
   sqlCaseBoolean: string
+  aliases: string[]
   id_phap_tri_list: number[]
   id_trieu_chung_list: number[]
   id_bai_thuoc_list: number[]
@@ -149,10 +151,22 @@ const emptyForm = (): FormState => ({
   logicExpression: '',
   sqlCaseText: '',
   sqlCaseBoolean: '',
+  aliases: [],
   id_phap_tri_list: [],
   id_trieu_chung_list: [],
   id_bai_thuoc_list: [],
   nguyen_nhan_list: [],
+})
+
+/** Ô nhập tên gọi khác dạng text (phân tách bởi dấu phẩy) <-> form.aliases (mảng). */
+const aliasesText = computed({
+  get: () => form.value.aliases.join(', '),
+  set: (v: string) => {
+    form.value.aliases = v
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+  },
 })
 
 function toggleId(list: number[], id: number): number[] {
@@ -413,7 +427,6 @@ const filteredPhapTriOptions = computed(() => {
 })
 
 /** Server đã filter & paginate. */
-const filteredList = computed(() => dataList.value)
 const pagedList = computed(() => dataList.value)
 const totalPages = computed(() => {
   const n = Math.ceil(dataTotal.value / itemsPerPage.value)
@@ -537,6 +550,7 @@ async function openEditModal(row: BenhDongYExcelRow) {
     logicExpression: row.logicExpression,
     sqlCaseText: row.sqlCaseText,
     sqlCaseBoolean: row.sqlCaseBoolean,
+    aliases: row.aliases ?? [],
     id_phap_tri_list: (row.phapTriList ?? []).map((p) => p.id),
     id_trieu_chung_list: (row.trieuChungList ?? []).map((t) => t.id),
     id_bai_thuoc_list: (row.baiThuocList ?? []).map((b) => b.id),
@@ -580,6 +594,7 @@ async function handleSubmit() {
     logicExpression: f.logicExpression,
     sqlCaseText: f.sqlCaseText,
     sqlCaseBoolean: f.sqlCaseBoolean,
+    aliases: f.aliases,
     id_phap_tri_list: f.id_phap_tri_list,
     id_trieu_chung_list: f.id_trieu_chung_list,
     id_bai_thuoc_list: f.id_bai_thuoc_list,
@@ -1096,7 +1111,7 @@ async function handleDelete() {
             autocomplete="off"
           />
         </label>
-        <span class="toolbar-count">{{ filteredList.length }} / {{ dataList.length }} bệnh</span>
+        <span class="toolbar-count">{{ dataTotal }} bệnh</span>
       </div>
 
       <div class="data-card" :class="{ 'data-card--loading': pageLoading }">
@@ -1124,6 +1139,13 @@ async function handleDelete() {
             </header>
 
             <div class="disease-card__body">
+              <section v-if="item.aliases?.length" class="disease-section">
+                <span class="disease-section__label">Tên gọi khác</span>
+                <div class="chip-row chip-row--wrap">
+                  <span v-for="a in item.aliases" :key="a" class="chip chip-alias">{{ a }}</span>
+                </div>
+              </section>
+
               <section v-if="theBenhItemsForBenh(item).length" class="disease-section">
                 <span class="disease-section__label">Thể bệnh</span>
                 <div class="chip-row chip-row--wrap">
@@ -1332,6 +1354,10 @@ async function handleDelete() {
                     spellcheck="false"
                     readonly
                   ></textarea>
+                </label>
+                <label class="field field--full">
+                  <span>Tên gọi khác (cách nhau bởi dấu phẩy)</span>
+                  <input v-model="aliasesText" class="input" placeholder="vd. Tên cũ, tên gọi trong app gốc..." />
                 </label>
               </div>
             </details>
@@ -1667,10 +1693,13 @@ async function handleDelete() {
   background: linear-gradient(180deg, #fff 0%, var(--surface-2) 100%);
 }
 
+/* Cards lệch cao rất nhiều (thể ít mục ~1 màn hình, thể nhiều mục >2000px) — dùng layout nhiều CỘT
+   kiểu masonry (lấp đầy từng cột từ trên xuống) thay vì grid hàng-cột cứng, để tránh 1 card cao đè
+   khoảng trắng khổng lồ lên các card thấp cùng hàng. column-width tự tính số cột theo bề rộng khả dụng
+   (giống tinh thần auto-fit/minmax cũ), break-inside: avoid trên card để không bị cắt ngang giữa cột. */
 .disease-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
-  gap: var(--space-4);
+  column-width: 380px;
+  column-gap: var(--space-4);
   padding: var(--space-4) var(--space-5);
   background: var(--surface-2);
 }
@@ -1678,6 +1707,8 @@ async function handleDelete() {
 .disease-card {
   display: flex;
   flex-direction: column;
+  break-inside: avoid;
+  margin-bottom: var(--space-4);
   background: var(--white);
   border: 1px solid var(--brown-100);
   border-radius: var(--radius-lg);
@@ -2314,6 +2345,11 @@ async function handleDelete() {
   background: var(--chip-pattern-bg);
   color: var(--chip-pattern-fg);
   border-color: var(--chip-pattern-border);
+}
+.chip-alias {
+  background: var(--chip-symptom-bg);
+  color: var(--chip-symptom-fg);
+  border-color: var(--chip-symptom-border);
 }
 .chip-huyet {
   background: var(--chip-pulse-bg);

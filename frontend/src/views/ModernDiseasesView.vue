@@ -11,6 +11,7 @@ interface BenhDongYHienDaiRow {
   logicExpression: string
   sqlCaseText: string
   sqlCaseBoolean: string
+  aliases: string[]
 }
 
 type FormState = Omit<BenhDongYHienDaiRow, 'id'>
@@ -35,9 +36,21 @@ const emptyForm = (): FormState => ({
   logicExpression: '',
   sqlCaseText: '',
   sqlCaseBoolean: '',
+  aliases: [],
 })
 
 const form = ref<FormState>(emptyForm())
+
+/** Ô nhập tên gọi khác dạng text (phân tách bởi dấu phẩy) <-> form.aliases (mảng). */
+const aliasesText = computed({
+  get: () => form.value.aliases.join(', '),
+  set: (v: string) => {
+    form.value.aliases = v
+      .split(',')
+      .map((s) => s.trim())
+      .filter(Boolean)
+  },
+})
 
 const currentPage = ref(1)
 const itemsPerPage = ref(12)
@@ -165,6 +178,7 @@ function openEditModal(row: BenhDongYHienDaiRow) {
     logicExpression: row.logicExpression,
     sqlCaseText: row.sqlCaseText,
     sqlCaseBoolean: row.sqlCaseBoolean,
+    aliases: row.aliases ?? [],
   }
   formError.value = null
   showModal.value = true
@@ -202,6 +216,7 @@ async function handleSubmit() {
     logicExpression: f.logicExpression,
     sqlCaseText: f.sqlCaseText,
     sqlCaseBoolean: f.sqlCaseBoolean,
+    aliases: f.aliases,
   }
   isSubmitting.value = true
   try {
@@ -444,6 +459,13 @@ async function handleDelete() {
                 <span class="disease-section__label">Ô output (Excel)</span>
                 <span class="cell-tag">{{ item.outputCell }}</span>
               </section>
+
+              <section v-if="item.aliases?.length" class="disease-section">
+                <span class="disease-section__label">Tên gọi khác</span>
+                <div class="alias-chips">
+                  <span v-for="a in item.aliases" :key="a" class="alias-chip">{{ a }}</span>
+                </div>
+              </section>
             </div>
           </article>
         </div>
@@ -500,6 +522,10 @@ async function handleDelete() {
             <label class="field field--full">
               <span>SQL CASE (boolean) <abbr title="bắt buộc">*</abbr></span>
               <textarea v-model="form.sqlCaseBoolean" class="textarea mono" rows="4" spellcheck="false"></textarea>
+            </label>
+            <label class="field field--full">
+              <span>Tên gọi khác (cách nhau bởi dấu phẩy)</span>
+              <input v-model="aliasesText" class="input" placeholder="vd. Tên cũ, tên gọi trong app gốc..." />
             </label>
           </div>
           <div class="modal-footer">
@@ -635,6 +661,9 @@ async function handleDelete() {
 }
 
 .cell-tag { display: inline-block; padding: 2px 8px; background: var(--brown-50); border-radius: var(--radius-sm); font-family: ui-monospace, monospace; font-size: var(--font-size-sm); }
+
+.alias-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.alias-chip { display: inline-block; padding: 2px 8px; background: var(--chip-symptom-bg); color: var(--chip-symptom-fg); border: 1px solid var(--chip-symptom-border); border-radius: var(--radius-full); font-size: var(--font-size-xs); }
 
 .excel-map-panel { margin-bottom: var(--space-5); border: 1px solid var(--brown-200); border-radius: var(--radius-xl); background: linear-gradient(165deg, #fffdfb 0%, var(--white) 40%); box-shadow: var(--shadow-sm); overflow: hidden; }
 .excel-map-summary { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: var(--space-3); padding: var(--space-4) var(--space-5); cursor: pointer; list-style: none; font-weight: 700; color: var(--brown-900); background: linear-gradient(90deg, var(--brown-50), #fff); border-bottom: 1px solid var(--brown-100); }

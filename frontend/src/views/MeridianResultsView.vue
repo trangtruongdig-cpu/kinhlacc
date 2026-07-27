@@ -4315,6 +4315,22 @@ watch(
 }
 .muted { color: var(--gray-400); font-style: italic; }
 
+/* Căn nguyên YHCT (bệnh YHHĐ ⇐ thể gốc) */
+.ph-cause {
+  margin-bottom: var(--space-3);
+  padding: 10px 12px;
+  border: 1px solid #f0d6b0;
+  border-left: 4px solid #b45309;
+  border-radius: 8px;
+  background: #fdf6ec;
+}
+.ph-cause__title { font-weight: 800; color: #92400e; font-size: var(--font-size-sm); margin-bottom: 6px; }
+.ph-cause__item + .ph-cause__item { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ecd9b8; }
+.ph-cause__head { font-size: var(--font-size-sm); color: var(--gray-800); }
+.ph-cause__arrow { color: var(--gray-500); margin: 0 6px; font-style: italic; }
+.ph-cause__root { font-weight: 700; color: #b45309; }
+.ph-cause__note { margin: 3px 0 0; font-size: 13px; color: var(--gray-700); line-height: 1.5; }
+
 /* Phương huyệt — group theo phương pháp */
 .ph-groups { display: flex; flex-direction: column; gap: var(--space-3); }
 .ph-missing-warn { margin-top: var(--space-3); padding: 8px 12px; border: 1px solid #fde68a; background: #fffbeb; border-radius: var(--radius-md); font-size: 12px; color: #92400e; line-height: 1.55; }

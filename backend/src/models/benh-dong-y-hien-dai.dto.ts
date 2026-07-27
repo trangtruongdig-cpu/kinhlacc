@@ -12,6 +12,7 @@ export class CreateBenhDongYHienDaiDto {
   logicExpression: string;
   sqlCaseText: string;
   sqlCaseBoolean: string;
+  aliases?: string[];
 }
 
 export class UpdateBenhDongYHienDaiDto {
@@ -22,4 +23,5 @@ export class UpdateBenhDongYHienDaiDto {
   logicExpression?: string;
   sqlCaseText?: string;
   sqlCaseBoolean?: string;
+  aliases?: string[];
 }

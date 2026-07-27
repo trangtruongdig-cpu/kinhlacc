@@ -65,6 +65,7 @@ export class BenhDongYHienDaiService {
       logicExpression: dto.logicExpression,
       sqlCaseText: dto.sqlCaseText,
       sqlCaseBoolean: dto.sqlCaseBoolean,
+      aliases: dto.aliases ?? [],
     });
     try {
       const saved = await this.repo.save(entity);
@@ -89,6 +90,7 @@ export class BenhDongYHienDaiService {
     if (dto.logicExpression !== undefined) entity.logicExpression = dto.logicExpression;
     if (dto.sqlCaseText !== undefined) entity.sqlCaseText = dto.sqlCaseText;
     if (dto.sqlCaseBoolean !== undefined) entity.sqlCaseBoolean = dto.sqlCaseBoolean;
+    if (dto.aliases !== undefined) entity.aliases = dto.aliases;
     try {
       await this.repo.save(entity);
       return this.findOne(id);
@@ -140,6 +142,7 @@ export class BenhDongYHienDaiService {
         name: rule.name,
         outputCell: rule.outputCell,
         logicExpression: rule.logicExpression,
+        aliases: rule.aliases,
       }));
     return {
       success: true,

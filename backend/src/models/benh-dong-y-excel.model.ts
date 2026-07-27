@@ -30,6 +30,11 @@ export class BenhDongYExcel {
   @Column({ type: 'text', name: 'sql_case_boolean' })
   sqlCaseBoolean: string;
 
+  /** Tên gọi khác (bí danh) — vd khi gộp 2 thể trùng công thức từ app gốc thành 1 thể chính,
+   * tên thể bị gộp được giữ lại đây để không mất dấu vết, hiển thị ở màn chi tiết. */
+  @Column({ type: 'jsonb', default: () => "'[]'" })
+  aliases: string[];
+
   @ManyToMany(() => PhapTri)
   @JoinTable({
     name: 'benh_dong_y_excel_phap_tri',

@@ -14,6 +14,7 @@ export class CreateBenhDongYExcelDto {
   logicExpression: string;
   sqlCaseText: string;
   sqlCaseBoolean: string;
+  aliases?: string[];
   id_phap_tri_list?: number[];
   id_trieu_chung_list?: number[];
   id_bai_thuoc_list?: number[];
@@ -29,6 +30,7 @@ export class UpdateBenhDongYExcelDto {
   logicExpression?: string;
   sqlCaseText?: string;
   sqlCaseBoolean?: string;
+  aliases?: string[];
   id_phap_tri_list?: number[];
   id_trieu_chung_list?: number[];
   id_bai_thuoc_list?: number[];
