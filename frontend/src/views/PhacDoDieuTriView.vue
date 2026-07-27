@@ -32,6 +32,7 @@ interface PhacDoRow {
   idHuyet: number
   phuong_phap_tac_dong: string | null
   ghi_chu_ky_thuat: string | null
+  y_nghia_huyet: string | null
   benh: BenhLite | null
   huyetVi: HuyetViLite | null
 }
@@ -40,6 +41,7 @@ interface FormRow {
   idHuyet: number
   phuong_phap_tac_dong: string
   ghi_chu_ky_thuat: string
+  y_nghia_huyet: string
 }
 
 interface FormState {
@@ -94,6 +96,7 @@ function addHuyetRowById(idHuyet: number) {
     idHuyet,
     phuong_phap_tac_dong: '',
     ghi_chu_ky_thuat: '',
+    y_nghia_huyet: '',
   })
 }
 
@@ -306,6 +309,7 @@ function openEditModal(group: BenhGroup) {
       idHuyet: r.idHuyet,
       phuong_phap_tac_dong: r.phuong_phap_tac_dong ?? '',
       ghi_chu_ky_thuat: r.ghi_chu_ky_thuat ?? '',
+      y_nghia_huyet: r.y_nghia_huyet ?? '',
     })),
   }
   formError.value = null
@@ -351,6 +355,7 @@ async function handleSubmit() {
           id_huyet: row.idHuyet,
           phuong_phap_tac_dong: row.phuong_phap_tac_dong.trim() || null,
           ghi_chu_ky_thuat: row.ghi_chu_ky_thuat.trim() || null,
+          y_nghia_huyet: row.y_nghia_huyet.trim() || null,
         }
         const existing = existingByHuyet.get(row.idHuyet)
         if (existing) {
@@ -366,6 +371,7 @@ async function handleSubmit() {
           id_huyet: row.idHuyet,
           phuong_phap_tac_dong: row.phuong_phap_tac_dong.trim() || null,
           ghi_chu_ky_thuat: row.ghi_chu_ky_thuat.trim() || null,
+          y_nghia_huyet: row.y_nghia_huyet.trim() || null,
         })
       }
     }
@@ -502,6 +508,7 @@ async function handleDelete() {
                   <div class="huyet-table__head">
                     <span class="ht-col ht-col--name">Huyệt</span>
                     <span class="ht-col ht-col--method">Phương pháp</span>
+                    <span class="ht-col ht-col--ynghia">Ý nghĩa</span>
                     <span class="ht-col ht-col--note">Ghi chú</span>
                   </div>
                   <div
@@ -520,6 +527,10 @@ async function handleDelete() {
                       <span v-if="row.phuong_phap_tac_dong" class="chip chip-method">
                         {{ row.phuong_phap_tac_dong }}
                       </span>
+                      <span v-else class="muted">—</span>
+                    </div>
+                    <div class="ht-col ht-col--ynghia">
+                      <span v-if="row.y_nghia_huyet" class="ynghia-text">{{ row.y_nghia_huyet }}</span>
                       <span v-else class="muted">—</span>
                     </div>
                     <div class="ht-col ht-col--note">
@@ -625,6 +636,7 @@ async function handleDelete() {
                 <div class="huyet-rows__head">
                   <span class="hr-col hr-col--name">Huyệt vị</span>
                   <span class="hr-col hr-col--method">Phương pháp tác động</span>
+                  <span class="hr-col hr-col--ynghia">Ý nghĩa (châm huyệt này để làm gì)</span>
                   <span class="hr-col hr-col--note">Ghi chú kỹ thuật</span>
                   <span class="hr-col hr-col--action"></span>
                 </div>
@@ -640,6 +652,13 @@ async function handleDelete() {
                       <option value="">— Chọn —</option>
                       <option v-for="opt in PHUONG_PHAP_OPTIONS" :key="opt" :value="opt">{{ opt }}</option>
                     </select>
+                  </div>
+                  <div class="hr-col hr-col--ynghia">
+                    <input
+                      v-model="row.y_nghia_huyet"
+                      class="input input--sm"
+                      placeholder="vd. Bổ Tỳ Vị; Tứ hoa — bồi bổ khí huyết..."
+                    />
                   </div>
                   <div class="hr-col hr-col--note">
                     <input
@@ -948,11 +967,12 @@ async function handleDelete() {
 .huyet-table__head,
 .huyet-table__row {
   display: grid;
-  grid-template-columns: minmax(120px, 1.4fr) minmax(100px, 1fr) minmax(120px, 1.6fr);
+  grid-template-columns: minmax(120px, 1.4fr) minmax(90px, 0.9fr) minmax(140px, 1.6fr) minmax(120px, 1.4fr);
   gap: var(--space-2);
   padding: 6px var(--space-2);
   align-items: center;
 }
+.ynghia-text { color: var(--brown-800, #7c4a1e); font-weight: 600; }
 .huyet-table__head {
   background: var(--surface-2);
   border-bottom: 1px solid var(--gray-100);
@@ -1008,7 +1028,7 @@ async function handleDelete() {
 .huyet-rows__head,
 .huyet-row {
   display: grid;
-  grid-template-columns: minmax(120px, 1.3fr) minmax(140px, 1.1fr) minmax(140px, 1.6fr) 32px;
+  grid-template-columns: minmax(110px, 1.2fr) minmax(120px, 1fr) minmax(150px, 1.6fr) minmax(130px, 1.3fr) 32px;
   gap: var(--space-2);
   padding: 6px var(--space-2);
   align-items: center;
@@ -1027,6 +1047,7 @@ async function handleDelete() {
 .hr-col--name { display: flex; flex-direction: column; gap: 2px; }
 .hr-col--method select { width: 100%; cursor: pointer; }
 .hr-col--note input { width: 100%; }
+.hr-col--ynghia input { width: 100%; }
 .hr-col--action { display: flex; justify-content: center; }
 .huyet-name { font-weight: 600; color: var(--brown-900); font-size: var(--font-size-sm); }
 .huyet-kinh { font-size: 11px; color: var(--gray-500); }

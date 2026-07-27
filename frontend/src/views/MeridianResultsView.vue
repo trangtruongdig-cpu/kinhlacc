@@ -91,6 +91,7 @@ interface PhacDoApiRow {
   benh?: { chung_trang?: string | null } | null
   phuong_phap_tac_dong: string | null
   ghi_chu_ky_thuat: string | null
+  y_nghia_huyet?: string | null
   huyetVi: {
     idHuyet: number
     ten_huyet: string | null
@@ -98,11 +99,23 @@ interface PhacDoApiRow {
     vi_tri_giai_phau?: string | null
     tac_dung?: string | null
     kinhMach?: { ten_kinh_mach: string | null; ten_viet_tat: string | null } | null
+    id_tu_dien?: number | null
   } | null
+}
+
+// Quan hệ "thể kép → thể đơn cấu thành" (bảng benh_cau_thanh) — data-driven, thay bảng alias
+// gán cứng cho việc gộp phương huyệt của thể lưỡng hư. Mỗi bản ghi kèm tên chứng để khớp theo tên.
+interface CauThanhApiRow {
+  id: number
+  compound_id: number
+  component_id: number
+  compound: { id: number; tieuket: string | null; chung_trang: string | null } | null
+  component: { id: number; tieuket: string | null; chung_trang: string | null } | null
 }
 
 const benhDetailsMap = ref<Map<number, BenhDetail>>(new Map())
 const phacDoAllList = ref<PhacDoApiRow[]>([])
+const cauThanhList = ref<CauThanhApiRow[]>([])
 const baiThuocFullMap = ref<Map<number, BaiThuocFull>>(new Map())
 const baiThuocLoading = ref(false) // bài thuốc nạp nền (không chặn render View 1)
 const expandedBaiThuoc = ref<Set<number>>(new Set())
@@ -144,6 +157,25 @@ function phNormName(s: string | null | undefined): string {
     .replace(/\s+/g, ' ')
     .trim()
 }
+// Gộp thể kép (data-driven, bảng benh_cau_thanh): tên thể kép (chuẩn hoá) → danh sách tên các thể
+// ĐƠN cấu thành (chuẩn hoá). Khi khớp phương huyệt cho 1 thể kép sẽ kéo thêm huyệt của các thể đơn
+// này (+ huyệt riêng của thể kép, vốn đã khớp theo tên chính nó) rồi khử trùng theo huyệt.
+const phCompositionMap = computed<Map<string, string[]>>(() => {
+  const m = new Map<string, string[]>()
+  const namesOf = (b: { tieuket: string | null; chung_trang: string | null } | null): string[] =>
+    b ? [b.chung_trang, b.tieuket].map(phNormName).filter(Boolean) : []
+  for (const r of cauThanhList.value) {
+    const componentNames = namesOf(r.component)
+    if (!componentNames.length) continue
+    for (const key of namesOf(r.compound)) {
+      const arr = m.get(key) ?? []
+      for (const cn of componentNames) if (!arr.includes(cn)) arr.push(cn)
+      m.set(key, arr)
+    }
+  }
+  return m
+})
+
 // Ánh xạ tên thể ĐO → tên thể trong thư viện (benh_dong_y) khi khác chữ nhưng cùng phác đồ
 // huyệt (9 cặp bác sĩ đã duyệt) — để Section IV lấy đúng phương huyệt.
 const PH_THE_ALIAS: Record<string, string> = (() => {
@@ -162,11 +194,22 @@ const PH_THE_ALIAS: Record<string, string> = (() => {
   for (const [a, b] of pairs) m[phNormName(a)] = phNormName(b)
   return m
 })()
-// Tên chuẩn hoá để khớp phương huyệt cho 1 thể đo: chính nó + alias (nếu có).
+// Tên chuẩn hoá để khớp phương huyệt cho 1 thể đo: chính nó + alias (nếu có) + các thể đơn cấu
+// thành nếu đây là thể kép (bảng benh_cau_thanh). Nhờ vậy phương huyệt thể kép = ⋃ huyệt các thể
+// đơn + huyệt riêng của thể kép (matchedPhuongHuyetList khử trùng theo idHuyet).
 function phNamesOf(name: string): string[] {
-  const k = phNormName(name)
-  const alias = PH_THE_ALIAS[k]
-  return alias ? [k, alias] : [k]
+  const out = new Set<string>()
+  const base = phNormName(name)
+  const seed: string[] = [base]
+  const alias = PH_THE_ALIAS[base]
+  if (alias) seed.push(alias)
+  for (const s of seed) {
+    if (!s) continue
+    out.add(s)
+    const comps = phCompositionMap.value.get(s)
+    if (comps) for (const c of comps) out.add(c)
+  }
+  return [...out]
 }
 // Tên các thể ĐO đang xét (tôn trọng excelFocusRuleId nếu bác sĩ bấm chọn 1 thể).
 const measuredThemeNames = computed<Set<string>>(() => {
@@ -1168,6 +1211,25 @@ function phuongHuyetKinhMach(row: PhacDoApiRow): string {
   return k.ten_kinh_mach || k.ten_viet_tat || ''
 }
 
+// Ý nghĩa châm huyệt (soạn từ giải nghĩa phương huyệt) — để bác sĩ biết châm huyệt này nhằm gì.
+function phuongHuyetYNghia(row: PhacDoApiRow): string {
+  return (row.y_nghia_huyet || '').trim()
+}
+// Thể gốc của huyệt (khi gộp thể kép, huyệt có thể đến từ thể đơn khác nhau).
+function phuongHuyetSourceThe(row: PhacDoApiRow): string {
+  return (row.benh?.chung_trang || '').trim()
+}
+// Danh sách phương huyệt đang xét có gộp từ NHIỀU thể (thể kép) → mới cần hiện nhãn "Từ thể …".
+const phuongHuyetMultiSource = computed<boolean>(() => {
+  const s = new Set<string>()
+  for (const r of matchedPhuongHuyetList.value) {
+    const n = phNormName(r.benh?.chung_trang)
+    if (n) s.add(n)
+    if (s.size > 1) return true
+  }
+  return false
+})
+
 const expandedPhuongHuyetNotes = ref<Set<number>>(new Set())
 
 function togglePhuongHuyetNote(id: number) {
@@ -1191,6 +1253,13 @@ function gotoAcuMap(code?: string | null) {
       view: '2',
     },
   })
+}
+
+// Huyệt KHÔNG có toạ độ trên đồ hình 3D (kỳ huyệt / nhĩ châm) → mở trang Từ Điển đúng huyệt đó
+// (tu-dien đọc ?acu=<id trong bộ Từ Điển 1059>). Dùng thay nút "xem trên 3D".
+function gotoTuDien(idTuDien?: number | null) {
+  if (!idTuDien) return
+  router.push({ name: 'tu-dien', query: { acu: String(idTuDien) } })
 }
 
 const PHUONG_PHAP_ORDER = [
@@ -1272,6 +1341,8 @@ function inPhieuChamHuyet(theItem?: { name: string } | null) {
           code: r.huyetVi!.ma_huyet as string,
           name: r.huyetVi?.ten_huyet || '',
           note: r.ghi_chu_ky_thuat || '',
+          yNghia: r.y_nghia_huyet || '',
+          source: r.benh?.chung_trang || '',
         })),
     })),
   }
@@ -1825,11 +1896,12 @@ async function loadData() {
   isLoading.value = true
   try {
     // 4 call CHẶN (nhẹ) → render View 1 (bảng đo + Bát Cương) ngay, không đợi bài thuốc.
-    const [patientRes, examRes, benhListRes, phacDoRes] = await Promise.all([
+    const [patientRes, examRes, benhListRes, phacDoRes, cauThanhRes] = await Promise.all([
       api.get<Patient>(`/patients/${patientId.value}`),
       api.get<any>(`/examinations/${examId.value}`),
       api.get<any>('/benh-dong-y'),
       api.get<any>('/phac-do-dieu-tri'),
+      api.get<any>('/benh-cau-thanh').catch(() => []),
     ])
     patient.value = patientRes
     examination.value = examRes
@@ -1840,6 +1912,7 @@ async function loadData() {
     benhDetailsMap.value = map
 
     phacDoAllList.value = Array.isArray(phacDoRes) ? phacDoRes : phacDoRes?.data ?? []
+    cauThanhList.value = Array.isArray(cauThanhRes) ? cauThanhRes : cauThanhRes?.data ?? []
   } catch (err: any) {
     error.value = err.message
   } finally {
@@ -3019,11 +3092,15 @@ watch(
                         :class="{
                           'ph-chip--active': expandedPhuongHuyetNotes.has(row.idPhacDo),
                         }"
-                        :title="row.ghi_chu_ky_thuat || phuongHuyetKinhMach(row) || ''"
+                        :title="phuongHuyetYNghia(row) || row.ghi_chu_ky_thuat || phuongHuyetKinhMach(row) || ''"
                         @click="togglePhuongHuyetNote(row.idPhacDo)"
                       >
                         <span class="ph-chip__name">{{ phuongHuyetDisplayLabel(row) }}</span>
-                        <span v-if="row.ghi_chu_ky_thuat" class="ph-chip__dot" aria-hidden="true"></span>
+                        <span
+                          v-if="phuongHuyetYNghia(row) || row.ghi_chu_ky_thuat"
+                          class="ph-chip__dot"
+                          aria-hidden="true"
+                        ></span>
                       </button>
                       <button
                         v-if="row.huyetVi?.ma_huyet"
@@ -3033,6 +3110,14 @@ watch(
                         aria-label="Xem trên đồ hình 3D"
                         @click.stop="gotoAcuMap(row.huyetVi?.ma_huyet)"
                       >🧭</button>
+                      <button
+                        v-else-if="row.huyetVi?.id_tu_dien"
+                        type="button"
+                        class="ph-chip__map-btn ph-chip__dict-btn"
+                        title="Huyệt không có trên đồ hình 3D — tra ở Từ Điển"
+                        aria-label="Tra ở Từ Điển"
+                        @click.stop="gotoTuDien(row.huyetVi?.id_tu_dien)"
+                      >📖</button>
                     </span>
                   </div>
                   <template
@@ -3045,6 +3130,11 @@ watch(
                         <span v-if="phuongHuyetKinhMach(row)" class="ph-note-meta">
                           {{ phuongHuyetKinhMach(row) }}
                         </span>
+                        <span
+                          v-if="phuongHuyetMultiSource && phuongHuyetSourceThe(row)"
+                          class="ph-note-source"
+                          title="Huyệt này đến từ thể bệnh nào (khi gộp thể kép)"
+                        >Từ thể: {{ phuongHuyetSourceThe(row) }}</span>
                         <button
                           type="button"
                           class="ph-note-close"
@@ -3052,10 +3142,15 @@ watch(
                           @click="togglePhuongHuyetNote(row.idPhacDo)"
                         >✕</button>
                       </div>
+                      <p v-if="phuongHuyetYNghia(row)" class="ph-note-body ph-note-body--ynghia">
+                        <span class="ph-note-label">Ý nghĩa:</span> {{ phuongHuyetYNghia(row) }}
+                      </p>
                       <p v-if="row.ghi_chu_ky_thuat" class="ph-note-body">
                         <span class="ph-note-label">Ghi chú:</span> {{ row.ghi_chu_ky_thuat }}
                       </p>
-                      <p v-else class="ph-note-empty">Chưa có ghi chú kỹ thuật.</p>
+                      <p v-if="!phuongHuyetYNghia(row) && !row.ghi_chu_ky_thuat" class="ph-note-empty">
+                        Chưa có ý nghĩa / ghi chú kỹ thuật.
+                      </p>
                     </div>
                   </template>
                 </div>
@@ -4348,6 +4443,18 @@ watch(
   border-radius: 999px;
 }
 .ph-note-body { margin: 0; word-break: break-word; }
+.ph-note-body--ynghia { margin-bottom: 2px; }
+.ph-note-body--ynghia .ph-note-label { color: var(--brown-800); }
+.ph-note-source {
+  flex: 0 0 auto;
+  font-size: 11px;
+  font-weight: 600;
+  color: #b45309;
+  background: #fef3e2;
+  border: 1px solid #f0d6b0;
+  padding: 1px 8px;
+  border-radius: 999px;
+}
 .ph-note-label { font-weight: 700; color: var(--brown-700); margin-right: 4px; }
 .ph-note-empty {
   margin: 0;

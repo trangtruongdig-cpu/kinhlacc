@@ -44,7 +44,10 @@ interface AcuPrintPayload {
   patientName: string
   examDate: string
   theBenh?: string
-  groups: Array<{ method: string; items: Array<{ code: string; name: string; note?: string }> }>
+  groups: Array<{
+    method: string
+    items: Array<{ code: string; name: string; note?: string; yNghia?: string; source?: string }>
+  }>
 }
 const ACU_PRINT_PAYLOAD_KEY = 'kinhlac:acu-print-payload'
 let safetyTimer: ReturnType<typeof setTimeout> | null = null
@@ -206,7 +209,10 @@ function renderAcuPrintSheet(result: AcuExportResult, payload: AcuPrintPayload |
             `<div class="acp-grp"><div class="acp-grp-h">${escHtml(g.method)} <i>(${g.items.length})</i></div><ul class="acp-list">${g.items
               .map(
                 (it) =>
-                  `<li><b>${escHtml(it.code)}</b> ${escHtml(it.name)}${it.note ? ` <span class="acp-note">— ${escHtml(it.note)}</span>` : ''}</li>`,
+                  `<li><b>${escHtml(it.code)}</b> ${escHtml(it.name)}` +
+                  `${it.yNghia ? ` <span class="acp-ynghia">— ${escHtml(it.yNghia)}</span>` : ''}` +
+                  `${it.source ? ` <span class="acp-src">[${escHtml(it.source)}]</span>` : ''}` +
+                  `${it.note ? ` <span class="acp-note">(${escHtml(it.note)})</span>` : ''}</li>`,
               )
               .join('')}</ul></div>`,
         )
@@ -244,6 +250,8 @@ function renderAcuPrintSheet(result: AcuExportResult, payload: AcuPrintPayload |
   .acp-grp-h { font-weight: 700; font-size: 11.5px; border-bottom: 1px solid #d6cbb8; padding-bottom: 2px; margin-bottom: 3px; }
   .acp-list { margin: 0; padding-left: 14px; }
   .acp-list li { margin-bottom: 2px; }
+  .acp-ynghia { color: #92400e; font-weight: 600; }
+  .acp-src { color: #1d4ed8; font-size: 9.5px; }
   .acp-note { color: #6b7280; font-size: 10px; }
   .acp-missing { margin-top: 10px; font-size: 10.5px; color: #b45309; }
   .acp-empty { width: 320px; padding: 40px 10px; text-align: center; color: #9ca3af; border: 1px dashed #d1d5db; border-radius: 6px; }

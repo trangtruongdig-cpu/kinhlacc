@@ -35,6 +35,11 @@ export class HuyetVi {
   @Column({ type: 'text', nullable: true })
   chong_chi_dinh: string;
 
+  // ID huyệt trong bộ Từ Điển 1059 (window.ACUPOINTS). Dùng để LINK sang Từ Điển cho các huyệt
+  // KHÔNG có toạ độ trên đồ hình 3D (kỳ huyệt / nhĩ châm) — thay cho nút "xem trên 3D".
+  @Column({ type: 'int', name: 'id_tu_dien', nullable: true })
+  id_tu_dien: number | null;
+
   @ManyToOne(() => KinhMach, (k) => k.huyetViList, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'id_kinh_mach' })
   kinhMach: KinhMach;

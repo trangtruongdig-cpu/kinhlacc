@@ -98,6 +98,7 @@ export class PhacDoDieuTriService {
       vai_tro_huyet: dto.vai_tro_huyet,
       phuong_phap_tac_dong: dto.phuong_phap_tac_dong,
       ghi_chu_ky_thuat: dto.ghi_chu_ky_thuat,
+      y_nghia_huyet: dto.y_nghia_huyet ?? null,
     });
     return this.repo.save(entity);
   }
@@ -109,6 +110,7 @@ export class PhacDoDieuTriService {
     if (dto.vai_tro_huyet !== undefined) item.vai_tro_huyet = dto.vai_tro_huyet;
     if (dto.phuong_phap_tac_dong !== undefined) item.phuong_phap_tac_dong = dto.phuong_phap_tac_dong;
     if (dto.ghi_chu_ky_thuat !== undefined) item.ghi_chu_ky_thuat = dto.ghi_chu_ky_thuat;
+    if (dto.y_nghia_huyet !== undefined) item.y_nghia_huyet = dto.y_nghia_huyet ?? null;
     return this.repo.save(item);
   }
 
