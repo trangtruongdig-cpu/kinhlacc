@@ -109,6 +109,7 @@ interface CauThanhApiRow {
   id: number
   compound_id: number
   component_id: number
+  ghi_chu?: string | null
   compound: { id: number; tieuket: string | null; chung_trang: string | null } | null
   component: { id: number; tieuket: string | null; chung_trang: string | null } | null
 }
@@ -1383,6 +1384,78 @@ function methodChipClass(method: string): string {
 
 const modernSyndromesList = computed(() => {
   return examination.value?.modernSyndromes || []
+})
+
+// Quan hệ NHÂN-QUẢ: một thể ĐO là bệnh YHHĐ/phái sinh (benh_cau_thanh có ghi_chu) ⇐ thể YHCT gốc.
+// Chỉ lấy link CÓ ghi_chu (YHHĐ⇐YHCT), bỏ link lưỡng-hư (ghi_chu rỗng).
+function causeRootOf(name: string): { root: string; ghiChu: string } | null {
+  const n = phNormName(name)
+  for (const r of cauThanhList.value) {
+    if (!(r.ghi_chu || '').trim()) continue
+    const comp = [r.compound?.chung_trang, r.compound?.tieuket].map(phNormName)
+    if (comp.includes(n)) {
+      const root = (r.component?.tieuket || r.component?.chung_trang || '').trim()
+      if (root) return { root, ghiChu: (r.ghi_chu || '').trim() }
+    }
+  }
+  return null
+}
+interface SyndNode {
+  item: { id: number; name: string; outputCell?: string; logicExpression?: string }
+  kind: 'excel' | 'modern'
+  depth: 0 | 1
+  no?: number
+  rootName?: string
+  ghiChu?: string
+}
+// Mục III dạng CÂY: thể YHCT gốc (cha) + bệnh YHHĐ dẫn xuất lồng dưới (con). Bệnh YHHĐ không có gốc
+// (trong danh sách) thì đứng độc lập (standaloneModern).
+const syndromeFlat = computed<SyndNode[]>(() => {
+  const excel = excelSyndromesList.value as Array<SyndNode['item']>
+  const modern = modernSyndromesList.value as Array<SyndNode['item']>
+  const rootByNorm = new Map(excel.map((it) => [phNormName(it.name), it]))
+  const childrenOf = new Map<string, SyndNode[]>()
+  const nestedExcel = new Set<number>()
+  const nestedModern = new Set<number>()
+  const addChild = (pk: string, node: SyndNode) => {
+    if (!childrenOf.has(pk)) childrenOf.set(pk, [])
+    childrenOf.get(pk)!.push(node)
+  }
+  for (const it of excel) {
+    const c = causeRootOf(it.name)
+    const pk = c ? phNormName(c.root) : ''
+    if (c && rootByNorm.has(pk) && pk !== phNormName(it.name)) {
+      addChild(pk, { item: it, kind: 'excel', depth: 1, rootName: c.root, ghiChu: c.ghiChu })
+      nestedExcel.add(it.id)
+    }
+  }
+  for (const it of modern) {
+    const c = causeRootOf(it.name)
+    const pk = c ? phNormName(c.root) : ''
+    if (c && rootByNorm.has(pk)) {
+      addChild(pk, { item: it, kind: 'modern', depth: 1, rootName: c.root, ghiChu: c.ghiChu })
+      nestedModern.add(it.id)
+    }
+  }
+  const flat: SyndNode[] = []
+  let n = 0
+  for (const it of excel) {
+    if (nestedExcel.has(it.id)) continue
+    flat.push({ item: it, kind: 'excel', depth: 0, no: ++n })
+    for (const ch of childrenOf.get(phNormName(it.name)) || []) flat.push(ch)
+  }
+  return flat
+})
+// Bệnh YHHĐ KHÔNG có thể gốc trong danh sách → vẫn liệt kê riêng như hiện tại.
+const standaloneModern = computed(() => {
+  const excel = excelSyndromesList.value as Array<{ name: string }>
+  const rootByNorm = new Set(excel.map((it) => phNormName(it.name)))
+  return (modernSyndromesList.value as Array<{ id: number; name: string; code?: string; outputCell?: string; logicExpression?: string }>).filter(
+    (it) => {
+      const c = causeRootOf(it.name)
+      return !(c && rootByNorm.has(phNormName(c.root)))
+    },
+  )
 })
 
 const examDisplay = computed(() => {
@@ -3349,30 +3422,38 @@ watch(
                   ✓ Đã chẩn đoán: <b>{{ savedChanDoan.ket_luan }}</b>
                   <span class="dongy-saved-time">({{ new Date(savedChanDoan.luu_luc).toLocaleString('vi-VN') }})</span>
                 </div>
-                <div v-if="excelSyndromesList.length" class="comparison-list">
+                <div v-if="syndromeFlat.length" class="comparison-list">
                   <div
-                    v-for="(item, idx) in excelSyndromesList"
-                    :key="'excel-' + (item.code || idx)"
+                    v-for="node in syndromeFlat"
+                    :key="node.kind + '-' + node.item.id"
                     class="comparison-cell comparison-cell--clickable"
-                    :class="{ 'comparison-cell--active': excelFocusRuleId === item.id }"
+                    :class="{
+                      'comparison-cell--active': (node.kind === 'modern' ? modernFocusRuleId : excelFocusRuleId) === node.item.id,
+                      'comparison-cell--modern': node.kind === 'modern',
+                      'synd-node--child': node.depth > 0,
+                    }"
                     role="button"
                     tabindex="0"
-                    :title="item.logicExpression ? 'Xem ô chỉ số liên quan trên bảng I' : 'Chọn mô hình'"
-                    @click="toggleExcelFocus(item.id)"
-                    @keydown.enter.prevent="toggleExcelFocus(item.id)"
-                    @keydown.space.prevent="toggleExcelFocus(item.id)"
+                    :title="node.item.logicExpression ? 'Xem ô chỉ số liên quan trên bảng I' : 'Chọn mô hình'"
+                    @click="node.kind === 'modern' ? toggleModernFocus(node.item.id) : toggleExcelFocus(node.item.id)"
+                    @keydown.enter.prevent="node.kind === 'modern' ? toggleModernFocus(node.item.id) : toggleExcelFocus(node.item.id)"
+                    @keydown.space.prevent="node.kind === 'modern' ? toggleModernFocus(node.item.id) : toggleExcelFocus(node.item.id)"
                   >
                     <div class="synd-info">
-                      <span class="synd-idx">{{ Number(idx) + 1 }}</span>
-                      <span class="synd-name">{{ item.name }}</span>
-                      <span class="synd-rate">{{ item.outputCell }}</span>
+                      <span class="synd-idx">{{ node.depth > 0 ? '↳' : node.no }}</span>
+                      <span class="synd-name">
+                        {{ node.item.name }}
+                        <span v-if="node.depth > 0" class="synd-yhhd-tag" title="Bệnh danh YHHĐ — bản chất là thể YHCT gốc phía trên">YHHĐ</span>
+                      </span>
+                      <span class="synd-rate">{{ node.item.outputCell }}</span>
                     </div>
+                    <p v-if="node.depth > 0 && node.ghiChu" class="synd-cause">{{ node.ghiChu }}</p>
                     <div class="synd-actions">
                       <button
                         type="button"
                         class="pt-search-btn"
                         title="Xem chi tiết bệnh này (nguyên nhân, triệu chứng, pháp trị, bài thuốc — theo dữ liệu Bệnh Đo Kinh Lạc)"
-                        @click.stop="openBenhChiTiet(item)"
+                        @click.stop="openBenhChiTiet(node.item)"
                         @keydown.stop
                       >
                         <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
@@ -3385,7 +3466,7 @@ watch(
                         type="button"
                         class="pt-search-btn"
                         title="Tìm pháp trị cho mô hình bệnh này"
-                        @click.stop="openPhapTriSearch(item)"
+                        @click.stop="openPhapTriSearch(node.item)"
                         @keydown.stop
                       >
                         <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
@@ -3395,11 +3476,11 @@ watch(
                         Pháp trị
                       </button>
                       <button
-                        v-if="phuongHuyetForThe(item).length"
+                        v-if="phuongHuyetForThe(node.item).length"
                         type="button"
                         class="pt-search-btn"
                         title="In phiếu châm huyệt riêng cho thể bệnh này"
-                        @click.stop="inPhieuChamHuyet(item)"
+                        @click.stop="inPhieuChamHuyet(node.item)"
                         @keydown.stop
                       >
                         <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
@@ -3415,11 +3496,11 @@ watch(
                 </div>
               </div>
 
-              <div class="info-group mt-4">
-                <h4 class="info-label mb-3">Mô hình Bệnh Y Học Hiện Đại</h4>
-                <div v-if="modernSyndromesList.length" class="comparison-list">
+              <div v-if="standaloneModern.length" class="info-group mt-4">
+                <h4 class="info-label mb-3">Bệnh Y Học Hiện Đại (độc lập — chưa có thể YHCT gốc)</h4>
+                <div class="comparison-list">
                   <div
-                    v-for="(item, idx) in modernSyndromesList"
+                    v-for="(item, idx) in standaloneModern"
                     :key="'modern-' + (item.code || idx)"
                     class="comparison-cell comparison-cell--clickable comparison-cell--modern"
                     :class="{ 'comparison-cell--active': modernFocusRuleId === item.id }"
@@ -3434,9 +3515,6 @@ watch(
                     <span class="synd-name">{{ item.name }}</span>
                     <span class="synd-rate">{{ item.outputCell }}</span>
                   </div>
-                </div>
-                <div v-else class="pathology-placeholder">
-                  <p>Không có mô hình hiện đại nào khớp điều kiện</p>
                 </div>
               </div>
 
@@ -4315,21 +4393,31 @@ watch(
 }
 .muted { color: var(--gray-400); font-style: italic; }
 
-/* Căn nguyên YHCT (bệnh YHHĐ ⇐ thể gốc) */
-.ph-cause {
-  margin-bottom: var(--space-3);
-  padding: 10px 12px;
-  border: 1px solid #f0d6b0;
-  border-left: 4px solid #b45309;
-  border-radius: 8px;
-  background: #fdf6ec;
+/* Mục III dạng cây: bệnh YHHĐ lồng dưới thể YHCT gốc */
+.synd-node--child {
+  margin-left: 22px;
+  border-left: 3px solid #d9b98a;
+  background: #fdf7ee;
 }
-.ph-cause__title { font-weight: 800; color: #92400e; font-size: var(--font-size-sm); margin-bottom: 6px; }
-.ph-cause__item + .ph-cause__item { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #ecd9b8; }
-.ph-cause__head { font-size: var(--font-size-sm); color: var(--gray-800); }
-.ph-cause__arrow { color: var(--gray-500); margin: 0 6px; font-style: italic; }
-.ph-cause__root { font-weight: 700; color: #b45309; }
-.ph-cause__note { margin: 3px 0 0; font-size: 13px; color: var(--gray-700); line-height: 1.5; }
+.synd-node--child .synd-idx { color: #b45309; font-weight: 700; }
+.synd-yhhd-tag {
+  margin-left: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #1d4ed8;
+  background: #e8efff;
+  border: 1px solid #c7d7fb;
+  border-radius: 999px;
+  padding: 0 6px;
+  vertical-align: middle;
+}
+.synd-cause {
+  margin: 2px 0 0 26px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #7c5a2e;
+  font-style: italic;
+}
 
 /* Phương huyệt — group theo phương pháp */
 .ph-groups { display: flex; flex-direction: column; gap: var(--space-3); }
