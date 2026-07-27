@@ -1386,76 +1386,75 @@ const modernSyndromesList = computed(() => {
   return examination.value?.modernSyndromes || []
 })
 
-// Quan hệ NHÂN-QUẢ: một thể ĐO là bệnh YHHĐ/phái sinh (benh_cau_thanh có ghi_chu) ⇐ thể YHCT gốc.
-// Chỉ lấy link CÓ ghi_chu (YHHĐ⇐YHCT), bỏ link lưỡng-hư (ghi_chu rỗng).
-function causeRootOf(name: string): { root: string; ghiChu: string } | null {
-  const n = phNormName(name)
-  for (const r of cauThanhList.value) {
-    if (!(r.ghi_chu || '').trim()) continue
-    const comp = [r.compound?.chung_trang, r.compound?.tieuket].map(phNormName)
-    if (comp.includes(n)) {
-      const root = (r.component?.tieuket || r.component?.chung_trang || '').trim()
-      if (root) return { root, ghiChu: (r.ghi_chu || '').trim() }
+// Quan hệ NHÂN-QUẢ (chỉ link CÓ ghi_chu): YHHĐ (compound) ⇐ YHCT gốc (component).
+interface CauseLink { rootName: string; diseaseName: string; ghiChu: string }
+const causeLinks = computed<CauseLink[]>(() =>
+  cauThanhList.value
+    .filter((r) => (r.ghi_chu || '').trim())
+    .map((r) => ({
+      rootName: (r.component?.tieuket || r.component?.chung_trang || '').trim(),
+      diseaseName: (r.compound?.tieuket || r.compound?.chung_trang || '').trim(),
+      ghiChu: (r.ghi_chu || '').trim(),
+    }))
+    .filter((l) => l.rootName && l.diseaseName),
+)
+
+interface SyndItem { id: number; name: string; code?: string; outputCell?: string; logicExpression?: string }
+interface SyndSub { name: string; ghiChu: string; role: 'root' | 'disease'; measured: boolean }
+interface SyndNode { item: SyndItem; kind: 'excel' | 'modern'; no?: number; extraIds: number[]; subs: SyndSub[] }
+
+// Mục III dạng CÂY theo "công thức": thể ĐO ĐƯỢC (có công thức, click nổi ô) = CHA; thể không đo được
+// = CON (hiện kèm cơ chế). Cả 2 đo được → 1 dòng, thể YHCT gốc làm chính, click sáng CẢ 2 công thức.
+const syndromeTree = computed<{ nodes: SyndNode[]; standaloneModern: SyndItem[] }>(() => {
+  const excel = excelSyndromesList.value as SyndItem[]
+  const modern = modernSyndromesList.value as SyndItem[]
+  const measured: Array<{ item: SyndItem; kind: 'excel' | 'modern'; order: number }> = []
+  excel.forEach((it, i) => measured.push({ item: it, kind: 'excel', order: i }))
+  modern.forEach((it, i) => measured.push({ item: it, kind: 'modern', order: 1000 + i }))
+  const byNorm = new Map<string, { item: SyndItem; kind: 'excel' | 'modern'; order: number }>()
+  for (const m of measured) { const k = phNormName(m.item.name); if (!byNorm.has(k)) byNorm.set(k, m) }
+
+  const rootChildren = new Map<string, CauseLink[]>()
+  const diseaseRoot = new Map<string, CauseLink>()
+  for (const l of causeLinks.value) {
+    const rk = phNormName(l.rootName), dk = phNormName(l.diseaseName)
+    if (!rootChildren.has(rk)) rootChildren.set(rk, [])
+    rootChildren.get(rk)!.push(l)
+    if (!diseaseRoot.has(dk)) diseaseRoot.set(dk, l)
+  }
+
+  const consumed = new Set<number>()
+  const collected: Array<{ order: number; node: SyndNode }> = []
+  // Pass 1: thể đo được là GỐC → node cha (gom mọi bệnh YHHĐ liên quan làm con)
+  for (const m of measured) {
+    const k = phNormName(m.item.name)
+    if (consumed.has(m.item.id) || !rootChildren.has(k)) continue
+    const subs: SyndSub[] = []; const extraIds: number[] = []
+    for (const l of rootChildren.get(k)!) {
+      const cm = byNorm.get(phNormName(l.diseaseName))
+      subs.push({ name: l.diseaseName, ghiChu: l.ghiChu, role: 'disease', measured: !!cm })
+      if (cm) { extraIds.push(cm.item.id); consumed.add(cm.item.id) }
+    }
+    consumed.add(m.item.id)
+    collected.push({ order: m.order, node: { item: m.item, kind: m.kind, extraIds, subs } })
+  }
+  // Pass 2: thể đo được là BỆNH YHHĐ có gốc CHƯA đo được → bệnh làm cha, gốc làm con (cơ chế); thể lẻ
+  for (const m of measured) {
+    if (consumed.has(m.item.id)) continue
+    const dl = diseaseRoot.get(phNormName(m.item.name))
+    if (dl && !byNorm.has(phNormName(dl.rootName))) {
+      consumed.add(m.item.id)
+      collected.push({ order: m.order, node: { item: m.item, kind: m.kind, extraIds: [], subs: [{ name: dl.rootName, ghiChu: dl.ghiChu, role: 'root', measured: false }] } })
+    } else if (m.kind === 'excel') {
+      consumed.add(m.item.id)
+      collected.push({ order: m.order, node: { item: m.item, kind: 'excel', extraIds: [], subs: [] } })
     }
   }
-  return null
-}
-interface SyndNode {
-  item: { id: number; name: string; outputCell?: string; logicExpression?: string }
-  kind: 'excel' | 'modern'
-  depth: 0 | 1
-  no?: number
-  rootName?: string
-  ghiChu?: string
-}
-// Mục III dạng CÂY: thể YHCT gốc (cha) + bệnh YHHĐ dẫn xuất lồng dưới (con). Bệnh YHHĐ không có gốc
-// (trong danh sách) thì đứng độc lập (standaloneModern).
-const syndromeFlat = computed<SyndNode[]>(() => {
-  const excel = excelSyndromesList.value as Array<SyndNode['item']>
-  const modern = modernSyndromesList.value as Array<SyndNode['item']>
-  const rootByNorm = new Map(excel.map((it) => [phNormName(it.name), it]))
-  const childrenOf = new Map<string, SyndNode[]>()
-  const nestedExcel = new Set<number>()
-  const nestedModern = new Set<number>()
-  const addChild = (pk: string, node: SyndNode) => {
-    if (!childrenOf.has(pk)) childrenOf.set(pk, [])
-    childrenOf.get(pk)!.push(node)
-  }
-  for (const it of excel) {
-    const c = causeRootOf(it.name)
-    const pk = c ? phNormName(c.root) : ''
-    if (c && rootByNorm.has(pk) && pk !== phNormName(it.name)) {
-      addChild(pk, { item: it, kind: 'excel', depth: 1, rootName: c.root, ghiChu: c.ghiChu })
-      nestedExcel.add(it.id)
-    }
-  }
-  for (const it of modern) {
-    const c = causeRootOf(it.name)
-    const pk = c ? phNormName(c.root) : ''
-    if (c && rootByNorm.has(pk)) {
-      addChild(pk, { item: it, kind: 'modern', depth: 1, rootName: c.root, ghiChu: c.ghiChu })
-      nestedModern.add(it.id)
-    }
-  }
-  const flat: SyndNode[] = []
+  collected.sort((a, b) => a.order - b.order)
   let n = 0
-  for (const it of excel) {
-    if (nestedExcel.has(it.id)) continue
-    flat.push({ item: it, kind: 'excel', depth: 0, no: ++n })
-    for (const ch of childrenOf.get(phNormName(it.name)) || []) flat.push(ch)
-  }
-  return flat
-})
-// Bệnh YHHĐ KHÔNG có thể gốc trong danh sách → vẫn liệt kê riêng như hiện tại.
-const standaloneModern = computed(() => {
-  const excel = excelSyndromesList.value as Array<{ name: string }>
-  const rootByNorm = new Set(excel.map((it) => phNormName(it.name)))
-  return (modernSyndromesList.value as Array<{ id: number; name: string; code?: string; outputCell?: string; logicExpression?: string }>).filter(
-    (it) => {
-      const c = causeRootOf(it.name)
-      return !(c && rootByNorm.has(phNormName(c.root)))
-    },
-  )
+  const nodes = collected.map((x) => { x.node.no = ++n; return x.node })
+  const standaloneModern = modern.filter((it) => !consumed.has(it.id))
+  return { nodes, standaloneModern }
 })
 
 const examDisplay = computed(() => {
@@ -2172,6 +2171,8 @@ type ExcelHint =
 
 const excelFocusRuleId = ref<number | null>(null)
 const modernFocusRuleId = ref<number | null>(null)
+// Thể ĐO ĐƯỢC bổ sung cần SÁNG CÔNG THỨC cùng lúc khi bấm 1 dòng gộp (cha + con đều đo được).
+const focusExtraIds = ref<number[]>([])
 const showMoHinhBenhLy = ref(false)
 
 // Có focus rule (Excel hoặc Hiện đại) — dùng để giữ logic dim/highlight chung
@@ -2240,14 +2241,23 @@ watch(
 )
 
 const excelHighlightHints = computed<ExcelHint[]>(() => {
-  let logic: string | null | undefined
-  if (excelFocusRuleId.value != null) {
-    logic = excelSyndromesList.value.find((x: { id: number }) => x.id === excelFocusRuleId.value)?.logicExpression
-  } else if (modernFocusRuleId.value != null) {
-    logic = modernSyndromesList.value.find((x: { id: number }) => x.id === modernFocusRuleId.value)?.logicExpression
+  const logics: string[] = []
+  const pushLogic = (id: number | null, list: Array<{ id: number; logicExpression?: string }>) => {
+    if (id == null) return
+    const lg = list.find((x) => x.id === id)?.logicExpression
+    if (lg && typeof lg === 'string') logics.push(lg)
   }
-  if (!logic || typeof logic !== 'string') return []
-  return extractExcelRefsFromLogic(logic).map(refToHint).filter((h): h is ExcelHint => h !== null)
+  pushLogic(excelFocusRuleId.value, excelSyndromesList.value)
+  pushLogic(modernFocusRuleId.value, modernSyndromesList.value)
+  // Dòng gộp (cha + con đều đo được) → sáng CẢ công thức của các thể bổ sung
+  for (const eid of focusExtraIds.value) {
+    pushLogic(eid, excelSyndromesList.value)
+    pushLogic(eid, modernSyndromesList.value)
+  }
+  if (!logics.length) return []
+  const refs = new Set<string>()
+  for (const lg of logics) for (const r of extractExcelRefsFromLogic(lg)) refs.add(r)
+  return [...refs].map(refToHint).filter((h): h is ExcelHint => h !== null)
 })
 
 function extractExcelRefsFromLogic(logic: string): string[] {
@@ -2312,18 +2322,34 @@ function refToHint(ref: string): ExcelHint | null {
 function toggleExcelFocus(id: number) {
   batCuongFocus.value = null
   modernFocusRuleId.value = null
+  focusExtraIds.value = []
   excelFocusRuleId.value = excelFocusRuleId.value === id ? null : id
+}
+// Bấm 1 node ở mục III: focus thể chính + sáng công thức các thể đo-được đi kèm (extraIds).
+function focusSyndNode(node: SyndNode) {
+  batCuongFocus.value = null
+  const isActive = (node.kind === 'modern' ? modernFocusRuleId.value : excelFocusRuleId.value) === node.item.id
+  if (node.kind === 'modern') {
+    excelFocusRuleId.value = null
+    modernFocusRuleId.value = isActive ? null : node.item.id
+  } else {
+    modernFocusRuleId.value = null
+    excelFocusRuleId.value = isActive ? null : node.item.id
+  }
+  focusExtraIds.value = isActive ? [] : node.extraIds
 }
 
 function toggleModernFocus(id: number) {
   batCuongFocus.value = null
   excelFocusRuleId.value = null
+  focusExtraIds.value = []
   modernFocusRuleId.value = modernFocusRuleId.value === id ? null : id
 }
 
 function toggleBatCuongFocus(key: string) {
   excelFocusRuleId.value = null
   modernFocusRuleId.value = null
+  focusExtraIds.value = []
   batCuongFocus.value = batCuongFocus.value === key ? null : key
 }
 
@@ -2943,7 +2969,7 @@ watch(
         <div class="mr-ctx-right">
           <span v-if="focusedTheName" class="mr-focus-chip">
             Đang lọc: <b>{{ focusedTheName }}</b>
-            <button type="button" aria-label="Bỏ lọc" @click="excelFocusRuleId = null">✕</button>
+            <button type="button" aria-label="Bỏ lọc" @click="excelFocusRuleId = null; focusExtraIds = []">✕</button>
           </span>
         </div>
       </div>
@@ -3262,7 +3288,7 @@ watch(
                     <div class="dt-filter">
                       <template v-if="focusedTheName">
                         <span class="dt-filter-on">Đang lọc theo thể: <b>{{ focusedTheName }}</b></span>
-                        <button type="button" class="dt-filter-clear" @click="excelFocusRuleId = null">✕ Bỏ lọc · gộp tất cả thể</button>
+                        <button type="button" class="dt-filter-clear" @click="excelFocusRuleId = null; focusExtraIds = []">✕ Bỏ lọc · gộp tất cả thể</button>
                       </template>
                       <span v-else class="dt-filter-all">
                         Gộp tất cả {{ matchedBenhIds.length }} thể bệnh khớp — bấm 1 thể ở “Mô Hình Bệnh” để chỉ hiện vị của thể đó
@@ -3422,32 +3448,40 @@ watch(
                   ✓ Đã chẩn đoán: <b>{{ savedChanDoan.ket_luan }}</b>
                   <span class="dongy-saved-time">({{ new Date(savedChanDoan.luu_luc).toLocaleString('vi-VN') }})</span>
                 </div>
-                <div v-if="syndromeFlat.length" class="comparison-list">
+                <div v-if="syndromeTree.nodes.length" class="comparison-list">
                   <div
-                    v-for="node in syndromeFlat"
+                    v-for="node in syndromeTree.nodes"
                     :key="node.kind + '-' + node.item.id"
                     class="comparison-cell comparison-cell--clickable"
                     :class="{
                       'comparison-cell--active': (node.kind === 'modern' ? modernFocusRuleId : excelFocusRuleId) === node.item.id,
                       'comparison-cell--modern': node.kind === 'modern',
-                      'synd-node--child': node.depth > 0,
+                      'synd-node--parent': node.subs.length,
                     }"
                     role="button"
                     tabindex="0"
-                    :title="node.item.logicExpression ? 'Xem ô chỉ số liên quan trên bảng I' : 'Chọn mô hình'"
-                    @click="node.kind === 'modern' ? toggleModernFocus(node.item.id) : toggleExcelFocus(node.item.id)"
-                    @keydown.enter.prevent="node.kind === 'modern' ? toggleModernFocus(node.item.id) : toggleExcelFocus(node.item.id)"
-                    @keydown.space.prevent="node.kind === 'modern' ? toggleModernFocus(node.item.id) : toggleExcelFocus(node.item.id)"
+                    :title="node.item.logicExpression ? 'Xem ô chỉ số liên quan trên bảng I (click sáng công thức)' : 'Chọn mô hình'"
+                    @click="focusSyndNode(node)"
+                    @keydown.enter.prevent="focusSyndNode(node)"
+                    @keydown.space.prevent="focusSyndNode(node)"
                   >
                     <div class="synd-info">
-                      <span class="synd-idx">{{ node.depth > 0 ? '↳' : node.no }}</span>
-                      <span class="synd-name">
-                        {{ node.item.name }}
-                        <span v-if="node.depth > 0" class="synd-yhhd-tag" title="Bệnh danh YHHĐ — bản chất là thể YHCT gốc phía trên">YHHĐ</span>
-                      </span>
+                      <span class="synd-idx">{{ node.no }}</span>
+                      <span class="synd-name">{{ node.item.name }}</span>
                       <span class="synd-rate">{{ node.item.outputCell }}</span>
                     </div>
-                    <p v-if="node.depth > 0 && node.ghiChu" class="synd-cause">{{ node.ghiChu }}</p>
+                    <div v-for="sub in node.subs" :key="sub.name" class="synd-sub">
+                      <span class="synd-sub-head">
+                        <span class="synd-sub-caret">↳</span>
+                        <span
+                          class="synd-sub-tag"
+                          :class="sub.role === 'root' ? 'synd-sub-tag--yhct' : 'synd-sub-tag--yhhd'"
+                        >{{ sub.role === 'root' ? 'gốc YHCT' : 'biểu hiện YHHĐ' }}</span>
+                        <span class="synd-sub-name">{{ sub.name }}</span>
+                        <span v-if="sub.measured" class="synd-sub-meas" title="Thể này cũng đo ra — bấm dòng để sáng cả công thức của nó">✦ đo ra</span>
+                      </span>
+                      <span v-if="sub.ghiChu" class="synd-sub-note">{{ sub.ghiChu }}</span>
+                    </div>
                     <div class="synd-actions">
                       <button
                         type="button"
@@ -3496,11 +3530,11 @@ watch(
                 </div>
               </div>
 
-              <div v-if="standaloneModern.length" class="info-group mt-4">
+              <div v-if="syndromeTree.standaloneModern.length" class="info-group mt-4">
                 <h4 class="info-label mb-3">Bệnh Y Học Hiện Đại (độc lập — chưa có thể YHCT gốc)</h4>
                 <div class="comparison-list">
                   <div
-                    v-for="(item, idx) in standaloneModern"
+                    v-for="(item, idx) in syndromeTree.standaloneModern"
                     :key="'modern-' + (item.code || idx)"
                     class="comparison-cell comparison-cell--clickable comparison-cell--modern"
                     :class="{ 'comparison-cell--active': modernFocusRuleId === item.id }"
@@ -4393,26 +4427,29 @@ watch(
 }
 .muted { color: var(--gray-400); font-style: italic; }
 
-/* Mục III dạng cây: bệnh YHHĐ lồng dưới thể YHCT gốc */
-.synd-node--child {
-  margin-left: 22px;
-  border-left: 3px solid #d9b98a;
-  background: #fdf7ee;
+/* Mục III dạng cây: thể liên quan (gốc YHCT / biểu hiện YHHĐ) hiện làm dòng con kèm cơ chế */
+.synd-node--parent { border-left: 3px solid #b45309; }
+.synd-sub {
+  margin: 4px 0 0 26px;
+  padding-left: 10px;
+  border-left: 2px dashed #d9b98a;
 }
-.synd-node--child .synd-idx { color: #b45309; font-weight: 700; }
-.synd-yhhd-tag {
-  margin-left: 6px;
+.synd-sub-head { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 13px; }
+.synd-sub-caret { color: #b45309; font-weight: 700; }
+.synd-sub-tag {
   font-size: 10px;
   font-weight: 700;
-  color: #1d4ed8;
-  background: #e8efff;
-  border: 1px solid #c7d7fb;
   border-radius: 999px;
   padding: 0 6px;
-  vertical-align: middle;
+  white-space: nowrap;
 }
-.synd-cause {
-  margin: 2px 0 0 26px;
+.synd-sub-tag--yhct { color: #92400e; background: #fdf0da; border: 1px solid #f0d6b0; }
+.synd-sub-tag--yhhd { color: #1d4ed8; background: #e8efff; border: 1px solid #c7d7fb; }
+.synd-sub-name { font-weight: 600; color: var(--gray-800); }
+.synd-sub-meas { font-size: 10px; color: #15803d; font-weight: 700; }
+.synd-sub-note {
+  display: block;
+  margin: 2px 0 0 18px;
   font-size: 12.5px;
   line-height: 1.5;
   color: #7c5a2e;
