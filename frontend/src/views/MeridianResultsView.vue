@@ -186,6 +186,7 @@ const PH_THE_ALIAS: Record<string, string> = (() => {
     ['Tỳ vị khí hư', 'Tỳ Khí Hư'],
     ['Tỳ vị thấp khốn', 'Tỳ Thấp Khốn'],
     ['Đởm nhiệt', 'Đởm Thấp Nhiệt'],
+    ['Can Đởm Hỏa Vượng, Thấp Nhiệt', 'Đởm Thấp Nhiệt'],
     ['Đàm hoả nội nhiễu', 'Đàm Hỏa Nhiễu Tâm'],
     ['Tâm tỳ lưỡng hư', 'Tâm Khí Hư, Tỳ Khí Hư'],
     ['Đàm trọc trở phế', 'Đàm Thấp Trở Phế'],
