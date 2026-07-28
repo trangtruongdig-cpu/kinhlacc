@@ -1374,6 +1374,12 @@ onMounted(async () => {
 .dkq-bc-wrap :deep(.bcs) {
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 }
+/* DEMO — BÍ MẬT CÔNG NGHỆ: giấu các ghi chú LỘ CÔNG THỨC (số kinh lệch · ngưỡng · "vì sao"
+   Âm-Dương · giải thích Biểu-Lý/Khí-Huyết). GIỮ kết luận "Hội chứng" + nút (i) để không xô layout. */
+.dkq-bc-band :deep(.sum-why),
+.dkq-bc-band :deep(.ad-reason) {
+  display: none !important;
+}
 @media (max-width: 900px) {
   .dkq-bc-wrap {
     grid-template-columns: 1fr;
