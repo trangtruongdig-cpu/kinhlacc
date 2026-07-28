@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { Public } from '../middlewares/auth/public.decorator';
 import { ExaminationsService } from '../controllers/examination.controller';
 import { PatientsService } from '../controllers/patient.controller';
@@ -77,6 +77,13 @@ export class DemoRouter {
   @Get('bai-thuoc')
   async baiThuoc() {
     return this.baiThuocService.findDemoFormula();
+  }
+
+  /** Một bài thuốc CỤ THỂ theo id (đủ vị thuốc để phân tích) — landing nhồi vào tab Thể Bệnh. */
+  @Public()
+  @Get('bai-thuoc/:id')
+  async baiThuocById(@Param('id') id: string) {
+    return this.baiThuocService.findDemoFormulaById(Number(id));
   }
 
   /** Vài bài thuốc kinh điển cho slider (mỗi bài đủ chi tiết để phân tích). */

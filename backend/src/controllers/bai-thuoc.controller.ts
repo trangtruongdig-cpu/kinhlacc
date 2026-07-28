@@ -497,6 +497,22 @@ export class BaiThuocService {
   }
 
   /**
+   * Lấy MỘT bài thuốc theo id cho DEMO công khai (landing nhồi phân tích bài thuốc vào tab Thể Bệnh).
+   * Dùng lại loadDemoFormula (đủ vị thuốc + tính vị quy kinh) — cache theo id để gọi nhiều lần vẫn nhẹ.
+   */
+  private publicFormulaCache = new Map<number, BaiThuoc>();
+  async findDemoFormulaById(id: number): Promise<{ baiThuoc: BaiThuoc }> {
+    const cached = this.publicFormulaCache.get(id);
+    if (cached) return { baiThuoc: cached };
+    const baiThuoc = await this.loadDemoFormula(id);
+    if (!baiThuoc) {
+      throw new NotFoundException('Không tìm thấy bài thuốc');
+    }
+    this.publicFormulaCache.set(id, baiThuoc);
+    return { baiThuoc };
+  }
+
+  /**
    * Chọn VÀI bài thuốc GẮN VỚI BỆNH TÂY Y cho slider DEMO công khai (khách lướt xem nhiều bài).
    * Ưu tiên bài Tây Y quen thuộc, đủ vị + có chứng trạng để phần "5) Tổng Hợp" sinh động;
    * thiếu thì bù bằng bài Tây Y khác. Mỗi bài đã gắn tên bệnh Tây Y + làm sạch tên hiển thị.
