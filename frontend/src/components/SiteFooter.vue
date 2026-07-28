@@ -42,7 +42,7 @@ const exploreLinks = [
             </svg>
             <span class="sf-brand-text">Kinh Lạc Trương Gia</span>
           </div>
-          <p class="sf-tagline">Đông Y nghìn năm, giờ đọc được bằng dữ liệu.</p>
+          <p class="sf-tagline">Đông Y nghìn năm, giờ đây đã có dữ liệu lớn.</p>
         </div>
 
         <nav class="sf-col" aria-label="Khám phá">

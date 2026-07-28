@@ -1,4 +1,4 @@
-# Kinh Lạc Trương Gia — Phần Mềm Đo Kinh Lạc & Y Học Cổ Truyền Số Hoá
+# Kinh Lạc Trương Gia — Phần Mềm Chẩn Đoán Y Học Cổ Truyền & Quản Lý Phòng Khám
 
 > Nền tảng số hoá Y Học Cổ Truyền (Đông Y) của Việt Nam: đo nhiệt độ 12 đường kinh thành biểu đồ, gợi ý thể bệnh và pháp trị theo Bát Cương, đồ hình kinh lạc 3D, tra cứu hơn 1.000 huyệt vị và dược liệu, phân tích bài thuốc theo tính vị quy kinh, và quản lý hồ sơ phòng khám. Kho tri thức và bản đo mẫu xem thử miễn phí, không cần đăng nhập.
 

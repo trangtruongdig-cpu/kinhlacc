@@ -3,8 +3,8 @@
   "siteName": "Kinh Lạc Trương Gia",
   "ogImage": "https://kinhlac.online/og-default.png",
   "default": {
-    "title": "Phần Mềm Đo Kinh Lạc & Y Học Cổ Truyền — Kinh Lạc Trương Gia",
-    "description": "Đông Y nghìn năm giờ đọc được bằng dữ liệu: đo kinh lạc, đồ hình 3D, tra cứu huyệt vị."
+    "title": "Phần mềm chẩn đoán Y học cổ truyền & quản lý phòng khám Đông Y",
+    "description": "Hệ thống phần mềm chẩn đoán Y học cổ truyền hiện đại — giải pháp cho phòng chẩn trị, phòng khám của lương y, y sỹ và bác sỹ: đo kinh lạc & gợi ý thể bệnh, biện chứng luận trị, đồ hình 3D 1.058 huyệt, từ điển 1.043 vị thuốc – 13.942 bài thuốc, quản lý bệnh nhân · bệnh án · kê đơn · lịch hẹn."
   },
   "pages": [
     {
@@ -14,15 +14,19 @@
       "priority": "1.0",
       "changefreq": "weekly",
       "ogType": "website",
-      "title": "Phần Mềm Đo Kinh Lạc & Quản Lý Phòng Khám Đông Y",
-      "description": "Phần mềm Đông Y số hoá: đo nhiệt độ kinh lạc ra biểu đồ, chẩn đoán thể bệnh, đồ hình 3D, tra cứu huyệt vị & quản lý phòng khám. Trải nghiệm miễn phí.",
+      "title": "Phần mềm chẩn đoán Y học cổ truyền & quản lý phòng khám Đông Y",
+      "description": "Hệ thống phần mềm chẩn đoán Y học cổ truyền hiện đại — giải pháp cho phòng chẩn trị, phòng khám của lương y, y sỹ và bác sỹ: đo kinh lạc & gợi ý thể bệnh, biện chứng luận trị, đồ hình 3D 1.058 huyệt, châm cứu trị bệnh, từ điển 1.043 vị thuốc – 13.942 bài thuốc, quản lý bệnh nhân · bệnh án · kê đơn · lịch hẹn.",
       "keywords": [
-        "phần mềm đo kinh lạc",
+        "phần mềm chẩn đoán y học cổ truyền",
         "phần mềm quản lý phòng khám Đông Y",
-        "phần mềm y học cổ truyền",
-        "số hoá phòng khám Đông Y",
-        "đo kinh lạc",
-        "chẩn đoán Đông Y"
+        "phần mềm đo kinh lạc",
+        "biện chứng luận trị",
+        "bệnh án điện tử Đông Y",
+        "phần mềm kê đơn thuốc Đông Y",
+        "từ điển bài thuốc cổ phương",
+        "đồ hình huyệt vị 3D",
+        "châm cứu trị bệnh",
+        "phần mềm cho lương y y sỹ bác sỹ"
       ],
       "jsonLd": {
         "@context": "https://schema.org",
@@ -31,11 +35,10 @@
             "@type": "Organization",
             "@id": "https://kinhlac.online/#org",
             "name": "Kinh Lạc Trương Gia",
-            "alternateName": "Phần Mềm Đo Kinh Lạc Trương Gia",
             "url": "https://kinhlac.online",
             "logo": { "@type": "ImageObject", "url": "https://kinhlac.online/og-default.png" },
             "image": "https://kinhlac.online/og-default.png",
-            "description": "Nền tảng số hoá Y Học Cổ Truyền: đo nhiệt độ kinh lạc, đồ hình kinh lạc 3D, tra cứu hơn 1.000 huyệt vị và bài thuốc, quản lý phòng khám Đông Y.",
+            "description": "Nền tảng số hoá Y Học Cổ Truyền toàn diện: đo kinh lạc, biện chứng luận trị, đồ hình kinh lạc 3D, từ điển hơn 1.000 huyệt vị – 1.043 vị thuốc – 13.942 bài thuốc cổ phương, cùng quản lý phòng khám Đông Y (bệnh nhân, bệnh án, kê đơn, lịch hẹn).",
             "email": "lienhe@kinhlac.online",
             "telephone": "+84353247247",
             "contactPoint": {
@@ -73,8 +76,8 @@
           },
           {
             "@type": "WebApplication",
-            "name": "Phần Mềm Đo Kinh Lạc & Quản Lý Phòng Khám Đông Y",
-            "description": "Phần mềm Y Học Cổ Truyền số hoá: đo nhiệt độ 12 đường kinh thành biểu đồ, tự gợi ý thể bệnh và pháp trị, đồ hình kinh lạc 3D, tra cứu hơn 1.000 huyệt vị và quản lý hồ sơ bệnh nhân phòng khám Đông Y.",
+            "name": "Hệ thống phần mềm chẩn đoán Y học cổ truyền hiện đại — Kinh Lạc Trương Gia",
+            "description": "Hệ thống Y Học Cổ Truyền số hoá toàn diện: đo nhiệt độ 12 đường kinh thành biểu đồ và gợi ý thể bệnh – pháp trị, biện chứng luận trị, đồ hình kinh lạc 3D, châm cứu trị bệnh, từ điển hơn 1.000 huyệt vị và 13.942 bài thuốc cổ phương, quản lý bệnh nhân – bệnh án – kê đơn – lịch hẹn cho phòng khám Đông Y.",
             "url": "https://kinhlac.online/",
             "inLanguage": "vi",
             "applicationCategory": "HealthApplication",
@@ -106,10 +109,10 @@
             "mainEntity": [
               {
                 "@type": "Question",
-                "name": "Phần mềm đo kinh lạc là gì?",
+                "name": "Phần mềm này làm được những gì?",
                 "acceptedAnswer": {
                   "@type": "Answer",
-                  "text": "Là công cụ số hoá phương pháp đo nhiệt độ 12 đường kinh tại các tỉnh huyệt, giúp lượng hoá kinh cường – kinh nhược và hỗ trợ biện chứng luận trị Đông Y. Đây là công cụ tham khảo, không thay thế chẩn đoán hoặc điều trị của thầy thuốc."
+                  "text": "Đây là một hệ thống Y Học Cổ Truyền toàn diện: chẩn đoán bằng đo kinh lạc và biện chứng luận trị, kho tri thức 13.942 bài thuốc cổ phương – 1.043 vị thuốc – 1.058 huyệt vị, đồ hình kinh lạc 3D, phân tích bài thuốc theo tính vị quy kinh, cùng quản lý phòng khám (bệnh nhân, bệnh án, kê đơn, lịch hẹn). Kho tri thức xem thử miễn phí, không cần đăng nhập. Đây là công cụ hỗ trợ, không thay thế chẩn đoán hoặc điều trị của thầy thuốc."
                 }
               },
               {
@@ -412,7 +415,7 @@
       "priority": "0.4",
       "changefreq": "yearly",
       "ogType": "website",
-      "title": "Liên Hệ — Phần Mềm Đo Kinh Lạc",
+      "title": "Liên Hệ — Kinh Lạc Trương Gia",
       "description": "Liên hệ với chúng tôi để được hỗ trợ phần mềm đo kinh lạc, tra cứu huyệt vị và quản lý phòng khám Đông Y. Thông tin liên hệ chính thức.",
       "keywords": ["liên hệ", "hỗ trợ phần mềm đo kinh lạc", "Y Học Cổ Truyền"],
       "jsonLd": {

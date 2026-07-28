@@ -1,9 +1,8 @@
 {
   "name": "Kinh Lạc Trương Gia",
-  "alternateName": "Phần Mềm Đo Kinh Lạc Trương Gia",
   "url": "https://kinhlac.online",
   "language": "vi",
-  "tagline": "Phần mềm đo kinh lạc & Y Học Cổ Truyền số hoá",
+  "tagline": "Phần mềm chẩn đoán Y Học Cổ Truyền & quản lý phòng khám Đông Y",
   "description": "Nền tảng số hoá Y Học Cổ Truyền (Đông Y): đo nhiệt độ 12 đường kinh thành biểu đồ, gợi ý thể bệnh và pháp trị theo Bát Cương, đồ hình kinh lạc 3D, tra cứu hơn 1.000 huyệt vị và dược liệu, phân tích bài thuốc theo tính vị quy kinh, quản lý hồ sơ phòng khám.",
   "category": "Health / Traditional Chinese Medicine software",
   "audience": ["Thầy thuốc Y Học Cổ Truyền", "Phòng khám Đông Y", "Học viên & người quan tâm Đông Y"],
