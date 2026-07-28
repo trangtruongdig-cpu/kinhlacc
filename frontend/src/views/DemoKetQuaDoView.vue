@@ -215,9 +215,70 @@ interface BenhLite {
   name?: string | null
   baiThuocList?: { id: number; ten_bai_thuoc?: string | null; name?: string | null }[]
 }
+interface CauThanhLink {
+  ghi_chu: string | null
+  compound: { tieuket: string | null; chung_trang: string | null } | null
+  component: { tieuket: string | null; chung_trang: string | null } | null
+}
 const phacDoAll = ref<PhacDoRow[]>([])
 const benhList = ref<BenhLite[]>([])
+const cauThanhAll = ref<CauThanhLink[]>([])
 const refLoaded = ref(false)
+
+// ── Cây "MÔ HÌNH BỆNH LÝ" (y hệt app): thể YHCT gốc làm cha, bệnh YHHĐ (khớp gốc qua benh_cau_thanh)
+//    lồng làm con + cơ chế (ghi_chu); bệnh YHHĐ không gốc đứng riêng. ──
+const causeMap = computed(() => {
+  const m = new Map<string, { root: string; rootLabel: string; ghiChu: string | null }>()
+  for (const c of cauThanhAll.value) {
+    const comp = c.compound?.tieuket || c.compound?.chung_trang
+    const root = c.component?.tieuket || c.component?.chung_trang
+    if (!comp || !root) continue
+    m.set(phNormName(comp), { root: phNormName(root), rootLabel: root, ghiChu: c.ghi_chu })
+  }
+  return m
+})
+interface SyndNode {
+  name: string
+  cell: string
+  kind: 'yhct' | 'yhhd'
+  rootLabel?: string
+  ghiChu?: string | null
+  children: SyndNode[]
+}
+const syndromeTree = computed<{ nodes: SyndNode[]; standalone: SyndNode[] }>(() => {
+  const excel = excelSyndromes.value
+  const modern = modernSyndromes.value
+  const excelNorm = new Set(excel.map((s) => phNormName(s.name)))
+  const consumed = new Set<number>()
+  const nodes: SyndNode[] = []
+  for (const e of excel) {
+    const en = phNormName(e.name)
+    const children: SyndNode[] = []
+    modern.forEach((m, mi) => {
+      const link = causeMap.value.get(phNormName(m.name))
+      if (link && link.root === en) {
+        children.push({ name: m.name ?? '', cell: m.outputCell ?? '', kind: 'yhhd', ghiChu: link.ghiChu, children: [] })
+        consumed.add(m.id ?? mi)
+      }
+    })
+    nodes.push({ name: e.name ?? '', cell: e.outputCell ?? '', kind: 'yhct', children })
+  }
+  const standalone: SyndNode[] = []
+  modern.forEach((m, mi) => {
+    if (consumed.has(m.id ?? mi)) return
+    const link = causeMap.value.get(phNormName(m.name))
+    const hasRootUnmeasured = link && !excelNorm.has(link.root)
+    standalone.push({
+      name: m.name ?? '',
+      cell: m.outputCell ?? '',
+      kind: 'yhhd',
+      rootLabel: hasRootUnmeasured ? link!.rootLabel : undefined,
+      ghiChu: hasRootUnmeasured ? link!.ghiChu : undefined,
+      children: [],
+    })
+  })
+  return { nodes, standalone }
+})
 
 const measuredNames = computed<Set<string>>(() => {
   const out = new Set<string>()
@@ -458,9 +519,10 @@ onMounted(async () => {
     }
     // Dữ liệu tham chiếu (phác đồ + bài thuốc theo thể) để hiện phương huyệt + bài thuốc y hệt app.
     try {
-      const ref = await api.get<{ phacDo: PhacDoRow[]; benhList: BenhLite[] }>('/demo/chan-doan-ref')
+      const ref = await api.get<{ phacDo: PhacDoRow[]; benhList: BenhLite[]; cauThanh: CauThanhLink[] }>('/demo/chan-doan-ref')
       phacDoAll.value = ref.phacDo ?? []
       benhList.value = ref.benhList ?? []
+      cauThanhAll.value = ref.cauThanh ?? []
       refLoaded.value = true
     } catch {
       /* thiếu phương huyệt/bài thuốc nhưng bảng đo + Bát Cương vẫn hiện */
@@ -550,8 +612,8 @@ onMounted(async () => {
               </button>
             </nav>
 
-            <!-- ═══ VIEW 1: Kết quả đo + Bát Cương ═══ -->
-            <div v-show="activeView === 1">
+            <!-- ═══ VIEW 1: Bát Cương (II) LÊN ĐẦU rồi Kết quả đo (I) — thứ tự y hệt app ═══ -->
+            <div v-show="activeView === 1" class="dkq-view1">
         <!-- I. Bảng chỉ số -->
         <section class="dkq-card">
           <h2 class="dkq-sec-title"><span class="dkq-num">I</span> Bảng Chỉ Số Nhiệt Độ</h2>
@@ -660,33 +722,46 @@ onMounted(async () => {
             <!-- ═══ VIEW 2: Chẩn đoán & Điều trị — thể bệnh (trái) | phương huyệt (phải) + bài thuốc ═══ -->
             <div v-show="activeView === 2">
         <div class="dkq-dx-cols">
-        <!-- III. Thể bệnh -->
+        <!-- III. MÔ HÌNH BỆNH LÝ — thẻ đánh số: thể YHCT gốc = cha, bệnh YHHĐ lồng con + căn cứ (y hệt app) -->
         <section class="dkq-card">
-          <h2 class="dkq-sec-title"><span class="dkq-num">III</span> Thể Bệnh Đo Được</h2>
-
-          <h3 class="dkq-sub-label">Mô Hình Bệnh Đông Y</h3>
-          <div v-if="excelSyndromes.length" class="dkq-synd-list">
-            <div v-for="(s, i) in excelSyndromes" :key="'e-' + (s.code || i)" class="synd">
-              <span class="synd-i">{{ i + 1 }}</span>
-              <span class="synd-name">{{ s.name }}</span>
-              <span v-if="s.outputCell" class="synd-cell">{{ s.outputCell }}</span>
+          <h2 class="dkq-sec-title"><span class="dkq-num">III</span> Mô Hình Bệnh Lý</h2>
+          <h3 class="dkq-sub-label">Mô Hình Bệnh YHCT · Đông Y <em class="dkq-sub-hint">— {{ excelSyndromes.length }} thể YHCT · {{ modernSyndromes.length }} bệnh YHHĐ</em></h3>
+          <div v-if="syndromeTree.nodes.length || syndromeTree.standalone.length" class="dkq-tree">
+            <div v-for="(n, i) in syndromeTree.nodes" :key="'n-' + i" class="dkq-tcard">
+              <div class="dkq-tcard-head">
+                <span class="dkq-tcard-no">{{ i + 1 }}</span>
+                <span class="dkq-tcard-name">{{ n.name }}</span>
+                <span v-if="n.cell" class="dkq-tcard-cell">{{ n.cell }}</span>
+              </div>
+              <div v-for="(c, j) in n.children" :key="'c-' + j" class="dkq-tchild">
+                <span class="dkq-tchild-line">
+                  <span class="dkq-tchild-tag dkq-tchild-tag--yhhd">Biểu hiện YHHĐ</span>
+                  <span class="dkq-tchild-name">{{ c.name }} <em v-if="c.cell">{{ c.cell }}</em></span>
+                </span>
+                <p v-if="c.ghiChu" class="dkq-tchild-note">{{ c.ghiChu }}</p>
+              </div>
+            </div>
+            <div v-for="(s, i) in syndromeTree.standalone" :key="'s-' + i" class="dkq-tcard dkq-tcard--yhhd">
+              <div class="dkq-tcard-head">
+                <span class="dkq-tcard-no dkq-tcard-no--yhhd">{{ syndromeTree.nodes.length + i + 1 }}</span>
+                <span class="dkq-tcard-name">{{ s.name }}</span>
+                <span v-if="s.cell" class="dkq-tcard-cell dkq-tcard-cell--yhhd">{{ s.cell }}</span>
+              </div>
+              <div v-if="s.rootLabel" class="dkq-tchild">
+                <span class="dkq-tchild-line">
+                  <span class="dkq-tchild-tag dkq-tchild-tag--yhct">Gốc YHCT</span>
+                  <span class="dkq-tchild-name">{{ s.rootLabel }}</span>
+                </span>
+                <p v-if="s.ghiChu" class="dkq-tchild-note">{{ s.ghiChu }}</p>
+              </div>
             </div>
           </div>
-          <p v-else class="dkq-empty">Không có mô hình Đông Y nào khớp ở ca đo này.</p>
-
-          <h3 class="dkq-sub-label mt">Mô Hình Bệnh Y Học Hiện Đại</h3>
-          <div v-if="modernSyndromes.length" class="dkq-synd-list">
-            <div v-for="(s, i) in modernSyndromes" :key="'m-' + (s.code || i)" class="synd synd--modern">
-              <span class="synd-i">{{ i + 1 }}</span>
-              <span class="synd-name">{{ s.name }}</span>
-              <span v-if="s.outputCell" class="synd-cell">{{ s.outputCell }}</span>
-            </div>
-          </div>
-          <p v-else class="dkq-empty">Không có mô hình hiện đại nào khớp ở ca đo này.</p>
+          <p v-else class="dkq-empty">Không có mô hình bệnh nào khớp ở ca đo này.</p>
         </section>
 
         <!-- IV — Phương huyệt: TOÀN BỘ huyệt khớp thể đo được, nhóm Châm/Cứu/Bổ/Tả (y hệt app) -->
         <section v-if="matchedPhuongHuyet.length" class="dkq-card">
+          <p class="dkq-phacdo-eyebrow">✎ Phác Đồ Điều Trị <span>Gộp tất cả các thể đo được</span></p>
           <h2 class="dkq-sec-title"><span class="dkq-num">IV</span> Phương Huyệt <small>{{ matchedPhuongHuyet.length }} huyệt</small></h2>
           <div v-for="g in phuongHuyetGroups" :key="g.method" class="dkq-phg">
             <span class="dkq-phg-method">{{ g.method }} <em>({{ g.items.length }})</em></span>
@@ -770,12 +845,10 @@ onMounted(async () => {
                   </div>
                   <div class="dkq-t3-side">
                     <p v-if="dinhVi.isEmpty" class="dkq-empty">Các thể bệnh trên chưa có liên kết bài thuốc → chưa suy được định vị.</p>
-                    <div class="dkq-t3-block">
-                      <span class="dkq-axis-sub-lb">Tạng phủ tổn thương</span>
-                      <div class="dkq-dv-chips">
-                        <span v-for="o in dinhVi.tangPhu" :key="o.name" class="dkq-dv-chip">{{ o.label }}</span>
-                        <span v-if="!dinhVi.tangPhu.length" class="dkq-empty">—</span>
-                      </div>
+                    <div class="dkq-mini">
+                      <span class="dkq-mini-lb">Tạng phủ tổn thương:</span>
+                      <span v-for="o in dinhVi.tangPhu" :key="o.name" class="dkq-dv-chip">{{ o.label }}</span>
+                      <span v-if="!dinhVi.tangPhu.length" class="dkq-empty">—</span>
                     </div>
                     <!-- ①② Định vị (Lục Kinh · Vệ-Khí-Dinh-Huyết · Tam Tiêu) + Tác nhân (Lục Khí · Nội Sinh/Độc) -->
                     <section v-for="ax in otherAxes" :key="ax.key" class="dkq-axis">
@@ -1266,32 +1339,44 @@ onMounted(async () => {
   color: var(--white);
 }
 
-/* ─── Tab 2: hai cột thể bệnh | phương huyệt ─── */
+/* ─── Tab 2: Mô Hình Bệnh Lý (trái, gọn) | Phương Huyệt (phải, rộng) — tỉ lệ như app ─── */
 .dkq-dx-cols {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
   gap: var(--space-5);
   align-items: start;
 }
 
-/* ─── Tab 1 · Kết luận Bát Cương — dải full-width: hình 3D XOAY + 2 cột tạng phủ + Tóm Tắt ─── */
-.dkq-bc-wrap {
+/* ─── Tab 1 · Bát Cương (II) LÊN ĐẦU, bảng đo (I) xuống dưới — y hệt app ─── */
+.dkq-view1 {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+}
+.dkq-view1 > .dkq-bc-band {
+  order: -1;
+}
+/* Trong band: hình 3D (trái, rộng) | Tóm Tắt Bát Cương (phải, gọn) — 2 cột như app */
+.dkq-bc-wrap {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: var(--space-4);
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .dkq-bc-wrap {
+    grid-template-columns: 1fr;
+  }
 }
 .dkq-bc-wrap .bc-figblock {
   display: flex;
   gap: var(--space-2);
   align-items: stretch;
   width: 100%;
-  max-width: 820px;
   min-width: 0;
-  margin: 0 auto;
   min-height: clamp(340px, 46vh, 480px);
 }
 .dkq-bc-wrap .bc-organs-col {
-  flex: 0 0 92px;
+  flex: 0 0 84px;
 }
 .dkq-bc-wrap .bc-figure {
   flex: 1 1 auto;
@@ -1436,43 +1521,190 @@ onMounted(async () => {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
 }
+.dkq-axis + .dkq-axis {
+  margin-top: var(--space-3);
+}
 .dkq-axis--tinhchat {
   margin-bottom: var(--space-4);
 }
 .dkq-axis-title {
   display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: var(--font-size-sm);
+  align-items: baseline;
+  gap: 8px;
+  font-size: var(--font-size-base);
   font-weight: 800;
-  color: var(--text);
+  color: var(--brown-800, var(--text));
   margin: 0 0 var(--space-2);
 }
 .dkq-axis-title em {
   font-style: normal;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-subtle);
 }
 .dkq-axis-num {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  border-radius: 999px;
   background: var(--brown-600);
   color: var(--white);
-  font-size: 11px;
-  font-weight: 700;
+  font-size: var(--font-size-sm);
+  font-weight: 800;
 }
+/* Mỗi sub-nhóm: nhãn | chips cạnh nhau (giống bcpt-sub app), gạch đứt ngăn cách */
 .dkq-axis-sub {
-  margin-top: var(--space-2);
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: var(--space-2) var(--space-3);
+  align-items: baseline;
+  padding: 5px 0;
+}
+.dkq-axis-sub + .dkq-axis-sub {
+  border-top: 1px dashed var(--brown-100, var(--border));
 }
 .dkq-axis-sub-lb {
   font-size: 11px;
   font-weight: 700;
   color: var(--brown-700);
+}
+/* Tạng phủ tổn thương — nhãn + chips trên một dòng (bcpt-mini app) */
+.dkq-mini {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--space-4);
+}
+.dkq-mini-lb {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--brown-700);
+}
+@media (max-width: 640px) {
+  .dkq-axis-sub {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+/* ─── Tab 2 · Cây "Mô Hình Bệnh Lý": thể YHCT (cha) + bệnh YHHĐ lồng (con) + căn cứ ─── */
+.dkq-sub-hint {
+  font-weight: 500;
+  font-style: normal;
+  color: var(--text-subtle);
+  font-size: 11px;
+}
+.dkq-phacdo-eyebrow {
+  margin: 0 0 var(--space-2);
+  font-size: var(--font-size-xs);
+  font-weight: 800;
+  color: var(--brown-700);
+}
+.dkq-phacdo-eyebrow span {
+  font-weight: 500;
+  color: var(--text-subtle);
+}
+.dkq-tree {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.dkq-tcard {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+}
+.dkq-tcard--yhhd {
+  border-left: 3px solid #43539b;
+}
+.dkq-tcard-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+.dkq-tcard-no {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: #e3f0e3;
+  color: #15803d;
+  font-size: 12px;
+  font-weight: 800;
+  flex: none;
+}
+.dkq-tcard-no--yhhd {
+  background: #e8ecf8;
+  color: #43539b;
+}
+.dkq-tcard-name {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--text-brand);
+  flex: 1;
+}
+.dkq-tcard-cell {
+  font-size: 11px;
+  font-weight: 800;
+  color: #15803d;
+  background: #e3f0e3;
+  border-radius: 999px;
+  padding: 2px 9px;
+  white-space: nowrap;
+}
+.dkq-tcard-cell--yhhd {
+  color: #43539b;
+  background: #e8ecf8;
+}
+.dkq-tchild {
+  margin: var(--space-2) 0 0 26px;
+  padding-left: 10px;
+  border-left: 2px dashed var(--brown-300, var(--border));
+}
+.dkq-tchild-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+.dkq-tchild-tag {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 1px 7px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.dkq-tchild-tag--yhhd {
+  color: #43539b;
+  background: #e8ecf8;
+}
+.dkq-tchild-tag--yhct {
+  color: #92400e;
+  background: #fdf0da;
+}
+.dkq-tchild-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-brand);
+}
+.dkq-tchild-name em {
+  font-style: normal;
+  font-size: 10px;
+  color: var(--text-subtle);
+}
+.dkq-tchild-note {
+  margin: 3px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #7c5a2e;
+  font-style: italic;
 }
 
 .dkq-viewport {
