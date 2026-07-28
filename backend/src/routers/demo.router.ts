@@ -125,4 +125,16 @@ export class DemoRouter {
   banXoay() {
     return this.phapTriService.findBienChungWheel();
   }
+
+  /** Pháp trị theo BÀI THUỐC → tag định vị (Lục Kinh / Vệ-Khí-Dinh-Huyết / Tam Tiêu / Tác Nhân /
+   *  Nội Sinh · tính chất) để dựng đồ hình Định Vị Tab ③ y hệt app. Dữ liệu thư viện, chỉ-xem. */
+  @Public()
+  @Get('phap-tri-by-bai-thuoc')
+  phapTriByBaiThuoc(@Query('baiThuocIds') baiThuocIds?: string) {
+    const ids = (baiThuocIds ?? '')
+      .split(',')
+      .map((s) => Number(s.trim()))
+      .filter((n) => Number.isFinite(n) && n > 0);
+    return this.phapTriService.findByBaiThuoc(ids);
+  }
 }

@@ -6,7 +6,7 @@
  * Hiển thị CHỈ-XEM: bảng chỉ số nhiệt độ (chi trên/chi dưới) + Bát Cương + các thể bệnh đo được.
  * Mọi thao tác "dùng thật" (đo cho bệnh nhân của bạn, lưu hồ sơ) → mời đăng nhập.
  */
-import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
+import { ref, computed, onMounted, watch, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '@/services/api'
 const BaiThuocAnalysis = defineAsyncComponent(() => import('@/components/BaiThuocAnalysis.vue'))
@@ -18,15 +18,19 @@ import {
   rawLower,
   calculateBounds,
   processRows,
-  computeDiagnosis,
-  computeBatCuong,
   computeAffectedOrgans,
   computeTongCuong,
+  round2,
   fmt,
   type InputData,
   type TongCuong,
 } from '@/lib/meridianAnalysis'
+// TÁI DÙNG đúng component của app (đều tự mang style scoped) → Bát Cương "y hệt" trang Kết Quả Đo.
 import BienChungWheel from '@/components/BienChungWheel.vue'
+import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
+import BatCuongSummary from '@/components/BatCuongSummary.vue'
+import { buildDinhVi, parseAmDuong, type PhapTriByBaiThuoc } from '@/lib/dinhVi'
+const BatCuongFigure3D = defineAsyncComponent(() => import('@/components/BatCuongFigure3D.vue'))
 
 const router = useRouter()
 
@@ -111,12 +115,77 @@ const lowerStats = computed(() => calculateBounds(lowerRowsRaw.value))
 const upperRows = computed(() => processRows(upperRowsRaw.value, upperStats.value))
 const lowerRows = computed(() => processRows(lowerRowsRaw.value, lowerStats.value))
 
-const diagnosis = computed(() =>
-  computeDiagnosis(inputData.value, upperRows.value, lowerRows.value, upperStats.value, lowerStats.value),
-)
-const batCuong = computed(() =>
-  computeBatCuong(upperRows.value, lowerRows.value, upperStats.value, lowerStats.value),
-)
+// Chẩn đoán ĐẦY ĐỦ (khí · huyết · hư-thực + explain "vì sao") — CHÉP nguyên logic app để
+// BatCuongSummary hiển thị y hệt (số kinh lệch, ngưỡng, lý do).
+const diagnosis = computed(() => {
+  let huTrenCount = 0, sumDiffTren = 0, allTrenZero = true
+  upperRows.value.forEach((r) => {
+    const diff = round2(r.avg - upperStats.value.mean)
+    sumDiffTren += diff
+    if (r.avg !== 0) allTrenZero = false
+    if (diff < 0) huTrenCount++
+  })
+  let khi = 'Bình thường'
+  if (allTrenZero) khi = ''
+  else if (huTrenCount > 3) khi = 'Khí hư'
+  else if (huTrenCount < 3) khi = 'Khí thịnh'
+  else khi = sumDiffTren < 0 ? 'Khí hư' : sumDiffTren > 0 ? 'Khí thịnh' : ''
+
+  let huDuoiCount = 0, sumDiffDuoi = 0, allDuoiZero = true
+  lowerRows.value.forEach((r) => {
+    const diff = round2(r.avg - lowerStats.value.mean)
+    sumDiffDuoi += diff
+    if (r.avg !== 0) allDuoiZero = false
+    if (diff < 0) huDuoiCount++
+  })
+  let huyet = 'Bình thường'
+  if (allDuoiZero) huyet = ''
+  else if (huDuoiCount > 3) huyet = 'Huyết hư'
+  else if (huDuoiCount < 3) huyet = 'Huyết thịnh'
+  else huyet = sumDiffDuoi < 0 ? 'Huyết hư' : sumDiffDuoi > 0 ? 'Huyết thịnh' : ''
+
+  let lechCount = 0, totalLech = 0, tongDoTren = 0, tongDoDuoi = 0
+  const lechRows: { name: string; tone: 'high' | 'low' }[] = []
+  upperRows.value.forEach((r) => {
+    if (r.avg === 0) return
+    tongDoTren++
+    if (r.avg > upperStats.value.upperBound || r.avg < upperStats.value.lowerBound) {
+      lechCount++
+      totalLech += Math.abs(r.avg - upperStats.value.mean)
+      lechRows.push({ name: r.name, tone: r.avg > upperStats.value.upperBound ? 'high' : 'low' })
+    }
+  })
+  lowerRows.value.forEach((r) => {
+    if (r.avg === 0) return
+    tongDoDuoi++
+    if (r.avg > lowerStats.value.upperBound || r.avg < lowerStats.value.lowerBound) {
+      lechCount++
+      totalLech += Math.abs(r.avg - lowerStats.value.mean)
+      lechRows.push({ name: r.name, tone: r.avg > lowerStats.value.upperBound ? 'high' : 'low' })
+    }
+  })
+  const tongDo = tongDoTren + tongDoDuoi
+  totalLech = round2(totalLech)
+  let avgSd = 0
+  if (tongDoTren > 0 && tongDoDuoi > 0) avgSd = (upperStats.value.sd + lowerStats.value.sd) / 2
+  else if (tongDoTren > 0) avgSd = upperStats.value.sd
+  else if (tongDoDuoi > 0) avgSd = lowerStats.value.sd
+  const nguong = round2(avgSd * tongDo)
+  let huThuc = ''
+  if (tongDo > 0) {
+    if (lechCount === 0) huThuc = 'Bình thường'
+    else if (lechCount >= Math.ceil(tongDo / 2) || totalLech >= nguong) huThuc = 'Thực'
+    else huThuc = 'Hư'
+  }
+  return {
+    khi, huyet, huThuc,
+    explain: {
+      khi: { huCount: huTrenCount, total: upperRows.value.length, sum: round2(sumDiffTren), mean: round2(upperStats.value.mean) },
+      huyet: { huCount: huDuoiCount, total: lowerRows.value.length, sum: round2(sumDiffDuoi), mean: round2(lowerStats.value.mean) },
+      huThuc: { lechCount, tongDo, totalLech, nguong, lechRows },
+    },
+  }
+})
 
 const excelSyndromes = computed(() => examination.value?.excelSyndromes ?? [])
 const modernSyndromes = computed(() => examination.value?.modernSyndromes ?? [])
@@ -225,11 +294,32 @@ function pickFormula(id: number) {
 }
 const activeFormula = computed(() => (activeFormulaId.value != null ? formulaMap.value[activeFormulaId.value] ?? null : null))
 
-// ── 3 tab như app + đồ hình/định vị Tab ③ ──
-const activeView = ref<1 | 2 | 3>(1)
+// ── Tạng phủ đang bệnh để VẼ lên hình người 3D (BatCuongFigure3D) + 2 cột thẻ (BatCuongOrgans) ──
 const affectedOrgans = computed(() =>
   computeAffectedOrgans(upperRows.value, lowerRows.value, upperStats.value, lowerStats.value),
 )
+// 12 tạng phủ bày QUANH hình: lục tạng trái · lục phủ phải; gắn trạng thái Bát Cương nếu có.
+const ALL_ORGANS: { name: string; organ: string }[] = [
+  { name: 'Tâm', organ: 'Tâm' },
+  { name: 'Bào', organ: 'Tâm bào' },
+  { name: 'Phế', organ: 'Phế' },
+  { name: 'Can', organ: 'Can' },
+  { name: 'Tỳ', organ: 'Tỳ' },
+  { name: 'Thận', organ: 'Thận' },
+  { name: 'Tiểu', organ: 'Tiểu Trường' },
+  { name: 'Đại', organ: 'Đại Trường' },
+  { name: 'Vị', organ: 'Vị' },
+  { name: 'Đởm', organ: 'Đởm' },
+  { name: 'Bàng', organ: 'Bàng quang' },
+  { name: 'Tam', organ: 'Tam tiêu' },
+]
+const organStateMap = computed(() => new Map(affectedOrgans.value.map((o) => [o.name, o])))
+function organsWith(names: string[]) {
+  const m = organStateMap.value
+  return ALL_ORGANS.filter((o) => names.includes(o.name)).map((o) => ({ ...o, state: m.get(o.name) ?? null }))
+}
+const organsTang = computed(() => organsWith(['Tâm', 'Bào', 'Phế', 'Can', 'Tỳ', 'Thận']))
+const organsPhu = computed(() => organsWith(['Tiểu', 'Đại', 'Vị', 'Đởm', 'Bàng', 'Tam']))
 const tongCuong = computed<TongCuong>(() => {
   const orgs = affectedOrgans.value
   const nhiet = orgs.filter((o) => o.temp === 'nhiet' || o.temp === 'mixed').length
@@ -238,30 +328,91 @@ const tongCuong = computed<TongCuong>(() => {
   const ly = orgs.filter((o) => o.depth === 'ly' || o.depth === 'mixed').length
   return computeTongCuong(nhiet, han, bieu, ly, diagnosis.value.huThuc)
 })
-const wheelLop = ref(1)
-const wheelLayers = [
-  { id: 1, label: 'Âm Dương' },
-  { id: 3, label: 'Tạng Phủ' },
-  { id: 4, label: 'Lục Khí' },
-  { id: 5, label: 'Lục Kinh' },
+// Kinh "lệch" kèm tạng phủ + bên + hướng biên độ → BatCuongSummary hiện 2 nhóm chip Hư-Thực.
+const huThucLechOrgans = computed(() => {
+  const rows = diagnosis.value.explain?.huThuc?.lechRows ?? []
+  const m = organStateMap.value
+  return rows.map((r) => {
+    const st = m.get(r.name)
+    const fallback = ALL_ORGANS.find((o) => o.name === r.name)?.organ ?? r.name
+    return { name: r.name, organ: st?.organ ?? fallback, side: st?.side ?? '', tone: r.tone }
+  })
+})
+// Tiêu điểm: bấm 1 tạng phủ / 1 chip Bát Cương → SÁNG hàng kinh tương ứng ở bảng đo (y như app).
+const bcFocus = ref<string | null>(null)
+function toggleBcFocus(key: string) {
+  bcFocus.value = bcFocus.value === key ? null : key
+}
+const focusRowSet = computed<Set<string> | null>(() => {
+  const f = bcFocus.value
+  if (!f) return null
+  if (f.startsWith('organ:')) return new Set([f.slice(6)])
+  if (f === 'group:khi') return new Set(upperRows.value.map((r) => r.name))
+  if (f === 'group:huyet') return new Set(lowerRows.value.map((r) => r.name))
+  if (f === 'group:huthuc') return new Set((diagnosis.value.explain?.huThuc?.lechRows ?? []).map((r) => r.name))
+  return null
+})
+function rowFocusClass(name: string): string {
+  const set = focusRowSet.value
+  if (!set) return ''
+  return set.has(name) ? 'dkq-row-focus' : 'dkq-row-dim'
+}
+
+// ── 3 tab như app + đồ hình/Định Vị Tab ③ (Biện Chứng – Pháp Trị) ──
+// ĐỊNH VỊ THẬT: từ bài thuốc khớp thể → pháp trị → tag Lục Kinh / Vệ-Khí-Dinh-Huyết / Tam Tiêu /
+// Tác Nhân / Nội Sinh · tính chất (buildDinhVi) — y hệt panel Định Vị/Tác Nhân của app.
+const dinhViRows = ref<PhapTriByBaiThuoc[]>([])
+const dinhViLoading = ref(false)
+async function loadDinhVi() {
+  const ids = matchedBaiThuoc.value.map((b) => b.id)
+  if (!ids.length) {
+    dinhViRows.value = []
+    return
+  }
+  dinhViLoading.value = true
+  try {
+    dinhViRows.value = await api.get<PhapTriByBaiThuoc[]>(
+      `/demo/phap-tri-by-bai-thuoc?baiThuocIds=${ids.join(',')}`,
+    )
+  } catch {
+    dinhViRows.value = []
+  } finally {
+    dinhViLoading.value = false
+  }
+}
+const dinhVi = computed(() => buildDinhVi(dinhViRows.value))
+const tinhChatAxis = computed(() => dinhVi.value.axes.find((ax) => ax.key === 'tinh-chat') ?? null)
+const otherAxes = computed(() => dinhVi.value.axes.filter((ax) => ax.key !== 'tinh-chat'))
+const DINH_VI_LOP: ReadonlyArray<{ n: 1 | 2 | 3 | 4 | 5; ten: string; han: string }> = [
+  { n: 1, ten: 'Âm Dương', han: '太極' },
+  { n: 3, ten: 'Tạng Phủ', han: '臟腑' },
+  { n: 4, ten: 'Lục Khí', han: '六氣' },
+  { n: 5, ten: 'Lục Kinh', han: '六經' },
 ]
+const dinhViLop = ref<1 | 2 | 3 | 4 | 5>(1)
+// Chiếu định vị vào không gian đồ hình: {kinh, khi, tang, amDuong} cho BienChungWheel tô sáng.
 const dinhViWheel = computed(() => {
-  const loai = tongCuong.value.loai || ''
-  const amDuong: 'duong' | 'am' | 'both' | null = loai.includes('duong')
-    ? 'duong'
-    : loai.includes('am')
-      ? 'am'
-      : null
-  return { kinh: [] as string[], khi: [] as string[], tang: affectedOrgans.value.map((o) => o.organ ?? o.name), amDuong, amLoai: loai }
+  const tagsOf = (nhom: string): string[] => {
+    for (const ax of dinhVi.value.axes) for (const sg of ax.subgroups) if (sg.nhom === nhom) return sg.tags.map((t) => t.label)
+    return []
+  }
+  return {
+    kinh: tagsOf('gd-luc-kinh'),
+    khi: tagsOf('tn-luc-khi'),
+    tang: dinhVi.value.tangPhu.map((t) => t.label),
+    amDuong: parseAmDuong(tongCuong.value.amDuong),
+    amLoai: tongCuong.value.loai,
+  }
 })
-const tangPhuTonThuong = computed(() => affectedOrgans.value.map((o) => o.organ ?? o.name))
-const lucKhiTags = computed(() => {
-  const orgs = affectedOrgans.value
-  const tags: string[] = []
-  if (orgs.some((o) => o.temp === 'han' || o.temp === 'mixed')) tags.push('Hàn')
-  if (orgs.some((o) => o.temp === 'nhiet' || o.temp === 'mixed')) tags.push('Nhiệt')
-  return tags
-})
+const activeView = ref<1 | 2 | 3>(1)
+// Đổi ca / nạp xong tham chiếu → bài thuốc khớp đổi → nạp lại định vị. Về lớp Âm Dương cho mỗi ca.
+watch(
+  () => matchedBaiThuoc.value.map((b) => b.id).join(','),
+  () => {
+    dinhViLop.value = 1
+    void loadDinhVi()
+  },
+)
 
 const examDate = computed(() => {
   const raw = examination.value?.createdAt
@@ -422,7 +573,7 @@ onMounted(async () => {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(r, i) in upperRows" :key="'u-' + i">
+                <tr v-for="(r, i) in upperRows" :key="'u-' + i" :class="rowFocusClass(r.name)">
                   <td class="td-name">{{ r.name }}</td>
                   <td :class="signClass(r.leftSign)">{{ r.leftSign }}</td>
                   <td>{{ fmt(r.left, 1) }}</td>
@@ -453,7 +604,7 @@ onMounted(async () => {
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(r, i) in lowerRows" :key="'l-' + i">
+                <tr v-for="(r, i) in lowerRows" :key="'l-' + i" :class="rowFocusClass(r.name)">
                   <td class="td-name">{{ r.name }}</td>
                   <td :class="signClass(r.leftSign)">{{ r.leftSign }}</td>
                   <td>{{ fmt(r.left, 1) }}</td>
@@ -473,19 +624,35 @@ onMounted(async () => {
           </p>
         </section>
 
-        <!-- II. Bát Cương -->
-        <section class="dkq-card">
-          <h2 class="dkq-sec-title"><span class="dkq-num">II</span> Kết Luận Bát Cương</h2>
-          <div class="dkq-bc-grid">
-            <div class="bc"><span class="bc-k">Âm / Dương</span><span class="bc-v">{{ diagnosis.amDuong || '—' }}</span></div>
-            <div class="bc"><span class="bc-k">Khí</span><span class="bc-v">{{ diagnosis.khi || '—' }}</span></div>
-            <div class="bc"><span class="bc-k">Huyết</span><span class="bc-v">{{ diagnosis.huyet || '—' }}</span></div>
-          </div>
-          <div class="dkq-tk">
-            <div class="tk"><span class="tk-k">Lý Hàn</span><span class="tk-v">{{ batCuong.hanLy || '—' }}</span></div>
-            <div class="tk"><span class="tk-k">Biểu Hàn</span><span class="tk-v">{{ batCuong.hanBieu || '—' }}</span></div>
-            <div class="tk"><span class="tk-k">Biểu Nhiệt</span><span class="tk-v">{{ batCuong.nhietBieu || '—' }}</span></div>
-            <div class="tk"><span class="tk-k">Lý Nhiệt</span><span class="tk-v">{{ batCuong.nhietLy || '—' }}</span></div>
+        <!-- II. KẾT LUẬN BÁT CƯƠNG — dùng ĐÚNG component của app: hình người 3D + 2 cột tạng phủ +
+             khối Tóm Tắt Bát Cương (Tổng Cương · Biểu-Lý · Hư-Thực). Bấm 1 tạng phủ để soi hàng đo. -->
+        <section class="dkq-card dkq-bc-band">
+          <h2 class="dkq-sec-title"><span class="dkq-num">II</span> Kết Luận Bát Cương &amp; Chẩn Đoán</h2>
+          <div class="dkq-bc-wrap">
+            <div class="bc-figblock">
+              <BatCuongOrgans class="bc-organs-col" :items="organsTang" :focus="bcFocus" @toggle="toggleBcFocus" />
+              <BatCuongFigure3D
+                class="bc-figure"
+                :am-duong="tongCuong.amDuong"
+                :hu-thuc="diagnosis.huThuc"
+                :organs="affectedOrgans"
+                :focus="bcFocus"
+                @toggle="toggleBcFocus"
+              />
+              <BatCuongOrgans class="bc-organs-col" :items="organsPhu" :focus="bcFocus" @toggle="toggleBcFocus" />
+            </div>
+            <BatCuongSummary
+              class="bc-summary"
+              :tong-cuong="tongCuong"
+              :khi="diagnosis.khi"
+              :huyet="diagnosis.huyet"
+              :hu-thuc="diagnosis.huThuc"
+              :hu-thuc-organs="huThucLechOrgans"
+              :explain="diagnosis.explain"
+              :organs="affectedOrgans"
+              :focus="bcFocus"
+              @toggle="toggleBcFocus"
+            />
           </div>
         </section>
             </div><!-- /VIEW 1 -->
@@ -559,40 +726,68 @@ onMounted(async () => {
         </section>
             </div><!-- /VIEW 2 -->
 
-            <!-- ═══ VIEW 3: Biện chứng – Pháp trị (đồ hình Thái Cực bóc lớp + định vị) ═══ -->
+            <!-- ═══ VIEW 3: Biện Chứng – Pháp Trị — đồ hình Định Vị bóc lớp + Định Vị/Tác Nhân (y hệt app) ═══ -->
             <div v-show="activeView === 3">
               <section class="dkq-card">
-                <h2 class="dkq-sec-title"><span class="dkq-num">VI</span> Biện Chứng – Pháp Trị</h2>
-                <div class="dkq-t3">
+                <h2 class="dkq-sec-title"><span class="dkq-num">III</span> Biện Chứng – Pháp Trị</h2>
+
+                <!-- Thể bệnh đã đo (ngữ cảnh nguồn định vị) -->
+                <div class="dkq-bcpt-the">
+                  <span class="dkq-bcpt-the-lb">Thể bệnh:</span>
+                  <template v-if="excelSyndromes.length">
+                    <span v-for="(s, i) in excelSyndromes" :key="'bt-' + (s.code || i)" class="dkq-bcpt-the-chip">{{ s.name }}</span>
+                  </template>
+                  <span v-else class="dkq-empty">chưa xác định thể bệnh</span>
+                </div>
+
+                <!-- ③ Tính chất (bát cương · chính khí) — ngang hàng đầu như app -->
+                <section v-if="!dinhViLoading && tinhChatAxis" class="dkq-axis dkq-axis--tinhchat">
+                  <h3 class="dkq-axis-title"><span class="dkq-axis-num">{{ tinhChatAxis.num }}</span> {{ tinhChatAxis.title }} <em>{{ tinhChatAxis.sub }}</em></h3>
+                  <div v-for="sg in tinhChatAxis.subgroups" :key="sg.nhom" class="dkq-axis-sub">
+                    <span class="dkq-axis-sub-lb">{{ sg.label }}</span>
+                    <div class="dkq-dv-chips">
+                      <span v-for="t in sg.tags" :key="t.name" class="dkq-dv-chip" :title="t.name">{{ t.label }}</span>
+                      <span v-if="!sg.tags.length" class="dkq-empty">—</span>
+                    </div>
+                  </div>
+                </section>
+
+                <p v-if="dinhViLoading" class="dkq-empty">Đang tổng hợp định vị…</p>
+                <div v-else class="dkq-t3">
                   <div class="dkq-t3-wheel">
                     <div class="dkq-t3-layers" role="tablist" aria-label="Bóc lớp đồ hình">
                       <button
-                        v-for="l in wheelLayers"
-                        :key="l.id"
+                        v-for="l in DINH_VI_LOP"
+                        :key="l.n"
                         type="button"
                         class="dkq-t3-layer"
-                        :class="{ on: wheelLop === l.id }"
-                        @click="wheelLop = l.id"
-                      >{{ l.label }}</button>
+                        :class="{ on: dinhViLop === l.n, done: dinhViLop >= l.n }"
+                        @click="dinhViLop = l.n"
+                      ><b>{{ l.n }}</b> {{ l.ten }} <i>{{ l.han }}</i></button>
                     </div>
-                    <BienChungWheel :lop="wheelLop" :dinhvi="dinhViWheel" />
-                    <p class="dkq-t3-cap">Bấm bóc từng lớp: Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh. Ô sáng = bệnh nhân có.</p>
+                    <BienChungWheel :lop="dinhViLop" :dinhvi="dinhViWheel" />
+                    <p class="dkq-t3-cap">Bấm bóc từng lớp (Âm Dương → Lục Kinh). Ô <b>sáng vàng</b> = bệnh nhân có; mờ = không.</p>
                   </div>
                   <div class="dkq-t3-side">
+                    <p v-if="dinhVi.isEmpty" class="dkq-empty">Các thể bệnh trên chưa có liên kết bài thuốc → chưa suy được định vị.</p>
                     <div class="dkq-t3-block">
-                      <h3 class="dkq-sub-label">Tạng Phủ Tổn Thương</h3>
+                      <span class="dkq-axis-sub-lb">Tạng phủ tổn thương</span>
                       <div class="dkq-dv-chips">
-                        <span v-for="t in tangPhuTonThuong" :key="t" class="dkq-dv-chip">{{ t }}</span>
-                        <span v-if="!tangPhuTonThuong.length" class="dkq-empty">—</span>
+                        <span v-for="o in dinhVi.tangPhu" :key="o.name" class="dkq-dv-chip">{{ o.label }}</span>
+                        <span v-if="!dinhVi.tangPhu.length" class="dkq-empty">—</span>
                       </div>
                     </div>
-                    <div class="dkq-t3-block">
-                      <h3 class="dkq-sub-label">Tác Nhân · Lục Khí</h3>
-                      <div class="dkq-dv-chips">
-                        <span v-for="t in lucKhiTags" :key="t" class="dkq-dv-chip">{{ t }}</span>
-                        <span v-if="!lucKhiTags.length" class="dkq-empty">—</span>
+                    <!-- ①② Định vị (Lục Kinh · Vệ-Khí-Dinh-Huyết · Tam Tiêu) + Tác nhân (Lục Khí · Nội Sinh/Độc) -->
+                    <section v-for="ax in otherAxes" :key="ax.key" class="dkq-axis">
+                      <h3 class="dkq-axis-title"><span class="dkq-axis-num">{{ ax.num }}</span> {{ ax.title }} <em>{{ ax.sub }}</em></h3>
+                      <div v-for="sg in ax.subgroups" :key="sg.nhom" class="dkq-axis-sub">
+                        <span class="dkq-axis-sub-lb">{{ sg.label }}</span>
+                        <div class="dkq-dv-chips">
+                          <span v-for="t in sg.tags" :key="t.name" class="dkq-dv-chip" :title="t.name">{{ t.label }}</span>
+                          <span v-if="!sg.tags.length" class="dkq-empty">—</span>
+                        </div>
                       </div>
-                    </div>
+                    </section>
                   </div>
                 </div>
               </section>
@@ -815,57 +1010,6 @@ onMounted(async () => {
 }
 .dkq-legend span {
   margin: 0 2px;
-}
-
-.dkq-bc-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--space-3);
-  margin-bottom: var(--space-4);
-}
-.bc {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  padding: var(--space-4);
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  text-align: center;
-}
-.bc-k {
-  font-size: var(--font-size-xs);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--text-subtle);
-}
-.bc-v {
-  font-size: var(--font-size-lg);
-  font-weight: 800;
-  color: var(--text-brand);
-}
-.dkq-tk {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-2);
-}
-.tk {
-  display: flex;
-  gap: var(--space-2);
-  padding: var(--space-3);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
-}
-.tk-k {
-  font-weight: 700;
-  color: var(--brown-700);
-  flex-shrink: 0;
-}
-.tk-v {
-  color: var(--text-muted);
 }
 
 .dkq-sub-label {
@@ -1130,24 +1274,68 @@ onMounted(async () => {
   align-items: start;
 }
 
+/* ─── Tab 1 · Kết luận Bát Cương — dải full-width: hình 3D XOAY + 2 cột tạng phủ + Tóm Tắt ─── */
+.dkq-bc-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.dkq-bc-wrap .bc-figblock {
+  display: flex;
+  gap: var(--space-2);
+  align-items: stretch;
+  width: 100%;
+  max-width: 820px;
+  min-width: 0;
+  margin: 0 auto;
+  min-height: clamp(340px, 46vh, 480px);
+}
+.dkq-bc-wrap .bc-organs-col {
+  flex: 0 0 92px;
+}
+.dkq-bc-wrap .bc-figure {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  align-self: stretch;
+}
+
+/* Soi hàng kinh khi bấm 1 tạng phủ / nhóm Bát Cương (giống app) */
+.dkq-table tr.dkq-row-focus td {
+  background-color: rgba(254, 243, 199, 0.7);
+}
+.dkq-table tr.dkq-row-dim td {
+  opacity: 0.4;
+}
+
 /* ─── Tab 3: đồ hình bóc lớp + định vị ─── */
 .dkq-t3 {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
   gap: var(--space-6);
   align-items: start;
 }
 .dkq-t3-wheel {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--space-3);
+}
+.dkq-t3-wheel :deep(svg) {
+  max-width: 380px;
+  height: auto;
 }
 .dkq-t3-layers {
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-2);
+  justify-content: center;
 }
 .dkq-t3-layer {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   padding: 6px 12px;
   background: var(--surface-2);
   border: 1px solid var(--border);
@@ -1158,6 +1346,22 @@ onMounted(async () => {
   cursor: pointer;
   transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
+.dkq-t3-layer b {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--brown-100, rgba(120, 53, 15, 0.12));
+  color: var(--brown-700);
+  font-size: 10px;
+}
+.dkq-t3-layer i {
+  font-style: normal;
+  opacity: 0.7;
+  font-size: 11px;
+}
 .dkq-t3-layer:hover {
   background: var(--brown-50);
 }
@@ -1166,18 +1370,24 @@ onMounted(async () => {
   border-color: var(--brown-600);
   color: var(--white);
 }
+.dkq-t3-layer.on b {
+  background: rgba(255, 255, 255, 0.25);
+  color: var(--white);
+}
 .dkq-t3-cap {
   font-size: var(--font-size-xs);
   color: var(--text-subtle);
+  text-align: center;
+  max-width: 44ch;
   margin: 0;
 }
 .dkq-t3-side {
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 .dkq-t3-block {
-  padding: var(--space-4);
+  padding: var(--space-3) var(--space-4);
   background: var(--surface-2);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
@@ -1185,17 +1395,84 @@ onMounted(async () => {
 .dkq-dv-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  gap: 6px;
   margin-top: var(--space-2);
 }
 .dkq-dv-chip {
-  padding: 4px 10px;
-  background: var(--surface);
-  border: 1px solid var(--brown-200, var(--border));
+  padding: 4px 12px;
+  background: #2f7355;
+  border: 1px solid #2f7355;
   border-radius: 999px;
-  color: var(--text-brand);
+  color: var(--white);
   font-size: var(--font-size-xs);
   font-weight: 700;
+}
+
+/* Thể bệnh (ngữ cảnh định vị) + các trục Định Vị / Tác Nhân / Tính Chất */
+.dkq-bcpt-the {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: var(--space-4);
+}
+.dkq-bcpt-the-lb {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--text-subtle);
+}
+.dkq-bcpt-the-chip {
+  padding: 3px 10px;
+  background: var(--brown-50);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--brown-700);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+.dkq-axis {
+  padding: var(--space-3) var(--space-4);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.dkq-axis--tinhchat {
+  margin-bottom: var(--space-4);
+}
+.dkq-axis-title {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-sm);
+  font-weight: 800;
+  color: var(--text);
+  margin: 0 0 var(--space-2);
+}
+.dkq-axis-title em {
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-subtle);
+}
+.dkq-axis-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--brown-600);
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 700;
+}
+.dkq-axis-sub {
+  margin-top: var(--space-2);
+}
+.dkq-axis-sub-lb {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--brown-700);
 }
 
 .dkq-viewport {
@@ -1233,11 +1510,11 @@ onMounted(async () => {
   .dkq-stats {
     grid-template-columns: repeat(2, 1fr);
   }
-  .dkq-bc-grid {
-    grid-template-columns: 1fr;
+  .dkq-bc-wrap .bc-figblock {
+    min-height: clamp(300px, 62vh, 440px);
   }
-  .dkq-tk {
-    grid-template-columns: 1fr;
+  .dkq-bc-wrap .bc-organs-col {
+    flex: 0 0 76px;
   }
   .dkq-tab {
     flex-basis: 100%;
