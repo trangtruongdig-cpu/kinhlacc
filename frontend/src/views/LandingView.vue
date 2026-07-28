@@ -101,6 +101,71 @@ function openTongueLibrary() {
   router.push({ name: 'thu-vien', query: { tab: 'luoi' } })
 }
 
+// ── Nút "i" trong khối Tóm Tắt Bát Cương (BatCuongSummary, tab "Kết Quả Đo") — phát 'detail',
+// landing chưa nghe nên trước đây bấm không có gì xảy ra. Modal RIÊNG, nhẹ (không kéo theo UI
+// trang Kết Quả Đo thật) nhưng dữ liệu THẬT — gọi /kinh-mach (đã @Public()) giống hệt app.
+// MER3D: mã kinh ngắn (đo) → khoá quốc tế, khớp cột kinh_mach.ky_hieu_quoc_te — trùng với
+// BatCuongFigure3D.vue nhưng chép riêng ở đây để không phải import cả module 3D nặng.
+const MER3D_LANDING: Record<string, string> = {
+  Tiểu: 'SI', Tâm: 'HT', Tam: 'TE', Bào: 'PC', Đại: 'LI', Phế: 'LU',
+  Bàng: 'BL', Thận: 'KI', Đởm: 'GB', Vị: 'ST', Can: 'LR', Tỳ: 'SP',
+}
+interface KinhMachDetailRow {
+  idKinhMach: number
+  ten_kinh_mach: string | null
+  ten_viet_tat: string | null
+  ky_hieu_quoc_te: string | null
+  bieu_hien_tac_nghen: string | null
+}
+const HUTHUC_DETAIL_KEY = '__huthuc_info__'
+const HU_THUC_INFO_LANDING: Record<'thuc' | 'hu', { title: string; body: string }> = {
+  thuc: { title: 'Mạch Hữu Lực', body: 'Tà khí đang mạnh, cơ thể phản ứng dữ dội, nhiều nơi lệch rõ.' },
+  hu: { title: 'Mạch Vô Lực', body: 'Chính khí suy, phản ứng yếu ớt, lệch ít hoặc lệch nhẹ dù có bệnh.' },
+}
+const showKinhMachDetail = ref(false)
+const kinhMachDetailLoading = ref(false)
+const kinhMachDetail = ref<KinhMachDetailRow | null>(null)
+const showHuThucDetail = ref(false)
+let kinhMachListCache: KinhMachDetailRow[] | null = null
+
+const huThucDetailInfo = computed(() => {
+  const v = (diagnosis.value.huThuc || '').toLowerCase()
+  if (v.includes('thịnh') || v.includes('thực')) return HU_THUC_INFO_LANDING.thuc
+  if (v.includes('hư') && !v.includes('thường')) return HU_THUC_INFO_LANDING.hu
+  return null
+})
+const kinhMachDetailParas = computed(() =>
+  String(kinhMachDetail.value?.bieu_hien_tac_nghen ?? '')
+    .split(/\n+/)
+    .map((s) => s.trim())
+    .filter(Boolean),
+)
+
+async function openBatCuongDetail(shortCode: string) {
+  if (shortCode === HUTHUC_DETAIL_KEY) {
+    showHuThucDetail.value = true
+    return
+  }
+  showKinhMachDetail.value = true
+  kinhMachDetail.value = null
+  kinhMachDetailLoading.value = true
+  const symbol = MER3D_LANDING[shortCode]
+  try {
+    if (!kinhMachListCache) kinhMachListCache = await api.get<KinhMachDetailRow[]>('/kinh-mach')
+    kinhMachDetail.value = kinhMachListCache.find((k) => k.ky_hieu_quoc_te === symbol) ?? null
+  } catch {
+    kinhMachDetail.value = null
+  } finally {
+    kinhMachDetailLoading.value = false
+  }
+}
+function closeKinhMachDetail() {
+  showKinhMachDetail.value = false
+}
+function closeHuThucDetail() {
+  showHuThucDetail.value = false
+}
+
 // ── Phân tích bài thuốc THẬT, nhúng ngay trong section "Đo Kinh Lạc · Big Data"
 // (lấy /demo/bai-thuoc, KHÔNG cần đăng nhập). Dùng lại ĐÚNG component phân tích thật
 // (BaiThuocAnalysis): Tứ Khí + 3 radar + bảng Quân–Thần–Tá–Sứ — chỉ cần truyền nguyên bài thuốc.
@@ -984,6 +1049,7 @@ const faqs: { q: string; a: string }[] = [
               :organs="affectedOrgans"
               :focus="bcFocus"
               @toggle="toggleBcFocus"
+              @detail="openBatCuongDetail"
             />
           </div>
 
@@ -1429,6 +1495,39 @@ const faqs: { q: string; a: string }[] = [
         <p class="lp-footer-note">Kinh Lạc Trương Gia · Phần Mềm Y Học Cổ Truyền · © 2026 · kinhlac.online</p>
       </div>
     </footer>
+
+    <!-- ============ Modal chi tiết kinh mạch — nút "i" trong Tóm Tắt Bát Cương ============ -->
+    <div v-if="showKinhMachDetail" class="lp-bc-overlay" @click.self="closeKinhMachDetail">
+      <div class="lp-bc-modal" role="dialog" aria-modal="true">
+        <button type="button" class="lp-bc-modal__close" aria-label="Đóng" @click="closeKinhMachDetail">✕</button>
+        <template v-if="kinhMachDetailLoading">
+          <p class="lp-bc-modal__loading">Đang tải…</p>
+        </template>
+        <template v-else-if="kinhMachDetail">
+          <h3 class="lp-bc-modal__title">{{ kinhMachDetail.ten_kinh_mach || kinhMachDetail.ten_viet_tat }}</h3>
+          <span v-if="kinhMachDetail.ky_hieu_quoc_te" class="lp-bc-modal__code">{{ kinhMachDetail.ky_hieu_quoc_te }}</span>
+          <p v-if="!kinhMachDetailParas.length" class="lp-bc-modal__empty">Chưa có mô tả biểu hiện tắc nghẽn.</p>
+          <p v-for="(p, i) in kinhMachDetailParas" :key="i" class="lp-bc-modal__para">{{ p }}</p>
+        </template>
+        <template v-else>
+          <p class="lp-bc-modal__empty">Không tải được dữ liệu kinh mạch.</p>
+        </template>
+      </div>
+    </div>
+
+    <!-- ============ Modal giải thích Hư/Thực — nút "i" cạnh chip Hư/Thực ============ -->
+    <div v-if="showHuThucDetail" class="lp-bc-overlay" @click.self="closeHuThucDetail">
+      <div class="lp-bc-modal" role="dialog" aria-modal="true">
+        <button type="button" class="lp-bc-modal__close" aria-label="Đóng" @click="closeHuThucDetail">✕</button>
+        <template v-if="huThucDetailInfo">
+          <h3 class="lp-bc-modal__title">{{ huThucDetailInfo.title }}</h3>
+          <p class="lp-bc-modal__para">{{ huThucDetailInfo.body }}</p>
+        </template>
+        <template v-else>
+          <p class="lp-bc-modal__empty">Không có thông tin.</p>
+        </template>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -4288,4 +4387,61 @@ const faqs: { q: string; a: string }[] = [
     padding: 4px 5px;
   }
 }
+
+/* ---------- Modal chi tiết kinh mạch / Hư-Thực (nút "i" trong Tóm Tắt Bát Cương) ---------- */
+.lp-bc-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background: rgba(45, 30, 20, 0.45);
+  backdrop-filter: blur(2px);
+}
+.lp-bc-modal {
+  position: relative;
+  width: 100%;
+  max-width: 26rem;
+  max-height: 80vh;
+  overflow-y: auto;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg, 0 20px 50px -12px rgba(0, 0, 0, 0.35));
+  padding: var(--space-6);
+}
+.lp-bc-modal__close {
+  position: absolute;
+  top: var(--space-3);
+  right: var(--space-3);
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface-2);
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: var(--font-size-xs);
+}
+.lp-bc-modal__close:hover { background: var(--brown-100); color: var(--brown-800); }
+.lp-bc-modal__title { font-size: var(--font-size-lg); font-weight: 800; color: var(--text-brand); padding-right: var(--space-6); }
+.lp-bc-modal__code {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--brown-600);
+  background: var(--brown-50);
+  border: 1px solid var(--brown-200);
+  border-radius: var(--radius-full);
+  padding: 2px 10px;
+}
+.lp-bc-modal__para { margin-top: var(--space-3); font-size: var(--font-size-sm); color: var(--text); line-height: 1.6; }
+.lp-bc-modal__loading,
+.lp-bc-modal__empty { font-size: var(--font-size-sm); color: var(--text-muted); }
 </style>

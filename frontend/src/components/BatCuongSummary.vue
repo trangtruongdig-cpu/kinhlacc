@@ -187,15 +187,21 @@ const huThucWhy = computed(() => {
         >
           <span class="ht-grp-lb" :class="'ht-grp-lb--' + g.key">{{ g.lb }} <b class="ht-arrow">{{ g.arrow }}</b></span>
           <div class="organ-cloud">
-            <button
-              v-for="o in g.list"
-              :key="g.key + o.name"
-              type="button"
-              class="organ-pill ht-pill"
-              :class="['ht-pill--' + g.key, { 'is-active': focus === 'organ:' + o.name }]"
-              :title="o.organ + ' — ' + g.hint + '. Bấm soi bảng đo'"
-              @click.stop="emit('toggle', 'organ:' + o.name)"
-            >{{ o.organ }}<small v-if="o.side"> {{ o.side }}</small></button>
+            <span v-for="o in g.list" :key="g.key + o.name" class="organ-pill-wrap">
+              <button
+                type="button"
+                class="organ-pill ht-pill"
+                :class="['ht-pill--' + g.key, { 'is-active': focus === 'organ:' + o.name }]"
+                :title="o.organ + ' — ' + g.hint + '. Bấm soi bảng đo'"
+                @click.stop="emit('toggle', 'organ:' + o.name)"
+              >{{ o.organ }}<small v-if="o.side"> {{ o.side }}</small></button>
+              <button
+                type="button"
+                class="organ-pill__detail"
+                :title="'Chi tiết kinh ' + o.organ"
+                @click.stop="emit('detail', o.name)"
+              >i</button>
+            </span>
             <span v-if="!g.list.length" class="sub-empty">—</span>
           </div>
         </div>
