@@ -22,6 +22,7 @@ import BanXoayBienChung from '@/components/BanXoayBienChung.vue'
 // Khối Bát Cương "y như app": hình người 3D XOAY được + 2 cột tạng phủ hai bên.
 import BatCuongOrgans from '@/components/BatCuongOrgans.vue' // 2 cột thẻ tạng phủ (SVG, nhẹ)
 import BatCuongSummary from '@/components/BatCuongSummary.vue' // khối Bát Cương giàu (TỔNG CƯƠNG · Hư-Thực · Thể chất) — y hệt app
+import BienChungWheel from '@/components/BienChungWheel.vue' // đồ hình Thái Cực bóc lớp (Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh) cho Tab ③
 // 3D nặng (three.js) → nạp ĐỘNG (chunk riêng); component tự HOÃN tải three tới khi cuộn tới (IntersectionObserver).
 const BatCuongFigure3D = defineAsyncComponent(() => import('@/components/BatCuongFigure3D.vue'))
 // Nạp ĐỘNG: chart.js (nặng) chỉ tải khi component phân tích bài thuốc thực sự được dựng,
@@ -94,6 +95,11 @@ function selectTongue(id: string) {
 function tongueByCategory(cat: AtlasCategory): TongueAtlasEntry[] {
   return ATLAS.filter((a) => a.category === cat)
 }
+// CTA "Xem Ảnh Lưỡi Thật" → mở thẳng tab "Xem Lưỡi" trong Thư Viện công khai (ảnh thật + đại diện ML,
+// component TongueAtlasPanel — landing chỉ có minh hoạ SVG, không kéo ảnh thật vào bundle trang chủ).
+function openTongueLibrary() {
+  router.push({ name: 'thu-vien', query: { tab: 'luoi' } })
+}
 
 // ── Phân tích bài thuốc THẬT, nhúng ngay trong section "Đo Kinh Lạc · Big Data"
 // (lấy /demo/bai-thuoc, KHÔNG cần đăng nhập). Dùng lại ĐÚNG component phân tích thật
@@ -104,8 +110,13 @@ const demoFormula = ref<any>(null)
 onMounted(async () => {
   // 6 ca khám THẬT (ẩn danh) giàu thể bệnh nhất — nguồn cho khối "Kết Quả Đo" + 3-tab.
   try {
-    const res = await api.get<{ cases: RealCase[] }>('/demo/ket-qua-do-list?count=6')
+    const [res, ref] = await Promise.all([
+      api.get<{ cases: RealCase[] }>('/demo/ket-qua-do-list?count=6'),
+      api.get<{ phacDo: PhacDoRow[]; cauThanh: CauThanhLink[] }>('/demo/chan-doan-ref'),
+    ])
     cases.value = res.cases ?? []
+    phacDoAll.value = ref.phacDo ?? []
+    cauThanhAll.value = ref.cauThanh ?? []
   } catch {
     // Backend chưa sẵn sàng → khối kết quả đo hiện trạng thái đang tải.
   } finally {
@@ -186,6 +197,141 @@ function patientLabel(c: RealCase | null): string {
   }
   return [gender, age].filter(Boolean).join(' · ')
 }
+
+// ── Phương huyệt THẬT: khớp phác đồ với các thể đo được rồi nhóm CHÂM/CỨU/BỔ/TẢ (y hệt app) ──
+function phNormName(s: string | null | undefined): string {
+  return (s || '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/đ/gi, 'd')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+const PHUONG_PHAP_ORDER = ['Châm', 'Cứu', 'Châm + Cứu', 'Bấm Huyệt', 'Điện Châm', 'Bổ', 'Tả']
+interface PhacDoRow {
+  idHuyet: number
+  vai_tro_huyet?: string | null
+  phuong_phap_tac_dong?: string | null
+  y_nghia_huyet?: string | null
+  benh?: { chung_trang?: string | null } | null
+  huyetVi?: { ten_huyet?: string | null; ma_huyet?: string | null } | null
+}
+const phacDoAll = ref<PhacDoRow[]>([])
+interface CauThanhLink {
+  ghi_chu: string | null
+  compound: { tieuket: string | null; chung_trang: string | null } | null
+  component: { tieuket: string | null; chung_trang: string | null } | null
+}
+const cauThanhAll = ref<CauThanhLink[]>([])
+// norm(tên bệnh compound) → { root: norm(tên thể gốc), rootLabel, ghiChu } — quan hệ nhân-quả.
+const causeMap = computed(() => {
+  const m = new Map<string, { root: string; rootLabel: string; ghiChu: string | null }>()
+  for (const c of cauThanhAll.value) {
+    const comp = c.compound?.tieuket || c.compound?.chung_trang
+    const root = c.component?.tieuket || c.component?.chung_trang
+    if (!comp || !root) continue
+    m.set(phNormName(comp), { root: phNormName(root), rootLabel: root, ghiChu: c.ghi_chu })
+  }
+  return m
+})
+interface SyndNode {
+  name: string
+  cell: string
+  kind: 'yhct' | 'yhhd'
+  rootLabel?: string
+  ghiChu?: string | null
+  children: SyndNode[]
+}
+// Cây lồng: thể YHCT gốc làm cha, bệnh YHHĐ (khớp gốc) làm con + cơ chế; bệnh không gốc đứng riêng.
+const syndromeTree = computed<{ nodes: SyndNode[]; standalone: SyndNode[] }>(() => {
+  const excel = excelList.value
+  const modern = modernList.value
+  const excelNorm = new Set(excel.map((s) => phNormName(s.name)))
+  const consumed = new Set<number>()
+  const nodes: SyndNode[] = []
+  for (const e of excel) {
+    const en = phNormName(e.name)
+    const children: SyndNode[] = []
+    for (const m of modern) {
+      const link = causeMap.value.get(phNormName(m.name))
+      if (link && link.root === en) {
+        children.push({ name: m.name, cell: m.outputCell, kind: 'yhhd', ghiChu: link.ghiChu, children: [] })
+        consumed.add(m.id)
+      }
+    }
+    nodes.push({ name: e.name, cell: e.outputCell, kind: 'yhct', children })
+  }
+  const standalone: SyndNode[] = []
+  for (const m of modern) {
+    if (consumed.has(m.id)) continue
+    const link = causeMap.value.get(phNormName(m.name))
+    const hasRootUnmeasured = link && !excelNorm.has(link.root)
+    standalone.push({
+      name: m.name,
+      cell: m.outputCell,
+      kind: 'yhhd',
+      rootLabel: hasRootUnmeasured ? link!.rootLabel : undefined,
+      ghiChu: hasRootUnmeasured ? link!.ghiChu : undefined,
+      children: [],
+    })
+  }
+  return { nodes, standalone }
+})
+// Tên (chuẩn hoá) của các thể YHCT đo được ở ca hiện tại.
+const measuredNames = computed<Set<string>>(() => {
+  const out = new Set<string>()
+  for (const s of excelList.value) {
+    const n = phNormName(s.name)
+    if (n) out.add(n)
+  }
+  return out
+})
+// Phương huyệt khớp thể đo được (khử trùng theo idHuyet) — GIỐNG matchedPhuongHuyetList của app.
+const matchedPhuongHuyet = computed<PhacDoRow[]>(() => {
+  const names = measuredNames.value
+  if (!names.size) return []
+  const seen = new Set<number>()
+  const out: PhacDoRow[] = []
+  for (const r of phacDoAll.value) {
+    const bn = phNormName(r.benh?.chung_trang)
+    if (!bn || !names.has(bn) || seen.has(r.idHuyet)) continue
+    seen.add(r.idHuyet)
+    out.push(r)
+  }
+  return out
+})
+// Đại diện: tối đa 5 huyệt / thể bệnh (cho nhiều) — landing không hiện hết cho gọn.
+const phuongHuyetRep = computed<PhacDoRow[]>(() => {
+  const byThe = new Map<string, PhacDoRow[]>()
+  for (const r of matchedPhuongHuyet.value) {
+    const k = phNormName(r.benh?.chung_trang)
+    const arr = byThe.get(k) ?? []
+    if (arr.length < 5) arr.push(r)
+    byThe.set(k, arr)
+  }
+  return [...byThe.values()].flat()
+})
+const phuongHuyetGroups = computed<{ method: string; items: PhacDoRow[] }[]>(() => {
+  const g = new Map<string, PhacDoRow[]>()
+  for (const r of phuongHuyetRep.value) {
+    const k = (r.phuong_phap_tac_dong || '').trim() || 'Khác'
+    const arr = g.get(k) ?? []
+    arr.push(r)
+    g.set(k, arr)
+  }
+  const out: { method: string; items: PhacDoRow[] }[] = []
+  for (const m of PHUONG_PHAP_ORDER) {
+    const it = g.get(m)
+    if (it) {
+      out.push({ method: m, items: it })
+      g.delete(m)
+    }
+  }
+  for (const [m, it] of g) out.push({ method: m, items: it })
+  return out
+})
 
 // Bảng kết quả đo (chi trên / chi dưới) + Bát Cương — chạy đúng engine của trang đo thật.
 const upperStats = computed(() => calculateBounds(rawUpper(currentInput.value)))
@@ -319,6 +465,40 @@ const tongCuong = computed<TongCuong>(() => {
   const bieu = orgs.filter((o) => o.depth === 'bieu' || o.depth === 'mixed').length
   const ly = orgs.filter((o) => o.depth === 'ly' || o.depth === 'mixed').length
   return computeTongCuong(nhiet, han, bieu, ly, diagnosis.value.huThuc)
+})
+
+// ── Đồ hình Thái Cực bóc lớp cho Tab ③ (BienChungWheel) — y hệt app (bỏ lớp Ngũ Hành) ──
+const wheelLop = ref(1)
+const wheelLayers = [
+  { id: 1, label: 'Âm Dương' },
+  { id: 3, label: 'Tạng Phủ' },
+  { id: 4, label: 'Lục Khí' },
+  { id: 5, label: 'Lục Kinh' },
+]
+// Định vị bệnh nhân để tô sáng trên đồ hình: âm/dương (tổng cương) + tạng phủ đang bệnh.
+const dinhViWheel = computed(() => {
+  const loai = tongCuong.value.loai || ''
+  const amDuong: 'duong' | 'am' | 'both' | null = loai.includes('duong')
+    ? 'duong'
+    : loai.includes('am')
+      ? 'am'
+      : null
+  return {
+    kinh: [] as string[],
+    khi: [] as string[],
+    tang: affectedOrgans.value.map((o) => o.organ ?? o.name),
+    amDuong,
+    amLoai: loai,
+  }
+})
+// Tạng phủ tổn thương + Lục Khí (Hàn/Nhiệt) — suy TRỰC TIẾP từ số đo (như panel Định Vị/Tác Nhân app).
+const tangPhuTonThuong = computed(() => affectedOrgans.value.map((o) => o.organ ?? o.name))
+const lucKhiTags = computed(() => {
+  const orgs = affectedOrgans.value
+  const tags: string[] = []
+  if (orgs.some((o) => o.temp === 'han' || o.temp === 'mixed')) tags.push('Hàn')
+  if (orgs.some((o) => o.temp === 'nhiet' || o.temp === 'mixed')) tags.push('Nhiệt')
+  return tags
 })
 // Tiêu điểm: bấm 1 tạng phủ / 1 chip Bát Cương → SÁNG hàng kinh tương ứng ở bảng đo (y như app).
 const bcFocus = ref<string | null>(null)
@@ -809,44 +989,112 @@ const faqs: { q: string; a: string }[] = [
 
           <!-- ═══ Tab ② Thể Bệnh: TOÀN BỘ thể YHCT (excel) + bệnh YHHĐ (modern) đo ra — y hệt app ═══ -->
           <div v-show="resultTab === 2" class="mc-tabpanel" role="tabpanel">
-            <div class="mc-dx2-block">
-              <span class="mc-dx2-lb">
-                Thể bệnh YHCT (Đông Y)
-                <em class="mc-dx2-hint">— {{ excelList.length }} thể đo ra</em>
-              </span>
-              <div class="mc-synd-list">
-                <div v-for="s in excelList" :key="'e-' + s.id" class="mc-synd mc-synd--yhct">
-                  <span class="mc-synd-name">{{ s.name }}</span>
-                  <span class="mc-synd-cell">{{ s.outputCell }}</span>
+            <div class="mc-dx2-cols">
+              <!-- CỘT TRÁI: MÔ HÌNH BỆNH LÝ — thẻ đánh số, bệnh YHHĐ lồng dưới thể YHCT gốc + ✓ căn cứ -->
+              <div class="mc-dx2-col">
+                <span class="mc-dx2-lb">
+                  Mô hình bệnh lý
+                  <em class="mc-dx2-hint">— {{ excelList.length }} thể YHCT · {{ modernList.length }} bệnh YHHĐ</em>
+                </span>
+                <div class="mc-tree">
+                  <div v-for="(n, i) in syndromeTree.nodes" :key="'n-' + i" class="mc-tcard">
+                    <div class="mc-tcard-head">
+                      <span class="mc-tcard-no">{{ i + 1 }}</span>
+                      <span class="mc-tcard-name">{{ n.name }}</span>
+                      <span class="mc-tcard-cell">{{ n.cell }}</span>
+                    </div>
+                    <div v-for="(c, j) in n.children" :key="'c-' + j" class="mc-tchild">
+                      <span class="mc-tchild-line">
+                        <span class="mc-tchild-tag mc-tchild-tag--yhhd">Biểu hiện YHHĐ</span>
+                        <span class="mc-tchild-name">{{ c.name }} <em>{{ c.cell }}</em></span>
+                      </span>
+                      <p v-if="c.ghiChu" class="mc-tchild-note">{{ c.ghiChu }}</p>
+                    </div>
+                  </div>
+                  <div v-for="(s, i) in syndromeTree.standalone" :key="'s-' + i" class="mc-tcard mc-tcard--yhhd">
+                    <div class="mc-tcard-head">
+                      <span class="mc-tcard-no mc-tcard-no--yhhd">{{ syndromeTree.nodes.length + i + 1 }}</span>
+                      <span class="mc-tcard-name">{{ s.name }}</span>
+                      <span class="mc-tcard-cell mc-tcard-cell--yhhd">{{ s.cell }}</span>
+                    </div>
+                    <div v-if="s.rootLabel" class="mc-tchild">
+                      <span class="mc-tchild-line">
+                        <span class="mc-tchild-tag mc-tchild-tag--yhct">Gốc YHCT</span>
+                        <span class="mc-tchild-name">{{ s.rootLabel }}</span>
+                      </span>
+                      <p v-if="s.ghiChu" class="mc-tchild-note">{{ s.ghiChu }}</p>
+                    </div>
+                  </div>
                 </div>
-                <p v-if="!excelList.length" class="muted">—</p>
               </div>
-            </div>
-            <div class="mc-dx2-block">
-              <span class="mc-dx2-lb">
-                Bệnh Y học hiện đại (YHHĐ)
-                <em class="mc-dx2-hint">— {{ modernList.length }} bệnh đối chiếu</em>
-              </span>
-              <div class="mc-synd-list">
-                <div v-for="s in modernList" :key="'m-' + s.id" class="mc-synd mc-synd--yhhd">
-                  <span class="mc-synd-name">{{ s.name }}</span>
-                  <span class="mc-synd-cell">{{ s.outputCell }}</span>
+              <!-- CỘT PHẢI: phương huyệt (như panel PHƯƠNG HUYỆT bên phải của app) -->
+              <div v-if="matchedPhuongHuyet.length" class="mc-dx2-col">
+                <div class="mc-dx2-block">
+                  <span class="mc-dx2-lb">
+                    Phương huyệt
+                    <em class="mc-dx2-hint">— {{ matchedPhuongHuyet.length }} huyệt · hiện {{ phuongHuyetRep.length }} đại diện</em>
+                  </span>
+                  <div v-for="g in phuongHuyetGroups" :key="g.method" class="mc-phg">
+                    <span class="mc-phg-method">{{ g.method }} <em>({{ g.items.length }})</em></span>
+                    <div class="mc-phg-chips">
+                      <span
+                        v-for="r in g.items"
+                        :key="r.idHuyet"
+                        class="mc-phg-chip"
+                        :title="r.y_nghia_huyet || (r.huyetVi?.ten_huyet ?? '')"
+                      >
+                        {{ r.huyetVi?.ten_huyet }}<em v-if="r.huyetVi?.ma_huyet"> ({{ r.huyetVi.ma_huyet }})</em>
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <p v-if="!modernList.length" class="muted">—</p>
               </div>
             </div>
           </div>
 
-          <!-- ═══ Tab ③ Biện Chứng · Pháp Trị: pháp trị THẬT từ các thể đã khớp ═══ -->
+          <!-- ═══ Tab ③ Biện Chứng · Pháp Trị: đồ hình Thái Cực bóc lớp (y hệt app) + pháp trị ═══ -->
           <div v-show="resultTab === 3" class="mc-tabpanel" role="tabpanel">
-            <span class="mc-dx2-lb">Pháp trị theo từng thể bệnh</span>
-            <div v-if="phapTriList.length" class="mc-pt-list">
-              <div v-for="(pt, i) in phapTriList" :key="i" class="mc-pt-item">{{ pt }}</div>
+            <div class="mc-t3">
+              <div class="mc-t3-wheel">
+                <div class="mc-t3-layers" role="tablist" aria-label="Bóc lớp đồ hình">
+                  <button
+                    v-for="l in wheelLayers"
+                    :key="l.id"
+                    type="button"
+                    class="mc-t3-layer"
+                    :class="{ on: wheelLop === l.id }"
+                    @click="wheelLop = l.id"
+                  >
+                    {{ l.label }}
+                  </button>
+                </div>
+                <BienChungWheel :lop="wheelLop" :dinhvi="dinhViWheel" />
+                <p class="mc-t3-cap">Bấm bóc từng lớp: Âm Dương (Thái Cực) → Tạng Phủ → Lục Khí → Lục Kinh. Ô sáng = bệnh nhân có.</p>
+              </div>
+              <div class="mc-t3-side">
+                <div class="mc-t3-block">
+                  <span class="mc-dx2-lb">Tạng phủ tổn thương</span>
+                  <div class="mc-dv-chips">
+                    <span v-for="t in tangPhuTonThuong" :key="t" class="mc-dv-chip mc-dv-chip--on">{{ t }}</span>
+                    <span v-if="!tangPhuTonThuong.length" class="muted">—</span>
+                  </div>
+                </div>
+                <div class="mc-t3-block">
+                  <span class="mc-dx2-lb">Tác nhân · Lục khí <em class="mc-dx2-hint">khí · tà gây bệnh</em></span>
+                  <div class="mc-dv-chips">
+                    <span v-for="t in lucKhiTags" :key="t" class="mc-dv-chip mc-dv-chip--on">{{ t }}</span>
+                    <span v-if="!lucKhiTags.length" class="muted">—</span>
+                  </div>
+                </div>
+                <div class="mc-t3-block">
+                  <span class="mc-dx2-lb">Pháp trị theo từng thể bệnh</span>
+                  <div v-if="phapTriList.length" class="mc-pt-list">
+                    <div v-for="(pt, i) in phapTriList" :key="i" class="mc-pt-item">{{ pt }}</div>
+                  </div>
+                  <p v-else class="muted">Mở “Xem Kết Quả Đo Thật” để xem đầy đủ pháp trị từng thể.</p>
+                </div>
+              </div>
             </div>
-            <p v-else class="mc-bienchung">
-              Ca này khớp {{ excelList.length }} thể YHCT và {{ modernList.length }} bệnh YHHĐ. Mở
-              “Xem Kết Quả Đo Thật” để xem đầy đủ pháp trị · phương huyệt · bài thuốc từng thể.
-            </p>
           </div>
 
           <p class="mc-note">Lật qua từng ca để thấy mỗi người một bảng chỉ số, một thể bệnh khác nhau. Đây là số liệu từ ca đo thật — bấm bên dưới để mở một bản đo đầy đủ đã ẩn danh.</p>
@@ -949,7 +1197,10 @@ const faqs: { q: string; a: string }[] = [
         </div>
       </div>
 
-      <p class="lp-lib-note">Atlas THẬT, xem trực tiếp không cần đăng nhập · Bộ công cụ chẩn đoán đầy đủ (chọn nhiều đặc điểm cùng lúc) dành cho tài khoản hành nghề.</p>
+      <div class="lp-lib-cta">
+        <button class="lp-btn lp-btn--primary lp-btn--lg" @click="openTongueLibrary">Xem Ảnh Lưỡi Thật Trong Thư Viện →</button>
+        <p class="lp-lib-note">Minh hoạ SVG ở trên chỉ để dễ so màu/hình nhanh — vào Thư Viện để xem <strong>ảnh lưỡi thật</strong> từng mẫu (đúng như trong app) · Miễn phí, không cần đăng nhập.</p>
+      </div>
     </section>
 
     <!-- ============ Thư viện · Từ Điển (mở miễn phí — giới thiệu + lối vào /thu-vien) ============ -->
@@ -2069,6 +2320,9 @@ const faqs: { q: string; a: string }[] = [
   .mc-tabpanel { animation: none; }
 }
 .mc-dx2-block { margin-bottom: var(--space-4); }
+/* Tab ② xếp 2 cột ngang hàng: thể bệnh (trái) | phương huyệt (phải) — như mục III trong app. */
+.mc-dx2-cols { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6); align-items: start; }
+@media (max-width: 860px) { .mc-dx2-cols { grid-template-columns: 1fr; } }
 .mc-dx2-lb {
   display: block;
   font-size: var(--font-size-xs);
@@ -2163,6 +2417,24 @@ const faqs: { q: string; a: string }[] = [
   white-space: nowrap;
 }
 .mc-synd--yhhd .mc-synd-cell { color: #43539b; background: #e8ecf8; }
+/* Cây MÔ HÌNH BỆNH LÝ — thẻ đánh số (như app): thể YHCT là cha, bệnh YHHĐ lồng dưới + ✓ căn cứ. */
+.mc-tree { display: flex; flex-direction: column; gap: var(--space-3); }
+.mc-tcard { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px 12px; }
+.mc-tcard--yhhd { border-left: 3px solid #43539b; }
+.mc-tcard-head { display: flex; align-items: center; gap: var(--space-2); }
+.mc-tcard-no { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: var(--radius-full); background: #e3f0e3; color: #15803d; font-size: 12px; font-weight: 800; flex: none; }
+.mc-tcard-no--yhhd { background: #e8ecf8; color: #43539b; }
+.mc-tcard-name { font-size: var(--font-size-sm); font-weight: 700; color: var(--text-brand); flex: 1; }
+.mc-tcard-cell { font-size: 11px; font-weight: 800; color: #15803d; background: #e3f0e3; border-radius: var(--radius-full); padding: 2px 9px; white-space: nowrap; }
+.mc-tcard-cell--yhhd { color: #43539b; background: #e8ecf8; }
+.mc-tchild { margin: var(--space-2) 0 0 26px; padding-left: 10px; border-left: 2px dashed var(--brown-300); }
+.mc-tchild-line { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; }
+.mc-tchild-tag { font-size: 10px; font-weight: 800; padding: 1px 7px; border-radius: var(--radius-full); white-space: nowrap; }
+.mc-tchild-tag--yhhd { color: #43539b; background: #e8ecf8; }
+.mc-tchild-tag--yhct { color: #92400e; background: #fdf0da; }
+.mc-tchild-name { font-size: 12.5px; font-weight: 600; color: var(--text-brand); }
+.mc-tchild-name em { font-style: normal; font-size: 10px; color: var(--text-subtle); }
+.mc-tchild-note { margin: 3px 0 0; font-size: 12px; line-height: 1.5; color: #7c5a2e; font-style: italic; }
 .mc-pt-list { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-2); }
 .mc-pt-item {
   padding: 8px 12px;
@@ -2173,6 +2445,54 @@ const faqs: { q: string; a: string }[] = [
   border-radius: 6px;
 }
 .mc-cases-loading { text-align: center; padding: var(--space-10) var(--space-4); color: var(--text-subtle); font-style: italic; }
+/* Phương huyệt gom theo phương pháp (Châm/Cứu/Bổ/Tả) — chip tên huyệt + mã, tooltip = ý nghĩa. */
+.mc-phg { margin-bottom: var(--space-3); }
+.mc-phg-method {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brown-700);
+  margin-bottom: var(--space-2);
+}
+.mc-phg-method em { font-style: normal; color: var(--text-subtle); font-weight: 600; }
+.mc-phg-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.mc-phg-chip {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-brand);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: 3px 10px;
+  cursor: default;
+}
+.mc-phg-chip em { font-style: normal; color: var(--text-subtle); font-size: 11px; }
+/* Tab ③: đồ hình Thái Cực bóc lớp (trái) + pháp trị (phải) */
+.mc-t3 { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: var(--space-6); align-items: start; }
+@media (max-width: 860px) { .mc-t3 { grid-template-columns: 1fr; } }
+.mc-t3-wheel { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); }
+.mc-t3-wheel :deep(svg) { max-width: 360px; height: auto; }
+.mc-t3-layers { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.mc-t3-layer {
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--surface-2);
+  color: var(--text-subtle);
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.mc-t3-layer.on { background: var(--brown-600); border-color: var(--brown-600); color: var(--white); }
+.mc-t3-cap { font-size: 12px; color: var(--text-subtle); text-align: center; max-width: 42ch; line-height: 1.5; }
+.mc-t3-side { padding-top: var(--space-2); }
+.mc-t3-block { margin-bottom: var(--space-5); }
+.mc-dv-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--space-2); }
+.mc-dv-chip { font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: var(--radius-full); }
+.mc-dv-chip--on { color: var(--white); background: #2f7355; }
 .mc-bt {
   display: flex;
   flex-wrap: wrap;

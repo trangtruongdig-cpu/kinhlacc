@@ -2,6 +2,7 @@ import { Controller, Get, Post, Put, Delete, Param, Body, Query, ParseIntPipe, R
 import { ChanDoanLuoiService } from '../controllers/chan-doan-luoi.controller';
 import { CreateChanDoanLuoiDto, UpdateChanDoanLuoiDto } from '../models/chan-doan-luoi.dto';
 import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
+import { Public } from '../middlewares/auth/public.decorator';
 
 @Controller('chan-doan-luoi')
 @UseGuards(JwtAuthGuard)
@@ -41,11 +42,15 @@ export class ChanDoanLuoiRouter {
     return this.service.rebuildEmbeddings();
   }
 
+  // Đọc thuần (ảnh đại diện ML đã build sẵn + trạng thái build) — dùng ở Atlas lưỡi CÔNG KHAI
+  // trong Thư Viện (/thu-vien, tab Xem Lưỡi) nên phải @Public(); không lộ gì nhạy cảm, chỉ URL ảnh.
+  @Public()
   @Get('atlas-representatives/status')
   getRepresentativesStatus() {
     return this.service.getRepresentativesStatus();
   }
 
+  @Public()
   @Get('atlas-representatives')
   async getAtlasRepresentatives() {
     return this.service.getAtlasRepresentatives();

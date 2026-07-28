@@ -3,6 +3,12 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { ATLAS, CATEGORY_LABELS, type TongueAtlasEntry, type AtlasCategory } from '@/data/tongue-atlas'
 import TongueSVGCard from './TongueSVGCard.vue'
 import { api } from '@/services/api'
+import { useAuthStore } from '@/stores/auth'
+
+// Component này chạy CẢ ở trang trong app (đã đăng nhập) LẪN trang Thư Viện công khai (/thu-vien,
+// chưa đăng nhập) — nút "Xây dựng lại ảnh đại diện" gọi endpoint có JwtAuthGuard, ẩn đi khi chưa
+// đăng nhập để tránh 401 (api.ts sẽ tự văng cả trang về /login khi gặp 401).
+const authStore = useAuthStore()
 
 interface RepresentativeImage { url: string; score: number }
 interface RepBuildStatus {
@@ -342,6 +348,7 @@ function openRepPhoto(repUrl: string) {
                 </span>
               </div>
               <button
+                v-if="authStore.isAuthenticated"
                 class="ap-rep-build-btn"
                 :class="{ loading: repBuildStatus.status === 'building' }"
                 :disabled="repBuildStatus.status === 'building'"

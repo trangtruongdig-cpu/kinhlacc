@@ -16,6 +16,7 @@ import { ensureDictData, ensureBenhData, BASE } from '@/lib/acuMap3d'
 import PhuongThuocBrowser from '@/components/PhuongThuocBrowser.vue'
 import NguonBrowser from '@/components/NguonBrowser.vue'
 import DuocLieuBrowser from '@/components/DuocLieuBrowser.vue'
+import TongueAtlasPanel from '@/components/TongueAtlasPanel.vue'
 
 // Đặt TÊN component để <keep-alive :include="['TuDienView']"> ở DashboardLayout giữ lại trang này:
 // dữ liệu nặng (~5MB) + việc dựng các bản đồ tra cứu chỉ chạy MỘT lần ở onMounted, các lần vào tab
@@ -108,7 +109,7 @@ const route = useRoute()
 const loading = ref(true)
 const error = ref<string | null>(null)
 const ready = ref(false)
-const subtab = ref<'huyet' | 'kinh' | 'nguon' | 'ccdt' | 'benhhoc' | 'baithuoc' | 'duoclieu'>('huyet')
+const subtab = ref<'huyet' | 'kinh' | 'nguon' | 'ccdt' | 'benhhoc' | 'baithuoc' | 'duoclieu' | 'luoi'>('huyet')
 // Thư Mục Nguồn (sổ cái thống nhất) — mục muốn mở (deep-link huyệt/bài thuốc/?nguon=) + cờ in-app (cho CRUD).
 const nguonTarget = ref<{ slug?: string; name?: string } | null>(null)
 const inApp = computed(() => String(route.path || '').startsWith('/app'))
@@ -423,6 +424,8 @@ function openSourceByName(name?: string | null) {
 }
 // Deep-link ?nguon=<slug> (từ trang dược liệu/bài thuốc khác sang) → mở thẳng tab + nguồn đó.
 watch(() => route.query.nguon, (v) => { if (v) { subtab.value = 'nguon'; nguonTarget.value = { slug: String(v) } } }, { immediate: true })
+// Deep-link ?tab=luoi (nút CTA từ trang chủ, mục "Thiệt Chẩn · Xem Lưỡi") → mở thẳng tab Atlas lưỡi.
+watch(() => route.query.tab, (v) => { if (v === 'luoi') subtab.value = 'luoi' }, { immediate: true })
 function openTrait(id?: string | null) {
   if (!id || !traits.value[id]) return
   // "Tra theo đặc tính" giờ là BỘ LỌC trong tab Huyệt Vị: mở tab huyệt, xoá ô tìm rồi đặt bộ lọc.
@@ -1086,10 +1089,19 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
       </button>
       <!-- Đồ Hình 3D = điều hướng SANG trang xem 3D (không phải subtab nội tuyến). -->
       <button type="button" class="td-tab td-tab--link" @click="goto3D">🧭 Đồ Hình 3D</button>
+      <!-- Xem Lưỡi = Atlas thiệt chẩn (23 mẫu, ảnh thật) — tab NỘI TUYẾN (chạy cả admin lẫn public). -->
+      <button class="td-tab" :class="{ active: subtab === 'luoi' }" @click="subtab = 'luoi'">
+        Xem Lưỡi
+      </button>
       <!-- ↓↓↓ luôn giữ Thư Mục Nguồn ở CUỐI cùng ↓↓↓ -->
       <button v-if="facetsReady" class="td-tab" :class="{ active: subtab === 'nguon' }" @click="subtab = 'nguon'">
         Thư Mục Nguồn
       </button>
+    </div>
+
+    <!-- ═════ TAB XEM LƯỠI — Atlas thiệt chẩn đầy đủ (ảnh thật + đại diện ML), nội tuyến ═════ -->
+    <div v-show="subtab === 'luoi'" class="td-luoi">
+      <TongueAtlasPanel />
     </div>
 
     <!-- ═════ TAB DƯỢC LIỆU — từ điển vị thuốc, nội tuyến ═════ -->
