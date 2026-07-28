@@ -20,9 +20,13 @@ import {
   processRows,
   computeDiagnosis,
   computeBatCuong,
+  computeAffectedOrgans,
+  computeTongCuong,
   fmt,
   type InputData,
+  type TongCuong,
 } from '@/lib/meridianAnalysis'
+import BienChungWheel from '@/components/BienChungWheel.vue'
 
 const router = useRouter()
 
@@ -221,6 +225,44 @@ function pickFormula(id: number) {
 }
 const activeFormula = computed(() => (activeFormulaId.value != null ? formulaMap.value[activeFormulaId.value] ?? null : null))
 
+// ── 3 tab như app + đồ hình/định vị Tab ③ ──
+const activeView = ref<1 | 2 | 3>(1)
+const affectedOrgans = computed(() =>
+  computeAffectedOrgans(upperRows.value, lowerRows.value, upperStats.value, lowerStats.value),
+)
+const tongCuong = computed<TongCuong>(() => {
+  const orgs = affectedOrgans.value
+  const nhiet = orgs.filter((o) => o.temp === 'nhiet' || o.temp === 'mixed').length
+  const han = orgs.filter((o) => o.temp === 'han' || o.temp === 'mixed').length
+  const bieu = orgs.filter((o) => o.depth === 'bieu' || o.depth === 'mixed').length
+  const ly = orgs.filter((o) => o.depth === 'ly' || o.depth === 'mixed').length
+  return computeTongCuong(nhiet, han, bieu, ly, diagnosis.value.huThuc)
+})
+const wheelLop = ref(1)
+const wheelLayers = [
+  { id: 1, label: 'Âm Dương' },
+  { id: 3, label: 'Tạng Phủ' },
+  { id: 4, label: 'Lục Khí' },
+  { id: 5, label: 'Lục Kinh' },
+]
+const dinhViWheel = computed(() => {
+  const loai = tongCuong.value.loai || ''
+  const amDuong: 'duong' | 'am' | 'both' | null = loai.includes('duong')
+    ? 'duong'
+    : loai.includes('am')
+      ? 'am'
+      : null
+  return { kinh: [] as string[], khi: [] as string[], tang: affectedOrgans.value.map((o) => o.organ ?? o.name), amDuong, amLoai: loai }
+})
+const tangPhuTonThuong = computed(() => affectedOrgans.value.map((o) => o.organ ?? o.name))
+const lucKhiTags = computed(() => {
+  const orgs = affectedOrgans.value
+  const tags: string[] = []
+  if (orgs.some((o) => o.temp === 'han' || o.temp === 'mixed')) tags.push('Hàn')
+  if (orgs.some((o) => o.temp === 'nhiet' || o.temp === 'mixed')) tags.push('Nhiệt')
+  return tags
+})
+
 const examDate = computed(() => {
   const raw = examination.value?.createdAt
   if (!raw) return '—'
@@ -343,6 +385,22 @@ onMounted(async () => {
               <span>Ngày Đo: <strong>{{ examDate }}</strong></span>
             </div>
 
+            <!-- Thanh 3 tab như app -->
+            <nav class="dkq-tabs" role="tablist" aria-label="Chuyển view kết quả">
+              <button type="button" class="dkq-tab" :class="{ on: activeView === 1 }" @click="activeView = 1">
+                <b>1</b> Kết Quả Đo &amp; Bát Cương
+              </button>
+              <button type="button" class="dkq-tab" :class="{ on: activeView === 2 }" @click="activeView = 2">
+                <b>2</b> Chẩn Đoán &amp; Điều Trị
+                <span class="dkq-tab-badge">{{ excelSyndromes.length }} thể · {{ matchedPhuongHuyet.length }} huyệt · {{ matchedBaiThuoc.length }} bài</span>
+              </button>
+              <button type="button" class="dkq-tab" :class="{ on: activeView === 3 }" @click="activeView = 3">
+                <b>3</b> Biện Chứng – Pháp Trị
+              </button>
+            </nav>
+
+            <!-- ═══ VIEW 1: Kết quả đo + Bát Cương ═══ -->
+            <div v-show="activeView === 1">
         <!-- I. Bảng chỉ số -->
         <section class="dkq-card">
           <h2 class="dkq-sec-title"><span class="dkq-num">I</span> Bảng Chỉ Số Nhiệt Độ</h2>
@@ -430,7 +488,11 @@ onMounted(async () => {
             <div class="tk"><span class="tk-k">Lý Nhiệt</span><span class="tk-v">{{ batCuong.nhietLy || '—' }}</span></div>
           </div>
         </section>
+            </div><!-- /VIEW 1 -->
 
+            <!-- ═══ VIEW 2: Chẩn đoán & Điều trị — thể bệnh (trái) | phương huyệt (phải) + bài thuốc ═══ -->
+            <div v-show="activeView === 2">
+        <div class="dkq-dx-cols">
         <!-- III. Thể bệnh -->
         <section class="dkq-card">
           <h2 class="dkq-sec-title"><span class="dkq-num">III</span> Thể Bệnh Đo Được</h2>
@@ -473,6 +535,7 @@ onMounted(async () => {
             </div>
           </div>
         </section>
+        </div><!-- /dkq-dx-cols -->
 
         <!-- V — Bài thuốc + phân tích Tứ Khí·Ngũ Vị·Quy Kinh + Quân–Thần–Tá–Sứ (y hệt app) -->
         <section v-if="matchedBaiThuoc.length" class="dkq-card">
@@ -494,6 +557,46 @@ onMounted(async () => {
           </div>
           <p v-else class="dkq-empty">Bấm một bài thuốc để xem phân tích tính vị quy kinh của từng vị thuốc.</p>
         </section>
+            </div><!-- /VIEW 2 -->
+
+            <!-- ═══ VIEW 3: Biện chứng – Pháp trị (đồ hình Thái Cực bóc lớp + định vị) ═══ -->
+            <div v-show="activeView === 3">
+              <section class="dkq-card">
+                <h2 class="dkq-sec-title"><span class="dkq-num">VI</span> Biện Chứng – Pháp Trị</h2>
+                <div class="dkq-t3">
+                  <div class="dkq-t3-wheel">
+                    <div class="dkq-t3-layers" role="tablist" aria-label="Bóc lớp đồ hình">
+                      <button
+                        v-for="l in wheelLayers"
+                        :key="l.id"
+                        type="button"
+                        class="dkq-t3-layer"
+                        :class="{ on: wheelLop === l.id }"
+                        @click="wheelLop = l.id"
+                      >{{ l.label }}</button>
+                    </div>
+                    <BienChungWheel :lop="wheelLop" :dinhvi="dinhViWheel" />
+                    <p class="dkq-t3-cap">Bấm bóc từng lớp: Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh. Ô sáng = bệnh nhân có.</p>
+                  </div>
+                  <div class="dkq-t3-side">
+                    <div class="dkq-t3-block">
+                      <h3 class="dkq-sub-label">Tạng Phủ Tổn Thương</h3>
+                      <div class="dkq-dv-chips">
+                        <span v-for="t in tangPhuTonThuong" :key="t" class="dkq-dv-chip">{{ t }}</span>
+                        <span v-if="!tangPhuTonThuong.length" class="dkq-empty">—</span>
+                      </div>
+                    </div>
+                    <div class="dkq-t3-block">
+                      <h3 class="dkq-sub-label">Tác Nhân · Lục Khí</h3>
+                      <div class="dkq-dv-chips">
+                        <span v-for="t in lucKhiTags" :key="t" class="dkq-dv-chip">{{ t }}</span>
+                        <span v-if="!lucKhiTags.length" class="dkq-empty">—</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </div><!-- /VIEW 3 -->
           </div>
         </div>
         <!-- /Vùng nội dung 1 ca -->
@@ -971,6 +1074,130 @@ onMounted(async () => {
   margin: 0 0 var(--space-5);
 }
 
+/* ─── Thanh tab (giống mr-tabs trong app) ─── */
+.dkq-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  margin-bottom: var(--space-5);
+  background: var(--brown-50);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+}
+.dkq-tab {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+  padding: var(--space-3) var(--space-4);
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  color: var(--brown-700);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+}
+.dkq-tab:hover {
+  background: var(--surface);
+}
+.dkq-tab.on {
+  background: var(--brown-600);
+  border-color: var(--brown-600);
+  color: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+.dkq-tab-badge {
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+.dkq-tab.on .dkq-tab-badge {
+  color: var(--white);
+}
+
+/* ─── Tab 2: hai cột thể bệnh | phương huyệt ─── */
+.dkq-dx-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+/* ─── Tab 3: đồ hình bóc lớp + định vị ─── */
+.dkq-t3 {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: var(--space-6);
+  align-items: start;
+}
+.dkq-t3-wheel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.dkq-t3-layers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.dkq-t3-layer {
+  padding: 6px 12px;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--brown-700);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.dkq-t3-layer:hover {
+  background: var(--brown-50);
+}
+.dkq-t3-layer.on {
+  background: var(--brown-600);
+  border-color: var(--brown-600);
+  color: var(--white);
+}
+.dkq-t3-cap {
+  font-size: var(--font-size-xs);
+  color: var(--text-subtle);
+  margin: 0;
+}
+.dkq-t3-side {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.dkq-t3-block {
+  padding: var(--space-4);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+.dkq-dv-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-top: var(--space-2);
+}
+.dkq-dv-chip {
+  padding: 4px 10px;
+  background: var(--surface);
+  border: 1px solid var(--brown-200, var(--border));
+  border-radius: 999px;
+  color: var(--text-brand);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+
 .dkq-viewport {
   overflow: hidden;
 }
@@ -995,6 +1222,13 @@ onMounted(async () => {
   }
 }
 
+@media (max-width: 860px) {
+  .dkq-dx-cols,
+  .dkq-t3 {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 640px) {
   .dkq-stats {
     grid-template-columns: repeat(2, 1fr);
@@ -1004,6 +1238,12 @@ onMounted(async () => {
   }
   .dkq-tk {
     grid-template-columns: 1fr;
+  }
+  .dkq-tab {
+    flex-basis: 100%;
+    flex-direction: row;
+    justify-content: center;
+    gap: var(--space-2);
   }
 }
 </style>
