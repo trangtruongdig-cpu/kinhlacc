@@ -4,6 +4,8 @@ import { ExaminationsService } from '../controllers/examination.controller';
 import { PatientsService } from '../controllers/patient.controller';
 import { BaiThuocService } from '../controllers/bai-thuoc.controller';
 import { PhapTriService } from '../controllers/phap-tri.controller';
+import { PhacDoDieuTriService } from '../controllers/phac-do-dieu-tri.controller';
+import { BenhCauThanhService } from '../controllers/benh-cau-thanh.controller';
 
 /**
  * DemoRouter — các endpoint CÔNG KHAI (@Public) phục vụ trang landing cho khách CHƯA đăng nhập.
@@ -20,7 +22,21 @@ export class DemoRouter {
     private readonly patientsService: PatientsService,
     private readonly baiThuocService: BaiThuocService,
     private readonly phapTriService: PhapTriService,
+    private readonly phacDoService: PhacDoDieuTriService,
+    private readonly cauThanhService: BenhCauThanhService,
   ) {}
+
+  /** Dữ liệu tham chiếu CÔNG KHAI để render cây thể bệnh + phương huyệt trên landing (y hệt app):
+   *  toàn bộ phác đồ (phương huyệt theo thể) + liên kết nhân-quả benh_cau_thanh. Là dữ liệu thư viện. */
+  @Public()
+  @Get('chan-doan-ref')
+  async chanDoanRef() {
+    const [phacDo, cauThanh] = await Promise.all([
+      this.phacDoService.findAll(),
+      this.cauThanhService.findAll(),
+    ]);
+    return { phacDo, cauThanh };
+  }
 
   /** Một ca đo kinh lạc mẫu (bảng chỉ số nhiệt độ + thể bệnh), ẩn danh bệnh nhân. */
   @Public()
