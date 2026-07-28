@@ -1358,9 +1358,18 @@ onMounted(async () => {
 /* Trong band: hình 3D (trái, rộng) | Tóm Tắt Bát Cương (phải, gọn) — 2 cột như app */
 .dkq-bc-wrap {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
   gap: var(--space-4);
   align-items: start;
+}
+/* CHẶN grid "blowout": ô lưới mặc định min-width:auto → nội dung 2 cột của Tóm Tắt
+   (Biểu-Lý | Hư-Thực) đội ô rộng hơn 1fr, tràn khỏi lề phải. min-width:0 giữ đúng track. */
+.dkq-bc-wrap > * {
+  min-width: 0;
+}
+/* Tóm Tắt: 2 cột Biểu-Lý | Hư-Thực tự xuống 1 cột khi ô hẹp (không tràn, không kẹt chip) */
+.dkq-bc-wrap :deep(.bcs) {
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
 }
 @media (max-width: 900px) {
   .dkq-bc-wrap {
