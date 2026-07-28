@@ -27,6 +27,9 @@ const BatCuongFigure3D = defineAsyncComponent(() => import('@/components/BatCuon
 // Nạp ĐỘNG: chart.js (nặng) chỉ tải khi component phân tích bài thuốc thực sự được dựng,
 // nên KHÔNG còn nằm trong chunk trang chủ → trang chủ tải nhẹ & nhanh hơn.
 const BaiThuocAnalysis = defineAsyncComponent(() => import('@/components/BaiThuocAnalysis.vue'))
+// Atlas lưỡi: SVG thuần (nhẹ, không kéo three.js/chart.js) — nạp thẳng, KHÔNG defineAsyncComponent.
+import TongueSVGCard from '@/components/TongueSVGCard.vue'
+import { ATLAS, CATEGORY_LABELS, type TongueAtlasEntry, type AtlasCategory } from '@/data/tongue-atlas'
 import { api } from '@/services/api'
 import {
   rawUpper,
@@ -65,6 +68,33 @@ function openDemo(name: 'xem-3d' | 'xem-ket-qua-do' | 'xem-bai-thuoc' | 'thu-vie
   router.push({ name })
 }
 
+// ── Thiệt Chẩn · Xem Lưỡi — Atlas 23 mẫu, DỮ LIỆU TĨNH (frontend/src/data/tongue-atlas.ts),
+// không cần gọi API/đăng nhập. Bấm 1 mẫu → xem SVG minh hoạ + mô tả + gợi ý Bát Cương ngay tại chỗ
+// (chính là tư liệu dùng ở /app/chan-doan-luoi, chỉ khác: đây là bản xem trước công khai).
+const TONGUE_CATEGORIES: AtlasCategory[] = ['chat-luoi', 'hinh-dang', 'reu-luoi', 'vung']
+const TONGUE_PATTERN_LABELS: Record<string, string> = {
+  am_hu: 'Âm Hư',
+  duong_hu: 'Dương Hư',
+  khi_hu: 'Khí Hư',
+  huyet_hu: 'Huyết Hư',
+  nhiet: 'Nhiệt Chứng',
+  han: 'Hàn Chứng',
+  u_huyet: 'Ứ Huyết',
+  dam_thap: 'Đàm Thấp',
+  thap_nhiet: 'Thấp Nhiệt',
+  can_uat: 'Can Uất',
+}
+const activeTongueId = ref('hongshe')
+const activeTongue = computed<TongueAtlasEntry>(
+  () => ATLAS.find((a) => a.id === activeTongueId.value) ?? ATLAS[0]!,
+)
+function selectTongue(id: string) {
+  activeTongueId.value = id
+}
+function tongueByCategory(cat: AtlasCategory): TongueAtlasEntry[] {
+  return ATLAS.filter((a) => a.category === cat)
+}
+
 // ── Phân tích bài thuốc THẬT, nhúng ngay trong section "Đo Kinh Lạc · Big Data"
 // (lấy /demo/bai-thuoc, KHÔNG cần đăng nhập). Dùng lại ĐÚNG component phân tích thật
 // (BaiThuocAnalysis): Tứ Khí + 3 radar + bảng Quân–Thần–Tá–Sứ — chỉ cần truyền nguyên bài thuốc.
@@ -72,11 +102,21 @@ const formulaLoading = ref(true)
 const demoFormula = ref<any>(null)
 
 onMounted(async () => {
+  // 6 ca khám THẬT (ẩn danh) giàu thể bệnh nhất — nguồn cho khối "Kết Quả Đo" + 3-tab.
   try {
-    const res = await api.get<{ baiThuoc: unknown }>('/demo/bai-thuoc')
-    demoFormula.value = res.baiThuoc
+    const res = await api.get<{ cases: RealCase[] }>('/demo/ket-qua-do-list?count=6')
+    cases.value = res.cases ?? []
   } catch {
-    // Backend chưa sẵn sàng → ẩn khối phân tích, giữ nguyên phần còn lại của trang.
+    // Backend chưa sẵn sàng → khối kết quả đo hiện trạng thái đang tải.
+  } finally {
+    casesLoading.value = false
+  }
+  // Bài thuốc demo cho mục "Phân Tích Bài Thuốc" phía sau (độc lập với 3-tab).
+  try {
+    const r = await api.get<{ baiThuoc: unknown }>('/demo/bai-thuoc')
+    demoFormula.value = r.baiThuoc
+  } catch {
+    // ẩn khối phân tích, giữ nguyên phần còn lại của trang.
   } finally {
     formulaLoading.value = false
   }
@@ -85,170 +125,31 @@ onMounted(async () => {
 // ── "Nhá hàng" kết quả đo kinh lạc — XOAY QUA NHIỀU CA THẬT (đã ẩn danh) ──
 // Mỗi ca là số đo nhiệt độ 12 đường kinh (× trái/phải). Dùng CHUNG engine meridianAnalysis
 // với trang đo thật (DemoKetQuaDoView): bảng chỉ số chi trên/chi dưới, ngưỡng, dấu +/0/− đều khớp app.
-interface MeasureCase {
-  id: string
-  who: string // người bệnh đã ẩn danh (giới tính · tuổi)
-  complaint: string // lý do tới khám
-  input: InputData // 24 chỉ số nhiệt độ (12 kinh × trái/phải)
-  theBenh: string
-  phapTri: string
-  // ── Nội dung cho bộ 3-tab "show hàng" (tab ② Thể Bệnh · ③ Biện Chứng–Pháp Trị) ──
-  syndromes: { name: string; cell: string; rows: string[] }[] // thể bệnh + ô công thức + kinh dẫn (mã ngắn) để soi bảng đo
-  phuongHuyet: { ten: string; nhom: 'Bổ' | 'Tả'; ynghia: string }[] // phương huyệt + bổ/tả + ý nghĩa từng huyệt
-  baiThuoc: { ten: string; vi: string[] } // bài thuốc (hiển thị ở section "Phân Tích Bài Thuốc" phía sau)
-  bienChung: string // luận giải biện chứng (vì sao ra thể này từ số đo)
+interface ExamSyndrome {
+  id: number
+  code: string
+  name: string
+  outputCell: string
 }
-
-const measureCases: MeasureCase[] = [
-  {
-    id: 'Ca 01',
-    who: 'Nữ · 42 Tuổi',
-    complaint: 'Hay Cáu Gắt · Đầy Bụng · Chán Ăn',
-    // Số đo thật trong ảnh — Can Khí Uất Kết · Tỳ Vị Hư Nhược
-    input: {
-      tieutruongtrai: 35.4,
-      tieutruongphai: 34.0,
-      tamtrai: 35.2,
-      tamphai: 34.9,
-      tamtieutrai: 35.2,
-      tamtieuphai: 34.8,
-      tambaotrai: 35.2,
-      tambaophai: 35.0,
-      daitrangtrai: 34.4,
-      daitrangphai: 35.0,
-      phetrai: 34.5,
-      phephai: 34.9,
-      bangquangtrai: 33.0,
-      bangquangphai: 32.4,
-      thantrai: 33.0,
-      thanphai: 32.5,
-      damtrai: 32.4,
-      damphai: 32.4,
-      vitrai: 33.0,
-      viphai: 32.5,
-      cantrai: 33.1,
-      canphai: 33.4,
-      tytrai: 33.2,
-      typhai: 33.5,
-    },
-    theBenh: 'Can Khí Uất Kết · Tỳ Vị Hư Nhược',
-    phapTri: 'Sơ Can Lý Khí · Kiện Tỳ Hoà Vị',
-    syndromes: [
-      { name: 'Can Khí Uất Kết', cell: 'AG13', rows: ['Can', 'Đởm'] },
-      { name: 'Tỳ Vị Hư Nhược', cell: 'AG26', rows: ['Tỳ', 'Vị'] },
-    ],
-    phuongHuyet: [
-      { ten: 'Thái Xung (LR3)', nhom: 'Tả', ynghia: 'Nguyên huyệt Can — sơ Can giải uất, khai uất kết' },
-      { ten: 'Can Du (BL18)', nhom: 'Tả', ynghia: 'Bối du Can — sơ tiết Can khí, bình Can' },
-      { ten: 'Chương Môn (LR13)', nhom: 'Bổ', ynghia: 'Mộ huyệt Tỳ — kiện Tỳ hoà Vị' },
-      { ten: 'Túc Tam Lý (ST36)', nhom: 'Bổ', ynghia: 'Hợp huyệt Vị — bổ trung ích khí, kiện Tỳ Vị' },
-      { ten: 'Tỳ Du (BL20)', nhom: 'Bổ', ynghia: 'Bối du Tỳ — kiện vận hoá, ích khí huyết' },
-    ],
-    baiThuoc: { ten: 'Tiêu Dao Tán', vi: ['Sài Hồ', 'Bạch Thược', 'Đương Quy', 'Bạch Truật', 'Phục Linh', 'Cam Thảo'] },
-    bienChung:
-      'Can mộc uất kết lấn Tỳ thổ: Can/Đởm đo được thiên Nhiệt, mạch huyền — khí uất không sơ tiết; Tỳ Vị vốn hư lại bị khắc nên đầy bụng, chán ăn, hay cáu. Pháp trị: sơ Can lý khí để giải uất, kiện Tỳ hoà Vị để phục lại trung tiêu.',
-  },
-  {
-    id: 'Ca 02',
-    who: 'Nam · 35 Tuổi',
-    complaint: 'Mất Ngủ · Hồi Hộp · Lưng Gối Mỏi',
-    // Tâm cường, Thận nhược — Tâm Thận Bất Giao · Âm Hư Hoả Vượng
-    input: {
-      tieutruongtrai: 34.6,
-      tieutruongphai: 34.5,
-      tamtrai: 35.6,
-      tamphai: 35.4,
-      tamtieutrai: 34.8,
-      tamtieuphai: 34.7,
-      tambaotrai: 35.3,
-      tambaophai: 35.1,
-      daitrangtrai: 34.5,
-      daitrangphai: 34.6,
-      phetrai: 34.7,
-      phephai: 34.6,
-      bangquangtrai: 33.2,
-      bangquangphai: 33.1,
-      thantrai: 32.6,
-      thanphai: 32.5,
-      damtrai: 33.3,
-      damphai: 33.2,
-      vitrai: 33.4,
-      viphai: 33.3,
-      cantrai: 33.5,
-      canphai: 33.6,
-      tytrai: 33.3,
-      typhai: 33.2,
-    },
-    theBenh: 'Tâm Thận Bất Giao · Âm Hư Hoả Vượng',
-    phapTri: 'Tư Âm Giáng Hoả · Giao Thông Tâm Thận',
-    syndromes: [
-      { name: 'Tâm Thận Bất Giao', cell: 'AG9', rows: ['Tâm', 'Thận'] },
-      { name: 'Âm Hư Hoả Vượng', cell: 'AG40', rows: ['Can', 'Thận'] },
-    ],
-    phuongHuyet: [
-      { ten: 'Thần Môn (HT7)', nhom: 'Tả', ynghia: 'Nguyên huyệt Tâm — thanh Tâm hoả, an thần' },
-      { ten: 'Nội Quan (PC6)', nhom: 'Tả', ynghia: 'Lạc huyệt Tâm bào — thông Tâm, định chí' },
-      { ten: 'Thái Khê (KI3)', nhom: 'Bổ', ynghia: 'Nguyên huyệt Thận — tư bổ Thận âm' },
-      { ten: 'Chiếu Hải (KI6)', nhom: 'Bổ', ynghia: 'Tư Thận âm, thông Âm kiểu — lợi giấc ngủ' },
-      { ten: 'Tam Âm Giao (SP6)', nhom: 'Bổ', ynghia: 'Giao hội 3 kinh âm — tư âm dưỡng huyết' },
-    ],
-    baiThuoc: { ten: 'Thiên Vương Bổ Tâm Đan', vi: ['Sinh Địa', 'Huyền Sâm', 'Đan Sâm', 'Toan Táo Nhân', 'Bá Tử Nhân', 'Viễn Chí'] },
-    bienChung:
-      'Tâm hoả cang thịnh ở trên (Tâm đo được thiên Nhiệt), Thận thuỷ suy ở dưới (Thận thiên Hàn) — thuỷ hoả bất tế, Tâm Thận không giao nên mất ngủ, hồi hộp, lưng gối mỏi. Pháp trị: tư Thận âm để giáng hư hoả, giao thông Tâm Thận cho thuỷ hoả tương tế.',
-  },
-  {
-    id: 'Ca 03',
-    who: 'Nữ · 58 Tuổi',
-    complaint: 'Dễ Cảm · Hụt Hơi · Ra Mồ Hôi Trộm',
-    // Phế · Tỳ Vị nhược — Phế Tỳ Khí Hư · Vệ Khí Bất Cố
-    input: {
-      tieutruongtrai: 34.3,
-      tieutruongphai: 34.2,
-      tamtrai: 35.0,
-      tamphai: 34.9,
-      tamtieutrai: 34.3,
-      tamtieuphai: 34.2,
-      tambaotrai: 34.9,
-      tambaophai: 35.0,
-      daitrangtrai: 34.2,
-      daitrangphai: 34.1,
-      phetrai: 34.2,
-      phephai: 34.3,
-      bangquangtrai: 33.0,
-      bangquangphai: 33.1,
-      thantrai: 33.0,
-      thanphai: 32.9,
-      damtrai: 33.1,
-      damphai: 33.0,
-      vitrai: 32.6,
-      viphai: 32.5,
-      cantrai: 33.2,
-      canphai: 33.1,
-      tytrai: 32.6,
-      typhai: 32.7,
-    },
-    theBenh: 'Phế Tỳ Khí Hư · Vệ Khí Bất Cố',
-    phapTri: 'Bổ Phế Kiện Tỳ · Ích Khí Cố Biểu',
-    syndromes: [
-      { name: 'Phế Tỳ Khí Hư', cell: 'AG32', rows: ['Phế', 'Tỳ'] },
-      { name: 'Vệ Khí Bất Cố', cell: 'AG48', rows: ['Phế', 'Đại'] },
-    ],
-    phuongHuyet: [
-      { ten: 'Phế Du (BL13)', nhom: 'Bổ', ynghia: 'Bối du Phế — bổ Phế khí, ích vệ' },
-      { ten: 'Tỳ Du (BL20)', nhom: 'Bổ', ynghia: 'Bối du Tỳ — kiện Tỳ ích khí, sinh hoá' },
-      { ten: 'Túc Tam Lý (ST36)', nhom: 'Bổ', ynghia: 'Hợp huyệt Vị — bổ trung ích khí' },
-      { ten: 'Khí Hải (CV6)', nhom: 'Bổ', ynghia: 'Bổ nguyên khí, thăng dương cử hãm' },
-      { ten: 'Hợp Cốc (LI4)', nhom: 'Tả', ynghia: 'Nguyên huyệt Đại Trường — cố biểu, điều vệ khu phong' },
-    ],
-    baiThuoc: { ten: 'Bổ Trung Ích Khí', vi: ['Hoàng Kỳ', 'Đảng Sâm', 'Bạch Truật', 'Cam Thảo', 'Đương Quy', 'Trần Bì', 'Thăng Ma'] },
-    bienChung:
-      'Tỳ hư không sinh đủ khí, Phế khí theo đó suy (Phế · Tỳ đo được đều Hư), trung khí hạ hãm, vệ khí bất cố nên dễ cảm, hụt hơi, ra mồ hôi trộm. Pháp trị: bổ trung ích khí, thăng dương cử hãm, kiện Tỳ ích Phế.',
-  },
-]
+interface RealCase {
+  patient: { gender?: string | null; dateOfBirth?: string | null }
+  examination: {
+    inputData: InputData
+    excelSyndromes?: ExamSyndrome[]
+    modernSyndromes?: ExamSyndrome[]
+    syndromes?: { tieuket?: string; chung_trang?: string; phap_tri?: string }[]
+  }
+}
+// 6 ca khám THẬT (ẩn danh) GIÀU THỂ BỆNH NHẤT — /demo/ket-qua-do-list xếp hạng theo
+// (số thể YHCT ×2 + số thể YHHĐ). Dùng CHUNG engine meridianAnalysis với app.
+const cases = ref<RealCase[]>([])
+const casesLoading = ref(true)
+const EMPTY_INPUT = {} as InputData
 
 const activeCase = ref(0)
-// activeCase luôn 0..n-1 (gotoCase dùng modulo) nên phần tử không bao giờ undefined.
-const currentCase = computed(() => measureCases[activeCase.value]!)
+const currentCase = computed<RealCase | null>(() => cases.value[activeCase.value] ?? null)
+// Số đo 24 kinh của ca đang xem — nguồn cho toàn bộ engine (rỗng khi chưa tải xong).
+const currentInput = computed<InputData>(() => currentCase.value?.examination?.inputData ?? EMPTY_INPUT)
 // Bộ 3-tab "sau khi đo" (giống app thật): ① Bát Cương · ② Thể Bệnh · ③ Biện Chứng–Pháp Trị
 const resultTab = ref<1 | 2 | 3>(1)
 const resultTabs = [
@@ -257,19 +158,43 @@ const resultTabs = [
   { id: 3 as const, label: 'Biện Chứng · Pháp Trị' },
 ]
 function gotoCase(i: number) {
-  activeCase.value = (i + measureCases.length) % measureCases.length
+  const n = cases.value.length || 1
+  activeCase.value = ((i % n) + n) % n
   bcFocus.value = null // đổi ca → bỏ mọi tiêu điểm cũ để bảng đo về bình thường
-  synFocus.value = null
+}
+
+// ── Thể bệnh THẬT của ca đang xem (đã khớp bằng engine chẩn đoán của app) ──
+const currentExam = computed(() => currentCase.value?.examination ?? null)
+const excelList = computed<ExamSyndrome[]>(() => currentExam.value?.excelSyndromes ?? [])
+const modernList = computed<ExamSyndrome[]>(() => currentExam.value?.modernSyndromes ?? [])
+const phapTriList = computed<string[]>(() => {
+  const arr = (currentExam.value?.syndromes ?? [])
+    .map((s) => (s.phap_tri ?? '').trim())
+    .filter((x) => x.length > 0)
+  return [...new Set(arr)]
+})
+// Nhãn bệnh nhân ẩn danh: giới tính · tuổi (suy từ năm sinh).
+function patientLabel(c: RealCase | null): string {
+  if (!c) return ''
+  const g = c.patient?.gender ?? ''
+  const gender = g === 'male' ? 'Nam' : g === 'female' ? 'Nữ' : g
+  let age = ''
+  const dob = c.patient?.dateOfBirth
+  if (dob) {
+    const y = Number(String(dob).slice(0, 4))
+    if (y) age = new Date().getFullYear() - y + ' tuổi'
+  }
+  return [gender, age].filter(Boolean).join(' · ')
 }
 
 // Bảng kết quả đo (chi trên / chi dưới) + Bát Cương — chạy đúng engine của trang đo thật.
-const upperStats = computed(() => calculateBounds(rawUpper(currentCase.value.input)))
-const lowerStats = computed(() => calculateBounds(rawLower(currentCase.value.input)))
-const upperRows = computed(() => processRows(rawUpper(currentCase.value.input), upperStats.value))
-const lowerRows = computed(() => processRows(rawLower(currentCase.value.input), lowerStats.value))
+const upperStats = computed(() => calculateBounds(rawUpper(currentInput.value)))
+const lowerStats = computed(() => calculateBounds(rawLower(currentInput.value)))
+const upperRows = computed(() => processRows(rawUpper(currentInput.value), upperStats.value))
+const lowerRows = computed(() => processRows(rawLower(currentInput.value), lowerStats.value))
 const diag = computed(() =>
   computeDiagnosis(
-    currentCase.value.input,
+    currentInput.value,
     upperRows.value,
     lowerRows.value,
     upperStats.value,
@@ -395,24 +320,13 @@ const tongCuong = computed<TongCuong>(() => {
   const ly = orgs.filter((o) => o.depth === 'ly' || o.depth === 'mixed').length
   return computeTongCuong(nhiet, han, bieu, ly, diagnosis.value.huThuc)
 })
-// Tiêu điểm: bấm 1 tạng phủ → nổi trên hình + 2 cột + SÁNG hàng tương ứng ở bảng đo (y như app).
+// Tiêu điểm: bấm 1 tạng phủ / 1 chip Bát Cương → SÁNG hàng kinh tương ứng ở bảng đo (y như app).
 const bcFocus = ref<string | null>(null)
 function toggleBcFocus(key: string) {
-  synFocus.value = null // đổi tiêu điểm sang tạng phủ → bỏ tiêu điểm thể bệnh
   bcFocus.value = bcFocus.value === key ? null : key
 }
-// Tiêu điểm THỂ BỆNH (tab ②): bấm 1 thể → SÁNG các hàng kinh dẫn ra thể đó ở bảng đo, mờ phần còn lại.
-const synFocus = ref<number | null>(null)
-function toggleSyn(i: number) {
-  bcFocus.value = null // đổi tiêu điểm sang thể bệnh → bỏ tiêu điểm tạng phủ
-  synFocus.value = synFocus.value === i ? null : i
-}
-// Tập MÃ KINH đang được soi (từ thể bệnh hoặc từ tạng phủ). null = không soi → hàng nào cũng sáng bình thường.
+// Tập MÃ KINH đang được soi (từ tạng phủ / nhóm Bát Cương). null = không soi → hàng nào cũng sáng bình thường.
 const focusRowSet = computed<Set<string> | null>(() => {
-  if (synFocus.value !== null) {
-    const s = currentCase.value.syndromes[synFocus.value]
-    return s ? new Set(s.rows) : null
-  }
   const f = bcFocus.value
   if (!f) return null
   if (f.startsWith('organ:')) return new Set([f.slice(6)])
@@ -451,6 +365,7 @@ const libraryCats = [
   { icon: '3d', title: 'Đồ Hình 3D Kinh Lạc', count: '12 Đường Kinh', desc: 'Mô hình 3D tương tác — xoay, bấm huyệt tra cứu ngay trên trình duyệt.' },
   { icon: 'needle', title: 'Châm Cứu Trị Bệnh', count: '100 Bệnh', desc: 'Phác đồ châm cứu theo từng bệnh, công thức huyệt cụ thể.' },
   { icon: 'book', title: 'Bệnh Học', count: '99 Bệnh', desc: 'Bệnh học Đông Y, đối chiếu với bệnh danh hiện đại.' },
+  { icon: 'tongue', title: 'Thiệt Chẩn · Xem Lưỡi', count: '23 Mẫu Lưỡi', desc: 'Atlas tham khảo chất lưỡi, rêu lưỡi, vùng tạng phủ — kèm công cụ chẩn đoán Bát Cương tự động từ đặc điểm lưỡi.' },
   { icon: 'herb', title: 'Dược Liệu · Vị Thuốc', count: '1.043 Vị', desc: 'Tính vị, quy kinh, công dụng, chủ trị và hình ảnh từng vị thuốc.' },
   { icon: 'formula', title: 'Bài Thuốc Cổ Phương', count: '13.942 Bài', desc: 'Thành phần, cấu trúc Quân – Thần – Tá – Sứ và xuất xứ từng bài thuốc.' },
   { icon: 'source', title: 'Thư Mục Nguồn', count: '93 Nguồn', desc: 'Trích dẫn xuất xứ từ các y thư kinh điển.' },
@@ -593,6 +508,7 @@ const faqs: { q: string; a: string }[] = [
           <button @click="scrollTo('measure')">Kết Quả Đo</button>
           <button @click="openDemo('xem-3d')">Đồ Hình 3D</button>
           <button @click="scrollTo('phan-tich-bai-thuoc')">Phân Tích Bài Thuốc</button>
+          <button @click="scrollTo('thiet-chan')">Xem Lưỡi</button>
           <button @click="scrollTo('thu-vien')">Thư Viện</button>
           <button @click="scrollTo('hoc-lieu')">Học Liệu</button>
           <button @click="scrollTo('bang-gia')">Bảng Giá</button>
@@ -742,7 +658,10 @@ const faqs: { q: string; a: string }[] = [
         <span class="mc-flow-step mc-flow-step--accent"><b>3</b> Suy Ra Thể Bệnh · Pháp Trị</span>
       </div>
 
-      <div class="lp-measure-card">
+      <p v-if="!cases.length" class="mc-cases-loading">
+        {{ casesLoading ? 'Đang tải ca khám thật (nhiều thể bệnh nhất)…' : 'Chưa tải được ca đo — thử lại sau.' }}
+      </p>
+      <div v-else class="lp-measure-card">
         <!-- Dải Bát Cương full-width: hình người 3D XOAY + 2 cột tạng phủ hai bên (y như trang Kết Quả Đo). -->
         <div class="mc-figband">
           <span class="lp-eyebrow">Bát Cương Trên Thân Người 3D · Kéo Để Xoay</span>
@@ -768,19 +687,19 @@ const faqs: { q: string; a: string }[] = [
           <!-- Đầu thẻ: ca nào · ai (ẩn danh) · lý do khám + nút lật ca -->
           <div class="mc-casehead">
             <div class="mc-casemeta">
-              <span class="mc-caseid">{{ currentCase.id }}</span>
-              <span class="mc-casewho">{{ currentCase.who }}</span>
-              <span class="mc-casecomplaint">{{ currentCase.complaint }}</span>
+              <span class="mc-caseid">Ca {{ String(activeCase + 1).padStart(2, '0') }}</span>
+              <span class="mc-casewho">{{ patientLabel(currentCase) }}</span>
+              <span class="mc-casecomplaint">{{ excelList.length }} thể YHCT · {{ modernList.length }} bệnh YHHĐ</span>
             </div>
             <div class="mc-casenav">
               <button class="mc-navbtn" @click="gotoCase(activeCase - 1)" aria-label="Ca trước">‹</button>
               <span class="mc-dots" role="tablist" aria-label="Chọn ca đo mẫu">
                 <button
-                  v-for="(c, i) in measureCases"
-                  :key="c.id"
+                  v-for="(c, i) in cases"
+                  :key="i"
                   type="button"
                   :class="{ on: i === activeCase }"
-                  :aria-label="`Xem ${c.id}`"
+                  :aria-label="`Xem ca ${i + 1}`"
                   :aria-current="i === activeCase ? 'true' : undefined"
                   @click="gotoCase(i)"
                 ></button>
@@ -888,43 +807,46 @@ const faqs: { q: string; a: string }[] = [
             />
           </div>
 
-          <!-- ═══ Tab ② Thể Bệnh (thể YHCT đo ra → phương huyệt → bài thuốc) ═══ -->
+          <!-- ═══ Tab ② Thể Bệnh: TOÀN BỘ thể YHCT (excel) + bệnh YHHĐ (modern) đo ra — y hệt app ═══ -->
           <div v-show="resultTab === 2" class="mc-tabpanel" role="tabpanel">
             <div class="mc-dx2-block">
-              <span class="mc-dx2-lb">Thể bệnh đo ra <em class="mc-dx2-hint">— bấm để soi hàng đo</em></span>
-              <div class="mc-syn">
-                <button
-                  v-for="(s, i) in currentCase.syndromes"
-                  :key="s.name"
-                  type="button"
-                  class="mc-syn-chip"
-                  :class="{ on: synFocus === i }"
-                  @click="toggleSyn(i)"
-                >
-                  {{ s.name }}<em>{{ s.cell }}</em>
-                </button>
+              <span class="mc-dx2-lb">
+                Thể bệnh YHCT (Đông Y)
+                <em class="mc-dx2-hint">— {{ excelList.length }} thể đo ra</em>
+              </span>
+              <div class="mc-synd-list">
+                <div v-for="s in excelList" :key="'e-' + s.id" class="mc-synd mc-synd--yhct">
+                  <span class="mc-synd-name">{{ s.name }}</span>
+                  <span class="mc-synd-cell">{{ s.outputCell }}</span>
+                </div>
+                <p v-if="!excelList.length" class="muted">—</p>
               </div>
             </div>
             <div class="mc-dx2-block">
-              <span class="mc-dx2-lb">Phương huyệt <em class="mc-dx2-hint">— bổ / tả · ý nghĩa từng huyệt</em></span>
-              <div class="mc-ph-list">
-                <div v-for="h in currentCase.phuongHuyet" :key="h.ten" class="mc-ph-item">
-                  <span class="mc-ph-tag" :class="h.nhom === 'Bổ' ? 'mc-ph-tag--bo' : 'mc-ph-tag--ta'">{{ h.nhom }}</span>
-                  <span class="mc-ph-ten">{{ h.ten }}</span>
-                  <span class="mc-ph-ynghia">{{ h.ynghia }}</span>
+              <span class="mc-dx2-lb">
+                Bệnh Y học hiện đại (YHHĐ)
+                <em class="mc-dx2-hint">— {{ modernList.length }} bệnh đối chiếu</em>
+              </span>
+              <div class="mc-synd-list">
+                <div v-for="s in modernList" :key="'m-' + s.id" class="mc-synd mc-synd--yhhd">
+                  <span class="mc-synd-name">{{ s.name }}</span>
+                  <span class="mc-synd-cell">{{ s.outputCell }}</span>
                 </div>
+                <p v-if="!modernList.length" class="muted">—</p>
               </div>
-              <p class="mc-ph-foot">Bài thuốc &amp; phân tích tính vị quy kinh xem ở mục <strong>“Phân Tích Bài Thuốc”</strong> phía dưới.</p>
             </div>
           </div>
 
-          <!-- ═══ Tab ③ Biện Chứng · Pháp Trị (luận giải vì sao ra thể này) ═══ -->
+          <!-- ═══ Tab ③ Biện Chứng · Pháp Trị: pháp trị THẬT từ các thể đã khớp ═══ -->
           <div v-show="resultTab === 3" class="mc-tabpanel" role="tabpanel">
-            <p class="mc-bienchung">{{ currentCase.bienChung }}</p>
-            <div class="mc-phaptri">
-              <span class="mc-dx2-lb">Pháp trị</span>
-              <b>{{ currentCase.phapTri }}</b>
+            <span class="mc-dx2-lb">Pháp trị theo từng thể bệnh</span>
+            <div v-if="phapTriList.length" class="mc-pt-list">
+              <div v-for="(pt, i) in phapTriList" :key="i" class="mc-pt-item">{{ pt }}</div>
             </div>
+            <p v-else class="mc-bienchung">
+              Ca này khớp {{ excelList.length }} thể YHCT và {{ modernList.length }} bệnh YHHĐ. Mở
+              “Xem Kết Quả Đo Thật” để xem đầy đủ pháp trị · phương huyệt · bài thuốc từng thể.
+            </p>
           </div>
 
           <p class="mc-note">Lật qua từng ca để thấy mỗi người một bảng chỉ số, một thể bệnh khác nhau. Đây là số liệu từ ca đo thật — bấm bên dưới để mở một bản đo đầy đủ đã ẩn danh.</p>
@@ -963,6 +885,73 @@ const faqs: { q: string; a: string }[] = [
       </div>
     </section>
 
+    <!-- ============ Thiệt Chẩn · Xem Lưỡi — Atlas 23 mẫu tương tác (demo công khai, không đăng nhập) ============ -->
+    <section class="lp-tongue" id="thiet-chan">
+      <div class="lp-section-head">
+        <span class="lp-eyebrow">Thiệt Chẩn · Xem Lưỡi</span>
+        <h2 class="lp-h2">Nhìn Lưỡi, Phần Mềm Gợi Ý Bát Cương Tương Ứng.</h2>
+        <p class="lp-section-sub">Atlas <strong>23 mẫu lưỡi</strong> chuẩn hoá theo chất lưỡi · hình dạng · rêu lưỡi · vùng tạng phủ. Bấm 1 mẫu để xem mô tả, ý nghĩa lâm sàng và các thể Bát Cương phần mềm gợi ý <strong>để tham khảo</strong> — không thay thế chẩn đoán của thầy thuốc.</p>
+      </div>
+
+      <div class="mc-flow">
+        <span class="mc-flow-step"><b>1</b> Quan Sát Chất · Hình · Rêu Lưỡi</span>
+        <span class="mc-flow-arrow">→</span>
+        <span class="mc-flow-step"><b>2</b> Đối Chiếu Atlas Chuẩn Hoá</span>
+        <span class="mc-flow-arrow">→</span>
+        <span class="mc-flow-step mc-flow-step--accent"><b>3</b> Gợi Ý Thể Bát Cương</span>
+      </div>
+
+      <div class="lp-tongue-card">
+        <div class="tc-gallery">
+          <div v-for="cat in TONGUE_CATEGORIES" :key="cat" class="tc-cat-group">
+            <span class="tc-cat-label">{{ CATEGORY_LABELS[cat] }}</span>
+            <div class="tc-cat-row">
+              <button
+                v-for="entry in tongueByCategory(cat)"
+                :key="entry.id"
+                type="button"
+                class="tc-thumb"
+                :class="{ active: entry.id === activeTongueId }"
+                :aria-pressed="entry.id === activeTongueId"
+                :title="entry.vi"
+                @click="selectTongue(entry.id)"
+              >
+                <TongueSVGCard :params="entry.svg" :size="52" />
+                <span class="tc-thumb-name">{{ entry.vi }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="tc-detail">
+          <div class="tc-detail-svg">
+            <TongueSVGCard :params="activeTongue.svg" :size="180" />
+          </div>
+          <div class="tc-detail-body">
+            <div class="tc-detail-head">
+              <h3>{{ activeTongue.vi }}</h3>
+              <span class="tc-detail-en">{{ activeTongue.en }}</span>
+            </div>
+            <p class="tc-detail-desc">{{ activeTongue.description }}</p>
+            <p class="tc-detail-clinical">
+              <span class="tc-detail-label">Ý Nghĩa Lâm Sàng</span>{{ activeTongue.clinical }}
+            </p>
+            <div v-if="activeTongue.patterns.length" class="tc-detail-patterns">
+              <span class="tc-detail-label">Bát Cương Gợi Ý</span>
+              <div class="tc-pattern-tags">
+                <span v-for="p in activeTongue.patterns" :key="p" class="tc-pattern-tag">
+                  {{ TONGUE_PATTERN_LABELS[p] ?? p }}
+                </span>
+              </div>
+            </div>
+            <p v-else class="tc-detail-normal">Lưỡi bình thường — không gợi ý thể bệnh nào.</p>
+          </div>
+        </div>
+      </div>
+
+      <p class="lp-lib-note">Atlas THẬT, xem trực tiếp không cần đăng nhập · Bộ công cụ chẩn đoán đầy đủ (chọn nhiều đặc điểm cùng lúc) dành cho tài khoản hành nghề.</p>
+    </section>
+
     <!-- ============ Thư viện · Từ Điển (mở miễn phí — giới thiệu + lối vào /thu-vien) ============ -->
     <section class="lp-library" id="thu-vien">
       <div class="lp-section-head">
@@ -983,6 +972,7 @@ const faqs: { q: string; a: string }[] = [
             <svg v-else-if="c.icon === 'herb'" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M20 4C10 4 4 10 4 20c10 0 16-6 16-16z" /><path stroke-linecap="round" d="M8 20C8 14 12 9 18 6" /></svg>
             <svg v-else-if="c.icon === 'formula'" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 4h9L18 8H6l1.5-4z" /><path stroke-linecap="round" stroke-linejoin="round" d="M4 8h16l-1.5 12a2 2 0 01-2 1.8H7.5a2 2 0 01-2-1.8L4 8z" /><path stroke-linecap="round" d="M9 12c0 1.7 1.3 3 3 3s3-1.3 3-3" /></svg>
             <svg v-else-if="c.icon === '3d'" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 12v9M12 12l8-4.5M12 12L4 7.5" /></svg>
+            <svg v-else-if="c.icon === 'tongue'" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3c4.4 0 6.5 2.9 6.5 7 0 6.1-3.3 11-6.5 11S5.5 16.1 5.5 10C5.5 5.9 7.6 3 12 3z" /><path stroke-linecap="round" d="M9 9.5c.9.8.9 1.7 0 2.5M15 9.5c-.9.8-.9 1.7 0 2.5" /></svg>
             <svg v-else width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" /></svg>
           </span>
           <div class="lp-lib-text">
@@ -2146,6 +2136,43 @@ const faqs: { q: string; a: string }[] = [
 .mc-ph-ten { font-size: var(--font-size-sm); font-weight: 700; color: var(--brown-800); white-space: nowrap; }
 .mc-ph-ynghia { font-size: 12.5px; line-height: 1.5; color: var(--text-muted); }
 .mc-ph-foot { margin-top: var(--space-3); font-size: 12px; color: var(--text-subtle); font-style: italic; }
+/* Thể bệnh dạng THẺ (như app): tên bên trái + mã ô AG/AD bên phải, viền màu theo YHCT/YHHĐ. */
+.mc-synd-list { display: flex; flex-direction: column; gap: var(--space-2); }
+.mc-synd {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: 9px 12px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--brown-400, var(--brown-300));
+  border-radius: var(--radius-md);
+}
+.mc-synd--yhct { border-left-color: #2c7566; }
+.mc-synd--yhhd { border-left-color: #43539b; }
+.mc-synd-name { font-size: var(--font-size-sm); font-weight: 700; color: var(--text-brand); }
+.mc-synd-cell {
+  font-size: 11px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: #15803d;
+  background: #e3f0e3;
+  border-radius: var(--radius-full);
+  padding: 2px 9px;
+  white-space: nowrap;
+}
+.mc-synd--yhhd .mc-synd-cell { color: #43539b; background: #e8ecf8; }
+.mc-pt-list { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-2); }
+.mc-pt-item {
+  padding: 8px 12px;
+  font-size: var(--font-size-sm);
+  color: var(--brown-800);
+  background: var(--brown-50);
+  border-left: 3px solid var(--brown-600);
+  border-radius: 6px;
+}
+.mc-cases-loading { text-align: center; padding: var(--space-10) var(--space-4); color: var(--text-subtle); font-style: italic; }
 .mc-bt {
   display: flex;
   flex-wrap: wrap;
@@ -2934,6 +2961,113 @@ const faqs: { q: string; a: string }[] = [
   .lp-bt-body {
     grid-template-columns: 1fr;
   }
+}
+
+/* ---------- Thiệt Chẩn · Xem Lưỡi (Atlas tương tác) ---------- */
+.lp-tongue-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-6);
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: var(--space-8);
+  align-items: start;
+}
+.tc-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.tc-cat-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.tc-cat-label {
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brown-600);
+}
+.tc-cat-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.tc-thumb {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  width: 84px;
+  padding: 8px 6px 6px;
+  background: var(--surface-2);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s;
+}
+.tc-thumb:hover { border-color: var(--brown-400); transform: translateY(-1px); }
+.tc-thumb.active {
+  border-color: var(--brown-600);
+  background: var(--brown-50);
+  box-shadow: 0 3px 10px -3px var(--brown-600);
+}
+.tc-thumb-name {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.3;
+}
+.tc-thumb.active .tc-thumb-name { color: var(--brown-800); }
+
+.tc-detail {
+  position: sticky;
+  top: 84px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  text-align: center;
+}
+.tc-detail-svg { display: flex; justify-content: center; }
+.tc-detail-body { width: 100%; text-align: left; }
+.tc-detail-head { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; justify-content: center; text-align: center; margin-bottom: var(--space-2); }
+.tc-detail-head h3 { font-size: var(--font-size-lg); font-weight: 800; color: var(--text-brand); }
+.tc-detail-en { font-size: var(--font-size-sm); color: var(--text-subtle); font-style: italic; }
+.tc-detail-desc { font-size: var(--font-size-sm); color: var(--text); line-height: 1.6; margin-bottom: var(--space-3); }
+.tc-detail-clinical { font-size: var(--font-size-sm); color: var(--text); line-height: 1.6; margin-bottom: var(--space-3); }
+.tc-detail-normal { font-size: var(--font-size-sm); color: var(--text-muted); font-style: italic; }
+.tc-detail-label {
+  display: block;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--brown-500);
+  margin-bottom: 3px;
+}
+.tc-pattern-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tc-pattern-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  color: var(--white);
+  background: var(--brown-600);
+  border-radius: var(--radius-full);
+}
+@media (max-width: 860px) {
+  .lp-tongue-card { grid-template-columns: 1fr; }
+  .tc-detail { position: static; }
 }
 
 /* ---------- Dành cho ai ---------- */

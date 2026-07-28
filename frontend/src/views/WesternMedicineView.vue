@@ -3,6 +3,7 @@ import { ref, onMounted, computed, watch, nextTick } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { api } from '@/services/api'
 import FilterBar, { type FbGroup } from '@/components/FilterBar.vue'
+import { ATLAS, type TongueAtlasEntry } from '@/data/tongue-atlas'
 
 const route = useRoute()
 const router = useRouter()
@@ -19,10 +20,58 @@ function baiThuocHref(id: number): string {
   }).href
 }
 
+function chanDoanLuoiHref(): string {
+  return router.resolve({ name: 'chan-doan-luoi' }).href
+}
+
+// Bảng thiet_chan gồm nhiều loại dấu hiệu (không riêng lưỡi: có cả sốt, ho, biểu chứng, mạch...).
+// Chỉ ánh xạ sang Atlas hình lưỡi (frontend/src/data/tongue-atlas.ts) những tên CHẮC CHẮN đúng
+// đối tượng — màu/rêu/hình dạng lưỡi cụ thể. Dấu hiệu không phải lưỡi, hoặc lưỡi dạng cử động
+// (cứng, lệch, run — Atlas hiện chưa có mục) cố tình để trống, hiện dạng chip thường, không gán
+// nhầm. Đây là ánh xạ theo tên do AI đối chiếu mô tả, CHƯA qua bác sĩ duyệt như PH_THE_ALIAS.
+const THIET_CHAN_ATLAS_MAP: Record<string, string> = {
+  'lưỡi nhạt': 'nhashe',
+  'có vết nứt': 'liewenshe',
+  'trắng mỏng': 'baitaishe',
+  'to bệu': 'pangdashe',
+  'trắng ướt': 'baitaishe',
+  'rìa lưỡi có dấu răng': 'chihenshe',
+  vàng: 'huangtaishe',
+  'vàng nhờn': 'huangtaishe',
+  'trắng nhờn': 'baitaishe',
+  'xám đen khô': 'heitaishe',
+  'đỏ hoặc có gai': 'hongdianshe',
+  'xám đen ướt': 'heitaishe',
+  'lưỡi đỏ': 'hongshe',
+  'lưỡi đỏ rêu vàng nhớt': 'hongshe',
+  'mất rêu': 'khongreuhe',
+  'bong tróc': 'botaishe',
+}
+
+const atlasById = new Map<string, TongueAtlasEntry>(ATLAS.map((a) => [a.id, a]))
+
+function atlasForThietChan(t: { ten_thiet_chan: string }): TongueAtlasEntry | null {
+  const atlasId = THIET_CHAN_ATLAS_MAP[t.ten_thiet_chan.trim().toLowerCase()]
+  return atlasId ? (atlasById.get(atlasId) ?? null) : null
+}
+
+const expandedThietChan = ref<Set<number>>(new Set())
+function toggleThietChan(id: number) {
+  const next = new Set(expandedThietChan.value)
+  if (next.has(id)) next.delete(id)
+  else next.add(id)
+  expandedThietChan.value = next
+}
+
 interface ChungBenh {
   id: number
   ten_chung_benh: string
   benhTayYList?: { id: number }[]
+}
+
+interface PhapTriBaiThuocLink {
+  idBaiThuoc: number
+  baiThuoc?: { id: number; ten_bai_thuoc: string } | null
 }
 
 interface PhapTriLite {
@@ -30,6 +79,9 @@ interface PhapTriLite {
   chung_trang: string | null
   nguyen_tac: string | null
   trieu_chung_list?: TrieuChungLite[] | null
+  /** TOÀN BỘ bài thuốc của pháp trị này (bảng bai_thuoc_phap_tri) — có thể nhiều hơn số bài đã
+   * gắn riêng vào benh_tay_y (baiThuocList), vì 2 bảng liên kết độc lập nhau. */
+  bai_thuoc_links?: PhapTriBaiThuocLink[] | null
 }
 
 interface BaiThuocPhapTriLink {
@@ -314,6 +366,75 @@ function phapTriTrieuChungList(p: PhapTriLite): string[] {
   return (p.trieu_chung_list ?? [])
     .map((t) => (t.ten_trieu_chung ?? '').trim())
     .filter(Boolean)
+}
+
+interface TheBenhGroupBaiThuoc {
+  id: number
+  ten_bai_thuoc: string
+}
+
+interface TheBenhGroup {
+  key: string
+  name: string
+  ptId: number | null
+  phapTri: PhapTriLite | null
+  trieuChung: string[]
+  baiThuoc: TheBenhGroupBaiThuoc[]
+}
+
+/**
+ * Gộp thể bệnh + pháp trị + triệu chứng + bài thuốc vào CÙNG 1 nhóm (theo thể bệnh) để bác sĩ
+ * theo dõi liền mạch thay vì 3 danh sách rời (thể bệnh / pháp trị / bài thuốc tách nhau).
+ *
+ * Bài thuốc lấy từ 2 nguồn rồi gộp (khử trùng theo id), vì benh_tay_y_bai_thuoc (bài gắn RIÊNG
+ * vào bệnh) và bai_thuoc_phap_tri (bài thuộc PHÁP TRỊ) là 2 bảng độc lập — 1 pháp trị có thể có
+ * 2 bài thuốc nhưng chỉ 1 bài từng được gắn riêng vào bệnh này, bài còn lại vẫn thuộc đúng pháp
+ * trị nên phải hiện đủ:
+ *  1) bài đã gắn riêng vào benh_tay_y (qua phapTriLinks hoặc tên the_benh trùng khớp)
+ *  2) toàn bộ bài thuốc của chính pháp trị đó (phapTri.bai_thuoc_links, BE trả kèm)
+ */
+function theBenhGroups(bty: BenhTayY): TheBenhGroup[] {
+  const ptById = new Map<number, PhapTriLite>()
+  for (const p of phapTriCombined(bty)) ptById.set(p.id, p)
+
+  return theBenhCombinedItems(bty).map((tb, i) => {
+    const phapTri = tb.ptId != null ? (ptById.get(tb.ptId) ?? null) : null
+    const nameLower = tb.name.toLowerCase()
+    const directBaiThuoc = (bty.baiThuocList ?? []).filter((b) => {
+      if (tb.ptId != null && b.phapTriLinks?.some((l) => l.idPhapTri === tb.ptId)) return true
+      return (b.the_benh ?? '')
+        .split(/[,;]+/)
+        .map((s) => s.trim().toLowerCase())
+        .includes(nameLower)
+    })
+    const seen = new Set<number>()
+    const baiThuoc: TheBenhGroupBaiThuoc[] = []
+    for (const b of directBaiThuoc) {
+      if (seen.has(b.id)) continue
+      seen.add(b.id)
+      baiThuoc.push({ id: b.id, ten_bai_thuoc: b.ten_bai_thuoc })
+    }
+    for (const l of phapTri?.bai_thuoc_links ?? []) {
+      if (!l.baiThuoc || seen.has(l.baiThuoc.id)) continue
+      seen.add(l.baiThuoc.id)
+      baiThuoc.push(l.baiThuoc)
+    }
+    return {
+      key: 'tb-' + i,
+      name: tb.name,
+      ptId: tb.ptId,
+      phapTri,
+      trieuChung: phapTri ? phapTriTrieuChungList(phapTri) : [],
+      baiThuoc,
+    }
+  })
+}
+
+/** Bài thuốc chưa khớp được vào thể bệnh nào (không the_benh, không phapTriLinks) — vẫn hiện, không rơi mất. */
+function orphanBaiThuoc(bty: BenhTayY): BaiThuocLite[] {
+  const grouped = new Set<number>()
+  for (const g of theBenhGroups(bty)) for (const b of g.baiThuoc) grouped.add(b.id)
+  return (bty.baiThuocList ?? []).filter((b) => !grouped.has(b.id))
 }
 
 /** Counts theo chủng bệnh dùng map từ server response. */
@@ -765,71 +886,112 @@ async function doDelete() {
               </header>
 
               <div class="disease-card__body">
-                <section v-if="bty.baiThuocList?.length" class="disease-section">
-                  <span class="disease-section__label">Bài thuốc ({{ bty.baiThuocList.length }})</span>
-                  <div class="chip-row chip-row--wrap">
-                    <a
-                      v-for="b in bty.baiThuocList"
-                      :key="b.id"
-                      :href="baiThuocHref(b.id)"
-                      target="_blank"
-                      rel="noopener"
-                      class="chip chip-bai chip-link-bai"
-                      :title="`Mở bài thuốc: ${b.ten_bai_thuoc}`"
-                    >
-                      {{ b.ten_bai_thuoc }}
-                    </a>
-                  </div>
-                </section>
-
-                <section v-if="theBenhCombinedItems(bty).length" class="disease-section">
-                  <span class="disease-section__label">Thể bệnh ({{ theBenhCombinedItems(bty).length }})</span>
-                  <div class="chip-row chip-row--wrap">
-                    <template v-for="(tb, i) in theBenhCombinedItems(bty)" :key="'tb-' + i">
+                <section v-if="theBenhGroups(bty).length" class="disease-section disease-section--full">
+                  <span class="disease-section__label">Thể bệnh ({{ theBenhGroups(bty).length }})</span>
+                  <div class="the-benh-list">
+                    <div v-for="g in theBenhGroups(bty)" :key="g.key" class="the-benh-group">
                       <a
-                        v-if="tb.ptId != null"
-                        :href="phapTriHref(tb.ptId)"
+                        v-if="g.ptId != null"
+                        :href="phapTriHref(g.ptId)"
                         target="_blank"
                         rel="noopener"
-                        class="chip chip-the chip-link-the"
-                        :title="`Mở pháp trị: ${tb.name}`"
-                      >{{ tb.name }}</a>
-                      <span v-else class="chip chip-the">{{ tb.name }}</span>
-                    </template>
-                  </div>
-                </section>
+                        class="chip chip-the chip-link-the the-benh-group__title"
+                        :title="`Mở pháp trị: ${g.name}`"
+                      >{{ g.name }}</a>
+                      <span v-else class="chip chip-the the-benh-group__title">{{ g.name }}</span>
 
-                <section v-if="phapTriCombined(bty).length" class="disease-section">
-                  <span class="disease-section__label">Pháp trị ({{ phapTriCombined(bty).length }})</span>
-                  <div class="phap-tri-list">
-                    <div v-for="p in phapTriCombined(bty)" :key="p.id" class="phap-tri-item">
-                      <a
-                        :href="phapTriHref(p.id)"
-                        target="_blank"
-                        rel="noopener"
-                        class="chip chip-phap chip-link-phap"
-                        :title="`Mở pháp trị: ${phapTriLabel(p)}`"
-                      >{{ phapTriLabel(p) }}</a>
-                      <div v-if="phapTriTrieuChungList(p).length" class="phap-tri-trieu">
-                        <span class="phap-tri-trieu__label">Triệu chứng</span>
+                      <div v-if="g.phapTri" class="the-benh-group__row">
+                        <span class="the-benh-group__row-label">Pháp trị</span>
+                        <a
+                          :href="phapTriHref(g.phapTri.id)"
+                          target="_blank"
+                          rel="noopener"
+                          class="chip chip-phap chip-link-phap"
+                          :title="`Mở pháp trị: ${phapTriLabel(g.phapTri)}`"
+                        >{{ phapTriLabel(g.phapTri) }}</a>
+                      </div>
+
+                      <div v-if="g.trieuChung.length" class="the-benh-group__row">
+                        <span class="the-benh-group__row-label">Triệu chứng</span>
                         <div class="chip-row chip-row--wrap">
-                          <span
-                            v-for="(t, j) in phapTriTrieuChungList(p)"
-                            :key="j"
-                            class="chip chip-trieu-pt"
-                          >{{ t }}</span>
+                          <span v-for="(t, j) in g.trieuChung" :key="j" class="chip chip-trieu-pt">{{ t }}</span>
+                        </div>
+                      </div>
+
+                      <div v-if="g.baiThuoc.length" class="the-benh-group__row">
+                        <span class="the-benh-group__row-label">Bài thuốc ({{ g.baiThuoc.length }})</span>
+                        <div class="chip-row chip-row--wrap">
+                          <a
+                            v-for="b in g.baiThuoc"
+                            :key="b.id"
+                            :href="baiThuocHref(b.id)"
+                            target="_blank"
+                            rel="noopener"
+                            class="chip chip-bai chip-link-bai"
+                            :title="`Mở bài thuốc: ${b.ten_bai_thuoc}`"
+                          >{{ b.ten_bai_thuoc }}</a>
                         </div>
                       </div>
                     </div>
                   </div>
                 </section>
 
+                <section v-if="orphanBaiThuoc(bty).length" class="disease-section">
+                  <span class="disease-section__label">Bài thuốc khác ({{ orphanBaiThuoc(bty).length }})</span>
+                  <div class="chip-row chip-row--wrap">
+                    <a
+                      v-for="b in orphanBaiThuoc(bty)"
+                      :key="b.id"
+                      :href="baiThuocHref(b.id)"
+                      target="_blank"
+                      rel="noopener"
+                      class="chip chip-bai chip-link-bai"
+                      :title="`Mở bài thuốc: ${b.ten_bai_thuoc}`"
+                    >{{ b.ten_bai_thuoc }}</a>
+                  </div>
+                </section>
+
                 <section v-if="bty.trieuChungList?.length" class="disease-section">
-                  <span class="disease-section__label">Triệu chứng ({{ bty.trieuChungList.length }})</span>
+                  <span class="disease-section__label">Triệu chứng chung ({{ bty.trieuChungList.length }})</span>
                   <div class="chip-row chip-row--wrap">
                     <span v-for="t in bty.trieuChungList" :key="t.id" class="chip chip-trieu">
                       {{ t.ten_trieu_chung }}
                     </span>
+                  </div>
+                </section>
+
+                <section v-if="bty.thietChanList?.length" class="disease-section">
+                  <span class="disease-section__label">Thiệt chẩn — xem lưỡi ({{ bty.thietChanList.length }})</span>
+                  <div class="chip-row chip-row--wrap">
+                    <template v-for="t in bty.thietChanList" :key="t.id">
+                      <button
+                        v-if="atlasForThietChan(t)"
+                        type="button"
+                        class="chip chip-thiet chip-thiet--atlas"
+                        :class="{ 'chip-thiet--active': expandedThietChan.has(t.id) }"
+                        :title="`Tham khảo Atlas: ${atlasForThietChan(t)!.vi}`"
+                        @click="toggleThietChan(t.id)"
+                      >{{ t.ten_thiet_chan }}<span class="chip-thiet__dot" aria-hidden="true"></span></button>
+                      <span v-else class="chip chip-thiet">{{ t.ten_thiet_chan }}</span>
+                    </template>
+                  </div>
+                  <div
+                    v-for="t in bty.thietChanList.filter((x) => expandedThietChan.has(x.id) && atlasForThietChan(x))"
+                    :key="'atlas-' + t.id"
+                    class="thiet-chan-atlas"
+                  >
+                    <div class="thiet-chan-atlas__head">
+                      <strong>{{ atlasForThietChan(t)!.vi }}</strong>
+                      <span class="thiet-chan-atlas__en">{{ atlasForThietChan(t)!.en }}</span>
+                    </div>
+                    <p class="thiet-chan-atlas__desc">{{ atlasForThietChan(t)!.description }}</p>
+                    <p class="thiet-chan-atlas__clinical">
+                      <span class="thiet-chan-atlas__clinical-label">Ý nghĩa lâm sàng</span>
+                      {{ atlasForThietChan(t)!.clinical }}
+                    </p>
+                    <a :href="chanDoanLuoiHref()" target="_blank" rel="noopener" class="thiet-chan-atlas__link">
+                      Xem đầy đủ Atlas lưỡi →
+                    </a>
                   </div>
                 </section>
 
@@ -1323,8 +1485,89 @@ async function doDelete() {
   color: var(--gray-400);
   margin-bottom: 4px;
 }
+
+/* Mỗi thể bệnh = 1 khối gồm thể bệnh + pháp trị + triệu chứng + bài thuốc, theo dõi liền mạch. */
+.disease-section--full { width: 100%; align-items: stretch; }
+.the-benh-list { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.the-benh-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  background: var(--chip-pattern-surface);
+  border: 1px solid var(--chip-pattern-border);
+  border-left: 3px solid var(--chip-pattern-fg);
+  border-radius: var(--radius-md);
+}
+.the-benh-group__title { font-size: 13px; }
+.the-benh-group__row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  width: 100%;
+}
+.the-benh-group__row-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray-400);
+}
 .chip-thiet { background: var(--chip-pattern-bg); color: var(--chip-pattern-fg); border-color: var(--chip-pattern-border); }
 .chip-mach { background: var(--chip-pulse-bg); color: var(--chip-pulse-fg); border-color: var(--chip-pulse-border); }
+
+/* Thiệt chẩn có tham khảo Atlas: chip bấm được (nút thật, không phải link) — chấm nhỏ báo hiệu
+   có tư liệu tham khảo, bấm để bung mô tả + ý nghĩa lâm sàng ngay tại chỗ. */
+.chip-thiet--atlas {
+  cursor: pointer;
+  font: inherit;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: background-color 0.15s, border-color 0.15s, color 0.15s;
+}
+.chip-thiet--atlas:hover { background: var(--chip-pattern-bg); border-color: var(--chip-pattern-fg); }
+.chip-thiet--atlas.chip-thiet--active {
+  background: var(--chip-pattern-fg);
+  color: var(--white);
+  border-color: var(--chip-pattern-fg);
+}
+.chip-thiet__dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
+  flex: 0 0 auto;
+}
+
+.thiet-chan-atlas {
+  width: 100%;
+  margin-top: 6px;
+  padding: 10px 12px;
+  background: var(--surface-sunken);
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+}
+.thiet-chan-atlas__head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+.thiet-chan-atlas__head strong { color: var(--brown-900); font-size: var(--font-size-sm); }
+.thiet-chan-atlas__en { font-size: 11px; color: var(--gray-400); font-style: italic; }
+.thiet-chan-atlas__desc { margin: 0 0 6px; color: var(--gray-700); line-height: 1.5; }
+.thiet-chan-atlas__clinical { margin: 0 0 8px; color: var(--gray-700); line-height: 1.5; }
+.thiet-chan-atlas__clinical-label {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gray-400);
+  margin-right: 6px;
+}
+.thiet-chan-atlas__link { font-size: var(--font-size-sm); font-weight: 600; color: var(--brown-700); text-decoration: none; }
+.thiet-chan-atlas__link:hover { text-decoration: underline; }
 .chip-row { display: flex; flex-wrap: wrap; gap: 4px; }
 .chip-row--wrap { gap: 6px; }
 .chip-row--wrap .chip { white-space: normal; word-break: break-word; max-width: 100%; }

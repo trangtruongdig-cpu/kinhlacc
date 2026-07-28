@@ -81,6 +81,7 @@
   --chip-method-bg:  #f1d8c6;          --chip-method-fg:  #8a4527;          --chip-method-border:  #e2b89e; /* Hỏa — pháp trị (đất nung) */
   --chip-method-surface: #f9ece4;      /* nền NHẠT cho KHỐI pháp trị (không phải chip) */
   --chip-pattern-bg: #dde9d4;          --chip-pattern-fg: #3f6140;          --chip-pattern-border: #c2d6b5; /* Mộc — thể bệnh / thiệt chẩn (xanh mộc) */
+  --chip-pattern-surface: #eef4ea;     /* nền NHẠT cho KHỐI thể bệnh (không phải chip) */
   --chip-symptom-bg: #ece5d2;          --chip-symptom-fg: #5c5440;          --chip-symptom-border: #d5cbb4; /* Kim — triệu chứng (kim nhạt, champagne) */
   --chip-pulse-bg:   #d9e3e7;          --chip-pulse-fg:   #355a68;          --chip-pulse-border:   #bccdd4; /* Thủy — mạch chẩn (thủy lam dịu) */
 
