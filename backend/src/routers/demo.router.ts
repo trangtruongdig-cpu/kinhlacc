@@ -6,6 +6,7 @@ import { BaiThuocService } from '../controllers/bai-thuoc.controller';
 import { PhapTriService } from '../controllers/phap-tri.controller';
 import { PhacDoDieuTriService } from '../controllers/phac-do-dieu-tri.controller';
 import { BenhCauThanhService } from '../controllers/benh-cau-thanh.controller';
+import { BenhDongYExcelService } from '../controllers/benh-dong-y-excel.controller';
 
 /**
  * DemoRouter — các endpoint CÔNG KHAI (@Public) phục vụ trang landing cho khách CHƯA đăng nhập.
@@ -24,18 +25,20 @@ export class DemoRouter {
     private readonly phapTriService: PhapTriService,
     private readonly phacDoService: PhacDoDieuTriService,
     private readonly cauThanhService: BenhCauThanhService,
+    private readonly benhExcelService: BenhDongYExcelService,
   ) {}
 
-  /** Dữ liệu tham chiếu CÔNG KHAI để render cây thể bệnh + phương huyệt trên landing (y hệt app):
-   *  toàn bộ phác đồ (phương huyệt theo thể) + liên kết nhân-quả benh_cau_thanh. Là dữ liệu thư viện. */
+  /** Dữ liệu tham chiếu CÔNG KHAI để render cây thể bệnh + phương huyệt + bài thuốc theo thể (y hệt app):
+   *  phác đồ (phương huyệt) + benh_cau_thanh (cây lồng) + danh sách thể kèm bài thuốc. Dữ liệu thư viện. */
   @Public()
   @Get('chan-doan-ref')
   async chanDoanRef() {
-    const [phacDo, cauThanh] = await Promise.all([
+    const [phacDo, cauThanh, benhList] = await Promise.all([
       this.phacDoService.findAll(),
       this.cauThanhService.findAll(),
+      this.benhExcelService.findAll(),
     ]);
-    return { phacDo, cauThanh };
+    return { phacDo, cauThanh, benhList };
   }
 
   /** Một ca đo kinh lạc mẫu (bảng chỉ số nhiệt độ + thể bệnh), ẩn danh bệnh nhân. */

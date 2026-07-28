@@ -6,9 +6,10 @@
  * Hiển thị CHỈ-XEM: bảng chỉ số nhiệt độ (chi trên/chi dưới) + Bát Cương + các thể bệnh đo được.
  * Mọi thao tác "dùng thật" (đo cho bệnh nhân của bạn, lưu hồ sơ) → mời đăng nhập.
  */
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '@/services/api'
+const BaiThuocAnalysis = defineAsyncComponent(() => import('@/components/BaiThuocAnalysis.vue'))
 import PublicTopBar from '@/components/PublicTopBar.vue'
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue'
 import MedicalDisclaimer from '@/components/MedicalDisclaimer.vue'
@@ -116,6 +117,110 @@ const batCuong = computed(() =>
 const excelSyndromes = computed(() => examination.value?.excelSyndromes ?? [])
 const modernSyndromes = computed(() => examination.value?.modernSyndromes ?? [])
 
+// ── Phương huyệt + bài thuốc theo thể (dữ liệu tham chiếu công khai /demo/chan-doan-ref) — y hệt app ──
+function phNormName(s: string | null | undefined): string {
+  return (s || '')
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/đ/gi, 'd')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+}
+const PHUONG_PHAP_ORDER = ['Châm', 'Cứu', 'Châm + Cứu', 'Bấm Huyệt', 'Điện Châm', 'Bổ', 'Tả']
+interface PhacDoRow {
+  idHuyet: number
+  vai_tro_huyet?: string | null
+  phuong_phap_tac_dong?: string | null
+  y_nghia_huyet?: string | null
+  benh?: { chung_trang?: string | null } | null
+  huyetVi?: { ten_huyet?: string | null; ma_huyet?: string | null } | null
+}
+interface BenhLite {
+  id: number
+  name?: string | null
+  baiThuocList?: { id: number; ten_bai_thuoc?: string | null; name?: string | null }[]
+}
+const phacDoAll = ref<PhacDoRow[]>([])
+const benhList = ref<BenhLite[]>([])
+const refLoaded = ref(false)
+
+const measuredNames = computed<Set<string>>(() => {
+  const out = new Set<string>()
+  for (const s of excelSyndromes.value) {
+    const n = phNormName(s.name)
+    if (n) out.add(n)
+  }
+  return out
+})
+// Toàn bộ phương huyệt khớp thể đo được (khử trùng theo idHuyet) — GIỐNG matchedPhuongHuyetList của app.
+const matchedPhuongHuyet = computed<PhacDoRow[]>(() => {
+  const names = measuredNames.value
+  if (!names.size) return []
+  const seen = new Set<number>()
+  const out: PhacDoRow[] = []
+  for (const r of phacDoAll.value) {
+    const bn = phNormName(r.benh?.chung_trang)
+    if (!bn || !names.has(bn) || seen.has(r.idHuyet)) continue
+    seen.add(r.idHuyet)
+    out.push(r)
+  }
+  return out
+})
+const phuongHuyetGroups = computed<{ method: string; items: PhacDoRow[] }[]>(() => {
+  const g = new Map<string, PhacDoRow[]>()
+  for (const r of matchedPhuongHuyet.value) {
+    const k = (r.phuong_phap_tac_dong || '').trim() || 'Khác'
+    const arr = g.get(k) ?? []
+    arr.push(r)
+    g.set(k, arr)
+  }
+  const out: { method: string; items: PhacDoRow[] }[] = []
+  for (const m of PHUONG_PHAP_ORDER) {
+    const it = g.get(m)
+    if (it) {
+      out.push({ method: m, items: it })
+      g.delete(m)
+    }
+  }
+  for (const [m, it] of g) out.push({ method: m, items: it })
+  return out
+})
+// Bài thuốc khớp thể đo được (từ benhList.baiThuocList theo id thể) — khử trùng.
+const matchedBaiThuoc = computed<{ id: number; ten: string }[]>(() => {
+  const byId = new Map(benhList.value.map((b) => [b.id, b]))
+  const seen = new Set<number>()
+  const out: { id: number; ten: string }[] = []
+  for (const s of excelSyndromes.value) {
+    if (s.id == null) continue
+    const detail = byId.get(s.id)
+    for (const b of detail?.baiThuocList ?? []) {
+      if (seen.has(b.id)) continue
+      seen.add(b.id)
+      out.push({ id: b.id, ten: b.ten_bai_thuoc || b.name || `Bài #${b.id}` })
+    }
+  }
+  return out
+})
+// Nạp chi tiết bài thuốc (đủ vị thuốc) cho phân tích — lazy theo id.
+const formulaMap = ref<Record<number, any>>({})
+async function ensureFormula(id: number) {
+  if (formulaMap.value[id]) return
+  try {
+    const r = await api.get<{ baiThuoc: any }>(`/demo/bai-thuoc/${id}`)
+    formulaMap.value[id] = r.baiThuoc
+  } catch {
+    /* bỏ qua */
+  }
+}
+const activeFormulaId = ref<number | null>(null)
+function pickFormula(id: number) {
+  activeFormulaId.value = activeFormulaId.value === id ? null : id
+  if (activeFormulaId.value != null) void ensureFormula(id)
+}
+const activeFormula = computed(() => (activeFormulaId.value != null ? formulaMap.value[activeFormulaId.value] ?? null : null))
+
 const examDate = computed(() => {
   const raw = examination.value?.createdAt
   if (!raw) return '—'
@@ -157,6 +262,15 @@ onMounted(async () => {
     }
     if (!cases.value.length) {
       error.value = 'Chưa có ca đo mẫu nào để hiển thị.'
+    }
+    // Dữ liệu tham chiếu (phác đồ + bài thuốc theo thể) để hiện phương huyệt + bài thuốc y hệt app.
+    try {
+      const ref = await api.get<{ phacDo: PhacDoRow[]; benhList: BenhLite[] }>('/demo/chan-doan-ref')
+      phacDoAll.value = ref.phacDo ?? []
+      benhList.value = ref.benhList ?? []
+      refLoaded.value = true
+    } catch {
+      /* thiếu phương huyệt/bài thuốc nhưng bảng đo + Bát Cương vẫn hiện */
     }
   } catch (e: unknown) {
     error.value = e instanceof Error ? e.message : String(e)
@@ -340,6 +454,45 @@ onMounted(async () => {
             </div>
           </div>
           <p v-else class="dkq-empty">Không có mô hình hiện đại nào khớp ở ca đo này.</p>
+        </section>
+
+        <!-- IV — Phương huyệt: TOÀN BỘ huyệt khớp thể đo được, nhóm Châm/Cứu/Bổ/Tả (y hệt app) -->
+        <section v-if="matchedPhuongHuyet.length" class="dkq-card">
+          <h2 class="dkq-sec-title"><span class="dkq-num">IV</span> Phương Huyệt <small>{{ matchedPhuongHuyet.length }} huyệt</small></h2>
+          <div v-for="g in phuongHuyetGroups" :key="g.method" class="dkq-phg">
+            <span class="dkq-phg-method">{{ g.method }} <em>({{ g.items.length }})</em></span>
+            <div class="dkq-phg-chips">
+              <span
+                v-for="r in g.items"
+                :key="r.idHuyet"
+                class="dkq-huyet-chip"
+                :title="r.y_nghia_huyet || (r.huyetVi?.ten_huyet ?? '')"
+              >
+                {{ r.huyetVi?.ten_huyet }}<em v-if="r.huyetVi?.ma_huyet"> ({{ r.huyetVi.ma_huyet }})</em>
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <!-- V — Bài thuốc + phân tích Tứ Khí·Ngũ Vị·Quy Kinh + Quân–Thần–Tá–Sứ (y hệt app) -->
+        <section v-if="matchedBaiThuoc.length" class="dkq-card">
+          <h2 class="dkq-sec-title"><span class="dkq-num">V</span> Bài Thuốc <small>{{ matchedBaiThuoc.length }} bài</small></h2>
+          <div class="dkq-bt-list">
+            <button
+              v-for="b in matchedBaiThuoc"
+              :key="b.id"
+              type="button"
+              class="dkq-bt-btn"
+              :class="{ on: activeFormulaId === b.id }"
+              @click="pickFormula(b.id)"
+            >
+              {{ b.ten }}
+            </button>
+          </div>
+          <div v-if="activeFormula" class="dkq-bt-analysis">
+            <BaiThuocAnalysis :bai-thuoc="activeFormula" hide-dosage />
+          </div>
+          <p v-else class="dkq-empty">Bấm một bài thuốc để xem phân tích tính vị quy kinh của từng vị thuốc.</p>
         </section>
           </div>
         </div>
@@ -672,6 +825,44 @@ onMounted(async () => {
   color: var(--text-subtle);
   font-style: italic;
 }
+/* Phương huyệt nhóm theo phương pháp + bài thuốc + phân tích */
+.dkq-phg { margin-bottom: var(--space-4); }
+.dkq-phg-method {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brown-700);
+  margin-bottom: var(--space-2);
+}
+.dkq-phg-method em { font-style: normal; color: var(--text-subtle); font-weight: 600; }
+.dkq-phg-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.dkq-huyet-chip {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-brand);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: 4px 11px;
+}
+.dkq-huyet-chip em { font-style: normal; color: var(--text-subtle); font-size: 11px; }
+.dkq-bt-list { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-4); }
+.dkq-bt-btn {
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  color: var(--brown-800);
+  background: var(--brown-50);
+  border: 1px solid var(--brown-300);
+  border-radius: var(--radius-full);
+  padding: 6px 14px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+.dkq-bt-btn:hover { border-color: var(--brown-600); }
+.dkq-bt-btn.on { background: var(--brown-600); border-color: var(--brown-600); color: var(--white); }
+.dkq-bt-analysis { margin-top: var(--space-4); border-top: 1px dashed var(--border); padding-top: var(--space-4); }
 
 .dkq-cta {
   display: flex;
