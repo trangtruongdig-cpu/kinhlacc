@@ -892,7 +892,9 @@ onMounted(async () => {
   color: var(--text);
 }
 .dkq-body {
-  max-width: 920px;
+  /* Rộng như trang Kết Quả Đo trong app → đủ chỗ cho Bát Cương (hình | Tóm Tắt) nằm ngang,
+     bảng đo 8 cột và 2 cột Tab ② không bị chật. */
+  max-width: 1180px;
   margin: 0 auto;
   padding: var(--space-6) var(--space-5) var(--space-12);
 }
@@ -1358,7 +1360,7 @@ onMounted(async () => {
 /* Trong band: hình 3D (trái, rộng) | Tóm Tắt Bát Cương (phải, gọn) — 2 cột như app */
 .dkq-bc-wrap {
   display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
   gap: var(--space-4);
   align-items: start;
 }
@@ -1367,9 +1369,10 @@ onMounted(async () => {
 .dkq-bc-wrap > * {
   min-width: 0;
 }
-/* Tóm Tắt: 2 cột Biểu-Lý | Hư-Thực tự xuống 1 cột khi ô hẹp (không tràn, không kẹt chip) */
+/* Tóm Tắt: 2 cột Biểu-Lý | Hư-Thực — mỗi cột tối thiểu 210px để chip (vd "Tiểu Trường
+   trái/phải (i)") không bị cắt; ô hẹp hơn thì tự gộp về 1 cột. */
 .dkq-bc-wrap :deep(.bcs) {
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 }
 @media (max-width: 900px) {
   .dkq-bc-wrap {
