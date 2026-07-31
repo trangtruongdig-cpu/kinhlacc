@@ -137,8 +137,9 @@ const modalInfo = computed(() => {
         <!-- KHUYẾT: đúng phần Thái Cực chuẩn mà vòng nét đứt (đã thu nhỏ) CHƯA phủ tới — tô NHẠT = cần BỔ -->
         <path v-if="cfg.mode === 'khuyet'" :d="khuyetFillD" :fill="bandColor" class="ad-band ad-band--khuyet" :clip-path="`url(#khuyet-${uid})`" />
 
-        <!-- Vòng NÉT ĐỨT — mốc KHÔNG BÌNH THƯỜNG: phóng to/thu nhỏ + dịch theo cực đang lệch -->
-        <circle :cx="refCenter.x" :cy="refCenter.y" :r="refR" fill="none" class="ad-ref-ring" />
+        <!-- Vòng NÉT ĐỨT — mốc KHÔNG BÌNH THƯỜNG: phóng to/thu nhỏ + dịch theo cực đang lệch.
+             Tô MÀU THEO CHIỀU (dư = cam-đỏ · khuyết = xanh) + viền tương phản để nổi trên mọi nền. -->
+        <circle :cx="refCenter.x" :cy="refCenter.y" :r="refR" fill="none" class="ad-ref-ring" :class="'ad-ref-ring--' + cfg.mode" />
       </svg>
     </div>
 
@@ -192,24 +193,32 @@ const modalInfo = computed(() => {
    viewBox (đã chừa dư biên ở CX/CY) để không tràn/che các phần tử khác cạnh khối này. */
 .ad-svg { width: 128px; height: 128px; display: block; filter: drop-shadow(0 3px 8px rgba(60, 40, 15, 0.22)); }
 
-/* Vòng CHUẨN nét đứt — mốc "bình thường" cố định, luôn ở giữa, không đổi theo loai. */
-.ad-ref-ring { stroke: var(--gray-400, #9c9184); stroke-width: 1.5; stroke-dasharray: 3 3; opacity: 0.85; }
-
-/* DƯ — phần Thái Cực lồi ra NGOÀI vòng chuẩn: tô ĐẬM/đặc hẳn + quầng sáng — càng đậm càng rõ
-   "đang dư, thừa hẳn ra". */
-.ad-band--du {
-  opacity: 0.82;
-  stroke: var(--brown-700, #5a3e1e);
-  stroke-width: 1.2;
-  filter: drop-shadow(0 0 4px rgba(224, 168, 74, 0.8));
+/* Vòng NÉT ĐỨT — mốc lệch khỏi "bình thường". Dày + đục + VIỀN KÉP (tối+sáng) để KHÔNG trùng nền
+   (nổi cả trên kem lẫn nền navy của đồ hình); màu theo chiều để nhìn phát biết dư hay khuyết. */
+.ad-ref-ring {
+  stroke: var(--gray-500, #7d7264);
+  stroke-width: 2.4;
+  stroke-dasharray: 5 3.5;
+  opacity: 1;
+  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.7));
 }
-/* KHUYẾT — phần vòng chuẩn mà Thái Cực CHƯA phủ tới: tô NHẠT hẳn — càng nhạt càng rõ "chỗ này
-   đang THIẾU", ngược hẳn với DƯ (đậm = có/thừa, nhạt = thiếu/rỗng). */
+.ad-ref-ring--du { stroke: #d1502e; } /* DƯ (thừa ra) → viền CAM-ĐỎ, phóng TO ra ngoài */
+.ad-ref-ring--khuyet { stroke: #3a86bd; } /* KHUYẾT (hụt vào) → viền XANH, thu NHỎ vào trong */
+
+/* DƯ — phần Thái Cực lồi ra NGOÀI vòng chuẩn: tô ĐẶC + quầng sáng cam mạnh = "thừa hẳn ra". */
+.ad-band--du {
+  opacity: 0.9;
+  stroke: #a8341c;
+  stroke-width: 1.3;
+  filter: drop-shadow(0 0 6px rgba(224, 150, 60, 0.95));
+}
+/* KHUYẾT — phần vòng chuẩn Thái Cực CHƯA phủ tới: tô NHẠT + viền NÉT ĐỨT xanh bao quanh = "chỗ
+   RỖNG đang THIẾU" (khác hẳn DƯ đặc). */
 .ad-band--khuyet {
-  opacity: 0.3;
-  stroke: var(--brown-700, #5a3e1e);
-  stroke-width: 1.4;
-  stroke-dasharray: 4 3;
+  opacity: 0.4;
+  stroke: #3a86bd;
+  stroke-width: 1.8;
+  stroke-dasharray: 3.5 2.5;
 }
 
 .ad-b-du { background: #c0452a; }
