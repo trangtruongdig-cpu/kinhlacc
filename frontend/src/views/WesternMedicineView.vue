@@ -319,9 +319,14 @@ function theBenhCombined(bty: BenhTayY): string[] {
   return theBenhCombinedItems(bty).map((x) => x.name)
 }
 
-function theBenhCombinedItems(bty: BenhTayY): Array<{ name: string; ptId: number | null }> {
-  const seen = new Map<string, { name: string; ptId: number | null }>()
-  const pushAll = (raw: string | null | undefined, ptId: number | null) => {
+// `direct` = thể phát sinh từ CHÍNH bệnh này (pháp trị gắn trực tiếp) → đây là chủ sở hữu thật của
+// thể. `direct=false` = thể chỉ "kéo theo" vì bệnh có chung 1 bài thuốc với thể đó (1 bài thuốc chữa
+// nhiều thể) — chính là nguồn gây TRÙNG khi cùng bài thuốc nằm ở nhiều bệnh.
+function theBenhCombinedItems(
+  bty: BenhTayY,
+): Array<{ name: string; ptId: number | null; direct: boolean }> {
+  const seen = new Map<string, { name: string; ptId: number | null; direct: boolean }>()
+  const pushAll = (raw: string | null | undefined, ptId: number | null, direct: boolean) => {
     if (!raw) return
     for (const part of raw.split(/[,;]+/)) {
       const t = part.trim()
@@ -330,15 +335,18 @@ function theBenhCombinedItems(bty: BenhTayY): Array<{ name: string; ptId: number
       const existing = seen.get(key)
       if (existing) {
         if (existing.ptId == null && ptId != null) existing.ptId = ptId
+        if (direct) existing.direct = true
         continue
       }
-      seen.set(key, { name: t, ptId })
+      seen.set(key, { name: t, ptId, direct })
     }
   }
-  for (const p of bty.phapTriList ?? []) pushAll(p.chung_trang, p.id)
+  // Pháp trị gắn TRỰC TIẾP vào bệnh này → thể chủ (direct).
+  for (const p of bty.phapTriList ?? []) pushAll(p.chung_trang, p.id, true)
   for (const b of bty.baiThuocList ?? []) {
-    pushAll(b.the_benh, null)
-    for (const l of b.phapTriLinks ?? []) pushAll(l.phapTri?.chung_trang, l.phapTri?.id ?? null)
+    // the_benh & chung_trang qua bài thuốc CHUNG → chỉ kéo theo (không phải thể chủ).
+    pushAll(b.the_benh, null, false)
+    for (const l of b.phapTriLinks ?? []) pushAll(l.phapTri?.chung_trang, l.phapTri?.id ?? null, false)
   }
   return Array.from(seen.values())
 }
@@ -430,10 +438,38 @@ function theBenhGroups(bty: BenhTayY): TheBenhGroup[] {
   })
 }
 
-/** Bài thuốc chưa khớp được vào thể bệnh nào (không the_benh, không phapTriLinks) — vẫn hiện, không rơi mất. */
+/**
+ * Chủ sở hữu MỖI thể bệnh (theo tên chung_trang) — để 1 thể chỉ hiện ở ĐÚNG 1 bệnh, tránh trùng khi
+ * nhiều bệnh dùng chung 1 bài thuốc. Ưu tiên bệnh có thể đó "trực tiếp" (pháp trị gắn thẳng vào bệnh);
+ * nếu không bệnh nào trực tiếp thì lấy bệnh xuất hiện đầu tiên. Tên thể khác nhau (vd "Ứ Huyết (Đau
+ * Bụng)" ≠ "Ứ Huyết (Đau Lưng)") vẫn là 2 thể riêng — chỉ gộp khi TRÙNG y hệt tên.
+ */
+const theBenhOwnerByName = computed(() => {
+  const firstSeen = new Map<string, number>()
+  const directOwner = new Map<string, number>()
+  for (const bty of benhTayYList.value) {
+    for (const tb of theBenhCombinedItems(bty)) {
+      const key = tb.name.toLowerCase()
+      if (!firstSeen.has(key)) firstSeen.set(key, bty.id)
+      if (tb.direct && !directOwner.has(key)) directOwner.set(key, bty.id)
+    }
+  }
+  const owner = new Map(firstSeen)
+  for (const [key, id] of directOwner) owner.set(key, id) // thể chủ thắng bệnh chỉ kéo theo
+  return owner
+})
+
+/** Thể bệnh của 1 bệnh SAU khi khử trùng: bỏ các thể mà bệnh khác mới là chủ sở hữu. */
+function theBenhGroupsOwned(bty: BenhTayY): TheBenhGroup[] {
+  const owner = theBenhOwnerByName.value
+  return theBenhGroups(bty).filter((g) => owner.get(g.name.toLowerCase()) === bty.id)
+}
+
+/** Bài thuốc chưa khớp được vào thể bệnh nào CỦA BỆNH NÀY (kể cả thể đã dồn sang bệnh khác) —
+ *  vẫn hiện ở "Bài thuốc khác" để không rơi mất (1 bài thuốc vẫn chữa được nhiều bệnh). */
 function orphanBaiThuoc(bty: BenhTayY): BaiThuocLite[] {
   const grouped = new Set<number>()
-  for (const g of theBenhGroups(bty)) for (const b of g.baiThuoc) grouped.add(b.id)
+  for (const g of theBenhGroupsOwned(bty)) for (const b of g.baiThuoc) grouped.add(b.id)
   return (bty.baiThuocList ?? []).filter((b) => !grouped.has(b.id))
 }
 
@@ -886,10 +922,10 @@ async function doDelete() {
               </header>
 
               <div class="disease-card__body">
-                <section v-if="theBenhGroups(bty).length" class="disease-section disease-section--full">
-                  <span class="disease-section__label">Thể bệnh ({{ theBenhGroups(bty).length }})</span>
+                <section v-if="theBenhGroupsOwned(bty).length" class="disease-section disease-section--full">
+                  <span class="disease-section__label">Thể bệnh ({{ theBenhGroupsOwned(bty).length }})</span>
                   <div class="the-benh-list">
-                    <div v-for="g in theBenhGroups(bty)" :key="g.key" class="the-benh-group">
+                    <div v-for="g in theBenhGroupsOwned(bty)" :key="g.key" class="the-benh-group">
                       <a
                         v-if="g.ptId != null"
                         :href="phapTriHref(g.ptId)"
