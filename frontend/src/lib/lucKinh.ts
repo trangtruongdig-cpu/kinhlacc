@@ -74,6 +74,15 @@ export const KINH_META: Record<KinhSlug, KinhMeta> = {
 
 export const KINH_ORDER: KinhSlug[] = ['thai-duong', 'duong-minh', 'thieu-duong', 'thai-am', 'thieu-am', 'quyet-am']
 
+/** Hướng truyền biến giữa 2 lần đo — so tầng biểu→lý (tang). Sâu hơn = truyền vào lý (nặng lên),
+ * nông hơn = lui ra biểu (đang hồi phục). Dùng cho timeline lịch sử đo cùng đợt bệnh. */
+export function huongTruyen(prev: KinhSlug, cur: KinhSlug): { nhan: string; loai: 'vao-ly' | 'ra-bieu' | 'giu' } {
+  const dp = KINH_META[prev].tang, dc = KINH_META[cur].tang
+  if (dc > dp) return { nhan: `truyền vào lý (${KINH_META[prev].ten} → ${KINH_META[cur].ten})`, loai: 'vao-ly' }
+  if (dc < dp) return { nhan: `lui ra biểu (${KINH_META[prev].ten} → ${KINH_META[cur].ten})`, loai: 'ra-bieu' }
+  return { nhan: `giữ kinh ${KINH_META[cur].ten}`, loai: 'giu' }
+}
+
 /** Thể (theo tên) → kinh + mức (đã lương y duyệt + workflow thẩm định). `phu` = kinh phụ (lưỡng hư
  * bắc cầu 2 kinh — vá đúng lỗ hổng engine chỉ mang 1 kinh). Thể KHÔNG có ở đây = ngoài Thương Hàn. */
 interface TheEntry { kinh: KinhSlug; muc: Muc; phu?: KinhSlug }

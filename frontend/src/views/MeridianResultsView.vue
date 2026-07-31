@@ -10,7 +10,7 @@ import { ORGAN_ART } from '@/lib/organArt'
 import { computeTongCuong, type TongCuong } from '@/lib/meridianAnalysis'
 import { buildDinhVi, parseAmDuong, type PhapTriByBaiThuoc } from '@/lib/dinhVi'
 import BienChungWheel from '@/components/BienChungWheel.vue'
-import { locateLucKinh } from '@/lib/lucKinh'
+import { locateLucKinh, huongTruyen, type LucKinhVerdict } from '@/lib/lucKinh'
 import AmDuongTaiji from '@/components/AmDuongTaiji.vue'
 
 const router = useRouter()
@@ -1905,6 +1905,46 @@ const lucKinhVerdict = computed(() =>
   ),
 )
 
+// ── TRUYỀN BIẾN: xâu chuỗi các lần đo của bệnh nhân → đường đi qua Lục Kinh theo thời gian.
+interface ExamLite { id: number; createdAt?: string | null; excelSyndromes?: { name: string }[] | null }
+const examHistory = ref<ExamLite[]>([])
+async function loadExamHistory() {
+  try {
+    examHistory.value = await api.get<ExamLite[]>(`/examinations/patient/${patientId.value}`)
+  } catch {
+    examHistory.value = []
+  }
+}
+interface TrajPoint {
+  id: number; date: string; verdict: LucKinhVerdict | null
+  huong: { nhan: string; loai: 'vao-ly' | 'ra-bieu' | 'giu' } | null // hướng so với mốc TRƯỚC
+}
+const lucKinhTrajectory = computed<TrajPoint[]>(() => {
+  const pts = examHistory.value
+    .map((e) => ({
+      id: e.id,
+      ts: e.createdAt ? new Date(e.createdAt).getTime() : 0,
+      date: e.createdAt ? new Date(e.createdAt).toLocaleDateString('vi-VN') : '—',
+      verdict: locateLucKinh((e.excelSyndromes ?? []).map((s) => s.name), null),
+    }))
+    .sort((a, b) => a.ts - b.ts) // cũ → mới
+  const out: TrajPoint[] = []
+  let prevSlug: import('@/lib/lucKinh').KinhSlug | null = null
+  for (const p of pts) {
+    const slug = p.verdict?.kinh.slug ?? null
+    const huong = prevSlug && slug ? huongTruyen(prevSlug, slug) : null
+    out.push({ id: p.id, date: p.date, verdict: p.verdict, huong })
+    if (slug) prevSlug = slug
+  }
+  return out
+})
+// Xu hướng tổng: so mốc Thương Hàn ĐẦU và CUỐI có định vị được.
+const truyenBienXuHuong = computed(() => {
+  const located = lucKinhTrajectory.value.filter((p) => p.verdict)
+  if (located.length < 2) return null
+  return huongTruyen(located[0]!.verdict!.kinh.slug, located[located.length - 1]!.verdict!.kinh.slug)
+})
+
 /** Đủ 12 tạng phủ (mã kinh ngắn → tên) để bày QUANH hình người; gắn trạng thái Bát Cương nếu có. */
 const ALL_ORGANS: { name: string; organ: string }[] = [
   { name: 'Tâm', organ: 'Tâm' },
@@ -1949,6 +1989,7 @@ function getAge(dateStr?: string | null) {
 
 onMounted(async () => {
   await loadData()
+  void loadExamHistory()
 })
 
 // Nạp TOÀN BỘ bài thuốc (kèm chi tiết vị + tính–vị–quy-kinh). Endpoint /bai-thuoc/lite CHẶN
@@ -3638,6 +3679,30 @@ watch(
           <p v-else-if="excelSyndromesList.length" class="lk-none">
             Các thể đo được chưa thuộc phạm vi Thương Hàn Lục Kinh — chưa định vị (có thể là nội thương / ôn bệnh / tạp bệnh).
           </p>
+
+          <!-- TRUYỀN BIẾN LỤC KINH qua các lần đo của cùng bệnh nhân (đường đi của bệnh theo thời gian) -->
+          <section v-if="lucKinhTrajectory.filter((p) => p.verdict).length >= 2" class="lk-traj">
+            <div class="lk-traj-head">
+              <span class="lk-eyebrow">↳ Truyền biến qua {{ lucKinhTrajectory.length }} lần đo</span>
+              <span v-if="truyenBienXuHuong" class="lk-traj-trend" :class="'lk-traj-trend--' + truyenBienXuHuong.loai">Xu hướng: {{ truyenBienXuHuong.nhan }}</span>
+            </div>
+            <ol class="lk-traj-line">
+              <li v-for="p in lucKinhTrajectory" :key="p.id" class="lk-traj-node" :class="{ 'lk-traj-node--cur': p.id === examId }">
+                <span
+                  v-if="p.huong"
+                  class="lk-traj-arrow"
+                  :class="'lk-traj-arrow--' + p.huong.loai"
+                  :title="p.huong.nhan"
+                >{{ p.huong.loai === 'vao-ly' ? '↓' : p.huong.loai === 'ra-bieu' ? '↑' : '→' }}</span>
+                <span class="lk-traj-cell">
+                  <span class="lk-traj-date">{{ p.date }}</span>
+                  <span v-if="p.verdict" class="lk-traj-kinh" :data-kinh="p.verdict.kinh.slug">{{ p.verdict.kinh.ten }} <i>{{ p.verdict.kinh.han }}</i></span>
+                  <span v-else class="lk-traj-kinh lk-traj-kinh--none">ngoài LK</span>
+                </span>
+              </li>
+            </ol>
+            <p class="lk-traj-note">Cũ → mới. <b>↓</b> vào lý (nặng lên) · <b>↑</b> ra biểu (đang lui) · <b>→</b> giữ kinh. Chỉ có nghĩa khi các lần đo cùng MỘT đợt bệnh.</p>
+          </section>
 
           <!-- ③ Tính chất (bát cương · chính khí) đưa lên gần đầu — khỏi cuộn hết đồ hình 5 vòng mới
           thấy. (Thái Cực Âm-Dương tổng cương đã chuyển sang Tab 1, thuộc kết luận Bát Cương.) -->
@@ -5720,4 +5785,31 @@ watch(
 .lk-lydo li { font-size: 12.5px; line-height: 1.45; color: var(--text-subtle); }
 .lk-ngoai { margin: var(--space-2) 0 0; font-size: 12px; font-style: italic; color: var(--text-subtle); }
 .lk-none { margin: var(--space-3) 0 var(--space-4); padding: var(--space-3) var(--space-4); font-size: 13px; font-style: italic; color: var(--text-subtle); background: var(--surface-2); border: 1px dashed var(--border); border-radius: var(--radius-md); }
+
+/* ── Truyền biến Lục Kinh qua các lần đo ── */
+.lk-traj { margin: 0 0 var(--space-4); padding: var(--space-3) var(--space-4); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface); }
+.lk-traj-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); flex-wrap: wrap; margin-bottom: var(--space-3); }
+.lk-traj-trend { font-size: 12px; font-weight: 800; padding: 2px 10px; border-radius: 999px; }
+.lk-traj-trend--vao-ly { color: #fff; background: #b23a25; }
+.lk-traj-trend--ra-bieu { color: #fff; background: #2e6f52; }
+.lk-traj-trend--giu { color: var(--text-subtle); background: var(--surface-2); border: 1px solid var(--border); }
+.lk-traj-line { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: stretch; gap: 2px; overflow-x: auto; }
+.lk-traj-node { display: flex; align-items: center; gap: 2px; }
+.lk-traj-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-2); min-width: 92px; }
+.lk-traj-node--cur .lk-traj-cell { border-color: var(--brown-600); box-shadow: 0 0 0 2px var(--brown-100, rgba(120,53,15,.14)); }
+.lk-traj-date { font-size: 11px; color: var(--text-subtle); font-variant-numeric: tabular-nums; }
+.lk-traj-kinh { font-size: 12.5px; font-weight: 800; color: #fff; padding: 2px 10px; border-radius: 999px; white-space: nowrap; background: var(--brown-600); }
+.lk-traj-kinh i { font-style: normal; font-weight: 600; opacity: .8; font-size: .85em; }
+.lk-traj-kinh--none { background: var(--gray-400, #b6a892); }
+.lk-traj-kinh[data-kinh="thai-duong"] { background: #3d6a8c; }
+.lk-traj-kinh[data-kinh="duong-minh"] { background: #a3801f; }
+.lk-traj-kinh[data-kinh="thieu-duong"] { background: #bd5730; }
+.lk-traj-kinh[data-kinh="thai-am"] { background: #8c6f2e; }
+.lk-traj-kinh[data-kinh="thieu-am"] { background: #ab3644; }
+.lk-traj-kinh[data-kinh="quyet-am"] { background: #4c7742; }
+.lk-traj-arrow { font-size: 18px; font-weight: 800; padding: 0 4px; align-self: center; }
+.lk-traj-arrow--vao-ly { color: #b23a25; }
+.lk-traj-arrow--ra-bieu { color: #2e6f52; }
+.lk-traj-arrow--giu { color: var(--text-subtle); }
+.lk-traj-note { margin: var(--space-2) 0 0; font-size: 11.5px; color: var(--text-subtle); line-height: 1.45; }
 </style>
