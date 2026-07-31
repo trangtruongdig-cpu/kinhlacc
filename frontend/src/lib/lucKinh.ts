@@ -151,6 +151,20 @@ export function lucKinhCuaThe(name: string): TheEntry | null {
   return THE_MAP.get(normThe(name)) ?? null
 }
 
+/** Bản đồ thể → kinh do ENGINE suy (từ /thuong-han/the-kinh) — 1 NGUỒN SỰ THẬT. Khoá = normThe(tên thể). */
+export type TheKinhMap = Record<string, { kinh: string; kinh_phu?: string | null; do_tin?: string }>
+/**
+ * Tra kinh của 1 thể — ENGINE là NGUỒN CHÍNH: nếu bản đồ engine có thể này thì lấy theo engine
+ * (kinh + kinh phụ + độ tin đã gạn nội thương). Engine chỉ phủ ~21/51 thể (khớp theo tên pháp trị),
+ * nên thể engine CHƯA phủ thì rơi về bảng tĩnh để KHÔNG mất độ phủ (kết luận không hụt thể).
+ */
+function resolveThe(name: string, engineMap?: TheKinhMap | null): TheEntry | null {
+  const key = normThe(name)
+  const e = engineMap?.[key]
+  if (e) return { kinh: e.kinh as KinhSlug, muc: e.do_tin === 'thap' ? 'B' : 'A', phu: (e.kinh_phu as KinhSlug) || undefined }
+  return THE_MAP.get(key) ?? null
+}
+
 /** Tách chữ ký Bát Cương từ chuỗi hội chứng (vd "Lý Thực Hàn" → {ly,thuc,han}). */
 function parseChuKy(hoiChung: string | null | undefined): Set<string> {
   const t = normThe(hoiChung)
@@ -186,6 +200,7 @@ export interface LucKinhVerdict {
 export function locateLucKinh(
   theNames: string[],
   tongCuong?: { hoiChung?: string | null; amDuong?: string | null } | null,
+  engineMap?: TheKinhMap | null,
 ): LucKinhVerdict | null {
   const vote: Record<KinhSlug, number> = {
     'thai-duong': 0, 'duong-minh': 0, 'thieu-duong': 0, 'thai-am': 0, 'thieu-am': 0, 'quyet-am': 0,
@@ -195,7 +210,7 @@ export function locateLucKinh(
   let coA = false
 
   for (const name of theNames) {
-    const e = lucKinhCuaThe(name)
+    const e = resolveThe(name, engineMap)
     if (!e) { theNgoai.push(name); continue }
     const w = e.muc === 'A' ? 2 : 1
     vote[e.kinh] += w

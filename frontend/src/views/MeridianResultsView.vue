@@ -10,7 +10,7 @@ import { ORGAN_ART } from '@/lib/organArt'
 import { computeTongCuong, type TongCuong } from '@/lib/meridianAnalysis'
 import { buildDinhVi, parseAmDuong, type PhapTriByBaiThuoc } from '@/lib/dinhVi'
 import BienChungWheel from '@/components/BienChungWheel.vue'
-import { locateLucKinh, huongTruyen, type LucKinhVerdict } from '@/lib/lucKinh'
+import { locateLucKinh, huongTruyen, type LucKinhVerdict, type TheKinhMap } from '@/lib/lucKinh'
 import AmDuongTaiji from '@/components/AmDuongTaiji.vue'
 
 const router = useRouter()
@@ -1903,10 +1903,22 @@ const tongCuong = computed<TongCuong>(() => {
 
 // ── KẾT LUẬN LỤC KINH (Thương Hàn) cho ca này — tái dùng engine qua bảng thể→kinh đã thẩm định.
 //    Dồn phiếu các thể đo được + đối chiếu Bát Cương → kinh trội + giai đoạn + độ tin + lý do.
+// 1 NGUỒN SỰ THẬT: bản đồ thể→kinh do ENGINE suy (/thuong-han/the-kinh). null = chưa tải → dùng
+// bảng tĩnh trong lib làm dự phòng (vd bản demo công khai không gọi được API này).
+const theKinhMap = ref<TheKinhMap | null>(null)
+async function loadTheKinhMap() {
+  try {
+    const m = await api.get<TheKinhMap>('/thuong-han/the-kinh')
+    if (m && Object.keys(m).length) theKinhMap.value = m
+  } catch {
+    theKinhMap.value = null // giữ dự phòng bảng tĩnh
+  }
+}
 const lucKinhVerdict = computed(() =>
   locateLucKinh(
     (excelSyndromesList.value as Array<{ name: string }>).map((s) => s.name),
     tongCuong.value,
+    theKinhMap.value,
   ),
 )
 
@@ -1934,7 +1946,7 @@ const lucKinhTrajectory = computed<TrajPoint[]>(() => {
       id: e.id,
       ts: e.createdAt ? new Date(e.createdAt).getTime() : 0,
       date: e.createdAt ? new Date(e.createdAt).toLocaleDateString('vi-VN') : '—',
-      verdict: locateLucKinh((e.excelSyndromes ?? []).map((s) => s.name), null),
+      verdict: locateLucKinh((e.excelSyndromes ?? []).map((s) => s.name), null, theKinhMap.value),
     }))
     .sort((a, b) => a.ts - b.ts) // cũ → mới
   const out: TrajPoint[] = []
@@ -2007,6 +2019,7 @@ function getAge(dateStr?: string | null) {
 onMounted(async () => {
   await loadData()
   void loadExamHistory()
+  void loadTheKinhMap()
 })
 
 // Nạp TOÀN BỘ bài thuốc (kèm chi tiết vị + tính–vị–quy-kinh). Endpoint /bai-thuoc/lite CHẶN

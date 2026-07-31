@@ -276,6 +276,45 @@ export class ThuongHanService implements OnApplicationBootstrap {
   }
 
   /**
+   * Bản đồ NÉN thể bệnh → Lục Kinh do CHÍNH ENGINE suy — MỘT NGUỒN SỰ THẬT cho kết luận Lục Kinh
+   * ở trang Kết Quả Đo (thay bảng tĩnh phía frontend). Gộp theo tên thể (chuẩn hoá bỏ dấu), mỗi thể
+   * lấy phân loại độ tin CAO nhất; chỉ trục Lục Kinh (thể ôn bệnh/tạp bệnh → không có trong map = ngoài).
+   */
+  async theKinhMap(): Promise<Record<string, { kinh: string; kinh_phu: string | null; do_tin: string; ten: string }>> {
+    const q = <T = Record<string, unknown>>(sql: string): Promise<T[]> =>
+      this.dataSource.query(sql) as Promise<T[]>;
+    const [phapTri, btpt, btct, viThuoc, btNames, ptTc, trieuChung, overrides] = await Promise.all([
+      q(`SELECT id, the_benh, nguyen_tac, y_nghia_co_che, trieu_chung_mo_ta, luc_kinh, id_bai_thuoc FROM phap_tri ORDER BY id`),
+      q(`SELECT id_bai_thuoc, id_phap_tri FROM bai_thuoc_phap_tri`),
+      q(`SELECT id_bai_thuoc, id_vi_thuoc, vai_tro FROM bai_thuoc_chi_tiet`),
+      q(`SELECT id, tinh, quy_kinh FROM vi_thuoc`),
+      q(`SELECT id, ten_bai_thuoc FROM bai_thuoc`),
+      q(`SELECT id_phap_tri, id_trieu_chung FROM phap_tri_trieu_chung`),
+      q(`SELECT id, ten_trieu_chung FROM trieu_chung`),
+      this.benhCoRepo.find(),
+    ]);
+    const { results } = suyBenhCoAll({
+      phapTri, btpt, btct, viThuoc, btNames, ptTc, trieuChung,
+      overrides: overrides as unknown as OverrideRow[], chuan: THUONG_HAN_CHUAN,
+    } as unknown as SuyInput);
+    const norm = (s: string | null | undefined): string =>
+      (s ?? '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/gi, 'd').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+    const rank: Record<string, number> = { cao: 3, vua: 2, thap: 1 };
+    const map: Record<string, { kinh: string; kinh_phu: string | null; do_tin: string; ten: string }> = {};
+    for (const r of results as Array<{ the_benh: string | null; giai_doan: { he: string; slug?: string; slug_phu?: string; ten: string; do_tin: string } | null }>) {
+      const g = r.giai_doan;
+      if (!g || g.he !== 'luc-kinh' || !g.slug) continue;
+      const key = norm(r.the_benh);
+      if (!key) continue;
+      const cur = map[key];
+      if (!cur || (rank[g.do_tin] ?? 0) > (rank[cur.do_tin] ?? 0)) {
+        map[key] = { kinh: g.slug, kinh_phu: g.slug_phu ?? null, do_tin: g.do_tin, ten: g.ten };
+      }
+    }
+    return map;
+  }
+
+  /**
    * CHỈ MỤC: gom thể bệnh theo Lục Kinh · Lục Khí · Tạng Phủ (từ dữ liệu chuẩn luc_kinh +
    * kinh mạch). Dùng cho vòng lý thuyết: trỏ vào đâu → liệt kê thể bệnh tương ứng.
    */

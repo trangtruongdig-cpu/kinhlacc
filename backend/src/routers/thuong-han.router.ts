@@ -38,6 +38,12 @@ export class ThuongHanRouter {
     return this.service.benhCo();
   }
 
+  /** Bản đồ NÉN thể bệnh → Lục Kinh do engine suy (1 nguồn sự thật cho kết luận trang Kết Quả Đo). */
+  @Get('the-kinh')
+  theKinh() {
+    return this.service.theKinhMap();
+  }
+
   /** Chỉ mục thể bệnh theo Lục Kinh · Lục Khí · Tạng Phủ (cho vòng lý thuyết tương tác). CÔNG KHAI (tra cứu miễn phí). */
   @Public()
   @Get('chi-muc')
