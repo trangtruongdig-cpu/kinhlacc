@@ -11,6 +11,7 @@ import { computeTongCuong, type TongCuong } from '@/lib/meridianAnalysis'
 import { buildDinhVi, parseAmDuong, type PhapTriByBaiThuoc } from '@/lib/dinhVi'
 import BienChungWheel from '@/components/BienChungWheel.vue'
 import VongLucKinh from '@/components/VongLucKinh.vue'
+import VongLucKhi from '@/components/VongLucKhi.vue'
 import { locateLucKinh, huongTruyen, type LucKinhVerdict, type TheKinhMap } from '@/lib/lucKinh'
 import AmDuongTaiji from '@/components/AmDuongTaiji.vue'
 
@@ -315,7 +316,7 @@ const dinhViWheel = computed(() => {
 })
 // Bóc lớp đồ hình (như Biện Chứng Luận Trị): 1 Âm Dương … 5 Lục Kinh. Mặc định lớp 1 (Âm Dương)
 // — vào tab là thấy Thái Cực DƯ/KHUYẾT ngay, không phải bấm mới thấy.
-const dinhViLop = ref<1 | 2 | 3 | 4 | 5>(5)
+const dinhViLop = ref<1 | 2 | 3 | 4 | 5>(1)
 // BỎ Ngũ Hành (lớp 2) khỏi thanh bóc lớp — chỉ giữ Âm Dương · Tạng Phủ · Lục Khí · Lục Kinh.
 // (lớp 3 vẫn cộng dồn vòng Ngũ Hành ở nền, nhưng không còn là bước "định vị" riêng.)
 const DINH_VI_LOP: ReadonlyArray<{ n: 1 | 2 | 3 | 4 | 5; ten: string; han: string }> = [
@@ -1928,6 +1929,21 @@ const lucKinhCaseCounts = computed<Record<string, number>>(() => {
   const v = lucKinhVerdict.value
   if (v) for (const t of v.theThuongHan) c[t.kinh] = (c[t.kinh] ?? 0) + 1
   return c
+})
+// Lục Khí của bệnh nhân (Hàn/Nhiệt từ nhiệt độ tạng phủ) — cho vòng Lục Khí giàu (VongLucKhi, lớp 4).
+const lucKhiCaseCounts = computed<Record<string, number>>(() => {
+  const c: Record<string, number> = {}
+  for (const o of affectedOrgans.value) {
+    if (o.temp === 'han' || o.temp === 'mixed') c['Hàn'] = (c['Hàn'] ?? 0) + 1
+    if (o.temp === 'nhiet' || o.temp === 'mixed') c['Nhiệt'] = (c['Nhiệt'] ?? 0) + 1
+  }
+  return c
+})
+const lucKhiTroi = computed<string | null>(() => {
+  const han = lucKhiCaseCounts.value['Hàn'] ?? 0
+  const nhiet = lucKhiCaseCounts.value['Nhiệt'] ?? 0
+  if (!han && !nhiet) return null
+  return nhiet > han ? 'Nhiệt' : 'Hàn'
 })
 
 // ── TRUYỀN BIẾN: xâu chuỗi các lần đo của bệnh nhân → đường đi qua Lục Kinh theo thời gian.
@@ -3783,18 +3799,26 @@ watch(
                   <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-wheel-cap-phu">+ {{ lucKinhVerdict.phu.ten }}</span>
                   <button v-if="dinhViLop !== 5" type="button" class="lk-wheel-cap-btn" @click="dinhViLop = 5">soi lớp Lục Kinh ▸</button>
                 </div>
-                <!-- Lớp 5 = vòng Lục Kinh giàu (Lục Kinh·Tạng Phủ·Lục Khí cùng lúc + số thể · kinh trội sáng);
-                     lớp 1/3/4 = bóc lớp CÓ TÔ SÁNG ô bệnh nhân (Âm Dương · Tạng Phủ · Lục Khí Hàn/Nhiệt). -->
+                <!-- Lớp 5 = vòng Lục Kinh giàu; lớp 4 = vòng Lục Khí giàu (Khí→Kinh→Tạng, Ngũ Hành sinh-khắc,
+                     giống Biện Chứng Luận Trị); lớp 1/3 = bóc lớp có TÔ SÁNG ô bệnh nhân (Âm Dương · Tạng Phủ). -->
                 <VongLucKinh
                   v-if="dinhViLop === 5"
                   class="bcpt-wheel"
                   :counts="lucKinhCaseCounts"
                   :active-kinh="lucKinhVerdict ? lucKinhVerdict.kinh.slug : null"
                 />
+                <VongLucKhi
+                  v-else-if="dinhViLop === 4"
+                  class="bcpt-wheel"
+                  :counts="lucKhiCaseCounts"
+                  :show-card="false"
+                  :active-khi="lucKhiTroi"
+                />
                 <BienChungWheel v-else class="bcpt-wheel" :lop="dinhViLop" :dinhvi="dinhViWheel" />
               </div>
               <div class="bcpt-wheel-side">
-                <p v-if="dinhViLop === 5" class="bcpt-wheel-cap">Lớp Lục Kinh (đầy đủ): <b>Lục Kinh</b> (ngoài) · <b>Tạng Phủ</b> · <b>Lục Khí</b> cùng lúc; số = <b>thể đo được</b> theo kinh; kinh <b>định vị</b> sáng nổi. Trục nét đứt = cặp biểu-lý.</p>
+                <p v-if="dinhViLop === 5" class="bcpt-wheel-cap">Lớp Lục Kinh: <b>Lục Kinh</b> (ngoài) · <b>Tạng Phủ</b> · <b>Lục Khí</b> cùng lúc; số = <b>thể đo được</b> theo kinh; kinh <b>định vị</b> sáng nổi. Trục nét đứt = cặp biểu-lý.</p>
+                <p v-else-if="dinhViLop === 4" class="bcpt-wheel-cap">Lớp Lục Khí: rê một <b>Khí</b> → tia Khí → Kinh (bản khí) → Tạng/Phủ; tâm <b>Ngũ Hành</b> sinh-khắc. Số = <b>tạng bị tác động</b> theo khí (Hàn/Nhiệt).</p>
                 <p v-else class="bcpt-wheel-cap">Bóc từng lớp (Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh). Ô <b>sáng vàng</b> = bệnh nhân có; mờ = không.</p>
                 <p v-if="dinhVi.isEmpty" class="bcpt-empty-note">
                   Các thể bệnh trên chưa có liên kết bài thuốc → chưa suy được định vị.

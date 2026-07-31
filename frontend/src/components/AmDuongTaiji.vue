@@ -196,14 +196,18 @@ const modalInfo = computed(() => {
 /* Vòng NÉT ĐỨT — mốc lệch khỏi "bình thường". Dày + đục + VIỀN KÉP (tối+sáng) để KHÔNG trùng nền
    (nổi cả trên kem lẫn nền navy của đồ hình); màu theo chiều để nhìn phát biết dư hay khuyết. */
 .ad-ref-ring {
-  stroke: var(--gray-500, #7d7264);
-  stroke-width: 2.4;
+  stroke: #6a6154;
+  stroke-width: 2.6;
   stroke-dasharray: 5 3.5;
   opacity: 1;
-  filter: drop-shadow(0 0 1px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 1.5px rgba(255, 255, 255, 0.7));
+  /* CHỈ bóng tối mỏng (không dùng bóng trắng — trên nền trắng sẽ làm nhoè viền). */
+  filter: drop-shadow(0 0 0.6px rgba(0, 0, 0, 0.6));
 }
-.ad-ref-ring--du { stroke: #d1502e; } /* DƯ (thừa ra) → viền CAM-ĐỎ, phóng TO ra ngoài */
-.ad-ref-ring--khuyet { stroke: #3a86bd; } /* KHUYẾT (hụt vào) → viền XANH, thu NHỎ vào trong */
+.ad-ref-ring--du { stroke: #e0450c; } /* DƯ (thừa ra) → viền CAM-ĐỎ TƯƠI, phóng TO ra ngoài */
+.ad-ref-ring--khuyet { stroke: #1273c9; } /* KHUYẾT (hụt vào) → viền XANH DƯƠNG TƯƠI, thu NHỎ vào trong */
+/* Trên nền tối (đồ hình Lục Kinh — taiji nhỏ ở tâm): dùng sắc SÁNG hơn để không chìm vào navy. */
+.ad-card--compact .ad-ref-ring--du { stroke: #ff8a4d; }
+.ad-card--compact .ad-ref-ring--khuyet { stroke: #6cc0ee; }
 
 /* DƯ — phần Thái Cực lồi ra NGOÀI vòng chuẩn: tô ĐẶC + quầng sáng cam mạnh = "thừa hẳn ra". */
 .ad-band--du {
