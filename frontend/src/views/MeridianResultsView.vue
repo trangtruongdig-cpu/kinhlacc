@@ -327,6 +327,14 @@ const DINH_VI_LOP: ReadonlyArray<{ n: 1 | 2 | 3 | 4 | 5; ten: string; han: strin
   { n: 5, ten: 'Lục Kinh', han: '六經' },
 ]
 
+// Chip Lục Kinh đang được SOI (bấm chip → tô sáng đúng kinh đó trên đồ hình). Bấm lại = bỏ chọn
+// (đồ hình quay về nổi kinh trội mặc định). Bấm bất kỳ chip nào cũng nhảy sang lớp 5 (Lục Kinh).
+const focusKinh = ref<KinhSlug | null>(null)
+function soiKinh(slug: KinhSlug) {
+  focusKinh.value = focusKinh.value === slug ? null : slug
+  if (focusKinh.value) dinhViLop.value = 5
+}
+
 // ── V. THANG ĐẶC TRỊ: gộp vị thuốc từ MỌI bài của các thể khớp, bỏ trùng theo vị,
 //    đếm SỐ BÀI chứa vị rồi xếp giảm dần (thông dụng → đặc trị). Thầy thuốc tích/bỏ
 //    vị + chỉnh liều → lưu thành đơn riêng của ca khám (như phương huyệt).
@@ -1952,6 +1960,10 @@ const bienChung = computed(() => {
   const v = lucKinhVerdict.value
   if (!v) return null
   const nhietHoa = /nhiệt hóa/.test(v.giaiDoan)
+  // CHUYỂN BIẾN (truyền kinh cấp) CHỈ suy khi định vị ĐỦ CHẮC: Bát Cương đo được KHỚP chữ ký kinh
+  // (không mâu thuẫn) → mới là Thương Hàn cấp một kinh. Ngược lại (nội thương / Bát Cương lệch /
+  // nhiều kinh) → KHÔNG suy, tránh dự đoán vô lý.
+  const dinhViChac = v.batCuongKhop && v.doTin !== 'thap'
   return {
     kinhTroi: v.kinh, // KinhMeta (slug, ten, han…)
     giaiDoan: v.giaiDoan,
@@ -1960,7 +1972,12 @@ const bienChung = computed(() => {
     phu: v.phu,
     tapKinh: Object.keys(lucKinhCaseCounts.value), // slug[] các kinh ca có (= tập chip Định Vị)
     counts: lucKinhCaseCounts.value,
-    chuyenBien: truyenBienCua(v.kinh.slug, { nhietHoa }),
+    dinhViChac,
+    // lý do KHÔNG suy chuyển biến (để hiển thị caveat)
+    cbLyDo: dinhViChac ? '' : (!v.batCuongKhop
+      ? 'Bát Cương đo được chưa khớp chữ ký kinh — định vị chưa chắc, chưa suy truyền kinh.'
+      : 'Định vị độ tin thấp — chưa suy chuyển biến.'),
+    chuyenBien: dinhViChac ? truyenBienCua(v.kinh.slug, { nhietHoa }) : null,
   }
 })
 // Chips ĐỊNH VỊ: tập kinh của ca, kinh TRỘI đứng đầu (dùng chung cho chip + đồ hình).
@@ -3746,18 +3763,31 @@ watch(
               <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-hopbenh">+ {{ lucKinhVerdict.phu.ten }}</span>
               <span class="lk-badge" :class="'lk-badge--' + lucKinhVerdict.doTin">độ tin {{ lucKinhVerdict.doTin }}</span>
             </div>
-            <!-- ĐỊNH VỊ (tập kinh, trội đầu) + CHUYỂN BIẾN — cùng nguồn bienChung, đồng bộ đồ hình -->
+            <!-- ĐỊNH VỊ (tập kinh, trội đầu) + CHUYỂN BIẾN — cùng nguồn bienChung, đồng bộ đồ hình.
+                 Chip BẤM ĐƯỢC: bấm → tô sáng đúng kinh đó trên đồ hình (lớp Lục Kinh). -->
             <div v-if="bienChung" class="lk-chips">
               <div class="lk-chip-row">
                 <span class="lk-chip-lb">Định vị</span>
-                <span v-for="c in dinhViKinhChips" :key="c.slug" class="lk-kchip" :class="{ troi: c.troi }" :data-kinh="c.slug">
+                <button
+                  v-for="c in dinhViKinhChips"
+                  :key="c.slug"
+                  type="button"
+                  class="lk-kchip lk-kchip--btn"
+                  :class="{ troi: c.troi, 'is-focus': focusKinh === c.slug }"
+                  :data-kinh="c.slug"
+                  :title="'Bấm để soi ' + c.ten + ' trên đồ hình'"
+                  @click="soiKinh(c.slug)"
+                >
                   <b v-if="c.troi">◉ </b>{{ c.ten }}<em v-if="c.count"> ·{{ c.count }}</em>
-                </span>
+                </button>
               </div>
               <div class="lk-chip-row">
                 <span class="lk-chip-lb">Chuyển biến</span>
-                <span class="lk-cb lk-cb--vaoly" :title="bienChung.chuyenBien.vaoLy.coChe">↓ vào lý → {{ bienChung.chuyenBien.vaoLy.ten }}</span>
-                <span class="lk-cb lk-cb--rabieu" :title="bienChung.chuyenBien.raBieu.coChe">↑ ra biểu → {{ bienChung.chuyenBien.raBieu.ten }}</span>
+                <template v-if="bienChung.chuyenBien">
+                  <span class="lk-cb lk-cb--vaoly" :title="bienChung.chuyenBien.vaoLy.coChe">↓ vào lý → {{ bienChung.chuyenBien.vaoLy.ten }}</span>
+                  <span class="lk-cb lk-cb--rabieu" :title="bienChung.chuyenBien.raBieu.coChe">↑ ra biểu → {{ bienChung.chuyenBien.raBieu.ten }}</span>
+                </template>
+                <span v-else class="lk-cb lk-cb--none" :title="bienChung.cbLyDo">— chưa suy (định vị chưa chắc)</span>
               </div>
             </div>
             <details class="lk-details">
@@ -3848,6 +3878,7 @@ watch(
                   :counts="lucKinhCaseCounts"
                   :case-set="bienChung ? bienChung.tapKinh : null"
                   :troi-kinh="bienChung ? bienChung.kinhTroi.slug : null"
+                  :active-kinh="focusKinh"
                   :chuyen-bien="bienChung ? bienChung.chuyenBien : null"
                 />
                 <VongLucKhi
@@ -3877,7 +3908,22 @@ watch(
                   <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ ax.num }}</span> {{ ax.title }} <em>{{ ax.sub }}</em></h3>
                   <div v-for="sg in ax.subgroups" :key="sg.nhom" class="bcpt-sub">
                     <span class="bcpt-sub-lb">{{ sg.label }}</span>
-                    <div class="bcpt-chips">
+                    <!-- Lục Kinh (Thương Hàn): DÙNG CHUNG NGUỒN bienChung (không lấy tag luc_kinh thô) →
+                         nhất quán với ◎ kết luận + đồ hình; chip BẤM ĐƯỢC (soi trên đồ hình). -->
+                    <div v-if="sg.nhom === 'gd-luc-kinh'" class="bcpt-chips">
+                      <button
+                        v-for="c in dinhViKinhChips"
+                        :key="c.slug"
+                        type="button"
+                        class="lk-kchip lk-kchip--btn lk-kchip--sm"
+                        :class="{ troi: c.troi, 'is-focus': focusKinh === c.slug }"
+                        :data-kinh="c.slug"
+                        :title="'Bấm để soi ' + c.ten + ' trên đồ hình'"
+                        @click="soiKinh(c.slug)"
+                      ><b v-if="c.troi">◉ </b>{{ c.ten }}<em v-if="c.count"> ·{{ c.count }}</em></button>
+                      <span v-if="!dinhViKinhChips.length" class="bcpt-empty">chưa định vị Lục Kinh</span>
+                    </div>
+                    <div v-else class="bcpt-chips">
                       <span v-for="t in sg.tags" :key="t.name" class="bcpt-chip bcpt-chip--on" :title="t.name">{{ t.label }}</span>
                       <span v-if="!sg.tags.length" class="bcpt-empty">—</span>
                     </div>
@@ -5924,9 +5970,18 @@ watch(
 .lk-kchip[data-kinh="thai-am"] { background: #8c6f2e; }
 .lk-kchip[data-kinh="thieu-am"] { background: #ab3644; }
 .lk-kchip[data-kinh="quyet-am"] { background: #4c7742; }
+/* Chip Lục Kinh BẤM ĐƯỢC — soi kinh tương ứng trên đồ hình */
+.lk-kchip--btn { border: none; cursor: pointer; font-family: inherit; line-height: 1.35; transition: transform .1s, box-shadow .12s, filter .12s; }
+.lk-kchip--btn:hover { filter: brightness(1.08); transform: translateY(-1px); }
+.lk-kchip--btn:focus-visible { outline: 2px solid var(--brown-700); outline-offset: 2px; }
+.lk-kchip--sm { font-size: 11.5px; padding: 2px 9px; }
+/* Đang soi: viền vàng đậm + hào quang — khớp với ô nổi bật trên đồ hình */
+.lk-kchip--btn.is-focus { box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px #c99a2e, 0 2px 8px rgba(201,154,46,.5); filter: brightness(1.1); }
+.lk-kchip--btn.troi.is-focus { box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px #c99a2e, 0 2px 10px rgba(201,154,46,.6); }
 .lk-cb { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 999px; cursor: help; white-space: nowrap; }
 .lk-cb--vaoly { color: #fff; background: #bf4632; }
 .lk-cb--rabieu { color: #fff; background: #4f8a3f; }
+.lk-cb--none { color: var(--text-subtle); background: var(--surface-2); border: 1px dashed var(--border); font-weight: 700; }
 .lk-none { margin: var(--space-3) 0 var(--space-4); padding: var(--space-3) var(--space-4); font-size: 13px; font-style: italic; color: var(--text-subtle); background: var(--surface-2); border: 1px dashed var(--border); border-radius: var(--radius-md); }
 
 /* ── Truyền biến Lục Kinh qua các lần đo ── */
