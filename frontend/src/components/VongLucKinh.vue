@@ -13,6 +13,9 @@ const props = defineProps<{
   activeKinh?: string | null // kinh đang lọc (đồng bộ từ bộ lọc)
   activeTang?: string | null // tạng phủ đang lọc sâu
   activeKhi?: string | null // tác nhân (lục khí) đang lọc sâu
+  caseSet?: string[] | null // ĐỊNH VỊ: tập kinh của bệnh nhân → tô sáng nền, kinh ngoài tập mờ đi
+  troiKinh?: string | null // kinh TRỘI (kết luận) → nổi bật nhất, sáng mặc định không cần rê
+  chuyenBien?: { vaoLy?: { slug?: string | null } | null; raBieu?: { slug?: string | null } | null } | null // mũi tên vào lý / ra biểu
 }>()
 const emit = defineEmits<{ select: [{ type: 'kinh' | 'khi' | 'tang'; key: string; label: string; kinh?: string }] }>()
 
@@ -104,10 +107,16 @@ const pinned = ref<string | null>(null) // kinh ĐÃ BẤM (chốt) — rê ch�
 const halfHi = ref<'duong' | 'am' | null>(null)
 const partnerOf = (slug: string | null) => (slug ? KINH.find((k) => k.slug === slug)?.doi ?? null : null)
 // Ưu tiên: rê (xem trước) → đã bấm → đang lọc bên panel. Rê KHÔNG đổi panel (tránh nhảy khi rê chuột ra).
-const focus = computed(() => hovered.value ?? pinned.value ?? props.activeKinh ?? null)
+// Mặc định sáng KINH TRỘI (kết luận) nếu không rê/lọc gì — để định vị luôn nổi.
+const focus = computed(() => hovered.value ?? pinned.value ?? props.activeKinh ?? props.troiKinh ?? null)
 const isHot = (slug: string) => focus.value === slug
 const isPartner = (slug: string) => partnerOf(focus.value) === slug
 const isDim = (slug: string) => focus.value !== null && !isHot(slug) && !isPartner(slug)
+// ĐỊNH VỊ: tập kinh của ca (tô sáng nền) + kinh trội (nổi nhất); kinh NGOÀI tập → mờ đi làm nền.
+const caseSet = computed(() => new Set(props.caseSet ?? []))
+const inCase = (slug: string) => caseSet.value.has(slug)
+const outCase = (slug: string) => caseSet.value.size > 0 && !caseSet.value.has(slug) && slug !== focus.value
+const isTroi = (slug: string) => !!props.troiKinh && slug === props.troiKinh
 function enter(k: K) { hovered.value = k.slug } // rê = chỉ tô sáng cục bộ
 function leave() { hovered.value = null }
 // BẤM mới chốt: vòng Kinh = chọn kinh (mục chính); vòng Khí/Tạng = lọc sâu (kinh = kinh chủ của sector).
@@ -153,7 +162,7 @@ const cnt = (slug: string) => props.counts?.[slug] ?? 0
 
       <!-- Các cung: 3 tầng nối nhau (Kinh ↔ Khí ↔ Tạng) -->
       <g v-for="(w, i) in wedges" :key="w.slug" class="vk-seg"
-         :class="{ hot: isHot(w.slug), partner: isPartner(w.slug), dim: isDim(w.slug), 'half-hi': halfHi === w.nhom }"
+         :class="{ hot: isHot(w.slug), partner: isPartner(w.slug), dim: isDim(w.slug), 'half-hi': halfHi === w.nhom, 'in-case': inCase(w.slug), 'out-case': outCase(w.slug), troi: isTroi(w.slug) }"
          @mouseenter="enter(w)" @mouseleave="leave()">
         <!-- Tạng Phủ: 2 nửa, mỗi tạng phủ bấm được → lọc sâu -->
         <path :d="w.dTangTuc" class="wj wj-tang pick" :class="{ act: activeTang === w.tuc }" @click.stop="pickTang(w, w.tuc)" />
@@ -247,6 +256,13 @@ const cnt = (slug: string) => props.counts?.[slug] ?? 0
 .vk-seg.partner .wj-kinh { stroke: #f2d79a; stroke-width: 1.4; filter: drop-shadow(0 0 5px rgba(242, 215, 154, 0.55)); }
 .vk-seg.partner { opacity: 1; }
 .vk-seg.half-hi .wj-kinh { stroke: rgba(255, 246, 222, 0.9); stroke-width: 1.3; filter: drop-shadow(0 0 5px rgba(250, 233, 200, 0.5)); }
+/* ĐỊNH VỊ: kinh trong tập của ca = sáng nền (viền vàng nhạt); kinh NGOÀI tập = mờ hẳn làm nền. */
+.vk-seg.in-case .wj-kinh { stroke: rgba(255, 224, 150, 0.85); stroke-width: 1.3; }
+.vk-seg.in-case .t-kinh { fill: #fff3d6; }
+.vk-seg.out-case { opacity: 0.34; filter: saturate(0.5); }
+/* KINH TRỘI (kết luận) — nổi bật NHẤT: viền vàng đậm + hào quang kép, chữ sáng, luôn bật. */
+.vk-seg.troi .wj-kinh { stroke: #ffe08a; stroke-width: 2.4; filter: drop-shadow(0 0 5px rgba(255, 210, 120, 0.95)) drop-shadow(0 0 12px rgba(255, 170, 60, 0.65)); }
+.vk-seg.troi .t-kinh { fill: #fff; font-weight: 800; }
 
 .tk-static { stroke: rgba(242, 215, 154, 0.28); stroke-width: 1; stroke-dasharray: 4 5; pointer-events: none; }
 .tk-line { stroke: #f2d79a; stroke-width: 1.8; stroke-dasharray: 5 4; opacity: 0.95; pointer-events: none; filter: drop-shadow(0 0 3px rgba(242, 215, 154, 0.55)); }

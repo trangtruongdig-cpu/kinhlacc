@@ -12,7 +12,8 @@ import { buildDinhVi, parseAmDuong, type PhapTriByBaiThuoc } from '@/lib/dinhVi'
 import BienChungWheel from '@/components/BienChungWheel.vue'
 import VongLucKinh from '@/components/VongLucKinh.vue'
 import VongLucKhi from '@/components/VongLucKhi.vue'
-import { locateLucKinh, huongTruyen, type LucKinhVerdict, type TheKinhMap } from '@/lib/lucKinh'
+import { locateLucKinh, huongTruyen, KINH_META, type KinhSlug, type LucKinhVerdict, type TheKinhMap } from '@/lib/lucKinh'
+import { truyenBienCua } from '@/lib/lucKinhTruyenBien'
 import AmDuongTaiji from '@/components/AmDuongTaiji.vue'
 
 const router = useRouter()
@@ -1946,6 +1947,30 @@ const lucKhiTroi = computed<string | null>(() => {
   return nhiet > han ? 'Nhiệt' : 'Hàn'
 })
 
+// ── 1 NGUỒN SỰ THẬT cho KẾT LUẬN + ĐỊNH VỊ (chips) + ĐỒ HÌNH: đều dẫn từ verdict + chuyển biến (sách). ──
+const bienChung = computed(() => {
+  const v = lucKinhVerdict.value
+  if (!v) return null
+  const nhietHoa = /nhiệt hóa/.test(v.giaiDoan)
+  return {
+    kinhTroi: v.kinh, // KinhMeta (slug, ten, han…)
+    giaiDoan: v.giaiDoan,
+    doTin: v.doTin,
+    hopBenh: v.hopBenh,
+    phu: v.phu,
+    tapKinh: Object.keys(lucKinhCaseCounts.value), // slug[] các kinh ca có (= tập chip Định Vị)
+    counts: lucKinhCaseCounts.value,
+    chuyenBien: truyenBienCua(v.kinh.slug, { nhietHoa }),
+  }
+})
+// Chips ĐỊNH VỊ: tập kinh của ca, kinh TRỘI đứng đầu (dùng chung cho chip + đồ hình).
+const dinhViKinhChips = computed(() => {
+  const b = bienChung.value
+  if (!b) return []
+  const order = [b.kinhTroi.slug, ...b.tapKinh.filter((s) => s !== b.kinhTroi.slug)] as KinhSlug[]
+  return order.map((s) => ({ slug: s, ten: KINH_META[s].ten, count: b.counts[s] ?? 0, troi: s === b.kinhTroi.slug }))
+})
+
 // ── TRUYỀN BIẾN: xâu chuỗi các lần đo của bệnh nhân → đường đi qua Lục Kinh theo thời gian.
 interface ExamLite { id: number; createdAt?: string | null; excelSyndromes?: { name: string }[] | null }
 const examHistory = ref<ExamLite[]>([])
@@ -3721,6 +3746,20 @@ watch(
               <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-hopbenh">+ {{ lucKinhVerdict.phu.ten }}</span>
               <span class="lk-badge" :class="'lk-badge--' + lucKinhVerdict.doTin">độ tin {{ lucKinhVerdict.doTin }}</span>
             </div>
+            <!-- ĐỊNH VỊ (tập kinh, trội đầu) + CHUYỂN BIẾN — cùng nguồn bienChung, đồng bộ đồ hình -->
+            <div v-if="bienChung" class="lk-chips">
+              <div class="lk-chip-row">
+                <span class="lk-chip-lb">Định vị</span>
+                <span v-for="c in dinhViKinhChips" :key="c.slug" class="lk-kchip" :class="{ troi: c.troi }" :data-kinh="c.slug">
+                  <b v-if="c.troi">◉ </b>{{ c.ten }}<em v-if="c.count"> ·{{ c.count }}</em>
+                </span>
+              </div>
+              <div class="lk-chip-row">
+                <span class="lk-chip-lb">Chuyển biến</span>
+                <span class="lk-cb lk-cb--vaoly" :title="bienChung.chuyenBien.vaoLy.coChe">↓ vào lý → {{ bienChung.chuyenBien.vaoLy.ten }}</span>
+                <span class="lk-cb lk-cb--rabieu" :title="bienChung.chuyenBien.raBieu.coChe">↑ ra biểu → {{ bienChung.chuyenBien.raBieu.ten }}</span>
+              </div>
+            </div>
             <details class="lk-details">
               <summary class="lk-summary">Vì sao · pháp trị · thể ngoài phạm vi</summary>
               <p class="lk-ketluan">{{ lucKinhVerdict.ketLuan }}</p>
@@ -3807,7 +3846,9 @@ watch(
                   v-if="dinhViLop === 5"
                   class="bcpt-wheel"
                   :counts="lucKinhCaseCounts"
-                  :active-kinh="lucKinhVerdict ? lucKinhVerdict.kinh.slug : null"
+                  :case-set="bienChung ? bienChung.tapKinh : null"
+                  :troi-kinh="bienChung ? bienChung.kinhTroi.slug : null"
+                  :chuyen-bien="bienChung ? bienChung.chuyenBien : null"
                 />
                 <VongLucKhi
                   v-else-if="dinhViLop === 4"
@@ -5870,6 +5911,22 @@ watch(
 .lk-lydo { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 3px; }
 .lk-lydo li { font-size: 12.5px; line-height: 1.45; color: var(--text-subtle); }
 .lk-ngoai { margin: var(--space-2) 0 0; font-size: 12px; font-style: italic; color: var(--text-subtle); }
+/* Chips định vị (tập kinh) + chuyển biến — cùng nguồn, đồng bộ đồ hình */
+.lk-chips { display: flex; flex-direction: column; gap: 5px; margin-top: var(--space-2); }
+.lk-chip-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.lk-chip-lb { font-size: 10.5px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; color: var(--text-subtle); min-width: 62px; }
+.lk-kchip { font-size: 12px; font-weight: 700; color: #fff; padding: 2px 10px; border-radius: 999px; background: var(--brown-600); }
+.lk-kchip em { font-style: normal; font-weight: 600; opacity: .85; }
+.lk-kchip.troi { box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px currentColor; }
+.lk-kchip[data-kinh="thai-duong"] { background: #3d6a8c; }
+.lk-kchip[data-kinh="duong-minh"] { background: #a3801f; }
+.lk-kchip[data-kinh="thieu-duong"] { background: #bd5730; }
+.lk-kchip[data-kinh="thai-am"] { background: #8c6f2e; }
+.lk-kchip[data-kinh="thieu-am"] { background: #ab3644; }
+.lk-kchip[data-kinh="quyet-am"] { background: #4c7742; }
+.lk-cb { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 999px; cursor: help; white-space: nowrap; }
+.lk-cb--vaoly { color: #fff; background: #bf4632; }
+.lk-cb--rabieu { color: #fff; background: #4f8a3f; }
 .lk-none { margin: var(--space-3) 0 var(--space-4); padding: var(--space-3) var(--space-4); font-size: 13px; font-style: italic; color: var(--text-subtle); background: var(--surface-2); border: 1px dashed var(--border); border-radius: var(--radius-md); }
 
 /* ── Truyền biến Lục Kinh qua các lần đo ── */
