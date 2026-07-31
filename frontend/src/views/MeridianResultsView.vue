@@ -10,6 +10,7 @@ import { ORGAN_ART } from '@/lib/organArt'
 import { computeTongCuong, type TongCuong } from '@/lib/meridianAnalysis'
 import { buildDinhVi, parseAmDuong, type PhapTriByBaiThuoc } from '@/lib/dinhVi'
 import BienChungWheel from '@/components/BienChungWheel.vue'
+import { locateLucKinh } from '@/lib/lucKinh'
 import AmDuongTaiji from '@/components/AmDuongTaiji.vue'
 
 const router = useRouter()
@@ -1895,6 +1896,15 @@ const tongCuong = computed<TongCuong>(() => {
   return computeTongCuong(nhiet, han, bieu, ly, diagnosis.value.huThuc)
 })
 
+// ── KẾT LUẬN LỤC KINH (Thương Hàn) cho ca này — tái dùng engine qua bảng thể→kinh đã thẩm định.
+//    Dồn phiếu các thể đo được + đối chiếu Bát Cương → kinh trội + giai đoạn + độ tin + lý do.
+const lucKinhVerdict = computed(() =>
+  locateLucKinh(
+    (excelSyndromesList.value as Array<{ name: string }>).map((s) => s.name),
+    tongCuong.value,
+  ),
+)
+
 /** Đủ 12 tạng phủ (mã kinh ngắn → tên) để bày QUANH hình người; gắn trạng thái Bát Cương nếu có. */
 const ALL_ORGANS: { name: string; organ: string }[] = [
   { name: 'Tâm', organ: 'Tâm' },
@@ -3605,6 +3615,29 @@ watch(
             </template>
             <span v-else class="bcpt-empty">chưa xác định thể bệnh</span>
           </div>
+
+          <!-- KẾT LUẬN LỤC KINH (Thương Hàn) — tổng hợp từ thể đo được + Bát Cương; như một câu chốt -->
+          <section v-if="lucKinhVerdict" class="lk-verdict" :class="'lk-verdict--' + lucKinhVerdict.doTin">
+            <div class="lk-verdict-head">
+              <span class="lk-eyebrow">◎ Kết luận Lục Kinh · Thương Hàn</span>
+              <span class="lk-badge" :class="'lk-badge--' + lucKinhVerdict.doTin">độ tin {{ lucKinhVerdict.doTin }}</span>
+            </div>
+            <p class="lk-main">
+              <b class="lk-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
+              <span class="lk-giaidoan">{{ lucKinhVerdict.giaiDoan }}</span>
+              <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-hopbenh">+ bắc cầu {{ lucKinhVerdict.phu.ten }}</span>
+            </p>
+            <p class="lk-ketluan">{{ lucKinhVerdict.ketLuan }}</p>
+            <ul class="lk-lydo">
+              <li v-for="(r, i) in lucKinhVerdict.lyDo" :key="i">{{ r }}</li>
+            </ul>
+            <p v-if="lucKinhVerdict.theNgoai.length" class="lk-ngoai">
+              Ngoài phạm vi Thương Hàn (chưa phân tích sâu): {{ lucKinhVerdict.theNgoai.join(', ') }}.
+            </p>
+          </section>
+          <p v-else-if="excelSyndromesList.length" class="lk-none">
+            Các thể đo được chưa thuộc phạm vi Thương Hàn Lục Kinh — chưa định vị (có thể là nội thương / ôn bệnh / tạp bệnh).
+          </p>
 
           <!-- ③ Tính chất (bát cương · chính khí) đưa lên gần đầu — khỏi cuộn hết đồ hình 5 vòng mới
           thấy. (Thái Cực Âm-Dương tổng cương đã chuyển sang Tab 1, thuộc kết luận Bát Cương.) -->
@@ -5658,4 +5691,33 @@ watch(
   .page-title { font-size: var(--font-size-xl); }
   .patient-table-header .data-table td { padding: 4px 6px; }
 }
+
+/* ── Kết luận Lục Kinh (Thương Hàn) — câu chốt định vị ca ── */
+.lk-verdict {
+  margin: var(--space-3) 0 var(--space-4);
+  padding: var(--space-4) var(--space-4) var(--space-3);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--brown-600);
+  border-radius: var(--radius-md);
+  background: var(--brown-50, var(--surface-2));
+}
+.lk-verdict--cao { border-left-color: #2e6f52; }
+.lk-verdict--vua { border-left-color: var(--brown-600); }
+.lk-verdict--thap { border-left-color: var(--gray-400, #b6a892); }
+.lk-verdict-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); flex-wrap: wrap; }
+.lk-eyebrow { font-size: var(--font-size-xs); font-weight: 800; letter-spacing: .03em; color: var(--brown-700); text-transform: uppercase; }
+.lk-badge { font-size: 11px; font-weight: 800; padding: 2px 10px; border-radius: 999px; white-space: nowrap; }
+.lk-badge--cao { color: #fff; background: #2e6f52; }
+.lk-badge--vua { color: #fff; background: var(--brown-600); }
+.lk-badge--thap { color: var(--text-subtle); background: var(--surface-2); border: 1px solid var(--border); }
+.lk-main { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 12px; margin: var(--space-2) 0 var(--space-1); }
+.lk-kinh { font-size: var(--font-size-lg); font-weight: 800; color: var(--text-brand); }
+.lk-kinh i { font-style: normal; font-weight: 600; opacity: .7; font-size: .85em; }
+.lk-giaidoan { font-size: var(--font-size-sm); font-weight: 700; color: var(--brown-700); }
+.lk-hopbenh { font-size: 11.5px; font-weight: 700; color: #fff; background: #8a5a2e; padding: 1px 9px; border-radius: 999px; }
+.lk-ketluan { margin: 0 0 var(--space-2); font-size: var(--font-size-sm); line-height: 1.55; color: var(--text); }
+.lk-lydo { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 3px; }
+.lk-lydo li { font-size: 12.5px; line-height: 1.45; color: var(--text-subtle); }
+.lk-ngoai { margin: var(--space-2) 0 0; font-size: 12px; font-style: italic; color: var(--text-subtle); }
+.lk-none { margin: var(--space-3) 0 var(--space-4); padding: var(--space-3) var(--space-4); font-size: 13px; font-style: italic; color: var(--text-subtle); background: var(--surface-2); border: 1px dashed var(--border); border-radius: var(--radius-md); }
 </style>
