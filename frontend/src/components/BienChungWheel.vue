@@ -12,8 +12,9 @@ const props = defineProps<{
   lop: number
   activeTang?: string | null
   auto?: boolean
-  /** ĐỊNH VỊ bệnh nhân (đọc-chỉ): tô sáng NHIỀU ô CÓ trên mỗi lớp, làm mờ ô không. Vắng = như cũ. */
-  dinhvi?: { kinh: string[]; khi: string[]; tang: string[]; amDuong: 'duong' | 'am' | 'both' | null; amLoai?: string | null } | null
+  /** ĐỊNH VỊ bệnh nhân (đọc-chỉ): tô sáng NHIỀU ô CÓ trên mỗi lớp, làm mờ ô không. Vắng = như cũ.
+   *  `troi` = kinh TRỘI (kết luận định vị) — tô nổi bật hơn hẳn các ô sáng khác. Vắng = không đánh dấu. */
+  dinhvi?: { kinh: string[]; khi: string[]; tang: string[]; amDuong: 'duong' | 'am' | 'both' | null; amLoai?: string | null; troi?: string | null } | null
 }>()
 // Trỏ vào 1 cung → báo cho panel biết đang trỏ Lục Kinh / Lục Khí / Tạng Phủ nào.
 const emit = defineEmits<{ select: [{ type: 'kinh' | 'khi' | 'tang' | 'hanh'; key: string; label: string; organs?: string[] }] }>()
@@ -164,6 +165,8 @@ const dvTangSet = computed(() => new Set((props.dinhvi?.tang ?? []).map(dvNorm))
 const dvLitKinh = (k: string) => dvKinhSet.value.has(dvNorm(k))
 const dvLitKhi = (k: string) => dvKhiSet.value.has(dvNorm(k))
 const dvLitTang = (name: string) => dvTangSet.value.has(dvNorm(name))
+const dvTroi = computed(() => dvNorm(props.dinhvi?.troi ?? ''))
+const isTroi = (k: string) => !!dvTroi.value && dvNorm(k) === dvTroi.value
 // Ngũ Hành SUY RA: hành sáng nếu có tạng/khí thuộc hành đó đang bệnh.
 const dvHanhSet = computed(() => {
   const s = new Set<string>()
@@ -585,7 +588,7 @@ onBeforeUnmount(() => {
       <!-- ===== Lục Kinh (lớp 5) ===== -->
       <g class="ring" :class="{ shown: shows(5), current: isCurrent(5) }" :style="{ opacity: layerOpacity(5) }">
         <circle :cx="CX" :cy="CY" :r="R.lkinhOut" fill="none" class="rim" />
-        <g v-for="(s, i) in lucKinh" :key="'lk' + i" class="seg" :class="{ dim: dimHex(i, s.hanh), hot: hotHex(i, s.hanh), partner: isPartner(i), 'dv-on': dvActive && dvLitKinh(s.kinh), 'dv-dim': dvActive && !dvLitKinh(s.kinh) }" @mouseenter="hoverKinh(s, i)" @mouseleave="leaveWedge()" @click="onKinh(s, i)">
+        <g v-for="(s, i) in lucKinh" :key="'lk' + i" class="seg" :class="{ dim: dimHex(i, s.hanh), hot: hotHex(i, s.hanh), partner: isPartner(i), 'dv-on': dvActive && dvLitKinh(s.kinh), 'dv-dim': dvActive && !dvLitKinh(s.kinh), 'dv-troi': dvActive && isTroi(s.kinh) }" @mouseenter="hoverKinh(s, i)" @mouseleave="leaveWedge()" @click="onKinh(s, i)">
           <path :d="s.d" class="wedge hoverable" :style="{ fill: s.nhom === 'duong' ? DUONG : AM }" />
           <text class="t-vi t-lk"><textPath :href="'#a-lk' + i" startOffset="50%">{{ s.kinh }}</textPath></text>
         </g>
@@ -751,6 +754,16 @@ onBeforeUnmount(() => {
 .seg.dv-on .wedge, .seg.dv-on .ob-bg { stroke: #ffd98a; stroke-width: 1.8; filter: drop-shadow(0 0 7px rgba(255, 210, 120, 0.78)); }
 .seg.dv-on .node-c { stroke: #ffd98a; stroke-width: 2.6; filter: drop-shadow(0 0 9px rgba(255, 210, 120, 0.82)); }
 .seg.dv-on .t-vi { fill: #fff8ea; }
+/* Kinh TRỘI (kết luận định vị) — nổi bật hơn hẳn ô sáng thường: viền trắng-cam đậm + hào quang kép. */
+.seg.dv-troi .wedge { stroke: #fff2cf; stroke-width: 3.2; filter: drop-shadow(0 0 6px rgba(255, 214, 120, 0.95)) drop-shadow(0 0 15px rgba(255, 168, 60, 0.7)); }
+.seg.dv-troi .t-vi { fill: #ffffff; font-weight: 800; }
+@media (prefers-reduced-motion: no-preference) {
+  .seg.dv-troi .wedge { animation: dvTroiPulse 1.8s ease-in-out infinite; }
+}
+@keyframes dvTroiPulse {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(255, 214, 120, 0.95)) drop-shadow(0 0 12px rgba(255, 168, 60, 0.6)); }
+  50% { filter: drop-shadow(0 0 8px rgba(255, 224, 150, 1)) drop-shadow(0 0 20px rgba(255, 168, 60, 0.85)); }
+}
 /* Lưỡi liềm DƯ/KHUYẾT + vòng nét đứt ở tâm Thái Cực (định vị Âm-Dương) — đồng bộ AmDuongTaiji.vue:
    DƯ tô ĐẬM (đang thừa) · KHUYẾT tô NHẠT (đang thiếu) — ngược hẳn nhau để phân biệt tả/bổ. */
 .dv-tj-band { stroke: rgba(251, 242, 221, 0.85); stroke-width: 1.1; }

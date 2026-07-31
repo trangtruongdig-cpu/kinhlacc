@@ -299,12 +299,17 @@ const dinhViWheel = computed(() => {
     for (const ax of dinhVi.value.axes) for (const sg of ax.subgroups) if (sg.nhom === nhom) return sg.tags.map((t) => t.label)
     return []
   }
+  // Gộp kinh sáng = tag engine ∪ {kinh trội + kinh phụ của KẾT LUẬN} để kinh trội chắc chắn không bị mờ.
+  const v = lucKinhVerdict.value
+  const kinhSet = new Set(tagsOf('gd-luc-kinh'))
+  if (v) { kinhSet.add(v.kinh.ten); if (v.phu) kinhSet.add(v.phu.ten) }
   return {
-    kinh: tagsOf('gd-luc-kinh'), // nhãn đã rút gọn: 'Thái Dương'…
+    kinh: [...kinhSet], // nhãn đã rút gọn: 'Thái Dương'…
     khi: tagsOf('tn-luc-khi'), // 'Hàn','Nhiệt','Thấp'…
     tang: dinhVi.value.tangPhu.map((t) => t.label),
     amDuong: parseAmDuong(tongCuong.value.amDuong),
     amLoai: tongCuong.value.loai, // để wheel vẽ vành khăn DƯ/KHUYẾT ở tâm Thái Cực (lớp 1)
+    troi: v ? v.kinh.ten : null, // kinh TRỘI (kết luận) → wheel tô nổi bật hơn hẳn
   }
 })
 // Bóc lớp đồ hình (như Biện Chứng Luận Trị): 1 Âm Dương … 5 Lục Kinh. Mặc định lớp 1 (Âm Dương)
@@ -1916,9 +1921,13 @@ async function loadExamHistory() {
   }
 }
 interface TrajPoint {
-  id: number; date: string; verdict: LucKinhVerdict | null
-  huong: { nhan: string; loai: 'vao-ly' | 'ra-bieu' | 'giu' } | null // hướng so với mốc TRƯỚC
+  id: number; ts: number; date: string; dot: number // số đợt bệnh (gap lớn = đợt mới)
+  verdict: LucKinhVerdict | null
+  huong: { nhan: string; loai: 'vao-ly' | 'ra-bieu' | 'giu' } | null // hướng so với mốc TRƯỚC (cùng đợt)
+  moiDot: boolean
 }
+// Cách nhau > 45 ngày coi là ĐỢT BỆNH khác (không nối truyền biến xuyên đợt — tránh nối nhầm 2 bệnh).
+const GAP_DOT_MS = 45 * 24 * 3600 * 1000
 const lucKinhTrajectory = computed<TrajPoint[]>(() => {
   const pts = examHistory.value
     .map((e) => ({
@@ -1930,17 +1939,25 @@ const lucKinhTrajectory = computed<TrajPoint[]>(() => {
     .sort((a, b) => a.ts - b.ts) // cũ → mới
   const out: TrajPoint[] = []
   let prevSlug: import('@/lib/lucKinh').KinhSlug | null = null
+  let prevTs = 0
+  let dot = 0
   for (const p of pts) {
+    const moiDot = prevTs > 0 && p.ts - prevTs > GAP_DOT_MS
+    if (moiDot || dot === 0) { dot++; prevSlug = null } // sang đợt mới → không nối hướng
     const slug = p.verdict?.kinh.slug ?? null
     const huong = prevSlug && slug ? huongTruyen(prevSlug, slug) : null
-    out.push({ id: p.id, date: p.date, verdict: p.verdict, huong })
+    out.push({ id: p.id, ts: p.ts, date: p.date, dot, verdict: p.verdict, huong, moiDot: moiDot })
     if (slug) prevSlug = slug
+    prevTs = p.ts
   }
   return out
 })
-// Xu hướng tổng: so mốc Thương Hàn ĐẦU và CUỐI có định vị được.
+// Xu hướng tổng — CHỈ trong đợt bệnh của ca ĐANG XEM (đầu → cuối đợt đó), không xuyên đợt.
 const truyenBienXuHuong = computed(() => {
-  const located = lucKinhTrajectory.value.filter((p) => p.verdict)
+  const all = lucKinhTrajectory.value
+  const cur = all.find((p) => p.id === examId.value) ?? all[all.length - 1]
+  if (!cur) return null
+  const located = all.filter((p) => p.dot === cur.dot && p.verdict)
   if (located.length < 2) return null
   return huongTruyen(located[0]!.verdict!.kinh.slug, located[located.length - 1]!.verdict!.kinh.slug)
 })
@@ -3688,8 +3705,9 @@ watch(
             </div>
             <ol class="lk-traj-line">
               <li v-for="p in lucKinhTrajectory" :key="p.id" class="lk-traj-node" :class="{ 'lk-traj-node--cur': p.id === examId }">
+                <span v-if="p.moiDot" class="lk-traj-break" title="Đợt bệnh khác (cách > 45 ngày) — không nối truyền biến">⋯ đợt mới</span>
                 <span
-                  v-if="p.huong"
+                  v-else-if="p.huong"
                   class="lk-traj-arrow"
                   :class="'lk-traj-arrow--' + p.huong.loai"
                   :title="p.huong.nhan"
@@ -3735,6 +3753,14 @@ watch(
                     @click="dinhViLop = l.n"
                   ><b>{{ l.n }}</b> {{ l.ten }} <i>{{ l.han }}</i></button>
                 </nav>
+                <!-- KẾT LUẬN ngay trên đồ hình: kinh trội (tô nổi bật trên vòng Lục Kinh) -->
+                <div v-if="lucKinhVerdict" class="lk-wheel-cap" :data-kinh="lucKinhVerdict.kinh.slug">
+                  <span class="lk-wheel-cap-lb">◉ Định vị</span>
+                  <b class="lk-wheel-cap-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
+                  <span class="lk-wheel-cap-gd">{{ lucKinhVerdict.giaiDoan }}</span>
+                  <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-wheel-cap-phu">+ {{ lucKinhVerdict.phu.ten }}</span>
+                  <button v-if="dinhViLop !== 5" type="button" class="lk-wheel-cap-btn" @click="dinhViLop = 5">soi trên vòng ▸</button>
+                </div>
                 <!-- MỌI lớp dùng CHUNG đồ hình (cùng cỡ + cùng đĩa tối); lớp 1 = Thái Cực + vành
                 khăn DƯ/KHUYẾT nhúng ở tâm (dinhvi.amLoai) — đồng bộ kích thước & màu giữa các lớp -->
                 <BienChungWheel class="bcpt-wheel" :lop="dinhViLop" :dinhvi="dinhViWheel" />
@@ -5811,5 +5837,32 @@ watch(
 .lk-traj-arrow--vao-ly { color: #b23a25; }
 .lk-traj-arrow--ra-bieu { color: #2e6f52; }
 .lk-traj-arrow--giu { color: var(--text-subtle); }
+.lk-traj-break { align-self: center; font-size: 10px; font-weight: 700; color: var(--text-subtle); padding: 0 6px; border-left: 1px dashed var(--border); border-right: 1px dashed var(--border); white-space: nowrap; }
 .lk-traj-note { margin: var(--space-2) 0 0; font-size: 11.5px; color: var(--text-subtle); line-height: 1.45; }
+
+/* ── Caption "Định vị" ngay trên vòng Lục Kinh — màu theo kinh trội ── */
+.lk-wheel-cap {
+  --kc: var(--brown-600);
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 10px;
+  padding: 8px 12px; border-radius: var(--radius-md);
+  border: 1px solid var(--kc); border-left: 4px solid var(--kc);
+  background: color-mix(in srgb, var(--kc) 10%, var(--surface));
+}
+.lk-wheel-cap[data-kinh="thai-duong"] { --kc: #3d6a8c; }
+.lk-wheel-cap[data-kinh="duong-minh"] { --kc: #a3801f; }
+.lk-wheel-cap[data-kinh="thieu-duong"] { --kc: #bd5730; }
+.lk-wheel-cap[data-kinh="thai-am"] { --kc: #8c6f2e; }
+.lk-wheel-cap[data-kinh="thieu-am"] { --kc: #ab3644; }
+.lk-wheel-cap[data-kinh="quyet-am"] { --kc: #4c7742; }
+.lk-wheel-cap-lb { font-size: 11px; font-weight: 800; letter-spacing: .03em; color: var(--kc); text-transform: uppercase; }
+.lk-wheel-cap-kinh { font-size: var(--font-size-lg); font-weight: 800; color: var(--kc); }
+.lk-wheel-cap-kinh i { font-style: normal; font-weight: 600; opacity: .75; font-size: .8em; }
+.lk-wheel-cap-gd { font-size: var(--font-size-sm); font-weight: 700; color: var(--text); }
+.lk-wheel-cap-phu { font-size: 11.5px; font-weight: 700; color: #fff; background: #8a5a2e; padding: 1px 8px; border-radius: 999px; }
+.lk-wheel-cap-btn {
+  margin-left: auto; font-size: 11.5px; font-weight: 700; color: var(--kc);
+  background: transparent; border: 1px solid var(--kc); border-radius: 999px;
+  padding: 2px 10px; cursor: pointer; white-space: nowrap;
+}
+.lk-wheel-cap-btn:hover { background: color-mix(in srgb, var(--kc) 14%, transparent); }
 </style>
