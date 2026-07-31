@@ -120,6 +120,8 @@ function tinhPole(tinh: string | null): 'lanh' | 'am' | null {
 export interface GiaiDoan {
   he: 'luc-kinh' | 'on-benh' | 'tap-benh';
   slug?: string; phan?: string;
+  /** Kinh PHỤ khi HỢP BỆNH (2 kinh cùng bệnh, vd Thiếu Dương + Dương Minh) — vá lỗ hổng chỉ 1 kinh. */
+  slug_phu?: string; ten_phu?: string; han_phu?: string;
   ten: string; han: string; tang_phu: string; khi: string; vi_tri: string;
   do_tin: 'cao' | 'vua' | 'thap';
   nguon: string; yeu?: boolean; phan_phu?: string | null;
@@ -327,6 +329,43 @@ export function suyBenhCoAll(input: SuyInput): { results: BenhCoResult[]; summar
       GD = { he: 'on-benh', phan: phanSym.phan, ...metaOf(PHAN_META, phanSym.phan), do_tin: phanSym.strong ? 'vua' : 'thap', nguon: 'phận ôn bệnh', ly_do: [`ôn bệnh: khớp "${phanSym.kw}" → ${phanSym.phan}`], votes: votesOut };
     } else if (lucTop) {
       GD = { he: 'luc-kinh', slug: lucTop, ...metaOf(KINH_META, lucTop), do_tin: 'thap', nguon: 'quy kinh (yếu)', yeu: true, ly_do: ['định hướng yếu — chỉ từ quy kinh vị thuốc, cần soi tay'], votes: votesOut, phan_phu: null };
+    }
+
+    // ── VÁ 2 LỖ HỔNG (làm tận gốc) ──
+    if (GD && GD.he === 'luc-kinh') {
+      const btJoin = btNamesLc.join(' ');
+      // ① HỢP BỆNH — CHỈ từ PHƯƠNG hợp bệnh kinh điển (data-driven, tránh nhiễu phiếu suy đoán):
+      //   Đại Sài Hồ = Thiếu Dương+Dương Minh · Sài Hồ Quế Chi = Thiếu Dương+Thái Dương ·
+      //   Cát Căn Cầm Liên = Dương Minh+Thái Dương (biểu lý song giải). Trước đây rớt mất kinh thứ hai.
+      const HOP: Array<[RegExp, string, string]> = [
+        [/đại sài hồ/, 'thieu-duong', 'duong-minh'],
+        [/sài hồ quế chi(?! can)/, 'thieu-duong', 'thai-duong'],
+        [/cát căn cầm liên/, 'duong-minh', 'thai-duong'],
+      ];
+      for (const [re, kA, kB] of HOP) {
+        if (!re.test(btJoin)) continue;
+        const phu = GD.slug === kA ? kB : GD.slug === kB ? kA : null;
+        if (phu) {
+          const pm = metaOf(KINH_META, phu);
+          GD.slug_phu = phu; GD.ten_phu = pm.ten; GD.han_phu = pm.han;
+          GD.ly_do = [...GD.ly_do, `Hợp bệnh: kèm ${pm.ten} (phương hợp bệnh kinh điển)`];
+        }
+        break;
+      }
+      // ② GẠN "THÙNG CHỨA" Thiếu Dương: Can/Đởm NỘI THƯƠNG (can khí uất · can hoả · can vị bất hoà ·
+      //   can đởm uất/thấp nhiệt · khí trệ · tâm đởm…) KHÔNG phải Thiếu Dương truyền kinh → hạ độ tin +
+      //   ghi chú, TRỪ khi có tín hiệu Thiếu Dương THẬT: vãng lai hàn nhiệt / bán biểu bán lý / phương
+      //   CỔ ĐIỂN (Tiểu·Đại Sài Hồ, Sài Hồ Quế Chi, Hao Cầm Thanh Đởm) — KHÔNG tính Sài Hồ Sơ Can /
+      //   Tiêu Dao (thời phương nội thương tuy có sài hồ).
+      if (GD.slug === 'thieu-duong' && GD.do_tin !== 'thap') {
+        const noiThuongCan = /(can khí uất|can hoả|can hỏa|can vị bất ho|can đởm uất|can đởm thấp nhiệt|can kinh uất|khí trệ|tâm đởm|đởm khiếp)/.test(hay);
+        const thieuDuongThat = /(vãng lai hàn nhiệt|hàn nhiệt vãng lai|bán biểu bán lý|thiếu dương chứng)/.test(hay)
+          || /tiểu sài hồ|đại sài hồ|sài hồ quế chi|hao cầm thanh đởm/.test(btJoin);
+        if (noiThuongCan && !thieuDuongThat) {
+          GD.do_tin = 'thap'; GD.yeu = true;
+          GD.ly_do = ['Can/Đởm NỘI THƯƠNG (tạp bệnh) — kinh vị trí đúng nhưng KHÔNG phải Thiếu Dương truyền kinh; cần xác nhận', ...GD.ly_do];
+        }
+      }
     }
 
     // Tạng phủ
