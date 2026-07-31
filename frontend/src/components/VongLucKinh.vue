@@ -115,8 +115,13 @@ const isDim = (slug: string) => focus.value !== null && !isHot(slug) && !isPartn
 // ĐỊNH VỊ: tập kinh của ca (tô sáng nền) + kinh trội (nổi nhất); kinh NGOÀI tập → mờ đi làm nền.
 const caseSet = computed(() => new Set(props.caseSet ?? []))
 const inCase = (slug: string) => caseSet.value.has(slug)
-const outCase = (slug: string) => caseSet.value.size > 0 && !caseSet.value.has(slug) && slug !== focus.value
 const isTroi = (slug: string) => !!props.troiKinh && slug === props.troiKinh
+// CHUYỂN BIẾN: kinh đích vào lý (đỏ, nặng) / ra biểu (xanh, hồi phục) — sáng lên ngay trên vòng.
+const cbVaoLy = computed(() => props.chuyenBien?.vaoLy?.slug ?? null)
+const cbRaBieu = computed(() => props.chuyenBien?.raBieu?.slug ?? null)
+// Kinh ngoài tập → mờ làm nền, TRỪ kinh đang soi + 2 đích chuyển biến (để chúng vẫn sáng).
+const outCase = (slug: string) =>
+  caseSet.value.size > 0 && !caseSet.value.has(slug) && slug !== focus.value && slug !== cbVaoLy.value && slug !== cbRaBieu.value
 function enter(k: K) { hovered.value = k.slug } // rê = chỉ tô sáng cục bộ
 function leave() { hovered.value = null }
 // BẤM mới chốt: vòng Kinh = chọn kinh (mục chính); vòng Khí/Tạng = lọc sâu (kinh = kinh chủ của sector).
@@ -162,7 +167,7 @@ const cnt = (slug: string) => props.counts?.[slug] ?? 0
 
       <!-- Các cung: 3 tầng nối nhau (Kinh ↔ Khí ↔ Tạng) -->
       <g v-for="(w, i) in wedges" :key="w.slug" class="vk-seg"
-         :class="{ hot: isHot(w.slug), partner: isPartner(w.slug), dim: isDim(w.slug), 'half-hi': halfHi === w.nhom, 'in-case': inCase(w.slug), 'out-case': outCase(w.slug), troi: isTroi(w.slug) }"
+         :class="{ hot: isHot(w.slug), partner: isPartner(w.slug), dim: isDim(w.slug), 'half-hi': halfHi === w.nhom, 'in-case': inCase(w.slug), 'out-case': outCase(w.slug), troi: isTroi(w.slug), 'cb-vaoly': w.slug === cbVaoLy, 'cb-rabieu': w.slug === cbRaBieu }"
          @mouseenter="enter(w)" @mouseleave="leave()">
         <!-- Tạng Phủ: 2 nửa, mỗi tạng phủ bấm được → lọc sâu -->
         <path :d="w.dTangTuc" class="wj wj-tang pick" :class="{ act: activeTang === w.tuc }" @click.stop="pickTang(w, w.tuc)" />
@@ -263,6 +268,11 @@ const cnt = (slug: string) => props.counts?.[slug] ?? 0
 /* KINH TRỘI (kết luận) — nổi bật NHẤT: viền vàng đậm + hào quang kép, chữ sáng, luôn bật. */
 .vk-seg.troi .wj-kinh { stroke: #ffe08a; stroke-width: 2.4; filter: drop-shadow(0 0 5px rgba(255, 210, 120, 0.95)) drop-shadow(0 0 12px rgba(255, 170, 60, 0.65)); }
 .vk-seg.troi .t-kinh { fill: #fff; font-weight: 800; }
+/* CHUYỂN BIẾN có thể tiếp theo — kinh đích sáng lên (đỏ = vào lý nặng · xanh = ra biểu hồi phục). */
+.vk-seg.cb-vaoly .wj-kinh { stroke: #e35a2f; stroke-width: 2; filter: drop-shadow(0 0 5px rgba(227, 90, 47, 0.85)); }
+.vk-seg.cb-vaoly .t-kinh { fill: #ffd9c9; }
+.vk-seg.cb-rabieu .wj-kinh { stroke: #6fae5a; stroke-width: 2; filter: drop-shadow(0 0 5px rgba(111, 174, 90, 0.8)); }
+.vk-seg.cb-rabieu .t-kinh { fill: #d9f0cf; }
 
 .tk-static { stroke: rgba(242, 215, 154, 0.28); stroke-width: 1; stroke-dasharray: 4 5; pointer-events: none; }
 .tk-line { stroke: #f2d79a; stroke-width: 1.8; stroke-dasharray: 5 4; opacity: 0.95; pointer-events: none; filter: drop-shadow(0 0 3px rgba(242, 215, 154, 0.55)); }

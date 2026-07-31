@@ -3860,7 +3860,7 @@ watch(
                 <BienChungWheel v-else class="bcpt-wheel" :lop="dinhViLop" :dinhvi="dinhViWheel" />
               </div>
               <div class="bcpt-wheel-side">
-                <p v-if="dinhViLop === 5" class="bcpt-wheel-cap">Lớp Lục Kinh: <b>Lục Kinh</b> (ngoài) · <b>Tạng Phủ</b> · <b>Lục Khí</b> cùng lúc; số = <b>thể đo được</b> theo kinh; kinh <b>định vị</b> sáng nổi. Trục nét đứt = cặp biểu-lý.</p>
+                <p v-if="dinhViLop === 5" class="bcpt-wheel-cap">Lớp Lục Kinh — <b style="color:#c99a2e">viền vàng đậm</b> = kinh <b>định vị (trội)</b> · viền vàng nhạt = kinh của ca · <b style="color:#e35a2f">đỏ</b> = có thể <b>vào lý (nặng)</b> · <b style="color:#5f9e4a">xanh</b> = có thể <b>ra biểu (hồi phục)</b>. Trục nét đứt = cặp biểu-lý.</p>
                 <p v-else-if="dinhViLop === 4" class="bcpt-wheel-cap">Lớp Lục Khí: rê một <b>Khí</b> → tia Khí → Kinh (bản khí) → Tạng/Phủ; tâm <b>Ngũ Hành</b> sinh-khắc. Số = <b>tạng bị tác động</b> theo khí (Hàn/Nhiệt).</p>
                 <p v-else class="bcpt-wheel-cap">Bóc từng lớp (Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh). Ô <b>sáng vàng</b> = bệnh nhân có; mờ = không.</p>
                 <p v-if="dinhVi.isEmpty" class="bcpt-empty-note">
