@@ -10,6 +10,7 @@ import { ORGAN_ART } from '@/lib/organArt'
 import { computeTongCuong, type TongCuong } from '@/lib/meridianAnalysis'
 import { buildDinhVi, parseAmDuong, type PhapTriByBaiThuoc } from '@/lib/dinhVi'
 import BienChungWheel from '@/components/BienChungWheel.vue'
+import VongLucKinh from '@/components/VongLucKinh.vue'
 import { locateLucKinh, huongTruyen, type LucKinhVerdict, type TheKinhMap } from '@/lib/lucKinh'
 import AmDuongTaiji from '@/components/AmDuongTaiji.vue'
 
@@ -1921,6 +1922,15 @@ const lucKinhVerdict = computed(() =>
     theKinhMap.value,
   ),
 )
+// Số thể ĐO ĐƯỢC của bệnh nhân theo từng kinh — hiện lên vòng Lục Kinh đầy đủ (VongLucKinh).
+const lucKinhCaseCounts = computed<Record<string, number>>(() => {
+  const c: Record<string, number> = {}
+  const v = lucKinhVerdict.value
+  if (v) for (const t of v.theThuongHan) c[t.kinh] = (c[t.kinh] ?? 0) + 1
+  return c
+})
+// Kiểu đồ hình: 'day-du' = Lục Kinh · Tạng Phủ · Lục Khí cùng lúc (đầy đủ, có số) · 'boc-lop' = bóc từng lớp.
+const wheelMode = ref<'day-du' | 'boc-lop'>('day-du')
 
 // ── TRUYỀN BIẾN: xâu chuỗi các lần đo của bệnh nhân → đường đi qua Lục Kinh theo thời gian.
 interface ExamLite { id: number; createdAt?: string | null; excelSyndromes?: { name: string }[] | null }
@@ -3754,17 +3764,11 @@ watch(
           <p v-if="dinhViLoading" class="bcpt-loading">Đang tổng hợp định vị…</p>
           <template v-else>
             <div class="bcpt-wheel-block">
-              <!-- BÓC LỚP: 1 Âm Dương → 5 Lục Kinh (như Biện Chứng Luận Trị); tô sáng ô bệnh nhân có -->
               <div class="bcpt-wheel-main">
-                <nav class="bcpt-lop" aria-label="Bóc lớp đồ hình">
-                  <button
-                    v-for="l in DINH_VI_LOP"
-                    :key="l.n"
-                    type="button"
-                    class="bcpt-lop-btn"
-                    :class="{ on: dinhViLop === l.n, done: dinhViLop >= l.n }"
-                    @click="dinhViLop = l.n"
-                  ><b>{{ l.n }}</b> {{ l.ten }} <i>{{ l.han }}</i></button>
+                <!-- Chuyển kiểu đồ hình: ĐẦY ĐỦ (Lục Kinh·Tạng Phủ·Lục Khí cùng lúc + số thể) | BÓC LỚP -->
+                <nav class="bcpt-mode" aria-label="Kiểu đồ hình">
+                  <button type="button" class="bcpt-mode-btn" :class="{ on: wheelMode === 'day-du' }" @click="wheelMode = 'day-du'">Đầy đủ · Lục Kinh 六經</button>
+                  <button type="button" class="bcpt-mode-btn" :class="{ on: wheelMode === 'boc-lop' }" @click="wheelMode = 'boc-lop'">Bóc lớp</button>
                 </nav>
                 <!-- KẾT LUẬN ngay trên đồ hình: kinh trội (tô nổi bật trên vòng Lục Kinh) -->
                 <div v-if="lucKinhVerdict" class="lk-wheel-cap" :data-kinh="lucKinhVerdict.kinh.slug">
@@ -3772,14 +3776,35 @@ watch(
                   <b class="lk-wheel-cap-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
                   <span class="lk-wheel-cap-gd">{{ lucKinhVerdict.giaiDoan }}</span>
                   <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-wheel-cap-phu">+ {{ lucKinhVerdict.phu.ten }}</span>
-                  <button v-if="dinhViLop !== 5" type="button" class="lk-wheel-cap-btn" @click="dinhViLop = 5">soi trên vòng ▸</button>
                 </div>
-                <!-- MỌI lớp dùng CHUNG đồ hình (cùng cỡ + cùng đĩa tối); lớp 1 = Thái Cực + vành
-                khăn DƯ/KHUYẾT nhúng ở tâm (dinhvi.amLoai) — đồng bộ kích thước & màu giữa các lớp -->
-                <BienChungWheel class="bcpt-wheel" :lop="dinhViLop" :dinhvi="dinhViWheel" />
+
+                <!-- ĐẦY ĐỦ: Lục Kinh (ngoài) · Tạng Phủ · Lục Khí cùng lúc + SỐ THỂ đo được của bệnh nhân;
+                     kinh trội = active-kinh (sáng + trục biểu-lý). -->
+                <VongLucKinh
+                  v-if="wheelMode === 'day-du'"
+                  class="bcpt-wheel"
+                  :counts="lucKinhCaseCounts"
+                  :active-kinh="lucKinhVerdict ? lucKinhVerdict.kinh.slug : null"
+                />
+
+                <!-- BÓC LỚP: 1 Âm Dương → 5 Lục Kinh; tô sáng ĐẦY ĐỦ ô bệnh nhân có trên từng lớp. -->
+                <template v-else>
+                  <nav class="bcpt-lop" aria-label="Bóc lớp đồ hình">
+                    <button
+                      v-for="l in DINH_VI_LOP"
+                      :key="l.n"
+                      type="button"
+                      class="bcpt-lop-btn"
+                      :class="{ on: dinhViLop === l.n, done: dinhViLop >= l.n }"
+                      @click="dinhViLop = l.n"
+                    ><b>{{ l.n }}</b> {{ l.ten }} <i>{{ l.han }}</i></button>
+                  </nav>
+                  <BienChungWheel class="bcpt-wheel" :lop="dinhViLop" :dinhvi="dinhViWheel" />
+                </template>
               </div>
               <div class="bcpt-wheel-side">
-                <p class="bcpt-wheel-cap">Bấm bóc từng lớp (Âm Dương → Lục Kinh). Ô <b>sáng vàng</b> = bệnh nhân có; mờ = không.</p>
+                <p v-if="wheelMode === 'day-du'" class="bcpt-wheel-cap">Vòng đầy đủ: <b>Lục Kinh</b> (ngoài) · <b>Tạng Phủ</b> · <b>Lục Khí</b> cùng lúc; số = <b>thể đo được</b> theo kinh; kinh <b>định vị</b> sáng nổi. Trục nét đứt = cặp biểu-lý.</p>
+                <p v-else class="bcpt-wheel-cap">Bấm bóc từng lớp (Âm Dương → Lục Kinh). Ô <b>sáng vàng</b> = bệnh nhân có; mờ = không.</p>
                 <p v-if="dinhVi.isEmpty" class="bcpt-empty-note">
                   Các thể bệnh trên chưa có liên kết bài thuốc → chưa suy được định vị.
                 </p>
@@ -4471,6 +4496,9 @@ watch(
 .bcpt-wheel-side { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
 .bcpt-wheel-cap { font-size: var(--font-size-xs); color: var(--gray-600); line-height: 1.5; margin: 0; }
 .bcpt-wheel-cap b { color: var(--brown-700); }
+.bcpt-mode { display: inline-flex; gap: 4px; padding: 3px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 999px; }
+.bcpt-mode-btn { font-size: var(--font-size-xs); font-weight: 700; padding: 4px 12px; border-radius: 999px; border: none; background: transparent; color: var(--text-subtle); cursor: pointer; transition: background .15s, color .15s; }
+.bcpt-mode-btn.on { background: var(--brown-600); color: var(--white); }
 .bcpt-mini { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; padding-top: var(--space-2); border-top: 1px dashed var(--brown-100); }
 .bcpt-mini-lb { font-size: var(--font-size-xs); font-weight: 700; color: var(--brown-700); }
 /* ①② ở cột phải: gọn hơn, sub-nhóm xếp dọc cho vừa cột hẹp */
