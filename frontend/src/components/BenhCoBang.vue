@@ -11,6 +11,7 @@ interface GiaiDoan {
   he: 'luc-kinh' | 'on-benh'
   slug?: string
   phan?: string
+  slug_phu?: string; ten_phu?: string; han_phu?: string // HỢP BỆNH: kinh phụ (2 kinh cùng bệnh)
   ten: string; han: string; tang_phu: string; khi: string; vi_tri: string
   do_tin: 'cao' | 'vua' | 'thap'
   nguon: string; yeu?: boolean; phan_phu?: string | null
@@ -246,6 +247,7 @@ const distTot = computed(() => (summary.value?.theoKinh ?? []).reduce((a, b) => 
                 <td>
                   <template v-if="r.giai_doan">
                     <span class="badge" :style="{ background: colorOf(r.giai_doan) }">{{ r.giai_doan.ten }}<i class="han">{{ r.giai_doan.han }}</i><em v-if="r.giai_doan.yeu" class="yeu">yếu</em></span>
+                    <span v-if="r.giai_doan.slug_phu" class="badge badge-hop" :style="{ background: COLOR[r.giai_doan.slug_phu] || '#8a7e6d' }" title="Hợp bệnh — kèm kinh phụ (2 kinh cùng bệnh)"><i class="hop-plus">＋</i>{{ r.giai_doan.ten_phu }}<i class="han">{{ r.giai_doan.han_phu }}</i></span>
                     <span v-if="r.giai_doan.tam_tieu" class="tt" :style="{ color: TT_COLOR[r.giai_doan.tam_tieu.tieu], borderColor: TT_COLOR[r.giai_doan.tam_tieu.tieu] }" :title="`Tam Tiêu ${r.giai_doan.tam_tieu.han}`">{{ r.giai_doan.tam_tieu.tieu }}</span>
                     <span class="conf" :class="r.giai_doan.do_tin">{{ r.giai_doan.do_tin }}</span>
                     <span v-if="r.override" class="ov" title="đã ghi đè tay">✎</span>
@@ -267,7 +269,7 @@ const distTot = computed(() => (summary.value?.theoKinh ?? []).reduce((a, b) => 
                     </div>
                     <div>
                       <h4>{{ r.giai_doan?.he === 'on-benh' ? 'Bối cảnh Ôn bệnh' : 'Bối cảnh Lục Kinh' }}</h4>
-                      <p class="ctx" v-if="r.giai_doan"><b>{{ r.giai_doan.ten }} {{ r.giai_doan.han }}</b> — {{ r.giai_doan.tang_phu }}<br>Khí: {{ r.giai_doan.khi }}<br>Vị trí: {{ r.giai_doan.vi_tri }}<span v-if="r.giai_doan.tam_tieu"><br>Tam Tiêu: <b :style="{ color: TT_COLOR[r.giai_doan.tam_tieu.tieu] }">{{ r.giai_doan.tam_tieu.han }} {{ r.giai_doan.tam_tieu.tieu }}</b> <em class="ttsrc">({{ r.giai_doan.tam_tieu.nguon }})</em></span><br>Nguồn suy: <b>{{ r.giai_doan.nguon }}</b><span v-if="r.giai_doan.phan_phu"><br>Kèm ôn bệnh: {{ r.giai_doan.phan_phu }}</span></p>
+                      <p class="ctx" v-if="r.giai_doan"><b>{{ r.giai_doan.ten }} {{ r.giai_doan.han }}</b> — {{ r.giai_doan.tang_phu }}<br>Khí: {{ r.giai_doan.khi }}<br>Vị trí: {{ r.giai_doan.vi_tri }}<span v-if="r.giai_doan.tam_tieu"><br>Tam Tiêu: <b :style="{ color: TT_COLOR[r.giai_doan.tam_tieu.tieu] }">{{ r.giai_doan.tam_tieu.han }} {{ r.giai_doan.tam_tieu.tieu }}</b> <em class="ttsrc">({{ r.giai_doan.tam_tieu.nguon }})</em></span><br>Nguồn suy: <b>{{ r.giai_doan.nguon }}</b><span v-if="r.giai_doan.slug_phu"><br>Hợp bệnh: <b>{{ r.giai_doan.ten }} + {{ r.giai_doan.ten_phu }}</b> (2 kinh cùng bệnh)</span><span v-if="r.giai_doan.phan_phu"><br>Kèm ôn bệnh: {{ r.giai_doan.phan_phu }}</span></p>
                       <p class="ctx">Bát cương: <span v-for="t in r.tinh_chat" :key="t" class="tag">{{ t }}</span><span v-if="!r.tinh_chat.length">—</span></p>
                     </div>
                     <div>
@@ -374,6 +376,8 @@ const distTot = computed(() => (summary.value?.theoKinh ?? []).reduce((a, b) => 
 .badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 6px; color: #fff; font-weight: 700; font-size: 12.5px; white-space: nowrap; }
 .badge .han { font-style: normal; font-weight: 400; opacity: .85; }
 .badge .yeu { font-style: normal; font-size: 10px; padding: 0 4px; border: 1px dashed rgba(255,255,255,.7); border-radius: 4px; margin-left: 3px; }
+.badge-hop { margin-left: 4px; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.55); }
+.badge-hop .hop-plus { font-style: normal; font-weight: 800; margin-right: 1px; opacity: .95; }
 .conf { font-size: 11px; padding: 2px 7px; border-radius: 6px; font-weight: 700; margin-left: 5px; }
 .conf.cao { background: rgba(79,158,106,.16); color: #3e8557; }
 .conf.vua { background: rgba(199,123,31,.15); color: #b06d18; }
