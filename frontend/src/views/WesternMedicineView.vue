@@ -1536,7 +1536,18 @@ async function doDelete() {
   border-left: 3px solid var(--chip-pattern-fg);
   border-radius: var(--radius-md);
 }
-.the-benh-group__title { font-size: 13px; }
+.the-benh-group__title {
+  font-size: 13px;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+/* Tên thể / pháp trị dài không tràn khỏi khối (chip đứng riêng trong cột dọc → tự xuống dòng) */
+.the-benh-group__row .chip-phap {
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
 .the-benh-group__row {
   display: flex;
   flex-direction: column;
