@@ -3713,22 +3713,24 @@ watch(
 
           <!-- KẾT LUẬN LỤC KINH (Thương Hàn) — tổng hợp từ thể đo được + Bát Cương; như một câu chốt -->
           <section v-if="lucKinhVerdict" class="lk-verdict" :class="'lk-verdict--' + lucKinhVerdict.doTin">
+            <!-- GỌN 1 dòng: kinh + giai đoạn + độ tin — để đồ hình hiện cùng khung nhìn, chi tiết ẩn trong "vì sao". -->
             <div class="lk-verdict-head">
-              <span class="lk-eyebrow">◎ Kết luận Lục Kinh · Thương Hàn</span>
-              <span class="lk-badge" :class="'lk-badge--' + lucKinhVerdict.doTin">độ tin {{ lucKinhVerdict.doTin }}</span>
-            </div>
-            <p class="lk-main">
+              <span class="lk-eyebrow">◎ Kết luận Lục Kinh</span>
               <b class="lk-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
               <span class="lk-giaidoan">{{ lucKinhVerdict.giaiDoan }}</span>
-              <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-hopbenh">+ bắc cầu {{ lucKinhVerdict.phu.ten }}</span>
-            </p>
-            <p class="lk-ketluan">{{ lucKinhVerdict.ketLuan }}</p>
-            <ul class="lk-lydo">
-              <li v-for="(r, i) in lucKinhVerdict.lyDo" :key="i">{{ r }}</li>
-            </ul>
-            <p v-if="lucKinhVerdict.theNgoai.length" class="lk-ngoai">
-              Ngoài phạm vi Thương Hàn (chưa phân tích sâu): {{ lucKinhVerdict.theNgoai.join(', ') }}.
-            </p>
+              <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-hopbenh">+ {{ lucKinhVerdict.phu.ten }}</span>
+              <span class="lk-badge" :class="'lk-badge--' + lucKinhVerdict.doTin">độ tin {{ lucKinhVerdict.doTin }}</span>
+            </div>
+            <details class="lk-details">
+              <summary class="lk-summary">Vì sao · pháp trị · thể ngoài phạm vi</summary>
+              <p class="lk-ketluan">{{ lucKinhVerdict.ketLuan }}</p>
+              <ul class="lk-lydo">
+                <li v-for="(r, i) in lucKinhVerdict.lyDo" :key="i">{{ r }}</li>
+              </ul>
+              <p v-if="lucKinhVerdict.theNgoai.length" class="lk-ngoai">
+                Ngoài phạm vi Thương Hàn (chưa phân tích sâu): {{ lucKinhVerdict.theNgoai.join(', ') }}.
+              </p>
+            </details>
           </section>
           <p v-else-if="excelSyndromesList.length" class="lk-none">
             Các thể đo được chưa thuộc phạm vi Thương Hàn Lục Kinh — chưa định vị (có thể là nội thương / ôn bệnh / tạp bệnh).
@@ -5836,10 +5838,10 @@ watch(
   .patient-table-header .data-table td { padding: 4px 6px; }
 }
 
-/* ── Kết luận Lục Kinh (Thương Hàn) — câu chốt định vị ca ── */
+/* ── Kết luận Lục Kinh (Thương Hàn) — câu chốt định vị ca (GỌN 1 dòng + chi tiết ẩn) ── */
 .lk-verdict {
-  margin: var(--space-3) 0 var(--space-4);
-  padding: var(--space-4) var(--space-4) var(--space-3);
+  margin: var(--space-2) 0 var(--space-3);
+  padding: var(--space-2) var(--space-3);
   border: 1px solid var(--border);
   border-left: 4px solid var(--brown-600);
   border-radius: var(--radius-md);
@@ -5848,8 +5850,13 @@ watch(
 .lk-verdict--cao { border-left-color: #2e6f52; }
 .lk-verdict--vua { border-left-color: var(--brown-600); }
 .lk-verdict--thap { border-left-color: var(--gray-400, #b6a892); }
-.lk-verdict-head { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); flex-wrap: wrap; }
-.lk-eyebrow { font-size: var(--font-size-xs); font-weight: 800; letter-spacing: .03em; color: var(--brown-700); text-transform: uppercase; }
+.lk-verdict-head { display: flex; align-items: baseline; gap: 6px 10px; flex-wrap: wrap; }
+.lk-verdict-head .lk-badge { margin-left: auto; }
+.lk-eyebrow { font-size: var(--font-size-xs); font-weight: 800; letter-spacing: .03em; color: var(--brown-700); text-transform: uppercase; align-self: center; }
+.lk-details { margin-top: var(--space-2); }
+.lk-details > summary { font-size: 12px; font-weight: 700; color: var(--brown-700); cursor: pointer; list-style: revert; }
+.lk-details > summary:hover { color: var(--brown-800, var(--brown-700)); }
+.lk-details[open] > summary { margin-bottom: var(--space-2); }
 .lk-badge { font-size: 11px; font-weight: 800; padding: 2px 10px; border-radius: 999px; white-space: nowrap; }
 .lk-badge--cao { color: #fff; background: #2e6f52; }
 .lk-badge--vua { color: #fff; background: var(--brown-600); }
