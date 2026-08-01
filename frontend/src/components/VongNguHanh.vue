@@ -17,7 +17,8 @@ const props = defineProps<{
 }>()
 
 const CX = 210, CY = 210, D2R = Math.PI / 180
-const PENTA_R = 80, K = 9, Z_CAP = 2.5, SINH_R = 100
+// Ngôi sao PHÓNG TO ra vành (như lớp Âm Dương): mốc cân bằng r=108, dịch tối đa ±30 → r∈[78,138].
+const PENTA_R = 108, K = 12, Z_CAP = 2.5, SINH_R = 150, LABEL_R = 176
 const T_THUC = 1.0, T_MILD = 0.5, GRAD = 1.2 // ngưỡng bệnh lý (|z|=1 = vượt bound máy)
 const N = (v: number) => v.toFixed(2)
 const pt = (r: number, deg: number) => { const a = deg * D2R; return { x: CX + r * Math.sin(a), y: CY - r * Math.cos(a) } }
@@ -61,7 +62,9 @@ const nodes = computed(() => HANHS.map((h, i) => {
     tone: missing ? null : (z! > 0 ? 'thuc' : 'hu'),
     auraR: 8 + 4 * az / Z_CAP + 3 + 7 * (az / Z_CAP),
     auraA: 0.12 + 0.55 * (az / Z_CAP),
-    label: pt(PENTA_R + 52, h.deg), // nhãn tạng ở vành ngoài
+    label: pt(LABEL_R, h.deg), // nhãn tạng ở sát vành ngoài
+    // DƯ (thực, đẩy ra ngoài mốc) / KHUYẾT (hư, co vào trong mốc) — như lớp Âm Dương
+    duKhuyet: missing ? '' : (r > PENTA_R + 0.5 ? 'du' : r < PENTA_R - 0.5 ? 'khuyet' : ''),
   }
 }))
 // vị trí hiện tại (méo hay chuẩn) cho từng node
@@ -133,6 +136,28 @@ const gocIdx = computed(() => {
   return bv > 0 ? best : -1
 })
 
+// ── HƯỚNG TÁC ĐỘNG để lập lại cân bằng (thực tả · hư bổ kỳ mẫu · thừa "ức mạnh phù yếu" ·
+//    vũ tả kẻ phản khắc + phù kẻ bị vũ) — GỢI Ý ĐỊNH HƯỚNG, không tự kê. Đã theo workflow y lý. ──
+const phapTri = computed(() => {
+  const items: { loai: string; text: string }[] = []
+  if (showMeo.value && showLuc.value) {
+    for (const k of khac.value.filter((k) => k.on).sort((a, b) => b.score - a.score)) {
+      const a = HANHS[k.i]!, b = HANHS[k.j]!
+      if (k.loai === 'thua') items.push({ loai: 'thua', text: `Tương thừa — ${a.ten}·${a.tang} (thực) khắc quá ${b.ten}·${b.tang}: ức ${a.tang} (tả ${a.ten}), phù ${b.tang} (bổ ${b.ten}).` })
+      else if (k.loai === 'vu') items.push({ loai: 'vu', text: `Tương vũ — ${b.ten}·${b.tang} phản khắc ${a.ten}·${a.tang}: tả ${b.tang}, phù ${a.tang}.` })
+    }
+  }
+  if (!items.length && showMeo.value) {
+    const arr = nodes.value.filter((n) => !n.missing && n.z != null)
+    const thuc = arr.filter((n) => n.z! >= 1).sort((x, y) => y.z! - x.z!)[0]
+    const hu = arr.filter((n) => n.z! <= -1).sort((x, y) => x.z! - y.z!)[0]
+    if (thuc) { const con = HANHS[(thuc.i + 1) % 5]!; items.push({ loai: 'thuc', text: `${thuc.tang} (${thuc.ten}) thực → TẢ: tả ${thuc.tang}, hoặc tả con ${con.tang} (thực tả kỳ tử).` }) }
+    if (hu) { const me = HANHS[(hu.i + 4) % 5]!; items.push({ loai: 'hu', text: `${hu.tang} (${hu.ten}) hư → BỔ: bổ mẹ ${me.tang} để dưỡng ${hu.tang} (hư bổ kỳ mẫu).` }) }
+  }
+  if (!items.length) items.push({ loai: 'canbang', text: 'Ngũ hành tương đối cân — chưa thấy tạng lệch rõ; giữ điều hoà, theo dõi.' })
+  return items.slice(0, 3)
+})
+
 // Thái Cực: glow ấm(dương)/lạnh(âm) khi mất cân bằng rõ.
 const ad = computed(() => Math.max(-1, Math.min(1, props.adNorm ?? 0)))
 const taijiGlow = computed(() => Math.abs(ad.value) >= 0.15)
@@ -163,6 +188,15 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
       </defs>
       <circle :cx="CX" :cy="CY" r="196" fill="url(#vnh-stone)" stroke="url(#vnh-stone)" />
 
+      <!-- THÁI CỰC tâm — vẽ SỚM (chìm xuống dưới ngôi sao), NHỎ + MỜ; chỉ làm mốc âm dương -->
+      <g class="vnh-taiji">
+        <circle v-if="taijiGlow" class="vnh-taiji-glow" :class="ad > 0 ? 'duong' : 'am'" :cx="CX" :cy="CY" r="24" />
+        <circle :cx="CX" :cy="CY" r="15" fill="#f4e7d1" stroke="rgba(0,0,0,.15)" />
+        <path :d="`M${CX} ${CY - 15} A15 15 0 0 0 ${CX} ${CY + 15} Z`" fill="#1b3a4b" />
+        <circle :cx="CX" :cy="CY - 7.5" r="7.5" fill="#1b3a4b" /><circle :cx="CX" :cy="CY + 7.5" r="7.5" fill="#f4e7d1" />
+        <circle :cx="CX" :cy="CY - 7.5" r="2.3" fill="#f4e7d1" /><circle :cx="CX" :cy="CY + 7.5" r="2.3" fill="#1b3a4b" />
+      </g>
+
       <!-- Nhãn hành + tạng/phủ ở vành ngoài (đứng yên) -->
       <g v-for="n in nodes" :key="'lb' + n.key" class="vnh-olabel" :style="{ '--hc': n.color }">
         <text :x="n.label.x" :y="n.label.y - 8" class="vnh-ol-hanh">{{ n.ten }} {{ n.han }}</text>
@@ -170,12 +204,14 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
         <text :x="n.label.x" :y="n.label.y + 18" class="vnh-ol-phu">{{ n.phu }}</text>
       </g>
 
-      <!-- (1) MỐC CHUẨN: ngũ giác đều mờ + mốc nhà — để thấy độ méo so với cân bằng -->
+      <!-- (1) MỐC CÂN BẰNG: vòng chuẩn (như lớp Âm Dương) + ngũ giác đều mờ + mốc nhà →
+           node NGOÀI vòng = DƯ (thực), TRONG vòng = KHUYẾT (hư) -->
+      <circle class="vnh-ref-ring" :cx="CX" :cy="CY" :r="PENTA_R" />
       <polygon class="vnh-ref" :points="nodes.map((n) => `${N(n.home.x)},${N(n.home.y)}`).join(' ')" />
       <circle v-for="n in nodes" :key="'hm' + n.key" class="vnh-home" :cx="n.home.x" :cy="n.home.y" r="3" />
 
-      <!-- (2) NAN HOA mốc-nhà → node (khoảng hở = độ co/đẩy nhìn thấy) -->
-      <line v-for="n in nodes" :key="'sp' + n.key" class="vnh-spoke"
+      <!-- (2) NAN HOA mốc → node (đỏ = đẩy ra DƯ · lam = co vào KHUYẾT) -->
+      <line v-for="n in nodes" :key="'sp' + n.key" class="vnh-spoke" :class="showMeo ? n.duKhuyet : ''"
         :x1="n.home.x" :y1="n.home.y" :x2="showMeo ? n.p.x : n.home.x" :y2="showMeo ? n.p.y : n.home.y" />
 
       <!-- (3) NGŨ GIÁC MÉO (hoặc chuẩn khi tắt) -->
@@ -212,14 +248,6 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
         <title>{{ n.tang }} ({{ n.ten }}) — {{ n.missing ? 'thiếu dữ liệu đo' : toneName(n.tone) + ' · z=' + (n.z ?? 0).toFixed(2) }}<template v-if="i === gocIdx"> · GỐC (nguồn thực)</template></title>
       </g>
 
-      <!-- (7) THÁI CỰC tâm — glow theo mất cân bằng âm dương tổng -->
-      <g class="vnh-taiji">
-        <circle v-if="taijiGlow" class="vnh-taiji-glow" :class="ad > 0 ? 'duong' : 'am'" :cx="CX" :cy="CY" r="30" />
-        <circle :cx="CX" :cy="CY" r="22" fill="#f4e7d1" stroke="rgba(0,0,0,.15)" />
-        <path :d="`M${CX} ${CY - 22} A22 22 0 0 0 ${CX} ${CY + 22} Z`" fill="#1b3a4b" />
-        <circle :cx="CX" :cy="CY - 11" r="11" fill="#1b3a4b" /><circle :cx="CX" :cy="CY + 11" r="11" fill="#f4e7d1" />
-        <circle :cx="CX" :cy="CY - 11" r="3.3" fill="#f4e7d1" /><circle :cx="CX" :cy="CY + 11" r="3.3" fill="#1b3a4b" />
-      </g>
     </svg>
 
     <div class="vnh-ctrls">
@@ -230,8 +258,16 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
         {{ showLuc ? '◉' : '○' }} Lực sinh–khắc
       </button>
     </div>
+    <!-- HƯỚNG TÁC ĐỘNG lập lại cân bằng — đọc từ chính hình méo + lực sinh khắc -->
+    <div v-if="showMeo" class="vnh-phaptri">
+      <span class="vnh-pt-lb">◈ Hướng lập lại cân bằng</span>
+      <ul>
+        <li v-for="(p, i) in phapTri" :key="i" :class="'vnh-pt--' + p.loai">{{ p.text }}</li>
+      </ul>
+      <span class="vnh-pt-note">Gợi ý định hướng theo sinh–khắc (tả thực · bổ hư · ức mạnh phù yếu) — đối chiếu tứ chẩn trước khi lập phương.</span>
+    </div>
     <p class="vnh-legend">
-      Nút <b style="color:#35638d">co vào = HƯ</b> (suy) · <b style="color:#b23a29">đẩy ra = THỰC</b> (dư); ngũ giác mờ = mốc cân bằng chuẩn.
+      Nút <b style="color:#35638d">co vào = HƯ</b> (suy) · <b style="color:#b23a29">đẩy ra = THỰC</b> (dư); vòng/ngũ giác mờ = mốc cân bằng chuẩn.
       Dây <b style="color:#b23a29">đỏ mũi tên to</b> = tương thừa (khắc quá) · <b style="color:#8a2f4f">mận ngược</b> = tương vũ (phản khắc);
       viền <b style="color:#c99a2e">vàng</b> = tạng GỐC. Hư do bị khắc ≠ gốc bệnh — đối chiếu tứ chẩn.
     </p>
@@ -248,10 +284,15 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 .vnh-ol-tang { font-size: 10.5px; font-weight: 700; fill: #f2e6cc; }
 .vnh-ol-phu { font-size: 8px; font-weight: 600; fill: #cdbb98; }
 
-/* Mốc chuẩn + nan hoa */
-.vnh-ref { fill: none; stroke: rgba(200, 176, 128, 0.32); stroke-width: 1.2; stroke-dasharray: 5 4; }
+/* Mốc cân bằng chuẩn (vòng như lớp Âm Dương) + ngũ giác đều + nan hoa */
+.vnh-ref-ring { fill: none; stroke: rgba(214, 196, 150, 0.4); stroke-width: 1.4; stroke-dasharray: 6 5; }
+.vnh-ref { fill: none; stroke: rgba(200, 176, 128, 0.30); stroke-width: 1.2; stroke-dasharray: 5 4; }
 .vnh-home { fill: none; stroke: rgba(200, 176, 128, 0.5); stroke-width: 1; }
 .vnh-spoke { stroke: rgba(180, 150, 110, 0.32); stroke-width: 1.2; transition: all 0.35s ease; }
+.vnh-spoke.du { stroke: rgba(178, 58, 41, 0.7); stroke-width: 2; } /* đẩy ra ngoài mốc = DƯ (thực) */
+.vnh-spoke.khuyet { stroke: rgba(53, 99, 141, 0.7); stroke-width: 2; } /* co vào trong mốc = KHUYẾT (hư) */
+/* Thái Cực chìm xuống, mờ — chỉ làm mốc âm dương, không tranh nhìn với ngôi sao */
+.vnh-taiji { opacity: 0.5; }
 
 /* Ngũ giác méo */
 .vnh-poly { fill: rgba(224, 205, 168, 0.10); stroke: rgba(224, 205, 168, 0.85); stroke-width: 2; stroke-linejoin: round; transition: all 0.35s ease; }
@@ -293,4 +334,13 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 .vnh-btn small { font-weight: 500; font-size: 10px; color: var(--text-muted, #8a7a60); }
 .vnh-btn.on { background: #efe6d4; border-color: #c9a24e; }
 .vnh-legend { margin: 0; font-size: 11.5px; line-height: 1.5; color: var(--text, #3a2c1a); text-align: center; max-width: 44em; }
+/* Hướng lập lại cân bằng */
+.vnh-phaptri { width: 100%; max-width: 44em; border: 1px solid var(--border, #e7ddcd); border-left: 4px solid #6b8f4f; border-radius: var(--radius-md, 8px); background: var(--surface-2, #faf6ee); padding: 8px 12px; }
+.vnh-pt-lb { font-size: 11px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; color: #4f7d39; }
+.vnh-phaptri ul { margin: 5px 0 4px; padding-left: 16px; display: flex; flex-direction: column; gap: 3px; }
+.vnh-phaptri li { font-size: 12.5px; line-height: 1.45; color: var(--text, #3a2c1a); }
+.vnh-pt--thua::marker, .vnh-pt--thuc::marker { color: #b23a29; }
+.vnh-pt--vu::marker { color: #8a2f4f; }
+.vnh-pt--hu::marker { color: #35638d; }
+.vnh-pt-note { font-size: 10.5px; font-style: italic; color: var(--text-subtle, #8a7a60); }
 </style>

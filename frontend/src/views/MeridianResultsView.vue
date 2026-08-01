@@ -12,6 +12,7 @@ import { buildDinhVi, parseAmDuong, type PhapTriByBaiThuoc } from '@/lib/dinhVi'
 import BienChungWheel from '@/components/BienChungWheel.vue'
 import VongLucKinh from '@/components/VongLucKinh.vue'
 import VongLucKhi from '@/components/VongLucKhi.vue'
+import VongNguHanh from '@/components/VongNguHanh.vue'
 import { locateLucKinh, huongTruyen, KINH_META, type KinhSlug, type LucKinhVerdict, type TheKinhMap } from '@/lib/lucKinh'
 import { truyenBienCua } from '@/lib/lucKinhTruyenBien'
 import { mocKham, mocKhamMs, ngayKhamVN } from '@/lib/caKham'
@@ -1912,6 +1913,42 @@ const tongCuong = computed<TongCuong>(() => {
   const ly = orgs.filter((o) => o.depth === 'ly' || o.depth === 'mixed').length
   return computeTongCuong(nhiet, han, bieu, ly, diagnosis.value.huThuc)
 })
+
+// ── NGŨ HÀNH MÉO (lớp 3): độ lệch z mỗi hành từ số đo, để ngôi sao "xộc xệch" đúng tạng suy/thịnh ──
+// z = (avg − mean)/sd trong ĐÚNG nhóm chi (mean=(max+min)/2, sd=range/6). Bỏ kinh avg==0 (thiếu đo);
+// sd≈0 → coi z=0 (đứng mốc). Gộp mỗi hành: tạng (w0.6) + phủ (w0.4). Đã qua workflow thẩm định.
+const nguHanhZ = computed<{ hoa: number | null; tho: number | null; kim: number | null; thuy: number | null; moc: number | null }>(() => {
+  const zChan = (rows: { name: string; avg: number }[], stats: { mean: number; sd: number }, name: string): number | null => {
+    const row = rows.find((r) => r.name === name)
+    if (!row || !(row.avg > 0)) return null // thiếu đo — KHÔNG coi 0 là số đo (tránh "hư nặng" giả)
+    if (!(stats.sd > 1e-6)) return 0 // thiếu phân tán → đứng ở mốc, không kết luận hư/thực
+    return (row.avg - stats.mean) / stats.sd
+  }
+  const gop = (tangNames: string[], phuNames: string[], rows: { name: string; avg: number }[], stats: { mean: number; sd: number }): number | null => {
+    const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length
+    const tangZ = tangNames.map((n) => zChan(rows, stats, n)).filter((v): v is number => v != null)
+    const phuZ = phuNames.map((n) => zChan(rows, stats, n)).filter((v): v is number => v != null)
+    const parts: { v: number; w: number }[] = []
+    if (tangZ.length) parts.push({ v: mean(tangZ), w: 0.6 })
+    if (phuZ.length) parts.push({ v: mean(phuZ), w: 0.4 })
+    if (!parts.length) return null
+    return parts.reduce((s, p) => s + p.v * p.w, 0) / parts.reduce((s, p) => s + p.w, 0)
+  }
+  const uR = upperRows.value, uS = upperStats.value, lR = lowerRows.value, lS = lowerStats.value
+  return {
+    hoa: gop(['Tâm', 'Bào'], ['Tiểu', 'Tam'], uR, uS), // Tướng Hỏa gộp Tâm Bào / Tam Tiêu
+    kim: gop(['Phế'], ['Đại'], uR, uS),
+    tho: gop(['Tỳ'], ['Vị'], lR, lS),
+    thuy: gop(['Thận'], ['Bàng'], lR, lS),
+    moc: gop(['Can'], ['Đởm'], lR, lS),
+  }
+})
+// Âm dương tổng → [−1,+1] cho Thái Cực (glow ấm/lạnh). Dương/nhiệt = +, âm/hàn = −.
+const NGU_HANH_AD: Record<string, number> = {
+  'duong-thinh': 1, 'thien-duong': 0.5, 'am-hu': 0.3, // âm hư sinh nội nhiệt → ấm nhẹ
+  'am-thinh': -1, 'thien-am': -0.5, 'duong-hu': -0.3, // dương hư sinh ngoại hàn → lạnh nhẹ
+}
+const nguHanhAdNorm = computed(() => NGU_HANH_AD[tongCuong.value.loai] ?? 0)
 
 // ── KẾT LUẬN LỤC KINH (Thương Hàn) cho ca này — tái dùng engine qua bảng thể→kinh đã thẩm định.
 //    Dồn phiếu các thể đo được + đối chiếu Bát Cương → kinh trội + giai đoạn + độ tin + lý do.
@@ -4034,11 +4071,18 @@ watch(
                   :show-card="false"
                   :active-khi="lucKhiTroi"
                 />
+                <VongNguHanh
+                  v-else-if="dinhViLop === 3"
+                  class="bcpt-wheel"
+                  :z="nguHanhZ"
+                  :ad-norm="nguHanhAdNorm"
+                />
                 <BienChungWheel v-else class="bcpt-wheel" :lop="dinhViLop" :dinhvi="dinhViWheel" />
               </div>
               <div class="bcpt-wheel-side">
                 <p v-if="dinhViLop === 5" class="bcpt-wheel-cap">Lớp Lục Kinh — <b style="color:#c99a2e">viền vàng đậm</b> = kinh <b>định vị (trội)</b> · viền vàng nhạt = kinh của ca · <b style="color:#e35a2f">đỏ</b> = có thể <b>vào lý (nặng)</b> · <b style="color:#5f9e4a">xanh</b> = có thể <b>ra biểu (hồi phục)</b>. Trục nét đứt = cặp biểu-lý.</p>
                 <p v-else-if="dinhViLop === 4" class="bcpt-wheel-cap">Lớp Lục Khí: rê một <b>Khí</b> → tia Khí → Kinh (bản khí) → Tạng/Phủ; tâm <b>Ngũ Hành</b> sinh-khắc. Số = <b>tạng bị tác động</b> theo khí (Hàn/Nhiệt).</p>
+                <p v-else-if="dinhViLop === 3" class="bcpt-wheel-cap">Lớp Tạng Phủ — ngôi sao <b>Ngũ Hành méo theo số đo</b>: đỉnh <b style="color:#35638d">co vào = tạng HƯ</b> (suy), <b style="color:#b23a29">đẩy ra = THỰC</b> (dư). Dây <b style="color:#b23a29">đỏ</b> = tương thừa (khắc quá), <b style="color:#8a2f4f">mận</b> = tương vũ; viền vàng = tạng <b>gốc</b>. So với ngũ giác mờ (mốc cân bằng) để thấy độ xộc xệch.</p>
                 <p v-else class="bcpt-wheel-cap">Bóc từng lớp (Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh). Ô <b>sáng vàng</b> = bệnh nhân có; mờ = không.</p>
                 <p v-if="dinhVi.isEmpty" class="bcpt-empty-note">
                   Các thể bệnh trên chưa có liên kết bài thuốc → chưa suy được định vị.
