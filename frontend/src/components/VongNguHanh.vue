@@ -268,7 +268,9 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 .vnh { width: 100%; max-width: min(100%, 62vh); margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 10px; }
 /* Sân khấu vuông: Thái Cực NỀN (mờ) + ngôi sao SVG chồng lên trên */
 .vnh-stage { position: relative; width: 100%; }
-.vnh-taiji-bg { position: absolute; inset: 0; z-index: 0; opacity: 0.72; pointer-events: none; }
+/* Thái Cực nền PHÓNG TO lấp đầy tới vòng rìa: taiji của AmDuongTaiji vốn = 66% khung → nới khung
+   lên 138% (căn giữa) để đường tròn taiji bằng rim; clip tròn 33% để dư/khuyết thừa cắt gọn ở rìa. */
+.vnh-taiji-bg { position: absolute; width: 138.4%; height: 138.4%; left: -19.2%; top: -19.2%; z-index: 0; opacity: 0.68; pointer-events: none; clip-path: circle(33% at 50% 50%); }
 .vnh-taiji-bg :deep(.ad-card) { width: 100%; height: 100%; border: none !important; background: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; display: block; }
 .vnh-taiji-bg :deep(.ad-fig) { width: 100%; height: 100%; padding: 0 !important; margin: 0 !important; }
 .vnh-taiji-bg :deep(.ad-svg) { width: 100%; height: 100%; display: block; }
