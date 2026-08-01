@@ -1,0 +1,296 @@
+<script setup lang="ts">
+/**
+ * VongNguHanh — NGÔI SAO NGŨ HÀNH / NGŨ TẠNG MÉO theo mất cân bằng ĐO ĐƯỢC (lớp 3 Tạng Phủ).
+ * Ý tưởng (lương y): âm dương · ngũ hành phải cân bằng → khi đo lệch, ngôi sao phải "xộc xệch"
+ * đúng chỗ tạng suy/thịnh; đỉnh HƯ co vào tâm, THỰC đẩy ra vành. Kèm mạng lực SINH (nuôi) và KHẮC
+ * (kìm): làm nổi tương thừa 相乘 / tương vũ 相侮 / mẫu-tử để thấy tạng GỐC và hướng lan.
+ * Mô hình + hằng số đã qua workflow thẩm định (K=9 bảo thủ, smoothstep deadband, guard thiếu-đo/sd=0).
+ * Quy ước máy dẫn-điện (Lê Văn Sửu/Ryodoraku): chỉ số CAO = thực (đẩy ra) · THẤP = hư (co vào).
+ */
+import { computed, ref } from 'vue'
+
+const props = defineProps<{
+  // z mỗi hành (đã gộp tạng 0.6 + phủ 0.4, chỉ kinh đo được); null = thiếu dữ liệu.
+  z: { hoa: number | null; tho: number | null; kim: number | null; thuy: number | null; moc: number | null } | null
+  adNorm?: number | null // −1 (âm/hàn) … +1 (dương/nhiệt) — mất cân bằng âm dương tổng (Thái Cực)
+  reversePolarity?: boolean // máy đo TRỞ KHÁNG (đảo cao↔thấp) — cần bác sĩ xác nhận
+}>()
+
+const CX = 210, CY = 210, D2R = Math.PI / 180
+const PENTA_R = 80, K = 9, Z_CAP = 2.5, SINH_R = 100
+const T_THUC = 1.0, T_MILD = 0.5, GRAD = 1.2 // ngưỡng bệnh lý (|z|=1 = vượt bound máy)
+const N = (v: number) => v.toFixed(2)
+const pt = (r: number, deg: number) => { const a = deg * D2R; return { x: CX + r * Math.sin(a), y: CY - r * Math.cos(a) } }
+const smoothstep = (e0: number, e1: number, x: number) => { const t = Math.max(0, Math.min(1, (x - e0) / (e1 - e0))); return t * t * (3 - 2 * t) }
+function arrowHead(tip: { x: number; y: number }, dir: { x: number; y: number }, len = 7, w = 4) {
+  const px = -dir.y, py = dir.x
+  return `${N(tip.x)},${N(tip.y)} ${N(tip.x - dir.x * len + px * w)},${N(tip.y - dir.y * len + py * w)} ${N(tip.x - dir.x * len - px * w)},${N(tip.y - dir.y * len - py * w)}`
+}
+
+// PENTA index [0]Hỏa [1]Thổ [2]Kim [3]Thủy [4]Mộc — thuận KĐH = vòng TƯƠNG SINH; i→i+2 = TƯƠNG KHẮC.
+interface HanhDef { key: 'hoa' | 'tho' | 'kim' | 'thuy' | 'moc'; ten: string; han: string; tang: string; tangHan: string; phu: string; deg: number; color: string }
+const HANHS: HanhDef[] = [
+  { key: 'hoa', ten: 'Hỏa', han: '火', tang: 'Tâm', tangHan: '心', phu: 'Tiểu Trường', deg: 0, color: '#b23a29' },
+  { key: 'tho', ten: 'Thổ', han: '土', tang: 'Tỳ', tangHan: '脾', phu: 'Vị', deg: 72, color: '#b3872c' },
+  { key: 'kim', ten: 'Kim', han: '金', tang: 'Phế', tangHan: '肺', phu: 'Đại Trường', deg: 144, color: '#b39a55' },
+  { key: 'thuy', ten: 'Thủy', han: '水', tang: 'Thận', tangHan: '腎', phu: 'Bàng Quang', deg: 216, color: '#35638d' },
+  { key: 'moc', ten: 'Mộc', han: '木', tang: 'Can', tangHan: '肝', phu: 'Đởm', deg: 288, color: '#4f7d39' },
+]
+
+const showMeo = ref(true) // méo (thực tế) ↔ chuẩn (cân bằng) để đối chiếu
+const showLuc = ref(true) // hiện/ẩn lực sinh–khắc
+
+// zEff mỗi hành (áp polarity). null = thiếu đo.
+const zArr = computed<(number | null)[]>(() => {
+  const pol = props.reversePolarity ? -1 : 1
+  return HANHS.map((h) => { const raw = props.z ? props.z[h.key] : null; return raw == null ? null : pol * raw })
+})
+
+// Node hình học: bán kính dịch theo z (smoothstep deadband → cân bằng không lăn tăn).
+const nodes = computed(() => HANHS.map((h, i) => {
+  const z = zArr.value[i]
+  const missing = z == null
+  const az = missing ? 0 : Math.min(Math.abs(z), Z_CAP)
+  let r = PENTA_R
+  if (!missing) { const g = smoothstep(0.30, 0.65, Math.abs(z)); r = PENTA_R + K * Math.max(-Z_CAP, Math.min(Z_CAP, z * g)) }
+  return {
+    ...h, i, z, missing,
+    r, p: pt(r, h.deg), home: pt(PENTA_R, h.deg),
+    nodeR: 8 + 4 * az / Z_CAP, // 8..12
+    showAura: !missing && Math.abs(z) >= 0.5, // dead-zone
+    tone: missing ? null : (z! > 0 ? 'thuc' : 'hu'),
+    auraR: 8 + 4 * az / Z_CAP + 3 + 7 * (az / Z_CAP),
+    auraA: 0.12 + 0.55 * (az / Z_CAP),
+    label: pt(PENTA_R + 52, h.deg), // nhãn tạng ở vành ngoài
+  }
+}))
+// vị trí hiện tại (méo hay chuẩn) cho từng node
+const posOf = (i: number) => (showMeo.value ? nodes.value[i]!.p : nodes.value[i]!.home)
+
+// ── TƯƠNG KHẮC (dây i→i+2): tính thừa/vũ, chỉ tô tối đa 2 cạnh cường độ cao nhất ──
+const khacRaw = computed(() => {
+  const out: { i: number; j: number; loai: 'thua' | 'vu' | null; score: number; cuong: number }[] = []
+  for (let i = 0; i < 5; i++) {
+    const j = (i + 2) % 5
+    const zi = zArr.value[i], zj = zArr.value[j]
+    let loai: 'thua' | 'vu' | null = null, score = 0, cuong = 0
+    if (zi != null && zj != null) {
+      const thua = Math.max(0, zi) + Math.max(0, -zj)
+      const vu = Math.max(0, zj - zi - 1)
+      if (thua >= 1.2 && zi - zj >= GRAD) { loai = 'thua'; score = thua; cuong = Math.min(thua / 3, 1) }
+      else if (vu >= 0.8) { loai = 'vu'; score = vu; cuong = Math.min(vu / 2, 1) }
+    }
+    out.push({ i, j, loai, score, cuong })
+  }
+  return out
+})
+const khac = computed(() => {
+  const flagged = new Set(khacRaw.value.filter((k) => k.loai).sort((a, b) => b.score - a.score).slice(0, 2).map((k) => k.i + '-' + k.j))
+  return khacRaw.value.map((k) => {
+    const a = posOf(k.i), b = posOf(k.j)
+    const on = showLuc.value && showMeo.value && !!k.loai && flagged.has(k.i + '-' + k.j)
+    const L = Math.hypot(b.x - a.x, b.y - a.y) || 1
+    const dir = { x: (b.x - a.x) / L, y: (b.y - a.y) / L }
+    // thừa: mũi tên vào ĐÍCH j (to); vũ: mũi tên NGƯỢC về i (nhỏ)
+    const head = k.loai === 'vu'
+      ? arrowHead(a, { x: -dir.x, y: -dir.y }, 6, 3.2)
+      : arrowHead(b, dir, 7 + 4 * k.cuong, 4 + 1.5 * k.cuong)
+    const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }
+    return { ...k, on, x1: N(a.x), y1: N(a.y), x2: N(b.x), y2: N(b.y), head, width: 2 + Math.min(k.score, 3), mid }
+  })
+})
+
+// ── TƯƠNG SINH (cung i→i+1, mẹ→con) ở vành ngoài; đứt khi mẹ hư, đậm khi dồn nuôi ──
+const sinh = computed(() => {
+  const out: { d: string; head: string; mode: 'normal' | 'batcap' | 'donnuoi'; dao: boolean; daoHead: string }[] = []
+  for (let i = 0; i < 5; i++) {
+    const c = (i + 1) % 5
+    const zm = zArr.value[i], zc = zArr.value[c]
+    let mode: 'normal' | 'batcap' | 'donnuoi' = 'normal'
+    if (zm != null) { if (zm <= -1) mode = 'batcap'; else if (zc != null && zm >= 1 && zc <= -0.5) mode = 'donnuoi' }
+    const dao = zc != null && zm != null && zc >= 1 && zm <= -0.5 // con đạo mẫu khí
+    const a0 = HANHS[i]!.deg + 9, a1 = HANHS[c]!.deg - 9 + (c === 0 ? 360 : 0)
+    const p0 = pt(SINH_R, a0), p1 = pt(SINH_R, a1)
+    const d = `M${N(p0.x)} ${N(p0.y)} A${SINH_R} ${SINH_R} 0 0 1 ${N(p1.x)} ${N(p1.y)}`
+    const head = arrowHead(p1, { x: Math.cos(a1 * D2R), y: Math.sin(a1 * D2R) }, 6, 3.4)
+    const daoHead = arrowHead(p0, { x: -Math.cos(a0 * D2R), y: -Math.sin(a0 * D2R) }, 6, 3.4)
+    out.push({ d, head, mode, dao, daoHead })
+  }
+  return out
+})
+
+// ── GỐC BỆNH: node ở ĐUÔI mũi tên bệnh lý (nguồn thực), điểm = Σ cường·|z| ──
+const gocIdx = computed(() => {
+  if (!showMeo.value || !showLuc.value) return -1
+  const score = [0, 0, 0, 0, 0]
+  for (const k of khac.value) {
+    if (!k.on) continue
+    if (k.loai === 'thua') { const z = zArr.value[k.i]; score[k.i]! += k.cuong * Math.abs(z ?? 0) }
+    else if (k.loai === 'vu') { const z = zArr.value[k.j]; score[k.j]! += k.cuong * Math.abs(z ?? 0) }
+  }
+  let best = -1, bv = 0
+  score.forEach((v, idx) => { if (v > bv) { bv = v; best = idx } })
+  return bv > 0 ? best : -1
+})
+
+// Thái Cực: glow ấm(dương)/lạnh(âm) khi mất cân bằng rõ.
+const ad = computed(() => Math.max(-1, Math.min(1, props.adNorm ?? 0)))
+const taijiGlow = computed(() => Math.abs(ad.value) >= 0.15)
+
+const sel = ref<number | null>(null) // rê node → soi mạng của nó
+const relOf = (i: number) => { // trả vai trò của node j so với node đang rê i
+  if (sel.value == null) return ''
+  const s = sel.value
+  if (i === s) return 'self'
+  if (i === (s + 1) % 5) return 'con' // ta sinh con
+  if (i === (s + 4) % 5) return 'me' // mẹ sinh ta
+  if (i === (s + 2) % 5) return 'bikhac' // ta khắc
+  if (i === (s + 3) % 5) return 'khacta' // kẻ khắc ta
+  return ''
+}
+const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'hu' ? 'hư (suy)' : '—')
+</script>
+
+<template>
+  <div class="vnh">
+    <svg class="vnh-svg" viewBox="0 0 420 420" role="img"
+      aria-label="Ngôi sao Ngũ Hành méo theo mất cân bằng đo được, kèm lực tương sinh tương khắc">
+      <defs>
+        <radialGradient id="vnh-stone" cx="50%" cy="42%" r="62%">
+          <stop offset="0%" stop-color="var(--brown-700, #6b4f34)" /><stop offset="60%" stop-color="var(--brown-800, #4b3626)" />
+          <stop offset="100%" stop-color="var(--brown-900, #2f2417)" />
+        </radialGradient>
+      </defs>
+      <circle :cx="CX" :cy="CY" r="196" fill="url(#vnh-stone)" stroke="url(#vnh-stone)" />
+
+      <!-- Nhãn hành + tạng/phủ ở vành ngoài (đứng yên) -->
+      <g v-for="n in nodes" :key="'lb' + n.key" class="vnh-olabel" :style="{ '--hc': n.color }">
+        <text :x="n.label.x" :y="n.label.y - 8" class="vnh-ol-hanh">{{ n.ten }} {{ n.han }}</text>
+        <text :x="n.label.x" :y="n.label.y + 6" class="vnh-ol-tang">{{ n.tang }} {{ n.tangHan }}</text>
+        <text :x="n.label.x" :y="n.label.y + 18" class="vnh-ol-phu">{{ n.phu }}</text>
+      </g>
+
+      <!-- (1) MỐC CHUẨN: ngũ giác đều mờ + mốc nhà — để thấy độ méo so với cân bằng -->
+      <polygon class="vnh-ref" :points="nodes.map((n) => `${N(n.home.x)},${N(n.home.y)}`).join(' ')" />
+      <circle v-for="n in nodes" :key="'hm' + n.key" class="vnh-home" :cx="n.home.x" :cy="n.home.y" r="3" />
+
+      <!-- (2) NAN HOA mốc-nhà → node (khoảng hở = độ co/đẩy nhìn thấy) -->
+      <line v-for="n in nodes" :key="'sp' + n.key" class="vnh-spoke"
+        :x1="n.home.x" :y1="n.home.y" :x2="showMeo ? n.p.x : n.home.x" :y2="showMeo ? n.p.y : n.home.y" />
+
+      <!-- (3) NGŨ GIÁC MÉO (hoặc chuẩn khi tắt) -->
+      <polygon class="vnh-poly" :points="nodes.map((n) => `${N(showMeo ? n.p.x : n.home.x)},${N(showMeo ? n.p.y : n.home.y)}`).join(' ')" />
+
+      <!-- (4) TƯƠNG SINH — cung ngoài (mẹ→con) -->
+      <g v-if="showLuc" class="vnh-sinh">
+        <g v-for="(s, i) in sinh" :key="'sh' + i" :class="[s.mode, { dao: s.dao }]">
+          <path :d="s.d" /><polygon :points="s.head" />
+          <polygon v-if="s.dao" class="vnh-sinh-dao" :points="s.daoHead" />
+        </g>
+      </g>
+
+      <!-- (5) TƯƠNG KHẮC — dây chéo; nổi khi tương thừa (đỏ) / tương vũ (mận, ngược) -->
+      <g class="vnh-khac">
+        <template v-for="(k, i) in khac" :key="'kc' + i">
+          <line v-if="showLuc" :x1="k.x1" :y1="k.y1" :x2="k.x2" :y2="k.y2"
+            class="vnh-kline" :class="[k.on ? 'on-' + k.loai : 'rest']" :style="{ '--kw': k.width }" />
+          <polygon v-if="k.on" :points="k.head" class="vnh-khead" :class="'on-' + k.loai" />
+          <text v-if="k.on && k.loai === 'vu'" class="vnh-vu-lb" :x="k.mid.x" :y="k.mid.y">vũ</text>
+        </template>
+      </g>
+
+      <!-- (6) NODE tạng — lõi màu hành + quầng hư/thực + viền gốc bệnh -->
+      <g v-for="(n, i) in nodes" :key="'nd' + n.key" class="vnh-node"
+        :class="[relOf(i), { dimmed: sel != null && !relOf(i), goc: i === gocIdx }]"
+        @mouseenter="sel = i" @mouseleave="sel = null">
+        <circle v-if="showMeo && n.showAura" class="vnh-aura" :class="n.tone || ''"
+          :cx="posOf(i).x" :cy="posOf(i).y" :r="n.auraR" :style="{ '--aa': n.auraA }" />
+        <circle v-if="i === gocIdx" class="vnh-goc-ring" :cx="posOf(i).x" :cy="posOf(i).y" :r="n.nodeR + 4" />
+        <circle class="vnh-core" :cx="posOf(i).x" :cy="posOf(i).y" :r="n.nodeR"
+          :style="{ '--hc': n.color }" :class="{ missing: n.missing }" />
+        <text v-if="n.missing" class="vnh-qmark" :x="posOf(i).x" :y="posOf(i).y">?</text>
+        <title>{{ n.tang }} ({{ n.ten }}) — {{ n.missing ? 'thiếu dữ liệu đo' : toneName(n.tone) + ' · z=' + (n.z ?? 0).toFixed(2) }}<template v-if="i === gocIdx"> · GỐC (nguồn thực)</template></title>
+      </g>
+
+      <!-- (7) THÁI CỰC tâm — glow theo mất cân bằng âm dương tổng -->
+      <g class="vnh-taiji">
+        <circle v-if="taijiGlow" class="vnh-taiji-glow" :class="ad > 0 ? 'duong' : 'am'" :cx="CX" :cy="CY" r="30" />
+        <circle :cx="CX" :cy="CY" r="22" fill="#f4e7d1" stroke="rgba(0,0,0,.15)" />
+        <path :d="`M${CX} ${CY - 22} A22 22 0 0 0 ${CX} ${CY + 22} Z`" fill="#1b3a4b" />
+        <circle :cx="CX" :cy="CY - 11" r="11" fill="#1b3a4b" /><circle :cx="CX" :cy="CY + 11" r="11" fill="#f4e7d1" />
+        <circle :cx="CX" :cy="CY - 11" r="3.3" fill="#f4e7d1" /><circle :cx="CX" :cy="CY + 11" r="3.3" fill="#1b3a4b" />
+      </g>
+    </svg>
+
+    <div class="vnh-ctrls">
+      <button type="button" class="vnh-btn" :class="{ on: showMeo }" @click="showMeo = !showMeo">
+        {{ showMeo ? '◉' : '○' }} Sao méo (thực tế) <small>{{ showMeo ? '· đang so mốc chuẩn' : '· đang xem chuẩn cân bằng' }}</small>
+      </button>
+      <button type="button" class="vnh-btn" :class="{ on: showLuc }" @click="showLuc = !showLuc">
+        {{ showLuc ? '◉' : '○' }} Lực sinh–khắc
+      </button>
+    </div>
+    <p class="vnh-legend">
+      Nút <b style="color:#35638d">co vào = HƯ</b> (suy) · <b style="color:#b23a29">đẩy ra = THỰC</b> (dư); ngũ giác mờ = mốc cân bằng chuẩn.
+      Dây <b style="color:#b23a29">đỏ mũi tên to</b> = tương thừa (khắc quá) · <b style="color:#8a2f4f">mận ngược</b> = tương vũ (phản khắc);
+      viền <b style="color:#c99a2e">vàng</b> = tạng GỐC. Hư do bị khắc ≠ gốc bệnh — đối chiếu tứ chẩn.
+    </p>
+  </div>
+</template>
+
+<style scoped>
+.vnh { width: 100%; max-width: min(100%, 62vh); margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.vnh-svg { width: 100%; height: auto; display: block; overflow: visible; filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.3)); }
+.vnh-svg text { font-family: var(--font-family, 'Inter', sans-serif); text-anchor: middle; dominant-baseline: middle; user-select: none; pointer-events: none; }
+
+/* Nhãn vành ngoài */
+.vnh-ol-hanh { font-size: 12.5px; font-weight: 800; fill: var(--hc); stroke: rgba(20, 12, 5, 0.55); stroke-width: 0.6px; paint-order: stroke; }
+.vnh-ol-tang { font-size: 10.5px; font-weight: 700; fill: #f2e6cc; }
+.vnh-ol-phu { font-size: 8px; font-weight: 600; fill: #cdbb98; }
+
+/* Mốc chuẩn + nan hoa */
+.vnh-ref { fill: none; stroke: rgba(200, 176, 128, 0.32); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.vnh-home { fill: none; stroke: rgba(200, 176, 128, 0.5); stroke-width: 1; }
+.vnh-spoke { stroke: rgba(180, 150, 110, 0.32); stroke-width: 1.2; transition: all 0.35s ease; }
+
+/* Ngũ giác méo */
+.vnh-poly { fill: rgba(224, 205, 168, 0.10); stroke: rgba(224, 205, 168, 0.85); stroke-width: 2; stroke-linejoin: round; transition: all 0.35s ease; }
+
+/* Tương sinh (cung ngoài) */
+.vnh-sinh path { fill: none; stroke: rgba(120, 176, 100, 0.5); stroke-width: 2.2; stroke-linecap: round; }
+.vnh-sinh polygon { fill: rgba(120, 176, 100, 0.7); }
+.vnh-sinh .batcap path { stroke: rgba(120, 176, 100, 0.32); stroke-width: 1.2; stroke-dasharray: 3 3; }
+.vnh-sinh .batcap polygon { fill: rgba(120, 176, 100, 0.32); }
+.vnh-sinh .donnuoi path { stroke: rgba(120, 176, 100, 0.85); stroke-width: 3; }
+.vnh-sinh-dao { fill: #d98a3a; }
+
+/* Tương khắc (dây chéo) */
+.vnh-kline { stroke-linecap: round; }
+.vnh-kline.rest { stroke: rgba(150, 70, 55, 0.20); stroke-width: 1; }
+.vnh-kline.on-thua { stroke: #b23a29; stroke-width: var(--kw, 3); opacity: 0.92; }
+.vnh-kline.on-vu { stroke: #8a2f4f; stroke-width: 2; stroke-dasharray: 4 3; opacity: 0.92; }
+.vnh-khead.on-thua { fill: #b23a29; }
+.vnh-khead.on-vu { fill: #8a2f4f; }
+.vnh-vu-lb { font-size: 8.5px; font-weight: 800; fill: #e79ab4; stroke: rgba(20, 8, 12, 0.6); stroke-width: 0.6px; paint-order: stroke; }
+
+/* Node tạng */
+.vnh-node { cursor: help; transition: opacity 0.2s; }
+.vnh-node.dimmed { opacity: 0.32; }
+.vnh-core { fill: var(--hc); stroke: #fff; stroke-width: 1.5; transition: cx 0.35s ease, cy 0.35s ease, r 0.2s; }
+.vnh-core.missing { fill: none; stroke: rgba(220, 200, 165, 0.6); stroke-width: 1.4; stroke-dasharray: 3 2.5; }
+/* Quầng hư/thực: màu đặc + opacity theo |z| + blur mềm (SVG fill không nhận radial-gradient) */
+.vnh-aura { fill: #b23a29; opacity: calc(var(--aa) * 0.9); filter: blur(2.5px); transition: cx 0.35s ease, cy 0.35s ease; }
+.vnh-aura.hu { fill: #35638d; }
+.vnh-qmark { font-size: 11px; font-weight: 800; fill: rgba(230, 214, 180, 0.85); }
+.vnh-goc-ring { fill: none; stroke: #c99a2e; stroke-width: 2.2; filter: drop-shadow(0 0 4px rgba(201, 154, 46, 0.7)); transition: cx 0.35s ease, cy 0.35s ease; }
+
+/* Thái Cực */
+.vnh-taiji-glow.duong { fill: rgba(178, 58, 41, 0.14); filter: blur(4px); }
+.vnh-taiji-glow.am { fill: rgba(53, 99, 141, 0.14); filter: blur(4px); }
+
+.vnh-ctrls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.vnh-btn { font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border, #e7ddcd); background: var(--surface, #fff); color: var(--text, #3a2c1a); display: inline-flex; align-items: baseline; gap: 5px; }
+.vnh-btn small { font-weight: 500; font-size: 10px; color: var(--text-muted, #8a7a60); }
+.vnh-btn.on { background: #efe6d4; border-color: #c9a24e; }
+.vnh-legend { margin: 0; font-size: 11.5px; line-height: 1.5; color: var(--text, #3a2c1a); text-align: center; max-width: 44em; }
+</style>
