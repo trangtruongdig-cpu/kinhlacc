@@ -14,6 +14,7 @@ import VongLucKinh from '@/components/VongLucKinh.vue'
 import VongLucKhi from '@/components/VongLucKhi.vue'
 import { locateLucKinh, huongTruyen, KINH_META, type KinhSlug, type LucKinhVerdict, type TheKinhMap } from '@/lib/lucKinh'
 import { truyenBienCua } from '@/lib/lucKinhTruyenBien'
+import { mocKham, mocKhamMs, ngayKhamVN } from '@/lib/caKham'
 import AmDuongTaiji from '@/components/AmDuongTaiji.vue'
 
 const router = useRouter()
@@ -1487,7 +1488,7 @@ const examDisplay = computed(() => {
     advices: []
   }
   
-  const d = new Date(examination.value.createdAt)
+  const d = new Date(mocKham(examination.value) ?? examination.value.createdAt)
   const synds = examination.value.syndromes || []
   const mainSynd = synds.length > 0 ? synds[0] : null
   
@@ -1989,7 +1990,13 @@ const dinhViKinhChips = computed(() => {
 })
 
 // ── TRUYỀN BIẾN: xâu chuỗi các lần đo của bệnh nhân → đường đi qua Lục Kinh theo thời gian.
-interface ExamLite { id: number; createdAt?: string | null; excelSyndromes?: { name: string }[] | null }
+interface ExamLite {
+  id: number
+  createdAt?: string | null
+  /** Giờ khám thầy thuốc đặt/sửa — trục truyền biến phải theo mốc này, không theo createdAt. */
+  thoiDiemKham?: string | null
+  excelSyndromes?: { name: string }[] | null
+}
 const examHistory = ref<ExamLite[]>([])
 async function loadExamHistory() {
   try {
@@ -2010,8 +2017,8 @@ const lucKinhTrajectory = computed<TrajPoint[]>(() => {
   const pts = examHistory.value
     .map((e) => ({
       id: e.id,
-      ts: e.createdAt ? new Date(e.createdAt).getTime() : 0,
-      date: e.createdAt ? new Date(e.createdAt).toLocaleDateString('vi-VN') : '—',
+      ts: mocKhamMs(e),
+      date: ngayKhamVN(e),
       verdict: locateLucKinh((e.excelSyndromes ?? []).map((s) => s.name), null, theKinhMap.value),
     }))
     .sort((a, b) => a.ts - b.ts) // cũ → mới
@@ -2038,6 +2045,21 @@ const truyenBienXuHuong = computed(() => {
   const located = all.filter((p) => p.dot === cur.dot && p.verdict)
   if (located.length < 2) return null
   return huongTruyen(located[0]!.verdict!.kinh.slug, located[located.length - 1]!.verdict!.kinh.slug)
+})
+// Đường đo cho ĐỒ HÌNH — CHỈ đợt bệnh của ca đang xem (không xuyên đợt), rút gọn về lát cắt VongLucKinh cần.
+const trajForWheel = computed(() => {
+  const all = lucKinhTrajectory.value
+  const cur = all.find((p) => p.id === examId.value) ?? all[all.length - 1]
+  if (!cur) return []
+  return all
+    .filter((p) => p.dot === cur.dot)
+    .map((p) => ({
+      id: p.id,
+      date: p.date,
+      moiDot: p.moiDot,
+      kinhSlug: p.verdict ? p.verdict.kinh.slug : null,
+      huong: p.huong ? p.huong.loai : null,
+    }))
 })
 
 /** Đủ 12 tạng phủ (mã kinh ngắn → tên) để bày QUANH hình người; gắn trạng thái Bát Cương nếu có. */
@@ -3880,6 +3902,8 @@ watch(
                   :troi-kinh="bienChung ? bienChung.kinhTroi.slug : null"
                   :active-kinh="focusKinh"
                   :chuyen-bien="bienChung ? bienChung.chuyenBien : null"
+                  :trajectory="trajForWheel"
+                  :current-id="examId"
                 />
                 <VongLucKhi
                   v-else-if="dinhViLop === 4"

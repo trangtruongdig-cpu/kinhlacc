@@ -16,7 +16,11 @@ const props = defineProps<{
   caseSet?: string[] | null // ĐỊNH VỊ: tập kinh của bệnh nhân → tô sáng nền, kinh ngoài tập mờ đi
   troiKinh?: string | null // kinh TRỘI (kết luận) → nổi bật nhất, sáng mặc định không cần rê
   chuyenBien?: { vaoLy?: { slug?: string | null } | null; raBieu?: { slug?: string | null } | null } | null // mũi tên vào lý / ra biểu
+  trajectory?: TrajInput[] | null // TRUYỀN BIẾN THỰC ĐO (chỉ đợt hiện tại): chuỗi lần đo cũ→mới
+  currentId?: number | null // id lần đo ĐANG XEM (nổi bật nhất)
 }>()
+// Lát cắt tối thiểu của 1 lần đo để vẽ đường đo (cha map từ lucKinhTrajectory, chỉ đợt hiện tại).
+interface TrajInput { id: number; date?: string; moiDot?: boolean; kinhSlug?: string | null; huong?: 'vao-ly' | 'ra-bieu' | 'giu' | null }
 const emit = defineEmits<{ select: [{ type: 'kinh' | 'khi' | 'tang'; key: string; label: string; kinh?: string }] }>()
 
 const CX = 210, CY = 210, D2R = Math.PI / 180
@@ -106,32 +110,41 @@ const hovered = ref<string | null>(null)
 const pinned = ref<string | null>(null) // kinh ĐÃ BẤM (chốt) — rê chỉ xem trước
 const halfHi = ref<'duong' | 'am' | null>(null)
 const partnerOf = (slug: string | null) => (slug ? KINH.find((k) => k.slug === slug)?.doi ?? null : null)
-// Ưu tiên: rê (xem trước) → đã bấm → đang lọc bên panel. Rê KHÔNG đổi panel (tránh nhảy khi rê chuột ra).
-// Mặc định sáng KINH TRỘI (kết luận) nếu không rê/lọc gì — để định vị luôn nổi.
-const focus = computed(() => hovered.value ?? pinned.value ?? props.activeKinh ?? props.troiKinh ?? null)
-const isHot = (slug: string) => focus.value === slug
-const isPartner = (slug: string) => partnerOf(focus.value) === slug
-const isDim = (slug: string) => focus.value !== null && !isHot(slug) && !isPartner(slug)
-// ĐỊNH VỊ: tập kinh của ca (tô sáng nền) + kinh trội (nổi nhất); kinh NGOÀI tập → mờ đi làm nền.
+
+// ═══ TẦNG NỀN — ĐỊNH VỊ (KHÔNG phụ thuộc rê/bấm): 3 cấp độ sáng theo tập kinh của ca ═══
+// Cấp 1 trội (đậm nhất) · Cấp 2 kinh khác của ca (sáng vừa) · Cấp 3 ngoài ca (mờ nền). Luôn hiện,
+// KHÔNG cần bấm — để đồ hình LIÊN HỆ trực tiếp với kết luận ◎ + chips ① Định Vị.
 const caseSet = computed(() => new Set(props.caseSet ?? []))
 const inCase = (slug: string) => caseSet.value.has(slug)
 const isTroi = (slug: string) => !!props.troiKinh && slug === props.troiKinh
-// CHUYỂN BIẾN: kinh đích vào lý (đỏ, nặng) / ra biểu (xanh, hồi phục) — sáng lên ngay trên vòng.
+// CHUYỂN BIẾN (đích DỰ ĐOÁN): vào lý (đỏ, nặng) / ra biểu (xanh, hồi phục). Guard trùng slug → ưu tiên vào lý.
 const cbVaoLy = computed(() => props.chuyenBien?.vaoLy?.slug ?? null)
-const cbRaBieu = computed(() => props.chuyenBien?.raBieu?.slug ?? null)
-// Kinh ngoài tập → mờ làm nền, TRỪ kinh đang soi + 2 đích chuyển biến (để chúng vẫn sáng).
+const cbRaBieu = computed(() => {
+  const r = props.chuyenBien?.raBieu?.slug ?? null
+  return r && r !== cbVaoLy.value ? r : null
+})
+
+// ═══ TẦNG TƯƠNG TÁC — SPOTLIGHT (rê/bấm/lọc, KHÔNG gồm troiKinh): chỉ THÊM nhấn ═══
+// Rest ⇒ spotlight=null ⇒ KHÔNG kinh nào .dim ⇒ 3 cấp nền tự cầm trịch (không phải đợi bấm mới sáng).
+const spotlight = computed(() => hovered.value ?? pinned.value ?? props.activeKinh ?? null)
+const isHot = (slug: string) => spotlight.value === slug
+const isPartner = (slug: string) => partnerOf(spotlight.value) === slug
+// Chỉ mờ THÊM khi ĐANG soi VÀ kinh đó ngoài ca + không phải đích chuyển biến (đích cb luôn giữ sáng).
+const isDim = (slug: string) =>
+  spotlight.value !== null && !isHot(slug) && !isPartner(slug) && !inCase(slug) && slug !== cbVaoLy.value && slug !== cbRaBieu.value
+// Kinh ngoài tập → mờ nền; TRỪ kinh trội (guard bất biến troi∈ca), kinh đang soi, và 2 đích chuyển biến.
 const outCase = (slug: string) =>
-  caseSet.value.size > 0 && !caseSet.value.has(slug) && slug !== focus.value && slug !== cbVaoLy.value && slug !== cbRaBieu.value
+  caseSet.value.size > 0 && !caseSet.value.has(slug) && !isTroi(slug) && slug !== spotlight.value && slug !== cbVaoLy.value && slug !== cbRaBieu.value
 function enter(k: K) { hovered.value = k.slug } // rê = chỉ tô sáng cục bộ
 function leave() { hovered.value = null }
-// BẤM mới chốt: vòng Kinh = chọn kinh (mục chính); vòng Khí/Tạng = lọc sâu (kinh = kinh chủ của sector).
-function pickKinh(k: K) { pinned.value = k.slug; emit('select', { type: 'kinh', key: k.slug, label: `${k.ten} ${k.han}` }) }
-function pickKhi(k: K) { pinned.value = k.slug; emit('select', { type: 'khi', key: k.khi, label: `Khí ${k.khi} ${k.khiHan}`, kinh: k.slug }) }
-function pickTang(k: K, organ: string) { pinned.value = k.slug; emit('select', { type: 'tang', key: organ, label: organ, kinh: k.slug }) }
+// BẤM chốt/bỏ chốt (toggle → về được trạng thái nghỉ): vòng Kinh = chọn kinh; Khí/Tạng = lọc sâu.
+function pickKinh(k: K) { pinned.value = pinned.value === k.slug ? null : k.slug; emit('select', { type: 'kinh', key: k.slug, label: `${k.ten} ${k.han}` }) }
+function pickKhi(k: K) { pinned.value = pinned.value === k.slug ? null : k.slug; emit('select', { type: 'khi', key: k.khi, label: `Khí ${k.khi} ${k.khiHan}`, kinh: k.slug }) }
+function pickTang(k: K, organ: string) { pinned.value = pinned.value === k.slug ? null : k.slug; emit('select', { type: 'tang', key: organ, label: organ, kinh: k.slug }) }
 
-// ── ② TRUNG KIẾN (biểu-lý): dây cung nối kinh ↔ kinh đối; chỉ dây của kinh ĐANG RÊ sáng lên ──
+// ── ② TRUNG KIẾN (biểu-lý): dây cung nối kinh ↔ kinh đối; rê → dây của kinh đang rê sáng; nghỉ → dây của kinh TRỘI ──
 const activeAxis = computed(() => {
-  const s = focus.value
+  const s = spotlight.value ?? props.troiKinh ?? null
   if (!s) return null
   const p = partnerOf(s)
   if (!p) return null
@@ -139,10 +152,66 @@ const activeAxis = computed(() => {
   return { x1: N(a.x), y1: N(a.y), x2: N(b.x), y2: N(b.y) }
 })
 const cnt = (slug: string) => props.counts?.[slug] ?? 0
+const tenOfSlug = (s: string) => KINH.find((k) => k.slug === s)?.ten ?? s
+
+// ── ③ TRUYỀN BIẾN THỰC ĐO (lịch sử các lần khám, CHỈ đợt hiện tại) ──────────────────────────────
+// Chuỗi HẠT SỐ ở ĐĨA TRONG (r40–54, giữa Thái Cực r30 và vành Tạng r64) — QUÁ KHỨ đã đo (nét LIỀN),
+// phân biệt hẳn với chuyển biến DỰ ĐOÁN (viền wedge nét ĐỨT) và vòng ①→⑥ trang trí (vành ngoài).
+// Góc = kinh đo được; BÁN KÍNH = độ sâu lý tích luỹ (vào lý → gần tâm, ra biểu → ra vành). Đã qua phản biện.
+const TR = { base: 47, step: 4, min: 41, max: 53 }
+const DIRC: Record<string, string> = { 'vao-ly': '#b23a25', 'ra-bieu': '#2e6f52', giu: '#c9b48f' }
+const showTraj = ref(true)
+const trajNodes = computed(() => {
+  const src = props.trajectory ?? []
+  let depth = 0, k = 0
+  const seenAtDeg: Record<number, number> = {} // đếm lặp cùng góc → xoè để hạt không đè
+  return src.map((p) => {
+    if (p.moiDot) depth = 0
+    if (p.huong === 'vao-ly') depth++
+    else if (p.huong === 'ra-bieu') depth--
+    const r = Math.max(TR.min, Math.min(TR.max, TR.base - depth * TR.step))
+    const baseDeg = p.kinhSlug != null ? degOf[p.kinhSlug] ?? null : null
+    let deg: number | null = baseDeg, pos: { x: number; y: number } | null = null, n: number | null = null
+    if (baseDeg != null) {
+      const rep = (seenAtDeg[baseDeg] = (seenAtDeg[baseDeg] ?? 0) + 1)
+      deg = baseDeg + (rep - 1) * 3.5 // xoè ±3.5°/lần lặp cùng kinh
+      pos = pt(r, deg)
+      n = ++k // đánh số 1..k TRONG đợt (bỏ qua điểm ngoài Lục Kinh)
+    }
+    return { id: p.id, date: p.date ?? '', kinhSlug: p.kinhSlug ?? null, huong: p.huong ?? null, r, deg, pos, n }
+  })
+})
+const trajLocatedCount = computed(() => trajNodes.value.filter((n) => n.pos).length)
+const trajSegs = computed(() => {
+  const out: { d: string; head: string | null; color: string }[] = []
+  const ns = trajNodes.value
+  for (let i = 1; i < ns.length; i++) {
+    const P = ns[i - 1]!, Q = ns[i]!
+    if (!P.pos || !Q.pos) continue // gặp điểm ngoài Lục Kinh → NGẮT, không nội suy
+    let d: string
+    if (P.kinhSlug === Q.kinhSlug) {
+      d = `M${N(P.pos.x)} ${N(P.pos.y)} L${N(Q.pos.x)} ${N(Q.pos.y)}` // cùng kinh → đoạn radial thẳng
+    } else {
+      const mx = (P.pos.x + Q.pos.x) / 2, my = (P.pos.y + Q.pos.y) / 2
+      let nx = mx - CX, ny = my - CY
+      const nl = Math.hypot(nx, ny)
+      if (nl < 1) { // cặp biểu-lý 180° (trung điểm ≡ tâm): đẩy vuông góc dây, tránh cắt Thái Cực
+        const dx = Q.pos.x - P.pos.x, dy = Q.pos.y - P.pos.y, dl = Math.hypot(dx, dy) || 1
+        nx = -dy / dl; ny = dx / dl
+      } else { nx /= nl; ny /= nl }
+      const off = 10 // bow RA NGOÀI theo pháp tuyến hướng tâm → lệch khỏi dây Trung Kiến
+      d = `M${N(P.pos.x)} ${N(P.pos.y)} Q${N(mx + nx * off)} ${N(my + ny * off)} ${N(Q.pos.x)} ${N(Q.pos.y)}`
+    }
+    const L = Math.hypot(Q.pos.x - P.pos.x, Q.pos.y - P.pos.y)
+    const head = L < 2 ? null : arrowHead(Q.pos, { x: (Q.pos.x - P.pos.x) / L, y: (Q.pos.y - P.pos.y) / L })
+    out.push({ d, head, color: DIRC[Q.huong ?? 'giu'] ?? DIRC.giu! })
+  }
+  return out
+})
 </script>
 
 <template>
-  <div class="vlk">
+  <div class="vlk" :class="{ 'traj-on': showTraj && trajLocatedCount >= 2 }">
     <svg class="vlk-svg" viewBox="0 0 420 420" role="img" aria-label="Đồ hình Lục Kinh Thương Hàn: truyền biến, biểu-lý (Trung kiến), khai-hạp-xu, nối Tạng Phủ · Lục Khí · Lục Kinh">
       <defs>
         <radialGradient id="vlk-stone" cx="50%" cy="42%" r="62%">
@@ -192,8 +261,25 @@ const cnt = (slug: string) => props.counts?.[slug] ?? 0
       <g class="truyen">
         <g v-for="(t, i) in truyen" :key="'tr' + i"><path :d="t.d" :style="{ stroke: t.color }" /><polygon :points="t.head" :style="{ fill: t.color }" /></g>
       </g>
-      <g v-for="w in wedges" :key="'b' + w.slug" class="vk-badge" :class="{ hot: isHot(w.slug) }">
+      <g v-for="w in wedges" :key="'b' + w.slug" class="vk-badge" :class="{ hot: isHot(w.slug), troi: isTroi(w.slug) }">
         <circle :cx="w.badge.x" :cy="w.badge.y" r="9" /><text :x="w.badge.x" :y="w.badge.y">{{ w.so }}</text>
+      </g>
+
+      <!-- ③ TRUYỀN BIẾN THỰC ĐO — chuỗi hạt số ở đĩa trong (chỉ khi ≥2 lần đo định vị được, trong 1 đợt) -->
+      <g v-if="showTraj && trajLocatedCount >= 2" class="traj-real" aria-label="Truyền biến đã đo qua các lần khám">
+        <path v-for="(s, i) in trajSegs" :key="'trl' + i" :d="s.d" class="tr-link" :style="{ stroke: s.color }" />
+        <template v-for="(s, i) in trajSegs" :key="'trh' + i">
+          <polygon v-if="s.head" :points="s.head" :style="{ fill: s.color }" />
+        </template>
+        <template v-for="nd in trajNodes" :key="'trn' + nd.id">
+          <g v-if="nd.pos" class="tr-node" :class="{ cur: nd.id === currentId }"
+             :style="{ opacity: 0.45 + 0.55 * ((nd.n || 1) / Math.max(1, trajLocatedCount)) }">
+            <circle v-if="nd.id === currentId" :cx="nd.pos.x" :cy="nd.pos.y" class="tr-halo" />
+            <circle :cx="nd.pos.x" :cy="nd.pos.y" :r="nd.id === currentId ? 5.5 : 4.5" class="tr-bead" />
+            <text :x="nd.pos.x" :y="nd.pos.y">{{ nd.n }}</text>
+            <title>Lần {{ nd.n }} · {{ nd.date }}<template v-if="nd.kinhSlug"> · {{ tenOfSlug(nd.kinhSlug) }}</template></title>
+          </g>
+        </template>
       </g>
 
       <!-- Thái Cực giữa -->
@@ -218,10 +304,17 @@ const cnt = (slug: string) => props.counts?.[slug] ?? 0
         ☾ Tam Âm <small>lý · hư–hàn</small>
       </button>
     </div>
+    <!-- Nút bật/tắt ĐƯỜNG ĐO (chỉ hiện khi có ≥2 lần đo định vị trong đợt) -->
+    <div v-if="trajLocatedCount >= 2" class="vlk-trajbtn">
+      <button type="button" class="hb traj" :class="{ on: showTraj }" @click="showTraj = !showTraj">
+        {{ showTraj ? '◉' : '○' }} Đường đo <small>{{ trajLocatedCount }} lần · {{ showTraj ? 'đang hiện' : 'đã ẩn' }}</small>
+      </button>
+    </div>
     <div class="vlk-legend">
-      <span><i class="lg-flow"></i> Truyền biến ①→⑥ (màu nhạt→đậm)</span>
-      <span><i class="lg-tk"></i> Trung kiến (rê kinh → hiện cặp biểu-lý)</span>
-      <span>⟨Khai · Hạp · Xu⟩ = cơ chế cửa</span>
+      <span v-if="showTraj && trajLocatedCount >= 2"><i class="lg-traj"></i> Chuỗi hạt số (nét liền) = <b>ĐÃ ĐO</b> theo thời gian</span>
+      <span><i class="lg-cb"></i> Viền nét đứt đỏ/xanh = <b>DỰ ĐOÁN</b> (vào lý / ra biểu)</span>
+      <span :class="{ 'lg-muted': showTraj && trajLocatedCount >= 2 }"><i class="lg-flow"></i> ①→⑥ = thứ tự truyền (sách)</span>
+      <span><i class="lg-tk"></i> Trung kiến (cặp biểu-lý)</span>
     </div>
   </div>
 </template>
@@ -254,35 +347,67 @@ const cnt = (slug: string) => props.counts?.[slug] ?? 0
 .t-tang { font-size: 8px; font-weight: 700; fill: #ecdcbe; stroke: rgba(24, 14, 5, 0.6); stroke-width: 0.7px; }
 
 .vk-seg { transition: opacity 0.2s, filter 0.2s; cursor: pointer; }
-.vk-seg .wj { transition: stroke 0.2s, filter 0.2s; }
-.vk-seg.dim { opacity: 0.32; }
-.vk-seg.hot .wj-kinh { stroke: rgba(251, 242, 221, 0.95); stroke-width: 1.5; filter: drop-shadow(0 0 6px rgba(250, 233, 200, 0.6)); }
-.vk-seg.hot .t-kinh, .vk-seg.hot .t-khi { fill: #fff8ea; }
-.vk-seg.partner .wj-kinh { stroke: #f2d79a; stroke-width: 1.4; filter: drop-shadow(0 0 5px rgba(242, 215, 154, 0.55)); }
-.vk-seg.partner { opacity: 1; }
-.vk-seg.half-hi .wj-kinh { stroke: rgba(255, 246, 222, 0.9); stroke-width: 1.3; filter: drop-shadow(0 0 5px rgba(250, 233, 200, 0.5)); }
-/* ĐỊNH VỊ: kinh trong tập của ca = sáng nền (viền vàng nhạt); kinh NGOÀI tập = mờ hẳn làm nền. */
-.vk-seg.in-case .wj-kinh { stroke: rgba(255, 224, 150, 0.85); stroke-width: 1.3; }
+.vk-seg .wj { transition: stroke 0.2s, filter 0.2s, fill 0.2s; }
+
+/* ═══════════ TẦNG 1 — ĐỘ SÁNG NỀN theo TẬP KINH (fill + opacity), KHÔNG cần rê/bấm ═══════════ */
+/* Cấp 2 — kinh KHÁC của ca: fill rõ hơn nền + viền vàng NHẠT + quầng mỏng → "đang bật", LUÔN hiện. */
+.vk-seg.in-case .wj-kinh.duong { fill: rgba(214, 178, 108, 0.42); }
+.vk-seg.in-case .wj-kinh.am { fill: rgba(132, 158, 178, 0.40); }
+.vk-seg.in-case .wj-kinh { stroke: rgba(255, 224, 150, 0.85); stroke-width: 1.4; filter: drop-shadow(0 0 3px rgba(255, 214, 140, 0.42)); }
 .vk-seg.in-case .t-kinh { fill: #fff3d6; }
+/* Cấp 3 — kinh NGOÀI ca: mờ làm nền (opacity + giảm bão hòa). */
 .vk-seg.out-case { opacity: 0.34; filter: saturate(0.5); }
-/* KINH TRỘI (kết luận) — nổi bật NHẤT: viền vàng đậm + hào quang kép, chữ sáng, luôn bật. */
-.vk-seg.troi .wj-kinh { stroke: #ffe08a; stroke-width: 2.4; filter: drop-shadow(0 0 5px rgba(255, 210, 120, 0.95)) drop-shadow(0 0 12px rgba(255, 170, 60, 0.65)); }
-.vk-seg.troi .t-kinh { fill: #fff; font-weight: 800; }
-/* CHUYỂN BIẾN có thể tiếp theo — kinh đích sáng lên (đỏ = vào lý nặng · xanh = ra biểu hồi phục). */
-.vk-seg.cb-vaoly .wj-kinh { stroke: #e35a2f; stroke-width: 2; filter: drop-shadow(0 0 5px rgba(227, 90, 47, 0.85)); }
-.vk-seg.cb-vaoly .t-kinh { fill: #ffd9c9; }
-.vk-seg.cb-rabieu .wj-kinh { stroke: #6fae5a; stroke-width: 2; filter: drop-shadow(0 0 5px rgba(111, 174, 90, 0.8)); }
+
+/* ═══════════ TẦNG 2 — VAI TRÒ TƯƠNG TÁC (chỉ stroke/glow, KHÔNG đổi fill nền) ═══════════ */
+/* Nút Tam Dương/Âm (đặt TRƯỚC partner/hot/troi để không nuốt halo trội). */
+.vk-seg.half-hi .wj-kinh { stroke: rgba(255, 246, 222, 0.9); stroke-width: 1.3; filter: drop-shadow(0 0 5px rgba(250, 233, 200, 0.5)); }
+/* Kinh biểu-lý của kinh đang soi. */
+.vk-seg.partner .wj-kinh { stroke: #f2d79a; stroke-width: 1.4; filter: drop-shadow(0 0 5px rgba(242, 215, 154, 0.55)); }
+/* Kinh đang RÊ/soi — pop (bề dày ≥ cấp nền, không mảnh hơn để khỏi tụt hơn trội). */
+.vk-seg.hot .wj-kinh { stroke: #fff8ea; stroke-width: 2; filter: drop-shadow(0 0 8px rgba(255, 245, 220, 0.75)); }
+.vk-seg.hot .t-kinh, .vk-seg.hot .t-khi { fill: #fff8ea; }
+/* CHUYỂN BIẾN DỰ ĐOÁN — nét ĐỨT (phân biệt TƯƠNG LAI với hiện tại nét liền); đè hot/partner trên đích. */
+.vk-seg.cb-rabieu .wj-kinh { stroke: #6fae5a; stroke-width: 2; stroke-dasharray: 4 3; filter: drop-shadow(0 0 5px rgba(111, 174, 90, 0.8)); }
 .vk-seg.cb-rabieu .t-kinh { fill: #d9f0cf; }
+.vk-seg.cb-vaoly .wj-kinh { stroke: #e35a2f; stroke-width: 2; stroke-dasharray: 4 3; filter: drop-shadow(0 0 5px rgba(227, 90, 47, 0.85)); }
+.vk-seg.cb-vaoly .t-kinh { fill: #ffd9c9; }
+
+/* ═══════════ Cấp 1 — KINH TRỘI (kết luận): fill sáng NHẤT + viền đậm + hào quang KÉP.
+   ĐẶT CUỐI trong nhóm stroke .wj-kinh ⇒ hào quang trội KHÔNG bao giờ bị hot/partner/cb nuốt. ═══════════ */
+.vk-seg.troi .wj-kinh.duong { fill: rgba(214, 178, 108, 0.54); }
+.vk-seg.troi .wj-kinh.am { fill: rgba(132, 158, 178, 0.52); }
+.vk-seg.troi .wj-kinh { stroke: #ffe08a; stroke-width: 2.6; filter: drop-shadow(0 0 5px rgba(255, 210, 120, 0.95)) drop-shadow(0 0 13px rgba(255, 170, 60, 0.68)); }
+.vk-seg.troi .t-kinh { fill: #fff; font-weight: 800; }
+
+/* ═══ OPACITY nhóm <g> — spotlight chỉ mờ THÊM kinh ngoài ca; trội/soi/partner LUÔN tỏ (đặt sau out-case) ═══ */
+.vk-seg.dim { opacity: 0.16; }
+.vk-seg.troi { opacity: 1; }
+.vk-seg.hot { opacity: 1; filter: none; }
+.vk-seg.partner { opacity: 1; }
 
 .tk-static { stroke: rgba(242, 215, 154, 0.28); stroke-width: 1; stroke-dasharray: 4 5; pointer-events: none; }
 .tk-line { stroke: #f2d79a; stroke-width: 1.8; stroke-dasharray: 5 4; opacity: 0.95; pointer-events: none; filter: drop-shadow(0 0 3px rgba(242, 215, 154, 0.55)); }
 
-.truyen { pointer-events: none; }
+.truyen { pointer-events: none; transition: opacity 0.25s; }
 .truyen path { fill: none; stroke: #e8b35a; stroke-width: 2.4; stroke-linecap: round; opacity: 0.85; filter: drop-shadow(0 0 2px rgba(232, 179, 90, 0.5)); }
 .truyen polygon { fill: #e8b35a; }
+/* Khi BẬT đường đo thực → làm MỜ vòng ①→⑥ trang trí để không đọc nhầm là đường bệnh đã đi. */
+.vlk.traj-on .truyen { opacity: 0.26; }
+
+/* ── ③ TRUYỀN BIẾN THỰC ĐO: đường LIỀN (quá khứ) + hạt số, tách hẳn dự đoán (nét đứt) ── */
+.traj-real { pointer-events: none; }
+.tr-link { fill: none; stroke-width: 2.1; stroke-linecap: round; opacity: 0.92; }
+.tr-node { pointer-events: auto; cursor: help; }
+.tr-bead { fill: #fbf1dd; stroke: #7a5a2c; stroke-width: 1.4; }
+.tr-node text { font-size: 8px; font-weight: 800; fill: #4b3319; stroke: none; }
+.tr-node.cur .tr-bead { fill: #fff; stroke: #c98a2e; stroke-width: 2; }
+.tr-halo { r: 6; fill: none; stroke: #ffd27a; stroke-width: 1.8; transform-box: fill-box; transform-origin: center; animation: trPulse 1.6s ease-in-out infinite; }
+@keyframes trPulse { 0%, 100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 0.2; transform: scale(1.45); } }
+@media (prefers-reduced-motion: reduce) { .tr-halo { animation: none; } }
 .vk-badge circle { fill: #6b4a24; stroke: #f4e2b8; stroke-width: 1.4; }
 .vk-badge text { font-size: 11px; font-weight: 800; fill: #fff6e2; stroke: none; }
 .vk-badge.hot circle { fill: #9a6c2e; stroke: #fff; }
+.vk-badge.troi circle { fill: #9a6c2e; stroke: #ffe08a; stroke-width: 1.8; }
 
 .vlk-halfbtns { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
 .hb { font: inherit; font-size: 12.5px; font-weight: 700; cursor: pointer; padding: 6px 14px; border-radius: 999px; border: 1px solid var(--border, #e7ddcd); background: var(--surface, #fff); color: var(--text, #3a2c1a); display: inline-flex; align-items: baseline; gap: 6px; transition: background 0.15s, border-color 0.15s, transform 0.1s; }
@@ -291,10 +416,16 @@ const cnt = (slug: string) => props.counts?.[slug] ?? 0
 .hb.duong.on { background: #f4e3c2; border-color: #d9b877; }
 .hb.am.on { background: #dbe6ef; border-color: #9db6ca; }
 .hb.am.on small, .hb.duong.on small { color: var(--text, #3a2c1a); }
+.vlk-trajbtn { display: flex; justify-content: center; }
+.hb.traj.on { background: #efe6d4; border-color: #c9a24e; }
+.hb.traj.on small { color: var(--text, #3a2c1a); }
 
 .vlk-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; font-size: 12px; font-weight: 600; color: var(--text, #3a2c1a); }
 .vlk-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.vlk-legend span.lg-muted { opacity: 0.5; }
 .vlk-legend i { display: inline-block; }
+.lg-traj { width: 20px; height: 0; border-top: 2px solid #c9a24e; position: relative; }
+.lg-cb { width: 18px; height: 0; border-top: 2px dashed #cf5233; }
 .lg-flow { width: 22px; height: 4px; border-radius: 2px; background: linear-gradient(90deg, #f4dca2, #dd8f44, #bf4632); }
 .lg-tk { width: 16px; height: 0; border-top: 2px dashed #c9a24e; }
 </style>
