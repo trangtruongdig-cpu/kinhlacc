@@ -1943,12 +1943,6 @@ const nguHanhZ = computed<{ hoa: number | null; tho: number | null; kim: number 
     moc: gop(['Can'], ['Đởm'], lR, lS),
   }
 })
-// Âm dương tổng → [−1,+1] cho Thái Cực (glow ấm/lạnh). Dương/nhiệt = +, âm/hàn = −.
-const NGU_HANH_AD: Record<string, number> = {
-  'duong-thinh': 1, 'thien-duong': 0.5, 'am-hu': 0.3, // âm hư sinh nội nhiệt → ấm nhẹ
-  'am-thinh': -1, 'thien-am': -0.5, 'duong-hu': -0.3, // dương hư sinh ngoại hàn → lạnh nhẹ
-}
-const nguHanhAdNorm = computed(() => NGU_HANH_AD[tongCuong.value.loai] ?? 0)
 
 // ── KẾT LUẬN LỤC KINH (Thương Hàn) cho ca này — tái dùng engine qua bảng thể→kinh đã thẩm định.
 //    Dồn phiếu các thể đo được + đối chiếu Bát Cương → kinh trội + giai đoạn + độ tin + lý do.
@@ -4075,7 +4069,7 @@ watch(
                   v-else-if="dinhViLop === 3"
                   class="bcpt-wheel"
                   :z="nguHanhZ"
-                  :ad-norm="nguHanhAdNorm"
+                  :tong-cuong="tongCuong"
                 />
                 <BienChungWheel v-else class="bcpt-wheel" :lop="dinhViLop" :dinhvi="dinhViWheel" />
               </div>
