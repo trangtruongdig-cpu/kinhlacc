@@ -34,8 +34,117 @@ const meridianTemps = reactive({
   lowerRight: lowerMeridians.reduce((acc, curr) => ({ ...acc, [curr]: '' }), {} as Record<string, string>)
 })
 
+// ---------------------------------------------------------------- Định vị điểm đo
+// Nhiệt độ MT được điền TỰ ĐỘNG (môi trường bên ngoài lúc đo, dù đo ở phòng khám hay tại nhà
+// bệnh nhân đều đúng). Riêng địa chỉ chỉ ghi vào hồ sơ khi thầy thuốc BẤM NÚT — vì vị trí máy
+// đo chỉ trùng nơi ở của bệnh nhân khi mang máy tới tận nhà.
+
+interface DiaDiem {
+  viDo: number
+  kinhDo: number
+  tinhThanh: string | null
+  phuongXa: string | null
+  diaChi: string | null
+  diaChiDayDu: string | null
+  nhietDo: number | null
+  doAm: number | null
+  loiDiaChi: string | null
+  loiThoiTiet: string | null
+}
+
+const diaDiem = ref<DiaDiem | null>(null)
+const dinhViTrangThai = ref<'chua' | 'dang' | 'xong' | 'loi'>('chua')
+const dinhViLoi = ref<string | null>(null)
+const dangLuuDiaChi = ref(false)
+const daLuuDiaChi = ref(false)
+
+/** Nhãn gọn "Phường X, Tỉnh Y" để hiển thị dưới ô nhiệt độ. */
+const nhanViTri = computed(() => {
+  const d = diaDiem.value
+  if (!d) return ''
+  return [d.phuongXa, d.tinhThanh].filter(Boolean).join(', ')
+})
+
+/** Có địa chỉ tra được và hồ sơ đang thiếu -> gợi ý bấm nút điền. */
+const hoSoThieuDiaChi = computed(() => !patient.value?.province || !patient.value?.address)
+
+function toaDoHienTai(): Promise<GeolocationPosition> {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) {
+      reject(new Error('Trình duyệt không hỗ trợ định vị'))
+      return
+    }
+    navigator.geolocation.getCurrentPosition(resolve, reject, {
+      enableHighAccuracy: true,
+      timeout: 10000,
+      maximumAge: 5 * 60 * 1000
+    })
+  })
+}
+
+function loiDinhViDeHieu(err: unknown): string {
+  const code = (err as GeolocationPositionError)?.code
+  if (code === 1) return 'Trình duyệt đang chặn quyền vị trí — hãy bấm biểu tượng khoá trên thanh địa chỉ và cho phép.'
+  if (code === 2) return 'Không xác định được vị trí (thiết bị chưa bắt được tín hiệu).'
+  if (code === 3) return 'Quá lâu không lấy được vị trí.'
+  return (err as Error)?.message || 'Không lấy được vị trí'
+}
+
+async function layViTri(nguoiDungBam = false) {
+  if (dinhViTrangThai.value === 'dang') return
+  dinhViTrangThai.value = 'dang'
+  dinhViLoi.value = null
+  try {
+    const pos = await toaDoHienTai()
+    const { latitude, longitude } = pos.coords
+    const kq = await api.get<DiaDiem>(`/dia-diem/tra-cuu?lat=${latitude}&lon=${longitude}`)
+    diaDiem.value = kq
+    // Không đè số thầy thuốc đã tự gõ; bấm "Định vị lại" thì cập nhật số mới.
+    if (kq.nhietDo !== null && (nguoiDungBam || !form.environmentTemp)) {
+      form.environmentTemp = String(kq.nhietDo)
+    }
+    dinhViTrangThai.value = 'xong'
+  } catch (err) {
+    dinhViLoi.value = loiDinhViDeHieu(err)
+    dinhViTrangThai.value = 'loi'
+  }
+}
+
+/** Ghi Tỉnh/TP + Địa chỉ của điểm đo vào hồ sơ bệnh nhân (chỉ khi thầy thuốc chủ động bấm). */
+async function dungDiaChiChoHoSo() {
+  const d = diaDiem.value
+  if (!d || !patient.value || dangLuuDiaChi.value) return
+  const moi = { province: d.tinhThanh ?? undefined, address: d.diaChi ?? undefined }
+  if (!moi.province && !moi.address) return
+
+  const cu = [patient.value.province, patient.value.address].filter(Boolean).join(' · ')
+  if (cu && !confirm(`Hồ sơ đang có: ${cu}\n\nGhi đè bằng địa chỉ điểm đo?\n${[d.diaChi, d.tinhThanh].filter(Boolean).join(', ')}`)) {
+    return
+  }
+
+  dangLuuDiaChi.value = true
+  try {
+    await api.put(`/patients/${patientId.value}`, moi)
+    patient.value = { ...patient.value, ...moi } as Patient
+    daLuuDiaChi.value = true
+  } catch (err: any) {
+    alert('Không lưu được địa chỉ vào hồ sơ: ' + (err?.message || ''))
+  } finally {
+    dangLuuDiaChi.value = false
+  }
+}
+
+/** Ghép Ngày khám + Giờ khám trên form thành mốc ISO để lưu (cho phép nhập bù ca cũ). */
+function thoiDiemKhamISO(): string | null {
+  if (!form.date) return null
+  const d = new Date(`${form.date}T${form.time || '00:00'}:00`)
+  return Number.isNaN(d.getTime()) ? null : d.toISOString()
+}
+
 onMounted(async () => {
   await loadPatient()
+  // Chạy nền, không chặn thao tác nhập của thầy thuốc.
+  void layViTri()
 })
 
 async function loadPatient() {
@@ -91,7 +200,16 @@ async function saveExamination() {
   try {
     const dto: any = {
       patientId: patientId.value,
-      notes: `Triệu chứng: ${form.symptoms}\nXét nghiệm: ${form.tests}`
+      notes: `Triệu chứng: ${form.symptoms}\nXét nghiệm: ${form.tests}`,
+      // Giờ khám thầy thuốc chọn (có thể lùi/tiến so với lúc bấm lưu).
+      thoiDiemKham: thoiDiemKhamISO(),
+      // Bối cảnh môi trường + địa điểm lúc đo.
+      nhietDoMoiTruong: form.environmentTemp === '' ? null : Number(form.environmentTemp),
+      doAmMoiTruong: diaDiem.value?.doAm ?? null,
+      tinhThanh: diaDiem.value?.tinhThanh ?? null,
+      phuongXa: diaDiem.value?.phuongXa ?? null,
+      viDo: diaDiem.value?.viDo ?? null,
+      kinhDo: diaDiem.value?.kinhDo ?? null
     }
 
     // Map upper
@@ -260,11 +378,46 @@ async function saveExamination() {
               <input type="time" v-model="form.time" class="form-input" />
             </div>
             <div class="form-group">
-              <label class="form-label">Nhiệt độ MT (°C)</label>
+              <label class="form-label">
+                Nhiệt độ MT (°C)
+                <span v-if="dinhViTrangThai === 'xong' && diaDiem?.nhietDo !== null" class="tag-auto">tự động</span>
+              </label>
               <input type="number" step="0.1" v-model="form.environmentTemp" placeholder="VD: 26.5" class="form-input" />
+
+              <p v-if="dinhViTrangThai === 'dang'" class="dinh-vi-dong">
+                <span class="spinner-nho"></span> Đang lấy vị trí &amp; nhiệt độ…
+              </p>
+              <p v-else-if="dinhViTrangThai === 'xong'" class="dinh-vi-dong">
+                <span class="ghim">📍</span>
+                <span>{{ nhanViTri || 'Đã lấy vị trí' }}</span>
+                <span v-if="diaDiem?.doAm !== null && diaDiem?.doAm !== undefined" class="phu">· ẩm {{ diaDiem.doAm }}%</span>
+                <button type="button" class="lien-ket" @click="layViTri(true)">Định vị lại</button>
+              </p>
+              <p v-else-if="dinhViTrangThai === 'loi'" class="dinh-vi-dong loi">
+                <span>{{ dinhViLoi }}</span>
+                <button type="button" class="lien-ket" @click="layViTri(true)">Thử lại</button>
+              </p>
             </div>
           </div>
-          
+
+          <!-- Địa chỉ điểm đo: chỉ ghi vào hồ sơ khi thầy thuốc chủ động bấm,
+               vì máy đo có thể đang ở phòng khám chứ không phải nhà bệnh nhân. -->
+          <div v-if="dinhViTrangThai === 'xong' && diaDiem?.diaChi" class="the-dia-chi">
+            <div class="dia-chi-tieu-de">Địa chỉ tại điểm đo</div>
+            <div class="dia-chi-noi-dung">{{ [diaDiem.diaChi, diaDiem.tinhThanh].filter(Boolean).join(', ') }}</div>
+            <p v-if="hoSoThieuDiaChi && !daLuuDiaChi" class="dia-chi-nhac">Hồ sơ bệnh nhân đang thiếu Tỉnh/TP hoặc Địa chỉ.</p>
+            <button
+              v-if="!daLuuDiaChi"
+              type="button"
+              class="nut-dia-chi"
+              :disabled="dangLuuDiaChi"
+              @click="dungDiaChiChoHoSo"
+            >
+              {{ dangLuuDiaChi ? 'Đang lưu…' : 'Điền vào hồ sơ bệnh nhân' }}
+            </button>
+            <p v-else class="dia-chi-xong">✓ Đã lưu vào hồ sơ bệnh nhân</p>
+          </div>
+
           <div class="form-group full-width mt-4">
             <label class="form-label">Triệu chứng</label>
             <textarea v-model="form.symptoms" class="form-input" rows="3" placeholder="Nhập triệu chứng..."></textarea>
@@ -336,6 +489,25 @@ async function saveExamination() {
 .form-input:focus { border-color: var(--brown-500); box-shadow: var(--focus-ring); }
 .form-input:disabled { background: var(--gray-50); color: var(--gray-500); cursor: not-allowed; }
 textarea.form-input { resize: vertical; min-height: 80px; }
+
+/* Định vị điểm đo */
+.tag-auto { margin-left: var(--space-2); padding: 1px 7px; border-radius: var(--radius-full); background: var(--brown-50); color: var(--brown-700); border: 1px solid var(--brown-200); font-size: 11px; font-weight: 600; }
+.dinh-vi-dong { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-top: 2px; font-size: var(--font-size-xs); color: var(--gray-600); line-height: 1.5; }
+.dinh-vi-dong.loi { color: var(--danger); }
+.dinh-vi-dong .phu { color: var(--gray-500); }
+.ghim { font-size: 12px; }
+.lien-ket { background: none; border: none; padding: 0; font-size: var(--font-size-xs); font-weight: 600; color: var(--brown-600); text-decoration: underline; cursor: pointer; }
+.lien-ket:hover { color: var(--brown-800); }
+.spinner-nho { width: 11px; height: 11px; border: 2px solid var(--gray-200); border-top-color: var(--brown-500); border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
+
+.the-dia-chi { margin-top: var(--space-4); padding: var(--space-3); background: var(--brown-50); border: 1px solid var(--brown-200); border-radius: var(--radius-sm); }
+.dia-chi-tieu-de { font-size: var(--font-size-xs); font-weight: 700; color: var(--brown-700); text-transform: uppercase; letter-spacing: .02em; }
+.dia-chi-noi-dung { margin-top: 4px; font-size: var(--font-size-sm); color: var(--gray-800); line-height: 1.5; }
+.dia-chi-nhac { margin-top: 4px; font-size: var(--font-size-xs); color: var(--gray-600); }
+.nut-dia-chi { margin-top: var(--space-3); width: 100%; padding: 8px 12px; background: var(--white); color: var(--brown-700); border: 1px solid var(--brown-300); border-radius: var(--radius-sm); font-size: var(--font-size-xs); font-weight: 600; cursor: pointer; transition: all var(--transition-fast); }
+.nut-dia-chi:hover:not(:disabled) { background: var(--brown-600); color: var(--white); border-color: var(--brown-600); }
+.nut-dia-chi:disabled { opacity: .6; cursor: not-allowed; }
+.dia-chi-xong { margin-top: var(--space-3); font-size: var(--font-size-xs); font-weight: 600; color: var(--success, var(--brown-700)); }
 
 /* Actions */
 .form-actions { display: flex; justify-content: flex-end; gap: var(--space-3); margin-top: var(--space-8); padding-top: var(--space-6); border-top: 1px solid var(--gray-200); }

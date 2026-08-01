@@ -115,6 +115,7 @@ import { SeoBlogRouter } from './routers/seo-blog.router';
 import { GscRouter } from './routers/gsc.router';
 import { ChanDoanLuoiRouter } from './routers/chan-doan-luoi.router';
 import { ThuongHanRouter } from './routers/thuong-han.router';
+import { DiaDiemRouter } from './routers/dia-diem.router';
 
 // Controllers (NestJS Services)
 import { AdminsService } from './controllers/admin.controller';
@@ -157,6 +158,7 @@ import { SeoService } from './controllers/seo.controller';
 import { GscService } from './controllers/gsc.controller';
 import { ChanDoanLuoiService } from './controllers/chan-doan-luoi.controller';
 import { ThuongHanService } from './controllers/thuong-han.controller';
+import { DiaDiemService } from './controllers/dia-diem.controller';
 
 // Middlewares (Strategies/Guards)
 import { JwtStrategy } from './middlewares/auth/jwt.strategy';
@@ -223,7 +225,7 @@ import { JwtAuthGuard } from './middlewares/auth/jwt-auth.guard';
       inject: [ConfigService],
     }),
   ],
-  controllers: [AppController, ChanDoanLuoiRouter, AuthRouter, VaiTroRouter, NguoiDungRouter, MeridiansRouter, PatientsRouter, ExaminationsRouter, RecordsRouter, ChungBenhRouter, BenhTayYRouter, TrieuChungRouter, KinhMachRouter, HuyetViRouter, PhacDoDieuTriRouter, BenhCauThanhRouter, PhacDoChuanRouter, ViThuocRouter, BaiThuocRouter, TheBenhRouter, TheBenhPhuongHuyetRouter, PatientAuthRouter, ClinicScheduleRouter, AppointmentSlotsRouter, ThietChanRouter, MachChanRouter, CongDungRouter, PhapTriRouter, BenhDongYExcelRouter, BenhDongYRouter, BenhDongYHienDaiRouter, ChuTriController, KiengKyController, NhomLonDuocLyRouter, NhomNhoDuocLyRouter, AiSuggestRouter, KiemDinhViThuocRouter, TonThuongTacNhanRouter, KinhMach3dRouter, DemoRouter, SeoRouter, SeoBlogRouter, GscRouter, GraphRouter, DuocLieuRouter, PhuongThangRouter, NguonRouter, ThuongHanRouter],
-  providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }, AppService, ChanDoanLuoiService, AdminsService, AuthService, VaiTroService, NguoiDungService, JwtStrategy, MeridiansService, PatientsService, ExaminationsService, ChungBenhService, BenhTayYService, TrieuChungService, KinhMachService, HuyetViService, PhacDoDieuTriService, BenhCauThanhService, PhacDoChuanService, ViThuocService, BaiThuocService, TheBenhService, TheBenhPhuongHuyetService, PatientAuthService, ClinicScheduleService, AppointmentSlotsService, FirebaseService, ThietChanService, MachChanService, CongDungService, PhapTriService, BenhDongYExcelService, BenhDongYHienDaiService, NhomLonDuocLyService, NhomNhoDuocLyService, AiSuggestService, KiemDinhViThuocService, TonThuongTacNhanService, KinhMach3dService, SeoService, GscService, GraphService, SchemaBootstrapService, PhuongThangService, NguonService, ThuongHanService],
+  controllers: [AppController, ChanDoanLuoiRouter, AuthRouter, VaiTroRouter, NguoiDungRouter, MeridiansRouter, PatientsRouter, ExaminationsRouter, RecordsRouter, ChungBenhRouter, BenhTayYRouter, TrieuChungRouter, KinhMachRouter, HuyetViRouter, PhacDoDieuTriRouter, BenhCauThanhRouter, PhacDoChuanRouter, ViThuocRouter, BaiThuocRouter, TheBenhRouter, TheBenhPhuongHuyetRouter, PatientAuthRouter, ClinicScheduleRouter, AppointmentSlotsRouter, ThietChanRouter, MachChanRouter, CongDungRouter, PhapTriRouter, BenhDongYExcelRouter, BenhDongYRouter, BenhDongYHienDaiRouter, ChuTriController, KiengKyController, NhomLonDuocLyRouter, NhomNhoDuocLyRouter, AiSuggestRouter, KiemDinhViThuocRouter, TonThuongTacNhanRouter, KinhMach3dRouter, DemoRouter, SeoRouter, SeoBlogRouter, GscRouter, GraphRouter, DuocLieuRouter, PhuongThangRouter, NguonRouter, ThuongHanRouter, DiaDiemRouter],
+  providers: [{ provide: APP_GUARD, useClass: JwtAuthGuard }, AppService, ChanDoanLuoiService, AdminsService, AuthService, VaiTroService, NguoiDungService, JwtStrategy, MeridiansService, PatientsService, ExaminationsService, ChungBenhService, BenhTayYService, TrieuChungService, KinhMachService, HuyetViService, PhacDoDieuTriService, BenhCauThanhService, PhacDoChuanService, ViThuocService, BaiThuocService, TheBenhService, TheBenhPhuongHuyetService, PatientAuthService, ClinicScheduleService, AppointmentSlotsService, FirebaseService, ThietChanService, MachChanService, CongDungService, PhapTriService, BenhDongYExcelService, BenhDongYHienDaiService, NhomLonDuocLyService, NhomNhoDuocLyService, AiSuggestService, KiemDinhViThuocService, TonThuongTacNhanService, KinhMach3dService, SeoService, GscService, GraphService, SchemaBootstrapService, PhuongThangService, NguonService, ThuongHanService, DiaDiemService],
 })
 export class AppModule {}
