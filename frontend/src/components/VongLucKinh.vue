@@ -20,7 +20,12 @@ const props = defineProps<{
   currentId?: number | null // id lần đo ĐANG XEM (nổi bật nhất)
 }>()
 // Lát cắt tối thiểu của 1 lần đo để vẽ đường đo (cha map từ lucKinhTrajectory, chỉ đợt hiện tại).
-interface TrajInput { id: number; date?: string; moiDot?: boolean; kinhSlug?: string | null; huong?: 'vao-ly' | 'ra-bieu' | 'giu' | null }
+interface TrajInput {
+  id: number; date?: string; moiDot?: boolean; kinhSlug?: string | null; huong?: 'vao-ly' | 'ra-bieu' | 'giu' | null
+  kieuTruyen?: string | null // 'viet' | 'bieu-ly' → dấu ◇ ở trung điểm đoạn
+  capTinh?: string | null // 'cap' | 'cap?' → đoạn link dày (truyền cấp)
+  trucTrung?: boolean // ONSET đợt vào thẳng Tam Âm → vòng đứt quanh hạt đầu
+}
 const emit = defineEmits<{ select: [{ type: 'kinh' | 'khi' | 'tang'; key: string; label: string; kinh?: string }] }>()
 
 const CX = 210, CY = 210, D2R = Math.PI / 180
@@ -178,19 +183,22 @@ const trajNodes = computed(() => {
       pos = pt(r, deg)
       n = ++k // đánh số 1..k TRONG đợt (bỏ qua điểm ngoài Lục Kinh)
     }
-    return { id: p.id, date: p.date ?? '', kinhSlug: p.kinhSlug ?? null, huong: p.huong ?? null, r, deg, pos, n }
+    return { id: p.id, date: p.date ?? '', kinhSlug: p.kinhSlug ?? null, huong: p.huong ?? null,
+      kieuTruyen: p.kieuTruyen ?? null, capTinh: p.capTinh ?? null, trucTrung: !!p.trucTrung, r, deg, pos, n }
   })
 })
 const trajLocatedCount = computed(() => trajNodes.value.filter((n) => n.pos).length)
 const trajSegs = computed(() => {
-  const out: { d: string; head: string | null; color: string }[] = []
+  const out: { d: string; head: string | null; color: string; cap: boolean; kieu: string | null; mid: { x: number; y: number } }[] = []
   const ns = trajNodes.value
   for (let i = 1; i < ns.length; i++) {
     const P = ns[i - 1]!, Q = ns[i]!
     if (!P.pos || !Q.pos) continue // gặp điểm ngoài Lục Kinh → NGẮT, không nội suy
     let d: string
+    let mid: { x: number; y: number }
     if (P.kinhSlug === Q.kinhSlug) {
       d = `M${N(P.pos.x)} ${N(P.pos.y)} L${N(Q.pos.x)} ${N(Q.pos.y)}` // cùng kinh → đoạn radial thẳng
+      mid = { x: (P.pos.x + Q.pos.x) / 2, y: (P.pos.y + Q.pos.y) / 2 }
     } else {
       const mx = (P.pos.x + Q.pos.x) / 2, my = (P.pos.y + Q.pos.y) / 2
       let nx = mx - CX, ny = my - CY
@@ -200,11 +208,15 @@ const trajSegs = computed(() => {
         nx = -dy / dl; ny = dx / dl
       } else { nx /= nl; ny /= nl }
       const off = 10 // bow RA NGOÀI theo pháp tuyến hướng tâm → lệch khỏi dây Trung Kiến
-      d = `M${N(P.pos.x)} ${N(P.pos.y)} Q${N(mx + nx * off)} ${N(my + ny * off)} ${N(Q.pos.x)} ${N(Q.pos.y)}`
+      const cx = mx + nx * off, cy = my + ny * off
+      d = `M${N(P.pos.x)} ${N(P.pos.y)} Q${N(cx)} ${N(cy)} ${N(Q.pos.x)} ${N(Q.pos.y)}`
+      mid = { x: 0.25 * P.pos.x + 0.5 * cx + 0.25 * Q.pos.x, y: 0.25 * P.pos.y + 0.5 * cy + 0.25 * Q.pos.y } // điểm giữa Bezier (t=0.5)
     }
     const L = Math.hypot(Q.pos.x - P.pos.x, Q.pos.y - P.pos.y)
     const head = L < 2 ? null : arrowHead(Q.pos, { x: (Q.pos.x - P.pos.x) / L, y: (Q.pos.y - P.pos.y) / L })
-    out.push({ d, head, color: DIRC[Q.huong ?? 'giu'] ?? DIRC.giu! })
+    const kieu = Q.kieuTruyen === 'viet' ? 'viet' : Q.kieuTruyen === 'bieu-ly' ? 'bieu-ly' : null
+    const cap = Q.capTinh === 'cap' || Q.capTinh === 'cap?'
+    out.push({ d, head, color: DIRC[Q.huong ?? 'giu'] ?? DIRC.giu!, cap, kieu, mid })
   }
   return out
 })
@@ -267,17 +279,23 @@ const trajSegs = computed(() => {
 
       <!-- ③ TRUYỀN BIẾN THỰC ĐO — chuỗi hạt số ở đĩa trong (chỉ khi ≥2 lần đo định vị được, trong 1 đợt) -->
       <g v-if="showTraj && trajLocatedCount >= 2" class="traj-real" aria-label="Truyền biến đã đo qua các lần khám">
-        <path v-for="(s, i) in trajSegs" :key="'trl' + i" :d="s.d" class="tr-link" :style="{ stroke: s.color }" />
+        <path v-for="(s, i) in trajSegs" :key="'trl' + i" :d="s.d" class="tr-link" :class="{ cap: s.cap }" :style="{ stroke: s.color }" />
         <template v-for="(s, i) in trajSegs" :key="'trh' + i">
           <polygon v-if="s.head" :points="s.head" :style="{ fill: s.color }" />
+        </template>
+        <!-- Dấu ◇ ở trung điểm đoạn: việt kinh (ochre) / biểu-lý truyền (vàng Trung kiến) -->
+        <template v-for="(s, i) in trajSegs" :key="'trk' + i">
+          <path v-if="s.kieu" class="tr-kieu" :class="'tr-kieu--' + s.kieu"
+                :d="`M${N(s.mid.x)} ${N(s.mid.y - 4.5)} L${N(s.mid.x + 4.5)} ${N(s.mid.y)} L${N(s.mid.x)} ${N(s.mid.y + 4.5)} L${N(s.mid.x - 4.5)} ${N(s.mid.y)} Z`" />
         </template>
         <template v-for="nd in trajNodes" :key="'trn' + nd.id">
           <g v-if="nd.pos" class="tr-node" :class="{ cur: nd.id === currentId }"
              :style="{ opacity: 0.45 + 0.55 * ((nd.n || 1) / Math.max(1, trajLocatedCount)) }">
+            <circle v-if="nd.trucTrung" :cx="nd.pos.x" :cy="nd.pos.y" class="tr-trucrung" />
             <circle v-if="nd.id === currentId" :cx="nd.pos.x" :cy="nd.pos.y" class="tr-halo" />
             <circle :cx="nd.pos.x" :cy="nd.pos.y" :r="nd.id === currentId ? 5.5 : 4.5" class="tr-bead" />
             <text :x="nd.pos.x" :y="nd.pos.y">{{ nd.n }}</text>
-            <title>Lần {{ nd.n }} · {{ nd.date }}<template v-if="nd.kinhSlug"> · {{ tenOfSlug(nd.kinhSlug) }}</template></title>
+            <title>Lần {{ nd.n }} · {{ nd.date }}<template v-if="nd.kinhSlug"> · {{ tenOfSlug(nd.kinhSlug) }}</template><template v-if="nd.trucTrung"> · 直 trực trúng</template></title>
           </g>
         </template>
       </g>
@@ -312,6 +330,7 @@ const trajSegs = computed(() => {
     </div>
     <div class="vlk-legend">
       <span v-if="showTraj && trajLocatedCount >= 2"><i class="lg-traj"></i> Chuỗi hạt số (nét liền) = <b>ĐÃ ĐO</b> theo thời gian</span>
+      <span v-if="showTraj && trajLocatedCount >= 2" class="lg-kieu"><b style="color:#e39a4a">◇</b> việt kinh · <b style="color:#ecc766">◇</b> biểu-lý · <b style="color:#e0655a">◌</b> trực trúng · đoạn dày = <b>cấp</b></span>
       <span><i class="lg-cb"></i> Viền nét đứt đỏ/xanh = <b>DỰ ĐOÁN</b> (vào lý / ra biểu)</span>
       <span :class="{ 'lg-muted': showTraj && trajLocatedCount >= 2 }"><i class="lg-flow"></i> ①→⑥ = thứ tự truyền (sách)</span>
       <span><i class="lg-tk"></i> Trung kiến (cặp biểu-lý)</span>
@@ -397,8 +416,14 @@ const trajSegs = computed(() => {
 /* ── ③ TRUYỀN BIẾN THỰC ĐO: đường LIỀN (quá khứ) + hạt số, tách hẳn dự đoán (nét đứt) ── */
 .traj-real { pointer-events: none; }
 .tr-link { fill: none; stroke-width: 2.1; stroke-linecap: round; opacity: 0.92; }
+.tr-link.cap { stroke-width: 3.4; filter: drop-shadow(0 0 2.5px rgba(143, 42, 28, 0.7)); } /* truyền cấp — đoạn dày, sậm */
+/* Dấu ◇ kiểu truyền ở trung điểm đoạn — kênh riêng, không mượn màu hướng */
+.tr-kieu { fill: none; stroke-width: 1.5; }
+.tr-kieu--viet { stroke: #e39a4a; } /* việt kinh — ochre sáng (nổi trên nền tối) */
+.tr-kieu--bieu-ly { stroke: #ecc766; } /* biểu-lý — vàng Trung kiến */
 .tr-node { pointer-events: auto; cursor: help; }
 .tr-bead { fill: #fbf1dd; stroke: #7a5a2c; stroke-width: 1.4; }
+.tr-trucrung { r: 7.5; fill: none; stroke: #e0655a; stroke-width: 1.6; stroke-dasharray: 3 2; } /* trực trúng — vòng đứt TĨNH */
 .tr-node text { font-size: 8px; font-weight: 800; fill: #4b3319; stroke: none; }
 .tr-node.cur .tr-bead { fill: #fff; stroke: #c98a2e; stroke-width: 2; }
 .tr-halo { r: 6; fill: none; stroke: #ffd27a; stroke-width: 1.8; transform-box: fill-box; transform-origin: center; animation: trPulse 1.6s ease-in-out infinite; }
