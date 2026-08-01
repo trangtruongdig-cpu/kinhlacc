@@ -43,6 +43,8 @@ interface SyndromeLite {
 interface DemoExam {
   inputData?: InputData
   createdAt?: string
+  /** Giờ khám thầy thuốc đặt/sửa — ưu tiên hơn createdAt khi hiển thị. */
+  thoiDiemKham?: string
   excelSyndromes?: SyndromeLite[]
   modernSyndromes?: SyndromeLite[]
   syndromes?: { syndrome_name?: string; phap_tri?: string }[]
@@ -476,7 +478,7 @@ watch(
 )
 
 const examDate = computed(() => {
-  const raw = examination.value?.createdAt
+  const raw = examination.value?.thoiDiemKham ?? examination.value?.createdAt
   if (!raw) return '—'
   const d = new Date(raw)
   return isNaN(d.getTime()) ? '—' : d.toLocaleDateString('vi-VN')

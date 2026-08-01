@@ -74,6 +74,42 @@ export class SchemaBootstrapService implements OnApplicationBootstrap {
     `ALTER TABLE kinh_mach ADD COLUMN IF NOT EXISTS bieu_hien_tac_nghen TEXT`,
     // examinations.huThuc — cương Hư-Thực độc lập (không còn gắn Khí/Huyết chi trên/chi dưới)
     `ALTER TABLE examinations ADD COLUMN IF NOT EXISTS "huThuc" VARCHAR(50)`,
+    // Bối cảnh môi trường + địa điểm của ca đo (lấy tự động từ GPS máy đang khám).
+    // Nhiệt độ MT trước đây có ô nhập trên form nhưng KHÔNG có cột nên bị vứt bỏ khi lưu.
+    `ALTER TABLE examinations ADD COLUMN IF NOT EXISTS "nhietDoMoiTruong" NUMERIC(5,2)`,
+    `ALTER TABLE examinations ADD COLUMN IF NOT EXISTS "doAmMoiTruong" NUMERIC(5,2)`,
+    `ALTER TABLE examinations ADD COLUMN IF NOT EXISTS "tinhThanh" VARCHAR(120)`,
+    `ALTER TABLE examinations ADD COLUMN IF NOT EXISTS "phuongXa" VARCHAR(120)`,
+    `ALTER TABLE examinations ADD COLUMN IF NOT EXISTS "viDo" DOUBLE PRECISION`,
+    `ALTER TABLE examinations ADD COLUMN IF NOT EXISTS "kinhDo" DOUBLE PRECISION`,
+    // Thời điểm khám THỰC TẾ — tách khỏi createdAt (lúc bấm lưu) để thầy thuốc lùi/tiến được
+    // giờ khám cho ca nhập bù. Ca cũ lấy luôn createdAt làm mốc để danh sách không bị trống.
+    //
+    // PHẢI cùng kiểu `timestamp` KHÔNG múi giờ như "createdAt": driver pg ghi/đọc kiểu này theo
+    // giờ máy chạy Node, nên copy qua lại là khớp tuyệt đối. Dùng TIMESTAMPTZ thì câu backfill
+    // chạy TRONG database (session GMT) hiểu giá trị mộc là giờ GMT → toàn bộ ca cũ bị đẩy lên
+    // 7 tiếng so với giờ đang hiển thị.
+    `ALTER TABLE examinations ADD COLUMN IF NOT EXISTS "thoiDiemKham" TIMESTAMP`,
+    // Sửa lại nếu cột đã lỡ tạo dạng TIMESTAMPTZ: hàng backfill trả về đúng createdAt gốc,
+    // hàng đã sửa tay quy từ mốc tuyệt đối về giờ VN. Có guard nên chạy lại nhiều lần vẫn an toàn.
+    `DO $$
+     BEGIN
+       IF EXISTS (
+         SELECT 1 FROM information_schema.columns
+         WHERE table_name = 'examinations'
+           AND column_name = 'thoiDiemKham'
+           AND data_type = 'timestamp with time zone'
+       ) THEN
+         ALTER TABLE examinations
+           ALTER COLUMN "thoiDiemKham" TYPE TIMESTAMP
+           USING CASE
+             WHEN ("thoiDiemKham" AT TIME ZONE 'UTC') = "createdAt" THEN "createdAt"
+             ELSE "thoiDiemKham" AT TIME ZONE 'Asia/Ho_Chi_Minh'
+           END;
+       END IF;
+     END $$`,
+    `UPDATE examinations SET "thoiDiemKham" = "createdAt" WHERE "thoiDiemKham" IS NULL`,
+    `CREATE INDEX IF NOT EXISTS idx_examinations_thoi_diem_kham ON examinations ("patientId", "thoiDiemKham" DESC)`,
   ];
 
   async onApplicationBootstrap(): Promise<void> {

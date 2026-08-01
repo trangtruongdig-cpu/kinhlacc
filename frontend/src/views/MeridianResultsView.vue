@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, onBeforeUnmount, computed, watch, reactive, defineAsyncComponent } from 'vue'
+import { ref, onMounted, onBeforeUnmount, computed, watch, reactive, nextTick, defineAsyncComponent } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { usePatientStore, type Patient } from '@/stores/patient'
 import { api } from '@/services/api'
@@ -2005,14 +2005,26 @@ async function loadExamHistory() {
     examHistory.value = []
   }
 }
+type KieuTruyen = 'giu' | 'tuan' | 'viet' | 'bieu-ly' | 'am-chuyen-duong' | 'giai-o-bieu' | 'benh-lui'
+type CapTinh = 'cap' | 'cap?' | 'ban-cap' | 'man' | 'giai-nhanh' | 'khong-xac-dinh' | 'thuong'
 interface TrajPoint {
   id: number; ts: number; date: string; dot: number // số đợt bệnh (gap lớn = đợt mới)
   verdict: LucKinhVerdict | null
   huong: { nhan: string; loai: 'vao-ly' | 'ra-bieu' | 'giu' } | null // hướng so với mốc TRƯỚC (cùng đợt)
   moiDot: boolean
+  days: number | null // số ngày TỪ lần đo LOCATED trước (không tính mốc ngoài LK) → tốc độ
+  kieuTruyen: KieuTruyen | null // kiểu truyền của BƯỚC vào điểm này
+  vuot: number | null // việt kinh: số kinh nhảy qua
+  capTinh: CapTinh | null // tốc độ: cấp / bán cấp / mạn / hồi phục…
+  gianDoan: boolean // có mốc ngoài LK xen giữa bước → hạ độ tin
+  trucTrung: boolean // ONSET đợt đã ở Tam Âm (tà đánh thẳng lý)
+  trucTrungBanChac: boolean // onset không có mốc mù trước → chắc chắn
 }
 // Cách nhau > 45 ngày coi là ĐỢT BỆNH khác (không nối truyền biến xuyên đợt — tránh nối nhầm 2 bệnh).
 const GAP_DOT_MS = 45 * 24 * 3600 * 1000
+const DAY_MS = 24 * 3600 * 1000
+// Cặp BIỂU-LÝ (Trung kiến) theo thuTu — BẢNG CỨNG (không suy 6−thuTu vì sai cho 3↔6).
+const PARTNER_THUTU: Record<number, number> = { 1: 5, 5: 1, 2: 4, 4: 2, 3: 6, 6: 3 }
 const lucKinhTrajectory = computed<TrajPoint[]>(() => {
   const pts = examHistory.value
     .map((e) => ({
@@ -2023,17 +2035,55 @@ const lucKinhTrajectory = computed<TrajPoint[]>(() => {
     }))
     .sort((a, b) => a.ts - b.ts) // cũ → mới
   const out: TrajPoint[] = []
-  let prevSlug: import('@/lib/lucKinh').KinhSlug | null = null
-  let prevTs = 0
+  let prevExamTs = 0 // mốc thời gian lần đo BẤT KỲ trước (chỉ để dò đợt mới)
+  let prevLocSlug: import('@/lib/lucKinh').KinhSlug | null = null // kinh LOCATED gần nhất
+  let prevLocTs = 0 // ts của lần LOCATED gần nhất (để tính days đúng, KHÔNG tính mốc ngoài LK)
+  let blindGap = false // có mốc ngoài LK xen giữa → bước kế bắc qua khoảng mù
   let dot = 0
   for (const p of pts) {
-    const moiDot = prevTs > 0 && p.ts - prevTs > GAP_DOT_MS
-    if (moiDot || dot === 0) { dot++; prevSlug = null } // sang đợt mới → không nối hướng
+    const moiDot = prevExamTs > 0 && p.ts - prevExamTs > GAP_DOT_MS
+    if (moiDot || dot === 0) { dot++; prevLocSlug = null; prevLocTs = 0; blindGap = false } // sang đợt → reset
     const slug = p.verdict?.kinh.slug ?? null
-    const huong = prevSlug && slug ? huongTruyen(prevSlug, slug) : null
-    out.push({ id: p.id, ts: p.ts, date: p.date, dot, verdict: p.verdict, huong, moiDot: moiDot })
-    if (slug) prevSlug = slug
-    prevTs = p.ts
+    const pt: TrajPoint = {
+      id: p.id, ts: p.ts, date: p.date, dot, verdict: p.verdict, moiDot,
+      huong: null, days: null, kieuTruyen: null, vuot: null, capTinh: null, gianDoan: false,
+      trucTrung: false, trucTrungBanChac: true,
+    }
+    if (slug == null) {
+      // NGOÀI LỤC KINH — mốc mù: không nối, đánh dấu để bước kế hạ độ tin. KHÔNG reset prevLoc.
+      blindGap = true
+      out.push(pt); prevExamTs = p.ts; continue
+    }
+    const tCur = KINH_META[slug].thuTu
+    if (prevLocSlug == null) {
+      // ONSET đợt (không có bước): cờ trực trúng nếu đã ở Tam Âm (thuTu ≥ 4)
+      pt.trucTrung = tCur >= 4
+      pt.trucTrungBanChac = !blindGap
+    } else {
+      const tPrev = KINH_META[prevLocSlug].thuTu
+      const d = tCur - tPrev
+      pt.huong = huongTruyen(prevLocSlug, slug)
+      pt.gianDoan = blindGap
+      const days = prevLocTs > 0 && p.ts > 0 ? (p.ts - prevLocTs) / DAY_MS : null
+      pt.days = days
+      const nhip = days != null && days > 0 ? Math.abs(d) / days : null
+      if (d === 0) {
+        pt.kieuTruyen = 'giu'; pt.capTinh = 'thuong'
+      } else if (d < 0) {
+        // RA BIỂU = HỒI PHỤC — KHÔNG bao giờ tuần/việt
+        pt.kieuTruyen = PARTNER_THUTU[tPrev] === tCur && tPrev >= 4 ? 'am-chuyen-duong' : tCur === 1 ? 'giai-o-bieu' : 'benh-lui'
+        pt.capTinh = days != null && days > 0 && days <= 3 && Math.abs(d) >= 2 ? 'giai-nhanh' : 'thuong'
+      } else {
+        // VÀO LÝ — thứ tự BẮT BUỘC: biểu-lý > tuần > việt (chặn 1→5,2→4,3→6 trước việt)
+        pt.kieuTruyen = PARTNER_THUTU[tPrev] === tCur ? 'bieu-ly' : d === 1 ? 'tuan' : 'viet'
+        if (pt.kieuTruyen === 'viet') pt.vuot = d - 1
+        const capA = (days != null && days > 0 && days <= 3 && (Math.abs(d) >= 2 || (tPrev <= 3 && tCur >= 4))) || (nhip != null && nhip >= 1)
+        pt.capTinh = days == null || days <= 0 ? 'khong-xac-dinh' : capA ? 'cap' : days <= 7 && (Math.abs(d) >= 2 || d === 1) ? 'ban-cap' : 'man'
+        if (pt.gianDoan && pt.capTinh === 'cap') pt.capTinh = 'cap?'
+      }
+    }
+    out.push(pt)
+    prevLocSlug = slug; prevLocTs = p.ts; blindGap = false; prevExamTs = p.ts
   }
   return out
 })
@@ -2059,8 +2109,30 @@ const trajForWheel = computed(() => {
       moiDot: p.moiDot,
       kinhSlug: p.verdict ? p.verdict.kinh.slug : null,
       huong: p.huong ? p.huong.loai : null,
+      kieuTruyen: p.kieuTruyen,
+      capTinh: p.capTinh,
+      trucTrung: p.trucTrung,
     }))
 })
+// Chip KIỂU TRUYỀN cho dải timeline: tuần/giữ IM LẶNG (ca thường); việt/biểu-lý + hồi phục có nhãn.
+const KIEU_CHIP: Record<string, { nhan: string; cls: string; tip: string }> = {
+  'bieu-ly': { nhan: '⇌ biểu-lý', cls: 'bieuly', tip: 'Biểu-lý truyền 表裏傳 (Trung kiến) — tà hãm sang kinh tương phối, vào lý.' },
+  viet: { nhan: '» việt kinh', cls: 'viet', tip: 'Việt kinh 越經傳 — truyền nhảy cách kinh, truyền nhanh, cảnh giác.' },
+  'am-chuyen-duong': { nhan: 'âm→dương', cls: 'hoiphuc', tip: 'Âm chứng chuyển dương 陰證轉陽 — điềm lành, đang hồi phục.' },
+  'giai-o-bieu': { nhan: 'giải ở biểu', cls: 'hoiphuc', tip: 'Tà theo mồ hôi ra, giải tại biểu — khỏi.' },
+  'benh-lui': { nhan: 'bệnh lui', cls: 'hoiphuc', tip: 'Tang giảm — bệnh đang lui ra ngoài.' },
+}
+function kieuChip(p: TrajPoint) {
+  const m = p.kieuTruyen ? KIEU_CHIP[p.kieuTruyen] : null
+  if (!m) return null
+  return { nhan: p.kieuTruyen === 'viet' && p.vuot ? `» vượt ${p.vuot}` : m.nhan, cls: m.cls, tip: m.tip }
+}
+const isCap = (p: TrajPoint) => p.capTinh === 'cap' || p.capTinh === 'cap?'
+function ngayLabel(p: TrajPoint) {
+  if (p.days == null) return null
+  if (p.days <= 0) return 'cùng ngày'
+  return `${Math.round(p.days)} ngày`
+}
 
 /** Đủ 12 tạng phủ (mã kinh ngắn → tên) để bày QUANH hình người; gắn trạng thái Bát Cương nếu có. */
 const ALL_ORGANS: { name: string; organ: string }[] = [
@@ -2119,14 +2191,14 @@ async function loadAllBaiThuocLite(): Promise<BaiThuocFull[]> {
   const LIMIT = 200
   const unwrap = (r: BaiThuocFull[] | BaiThuocLiteResp): BaiThuocFull[] =>
     Array.isArray(r) ? r : (r.data ?? [])
-  const first = await api.get<BaiThuocFull[] | BaiThuocLiteResp>(`/bai-thuoc/lite?page=1&limit=${LIMIT}`)
+  const first = await api.get<BaiThuocFull[] | BaiThuocLiteResp>(`/bai-thuoc/lite?page=1&limit=${LIMIT}&slim=1`)
   const all: BaiThuocFull[] = unwrap(first)
   const total: number = Array.isArray(first) ? all.length : (first.total ?? all.length)
   const pages = Math.ceil(total / LIMIT)
   if (pages > 1) {
     const rest = await Promise.all(
       Array.from({ length: pages - 1 }, (_, i) =>
-        api.get<BaiThuocFull[] | BaiThuocLiteResp>(`/bai-thuoc/lite?page=${i + 2}&limit=${LIMIT}`).then(unwrap),
+        api.get<BaiThuocFull[] | BaiThuocLiteResp>(`/bai-thuoc/lite?page=${i + 2}&limit=${LIMIT}&slim=1`).then(unwrap),
       ),
     )
     for (const arr of rest) all.push(...arr)
@@ -2142,7 +2214,7 @@ async function loadData() {
       api.get<Patient>(`/patients/${patientId.value}`),
       api.get<any>(`/examinations/${examId.value}`),
       api.get<any>('/benh-dong-y'),
-      api.get<any>('/phac-do-dieu-tri'),
+      api.get<any>('/phac-do-dieu-tri?slim=1'),
       api.get<any>('/benh-cau-thanh').catch(() => []),
     ])
     patient.value = patientRes
@@ -2367,6 +2439,26 @@ const initialView = ((): 1 | 2 | 3 => {
   return s === '1' || s === '2' || s === '3' ? (Number(s) as 1 | 2 | 3) : 1
 })()
 const activeView = ref<1 | 2 | 3>(initialView)
+
+// Bấm 1 mốc trên trục Truyền Biến sẽ mở ca đo khác (?traj=1). Router luôn cuộn về đầu trang, mà khối
+// Truyền Biến nằm cuối tab 3 → cuộn lại đúng chỗ vừa bấm để mạch nghiên cứu không bị đứt.
+// Chờ trục vẽ xong mới cuộn (dữ liệu ca + bản đồ thể-kinh nạp bất đồng bộ), và chỉ cuộn MỘT lần.
+const trajRef = ref<HTMLElement | null>(null)
+const daCuonToiTraj = ref(false)
+watch(
+  () => [activeView.value, lucKinhTrajectory.value.length] as const,
+  async () => {
+    if (daCuonToiTraj.value) return
+    if (route.query.traj !== '1' || activeView.value !== 3) return
+    if (!lucKinhTrajectory.value.length) return
+    await nextTick()
+    if (!trajRef.value) return
+    daCuonToiTraj.value = true
+    trajRef.value.scrollIntoView({ behavior: 'smooth', block: 'center' })
+  },
+  { immediate: true },
+)
+
 const showPatientMore = ref(false)
 // Verdict Bát Cương gọn cho thanh ngữ cảnh dính (nén khối Tóm Tắt to → luôn thấy các cương).
 // CHỈ 3 kết luận thật của Bát Cương: Âm-Dương (tổng cương) · Biểu-Lý (tc.viTri) · Hư-Thực.
@@ -3828,7 +3920,7 @@ watch(
           </p>
 
           <!-- TRUYỀN BIẾN LỤC KINH qua các lần đo của cùng bệnh nhân (đường đi của bệnh theo thời gian) -->
-          <section v-if="lucKinhTrajectory.filter((p) => p.verdict).length >= 2" class="lk-traj">
+          <section v-if="lucKinhTrajectory.filter((p) => p.verdict).length >= 2" ref="trajRef" class="lk-traj">
             <div class="lk-traj-head">
               <span class="lk-eyebrow">↳ Truyền biến qua {{ lucKinhTrajectory.length }} lần đo</span>
               <span v-if="truyenBienXuHuong" class="lk-traj-trend" :class="'lk-traj-trend--' + truyenBienXuHuong.loai">Xu hướng: {{ truyenBienXuHuong.nhan }}</span>
@@ -3836,20 +3928,50 @@ watch(
             <ol class="lk-traj-line">
               <li v-for="p in lucKinhTrajectory" :key="p.id" class="lk-traj-node" :class="{ 'lk-traj-node--cur': p.id === examId }">
                 <span v-if="p.moiDot" class="lk-traj-break" title="Đợt bệnh khác (cách > 45 ngày) — không nối truyền biến">⋯ đợt mới</span>
-                <span
-                  v-else-if="p.huong"
-                  class="lk-traj-arrow"
-                  :class="'lk-traj-arrow--' + p.huong.loai"
-                  :title="p.huong.nhan"
-                >{{ p.huong.loai === 'vao-ly' ? '↓' : p.huong.loai === 'ra-bieu' ? '↑' : '→' }}</span>
-                <span class="lk-traj-cell">
+                <!-- Connector giữa 2 mốc: TỐC ĐỘ (số ngày + cờ cấp) · HƯỚNG (↓↑→) · KIỂU TRUYỀN (chip) -->
+                <span v-else-if="p.huong" class="lk-traj-conn">
+                  <span class="lk-traj-speed" :class="{ 'is-cap': isCap(p), 'is-blind': p.gianDoan }">
+                    <template v-if="ngayLabel(p)">{{ ngayLabel(p) }}</template>
+                    <b v-if="isCap(p)" class="lk-traj-cap" title="Truyền vào lý nhanh — theo dõi sát">↯ cấp{{ p.capTinh === 'cap?' ? '?' : '' }}</b>
+                    <b v-if="p.gianDoan" class="lk-traj-blind" title="Có mốc ngoài Lục Kinh xen giữa — chưa chắc chắn">⋯</b>
+                  </span>
+                  <span
+                    class="lk-traj-arrow"
+                    :class="'lk-traj-arrow--' + p.huong.loai"
+                    :title="p.huong.nhan"
+                  >{{ p.huong.loai === 'vao-ly' ? '↓' : p.huong.loai === 'ra-bieu' ? '↑' : '→' }}</span>
+                  <span v-if="kieuChip(p)" class="lk-traj-kieu" :class="'lk-traj-kieu--' + kieuChip(p)!.cls" :title="kieuChip(p)!.tip">{{ kieuChip(p)!.nhan }}</span>
+                </span>
+                <!-- Bấm 1 mốc = mở lại ĐÚNG ca đo đó để đối chiếu (RouterLink nên mở tab mới được,
+                     tiện đặt 2 lần đo cạnh nhau mà ngẫm chuyển biến). Ca đang xem thì không phải link. -->
+                <span v-if="p.id === examId" class="lk-traj-cell lk-traj-cell--cur" aria-current="true">
+                  <span v-if="p.trucTrung" class="lk-traj-truc" title="Trực trúng 直中 — tà vào thẳng Tam Âm, không qua Tam Dương: chính khí hư, nặng ngay từ đầu">直 trực trúng<template v-if="!p.trucTrungBanChac">?</template></span>
                   <span class="lk-traj-date">{{ p.date }}</span>
                   <span v-if="p.verdict" class="lk-traj-kinh" :data-kinh="p.verdict.kinh.slug">{{ p.verdict.kinh.ten }} <i>{{ p.verdict.kinh.han }}</i></span>
                   <span v-else class="lk-traj-kinh lk-traj-kinh--none">ngoài LK</span>
+                  <span class="lk-traj-dang-xem">đang xem</span>
                 </span>
+                <!-- Giữ nguyên tab đang xem (?view=) — bác sĩ đang ở tab Biện Chứng mà nhảy sang lần đo
+                     khác thì phải vào thẳng tab đó, không bắt bấm lại từ tab 1. -->
+                <RouterLink
+                  v-else
+                  class="lk-traj-cell lk-traj-cell--link"
+                  :to="{
+                    name: 'meridian-results',
+                    params: { patientId, examId: p.id },
+                    query: { view: String(activeView), traj: '1' },
+                  }"
+                  :title="`Mở lần đo ${p.date} (ca #${p.id}) — giữ nguyên tab đang xem`"
+                >
+                  <span v-if="p.trucTrung" class="lk-traj-truc" title="Trực trúng 直中 — tà vào thẳng Tam Âm, không qua Tam Dương: chính khí hư, nặng ngay từ đầu">直 trực trúng<template v-if="!p.trucTrungBanChac">?</template></span>
+                  <span class="lk-traj-date">{{ p.date }}</span>
+                  <span v-if="p.verdict" class="lk-traj-kinh" :data-kinh="p.verdict.kinh.slug">{{ p.verdict.kinh.ten }} <i>{{ p.verdict.kinh.han }}</i></span>
+                  <span v-else class="lk-traj-kinh lk-traj-kinh--none">ngoài LK</span>
+                  <span class="lk-traj-mo">xem lần đo →</span>
+                </RouterLink>
               </li>
             </ol>
-            <p class="lk-traj-note">Cũ → mới. <b>↓</b> vào lý (nặng lên) · <b>↑</b> ra biểu (đang lui) · <b>→</b> giữ kinh. Chỉ có nghĩa khi các lần đo cùng MỘT đợt bệnh.</p>
+            <p class="lk-traj-note">Cũ → mới. <b>↓</b> vào lý (nặng) · <b>↑</b> ra biểu (lui) · <b>→</b> giữ kinh. Số ngày = tốc độ mỗi bước; <b style="color:#bf4632">↯ cấp</b> = truyền vào lý nhanh. Kiểu truyền: <b>»</b> việt kinh · <b>⇌</b> biểu-lý · <b style="color:#8a2f22">直</b> trực trúng (tà vào thẳng Tam Âm). Chỉ có nghĩa khi cùng MỘT đợt bệnh.</p>
           </section>
 
           <!-- ③ Tính chất (bát cương · chính khí) đưa lên gần đầu — khỏi cuộn hết đồ hình 5 vòng mới
@@ -6017,8 +6139,15 @@ watch(
 .lk-traj-trend--giu { color: var(--text-subtle); background: var(--surface-2); border: 1px solid var(--border); }
 .lk-traj-line { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: stretch; gap: 2px; overflow-x: auto; }
 .lk-traj-node { display: flex; align-items: center; gap: 2px; }
-.lk-traj-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-2); min-width: 92px; }
+.lk-traj-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-2); min-width: 92px; text-decoration: none; color: inherit; }
 .lk-traj-node--cur .lk-traj-cell { border-color: var(--brown-600); box-shadow: 0 0 0 2px var(--brown-100, rgba(120,53,15,.14)); }
+/* Mốc bấm được = mở lại lần đo đó */
+.lk-traj-cell--link { cursor: pointer; transition: all .15s ease; }
+.lk-traj-cell--link:hover { border-color: var(--brown-500); background: var(--surface); transform: translateY(-1px); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.lk-traj-cell--link:focus-visible { outline: 2px solid var(--brown-600); outline-offset: 2px; }
+.lk-traj-mo { font-size: 10px; font-weight: 700; color: var(--brown-600); opacity: 0; transition: opacity .15s ease; }
+.lk-traj-cell--link:hover .lk-traj-mo, .lk-traj-cell--link:focus-visible .lk-traj-mo { opacity: 1; }
+.lk-traj-dang-xem { font-size: 10px; font-weight: 700; color: var(--text-subtle); }
 .lk-traj-date { font-size: 11px; color: var(--text-subtle); font-variant-numeric: tabular-nums; }
 .lk-traj-kinh { font-size: 12.5px; font-weight: 800; color: #fff; padding: 2px 10px; border-radius: 999px; white-space: nowrap; background: var(--brown-600); }
 .lk-traj-kinh i { font-style: normal; font-weight: 600; opacity: .8; font-size: .85em; }
@@ -6029,10 +6158,23 @@ watch(
 .lk-traj-kinh[data-kinh="thai-am"] { background: #8c6f2e; }
 .lk-traj-kinh[data-kinh="thieu-am"] { background: #ab3644; }
 .lk-traj-kinh[data-kinh="quyet-am"] { background: #4c7742; }
-.lk-traj-arrow { font-size: 18px; font-weight: 800; padding: 0 4px; align-self: center; }
+/* Connector 3 dòng: tốc độ (ngày) · hướng (↓↑→) · kiểu truyền (chip) */
+.lk-traj-conn { align-self: center; display: flex; flex-direction: column; align-items: center; gap: 1px; padding: 0 3px; min-width: 58px; }
+.lk-traj-speed { font-size: 10px; font-weight: 700; color: var(--text-subtle); font-variant-numeric: tabular-nums; white-space: nowrap; display: inline-flex; align-items: center; gap: 3px; }
+.lk-traj-speed.is-cap { color: #bf4632; }
+.lk-traj-cap { font-size: 9.5px; font-weight: 800; color: #fff; background: #bf4632; padding: 0 5px; border-radius: 999px; }
+.lk-traj-blind { color: var(--text-subtle); font-weight: 800; }
+.lk-traj-arrow { font-size: 18px; font-weight: 800; padding: 0; line-height: 1; }
 .lk-traj-arrow--vao-ly { color: #b23a25; }
 .lk-traj-arrow--ra-bieu { color: #2e6f52; }
 .lk-traj-arrow--giu { color: var(--text-subtle); }
+/* Chip kiểu truyền — kênh RIÊNG (viền/glyph), không mượn 3 màu hướng */
+.lk-traj-kieu { font-size: 9.5px; font-weight: 800; padding: 1px 6px; border-radius: 999px; white-space: nowrap; background: var(--surface); border: 1px solid; }
+.lk-traj-kieu--viet { color: #8a5316; border-color: #b26a1f; }
+.lk-traj-kieu--bieuly { color: #8a6a1f; border-color: #c9a24e; border-width: 1.5px; }
+.lk-traj-kieu--hoiphuc { color: #2e6f52; border-color: #86b79a; font-weight: 700; }
+/* Cờ trực trúng — tag đỏ thẫm ở đầu ô */
+.lk-traj-truc { font-size: 9.5px; font-weight: 800; color: #f4e7d1; background: #8a2f22; padding: 1px 6px; border-radius: 5px; white-space: nowrap; }
 .lk-traj-break { align-self: center; font-size: 10px; font-weight: 700; color: var(--text-subtle); padding: 0 6px; border-left: 1px dashed var(--border); border-right: 1px dashed var(--border); white-space: nowrap; }
 .lk-traj-note { margin: var(--space-2) 0 0; font-size: 11.5px; color: var(--text-subtle); line-height: 1.45; }
 

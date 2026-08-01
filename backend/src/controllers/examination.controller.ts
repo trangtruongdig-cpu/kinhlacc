@@ -1,4 +1,10 @@
-import { Injectable, NotFoundException, OnModuleInit, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+  OnModuleInit,
+  Logger,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Examination, ChanDoanLuu, DonThuocLuu } from '../models/examination.model';
@@ -61,9 +67,10 @@ export class ExaminationsService implements OnModuleInit {
   }
 
   findAll(): Promise<Examination[]> {
-    return this.examinationRepository.find({
-      order: { createdAt: 'DESC' },
-    });
+    return this.examinationRepository
+      .createQueryBuilder('e')
+      .orderBy('COALESCE(e."thoiDiemKham", e."createdAt")', 'DESC')
+      .getMany();
   }
 
   async create(dto: CreateExaminationDto): Promise<Examination> {
@@ -110,6 +117,13 @@ export class ExaminationsService implements OnModuleInit {
       flags: result.flags,
       syndromes: result.syndromes as any[],
       notes: dto.notes ?? null,
+      thoiDiemKham: this.docThoiDiem(dto.thoiDiemKham) ?? new Date(),
+      nhietDoMoiTruong: dto.nhietDoMoiTruong ?? null,
+      doAmMoiTruong: dto.doAmMoiTruong ?? null,
+      tinhThanh: dto.tinhThanh ?? null,
+      phuongXa: dto.phuongXa ?? null,
+      viDo: dto.viDo ?? null,
+      kinhDo: dto.kinhDo ?? null,
     });
 
     try {
@@ -187,6 +201,18 @@ export class ExaminationsService implements OnModuleInit {
     if (dto.notes !== undefined) {
       existing.notes = dto.notes;
     }
+    // Chỉ đụng field nào client thực sự gửi — tránh xoá trắng bối cảnh đo khi sửa số liệu.
+    if (dto.thoiDiemKham !== undefined) {
+      const moc = this.docThoiDiem(dto.thoiDiemKham);
+      if (dto.thoiDiemKham && !moc) throw new BadRequestException('Thời điểm khám không hợp lệ');
+      existing.thoiDiemKham = moc ?? existing.createdAt ?? new Date();
+    }
+    if (dto.nhietDoMoiTruong !== undefined) existing.nhietDoMoiTruong = dto.nhietDoMoiTruong;
+    if (dto.doAmMoiTruong !== undefined) existing.doAmMoiTruong = dto.doAmMoiTruong;
+    if (dto.tinhThanh !== undefined) existing.tinhThanh = dto.tinhThanh;
+    if (dto.phuongXa !== undefined) existing.phuongXa = dto.phuongXa;
+    if (dto.viDo !== undefined) existing.viDo = dto.viDo;
+    if (dto.kinhDo !== undefined) existing.kinhDo = dto.kinhDo;
 
     const saved = await this.examinationRepository.save(existing);
     (saved as any).currentSyndromes = result.currentSyndromes ?? result.syndromes ?? [];
@@ -218,31 +244,93 @@ export class ExaminationsService implements OnModuleInit {
     return this.examinationRepository.save(exam);
   }
 
-  async findByPatient(patientId: number): Promise<Examination[]> {
-    const exams = await this.examinationRepository.find({
-      where: { patientId },
-      order: { createdAt: 'DESC' },
-    });
+  /**
+   * Cache kết quả phân tích theo BỘ SỐ ĐO.
+   *
+   * `analyze()` là hàm thuần theo inputData (cùng 24 số đo → cùng kết luận), nhưng đang được gọi
+   * lại cho TỪNG ca mỗi lần mở trang: danh sách lịch sử khám chạy N lượt phân tích tuần tự, bệnh
+   * nhân 20 ca là 20 lượt nối đuôi. TTL ngắn để sửa quy tắc trong trang quản trị vẫn thấy hiệu lực
+   * gần như ngay; số mục có trần để không phình bộ nhớ trên serverless.
+   */
+  private static readonly TTL_PHAN_TICH_MS = 60 * 1000;
+  private static readonly TRAN_CACHE_PHAN_TICH = 300;
+  private readonly cachePhanTich = new Map<string, { luc: number; kq: any }>();
 
-    // Cập nhật chẩn đoán tươi cho toàn bộ danh sách
-    for (const exam of exams) {
-      if (exam.inputData) {
-        try {
-          const fresh = await this.meridiansService.analyze(exam.inputData as any);
-          exam.amDuong = fresh.am_duong;
-          exam.khi = fresh.khi;
-          exam.huyet = fresh.huyet;
-          exam.huThuc = fresh.hu_thuc;
-          exam.flags = fresh.flags;
-          exam.syndromes = fresh.syndromes as any[];
-          (exam as any).currentSyndromes = fresh.currentSyndromes ?? fresh.syndromes ?? [];
-          (exam as any).legacySyndromes = fresh.legacySyndromes ?? [];
-          (exam as any).excelSyndromes = fresh.excelSyndromes ?? [];
-          (exam as any).modernSyndromes = fresh.modernSyndromes ?? [];
-          (exam as any).comparisonRows = fresh.comparisonRows ?? [];
-        } catch (e) {}
-      }
+  private async phanTichCoCache(inputData: Record<string, number>): Promise<any> {
+    const khoa = JSON.stringify(
+      Object.keys(inputData)
+        .sort()
+        .map((k) => [k, inputData[k]]),
+    );
+    const cached = this.cachePhanTich.get(khoa);
+    if (cached && Date.now() - cached.luc < ExaminationsService.TTL_PHAN_TICH_MS) {
+      return cached.kq;
     }
+    const kq = await this.meridiansService.analyze(inputData as any);
+    if (this.cachePhanTich.size >= ExaminationsService.TRAN_CACHE_PHAN_TICH) {
+      // Map giữ thứ tự chèn → xoá mục cũ nhất là đủ cho nhu cầu ở đây.
+      const cuNhat = this.cachePhanTich.keys().next().value;
+      if (cuNhat !== undefined) this.cachePhanTich.delete(cuNhat);
+    }
+    this.cachePhanTich.set(khoa, { luc: Date.now(), kq });
+    return kq;
+  }
+
+  /** Gắn kết quả phân tích tươi lên 1 ca (dùng chung cho findOne và danh sách). */
+  private ganPhanTich(exam: Examination, fresh: any): void {
+    exam.amDuong = fresh.am_duong;
+    exam.khi = fresh.khi;
+    exam.huyet = fresh.huyet;
+    exam.huThuc = fresh.hu_thuc;
+    exam.flags = fresh.flags;
+    exam.syndromes = fresh.syndromes as any[];
+    (exam as any).currentSyndromes = fresh.currentSyndromes ?? fresh.syndromes ?? [];
+    (exam as any).legacySyndromes = fresh.legacySyndromes ?? [];
+    (exam as any).excelSyndromes = fresh.excelSyndromes ?? [];
+    (exam as any).modernSyndromes = fresh.modernSyndromes ?? [];
+    (exam as any).comparisonRows = fresh.comparisonRows ?? [];
+  }
+
+  /** Chuỗi ISO -> Date; rỗng/sai định dạng -> null (để bên gọi tự quyết định mặc định). */
+  private docThoiDiem(gia: string | Date | null | undefined): Date | null {
+    if (!gia) return null;
+    const d = gia instanceof Date ? gia : new Date(gia);
+    return Number.isNaN(d.getTime()) ? null : d;
+  }
+
+  /** Đổi thời điểm khám của một ca (nhập bù / sửa sai giờ). */
+  async doiThoiDiemKham(id: number, thoiDiemKham: string | null): Promise<Examination> {
+    const exam = await this.examinationRepository.findOne({ where: { id } });
+    if (!exam) throw new NotFoundException(`Không tìm thấy ca khám #${id}`);
+    const moc = this.docThoiDiem(thoiDiemKham);
+    if (thoiDiemKham && !moc) {
+      throw new BadRequestException('Thời điểm khám không hợp lệ');
+    }
+    // Bỏ trống -> quay về mốc hệ thống tạo ca, không để danh sách mất ngày.
+    exam.thoiDiemKham = moc ?? exam.createdAt ?? new Date();
+    await this.examinationRepository.save(exam);
+    return exam;
+  }
+
+  async findByPatient(patientId: number): Promise<Examination[]> {
+    // Sắp theo giờ khám THỰC TẾ (ca cũ chưa có thì lấy createdAt) để ca nhập lùi nằm đúng chỗ.
+    const exams = await this.examinationRepository
+      .createQueryBuilder('e')
+      .where('e."patientId" = :patientId', { patientId })
+      .orderBy('COALESCE(e."thoiDiemKham", e."createdAt")', 'DESC')
+      .getMany();
+
+    // Phân tích lại cả danh sách SONG SONG (trước đây nối đuôi từng ca) và qua cache theo bộ số đo.
+    await Promise.all(
+      exams.map(async (exam) => {
+        if (!exam.inputData) return;
+        try {
+          this.ganPhanTich(exam, await this.phanTichCoCache(exam.inputData));
+        } catch {
+          // Ca lỗi phân tích vẫn giữ nguyên kết luận đã lưu, không làm hỏng cả danh sách.
+        }
+      }),
+    );
     return exams;
   }
 
@@ -255,18 +343,7 @@ export class ExaminationsService implements OnModuleInit {
     // Tự động phân tích lại theo logic mới nhất để luôn trả về kết quả chính xác nhất
     if (examination.inputData) {
       try {
-        const fresh = await this.meridiansService.analyze(examination.inputData as any);
-        examination.amDuong = fresh.am_duong;
-        examination.khi = fresh.khi;
-        examination.huyet = fresh.huyet;
-        examination.huThuc = fresh.hu_thuc;
-        examination.flags = fresh.flags;
-        examination.syndromes = fresh.syndromes as any[];
-        (examination as any).currentSyndromes = fresh.currentSyndromes ?? fresh.syndromes ?? [];
-        (examination as any).legacySyndromes = fresh.legacySyndromes ?? [];
-        (examination as any).excelSyndromes = fresh.excelSyndromes ?? [];
-        (examination as any).modernSyndromes = fresh.modernSyndromes ?? [];
-        (examination as any).comparisonRows = fresh.comparisonRows ?? [];
+        this.ganPhanTich(examination, await this.phanTichCoCache(examination.inputData));
       } catch (e) {
         console.warn(`Failed to re-analyze examination #${id} on the fly`, e);
       }

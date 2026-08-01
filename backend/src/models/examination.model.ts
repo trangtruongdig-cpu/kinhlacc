@@ -5,6 +5,16 @@ import {
   CreateDateColumn
 } from 'typeorm';
 
+/** Cột NUMERIC của pg đọc ra là chuỗi; đưa về number để API trả số đúng kiểu. */
+const soThapPhan = {
+  to: (v: number | null | undefined) => (v === null || v === undefined ? null : v),
+  from: (v: string | number | null): number | null => {
+    if (v === null || v === undefined) return null;
+    const n = typeof v === 'number' ? v : Number(v);
+    return Number.isFinite(n) ? n : null;
+  },
+};
+
 /** Chẩn đoán đã lưu từ luồng "Hỏi & Chẩn đoán" (D5) — kết luận thầy thuốc + bằng chứng. */
 export interface ChanDoanLuu {
   /** Tên thể bệnh kết luận (gộp nhiều thể bằng ", " khi chọn nhiều thể). */
@@ -96,6 +106,40 @@ export class Examination {
 
   @Column({ type: 'text', nullable: true })
   notes: string | null;
+
+  // ----- Bối cảnh môi trường + địa điểm lúc đo (điền tự động từ GPS máy đang khám) -----
+  // pg trả kiểu NUMERIC về dạng chuỗi -> transformer đưa lại về number cho frontend.
+
+  /** Nhiệt độ môi trường (°C) tại thời điểm đo. */
+  @Column({ type: 'numeric', precision: 5, scale: 2, nullable: true, transformer: soThapPhan })
+  nhietDoMoiTruong: number | null;
+
+  /** Độ ẩm tương đối (%) tại thời điểm đo. */
+  @Column({ type: 'numeric', precision: 5, scale: 2, nullable: true, transformer: soThapPhan })
+  doAmMoiTruong: number | null;
+
+  /** Tỉnh/Thành phố nơi đo (hành chính 2 cấp). */
+  @Column({ type: 'varchar', length: 120, nullable: true })
+  tinhThanh: string | null;
+
+  /** Phường/Xã nơi đo (hành chính 2 cấp). */
+  @Column({ type: 'varchar', length: 120, nullable: true })
+  phuongXa: string | null;
+
+  @Column({ type: 'double precision', nullable: true })
+  viDo: number | null;
+
+  @Column({ type: 'double precision', nullable: true })
+  kinhDo: number | null;
+
+  /**
+   * Thời điểm khám THỰC TẾ (thầy thuốc nhập/sửa được, lùi hoặc tiến).
+   * Khác `createdAt` — mốc bấm nút lưu, do hệ thống ghi và không sửa. Danh sách lịch sử
+   * khám sắp xếp và hiển thị theo cột này để ca nhập bù nằm đúng vị trí thời gian.
+   */
+  // Cùng kiểu `timestamp` (không múi giờ) với createdAt để hai mốc luôn quy chiếu giống nhau.
+  @Column({ type: 'timestamp', nullable: true })
+  thoiDiemKham: Date | null;
 
   @Column({ type: 'jsonb', nullable: true })
   chanDoan: ChanDoanLuu | null;

@@ -44,6 +44,16 @@ export class ExaminationsRouter {
     return { success: true, id, data: item };
   }
 
+  /** Sửa giờ khám của một ca (lùi/tiến). Body: { thoiDiemKham: ISO | null }. */
+  @Put(':id/thoi-diem')
+  async doiThoiDiemKham(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: { thoiDiemKham?: string | null },
+  ) {
+    const item = await this.examinationsService.doiThoiDiemKham(id, body?.thoiDiemKham ?? null);
+    return { success: true, id, thoiDiemKham: item.thoiDiemKham };
+  }
+
   /** Lưu chẩn đoán cho ca khám (D5). Body: { chanDoan: {...} | null }. */
   @Put(':id/chan-doan')
   async saveChanDoan(

@@ -3,6 +3,7 @@ import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { usePatientStore, type Patient } from '@/stores/patient'
 import { api } from '@/services/api'
+import { mocKham, mocKhamMs } from '@/lib/caKham'
 
 const router = useRouter()
 const route = useRoute()
@@ -345,6 +346,57 @@ function formatDateTime(d: string | null | undefined) {
   } catch { return d }
 }
 
+// ------------------------------------------------- Sửa giờ khám của từng ca
+// `thoiDiemKham` là giờ khám THỰC TẾ (thầy thuốc nhập/sửa, lùi hoặc tiến được);
+// `createdAt` chỉ là lúc bấm lưu. Ca cũ chưa có thoiDiemKham thì lấy tạm createdAt.
+
+const suaGioId = ref<number | null>(null)
+const suaGioGiaTri = ref('')
+const dangLuuGio = ref(false)
+
+const gioKham = mocKham
+
+/** ISO -> 'YYYY-MM-DDTHH:mm' theo giờ máy, đúng định dạng input datetime-local. */
+function veOInput(iso: string | null): string {
+  if (!iso) return ''
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return ''
+  const p = (n: number) => String(n).padStart(2, '0')
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}T${p(d.getHours())}:${p(d.getMinutes())}`
+}
+
+function moSuaGio(exam: any) {
+  suaGioId.value = exam.id
+  suaGioGiaTri.value = veOInput(gioKham(exam))
+}
+
+function huySuaGio() {
+  suaGioId.value = null
+  suaGioGiaTri.value = ''
+}
+
+async function luuGioKham(exam: any) {
+  if (dangLuuGio.value) return
+  const d = new Date(suaGioGiaTri.value)
+  if (!suaGioGiaTri.value || Number.isNaN(d.getTime())) {
+    alert('Giờ khám không hợp lệ')
+    return
+  }
+  dangLuuGio.value = true
+  try {
+    const iso = d.toISOString()
+    await api.put(`/examinations/${exam.id}/thoi-diem`, { thoiDiemKham: iso })
+    exam.thoiDiemKham = iso
+    // Sắp lại ngay để ca vừa lùi/tiến nhảy đúng vị trí, khỏi phải tải lại trang.
+    examinations.value = [...examinations.value].sort((a, b) => mocKhamMs(b) - mocKhamMs(a))
+    huySuaGio()
+  } catch (err: any) {
+    alert('Không sửa được giờ khám: ' + (err?.message || ''))
+  } finally {
+    dangLuuGio.value = false
+  }
+}
+
 function getAge(dob: string | null) {
   if (!dob) return '—'
   const birth = new Date(dob)
@@ -562,9 +614,23 @@ function goToLuoiDiagnosis() {
             @keydown.space.prevent="goToMeridianResults(exam.id)"
           >
             <div class="exam-header">
-              <div class="exam-date-badge">
+              <div v-if="suaGioId === exam.id" class="sua-gio" @click.stop>
+                <input
+                  v-model="suaGioGiaTri"
+                  type="datetime-local"
+                  class="sua-gio-input"
+                  :disabled="dangLuuGio"
+                  @keydown.enter.prevent="luuGioKham(exam)"
+                />
+                <button class="sua-gio-btn luu" :disabled="dangLuuGio" @click="luuGioKham(exam)">
+                  {{ dangLuuGio ? '…' : 'Lưu' }}
+                </button>
+                <button class="sua-gio-btn" :disabled="dangLuuGio" @click="huySuaGio">Hủy</button>
+              </div>
+              <div v-else class="exam-date-badge">
                 <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-                {{ formatDateTime(exam.createdAt) }}
+                {{ formatDateTime(gioKham(exam)) }}
+                <button class="nut-sua-gio" title="Sửa giờ khám" @click.stop="moSuaGio(exam)">Sửa giờ</button>
               </div>
               <span class="exam-id">#{{ exam.id }}</span>
             </div>
@@ -584,6 +650,17 @@ function goToLuoiDiagnosis() {
               </div>
               <div v-if="exam.chanDoan && exam.chanDoan.ket_luan" class="exam-chandoan">
                 <span class="exam-chandoan-ic">✓</span> Chẩn đoán: <b>{{ exam.chanDoan.ket_luan }}</b>
+              </div>
+              <div
+                v-if="exam.nhietDoMoiTruong !== null && exam.nhietDoMoiTruong !== undefined || exam.tinhThanh"
+                class="exam-moi-truong"
+              >
+                <span v-if="exam.nhietDoMoiTruong !== null && exam.nhietDoMoiTruong !== undefined">
+                  MT {{ exam.nhietDoMoiTruong }}°C<span v-if="exam.doAmMoiTruong">, ẩm {{ exam.doAmMoiTruong }}%</span>
+                </span>
+                <span v-if="exam.tinhThanh" class="exam-noi-do">
+                  📍 {{ [exam.phuongXa, exam.tinhThanh].filter(Boolean).join(', ') }}
+                </span>
               </div>
               <p v-if="exam.notes" class="exam-notes">{{ exam.notes }}</p>
             </div>
@@ -887,6 +964,17 @@ function goToLuoiDiagnosis() {
 .exam-header{display:flex;align-items:center;justify-content:space-between;padding:var(--space-3) var(--space-5);background:var(--gray-50);border-bottom:1px solid var(--gray-100)}
 .exam-date-badge{display:inline-flex;align-items:center;gap:var(--space-2);font-size:var(--font-size-sm);font-weight:600;color:var(--gray-700)}
 .exam-id{font-size:var(--font-size-xs);color:var(--gray-400);font-weight:600}
+/* Sửa giờ khám (lùi/tiến) ngay trên thẻ ca khám */
+.nut-sua-gio{margin-left:var(--space-2);padding:2px 8px;background:var(--white);border:1px solid var(--gray-300);border-radius:var(--radius-full);font-size:11px;font-weight:600;color:var(--gray-600);cursor:pointer;opacity:0;transition:all var(--transition-fast)}
+.exam-card:hover .nut-sua-gio,.nut-sua-gio:focus-visible{opacity:1}
+.nut-sua-gio:hover{background:var(--brown-600);color:var(--white);border-color:var(--brown-600)}
+.sua-gio{display:flex;align-items:center;gap:var(--space-2);flex-wrap:wrap}
+.sua-gio-input{padding:4px 8px;border:1px solid var(--brown-300);border-radius:var(--radius-sm);font-size:var(--font-size-xs);color:var(--black);background:var(--white);outline:none}
+.sua-gio-input:focus{border-color:var(--brown-500);box-shadow:var(--focus-ring)}
+.sua-gio-btn{padding:4px 10px;background:var(--white);border:1px solid var(--gray-300);border-radius:var(--radius-sm);font-size:11px;font-weight:600;color:var(--gray-700);cursor:pointer}
+.sua-gio-btn.luu{background:var(--brown-600);border-color:var(--brown-600);color:var(--white)}
+.sua-gio-btn:disabled{opacity:.6;cursor:not-allowed}
+.exam-moi-truong{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-2);font-size:var(--font-size-xs);color:var(--gray-500)}
 .exam-body{padding:var(--space-4) var(--space-5)}
 .exam-tags{display:flex;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-3)}
 .exam-tag{display:inline-block;padding:3px 10px;border-radius:var(--radius-full);font-size:var(--font-size-xs);font-weight:600}

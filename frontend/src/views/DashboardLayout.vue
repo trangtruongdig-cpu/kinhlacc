@@ -305,9 +305,15 @@ function handleLogout() {
       <div class="content-area">
         <!-- Giữ riêng trang "Từ Điển" trong bộ nhớ (keep-alive): dữ liệu ~5MB + việc dựng bản đồ tra cứu
              rất nặng, chỉ nên chạy 1 lần. Các trang khác vẫn mount/unmount bình thường để luôn tải dữ liệu mới. -->
-        <RouterView v-slot="{ Component }">
+        <!-- Trang Kết Quả Đo được gắn key theo URL: bấm sang lần đo khác trong trục Truyền Biến là
+             ĐỔI param của CÙNG route, Vue Router sẽ tái dùng component và không nạp lại dữ liệu ca mới.
+             Có key thì nó mount lại sạch sẽ. Các trang khác giữ nguyên (key undefined = không khoá). -->
+        <RouterView v-slot="{ Component, route }">
           <keep-alive :include="['TuDienView']">
-            <component :is="Component" />
+            <component
+              :is="Component"
+              :key="route.name === 'meridian-results' ? route.fullPath : undefined"
+            />
           </keep-alive>
         </RouterView>
       </div>
