@@ -38,6 +38,7 @@ export class BaiThuocRouter {
     @Query('tangPhuIds') tangPhuIds?: string,
     @Query('tonThuongTacNhans') tonThuongTacNhans?: string,
     @Query('focusId') focusId?: string,
+    @Query('slim') slim?: string,
   ) {
     const cat = category === 'dong-y' || category === 'tay-y' ? category : 'all';
     const cbId = chungBenhId != null && chungBenhId !== '' ? Number(chungBenhId) : null;
@@ -64,6 +65,7 @@ export class BaiThuocRouter {
       tangPhuIds: parseIdList(tangPhuIds),
       tonThuongTacNhans: parseStrList(tonThuongTacNhans),
       focusId: focusId != null && focusId !== '' ? Number(focusId) : null,
+      slim: slim === '1' || slim === 'true',
     });
   }
 

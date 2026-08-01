@@ -150,6 +150,15 @@ export class BaiThuocService {
     tangPhuIds?: number[];
     tonThuongTacNhans?: string[];
     focusId?: number | null;
+    /**
+     * Chế độ GỌN cho trang Kết Quả Đo: chỉ giữ các cột thật sự dùng để phân tích Thang Đặc Trị
+     * (tên vị + tính–vị–quy kinh + liều/vai trò).
+     *
+     * Mặc định mỗi bài kéo theo TOÀN BỘ entity ViThuoc của từng vị — các cột TEXT y văn
+     * (mo_ta, duoc_ly, chu_tri, bao_che, tham_khao…) chiếm ~74.7 KB trên tổng 75 KB một bài,
+     * tức 99.6% payload bị vứt đi. Nạp cả 686 bài = ~51 MB và ~76 giây. Bật slim còn vài trăm KB.
+     */
+    slim?: boolean;
   }): Promise<{
     data: BaiThuoc[];
     total: number;
@@ -251,18 +260,46 @@ export class BaiThuocService {
     let data: BaiThuoc[] = [];
     if (items.length) {
       const ids = items.map((x) => x.id);
-      data = await this.repo.find({
-        where: { id: In(ids) },
-        relations: [
-          'chiTietViThuoc',
-          'chiTietViThuoc.viThuoc',
-          'phapTriLinks',
-          'phapTriLinks.phapTri',
-          'phapTriLinks.phapTri.trieu_chung_list',
-          'trieuChungList',
-        ],
-        order: { ten_bai_thuoc: 'ASC', id: 'ASC' },
-      });
+      data = opts.slim
+        ? await this.repo.find({
+            where: { id: In(ids) },
+            // Chỉ 2 cấp quan hệ và CHỈ các cột được dùng — bỏ hẳn phapTriLinks/trieuChungList
+            // (trang Kết Quả Đo không đọc) và mọi cột TEXT y văn của ViThuoc.
+            relations: { chiTietViThuoc: { viThuoc: true } },
+            select: {
+              id: true,
+              ten_bai_thuoc: true,
+              nguon_goc: true,
+              cach_dung: true,
+              chiTietViThuoc: {
+                id: true,
+                idViThuoc: true,
+                lieu_luong: true,
+                vai_tro: true,
+                ghi_chu: true,
+                viThuoc: {
+                  id: true,
+                  ten_vi_thuoc: true,
+                  tinh: true,
+                  vi: true,
+                  quy_kinh: true,
+                },
+              },
+            },
+            order: { ten_bai_thuoc: 'ASC', id: 'ASC' },
+          })
+        : await this.repo.find({
+            where: { id: In(ids) },
+            relations: [
+              'chiTietViThuoc',
+              'chiTietViThuoc.viThuoc',
+              'phapTriLinks',
+              'phapTriLinks.phapTri',
+              'phapTriLinks.phapTri.trieu_chung_list',
+              'trieuChungList',
+            ],
+            order: { ten_bai_thuoc: 'ASC', id: 'ASC' },
+          });
     }
 
     // Counts toàn bộ (không apply search) để hiển thị badge "Đông Y / Tây Y / Tất cả".

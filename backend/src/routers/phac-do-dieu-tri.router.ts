@@ -17,11 +17,11 @@ export class PhacDoDieuTriRouter {
   constructor(private readonly service: PhacDoDieuTriService) {}
 
   @Get()
-  findAll(@Query('benh') benhId?: string) {
+  findAll(@Query('benh') benhId?: string, @Query('slim') slim?: string) {
     if (benhId) {
       return this.service.findByBenh(parseInt(benhId, 10));
     }
-    return this.service.findAll();
+    return this.service.findAll(slim === '1' || slim === 'true');
   }
 
   /** Phương huyệt gom theo thể bệnh (cấu trúc + nguyên văn dữ liệu cũ). Phải đứng TRƯỚC @Get(':id'). */

@@ -214,11 +214,21 @@ export class BenhDongYExcelService {
     );
   }
 
+  /**
+   * Dùng lại findWithRelationsFast — KHÔNG quay về `find({ relations })`.
+   * Bảng chỉ 51 dòng nhưng LEFT JOIN qua cả 4 quan hệ nhân tổ hợp thành hàng chục nghìn dòng, mỗi
+   * dòng kéo theo các cột TEXT dài của PhapTri/BaiThuoc → đo được **25 giây** cho vỏn vẹn 76 KB
+   * dữ liệu thật, và đây là câu CHẶN render trang Kết Quả Đo. Cách nhanh đi 2 đợt (bảng nối rồi
+   * resolve theo id) cho ra dữ liệu y hệt.
+   */
   async findAll(): Promise<BenhDongYExcel[]> {
-    return this.repo.find({
+    const rows = await this.repo.find({
+      select: { id: true },
       order: { id: 'ASC' },
-      relations: BenhDongYExcelService.RELATIONS,
     });
+    const ids = rows.map((r) => r.id);
+    if (!ids.length) return [];
+    return this.findWithRelationsFast(ids);
   }
 
   /**

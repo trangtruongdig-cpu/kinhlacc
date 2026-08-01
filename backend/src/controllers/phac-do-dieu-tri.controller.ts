@@ -14,9 +14,39 @@ export class PhacDoDieuTriService {
     private readonly synRepo: Repository<MeridianSyndrome>,
   ) {}
 
-  findAll(): Promise<PhacDoDieuTri[]> {
+  /**
+   * `slim` = chỉ các cột trang Kết Quả Đo thật sự đọc. Bản đầy đủ kéo nguyên entity `benh`
+   * (MeridianSyndrome) + `huyetVi` cho 684 dòng → 2,5 MB và đang CHẶN render, trong khi trang chỉ
+   * cần chung_trang + tên/mã huyệt + kinh mạch. Trang quản trị vẫn dùng bản đầy đủ.
+   */
+  findAll(slim = false): Promise<PhacDoDieuTri[]> {
+    if (!slim) {
+      return this.repo.find({
+        relations: ['benh', 'huyetVi', 'huyetVi.kinhMach'],
+        order: { idPhacDo: 'ASC' },
+      });
+    }
     return this.repo.find({
-      relations: ['benh', 'huyetVi', 'huyetVi.kinhMach'],
+      relations: { benh: true, huyetVi: { kinhMach: true } },
+      select: {
+        idPhacDo: true,
+        idBenh: true,
+        idHuyet: true,
+        phuong_phap_tac_dong: true,
+        ghi_chu_ky_thuat: true,
+        y_nghia_huyet: true,
+        benh: { id: true, chung_trang: true },
+        huyetVi: {
+          idHuyet: true,
+          ten_huyet: true,
+          ma_huyet: true,
+          vi_tri_giai_phau: true,
+          tac_dung: true,
+          id_tu_dien: true,
+          // KinhMach dùng khoá chính `idKinhMach` (không phải `id`) — select sai tên là lỗi 500.
+          kinhMach: { idKinhMach: true, ten_kinh_mach: true, ten_viet_tat: true },
+        },
+      },
       order: { idPhacDo: 'ASC' },
     });
   }
