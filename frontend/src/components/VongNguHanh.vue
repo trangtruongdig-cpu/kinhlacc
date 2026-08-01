@@ -60,10 +60,10 @@ const nodes = computed(() => HANHS.map((h, i) => {
   return {
     ...h, i, z, missing,
     r, p: pt(r, h.deg), home: pt(PENTA_R, h.deg),
-    nodeR: 8 + 4 * az / Z_CAP, // 8..12
+    nodeR: 9 + 3 * az / Z_CAP, // 9..12 (SÀN 9 để lúc cân bằng vẫn thấy rõ)
     showAura: !missing && Math.abs(z) >= 0.5, // dead-zone
     tone: missing ? null : (z! > 0 ? 'thuc' : 'hu'),
-    auraR: 8 + 4 * az / Z_CAP + 3 + 7 * (az / Z_CAP),
+    auraR: 9 + 3 * az / Z_CAP + 3 + 7 * (az / Z_CAP),
     auraA: 0.12 + 0.55 * (az / Z_CAP),
     label: pt(LABEL_R, h.deg), // nhãn tạng ở sát vành ngoài
     // DƯ (thực, đẩy ra ngoài mốc) / KHUYẾT (hư, co vào trong mốc) — như lớp Âm Dương
@@ -194,8 +194,10 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
         <text :x="n.label.x" :y="n.label.y + 18" class="vnh-ol-phu">{{ n.phu }}</text>
       </g>
 
-      <!-- (1) MỐC CÂN BẰNG ngũ giác đều (per tạng) + mốc nhà → node NGOÀI = DƯ (thực), TRONG = KHUYẾT (hư).
-           Vòng tròn cân bằng chính là Thái Cực NỀN phía sau. -->
+      <!-- (0) VÒNG HÀI HOÀ — mốc cân bằng lý tưởng: khi cân bằng, 5 tạng nằm GỌN trên vòng này,
+           đồng tâm trong Thái Cực; mất cân bằng thì các đỉnh rời khỏi vòng (dư ra / khuyết vào). -->
+      <circle class="vnh-harmony" :cx="CX" :cy="CY" :r="PENTA_R" />
+      <!-- (1) MỐC CÂN BẰNG ngũ giác đều (per tạng) + mốc nhà → node NGOÀI = DƯ (thực), TRONG = KHUYẾT (hư). -->
       <polygon class="vnh-ref" :points="nodes.map((n) => `${N(n.home.x)},${N(n.home.y)}`).join(' ')" />
       <circle v-for="n in nodes" :key="'hm' + n.key" class="vnh-home" :cx="n.home.x" :cy="n.home.y" r="3" />
 
@@ -231,6 +233,8 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
         <circle v-if="showMeo && n.showAura" class="vnh-aura" :class="n.tone || ''"
           :cx="posOf(i).x" :cy="posOf(i).y" :r="n.auraR" :style="{ '--aa': n.auraA }" />
         <circle v-if="i === gocIdx" class="vnh-goc-ring" :cx="posOf(i).x" :cy="posOf(i).y" :r="n.nodeR + 4" />
+        <!-- VÒNG KÉP ĐỒNG NHẤT: halo kem ngoài (nổi trên nửa NÂU) + viền tối lõi (nổi trên nửa KEM) -->
+        <circle class="vnh-halo" :cx="posOf(i).x" :cy="posOf(i).y" :r="n.nodeR + 2" />
         <circle class="vnh-core" :cx="posOf(i).x" :cy="posOf(i).y" :r="n.nodeR"
           :style="{ '--hc': n.color }" :class="{ missing: n.missing }" />
         <text v-if="n.missing" class="vnh-qmark" :x="posOf(i).x" :y="posOf(i).y">?</text>
@@ -270,7 +274,7 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 .vnh-stage { position: relative; width: 100%; }
 /* Thái Cực nền PHÓNG TO lấp đầy tới vòng rìa: taiji của AmDuongTaiji vốn = 66% khung → nới khung
    lên 138% (căn giữa) để đường tròn taiji bằng rim; clip tròn 33% để dư/khuyết thừa cắt gọn ở rìa. */
-.vnh-taiji-bg { position: absolute; width: 138.4%; height: 138.4%; left: -19.2%; top: -19.2%; z-index: 0; opacity: 0.68; pointer-events: none; clip-path: circle(33% at 50% 50%); }
+.vnh-taiji-bg { position: absolute; width: 138.4%; height: 138.4%; left: -19.2%; top: -19.2%; z-index: 0; opacity: 0.55; pointer-events: none; clip-path: circle(33% at 50% 50%); }
 .vnh-taiji-bg :deep(.ad-card) { width: 100%; height: 100%; border: none !important; background: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; display: block; }
 .vnh-taiji-bg :deep(.ad-fig) { width: 100%; height: 100%; padding: 0 !important; margin: 0 !important; }
 .vnh-taiji-bg :deep(.ad-svg) { width: 100%; height: 100%; display: block; }
@@ -278,32 +282,36 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 .vnh-svg text { font-family: var(--font-family, 'Inter', sans-serif); text-anchor: middle; dominant-baseline: middle; user-select: none; pointer-events: none; }
 /* Vòng rìa chung của các lớp */
 .vnh-rim { fill: none; stroke: rgba(107, 79, 52, 0.5); stroke-width: 2; }
-/* CASING SÁNG cho nét sao → nổi rõ cả trên NỬA TỐI của Thái Cực nền (nét kép: quầng trắng dưới) */
+/* VÒNG HÀI HOÀ — mốc cân bằng lý tưởng (5 tạng "nằm gọn" trên vòng này khi cân bằng) */
+.vnh-harmony { fill: none; stroke: rgba(107, 79, 52, 0.42); stroke-width: 1; }
+/* HALO KÉP 2-pass cho nét sao: quầng KEM tách nét trên nửa NÂU + quầng NÂU tách trên nửa KEM.
+   (casing chỉ-sáng KHÔNG cứu được nửa kem — phải có cả pass tối.) */
 .vnh-poly, .vnh-sinh path, .vnh-sinh polygon, .vnh-kline.on-thua, .vnh-kline.on-vu, .vnh-khead, .vnh-spoke.du, .vnh-spoke.khuyet {
-  filter: drop-shadow(0 0 1.6px rgba(252, 248, 240, 0.95)) drop-shadow(0 0 1.6px rgba(252, 248, 240, 0.9));
+  filter: drop-shadow(0 0 1.5px rgba(250, 245, 235, 0.95)) drop-shadow(0 0 1.1px rgba(38, 26, 12, 0.85));
 }
 
-/* Nhãn vành ngoài — nền SÁNG: chữ đậm màu, quầng trắng mảnh để nổi cả trên nền Thái Cực mờ */
-.vnh-ol-hanh { font-size: 12.5px; font-weight: 800; fill: var(--hc); stroke: rgba(255, 252, 245, 0.85); stroke-width: 2.4px; paint-order: stroke; }
-.vnh-ol-tang { font-size: 10.5px; font-weight: 700; fill: #3a2c1a; stroke: rgba(255, 252, 245, 0.85); stroke-width: 2px; paint-order: stroke; }
-.vnh-ol-phu { font-size: 8px; font-weight: 600; fill: #7a6a50; stroke: rgba(255, 252, 245, 0.75); stroke-width: 1.6px; paint-order: stroke; }
+/* Nhãn vành ngoài — chữ hành + quầng KÉP (kem paint-order + mép tối drop-shadow) đọc cả 2 nửa */
+.vnh-olabel text { filter: drop-shadow(0 0 1px rgba(40, 26, 12, 0.85)); }
+.vnh-ol-hanh { font-size: 12.5px; font-weight: 800; fill: var(--hc); stroke: rgba(255, 252, 245, 0.95); stroke-width: 2.4px; paint-order: stroke; }
+.vnh-ol-tang { font-size: 10.5px; font-weight: 700; fill: #4a3722; stroke: rgba(255, 252, 245, 0.95); stroke-width: 2px; paint-order: stroke; }
+.vnh-ol-phu { font-size: 8px; font-weight: 600; fill: #6f5f47; stroke: rgba(255, 252, 245, 0.9); stroke-width: 1.6px; paint-order: stroke; }
 
-/* Mốc cân bằng ngũ giác (per tạng) + nan hoa — nền sáng */
+/* Mốc cân bằng ngũ giác (per tạng) + nan hoa — lõi đục hơn để nổi (halo kép lo tương phản) */
 .vnh-ref { fill: none; stroke: rgba(120, 96, 60, 0.35); stroke-width: 1.2; stroke-dasharray: 5 4; }
 .vnh-home { fill: none; stroke: rgba(120, 96, 60, 0.5); stroke-width: 1; }
 .vnh-spoke { stroke: rgba(120, 96, 60, 0.35); stroke-width: 1.2; transition: all 0.35s ease; }
-.vnh-spoke.du { stroke: rgba(178, 58, 41, 0.8); stroke-width: 2.2; } /* đẩy ra ngoài mốc = DƯ (thực) */
-.vnh-spoke.khuyet { stroke: rgba(41, 92, 141, 0.8); stroke-width: 2.2; } /* co vào trong mốc = KHUYẾT (hư) */
+.vnh-spoke.du { stroke: #b23a29; stroke-width: 2.4; } /* đẩy ra ngoài mốc = DƯ (thực) */
+.vnh-spoke.khuyet { stroke: #295c8d; stroke-width: 2.4; } /* co vào trong mốc = KHUYẾT (hư) */
 
-/* Ngũ giác méo */
-.vnh-poly { fill: rgba(120, 96, 60, 0.06); stroke: rgba(107, 79, 52, 0.7); stroke-width: 2; stroke-linejoin: round; transition: all 0.35s ease; }
+/* Ngũ giác méo — lõi nâu ĐỤC #5a4023 (không lẫn nửa kem), halo kép lo nửa nâu */
+.vnh-poly { fill: rgba(120, 96, 60, 0.06); stroke: #5a4023; stroke-width: 2.2; stroke-linejoin: round; transition: all 0.35s ease; }
 
 /* Tương sinh (cung ngoài) */
-.vnh-sinh path { fill: none; stroke: rgba(90, 150, 74, 0.7); stroke-width: 2.2; stroke-linecap: round; }
-.vnh-sinh polygon { fill: rgba(90, 150, 74, 0.85); }
-.vnh-sinh .batcap path { stroke: rgba(90, 150, 74, 0.4); stroke-width: 1.2; stroke-dasharray: 3 3; }
-.vnh-sinh .batcap polygon { fill: rgba(90, 150, 74, 0.4); }
-.vnh-sinh .donnuoi path { stroke: rgba(70, 135, 60, 0.95); stroke-width: 3; }
+.vnh-sinh path { fill: none; stroke: #4f7d39; stroke-width: 2.2; stroke-linecap: round; }
+.vnh-sinh polygon { fill: #4f7d39; }
+.vnh-sinh .batcap path { stroke: rgba(90, 150, 74, 0.4); stroke-width: 1.2; stroke-dasharray: 3 3; filter: none; }
+.vnh-sinh .batcap polygon { fill: rgba(90, 150, 74, 0.4); filter: none; }
+.vnh-sinh .donnuoi path { stroke: #46873c; stroke-width: 3; }
 .vnh-sinh-dao { fill: #c9762a; }
 
 /* Tương khắc (dây chéo) */
@@ -315,16 +323,17 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 .vnh-khead.on-vu { fill: #8a2f4f; }
 .vnh-vu-lb { font-size: 8.5px; font-weight: 800; fill: #8a2f4f; stroke: rgba(255, 252, 245, 0.85); stroke-width: 1.8px; paint-order: stroke; }
 
-/* Node tạng */
+/* Node tạng — VÒNG KÉP đồng nhất (halo kem ngoài cứu nửa NÂU + viền tối lõi cứu nửa KEM) */
 .vnh-node { cursor: help; transition: opacity 0.2s; }
 .vnh-node.dimmed { opacity: 0.32; }
-.vnh-core { fill: var(--hc); stroke: #fff; stroke-width: 2; transition: cx 0.35s ease, cy 0.35s ease, r 0.2s; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25)); }
+.vnh-halo { fill: none; stroke: #fbf6ec; stroke-width: 3; opacity: 0.95; transition: cx 0.35s ease, cy 0.35s ease; }
+.vnh-core { fill: var(--hc); stroke: #2a1f12; stroke-width: 1.8; transition: cx 0.35s ease, cy 0.35s ease, r 0.2s; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.25)); }
 .vnh-core.missing { fill: #f4efe4; stroke: rgba(120, 96, 60, 0.6); stroke-width: 1.4; stroke-dasharray: 3 2.5; }
 /* Quầng hư/thực: màu đặc + opacity theo |z| + blur mềm (SVG fill không nhận radial-gradient) */
 .vnh-aura { fill: #b23a29; opacity: calc(var(--aa) * 0.85); filter: blur(2.5px); transition: cx 0.35s ease, cy 0.35s ease; }
 .vnh-aura.hu { fill: #2f6aa0; }
 .vnh-qmark { font-size: 11px; font-weight: 800; fill: #7a6a50; }
-.vnh-goc-ring { fill: none; stroke: #c99a2e; stroke-width: 2.4; filter: drop-shadow(0 0 4px rgba(201, 154, 46, 0.8)); transition: cx 0.35s ease, cy 0.35s ease; }
+.vnh-goc-ring { fill: none; stroke: #c99a2e; stroke-width: 2.6; filter: drop-shadow(0 0 1px #3a2c1a) drop-shadow(0 0 4px rgba(201, 154, 46, 0.85)); transition: cx 0.35s ease, cy 0.35s ease; }
 
 .vnh-ctrls { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .vnh-btn { font: inherit; font-size: 12px; font-weight: 700; cursor: pointer; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--border, #e7ddcd); background: var(--surface, #fff); color: var(--text, #3a2c1a); display: inline-flex; align-items: baseline; gap: 5px; }
