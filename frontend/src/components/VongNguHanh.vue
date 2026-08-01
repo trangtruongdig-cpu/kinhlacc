@@ -20,7 +20,8 @@ const props = defineProps<{
 
 const CX = 210, CY = 210, D2R = Math.PI / 180
 // Ngôi sao PHÓNG TO ra vành (như lớp Âm Dương): mốc cân bằng r=108, dịch tối đa ±30 → r∈[78,138].
-const PENTA_R = 108, K = 12, Z_CAP = 2.5, SINH_R = 150, LABEL_R = 176
+// RIM = đường tròn rìa chung của các lớp (mọi thứ nằm gọn trong). LABEL_R nằm trong RIM.
+const PENTA_R = 108, K = 12, Z_CAP = 2.5, SINH_R = 150, LABEL_R = 168, RIM = 191
 const T_THUC = 1.0, T_MILD = 0.5, GRAD = 1.2 // ngưỡng bệnh lý (|z|=1 = vượt bound máy)
 const N = (v: number) => v.toFixed(2)
 const pt = (r: number, deg: number) => { const a = deg * D2R; return { x: CX + r * Math.sin(a), y: CY - r * Math.cos(a) } }
@@ -183,6 +184,9 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
     <svg class="vnh-svg" viewBox="0 0 420 420" role="img"
       aria-label="Ngôi sao Ngũ Hành méo theo mất cân bằng đo được, kèm lực tương sinh tương khắc">
 
+      <!-- Vòng RÌA chung của các lớp — mọi thứ nằm gọn bên trong -->
+      <circle class="vnh-rim" :cx="CX" :cy="CY" :r="RIM" />
+
       <!-- Nhãn hành + tạng/phủ ở vành ngoài (đứng yên) -->
       <g v-for="n in nodes" :key="'lb' + n.key" class="vnh-olabel" :style="{ '--hc': n.color }">
         <text :x="n.label.x" :y="n.label.y - 8" class="vnh-ol-hanh">{{ n.ten }} {{ n.han }}</text>
@@ -264,12 +268,18 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 .vnh { width: 100%; max-width: min(100%, 62vh); margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 10px; }
 /* Sân khấu vuông: Thái Cực NỀN (mờ) + ngôi sao SVG chồng lên trên */
 .vnh-stage { position: relative; width: 100%; }
-.vnh-taiji-bg { position: absolute; inset: 0; z-index: 0; opacity: 0.34; pointer-events: none; filter: saturate(0.85); }
+.vnh-taiji-bg { position: absolute; inset: 0; z-index: 0; opacity: 0.72; pointer-events: none; }
 .vnh-taiji-bg :deep(.ad-card) { width: 100%; height: 100%; border: none !important; background: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; display: block; }
 .vnh-taiji-bg :deep(.ad-fig) { width: 100%; height: 100%; padding: 0 !important; margin: 0 !important; }
 .vnh-taiji-bg :deep(.ad-svg) { width: 100%; height: 100%; display: block; }
 .vnh-svg { position: relative; z-index: 1; width: 100%; height: auto; display: block; overflow: visible; }
 .vnh-svg text { font-family: var(--font-family, 'Inter', sans-serif); text-anchor: middle; dominant-baseline: middle; user-select: none; pointer-events: none; }
+/* Vòng rìa chung của các lớp */
+.vnh-rim { fill: none; stroke: rgba(107, 79, 52, 0.5); stroke-width: 2; }
+/* CASING SÁNG cho nét sao → nổi rõ cả trên NỬA TỐI của Thái Cực nền (nét kép: quầng trắng dưới) */
+.vnh-poly, .vnh-sinh path, .vnh-sinh polygon, .vnh-kline.on-thua, .vnh-kline.on-vu, .vnh-khead, .vnh-spoke.du, .vnh-spoke.khuyet {
+  filter: drop-shadow(0 0 1.6px rgba(252, 248, 240, 0.95)) drop-shadow(0 0 1.6px rgba(252, 248, 240, 0.9));
+}
 
 /* Nhãn vành ngoài — nền SÁNG: chữ đậm màu, quầng trắng mảnh để nổi cả trên nền Thái Cực mờ */
 .vnh-ol-hanh { font-size: 12.5px; font-weight: 800; fill: var(--hc); stroke: rgba(255, 252, 245, 0.85); stroke-width: 2.4px; paint-order: stroke; }
