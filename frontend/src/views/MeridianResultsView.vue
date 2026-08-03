@@ -3901,7 +3901,104 @@ watch(
       <!-- ═══ VIEW 3: Biện chứng – Pháp trị (ĐỊNH VỊ bệnh nhân theo taxonomy Pháp Trị) ═══ -->
       <section class="mr-view" v-show="activeView === 3">
         <div class="bcpt">
-          <!-- TOP 2-COLUMN DASHBOARD GRID FOR TAB 3 -->
+          <!-- 1. ĐỒ HÌNH ĐỊNH VỊ ĐÔNG Y — TRUNG TÂM TAB 3 ĐƯỢC ĐƯA LÊN ĐẦU -->
+          <p v-if="dinhViLoading" class="bcpt-loading">Đang tổng hợp định vị…</p>
+          <template v-else>
+            <div class="bcpt-wheel-block">
+              <div class="bcpt-wheel-main">
+                <!-- BÓC LỚP CHÍNH LÀ "ĐẦY ĐỦ" — tổng hợp cả: 1 Âm Dương 太極 → 3 Tạng Phủ 臟腑 →
+                     4 Lục Khí 六氣 → 5 Lục Kinh 六經. Lớp 5 dùng vòng Lục Kinh GIÀU (3 tầng cùng lúc + số thể). -->
+                <nav class="bcpt-lop" aria-label="Bóc lớp đồ hình">
+                  <button
+                    v-for="l in DINH_VI_LOP"
+                    :key="l.n"
+                    type="button"
+                    class="bcpt-lop-btn"
+                    :class="{ on: dinhViLop === l.n, done: dinhViLop >= l.n }"
+                    @click="dinhViLop = l.n"
+                  ><b>{{ l.n }}</b> {{ l.ten }} <i>{{ l.han }}</i></button>
+                </nav>
+                <!-- KẾT LUẬN ngay trên đồ hình: kinh trội -->
+                <div v-if="lucKinhVerdict" class="lk-wheel-cap" :data-kinh="lucKinhVerdict.kinh.slug">
+                  <span class="lk-wheel-cap-lb">◉ Định vị</span>
+                  <b class="lk-wheel-cap-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
+                  <span class="lk-wheel-cap-gd">{{ lucKinhVerdict.giaiDoan }}</span>
+                  <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-wheel-cap-phu">+ {{ lucKinhVerdict.phu.ten }}</span>
+                  <button v-if="dinhViLop !== 5" type="button" class="lk-wheel-cap-btn" @click="dinhViLop = 5">soi lớp Lục Kinh ▸</button>
+                </div>
+                <!-- Lớp 5 = vòng Lục Kinh giàu; lớp 4 = vòng Lục Khí giàu (Khí→Kinh→Tạng, Ngũ Hành sinh-khắc,
+                     giống Biện Chứng Luận Trị); lớp 1/3 = bóc lớp có TÔ SÁNG ô bệnh nhân (Âm Dương · Tạng Phủ). -->
+                <VongLucKinh
+                  v-if="dinhViLop === 5"
+                  class="bcpt-wheel"
+                  :counts="lucKinhCaseCounts"
+                  :case-set="bienChung ? bienChung.tapKinh : null"
+                  :troi-kinh="bienChung ? bienChung.kinhTroi.slug : null"
+                  :active-kinh="focusKinh"
+                  :chuyen-bien="bienChung ? bienChung.chuyenBien : null"
+                  :trajectory="trajForWheel"
+                  :current-id="examId"
+                />
+                <VongLucKhi
+                  v-else-if="dinhViLop === 4"
+                  class="bcpt-wheel"
+                  :counts="lucKhiCaseCounts"
+                  :show-card="false"
+                  :active-khi="lucKhiTroi"
+                />
+                <VongNguHanh
+                  v-else-if="dinhViLop === 3"
+                  class="bcpt-wheel"
+                  :z="nguHanhZ"
+                  :tong-cuong="tongCuong"
+                />
+                <BienChungWheel v-else class="bcpt-wheel" :lop="dinhViLop" :dinhvi="dinhViWheel" />
+              </div>
+              <div class="bcpt-wheel-side">
+                <p v-if="dinhViLop === 5" class="bcpt-wheel-cap">Lớp Lục Kinh — <b style="color:#c99a2e">viền vàng đậm</b> = kinh <b>định vị (trội)</b> · viền vàng nhạt = kinh của ca · <b style="color:#e35a2f">đỏ</b> = có thể <b>vào lý (nặng)</b> · <b style="color:#5f9e4a">xanh</b> = có thể <b>ra biểu (hồi phục)</b>. Trục nét đứt = cặp biểu-lý.</p>
+                <p v-else-if="dinhViLop === 4" class="bcpt-wheel-cap">Lớp Lục Khí: rê một <b>Khí</b> → tia Khí → Kinh (bản khí) → Tạng/Phủ; tâm <b>Ngũ Hành</b> sinh-khắc. Số = <b>tạng bị tác động</b> theo khí (Hàn/Nhiệt).</p>
+                <p v-else-if="dinhViLop === 3" class="bcpt-wheel-cap">Lớp Tạng Phủ — ngôi sao <b>Ngũ Hành méo theo số đo</b>: đỉnh <b style="color:#35638d">co vào = tạng HƯ</b> (suy), <b style="color:#b23a29">đẩy ra = THỰC</b> (dư). Dây <b style="color:#b23a29">đỏ</b> = tương thừa (khắc quá), <b style="color:#8a2f4f">mận</b> = tương vũ; viền vàng = tạng <b>gốc</b>. So với ngũ giác mờ (mốc cân bằng) để thấy độ xộc xệch.</p>
+                <p v-else class="bcpt-wheel-cap">Bóc từng lớp (Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh). Ô <b>sáng vàng</b> = bệnh nhân có; mờ = không.</p>
+                <p v-if="dinhVi.isEmpty" class="bcpt-empty-note">
+                  Các thể bệnh trên chưa có liên kết bài thuốc → chưa suy được định vị.
+                </p>
+                <div class="bcpt-mini">
+                  <span class="bcpt-mini-lb">Tạng phủ tổn thương:</span>
+                  <span v-for="o in dinhVi.tangPhu" :key="o.name" class="bcpt-chip bcpt-chip--on">{{ o.label }}</span>
+                  <span v-if="!dinhVi.tangPhu.length" class="bcpt-empty">—</span>
+                </div>
+                <!-- ①② Định vị/Tác nhân — CỘT PHẢI, ngang hàng đồ hình (gồm cả mục không có vòng:
+                Vệ-Khí-Dinh-Huyết · Tam Tiêu · Nội Sinh). ③ Tính chất đã ở trên cùng ngang Thái Cực. -->
+                <section v-for="ax in otherAxes" :key="ax.key" class="bcpt-axis bcpt-axis--side">
+                  <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ ax.num }}</span> {{ ax.title }} <em>{{ ax.sub }}</em></h3>
+                  <div v-for="sg in ax.subgroups" :key="sg.nhom" class="bcpt-sub">
+                    <span class="bcpt-sub-lb">{{ sg.label }}</span>
+                    <!-- Lục Kinh (Thương Hàn): DÙNG CHUNG NGUỒN bienChung (không lấy tag luc_kinh thô) →
+                         nhất quán với ◎ kết luận + đồ hình; chip BẤM ĐƯỢC (soi trên đồ hình). -->
+                    <div v-if="sg.nhom === 'gd-luc-kinh'" class="bcpt-chips">
+                      <button
+                        v-for="c in dinhViKinhChips"
+                        :key="c.slug"
+                        type="button"
+                        class="lk-kchip lk-kchip--btn lk-kchip--sm"
+                        :class="{ troi: c.troi, 'is-focus': focusKinh === c.slug }"
+                        :data-kinh="c.slug"
+                        :title="'Bấm để soi ' + c.ten + ' trên đồ hình'"
+                        @click="soiKinh(c.slug)"
+                      ><b v-if="c.troi">◉ </b>{{ c.ten }}<em v-if="c.count"> ·{{ c.count }}</em></button>
+                      <span v-if="!dinhViKinhChips.length" class="bcpt-empty">chưa định vị Lục Kinh</span>
+                    </div>
+                    <div v-else class="bcpt-chips">
+                      <span v-for="t in sg.tags" :key="t.name" class="bcpt-chip bcpt-chip--on" :title="t.name">{{ t.label }}</span>
+                      <span v-if="!sg.tags.length" class="bcpt-empty">—</span>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          </template>
+
+          <!-- 2. CÁC KHỐI PHÂN TÍCH CHI TIẾT TỪ ĐỒ HÌNH SUY RA (XẾP 2 CỘT NGANG) -->
           <div class="bcpt-top-grid">
             <!-- CỘT TRÁI: Thể bệnh + Kết luận Lục Kinh -->
             <div class="bcpt-top-left">
@@ -4028,103 +4125,6 @@ watch(
               </section>
             </div>
           </div><!-- /bcpt-top-grid -->
-
-          <!-- ĐỒ HÌNH ĐỊNH VỊ Đông Y — 5 vòng: Âm Dương · Ngũ Hành · Tạng Phủ · Lục Khí · Lục Kinh -->
-          <p v-if="dinhViLoading" class="bcpt-loading">Đang tổng hợp định vị…</p>
-          <template v-else>
-            <div class="bcpt-wheel-block">
-              <div class="bcpt-wheel-main">
-                <!-- BÓC LỚP CHÍNH LÀ "ĐẦY ĐỦ" — tổng hợp cả: 1 Âm Dương 太極 → 3 Tạng Phủ 臟腑 →
-                     4 Lục Khí 六氣 → 5 Lục Kinh 六經. Lớp 5 dùng vòng Lục Kinh GIÀU (3 tầng cùng lúc + số thể). -->
-                <nav class="bcpt-lop" aria-label="Bóc lớp đồ hình">
-                  <button
-                    v-for="l in DINH_VI_LOP"
-                    :key="l.n"
-                    type="button"
-                    class="bcpt-lop-btn"
-                    :class="{ on: dinhViLop === l.n, done: dinhViLop >= l.n }"
-                    @click="dinhViLop = l.n"
-                  ><b>{{ l.n }}</b> {{ l.ten }} <i>{{ l.han }}</i></button>
-                </nav>
-                <!-- KẾT LUẬN ngay trên đồ hình: kinh trội -->
-                <div v-if="lucKinhVerdict" class="lk-wheel-cap" :data-kinh="lucKinhVerdict.kinh.slug">
-                  <span class="lk-wheel-cap-lb">◉ Định vị</span>
-                  <b class="lk-wheel-cap-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
-                  <span class="lk-wheel-cap-gd">{{ lucKinhVerdict.giaiDoan }}</span>
-                  <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-wheel-cap-phu">+ {{ lucKinhVerdict.phu.ten }}</span>
-                  <button v-if="dinhViLop !== 5" type="button" class="lk-wheel-cap-btn" @click="dinhViLop = 5">soi lớp Lục Kinh ▸</button>
-                </div>
-                <!-- Lớp 5 = vòng Lục Kinh giàu; lớp 4 = vòng Lục Khí giàu (Khí→Kinh→Tạng, Ngũ Hành sinh-khắc,
-                     giống Biện Chứng Luận Trị); lớp 1/3 = bóc lớp có TÔ SÁNG ô bệnh nhân (Âm Dương · Tạng Phủ). -->
-                <VongLucKinh
-                  v-if="dinhViLop === 5"
-                  class="bcpt-wheel"
-                  :counts="lucKinhCaseCounts"
-                  :case-set="bienChung ? bienChung.tapKinh : null"
-                  :troi-kinh="bienChung ? bienChung.kinhTroi.slug : null"
-                  :active-kinh="focusKinh"
-                  :chuyen-bien="bienChung ? bienChung.chuyenBien : null"
-                  :trajectory="trajForWheel"
-                  :current-id="examId"
-                />
-                <VongLucKhi
-                  v-else-if="dinhViLop === 4"
-                  class="bcpt-wheel"
-                  :counts="lucKhiCaseCounts"
-                  :show-card="false"
-                  :active-khi="lucKhiTroi"
-                />
-                <VongNguHanh
-                  v-else-if="dinhViLop === 3"
-                  class="bcpt-wheel"
-                  :z="nguHanhZ"
-                  :tong-cuong="tongCuong"
-                />
-                <BienChungWheel v-else class="bcpt-wheel" :lop="dinhViLop" :dinhvi="dinhViWheel" />
-              </div>
-              <div class="bcpt-wheel-side">
-                <p v-if="dinhViLop === 5" class="bcpt-wheel-cap">Lớp Lục Kinh — <b style="color:#c99a2e">viền vàng đậm</b> = kinh <b>định vị (trội)</b> · viền vàng nhạt = kinh của ca · <b style="color:#e35a2f">đỏ</b> = có thể <b>vào lý (nặng)</b> · <b style="color:#5f9e4a">xanh</b> = có thể <b>ra biểu (hồi phục)</b>. Trục nét đứt = cặp biểu-lý.</p>
-                <p v-else-if="dinhViLop === 4" class="bcpt-wheel-cap">Lớp Lục Khí: rê một <b>Khí</b> → tia Khí → Kinh (bản khí) → Tạng/Phủ; tâm <b>Ngũ Hành</b> sinh-khắc. Số = <b>tạng bị tác động</b> theo khí (Hàn/Nhiệt).</p>
-                <p v-else-if="dinhViLop === 3" class="bcpt-wheel-cap">Lớp Tạng Phủ — ngôi sao <b>Ngũ Hành méo theo số đo</b>: đỉnh <b style="color:#35638d">co vào = tạng HƯ</b> (suy), <b style="color:#b23a29">đẩy ra = THỰC</b> (dư). Dây <b style="color:#b23a29">đỏ</b> = tương thừa (khắc quá), <b style="color:#8a2f4f">mận</b> = tương vũ; viền vàng = tạng <b>gốc</b>. So với ngũ giác mờ (mốc cân bằng) để thấy độ xộc xệch.</p>
-                <p v-else class="bcpt-wheel-cap">Bóc từng lớp (Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh). Ô <b>sáng vàng</b> = bệnh nhân có; mờ = không.</p>
-                <p v-if="dinhVi.isEmpty" class="bcpt-empty-note">
-                  Các thể bệnh trên chưa có liên kết bài thuốc → chưa suy được định vị.
-                </p>
-                <div class="bcpt-mini">
-                  <span class="bcpt-mini-lb">Tạng phủ tổn thương:</span>
-                  <span v-for="o in dinhVi.tangPhu" :key="o.name" class="bcpt-chip bcpt-chip--on">{{ o.label }}</span>
-                  <span v-if="!dinhVi.tangPhu.length" class="bcpt-empty">—</span>
-                </div>
-                <!-- ①② Định vị/Tác nhân — CỘT PHẢI, ngang hàng đồ hình (gồm cả mục không có vòng:
-                Vệ-Khí-Dinh-Huyết · Tam Tiêu · Nội Sinh). ③ Tính chất đã ở trên cùng ngang Thái Cực. -->
-                <section v-for="ax in otherAxes" :key="ax.key" class="bcpt-axis bcpt-axis--side">
-                  <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ ax.num }}</span> {{ ax.title }} <em>{{ ax.sub }}</em></h3>
-                  <div v-for="sg in ax.subgroups" :key="sg.nhom" class="bcpt-sub">
-                    <span class="bcpt-sub-lb">{{ sg.label }}</span>
-                    <!-- Lục Kinh (Thương Hàn): DÙNG CHUNG NGUỒN bienChung (không lấy tag luc_kinh thô) →
-                         nhất quán với ◎ kết luận + đồ hình; chip BẤM ĐƯỢC (soi trên đồ hình). -->
-                    <div v-if="sg.nhom === 'gd-luc-kinh'" class="bcpt-chips">
-                      <button
-                        v-for="c in dinhViKinhChips"
-                        :key="c.slug"
-                        type="button"
-                        class="lk-kchip lk-kchip--btn lk-kchip--sm"
-                        :class="{ troi: c.troi, 'is-focus': focusKinh === c.slug }"
-                        :data-kinh="c.slug"
-                        :title="'Bấm để soi ' + c.ten + ' trên đồ hình'"
-                        @click="soiKinh(c.slug)"
-                      ><b v-if="c.troi">◉ </b>{{ c.ten }}<em v-if="c.count"> ·{{ c.count }}</em></button>
-                      <span v-if="!dinhViKinhChips.length" class="bcpt-empty">chưa định vị Lục Kinh</span>
-                    </div>
-                    <div v-else class="bcpt-chips">
-                      <span v-for="t in sg.tags" :key="t.name" class="bcpt-chip bcpt-chip--on" :title="t.name">{{ t.label }}</span>
-                      <span v-if="!sg.tags.length" class="bcpt-empty">—</span>
-                    </div>
-                  </div>
-                </section>
-              </div>
-            </div>
-          </template>
         </div>
       </section><!-- /mr-view VIEW 3 -->
 
