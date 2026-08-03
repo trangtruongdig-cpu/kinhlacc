@@ -3901,136 +3901,133 @@ watch(
       <!-- ═══ VIEW 3: Biện chứng – Pháp trị (ĐỊNH VỊ bệnh nhân theo taxonomy Pháp Trị) ═══ -->
       <section class="mr-view" v-show="activeView === 3">
         <div class="bcpt">
-          <!-- Thể bệnh đã chốt (ngữ cảnh nguồn định vị) -->
-          <div class="bcpt-the">
-            <span class="bcpt-the-lb">Thể bệnh:</span>
-            <template v-if="excelSyndromesList.length">
-              <span v-for="s in (excelSyndromesList as Array<{ id: number; name: string }>)" :key="s.id" class="bcpt-the-chip">{{ s.name }}</span>
-            </template>
-            <span v-else class="bcpt-empty">chưa xác định thể bệnh</span>
-          </div>
-
-          <!-- KẾT LUẬN LỤC KINH (Thương Hàn) — tổng hợp từ thể đo được + Bát Cương; như một câu chốt -->
-          <section v-if="lucKinhVerdict" class="lk-verdict" :class="'lk-verdict--' + lucKinhVerdict.doTin">
-            <!-- GỌN 1 dòng: kinh + giai đoạn + độ tin — để đồ hình hiện cùng khung nhìn, chi tiết ẩn trong "vì sao". -->
-            <div class="lk-verdict-head">
-              <span class="lk-eyebrow">◎ Kết luận Lục Kinh</span>
-              <b class="lk-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
-              <span class="lk-giaidoan">{{ lucKinhVerdict.giaiDoan }}</span>
-              <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-hopbenh">+ {{ lucKinhVerdict.phu.ten }}</span>
-              <span class="lk-badge" :class="'lk-badge--' + lucKinhVerdict.doTin">độ tin {{ lucKinhVerdict.doTin }}</span>
-            </div>
-            <!-- ĐỊNH VỊ (tập kinh, trội đầu) + CHUYỂN BIẾN — cùng nguồn bienChung, đồng bộ đồ hình.
-                 Chip BẤM ĐƯỢC: bấm → tô sáng đúng kinh đó trên đồ hình (lớp Lục Kinh). -->
-            <div v-if="bienChung" class="lk-chips">
-              <div class="lk-chip-row">
-                <span class="lk-chip-lb">Định vị</span>
-                <button
-                  v-for="c in dinhViKinhChips"
-                  :key="c.slug"
-                  type="button"
-                  class="lk-kchip lk-kchip--btn"
-                  :class="{ troi: c.troi, 'is-focus': focusKinh === c.slug }"
-                  :data-kinh="c.slug"
-                  :title="'Bấm để soi ' + c.ten + ' trên đồ hình'"
-                  @click="soiKinh(c.slug)"
-                >
-                  <b v-if="c.troi">◉ </b>{{ c.ten }}<em v-if="c.count"> ·{{ c.count }}</em>
-                </button>
-              </div>
-              <div class="lk-chip-row">
-                <span class="lk-chip-lb">Chuyển biến</span>
-                <template v-if="bienChung.chuyenBien">
-                  <span class="lk-cb lk-cb--vaoly" :title="bienChung.chuyenBien.vaoLy.coChe">↓ vào lý → {{ bienChung.chuyenBien.vaoLy.ten }}</span>
-                  <span class="lk-cb lk-cb--rabieu" :title="bienChung.chuyenBien.raBieu.coChe">↑ ra biểu → {{ bienChung.chuyenBien.raBieu.ten }}</span>
+          <!-- TOP 2-COLUMN DASHBOARD GRID FOR TAB 3 -->
+          <div class="bcpt-top-grid">
+            <!-- CỘT TRÁI: Thể bệnh + Kết luận Lục Kinh -->
+            <div class="bcpt-top-left">
+              <div class="bcpt-the">
+                <span class="bcpt-the-lb">Thể bệnh:</span>
+                <template v-if="excelSyndromesList.length">
+                  <span v-for="s in (excelSyndromesList as Array<{ id: number; name: string }>)" :key="s.id" class="bcpt-the-chip">{{ s.name }}</span>
                 </template>
-                <span v-else class="lk-cb lk-cb--none" :title="bienChung.cbLyDo">— chưa suy (định vị chưa chắc)</span>
+                <span v-else class="bcpt-empty">chưa xác định thể bệnh</span>
               </div>
-            </div>
-            <details class="lk-details">
-              <summary class="lk-summary">Vì sao · pháp trị · thể ngoài phạm vi</summary>
-              <p class="lk-ketluan">{{ lucKinhVerdict.ketLuan }}</p>
-              <ul class="lk-lydo">
-                <li v-for="(r, i) in lucKinhVerdict.lyDo" :key="i">{{ r }}</li>
-              </ul>
-              <p v-if="lucKinhVerdict.theNgoai.length" class="lk-ngoai">
-                Ngoài phạm vi Thương Hàn (chưa phân tích sâu): {{ lucKinhVerdict.theNgoai.join(', ') }}.
-              </p>
-            </details>
-          </section>
-          <p v-else-if="excelSyndromesList.length" class="lk-none">
-            Các thể đo được chưa thuộc phạm vi Thương Hàn Lục Kinh — chưa định vị (có thể là nội thương / ôn bệnh / tạp bệnh).
-          </p>
 
-          <!-- TRUYỀN BIẾN LỤC KINH qua các lần đo của cùng bệnh nhân (đường đi của bệnh theo thời gian) -->
-          <section v-if="lucKinhTrajectory.filter((p) => p.verdict).length >= 2" ref="trajRef" class="lk-traj">
-            <div class="lk-traj-head">
-              <span class="lk-eyebrow">↳ Truyền biến qua {{ lucKinhTrajectory.length }} lần đo</span>
-              <span v-if="truyenBienXuHuong" class="lk-traj-trend" :class="'lk-traj-trend--' + truyenBienXuHuong.loai">Xu hướng: {{ truyenBienXuHuong.nhan }}</span>
-            </div>
-            <ol class="lk-traj-line">
-              <li v-for="p in lucKinhTrajectory" :key="p.id" class="lk-traj-node" :class="{ 'lk-traj-node--cur': p.id === examId }">
-                <span v-if="p.moiDot" class="lk-traj-break" title="Đợt bệnh khác (cách > 45 ngày) — không nối truyền biến">⋯ đợt mới</span>
-                <!-- Connector giữa 2 mốc: TỐC ĐỘ (số ngày + cờ cấp) · HƯỚNG (↓↑→) · KIỂU TRUYỀN (chip) -->
-                <span v-else-if="p.huong" class="lk-traj-conn">
-                  <span class="lk-traj-speed" :class="{ 'is-cap': isCap(p), 'is-blind': p.gianDoan }">
-                    <template v-if="ngayLabel(p)">{{ ngayLabel(p) }}</template>
-                    <b v-if="isCap(p)" class="lk-traj-cap" title="Truyền vào lý nhanh — theo dõi sát">↯ cấp{{ p.capTinh === 'cap?' ? '?' : '' }}</b>
-                    <b v-if="p.gianDoan" class="lk-traj-blind" title="Có mốc ngoài Lục Kinh xen giữa — chưa chắc chắn">⋯</b>
-                  </span>
-                  <span
-                    class="lk-traj-arrow"
-                    :class="'lk-traj-arrow--' + p.huong.loai"
-                    :title="p.huong.nhan"
-                  >{{ p.huong.loai === 'vao-ly' ? '↓' : p.huong.loai === 'ra-bieu' ? '↑' : '→' }}</span>
-                  <span v-if="kieuChip(p)" class="lk-traj-kieu" :class="'lk-traj-kieu--' + kieuChip(p)!.cls" :title="kieuChip(p)!.tip">{{ kieuChip(p)!.nhan }}</span>
-                </span>
-                <!-- Bấm 1 mốc = mở lại ĐÚNG ca đo đó để đối chiếu (RouterLink nên mở tab mới được,
-                     tiện đặt 2 lần đo cạnh nhau mà ngẫm chuyển biến). Ca đang xem thì không phải link. -->
-                <span v-if="p.id === examId" class="lk-traj-cell lk-traj-cell--cur" aria-current="true">
-                  <span v-if="p.trucTrung" class="lk-traj-truc" title="Trực trúng 直中 — tà vào thẳng Tam Âm, không qua Tam Dương: chính khí hư, nặng ngay từ đầu">直 trực trúng<template v-if="!p.trucTrungBanChac">?</template></span>
-                  <span class="lk-traj-date">{{ p.date }}</span>
-                  <span v-if="p.verdict" class="lk-traj-kinh" :data-kinh="p.verdict.kinh.slug">{{ p.verdict.kinh.ten }} <i>{{ p.verdict.kinh.han }}</i></span>
-                  <span v-else class="lk-traj-kinh lk-traj-kinh--none">ngoài LK</span>
-                  <span class="lk-traj-dang-xem">đang xem</span>
-                </span>
-                <!-- Giữ nguyên tab đang xem (?view=) — bác sĩ đang ở tab Biện Chứng mà nhảy sang lần đo
-                     khác thì phải vào thẳng tab đó, không bắt bấm lại từ tab 1. -->
-                <RouterLink
-                  v-else
-                  class="lk-traj-cell lk-traj-cell--link"
-                  :to="{
-                    name: 'meridian-results',
-                    params: { patientId, examId: p.id },
-                    query: { view: String(activeView), traj: '1' },
-                  }"
-                  :title="`Mở lần đo ${p.date} (ca #${p.id}) — giữ nguyên tab đang xem`"
-                >
-                  <span v-if="p.trucTrung" class="lk-traj-truc" title="Trực trúng 直中 — tà vào thẳng Tam Âm, không qua Tam Dương: chính khí hư, nặng ngay từ đầu">直 trực trúng<template v-if="!p.trucTrungBanChac">?</template></span>
-                  <span class="lk-traj-date">{{ p.date }}</span>
-                  <span v-if="p.verdict" class="lk-traj-kinh" :data-kinh="p.verdict.kinh.slug">{{ p.verdict.kinh.ten }} <i>{{ p.verdict.kinh.han }}</i></span>
-                  <span v-else class="lk-traj-kinh lk-traj-kinh--none">ngoài LK</span>
-                  <span class="lk-traj-mo">xem lần đo →</span>
-                </RouterLink>
-              </li>
-            </ol>
-            <p class="lk-traj-note">Cũ → mới. <b>↓</b> vào lý (nặng) · <b>↑</b> ra biểu (lui) · <b>→</b> giữ kinh. Số ngày = tốc độ mỗi bước; <b style="color:#bf4632">↯ cấp</b> = truyền vào lý nhanh. Kiểu truyền: <b>»</b> việt kinh · <b>⇌</b> biểu-lý · <b style="color:#8a2f22">直</b> trực trúng (tà vào thẳng Tam Âm). Chỉ có nghĩa khi cùng MỘT đợt bệnh.</p>
-          </section>
-
-          <!-- ③ Tính chất (bát cương · chính khí) đưa lên gần đầu — khỏi cuộn hết đồ hình 5 vòng mới
-          thấy. (Thái Cực Âm-Dương tổng cương đã chuyển sang Tab 1, thuộc kết luận Bát Cương.) -->
-          <div class="bcpt-taiji-row">
-            <section v-if="!dinhViLoading && tinhChatAxis" class="bcpt-axis bcpt-axis--tinhchat">
-              <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ tinhChatAxis.num }}</span> {{ tinhChatAxis.title }} <em>{{ tinhChatAxis.sub }}</em></h3>
-              <div v-for="sg in tinhChatAxis.subgroups" :key="sg.nhom" class="bcpt-sub">
-                <span class="bcpt-sub-lb">{{ sg.label }}</span>
-                <div class="bcpt-chips">
-                  <span v-for="t in sg.tags" :key="t.name" class="bcpt-chip bcpt-chip--on" :title="t.name">{{ t.label }}</span>
-                  <span v-if="!sg.tags.length" class="bcpt-empty">—</span>
+              <!-- KẾT LUẬN LỤC KINH (Thương Hàn) -->
+              <section v-if="lucKinhVerdict" class="lk-verdict" :class="'lk-verdict--' + lucKinhVerdict.doTin">
+                <div class="lk-verdict-head">
+                  <span class="lk-eyebrow">◎ Kết luận Lục Kinh</span>
+                  <b class="lk-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
+                  <span class="lk-giaidoan">{{ lucKinhVerdict.giaiDoan }}</span>
+                  <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-hopbenh">+ {{ lucKinhVerdict.phu.ten }}</span>
+                  <span class="lk-badge" :class="'lk-badge--' + lucKinhVerdict.doTin">độ tin {{ lucKinhVerdict.doTin }}</span>
                 </div>
-              </div>
-            </section>
-          </div>
+                <div v-if="bienChung" class="lk-chips">
+                  <div class="lk-chip-row">
+                    <span class="lk-chip-lb">Định vị</span>
+                    <button
+                      v-for="c in dinhViKinhChips"
+                      :key="c.slug"
+                      type="button"
+                      class="lk-kchip lk-kchip--btn"
+                      :class="{ troi: c.troi, 'is-focus': focusKinh === c.slug }"
+                      :data-kinh="c.slug"
+                      :title="'Bấm để soi ' + c.ten + ' trên đồ hình'"
+                      @click="soiKinh(c.slug)"
+                    >
+                      <b v-if="c.troi">◉ </b>{{ c.ten }}<em v-if="c.count"> ·{{ c.count }}</em>
+                    </button>
+                  </div>
+                  <div class="lk-chip-row">
+                    <span class="lk-chip-lb">Chuyển biến</span>
+                    <template v-if="bienChung.chuyenBien">
+                      <span class="lk-cb lk-cb--vaoly" :title="bienChung.chuyenBien.vaoLy.coChe">↓ vào lý → {{ bienChung.chuyenBien.vaoLy.ten }}</span>
+                      <span class="lk-cb lk-cb--rabieu" :title="bienChung.chuyenBien.raBieu.coChe">↑ ra biểu → {{ bienChung.chuyenBien.raBieu.ten }}</span>
+                    </template>
+                    <span v-else class="lk-cb lk-cb--none" :title="bienChung.cbLyDo">— chưa suy (định vị chưa chắc)</span>
+                  </div>
+                </div>
+                <details class="lk-details">
+                  <summary class="lk-summary">Vì sao · pháp trị · thể ngoài phạm vi</summary>
+                  <p class="lk-ketluan">{{ lucKinhVerdict.ketLuan }}</p>
+                  <ul class="lk-lydo">
+                    <li v-for="(r, i) in lucKinhVerdict.lyDo" :key="i">{{ r }}</li>
+                  </ul>
+                  <p v-if="lucKinhVerdict.theNgoai.length" class="lk-ngoai">
+                    Ngoài phạm vi Thương Hàn (chưa phân tích sâu): {{ lucKinhVerdict.theNgoai.join(', ') }}.
+                  </p>
+                </details>
+              </section>
+              <p v-else-if="excelSyndromesList.length" class="lk-none">
+                Các thể đo được chưa thuộc phạm vi Thương Hàn Lục Kinh — chưa định vị (có thể là nội thương / ôn bệnh / tạp bệnh).
+              </p>
+            </div>
+
+            <!-- CỘT PHẢI: Truyền biến Lục Kinh + Tính chất Bát Cương -->
+            <div class="bcpt-top-right">
+              <!-- TRUYỀN BIẾN LỤC KINH -->
+              <section v-if="lucKinhTrajectory.filter((p) => p.verdict).length >= 2" ref="trajRef" class="lk-traj">
+                <div class="lk-traj-head">
+                  <span class="lk-eyebrow">↳ Truyền biến qua {{ lucKinhTrajectory.length }} lần đo</span>
+                  <span v-if="truyenBienXuHuong" class="lk-traj-trend" :class="'lk-traj-trend--' + truyenBienXuHuong.loai">Xu hướng: {{ truyenBienXuHuong.nhan }}</span>
+                </div>
+                <ol class="lk-traj-line">
+                  <li v-for="p in lucKinhTrajectory" :key="p.id" class="lk-traj-node" :class="{ 'lk-traj-node--cur': p.id === examId }">
+                    <span v-if="p.moiDot" class="lk-traj-break" title="Đợt bệnh khác (cách > 45 ngày) — không nối truyền biến">⋯ đợt mới</span>
+                    <span v-else-if="p.huong" class="lk-traj-conn">
+                      <span class="lk-traj-speed" :class="{ 'is-cap': isCap(p), 'is-blind': p.gianDoan }">
+                        <template v-if="ngayLabel(p)">{{ ngayLabel(p) }}</template>
+                        <b v-if="isCap(p)" class="lk-traj-cap" title="Truyền vào lý nhanh — theo dõi sát">↯ cấp{{ p.capTinh === 'cap?' ? '?' : '' }}</b>
+                        <b v-if="p.gianDoan" class="lk-traj-blind" title="Có mốc ngoài Lục Kinh xen giữa — chưa chắc chắn">⋯</b>
+                      </span>
+                      <span
+                        class="lk-traj-arrow"
+                        :class="'lk-traj-arrow--' + p.huong.loai"
+                        :title="p.huong.nhan"
+                      >{{ p.huong.loai === 'vao-ly' ? '↓' : p.huong.loai === 'ra-bieu' ? '↑' : '→' }}</span>
+                      <span v-if="kieuChip(p)" class="lk-traj-kieu" :class="'lk-traj-kieu--' + kieuChip(p)!.cls" :title="kieuChip(p)!.tip">{{ kieuChip(p)!.nhan }}</span>
+                    </span>
+                    <span v-if="p.id === examId" class="lk-traj-cell lk-traj-cell--cur" aria-current="true">
+                      <span v-if="p.trucTrung" class="lk-traj-truc" title="Trực trúng 直中 — tà vào thẳng Tam Âm, không qua Tam Dương: chính khí hư, nặng ngay từ đầu">直 trực trúng<template v-if="!p.trucTrungBanChac">?</template></span>
+                      <span class="lk-traj-date">{{ p.date }}</span>
+                      <span v-if="p.verdict" class="lk-traj-kinh" :data-kinh="p.verdict.kinh.slug">{{ p.verdict.kinh.ten }} <i>{{ p.verdict.kinh.han }}</i></span>
+                      <span v-else class="lk-traj-kinh lk-traj-kinh--none">ngoài LK</span>
+                      <span class="lk-traj-dang-xem">đang xem</span>
+                    </span>
+                    <RouterLink
+                      v-else
+                      class="lk-traj-cell lk-traj-cell--link"
+                      :to="{
+                        name: 'meridian-results',
+                        params: { patientId, examId: p.id },
+                        query: { view: String(activeView), traj: '1' },
+                      }"
+                      :title="`Mở lần đo ${p.date} (ca #${p.id}) — giữ nguyên tab đang xem`"
+                    >
+                      <span v-if="p.trucTrung" class="lk-traj-truc" title="Trực trúng 直中 — tà vào thẳng Tam Âm, không qua Tam Dương: chính khí hư, nặng ngay từ đầu">直 trực trúng<template v-if="!p.trucTrungBanChac">?</template></span>
+                      <span class="lk-traj-date">{{ p.date }}</span>
+                      <span v-if="p.verdict" class="lk-traj-kinh" :data-kinh="p.verdict.kinh.slug">{{ p.verdict.kinh.ten }} <i>{{ p.verdict.kinh.han }}</i></span>
+                      <span v-else class="lk-traj-kinh lk-traj-kinh--none">ngoài LK</span>
+                      <span class="lk-traj-mo">xem lần đo →</span>
+                    </RouterLink>
+                  </li>
+                </ol>
+                <p class="lk-traj-note">Cũ → mới. <b>↓</b> vào lý (nặng) · <b>↑</b> ra biểu (lui) · <b>→</b> giữ kinh.</p>
+              </section>
+
+              <!-- TÍNH CHẤT BÁT CƯƠNG · CHÍNH KHÍ -->
+              <section v-if="!dinhViLoading && tinhChatAxis" class="bcpt-axis bcpt-axis--tinhchat">
+                <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ tinhChatAxis.num }}</span> {{ tinhChatAxis.title }} <em>{{ tinhChatAxis.sub }}</em></h3>
+                <div v-for="sg in tinhChatAxis.subgroups" :key="sg.nhom" class="bcpt-sub">
+                  <span class="bcpt-sub-lb">{{ sg.label }}</span>
+                  <div class="bcpt-chips">
+                    <span v-for="t in sg.tags" :key="t.name" class="bcpt-chip bcpt-chip--on" :title="t.name">{{ t.label }}</span>
+                    <span v-if="!sg.tags.length" class="bcpt-empty">—</span>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div><!-- /bcpt-top-grid -->
 
           <!-- ĐỒ HÌNH ĐỊNH VỊ Đông Y — 5 vòng: Âm Dương · Ngũ Hành · Tạng Phủ · Lục Khí · Lục Kinh -->
           <p v-if="dinhViLoading" class="bcpt-loading">Đang tổng hợp định vị…</p>
@@ -6720,4 +6717,62 @@ watch(
 .bcpt-row { gap: 4px !important; padding: 3px 0 !important; }
 
 .info-label { font-size: 12px !important; margin-bottom: 6px !important; }
-.phacdo-col { gap: var(--space-3) !important; }</style>
+.phacdo-col { gap: var(--space-3) !important; }
+
+/* ── TAB 3: 2-COLUMN DASHBOARD GRID ── */
+.bcpt-top-grid {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 10px !important;
+  align-items: stretch !important;
+  width: 100% !important;
+}
+
+.bcpt-top-left, .bcpt-top-right {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+}
+
+@media (max-width: 900px) {
+  .bcpt-top-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+.lk-verdict {
+  margin: 0 !important;
+  padding: 8px 10px !important;
+  border-radius: var(--radius-md) !important;
+}
+
+.lk-traj {
+  margin: 0 !important;
+  padding: 8px 10px !important;
+  border-radius: var(--radius-md) !important;
+}
+
+.bcpt-axis--tinhchat {
+  margin: 0 !important;
+  padding: 8px 10px !important;
+  border-radius: var(--radius-md) !important;
+  border: 1px solid var(--brown-200) !important;
+  background: var(--white) !important;
+}
+
+.bcpt-the {
+  padding: 4px 8px !important;
+  font-size: 12px !important;
+  background: var(--brown-50) !important;
+  border: 1px solid var(--brown-200) !important;
+  border-radius: 6px !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bcpt-wheel-block {
+  margin-top: 8px !important;
+  padding: 10px 12px !important;
+  gap: 10px !important;
+}</style>
