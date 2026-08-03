@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted, onBeforeUnmount, computed, watch, reactive, nextTick, defineAsyncComponent } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import { usePatientStore, type Patient } from '@/stores/patient'
+import { type Patient } from '@/stores/patient'
 import { api } from '@/services/api'
 import BatCuongFigure3D, { MER3D } from '@/components/BatCuongFigure3D.vue'
 import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
@@ -17,7 +17,6 @@ import PhuongHuyetNguDu from '@/components/PhuongHuyetNguDu.vue'
 import { locateLucKinh, huongTruyen, KINH_META, type KinhSlug, type LucKinhVerdict, type TheKinhMap } from '@/lib/lucKinh'
 import { truyenBienCua } from '@/lib/lucKinhTruyenBien'
 import { mocKham, mocKhamMs, ngayKhamVN } from '@/lib/caKham'
-import AmDuongTaiji from '@/components/AmDuongTaiji.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -30,7 +29,6 @@ const isLoading = ref(true)
 const error = ref<string | null>(null)
 // Tham chiếu component đồ hình 3D → gọi captureViews() chụp 4 góc đưa vào phiếu in.
 const batCuongFigureRef = ref<InstanceType<typeof BatCuongFigure3D> | null>(null)
-const layoutMode = ref<'dashboard' | 'scroll'>('dashboard')
 
 const currentSyndromesList = computed(() => {
   return examination.value?.currentSyndromes || examination.value?.syndromes || []
@@ -300,7 +298,6 @@ const dinhVi = computed(() => buildDinhVi(dinhViRows.value))
 const dinhViAxis = computed(() => dinhVi.value.axes.find((ax) => ax.key === 'dinh-vi') ?? null)
 const tacNhanAxis = computed(() => dinhVi.value.axes.find((ax) => ax.key === 'tac-nhan') ?? null)
 const tinhChatAxis = computed(() => dinhVi.value.axes.find((ax) => ax.key === 'tinh-chat') ?? null)
-const otherAxes = computed(() => dinhVi.value.axes.filter((ax) => ax.key !== 'tinh-chat'))
 // Chiếu định vị vào không gian đồ hình: {kinh, khi, tang, amDuong} cho DinhViWheel tô sáng.
 const dinhViWheel = computed(() => {
   const tagsOf = (nhom: string): string[] => {
@@ -1838,15 +1835,6 @@ const diagnosis = computed(() => {
 // Mã kinh NGẮN đang "lệch" theo Hư-Thực → truyền xuống BatCuongOrgans/BatCuongFigure3D để soi
 // nhóm 'huthuc' (giống cách Biểu-Lý/Hàn-Nhiệt soi theo affectedOrgans).
 const huThucLechNames = computed(() => (diagnosis.value.explain?.huThuc?.lechRows ?? []).map((r) => r.name))
-const thucLechRows = computed(() => (diagnosis.value.explain?.huThuc?.lechRows ?? []).filter((r) => r.tone === 'high'))
-const huLechRows = computed(() => (diagnosis.value.explain?.huThuc?.lechRows ?? []).filter((r) => r.tone === 'low'))
-
-// Bảng tra: mã kinh ngắn → tên đường kinh đầy đủ (dùng trong Dashboard)
-const SHORT_TO_ORGAN: Record<string, string> = {
-  Tiểu: 'Tiểu Trường', Tâm: 'Tâm', Tam: 'Tam Tiêu', Bào: 'Tâm Bào',
-  Đại: 'Đại Trường', Phế: 'Phế', Bàng: 'Bàng Quang', Thận: 'Thận',
-  Đởm: 'Đởm', Vị: 'Vị', Can: 'Can', Tỳ: 'Tỳ',
-}
 
 // Kinh "lệch" kèm tên tạng phủ + bên + hướng (cao vượt ngưỡng / thấp dưới ngưỡng) → BatCuongSummary
 // hiện 2 nhóm chip theo BIÊN ĐỘ. Lưu ý: cao/thấp là biên độ, KHÔNG phải nhãn thực/hư từng tạng
@@ -1926,21 +1914,6 @@ const batCuong = computed(() => {
     nhietBieu: bieuNhiet.join(', '),
     nhietLy: lyNhiet.join(', '),
     items: { bieuHan: itBieuHan, lyHan: itLyHan, bieuNhiet: itBieuNhiet, lyNhiet: itLyNhiet },
-  }
-})
-
-/**
- * Bát Cương gộp về 4 mục theo vị trí & tính chất (mỗi tạng phủ kèm icon, bấm để soi bảng đo):
- *  Biểu = Biểu Hàn ∪ Biểu Nhiệt · Lý = Lý Hàn ∪ Lý Nhiệt
- *  Hàn  = Biểu Hàn ∪ Lý Hàn     · Nhiệt = Biểu Nhiệt ∪ Lý Nhiệt
- */
-const batCuongOrgans = computed(() => {
-  const it = batCuong.value.items
-  return {
-    bieu: [...it.bieuHan, ...it.bieuNhiet],
-    ly: [...it.lyHan, ...it.lyNhiet],
-    han: [...it.bieuHan, ...it.lyHan],
-    nhiet: [...it.bieuNhiet, ...it.lyNhiet],
   }
 })
 
@@ -2685,12 +2658,6 @@ function refToHint(ref: string): ExcelHint | null {
   return null
 }
 
-function toggleExcelFocus(id: number) {
-  batCuongFocus.value = null
-  modernFocusRuleId.value = null
-  focusExtraIds.value = []
-  excelFocusRuleId.value = excelFocusRuleId.value === id ? null : id
-}
 // Bấm 1 node ở mục III: focus thể chính + sáng công thức các thể đo-được đi kèm (extraIds).
 function focusSyndNode(node: SyndNode) {
   batCuongFocus.value = null
@@ -4669,304 +4636,6 @@ watch(
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-/* Clinic Dashboard (Single-Screen 1 View No-Scroll) */
-.mr-clinic-dashboard {
-  display: grid;
-  grid-template-columns: 28% 38% 34%;
-  gap: var(--space-3);
-  height: calc(100vh - 140px);
-  min-height: 560px;
-  overflow: hidden;
-  padding: 4px 0 10px;
-}
-
-.dash-col {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 4px;
-}
-
-.dash-card {
-  background: var(--white);
-  border: 1px solid var(--brown-100);
-  border-radius: var(--radius-lg);
-  padding: 10px 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
-}
-
-.dash-card--grow {
-  flex: 1;
-}
-
-.dash-card-title {
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 0.05em;
-  color: var(--brown-800);
-  margin-bottom: 8px;
-  border-bottom: 1px solid var(--brown-100);
-  padding-bottom: 4px;
-}
-
-.dash-bc-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.dash-bc-box {
-  background: var(--brown-50);
-  border: 1px solid var(--brown-100);
-  border-radius: 8px;
-  padding: 6px 8px;
-  display: flex;
-  flex-direction: column;
-}
-
-.dash-bc-lbl {
-  font-size: 10.5px;
-  color: var(--gray-500);
-  font-weight: 600;
-}
-
-.dash-bc-val {
-  font-size: 13px;
-  font-weight: 800;
-  margin-top: 1px;
-}
-
-.dash-syndromes-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.dash-synd-chip {
-  padding: 6px 10px;
-  border-radius: 8px;
-  border: 1px solid var(--brown-100);
-  background: var(--surface-2);
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.dash-synd-chip:hover, .dash-synd-chip.active {
-  background: var(--brown-800);
-  color: #fff;
-  border-color: var(--brown-800);
-}
-
-.dash-synd-chip.active b, .dash-synd-chip.active .synd-tag {
-  color: #fff !important;
-}
-
-.mr-mode-switcher {
-  display: inline-flex;
-  gap: 4px;
-  background: var(--surface-2);
-  padding: 3px;
-  border-radius: 8px;
-  border: 1px solid var(--brown-200);
-}
-
-.mr-mode-btn {
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 10px;
-  border-radius: 6px;
-  border: none;
-  background: transparent;
-  color: var(--gray-600);
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-
-.mr-mode-btn.active {
-  background: var(--brown-800);
-  color: #fff;
-  font-weight: 700;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-/* ══════════════════════════════════════════════════════════════
-   CLINICAL WORKSTATION LAYOUT  (cw-*)
-   Sidebar cố định trái (32%) + Main panel phải (68%)
-   Cả hai scroll độc lập, luôn vừa màn hình
-══════════════════════════════════════════════════════════════ */
-.cw-layout {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 12px;
-  height: calc(100vh - 148px);
-  min-height: 560px;
-  align-items: start;
-}
-
-/* ─ SIDEBAR ─ */
-.cw-sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  height: 100%;
-  overflow-y: auto;
-  padding-right: 2px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--brown-200) transparent;
-}
-
-/* ─ MAIN PANEL ─ */
-.cw-main {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-}
-.cw-main .mr-tabs {
-  flex-shrink: 0;
-}
-.cw-main .mr-view {
-  flex: 1;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--brown-200) transparent;
-}
-
-/* ─ CARD GỐC ─ */
-.cw-card {
-  background: var(--white);
-  border: 1px solid var(--brown-100);
-  border-radius: var(--radius-lg);
-  padding: 10px 12px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
-  flex-shrink: 0;
-}
-.cw-card--grow {
-  flex: 1;
-  overflow-y: auto;
-  min-height: 80px;
-  scrollbar-width: thin;
-  scrollbar-color: var(--brown-200) transparent;
-}
-.cw-card--phuonghuy {
-  flex: 2;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  min-height: 120px;
-}
-.cw-phuonghuy-wrap {
-  flex: 1;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: var(--brown-200) transparent;
-}
-
-.cw-card-title {
-  font-size: 10.5px;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  color: var(--brown-700);
-  margin-bottom: 8px;
-  padding-bottom: 5px;
-  border-bottom: 1px solid var(--brown-100);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.cw-badge {
-  font-size: 10px;
-  font-weight: 700;
-  background: var(--brown-800);
-  color: #fff;
-  padding: 1px 6px;
-  border-radius: 99px;
-  letter-spacing: 0;
-}
-
-/* ─ BÁT CƯƠNG ─ */
-.cw-bc-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6px;
-}
-.cw-bc-box {
-  border-radius: 8px;
-  padding: 6px 8px;
-  display: flex;
-  flex-direction: column;
-  gap: 1px;
-}
-.cw-bc-box--am   { background: #fef2f0; border: 1px solid #f5d0c7; }
-.cw-bc-box--bieu { background: #fdf8f0; border: 1px solid #e8d9bc; }
-.cw-bc-box--nhiet { background: #fff8f0; border: 1px solid #f5d0a0; }
-.cw-bc-box--thuc { background: #f0f7f0; border: 1px solid #b8d9b8; }
-.cw-bc-lbl { font-size: 10px; color: var(--gray-500); font-weight: 600; }
-.cw-bc-val { font-size: 12.5px; font-weight: 800; color: var(--brown-800); }
-.cw-hoichung {
-  margin-top: 8px;
-  font-size: 11.5px;
-  font-weight: 700;
-  color: var(--brown-700);
-  background: var(--brown-50);
-  border: 1px solid var(--brown-200);
-  border-radius: 6px;
-  padding: 5px 8px;
-  text-align: center;
-}
-
-/* ─ 12 ĐƯỜNG KINH ─ */
-.cw-meridian-groups { display: flex; flex-direction: column; gap: 8px; }
-.cw-mg-group { display: flex; flex-direction: column; gap: 4px; }
-.cw-mg-lbl {
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-.cw-mg-lbl--thuc { color: #a82e1e; }
-.cw-mg-lbl--hu   { color: #235885; }
-.cw-mg-chips { display: flex; flex-wrap: wrap; gap: 4px; }
-.cw-mg-chip {
-  font-size: 11px;
-  font-weight: 700;
-  padding: 2px 8px;
-  border-radius: 5px;
-}
-.cw-mg-chip--thuc { background: #fce8e4; color: #a82e1e; }
-.cw-mg-chip--hu   { background: #e4eef6; color: #235885; }
-.cw-mg-empty {
-  font-size: 11px;
-  color: var(--gray-400);
-  font-style: italic;
-  margin: 0;
-}
-
-/* ─ THỂ BỆNH ─ */
-.cw-syndromes { display: flex; flex-direction: column; gap: 4px; }
-.cw-synd-item {
-  font-size: 12px;
-  font-weight: 600;
-  padding: 6px 10px;
-  border-radius: 7px;
-  border: 1px solid var(--brown-100);
-  background: var(--surface-2);
-  cursor: pointer;
-  transition: all 0.15s;
-  color: var(--brown-800);
-  line-height: 1.3;
-}
-.cw-synd-item:hover { background: var(--brown-100); }
-.cw-synd-item.active {
-  background: var(--brown-800);
-  color: #fff;
-  border-color: var(--brown-800);
 }
 
 /* Header */

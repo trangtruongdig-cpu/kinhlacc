@@ -126,13 +126,13 @@ export function phuongHuyetBoMauTaCon(gocOrgan: string, thuc: boolean): PhuongHu
     const targetHuyet = chiDinh(gocOrgan, sonHanh, 'ta')
     if (!targetHuyet) return null
     const giaiThich = `Thực thì tả Tử (Nạn Kinh 69): ${eTen} quá THỰC → TẢ ${sonTen} (${targetHuyet.huyet} · ${targetHuyet.role} huyệt kinh ${gocOrgan}) để rút bớt thực khí dư thừa.`
-    return { gocOrgan, hanhE, hanhETen: eTen, thuc, targetHuyet, giaiThich, targetHanhTen: sonTen, relationType: 'ta-tu' }
+    return { gocOrgan, hanhE, hanhETen: eTen, thuc, targetHuyet, giaiThich }
   } else {
     const motherHanh = motherOf(hanhE)
     const motherTen = HANH_TEN[motherHanh]
     const targetHuyet = chiDinh(gocOrgan, motherHanh, 'bo')
     if (!targetHuyet) return null
     const giaiThich = `Hư thì bổ Mẫu (Nạn Kinh 69): ${eTen} suy HƯ → BỔ ${motherTen} (${targetHuyet.huyet} · ${targetHuyet.role} huyệt kinh ${gocOrgan}) để bồi dưỡng khí sinh cho bản hành.`
-    return { gocOrgan, hanhE, hanhETen: eTen, thuc, targetHuyet, giaiThich, targetHanhTen: motherTen, relationType: 'bo-mau' }
+    return { gocOrgan, hanhE, hanhETen: eTen, thuc, targetHuyet, giaiThich }
   }
 }
