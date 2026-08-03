@@ -509,7 +509,7 @@ async function handleDelete() {
               :class="{ 'is-active': activeCategoryTab === 'standard' }"
               @click="activeCategoryTab = 'standard'"
             >
-              Thể Bệnh YHCT Cổ Truyền (58 Bệnh)
+              Mô Hình Bệnh Đông Y
             </button>
             <button
               type="button"
@@ -517,7 +517,7 @@ async function handleDelete() {
               :class="{ 'is-active': activeCategoryTab === 'nhht' }"
               @click="activeCategoryTab = 'nhht'"
             >
-              Mô Hình Ngũ Hành Hồi Tác &amp; Nạn Kinh 69 (24 Thể)
+              Ngũ Hành Hồi Tác và Bổ "Mẫu" Tả "Tử"
             </button>
           </div>
         </div>
@@ -1090,16 +1090,12 @@ async function handleDelete() {
   overflow: hidden;
   background: var(--white);
 }
-.huyet-table__head,
-.huyet-table__row {
+.huyet-table__head {
   display: grid;
   grid-template-columns: minmax(120px, 1.4fr) minmax(90px, 0.9fr) minmax(140px, 1.6fr) minmax(120px, 1.4fr);
   gap: var(--space-2);
-  padding: 6px var(--space-2);
+  padding: 8px var(--space-2);
   align-items: center;
-}
-.ynghia-text { color: var(--brown-800, #7c4a1e); font-weight: 600; }
-.huyet-table__head {
   background: var(--surface-2);
   border-bottom: 1px solid var(--gray-100);
   font-size: 10px;
@@ -1108,11 +1104,20 @@ async function handleDelete() {
   letter-spacing: 0.06em;
   color: var(--gray-500);
 }
+.huyet-table__row {
+  display: grid;
+  grid-template-columns: minmax(120px, 1.4fr) minmax(90px, 0.9fr) minmax(140px, 1.6fr) minmax(120px, 1.4fr);
+  gap: var(--space-2);
+  padding: 10px var(--space-2);
+  align-items: flex-start;
+}
+.ynghia-text { color: var(--brown-800, #7c4a1e); font-weight: 600; line-height: 1.45; margin-top: 1px; display: block; }
 .huyet-table__row + .huyet-table__row { border-top: 1px solid var(--gray-100); }
 .huyet-table__row:hover { background: var(--surface-2); }
-.ht-col { font-size: var(--font-size-sm); color: var(--gray-800); min-width: 0; word-break: break-word; }
+.ht-col { font-size: var(--font-size-sm); color: var(--gray-800); min-width: 0; word-break: break-word; display: flex; flex-direction: column; align-items: flex-start; }
+.ht-col--method { padding-top: 1px; }
 .ht-col--name { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; }
-.ht-kinh { font-size: 11px; color: var(--gray-500); }
+.ht-kinh { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
 
 .note-text {
   display: -webkit-box;
