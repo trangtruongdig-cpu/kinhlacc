@@ -1,7 +1,6 @@
 <script setup lang="ts">
 // Mục nhỏ của Section IV — PHƯƠNG HUYỆT NGŨ DU (theo Ngũ Hành Hồi Tác & Bổ Mẫu Tả Tử Nạn Kinh 69).
-// Kết nối trực tiếp với phép đo Hư - Thực thực tế của 12 đường kinh từ Bát Cương.
-// Giao diện phẳng chuyên nghiệp (bỏ emoji icon), thu gọn chi tiết và lưu phác đồ vào DB.
+// Kết nối trực tiếp và tự động đối sánh từ kết quả đo 12 đường kinh thực tế của ca bệnh.
 import { ref, reactive, computed, watch, onMounted } from 'vue'
 import { api } from '@/services/api'
 import { KINH_THEO_HANH, KINH, hanhCuaKinh, type HanhId } from '@/lib/nguDuHuyet'
@@ -193,45 +192,6 @@ const rx = computed(() => {
   }
   return { ta: [...ta.values()], bo: [...bo.values()] }
 })
-
-// Trạng thái đồng bộ thực sự vào Database Tab Phương Huyệt (/phac-do-dieu-tri API)
-const isSyncing = ref(false)
-const syncMsg = ref<string | null>(null)
-
-async function saveToPrescriptionTab() {
-  const allItems = [...rx.value.ta, ...rx.value.bo]
-  if (!allItems.length) return
-
-  isSyncing.value = true
-  syncMsg.value = null
-  let countSuccess = 0
-
-  let targetBenhId = 1
-  if (props.matchedBenhIds && props.matchedBenhIds.length > 0) {
-    targetBenhId = props.matchedBenhIds[0]
-  }
-
-  try {
-    for (const item of allItems) {
-      if (item.rec?.idHuyet) {
-        await api.post('/phac-do-dieu-tri', {
-          id_benh: targetBenhId,
-          id_huyet: item.rec.idHuyet,
-          phuong_phap_tac_dong: item.phuongPhap,
-          ghi_chu_ky_thuat: `Thuật toán ${activeMode.value === 'nhht' ? 'Ngũ Hành Hồi Tác' : 'Bổ Mẫu Tả Tử'}`,
-          y_nghia_huyet: `${item.role} ${item.hanhTen} huyệt kinh ${item.kinh} (Điều trị ${item.targetOrgan})`
-        })
-        countSuccess++
-      }
-    }
-    syncMsg.value = `Đã lưu thành công ${countSuccess} huyệt vào Tab Quản Lý Phương Huyệt (DB)!`
-  } catch (e: any) {
-    syncMsg.value = `Đồng bộ thất bại: ${e.message || 'Lỗi kết nối API'}`
-  } finally {
-    isSyncing.value = false
-    setTimeout(() => { syncMsg.value = null }, 5000)
-  }
-}
 </script>
 
 <template>
@@ -265,7 +225,7 @@ async function saveToPrescriptionTab() {
     <div class="ngd-organ-selector-box">
       <div class="ngd-selector-label">
         <b>ĐƯỜNG KINH / TẠNG PHỦ TỔN THƯƠNG DO ĐẠC:</b>
-        <span class="ngd-selector-hint">(Đồng bộ trực tiếp từ 12 đường kinh bị Hư/Thực trong Bát Cương)</span>
+        <span class="ngd-selector-hint">(Tự động khớp từ 12 đường kinh bị Hư/Thực trong Bát Cương)</span>
       </div>
       <div class="ngd-organ-chips">
         <button
@@ -289,25 +249,13 @@ async function saveToPrescriptionTab() {
       </div>
     </div>
 
-    <!-- KHỐI TỔNG HỢP CHỈ ĐỊNH PHƯƠNG HUYỆT CA BỆNH -->
+    <!-- KHỐI TỔNG HỢP CHỈ ĐỊNH PHƯƠNG HUYỆT CA BỆNH (HIỂN THỊ TỰ ĐỘNG THEO MÔ HÌNH CHUẨN) -->
     <div v-if="rx.ta.length || rx.bo.length" class="ngd-prescription-box">
       <div class="ngd-rx-header">
         <div class="ngd-rx-title-group">
           <b>CHỈ ĐỊNH PHƯƠNG HUYỆT CA BỆNH</b>
-          <span class="ngd-rx-sub">(Tổng hợp huyệt tác động trực tiếp vào các đường kinh tổn thương)</span>
+          <span class="ngd-rx-sub">(Tự động khớp mô hình chuẩn từ chỉ số đo đạc 12 đường kinh)</span>
         </div>
-        <button
-          type="button"
-          class="ngd-save-btn"
-          :disabled="isSyncing"
-          @click="saveToPrescriptionTab"
-        >
-          {{ isSyncing ? 'Đang lưu DB...' : 'Lưu phác đồ vào Tab Phương Huyệt (DB)' }}
-        </button>
-      </div>
-
-      <div v-if="syncMsg" class="ngd-sync-toast" :class="{ 'is-err': syncMsg.startsWith('Đồng bộ thất bại') }">
-        {{ syncMsg }}
       </div>
 
       <div class="ngd-rx-body">
@@ -492,13 +440,6 @@ async function saveToPrescriptionTab() {
 .ngd-rx-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #ebd9c3; padding-bottom: 6px; flex-wrap: wrap; gap: 8px; }
 .ngd-rx-title-group { font-size: 0.88rem; color: var(--brown-900, #3a2618); }
 .ngd-rx-sub { font-size: 0.75rem; font-weight: normal; color: var(--gray-500, #8a7c68); margin-left: 6px; }
-
-.ngd-save-btn { font-size: 0.78rem; font-weight: 700; background: #2e5c1e; color: #fff; border: 1px solid #2e5c1e; padding: 5px 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-.ngd-save-btn:hover { background: #234717; }
-.ngd-save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-.ngd-sync-toast { font-size: 0.8rem; font-weight: 700; background: #e4f3de; color: #2e5c1e; border: 1px solid #b7e0ab; padding: 6px 12px; border-radius: 6px; margin-bottom: 10px; }
-.ngd-sync-toast.is-err { background: #fce8e4; color: #a82e1e; border-color: #f3c2b8; }
 
 .ngd-rx-body { display: flex; flex-direction: column; gap: 10px; }
 .ngd-rx-group { display: flex; flex-direction: column; gap: 6px; }
