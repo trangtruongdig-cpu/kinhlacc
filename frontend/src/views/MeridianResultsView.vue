@@ -3557,6 +3557,7 @@ watch(
               <PhuongHuyetNguDu
                 :z="nguHanhZ"
                 :hu-thuc="diagnosis.huThuc"
+                :lech-rows="diagnosis.explain?.huThuc?.lechRows"
                 @goto-acu="gotoAcuMap"
                 @goto-dict="gotoTuDien"
               />

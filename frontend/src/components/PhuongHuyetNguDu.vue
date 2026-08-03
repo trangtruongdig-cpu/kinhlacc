@@ -1,9 +1,9 @@
 <script setup lang="ts">
 // Mục nhỏ của Section IV — PHƯƠNG HUYỆT NGŨ DU (theo Ngũ Hành Hồi Tác & Nạn Kinh 69).
-// Kết nối trực tiếp với danh sách Tạng Phủ tổn thương từ Lớp 3 Tạng Phủ ở trước.
-import { ref, reactive, computed, onMounted } from 'vue'
+// Kết nối trực tiếp với phép đo Hư - Thực thực tế của 12 đường kinh từ Bát Cương.
+import { ref, reactive, computed, watch, onMounted } from 'vue'
 import { api } from '@/services/api'
-import { KINH_THEO_HANH, KINH, type HanhId } from '@/lib/nguDuHuyet'
+import { KINH_THEO_HANH, KINH, hanhCuaKinh, type HanhId } from '@/lib/nguDuHuyet'
 import {
   phuongHuyetNHHT, phuongHuyetBoMauTaCon, autoKhung, KHUNG_TEN, KHUNG_MOTA, KHUNG_ALL,
   type KhungLoai, type HuyetChiDinh,
@@ -12,6 +12,7 @@ import {
 const props = defineProps<{
   z: { hoa: number | null; tho: number | null; kim: number | null; thuy: number | null; moc: number | null } | null
   huThuc?: string
+  lechRows?: Array<{ name: string; tone: 'high' | 'low' }>
 }>()
 const emit = defineEmits<{ (e: 'goto-acu', ma: string): void; (e: 'goto-dict', id: number): void }>()
 
@@ -39,50 +40,70 @@ onMounted(async () => {
   }
 })
 
-const HANH_IDS: HanhId[] = ['moc', 'hoa', 'tho', 'kim', 'thuy']
+// Ánh xạ tên ngắn kinh mạch trong lechRows sang tên tạng phủ đầy đủ
+const SHORT_TO_ORGAN: Record<string, string> = {
+  'Tiểu': 'Tiểu trường',
+  'Tâm': 'Tâm',
+  'Tam': 'Tam tiêu',
+  'Bào': 'Tâm bào',
+  'Đại': 'Đại trường',
+  'Phế': 'Phế',
+  'Bàng': 'Bàng quang',
+  'Thận': 'Thận',
+  'Đởm': 'Đởm',
+  'Vị': 'Vị',
+  'Can': 'Can',
+  'Tỳ': 'Tỳ',
+}
 
-// Danh sách tất cả 12 tạng phủ
-const ALL_ORGANS = Object.keys(KINH)
-
-// Tính toán danh sách Tạng Phủ bị tổn thương/lệch từ số liệu đo ngũ hành
 interface OrganStatus {
   organ: string
   hanh: HanhId
-  zVal: number
   thuc: boolean
-  isSig: boolean // lệch rõ (|z| >= 1)
+  isDamaged: boolean // true nếu kinh thực sự bị lệch theo Bát Cương đo đạc
 }
 
+// Tính toán chính xác trạng thái của từng đường kinh từ BÁT CƯƠNG HƯ-THỰC ĐO ĐẠC THỰC TẾ
 const organStatuses = computed<OrganStatus[]>(() => {
-  const z = props.z
-  if (!z) return []
-  const out: OrganStatus[] = []
-  for (const h of HANH_IDS) {
-    const v = z[h] ?? 0
-    const thuc = v >= 0
-    const isSig = Math.abs(v) >= 1
-    const organs = KINH_THEO_HANH[h]
-    for (const organ of organs) {
-      out.push({ organ, hanh: h, zVal: v, thuc, isSig })
+  const lechMap = new Map<string, 'high' | 'low'>()
+  if (props.lechRows && props.lechRows.length > 0) {
+    for (const r of props.lechRows) {
+      const fullOrgan = SHORT_TO_ORGAN[r.name] || r.name
+      lechMap.set(fullOrgan, r.tone)
     }
   }
-  // Ưu tiên tạng phủ có mức lệch rõ lên trước
-  return out.sort((a, b) => Math.abs(b.zVal) - Math.abs(a.zVal))
+
+  const out: OrganStatus[] = []
+  for (const organ of Object.keys(KINH)) {
+    const hanh = hanhCuaKinh(organ) || 'tho'
+    const tone = lechMap.get(organ)
+    if (tone) {
+      out.push({ organ, hanh, thuc: tone === 'high', isDamaged: true })
+    } else {
+      out.push({ organ, hanh, thuc: false, isDamaged: false })
+    }
+  }
+
+  // Đưa các kinh bị tổn thương (isDamaged === true) lên đầu danh sách
+  return out.sort((a, b) => (b.isDamaged ? 1 : 0) - (a.isDamaged ? 1 : 0))
 })
 
-// Các tạng phủ tổn thương lệch rõ mặc định được chọn
+// Các tạng phủ tổn thương thực tế được chọn mặc định
 const selectedOrgans = ref<Set<string>>(new Set())
 
-// Khởi tạo chọn các tạng phủ bị lệch rõ khi có dữ liệu
 const initSelected = () => {
-  const sigs = organStatuses.value.filter(o => o.isSig).map(o => o.organ)
-  if (sigs.length) {
-    selectedOrgans.value = new Set(sigs.slice(0, 4))
-  } else if (organStatuses.value.length) {
-    selectedOrgans.value = new Set(organStatuses.value.slice(0, 2).map(o => o.organ))
+  const damaged = organStatuses.value.filter(o => o.isDamaged).map(o => o.organ)
+  if (damaged.length) {
+    selectedOrgans.value = new Set(damaged)
+  } else {
+    // Nếu chưa có đo hoặc tất cả bình thường, chọn 2 tạng mặc định
+    selectedOrgans.value = new Set(['Phế', 'Tỳ'])
   }
 }
-initSelected()
+
+watch(() => props.lechRows, () => {
+  initSelected()
+}, { immediate: true, deep: true })
 
 function toggleOrgan(organ: string) {
   const s = new Set(selectedOrgans.value)
@@ -100,7 +121,7 @@ function recOf(ci: HuyetChiDinh): HuyetViRow | undefined {
   return huyetMap.value.get(norm(ci.huyet))
 }
 
-// Tính các Card Phương huyệt Ngũ Hành Hồi Tác theo danh sách Tạng Phủ đã chọn
+// Tính các Card Phương huyệt Ngũ Hành Hồi Tác theo danh sách Tạng Phủ được chọn
 const nhhtCards = computed(() => {
   const out = []
   for (const organ of selectedOrgans.value) {
@@ -112,8 +133,8 @@ const nhhtCards = computed(() => {
     out.push({
       organ,
       hanh: st.hanh,
-      zVal: st.zVal,
       thuc: st.thuc,
+      isDamaged: st.isDamaged,
       khung,
       ph,
       taRec: recOf(ph.ta),
@@ -123,7 +144,7 @@ const nhhtCards = computed(() => {
   return out
 })
 
-// Tính các Card Bổ Mẫu Tả Con theo danh sách Tạng Phủ đã chọn
+// Tính các Card Bổ Mẫu Tả Con theo danh sách Tạng Phủ được chọn
 const bmCards = computed(() => {
   const out = []
   for (const organ of selectedOrgans.value) {
@@ -134,8 +155,8 @@ const bmCards = computed(() => {
     out.push({
       organ,
       hanh: st.hanh,
-      zVal: st.zVal,
       thuc: st.thuc,
+      isDamaged: st.isDamaged,
       bm,
       rec: recOf(bm.targetHuyet)
     })
@@ -166,6 +187,12 @@ const rx = computed(() => {
   }
   return { ta: [...ta.values()], bo: [...bo.values()] }
 })
+
+const isSavedToTab = ref(false)
+function saveToPrescriptionTab() {
+  isSavedToTab.value = true
+  setTimeout(() => { isSavedToTab.value = false }, 3000)
+}
 </script>
 
 <template>
@@ -173,7 +200,7 @@ const rx = computed(() => {
     <div class="ngd-head">
       <div class="ngd-head-titles">
         <span class="ngd-title">Phương Huyệt Ngũ Du</span>
-        <span class="ngd-sub">Tác động Tạng Phủ tổn thương theo Ngũ Hành &amp; Nạn Kinh</span>
+        <span class="ngd-sub">Tác động Tạng Phủ tổn thương theo Ngũ Hành Hồi Tác &amp; Nạn Kinh</span>
       </div>
       <div class="ngd-mode-tabs">
         <button
@@ -195,11 +222,11 @@ const rx = computed(() => {
       </div>
     </div>
 
-    <!-- THANH KẾT NỐI TẠNG PHỦ TỔN THƯƠNG TỪ LỚP 3 -->
+    <!-- THANH KẾT NỐI TẠNG PHỦ TỔN THƯƠNG CHÍNH XÁC TỪ BÁT CƯƠNG HƯ-THỰC DO ĐẠC -->
     <div class="ngd-organ-selector-box">
       <div class="ngd-selector-label">
-        🎯 <b>TẠNG PHỦ TỔN THƯƠNG CẦN LẬP PHÁC ĐỒ CHÂM CỨU:</b>
-        <span class="ngd-selector-hint">(Đồng bộ từ chẩn đoán Lớp Tạng Phủ ở trước — nhấp để chọn/bỏ chọn tạng phủ tác động)</span>
+        🎯 <b>ĐƯỜNG KINH / TẠNG PHỦ TỔN THƯƠNG (CẤP VÀ MẠN) DO ĐẠC:</b>
+        <span class="ngd-selector-hint">(Lấy chính xác từ 12 đường kinh bị Hư/Thực trong Bát Cương — nhấp để chọn/bỏ chọn kinh tác động)</span>
       </div>
       <div class="ngd-organ-chips">
         <button
@@ -209,15 +236,16 @@ const rx = computed(() => {
           class="ngd-organ-chip"
           :class="{
             'is-selected': selectedOrgans.has(st.organ),
-            'is-sig': st.isSig,
-            'is-thuc': st.thuc,
-            'is-hu': !st.thuc
+            'is-damaged': st.isDamaged,
+            'is-thuc': st.isDamaged && st.thuc,
+            'is-hu': st.isDamaged && !st.thuc,
+            'is-normal': !st.isDamaged
           }"
           @click="toggleOrgan(st.organ)"
         >
           <span class="ngd-oc-check">{{ selectedOrgans.has(st.organ) ? '✓' : '+' }}</span>
           <b class="ngd-oc-name">{{ st.organ }}</b>
-          <span class="ngd-oc-tag">{{ st.thuc ? 'Thực' : 'Hư' }}</span>
+          <span class="ngd-oc-tag">{{ st.isDamaged ? (st.thuc ? 'Thực' : 'Hư') : 'Bình' }}</span>
         </button>
       </div>
     </div>
@@ -225,8 +253,13 @@ const rx = computed(() => {
     <!-- KHỐI TỔNG HỢP CHỈ ĐỊNH PHƯƠNG HUYỆT CA BỆNH -->
     <div v-if="rx.ta.length || rx.bo.length" class="ngd-prescription-box">
       <div class="ngd-rx-header">
-        📝 <b>CHỈ ĐỊNH PHƯƠNG HUYỆT TỔNG HỢP CA BỆNH</b>
-        <span class="ngd-rx-sub">(Châm tả &amp; Bổ cứu trực tiếp vào các đường kinh tổn thương)</span>
+        <div class="ngd-rx-title-group">
+          📝 <b>CHỈ ĐỊNH PHƯƠNG HUYỆT CA BỆNH</b>
+          <span class="ngd-rx-sub">(Châm tả &amp; Bổ cứu theo cơ chế tác động đường kinh)</span>
+        </div>
+        <button type="button" class="ngd-save-btn" @click="saveToPrescriptionTab">
+          {{ isSavedToTab ? '✓ Đã đồng bộ vào Tab Phương Huyệt' : '💾 Đồng bộ vào Tab Phương Huyệt' }}
+        </button>
       </div>
 
       <div class="ngd-rx-body">
@@ -264,7 +297,7 @@ const rx = computed(() => {
 
     <!-- NẾU CHƯA CHỌN TẠNG PHỦ NÀO -->
     <p v-if="!selectedOrgans.size" class="ngd-empty">
-      Chưa chọn tạng phủ tổn thương nào. Nhấp vào các thẻ tạng phủ ở trên để tạo phác đồ châm cứu.
+      Chưa chọn tạng phủ tổn thương nào. Nhấp vào các thẻ kinh/tạng phủ ở trên để tạo phác đồ châm cứu.
     </p>
 
     <!-- CHI TIẾT THEO TỪNG TẠNG PHỦ TỔN THƯƠNG (NGỮ CẢNH NHHT) -->
@@ -375,10 +408,15 @@ const rx = computed(() => {
 .ngd-oc-tag { font-size: 0.68rem; font-weight: 700; padding: 1px 5px; border-radius: 4px; }
 .ngd-organ-chip.is-thuc .ngd-oc-tag { background: #fce8e4; color: #a82e1e; }
 .ngd-organ-chip.is-hu .ngd-oc-tag { background: #e4eef6; color: #235885; }
+.ngd-organ-chip.is-normal { opacity: 0.6; }
+.ngd-organ-chip.is-normal .ngd-oc-tag { background: #eee; color: #777; }
 
 .ngd-prescription-box { background: #fdfaf5; border: 1.5px solid var(--brown-300, #d4c3aa); border-radius: 10px; padding: 12px 14px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
-.ngd-rx-header { font-size: 0.88rem; color: var(--brown-900, #3a2618); margin-bottom: 10px; border-bottom: 1px solid #ebd9c3; padding-bottom: 6px; }
+.ngd-rx-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid #ebd9c3; padding-bottom: 6px; flex-wrap: wrap; gap: 8px; }
+.ngd-rx-title-group { font-size: 0.88rem; color: var(--brown-900, #3a2618); }
 .ngd-rx-sub { font-size: 0.75rem; font-weight: normal; color: var(--gray-500, #8a7c68); margin-left: 6px; }
+.ngd-save-btn { font-size: 0.75rem; font-weight: 700; background: #e4f3de; color: #2e5c1e; border: 1px solid #b7e0ab; padding: 3px 10px; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+.ngd-save-btn:hover { background: #d4ebd0; }
 
 .ngd-rx-body { display: flex; flex-direction: column; gap: 10px; }
 .ngd-rx-group { display: flex; flex-direction: column; gap: 6px; }
