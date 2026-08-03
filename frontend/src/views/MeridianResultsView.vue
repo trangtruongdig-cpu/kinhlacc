@@ -4006,6 +4006,76 @@ watch(
                 <BienChungWheel v-else class="bcpt-wheel" :lop="dinhViLop" :dinhvi="dinhViWheel" />
               </div>
               <div class="bcpt-wheel-side">
+                <!-- 1. THỂ BỆNH ĐÃ CHỐT -->
+                <div class="bcpt-the">
+                  <span class="bcpt-the-lb">Thể bệnh:</span>
+                  <template v-if="excelSyndromesList.length">
+                    <span v-for="s in (excelSyndromesList as Array<{ id: number; name: string }>)" :key="s.id" class="bcpt-the-chip">{{ s.name }}</span>
+                  </template>
+                  <span v-else class="bcpt-empty">chưa xác định thể bệnh</span>
+                </div>
+
+                <!-- 2. KẾT LUẬN LỤC KINH (Thương Hàn) -->
+                <section v-if="lucKinhVerdict" class="lk-verdict" :class="'lk-verdict--' + lucKinhVerdict.doTin">
+                  <div class="lk-verdict-head">
+                    <span class="lk-eyebrow">◎ Kết luận Lục Kinh</span>
+                    <b class="lk-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
+                    <span class="lk-giaidoan">{{ lucKinhVerdict.giaiDoan }}</span>
+                    <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-hopbenh">+ {{ lucKinhVerdict.phu.ten }}</span>
+                    <span class="lk-badge" :class="'lk-badge--' + lucKinhVerdict.doTin">độ tin {{ lucKinhVerdict.doTin }}</span>
+                  </div>
+                  <div v-if="bienChung" class="lk-chips">
+                    <div class="lk-chip-row">
+                      <span class="lk-chip-lb">Định vị</span>
+                      <button
+                        v-for="c in dinhViKinhChips"
+                        :key="c.slug"
+                        type="button"
+                        class="lk-kchip lk-kchip--btn"
+                        :class="{ troi: c.troi, 'is-focus': focusKinh === c.slug }"
+                        :data-kinh="c.slug"
+                        :title="'Bấm để soi ' + c.ten + ' trên đồ hình'"
+                        @click="soiKinh(c.slug)"
+                      >
+                        <b v-if="c.troi">◉ </b>{{ c.ten }}<em v-if="c.count"> ·{{ c.count }}</em>
+                      </button>
+                    </div>
+                    <div class="lk-chip-row">
+                      <span class="lk-chip-lb">Chuyển biến</span>
+                      <template v-if="bienChung.chuyenBien">
+                        <span class="lk-cb lk-cb--vaoly" :title="bienChung.chuyenBien.vaoLy.coChe">↓ vào lý → {{ bienChung.chuyenBien.vaoLy.ten }}</span>
+                        <span class="lk-cb lk-cb--rabieu" :title="bienChung.chuyenBien.raBieu.coChe">↑ ra biểu → {{ bienChung.chuyenBien.raBieu.ten }}</span>
+                      </template>
+                      <span v-else class="lk-cb lk-cb--none" :title="bienChung.cbLyDo">— chưa suy (định vị chưa chắc)</span>
+                    </div>
+                  </div>
+                  <details class="lk-details">
+                    <summary class="lk-summary">Vì sao · pháp trị · thể ngoài phạm vi</summary>
+                    <p class="lk-ketluan">{{ lucKinhVerdict.ketLuan }}</p>
+                    <ul class="lk-lydo">
+                      <li v-for="(r, i) in lucKinhVerdict.lyDo" :key="i">{{ r }}</li>
+                    </ul>
+                    <p v-if="lucKinhVerdict.theNgoai.length" class="lk-ngoai">
+                      Ngoài phạm vi Thương Hàn (chưa phân tích sâu): {{ lucKinhVerdict.theNgoai.join(', ') }}.
+                    </p>
+                  </details>
+                </section>
+                <p v-else-if="excelSyndromesList.length" class="lk-none">
+                  Các thể đo được chưa thuộc phạm vi Thương Hàn Lục Kinh — chưa định vị (có thể là nội thương / ôn bệnh / tạp bệnh).
+                </p>
+
+                <!-- 3. TÍNH CHẤT BÁT CƯƠNG · CHÍNH KHÍ -->
+                <section v-if="!dinhViLoading && tinhChatAxis" class="bcpt-axis bcpt-axis--tinhchat">
+                  <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ tinhChatAxis.num }}</span> {{ tinhChatAxis.title }} <em>{{ tinhChatAxis.sub }}</em></h3>
+                  <div v-for="sg in tinhChatAxis.subgroups" :key="sg.nhom" class="bcpt-sub">
+                    <span class="bcpt-sub-lb">{{ sg.label }}</span>
+                    <div class="bcpt-chips">
+                      <span v-for="t in sg.tags" :key="t.name" class="bcpt-chip bcpt-chip--on" :title="t.name">{{ t.label }}</span>
+                      <span v-if="!sg.tags.length" class="bcpt-empty">—</span>
+                    </div>
+                  </div>
+                </section>
+
                 <p v-if="dinhViLop === 5" class="bcpt-wheel-cap">Lớp Lục Kinh — <b style="color:#c99a2e">viền vàng đậm</b> = kinh <b>định vị (trội)</b> · viền vàng nhạt = kinh của ca · <b style="color:#e35a2f">đỏ</b> = có thể <b>vào lý (nặng)</b> · <b style="color:#5f9e4a">xanh</b> = có thể <b>ra biểu (hồi phục)</b>. Trục nét đứt = cặp biểu-lý.</p>
                 <p v-else-if="dinhViLop === 4" class="bcpt-wheel-cap">Lớp Lục Khí: rê một <b>Khí</b> → tia Khí → Kinh (bản khí) → Tạng/Phủ; tâm <b>Ngũ Hành</b> sinh-khắc. Số = <b>tạng bị tác động</b> theo khí (Hàn/Nhiệt).</p>
                 <p v-else-if="dinhViLop === 3" class="bcpt-wheel-cap">Lớp Tạng Phủ — ngôi sao <b>Ngũ Hành méo theo số đo</b>: đỉnh <b style="color:#35638d">co vào = tạng HƯ</b> (suy), <b style="color:#b23a29">đẩy ra = THỰC</b> (dư). Dây <b style="color:#b23a29">đỏ</b> = tương thừa (khắc quá), <b style="color:#8a2f4f">mận</b> = tương vũ; viền vàng = tạng <b>gốc</b>. So với ngũ giác mờ (mốc cân bằng) để thấy độ xộc xệch.</p>
@@ -4048,84 +4118,6 @@ watch(
               </div>
             </div>
           </template>
-
-          <!-- 2. CÁC KHỐI PHÂN TÍCH CHI TIẾT TỪ ĐỒ HÌNH SUY RA (XẾP 2 CỘT NGANG) -->
-          <div class="bcpt-top-grid">
-            <!-- CỘT TRÁI: Thể bệnh + Kết luận Lục Kinh -->
-            <div class="bcpt-top-left">
-              <div class="bcpt-the">
-                <span class="bcpt-the-lb">Thể bệnh:</span>
-                <template v-if="excelSyndromesList.length">
-                  <span v-for="s in (excelSyndromesList as Array<{ id: number; name: string }>)" :key="s.id" class="bcpt-the-chip">{{ s.name }}</span>
-                </template>
-                <span v-else class="bcpt-empty">chưa xác định thể bệnh</span>
-              </div>
-
-              <!-- KẾT LUẬN LỤC KINH (Thương Hàn) -->
-              <section v-if="lucKinhVerdict" class="lk-verdict" :class="'lk-verdict--' + lucKinhVerdict.doTin">
-                <div class="lk-verdict-head">
-                  <span class="lk-eyebrow">◎ Kết luận Lục Kinh</span>
-                  <b class="lk-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
-                  <span class="lk-giaidoan">{{ lucKinhVerdict.giaiDoan }}</span>
-                  <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-hopbenh">+ {{ lucKinhVerdict.phu.ten }}</span>
-                  <span class="lk-badge" :class="'lk-badge--' + lucKinhVerdict.doTin">độ tin {{ lucKinhVerdict.doTin }}</span>
-                </div>
-                <div v-if="bienChung" class="lk-chips">
-                  <div class="lk-chip-row">
-                    <span class="lk-chip-lb">Định vị</span>
-                    <button
-                      v-for="c in dinhViKinhChips"
-                      :key="c.slug"
-                      type="button"
-                      class="lk-kchip lk-kchip--btn"
-                      :class="{ troi: c.troi, 'is-focus': focusKinh === c.slug }"
-                      :data-kinh="c.slug"
-                      :title="'Bấm để soi ' + c.ten + ' trên đồ hình'"
-                      @click="soiKinh(c.slug)"
-                    >
-                      <b v-if="c.troi">◉ </b>{{ c.ten }}<em v-if="c.count"> ·{{ c.count }}</em>
-                    </button>
-                  </div>
-                  <div class="lk-chip-row">
-                    <span class="lk-chip-lb">Chuyển biến</span>
-                    <template v-if="bienChung.chuyenBien">
-                      <span class="lk-cb lk-cb--vaoly" :title="bienChung.chuyenBien.vaoLy.coChe">↓ vào lý → {{ bienChung.chuyenBien.vaoLy.ten }}</span>
-                      <span class="lk-cb lk-cb--rabieu" :title="bienChung.chuyenBien.raBieu.coChe">↑ ra biểu → {{ bienChung.chuyenBien.raBieu.ten }}</span>
-                    </template>
-                    <span v-else class="lk-cb lk-cb--none" :title="bienChung.cbLyDo">— chưa suy (định vị chưa chắc)</span>
-                  </div>
-                </div>
-                <details class="lk-details">
-                  <summary class="lk-summary">Vì sao · pháp trị · thể ngoài phạm vi</summary>
-                  <p class="lk-ketluan">{{ lucKinhVerdict.ketLuan }}</p>
-                  <ul class="lk-lydo">
-                    <li v-for="(r, i) in lucKinhVerdict.lyDo" :key="i">{{ r }}</li>
-                  </ul>
-                  <p v-if="lucKinhVerdict.theNgoai.length" class="lk-ngoai">
-                    Ngoài phạm vi Thương Hàn (chưa phân tích sâu): {{ lucKinhVerdict.theNgoai.join(', ') }}.
-                  </p>
-                </details>
-              </section>
-              <p v-else-if="excelSyndromesList.length" class="lk-none">
-                Các thể đo được chưa thuộc phạm vi Thương Hàn Lục Kinh — chưa định vị (có thể là nội thương / ôn bệnh / tạp bệnh).
-              </p>
-            </div>
-
-            <!-- CỘT PHẢI: Tính chất Bát Cương -->
-            <div class="bcpt-top-right">
-              <!-- TÍNH CHẤT BÁT CƯƠNG · CHÍNH KHÍ -->
-              <section v-if="!dinhViLoading && tinhChatAxis" class="bcpt-axis bcpt-axis--tinhchat">
-                <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ tinhChatAxis.num }}</span> {{ tinhChatAxis.title }} <em>{{ tinhChatAxis.sub }}</em></h3>
-                <div v-for="sg in tinhChatAxis.subgroups" :key="sg.nhom" class="bcpt-sub">
-                  <span class="bcpt-sub-lb">{{ sg.label }}</span>
-                  <div class="bcpt-chips">
-                    <span v-for="t in sg.tags" :key="t.name" class="bcpt-chip bcpt-chip--on" :title="t.name">{{ t.label }}</span>
-                    <span v-if="!sg.tags.length" class="bcpt-empty">—</span>
-                  </div>
-                </div>
-              </section>
-            </div>
-          </div><!-- /bcpt-top-grid -->
         </div>
       </section><!-- /mr-view VIEW 3 -->
 
