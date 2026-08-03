@@ -499,26 +499,27 @@ async function handleDelete() {
           />
         </label>
 
-        <!-- THANH CHỌN DANH MỤC THỂ BỆNH: CỔ TRUYỀN VS NGŨ HÀNH HỒI TÁC -->
-        <div class="category-tabs" style="display: flex; gap: 8px; margin-left: auto;">
-          <button
-            type="button"
-            class="btn-tab-cat"
-            :class="{ 'is-active': activeCategoryTab === 'standard' }"
-            @click="activeCategoryTab = 'standard'"
-            style="padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 0.84rem; cursor: pointer; border: 1px solid #d9c9b0;"
-          >
-            Thể Bệnh YHCT Cổ Truyền (58 Bệnh)
-          </button>
-          <button
-            type="button"
-            class="btn-tab-cat"
-            :class="{ 'is-active': activeCategoryTab === 'nhht' }"
-            @click="activeCategoryTab = 'nhht'"
-            style="padding: 6px 14px; border-radius: 8px; font-weight: 700; font-size: 0.84rem; cursor: pointer; border: 1px solid #d9c9b0;"
-          >
-            Mô Hình Ngũ Hành Hồi Tác &amp; Nạn Kinh 69 (24 Thể)
-          </button>
+        <!-- THANH CHỌN DANH MỤC THỂ BỆNH CHUẨN ĐỒ HỌA -->
+        <div class="cat-tabs-wrap">
+          <span class="cat-tabs-label">Danh mục thể bệnh</span>
+          <div class="cat-tabs">
+            <button
+              type="button"
+              class="cat-tab-btn"
+              :class="{ 'is-active': activeCategoryTab === 'standard' }"
+              @click="activeCategoryTab = 'standard'"
+            >
+              Thể Bệnh YHCT Cổ Truyền (58 Bệnh)
+            </button>
+            <button
+              type="button"
+              class="cat-tab-btn"
+              :class="{ 'is-active': activeCategoryTab === 'nhht' }"
+              @click="activeCategoryTab = 'nhht'"
+            >
+              Mô Hình Ngũ Hành Hồi Tác &amp; Nạn Kinh 69 (24 Thể)
+            </button>
+          </div>
         </div>
       </div>
 
@@ -652,44 +653,53 @@ async function handleDelete() {
         </div>
       </div>
 
-      <!-- VÙNG HIỂN THỊ MÔ HÌNH THỂ BỆNH THUẬT TOÁN NGŨ HÀNH HỒI TÁC & NẠN KINH 69 -->
+      <!-- VÙNG HIỂN THỊ MÔ HÌNH THỂ BỆNH THUẬT TOÁN NGŨ HÀNH HỒI TÁC & NẠN KINH 69 (MASONRY LAYOUT CHUẨN) -->
       <div v-else-if="activeCategoryTab === 'nhht'" class="data-card">
         <div class="card-header">
           <h3>Mô Hình Thể Bệnh Thuật Toán (Ngũ Hành Hồi Tác &amp; Nạn Kinh 69)</h3>
           <span class="badge badge-success">24 Mô Hình Chuẩn · Tự động đối sánh 12 Đường Kinh</span>
         </div>
 
-        <div class="disease-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 14px; padding: 12px 0;">
-          <article v-for="m in filteredNhhtModels" :key="m.code" class="disease-card" style="border: 1px solid #e0d3bf; border-radius: 10px; padding: 12px; background: #fdfaf5;">
-            <header class="disease-card__head" style="border-bottom: 1px solid #ebd9c3; padding-bottom: 6px; margin-bottom: 8px;">
+        <div class="disease-grid">
+          <article v-for="m in filteredNhhtModels" :key="m.code" class="disease-card">
+            <header class="disease-card__head">
               <div class="disease-card__title">
-                <span class="disease-card__id" style="font-weight: 800; color: #4b3626;">#{{ m.code }}</span>
-                <h4 class="disease-card__name" style="font-size: 1rem; color: #2c1d11;">{{ m.name }}</h4>
+                <span class="disease-card__id">#{{ m.code }}</span>
+                <h4 class="disease-card__name">{{ m.name }}</h4>
               </div>
-              <span class="chip" :style="{ background: m.type === 'thuc' ? '#fce8e4' : '#e4eef6', color: m.type === 'thuc' ? '#a82e1e' : '#235885', fontWeight: 800, padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem' }">
+              <span :class="m.type === 'thuc' ? 'badge-tone-thuc' : 'badge-tone-hu'">
                 {{ m.type === 'thuc' ? 'THỰC' : 'HƯ' }}
               </span>
             </header>
 
-            <div class="disease-card__body" style="display: flex; flex-direction: column; gap: 8px;">
+            <div class="disease-card__body">
               <!-- ĐIỀU KIỆN ĐỐI CHIẾU DO ĐẠC -->
-              <div class="nhht-cond-box" style="background: #f4ede2; padding: 6px 10px; border-radius: 6px; font-size: 0.8rem; color: #4b3626;">
-                🎯 <b>ĐIỀU KIỆN ĐỐI CHIẾU DO ĐẠC:</b>
-                <div style="font-weight: 600; color: #7f3b11; margin-top: 2px;">{{ m.condition }}</div>
-                <div style="font-size: 0.74rem; color: #6e5e49;">Khung tác động mặc định: {{ m.frame }}</div>
+              <div class="cond-box">
+                <span class="cond-label">ĐIỀU KIỆN ĐỐI CHIẾU DO ĐẠC</span>
+                <div class="cond-val">{{ m.condition }}</div>
+                <div class="cond-sub">Khung tác động mặc định: {{ m.frame }}</div>
               </div>
 
               <!-- PHƯƠNG HUYỆT CẤU TRÚC -->
-              <div class="nhht-huyet-box" style="display: flex; flex-direction: column; gap: 4px; font-size: 0.82rem;">
-                <div style="color: #a82e1e; font-weight: 600;">🔴 TẢ: <b>{{ m.ta }}</b></div>
-                <div style="color: #2e5c1e; font-weight: 600;">🟢 BỔ: <b>{{ m.bo }}</b></div>
-                <div style="color: #6b4d1b; font-weight: 600;">🌱 {{ m.bm }}</div>
+              <div class="nhht-rx-list">
+                <div class="nhht-rx-item">
+                  <span class="nhht-rx-badge nhht-rx-badge--ta">TẢ</span>
+                  <span class="nhht-rx-text">{{ m.ta }}</span>
+                </div>
+                <div class="nhht-rx-item">
+                  <span class="nhht-rx-badge nhht-rx-badge--bo">BỔ</span>
+                  <span class="nhht-rx-text">{{ m.bo }}</span>
+                </div>
+                <div class="nhht-rx-item">
+                  <span class="nhht-rx-badge nhht-rx-badge--bm">NK69</span>
+                  <span class="nhht-rx-text">{{ m.bm }}</span>
+                </div>
               </div>
 
               <!-- LÝ LUẬN BỆNH LÝ YHCT -->
-              <p style="font-size: 0.78rem; color: #5a4636; background: #fff; padding: 6px 8px; border-radius: 6px; border: 1px solid #ebd9c3; margin: 0; line-height: 1.4;">
-                💡 <b>Lý luận YHCT:</b> {{ m.rationale }}
-              </p>
+              <div class="rationale-box">
+                <span class="rationale-label">Lý luận YHCT:</span> {{ m.rationale }}
+              </div>
             </div>
           </article>
         </div>
@@ -1295,6 +1305,132 @@ async function handleDelete() {
 .chip-picker { display: flex; flex-wrap: wrap; gap: 6px; padding: var(--space-2); border: 1px solid var(--gray-200); border-radius: var(--radius-md); background: var(--gray-50); }
 .chip-picker--scroll { max-height: 220px; overflow-y: auto; }
 .chip-toggle { padding: 4px 10px; font-size: 13px; font-weight: 600; border-radius: 999px; border: 1px solid var(--gray-300); background: var(--white); color: var(--gray-700); cursor: pointer; transition: all var(--transition-fast); }
+.chip-toggle:hover { background: var(--brown-50); border-color: var(--brown-300); color: var(--brown-800); }
+.chip-toggle.active { background: var(--brown-600); border-color: var(--brown-600); color: var(--white); }
+
+/* Category tabs Toolbar alignment */
+.toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-4);
+}
+.cat-tabs-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.cat-tabs-label {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.cat-tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--surface-2, #f5ece0);
+  padding: 3px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--brown-200);
+}
+.cat-tab-btn {
+  font-size: 13px;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--gray-700);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.cat-tab-btn:hover {
+  color: var(--brown-900);
+}
+.cat-tab-btn.is-active {
+  background: var(--brown-800);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* NHHT Card details */
+.cond-box {
+  background: var(--brown-50);
+  border: 1px solid var(--brown-100);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+}
+.cond-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--brown-700);
+  display: block;
+}
+.cond-val {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--brown-900);
+  margin-top: 2px;
+}
+.cond-sub {
+  font-size: 11.5px;
+  color: var(--gray-600);
+  margin-top: 1px;
+}
+
+.nhht-rx-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.nhht-rx-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+}
+.nhht-rx-badge {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  width: 44px;
+  text-align: center;
+  flex: 0 0 auto;
+}
+.nhht-rx-badge--ta { background: #fce8e4; color: #a82e1e; }
+.nhht-rx-badge--bo { background: #e4f3de; color: #2e5c1e; }
+.nhht-rx-badge--bm { background: #f5ece0; color: #6b4d1b; }
+
+.nhht-rx-text {
+  font-weight: 600;
+  color: var(--brown-900);
+}
+
+.badge-tone-hu { background: #e4eef6; color: #235885; font-weight: 800; font-size: 11px; padding: 2px 8px; border-radius: 999px; }
+.badge-tone-thuc { background: #fce8e4; color: #a82e1e; font-weight: 800; font-size: 11px; padding: 2px 8px; border-radius: 999px; }
+
+.rationale-box {
+  background: var(--white);
+  border: 1px dashed var(--brown-200);
+  border-radius: var(--radius-md);
+  padding: 8px 10px;
+  font-size: 12.5px;
+  color: var(--brown-800);
+  line-height: 1.45;
+}
+.rationale-label {
+  font-weight: 700;
+  color: var(--brown-900);
+}
+
 .chip-toggle:hover { border-color: var(--brown-400); color: var(--brown-700); }
 .chip-toggle.active { background: var(--brown-600); color: var(--white); border-color: var(--brown-600); }
 
