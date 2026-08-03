@@ -222,7 +222,7 @@ const isTangSub = (organ: string) => props.activeTang != null && props.activeTan
   <div class="vlk" @mouseleave="hovered = null">
     <svg
       class="vlk-svg"
-      viewBox="0 0 400 400"
+      viewBox="-16.5 -16.5 433 433"
       role="img"
       aria-label="Đồ hình Lục Khí tác động Tạng Phủ: Khí → Kinh (bản khí) → Tạng/Phủ, tâm Ngũ Hành sinh khắc"
     >
@@ -417,7 +417,8 @@ const isTangSub = (organ: string) => props.activeTang != null && props.activeTan
 .vlk {
   position: relative;
   width: 100%;
-  max-width: min(100%, 60vh); /* khớp cỡ VongLucKinh (62vh) / BienChungWheel (58vh) — không phình kín cột */
+  max-width: min(100%, 62vh); /* CHUẨN HOÁ: viewBox nới -16.5..416.5 (433) → vòng khí 197 = tỉ lệ 0.91,
+     khớp đúng cỡ vòng của VongLucKinh/VongNguHanh (RIM 191/420) — chuyển lớp không co giãn vòng tròn. */
   margin: 0 auto;
   display: flex;
   flex-direction: column;

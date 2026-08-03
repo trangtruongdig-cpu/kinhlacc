@@ -187,11 +187,10 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
       <!-- Vòng RÌA chung của các lớp — mọi thứ nằm gọn bên trong -->
       <circle class="vnh-rim" :cx="CX" :cy="CY" :r="RIM" />
 
-      <!-- Nhãn hành + tạng/phủ ở vành ngoài (đứng yên) -->
+      <!-- Nhãn tạng ở vành ngoài (GỌN: hành+tạng 1 dòng · tạng chữ to · phủ chữ nhỏ dưới, sát nhau) -->
       <g v-for="n in nodes" :key="'lb' + n.key" class="vnh-olabel" :style="{ '--hc': n.color }">
-        <text :x="n.label.x" :y="n.label.y - 8" class="vnh-ol-hanh">{{ n.ten }} {{ n.han }}</text>
-        <text :x="n.label.x" :y="n.label.y + 6" class="vnh-ol-tang">{{ n.tang }} {{ n.tangHan }}</text>
-        <text :x="n.label.x" :y="n.label.y + 18" class="vnh-ol-phu">{{ n.phu }}</text>
+        <text :x="n.label.x" :y="n.label.y - 6" class="vnh-ol-tang"><tspan class="vnh-ol-hanh">{{ n.ten }} {{ n.han }}</tspan>  {{ n.tang }} {{ n.tangHan }}</text>
+        <text :x="n.label.x" :y="n.label.y + 8" class="vnh-ol-phu">{{ n.phu }}</text>
       </g>
 
       <!-- (0) VÒNG HÀI HOÀ — mốc cân bằng lý tưởng: khi cân bằng, 5 tạng nằm GỌN trên vòng này,
@@ -274,7 +273,7 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 .vnh-stage { position: relative; width: 100%; }
 /* Thái Cực nền PHÓNG TO lấp đầy tới vòng rìa: taiji của AmDuongTaiji vốn = 66% khung → nới khung
    lên 138% (căn giữa) để đường tròn taiji bằng rim; clip tròn 33% để dư/khuyết thừa cắt gọn ở rìa. */
-.vnh-taiji-bg { position: absolute; width: 138.4%; height: 138.4%; left: -19.2%; top: -19.2%; z-index: 0; opacity: 0.55; pointer-events: none; clip-path: circle(33% at 50% 50%); }
+.vnh-taiji-bg { position: absolute; width: 138.4%; height: 138.4%; left: -19.2%; top: -19.2%; z-index: 0; opacity: 0.4; pointer-events: none; clip-path: circle(33% at 50% 50%); }
 .vnh-taiji-bg :deep(.ad-card) { width: 100%; height: 100%; border: none !important; background: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; display: block; }
 .vnh-taiji-bg :deep(.ad-fig) { width: 100%; height: 100%; padding: 0 !important; margin: 0 !important; }
 .vnh-taiji-bg :deep(.ad-svg) { width: 100%; height: 100%; display: block; }
