@@ -5,19 +5,23 @@
  * Dùng ĐÚNG engine 3D thật (mountAcuMap) như trang trong app: có danh sách đường kinh, huyệt,
  * ô tìm kiếm và bay tới huyệt. Khác biệt:
  *   • Ẩn nút "Chấm Tay" (chế độ sửa vị trí huyệt) → đúng tinh thần chỉ-xem cho khách.
- *   • Link "Xem thêm / Lý thuyết kinh" trong drawer → mời ĐĂNG NHẬP (tra cứu cần tài khoản).
+ *   • Link "Xem thêm / Lý thuyết kinh" trong drawer → tính năng đang hoàn thiện, báo tại chỗ
+ *     (KHÔNG điều hướng sang /login — trang công khai, khách không cần biết đăng nhập ở đâu).
  */
 import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 import { mountAcuMap, unmountAcuMap } from '@/lib/acuMap3d'
 import PublicTopBar from '@/components/PublicTopBar.vue'
 
 const route = useRoute()
-const router = useRouter()
 const mountPoint = ref<HTMLElement | null>(null)
 const loading = ref(true)
 const progress = ref(0) // % tải model cho màn chờ (0 = chưa có số → chỉ hiện spinner)
 const error = ref<string | null>(null)
+// Bấm "Xem thêm/Lý thuyết kinh" trong drawer → báo TẠI CHỖ (tính năng đang hoàn thiện),
+// không điều hướng đi đâu. Tự ẩn sau vài giây.
+const soonNotice = ref(false)
+let soonTimer: ReturnType<typeof setTimeout> | null = null
 
 /**
  * Kênh tiến trình từ engine map3d.js (đặt trên window) → màn chờ của Vue. Giữ màn chờ kèm % cho tới
@@ -47,9 +51,11 @@ function finishLoading() {
 function onHashNav() {
   const h = location.hash
   if (/^#acu\/\d+/.test(h) || /^#meridian\/[A-Za-z]+/.test(h)) {
-    // Xoá hash để không kẹt lại khi quay về, rồi mời đăng nhập.
+    // Xoá hash để không kẹt lại khi quay về; báo tại chỗ thay vì rời trang.
     history.replaceState(null, '', location.pathname + location.search)
-    router.push({ name: 'login' })
+    soonNotice.value = true
+    if (soonTimer) clearTimeout(soonTimer)
+    soonTimer = setTimeout(() => { soonNotice.value = false }, 4000)
   }
 }
 
@@ -88,6 +94,10 @@ onBeforeUnmount(() => {
     clearTimeout(safetyTimer)
     safetyTimer = null
   }
+  if (soonTimer) {
+    clearTimeout(soonTimer)
+    soonTimer = null
+  }
   // Gỡ callback để engine không gọi vào component đã huỷ ở lần điều hướng sau.
   const w = window as unknown as AcuWin
   w.ACU_ON_MODEL_PROGRESS = undefined
@@ -102,10 +112,11 @@ onBeforeUnmount(() => {
 
     <div class="pub3d-hint">
       <span class="pub3d-hint-text">
-        Kéo để xoay · Bấm huyệt để xem · Gõ ô tìm kiếm để bay tới huyệt. Đây là bản
-        <strong>xem thử</strong> — đăng nhập để tra cứu chi tiết và dùng đầy đủ.
+        Kéo để xoay · Bấm huyệt để xem · Gõ ô tìm kiếm để bay tới huyệt. Đây là bản <strong>xem thử</strong>.
       </span>
     </div>
+
+    <p v-if="soonNotice" class="pub3d-soon" role="status">Tra cứu chi tiết huyệt/kinh đang hoàn thiện — sau khi xong sẽ mở dùng miễn phí.</p>
 
     <div v-if="error" class="pub3d-error">
       <p><strong>Không tải được đồ hình 3D.</strong></p>
@@ -144,6 +155,20 @@ onBeforeUnmount(() => {
 }
 .pub3d-hint-text strong {
   color: var(--brown-700);
+}
+
+/* Báo tại chỗ khi bấm "Xem thêm/Lý thuyết kinh" — tính năng đang hoàn thiện, không rời trang */
+.pub3d-soon {
+  max-width: 1280px;
+  margin: var(--space-2) auto 0;
+  width: 100%;
+  padding: var(--space-2) var(--space-5);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--brown-700);
+  background: var(--brown-50);
+  border-top: 1px solid var(--brown-200);
+  border-bottom: 1px solid var(--brown-200);
 }
 
 .pub3d-error {

@@ -15,7 +15,6 @@
  */
 import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
 // Vòng xoay KHUNG cho hero: tự XOAY + luân chuyển lớp Lục Kinh → Lục Khí → Tạng Phủ (trang trí).
 import HeroKhungWheel from '@/components/HeroKhungWheel.vue'
 import BanXoayBienChung from '@/components/BanXoayBienChung.vue'
@@ -47,15 +46,9 @@ import {
 } from '@/lib/meridianAnalysis'
 
 const router = useRouter()
-const auth = useAuthStore()
 
-// Đã đăng nhập rồi thì nút dẫn thẳng vào app; chưa thì ra trang đăng nhập.
-const isAuthed = computed(() => auth.isAuthenticated)
-const ctaLabel = computed(() => (isAuthed.value ? 'Vào Hệ Thống' : 'Đăng Nhập'))
-
-function enter() {
-  router.push({ name: isAuthed.value ? 'dashboard' : 'login' })
-}
+// KHÔNG có nút đăng nhập / vào hệ thống công khai — trang chủ chỉ giới thiệu & cho xem thử.
+// Chủ hệ thống tự vào bằng cách gõ thẳng /login (hoặc /app) trên thanh địa chỉ.
 // Trạng thái mở/đóng menu trên di động (nav 7 mục ẩn sau nút hamburger ở ≤768px).
 const mobileNavOpen = ref(false)
 function scrollTo(id: string) {
@@ -759,7 +752,6 @@ const faqs: { q: string; a: string }[] = [
           <button @click="scrollTo('bang-gia')">Bảng Giá</button>
           <button @click="scrollTo('faq')">Hỏi Đáp</button>
         </nav>
-        <button class="lp-btn lp-btn--primary" @click="enter">{{ ctaLabel }}</button>
         <button
           type="button"
           class="lp-nav-toggle"
@@ -788,7 +780,6 @@ const faqs: { q: string; a: string }[] = [
           <div class="lp-cta-row">
             <button class="lp-btn lp-btn--primary lp-btn--lg" @click="openDemo('xem-3d')">Trải Nghiệm 3D Ngay →</button>
             <button class="lp-btn lp-btn--ghost-light lp-btn--lg" @click="openDemo('xem-ket-qua-do')">Xem Kết Quả Đo Thật</button>
-            <button class="lp-btn lp-btn--ghost-light lp-btn--lg" @click="enter">{{ ctaLabel }}</button>
           </div>
           <ul class="lp-stats">
             <li v-for="s in stats" :key="s.label">
@@ -1166,10 +1157,10 @@ const faqs: { q: string; a: string }[] = [
           <p class="mc-note">Lật qua từng ca để thấy mỗi người một bảng chỉ số, một thể bệnh khác nhau. Đây là số liệu từ ca đo thật — bấm bên dưới để mở một bản đo đầy đủ đã ẩn danh.</p>
           <div class="mc-actions">
             <button class="lp-btn lp-btn--primary mc-cta" @click="openDemo('xem-ket-qua-do')">Xem Kết Quả Đo Thật →</button>
-            <button class="mc-unlock" @click="enter">
+            <p class="mc-unlock mc-unlock--soon">
               <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clip-rule="evenodd" /></svg>
-              <span>Đo Cho Bệnh Nhân Của Bạn</span>
-            </button>
+              <span>Đo cho bệnh nhân của bạn — tính năng đang hoàn thiện, xong sẽ mở dùng miễn phí</span>
+            </p>
           </div>
         </aside>
       </div>
@@ -1345,7 +1336,7 @@ const faqs: { q: string; a: string }[] = [
               <span>{{ it }}</span>
             </li>
           </ul>
-          <button class="lp-btn lp-btn--primary lp-btn--lg lp-ladder-cta" @click="enter">{{ ctaLabel }} →</button>
+          <p class="lp-ladder-soon">Tính năng đang hoàn thiện — sau khi xong sẽ mở cho dùng miễn phí.</p>
         </article>
       </div>
     </section>
@@ -1408,10 +1399,9 @@ const faqs: { q: string; a: string }[] = [
     <section class="lp-cta">
       <div class="lp-cta-inner">
         <h2 class="lp-cta-title">Cả Một Hệ Thống Đông Y — Bắt Đầu Từ Một Cú Xoay.</h2>
-        <p class="lp-cta-sub">Tự tay trải nghiệm toàn bộ — miễn phí, không cần đăng nhập. Thích thì hãy đưa bệnh nhân của bạn vào.</p>
+        <p class="lp-cta-sub">Tự tay trải nghiệm toàn bộ — miễn phí, không cần đăng nhập.</p>
         <div class="lp-cta-row lp-cta-row--center">
           <button class="lp-btn lp-btn--primary lp-btn--lg" @click="openDemo('xem-3d')">Trải Nghiệm 3D Ngay →</button>
-          <button class="lp-btn lp-btn--ghost-light lp-btn--lg" @click="enter">{{ ctaLabel }}</button>
         </div>
       </div>
     </section>
@@ -2819,6 +2809,27 @@ const faqs: { q: string; a: string }[] = [
 .mc-unlock svg {
   flex-shrink: 0;
 }
+/* Ghi chú tĩnh (không phải nút, không dẫn đi đâu) — "sắp có", không mời bấm */
+.mc-unlock--soon {
+  height: auto;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+  margin: 0;
+  cursor: default;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: left;
+  line-height: 1.4;
+}
+.mc-unlock--soon svg {
+  margin-top: 2px;
+}
+.mc-unlock--soon:hover {
+  color: var(--brown-700);
+  background: var(--brown-50);
+  border-color: var(--brown-300);
+  border-style: dashed;
+}
 
 /* Cú đấm "Big Data" — dải tối để con số nổi bật */
 .mc-bigdata {
@@ -3825,6 +3836,21 @@ const faqs: { q: string; a: string }[] = [
 .lp-ladder-cta {
   width: 100%;
   justify-content: center;
+}
+/* Ghi chú tĩnh thay cho nút CTA của gói Có Phí — chưa mở bán, không dẫn tới đăng nhập */
+.lp-ladder-soon {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-md);
+  border: 1px dashed var(--brown-300);
+  background: var(--brown-50);
+  color: var(--brown-700);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  text-align: center;
+  line-height: 1.4;
 }
 
 /* ---------- ⑧ Bằng chứng quy mô ---------- */

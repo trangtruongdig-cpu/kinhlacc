@@ -5,7 +5,8 @@
  * Lấy THẬT từ DB qua endpoint @Public /demo/bai-thuoc (1 bài thuốc kinh điển).
  * Dùng lại ĐÚNG component phân tích thật (BaiThuocAnalysis): Tứ Khí + 3 radar
  * (Ngũ Vị · Quy Kinh · Thăng–Giáng–Phù–Trầm) + bảng Quân–Thần–Tá–Sứ — chế độ chỉ-xem.
- * Muốn tra cứu toàn bộ kho bài thuốc → mời đăng nhập.
+ * Muốn tra cứu toàn bộ kho bài thuốc → dẫn sang /bai-thuoc (đã công khai, không cần đăng nhập),
+ * KHÔNG mời đăng nhập ở trang xem thử này.
  */
 import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
@@ -37,8 +38,10 @@ const slideDir = ref<'next' | 'prev'>('next')
 const formulaCount = computed(() => formulas.value.length)
 const activeFormula = computed<BaiThuoc | null>(() => formulas.value[activeIndex.value] ?? null)
 
-function goLogin() {
-  router.push({ name: 'login' })
+// Kho 13.942 bài thuốc đã CÔNG KHAI ở /bai-thuoc (xem router: meta.requiresAuth=false) —
+// không cần đăng nhập, nên CTA dẫn thẳng sang đó thay vì mời đăng nhập.
+function goFullCatalog() {
+  router.push({ name: 'bai-thuoc' })
 }
 
 function nextFormula() {
@@ -158,13 +161,13 @@ onMounted(async () => {
           </div>
         </div>
 
-        <!-- CTA -->
+        <!-- CTA: kho đầy đủ ĐÃ công khai ở /bai-thuoc — không mời đăng nhập -->
         <div class="dbt-cta">
           <div>
-            <h3 class="dbt-cta-title">Còn Hàng Trăm Bài Thuốc Khác</h3>
-            <p class="dbt-cta-sub">Đăng nhập để tra cứu toàn bộ kho bài thuốc Đông Y · Tây Y, pháp trị và phân tích chi tiết.</p>
+            <h3 class="dbt-cta-title">Còn 13.942 Bài Thuốc Khác</h3>
+            <p class="dbt-cta-sub">Tra cứu miễn phí toàn bộ kho bài thuốc cổ phương — không cần đăng nhập.</p>
           </div>
-          <button class="dbt-cta-btn" @click="goLogin">Đăng Nhập Để Xem Tất Cả →</button>
+          <button class="dbt-cta-btn" @click="goFullCatalog">Xem Toàn Bộ Kho Bài Thuốc →</button>
         </div>
 
         <MedicalDisclaimer context="formula" />

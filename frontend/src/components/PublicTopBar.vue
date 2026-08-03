@@ -1,27 +1,21 @@
 <script setup lang="ts">
 /**
  * PublicTopBar — Thanh điều hướng dùng chung cho các trang "xem thử" CÔNG KHAI
- * (3D, Kết Quả Đo, Bài Thuốc). Cho khách quay về Trang Chủ và mời đăng nhập để dùng thật.
+ * (3D, Kết Quả Đo, Bài Thuốc). Cho khách quay về Trang Chủ.
+ *
+ * KHÔNG có nút đăng nhập / vào hệ thống — khách truy cập không cần biết nơi
+ * đăng nhập tồn tại. Chủ hệ thống tự vào bằng cách gõ thẳng /login (hoặc /app).
  */
-import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
 
 // `badge`: nhãn nhỏ cạnh tiêu đề. Mặc định "Bản Xem Thử" cho trang xem thử;
 // trang mở đầy đủ (vd Thư Viện) truyền badng khác, hoặc rỗng để ẩn.
 withDefaults(defineProps<{ title: string; badge?: string }>(), { badge: 'Bản Xem Thử' })
 
 const router = useRouter()
-const auth = useAuthStore()
-
-const isAuthed = computed(() => auth.isAuthenticated)
-const ctaLabel = computed(() => (isAuthed.value ? 'Vào Hệ Thống' : 'Đăng Nhập'))
 
 function goHome() {
   router.push({ name: 'landing' })
-}
-function enter() {
-  router.push({ name: isAuthed.value ? 'dashboard' : 'login' })
 }
 </script>
 
@@ -45,7 +39,6 @@ function enter() {
       <div class="ptb-actions">
         <a class="ptb-link" href="/blog/">Cẩm Nang</a>
         <button class="ptb-link" @click="goHome">← Trang Chủ</button>
-        <button class="ptb-cta" @click="enter">{{ ctaLabel }}</button>
       </div>
     </div>
   </header>
@@ -124,22 +117,6 @@ function enter() {
 .ptb-link:hover {
   color: var(--brown-700);
   background: var(--brown-50);
-}
-.ptb-cta {
-  height: 38px;
-  padding: 0 var(--space-5);
-  border-radius: var(--radius-md);
-  font-size: var(--font-size-sm);
-  font-weight: 600;
-  color: var(--white);
-  background: linear-gradient(135deg, var(--brown-600) 0%, var(--brown-700) 100%);
-  box-shadow: 0 4px 12px rgba(var(--primary-rgb), 0.24);
-  white-space: nowrap;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
-}
-.ptb-cta:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 18px rgba(var(--primary-rgb), 0.34);
 }
 
 @media (max-width: 768px) {

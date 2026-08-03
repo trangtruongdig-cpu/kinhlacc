@@ -14,7 +14,6 @@ import BienChungLuanTriView from './BienChungLuanTriView.vue'
       </RouterLink>
       <nav class="pub-nav">
         <RouterLink to="/" class="pub-link">← Trang chủ</RouterLink>
-        <RouterLink to="/login" class="pub-link primary">Đăng nhập</RouterLink>
       </nav>
     </header>
 
@@ -43,7 +42,6 @@ import BienChungLuanTriView from './BienChungLuanTriView.vue'
 .pub-nav { display: flex; align-items: center; gap: 8px; }
 .pub-link { font-size: 14px; font-weight: 700; text-decoration: none; padding: 7px 15px; border-radius: 999px; color: var(--brown-700, #6b4a24); border: 1px solid transparent; }
 .pub-link:hover { border-color: var(--border, #e7ddcd); }
-.pub-link.primary { background: linear-gradient(135deg, var(--brown-600, #6b4a24), var(--brown-800, #2e1d0d)); color: #fff; }
 .pub-main { flex: 1; width: 100%; max-width: 1400px; margin: 0 auto; padding: clamp(14px, 3vw, 28px); }
 .pub-foot { text-align: center; font-size: 12.5px; color: var(--text-muted, #8a7a60); padding: 20px; border-top: 1px solid var(--border, #e7ddcd); }
 .pub-foot-link { color: var(--brown-600, #6b4a24); font-weight: 700; text-decoration: none; }

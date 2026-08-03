@@ -60,10 +60,10 @@ function onLoaded(h: { id: number; ten: string }) {
 
       <div v-if="!inApp" class="dld-cta">
         <div>
-          <h3 class="dld-cta-title">Tra cứu toàn bộ kho dược liệu &amp; bài thuốc</h3>
-          <p class="dld-cta-sub">Đăng nhập để dùng đầy đủ: phân tích bài thuốc, đồ thị tri thức, quản lý phòng khám.</p>
+          <h3 class="dld-cta-title">Công Cụ Quản Lý Phòng Khám</h3>
+          <p class="dld-cta-sub">Đồ thị tri thức &amp; quản lý phòng khám đang hoàn thiện — sau khi xong sẽ mở cho dùng miễn phí.</p>
         </div>
-        <button class="dld-cta-btn" @click="router.push({ name: 'login' })">Đăng nhập →</button>
+        <span class="dld-cta-soon">Sắp có</span>
       </div>
 
       <MedicalDisclaimer context="formula" />
@@ -80,8 +80,7 @@ function onLoaded(h: { id: number; ten: string }) {
 .dld-cta { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--space-4); padding: var(--space-5); margin-top: var(--space-6); border-radius: var(--radius-lg); color: #fff; background: linear-gradient(135deg, var(--brown-600, #8a6d3b) 0%, var(--brown-800, #5b3a1a) 100%); }
 .dld-cta-title { font-size: var(--font-size-lg); font-weight: 800; margin-bottom: 4px; }
 .dld-cta-sub { font-size: var(--font-size-sm); color: rgba(255,255,255,0.85); }
-.dld-cta-btn { height: 46px; padding: 0 var(--space-5); border-radius: var(--radius-lg); background: #fff; color: var(--brown-700, #6b4f2a); font-weight: 700; white-space: nowrap; }
-.dld-cta-btn:hover { transform: translateY(-2px); }
+.dld-cta-soon { flex-shrink: 0; height: 46px; padding: 0 var(--space-5); border-radius: var(--radius-lg); border: 1px dashed rgba(255,255,255,0.5); display: inline-flex; align-items: center; color: #fff; font-weight: 700; white-space: nowrap; }
 .dld-bai { margin-top: var(--space-6); padding: var(--space-5); background: var(--surface, #fff); border: 1px solid var(--border, #e5e0d6); border-radius: 14px; }
 .dld-bai-h { font-size: 16px; font-weight: 700; color: var(--brown-800, #5b3a1a); margin: 0 0 10px; }
 .dld-bai-n { font-size: 13px; font-weight: 500; color: var(--text-muted); }

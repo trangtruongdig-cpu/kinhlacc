@@ -4,10 +4,10 @@
  *
  * Lấy THẬT từ DB qua endpoint @Public /demo/ket-qua-do (1 ca đo, ẩn danh bệnh nhân).
  * Hiển thị CHỈ-XEM: bảng chỉ số nhiệt độ (chi trên/chi dưới) + Bát Cương + các thể bệnh đo được.
- * Mọi thao tác "dùng thật" (đo cho bệnh nhân của bạn, lưu hồ sơ) → mời đăng nhập.
+ * Mọi thao tác "dùng thật" (đo cho bệnh nhân của bạn, lưu hồ sơ) đang hoàn thiện — KHÔNG mời
+ * đăng nhập ở đây (trang công khai, khách không cần biết đăng nhập ở đâu).
  */
 import { ref, computed, onMounted, watch, defineAsyncComponent } from 'vue'
-import { useRouter } from 'vue-router'
 import { api } from '@/services/api'
 const BaiThuocAnalysis = defineAsyncComponent(() => import('@/components/BaiThuocAnalysis.vue'))
 import PublicTopBar from '@/components/PublicTopBar.vue'
@@ -31,8 +31,6 @@ import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
 import BatCuongSummary from '@/components/BatCuongSummary.vue'
 import { buildDinhVi, parseAmDuong, type PhapTriByBaiThuoc } from '@/lib/dinhVi'
 const BatCuongFigure3D = defineAsyncComponent(() => import('@/components/BatCuongFigure3D.vue'))
-
-const router = useRouter()
 
 interface SyndromeLite {
   id?: number
@@ -498,10 +496,6 @@ function signClass(sign: string): string {
   return 'sign-zero'
 }
 
-function goLogin() {
-  router.push({ name: 'login' })
-}
-
 onMounted(async () => {
   try {
     // Ưu tiên endpoint nhiều ca (slider). Nếu backend chưa cập nhật endpoint này
@@ -871,13 +865,13 @@ onMounted(async () => {
         </div>
         <!-- /Vùng nội dung 1 ca -->
 
-        <!-- CTA -->
+        <!-- CTA: tính năng nhập số đo cho bệnh nhân thật đang hoàn thiện — KHÔNG mời đăng nhập -->
         <div class="dkq-cta">
           <div>
             <h3 class="dkq-cta-title">Muốn Đo Cho Bệnh Nhân Của Bạn?</h3>
-            <p class="dkq-cta-sub">Đăng nhập để nhập số đo, lưu hồ sơ và phân tích tự động cho từng ca khám.</p>
+            <p class="dkq-cta-sub">Tính năng đang hoàn thiện — sau khi xong sẽ mở cho dùng miễn phí.</p>
           </div>
-          <button class="dkq-cta-btn" @click="goLogin">Đăng Nhập Để Dùng →</button>
+          <span class="dkq-cta-soon">Sắp có</span>
         </div>
 
         <MedicalDisclaimer context="measurement" />
@@ -1209,19 +1203,18 @@ onMounted(async () => {
   font-size: var(--font-size-sm);
   color: rgba(255, 255, 255, 0.82);
 }
-.dkq-cta-btn {
+.dkq-cta-soon {
+  flex-shrink: 0;
   height: 48px;
   padding: 0 var(--space-6);
   border-radius: var(--radius-lg);
-  background: var(--white);
-  color: var(--brown-700);
+  border: 1px dashed rgba(255, 255, 255, 0.5);
+  display: inline-flex;
+  align-items: center;
+  color: var(--white);
   font-size: var(--font-size-base);
   font-weight: 700;
   white-space: nowrap;
-  transition: transform var(--transition-fast);
-}
-.dkq-cta-btn:hover {
-  transform: translateY(-2px);
 }
 
 /* ── Slider chuyển ca ── */
