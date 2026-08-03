@@ -3286,185 +3286,191 @@ watch(
         <div class="pi-field"><span class="pi-label">BMI</span><span class="pi-value">—</span></div>
       </div>
 
-      <!-- THANH CHUYỂN CHẾ ĐỘ HIỂN THỊ (DASHBOARD 1 MÀN HÌNH VS XEM CUỘN DỌC) -->
-      <div class="mr-layout-bar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: var(--white); padding: 6px 12px; border-radius: 10px; border: 1px solid var(--brown-100);">
-        <div style="font-size: 0.85rem; font-weight: 700; color: var(--brown-800);">
-          CHẾ ĐỘ HIỂN THỊ KẾT QUẢ ĐO KINH LẠC
-        </div>
-        <div class="mr-mode-switcher">
-          <button type="button" class="mr-mode-btn" :class="{ active: layoutMode === 'dashboard' }" @click="layoutMode = 'dashboard'">
-            🖥 Dashboard 1 Màn Hình (Không cuộn)
-          </button>
-          <button type="button" class="mr-mode-btn" :class="{ active: layoutMode === 'scroll' }" @click="layoutMode = 'scroll'">
-            📄 Xem Chi Tiết Cuộn Dọc
-          </button>
-        </div>
-      </div>
+      <!-- ═══ CLINICAL WORKSTATION: SIDEBAR TÓM TẮT + CHI TIẾT ĐẦY ĐỦ ═══ -->
+      <div class="cw-layout">
 
-      <!-- ═══ BẢNG ĐIỀU KHIỂN ĐƠN (CLINIC DASHBOARD - VIEW 1 MÀN HÌNH KHÔNG CUỘN) ═══ -->
-      <div v-show="layoutMode === 'dashboard'" class="mr-clinic-dashboard">
-        <!-- CỘT 1: BÁT CƯƠNG & CHẨN ĐOÁN THỂ BỆNH (28%) -->
-        <div class="dash-col dash-col--left">
-          <div class="dash-card">
-            <div class="dash-card-title">BÁT CƯƠNG TỔNG CƯƠNG</div>
-            <div class="dash-bc-grid">
-              <div class="dash-bc-box">
-                <span class="dash-bc-lbl">Âm – Dương</span>
-                <span class="dash-bc-val" style="color: #b23a29;">{{ tongCuong.amDuong || '—' }}</span>
+        <!-- ─── SIDEBAR TRÁI: TÓM TẮT CHẨN ĐOÁN CỐ ĐỊNH ─── -->
+        <aside class="cw-sidebar">
+
+          <!-- BÁT CƯƠNG TỔNG CƯƠNG -->
+          <div class="cw-card">
+            <div class="cw-card-title">BÁT CƯƠNG</div>
+            <div class="cw-bc-grid">
+              <div class="cw-bc-box cw-bc-box--am">
+                <span class="cw-bc-lbl">Âm – Dương</span>
+                <span class="cw-bc-val">{{ tongCuong.amDuong || '—' }}</span>
               </div>
-              <div class="dash-bc-box">
-                <span class="dash-bc-lbl">Biểu – Lý</span>
-                <span class="dash-bc-val" style="color: #4b3626;">{{ tongCuong.viTri || '—' }}</span>
+              <div class="cw-bc-box cw-bc-box--bieu">
+                <span class="cw-bc-lbl">Biểu – Lý</span>
+                <span class="cw-bc-val">{{ tongCuong.viTri || '—' }}</span>
               </div>
-              <div class="dash-bc-box">
-                <span class="dash-bc-lbl">Hàn – Nhiệt</span>
-                <span class="dash-bc-val" style="color: #b23a29;">{{ tongCuong.tinhChat || '—' }}</span>
+              <div class="cw-bc-box cw-bc-box--nhiet">
+                <span class="cw-bc-lbl">Hàn – Nhiệt</span>
+                <span class="cw-bc-val">{{ tongCuong.tinhChat || '—' }}</span>
               </div>
-              <div class="dash-bc-box">
-                <span class="dash-bc-lbl">Hư – Thực</span>
-                <span class="dash-bc-val" style="color: #d97706;">{{ tongCuong.chinhKhi || '—' }}</span>
+              <div class="cw-bc-box cw-bc-box--thuc">
+                <span class="cw-bc-lbl">Hư – Thực</span>
+                <span class="cw-bc-val">{{ tongCuong.chinhKhi || '—' }}</span>
               </div>
+            </div>
+            <div v-if="tongCuong.hoiChung" class="cw-hoichung">
+              {{ tongCuong.hoiChung }}
             </div>
           </div>
 
-          <!-- MÔ HÌNH THỂ BỆNH KHỚP NHẤT -->
-          <div class="dash-card dash-card--grow">
-            <div class="dash-card-title">MÔ HÌNH THỂ BỆNH KHỚP NHẤT</div>
-            <div v-if="excelSyndromesList.length" class="dash-syndromes-list">
+          <!-- 12 ĐƯỜNG KINH PHÂN NHÓM HƯ / THỰC -->
+          <div class="cw-card">
+            <div class="cw-card-title">12 ĐƯỜNG KINH (HƯ / THỰC)</div>
+            <div class="cw-meridian-groups">
+              <div v-if="thucLechRows.length" class="cw-mg-group">
+                <span class="cw-mg-lbl cw-mg-lbl--thuc">Thực — Vượt ngưỡng</span>
+                <div class="cw-mg-chips">
+                  <span v-for="r in thucLechRows" :key="r.name" class="cw-mg-chip cw-mg-chip--thuc">
+                    {{ SHORT_TO_ORGAN[r.name] || r.name }}
+                  </span>
+                </div>
+              </div>
+              <div v-if="huLechRows.length" class="cw-mg-group">
+                <span class="cw-mg-lbl cw-mg-lbl--hu">Hư — Dưới ngưỡng</span>
+                <div class="cw-mg-chips">
+                  <span v-for="r in huLechRows" :key="r.name" class="cw-mg-chip cw-mg-chip--hu">
+                    {{ SHORT_TO_ORGAN[r.name] || r.name }}
+                  </span>
+                </div>
+              </div>
+              <p v-if="!thucLechRows.length && !huLechRows.length" class="cw-mg-empty">Tất cả kinh trong ngưỡng bình thường</p>
+            </div>
+          </div>
+
+          <!-- THỂ BỆNH KHỚP NHẤT -->
+          <div class="cw-card cw-card--grow">
+            <div class="cw-card-title">THỂ BỆNH KHỚP NHẤT <span class="cw-badge">{{ excelSyndromesList.length }}</span></div>
+            <div v-if="excelSyndromesList.length" class="cw-syndromes">
               <div
                 v-for="s in (excelSyndromesList as Array<{ id: number; name: string; outputCell?: string }>)"
                 :key="s.id"
-                class="dash-synd-chip"
+                class="cw-synd-item"
                 :class="{ active: excelFocusRuleId === s.id }"
                 @click="excelFocusRuleId = s.id"
               >
-                <b style="font-size: 0.85rem; color: #2c1d11;">{{ s.name }}</b>
-                <span v-if="s.outputCell" class="synd-tag" style="font-size: 0.72rem; color: #8a7c68; margin-left: 4px;">({{ s.outputCell }})</span>
+                {{ s.name }}
               </div>
             </div>
-            <p v-else style="font-size: 0.8rem; color: #8a7c68; margin: 0; font-style: italic;">Chưa khớp thể bệnh chuẩn nào từ kết quả đo.</p>
+            <p v-else class="cw-mg-empty">Chưa khớp thể bệnh chuẩn nào</p>
           </div>
-        </div>
 
-        <!-- CỘT 2: ĐỒ HÌNH 3D & 12 ĐƯỜNG KINH DO ĐẠC (38%) -->
-        <div class="dash-col dash-col--center">
-          <!-- Hình 3D rọi huyệt -->
-          <div class="dash-card dash-3d-card">
-            <div class="dash-card-title">ĐỒ HÌNH 3D HUYỆT VỊ &amp; KINH MẠCH</div>
-            <div class="dash-3d-wrapper" style="height: 280px; position: relative;">
-              <BatCuongFigure3D
-                :am-duong="tongCuong.amDuong"
+          <!-- PHƯƠNG HUYỆT NGŨ DU (scrollable) -->
+          <div class="cw-card cw-card--phuonghuy">
+            <div class="cw-card-title">PHƯƠNG HUYỆT CHỈ ĐỊNH</div>
+            <div class="cw-phuonghuy-wrap">
+              <PhuongHuyetNguDu
+                :z="nguHanhZ"
                 :hu-thuc="diagnosis.huThuc"
-                :organs="affectedOrgans"
-                :focus="batCuongFocus"
-                :lech-names="huThucLechNames"
-                @toggle="toggleBatCuongFocus"
+                :lech-rows="diagnosis.explain?.huThuc?.lechRows"
+                :matched-benh-ids="matchedBenhIds"
+                @goto-acu="gotoAcuMap"
+                @goto-dict="gotoTuDien"
               />
             </div>
           </div>
 
-          <!-- 12 Đường Kinh Gom Nhóm Nhanh -->
-          <div class="dash-card">
-            <div class="dash-card-title">12 ĐƯỜNG KINH DO ĐẠC (PHÂN NHÓM HƯ / THỰC)</div>
-            <div class="dash-meridians-summary" style="display: flex; flex-direction: column; gap: 6px;">
-              <div v-if="thucLechRows.length" class="dm-section">
-                <span class="dm-title" style="font-size: 0.76rem; font-weight: 800; color: #a82e1e;">🔴 THỰC (Vượt Cận Trên)</span>
-                <div class="dm-chips" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px;">
-                  <span v-for="r in thucLechRows" :key="r.name" class="dm-chip" style="font-size: 0.74rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: #fce8e4; color: #a82e1e;">
-                    {{ SHORT_TO_ORGAN[r.name] || r.name }}
-                  </span>
+        </aside>
+
+        <!-- ─── PANEL PHẢI: ĐẦY ĐỦ 3 TAB CHI TIẾT ─── -->
+        <div class="cw-main">
+          <nav class="mr-tabs" aria-label="Chuyển view kết quả">
+            <button type="button" class="mr-tab" :class="{ active: activeView === 1 }" @click="activeView = 1">
+              <b>1</b> Kết Quả Đo &amp; Bát Cương
+            </button>
+            <button type="button" class="mr-tab" :class="{ active: activeView === 2 }" @click="activeView = 2">
+              <b>2</b> Chẩn Đoán &amp; Điều Trị
+              <span class="mr-tab-badge">{{ excelSyndromesList.length }} thể · {{ matchedPhuongHuyetList.length }} huyệt · {{ matchedBaiThuocList.length }} bài</span>
+            </button>
+            <button type="button" class="mr-tab" :class="{ active: activeView === 3 }" @click="activeView = 3">
+              <b>3</b> Biện Chứng – Pháp Trị
+            </button>
+          </nav>
+
+          <!-- ═══ VIEW 1: Kết quả đo (I) + Bát Cương (II) ═══ -->
+          <section class="mr-view" v-show="activeView === 1">
+          <div class="mr-grid mr-grid--v1">
+            <section class="result-section">
+              <h2 class="section-title">
+                <span class="section-num">I</span> KẾT QUẢ ĐO KINH LẠC
+              </h2>
+              
+              <div class="result-card p-0 overflow-hidden">
+                <!-- Chi Trên -->
+                <div class="table-section-title" :class="sectionTitleClassMerged('upper')">Chi trên</div>
+                <div class="stats-summary-row" :class="statsRowClassMerged('upper')">
+                  <div class="stat-col" :class="excelStatColClass('upper', 0)"><span class="stat-label" title="Số đo cao nhất (trên) và thấp nhất (dưới) của cả chi trên">Cao/Thấp</span><span class="stat-vals"><span class="val max-val">{{ fmt(upperStats.max, 1) }}</span> / <span class="val min-val">{{ fmt(upperStats.min, 1) }}</span></span></div>
+                  <div class="stat-col" :class="excelStatColClass('upper', 1)"><span class="stat-label" title="Biên độ = Cao nhất − Thấp nhất">Biên độ</span><span class="val">{{ fmt(upperStats.range, 1) }}</span></div>
+                  <div class="stat-col" :class="excelStatColClass('upper', 2)"><span class="stat-label" title="Trị số bình quân chung = (Cao nhất + Thấp nhất) / 2">Bình quân</span><span class="val bg-gray" :class="bcMeanClass('upper')">{{ fmt(upperStats.mean, 2) }}</span></div>
+                  <div class="stat-col" :class="excelStatColClass('upper', 3)"><span class="stat-label" title="Dung sai = Biên độ / 6">Dung sai</span><span class="val">{{ fmt(upperStats.sd, 2) }}</span></div>
+                  <div class="stat-col" :class="[excelStatColClass('upper', 4), bcBoundClass('upper')]"><span class="stat-label" title="Cận trên = Bình quân + Dung sai (trên); Cận dưới = Bình quân − Dung sai (dưới)">Cận trên/dưới</span><span class="stat-vals"><span class="val text-brown-600">{{ fmt(upperStats.upperBound, 2) }}</span> / <span class="val text-brown-600">{{ fmt(upperStats.lowerBound, 2) }}</span></span></div>
+                </div>
+
+                <div class="table-responsive table-scroll">
+                  <table class="data-table meridian-data-table">
+                    <thead>
+                      <tr class="meridian-head-row">
+                        <th title="Tên đường kinh được đo">Đường kinh</th>
+                        <th title="Đánh giá bên trái: + cao hơn cận trên, − thấp hơn cận dưới, 0 trong khoảng bình thường">Dấu trái</th>
+                        <th title="Trị số đo bên trái">Đo trái</th>
+                        <th title="Trung bình hai bên = (trái + phải) / 2">TB 2 bên</th>
+                        <th title="Chênh lệch so với trị số bình quân chung của chi (số dương = cao hơn, số âm = thấp hơn)">Lệch BQ</th>
+                        <th title="Trị số đo bên phải">Đo phải</th>
+                        <th title="Đánh giá bên phải: + cao hơn cận trên, − thấp hơn cận dưới, 0 trong khoảng bình thường">Dấu phải</th>
+                        <th title="Chênh lệch tuyệt đối giữa trái và phải = |trái − phải|">Lệch T–P</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(item, idx) in upperRows" :key="'upper-'+idx" :class="upperRowClassMerged(idx)">
+                        <td class="font-bold" :class="excelTdClass('upper', idx, 0)">{{ item.name }}</td>
+                        <td :class="[getSignClass(item.leftSign), excelTdClass('upper', idx, 1)]">{{ item.leftSign }}</td>
+                        <td class="font-medium" :class="[excelTdClass('upper', idx, 2), bcCellClass(item.name, 2)]">{{ fmt(item.left, 1) }}</td>
+                        <td class="bg-gray" :class="[excelTdClass('upper', idx, 3), bcCellClass(item.name, 3)]">{{ fmt(item.avg, 2) }}</td>
+                        <td :class="[item.diff > 0 ? 'text-brown-600' : (item.diff < 0 ? 'text-blue-600' : ''), excelTdClass('upper', idx, 4)]">{{ item.diff > 0 ? '+' : '' }}{{ fmt(item.diff, 2) }}</td>
+                        <td class="font-medium" :class="[excelTdClass('upper', idx, 5), bcCellClass(item.name, 5)]">{{ fmt(item.right, 1) }}</td>
+                        <td :class="[getSignClass(item.rightSign), excelTdClass('upper', idx, 6)]">{{ item.rightSign }}</td>
+                        <td :class="excelTdClass('upper', idx, 7)">{{ fmt(item.absDiff, 1) }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <!-- Chi Dưới -->
+                <div class="table-section-title" :class="sectionTitleClassMerged('lower')">Chi dưới</div>
+                <div class="stats-summary-row" :class="statsRowClassMerged('lower')">
+                  <div class="stat-col" :class="excelStatColClass('lower', 0)"><span class="stat-label">Cao/Thấp</span><span class="stat-vals"><span class="val max-val">{{ fmt(lowerStats.max, 1) }}</span> / <span class="val min-val">{{ fmt(lowerStats.min, 1) }}</span></span></div>
+                  <div class="stat-col" :class="excelStatColClass('lower', 1)"><span class="stat-label">Biên độ</span><span class="val">{{ fmt(lowerStats.range, 1) }}</span></div>
+                  <div class="stat-col" :class="excelStatColClass('lower', 2)"><span class="stat-label">Bình quân</span><span class="val bg-gray" :class="bcMeanClass('lower')">{{ fmt(lowerStats.mean, 2) }}</span></div>
+                  <div class="stat-col" :class="excelStatColClass('lower', 3)"><span class="stat-label">Dung sai</span><span class="val">{{ fmt(lowerStats.sd, 2) }}</span></div>
+                  <div class="stat-col" :class="[excelStatColClass('lower', 4), bcBoundClass('lower')]"><span class="stat-label">Cận trên/dưới</span><span class="stat-vals"><span class="val text-brown-600">{{ fmt(lowerStats.upperBound, 2) }}</span> / <span class="val text-brown-600">{{ fmt(lowerStats.lowerBound, 2) }}</span></span></div>
+                </div>
+                <div class="table-responsive table-scroll">
+                  <table class="data-table meridian-data-table">
+                    <thead>
+                      <tr class="meridian-head-row">
+                        <th>Đường kinh</th><th>Dấu trái</th><th>Đo trái</th><th>TB 2 bên</th><th>Lệch BQ</th><th>Đo phải</th><th>Dấu phải</th><th>Lệch T–P</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="(item, idx) in lowerRows" :key="'lower-'+idx" :class="lowerRowClassMerged(idx)">
+                        <td class="font-bold" :class="excelTdClass('lower', idx, 0)">{{ item.name }}</td>
+                        <td :class="[getSignClass(item.leftSign), excelTdClass('lower', idx, 1)]">{{ item.leftSign }}</td>
+                        <td class="font-medium" :class="[excelTdClass('lower', idx, 2), bcCellClass(item.name, 2)]">{{ fmt(item.left, 1) }}</td>
+                        <td class="bg-gray" :class="[excelTdClass('lower', idx, 3), bcCellClass(item.name, 3)]">{{ fmt(item.avg, 2) }}</td>
+                        <td :class="[item.diff > 0 ? 'text-brown-600' : (item.diff < 0 ? 'text-blue-600' : ''), excelTdClass('lower', idx, 4)]">{{ item.diff > 0 ? '+' : '' }}{{ fmt(item.diff, 2) }}</td>
+                        <td class="font-medium" :class="[excelTdClass('lower', idx, 5), bcCellClass(item.name, 5)]">{{ fmt(item.right, 1) }}</td>
+                        <td :class="[getSignClass(item.rightSign), excelTdClass('lower', idx, 6)]">{{ item.rightSign }}</td>
+                        <td :class="excelTdClass('lower', idx, 7)">{{ fmt(item.absDiff, 1) }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
               </div>
-
-              <div v-if="huLechRows.length" class="dm-section">
-                <span class="dm-title" style="font-size: 0.76rem; font-weight: 800; color: #235885;">🔵 HƯ (Dưới Cận Dưới)</span>
-                <div class="dm-chips" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px;">
-                  <span v-for="r in huLechRows" :key="r.name" class="dm-chip" style="font-size: 0.74rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: #e4eef6; color: #235885;">
-                    {{ SHORT_TO_ORGAN[r.name] || r.name }}
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- CỘT 3: PHƯƠNG HUYỆT NGŨ DU & CHỈ ĐỊNH (34%) -->
-        <div class="dash-col dash-col--right">
-          <div class="dash-card dash-card--full" style="height: 100%; overflow-y: auto;">
-            <PhuongHuyetNguDu
-              :z="nguHanhZ"
-              :hu-thuc="diagnosis.huThuc"
-              :lech-rows="diagnosis.explain?.huThuc?.lechRows"
-              :matched-benh-ids="matchedBenhIds"
-              @goto-acu="gotoAcuMap"
-              @goto-dict="gotoTuDien"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div v-show="layoutMode === 'scroll'">
-        <!-- ═══ 3 TAB (v-show để giữ mount 3D + state) ═══ -->
-        <nav class="mr-tabs" aria-label="Chuyển view kết quả">
-          <button type="button" class="mr-tab" :class="{ active: activeView === 1 }" @click="activeView = 1">
-            <b>1</b> Kết Quả Đo &amp; Bát Cương
-          </button>
-          <button type="button" class="mr-tab" :class="{ active: activeView === 2 }" @click="activeView = 2">
-            <b>2</b> Chẩn Đoán &amp; Điều Trị
-            <span class="mr-tab-badge">{{ excelSyndromesList.length }} thể · {{ matchedPhuongHuyetList.length }} huyệt · {{ matchedBaiThuocList.length }} bài</span>
-          </button>
-          <button type="button" class="mr-tab" :class="{ active: activeView === 3 }" @click="activeView = 3">
-            <b>3</b> Biện Chứng – Pháp Trị
-          </button>
-        </nav>
-
-        <!-- ═══ VIEW 1: Kết quả đo (I) + Bát Cương (II) ═══ -->
-        <section class="mr-view" v-show="activeView === 1">
-        <div class="mr-grid mr-grid--v1">
-          <section class="result-section">
-            <h2 class="section-title">
-              <span class="section-num">I</span> KẾT QUẢ ĐO KINH LẠC
-            </h2>
-            
-            <div class="result-card p-0 overflow-hidden">
-              <!-- Chi Trên -->
-              <div class="table-section-title" :class="sectionTitleClassMerged('upper')">Chi trên</div>
-              <div class="stats-summary-row" :class="statsRowClassMerged('upper')">
-                <div class="stat-col" :class="excelStatColClass('upper', 0)"><span class="stat-label" title="Số đo cao nhất (trên) và thấp nhất (dưới) của cả chi trên">Cao/Thấp</span><span class="stat-vals"><span class="val max-val">{{ fmt(upperStats.max, 1) }}</span> / <span class="val min-val">{{ fmt(upperStats.min, 1) }}</span></span></div>
-                <div class="stat-col" :class="excelStatColClass('upper', 1)"><span class="stat-label" title="Biên độ = Cao nhất − Thấp nhất">Biên độ</span><span class="val">{{ fmt(upperStats.range, 1) }}</span></div>
-                <div class="stat-col" :class="excelStatColClass('upper', 2)"><span class="stat-label" title="Trị số bình quân chung = (Cao nhất + Thấp nhất) / 2">Bình quân</span><span class="val bg-gray" :class="bcMeanClass('upper')">{{ fmt(upperStats.mean, 2) }}</span></div>
-                <div class="stat-col" :class="excelStatColClass('upper', 3)"><span class="stat-label" title="Dung sai = Biên độ / 6">Dung sai</span><span class="val">{{ fmt(upperStats.sd, 2) }}</span></div>
-                <div class="stat-col" :class="[excelStatColClass('upper', 4), bcBoundClass('upper')]"><span class="stat-label" title="Cận trên = Bình quân + Dung sai (trên); Cận dưới = Bình quân − Dung sai (dưới)">Cận trên/dưới</span><span class="stat-vals"><span class="val text-brown-600">{{ fmt(upperStats.upperBound, 2) }}</span> / <span class="val text-brown-600">{{ fmt(upperStats.lowerBound, 2) }}</span></span></div>
-              </div>
-
-              <div class="table-responsive table-scroll">
-                <table class="data-table meridian-data-table">
-                  <thead>
-                    <tr class="meridian-head-row">
-                      <th title="Tên đường kinh được đo">Đường kinh</th>
-                      <th title="Đánh giá bên trái: + cao hơn cận trên, − thấp hơn cận dưới, 0 trong khoảng bình thường">Dấu trái</th>
-                      <th title="Trị số đo bên trái">Đo trái</th>
-                      <th title="Trung bình hai bên = (trái + phải) / 2">TB 2 bên</th>
-                      <th title="Chênh lệch so với trị số bình quân chung của chi (số dương = cao hơn, số âm = thấp hơn)">Lệch BQ</th>
-                      <th title="Trị số đo bên phải">Đo phải</th>
-                      <th title="Đánh giá bên phải: + cao hơn cận trên, − thấp hơn cận dưới, 0 trong khoảng bình thường">Dấu phải</th>
-                      <th title="Chênh lệch tuyệt đối giữa trái và phải = |trái − phải|">Lệch T–P</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, idx) in upperRows" :key="'upper-'+idx" :class="upperRowClassMerged(idx)">
-                      <td class="font-bold" :class="excelTdClass('upper', idx, 0)">{{ item.name }}</td>
-                      <td :class="[getSignClass(item.leftSign), excelTdClass('upper', idx, 1)]">{{ item.leftSign }}</td>
-                      <td class="font-medium" :class="[excelTdClass('upper', idx, 2), bcCellClass(item.name, 2)]">{{ fmt(item.left, 1) }}</td>
-                      <td class="bg-gray" :class="[excelTdClass('upper', idx, 3), bcCellClass(item.name, 3)]">{{ fmt(item.avg, 2) }}</td>
-                      <td :class="[item.diff > 0 ? 'text-brown-600' : (item.diff < 0 ? 'text-blue-600' : ''), excelTdClass('upper', idx, 4)]">{{ item.diff > 0 ? '+' : '' }}{{ fmt(item.diff, 2) }}</td>
-                      <td class="font-medium" :class="[excelTdClass('upper', idx, 5), bcCellClass(item.name, 5)]">{{ fmt(item.right, 1) }}</td>
-                      <td :class="[getSignClass(item.rightSign), excelTdClass('upper', idx, 6)]">{{ item.rightSign }}</td>
-                      <td :class="excelTdClass('upper', idx, 7)">{{ fmt(item.absDiff, 1) }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            </section>
 
               <!-- Chi Dưới -->
               <div class="table-section-title" :class="sectionTitleClassMerged('lower')">Chi dưới</div>
@@ -4255,7 +4261,8 @@ watch(
           </template>
         </div>
       </section><!-- /mr-view VIEW 3 -->
-      </div><!-- /layoutMode === scroll -->
+      </div><!-- /cw-main -->
+      </div><!-- /cw-layout -->
 
     </template>
 
@@ -4831,6 +4838,182 @@ watch(
   color: #fff;
   font-weight: 700;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   CLINICAL WORKSTATION LAYOUT  (cw-*)
+   Sidebar cố định trái (32%) + Main panel phải (68%)
+   Cả hai scroll độc lập, luôn vừa màn hình
+══════════════════════════════════════════════════════════════ */
+.cw-layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 12px;
+  height: calc(100vh - 148px);
+  min-height: 560px;
+  align-items: start;
+}
+
+/* ─ SIDEBAR ─ */
+.cw-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brown-200) transparent;
+}
+
+/* ─ MAIN PANEL ─ */
+.cw-main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+.cw-main .mr-tabs {
+  flex-shrink: 0;
+}
+.cw-main .mr-view {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brown-200) transparent;
+}
+
+/* ─ CARD GỐC ─ */
+.cw-card {
+  background: var(--white);
+  border: 1px solid var(--brown-100);
+  border-radius: var(--radius-lg);
+  padding: 10px 12px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  flex-shrink: 0;
+}
+.cw-card--grow {
+  flex: 1;
+  overflow-y: auto;
+  min-height: 80px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brown-200) transparent;
+}
+.cw-card--phuonghuy {
+  flex: 2;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 120px;
+}
+.cw-phuonghuy-wrap {
+  flex: 1;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--brown-200) transparent;
+}
+
+.cw-card-title {
+  font-size: 10.5px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--brown-700);
+  margin-bottom: 8px;
+  padding-bottom: 5px;
+  border-bottom: 1px solid var(--brown-100);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cw-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--brown-800);
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 99px;
+  letter-spacing: 0;
+}
+
+/* ─ BÁT CƯƠNG ─ */
+.cw-bc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.cw-bc-box {
+  border-radius: 8px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.cw-bc-box--am   { background: #fef2f0; border: 1px solid #f5d0c7; }
+.cw-bc-box--bieu { background: #fdf8f0; border: 1px solid #e8d9bc; }
+.cw-bc-box--nhiet { background: #fff8f0; border: 1px solid #f5d0a0; }
+.cw-bc-box--thuc { background: #f0f7f0; border: 1px solid #b8d9b8; }
+.cw-bc-lbl { font-size: 10px; color: var(--gray-500); font-weight: 600; }
+.cw-bc-val { font-size: 12.5px; font-weight: 800; color: var(--brown-800); }
+.cw-hoichung {
+  margin-top: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--brown-700);
+  background: var(--brown-50);
+  border: 1px solid var(--brown-200);
+  border-radius: 6px;
+  padding: 5px 8px;
+  text-align: center;
+}
+
+/* ─ 12 ĐƯỜNG KINH ─ */
+.cw-meridian-groups { display: flex; flex-direction: column; gap: 8px; }
+.cw-mg-group { display: flex; flex-direction: column; gap: 4px; }
+.cw-mg-lbl {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.cw-mg-lbl--thuc { color: #a82e1e; }
+.cw-mg-lbl--hu   { color: #235885; }
+.cw-mg-chips { display: flex; flex-wrap: wrap; gap: 4px; }
+.cw-mg-chip {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+.cw-mg-chip--thuc { background: #fce8e4; color: #a82e1e; }
+.cw-mg-chip--hu   { background: #e4eef6; color: #235885; }
+.cw-mg-empty {
+  font-size: 11px;
+  color: var(--gray-400);
+  font-style: italic;
+  margin: 0;
+}
+
+/* ─ THỂ BỆNH ─ */
+.cw-syndromes { display: flex; flex-direction: column; gap: 4px; }
+.cw-synd-item {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 6px 10px;
+  border-radius: 7px;
+  border: 1px solid var(--brown-100);
+  background: var(--surface-2);
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--brown-800);
+  line-height: 1.3;
+}
+.cw-synd-item:hover { background: var(--brown-100); }
+.cw-synd-item.active {
+  background: var(--brown-800);
+  color: #fff;
+  border-color: var(--brown-800);
 }
 
 /* Header */
