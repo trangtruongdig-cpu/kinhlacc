@@ -1776,6 +1776,8 @@ const diagnosis = computed(() => {
 // Mã kinh NGẮN đang "lệch" theo Hư-Thực → truyền xuống BatCuongOrgans/BatCuongFigure3D để soi
 // nhóm 'huthuc' (giống cách Biểu-Lý/Hàn-Nhiệt soi theo affectedOrgans).
 const huThucLechNames = computed(() => (diagnosis.value.explain?.huThuc?.lechRows ?? []).map((r) => r.name))
+const thucLechRows = computed(() => (diagnosis.value.explain?.huThuc?.lechRows ?? []).filter((r) => r.tone === 'high'))
+const huLechRows = computed(() => (diagnosis.value.explain?.huThuc?.lechRows ?? []).filter((r) => r.tone === 'low'))
 
 // Kinh "lệch" kèm tên tạng phủ + bên + hướng (cao vượt ngưỡng / thấp dưới ngưỡng) → BatCuongSummary
 // hiện 2 nhóm chip theo BIÊN ĐỘ. Lưu ý: cao/thấp là biên độ, KHÔNG phải nhãn thực/hư từng tạng
@@ -3354,19 +3356,19 @@ watch(
           <div class="dash-card">
             <div class="dash-card-title">12 ĐƯỜNG KINH DO ĐẠC (PHÂN NHÓM HƯ / THỰC)</div>
             <div class="dash-meridians-summary" style="display: flex; flex-direction: column; gap: 6px;">
-              <div v-if="diagnosis.explain?.huThuc?.lechRows?.some(r => r.tone === 'high')" class="dm-section">
+              <div v-if="thucLechRows.length" class="dm-section">
                 <span class="dm-title" style="font-size: 0.76rem; font-weight: 800; color: #a82e1e;">🔴 THỰC (Vượt Cận Trên)</span>
                 <div class="dm-chips" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px;">
-                  <span v-for="r in diagnosis.explain.huThuc.lechRows.filter(r => r.tone === 'high')" :key="r.name" class="dm-chip" style="font-size: 0.74rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: #fce8e4; color: #a82e1e;">
+                  <span v-for="r in thucLechRows" :key="r.name" class="dm-chip" style="font-size: 0.74rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: #fce8e4; color: #a82e1e;">
                     {{ SHORT_TO_ORGAN[r.name] || r.name }}
                   </span>
                 </div>
               </div>
 
-              <div v-if="diagnosis.explain?.huThuc?.lechRows?.some(r => r.tone === 'low')" class="dm-section">
+              <div v-if="huLechRows.length" class="dm-section">
                 <span class="dm-title" style="font-size: 0.76rem; font-weight: 800; color: #235885;">🔵 HƯ (Dưới Cận Dưới)</span>
                 <div class="dm-chips" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px;">
-                  <span v-for="r in diagnosis.explain.huThuc.lechRows.filter(r => r.tone === 'low')" :key="r.name" class="dm-chip" style="font-size: 0.74rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: #e4eef6; color: #235885;">
+                  <span v-for="r in huLechRows" :key="r.name" class="dm-chip" style="font-size: 0.74rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: #e4eef6; color: #235885;">
                     {{ SHORT_TO_ORGAN[r.name] || r.name }}
                   </span>
                 </div>
