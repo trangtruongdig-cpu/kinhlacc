@@ -3768,10 +3768,53 @@ watch(
                     @keydown.enter.prevent="focusSyndNode(node)"
                     @keydown.space.prevent="focusSyndNode(node)"
                   >
-                    <div class="synd-info">
-                      <span class="synd-idx">{{ node.no }}</span>
-                      <span class="synd-name">{{ node.item.name }}</span>
-                      <span class="synd-rate">{{ node.item.outputCell }}</span>
+                    <div class="synd-header-row">
+                      <div class="synd-info">
+                        <span class="synd-idx">{{ node.no }}</span>
+                        <span class="synd-name">{{ node.item.name }}</span>
+                        <span class="synd-rate">{{ node.item.outputCell }}</span>
+                      </div>
+                      <div class="synd-actions">
+                        <button
+                          type="button"
+                          class="pt-search-btn"
+                          title="Xem chi tiết bệnh này (nguyên nhân, triệu chứng, pháp trị, bài thuốc — theo dữ liệu Bệnh Đo Kinh Lạc)"
+                          @click.stop="openBenhChiTiet(node.item)"
+                          @keydown.stop
+                        >
+                          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
+                            <path d="M4 10c1.8-3.3 4.2-5 6-5s4.2 1.7 6 5c-1.8 3.3-4.2 5-6 5s-4.2-1.7-6-5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                            <circle cx="10" cy="10" r="2" stroke="currentColor" stroke-width="2" />
+                          </svg>
+                          Chi tiết
+                        </button>
+                        <button
+                          type="button"
+                          class="pt-search-btn"
+                          title="Tìm pháp trị cho mô hình bệnh này"
+                          @click.stop="openPhapTriSearch(node.item)"
+                          @keydown.stop
+                        >
+                          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
+                            <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="2" />
+                            <path d="m17 17-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                          </svg>
+                          Pháp trị
+                        </button>
+                        <button
+                          v-if="phuongHuyetForThe(node.item).length"
+                          type="button"
+                          class="pt-search-btn"
+                          title="In phiếu châm huyệt riêng cho thể bệnh này"
+                          @click.stop="inPhieuChamHuyet(node.item)"
+                          @keydown.stop
+                        >
+                          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
+                            <path d="M6 2.5A1.5 1.5 0 0 0 4.5 4v2H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h.5v1.5A1.5 1.5 0 0 0 6 17h8a1.5 1.5 0 0 0 1.5-1.5V14h.5a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-.5V4A1.5 1.5 0 0 0 14 2.5H6ZM14 6H6V4h8v2Zm0 6H6v3.5h8V12Z" stroke="none" fill="currentColor" />
+                          </svg>
+                          Châm huyệt
+                        </button>
+                      </div>
                     </div>
                     <div v-for="sub in node.subs" :key="sub.name" class="synd-sub">
                       <span class="synd-sub-head">
@@ -3784,47 +3827,6 @@ watch(
                         <span v-if="sub.measured" class="synd-sub-meas" title="Thể này cũng đo ra — bấm dòng để sáng cả công thức của nó">✦ đo ra</span>
                       </span>
                       <span v-if="sub.ghiChu" class="synd-sub-note">{{ sub.ghiChu }}</span>
-                    </div>
-                    <div class="synd-actions">
-                      <button
-                        type="button"
-                        class="pt-search-btn"
-                        title="Xem chi tiết bệnh này (nguyên nhân, triệu chứng, pháp trị, bài thuốc — theo dữ liệu Bệnh Đo Kinh Lạc)"
-                        @click.stop="openBenhChiTiet(node.item)"
-                        @keydown.stop
-                      >
-                        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
-                          <path d="M4 10c1.8-3.3 4.2-5 6-5s4.2 1.7 6 5c-1.8 3.3-4.2 5-6 5s-4.2-1.7-6-5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
-                          <circle cx="10" cy="10" r="2" stroke="currentColor" stroke-width="2" />
-                        </svg>
-                        Chi tiết
-                      </button>
-                      <button
-                        type="button"
-                        class="pt-search-btn"
-                        title="Tìm pháp trị cho mô hình bệnh này"
-                        @click.stop="openPhapTriSearch(node.item)"
-                        @keydown.stop
-                      >
-                        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
-                          <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="2" />
-                          <path d="m17 17-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                        </svg>
-                        Pháp trị
-                      </button>
-                      <button
-                        v-if="phuongHuyetForThe(node.item).length"
-                        type="button"
-                        class="pt-search-btn"
-                        title="In phiếu châm huyệt riêng cho thể bệnh này"
-                        @click.stop="inPhieuChamHuyet(node.item)"
-                        @keydown.stop
-                      >
-                        <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
-                          <path d="M6 2.5A1.5 1.5 0 0 0 4.5 4v2H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h.5v1.5A1.5 1.5 0 0 0 6 17h8a1.5 1.5 0 0 0 1.5-1.5V14h.5a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-.5V4A1.5 1.5 0 0 0 14 2.5H6ZM14 6H6V4h8v2Zm0 6H6v3.5h8V12Z" stroke="none" fill="currentColor" />
-                        </svg>
-                        Châm huyệt
-                      </button>
                     </div>
                   </div>
                 </div>
@@ -6556,71 +6558,166 @@ watch(
 ════════════════════════════════════════════════════════════ */
 
 /* ── CARD / SECTION: giảm padding ── */
-.result-card { padding: var(--space-3) !important; }
-.result-section { gap: var(--space-3) !important; }
-.info-group { margin-top: var(--space-3) !important; }
-.info-group + .info-group { margin-top: var(--space-3) !important; }
-.section-title { margin-bottom: var(--space-2) !important; }
+.result-card { padding: 10px 12px !important; }
+.result-section { gap: var(--space-2) !important; }
+.info-group { margin-top: 8px !important; }
+.info-group + .info-group { margin-top: 8px !important; }
+.section-title { margin-bottom: 6px !important; font-size: 14px !important; }
 
 /* ── SYNDROME LIST (Tab 2 trái): compact rows ── */
-.comparison-list { gap: 5px !important; }
+.comparison-list {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 6px !important;
+}
+
 .comparison-cell {
-  flex-wrap: nowrap !important;
-  padding: 5px 10px !important;
-  gap: var(--space-2) !important;
-}
-/* tên thể bệnh co giãn, nút không xuống dòng */
-.synd-info { flex: 1 1 0; min-width: 0; }
-.synd-name { font-size: 12.5px; line-height: 1.3; white-space: normal; }
-.synd-idx  { font-size: 11px; min-width: 14px; text-align: center; }
-.synd-rate { font-size: 11px; white-space: nowrap; }
-.synd-actions {
-  flex-shrink: 0;
+  display: flex !important;
+  flex-direction: column !important;
+  padding: 7px 10px !important;
   gap: 4px !important;
-  margin-left: auto;
-}
-/* nút action nhỏ hơn */
-.pt-search-btn { padding: 2px 7px !important; font-size: 10.5px !important; }
-.pt-search-ic  { width: 11px !important; height: 11px !important; }
-
-/* sub-note của thể bệnh (ghi chú ngắn hơn) */
-.synd-sub { font-size: 11px; padding: 1px 0 !important; }
-.synd-sub-head { gap: 4px !important; }
-
-/* ── PHƯƠNG HUYỆT CỘT PHẢI (Tab 2): 2-column grid ── */
-/* Vùng danh sách huyệt châm bổ/tả */
-.phuong-huyet-list,
-.phacdo-col .huyet-list,
-.matched-ph-list,
-.ph-group-list {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 4px 10px !important;
-}
-/* Bài thuốc: 2 cột cũng áp dụng */
-.bai-thuoc-list {
-  display: grid !important;
-  grid-template-columns: 1fr 1fr !important;
-  gap: 4px 10px !important;
+  background: var(--white);
+  border: 1px solid var(--brown-200);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
 }
 
-/* ── TAB 1: bảng đo kinhh lạc gọn hơn ── */
+.synd-header-row {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 8px !important;
+  width: 100% !important;
+}
+
+.synd-info {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex: 1 1 0 !important;
+  min-width: 0 !important;
+}
+
+.synd-idx {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: var(--brown-700);
+  background: var(--brown-100);
+  min-width: 18px;
+  height: 18px;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  padding: 0 4px;
+}
+
+.synd-name {
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  color: var(--brown-900);
+  line-height: 1.25 !important;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+}
+
+.synd-rate {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  color: #2e5c1e;
+  background: #f2f7ec;
+  padding: 1px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.synd-actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+  flex-shrink: 0 !important;
+}
+
+.pt-search-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+  padding: 3px 8px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  color: var(--brown-700);
+  background: var(--surface-2, #faf6ee);
+  border: 1px solid var(--brown-300);
+  border-radius: 6px !important;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.pt-search-btn:hover {
+  background: var(--brown-600);
+  color: var(--white);
+  border-color: var(--brown-600);
+}
+
+.pt-search-ic {
+  width: 12px !important;
+  height: 12px !important;
+}
+
+.synd-sub {
+  font-size: 11.5px !important;
+  line-height: 1.35 !important;
+  padding: 5px 8px !important;
+  background: #fbf8f3 !important;
+  border: 1px dashed #e8d7c0 !important;
+  border-radius: 6px !important;
+  margin-top: 2px !important;
+  color: var(--brown-800);
+}
+
+.synd-sub-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+/* ── PHƯƠNG HUYỆT CỘT PHẢI (Tab 2) ── */
+.ph-group__chips {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 5px 8px !important;
+}
+
+.ph-chip-wrap {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 2px !important;
+}
+
+.ph-chip {
+  padding: 3px 8px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+}
+
+/* ── TAB 1: bảng đo kinh lạc ── */
 .meridian-data-table td { padding: 3px 8px !important; }
 .stats-summary-row .stat-col { padding: 4px var(--space-2) !important; }
 .table-section-title { padding: var(--space-1) var(--space-3) 4px !important; }
 .table-footer-stat { padding: 4px var(--space-3) !important; }
 
-/* ── BÁT CƯƠNG band (Tab 1 phần II): compact ── */
+/* ── BÁT CƯƠNG band (Tab 1 phần II) ── */
 .bc-band { padding: var(--space-2) !important; }
 .bc-wrap { gap: var(--space-2) !important; }
 
-/* ── TAB 3 BCPT: compact ── */
+/* ── TAB 3 BCPT ── */
 .bcpt { gap: var(--space-2) !important; }
 .bcpt-the { gap: 4px !important; }
 .bcpt-row { gap: 4px !important; padding: 3px 0 !important; }
 
-/* ── info-group headings ── */
 .info-label { font-size: 12px !important; margin-bottom: 6px !important; }
-
-/* ── phacdo-col gap ── */
 .phacdo-col { gap: var(--space-3) !important; }</style>

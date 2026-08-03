@@ -447,12 +447,12 @@ const rx = computed(() => {
 .ngd-rx-tag--ta { background: #fce8e4; color: #a82e1e; }
 .ngd-rx-tag--bo { background: #e4f3de; color: #2e5c1e; }
 
-.ngd-rx-chips { display: flex; flex-wrap: wrap; gap: 8px; }
-.ngd-rx-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 999px; font-size: 0.84rem; border: 1px solid; }
+.ngd-rx-chips { display: flex; flex-wrap: wrap; gap: 5px 8px; }
+.ngd-rx-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 9px; border-radius: 6px; font-size: 0.78rem; border: 1px solid; }
 .ngd-rx-chip--ta { background: #fff8f7; border-color: #f3c2b8; }
 .ngd-rx-chip--bo { background: #f7fcf5; border-color: #c7e5bb; }
-.ngd-rx-name { font-weight: 800; color: #2c1d11; }
-.ngd-rx-detail { font-size: 0.74rem; color: #6e5e49; }
+.ngd-rx-name { font-weight: 800; color: #2c1d11; white-space: nowrap; }
+.ngd-rx-detail { font-size: 0.72rem; color: #6e5e49; white-space: nowrap; }
 .ngd-rx-detail small { color: #8a6d48; font-weight: 600; }
 
 .ngd-empty { color: var(--gray-500, #8a7c68); font-size: 0.86rem; margin: 8px 0; font-style: italic; }
