@@ -7,7 +7,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 
 import {
-  type HanhId, huyetTheoHanh, controllerOf, hanhCuaKinh, HANH_TEN, KINH_THEO_HANH,
+  type HanhId, huyetTheoHanh, controllerOf, motherOf, sonOf, hanhCuaKinh, HANH_TEN, KINH_THEO_HANH,
 } from './nguDuHuyet'
 
 export type KhungLoai = 'bieuly' | 'thuongha' | 'phuthe' | 'tyngo' | 'lackhi'
@@ -71,6 +71,12 @@ export interface PhuongHuyetNHHT {
   giaiThich: string
 }
 
+export interface PhuongHuyetBoMauTaCon {
+  gocOrgan: string; hanhE: HanhId; hanhETen: string; thuc: boolean
+  targetHuyet: HuyetChiDinh
+  giaiThich: string
+}
+
 function chiDinh(kinh: string, hanh: HanhId, boTa: 'bo' | 'ta'): HuyetChiDinh | null {
   const h = huyetTheoHanh(kinh, hanh)
   if (!h) return null
@@ -80,9 +86,9 @@ function chiDinh(kinh: string, hanh: HanhId, boTa: 'bo' | 'ta'): HuyetChiDinh | 
 /**
  * Phương huyệt Ngũ Du theo NHHT. Luật (bệnh án tr.73–79) — NHẤT QUÁN mọi ca:
  *   • kinh GỐC (nơi hành E lệch) mang tác động lên hành-KHẮC C:
- *       E THỰC → BỔ C (C khắc E → chế E vượng);  E HƯ → TẢ C (C khắc E quá tay → hạ kẻ khắc).
+ *       E THỰC → BỔ C (C khắc E → chế E vượng, chặn Tương Vũ & Tương Thừa); E HƯ → TẢ C (chặn C Tương Thừa quá tay).
  *   • kinh BẠN mang tác động lên chính E:
- *       E THỰC → TẢ E (tiết thực);              E HƯ → BỔ E (phù chính).
+ *       E THỰC → TẢ E (tiết thực); E HƯ → BỔ E (phù chính).
  */
 export function phuongHuyetNHHT(gocOrgan: string, thuc: boolean, loai: KhungLoai): PhuongHuyetNHHT | null {
   const hanhE = hanhCuaKinh(gocOrgan)
@@ -95,12 +101,39 @@ export function phuongHuyetNHHT(gocOrgan: string, thuc: boolean, loai: KhungLoai
   if (thuc) {
     ta = chiDinh(khung.partner, hanhE, 'ta')
     bo = chiDinh(gocOrgan, C, 'bo')
-    giaiThich = `${cTen} khắc ${eTen} → BỔ ${cTen} (${bo?.huyet} · ${gocOrgan}) chế ${eTen} vượng; TẢ ${eTen} (${ta?.huyet} · ${khung.partner}) tiết thực ở kinh bạn.`
+    giaiThich = `${eTen} quá THỰC gây Tương Thừa (đè nén hành bị khắc) & Tương Vũ (phản khắc ${cTen}) → BỔ ${cTen} (${bo?.huyet} · kinh ${gocOrgan}) để chế ngự ${eTen}; TẢ ${eTen} (${ta?.huyet} · kinh ${khung.partner}) tại Kinh Bạn để xả bớt thực khí.`
   } else {
     bo = chiDinh(khung.partner, hanhE, 'bo')
     ta = chiDinh(gocOrgan, C, 'ta')
-    giaiThich = `${eTen} hư (do ${cTen} khắc quá) → TẢ ${cTen} (${ta?.huyet} · ${gocOrgan}) hạ kẻ khắc; BỔ ${eTen} (${bo?.huyet} · ${khung.partner}) phù chính.`
+    giaiThich = `${eTen} suy HƯ bị ${cTen} Tương Thừa (khắc phạt quá tay) → TẢ ${cTen} (${ta?.huyet} · kinh ${gocOrgan}) tại Kinh Gốc ngắt đè nén; BỔ ${eTen} (${bo?.huyet} · kinh ${khung.partner}) tại Kinh Bạn bồi dưỡng chính khí.`
   }
   if (!ta || !bo) return null
   return { gocOrgan, hanhE, hanhETen: eTen, thuc, khung, ta, bo, giaiThich }
 }
+
+/**
+ * Phương huyệt Ngũ Du theo Nguyên tắc "Bổ Mẫu Tả Con" (Nạn Kinh 69).
+ *   • E THỰC → TẢ TỬ (Hành con của E): "Thực thì tả Tử".
+ *   • E HƯ → BỔ MẪU (Hành mẹ của E): "Hư thì bổ Mẫu".
+ */
+export function phuongHuyetBoMauTaCon(gocOrgan: string, thuc: boolean): PhuongHuyetBoMauTaCon | null {
+  const hanhE = hanhCuaKinh(gocOrgan)
+  if (!hanhE) return null
+  const eTen = HANH_TEN[hanhE]
+  if (thuc) {
+    const sonHanh = sonOf(hanhE)
+    const sonTen = HANH_TEN[sonHanh]
+    const targetHuyet = chiDinh(gocOrgan, sonHanh, 'ta')
+    if (!targetHuyet) return null
+    const giaiThich = `Thực thì tả Tử (Nạn Kinh 69): ${eTen} quá THỰC → TẢ ${sonTen} (${targetHuyet.huyet} · ${targetHuyet.role} huyệt kinh ${gocOrgan}) để rút bớt thực khí dư thừa.`
+    return { gocOrgan, hanhE, hanhETen: eTen, thuc, targetHuyet, giaiThich }
+  } else {
+    const motherHanh = motherOf(hanhE)
+    const motherTen = HANH_TEN[motherHanh]
+    const targetHuyet = chiDinh(gocOrgan, motherHanh, 'bo')
+    if (!targetHuyet) return null
+    const giaiThich = `Hư thì bổ Mẫu (Nạn Kinh 69): ${eTen} suy HƯ → BỔ ${motherTen} (${targetHuyet.huyet} · ${targetHuyet.role} huyệt kinh ${gocOrgan}) để bồi dưỡng khí sinh cho bản hành.`
+    return { gocOrgan, hanhE, hanhETen: eTen, thuc, targetHuyet, giaiThich }
+  }
+}
+

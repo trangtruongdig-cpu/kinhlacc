@@ -57,6 +57,19 @@ export function huyetTheoHanh(kinhId: string, hanh: HanhId): HuyetTra | null {
   return { ten: k.huyet[ROLE_ORDER.indexOf(role)]!, role, roleTen: ROLE_TEN[role] }
 }
 
+// ── Ngũ hành tương sinh: a sinh SINH[a] ──
+const SINH: Record<HanhId, HanhId> = { moc: 'hoa', hoa: 'tho', tho: 'kim', kim: 'thuy', thuy: 'moc' }
+
+/** Hành Mẹ của E (hành sinh E): X sao cho X sinh E. VD motherOf('moc')='thuy'. */
+export function motherOf(e: HanhId): HanhId {
+  return (Object.keys(SINH) as HanhId[]).find((x) => SINH[x] === e)!
+}
+
+/** Hành Con của E (hành được E sinh): SINH[e]. VD sonOf('moc')='hoa'. */
+export function sonOf(e: HanhId): HanhId {
+  return SINH[e]
+}
+
 // ── Ngũ hành tương khắc: a khắc KHAC[a] ──
 const KHAC: Record<HanhId, HanhId> = { moc: 'tho', tho: 'thuy', thuy: 'hoa', hoa: 'kim', kim: 'moc' }
 
@@ -78,3 +91,4 @@ export const KINH_THEO_HANH: Record<HanhId, string[]> = {
   kim: ['Phế', 'Đại trường'],
   thuy: ['Thận', 'Bàng quang'],
 }
+
