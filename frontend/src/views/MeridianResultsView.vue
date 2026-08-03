@@ -297,7 +297,8 @@ async function loadDinhVi() {
 const dinhVi = computed(() => buildDinhVi(dinhViRows.value))
 // ③ Tính chất (bát cương · chính khí) tách riêng để đặt NGANG HÀNG với đồ hình Thái Cực
 // (AmDuongTaiji) — cùng gốc chính khí/Hư-Thực nên xem cạnh nhau dễ đối chiếu hơn là để tuốt
-// xuống dưới đồ hình 5 vòng, phải cuộn mới thấy. ①②  Định vị/Tác nhân vẫn giữ nguyên vị trí cũ.
+const dinhViAxis = computed(() => dinhVi.value.axes.find((ax) => ax.key === 'dinh-vi') ?? null)
+const tacNhanAxis = computed(() => dinhVi.value.axes.find((ax) => ax.key === 'tac-nhan') ?? null)
 const tinhChatAxis = computed(() => dinhVi.value.axes.find((ax) => ax.key === 'tinh-chat') ?? null)
 const otherAxes = computed(() => dinhVi.value.axes.filter((ax) => ax.key !== 'tinh-chat'))
 // Chiếu định vị vào không gian đồ hình: {kinh, khi, tang, amDuong} cho DinhViWheel tô sáng.
@@ -4064,38 +4065,11 @@ watch(
                   Các thể đo được chưa thuộc phạm vi Thương Hàn Lục Kinh — chưa định vị (có thể là nội thương / ôn bệnh / tạp bệnh).
                 </p>
 
-                <!-- 3. TÍNH CHẤT BÁT CƯƠNG · CHÍNH KHÍ -->
-                <section v-if="!dinhViLoading && tinhChatAxis" class="bcpt-axis bcpt-axis--tinhchat">
-                  <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ tinhChatAxis.num }}</span> {{ tinhChatAxis.title }} <em>{{ tinhChatAxis.sub }}</em></h3>
-                  <div v-for="sg in tinhChatAxis.subgroups" :key="sg.nhom" class="bcpt-sub">
+                <!-- ① ĐỊNH VỊ (Giai đoạn · Tầng bệnh) -->
+                <section v-if="dinhViAxis" class="bcpt-axis bcpt-axis--side">
+                  <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ dinhViAxis.num }}</span> {{ dinhViAxis.title }} <em>{{ dinhViAxis.sub }}</em></h3>
+                  <div v-for="sg in dinhViAxis.subgroups" :key="sg.nhom" class="bcpt-sub">
                     <span class="bcpt-sub-lb">{{ sg.label }}</span>
-                    <div class="bcpt-chips">
-                      <span v-for="t in sg.tags" :key="t.name" class="bcpt-chip bcpt-chip--on" :title="t.name">{{ t.label }}</span>
-                      <span v-if="!sg.tags.length" class="bcpt-empty">—</span>
-                    </div>
-                  </div>
-                </section>
-
-                <p v-if="dinhViLop === 5" class="bcpt-wheel-cap">Lớp Lục Kinh — <b style="color:#c99a2e">viền vàng đậm</b> = kinh <b>định vị (trội)</b> · viền vàng nhạt = kinh của ca · <b style="color:#e35a2f">đỏ</b> = có thể <b>vào lý (nặng)</b> · <b style="color:#5f9e4a">xanh</b> = có thể <b>ra biểu (hồi phục)</b>. Trục nét đứt = cặp biểu-lý.</p>
-                <p v-else-if="dinhViLop === 4" class="bcpt-wheel-cap">Lớp Lục Khí: rê một <b>Khí</b> → tia Khí → Kinh (bản khí) → Tạng/Phủ; tâm <b>Ngũ Hành</b> sinh-khắc. Số = <b>tạng bị tác động</b> theo khí (Hàn/Nhiệt).</p>
-                <p v-else-if="dinhViLop === 3" class="bcpt-wheel-cap">Lớp Tạng Phủ — ngôi sao <b>Ngũ Hành méo theo số đo</b>: đỉnh <b style="color:#35638d">co vào = tạng HƯ</b> (suy), <b style="color:#b23a29">đẩy ra = THỰC</b> (dư). Dây <b style="color:#b23a29">đỏ</b> = tương thừa (khắc quá), <b style="color:#8a2f4f">mận</b> = tương vũ; viền vàng = tạng <b>gốc</b>. So với ngũ giác mờ (mốc cân bằng) để thấy độ xộc xệch.</p>
-                <p v-else class="bcpt-wheel-cap">Bóc từng lớp (Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh). Ô <b>sáng vàng</b> = bệnh nhân có; mờ = không.</p>
-                <p v-if="dinhVi.isEmpty" class="bcpt-empty-note">
-                  Các thể bệnh trên chưa có liên kết bài thuốc → chưa suy được định vị.
-                </p>
-                <div class="bcpt-mini">
-                  <span class="bcpt-mini-lb">Tạng phủ tổn thương:</span>
-                  <span v-for="o in dinhVi.tangPhu" :key="o.name" class="bcpt-chip bcpt-chip--on">{{ o.label }}</span>
-                  <span v-if="!dinhVi.tangPhu.length" class="bcpt-empty">—</span>
-                </div>
-                <!-- ①② Định vị/Tác nhân — CỘT PHẢI, ngang hàng đồ hình (gồm cả mục không có vòng:
-                Vệ-Khí-Dinh-Huyết · Tam Tiêu · Nội Sinh). ③ Tính chất đã ở trên cùng ngang Thái Cực. -->
-                <section v-for="ax in otherAxes" :key="ax.key" class="bcpt-axis bcpt-axis--side">
-                  <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ ax.num }}</span> {{ ax.title }} <em>{{ ax.sub }}</em></h3>
-                  <div v-for="sg in ax.subgroups" :key="sg.nhom" class="bcpt-sub">
-                    <span class="bcpt-sub-lb">{{ sg.label }}</span>
-                    <!-- Lục Kinh (Thương Hàn): DÙNG CHUNG NGUỒN bienChung (không lấy tag luc_kinh thô) →
-                         nhất quán với ◎ kết luận + đồ hình; chip BẤM ĐƯỢC (soi trên đồ hình). -->
                     <div v-if="sg.nhom === 'gd-luc-kinh'" class="bcpt-chips">
                       <button
                         v-for="c in dinhViKinhChips"
@@ -4115,6 +4089,43 @@ watch(
                     </div>
                   </div>
                 </section>
+
+                <!-- ② TÁC NHÂN (Khí · Tà gây bệnh & Tạng phủ tổn thương) -->
+                <div class="bcpt-mini">
+                  <span class="bcpt-mini-lb">Tạng phủ tổn thương:</span>
+                  <span v-for="o in dinhVi.tangPhu" :key="o.name" class="bcpt-chip bcpt-chip--on">{{ o.label }}</span>
+                  <span v-if="!dinhVi.tangPhu.length" class="bcpt-empty">—</span>
+                </div>
+                <section v-if="tacNhanAxis" class="bcpt-axis bcpt-axis--side">
+                  <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ tacNhanAxis.num }}</span> {{ tacNhanAxis.title }} <em>{{ tacNhanAxis.sub }}</em></h3>
+                  <div v-for="sg in tacNhanAxis.subgroups" :key="sg.nhom" class="bcpt-sub">
+                    <span class="bcpt-sub-lb">{{ sg.label }}</span>
+                    <div class="bcpt-chips">
+                      <span v-for="t in sg.tags" :key="t.name" class="bcpt-chip bcpt-chip--on" :title="t.name">{{ t.label }}</span>
+                      <span v-if="!sg.tags.length" class="bcpt-empty">—</span>
+                    </div>
+                  </div>
+                </section>
+
+                <!-- ③ TÍNH CHẤT (Bát cương · Chính khí) -->
+                <section v-if="!dinhViLoading && tinhChatAxis" class="bcpt-axis bcpt-axis--tinhchat">
+                  <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ tinhChatAxis.num }}</span> {{ tinhChatAxis.title }} <em>{{ tinhChatAxis.sub }}</em></h3>
+                  <div v-for="sg in tinhChatAxis.subgroups" :key="sg.nhom" class="bcpt-sub">
+                    <span class="bcpt-sub-lb">{{ sg.label }}</span>
+                    <div class="bcpt-chips">
+                      <span v-for="t in sg.tags" :key="t.name" class="bcpt-chip bcpt-chip--on" :title="t.name">{{ t.label }}</span>
+                      <span v-if="!sg.tags.length" class="bcpt-empty">—</span>
+                    </div>
+                  </div>
+                </section>
+
+                <p v-if="dinhViLop === 5" class="bcpt-wheel-cap">Lớp Lục Kinh — <b style="color:#c99a2e">viền vàng đậm</b> = kinh <b>định vị (trội)</b> · viền vàng nhạt = kinh của ca · <b style="color:#e35a2f">đỏ</b> = có thể <b>vào lý (nặng)</b> · <b style="color:#5f9e4a">xanh</b> = có thể <b>ra biểu (hồi phục)</b>. Trục nét đứt = cặp biểu-lý.</p>
+                <p v-else-if="dinhViLop === 4" class="bcpt-wheel-cap">Lớp Lục Khí: rê một <b>Khí</b> → tia Khí → Kinh (bản khí) → Tạng/Phủ; tâm <b>Ngũ Hành</b> sinh-khắc. Số = <b>tạng bị tác động</b> theo khí (Hàn/Nhiệt).</p>
+                <p v-else-if="dinhViLop === 3" class="bcpt-wheel-cap">Lớp Tạng Phủ — ngôi sao <b>Ngũ Hành méo theo số đo</b>: đỉnh <b style="color:#35638d">co vào = tạng HƯ</b> (suy), <b style="color:#b23a29">đẩy ra = THỰC</b> (dư). Dây <b style="color:#b23a29">đỏ</b> = tương thừa (khắc quá), <b style="color:#8a2f4f">mận</b> = tương vũ; viền vàng = tạng <b>gốc</b>. So với ngũ giác mờ (mốc cân bằng) để thấy độ xộc xệch.</p>
+                <p v-else class="bcpt-wheel-cap">Bóc từng lớp (Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh). Ô <b>sáng vàng</b> = bệnh nhân có; mờ = không.</p>
+                <p v-if="dinhVi.isEmpty" class="bcpt-empty-note">
+                  Các thể bệnh trên chưa có liên kết bài thuốc → chưa suy được định vị.
+                </p>
               </div>
             </div>
           </template>
