@@ -32,9 +32,10 @@ function arrowHead(tip: { x: number; y: number }, dir: { x: number; y: number },
 }
 
 // PENTA index [0]Hỏa [1]Thổ [2]Kim [3]Thủy [4]Mộc — thuận KĐH = vòng TƯƠNG SINH; i→i+2 = TƯƠNG KHẮC.
-interface HanhDef { key: 'hoa' | 'tho' | 'kim' | 'thuy' | 'moc'; ten: string; han: string; tang: string; tangHan: string; phu: string; deg: number; color: string }
+// Hỏa gồm 2 cặp: Quân Hỏa (Tâm/Tiểu Trường) + Tướng Hỏa (Tâm Bào/Tam Tiêu) → tang2/phu2 cho ĐỦ lục tạng lục phủ.
+interface HanhDef { key: 'hoa' | 'tho' | 'kim' | 'thuy' | 'moc'; ten: string; han: string; tang: string; tangHan: string; tang2?: string; phu: string; phu2?: string; deg: number; color: string }
 const HANHS: HanhDef[] = [
-  { key: 'hoa', ten: 'Hỏa', han: '火', tang: 'Tâm', tangHan: '心', phu: 'Tiểu Trường', deg: 0, color: '#b23a29' },
+  { key: 'hoa', ten: 'Hỏa', han: '火', tang: 'Tâm', tangHan: '心', tang2: 'Tâm Bào', phu: 'Tiểu Trường', phu2: 'Tam Tiêu', deg: 0, color: '#b23a29' },
   { key: 'tho', ten: 'Thổ', han: '土', tang: 'Tỳ', tangHan: '脾', phu: 'Vị', deg: 72, color: '#b3872c' },
   { key: 'kim', ten: 'Kim', han: '金', tang: 'Phế', tangHan: '肺', phu: 'Đại Trường', deg: 144, color: '#b39a55' },
   { key: 'thuy', ten: 'Thủy', han: '水', tang: 'Thận', tangHan: '腎', phu: 'Bàng Quang', deg: 216, color: '#35638d' },
@@ -186,13 +187,15 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
     <svg class="vnh-svg" viewBox="0 0 420 420" role="img"
       aria-label="Ngôi sao Ngũ Hành méo theo mất cân bằng đo được, kèm lực tương sinh tương khắc">
 
+      <!-- MÀN CHE TỐI mỏng: làm Thái Cực nền ĐỀU-tối lại (mờ nửa kem chói) để ngũ hành NỔI RÕ trên nền -->
+      <circle class="vnh-veil" :cx="CX" :cy="CY" :r="RIM" />
       <!-- Vòng RÌA chung của các lớp — mọi thứ nằm gọn bên trong -->
       <circle class="vnh-rim" :cx="CX" :cy="CY" :r="RIM" />
 
-      <!-- Nhãn tạng ở vành ngoài (GỌN: hành+tạng 1 dòng · tạng chữ to · phủ chữ nhỏ dưới, sát nhau) -->
+      <!-- Nhãn tạng ở vành ngoài (GỌN: hành+tạng 1 dòng · phủ dòng nhỏ dưới; Hỏa có 2 tạng+2 phủ) -->
       <g v-for="n in nodes" :key="'lb' + n.key" class="vnh-olabel" :style="{ '--hc': n.color }">
-        <text :x="n.label.x" :y="n.label.y - 6" class="vnh-ol-tang"><tspan class="vnh-ol-hanh">{{ n.ten }} {{ n.han }}</tspan>  {{ n.tang }} {{ n.tangHan }}</text>
-        <text :x="n.label.x" :y="n.label.y + 8" class="vnh-ol-phu">{{ n.phu }}</text>
+        <text :x="n.label.x" :y="n.label.y - 6" class="vnh-ol-tang"><tspan class="vnh-ol-hanh">{{ n.ten }} {{ n.han }}</tspan>  {{ n.tang }} {{ n.tangHan }}<template v-if="n.tang2"> · {{ n.tang2 }}</template></text>
+        <text :x="n.label.x" :y="n.label.y + 8" class="vnh-ol-phu">{{ n.phu }}<template v-if="n.phu2"> · {{ n.phu2 }}</template></text>
       </g>
 
       <!-- (0) VÒNG HÀI HOÀ — mốc cân bằng lý tưởng: khi cân bằng, 5 tạng nằm GỌN trên vòng này,
@@ -239,7 +242,7 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
         <circle class="vnh-core" :cx="posOf(i).x" :cy="posOf(i).y" :r="n.nodeR"
           :style="{ '--hc': n.color }" :class="{ missing: n.missing }" />
         <text v-if="n.missing" class="vnh-qmark" :x="posOf(i).x" :y="posOf(i).y">?</text>
-        <title>{{ n.tang }} ({{ n.ten }}) — {{ n.missing ? 'thiếu dữ liệu đo' : toneName(n.tone) + ' · z=' + (n.z ?? 0).toFixed(2) }}<template v-if="i === gocIdx"> · GỐC (nguồn thực)</template></title>
+        <title>{{ n.tang }}<template v-if="n.tang2"> · {{ n.tang2 }}</template> ({{ n.ten }}) — {{ n.missing ? 'thiếu dữ liệu đo' : toneName(n.tone) + ' · z=' + (n.z ?? 0).toFixed(2) }}<template v-if="i === gocIdx"> · GỐC (nguồn thực)</template></title>
       </g>
 
     </svg>
@@ -284,14 +287,16 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 .vnh-taiji-bg :deep(.ad-svg) { width: 100%; height: 100%; display: block; }
 .vnh-svg { position: relative; z-index: 2; width: 100%; height: auto; display: block; overflow: visible; }
 .vnh-svg text { font-family: var(--font-family, 'Inter', sans-serif); text-anchor: middle; dominant-baseline: middle; user-select: none; pointer-events: none; }
+/* MÀN CHE TỐI: làm Thái Cực nền đều-tối lại (mờ nửa kem), nâng tương phản cho ngũ hành phía trên */
+.vnh-veil { fill: rgba(24, 17, 9, 0.46); }
 /* Vòng rìa chung của các lớp (sáng trên nền đá) */
 .vnh-rim { fill: none; stroke: rgba(214, 195, 156, 0.55); stroke-width: 2; }
 /* VÒNG HÀI HOÀ — mốc cân bằng lý tưởng (5 tạng "nằm gọn" trên vòng này khi cân bằng) */
 .vnh-harmony { fill: none; stroke: rgba(214, 195, 156, 0.4); stroke-width: 1; }
-/* HALO KÉP 2-pass cho nét sao: quầng KEM tách nét trên nửa NÂU + quầng NÂU tách trên nửa KEM.
-   (casing chỉ-sáng KHÔNG cứu được nửa kem — phải có cả pass tối.) */
+/* HALO KÉP MẠNH cho nét sao: quầng KEM dày tách nét khỏi mọi nền tối + 1 pass tối cho nửa kem taiji.
+   → ngũ hành NỔI RÕ, không lẫn vào Thái Cực. */
 .vnh-poly, .vnh-sinh path, .vnh-sinh polygon, .vnh-kline.on-thua, .vnh-kline.on-vu, .vnh-khead, .vnh-spoke.du, .vnh-spoke.khuyet {
-  filter: drop-shadow(0 0 1.5px rgba(250, 245, 235, 0.95)) drop-shadow(0 0 1.1px rgba(38, 26, 12, 0.85));
+  filter: drop-shadow(0 0 2px rgba(252, 247, 238, 1)) drop-shadow(0 0 1.5px rgba(252, 247, 238, 0.95)) drop-shadow(0 0 1.1px rgba(22, 14, 6, 0.9));
 }
 
 /* Nhãn vành ngoài — chữ hành + quầng KÉP (kem paint-order + mép tối drop-shadow) đọc cả 2 nửa */
@@ -308,10 +313,10 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 .vnh-spoke.khuyet { stroke: #4f97d6; stroke-width: 2.4; } /* co vào trong mốc = KHUYẾT (hư) */
 
 /* Ngũ giác méo — lõi PARCHMENT sáng (nổi trên nền đá tối), halo kép lo mọi nền */
-.vnh-poly { fill: rgba(230, 214, 180, 0.05); stroke: #d8c39c; stroke-width: 2.2; stroke-linejoin: round; transition: all 0.35s ease; }
+.vnh-poly { fill: rgba(230, 214, 180, 0.05); stroke: #e6d3aa; stroke-width: 2.7; stroke-linejoin: round; transition: all 0.35s ease; }
 
 /* Tương sinh (cung ngoài) */
-.vnh-sinh path { fill: none; stroke: #4f7d39; stroke-width: 2.2; stroke-linecap: round; }
+.vnh-sinh path { fill: none; stroke: #5c9142; stroke-width: 2.7; stroke-linecap: round; }
 .vnh-sinh polygon { fill: #4f7d39; }
 .vnh-sinh .batcap path { stroke: rgba(90, 150, 74, 0.4); stroke-width: 1.2; stroke-dasharray: 3 3; filter: none; }
 .vnh-sinh .batcap polygon { fill: rgba(90, 150, 74, 0.4); filter: none; }
