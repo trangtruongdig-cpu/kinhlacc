@@ -1779,6 +1779,13 @@ const huThucLechNames = computed(() => (diagnosis.value.explain?.huThuc?.lechRow
 const thucLechRows = computed(() => (diagnosis.value.explain?.huThuc?.lechRows ?? []).filter((r) => r.tone === 'high'))
 const huLechRows = computed(() => (diagnosis.value.explain?.huThuc?.lechRows ?? []).filter((r) => r.tone === 'low'))
 
+// Bảng tra: mã kinh ngắn → tên đường kinh đầy đủ (dùng trong Dashboard)
+const SHORT_TO_ORGAN: Record<string, string> = {
+  Tiểu: 'Tiểu Trường', Tâm: 'Tâm', Tam: 'Tam Tiêu', Bào: 'Tâm Bào',
+  Đại: 'Đại Trường', Phế: 'Phế', Bàng: 'Bàng Quang', Thận: 'Thận',
+  Đởm: 'Đởm', Vị: 'Vị', Can: 'Can', Tỳ: 'Tỳ',
+}
+
 // Kinh "lệch" kèm tên tạng phủ + bên + hướng (cao vượt ngưỡng / thấp dưới ngưỡng) → BatCuongSummary
 // hiện 2 nhóm chip theo BIÊN ĐỘ. Lưu ý: cao/thấp là biên độ, KHÔNG phải nhãn thực/hư từng tạng
 // (hướng nóng/lạnh đã nằm ở Hàn-Nhiệt) — Hư-Thực vẫn là kết luận TOÀN THÂN.
@@ -3303,19 +3310,19 @@ watch(
             <div class="dash-bc-grid">
               <div class="dash-bc-box">
                 <span class="dash-bc-lbl">Âm – Dương</span>
-                <span class="dash-bc-val" style="color: #b23a29;">{{ diagnosis.amDuong || 'Dương Thịnh' }}</span>
+                <span class="dash-bc-val" style="color: #b23a29;">{{ tongCuong.amDuong || '—' }}</span>
               </div>
               <div class="dash-bc-box">
                 <span class="dash-bc-lbl">Biểu – Lý</span>
-                <span class="dash-bc-val" style="color: #4b3626;">{{ diagnosis.bieuLy || 'Lý' }}</span>
+                <span class="dash-bc-val" style="color: #4b3626;">{{ tongCuong.viTri || '—' }}</span>
               </div>
               <div class="dash-bc-box">
                 <span class="dash-bc-lbl">Hàn – Nhiệt</span>
-                <span class="dash-bc-val" style="color: #b23a29;">{{ diagnosis.hanNhiet || 'Nhiệt' }}</span>
+                <span class="dash-bc-val" style="color: #b23a29;">{{ tongCuong.tinhChat || '—' }}</span>
               </div>
               <div class="dash-bc-box">
                 <span class="dash-bc-lbl">Hư – Thực</span>
-                <span class="dash-bc-val" style="color: #d97706;">{{ diagnosis.huThuc || 'Thực' }}</span>
+                <span class="dash-bc-val" style="color: #d97706;">{{ tongCuong.chinhKhi || '—' }}</span>
               </div>
             </div>
           </div>
