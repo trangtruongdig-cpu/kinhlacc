@@ -7,6 +7,16 @@ import { LoggingInterceptor } from '../src/middlewares/logging.interceptor';
 const vercelRegex = /^https?:\/\/([a-z0-9-]+\.)?vercel\.app$/i;
 let cachedApp: any;
 
+// Allowlist tường minh — KHÔNG reflect Origin của request (từng làm vậy = CORS bypass hoàn
+// toàn khi kết hợp Access-Control-Allow-Credentials: true). Khớp với domain khai trong
+// backend/vercel.json + cho phép cấu hình thêm domain qua FRONTEND_URL (phân tách bởi dấu phẩy).
+const ALLOWED_ORIGINS = new Set<string>(
+  [
+    'https://kinhlac.vercel.app',
+    ...(process.env.FRONTEND_URL || '').split(',').map((s) => s.trim()),
+  ].filter(Boolean),
+);
+
 async function bootstrap() {
   if (!cachedApp) {
     const app = await NestFactory.create(AppModule);
@@ -19,9 +29,11 @@ async function bootstrap() {
 }
 
 export default async (req: Request, res: Response) => {
-  const origin = req.headers.origin || '*';
-  res.setHeader('Access-Control-Allow-Credentials', 'true');
-  res.setHeader('Access-Control-Allow-Origin', origin);
+  const origin = req.headers.origin;
+  if (origin && ALLOWED_ORIGINS.has(origin)) {
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.setHeader('Access-Control-Allow-Origin', origin);
+  }
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader('Access-Control-Allow-Headers', 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, Authorization');
 

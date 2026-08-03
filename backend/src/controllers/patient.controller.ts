@@ -12,11 +12,19 @@ import {
 } from '../utils/meridian-analysis.util';
 
 export interface PaginatedPatients {
-  data: Patient[];
+  data: PatientAnToan[];
   total: number;
   page: number;
   limit: number;
   totalPages: number;
+}
+
+/** Dạng dữ liệu trả ra ngoài — KHÔNG bao giờ kèm passwordHash. */
+export type PatientAnToan = Omit<Patient, 'passwordHash'>;
+
+function toSafePatient(p: Patient): PatientAnToan {
+  const { passwordHash: _passwordHash, ...safe } = p;
+  return safe;
 }
 
 /** 1 ca khám đã "làm phẳng" — mỗi trường là 1 ĐẠI LƯỢNG có thể chọn làm rows/cols/filter trong bảng
@@ -245,8 +253,11 @@ export class PatientsService {
     private readonly meridiansService: MeridiansService,
   ) {}
 
-  findAll(): Promise<Patient[]> {
-    return this.patientRepository.find({ order: { createdAt: 'DESC' } });
+  async findAll(): Promise<PatientAnToan[]> {
+    const list = await this.patientRepository.find({
+      order: { createdAt: 'DESC' },
+    });
+    return list.map(toSafePatient);
   }
 
   async findPaginated(
@@ -271,7 +282,7 @@ export class PatientsService {
     const [data, total] = await qb.skip(skip).take(limit).getManyAndCount();
 
     return {
-      data,
+      data: data.map(toSafePatient),
       total,
       page,
       limit,
@@ -279,7 +290,8 @@ export class PatientsService {
     };
   }
 
-  async findOne(id: number): Promise<Patient> {
+  /** Nội bộ — trả ENTITY ĐẦY ĐỦ (kèm passwordHash), dùng khi cần ghi/so khớp trong service khác. */
+  private async findOneRaw(id: number): Promise<Patient> {
     const patient = await this.patientRepository.findOneBy({ id });
     if (!patient) {
       throw new NotFoundException(`Bệnh nhân #${id} không tồn tại`);
@@ -287,25 +299,55 @@ export class PatientsService {
     return patient;
   }
 
-  create(dto: CreatePatientDto): Promise<Patient> {
-    const patient = this.patientRepository.create(normalizePatientDto(dto));
-    return this.patientRepository.save(patient);
+  async findOne(id: number): Promise<PatientAnToan> {
+    return toSafePatient(await this.findOneRaw(id));
   }
 
-  async update(id: number, dto: UpdatePatientDto): Promise<Patient> {
-    const patient = await this.findOne(id);
-    Object.assign(patient, normalizePatientDto(dto));
-    return this.patientRepository.save(patient);
+  async create(dto: CreatePatientDto): Promise<PatientAnToan> {
+    const normalized = normalizePatientDto(dto);
+    const patient = this.patientRepository.create({
+      fullName: normalized.fullName,
+      gender: normalized.gender,
+      dateOfBirth: normalized.dateOfBirth,
+      timeOfBirth: normalized.timeOfBirth,
+      address: normalized.address,
+      province: normalized.province,
+      phone: normalized.phone,
+      medicalHistory: normalized.medicalHistory,
+      notes: normalized.notes,
+      treatmentTarget: normalized.treatmentTarget,
+      treatmentCourseStart: normalized.treatmentCourseStart,
+    });
+    return toSafePatient(await this.patientRepository.save(patient));
   }
 
-  async updateFcmToken(id: number, fcmToken: string): Promise<Patient> {
-    const patient = await this.findOne(id);
+  async update(id: number, dto: UpdatePatientDto): Promise<PatientAnToan> {
+    const patient = await this.findOneRaw(id);
+    const normalized = normalizePatientDto(dto);
+    // Gán tường minh từng field khai báo trong UpdatePatientDto — KHÔNG dùng Object.assign trực
+    // tiếp trên body request, tránh mass-assignment ghi đè passwordHash/id/createdAt/...
+    if (normalized.fullName !== undefined) patient.fullName = normalized.fullName;
+    if (normalized.gender !== undefined) patient.gender = normalized.gender;
+    if (normalized.dateOfBirth !== undefined) patient.dateOfBirth = normalized.dateOfBirth;
+    if (normalized.timeOfBirth !== undefined) patient.timeOfBirth = normalized.timeOfBirth;
+    if (normalized.address !== undefined) patient.address = normalized.address;
+    if (normalized.province !== undefined) patient.province = normalized.province;
+    if (normalized.phone !== undefined) patient.phone = normalized.phone;
+    if (normalized.medicalHistory !== undefined) patient.medicalHistory = normalized.medicalHistory;
+    if (normalized.notes !== undefined) patient.notes = normalized.notes;
+    if (normalized.treatmentTarget !== undefined) patient.treatmentTarget = normalized.treatmentTarget;
+    if (normalized.treatmentCourseStart !== undefined) patient.treatmentCourseStart = normalized.treatmentCourseStart;
+    return toSafePatient(await this.patientRepository.save(patient));
+  }
+
+  async updateFcmToken(id: number, fcmToken: string): Promise<void> {
+    const patient = await this.findOneRaw(id);
     patient.fcmToken = fcmToken;
-    return this.patientRepository.save(patient);
+    await this.patientRepository.save(patient);
   }
 
   async remove(id: number): Promise<void> {
-    const patient = await this.findOne(id);
+    const patient = await this.findOneRaw(id);
     await this.patientRepository.remove(patient);
   }
 

@@ -18,6 +18,7 @@ import {
   UpdateSlotDto,
 } from '../models/appointment-slot.dto';
 import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 function assertDate(date: string) {
@@ -59,6 +60,7 @@ export class AppointmentSlotsRouter {
   }
 
   // --- Admin ---
+  @UseGuards(NhanVienGuard)
   @Get()
   async list(
     @Query('date') date?: string,
@@ -77,6 +79,7 @@ export class AppointmentSlotsRouter {
     throw new BadRequestException('Cần tham số date hoặc from+to');
   }
 
+  @UseGuards(NhanVienGuard)
   @Get('summary')
   summary(@Query('from') from: string, @Query('to') to: string) {
     if (!from || !to) {
@@ -87,18 +90,22 @@ export class AppointmentSlotsRouter {
     return this.service.summaryByDate(from, to);
   }
 
-  // Lấy toàn bộ vé của 1 bệnh nhân (cho hồ sơ bệnh nhân).
+  // Lấy toàn bộ vé của 1 bệnh nhân (cho hồ sơ bệnh nhân, phía nhân viên).
+  // Bệnh nhân tự xem vé của mình qua /my (bên trên).
   // Khai báo TRƯỚC @Get(':id') để Nest không nhầm "patient" là một id.
+  @UseGuards(NhanVienGuard)
   @Get('patient/:id')
   findByPatient(@Param('id', ParseIntPipe) id: number) {
     return this.service.findByPatient(id);
   }
 
+  @UseGuards(NhanVienGuard)
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.service.findOne(id);
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id')
   update(
     @Param('id', ParseIntPipe) id: number,
@@ -107,18 +114,21 @@ export class AppointmentSlotsRouter {
     return this.service.update(id, dto);
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id/close')
   async close(@Param('id', ParseIntPipe) id: number) {
     const data = await this.service.close(id);
     return { success: true, data };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id/open')
   async open(@Param('id', ParseIntPipe) id: number) {
     const data = await this.service.open(id);
     return { success: true, data };
   }
 
+  @UseGuards(NhanVienGuard)
   @Post(':id/book')
   async book(
     @Param('id', ParseIntPipe) id: number,
@@ -128,18 +138,21 @@ export class AppointmentSlotsRouter {
     return { success: true, data };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id/cancel')
   async cancel(@Param('id', ParseIntPipe) id: number) {
     const data = await this.service.cancel(id);
     return { success: true, data };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id/complete')
   async complete(@Param('id', ParseIntPipe) id: number) {
     const data = await this.service.complete(id);
     return { success: true, data };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.service.remove(id);

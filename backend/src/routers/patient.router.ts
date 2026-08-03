@@ -7,15 +7,20 @@ import {
   Param,
   Body,
   Query,
+  Request,
+  UseGuards,
   ParseIntPipe,
 } from '@nestjs/common';
 import { PatientsService } from '../controllers/patient.controller';
 import { CreatePatientDto, UpdatePatientDto } from '../models/patient.dto';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
+import { assertStaffOrOwner } from '../middlewares/auth/access.util';
 
 @Controller('patients')
 export class PatientsRouter {
   constructor(private readonly patientsService: PatientsService) {}
 
+  @UseGuards(NhanVienGuard)
   @Get()
   findPatients(
     @Query('page') page?: string,
@@ -40,6 +45,7 @@ export class PatientsRouter {
   // Phải đứng TRƯỚC @Get(':id') để route 'thong-ke' không bị match như id.
   // rows/cols = tên đại lượng (xem THONG_KE_DIMENSIONS trong patient.controller.ts) · filters =
   // "dim1:value1,dim2:value2" (AND).
+  @UseGuards(NhanVienGuard)
   @Get('thong-ke')
   thongKe(
     @Query('rows') rows?: string,
@@ -51,16 +57,20 @@ export class PatientsRouter {
 
   // Lưới widget (mọi đại lượng cùng lúc) — 1 request thay vì 1 request/đại lượng, xem comment ở
   // PatientsService.thongKeGrid() để biết lý do (né cold-start-stampede trên Vercel serverless).
+  @UseGuards(NhanVienGuard)
   @Get('thong-ke/grid')
   thongKeGrid(@Query('filters') filters?: string) {
     return this.patientsService.thongKeGrid(filters);
   }
 
+  // Bệnh nhân tự xem hồ sơ của chính mình (id trong token phải khớp) hoặc nhân viên xem bất kỳ.
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
+  findOne(@Param('id', ParseIntPipe) id: number, @Request() req: any) {
+    assertStaffOrOwner(req.user, id);
     return this.patientsService.findOne(id);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post()
   async create(@Body() dto: CreatePatientDto) {
     const item = await this.patientsService.create(dto);
@@ -71,7 +81,9 @@ export class PatientsRouter {
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdatePatientDto,
+    @Request() req: any,
   ) {
+    assertStaffOrOwner(req.user, id);
     const item = await this.patientsService.update(id, dto);
     return { success: true, id, data: item };
   }
@@ -80,11 +92,14 @@ export class PatientsRouter {
   async updateFcmToken(
     @Param('id', ParseIntPipe) id: number,
     @Body('fcmToken') fcmToken: string,
+    @Request() req: any,
   ) {
+    assertStaffOrOwner(req.user, id);
     await this.patientsService.updateFcmToken(id, fcmToken);
     return { success: true };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.patientsService.remove(id);

@@ -14,27 +14,32 @@ import { ExaminationsService } from '../controllers/examination.controller';
 import { CreateExaminationDto, UpdateExaminationDto } from '../models/examination.dto';
 import { ChanDoanLuu, DonThuocLuu } from '../models/examination.model';
 import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 @Controller('examinations')
 export class ExaminationsRouter {
   constructor(private readonly examinationsService: ExaminationsService) {}
 
+  @UseGuards(NhanVienGuard)
   @Get()
   findAll() {
     return this.examinationsService.findAll();
   }
 
+  @UseGuards(NhanVienGuard)
   @Post('fix-sequence')
   fixSequence() {
     return this.examinationsService.fixSequence();
   }
 
+  @UseGuards(NhanVienGuard)
   @Post()
   async create(@Body() dto: CreateExaminationDto) {
     const item = await this.examinationsService.create(dto);
     return { success: true, id: item.id, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -45,6 +50,7 @@ export class ExaminationsRouter {
   }
 
   /** Sửa giờ khám của một ca (lùi/tiến). Body: { thoiDiemKham: ISO | null }. */
+  @UseGuards(NhanVienGuard)
   @Put(':id/thoi-diem')
   async doiThoiDiemKham(
     @Param('id', ParseIntPipe) id: number,
@@ -55,6 +61,7 @@ export class ExaminationsRouter {
   }
 
   /** Lưu chẩn đoán cho ca khám (D5). Body: { chanDoan: {...} | null }. */
+  @UseGuards(NhanVienGuard)
   @Put(':id/chan-doan')
   async saveChanDoan(
     @Param('id', ParseIntPipe) id: number,
@@ -65,6 +72,7 @@ export class ExaminationsRouter {
   }
 
   /** Lưu đơn thuốc tùy chỉnh (thang đặc trị) cho ca khám. Body: { donThuoc: {...} | null }. */
+  @UseGuards(NhanVienGuard)
   @Put(':id/don-thuoc')
   async saveDonThuoc(
     @Param('id', ParseIntPipe) id: number,
@@ -74,6 +82,9 @@ export class ExaminationsRouter {
     return { success: true, data: item.donThuoc };
   }
 
+  // Bệnh nhân tự xem hồ sơ khám của mình qua /my-records (bên dưới) — route này chỉ dành cho
+  // nhân viên tra cứu theo patientId bất kỳ.
+  @UseGuards(NhanVienGuard)
   @Get('patient/:patientId')
   findByPatient(@Param('patientId', ParseIntPipe) patientId: number) {
     return this.examinationsService.findByPatient(patientId);
@@ -85,11 +96,13 @@ export class ExaminationsRouter {
     return this.examinationsService.findByPatient(req.user.id);
   }
 
+  @UseGuards(NhanVienGuard)
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.examinationsService.findOne(id);
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.examinationsService.remove(id);

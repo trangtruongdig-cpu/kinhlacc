@@ -163,6 +163,7 @@ import { DiaDiemService } from './controllers/dia-diem.controller';
 // Middlewares (Strategies/Guards)
 import { JwtStrategy } from './middlewares/auth/jwt.strategy';
 import { JwtAuthGuard } from './middlewares/auth/jwt-auth.guard';
+import { requireJwtSecret } from './middlewares/auth/jwt-secret.util';
 
 @Module({
   imports: [
@@ -219,7 +220,7 @@ import { JwtAuthGuard } from './middlewares/auth/jwt-auth.guard';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       useFactory: async (configService: ConfigService) => ({
-        secret: configService.get<string>('JWT_SECRET') || 'fallback_secret_key',
+        secret: requireJwtSecret(configService),
         signOptions: { expiresIn: '1d' },
       }),
       inject: [ConfigService],
