@@ -3469,58 +3469,16 @@ watch(
                     </tbody>
                   </table>
                 </div>
-              </div>
-            </section>
-
-              <!-- Chi Dưới -->
-              <div class="table-section-title" :class="sectionTitleClassMerged('lower')">Chi dưới</div>
-              <div class="stats-summary-row" :class="statsRowClassMerged('lower')">
-                <div class="stat-col" :class="excelStatColClass('lower', 0)"><span class="stat-label" title="Số đo cao nhất (trên) và thấp nhất (dưới) của cả chi dưới">Cao/Thấp</span><span class="stat-vals"><span class="val max-val">{{ fmt(lowerStats.max, 1) }}</span> / <span class="val min-val">{{ fmt(lowerStats.min, 1) }}</span></span></div>
-                <div class="stat-col" :class="excelStatColClass('lower', 1)"><span class="stat-label" title="Biên độ = Cao nhất − Thấp nhất">Biên độ</span><span class="val">{{ fmt(lowerStats.range, 1) }}</span></div>
-                <div class="stat-col" :class="excelStatColClass('lower', 2)"><span class="stat-label" title="Trị số bình quân chung = (Cao nhất + Thấp nhất) / 2">Bình quân</span><span class="val bg-gray" :class="bcMeanClass('lower')">{{ fmt(lowerStats.mean, 2) }}</span></div>
-                <div class="stat-col" :class="excelStatColClass('lower', 3)"><span class="stat-label" title="Dung sai = Biên độ / 6">Dung sai</span><span class="val">{{ fmt(lowerStats.sd, 2) }}</span></div>
-                <div class="stat-col" :class="[excelStatColClass('lower', 4), bcBoundClass('lower')]"><span class="stat-label" title="Cận trên = Bình quân + Dung sai (trên); Cận dưới = Bình quân − Dung sai (dưới)">Cận trên/dưới</span><span class="stat-vals"><span class="val text-brown-600">{{ fmt(lowerStats.upperBound, 2) }}</span> / <span class="val text-brown-600">{{ fmt(lowerStats.lowerBound, 2) }}</span></span></div>
-              </div>
-
-              <div class="table-responsive table-scroll">
-                <table class="data-table meridian-data-table">
-                  <thead>
-                    <tr class="meridian-head-row">
-                      <th title="Tên đường kinh được đo">Đường kinh</th>
-                      <th title="Đánh giá bên trái: + cao hơn cận trên, − thấp hơn cận dưới, 0 trong khoảng bình thường">Dấu trái</th>
-                      <th title="Trị số đo bên trái">Đo trái</th>
-                      <th title="Trung bình hai bên = (trái + phải) / 2">TB 2 bên</th>
-                      <th title="Chênh lệch so với trị số bình quân chung của chi (số dương = cao hơn, số âm = thấp hơn)">Lệch BQ</th>
-                      <th title="Trị số đo bên phải">Đo phải</th>
-                      <th title="Đánh giá bên phải: + cao hơn cận trên, − thấp hơn cận dưới, 0 trong khoảng bình thường">Dấu phải</th>
-                      <th title="Chênh lệch tuyệt đối giữa trái và phải = |trái − phải|">Lệch T–P</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="(item, idx) in lowerRows" :key="'lower-'+idx" :class="lowerRowClassMerged(idx)">
-                      <td class="font-bold" :class="excelTdClass('lower', idx, 0)">{{ item.name }}</td>
-                      <td :class="[getSignClass(item.leftSign), excelTdClass('lower', idx, 1)]">{{ item.leftSign }}</td>
-                      <td class="font-medium" :class="[excelTdClass('lower', idx, 2), bcCellClass(item.name, 2)]">{{ fmt(item.left, 1) }}</td>
-                      <td class="bg-gray" :class="[excelTdClass('lower', idx, 3), bcCellClass(item.name, 3)]">{{ fmt(item.avg, 2) }}</td>
-                      <td :class="[item.diff > 0 ? 'text-brown-600' : (item.diff < 0 ? 'text-blue-600' : ''), excelTdClass('lower', idx, 4)]">{{ item.diff > 0 ? '+' : '' }}{{ fmt(item.diff, 2) }}</td>
-                      <td class="font-medium" :class="[excelTdClass('lower', idx, 5), bcCellClass(item.name, 5)]">{{ fmt(item.right, 1) }}</td>
-                      <td :class="[getSignClass(item.rightSign), excelTdClass('lower', idx, 6)]">{{ item.rightSign }}</td>
-                      <td :class="excelTdClass('lower', idx, 7)">{{ fmt(item.absDiff, 1) }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <!-- Footer Stats -->
+              <!-- Footer: Chênh lệch trung bình chi trên và chi dưới -->
               <div class="table-footer-stat" :class="footerDiffClassMerged()">
                 <div class="footer-stat-line">
-                  <span title="Hiệu hai đường cơ sở (trị số bình quân): |bình quân chi trên − bình quân chi dưới| = |D7 − D18|. Càng nhỏ càng cân bằng thượng – hạ; chênh lớn gợi ý mất cân bằng trên – dưới (vd thượng thịnh hạ hư).">Chênh lệch trung bình chi trên và chi dưới:</span>
+                  <span>Chênh lệch trung bình chi trên và chi dưới:</span>
                   <span class="font-bold text-brown-700 ml-4">{{ fmt(Math.abs(upperStats.mean - lowerStats.mean), 2) }}</span>
                 </div>
                 <span class="footer-stat-note">Chỉ số tham khảo, không tự động ra chẩn đoán.</span>
               </div>
-            </div>
-          </section>
+              </div>
+            </section>
 
       <!-- KẾT LUẬN BÁT CƯƠNG — dải full-width, đồ hình 3D lớn (đặt sau số đo kinh lạc) -->
       <section class="result-section bc-band">
