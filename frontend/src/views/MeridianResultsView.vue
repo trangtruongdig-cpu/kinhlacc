@@ -3346,8 +3346,12 @@ watch(
             <div class="dash-card-title">ĐỒ HÌNH 3D HUYỆT VỊ &amp; KINH MẠCH</div>
             <div class="dash-3d-wrapper" style="height: 280px; position: relative;">
               <BatCuongFigure3D
+                :am-duong="tongCuong.amDuong"
+                :hu-thuc="diagnosis.huThuc"
+                :organs="affectedOrgans"
+                :focus="batCuongFocus"
                 :lech-names="huThucLechNames"
-                :active-group="'huthuc'"
+                @toggle="toggleBatCuongFocus"
               />
             </div>
           </div>
