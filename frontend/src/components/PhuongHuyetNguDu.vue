@@ -181,12 +181,12 @@ const rx = computed(() => {
   }
   if (activeMode.value === 'nhht') {
     for (const c of nhhtCards.value) {
-      add(ta, c.ph.ta, c.organ, 'Tả', c.taRec, `Tả ${c.ph.ta.hanhTen} Hồi Tác`)
-      add(bo, c.ph.bo, c.organ, 'Bổ', c.boRec, `Bổ ${c.ph.bo.hanhTen} Hồi Tác`)
+      add(ta, c.ph.ta, c.organ, 'Tả', c.taRec)
+      add(bo, c.ph.bo, c.organ, 'Bổ', c.boRec)
     }
   } else {
     for (const c of bmCards.value) {
-      const relName = c.bm.thuc ? `Tả Tử (${c.bm.targetHanhTen})` : `Bổ Mẫu (${c.bm.targetHanhTen})`
+      const relName = c.bm.thuc ? `Tả Tử` : `Bổ Mẫu`
       if (c.bm.targetHuyet.boTa === 'ta') add(ta, c.bm.targetHuyet, c.organ, 'Tả', c.rec, relName)
       else add(bo, c.bm.targetHuyet, c.organ, 'Bổ', c.rec, relName)
     }
@@ -256,7 +256,7 @@ const rx = computed(() => {
         <div class="ngd-rx-title-group">
           <b>CHỈ ĐỊNH PHƯƠNG HUYỆT CA BỆNH</b>
           <span class="ngd-rx-sub">
-            ({{ activeMode === 'bomautacon' ? 'Thuật toán Nạn Kinh 69: Bổ Mẫu Tả Tử' : 'Thuật toán Ngũ Hành Hồi Tác' }})
+            ({{ activeMode === 'bomautacon' ? 'Nạn Kinh 69' : 'Ngũ Hành Hồi Tác' }})
           </span>
         </div>
       </div>
@@ -265,7 +265,7 @@ const rx = computed(() => {
         <!-- NHÓM TẢ / TẢ TỬ -->
         <div v-if="rx.ta.length" class="ngd-rx-group">
           <span class="ngd-rx-tag ngd-rx-tag--ta">
-            {{ activeMode === 'bomautacon' ? 'TẢ TỬ (Tả Con Khi Tạng Phủ THỰC — Nạn Kinh 69)' : 'CHÂM TẢ (Tiết Thực / Hạ Hỏa — Ngũ Hành Hồi Tác)' }}
+            {{ activeMode === 'bomautacon' ? 'CHÂM TẢ (Tả Tử — Thực)' : 'CHÂM TẢ (Tiết Thực)' }}
           </span>
           <div class="ngd-rx-chips">
             <div v-for="item in rx.ta" :key="item.huyet + item.kinh" class="ngd-rx-chip ngd-rx-chip--ta">
@@ -286,7 +286,7 @@ const rx = computed(() => {
         <!-- NHÓM BỔ / BỔ MẪU -->
         <div v-if="rx.bo.length" class="ngd-rx-group">
           <span class="ngd-rx-tag ngd-rx-tag--bo">
-            {{ activeMode === 'bomautacon' ? 'BỔ MẪU (Bổ Mẹ Khi Tạng Phủ HƯ — Nạn Kinh 69)' : 'CHÂM BỔ / CỨU (Phù Chính / Ích Khí — Ngũ Hành Hồi Tác)' }}
+            {{ activeMode === 'bomautacon' ? 'CHÂM BỔ (Bổ Mẫu — Hư)' : 'CHÂM BỔ / CỨU (Phù Chính)' }}
           </span>
           <div class="ngd-rx-chips">
             <div v-for="item in rx.bo" :key="item.huyet + item.kinh" class="ngd-rx-chip ngd-rx-chip--bo">
