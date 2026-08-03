@@ -6618,10 +6618,9 @@ watch(
   font-size: 13px !important;
   font-weight: 700 !important;
   color: var(--brown-900);
-  line-height: 1.25 !important;
-  white-space: nowrap !important;
-  overflow: hidden !important;
-  text-overflow: ellipsis !important;
+  line-height: 1.3 !important;
+  white-space: normal !important;
+  word-break: break-word !important;
 }
 
 .synd-rate {
