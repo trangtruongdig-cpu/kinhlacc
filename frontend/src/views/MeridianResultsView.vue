@@ -3286,115 +3286,24 @@ watch(
         <div class="pi-field"><span class="pi-label">BMI</span><span class="pi-value">—</span></div>
       </div>
 
-      <!-- ═══ CLINICAL WORKSTATION: SIDEBAR TÓM TẮT + CHI TIẾT ĐẦY ĐỦ ═══ -->
-      <div class="cw-layout">
+      <!-- ═══ 3 TAB (v-show để giữ mount 3D + state) ═══ -->
+      <nav class="mr-tabs" aria-label="Chuyển view kết quả">
+        <button type="button" class="mr-tab" :class="{ active: activeView === 1 }" @click="activeView = 1">
+          <b>1</b> Kết Quả Đo &amp; Bát Cương
+        </button>
+        <button type="button" class="mr-tab" :class="{ active: activeView === 2 }" @click="activeView = 2">
+          <b>2</b> Chẩn Đoán &amp; Điều Trị
+          <span class="mr-tab-badge">{{ excelSyndromesList.length }} thể · {{ matchedPhuongHuyetList.length }} huyệt · {{ matchedBaiThuocList.length }} bài</span>
+        </button>
+        <button type="button" class="mr-tab" :class="{ active: activeView === 3 }" @click="activeView = 3">
+          <b>3</b> Biện Chứng – Pháp Trị
+        </button>
+      </nav>
 
-        <!-- ─── SIDEBAR TRÁI: TÓM TẮT CHẨN ĐOÁN CỐ ĐỊNH ─── -->
-        <aside class="cw-sidebar">
-
-          <!-- BÁT CƯƠNG TỔNG CƯƠNG -->
-          <div class="cw-card">
-            <div class="cw-card-title">BÁT CƯƠNG</div>
-            <div class="cw-bc-grid">
-              <div class="cw-bc-box cw-bc-box--am">
-                <span class="cw-bc-lbl">Âm – Dương</span>
-                <span class="cw-bc-val">{{ tongCuong.amDuong || '—' }}</span>
-              </div>
-              <div class="cw-bc-box cw-bc-box--bieu">
-                <span class="cw-bc-lbl">Biểu – Lý</span>
-                <span class="cw-bc-val">{{ tongCuong.viTri || '—' }}</span>
-              </div>
-              <div class="cw-bc-box cw-bc-box--nhiet">
-                <span class="cw-bc-lbl">Hàn – Nhiệt</span>
-                <span class="cw-bc-val">{{ tongCuong.tinhChat || '—' }}</span>
-              </div>
-              <div class="cw-bc-box cw-bc-box--thuc">
-                <span class="cw-bc-lbl">Hư – Thực</span>
-                <span class="cw-bc-val">{{ tongCuong.chinhKhi || '—' }}</span>
-              </div>
-            </div>
-            <div v-if="tongCuong.hoiChung" class="cw-hoichung">
-              {{ tongCuong.hoiChung }}
-            </div>
-          </div>
-
-          <!-- 12 ĐƯỜNG KINH PHÂN NHÓM HƯ / THỰC -->
-          <div class="cw-card">
-            <div class="cw-card-title">12 ĐƯỜNG KINH (HƯ / THỰC)</div>
-            <div class="cw-meridian-groups">
-              <div v-if="thucLechRows.length" class="cw-mg-group">
-                <span class="cw-mg-lbl cw-mg-lbl--thuc">Thực — Vượt ngưỡng</span>
-                <div class="cw-mg-chips">
-                  <span v-for="r in thucLechRows" :key="r.name" class="cw-mg-chip cw-mg-chip--thuc">
-                    {{ SHORT_TO_ORGAN[r.name] || r.name }}
-                  </span>
-                </div>
-              </div>
-              <div v-if="huLechRows.length" class="cw-mg-group">
-                <span class="cw-mg-lbl cw-mg-lbl--hu">Hư — Dưới ngưỡng</span>
-                <div class="cw-mg-chips">
-                  <span v-for="r in huLechRows" :key="r.name" class="cw-mg-chip cw-mg-chip--hu">
-                    {{ SHORT_TO_ORGAN[r.name] || r.name }}
-                  </span>
-                </div>
-              </div>
-              <p v-if="!thucLechRows.length && !huLechRows.length" class="cw-mg-empty">Tất cả kinh trong ngưỡng bình thường</p>
-            </div>
-          </div>
-
-          <!-- THỂ BỆNH KHỚP NHẤT -->
-          <div class="cw-card cw-card--grow">
-            <div class="cw-card-title">THỂ BỆNH KHỚP NHẤT <span class="cw-badge">{{ excelSyndromesList.length }}</span></div>
-            <div v-if="excelSyndromesList.length" class="cw-syndromes">
-              <div
-                v-for="s in (excelSyndromesList as Array<{ id: number; name: string; outputCell?: string }>)"
-                :key="s.id"
-                class="cw-synd-item"
-                :class="{ active: excelFocusRuleId === s.id }"
-                @click="excelFocusRuleId = s.id"
-              >
-                {{ s.name }}
-              </div>
-            </div>
-            <p v-else class="cw-mg-empty">Chưa khớp thể bệnh chuẩn nào</p>
-          </div>
-
-          <!-- PHƯƠNG HUYỆT NGŨ DU (scrollable) -->
-          <div class="cw-card cw-card--phuonghuy">
-            <div class="cw-card-title">PHƯƠNG HUYỆT CHỈ ĐỊNH</div>
-            <div class="cw-phuonghuy-wrap">
-              <PhuongHuyetNguDu
-                :z="nguHanhZ"
-                :hu-thuc="diagnosis.huThuc"
-                :lech-rows="diagnosis.explain?.huThuc?.lechRows"
-                :matched-benh-ids="matchedBenhIds"
-                @goto-acu="gotoAcuMap"
-                @goto-dict="gotoTuDien"
-              />
-            </div>
-          </div>
-
-        </aside>
-
-        <!-- ─── PANEL PHẢI: ĐẦY ĐỦ 3 TAB CHI TIẾT ─── -->
-        <div class="cw-main">
-          <nav class="mr-tabs" aria-label="Chuyển view kết quả">
-            <button type="button" class="mr-tab" :class="{ active: activeView === 1 }" @click="activeView = 1">
-              <b>1</b> Kết Quả Đo &amp; Bát Cương
-            </button>
-            <button type="button" class="mr-tab" :class="{ active: activeView === 2 }" @click="activeView = 2">
-              <b>2</b> Chẩn Đoán &amp; Điều Trị
-              <span class="mr-tab-badge">{{ excelSyndromesList.length }} thể · {{ matchedPhuongHuyetList.length }} huyệt · {{ matchedBaiThuocList.length }} bài</span>
-            </button>
-            <button type="button" class="mr-tab" :class="{ active: activeView === 3 }" @click="activeView = 3">
-              <b>3</b> Biện Chứng – Pháp Trị
-            </button>
-          </nav>
-
-          <!-- ═══ VIEW 1: Kết quả đo (I) + Bát Cương (II) ═══ -->
-          <section class="mr-view" v-show="activeView === 1">
-          <div class="mr-grid mr-grid--v1">
-            <section class="result-section">
+      <!-- ═══ VIEW 1: Kết quả đo (I) + Bát Cương (II) ═══ -->
+      <section class="mr-view" v-show="activeView === 1">
+      <div class="mr-grid mr-grid--v1">
+        <section class="result-section">
               <h2 class="section-title">
                 <span class="section-num">I</span> KẾT QUẢ ĐO KINH LẠC
               </h2>
@@ -4219,8 +4128,6 @@ watch(
           </template>
         </div>
       </section><!-- /mr-view VIEW 3 -->
-      </div><!-- /cw-main -->
-      </div><!-- /cw-layout -->
 
     </template>
 
