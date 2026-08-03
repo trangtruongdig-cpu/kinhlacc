@@ -6549,4 +6549,78 @@ watch(
   padding: 2px 10px; cursor: pointer; white-space: nowrap;
 }
 .lk-wheel-cap-btn:hover { background: color-mix(in srgb, var(--kc) 14%, transparent); }
-</style>
+
+/* ════════════════════════════════════════════════════════════
+   DENSITY OPTIMIZATION — tối ưu mật độ thông tin toàn bộ tab
+   Nguyên tắc: bỏ khoảng thừa, tận dụng ngang, giảm padding
+════════════════════════════════════════════════════════════ */
+
+/* ── CARD / SECTION: giảm padding ── */
+.result-card { padding: var(--space-3) !important; }
+.result-section { gap: var(--space-3) !important; }
+.info-group { margin-top: var(--space-3) !important; }
+.info-group + .info-group { margin-top: var(--space-3) !important; }
+.section-title { margin-bottom: var(--space-2) !important; }
+
+/* ── SYNDROME LIST (Tab 2 trái): compact rows ── */
+.comparison-list { gap: 5px !important; }
+.comparison-cell {
+  flex-wrap: nowrap !important;
+  padding: 5px 10px !important;
+  gap: var(--space-2) !important;
+}
+/* tên thể bệnh co giãn, nút không xuống dòng */
+.synd-info { flex: 1 1 0; min-width: 0; }
+.synd-name { font-size: 12.5px; line-height: 1.3; white-space: normal; }
+.synd-idx  { font-size: 11px; min-width: 14px; text-align: center; }
+.synd-rate { font-size: 11px; white-space: nowrap; }
+.synd-actions {
+  flex-shrink: 0;
+  gap: 4px !important;
+  margin-left: auto;
+}
+/* nút action nhỏ hơn */
+.pt-search-btn { padding: 2px 7px !important; font-size: 10.5px !important; }
+.pt-search-ic  { width: 11px !important; height: 11px !important; }
+
+/* sub-note của thể bệnh (ghi chú ngắn hơn) */
+.synd-sub { font-size: 11px; padding: 1px 0 !important; }
+.synd-sub-head { gap: 4px !important; }
+
+/* ── PHƯƠNG HUYỆT CỘT PHẢI (Tab 2): 2-column grid ── */
+/* Vùng danh sách huyệt châm bổ/tả */
+.phuong-huyet-list,
+.phacdo-col .huyet-list,
+.matched-ph-list,
+.ph-group-list {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 4px 10px !important;
+}
+/* Bài thuốc: 2 cột cũng áp dụng */
+.bai-thuoc-list {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr !important;
+  gap: 4px 10px !important;
+}
+
+/* ── TAB 1: bảng đo kinhh lạc gọn hơn ── */
+.meridian-data-table td { padding: 3px 8px !important; }
+.stats-summary-row .stat-col { padding: 4px var(--space-2) !important; }
+.table-section-title { padding: var(--space-1) var(--space-3) 4px !important; }
+.table-footer-stat { padding: 4px var(--space-3) !important; }
+
+/* ── BÁT CƯƠNG band (Tab 1 phần II): compact ── */
+.bc-band { padding: var(--space-2) !important; }
+.bc-wrap { gap: var(--space-2) !important; }
+
+/* ── TAB 3 BCPT: compact ── */
+.bcpt { gap: var(--space-2) !important; }
+.bcpt-the { gap: 4px !important; }
+.bcpt-row { gap: 4px !important; padding: 3px 0 !important; }
+
+/* ── info-group headings ── */
+.info-label { font-size: 12px !important; margin-bottom: 6px !important; }
+
+/* ── phacdo-col gap ── */
+.phacdo-col { gap: var(--space-3) !important; }</style>
