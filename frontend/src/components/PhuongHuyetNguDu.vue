@@ -193,6 +193,82 @@ const rx = computed(() => {
   }
   return { ta: [...ta.values()], bo: [...bo.values()] }
 })
+
+function getPrintPayload(mode: 'nhht' | 'bomautacon') {
+  const isNHHT = mode === 'nhht'
+  const title = isNHHT
+    ? 'PHÁC ĐỒ PHƯƠNG HUYỆT NGŨ DU — NGŨ HÀNH HỒI TÁC'
+    : 'PHÁC ĐỒ PHƯƠNG HUYỆT NGŨ DU — BỔ "MẪU" TẢ "TỬ" (NẠN KINH 69)'
+
+  const taList: Array<{ code: string; name: string; note: string }> = []
+  const boList: Array<{ code: string; name: string; note: string }> = []
+
+  if (isNHHT) {
+    for (const c of nhhtCards.value) {
+      if (c.ph.ta) {
+        taList.push({
+          code: c.taRec?.ma_huyet || c.ph.ta.huyet,
+          name: c.ph.ta.huyet,
+          note: `${c.ph.ta.role} · ${c.ph.ta.hanhTen} · Kinh ${c.ph.ta.kinh} (Tả Hồi Tác ← ${c.organ} Thực)`,
+        })
+      }
+      if (c.ph.bo) {
+        boList.push({
+          code: c.boRec?.ma_huyet || c.ph.bo.huyet,
+          name: c.ph.bo.huyet,
+          note: `${c.ph.bo.role} · ${c.ph.bo.hanhTen} · Kinh ${c.ph.bo.kinh} (Bổ Hồi Tác ← ${c.organ} Hư)`,
+        })
+      }
+    }
+  } else {
+    for (const c of bmCards.value) {
+      const relName = c.bm.thuc ? 'Tả Tử' : 'Bổ Mẫu'
+      const item = {
+        code: c.rec?.ma_huyet || c.bm.targetHuyet.huyet,
+        name: c.bm.targetHuyet.huyet,
+        note: `${c.bm.targetHuyet.role} · ${c.bm.targetHuyet.hanhTen} · Kinh ${c.bm.targetHuyet.kinh} (${relName} ← ${c.organ} ${c.bm.thuc ? 'Thực' : 'Hư'})`,
+      }
+      if (c.bm.targetHuyet.boTa === 'ta') taList.push(item)
+      else boList.push(item)
+    }
+  }
+
+  const allCodes = [...new Set([...taList, ...boList].map(i => i.code).filter(Boolean))]
+
+  const payload = {
+    patientName: '',
+    examDate: '',
+    theBenh: title,
+    groups: [
+      {
+        method: isNHHT ? 'CHÂM TẢ (Tiết Thực / Hạ Hỏa — Ngũ Hành Hồi Tác)' : 'CHÂM TẢ (Tả Tử — Khi Tạng Phủ THỰC Nạn Kinh 69)',
+        items: taList.map(i => ({
+          code: i.code,
+          name: i.name,
+          note: i.note,
+          yNghia: isNHHT ? 'Thuật toán Ngũ Hành Hồi Tác' : 'Thuật toán Nạn Kinh 69',
+          source: 'Bát Cương 12 Kinh',
+        })),
+      },
+      {
+        method: isNHHT ? 'CHÂM BỔ / CỨU (Phù Chính / Ích Khí — Ngũ Hành Hồi Tác)' : 'CHÂM BỔ (Bổ Mẫu — Khi Tạng Phủ HƯ Nạn Kinh 69)',
+        items: boList.map(i => ({
+          code: i.code,
+          name: i.name,
+          note: i.note,
+          yNghia: isNHHT ? 'Thuật toán Ngũ Hành Hồi Tác' : 'Thuật toán Nạn Kinh 69',
+          source: 'Bát Cương 12 Kinh',
+        })),
+      },
+    ],
+  }
+
+  return { payload, allCodes, title }
+}
+
+defineExpose({
+  getPrintPayload,
+})
 </script>
 
 <template>

@@ -1337,6 +1337,67 @@ function phuongHuyetForThe(item: { name: string }): PhacDoApiRow[] {
 
 // In "Phiếu châm huyệt": để tên huyệt + ghi chú kỹ thuật lại sessionStorage (map3d.js chỉ biết mã +
 // toạ độ 3D, không có tên/ghi chú), rồi điều hướng sang Kinh Mạch 3D với ?diagram=<mã,mã,...> —
+const nguDuRef = ref<InstanceType<typeof PhuongHuyetNguDu> | null>(null)
+
+function inPhieuNHHT() {
+  const data = nguDuRef.value?.getPrintPayload('nhht')
+  if (!data || !data.allCodes.length) {
+    alert('Chưa có phương huyệt Ngũ Hành Hồi Tác nào được chỉ định để in.')
+    return
+  }
+  data.payload.patientName = patient.value?.fullName || ''
+  data.payload.examDate = examDisplay.value.date
+  try {
+    sessionStorage.setItem('kinhlac:acu-print-payload', JSON.stringify(data.payload))
+  } catch {}
+  const url = router.resolve({
+    name: 'kinh-mach-3d',
+    query: {
+      diagram: data.allCodes.join(','),
+      from: 'meridian-results',
+      patientId: String(patientId.value),
+      examId: String(examId.value),
+      view: '2',
+    },
+  }).href
+  const w = window.open(url, '_blank')
+  if (!w) {
+    alert('Trình duyệt đang chặn cửa sổ mới. Vui lòng cho phép pop-up cho trang này rồi thử lại.')
+  }
+}
+
+function inPhieuBoMauTaTu() {
+  const data = nguDuRef.value?.getPrintPayload('bomautacon')
+  if (!data || !data.allCodes.length) {
+    alert('Chưa có phương huyệt Bổ Mẫu Tả Tử nào được chỉ định để in.')
+    return
+  }
+  data.payload.patientName = patient.value?.fullName || ''
+  data.payload.examDate = examDisplay.value.date
+  try {
+    sessionStorage.setItem('kinhlac:acu-print-payload', JSON.stringify(data.payload))
+  } catch {}
+  const url = router.resolve({
+    name: 'kinh-mach-3d',
+    query: {
+      diagram: data.allCodes.join(','),
+      from: 'meridian-results',
+      patientId: String(patientId.value),
+      examId: String(examId.value),
+      view: '2',
+    },
+  }).href
+  const w = window.open(url, '_blank')
+  if (!w) {
+    alert('Trình duyệt đang chặn cửa sổ mới. Vui lòng cho phép pop-up cho trang này rồi thử lại.')
+  }
+}
+
+function handlePrintMode(mode: 'nhht' | 'bomautacon') {
+  if (mode === 'nhht') inPhieuNHHT()
+  else inPhieuBoMauTaTu()
+}
+
 // KinhMach3DView tự chụp ảnh mặt trước/sau + dựng phiếu in khi engine 3D sẵn sàng.
 // Truyền `theItem` để in RIÊNG phương huyệt của 1 thể bệnh (nút cạnh Chi tiết/Pháp trị ở mục III);
 // bỏ trống để in GỘP mọi thể đang được xét (nút chung ở đầu trang).
@@ -3227,13 +3288,35 @@ watch(
             v-if="matchedPhuongHuyetList.length"
             type="button"
             class="print-btn print-btn--acu"
-            title="In phiếu châm huyệt riêng — kèm hình vị trí từng huyệt"
+            title="In phiếu châm huyệt YHCT Cổ Truyền — kèm hình vị trí từng huyệt"
             @click="inPhieuChamHuyet()"
           >
             <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
               <path d="M10 2a1 1 0 0 1 1 1v1.06A6.002 6.002 0 0 1 15.94 9H17a1 1 0 1 1 0 2h-1.06A6.002 6.002 0 0 1 11 15.94V17a1 1 0 1 1-2 0v-1.06A6.002 6.002 0 0 1 4.06 11H3a1 1 0 1 1 0-2h1.06A6.002 6.002 0 0 1 9 4.06V3a1 1 0 0 1 1-1Zm0 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0 2.5A1.5 1.5 0 1 1 10 11.5a1.5 1.5 0 0 1 0-3Z"/>
             </svg>
             <span>In phiếu châm huyệt</span>
+          </button>
+          <button
+            type="button"
+            class="print-btn print-btn--nhht"
+            title="In phác đồ châm huyệt Ngũ Hành Hồi Tác — theo 12 kinh đo thực tế"
+            @click="inPhieuNHHT()"
+          >
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M10 2a1 1 0 0 1 1 1v1.06A6.002 6.002 0 0 1 15.94 9H17a1 1 0 1 1 0 2h-1.06A6.002 6.002 0 0 1 11 15.94V17a1 1 0 1 1-2 0v-1.06A6.002 6.002 0 0 1 4.06 11H3a1 1 0 1 1 0-2h1.06A6.002 6.002 0 0 1 9 4.06V3a1 1 0 0 1 1-1Zm0 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0 2.5A1.5 1.5 0 1 1 10 11.5a1.5 1.5 0 0 1 0-3Z"/>
+            </svg>
+            <span>In phác đồ Ngũ Hành Hồi Tác</span>
+          </button>
+          <button
+            type="button"
+            class="print-btn print-btn--bomau"
+            title="In phác đồ Bổ Mẫu Tả Tử (Nạn Kinh 69) — theo 12 kinh đo thực tế"
+            @click="inPhieuBoMauTaTu()"
+          >
+            <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M10 2a1 1 0 0 1 1 1v1.06A6.002 6.002 0 0 1 15.94 9H17a1 1 0 1 1 0 2h-1.06A6.002 6.002 0 0 1 11 15.94V17a1 1 0 1 1-2 0v-1.06A6.002 6.002 0 0 1 4.06 11H3a1 1 0 1 1 0-2h1.06A6.002 6.002 0 0 1 9 4.06V3a1 1 0 0 1 1-1Zm0 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm0 2.5A1.5 1.5 0 1 1 10 11.5a1.5 1.5 0 0 1 0-3Z"/>
+            </svg>
+            <span>In phác đồ Bổ "Mẫu" Tả "Tử"</span>
           </button>
         </div>
       </div>
@@ -3608,12 +3691,14 @@ watch(
                 >. Vào tab <b>Phương Huyệt</b> để thêm phác đồ huyệt cho các thể này.
               </div>
               <PhuongHuyetNguDu
+                ref="nguDuRef"
                 :z="nguHanhZ"
                 :hu-thuc="diagnosis.huThuc"
                 :lech-rows="diagnosis.explain?.huThuc?.lechRows"
                 :matched-benh-ids="matchedBenhIds"
                 @goto-acu="gotoAcuMap"
                 @goto-dict="gotoTuDien"
+                @print-mode="handlePrintMode"
               />
             </div>
           </section>
@@ -4907,7 +4992,11 @@ watch(
 .print-btn:hover { background: var(--brown-700, #78350f); box-shadow: 0 1px 4px rgba(120, 53, 15, 0.25); }
 .print-btn:active { transform: translateY(1px); }
 .print-btn--acu { background: var(--chip-pulse-fg, #2f6690); border-color: var(--chip-pulse-fg, #2f6690); }
-.print-btn--acu:hover { background: var(--brown-700, #78350f); }
+.print-btn--acu:hover { background: #1e4566; }
+.print-btn--nhht { background: #2e5c1e; border-color: #2e5c1e; }
+.print-btn--nhht:hover { background: #1e3d14; }
+.print-btn--bomau { background: #8a2f4f; border-color: #8a2f4f; }
+.print-btn--bomau:hover { background: #5c1f35; }
 .divider { margin: 0 var(--space-2); color: var(--gray-300); }
 
 /* Thông tin bệnh nhân: dải gọn ngang trên đầu trang (thay bảng dọc cũ trong Mục I) */
