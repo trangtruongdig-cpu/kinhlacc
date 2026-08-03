@@ -19,9 +19,9 @@ const props = defineProps<{
 }>()
 
 const CX = 210, CY = 210, D2R = Math.PI / 180
-// Ngôi sao PHÓNG TO ra vành (như lớp Âm Dương): mốc cân bằng r=108, dịch tối đa ±30 → r∈[78,138].
-// RIM = đường tròn rìa chung của các lớp (mọi thứ nằm gọn trong). LABEL_R nằm trong RIM.
-const PENTA_R = 108, K = 12, Z_CAP = 2.5, SINH_R = 150, LABEL_R = 168, RIM = 191
+// Ngũ hành THU GỌN vào LÒNG Thái Cực (mốc r=84, dịch ±~24 → r∈[60,108]); nhãn r=131 nằm TRONG
+// vành dư/khuyết của taiji (~150–190) nên không đè lên nét đứt dư/khuyết. RIM = rìa chung các lớp.
+const PENTA_R = 84, K = 9.5, Z_CAP = 2.5, SINH_R = 117, LABEL_R = 131, RIM = 191
 const T_THUC = 1.0, T_MILD = 0.5, GRAD = 1.2 // ngưỡng bệnh lý (|z|=1 = vượt bound máy)
 const N = (v: number) => v.toFixed(2)
 const pt = (r: number, deg: number) => { const a = deg * D2R; return { x: CX + r * Math.sin(a), y: CY - r * Math.cos(a) } }
@@ -186,8 +186,15 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
       <AmDuongTaiji v-if="tongCuong" :tong-cuong="tongCuong" compact class="vnh-taiji-bg" />
     <svg class="vnh-svg" viewBox="0 0 420 420" role="img"
       aria-label="Ngôi sao Ngũ Hành méo theo mất cân bằng đo được, kèm lực tương sinh tương khắc">
+      <defs>
+        <radialGradient id="vnh-veil-grad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#160f08" stop-opacity="0.55" />
+          <stop offset="66%" stop-color="#160f08" stop-opacity="0.5" />
+          <stop offset="100%" stop-color="#160f08" stop-opacity="0" />
+        </radialGradient>
+      </defs>
 
-      <!-- MÀN CHE TỐI mỏng: làm Thái Cực nền ĐỀU-tối lại (mờ nửa kem chói) để ngũ hành NỔI RÕ trên nền -->
+      <!-- MÀN CHE: tối ở GIỮA (nơi ngũ hành ngự → nổi rõ), TRONG SUỐT ở RÌA (dư/khuyết taiji hiện rõ) -->
       <circle class="vnh-veil" :cx="CX" :cy="CY" :r="RIM" />
       <!-- Vòng RÌA chung của các lớp — mọi thứ nằm gọn bên trong -->
       <circle class="vnh-rim" :cx="CX" :cy="CY" :r="RIM" />
@@ -287,8 +294,8 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 .vnh-taiji-bg :deep(.ad-svg) { width: 100%; height: 100%; display: block; }
 .vnh-svg { position: relative; z-index: 2; width: 100%; height: auto; display: block; overflow: visible; }
 .vnh-svg text { font-family: var(--font-family, 'Inter', sans-serif); text-anchor: middle; dominant-baseline: middle; user-select: none; pointer-events: none; }
-/* MÀN CHE TỐI: làm Thái Cực nền đều-tối lại (mờ nửa kem), nâng tương phản cho ngũ hành phía trên */
-.vnh-veil { fill: rgba(24, 17, 9, 0.46); }
+/* MÀN CHE: tối ở giữa (ngũ hành nổi) → trong suốt ở rìa (dư/khuyết taiji hiện rõ, không bị nhãn đè) */
+.vnh-veil { fill: url(#vnh-veil-grad); }
 /* Vòng rìa chung của các lớp (sáng trên nền đá) */
 .vnh-rim { fill: none; stroke: rgba(214, 195, 156, 0.55); stroke-width: 2; }
 /* VÒNG HÀI HOÀ — mốc cân bằng lý tưởng (5 tạng "nằm gọn" trên vòng này khi cân bằng) */
