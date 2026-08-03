@@ -107,21 +107,28 @@ const khac = computed(() => {
   })
 })
 
-// ── TƯƠNG SINH (cung i→i+1, mẹ→con) ở vành ngoài; đứt khi mẹ hư, đậm khi dồn nuôi ──
+// ── TƯƠNG SINH (cung i→i+1, mẹ→con) ở vành ngoài — MỖI cạnh MỘT trạng thái duy nhất (loại trừ nhau,
+//    KHÔNG chồng 2 chiều): dao (con đạo mẫu) > batcap (mẹ hư) > donnuoi (mẹ thực dồn nuôi) > normal.
+//    CHỈ hiện dị thường khi ĐANG XEM méo (thực tế); "chuẩn cân bằng" = tương sinh bình thường hết. ──
+type SinhMode = 'normal' | 'batcap' | 'donnuoi' | 'dao'
 const sinh = computed(() => {
-  const out: { d: string; head: string; mode: 'normal' | 'batcap' | 'donnuoi'; dao: boolean; daoHead: string }[] = []
+  const out: { d: string; head: string; mode: SinhMode; daoHead: string; tip: string }[] = []
   for (let i = 0; i < 5; i++) {
     const c = (i + 1) % 5
     const zm = zArr.value[i], zc = zArr.value[c]
-    let mode: 'normal' | 'batcap' | 'donnuoi' = 'normal'
-    if (zm != null) { if (zm <= -1) mode = 'batcap'; else if (zc != null && zm >= 1 && zc <= -0.5) mode = 'donnuoi' }
-    const dao = zc != null && zm != null && zc >= 1 && zm <= -0.5 // con đạo mẫu khí
+    const mn = HANHS[i]!.ten, cn = HANHS[c]!.ten
+    let mode: SinhMode = 'normal', tip = `${mn} sinh ${cn} (mẹ → con, bình thường)`
+    if (showMeo.value && zm != null && zc != null) {
+      if (zc >= 1 && zm <= -0.5) { mode = 'dao'; tip = `Con ${cn} THỰC đạo khí mẹ ${mn} (con hút ngược mẹ) → kiện con để thôi rút mẹ` }
+      else if (zm <= -1) { mode = 'batcap'; tip = `Mẹ ${mn} HƯ → sinh bất cập, không dưỡng đủ con ${cn} → bổ mẹ ${mn}` }
+      else if (zm >= 1 && zc <= -0.5) { mode = 'donnuoi'; tip = `Mẹ ${mn} thực dồn nuôi con ${cn} hư` }
+    }
     const a0 = HANHS[i]!.deg + 9, a1 = HANHS[c]!.deg - 9 + (c === 0 ? 360 : 0)
     const p0 = pt(SINH_R, a0), p1 = pt(SINH_R, a1)
     const d = `M${N(p0.x)} ${N(p0.y)} A${SINH_R} ${SINH_R} 0 0 1 ${N(p1.x)} ${N(p1.y)}`
     const head = arrowHead(p1, { x: Math.cos(a1 * D2R), y: Math.sin(a1 * D2R) }, 6, 3.4)
     const daoHead = arrowHead(p0, { x: -Math.cos(a0 * D2R), y: -Math.sin(a0 * D2R) }, 6, 3.4)
-    out.push({ d, head, mode, dao, daoHead })
+    out.push({ d, head, mode, daoHead, tip })
   }
   return out
 })
@@ -219,11 +226,14 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
       <!-- (3) NGŨ GIÁC MÉO (hoặc chuẩn khi tắt) -->
       <polygon class="vnh-poly" :points="nodes.map((n) => `${N(showMeo ? n.p.x : n.home.x)},${N(showMeo ? n.p.y : n.home.y)}`).join(' ')" />
 
-      <!-- (4) TƯƠNG SINH — cung ngoài (mẹ→con) -->
+      <!-- (4) TƯƠNG SINH — cung ngoài; MỖI cạnh 1 hướng: dao = mũi tên NGƯỢC hổ phách (con hút mẹ),
+           còn lại mũi tên xuôi mẹ→con (đứt mờ nếu mẹ hư, đậm nếu dồn nuôi) -->
       <g v-if="showLuc" class="vnh-sinh">
-        <g v-for="(s, i) in sinh" :key="'sh' + i" :class="[s.mode, { dao: s.dao }]">
-          <path :d="s.d" /><polygon :points="s.head" />
-          <polygon v-if="s.dao" class="vnh-sinh-dao" :points="s.daoHead" />
+        <g v-for="(s, i) in sinh" :key="'sh' + i" :class="s.mode">
+          <path :d="s.d" />
+          <polygon v-if="s.mode !== 'dao'" :points="s.head" />
+          <polygon v-else class="vnh-sinh-dao" :points="s.daoHead" />
+          <title>{{ s.tip }}</title>
         </g>
       </g>
 
@@ -324,11 +334,15 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 
 /* Tương sinh (cung ngoài) */
 .vnh-sinh path { fill: none; stroke: #5c9142; stroke-width: 2.7; stroke-linecap: round; }
-.vnh-sinh polygon { fill: #4f7d39; }
-.vnh-sinh .batcap path { stroke: rgba(90, 150, 74, 0.4); stroke-width: 1.2; stroke-dasharray: 3 3; filter: none; }
-.vnh-sinh .batcap polygon { fill: rgba(90, 150, 74, 0.4); filter: none; }
-.vnh-sinh .donnuoi path { stroke: #46873c; stroke-width: 3; }
-.vnh-sinh-dao { fill: #c9762a; }
+.vnh-sinh polygon { fill: #5c9142; }
+/* mẹ HƯ → sinh bất cập: đứt, mờ (nuôi hụt) */
+.vnh-sinh .batcap path { stroke: rgba(120, 170, 100, 0.5); stroke-width: 1.4; stroke-dasharray: 3 3; filter: none; }
+.vnh-sinh .batcap polygon { fill: rgba(120, 170, 100, 0.5); filter: none; }
+/* mẹ THỰC dồn nuôi con hư: đậm */
+.vnh-sinh .donnuoi path { stroke: #4f8f3a; stroke-width: 3.4; }
+/* con THỰC đạo khí mẹ: mũi tên NGƯỢC hổ phách (con → mẹ) */
+.vnh-sinh .dao path { stroke: #d98a3a; stroke-width: 2.7; }
+.vnh-sinh-dao { fill: #d98a3a; }
 
 /* Tương khắc (dây chéo) */
 .vnh-kline { stroke-linecap: round; }
