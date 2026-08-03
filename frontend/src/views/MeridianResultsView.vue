@@ -4115,9 +4115,6 @@ watch(
             <div class="bcpt-top-right">
               <!-- TÍNH CHẤT BÁT CƯƠNG · CHÍNH KHÍ -->
               <section v-if="!dinhViLoading && tinhChatAxis" class="bcpt-axis bcpt-axis--tinhchat">
-
-              <!-- TÍNH CHẤT BÁT CƯƠNG · CHÍNH KHÍ -->
-              <section v-if="!dinhViLoading && tinhChatAxis" class="bcpt-axis bcpt-axis--tinhchat">
                 <h3 class="bcpt-axis-title"><span class="bcpt-axis-num">{{ tinhChatAxis.num }}</span> {{ tinhChatAxis.title }} <em>{{ tinhChatAxis.sub }}</em></h3>
                 <div v-for="sg in tinhChatAxis.subgroups" :key="sg.nhom" class="bcpt-sub">
                   <span class="bcpt-sub-lb">{{ sg.label }}</span>
