@@ -3558,6 +3558,7 @@ watch(
                 :z="nguHanhZ"
                 :hu-thuc="diagnosis.huThuc"
                 :lech-rows="diagnosis.explain?.huThuc?.lechRows"
+                :matched-benh-ids="matchedBenhIds"
                 @goto-acu="gotoAcuMap"
                 @goto-dict="gotoTuDien"
               />
