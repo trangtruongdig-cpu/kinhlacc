@@ -1,7 +1,7 @@
 <script setup lang="ts">
-// Mục nhỏ của Section IV — PHƯƠNG HUYỆT NGŨ DU (theo Ngũ Hành Hồi Tác & Nạn Kinh 69).
+// Mục nhỏ của Section IV — PHƯƠNG HUYỆT NGŨ DU (theo Ngũ Hành Hồi Tác & Bổ Mẫu Tả Tử Nạn Kinh 69).
 // Kết nối trực tiếp với phép đo Hư - Thực thực tế của 12 đường kinh từ Bát Cương.
-// Hỗ trợ đồng bộ thật sự vào Database Tab Quản Lý Phương Huyệt và thu gọn thẻ giải thích.
+// Giao diện phẳng chuyên nghiệp (bỏ emoji icon), thu gọn chi tiết và lưu phác đồ vào DB.
 import { ref, reactive, computed, watch, onMounted } from 'vue'
 import { api } from '@/services/api'
 import { KINH_THEO_HANH, KINH, hanhCuaKinh, type HanhId } from '@/lib/nguDuHuyet'
@@ -206,7 +206,6 @@ async function saveToPrescriptionTab() {
   syncMsg.value = null
   let countSuccess = 0
 
-  // Xác định idBenh mục tiêu (lấy id thể bệnh matched đầu tiên hoặc mặc định ID 1)
   let targetBenhId = 1
   if (props.matchedBenhIds && props.matchedBenhIds.length > 0) {
     targetBenhId = props.matchedBenhIds[0]
@@ -219,15 +218,15 @@ async function saveToPrescriptionTab() {
           id_benh: targetBenhId,
           id_huyet: item.rec.idHuyet,
           phuong_phap_tac_dong: item.phuongPhap,
-          ghi_chu_ky_thuat: `Thuật toán ${activeMode.value === 'nhht' ? 'Ngũ Hành Hồi Tác' : 'Nạn Kinh 69'}`,
+          ghi_chu_ky_thuat: `Thuật toán ${activeMode.value === 'nhht' ? 'Ngũ Hành Hồi Tác' : 'Bổ Mẫu Tả Tử'}`,
           y_nghia_huyet: `${item.role} ${item.hanhTen} huyệt kinh ${item.kinh} (Điều trị ${item.targetOrgan})`
         })
         countSuccess++
       }
     }
-    syncMsg.value = `✓ Đã lưu thành công ${countSuccess} huyệt vào Tab Quản Lý Phương Huyệt DB!`
+    syncMsg.value = `Đã lưu thành công ${countSuccess} huyệt vào Tab Quản Lý Phương Huyệt (DB)!`
   } catch (e: any) {
-    syncMsg.value = `⚠ Đồng bộ thất bại: ${e.message || 'Lỗi kết nối API'}`
+    syncMsg.value = `Đồng bộ thất bại: ${e.message || 'Lỗi kết nối API'}`
   } finally {
     isSyncing.value = false
     setTimeout(() => { syncMsg.value = null }, 5000)
@@ -240,7 +239,7 @@ async function saveToPrescriptionTab() {
     <div class="ngd-head">
       <div class="ngd-head-titles">
         <span class="ngd-title">Phương Huyệt Ngũ Du</span>
-        <span class="ngd-sub">Tác động Tạng Phủ tổn thương theo Ngũ Hành Hồi Tác &amp; Nạn Kinh</span>
+        <span class="ngd-sub">Tác động Tạng Phủ tổn thương theo Ngũ Hành Hồi Tác &amp; Nạn Kinh 69</span>
       </div>
       <div class="ngd-mode-tabs">
         <button
@@ -249,7 +248,7 @@ async function saveToPrescriptionTab() {
           :class="{ 'is-active': activeMode === 'nhht' }"
           @click="activeMode = 'nhht'"
         >
-          🔄 Ngũ Hành Hồi Tác
+          Ngũ Hành Hồi Tác
         </button>
         <button
           type="button"
@@ -257,7 +256,7 @@ async function saveToPrescriptionTab() {
           :class="{ 'is-active': activeMode === 'bomautacon' }"
           @click="activeMode = 'bomautacon'"
         >
-          🌱 Bổ Mẫu Tả Con (Nạn Kinh 69)
+          Bổ "Mẫu" Tả "Tử"
         </button>
       </div>
     </div>
@@ -265,7 +264,7 @@ async function saveToPrescriptionTab() {
     <!-- THANH KẾT NỐI TẠNG PHỦ TỔN THƯƠNG CHÍNH XÁC TỪ BÁT CƯƠNG HƯ-THỰC DO ĐẠC -->
     <div class="ngd-organ-selector-box">
       <div class="ngd-selector-label">
-        🎯 <b>ĐƯỜNG KINH / TẠNG PHỦ TỔN THƯƠNG DO ĐẠC:</b>
+        <b>ĐƯỜNG KINH / TẠNG PHỦ TỔN THƯƠNG DO ĐẠC:</b>
         <span class="ngd-selector-hint">(Đồng bộ trực tiếp từ 12 đường kinh bị Hư/Thực trong Bát Cương)</span>
       </div>
       <div class="ngd-organ-chips">
@@ -294,7 +293,7 @@ async function saveToPrescriptionTab() {
     <div v-if="rx.ta.length || rx.bo.length" class="ngd-prescription-box">
       <div class="ngd-rx-header">
         <div class="ngd-rx-title-group">
-          📝 <b>CHỈ ĐỊNH PHƯƠNG HUYỆT CA BỆNH</b>
+          <b>CHỈ ĐỊNH PHƯƠNG HUYỆT CA BỆNH</b>
           <span class="ngd-rx-sub">(Tổng hợp huyệt tác động trực tiếp vào các đường kinh tổn thương)</span>
         </div>
         <button
@@ -303,41 +302,41 @@ async function saveToPrescriptionTab() {
           :disabled="isSyncing"
           @click="saveToPrescriptionTab"
         >
-          {{ isSyncing ? '⏳ Đang lưu DB...' : '💾 Đồng bộ vào Tab Phương Huyệt (DB)' }}
+          {{ isSyncing ? 'Đang lưu DB...' : 'Lưu phác đồ vào Tab Phương Huyệt (DB)' }}
         </button>
       </div>
 
-      <div v-if="syncMsg" class="ngd-sync-toast" :class="{ 'is-err': syncMsg.startsWith('⚠') }">
+      <div v-if="syncMsg" class="ngd-sync-toast" :class="{ 'is-err': syncMsg.startsWith('Đồng bộ thất bại') }">
         {{ syncMsg }}
       </div>
 
       <div class="ngd-rx-body">
         <!-- NHÓM TẢ -->
         <div v-if="rx.ta.length" class="ngd-rx-group">
-          <span class="ngd-rx-tag ngd-rx-tag--ta">🔴 CHÂM TẢ (Tiết thực / Hạ hỏa)</span>
+          <span class="ngd-rx-tag ngd-rx-tag--ta">CHÂM TẢ (Tiết thực / Hạ hỏa)</span>
           <div class="ngd-rx-chips">
             <div v-for="item in rx.ta" :key="item.huyet + item.kinh" class="ngd-rx-chip ngd-rx-chip--ta">
               <span class="ngd-rx-name">{{ item.huyet }}</span>
               <span class="ngd-rx-detail">({{ item.role }} · {{ item.hanhTen }} · {{ item.kinh }} <small>← trị {{ item.targetOrgan }}</small>)</span>
               <button v-if="item.rec?.ma_huyet" type="button" class="ngd-map" title="Xem trên đồ hình 3D"
-                @click="emit('goto-acu', item.rec!.ma_huyet!)">🧭 3D</button>
+                @click="emit('goto-acu', item.rec!.ma_huyet!)">[3D]</button>
               <button v-else-if="item.rec?.id_tu_dien" type="button" class="ngd-map" title="Tra ở Từ Điển"
-                @click="emit('goto-dict', item.rec!.id_tu_dien!)">📖 Từ điển</button>
+                @click="emit('goto-dict', item.rec!.id_tu_dien!)">[Từ điển]</button>
             </div>
           </div>
         </div>
 
         <!-- NHÓM BỔ -->
         <div v-if="rx.bo.length" class="ngd-rx-group">
-          <span class="ngd-rx-tag ngd-rx-tag--bo">🟢 CHÂM BỔ / CỨU (Phù chính / Ích khí)</span>
+          <span class="ngd-rx-tag ngd-rx-tag--bo">CHÂM BỔ / CỨU (Phù chính / Ích khí)</span>
           <div class="ngd-rx-chips">
             <div v-for="item in rx.bo" :key="item.huyet + item.kinh" class="ngd-rx-chip ngd-rx-chip--bo">
               <span class="ngd-rx-name">{{ item.huyet }}</span>
               <span class="ngd-rx-detail">({{ item.role }} · {{ item.hanhTen }} · {{ item.kinh }} <small>← trị {{ item.targetOrgan }}</small>)</span>
               <button v-if="item.rec?.ma_huyet" type="button" class="ngd-map" title="Xem trên đồ hình 3D"
-                @click="emit('goto-acu', item.rec!.ma_huyet!)">🧭 3D</button>
+                @click="emit('goto-acu', item.rec!.ma_huyet!)">[3D]</button>
               <button v-else-if="item.rec?.id_tu_dien" type="button" class="ngd-map" title="Tra ở Từ Điển"
-                @click="emit('goto-dict', item.rec!.id_tu_dien!)">📖 Từ điển</button>
+                @click="emit('goto-dict', item.rec!.id_tu_dien!)">[Từ điển]</button>
             </div>
           </div>
         </div>
@@ -363,12 +362,12 @@ async function saveToPrescriptionTab() {
           </div>
 
           <div class="ngd-card-quick-huyet">
-            <span class="ngd-qh ngd-qh--ta">🔴 Tả: <b>{{ c.ph.ta.huyet }}</b></span>
-            <span class="ngd-qh ngd-qh--bo">🟢 Bổ: <b>{{ c.ph.bo.huyet }}</b></span>
+            <span class="ngd-qh ngd-qh--ta">Tả: <b>{{ c.ph.ta.huyet }}</b></span>
+            <span class="ngd-qh ngd-qh--bo">Bổ: <b>{{ c.ph.bo.huyet }}</b></span>
           </div>
 
           <button type="button" class="ngd-expand-btn" @click="toggleExpand(c.organ)">
-            {{ expandedCards[c.organ] ? '🔼 Thu gọn' : '🔽 Chi tiết &amp; Lý luận' }}
+            {{ expandedCards[c.organ] ? 'Thu gọn' : 'Xem chi tiết & lý luận' }}
           </button>
         </div>
 
@@ -392,9 +391,9 @@ async function saveToPrescriptionTab() {
                 <span class="ngd-meta">{{ c.ph.ta.role }} · {{ c.ph.ta.hanhTen }} huyệt · kinh {{ c.ph.ta.kinh }}</span>
               </span>
               <button v-if="c.taRec?.ma_huyet" type="button" class="ngd-map" title="Xem trên đồ hình 3D"
-                @click="emit('goto-acu', c.taRec!.ma_huyet!)">🧭 3D</button>
+                @click="emit('goto-acu', c.taRec!.ma_huyet!)">[3D]</button>
               <button v-else-if="c.taRec?.id_tu_dien" type="button" class="ngd-map" title="Tra ở Từ Điển"
-                @click="emit('goto-dict', c.taRec!.id_tu_dien!)">📖 Từ điển</button>
+                @click="emit('goto-dict', c.taRec!.id_tu_dien!)">[Từ điển]</button>
             </div>
             <div class="ngd-row">
               <span class="ngd-badge ngd-badge--bo">BỔ</span>
@@ -403,18 +402,18 @@ async function saveToPrescriptionTab() {
                 <span class="ngd-meta">{{ c.ph.bo.role }} · {{ c.ph.bo.hanhTen }} huyệt · kinh {{ c.ph.bo.kinh }}</span>
               </span>
               <button v-if="c.boRec?.ma_huyet" type="button" class="ngd-map" title="Xem trên đồ hình 3D"
-                @click="emit('goto-acu', c.boRec!.ma_huyet!)">🧭 3D</button>
+                @click="emit('goto-acu', c.boRec!.ma_huyet!)">[3D]</button>
               <button v-else-if="c.boRec?.id_tu_dien" type="button" class="ngd-map" title="Tra ở Từ Điển"
-                @click="emit('goto-dict', c.boRec!.id_tu_dien!)">📖 Từ điển</button>
+                @click="emit('goto-dict', c.boRec!.id_tu_dien!)">[Từ điển]</button>
             </div>
           </div>
 
-          <p class="ngd-giaithich">💡 <b>Lý luận YHCT</b>: {{ c.ph.giaiThich }}</p>
+          <p class="ngd-giaithich">Lý luận YHCT: {{ c.ph.giaiThich }}</p>
         </div>
       </div>
     </div>
 
-    <!-- CHI TIẾT BỔ MẪU TẢ CON (NẠN KINH 69) THU GỌN / MỞ RỘNG -->
+    <!-- CHI TIẾT BỔ MẪU TẢ TỬ (NẠN KINH 69) THU GỌN / MỞ RỘNG -->
     <div v-else-if="activeMode === 'bomautacon'" class="ngd-cards">
       <div v-for="c in bmCards" :key="c.organ" class="ngd-card">
         <div class="ngd-card-compact-head">
@@ -427,12 +426,12 @@ async function saveToPrescriptionTab() {
 
           <div class="ngd-card-quick-huyet">
             <span class="ngd-qh" :class="c.thuc ? 'ngd-qh--ta' : 'ngd-qh--bo'">
-              {{ c.thuc ? '🔴 Tả Tử:' : '🟢 Bổ Mẫu:' }} <b>{{ c.bm.targetHuyet.huyet }}</b>
+              {{ c.thuc ? 'Tả Tử:' : 'Bổ Mẫu:' }} <b>{{ c.bm.targetHuyet.huyet }}</b>
             </span>
           </div>
 
           <button type="button" class="ngd-expand-btn" @click="toggleExpand(c.organ)">
-            {{ expandedCards[c.organ] ? '🔼 Thu gọn' : '🔽 Chi tiết &amp; Lý luận' }}
+            {{ expandedCards[c.organ] ? 'Thu gọn' : 'Xem chi tiết & lý luận' }}
           </button>
         </div>
 
@@ -445,19 +444,19 @@ async function saveToPrescriptionTab() {
                 <span class="ngd-meta">{{ c.bm.targetHuyet.role }} · {{ c.bm.targetHuyet.hanhTen }} huyệt · kinh {{ c.bm.targetHuyet.kinh }}</span>
               </span>
               <button v-if="c.rec?.ma_huyet" type="button" class="ngd-map" title="Xem trên đồ hình 3D"
-                @click="emit('goto-acu', c.rec!.ma_huyet!)">🧭 3D</button>
+                @click="emit('goto-acu', c.rec!.ma_huyet!)">[3D]</button>
               <button v-else-if="c.rec?.id_tu_dien" type="button" class="ngd-map" title="Tra ở Từ Điển"
-                @click="emit('goto-dict', c.rec!.id_tu_dien!)">📖 Từ điển</button>
+                @click="emit('goto-dict', c.rec!.id_tu_dien!)">[Từ điển]</button>
             </div>
           </div>
 
-          <p class="ngd-giaithich">💡 <b>Lý luận YHCT (Nạn Kinh 69)</b>: {{ c.bm.giaiThich }}</p>
+          <p class="ngd-giaithich">Lý luận YHCT (Nạn Kinh 69): {{ c.bm.giaiThich }}</p>
         </div>
       </div>
     </div>
 
     <p class="ngd-note">
-      ⚠ Gợi ý theo Ngũ Hành Hồi Tác &amp; Nạn Kinh 69 — kèm <b>ôn/thanh</b> theo Hàn-Nhiệt (Bát Cương) &amp; thủ pháp bổ/tả; đối chiếu tứ chẩn trước khi châm.
+      Gợi ý lâm sàng: Ngũ Hành Hồi Tác &amp; Nạn Kinh 69 — kèm thủ pháp bổ/tả &amp; nhiệt/hàn Bát Cương; đối chiếu Tứ Chẩn trước khi lập phác đồ.
     </p>
   </div>
 </template>
@@ -494,7 +493,7 @@ async function saveToPrescriptionTab() {
 .ngd-rx-title-group { font-size: 0.88rem; color: var(--brown-900, #3a2618); }
 .ngd-rx-sub { font-size: 0.75rem; font-weight: normal; color: var(--gray-500, #8a7c68); margin-left: 6px; }
 
-.ngd-save-btn { font-size: 0.78rem; font-weight: 700; background: #2e5c1e; color: #fff; border: 1px solid #2e5c1e; padding: 5px 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.ngd-save-btn { font-size: 0.78rem; font-weight: 700; background: #2e5c1e; color: #fff; border: 1px solid #2e5c1e; padding: 5px 12px; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
 .ngd-save-btn:hover { background: #234717; }
 .ngd-save-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
