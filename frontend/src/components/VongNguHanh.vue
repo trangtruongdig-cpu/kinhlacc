@@ -178,8 +178,10 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 <template>
   <div class="vnh">
     <div class="vnh-stage">
-      <!-- NỀN: chính Thái Cực của lớp 1 (giữ nguyên dạng + dư/khuyết), LÀM MỜ + đẩy xuống nền.
-           Ngũ tạng xô lệch (ngôi sao méo bên trên) làm âm dương cũng dư/khuyết. -->
+      <!-- NỀN ĐÁ TỐI (đồng bộ lớp 4/5) → ngũ hành sáng nổi bật, tương phản mạnh. -->
+      <div class="vnh-stone-bg"></div>
+      <!-- Thái Cực của lớp 1 (giữ dạng + dư/khuyết) làm MOTIF chìm trên nền đá:
+           ngũ tạng xô lệch (sao méo bên trên) ↔ âm dương cũng dư/khuyết. -->
       <AmDuongTaiji v-if="tongCuong" :tong-cuong="tongCuong" compact class="vnh-taiji-bg" />
     <svg class="vnh-svg" viewBox="0 0 420 420" role="img"
       aria-label="Ngôi sao Ngũ Hành méo theo mất cân bằng đo được, kèm lực tương sinh tương khắc">
@@ -269,20 +271,23 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 
 <style scoped>
 .vnh { width: 100%; max-width: min(100%, 62vh); margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-/* Sân khấu vuông: Thái Cực NỀN (mờ) + ngôi sao SVG chồng lên trên */
+/* Sân khấu vuông: NỀN ĐÁ TỐI + Thái Cực motif (mờ) + ngôi sao SVG chồng lên trên */
 .vnh-stage { position: relative; width: 100%; }
-/* Thái Cực nền PHÓNG TO lấp đầy tới vòng rìa: taiji của AmDuongTaiji vốn = 66% khung → nới khung
-   lên 138% (căn giữa) để đường tròn taiji bằng rim; clip tròn 33% để dư/khuyết thừa cắt gọn ở rìa. */
-.vnh-taiji-bg { position: absolute; width: 138.4%; height: 138.4%; left: -19.2%; top: -19.2%; z-index: 0; opacity: 0.4; pointer-events: none; clip-path: circle(33% at 50% 50%); }
+/* NỀN ĐÁ TỐI như lớp 4/5 (đường kính = rim 91%) → ngũ hành sáng nổi bật, tương phản mạnh */
+.vnh-stone-bg { position: absolute; inset: 4.5%; z-index: 0; border-radius: 50%; pointer-events: none;
+  background: radial-gradient(circle at 50% 42%, var(--brown-700, #6b4f34), var(--brown-800, #4b3626) 55%, var(--brown-900, #2f2417));
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.3); }
+/* Thái Cực motif PHÓNG TO lấp đầy tới rim (nới khung 138%, clip tròn 33%), chìm trên nền đá */
+.vnh-taiji-bg { position: absolute; width: 138.4%; height: 138.4%; left: -19.2%; top: -19.2%; z-index: 1; opacity: 0.62; pointer-events: none; clip-path: circle(33% at 50% 50%); }
 .vnh-taiji-bg :deep(.ad-card) { width: 100%; height: 100%; border: none !important; background: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; display: block; }
 .vnh-taiji-bg :deep(.ad-fig) { width: 100%; height: 100%; padding: 0 !important; margin: 0 !important; }
 .vnh-taiji-bg :deep(.ad-svg) { width: 100%; height: 100%; display: block; }
-.vnh-svg { position: relative; z-index: 1; width: 100%; height: auto; display: block; overflow: visible; }
+.vnh-svg { position: relative; z-index: 2; width: 100%; height: auto; display: block; overflow: visible; }
 .vnh-svg text { font-family: var(--font-family, 'Inter', sans-serif); text-anchor: middle; dominant-baseline: middle; user-select: none; pointer-events: none; }
-/* Vòng rìa chung của các lớp */
-.vnh-rim { fill: none; stroke: rgba(107, 79, 52, 0.5); stroke-width: 2; }
+/* Vòng rìa chung của các lớp (sáng trên nền đá) */
+.vnh-rim { fill: none; stroke: rgba(214, 195, 156, 0.55); stroke-width: 2; }
 /* VÒNG HÀI HOÀ — mốc cân bằng lý tưởng (5 tạng "nằm gọn" trên vòng này khi cân bằng) */
-.vnh-harmony { fill: none; stroke: rgba(107, 79, 52, 0.42); stroke-width: 1; }
+.vnh-harmony { fill: none; stroke: rgba(214, 195, 156, 0.4); stroke-width: 1; }
 /* HALO KÉP 2-pass cho nét sao: quầng KEM tách nét trên nửa NÂU + quầng NÂU tách trên nửa KEM.
    (casing chỉ-sáng KHÔNG cứu được nửa kem — phải có cả pass tối.) */
 .vnh-poly, .vnh-sinh path, .vnh-sinh polygon, .vnh-kline.on-thua, .vnh-kline.on-vu, .vnh-khead, .vnh-spoke.du, .vnh-spoke.khuyet {
@@ -291,19 +296,19 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 
 /* Nhãn vành ngoài — chữ hành + quầng KÉP (kem paint-order + mép tối drop-shadow) đọc cả 2 nửa */
 .vnh-olabel text { filter: drop-shadow(0 0 1px rgba(40, 26, 12, 0.85)); }
-.vnh-ol-hanh { font-size: 12.5px; font-weight: 800; fill: var(--hc); stroke: rgba(255, 252, 245, 0.95); stroke-width: 2.4px; paint-order: stroke; }
-.vnh-ol-tang { font-size: 10.5px; font-weight: 700; fill: #4a3722; stroke: rgba(255, 252, 245, 0.95); stroke-width: 2px; paint-order: stroke; }
-.vnh-ol-phu { font-size: 8px; font-weight: 600; fill: #6f5f47; stroke: rgba(255, 252, 245, 0.9); stroke-width: 1.6px; paint-order: stroke; }
+.vnh-ol-hanh { font-size: 12.5px; font-weight: 800; fill: var(--hc); stroke: rgba(30, 20, 8, 0.7); stroke-width: 2.4px; paint-order: stroke; }
+.vnh-ol-tang { font-size: 10.5px; font-weight: 700; fill: #f2e6cc; stroke: rgba(30, 20, 8, 0.7); stroke-width: 2px; paint-order: stroke; }
+.vnh-ol-phu { font-size: 8px; font-weight: 600; fill: #cdbb98; stroke: rgba(30, 20, 8, 0.6); stroke-width: 1.6px; paint-order: stroke; }
 
-/* Mốc cân bằng ngũ giác (per tạng) + nan hoa — lõi đục hơn để nổi (halo kép lo tương phản) */
-.vnh-ref { fill: none; stroke: rgba(120, 96, 60, 0.35); stroke-width: 1.2; stroke-dasharray: 5 4; }
-.vnh-home { fill: none; stroke: rgba(120, 96, 60, 0.5); stroke-width: 1; }
-.vnh-spoke { stroke: rgba(120, 96, 60, 0.35); stroke-width: 1.2; transition: all 0.35s ease; }
-.vnh-spoke.du { stroke: #b23a29; stroke-width: 2.4; } /* đẩy ra ngoài mốc = DƯ (thực) */
-.vnh-spoke.khuyet { stroke: #295c8d; stroke-width: 2.4; } /* co vào trong mốc = KHUYẾT (hư) */
+/* Mốc cân bằng ngũ giác (per tạng) + nan hoa — parchment sáng trên nền đá */
+.vnh-ref { fill: none; stroke: rgba(214, 195, 156, 0.32); stroke-width: 1.2; stroke-dasharray: 5 4; }
+.vnh-home { fill: none; stroke: rgba(214, 195, 156, 0.5); stroke-width: 1; }
+.vnh-spoke { stroke: rgba(214, 195, 156, 0.35); stroke-width: 1.2; transition: all 0.35s ease; }
+.vnh-spoke.du { stroke: #e0563a; stroke-width: 2.4; } /* đẩy ra ngoài mốc = DƯ (thực) */
+.vnh-spoke.khuyet { stroke: #4f97d6; stroke-width: 2.4; } /* co vào trong mốc = KHUYẾT (hư) */
 
-/* Ngũ giác méo — lõi nâu ĐỤC #5a4023 (không lẫn nửa kem), halo kép lo nửa nâu */
-.vnh-poly { fill: rgba(120, 96, 60, 0.06); stroke: #5a4023; stroke-width: 2.2; stroke-linejoin: round; transition: all 0.35s ease; }
+/* Ngũ giác méo — lõi PARCHMENT sáng (nổi trên nền đá tối), halo kép lo mọi nền */
+.vnh-poly { fill: rgba(230, 214, 180, 0.05); stroke: #d8c39c; stroke-width: 2.2; stroke-linejoin: round; transition: all 0.35s ease; }
 
 /* Tương sinh (cung ngoài) */
 .vnh-sinh path { fill: none; stroke: #4f7d39; stroke-width: 2.2; stroke-linecap: round; }
