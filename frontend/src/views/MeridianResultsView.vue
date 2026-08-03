@@ -13,6 +13,7 @@ import BienChungWheel from '@/components/BienChungWheel.vue'
 import VongLucKinh from '@/components/VongLucKinh.vue'
 import VongLucKhi from '@/components/VongLucKhi.vue'
 import VongNguHanh from '@/components/VongNguHanh.vue'
+import PhuongHuyetNguDu from '@/components/PhuongHuyetNguDu.vue'
 import { locateLucKinh, huongTruyen, KINH_META, type KinhSlug, type LucKinhVerdict, type TheKinhMap } from '@/lib/lucKinh'
 import { truyenBienCua } from '@/lib/lucKinhTruyenBien'
 import { mocKham, mocKhamMs, ngayKhamVN } from '@/lib/caKham'
@@ -3553,6 +3554,12 @@ watch(
                   ><b>{{ t.name }}</b><span v-if="i < theDoThieuPhuongHuyet.length - 1">, </span></template
                 >. Vào tab <b>Phương Huyệt</b> để thêm phác đồ huyệt cho các thể này.
               </div>
+              <PhuongHuyetNguDu
+                :z="nguHanhZ"
+                :hu-thuc="diagnosis.huThuc"
+                @goto-acu="gotoAcuMap"
+                @goto-dict="gotoTuDien"
+              />
             </div>
           </section>
 
