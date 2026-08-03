@@ -172,22 +172,23 @@ const bmCards = computed(() => {
 const HANH_COLOR: Record<HanhId, string> = { moc: '#4f7d39', hoa: '#b23a29', tho: '#b3872c', kim: '#8a7a52', thuy: '#35638d' }
 
 // CHỈ ĐỊNH gộp: Dồn các Tạng Phủ chọn thành 2 nhóm TẢ / BỔ
-interface RxItem { huyet: string; kinh: string; hanhTen: string; role: string; rec?: HuyetViRow; targetOrgan: string; phuongPhap: 'Tả' | 'Bổ' }
+interface RxItem { huyet: string; kinh: string; hanhTen: string; role: string; rec?: HuyetViRow; targetOrgan: string; phuongPhap: 'Tả' | 'Bổ'; relationTag?: string }
 const rx = computed(() => {
   const ta = new Map<string, RxItem>(), bo = new Map<string, RxItem>()
-  const add = (m: Map<string, RxItem>, ci: HuyetChiDinh, targetOrgan: string, phuongPhap: 'Tả' | 'Bổ', rec?: HuyetViRow) => {
+  const add = (m: Map<string, RxItem>, ci: HuyetChiDinh, targetOrgan: string, phuongPhap: 'Tả' | 'Bổ', rec?: HuyetViRow, relationTag?: string) => {
     const key = `${ci.huyet}_${ci.kinh}`
-    if (!m.has(key)) m.set(key, { huyet: ci.huyet, kinh: ci.kinh, hanhTen: ci.hanhTen, role: ci.role, rec, targetOrgan, phuongPhap })
+    if (!m.has(key)) m.set(key, { huyet: ci.huyet, kinh: ci.kinh, hanhTen: ci.hanhTen, role: ci.role, rec, targetOrgan, phuongPhap, relationTag })
   }
   if (activeMode.value === 'nhht') {
     for (const c of nhhtCards.value) {
-      add(ta, c.ph.ta, c.organ, 'Tả', c.taRec)
-      add(bo, c.ph.bo, c.organ, 'Bổ', c.boRec)
+      add(ta, c.ph.ta, c.organ, 'Tả', c.taRec, `Tả ${c.ph.ta.hanhTen} Hồi Tác`)
+      add(bo, c.ph.bo, c.organ, 'Bổ', c.boRec, `Bổ ${c.ph.bo.hanhTen} Hồi Tác`)
     }
   } else {
     for (const c of bmCards.value) {
-      if (c.bm.targetHuyet.boTa === 'ta') add(ta, c.bm.targetHuyet, c.organ, 'Tả', c.rec)
-      else add(bo, c.bm.targetHuyet, c.organ, 'Bổ', c.rec)
+      const relName = c.bm.thuc ? `Tả Tử (${c.bm.targetHanhTen})` : `Bổ Mẫu (${c.bm.targetHanhTen})`
+      if (c.bm.targetHuyet.boTa === 'ta') add(ta, c.bm.targetHuyet, c.organ, 'Tả', c.rec, relName)
+      else add(bo, c.bm.targetHuyet, c.organ, 'Bổ', c.rec, relName)
     }
   }
   return { ta: [...ta.values()], bo: [...bo.values()] }
@@ -254,18 +255,26 @@ const rx = computed(() => {
       <div class="ngd-rx-header">
         <div class="ngd-rx-title-group">
           <b>CHỈ ĐỊNH PHƯƠNG HUYỆT CA BỆNH</b>
-          <span class="ngd-rx-sub">(Tự động khớp mô hình chuẩn từ chỉ số đo đạc 12 đường kinh)</span>
+          <span class="ngd-rx-sub">
+            ({{ activeMode === 'bomautacon' ? 'Thuật toán Nạn Kinh 69: Bổ Mẫu Tả Tử' : 'Thuật toán Ngũ Hành Hồi Tác' }})
+          </span>
         </div>
       </div>
 
       <div class="ngd-rx-body">
-        <!-- NHÓM TẢ -->
+        <!-- NHÓM TẢ / TẢ TỬ -->
         <div v-if="rx.ta.length" class="ngd-rx-group">
-          <span class="ngd-rx-tag ngd-rx-tag--ta">CHÂM TẢ (Tiết thực / Hạ hỏa)</span>
+          <span class="ngd-rx-tag ngd-rx-tag--ta">
+            {{ activeMode === 'bomautacon' ? 'TẢ TỬ (Tả Con Khi Tạng Phủ THỰC — Nạn Kinh 69)' : 'CHÂM TẢ (Tiết Thực / Hạ Hỏa — Ngũ Hành Hồi Tác)' }}
+          </span>
           <div class="ngd-rx-chips">
             <div v-for="item in rx.ta" :key="item.huyet + item.kinh" class="ngd-rx-chip ngd-rx-chip--ta">
               <span class="ngd-rx-name">{{ item.huyet }}</span>
-              <span class="ngd-rx-detail">({{ item.role }} · {{ item.hanhTen }} · {{ item.kinh }} <small>← trị {{ item.targetOrgan }}</small>)</span>
+              <span class="ngd-rx-detail">
+                ({{ item.role }} · {{ item.hanhTen }} · {{ item.kinh }}
+                <b v-if="item.relationTag" style="color: #a82e1e; font-weight: 700;">· {{ item.relationTag }}</b>
+                <small>← trị {{ item.targetOrgan }}</small>)
+              </span>
               <button v-if="item.rec?.ma_huyet" type="button" class="ngd-map" title="Xem trên đồ hình 3D"
                 @click="emit('goto-acu', item.rec!.ma_huyet!)">[3D]</button>
               <button v-else-if="item.rec?.id_tu_dien" type="button" class="ngd-map" title="Tra ở Từ Điển"
@@ -274,13 +283,19 @@ const rx = computed(() => {
           </div>
         </div>
 
-        <!-- NHÓM BỔ -->
+        <!-- NHÓM BỔ / BỔ MẪU -->
         <div v-if="rx.bo.length" class="ngd-rx-group">
-          <span class="ngd-rx-tag ngd-rx-tag--bo">CHÂM BỔ / CỨU (Phù chính / Ích khí)</span>
+          <span class="ngd-rx-tag ngd-rx-tag--bo">
+            {{ activeMode === 'bomautacon' ? 'BỔ MẪU (Bổ Mẹ Khi Tạng Phủ HƯ — Nạn Kinh 69)' : 'CHÂM BỔ / CỨU (Phù Chính / Ích Khí — Ngũ Hành Hồi Tác)' }}
+          </span>
           <div class="ngd-rx-chips">
             <div v-for="item in rx.bo" :key="item.huyet + item.kinh" class="ngd-rx-chip ngd-rx-chip--bo">
               <span class="ngd-rx-name">{{ item.huyet }}</span>
-              <span class="ngd-rx-detail">({{ item.role }} · {{ item.hanhTen }} · {{ item.kinh }} <small>← trị {{ item.targetOrgan }}</small>)</span>
+              <span class="ngd-rx-detail">
+                ({{ item.role }} · {{ item.hanhTen }} · {{ item.kinh }}
+                <b v-if="item.relationTag" style="color: #2e5c1e; font-weight: 700;">· {{ item.relationTag }}</b>
+                <small>← trị {{ item.targetOrgan }}</small>)
+              </span>
               <button v-if="item.rec?.ma_huyet" type="button" class="ngd-map" title="Xem trên đồ hình 3D"
                 @click="emit('goto-acu', item.rec!.ma_huyet!)">[3D]</button>
               <button v-else-if="item.rec?.id_tu_dien" type="button" class="ngd-map" title="Tra ở Từ Điển"
