@@ -30,6 +30,7 @@ const isLoading = ref(true)
 const error = ref<string | null>(null)
 // Tham chiếu component đồ hình 3D → gọi captureViews() chụp 4 góc đưa vào phiếu in.
 const batCuongFigureRef = ref<InstanceType<typeof BatCuongFigure3D> | null>(null)
+const layoutMode = ref<'dashboard' | 'scroll'>('dashboard')
 
 const currentSyndromesList = computed(() => {
   return examination.value?.currentSyndromes || examination.value?.syndromes || []
@@ -3276,22 +3277,136 @@ watch(
         <div class="pi-field"><span class="pi-label">BMI</span><span class="pi-value">—</span></div>
       </div>
 
-      <!-- ═══ 3 TAB (v-show để giữ mount 3D + state) ═══ -->
-      <nav class="mr-tabs" aria-label="Chuyển view kết quả">
-        <button type="button" class="mr-tab" :class="{ active: activeView === 1 }" @click="activeView = 1">
-          <b>1</b> Kết Quả Đo &amp; Bát Cương
-        </button>
-        <button type="button" class="mr-tab" :class="{ active: activeView === 2 }" @click="activeView = 2">
-          <b>2</b> Chẩn Đoán &amp; Điều Trị
-          <span class="mr-tab-badge">{{ excelSyndromesList.length }} thể · {{ matchedPhuongHuyetList.length }} huyệt · {{ matchedBaiThuocList.length }} bài</span>
-        </button>
-        <button type="button" class="mr-tab" :class="{ active: activeView === 3 }" @click="activeView = 3">
-          <b>3</b> Biện Chứng – Pháp Trị
-        </button>
-      </nav>
+      <!-- THANH CHUYỂN CHẾ ĐỘ HIỂN THỊ (DASHBOARD 1 MÀN HÌNH VS XEM CUỘN DỌC) -->
+      <div class="mr-layout-bar" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: var(--white); padding: 6px 12px; border-radius: 10px; border: 1px solid var(--brown-100);">
+        <div style="font-size: 0.85rem; font-weight: 700; color: var(--brown-800);">
+          CHẾ ĐỘ HIỂN THỊ KẾT QUẢ ĐO KINH LẠC
+        </div>
+        <div class="mr-mode-switcher">
+          <button type="button" class="mr-mode-btn" :class="{ active: layoutMode === 'dashboard' }" @click="layoutMode = 'dashboard'">
+            🖥 Dashboard 1 Màn Hình (Không cuộn)
+          </button>
+          <button type="button" class="mr-mode-btn" :class="{ active: layoutMode === 'scroll' }" @click="layoutMode = 'scroll'">
+            📄 Xem Chi Tiết Cuộn Dọc
+          </button>
+        </div>
+      </div>
 
-      <!-- ═══ VIEW 1: Kết quả đo (I) + Bát Cương (II) ═══ -->
-      <section class="mr-view" v-show="activeView === 1">
+      <!-- ═══ BẢNG ĐIỀU KHIỂN ĐƠN (CLINIC DASHBOARD - VIEW 1 MÀN HÌNH KHÔNG CUỘN) ═══ -->
+      <div v-show="layoutMode === 'dashboard'" class="mr-clinic-dashboard">
+        <!-- CỘT 1: BÁT CƯƠNG & CHẨN ĐOÁN THỂ BỆNH (28%) -->
+        <div class="dash-col dash-col--left">
+          <div class="dash-card">
+            <div class="dash-card-title">BÁT CƯƠNG TỔNG CƯƠNG</div>
+            <div class="dash-bc-grid">
+              <div class="dash-bc-box">
+                <span class="dash-bc-lbl">Âm – Dương</span>
+                <span class="dash-bc-val" style="color: #b23a29;">{{ diagnosis.amDuong || 'Dương Thịnh' }}</span>
+              </div>
+              <div class="dash-bc-box">
+                <span class="dash-bc-lbl">Biểu – Lý</span>
+                <span class="dash-bc-val" style="color: #4b3626;">{{ diagnosis.bieuLy || 'Lý' }}</span>
+              </div>
+              <div class="dash-bc-box">
+                <span class="dash-bc-lbl">Hàn – Nhiệt</span>
+                <span class="dash-bc-val" style="color: #b23a29;">{{ diagnosis.hanNhiet || 'Nhiệt' }}</span>
+              </div>
+              <div class="dash-bc-box">
+                <span class="dash-bc-lbl">Hư – Thực</span>
+                <span class="dash-bc-val" style="color: #d97706;">{{ diagnosis.huThuc || 'Thực' }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- MÔ HÌNH THỂ BỆNH KHỚP NHẤT -->
+          <div class="dash-card dash-card--grow">
+            <div class="dash-card-title">MÔ HÌNH THỂ BỆNH KHỚP NHẤT</div>
+            <div v-if="excelSyndromesList.length" class="dash-syndromes-list">
+              <div
+                v-for="s in (excelSyndromesList as Array<{ id: number; name: string; outputCell?: string }>)"
+                :key="s.id"
+                class="dash-synd-chip"
+                :class="{ active: excelFocusRuleId === s.id }"
+                @click="excelFocusRuleId = s.id"
+              >
+                <b style="font-size: 0.85rem; color: #2c1d11;">{{ s.name }}</b>
+                <span v-if="s.outputCell" class="synd-tag" style="font-size: 0.72rem; color: #8a7c68; margin-left: 4px;">({{ s.outputCell }})</span>
+              </div>
+            </div>
+            <p v-else style="font-size: 0.8rem; color: #8a7c68; margin: 0; font-style: italic;">Chưa khớp thể bệnh chuẩn nào từ kết quả đo.</p>
+          </div>
+        </div>
+
+        <!-- CỘT 2: ĐỒ HÌNH 3D & 12 ĐƯỜNG KINH DO ĐẠC (38%) -->
+        <div class="dash-col dash-col--center">
+          <!-- Hình 3D rọi huyệt -->
+          <div class="dash-card dash-3d-card">
+            <div class="dash-card-title">ĐỒ HÌNH 3D HUYỆT VỊ &amp; KINH MẠCH</div>
+            <div class="dash-3d-wrapper" style="height: 280px; position: relative;">
+              <BatCuongFigure3D
+                :lech-names="huThucLechNames"
+                :active-group="'huthuc'"
+              />
+            </div>
+          </div>
+
+          <!-- 12 Đường Kinh Gom Nhóm Nhanh -->
+          <div class="dash-card">
+            <div class="dash-card-title">12 ĐƯỜNG KINH DO ĐẠC (PHÂN NHÓM HƯ / THỰC)</div>
+            <div class="dash-meridians-summary" style="display: flex; flex-direction: column; gap: 6px;">
+              <div v-if="diagnosis.explain?.huThuc?.lechRows?.some(r => r.tone === 'high')" class="dm-section">
+                <span class="dm-title" style="font-size: 0.76rem; font-weight: 800; color: #a82e1e;">🔴 THỰC (Vượt Cận Trên)</span>
+                <div class="dm-chips" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px;">
+                  <span v-for="r in diagnosis.explain.huThuc.lechRows.filter(r => r.tone === 'high')" :key="r.name" class="dm-chip" style="font-size: 0.74rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: #fce8e4; color: #a82e1e;">
+                    {{ SHORT_TO_ORGAN[r.name] || r.name }}
+                  </span>
+                </div>
+              </div>
+
+              <div v-if="diagnosis.explain?.huThuc?.lechRows?.some(r => r.tone === 'low')" class="dm-section">
+                <span class="dm-title" style="font-size: 0.76rem; font-weight: 800; color: #235885;">🔵 HƯ (Dưới Cận Dưới)</span>
+                <div class="dm-chips" style="display: flex; flex-wrap: wrap; gap: 4px; margin-top: 3px;">
+                  <span v-for="r in diagnosis.explain.huThuc.lechRows.filter(r => r.tone === 'low')" :key="r.name" class="dm-chip" style="font-size: 0.74rem; font-weight: 700; padding: 2px 7px; border-radius: 4px; background: #e4eef6; color: #235885;">
+                    {{ SHORT_TO_ORGAN[r.name] || r.name }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CỘT 3: PHƯƠNG HUYỆT NGŨ DU & CHỈ ĐỊNH (34%) -->
+        <div class="dash-col dash-col--right">
+          <div class="dash-card dash-card--full" style="height: 100%; overflow-y: auto;">
+            <PhuongHuyetNguDu
+              :z="nguHanhZ"
+              :hu-thuc="diagnosis.huThuc"
+              :lech-rows="diagnosis.explain?.huThuc?.lechRows"
+              :matched-benh-ids="matchedBenhIds"
+              @goto-acu="gotoAcuMap"
+              @goto-dict="gotoTuDien"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div v-show="layoutMode === 'scroll'">
+        <!-- ═══ 3 TAB (v-show để giữ mount 3D + state) ═══ -->
+        <nav class="mr-tabs" aria-label="Chuyển view kết quả">
+          <button type="button" class="mr-tab" :class="{ active: activeView === 1 }" @click="activeView = 1">
+            <b>1</b> Kết Quả Đo &amp; Bát Cương
+          </button>
+          <button type="button" class="mr-tab" :class="{ active: activeView === 2 }" @click="activeView = 2">
+            <b>2</b> Chẩn Đoán &amp; Điều Trị
+            <span class="mr-tab-badge">{{ excelSyndromesList.length }} thể · {{ matchedPhuongHuyetList.length }} huyệt · {{ matchedBaiThuocList.length }} bài</span>
+          </button>
+          <button type="button" class="mr-tab" :class="{ active: activeView === 3 }" @click="activeView = 3">
+            <b>3</b> Biện Chứng – Pháp Trị
+          </button>
+        </nav>
+
+        <!-- ═══ VIEW 1: Kết quả đo (I) + Bát Cương (II) ═══ -->
+        <section class="mr-view" v-show="activeView === 1">
         <div class="mr-grid mr-grid--v1">
           <section class="result-section">
             <h2 class="section-title">
@@ -4127,6 +4242,7 @@ watch(
           </template>
         </div>
       </section><!-- /mr-view VIEW 3 -->
+      </div><!-- /layoutMode === scroll -->
 
     </template>
 
@@ -4580,6 +4696,128 @@ watch(
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* Clinic Dashboard (Single-Screen 1 View No-Scroll) */
+.mr-clinic-dashboard {
+  display: grid;
+  grid-template-columns: 28% 38% 34%;
+  gap: var(--space-3);
+  height: calc(100vh - 140px);
+  min-height: 560px;
+  overflow: hidden;
+  padding: 4px 0 10px;
+}
+
+.dash-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  height: 100%;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.dash-card {
+  background: var(--white);
+  border: 1px solid var(--brown-100);
+  border-radius: var(--radius-lg);
+  padding: 10px 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+
+.dash-card--grow {
+  flex: 1;
+}
+
+.dash-card-title {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: var(--brown-800);
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--brown-100);
+  padding-bottom: 4px;
+}
+
+.dash-bc-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.dash-bc-box {
+  background: var(--brown-50);
+  border: 1px solid var(--brown-100);
+  border-radius: 8px;
+  padding: 6px 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.dash-bc-lbl {
+  font-size: 10.5px;
+  color: var(--gray-500);
+  font-weight: 600;
+}
+
+.dash-bc-val {
+  font-size: 13px;
+  font-weight: 800;
+  margin-top: 1px;
+}
+
+.dash-syndromes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dash-synd-chip {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--brown-100);
+  background: var(--surface-2);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.dash-synd-chip:hover, .dash-synd-chip.active {
+  background: var(--brown-800);
+  color: #fff;
+  border-color: var(--brown-800);
+}
+
+.dash-synd-chip.active b, .dash-synd-chip.active .synd-tag {
+  color: #fff !important;
+}
+
+.mr-mode-switcher {
+  display: inline-flex;
+  gap: 4px;
+  background: var(--surface-2);
+  padding: 3px;
+  border-radius: 8px;
+  border: 1px solid var(--brown-200);
+}
+
+.mr-mode-btn {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: none;
+  background: transparent;
+  color: var(--gray-600);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.mr-mode-btn.active {
+  background: var(--brown-800);
+  color: #fff;
+  font-weight: 700;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 /* Header */
