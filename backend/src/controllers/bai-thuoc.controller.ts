@@ -400,6 +400,8 @@ export class BaiThuocService {
   private demoFormulaCache: { baiThuoc: BaiThuoc; analysis: any } | null = null;
   /** Cache danh sách bài thuốc cho slider DEMO (nhiều bài) — quét 1 lần rồi giữ lại. */
   private demoFormulasCache: BaiThuoc[] | null = null;
+  /** Promise đang chạy để tránh nhiều request đồng thời cùng build cache (thundering herd). */
+  private demoFormulasPromise: Promise<BaiThuoc[]> | null = null;
 
   /**
    * Bài thuốc GẮN VỚI BỆNH TÂY Y ưu tiên cho demo công khai: tên quen thuộc + bệnh Tây Y
@@ -474,7 +476,10 @@ export class BaiThuocService {
     return rows.map((r) => r.id);
   }
 
-  /** Thứ tự ID bài thuốc Tây Y cho demo: ưu tiên gợi ý, bù sau; tôn trọng DEMO_BAI_THUOC_ID. */
+  /**
+   * Thứ tự ID bài thuốc Tây Y cho demo: ưu tiên gợi ý, bù sau; tôn trọng DEMO_BAI_THUOC_ID.
+   * Dùng 1 query SQL gộp cho tất cả tên ưu tiên thay vì N queries tuần tự → nhanh hơn nhiều.
+   */
   private async resolveDemoTayYIds(want: number): Promise<number[]> {
     const ids: number[] = [];
     const seen = new Set<number>();
@@ -488,10 +493,33 @@ export class BaiThuocService {
     const pinned = process.env.DEMO_BAI_THUOC_ID ? Number(process.env.DEMO_BAI_THUOC_ID) : null;
     if (pinned && Number.isFinite(pinned)) push(pinned);
 
-    for (const name of BaiThuocService.DEMO_TAY_Y_PREFERRED) {
-      if (ids.length >= want) break;
-      push(await this.findTayYDemoIdByName(name));
+    if (ids.length < want) {
+      // 1 query gộp tất cả tên ưu tiên (ILIKE) — trả về ID + index pattern để sắp thứ tự.
+      const preferred = BaiThuocService.DEMO_TAY_Y_PREFERRED;
+      const patterns = preferred.map((n) => `%${n}%`);
+      // VALUES (ục_index, pattern) với tham số bắt đầu từ $1
+      const valueRows = patterns.map((_, i) => `(${i}, $${i + 1})`).join(', ');
+      const rows: { id: number; pattern_idx: number }[] = await this.dataSource.query(
+        `SELECT DISTINCT ON (ord.idx) ord.idx AS pattern_idx, bt.id
+           FROM (VALUES ${valueRows}) AS ord(idx, pat)
+           JOIN bai_thuoc bt ON bt.ten_bai_thuoc ILIKE ord.pat
+          WHERE EXISTS (SELECT 1 FROM benh_tay_y_bai_thuoc x WHERE x.id_bai_thuoc = bt.id)
+            AND (SELECT COUNT(*) FROM bai_thuoc_chi_tiet c WHERE c.id_bai_thuoc = bt.id) >= 3
+            AND EXISTS (SELECT 1 FROM bai_thuoc_phap_tri l JOIN phap_tri pt ON pt.id = l.id_phap_tri
+                        WHERE l.id_bai_thuoc = bt.id AND length(trim(coalesce(pt.the_benh, ''))) > 0)
+          ORDER BY ord.idx,
+                   (SELECT COUNT(*) FROM bai_thuoc_chi_tiet c WHERE c.id_bai_thuoc = bt.id) DESC,
+                   bt.id`,
+        patterns,
+      );
+      // Sắp thứ tự theo pattern_idx (đảm bảo thứ tự ưu tiên)
+      rows.sort((a, b) => a.pattern_idx - b.pattern_idx);
+      for (const r of rows) {
+        if (ids.length >= want) break;
+        push(r.id);
+      }
     }
+
     if (ids.length < want) {
       for (const id of await this.fallbackTayYDemoIds(want - ids.length + 5)) {
         if (ids.length >= want) break;
@@ -558,18 +586,30 @@ export class BaiThuocService {
     const want = Math.max(1, Math.min(count, 12));
     if (this.demoFormulasCache) return this.demoFormulasCache.slice(0, want);
 
-    const ids = await this.resolveDemoTayYIds(want);
+    // Tránh thundering herd: nhiều request đồng thời cùng build cache → dùng chung 1 Promise.
+    if (this.demoFormulasPromise) {
+      const cached = await this.demoFormulasPromise;
+      return cached.slice(0, want);
+    }
+
+    this.demoFormulasPromise = this._buildDemoFormulasCache();
+    try {
+      const list = await this.demoFormulasPromise;
+      this.demoFormulasCache = list;
+      return list.slice(0, want);
+    } finally {
+      this.demoFormulasPromise = null;
+    }
+  }
+
+  private async _buildDemoFormulasCache(): Promise<BaiThuoc[]> {
+    const ids = await this.resolveDemoTayYIds(12);
     if (!ids.length) {
       throw new NotFoundException('Chưa có bài thuốc Tây Y nào để demo');
     }
-
-    const list: BaiThuoc[] = [];
-    for (const id of ids) {
-      const full = await this.loadDemoFormula(id);
-      if (full) list.push(full);
-    }
-    this.demoFormulasCache = list;
-    return list;
+    // Load song song (Promise.all) thay vì tuần tự — nhanh hơn khi có nhiều bài.
+    const results = await Promise.all(ids.map((id) => this.loadDemoFormula(id)));
+    return results.filter((bt): bt is BaiThuoc => bt !== null);
   }
 
   async create(dto: CreateBaiThuocDto): Promise<BaiThuoc> {
