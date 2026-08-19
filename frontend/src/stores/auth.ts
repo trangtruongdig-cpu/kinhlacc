@@ -72,14 +72,27 @@ export const useAuthStore = defineStore('auth', () => {
 
       if (!response.ok) {
         const data = await response.json().catch(() => null)
-        throw new Error(data?.message || 'Tên đăng nhập hoặc mật khẩu không đúng')
+        // 401 = backend đã xét và từ chối (sai tên đăng nhập/mật khẩu, hoặc tài khoản bị khoá) —
+        // hiện đúng lý do đó. Mọi mã khác (502/503/504, lỗi mạng, HTML lỗi từ nginx khi backend sập)
+        // KHÔNG phải do gõ sai — trước đây bị gộp chung nên máy chủ sập lại hiện "sai mật khẩu",
+        // khiến người dùng tưởng nhầm mình gõ sai.
+        if (response.status === 401) {
+          throw new Error(data?.message === 'Invalid credentials' || !data?.message
+            ? 'Tên đăng nhập hoặc mật khẩu không đúng'
+            : data.message)
+        }
+        throw new Error(`Không kết nối được tới máy chủ (lỗi ${response.status}). Vui lòng thử lại sau ít phút.`)
       }
 
       const data = await response.json()
       setSession(data.access_token, data.user)
       return true
     } catch (err: any) {
-      error.value = err.message || 'Đã có lỗi xảy ra'
+      // TypeError của fetch() khi mất mạng/không tới được server (khác hẳn 401 ở trên).
+      const laLoiMang = err instanceof TypeError
+      error.value = laLoiMang
+        ? 'Không kết nối được tới máy chủ. Kiểm tra mạng hoặc thử lại sau ít phút.'
+        : err.message || 'Đã có lỗi xảy ra'
       return false
     } finally {
       isLoading.value = false

@@ -38,10 +38,10 @@ const slideDir = ref<'next' | 'prev'>('next')
 const formulaCount = computed(() => formulas.value.length)
 const activeFormula = computed<BaiThuoc | null>(() => formulas.value[activeIndex.value] ?? null)
 
-// Kho 13.942 bài thuốc đã CÔNG KHAI ở /bai-thuoc (xem router: meta.requiresAuth=false) —
-// không cần đăng nhập, nên CTA dẫn thẳng sang đó thay vì mời đăng nhập.
+// Kho 13.942 bài thuốc nằm trong Thư Viện (/thu-vien, tab Bài Thuốc) —
+// CTA dẫn thẳng sang /thu-vien để người dùng tra cứu toàn bộ kho.
 function goFullCatalog() {
-  router.push({ name: 'bai-thuoc' })
+  router.push({ name: 'thu-vien' })
 }
 
 function nextFormula() {

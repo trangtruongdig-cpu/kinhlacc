@@ -55,4 +55,4 @@ HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
   CMD wget -qO- "http://127.0.0.1:${APP_PORT}/" >/dev/null 2>&1 || exit 1
 
 ENTRYPOINT ["/sbin/tini","--"]
-CMD ["node","dist/main.js"]
+CMD ["node","dist/src/main.js"]

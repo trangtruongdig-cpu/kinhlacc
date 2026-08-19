@@ -3102,7 +3102,7 @@ function printPhieuKetQua() {
       <td class="lbl">Họ tên</td><td class="v">${dash(p.fullName)}</td>
       <td class="lbl">Tuổi</td><td class="v">${dash(getAge(p.dateOfBirth))}</td>
       <td class="lbl">Giới</td><td class="v">${dash(p.gender)}</td>
-      <td class="lbl">HA</td><td class="v">120/90</td>
+      <td class="lbl">HA</td><td class="v">—</td>
     </tr>
     <tr>
       <td class="lbl">Địa chỉ</td><td class="v" colspan="5">${dash(p.address)}</td>
@@ -3331,7 +3331,7 @@ watch(
       <div v-if="showPatientMore" class="mr-patient-more">
         <div class="pi-field"><span class="pi-label">Địa chỉ</span><span class="pi-value">{{ patient.address || '—' }}</span></div>
         <div class="pi-field"><span class="pi-label">Thời gian đo</span><span class="pi-value">{{ examDisplay.date }} {{ examDisplay.time }}</span></div>
-        <div class="pi-field"><span class="pi-label">Huyết áp</span><span class="pi-value">120/90</span></div>
+        <div class="pi-field"><span class="pi-label">Huyết áp</span><span class="pi-value">—</span></div>
         <div class="pi-field"><span class="pi-label">Chiều cao</span><span class="pi-value">—</span></div>
         <div class="pi-field"><span class="pi-label">Cân nặng</span><span class="pi-value">—</span></div>
         <div class="pi-field"><span class="pi-label">BMI</span><span class="pi-value">—</span></div>
@@ -3549,6 +3549,171 @@ watch(
       <!-- ═══ VIEW 2: Chẩn đoán (III) + Phác đồ điều trị (IV+V) cạnh nhau ═══ -->
       <section class="mr-view" v-show="activeView === 2">
         <div class="mr-grid mr-grid--v2">
+          <section class="result-section">
+            <h2 class="section-title">
+              <span class="section-num">III</span> MÔ HÌNH BỆNH LÝ
+            </h2>
+            <div class="result-card p-4">
+              <div class="info-group">
+                <div class="dongy-head">
+                  <h4 class="info-label mb-0">Mô hình bệnh YHCT - Đông Y</h4>
+                  <button
+                    v-if="excelSyndromesList.length"
+                    type="button"
+                    class="tc-phanbiet-btn"
+                    title="Hỏi bệnh nhân xác nhận triệu chứng để chẩn đoán thể bệnh đo được"
+                    @click="openPhanBiet"
+                  >🩺 Hỏi & Chẩn đoán bệnh nhân</button>
+                </div>
+                <div v-if="savedChanDoan" class="dongy-saved">
+                  ✓ Đã chẩn đoán: <b>{{ savedChanDoan.ket_luan }}</b>
+                  <span class="dongy-saved-time">({{ new Date(savedChanDoan.luu_luc).toLocaleString('vi-VN') }})</span>
+                </div>
+                <div v-if="syndromeTree.nodes.length" class="comparison-list">
+                  <div
+                    v-for="node in syndromeTree.nodes"
+                    :key="node.kind + '-' + node.item.id"
+                    class="comparison-cell comparison-cell--clickable"
+                    :class="{
+                      'comparison-cell--active': (node.kind === 'modern' ? modernFocusRuleId : excelFocusRuleId) === node.item.id,
+                      'comparison-cell--modern': node.kind === 'modern',
+                      'synd-node--parent': node.subs.length,
+                    }"
+                    role="button"
+                    tabindex="0"
+                    :title="node.item.logicExpression ? 'Xem ô chỉ số liên quan trên bảng I (click sáng công thức)' : 'Chọn mô hình'"
+                    @click="focusSyndNode(node)"
+                    @keydown.enter.prevent="focusSyndNode(node)"
+                    @keydown.space.prevent="focusSyndNode(node)"
+                  >
+                    <div class="synd-header-row">
+                      <div class="synd-info">
+                        <span class="synd-idx">{{ node.no }}</span>
+                        <span class="synd-name">{{ node.item.name }}</span>
+                        <span class="synd-rate">{{ node.item.outputCell }}</span>
+                      </div>
+                      <div class="synd-actions">
+                        <button
+                          type="button"
+                          class="pt-search-btn"
+                          title="Xem chi tiết bệnh này (nguyên nhân, triệu chứng, pháp trị, bài thuốc — theo dữ liệu Bệnh Đo Kinh Lạc)"
+                          @click.stop="openBenhChiTiet(node.item)"
+                          @keydown.stop
+                        >
+                          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
+                            <path d="M4 10c1.8-3.3 4.2-5 6-5s4.2 1.7 6 5c-1.8 3.3-4.2 5-6 5s-4.2-1.7-6-5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
+                            <circle cx="10" cy="10" r="2" stroke="currentColor" stroke-width="2" />
+                          </svg>
+                          Chi tiết
+                        </button>
+                        <button
+                          type="button"
+                          class="pt-search-btn"
+                          title="Tìm pháp trị cho mô hình bệnh này"
+                          @click.stop="openPhapTriSearch(node.item)"
+                          @keydown.stop
+                        >
+                          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
+                            <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="2" />
+                            <path d="m17 17-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                          </svg>
+                          Pháp trị
+                        </button>
+                        <button
+                          v-if="phuongHuyetForThe(node.item).length"
+                          type="button"
+                          class="pt-search-btn"
+                          title="In phiếu châm huyệt riêng cho thể bệnh này"
+                          @click.stop="inPhieuChamHuyet(node.item)"
+                          @keydown.stop
+                        >
+                          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
+                            <path d="M6 2.5A1.5 1.5 0 0 0 4.5 4v2H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h.5v1.5A1.5 1.5 0 0 0 6 17h8a1.5 1.5 0 0 0 1.5-1.5V14h.5a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-.5V4A1.5 1.5 0 0 0 14 2.5H6ZM14 6H6V4h8v2Zm0 6H6v3.5h8V12Z" stroke="none" fill="currentColor" />
+                          </svg>
+                          Châm huyệt
+                        </button>
+                      </div>
+                    </div>
+                    <div v-for="sub in node.subs" :key="sub.name" class="synd-sub">
+                      <span class="synd-sub-head">
+                        <span class="synd-sub-caret">↳</span>
+                        <span
+                          class="synd-sub-tag"
+                          :class="sub.role === 'root' ? 'synd-sub-tag--yhct' : 'synd-sub-tag--yhhd'"
+                        >{{ sub.role === 'root' ? 'gốc YHCT' : 'biểu hiện YHHĐ' }}</span>
+                        <span class="synd-sub-name">{{ sub.name }}</span>
+                        <span v-if="sub.measured" class="synd-sub-meas" title="Thể này cũng đo ra — bấm dòng để sáng cả công thức của nó">✦ đo ra</span>
+                      </span>
+                      <span v-if="sub.ghiChu" class="synd-sub-note">{{ sub.ghiChu }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div v-else class="pathology-placeholder">
+                  <p>Không có mô hình Excel nào khớp điều kiện</p>
+                </div>
+              </div>
+
+              <div v-if="syndromeTree.standaloneModern.length" class="info-group mt-4">
+                <h4 class="info-label mb-3">Bệnh Y Học Hiện Đại (độc lập — chưa có thể YHCT gốc)</h4>
+                <div class="comparison-list">
+                  <div
+                    v-for="(item, idx) in syndromeTree.standaloneModern"
+                    :key="'modern-' + (item.code || idx)"
+                    class="comparison-cell comparison-cell--clickable comparison-cell--modern"
+                    :class="{ 'comparison-cell--active': modernFocusRuleId === item.id }"
+                    role="button"
+                    tabindex="0"
+                    :title="item.logicExpression ? 'Xem ô chỉ số liên quan trên bảng I' : 'Chọn mô hình'"
+                    @click="toggleModernFocus(item.id)"
+                    @keydown.enter.prevent="toggleModernFocus(item.id)"
+                    @keydown.space.prevent="toggleModernFocus(item.id)"
+                  >
+                    <span class="synd-idx">{{ Number(idx) + 1 }}</span>
+                    <span class="synd-name">{{ item.name }}</span>
+                    <span class="synd-rate">{{ item.outputCell }}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="info-group mt-4">
+                <button
+                  type="button"
+                  class="mhbl-toggle"
+                  :class="{ 'mhbl-toggle--open': showMoHinhBenhLy }"
+                  :aria-expanded="showMoHinhBenhLy"
+                  @click="showMoHinhBenhLy = !showMoHinhBenhLy"
+                >
+                  <span class="mhbl-toggle-caret">▸</span>
+                  <span class="mhbl-toggle-label">Mô Hình Bệnh Lý - Suy Luận</span>
+                  <span class="mhbl-toggle-action">{{ showMoHinhBenhLy ? 'Ẩn' : 'Hiện' }}</span>
+                </button>
+                <div v-if="showMoHinhBenhLy" class="mhbl-content">
+                  <div v-if="comparisonRows.length" class="comparison-list">
+                    <div class="comparison-header">
+                      <span class="col-left">Mô hình app gốc</span>
+                      <span class="col-right">Mô hình hiện tại</span>
+                    </div>
+                    <div v-for="(row, idx) in comparisonRows" :key="idx" class="comparison-row">
+                      <div class="comparison-cell">
+                        <span class="synd-idx">{{ Number(idx) + 1 }}</span>
+                        <span class="synd-name">{{ row.legacy?.tieuket || '—' }}</span>
+                        <span v-if="row.legacy?.rate" class="synd-rate">{{ Math.round(row.legacy.rate * 100) }}%</span>
+                      </div>
+                      <div class="comparison-cell">
+                        <span class="synd-idx">{{ Number(idx) + 1 }}</span>
+                        <span class="synd-name">{{ row.current?.tieuket || '—' }}</span>
+                        <span v-if="row.current?.rate" class="synd-rate">{{ Math.round(row.current.rate * 100) }}%</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-else class="pathology-placeholder">
+                    <p>Không có mô hình bệnh lý nào được tìm thấy</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <div class="phacdo-col">
             <div class="phacdo-head">
               <span class="phacdo-title">🩹 Phác Đồ Điều Trị</span>
@@ -3834,171 +3999,6 @@ watch(
           </section>
 
           </div><!-- /phacdo-col (IV + V) -->
-
-          <section class="result-section">
-            <h2 class="section-title">
-              <span class="section-num">III</span> MÔ HÌNH BỆNH LÝ
-            </h2>
-            <div class="result-card p-4">
-              <div class="info-group">
-                <div class="dongy-head">
-                  <h4 class="info-label mb-0">Mô hình bệnh YHCT - Đông Y</h4>
-                  <button
-                    v-if="excelSyndromesList.length"
-                    type="button"
-                    class="tc-phanbiet-btn"
-                    title="Hỏi bệnh nhân xác nhận triệu chứng để chẩn đoán thể bệnh đo được"
-                    @click="openPhanBiet"
-                  >🩺 Hỏi & Chẩn đoán bệnh nhân</button>
-                </div>
-                <div v-if="savedChanDoan" class="dongy-saved">
-                  ✓ Đã chẩn đoán: <b>{{ savedChanDoan.ket_luan }}</b>
-                  <span class="dongy-saved-time">({{ new Date(savedChanDoan.luu_luc).toLocaleString('vi-VN') }})</span>
-                </div>
-                <div v-if="syndromeTree.nodes.length" class="comparison-list">
-                  <div
-                    v-for="node in syndromeTree.nodes"
-                    :key="node.kind + '-' + node.item.id"
-                    class="comparison-cell comparison-cell--clickable"
-                    :class="{
-                      'comparison-cell--active': (node.kind === 'modern' ? modernFocusRuleId : excelFocusRuleId) === node.item.id,
-                      'comparison-cell--modern': node.kind === 'modern',
-                      'synd-node--parent': node.subs.length,
-                    }"
-                    role="button"
-                    tabindex="0"
-                    :title="node.item.logicExpression ? 'Xem ô chỉ số liên quan trên bảng I (click sáng công thức)' : 'Chọn mô hình'"
-                    @click="focusSyndNode(node)"
-                    @keydown.enter.prevent="focusSyndNode(node)"
-                    @keydown.space.prevent="focusSyndNode(node)"
-                  >
-                    <div class="synd-header-row">
-                      <div class="synd-info">
-                        <span class="synd-idx">{{ node.no }}</span>
-                        <span class="synd-name">{{ node.item.name }}</span>
-                        <span class="synd-rate">{{ node.item.outputCell }}</span>
-                      </div>
-                      <div class="synd-actions">
-                        <button
-                          type="button"
-                          class="pt-search-btn"
-                          title="Xem chi tiết bệnh này (nguyên nhân, triệu chứng, pháp trị, bài thuốc — theo dữ liệu Bệnh Đo Kinh Lạc)"
-                          @click.stop="openBenhChiTiet(node.item)"
-                          @keydown.stop
-                        >
-                          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
-                            <path d="M4 10c1.8-3.3 4.2-5 6-5s4.2 1.7 6 5c-1.8 3.3-4.2 5-6 5s-4.2-1.7-6-5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" />
-                            <circle cx="10" cy="10" r="2" stroke="currentColor" stroke-width="2" />
-                          </svg>
-                          Chi tiết
-                        </button>
-                        <button
-                          type="button"
-                          class="pt-search-btn"
-                          title="Tìm pháp trị cho mô hình bệnh này"
-                          @click.stop="openPhapTriSearch(node.item)"
-                          @keydown.stop
-                        >
-                          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
-                            <circle cx="9" cy="9" r="6" stroke="currentColor" stroke-width="2" />
-                            <path d="m17 17-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                          </svg>
-                          Pháp trị
-                        </button>
-                        <button
-                          v-if="phuongHuyetForThe(node.item).length"
-                          type="button"
-                          class="pt-search-btn"
-                          title="In phiếu châm huyệt riêng cho thể bệnh này"
-                          @click.stop="inPhieuChamHuyet(node.item)"
-                          @keydown.stop
-                        >
-                          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true" class="pt-search-ic">
-                            <path d="M6 2.5A1.5 1.5 0 0 0 4.5 4v2H4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h.5v1.5A1.5 1.5 0 0 0 6 17h8a1.5 1.5 0 0 0 1.5-1.5V14h.5a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-.5V4A1.5 1.5 0 0 0 14 2.5H6ZM14 6H6V4h8v2Zm0 6H6v3.5h8V12Z" stroke="none" fill="currentColor" />
-                          </svg>
-                          Châm huyệt
-                        </button>
-                      </div>
-                    </div>
-                    <div v-for="sub in node.subs" :key="sub.name" class="synd-sub">
-                      <span class="synd-sub-head">
-                        <span class="synd-sub-caret">↳</span>
-                        <span
-                          class="synd-sub-tag"
-                          :class="sub.role === 'root' ? 'synd-sub-tag--yhct' : 'synd-sub-tag--yhhd'"
-                        >{{ sub.role === 'root' ? 'gốc YHCT' : 'biểu hiện YHHĐ' }}</span>
-                        <span class="synd-sub-name">{{ sub.name }}</span>
-                        <span v-if="sub.measured" class="synd-sub-meas" title="Thể này cũng đo ra — bấm dòng để sáng cả công thức của nó">✦ đo ra</span>
-                      </span>
-                      <span v-if="sub.ghiChu" class="synd-sub-note">{{ sub.ghiChu }}</span>
-                    </div>
-                  </div>
-                </div>
-                <div v-else class="pathology-placeholder">
-                  <p>Không có mô hình Excel nào khớp điều kiện</p>
-                </div>
-              </div>
-
-              <div v-if="syndromeTree.standaloneModern.length" class="info-group mt-4">
-                <h4 class="info-label mb-3">Bệnh Y Học Hiện Đại (độc lập — chưa có thể YHCT gốc)</h4>
-                <div class="comparison-list">
-                  <div
-                    v-for="(item, idx) in syndromeTree.standaloneModern"
-                    :key="'modern-' + (item.code || idx)"
-                    class="comparison-cell comparison-cell--clickable comparison-cell--modern"
-                    :class="{ 'comparison-cell--active': modernFocusRuleId === item.id }"
-                    role="button"
-                    tabindex="0"
-                    :title="item.logicExpression ? 'Xem ô chỉ số liên quan trên bảng I' : 'Chọn mô hình'"
-                    @click="toggleModernFocus(item.id)"
-                    @keydown.enter.prevent="toggleModernFocus(item.id)"
-                    @keydown.space.prevent="toggleModernFocus(item.id)"
-                  >
-                    <span class="synd-idx">{{ Number(idx) + 1 }}</span>
-                    <span class="synd-name">{{ item.name }}</span>
-                    <span class="synd-rate">{{ item.outputCell }}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="info-group mt-4">
-                <button
-                  type="button"
-                  class="mhbl-toggle"
-                  :class="{ 'mhbl-toggle--open': showMoHinhBenhLy }"
-                  :aria-expanded="showMoHinhBenhLy"
-                  @click="showMoHinhBenhLy = !showMoHinhBenhLy"
-                >
-                  <span class="mhbl-toggle-caret">▸</span>
-                  <span class="mhbl-toggle-label">Mô Hình Bệnh Lý - Suy Luận</span>
-                  <span class="mhbl-toggle-action">{{ showMoHinhBenhLy ? 'Ẩn' : 'Hiện' }}</span>
-                </button>
-                <div v-if="showMoHinhBenhLy" class="mhbl-content">
-                  <div v-if="comparisonRows.length" class="comparison-list">
-                    <div class="comparison-header">
-                      <span class="col-left">Mô hình app gốc</span>
-                      <span class="col-right">Mô hình hiện tại</span>
-                    </div>
-                    <div v-for="(row, idx) in comparisonRows" :key="idx" class="comparison-row">
-                      <div class="comparison-cell">
-                        <span class="synd-idx">{{ Number(idx) + 1 }}</span>
-                        <span class="synd-name">{{ row.legacy?.tieuket || '—' }}</span>
-                        <span v-if="row.legacy?.rate" class="synd-rate">{{ Math.round(row.legacy.rate * 100) }}%</span>
-                      </div>
-                      <div class="comparison-cell">
-                        <span class="synd-idx">{{ Number(idx) + 1 }}</span>
-                        <span class="synd-name">{{ row.current?.tieuket || '—' }}</span>
-                        <span v-if="row.current?.rate" class="synd-rate">{{ Math.round(row.current.rate * 100) }}%</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div v-else class="pathology-placeholder">
-                    <p>Không có mô hình bệnh lý nào được tìm thấy</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
         </div><!-- /mr-grid--v2 -->
       </section><!-- /mr-view VIEW 2 -->
 
@@ -4745,9 +4745,10 @@ watch(
 @media (max-width: 900px) {
   .mr-grid--v1 .bc-wrap--band { grid-template-columns: 1fr; }
 }
+/* Thứ tự cột theo ĐÚNG thứ tự DOM (III rồi mới IV+V) — không cần ép bằng CSS `order` nữa,
+   vì `order` tách rời thứ tự ĐỌC (bàn phím/trình đọc màn hình/di động xếp chồng) khỏi thứ tự
+   NHÌN, từng khiến di động và trình đọc màn hình gặp IV, V trước rồi mới tới III. */
 .mr-grid--v2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); }
-.mr-grid--v2 > .result-section { order: 1; }
-.mr-grid--v2 > .phacdo-col { order: 2; }
 .phacdo-col { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
 .phacdo-head { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; }
 .phacdo-title { font-size: var(--font-size-base); font-weight: 700; color: var(--brown-900); }
@@ -4868,7 +4869,7 @@ watch(
 
 @media (max-width: 1024px) {
   .mr-grid--v1, .mr-grid--v2 { grid-template-columns: 1fr; }
-  .mr-grid--v2 > .result-section, .mr-grid--v2 > .phacdo-col { order: initial; max-height: none; overflow: visible; }
+  .mr-grid--v2 > .result-section, .mr-grid--v2 > .phacdo-col { max-height: none; overflow: visible; }
   .mr-ctxbar { position: static; }
   .mr-tabs { top: 0; }
 }

@@ -1,0 +1,26 @@
+{
+  "files": {
+    "skills/ingest-source": {
+      "hash": "2ca1446605d6839ddbe14076761e3239491c3e74701b3de9a902fd0700701079",
+      "status": "managed"
+    },
+    "skills/javis-builder": {
+      "hash": "e543caa5414df0820307efc9fcf19b08d3ce629477273148283337897beb00e7",
+      "status": "managed"
+    },
+    "skills/lint-wiki": {
+      "hash": "b931c53413c9e2e1d3bc10f96749d3003beeada774138ec1bc8d18a39d0a3dba",
+      "status": "managed"
+    },
+    "skills/notes": {
+      "hash": "bbdfba8625dd472858f9a5b10e384769029aee47d4074849fed2ee0ce426ff48",
+      "status": "managed"
+    },
+    "skills/query-wiki": {
+      "hash": "a7fb9b9b008ac66e31699df766617790ebcf5bfa8fc42044383dfc534a15f336",
+      "status": "managed"
+    }
+  },
+  "app_version": "0.28.2",
+  "synced_at": "2026-08-12T22:57:27+07:00"
+}
