@@ -12,7 +12,8 @@ const props = defineProps<{ herbs: HerbCard[] }>()
 const emit = defineEmits<{ (e: 'close'): void }>()
 
 const copies = ref(1)
-const doPrint = () => window.print()
+const loading = ref(false) // đang nạp công dụng → chặn In để không in thiếu
+const doPrint = () => { if (!loading.value) window.print() }
 
 // 8 tông màu khớp .vt-card--c0..c7 (accent · nền1 · nền2 · vòng)
 const PALETTE = [
@@ -33,8 +34,12 @@ const tenCls = (t: string) => { const n = (t || '').trim().length; return n <= 9
 // Công dụng nạp thêm (id → chuỗi), '' = đã nạp nhưng trống / đang nạp
 const congMap = reactive<Record<number, string>>({})
 async function loadCongDung(ids: number[]) {
+  const todo = ids.filter((id) => congMap[id] === undefined)
+  if (!todo.length) return
+  loading.value = true
+  try {
   await Promise.all(
-    ids.filter((id) => congMap[id] === undefined).map(async (id) => {
+    todo.map(async (id) => {
       congMap[id] = ''
       try {
         const d = (await api.get<{ congDungLinks?: { congDung?: { ten_cong_dung?: string } }[] } | { data?: unknown }>(
@@ -50,6 +55,9 @@ async function loadCongDung(ids: number[]) {
       }
     }),
   )
+  } finally {
+    loading.value = false
+  }
 }
 watch(() => props.herbs, (hs) => loadCongDung(hs.map((h) => h.id)), { immediate: true })
 
@@ -62,6 +70,15 @@ const printed = computed(() => {
   }
   return out
 })
+
+// Chia thành TRANG A4 — 8 tem/trang (2 cột × 4 hàng) như mẫu PDF; thiếu để trống ô, thừa sang trang sau.
+const PER_PAGE = 8
+const pages = computed(() => {
+  const arr = printed.value
+  const out: (typeof arr)[] = []
+  for (let i = 0; i < arr.length; i += PER_PAGE) out.push(arr.slice(i, i + PER_PAGE))
+  return out
+})
 </script>
 
 <template>
@@ -72,18 +89,20 @@ const printed = computed(() => {
         <label class="tvt-copies">Số bản mỗi vị
           <input v-model.number="copies" type="number" min="1" max="30" />
         </label>
-        <button class="tvt-btn" @click="doPrint">In</button>
+        <span v-if="loading" class="tvt-loading">⏳ Đang tải công dụng…</span>
+        <button class="tvt-btn" :disabled="loading" :title="loading ? 'Đợi tải xong công dụng rồi hãy in' : ''" @click="doPrint">In</button>
         <button class="tvt-btn tvt-btn--ghost" @click="emit('close')">Đóng</button>
       </div>
 
       <div class="tvt-scroll">
-        <div class="tvt-sheet">
-          <div
-            v-for="(h, i) in printed"
-            :key="h.id + '-' + i"
-            class="tvt-card"
-            :style="{ '--c': h.pal.c, '--bg1': h.pal.bg1, '--bg2': h.pal.bg2, '--ring': h.pal.ring }"
-          >
+        <div v-for="(page, pi) in pages" :key="'pg' + pi" class="tvt-page">
+          <div class="tvt-page-grid">
+            <div
+              v-for="(h, i) in page"
+              :key="h.id + '-' + pi + '-' + i"
+              class="tvt-card"
+              :style="{ '--c': h.pal.c, '--bg1': h.pal.bg1, '--bg2': h.pal.bg2, '--ring': h.pal.ring }"
+            >
             <div class="tvt-left">
               <div class="tvt-badge"><span :class="'hl' + Math.min(h.hl, 4)">{{ h.g }}</span></div>
               <div v-if="h.bp" class="tvt-pill">{{ h.bp }}</div>
@@ -99,6 +118,7 @@ const printed = computed(() => {
               <div v-if="h.cd" class="tvt-cd">{{ h.cd }}</div>
             </div>
             <div class="tvt-wm"><b>{{ h.han }}</b> ❖</div>
+            </div>
           </div>
         </div>
       </div>
@@ -113,14 +133,18 @@ const printed = computed(() => {
 .tvt-copies { font-size: 0.85rem; color: #6f5f47; display: inline-flex; align-items: center; gap: 6px; }
 .tvt-copies input { width: 56px; padding: 5px 8px; border: 1px solid #d8c6a6; border-radius: 7px; }
 .tvt-btn { padding: 7px 18px; border: none; border-radius: 8px; background: #5b3f28; color: #fbf5ea; font-weight: 600; cursor: pointer; }
-.tvt-btn:hover { background: #6f4d31; }
+.tvt-btn:hover:not(:disabled) { background: #6f4d31; }
+.tvt-btn:disabled { opacity: .5; cursor: not-allowed; }
+.tvt-loading { font-size: 0.82rem; color: #9d5b34; font-weight: 600; }
 .tvt-btn--ghost { background: transparent; color: #6f5f47; border: 1px solid #d8c6a6; }
-.tvt-scroll { flex: 1; overflow: auto; padding: 18px; display: flex; justify-content: center; }
-.tvt-sheet { width: 196mm; display: grid; grid-template-columns: 1fr 1fr; gap: 7mm; grid-auto-rows: 66mm; align-content: start; }
+.tvt-scroll { flex: 1; overflow: auto; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+/* Mỗi TRANG = 1 khung A4 (194×279mm sau lề in 8mm), lưới 2 cột × 4 hàng = 8 tem */
+.tvt-page { width: 194mm; height: 279mm; flex: 0 0 auto; background: #fff; box-shadow: 0 2mm 9mm rgba(60,40,20,.2); overflow: hidden; }
+.tvt-page-grid { width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, 1fr); gap: 5mm; }
 
 /* Thẻ CAO ĐỀU 66mm (tỉ lệ ~1.6:1 như mẫu PDF) + VIỀN KÉP (::after); nội dung căn giữa, snug, không tràn */
 .tvt-card { --c: #5b3f28; --bg1: #faf5ec; --bg2: #f2e7d2; --ring: #d8c6a6;
-  position: relative; overflow: hidden; break-inside: avoid; height: 66mm;
+  position: relative; overflow: hidden; break-inside: avoid; height: 100%;
   display: flex; align-items: center; gap: 3mm; padding: 6mm 6mm 6mm 4mm;
   border: 1mm solid var(--c); border-radius: 5mm;
   background: linear-gradient(150deg, var(--bg1), var(--bg2));
@@ -163,8 +187,9 @@ const printed = computed(() => {
   body > *:not(#vt-tem-root) { display: none !important; }
   #vt-tem-root { position: static !important; background: #fff !important; }
   #vt-tem-root .tvt-toolbar { display: none !important; }
-  #vt-tem-root .tvt-scroll { overflow: visible !important; padding: 0 !important; }
-  .tvt-sheet { width: auto !important; }
+  #vt-tem-root .tvt-scroll { overflow: visible !important; padding: 0 !important; gap: 0 !important; }
+  .tvt-page { box-shadow: none !important; width: 194mm !important; height: 279mm !important; }
+  .tvt-page:not(:last-child) { break-after: page; page-break-after: always; }
   @page { size: A4; margin: 8mm; }
 }
 </style>
