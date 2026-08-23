@@ -179,26 +179,30 @@ const baiThuocStats = ref<{ all: number; 'dong-y': number; 'tay-y': number }>({ 
 const viThuocList = ref<ViThuoc[]>([])
 const viThuocTotal = ref(0)
 
-// ── IN TEM vị thuốc: chọn nhiều vị trong tab → in ra thẻ tem ──
+// ── IN TEM vị thuốc: chọn nhiều vị (qua nhiều lần tìm/trang) → in ra thẻ tem ──
+// printCache GIỮ dữ liệu vị đã chọn để không mất khi list nạp lại (tìm kiếm/đổi trang).
 const printSel = ref<Set<number>>(new Set())
+const printCache = reactive<Record<number, ViThuoc>>({})
 const printOpen = ref(false)
-function togglePrintSel(id: number) {
+function togglePrintSel(vt: ViThuoc) {
   const s = new Set(printSel.value)
-  if (s.has(id)) s.delete(id)
-  else s.add(id)
+  if (s.has(vt.id)) s.delete(vt.id)
+  else { s.add(vt.id); printCache[vt.id] = vt }
   printSel.value = s
 }
 function toggleSelAllVisible() {
-  const ids = pagedViThuoc.value.map((v) => v.id)
-  const allSel = ids.length > 0 && ids.every((id) => printSel.value.has(id))
+  const rows = pagedViThuoc.value
+  const allSel = rows.length > 0 && rows.every((v) => printSel.value.has(v.id))
   const s = new Set(printSel.value)
-  if (allSel) ids.forEach((id) => s.delete(id))
-  else ids.forEach((id) => s.add(id))
+  if (allSel) rows.forEach((v) => s.delete(v.id))
+  else rows.forEach((v) => { s.add(v.id); printCache[v.id] = v })
   printSel.value = s
 }
+function clearPrintSel() { printSel.value = new Set() }
 const selectedHerbCards = computed<HerbCard[]>(() =>
-  viThuocList.value
-    .filter((v) => printSel.value.has(v.id))
+  [...printSel.value]
+    .map((id) => printCache[id])
+    .filter((v): v is ViThuoc => !!v)
     .map((v) => ({
       id: v.id,
       ten: v.ten_vi_thuoc || '',
@@ -2996,6 +3000,7 @@ async function runVtAiBatch() {
                 :title="printSel.size ? `In tem ${printSel.size} vị đã chọn` : 'Chọn vị thuốc (ô góc phải mỗi thẻ) để in tem'"
                 @click="printOpen = true"
               >🖨 In tem ({{ printSel.size }})</button>
+              <button v-if="printSel.size" type="button" class="vt-pick-all" title="Bỏ chọn tất cả" @click="clearPrintSel">✕ Bỏ chọn</button>
               <button type="button" class="btn-primary" @click="openCreateViThuoc">+ Thêm vị thuốc</button>
             </div>
           </div>
@@ -3010,7 +3015,7 @@ async function runVtAiBatch() {
               <i class="vt-corner tl" aria-hidden="true"></i><i class="vt-corner tr" aria-hidden="true"></i>
               <i class="vt-corner bl" aria-hidden="true"></i><i class="vt-corner br" aria-hidden="true"></i>
               <label class="vt-pick" :class="{ on: printSel.has(vt.id) }" title="Chọn để in tem" @click.stop>
-                <input type="checkbox" :checked="printSel.has(vt.id)" @change="togglePrintSel(vt.id)" />
+                <input type="checkbox" :checked="printSel.has(vt.id)" @change="togglePrintSel(vt)" />
               </label>
 
               <img
