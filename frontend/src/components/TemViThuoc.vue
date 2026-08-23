@@ -1,7 +1,6 @@
 <script setup lang="ts">
-// Overlay IN TEM vị thuốc — render thẻ (đĩa Hán + tên serif hoa + Tính vị/Quy kinh/Công dụng),
-// mỗi vị một tông màu như .vt-card. Thẻ CAO ĐỀU, căn giữa, không tràn → khớp mẫu in chuẩn.
-// Công dụng nạp thêm từ chi tiết /vi-thuoc/:id (congDungLinks) vì list /lite không kèm.
+// Overlay IN TEM vị thuốc — render thẻ (đĩa Hán + tên serif hoa + Tính vị/Quy kinh/Công dụng).
+// AUTOLAYOUT: cỡ chữ tên tính linh hoạt theo độ dài; không fix cứng → không mất dấu / tràn thẻ.
 import { ref, computed } from 'vue'
 
 export interface HerbCard {
@@ -13,7 +12,7 @@ const emit = defineEmits<{ (e: 'close'): void }>()
 const copies = ref(1)
 const doPrint = () => window.print()
 
-// 8 tông màu khớp .vt-card--c0..c7 (accent · nền1 · nền2 · vòng)
+// 8 tông màu khớp .vt-card--c0..c7
 const PALETTE = [
   { c: '#a8324a', bg1: '#fdeef1', bg2: '#f6d7de', ring: '#ecc0cb' },
   { c: '#b45a24', bg1: '#fdf0e5', bg2: '#f5dabf', ring: '#e6c6a0' },
@@ -24,22 +23,59 @@ const PALETTE = [
   { c: '#a5382f', bg1: '#fceeec', bg2: '#f5d5cf', ring: '#e8b8b0' },
   { c: '#38548c', bg1: '#edf0fa', bg2: '#d5dcee', ring: '#b8c4e4' },
 ]
+
 const glyph = (h: HerbCard) => (h.han || h.ten || '?').trim()
-const hanLen = (h: HerbCard) => [...glyph(h)].length
-// Co cỡ tên Việt theo độ dài để LUÔN gọn 1 dòng như mẫu (XÍCH THƯỢC to · TANG KÝ SINH nhỏ lại)
-const tenCls = (t: string) => { const n = (t || '').trim().length; return n <= 9 ? 'tn1' : n <= 13 ? 'tn2' : 'tn3' }
+const hanLen  = (h: HerbCard) => [...glyph(h)].length
+
+// ── AUTOLAYOUT: tính cỡ chữ TÊN thuốc linh hoạt ──────────────────────────────────────────
+// Khung phải rộng ≈50mm (94.5mm card/2 − 29mm left − 3mm gap − 5mm pad trái+phải).
+// Georgia bold uppercase tiếng Việt (có dấu): ~0.76 em/ký tự (bảo thủ).
+// TEN_WIDTH_MM = 44 (dè dặt hơn 50 thực tế — tránh dấu tiếng Việt tràn).
+const TEN_WIDTH_MM = 44
+const CHAR_WIDTH_RATIO = 0.76
+
+function tenStyle(t: string): Record<string, string> {
+  const n = (t || '').trim().length
+  if (n === 0) return {}
+
+  // Font lớn nhất để vừa 1 dòng (capped 6mm, floor 4.8mm)
+  const singleLineMm = Math.min(6, TEN_WIDTH_MM / (n * CHAR_WIDTH_RATIO))
+
+  if (singleLineMm >= 5.2) {
+    // ── 1 dòng: nowrap, không bao giờ xuống dòng ──
+    return {
+      fontSize: `${singleLineMm.toFixed(2)}mm`,
+      whiteSpace: 'nowrap',
+      overflow: 'hidden',
+      lineHeight: '1.08',
+    }
+  }
+  // ── 2 dòng: font nhỏ hơn, line-clamp:2 ở CSS ──
+  const twoLineMm = Math.max(4.8, singleLineMm)
+  return {
+    fontSize: `${twoLineMm.toFixed(2)}mm`,
+    whiteSpace: 'normal',
+    lineHeight: '1.08',
+  }
+}
+// Khi tên dài (2-line mode): áp class tvt-ten--wrap để line-clamp:2
+function tenCls(t: string): string {
+  const n = (t || '').trim().length
+  return n * CHAR_WIDTH_RATIO * 5.2 > TEN_WIDTH_MM ? 'tvt-ten--wrap' : ''
+}
+// ─────────────────────────────────────────────────────────────────────────
 
 const printed = computed(() => {
   const n = Math.max(1, Math.min(30, copies.value || 1))
-  const out: (HerbCard & { pal: (typeof PALETTE)[number]; g: string; hl: number; tcls: string })[] = []
+  const out: (HerbCard & { pal: (typeof PALETTE)[number]; g: string; hl: number })[] = []
   for (const h of props.herbs) {
     const pal = PALETTE[((h.ci % 8) + 8) % 8]!
-    for (let i = 0; i < n; i++) out.push({ ...h, pal, g: glyph(h), hl: hanLen(h), tcls: tenCls(h.ten) })
+    for (let i = 0; i < n; i++) out.push({ ...h, pal, g: glyph(h), hl: hanLen(h) })
   }
   return out
 })
 
-// Chia thành TRANG A4 — 8 tem/trang (2 cột × 4 hàng) như mẫu PDF; thiếu để trống ô, thừa sang trang sau.
+// 8 tem/trang (2 cột × 4 hàng) — giữ nguyên thiết kế gốc
 const PER_PAGE = 8
 const pages = computed(() => {
   const arr = printed.value
@@ -70,21 +106,25 @@ const pages = computed(() => {
               class="tvt-card"
               :style="{ '--c': h.pal.c, '--bg1': h.pal.bg1, '--bg2': h.pal.bg2, '--ring': h.pal.ring }"
             >
-            <div class="tvt-left">
-              <div class="tvt-badge"><span :class="'hl' + Math.min(h.hl, 4)">{{ h.g }}</span></div>
-              <div v-if="h.bp" class="tvt-pill">{{ h.bp }}</div>
-            </div>
-            <div class="tvt-right">
-              <div class="tvt-ten" :class="h.tcls">{{ h.ten }}</div>
-              <div v-if="h.han || h.py" class="tvt-han">
-                <b v-if="h.han">{{ h.han }}</b><i v-if="h.py">{{ h.py }}</i>
+              <div class="tvt-left">
+                <div class="tvt-badge"><span :class="'hl' + Math.min(h.hl, 4)">{{ h.g }}</span></div>
+                <div v-if="h.bp" class="tvt-pill">{{ h.bp }}</div>
               </div>
-              <div class="tvt-div"><em>❖</em></div>
-              <div v-if="h.tv" class="tvt-line"><b>Tính vị:</b> {{ h.tv }}</div>
-              <div v-if="h.quy" class="tvt-line"><b>Quy kinh:</b> {{ h.quy }}</div>
-              <div v-if="h.cd" class="tvt-cd">{{ h.cd }}</div>
-            </div>
-            <div class="tvt-wm"><b>{{ h.han }}</b> ❖</div>
+
+              <div class="tvt-right">
+                <!-- TÊN: cỡ chữ tự động theo độ dài, không bao giờ đẩy nội dung bên dưới -->
+                <div class="tvt-ten" :class="tenCls(h.ten)" :style="tenStyle(h.ten)">{{ h.ten }}</div>
+
+                <div v-if="h.han || h.py" class="tvt-han">
+                  <b v-if="h.han">{{ h.han }}</b><i v-if="h.py">{{ h.py }}</i>
+                </div>
+                <div class="tvt-div"><em>❖</em></div>
+                <div v-if="h.tv"  class="tvt-line"><b>Tính vị:</b> {{ h.tv }}</div>
+                <div v-if="h.quy" class="tvt-line"><b>Quy kinh:</b> {{ h.quy }}</div>
+                <div v-if="h.cd"  class="tvt-cd">{{ h.cd }}</div>
+              </div>
+
+              <div class="tvt-wm"><b>{{ h.han }}</b> ❖</div>
             </div>
           </div>
         </div>
@@ -102,54 +142,97 @@ const pages = computed(() => {
 .tvt-btn { padding: 7px 18px; border: none; border-radius: 8px; background: #5b3f28; color: #fbf5ea; font-weight: 600; cursor: pointer; }
 .tvt-btn:hover:not(:disabled) { background: #6f4d31; }
 .tvt-btn:disabled { opacity: .5; cursor: not-allowed; }
-.tvt-loading { font-size: 0.82rem; color: #9d5b34; font-weight: 600; }
 .tvt-btn--ghost { background: transparent; color: #6f5f47; border: 1px solid #d8c6a6; }
 .tvt-scroll { flex: 1; overflow: auto; padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
-/* Mỗi TRANG = 1 khung A4 (194×279mm sau lề in 8mm), lưới 2 cột × 4 hàng = 8 tem */
+
+/* Trang A4 — 2 cột × 4 hàng = 8 tem */
 .tvt-page { width: 194mm; height: 279mm; flex: 0 0 auto; background: #fff; box-shadow: 0 2mm 9mm rgba(60,40,20,.2); overflow: hidden; }
 .tvt-page-grid { width: 100%; height: 100%; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, 1fr); gap: 5mm; }
 
-/* Thẻ CAO ĐỀU 66mm (tỉ lệ ~1.6:1 như mẫu PDF) + VIỀN KÉP (::after); nội dung căn giữa, snug, không tràn */
-.tvt-card { --c: #5b3f28; --bg1: #faf5ec; --bg2: #f2e7d2; --ring: #d8c6a6;
+/* Thẻ: viền kép, gradient, overflow:hidden để không tràn bao giờ */
+.tvt-card {
+  --c: #5b3f28; --bg1: #faf5ec; --bg2: #f2e7d2; --ring: #d8c6a6;
   position: relative; overflow: hidden; break-inside: avoid; height: 100%;
-  display: flex; align-items: center; gap: 3mm; padding: 6mm 6mm 6mm 4mm;
+  display: flex; align-items: center; gap: 3mm; padding: 4mm 5mm 4mm 3.5mm;
   border: 1mm solid var(--c); border-radius: 5mm;
   background: linear-gradient(150deg, var(--bg1), var(--bg2));
-  box-shadow: 0 1mm 3mm rgba(60,40,20,.14); }
-.tvt-card::after { content: ""; position: absolute; inset: 2mm; border: 0.3mm solid color-mix(in srgb, var(--c) 48%, transparent);
-  border-radius: 3.6mm; pointer-events: none; z-index: 2; }
-.tvt-left { flex: 0 0 31mm; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2.5mm; z-index: 1; }
-.tvt-badge { width: 27mm; height: 27mm; flex: 0 0 auto; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 1mm 3mm rgba(60,40,20,.14);
+  box-sizing: border-box;
+}
+/* Viền kép trang trí: z-index:0 — VẼ SAU nội dung, không đè chữ */
+.tvt-card::after {
+  content: ""; position: absolute; inset: 1.8mm;
+  border: 0.3mm solid color-mix(in srgb, var(--c) 42%, transparent);
+  border-radius: 3.4mm; pointer-events: none; z-index: 0;
+}
+
+/* ── Cột trái: vòng Hán + pill bộ phận ── */
+.tvt-left { flex: 0 0 29mm; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2mm; z-index: 1; }
+.tvt-badge { width: 25mm; height: 25mm; flex: 0 0 auto; border-radius: 50%; display: flex; align-items: center; justify-content: center;
   background: radial-gradient(circle at 50% 42%, #fff, var(--bg1) 80%);
   border: 0.6mm solid var(--c); box-shadow: 0 0 0 1mm #fff, 0 0 0 1.6mm var(--ring); }
 .tvt-badge span { font-family: 'Noto Serif SC','Songti SC','SimSun',serif; font-weight: 700; color: var(--c); line-height: 1.0; text-align: center; }
-.tvt-badge span.hl1 { font-size: 14mm; }
-.tvt-badge span.hl2 { font-size: 11.5mm; }
-.tvt-badge span.hl3 { font-size: 7.8mm; letter-spacing: -0.2mm; }
-.tvt-badge span.hl4 { font-size: 6.2mm; line-height: 1.05; }
-.tvt-pill { max-width: 30mm; padding: 1mm 4mm; border-radius: 999px; background: var(--c); color: #fff; font-size: 3.1mm; font-weight: 700;
-  line-height: 1.22; text-align: center; display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.tvt-right { flex: 1; min-width: 0; z-index: 1; padding-right: 1mm; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.4mm; }
-.tvt-ten { font-family: Georgia,'Times New Roman',serif; font-weight: 700; color: var(--c); text-transform: uppercase; letter-spacing: .3px; line-height: 1.08; }
-.tvt-ten.tn1 { font-size: 7mm; }
-.tvt-ten.tn2 { font-size: 6mm; }
-.tvt-ten.tn3 { font-size: 5.2mm; }
-.tvt-han { margin-top: 1mm; font-size: 4mm; line-height: 1.25; }
+.tvt-badge span.hl1 { font-size: 13mm; }
+.tvt-badge span.hl2 { font-size: 10.5mm; }
+.tvt-badge span.hl3 { font-size: 7mm; letter-spacing: -0.2mm; }
+.tvt-badge span.hl4 { font-size: 5.6mm; line-height: 1.05; }
+.tvt-pill { max-width: 28mm; padding: 0.8mm 3.5mm; border-radius: 999px; background: var(--c); color: #fff; font-size: 2.9mm; font-weight: 700;
+  line-height: 1.2; text-align: center;
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+
+/* ── Cột phải: TÊN + thông tin ── */
+.tvt-right {
+  flex: 1; min-width: 0; z-index: 1;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding-right: 2mm;   /* buffer trước cạnh phải thẻ — tránh chữ chạm viền */
+  overflow: visible;    /* card đã có overflow:hidden; không clip thêm ở đây */
+}
+
+/* TÊN: font-size được tính INLINE bởi tenStyle() — không fix cứng ở đây.
+   .tvt-ten chỉ khai báo font-family, màu, transform; kích thước do Vue quyết định. */
+.tvt-ten {
+  font-family: Georgia,'Times New Roman',serif;
+  font-weight: 700; color: var(--c);
+  text-transform: uppercase; letter-spacing: .3px;
+  max-width: 100%;
+  text-align: center;
+}
+/* Khi tên dài (2-line mode): line-clamp:2 làm bảo hiểm */
+.tvt-ten--wrap {
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+.tvt-han { margin-top: 0.8mm; font-size: 3.8mm; line-height: 1.25; }
 .tvt-han b { font-family: 'Noto Serif SC','Songti SC','SimSun',serif; color: var(--c); font-weight: 700; }
 .tvt-han i { color: #6f5f47; font-style: italic; margin-left: 2mm; font-family: Georgia, serif; }
-.tvt-div { display: flex; align-items: center; gap: 2.5mm; width: 52%; margin: 1.8mm 0; }
+
+.tvt-div { display: flex; align-items: center; gap: 2.5mm; width: 55%; margin: 1.4mm 0; }
 .tvt-div::before, .tvt-div::after { content: ""; flex: 1; height: 0.3mm; background: color-mix(in srgb, var(--c) 55%, transparent); }
-.tvt-div em { color: var(--c); font-size: 3.4mm; font-style: normal; }
-.tvt-line { font-size: 3.6mm; color: #2f2416; line-height: 1.42; max-width: 100%; }
+.tvt-div em { color: var(--c); font-size: 3.2mm; font-style: normal; }
+
+/* Tính vị & Quy kinh: justify + clamp 2 dòng */
+.tvt-line {
+  font-size: 3.5mm; color: #2f2416; line-height: 1.38; max-width: 100%;
+  text-align: justify;
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
 .tvt-line b { color: var(--c); }
-.tvt-cd { font-size: 3.5mm; color: #3a2c1b; line-height: 1.4; margin-top: 1.6mm; max-width: 100%;
-  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.tvt-wm { position: absolute; left: 4.5mm; bottom: 3mm; font-size: 3.4mm; color: color-mix(in srgb, var(--c) 50%, transparent); z-index: 0; }
+
+/* Công dụng: justify + clamp 2 dòng (ngân sách chiều cao thẻ 8-per-page) */
+.tvt-cd {
+  font-size: 3.4mm; color: #3a2c1b; line-height: 1.38; margin-top: 1.2mm; max-width: 100%;
+  text-align: justify; text-align-last: center;
+  display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+
+/* Watermark chữ Hán góc dưới trái */
+.tvt-wm { position: absolute; left: 4mm; bottom: 2.5mm; font-size: 3.2mm; color: color-mix(in srgb, var(--c) 48%, transparent); z-index: 0; }
 .tvt-wm b { font-family: 'Noto Serif SC','Songti SC','SimSun',serif; }
 </style>
 
 <style>
-/* Toàn cục: khi IN chỉ hiện overlay tem, ẩn hết app + thanh công cụ overlay. */
+/* Khi IN: chỉ hiện overlay tem, ẩn hết app */
 @media print {
   body > *:not(#vt-tem-root) { display: none !important; }
   #vt-tem-root { position: static !important; background: #fff !important; }
