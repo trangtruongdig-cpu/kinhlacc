@@ -79,6 +79,11 @@ export class ViThuoc {
   @Column({ type: 'text', nullable: true })
   anh_dai_dien: string | null;
 
+  // Công dụng TÓM TẮT (1 dòng, vd "Kiện tỳ ích khí, táo thấp lợi thuỷ, chỉ hãn, an thai")
+  // — dùng cho tem nhãn (in tức thì từ list, không cần fetch congDungLinks) + tra nhanh.
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  cong_dung_tom_tat: string | null;
+
   // Dùng string reference để tránh circular import với các child models
   @OneToMany('BaiThuocChiTiet', 'viThuoc')
   baiThuocDetails: BaiThuocChiTiet[];

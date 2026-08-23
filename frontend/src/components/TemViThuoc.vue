@@ -2,18 +2,16 @@
 // Overlay IN TEM vị thuốc — render thẻ (đĩa Hán + tên serif hoa + Tính vị/Quy kinh/Công dụng),
 // mỗi vị một tông màu như .vt-card. Thẻ CAO ĐỀU, căn giữa, không tràn → khớp mẫu in chuẩn.
 // Công dụng nạp thêm từ chi tiết /vi-thuoc/:id (congDungLinks) vì list /lite không kèm.
-import { ref, reactive, computed, watch } from 'vue'
-import { api } from '@/services/api'
+import { ref, computed } from 'vue'
 
 export interface HerbCard {
-  id: number; ten: string; han: string; py: string; bp: string; tv: string; quy: string; ci: number
+  id: number; ten: string; han: string; py: string; bp: string; tv: string; quy: string; cd: string; ci: number
 }
 const props = defineProps<{ herbs: HerbCard[] }>()
 const emit = defineEmits<{ (e: 'close'): void }>()
 
 const copies = ref(1)
-const loading = ref(false) // đang nạp công dụng → chặn In để không in thiếu
-const doPrint = () => { if (!loading.value) window.print() }
+const doPrint = () => window.print()
 
 // 8 tông màu khớp .vt-card--c0..c7 (accent · nền1 · nền2 · vòng)
 const PALETTE = [
@@ -31,42 +29,12 @@ const hanLen = (h: HerbCard) => [...glyph(h)].length
 // Co cỡ tên Việt theo độ dài để LUÔN gọn 1 dòng như mẫu (XÍCH THƯỢC to · TANG KÝ SINH nhỏ lại)
 const tenCls = (t: string) => { const n = (t || '').trim().length; return n <= 9 ? 'tn1' : n <= 13 ? 'tn2' : 'tn3' }
 
-// Công dụng nạp thêm (id → chuỗi), '' = đã nạp nhưng trống / đang nạp
-const congMap = reactive<Record<number, string>>({})
-async function loadCongDung(ids: number[]) {
-  const todo = ids.filter((id) => congMap[id] === undefined)
-  if (!todo.length) return
-  loading.value = true
-  try {
-  await Promise.all(
-    todo.map(async (id) => {
-      congMap[id] = ''
-      try {
-        const d = (await api.get<{ congDungLinks?: { congDung?: { ten_cong_dung?: string } }[] } | { data?: unknown }>(
-          `/vi-thuoc/${id}`,
-        )) as { congDungLinks?: { congDung?: { ten_cong_dung?: string } }[] }
-        const links = d?.congDungLinks ?? []
-        const terms = links.map((l) => (l?.congDung?.ten_cong_dung || '').trim()).filter(Boolean)
-        let s = terms.slice(0, 6).join(', ')
-        if (s.length > 96) s = s.slice(0, 93).trimEnd() + '…'
-        congMap[id] = s
-      } catch {
-        congMap[id] = ''
-      }
-    }),
-  )
-  } finally {
-    loading.value = false
-  }
-}
-watch(() => props.herbs, (hs) => loadCongDung(hs.map((h) => h.id)), { immediate: true })
-
 const printed = computed(() => {
   const n = Math.max(1, Math.min(30, copies.value || 1))
-  const out: (HerbCard & { pal: (typeof PALETTE)[number]; g: string; hl: number; tcls: string; cd: string })[] = []
+  const out: (HerbCard & { pal: (typeof PALETTE)[number]; g: string; hl: number; tcls: string })[] = []
   for (const h of props.herbs) {
     const pal = PALETTE[((h.ci % 8) + 8) % 8]!
-    for (let i = 0; i < n; i++) out.push({ ...h, pal, g: glyph(h), hl: hanLen(h), tcls: tenCls(h.ten), cd: congMap[h.id] || '' })
+    for (let i = 0; i < n; i++) out.push({ ...h, pal, g: glyph(h), hl: hanLen(h), tcls: tenCls(h.ten) })
   }
   return out
 })
@@ -89,8 +57,7 @@ const pages = computed(() => {
         <label class="tvt-copies">Số bản mỗi vị
           <input v-model.number="copies" type="number" min="1" max="30" />
         </label>
-        <span v-if="loading" class="tvt-loading">⏳ Đang tải công dụng…</span>
-        <button class="tvt-btn" :disabled="loading" :title="loading ? 'Đợi tải xong công dụng rồi hãy in' : ''" @click="doPrint">In</button>
+        <button class="tvt-btn" @click="doPrint">In</button>
         <button class="tvt-btn tvt-btn--ghost" @click="emit('close')">Đóng</button>
       </div>
 

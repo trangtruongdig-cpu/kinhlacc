@@ -26,6 +26,8 @@ export class CreateViThuocDto {
   don_thuoc?: string;
   chu_tri?: string;
   tham_khao?: string;
+  /** Công dụng tóm tắt 1 dòng (cho tem nhãn). */
+  cong_dung_tom_tat?: string;
   /** Mỗi phần tử: id_cong_dung + ghi_chu (ghi chú gắn với vị thuốc này). */
   cong_dung_links?: { id_cong_dung: number; ghi_chu?: string }[];
   chu_tri_links?: { id_chu_tri: number; ghi_chu?: string }[];

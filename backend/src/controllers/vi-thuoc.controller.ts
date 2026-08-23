@@ -406,7 +406,7 @@ export class ViThuocService {
     if (dto.ten_han !== undefined) o.ten_han = dto.ten_han;
     if (dto.ten_pinyin !== undefined) o.ten_pinyin = dto.ten_pinyin;
     if (dto.bo_phan_dung !== undefined) o.bo_phan_dung = dto.bo_phan_dung;
-    for (const f of ['xuat_xu', 'ho_khoa_hoc', 'ten_khac', 'mo_ta', 'thanh_phan', 'duoc_ly', 'tinh_vi_quy_kinh', 'nuoi_duong', 'bao_che', 'don_thuoc', 'chu_tri', 'tham_khao'] as const) {
+    for (const f of ['xuat_xu', 'ho_khoa_hoc', 'ten_khac', 'mo_ta', 'thanh_phan', 'duoc_ly', 'tinh_vi_quy_kinh', 'nuoi_duong', 'bao_che', 'don_thuoc', 'chu_tri', 'tham_khao', 'cong_dung_tom_tat'] as const) {
       if (dto[f] !== undefined) (o as Record<string, unknown>)[f] = dto[f];
     }
     return o;

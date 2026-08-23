@@ -132,6 +132,7 @@ interface ViThuoc {
   bo_phan_dung?: string | null
   so_bai_thuoc?: number | null
   anh_dai_dien?: string | null
+  cong_dung_tom_tat?: string | null
   kinhMachLinks?: KinhMachLink[] | null
 }
 
@@ -159,6 +160,7 @@ interface ViThuocForm {
   ten_han: string
   ten_pinyin: string
   bo_phan_dung: string
+  cong_dung_tom_tat: string
   kinh_mach_ids: number[]
   nhom_nho_ids: number[]
 }
@@ -211,6 +213,7 @@ const selectedHerbCards = computed<HerbCard[]>(() =>
       bp: (v.bo_phan_dung || '').trim(),
       tv: [v.tinh, v.vi].map((x) => (x || '').trim()).filter(Boolean).join(' · '),
       quy: v.quy_kinh ? abbrevKinhList(v.quy_kinh).join(' · ') : '',
+      cd: (v.cong_dung_tom_tat || '').trim(),
       ci: v.id % 8,
     })),
 )
@@ -2318,6 +2321,7 @@ const emptyViThuocForm = (): ViThuocForm => ({
   ten_han: '',
   ten_pinyin: '',
   bo_phan_dung: '',
+  cong_dung_tom_tat: '',
   kinh_mach_ids: [],
   nhom_nho_ids: [],
 })
@@ -2414,6 +2418,7 @@ function openEditViThuoc(vt: ViThuoc) {
     ten_han: vt.ten_han ?? '',
     ten_pinyin: vt.ten_pinyin ?? '',
     bo_phan_dung: vt.bo_phan_dung ?? '',
+    cong_dung_tom_tat: vt.cong_dung_tom_tat ?? '',
     kinh_mach_ids: kmIds,
     nhom_nho_ids: nhomNhoIdsForViThuoc(vt.id),
   }
@@ -2451,6 +2456,7 @@ async function submitViThuoc() {
         ten_han: f.ten_han.trim() || undefined,
         ten_pinyin: f.ten_pinyin.trim() || undefined,
         bo_phan_dung: f.bo_phan_dung.trim() || undefined,
+        cong_dung_tom_tat: f.cong_dung_tom_tat.trim() || undefined,
         kinh_mach_ids: f.kinh_mach_ids,
         nhom_nho_ids: f.nhom_nho_ids,
       }
@@ -2465,6 +2471,7 @@ async function submitViThuoc() {
         ten_han: f.ten_han.trim() || undefined,
         ten_pinyin: f.ten_pinyin.trim() || undefined,
         bo_phan_dung: f.bo_phan_dung.trim() || undefined,
+        cong_dung_tom_tat: f.cong_dung_tom_tat.trim() || undefined,
         kinh_mach_ids: f.kinh_mach_ids,
         nhom_nho_ids: f.nhom_nho_ids,
       }
@@ -3478,6 +3485,16 @@ async function runVtAiBatch() {
             <label class="field field--full">
               <span>Bộ phận dùng</span>
               <input v-model="vtForm.bo_phan_dung" class="input" placeholder="vd. rễ, vỏ thân, hạt, toàn cây" />
+            </label>
+
+            <label class="field field--full">
+              <span>Công dụng tóm tắt <small style="color: var(--gray-500); font-weight: 400">— 1 dòng, hiện trên tem nhãn</small></span>
+              <textarea
+                v-model="vtForm.cong_dung_tom_tat"
+                class="input"
+                rows="2"
+                placeholder="vd. Kiện tỳ ích khí, táo thấp lợi thuỷ, chỉ hãn, an thai"
+              ></textarea>
             </label>
 
             <div class="field field--full">
