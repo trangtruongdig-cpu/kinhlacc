@@ -32,6 +32,7 @@ function benhTayYHref(id: number): string {
 import type { Chart as ChartInstance } from 'chart.js'
 import { api, assetUrl } from '@/services/api'
 import PharmacologyManager from '@/components/PharmacologyManager.vue'
+import TemViThuoc, { type HerbCard } from '@/components/TemViThuoc.vue'
 import { loadChartJs, registerChartJs } from '@/composables/useChartJs'
 
 let ChartCtor: typeof import('chart.js').Chart | null = null
@@ -177,6 +178,38 @@ const baiThuocTotal = ref(0)
 const baiThuocStats = ref<{ all: number; 'dong-y': number; 'tay-y': number }>({ all: 0, 'dong-y': 0, 'tay-y': 0 })
 const viThuocList = ref<ViThuoc[]>([])
 const viThuocTotal = ref(0)
+
+// ── IN TEM vị thuốc: chọn nhiều vị trong tab → in ra thẻ tem ──
+const printSel = ref<Set<number>>(new Set())
+const printOpen = ref(false)
+function togglePrintSel(id: number) {
+  const s = new Set(printSel.value)
+  if (s.has(id)) s.delete(id)
+  else s.add(id)
+  printSel.value = s
+}
+function toggleSelAllVisible() {
+  const ids = pagedViThuoc.value.map((v) => v.id)
+  const allSel = ids.length > 0 && ids.every((id) => printSel.value.has(id))
+  const s = new Set(printSel.value)
+  if (allSel) ids.forEach((id) => s.delete(id))
+  else ids.forEach((id) => s.add(id))
+  printSel.value = s
+}
+const selectedHerbCards = computed<HerbCard[]>(() =>
+  viThuocList.value
+    .filter((v) => printSel.value.has(v.id))
+    .map((v) => ({
+      id: v.id,
+      ten: v.ten_vi_thuoc || '',
+      han: (v.ten_han || '').trim(),
+      py: (v.ten_pinyin || '').trim(),
+      bp: (v.bo_phan_dung || '').trim(),
+      tv: [v.tinh, v.vi].map((x) => (x || '').trim()).filter(Boolean).join(' · '),
+      quy: (v.quy_kinh || '').trim(),
+      ci: v.id % 8,
+    })),
+)
 const phapTriOptions = ref<PhapTriLite[]>([])
 const trieuChungOptions = ref<TrieuChungLite[]>([])
 const kinhMachList = ref<KinhMachLite[]>([])
@@ -2955,6 +2988,14 @@ async function runVtAiBatch() {
                 <span v-else>✨ AI điền tên khoa học ({{ vtMissingCount }} vị thiếu)</span>
               </button>
               <span v-else-if="vtMissingCount === 0" class="vt-tkh-done">✓ Đủ tên khoa học</span>
+              <button type="button" class="vt-pick-all" @click="toggleSelAllVisible">☑ Chọn trang</button>
+              <button
+                type="button"
+                class="vt-print-btn"
+                :disabled="printSel.size === 0"
+                :title="printSel.size ? `In tem ${printSel.size} vị đã chọn` : 'Chọn vị thuốc (ô góc phải mỗi thẻ) để in tem'"
+                @click="printOpen = true"
+              >🖨 In tem ({{ printSel.size }})</button>
               <button type="button" class="btn-primary" @click="openCreateViThuoc">+ Thêm vị thuốc</button>
             </div>
           </div>
@@ -2968,6 +3009,9 @@ async function runVtAiBatch() {
               <span class="vt-frame" aria-hidden="true"></span>
               <i class="vt-corner tl" aria-hidden="true"></i><i class="vt-corner tr" aria-hidden="true"></i>
               <i class="vt-corner bl" aria-hidden="true"></i><i class="vt-corner br" aria-hidden="true"></i>
+              <label class="vt-pick" :class="{ on: printSel.has(vt.id) }" title="Chọn để in tem" @click.stop>
+                <input type="checkbox" :checked="printSel.has(vt.id)" @change="togglePrintSel(vt.id)" />
+              </label>
 
               <img
                 v-if="vtCardImg(vt)"
@@ -3769,6 +3813,8 @@ async function runVtAiBatch() {
         </div>
       </div>
     </div>
+
+    <TemViThuoc v-if="printOpen" :herbs="selectedHerbCards" @close="printOpen = false" />
   </div>
 </template>
 
@@ -4226,6 +4272,19 @@ async function runVtAiBatch() {
 .vt-card:hover { box-shadow: 0 12px 28px rgba(74, 47, 23, 0.16); transform: translateY(-2px); }
 
 /* 8 gam màu xoay vòng theo id (giống thẻ trà: mỗi vị một gam) */
+/* Ô chọn để IN TEM (góc phải mỗi thẻ) + nút toolbar */
+.vt-pick { position: absolute; top: 8px; right: 8px; z-index: 4; display: flex; align-items: center;
+  padding: 3px; border-radius: 8px; background: rgba(255,255,255,.72); cursor: pointer; opacity: .55; transition: opacity .15s; }
+.vt-card:hover .vt-pick, .vt-pick.on { opacity: 1; }
+.vt-pick input { width: 19px; height: 19px; cursor: pointer; accent-color: var(--accent, #7a4b2a); margin: 0; }
+.vt-pick-all { padding: 6px 12px; border: 1px solid var(--brown-200, #d8c6a6); border-radius: 8px; background: transparent;
+  color: var(--gray-600, #6f5f47); font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+.vt-pick-all:hover { background: var(--brown-50, #f7f0e4); }
+.vt-print-btn { padding: 6px 14px; border: none; border-radius: 8px; background: #5b3f28; color: #fbf5ea;
+  font-size: 0.85rem; font-weight: 600; cursor: pointer; }
+.vt-print-btn:hover:not(:disabled) { background: #6f4d31; }
+.vt-print-btn:disabled { opacity: .5; cursor: not-allowed; }
+
 .vt-card--c0 { --accent:#a8324a; --bg1:#fdeef1; --bg2:#f6d7de; }
 .vt-card--c1 { --accent:#b45a24; --bg1:#fdf0e5; --bg2:#f5dabf; }
 .vt-card--c2 { --accent:#957a1a; --bg1:#fbf4dc; --bg2:#efe2b2; }
