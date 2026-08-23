@@ -206,7 +206,7 @@ const selectedHerbCards = computed<HerbCard[]>(() =>
       py: (v.ten_pinyin || '').trim(),
       bp: (v.bo_phan_dung || '').trim(),
       tv: [v.tinh, v.vi].map((x) => (x || '').trim()).filter(Boolean).join(' · '),
-      quy: (v.quy_kinh || '').trim(),
+      quy: v.quy_kinh ? abbrevKinhList(v.quy_kinh).join(' · ') : '',
       ci: v.id % 8,
     })),
 )
@@ -4272,9 +4272,10 @@ async function runVtAiBatch() {
 .vt-card:hover { box-shadow: 0 12px 28px rgba(74, 47, 23, 0.16); transform: translateY(-2px); }
 
 /* 8 gam màu xoay vòng theo id (giống thẻ trà: mỗi vị một gam) */
-/* Ô chọn để IN TEM (góc phải mỗi thẻ) + nút toolbar */
-.vt-pick { position: absolute; top: 8px; right: 8px; z-index: 4; display: flex; align-items: center;
-  padding: 3px; border-radius: 8px; background: rgba(255,255,255,.72); cursor: pointer; opacity: .55; transition: opacity .15s; }
+/* Ô chọn để IN TEM (góc phải mỗi thẻ) — !important để thắng rule chung .vt-card > * (position/z-index) */
+.vt-pick { position: absolute !important; top: 9px; right: 9px; z-index: 8 !important; display: flex; align-items: center;
+  padding: 3px; border-radius: 8px; background: rgba(255,255,255,.94); box-shadow: 0 1px 4px rgba(60,40,20,.28);
+  cursor: pointer; opacity: .82; transition: opacity .15s; }
 .vt-card:hover .vt-pick, .vt-pick.on { opacity: 1; }
 .vt-pick input { width: 19px; height: 19px; cursor: pointer; accent-color: var(--accent, #7a4b2a); margin: 0; }
 .vt-pick-all { padding: 6px 12px; border: 1px solid var(--brown-200, #d8c6a6); border-radius: 8px; background: transparent;

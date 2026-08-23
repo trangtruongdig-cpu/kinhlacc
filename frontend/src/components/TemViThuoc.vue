@@ -1,7 +1,9 @@
 <script setup lang="ts">
-// Overlay IN TEM vị thuốc — nhận danh sách vị thuốc đã chọn ở tab Vị Thuốc, render thẻ đẹp
-// (đĩa Hán + tên serif + Tính vị/Quy kinh, mỗi vị một tông màu như thẻ .vt-card), chọn số bản rồi in.
-import { ref, computed } from 'vue'
+// Overlay IN TEM vị thuốc — render thẻ (đĩa Hán + tên serif hoa + Tính vị/Quy kinh/Công dụng),
+// mỗi vị một tông màu như .vt-card. Thẻ CAO ĐỀU, căn giữa, không tràn → khớp mẫu in chuẩn.
+// Công dụng nạp thêm từ chi tiết /vi-thuoc/:id (congDungLinks) vì list /lite không kèm.
+import { ref, reactive, computed, watch } from 'vue'
+import { api } from '@/services/api'
 
 export interface HerbCard {
   id: number; ten: string; han: string; py: string; bp: string; tv: string; quy: string; ci: number
@@ -24,14 +26,37 @@ const PALETTE = [
   { c: '#38548c', bg1: '#edf0fa', bg2: '#d5dcee', ring: '#b8c4e4' },
 ]
 const glyph = (h: HerbCard) => (h.han || h.ten || '?').trim()
+const hanLen = (h: HerbCard) => [...glyph(h)].length
 
-// Danh sách thẻ đã nhân số bản
+// Công dụng nạp thêm (id → chuỗi), '' = đã nạp nhưng trống / đang nạp
+const congMap = reactive<Record<number, string>>({})
+async function loadCongDung(ids: number[]) {
+  await Promise.all(
+    ids.filter((id) => congMap[id] === undefined).map(async (id) => {
+      congMap[id] = ''
+      try {
+        const d = (await api.get<{ congDungLinks?: { congDung?: { ten_cong_dung?: string } }[] } | { data?: unknown }>(
+          `/vi-thuoc/${id}`,
+        )) as { congDungLinks?: { congDung?: { ten_cong_dung?: string } }[] }
+        const links = d?.congDungLinks ?? []
+        const terms = links.map((l) => (l?.congDung?.ten_cong_dung || '').trim()).filter(Boolean)
+        let s = terms.slice(0, 6).join(', ')
+        if (s.length > 96) s = s.slice(0, 93).trimEnd() + '…'
+        congMap[id] = s
+      } catch {
+        congMap[id] = ''
+      }
+    }),
+  )
+}
+watch(() => props.herbs, (hs) => loadCongDung(hs.map((h) => h.id)), { immediate: true })
+
 const printed = computed(() => {
   const n = Math.max(1, Math.min(30, copies.value || 1))
-  const out: (HerbCard & { pal: (typeof PALETTE)[number]; g: string })[] = []
+  const out: (HerbCard & { pal: (typeof PALETTE)[number]; g: string; hl: number; cd: string })[] = []
   for (const h of props.herbs) {
     const pal = PALETTE[((h.ci % 8) + 8) % 8]!
-    for (let i = 0; i < n; i++) out.push({ ...h, pal, g: glyph(h) })
+    for (let i = 0; i < n; i++) out.push({ ...h, pal, g: glyph(h), hl: hanLen(h), cd: congMap[h.id] || '' })
   }
   return out
 })
@@ -58,7 +83,7 @@ const printed = computed(() => {
             :style="{ '--c': h.pal.c, '--bg1': h.pal.bg1, '--bg2': h.pal.bg2, '--ring': h.pal.ring }"
           >
             <div class="tvt-left">
-              <div class="tvt-badge"><span>{{ h.g }}</span></div>
+              <div class="tvt-badge"><span :class="'hl' + Math.min(h.hl, 4)">{{ h.g }}</span></div>
               <div v-if="h.bp" class="tvt-pill">{{ h.bp }}</div>
             </div>
             <div class="tvt-right">
@@ -69,6 +94,7 @@ const printed = computed(() => {
               <div class="tvt-div"><em>❖</em></div>
               <div v-if="h.tv" class="tvt-line"><b>Tính vị:</b> {{ h.tv }}</div>
               <div v-if="h.quy" class="tvt-line"><b>Quy kinh:</b> {{ h.quy }}</div>
+              <div v-if="h.cd" class="tvt-cd">{{ h.cd }}</div>
             </div>
             <div class="tvt-wm"><b>{{ h.han }}</b> ❖</div>
           </div>
@@ -88,31 +114,38 @@ const printed = computed(() => {
 .tvt-btn:hover { background: #6f4d31; }
 .tvt-btn--ghost { background: transparent; color: #6f5f47; border: 1px solid #d8c6a6; }
 .tvt-scroll { flex: 1; overflow: auto; padding: 18px; display: flex; justify-content: center; }
-.tvt-sheet { width: 196mm; display: grid; grid-template-columns: 1fr 1fr; gap: 5mm; align-content: start; }
+.tvt-sheet { width: 196mm; display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; grid-auto-rows: 64mm; align-content: start; }
 
+/* Thẻ CAO ĐỀU 64mm, nội dung căn giữa, cắt gọn nếu dư → lưới in phẳng, không xô lệch */
 .tvt-card { --c: #5b3f28; --bg1: #faf5ec; --bg2: #f2e7d2; --ring: #d8c6a6;
-  position: relative; overflow: hidden; break-inside: avoid;
-  display: flex; align-items: center; gap: 5mm; padding: 5mm 6mm 5mm 5mm;
-  min-height: 58mm; border: 0.9mm solid var(--c); border-radius: 5mm;
+  position: relative; overflow: hidden; break-inside: avoid; height: 64mm;
+  display: flex; align-items: center; gap: 4mm; padding: 5mm 6mm 5mm 5mm;
+  border: 0.9mm solid var(--c); border-radius: 5mm;
   background: linear-gradient(150deg, var(--bg1), var(--bg2));
   box-shadow: 0 1mm 3mm rgba(60,40,20,.12), inset 0 0 0 0.5mm rgba(255,255,255,.55); }
-.tvt-left { flex: 0 0 36mm; display: flex; flex-direction: column; align-items: center; gap: 3mm; z-index: 1; }
-.tvt-badge { width: 30mm; height: 30mm; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+.tvt-left { flex: 0 0 34mm; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3mm; z-index: 1; }
+.tvt-badge { width: 29mm; height: 29mm; flex: 0 0 auto; border-radius: 50%; display: flex; align-items: center; justify-content: center;
   background: radial-gradient(circle at 50% 42%, #fff, var(--bg1) 78%);
   border: 0.7mm solid var(--c); box-shadow: 0 0 0 1.1mm #fff, 0 0 0 1.7mm var(--ring); }
-.tvt-badge span { font-family: 'Noto Serif SC','Songti SC','SimSun',serif; font-size: 13mm; font-weight: 700; color: var(--c); line-height: 1; text-align: center; }
-.tvt-pill { padding: 1.3mm 5mm; border-radius: 999px; background: var(--c); color: #fff; font-size: 3.4mm; font-weight: 700; }
-.tvt-right { flex: 1; z-index: 1; text-align: center; display: flex; flex-direction: column; align-items: center; }
-.tvt-ten { font-family: Georgia,'Times New Roman',serif; font-size: 8.5mm; font-weight: 700; color: var(--c); text-transform: uppercase; letter-spacing: .5px; line-height: 1.05; }
-.tvt-han { margin-top: 1.5mm; font-size: 4.8mm; }
+.tvt-badge span { font-family: 'Noto Serif SC','Songti SC','SimSun',serif; font-weight: 700; color: var(--c); line-height: 1.02; text-align: center; }
+.tvt-badge span.hl1 { font-size: 15mm; }
+.tvt-badge span.hl2 { font-size: 12mm; }
+.tvt-badge span.hl3 { font-size: 8.6mm; }
+.tvt-badge span.hl4 { font-size: 7mm; }
+.tvt-pill { padding: 1.2mm 4.5mm; border-radius: 999px; background: var(--c); color: #fff; font-size: 3.3mm; font-weight: 700; white-space: nowrap; }
+.tvt-right { flex: 1; min-width: 0; z-index: 1; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.tvt-ten { font-family: Georgia,'Times New Roman',serif; font-size: 7.6mm; font-weight: 700; color: var(--c); text-transform: uppercase; letter-spacing: .4px; line-height: 1.06; }
+.tvt-han { margin-top: 1.2mm; font-size: 4.3mm; }
 .tvt-han b { font-family: 'Noto Serif SC','Songti SC','SimSun',serif; color: var(--c); font-weight: 700; }
-.tvt-han i { color: #6f5f47; font-style: italic; margin-left: 3mm; font-family: Georgia, serif; }
-.tvt-div { display: flex; align-items: center; gap: 3mm; width: 60%; margin: 2.5mm 0; }
-.tvt-div::before, .tvt-div::after { content: ""; flex: 1; height: 0.35mm; background: color-mix(in srgb, var(--c) 55%, transparent); }
-.tvt-div em { color: var(--c); font-size: 4mm; font-style: normal; }
-.tvt-line { font-size: 4mm; color: #2f2416; line-height: 1.5; }
+.tvt-han i { color: #6f5f47; font-style: italic; margin-left: 2.5mm; font-family: Georgia, serif; }
+.tvt-div { display: flex; align-items: center; gap: 2.5mm; width: 56%; margin: 2mm 0; }
+.tvt-div::before, .tvt-div::after { content: ""; flex: 1; height: 0.3mm; background: color-mix(in srgb, var(--c) 55%, transparent); }
+.tvt-div em { color: var(--c); font-size: 3.6mm; font-style: normal; }
+.tvt-line { font-size: 3.7mm; color: #2f2416; line-height: 1.42; max-width: 100%; }
 .tvt-line b { color: var(--c); }
-.tvt-wm { position: absolute; left: 4mm; bottom: 3mm; font-size: 4mm; color: color-mix(in srgb, var(--c) 55%, transparent); z-index: 0; }
+.tvt-cd { font-size: 3.6mm; color: #3a2c1b; line-height: 1.4; margin-top: 1.8mm; max-width: 100%;
+  display: -webkit-box; -webkit-line-clamp: 3; line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.tvt-wm { position: absolute; left: 4mm; bottom: 3mm; font-size: 3.6mm; color: color-mix(in srgb, var(--c) 52%, transparent); z-index: 0; }
 .tvt-wm b { font-family: 'Noto Serif SC','Songti SC','SimSun',serif; }
 </style>
 
