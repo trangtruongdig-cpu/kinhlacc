@@ -339,6 +339,10 @@ router.beforeEach((to) => {
     if (!auth.can(page)) {
       return { name: 'home' }
     }
+    // Khám và đo nhiệt độ kinh lạc chỉ dành cho Bác Sĩ — Lễ Tân không được tạo phiên khám mới.
+    if (to.name === 'new-examination' && auth.isLeTan) {
+      return { name: 'patient-detail', params: to.params }
+    }
   }
 })
 

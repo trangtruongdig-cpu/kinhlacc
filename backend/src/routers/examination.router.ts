@@ -15,6 +15,7 @@ import { CreateExaminationDto, UpdateExaminationDto } from '../models/examinatio
 import { ChanDoanLuu, DonThuocLuu } from '../models/examination.model';
 import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
 import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
+import { ChanLeTanTaoKhamGuard } from '../middlewares/auth/chan-le-tan-tao-kham.guard';
 
 @Controller('examinations')
 export class ExaminationsRouter {
@@ -32,7 +33,7 @@ export class ExaminationsRouter {
     return this.examinationsService.fixSequence();
   }
 
-  @UseGuards(NhanVienGuard)
+  @UseGuards(NhanVienGuard, ChanLeTanTaoKhamGuard)
   @Post()
   async create(@Body() dto: CreateExaminationDto) {
     const item = await this.examinationsService.create(dto);

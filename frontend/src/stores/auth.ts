@@ -40,6 +40,7 @@ export const useAuthStore = defineStore('auth', () => {
   const vaiTro = computed(() => user.value?.vaiTro || null)
   const tenVaiTro = computed(() => user.value?.vaiTro?.ten || 'Người Dùng')
   const isQuanTri = computed(() => !!user.value?.vaiTro?.laQuanTri)
+  const isLeTan = computed(() => user.value?.vaiTro?.ma === 'le_tan')
 
   /** Kiểm tra tài khoản hiện tại có được vào trang `pageKey` không. */
   function can(pageKey: string): boolean {
@@ -141,6 +142,7 @@ export const useAuthStore = defineStore('auth', () => {
     vaiTro,
     tenVaiTro,
     isQuanTri,
+    isLeTan,
     isLoading,
     error,
     isAuthenticated,

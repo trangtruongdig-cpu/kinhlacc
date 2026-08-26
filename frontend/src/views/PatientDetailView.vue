@@ -2,12 +2,14 @@
 import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { usePatientStore, type Patient } from '@/stores/patient'
+import { useAuthStore } from '@/stores/auth'
 import { api } from '@/services/api'
 import { mocKham, mocKhamMs } from '@/lib/caKham'
 
 const router = useRouter()
 const route = useRoute()
 const patientStore = usePatientStore()
+const authStore = useAuthStore()
 
 const patient = ref<Patient | null>(null)
 const examinations = ref<any[]>([])
@@ -490,7 +492,7 @@ function goToLuoiDiagnosis() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20M12 2l4 4-4 4M12 22l-4-4 4-4"/></svg>
             Kinh lạc
           </button>
-          <button class="btn-primary" @click="goToNewExamination">
+          <button v-if="!authStore.isLeTan" class="btn-primary" @click="goToNewExamination">
             <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/></svg>
             Thêm Khám mới
           </button>
