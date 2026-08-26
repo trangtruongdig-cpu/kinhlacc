@@ -11,8 +11,13 @@ import {
   InputData,
 } from '../utils/meridian-analysis.util';
 
+/** Bệnh nhân kèm kết luận Hư-Thực của ca khám gần nhất — để lễ tân nhìn danh sách biết
+ * ai nên khuyên đi khám Tây y mà không cần mở từng hồ sơ. null = chưa có ca khám nào /
+ * ca khám chưa đủ dữ liệu kết luận. */
+export type PatientVoiHuThuc = PatientAnToan & { huThuc: string | null };
+
 export interface PaginatedPatients {
-  data: PatientAnToan[];
+  data: PatientVoiHuThuc[];
   total: number;
   page: number;
   limit: number;
@@ -279,10 +284,45 @@ export class PatientsService {
       );
     }
 
-    const [data, total] = await qb.skip(skip).take(limit).getManyAndCount();
+    const total = await qb.getCount();
+
+    // Chỉ 1 trang bệnh nhân (10-20 dòng) cần Hư-Thực, không phải cả 5675 bệnh nhân — nên
+    // dùng subquery tương quan lấy inputData của CA KHÁM GẦN NHẤT/bệnh nhân (tận dụng index
+    // idx_examinations_thoi_diem_kham) rồi tính bằng computeFullAnalysis, ĐÚNG hàm
+    // PatientsService.buildThongKeDataset() dùng để khớp tuyệt đối với màn Kết Quả Đo — thay vì
+    // đọc thẳng cột examinations.huThuc (lưu bằng thuật toán backend midpoint/dungSai, có thể
+    // lệch nhẹ so với màn hình).
+    qb.addSelect((subQb) =>
+      subQb
+        .subQuery()
+        .select('e."inputData"', 'inputData')
+        .from(Examination, 'e')
+        .where('e."patientId" = patient.id')
+        .orderBy('COALESCE(e."thoiDiemKham", e."createdAt")', 'DESC')
+        .limit(1),
+      'latestInputData',
+    )
+      .skip(skip)
+      .take(limit);
+
+    const { entities, raw } = await qb.getRawAndEntities();
+
+    const data: PatientVoiHuThuc[] = entities.map((p, i) => {
+      const safe = toSafePatient(p);
+      const inputData = raw[i]?.latestInputData;
+      let huThuc: string | null = null;
+      if (inputData) {
+        try {
+          huThuc = computeFullAnalysis(inputData as InputData).diagnosis.huThuc || null;
+        } catch {
+          // Dữ liệu ca khám hỏng (vd nhiệt độ ngoài khoảng hợp lệ) — bỏ qua, không chặn cả trang.
+        }
+      }
+      return { ...safe, huThuc };
+    });
 
     return {
-      data: data.map(toSafePatient),
+      data,
       total,
       page,
       limit,

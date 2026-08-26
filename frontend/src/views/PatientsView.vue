@@ -149,6 +149,14 @@ function genderLabel(g: string | null) {
   return g
 }
 
+// Cùng quy tắc tô màu với toneCls() ở MeridianResultsView.vue — khớp màu với trang Kết Quả Đo.
+function huThucBadgeClass(v: string) {
+  const s = v.toLowerCase()
+  if (s.includes('thực') || s.includes('thịnh')) return 'badge--thuc'
+  if (s.includes('hư') && !s.includes('thường')) return 'badge--hu'
+  return 'badge--binh-thuong'
+}
+
 const pageNumbers = computed(() => {
   const pages: number[] = []
   const tp = store.totalPages
@@ -235,6 +243,7 @@ const pageNumbers = computed(() => {
             <th>Ngày sinh</th>
             <th>SĐT</th>
             <th>Địa chỉ</th>
+            <th>Hư - Thực</th>
             <th class="th-actions">Thao tác</th>
           </tr>
         </thead>
@@ -250,6 +259,10 @@ const pageNumbers = computed(() => {
             <td>{{ formatDate(p.dateOfBirth) }}</td>
             <td>{{ p.phone || '—' }}</td>
             <td class="td-address">{{ p.address || '—' }}</td>
+            <td>
+              <span v-if="p.huThuc" class="badge" :class="huThucBadgeClass(p.huThuc)">{{ p.huThuc }}</span>
+              <span v-else class="td-muted">—</span>
+            </td>
             <td class="td-actions">
               <button class="text-btn text-btn--detail" @click="router.push({ name: 'patient-detail', params: { id: p.id } })">Chi tiết</button>
               <button class="text-btn text-btn--meridian" @click="goToLatestExamination(p.id)">Kinh lạc</button>
@@ -449,6 +462,10 @@ const pageNumbers = computed(() => {
 .badge{display:inline-block;padding:2px 10px;border-radius:var(--radius-full);font-size:var(--font-size-xs);font-weight:600}
 .badge--blue{background:var(--info-bg);color:var(--info-fg)}
 .badge--pink{background:var(--chip-symptom-bg);color:var(--chip-symptom-fg)}
+.badge--thuc{background:var(--danger-bg);color:var(--danger-fg)}
+.badge--hu{background:var(--info-bg);color:var(--info-fg)}
+.badge--binh-thuong{background:var(--success-bg);color:var(--success-fg)}
+.td-muted{color:var(--text-subtle)}
 
 .td-actions{text-align:right;white-space:nowrap}
 .text-btn{padding:4px 10px;border-radius:var(--radius-sm);font-size:var(--font-size-xs);font-weight:600;transition:all var(--transition-fast);display:inline-block}
