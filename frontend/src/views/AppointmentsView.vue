@@ -3,6 +3,17 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '@/services/api'
 import type { Patient } from '@/stores/patient'
+import { useAuthStore } from '@/stores/auth'
+import { maskHoTen, maskSdt } from '@/lib/maskThongTin'
+
+const authStore = useAuthStore()
+// Lễ Tân không được xem đầy đủ họ tên/SĐT bệnh nhân — chỉ hiện dạng che một phần (tìm kiếm vẫn khớp trên dữ liệu thật).
+function displayName(name: string | null | undefined) {
+  return authStore.isLeTan ? maskHoTen(name) : (name || '—')
+}
+function displayPhone(phone: string | null | undefined) {
+  return authStore.isLeTan ? maskSdt(phone) : (phone || '')
+}
 
 type SlotStatus = 'OPEN' | 'CLOSED' | 'BOOKED' | 'COMPLETED' | 'CANCELLED'
 
@@ -543,9 +554,9 @@ function goToPatient(id: number) {
               <button
                 class="patient-link"
                 @click="goToPatient(slot.patientId!)"
-              >{{ patientsMap[slot.patientId]?.fullName || 'BN #' + slot.patientId }}</button>
+              >{{ patientsMap[slot.patientId]?.fullName ? displayName(patientsMap[slot.patientId]?.fullName) : 'BN #' + slot.patientId }}</button>
               <div v-if="patientsMap[slot.patientId]?.phone" class="slot-phone">
-                📞 {{ patientsMap[slot.patientId]?.phone }}
+                📞 {{ displayPhone(patientsMap[slot.patientId]?.phone) }}
               </div>
               <div v-if="slot.reason" class="slot-reason">{{ slot.reason }}</div>
             </div>
@@ -591,7 +602,7 @@ function goToPatient(id: number) {
               v-for="p in bookPatientOptions"
               :key="p.id"
               :value="p.id"
-            >{{ p.fullName }} {{ p.phone ? '— ' + p.phone : '' }}</option>
+            >{{ displayName(p.fullName) }} {{ p.phone ? '— ' + displayPhone(p.phone) : '' }}</option>
           </select>
         </div>
         <div class="form-group">

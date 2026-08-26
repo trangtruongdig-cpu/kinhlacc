@@ -2,6 +2,8 @@
 import { ref, onMounted, onBeforeUnmount, computed, watch, reactive, nextTick, defineAsyncComponent } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { type Patient } from '@/stores/patient'
+import { useAuthStore } from '@/stores/auth'
+import { maskHoTen } from '@/lib/maskThongTin'
 import { api } from '@/services/api'
 import BatCuongFigure3D, { MER3D } from '@/components/BatCuongFigure3D.vue'
 import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
@@ -24,6 +26,14 @@ const route = useRoute()
 const patientId = computed(() => Number(route.params.patientId))
 const examId = computed(() => Number(route.params.examId))
 const patient = ref<Patient | null>(null)
+const authStore = useAuthStore()
+// Lễ Tân không được xem đầy đủ họ tên bệnh nhân trên màn hình — chỉ hiện dạng che một phần.
+// KHÔNG áp dụng cho phiếu in/xuất (bệnh nhân cần đọc đúng tên thật của mình trên phiếu).
+const displayPatientName = computed(() => {
+  const v = patient.value?.fullName
+  if (!v) return v
+  return authStore.isLeTan ? maskHoTen(v) : v
+})
 const examination = ref<any>(null)
 const isLoading = ref(true)
 const error = ref<string | null>(null)
@@ -3234,7 +3244,7 @@ watch(
         <div class="exam-summary">
           <h1 class="page-title">Kết quả Khám bệnh - {{ examDisplay.ticketNumber }}</h1>
           <div class="exam-meta">
-            <span>Bệnh nhân: <strong>{{ patient.fullName }}</strong></span>
+            <span>Bệnh nhân: <strong>{{ displayPatientName }}</strong></span>
             <span class="divider">|</span>
             <span>Ngày khám: {{ examDisplay.date }} {{ examDisplay.time }}</span>
           </div>
@@ -3303,7 +3313,7 @@ watch(
       <!-- ═══ Thanh ngữ cảnh DÍNH: bệnh nhân gọn + verdict Bát Cương + chip lọc ═══ -->
       <div class="mr-ctxbar">
         <div class="mr-ctx-patient">
-          <strong class="mr-ctx-name">{{ patient.fullName }}</strong>
+          <strong class="mr-ctx-name">{{ displayPatientName }}</strong>
           <span class="mr-ctx-meta">{{ getAge(patient.dateOfBirth) }} · {{ patient.gender || '—' }} · {{ examDisplay.ticketNumber }}</span>
           <button type="button" class="mr-ctx-more" :aria-expanded="showPatientMore" title="Thêm thông tin bệnh nhân" @click="showPatientMore = !showPatientMore">ⓘ</button>
         </div>

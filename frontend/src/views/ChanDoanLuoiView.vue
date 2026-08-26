@@ -5,6 +5,15 @@ import { api } from '@/services/api'
 import TongueAtlasPanel from '@/components/TongueAtlasPanel.vue'
 import TongueSVGCard from '@/components/TongueSVGCard.vue'
 import { ATLAS } from '@/data/tongue-atlas'
+import { useAuthStore } from '@/stores/auth'
+import { maskHoTen } from '@/lib/maskThongTin'
+
+const authStore = useAuthStore()
+// Lễ Tân không được xem đầy đủ họ tên bệnh nhân — chỉ hiện dạng che một phần.
+function displayName(name: string | null | undefined, fallback: string) {
+  if (!name) return fallback
+  return authStore.isLeTan ? maskHoTen(name) : name
+}
 
 // ─────────────────────────────────────────────
 // Types
@@ -137,7 +146,7 @@ async function doSearchPatients() {
 
 function selectPatient(p: Patient) {
   selectedPatient.value = p
-  patientSearch.value = p.fullName || `#${p.id}`
+  patientSearch.value = displayName(p.fullName, `#${p.id}`)
   patientDropOpen.value = false
   loadHistory(p.id)
 }
@@ -764,12 +773,12 @@ async function mlSearch() {
             class="cdl-patient-item"
             @click="selectPatient(p)"
           >
-            <span class="cdl-pi-name">{{ p.fullName || `#${p.id}` }}</span>
+            <span class="cdl-pi-name">{{ displayName(p.fullName, `#${p.id}`) }}</span>
             <span class="cdl-pi-meta">{{ p.gender || '' }}{{ p.dateOfBirth ? ' · ' + p.dateOfBirth : '' }}</span>
           </button>
         </div>
         <div v-if="selectedPatient" class="cdl-patient-badge">
-          <span>{{ selectedPatient.fullName || `#${selectedPatient.id}` }}</span>
+          <span>{{ displayName(selectedPatient.fullName, `#${selectedPatient.id}`) }}</span>
           <button class="cdl-patient-badge__link" @click="goToPatient" title="Mở hồ sơ bệnh nhân">Xem hồ sơ →</button>
         </div>
       </div>

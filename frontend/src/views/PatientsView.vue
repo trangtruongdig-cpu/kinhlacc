@@ -2,12 +2,23 @@
 import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { usePatientStore, type CreatePatientDto, type Patient } from '@/stores/patient'
+import { useAuthStore } from '@/stores/auth'
 import { api } from '@/services/api'
 import PatientStatsPanel from '@/components/PatientStatsPanel.vue'
+import { maskHoTen, maskSdt } from '@/lib/maskThongTin'
 
 const router = useRouter()
 
 const store = usePatientStore()
+const authStore = useAuthStore()
+
+// Lễ Tân không được xem đầy đủ họ tên/SĐT bệnh nhân — chỉ hiện dạng che một phần.
+function displayName(p: Patient) {
+  return authStore.isLeTan ? maskHoTen(p.fullName) : (p.fullName || '—')
+}
+function displayPhone(p: Patient) {
+  return authStore.isLeTan ? maskSdt(p.phone) : (p.phone || '—')
+}
 
 const activeTab = ref<'list' | 'stats'>('list')
 
@@ -251,13 +262,13 @@ const pageNumbers = computed(() => {
           <tr v-for="p in store.patients" :key="p.id" class="table-row">
             <td class="td-name">
               <div class="patient-avatar">{{ (p.fullName || '?').charAt(0).toUpperCase() }}</div>
-              <span>{{ p.fullName || '—' }}</span>
+              <span>{{ displayName(p) }}</span>
             </td>
             <td>
               <span class="badge" :class="p.gender === 'Nam' ? 'badge--blue' : 'badge--pink'">{{ genderLabel(p.gender) }}</span>
             </td>
             <td>{{ formatDate(p.dateOfBirth) }}</td>
-            <td>{{ p.phone || '—' }}</td>
+            <td>{{ displayPhone(p) }}</td>
             <td class="td-address">{{ p.address || '—' }}</td>
             <td>
               <span v-if="p.huThuc" class="badge" :class="huThucBadgeClass(p.huThuc)">{{ p.huThuc }}</span>

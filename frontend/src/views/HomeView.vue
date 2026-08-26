@@ -6,9 +6,21 @@ import { useAuthStore } from '@/stores/auth'
 import type { Patient } from '@/stores/patient'
 import LucKinhWheel from '@/components/LucKinhWheel.vue'
 import HeroMeridianFigure from '@/components/HeroMeridianFigure.vue'
+import { maskHoTen, maskSdt } from '@/lib/maskThongTin'
 
 const router = useRouter()
 const authStore = useAuthStore()
+// Lễ Tân không được xem đầy đủ họ tên/SĐT bệnh nhân — chỉ hiện dạng che một phần.
+function displayName(name: string | null | undefined) {
+  return authStore.isLeTan ? maskHoTen(name) : (name || '')
+}
+function displayPhone(phone: string | null | undefined) {
+  return authStore.isLeTan ? maskSdt(phone) : (phone || '')
+}
+// row.name có thể là tên thật hoặc placeholder "Bệnh nhân #N" (khi chưa nạp được tên) — chỉ che khi là tên thật.
+function displayApptName(name: string) {
+  return name.startsWith('Bệnh nhân #') ? name : displayName(name)
+}
 
 type SlotStatus = 'OPEN' | 'CLOSED' | 'BOOKED' | 'COMPLETED' | 'CANCELLED'
 interface AppointmentSlot {
@@ -308,7 +320,7 @@ onMounted(loadDashboard)
             <span class="appt-time">{{ row.time }}</span>
             <span class="appt-avatar">{{ initial(row.name) }}</span>
             <div class="appt-info">
-              <span class="appt-name">{{ row.name }}</span>
+              <span class="appt-name">{{ displayApptName(row.name) }}</span>
               <p v-if="row.reason" class="appt-reason">{{ row.reason }}</p>
             </div>
             <span class="badge-status" :class="'st-' + row.status">{{ statusText[row.status] }}</span>
@@ -361,8 +373,8 @@ onMounted(loadDashboard)
             <li v-for="p in recentPatients" :key="p.id" class="rp-row" @click="go('patients')">
               <span class="appt-avatar">{{ initial(p.fullName) }}</span>
               <div class="rp-info">
-                <span class="rp-name">{{ p.fullName || 'Chưa Đặt Tên' }}</span>
-                <span class="rp-meta">{{ p.phone || p.province || 'Hồ sơ bệnh nhân' }}</span>
+                <span class="rp-name">{{ p.fullName ? displayName(p.fullName) : 'Chưa Đặt Tên' }}</span>
+                <span class="rp-meta">{{ p.phone ? displayPhone(p.phone) : (p.province || 'Hồ sơ bệnh nhân') }}</span>
               </div>
             </li>
           </ul>

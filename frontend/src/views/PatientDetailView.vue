@@ -5,6 +5,7 @@ import { usePatientStore, type Patient } from '@/stores/patient'
 import { useAuthStore } from '@/stores/auth'
 import { api } from '@/services/api'
 import { mocKham, mocKhamMs } from '@/lib/caKham'
+import { maskHoTen, maskSdt } from '@/lib/maskThongTin'
 
 const router = useRouter()
 const route = useRoute()
@@ -12,6 +13,18 @@ const patientStore = usePatientStore()
 const authStore = useAuthStore()
 
 const patient = ref<Patient | null>(null)
+// Lễ Tân không được xem đầy đủ họ tên/SĐT bệnh nhân — chỉ hiện dạng che một phần.
+// Không áp dụng cho form Sửa Thông Tin (editForm) vì đó cần giá trị thật để lễ tân sửa đúng dữ liệu.
+const displayName = computed(() => {
+  const v = patient.value?.fullName
+  if (!v) return null
+  return authStore.isLeTan ? maskHoTen(v) : v
+})
+const displayPhone = computed(() => {
+  const v = patient.value?.phone
+  if (!v) return null
+  return authStore.isLeTan ? maskSdt(v) : v
+})
 const examinations = ref<any[]>([])
 const isLoading = ref(true)
 const isLoadingExams = ref(true)
@@ -471,7 +484,7 @@ function goToLuoiDiagnosis() {
           {{ (patient.fullName || '?').charAt(0).toUpperCase() }}
         </div>
         <div class="patient-header-info">
-          <h2 class="patient-name">{{ patient.fullName || 'Chưa có tên' }}</h2>
+          <h2 class="patient-name">{{ displayName || 'Chưa có tên' }}</h2>
           <div class="patient-meta">
             <span class="meta-item">
               <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
@@ -483,7 +496,7 @@ function goToLuoiDiagnosis() {
             </span>
             <span v-if="patient.phone" class="meta-item">
               <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/></svg>
-              {{ patient.phone }}
+              {{ displayPhone }}
             </span>
           </div>
         </div>
@@ -570,7 +583,7 @@ function goToLuoiDiagnosis() {
           <div class="info-card">
             <h4 class="info-card-title">Thông tin cá nhân</h4>
             <div class="info-rows">
-              <div class="info-row"><span class="info-label">Họ và tên</span><span class="info-value">{{ patient.fullName || '—' }}</span></div>
+              <div class="info-row"><span class="info-label">Họ và tên</span><span class="info-value">{{ displayName || '—' }}</span></div>
               <div class="info-row"><span class="info-label">Giới tính</span><span class="info-value">{{ patient.gender || '—' }}</span></div>
               <div class="info-row"><span class="info-label">Ngày sinh</span><span class="info-value">{{ formatDate(patient.dateOfBirth) }}</span></div>
               <div class="info-row"><span class="info-label">Giờ sinh</span><span class="info-value">{{ patient.timeOfBirth || '—' }}</span></div>
@@ -580,7 +593,7 @@ function goToLuoiDiagnosis() {
           <div class="info-card">
             <h4 class="info-card-title">Liên hệ</h4>
             <div class="info-rows">
-              <div class="info-row"><span class="info-label">Số điện thoại</span><span class="info-value">{{ patient.phone || '—' }}</span></div>
+              <div class="info-row"><span class="info-label">Số điện thoại</span><span class="info-value">{{ displayPhone || '—' }}</span></div>
               <div class="info-row"><span class="info-label">Tỉnh/TP</span><span class="info-value">{{ patient.province || '—' }}</span></div>
               <div class="info-row"><span class="info-label">Địa chỉ</span><span class="info-value">{{ patient.address || '—' }}</span></div>
             </div>
