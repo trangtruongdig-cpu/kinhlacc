@@ -67,7 +67,8 @@ const ENGINE_SCRIPTS: string[] = [
 // app/page.tsx (github.com/ashemag/human-atlas): Hệ Cơ Quan góc trên-trái, tìm kiếm góc trên-phải,
 // nút góc nhìn cạnh phải, Bóc Tách dưới-giữa, sheet chi tiết trượt vào từ phải CHỈ khi có lựa chọn.
 // Panel "Hệ Cơ Quan" + panel "Chấm Tay" dựng bằng JS (nội dung phụ thuộc dữ liệu LAYERS) và tự
-// chèn vào #mapStage — xem ensureSystemsPanel()/ensureEditPanel() trong map3d.js.
+// chèn vào #mapStage — xem ensureSystemsPanel()/ensureEditPanel() trong map3d.js. Danh sách 14 đường
+// kinh là TAB CON "Kinh Lạc" của panel đó (không còn thẻ chú giải #mapLegend nổi riêng).
 const HOST_HTML = `
   <div class="map-body">
     <div class="map-stage" id="mapStage">
@@ -124,9 +125,6 @@ const HOST_HTML = `
           <button type="button" class="dr-secondary" id="drClear">Bỏ Chọn</button>
         </div>
       </aside>
-      <!-- chú giải 12 kinh + Nhâm/Đốc: node ẩn (map.css .map-legend { display:none }), map3d.js
-           chuyển hẳn vào #drawerBody bằng replaceWith() khi bấm dòng "Kinh Lạc" (showMeridianLegend()) -->
-      <div class="map-legend" id="mapLegend"></div>
     </div>
   </div>
 `

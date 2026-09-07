@@ -52,6 +52,30 @@ function isMobileViewport() {
   return typeof window !== 'undefined' && window.innerWidth <= MOBILE_BP
 }
 
+/* Trang "Kinh Mạch 3D" là một SÂN KHẤU xem mô hình (kiểu Human Atlas), không phải trang biểu mẫu:
+ * vào trang thì tự thu sidebar về rail hẹp cho canvas rộng thêm ~190px, rời trang thì trả lại như cũ.
+ * Nếu người dùng tự mở sidebar ra trong lúc ở trang đó thì TÔN TRỌNG lựa chọn của họ, không ép đóng
+ * lại và cũng không "khôi phục" gì khi rời trang. */
+const WIDE_PAGES = new Set(['kinh-mach-3d'])
+let collapsedTruocTrangRong: boolean | null = null
+watch(
+  () => route.name,
+  (ten) => {
+    const rong = typeof ten === 'string' && WIDE_PAGES.has(ten)
+    if (rong) {
+      if (collapsedTruocTrangRong === null && !isMobileViewport()) {
+        collapsedTruocTrangRong = isSidebarCollapsed.value
+        isSidebarCollapsed.value = true
+      }
+    } else if (collapsedTruocTrangRong !== null) {
+      // chỉ trả lại nếu sidebar vẫn đang thu (người dùng không tự mở ra)
+      if (isSidebarCollapsed.value) isSidebarCollapsed.value = collapsedTruocTrangRong
+      collapsedTruocTrangRong = null
+    }
+  },
+  { immediate: true },
+)
+
 // Khoá cuộn nền khi mở drawer trên mobile
 watch(isMobileOpen, (open) => {
   if (typeof document !== 'undefined') {

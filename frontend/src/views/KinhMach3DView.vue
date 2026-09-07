@@ -440,10 +440,19 @@ onBeforeUnmount(() => {
 </template>
 
 <style scoped>
+/* TRÀN VIỀN (full-bleed): trang 3D là "sân khấu", không phải một thẻ nội dung. Margin âm nuốt đúng
+ * phần padding của .content-area (xem DashboardLayout) nên canvas chạm sát mép vùng làm việc, và
+ * chiều cao lấy TRỌN phần còn lại dưới thanh header — đúng tỉ lệ khung của Human Atlas, thay vì một
+ * khung nhỏ lọt giữa nhiều khoảng trắng. Mỗi breakpoint của .content-area có 1 margin âm tương ứng
+ * ở cuối file — sửa padding bên đó thì phải sửa kèm bên này. */
 .km3d-page {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: 0;
+  margin: calc(-1 * var(--space-8));
+  height: calc(100vh - var(--header-height));
+  height: calc(100dvh - var(--header-height));
+  overflow: hidden;
   animation: fadeIn 0.4s ease;
 }
 @keyframes fadeIn {
@@ -462,16 +471,15 @@ onBeforeUnmount(() => {
 }
 .km3d-error p { margin: 0 0 var(--space-1); }
 
-/* Khung chứa đồ hình — engine 3D (.acu3d) gắn vào đây. Đặt chiều cao CỐ ĐỊNH (calc) để
- * .acu3d{height:100%} luôn resolve chắc chắn (tránh bẫy percentage-height của flexbox).
- * 140px ≈ header 64 + padding trên/dưới của content-area. */
+/* Khung chứa đồ hình — engine 3D (.acu3d) gắn vào đây. Lấp TRỌN phần còn lại của .km3d-page (đã cao
+ * đúng 100dvh - header), nên không còn phải tự tính calc theo chiều cao thanh nào nữa. */
 .km3d-mount {
-  flex: none;
-  height: calc(100vh - 140px);
-  height: calc(100dvh - 140px); /* dvh: canvas 3D không bị thanh URL mobile che/đẩy */
-  min-height: 440px;
+  flex: 1 1 auto;
+  min-height: 0;
   position: relative;
 }
+/* Tràn viền thì viền + bo góc của viewer thành thừa (và làm hụt vài px canvas) — bỏ hẳn. */
+.km3d-page :deep(.acu3d) { border: 0; border-radius: 0; }
 
 .km3d-loading {
   position: absolute;
@@ -496,25 +504,29 @@ onBeforeUnmount(() => {
 }
 @keyframes km3d-spin { to { transform: rotate(360deg); } }
 
-/* Nút "Phóng To" — nổi ở góc dưới-phải khung 3D, chỉ hiện trên mobile (≤860px). */
+/* Nút "Phóng To" — nổi ở góc dưới-phải khung 3D. Hiện trên MỌI kích thước: bấm 1 cái là canvas phủ
+ * kín màn hình (ẩn cả sidebar lẫn header của app) đúng kiểu trang Human Atlas. */
 .km3d-expand {
-  display: none;
+  display: inline-flex;
   position: absolute;
   right: 12px;
   bottom: 12px;
   z-index: 6;
   align-items: center;
   gap: var(--space-2);
-  padding: 9px 14px;
-  background: var(--brown-700);
-  color: #fff;
-  border: 0;
-  border-radius: 999px;
-  font-size: var(--font-size-sm);
-  font-weight: 700;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+  padding: 7px 12px;
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  color: var(--brown-800, #4a3520);
+  border: 1px solid rgba(31, 36, 33, 0.08);
+  border-radius: 12px;
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  box-shadow: 0 8px 26px rgba(20, 30, 25, 0.14);
   cursor: pointer;
 }
+.km3d-expand:hover { background: #fff; }
 .km3d-expand svg { flex: none; }
 /* Khi đang ẩn mô hình (mở rộng danh sách) thì không có gì để phóng to → ẩn nút. */
 .km3d-mount.hide-model .km3d-expand { display: none !important; }
@@ -533,11 +545,12 @@ onBeforeUnmount(() => {
   background: var(--surface);
 }
 .km3d-mount.is-expanded :deep(.acu3d) { border: 0; border-radius: 0; }
-.km3d-mount.is-expanded :deep(.map-drawer) { display: none; }
 /* Giữ nút ở góc dưới-phải (tránh đè thanh công cụ/ô tìm kiếm ở trên); luôn hiện để có lối thoát. */
 .km3d-mount.is-expanded .km3d-expand {
   display: inline-flex !important;
 }
+/* Nút back (khi mở từ Kết Quả Khám) là dòng riêng phía trên canvas — chừa lề cho nó vì trang đã tràn viền. */
+.km3d-back { margin: var(--space-3) 0 var(--space-2) var(--space-3); }
 
 /* Nút quay lại kết quả khám — chỉ hiện khi đến từ MeridianResultsView (?from=...). */
 .km3d-back {
@@ -578,21 +591,15 @@ onBeforeUnmount(() => {
 
 @media (max-width: 860px) {
   .km3d-toggle { display: flex; }
-  .km3d-expand { display: inline-flex; }
+  /* Mobile: toàn màn hình thì giấu luôn sheet chi tiết cho mô hình chiếm trọn (desktop giữ sheet). */
+  .km3d-mount.is-expanded :deep(.map-drawer) { display: none; }
   /* Khi ẩn mô hình: giấu sân khấu 3D, cho ngăn chọn (kinh + huyệt) chiếm trọn chiều cao. */
   .km3d-mount.hide-model :deep(.map-stage) { display: none; }
   .km3d-mount.hide-model :deep(.map-drawer) { max-height: none; flex: 1 1 auto; }
 }
-@media (max-width: 768px) {
-  /* Trừ thêm chiều cao của nút gạt phía trên (≈54px) để khung không tràn quá viewport. */
-  .km3d-mount { height: calc(100vh - 162px); height: calc(100dvh - 162px); }
-}
-@media (max-width: 480px) {
-  /* Điện thoại nhỏ: hạ chiều cao tối thiểu để đồ hình không lấn quá nhiều. */
-  .km3d-mount { min-height: 360px; }
-}
-@media (max-height: 480px) {
-  /* Điện thoại xoay NGANG (màn thấp): không ép khung cao hơn viewport. */
-  .km3d-mount { height: calc(100vh - 144px); height: calc(100dvh - 144px); min-height: 240px; }
-}
+/* Margin âm phải khớp ĐÚNG padding .content-area ở từng breakpoint (32 → 24 → 20 → 16 → 12px). */
+@media (max-width: 1280px) { .km3d-page { margin: calc(-1 * var(--space-6)); } }
+@media (max-width: 1024px) { .km3d-page { margin: calc(-1 * var(--space-5)); } }
+@media (max-width: 768px)  { .km3d-page { margin: calc(-1 * var(--space-4)); } }
+@media (max-width: 480px)  { .km3d-page { margin: calc(-1 * var(--space-3)); } }
 </style>

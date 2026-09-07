@@ -61,56 +61,63 @@
    panel dài tới 15+ dòng có thể lấn xuống chỗ chú giải kinh mạch — nay chú giải kinh mạch không
    còn là thẻ nổi riêng nữa, đã gộp vào sheet chi tiết bên phải, xem #mapDrawer). */
 .acu3d .map-systems-panel {
-  position: absolute; left: 14px; top: 14px; z-index: 15; width: 272px; max-height: min(70%, 560px);
-  display: flex; flex-direction: column; padding: 16px 16px 12px;
+  position: absolute; left: 14px; top: 14px; z-index: 15; width: 236px; max-height: min(46%, 400px);
+  display: flex; flex-direction: column; padding: 12px 13px 9px;
 }
-.acu3d .sys-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; flex: none; }
-.acu3d .sys-head h3 { font-size: 15px; font-weight: 700; color: var(--text); margin: 0; }
-.acu3d .sys-count-badge { font-size: 11.5px; font-weight: 700; color: var(--muted); background: rgba(0,0,0,.055); padding: 2px 9px; border-radius: 999px; }
-.acu3d .sys-tabs { display: flex; gap: 4px; background: rgba(0,0,0,.045); border-radius: 10px; padding: 3px; margin-bottom: 10px; flex: none; }
-.acu3d .sys-tab { flex: 1; border: none; background: transparent; padding: 6px 4px; font-size: 12px; font-weight: 600; color: var(--muted); border-radius: 8px; cursor: pointer; }
+.acu3d .sys-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex: none; }
+.acu3d .sys-head h3 { font-size: 13.5px; font-weight: 700; color: var(--text); margin: 0; margin-right: auto; }
+.acu3d .sys-count-badge { font-size: 11px; font-weight: 700; color: var(--muted); background: rgba(0,0,0,.055); padding: 1px 8px; border-radius: 999px; }
+/* Nút GẬP panel về đúng thanh tiêu đề — khi muốn ngắm mô hình không vướng gì (nút 🫀 ở cột phải thì
+   ẩn hẳn panel, còn nút này giữ lại thanh đầu để mở ra ngay). */
+.acu3d .sys-fold {
+  flex: none; width: 22px; height: 22px; display: grid; place-items: center; border: none; cursor: pointer;
+  background: rgba(0,0,0,.05); border-radius: 7px; color: var(--muted); font-size: 11px; line-height: 1;
+  transition: background .15s, color .15s, transform .18s;
+}
+.acu3d .sys-fold:hover { background: rgba(0,0,0,.09); color: var(--text); }
+.acu3d .map-systems-panel.folded { max-height: none; }
+.acu3d .map-systems-panel.folded .sys-tabs,
+.acu3d .map-systems-panel.folded .sys-list,
+.acu3d .map-systems-panel.folded .sys-foot { display: none; }
+.acu3d .map-systems-panel.folded .sys-head { margin-bottom: 0; }
+.acu3d .map-systems-panel.folded .sys-fold { transform: rotate(180deg); }
+.acu3d .sys-tabs { display: flex; gap: 2px; background: rgba(0,0,0,.045); border-radius: 9px; padding: 2px; margin-bottom: 8px; flex: none; }
+/* 4 tab (Tất Cả · Kinh Lạc · Khung Xương · Nội Tạng) trên panel 272px → chữ 11.5px, đệm ngang hẹp;
+   line-height gọn để tab nào phải xuống 2 dòng vẫn không đội cao cả hàng lên quá nhiều. */
+.acu3d .sys-tab { flex: 1; border: none; background: transparent; padding: 5px 2px; font-size: 11px; line-height: 1.2; font-weight: 600; color: var(--muted); border-radius: 7px; cursor: pointer; }
 .acu3d .sys-tab.on { background: #fff; color: var(--text); box-shadow: 0 1px 3px rgba(0,0,0,.1); }
 .acu3d .sys-list { overflow-y: auto; min-height: 0; flex: 1 1 auto; margin: 0 -4px; }
-.acu3d .sys-row { display: flex; align-items: center; gap: 10px; padding: 7px 4px; border-radius: 10px; }
+.acu3d .sys-row { display: flex; align-items: center; gap: 8px; padding: 4.5px 4px; border-radius: 9px; }
 .acu3d .sys-row:hover { background: rgba(0,0,0,.035); }
 .acu3d .sys-name { flex: 1; min-width: 0; display: flex; align-items: center; gap: 9px; border: none; background: transparent; cursor: pointer; padding: 2px 0; text-align: left; }
 .acu3d .sys-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--c); flex: none; }
 /* Bật/tắt phân biệt bằng MÀU CHỮ TÊN chứ không làm mờ cả dòng — đúng bản demo. Trước đây 16 dòng
    trông y hệt nhau dù bật hay tắt, phải soi từng công tắc gạt mới biết hệ nào đang hiện. */
-.acu3d .sys-label { font-size: 12.5px; font-weight: 400; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.acu3d .sys-label { font-size: 12px; font-weight: 400; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .acu3d .sys-row.enabled .sys-label { color: var(--text); font-weight: 600; }
-.acu3d .sys-count { font-size: 11.5px; color: var(--muted); margin-left: auto; padding-left: 8px; flex: none; }
+.acu3d .sys-count { font-size: 11px; color: var(--muted); margin-left: auto; padding-left: 6px; flex: none; }
 /* công tắc gạt (toggle switch) thật — track + núm trượt */
-.acu3d .sys-switch { position: relative; flex: none; width: 34px; height: 20px; cursor: pointer; }
+.acu3d .sys-switch { position: relative; flex: none; width: 30px; height: 18px; cursor: pointer; }
 .acu3d .sys-switch input { position: absolute; opacity: 0; width: 100%; height: 100%; margin: 0; cursor: pointer; }
 .acu3d .sys-slider { position: absolute; inset: 0; background: rgba(0,0,0,.16); border-radius: 999px; transition: background .15s; }
-.acu3d .sys-slider::before { content: ''; position: absolute; left: 2px; top: 2px; width: 16px; height: 16px; background: #fff; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .15s; }
+.acu3d .sys-slider::before { content: ''; position: absolute; left: 2px; top: 2px; width: 14px; height: 14px; background: #fff; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,.25); transition: transform .15s; }
 .acu3d .sys-switch input:checked + .sys-slider { background: var(--green); }
-.acu3d .sys-switch input:checked + .sys-slider::before { transform: translateX(14px); }
-.acu3d .sys-foot { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--glass-border); font-size: 11.5px; color: var(--muted); flex: none; }
-.acu3d .sys-foot button { border: none; background: transparent; color: var(--green); font-weight: 700; font-size: 11.5px; cursor: pointer; padding: 0; }
+.acu3d .sys-switch input:checked + .sys-slider::before { transform: translateX(12px); }
+.acu3d .sys-foot { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--glass-border); font-size: 11px; color: var(--muted); flex: none; }
+.acu3d .sys-foot button { border: none; background: transparent; color: var(--green); font-weight: 700; font-size: 11px; white-space: nowrap; cursor: pointer; padding: 0; }
 .acu3d .sys-foot button:hover { text-decoration: underline; }
-/* Da + Kinh Lạc GHIM đầu danh sách (mục đích chính của trang) — tách khỏi các hệ lọc theo tab bằng
-   1 gạch mảnh, không có style riêng khác — vẫn là 1 dòng .sys-row bình thường như mọi hệ khác. */
+/* Cơ · Xương · Kinh Lạc · Da GHIM đầu danh sách (4 lớp bật sẵn, mục đích chính của trang) — tách
+   khỏi các hệ còn lại bằng 1 gạch mảnh, không có style riêng khác — vẫn là .sys-row như mọi dòng. */
 .acu3d .sys-sep { height: 1px; background: var(--glass-border); margin: 4px 2px 6px; flex: none; }
 
-/* chú giải 12 kinh + Nhâm Đốc — KHÔNG còn là thẻ nổi riêng (từng đè lên panel Systems); giờ hiện
-   BÊN TRONG sheet chi tiết bên phải khi bấm vào tên dòng "Kinh Lạc" trong panel Systems. Ẩn mặc định
-   vì node #mapLegend nằm ngoài #mapDrawer lúc chưa bấm (chỉ được appendChild vào #drawerBody khi
-   showMeridianLegend() gọi) — nếu không ẩn sẽ lộ ra (không định vị absolute) đằng sau canvas 3D. */
-.acu3d .map-legend { display: none; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-.acu3d .drawer-body .map-legend { display: flex; }
-.acu3d .leg-chip {
-  display: inline-flex; align-items: center; gap: 6px; cursor: pointer;
-  border: 1px solid var(--border); background: var(--card); color: var(--text);
-  padding: 5px 10px; border-radius: 20px; font-size: 12.5px; font-weight: 600;
-}
-.acu3d .leg-chip .sw { width: 11px; height: 11px; border-radius: 50%; background: var(--c); }
-.acu3d .leg-chip small { color: var(--muted); font-weight: 600; }
-.acu3d .leg-chip.off { opacity: .4; text-decoration: line-through; }
-.acu3d .leg-chip.sel { background: var(--c); color: #fff; border-color: var(--c); box-shadow: 0 1px 6px rgba(0,0,0,.18); }
-.acu3d .leg-chip.sel .sw { background: #fff; box-shadow: 0 0 0 2px rgba(255,255,255,.5); }
-.acu3d .leg-chip.sel small { color: rgba(255,255,255,.85); }
+/* ---- tab con "Kinh Lạc": 14 dòng đường kinh, dùng lại nguyên kiểu .sys-row ---- */
+.acu3d .sys-mer-code { font-weight: 700; font-size: 11.5px; letter-spacing: .01em; }
+/* dòng đang XEM RIÊNG 1 kinh — nổi bật bằng nền nhạt + vạch dọc, để khỏi phải soi 13 công tắc kia */
+.acu3d .sys-row--solo { background: rgba(46,107,79,.10); box-shadow: inset 2px 0 0 var(--green); }
+.acu3d .sys-row--solo .sys-label { color: var(--text); font-weight: 700; }
+
+/* (Chú giải 12 kinh + Nhâm/Đốc dạng chip nổi .leg-chip đã BỎ HẲN — danh sách đường kinh giờ là tab
+   con "Kinh Lạc" của panel Hệ Cơ Quan, xem renderMeridianRows() trong map3d.js.) */
 
 /* ---- góc trên phải: tìm kiếm (huyệt + bộ phận), xếp chồng gọn ---- */
 .acu3d .map-search-stack { position: absolute; right: 14px; top: 14px; z-index: 15; display: flex; flex-direction: column; gap: 8px; align-items: flex-end; }
@@ -135,7 +142,7 @@
 .acu3d .mpr-empty { padding: 10px 12px; font-size: 12.5px; color: var(--muted); }
 
 /* ---- cạnh phải: cột nút góc nhìn/công cụ (thay .map-toolbar cũ) ---- */
-.acu3d .map-tools-float { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); z-index: 15; display: flex; flex-direction: column; gap: 6px; padding: 8px; }
+.acu3d .map-tools-float { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); z-index: 15; display: flex; flex-direction: column; gap: 4px; padding: 6px; }
 .acu3d .mv-btn {
   border: none; background: transparent; color: var(--muted); width: 40px; height: 40px;
   font-size: 15px; font-weight: 600; cursor: pointer; border-radius: 10px; display: flex; align-items: center; justify-content: center;
@@ -154,7 +161,7 @@
 /* Dòng chú thích nổi trên thanh Bóc Tách, đổi chữ theo % bóc tách — ĐÚNG .scene-caption của bản
    demo (app/globals.css: bottom 162px so với bottom-dock 54px, có 2 gạch ngang 2 bên). */
 .acu3d .map-caption {
-  position: absolute; left: 50%; bottom: 104px; transform: translateX(-50%); z-index: 15;
+  position: absolute; left: 50%; bottom: 108px; transform: translateX(-50%); z-index: 15;
   display: flex; gap: 12px; align-items: center; color: var(--muted); letter-spacing: .15em;
   font-size: 10.5px; font-weight: 700; text-transform: uppercase; white-space: nowrap; pointer-events: none;
 }
@@ -162,25 +169,25 @@
 
 /* ---- dưới giữa: Bóc Tách (Explode) ---- */
 .acu3d .map-explode-dock {
-  position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 15;
-  width: min(520px, calc(100% - 260px)); padding: 14px 20px;
+  position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); z-index: 15;
+  width: min(430px, calc(100% - 300px)); padding: 9px 16px;
 }
 /* dock giờ có 2 cột: thanh trượt (co giãn) + nút Đặt Lại ngăn bằng vạch dọc — đúng .dock-reset demo */
-.acu3d .map-explode-dock { display: flex; align-items: center; gap: 20px; }
+.acu3d .map-explode-dock { display: flex; align-items: center; gap: 14px; }
 .acu3d .msp-explode-main { flex: 1; min-width: 0; }
 .acu3d .dock-reset {
-  flex: none; display: flex; flex-direction: column; align-items: center; gap: 5px;
+  flex: none; display: flex; flex-direction: column; align-items: center; gap: 3px;
   border: none; background: none; cursor: pointer; color: var(--muted);
-  font-size: 10.5px; font-weight: 500; padding: 8px 0 8px 20px;
+  font-size: 10px; font-weight: 500; padding: 5px 0 5px 14px;
   border-left: 1px solid var(--glass-border); border-radius: 0;
   transition: color .18s;
 }
 .acu3d .dock-reset:hover { color: var(--text); }
-.acu3d .dock-reset-i { font-size: 17px; line-height: 1; }
+.acu3d .dock-reset-i { font-size: 15px; line-height: 1; }
 
-.acu3d .msp-explode label { display: flex; justify-content: space-between; font-size: 12.5px; font-weight: 700; color: var(--accent); margin-bottom: 6px; }
+.acu3d .msp-explode label { display: flex; justify-content: space-between; font-size: 11.5px; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
 .acu3d .msp-explode input[type=range] { width: 100%; accent-color: var(--accent); cursor: pointer; height: 4px; }
-.acu3d .msp-explode-ends { display: flex; justify-content: space-between; font-size: 10.5px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .04em; }
+.acu3d .msp-explode-ends { display: flex; justify-content: space-between; font-size: 9.5px; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: .04em; }
 
 /* Ghi công model (BodyParts3D — BẮT BUỘC giữ): góc dưới trái, thu thành nút ⓘ nhỏ. */
 .acu3d .map-credit { position: absolute; left: 10px; bottom: 8px; z-index: 16; display: inline-flex; align-items: center; cursor: help; outline: none; }

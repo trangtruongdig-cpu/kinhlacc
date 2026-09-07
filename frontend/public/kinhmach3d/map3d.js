@@ -11,7 +11,7 @@
   const PATHS = window.MERIDIAN_PATHS || null;
   if (!COORDS || !INDEX || !ACU || typeof THREE === 'undefined') return;
   const $ = id => document.getElementById(id);
-  const stage = $('mapStage'), drawer = $('drawerBody'), legend = $('mapLegend'),
+  const stage = $('mapStage'), drawer = $('drawerBody'),
         search = $('mapSearch'), countEl = $('mapCount'), drawerSheet = $('mapDrawer'),
         captionText = $('mapCaptionText');
   if (!stage) return;
@@ -39,6 +39,8 @@
   const merOf = code => code.replace(/\d+$/, '');
   const numOf = code => +code.replace(/\D/g, '');
   const presentMer = [...new Set(Object.keys(placed).map(merOf))];
+  // Thứ tự CHUẨN: 12 kinh chính theo vòng tuần hoàn (Phế đầu) → Mạch Nhâm → Mạch Đốc cuối.
+  const MER_ORDER = ['LU', 'LI', 'ST', 'SP', 'HT', 'SI', 'BL', 'KI', 'PC', 'TE', 'GB', 'LR', 'CV', 'GV'];
 
   // ---- CHẤM TAY: điểm CHỐT do người dùng tự đặt (ưu tiên tuyệt đối, chuẩn-vàng) ----
   const userPlaced = {};                        // code -> { x, y, z }  (chuẩn-hoá theo bodyHeight)
@@ -233,13 +235,15 @@
   // MẶC ĐỊNH giống hệt DEFAULT_VISIBLE của anatomy.ts (bản demo): TẤT CẢ hệ giải phẫu BẬT SẴN,
   // CHỈ riêng Da tắt sẵn (để mặc định nhìn thấy ngay bên trong, giống atlas) — huyệt/đường kinh
   // (không nằm trong LAYERS, xử lý riêng ở acuLayerOn) BẬT SẴN vì là mục đích chính của trang này.
-  /* MẶC ĐỊNH: chỉ bật DA + Kinh Lạc. Trang này tên là "Kinh Mạch 3D" nên thứ người dùng mở lên để
-   * xem phải hiện ra ngay. Bật cả 16 hệ như trước thì đường kinh chìm nghỉm giữa 639 động mạch,
-   * 404 tĩnh mạch và 139 thần kinh — tất cả cùng vẽ dạng đường màu, cùng vùng không gian, mà đường
-   * kinh lại mảnh hơn. Người dùng báo "không thấy đường kinh" chính vì vậy.
-   * Da bật để đường kinh (vốn nằm TRÊN da) có mặt tựa vào, nhìn ra hình người. Các hệ giải phẫu vẫn
-   * bật lại được từ panel Hệ Cơ Quan, một cú bấm mỗi hệ. */
-  const MAC_DINH_BAT = new Set(['skin']);
+  /* MẶC ĐỊNH bật ĐÚNG 4 lớp, theo thứ tự người dùng chốt: CƠ · XƯƠNG · KINH LẠC · DA (cũng chính
+   * là thứ tự 4 dòng ghim đầu panel, xem PIN_ORDER). Không bật cả 16 hệ như bản demo: đường kinh sẽ
+   * chìm nghỉm giữa 639 động mạch, 404 tĩnh mạch và 139 thần kinh — tất cả cùng vẽ dạng đường màu,
+   * cùng vùng không gian, mà đường kinh lại mảnh hơn ("không thấy đường kinh").
+   * DA TẮT SẴN (đúng DEFAULT_VISIBLE của bản demo): lớp da trong mờ phủ lên tất cả làm cả mô hình
+   * "mờ sương", cơ mất tương phản — người dùng so với Human Atlas và chê đúng chỗ đó. Không có da,
+   * đường kinh (nằm ở CAO ĐỘ mặt da, tức ngoài cơ) vẫn ôm sát thân, lại nổi hẳn lên trên nền cơ đỏ.
+   * Bật da lại là 1 cú bấm, và khi bật nó đục hơn hẳn để ra dáng LỚP DA thật (xem material bên dưới). */
+  const MAC_DINH_BAT = new Set(['muscle', 'bone']);
   const layerState = Object.fromEntries(LAYERS.map(L => [L.id, MAC_DINH_BAT.has(L.id) ? 1 : 0]));
   let acuLayerOn = true;                                // huyệt + đường kinh (Kinh Lạc) coi như 1 "lớp" riêng, ngoài LAYERS
   let skinTargets = [];                                 // mesh để bắn tia đặt huyệt (chỉ lớp da)
@@ -377,7 +381,10 @@
     const d = VIEW_DIRS[v] || VIEW_DIRS['three-quarter'];
     return new THREE.Vector3(d[0], d[1], d[2]).normalize();
   }
-  function camDistFor(sph) { return (sph.radius / Math.sin(camera.fov * Math.PI / 360)) * 1.15; }
+  // Hệ số lề: 1.15 chừa lề rộng quanh mô hình → trên khung nhúng (thấp hơn trang full-screen của
+  // bản demo) người xem thấy thân người nhỏ thỏm giữa nhiều khoảng trống. 1.04 cho mô hình ăn gần
+  // trọn chiều cao khung, đúng tỉ lệ Human Atlas, vẫn chừa đủ để không cụt đầu/chân khi xoay.
+  function camDistFor(sph) { return (sph.radius / Math.sin(camera.fov * Math.PI / 360)) * 1.09; }
   function fitBall() {
     if (!fitSphere && modelRoot) fitSphere = new THREE.Box3().setFromObject(modelRoot).getBoundingSphere(new THREE.Sphere());
     return fitSphere || new THREE.Sphere(new THREE.Vector3(0, bodyHeight * 0.5, 0), bodyHeight * 0.6);
@@ -498,14 +505,27 @@
         if (o.isMesh) {
           const id = layerOf(o), L = LBY[id];
           if (id === 'skin') {
-            // Da: MeshPhysicalMaterial + chút "clearcoat" mô phỏng độ bóng ẩm tự nhiên của da thật.
-            // Người dùng yêu cầu rõ "tăng opacity lên và sao cho thật giống da người" → CHỦ Ý lệch
-            // khỏi opacity 0.1 của materialFor() bản demo gốc (chỉ 3 tham số thị giác này); vẫn giữ
-            // NGUYÊN cơ chế trong mờ + depthWrite:false để còn nhìn xuyên vào Cơ/Xương/nội tạng bên
-            // trong khi cả 2 cùng bật, đúng yêu cầu "da và kinh lạc là 1 lớp bóc tách".
+            // ─── DA NGƯỜI ───
+            // ĐỤC HẲN (opacity 1, transparent:false). Bản 0.82 vẫn để lọt khối cơ/xương bên dưới, mà
+            // độ dày da mỗi chỗ mỗi khác nên mặt da loang lổ từng mảng sáng-tối — đúng chỗ người dùng
+            // chê "rất thô". Da thật KHÔNG trong: muốn nhìn vào trong thì TẮT lớp Da (đúng cách bản
+            // demo làm), chứ không phải làm da mờ đi.
+            // MỊN TRƠN, không vân: đã thử thêm vi chi tiết (vân + lỗ chân lông sinh bằng nhiễu 3D,
+            // vì mesh da không có UV nên không dán được texture) — kết quả bị chê ngay "ghê quá, như
+            // da bị bệnh": ở cỡ nhìn toàn thân, chi tiết cỡ dưới 1 pixel chỉ thành hạt lấm tấm. Bề
+            // mặt trơn một màu là thứ ĐÚNG cho cỡ nhìn này (giống hình người ở trang Kết Quả Đo).
+            // polygonOffset ÂM: đẩy mặt da về phía trước trong depth-buffer để luôn thắng z-fight với
+            // cơ nằm sát ngay dưới (các hệ khác dùng offset dương +1, xem nhánh else).
+            // roughness cao (da tán xạ, không bóng gương) + clearcoat mỏng & nhám (màng ẩm tự nhiên);
+            // emissive nâu-đỏ rất tối làm vùng tối ngả ấm thay vì xám chì — mẹo giả tán xạ dưới da,
+            // vì three r128 không có subsurface scattering.
             o.material = new THREE.MeshPhysicalMaterial({
-              color: srgb(L.color), roughness: 0.42, metalness: 0.0, clearcoat: 0.18, clearcoatRoughness: 0.35,
-              side: THREE.DoubleSide, transparent: true, opacity: 0.42, depthWrite: false,
+              color: srgb(0xe3b191), roughness: 0.68, metalness: 0.0,
+              clearcoat: 0.14, clearcoatRoughness: 0.62,
+              emissive: new THREE.Color(0x24100b), emissiveIntensity: 0.55,
+              envMapIntensity: 0.72,
+              side: THREE.DoubleSide, transparent: false, opacity: 1, depthWrite: true,
+              polygonOffset: true, polygonOffsetFactor: -1, polygonOffsetUnits: -1,
             });
           } else {
             // roughness/metalness ĐÚNG hằng số materialFor() của scene.tsx (0.53/0.08) — bản demo
@@ -1228,7 +1248,7 @@
       if (m.userData.ring) m.userData.ring.visible = v; });
     for (const k in lineByMer) { const t = lineByMer[k]; t.visible = shown(t.userData.mer); }
     for (const k in flowByMer) { const f = flowByMer[k]; f.sprite.visible = flowOn && shown(f.mer); }
-    legend.querySelectorAll('.leg-chip').forEach(c => c.classList.toggle('sel', c.dataset.mer === focusMer));
+    if (sysTab === 'meridian') renderSystemsPanel();   // tab Kinh Lạc đang mở → đồng bộ 14 dòng
     wake();
   }
 
@@ -1245,7 +1265,7 @@
       clearHighlight(); updateDrawerActions(); drawerWelcome();
     }
     for (const L of LAYERS) (layerMeshes[L.id] || []).forEach(o => { o.visible = (layerState[L.id] || 0) > 0.004; });
-    if (contactShadow) contactShadow.material.opacity = (layerState.skin || 0) > 0.004 ? 0.25 : 0;
+    if (contactShadow) contactShadow.material.opacity = 0.25;   // bóng tiếp đất luôn có (mô hình khỏi 'lơ lửng')
     // Bật/tắt 1 hệ trong lúc đang bóc tách → lưới "kệ hàng" GỘP (xem ensureGlobalExplosionLayout)
     // phải xếp lại (thêm/bớt part tham gia), đúng cách bản demo tính lại layoutKey mỗi khi state
     // đổi (`lastState?.visible!==s.visible`).
@@ -1550,7 +1570,7 @@
       const extent = Math.max(0, (explodeAmount - 0.3) / 0.7);
       if (extent > 0 || _lastExplodeExtent > 0) fitExplode(extent);
       _lastExplodeExtent = extent;
-      if (contactShadow) contactShadow.material.opacity = (explodeAmount < 0.5 && (layerState.skin || 0) > 0.004) ? 0.25 : 0;
+      if (contactShadow) contactShadow.material.opacity = explodeAmount < 0.5 ? 0.25 : 0;   // bóc tách sâu thì bỏ bóng
       controls.enableRotate = explodeAmount < 0.8;
       if (THREE.MOUSE) controls.mouseButtons.LEFT = explodeAmount < 0.8 ? THREE.MOUSE.ROTATE : THREE.MOUSE.PAN;
       if (THREE.TOUCH) controls.touches.ONE = explodeAmount < 0.8 ? THREE.TOUCH.ROTATE : THREE.TOUCH.PAN;
@@ -1787,19 +1807,30 @@
   // bản demo Human Atlas luôn hiện sẵn ở cạnh trái, không phải bấm mới thấy.
   let systemsPanel = null, systemsMode = true;
   const KINH_LAC_ID = '__kinhlac__';
+  const MER_PREFIX = 'mer:';        // data-sys của 1 dòng đường kinh trong tab Kinh Lạc (vd "mer:LU")
   // 3 nút lọc ĐÚNG bản demo (app/page.tsx .layer-presets: All/Skeleton/Organs) — KHÔNG lọc danh
   // sách hiển thị (bản port trước làm vậy, SAI) mà là 3 "macro" gán thẳng layerState, giống hệt demo
   // (`visible:['skeletal']`, `visible:[...6 hệ nội tạng]`) — trạng thái "đang bật" (.on) tính LẠI mỗi
   // lần render từ layerState hiện tại (như aria-pressed của demo), không giữ biến tab riêng.
   const ORGANS_PRESET = ['cardiac', 'respiratory', 'digestive', 'urinary', 'endocrine', 'reproductive'];
+  const SKELETON_PRESET = ['muscle', 'bone'];
+  /* Tab "Kinh Lạc" KHÁC 3 tab kia: 3 tab kia là macro gán layerState rồi vẫn hiện danh sách 16 hệ,
+   * còn Kinh Lạc ĐỔI HẲN NỘI DUNG danh sách sang 14 đường kinh (12 chính + Nhâm/Đốc) — đúng góp ý
+   * "giải phẫu này thì kinh lạc là phần quan trọng nhất, đưa các đường kinh về tab con của Kinh
+   * Lạc" (trước đây danh sách đường kinh nằm trong sheet chi tiết bên phải, phải bấm mới thấy).
+   * Vì vậy phải giữ biến sysTab: 'systems' = đang xem 16 hệ · 'meridian' = đang xem 14 đường kinh. */
   const SYS_TABS = [
     { id: 'all', label: 'Tất Cả' },
+    { id: 'meridian', label: 'Kinh Lạc' },
     { id: 'skeleton', label: 'Khung Xương' },
     { id: 'organs', label: 'Nội Tạng' },
   ];
+  let sysTab = 'systems';
+  // 4 dòng GHIM đầu danh sách hệ, đúng thứ tự người dùng chốt (khớp MAC_DINH_BAT).
+  const PIN_ORDER = ['muscle', 'bone', KINH_LAC_ID, 'skin'];
   const hexOf = c => '#' + c.toString(16).padStart(6, '0');
-  function sysRowHtml(id, label, hex, count, on, pinned) {
-    return `<div class="sys-row${on ? ' enabled' : ''}${pinned ? ' sys-row--pin' : ''}" data-sys="${id}">
+  function sysRowHtml(id, label, hex, count, on, pinned, cls) {
+    return `<div class="sys-row${on ? ' enabled' : ''}${pinned ? ' sys-row--pin' : ''}${cls ? ' ' + cls : ''}" data-sys="${id}">
       <button type="button" class="sys-name" data-name="${id}">
         <span class="sys-dot" style="--c:${hex}"></span>
         <span class="sys-label">${label}</span>
@@ -1817,27 +1848,56 @@
     systemsPanel = document.createElement('div');
     systemsPanel.className = 'map-systems-panel glass';
     systemsPanel.innerHTML =
-      '<div class="sys-head"><h3>Hệ Cơ Quan</h3><span class="sys-count-badge" id="sysCountBadge"></span></div>' +
+      '<div class="sys-head"><h3>Hệ Cơ Quan</h3><span class="sys-count-badge" id="sysCountBadge"></span>' +
+      '<button type="button" class="sys-fold" id="sysFold" title="Thu gọn / mở lại panel" aria-label="Thu gọn panel">▲</button></div>' +
       '<div class="sys-tabs">' + SYS_TABS.map(t => `<button type="button" class="sys-tab${t.id === 'all' ? ' on' : ''}" data-tab="${t.id}">${t.label}</button>`).join('') + '</div>' +
       '<div class="sys-list" id="sysList"></div>' +
       '<div class="sys-foot"><span id="sysFootCount"></span><button type="button" id="sysFootBtn">Ẩn tất cả</button></div>';
     stage.appendChild(systemsPanel);
 
     systemsPanel.addEventListener('click', e => {
+      if (e.target.closest('#sysFold')) { systemsPanel.classList.toggle('folded'); return; }
       const tab = e.target.closest('.sys-tab');
       if (tab) {
         const id = tab.dataset.tab;
         clearHighlight();
+        if (id === 'meridian') {
+          // Vào tab Kinh Lạc = "cho tôi xem đường kinh": bật lớp Kinh Lạc và bỏ mọi bộ lọc riêng
+          // (ẩn từng kinh / đang xem riêng 1 kinh) để danh sách 14 kinh mở ra ở trạng thái đủ.
+          sysTab = 'meridian';
+          acuLayerOn = true; hidden.clear(); focusMer = null;
+          applyVisibility(); renderSystemsPanel();
+          return;
+        }
+        sysTab = 'systems';
         if (id === 'all') { LAYERS.forEach(L => { layerState[L.id] = 1; }); acuLayerOn = true; }
-        else if (id === 'skeleton') LAYERS.forEach(L => { layerState[L.id] = L.id === 'bone' ? 1 : 0; });
-        else if (id === 'organs') LAYERS.forEach(L => { layerState[L.id] = ORGANS_PRESET.includes(L.id) ? 1 : 0; });
+        else if (id === 'skeleton') {
+          // "Khung Xương" = khung nhìn cơ-xương-khớp: giữ CƠ cùng XƯƠNG (xương trần không đọc được
+          // vị trí huyệt vì huyệt bám theo khe cơ/gân) + Kinh Lạc, đúng yêu cầu người dùng.
+          LAYERS.forEach(L => { layerState[L.id] = SKELETON_PRESET.includes(L.id) ? 1 : 0; });
+          acuLayerOn = true;
+        } else if (id === 'organs') {
+          // "Nội Tạng" = chỉ 6 hệ tạng, TẮT Kinh Lạc để lưới đường kinh không che tạng.
+          LAYERS.forEach(L => { layerState[L.id] = ORGANS_PRESET.includes(L.id) ? 1 : 0; });
+          acuLayerOn = false;
+        }
         applyLayers(); applyVisibility();
         return;
       }
       const nameBtn = e.target.closest('.sys-name');
       if (nameBtn) {
         const id = nameBtn.dataset.name;
-        if (id === KINH_LAC_ID) { showMeridianLegend(); return; }
+        // Bấm TÊN 1 đường kinh (trong tab Kinh Lạc) → xem riêng kinh đó, bấm lại → hiện lại tất cả.
+        if (id.startsWith(MER_PREFIX)) {
+          const mer = id.slice(MER_PREFIX.length);
+          focusMer = (focusMer === mer) ? null : mer;
+          hidden.delete(mer); acuLayerOn = true;
+          clearNeedle();
+          applyVisibility(); renderSystemsPanel();
+          if (focusMer) openMeridianDrawer(focusMer); else drawerWelcome();
+          return;
+        }
+        if (id === KINH_LAC_ID) { openMeridianTab(); return; }
         // Bấm TÊN 1 hệ → "solo" hệ đó (y hệt demo: `visible:[s.id]`) — khác công tắc gạt (chỉ bật/tắt
         // riêng hệ đó, giữ nguyên các hệ khác).
         clearHighlight();
@@ -1848,8 +1908,17 @@
       }
       const footBtn = e.target.closest('#sysFootBtn');
       if (footBtn) {
-        // "Hide all" của demo LUÔN tắt hết (1 chiều, không có "hiện lại tất cả" — dùng tab Tất Cả).
         clearHighlight();
+        if (sysTab === 'meridian') {
+          // Trong tab Kinh Lạc nút này là 2 chiều (ẩn hết ↔ hiện hết 14 kinh) — khác tab hệ, vì ở
+          // đây không có tab "Tất Cả" riêng để bật lại.
+          const dangHien = acuLayerOn && presentMer.some(m => !hidden.has(m));
+          if (dangHien) { presentMer.forEach(m => hidden.add(m)); focusMer = null; }
+          else { hidden.clear(); focusMer = null; acuLayerOn = true; }
+          applyVisibility(); renderSystemsPanel();
+          return;
+        }
+        // "Hide all" của demo LUÔN tắt hết (1 chiều, không có "hiện lại tất cả" — dùng tab Tất Cả).
         LAYERS.forEach(L => { layerState[L.id] = 0; });
         acuLayerOn = false;
         applyLayers(); applyVisibility();
@@ -1858,7 +1927,15 @@
     systemsPanel.addEventListener('change', e => {
       const sw = e.target.closest('input[data-sw]'); if (!sw) return;
       const id = sw.dataset.sw;
-      if (id === KINH_LAC_ID) { acuLayerOn = sw.checked; applyVisibility(); renderSystemsPanel(); }
+      if (id.startsWith(MER_PREFIX)) {
+        // Công tắc từng đường kinh. Đang "xem riêng" 1 kinh mà gạt công tắc thì bỏ luôn chế độ xem
+        // riêng — nếu không, kinh vừa bật vẫn bị focusMer ẩn đi và người dùng tưởng công tắc hỏng.
+        const mer = id.slice(MER_PREFIX.length);
+        if (sw.checked) hidden.delete(mer); else hidden.add(mer);
+        focusMer = null; acuLayerOn = true;
+        applyVisibility(); renderSystemsPanel();
+      }
+      else if (id === KINH_LAC_ID) { acuLayerOn = sw.checked; applyVisibility(); renderSystemsPanel(); }
       else { layerState[id] = sw.checked ? 1 : 0; applyLayers(); }
     });
     const explodeInput = $('mspExplode');
@@ -1892,31 +1969,70 @@
   function renderSystemsPanel() {
     if (!systemsPanel) return;
     const list = systemsPanel.querySelector('#sysList');
-    const skinL = LBY.skin;
+    const badge = systemsPanel.querySelector('#sysCountBadge');
+    const footCount = systemsPanel.querySelector('#sysFootCount');
+    const footBtn = systemsPanel.querySelector('#sysFootBtn');
+    const on = id => (layerState[id] || 0) > 0.004;
+
+    if (sysTab === 'meridian') renderMeridianRows(list, badge, footCount, footBtn);
+    else {
+      const rows = [];
+      // 4 dòng GHIM đầu, đúng thứ tự người dùng chốt: Cơ · Xương · Kinh Lạc · Da (khớp MAC_DINH_BAT).
+      PIN_ORDER.forEach(id => {
+        if (id === KINH_LAC_ID) rows.push(sysRowHtml(KINH_LAC_ID, 'Kinh Lạc', '#b8763e', Object.keys(placed).length, acuLayerOn, true));
+        else { const L = LBY[id]; rows.push(sysRowHtml(L.id, L.label, hexOf(L.color), L.parts ? L.parts.length : '', on(L.id), true)); }
+      });
+      rows.push('<div class="sys-sep"></div>');
+      LAYERS.forEach(L => {
+        if (PIN_ORDER.includes(L.id)) return;   // đã ghim ở trên, khỏi lặp lại trong danh sách chính
+        rows.push(sysRowHtml(L.id, L.label, hexOf(L.color), L.parts ? L.parts.length : '', on(L.id), false));
+      });
+      list.innerHTML = rows.join('');
+      if (badge) badge.textContent = String(LAYERS.length + 1);
+      // Chân panel đếm MẢNH giải phẫu (piece) đang hiện — như demo ("{n} pieces visible"), KHÔNG phải
+      // đếm số HỆ đang bật (bản port trước làm vậy, con số quá nhỏ để có ý nghĩa với atlas 2.234 mảnh).
+      const pieceCount = LAYERS.reduce((n, L) => n + (on(L.id) && L.parts ? L.parts.length : 0), 0);
+      if (footCount) footCount.textContent = `${pieceCount.toLocaleString('vi-VN')} mảnh đang hiện`;
+      if (footBtn) footBtn.textContent = 'Ẩn tất cả';
+    }
+    // 3 nút lọc hệ "đang bật" hay không tính LẠI mỗi lần render từ layerState hiện tại (như
+    // aria-pressed của demo — xem app/page.tsx .layer-presets); riêng tab Kinh Lạc theo sysTab vì
+    // nó đổi NỘI DUNG danh sách chứ không phải một tổ hợp layerState.
+    const sys = sysTab === 'systems';
+    const tabOn = {
+      all: sys && LAYERS.every(L => on(L.id)),
+      meridian: sysTab === 'meridian',
+      skeleton: sys && acuLayerOn && LAYERS.every(L => on(L.id) === SKELETON_PRESET.includes(L.id)),
+      organs: sys && !acuLayerOn && LAYERS.every(L => on(L.id) === ORGANS_PRESET.includes(L.id)),
+    };
+    systemsPanel.querySelectorAll('.sys-tab').forEach(b => b.classList.toggle('on', !!tabOn[b.dataset.tab]));
+  }
+  /* Tab con "Kinh Lạc": 14 đường kinh (12 chính theo vòng tuần hoàn + Nhâm/Đốc) — mỗi dòng đúng kiểu
+   * 1 dòng hệ (chấm màu kinh · tên · số huyệt đã định vị/tổng · công tắc). Bấm TÊN = xem riêng kinh
+   * đó (như bấm tên 1 hệ là "solo"), công tắc = ẩn/hiện riêng kinh đó. Dòng ghim đầu vẫn là công tắc
+   * TỔNG "Kinh Lạc" (acuLayerOn) — tắt nó là ẩn hết huyệt + đường kinh, bất kể 14 dòng dưới. */
+  function renderMeridianRows(list, badge, footCount, footBtn) {
+    const ord = c => { const i = MER_ORDER.indexOf(c); return i < 0 ? 99 : i; };
+    const mers = presentMer.slice().sort((a, b) => ord(a) - ord(b));
+    const shown = mer => acuLayerOn && !hidden.has(mer) && (!focusMer || mer === focusMer);
     const rows = [
-      sysRowHtml('skin', skinL.label, hexOf(skinL.color), skinL.parts ? skinL.parts.length : '', (layerState.skin || 0) > 0.004, true),
       sysRowHtml(KINH_LAC_ID, 'Kinh Lạc', '#b8763e', Object.keys(placed).length, acuLayerOn, true),
       '<div class="sys-sep"></div>',
     ];
-    LAYERS.forEach(L => {
-      if (L.id === 'skin') return;   // Da đã đưa lên dòng ghim đầu, khỏi lặp lại trong danh sách chính
-      rows.push(sysRowHtml(L.id, L.label, hexOf(L.color), L.parts ? L.parts.length : '', (layerState[L.id] || 0) > 0.004, false));
+    mers.forEach(mer => {
+      const m = COORDS.meridians[mer] || { name: mer, color: '#b8763e' };
+      const n = Object.keys(placed).filter(c => merOf(c) === mer).length;
+      const count = merTotal[mer] ? `${n}/${merTotal[mer]}` : String(n);
+      rows.push(sysRowHtml(MER_PREFIX + mer, `<b class="sys-mer-code">${esc(mer)}</b> ${esc(m.name)}`,
+        m.color, count, shown(mer), false, focusMer === mer ? 'sys-row--solo' : ''));
     });
     list.innerHTML = rows.join('');
-    // 3 nút lọc "đang bật" hay không tính LẠI mỗi lần render từ layerState hiện tại (như
-    // aria-pressed của demo — xem app/page.tsx .layer-presets), không giữ biến tab riêng.
-    const on = id => (layerState[id] || 0) > 0.004;
-    const tabOn = {
-      all: LAYERS.every(L => on(L.id)),
-      skeleton: LAYERS.every(L => on(L.id) === (L.id === 'bone')),
-      organs: LAYERS.every(L => on(L.id) === ORGANS_PRESET.includes(L.id)),
-    };
-    systemsPanel.querySelectorAll('.sys-tab').forEach(b => b.classList.toggle('on', !!tabOn[b.dataset.tab]));
-    // Chân panel đếm MẢNH giải phẫu (piece) đang hiện — như demo ("{n} pieces visible"), KHÔNG phải
-    // đếm số HỆ đang bật (bản port trước làm vậy, con số quá nhỏ để có ý nghĩa với atlas 2.234 mảnh).
-    const pieceCount = LAYERS.reduce((n, L) => n + (on(L.id) && L.parts ? L.parts.length : 0), 0);
-    const badge = systemsPanel.querySelector('#sysCountBadge'); if (badge) badge.textContent = String(LAYERS.length + 1);
-    const footCount = systemsPanel.querySelector('#sysFootCount'); if (footCount) footCount.textContent = `${pieceCount.toLocaleString('vi-VN')} mảnh đang hiện`;
+    if (badge) badge.textContent = String(mers.length);
+    const hienN = mers.filter(shown).length;
+    if (footCount) footCount.textContent = focusMer
+      ? `Đang xem riêng ${esc(focusMer)} · bấm lại để hiện tất cả`
+      : `${hienN}/${mers.length} đường kinh đang hiện`;
+    if (footBtn) footBtn.textContent = hienN ? 'Ẩn tất cả' : 'Hiện tất cả';
   }
   // ĐẶT LẠI TẤT CẢ — port reset() của bản demo (page.tsx: về initial + DEFAULT_VISIBLE + reset++).
   // Nút ↻ cũ CHỈ kéo camera về (resetView), để nguyên bóc tách/hệ đã tắt/bộ phận đang tô sáng —
@@ -1927,8 +2043,9 @@
     explodeAmount = 0;
     const sl = $('mspExplode'); if (sl) sl.value = '0';
     const sv = $('mspExplodeV'); if (sv) sv.textContent = '0%';
-    LAYERS.forEach(L => { layerState[L.id] = L.id === 'skin' ? 0 : 1; });   // đúng DEFAULT_VISIBLE
+    LAYERS.forEach(L => { layerState[L.id] = MAC_DINH_BAT.has(L.id) ? 1 : 0; });   // đúng MẶC ĐỊNH lúc mở trang
     acuLayerOn = true;
+    sysTab = 'systems';
     focusMer = null; hidden.clear(); selectedCode = null;
     viewMode = 'three-quarter'; setRotate(false);
     clearHighlight(); clearNeedle();
@@ -2364,33 +2481,15 @@
     const totAll = Object.values(merTotal).reduce((a, b) => a + b, 0) || 361;
     countEl.textContent = `${Object.keys(placed).length} huyệt đã định vị · ${totAll} huyệt (12 kinh + Nhâm·Đốc)`;
   }
-  // Thứ tự CHUẨN: 12 kinh chính theo vòng tuần hoàn (Phế đầu) → Mạch Nhâm → Mạch Đốc cuối.
-  const MER_ORDER = ['LU', 'LI', 'ST', 'SP', 'HT', 'SI', 'BL', 'KI', 'PC', 'TE', 'GB', 'LR', 'CV', 'GV'];
-  function renderLegend() {
-    const ord = c => { const i = MER_ORDER.indexOf(c); return i < 0 ? 99 : i; };
-    legend.innerHTML = presentMer.slice()
-      .sort((a, b) => ord(a) - ord(b))
-      .map(mer => {
-        const m = COORDS.meridians[mer], n = Object.keys(placed).filter(c => merOf(c) === mer).length;
-        const tot = merTotal[mer] ? '/' + merTotal[mer] : '';
-        return `<button class="leg-chip" data-mer="${mer}" style="--c:${m.color}"><span class="sw"></span>${m.name} <small>${n}${tot}</small></button>`;
-      }).join('');
-  }
-  // Kinh Lạc là 1 dòng bình thường trong panel Hệ Cơ Quan (không còn thẻ chú giải nổi riêng) — bấm
-  // TÊN dòng đó mở sheet chi tiết y hệt các dòng khác, nhưng nội dung là chú giải 12 kinh + Nhâm/Đốc
-  // (node #mapLegend thật, ĐEM VÀO đây bằng replaceWith — giữ nguyên listener đã gắn 1 lần, xem dưới).
-  function showMeridianLegend() {
-    drawerMer = null;
-    setDrawer(`
-      <div class="dr-head">
-        <h3>Kinh Lạc</h3>
-        <div class="dr-mer">${presentMer.length} đường kinh · bấm 1 đường để xem riêng, bấm lại để hiện tất cả</div>
-      </div>
-      <div id="mapLegendSlot"></div>
-      <p class="hint" style="padding:6px 2px">Bấm huyệt trên mô hình 3D, hoặc bấm 1 đường kinh ở trên để xem danh sách huyệt.</p>`);
-    const slot = drawer.querySelector('#mapLegendSlot');
-    if (slot) slot.replaceWith(legend);
-    legend.querySelectorAll('.leg-chip').forEach(c => c.classList.toggle('sel', c.dataset.mer === focusMer));
+  // Danh sách 14 đường kinh KHÔNG còn nằm trong sheet chi tiết bên phải (thẻ chú giải .leg-chip cũ đã
+  // bỏ hẳn) — giờ là TAB CON "Kinh Lạc" của panel Hệ Cơ Quan bên trái. Bấm tên dòng "Kinh Lạc" hay
+  // nút "← Kinh Lạc" trong sheet đều chuyển về tab đó.
+  function openMeridianTab() {
+    sysTab = 'meridian';
+    ensureSystemsPanel();
+    if (!systemsMode) toggleSystemsPanel();   // panel đang ẩn thì mở ra (toggle tự render lại)
+    else renderSystemsPanel();
+    drawerWelcome();                          // danh sách kinh đã ở panel trái → thu sheet phải lại
   }
   function doSearch() {
     const q = norm(search.value.trim());
@@ -2477,18 +2576,10 @@
   }
 
   // ---- wiring ----
-  legend.addEventListener('click', e => {
-    const chip = e.target.closest('.leg-chip'); if (!chip) return;
-    const mer = chip.dataset.mer;
-    focusMer = (focusMer === mer) ? null : mer;     // bấm = chỉ hiện riêng đường kinh đó; bấm lại = hiện tất cả
-    clearNeedle();                                  // đổi/bỏ chọn đường kinh thì gỡ kim đang cắm
-    applyVisibility();
-    if (focusMer) openMeridianDrawer(focusMer); else drawerWelcome();
-  });
   // bấm 1 huyệt trong DANH SÁCH ở ngăn phải → camera bay tới đúng huyệt
   drawer.addEventListener('click', e => {
     const pt = e.target.closest('.dr-pt'); if (pt) { focusPoint(pt.dataset.code); return; }
-    const back = e.target.closest('#drBackLegend'); if (back) { showMeridianLegend(); return; }
+    const back = e.target.closest('#drBackLegend'); if (back) { openMeridianTab(); return; }
     const inl = e.target.closest('.dr-pt-inline'); if (inl) { focusPoint(inl.dataset.code); }
   });
   search.addEventListener('input', doSearch);
@@ -2551,7 +2642,6 @@
     if (!/^#meridian\/[A-Z]/.test(location.hash)) setMSub('map');
   });
 
-  renderLegend();
   // init khi khung hình có kích thước (tab map được hiện)
   const initRO = new ResizeObserver(() => { if (stage.clientWidth && stage.clientHeight) { initScene(); initRO.disconnect(); } });
   initRO.observe(stage);
