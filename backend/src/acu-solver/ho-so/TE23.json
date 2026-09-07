@@ -1,0 +1,118 @@
+{
+ "code": "TE23",
+ "mer": "TE",
+ "num": 23,
+ "tenApp": "Ty trúc không",
+ "tenFocks": "TY TRÚC KHÔNG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Tại chỗ lõm bên ngoài đuôi lông mày, ấn vào có cảm giác ê tức, bờ ngoài cơ vòng mi.",
+  "focksViTri": "Ở khu vực đầu bên của lông mày trong chỗ lõm của xương trán giữa xương trán và xương gò má.",
+  "focksCachXacDinh": "Đường nối giữa xương gò má và xương trán thường nằm ở khu vực đầu bên của lông mày. Vì hình dạng của lông mày có thể rất khác nhau nên việc định hướng nên dựa chủ yếu vào cấu trúc xương. Để làm điều này, hãy cảm nhận từ khóe mắt bên (góc) dọc theo vành ổ mắt lên phía trên cho đến khi bạn có thể sờ thấy chỗ lõm xương ở vùng chuyển tiếp sang xương trán. Xác định vị trí huyệt Ty trúc không (SJ/TB 23) trong vùng lõm thường nhạy cảm với áp lực này.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE23_p269_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE23_p270_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0308,
+  "y": 0.9499,
+  "z": 0.0347,
+  "conf": "mốc",
+  "caoDoCm": 163.29,
+  "ngangCm": 5.29,
+  "truocSauCm": 5.96
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Ty Trúc Không — hõm đầu NGOÀI lông mày",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "tai",
+  "vung": "quanh tai",
+  "moTaRanh": "vòng theo bờ sau rồi bờ trên vành tai, sát mỏm chũm",
+  "diemTrongDoan": [
+   "TE16",
+   "TE17",
+   "TE18",
+   "TE19",
+   "TE20",
+   "TE21",
+   "TE22",
+   "TE23"
+  ]
+ },
+ "nutMoc": {
+  "code": "TE23",
+  "loai": "cuoi",
+  "at": null,
+  "vi_sao": "Ty Trúc Không — đuôi lông mày"
+ },
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "TE22",
+   "ten": "Hòa liêu",
+   "thang": 1.77,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 1.6,
+   "sachDoiThon": null,
+   "vitri": "Phía trước lỗ tai, trong chân tóc, trước và trên huyệt Nhĩ Môn (Ttu 21). Huyệt ở bờ trên của mỏm tiếp xương thái dương phía trên và sau bờ sau chân tóc mai, sờ thấy động mạch thái dương nông, trước bình tai một đốt ngón tay."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "TE22",
+   "ten": "Hòa liêu",
+   "cm": 1.77
+  },
+  {
+   "code": "ST1",
+   "ten": "Thừa Khấp",
+   "cm": 3.1
+  },
+  {
+   "code": "GB1",
+   "ten": "Đồng tử liêu",
+   "cm": 3.41
+  },
+  {
+   "code": "GB14",
+   "ten": "Dương bạch",
+   "cm": 3.67
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương trán",
+   "lop": "bone",
+   "cm": 0.72
+  },
+  {
+   "ten": "Xương gò má trái",
+   "lop": "bone",
+   "cm": 1.98
+  },
+  {
+   "ten": "Xương bướm",
+   "lop": "bone",
+   "cm": 2.58
+  },
+  {
+   "ten": "Cơ nâng mi trên trái",
+   "lop": "muscle",
+   "cm": 2.7
+  },
+  {
+   "ten": "Xương đỉnh trái",
+   "lop": "bone",
+   "cm": 2.81
+  }
+ ],
+ "coKiemMay": []
+}

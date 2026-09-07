@@ -1,0 +1,1390 @@
+{
+ "_doc": "Sinh bởi bake-interfaces.cjs — toạ độ huyệt sau khi áp QUY TẮC KHE MÔ (tissue-rules.cjs). Chỉ chứa huyệt mà khe định vị được; solve-coords.cjs dùng làm nguồn thứ 4.",
+ "_generated": "2026-09-07",
+ "points": {
+  "LU3": {
+   "x": 0.1233,
+   "y": 0.7648,
+   "z": 0.004,
+   "from": {
+    "x": 0.1265,
+    "y": 0.7648,
+    "z": 0.0004
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ngoai cơ nhị đầu cánh tay",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "LU4": {
+   "x": 0.1343,
+   "y": 0.7455,
+   "z": -0.0071,
+   "from": {
+    "x": 0.1324,
+    "y": 0.7455,
+    "z": -0.0076
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ngoai cơ nhị đầu cánh tay",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.13,
+   "slideCm": 0.3
+  },
+  "LI2": {
+   "x": 0.1779,
+   "y": 0.4458,
+   "z": 0.03,
+   "from": {
+    "x": 0.1763,
+    "y": 0.4458,
+    "z": 0.0311
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ngoai xương đốt bàn tay",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm trên lòng mạch (Tập hợp của các động mạch mu ngón) — huyệt phải ở SÁT bờ mạch"
+   ]
+  },
+  "LI9": {
+   "x": 0.1409,
+   "y": 0.7123,
+   "z": -0.0292,
+   "from": {
+    "x": 0.1374,
+    "y": 0.7123,
+    "z": -0.0187
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ sau cơ cánh tay quay",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.66,
+   "slideCm": 1.7
+  },
+  "LI12": {
+   "x": 0.1476,
+   "y": 0.6703,
+   "z": -0.0266,
+   "from": {
+    "x": 0.1374,
+    "y": 0.6703,
+    "z": -0.0187
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ngoai xương cánh tay",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.95,
+   "slideCm": 2.5
+  },
+  "LI16": {
+   "x": 0.0816,
+   "y": 0.8309,
+   "z": -0.0169,
+   "from": {
+    "x": 0.0834,
+    "y": 0.8309,
+    "z": -0.0205
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương đòn",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "ST5": {
+   "x": 0.0103,
+   "y": 0.8865,
+   "z": 0.0439,
+   "from": {
+    "x": 0.0121,
+    "y": 0.8865,
+    "z": 0.0358
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ duoi xương hàm dưới",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.68,
+   "slideCm": 1.8
+  },
+  "ST6": {
+   "x": 0.0178,
+   "y": 0.8769,
+   "z": 0.0312,
+   "from": {
+    "x": 0.0165,
+    "y": 0.8769,
+    "z": 0.023
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ duoi xương hàm dưới",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.74,
+   "slideCm": 2
+  },
+  "ST15": {
+   "x": 0.0745,
+   "y": 0.735,
+   "z": 0.0547,
+   "from": {
+    "x": 0.07,
+    "y": 0.735,
+    "z": 0.0548
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ tren cơ ngực bé",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.36,
+   "slideCm": 1
+  },
+  "ST18": {
+   "x": 0.0742,
+   "y": 0.744,
+   "z": 0.0568,
+   "from": {
+    "x": 0.07,
+    "y": 0.744,
+    "z": 0.051
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương sườn",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "ST32": {
+   "x": 0.0769,
+   "y": 0.3769,
+   "z": 0.0338,
+   "from": {
+    "x": 0.0824,
+    "y": 0.3769,
+    "z": 0.0256
+   },
+   "kind": "co-co",
+   "tissues": "cơ thẳng đùi | cơ rộng ngoài",
+   "conf": "khe-ro",
+   "gapCun": 0.21,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "ST33": {
+   "x": 0.0747,
+   "y": 0.3271,
+   "z": 0.0175,
+   "from": {
+    "x": 0.066,
+    "y": 0.3271,
+    "z": 0.0214
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ngoai cơ thẳng đùi (gân)",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "ST34": {
+   "x": 0.0634,
+   "y": 0.3003,
+   "z": 0.0225,
+   "from": {
+    "x": 0.0659,
+    "y": 0.3003,
+    "z": 0.0168
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ tren xương bánh chè",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "ST36": {
+   "x": 0.0539,
+   "y": 0.2247,
+   "z": 0.0114,
+   "from": {
+    "x": 0.0506,
+    "y": 0.2247,
+    "z": 0.0031
+   },
+   "kind": "xuong-xuong",
+   "tissues": "xương chày | xương mác",
+   "conf": "khe-ro",
+   "gapCun": 0.27,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "ST39": {
+   "x": 0.0712,
+   "y": 0.1398,
+   "z": -0.0131,
+   "from": {
+    "x": 0.0555,
+    "y": 0.1398,
+    "z": -0.0088
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ngoai cơ chày trước",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 1.1,
+   "slideCm": 2.9
+  },
+  "ST43": {
+   "x": 0.0725,
+   "y": 0.0151,
+   "z": 0.0478,
+   "from": {
+    "x": 0.067,
+    "y": 0.0151,
+    "z": 0.0405
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương đốt bàn chân",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "SP3": {
+   "x": 0.0499,
+   "y": 0.011,
+   "z": 0.0522,
+   "from": {
+    "x": 0.0502,
+    "y": 0.011,
+    "z": 0.0518
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương đốt bàn chân",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.15,
+   "slideCm": 0.4
+  },
+  "SP6": {
+   "x": 0.0624,
+   "y": 0.0968,
+   "z": -0.0274,
+   "from": {
+    "x": 0.0629,
+    "y": 0.0968,
+    "z": -0.0188
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ sau-trong xương chày",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm trong lòng xương — phải lùi ra mặt xương"
+   ]
+  },
+  "SP7": {
+   "x": 0.0486,
+   "y": 0.1458,
+   "z": 0.0033,
+   "from": {
+    "x": 0.0556,
+    "y": 0.1458,
+    "z": 0.0001
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ sau xương chày",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.09,
+   "slideCm": 0.2
+  },
+  "SP8": {
+   "x": 0.0399,
+   "y": 0.2178,
+   "z": 0.0088,
+   "from": {
+    "x": 0.0399,
+    "y": 0.2178,
+    "z": 0.0088
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ sau xương chày",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.15,
+   "slideCm": 0.4
+  },
+  "SP11": {
+   "x": 0.0382,
+   "y": 0.3889,
+   "z": 0.0377,
+   "from": {
+    "x": 0.0376,
+    "y": 0.3889,
+    "z": 0.0349
+   },
+   "kind": "co-co",
+   "tissues": "cơ may | cơ thẳng đùi",
+   "conf": "khe-mo",
+   "gapCun": 1.14,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "SP17": {
+   "x": 0.0786,
+   "y": 0.6136,
+   "z": 0.016,
+   "from": {
+    "x": 0.08,
+    "y": 0.6136,
+    "z": 0.0192
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương sườn",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.86 thốn trong khối Cơ chéo bụng ngoài trái)"
+   ]
+  },
+  "HT2": {
+   "x": 0.1346,
+   "y": 0.707,
+   "z": -0.0015,
+   "from": {
+    "x": 0.1383,
+    "y": 0.707,
+    "z": -0.0079
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? cơ nhị đầu cánh tay",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "HT6": {
+   "x": 0.1506,
+   "y": 0.5199,
+   "z": 0.0212,
+   "from": {
+    "x": 0.1607,
+    "y": 0.5199,
+    "z": 0.009
+   },
+   "kind": "gan-gan",
+   "tissues": "cơ gấp cổ tay trụ (gân) | cơ gấp các ngón nông (gân)",
+   "conf": "khe-ro",
+   "gapCun": 0.19,
+   "slideCun": 1.59,
+   "slideCm": 3
+  },
+  "SI4": {
+   "x": 0.1337,
+   "y": 0.5038,
+   "z": 0.0072,
+   "from": {
+    "x": 0.1406,
+    "y": 0.5038,
+    "z": 0.0133
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương đốt bàn tay",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.63 thốn trong khối Cơ duỗi ngón út trái)"
+   ]
+  },
+  "SI7": {
+   "x": 0.1559,
+   "y": 0.5706,
+   "z": -0.0154,
+   "from": {
+    "x": 0.1516,
+    "y": 0.5706,
+    "z": -0.0018
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ sau xương trụ",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 1.45,
+   "slideCm": 2.8
+  },
+  "SI14": {
+   "x": 0.0232,
+   "y": 0.8191,
+   "z": -0.0725,
+   "from": {
+    "x": 0.0311,
+    "y": 0.8191,
+    "z": -0.0717
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ trong xương vai",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "BL10": {
+   "x": 0.0171,
+   "y": 0.8936,
+   "z": -0.0437,
+   "from": {
+    "x": 0.02,
+    "y": 0.8936,
+    "z": -0.064
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ngoai cơ thang",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.35,
+   "slideCm": 0.9,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.63 thốn trong khối Phần xuống của cơ thang trái)"
+   ]
+  },
+  "BL28": {
+   "x": 0.0013,
+   "y": 0.5514,
+   "z": -0.0688,
+   "from": {
+    "x": 0.0013,
+    "y": 0.5514,
+    "z": -0.0647
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương cùng",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.18,
+   "slideCm": 0.5
+  },
+  "BL31": {
+   "x": 0.0013,
+   "y": 0.5614,
+   "z": -0.0647,
+   "from": {
+    "x": 0.0035,
+    "y": 0.5614,
+    "z": -0.0648
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương cùng",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "BL37": {
+   "x": 0.0479,
+   "y": 0.3551,
+   "z": -0.0492,
+   "from": {
+    "x": 0.0472,
+    "y": 0.3551,
+    "z": -0.0468
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? cơ nhị đầu đùi",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "BL38": {
+   "x": 0.0233,
+   "y": 0.2809,
+   "z": -0.0432,
+   "from": {
+    "x": 0.0207,
+    "y": 0.2809,
+    "z": -0.0387
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ngoai cơ bán màng",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.31,
+   "slideCm": 0.7
+  },
+  "BL55": {
+   "x": 0.0168,
+   "y": 0.2266,
+   "z": -0.0326,
+   "from": {
+    "x": 0.0185,
+    "y": 0.2266,
+    "z": -0.0327
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương chày",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.65 thốn trong khối Đầu trong của cơ bụng chân trái)"
+   ]
+  },
+  "BL57": {
+   "x": 0.0215,
+   "y": 0.1547,
+   "z": -0.0149,
+   "from": {
+    "x": 0.0207,
+    "y": 0.1547,
+    "z": -0.028
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? cơ bụng chân",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "BL58": {
+   "x": 0.0356,
+   "y": 0.1757,
+   "z": -0.0007,
+   "from": {
+    "x": 0.0356,
+    "y": 0.1757,
+    "z": -0.0007
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ngoai cơ bụng chân",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.07,
+   "slideCm": 0.2
+  },
+  "BL59": {
+   "x": 0.0542,
+   "y": 0.0832,
+   "z": -0.035,
+   "from": {
+    "x": 0.0588,
+    "y": 0.0832,
+    "z": -0.0167
+   },
+   "kind": "co-co",
+   "tissues": "cơ dép | cơ mác ngắn",
+   "conf": "khe-ro",
+   "gapCun": 0.13,
+   "slideCun": 1.27,
+   "slideCm": 2.9
+  },
+  "BL60": {
+   "x": 0.0549,
+   "y": 0.033,
+   "z": -0.0349,
+   "from": {
+    "x": 0.053,
+    "y": 0.033,
+    "z": -0.0303
+   },
+   "kind": "gan-gan",
+   "tissues": "cơ mác ngắn (gân) | cơ mác dài (gân)",
+   "conf": "khe-ro",
+   "gapCun": 0.03,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "BL61": {
+   "x": 0.0522,
+   "y": 0.033,
+   "z": -0.0365,
+   "from": {
+    "x": 0.053,
+    "y": 0.033,
+    "z": -0.0303
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ tren xương gót",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.2,
+   "slideCm": 0.5
+  },
+  "BL65": {
+   "x": 0.092,
+   "y": 0.0105,
+   "z": 0.0214,
+   "from": {
+    "x": 0.0821,
+    "y": 0.0105,
+    "z": 0.0211
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương đốt bàn chân",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "KI4": {
+   "x": 0.0478,
+   "y": 0.0373,
+   "z": -0.0388,
+   "from": {
+    "x": 0.0482,
+    "y": 0.0373,
+    "z": -0.0268
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ tren xương gót",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.53,
+   "slideCm": 1.4
+  },
+  "KI7": {
+   "x": 0.049,
+   "y": 0.0898,
+   "z": -0.0407,
+   "from": {
+    "x": 0.0482,
+    "y": 0.0898,
+    "z": -0.0268
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? gân gót",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "KI8": {
+   "x": 0.049,
+   "y": 0.0898,
+   "z": -0.0407,
+   "from": {
+    "x": 0.0482,
+    "y": 0.0898,
+    "z": -0.0268
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ sau xương chày",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "KI9": {
+   "x": 0.068,
+   "y": 0.1528,
+   "z": -0.0426,
+   "from": {
+    "x": 0.0482,
+    "y": 0.1528,
+    "z": -0.0268
+   },
+   "kind": "co-gan",
+   "tissues": "gân gót | cơ dép",
+   "conf": "khe-ro",
+   "gapCun": 0.13,
+   "slideCun": 1.13,
+   "slideCm": 3
+  },
+  "KI10": {
+   "x": 0.0148,
+   "y": 0.2686,
+   "z": -0.0263,
+   "from": {
+    "x": 0.0302,
+    "y": 0.2686,
+    "z": -0.0291
+   },
+   "kind": "gan-gan",
+   "tissues": "cơ bán gân (gân) | cơ bán màng (gân)",
+   "conf": "khe-ro",
+   "gapCun": 0.11,
+   "slideCun": 1.06,
+   "slideCm": 2.4
+  },
+  "KI11": {
+   "x": 0.0211,
+   "y": 0.5089,
+   "z": 0.0383,
+   "from": {
+    "x": 0.0199,
+    "y": 0.5089,
+    "z": 0.033
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ tren xương chậu",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "KI27": {
+   "x": 0.0375,
+   "y": 0.7884,
+   "z": 0.0529,
+   "from": {
+    "x": 0.0363,
+    "y": 0.7884,
+    "z": 0.043
+   },
+   "kind": "xuong-xuong",
+   "tissues": "xương đòn | xương sườn",
+   "conf": "khe-mo",
+   "gapCun": 1.37,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.60 thốn trong khối Phần ức sườn của cơ ngực lớn trái)"
+   ]
+  },
+  "PC3": {
+   "x": 0.1495,
+   "y": 0.6493,
+   "z": -0.0077,
+   "from": {
+    "x": 0.1499,
+    "y": 0.6493,
+    "z": -0.014
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ trong cơ nhị đầu cánh tay (gân)",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.71,
+   "slideCm": 1.3
+  },
+  "PC6": {
+   "x": 0.1611,
+   "y": 0.5368,
+   "z": 0.0018,
+   "from": {
+    "x": 0.1577,
+    "y": 0.5368,
+    "z": 0.0054
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? cơ gấp cổ tay quay (gân)",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ duỗi cổ tay quay ngắn trái)"
+   ]
+  },
+  "TE2": {
+   "x": 0.1457,
+   "y": 0.4676,
+   "z": 0.0182,
+   "from": {
+    "x": 0.1432,
+    "y": 0.4676,
+    "z": 0.0219
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương đốt bàn tay",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.21,
+   "slideCm": 0.6,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.59 thốn trong khối Cơ gấp các ngón sâu trái)",
+    "nằm trên lòng mạch (Tập hợp của các động mạch mu đốt bàn tay) — huyệt phải ở SÁT bờ mạch"
+   ]
+  },
+  "TE3": {
+   "x": 0.1442,
+   "y": 0.4728,
+   "z": 0.0149,
+   "from": {
+    "x": 0.1449,
+    "y": 0.4728,
+    "z": 0.0207
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương đốt bàn tay",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.68 thốn trong khối Tập hợp của các cơ giun của bàn tay trái)"
+   ]
+  },
+  "TE4": {
+   "x": 0.1605,
+   "y": 0.5143,
+   "z": 0.0019,
+   "from": {
+    "x": 0.1617,
+    "y": 0.5143,
+    "z": 0.0102
+   },
+   "kind": "xuong-xuong",
+   "tissues": "xương quay | xương trụ",
+   "conf": "khe-ro",
+   "gapCun": 0.15,
+   "slideCun": 0.91,
+   "slideCm": 1.7,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.69 thốn trong khối Cơ duỗi ngón cái ngắn trái)"
+   ]
+  },
+  "TE5": {
+   "x": 0.1608,
+   "y": 0.5368,
+   "z": 0.0002,
+   "from": {
+    "x": 0.1577,
+    "y": 0.5368,
+    "z": 0.0054
+   },
+   "kind": "xuong-xuong",
+   "tissues": "xương quay | xương trụ",
+   "conf": "khe-ro",
+   "gapCun": 0.46,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.87 thốn trong khối Cơ duỗi cổ tay quay ngắn trái)"
+   ]
+  },
+  "TE6": {
+   "x": 0.1592,
+   "y": 0.548,
+   "z": 0.0055,
+   "from": {
+    "x": 0.1556,
+    "y": 0.548,
+    "z": 0.003
+   },
+   "kind": "xuong-xuong",
+   "tissues": "xương trụ | xương quay",
+   "conf": "khe-mo",
+   "gapCun": 0.61,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.52 thốn trong khối Cơ duỗi cổ tay quay dài trái)"
+   ]
+  },
+  "TE7": {
+   "x": 0.1478,
+   "y": 0.548,
+   "z": 0.015,
+   "from": {
+    "x": 0.1556,
+    "y": 0.548,
+    "z": 0.003
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ngoai xương trụ",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.97,
+   "slideCm": 2.5,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.56 thốn trong khối Cơ gấp cổ tay quay trái)"
+   ]
+  },
+  "TE8": {
+   "x": 0.1596,
+   "y": 0.5593,
+   "z": -0.0007,
+   "from": {
+    "x": 0.1536,
+    "y": 0.5593,
+    "z": 0.0006
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương quay",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.58 thốn trong khối Cơ duỗi cổ tay quay dài trái)"
+   ]
+  },
+  "TE13": {
+   "x": 0.1318,
+   "y": 0.7859,
+   "z": -0.0056,
+   "from": {
+    "x": 0.128,
+    "y": 0.7859,
+    "z": -0.0022
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ sau cơ delta",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.34,
+   "slideCm": 0.9
+  },
+  "TE15": {
+   "x": 0.1036,
+   "y": 0.825,
+   "z": -0.0393,
+   "from": {
+    "x": 0.091,
+    "y": 0.825,
+    "z": -0.034
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương vai",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "TE18": {
+   "x": 0.0312,
+   "y": 0.9136,
+   "z": -0.0385,
+   "from": {
+    "x": 0.0274,
+    "y": 0.9136,
+    "z": -0.034
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương thái dương",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "GB12": {
+   "x": 0.0265,
+   "y": 0.895,
+   "z": -0.0311,
+   "from": {
+    "x": 0.034,
+    "y": 0.895,
+    "z": -0.0124
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ sau cơ ức đòn chũm",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 1.16,
+   "slideCm": 3,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.78 thốn trong khối Cơ gối đầu trái)"
+   ]
+  },
+  "GB20": {
+   "x": 0.029,
+   "y": 0.9,
+   "z": -0.0241,
+   "from": {
+    "x": 0.0337,
+    "y": 0.9,
+    "z": -0.0273
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ngoai cơ thang",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.11,
+   "slideCm": 0.3,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.85 thốn trong khối Cơ gối đầu trái)"
+   ]
+  },
+  "GB25": {
+   "x": 0.0713,
+   "y": 0.6358,
+   "z": -0.0198,
+   "from": {
+    "x": 0.0499,
+    "y": 0.6358,
+    "z": -0.0245
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ duoi xương sườn",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.82,
+   "slideCm": 2.2,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ chéo bụng ngoài trái)"
+   ]
+  },
+  "GB32": {
+   "x": 0.0679,
+   "y": 0.3299,
+   "z": -0.0339,
+   "from": {
+    "x": 0.0453,
+    "y": 0.3299,
+    "z": -0.0251
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ truoc cơ nhị đầu đùi",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.53,
+   "slideCm": 1.4
+  },
+  "GB34": {
+   "x": 0.0776,
+   "y": 0.2442,
+   "z": -0.0229,
+   "from": {
+    "x": 0.0759,
+    "y": 0.2442,
+    "z": -0.0145
+   },
+   "kind": "co-co",
+   "tissues": "cơ mác dài | cơ duỗi các ngón chân dài",
+   "conf": "khe-ro",
+   "gapCun": 0.12,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "GB37": {
+   "x": 0.0606,
+   "y": 0.1115,
+   "z": -0.006,
+   "from": {
+    "x": 0.0571,
+    "y": 0.1115,
+    "z": -0.0128
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ truoc xương mác",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "GB38": {
+   "x": 0.0587,
+   "y": 0.0974,
+   "z": -0.008,
+   "from": {
+    "x": 0.058,
+    "y": 0.0974,
+    "z": -0.0148
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ truoc xương mác",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "GB39": {
+   "x": 0.0632,
+   "y": 0.0832,
+   "z": -0.0211,
+   "from": {
+    "x": 0.0588,
+    "y": 0.0832,
+    "z": -0.0167
+   },
+   "kind": "gan-xuong",
+   "tissues": "xương mác | cơ mác dài (gân)",
+   "conf": "khe-ro",
+   "gapCun": 0.53,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm trong lòng xương — phải lùi ra mặt xương"
+   ]
+  },
+  "GB43": {
+   "x": 0.088,
+   "y": 0.0091,
+   "z": 0.0434,
+   "from": {
+    "x": 0.0826,
+    "y": 0.0091,
+    "z": 0.0415
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương đốt bàn chân",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm trên lòng mạch (Động mạch mu ngón của bàn chân) — huyệt phải ở SÁT bờ mạch"
+   ]
+  },
+  "LR4": {
+   "x": 0.0522,
+   "y": 0.0315,
+   "z": -0.0365,
+   "from": {
+    "x": 0.0484,
+    "y": 0.0315,
+    "z": -0.0288
+   },
+   "kind": "xuong-xuong",
+   "tissues": "xương sên | xương gót",
+   "conf": "khe-ro",
+   "gapCun": 0.03,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "LR5": {
+   "x": 0.0442,
+   "y": 0.1295,
+   "z": 0.0021,
+   "from": {
+    "x": 0.0456,
+    "y": 0.1295,
+    "z": 0.0005
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ sau xương chày",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "LR6": {
+   "x": 0.0447,
+   "y": 0.1622,
+   "z": 0.0046,
+   "from": {
+    "x": 0.0439,
+    "y": 0.1622,
+    "z": 0.0028
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ sau xương chày",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "LR9": {
+   "x": 0.0123,
+   "y": 0.3258,
+   "z": -0.0015,
+   "from": {
+    "x": 0.0151,
+    "y": 0.3258,
+    "z": -0.0068
+   },
+   "kind": "co-co",
+   "tissues": "cơ rộng trong | cơ may",
+   "conf": "khe-mo",
+   "gapCun": 0.68,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.51 thốn trong khối Cơ thon trái)"
+   ]
+  },
+  "LR12": {
+   "x": 0.04,
+   "y": 0.5298,
+   "z": 0.0411,
+   "from": {
+    "x": 0.0393,
+    "y": 0.5298,
+    "z": 0.0397
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ tren xương chậu",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0
+  },
+  "CV16": {
+   "x": -0.0042,
+   "y": 0.7315,
+   "z": 0.0643,
+   "from": {
+    "x": 0,
+    "y": 0.7315,
+    "z": 0.0605
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương ức",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.65 thốn trong khối Cơ gian sườn trong)"
+   ]
+  },
+  "CV19": {
+   "x": -0.0008,
+   "y": 0.7656,
+   "z": 0.0593,
+   "from": {
+    "x": 0,
+    "y": 0.7656,
+    "z": 0.0523
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương ức",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0,
+   "slideCm": 0,
+   "warns": [
+    "nằm giữa bụng cơ (sâu 0.74 thốn trong khối Cơ gian sườn trong)"
+   ]
+  },
+  "CV20": {
+   "x": 0.002,
+   "y": 0.777,
+   "z": 0.0536,
+   "from": {
+    "x": 0,
+    "y": 0.777,
+    "z": 0.0496
+   },
+   "kind": "xuong-xuong",
+   "tissues": "xương ức | xương ức",
+   "conf": "khe-ro",
+   "gapCun": 0,
+   "slideCun": 0.05,
+   "slideCm": 0.1
+  },
+  "CV21": {
+   "x": 0.0008,
+   "y": 0.7884,
+   "z": 0.0481,
+   "from": {
+    "x": 0,
+    "y": 0.7884,
+    "z": 0.0469
+   },
+   "kind": "sat-bo",
+   "tissues": "bờ ? xương ức",
+   "conf": "sat-bo",
+   "gapCun": null,
+   "slideCun": 0.1,
+   "slideCm": 0.3
+  }
+ },
+ "review": {
+  "LU6": {
+   "tissues": "bờ trong cơ cánh tay quay",
+   "slideCun": 1.37,
+   "gapCun": null,
+   "note": "khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát"
+  },
+  "LU10": {
+   "tissues": "bờ ? xương đốt bàn tay",
+   "slideCun": 1.15,
+   "gapCun": null,
+   "note": "mô tả \"bờ ? xương đốt bàn tay\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 1.15 thốn"
+  },
+  "LI4": {
+   "tissues": "bờ ? xương đốt bàn tay",
+   "slideCun": 1.49,
+   "gapCun": null,
+   "note": "mô tả \"bờ ? xương đốt bàn tay\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 1.49 thốn"
+  },
+  "ST42": {
+   "tissues": "bờ trong cơ duỗi các ngón chân dài (gân)",
+   "slideCun": 1.16,
+   "gapCun": null,
+   "note": "khe dời vào trong lòng xương — rút lại, cần soát"
+  },
+  "HT5": {
+   "tissues": "cơ gấp cổ tay trụ (gân) | cơ gấp các ngón nông",
+   "slideCun": 1.86,
+   "gapCun": 0.23,
+   "note": "khe cách chỗ cốt độ chỉ ra 3.5 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát"
+  },
+  "KI3": {
+   "tissues": "bờ ? gân gót",
+   "slideCun": 0.82,
+   "gapCun": null,
+   "note": "mô tả \"bờ ? gân gót\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.82 thốn"
+  },
+  "PC4": {
+   "tissues": "bờ ? cơ gấp cổ tay quay",
+   "slideCun": 0.33,
+   "gapCun": null,
+   "note": "mô tả \"bờ ? cơ gấp cổ tay quay\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.33 thốn"
+  },
+  "PC5": {
+   "tissues": "bờ ? cơ gấp cổ tay quay (gân)",
+   "slideCun": 0.86,
+   "gapCun": null,
+   "note": "mô tả \"bờ ? cơ gấp cổ tay quay (gân)\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.86 thốn"
+  },
+  "PC7": {
+   "tissues": "bờ ? cơ gấp cổ tay quay (gân)",
+   "slideCun": 1.57,
+   "gapCun": null,
+   "note": "mô tả \"bờ ? cơ gấp cổ tay quay (gân)\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 1.57 thốn"
+  },
+  "TE9": {
+   "tissues": "xương trụ | xương quay",
+   "slideCun": 1.91,
+   "gapCun": 0.35,
+   "note": "khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát"
+  },
+  "TE17": {
+   "tissues": "bờ truoc cơ ức đòn chũm",
+   "slideCun": 1.87,
+   "gapCun": null,
+   "note": "khe cách chỗ cốt độ chỉ ra 4.9 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát"
+  },
+  "TE22": {
+   "tissues": "bờ tren xương thái dương",
+   "slideCun": 1.07,
+   "gapCun": null,
+   "note": "khe dời vào trong lòng xương — rút lại, cần soát"
+  },
+  "GB35": {
+   "tissues": "bờ truoc xương mác",
+   "slideCun": 0.54,
+   "gapCun": null,
+   "note": "khe dời vào trong lòng xương — rút lại, cần soát"
+  },
+  "GB40": {
+   "tissues": "bờ ? cơ duỗi các ngón chân dài",
+   "slideCun": 0.46,
+   "gapCun": null,
+   "note": "mô tả \"bờ ? cơ duỗi các ngón chân dài\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.46 thốn"
+  },
+  "CV18": {
+   "tissues": "bờ ? xương ức",
+   "slideCun": 0.34,
+   "gapCun": null,
+   "note": "mô tả \"bờ ? xương ức\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.34 thốn"
+  },
+  "HT7": {
+   "tissues": "bờ tren xương trụ",
+   "slideCun": 0.91,
+   "gapCun": null,
+   "note": "khe dời trùng chỗ huyệt TE4 — rút lại, cần soát"
+  }
+ }
+}

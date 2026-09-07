@@ -1,0 +1,702 @@
+[
+ {
+  "c": "LR11",
+  "diem": 8,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 13.76cm, phải ép lên da"
+ },
+ {
+  "c": "LI14",
+  "diem": 7,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 26.79cm, phải ép lên da"
+ },
+ {
+  "c": "ST13",
+  "diem": 7,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 14.93cm, phải ép lên da"
+ },
+ {
+  "c": "ST14",
+  "diem": 7,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 18.76cm, phải ép lên da"
+ },
+ {
+  "c": "BL12",
+  "diem": 7,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 6.26cm, phải ép lên da"
+ },
+ {
+  "c": "BL42",
+  "diem": 7,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 7.14cm, phải ép lên da"
+ },
+ {
+  "c": "BL45",
+  "diem": 7,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 12.2cm, phải ép lên da"
+ },
+ {
+  "c": "BL56",
+  "diem": 7,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 7.38cm, phải ép lên da"
+ },
+ {
+  "c": "LR7",
+  "diem": 7,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 11.25cm, phải ép lên da"
+ },
+ {
+  "c": "LR10",
+  "diem": 7,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 23.01cm, phải ép lên da"
+ },
+ {
+  "c": "LI19",
+  "diem": 6,
+  "conf": "WHO-lấp",
+  "co": false,
+  "ly": "WHO phải đoán, rải dời 6.8cm"
+ },
+ {
+  "c": "SP4",
+  "diem": 6,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 6.34cm"
+ },
+ {
+  "c": "SP19",
+  "diem": 6,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 14.98cm"
+ },
+ {
+  "c": "SI11",
+  "diem": 6,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 4.74cm, phải ép lên da"
+ },
+ {
+  "c": "BL3",
+  "diem": 6,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 3.37cm, phải ép lên da"
+ },
+ {
+  "c": "BL34",
+  "diem": 6,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 3.21cm, phải ép lên da"
+ },
+ {
+  "c": "KI2",
+  "diem": 6,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 8.26cm"
+ },
+ {
+  "c": "GB29",
+  "diem": 6,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 19.43cm"
+ },
+ {
+  "c": "GB31",
+  "diem": 6,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 8.09cm"
+ },
+ {
+  "c": "GB41",
+  "diem": 6,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 7.32cm"
+ },
+ {
+  "c": "LR3",
+  "diem": 6,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 6.22cm"
+ },
+ {
+  "c": "LI10",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 4.52cm, phải ép lên da"
+ },
+ {
+  "c": "LI13",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 3.05cm, phải ép lên da"
+ },
+ {
+  "c": "ST11",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 7.36cm"
+ },
+ {
+  "c": "ST38",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 11.96cm"
+ },
+ {
+  "c": "SP9",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "SP11",
+  "diem": 5,
+  "conf": "WHO+khe",
+  "co": true,
+  "ly": "rải dời 8.64cm, phải ép lên da"
+ },
+ {
+  "c": "SP14",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 7.95cm"
+ },
+ {
+  "c": "SP18",
+  "diem": 5,
+  "conf": "cao",
+  "co": true,
+  "ly": "rải dời 13.44cm, phải ép lên da"
+ },
+ {
+  "c": "SI12",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 13.16cm"
+ },
+ {
+  "c": "SI13",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 9.28cm"
+ },
+ {
+  "c": "SI16",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 5.2cm, phải ép lên da"
+ },
+ {
+  "c": "BL1",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "BL2",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "BL13",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 5.75cm, phải ép lên da"
+ },
+ {
+  "c": "BL14",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 4.04cm, phải ép lên da"
+ },
+ {
+  "c": "BL15",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 4.8cm, phải ép lên da"
+ },
+ {
+  "c": "BL16",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 4.54cm, phải ép lên da"
+ },
+ {
+  "c": "BL27",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "BL29",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "BL30",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "BL32",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": false,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "BL33",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": false,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "BL35",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "BL44",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 3.41cm, phải ép lên da"
+ },
+ {
+  "c": "BL46",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 12.34cm"
+ },
+ {
+  "c": "BL48",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 10.09cm"
+ },
+ {
+  "c": "BL49",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 8.35cm"
+ },
+ {
+  "c": "BL50",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 4.04cm, phải ép lên da"
+ },
+ {
+  "c": "BL51",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 9.29cm"
+ },
+ {
+  "c": "BL52",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 5.01cm, phải ép lên da"
+ },
+ {
+  "c": "BL54",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "BL58",
+  "diem": 5,
+  "conf": "cao",
+  "co": true,
+  "ly": "rải dời 13.06cm, phải ép lên da"
+ },
+ {
+  "c": "BL63",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 8.25cm"
+ },
+ {
+  "c": "BL64",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 9.87cm"
+ },
+ {
+  "c": "KI13",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 10.86cm"
+ },
+ {
+  "c": "TE21",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "TE23",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "GB1",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "GB2",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 12.84cm"
+ },
+ {
+  "c": "GB10",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 13.44cm"
+ },
+ {
+  "c": "GB11",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 16.23cm"
+ },
+ {
+  "c": "GB15",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 7.73cm"
+ },
+ {
+  "c": "GB16",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 8.27cm"
+ },
+ {
+  "c": "GB17",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 6.42cm"
+ },
+ {
+  "c": "GB24",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 18.73cm"
+ },
+ {
+  "c": "GB26",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 16.81cm"
+ },
+ {
+  "c": "GB27",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 7.51cm"
+ },
+ {
+  "c": "GB30",
+  "diem": 5,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, phải ép lên da"
+ },
+ {
+  "c": "GB36",
+  "diem": 5,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, rải dời 29.61cm"
+ },
+ {
+  "c": "LR5",
+  "diem": 5,
+  "conf": "cao",
+  "co": true,
+  "ly": "rải dời 9.4cm, phải ép lên da"
+ },
+ {
+  "c": "LR6",
+  "diem": 5,
+  "conf": "khoá",
+  "co": true,
+  "ly": "rải dời 9.36cm, phải ép lên da"
+ },
+ {
+  "c": "LR9",
+  "diem": 5,
+  "conf": "cao",
+  "co": true,
+  "ly": "rải dời 10.92cm, phạm điều cấm"
+ },
+ {
+  "c": "LI8",
+  "diem": 4,
+  "conf": "WHO-lấp",
+  "co": false,
+  "ly": "WHO phải đoán, rải dời 3.43cm"
+ },
+ {
+  "c": "LI11",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "LI17",
+  "diem": 4,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 5.97cm"
+ },
+ {
+  "c": "ST7",
+  "diem": 4,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 4.55cm"
+ },
+ {
+  "c": "ST9",
+  "diem": 4,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 5.71cm"
+ },
+ {
+  "c": "ST10",
+  "diem": 4,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 4.25cm"
+ },
+ {
+  "c": "ST30",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "ST44",
+  "diem": 4,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 3.47cm"
+ },
+ {
+  "c": "SP2",
+  "diem": 4,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 3.12cm"
+ },
+ {
+  "c": "SP6",
+  "diem": 4,
+  "conf": "khoá",
+  "co": true,
+  "ly": "phải ép lên da, phạm điều cấm"
+ },
+ {
+  "c": "SP12",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "SP17",
+  "diem": 4,
+  "conf": "cao",
+  "co": true,
+  "ly": "phải ép lên da, phạm điều cấm"
+ },
+ {
+  "c": "SI18",
+  "diem": 4,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 4.71cm"
+ },
+ {
+  "c": "BL21",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "BL22",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "BL23",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "BL24",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "PC2",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "PC8",
+  "diem": 4,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 4.86cm"
+ },
+ {
+  "c": "TE16",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "GB4",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "GB5",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "GB6",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "GB22",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "LR2",
+  "diem": 4,
+  "conf": "WHO-lấp",
+  "co": true,
+  "ly": "WHO phải đoán, rải dời 3.75cm"
+ },
+ {
+  "c": "CV5",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ },
+ {
+  "c": "CV6",
+  "diem": 4,
+  "conf": "tạm",
+  "co": true,
+  "ly": "độ tin tạm, phải ép lên da"
+ }
+]

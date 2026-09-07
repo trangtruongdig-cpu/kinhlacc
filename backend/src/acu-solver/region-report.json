@@ -1,0 +1,36 @@
+{
+ "sai": [],
+ "khongro": [
+  {
+   "code": "LI19",
+   "xuong": "Sụn cánh mũi lớn trái",
+   "cm": 0.5,
+   "vung": "mặt dưới"
+  },
+  {
+   "code": "BL39",
+   "xuong": "Xương mác trái",
+   "cm": 3.7,
+   "vung": "mặt sau đùi",
+   "ngoaiLe": "Uỷ Dương nằm TRÊN NẾP KHEO — chính là ranh giới đùi/cẳng chân — và đúng 1 thốn ngoài Uỷ Trung BL40 như sách; xương mác ở ngay đó nên phép kiểm vùng báo \"cẳng chân\". Đã đo: BL40 x=8,3 → BL39 x=10,5, đúng bằng 1 thốn chân."
+  },
+  {
+   "code": "GV25",
+   "xuong": "Sụn cánh mũi lớn trái",
+   "cm": 0.3,
+   "vung": "mũi → môi trên"
+  },
+  {
+   "code": "GV26",
+   "xuong": "Sụn cánh mũi lớn trái",
+   "cm": 0.2,
+   "vung": "mũi → môi trên"
+  },
+  {
+   "code": "GV27",
+   "xuong": "Sụn cánh mũi lớn trái",
+   "cm": 0.6,
+   "vung": "mũi → môi trên"
+  }
+ ]
+}

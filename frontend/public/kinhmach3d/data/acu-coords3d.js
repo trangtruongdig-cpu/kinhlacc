@@ -1,440 +1,4329 @@
-/* Toạ độ huyệt 3D — LU/ST/CV/HT: ENGINE cốt-độ (tools/acu-solver) · kinh khác: đặt-tay (cũ).
- *  LU/ST/CV/HT sinh từ VỊ TRÍ + WHO 2008 + đối chiếu; q=exact (≥2 nguồn) · approx (1 nguồn, sẽ tinh chỉnh).
- *  src=book|who|who-arb · conf=khoá/cao/tạm/WHO-lấp/WHO-trọng tài. Bake lại: node tools/acu-solver/bake.cjs */
+/* Toạ độ huyệt 3D — ENGINE cốt-độ 5 TẦNG + RẢI DỌC ĐƯỜNG KINH (backend/src/acu-solver).
+ *  Tầng 1 mốc/chấm tay · 2 WHO 2008 · 3 sách VỊ TRÍ + cốt độ · 4 khe mô · 5 ép lên da
+ *  · rồi RẢI LẠI theo cốt độ dọc đường kinh (bake-points.cjs) — đường dựng bởi bake-paths.cjs.
+ *  src có hậu tố '+duong' = đã rải dọc đường · truocRai = toạ độ trước khi rải · raiCm = quãng dời.
+ *  q=exact (≥2 nguồn) · approx (1 nguồn, hoặc bị dời xa → xem canSoat).
+ *  GV vẫn là cực toạ độ {h,az} — chưa qua engine.
+ *  Sinh lại: node bake.cjs → node bake-paths.cjs → node bake-points.cjs */
 window.ACU_COORDS3D = {
-  meridians: {
-      "LU": {
-          "name": "Phế",
-          "color": "#e11d48"
-      },
-      "LI": {
-          "name": "Đại Trường",
-          "color": "#f97316"
-      },
-      "ST": {
-          "name": "Vị",
-          "color": "#eab308"
-      },
-      "SP": {
-          "name": "Tỳ",
-          "color": "#84cc16"
-      },
-      "HT": {
-          "name": "Tâm",
-          "color": "#dc2626"
-      },
-      "SI": {
-          "name": "Tiểu Trường",
-          "color": "#fb7185"
-      },
-      "BL": {
-          "name": "Bàng Quang",
-          "color": "#2563eb"
-      },
-      "KI": {
-          "name": "Thận",
-          "color": "#0ea5e9"
-      },
-      "PC": {
-          "name": "Tâm Bào",
-          "color": "#db2777"
-      },
-      "TE": {
-          "name": "Tam Tiêu",
-          "color": "#a855f7"
-      },
-      "GB": {
-          "name": "Đởm",
-          "color": "#16a34a"
-      },
-      "LR": {
-          "name": "Can",
-          "color": "#15803d"
-      },
-      "CV": {
-          "name": "Mạch Nhâm",
-          "color": "#c026d3"
-      },
-      "GV": {
-          "name": "Mạch Đốc",
-          "color": "#0891b2"
-      }
+  "meridians": {
+    "LU": {
+      "name": "Phế",
+      "color": "#e11d48"
+    },
+    "LI": {
+      "name": "Đại Trường",
+      "color": "#f97316"
+    },
+    "ST": {
+      "name": "Vị",
+      "color": "#eab308"
+    },
+    "SP": {
+      "name": "Tỳ",
+      "color": "#84cc16"
+    },
+    "HT": {
+      "name": "Tâm",
+      "color": "#dc2626"
+    },
+    "SI": {
+      "name": "Tiểu Trường",
+      "color": "#fb7185"
+    },
+    "BL": {
+      "name": "Bàng Quang",
+      "color": "#2563eb"
+    },
+    "KI": {
+      "name": "Thận",
+      "color": "#0ea5e9"
+    },
+    "PC": {
+      "name": "Tâm Bào",
+      "color": "#db2777"
+    },
+    "TE": {
+      "name": "Tam Tiêu",
+      "color": "#a855f7"
+    },
+    "GB": {
+      "name": "Đởm",
+      "color": "#16a34a"
+    },
+    "LR": {
+      "name": "Can",
+      "color": "#15803d"
+    },
+    "CV": {
+      "name": "Mạch Nhâm",
+      "color": "#c026d3"
+    },
+    "GV": {
+      "name": "Mạch Đốc",
+      "color": "#0891b2"
+    }
   },
-  points: {
-    // ---- LU ★engine ----
-    LU1:    { x: 0.0697, y: 0.8244, z: 0.0256, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true, snapDir: "front" },
-    LU2:    { x: 0.0729, y: 0.8331, z: 0.0092, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true, snapDir: "front" },
-    LU3:    { x: 0.1376, y: 0.7661, z: 0.0044, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    LU4:    { x: 0.1359, y: 0.7392, z: 0.009, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    LU5:    { x: 0.1307, y: 0.6626, z: 0.0135, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    LU6:    { x: 0.1405, y: 0.606, z: 0.0203, q: "exact", snap: true, src: "book", conf: "cao" },
-    LU7:    { x: 0.1548, y: 0.5517, z: 0.0244, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    LU8:    { x: 0.1495, y: 0.5383, z: 0.0281, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    LU9:    { x: 0.1543, y: 0.5267, z: 0.0298, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    LU10:   { x: 0.1628, y: 0.5068, z: 0.041, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    LU11:   { x: 0.1907, y: 0.4851, z: 0.0464, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    // ---- LI ----
-    LI1:    { x: 0.184, y: 0.43, z: 0.045, q: "approx", snap: false },
-    LI2:    { x: 0.179, y: 0.456, z: 0.023, q: "approx", snap: false },
-    LI3:    { x: 0.179, y: 0.468, z: 0.019, q: "approx", snap: false },
-    LI4:    { x: 0.163, y: 0.49, z: 0.003, q: "approx", snap: false },
-    LI5:    { x: 0.18, y: 0.514, z: 0.018, q: "exact", snap: true },
-    LI6:    { x: 0.154, y: 0.547, z: -0.013, q: "exact", snap: true },
-    LI7:    { x: 0.154, y: 0.569, z: -0.019, q: "exact", snap: true },
-    LI8:    { x: 0.155, y: 0.602, z: -0.023, q: "exact", snap: true },
-    LI9:    { x: 0.156, y: 0.613, z: -0.023, q: "exact", snap: true },
-    LI10:   { x: 0.158, y: 0.624, z: -0.019, q: "exact", snap: true },
-    LI11:   { x: 0.156, y: 0.646, z: -0.022, q: "exact", snap: true },
-    LI12:   { x: 0.166, y: 0.662, z: -0.018, q: "approx", snap: true },
-    LI13:   { x: 0.162, y: 0.693, z: -0.016, q: "approx", snap: true },
-    LI14:   { x: 0.151, y: 0.756, z: -0.014, q: "approx", snap: true },
-    LI15:   { x: 0.137, y: 0.792, z: -0.03, q: "approx", snap: true },
-    LI16:   { x: 0.09, y: 0.835, z: -0.024, q: "approx", snap: true },
-    LI17:   { x: 0.068, y: 0.852, z: -0.009, q: "approx", snap: true },
-    LI18:   { x: 0.05, y: 0.87, z: 0.01, q: "approx", snap: true },
-    LI19:   { x: 0.039, y: 0.889, z: 0.033, q: "approx", snap: true },
-    LI20:   { x: 0.02, y: 0.906, z: 0.052, q: "approx", snap: true },
-    // ---- ST ★engine ----
-    ST1:    { x: 0.03, y: 0.9189, z: 0.09, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST2:    { x: 0.03, y: 0.91, z: 0.088, q: "approx", snap: true, src: "who", conf: "WHO-lấp", snapDir: "front" },
-    ST3:    { x: 0.03, y: 0.91, z: 0.088, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST4:    { x: 0.022, y: 0.8912, z: 0.078, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST5:    { x: 0.046, y: 0.886, z: 0.03, q: "approx", snap: true, src: "who", conf: "WHO-lấp", snapDir: "front" },
-    ST6:    { x: 0.05, y: 0.906, z: 0.032, q: "approx", snap: true, src: "who", conf: "WHO-lấp", snapDir: "front" },
-    ST7:    { x: 0.05, y: 0.926, z: 0.039, q: "approx", snap: true, src: "who", conf: "WHO-lấp", snapDir: "front" },
-    ST8:    { x: 0.086, y: 0.957, z: 0.06, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true, snapDir: "front" },
-    ST9:    { x: 0.04, y: 0.84, z: 0.072, q: "approx", snap: true, src: "who", conf: "WHO-lấp", snapDir: "front" },
-    ST10:   { x: 0.038, y: 0.822, z: 0.074, q: "approx", snap: true, src: "who", conf: "WHO-lấp", snapDir: "front" },
-    ST11:   { x: 0.0214, y: 0.832, z: 0.0807, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST12:   { x: 0.078, y: 0.832, z: 0.03, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true, snapDir: "front" },
-    ST13:   { x: 0.0803, y: 0.799, z: 0.0244, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST14:   { x: 0.0803, y: 0.799, z: 0.0038, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST15:   { x: 0.0803, y: 0.735, z: 0.0494, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST16:   { x: 0.0803, y: 0.735, z: 0.0494, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST17:   { x: 0.086, y: 0.735, z: 0.069, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true, snapDir: "front" },
-    ST18:   { x: 0.0803, y: 0.735, z: 0.0494, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST19:   { x: 0.0423, y: 0.65, z: 0.057, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST20:   { x: 0.0423, y: 0.6425, z: 0.0591, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST21:   { x: 0.0423, y: 0.635, z: 0.0612, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST22:   { x: 0.0423, y: 0.6275, z: 0.0633, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST23:   { x: 0.0423, y: 0.62, z: 0.0655, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST24:   { x: 0.0423, y: 0.6125, z: 0.0676, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST25:   { x: 0.0423, y: 0.605, z: 0.0697, q: "exact", snap: true, src: "book", conf: "cao", snapDir: "front" },
-    ST26:   { x: 0.0423, y: 0.584, z: 0.0657, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST27:   { x: 0.0423, y: 0.563, z: 0.0617, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST28:   { x: 0.0423, y: 0.542, z: 0.0577, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST29:   { x: 0.0423, y: 0.521, z: 0.0537, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST30:   { x: 0.0423, y: 0.5, z: 0.0497, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    ST31:   { x: 0.156, y: 0.495, z: 0.029, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    ST32:   { x: 0.0463, y: 0.3563, z: 0.039, q: "approx", snap: true, src: "book", conf: "tạm" },
-    ST33:   { x: 0.0432, y: 0.3157, z: 0.0345, q: "approx", snap: true, src: "book", conf: "tạm" },
-    ST34:   { x: 0.0631, y: 0.2831, z: 0.021, q: "approx", snap: true, src: "book", conf: "tạm" },
-    ST35:   { x: 0.061, y: 0.256, z: 0.018, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    ST36:   { x: 0.0631, y: 0.2174, z: 0.0184, q: "exact", snap: true, src: "book", conf: "khoá" },
-    ST37:   { x: 0.0651, y: 0.1787, z: 0.0187, q: "exact", snap: true, src: "book", conf: "cao" },
-    ST38:   { x: 0.0624, y: 0.2303, z: 0.0182, q: "approx", snap: true, src: "book", conf: "tạm" },
-    ST39:   { x: 0.0672, y: 0.1401, z: 0.0191, q: "approx", snap: true, src: "book", conf: "tạm" },
-    ST40:   { x: 0.0665, y: 0.153, z: 0.019, q: "approx", snap: true, src: "book", conf: "tạm" },
-    ST41:   { x: 0.046, y: 0.067, z: 0.008, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    ST42:   { x: 0.07, y: 0.041, z: 0.009, q: "approx", snap: true, src: "who-arb", conf: "WHO-trọng tài" },
-    ST43:   { x: 0.065, y: 0.041, z: 0.026, q: "approx", snap: true, src: "who-arb", conf: "WHO-trọng tài" },
-    ST44:   { x: 0.086, y: 0.003, z: 0.063, q: "approx", snap: true, src: "who", conf: "WHO-lấp" },
-    ST45:   { x: 0.085, y: 0.009, z: 0.079, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    // ---- SP ----
-    SP1:    { x: 0.063, y: 0.013, z: 0.08, q: "approx", snap: false },
-    SP2:    { x: 0.043, y: 0.016, z: 0.052, q: "approx", snap: false },
-    SP3:    { x: 0.039, y: 0.019, z: 0.036, q: "approx", snap: false },
-    SP4:    { x: 0.034, y: 0.009, z: 0.008, q: "approx", snap: false },
-    SP5:    { x: 0.032, y: 0.039, z: 0.014, q: "approx", snap: false },
-    SP6:    { x: 0.025, y: 0.088, z: -0.023, q: "exact", snap: true },
-    SP7:    { x: 0.022, y: 0.135, z: -0.02, q: "exact", snap: true },
-    SP8:    { x: 0.015, y: 0.19, z: -0.018, q: "exact", snap: true },
-    SP9:    { x: 0.016, y: 0.243, z: -0.016, q: "exact", snap: true },
-    SP10:   { x: 0.017, y: 0.307, z: 0.007, q: "exact", snap: true },
-    SP11:   { x: 0.011, y: 0.364, z: -0.002, q: "exact", snap: true },
-    SP12:   { x: 0.1, y: 0.5, z: 0.039, q: "approx", snap: true },
-    SP13:   { x: 0.102, y: 0.53, z: 0.037, q: "approx", snap: true },
-    SP14:   { x: 0.099, y: 0.583, z: 0.042, q: "exact", snap: true },
-    SP15:   { x: 0.099, y: 0.605, z: 0.038, q: "exact", snap: true },
-    SP16:   { x: 0.096, y: 0.649, z: 0.046, q: "exact", snap: true },
-    SP17:   { x: 0.132, y: 0.717, z: 0.009, q: "exact", snap: true },
-    SP18:   { x: 0.128, y: 0.735, z: 0.03, q: "exact", snap: true },
-    SP19:   { x: 0.128, y: 0.753, z: 0.031, q: "exact", snap: true },
-    SP20:   { x: 0.129, y: 0.771, z: 0.028, q: "exact", snap: true },
-    SP21:   { x: 0.134, y: 0.7, z: 0.008, q: "approx", snap: true },
-    // ---- HT ★engine ----
-    HT1:    { x: 0.101, y: 0.777, z: 0.0337, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    HT2:    { x: 0.1134, y: 0.7021, z: 0.0176, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    HT3:    { x: 0.1058, y: 0.6469, z: 0.0085, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    HT4:    { x: 0.1233, y: 0.5632, z: 0.0212, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    HT5:    { x: 0.1309, y: 0.5396, z: 0.0247, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    HT6:    { x: 0.1331, y: 0.5282, z: 0.0272, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    HT7:    { x: 0.1354, y: 0.5192, z: 0.0309, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    HT8:    { x: 0.1369, y: 0.4803, z: 0.0414, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    HT9:    { x: 0.1278, y: 0.435, z: 0.0333, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true },
-    // ---- SI ----
-    SI1:    { x: 0.123, y: 0.439, z: 0.046, q: "approx", snap: false },
-    SI2:    { x: 0.124, y: 0.468, z: 0.027, q: "approx", snap: false },
-    SI3:    { x: 0.124, y: 0.474, z: 0.023, q: "approx", snap: false },
-    SI4:    { x: 0.128, y: 0.501, z: 0.012, q: "approx", snap: false },
-    SI5:    { x: 0.135, y: 0.514, z: -0.006, q: "exact", snap: true },
-    SI6:    { x: 0.133, y: 0.525, z: -0.01, q: "exact", snap: true },
-    SI7:    { x: 0.111, y: 0.569, z: -0.016, q: "exact", snap: true },
-    SI8:    { x: 0.113, y: 0.646, z: -0.044, q: "exact", snap: true },
-    SI9:    { x: 0.12, y: 0.682, z: -0.056, q: "approx", snap: true },
-    SI10:   { x: 0.109, y: 0.711, z: -0.06, q: "approx", snap: true },
-    SI11:   { x: 0.098, y: 0.74, z: -0.063, q: "approx", snap: true },
-    SI12:   { x: 0.087, y: 0.768, z: -0.065, q: "approx", snap: true },
-    SI13:   { x: 0.076, y: 0.797, z: -0.062, q: "approx", snap: true },
-    SI14:   { x: 0.065, y: 0.822, z: -0.049, q: "approx", snap: true },
-    SI15:   { x: 0.055, y: 0.842, z: -0.028, q: "approx", snap: true },
-    SI16:   { x: 0.052, y: 0.866, z: 0, q: "approx", snap: true },
-    SI17:   { x: 0.049, y: 0.88, z: 0.019, q: "approx", snap: true },
-    SI18:   { x: 0.046, y: 0.895, z: 0.038, q: "approx", snap: true },
-    SI19:   { x: 0.05, y: 0.888, z: 0.02, q: "approx", snap: true },
-    // ---- BL ----
-    BL1:    { x: 0.018, y: 0.9, z: 0.065, q: "approx", snap: true },
-    BL2:    { x: 0.025, y: 0.927, z: 0.056, q: "approx", snap: true },
-    BL3:    { x: 0.031, y: 0.951, z: 0.044, q: "approx", snap: true },
-    BL4:    { x: 0.033, y: 0.972, z: 0.023, q: "approx", snap: true },
-    BL5:    { x: 0.036, y: 0.98, z: 0.001, q: "approx", snap: true },
-    BL6:    { x: 0.038, y: 0.965, z: -0.024, q: "approx", snap: true },
-    BL7:    { x: 0.04, y: 0.945, z: -0.042, q: "approx", snap: true },
-    BL8:    { x: 0.04, y: 0.917, z: -0.048, q: "approx", snap: true },
-    BL9:    { x: 0.04, y: 0.888, z: -0.054, q: "approx", snap: true },
-    BL10:   { x: 0.04, y: 0.86, z: -0.06, q: "approx", snap: true },
-    BL11:   { x: 0.017, y: 0.833, z: -0.076, q: "exact", snap: true },
-    BL12:   { x: 0.017, y: 0.822, z: -0.078, q: "exact", snap: true },
-    BL13:   { x: 0.017, y: 0.809, z: -0.079, q: "exact", snap: true },
-    BL14:   { x: 0.017, y: 0.794, z: -0.084, q: "exact", snap: true },
-    BL15:   { x: 0.017, y: 0.779, z: -0.084, q: "exact", snap: true },
-    BL16:   { x: 0.017, y: 0.763, z: -0.084, q: "exact", snap: true },
-    BL17:   { x: 0.017, y: 0.746, z: -0.082, q: "exact", snap: true },
-    BL18:   { x: 0.017, y: 0.714, z: -0.076, q: "exact", snap: true },
-    BL19:   { x: 0.017, y: 0.697, z: -0.074, q: "exact", snap: true },
-    BL20:   { x: 0.017, y: 0.681, z: -0.069, q: "exact", snap: true },
-    BL21:   { x: 0.017, y: 0.663, z: -0.066, q: "exact", snap: true },
-    BL22:   { x: 0.017, y: 0.646, z: -0.062, q: "exact", snap: true },
-    BL23:   { x: 0.017, y: 0.63, z: -0.06, q: "exact", snap: true },
-    BL24:   { x: 0.017, y: 0.614, z: -0.058, q: "exact", snap: true },
-    BL25:   { x: 0.017, y: 0.597, z: -0.061, q: "exact", snap: true },
-    BL26:   { x: 0.017, y: 0.57, z: -0.076, q: "exact", snap: true },
-    BL27:   { x: 0.017, y: 0.57, z: -0.076, q: "exact", snap: true },
-    BL28:   { x: 0.017, y: 0.549, z: -0.081, q: "exact", snap: true },
-    BL29:   { x: 0.017, y: 0.531, z: -0.083, q: "exact", snap: true },
-    BL30:   { x: 0.017, y: 0.514, z: -0.083, q: "exact", snap: true },
-    BL31:   { x: 0.009, y: 0.57, z: -0.076, q: "exact", snap: true },
-    BL32:   { x: 0.008, y: 0.549, z: -0.081, q: "exact", snap: true },
-    BL33:   { x: 0.007, y: 0.531, z: -0.083, q: "exact", snap: true },
-    BL34:   { x: 0.006, y: 0.514, z: -0.083, q: "exact", snap: true },
-    BL35:   { x: 0.006, y: 0.489, z: -0.079, q: "exact", snap: true },
-    BL36:   { x: 0.032, y: 0.485, z: -0.076, q: "exact", snap: true },
-    BL37:   { x: 0.047, y: 0.38, z: -0.055, q: "exact", snap: true },
-    BL38:   { x: 0.043, y: 0.278, z: -0.052, q: "exact", snap: true },
-    BL39:   { x: 0.055, y: 0.26, z: -0.053, q: "exact", snap: true },
-    BL40:   { x: 0.047, y: 0.26, z: -0.054, q: "exact", snap: true },
-    BL41:   { x: 0.034, y: 0.822, z: -0.078, q: "exact", snap: true },
-    BL42:   { x: 0.034, y: 0.809, z: -0.08, q: "exact", snap: true },
-    BL43:   { x: 0.034, y: 0.794, z: -0.084, q: "exact", snap: true },
-    BL44:   { x: 0.034, y: 0.779, z: -0.084, q: "exact", snap: true },
-    BL45:   { x: 0.034, y: 0.763, z: -0.084, q: "exact", snap: true },
-    BL46:   { x: 0.034, y: 0.746, z: -0.082, q: "exact", snap: true },
-    BL47:   { x: 0.034, y: 0.714, z: -0.076, q: "exact", snap: true },
-    BL48:   { x: 0.034, y: 0.697, z: -0.074, q: "exact", snap: true },
-    BL49:   { x: 0.034, y: 0.681, z: -0.069, q: "exact", snap: true },
-    BL50:   { x: 0.034, y: 0.663, z: -0.066, q: "exact", snap: true },
-    BL51:   { x: 0.034, y: 0.646, z: -0.062, q: "exact", snap: true },
-    BL52:   { x: 0.034, y: 0.63, z: -0.059, q: "exact", snap: true },
-    BL53:   { x: 0.034, y: 0.549, z: -0.081, q: "exact", snap: true },
-    BL54:   { x: 0.034, y: 0.514, z: -0.083, q: "exact", snap: true },
-    BL55:   { x: 0.046, y: 0.232, z: -0.063, q: "exact", snap: true },
-    BL56:   { x: 0.046, y: 0.197, z: -0.065, q: "exact", snap: true },
-    BL57:   { x: 0.049, y: 0.161, z: -0.06, q: "exact", snap: true },
-    BL58:   { x: 0.047, y: 0.113, z: -0.047, q: "exact", snap: true },
-    BL59:   { x: 0.036, y: 0.066, z: -0.046, q: "exact", snap: true },
-    BL60:   { x: 0.036, y: 0.045, z: -0.051, q: "exact", snap: true },
-    BL61:   { x: 0.084, y: 0.052, z: -0.045, q: "approx", snap: false },
-    BL62:   { x: 0.094, y: 0.054, z: -0.033, q: "approx", snap: false },
-    BL63:   { x: 0.074, y: 0.015, z: -0.021, q: "approx", snap: false },
-    BL64:   { x: 0.085, y: 0.01, z: -0.007, q: "approx", snap: false },
-    BL65:   { x: 0.09, y: 0.015, z: 0.008, q: "approx", snap: false },
-    BL66:   { x: 0.088, y: 0.017, z: 0.037, q: "approx", snap: false },
-    BL67:   { x: 0.103, y: 0.009, z: 0.05, q: "approx", snap: false },
-    // ---- KI ----
-    KI1:    { x: 0.069, y: 0, z: 0.049, q: "approx", snap: false },
-    KI2:    { x: 0.033, y: 0.029, z: 0.021, q: "approx", snap: false },
-    KI3:    { x: 0.027, y: 0.052, z: -0.041, q: "exact", snap: true },
-    KI4:    { x: 0.058, y: 0.051, z: 0.002, q: "approx", snap: true },
-    KI5:    { x: 0.063, y: 0.045, z: -0.024, q: "approx", snap: true },
-    KI6:    { x: 0.021, y: 0.032, z: -0.026, q: "exact", snap: true },
-    KI7:    { x: 0.026, y: 0.073, z: -0.035, q: "exact", snap: true },
-    KI8:    { x: 0.024, y: 0.073, z: -0.024, q: "exact", snap: true },
-    KI9:    { x: 0.027, y: 0.119, z: -0.037, q: "exact", snap: true },
-    KI10:   { x: 0.024, y: 0.26, z: -0.043, q: "exact", snap: true },
-    KI11:   { x: 0.014, y: 0.52, z: 0.051, q: "exact", snap: true },
-    KI12:   { x: 0.013, y: 0.537, z: 0.055, q: "exact", snap: true },
-    KI13:   { x: 0.012, y: 0.554, z: 0.058, q: "exact", snap: true },
-    KI14:   { x: 0.012, y: 0.571, z: 0.059, q: "exact", snap: true },
-    KI15:   { x: 0.012, y: 0.588, z: 0.061, q: "exact", snap: true },
-    KI16:   { x: 0.012, y: 0.605, z: 0.062, q: "exact", snap: true },
-    KI17:   { x: 0.012, y: 0.62, z: 0.064, q: "exact", snap: true },
-    KI18:   { x: 0.012, y: 0.634, z: 0.065, q: "exact", snap: true },
-    KI19:   { x: 0.012, y: 0.649, z: 0.068, q: "exact", snap: true },
-    KI20:   { x: 0.012, y: 0.664, z: 0.069, q: "exact", snap: true },
-    KI21:   { x: 0.011, y: 0.693, z: 0.07, q: "exact", snap: true },
-    KI22:   { x: 0.044, y: 0.717, z: 0.072, q: "exact", snap: true },
-    KI23:   { x: 0.043, y: 0.735, z: 0.072, q: "exact", snap: true },
-    KI24:   { x: 0.043, y: 0.753, z: 0.072, q: "exact", snap: true },
-    KI25:   { x: 0.043, y: 0.771, z: 0.07, q: "exact", snap: true },
-    KI26:   { x: 0.043, y: 0.788, z: 0.061, q: "exact", snap: true },
-    KI27:   { x: 0.042, y: 0.806, z: 0.054, q: "exact", snap: true },
-    // ---- PC ----
-    PC1:    { x: 0.107, y: 0.735, z: 0.061, q: "exact", snap: true },
-    PC2:    { x: 0.125, y: 0.756, z: 0.025, q: "approx", snap: true },
-    PC3:    { x: 0.141, y: 0.646, z: 0.003, q: "exact", snap: true },
-    PC4:    { x: 0.135, y: 0.569, z: 0.015, q: "exact", snap: true },
-    PC5:    { x: 0.143, y: 0.547, z: 0.017, q: "exact", snap: true },
-    PC6:    { x: 0.15, y: 0.536, z: 0.02, q: "exact", snap: true },
-    PC7:    { x: 0.175, y: 0.514, z: 0.033, q: "exact", snap: true },
-    PC8:    { x: 0.158, y: 0.495, z: 0.033, q: "approx", snap: false },
-    PC9:    { x: 0.162, y: 0.421, z: 0.056, q: "approx", snap: false },
-    // ---- TE ----
-    TE1:    { x: 0.141, y: 0.428, z: 0.049, q: "approx", snap: false },
-    TE2:    { x: 0.137, y: 0.456, z: 0.025, q: "approx", snap: false },
-    TE3:    { x: 0.137, y: 0.499, z: 0.001, q: "approx", snap: false },
-    TE4:    { x: 0.14, y: 0.514, z: -0.008, q: "exact", snap: true },
-    TE5:    { x: 0.141, y: 0.536, z: -0.012, q: "exact", snap: true },
-    TE6:    { x: 0.143, y: 0.547, z: -0.019, q: "exact", snap: true },
-    TE7:    { x: 0.138, y: 0.547, z: -0.018, q: "exact", snap: true },
-    TE8:    { x: 0.139, y: 0.558, z: -0.023, q: "exact", snap: true },
-    TE9:    { x: 0.132, y: 0.591, z: -0.035, q: "exact", snap: true },
-    TE10:   { x: 0.141, y: 0.654, z: -0.035, q: "approx", snap: true },
-    TE11:   { x: 0.139, y: 0.662, z: -0.035, q: "approx", snap: true },
-    TE12:   { x: 0.131, y: 0.709, z: -0.035, q: "approx", snap: true },
-    TE13:   { x: 0.125, y: 0.74, z: -0.035, q: "approx", snap: true },
-    TE14:   { x: 0.105, y: 0.815, z: -0.04, q: "approx", snap: true },
-    TE15:   { x: 0.091, y: 0.825, z: -0.034, q: "approx", snap: true },
-    TE16:   { x: 0.077, y: 0.834, z: -0.027, q: "approx", snap: true },
-    TE17:   { x: 0.063, y: 0.844, z: -0.021, q: "approx", snap: true },
-    TE18:   { x: 0.056, y: 0.858, z: -0.013, q: "approx", snap: true },
-    TE19:   { x: 0.051, y: 0.874, z: -0.005, q: "approx", snap: true },
-    TE20:   { x: 0.051, y: 0.888, z: 0.006, q: "approx", snap: true },
-    TE21:   { x: 0.051, y: 0.9, z: 0.019, q: "approx", snap: true },
-    TE22:   { x: 0.049, y: 0.908, z: 0.035, q: "approx", snap: true },
-    TE23:   { x: 0.046, y: 0.918, z: 0.05, q: "approx", snap: true },
-    // ---- GB ----
-    GB1:    { x: 0.03, y: 0.905, z: 0.055, q: "approx", snap: true },
-    GB2:    { x: 0.044, y: 0.899, z: 0.046, q: "approx", snap: true },
-    GB3:    { x: 0.056, y: 0.898, z: 0.037, q: "approx", snap: true },
-    GB4:    { x: 0.059, y: 0.91, z: 0.023, q: "approx", snap: true },
-    GB5:    { x: 0.062, y: 0.921, z: 0.01, q: "approx", snap: true },
-    GB6:    { x: 0.064, y: 0.928, z: -0.003, q: "approx", snap: true },
-    GB7:    { x: 0.062, y: 0.918, z: -0.018, q: "approx", snap: true },
-    GB8:    { x: 0.06, y: 0.911, z: -0.027, q: "approx", snap: true },
-    GB9:    { x: 0.057, y: 0.92, z: -0.012, q: "approx", snap: true },
-    GB10:   { x: 0.055, y: 0.929, z: 0.003, q: "approx", snap: true },
-    GB11:   { x: 0.053, y: 0.938, z: 0.019, q: "approx", snap: true },
-    GB12:   { x: 0.051, y: 0.946, z: 0.034, q: "approx", snap: true },
-    GB13:   { x: 0.049, y: 0.943, z: 0.032, q: "approx", snap: true },
-    GB14:   { x: 0.048, y: 0.931, z: 0.019, q: "approx", snap: true },
-    GB15:   { x: 0.047, y: 0.919, z: 0.006, q: "approx", snap: true },
-    GB16:   { x: 0.045, y: 0.907, z: -0.007, q: "approx", snap: true },
-    GB17:   { x: 0.044, y: 0.896, z: -0.021, q: "approx", snap: true },
-    GB18:   { x: 0.043, y: 0.884, z: -0.034, q: "approx", snap: true },
-    GB19:   { x: 0.041, y: 0.872, z: -0.047, q: "approx", snap: true },
-    GB20:   { x: 0.03, y: 0.895, z: -0.027, q: "approx", snap: true },
-    GB21:   { x: 0.064, y: 0.84, z: -0.013, q: "approx", snap: true },
-    GB22:   { x: 0.12, y: 0.74, z: 0, q: "approx", snap: true },
-    GB23:   { x: 0.12, y: 0.735, z: 0.044, q: "approx", snap: true },
-    GB24:   { x: 0.091, y: 0.682, z: 0.06, q: "exact", snap: true },
-    GB25:   { x: 0.144, y: 0.62, z: 0.009, q: "approx", snap: true },
-    GB26:   { x: 0.154, y: 0.605, z: 0.011, q: "approx", snap: true },
-    GB27:   { x: 0.149, y: 0.56, z: 0.015, q: "approx", snap: true },
-    GB28:   { x: 0.149, y: 0.545, z: 0.019, q: "approx", snap: true },
-    GB29:   { x: 0.118, y: 0.54, z: 0.008, q: "approx", snap: true },
-    GB30:   { x: 0.157, y: 0.47, z: 0.013, q: "exact", snap: true },
-    GB31:   { x: 0.09, y: 0.359, z: 0.006, q: "exact", snap: true },
-    GB32:   { x: 0.085, y: 0.331, z: 0, q: "exact", snap: true },
-    GB33:   { x: 0.076, y: 0.278, z: -0.018, q: "exact", snap: true },
-    GB34:   { x: 0.079, y: 0.238, z: -0.021, q: "exact", snap: true },
-    GB35:   { x: 0.067, y: 0.113, z: -0.021, q: "exact", snap: true },
-    GB36:   { x: 0.066, y: 0.113, z: -0.017, q: "exact", snap: true },
-    GB37:   { x: 0.062, y: 0.09, z: -0.018, q: "exact", snap: true },
-    GB38:   { x: 0.061, y: 0.078, z: -0.024, q: "exact", snap: true },
-    GB39:   { x: 0.062, y: 0.066, z: -0.025, q: "exact", snap: true },
-    GB40:   { x: 0.075, y: 0.037, z: 0.034, q: "exact", snap: true },
-    GB41:   { x: 0.075, y: 0.03, z: -0.001, q: "approx", snap: false },
-    GB42:   { x: 0.075, y: 0.034, z: 0.015, q: "approx", snap: false },
-    GB43:   { x: 0.102, y: 0.008, z: 0.043, q: "approx", snap: false },
-    GB44:   { x: 0.099, y: 0.009, z: 0.06, q: "approx", snap: false },
-    // ---- LR ----
-    LR1:    { x: 0.073, y: 0.011, z: 0.077, q: "approx", snap: false },
-    LR2:    { x: 0.076, y: 0.003, z: 0.062, q: "approx", snap: false },
-    LR3:    { x: 0.059, y: 0.032, z: 0.04, q: "approx", snap: false },
-    LR4:    { x: 0.034, y: 0.067, z: 0, q: "exact", snap: true },
-    LR5:    { x: 0.026, y: 0.119, z: -0.013, q: "exact", snap: true },
-    LR6:    { x: 0.023, y: 0.15, z: -0.014, q: "exact", snap: true },
-    LR7:    { x: 0.015, y: 0.225, z: -0.018, q: "exact", snap: true },
-    LR8:    { x: 0.014, y: 0.258, z: -0.012, q: "exact", snap: true },
-    LR9:    { x: 0.012, y: 0.321, z: -0.005, q: "exact", snap: true },
-    LR10:   { x: 0.009, y: 0.379, z: -0.005, q: "exact", snap: true },
-    LR11:   { x: 0.006, y: 0.47, z: 0.057, q: "exact", snap: true },
-    LR12:   { x: 0.007, y: 0.5, z: 0.049, q: "exact", snap: true },
-    LR13:   { x: 0.127, y: 0.64, z: 0.006, q: "approx", snap: true },
-    LR14:   { x: 0.089, y: 0.7, z: 0.063, q: "exact", snap: true },
-    // ---- CV ★engine ----
-    CV1:    { x: 0, y: 0.448, z: 0, q: "approx", snap: true, src: "who", conf: "WHO-lấp", snapDir: "front" },
-    CV2:    { x: 0, y: 0.5, z: 0.055, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true, snapDir: "front" },
-    CV3:    { x: 0, y: 0.521, z: 0.059, q: "exact", snap: true, src: "book", conf: "cao", snapDir: "front" },
-    CV4:    { x: 0, y: 0.542, z: 0.063, q: "exact", snap: true, src: "book", conf: "khoá", snapDir: "front" },
-    CV5:    { x: 0, y: 0.563, z: 0.067, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    CV6:    { x: 0, y: 0.5735, z: 0.069, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    CV7:    { x: 0, y: 0.584, z: 0.071, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    CV8:    { x: 0, y: 0.605, z: 0.075, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true, snapDir: "front" },
-    CV9:    { x: 0, y: 0.6125, z: 0.0729, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    CV10:   { x: 0, y: 0.62, z: 0.0707, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    CV11:   { x: 0, y: 0.6275, z: 0.0686, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    CV12:   { x: 0, y: 0.635, z: 0.0665, q: "exact", snap: true, src: "book", conf: "cao", snapDir: "front" },
-    CV13:   { x: 0, y: 0.6425, z: 0.0644, q: "exact", snap: true, src: "book", conf: "cao", snapDir: "front" },
-    CV14:   { x: 0, y: 0.65, z: 0.0622, q: "exact", snap: true, src: "book", conf: "cao", snapDir: "front" },
-    CV15:   { x: 0, y: 0.6613, z: 0.0591, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    CV16:   { x: 0, y: 0.665, z: 0.058, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    CV17:   { x: 0, y: 0.735, z: 0.055, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true, snapDir: "front" },
-    CV18:   { x: 0, y: 0.76, z: 0.05, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    CV19:   { x: 0, y: 0.76, z: 0.05, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    CV20:   { x: 0, y: 0.76, z: 0.05, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    CV21:   { x: 0, y: 0.76, z: 0.05, q: "approx", snap: true, src: "book", conf: "tạm", snapDir: "front" },
-    CV22:   { x: 0, y: 0.815, z: 0.04, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true, snapDir: "front" },
-    CV23:   { x: 0, y: 0.832, z: 0.082, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true, snapDir: "front" },
-    CV24:   { x: 0, y: 0.884, z: 0.072, q: "exact", snap: true, src: "anchor", conf: "mốc", anchor: true, snapDir: "front" },
-    // ---- GV ----
-    GV1:    { h: 0.485, az: 180, q: "exact" },
-    GV2:    { h: 0.513, az: 180, q: "exact" },
-    GV3:    { h: 0.597, az: 180, q: "exact" },
-    GV4:    { h: 0.63, az: 180, q: "exact" },
-    GV5:    { h: 0.646, az: 180, q: "exact" },
-    GV6:    { h: 0.681, az: 180, q: "exact" },
-    GV7:    { h: 0.697, az: 180, q: "exact" },
-    GV8:    { h: 0.714, az: 180, q: "exact" },
-    GV9:    { h: 0.746, az: 180, q: "exact" },
-    GV10:   { h: 0.763, az: 180, q: "exact" },
-    GV11:   { h: 0.779, az: 180, q: "exact" },
-    GV12:   { h: 0.809, az: 180, q: "exact" },
-    GV13:   { h: 0.833, az: 180, q: "exact" },
-    GV14:   { h: 0.843, az: 180, q: "exact" },
-    GV15:   { h: 0.876, az: 180, q: "exact" },
-    GV16:   { h: 0.896, az: 180, q: "exact" },
-    GV17:   { h: 0.916, az: 180, q: "exact" },
-    GV18:   { h: 0.946, az: 180, q: "exact" },
-    GV19:   { h: 0.966, az: 180, dir: "top", q: "exact" },
-    GV20:   { h: 0.992, az: 0, dir: "top", q: "exact" },
-    GV21:   { h: 0.978, az: 0, dir: "top", q: "exact" },
-    GV22:   { h: 0.962, az: 0, dir: "top", q: "exact" },
-    GV23:   { h: 0.95, az: 0, q: "exact" },
-    GV24:   { h: 0.94, az: 0, q: "exact" },
-    GV25:   { h: 0.925, az: 0, q: "exact" },
-    GV26:   { h: 0.906, az: 0, q: "exact" },
-    GV27:   { h: 0.898, az: 0, q: "exact" },
-    GV28:   { h: 0.894, az: 0, q: "exact" },
-  },
+  "points": {
+    "LU1": {
+      "x": 0.0552,
+      "y": 0.7904,
+      "z": 0.0483,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "LU2": {
+      "x": 0.0512,
+      "y": 0.8025,
+      "z": 0.0406,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "LU3": {
+      "x": 0.0969,
+      "y": 0.7603,
+      "z": 0.0176,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "khe": "bờ ngoai cơ nhị đầu cánh tay",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 20.5cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: ép lên da, dời 4.3cm · RẢI DỌC ĐƯỜNG: dời 6.38cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.1281,
+        0.7648,
+        -0.0019
+      ],
+      "raiCm": 6.38
+    },
+    "LU4": {
+      "x": 0.103,
+      "y": 0.7437,
+      "z": 0.0088,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "bờ ngoai cơ nhị đầu cánh tay",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 27.4cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: ép lên da, dời 3.8cm · RẢI DỌC ĐƯỜNG: dời 5.8cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.1324,
+        0.7455,
+        -0.0076
+      ],
+      "raiCm": 5.8
+    },
+    "LU5": {
+      "x": 0.1345,
+      "y": 0.6518,
+      "z": 0.003,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LU6": {
+      "x": 0.1297,
+      "y": 0.5934,
+      "z": 0.0102,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "khe": "bờ trong cơ cánh tay quay",
+      "canSoat": "khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 4.22cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.1475,
+        0.593,
+        -0.0067
+      ],
+      "raiCm": 4.22
+    },
+    "LU7": {
+      "x": 0.1482,
+      "y": 0.5314,
+      "z": 0.0163,
+      "q": "exact",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "truocRai": [
+        0.1587,
+        0.5312,
+        0.0066
+      ],
+      "raiCm": 2.46
+    },
+    "LU8": {
+      "x": 0.1526,
+      "y": 0.5263,
+      "z": 0.0173,
+      "q": "exact",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "truocRai": [
+        0.1597,
+        0.5255,
+        0.0078
+      ],
+      "raiCm": 2.04
+    },
+    "LU9": {
+      "x": 0.1658,
+      "y": 0.5166,
+      "z": 0.0215,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LU10": {
+      "x": 0.186,
+      "y": 0.4984,
+      "z": 0.022,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LU11": {
+      "x": 0.1849,
+      "y": 0.4671,
+      "z": 0.0376,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LI1": {
+      "x": 0.182,
+      "y": 0.4363,
+      "z": 0.0426,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LI2": {
+      "x": 0.1797,
+      "y": 0.462,
+      "z": 0.0225,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai."
+    },
+    "LI3": {
+      "x": 0.1798,
+      "y": 0.4683,
+      "z": 0.0225,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai."
+    },
+    "LI4": {
+      "x": 0.1803,
+      "y": 0.4833,
+      "z": 0.0153,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LI5": {
+      "x": 0.175,
+      "y": 0.4977,
+      "z": 0.0112,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LI6": {
+      "x": 0.154,
+      "y": 0.5453,
+      "z": -0.0086,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "canSoat": "TẦNG DA: ép lên da, dời 2.8cm · RẢI DỌC ĐƯỜNG: dời 3.67cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.1598,
+        0.5607,
+        0.005
+      ],
+      "raiCm": 3.67
+    },
+    "LI7": {
+      "x": 0.1536,
+      "y": 0.5682,
+      "z": -0.0145,
+      "q": "approx",
+      "snap": true,
+      "src": "who-arb+duong",
+      "conf": "WHO-trọng tài",
+      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 9.2cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ",
+      "truocRai": [
+        0.1522,
+        0.5729,
+        -0.0027
+      ],
+      "raiCm": 2.2
+    },
+    "LI8": {
+      "x": 0.1539,
+      "y": 0.6072,
+      "z": -0.0025,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO-lấp",
+      "truocRai": [
+        0.1535,
+        0.6043,
+        0.0015
+      ],
+      "raiCm": 0.85
+    },
+    "LI9": {
+      "x": 0.1489,
+      "y": 0.6192,
+      "z": 0.001,
+      "q": "approx",
+      "snap": true,
+      "src": "book+khe+duong",
+      "conf": "khe",
+      "khe": "bờ sau cơ cánh tay quay",
+      "kheLoai": "sat-bo",
+      "truocRai": [
+        0.1409,
+        0.7123,
+        -0.0292
+      ],
+      "raiCm": 16.88,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 16.88cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "LI10": {
+      "x": 0.1453,
+      "y": 0.631,
+      "z": 0.0024,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "tạm",
+      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 14.4cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG: dời 4.28cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.1426,
+        0.6063,
+        0.0007
+      ],
+      "raiCm": 4.28
+    },
+    "LI11": {
+      "x": 0.1426,
+      "y": 0.6483,
+      "z": 0.0007,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LI12": {
+      "x": 0.1368,
+      "y": 0.6664,
+      "z": 0.0002,
+      "q": "approx",
+      "snap": true,
+      "src": "book+khe+duong",
+      "conf": "khe",
+      "khe": "bờ ngoai xương cánh tay",
+      "kheLoai": "sat-bo",
+      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 24.1cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG: dời 5.02cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.1476,
+        0.6703,
+        -0.0266
+      ],
+      "raiCm": 5.02
+    },
+    "LI13": {
+      "x": 0.1287,
+      "y": 0.7031,
+      "z": 0.0043,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LI14": {
+      "x": 0.1121,
+      "y": 0.7715,
+      "z": 0.0141,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LI15": {
+      "x": 0.1009,
+      "y": 0.8128,
+      "z": 0.0116,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LI16": {
+      "x": 0.0706,
+      "y": 0.8411,
+      "z": -0.0239,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LI17": {
+      "x": 0.0441,
+      "y": 0.8562,
+      "z": -0.0137,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO-lấp",
+      "truocRai": [
+        0.0403,
+        0.865,
+        -0.0123
+      ],
+      "raiCm": 1.67
+    },
+    "LI18": {
+      "x": 0.0272,
+      "y": 0.8776,
+      "z": 0.0031,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LI19": {
+      "x": 0.0041,
+      "y": 0.9036,
+      "z": 0.0584,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LI20": {
+      "x": 0.0049,
+      "y": 0.9202,
+      "z": 0.0472,
+      "q": "approx",
+      "snap": true,
+      "src": "who",
+      "conf": "WHO-lấp"
+    },
+    "ST1": {
+      "x": 0.0184,
+      "y": 0.94,
+      "z": 0.0433,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST2": {
+      "x": 0.0196,
+      "y": 0.9238,
+      "z": 0.0421,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO-lấp",
+      "snapDir": "front",
+      "truocRai": [
+        0.0123,
+        0.9356,
+        0.0415
+      ],
+      "raiCm": 2.39
+    },
+    "ST3": {
+      "x": 0.0206,
+      "y": 0.9104,
+      "z": 0.0412,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "snapDir": "front",
+      "truocRai": [
+        0.0123,
+        0.9356,
+        0.0415
+      ],
+      "raiCm": 4.55,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.55cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "ST4": {
+      "x": 0.0218,
+      "y": 0.8938,
+      "z": 0.04,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST5": {
+      "x": 0.0103,
+      "y": 0.8865,
+      "z": 0.0439,
+      "q": "approx",
+      "snap": true,
+      "src": "who+khe",
+      "conf": "khe",
+      "khe": "bờ duoi xương hàm dưới",
+      "kheLoai": "sat-bo",
+      "snapDir": "front"
+    },
+    "ST6": {
+      "x": 0.0178,
+      "y": 0.8769,
+      "z": 0.0312,
+      "q": "approx",
+      "snap": true,
+      "src": "who+khe+duong",
+      "conf": "khe",
+      "khe": "bờ duoi xương hàm dưới",
+      "kheLoai": "sat-bo",
+      "snapDir": "front",
+      "truocRai": [
+        0.0178,
+        0.8769,
+        0.0312
+      ],
+      "raiCm": 0
+    },
+    "ST7": {
+      "x": 0.0369,
+      "y": 0.915,
+      "z": 0.0171,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST8": {
+      "x": 0.0372,
+      "y": 0.9651,
+      "z": 0.0146,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST9": {
+      "x": 0.0167,
+      "y": 0.8776,
+      "z": 0.0387,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST10": {
+      "x": 0.0167,
+      "y": 0.8517,
+      "z": 0.0144,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST11": {
+      "x": 0.0167,
+      "y": 0.8257,
+      "z": 0.0307,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST12": {
+      "x": 0.0435,
+      "y": 0.8388,
+      "z": 0.0128,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST13": {
+      "x": 0.0444,
+      "y": 0.8136,
+      "z": 0.0335,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST14": {
+      "x": 0.0444,
+      "y": 0.8033,
+      "z": 0.0349,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST15": {
+      "x": 0.0444,
+      "y": 0.7827,
+      "z": 0.0588,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST16": {
+      "x": 0.0444,
+      "y": 0.7648,
+      "z": 0.0644,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST17": {
+      "x": 0.0444,
+      "y": 0.7458,
+      "z": 0.0741,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST18": {
+      "x": 0.0444,
+      "y": 0.7231,
+      "z": 0.0684,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST19": {
+      "x": 0.0222,
+      "y": 0.702,
+      "z": 0.0705,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST20": {
+      "x": 0.0222,
+      "y": 0.6873,
+      "z": 0.0693,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST21": {
+      "x": 0.0222,
+      "y": 0.6725,
+      "z": 0.0689,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST22": {
+      "x": 0.0222,
+      "y": 0.6578,
+      "z": 0.069,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST23": {
+      "x": 0.0222,
+      "y": 0.6431,
+      "z": 0.0659,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST24": {
+      "x": 0.0222,
+      "y": 0.6283,
+      "z": 0.0645,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST25": {
+      "x": 0.0222,
+      "y": 0.6136,
+      "z": 0.0624,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST26": {
+      "x": 0.0222,
+      "y": 0.5927,
+      "z": 0.0614,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST27": {
+      "x": 0.0223,
+      "y": 0.5717,
+      "z": 0.057,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST28": {
+      "x": 0.0221,
+      "y": 0.5508,
+      "z": 0.05,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST29": {
+      "x": 0.022,
+      "y": 0.5298,
+      "z": 0.0448,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST30": {
+      "x": 0.0222,
+      "y": 0.5089,
+      "z": 0.0416,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "ST31": {
+      "x": 0.0768,
+      "y": 0.5065,
+      "z": 0.0348,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "ST32": {
+      "x": 0.0778,
+      "y": 0.3498,
+      "z": 0.0211,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "cơ thẳng đùi | cơ rộng ngoài",
+      "kheLoai": "co-co",
+      "kheXacNhan": true,
+      "canSoat": "TẦNG DA: ép lên da, dời 3.9cm · RẢI DỌC ĐƯỜNG: dời 4.78cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0824,
+        0.3769,
+        0.0256
+      ],
+      "raiCm": 4.78
+    },
+    "ST33": {
+      "x": 0.0713,
+      "y": 0.3138,
+      "z": 0.0154,
+      "q": "exact",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "bờ ngoai cơ thẳng đùi (gân)",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "truocRai": [
+        0.066,
+        0.3271,
+        0.0214
+      ],
+      "raiCm": 2.67
+    },
+    "ST34": {
+      "x": 0.0679,
+      "y": 0.3017,
+      "z": 0.0156,
+      "q": "exact",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "bờ tren xương bánh chè",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canSoat": "TẦNG DA: ép lên da, dời 2.8cm",
+      "truocRai": [
+        0.0659,
+        0.3003,
+        0.0168
+      ],
+      "raiCm": 0.46
+    },
+    "ST35": {
+      "x": 0.0592,
+      "y": 0.2507,
+      "z": 0.0132,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "ST36": {
+      "x": 0.0577,
+      "y": 0.224,
+      "z": 0.0108,
+      "q": "exact",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "xương chày | xương mác",
+      "kheLoai": "xuong-xuong",
+      "kheXacNhan": true,
+      "truocRai": [
+        0.0506,
+        0.2247,
+        0.0031
+      ],
+      "raiCm": 1.8
+    },
+    "ST37": {
+      "x": 0.054,
+      "y": 0.181,
+      "z": 0.0064,
+      "q": "exact",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 38.0cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ",
+      "truocRai": [
+        0.0531,
+        0.1822,
+        -0.0028
+      ],
+      "raiCm": 1.6
+    },
+    "ST38": {
+      "x": 0.0527,
+      "y": 0.1526,
+      "z": 0.0018,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "tạm",
+      "canSoat": "hai bản sách lệch nhau 6.7cm — đã lấy bản cũ · RẢI DỌC ĐƯỜNG: dời 14.83cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0498,
+        0.2388,
+        0.0051
+      ],
+      "raiCm": 14.83
+    },
+    "ST39": {
+      "x": 0.0554,
+      "y": 0.1388,
+      "z": -0.0015,
+      "q": "approx",
+      "snap": true,
+      "src": "book+khe+duong",
+      "conf": "khe",
+      "khe": "bờ ngoai cơ chày trước",
+      "kheLoai": "sat-bo",
+      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 20.2cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG: dời 3.36cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0712,
+        0.1398,
+        -0.0131
+      ],
+      "raiCm": 3.36
+    },
+    "ST40": {
+      "x": 0.0625,
+      "y": 0.155,
+      "z": 0,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "tạm",
+      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 21.4cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ",
+      "truocRai": [
+        0.0547,
+        0.154,
+        -0.0068
+      ],
+      "raiCm": 1.79
+    },
+    "ST41": {
+      "x": 0.045,
+      "y": 0.0484,
+      "z": 0.0144,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "ST42": {
+      "x": 0.0597,
+      "y": 0.0488,
+      "z": 0.0157,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "ST43": {
+      "x": 0.0694,
+      "y": 0.0299,
+      "z": 0.0415,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "ST44": {
+      "x": 0.0711,
+      "y": 0.0236,
+      "z": 0.0508,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "ST45": {
+      "x": 0.0826,
+      "y": 0.0031,
+      "z": 0.0696,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP1": {
+      "x": 0.0579,
+      "y": 0.005,
+      "z": 0.0727,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP2": {
+      "x": 0.0424,
+      "y": 0.0131,
+      "z": 0.0544,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP3": {
+      "x": 0.0381,
+      "y": 0.0108,
+      "z": 0.0471,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP4": {
+      "x": 0.0312,
+      "y": 0.0256,
+      "z": 0.0229,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP5": {
+      "x": 0.0286,
+      "y": 0.0314,
+      "z": 0.0046,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP6": {
+      "x": 0.0263,
+      "y": 0.0969,
+      "z": -0.0234,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "bờ sau-trong xương chày",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canhBao": [
+        "nằm trong lòng xương — phải lùi ra mặt xương"
+      ],
+      "canSoat": "TẦNG DA: ép lên da, dời 2.6cm · RẢI DỌC ĐƯỜNG: dời 6.35cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0629,
+        0.0968,
+        -0.0188
+      ],
+      "raiCm": 6.35
+    },
+    "SP7": {
+      "x": 0.0215,
+      "y": 0.1516,
+      "z": -0.0149,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP8": {
+      "x": 0.0152,
+      "y": 0.2129,
+      "z": -0.0239,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO+khe",
+      "khe": "bờ sau xương chày",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canSoat": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0399,
+        0.2178,
+        0.0088
+      ],
+      "raiCm": 7.1
+    },
+    "SP9": {
+      "x": 0.0169,
+      "y": 0.2471,
+      "z": -0.0138,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP10": {
+      "x": 0.0354,
+      "y": 0.2997,
+      "z": 0.0263,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP11": {
+      "x": 0.0779,
+      "y": 0.3709,
+      "z": 0.029,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO+khe",
+      "khe": "cơ may | cơ thẳng đùi",
+      "kheLoai": "co-co",
+      "kheXacNhan": true,
+      "canSoat": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 7.65cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0376,
+        0.3889,
+        0.0349
+      ],
+      "raiCm": 7.65
+    },
+    "SP12": {
+      "x": 0.0397,
+      "y": 0.5099,
+      "z": 0.0391,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP13": {
+      "x": 0.0444,
+      "y": 0.5236,
+      "z": 0.0415,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP14": {
+      "x": 0.0444,
+      "y": 0.5864,
+      "z": 0.0505,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP15": {
+      "x": 0.0444,
+      "y": 0.6136,
+      "z": 0.0521,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP16": {
+      "x": 0.0444,
+      "y": 0.6578,
+      "z": 0.0605,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP17": {
+      "x": 0.0659,
+      "y": 0.725,
+      "z": 0.0641,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP18": {
+      "x": 0.0666,
+      "y": 0.7505,
+      "z": 0.0638,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP19": {
+      "x": 0.0666,
+      "y": 0.7745,
+      "z": 0.051,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP20": {
+      "x": 0.0666,
+      "y": 0.7984,
+      "z": 0.0398,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SP21": {
+      "x": 0.1062,
+      "y": 0.7013,
+      "z": 0.003,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "HT1": {
+      "x": 0.101,
+      "y": 0.777,
+      "z": 0.0337,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "HT2": {
+      "x": 0.0936,
+      "y": 0.7123,
+      "z": -0.0035,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "bờ ? cơ nhị đầu cánh tay",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canSoat": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.77cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.1383,
+        0.707,
+        -0.0079
+      ],
+      "raiCm": 7.77
+    },
+    "HT3": {
+      "x": 0.1067,
+      "y": 0.6533,
+      "z": -0.005,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "HT4": {
+      "x": 0.1368,
+      "y": 0.5292,
+      "z": 0.0158,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "truocRai": [
+        0.1587,
+        0.5312,
+        0.0066
+      ],
+      "raiCm": 4.09,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.09cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "HT5": {
+      "x": 0.1382,
+      "y": 0.5236,
+      "z": 0.017,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "khe": "cơ gấp cổ tay trụ (gân) | cơ gấp các ngón nông",
+      "canSoat": "khe cách chỗ cốt độ chỉ ra 3.5 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 4.04cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.1597,
+        0.5255,
+        0.0078
+      ],
+      "raiCm": 4.04
+    },
+    "HT6": {
+      "x": 0.1386,
+      "y": 0.5183,
+      "z": 0.0198,
+      "q": "exact",
+      "snap": true,
+      "src": "book+khe+duong",
+      "conf": "khe-khoá",
+      "khe": "cơ gấp cổ tay trụ (gân) | cơ gấp các ngón nông (gân)",
+      "kheLoai": "gan-gan",
+      "truocRai": [
+        0.1506,
+        0.5199,
+        0.0212
+      ],
+      "raiCm": 2.09
+    },
+    "HT7": {
+      "x": 0.1389,
+      "y": 0.5146,
+      "z": 0.0219,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "HT8": {
+      "x": 0.1374,
+      "y": 0.4785,
+      "z": 0.014,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "HT9": {
+      "x": 0.1316,
+      "y": 0.4441,
+      "z": 0.0442,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI1": {
+      "x": 0.1275,
+      "y": 0.4441,
+      "z": 0.0409,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI2": {
+      "x": 0.1253,
+      "y": 0.4699,
+      "z": 0.0224,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI3": {
+      "x": 0.1244,
+      "y": 0.475,
+      "z": 0.0223,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI4": {
+      "x": 0.1248,
+      "y": 0.5014,
+      "z": 0.0151,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI5": {
+      "x": 0.1333,
+      "y": 0.5139,
+      "z": 0.0047,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI6": {
+      "x": 0.1325,
+      "y": 0.5198,
+      "z": 0.0037,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "tạm",
+      "truocRai": [
+        0.1333,
+        0.5349,
+        0.0047
+      ],
+      "raiCm": 2.61
+    },
+    "SI7": {
+      "x": 0.1206,
+      "y": 0.5642,
+      "z": -0.0053,
+      "q": "approx",
+      "snap": true,
+      "src": "book+khe+duong",
+      "conf": "khe",
+      "khe": "bờ sau xương trụ",
+      "kheLoai": "sat-bo",
+      "truocRai": [
+        0.1559,
+        0.5706,
+        -0.0154
+      ],
+      "raiCm": 6.4,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 6.4cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "SI8": {
+      "x": 0.1128,
+      "y": 0.6604,
+      "z": -0.0459,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI9": {
+      "x": 0.1227,
+      "y": 0.7409,
+      "z": -0.0494,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "truocRai": [
+        0.0834,
+        0.8309,
+        -0.0205
+      ],
+      "raiCm": 17.6,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 17.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "SI10": {
+      "x": 0.1188,
+      "y": 0.8061,
+      "z": -0.0469,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI11": {
+      "x": 0.0476,
+      "y": 0.7794,
+      "z": -0.083,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI12": {
+      "x": 0.047,
+      "y": 0.8214,
+      "z": -0.0742,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI13": {
+      "x": 0.0305,
+      "y": 0.8136,
+      "z": -0.0761,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI14": {
+      "x": 0.0336,
+      "y": 0.8313,
+      "z": -0.0671,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI15": {
+      "x": 0.0224,
+      "y": 0.8413,
+      "z": -0.0677,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI16": {
+      "x": 0.0297,
+      "y": 0.8776,
+      "z": -0.0025,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "SI17": {
+      "x": 0.0195,
+      "y": 0.8828,
+      "z": 0.0112,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO-lấp",
+      "truocRai": [
+        0.0195,
+        0.8828,
+        0.0112
+      ],
+      "raiCm": 0
+    },
+    "SI18": {
+      "x": 0.0327,
+      "y": 0.9013,
+      "z": 0.0033,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO-lấp",
+      "truocRai": [
+        0.0271,
+        0.9065,
+        0.0261
+      ],
+      "raiCm": 4.14,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.14cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "SI19": {
+      "x": 0.0382,
+      "y": 0.9197,
+      "z": -0.0016,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL1": {
+      "x": 0.007,
+      "y": 0.9499,
+      "z": 0.0472,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL2": {
+      "x": 0.0098,
+      "y": 0.954,
+      "z": 0.0475,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL3": {
+      "x": 0.0112,
+      "y": 0.9818,
+      "z": 0.0323,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL4": {
+      "x": 0.0122,
+      "y": 0.9843,
+      "z": 0.0298,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL5": {
+      "x": 0.0117,
+      "y": 0.988,
+      "z": 0.0247,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL6": {
+      "x": 0.0132,
+      "y": 0.9941,
+      "z": 0.0127,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL7": {
+      "x": 0.0133,
+      "y": 0.998,
+      "z": -0.0095,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL8": {
+      "x": 0.0116,
+      "y": 0.9961,
+      "z": -0.0285,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL9": {
+      "x": 0.0085,
+      "y": 0.9452,
+      "z": -0.0723,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL10": {
+      "x": 0.0171,
+      "y": 0.8936,
+      "z": -0.0437,
+      "q": "approx",
+      "snap": true,
+      "src": "book+khe",
+      "conf": "khe",
+      "khe": "bờ ngoai cơ thang",
+      "kheLoai": "sat-bo",
+      "canhBao": [
+        "nằm giữa bụng cơ (sâu 0.63 thốn trong khối Phần xuống của cơ thang trái)"
+      ],
+      "canSoat": "hai bản sách lệch nhau 5.3cm — đã lấy bản cũ"
+    },
+    "BL11": {
+      "x": 0.0168,
+      "y": 0.825,
+      "z": -0.0726,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL12": {
+      "x": 0.0168,
+      "y": 0.8113,
+      "z": -0.0738,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL13": {
+      "x": 0.0168,
+      "y": 0.7985,
+      "z": -0.0736,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL14": {
+      "x": 0.0168,
+      "y": 0.7806,
+      "z": -0.0771,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL15": {
+      "x": 0.0168,
+      "y": 0.7596,
+      "z": -0.078,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL16": {
+      "x": 0.0169,
+      "y": 0.7435,
+      "z": -0.0756,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL17": {
+      "x": 0.0168,
+      "y": 0.7288,
+      "z": -0.0718,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL18": {
+      "x": 0.0168,
+      "y": 0.6969,
+      "z": -0.0682,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL19": {
+      "x": 0.0168,
+      "y": 0.683,
+      "z": -0.0654,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL20": {
+      "x": 0.0168,
+      "y": 0.6703,
+      "z": -0.0636,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL21": {
+      "x": 0.0168,
+      "y": 0.6536,
+      "z": -0.062,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL22": {
+      "x": 0.0168,
+      "y": 0.6351,
+      "z": -0.0591,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL23": {
+      "x": 0.0168,
+      "y": 0.619,
+      "z": -0.0578,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL24": {
+      "x": 0.0168,
+      "y": 0.6063,
+      "z": -0.0573,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL25": {
+      "x": 0.0168,
+      "y": 0.5931,
+      "z": -0.0583,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL26": {
+      "x": 0.0168,
+      "y": 0.5851,
+      "z": -0.0606,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL27": {
+      "x": 0.0168,
+      "y": 0.5763,
+      "z": -0.0646,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL28": {
+      "x": 0.0168,
+      "y": 0.5595,
+      "z": -0.0717,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL29": {
+      "x": 0.0168,
+      "y": 0.5427,
+      "z": -0.0796,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL30": {
+      "x": 0.0168,
+      "y": 0.5259,
+      "z": -0.0821,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL31": {
+      "x": 0.0046,
+      "y": 0.5763,
+      "z": -0.0651,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL32": {
+      "x": 0.0096,
+      "y": 0.5595,
+      "z": -0.0698,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL33": {
+      "x": 0.0067,
+      "y": 0.5427,
+      "z": -0.0736,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL34": {
+      "x": 0.0071,
+      "y": 0.5259,
+      "z": -0.0778,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL35": {
+      "x": 0.0017,
+      "y": 0.53,
+      "z": -0.0697,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO-lấp",
+      "canSoat": "TẦNG DA: ép lên da, dời 4.3cm",
+      "truocRai": [
+        0.0017,
+        0.53,
+        -0.0697
+      ],
+      "raiCm": 0
+    },
+    "BL36": {
+      "x": 0.0567,
+      "y": 0.42,
+      "z": -0.0559,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO-lấp",
+      "truocRai": [
+        0.0567,
+        0.42,
+        -0.0559
+      ],
+      "raiCm": 0
+    },
+    "BL37": {
+      "x": 0.0189,
+      "y": 0.3484,
+      "z": -0.0373,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO+khe",
+      "khe": "bờ ? cơ nhị đầu đùi",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "truocRai": [
+        0.0472,
+        0.3551,
+        -0.0468
+      ],
+      "raiCm": 5.26,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 5.26cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "BL38": {
+      "x": 0.0546,
+      "y": 0.2739,
+      "z": -0.0462,
+      "q": "approx",
+      "snap": true,
+      "src": "book+khe+duong",
+      "conf": "khe",
+      "khe": "bờ ngoai cơ bán màng",
+      "kheLoai": "sat-bo",
+      "canSoat": "hai bản sách lệch nhau 5.9cm — đã lấy bản cũ · RẢI DỌC ĐƯỜNG: dời 5.54cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0233,
+        0.2809,
+        -0.0432
+      ],
+      "raiCm": 5.54
+    },
+    "BL39": {
+      "x": 0.0613,
+      "y": 0.2579,
+      "z": -0.0477,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL40": {
+      "x": 0.0485,
+      "y": 0.2619,
+      "z": -0.0544,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL41": {
+      "x": 0.0336,
+      "y": 0.8113,
+      "z": -0.0792,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL42": {
+      "x": 0.0336,
+      "y": 0.7985,
+      "z": -0.079,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL43": {
+      "x": 0.0336,
+      "y": 0.7806,
+      "z": -0.0845,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL44": {
+      "x": 0.0336,
+      "y": 0.7596,
+      "z": -0.0836,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL45": {
+      "x": 0.0336,
+      "y": 0.7435,
+      "z": -0.0794,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL46": {
+      "x": 0.0337,
+      "y": 0.7288,
+      "z": -0.0781,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL47": {
+      "x": 0.0336,
+      "y": 0.6969,
+      "z": -0.0705,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL48": {
+      "x": 0.0336,
+      "y": 0.683,
+      "z": -0.0671,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL49": {
+      "x": 0.0336,
+      "y": 0.6703,
+      "z": -0.0643,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL50": {
+      "x": 0.0336,
+      "y": 0.6536,
+      "z": -0.0625,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL51": {
+      "x": 0.0336,
+      "y": 0.6351,
+      "z": -0.0587,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL52": {
+      "x": 0.0336,
+      "y": 0.619,
+      "z": -0.0552,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL53": {
+      "x": 0.0336,
+      "y": 0.5595,
+      "z": -0.0745,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL54": {
+      "x": 0.0336,
+      "y": 0.5259,
+      "z": -0.0819,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL55": {
+      "x": 0.0444,
+      "y": 0.2407,
+      "z": -0.0573,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "khe": "bờ ? xương chày",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canhBao": [
+        "nằm giữa bụng cơ (sâu 0.65 thốn trong khối Đầu trong của cơ bụng chân trái)"
+      ],
+      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 14.3cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG: dời 6.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0185,
+        0.2266,
+        -0.0327
+      ],
+      "raiCm": 6.6
+    },
+    "BL56": {
+      "x": 0.0318,
+      "y": 0.1875,
+      "z": -0.0603,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL57": {
+      "x": 0.0299,
+      "y": 0.1519,
+      "z": -0.0491,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO+khe",
+      "khe": "bờ ? cơ bụng chân",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canSoat": "TẦNG DA: ép lên da, dời 4.3cm · RẢI DỌC ĐƯỜNG: dời 4.52cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0209,
+        0.1547,
+        -0.0245
+      ],
+      "raiCm": 4.52
+    },
+    "BL58": {
+      "x": 0.031,
+      "y": 0.1376,
+      "z": -0.0465,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "khe": "bờ ngoai cơ bụng chân",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 40.4cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: huyệt nằm sâu — đã ép lên da, dời 4.7cm (2.0 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 10.27cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0356,
+        0.1757,
+        -0.0007
+      ],
+      "raiCm": 10.27
+    },
+    "BL59": {
+      "x": 0.0387,
+      "y": 0.0808,
+      "z": -0.0415,
+      "q": "exact",
+      "snap": true,
+      "src": "book+khe+duong",
+      "conf": "khe-khoá",
+      "khe": "cơ dép | cơ mác ngắn",
+      "kheLoai": "co-co",
+      "truocRai": [
+        0.0542,
+        0.0832,
+        -0.035
+      ],
+      "raiCm": 2.91
+    },
+    "BL60": {
+      "x": 0.0515,
+      "y": 0.0286,
+      "z": -0.0383,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL61": {
+      "x": 0.0729,
+      "y": 0.0101,
+      "z": -0.0244,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.6cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai."
+    },
+    "BL62": {
+      "x": 0.0695,
+      "y": 0.0244,
+      "z": -0.0244,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL63": {
+      "x": 0.0744,
+      "y": 0.0192,
+      "z": -0.0195,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL64": {
+      "x": 0.0828,
+      "y": 0.0147,
+      "z": -0.0005,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL65": {
+      "x": 0.0996,
+      "y": 0.0089,
+      "z": 0.0267,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "BL66": {
+      "x": 0.0997,
+      "y": 0.0088,
+      "z": 0.0345,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai."
+    },
+    "BL67": {
+      "x": 0.0977,
+      "y": 0.0035,
+      "z": 0.0443,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI1": {
+      "x": 0.0559,
+      "y": 0.0046,
+      "z": 0.0242,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI2": {
+      "x": 0.0329,
+      "y": 0.0207,
+      "z": 0.004,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO-lấp",
+      "truocRai": [
+        0.0341,
+        0.0312,
+        0.0042
+      ],
+      "raiCm": 1.82
+    },
+    "KI3": {
+      "x": 0.0215,
+      "y": 0.0467,
+      "z": -0.0197,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI4": {
+      "x": 0.022,
+      "y": 0.0356,
+      "z": -0.0212,
+      "q": "approx",
+      "snap": true,
+      "src": "book+khe+duong",
+      "conf": "khe",
+      "khe": "bờ tren xương gót",
+      "kheLoai": "sat-bo",
+      "truocRai": [
+        0.0478,
+        0.0373,
+        -0.0388
+      ],
+      "raiCm": 5.38,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 5.38cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "KI5": {
+      "x": 0.0202,
+      "y": 0.0391,
+      "z": -0.0223,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI6": {
+      "x": 0.0254,
+      "y": 0.0255,
+      "z": -0.0112,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI7": {
+      "x": 0.0257,
+      "y": 0.0805,
+      "z": -0.0252,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "bờ ? gân gót",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "truocRai": [
+        0.0482,
+        0.0898,
+        -0.0268
+      ],
+      "raiCm": 4.19,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.19cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "KI8": {
+      "x": 0.0258,
+      "y": 0.0809,
+      "z": -0.0169,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "bờ sau xương chày",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "truocRai": [
+        0.0482,
+        0.0898,
+        -0.0268
+      ],
+      "raiCm": 4.48,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.48cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "KI9": {
+      "x": 0.0271,
+      "y": 0.1318,
+      "z": -0.0377,
+      "q": "approx",
+      "snap": true,
+      "src": "book+khe+duong",
+      "conf": "khe-khoá",
+      "khe": "gân gót | cơ dép",
+      "kheLoai": "co-gan",
+      "truocRai": [
+        0.068,
+        0.1528,
+        -0.0426
+      ],
+      "raiCm": 7.95,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 7.95cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "KI10": {
+      "x": 0.029,
+      "y": 0.2727,
+      "z": -0.0486,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI11": {
+      "x": 0.0056,
+      "y": 0.5089,
+      "z": 0.0426,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI12": {
+      "x": 0.0056,
+      "y": 0.5298,
+      "z": 0.0515,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI13": {
+      "x": 0.0056,
+      "y": 0.5508,
+      "z": 0.0565,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI14": {
+      "x": 0.0056,
+      "y": 0.5717,
+      "z": 0.0592,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI15": {
+      "x": 0.0056,
+      "y": 0.5927,
+      "z": 0.0597,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI16": {
+      "x": 0.0056,
+      "y": 0.6136,
+      "z": 0.0618,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI17": {
+      "x": 0.0056,
+      "y": 0.6431,
+      "z": 0.0653,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI18": {
+      "x": 0.0056,
+      "y": 0.6578,
+      "z": 0.0675,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI19": {
+      "x": 0.0056,
+      "y": 0.6725,
+      "z": 0.0686,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI20": {
+      "x": 0.0056,
+      "y": 0.6873,
+      "z": 0.0685,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI21": {
+      "x": 0.0056,
+      "y": 0.702,
+      "z": 0.069,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI22": {
+      "x": 0.0222,
+      "y": 0.7231,
+      "z": 0.0693,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI23": {
+      "x": 0.0222,
+      "y": 0.7458,
+      "z": 0.0726,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI24": {
+      "x": 0.0222,
+      "y": 0.7648,
+      "z": 0.0701,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI25": {
+      "x": 0.0222,
+      "y": 0.7821,
+      "z": 0.0601,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI26": {
+      "x": 0.0222,
+      "y": 0.8033,
+      "z": 0.0405,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "KI27": {
+      "x": 0.0222,
+      "y": 0.8063,
+      "z": 0.0405,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "PC1": {
+      "x": 0.0485,
+      "y": 0.7412,
+      "z": 0.0707,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "PC2": {
+      "x": 0.1053,
+      "y": 0.8005,
+      "z": 0.0111,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "PC3": {
+      "x": 0.1196,
+      "y": 0.6518,
+      "z": 0.0025,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "PC4": {
+      "x": 0.1296,
+      "y": 0.5694,
+      "z": 0.0111,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "khe": "bờ ? cơ gấp cổ tay quay",
+      "canSoat": "mô tả \"bờ ? cơ gấp cổ tay quay\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.33 thốn · RẢI DỌC ĐƯỜNG: dời 4.39cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.1516,
+        0.5706,
+        -0.0018
+      ],
+      "raiCm": 4.39
+    },
+    "PC5": {
+      "x": 0.1384,
+      "y": 0.5473,
+      "z": 0.0142,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "khe": "bờ ? cơ gấp cổ tay quay (gân)",
+      "canSoat": "mô tả \"bờ ? cơ gấp cổ tay quay (gân)\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.86 thốn · RẢI DỌC ĐƯỜNG: dời 3.53cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.1556,
+        0.548,
+        0.003
+      ],
+      "raiCm": 3.53
+    },
+    "PC6": {
+      "x": 0.1428,
+      "y": 0.5363,
+      "z": 0.0157,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "bờ ? cơ gấp cổ tay quay (gân)",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canhBao": [
+        "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ duỗi cổ tay quay ngắn trái)"
+      ],
+      "truocRai": [
+        0.1577,
+        0.5368,
+        0.0054
+      ],
+      "raiCm": 3.12,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 3.12cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "PC7": {
+      "x": 0.154,
+      "y": 0.5146,
+      "z": 0.0247,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "PC8": {
+      "x": 0.1601,
+      "y": 0.4698,
+      "z": 0.0339,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "PC9": {
+      "x": 0.1629,
+      "y": 0.4255,
+      "z": 0.0543,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "TE1": {
+      "x": 0.1412,
+      "y": 0.4359,
+      "z": 0.0491,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "TE2": {
+      "x": 0.1394,
+      "y": 0.4679,
+      "z": 0.0136,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "TE3": {
+      "x": 0.1403,
+      "y": 0.4752,
+      "z": 0.009,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "TE4": {
+      "x": 0.143,
+      "y": 0.5124,
+      "z": -0.0022,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "TE5": {
+      "x": 0.135,
+      "y": 0.5306,
+      "z": -0.0046,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "xương quay | xương trụ",
+      "kheLoai": "xuong-xuong",
+      "kheXacNhan": true,
+      "canhBao": [
+        "nằm giữa bụng cơ (sâu 0.87 thốn trong khối Cơ duỗi cổ tay quay ngắn trái)"
+      ],
+      "truocRai": [
+        0.1577,
+        0.5368,
+        0.0054
+      ],
+      "raiCm": 4.41,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.41cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "TE6": {
+      "x": 0.1301,
+      "y": 0.5415,
+      "z": -0.0061,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "xương trụ | xương quay",
+      "kheLoai": "xuong-xuong",
+      "kheXacNhan": true,
+      "canhBao": [
+        "nằm giữa bụng cơ (sâu 0.52 thốn trong khối Cơ duỗi cổ tay quay dài trái)"
+      ],
+      "truocRai": [
+        0.1556,
+        0.548,
+        0.003
+      ],
+      "raiCm": 4.79,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.79cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "TE7": {
+      "x": 0.1247,
+      "y": 0.5426,
+      "z": -0.0047,
+      "q": "approx",
+      "snap": true,
+      "src": "book+khe+duong",
+      "conf": "khe",
+      "khe": "bờ ngoai xương trụ",
+      "kheLoai": "sat-bo",
+      "canhBao": [
+        "nằm giữa bụng cơ (sâu 0.56 thốn trong khối Cơ gấp cổ tay quay trái)"
+      ],
+      "truocRai": [
+        0.1478,
+        0.548,
+        0.015
+      ],
+      "raiCm": 5.31,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 5.31cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "TE8": {
+      "x": 0.1253,
+      "y": 0.5525,
+      "z": -0.0076,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "bờ ? xương quay",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canhBao": [
+        "nằm giữa bụng cơ (sâu 0.58 thốn trong khối Cơ duỗi cổ tay quay dài trái)"
+      ],
+      "truocRai": [
+        0.1536,
+        0.5593,
+        0.0006
+      ],
+      "raiCm": 5.21,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 5.21cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "TE9": {
+      "x": 0.1163,
+      "y": 0.5849,
+      "z": -0.0186,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "khe": "xương trụ | xương quay",
+      "canSoat": "khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 5.9cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.1475,
+        0.593,
+        -0.0067
+      ],
+      "raiCm": 5.9
+    },
+    "TE10": {
+      "x": 0.1224,
+      "y": 0.6645,
+      "z": -0.0497,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "TE11": {
+      "x": 0.1184,
+      "y": 0.7026,
+      "z": -0.0523,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "canSoat": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 8.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.144,
+        0.6878,
+        -0.0156
+      ],
+      "raiCm": 8.1
+    },
+    "TE12": {
+      "x": 0.1265,
+      "y": 0.76,
+      "z": -0.0473,
+      "q": "approx",
+      "snap": true,
+      "src": "who-arb+duong",
+      "conf": "WHO-trọng tài",
+      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 25.1cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: huyệt nằm sâu — đã ép lên da, dời 4.6cm (2.0 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 8.18cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.1365,
+        0.7274,
+        -0.0141
+      ],
+      "raiCm": 8.18
+    },
+    "TE13": {
+      "x": 0.1265,
+      "y": 0.7581,
+      "z": -0.0474,
+      "q": "approx",
+      "snap": true,
+      "src": "who+khe+duong",
+      "conf": "khe",
+      "khe": "bờ sau cơ delta",
+      "kheLoai": "sat-bo",
+      "truocRai": [
+        0.1318,
+        0.7859,
+        -0.0056
+      ],
+      "raiCm": 8.68,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 8.68cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "TE14": {
+      "x": 0.1153,
+      "y": 0.8146,
+      "z": -0.0435,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "TE15": {
+      "x": 0.0762,
+      "y": 0.8386,
+      "z": -0.0212,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "TE16": {
+      "x": 0.0322,
+      "y": 0.8844,
+      "z": -0.0103,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "TE17": {
+      "x": 0.0346,
+      "y": 0.9098,
+      "z": -0.0063,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "TE18": {
+      "x": 0.0374,
+      "y": 0.9188,
+      "z": -0.0033,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "khe": "bờ ? xương thái dương",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "truocRai": [
+        0.0274,
+        0.9136,
+        -0.034
+      ],
+      "raiCm": 5.63,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 5.63cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "TE19": {
+      "x": 0.0381,
+      "y": 0.9267,
+      "z": 0.0023,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "tạm",
+      "truocRai": [
+        0.0355,
+        0.9346,
+        -0.0416
+      ],
+      "raiCm": 7.69,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 7.69cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "TE20": {
+      "x": 0.0363,
+      "y": 0.9325,
+      "z": 0.0104,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "truocRai": [
+        0,
+        0.9807,
+        0.0356
+      ],
+      "raiCm": 11.24,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 11.24cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "TE21": {
+      "x": 0.039,
+      "y": 0.9239,
+      "z": -0.0016,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "TE22": {
+      "x": 0.0327,
+      "y": 0.944,
+      "z": 0.0265,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "khe": "bờ tren xương thái dương",
+      "canSoat": "khe dời vào trong lòng xương — rút lại, cần soát · RẢI DỌC ĐƯỜNG: dời 6.04cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.039,
+        0.9239,
+        -0.0016
+      ],
+      "raiCm": 6.04
+    },
+    "TE23": {
+      "x": 0.0308,
+      "y": 0.9499,
+      "z": 0.0347,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB1": {
+      "x": 0.0311,
+      "y": 0.9304,
+      "z": 0.0311,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB2": {
+      "x": 0.0375,
+      "y": 0.9156,
+      "z": -0.0016,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB3": {
+      "x": 0.0376,
+      "y": 0.9242,
+      "z": 0.0171,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB4": {
+      "x": 0.0387,
+      "y": 0.9633,
+      "z": 0.0098,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB5": {
+      "x": 0.0402,
+      "y": 0.9614,
+      "z": 0.005,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB6": {
+      "x": 0.0417,
+      "y": 0.9596,
+      "z": 0.0002,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB7": {
+      "x": 0.0432,
+      "y": 0.9578,
+      "z": -0.0046,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB8": {
+      "x": 0.0419,
+      "y": 0.9501,
+      "z": -0.0066,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "truocRai": [
+        0,
+        0.991,
+        0.0248
+      ],
+      "raiCm": 11.43,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 11.43cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "GB9": {
+      "x": 0.0399,
+      "y": 0.9382,
+      "z": -0.0097,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "truocRai": [
+        0,
+        0.9936,
+        0.0199
+      ],
+      "raiCm": 12.79,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 12.79cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "GB10": {
+      "x": 0.0374,
+      "y": 0.9231,
+      "z": -0.0137,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB11": {
+      "x": 0.0361,
+      "y": 0.9145,
+      "z": -0.012,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB12": {
+      "x": 0.0335,
+      "y": 0.9035,
+      "z": -0.017,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB13": {
+      "x": 0.0231,
+      "y": 0.9774,
+      "z": 0.0296,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB14": {
+      "x": 0.0165,
+      "y": 0.9648,
+      "z": 0.0402,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB15": {
+      "x": 0.0178,
+      "y": 0.9829,
+      "z": 0.0284,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB16": {
+      "x": 0.0178,
+      "y": 0.9861,
+      "z": 0.0244,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB17": {
+      "x": 0.0178,
+      "y": 0.9915,
+      "z": 0.0102,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB18": {
+      "x": 0.0189,
+      "y": 0.9952,
+      "z": -0.0036,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB19": {
+      "x": 0.0149,
+      "y": 0.9424,
+      "z": -0.0713,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB20": {
+      "x": 0.0337,
+      "y": 0.9,
+      "z": -0.0273,
+      "q": "exact",
+      "snap": true,
+      "src": "who",
+      "conf": "WHO+khe",
+      "khe": "bờ ngoai cơ thang",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canhBao": [
+        "nằm giữa bụng cơ (sâu 0.85 thốn trong khối Cơ gối đầu trái)"
+      ]
+    },
+    "GB21": {
+      "x": 0.0611,
+      "y": 0.8373,
+      "z": -0.0088,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB22": {
+      "x": 0.0966,
+      "y": 0.7427,
+      "z": 0.0055,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB23": {
+      "x": 0.0926,
+      "y": 0.7231,
+      "z": 0.0091,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB24": {
+      "x": 0.0443,
+      "y": 0.6842,
+      "z": 0.0673,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB25": {
+      "x": 0.0713,
+      "y": 0.6358,
+      "z": -0.0198,
+      "q": "approx",
+      "snap": true,
+      "src": "who+khe",
+      "conf": "khe",
+      "khe": "bờ duoi xương sườn",
+      "kheLoai": "sat-bo",
+      "canhBao": [
+        "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ chéo bụng ngoài trái)"
+      ]
+    },
+    "GB26": {
+      "x": 0.0821,
+      "y": 0.6086,
+      "z": 0.0048,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB27": {
+      "x": 0.0734,
+      "y": 0.5508,
+      "z": 0.0387,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB28": {
+      "x": 0.0734,
+      "y": 0.5452,
+      "z": 0.0387,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB29": {
+      "x": 0.0953,
+      "y": 0.5287,
+      "z": -0.0019,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB30": {
+      "x": 0.0939,
+      "y": 0.4948,
+      "z": -0.0139,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB31": {
+      "x": 0.0786,
+      "y": 0.3551,
+      "z": 0.0214,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO-lấp",
+      "truocRai": [
+        0.0893,
+        0.3544,
+        0.008
+      ],
+      "raiCm": 2.95
+    },
+    "GB32": {
+      "x": 0.0789,
+      "y": 0.3298,
+      "z": 0.0096,
+      "q": "approx",
+      "snap": true,
+      "src": "book+khe+duong",
+      "conf": "khe",
+      "khe": "bờ truoc cơ nhị đầu đùi",
+      "kheLoai": "sat-bo",
+      "truocRai": [
+        0.0679,
+        0.3299,
+        -0.0339
+      ],
+      "raiCm": 7.71,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 7.71cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+    },
+    "GB33": {
+      "x": 0.0774,
+      "y": 0.3116,
+      "z": 0.0041,
+      "q": "exact",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "truocRai": [
+        0.0702,
+        0.3129,
+        -0.0007
+      ],
+      "raiCm": 1.5
+    },
+    "GB34": {
+      "x": 0.0702,
+      "y": 0.2499,
+      "z": -0.0007,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB35": {
+      "x": 0.0609,
+      "y": 0.1352,
+      "z": -0.003,
+      "q": "exact",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "khe": "bờ truoc xương mác",
+      "canSoat": "khe dời vào trong lòng xương — rút lại, cần soát",
+      "truocRai": [
+        0.0555,
+        0.1398,
+        -0.0088
+      ],
+      "raiCm": 1.57
+    },
+    "GB36": {
+      "x": 0.0552,
+      "y": 0.1389,
+      "z": 0.0062,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "tạm",
+      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 30.1cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG: dời 30.27cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0813,
+        0.3129,
+        -0.0011
+      ],
+      "raiCm": 30.27
+    },
+    "GB37": {
+      "x": 0.0581,
+      "y": 0.1107,
+      "z": -0.0069,
+      "q": "exact",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "bờ truoc xương mác",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "truocRai": [
+        0.0571,
+        0.1115,
+        -0.0128
+      ],
+      "raiCm": 1.04
+    },
+    "GB38": {
+      "x": 0.0553,
+      "y": 0.096,
+      "z": -0.0061,
+      "q": "exact",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "bờ truoc xương mác",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "truocRai": [
+        0.058,
+        0.0974,
+        -0.0148
+      ],
+      "raiCm": 1.58
+    },
+    "GB39": {
+      "x": 0.0546,
+      "y": 0.0815,
+      "z": -0.0058,
+      "q": "exact",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "khoá",
+      "khe": "xương mác | cơ mác dài (gân)",
+      "kheLoai": "gan-xuong",
+      "kheXacNhan": true,
+      "canhBao": [
+        "nằm trong lòng xương — phải lùi ra mặt xương"
+      ],
+      "truocRai": [
+        0.0588,
+        0.0832,
+        -0.0167
+      ],
+      "raiCm": 2.04
+    },
+    "GB40": {
+      "x": 0.0728,
+      "y": 0.0212,
+      "z": -0.0073,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB41": {
+      "x": 0.0664,
+      "y": 0.0464,
+      "z": 0.0109,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB42": {
+      "x": 0.0814,
+      "y": 0.0277,
+      "z": 0.0279,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB43": {
+      "x": 0.0818,
+      "y": 0.0235,
+      "z": 0.0381,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GB44": {
+      "x": 0.0966,
+      "y": 0.0063,
+      "z": 0.0589,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LR1": {
+      "x": 0.0692,
+      "y": 0.0029,
+      "z": 0.0727,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LR2": {
+      "x": 0.06,
+      "y": 0.0247,
+      "z": 0.0562,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LR3": {
+      "x": 0.0519,
+      "y": 0.0463,
+      "z": 0.0247,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LR4": {
+      "x": 0.0329,
+      "y": 0.0515,
+      "z": 0.0016,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LR5": {
+      "x": 0.029,
+      "y": 0.1297,
+      "z": -0.0073,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LR6": {
+      "x": 0.0206,
+      "y": 0.1671,
+      "z": -0.0093,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LR7": {
+      "x": 0.0169,
+      "y": 0.2471,
+      "z": -0.0268,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LR8": {
+      "x": 0.0119,
+      "y": 0.2712,
+      "z": -0.014,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LR9": {
+      "x": 0.0115,
+      "y": 0.3214,
+      "z": -0.0141,
+      "q": "exact",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "cao",
+      "khe": "cơ rộng trong | cơ may",
+      "kheLoai": "co-co",
+      "kheXacNhan": true,
+      "canhBao": [
+        "nằm giữa bụng cơ (sâu 0.51 thốn trong khối Cơ thon trái)"
+      ],
+      "canSoat": "hai bản sách lệch nhau 5.2cm — đã lấy bản cũ",
+      "truocRai": [
+        0.0151,
+        0.3258,
+        -0.0068
+      ],
+      "raiCm": 1.59
+    },
+    "LR10": {
+      "x": 0.0282,
+      "y": 0.4938,
+      "z": 0.0357,
+      "q": "approx",
+      "snap": true,
+      "src": "book+duong",
+      "conf": "tạm",
+      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 14.0cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: huyệt nằm sâu — đã ép lên da, dời 5.8cm (2.5 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 15.72cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0853,
+        0.4879,
+        -0.0354
+      ],
+      "raiCm": 15.72
+    },
+    "LR11": {
+      "x": 0.0295,
+      "y": 0.5058,
+      "z": 0.0377,
+      "q": "approx",
+      "snap": true,
+      "src": "who+duong",
+      "conf": "WHO-lấp",
+      "canSoat": "TẦNG DA: huyệt NẰM NGOÀI da — đã ép lên da, dời 5.5cm (2.4 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 15.52cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0839,
+        0.5089,
+        -0.0343
+      ],
+      "raiCm": 15.52
+    },
+    "LR12": {
+      "x": 0.0322,
+      "y": 0.5298,
+      "z": 0.0417,
+      "q": "exact",
+      "snap": true,
+      "src": "book",
+      "conf": "cao",
+      "khe": "bờ tren xương chậu",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canSoat": "hai bản sách lệch nhau 7.8cm — đã lấy bản cũ · TẦNG DA: ép lên da, dời 4.5cm"
+    },
+    "LR13": {
+      "x": 0.0764,
+      "y": 0.6289,
+      "z": -0.0076,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LR14": {
+      "x": 0.0438,
+      "y": 0.7026,
+      "z": 0.068,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "CV1": {
+      "x": -0.0016,
+      "y": 0.492,
+      "z": 0.0076,
+      "q": "approx",
+      "snap": true,
+      "src": "who",
+      "conf": "WHO-lấp",
+      "snapDir": "front"
+    },
+    "CV2": {
+      "x": 0,
+      "y": 0.5089,
+      "z": 0.0462,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV3": {
+      "x": 0,
+      "y": 0.5298,
+      "z": 0.0523,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV4": {
+      "x": 0,
+      "y": 0.5508,
+      "z": 0.0561,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV5": {
+      "x": 0,
+      "y": 0.5717,
+      "z": 0.0583,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV6": {
+      "x": 0,
+      "y": 0.5822,
+      "z": 0.0606,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV7": {
+      "x": 0,
+      "y": 0.5927,
+      "z": 0.0588,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV8": {
+      "x": 0,
+      "y": 0.6136,
+      "z": 0.0607,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV9": {
+      "x": 0,
+      "y": 0.6283,
+      "z": 0.0631,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV10": {
+      "x": 0,
+      "y": 0.6431,
+      "z": 0.065,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV11": {
+      "x": 0,
+      "y": 0.6578,
+      "z": 0.0676,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV12": {
+      "x": 0,
+      "y": 0.6725,
+      "z": 0.0681,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV13": {
+      "x": 0,
+      "y": 0.6873,
+      "z": 0.0677,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV14": {
+      "x": 0,
+      "y": 0.702,
+      "z": 0.0688,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV15": {
+      "x": 0,
+      "y": 0.7168,
+      "z": 0.0679,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV16": {
+      "x": 0,
+      "y": 0.7343,
+      "z": 0.0666,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV17": {
+      "x": 0,
+      "y": 0.7458,
+      "z": 0.0695,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front",
+      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 1.8cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai."
+    },
+    "CV18": {
+      "x": 0,
+      "y": 0.7648,
+      "z": 0.0629,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV19": {
+      "x": 0,
+      "y": 0.7827,
+      "z": 0.0552,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV20": {
+      "x": -0.001,
+      "y": 0.8033,
+      "z": 0.0472,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV21": {
+      "x": 0,
+      "y": 0.8063,
+      "z": 0.0414,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV22": {
+      "x": 0,
+      "y": 0.8153,
+      "z": 0.0369,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "CV23": {
+      "x": 0,
+      "y": 0.8648,
+      "z": 0.0159,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front",
+      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.7cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai."
+    },
+    "CV24": {
+      "x": 0,
+      "y": 0.8819,
+      "z": 0.0481,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true,
+      "snapDir": "front"
+    },
+    "GV1": {
+      "x": 0,
+      "y": 0.4933,
+      "z": -0.0647,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV2": {
+      "x": 0,
+      "y": 0.5066,
+      "z": -0.0734,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV3": {
+      "x": 0,
+      "y": 0.5931,
+      "z": -0.0582,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV4": {
+      "x": 0,
+      "y": 0.619,
+      "z": -0.0559,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV5": {
+      "x": 0,
+      "y": 0.6351,
+      "z": -0.0576,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV6": {
+      "x": 0,
+      "y": 0.6703,
+      "z": -0.0587,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV7": {
+      "x": 0,
+      "y": 0.683,
+      "z": -0.0591,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV8": {
+      "x": 0,
+      "y": 0.6969,
+      "z": -0.0619,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV9": {
+      "x": 0,
+      "y": 0.7288,
+      "z": -0.0694,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV10": {
+      "x": 0.0017,
+      "y": 0.7435,
+      "z": -0.0695,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV11": {
+      "x": 0,
+      "y": 0.7596,
+      "z": -0.073,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV12": {
+      "x": 0,
+      "y": 0.7985,
+      "z": -0.069,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV13": {
+      "x": 0,
+      "y": 0.825,
+      "z": -0.0684,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV14": {
+      "x": 0,
+      "y": 0.8363,
+      "z": -0.0667,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV15": {
+      "x": 0,
+      "y": 0.9061,
+      "z": -0.0544,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV16": {
+      "x": 0,
+      "y": 0.9145,
+      "z": -0.0601,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV17": {
+      "x": 0,
+      "y": 0.9424,
+      "z": -0.072,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV18": {
+      "x": 0,
+      "y": 0.9739,
+      "z": -0.0641,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV19": {
+      "x": 0,
+      "y": 0.994,
+      "z": -0.0433,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV20": {
+      "x": 0,
+      "y": 1,
+      "z": -0.0149,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV21": {
+      "x": 0,
+      "y": 0.9993,
+      "z": 0.0028,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV22": {
+      "x": 0,
+      "y": 0.9937,
+      "z": 0.0179,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV23": {
+      "x": 0,
+      "y": 0.9892,
+      "z": 0.0279,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV24": {
+      "x": 0,
+      "y": 0.9863,
+      "z": 0.0292,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV25": {
+      "x": 0,
+      "y": 0.9109,
+      "z": 0.0611,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV26": {
+      "x": 0,
+      "y": 0.9036,
+      "z": 0.0526,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV27": {
+      "x": 0,
+      "y": 0.9003,
+      "z": 0.0515,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "GV28": {
+      "x": 0,
+      "y": 0.9026,
+      "z": 0.0468,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    }
+  }
 };

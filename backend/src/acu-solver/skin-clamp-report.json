@@ -1,0 +1,407 @@
+{
+ "outsideTruoc": 30,
+ "moved": 44,
+ "flagged": 10,
+ "rows": [
+  {
+   "code": "LR10",
+   "outside": false,
+   "cm": 5.8,
+   "cun": 2.53,
+   "conf": "tạm",
+   "src": "book"
+  },
+  {
+   "code": "LR11",
+   "outside": true,
+   "cm": 5.5,
+   "cun": 2.4,
+   "conf": "WHO-lấp",
+   "src": "who"
+  },
+  {
+   "code": "BL58",
+   "outside": false,
+   "cm": 4.7,
+   "cun": 2.03,
+   "conf": "cao",
+   "src": "book"
+  },
+  {
+   "code": "TE12",
+   "outside": false,
+   "cm": 4.6,
+   "cun": 2.01,
+   "conf": "WHO-trọng tài",
+   "src": "who-arb"
+  },
+  {
+   "code": "LR12",
+   "outside": false,
+   "cm": 4.5,
+   "cun": 1.95,
+   "conf": "cao",
+   "src": "book"
+  },
+  {
+   "code": "LU3",
+   "outside": false,
+   "cm": 4.3,
+   "cun": 1.89,
+   "conf": "cao",
+   "src": "book"
+  },
+  {
+   "code": "BL35",
+   "outside": true,
+   "cm": 4.3,
+   "cun": 1.88,
+   "conf": "WHO-lấp",
+   "src": "who"
+  },
+  {
+   "code": "BL57",
+   "outside": false,
+   "cm": 4.3,
+   "cun": 1.86,
+   "conf": "WHO+khe",
+   "src": "who"
+  },
+  {
+   "code": "ST32",
+   "outside": false,
+   "cm": 3.9,
+   "cun": 1.72,
+   "conf": "khoá",
+   "src": "book"
+  },
+  {
+   "code": "LU4",
+   "outside": false,
+   "cm": 3.8,
+   "cun": 1.65,
+   "conf": "khoá",
+   "src": "book"
+  },
+  {
+   "code": "CV17",
+   "outside": true,
+   "cm": 3.4,
+   "cun": 1.47,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "SP8",
+   "outside": false,
+   "cm": 3.2,
+   "cun": 1.38,
+   "conf": "WHO+khe",
+   "src": "who"
+  },
+  {
+   "code": "HT2",
+   "outside": false,
+   "cm": 3.2,
+   "cun": 1.4,
+   "conf": "khoá",
+   "src": "book"
+  },
+  {
+   "code": "SP11",
+   "outside": false,
+   "cm": 2.9,
+   "cun": 1.26,
+   "conf": "WHO+khe",
+   "src": "who"
+  },
+  {
+   "code": "TE11",
+   "outside": false,
+   "cm": 2.9,
+   "cun": 1.26,
+   "conf": "cao",
+   "src": "book"
+  },
+  {
+   "code": "LI6",
+   "outside": true,
+   "cm": 2.8,
+   "cun": 1.23,
+   "conf": "cao",
+   "src": "book"
+  },
+  {
+   "code": "ST34",
+   "outside": false,
+   "cm": 2.8,
+   "cun": 1.22,
+   "conf": "khoá",
+   "src": "book"
+  },
+  {
+   "code": "CV23",
+   "outside": false,
+   "cm": 2.7,
+   "cun": 1.18,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "SP6",
+   "outside": false,
+   "cm": 2.6,
+   "cun": 1.15,
+   "conf": "khoá",
+   "src": "book"
+  },
+  {
+   "code": "LI8",
+   "outside": false,
+   "cm": 2.3,
+   "cun": 1,
+   "conf": "WHO-lấp",
+   "src": "who"
+  },
+  {
+   "code": "ST33",
+   "outside": false,
+   "cm": 2.1,
+   "cun": 0.93,
+   "conf": "khoá",
+   "src": "book"
+  },
+  {
+   "code": "BL55",
+   "outside": false,
+   "cm": 2.1,
+   "cun": 0.92,
+   "conf": "cao",
+   "src": "book"
+  },
+  {
+   "code": "CV1",
+   "outside": false,
+   "cm": 2.1,
+   "cun": 0.92,
+   "conf": "WHO-lấp",
+   "src": "who"
+  },
+  {
+   "code": "TE19",
+   "outside": false,
+   "cm": 1.9,
+   "cun": 0.84,
+   "conf": "tạm",
+   "src": "book"
+  },
+  {
+   "code": "BL36",
+   "outside": true,
+   "cm": 0.9,
+   "cun": 0.4,
+   "conf": "WHO-lấp",
+   "src": "who"
+  },
+  {
+   "code": "BL64",
+   "outside": true,
+   "cm": 0.7,
+   "cun": 0.32,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "LI3",
+   "outside": true,
+   "cm": 0.6,
+   "cun": 0.24,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "BL61",
+   "outside": true,
+   "cm": 0.6,
+   "cun": 0.28,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "BL66",
+   "outside": true,
+   "cm": 0.6,
+   "cun": 0.24,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "GV10",
+   "outside": true,
+   "cm": 0.6,
+   "cun": 0.26,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "LI2",
+   "outside": true,
+   "cm": 0.5,
+   "cun": 0.24,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "LI17",
+   "outside": true,
+   "cm": 0.5,
+   "cun": 0.22,
+   "conf": "WHO-lấp",
+   "src": "who"
+  },
+  {
+   "code": "GB20",
+   "outside": true,
+   "cm": 0.5,
+   "cun": 0.22,
+   "conf": "WHO+khe",
+   "src": "who"
+  },
+  {
+   "code": "ST29",
+   "outside": true,
+   "cm": 0.4,
+   "cun": 0.17,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "LR2",
+   "outside": true,
+   "cm": 0.4,
+   "cun": 0.16,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "LR3",
+   "outside": true,
+   "cm": 0.4,
+   "cun": 0.17,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "CV20",
+   "outside": true,
+   "cm": 0.4,
+   "cun": 0.16,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "ST12",
+   "outside": true,
+   "cm": 0.3,
+   "cun": 0.14,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "BL62",
+   "outside": true,
+   "cm": 0.3,
+   "cun": 0.14,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "TE2",
+   "outside": true,
+   "cm": 0.2,
+   "cun": 0.1,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "TE3",
+   "outside": true,
+   "cm": 0.2,
+   "cun": 0.08,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "GB42",
+   "outside": true,
+   "cm": 0.2,
+   "cun": 0.08,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "ST27",
+   "outside": true,
+   "cm": 0.1,
+   "cun": 0.04,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "ST28",
+   "outside": true,
+   "cm": 0.1,
+   "cun": 0.06,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "ST42",
+   "outside": true,
+   "cm": 0.1,
+   "cun": 0.04,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "SP17",
+   "outside": true,
+   "cm": 0.1,
+   "cun": 0.06,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "BL16",
+   "outside": true,
+   "cm": 0.1,
+   "cun": 0.02,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "BL46",
+   "outside": true,
+   "cm": 0.1,
+   "cun": 0.04,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "BL21",
+   "outside": true,
+   "cm": 0,
+   "cun": 0.01,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "BL31",
+   "outside": true,
+   "cm": 0,
+   "cun": 0.02,
+   "conf": "mốc",
+   "src": "anchor"
+  }
+ ]
+}

@@ -1,0 +1,169 @@
+{
+ "code": "TE18",
+ "mer": "TE",
+ "num": 18,
+ "tenApp": "Khế mạch",
+ "tenFocks": "KHẾ MẠCH",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Phía sau tai, giữa gai xương chũm, hoặc khi ép vành tai vào đầu, huyệt ở chỗ nối 1/3 dưới và 2/3 trên của đường cong theo bờ vành tai từ huyệt Ế Phong (Ttu 17) đến Giác Tôn (Ttu 20), nơi cơ ức – đòn – chũm.",
+  "focksViTri": "Trong một vùng lõm dễ sờ thấy ở phía dưới hộp sọ giữa xương chũm phía sau tai.",
+  "focksCachXacDinh": "Huyệt Khế mạch (SJ/TB 18) thường nằm ở giữa xương chũm, ở điểm 1/3 dưới của đường vòng theo vành tai từ huyệt Ế phong (SJ/TB 17) tới huyệt Giác tôn (SJ/TB 20). Cách khác: Trên mặt đồng hồ tưởng tượng phía trên tai (12 giờ: đỉnh tai, 6 giờ: dái tai), có một vết lõm rõ ràng có thể sờ thấy được huyệt Khế mạch (SJ/TB 18) ngay phía sau vào khoảng 8 giờ (xem hình), cạnh bờ tai. Huyệt Đầu khiếu âm (Gb 11) phía trên huyệt Khế mạch (SJ/TB 18) một chút và cách mép tai khoảng 0,3 thốn, huyệt Hoàn cốt (Gb 12) bên dưới huyệt Khế mạch (SJ/TB 18) ngay phía sau xương chũm.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE18_p264_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0374,
+  "y": 0.9188,
+  "z": -0.0033,
+  "conf": "cao",
+  "caoDoCm": 157.94,
+  "ngangCm": 6.43,
+  "truocSauCm": -0.57
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 5.63cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "tai",
+  "vung": "quanh tai",
+  "moTaRanh": "vòng theo bờ sau rồi bờ trên vành tai, sát mỏm chũm",
+  "diemTrongDoan": [
+   "TE16",
+   "TE17",
+   "TE18",
+   "TE19",
+   "TE20",
+   "TE21",
+   "TE22",
+   "TE23"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "TE17",
+   "ten": "Ế phong",
+   "thang": 1.7,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 1.2,
+   "sachDoiThon": null,
+   "vitri": "Phía sau trái tai, nơi chỗ lõm giữa góc hàm dưới và gai xương chũm, sau mỏm nhọn cao nhất của trái tai, sát bờ trước cơ ức đòn chũm."
+  },
+  {
+   "code": "TE19",
+   "ten": "Lư tức",
+   "thang": 1.67,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2.5,
+   "sachDoiThon": null,
+   "vitri": "Sau loa tai, trên huyệt Khế Mạch 1 thốn hoặc ép sát vành tai vào đầu, huyệt ở chỗ nối 2/3 dưới và 1/3 trên của đường cong theo bờ vành tai từ h. Ế Phong đến Giác Tôn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "SI19",
+   "ten": "Thính cung",
+   "cm": 0.36
+  },
+  {
+   "code": "GB2",
+   "ten": "Thính hội",
+   "cm": 0.62
+  },
+  {
+   "code": "TE21",
+   "ten": "Nhĩ môn",
+   "cm": 0.96
+  },
+  {
+   "code": "TE19",
+   "ten": "Lư tức",
+   "cm": 1.67
+  },
+  {
+   "code": "GB11",
+   "ten": "Khiếu âm",
+   "cm": 1.68
+  },
+  {
+   "code": "TE17",
+   "ten": "Ế phong",
+   "cm": 1.7
+  },
+  {
+   "code": "GB10",
+   "ten": "Phù bạch",
+   "cm": 1.93
+  },
+  {
+   "code": "SI18",
+   "ten": "Quyền liêu",
+   "cm": 3.32
+  },
+  {
+   "code": "TE20",
+   "ten": "Giác tôn",
+   "cm": 3.34
+  },
+  {
+   "code": "GB9",
+   "ten": "Thiên xung",
+   "cm": 3.54
+  },
+  {
+   "code": "ST7",
+   "ten": "Hạ Quan",
+   "cm": 3.57
+  },
+  {
+   "code": "GB12",
+   "ten": "Hoàn cốt",
+   "cm": 3.59
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương thái dương trái",
+   "lop": "bone",
+   "cm": 0.79
+  },
+  {
+   "ten": "Xương hàm dưới",
+   "lop": "bone",
+   "cm": 1.26
+  },
+  {
+   "ten": "Cơ nhị thân trái",
+   "lop": "muscle",
+   "cm": 2.14
+  },
+  {
+   "ten": "Cơ ức đòn chũm trái",
+   "lop": "muscle",
+   "cm": 2.15
+  },
+  {
+   "ten": "Cơ dài nhất đầu trái",
+   "lop": "muscle",
+   "cm": 2.16
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 5.63cm (conf=cao)",
+  "XA ĐƯỜNG KINH 4.96cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 5.63cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ ]
+}

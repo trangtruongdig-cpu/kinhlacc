@@ -1,0 +1,118 @@
+{
+ "code": "TE11",
+ "mer": "TE",
+ "num": 11,
+ "tenApp": "Thanh lãnh uyên",
+ "tenFocks": null,
+ "canhBaoTen": "FOCKS KHÔNG CÓ HUYỆT NÀY — chỉ còn một nguồn chữ.",
+ "nguon": {
+  "app": "Co khuỷu tay lại, huyệt ở trên khớp khuỷu tay 2 thốn, trên huyệt Thiên Tỉnh (Ttu 10) 1 thốn.",
+  "focksViTri": null,
+  "focksCachXacDinh": null,
+  "who": null
+ },
+ "anh": [],
+ "toaDoHienTai": {
+  "x": 0.1184,
+  "y": 0.7026,
+  "z": -0.0523,
+  "conf": "cao",
+  "caoDoCm": 120.78,
+  "ngangCm": 20.35,
+  "truocSauCm": -8.99
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da",
+   "duong"
+  ],
+  "ly": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 8.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "canh-tay",
+  "vung": "mặt sau cánh tay",
+  "moTaRanh": "giữa hai đầu cơ tam đầu cánh tay",
+  "diemTrongDoan": [
+   "TE10",
+   "TE11",
+   "TE12",
+   "TE13",
+   "TE14"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "TE/canh-tay",
+  "tong": 7.9,
+  "xa": "TE10",
+  "gan": "TE14",
+  "thonCuaHuyet": 2,
+  "lechNgang": null,
+  "moiDiem": {
+   "TE11": 2,
+   "TE12": 5,
+   "TE13": 4.9
+  }
+ },
+ "hangXom": [
+  {
+   "code": "TE10",
+   "ten": "Thiên tỉnh",
+   "thang": 6.6,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 6.9,
+   "sachDoiThon": null,
+   "vitri": "Chỗ lõm trên đầu mỏm khuỷu xương trụ, trên khớp khuỷu một thốn, nơi gân cơ tam đầu cánh tay."
+  },
+  {
+   "code": "TE12",
+   "ten": "Tiêu lạc",
+   "thang": 10,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 10.7,
+   "sachDoiThon": 3,
+   "vitri": "Ở giữa đoạn nối huyệt Thanh Lãnh Uyên (Ttu.11) và Nhu Hội (Ttu.13), trên khớp khuỷu tay 5 thốn, khe giữa phần ngoài và phần rộng ngoài của cơ tam đầu cánh tay."
+  }
+ ],
+ "lanCan": [],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu ngoài của cơ tam đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 1.55
+  },
+  {
+   "ten": "Đầu dài của cơ tam đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 2.1
+  },
+  {
+   "ten": "Đầu trong của cơ tam đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 4.12
+  },
+  {
+   "ten": "Xương cánh tay trái",
+   "lop": "bone",
+   "cm": 4.39
+  },
+  {
+   "ten": "Cơ cánh tay quay trái",
+   "lop": "muscle",
+   "cm": 4.88
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 8.1cm (conf=cao)",
+  "XA ĐƯỜNG KINH 7.36cm",
+  "ÉP LÊN DA dời 2.9cm",
+  "AUDIT cờ soát: TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 8.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"TE10\" đòi 1 thốn, đo được 1.9  (lệch 3.07cm)"
+ ]
+}

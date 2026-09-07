@@ -1,0 +1,130 @@
+{
+ "code": "TE9",
+ "mer": "TE",
+ "num": 9,
+ "tenApp": "Tứ độc",
+ "tenFocks": "TỨ ĐỘC",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở mặt sau cẳng tay, dưới khớp khuỷu 5 thốn, giữa khe xương trụ và xương quay.",
+  "focksViTri": "Cách nếp gấp cổ tay 7 thốn, giữa xương quay và xương trụ.",
+  "focksCachXacDinh": "Sau lưng cẳng tay, đo từ khe khớp cổ tay lên 7 thốn, hoặc từ mỏm lồi cầu ngoài của xương cánh tay xuống 5 thốn và xác định vị trí huyệt Tứ độc (SJ/TB 9) ở chỗ lõm giữa cơ duỗi các ngón và cơ duỗi cổ tay trụ. Đường giữa mặt lưng giữa của cổ tay và mỏm lồi cầu ngoài của xương cánh tay đóng vai trò định hướng. Hoặc: Bắt đầu từ điểm giữa giữa nếp gấp khuỷu tay và khe khớp cổ tay (khoảng cách = 12 cun), đo về phía khuỷu 1 thốn và xác định huyệt Tứ độc (SJ/TB 9) ở giữa xương quay và xương trụ.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE9_p255_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1163,
+  "y": 0.5849,
+  "z": -0.0186,
+  "conf": "cao",
+  "caoDoCm": 100.54,
+  "ngangCm": 19.99,
+  "truocSauCm": -3.2
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "khe",
+   "duong"
+  ],
+  "ly": "khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 5.9cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 5.9cm về"
+ },
+ "duongKinh": {
+  "doan": "cang-tay",
+  "vung": "giữa mặt sau cẳng tay",
+  "moTaRanh": "khe gian cốt giữa xương quay và xương trụ, mặt mu",
+  "diemTrongDoan": [
+   "TE4",
+   "TE5",
+   "TE6",
+   "TE7",
+   "TE8",
+   "TE9",
+   "TE10"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "TE/cang-tay",
+  "tong": 12,
+  "xa": "TE4",
+  "gan": "TE10",
+  "xaMoc": "WRIST",
+  "ganMoc": "CUBITAL",
+  "thonCuaHuyet": 7,
+  "lechNgang": null,
+  "moiDiem": {
+   "TE5": 2,
+   "TE6": 3,
+   "TE7": {
+    "thon": 3,
+    "lech": 1,
+    "huong": "trong"
+   },
+   "TE8": 4,
+   "TE9": 7
+  }
+ },
+ "hangXom": [
+  {
+   "code": "TE8",
+   "ten": "Tam dương lạc",
+   "thang": 6.08,
+   "sachDoiCm": 6.03,
+   "thonCm": 2.01,
+   "docDa": 7,
+   "sachDoiThon": 3,
+   "vitri": "Trên lằn cổ tay 4 thốn, khe giữa xương quay và trụ, ở mặt sau cẳng tay."
+  },
+  {
+   "code": "TE10",
+   "ten": "Thiên tỉnh",
+   "thang": 14.73,
+   "sachDoiCm": 10.05,
+   "thonCm": 2.01,
+   "docDa": 16.7,
+   "sachDoiThon": 5,
+   "vitri": "Chỗ lõm trên đầu mỏm khuỷu xương trụ, trên khớp khuỷu một thốn, nơi gân cơ tam đầu cánh tay."
+  }
+ ],
+ "lanCan": [],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu trụ của cơ gấp cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 0.95
+  },
+  {
+   "ten": "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 1.31
+  },
+  {
+   "ten": "Cơ duỗi cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 2.05
+  },
+  {
+   "ten": "Cơ gấp các ngón sâu trái",
+   "lop": "muscle",
+   "cm": 2.34
+  },
+  {
+   "ten": "Cơ gấp các ngón nông trái",
+   "lop": "muscle",
+   "cm": 2.55
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 5.9cm (conf=cao)",
+  "XA ĐƯỜNG KINH 5.87cm",
+  "AUDIT cờ soát: khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 5.9cm về",
+  "TỪ ĐIỂN APP kêu: dọc \"CUBITAL\" đòi 5 thốn, đo được 5  (lệch 0cm)",
+  "ATLAS FOCKS kêu: dọc \"WRIST\" đòi 7 thốn, đo được 7  (lệch 0cm)"
+ ]
+}

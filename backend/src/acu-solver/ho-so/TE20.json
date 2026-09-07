@@ -1,0 +1,159 @@
+{
+ "code": "TE20",
+ "mer": "TE",
+ "num": 20,
+ "tenApp": "Giác tôn",
+ "tenFocks": "GIÁC TÔN",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Gấp vành tai về phía trước, huyệt ở bờ trên loa tai, trong chân tóc nơi có cơ cử động khi há miệng nhai, dưới huyệt là cơ tai trên, cơ thái dương.",
+  "focksViTri": "Thẳng trên đỉnh tai, ở chân tóc.",
+  "focksCachXacDinh": "Thẳng trên đỉnh tai, ở chân tóc. Lưu ý: Có thể điều chỉnh đỉnh của vành tai bằng cách gập vành tai về phía trước, sao cho gờ luân trên che chùm lên phần trước. Huyệt Khúc mấn (GB 7) nằm ở vùng thái dương ở chân tóc thái dương, ở chỗ lõm ở ngang chóp tai. Huyệt Suất cốc (GB 8) nằm cách đỉnh tai 1,5 thốn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE20_p266_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0363,
+  "y": 0.9325,
+  "z": 0.0104,
+  "conf": "cao",
+  "caoDoCm": 160.3,
+  "ngangCm": 6.24,
+  "truocSauCm": 1.79
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 11.24cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "tai",
+  "vung": "quanh tai",
+  "moTaRanh": "vòng theo bờ sau rồi bờ trên vành tai, sát mỏm chũm",
+  "diemTrongDoan": [
+   "TE16",
+   "TE17",
+   "TE18",
+   "TE19",
+   "TE20",
+   "TE21",
+   "TE22",
+   "TE23"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "TE19",
+   "ten": "Lư tức",
+   "thang": 1.74,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2,
+   "sachDoiThon": null,
+   "vitri": "Sau loa tai, trên huyệt Khế Mạch 1 thốn hoặc ép sát vành tai vào đầu, huyệt ở chỗ nối 2/3 dưới và 1/3 trên của đường cong theo bờ vành tai từ h. Ế Phong đến Giác Tôn."
+  },
+  {
+   "code": "TE21",
+   "ten": "Nhĩ môn",
+   "thang": 2.58,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 3.6,
+   "sachDoiThon": null,
+   "vitri": "Ở ngay phía trước rãnh trên bình tai, đầu trên chân bình tai, nơi cơ tai trước."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "TE19",
+   "ten": "Lư tức",
+   "cm": 1.74
+  },
+  {
+   "code": "GB3",
+   "ten": "Thượng quan",
+   "cm": 1.85
+  },
+  {
+   "code": "TE21",
+   "ten": "Nhĩ môn",
+   "cm": 2.58
+  },
+  {
+   "code": "SI19",
+   "ten": "Thính cung",
+   "cm": 3.03
+  },
+  {
+   "code": "ST7",
+   "ten": "Hạ Quan",
+   "cm": 3.22
+  },
+  {
+   "code": "TE18",
+   "ten": "Khế mạch",
+   "cm": 3.34
+  },
+  {
+   "code": "TE22",
+   "ten": "Hòa liêu",
+   "cm": 3.46
+  },
+  {
+   "code": "GB2",
+   "ten": "Thính hội",
+   "cm": 3.57
+  },
+  {
+   "code": "GB9",
+   "ten": "Thiên xung",
+   "cm": 3.64
+  },
+  {
+   "code": "GB1",
+   "ten": "Đồng tử liêu",
+   "cm": 3.69
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương thái dương trái",
+   "lop": "bone",
+   "cm": 0.78
+  },
+  {
+   "ten": "Xương bướm",
+   "lop": "bone",
+   "cm": 1.16
+  },
+  {
+   "ten": "Xương đỉnh trái",
+   "lop": "bone",
+   "cm": 1.9
+  },
+  {
+   "ten": "Xương gò má trái",
+   "lop": "bone",
+   "cm": 2.38
+  },
+  {
+   "ten": "Xương trán",
+   "lop": "bone",
+   "cm": 2.54
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 11.24cm (conf=cao)",
+  "XA ĐƯỜNG KINH 7.49cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 11.24cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ ]
+}

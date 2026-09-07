@@ -1,0 +1,666 @@
+{
+ "tomTat": [
+  {
+   "mer": "LU",
+   "ten": "Phế",
+   "n": 11,
+   "thieu": 0,
+   "ngoaiDa": 0,
+   "saiVung": 0,
+   "xaDuong": 0,
+   "daoThuTu": 0,
+   "saiThon": 0,
+   "coSoat": 3
+  },
+  {
+   "mer": "PC",
+   "ten": "Tâm Bào",
+   "n": 9,
+   "thieu": 0,
+   "ngoaiDa": 0,
+   "saiVung": 0,
+   "xaDuong": 0,
+   "daoThuTu": 0,
+   "saiThon": 0,
+   "coSoat": 3
+  },
+  {
+   "mer": "HT",
+   "ten": "Tâm",
+   "n": 9,
+   "thieu": 0,
+   "ngoaiDa": 1,
+   "saiVung": 0,
+   "xaDuong": 1,
+   "daoThuTu": 0,
+   "saiThon": 0,
+   "coSoat": 3
+  },
+  {
+   "mer": "LI",
+   "ten": "Đại Trường",
+   "n": 20,
+   "thieu": 0,
+   "ngoaiDa": 0,
+   "saiVung": 0,
+   "xaDuong": 0,
+   "daoThuTu": 0,
+   "saiThon": 0,
+   "coSoat": 7
+  },
+  {
+   "mer": "SI",
+   "ten": "Tiểu Trường",
+   "n": 19,
+   "thieu": 0,
+   "ngoaiDa": 0,
+   "saiVung": 0,
+   "xaDuong": 0,
+   "daoThuTu": 0,
+   "saiThon": 0,
+   "coSoat": 3
+  },
+  {
+   "mer": "TE",
+   "ten": "Tam Tiêu",
+   "n": 23,
+   "thieu": 0,
+   "ngoaiDa": 0,
+   "saiVung": 0,
+   "xaDuong": 0,
+   "daoThuTu": 1,
+   "saiThon": 0,
+   "coSoat": 12
+  },
+  {
+   "mer": "ST",
+   "ten": "Vị",
+   "n": 45,
+   "thieu": 0,
+   "ngoaiDa": 0,
+   "saiVung": 0,
+   "xaDuong": 1,
+   "daoThuTu": 1,
+   "saiThon": 0,
+   "coSoat": 7
+  },
+  {
+   "mer": "GB",
+   "ten": "Đởm",
+   "n": 44,
+   "thieu": 0,
+   "ngoaiDa": 0,
+   "saiVung": 0,
+   "xaDuong": 0,
+   "daoThuTu": 1,
+   "saiThon": 0,
+   "coSoat": 5
+  },
+  {
+   "mer": "BL",
+   "ten": "Bàng Quang",
+   "n": 67,
+   "thieu": 0,
+   "ngoaiDa": 0,
+   "saiVung": 0,
+   "xaDuong": 0,
+   "daoThuTu": 0,
+   "saiThon": 0,
+   "coSoat": 9
+  },
+  {
+   "mer": "SP",
+   "ten": "Tỳ",
+   "n": 21,
+   "thieu": 0,
+   "ngoaiDa": 0,
+   "saiVung": 0,
+   "xaDuong": 0,
+   "daoThuTu": 0,
+   "saiThon": 0,
+   "coSoat": 3
+  },
+  {
+   "mer": "KI",
+   "ten": "Thận",
+   "n": 27,
+   "thieu": 0,
+   "ngoaiDa": 0,
+   "saiVung": 0,
+   "xaDuong": 0,
+   "daoThuTu": 1,
+   "saiThon": 0,
+   "coSoat": 4
+  },
+  {
+   "mer": "LR",
+   "ten": "Can",
+   "n": 14,
+   "thieu": 0,
+   "ngoaiDa": 0,
+   "saiVung": 0,
+   "xaDuong": 0,
+   "daoThuTu": 0,
+   "saiThon": 0,
+   "coSoat": 4
+  },
+  {
+   "mer": "CV",
+   "ten": "Nhâm",
+   "n": 24,
+   "thieu": 0,
+   "ngoaiDa": 0,
+   "saiVung": 0,
+   "xaDuong": 0,
+   "daoThuTu": 0,
+   "saiThon": 0,
+   "coSoat": 2
+  },
+  {
+   "mer": "GV",
+   "ten": "Đốc",
+   "n": 28,
+   "thieu": 0,
+   "ngoaiDa": 0,
+   "saiVung": 0,
+   "xaDuong": 0,
+   "daoThuTu": 0,
+   "saiThon": 0,
+   "coSoat": 0
+  }
+ ],
+ "loi": [
+  {
+   "code": "BL10",
+   "mer": "BL",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "hai bản sách lệch nhau 5.3cm — đã lấy bản cũ"
+  },
+  {
+   "code": "BL35",
+   "mer": "BL",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: ép lên da, dời 4.3cm"
+  },
+  {
+   "code": "BL37",
+   "mer": "BL",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 5.26cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "BL38",
+   "mer": "BL",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "hai bản sách lệch nhau 5.9cm — đã lấy bản cũ · RẢI DỌC ĐƯỜNG: dời 5.54cm về đường kinh — toạ độ cũ sai nhiều, "
+  },
+  {
+   "code": "BL55",
+   "mer": "BL",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "bản Focks phân tích HỎNG (bắn lệch 14.3cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG:"
+  },
+  {
+   "code": "BL57",
+   "mer": "BL",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: ép lên da, dời 4.3cm · RẢI DỌC ĐƯỜNG: dời 4.52cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "BL58",
+   "mer": "BL",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "bản Focks phân tích HỎNG (bắn lệch 40.4cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: huyệt"
+  },
+  {
+   "code": "BL61",
+   "mer": "BL",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.6cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá"
+  },
+  {
+   "code": "BL66",
+   "mer": "BL",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá"
+  },
+  {
+   "code": "CV17",
+   "mer": "CV",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: phép chiếu đòi bẻ NGANG 1.8cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá"
+  },
+  {
+   "code": "CV23",
+   "mer": "CV",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.7cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá"
+  },
+  {
+   "code": "GB32",
+   "mer": "GB",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 7.71cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "GB35",
+   "mer": "GB",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "khe dời vào trong lòng xương — rút lại, cần soát"
+  },
+  {
+   "code": "GB36",
+   "mer": "GB",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "bản Focks phân tích HỎNG (bắn lệch 30.1cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG:"
+  },
+  {
+   "code": "GB8",
+   "mer": "GB",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 11.43cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "GB9",
+   "mer": "GB",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 12.79cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "HT2",
+   "mer": "HT",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.77cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "HT4",
+   "mer": "HT",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 4.09cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "HT5",
+   "mer": "HT",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "khe cách chỗ cốt độ chỉ ra 3.5 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 4.04cm v"
+  },
+  {
+   "code": "KI4",
+   "mer": "KI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 5.38cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "KI7",
+   "mer": "KI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 4.19cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "KI8",
+   "mer": "KI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 4.48cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "KI9",
+   "mer": "KI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 7.95cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "LI10",
+   "mer": "LI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "bản Focks phân tích HỎNG (bắn lệch 14.4cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG:"
+  },
+  {
+   "code": "LI12",
+   "mer": "LI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "bản Focks phân tích HỎNG (bắn lệch 24.1cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG:"
+  },
+  {
+   "code": "LI2",
+   "mer": "LI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá"
+  },
+  {
+   "code": "LI3",
+   "mer": "LI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá"
+  },
+  {
+   "code": "LI6",
+   "mer": "LI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: ép lên da, dời 2.8cm · RẢI DỌC ĐƯỜNG: dời 3.67cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "LI7",
+   "mer": "LI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "bản Focks phân tích HỎNG (bắn lệch 9.2cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ"
+  },
+  {
+   "code": "LI9",
+   "mer": "LI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 16.88cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "LR10",
+   "mer": "LR",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "bản Focks phân tích HỎNG (bắn lệch 14.0cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: huyệt"
+  },
+  {
+   "code": "LR11",
+   "mer": "LR",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: huyệt NẰM NGOÀI da — đã ép lên da, dời 5.5cm (2.4 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai"
+  },
+  {
+   "code": "LR12",
+   "mer": "LR",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "hai bản sách lệch nhau 7.8cm — đã lấy bản cũ · TẦNG DA: ép lên da, dời 4.5cm"
+  },
+  {
+   "code": "LR9",
+   "mer": "LR",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "hai bản sách lệch nhau 5.2cm — đã lấy bản cũ"
+  },
+  {
+   "code": "LU3",
+   "mer": "LU",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "bản Focks phân tích HỎNG (bắn lệch 20.5cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: ép lê"
+  },
+  {
+   "code": "LU4",
+   "mer": "LU",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "bản Focks phân tích HỎNG (bắn lệch 27.4cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: ép lê"
+  },
+  {
+   "code": "LU6",
+   "mer": "LU",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 4.22cm v"
+  },
+  {
+   "code": "PC4",
+   "mer": "PC",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "mô tả \"bờ ? cơ gấp cổ tay quay\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.33 thốn · RẢI DỌC ĐƯỜN"
+  },
+  {
+   "code": "PC5",
+   "mer": "PC",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "mô tả \"bờ ? cơ gấp cổ tay quay (gân)\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.86 thốn · RẢI DỌ"
+  },
+  {
+   "code": "PC6",
+   "mer": "PC",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 3.12cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "SI18",
+   "mer": "SI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 4.14cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "SI7",
+   "mer": "SI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 6.4cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "SI9",
+   "mer": "SI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 17.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "SP11",
+   "mer": "SP",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 7.65cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "SP6",
+   "mer": "SP",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: ép lên da, dời 2.6cm · RẢI DỌC ĐƯỜNG: dời 6.35cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "SP8",
+   "mer": "SP",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "ST3",
+   "mer": "ST",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 4.55cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "ST32",
+   "mer": "ST",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: ép lên da, dời 3.9cm · RẢI DỌC ĐƯỜNG: dời 4.78cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "ST34",
+   "mer": "ST",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: ép lên da, dời 2.8cm"
+  },
+  {
+   "code": "ST37",
+   "mer": "ST",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "bản Focks phân tích HỎNG (bắn lệch 38.0cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ"
+  },
+  {
+   "code": "ST38",
+   "mer": "ST",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "hai bản sách lệch nhau 6.7cm — đã lấy bản cũ · RẢI DỌC ĐƯỜNG: dời 14.83cm về đường kinh — toạ độ cũ sai nhiều,"
+  },
+  {
+   "code": "ST39",
+   "mer": "ST",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "bản Focks phân tích HỎNG (bắn lệch 20.2cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG:"
+  },
+  {
+   "code": "ST40",
+   "mer": "ST",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "bản Focks phân tích HỎNG (bắn lệch 21.4cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ"
+  },
+  {
+   "code": "TE11",
+   "mer": "TE",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 8.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "TE12",
+   "mer": "TE",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "bản Focks phân tích HỎNG (bắn lệch 25.1cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: huyệt"
+  },
+  {
+   "code": "TE13",
+   "mer": "TE",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 8.68cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "TE18",
+   "mer": "TE",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 5.63cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "TE19",
+   "mer": "TE",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 7.69cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "TE20",
+   "mer": "TE",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 11.24cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "TE22",
+   "mer": "TE",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "khe dời vào trong lòng xương — rút lại, cần soát · RẢI DỌC ĐƯỜNG: dời 6.04cm về đường kinh — toạ độ cũ sai nhi"
+  },
+  {
+   "code": "TE5",
+   "mer": "TE",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 4.41cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "TE6",
+   "mer": "TE",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 4.79cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "TE7",
+   "mer": "TE",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 5.31cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "TE8",
+   "mer": "TE",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 5.21cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "TE9",
+   "mer": "TE",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 5.9cm về"
+  }
+ ],
+ "ngoaiLe": [
+  {
+   "code": "HT1",
+   "loai": "lìa da",
+   "ly": "Cực Tuyền ở giữa hố nách; mesh để tay dang nên hố nách là khoảng trống, không có mặt da ở tâm hố"
+  },
+  {
+   "code": "HT1",
+   "loai": "lệch đường",
+   "ly": "cùng lý do trên: đường kinh Tâm bám mặt trong cánh tay, còn Cực Tuyền ở tâm hố nách"
+  },
+  {
+   "code": "TE21",
+   "loai": "đảo thứ tự",
+   "ly": "Kinh Tam Tiêu vòng lên SAU tai (TE20 Giác Tôn) rồi mới quặt ra TRƯỚC tai (TE21 Nhĩ Môn) — đường tự gấp lại"
+  },
+  {
+   "code": "ST40",
+   "loai": "lệch đường",
+   "ly": "Phong Long nằm NGOÀI Điều Khẩu ST38 một khoát ngón tay — sách đặt nó lệch khỏi đường Vị chính"
+  },
+  {
+   "code": "ST40",
+   "loai": "đảo thứ tự",
+   "ly": "Phong Long ở 8 thốn trên mắt cá, CAO hơn Hạ Cự Hư ST39 (7 thốn); số hiệu tăng nhưng vị trí lùi lên — đúng sách"
+  },
+  {
+   "code": "GB36",
+   "loai": "đảo thứ tự",
+   "ly": "Dương Giao GB35 và Ngoại Khâu GB36 CÙNG ở 7 thốn trên mắt cá, chỉ khác bờ trước/bờ sau xương mác — không có thứ tự trên dưới để đảo"
+  },
+  {
+   "code": "KI5",
+   "loai": "đảo thứ tự",
+   "ly": "Kinh Thận vòng quanh mắt cá trong nên đường tự gấp lại; KI5 ở TRƯỚC KI4 là đúng sách"
+  }
+ ]
+}

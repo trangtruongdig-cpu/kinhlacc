@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<title>Soát QUY TẮC KHE MÔ — nội bộ</title>
+<meta name="robots" content="noindex,nofollow" />
+<style>
+  html, body { margin:0; padding:0; height:100%; background:#14181c; font-family:-apple-system,'Segoe UI',Roboto,sans-serif; overflow:hidden; }
+  #stage { position:fixed; inset:0; } #stage canvas { display:block; }
+  .panel { position:fixed; background:rgba(22,26,31,0.93); color:#e8ecef; border:1px solid #333c44; border-radius:10px; padding:12px 14px; font-size:13px; box-shadow:0 8px 24px rgba(0,0,0,.4); backdrop-filter:blur(4px); }
+  #legend { top:14px; left:14px; width:266px; }
+  #legend h1 { font-size:14px; margin:0 0 8px; color:#fff; }
+  #legend .row { display:flex; align-items:center; gap:8px; margin:4px 0; font-size:12.5px; }
+  #legend .dot { width:11px; height:11px; border-radius:50%; flex:0 0 auto; }
+  #legend .hint { color:#9aa5ad; font-size:11.5px; margin-top:9px; line-height:1.55; }
+  #controls { top:14px; right:14px; width:284px; max-height:calc(100vh - 28px); overflow-y:auto; }
+  #controls h2 { font-size:13px; margin:0 0 8px; color:#fff; }
+  #controls label { display:flex; align-items:center; gap:7px; margin:5px 0; cursor:pointer; font-size:12.5px; }
+  #controls select { width:100%; box-sizing:border-box; background:#1d232a; color:#e8ecef; border:1px solid #3a444d; border-radius:6px; padding:5px 7px; font-size:12.5px; margin-bottom:6px; }
+  #controls .stat { font-size:11.5px; color:#9aa5ad; margin:8px 0 4px; line-height:1.6; }
+  #controls button { width:100%; background:#2a323a; color:#e8ecef; border:1px solid #3a444d; border-radius:6px; padding:6px; font-size:12px; cursor:pointer; margin-top:4px; }
+  #controls button:hover { background:#343e47; }
+  #pointlist { margin-top:8px; border-top:1px solid #333c44; padding-top:8px; max-height:38vh; overflow-y:auto; }
+  #pointlist .item { display:flex; justify-content:space-between; gap:6px; align-items:center; padding:4px 6px; border-radius:5px; cursor:pointer; font-size:12px; }
+  #pointlist .item:hover { background:#252d34; } #pointlist .item.sel { background:#2f3a44; }
+  #pointlist .item .code { font-weight:700; } #pointlist .item .st { font-size:10px; padding:1px 6px; border-radius:999px; white-space:nowrap; }
+  .st.doi { background:#1a3a4a; color:#5ad0e8; } .st.xacnhan { background:#1a4a2a; color:#4ae87a; }
+  .st.soat { background:#4a2a1a; color:#e8a04a; } .st.thieu { background:#33383d; color:#9aa5ad; }
+  .st.approved { background:#1a4a2a; color:#4ae87a; } .st.rejected { background:#4a1a1a; color:#e84a4a; }
+  #info { display:none; bottom:14px; left:14px; width:376px; max-height:52vh; overflow-y:auto; }
+  #info h3 { margin:0 0 4px; font-size:15px; color:#fff; }
+  #info .sub { color:#9aa5ad; font-size:12px; margin-bottom:8px; }
+  #info table { width:100%; border-collapse:collapse; font-size:12px; }
+  #info td { padding:2px 4px; vertical-align:top; } #info td.k { color:#9aa5ad; white-space:nowrap; width:78px; }
+  #info .vitri { margin-top:8px; font-size:12px; color:#c9d1d6; line-height:1.55; border-top:1px solid #333c44; padding-top:7px; }
+  #info .warn { margin-top:7px; font-size:12px; color:#e8a04a; line-height:1.5; }
+  #info .actions { display:flex; gap:8px; margin-top:10px; }
+  #info .actions button { flex:1; border:none; border-radius:6px; padding:7px; font-size:12px; cursor:pointer; font-weight:600; color:#fff; }
+  .btn-ok { background:#2f6a3a; } .btn-no { background:#6a2f2f; } .btn-cl { background:#3a444d; flex:0 0 62px !important; }
+  #loading { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; color:#9aa5ad; font-size:14px; background:#14181c; z-index:10; }
+</style>
+</head>
+<body>
+<div id="loading">Đang tải mô hình 3D…</div>
+<div id="stage"></div>
+
+<div id="legend" class="panel">
+  <h1>Soát quy tắc KHE MÔ</h1>
+  <div class="row"><span class="dot" style="background:#e8c34a"></span> vị trí đang chạy (cốt độ)</div>
+  <div class="row"><span class="dot" style="background:#4ae87a"></span> khe XÁC NHẬN chỗ cũ</div>
+  <div class="row"><span class="dot" style="background:#5ad0e8"></span> khe DỜI huyệt sang chỗ khác</div>
+  <div class="row"><span class="dot" style="background:#e8704a"></span> khe mâu thuẫn cốt độ — cần soát</div>
+  <div class="row" style="color:#c9a0e8">⚑ huyệt chồng chỗ: nhiều huyệt cùng một chấm (lọc riêng bên phải)</div>
+  <div class="hint">Huyệt nằm ở ranh giới mô: cơ–cơ, cơ–xương, cơ–gân, gân–gân, gân–xương.
+    Cốt độ giữ CAO ĐỘ, khe chỉnh MẶT CẮT. Bấm vào chấm hoặc tên trong danh sách để xem lý do.</div>
+</div>
+
+<div id="controls" class="panel">
+  <h2>Bộ lọc</h2>
+  <select id="merFilter"></select>
+  <select id="kindFilter"></select>
+  <label><input type="checkbox" id="chkCur" checked /> Hiện vị trí đang chạy</label>
+  <label><input type="checkbox" id="chkKhe" checked /> Hiện vị trí khe</label>
+  <label><input type="checkbox" id="chkLine" checked /> Hiện đường lệch</label>
+  <label><input type="checkbox" id="chkOnlyGap" checked /> Chỉ huyệt có ràng buộc khe</label>
+  <label><input type="checkbox" id="chkChong" /> Chỉ huyệt CHỒNG CHỖ (nhiều huyệt một chấm)</label>
+  <div class="stat" id="stat">…</div>
+  <button id="btnExport">⬇ Xuất quyết định soát (JSON)</button>
+  <button id="btnReset">↻ Xoá trạng thái đã duyệt</button>
+  <div id="pointlist"></div>
+</div>
+
+<div id="info" class="panel">
+  <h3 id="iCode">—</h3><div class="sub" id="iName">—</div>
+  <table>
+    <tr><td class="k">Loại khe</td><td id="iKind">—</td></tr>
+    <tr><td class="k">Hai mô</td><td id="iTissue">—</td></tr>
+    <tr><td class="k">Bề rộng khe</td><td id="iGap">—</td></tr>
+    <tr><td class="k">Quãng dời</td><td id="iSlide">—</td></tr>
+    <tr><td class="k">Kết luận</td><td id="iConf">—</td></tr>
+    <tr><td class="k">Chồng chỗ</td><td id="iChong">—</td></tr>
+  </table>
+  <div class="warn" id="iWarn"></div>
+  <div class="vitri" id="iVitri">—</div>
+  <div class="actions">
+    <button class="btn-ok" id="bOk">✓ Duyệt (dùng vị trí khe)</button>
+    <button class="btn-no" id="bNo">✗ Loại (giữ chỗ cũ)</button>
+    <button class="btn-cl" id="bCl">Bỏ chọn</button>
+  </div>
+</div>
+
+<script src="data/acu-coords3d.js"></script>
+<script src="vendor/three.min.js"></script>
+<script src="vendor/OrbitControls.js"></script>
+<script src="vendor/GLTFLoader.js"></script>
+<script src="vendor/meshopt_decoder.js"></script>
+<script>
+(function () {
+  const BODY_H = 1.7;                       // khớp map3d.js
+  const KEY = 'acu-review-khe-v1';
+  let scene, camera, renderer, controls, raycaster, bodyHeight = BODY_H, bodyMinY = 0, modelRoot = null;
+  let data = null, decisions = {}, markers = [], selected = null;
+
+  const load = () => { try { decisions = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { decisions = {}; } };
+  const save = () => localStorage.setItem(KEY, JSON.stringify(decisions));
+
+  function initScene() {
+    scene = new THREE.Scene(); scene.background = new THREE.Color(0x14181c);
+    camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.01, 50);
+    camera.position.set(0, 1.0, 2.2);
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2)); renderer.setSize(innerWidth, innerHeight);
+    document.getElementById('stage').appendChild(renderer.domElement);
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 0.85, 0); controls.enableDamping = true; controls.dampingFactor = 0.08; controls.update();
+    raycaster = new THREE.Raycaster();
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    const k = new THREE.DirectionalLight(0xfff4e8, 1.0); k.position.set(1.2, 2.0, 2.2); scene.add(k);
+    const f = new THREE.DirectionalLight(0xdfeaff, 0.35); f.position.set(-1.5, 0.8, -1.0); scene.add(f);
+    addEventListener('resize', () => { camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth, innerHeight); });
+    renderer.domElement.addEventListener('click', onClick);
+    (function loop() { requestAnimationFrame(loop); controls.update(); renderer.render(scene, camera); })();
+  }
+
+  function loadModel() {
+    return new Promise((res, rej) => {
+      const loader = new THREE.GLTFLoader();
+      if (window.MeshoptDecoder) loader.setMeshoptDecoder(window.MeshoptDecoder);
+      loader.load('models/body-layers-v2.glb', gltf => {
+        modelRoot = gltf.scene; modelRoot.updateMatrixWorld(true);
+        modelRoot.traverse(o => {
+          if (o.isSkinnedMesh && o.skeleton) o.skeleton.pose();
+          if (o.isMesh) {
+            o.material = new THREE.MeshStandardMaterial({ color: 0xd9c9b8, roughness: .85, metalness: 0, transparent: true, opacity: .3, side: THREE.DoubleSide, depthWrite: false });
+            if (o.geometry && !o.geometry.attributes.normal) o.geometry.computeVertexNormals();
+          }
+        });
+        let box = new THREE.Box3().setFromObject(modelRoot);
+        const size = new THREE.Vector3(); box.getSize(size);
+        modelRoot.scale.setScalar(BODY_H / size.y); modelRoot.updateMatrixWorld(true);
+        box = new THREE.Box3().setFromObject(modelRoot);
+        const c = new THREE.Vector3(); box.getCenter(c);
+        modelRoot.position.x -= c.x; modelRoot.position.z -= c.z; modelRoot.position.y -= box.min.y;
+        modelRoot.updateMatrixWorld(true);
+        box = new THREE.Box3().setFromObject(modelRoot);
+        bodyMinY = box.min.y; bodyHeight = box.max.y - box.min.y;
+        scene.add(modelRoot); res();
+      }, undefined, rej);
+    });
+  }
+
+  const world = p => new THREE.Vector3(p.x * bodyHeight, bodyMinY + p.y * bodyHeight, p.z * bodyHeight);
+  const state = it => !it.khe ? 'thieu' : (!it.applied ? 'soat' : (it.slideCun >= 0.25 ? 'doi' : 'xacnhan'));
+  // huyệt chồng khít nhau (mark-overlaps.cjs gắn cờ): nhiều huyệt cùng một chấm trên bản đồ
+  const COORDS = (window.ACU_COORDS3D || { points: {} }).points;
+  const chongOf = code => (COORDS[code] || {}).chongCho || null;
+  const mocOf = code => (COORDS[code] || {}).chongMoc || null;
+  const COLOR = { doi: 0x5ad0e8, xacnhan: 0x4ae87a, soat: 0xe8704a, thieu: 0x6b757c };
+
+  function buildMarkers() {
+    const geo = new THREE.SphereGeometry(0.007, 14, 10);
+    for (const it of data.items) {
+      const st = state(it);
+      const cur = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: 0xe8c34a, emissive: 0xe8c34a, emissiveIntensity: .5, roughness: .4 }));
+      cur.position.copy(world(it.cur)); cur.userData.code = it.code; scene.add(cur);
+      let khe = null, line = null;
+      if (it.khe) {
+        khe = new THREE.Mesh(geo, new THREE.MeshStandardMaterial({ color: COLOR[st], emissive: COLOR[st], emissiveIntensity: .7, roughness: .4 }));
+        khe.position.copy(world(it.khe)); khe.userData.code = it.code; khe.scale.setScalar(1.15); scene.add(khe);
+        line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([world(it.cur), world(it.khe)]),
+          new THREE.LineBasicMaterial({ color: COLOR[st], transparent: true, opacity: .7 }));
+        scene.add(line);
+      }
+      markers.push({ it, st, cur, khe, line });
+    }
+  }
+
+  function applyVisual() {
+    const mer = document.getElementById('merFilter').value, kind = document.getElementById('kindFilter').value;
+    const onlyGap = document.getElementById('chkOnlyGap').checked;
+    const onlyChong = document.getElementById('chkChong').checked;
+    const sc = document.getElementById('chkCur').checked, sk = document.getElementById('chkKhe').checked, sl = document.getElementById('chkLine').checked;
+    let n = { doi: 0, xacnhan: 0, soat: 0, thieu: 0 };
+    for (const m of markers) {
+      const okMer = mer === '*' || m.it.mer === mer;
+      const okKind = kind === '*' || (kind === 'gap' ? !!m.it.kind : m.it.kind === kind);
+      const okGap = !onlyGap || !!m.it.khe;
+      const okChong = !onlyChong || !!chongOf(m.it.code);
+      const vis = okMer && okKind && okGap && okChong;
+      m.cur.visible = vis && sc; if (m.khe) m.khe.visible = vis && sk; if (m.line) m.line.visible = vis && sl;
+      if (vis) n[m.st]++;
+    }
+    document.getElementById('stat').innerHTML =
+      `<b>${n.doi + n.xacnhan}</b> huyệt khe định vị được — ${n.xacnhan} xác nhận, ${n.doi} dời chỗ<br>` +
+      `<b>${n.soat}</b> cần soát (khe ≠ cốt độ) · ${n.thieu} chưa đủ mô tả mô<br>` +
+      `đã duyệt: ${Object.keys(decisions).length} · huyệt chồng chỗ: ${Object.values(COORDS).filter(p => p.chongCho).length}`;
+    renderList();
+  }
+
+  function renderList() {
+    const box = document.getElementById('pointlist');
+    const vis = markers.filter(m => m.cur.visible || (m.khe && m.khe.visible));
+    box.innerHTML = '';
+    for (const m of vis.slice(0, 400)) {
+      const d = decisions[m.it.code];
+      const div = document.createElement('div');
+      div.className = 'item' + (selected === m.it.code ? ' sel' : '');
+      div.innerHTML = `<span class="code">${m.it.code}</span><span style="flex:1;color:#9aa5ad;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.it.name}</span>` +
+        `<span class="st ${d === 'ok' ? 'approved' : d === 'no' ? 'rejected' : m.st}">${d === 'ok' ? 'duyệt' : d === 'no' ? 'loại' : m.st === 'doi' ? (m.it.slideCun + 'th') : m.st === 'xacnhan' ? 'khớp' : m.st === 'soat' ? 'soát' : '—'}</span>`;
+      div.onclick = () => select(m.it.code, true);
+      box.appendChild(div);
+    }
+  }
+
+  function select(code, fly) {
+    selected = code;
+    const m = markers.find(x => x.it.code === code); if (!m) return;
+    const it = m.it;
+    document.getElementById('info').style.display = 'block';
+    document.getElementById('iCode').textContent = it.code + ' — ' + it.name;
+    document.getElementById('iName').textContent = it.kindLabel ? ('Quy tắc: ' + it.kindLabel) : (it.note || 'không có ràng buộc khe');
+    document.getElementById('iKind').textContent = it.kindLabel || '—';
+    document.getElementById('iTissue').textContent = it.tissues || '—';
+    document.getElementById('iGap').textContent = it.gapCun != null ? it.gapCun + ' thốn' : '—';
+    document.getElementById('iSlide').textContent = it.slideCun != null ? it.slideCun + ' thốn ≈ ' + (it.slideCun * 1.9).toFixed(1) + ' cm' : '—';
+    document.getElementById('iConf').textContent = it.applied ? (it.slideCun >= 0.25 ? 'khe dời huyệt vào đúng ranh giới mô' : 'khe xác nhận vị trí cũ') : (it.note || '—');
+    const ch = chongOf(it.code), mc = mocOf(it.code);
+    document.getElementById('iChong').textContent = ch
+      ? `cùng chấm với ${ch.join(', ')}${mc ? ' — cả cụm rơi đúng mốc ' + mc : ''}`
+      : '—';
+    document.getElementById('iWarn').textContent = it.warns ? '⚠ ' + it.warns.join(' · ') : '';
+    document.getElementById('iVitri').textContent = it.vitri || '';
+    if (fly && (it.khe || it.cur)) {
+      const t = world(it.khe || it.cur);
+      controls.target.copy(t);
+      camera.position.set(t.x + (t.x >= 0 ? .45 : -.45), t.y + .12, t.z + .5);
+      controls.update();
+    }
+    renderList();
+  }
+
+  function onClick(ev) {
+    const r = renderer.domElement.getBoundingClientRect();
+    raycaster.setFromCamera(new THREE.Vector2(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1), camera);
+    const objs = []; for (const m of markers) { if (m.cur.visible) objs.push(m.cur); if (m.khe && m.khe.visible) objs.push(m.khe); }
+    const hit = raycaster.intersectObjects(objs, false);
+    if (hit.length) select(hit[0].object.userData.code, false);
+  }
+
+  function setupUI() {
+    const mers = [...new Set(data.items.map(i => i.mer))].sort();
+    document.getElementById('merFilter').innerHTML = '<option value="*">Tất cả kinh (' + data.items.length + ' huyệt)</option>' +
+      mers.map(m => `<option value="${m}">${m} — ${data.items.filter(i => i.mer === m).length} huyệt</option>`).join('');
+    const kinds = [...new Set(data.items.map(i => i.kind).filter(Boolean))];
+    const LBL = { 'co-co': 'cơ – cơ', 'co-xuong': 'cơ – xương', 'co-gan': 'cơ – gân', 'gan-gan': 'gân – gân', 'gan-xuong': 'gân – xương', 'xuong-xuong': 'khe gian cốt', 'sat-bo': 'sát bờ mô' };
+    document.getElementById('kindFilter').innerHTML = '<option value="*">Mọi loại</option><option value="gap">Chỉ huyệt có khe</option>' +
+      kinds.map(k => `<option value="${k}">${LBL[k] || k}</option>`).join('');
+    for (const id of ['merFilter', 'kindFilter', 'chkCur', 'chkKhe', 'chkLine', 'chkOnlyGap', 'chkChong']) document.getElementById(id).onchange = applyVisual;
+    document.getElementById('bOk').onclick = () => { if (selected) { decisions[selected] = 'ok'; save(); applyVisual(); } };
+    document.getElementById('bNo').onclick = () => { if (selected) { decisions[selected] = 'no'; save(); applyVisual(); } };
+    document.getElementById('bCl').onclick = () => { if (selected) { delete decisions[selected]; save(); applyVisual(); } };
+    document.getElementById('btnReset').onclick = () => { if (confirm('Xoá toàn bộ trạng thái đã duyệt?')) { decisions = {}; save(); applyVisual(); } };
+    document.getElementById('btnExport').onclick = () => {
+      const blob = new Blob([JSON.stringify({ generated: new Date().toISOString(), decisions }, null, 1)], { type: 'application/json' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'quyet-dinh-khe.json'; a.click();
+    };
+  }
+
+  (async function main() {
+    load(); initScene();
+    data = await (await fetch('review-khe.json')).json();
+    await loadModel();
+    buildMarkers(); setupUI(); applyVisual();
+    document.getElementById('loading').style.display = 'none';
+  })().catch(e => { document.getElementById('loading').textContent = 'Lỗi: ' + e.message; });
+})();
+</script>
+</body>
+</html>

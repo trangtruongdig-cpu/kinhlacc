@@ -1,0 +1,6228 @@
+{
+ "n": 322,
+ "dat": 37,
+ "trot": 132,
+ "rows": [
+  {
+   "code": "BL14",
+   "ten": "Quyết âm du",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 11,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thang",
+    "cơ trám",
+    "cơ răng bé sau – trên",
+    "cơ gối cổ",
+    "cơ lưng dài",
+    "cơ cổ dài",
+    "cơ bán gai của đầu",
+    "cơ bán gai của cổ",
+    "cơ ngang – gai",
+    "cơ ngang – sườn",
+    "phổi"
+   ],
+   "mauGap": [],
+   "treoCm": 1.7,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL13",
+   "ten": "Phế du",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 10,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thang",
+    "cơ trám",
+    "cơ răng bé sau – trên",
+    "cơ gối cổ",
+    "cơ lưng dài",
+    "cơ cổ dài",
+    "cơ bán gai của đầu",
+    "cơ bán gai của cổ",
+    "cơ ngang sườn",
+    "phổi"
+   ],
+   "mauGap": [],
+   "treoCm": 1.2,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LR13",
+   "ten": "Chương môn",
+   "goc": "thang",
+   "sauCm": 1.8,
+   "sachNeu": 10,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ chéo lớn của bụng",
+    "cơ chéo bé của bụng",
+    "cơ ngang bụng",
+    "mạc ngang",
+    "đầu xương sườn 11",
+    "phúc mạc",
+    "bờ dưới gan",
+    "lách",
+    "đại trường lên",
+    "xuống"
+   ],
+   "mauGap": [],
+   "treoCm": 1.2,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV14",
+   "ten": "Đại chùy",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 10,
+   "gapDuoc": 0,
+   "truot": [
+    "gân cơ thang",
+    "gân cơ trán",
+    "gân cơ răng bé sau – trên",
+    "cơ gối đầu",
+    "cơ gian gai",
+    "cơ ngang gai",
+    "dây chằng trên gai",
+    "dây chằng gian gai",
+    "dây chằng vàng",
+    "ống sống"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV6",
+   "ten": "Tích trung",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 9,
+   "gapDuoc": 0,
+   "truot": [
+    "chỗ bám của gân cơ thang",
+    "cân ngực – thắt lưng của cơ lưng lớn",
+    "cơ răng bé sau – dưới",
+    "cơ gai dài của lưng",
+    "cơ ngang gai",
+    "dây chằng trên gai",
+    "dây chằng gian gai",
+    "dây chằng vàng",
+    "ống sống"
+   ],
+   "mauGap": [
+    "Phần lên của cơ thang phải",
+    "Phần lên của cơ thang trái",
+    "Đốt sống ngực 11",
+    "Đốt sống ngực 10"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI11",
+   "ten": "Hoành cốt",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 8,
+   "gapDuoc": 0,
+   "truot": [
+    "cân cơ chéo lớn của bụng",
+    "cơ tháp",
+    "bờ trong cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc",
+    "ruột non",
+    "bàng quang khi đầy",
+    "tử cung khi có thai"
+   ],
+   "mauGap": [],
+   "treoCm": 1.5,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV4",
+   "ten": "Mệnh môn",
+   "goc": "luon",
+   "sauCm": 3.4,
+   "sachNeu": 8,
+   "gapDuoc": 0,
+   "truot": [
+    "cân ngực – thắt lưng của cơ lưng lớn",
+    "chỗ bám của cơ răng bé sau – dưới",
+    "cơ gian gai",
+    "cơ ngang gai",
+    "dây chằng gian gai",
+    "dây chằng trên gai",
+    "dây chằng vàng",
+    "ống sống"
+   ],
+   "mauGap": [],
+   "treoCm": 1.3,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV5",
+   "ten": "Huyền khu",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 8,
+   "gapDuoc": 0,
+   "truot": [
+    "cân ngực – thắt lưng của cơ lưng lớn",
+    "chỗ bám của cơ răng bé sau – dưới",
+    "cơ gian gai",
+    "cơ ngang gai",
+    "dây chằng trên gai",
+    "dây chằng gian gai",
+    "dây chằng vàng",
+    "ống sống"
+   ],
+   "mauGap": [],
+   "treoCm": 1.4,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV9",
+   "ten": "Chí dương",
+   "goc": "luon",
+   "sauCm": 1.8,
+   "sachNeu": 8,
+   "gapDuoc": 0,
+   "truot": [
+    "gân cơ thang",
+    "cân ngực – thắt lưng của cơ lưng lớn",
+    "cơ gai dài của lưng",
+    "cơ ngang – gai",
+    "dây chằng trên gai",
+    "dây chằng gian gai",
+    "dây chằng vàng",
+    "ống sống"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV10",
+   "ten": "Linh đài",
+   "goc": "luon",
+   "sauCm": 1.8,
+   "sachNeu": 8,
+   "gapDuoc": 0,
+   "truot": [
+    "gân cơ thang",
+    "cân ngực – thắt lưng của cơ lưng lớn",
+    "cơ gai dài của lưng",
+    "cơ ngang gai",
+    "dây chằng trên gai",
+    "dây chằng gian gai",
+    "dây chằng vàng",
+    "ống sống"
+   ],
+   "mauGap": [],
+   "treoCm": 1.1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL15",
+   "ten": "Tâm du",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 7,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thang",
+    "cơ trám",
+    "cơ lưng dài",
+    "cơ bán gai của cổ",
+    "cơ ngang gai",
+    "cơ ngang sườn",
+    "vào trong là phổi"
+   ],
+   "mauGap": [],
+   "treoCm": 2.2,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL16",
+   "ten": "Đốc du",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 7,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thang",
+    "cơ lưng lớn",
+    "cơ lưng dài",
+    "cơ bán gai của ngực",
+    "cơ ngang gai",
+    "cơ ngang sườn",
+    "vào trong là phổi"
+   ],
+   "mauGap": [],
+   "treoCm": 1.1,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL41",
+   "ten": "Phụ phân",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 7,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thang",
+    "cơ nâng vai",
+    "cơ trám",
+    "cơ răng bé sau – trên",
+    "cơ chậu sườn – ngực",
+    "cơ gian sườn 2",
+    "bên trong là phổi"
+   ],
+   "mauGap": [],
+   "treoCm": 1.3,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB25",
+   "ten": "Đái mạch",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 7,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ chéo lớn của bụng",
+    "cơ chéo bé của bụng",
+    "cơ ngang bụng",
+    "đầu cụt xương sườn 12",
+    "mạc ngang",
+    "phúc mạc",
+    "thận"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV3",
+   "ten": "Yêu dương quan",
+   "goc": "luon",
+   "sauCm": 3.4,
+   "sachNeu": 7,
+   "gapDuoc": 0,
+   "truot": [
+    "cân ngực – thắt lưng của cơ lưng lớn",
+    "chỗ bám của cân khối cơ chung rãnh cột sống",
+    "cơ ngang – gai",
+    "dây chằng trên gai",
+    "dây chằng gian gai",
+    "dây chằng vàng",
+    "ống sống"
+   ],
+   "mauGap": [],
+   "treoCm": 1.4,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV11",
+   "ten": "Thần đạo",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 7,
+   "gapDuoc": 0,
+   "truot": [
+    "gân cơ thang",
+    "cơ gai dài của lưng",
+    "cơ ngang gai",
+    "dây chằng trên gai",
+    "dây chằng gian gai",
+    "dây chằng vàng",
+    "ống sống"
+   ],
+   "mauGap": [],
+   "treoCm": 1.3,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST4",
+   "ten": "Địa Thương",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 6,
+   "gapDuoc": 0,
+   "truot": [
+    "chỗ đan chéo thớ của cơ vòng môi",
+    "cơ gò má lớn",
+    "cơ cười",
+    "cơ tam giác môi",
+    "vào sâu có cơ mút",
+    "cơ nanh"
+   ],
+   "mauGap": [
+    "Lợi của hàm trên",
+    "Xương hàm trên trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI8",
+   "ten": "Tiểu hải",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 6,
+   "gapDuoc": 0,
+   "truot": [
+    "cân cơ 3 đầu cánh tay",
+    "rãnh ròng rọc – khuỷu của mặt sau đầu dưới xương cánh tay (ở trong là mỏm trên ròng rọc của xương cánh tay",
+    "có gân cơ trụ trước",
+    "gân cơ gấp chung sâu các ngón tay bám gần nhất",
+    "ở ngoài là mỏm khuỷu của xương trụ",
+    "có gân cơ 3 đầu cánh tay bám)"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI15",
+   "ten": "Kiên trung du",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 6,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thang",
+    "cơ góc",
+    "cơ răng bé sau – trên",
+    "cơ chậu sườn đoạn lưng cổ",
+    "cơ ngang sườn",
+    "cơ gian mỏng ngang"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL42",
+   "ten": "Phách hộ",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 6,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thang",
+    "cơ trám",
+    "cơ răng bé sau – trên",
+    "cơ chậu sườn – ngực",
+    "cơ gian sườn 3",
+    "bên trong là phổi"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL43",
+   "ten": "Cao hoang",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 6,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thang",
+    "cơ trám",
+    "cơ răng bé sau – trên",
+    "cơ chậu – sườn – ngực",
+    "cơ gian sườn 4",
+    "phổi"
+   ],
+   "mauGap": [],
+   "treoCm": 2.5,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL48",
+   "ten": "Dương cương",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 6,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ lưng lớn",
+    "cơ răng bé sau – dưới",
+    "cơ chậu sườn – ngực",
+    "cơ gian sườn 10",
+    "phổi",
+    "gan"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI27",
+   "ten": "Du phủ",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 6,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ bám da cổ",
+    "cơ ngực lớn",
+    "cơ dưới đòn",
+    "cơ ức – móng",
+    "cơ ức giáp",
+    "đỉnh phổi"
+   ],
+   "mauGap": [],
+   "treoCm": 0.9,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "TE17",
+   "ten": "Ế phong",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 6,
+   "gapDuoc": 0,
+   "truot": [
+    "phía trước bờ trước cơ ức–đòn–chũm",
+    "cơ trâm hầu",
+    "trâm móng",
+    "trâm lưỡi",
+    "cơ 2 thân",
+    "trên các cơ bậc thang"
+   ],
+   "mauGap": [],
+   "treoCm": 1.1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB28",
+   "ten": "Duy đạo",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 6,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ dưới cơ chéo lớn",
+    "cơ chéo bé của bụng",
+    "cơ ngang bụng",
+    "mạc ngang",
+    "phúc mạc",
+    "đại trường"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI14",
+   "ten": "Tý nhu",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "đỉnh cơ delta",
+    "bờ ngoài cơ 2 đầu cánh tay",
+    "chỗ bám của cơ cánh tay trên vào xương",
+    "phía sau là phần rộng ngoài của cơ 3 đầu cánh tay",
+    "xương cánh tay"
+   ],
+   "mauGap": [
+    "Phần ức sườn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "ST1",
+   "ten": "Thừa Khấp",
+   "goc": "xien",
+   "sauCm": 2.3,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ vòng mi (giữa phần ổ mắt",
+    "phần mi của cơ này)",
+    "ở sâu là cơ thẳng dưới",
+    "cơ chéo bé của mắt",
+    "nhãn cầu"
+   ],
+   "mauGap": [
+    "Thần kinh trên ổ mắt trái",
+    "Xương trán"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST3",
+   "ten": "Cự Liêu",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ gò má nhỏ",
+    "cơ nâng cánh mũi",
+    "môi trên (cơ vuông môi trên)",
+    "vào sâu có cơ nanh",
+    "xương hàm trên"
+   ],
+   "mauGap": [],
+   "treoCm": 1.1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST9",
+   "ten": "Nhân Nghênh",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ trước cơ ức đòn chũm",
+    "bó mạch thần kinh cảnh",
+    "lớp sâu là cơ bậc thang",
+    "cơ cổ dài",
+    "cơ góc"
+   ],
+   "mauGap": [
+    "Cơ bám da cổ trái",
+    "Lợi của hàm dưới",
+    "Xương hàm dưới",
+    "Răng hàm nhỏ vĩnh viễn hàm dưới 1 trái",
+    "Răng nanh vĩnh viễn hàm dưới trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST15",
+   "ten": "Ốc Ế",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ ngực lớn",
+    "bờ trên cơ ngực bé",
+    "cơ gian sườn 2",
+    "bờ trên xương sườn 3",
+    "trong sâu có phổi"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST31",
+   "ten": "Bễ Quan",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "góc của cơ may",
+    "cơ căng cân đùi",
+    "cơ thẳng trước đùi",
+    "cơ đái – chậu",
+    "xương đùi"
+   ],
+   "mauGap": [],
+   "treoCm": 1.3,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "SP9",
+   "ten": "Âm lăng tuyền",
+   "goc": "thang",
+   "sauCm": 4.6,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ sau – trong",
+    "mặt sau đầu xương chầy",
+    "chỗ bám của cơ kheo",
+    "dưới chỗ bám của cơ bán mạc",
+    "mặt trước cơ sinh đôi trong"
+   ],
+   "mauGap": [
+    "Cơ bán màng trái",
+    "Cơ bán gân trái",
+    "Xương chày trái",
+    "Động mạch khoeo trái",
+    "Động mạch gối dưới trong trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SP20",
+   "ten": "Chu vinh",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ ngực lớn",
+    "cơ ngực bé",
+    "cơ răng lớn",
+    "cơ gian sườn 3",
+    "vào trong là phổi"
+   ],
+   "mauGap": [],
+   "treoCm": 1.1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL1",
+   "ten": "Tinh minh",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ vòng miệng dưới",
+    "chỗ bám của cơ tháp",
+    "cơ mày",
+    "trên chỗ bám của cơ nâng mũi",
+    "môi trên"
+   ],
+   "mauGap": [
+    "Thần kinh trên ròng rọc trái",
+    "Xương trán",
+    "Động mạch trán nền trong trái",
+    "Hồi trán trên trái",
+    "Hồi ổ mắt",
+    "Chất trắng của bán cầu đại não trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL19",
+   "ten": "Đởm du",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ lưng lớn",
+    "cơ lưng dài",
+    "cơ bán gai của ngực",
+    "cơ ngang gai",
+    "cơ ngang sườn"
+   ],
+   "mauGap": [
+    "Phần lên của cơ thang trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL44",
+   "ten": "Thần đường",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thang",
+    "cơ trám",
+    "cơ chậu – sườn – ngực",
+    "cơ gian sườn 5",
+    "vào trong là phổi"
+   ],
+   "mauGap": [],
+   "treoCm": 1.9,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL46",
+   "ten": "Cách quan",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ dưới cơ thang",
+    "cơ lưng lớn",
+    "cơ chậu – sườn – ngực",
+    "cơ gian sườn 7",
+    "vào trong là phổi"
+   ],
+   "mauGap": [
+    "Phần lên của cơ thang trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL58",
+   "ten": "Phi dương",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ ngoài chỗ tiếp nối giữa phần thịt với phần gân của cơ sinh đôi ngoài",
+    "cơ dép",
+    "cơ gấp dài ngón chân cái",
+    "cơ chày sau",
+    "màng gian cốt"
+   ],
+   "mauGap": [
+    "Đầu trong của cơ bụng chân trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL63",
+   "ten": "Kim môn",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 5,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ dạng ngón út",
+    "gân cơ mác bên dài",
+    "gân cơ mác bên ngắn",
+    "đầu xương bàn chân 5",
+    "xương hộp"
+   ],
+   "mauGap": [],
+   "treoCm": 1.9,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LU3",
+   "ten": "Thiên Phủ",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ ngoài cơ 2 đầu cánh tay",
+    "chỗ bám của cơ cánh tay trước",
+    "cơ delta",
+    "xương cánh tay"
+   ],
+   "mauGap": [
+    "Phần bụng của cơ ngực lớn trái",
+    "Phần ức sườn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST36",
+   "ten": "Túc Tam Lý",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ cẳng chân trước",
+    "chỗ bám các thớ gân cơ 2 đầu đùi",
+    "xương mác",
+    "màng gian cốt"
+   ],
+   "mauGap": [
+    "Xương chày trái",
+    "Dải chậu chày trái",
+    "Cơ chày trước trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST38",
+   "ten": "Điều Khẩu",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ duỗi chung các ngón chân",
+    "vào sâu là bờ trong cơ duỗi dài riêng ngón chân cái",
+    "xương mác",
+    "màng gian cốt"
+   ],
+   "mauGap": [
+    "Động mạch chày trước trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "SP7",
+   "ten": "Lậu cốc",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ sau – trong xương chầy",
+    "bờ trong cơ dép",
+    "cơ gấp dài các ngón chân",
+    "cơ cẳng sau chân"
+   ],
+   "mauGap": [
+    "Đầu trong của cơ bụng chân trái",
+    "Cơ dép trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "SP8",
+   "ten": "Địa cơ",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ sau – trong xương chầy",
+    "chỗ bám của cơ sinh đôi trong",
+    "cơ dép là cơ gấp dài các ngón chân",
+    "cơ cẳng chân sau"
+   ],
+   "mauGap": [
+    "Tĩnh mạch hiển lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SP11",
+   "ten": "Cơ môn",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ rộng trong",
+    "gần bờ trong cơ thẳng",
+    "trước đùi",
+    "cơ rộng giữa xương đùi"
+   ],
+   "mauGap": [],
+   "treoCm": 1.1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SP21",
+   "ten": "Đại bao",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ ngoài cơ lưng lớn",
+    "cơ răng lớn",
+    "cơ gian sườn 6",
+    "bên trong là phổi"
+   ],
+   "mauGap": [
+    "Đầu ngắn của cơ nhị đầu cánh tay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "HT1",
+   "ten": "Cực tuyền",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "mặt sau gân cơ quạ cánh tay",
+    "gân cơ 2 đầu (phần ngắn)",
+    "trước nữa là mặt sau cơ ngực lớn",
+    "ở trên là đầu trên xương cánh tay"
+   ],
+   "mauGap": [],
+   "treoCm": 1.4,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL30",
+   "ten": "Bạch hoàn du",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "cân của cơ lưng lớn",
+    "chỗ bám của cơ mông lớn",
+    "phía ngoài khối cơ chung của các cơ ở rãnh cột sống",
+    "xương cùng"
+   ],
+   "mauGap": [
+    "Tĩnh mạch mông dưới trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL61",
+   "ten": "Bộc tham",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "gân cơ mác bên dái",
+    "gân cơ mác bên ngắn ở phía trước",
+    "gân gót chân ở phía sau",
+    "bờ trên xương gót"
+   ],
+   "mauGap": [],
+   "treoCm": 1.9,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL62",
+   "ten": "Thân mạch",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "gân cơ mác bên dài",
+    "gân cơ mác bên ngắn",
+    "chỗ bám của cơ duỗi ngắn các ngón chân",
+    "rãnh cơ mác của mặt ngoài xương gót chân"
+   ],
+   "mauGap": [],
+   "treoCm": 1.4,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI9",
+   "ten": "Trúc tân",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ dép",
+    "cơ duỗi dài các ngón chân",
+    "cơ chày sau",
+    "màng gian cốt"
+   ],
+   "mauGap": [
+    "Đầu trong của cơ bụng chân trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE14",
+   "ten": "Kiên liêu",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "bó gai sống của cơ delta",
+    "cơ trên sống",
+    "cơ dưới sống",
+    "đầu trên xương cánh tay"
+   ],
+   "mauGap": [],
+   "treoCm": 1.2,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE18",
+   "ten": "Khế mạch",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "chỗ cơ ức – đòn – chũm",
+    "cơ gối đầu",
+    "cơ đầu dài",
+    "cơ 2 thân bám vào mỏm xương chũm"
+   ],
+   "mauGap": [
+    "Xương thái dương trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB22",
+   "ten": "Uyên dịch",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ trước cơ lưng lớn",
+    "cơ răng lớn",
+    "cơ gian sườn 4",
+    "phổi"
+   ],
+   "mauGap": [
+    "Đầu ngắn của cơ nhị đầu cánh tay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LR9",
+   "ten": "Âm bao",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thẳng trong",
+    "cơ khép lớn",
+    "cơ rộng trong",
+    "mặt trong xương đùi"
+   ],
+   "mauGap": [
+    "Tĩnh mạch hiển lớn trái",
+    "Cơ thon trái",
+    "Cơ bán màng trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LR12",
+   "ten": "Cấp mạch",
+   "goc": "thang",
+   "sauCm": 1.8,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "cung đùi fallope",
+    "cơ khép nhỡ",
+    "cơ khép bé",
+    "cơ bịt"
+   ],
+   "mauGap": [
+    "Động mạch thượng vị nông trái",
+    "Cơ chéo bụng ngoài trái",
+    "Tĩnh mạch thượng vị nông trái",
+    "Tĩnh mạch thượng vị trên trái",
+    "Phần xa của hồi tràng"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "GV2",
+   "ten": "Yêu du",
+   "goc": "luon",
+   "sauCm": 1.8,
+   "sachNeu": 4,
+   "gapDuoc": 0,
+   "truot": [
+    "cân ngực – thắt lưng của cơ lưng lớn",
+    "cân của khối cơ chung ở rãnh cột sống",
+    "dây chằng cùng – cụt",
+    "mỏm gai đốt sống cùng cụt"
+   ],
+   "mauGap": [],
+   "treoCm": 2,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST7",
+   "ten": "Hạ Quan",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "tuyến mang tai",
+    "chỗ bám của bờ sau cơ nhai",
+    "ở sâu có cơ chân bướm ngoài"
+   ],
+   "mauGap": [
+    "Xương thái dương trái",
+    "Xương gò má trái",
+    "Xương hàm dưới"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST12",
+   "ten": "Khuyết Bồn",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "hố trên đòn",
+    "có các cơ bậc thang",
+    "cơ vai – móng"
+   ],
+   "mauGap": [],
+   "treoCm": 1.7,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "ST37",
+   "ten": "Thượng Cự Hư",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ ngoài cơ cẳng thân trước",
+    "bờ trong cơ duỗi chung các ngón chân",
+    "xương mác"
+   ],
+   "mauGap": [
+    "Cơ chày trước trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST39",
+   "ten": "Hạ Cự Hư",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ duỗi chung các ngón chân",
+    "ở sâu là bờ trong cơ duỗi dài riêng ngón chân cái",
+    "xương mác"
+   ],
+   "mauGap": [
+    "Động mạch chày trước trái",
+    "Cơ chày trước trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST40",
+   "ten": "Phong Long",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ mác bên ngắn",
+    "ở sâu là cơ duỗi dài riêng ngón chân cái",
+    "xương mác"
+   ],
+   "mauGap": [
+    "Cơ chày trước trái",
+    "Động mạch chày trước trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "SI12",
+   "ten": "Bỉnh phong",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thang",
+    "cơ trên gai",
+    "xương bả vai"
+   ],
+   "mauGap": [],
+   "treoCm": 2.6,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI14",
+   "ten": "Kiên ngoại du",
+   "goc": "xien",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thang",
+    "cơ góc",
+    "cơ răng bé sau – trên"
+   ],
+   "mauGap": [],
+   "treoCm": 1.7,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL27",
+   "ten": "Tiểu trường du",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cân của cơ lưng lớn",
+    "khối cơ chung của các cơ ở rãnh cột sống",
+    "xương cùng"
+   ],
+   "mauGap": [
+    "Cơ chậu sườn thắt lưng trái",
+    "Xương chậu trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL29",
+   "ten": "Trung lữ du",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cân của cơ lưng lớn",
+    "khối cơ chung của các cơ rãnh cột sống",
+    "xương cùng"
+   ],
+   "mauGap": [],
+   "treoCm": 1.1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL31",
+   "ten": "Thượng liêu",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cân của cơ lưng lớn",
+    "khối cơ chung của các cơ rãnh cột sống",
+    "lỗ cùng 1"
+   ],
+   "mauGap": [
+    "Cơ dài nhất ngực trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL34",
+   "ten": "Hạ liêu",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cân của cơ lưng lớn",
+    "khối cơ chung của các cơ ở rãnh cột sống",
+    "xương cùng"
+   ],
+   "mauGap": [
+    "Tĩnh mạch chậu trong trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL35",
+   "ten": "Hội dương",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "khối mỡ nhão của hố ngồi – trực tràng",
+    "cơ nâng mông",
+    "cơ ngồi cụt"
+   ],
+   "mauGap": [],
+   "treoCm": 1.7,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL38",
+   "ten": "Phù khích",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "góc giữa 2 cơ bán mạc",
+    "cơ 2 đầu đùi",
+    "mặt sau đầu dưới xương đùi"
+   ],
+   "mauGap": [],
+   "treoCm": 1.8,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL39",
+   "ten": "Ủy dương",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "góc giữa 2 gân cơ 2 đầu đùi",
+    "cơ gan chân gầy",
+    "mặt sau lồi cầu ngoài xương đùi"
+   ],
+   "mauGap": [],
+   "treoCm": 1.4,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL47",
+   "ten": "Hồn môn",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ lưng lớn",
+    "cơ chậu – sườn – ngực",
+    "cơ gian sườn 9 rồi vào phổi"
+   ],
+   "mauGap": [],
+   "treoCm": 1.7,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL55",
+   "ten": "Hợp dương",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "góc của 2 cơ sinh đôi",
+    "bờ trên cơ kheo",
+    "giữa mặt sau đầu trên xương chày"
+   ],
+   "mauGap": [],
+   "treoCm": 1.9,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI6",
+   "ten": "Chiếu hải",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "gân cơ gấp dài các ngón chân",
+    "sau mỏm chân đế",
+    "gót của xương gót"
+   ],
+   "mauGap": [],
+   "treoCm": 1.2,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "PC2",
+   "ten": "Thiên tuyền",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "phần ngắn của cơ 2 đầu cánh tay",
+    "chỗ bám của cơ cánh tay trước",
+    "mặt trước xương cánh tay"
+   ],
+   "mauGap": [
+    "Phần đòn của cơ delta trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE4",
+   "ten": "Dương trì",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "duỗi riêng ngón tay trỏ ở ngoài với gân cơ duỗi riêng ngón tay út ở trong",
+    "xương trụ",
+    "ở trên xương nguyệt"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE8",
+   "ten": "Tam dương lạc",
+   "goc": "thang",
+   "sauCm": 2.8,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ duỗi riêng ngón tay út",
+    "giữa chỗ bám của cơ duỗi dài riêng",
+    "cơ duỗi ngắn riêng ngón tay cái ở trên màng gian cốt"
+   ],
+   "mauGap": [],
+   "treoCm": 0.9,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "TE9",
+   "ten": "Tứ độc",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ duỗi riêng ngón tay út",
+    "cơ dạng dài ngón cái",
+    "màng gian cốt"
+   ],
+   "mauGap": [],
+   "treoCm": 0.9,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE13",
+   "ten": "Nhu hội",
+   "goc": "thang",
+   "sauCm": 2.8,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ sau – dưới của cơ delta",
+    "phần rộng ngoài của cơ 3 đầu cánh tay",
+    "xương cánh tay"
+   ],
+   "mauGap": [],
+   "treoCm": 1.6,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE19",
+   "ten": "Lư tức",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ tai sau",
+    "cơ chẩm",
+    "xương chẩm"
+   ],
+   "mauGap": [
+    "Xương thái dương trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE22",
+   "ten": "Hòa liêu",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ tai trên",
+    "cơ thái dương",
+    "xương thái dương"
+   ],
+   "mauGap": [
+    "Xương trán"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB2",
+   "ten": "Thính hội",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ sau tuyến mang tai",
+    "bờ dưới mỏm tiếp xương thái dương",
+    "sau lồi cầu xương hàm dưới"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB4",
+   "ten": "Hàm yến",
+   "goc": null,
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ tai trên",
+    "cơ thái dương",
+    "xương thái dương"
+   ],
+   "mauGap": [
+    "Xương trán",
+    "Xương đỉnh trái",
+    "Động mạch của rãnh trước trung tâm trái",
+    "Hồi trán dưới trái",
+    "Chất trắng của bán cầu đại não trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "GB5",
+   "ten": "Huyền lư",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ tai trên",
+    "cơ thái dương",
+    "xương thái dương"
+   ],
+   "mauGap": [
+    "Xương đỉnh trái",
+    "Hồi trán dưới trái",
+    "Động mạch của rãnh trước trung tâm trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB6",
+   "ten": "Huyền ly",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ tai trên",
+    "cơ thái dương",
+    "xương thái dương"
+   ],
+   "mauGap": [
+    "Xương đỉnh trái",
+    "Động mạch của rãnh trước trung tâm trái",
+    "Hồi trước trung tâm trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "GB21",
+   "ten": "Kiên tỉnh",
+   "goc": "thang",
+   "sauCm": 1.8,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thang",
+    "cơ trên sống",
+    "cơ góc"
+   ],
+   "mauGap": [],
+   "treoCm": 0.9,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "GB30",
+   "ten": "Hoàn khiêu",
+   "goc": "thang",
+   "sauCm": 6,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ mông lớn",
+    "bờ dưới cơ tháp",
+    "bờ trên cơ sinh đôi trên"
+   ],
+   "mauGap": [
+    "Dải chậu chày trái",
+    "Tập hợp của các nhánh gót của động mạch chày sau",
+    "Xương đùi trái",
+    "Tĩnh mạch mũ đùi ngoài trái",
+    "Cơ rộng ngoài trái",
+    "Cơ rộng giữa trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "GB34",
+   "ten": "Dương lăng tuyền",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ duỗi chung các ngón chân",
+    "phía trước",
+    "trong đầu trên xương mác"
+   ],
+   "mauGap": [],
+   "treoCm": 1.3,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LR10",
+   "ten": "Ngũ lý trạch điền",
+   "goc": "thang",
+   "sauCm": 4.6,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ khép nhỡ",
+    "cơ khép bé",
+    "cơ bịt"
+   ],
+   "mauGap": [
+    "Động mạch đùi trái",
+    "Cơ lược trái",
+    "Tĩnh mạch đùi sâu trái",
+    "Tĩnh mạch mũ đùi ngoài trái",
+    "Tĩnh mạch mũ đùi trong trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LR11",
+   "ten": "Âm liêm",
+   "goc": "thang",
+   "sauCm": 4.6,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ khép nhỡ",
+    "cơ khép bé",
+    "cơ bịt"
+   ],
+   "mauGap": [
+    "Tĩnh mạch chậu ngoài trái",
+    "Tĩnh mạch đùi sâu trái",
+    "Tĩnh mạch đùi trái",
+    "Động mạch đùi trái",
+    "Tĩnh mạch thượng vị trên trái",
+    "Cơ chéo bụng ngoài trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV22",
+   "ten": "Tín hội",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 0,
+   "truot": [
+    "cân sọ",
+    "dưới cân sọ là thóp trước",
+    "vết tích của thóp trước"
+   ],
+   "mauGap": [
+    "Xương trán",
+    "Xương đỉnh phải"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI15",
+   "ten": "Kiên ngung",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "bó cùng vai của cơ delta",
+    "xương cánh tay"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI16",
+   "ten": "Cự cốt",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ thang",
+    "cơ trên gai"
+   ],
+   "mauGap": [],
+   "treoCm": 1.2,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI19",
+   "ten": "Hòa liêu",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ vòng môi trên",
+    "xương hàm trên"
+   ],
+   "mauGap": [
+    "Sụn vách mũi",
+    "Sụn cánh mũi lớn trái",
+    "Sụn cánh mũi lớn phải"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST8",
+   "ten": "Đầu Duy",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "chỗ cơ thái dương dính vào cân sọ",
+    "dưới cân sọ là xương sọ"
+   ],
+   "mauGap": [
+    "Xương trán",
+    "Xương đỉnh trái",
+    "Động mạch trước trán trái",
+    "Hồi trán dưới trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SP5",
+   "ten": "Thương khâu",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ trên gân cơ cẳng chân sau",
+    "sát khe khớp sên – thuyền"
+   ],
+   "mauGap": [
+    "Cơ chày sau trái",
+    "Xương ghe bàn chân trái",
+    "Xương sên trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI18",
+   "ten": "Quyền liêu",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ trước cơ cắn",
+    "chỗ bám vào xương gò má"
+   ],
+   "mauGap": [],
+   "treoCm": 1.1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI19",
+   "ten": "Thính cung",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "bờ sau tuyến mang tai",
+    "bờ sau lồi cầu xương hàm dưới"
+   ],
+   "mauGap": [
+    "Xương thái dương trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL3",
+   "ten": "Mi xung",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "chỗ cơ trán bám vào cân sọ",
+    "dưới gân là xương sọ"
+   ],
+   "mauGap": [
+    "Xương trán",
+    "Nhánh giữa trong của động mạch chai viền trái",
+    "Hồi trán trên trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL4",
+   "ten": "Khúc sai",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "chỗ bám của cơ trán vào cân sọ",
+    "dưới cân sọ là xương sọ"
+   ],
+   "mauGap": [
+    "Xương trán",
+    "Nhánh giữa trong của động mạch chai viền trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL5",
+   "ten": "Ngũ xứ",
+   "goc": "xien",
+   "sauCm": 0.7,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cân sọ",
+    "xương sọ"
+   ],
+   "mauGap": [
+    "Xương trán"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL6",
+   "ten": "Thừa quang",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cân sọ",
+    "xương sọ"
+   ],
+   "mauGap": [
+    "Xương trán",
+    "Xương đỉnh trái",
+    "Hồi trán trên trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL7",
+   "ten": "Thông thiên",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cân sọ",
+    "xương sọ"
+   ],
+   "mauGap": [
+    "Xương đỉnh trái",
+    "Hồi trán trên trái",
+    "Nhánh cạnh trung tâm của động mạch chai viền trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL8",
+   "ten": "Lạc khước",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cân sọ",
+    "xương sọ"
+   ],
+   "mauGap": [
+    "Xương đỉnh trái",
+    "Hồi trước trung tâm trái",
+    "Hồi trán trên trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL28",
+   "ten": "Bàng quang du",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cân của cơ lưng lớn",
+    "khối cơ chung của các cơ ở rãnh cột sống xương cùng 2"
+   ],
+   "mauGap": [
+    "Cơ chậu sườn thắt lưng trái",
+    "Xương cùng",
+    "Cơ mông lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL59",
+   "ten": "Phụ dương",
+   "goc": "thang",
+   "sauCm": 2.8,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ mác bên ngắn cơ gấp dài ngón chân cái",
+    "bờ dưới cơ chày sau"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL60",
+   "ten": "Côn lôn",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "gân cơ mác bên dài ở trước gân gót chân",
+    "ở sau đầu dưới xương chầy"
+   ],
+   "mauGap": [],
+   "treoCm": 1.1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL64",
+   "ten": "Kinh cốt",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ dạng ngón chân út",
+    "cùng xương bàn chân 5"
+   ],
+   "mauGap": [],
+   "treoCm": 1,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE11",
+   "ten": "Thanh lãnh uyên",
+   "goc": "thang",
+   "sauCm": 2.8,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "gân cơ 3 đầu cánh tay",
+    "đầu dưới xương cánh tay"
+   ],
+   "mauGap": [],
+   "treoCm": 1.6,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE12",
+   "ten": "Tiêu lạc",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "phần rộng ngoài (xoay cánh tay ra trước sẽ làm hiện rõ khe của phần dài",
+    "rộng ngoài của cơ 3 đầu cánh tay)"
+   ],
+   "mauGap": [],
+   "treoCm": 1.5,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB16",
+   "ten": "Mục song",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cân sọ",
+    "đường khớp trán – đỉnh"
+   ],
+   "mauGap": [
+    "Xương trán"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB29",
+   "ten": "Cư liêu",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ mông nhỡ",
+    "cơ mông bé"
+   ],
+   "mauGap": [
+    "Dải chậu chày trái",
+    "Cơ căng mạc đùi trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB35",
+   "ten": "Dương giao",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ mác bên ngắn",
+    "xương mác"
+   ],
+   "mauGap": [
+    "Cơ chày trước trái",
+    "Tĩnh mạch chày trước trái",
+    "Màng gian cốt của cẳng chân trái",
+    "Cơ duỗi ngón chân cái dài trái",
+    "Xương chày trái",
+    "Cơ chày sau trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB36",
+   "ten": "Ngoại khâu",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ dép",
+    "xương mác"
+   ],
+   "mauGap": [
+    "Động mạch chày trước trái",
+    "Cơ chày trước trái",
+    "Màng gian cốt của cẳng chân trái",
+    "Tĩnh mạch chày trước trái",
+    "Cơ chày sau trái",
+    "Cơ gấp các ngón chân dài trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB37",
+   "ten": "Quang minh",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ mác bên ngắn",
+    "bờ trước xương mác"
+   ],
+   "mauGap": [
+    "Cơ chày trước trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LR8",
+   "ten": "Khúc tuyền",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "gân cơ thẳng trong",
+    "đầu trên cơ sinh đôi trong"
+   ],
+   "mauGap": [
+    "Cơ thon trái",
+    "Cơ bán màng trái",
+    "Cơ khép lớn trái",
+    "Xương đùi trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV18",
+   "ten": "Cường gian",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cân sọ",
+    "dưới cân là xương sọ"
+   ],
+   "mauGap": [
+    "Xương đỉnh trái",
+    "Xương đỉnh phải"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV19",
+   "ten": "Hậu đỉnh",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cân sọ",
+    "dưới cân sọ là xương sọ"
+   ],
+   "mauGap": [
+    "Xương đỉnh trái",
+    "Xương đỉnh phải"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV20",
+   "ten": "Bá hội thập tự thích",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cân sọ",
+    "dưới cân sọ là xương sọ"
+   ],
+   "mauGap": [
+    "Xương đỉnh trái",
+    "Xương đỉnh phải"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV21",
+   "ten": "Tiền đỉnh",
+   "goc": "luon",
+   "sauCm": 1.8,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cân sọ",
+    "dưới cân sọ là xương sọ"
+   ],
+   "mauGap": [
+    "Xương đỉnh trái",
+    "Xương đỉnh phải"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV23",
+   "ten": "Thượng tinh",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "cân sọ",
+    "dưới cân sọ là xương sọ"
+   ],
+   "mauGap": [
+    "Xương trán"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV27",
+   "ten": "Đoài đoan",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "niêm mạc môi",
+    "bờ dưới các cơ vòng môi trên"
+   ],
+   "mauGap": [
+    "Lợi của hàm trên",
+    "Sụn cánh mũi lớn phải",
+    "Sụn cánh mũi lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "CV20",
+   "ten": "Hoa cái",
+   "goc": "xien",
+   "sauCm": 2.3,
+   "sachNeu": 2,
+   "gapDuoc": 0,
+   "truot": [
+    "xương ức",
+    "chỗ tiếp nối đầu xương ức với thân xương ức"
+   ],
+   "mauGap": [
+    "Cán ức",
+    "Cơ ức đòn chũm phải",
+    "Cơ ức đòn chũm trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL40",
+   "ten": "Ủy trung",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 1,
+   "gapDuoc": 0,
+   "truot": [
+    "chính giữa vùng chám kheo"
+   ],
+   "mauGap": [
+    "Đầu ngoài của cơ bụng chân trái",
+    "Tĩnh mạch hiển bé trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LR5",
+   "ten": "Lãi câu",
+   "goc": "thang",
+   "sauCm": 1.8,
+   "sachNeu": 1,
+   "gapDuoc": 0,
+   "truot": [
+    "mặt trước – trong của xương chầy"
+   ],
+   "mauGap": [
+    "Tĩnh mạch hiển lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LR6",
+   "ten": "Trung đô",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 1,
+   "gapDuoc": 0,
+   "truot": [
+    "mặt trên – trong của xương chày"
+   ],
+   "mauGap": [
+    "Đầu trong của cơ bụng chân trái",
+    "Cơ dép trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "GV24",
+   "ten": "Thần đình",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 1,
+   "gapDuoc": 0,
+   "truot": [
+    "cân sọ dưới cân sọ là xương sọ"
+   ],
+   "mauGap": [
+    "Xương trán"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV26",
+   "ten": "Nhân trung",
+   "goc": "thang",
+   "sauCm": 0.7,
+   "sachNeu": 1,
+   "gapDuoc": 0,
+   "truot": [
+    "cơ vòng môi trên"
+   ],
+   "mauGap": [
+    "Sụn cánh mũi lớn phải",
+    "Sụn vách mũi",
+    "Sụn cánh mũi lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "CV17",
+   "ten": "Chiên trung",
+   "goc": "luon",
+   "sauCm": 3.4,
+   "sachNeu": 1,
+   "gapDuoc": 0,
+   "truot": [
+    "xương ức"
+   ],
+   "mauGap": [
+    "Thân xương ức"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "CV18",
+   "ten": "Ngọc đường",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 1,
+   "gapDuoc": 0,
+   "truot": [
+    "xương ức"
+   ],
+   "mauGap": [
+    "Thân xương ức"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "CV19",
+   "ten": "Tử cung",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 1,
+   "gapDuoc": 0,
+   "truot": [
+    "xương ức"
+   ],
+   "mauGap": [
+    "Thân xương ức",
+    "Phần ức sườn của cơ ngực lớn phải",
+    "Cán ức"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "CV21",
+   "ten": "Toàn cơ",
+   "goc": "xien",
+   "sauCm": 2.3,
+   "sachNeu": 1,
+   "gapDuoc": 0,
+   "truot": [
+    "đầu trên xương ức"
+   ],
+   "mauGap": [
+    "Cán ức",
+    "Cơ ức đòn chũm phải",
+    "Cơ ức đòn chũm trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV13",
+   "ten": "Đào đạo",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 11,
+   "gapDuoc": 1,
+   "truot": [
+    "gân cơ trám",
+    "cơ thoi",
+    "gân cơ răng bé sau – trên",
+    "cơ gối đầu",
+    "cơ gai dài của lưng",
+    "cơ ngang gai",
+    "dây chằng trên gai",
+    "dây chằng gian gai",
+    "dây chằng vàng",
+    "ống sống"
+   ],
+   "mauGap": [
+    "Phần lên của cơ thang phải",
+    "Phần ngang của cơ thang phải"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL12",
+   "ten": "Phong môn",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 10,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ trám (hoặc cơ thoi)",
+    "cơ răng bé sau – trên",
+    "cơ gối cổ",
+    "cơ lưng dài",
+    "cơ cổ dài",
+    "cơ đầu dài",
+    "cơ bán gai của đầu",
+    "cơ ngang sườn",
+    "bên trong là phổi"
+   ],
+   "mauGap": [
+    "Phần lên của cơ thang trái",
+    "Phần ngang của cơ thang trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "GV12",
+   "ten": "Thân trụ",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 9,
+   "gapDuoc": 1,
+   "truot": [
+    "gân cơ trám (hoặc cơ thoi)",
+    "cơ gối cổ",
+    "cơ gai dài của lưng",
+    "cơ ngang – gai",
+    "dây chằng trên gai",
+    "dây chằng gian gai",
+    "dây chằng vàng",
+    "ống sống"
+   ],
+   "mauGap": [
+    "Phần lên của cơ thang phải",
+    "Phần lên của cơ thang trái",
+    "Phần ngang của cơ thang phải",
+    "Phần ngang của cơ thang trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI12",
+   "ten": "Đại hách",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 8,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ tháp",
+    "bờ trong cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc",
+    "ruột non",
+    "bàng quang khi căng",
+    "tử cung khi có thai 3 – 4 tháng"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Đường trắng",
+    "Phần xa của hồi tràng",
+    "Phần giữa của hồi tràng"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV7",
+   "ten": "Trung xung",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 8,
+   "gapDuoc": 1,
+   "truot": [
+    "cân ngực – thắt lưng của cơ lưng lớn",
+    "cơ gai dài của lưng",
+    "cơ ngang gai",
+    "dây chằng trên gai",
+    "dây chằng gian gai",
+    "dây chằng vàng",
+    "ống sống"
+   ],
+   "mauGap": [
+    "Phần lên của cơ thang phải",
+    "Phần lên của cơ thang trái",
+    "Đốt sống ngực 10",
+    "Cơ gai ngực phải",
+    "Cơ gai ngực trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV8",
+   "ten": "Cân súc",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 8,
+   "gapDuoc": 1,
+   "truot": [
+    "cân ngực – thắt lưng của cơ lưng lớn",
+    "cơ gai dài của lưng",
+    "cơ ngang gai",
+    "dây chằng trên gai",
+    "dây chằng gian gai",
+    "dây chằng vàng",
+    "ống sống"
+   ],
+   "mauGap": [
+    "Phần lên của cơ thang phải",
+    "Phần lên của cơ thang trái",
+    "Đốt sống ngực 9",
+    "Cơ gai ngực phải",
+    "Cơ gai ngực trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "ST26",
+   "ten": "Ngoại Lăng",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 7,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc",
+    "trong ổ bụng là ruột non",
+    "tử cung khi có thai 6–7 tháng",
+    "bàng quang khi bí tiểu"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Động mạch thượng vị nông trái",
+    "Phần xa của hỗng tràng",
+    "Phần gần của hỗng tràng",
+    "Tĩnh mạch thượng vị dưới trái",
+    "Phần giữa của hỗng tràng"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST29",
+   "ten": "Quy Lai",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 7,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ ngoài cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc",
+    "trong ổ bụng là ruột non",
+    "tử cung khi có thai 3 – 4 tháng",
+    "đáy bàng quang khi đầy"
+   ],
+   "mauGap": [
+    "Tĩnh mạch thượng vị nông trái",
+    "Cơ chéo bụng ngoài trái",
+    "Tĩnh mạch thượng vị trên trái",
+    "Phần xa của hồi tràng"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL11",
+   "ten": "Đại trử",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 7,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ trám",
+    "cơ thoi",
+    "cơ răng bé sau – trên",
+    "cơ gối cổ",
+    "cơ ngang sườn",
+    "rồi vào phổi"
+   ],
+   "mauGap": [
+    "Phần lên của cơ thang trái",
+    "Phần ngang của cơ thang trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL17",
+   "ten": "Cách du",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 7,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ lưng lớn",
+    "cơ lưng dài",
+    "cơ bán gai của ngực",
+    "cơ ngang – gai",
+    "cơ ngang – sườn",
+    "vào trong là phổi"
+   ],
+   "mauGap": [
+    "Phần lên của cơ thang trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL18",
+   "ten": "Can du",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 7,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ lưng lớn",
+    "cơ lưng dài",
+    "cơ bán gai của ngực",
+    "cơ ngang – gai",
+    "cơ ngang – sườn",
+    "vào trong là phổi"
+   ],
+   "mauGap": [
+    "Phần lên của cơ thang trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL20",
+   "ten": "Tỳ du",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 7,
+   "gapDuoc": 1,
+   "truot": [
+    "cân ngực – thắt lưng của cơ lưng lớn",
+    "cơ lưng dài",
+    "cơ bán gai của ngực",
+    "cơ ngang gai",
+    "cơ ngang sườn",
+    "tuyến thượng thận"
+   ],
+   "mauGap": [
+    "Cơ răng sau dưới trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL21",
+   "ten": "Vị du",
+   "goc": "xien",
+   "sauCm": 6,
+   "sachNeu": 7,
+   "gapDuoc": 1,
+   "truot": [
+    "cân ngực-thắt lưng của cơ lưng lớn",
+    "cơ lưng dài",
+    "cơ ngang gai",
+    "cơ gian mỏm ngang",
+    "cơ vuông thắt lưng",
+    "cơ đái – chậu"
+   ],
+   "mauGap": [
+    "Cơ răng sau dưới phải",
+    "Cơ dài nhất ngực phải"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL22",
+   "ten": "Tam tiêu du",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 7,
+   "gapDuoc": 1,
+   "truot": [
+    "cân ngực – thắt lưng của cơ lưng lớn",
+    "cơ lưng dài",
+    "cơ ngang gai",
+    "cơ gian mỏm ngang",
+    "cơ vuông thắt lưng",
+    "cơ đái – chậu"
+   ],
+   "mauGap": [
+    "Cơ răng sau dưới trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL57",
+   "ten": "Thừa sơn",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 7,
+   "gapDuoc": 1,
+   "truot": [
+    "góc giữa cơ sinh đôi ngoài",
+    "cơ dép",
+    "góc giữa cơ gấp dài các ngón chân",
+    "cơ gấp dài ngón chân cái",
+    "cơ chày sau",
+    "màng gian cốt"
+   ],
+   "mauGap": [
+    "Đầu trong của cơ bụng chân trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI15",
+   "ten": "Trung chú",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 7,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ trong cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc",
+    "ruột non",
+    "bàng quang khi bí tiểu tiện vừa",
+    "tử cung khi có thai 6 – 7 tháng"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Phần xa của hỗng tràng",
+    "Đường trắng"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI16",
+   "ten": "Hoang du",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 7,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ trong cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc",
+    "ruột non",
+    "bàng quang khi bí tiểu tiện nhiều",
+    "tử cung khi có thai 7 – 8 tháng"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Đường trắng",
+    "Phần gần của hỗng tràng",
+    "Phần xa của hỗng tràng"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LU2",
+   "ten": "Vân Môn",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 6,
+   "gapDuoc": 1,
+   "truot": [
+    "rãnh delta ngực",
+    "cơ delta",
+    "cơ dưới đòn",
+    "cơ răng lớn",
+    "cơ gian sườn 1"
+   ],
+   "mauGap": [
+    "Phần ức sườn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL36",
+   "ten": "Thừa phò",
+   "goc": "thang",
+   "sauCm": 4.6,
+   "sachNeu": 6,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ dưới cơ mông lớn",
+    "bờ ngoài cơ bán gân",
+    "bờ ngoài cơ bán mạc",
+    "cơ khép lớ",
+    "cơ khép bé"
+   ],
+   "mauGap": [
+    "Đầu dài của cơ nhị đầu đùi trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL45",
+   "ten": "Y hy",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 6,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ lưng lớn",
+    "cơ trám",
+    "cơ chậu – sườn – ngực",
+    "cơ gian sườn 6",
+    "vào trong là phổi"
+   ],
+   "mauGap": [
+    "Phần lên của cơ thang trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL51",
+   "ten": "Hoang môn",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 6,
+   "gapDuoc": 1,
+   "truot": [
+    "cân cơ lưng lớn",
+    "cơ chậu – sườn – thắt lưng",
+    "cân thắt lưng",
+    "cơ vuông thắt lưng",
+    "niệu quản"
+   ],
+   "mauGap": [
+    "Cơ răng sau dưới trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "KI13",
+   "ten": "Khí huyệt",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 6,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ trong cơ thẳng lớn",
+    "mạc ngang",
+    "ruột non",
+    "bàng quang khi bí tiểu ít",
+    "tử cung khi có thai 4 – 5 tháng"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Đường trắng",
+    "Phần giữa của hồi tràng"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI14",
+   "ten": "Tứ mãn",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 6,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ trong cơ thẳng lớn mạc ngang",
+    "phúc mạc",
+    "ruột non",
+    "bàng quang khi bí tiểu ít",
+    "tử cung khi có thai 5 – 6 tháng"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Phần gần của hồi tràng",
+    "Phần giữa của hồi tràng"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "GV16",
+   "ten": "Phong phủ",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 6,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ bán gai",
+    "cơ rối lớn",
+    "cơ thẳng sau đầu bé",
+    "màng chẩm–đội sau",
+    "ống hành tủy"
+   ],
+   "mauGap": [
+    "Xương chẩm",
+    "Phần xuống của cơ thang phải",
+    "Phần xuống của cơ thang trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST13",
+   "ten": "Khí Hộ",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ bám da cổ",
+    "cơ dưới đòn",
+    "bờ trên xương sườn 1",
+    "đỉnh phổi"
+   ],
+   "mauGap": [
+    "Phần ức sườn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST19",
+   "ten": "Bất Dung",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc",
+    "trong ổ bụng là gan"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Sụn sườn 7 trái",
+    "Cơ hoành",
+    "Tĩnh mạch cơ hoành trái",
+    "Động mạch cơ hoành trái",
+    "Phân thuỳ gan III"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST21",
+   "ten": "Lương Môn",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "mạc ngang",
+    "phúc mạc",
+    "bên phải là gan",
+    "bên trái là dạ dày"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Dạ dày"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST22",
+   "ten": "Quan Môn",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc",
+    "trong ổ bụng là đại tràng ngang"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Dạ dày"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SP14",
+   "ten": "Phúc kết",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "mạc ngang",
+    "phúc mạc",
+    "đại trường lên",
+    "xuống"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Động mạch thượng vị nông trái",
+    "Phần giữa của hỗng tràng"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "SI10",
+   "ten": "Nhu du",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ dưới gai",
+    "cơ trên gai",
+    "bờ dưới gai",
+    "sống gai"
+   ],
+   "mauGap": [
+    "Phần gai vai của cơ delta trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL37",
+   "ten": "Ân môn",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ trong cơ 2 đầu đùi",
+    "cơ bán mạc",
+    "cơ khép lớn",
+    "mặt sau đùi"
+   ],
+   "mauGap": [
+    "Cơ bán gân trái",
+    "Cơ bán màng trái",
+    "Cơ thon trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL49",
+   "ten": "Ý xá",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ lưng lớn",
+    "cơ chậu sườn – ngực",
+    "cơ gian sườn 11",
+    "thận"
+   ],
+   "mauGap": [
+    "Cơ răng sau dưới trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI18",
+   "ten": "Thạch quan",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ trong cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc",
+    "đại trường ngang"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Đường trắng",
+    "Động mạch thượng vị trên trái",
+    "Dạ dày"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "KI19",
+   "ten": "Âm đô",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ trong cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc",
+    "khung tá tràng"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Đường trắng",
+    "Động mạch thượng vị trên trái",
+    "Dạ dày"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "KI20",
+   "ten": "Thông cốc",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ trong cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc",
+    "dạ dày"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Đường trắng",
+    "Động mạch thượng vị trên trái",
+    "Phân thuỳ gan III",
+    "Phân thuỳ gan IV"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "KI23",
+   "ten": "Thần phong",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ gian sườn 4",
+    "cơ ngang ngực 4",
+    "sâu bên trong bên phải là phổi",
+    "bên trái là tim"
+   ],
+   "mauGap": [
+    "Phần ức sườn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI25",
+   "ten": "Thần tàng",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ gian sườn 2",
+    "vào sâu hơn có phổi",
+    "bên trái có động mạch chủ",
+    "bên phải có tĩnh mạch chủ trên"
+   ],
+   "mauGap": [
+    "Phần ức sườn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI26",
+   "ten": "Hoặc trung",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ gian sườn 1",
+    "sâu hơn có động mạch chủ (bên trái)",
+    "tĩnh mạch thần kinh nách",
+    "dây thần kinh gian sườn 1"
+   ],
+   "mauGap": [
+    "Phần ức sườn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "GB32",
+   "ten": "Trung độc",
+   "goc": "thang",
+   "sauCm": 4.6,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ sau cân đùi",
+    "bờ trước cơ 2 đầu đùi",
+    "cơ rộng giữa",
+    "xương đùi"
+   ],
+   "mauGap": [
+    "Cơ rộng ngoài trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV17",
+   "ten": "Não hộ",
+   "goc": "luon",
+   "sauCm": 1.8,
+   "sachNeu": 5,
+   "gapDuoc": 1,
+   "truot": [
+    "cân hộp sọ",
+    "chỗ bám của gân cơ thang",
+    "gân cơ rối lớn",
+    "cơ bán gai"
+   ],
+   "mauGap": [
+    "Xương chẩm"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST30",
+   "ten": "Khí Xung",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 8,
+   "gapDuoc": 2,
+   "truot": [
+    "bờ ngoài cơ thẳng lớn",
+    "cơ ngang bụng",
+    "mạc ngang",
+    "phúc mạc; trong ổ bụng là ruột non",
+    "tử cung khi có thai 2 – 3 tháng",
+    "bàng quang khi đầy"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Tĩnh mạch chậu ngoài trái",
+    "Động mạch tinh hoàn trái",
+    "Tĩnh mạch tinh hoàn trái",
+    "Tĩnh mạch thượng vị trên trái",
+    "Tĩnh mạch thượng vị nông trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SP16",
+   "ten": "Phúc ai",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 8,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ ngang bụng",
+    "mạc ngang",
+    "phúc mạc",
+    "đại trường ngang",
+    "bờ gan",
+    "bờ dưới lách"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Dạ dày",
+    "Tĩnh mạch vị mạc nối phải",
+    "Tĩnh mạch vị mạc nối trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "ST5",
+   "ten": "Đại Nghênh",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ dưới cơ cười",
+    "cơ mút",
+    "sát bờ trước cơ cắn"
+   ],
+   "mauGap": [
+    "Lợi của hàm dưới",
+    "Răng cửa bên vĩnh viễn hàm dưới trái",
+    "Răng nanh vĩnh viễn hàm dưới trái",
+    "Xương hàm dưới",
+    "Răng cửa bên vĩnh viễn hàm trên trái",
+    "Răng nanh vĩnh viễn hàm trên trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST14",
+   "ten": "Khố Phòng",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ gian sườn 1",
+    "bờ trên xương sườn 2",
+    "đỉnh phổi"
+   ],
+   "mauGap": [
+    "Phần ức sườn của cơ ngực lớn trái",
+    "Phần đòn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "ST20",
+   "ten": "Thừa Mãn",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Phân thuỳ gan III",
+    "Tĩnh mạch cửa trái",
+    "Nhánh phân thuỳ ngoài dưới của tĩnh mạch cửa trái",
+    "Động mạch gan phân thuỳ ngoài trên",
+    "Nhánh đổ vào ngoài trên của cây đường mật gan trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "ST28",
+   "ten": "Thủy Đạo",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Tĩnh mạch thượng vị nông trái",
+    "Tĩnh mạch thượng vị trên trái",
+    "Phần giữa của hồi tràng",
+    "Phần xa của hồi tràng",
+    "Mạc treo của ruột non"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "ST32",
+   "ten": "Phục Thố",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ ngoài cơ thẳng trước",
+    "cơ rộng giữa",
+    "xương đùi"
+   ],
+   "mauGap": [
+    "Cơ rộng ngoài trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SP18",
+   "ten": "Thiên khê",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "phần gân cơ chéo lớn của bụng",
+    "cơ răng lớn",
+    "cơ gian sườn 5"
+   ],
+   "mauGap": [
+    "Phần ức sườn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "HT3",
+   "ten": "Thiếu hải",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "chỗ bám vào xương của khối cơ trên ròng rọc",
+    "mặt trước mỏm trên ròng rọc (hoặc mỏm trên lồi cầu trong)",
+    "phía trong khớp khủy"
+   ],
+   "mauGap": [
+    "Cơ gan tay dài trái",
+    "Tĩnh mạch giữa khuỷu trái",
+    "Cơ gấp cổ tay quay trái",
+    "Động mạch bên trụ dưới trái",
+    "Đầu cánh tay của cơ sấp tròn trái",
+    "Cơ gấp các ngón nông trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI13",
+   "ten": "Khúc viên",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ trên gai",
+    "chỗ bám của cơ góc",
+    "góc trên – trong của xương bả vai"
+   ],
+   "mauGap": [
+    "Phần lên của cơ thang trái",
+    "Phần ngang của cơ thang trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "BL2",
+   "ten": "Toàn trúc",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ mày",
+    "cơ tháp",
+    "bờ cơ vòng mi"
+   ],
+   "mauGap": [
+    "Xương trán",
+    "Thần kinh trên ổ mắt trái",
+    "Hồi trán trên trái",
+    "Động mạch trán nền trong trái",
+    "Hồi ổ mắt"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL53",
+   "ten": "Bào hoang",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ dưới cơ mông nhỡ",
+    "bờ trên cơ tháp",
+    "bờ ngoài chỗ bám cân cơ lưng lớn"
+   ],
+   "mauGap": [
+    "Cơ mông lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL56",
+   "ten": "Thừa cân",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ dép",
+    "cơ chày sau",
+    "màng gian cốt"
+   ],
+   "mauGap": [
+    "Tĩnh mạch hiển bé trái",
+    "Đầu trong của cơ bụng chân trái",
+    "Đầu ngoài của cơ bụng chân trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI5",
+   "ten": "Thủy tuyền",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "chỗ bám của cơ dạng ngón cái",
+    "gân gót chân",
+    "rãnh gót của xương gót chân"
+   ],
+   "mauGap": [
+    "Cơ gấp các ngón chân dài trái",
+    "Tĩnh mạch chày sau trái",
+    "Cơ chày sau trái",
+    "Động mạch chày sau trái",
+    "Xương sên trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB23",
+   "ten": "Triếp cân",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ dưới cơ ngực lớn",
+    "cơ gian sườn 4",
+    "bên trong là phổi"
+   ],
+   "mauGap": [
+    "Cơ răng trước trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB31",
+   "ten": "Phong thị",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ sau cân đùi",
+    "cơ rộng giữa",
+    "xương đùi"
+   ],
+   "mauGap": [
+    "Cơ rộng ngoài trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST27",
+   "ten": "Đại Cự",
+   "goc": "thang",
+   "sauCm": 4.6,
+   "sachNeu": 7,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc",
+    "tử cung khi có thai 5 – 6 tháng",
+    "bàng quang khi bị bí tiểu tiện vừa"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Tĩnh mạch thượng vị nông trái",
+    "Tĩnh mạch thượng vị trên trái",
+    "Phần gần của hồi tràng",
+    "Phần xa của hỗng tràng",
+    "Phần giữa của hỗng tràng"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB26",
+   "ten": "Đái mạch",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 7,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ ngang bụng",
+    "mạc ngang",
+    "phúc mạc",
+    "đại trường",
+    "thận"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Đại tràng xuống",
+    "Dải cơ dọc mạc nối"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI5",
+   "ten": "Dương khê",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 6,
+   "gapDuoc": 2,
+   "truot": [
+    "đầu mỏm châm – xương quay",
+    "bờ trên xương thuyền",
+    "ngoài có gân cơ dạng dài",
+    "gân cơ quay 1"
+   ],
+   "mauGap": [
+    "Cơ duỗi ngón cái dài trái",
+    "Cơ duỗi ngón cái ngắn trái",
+    "Xương đốt bàn tay 1 trái",
+    "Tập hợp của các cơ gian cốt mu của bàn tay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST16",
+   "ten": "Ưng Song",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 6,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ gian sườn 3",
+    "bờ trên xương sườn 4",
+    "bên trong có phổi",
+    "tim ở bên trái"
+   ],
+   "mauGap": [
+    "Phần ức sườn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "ST18",
+   "ten": "Nhũ Căn",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 6,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ gian sườn 5",
+    "bờ trên xương sườn 6",
+    "bên phải là phổi",
+    "bên trái là mỏm tim"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Phần ức sườn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST24",
+   "ten": "Hoạt Nhục Môn",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 6,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ thẳng lớn",
+    "phúc mạc",
+    "trong ổ bụng là ruột non",
+    "tử cung khi có thai đến ngày sinh"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Đại tràng ngang",
+    "Động mạch thượng vị dưới trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL24",
+   "ten": "Khí hải du",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 6,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ lưng dài",
+    "cơ ngang – gai",
+    "cơ gian mỏm ngang",
+    "cơ đái – chậu"
+   ],
+   "mauGap": [
+    "Cơ chậu sườn thắt lưng trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB1",
+   "ten": "Đồng tử liêu",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 6,
+   "gapDuoc": 2,
+   "truot": [
+    "bó phụ của cơ vòng miệng",
+    "cơ thái dương",
+    "chỗ tiếp khớp của xương gò má",
+    "xương thái dương"
+   ],
+   "mauGap": [
+    "Xương gò má trái",
+    "Dây chằng hãm của cơ thẳng ngoài trái",
+    "Xương trán"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB24",
+   "ten": "Kinh môn",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 6,
+   "gapDuoc": 2,
+   "truot": [
+    "chỗ tiếp nối giữa phần thịt",
+    "bên phải là gan",
+    "bên trái là lách",
+    "dạ dầy"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Phần bụng của cơ ngực lớn trái",
+    "Sụn sườn 7 trái",
+    "Cơ gian sườn trong",
+    "Các động mạch gian sườn sau",
+    "Tập hợp của các tĩnh mạch gian sườn trước"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "GB27",
+   "ten": "Ngũ xứ",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 6,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ ngang bụng",
+    "mạch ngang",
+    "phúc mạc",
+    "đại trường"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Cơ may trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI3",
+   "ten": "Tam gian",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ khép ngón tay cái",
+    "xương"
+   ],
+   "mauGap": [
+    "Tập hợp của các cơ giun của bàn tay trái",
+    "Tập hợp của các cơ gian cốt mu của bàn tay trái",
+    "Động mạch quay ngón trỏ trái",
+    "Xương đốt bàn tay 2 trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI17",
+   "ten": "Thiên đỉnh",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ sau cơ ức – đòn – chũm",
+    "cơ bậc thang"
+   ],
+   "mauGap": [
+    "Phần xuống của cơ thang trái",
+    "Cơ bám da cổ trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SP6",
+   "ten": "Tam âm giao",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ trước cơ gấp dài các ngón chân",
+    "cơ cẳng chân sau"
+   ],
+   "mauGap": [
+    "Cơ gan chân trái",
+    "Tĩnh mạch chày sau trái",
+    "Cơ dép trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI16",
+   "ten": "Thiên song",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ nâng vai",
+    "cơ bậc thang"
+   ],
+   "mauGap": [
+    "Cơ ức đòn chũm trái",
+    "Cơ bám da cổ trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI17",
+   "ten": "Thiên dung",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ trước cơ ức – đòn – chũm",
+    "phía dưới cơ 2 thân"
+   ],
+   "mauGap": [
+    "Cơ bám da cổ trái",
+    "Lợi của hàm dưới",
+    "Xương hàm dưới"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL26",
+   "ten": "Quan nguyên du",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "khối cơ chung của các cơ ở rãnh cột sống",
+    "xương sống"
+   ],
+   "mauGap": [
+    "Cơ chậu sườn thắt lưng trái",
+    "Cơ dài nhất ngực trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL32",
+   "ten": "Thứ liêu",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "cân của cơ lưng lớn",
+    "khối cơ chung của các cơ ở rãnh cột sống"
+   ],
+   "mauGap": [
+    "Cơ chậu sườn thắt lưng trái",
+    "Cơ dài nhất ngực trái",
+    "Xương cùng"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL33",
+   "ten": "Trung liêu",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "cân của cơ lưng lớn",
+    "khối cơ chung của các cơ ở rãnh cột sống"
+   ],
+   "mauGap": [
+    "Cơ chậu sườn thắt lưng trái",
+    "Cơ dài nhất ngực trái",
+    "Xương cùng"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI24",
+   "ten": "Linh khư",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ gian sườn 3",
+    "cơ ngang ngực"
+   ],
+   "mauGap": [
+    "Phần ức sườn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE15",
+   "ten": "Thiên liêu",
+   "goc": "thang",
+   "sauCm": 1.8,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ trên sống",
+    "cơ góc"
+   ],
+   "mauGap": [
+    "Cơ bám da cổ trái",
+    "Xương đòn trái",
+    "Phần xuống của cơ thang trái",
+    "Phần ngang của cơ thang trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE23",
+   "ten": "Ty trúc không",
+   "goc": "luon",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ ngoài cơ vòng mi",
+    "phần bám vào da cung mày của cơ trán"
+   ],
+   "mauGap": [
+    "Xương trán",
+    "Hồi trán dưới trái",
+    "Hồi trán giữa trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB11",
+   "ten": "Khiếu âm",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ tai sau",
+    "cơ chẩm"
+   ],
+   "mauGap": [
+    "Cơ nhị thân trái",
+    "Cơ ức đòn chũm trái",
+    "Xương thái dương trái",
+    "Cơ dài nhất đầu trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB19",
+   "ten": "Não không",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "chỗ cơ chẩm",
+    "cơ gối đầu"
+   ],
+   "mauGap": [
+    "Xương chẩm"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LR7",
+   "ten": "Tất quan",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 1,
+   "truot": [
+    "phần trên cơ sinh đôi trong",
+    "cơ kheo"
+   ],
+   "mauGap": [
+    "Tĩnh mạch hiển lớn trái",
+    "Tĩnh mạch gối trái",
+    "Cơ bán gân trái",
+    "Đầu trong của cơ bụng chân trái",
+    "Xương chày trái",
+    "Động mạch gối dưới trong trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST23",
+   "ten": "Thái Ất",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 5,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ thẳng lớn",
+    "phúc mạc",
+    "trong ổ bụng là ruột non"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Dải cơ dọc mạc nối",
+    "Đại tràng ngang",
+    "Mạc treo đại tràng ngang"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "HT2",
+   "ten": "Thanh linh",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 5,
+   "gapDuoc": 2,
+   "truot": [
+    "rãnh cơ 2 đầu trong",
+    "vách lên cơ trong",
+    "cơ rộng trong"
+   ],
+   "mauGap": [
+    "Đầu ngắn của cơ nhị đầu cánh tay trái",
+    "Tĩnh mạch cánh tay trong trái",
+    "Cơ cánh tay trái",
+    "Động mạch cánh tay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI4",
+   "ten": "Uyển cốt",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 5,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ da gan tay",
+    "xương tháp",
+    "đáy chỗ lõm là xương móc"
+   ],
+   "mauGap": [
+    "Tập hợp của các động mạch mu đốt bàn tay",
+    "Cơ dạng ngón út của bàn tay trái",
+    "Xương đốt bàn tay 5 trái",
+    "Đầu cánh tay của cơ gấp cổ tay trụ trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI21",
+   "ten": "U môn",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 5,
+   "gapDuoc": 2,
+   "truot": [
+    "bờ trong cơ thẳng lớn",
+    "mạc ngang",
+    "phúc mạc"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Đường trắng",
+    "Động mạch thượng vị trên trái",
+    "Phân thuỳ gan III"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB20",
+   "ten": "Phong trì",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 5,
+   "gapDuoc": 2,
+   "truot": [
+    "góc tạo nên bởi cơ thang",
+    "cơ đầu dài",
+    "đáy hộp sọ"
+   ],
+   "mauGap": [
+    "Cơ ức đòn chũm trái",
+    "Cơ gối đầu trái",
+    "Cơ chéo đầu trên trái",
+    "Đốt đội",
+    "Cơ thẳng đầu bên trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL23",
+   "ten": "Thận du",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 7,
+   "gapDuoc": 3,
+   "truot": [
+    "cơ lưng dài",
+    "cơ ngang gai",
+    "cơ gian mỏm ngang",
+    "cơ đái – chậu"
+   ],
+   "mauGap": [
+    "Cơ răng sau dưới trái",
+    "Cơ chậu sườn thắt lưng trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI22",
+   "ten": "Bộ lang",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 7,
+   "gapDuoc": 3,
+   "truot": [
+    "cơ thẳng lớn",
+    "mặt trên gan",
+    "phổi (bên phải)",
+    "tim (bên trái)"
+   ],
+   "mauGap": [
+    "Sụn sườn 6 trái",
+    "Cơ chéo bụng ngoài trái",
+    "Phần ức sườn của cơ ngực lớn trái",
+    "Cơ gian sườn trong",
+    "Cơ ngang ngực trái",
+    "Sụn sườn 5 trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL52",
+   "ten": "Chí thất",
+   "goc": "thang",
+   "sauCm": 1.8,
+   "sachNeu": 6,
+   "gapDuoc": 3,
+   "truot": [
+    "cơ lưng lớn",
+    "cơ răng bé sau – dưới",
+    "niệu quản"
+   ],
+   "mauGap": [
+    "Cơ chậu sườn thắt lưng trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV15",
+   "ten": "Á môn",
+   "goc": "thang",
+   "sauCm": 4.6,
+   "sachNeu": 6,
+   "gapDuoc": 3,
+   "truot": [
+    "cơ rối lớn",
+    "màng đội trục sau",
+    "ống sống"
+   ],
+   "mauGap": [
+    "Phần xuống của cơ thang phải",
+    "Phần xuống của cơ thang trái",
+    "Cơ thẳng đầu sau bé phải",
+    "Cơ thẳng đầu sau bé trái",
+    "Xương chẩm",
+    "Cơ bán gai đầu phải"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LU1",
+   "ten": "Trung Phủ",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ răng lớn",
+    "cơ gian sườn 2"
+   ],
+   "mauGap": [
+    "Phần ức sườn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "LI8",
+   "ten": "Hạ liêm",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 2,
+   "truot": [
+    "bờ ngoài cơ quay 1",
+    "cơ ngửa ngắn"
+   ],
+   "mauGap": [
+    "Cơ cánh tay quay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI9",
+   "ten": "Thượng liêm",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 2,
+   "truot": [
+    "bờ ngoài cơ quay 1",
+    "cơ ngửa ngắn"
+   ],
+   "mauGap": [
+    "Cơ cánh tay quay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST11",
+   "ten": "Khí Xá",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 4,
+   "gapDuoc": 2,
+   "truot": [
+    "vào sâu là cơ ức – đòn – móng",
+    "ức – giáp"
+   ],
+   "mauGap": [
+    "Cơ bám da cổ trái",
+    "Cơ ức đòn chũm trái",
+    "Xương đòn trái",
+    "Phần đòn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SP19",
+   "ten": "Hung hương",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 4,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ răng lớn",
+    "cơ gian sườn 4 rồi vào phổi"
+   ],
+   "mauGap": [
+    "Phần ức sườn của cơ ngực lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "KI2",
+   "ten": "Nhiên cốc",
+   "goc": "thang",
+   "sauCm": 2.8,
+   "sachNeu": 4,
+   "gapDuoc": 2,
+   "truot": [
+    "chỗ bám của gân cơ cẳng chân sau",
+    "dưới bờ dưới của xương thuyền"
+   ],
+   "mauGap": [
+    "Cơ dạng ngón chân cái trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI4",
+   "ten": "Đại chung",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 4,
+   "gapDuoc": 2,
+   "truot": [
+    "bờ trong gân gót chân",
+    "mặt trên xương gót chân"
+   ],
+   "mauGap": [
+    "Cơ gấp các ngón chân dài trái",
+    "Tĩnh mạch chày sau trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LU11",
+   "ten": "Thiếu Thương",
+   "goc": "thang",
+   "sauCm": 0.5,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "xương"
+   ],
+   "mauGap": [
+    "Đốt ngón xa của ngón cái trái",
+    "Động mạch ngón cái chính trái",
+    "Tĩnh mạch gan đốt bàn tay trái",
+    "Tập hợp của các động mạch mu ngón",
+    "Cơ duỗi ngón cái dài trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI2",
+   "ten": "Nhị gian",
+   "goc": "thang",
+   "sauCm": 0.7,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "xương"
+   ],
+   "mauGap": [
+    "Động mạch quay ngón trỏ trái",
+    "Tĩnh mạch gan ngón tay riêng của ngón trỏ trái",
+    "Đốt ngón gần của ngón trỏ trái",
+    "Tập hợp của các cơ gian cốt mu của bàn tay trái",
+    "Tập hợp của các cơ giun của bàn tay trái",
+    "Tập hợp của các động mạch mu ngón"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI13",
+   "ten": "Thủ ngũ lý",
+   "goc": "thang",
+   "sauCm": 4.6,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "vách liên cơ ngoài"
+   ],
+   "mauGap": [
+    "Đầu dài của cơ nhị đầu cánh tay trái",
+    "Cơ cánh tay trái",
+    "Đầu ngắn của cơ nhị đầu cánh tay trái",
+    "Xương cánh tay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST6",
+   "ten": "Giáp Xa",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ cắn"
+   ],
+   "mauGap": [
+    "Xương hàm dưới",
+    "Cơ bám da cổ trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST35",
+   "ten": "Độc Tỵ",
+   "goc": null,
+   "sauCm": 3.4,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "gân cơ căng cân đùi"
+   ],
+   "mauGap": [
+    "Cơ thẳng đùi trái",
+    "Cơ rộng ngoài trái",
+    "Động mạch quặt ngược chày trước trái",
+    "Cơ rộng giữa trái",
+    "Cơ rộng trong trái",
+    "Xương chày trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL25",
+   "ten": "Đại trường du",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "khối cơ chung của các cơ rãnh cột sống"
+   ],
+   "mauGap": [
+    "Cơ chậu sườn thắt lưng trái",
+    "Cơ dài nhất ngực trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI7",
+   "ten": "Phục lưu",
+   "goc": "thang",
+   "sauCm": 2.8,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "mặt sau cơ gấp dài ngón chân cái"
+   ],
+   "mauGap": [
+    "Tĩnh mạch chày sau trái",
+    "Động mạch chày sau trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI10",
+   "ten": "Âm cốc",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "gân cơ bán mạc"
+   ],
+   "mauGap": [
+    "Đầu trong của cơ bụng chân trái",
+    "Xương đùi trái",
+    "Động mạch gối giữa trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE7",
+   "ten": "Hội tông",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ ngoài xương trụ"
+   ],
+   "mauGap": [
+    "Đầu trụ của cơ gấp cổ tay trụ trái",
+    "Xương trụ trái",
+    "Cơ duỗi cổ tay trụ trái",
+    "Cơ duỗi ngón trỏ trái",
+    "Cơ duỗi ngón cái dài trái",
+    "Cơ duỗi ngón út trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE21",
+   "ten": "Nhĩ môn",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ tai trước"
+   ],
+   "mauGap": [
+    "Xương thái dương trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB9",
+   "ten": "Thiên xung",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ tai trên"
+   ],
+   "mauGap": [
+    "Hồi thái dương giữa trái",
+    "Xương thái dương trái",
+    "Xương đỉnh trái",
+    "Động mạch thái dương trước trái",
+    "Hồi thái dương dưới trái",
+    "Chất trắng của bán cầu đại não trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "GB13",
+   "ten": "Bản thần",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "chỗ cơ trán dính vào cân sọ"
+   ],
+   "mauGap": [
+    "Xương trán"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB15",
+   "ten": "Lâm khấp",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "chỗ cơ trán dính vào cân sọ"
+   ],
+   "mauGap": [
+    "Xương trán"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB17",
+   "ten": "Chính dinh",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "cân sọ"
+   ],
+   "mauGap": [
+    "Xương trán",
+    "Xương đỉnh trái",
+    "Hồi trán trên trái",
+    "Nhánh sau trong của động mạch chai viền trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB18",
+   "ten": "Thừa linh",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "cân sọ"
+   ],
+   "mauGap": [
+    "Xương đỉnh trái",
+    "Hồi trán trên trái",
+    "Nhánh cạnh trung tâm của động mạch chai viền trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB40",
+   "ten": "Khâu khư",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "bờ sau – ngoài cơ mác trước"
+   ],
+   "mauGap": [
+    "Cơ mác ba trái",
+    "Xương đốt bàn chân 5 trái",
+    "Cơ mác ngắn trái",
+    "Xương hộp trái",
+    "Cơ dạng ngón út của bàn chân trái",
+    "Dây chằng gan chân dài trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB41",
+   "ten": "Túc lâm khấp",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ gian cốt mu chân"
+   ],
+   "mauGap": [
+    "Cơ duỗi các ngón chân dài trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB42",
+   "ten": "Địa ngũ hội",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "cơ gian cốt mu chân"
+   ],
+   "mauGap": [
+    "Cơ duỗi các ngón chân dài trái",
+    "Tĩnh mạch mu đốt bàn tay",
+    "Tập hợp của các tĩnh mạch xuyên"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LR4",
+   "ten": "Trung phong",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 2,
+   "gapDuoc": 1,
+   "truot": [
+    "xương gót"
+   ],
+   "mauGap": [
+    "Tĩnh mạch hiển lớn trái",
+    "Xương chày trái",
+    "Động mạch chày trước trái",
+    "Động mạch mu chân trái",
+    "Cơ chày trước trái",
+    "Động mạch cổ chân ngoài trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB12",
+   "ten": "Hoàn cốt",
+   "goc": "xien",
+   "sauCm": 2.3,
+   "sachNeu": 7,
+   "gapDuoc": 4,
+   "truot": [
+    "cơ trâm móng",
+    "cơ trâm lưỡi",
+    "cơ trâm hầu"
+   ],
+   "mauGap": [
+    "Cơ ức đòn chũm trái",
+    "Cơ gối đầu trái",
+    "Cơ dài nhất đầu trái",
+    "Cơ nhị thân trái",
+    "Xương thái dương trái",
+    "Xương chẩm"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LU5",
+   "ten": "Xích Trạch",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 5,
+   "gapDuoc": 3,
+   "truot": [
+    "rãnh 2 đầu ngoài",
+    "khớp khủy"
+   ],
+   "mauGap": [
+    "Tĩnh mạch đầu trái",
+    "Cơ cánh tay quay trái",
+    "Cơ cánh tay trái",
+    "Đầu dài của cơ nhị đầu cánh tay trái",
+    "Xương cánh tay trái",
+    "Xương quay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL10",
+   "ten": "Thiên trụ",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 5,
+   "gapDuoc": 3,
+   "truot": [
+    "bờ ngoài cơ thang",
+    "cơ chéo dưới của đầu"
+   ],
+   "mauGap": [
+    "Phần xuống của cơ thang trái",
+    "Cơ thẳng đầu sau lớn trái",
+    "Cơ bán gai đầu trái",
+    "Cơ xoay cổ trái",
+    "Đốt đội"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL50",
+   "ten": "Vị thương",
+   "goc": "xien",
+   "sauCm": 1.8,
+   "sachNeu": 5,
+   "gapDuoc": 3,
+   "truot": [
+    "cơ lưng lớn",
+    "thận"
+   ],
+   "mauGap": [
+    "Cơ răng sau dưới trái",
+    "Cơ chậu sườn thắt lưng trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "KI17",
+   "ten": "Thương khâu",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 5,
+   "gapDuoc": 3,
+   "truot": [
+    "bờ trong cơ thẳng lớn",
+    "phúc mạc"
+   ],
+   "mauGap": [
+    "Cơ chéo bụng ngoài trái",
+    "Đường trắng",
+    "Dải cơ dọc mạc nối",
+    "Đại tràng ngang",
+    "Động mạch thượng vị trên trái",
+    "Mạc treo đại tràng ngang"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "PC4",
+   "ten": "Khích môn",
+   "goc": "thang",
+   "sauCm": 2.8,
+   "sachNeu": 5,
+   "gapDuoc": 3,
+   "truot": [
+    "sâu",
+    "xương trụ"
+   ],
+   "mauGap": [
+    "Cơ gấp các ngón nông trái",
+    "Cơ gan tay dài trái",
+    "Cơ gấp cổ tay quay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST10",
+   "ten": "Thủy Đột",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 6,
+   "gapDuoc": 4,
+   "truot": [
+    "cơ cổ dài",
+    "cơ bậc thang trước"
+   ],
+   "mauGap": [
+    "Tĩnh mạch cảnh trong trái",
+    "Cơ bám da cổ trái",
+    "Cơ ức đòn chũm trái",
+    "Cơ ức móng trái",
+    "Cơ vai móng trái",
+    "Cơ ức giáp trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "PC5",
+   "ten": "Gian sử",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 6,
+   "gapDuoc": 4,
+   "truot": [
+    "bờ trên cơ sấp vuông",
+    "màng gian cốt"
+   ],
+   "mauGap": [
+    "Cơ gấp các ngón nông trái",
+    "Cơ gấp các ngón sâu trái",
+    "Cơ gan tay dài trái",
+    "Cơ gấp cổ tay quay trái",
+    "Tĩnh mạch giữa cẳng tay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI10",
+   "ten": "Thủ tam lý",
+   "goc": "thang",
+   "sauCm": 4.6,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ ngửa ngắn"
+   ],
+   "mauGap": [
+    "Cơ cánh tay quay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI11",
+   "ten": "Khúc trì",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ ngửa ngắn khớp khủy"
+   ],
+   "mauGap": [
+    "Cơ cánh tay quay trái",
+    "Tĩnh mạch đầu trái",
+    "Động mạch quặt ngược quay trái",
+    "Xương quay trái",
+    "Cơ cánh tay trái",
+    "Đầu dài của cơ nhị đầu cánh tay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST2",
+   "ten": "Tứ Bạch",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "bờ dưới cơ vòng mi (phần ổ mắt)"
+   ],
+   "mauGap": [
+    "Cơ thẳng dưới trái",
+    "Cơ chéo dưới trái",
+    "Xương hàm trên trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST33",
+   "ten": "Âm Thị",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "xương đùi"
+   ],
+   "mauGap": [
+    "Cơ rộng ngoài trái",
+    "Cơ rộng giữa trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST42",
+   "ten": "Xung Dương",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "sau khớp chêm – thuyền"
+   ],
+   "mauGap": [
+    "Cơ duỗi các ngón chân dài trái",
+    "Cơ duỗi ngón chân cái ngắn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST44",
+   "ten": "Nội Đình",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ gian cốt mu chân 2"
+   ],
+   "mauGap": [
+    "Tĩnh mạch mu đốt bàn tay",
+    "Cơ duỗi các ngón chân dài trái",
+    "Tập hợp của các tĩnh mạch mu ngón",
+    "Xương đốt bàn chân 2 trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "HT5",
+   "ten": "Thông lý",
+   "goc": "thang",
+   "sauCm": 1.8,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ gấp vuông"
+   ],
+   "mauGap": [
+    "Xương trụ trái",
+    "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+    "Động mạch trụ trái",
+    "Tĩnh mạch trụ trái",
+    "Cung tĩnh mạch gan tay sâu trái",
+    "Cơ gấp các ngón sâu trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "HT7",
+   "ten": "Thần môn",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "xương tháp"
+   ],
+   "mauGap": [
+    "Xương đậu trái",
+    "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+    "Nhánh cổ tay mu trái của động mạch trụ",
+    "Cung tĩnh mạch gan tay sâu trái",
+    "Động mạch trụ trái",
+    "Cơ gấp các ngón nông trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI5",
+   "ten": "Dương cốc",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "mỏm trâm xương trụ"
+   ],
+   "mauGap": [
+    "Tĩnh mạch nền trái",
+    "Cơ duỗi cổ tay trụ trái",
+    "Xương trụ trái",
+    "Cơ duỗi ngón út trái",
+    "Xương nguyệt trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI7",
+   "ten": "Chi chính",
+   "goc": "thang",
+   "sauCm": 1.8,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "chỗ bám vào xương của cơ duỗi riêng ngón tay trỏ"
+   ],
+   "mauGap": [
+    "Tĩnh mạch nền trái",
+    "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+    "Đầu trụ của cơ gấp cổ tay trụ trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "TE6",
+   "ten": "Chi câu",
+   "goc": "thang",
+   "sauCm": 2.8,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "giữa màng gian cốt"
+   ],
+   "mauGap": [
+    "Cơ duỗi cổ tay trụ trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE16",
+   "ten": "Thiên dũ",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ gối đầu"
+   ],
+   "mauGap": [
+    "Cơ ức đòn chũm trái",
+    "Cơ nâng vai trái",
+    "Cơ dài nhất đầu trái",
+    "Cơ gối cổ trái",
+    "Cơ bậc thang giữa trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE20",
+   "ten": "Giác tôn",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ tai trên"
+   ],
+   "mauGap": [
+    "Xương thái dương trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB3",
+   "ten": "Thượng quan",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ tai trước"
+   ],
+   "mauGap": [
+    "Xương thái dương trái",
+    "Xương gò má trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB7",
+   "ten": "Khúc tân",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ tai trên"
+   ],
+   "mauGap": [
+    "Xương đỉnh trái",
+    "Động mạch của rãnh trung tâm",
+    "Phần sau của hồi thái dương trên trái",
+    "Hồi sau trung tâm trái",
+    "Hồi trước trung tâm trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB8",
+   "ten": "Suất cốc",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ tai trên"
+   ],
+   "mauGap": [
+    "Xương đỉnh trái",
+    "Xương thái dương trái",
+    "Hồi thái dương giữa trái",
+    "Phần sau của hồi thái dương trên trái",
+    "Nhánh thái dương giữa của động mạch não giữa trái",
+    "Động mạch của rãnh trung tâm"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "GB43",
+   "ten": "Hiệp khê",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ gian cốt mu chân"
+   ],
+   "mauGap": [
+    "Tập hợp của các tĩnh mạch xuyên",
+    "Tĩnh mạch mu đốt bàn tay",
+    "Cơ duỗi các ngón chân dài trái",
+    "Tập hợp của các tĩnh mạch mu ngón",
+    "Động mạch xuyên xa",
+    "Xương đốt bàn chân 4 trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LR2",
+   "ten": "Hành gian",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ gian cốt mu chân"
+   ],
+   "mauGap": [
+    "Cơ duỗi ngón chân cái dài trái",
+    "Cơ duỗi ngón chân cái ngắn trái",
+    "Xương đốt bàn chân 1 trái",
+    "Đốt ngón gần của ngón chân cái trái",
+    "Tĩnh mạch mu đốt bàn tay",
+    "Tập hợp của các tĩnh mạch mu ngón"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LR3",
+   "ten": "Thái xung",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "cơ gian cốt mu chân"
+   ],
+   "mauGap": [
+    "Động mạch mu chân trái",
+    "Xương chêm trong trái",
+    "Cơ duỗi ngón chân cái dài trái",
+    "Động mạch cung trái",
+    "Cơ duỗi ngón chân cái ngắn trái",
+    "Xương chêm giữa trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GV25",
+   "ten": "Tố liêu",
+   "goc": "thang",
+   "sauCm": 0.5,
+   "sachNeu": 3,
+   "gapDuoc": 2,
+   "truot": [
+    "chỗ tiếp khớp của góc dưới – trước sụn lá mía"
+   ],
+   "mauGap": [
+    "Sụn cánh mũi lớn phải",
+    "Sụn vách mũi",
+    "Sụn mũi bên phải",
+    "Sụn mũi bên trái",
+    "Sụn cánh mũi lớn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "PC6",
+   "ten": "Nội quan",
+   "goc": "thang",
+   "sauCm": 1.8,
+   "sachNeu": 7,
+   "gapDuoc": 5,
+   "truot": [
+    "màng gian cốt quay",
+    "trụ"
+   ],
+   "mauGap": [
+    "Cơ gấp các ngón nông trái",
+    "Cơ gan tay dài trái",
+    "Cơ sấp vuông trái",
+    "Tĩnh mạch giữa cẳng tay trái",
+    "Cơ gấp cổ tay quay trái",
+    "Cơ gấp các ngón sâu trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LU6",
+   "ten": "Khổng Tối",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 3,
+   "truot": [
+    "cơ sấp tròn"
+   ],
+   "mauGap": [
+    "Cơ gấp cổ tay quay trái",
+    "Tĩnh mạch giữa cẳng tay trái",
+    "Cơ gấp các ngón nông trái",
+    "Cơ gan tay dài trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "SP3",
+   "ten": "Thái bạch",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 4,
+   "gapDuoc": 3,
+   "truot": [
+    "mặt dưới đùng trước xương bàn chân 1"
+   ],
+   "mauGap": [
+    "Cơ dạng ngón chân cái trái",
+    "Động mạch gan chân trong nông trái",
+    "Đầu trong của cơ gấp ngón chân cái ngắn trái",
+    "Tập hợp của các tĩnh mạch gan ngón chân"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "HT6",
+   "ten": "Âm khích",
+   "goc": "thang",
+   "sauCm": 1.8,
+   "sachNeu": 4,
+   "gapDuoc": 3,
+   "truot": [
+    "cơ sấp vuông"
+   ],
+   "mauGap": [
+    "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+    "Động mạch trụ trái",
+    "Tĩnh mạch trụ trái",
+    "Cung tĩnh mạch gan tay sâu trái",
+    "Nhánh cổ tay mu trái của động mạch trụ",
+    "Cơ gan tay dài trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI3",
+   "ten": "Thái khê",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 3,
+   "truot": [
+    "gân cơ cẳng chân sau"
+   ],
+   "mauGap": [
+    "Cơ gấp các ngón chân dài trái",
+    "Cơ chày sau trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "PC7",
+   "ten": "Đại lăng",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 4,
+   "gapDuoc": 3,
+   "truot": [
+    "sâu"
+   ],
+   "mauGap": [
+    "Cơ gấp cổ tay quay trái",
+    "Cơ dạng ngón cái ngắn trái",
+    "Cơ đối chiếu ngón cái trái",
+    "Xương thang trái",
+    "Cơ gấp ngón cái dài trái",
+    "Đầu nông của cơ gấp ngón cái ngắn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE1",
+   "ten": "Quan xung",
+   "goc": "thang",
+   "sauCm": 0.5,
+   "sachNeu": 4,
+   "gapDuoc": 3,
+   "truot": [
+    "xương"
+   ],
+   "mauGap": [
+    "Đốt ngón xa của ngón nhẫn trái",
+    "Đốt ngón giữa của ngón nhẫn trái",
+    "Tập hợp của các động mạch mu ngón",
+    "Tĩnh mạch gan ngón tay riêng của ngón nhẫn trái",
+    "Cơ gấp các ngón sâu trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE5",
+   "ten": "Ngoại quan",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 3,
+   "truot": [
+    "giữa màng gian cốt"
+   ],
+   "mauGap": [
+    "Cơ duỗi cổ tay trụ trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE3",
+   "ten": "Trung chử",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 5,
+   "gapDuoc": 4,
+   "truot": [
+    "cơ giun"
+   ],
+   "mauGap": [
+    "Cơ duỗi các ngón trái",
+    "Xương đốt bàn tay 4 trái",
+    "Tập hợp của các cơ gian cốt mu của bàn tay trái",
+    "Tập hợp của các động mạch mu đốt bàn tay"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI1",
+   "ten": "Dũng tuyền",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 6,
+   "gapDuoc": 5,
+   "truot": [
+    "cơ gian cốt mu chân"
+   ],
+   "mauGap": [
+    "Cơ gấp các ngón chân ngắn trái",
+    "Cơ giun 1 của bàn chân trái",
+    "Cơ gấp các ngón chân dài trái",
+    "Cơ giun 2 của bàn chân trái",
+    "Đầu ngoài của cơ gấp ngón chân cái ngắn trái",
+    "Đầu chéo của cơ khép ngón chân cái trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "HT8",
+   "ten": "Thiếu phủ",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 7,
+   "gapDuoc": 7,
+   "truot": [],
+   "mauGap": [
+    "Cơ duỗi các ngón trái",
+    "Mạng tĩnh mạch mu của bàn tay trái",
+    "Cơ duỗi ngón út trái",
+    "Tập hợp của các động mạch mu đốt bàn tay",
+    "Xương đốt bàn tay 5 trái",
+    "Tập hợp của các cơ gian cốt mu của bàn tay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "PC8",
+   "ten": "Lao cung",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 7,
+   "gapDuoc": 7,
+   "truot": [],
+   "mauGap": [
+    "Tập hợp của các cơ giun của bàn tay trái",
+    "Động mạch gan ngón tay riêng ngoài của ngón giữa trái",
+    "Cơ gấp các ngón nông trái",
+    "Đốt ngón gần của ngón giữa trái",
+    "Động mạch gan ngón tay chung 1 trái",
+    "Động mạch gan ngón tay riêng trong của ngón trỏ trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "HT9",
+   "ten": "Thiếu xung",
+   "goc": null,
+   "sauCm": 0.5,
+   "sachNeu": 5,
+   "gapDuoc": 5,
+   "truot": [],
+   "mauGap": [
+    "Đốt ngón xa của ngón út trái",
+    "Tập hợp của các động mạch mu ngón",
+    "Đốt ngón giữa của ngón út trái",
+    "Tĩnh mạch gan ngón tay riêng của ngón út trái",
+    "Động mạch gan ngón tay riêng ngoài của ngón út trái",
+    "Cơ gấp các ngón sâu trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LU10",
+   "ten": "Ngư Tế",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 4,
+   "truot": [],
+   "mauGap": [
+    "Cơ duỗi ngón cái ngắn trái",
+    "Cơ duỗi ngón cái dài trái",
+    "Xương đốt bàn tay 1 trái",
+    "Cơ đối chiếu ngón cái trái",
+    "Tập hợp của các động mạch mu ngón",
+    "Đầu ngang của cơ khép ngón cái trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI7",
+   "ten": "Ôn lưu",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 4,
+   "truot": [],
+   "mauGap": [
+    "Cơ duỗi các ngón trái",
+    "Cơ duỗi cổ tay quay ngắn trái",
+    "Cơ dạng ngón cái dài trái",
+    "Cơ duỗi ngón út trái",
+    "Cơ duỗi cổ tay trụ trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": true
+  },
+  {
+   "code": "LI12",
+   "ten": "Trửu liêu",
+   "goc": "thang",
+   "sauCm": 3.4,
+   "sachNeu": 4,
+   "gapDuoc": 4,
+   "truot": [],
+   "mauGap": [
+    "Tĩnh mạch đầu trái",
+    "Cơ cánh tay quay trái",
+    "Cơ cánh tay trái",
+    "Đầu dài của cơ nhị đầu cánh tay trái",
+    "Xương cánh tay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SP4",
+   "ten": "Công tôn",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 4,
+   "truot": [],
+   "mauGap": [
+    "Cơ chày trước trái",
+    "Xương chêm trong trái",
+    "Cơ dạng ngón chân cái trái",
+    "Động mạch gan chân trong nông trái",
+    "Đầu trong của cơ gấp ngón chân cái ngắn trái",
+    "Cơ chày sau trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "HT4",
+   "ten": "Linh đạo",
+   "goc": "thang",
+   "sauCm": 1.8,
+   "sachNeu": 4,
+   "gapDuoc": 4,
+   "truot": [],
+   "mauGap": [
+    "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+    "Cơ sấp vuông trái",
+    "Cơ gấp các ngón sâu trái",
+    "Động mạch trụ trái",
+    "Tĩnh mạch trụ trái",
+    "Cơ gấp các ngón nông trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI3",
+   "ten": "Hậu khê",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 4,
+   "gapDuoc": 4,
+   "truot": [],
+   "mauGap": [
+    "Cơ dạng ngón út của bàn tay trái",
+    "Tập hợp của các động mạch mu ngón",
+    "Tập hợp của các động mạch mu đốt bàn tay",
+    "Tĩnh mạch gan ngón tay riêng của ngón út trái",
+    "Đốt ngón gần của ngón út trái",
+    "Xương đốt bàn tay 5 trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LU4",
+   "ten": "Hiệp Bạch",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 3,
+   "truot": [],
+   "mauGap": [
+    "Đầu ngắn của cơ nhị đầu cánh tay trái",
+    "Đầu dài của cơ nhị đầu cánh tay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LU7",
+   "ten": "Liệt Khuyết",
+   "goc": "xien",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 3,
+   "truot": [],
+   "mauGap": [
+    "Cơ gấp các ngón nông trái",
+    "Cơ gấp các ngón sâu trái",
+    "Cơ sấp vuông trái",
+    "Cơ gấp cổ tay quay trái",
+    "Tĩnh mạch giữa cẳng tay trái",
+    "Cơ gấp ngón cái dài trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI4",
+   "ten": "Hợp cốc",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 3,
+   "truot": [],
+   "mauGap": [
+    "Tập hợp của các cơ gian cốt mu của bàn tay trái",
+    "Đầu ngang của cơ khép ngón cái trái",
+    "Động mạch ngón cái chính trái",
+    "Tập hợp của các động mạch mu ngón",
+    "Tĩnh mạch gan đốt bàn tay trái",
+    "Đầu chéo của cơ khép ngón cái trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST34",
+   "ten": "Lương Khâu",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 3,
+   "truot": [],
+   "mauGap": [
+    "Cơ rộng ngoài trái",
+    "Cơ thẳng đùi trái",
+    "Cơ rộng giữa trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST43",
+   "ten": "Hãm Cốc",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 3,
+   "gapDuoc": 3,
+   "truot": [],
+   "mauGap": [
+    "Tập hợp của các tĩnh mạch xuyên",
+    "Tĩnh mạch mu đốt bàn tay",
+    "Cơ duỗi các ngón chân dài trái",
+    "Xương đốt bàn chân 2 trái",
+    "Cơ gian cốt gan chân 1 của bàn chân trái",
+    "Xương đốt bàn chân 3 trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI1",
+   "ten": "Thiếu trạch",
+   "goc": "thang",
+   "sauCm": 0.5,
+   "sachNeu": 3,
+   "gapDuoc": 3,
+   "truot": [],
+   "mauGap": [
+    "Đốt ngón xa của ngón út trái",
+    "Tập hợp của các động mạch mu ngón",
+    "Đốt ngón giữa của ngón út trái",
+    "Động mạch gan ngón tay chung 4 trái",
+    "Tĩnh mạch gan ngón tay riêng của ngón út trái",
+    "Động mạch gan ngón tay riêng ngoài của ngón út trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI2",
+   "ten": "Tiền cốc",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 3,
+   "gapDuoc": 3,
+   "truot": [],
+   "mauGap": [
+    "Đốt ngón gần của ngón út trái",
+    "Tập hợp của các động mạch mu ngón",
+    "Cơ dạng ngón út của bàn tay trái",
+    "Tĩnh mạch gan ngón tay riêng của ngón út trái",
+    "Cơ duỗi ngón út trái",
+    "Động mạch gan ngón tay chung 4 trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "PC3",
+   "ten": "Khúc trạch",
+   "goc": "thang",
+   "sauCm": 1.8,
+   "sachNeu": 3,
+   "gapDuoc": 3,
+   "truot": [],
+   "mauGap": [
+    "Tĩnh mạch giữa khuỷu trái",
+    "Đầu cánh tay của cơ sấp tròn trái",
+    "Động mạch cánh tay trái",
+    "Tĩnh mạch cánh tay trong trái",
+    "Đầu dài của cơ nhị đầu cánh tay trái",
+    "Cơ cánh tay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "PC9",
+   "ten": "Trung xung",
+   "goc": "thang",
+   "sauCm": 0.5,
+   "sachNeu": 3,
+   "gapDuoc": 3,
+   "truot": [],
+   "mauGap": [
+    "Đốt ngón xa của ngón giữa trái",
+    "Tập hợp của các động mạch mu ngón",
+    "Tĩnh mạch gan ngón tay riêng của ngón giữa trái",
+    "Động mạch gan ngón tay riêng ngoài của ngón giữa trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI1",
+   "ten": "Thương dương",
+   "goc": "thang",
+   "sauCm": 0.5,
+   "sachNeu": 2,
+   "gapDuoc": 2,
+   "truot": [],
+   "mauGap": [
+    "Đốt ngón xa của ngón trỏ trái",
+    "Cơ duỗi ngón trỏ trái",
+    "Đốt ngón giữa của ngón trỏ trái",
+    "Tập hợp của các động mạch mu ngón",
+    "Động mạch quay ngón trỏ trái",
+    "Tĩnh mạch gan ngón tay riêng của ngón trỏ trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LI6",
+   "ten": "Thiên lịch",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 2,
+   "gapDuoc": 2,
+   "truot": [],
+   "mauGap": [
+    "Cơ duỗi các ngón trái",
+    "Cơ dạng ngón cái dài trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SP2",
+   "ten": "Đại đô",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 2,
+   "truot": [],
+   "mauGap": [
+    "Xương đốt bàn chân 1 trái",
+    "Cơ dạng ngón chân cái trái",
+    "Đốt ngón gần của ngón chân cái trái",
+    "Tập hợp của các tĩnh mạch mu ngón",
+    "Đầu trong của cơ gấp ngón chân cái ngắn trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SP10",
+   "ten": "Huyết hải",
+   "goc": "thang",
+   "sauCm": 4.6,
+   "sachNeu": 2,
+   "gapDuoc": 2,
+   "truot": [],
+   "mauGap": [
+    "Cơ rộng trong trái",
+    "Cơ rộng giữa trái",
+    "Xương đùi trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SI6",
+   "ten": "Dưỡng lão",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 2,
+   "truot": [],
+   "mauGap": [
+    "Tĩnh mạch nền trái",
+    "Cơ duỗi cổ tay trụ trái",
+    "Xương trụ trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL65",
+   "ten": "Thúc cốt",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 2,
+   "truot": [],
+   "mauGap": [
+    "Đốt ngón gần của ngón chân út trái",
+    "Động mạch mu ngón của bàn chân"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL66",
+   "ten": "Thông cốc",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 2,
+   "truot": [],
+   "mauGap": [
+    "Động mạch mu ngón của bàn chân",
+    "Đốt ngón gần của ngón chân út trái",
+    "Tập hợp của các tĩnh mạch mu ngón",
+    "Cơ gấp ngón út ngắn của bàn chân trái",
+    "Cơ duỗi các ngón chân dài trái",
+    "Cơ gian cốt gan chân 3 của bàn chân trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "KI8",
+   "ten": "Giao tín",
+   "goc": "thang",
+   "sauCm": 4.6,
+   "sachNeu": 2,
+   "gapDuoc": 2,
+   "truot": [],
+   "mauGap": [
+    "Cơ gấp các ngón chân dài trái",
+    "Cơ chày sau trái",
+    "Cơ gấp ngón chân cái dài trái",
+    "Xương chày trái",
+    "Cơ mác ba trái",
+    "Màng gian cốt của cẳng chân trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE2",
+   "ten": "Dịch môn",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 2,
+   "truot": [],
+   "mauGap": [
+    "Mạng tĩnh mạch mu của bàn tay trái",
+    "Xương đốt bàn tay 4 trái",
+    "Cơ duỗi các ngón trái",
+    "Tập hợp của các động mạch mu ngón",
+    "Tập hợp của các động mạch mu đốt bàn tay",
+    "Tập hợp của các cơ gian cốt mu của bàn tay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "TE10",
+   "ten": "Thiên tỉnh",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 2,
+   "gapDuoc": 2,
+   "truot": [],
+   "mauGap": [
+    "Đầu ngoài của cơ tam đầu cánh tay trái",
+    "Đầu dài của cơ tam đầu cánh tay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB14",
+   "ten": "Dương bạch",
+   "goc": "xien",
+   "sauCm": 1.1,
+   "sachNeu": 2,
+   "gapDuoc": 2,
+   "truot": [],
+   "mauGap": [
+    "Xương trán"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LU8",
+   "ten": "Kinh Cừ",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 1,
+   "gapDuoc": 1,
+   "truot": [],
+   "mauGap": [
+    "Cơ gấp ngón cái dài trái",
+    "Cơ sấp vuông trái",
+    "Cơ gấp cổ tay quay trái",
+    "Xương quay trái",
+    "Tĩnh mạch gan đốt bàn tay trái",
+    "Tĩnh mạch quay trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LU9",
+   "ten": "Thái Uyên",
+   "goc": "thang",
+   "sauCm": 1.1,
+   "sachNeu": 1,
+   "gapDuoc": 1,
+   "truot": [],
+   "mauGap": [
+    "Động mạch ngón cái chính trái",
+    "Tĩnh mạch gan đốt bàn tay trái",
+    "Cơ dạng ngón cái ngắn trái",
+    "Xương thang trái",
+    "Cơ đối chiếu ngón cái trái",
+    "Cung tĩnh mạch gan tay sâu trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST41",
+   "ten": "Giải Khê",
+   "goc": "thang",
+   "sauCm": 2.3,
+   "sachNeu": 1,
+   "gapDuoc": 1,
+   "truot": [],
+   "mauGap": [
+    "Cơ duỗi ngón chân cái dài trái",
+    "Động mạch mu chân trái",
+    "Cơ chày trước trái",
+    "Xương ghe bàn chân trái",
+    "Xương sên trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "ST45",
+   "ten": "Lệ Đoài",
+   "goc": "thang",
+   "sauCm": 0.5,
+   "sachNeu": 1,
+   "gapDuoc": 1,
+   "truot": [],
+   "mauGap": [
+    "Tập hợp của các tĩnh mạch gan ngón chân",
+    "Đốt ngón xa của ngón chân 2 trái",
+    "Cơ gấp các ngón chân dài trái",
+    "Đốt ngón giữa của ngón chân 2 trái",
+    "Động mạch mu ngón của bàn chân",
+    "Đốt ngón xa của ngón chân 3 trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "SP1",
+   "ten": "Ẩn bạch",
+   "goc": "xien",
+   "sauCm": 0.5,
+   "sachNeu": 1,
+   "gapDuoc": 1,
+   "truot": [],
+   "mauGap": [
+    "Đốt ngón xa của ngón chân cái trái",
+    "Tập hợp của các tĩnh mạch gan ngón chân",
+    "Đốt ngón gần của ngón chân cái trái",
+    "Cơ gấp ngón chân cái dài trái",
+    "Tập hợp của các tĩnh mạch mu ngón"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "BL67",
+   "ten": "Chí âm",
+   "goc": "xien",
+   "sauCm": 0.5,
+   "sachNeu": 1,
+   "gapDuoc": 1,
+   "truot": [],
+   "mauGap": [
+    "Đốt ngón giữa của ngón chân út trái",
+    "Cơ gấp các ngón chân ngắn trái",
+    "Đốt ngón gần của ngón chân út trái",
+    "Đốt ngón xa của ngón chân út trái",
+    "Cơ gấp các ngón chân dài trái",
+    "Động mạch mu ngón của bàn chân"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "GB10",
+   "ten": "Phù bạch",
+   "goc": "luon",
+   "sauCm": 1.1,
+   "sachNeu": 1,
+   "gapDuoc": 1,
+   "truot": [],
+   "mauGap": [
+    "Xương thái dương trái"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  },
+  {
+   "code": "LR1",
+   "ten": "Đại đôn",
+   "goc": "thang",
+   "sauCm": 0.5,
+   "sachNeu": 1,
+   "gapDuoc": 1,
+   "truot": [],
+   "mauGap": [
+    "Đốt ngón xa của ngón chân cái trái",
+    "Cơ gấp ngón chân cái dài trái",
+    "Tập hợp của các tĩnh mạch gan ngón chân",
+    "Động mạch mu ngón của bàn chân",
+    "Tập hợp của các tĩnh mạch mu ngón"
+   ],
+   "treoCm": null,
+   "phapTuyenTho": false
+  }
+ ]
+}

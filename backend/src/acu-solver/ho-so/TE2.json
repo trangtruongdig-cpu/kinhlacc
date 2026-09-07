@@ -1,0 +1,121 @@
+{
+ "code": "TE2",
+ "mer": "TE",
+ "num": 2,
+ "tenApp": "Dịch môn",
+ "tenFocks": "DỊCH MÔN",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Giữa xương bàn ngón tay thứ 4 và 5, nơi chỗ lõm ở kẽ ngón tay, ngang phần tiếp nối của thân với đầu trên xương đốt ngón tay.",
+  "focksViTri": "Giữa ngón út và ngón đeo nhẫn, gần nếp gấp liên ngón.",
+  "focksCachXacDinh": "Nắm lỏng tay, xác định vị trí nếp gấp liên ngón giữa ngón út và ngón đeo nhẫn (ngón thứ 4 và thứ 5) và xác định vị trí huyệt Dịch môn (SJ/TB 2) ở gần cuối nếp gấp. SJ 2 là một huyệt trong các huyệt Bát tà (baxie: Ex-UE 9) gần đầu các nếp gấp liên ngón tay. Ở vị trí tương ứng trên bàn chân là huyệt Hiệp khê (Gb 43) (nếp gấp giữa các ngón chân thứ 4 và thứ 5) là một trong các huyệt Bát phong (bafeng: Ex-LE 10).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE2_p248_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1394,
+  "y": 0.4679,
+  "z": 0.0136,
+  "conf": "mốc",
+  "caoDoCm": 80.43,
+  "ngangCm": 23.96,
+  "truocSauCm": 2.34
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Dịch Môn — kẽ ngón 4–5, mu tay",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "ban-tay",
+  "vung": "mu bàn tay",
+  "moTaRanh": "khe giữa xương bàn ngón 4 và 5, rồi lằn cổ tay mặt mu",
+  "diemTrongDoan": [
+   "TE1",
+   "TE2",
+   "TE3",
+   "TE4"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "TE1",
+   "ten": "Quan xung",
+   "thang": 8.22,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 8.2,
+   "sachDoiThon": null,
+   "vitri": "Ở bờ trong ngón tay áp út, cách chân móng 0,1 thốn."
+  },
+  {
+   "code": "TE3",
+   "ten": "Trung chử",
+   "thang": 1.49,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2,
+   "sachDoiThon": null,
+   "vitri": "Trên mu tay, giữa ngón tay xương bàn tay thứ 4 và thứ 5, trong chỗ lõm trên kẽ ngón tay 1 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "TE3",
+   "ten": "Trung chử",
+   "cm": 1.49
+  },
+  {
+   "code": "HT8",
+   "ten": "Thiếu phủ",
+   "cm": 1.86
+  },
+  {
+   "code": "SI2",
+   "ten": "Tiền cốc",
+   "cm": 2.88
+  },
+  {
+   "code": "SI3",
+   "ten": "Hậu khê",
+   "cm": 3.22
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương đốt bàn tay 4 trái",
+   "lop": "bone",
+   "cm": 0.91
+  },
+  {
+   "ten": "Cơ duỗi các ngón trái",
+   "lop": "muscle",
+   "cm": 0.95
+  },
+  {
+   "ten": "Tập hợp của các cơ gian cốt mu của bàn tay trái",
+   "lop": "muscle",
+   "cm": 1.21
+  },
+  {
+   "ten": "Cơ duỗi ngón út trái",
+   "lop": "muscle",
+   "cm": 1.39
+  },
+  {
+   "ten": "Đốt ngón gần của ngón nhẫn trái",
+   "lop": "bone",
+   "cm": 1.43
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm",
+  "ÉP LÊN DA dời 0.2cm"
+ ]
+}

@@ -1,9 +1,12 @@
 /* solver — Giải toạ độ huyệt từ ràng buộc (parse-vitri) + khung cốt-độ (model-frame).
  * Phương pháp: nội suy dọc trục xương giữa 2 mốc; ràng buộc thừa → CROSS-CHECK (đo lệch).
  * Phụ thuộc thứ tự: huyệt neo vào huyệt khác giải SAU (topological sort).                */
-const { L, AXES, LAT_CUN, pickAxis, lateralRegion, isMidline } = require('./model-frame.cjs');
+const { L, AXES, LAT_CUN, pickAxis, lateralRegion, isMidline,
+  HEAD_ARC_CUN, HEAD_ARC_VERTEX_CUN, HEAD_ARC_LM, headArcAt, headArcCunOf } = require('./model-frame.cjs');
 
-const VERT_FALLBACK = { head: 0.013, torso: 0.021, arm: 0.011, leg: 0.013 }; // thốn dọc khi mốc không có trục
+// thốn dọc khi mốc không có trục. head = HEAD_ARC_CUN (đo thật trên cung dọc đầu), KHÔNG còn là
+// số 0,013 ước lượng — dùng cho các mốc mặt ngoài cung (đồng tử, khoé miệng, cằm).
+const VERT_FALLBACK = { head: HEAD_ARC_CUN, torso: 0.021, arm: 0.011, leg: 0.013 };
 
 const isLandmark = id => id && Object.prototype.hasOwnProperty.call(L, id);
 
@@ -18,10 +21,41 @@ function signFor(per, dir) {
   return per.y < 0 ? -1 : 1;                 // up | free
 }
 
-// Bước dọc 1 ràng buộc vertical/free → {base, axisInfo}.  ctx.solved: map code→{pos,axisInfo}
+/* Bước theo TRỤC TRƯỚC–SAU từ một điểm gốc.
+ *  · TRÊN ĐẦU (y > 0,86): đi dọc CUNG SỌ, không đi thẳng theo z — mới là chỗ trục này quan trọng
+ *    nhất (BL7-9, GB17-19 nối đuôi nhau ra sau đỉnh đầu). headArcAt() kẹp [0,18] thốn nên không
+ *    thể trồi ra khỏi sọ. Giữ nguyên x: các huyệt này chạy song song đường giữa, lệch bên cố định.
+ *  · Nơi khác: dịch thẳng theo z với thốn của vùng.                                               */
+function stepSagittal(from, c, reg) {
+  if (from.y > 0.86) {
+    const c0 = headArcCunOf(from.y, from.z);
+    const cAt = c0 + (c.dir === 'front' ? -1 : 1) * c.cun;
+    const q = headArcAt(cAt);
+    return { base: { x: from.x, y: q.y, z: q.z }, axisInfo: { axis: 'head_arc', dir: c.dir, cunOnArc: cAt } };
+  }
+  const sc = LAT_CUN[reg] || LAT_CUN.torso;
+  return { base: { x: from.x, y: from.y, z: from.z + (c.dir === 'front' ? 1 : -1) * sc * c.cun }, axisInfo: null };
+}
+
+// Bước dọc 1 ràng buộc vertical/free/sagittal → {base, axisInfo}.  ctx.solved: map code→{pos,axisInfo}
 function stepAlong(c, ctx) {
   const ref = c.ref;
+  if (c.axis === 'sagittal') {
+    const from = isLandmark(ref) ? L[ref] : (ctx.solved[ref] || {}).pos;
+    if (!from) return null;
+    return stepSagittal(from, c, lateralRegion(isLandmark(ref) ? ref : ''));
+  }
   if (isLandmark(ref)) {
+    /* ĐẦU: đi theo CUNG dọc giữa sọ, không đi thẳng. "lên" luôn hiểu là VỀ PHÍA ĐỈNH SỌ (mốc ở nửa
+     * trước cung thì thốn tăng, ở nửa sau thì thốn giảm). headArcAt() kẹp trong [0,18] thốn nên
+     * huyệt KHÔNG THỂ vượt ra ngoài sọ nữa — chính là lỗi GB18/GB19 bay lên trên đỉnh đầu. */
+    if (HEAD_ARC_LM.has(ref)) {
+      const c0 = headArcCunOf(L[ref].y, L[ref].z);
+      const toward = c0 < HEAD_ARC_VERTEX_CUN ? 1 : -1;
+      const cAt = c0 + (c.dir === 'down' ? -1 : 1) * toward * c.cun;
+      const q = headArcAt(cAt);
+      return { base: { x: L[ref].x, y: q.y, z: q.z }, axisInfo: { axis: 'head_arc', dir: c.dir, cunOnArc: cAt } };
+    }
     const pick = pickAxis(ref, c.dir === 'down' ? 'down' : 'up');
     if (pick) {
       const per = perCun(pick.axis), sgn = signFor(per, c.dir);
@@ -40,6 +74,14 @@ function stepAlong(c, ctx) {
   // neo vào huyệt khác
   const sp = ctx.solved[ref];
   if (sp) {
+    // huyệt neo đang đứng trên cung đầu → tiếp tục đi trên cung (giữ nguyên x của nó)
+    if (sp.axisInfo && sp.axisInfo.axis === 'head_arc') {
+      const c0 = sp.axisInfo.cunOnArc != null ? sp.axisInfo.cunOnArc : headArcCunOf(sp.pos.y, sp.pos.z);
+      const toward = c0 < HEAD_ARC_VERTEX_CUN ? 1 : -1;
+      const cAt = c0 + (c.dir === 'down' ? -1 : 1) * toward * c.cun;
+      const q = headArcAt(cAt);
+      return { base: { x: sp.pos.x, y: q.y, z: q.z }, axisInfo: { axis: 'head_arc', dir: c.dir, cunOnArc: cAt } };
+    }
     const axisName = (sp.axisInfo && sp.axisInfo.axis) || guessAxisByCode(ref);
     if (axisName) {
       const per = perCun(axisName), sgn = signFor(per, c.dir);
@@ -69,7 +111,9 @@ function anchorPos(id, ctx) {
 
 // Giải 1 huyệt.  parsed: kết quả parseVitri.  return {pos, axisInfo, q, checks[]} | null
 function resolvePoint(parsed, ctx) {
-  const verts = parsed.constraints.filter(c => c.axis === 'vertical' || c.axis === 'free');
+  // 'sagittal' đi CHUNG nhánh với vertical/free: nó cũng dựng CAO ĐỘ + ĐỘ SÂU (trên đầu là cả hai),
+  // khác hẳn 'lateral' vốn chỉ là offset ngang cộng thêm sau.
+  const verts = parsed.constraints.filter(c => c.axis === 'vertical' || c.axis === 'free' || c.axis === 'sagittal');
   const lats = parsed.constraints.filter(c => c.axis === 'lateral');
 
   // primary vertical = ràng buộc có ref giải được (ưu tiên landmark)

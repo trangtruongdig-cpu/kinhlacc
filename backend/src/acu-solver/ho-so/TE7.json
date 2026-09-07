@@ -1,0 +1,154 @@
+{
+ "code": "TE7",
+ "mer": "TE",
+ "num": 7,
+ "tenApp": "Hội tông",
+ "tenFocks": "HỘI TÔNG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Mặt sau cẳng tay, trên lằn cổ tay 3 thốn, ngang huyệt Chi Câu (Ttu 6), cách 1 thốn, về phía sát bờ ngoài xương trụ.",
+  "focksViTri": "Cách nếp gấp cổ tay 3 thốn và giữa cẳng tay cách về phía xương trụ 0,5 thốn.",
+  "focksCachXacDinh": "Khe khớp cổ tay có thể được sờ thấy rõ ràng bằng cử động thả lỏng của bàn tay. Từ giữa khe khớp, đo lên 3 thốn và xác định vị trí huyệt Hội tông (SJ/TB 7) ở chỗ lõm ở rìa trụ giữa xương trụ và cơ duỗi ngón tay. Hoặc: Khoảng cách giữa nếp gấp khuỷu tay và khe khớp cổ tay bằng 12 thốn; huyệt Hội tông (SJ/TB 7) ở khoảng cách 1/4 trên cổ tay và khoảng 0,5 thốn của điểm giữa cẳng tay huyệt Chi câu (SJ/TB 6) trên cạnh xương trụ. Điểm này ở cùng mức và cách huyệt Chi câu (SJ/TB 6) khoảng 0,5 thốn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE7_p253_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1247,
+  "y": 0.5426,
+  "z": -0.0047,
+  "conf": "khe",
+  "caoDoCm": 93.27,
+  "ngangCm": 21.44,
+  "truocSauCm": -0.81
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "khe",
+   "duong"
+  ],
+  "ly": "nằm giữa bụng cơ (sâu 0.56 thốn trong khối Cơ gấp cổ tay quay trái) · RẢI DỌC ĐƯỜNG: dời 5.31cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "cang-tay",
+  "vung": "giữa mặt sau cẳng tay",
+  "moTaRanh": "khe gian cốt giữa xương quay và xương trụ, mặt mu",
+  "diemTrongDoan": [
+   "TE4",
+   "TE5",
+   "TE6",
+   "TE7",
+   "TE8",
+   "TE9",
+   "TE10"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "TE/cang-tay",
+  "tong": 12,
+  "xa": "TE4",
+  "gan": "TE10",
+  "xaMoc": "WRIST",
+  "ganMoc": "CUBITAL",
+  "thonCuaHuyet": 3,
+  "lechNgang": {
+   "lech": 1,
+   "huong": "trong"
+  },
+  "moiDiem": {
+   "TE5": 2,
+   "TE6": 3,
+   "TE7": {
+    "thon": 3,
+    "lech": 1,
+    "huong": "trong"
+   },
+   "TE8": 4,
+   "TE9": 7
+  }
+ },
+ "hangXom": [
+  {
+   "code": "TE6",
+   "ten": "Chi câu",
+   "thang": 0.98,
+   "sachDoiCm": 0,
+   "thonCm": 2.01,
+   "docDa": 0.4,
+   "sachDoiThon": 0,
+   "vitri": "Trên lằn cổ tay 3 thốn, giữa khe xương trụ và xương quay, trên huyệt Ngoại Quan (Ttu.5) 1 thốn."
+  },
+  {
+   "code": "TE8",
+   "ten": "Tam dương lạc",
+   "thang": 1.78,
+   "sachDoiCm": 2.01,
+   "thonCm": 2.01,
+   "docDa": 1.7,
+   "sachDoiThon": 1,
+   "vitri": "Trên lằn cổ tay 4 thốn, khe giữa xương quay và trụ, ở mặt sau cẳng tay."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "TE6",
+   "ten": "Chi câu",
+   "cm": 0.98
+  },
+  {
+   "code": "TE8",
+   "ten": "Tam dương lạc",
+   "cm": 1.78
+  },
+  {
+   "code": "TE5",
+   "ten": "Ngoại quan",
+   "cm": 2.72
+  },
+  {
+   "code": "SI7",
+   "ten": "Chi chính",
+   "cm": 3.78
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu trụ của cơ gấp cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 1.29
+  },
+  {
+   "ten": "Cơ duỗi cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 1.4
+  },
+  {
+   "ten": "Xương trụ trái",
+   "lop": "bone",
+   "cm": 1.59
+  },
+  {
+   "ten": "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 1.64
+  },
+  {
+   "ten": "Cơ duỗi ngón trỏ trái",
+   "lop": "muscle",
+   "cm": 1.77
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 5.31cm (conf=khe)",
+  "XA ĐƯỜNG KINH 4.82cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 5.31cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"TE6\" đòi 1 thốn, đo được 0.15  (lệch 1.71cm)",
+  "ATLAS FOCKS kêu: dọc \"WRIST\" đòi 0.5 thốn, đo được 3.15  (lệch 5.31cm)"
+ ]
+}

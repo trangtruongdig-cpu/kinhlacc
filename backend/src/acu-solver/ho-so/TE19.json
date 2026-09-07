@@ -1,0 +1,166 @@
+{
+ "code": "TE19",
+ "mer": "TE",
+ "num": 19,
+ "tenApp": "Lư tức",
+ "tenFocks": "LƯ TỨC",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Sau loa tai, trên huyệt Khế Mạch 1 thốn hoặc ép sát vành tai vào đầu, huyệt ở chỗ nối 2/3 dưới và 1/3 trên của đường cong theo bờ vành tai từ h. Ế Phong đến Giác Tôn.",
+  "focksViTri": "Ở vùng lõm dễ sờ thấy phía sau tai, giữa vành tai lên phía trên.",
+  "focksCachXacDinh": "Huyệt Lư tức (SJ/TB 19) nằm ở điểm 1/3 trên của đường vòng theo vành tai từ huyệt Ế phong (SJ/TB 17) tới huyệt Giác tôn (SJ/TB 20). Cách khác: Trên mặt đồng hồ tưởng tượng phía trên tai (12 giờ: đỉnh tai, 6 giờ: dái tai), có một vết lõm rõ ràng có thể sờ thấy được huyệt Lư tức (SJ/TB 19) ngay phía sau vào khoảng 10 giờ (xem hình), cạnh bờ tai. Huyệt Đầu khiếu âm (Gb 11) dưới huyệt Lư tức (SJ/TB 19) một chút và cách mép tai khoảng 0,3 thốn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE19_p265_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0381,
+  "y": 0.9267,
+  "z": 0.0023,
+  "conf": "tạm",
+  "caoDoCm": 159.3,
+  "ngangCm": 6.55,
+  "truocSauCm": 0.4
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 7.69cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "tai",
+  "vung": "quanh tai",
+  "moTaRanh": "vòng theo bờ sau rồi bờ trên vành tai, sát mỏm chũm",
+  "diemTrongDoan": [
+   "TE16",
+   "TE17",
+   "TE18",
+   "TE19",
+   "TE20",
+   "TE21",
+   "TE22",
+   "TE23"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "TE18",
+   "ten": "Khế mạch",
+   "thang": 1.67,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2.5,
+   "sachDoiThon": null,
+   "vitri": "Phía sau tai, giữa gai xương chũm, hoặc khi ép vành tai vào đầu, huyệt ở chỗ nối 1/3 dưới và 2/3 trên của đường cong theo bờ vành tai từ huyệt Ế Phong (Ttu 17) đến Giác Tôn (Ttu 20), nơi cơ ức – đòn – chũm."
+  },
+  {
+   "code": "TE20",
+   "ten": "Giác tôn",
+   "thang": 1.74,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2,
+   "sachDoiThon": null,
+   "vitri": "Gấp vành tai về phía trước, huyệt ở bờ trên loa tai, trong chân tóc nơi có cơ cử động khi há miệng nhai, dưới huyệt là cơ tai trên, cơ thái dương."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "TE21",
+   "ten": "Nhĩ môn",
+   "cm": 0.84
+  },
+  {
+   "code": "SI19",
+   "ten": "Thính cung",
+   "cm": 1.38
+  },
+  {
+   "code": "TE18",
+   "ten": "Khế mạch",
+   "cm": 1.67
+  },
+  {
+   "code": "TE20",
+   "ten": "Giác tôn",
+   "cm": 1.74
+  },
+  {
+   "code": "GB2",
+   "ten": "Thính hội",
+   "cm": 2.03
+  },
+  {
+   "code": "GB3",
+   "ten": "Thượng quan",
+   "cm": 2.58
+  },
+  {
+   "code": "GB10",
+   "ten": "Phù bạch",
+   "cm": 2.82
+  },
+  {
+   "code": "GB9",
+   "ten": "Thiên xung",
+   "cm": 2.87
+  },
+  {
+   "code": "ST7",
+   "ten": "Hạ Quan",
+   "cm": 3.25
+  },
+  {
+   "code": "GB11",
+   "ten": "Khiếu âm",
+   "cm": 3.25
+  },
+  {
+   "code": "TE17",
+   "ten": "Ế phong",
+   "cm": 3.31
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương thái dương trái",
+   "lop": "bone",
+   "cm": 0.64
+  },
+  {
+   "ten": "Xương hàm dưới",
+   "lop": "bone",
+   "cm": 2.21
+  },
+  {
+   "ten": "Xương bướm",
+   "lop": "bone",
+   "cm": 2.42
+  },
+  {
+   "ten": "Xương gò má trái",
+   "lop": "bone",
+   "cm": 2.48
+  },
+  {
+   "ten": "Xương đỉnh trái",
+   "lop": "bone",
+   "cm": 2.77
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 7.69cm (conf=tạm)",
+  "XA ĐƯỜNG KINH 7.12cm",
+  "ÉP LÊN DA dời 1.9cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 7.69cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"TE18\" đòi 1 thốn, đo được 0.6  (lệch 1.13cm)"
+ ]
+}

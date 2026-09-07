@@ -1,0 +1,3929 @@
+{
+ "phienBan": 1,
+ "caoNguoi": 171.9,
+ "nguongCm": {
+  "A": 0.5,
+  "B": 2
+ },
+ "ghiChu": "Hạng A = có bằng chứng NGOÀI engine, trôi >0,5cm là hồi quy. B = engine dựng, kiểm sạch. C (mục \"ngo\") = danh sách việc. --kiem không bao giờ tự sửa sổ này.",
+ "chot": {
+  "LU1": {
+   "x": 0.0552,
+   "y": 0.7904,
+   "z": 0.0483,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Trung Phủ — dưới Vân Môn 1 thốn (gian sườn 1), 6 thốn ngang. Dịch 5.7cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "LU2": {
+   "x": 0.0512,
+   "y": 0.8025,
+   "z": 0.0406,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vân Môn — hố dưới đòn, 6 thốn ngang (đo dọc mặt cong). Dịch 5.3cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "LU5": {
+   "x": 0.1345,
+   "y": 0.6518,
+   "z": 0.003,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Xích Trạch — nếp khuỷu, bờ NGOÀI (quay) gân cơ nhị đầu. Dựng từ xương/gân atlas",
+   "ngay": "2026-09-07"
+  },
+  "LU7": {
+   "x": 0.1482,
+   "y": 0.5314,
+   "z": 0.0163,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "conf=khoá, src=book+duong",
+   "ngay": "2026-09-07"
+  },
+  "LU8": {
+   "x": 0.1526,
+   "y": 0.5263,
+   "z": 0.0173,
+   "hang": "B",
+   "nguon": "book+duong",
+   "ly": "conf=cao, src=book+duong",
+   "ngay": "2026-09-07"
+  },
+  "LU9": {
+   "x": 0.1658,
+   "y": 0.5166,
+   "z": 0.0215,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thái Uyên — lằn cổ tay, mé quay, ngoài gân cơ gấp cổ tay quay, trên ĐM quay. Dựng từ xương/gân thật trong atlas",
+   "ngay": "2026-09-07"
+  },
+  "LU10": {
+   "x": 0.186,
+   "y": 0.4984,
+   "z": 0.022,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Ngư Tế — giữa xương bàn tay 1, ranh da đỏ–trắng",
+   "ngay": "2026-09-07"
+  },
+  "LU11": {
+   "x": 0.1849,
+   "y": 0.4671,
+   "z": 0.0376,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thiếu Thương — góc móng ngón cái tay, mé quay — dựng từ xương đốt ngón xa trong atlas, lát cắt chân móng (60% chiều dài kể từ đầu ngón), cực trị phía đã nêu, rồi chiếu ra da",
+   "ngay": "2026-09-07"
+  },
+  "LI1": {
+   "x": 0.182,
+   "y": 0.4363,
+   "z": 0.0426,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thương Dương — góc móng ngón trỏ, mé quay — dựng từ xương đốt ngón xa trong atlas, lát cắt chân móng (60% chiều dài kể từ đầu ngón), cực trị phía đã nêu, rồi chiếu ra da",
+   "ngay": "2026-09-07"
+  },
+  "LI4": {
+   "x": 0.1803,
+   "y": 0.4833,
+   "z": 0.0153,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hợp Cốc — bờ quay, giữa xương bàn tay 2",
+   "ngay": "2026-09-07"
+  },
+  "LI5": {
+   "x": 0.175,
+   "y": 0.4977,
+   "z": 0.0112,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Dương Khê — hố lào — giữa gân duỗi ngón cái dài và ngắn. Dựng từ xương/gân thật trong atlas. SỬA: lệch 4.2cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "LI7": {
+   "x": 0.1536,
+   "y": 0.5682,
+   "z": -0.0145,
+   "hang": "B",
+   "nguon": "who-arb+duong",
+   "ly": "conf=WHO-trọng tài, src=who-arb+duong",
+   "ngay": "2026-09-07"
+  },
+  "LI8": {
+   "x": 0.1539,
+   "y": 0.6072,
+   "z": -0.0025,
+   "hang": "B",
+   "nguon": "who+duong",
+   "ly": "conf=WHO-lấp, src=who+duong",
+   "ngay": "2026-09-07"
+  },
+  "LI11": {
+   "x": 0.1426,
+   "y": 0.6483,
+   "z": 0.0007,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khúc Trì — đầu NGOÀI nếp khuỷu, giữa Xích Trạch và lồi cầu ngoài. Dựng từ xương/gân atlas",
+   "ngay": "2026-09-07"
+  },
+  "LI13": {
+   "x": 0.1287,
+   "y": 0.7031,
+   "z": 0.0043,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thủ Ngũ Lý — trên Khúc Trì LI11 3 thốn, đường LI11→LI15",
+   "ngay": "2026-09-07"
+  },
+  "LI14": {
+   "x": 0.1121,
+   "y": 0.7715,
+   "z": 0.0141,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Tý Nhu — chỗ bám cơ delta, trên Khúc Trì LI11 7 thốn",
+   "ngay": "2026-09-07"
+  },
+  "LI15": {
+   "x": 0.1009,
+   "y": 0.8128,
+   "z": 0.0116,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kiên Ngung — hõm trước-dưới mỏm cùng vai, giữa phần ĐÒN và phần MỎM CÙNG của cơ delta. Dịch 7cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "LI16": {
+   "x": 0.0706,
+   "y": 0.8411,
+   "z": -0.0239,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Cự Cốt — hõm giữa đầu cùng vai xương đòn và gai xương bả vai. Dịch 2.9cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "LI17": {
+   "x": 0.0441,
+   "y": 0.8562,
+   "z": -0.0137,
+   "hang": "B",
+   "nguon": "who+duong",
+   "ly": "conf=WHO-lấp, src=who+duong",
+   "ngay": "2026-09-07"
+  },
+  "LI18": {
+   "x": 0.0272,
+   "y": 0.8776,
+   "z": 0.0031,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phù Đột — ngang bờ trên sụn giáp, cách đường giữa 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "LI19": {
+   "x": 0.0041,
+   "y": 0.9036,
+   "z": 0.0584,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hoà Liêu — ngang Nhân Trung GV26, cách đường giữa 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "LI20": {
+   "x": 0.0049,
+   "y": 0.9202,
+   "z": 0.0472,
+   "hang": "B",
+   "nguon": "who",
+   "ly": "conf=WHO-lấp, src=who",
+   "ngay": "2026-09-07"
+  },
+  "ST1": {
+   "x": 0.0184,
+   "y": 0.94,
+   "z": 0.0433,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thừa Khấp — bờ dưới ổ mắt, trục dọc đồng tử",
+   "ngay": "2026-09-07"
+  },
+  "ST2": {
+   "x": 0.0196,
+   "y": 0.9238,
+   "z": 0.0421,
+   "hang": "B",
+   "nguon": "who+duong",
+   "ly": "conf=WHO-lấp, src=who+duong",
+   "ngay": "2026-09-07"
+  },
+  "ST4": {
+   "x": 0.0218,
+   "y": 0.8938,
+   "z": 0.04,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Địa Thương — ngoài khoé miệng 0,4 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST5": {
+   "x": 0.0103,
+   "y": 0.8865,
+   "z": 0.0439,
+   "hang": "B",
+   "nguon": "who+khe",
+   "ly": "conf=khe, src=who+khe",
+   "ngay": "2026-09-07"
+  },
+  "ST6": {
+   "x": 0.0178,
+   "y": 0.8769,
+   "z": 0.0312,
+   "hang": "B",
+   "nguon": "who+khe+duong",
+   "ly": "conf=khe, src=who+khe+duong",
+   "ngay": "2026-09-07"
+  },
+  "ST7": {
+   "x": 0.0369,
+   "y": 0.915,
+   "z": 0.0171,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hạ Quan — hõm bờ DƯỚI cung gò má, trước lồi cầu hàm dưới",
+   "ngay": "2026-09-07"
+  },
+  "ST8": {
+   "x": 0.0372,
+   "y": 0.9651,
+   "z": 0.0146,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Đầu Duy — góc trán chân tóc (mốc đầu). SỬA: giá trị cũ (0,086; 0,957; 0,060) đặt trên mesh CŨ, cách da mesh v2 tới 10,5cm dù mang nhãn tin cậy CAO NHẤT (conf=mốc) — nay dò lại bằng điểm da NGOÀI nhất của dải trán trên (y 0,962–0,978, z>0,01), khớp x≈3,7 thốn ngang đầu",
+   "ngay": "2026-09-07"
+  },
+  "ST9": {
+   "x": 0.0167,
+   "y": 0.8776,
+   "z": 0.0387,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Nhân Nghênh — ngang bờ trên sụn giáp, cách đường giữa 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST10": {
+   "x": 0.0167,
+   "y": 0.8517,
+   "z": 0.0144,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thuỷ Đột — trung điểm Nhân Nghênh ST9 và Khí Xá ST11",
+   "ngay": "2026-09-07"
+  },
+  "ST11": {
+   "x": 0.0167,
+   "y": 0.8257,
+   "z": 0.0307,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khí Xá — sát bờ trên xương đòn, cách đường giữa 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST12": {
+   "x": 0.0435,
+   "y": 0.8388,
+   "z": 0.0128,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "cột Vị ngực — cách đường giữa 4 thốn (đường giữa đòn)",
+   "ngay": "2026-09-07"
+  },
+  "ST13": {
+   "x": 0.0444,
+   "y": 0.8136,
+   "z": 0.0335,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "cột Vị ngực — cách đường giữa 4 thốn (đường giữa đòn)",
+   "ngay": "2026-09-07"
+  },
+  "ST14": {
+   "x": 0.0444,
+   "y": 0.8033,
+   "z": 0.0349,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khố Phòng — khe gian sườn 1, cách đường giữa 4 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST15": {
+   "x": 0.0444,
+   "y": 0.7827,
+   "z": 0.0588,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Ốc Ế — khe gian sườn 2, cách đường giữa 4 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST16": {
+   "x": 0.0444,
+   "y": 0.7648,
+   "z": 0.0644,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Ưng Song — khe gian sườn 3, cách đường giữa 4 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST17": {
+   "x": 0.0444,
+   "y": 0.7458,
+   "z": 0.0741,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Nhũ Trung — khe gian sườn 4, cách đường giữa 4 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST18": {
+   "x": 0.0444,
+   "y": 0.7231,
+   "z": 0.0684,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Nhũ Căn — khe gian sườn 5, cách đường giữa 4 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST19": {
+   "x": 0.0222,
+   "y": 0.702,
+   "z": 0.0705,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Bất Dung — 6 thốn trên rốn, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST20": {
+   "x": 0.0222,
+   "y": 0.6873,
+   "z": 0.0693,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thừa Mãn — 5 thốn trên rốn, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST21": {
+   "x": 0.0222,
+   "y": 0.6725,
+   "z": 0.0689,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Lương Môn — 4 thốn trên rốn, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST22": {
+   "x": 0.0222,
+   "y": 0.6578,
+   "z": 0.069,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Quan Môn — 3 thốn trên rốn, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST23": {
+   "x": 0.0222,
+   "y": 0.6431,
+   "z": 0.0659,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thái Ất — 2 thốn trên rốn, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST24": {
+   "x": 0.0222,
+   "y": 0.6283,
+   "z": 0.0645,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hoạt Nhục Môn — 1 thốn trên rốn, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST25": {
+   "x": 0.0222,
+   "y": 0.6136,
+   "z": 0.0624,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thiên Khu — ngang rốn, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST26": {
+   "x": 0.0222,
+   "y": 0.5927,
+   "z": 0.0614,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Ngoại Lăng — 1 thốn dưới rốn, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST27": {
+   "x": 0.0223,
+   "y": 0.5717,
+   "z": 0.057,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Đại Cự — 2 thốn dưới rốn, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST28": {
+   "x": 0.0221,
+   "y": 0.5508,
+   "z": 0.05,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thuỷ Đạo — 3 thốn dưới rốn, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST29": {
+   "x": 0.022,
+   "y": 0.5298,
+   "z": 0.0448,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Quy Lai — 4 thốn dưới rốn, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST30": {
+   "x": 0.0222,
+   "y": 0.5089,
+   "z": 0.0416,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khí Xung — 5 thốn dưới rốn, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST31": {
+   "x": 0.0768,
+   "y": 0.5065,
+   "z": 0.0348,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Bễ Quan — nếp bẹn, phễu đùi. SỬA: giá trị cũ (0,156; 0,495; 0,029) = x 26,8cm, tức NẰM TRÊN BÀN TAY — kiểm vùng bằng atlas cho xương gần nhất là \"xương đốt bàn tay 2 trái\", cách 1,9cm. Lệch 15,1cm mà vẫn mang conf=mốc, và nó bẻ cong cả đoạn đùi kinh Vị (đường trắc địa ST30→ST31 ra 82,9cm trong khi đường thẳng chỉ 21,8cm). Nay suy lại theo sách: mức bờ trên xương mu, trên đường nối gai chậu trước trên với xương bánh chè, rồi chiếu ra da",
+   "ngay": "2026-09-07"
+  },
+  "ST33": {
+   "x": 0.0713,
+   "y": 0.3138,
+   "z": 0.0154,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "conf=khoá, src=book+duong",
+   "ngay": "2026-09-07"
+  },
+  "ST35": {
+   "x": 0.0592,
+   "y": 0.2507,
+   "z": 0.0132,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Độc Tỵ — mắt gối NGOÀI — hõm dưới-ngoài bánh chè, cạnh dây chằng bánh chè. Dựng từ xương/gân atlas. Dịch 0cm so toạ độ cũ.",
+   "ngay": "2026-09-07"
+  },
+  "ST36": {
+   "x": 0.0577,
+   "y": 0.224,
+   "z": 0.0108,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "conf=khoá, src=book+duong",
+   "ngay": "2026-09-07"
+  },
+  "ST37": {
+   "x": 0.054,
+   "y": 0.181,
+   "z": 0.0064,
+   "hang": "B",
+   "nguon": "book+duong",
+   "ly": "conf=cao, src=book+duong",
+   "ngay": "2026-09-07"
+  },
+  "ST40": {
+   "x": 0.0625,
+   "y": 0.155,
+   "z": 0,
+   "hang": "B",
+   "nguon": "book+duong",
+   "ly": "conf=tạm, src=book+duong",
+   "ngay": "2026-09-07"
+  },
+  "ST41": {
+   "x": 0.045,
+   "y": 0.0484,
+   "z": 0.0144,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Giải Khê — giữa lằn cổ chân trước, giữa gân chày trước và gân duỗi ngón cái dài. Dựng từ xương/gân thật trong atlas",
+   "ngay": "2026-09-07"
+  },
+  "ST42": {
+   "x": 0.0597,
+   "y": 0.0488,
+   "z": 0.0157,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Xung Dương — chỗ cao nhất mu chân, giữa gốc xương bàn 2 và 3",
+   "ngay": "2026-09-07"
+  },
+  "ST43": {
+   "x": 0.0694,
+   "y": 0.0299,
+   "z": 0.0415,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hãm Cốc — khe xương bàn 2–3, chỗ nối thân và chỏm",
+   "ngay": "2026-09-07"
+  },
+  "ST44": {
+   "x": 0.0711,
+   "y": 0.0236,
+   "z": 0.0508,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Nội Đình — kẽ ngón chân 2–3, phía mu chân",
+   "ngay": "2026-09-07"
+  },
+  "ST45": {
+   "x": 0.0826,
+   "y": 0.0031,
+   "z": 0.0696,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Lệ Đoài — góc móng ngón chân 2, mé ngoài — dựng từ xương đốt ngón xa trong atlas, lát cắt chân móng (60% chiều dài kể từ đầu ngón), cực trị phía đã nêu, rồi chiếu ra da",
+   "ngay": "2026-09-07"
+  },
+  "SP1": {
+   "x": 0.0579,
+   "y": 0.005,
+   "z": 0.0727,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Ẩn Bạch — góc móng ngón cái chân, mé trong — dựng từ xương đốt ngón xa trong atlas, lát cắt chân móng (60% chiều dài kể từ đầu ngón), cực trị phía đã nêu, rồi chiếu ra da",
+   "ngay": "2026-09-07"
+  },
+  "SP2": {
+   "x": 0.0424,
+   "y": 0.0131,
+   "z": 0.0544,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Đại Đô — trước khớp bàn–ngón 1, bờ trong",
+   "ngay": "2026-09-07"
+  },
+  "SP3": {
+   "x": 0.0381,
+   "y": 0.0108,
+   "z": 0.0471,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thái Bạch — sau–dưới chỏm xương bàn chân 1, ranh da đỏ–trắng",
+   "ngay": "2026-09-07"
+  },
+  "SP4": {
+   "x": 0.0312,
+   "y": 0.0256,
+   "z": 0.0229,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Công Tôn — chỗ nối thân và gốc xương bàn chân 1, bờ trong",
+   "ngay": "2026-09-07"
+  },
+  "SP5": {
+   "x": 0.0286,
+   "y": 0.0314,
+   "z": 0.0046,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thương Khâu — hõm trước-dưới mắt cá trong, giữa mắt cá và xương ghe. Dựng từ xương/gân thật trong atlas. SỬA: lệch 7cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "SP7": {
+   "x": 0.0215,
+   "y": 0.1516,
+   "z": -0.0149,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Lậu Cốc — sau bờ trong xương chày, trên mắt cá trong 6 thốn",
+   "ngay": "2026-09-07"
+  },
+  "SP9": {
+   "x": 0.0169,
+   "y": 0.2471,
+   "z": -0.0138,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Âm Lăng Tuyền — hõm dưới bờ lồi cầu TRONG xương chầy. Dựng từ xương/gân atlas. Dịch 0cm so toạ độ cũ.",
+   "ngay": "2026-09-07"
+  },
+  "SP10": {
+   "x": 0.0354,
+   "y": 0.2997,
+   "z": 0.0263,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Huyết Hải — trên bờ TRONG-TRÊN xương bánh chè 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "SP12": {
+   "x": 0.0397,
+   "y": 0.5099,
+   "z": 0.0391,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Xung Môn — ngang bờ trên xương mu, cách đường giữa 3,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "SP13": {
+   "x": 0.0444,
+   "y": 0.5236,
+   "z": 0.0415,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phủ Xá — 4.3 thốn dưới rốn, cách đường giữa 4 thốn",
+   "ngay": "2026-09-07"
+  },
+  "SP14": {
+   "x": 0.0444,
+   "y": 0.5864,
+   "z": 0.0505,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phúc Kết — 1.3 thốn dưới rốn, cách đường giữa 4 thốn",
+   "ngay": "2026-09-07"
+  },
+  "SP15": {
+   "x": 0.0444,
+   "y": 0.6136,
+   "z": 0.0521,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Đại Hoành — ngang rốn, cách đường giữa 4 thốn",
+   "ngay": "2026-09-07"
+  },
+  "SP16": {
+   "x": 0.0444,
+   "y": 0.6578,
+   "z": 0.0605,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phúc Ai — 3 thốn trên rốn, cách đường giữa 4 thốn",
+   "ngay": "2026-09-07"
+  },
+  "SP17": {
+   "x": 0.0659,
+   "y": 0.725,
+   "z": 0.0641,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thực Đậu — khe gian sườn 5, cách đường giữa 6 thốn",
+   "ngay": "2026-09-07"
+  },
+  "SP19": {
+   "x": 0.0666,
+   "y": 0.7745,
+   "z": 0.051,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hung Hương — khe gian sườn 3, cách đường giữa 6 thốn",
+   "ngay": "2026-09-07"
+  },
+  "SP20": {
+   "x": 0.0666,
+   "y": 0.7984,
+   "z": 0.0398,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Chu Vinh — khe gian sườn 2, cách đường giữa 6 thốn",
+   "ngay": "2026-09-07"
+  },
+  "SP21": {
+   "x": 0.1062,
+   "y": 0.7013,
+   "z": 0.003,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Đại Bao — đường nách giữa, khe gian sườn 6",
+   "ngay": "2026-09-07"
+  },
+  "HT1": {
+   "x": 0.101,
+   "y": 0.777,
+   "z": 0.0337,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "conf=mốc, src=anchor",
+   "ngay": "2026-09-07"
+  },
+  "HT3": {
+   "x": 0.1067,
+   "y": 0.6533,
+   "z": -0.005,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thiếu Hải — đầu TRONG nếp khuỷu, giữa Khúc Trạch và lồi cầu trong. Dựng từ xương/gân atlas. SỬA: lệch 6.6cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "HT6": {
+   "x": 0.1386,
+   "y": 0.5183,
+   "z": 0.0198,
+   "hang": "B",
+   "nguon": "book+khe+duong",
+   "ly": "conf=khe-khoá, src=book+khe+duong",
+   "ngay": "2026-09-07"
+  },
+  "HT7": {
+   "x": 0.1389,
+   "y": 0.5146,
+   "z": 0.0219,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thần Môn — lằn cổ tay, mé trụ, bờ quay xương đậu. Dựng từ xương/gân thật trong atlas. SỬA: lệch 4.4cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "HT8": {
+   "x": 0.1374,
+   "y": 0.4785,
+   "z": 0.014,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thiếu Phủ — gan bàn tay, giữa xương đốt bàn 4 và 5",
+   "ngay": "2026-09-07"
+  },
+  "HT9": {
+   "x": 0.1316,
+   "y": 0.4441,
+   "z": 0.0442,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thiếu Xung — góc móng ngón út tay, mé quay — dựng từ xương đốt ngón xa trong atlas, lát cắt chân móng (60% chiều dài kể từ đầu ngón), cực trị phía đã nêu, rồi chiếu ra da. SỬA LỚN: lệch 80.4cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "SI1": {
+   "x": 0.1275,
+   "y": 0.4441,
+   "z": 0.0409,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thiếu Trạch — góc móng ngón út tay, mé trụ — dựng từ xương đốt ngón xa trong atlas, lát cắt chân móng (60% chiều dài kể từ đầu ngón), cực trị phía đã nêu, rồi chiếu ra da",
+   "ngay": "2026-09-07"
+  },
+  "SI2": {
+   "x": 0.1253,
+   "y": 0.4699,
+   "z": 0.0224,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Tiền Cốc — trước khớp bàn–ngón 5, ranh da đỏ–trắng",
+   "ngay": "2026-09-07"
+  },
+  "SI3": {
+   "x": 0.1244,
+   "y": 0.475,
+   "z": 0.0223,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hậu Khê — sau khớp bàn–ngón 5, ranh da đỏ–trắng",
+   "ngay": "2026-09-07"
+  },
+  "SI4": {
+   "x": 0.1248,
+   "y": 0.5014,
+   "z": 0.0151,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Uyển Cốt — giữa xương móc và gốc xương bàn tay 5",
+   "ngay": "2026-09-07"
+  },
+  "SI5": {
+   "x": 0.1333,
+   "y": 0.5139,
+   "z": 0.0047,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Dương Cốc — khe giữa mỏm trâm trụ và xương tháp, mặt mu mé trụ. Dựng từ xương/gân thật trong atlas",
+   "ngay": "2026-09-07"
+  },
+  "SI6": {
+   "x": 0.1325,
+   "y": 0.5198,
+   "z": 0.0037,
+   "hang": "B",
+   "nguon": "book+duong",
+   "ly": "conf=tạm, src=book+duong",
+   "ngay": "2026-09-07"
+  },
+  "SI8": {
+   "x": 0.1128,
+   "y": 0.6604,
+   "z": -0.0459,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Tiểu Hải — rãnh giữa mỏm khuỷu và lồi cầu trong. Dựng từ xương atlas: trung điểm hai mốc, chiếu ra da mặt sau. ĐÃ SOI ẢNH: hình ghi rõ hai mốc \"Mỏm khuỷu\" và \"Mỏm lồi cầu trong\", huyệt nằm chính giữa — khớp cách dựng. SỬA LẦN 2: cửa sổ chiếu da rộng 1,7cm làm điểm trượt 0,2cm RA NGOÀI rãnh; siết cửa sổ x còn ±0,43cm thì về đúng rãnh.",
+   "ngay": "2026-09-07"
+  },
+  "SI10": {
+   "x": 0.1188,
+   "y": 0.8061,
+   "z": -0.0469,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Nhu Du — dưới mỏm cùng vai, trên nếp nách sau",
+   "ngay": "2026-09-07"
+  },
+  "SI11": {
+   "x": 0.0476,
+   "y": 0.7794,
+   "z": -0.083,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thiên Tông — hố dưới gai, 1/3 trên đường nối giữa gai vai với góc dưới xương bả vai. Dịch 8.4cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "SI12": {
+   "x": 0.047,
+   "y": 0.8214,
+   "z": -0.0742,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Bỉnh Phong — hố TRÊN gai, thẳng trên Thiên Tông. Dịch 3.4cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "SI13": {
+   "x": 0.0305,
+   "y": 0.8136,
+   "z": -0.0761,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khúc Viên — đầu TRONG hố trên gai. Dịch 3.4cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "SI14": {
+   "x": 0.0336,
+   "y": 0.8313,
+   "z": -0.0671,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kiên Ngoại Du — cách mỏm gai T1 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "SI15": {
+   "x": 0.0224,
+   "y": 0.8413,
+   "z": -0.0677,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kiên Trung Du — cách mỏm gai C7 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "SI16": {
+   "x": 0.0297,
+   "y": 0.8776,
+   "z": -0.0025,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thiên Song — sau Phù Đột LI18 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "SI17": {
+   "x": 0.0195,
+   "y": 0.8828,
+   "z": 0.0112,
+   "hang": "B",
+   "nguon": "who+duong",
+   "ly": "conf=WHO-lấp, src=who+duong",
+   "ngay": "2026-09-07"
+  },
+  "SI19": {
+   "x": 0.0382,
+   "y": 0.9197,
+   "z": -0.0016,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thính Cung — trước bình tai, ngang ống tai ngoài",
+   "ngay": "2026-09-07"
+  },
+  "BL1": {
+   "x": 0.007,
+   "y": 0.9499,
+   "z": 0.0472,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Tình Minh — hõm trên-trong khoé mắt trong",
+   "ngay": "2026-09-07"
+  },
+  "BL2": {
+   "x": 0.0098,
+   "y": 0.954,
+   "z": 0.0475,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Toản Trúc — hõm đầu TRONG lông mày",
+   "ngay": "2026-09-07"
+  },
+  "BL3": {
+   "x": 0.0112,
+   "y": 0.9818,
+   "z": 0.0323,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Mi Xung — trên chân tóc trước 0,5 thốn, thẳng trên Toản Trúc (BL2)",
+   "ngay": "2026-09-07"
+  },
+  "BL4": {
+   "x": 0.0122,
+   "y": 0.9843,
+   "z": 0.0298,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khúc Sai — trên chân tóc trước 0,5 thốn, cách đường giữa 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL5": {
+   "x": 0.0117,
+   "y": 0.988,
+   "z": 0.0247,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Ngũ Xứ — trên chân tóc trước 1 thốn, cách đường giữa 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL6": {
+   "x": 0.0132,
+   "y": 0.9941,
+   "z": 0.0127,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thừa Quang — trên chân tóc trước 2,5 thốn, cách đường giữa 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL7": {
+   "x": 0.0133,
+   "y": 0.998,
+   "z": -0.0095,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thông Thiên — trên chân tóc trước 4 thốn, cách đường giữa 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL8": {
+   "x": 0.0116,
+   "y": 0.9961,
+   "z": -0.0285,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Lạc Khước — trên chân tóc trước 5,5 thốn, cách đường giữa 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL9": {
+   "x": 0.0085,
+   "y": 0.9452,
+   "z": -0.0723,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Ngọc Chẩm — ngang bờ trên ụ chẩm ngoài, cách đường giữa 1,3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL11": {
+   "x": 0.0168,
+   "y": 0.825,
+   "z": -0.0726,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL12": {
+   "x": 0.0168,
+   "y": 0.8113,
+   "z": -0.0738,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL13": {
+   "x": 0.0168,
+   "y": 0.7985,
+   "z": -0.0736,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL14": {
+   "x": 0.0168,
+   "y": 0.7806,
+   "z": -0.0771,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL15": {
+   "x": 0.0168,
+   "y": 0.7596,
+   "z": -0.078,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL16": {
+   "x": 0.0169,
+   "y": 0.7435,
+   "z": -0.0756,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL17": {
+   "x": 0.0168,
+   "y": 0.7288,
+   "z": -0.0718,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL18": {
+   "x": 0.0168,
+   "y": 0.6969,
+   "z": -0.0682,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL19": {
+   "x": 0.0168,
+   "y": 0.683,
+   "z": -0.0654,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL20": {
+   "x": 0.0168,
+   "y": 0.6703,
+   "z": -0.0636,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL21": {
+   "x": 0.0168,
+   "y": 0.6536,
+   "z": -0.062,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL22": {
+   "x": 0.0168,
+   "y": 0.6351,
+   "z": -0.0591,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL23": {
+   "x": 0.0168,
+   "y": 0.619,
+   "z": -0.0578,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL24": {
+   "x": 0.0168,
+   "y": 0.6063,
+   "z": -0.0573,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL25": {
+   "x": 0.0168,
+   "y": 0.5931,
+   "z": -0.0583,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL26": {
+   "x": 0.0168,
+   "y": 0.5851,
+   "z": -0.0606,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL27": {
+   "x": 0.0168,
+   "y": 0.5763,
+   "z": -0.0646,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL28": {
+   "x": 0.0168,
+   "y": 0.5595,
+   "z": -0.0717,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL29": {
+   "x": 0.0168,
+   "y": 0.5427,
+   "z": -0.0796,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL30": {
+   "x": 0.0168,
+   "y": 0.5259,
+   "z": -0.0821,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang TRONG — cách đường giữa lưng 1,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL31": {
+   "x": 0.0046,
+   "y": 0.5763,
+   "z": -0.0651,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "lỗ cùng sau thứ 1",
+   "ngay": "2026-09-07"
+  },
+  "BL32": {
+   "x": 0.0096,
+   "y": 0.5595,
+   "z": -0.0698,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "lỗ cùng sau thứ 2",
+   "ngay": "2026-09-07"
+  },
+  "BL33": {
+   "x": 0.0067,
+   "y": 0.5427,
+   "z": -0.0736,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "lỗ cùng sau thứ 3",
+   "ngay": "2026-09-07"
+  },
+  "BL34": {
+   "x": 0.0071,
+   "y": 0.5259,
+   "z": -0.0778,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "lỗ cùng sau thứ 4",
+   "ngay": "2026-09-07"
+  },
+  "BL36": {
+   "x": 0.0567,
+   "y": 0.42,
+   "z": -0.0559,
+   "hang": "B",
+   "nguon": "who+duong",
+   "ly": "conf=WHO-lấp, src=who+duong",
+   "ngay": "2026-09-07"
+  },
+  "BL39": {
+   "x": 0.0613,
+   "y": 0.2579,
+   "z": -0.0477,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Uỷ Dương — ngoài Uỷ Trung BL40 đúng 1 thốn, trên nếp kheo",
+   "ngay": "2026-09-07"
+  },
+  "BL40": {
+   "x": 0.0485,
+   "y": 0.2619,
+   "z": -0.0544,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Uỷ Trung — giữa nếp kheo, giữa gân nhị đầu đùi và gân bán gân. Dựng từ xương/gân atlas. Dịch 0cm so toạ độ cũ. ĐÃ SOI ẢNH: giữa nếp lằn kheo, giữa gân nhị đầu đùi và gân bán gân/bán màng — khớp cách dựng. Ảnh còn cho cốt độ đùi sau: BL36 →6 thốn→ BL37 →7→ BL38 →1→ nếp kheo.",
+   "ngay": "2026-09-07"
+  },
+  "BL41": {
+   "x": 0.0336,
+   "y": 0.8113,
+   "z": -0.0792,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL42": {
+   "x": 0.0336,
+   "y": 0.7985,
+   "z": -0.079,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL43": {
+   "x": 0.0336,
+   "y": 0.7806,
+   "z": -0.0845,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL44": {
+   "x": 0.0336,
+   "y": 0.7596,
+   "z": -0.0836,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL45": {
+   "x": 0.0336,
+   "y": 0.7435,
+   "z": -0.0794,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL46": {
+   "x": 0.0337,
+   "y": 0.7288,
+   "z": -0.0781,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL47": {
+   "x": 0.0336,
+   "y": 0.6969,
+   "z": -0.0705,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL48": {
+   "x": 0.0336,
+   "y": 0.683,
+   "z": -0.0671,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL49": {
+   "x": 0.0336,
+   "y": 0.6703,
+   "z": -0.0643,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL50": {
+   "x": 0.0336,
+   "y": 0.6536,
+   "z": -0.0625,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL51": {
+   "x": 0.0336,
+   "y": 0.6351,
+   "z": -0.0587,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL52": {
+   "x": 0.0336,
+   "y": 0.619,
+   "z": -0.0552,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL53": {
+   "x": 0.0336,
+   "y": 0.5595,
+   "z": -0.0745,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL54": {
+   "x": 0.0336,
+   "y": 0.5259,
+   "z": -0.0819,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL56": {
+   "x": 0.0318,
+   "y": 0.1875,
+   "z": -0.0603,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thừa Cân — trung điểm Hợp Dương BL55 và Thừa Sơn BL57",
+   "ngay": "2026-09-07"
+  },
+  "BL59": {
+   "x": 0.0387,
+   "y": 0.0808,
+   "z": -0.0415,
+   "hang": "B",
+   "nguon": "book+khe+duong",
+   "ly": "conf=khe-khoá, src=book+khe+duong",
+   "ngay": "2026-09-07"
+  },
+  "BL60": {
+   "x": 0.0515,
+   "y": 0.0286,
+   "z": -0.0383,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Côn Lôn — giữa đỉnh mắt cá ngoài và gân gót. Dựng từ xương/gân thật trong atlas",
+   "ngay": "2026-09-07"
+  },
+  "BL62": {
+   "x": 0.0695,
+   "y": 0.0244,
+   "z": -0.0244,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thân Mạch — dưới đỉnh mắt cá ngoài 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL63": {
+   "x": 0.0744,
+   "y": 0.0192,
+   "z": -0.0195,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kim Môn — trước–dưới Thân Mạch 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "BL64": {
+   "x": 0.0828,
+   "y": 0.0147,
+   "z": -0.0005,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kinh Cốt — lồi củ gốc xương bàn chân 5, bờ ngoài",
+   "ngay": "2026-09-07"
+  },
+  "BL65": {
+   "x": 0.0996,
+   "y": 0.0089,
+   "z": 0.0267,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thúc Cốt — sau chỏm xương bàn chân 5, ranh da đỏ–trắng",
+   "ngay": "2026-09-07"
+  },
+  "BL67": {
+   "x": 0.0977,
+   "y": 0.0035,
+   "z": 0.0443,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Chí Âm — góc móng ngón chân út, mé ngoài — dựng từ xương đốt ngón xa trong atlas, lát cắt chân móng (60% chiều dài kể từ đầu ngón), cực trị phía đã nêu, rồi chiếu ra da",
+   "ngay": "2026-09-07"
+  },
+  "KI1": {
+   "x": 0.0559,
+   "y": 0.0046,
+   "z": 0.0242,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Dũng Tuyền — gan bàn chân, 1/3 trước đường nối kẽ ngón 2-3 (đầu xa xương bàn chân 2 và 3) với điểm sau nhất xương gót, hạ xuống mặt gan chân",
+   "ngay": "2026-09-07"
+  },
+  "KI2": {
+   "x": 0.0329,
+   "y": 0.0207,
+   "z": 0.004,
+   "hang": "B",
+   "nguon": "who+duong",
+   "ly": "conf=WHO-lấp, src=who+duong",
+   "ngay": "2026-09-07"
+  },
+  "KI3": {
+   "x": 0.0215,
+   "y": 0.0467,
+   "z": -0.0197,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thái Khê — giữa đỉnh mắt cá trong và gân gót, ngang đỉnh mắt cá. Dựng từ xương/gân thật trong atlas. SỬA: lệch 4.8cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "KI5": {
+   "x": 0.0202,
+   "y": 0.0391,
+   "z": -0.0223,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thuỷ Tuyền — thẳng dưới Thái Khê KI3 1 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI6": {
+   "x": 0.0254,
+   "y": 0.0255,
+   "z": -0.0112,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Chiếu Hải — hõm dưới đỉnh mắt cá trong 1 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI10": {
+   "x": 0.029,
+   "y": 0.2727,
+   "z": -0.0486,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Âm Cốc — đầu TRONG nếp kheo, giữa gân bán gân và gân bán màng. Dựng từ xương/gân atlas. Dịch 0cm so toạ độ cũ. ĐÃ SOI ẢNH: hình ghi rõ huyệt nằm giữa \"gân cơ bán gân\" và \"gân của cơ bán màng\" — khớp cách dựng.",
+   "ngay": "2026-09-07"
+  },
+  "KI11": {
+   "x": 0.0056,
+   "y": 0.5089,
+   "z": 0.0426,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hoành Cốt — 5 thốn dưới rốn, cách đường giữa 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI12": {
+   "x": 0.0056,
+   "y": 0.5298,
+   "z": 0.0515,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Đại Hách — 4 thốn dưới rốn, cách đường giữa 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI13": {
+   "x": 0.0056,
+   "y": 0.5508,
+   "z": 0.0565,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khí Huyệt — 3 thốn dưới rốn, cách đường giữa 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI14": {
+   "x": 0.0056,
+   "y": 0.5717,
+   "z": 0.0592,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Tứ Mãn — 2 thốn dưới rốn, cách đường giữa 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI15": {
+   "x": 0.0056,
+   "y": 0.5927,
+   "z": 0.0597,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Trung Chú — 1 thốn dưới rốn, cách đường giữa 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI16": {
+   "x": 0.0056,
+   "y": 0.6136,
+   "z": 0.0618,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hoang Du — ngang rốn, cách đường giữa 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI17": {
+   "x": 0.0056,
+   "y": 0.6431,
+   "z": 0.0653,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thương Khúc — 2 thốn trên rốn, cách đường giữa 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI18": {
+   "x": 0.0056,
+   "y": 0.6578,
+   "z": 0.0675,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thạch Quan — 3 thốn trên rốn, cách đường giữa 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI19": {
+   "x": 0.0056,
+   "y": 0.6725,
+   "z": 0.0686,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Âm Đô — 4 thốn trên rốn, cách đường giữa 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI20": {
+   "x": 0.0056,
+   "y": 0.6873,
+   "z": 0.0685,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phúc Thông Cốc — 5 thốn trên rốn, cách đường giữa 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI21": {
+   "x": 0.0056,
+   "y": 0.702,
+   "z": 0.069,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "U Môn — 6 thốn trên rốn, cách đường giữa 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI22": {
+   "x": 0.0222,
+   "y": 0.7231,
+   "z": 0.0693,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Bộ Lang — khe gian sườn 5, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI23": {
+   "x": 0.0222,
+   "y": 0.7458,
+   "z": 0.0726,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thần Phong — khe gian sườn 4, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI24": {
+   "x": 0.0222,
+   "y": 0.7648,
+   "z": 0.0701,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Linh Khư — khe gian sườn 3, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI25": {
+   "x": 0.0222,
+   "y": 0.7821,
+   "z": 0.0601,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thần Tàng — khe gian sườn 2, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI26": {
+   "x": 0.0222,
+   "y": 0.8033,
+   "z": 0.0405,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Úc Trung — khe gian sườn 1, cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "KI27": {
+   "x": 0.0222,
+   "y": 0.8063,
+   "z": 0.0405,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "cột Thận ngực — cách đường giữa 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "PC1": {
+   "x": 0.0485,
+   "y": 0.7412,
+   "z": 0.0707,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thiên Trì — ngang đầu vú, 5 thốn ngang (ngoài đầu vú 1 thốn). Dịch 4.2cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "PC2": {
+   "x": 0.1053,
+   "y": 0.8005,
+   "z": 0.0111,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thiên Tuyền — dưới đầu nếp nách trước 2 thốn",
+   "ngay": "2026-09-07"
+  },
+  "PC3": {
+   "x": 0.1196,
+   "y": 0.6518,
+   "z": 0.0025,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khúc Trạch — nếp khuỷu, bờ TRONG (trụ) gân cơ nhị đầu. Dựng từ xương/gân atlas. SỬA: lệch 5.5cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "PC7": {
+   "x": 0.154,
+   "y": 0.5146,
+   "z": 0.0247,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Đại Lăng — giữa lằn cổ tay, giữa gân cơ gan tay dài và gân gấp cổ tay quay. Dựng từ xương/gân thật trong atlas",
+   "ngay": "2026-09-07"
+  },
+  "PC8": {
+   "x": 0.1601,
+   "y": 0.4698,
+   "z": 0.0339,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Lao Cung — gan tay, khe xương bàn 2–3",
+   "ngay": "2026-09-07"
+  },
+  "PC9": {
+   "x": 0.1629,
+   "y": 0.4255,
+   "z": 0.0543,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Trung Xung — giữa đầu ngón giữa — dựng từ xương đốt ngón xa trong atlas, lát cắt chân móng (60% chiều dài kể từ đầu ngón), cực trị phía đã nêu, rồi chiếu ra da",
+   "ngay": "2026-09-07"
+  },
+  "TE1": {
+   "x": 0.1412,
+   "y": 0.4359,
+   "z": 0.0491,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Quan Xung — góc móng ngón nhẫn, mé trụ — dựng từ xương đốt ngón xa trong atlas, lát cắt chân móng (60% chiều dài kể từ đầu ngón), cực trị phía đã nêu, rồi chiếu ra da",
+   "ngay": "2026-09-07"
+  },
+  "TE2": {
+   "x": 0.1394,
+   "y": 0.4679,
+   "z": 0.0136,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Dịch Môn — kẽ ngón 4–5, mu tay",
+   "ngay": "2026-09-07"
+  },
+  "TE3": {
+   "x": 0.1403,
+   "y": 0.4752,
+   "z": 0.009,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Trung Chử — mu tay, khe xương bàn 4–5",
+   "ngay": "2026-09-07"
+  },
+  "TE4": {
+   "x": 0.143,
+   "y": 0.5124,
+   "z": -0.0022,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Dương Trì — giữa lằn cổ tay mặt mu. Dựng từ xương/gân thật trong atlas",
+   "ngay": "2026-09-07"
+  },
+  "TE10": {
+   "x": 0.1224,
+   "y": 0.6645,
+   "z": -0.0497,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thiên Tỉnh — trên mỏm khuỷu 1 thốn, mặt sau. Dựng từ xương/gân atlas. Dịch 0cm so toạ độ cũ.",
+   "ngay": "2026-09-07"
+  },
+  "TE14": {
+   "x": 0.1153,
+   "y": 0.8146,
+   "z": -0.0435,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kiên Liêu — hõm sau-dưới mỏm cùng vai, giữa phần MỎM CÙNG và phần GAI VAI của cơ delta. Dịch 6.5cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "TE15": {
+   "x": 0.0762,
+   "y": 0.8386,
+   "z": -0.0212,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thiên Liêu — trung điểm Đại Chuỳ GV14 và mỏm cùng vai",
+   "ngay": "2026-09-07"
+  },
+  "TE16": {
+   "x": 0.0322,
+   "y": 0.8844,
+   "z": -0.0103,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thiên Dũ — ngang góc hàm dưới, bờ sau cơ ức–đòn–chũm",
+   "ngay": "2026-09-07"
+  },
+  "TE17": {
+   "x": 0.0346,
+   "y": 0.9098,
+   "z": -0.0063,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Ế Phong — hõm giữa góc hàm dưới và mỏm chũm",
+   "ngay": "2026-09-07"
+  },
+  "TE21": {
+   "x": 0.039,
+   "y": 0.9239,
+   "z": -0.0016,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Nhĩ Môn — trước khuyết trên bình tai, trên Thính Cung 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "TE23": {
+   "x": 0.0308,
+   "y": 0.9499,
+   "z": 0.0347,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Ty Trúc Không — hõm đầu NGOÀI lông mày",
+   "ngay": "2026-09-07"
+  },
+  "GB1": {
+   "x": 0.0311,
+   "y": 0.9304,
+   "z": 0.0311,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Đồng Tử Liêu — ngoài khoé mắt ngoài 0,5 thốn, bờ ngoài ổ mắt",
+   "ngay": "2026-09-07"
+  },
+  "GB2": {
+   "x": 0.0375,
+   "y": 0.9156,
+   "z": -0.0016,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thính Hội — trước khuyết gian bình tai, dưới Thính Cung 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "GB3": {
+   "x": 0.0376,
+   "y": 0.9242,
+   "z": 0.0171,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thượng Quan — bờ TRÊN cung gò má, thẳng trên Hạ Quan",
+   "ngay": "2026-09-07"
+  },
+  "GB4": {
+   "x": 0.0387,
+   "y": 0.9633,
+   "z": 0.0098,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hàm Yếm — 1/4 đường nối Đầu Duy (ST8) với Khúc Tấn (GB7)",
+   "ngay": "2026-09-07"
+  },
+  "GB5": {
+   "x": 0.0402,
+   "y": 0.9614,
+   "z": 0.005,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Huyền Lư — giữa đường nối Đầu Duy (ST8) với Khúc Tấn (GB7)",
+   "ngay": "2026-09-07"
+  },
+  "GB6": {
+   "x": 0.0417,
+   "y": 0.9596,
+   "z": 0.0002,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Huyền Ly — 3/4 đường nối Đầu Duy (ST8) với Khúc Tấn (GB7)",
+   "ngay": "2026-09-07"
+  },
+  "GB7": {
+   "x": 0.0432,
+   "y": 0.9578,
+   "z": -0.0046,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khúc Tấn — chân tóc thái dương, trước đỉnh tai",
+   "ngay": "2026-09-07"
+  },
+  "GB10": {
+   "x": 0.0374,
+   "y": 0.9231,
+   "z": -0.0137,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phù Bạch — giữa Thiên Xung GB9 và Hoàn Cốt GB12, trên chân vành tai",
+   "ngay": "2026-09-07"
+  },
+  "GB11": {
+   "x": 0.0361,
+   "y": 0.9145,
+   "z": -0.012,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khiếu Âm — trung điểm Phù Bạch GB10 và Hoàn Cốt GB12",
+   "ngay": "2026-09-07"
+  },
+  "GB12": {
+   "x": 0.0335,
+   "y": 0.9035,
+   "z": -0.017,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hoàn Cốt — hõm sau-dưới mỏm chũm",
+   "ngay": "2026-09-07"
+  },
+  "GB13": {
+   "x": 0.0231,
+   "y": 0.9774,
+   "z": 0.0296,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Bản Thần — trên chân tóc trước 0,5 thốn, cách đường giữa 3 thốn",
+   "ngay": "2026-09-07"
+  },
+  "GB14": {
+   "x": 0.0165,
+   "y": 0.9648,
+   "z": 0.0402,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Dương Bạch — trên lông mày 1 thốn, đường dọc đồng tử",
+   "ngay": "2026-09-07"
+  },
+  "GB16": {
+   "x": 0.0178,
+   "y": 0.9861,
+   "z": 0.0244,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Mục Song — trên chân tóc trước 1,5 thốn, đường dọc đồng tử",
+   "ngay": "2026-09-07"
+  },
+  "GB17": {
+   "x": 0.0178,
+   "y": 0.9915,
+   "z": 0.0102,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Chính Doanh — trên chân tóc trước 2,5 thốn, đường dọc đồng tử",
+   "ngay": "2026-09-07"
+  },
+  "GB18": {
+   "x": 0.0189,
+   "y": 0.9952,
+   "z": -0.0036,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thừa Linh — trên chân tóc trước 4 thốn, đường dọc đồng tử",
+   "ngay": "2026-09-07"
+  },
+  "GB19": {
+   "x": 0.0149,
+   "y": 0.9424,
+   "z": -0.0713,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Não Không — ngang Não Hộ (GV17), đường dọc đồng tử",
+   "ngay": "2026-09-07"
+  },
+  "GB21": {
+   "x": 0.0611,
+   "y": 0.8373,
+   "z": -0.0088,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kiên Tỉnh — trung điểm mỏm gai C7 và mỏm cùng vai. Dịch 14.5cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "GB22": {
+   "x": 0.0966,
+   "y": 0.7427,
+   "z": 0.0055,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Uyên Dịch — đường nách giữa, khe gian sườn 4",
+   "ngay": "2026-09-07"
+  },
+  "GB23": {
+   "x": 0.0926,
+   "y": 0.7231,
+   "z": 0.0091,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Triếp Cân — trước Uyên Dịch 1 thốn, khe gian sườn 5",
+   "ngay": "2026-09-07"
+  },
+  "GB24": {
+   "x": 0.0443,
+   "y": 0.6842,
+   "z": 0.0673,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Nhật Nguyệt — khe gian sườn 7, đường dọc qua đầu vú",
+   "ngay": "2026-09-07"
+  },
+  "GB26": {
+   "x": 0.0821,
+   "y": 0.6086,
+   "z": 0.0048,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Đái Mạch — giữa đầu tự do sườn 11 và 12, ngang rốn",
+   "ngay": "2026-09-07"
+  },
+  "GB27": {
+   "x": 0.0734,
+   "y": 0.5508,
+   "z": 0.0387,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Ngũ Xu — trước gai chậu trước trên, ngang Quan Nguyên CV4",
+   "ngay": "2026-09-07"
+  },
+  "GB28": {
+   "x": 0.0734,
+   "y": 0.5452,
+   "z": 0.0387,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Duy Đạo — dưới Ngũ Xu 0,5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "GB29": {
+   "x": 0.0953,
+   "y": 0.5287,
+   "z": -0.0019,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Cư Liêu — trung điểm gai chậu trước trên và đỉnh mấu chuyển lớn",
+   "ngay": "2026-09-07"
+  },
+  "GB30": {
+   "x": 0.0939,
+   "y": 0.4948,
+   "z": -0.0139,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hoàn Khiêu — nối 1/3 ngoài và 2/3 trong đoạn mấu chuyển lớn–khe xương cùng",
+   "ngay": "2026-09-07"
+  },
+  "GB31": {
+   "x": 0.0786,
+   "y": 0.3551,
+   "z": 0.0214,
+   "hang": "B",
+   "nguon": "who+duong",
+   "ly": "conf=WHO-lấp, src=who+duong",
+   "ngay": "2026-09-07"
+  },
+  "GB33": {
+   "x": 0.0774,
+   "y": 0.3116,
+   "z": 0.0041,
+   "hang": "B",
+   "nguon": "book+duong",
+   "ly": "conf=cao, src=book+duong",
+   "ngay": "2026-09-07"
+  },
+  "GB34": {
+   "x": 0.0702,
+   "y": 0.2499,
+   "z": -0.0007,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Dương Lăng Tuyền — hõm TRƯỚC-DƯỚI chỏm xương mác. Dựng từ xương/gân atlas",
+   "ngay": "2026-09-07"
+  },
+  "GB37": {
+   "x": 0.0581,
+   "y": 0.1107,
+   "z": -0.0069,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "conf=khoá, src=book+duong",
+   "ngay": "2026-09-07"
+  },
+  "GB38": {
+   "x": 0.0553,
+   "y": 0.096,
+   "z": -0.0061,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "conf=khoá, src=book+duong",
+   "ngay": "2026-09-07"
+  },
+  "GB40": {
+   "x": 0.0728,
+   "y": 0.0212,
+   "z": -0.0073,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khâu Khư — hõm trước–dưới mắt cá ngoài",
+   "ngay": "2026-09-07"
+  },
+  "GB41": {
+   "x": 0.0664,
+   "y": 0.0464,
+   "z": 0.0109,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Túc Lâm Khấp — ngay xa chỗ nối gốc xương bàn 4–5",
+   "ngay": "2026-09-07"
+  },
+  "GB42": {
+   "x": 0.0814,
+   "y": 0.0277,
+   "z": 0.0279,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Địa Ngũ Hội — khe xương bàn 4–5, sau khớp bàn–ngón",
+   "ngay": "2026-09-07"
+  },
+  "GB43": {
+   "x": 0.0818,
+   "y": 0.0235,
+   "z": 0.0381,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hiệp Khê — kẽ ngón chân 4–5, phía mu chân",
+   "ngay": "2026-09-07"
+  },
+  "GB44": {
+   "x": 0.0966,
+   "y": 0.0063,
+   "z": 0.0589,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Túc Khiếu Âm — góc móng ngón chân 4, mé ngoài — dựng từ xương đốt ngón xa trong atlas, lát cắt chân móng (60% chiều dài kể từ đầu ngón), cực trị phía đã nêu, rồi chiếu ra da",
+   "ngay": "2026-09-07"
+  },
+  "LR1": {
+   "x": 0.0692,
+   "y": 0.0029,
+   "z": 0.0727,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Đại Đôn — góc móng ngón cái chân, mé ngoài — dựng từ xương đốt ngón xa trong atlas, lát cắt chân móng (60% chiều dài kể từ đầu ngón), cực trị phía đã nêu, rồi chiếu ra da",
+   "ngay": "2026-09-07"
+  },
+  "LR2": {
+   "x": 0.06,
+   "y": 0.0247,
+   "z": 0.0562,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hành Gian — kẽ ngón chân 1–2, phía mu chân",
+   "ngay": "2026-09-07"
+  },
+  "LR3": {
+   "x": 0.0519,
+   "y": 0.0463,
+   "z": 0.0247,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thái Xung — hõm giữa hai gốc xương bàn 1 và 2",
+   "ngay": "2026-09-07"
+  },
+  "LR4": {
+   "x": 0.0329,
+   "y": 0.0515,
+   "z": 0.0016,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Trung Phong — trước mắt cá trong, mé trong gân cơ chày trước. Dựng từ xương/gân thật trong atlas. SỬA: lệch 6.8cm so toạ độ cũ",
+   "ngay": "2026-09-07"
+  },
+  "LR5": {
+   "x": 0.029,
+   "y": 0.1297,
+   "z": -0.0073,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Lãi Câu — mặt trong xương chày, trên mắt cá trong 5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "LR6": {
+   "x": 0.0206,
+   "y": 0.1671,
+   "z": -0.0093,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Trung Đô — mặt trong xương chày, trên mắt cá trong 7 thốn",
+   "ngay": "2026-09-07"
+  },
+  "LR7": {
+   "x": 0.0169,
+   "y": 0.2471,
+   "z": -0.0268,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Tất Quan — ngang Âm Lăng Tuyền SP9, lùi ra SAU 1 thốn",
+   "ngay": "2026-09-07"
+  },
+  "LR8": {
+   "x": 0.0119,
+   "y": 0.2712,
+   "z": -0.014,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khúc Tuyền — đầu TRONG nếp kheo, ngay TRƯỚC gân bán gân/bán màng. Dựng từ xương/gân atlas. Dịch 0cm so toạ độ cũ.",
+   "ngay": "2026-09-07"
+  },
+  "LR13": {
+   "x": 0.0764,
+   "y": 0.6289,
+   "z": -0.0076,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Chương Môn — đầu tự do xương sườn 11",
+   "ngay": "2026-09-07"
+  },
+  "LR14": {
+   "x": 0.0438,
+   "y": 0.7026,
+   "z": 0.068,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kỳ Môn — khe gian sườn 6, đường dọc qua đầu vú",
+   "ngay": "2026-09-07"
+  },
+  "CV1": {
+   "x": -0.0016,
+   "y": 0.492,
+   "z": 0.0076,
+   "hang": "B",
+   "nguon": "who",
+   "ly": "conf=WHO-lấp, src=who",
+   "ngay": "2026-09-07"
+  },
+  "CV2": {
+   "x": 0,
+   "y": 0.5089,
+   "z": 0.0462,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khúc Cốt — 5 thốn dưới rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV3": {
+   "x": 0,
+   "y": 0.5298,
+   "z": 0.0523,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Trung Cực — 4 thốn dưới rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV4": {
+   "x": 0,
+   "y": 0.5508,
+   "z": 0.0561,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Quan Nguyên — 3 thốn dưới rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV5": {
+   "x": 0,
+   "y": 0.5717,
+   "z": 0.0583,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thạch Môn — 2 thốn dưới rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV6": {
+   "x": 0,
+   "y": 0.5822,
+   "z": 0.0606,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Khí Hải — 1.5 thốn dưới rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV7": {
+   "x": 0,
+   "y": 0.5927,
+   "z": 0.0588,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Âm Giao — 1 thốn dưới rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV8": {
+   "x": 0,
+   "y": 0.6136,
+   "z": 0.0607,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thần Khuyết — ngang rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV9": {
+   "x": 0,
+   "y": 0.6283,
+   "z": 0.0631,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thuỷ Phân — 1 thốn trên rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV10": {
+   "x": 0,
+   "y": 0.6431,
+   "z": 0.065,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hạ Quản — 2 thốn trên rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV11": {
+   "x": 0,
+   "y": 0.6578,
+   "z": 0.0676,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kiến Lý — 3 thốn trên rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV12": {
+   "x": 0,
+   "y": 0.6725,
+   "z": 0.0681,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Trung Quản — 4 thốn trên rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV13": {
+   "x": 0,
+   "y": 0.6873,
+   "z": 0.0677,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thượng Quản — 5 thốn trên rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV14": {
+   "x": 0,
+   "y": 0.702,
+   "z": 0.0688,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Cự Khuyết — 6 thốn trên rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV15": {
+   "x": 0,
+   "y": 0.7168,
+   "z": 0.0679,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Cưu Vĩ — 7 thốn trên rốn, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV16": {
+   "x": 0,
+   "y": 0.7343,
+   "z": 0.0666,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Trung Đình — đường giữa trước, dựng theo cốt độ WHO trên ba đoạn xương: bờ trên xương mu →5 thốn→ rốn →8 thốn→ khớp ức-mũi ức →9 thốn→ hõm ức; rồi chiếu ra da đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV18": {
+   "x": 0,
+   "y": 0.7648,
+   "z": 0.0629,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Ngọc Đường — khe gian sườn 3, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV19": {
+   "x": 0,
+   "y": 0.7827,
+   "z": 0.0552,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Tử Cung — khe gian sườn 2, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV20": {
+   "x": -0.001,
+   "y": 0.8033,
+   "z": 0.0472,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hoa Cái — khe gian sườn 1, đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV21": {
+   "x": 0,
+   "y": 0.8063,
+   "z": 0.0414,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Nhâm Mạch ngực — đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV22": {
+   "x": 0,
+   "y": 0.8153,
+   "z": 0.0369,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Nhâm Mạch ngực — đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "CV24": {
+   "x": 0,
+   "y": 0.8819,
+   "z": 0.0481,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thừa Tương — chỗ lõm rãnh cằm–môi, chính giữa",
+   "ngay": "2026-09-07"
+  },
+  "GV1": {
+   "x": 0,
+   "y": 0.4933,
+   "z": -0.0647,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Trường Cường — giữa đầu xương cụt và hậu môn",
+   "ngay": "2026-09-07"
+  },
+  "GV2": {
+   "x": 0,
+   "y": 0.5066,
+   "z": -0.0734,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Yêu Du — mốc riêng dò trên mesh",
+   "ngay": "2026-09-07"
+  },
+  "GV3": {
+   "x": 0,
+   "y": 0.5931,
+   "z": -0.0582,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Yêu Dương Quan — khe dưới mỏm gai đốt sống L4/L5, chiếu ra da lưng đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "GV4": {
+   "x": 0,
+   "y": 0.619,
+   "z": -0.0559,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Mệnh Môn — khe dưới mỏm gai đốt sống L2/L3, chiếu ra da lưng đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "GV5": {
+   "x": 0,
+   "y": 0.6351,
+   "z": -0.0576,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Huyền Xu — khe dưới mỏm gai đốt sống L1/L2, chiếu ra da lưng đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "GV6": {
+   "x": 0,
+   "y": 0.6703,
+   "z": -0.0587,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Tích Trung — khe dưới mỏm gai đốt sống T11/T12, chiếu ra da lưng đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "GV7": {
+   "x": 0,
+   "y": 0.683,
+   "z": -0.0591,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Trung Xu — khe dưới mỏm gai đốt sống T10/T11, chiếu ra da lưng đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "GV8": {
+   "x": 0,
+   "y": 0.6969,
+   "z": -0.0619,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Cân Súc — khe dưới mỏm gai đốt sống T9/T10, chiếu ra da lưng đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "GV9": {
+   "x": 0,
+   "y": 0.7288,
+   "z": -0.0694,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Chí Dương — khe dưới mỏm gai đốt sống T7/T8, chiếu ra da lưng đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "GV10": {
+   "x": 0.0017,
+   "y": 0.7435,
+   "z": -0.0695,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Linh Đài — khe dưới mỏm gai đốt sống T6/T7, chiếu ra da lưng đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "GV11": {
+   "x": 0,
+   "y": 0.7596,
+   "z": -0.073,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thần Đạo — khe dưới mỏm gai đốt sống T5/T6, chiếu ra da lưng đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "GV12": {
+   "x": 0,
+   "y": 0.7985,
+   "z": -0.069,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thân Trụ — khe dưới mỏm gai đốt sống T3/T4, chiếu ra da lưng đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "GV13": {
+   "x": 0,
+   "y": 0.825,
+   "z": -0.0684,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Đào Đạo — khe dưới mỏm gai đốt sống T1/T2, chiếu ra da lưng đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "GV14": {
+   "x": 0,
+   "y": 0.8363,
+   "z": -0.0667,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Đại Chuỳ — khe dưới mỏm gai đốt sống C7/T1, chiếu ra da lưng đường giữa",
+   "ngay": "2026-09-07"
+  },
+  "GV15": {
+   "x": 0,
+   "y": 0.9061,
+   "z": -0.0544,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Á Môn — trên CUNG SỌ ở 14.5 thốn (thang đã neo bằng Bách Hội)",
+   "ngay": "2026-09-07"
+  },
+  "GV16": {
+   "x": 0,
+   "y": 0.9145,
+   "z": -0.0601,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phong Phủ — trên CUNG SỌ ở 14 thốn (thang đã neo bằng Bách Hội)",
+   "ngay": "2026-09-07"
+  },
+  "GV17": {
+   "x": 0,
+   "y": 0.9424,
+   "z": -0.072,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Não Hộ — trên CUNG SỌ ở 12.5 thốn (thang đã neo bằng Bách Hội)",
+   "ngay": "2026-09-07"
+  },
+  "GV18": {
+   "x": 0,
+   "y": 0.9739,
+   "z": -0.0641,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Cường Gian — trên CUNG SỌ ở 11 thốn (thang đã neo bằng Bách Hội)",
+   "ngay": "2026-09-07"
+  },
+  "GV19": {
+   "x": 0,
+   "y": 0.994,
+   "z": -0.0433,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Hậu Đỉnh — trên CUNG SỌ ở 9.5 thốn (thang đã neo bằng Bách Hội)",
+   "ngay": "2026-09-07"
+  },
+  "GV20": {
+   "x": 0,
+   "y": 1,
+   "z": -0.0149,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Bách Hội — trên CUNG SỌ ở 8 thốn (thang đã neo bằng Bách Hội)",
+   "ngay": "2026-09-07"
+  },
+  "GV21": {
+   "x": 0,
+   "y": 0.9993,
+   "z": 0.0028,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Tiền Đỉnh — trên CUNG SỌ ở 6.5 thốn (thang đã neo bằng Bách Hội)",
+   "ngay": "2026-09-07"
+  },
+  "GV22": {
+   "x": 0,
+   "y": 0.9937,
+   "z": 0.0179,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Tín Hội — trên CUNG SỌ ở 5 thốn (thang đã neo bằng Bách Hội)",
+   "ngay": "2026-09-07"
+  },
+  "GV23": {
+   "x": 0,
+   "y": 0.9892,
+   "z": 0.0279,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thượng Tinh — trên CUNG SỌ ở 4 thốn (thang đã neo bằng Bách Hội)",
+   "ngay": "2026-09-07"
+  },
+  "GV24": {
+   "x": 0,
+   "y": 0.9863,
+   "z": 0.0292,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Thần Đình — trên CUNG SỌ ở 3.5 thốn (thang đã neo bằng Bách Hội)",
+   "ngay": "2026-09-07"
+  },
+  "GV25": {
+   "x": 0,
+   "y": 0.9109,
+   "z": 0.0611,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Tố Liêu — mốc riêng dò trên mesh",
+   "ngay": "2026-09-07"
+  },
+  "GV26": {
+   "x": 0,
+   "y": 0.9036,
+   "z": 0.0526,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Nhân Trung — mốc riêng dò trên mesh",
+   "ngay": "2026-09-07"
+  },
+  "GV27": {
+   "x": 0,
+   "y": 0.9003,
+   "z": 0.0515,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Đoài Đoan — mốc riêng dò trên mesh",
+   "ngay": "2026-09-07"
+  },
+  "GV28": {
+   "x": 0,
+   "y": 0.9026,
+   "z": 0.0468,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Ngân Giao — hãm môi trên, NẰM TRONG MIỆNG (không có mặt da; suy lùi vào trong từ Đoài Đoan GV27)",
+   "ngay": "2026-09-07"
+  }
+ },
+ "ngo": {
+  "LU3": {
+   "loai": [
+    "da",
+    "duong"
+   ],
+   "ly": "TẦNG DA: ép lên da, dời 4.3cm · RẢI DỌC ĐƯỜNG: dời 6.38cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: ép lê",
+   "ngay": "2026-09-07"
+  },
+  "LU4": {
+   "loai": [
+    "da",
+    "duong"
+   ],
+   "ly": "TẦNG DA: ép lên da, dời 3.8cm · RẢI DỌC ĐƯỜNG: dời 5.8cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: ép lê",
+   "ngay": "2026-09-07"
+  },
+  "LU6": {
+   "loai": [
+    "khe",
+    "duong"
+   ],
+   "ly": "khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 4.22cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 4.22cm v",
+   "ngay": "2026-09-07"
+  },
+  "LI2": {
+   "loai": [
+    "da"
+   ],
+   "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
+   "ngay": "2026-09-07"
+  },
+  "LI3": {
+   "loai": [
+    "da"
+   ],
+   "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
+   "ngay": "2026-09-07"
+  },
+  "LI6": {
+   "loai": [
+    "da",
+    "duong",
+    "sach"
+   ],
+   "ly": "TẦNG DA: ép lên da, dời 2.8cm · RẢI DỌC ĐƯỜNG: dời 3.67cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · hai nguồn sách cùng kêu lệch 1.6/1.6 thốn",
+   "ngay": "2026-09-07"
+  },
+  "LI9": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 16.88cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "LI10": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 4.28cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG:",
+   "ngay": "2026-09-07"
+  },
+  "LI12": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 5.02cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG:",
+   "ngay": "2026-09-07"
+  },
+  "ST3": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 4.55cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "ST32": {
+   "loai": [
+    "da",
+    "duong",
+    "sach"
+   ],
+   "ly": "TẦNG DA: ép lên da, dời 3.9cm · RẢI DỌC ĐƯỜNG: dời 4.78cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · hai nguồn sách cùng kêu lệch 1.5/1.5 thốn",
+   "ngay": "2026-09-07"
+  },
+  "ST34": {
+   "loai": [
+    "da"
+   ],
+   "ly": "TẦNG DA: ép lên da, dời 2.8cm",
+   "ngay": "2026-09-07"
+  },
+  "ST38": {
+   "loai": [
+    "sach",
+    "duong"
+   ],
+   "ly": "hai bản sách lệch nhau 6.7cm — đã lấy bản cũ · RẢI DỌC ĐƯỜNG: dời 14.83cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 14.83cm về đường kinh — toạ độ cũ sai nhiều,",
+   "ngay": "2026-09-07"
+  },
+  "ST39": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 3.36cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG:",
+   "ngay": "2026-09-07"
+  },
+  "SP6": {
+   "loai": [
+    "khe",
+    "da",
+    "duong"
+   ],
+   "ly": "nằm trong lòng xương — phải lùi ra mặt xương · TẦNG DA: ép lên da, dời 2.6cm · RẢI DỌC ĐƯỜNG: dời 6.35cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "SP8": {
+   "loai": [
+    "da",
+    "duong"
+   ],
+   "ly": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "SP11": {
+   "loai": [
+    "da",
+    "duong"
+   ],
+   "ly": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 7.65cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "SP18": {
+   "loai": [
+    "sach"
+   ],
+   "ly": "hai nguồn sách cùng kêu lệch 4.0/4.0 thốn",
+   "ngay": "2026-09-07"
+  },
+  "HT2": {
+   "loai": [
+    "da",
+    "duong"
+   ],
+   "ly": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.77cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "HT4": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 4.09cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "HT5": {
+   "loai": [
+    "khe",
+    "duong"
+   ],
+   "ly": "khe cách chỗ cốt độ chỉ ra 3.5 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 4.04cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 4.04cm v",
+   "ngay": "2026-09-07"
+  },
+  "SI7": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 6.4cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "SI9": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 17.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "SI18": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 4.14cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "BL10": {
+   "loai": [
+    "khe",
+    "sach"
+   ],
+   "ly": "nằm giữa bụng cơ (sâu 0.63 thốn trong khối Phần xuống của cơ thang trái) · hai bản sách lệch nhau 5.3cm — đã lấy bản cũ",
+   "ngay": "2026-09-07"
+  },
+  "BL35": {
+   "loai": [
+    "da"
+   ],
+   "ly": "TẦNG DA: ép lên da, dời 4.3cm",
+   "ngay": "2026-09-07"
+  },
+  "BL37": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 5.26cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "BL38": {
+   "loai": [
+    "sach",
+    "duong"
+   ],
+   "ly": "hai bản sách lệch nhau 5.9cm — đã lấy bản cũ · RẢI DỌC ĐƯỜNG: dời 5.54cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 5.54cm về đường kinh — toạ độ cũ sai nhiều,",
+   "ngay": "2026-09-07"
+  },
+  "BL55": {
+   "loai": [
+    "khe",
+    "duong"
+   ],
+   "ly": "nằm giữa bụng cơ (sâu 0.65 thốn trong khối Đầu trong của cơ bụng chân trái) · RẢI DỌC ĐƯỜNG:",
+   "ngay": "2026-09-07"
+  },
+  "BL57": {
+   "loai": [
+    "da",
+    "duong"
+   ],
+   "ly": "TẦNG DA: ép lên da, dời 4.3cm · RẢI DỌC ĐƯỜNG: dời 4.52cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "BL58": {
+   "loai": [
+    "da",
+    "duong"
+   ],
+   "ly": "TẦNG DA: huyệt nằm sâu — đã ép lên da, dời 4.7cm (2.0 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 10.27cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: huyệt",
+   "ngay": "2026-09-07"
+  },
+  "BL61": {
+   "loai": [
+    "da"
+   ],
+   "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.6cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.6cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
+   "ngay": "2026-09-07"
+  },
+  "BL66": {
+   "loai": [
+    "da"
+   ],
+   "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
+   "ngay": "2026-09-07"
+  },
+  "KI4": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 5.38cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "KI7": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 4.19cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "KI8": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 4.48cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "KI9": {
+   "loai": [
+    "duong",
+    "sach"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 7.95cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · hai nguồn sách cùng kêu lệch 3.9/3.0 thốn",
+   "ngay": "2026-09-07"
+  },
+  "PC4": {
+   "loai": [
+    "mota",
+    "duong",
+    "khac"
+   ],
+   "ly": "mô tả \"bờ ? cơ gấp cổ tay quay\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.33 thốn · RẢI DỌC ĐƯỜNG: dời 4.39cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜN",
+   "ngay": "2026-09-07"
+  },
+  "PC5": {
+   "loai": [
+    "mota",
+    "duong",
+    "khac"
+   ],
+   "ly": "mô tả \"bờ ? cơ gấp cổ tay quay (gân)\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.86 thốn · RẢI DỌC ĐƯỜNG: dời 3.53cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌ",
+   "ngay": "2026-09-07"
+  },
+  "PC6": {
+   "loai": [
+    "khe",
+    "duong"
+   ],
+   "ly": "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ duỗi cổ tay quay ngắn trái) · RẢI DỌC ĐƯỜNG: dời 3.12cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "TE5": {
+   "loai": [
+    "khe",
+    "duong"
+   ],
+   "ly": "nằm giữa bụng cơ (sâu 0.87 thốn trong khối Cơ duỗi cổ tay quay ngắn trái) · RẢI DỌC ĐƯỜNG: dời 4.41cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "TE6": {
+   "loai": [
+    "khe",
+    "duong"
+   ],
+   "ly": "nằm giữa bụng cơ (sâu 0.52 thốn trong khối Cơ duỗi cổ tay quay dài trái) · RẢI DỌC ĐƯỜNG: dời 4.79cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "TE7": {
+   "loai": [
+    "khe",
+    "duong"
+   ],
+   "ly": "nằm giữa bụng cơ (sâu 0.56 thốn trong khối Cơ gấp cổ tay quay trái) · RẢI DỌC ĐƯỜNG: dời 5.31cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "TE8": {
+   "loai": [
+    "khe",
+    "duong"
+   ],
+   "ly": "nằm giữa bụng cơ (sâu 0.58 thốn trong khối Cơ duỗi cổ tay quay dài trái) · RẢI DỌC ĐƯỜNG: dời 5.21cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "TE9": {
+   "loai": [
+    "khe",
+    "duong"
+   ],
+   "ly": "khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 5.9cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 5.9cm về",
+   "ngay": "2026-09-07"
+  },
+  "TE11": {
+   "loai": [
+    "da",
+    "duong"
+   ],
+   "ly": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 8.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "TE12": {
+   "loai": [
+    "da",
+    "duong"
+   ],
+   "ly": "TẦNG DA: huyệt nằm sâu — đã ép lên da, dời 4.6cm (2.0 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 8.18cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: huyệt",
+   "ngay": "2026-09-07"
+  },
+  "TE13": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 8.68cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "TE18": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 5.63cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "TE19": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 7.69cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "TE20": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 11.24cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "TE22": {
+   "loai": [
+    "khe",
+    "duong"
+   ],
+   "ly": "khe dời vào trong lòng xương — rút lại, cần soát · RẢI DỌC ĐƯỜNG: dời 6.04cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 6.04cm về đường kinh — toạ độ cũ sai nhi",
+   "ngay": "2026-09-07"
+  },
+  "GB8": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 11.43cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "GB9": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 12.79cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "GB15": {
+   "loai": [
+    "sach"
+   ],
+   "ly": "hai nguồn sách cùng kêu lệch 1.6/2.1 thốn",
+   "ngay": "2026-09-07"
+  },
+  "GB20": {
+   "loai": [
+    "khe"
+   ],
+   "ly": "nằm giữa bụng cơ (sâu 0.85 thốn trong khối Cơ gối đầu trái)",
+   "ngay": "2026-09-07"
+  },
+  "GB25": {
+   "loai": [
+    "khe"
+   ],
+   "ly": "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ chéo bụng ngoài trái)",
+   "ngay": "2026-09-07"
+  },
+  "GB32": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 7.71cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+   "ngay": "2026-09-07"
+  },
+  "GB35": {
+   "loai": [
+    "khe"
+   ],
+   "ly": "khe dời vào trong lòng xương — rút lại, cần soát",
+   "ngay": "2026-09-07"
+  },
+  "GB36": {
+   "loai": [
+    "duong"
+   ],
+   "ly": "RẢI DỌC ĐƯỜNG: dời 30.27cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG:",
+   "ngay": "2026-09-07"
+  },
+  "GB39": {
+   "loai": [
+    "khe"
+   ],
+   "ly": "nằm trong lòng xương — phải lùi ra mặt xương",
+   "ngay": "2026-09-07"
+  },
+  "LR9": {
+   "loai": [
+    "khe",
+    "sach"
+   ],
+   "ly": "nằm giữa bụng cơ (sâu 0.51 thốn trong khối Cơ thon trái) · hai bản sách lệch nhau 5.2cm — đã lấy bản cũ",
+   "ngay": "2026-09-07"
+  },
+  "LR10": {
+   "loai": [
+    "da",
+    "duong",
+    "sach"
+   ],
+   "ly": "TẦNG DA: huyệt nằm sâu — đã ép lên da, dời 5.8cm (2.5 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 15.72cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: huyệt · hai nguồn sách cùng kêu lệch 2.1/1.8 thốn",
+   "ngay": "2026-09-07"
+  },
+  "LR11": {
+   "loai": [
+    "da",
+    "duong"
+   ],
+   "ly": "TẦNG DA: huyệt NẰM NGOÀI da — đã ép lên da, dời 5.5cm (2.4 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 15.52cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: huyệt NẰM NGOÀI da — đã ép lên da, dời 5.5cm (2.4 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai",
+   "ngay": "2026-09-07"
+  },
+  "LR12": {
+   "loai": [
+    "sach",
+    "da"
+   ],
+   "ly": "hai bản sách lệch nhau 7.8cm — đã lấy bản cũ · TẦNG DA: ép lên da, dời 4.5cm",
+   "ngay": "2026-09-07"
+  },
+  "CV17": {
+   "loai": [
+    "da"
+   ],
+   "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 1.8cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 1.8cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
+   "ngay": "2026-09-07"
+  },
+  "CV23": {
+   "loai": [
+    "da"
+   ],
+   "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.7cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.7cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
+   "ngay": "2026-09-07"
+  }
+ },
+ "doiChieu": {
+  "mo": "BẢN ĐỐI CHIẾU — 126 huyệt người dùng chấm tay trong app, lấy từ server 07/09/2026. KHÔNG dùng để vẽ (đã ngừng đè lên engine vì thua 2 bộ kiểm độc lập), giữ lại để trọng tài từng huyệt bằng ảnh sách khi có dịp. Lệch engine trung bình 4,63cm.",
+  "nguon": "GET /kinh-mach-3d/anchors",
+  "ngay": "2026-09-07",
+  "diem": {
+   "ST8": {
+    "x": 0.0221,
+    "y": 0.9704,
+    "z": 0.048,
+    "lechEngineCm": 6.37
+   },
+   "ST31": {
+    "x": 0.0428,
+    "y": 0.5097,
+    "z": 0.0494,
+    "lechEngineCm": 6.38
+   },
+   "ST33": {
+    "x": 0.0686,
+    "y": 0.3058,
+    "z": 0.0318,
+    "lechEngineCm": 3.17
+   },
+   "ST34": {
+    "x": 0.0532,
+    "y": 0.2625,
+    "z": 0.0318,
+    "lechEngineCm": 7.72
+   },
+   "ST35": {
+    "x": 0.0621,
+    "y": 0.2431,
+    "z": 0.0211,
+    "lechEngineCm": 1.95
+   },
+   "ST7": {
+    "x": 0.0485,
+    "y": 0.9185,
+    "z": 0.0178,
+    "lechEngineCm": 2.09
+   },
+   "ST5": {
+    "x": 0.0452,
+    "y": 0.9029,
+    "z": 0.0264,
+    "lechEngineCm": 7.28
+   },
+   "GB28": {
+    "x": 0.1005,
+    "y": 0.5397,
+    "z": 0.0182,
+    "lechEngineCm": 5.92
+   },
+   "GB29": {
+    "x": 0.1038,
+    "y": 0.5447,
+    "z": -0.0088,
+    "lechEngineCm": 3.33
+   },
+   "GB27": {
+    "x": 0.1015,
+    "y": 0.5608,
+    "z": 0.0093,
+    "lechEngineCm": 7.2
+   },
+   "GB26": {
+    "x": 0.0931,
+    "y": 0.6022,
+    "z": 0.0178,
+    "lechEngineCm": 3.13
+   },
+   "GB25": {
+    "x": 0.093,
+    "y": 0.6408,
+    "z": 0.0112,
+    "lechEngineCm": 6.56
+   },
+   "GB24": {
+    "x": 0.0602,
+    "y": 0.74,
+    "z": 0.0781,
+    "lechEngineCm": 10.15
+   },
+   "GB30": {
+    "x": 0.0902,
+    "y": 0.5386,
+    "z": -0.0452,
+    "lechEngineCm": 9.28
+   },
+   "GB31": {
+    "x": 0.099,
+    "y": 0.4058,
+    "z": -0.0179,
+    "lechEngineCm": 11.57
+   },
+   "GB32": {
+    "x": 0.0927,
+    "y": 0.3498,
+    "z": -0.0224,
+    "lechEngineCm": 6.91
+   },
+   "GB33": {
+    "x": 0.0856,
+    "y": 0.2913,
+    "z": -0.0218,
+    "lechEngineCm": 5.83
+   },
+   "ST37": {
+    "x": 0.07,
+    "y": 0.1832,
+    "z": 0.0145,
+    "lechEngineCm": 3.11
+   },
+   "ST38": {
+    "x": 0.0685,
+    "y": 0.1633,
+    "z": 0.0113,
+    "lechEngineCm": 3.66
+   },
+   "ST40": {
+    "x": 0.0576,
+    "y": 0.1512,
+    "z": 0.0134,
+    "lechEngineCm": 2.54
+   },
+   "ST39": {
+    "x": 0.0673,
+    "y": 0.1381,
+    "z": 0.0065,
+    "lechEngineCm": 2.47
+   },
+   "ST41": {
+    "x": 0.0587,
+    "y": 0.0627,
+    "z": 0.0096,
+    "lechEngineCm": 3.5
+   },
+   "ST42": {
+    "x": 0.0801,
+    "y": 0.0389,
+    "z": 0.0077,
+    "lechEngineCm": 4.13
+   },
+   "ST43": {
+    "x": 0.0742,
+    "y": 0.0411,
+    "z": 0.0322,
+    "lechEngineCm": 2.64
+   },
+   "ST45": {
+    "x": 0.0887,
+    "y": 0.0203,
+    "z": 0.0757,
+    "lechEngineCm": 3.31
+   },
+   "ST44": {
+    "x": 0.0789,
+    "y": 0.0262,
+    "z": 0.0535,
+    "lechEngineCm": 1.49
+   },
+   "BL1": {
+    "x": 0.0109,
+    "y": 0.9301,
+    "z": 0.0571,
+    "lechEngineCm": 3.86
+   },
+   "BL2": {
+    "x": 0.0072,
+    "y": 0.9459,
+    "z": 0.0578,
+    "lechEngineCm": 2.3
+   },
+   "BL4": {
+    "x": 0.0091,
+    "y": 0.9765,
+    "z": 0.0499,
+    "lechEngineCm": 3.74
+   },
+   "BL5": {
+    "x": 0.0095,
+    "y": 0.9908,
+    "z": 0.0391,
+    "lechEngineCm": 2.55
+   },
+   "BL6": {
+    "x": 0.0104,
+    "y": 1.0019,
+    "z": 0.0235,
+    "lechEngineCm": 2.34
+   },
+   "BL7": {
+    "x": 0.0112,
+    "y": 1.0071,
+    "z": 0.0085,
+    "lechEngineCm": 3.49
+   },
+   "BL9": {
+    "x": 0.0141,
+    "y": 0.9471,
+    "z": -0.0821,
+    "lechEngineCm": 1.97
+   },
+   "BL10": {
+    "x": 0.0101,
+    "y": 0.9023,
+    "z": -0.063,
+    "lechEngineCm": 3.83
+   },
+   "BL8": {
+    "x": 0.0111,
+    "y": 1.0009,
+    "z": -0.0512,
+    "lechEngineCm": 3.99
+   },
+   "BL3": {
+    "x": 0.0047,
+    "y": 0.9639,
+    "z": 0.0553,
+    "lechEngineCm": 5.13
+   },
+   "BL55": {
+    "x": 0.0436,
+    "y": 0.2183,
+    "z": -0.0742,
+    "lechEngineCm": 4.83
+   },
+   "BL40": {
+    "x": 0.0644,
+    "y": 0.2383,
+    "z": -0.0665,
+    "lechEngineCm": 5.32
+   },
+   "BL39": {
+    "x": 0.0748,
+    "y": 0.2438,
+    "z": -0.0564,
+    "lechEngineCm": 3.67
+   },
+   "BL38": {
+    "x": 0.0701,
+    "y": 0.262,
+    "z": -0.0542,
+    "lechEngineCm": 3.63
+   },
+   "BL54": {
+    "x": 0.0347,
+    "y": 0.5355,
+    "z": -0.0915,
+    "lechEngineCm": 2.34
+   },
+   "BL41": {
+    "x": 0.04,
+    "y": 0.8579,
+    "z": -0.0591,
+    "lechEngineCm": 8.79
+   },
+   "BL11": {
+    "x": 0.017,
+    "y": 0.861,
+    "z": -0.0635,
+    "lechEngineCm": 6.38
+   },
+   "BL30": {
+    "x": 0.0197,
+    "y": 0.5378,
+    "z": -0.0913,
+    "lechEngineCm": 2.63
+   },
+   "BL31": {
+    "x": 0.0072,
+    "y": 0.5963,
+    "z": -0.0679,
+    "lechEngineCm": 3.5
+   },
+   "BL33": {
+    "x": 0.0073,
+    "y": 0.5622,
+    "z": -0.0784,
+    "lechEngineCm": 3.45
+   },
+   "BL32": {
+    "x": 0.0067,
+    "y": 0.5772,
+    "z": -0.0728,
+    "lechEngineCm": 3.13
+   },
+   "BL34": {
+    "x": 0.0092,
+    "y": 0.543,
+    "z": -0.0873,
+    "lechEngineCm": 3.38
+   },
+   "BL36": {
+    "x": 0.0412,
+    "y": 0.4806,
+    "z": -0.0781,
+    "lechEngineCm": 11.41
+   },
+   "BL35": {
+    "x": 0.0118,
+    "y": 0.5246,
+    "z": -0.0907,
+    "lechEngineCm": 4.11
+   },
+   "BL29": {
+    "x": 0.0208,
+    "y": 0.5651,
+    "z": -0.0814,
+    "lechEngineCm": 3.92
+   },
+   "BL28": {
+    "x": 0.0189,
+    "y": 0.5795,
+    "z": -0.0729,
+    "lechEngineCm": 3.46
+   },
+   "BL26": {
+    "x": 0.0206,
+    "y": 0.5996,
+    "z": -0.0682,
+    "lechEngineCm": 2.89
+   },
+   "BL25": {
+    "x": 0.0203,
+    "y": 0.6071,
+    "z": -0.0666,
+    "lechEngineCm": 2.86
+   },
+   "BL42": {
+    "x": 0.0393,
+    "y": 0.8502,
+    "z": -0.068,
+    "lechEngineCm": 9.14
+   },
+   "BL27": {
+    "x": 0.0197,
+    "y": 0.5892,
+    "z": -0.0701,
+    "lechEngineCm": 2.46
+   },
+   "LR13": {
+    "x": 0.0957,
+    "y": 0.6574,
+    "z": 0.0138,
+    "lechEngineCm": 6.97
+   },
+   "LR14": {
+    "x": 0.0911,
+    "y": 0.6896,
+    "z": 0.0393,
+    "lechEngineCm": 9.77
+   },
+   "LR2": {
+    "x": 0.0782,
+    "y": 0.0259,
+    "z": 0.0736,
+    "lechEngineCm": 4.33
+   },
+   "LR1": {
+    "x": 0.0852,
+    "y": 0.0225,
+    "z": 0.0776,
+    "lechEngineCm": 4.43
+   },
+   "LR9": {
+    "x": 0.0235,
+    "y": 0.3235,
+    "z": 0.0338,
+    "lechEngineCm": 8.5
+   },
+   "LR8": {
+    "x": 0.0216,
+    "y": 0.2517,
+    "z": 0.0136,
+    "lechEngineCm": 6.04
+   },
+   "LR12": {
+    "x": 0.0377,
+    "y": 0.5112,
+    "z": 0.0487,
+    "lechEngineCm": 3.54
+   },
+   "LR10": {
+    "x": 0.0297,
+    "y": 0.442,
+    "z": 0.0439,
+    "lechEngineCm": 9.02
+   },
+   "LR3": {
+    "x": 0.0676,
+    "y": 0.0285,
+    "z": 0.0567,
+    "lechEngineCm": 6.85
+   },
+   "LR4": {
+    "x": 0.06,
+    "y": 0.0606,
+    "z": 0.0092,
+    "lechEngineCm": 5.08
+   },
+   "LR5": {
+    "x": 0.0283,
+    "y": 0.1015,
+    "z": 0.0012,
+    "lechEngineCm": 5.06
+   },
+   "LR7": {
+    "x": 0.0176,
+    "y": 0.228,
+    "z": 0.0051,
+    "lechEngineCm": 6.39
+   },
+   "LR6": {
+    "x": 0.0219,
+    "y": 0.1338,
+    "z": 0.0008,
+    "lechEngineCm": 5.99
+   },
+   "LR11": {
+    "x": 0.023,
+    "y": 0.4967,
+    "z": 0.0432,
+    "lechEngineCm": 2.14
+   },
+   "SP21": {
+    "x": 0.0977,
+    "y": 0.6986,
+    "z": 0.0213,
+    "lechEngineCm": 3.5
+   },
+   "SP20": {
+    "x": 0.0637,
+    "y": 0.7817,
+    "z": 0.0615,
+    "lechEngineCm": 4.73
+   },
+   "SP19": {
+    "x": 0.1008,
+    "y": 0.7713,
+    "z": 0.0345,
+    "lechEngineCm": 6.55
+   },
+   "SP18": {
+    "x": 0.099,
+    "y": 0.7523,
+    "z": 0.0368,
+    "lechEngineCm": 7.26
+   },
+   "SP17": {
+    "x": 0.0999,
+    "y": 0.7382,
+    "z": 0.0266,
+    "lechEngineCm": 8.99
+   },
+   "SP16": {
+    "x": 0.0457,
+    "y": 0.6447,
+    "z": 0.0671,
+    "lechEngineCm": 2.53
+   },
+   "SP15": {
+    "x": 0.0428,
+    "y": 0.5993,
+    "z": 0.0637,
+    "lechEngineCm": 3.18
+   },
+   "SP14": {
+    "x": 0.0425,
+    "y": 0.5743,
+    "z": 0.0601,
+    "lechEngineCm": 2.68
+   },
+   "SP13": {
+    "x": 0.0389,
+    "y": 0.5336,
+    "z": 0.0531,
+    "lechEngineCm": 2.8
+   },
+   "SP12": {
+    "x": 0.0286,
+    "y": 0.5071,
+    "z": 0.0498,
+    "lechEngineCm": 2.69
+   },
+   "SP11": {
+    "x": 0.0498,
+    "y": 0.3562,
+    "z": 0.0475,
+    "lechEngineCm": 6.31
+   },
+   "SP7": {
+    "x": 0.0249,
+    "y": 0.163,
+    "z": 0.0062,
+    "lechEngineCm": 4.16
+   },
+   "SP6": {
+    "x": 0.0244,
+    "y": 0.1184,
+    "z": 0.0005,
+    "lechEngineCm": 5.54
+   },
+   "SP4": {
+    "x": 0.0284,
+    "y": 0.0511,
+    "z": 0.0151,
+    "lechEngineCm": 4.61
+   },
+   "SP2": {
+    "x": 0.0444,
+    "y": 0.0309,
+    "z": 0.0517,
+    "lechEngineCm": 3.11
+   },
+   "CV18": {
+    "x": 0,
+    "y": 0.738,
+    "z": 0.0749,
+    "lechEngineCm": 5.05
+   },
+   "CV17": {
+    "x": 0,
+    "y": 0.7078,
+    "z": 0.0777,
+    "lechEngineCm": 6.68
+   },
+   "PC7": {
+    "x": 0.1589,
+    "y": 0.5156,
+    "z": 0.0358,
+    "lechEngineCm": 2.09
+   },
+   "LU11": {
+    "x": 0.1924,
+    "y": 0.4799,
+    "z": 0.0506,
+    "lechEngineCm": 3.39
+   },
+   "HT8": {
+    "x": 0.1427,
+    "y": 0.4849,
+    "z": 0.0402,
+    "lechEngineCm": 4.72
+   },
+   "CV1": {
+    "x": 0,
+    "y": 0.523,
+    "z": 0.0593,
+    "lechEngineCm": 10.37
+   },
+   "CV19": {
+    "x": 0,
+    "y": 0.7708,
+    "z": 0.0683,
+    "lechEngineCm": 3.04
+   },
+   "BL62": {
+    "x": 0.0725,
+    "y": 0.053,
+    "z": -0.0295,
+    "lechEngineCm": 5.02
+   },
+   "BL61": {
+    "x": 0.0523,
+    "y": 0.0328,
+    "z": -0.0543,
+    "lechEngineCm": 7.36
+   },
+   "BL63": {
+    "x": 0.0793,
+    "y": 0.0275,
+    "z": -0.0138,
+    "lechEngineCm": 1.92
+   },
+   "BL66": {
+    "x": 0.1067,
+    "y": 0.0157,
+    "z": 0.0347,
+    "lechEngineCm": 1.69
+   },
+   "BL65": {
+    "x": 0.0998,
+    "y": 0.0208,
+    "z": 0.0197,
+    "lechEngineCm": 2.37
+   },
+   "BL64": {
+    "x": 0.0898,
+    "y": 0.0256,
+    "z": 0.0024,
+    "lechEngineCm": 2.28
+   },
+   "BL60": {
+    "x": 0.0524,
+    "y": 0.0642,
+    "z": -0.048,
+    "lechEngineCm": 6.34
+   },
+   "BL58": {
+    "x": 0.0707,
+    "y": 0.1467,
+    "z": -0.0546,
+    "lechEngineCm": 7.14
+   },
+   "BL59": {
+    "x": 0.0582,
+    "y": 0.0892,
+    "z": -0.0475,
+    "lechEngineCm": 3.79
+   },
+   "BL57": {
+    "x": 0.0475,
+    "y": 0.1637,
+    "z": -0.0703,
+    "lechEngineCm": 5.15
+   },
+   "KI3": {
+    "x": 0.0159,
+    "y": 0.0701,
+    "z": -0.0168,
+    "lechEngineCm": 4.17
+   },
+   "KI2": {
+    "x": 0.0286,
+    "y": 0.0161,
+    "z": 0.0328,
+    "lechEngineCm": 5.07
+   },
+   "KI4": {
+    "x": 0.0155,
+    "y": 0.0502,
+    "z": -0.0406,
+    "lechEngineCm": 4.32
+   },
+   "KI5": {
+    "x": 0.0126,
+    "y": 0.0357,
+    "z": -0.0153,
+    "lechEngineCm": 1.87
+   },
+   "KI6": {
+    "x": 0.0173,
+    "y": 0.0439,
+    "z": 0.0003,
+    "lechEngineCm": 3.98
+   },
+   "KI7": {
+    "x": 0.0159,
+    "y": 0.0791,
+    "z": -0.038,
+    "lechEngineCm": 2.78
+   },
+   "KI8": {
+    "x": 0.0153,
+    "y": 0.0838,
+    "z": -0.0206,
+    "lechEngineCm": 1.98
+   },
+   "KI9": {
+    "x": 0.0119,
+    "y": 0.1309,
+    "z": -0.02,
+    "lechEngineCm": 4.01
+   },
+   "KI27": {
+    "x": 0.0394,
+    "y": 0.8048,
+    "z": 0.0552,
+    "lechEngineCm": 3.9
+   },
+   "KI26": {
+    "x": 0.0428,
+    "y": 0.7757,
+    "z": 0.0716,
+    "lechEngineCm": 7.98
+   },
+   "KI21": {
+    "x": 0.0135,
+    "y": 0.6972,
+    "z": 0.0792,
+    "lechEngineCm": 2.37
+   },
+   "KI22": {
+    "x": 0.0495,
+    "y": 0.7065,
+    "z": 0.0765,
+    "lechEngineCm": 5.63
+   },
+   "KI11": {
+    "x": 0.0184,
+    "y": 0.4947,
+    "z": 0.0438,
+    "lechEngineCm": 3.29
+   },
+   "KI10": {
+    "x": 0.0186,
+    "y": 0.261,
+    "z": -0.052,
+    "lechEngineCm": 2.75
+   },
+   "KI23": {
+    "x": 0.0468,
+    "y": 0.7237,
+    "z": 0.0783,
+    "lechEngineCm": 5.77
+   },
+   "KI19": {
+    "x": 0.0142,
+    "y": 0.6734,
+    "z": 0.0789,
+    "lechEngineCm": 2.31
+   },
+   "KI15": {
+    "x": 0.0173,
+    "y": 0.5535,
+    "z": 0.0632,
+    "lechEngineCm": 7.06
+   },
+   "KI20": {
+    "x": 0.0128,
+    "y": 0.6863,
+    "z": 0.0784,
+    "lechEngineCm": 2.11
+   },
+   "KI18": {
+    "x": 0.0154,
+    "y": 0.6559,
+    "z": 0.0774,
+    "lechEngineCm": 2.42
+   },
+   "KI17": {
+    "x": 0.017,
+    "y": 0.64,
+    "z": 0.0752,
+    "lechEngineCm": 2.65
+   },
+   "KI16": {
+    "x": 0.0167,
+    "y": 0.6102,
+    "z": 0.071,
+    "lechEngineCm": 2.55
+   },
+   "KI12": {
+    "x": 0.0176,
+    "y": 0.5074,
+    "z": 0.0518,
+    "lechEngineCm": 4.37
+   },
+   "KI13": {
+    "x": 0.0176,
+    "y": 0.5211,
+    "z": 0.0561,
+    "lechEngineCm": 5.51
+   },
+   "KI14": {
+    "x": 0.017,
+    "y": 0.535,
+    "z": 0.0592,
+    "lechEngineCm": 6.61
+   }
+  }
+ }
+}

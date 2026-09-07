@@ -52,36 +52,82 @@ const ENGINE_SCRIPTS: string[] = [
   'vendor/meshopt_decoder.js',
   'data/spacing.js',
   'data/handfoot-bones.js',
+  // Giai đoạn 3 — chỉ gán window.HUMAN_ATLAS_INDEX/HUMAN_ATLAS_VI, map3d.js đọc 2 biến này lúc
+  // chạy (không bắt buộc — panel Hệ Cơ Quan tự ẩn tính năng nếu thiếu) nên phải nạp TRƯỚC map3d.js.
+  'data/human-atlas-index.js',
+  'data/human-atlas-vi.js',
+  'data/meridian-paths.js',
   'map3d.js',
   'hand-foot-inset.js',
 ]
 
-// Khối DOM mà engine bám vào — TRÙNG cấu trúc #meridian-map trong index.html của webapp gốc.
+// Khối DOM mà engine bám vào. BỐ CỤC ĐỔI HẲN theo góp ý người dùng ("lấy Human Atlas làm gốc, tuỳ
+// biến theo"): không còn thanh công cụ cố định + sidebar cố định như app thường — canvas 3D
+// (#mapStage) CHIẾM TRỌN khung, mọi điều khiển là THẺ NỔI (glass) đè lên canvas, đúng vị trí của
+// app/page.tsx (github.com/ashemag/human-atlas): Hệ Cơ Quan góc trên-trái, tìm kiếm góc trên-phải,
+// nút góc nhìn cạnh phải, Bóc Tách dưới-giữa, sheet chi tiết trượt vào từ phải CHỈ khi có lựa chọn.
+// Panel "Hệ Cơ Quan" + panel "Chấm Tay" dựng bằng JS (nội dung phụ thuộc dữ liệu LAYERS) và tự
+// chèn vào #mapStage — xem ensureSystemsPanel()/ensureEditPanel() trong map3d.js.
 const HOST_HTML = `
-  <div class="map-toolbar">
-    <button id="mapReset" class="mv-btn active">↻ Đặt Lại Góc Nhìn</button>
-    <button id="mapFlow" class="mv-btn" title="Bật/tắt dòng kinh khí chạy (tắt cho nhẹ)">✦ Dòng Chảy</button>
-    <button id="mapMirror" class="mv-btn active" title="Hiện huyệt & đường kinh đối xứng cả hai bên">⇋ Hai Bên</button>
-    <button id="mapInsetBtn" class="mv-btn" title="Phóng to bàn tay / bàn chân để xem từng huyệt móng, đốt, lòng bàn">✋ Bàn Tay/Chân</button>
-    <button id="mapEdit" class="mv-btn" title="Chế độ Chấm tay: chọn 1 huyệt rồi bấm lên cơ thể để đặt/dời đúng vị trí">✎ Chấm Tay</button>
-    <div class="map-layers" id="mapLayers" title="Trượt để bóc tách lớp giải phẫu (Da · Cơ · Xương)"></div>
-    <div class="map-search">
-      <input id="mapSearch" type="search" placeholder="Tìm huyệt / mã (CV4, Quan Nguyên)…" autocomplete="off" />
-      <span id="mapCount" class="count dark"></span>
-    </div>
-  </div>
   <div class="map-body">
     <div class="map-stage" id="mapStage">
+      <div class="map-search-stack">
+        <div class="map-search glass">
+          <input id="mapSearch" type="search" placeholder="Tìm huyệt / mã (CV4, Quan Nguyên)…" autocomplete="off" />
+          <span id="mapCount" class="count dark"></span>
+        </div>
+        <div class="map-part-search glass">
+          <input id="mapPartSearch" type="search" placeholder="Tìm bộ phận (tim, gan, xương đùi…)" autocomplete="off" />
+          <div class="map-part-results glass" id="mapPartResults"></div>
+        </div>
+      </div>
+      <div class="map-tools-float glass">
+        <button id="mapView34" class="mv-btn view-btn active" data-view="three-quarter" title="Góc nhìn 3/4 (mặc định)">¾</button>
+        <button id="mapViewFront" class="mv-btn view-btn" data-view="front" title="Nhìn thẳng mặt trước">Tr</button>
+        <button id="mapViewSide" class="mv-btn view-btn" data-view="side" title="Nhìn nghiêng một bên">Ng</button>
+        <button id="mapViewBack" class="mv-btn view-btn" data-view="back" title="Nhìn thẳng mặt sau (xem kinh Bàng Quang chạy dọc lưng)">Sa</button>
+        <div class="mv-sep"></div>
+        <button id="mapRotate" class="mv-btn" title="Tự xoay mô hình (tắt khi đã bóc tách hoặc đang xem riêng)">⟳</button>
+        <div class="mv-sep"></div>
+        <button id="mapFlow" class="mv-btn" title="Bật/tắt dòng kinh khí chạy (tắt cho nhẹ)">✦</button>
+        <button id="mapMirror" class="mv-btn active" title="Hiện huyệt & đường kinh đối xứng cả hai bên">⇋</button>
+        <button id="mapInsetBtn" class="mv-btn" title="Phóng to bàn tay / bàn chân để xem từng huyệt móng, đốt, lòng bàn">✋</button>
+        <button id="mapEdit" class="mv-btn" title="Chế độ Chấm tay: chọn 1 huyệt rồi bấm lên cơ thể để đặt/dời đúng vị trí">✎</button>
+        <div class="mv-sep"></div>
+        <button id="mapSystems" class="mv-btn active" title="Ẩn/hiện panel Hệ Cơ Quan">🫀</button>
+      </div>
+      <div class="map-caption" id="mapCaption"><span class="map-caption-line"></span><span id="mapCaptionText">Cơ Thể Người Trưởng Thành</span><span class="map-caption-line"></span></div>
+      <div class="map-explode-dock glass">
+        <div class="msp-explode-main">
+          <div class="msp-explode"><label>Bóc Tách (Explode) <span id="mspExplodeV">0%</span></label>
+          <input type="range" id="mspExplode" min="0" max="100" step="1" value="0"></div>
+          <div class="msp-explode-ends"><span>Lắp Ráp</span><span>Tách Rời</span></div>
+        </div>
+        <button type="button" class="dock-reset" id="mapResetAll" title="Lắp lại cơ thể, bật lại mọi hệ, bỏ chọn — về đúng trạng thái ban đầu">
+          <span class="dock-reset-i" aria-hidden="true">↺</span><span>Đặt Lại</span>
+        </button>
+      </div>
       <div class="map-credit" tabindex="0" role="note" aria-label="Nguồn mô hình giải phẫu">
         <span class="map-credit-i" aria-hidden="true">&#9432;</span>
-        <span class="map-credit-text">Mô hình giải phẫu: BodyParts3D © DBCLS · CC BY-SA 2.1 JP</span>
+        <span class="map-credit-text">Mô hình giải phẫu: BodyParts3D © DBCLS · CC BY 4.0</span>
       </div>
       <div class="hf-inset" id="hfInset"></div>
-    </div>
-    <aside class="map-drawer" id="mapDrawer">
+      <aside class="map-drawer glass" id="mapDrawer">
+        <button class="dr-close" id="drCloseBtn" title="Đóng" aria-label="Đóng">✕</button>
+        <div class="drawer-body" id="drawerBody"></div>
+        <div class="dr-actions" id="drActions" hidden>
+          <button type="button" class="dr-primary" id="drIsolate" aria-pressed="false">
+            <span class="dr-ico" aria-hidden="true">◎</span>
+            <span class="dr-primary-label">Chỉ Xem Riêng Bộ Phận</span>
+            <span class="dr-chev" aria-hidden="true">›</span>
+          </button>
+          <button type="button" class="dr-secondary" id="drClear">Bỏ Chọn</button>
+        </div>
+      </aside>
+      <!-- chú giải 12 kinh + Nhâm/Đốc: node ẩn (map.css .map-legend { display:none }), map3d.js
+           chuyển hẳn vào #drawerBody bằng replaceWith() khi bấm dòng "Kinh Lạc" (showMeridianLegend()) -->
       <div class="map-legend" id="mapLegend"></div>
-      <div class="drawer-body" id="drawerBody"></div>
-    </aside>
+    </div>
   </div>
 `
 
@@ -124,7 +170,7 @@ function ensureModelPreload(): void {
   link.id = 'acu3d-model-preload'
   link.rel = 'preload'
   link.as = 'fetch'
-  link.href = asset('models/body-layers.glb')
+  link.href = asset('models/body-layers-v2.glb')
   // KHÔNG đặt crossOrigin: GLTFLoader tải bằng XHR same-origin → để khớp request (tránh tải 2 lần).
   document.head.appendChild(link)
 }

@@ -1,0 +1,121 @@
+{
+ "code": "TE14",
+ "mer": "TE",
+ "num": 14,
+ "tenApp": "Kiên liêu",
+ "tenFocks": "KIÊN LIÊU",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Đưa cánh tay ngang vai, hiện ra 2 chỗ hõm ở mỏm vai, huyệt ở chỗ hõm phía dưới và sau mỏm cùng vai, sau huyệt Kiên Ngung (Đtr 15) 1 thốn, dưới huyệt là khe giữa bó cùng và bó gai sống của cơ delta.",
+  "focksViTri": "Dưới đầu sau mỏm cùng lưng, giữa mỏm cùng và phần bám ở gai vai của cơ delta hoặc với cánh tay dạng sang một bên, lộ ra hai hõm trên khớp vai huyệt ở hõm phía sau.",
+  "focksCachXacDinh": "Khi cánh tay dang ra 90°, hai chỗ lõm hình thành dưới mỏm cùng vai ở vùng nguyên uỷ của cơ delta. Xác định vị trí huyệt Kiên liêu (SJ/TB 14) ở chỗ lõm phía sau (đằng lưng) ngay bên dưới đầu mỏm cùng vai. Huyệt nằm giữa mỏm cùng vai và phần bám gai vai của cơ delta. Đầu mỏm cùng vai dễ nhận thấy hơn bằng cách kéo nhẹ cánh tay trên (duỗi cánh tay trên). Đầu xương cánh tay trượt về phía trước. Huyệt Kiên ngung (Di/Li 15) nằm ở chỗ lõm phía trước.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE14_p260_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1153,
+  "y": 0.8146,
+  "z": -0.0435,
+  "conf": "mốc",
+  "caoDoCm": 140.03,
+  "ngangCm": 19.82,
+  "truocSauCm": -7.48
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Kiên Liêu — hõm sau-dưới mỏm cùng vai, giữa phần MỎM CÙNG và phần GAI VAI của cơ delta. Dịch 6.5cm so toạ độ cũ",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "canh-tay",
+  "vung": "mặt sau cánh tay",
+  "moTaRanh": "giữa hai đầu cơ tam đầu cánh tay",
+  "diemTrongDoan": [
+   "TE10",
+   "TE11",
+   "TE12",
+   "TE13",
+   "TE14"
+  ]
+ },
+ "nutMoc": {
+  "code": "TE14",
+  "loai": "gap",
+  "at": "ACROMION",
+  "vi_sao": "Kiên Liêu — sau-dưới mỏm cùng vai; kinh bẻ từ cánh tay lên vai"
+ },
+ "cotDo": {
+  "doan": "TE/canh-tay",
+  "tong": 7.9,
+  "xa": "TE10",
+  "gan": "TE14",
+  "thonCuaHuyet": 7.9,
+  "lechNgang": null,
+  "moiDiem": {
+   "TE11": 2,
+   "TE12": 5,
+   "TE13": 4.9
+  }
+ },
+ "hangXom": [
+  {
+   "code": "TE13",
+   "ten": "Nhu hội",
+   "thang": 9.92,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 10.8,
+   "sachDoiThon": 3,
+   "vitri": "Ngay dưới mỏm vai 3 thốn, nằm ở bờ sau cơ delta."
+  },
+  {
+   "code": "TE15",
+   "ten": "Thiên liêu",
+   "thang": 8.77,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 10.7,
+   "sachDoiThon": null,
+   "vitri": "Tại trung điểm của đoạn nối huyệt Đại Chùy (Đc 14) và bờ ngoài phía sau mỏm cùng vai, hoặc trung điểm của đoạn nối từ huyệt Kiên Tỉnh (Đ.21) và Khúc Viên (Ttr.13), nằm ở hố trên gai xương bả vai."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "SI10",
+   "ten": "Nhu du",
+   "cm": 1.68
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Phần gai vai của cơ delta trái",
+   "lop": "muscle",
+   "cm": 1.23
+  },
+  {
+   "ten": "Phần mỏm cùng vai của cơ delta trái",
+   "lop": "muscle",
+   "cm": 1.77
+  },
+  {
+   "ten": "Cơ dưới gai trái",
+   "lop": "muscle",
+   "cm": 3.21
+  },
+  {
+   "ten": "Cơ tròn bé trái",
+   "lop": "muscle",
+   "cm": 3.5
+  },
+  {
+   "ten": "Xương vai trái",
+   "lop": "bone",
+   "cm": 3.87
+  }
+ ],
+ "coKiemMay": []
+}

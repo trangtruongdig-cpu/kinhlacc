@@ -1,0 +1,134 @@
+{
+ "code": "TE10",
+ "mer": "TE",
+ "num": 10,
+ "tenApp": "Thiên tỉnh",
+ "tenFocks": "THIÊN TỈNH",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Chỗ lõm trên đầu mỏm khuỷu xương trụ, trên khớp khuỷu một thốn, nơi gân cơ tam đầu cánh tay.",
+  "focksViTri": "Ở cánh tay trên, khi khuỷu tay gấp 900 ở chỗ lõm trên đầu khuỷu khoảng 1 thốn.",
+  "focksCachXacDinh": "Khi khuỷu tay được uốn cong khoảng 900. Trên mỏm khuỷu khoảng 1 thốn có một vết lõm có thể sờ thấy được, đó là vị trí huyệt Thiên tỉnh (SJ/TB 10). Nó trên vùng gân của cơ tam đầu cánh tay.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE10_p256_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE10_p257_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1224,
+  "y": 0.6645,
+  "z": -0.0497,
+  "conf": "mốc",
+  "caoDoCm": 114.23,
+  "ngangCm": 21.04,
+  "truocSauCm": -8.54
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Thiên Tỉnh — trên mỏm khuỷu 1 thốn, mặt sau. Dựng từ xương/gân atlas. Dịch 0cm so toạ độ cũ.",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "cang-tay",
+  "vung": "giữa mặt sau cẳng tay",
+  "moTaRanh": "khe gian cốt giữa xương quay và xương trụ, mặt mu",
+  "diemTrongDoan": [
+   "TE4",
+   "TE5",
+   "TE6",
+   "TE7",
+   "TE8",
+   "TE9",
+   "TE10"
+  ]
+ },
+ "nutMoc": {
+  "code": "TE10",
+  "loai": "moc",
+  "at": "OLECRANON",
+  "vi_sao": "Thiên Tỉnh — trên mỏm khuỷu 1 thốn"
+ },
+ "cotDo": {
+  "doan": "TE/cang-tay",
+  "tong": 12,
+  "xa": "TE4",
+  "gan": "TE10",
+  "xaMoc": "WRIST",
+  "ganMoc": "CUBITAL",
+  "thonCuaHuyet": 12,
+  "lechNgang": null,
+  "moiDiem": {
+   "TE5": 2,
+   "TE6": 3,
+   "TE7": {
+    "thon": 3,
+    "lech": 1,
+    "huong": "trong"
+   },
+   "TE8": 4,
+   "TE9": 7
+  }
+ },
+ "hangXom": [
+  {
+   "code": "TE9",
+   "ten": "Tứ độc",
+   "thang": 14.73,
+   "sachDoiCm": 10.05,
+   "thonCm": 2.01,
+   "docDa": 16.7,
+   "sachDoiThon": 5,
+   "vitri": "Ở mặt sau cẳng tay, dưới khớp khuỷu 5 thốn, giữa khe xương trụ và xương quay."
+  },
+  {
+   "code": "TE11",
+   "ten": "Thanh lãnh uyên",
+   "thang": 6.6,
+   "sachDoiCm": null,
+   "thonCm": 2.01,
+   "docDa": 6.9,
+   "sachDoiThon": null,
+   "vitri": "Co khuỷu tay lại, huyệt ở trên khớp khuỷu tay 2 thốn, trên huyệt Thiên Tỉnh (Ttu 10) 1 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "SI8",
+   "ten": "Tiểu hải",
+   "cm": 1.91
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu ngoài của cơ tam đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 2.31
+  },
+  {
+   "ten": "Đầu dài của cơ tam đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 2.47
+  },
+  {
+   "ten": "Đầu trong của cơ tam đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 3.45
+  },
+  {
+   "ten": "Cơ khuỷu trái",
+   "lop": "muscle",
+   "cm": 3.65
+  },
+  {
+   "ten": "Xương trụ trái",
+   "lop": "bone",
+   "cm": 3.88
+  }
+ ],
+ "coKiemMay": [
+  "ATLAS FOCKS kêu: dọc \"CUBITAL\" đòi 1 thốn, đo được 0.89  (lệch 0.37cm)"
+ ]
+}

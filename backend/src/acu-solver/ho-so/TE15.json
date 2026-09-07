@@ -1,0 +1,109 @@
+{
+ "code": "TE15",
+ "mer": "TE",
+ "num": 15,
+ "tenApp": "Thiên liêu",
+ "tenFocks": "THIÊN LIÊU",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Tại trung điểm của đoạn nối huyệt Đại Chùy (Đc 14) và bờ ngoài phía sau mỏm cùng vai, hoặc trung điểm của đoạn nối từ huyệt Kiên Tỉnh (Đ.21) và Khúc Viên (Ttr.13), nằm ở hố trên gai xương bả vai.",
+  "focksViTri": "Ở giữa đường nối giữa mỏm gai đốt sống C7 và bờ ngoài của mỏm cùng vai.",
+  "focksCachXacDinh": "Trước tiên hãy tìm vị trí của mỏm gai đốt sống C7 và mỏm cùng vai. Ở đầu bên của nó, gai của xương bả vai hợp nhất với mỏm cùng vai, nằm ở phía bên như hình dạng mái nhà trên đầu xương cánh tay. Xác định điểm giữa mỏm gai của đốt sống C7 và bờ ngoài của mỏm cùng vai. Điểm cao nhất của vai là huyệt Kiên tỉnh (GB 21). Huyệt Thiên liêu (SJ/TB 15) nằm cách huyệt Kiên tỉnh (GB 21) khoảng 1 thốn và ở chỗ nhô ra góc trên của xương bả vai. Huyệt Khúc viên (Dü/SI 13) nằm dưới huyệt Thiên liêu (SJ/TB 15) và ngay phía trên đầu trong của gai xương bả vai.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE15_p261_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0762,
+  "y": 0.8386,
+  "z": -0.0212,
+  "conf": "mốc",
+  "caoDoCm": 144.16,
+  "ngangCm": 13.1,
+  "truocSauCm": -3.64
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Thiên Liêu — trung điểm Đại Chuỳ GV14 và mỏm cùng vai",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "vai-co",
+  "vung": "vai sau → gáy",
+  "moTaRanh": "sau mỏm cùng vai, bờ trên gai vai, bờ sau cơ ức-đòn-chũm",
+  "diemTrongDoan": [
+   "TE14",
+   "TE15",
+   "TE16"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "TE14",
+   "ten": "Kiên liêu",
+   "thang": 8.77,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 10.7,
+   "sachDoiThon": null,
+   "vitri": "Đưa cánh tay ngang vai, hiện ra 2 chỗ hõm ở mỏm vai, huyệt ở chỗ hõm phía dưới và sau mỏm cùng vai, sau huyệt Kiên Ngung (Đtr 15) 1 thốn, dưới huyệt là khe giữa bó cùng và bó gai sống của cơ delta."
+  },
+  {
+   "code": "TE16",
+   "ten": "Thiên dũ",
+   "thang": 11.08,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 12.6,
+   "sachDoiThon": null,
+   "vitri": "Ở phía ngoài cổ, bờ sau và trong gai xương chũm, bờ sau cơ ức đòn chũm, nơi góc hàm dưới. Hoặc lấy nếp sau gáy làm chuẩn, huyệt ở 1/3 ngoài của đường nối huyệt Thiên Trụ (Bq 12) và Thiên Dung (Ttr.17)."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "LI16",
+   "ten": "Cự cốt",
+   "cm": 1.15
+  },
+  {
+   "code": "GB21",
+   "ten": "Kiên tỉnh",
+   "cm": 3.37
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ bám da cổ trái",
+   "lop": "muscle",
+   "cm": 0.57
+  },
+  {
+   "ten": "Xương đòn trái",
+   "lop": "bone",
+   "cm": 1.04
+  },
+  {
+   "ten": "Phần xuống của cơ thang trái",
+   "lop": "muscle",
+   "cm": 1.37
+  },
+  {
+   "ten": "Phần ngang của cơ thang trái",
+   "lop": "muscle",
+   "cm": 1.4
+  },
+  {
+   "ten": "Phần đòn của cơ delta trái",
+   "lop": "muscle",
+   "cm": 1.49
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm"
+ ]
+}

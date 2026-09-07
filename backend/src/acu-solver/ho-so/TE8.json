@@ -1,0 +1,146 @@
+{
+ "code": "TE8",
+ "mer": "TE",
+ "num": 8,
+ "tenApp": "Tam dương lạc",
+ "tenFocks": "TAM DƯƠNG LẠC",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Trên lằn cổ tay 4 thốn, khe giữa xương quay và trụ, ở mặt sau cẳng tay.",
+  "focksViTri": "Mặt lưng cẳng tay, cách khe khớp cổ tay 4 thốn (“nếp gấp cổ tay”) giữa xương quay và xương trụ, trên cơ duỗi các ngón.",
+  "focksCachXacDinh": "Khe khớp cổ tay có thể được sờ thấy dễ dàng bằng cử động thả lỏng của bàn tay. Đo lên khoảng 4 thốn tính từ tâm khe khớp. Ở đây, xác định vị trí huyệt Tam dương lạc (SJ/TB 8) giữa xương quay và xương trụ và lệch về phía quay trên cơ duỗi các ngón. Hoặc: Chia khoảng cách giữa nếp gấp khuỷu tay và khoảng cách cổ tay (khoảng cách = 12 cun) thành 3 phần và xác định vị trí huyệt Tam dương lạc (SJ/TB 8) giữa xương quay và xương trụ ở khoảng cách 1/3 từ cổ tay lên.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE8_p254_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1253,
+  "y": 0.5525,
+  "z": -0.0076,
+  "conf": "khoá",
+  "caoDoCm": 94.97,
+  "ngangCm": 21.54,
+  "truocSauCm": -1.31
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "khe",
+   "duong"
+  ],
+  "ly": "nằm giữa bụng cơ (sâu 0.58 thốn trong khối Cơ duỗi cổ tay quay dài trái) · RẢI DỌC ĐƯỜNG: dời 5.21cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "cang-tay",
+  "vung": "giữa mặt sau cẳng tay",
+  "moTaRanh": "khe gian cốt giữa xương quay và xương trụ, mặt mu",
+  "diemTrongDoan": [
+   "TE4",
+   "TE5",
+   "TE6",
+   "TE7",
+   "TE8",
+   "TE9",
+   "TE10"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "TE/cang-tay",
+  "tong": 12,
+  "xa": "TE4",
+  "gan": "TE10",
+  "xaMoc": "WRIST",
+  "ganMoc": "CUBITAL",
+  "thonCuaHuyet": 4,
+  "lechNgang": null,
+  "moiDiem": {
+   "TE5": 2,
+   "TE6": 3,
+   "TE7": {
+    "thon": 3,
+    "lech": 1,
+    "huong": "trong"
+   },
+   "TE8": 4,
+   "TE9": 7
+  }
+ },
+ "hangXom": [
+  {
+   "code": "TE7",
+   "ten": "Hội tông",
+   "thang": 1.78,
+   "sachDoiCm": 2.01,
+   "thonCm": 2.01,
+   "docDa": 1.7,
+   "sachDoiThon": 1,
+   "vitri": "Mặt sau cẳng tay, trên lằn cổ tay 3 thốn, ngang huyệt Chi Câu (Ttu 6), cách 1 thốn, về phía sát bờ ngoài xương trụ."
+  },
+  {
+   "code": "TE9",
+   "ten": "Tứ độc",
+   "thang": 6.08,
+   "sachDoiCm": 6.03,
+   "thonCm": 2.01,
+   "docDa": 7,
+   "sachDoiThon": 3,
+   "vitri": "Ở mặt sau cẳng tay, dưới khớp khuỷu 5 thốn, giữa khe xương trụ và xương quay."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "TE7",
+   "ten": "Hội tông",
+   "cm": 1.78
+  },
+  {
+   "code": "TE6",
+   "ten": "Chi câu",
+   "cm": 2.08
+  },
+  {
+   "code": "SI7",
+   "ten": "Chi chính",
+   "cm": 2.2
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu trụ của cơ gấp cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 0.92
+  },
+  {
+   "ten": "Cơ duỗi cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 0.94
+  },
+  {
+   "ten": "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 1.39
+  },
+  {
+   "ten": "Cơ duỗi ngón cái dài trái",
+   "lop": "muscle",
+   "cm": 1.51
+  },
+  {
+   "ten": "Xương trụ trái",
+   "lop": "bone",
+   "cm": 1.71
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 5.21cm (conf=khoá)",
+  "XA ĐƯỜNG KINH 5.1cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 5.21cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"WRIST\" đòi 4 thốn, đo được 4  (lệch 0.01cm)",
+  "ATLAS FOCKS kêu: dọc \"WRIST\" đòi 4 thốn, đo được 4  (lệch 0.01cm)"
+ ]
+}

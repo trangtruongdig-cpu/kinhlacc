@@ -1,0 +1,132 @@
+{
+ "code": "TE12",
+ "mer": "TE",
+ "num": 12,
+ "tenApp": "Tiêu lạc",
+ "tenFocks": "TIÊU LẠC",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở giữa đoạn nối huyệt Thanh Lãnh Uyên (Ttu.11) và Nhu Hội (Ttu.13), trên khớp khuỷu tay 5 thốn, khe giữa phần ngoài và phần rộng ngoài của cơ tam đầu cánh tay.",
+  "focksViTri": "Huyệt Thiên tỉnh (SJ/TB 10) lên 4 thốn trên đường nối giữa mỏm khuỷu và cực sau của mỏm cùng vai huyệt Kiên liêu (SJ/TB 14).",
+  "focksCachXacDinh": "Khi cánh tay dang ra 90°, hai hõm hình thành dưới mỏm cùng vai ở vùng nguyên uỷ của cơ delta. Xác định vị trí huyệt Kiên liêu (SJ/TB 14) ở hõm sau dưới đầu mỏm cùng vai và vẽ một đường từ đây đến mỏm khuỷu. Xác định vị trí huyệt Tiêu lạc (SJ/TB 12) trên đường này, cách huyệt Thiên tỉnh (SJ/TB 10) 4 thốn (sâu hơn phía trên mỏm khuỷu khi gấp khuỷu tay). Hoặc: Bắt đầu từ điểm giữa huyệt Kiên liêu (SJ/TB 14) và huyệt Thiên tỉnh (SJ/TB 10), đo xuống 1 thốn, xác định huyệt Tiêu lạc (SJ/TB 12).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE12_p258_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1265,
+  "y": 0.76,
+  "z": -0.0473,
+  "conf": "WHO-trọng tài",
+  "caoDoCm": 130.64,
+  "ngangCm": 21.75,
+  "truocSauCm": -8.13
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da",
+   "duong"
+  ],
+  "ly": "TẦNG DA: huyệt nằm sâu — đã ép lên da, dời 4.6cm (2.0 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 8.18cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: huyệt"
+ },
+ "duongKinh": {
+  "doan": "canh-tay",
+  "vung": "mặt sau cánh tay",
+  "moTaRanh": "giữa hai đầu cơ tam đầu cánh tay",
+  "diemTrongDoan": [
+   "TE10",
+   "TE11",
+   "TE12",
+   "TE13",
+   "TE14"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "TE/canh-tay",
+  "tong": 7.9,
+  "xa": "TE10",
+  "gan": "TE14",
+  "thonCuaHuyet": 5,
+  "lechNgang": null,
+  "moiDiem": {
+   "TE11": 2,
+   "TE12": 5,
+   "TE13": 4.9
+  }
+ },
+ "hangXom": [
+  {
+   "code": "TE11",
+   "ten": "Thanh lãnh uyên",
+   "thang": 10,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 10.7,
+   "sachDoiThon": 3,
+   "vitri": "Co khuỷu tay lại, huyệt ở trên khớp khuỷu tay 2 thốn, trên huyệt Thiên Tỉnh (Ttu 10) 1 thốn."
+  },
+  {
+   "code": "TE13",
+   "ten": "Nhu hội",
+   "thang": 0.33,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 0,
+   "sachDoiThon": 0.09999999999999964,
+   "vitri": "Ngay dưới mỏm vai 3 thốn, nằm ở bờ sau cơ delta."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "TE13",
+   "ten": "Nhu hội",
+   "cm": 0.33
+  },
+  {
+   "code": "SI9",
+   "ten": "Kiên trinh",
+   "cm": 3.37
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Phần gai vai của cơ delta trái",
+   "lop": "muscle",
+   "cm": 1.52
+  },
+  {
+   "ten": "Đầu ngoài của cơ tam đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 2.16
+  },
+  {
+   "ten": "Đầu dài của cơ tam đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 3.97
+  },
+  {
+   "ten": "Phần mỏm cùng vai của cơ delta trái",
+   "lop": "muscle",
+   "cm": 4.88
+  },
+  {
+   "ten": "Xương cánh tay trái",
+   "lop": "bone",
+   "cm": 5.01
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 8.18cm (conf=WHO-trọng tài)",
+  "XA ĐƯỜNG KINH 6.63cm",
+  "ÉP LÊN DA dời 4.6cm",
+  "AUDIT cờ soát: bản Focks phân tích HỎNG (bắn lệch 25.1cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: huyệt",
+  "TỪ ĐIỂN APP kêu: dọc \"TE13\" đòi 5 thốn, đo được 0.09  (lệch 16.79cm)",
+  "ATLAS FOCKS kêu: dọc \"TE10\" đòi 4 thốn, đo được 4.59  (lệch 2.01cm)"
+ ]
+}

@@ -1,0 +1,121 @@
+{
+ "code": "TE3",
+ "mer": "TE",
+ "num": 3,
+ "tenApp": "Trung chử",
+ "tenFocks": "TRUNG CHỬ",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Trên mu tay, giữa ngón tay xương bàn tay thứ 4 và thứ 5, trong chỗ lõm trên kẽ ngón tay 1 thốn.",
+  "focksViTri": "Ở mặt sau của bàn tay trong chỗ lõm giữa xương bàn tay thứ 4 và thứ 5, gần khớp bàn tay. Nằm ở vùng chuyển tiếp từ thân lên đầu của hai xương bàn tay.",
+  "focksCachXacDinh": "Đặt bàn tay của bạn ở tư thế thoải mái hoặc nắm lỏng tay. Dùng ngón tay, sờ từ đầu xa giữa các khớp gốc của ngón đeo nhẫn và ngón út gần vào rãnh giữa xương bàn tay thứ 4 và thứ 5 cho đến khi gặp điểm sâu nhất/rộng nhất của rãnh, phần xa so với gốc khớp; đây là vị trí huyệt Trung chử (SJ/TB 3). Nằm ở cùng mức có huyệt Ngoại lao cung (wailaogong: Ex-UE 8) nằm ở vị trí tương đương giữa xương bàn tay thứ 2 và thứ 3) và trên các cạnh của bàn tay huyệt Hâu khê (Dü/SI 3) trong khu vực chuyển tiếp giữa thân và đầu của xương bàn tay ngón út và huyệt Tam gian (Di/Li 3) trong khu vực chuyển tiếp giữa thân và đầu của xương bàn ngón tay thứ 2.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE3_p249_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1403,
+  "y": 0.4752,
+  "z": 0.009,
+  "conf": "mốc",
+  "caoDoCm": 81.69,
+  "ngangCm": 24.12,
+  "truocSauCm": 1.55
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Trung Chử — mu tay, khe xương bàn 4–5",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "ban-tay",
+  "vung": "mu bàn tay",
+  "moTaRanh": "khe giữa xương bàn ngón 4 và 5, rồi lằn cổ tay mặt mu",
+  "diemTrongDoan": [
+   "TE1",
+   "TE2",
+   "TE3",
+   "TE4"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "TE2",
+   "ten": "Dịch môn",
+   "thang": 1.49,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2,
+   "sachDoiThon": null,
+   "vitri": "Giữa xương bàn ngón tay thứ 4 và 5, nơi chỗ lõm ở kẽ ngón tay, ngang phần tiếp nối của thân với đầu trên xương đốt ngón tay."
+  },
+  {
+   "code": "TE4",
+   "ten": "Dương trì",
+   "thang": 6.69,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 6.6,
+   "sachDoiThon": null,
+   "vitri": "Ở chỗ lõm trên lằn ngang khớp xương cổ tay, khe giữa gân cơ duỗi chung ngón tay và cơ duỗi riêng ngón tay trỏ, khe giữa đầu dưới xương quay và xương trụ."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "HT8",
+   "ten": "Thiếu phủ",
+   "cm": 1.14
+  },
+  {
+   "code": "TE2",
+   "ten": "Dịch môn",
+   "cm": 1.49
+  },
+  {
+   "code": "SI3",
+   "ten": "Hậu khê",
+   "cm": 3.56
+  },
+  {
+   "code": "SI2",
+   "ten": "Tiền cốc",
+   "cm": 3.58
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ duỗi các ngón trái",
+   "lop": "muscle",
+   "cm": 1.03
+  },
+  {
+   "ten": "Tập hợp của các cơ gian cốt mu của bàn tay trái",
+   "lop": "muscle",
+   "cm": 1.18
+  },
+  {
+   "ten": "Xương đốt bàn tay 4 trái",
+   "lop": "bone",
+   "cm": 1.21
+  },
+  {
+   "ten": "Xương đốt bàn tay 5 trái",
+   "lop": "bone",
+   "cm": 1.63
+  },
+  {
+   "ten": "Cơ duỗi ngón út trái",
+   "lop": "muscle",
+   "cm": 1.74
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm",
+  "ÉP LÊN DA dời 0.2cm"
+ ]
+}

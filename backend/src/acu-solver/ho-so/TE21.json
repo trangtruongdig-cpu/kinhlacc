@@ -1,0 +1,159 @@
+{
+ "code": "TE21",
+ "mer": "TE",
+ "num": 21,
+ "tenApp": "Nhĩ môn",
+ "tenFocks": "NHĨ MÔN",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở ngay phía trước rãnh trên bình tai, đầu trên chân bình tai, nơi cơ tai trước.",
+  "focksViTri": "Phía trước tai, ở chỗ lõm ngang mức rãnh trên tai và hơi phía sau so với mỏm lồi cầu của xương hàm dưới.",
+  "focksCachXacDinh": "Chỗ chuyển tiếp từ sụn bình tai sang má (khi chúng ta già đi, rãnh này thấy rõ hơn). Xác định vị trí của huyệt Nhĩ môn (SJ/TB 21) tại chỗ này ở phía trên rãnh. Huyệt Nhĩ môn (SJ/TB 21) là huyệt cao nhất trong 3 huyệt trước tai, các huyệt còn lại ở dưới nhiều hơn: huyệt Thính cung (Dü 19) ở mức bình tai và huyệt Thính hội (Gb 2) ở mức rãnh giữa tai (intertragic notch 珠間切痕).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE21_p267_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.039,
+  "y": 0.9239,
+  "z": -0.0016,
+  "conf": "mốc",
+  "caoDoCm": 158.82,
+  "ngangCm": 6.7,
+  "truocSauCm": -0.28
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Nhĩ Môn — trước khuyết trên bình tai, trên Thính Cung 0,5 thốn",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "tai",
+  "vung": "quanh tai",
+  "moTaRanh": "vòng theo bờ sau rồi bờ trên vành tai, sát mỏm chũm",
+  "diemTrongDoan": [
+   "TE16",
+   "TE17",
+   "TE18",
+   "TE19",
+   "TE20",
+   "TE21",
+   "TE22",
+   "TE23"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "TE20",
+   "ten": "Giác tôn",
+   "thang": 2.58,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 3.6,
+   "sachDoiThon": null,
+   "vitri": "Gấp vành tai về phía trước, huyệt ở bờ trên loa tai, trong chân tóc nơi có cơ cử động khi há miệng nhai, dưới huyệt là cơ tai trên, cơ thái dương."
+  },
+  {
+   "code": "TE22",
+   "ten": "Hòa liêu",
+   "thang": 6.04,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 7.3,
+   "sachDoiThon": null,
+   "vitri": "Phía trước lỗ tai, trong chân tóc, trước và trên huyệt Nhĩ Môn (Ttu 21). Huyệt ở bờ trên của mỏm tiếp xương thái dương phía trên và sau bờ sau chân tóc mai, sờ thấy động mạch thái dương nông, trước bình tai một đốt ngón tay."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "SI19",
+   "ten": "Thính cung",
+   "cm": 0.73
+  },
+  {
+   "code": "TE19",
+   "ten": "Lư tức",
+   "cm": 0.84
+  },
+  {
+   "code": "TE18",
+   "ten": "Khế mạch",
+   "cm": 0.96
+  },
+  {
+   "code": "GB2",
+   "ten": "Thính hội",
+   "cm": 1.45
+  },
+  {
+   "code": "GB10",
+   "ten": "Phù bạch",
+   "cm": 2.1
+  },
+  {
+   "code": "GB11",
+   "ten": "Khiếu âm",
+   "cm": 2.46
+  },
+  {
+   "code": "TE20",
+   "ten": "Giác tôn",
+   "cm": 2.58
+  },
+  {
+   "code": "TE17",
+   "ten": "Ế phong",
+   "cm": 2.66
+  },
+  {
+   "code": "GB9",
+   "ten": "Thiên xung",
+   "cm": 2.83
+  },
+  {
+   "code": "GB3",
+   "ten": "Thượng quan",
+   "cm": 3.22
+  },
+  {
+   "code": "ST7",
+   "ten": "Hạ Quan",
+   "cm": 3.58
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương thái dương trái",
+   "lop": "bone",
+   "cm": 0.64
+  },
+  {
+   "ten": "Xương hàm dưới",
+   "lop": "bone",
+   "cm": 1.88
+  },
+  {
+   "ten": "Xương gò má trái",
+   "lop": "bone",
+   "cm": 2.8
+  },
+  {
+   "ten": "Cơ dài nhất đầu trái",
+   "lop": "muscle",
+   "cm": 2.87
+  },
+  {
+   "ten": "Cơ ức đòn chũm trái",
+   "lop": "muscle",
+   "cm": 2.89
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm"
+ ]
+}

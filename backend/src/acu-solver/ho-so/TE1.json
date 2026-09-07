@@ -1,0 +1,103 @@
+{
+ "code": "TE1",
+ "mer": "TE",
+ "num": 1,
+ "tenApp": "Quan xung",
+ "tenFocks": "QUAN XUNG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở bờ trong ngón tay áp út, cách chân móng 0,1 thốn.",
+  "focksViTri": "Cách góc móng phía ngoài của ngón đeo nhẫn 0,1 thốn.",
+  "focksCachXacDinh": "Nằm ở giao điểm của hai tiếp tuyến giới hạn móng của ngón đeo nhẫn ở phía ngoài, cách mép thực của móng khoảng 0,1 thốn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE1_p247_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1412,
+  "y": 0.4359,
+  "z": 0.0491,
+  "conf": "mốc",
+  "caoDoCm": 74.93,
+  "ngangCm": 24.27,
+  "truocSauCm": 8.44
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Quan Xung — góc móng ngón nhẫn, mé trụ — dựng từ xương đốt ngón xa trong atlas, lát cắt chân móng (60% chiều dài kể từ đầu ngón), cực trị phía đã nêu, rồi chiếu ra da",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "ban-tay",
+  "vung": "mu bàn tay",
+  "moTaRanh": "khe giữa xương bàn ngón 4 và 5, rồi lằn cổ tay mặt mu",
+  "diemTrongDoan": [
+   "TE1",
+   "TE2",
+   "TE3",
+   "TE4"
+  ]
+ },
+ "nutMoc": {
+  "code": "TE1",
+  "loai": "dau",
+  "at": "góc móng ngón đeo nhẫn, mé trụ",
+  "vi_sao": "Quan Xung — tỉnh huyệt"
+ },
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "TE2",
+   "ten": "Dịch môn",
+   "thang": 8.22,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 8.2,
+   "sachDoiThon": null,
+   "vitri": "Giữa xương bàn ngón tay thứ 4 và 5, nơi chỗ lõm ở kẽ ngón tay, ngang phần tiếp nối của thân với đầu trên xương đốt ngón tay."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "HT9",
+   "ten": "Thiếu xung",
+   "cm": 2.33
+  },
+  {
+   "code": "SI1",
+   "ten": "Thiếu trạch",
+   "cm": 3.09
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đốt ngón xa của ngón nhẫn trái",
+   "lop": "bone",
+   "cm": 0.33
+  },
+  {
+   "ten": "Đốt ngón giữa của ngón nhẫn trái",
+   "lop": "bone",
+   "cm": 0.51
+  },
+  {
+   "ten": "Cơ gấp các ngón sâu trái",
+   "lop": "muscle",
+   "cm": 0.54
+  },
+  {
+   "ten": "Đốt ngón xa của ngón út trái",
+   "lop": "bone",
+   "cm": 2.04
+  },
+  {
+   "ten": "Cơ gấp các ngón nông trái",
+   "lop": "muscle",
+   "cm": 2.29
+  }
+ ],
+ "coKiemMay": []
+}

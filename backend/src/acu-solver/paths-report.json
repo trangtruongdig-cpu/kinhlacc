@@ -1,0 +1,1945 @@
+{
+ "rows": [
+  {
+   "mer": "LR",
+   "code": "LR10",
+   "doan": "dui",
+   "cm": 15.6,
+   "conf": "tạm"
+  },
+  {
+   "mer": "LR",
+   "code": "LR11",
+   "doan": "dui",
+   "cm": 15.51,
+   "conf": "WHO-lấp"
+  },
+  {
+   "mer": "LI",
+   "code": "LI9",
+   "doan": "cang-tay",
+   "cm": 12.15,
+   "conf": "khe"
+  },
+  {
+   "mer": "GB",
+   "code": "GB36",
+   "doan": "cang-chan",
+   "cm": 11,
+   "conf": "tạm"
+  },
+  {
+   "mer": "GB",
+   "code": "GB8",
+   "doan": "sau-tai",
+   "cm": 10.64,
+   "conf": "cao"
+  },
+  {
+   "mer": "GB",
+   "code": "GB9",
+   "doan": "sau-tai",
+   "cm": 10.52,
+   "conf": "khoá"
+  },
+  {
+   "mer": "BL",
+   "code": "BL58",
+   "doan": "cang-chan",
+   "cm": 8.97,
+   "conf": "cao"
+  },
+  {
+   "mer": "HT",
+   "code": "HT2",
+   "doan": "canh-tay",
+   "cm": 7.76,
+   "conf": "khoá"
+  },
+  {
+   "mer": "TE",
+   "code": "TE20",
+   "doan": "tai",
+   "cm": 7.49,
+   "conf": "cao"
+  },
+  {
+   "mer": "TE",
+   "code": "TE11",
+   "doan": "canh-tay",
+   "cm": 7.36,
+   "conf": "cao"
+  },
+  {
+   "mer": "GB",
+   "code": "GB32",
+   "doan": "dui",
+   "cm": 7.35,
+   "conf": "khe"
+  },
+  {
+   "mer": "TE",
+   "code": "TE13",
+   "doan": "canh-tay",
+   "cm": 7.17,
+   "conf": "khe"
+  },
+  {
+   "mer": "SI",
+   "code": "SI9",
+   "doan": "vai",
+   "cm": 7.15,
+   "conf": "cao"
+  },
+  {
+   "mer": "TE",
+   "code": "TE19",
+   "doan": "tai",
+   "cm": 7.12,
+   "conf": "tạm"
+  },
+  {
+   "mer": "SP",
+   "code": "SP8",
+   "doan": "cang-chan",
+   "cm": 6.96,
+   "conf": "WHO+khe"
+  },
+  {
+   "mer": "SP",
+   "code": "SP11",
+   "doan": "dui",
+   "cm": 6.92,
+   "conf": "WHO+khe"
+  },
+  {
+   "mer": "KI",
+   "code": "KI9",
+   "doan": "cang-chan",
+   "cm": 6.76,
+   "conf": "khe-khoá"
+  },
+  {
+   "mer": "TE",
+   "code": "TE12",
+   "doan": "canh-tay",
+   "cm": 6.63,
+   "conf": "WHO-trọng tài"
+  },
+  {
+   "mer": "SI",
+   "code": "SI7",
+   "doan": "cang-tay",
+   "cm": 6.38,
+   "conf": "khe"
+  },
+  {
+   "mer": "SP",
+   "code": "SP6",
+   "doan": "cang-chan",
+   "cm": 6.33,
+   "conf": "khoá"
+  },
+  {
+   "mer": "BL",
+   "code": "BL55",
+   "doan": "cang-chan",
+   "cm": 6.04,
+   "conf": "cao"
+  },
+  {
+   "mer": "TE",
+   "code": "TE9",
+   "doan": "cang-tay",
+   "cm": 5.87,
+   "conf": "cao"
+  },
+  {
+   "mer": "LU",
+   "code": "LU3",
+   "doan": "canh-tay",
+   "cm": 5.62,
+   "conf": "cao"
+  },
+  {
+   "mer": "LU",
+   "code": "LU4",
+   "doan": "canh-tay",
+   "cm": 5.5,
+   "conf": "khoá"
+  },
+  {
+   "mer": "KI",
+   "code": "KI4",
+   "doan": "ban-chan",
+   "cm": 5.38,
+   "conf": "khe"
+  },
+  {
+   "mer": "BL",
+   "code": "BL37",
+   "doan": "dui-sau",
+   "cm": 5.23,
+   "conf": "WHO+khe"
+  },
+  {
+   "mer": "TE",
+   "code": "TE8",
+   "doan": "cang-tay",
+   "cm": 5.1,
+   "conf": "khoá"
+  },
+  {
+   "mer": "LI",
+   "code": "LI12",
+   "doan": "canh-tay",
+   "cm": 5.01,
+   "conf": "khe"
+  },
+  {
+   "mer": "TE",
+   "code": "TE18",
+   "doan": "tai",
+   "cm": 4.96,
+   "conf": "cao"
+  },
+  {
+   "mer": "TE",
+   "code": "TE7",
+   "doan": "cang-tay",
+   "cm": 4.82,
+   "conf": "khe"
+  },
+  {
+   "mer": "TE",
+   "code": "TE6",
+   "doan": "cang-tay",
+   "cm": 4.69,
+   "conf": "khoá"
+  },
+  {
+   "mer": "BL",
+   "code": "BL38",
+   "doan": "dui-sau",
+   "cm": 4.52,
+   "conf": "khe"
+  },
+  {
+   "mer": "BL",
+   "code": "BL57",
+   "doan": "cang-chan",
+   "cm": 4.51,
+   "conf": "WHO+khe"
+  },
+  {
+   "mer": "TE",
+   "code": "TE5",
+   "doan": "cang-tay",
+   "cm": 4.33,
+   "conf": "khoá"
+  },
+  {
+   "mer": "PC",
+   "code": "PC4",
+   "doan": "cang-tay",
+   "cm": 4.3,
+   "conf": "cao"
+  },
+  {
+   "mer": "SI",
+   "code": "SI18",
+   "doan": "mat",
+   "cm": 4.12,
+   "conf": "WHO-lấp"
+  },
+  {
+   "mer": "HT",
+   "code": "HT4",
+   "doan": "cang-tay",
+   "cm": 4.08,
+   "conf": "cao"
+  },
+  {
+   "mer": "HT",
+   "code": "HT5",
+   "doan": "cang-tay",
+   "cm": 4.02,
+   "conf": "cao"
+  },
+  {
+   "mer": "LU",
+   "code": "LU6",
+   "doan": "cang-tay",
+   "cm": 3.99,
+   "conf": "cao"
+  },
+  {
+   "mer": "KI",
+   "code": "KI7",
+   "doan": "cang-chan",
+   "cm": 3.84,
+   "conf": "khoá"
+  },
+  {
+   "mer": "KI",
+   "code": "KI8",
+   "doan": "cang-chan",
+   "cm": 3.84,
+   "conf": "khoá"
+  },
+  {
+   "mer": "LI",
+   "code": "LI6",
+   "doan": "cang-tay",
+   "cm": 3.54,
+   "conf": "cao"
+  },
+  {
+   "mer": "PC",
+   "code": "PC5",
+   "doan": "cang-tay",
+   "cm": 3.46,
+   "conf": "cao"
+  },
+  {
+   "mer": "ST",
+   "code": "ST39",
+   "doan": "cang-chan",
+   "cm": 3.27,
+   "conf": "khe"
+  },
+  {
+   "mer": "PC",
+   "code": "PC6",
+   "doan": "cang-tay",
+   "cm": 3.05,
+   "conf": "khoá"
+  },
+  {
+   "mer": "BL",
+   "code": "BL59",
+   "doan": "cang-chan",
+   "cm": 2.91,
+   "conf": "khe-khoá"
+  },
+  {
+   "mer": "GB",
+   "code": "GB31",
+   "doan": "dui",
+   "cm": 2.74,
+   "conf": "WHO-lấp"
+  },
+  {
+   "mer": "LU",
+   "code": "LU7",
+   "doan": "cang-tay",
+   "cm": 2.27,
+   "conf": "khoá"
+  },
+  {
+   "mer": "HT",
+   "code": "HT6",
+   "doan": "cang-tay",
+   "cm": 2.09,
+   "conf": "khe-khoá"
+  },
+  {
+   "mer": "GB",
+   "code": "GB39",
+   "doan": "cang-chan",
+   "cm": 2.01,
+   "conf": "khoá"
+  },
+  {
+   "mer": "LI",
+   "code": "LI7",
+   "doan": "cang-tay",
+   "cm": 2,
+   "conf": "WHO-trọng tài"
+  },
+  {
+   "mer": "LU",
+   "code": "LU8",
+   "doan": "cang-tay",
+   "cm": 1.93,
+   "conf": "cao"
+  },
+  {
+   "mer": "ST",
+   "code": "ST38",
+   "doan": "cang-chan",
+   "cm": 1.92,
+   "conf": "tạm"
+  },
+  {
+   "mer": "LI",
+   "code": "LI10",
+   "doan": "cang-tay",
+   "cm": 1.88,
+   "conf": "tạm"
+  },
+  {
+   "mer": "ST",
+   "code": "ST33",
+   "doan": "dui",
+   "cm": 1.84,
+   "conf": "khoá"
+  },
+  {
+   "mer": "ST",
+   "code": "ST36",
+   "doan": "cang-chan",
+   "cm": 1.8,
+   "conf": "khoá"
+  },
+  {
+   "mer": "ST",
+   "code": "ST37",
+   "doan": "cang-chan",
+   "cm": 1.59,
+   "conf": "cao"
+  },
+  {
+   "mer": "GB",
+   "code": "GB38",
+   "doan": "cang-chan",
+   "cm": 1.53,
+   "conf": "khoá"
+  },
+  {
+   "mer": "ST",
+   "code": "ST40",
+   "doan": "cang-chan",
+   "cm": 1.52,
+   "conf": "tạm"
+  },
+  {
+   "mer": "GB",
+   "code": "GB33",
+   "doan": "dui",
+   "cm": 1.5,
+   "conf": "cao"
+  },
+  {
+   "mer": "LR",
+   "code": "LR9",
+   "doan": "dui",
+   "cm": 1.42,
+   "conf": "cao"
+  },
+  {
+   "mer": "KI",
+   "code": "KI2",
+   "doan": "ban-chan",
+   "cm": 1.4,
+   "conf": "WHO-lấp"
+  },
+  {
+   "mer": "ST",
+   "code": "ST2",
+   "doan": "mat",
+   "cm": 1.13,
+   "conf": "WHO-lấp"
+  },
+  {
+   "mer": "ST",
+   "code": "ST3",
+   "doan": "mat",
+   "cm": 1.13,
+   "conf": "cao"
+  },
+  {
+   "mer": "GB",
+   "code": "GB35",
+   "doan": "cang-chan",
+   "cm": 1.1,
+   "conf": "cao"
+  },
+  {
+   "mer": "GB",
+   "code": "GB37",
+   "doan": "cang-chan",
+   "cm": 1.04,
+   "conf": "khoá"
+  },
+  {
+   "mer": "ST",
+   "code": "ST32",
+   "doan": "dui",
+   "cm": 0.91,
+   "conf": "khoá"
+  },
+  {
+   "mer": "LI",
+   "code": "LI8",
+   "doan": "cang-tay",
+   "cm": 0.82,
+   "conf": "WHO-lấp"
+  },
+  {
+   "mer": "SI",
+   "code": "SI6",
+   "doan": "cang-tay",
+   "cm": 0.77,
+   "conf": "tạm"
+  },
+  {
+   "mer": "LI",
+   "code": "LI17",
+   "doan": "co",
+   "cm": 0.69,
+   "conf": "WHO-lấp"
+  },
+  {
+   "mer": "ST",
+   "code": "ST34",
+   "doan": "dui",
+   "cm": 0.33,
+   "conf": "khoá"
+  },
+  {
+   "mer": "ST",
+   "code": "ST23",
+   "doan": "bung",
+   "cm": 0.24,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV26",
+   "doan": "mui-moi",
+   "cm": 0.24,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SI",
+   "code": "SI3",
+   "doan": "ban-tay",
+   "cm": 0.23,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST43",
+   "doan": "ban-chan",
+   "cm": 0.22,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL17",
+   "doan": "lung-trong",
+   "cm": 0.21,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL49",
+   "doan": "lung-ngoai",
+   "cm": 0.21,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV15",
+   "doan": "gay",
+   "cm": 0.21,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB16",
+   "doan": "tran-dinh",
+   "cm": 0.2,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL3",
+   "doan": "dau",
+   "cm": 0.2,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL13",
+   "doan": "lung-trong",
+   "cm": 0.2,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LR",
+   "code": "LR5",
+   "doan": "cang-chan",
+   "cm": 0.2,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST27",
+   "doan": "bung",
+   "cm": 0.19,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI15",
+   "doan": "bung",
+   "cm": 0.19,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST24",
+   "doan": "bung",
+   "cm": 0.18,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL5",
+   "doan": "dau",
+   "cm": 0.18,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL22",
+   "doan": "lung-trong",
+   "cm": 0.18,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL25",
+   "doan": "lung-trong",
+   "cm": 0.18,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL48",
+   "doan": "lung-ngoai",
+   "cm": 0.17,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV14",
+   "doan": "bung-tren",
+   "cm": 0.17,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL45",
+   "doan": "lung-ngoai",
+   "cm": 0.16,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL14",
+   "doan": "lung-trong",
+   "cm": 0.14,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV18",
+   "doan": "nguc",
+   "cm": 0.14,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV12",
+   "doan": "lung",
+   "cm": 0.14,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV3",
+   "doan": "cung-that-lung",
+   "cm": 0.13,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV13",
+   "doan": "lung",
+   "cm": 0.13,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST20",
+   "doan": "bung",
+   "cm": 0.12,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL46",
+   "doan": "lung-ngoai",
+   "cm": 0.12,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP19",
+   "doan": "nguc",
+   "cm": 0.12,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI17",
+   "doan": "bung",
+   "cm": 0.12,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV5",
+   "doan": "bung-duoi",
+   "cm": 0.11,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV19",
+   "doan": "nguc",
+   "cm": 0.11,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST21",
+   "doan": "bung",
+   "cm": 0.1,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI19",
+   "doan": "bung",
+   "cm": 0.1,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI14",
+   "doan": "bung",
+   "cm": 0.09,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV4",
+   "doan": "bung-duoi",
+   "cm": 0.08,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV22",
+   "doan": "dinh-dau",
+   "cm": 0.08,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL47",
+   "doan": "lung-ngoai",
+   "cm": 0.07,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV12",
+   "doan": "bung-tren",
+   "cm": 0.07,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST28",
+   "doan": "bung",
+   "cm": 0.06,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL28",
+   "doan": "lung-trong",
+   "cm": 0.06,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL18",
+   "doan": "lung-trong",
+   "cm": 0.05,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL50",
+   "doan": "lung-ngoai",
+   "cm": 0.05,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV10",
+   "doan": "bung-tren",
+   "cm": 0.05,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV8",
+   "doan": "lung",
+   "cm": 0.05,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL16",
+   "doan": "lung-trong",
+   "cm": 0.04,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL19",
+   "doan": "lung-trong",
+   "cm": 0.04,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL51",
+   "doan": "lung-ngoai",
+   "cm": 0.04,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV9",
+   "doan": "bung-tren",
+   "cm": 0.02,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV5",
+   "doan": "cung-that-lung",
+   "cm": 0.02,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB5",
+   "doan": "chan-toc-ben",
+   "cm": 0.01,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB6",
+   "doan": "chan-toc-ben",
+   "cm": 0.01,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL12",
+   "doan": "lung-trong",
+   "cm": 0.01,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL21",
+   "doan": "lung-trong",
+   "cm": 0.01,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL27",
+   "doan": "lung-trong",
+   "cm": 0.01,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV13",
+   "doan": "bung-tren",
+   "cm": 0.01,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LU",
+   "code": "LU10",
+   "doan": "ban-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "PC",
+   "code": "PC8",
+   "doan": "ban-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "HT",
+   "code": "HT8",
+   "doan": "ban-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LI",
+   "code": "LI2",
+   "doan": "ban-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LI",
+   "code": "LI3",
+   "doan": "ban-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LI",
+   "code": "LI4",
+   "doan": "ban-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LI",
+   "code": "LI13",
+   "doan": "canh-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LI",
+   "code": "LI14",
+   "doan": "canh-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LI",
+   "code": "LI19",
+   "doan": "mat",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SI",
+   "code": "SI2",
+   "doan": "ban-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SI",
+   "code": "SI4",
+   "doan": "ban-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SI",
+   "code": "SI11",
+   "doan": "vai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SI",
+   "code": "SI12",
+   "doan": "vai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SI",
+   "code": "SI13",
+   "doan": "vai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SI",
+   "code": "SI14",
+   "doan": "vai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SI",
+   "code": "SI14",
+   "doan": "co",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SI",
+   "code": "SI16",
+   "doan": "co",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SI",
+   "code": "SI17",
+   "doan": "co",
+   "cm": 0,
+   "conf": "WHO-lấp"
+  },
+  {
+   "mer": "SI",
+   "code": "SI17",
+   "doan": "mat",
+   "cm": 0,
+   "conf": "WHO-lấp"
+  },
+  {
+   "mer": "TE",
+   "code": "TE2",
+   "doan": "ban-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE3",
+   "doan": "ban-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE15",
+   "doan": "vai-co",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE16",
+   "doan": "vai-co",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE16",
+   "doan": "tai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE21",
+   "doan": "tai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE22",
+   "doan": "tai",
+   "cm": 0,
+   "conf": "cao"
+  },
+  {
+   "mer": "ST",
+   "code": "ST4",
+   "doan": "mat",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST6",
+   "doan": "mat",
+   "cm": 0,
+   "conf": "khe"
+  },
+  {
+   "mer": "ST",
+   "code": "ST6",
+   "doan": "nhanh-tran",
+   "cm": 0,
+   "conf": "khe"
+  },
+  {
+   "mer": "ST",
+   "code": "ST7",
+   "doan": "nhanh-tran",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST6",
+   "doan": "co",
+   "cm": 0,
+   "conf": "khe"
+  },
+  {
+   "mer": "ST",
+   "code": "ST9",
+   "doan": "co",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST10",
+   "doan": "co",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST11",
+   "doan": "co",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST13",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST14",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST15",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST16",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST18",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST19",
+   "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST22",
+   "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST26",
+   "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST29",
+   "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST42",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
+   "code": "ST44",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB2",
+   "doan": "thai-duong",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB3",
+   "doan": "thai-duong",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB3",
+   "doan": "chan-toc-ben",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB4",
+   "doan": "chan-toc-ben",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB10",
+   "doan": "sau-tai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB11",
+   "doan": "sau-tai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB13",
+   "doan": "tran-dinh",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB14",
+   "doan": "tran-dinh",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB15",
+   "doan": "tran-dinh",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB17",
+   "doan": "tran-dinh",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB18",
+   "doan": "tran-dinh",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB19",
+   "doan": "tran-dinh",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB19",
+   "doan": "gay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB23",
+   "doan": "suon",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB24",
+   "doan": "suon",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB26",
+   "doan": "suon",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB27",
+   "doan": "suon",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB28",
+   "doan": "suon",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB28",
+   "doan": "mong",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB29",
+   "doan": "mong",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB41",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB42",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB43",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL4",
+   "doan": "dau",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL6",
+   "doan": "dau",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL7",
+   "doan": "dau",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL8",
+   "doan": "dau",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL9",
+   "doan": "dau",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL9",
+   "doan": "gay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL11",
+   "doan": "lung-trong",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL15",
+   "doan": "lung-trong",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL20",
+   "doan": "lung-trong",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL24",
+   "doan": "lung-trong",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL26",
+   "doan": "lung-trong",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL29",
+   "doan": "lung-trong",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL30",
+   "doan": "lung-trong",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL31",
+   "doan": "cung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL32",
+   "doan": "cung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL33",
+   "doan": "cung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL34",
+   "doan": "cung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL35",
+   "doan": "cung",
+   "cm": 0,
+   "conf": "WHO-lấp"
+  },
+  {
+   "mer": "BL",
+   "code": "BL36",
+   "doan": "dui-sau",
+   "cm": 0,
+   "conf": "WHO-lấp"
+  },
+  {
+   "mer": "BL",
+   "code": "BL39",
+   "doan": "dui-sau",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL41",
+   "doan": "lung-ngoai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL42",
+   "doan": "lung-ngoai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL43",
+   "doan": "lung-ngoai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL44",
+   "doan": "lung-ngoai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL52",
+   "doan": "lung-ngoai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL53",
+   "doan": "lung-ngoai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL56",
+   "doan": "cang-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL61",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL62",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL63",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL64",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL65",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL66",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP2",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP3",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP4",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP7",
+   "doan": "cang-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP10",
+   "doan": "dui",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP13",
+   "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP14",
+   "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP16",
+   "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP18",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP20",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP20",
+   "doan": "nach",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI5",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI6",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI6",
+   "doan": "cang-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI11",
+   "doan": "dui-chim",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI11",
+   "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI12",
+   "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI13",
+   "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI18",
+   "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI20",
+   "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI22",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI23",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI24",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI25",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "KI",
+   "code": "KI26",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LR",
+   "code": "LR2",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LR",
+   "code": "LR3",
+   "doan": "ban-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LR",
+   "code": "LR6",
+   "doan": "cang-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LR",
+   "code": "LR7",
+   "doan": "cang-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV3",
+   "doan": "bung-duoi",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV6",
+   "doan": "bung-duoi",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV7",
+   "doan": "bung-duoi",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV11",
+   "doan": "bung-tren",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV16",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV20",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "CV",
+   "code": "CV21",
+   "doan": "nguc",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV2",
+   "doan": "cung-that-lung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV6",
+   "doan": "cung-that-lung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV6",
+   "doan": "lung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV7",
+   "doan": "lung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV9",
+   "doan": "lung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV10",
+   "doan": "lung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV11",
+   "doan": "lung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV17",
+   "doan": "dinh-dau",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV18",
+   "doan": "dinh-dau",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV19",
+   "doan": "dinh-dau",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV21",
+   "doan": "dinh-dau",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV23",
+   "doan": "dinh-dau",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV25",
+   "doan": "mui-moi",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GV",
+   "code": "GV27",
+   "doan": "mui-moi",
+   "cm": 0,
+   "conf": "mốc"
+  }
+ ],
+ "tongDoan": 78,
+ "tongCm": 2028
+}

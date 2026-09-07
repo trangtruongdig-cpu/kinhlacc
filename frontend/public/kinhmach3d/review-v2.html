@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<title>Soát huyệt nháp (meridian-atlas) — nội bộ, không public</title>
+<meta name="robots" content="noindex,nofollow" />
+<style>
+  html, body { margin:0; padding:0; height:100%; background:#14181c; font-family:-apple-system,'Segoe UI',Roboto,sans-serif; overflow:hidden; }
+  #stage { position:fixed; inset:0; }
+  #stage canvas { display:block; }
+  .panel { position:fixed; background:rgba(22,26,31,0.92); color:#e8ecef; border:1px solid #333c44; border-radius:10px; padding:12px 14px; font-size:13px; box-shadow:0 8px 24px rgba(0,0,0,0.4); backdrop-filter: blur(4px); }
+  #legend { top:14px; left:14px; width:250px; }
+  #legend h1 { font-size:14px; margin:0 0 8px; color:#fff; }
+  #legend .row { display:flex; align-items:center; gap:8px; margin:4px 0; }
+  #legend .dot { width:11px; height:11px; border-radius:50%; flex:0 0 auto; }
+  #legend .hint { color:#9aa5ad; font-size:11.5px; margin-top:8px; line-height:1.5; }
+  #controls { top:14px; right:14px; width:270px; max-height:calc(100vh - 28px); overflow-y:auto; }
+  #controls h2 { font-size:13px; margin:0 0 8px; color:#fff; }
+  #controls label { display:flex; align-items:center; gap:7px; margin:5px 0; cursor:pointer; font-size:12.5px; }
+  #controls select, #controls input[type=text] { width:100%; box-sizing:border-box; background:#1d232a; color:#e8ecef; border:1px solid #3a444d; border-radius:6px; padding:5px 7px; font-size:12.5px; margin-bottom:6px; }
+  #controls .stat { font-size:11.5px; color:#9aa5ad; margin:8px 0 4px; }
+  #controls button { width:100%; background:#2a323a; color:#e8ecef; border:1px solid #3a444d; border-radius:6px; padding:6px; font-size:12px; cursor:pointer; margin-top:4px; }
+  #controls button:hover { background:#343e47; }
+  #controls button.primary { background:#2f6a3a; border-color:#3d8a4c; }
+  #controls button.primary:hover { background:#357d41; }
+  #pointlist { margin-top:8px; border-top:1px solid #333c44; padding-top:8px; max-height:34vh; overflow-y:auto; }
+  #pointlist .item { display:flex; justify-content:space-between; align-items:center; padding:4px 6px; border-radius:5px; cursor:pointer; font-size:12px; }
+  #pointlist .item:hover { background:#252d34; }
+  #pointlist .item.sel { background:#2f3a44; }
+  #pointlist .item .code { font-weight:700; }
+  #pointlist .item .st { font-size:10px; padding:1px 6px; border-radius:999px; }
+  #pointlist .item .st.pending { background:#4a3a1a; color:#e8b84a; }
+  #pointlist .item .st.approved { background:#1a4a2a; color:#4ae87a; }
+  #pointlist .item .st.rejected { background:#4a1a1a; color:#e84a4a; }
+  #info { display:none; bottom:14px; left:14px; width:340px; }
+  #info h3 { margin:0 0 6px; font-size:15px; color:#fff; }
+  #info .sub { color:#9aa5ad; font-size:12px; margin-bottom:8px; }
+  #info table { width:100%; border-collapse:collapse; font-size:12px; }
+  #info td { padding:2px 4px; vertical-align:top; }
+  #info td.k { color:#9aa5ad; white-space:nowrap; width:64px; }
+  #info .note { margin-top:8px; font-size:12px; color:#d4c99a; line-height:1.5; }
+  #info .delta { margin-top:8px; font-size:13px; font-weight:700; }
+  #info .actions { display:flex; gap:8px; margin-top:10px; }
+  #info .actions button { flex:1; border:none; border-radius:6px; padding:7px; font-size:12px; cursor:pointer; font-weight:600; }
+  #info .btn-approve { background:#2f6a3a; color:#fff; }
+  #info .btn-approve:hover { background:#357d41; }
+  #info .btn-reject { background:#6a2f2f; color:#fff; }
+  #info .btn-reject:hover { background:#7d3535; }
+  #info .btn-clear { background:#3a444d; color:#e8ecef; flex:0 0 60px; }
+  #loading { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; color:#9aa5ad; font-size:14px; background:#14181c; z-index:10; }
+</style>
+</head>
+<body>
+<div id="loading">Đang tải mô hình 3D…</div>
+<div id="stage"></div>
+
+<div id="legend" class="panel">
+  <h1>Soát huyệt nháp — nội bộ</h1>
+  <div class="row"><span class="dot" style="background:#38bdf8"></span> Vị trí đang chạy (production)</div>
+  <div class="row"><span class="dot" style="background:#fb923c"></span> Vị trí engine v2 (mesh mới)</div>
+  <div class="row"><span class="dot" style="background:#ffffff;box-shadow:0 0 0 2px #38bdf8"></span> Mốc đã calibrate tay (who-ref.cjs)</div>
+  <div class="row"><span style="width:16px;height:2px;background:#f43f5e;display:inline-block"></span> Đường lệch (production ↔ nháp)</div>
+  <div class="hint">Kéo chuột xoay · lăn chuột zoom · bấm 1 điểm để xem chi tiết + duyệt. Trạng thái duyệt lưu trong trình duyệt này (localStorage), xuất ra JSON bằng nút bên phải.</div>
+</div>
+
+<div id="controls" class="panel">
+  <h2>Bộ lọc</h2>
+  <select id="meridianFilter"></select>
+  <label><input type="checkbox" id="chkOnlyDraft" checked /> Chỉ hiện huyệt có bản nháp (326)</label>
+  <label><input type="checkbox" id="chkShowCurrent" checked /> Hiện vị trí đang chạy</label>
+  <label><input type="checkbox" id="chkShowDraft" checked /> Hiện vị trí nháp</label>
+  <label><input type="checkbox" id="chkShowLines" checked /> Hiện đường lệch</label>
+  <label><input type="checkbox" id="chkHideReviewed" /> Ẩn huyệt đã duyệt xong</label>
+  <div class="stat" id="progressStat">Đã duyệt: 0 / 326</div>
+  <button id="btnExport">⬇ Xuất kết quả soát (JSON)</button>
+  <button id="btnReset">↻ Xoá toàn bộ trạng thái duyệt</button>
+  <div id="pointlist"></div>
+</div>
+
+<div id="info" class="panel">
+  <h3 id="infoCode">—</h3>
+  <div class="sub" id="infoName">—</div>
+  <table>
+    <tr><td class="k">Đang chạy</td><td id="infoCur">—</td></tr>
+    <tr><td class="k">Nháp mới</td><td id="infoDraft">—</td></tr>
+  </table>
+  <div class="delta" id="infoDelta"></div>
+  <div class="note" id="infoNote"></div>
+  <div class="actions">
+    <button class="btn-approve" id="btnApprove">✓ Duyệt (dùng bản nháp)</button>
+    <button class="btn-reject" id="btnReject">✗ Loại (giữ bản cũ)</button>
+    <button class="btn-clear" id="btnClearSel">Bỏ chọn</button>
+  </div>
+</div>
+
+<script src="vendor/three.min.js"></script>
+<script src="vendor/OrbitControls.js"></script>
+<script src="vendor/GLTFLoader.js"></script>
+<script src="vendor/meshopt_decoder.js"></script>
+<script>
+(function () {
+  const BODY_H = 1.7; // khớp map3d.js — KHÔNG đổi nếu không đổi cùng lúc bên đó
+  const STORAGE_KEY = 'acu-review-decisions-v1';
+
+  let scene, camera, renderer, controls, raycaster, bodyHeight = BODY_H, bodyMinY = 0, modelRoot = null;
+  let data = null, decisions = {};
+  let markers = []; // {code, curMesh, draftMesh, line, ring, meridian}
+  let billboardRings = []; // vòng tròn "mốc" — phải tự xoay theo camera mỗi frame (không tự động như Sprite)
+  let selectedCode = null;
+
+  function loadDecisions() {
+    try { decisions = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); } catch { decisions = {}; }
+  }
+  function saveDecisions() { localStorage.setItem(STORAGE_KEY, JSON.stringify(decisions)); }
+
+  function initScene() {
+    const stage = document.getElementById('stage');
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x14181c);
+    camera = new THREE.PerspectiveCamera(45, innerWidth / innerHeight, 0.01, 50);
+    camera.position.set(0, 1.0, 2.2);
+    renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+    renderer.setSize(innerWidth, innerHeight);
+    stage.appendChild(renderer.domElement);
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.target.set(0, 0.85, 0);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.08;
+    controls.update();
+    raycaster = new THREE.Raycaster();
+    raycaster.params.Points.threshold = 0.012;
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    const key = new THREE.DirectionalLight(0xfff4e8, 1.0); key.position.set(1.2, 2.0, 2.2); scene.add(key);
+    const fill = new THREE.DirectionalLight(0xdfeaff, 0.35); fill.position.set(-1.5, 0.8, -1.0); scene.add(fill);
+
+    window.addEventListener('resize', () => {
+      camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix();
+      renderer.setSize(innerWidth, innerHeight);
+    });
+    renderer.domElement.addEventListener('click', onClick);
+    animate();
+  }
+
+  function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    for (const ring of billboardRings) if (ring.visible) ring.lookAt(camera.position);
+    renderer.render(scene, camera);
+  }
+
+  function loadModel() {
+    return new Promise((resolve, reject) => {
+      const loader = new THREE.GLTFLoader();
+      if (window.MeshoptDecoder) loader.setMeshoptDecoder(window.MeshoptDecoder);
+      loader.load('models/body-layers-v2.glb', gltf => {
+        modelRoot = gltf.scene;
+        modelRoot.updateMatrixWorld(true);
+        modelRoot.traverse(o => {
+          if (o.isSkinnedMesh && o.skeleton) o.skeleton.pose();
+          if (o.isMesh) {
+            o.material = new THREE.MeshStandardMaterial({
+              color: 0xd9c9b8, roughness: 0.85, metalness: 0, transparent: true, opacity: 0.32,
+              side: THREE.DoubleSide, depthWrite: false,
+            });
+            if (o.geometry && !o.geometry.attributes.normal) o.geometry.computeVertexNormals();
+          }
+        });
+        let box = new THREE.Box3().setFromObject(modelRoot);
+        const size = new THREE.Vector3(); box.getSize(size);
+        const s = BODY_H / size.y; modelRoot.scale.setScalar(s);
+        modelRoot.updateMatrixWorld(true);
+        box = new THREE.Box3().setFromObject(modelRoot);
+        const ctr = new THREE.Vector3(); box.getCenter(ctr);
+        modelRoot.position.x -= ctr.x; modelRoot.position.z -= ctr.z; modelRoot.position.y -= box.min.y;
+        modelRoot.updateMatrixWorld(true);
+        box = new THREE.Box3().setFromObject(modelRoot);
+        bodyMinY = box.min.y; bodyHeight = box.max.y - box.min.y;
+        scene.add(modelRoot);
+        resolve();
+      }, undefined, reject);
+    });
+  }
+
+  // Với huyệt GV (Đốc mạch): dữ liệu production lưu (h, az) — độ cao + góc quanh trục dọc thân —
+  // rồi bắn tia từ ngoài vào trục giữa để "dán" lên da, giống hệt _surfacePointRaw trong map3d.js.
+  // KHÔNG có công thức đóng (closed-form) cho dạng này, phải raycast lại đúng như production.
+  const _so = new THREE.Vector3(), _st = new THREE.Vector3(), _sd = new THREE.Vector3();
+  function surfacePointRaw(h, az, dir) {
+    const y = bodyMinY + h * bodyHeight, azr = az * Math.PI / 180;
+    if (dir === 'top') {
+      _so.set(Math.sin(azr) * 0.04 * bodyHeight, bodyMinY + bodyHeight * 1.25, Math.cos(azr) * 0.06 * bodyHeight);
+      _st.set(0, y, Math.cos(azr) * 0.04 * bodyHeight);
+    } else {
+      const R = bodyHeight;
+      _so.set(Math.sin(azr) * R, y, Math.cos(azr) * R);
+      _st.set(0, y, 0);
+    }
+    _sd.copy(_st).sub(_so).normalize();
+    raycaster.set(_so, _sd);
+    const hits = raycaster.intersectObjects([modelRoot], true);
+    if (!hits.length) return null;
+    return hits[0].point.clone();
+  }
+
+  function toWorld(p) {
+    if (p.type === 'surface') {
+      const hit = surfacePointRaw(p.h, p.az, p.dir);
+      if (hit) return hit;
+      // raycast trượt (hiếm, mesh hở) → fallback thô để KHÔNG rơi về gốc toạ độ (giữa thân) gây hiểu lầm
+      return new THREE.Vector3(0, bodyMinY + p.h * bodyHeight, bodyHeight * 0.05);
+    }
+    return new THREE.Vector3((p.x || 0) * bodyHeight, bodyMinY + (p.y || 0) * bodyHeight, (p.z || 0) * bodyHeight);
+  }
+
+  const dotGeo = new THREE.SphereGeometry(1, 12, 10);
+
+  function buildMarkers() {
+    const draftCodes = Object.keys(data.draft);
+    const allCodes = Array.from(new Set([...draftCodes, ...Object.keys(data.current)]));
+    const r = 0.006 * bodyHeight;
+    for (const code of allCodes) {
+      const cur = data.current[code];
+      const dr = data.draft[code];
+      const isAnchor = !!data.anchor[code];
+      const meridian = (code.match(/^[A-Z]+/) || [''])[0];
+      let curMesh = null, draftMesh = null, line = null, ring = null;
+
+      if (cur) {
+        const mat = new THREE.MeshStandardMaterial({
+          color: 0x38bdf8, emissive: 0x0c4a6e, emissiveIntensity: isAnchor ? 1.1 : 0.6,
+        });
+        curMesh = new THREE.Mesh(dotGeo, mat);
+        curMesh.scale.setScalar(isAnchor ? r * 1.5 : r);
+        curMesh.position.copy(toWorld(cur));
+        curMesh.userData = { code, kind: 'current' };
+        scene.add(curMesh);
+        if (isAnchor) {
+          ring = new THREE.Mesh(new THREE.RingGeometry(r * 2.1, r * 2.6, 20),
+            new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide, transparent: true, opacity: 0.85 }));
+          ring.position.copy(curMesh.position);
+          ring.lookAt(camera.position);
+          scene.add(ring);
+          billboardRings.push(ring); // xoay theo camera mỗi frame — xem animate()
+        }
+      }
+      if (dr) {
+        const mat = new THREE.MeshStandardMaterial({ color: 0xfb923c, emissive: 0x7c2d12, emissiveIntensity: 0.6 });
+        draftMesh = new THREE.Mesh(dotGeo, mat);
+        draftMesh.scale.setScalar(r * 0.9);
+        draftMesh.position.copy(toWorld(dr));
+        draftMesh.userData = { code, kind: 'draft' };
+        scene.add(draftMesh);
+      }
+      if (cur && dr) {
+        const g = new THREE.BufferGeometry().setFromPoints([curMesh.position, draftMesh.position]);
+        const m = new THREE.LineBasicMaterial({ color: 0xf43f5e, transparent: true, opacity: 0.65 });
+        line = new THREE.Line(g, m);
+        scene.add(line);
+      }
+      markers.push({ code, meridian, isAnchor, curMesh, draftMesh, line, ring, hasDraft: !!dr });
+    }
+  }
+
+  // Dùng vị trí WORLD đã dựng (curMesh/draftMesh.position) thay vì trừ trực tiếp field x/y/z —
+  // huyệt GV lưu dạng (h, az) chứ không có x/y/z, nên phải so bằng toạ độ world mới đúng cho mọi loại.
+  // bodyHeight ~ 1.7 world-unit = 1.7 mét thật → distanceTo() ra thẳng đơn vị mét.
+  function distanceCm(mk) {
+    if (!mk.curMesh || !mk.draftMesh) return null;
+    return mk.curMesh.position.distanceTo(mk.draftMesh.position) * 100;
+  }
+
+  function fmtPoint(p) {
+    if (!p) return '';
+    if (p.type === 'surface') return `h=${p.h.toFixed(3)} az=${p.az}°${p.dir ? ' dir=' + p.dir : ''}`;
+    return `x=${p.x.toFixed(3)} y=${p.y.toFixed(3)} z=${p.z.toFixed(3)}`;
+  }
+
+  function statusOf(code) { return decisions[code] || 'pending'; }
+
+  function applyVisualState() {
+    const onlyDraft = document.getElementById('chkOnlyDraft').checked;
+    const showCur = document.getElementById('chkShowCurrent').checked;
+    const showDraft = document.getElementById('chkShowDraft').checked;
+    const showLines = document.getElementById('chkShowLines').checked;
+    const hideReviewed = document.getElementById('chkHideReviewed').checked;
+    const merFilter = document.getElementById('meridianFilter').value;
+
+    for (const mk of markers) {
+      const meridianOk = merFilter === 'ALL' || mk.meridian === merFilter;
+      const draftOk = !onlyDraft || mk.hasDraft;
+      const reviewedOk = !hideReviewed || statusOf(mk.code) === 'pending';
+      const visible = meridianOk && draftOk && reviewedOk;
+
+      if (mk.curMesh) mk.curMesh.visible = visible && showCur;
+      if (mk.ring) mk.ring.visible = visible && showCur;
+      if (mk.draftMesh) {
+        mk.draftMesh.visible = visible && showDraft && mk.hasDraft;
+        const st = statusOf(mk.code);
+        mk.draftMesh.material.color.set(st === 'approved' ? 0x22c55e : st === 'rejected' ? 0xef4444 : 0xfb923c);
+      }
+      if (mk.line) mk.line.visible = visible && showLines && mk.hasDraft && showCur && showDraft;
+    }
+    renderPointList();
+  }
+
+  function renderPointList() {
+    const merFilter = document.getElementById('meridianFilter').value;
+    const onlyDraft = document.getElementById('chkOnlyDraft').checked;
+    const hideReviewed = document.getElementById('chkHideReviewed').checked;
+    const list = markers.filter(m =>
+      (merFilter === 'ALL' || m.meridian === merFilter) &&
+      (!onlyDraft || m.hasDraft) &&
+      (!hideReviewed || statusOf(m.code) === 'pending')
+    );
+    const el = document.getElementById('pointlist');
+    el.innerHTML = '';
+    let approvedCount = 0, totalDraft = 0;
+    for (const m of markers) if (m.hasDraft) { totalDraft++; if (statusOf(m.code) !== 'pending') approvedCount++; }
+    document.getElementById('progressStat').textContent = `Đã duyệt: ${approvedCount} / ${totalDraft}`;
+
+    for (const m of list) {
+      const st = statusOf(m.code);
+      const item = document.createElement('div');
+      item.className = 'item' + (m.code === selectedCode ? ' sel' : '');
+      item.innerHTML = `<span class="code">${m.code}</span><span class="st ${st}">${st === 'approved' ? 'duyệt' : st === 'rejected' ? 'loại' : 'chờ'}</span>`;
+      item.onclick = () => selectCode(m.code, true);
+      el.appendChild(item);
+    }
+  }
+
+  function selectCode(code, fly) {
+    selectedCode = code;
+    const mk = markers.find(m => m.code === code);
+    if (!mk) return;
+    const cur = data.current[code], dr = data.draft[code];
+    document.getElementById('info').style.display = 'block';
+    document.getElementById('infoCode').textContent = code + (mk.isAnchor ? '  ⚓ mốc đã calibrate tay' : '');
+    document.getElementById('infoName').textContent = (dr && dr.name) || (cur && cur.name) || '';
+    document.getElementById('infoCur').textContent = cur
+      ? `${fmtPoint(cur)}  ·  q=${cur.q||'?'} src=${cur.src||'?'} conf=${cur.conf||'?'}`
+      : '(không có)';
+    document.getElementById('infoDraft').textContent = dr ? fmtPoint(dr) : '(không có bản nháp)';
+    const d = distanceCm(mk);
+    document.getElementById('infoDelta').textContent = d != null ? `Lệch ≈ ${d.toFixed(1)} cm (trên người 1.7m)` : '';
+    document.getElementById('infoNote').textContent = dr ? dr.note : '';
+
+    if (fly && (mk.draftMesh || mk.curMesh)) {
+      const target = (mk.draftMesh || mk.curMesh).position;
+      controls.target.lerp(target, 1);
+      controls.update();
+    }
+    renderPointList();
+  }
+
+  function onClick(ev) {
+    const rect = renderer.domElement.getBoundingClientRect();
+    const mouse = new THREE.Vector2(
+      ((ev.clientX - rect.left) / rect.width) * 2 - 1,
+      -((ev.clientY - rect.top) / rect.height) * 2 + 1
+    );
+    raycaster.setFromCamera(mouse, camera);
+    const objs = markers.flatMap(m => [m.curMesh, m.draftMesh]).filter(o => o && o.visible);
+    const hits = raycaster.intersectObjects(objs);
+    if (hits.length) selectCode(hits[0].object.userData.code, false);
+  }
+
+  function setupControlsUI() {
+    const merSel = document.getElementById('meridianFilter');
+    const mers = ['ALL', ...Object.keys(data.meridians)];
+    merSel.innerHTML = mers.map(m => `<option value="${m}">${m === 'ALL' ? 'Tất cả kinh' : m + ' — ' + (data.meridians[m]?.name || '')}</option>`).join('');
+
+    ['chkOnlyDraft','chkShowCurrent','chkShowDraft','chkShowLines','chkHideReviewed'].forEach(id =>
+      document.getElementById(id).addEventListener('change', applyVisualState));
+    merSel.addEventListener('change', applyVisualState);
+
+    document.getElementById('btnApprove').onclick = () => { if (selectedCode) { decisions[selectedCode] = 'approved'; saveDecisions(); applyVisualState(); selectCode(selectedCode, false); } };
+    document.getElementById('btnReject').onclick = () => { if (selectedCode) { decisions[selectedCode] = 'rejected'; saveDecisions(); applyVisualState(); selectCode(selectedCode, false); } };
+    document.getElementById('btnClearSel').onclick = () => { document.getElementById('info').style.display = 'none'; selectedCode = null; renderPointList(); };
+    document.getElementById('btnReset').onclick = () => { if (confirm('Xoá toàn bộ trạng thái duyệt đã lưu?')) { decisions = {}; saveDecisions(); applyVisualState(); } };
+    document.getElementById('btnExport').onclick = () => {
+      const approved = [], rejected = [];
+      for (const [code, st] of Object.entries(decisions)) {
+        if (st === 'approved') approved.push(code);
+        if (st === 'rejected') rejected.push(code);
+      }
+      const payload = { generatedAt: new Date().toISOString(), approved, rejected };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'acu-review-decisions.json'; a.click();
+      URL.revokeObjectURL(url);
+    };
+  }
+
+  async function main() {
+    loadDecisions();
+    initScene();
+    const [_, dataResp] = await Promise.all([
+      loadModel(),
+      fetch('review-data-v2.json').then(r => r.json()),
+    ]);
+    data = dataResp;
+    buildMarkers();
+    setupControlsUI();
+    applyVisualState();
+    document.getElementById('loading').style.display = 'none';
+  }
+  main().catch(err => {
+    document.getElementById('loading').textContent = 'Lỗi tải: ' + err.message;
+    console.error(err);
+  });
+})();
+</script>
+</body>
+</html>
