@@ -169,7 +169,11 @@
   }
 
   const hidden = new Set();
-  let selectedCode = null, flowOn = false, mirrorOn = true, focusMer = null;   // flow TẮT mặc định (nhẹ + đỡ rối); focusMer: kinh đang chọn
+  /* flowOn: hạt sáng chạy dọc đường kinh (nút ✦). BẬT SẴN theo yêu cầu người dùng — đây là trang
+   * kinh mạch, dòng khí chạy chính là thứ cho thấy CHIỀU đi của mỗi kinh ngay khi mở lên, không phải
+   * hiệu ứng trang trí. Đánh đổi: vòng animate không còn nghỉ khi rảnh (render-on-demand coi flowOn
+   * là "đang có hoạt cảnh"), máy yếu sẽ chạy liên tục — tắt bằng nút ✦ nếu cần cho nhẹ. */
+  let selectedCode = null, flowOn = true, mirrorOn = true, focusMer = null;   // focusMer: kinh đang chọn
   // huyệt 12 kinh đối xứng 2 bên; chỉ CV/GV nằm trên đường giữa → KHÔNG soi gương.
   const isBilateral = mer => mer !== 'CV' && mer !== 'GV';
 
@@ -2047,6 +2051,7 @@
     acuLayerOn = true;
     sysTab = 'systems';
     focusMer = null; hidden.clear(); selectedCode = null;
+    flowOn = true; $('mapFlow')?.classList.toggle('active', true);   // về đúng mặc định lúc mở trang
     viewMode = 'three-quarter'; setRotate(false);
     clearHighlight(); clearNeedle();
     applyLayers(); applyVisibility(); applyPartVisibility(); applyExplode();
@@ -2590,6 +2595,7 @@
     flowOn = !flowOn; e.currentTarget.classList.toggle('active', flowOn);
     if (inited) applyVisibility();
   });
+  $('mapFlow')?.classList.toggle('active', flowOn);   // nút sáng đúng trạng thái mặc định lúc mở trang
   $('mapMirror')?.addEventListener('click', e => {
     mirrorOn = !mirrorOn; e.currentTarget.classList.toggle('active', mirrorOn);
     if (inited && modelRoot) rebuild();
