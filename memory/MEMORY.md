@@ -5,3 +5,5 @@
 
 - [User giảng dạy PTIT và có nền YHCT](facts/nguoi-dung-giang-day-ptit-va-yhct.md) — User vừa giảng dạy CNTT tại PTIT (khóa luận, VECOM) vừa có tư liệu chuyên môn Y học cổ truyền - gắn trực tiếp với domain app kinhlacc.
 - [Vault kinhlacc location](facts/kinhlacc-vault-location.md) — Vault kinhlacc nằm tại /Users/truongtrang/Desktop/kinhlacc
+- [Tuỳ biến phải sống sót qua bản cập nhật Javis](facts/giu-custom-khi-update-javis.md) — Mọi phần custom user đặt làm (driver engine, code lõi) phải giữ được khi Javis lên phiên bản mới - đây là điều kiện user nêu rõ, không phải mong muốn phụ.
+- [Ưu tiên mượn gói subscription sẵn có, không mua API key mới](facts/uu-tien-goi-subscription-thay-vi-api-key.md) — User có Antigravity IDE trên máy và muốn Javis chạy bằng gói đang trả tiền + đăng nhập OAuth ngay trên trang Models, không muốn mua quota API riêng.
