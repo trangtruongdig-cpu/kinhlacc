@@ -1,6 +1,7 @@
 ---
 name: Javis Builder
 description: "Tạo hoặc sửa năng lực của Javis: agent, skill, workflow, loop, plugin. Kèm mẫu file chuẩn và luật chống trùng."
+description_en: "Create or edit a Javis capability: agent, skill, workflow, loop, plugin. Ships file templates and the rules against duplicates."
 group: AI
 ---
 
@@ -34,7 +35,7 @@ vault (brain đang chọn). Studio / trang tương ứng tự nhận file mới.
 
 ## Mẫu file (ghi CHÍNH XÁC theo đây)
 
-### Agent -> `Javis/agents/<slug>.md`
+### Agent -> `<brain>/agents/<slug>.md` (PHẲNG ở gốc brain - KHÔNG phải Javis/agents, ghi vào đó là app không thấy)
 ```
 ---
 type: agent
@@ -94,13 +95,13 @@ skill cứ thế hỏng âm thầm lúc chạy. Bạn là lớp phòng thủ duy
    nội dung xuống `skills/<slug>/references/<chủ-đề>.md`, script xuống
    `skills/<slug>/scripts/`, và trỏ tới bằng đường dẫn tương đối. Từ bản 0.9.64: bản mirror
    sang `.claude/skills` (đường Claude Code nạp NATIVE) copy ĐỆ QUY cả cây, nên với skill
-   trong brain, `references/`/`scripts/` tới được CẢ đường router lẫn đường native. Ngoại lệ
-   còn lại: skill HỆ THỐNG (bundled sẵn theo app, cài vào brain qua system sync) vẫn chỉ ship
-   mỗi `SKILL.md` - cây con (`references/`, `scripts/`, `examples/`...) CHƯA tới brain nào,
-   đây là lỗ ở tầng cài đặt khác, chưa được vá. Nên đừng viết skill HỆ THỐNG cần cây con.
+   trong brain, `references/`/`scripts/` tới được CẢ đường router lẫn đường native. Từ bản
+   0.33.0, skill HỆ THỐNG (bundled theo app, cài vào brain qua system sync) cũng ship CẢ cây
+   con - trước đó nó chỉ chuyển mỗi `SKILL.md` nên skill hệ thống nào cần `tools/` là hỏng ở
+   mọi brain. Giờ viết skill hệ thống có cây con là hợp lệ.
 8. KHÔNG viết skill kiểu router chỉ trỏ sang skill khác.
 
-### Workflow -> `Javis/workflows/<slug>.md`
+### Workflow -> `<brain>/workflows/<slug>.md` (PHẲNG ở gốc brain - KHÔNG phải Javis/workflows)
 ```
 ---
 type: workflow

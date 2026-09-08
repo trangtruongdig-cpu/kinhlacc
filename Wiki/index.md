@@ -2,9 +2,9 @@
 
 Catalog nội dung wiki (cập nhật mỗi lần INGEST). Đọc file này trước khi trả lời câu hỏi.
 
-_(Chưa có trang wiki nào. Thả source vào `sources/` rồi bảo Javis "tiêu hoá giúp tôi" để bắt đầu tích luỹ tri thức.)_
+## Nền tảng (Foundation)
 
-## Tự học
-- [[Second Brain Kinhlacc]] — Second Brain kinhlacc là vault Obsidian/Javis phục vụ app kinh lắc (kinhlacc) -
-- [[Domain Kinh Lắc]] — Kinh Lắc (kinhlacc) là ứng dụng kết hợp 3 mảng: (1) Y học cổ truyền - nội dung c
-- [[Nguồn Dữ Liệu Khả Dụng]] — Các nguồn dữ liệu hiện có để trưng cất: Google Drive (25 file gần đây: khóa luận
+- [[Domain Kinh Lắc]] — Tổng quan dự án: Y học cổ truyền + web app + giáo dục PTIT
+- [[Second Brain Kinhlacc]] — Quy ước vault Obsidian/Javis cho dự án
+- [[Taxonomy Kinh Lắc]] — Phân loại khái niệm YHCT (kinh, huyệt, chứng bệnh, pháp trị, bài thuốc)
+- [[Nguồn Dữ Liệu Khả Dụng]] — Các nguồn để INGEST thêm

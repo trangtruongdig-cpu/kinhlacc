@@ -1,26 +1,62 @@
 {
   "files": {
     "skills/ingest-source": {
-      "hash": "2ca1446605d6839ddbe14076761e3239491c3e74701b3de9a902fd0700701079",
+      "hash": "a5ff4dfc1ea5b38a01dce1f6d4f914e75791ac19dd8bc4a63128a2fc994eb138",
       "status": "managed"
     },
     "skills/javis-builder": {
-      "hash": "e543caa5414df0820307efc9fcf19b08d3ce629477273148283337897beb00e7",
+      "hash": "53b048d51a223f7c82a700103c8477d2880d9cedc0d9de5972183e40bc571dc4",
       "status": "managed"
     },
     "skills/lint-wiki": {
-      "hash": "b931c53413c9e2e1d3bc10f96749d3003beeada774138ec1bc8d18a39d0a3dba",
+      "hash": "68e678ad331e4a93bfa5fb0e8b173ea9fa9be83a0e47315d64c41346b9dd9e60",
       "status": "managed"
     },
     "skills/notes": {
-      "hash": "bbdfba8625dd472858f9a5b10e384769029aee47d4074849fed2ee0ce426ff48",
+      "hash": "2aaf94ef24fce36bd1a34cc8502ba22e6b3235e6f8d4cb492783abef425f6eb3",
       "status": "managed"
     },
     "skills/query-wiki": {
-      "hash": "a7fb9b9b008ac66e31699df766617790ebcf5bfa8fc42044383dfc534a15f336",
+      "hash": "e02eb3ba911b3bd7f1ef79447e5b37d8f7368f3c4793504af0851272f6325d4d",
+      "status": "managed"
+    },
+    "skills/html-to-webcake": {
+      "hash": "e6ea4dcd892a6eea593f698f38908d5d17cccc5f97896ba1c0f71c3fc53d6677",
+      "status": "managed"
+    },
+    "skills/html-to-webcake/examples/salepage-16-buoc-spec.json": {
+      "hash": "36054d4ccb0779d9180a53ddb49da4454050a9d9e1df6a4107236eabc04ef31a",
+      "status": "managed"
+    },
+    "skills/html-to-webcake/examples/sample.html": {
+      "hash": "5988580c8f598e66c5a86aca5bf2d3db04ed38a3087426485b4dd1a92b26bbfa",
+      "status": "managed"
+    },
+    "skills/html-to-webcake/tools/webcake-build.js": {
+      "hash": "3f017c456b4433fff08866ebd5e7bb49d05f3eb2629a56bc37aba6bd7455fb71",
+      "status": "managed"
+    },
+    "skills/html-to-webcake/tools/webcake-from-html.js": {
+      "hash": "db7582670674d0862a92040ed473bf8e37bb3bfd34cce3baae16e9c6370db8cb",
+      "status": "managed"
+    },
+    "skills/html-to-webcake/tools/webcake-html.js": {
+      "hash": "7ff8890e89a70fc2979abbdb19e42e4864d82dff3bfc0c148f46f22413cae5b1",
+      "status": "managed"
+    },
+    "skills/html-to-webcake/tools/webcake-lint.js": {
+      "hash": "e144644da42f241c73a737fc5f2fc4d5176640cbc23bd6048f30faeb261298c0",
+      "status": "managed"
+    },
+    "skills/html-to-webcake/tools/webcake-pke.js": {
+      "hash": "953a3440e4cfacd868b57c4b2c8e5789d5145efd1ae3ddb787d8e15264f6a090",
+      "status": "managed"
+    },
+    "skills/html-to-webcake/tools/webcake-preview.js": {
+      "hash": "35342f95b30c289a29bec8c43083a341f6a7f4b103f530e581393cb5ef2232fd",
       "status": "managed"
     }
   },
-  "app_version": "0.28.2",
-  "synced_at": "2026-08-12T22:57:27+07:00"
+  "app_version": "0.35.10",
+  "synced_at": "2026-09-08T09:49:09+07:00"
 }

@@ -1,0 +1,43 @@
+{
+  "schema": 2,
+  "source": "kanban.sqlite3",
+  "orchestration": "off",
+  "tasks": [
+    {
+      "id": "t_296263dd6417",
+      "brain_root": "/Users/truongtrang/Desktop/kinhlacc",
+      "title": "Wiki Huyệt Vị Cơ Bản từ hồ sơ acu-solver",
+      "intent": "Đọc các file backend/src/acu-solver/ho-so/*.md trong vault này (mỗi file là hồ sơ một huyệt, có mục '1. Nguồn chữ' gồm từ điển app và Atlas Focks), chọn 3-5 huyệt tiêu biểu cho mỗi kinh, rồi ghi trang Wiki/Huyệt Vị Cơ Bản.md (frontmatter type: wiki) gồm mã huyệt, tên Việt, kinh, mô tả định vị trích nguyên văn từ hồ sơ, kèm tên file nguồn cho từng huyệt. Chỉ dùng phần CHỮ trong hồ sơ, không cần ảnh atlas (ảnh nằm ngoài vault). Huyệt nào hồ sơ ghi 'chưa thu thập' thì đánh dấu (cần xác minh). Thêm dòng vào Wiki/index.md và tick mục 3 trong danh sách công việc của Wiki/Taxonomy Kinh Lắc.md.",
+      "route": "auto",
+      "capability": "auto",
+      "execution_mode": "auto",
+      "priority": 2,
+      "status": "triage",
+      "needs_approval": false,
+      "block_kind": "",
+      "block_reason": "",
+      "created_by": "learn",
+      "chat_id": "",
+      "idempotency_key": "",
+      "attempts": 0,
+      "max_attempts": 3,
+      "claimed_by": "",
+      "claim_expires_at": 0.0,
+      "last_heartbeat_at": 0.0,
+      "current_run_id": "",
+      "result": "",
+      "created_at": 1788836623.836056,
+      "updated_at": 1788836623.836056,
+      "metadata": {},
+      "artifacts": [],
+      "deps": [],
+      "log": [
+        {
+          "ts": "2026-09-08 10:03",
+          "msg": "created by learn"
+        }
+      ]
+    }
+  ],
+  "updated": 1788836623.841609
+}

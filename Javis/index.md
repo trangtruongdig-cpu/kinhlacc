@@ -1,34 +1,103 @@
 # Javis Index (tầng vận hành)
 
-> Tự sinh từ file - ĐỪNG sửa tay. Chỉ mục mọi năng lực của Javis trong brain này để bất kỳ AI/engine đọc 1 chỗ là hiểu Javis làm được gì. Song song `wiki/index.md` (tri thức).
+Generated 2026-09-08. Tự học loop `kinhlacc-learn` sẽ cập nhật định kỳ.
 
-**Tổng quan:** 0 agents · 5 skills · 0 workflows (0 bật) · 0 loops (0 bật) · 10 plugins (9 chạy)
+**Tổng quan:** 3 agents · 8 skills (3 YHCT mới) · 1 workflows · 1 loops (chờ kích hoạt) · 10+ plugins
+
+---
 
 ## Agents
-_(chưa có)_
+
+### Y học cổ truyền
+
+- **diagnose-syndrome** — Chẩn đoán chứng bệnh YHCT từ triệu chứng. Dùng [[Taxonomy Kinh Lắc]].  
+  [agents/diagnose-syndrome.md] — **Status**: ready (enabled: false)
+
+- **formula-composer** — Soạn bài thuốc theo chứng bệnh, kết hợp liệu 4 tầng.  
+  [agents/formula-composer.md] — **Status**: ready (enabled: false)
+
+- **meridian-analyst** — Phân tích kinh mạch → huyệt vị châm cứu, hướng dẫn kỹ thuật.  
+  [agents/meridian-analyst.md] — **Status**: ready (enabled: false)
+
+---
 
 ## Skills
-### AI
-- **Ingest Source** (`ingest-source`) - Tiêu hoá một source thô vào Second Brain, chưng cất thành tri thức wiki tích luỹ.
-- **Javis Builder** (`javis-builder`) - Tạo hoặc sửa năng lực của Javis: agent, skill, workflow, loop, plugin. Kèm mẫu file chuẩn và luật chống trùng.
-- **Lint Wiki** (`lint-wiki`) - Rà soát sức khoẻ wiki của Second Brain, trả về danh sách vấn đề. Không tự sửa hàng loạt.
-- **Notes** (`notes`) - Lưu tin nhắn hiện tại nguyên văn vào sources/ (kèm ảnh), tự chưng cất lên wiki nếu note đáng.
-- **Query Wiki** (`query-wiki`) - Khai thác tri thức trong Second Brain: tổng hợp, so sánh, giả thuyết. Trả lời có trích dẫn.
+
+### Hệ thống mặc định (AI)
+
+- **Ingest Source** (`ingest-source`) - Tiêu hoá source thô vào wiki
+- **Javis Builder** (`javis-builder`) - Tạo/sửa agent/skill/workflow/loop
+- **Lint Wiki** (`lint-wiki`) - Quét sức khoẻ wiki
+- **Notes** (`notes`) - Lưu note vào sources
+- **Query Wiki** (`query-wiki`) - Truy vấn wiki
+
+### Y học cổ truyền (mới)
+
+- **patient-intake** (`patient-intake`) — Tiếp nhận bệnh nhân: ghi triệu chứng, tiền sử, dị ứng.  
+  [skills/patient-intake/] — **Status**: active
+
+- **formula-craft** (`formula-craft`) — Soạn bài thuốc: 4 tầng quân-tướng-tá-sứ, kiểm tương tác.  
+  [skills/formula-craft/] — **Status**: active
+
+- **acupoint-guide** (`acupoint-guide`) — Hướng dẫn châm cứu: định vị huyệt + kỹ thuật an toàn.  
+  [skills/acupoint-guide/] — **Status**: active
+
+---
 
 ## Workflows
-_(chưa có)_
 
-## Loops
-_(chưa có)_
+- **ingest-kinhlacc-wisdom** — Orchestrate: INGEST wiki + tạo agents + tạo skills + tạo loop.  
+  [workflows/ingest-kinhlacc-wisdom.md] — **Status**: ready (enabled: false)
 
-## Plugins (tool/hook native cho mọi engine)
-- **Thời gian & ngày (VN)** (`datetime-vn`) - bundled/chạy · tools: javis_now, javis_date_add · Xem ngày giờ hiện tại theo múi giờ Việt Nam (UTC+7) và tính ngày tương đối (mai, mốt, N ngày nữa, tuần trước). Thuần stdlib, chỉ đọc, không cần mạng.
-- **Theo dõi Facebook (Apify)** (`fb-monitor-apify`) - bundled/chạy · tools: fb_monitor · Theo dõi Trang/Nhóm CÔNG KHAI Facebook tìm bài nhiều share qua dịch vụ Apify. Chỉ đọc, không đụng tài khoản cá nhân, chạy tốt trên VPS. Dùng token của kết nối "facebook-monitor".
-- **Tạo ảnh (ChatGPT)** (`image-chatgpt`) - bundled/chạy · tools: javis_generate_image · Tạo ảnh từ mô tả bằng GÓI ChatGPT đang đăng nhập (OAuth) - không cần OpenAI API key. Dùng Codex Responses API + tool image_generation (gpt-image-2). Ảnh lưu vào attachments/ của vault để nhúng thẳng vào chat. Cần đã kết nối ChatGPT ở trang Model.
-- **Đấu thêm MCP** (`javis-connect`) - bundled/chạy · tools: javis_add_mcp · Đấu một MCP server vào kho Kết nối của Javis ngay từ chat, để nó HIỆN ra trang Kết nối như mọi tài khoản khác. Trước tool này Javis chỉ còn đường `claude mcp add` - thứ rơi vào config riêng của Claude Code, không bộ não nào khác thấy và người dùng cũng không thấy trên trang Kết nối.
-- **Đặt việc định kỳ & nhắc hẹn** (`javis-schedule`) - bundled/chạy · tools: javis_schedule · Tạo/liệt kê/huỷ việc chạy định kỳ và nhắc hẹn ngay từ chat. Tự chọn kho - việc lặp và bền thì ghi Javis/loops/<slug>.md để sửa được trong Obsidian; nhắc một lần hoặc lịch cron thì vào kho nhắc hẹn (đã có sẵn cron 5 trường). Thay cho việc gõ YAML tay hoặc curl.
-- **Giao việc Kanban** (`javis-task`) - bundled/chạy · tools: javis_task · Giao một việc nền vào hàng đợi Kanban và xem việc đang chạy tới đâu, ngay từ chat. Trước tool này chỉ engine chạy được lệnh máy (Claude Code, Codex) mới giao việc được, vì đường duy nhất là curl POST /kanban/task - năm engine API đứng ngoài.
-- **Meta Ads (Graph API)** (`meta-ads-graph`) - bundled/chạy · tools: meta_ads_accounts, meta_ads_insights, meta_ads_campaigns, meta_ads_get · Đọc số liệu quảng cáo Facebook/Instagram (tài khoản ads, chiến dịch, hiệu suất) qua Graph API, dùng token của kết nối "Meta Ads (tự tạo app)". CHỈ ĐỌC, không tiêu tiền.
-- **Facebook Trang (Graph API)** (`meta-pages-graph`) - bundled/chạy · tools: fb_pages_list, fb_page_posts, fb_page_comments, fb_page_post, fb_page_photo, fb_page_album, fb_page_video, fb_page_edit, fb_page_delete, fb_page_reply · Quản lý Trang/Fanpage Facebook qua Graph API - liệt kê Trang, đọc bài và bình luận (chỉ đọc), đăng bài/ảnh/video/album, sửa chữ, xoá bài và trả lời bình luận (toàn quyền). Dùng token của kết nối "Facebook Trang (tự tạo app)".
-- **Nhật ký dùng tool** (`tool-audit`) - bundled/tắt · tools: javis_tool_stats · hooks: post_tool_call · Đếm số lần MỖI tool được engine gọi (qua hook post_tool_call) và cho xem thống kê tool hay dùng. Đây là ví dụ minh hoạ cơ chế HOOK của plugin. Mặc định TẮT - bật qua POST /plugins/toggle (slug=tool-audit) để thử.
-- **Gửi ảnh & file qua Zalo** (`zalo-image`) - bundled/chạy · tools: zalo_send_image · Gửi ẢNH hoặc FILE qua Zalo kèm lời nhắn, bằng chính tài khoản đã quét QR ở trang Kết nối. Bù đúng chỗ MCP chuẩn của zalo-agent-cli còn thiếu - tool zalo_send_message của nó chỉ nhận chữ.
+---
+
+## Loops (Tự động định kỳ)
+
+- **kinhlacc-learn** — Hàng tuần: quét Wiki health + backend schema + agents/skills audit.  
+  [Javis/loops/kinhlacc-learn.md] — **Status**: ready (enabled: false)  
+  **Cron**: Thứ 2-5 lúc 8h sáng VN time · **Output**: `wiki/_health-check.md`, `backend/_schema-audit.md`, `Javis/_audit.md`
+
+---
+
+## Wiki (Tri thức tích luỹ)
+
+Xem [[Wiki/index.md]] để theo dõi các trang wiki hiện có.
+
+**Hiện tại**:
+- [[Taxonomy Kinh Lắc]] — Framework phân loại YHCT (12 kinh, huyệt vị, chứng, pháp trị, bài)
+- [[Domain Kinh Lắc]] — Tổng quan dự án (Y học cổ truyền + web app + giáo dục)
+- [[Second Brain Kinhlacc]] — Quy ước vault Obsidian/Javis
+- 3 wiki khác (Nguồn dữ liệu, session-handoff, open-questions)
+
+---
+
+## Plugins (Mặc định)
+
+_(Xem khuôn cũ để danh sách plugins toàn bộ: 10+ plugin hệ thống + 1 plugin tùy chỉnh)_
+
+- **datetime-vn** — Xem ngày giờ VN + tính ngày tương đối
+- **fb-monitor** — Theo dõi Facebook public posts
+- **image-chatgpt** — Tạo ảnh (ChatGPT)
+- **javis-connect**, **javis-schedule**, **javis-task** — Kết nối MCP + đặt việc định kỳ + giao Kanban
+- **meta-ads**, **fb-pages** — Quản lý Meta Ads + Facebook Trang
+- **zalo-image** — Gửi ảnh qua Zalo
+
+---
+
+## Cách kích hoạt
+
+```bash
+# Bật agent
+POST /agents/diagnose-syndrome/enable
+
+# Bật loop
+POST /loops/kinhlacc-learn/enable
+
+# Chạy workflow
+POST /workflows/ingest-kinhlacc-wisdom/run
+```
+
+---
+
+**Sinh ra bởi**: Javis auto-ingest workflow (2026-09-08)  
+**Cập nhật cuối**: kinhlacc-learn loop (định kỳ)
