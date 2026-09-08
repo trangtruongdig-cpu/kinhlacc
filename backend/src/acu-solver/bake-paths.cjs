@@ -20,6 +20,7 @@ const { L, HEAD_ARC } = require('./model-frame.cjs');
 const { pullSegment } = require('./path-groove.cjs');
 const { loadAtlas } = require('./mesh-io.cjs');
 const { projectInSlice, loadSkin } = require('./skin-clamp.cjs');
+const { loadSkinNormals, huongToa } = require('./skin-normal.cjs');
 
 const ROOT = path.resolve(__dirname, '../../..');
 const SRC = path.join(ROOT, 'frontend/public/kinhmach3d/data/acu-coords3d.js');
@@ -27,6 +28,8 @@ const OUT = path.join(ROOT, 'frontend/public/kinhmach3d/data/meridian-paths.js')
 const REP = path.join(__dirname, 'paths-report.json');
 
 const SIMPLIFY_TOL = 0.0015;   // ≈ 2,6mm — đủ mịn để mắt không thấy gãy, mà nhẹ tệp
+const NHAC_CM = 1.55;          // độ nhấc khỏi da của map3d.js (_SKIN_LIFT 0.009 × 171,9cm) — chỉ để ĐO
+const R_ONG_CM = 0.31;         // bán kính ống đường kinh trên màn hình — hở dưới ngần này là bị da nuốt
 const KHE = !process.argv.includes('--khong-khe');   // BƯỚC 3: kéo đường vào rãnh cơ–xương
 // làm mịn TRƯỚC khi kéo rãnh: đường trắc địa có đoạn cạnh dài 2cm, kéo trên lưới thô đó thì rãnh chỉ
 // bắt được vài lát cắt. Chia lại đều ~7mm rồi mới kéo, xong mới rút gọn.
@@ -168,7 +171,84 @@ const RESAMPLE = 0.004;
    * cùng-chậu). Dưới ngưỡng này thì nối thẳng; đo được chính quãng 10,7cm ấy là chỗ đường nhánh ngoài
    * Bàng Quang phình ra 1,5cm khi còn dùng trắc địa. */
   const NOI_THANG = 0.070;
-  function duongQuaNeo(g, wps) {
+
+  /* ---- TRÊN THÂN MÌNH, "NGẮN NHẤT" KHÔNG PHẢI LÀ ĐÚNG -------------------------------------------
+   * Thân người HẸP Ở EO và PHÌNH Ở LỒNG NGỰC: đo trên chính mesh, bán kính nửa thân trái đi từ
+   * 12,8cm ở cao độ 109 lên 15,3cm ở cao độ 120. Nên khi phải vừa LEO vừa VÒNG quanh thân, đường
+   * ngắn nhất bao giờ cũng chọn vòng hết ở chỗ EO rồi mới leo thẳng — rẻ hơn khoảng 2,5cm so với đi
+   * chéo qua chỗ phình. Kết quả là hình chữ L, đúng cái người dùng nhìn ra ngay: *"sao chỗ này đường
+   * kinh Can nó rối thế"*.
+   * Đo được trên chặng Chương Môn → Kỳ Môn (LR13→LR14): đường đi hết 115% số góc phải quay trong khi
+   * mới leo được 29% chiều cao, tức nó VÒNG QUA CẢ KỲ MÔN, thọc vào tận x=4,5cm (nông hơn cả chính
+   * Kỳ Môn ở 7,5cm — tức lấn sang cột Vị/Thận trên bụng trên), rồi mới leo thẳng lên và bẻ ngược ra.
+   *
+   * PHÉP ĐO — "LỆCH NHỊP": với mỗi đỉnh, so TIẾN ĐỘ GÓC (t) với TIẾN ĐỘ CAO ĐỘ (s), cả hai chuẩn hoá
+   * về 0→1 giữa hai huyệt neo. Đường đi đều thì t≈s suốt dọc; |t−s| lớn là quay trước leo sau (hoặc
+   * ngược lại). Rà cả hệ: 84 chặng có nhịp đo được, 4 chặng THÂN hỏng nhịp >0,35 — SP16→SP17 (1,19),
+   * GB21→GB22 (1,00), GB24→GB25 (0,70), LR13→LR14 (0,69). Đúng bốn đoạn tạo ra đám "tam giác" bắt
+   * ngang lồng ngực trên màn hình.
+   *
+   * CÁCH CHỮA — DỰNG THEO NHỊP thay vì dò đường ngắn nhất: chia đều tham số, mỗi bước nội suy CẢ cao
+   * độ LẪN góc quanh trục thân, rồi lấy đỉnh da đúng chỗ ấy (loại cánh tay bằng bán kính). Không dùng
+   * Dijkstra nữa nên không còn động cơ "vòng chỗ hẹp".
+   * Đã thử ba lối khác trước khi chốt lối này, ghi ra để khỏi thử lại:
+   *   · hành lang quanh DÂY CUNG (2,5→10cm): dây cung LR13→LR14 nằm sâu trong bụng, hành lang dưới
+   *     7cm không thông, mà 7cm thì đường dài thêm 3,2cm và vẫn vòng 5,2cm.
+   *   · PHẠT lệch nhịp trên cạnh đồ thị (μ tới 4): KHÔNG đổi được đường — chứng tỏ lưới da không có
+   *     lối chéo nào nối liền ở bán kính 2,1cm, chứ không phải Dijkstra chọn nhầm.
+   *   · hành lang chuẩn hoá |t−s| ≤ 0,15…0,5: cũng không thông, cùng một lý do lưới thưa.
+   * Lối "dựng theo nhịp" thoát được vì nó KHÔNG cần cạnh đồ thị liền — chỉ cần có ĐỈNH da ở mỗi nấc.
+   *
+   * CHỈ ÁP CHO THÂN MÌNH. Ở tay chân, "góc quanh trục thân" vô nghĩa (cả chi nằm lệch hẳn một bên),
+   * nên chặng nào có đầu mút ra ngoài bán kính 18cm hoặc ra ngoài khoảng cao độ thân thì không xét.
+   * Và chỉ đổi khi phép đo nhịp THẬT SỰ tốt lên — không thì giữ nguyên đường cũ. */
+  const THAN_R = 0.105;                  // 18cm — ngoài ngưỡng này là tay/chân, không phải thân
+  const THAN_Y = [0.42, 0.86];           // khoảng cao độ thân mình (trên khớp mu, dưới hõm ức–cổ)
+  const NHIP_HONG = 0.35;                // lệch nhịp trên mức này thì đường đã "quay trước leo sau"
+  const goc = q => Math.atan2(q.z, q.x);
+  const vong = a => { while (a > Math.PI) a -= 2 * Math.PI; while (a < -Math.PI) a += 2 * Math.PI; return a; };
+  function nhipCua(A, B) {
+    const thA = goc(A), dTh = vong(goc(B) - thA), dY = B.y - A.y;
+    if (Math.abs(dTh) < 0.12 || Math.abs(dY) < 0.010) return null;   // dưới 7° hoặc dưới 1,7cm: nhịp vô nghĩa
+    return { thA, dTh, dY, st: q => [(q.y - A.y) / dY, vong(goc(q) - thA) / dTh] };
+  }
+  function lechNhip(pts, A, B) {
+    const n = nhipCua(A, B); if (!n) return 0;
+    let m = 0; for (const q of pts) { const [s, t] = n.st(q); m = Math.max(m, Math.abs(t - s)); }
+    return m;
+  }
+  const laThan = p => Math.hypot(p.x, p.z) < THAN_R && p.y > THAN_Y[0] && p.y < THAN_Y[1];
+  /** Đỉnh da ở đúng (cao độ, góc) trên nửa thân cùng bên — không đi qua cạnh đồ thị nên không kẹt lưới thưa. */
+  function daTaiNhip(g, y, th, ben, rMax) {
+    let best = null, bd = Infinity;
+    for (let i = 0; i < g.N; i++) {
+      const x = g.pos[i * 3], Y = g.pos[i * 3 + 1], z = g.pos[i * 3 + 2];
+      if (Math.abs(Y - y) > 0.008) continue;                      // lát cắt dày ±1,4cm
+      if (ben > 0 ? x < 0.004 : x > -0.004) continue;             // giữ đúng nửa thân
+      if (Math.hypot(x, z) > rMax) continue;                      // loại cánh tay
+      const da = Math.abs(vong(Math.atan2(z, x) - th));
+      if (da > 0.28) continue;                                    // trong ±16°
+      const cost = da * 0.06 + Math.abs(Y - y);                   // đúng góc trước, đúng cao độ sau
+      if (cost < bd) { bd = cost; best = { x, y: Y, z }; }
+    }
+    return best;
+  }
+  function duongTheoNhip(g, A, B, n) {
+    const nh = nhipCua(A, B); if (!nh) return null;
+    const ben = A.x >= 0 ? 1 : -1;
+    const rMax = Math.max(Math.hypot(A.x, A.z), Math.hypot(B.x, B.z)) * 1.35;
+    const pts = [{ ...A }];
+    for (let k = 1; k < n; k++) {
+      const t = k / n;
+      const q = daTaiNhip(g, A.y + (B.y - A.y) * t, nh.thA + nh.dTh * t, ben, rMax);
+      if (q) pts.push(q);
+    }
+    pts.push({ ...B });
+    return pts.length >= 4 ? pts : null;
+  }
+
+  const doiNhip = [];                    // nhật ký: chặng nào đã đổi sang dựng-theo-nhịp
+  function duongQuaNeo(g, wps, nhan, ma) {
     const out = [{ ...wps[0] }];
     let dungTracDia = false;
     for (let i = 1; i < wps.length; i++) {
@@ -181,7 +261,19 @@ const RESAMPLE = 0.004;
         dungTracDia = true;
         const r = S.pathThrough(g, [a, b]);
         if (r.pts.length < 2) { out.push({ ...b }); continue; }
-        for (let k = 1; k < r.pts.length; k++) out.push(r.pts[k]);
+        let pts = r.pts;
+        if (laThan(a) && laThan(b)) {
+          const cu = lechNhip(pts, a, b);
+          if (cu > NHIP_HONG) {
+            const moi = duongTheoNhip(g, a, b, 18);
+            const moiNhip = moi ? lechNhip(moi, a, b) : Infinity;
+            if (moi && moiNhip < cu - 0.1) {
+              pts = moi;
+              doiNhip.push({ doan: nhan, cap: (ma && ma[i - 1]) + '→' + (ma && ma[i]), nhipCu: +cu.toFixed(2), nhipMoi: +moiNhip.toFixed(2) });
+            }
+          }
+        }
+        for (let k = 1; k < pts.length; k++) out.push(pts[k]);
       }
     }
     return { pts: out, dungTracDia };
@@ -189,6 +281,33 @@ const RESAMPLE = 0.004;
 
   const SKIN_RAW = await loadSkin();
   const khe = { keo: 0, doanKeo: 0, doanBo: 0, tong: 0, rows: [] };
+
+  /* ---- PHÁP TUYẾN MẶT DA CHO TỪNG ĐỈNH ĐƯỜNG ----------------------------------------------------
+   * Frontend phải nhấc ống ra khỏi da 1,55cm mới không bị da nuốt, và trước đây nó nhấc theo hướng
+   * TOẢ RA TỪ TRỤC DỌC THÂN vì bảng này không nói gì về pháp tuyến. Ở tay chân buông xuôi hướng ấy
+   * lệch 90–150° so với mặt da, có chỗ ngược hẳn — nhấc thành ra ĐẨY ỐNG VÀO TRONG THỊT: đo được
+   * 52/482 đỉnh (11%) hở nhỏ hơn bán kính ống. Nay bake luôn pháp tuyến vào tệp để frontend nhấc
+   * đúng chiều. Xem skin-normal.cjs.
+   * PHẢI LÀM MƯỢT: hai đỉnh kề nhau có thể rơi vào hai tam giác khác nhau của lưới da thô, pháp tuyến
+   * chênh nhau vài chục độ thì ống xoắn khấc. Ba lượt Laplace + chuẩn hoá là đủ mượt mà chưa mất
+   * hướng ở chỗ kinh vòng qua cạnh xương. */
+  const SN = await loadSkinNormals();
+  console.log(`pháp tuyến da: ${SN.chiTietKiem.join(' · ')}`);
+  function phapTuyenDoc(pts) {
+    let ns = pts.map(p => SN.normalAt(p) || huongToa(p));
+    for (let lap = 0; lap < 3; lap++) {
+      const m = ns.map((n, i) => {
+        if (i === 0 || i === ns.length - 1) return n;
+        const a = ns[i - 1], b = ns[i + 1];
+        const s = [n[0] * 2 + a[0] + b[0], n[1] * 2 + a[1] + b[1], n[2] * 2 + a[2] + b[2]];
+        const l = Math.hypot(s[0], s[1], s[2]);
+        return l < 1e-9 ? n : [s[0] / l, s[1] / l, s[2] / l];
+      });
+      ns = m;
+    }
+    return ns;
+  }
+  const hoTruoc = [], hoSau = [];   // để báo cáo mức cải thiện
 
   /* ĐỐC MẠCH đi trên đường giữa SAU, và ta có sẵn mốc mỏm gai TỪNG đốt sống trong model-frame cộng
    * với CUNG DỌC ĐẦU — tức đường của nó dựng được thẳng từ giải phẫu, không cần toạ độ huyệt. Đây
@@ -272,7 +391,7 @@ const RESAMPLE = 0.004;
       wps = wps.filter((p, i) => i === 0 || Math.hypot(p.x - wps[i - 1].x, p.y - wps[i - 1].y, p.z - wps[i - 1].z) > 0.0018);
       if (wps.length < 2) { doanOut.push({ id: s.id, mo: s.mo, vung: s.vung, cm: 0, pts: [], bo: 'neo trùng nhau hoặc thiếu toạ độ' }); hong++; continue; }
 
-      const r = duongQuaNeo(g, wps);
+      const r = duongQuaNeo(g, wps, mer + '/' + s.id, anchors);
       if (r.pts.length < 2) { doanOut.push({ id: s.id, mo: s.mo, vung: s.vung, cm: 0, pts: [], bo: 'không dựng được' }); hong++; continue; }
 
       /* ---- BƯỚC 3: kéo vào rãnh cơ–xương ----
@@ -298,11 +417,19 @@ const RESAMPLE = 0.004;
        * nên đường đã bám da rồi — chiếu thêm chỉ đá nó đi. Cộng dồn qua 4 lượt chiếu, chính nó làm
        * cột dọc thân phình 1cm dù cả 20 huyệt đều thẳng tắp ở x=2,9. Ở đây tắt chiếu cho các đoạn ấy. */
       const pts = S.simplify(lamMuot(g, raw, wps, !r.dungTracDia), SIMPLIFY_TOL);
+      const nrm = phapTuyenDoc(pts);
+      if (s.mo !== 'chim') for (let i = 0; i < pts.length; i++) {      // đo mức cải thiện, chỉ đoạn HIỆN
+        const o = huongToa(pts[i]);
+        const a = SN.hoCm(pts[i], o, NHAC_CM), b = SN.hoCm(pts[i], nrm[i], NHAC_CM);
+        if (a !== null) hoTruoc.push(a);
+        if (b !== null) hoSau.push(b);
+      }
       doanOut.push({
         id: s.id, mo: s.mo, vung: s.vung, ranh: s.ranh, cm: S.arcCm(pts),
         neo: anchors,
         khe: kq && kq.keo ? { loai: kq.loai, keo: kq.keo, tbCm: kq.trungBinhCm, xaCm: kq.xaNhatCm } : null,
         pts: pts.map(p => [+p.x.toFixed(4), +p.y.toFixed(4), +p.z.toFixed(4)]),
+        nrm: nrm.map(n => [+n[0].toFixed(3), +n[1].toFixed(3), +n[2].toFixed(3)]),
       });
       tongDoan++; tongCm += S.arcCm(pts);
 
@@ -323,16 +450,33 @@ const RESAMPLE = 0.004;
  *  đường nối là trắc địa trên đồ thị mặt da (surface-path.cjs), nên LUÔN nằm trên người.
  *  mo='hien' → vẽ liền · mo='chim' → kinh đi trong sâu, nên vẽ nét đứt hoặc ẩn.
  *  Toạ độ CHUẨN-HOÁ theo chiều cao mesh, cùng hệ với acu-coords3d.js (x>0 = bên trái, z>0 = phía trước).
+ *  nrm[i] = PHÁP TUYẾN MẶT DA tại pts[i], đã chuẩn hoá, hướng RA NGOÀI (skin-normal.cjs).
+ *    Frontend PHẢI nhấc ống theo nrm, KHÔNG được nhấc theo hướng toả ra từ trục dọc thân: ở tay chân
+ *    hai hướng lệch 90–150° nên nhấc kiểu cũ là đẩy ống chui vào trong thịt, da lấp mất đường.
+ *    Chấm huyệt phải nhấc bằng ĐÚNG véc-tơ ấy (acu-coords3d.js field n), nếu không chấm rời khỏi ống.
  *  Sinh lại: node backend/src/acu-solver/bake-paths.cjs */
 window.MERIDIAN_PATHS = `;
   fs.writeFileSync(OUT, header + JSON.stringify({ ver: 1, cm: S.CM, mer: outMer }, null, 1) + ';\n');
 
   rows.sort((a, b) => b.cm - a.cm);
-  fs.writeFileSync(REP, JSON.stringify({ rows, tongDoan, tongCm: +tongCm.toFixed(0) }, null, 1));
+  fs.writeFileSync(REP, JSON.stringify({ rows, tongDoan, tongCm: +tongCm.toFixed(0), doiNhip }, null, 1));
+
+  if (doiNhip.length) {
+    console.log(`\nDỰNG THEO NHỊP thay cho trắc địa — ${doiNhip.length} chặng THÂN (trắc địa quay trước leo sau):`);
+    for (const r of doiNhip) console.log(`   ${r.doan.padEnd(12)} ${r.cap.padEnd(14)} lệch nhịp ${r.nhipCu} → ${r.nhipMoi}`);
+  } else console.log('\nDỰNG THEO NHỊP: không chặng nào cần đổi');
 
   const kb = (fs.statSync(OUT).size / 1024).toFixed(0);
   console.log(`\n${tongDoan} đoạn · ${tongCm.toFixed(0)} cm đường · ${hong} đoạn hỏng · tệp ${kb} KB`);
   console.log(`Đã ghi ${OUT}`);
+
+  /* ---- NHẤC KHỎI DA: đo mức cải thiện ---------------------------------------------------------- */
+  const tb = a => a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
+  const nuot = a => a.filter(v => v < R_ONG_CM).length;
+  console.log(`\nNHẤC ỐNG KHỎI DA ${NHAC_CM}cm — độ hở còn lại (ống bán kính ${R_ONG_CM}cm):`);
+  console.log(`   theo hướng TOẢ (bản cũ)  : hở TB ${tb(hoTruoc).toFixed(2)}cm · thấp nhất ${Math.min(...hoTruoc).toFixed(2)}cm · ${nuot(hoTruoc)}/${hoTruoc.length} đỉnh bị da nuốt`);
+  console.log(`   theo PHÁP TUYẾN (bản mới): hở TB ${tb(hoSau).toFixed(2)}cm · thấp nhất ${Math.min(...hoSau).toFixed(2)}cm · ${nuot(hoSau)}/${hoSau.length} đỉnh bị da nuốt`);
+  if (SN.soKhongPhanDinh) console.log(`   ⚠ ${SN.soKhongPhanDinh} lần trường khí không phân định được chiều — giữ chiều cuốn của mesh`);
 
   if (atlas) {
     khe.rows.sort((a, b) => b.tb - a.tb);

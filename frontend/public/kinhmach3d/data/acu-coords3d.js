@@ -3,6 +3,9 @@
  *  · rồi RẢI LẠI theo cốt độ dọc đường kinh (bake-points.cjs) — đường dựng bởi bake-paths.cjs.
  *  src có hậu tố '+duong' = đã rải dọc đường · truocRai = toạ độ trước khi rải · raiCm = quãng dời.
  *  q=exact (≥2 nguồn) · approx (1 nguồn, hoặc bị dời xa → xem canSoat).
+ *  n = PHÁP TUYẾN MẶT DA tại huyệt, chuẩn hoá, hướng RA NGOÀI — lấy theo pháp tuyến của chính đường
+ *    kinh chứa nó (meridian-paths.js field nrm) để chấm và ống nhấc bằng CÙNG một véc-tơ.
+ *    Frontend nhấc chấm theo n; KHÔNG được nhấc theo hướng toả ra từ trục dọc thân (chấm sẽ chìm).
  *  GV vẫn là cực toạ độ {h,az} — chưa qua engine.
  *  Sinh lại: node bake.cjs → node bake-paths.cjs → node bake-points.cjs */
 window.ACU_COORDS3D = {
@@ -74,7 +77,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.366,
+        0.533,
+        0.763
+      ]
     },
     "LU2": {
       "x": 0.0512,
@@ -85,7 +93,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.292,
+        0.616,
+        0.732
+      ]
     },
     "LU3": {
       "x": 0.1303,
@@ -95,7 +108,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.595,
+        0.088,
+        0.799
+      ]
     },
     "LU4": {
       "x": 0.1309,
@@ -105,7 +123,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.551,
+        0.089,
+        0.83
+      ]
     },
     "LU5": {
       "x": 0.1345,
@@ -115,7 +138,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.098,
+        0.079,
+        0.992
+      ]
     },
     "LU6": {
       "x": 0.1475,
@@ -125,7 +153,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.371,
+        0.238,
+        0.897
+      ]
     },
     "LU7": {
       "x": 0.1588,
@@ -135,7 +168,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.492,
+        0.494,
+        0.717
+      ]
     },
     "LU8": {
       "x": 0.1611,
@@ -145,7 +183,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.474,
+        0.599,
+        0.645
+      ]
     },
     "LU9": {
       "x": 0.1658,
@@ -155,7 +198,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.403,
+        0.802,
+        0.441
+      ]
     },
     "LU10": {
       "x": 0.186,
@@ -165,7 +213,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.886,
+        0.29,
+        -0.363
+      ]
     },
     "LU11": {
       "x": 0.1849,
@@ -175,7 +228,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.111,
+        -0.615,
+        -0.781
+      ]
     },
     "LI1": {
       "x": 0.182,
@@ -185,7 +243,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.657,
+        -0.546,
+        -0.52
+      ]
     },
     "LI2": {
       "x": 0.1797,
@@ -196,7 +259,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai."
+      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai.",
+      "n": [
+        0.899,
+        -0.25,
+        -0.361
+      ]
     },
     "LI3": {
       "x": 0.1798,
@@ -207,7 +275,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai."
+      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai.",
+      "n": [
+        0.961,
+        -0.025,
+        -0.275
+      ]
     },
     "LI4": {
       "x": 0.1803,
@@ -217,7 +290,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.935,
+        0.234,
+        -0.266
+      ]
     },
     "LI5": {
       "x": 0.1706,
@@ -227,7 +305,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.756,
+        0.619,
+        -0.212
+      ]
     },
     "LI6": {
       "x": 0.1604,
@@ -237,7 +320,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.897,
+        0.388,
+        0.213
+      ]
     },
     "LI7": {
       "x": 0.156,
@@ -247,7 +335,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.815,
+        0.211,
+        0.539
+      ]
     },
     "LI8": {
       "x": 0.1527,
@@ -257,7 +350,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.673,
+        0.159,
+        0.722
+      ]
     },
     "LI9": {
       "x": 0.1504,
@@ -267,7 +365,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.553,
+        0.179,
+        0.814
+      ]
     },
     "LI10": {
       "x": 0.1466,
@@ -277,7 +380,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.508,
+        0.196,
+        0.839
+      ]
     },
     "LI11": {
       "x": 0.1426,
@@ -287,7 +395,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.439,
+        0.22,
+        0.871
+      ]
     },
     "LI12": {
       "x": 0.1368,
@@ -305,7 +418,12 @@ window.ACU_COORDS3D = {
         0.6703,
         -0.0266
       ],
-      "raiCm": 5.02
+      "raiCm": 5.02,
+      "n": [
+        0.456,
+        0.156,
+        0.876
+      ]
     },
     "LI13": {
       "x": 0.1287,
@@ -315,7 +433,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.41,
+        0.037,
+        0.911
+      ]
     },
     "LI14": {
       "x": 0.1121,
@@ -325,7 +448,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.323,
+        0.181,
+        0.929
+      ]
     },
     "LI15": {
       "x": 0.1009,
@@ -335,7 +463,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.302,
+        0.468,
+        0.831
+      ]
     },
     "LI16": {
       "x": 0.0706,
@@ -345,7 +478,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.462,
+        0.868,
+        0.183
+      ]
     },
     "LI17": {
       "x": 0.0441,
@@ -360,7 +498,12 @@ window.ACU_COORDS3D = {
         0.865,
         -0.0123
       ],
-      "raiCm": 1.67
+      "raiCm": 1.67,
+      "n": [
+        0.731,
+        0.564,
+        0.384
+      ]
     },
     "LI18": {
       "x": 0.0272,
@@ -370,7 +513,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.867,
+        -0.2,
+        0.456
+      ]
     },
     "LI19": {
       "x": 0.0041,
@@ -380,7 +528,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.785,
+        0.022,
+        0.619
+      ]
     },
     "LI20": {
       "x": 0.0049,
@@ -389,7 +542,12 @@ window.ACU_COORDS3D = {
       "q": "approx",
       "snap": true,
       "src": "who",
-      "conf": "WHO-lấp"
+      "conf": "WHO-lấp",
+      "n": [
+        0.704,
+        0.403,
+        0.585
+      ]
     },
     "ST1": {
       "x": 0.0184,
@@ -400,7 +558,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.243,
+        -0.491,
+        0.837
+      ]
     },
     "ST2": {
       "x": 0.0196,
@@ -416,7 +579,12 @@ window.ACU_COORDS3D = {
         0.9356,
         0.0415
       ],
-      "raiCm": 2.39
+      "raiCm": 2.39,
+      "n": [
+        0.321,
+        -0.465,
+        0.825
+      ]
     },
     "ST3": {
       "x": 0.0206,
@@ -433,7 +601,12 @@ window.ACU_COORDS3D = {
         0.0415
       ],
       "raiCm": 4.55,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.55cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.55cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "n": [
+        0.385,
+        -0.441,
+        0.811
+      ]
     },
     "ST4": {
       "x": 0.0218,
@@ -444,7 +617,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.46,
+        -0.409,
+        0.788
+      ]
     },
     "ST5": {
       "x": 0.0103,
@@ -456,7 +634,12 @@ window.ACU_COORDS3D = {
       "conf": "khe",
       "khe": "bờ duoi xương hàm dưới",
       "kheLoai": "sat-bo",
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.649,
+        -0.497,
+        0.576
+      ]
     },
     "ST6": {
       "x": 0.0178,
@@ -474,7 +657,12 @@ window.ACU_COORDS3D = {
         0.8769,
         0.0312
       ],
-      "raiCm": 0
+      "raiCm": 0,
+      "n": [
+        0.716,
+        -0.69,
+        0.11
+      ]
     },
     "ST7": {
       "x": 0.0369,
@@ -485,7 +673,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.937,
+        -0.251,
+        0.243
+      ]
     },
     "ST8": {
       "x": 0.0372,
@@ -496,7 +689,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.929,
+        0.184,
+        0.322
+      ]
     },
     "ST9": {
       "x": 0.0167,
@@ -507,7 +705,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.702,
+        -0.321,
+        0.635
+      ]
     },
     "ST10": {
       "x": 0.0167,
@@ -518,7 +721,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.492,
+        0.139,
+        0.86
+      ]
     },
     "ST11": {
       "x": 0.0167,
@@ -529,7 +737,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.378,
+        0.465,
+        0.801
+      ]
     },
     "ST12": {
       "x": 0.0435,
@@ -540,7 +753,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.459,
+        0.638,
+        0.619
+      ]
     },
     "ST13": {
       "x": 0.0444,
@@ -551,7 +769,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.351,
+        0.636,
+        0.688
+      ]
     },
     "ST14": {
       "x": 0.0444,
@@ -562,7 +785,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.276,
+        0.585,
+        0.762
+      ]
     },
     "ST15": {
       "x": 0.0444,
@@ -573,7 +801,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.239,
+        0.474,
+        0.848
+      ]
     },
     "ST16": {
       "x": 0.0444,
@@ -584,7 +817,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.22,
+        0.297,
+        0.929
+      ]
     },
     "ST17": {
       "x": 0.0444,
@@ -595,7 +833,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.201,
+        0.037,
+        0.979
+      ]
     },
     "ST18": {
       "x": 0.0444,
@@ -606,7 +849,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.172,
+        -0.29,
+        0.941
+      ]
     },
     "ST19": {
       "x": 0.0222,
@@ -617,7 +865,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.115,
+        -0.187,
+        0.976
+      ]
     },
     "ST20": {
       "x": 0.0222,
@@ -628,7 +881,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.113,
+        -0.174,
+        0.978
+      ]
     },
     "ST21": {
       "x": 0.0222,
@@ -639,7 +897,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.11,
+        -0.161,
+        0.981
+      ]
     },
     "ST22": {
       "x": 0.0222,
@@ -650,7 +913,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.108,
+        -0.148,
+        0.983
+      ]
     },
     "ST23": {
       "x": 0.0222,
@@ -661,7 +929,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.116,
+        -0.156,
+        0.981
+      ]
     },
     "ST24": {
       "x": 0.0222,
@@ -672,7 +945,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.124,
+        -0.165,
+        0.978
+      ]
     },
     "ST25": {
       "x": 0.0222,
@@ -683,7 +961,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.133,
+        -0.173,
+        0.976
+      ]
     },
     "ST26": {
       "x": 0.0222,
@@ -694,7 +977,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.144,
+        -0.185,
+        0.972
+      ]
     },
     "ST27": {
       "x": 0.0223,
@@ -705,7 +993,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.156,
+        -0.219,
+        0.963
+      ]
     },
     "ST28": {
       "x": 0.0221,
@@ -716,7 +1009,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.169,
+        -0.254,
+        0.952
+      ]
     },
     "ST29": {
       "x": 0.022,
@@ -727,7 +1025,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.181,
+        -0.288,
+        0.94
+      ]
     },
     "ST30": {
       "x": 0.0222,
@@ -738,7 +1041,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.194,
+        -0.44,
+        0.877
+      ]
     },
     "ST31": {
       "x": 0.0768,
@@ -748,7 +1056,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.146,
+        0.029,
+        0.989
+      ]
     },
     "ST32": {
       "x": 0.0778,
@@ -767,7 +1080,12 @@ window.ACU_COORDS3D = {
         0.3769,
         0.0256
       ],
-      "raiCm": 4.78
+      "raiCm": 4.78,
+      "n": [
+        0.686,
+        -0.188,
+        0.703
+      ]
     },
     "ST33": {
       "x": 0.0713,
@@ -785,7 +1103,12 @@ window.ACU_COORDS3D = {
         0.3271,
         0.0214
       ],
-      "raiCm": 2.67
+      "raiCm": 2.67,
+      "n": [
+        0.702,
+        -0.206,
+        0.682
+      ]
     },
     "ST34": {
       "x": 0.0679,
@@ -804,7 +1127,12 @@ window.ACU_COORDS3D = {
         0.3003,
         0.0168
       ],
-      "raiCm": 0.46
+      "raiCm": 0.46,
+      "n": [
+        0.694,
+        -0.212,
+        0.688
+      ]
     },
     "ST35": {
       "x": 0.0592,
@@ -814,7 +1142,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.588,
+        -0.261,
+        0.766
+      ]
     },
     "ST36": {
       "x": 0.0577,
@@ -832,7 +1165,12 @@ window.ACU_COORDS3D = {
         0.2247,
         0.0031
       ],
-      "raiCm": 1.8
+      "raiCm": 1.8,
+      "n": [
+        0.486,
+        -0.228,
+        0.844
+      ]
     },
     "ST37": {
       "x": 0.054,
@@ -848,7 +1186,12 @@ window.ACU_COORDS3D = {
         0.1822,
         -0.0028
       ],
-      "raiCm": 1.6
+      "raiCm": 1.6,
+      "n": [
+        0.342,
+        -0.169,
+        0.925
+      ]
     },
     "ST38": {
       "x": 0.0527,
@@ -864,7 +1207,12 @@ window.ACU_COORDS3D = {
         0.2388,
         0.0051
       ],
-      "raiCm": 14.83
+      "raiCm": 14.83,
+      "n": [
+        0.33,
+        -0.132,
+        0.935
+      ]
     },
     "ST39": {
       "x": 0.0554,
@@ -882,7 +1230,12 @@ window.ACU_COORDS3D = {
         0.1398,
         -0.0131
       ],
-      "raiCm": 3.36
+      "raiCm": 3.36,
+      "n": [
+        0.363,
+        -0.116,
+        0.924
+      ]
     },
     "ST40": {
       "x": 0.0625,
@@ -898,7 +1251,12 @@ window.ACU_COORDS3D = {
         0.154,
         -0.0068
       ],
-      "raiCm": 1.79
+      "raiCm": 1.79,
+      "n": [
+        0.33,
+        -0.132,
+        0.935
+      ]
     },
     "ST41": {
       "x": 0.045,
@@ -908,7 +1266,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.184,
+        0.696,
+        0.694
+      ]
     },
     "ST42": {
       "x": 0.0597,
@@ -918,7 +1281,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.155,
+        0.744,
+        0.65
+      ]
     },
     "ST43": {
       "x": 0.0694,
@@ -928,7 +1296,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.322,
+        0.515,
+        0.794
+      ]
     },
     "ST44": {
       "x": 0.0711,
@@ -938,7 +1311,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.371,
+        0.426,
+        0.825
+      ]
     },
     "ST45": {
       "x": 0.0826,
@@ -948,7 +1326,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.156,
+        -0.987,
+        -0.046
+      ]
     },
     "SP1": {
       "x": 0.0579,
@@ -958,7 +1341,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.698,
+        -0.655,
+        0.29
+      ]
     },
     "SP2": {
       "x": 0.0424,
@@ -968,7 +1356,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.874,
+        -0.304,
+        0.379
+      ]
     },
     "SP3": {
       "x": 0.0381,
@@ -978,7 +1371,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.916,
+        -0.063,
+        0.396
+      ]
     },
     "SP4": {
       "x": 0.0312,
@@ -988,7 +1386,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.925,
+        0.043,
+        0.378
+      ]
     },
     "SP5": {
       "x": 0.0286,
@@ -998,12 +1401,17 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.935,
+        0.096,
+        0.342
+      ]
     },
     "SP6": {
-      "x": 0.0264,
+      "x": 0.0263,
       "y": 0.0969,
-      "z": -0.0233,
+      "z": -0.0234,
       "q": "approx",
       "snap": true,
       "src": "book+duong",
@@ -1014,13 +1422,18 @@ window.ACU_COORDS3D = {
       "canhBao": [
         "nằm trong lòng xương — phải lùi ra mặt xương"
       ],
-      "canSoat": "TẦNG DA: ép lên da, dời 2.6cm · RẢI DỌC ĐƯỜNG: dời 6.33cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "canSoat": "TẦNG DA: ép lên da, dời 2.6cm · RẢI DỌC ĐƯỜNG: dời 6.35cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
       "truocRai": [
         0.0629,
         0.0968,
         -0.0188
       ],
-      "raiCm": 6.33
+      "raiCm": 6.35,
+      "n": [
+        -0.998,
+        -0.014,
+        0.06
+      ]
     },
     "SP7": {
       "x": 0.0215,
@@ -1030,17 +1443,36 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.95,
+        -0.131,
+        0.285
+      ]
     },
     "SP8": {
-      "x": 0.014,
-      "y": 0.2017,
-      "z": -0.0175,
-      "q": "exact",
+      "x": 0.0152,
+      "y": 0.2129,
+      "z": -0.0239,
+      "q": "approx",
       "snap": true,
-      "src": "anchor",
-      "conf": "mốc",
-      "anchor": true
+      "src": "who+duong",
+      "conf": "WHO+khe",
+      "khe": "bờ sau xương chày",
+      "kheLoai": "sat-bo",
+      "kheXacNhan": true,
+      "canSoat": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "truocRai": [
+        0.0399,
+        0.2178,
+        0.0088
+      ],
+      "raiCm": 7.1,
+      "n": [
+        -0.988,
+        0.042,
+        0.148
+      ]
     },
     "SP9": {
       "x": 0.0169,
@@ -1050,7 +1482,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.99,
+        -0.027,
+        0.14
+      ]
     },
     "SP10": {
       "x": 0.0354,
@@ -1060,7 +1497,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.768,
+        -0.11,
+        0.631
+      ]
     },
     "SP11": {
       "x": 0.032,
@@ -1070,7 +1512,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.696,
+        -0.055,
+        0.716
+      ]
     },
     "SP12": {
       "x": 0.0397,
@@ -1080,7 +1527,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.095,
+        -0.177,
+        0.98
+      ]
     },
     "SP13": {
       "x": 0.0444,
@@ -1090,7 +1542,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.113,
+        -0.133,
+        0.985
+      ]
     },
     "SP14": {
       "x": 0.0444,
@@ -1100,7 +1557,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.299,
+        -0.114,
+        0.947
+      ]
     },
     "SP15": {
       "x": 0.0444,
@@ -1110,7 +1572,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.416,
+        -0.149,
+        0.897
+      ]
     },
     "SP16": {
       "x": 0.0444,
@@ -1120,7 +1587,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.461,
+        -0.233,
+        0.856
+      ]
     },
     "SP17": {
       "x": 0.0659,
@@ -1130,7 +1602,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.53,
+        -0.128,
+        0.838
+      ]
     },
     "SP18": {
       "x": 0.0666,
@@ -1140,7 +1617,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.518,
+        0.211,
+        0.829
+      ]
     },
     "SP19": {
       "x": 0.0666,
@@ -1150,7 +1632,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.438,
+        0.459,
+        0.773
+      ]
     },
     "SP20": {
       "x": 0.0666,
@@ -1160,7 +1647,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.388,
+        0.565,
+        0.728
+      ]
     },
     "SP21": {
       "x": 0.1062,
@@ -1170,7 +1662,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.525,
+        -0.155,
+        0.837
+      ]
     },
     "HT1": {
       "x": 0.101,
@@ -1180,7 +1677,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.732,
+        -0.031,
+        0.681
+      ]
     },
     "HT2": {
       "x": 0.1012,
@@ -1190,7 +1692,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.813,
+        -0.069,
+        0.579
+      ]
     },
     "HT3": {
       "x": 0.1067,
@@ -1200,7 +1707,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.76,
+        0.018,
+        0.649
+      ]
     },
     "HT4": {
       "x": 0.1368,
@@ -1216,7 +1728,12 @@ window.ACU_COORDS3D = {
         0.0066
       ],
       "raiCm": 4.09,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.09cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.09cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "n": [
+        -0.592,
+        0.16,
+        0.79
+      ]
     },
     "HT5": {
       "x": 0.1382,
@@ -1233,7 +1750,12 @@ window.ACU_COORDS3D = {
         0.5255,
         0.0078
       ],
-      "raiCm": 4.04
+      "raiCm": 4.04,
+      "n": [
+        -0.543,
+        0.206,
+        0.814
+      ]
     },
     "HT6": {
       "x": 0.1386,
@@ -1250,7 +1772,12 @@ window.ACU_COORDS3D = {
         0.5199,
         0.0212
       ],
-      "raiCm": 2.09
+      "raiCm": 2.09,
+      "n": [
+        -0.456,
+        0.321,
+        0.83
+      ]
     },
     "HT7": {
       "x": 0.1389,
@@ -1260,7 +1787,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.386,
+        0.403,
+        0.83
+      ]
     },
     "HT8": {
       "x": 0.1374,
@@ -1270,7 +1802,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.295,
+        0.887,
+        0.355
+      ]
     },
     "HT9": {
       "x": 0.1316,
@@ -1280,7 +1817,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.823,
+        0.385,
+        0.418
+      ]
     },
     "SI1": {
       "x": 0.1275,
@@ -1290,7 +1832,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.834,
+        -0.339,
+        -0.435
+      ]
     },
     "SI2": {
       "x": 0.1253,
@@ -1300,7 +1847,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.916,
+        -0.219,
+        -0.337
+      ]
     },
     "SI3": {
       "x": 0.1244,
@@ -1310,7 +1862,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.918,
+        -0.216,
+        -0.333
+      ]
     },
     "SI4": {
       "x": 0.1248,
@@ -1320,7 +1877,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.931,
+        -0.197,
+        -0.309
+      ]
     },
     "SI5": {
       "x": 0.1333,
@@ -1330,12 +1892,17 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.885,
+        -0.29,
+        -0.364
+      ]
     },
     "SI6": {
       "x": 0.1325,
       "y": 0.5198,
-      "z": 0.0036,
+      "z": 0.0037,
       "q": "approx",
       "snap": true,
       "src": "book+duong",
@@ -1345,17 +1912,35 @@ window.ACU_COORDS3D = {
         0.5349,
         0.0047
       ],
-      "raiCm": 2.61
+      "raiCm": 2.61,
+      "n": [
+        -0.898,
+        -0.29,
+        -0.33
+      ]
     },
     "SI7": {
-      "x": 0.1196,
-      "y": 0.5728,
-      "z": -0.0072,
-      "q": "exact",
+      "x": 0.1206,
+      "y": 0.5642,
+      "z": -0.0053,
+      "q": "approx",
       "snap": true,
-      "src": "anchor",
-      "conf": "mốc",
-      "anchor": true
+      "src": "book+khe+duong",
+      "conf": "khe",
+      "khe": "bờ sau xương trụ",
+      "kheLoai": "sat-bo",
+      "truocRai": [
+        0.1559,
+        0.5706,
+        -0.0154
+      ],
+      "raiCm": 6.4,
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 6.4cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "n": [
+        -0.927,
+        -0.292,
+        -0.235
+      ]
     },
     "SI8": {
       "x": 0.1128,
@@ -1365,7 +1950,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.399,
+        -0.204,
+        -0.894
+      ]
     },
     "SI9": {
       "x": 0.1227,
@@ -1381,7 +1971,12 @@ window.ACU_COORDS3D = {
         -0.0205
       ],
       "raiCm": 17.6,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 17.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 17.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "n": [
+        0.327,
+        -0.016,
+        -0.945
+      ]
     },
     "SI10": {
       "x": 0.1188,
@@ -1391,7 +1986,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.616,
+        0.324,
+        -0.718
+      ]
     },
     "SI11": {
       "x": 0.0476,
@@ -1401,7 +2001,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.002,
+        0.229,
+        -0.973
+      ]
     },
     "SI12": {
       "x": 0.047,
@@ -1411,7 +2016,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.02,
+        0.319,
+        -0.948
+      ]
     },
     "SI13": {
       "x": 0.0305,
@@ -1421,7 +2031,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.04,
+        0.43,
+        -0.902
+      ]
     },
     "SI14": {
       "x": 0.0336,
@@ -1431,7 +2046,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.093,
+        0.549,
+        -0.83
+      ]
     },
     "SI15": {
       "x": 0.0224,
@@ -1441,7 +2061,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.286,
+        0.609,
+        -0.74
+      ]
     },
     "SI16": {
       "x": 0.0297,
@@ -1451,7 +2076,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.987,
+        -0.11,
+        0.116
+      ]
     },
     "SI17": {
       "x": 0.0195,
@@ -1466,7 +2096,12 @@ window.ACU_COORDS3D = {
         0.8828,
         0.0112
       ],
-      "raiCm": 0
+      "raiCm": 0,
+      "n": [
+        0.794,
+        -0.573,
+        0.202
+      ]
     },
     "SI18": {
       "x": 0.0326,
@@ -1476,7 +2111,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.933,
+        -0.34,
+        0.115
+      ]
     },
     "SI19": {
       "x": 0.0382,
@@ -1486,7 +2126,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.982,
+        -0.16,
+        -0.105
+      ]
     },
     "BL1": {
       "x": 0.007,
@@ -1496,7 +2141,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.134,
+        0.08,
+        0.988
+      ]
     },
     "BL2": {
       "x": 0.0098,
@@ -1506,7 +2156,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.235,
+        0.376,
+        0.896
+      ]
     },
     "BL3": {
       "x": 0.0112,
@@ -1516,7 +2171,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.305,
+        0.639,
+        0.706
+      ]
     },
     "BL4": {
       "x": 0.0122,
@@ -1526,7 +2186,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.311,
+        0.664,
+        0.68
+      ]
     },
     "BL5": {
       "x": 0.0117,
@@ -1536,7 +2201,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.324,
+        0.741,
+        0.588
+      ]
     },
     "BL6": {
       "x": 0.0132,
@@ -1546,7 +2216,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.337,
+        0.871,
+        0.358
+      ]
     },
     "BL7": {
       "x": 0.0133,
@@ -1556,7 +2231,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.324,
+        0.945,
+        -0.049
+      ]
     },
     "BL8": {
       "x": 0.0116,
@@ -1566,7 +2246,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.271,
+        0.743,
+        -0.612
+      ]
     },
     "BL9": {
       "x": 0.0085,
@@ -1576,7 +2261,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.075,
+        -0.039,
+        -0.996
+      ]
     },
     "BL10": {
       "x": 0.0171,
@@ -1591,7 +2281,12 @@ window.ACU_COORDS3D = {
       "canhBao": [
         "nằm giữa bụng cơ (sâu 0.63 thốn trong khối Phần xuống của cơ thang trái)"
       ],
-      "canSoat": "hai bản sách lệch nhau 5.3cm — đã lấy bản cũ"
+      "canSoat": "hai bản sách lệch nhau 5.3cm — đã lấy bản cũ",
+      "n": [
+        0.565,
+        -0.23,
+        -0.793
+      ]
     },
     "BL11": {
       "x": 0.0168,
@@ -1601,7 +2296,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.043,
+        0.177,
+        -0.983
+      ]
     },
     "BL12": {
       "x": 0.0168,
@@ -1611,7 +2311,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.072,
+        0.156,
+        -0.985
+      ]
     },
     "BL13": {
       "x": 0.0168,
@@ -1621,7 +2326,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.1,
+        0.136,
+        -0.986
+      ]
     },
     "BL14": {
       "x": 0.0168,
@@ -1631,7 +2341,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.138,
+        0.108,
+        -0.985
+      ]
     },
     "BL15": {
       "x": 0.0168,
@@ -1641,7 +2356,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.182,
+        0.075,
+        -0.98
+      ]
     },
     "BL16": {
       "x": 0.0169,
@@ -1651,7 +2371,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.181,
+        0.068,
+        -0.981
+      ]
     },
     "BL17": {
       "x": 0.0168,
@@ -1661,7 +2386,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.179,
+        0.062,
+        -0.982
+      ]
     },
     "BL18": {
       "x": 0.0168,
@@ -1671,7 +2401,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.176,
+        0.048,
+        -0.983
+      ]
     },
     "BL19": {
       "x": 0.0168,
@@ -1681,7 +2416,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.175,
+        0.042,
+        -0.984
+      ]
     },
     "BL20": {
       "x": 0.0168,
@@ -1691,7 +2431,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.174,
+        0.036,
+        -0.984
+      ]
     },
     "BL21": {
       "x": 0.0168,
@@ -1701,7 +2446,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.162,
+        0.045,
+        -0.986
+      ]
     },
     "BL22": {
       "x": 0.0168,
@@ -1711,7 +2461,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.144,
+        0.062,
+        -0.988
+      ]
     },
     "BL23": {
       "x": 0.0168,
@@ -1721,7 +2476,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.128,
+        0.077,
+        -0.989
+      ]
     },
     "BL24": {
       "x": 0.0168,
@@ -1731,7 +2491,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.116,
+        0.089,
+        -0.989
+      ]
     },
     "BL25": {
       "x": 0.0168,
@@ -1741,7 +2506,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.116,
+        0.129,
+        -0.985
+      ]
     },
     "BL26": {
       "x": 0.0168,
@@ -1751,7 +2521,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.116,
+        0.154,
+        -0.981
+      ]
     },
     "BL27": {
       "x": 0.0168,
@@ -1761,7 +2536,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.129,
+        0.151,
+        -0.98
+      ]
     },
     "BL28": {
       "x": 0.0168,
@@ -1771,7 +2551,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.153,
+        0.146,
+        -0.977
+      ]
     },
     "BL29": {
       "x": 0.0168,
@@ -1781,7 +2566,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.178,
+        0.141,
+        -0.974
+      ]
     },
     "BL30": {
       "x": 0.0168,
@@ -1791,7 +2581,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.26,
+        0.046,
+        -0.965
+      ]
     },
     "BL31": {
       "x": 0.0046,
@@ -1801,7 +2596,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.25,
+        0.203,
+        -0.947
+      ]
     },
     "BL32": {
       "x": 0.0096,
@@ -1811,7 +2611,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.295,
+        0.25,
+        -0.922
+      ]
     },
     "BL33": {
       "x": 0.0067,
@@ -1821,7 +2626,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.371,
+        0.127,
+        -0.92
+      ]
     },
     "BL34": {
       "x": 0.0071,
@@ -1831,7 +2641,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.405,
+        -0.189,
+        -0.894
+      ]
     },
     "BL35": {
       "x": 0.0056,
@@ -1841,7 +2656,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.336,
+        -0.61,
+        -0.718
+      ]
     },
     "BL36": {
       "x": 0.0399,
@@ -1851,7 +2671,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.304,
+        -0.427,
+        -0.852
+      ]
     },
     "BL37": {
       "x": 0.0436,
@@ -1861,7 +2686,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.396,
+        -0.082,
+        -0.915
+      ]
     },
     "BL38": {
       "x": 0.06,
@@ -1871,7 +2701,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.384,
+        0.259,
+        -0.886
+      ]
     },
     "BL39": {
       "x": 0.0613,
@@ -1881,7 +2716,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.341,
+        0.307,
+        -0.889
+      ]
     },
     "BL40": {
       "x": 0.0485,
@@ -1891,7 +2731,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.049,
+        0.318,
+        -0.947
+      ]
     },
     "BL41": {
       "x": 0.0336,
@@ -1901,7 +2746,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.112,
+        0.259,
+        -0.959
+      ]
     },
     "BL42": {
       "x": 0.0336,
@@ -1911,7 +2761,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.146,
+        0.156,
+        -0.977
+      ]
     },
     "BL43": {
       "x": 0.0336,
@@ -1921,7 +2776,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.136,
+        0.055,
+        -0.989
+      ]
     },
     "BL44": {
       "x": 0.0336,
@@ -1931,7 +2791,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.061,
+        0.012,
+        -0.998
+      ]
     },
     "BL45": {
       "x": 0.0336,
@@ -1941,7 +2806,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.049,
+        0.017,
+        -0.999
+      ]
     },
     "BL46": {
       "x": 0.0337,
@@ -1951,7 +2821,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.038,
+        0.021,
+        -0.999
+      ]
     },
     "BL47": {
       "x": 0.0336,
@@ -1961,7 +2836,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.014,
+        0.03,
+        -0.999
+      ]
     },
     "BL48": {
       "x": 0.0336,
@@ -1971,7 +2851,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.004,
+        0.034,
+        -0.999
+      ]
     },
     "BL49": {
       "x": 0.0336,
@@ -1981,7 +2866,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.006,
+        0.038,
+        -0.999
+      ]
     },
     "BL50": {
       "x": 0.0336,
@@ -1991,7 +2881,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.018,
+        0.043,
+        -0.999
+      ]
     },
     "BL51": {
       "x": 0.0336,
@@ -2001,7 +2896,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.032,
+        0.048,
+        -0.998
+      ]
     },
     "BL52": {
       "x": 0.0336,
@@ -2011,7 +2911,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.044,
+        0.053,
+        -0.998
+      ]
     },
     "BL53": {
       "x": 0.0336,
@@ -2021,7 +2926,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.112,
+        0.088,
+        -0.99
+      ]
     },
     "BL54": {
       "x": 0.0336,
@@ -2031,7 +2941,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.134,
+        0.04,
+        -0.99
+      ]
     },
     "BL55": {
       "x": 0.0444,
@@ -2053,7 +2968,12 @@ window.ACU_COORDS3D = {
         0.2266,
         -0.0327
       ],
-      "raiCm": 6.6
+      "raiCm": 6.6,
+      "n": [
+        -0.068,
+        0.243,
+        -0.968
+      ]
     },
     "BL56": {
       "x": 0.0318,
@@ -2063,7 +2983,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.421,
+        -0.026,
+        -0.907
+      ]
     },
     "BL57": {
       "x": 0.0299,
@@ -2082,7 +3007,12 @@ window.ACU_COORDS3D = {
         0.1547,
         -0.0245
       ],
-      "raiCm": 4.52
+      "raiCm": 4.52,
+      "n": [
+        -0.369,
+        -0.088,
+        -0.925
+      ]
     },
     "BL58": {
       "x": 0.031,
@@ -2101,7 +3031,12 @@ window.ACU_COORDS3D = {
         0.1757,
         -0.0007
       ],
-      "raiCm": 10.27
+      "raiCm": 10.27,
+      "n": [
+        -0.317,
+        -0.081,
+        -0.945
+      ]
     },
     "BL59": {
       "x": 0.0387,
@@ -2118,7 +3053,12 @@ window.ACU_COORDS3D = {
         0.0832,
         -0.035
       ],
-      "raiCm": 2.91
+      "raiCm": 2.91,
+      "n": [
+        0.109,
+        0.023,
+        -0.994
+      ]
     },
     "BL60": {
       "x": 0.0515,
@@ -2128,7 +3068,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.672,
+        0.212,
+        -0.71
+      ]
     },
     "BL61": {
       "x": 0.0729,
@@ -2139,7 +3084,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.6cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai."
+      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.6cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai.",
+      "n": [
+        0.785,
+        0.197,
+        -0.588
+      ]
     },
     "BL62": {
       "x": 0.0695,
@@ -2149,7 +3099,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.839,
+        0.238,
+        -0.489
+      ]
     },
     "BL63": {
       "x": 0.0744,
@@ -2159,7 +3114,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.862,
+        0.276,
+        -0.425
+      ]
     },
     "BL64": {
       "x": 0.0828,
@@ -2169,7 +3129,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.901,
+        0.224,
+        -0.372
+      ]
     },
     "BL65": {
       "x": 0.0996,
@@ -2179,7 +3144,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.941,
+        -0.002,
+        -0.338
+      ]
     },
     "BL66": {
       "x": 0.0997,
@@ -2190,7 +3160,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai."
+      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai.",
+      "n": [
+        0.788,
+        -0.508,
+        -0.348
+      ]
     },
     "BL67": {
       "x": 0.0977,
@@ -2200,7 +3175,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.009,
+        -0.973,
+        -0.232
+      ]
     },
     "KI1": {
       "x": 0.0559,
@@ -2210,7 +3190,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.031,
+        -0.994,
+        -0.103
+      ]
     },
     "KI2": {
       "x": 0.0329,
@@ -2225,7 +3210,12 @@ window.ACU_COORDS3D = {
         0.0312,
         0.0042
       ],
-      "raiCm": 1.82
+      "raiCm": 1.82,
+      "n": [
+        -0.842,
+        -0.523,
+        0.134
+      ]
     },
     "KI3": {
       "x": 0.0215,
@@ -2235,7 +3225,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.987,
+        -0.029,
+        0.157
+      ]
     },
     "KI4": {
       "x": 0.022,
@@ -2253,7 +3248,12 @@ window.ACU_COORDS3D = {
         -0.0388
       ],
       "raiCm": 5.38,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 5.38cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 5.38cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "n": [
+        -0.984,
+        -0.068,
+        0.164
+      ]
     },
     "KI5": {
       "x": 0.0202,
@@ -2263,7 +3263,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.985,
+        -0.07,
+        0.159
+      ]
     },
     "KI6": {
       "x": 0.0254,
@@ -2273,7 +3278,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.974,
+        -0.147,
+        0.173
+      ]
     },
     "KI7": {
       "x": 0.0257,
@@ -2292,7 +3302,12 @@ window.ACU_COORDS3D = {
         -0.0268
       ],
       "raiCm": 4.19,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.19cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.19cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "n": [
+        -0.999,
+        0.024,
+        0.04
+      ]
     },
     "KI8": {
       "x": 0.0258,
@@ -2311,7 +3326,12 @@ window.ACU_COORDS3D = {
         -0.0268
       ],
       "raiCm": 4.48,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.48cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.48cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "n": [
+        -0.999,
+        0.023,
+        0.036
+      ]
     },
     "KI9": {
       "x": 0.0271,
@@ -2329,7 +3349,12 @@ window.ACU_COORDS3D = {
         -0.0426
       ],
       "raiCm": 7.95,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 7.95cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 7.95cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "n": [
+        -0.89,
+        -0.105,
+        -0.443
+      ]
     },
     "KI10": {
       "x": 0.029,
@@ -2339,7 +3364,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.357,
+        0.002,
+        -0.934
+      ]
     },
     "KI11": {
       "x": 0.0056,
@@ -2349,7 +3379,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.129,
+        -0.269,
+        0.954
+      ]
     },
     "KI12": {
       "x": 0.0056,
@@ -2359,7 +3394,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.102,
+        -0.233,
+        0.967
+      ]
     },
     "KI13": {
       "x": 0.0056,
@@ -2369,7 +3409,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.051,
+        -0.175,
+        0.983
+      ]
     },
     "KI14": {
       "x": 0.0056,
@@ -2379,7 +3424,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.036,
+        -0.159,
+        0.987
+      ]
     },
     "KI15": {
       "x": 0.0056,
@@ -2389,7 +3439,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.022,
+        -0.144,
+        0.989
+      ]
     },
     "KI16": {
       "x": 0.0056,
@@ -2399,7 +3454,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.007,
+        -0.128,
+        0.992
+      ]
     },
     "KI17": {
       "x": 0.0056,
@@ -2409,7 +3469,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.014,
+        -0.105,
+        0.994
+      ]
     },
     "KI18": {
       "x": 0.0056,
@@ -2419,7 +3484,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.024,
+        -0.094,
+        0.995
+      ]
     },
     "KI19": {
       "x": 0.0056,
@@ -2429,7 +3499,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.051,
+        -0.063,
+        0.997
+      ]
     },
     "KI20": {
       "x": 0.0056,
@@ -2439,7 +3514,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.079,
+        -0.033,
+        0.996
+      ]
     },
     "KI21": {
       "x": 0.0056,
@@ -2449,7 +3529,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.106,
+        -0.002,
+        0.994
+      ]
     },
     "KI22": {
       "x": 0.0222,
@@ -2459,7 +3544,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.106,
+        0.019,
+        0.994
+      ]
     },
     "KI23": {
       "x": 0.0222,
@@ -2469,7 +3559,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.097,
+        0.127,
+        0.987
+      ]
     },
     "KI24": {
       "x": 0.0222,
@@ -2479,7 +3574,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.079,
+        0.296,
+        0.952
+      ]
     },
     "KI25": {
       "x": 0.0222,
@@ -2489,7 +3589,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.057,
+        0.447,
+        0.893
+      ]
     },
     "KI26": {
       "x": 0.0222,
@@ -2499,7 +3604,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.035,
+        0.544,
+        0.838
+      ]
     },
     "KI27": {
       "x": 0.0222,
@@ -2509,7 +3619,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.016,
+        0.605,
+        0.796
+      ]
     },
     "PC1": {
       "x": 0.0556,
@@ -2519,7 +3634,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.251,
+        0.3,
+        0.92
+      ]
     },
     "PC2": {
       "x": 0.1053,
@@ -2529,7 +3649,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.452,
+        0.096,
+        0.887
+      ]
     },
     "PC3": {
       "x": 0.1196,
@@ -2539,7 +3664,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.135,
+        0.034,
+        0.99
+      ]
     },
     "PC4": {
       "x": 0.1296,
@@ -2556,7 +3686,12 @@ window.ACU_COORDS3D = {
         0.5706,
         -0.0018
       ],
-      "raiCm": 4.39
+      "raiCm": 4.39,
+      "n": [
+        -0.403,
+        0.096,
+        0.91
+      ]
     },
     "PC5": {
       "x": 0.1384,
@@ -2573,7 +3708,12 @@ window.ACU_COORDS3D = {
         0.548,
         0.003
       ],
-      "raiCm": 3.53
+      "raiCm": 3.53,
+      "n": [
+        -0.301,
+        0.186,
+        0.935
+      ]
     },
     "PC6": {
       "x": 0.1428,
@@ -2595,7 +3735,12 @@ window.ACU_COORDS3D = {
         0.0054
       ],
       "raiCm": 3.12,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 3.12cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "canSoat": "RẢI DỌC ĐƯỜNG: dời 3.12cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "n": [
+        -0.249,
+        0.23,
+        0.941
+      ]
     },
     "PC7": {
       "x": 0.154,
@@ -2605,7 +3750,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.014,
+        0.471,
+        0.882
+      ]
     },
     "PC8": {
       "x": 0.1601,
@@ -2615,7 +3765,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.086,
+        -0.31,
+        0.947
+      ]
     },
     "PC9": {
       "x": 0.1629,
@@ -2625,7 +3780,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.095,
+        -0.883,
+        -0.459
+      ]
     },
     "TE1": {
       "x": 0.1412,
@@ -2635,7 +3795,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.766,
+        0.562,
+        0.31
+      ]
     },
     "TE2": {
       "x": 0.1394,
@@ -2645,7 +3810,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.753,
+        -0.092,
+        -0.651
+      ]
     },
     "TE3": {
       "x": 0.1406,
@@ -2655,7 +3825,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.686,
+        -0.161,
+        -0.709
+      ]
     },
     "TE4": {
       "x": 0.143,
@@ -2665,7 +3840,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.172,
+        -0.491,
+        -0.854
+      ]
     },
     "TE5": {
       "x": 0.143,
@@ -2675,7 +3855,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.058,
+        -0.414,
+        -0.908
+      ]
     },
     "TE6": {
       "x": 0.141,
@@ -2685,7 +3870,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.002,
+        -0.37,
+        -0.929
+      ]
     },
     "TE7": {
       "x": 0.1358,
@@ -2695,7 +3885,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.014,
+        -0.356,
+        -0.934
+      ]
     },
     "TE8": {
       "x": 0.1403,
@@ -2705,7 +3900,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.033,
+        -0.34,
+        -0.94
+      ]
     },
     "TE9": {
       "x": 0.138,
@@ -2715,7 +3915,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.056,
+        -0.313,
+        -0.948
+      ]
     },
     "TE10": {
       "x": 0.1224,
@@ -2725,7 +3930,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.158,
+        -0.13,
+        -0.979
+      ]
     },
     "TE11": {
       "x": 0.1251,
@@ -2735,7 +3945,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.386,
+        -0.055,
+        -0.921
+      ]
     },
     "TE12": {
       "x": 0.1281,
@@ -2745,7 +3960,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.55,
+        0.055,
+        -0.833
+      ]
     },
     "TE13": {
       "x": 0.1256,
@@ -2755,7 +3975,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.632,
+        0.241,
+        -0.736
+      ]
     },
     "TE14": {
       "x": 0.1153,
@@ -2765,7 +3990,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.627,
+        0.494,
+        -0.602
+      ]
     },
     "TE15": {
       "x": 0.0762,
@@ -2775,7 +4005,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.838,
+        0.351,
+        -0.417
+      ]
     },
     "TE16": {
       "x": 0.0283,
@@ -2785,7 +4020,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.934,
+        -0.082,
+        -0.347
+      ]
     },
     "TE17": {
       "x": 0.0346,
@@ -2795,7 +4035,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.968,
+        -0.18,
+        -0.173
+      ]
     },
     "TE18": {
       "x": 0.039,
@@ -2805,7 +4050,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.976,
+        -0.217,
+        -0.031
+      ]
     },
     "TE19": {
       "x": 0.0448,
@@ -2815,7 +4065,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.98,
+        -0.194,
+        0.05
+      ]
     },
     "TE20": {
       "x": 0.0413,
@@ -2825,7 +4080,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.986,
+        -0.152,
+        0.073
+      ]
     },
     "TE21": {
       "x": 0.039,
@@ -2835,7 +4095,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.987,
+        -0.119,
+        0.108
+      ]
     },
     "TE22": {
       "x": 0.0401,
@@ -2845,7 +4110,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.96,
+        -0.097,
+        0.262
+      ]
     },
     "TE23": {
       "x": 0.0308,
@@ -2855,7 +4125,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.844,
+        -0.077,
+        0.53
+      ]
     },
     "GB1": {
       "x": 0.0311,
@@ -2865,7 +4140,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.816,
+        -0.12,
+        0.566
+      ]
     },
     "GB2": {
       "x": 0.0375,
@@ -2875,7 +4155,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.933,
+        -0.08,
+        0.352
+      ]
     },
     "GB3": {
       "x": 0.0376,
@@ -2885,7 +4170,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.965,
+        0.012,
+        0.263
+      ]
     },
     "GB4": {
       "x": 0.0387,
@@ -2895,7 +4185,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.969,
+        0.032,
+        0.245
+      ]
     },
     "GB5": {
       "x": 0.0402,
@@ -2905,7 +4200,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.971,
+        0.031,
+        0.235
+      ]
     },
     "GB6": {
       "x": 0.0417,
@@ -2915,7 +4215,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.974,
+        0.031,
+        0.225
+      ]
     },
     "GB7": {
       "x": 0.0432,
@@ -2925,7 +4230,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.976,
+        0.03,
+        0.215
+      ]
     },
     "GB8": {
       "x": 0.0419,
@@ -2935,7 +4245,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.988,
+        -0.015,
+        0.152
+      ]
     },
     "GB9": {
       "x": 0.0399,
@@ -2945,7 +4260,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.993,
+        -0.047,
+        0.107
+      ]
     },
     "GB10": {
       "x": 0.0374,
@@ -2955,7 +4275,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.994,
+        -0.103,
+        0.037
+      ]
     },
     "GB11": {
       "x": 0.0361,
@@ -2965,7 +4290,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.993,
+        -0.117,
+        0.02
+      ]
     },
     "GB12": {
       "x": 0.0335,
@@ -2975,7 +4305,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.985,
+        -0.166,
+        -0.041
+      ]
     },
     "GB13": {
       "x": 0.0231,
@@ -2985,7 +4320,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.682,
+        0.399,
+        0.613
+      ]
     },
     "GB14": {
       "x": 0.0165,
@@ -2995,7 +4335,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.559,
+        0.56,
+        0.611
+      ]
     },
     "GB15": {
       "x": 0.0178,
@@ -3005,7 +4350,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.52,
+        0.699,
+        0.49
+      ]
     },
     "GB16": {
       "x": 0.0178,
@@ -3015,7 +4365,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.509,
+        0.728,
+        0.46
+      ]
     },
     "GB17": {
       "x": 0.0178,
@@ -3025,7 +4380,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.507,
+        0.798,
+        0.325
+      ]
     },
     "GB18": {
       "x": 0.0189,
@@ -3035,7 +4395,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.494,
+        0.848,
+        0.191
+      ]
     },
     "GB19": {
       "x": 0.0149,
@@ -3045,7 +4410,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.247,
+        -0.101,
+        -0.964
+      ]
     },
     "GB20": {
       "x": 0.0337,
@@ -3060,6 +4430,11 @@ window.ACU_COORDS3D = {
       "kheXacNhan": true,
       "canhBao": [
         "nằm giữa bụng cơ (sâu 0.85 thốn trong khối Cơ gối đầu trái)"
+      ],
+      "n": [
+        0.891,
+        -0.301,
+        -0.339
       ]
     },
     "GB21": {
@@ -3070,7 +4445,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.367,
+        0.683,
+        0.632
+      ]
     },
     "GB22": {
       "x": 0.0966,
@@ -3080,7 +4460,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.582,
+        -0.179,
+        0.794
+      ]
     },
     "GB23": {
       "x": 0.0926,
@@ -3090,7 +4475,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.754,
+        -0.139,
+        0.642
+      ]
     },
     "GB24": {
       "x": 0.0443,
@@ -3100,7 +4490,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.6,
+        -0.167,
+        0.783
+      ]
     },
     "GB25": {
       "x": 0.0713,
@@ -3114,6 +4509,11 @@ window.ACU_COORDS3D = {
       "kheLoai": "sat-bo",
       "canhBao": [
         "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ chéo bụng ngoài trái)"
+      ],
+      "n": [
+        0.981,
+        -0.026,
+        -0.192
       ]
     },
     "GB26": {
@@ -3124,7 +4524,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.984,
+        -0.002,
+        0.18
+      ]
     },
     "GB27": {
       "x": 0.0734,
@@ -3134,7 +4539,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.788,
+        -0.032,
+        0.615
+      ]
     },
     "GB28": {
       "x": 0.0734,
@@ -3144,7 +4554,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.453,
+        -0.096,
+        0.886
+      ]
     },
     "GB29": {
       "x": 0.0953,
@@ -3154,7 +4569,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.943,
+        0.001,
+        0.334
+      ]
     },
     "GB30": {
       "x": 0.0939,
@@ -3164,7 +4584,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.959,
+        0.081,
+        -0.273
+      ]
     },
     "GB31": {
       "x": 0.0884,
@@ -3174,7 +4599,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.903,
+        -0.196,
+        0.383
+      ]
     },
     "GB32": {
       "x": 0.082,
@@ -3184,7 +4614,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.896,
+        -0.213,
+        0.391
+      ]
     },
     "GB33": {
       "x": 0.0774,
@@ -3199,7 +4634,12 @@ window.ACU_COORDS3D = {
         0.3129,
         -0.0007
       ],
-      "raiCm": 1.5
+      "raiCm": 1.5,
+      "n": [
+        0.89,
+        -0.225,
+        0.396
+      ]
     },
     "GB34": {
       "x": 0.0702,
@@ -3209,7 +4649,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.829,
+        -0.002,
+        0.56
+      ]
     },
     "GB35": {
       "x": 0.0704,
@@ -3219,7 +4664,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.973,
+        -0.172,
+        0.157
+      ]
     },
     "GB36": {
       "x": 0.0716,
@@ -3229,7 +4679,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.994,
+        -0.106,
+        0.032
+      ]
     },
     "GB37": {
       "x": 0.0679,
@@ -3247,7 +4702,12 @@ window.ACU_COORDS3D = {
         0.1115,
         -0.0128
       ],
-      "raiCm": 2.23
+      "raiCm": 2.23,
+      "n": [
+        0.999,
+        0.002,
+        -0.044
+      ]
     },
     "GB38": {
       "x": 0.0658,
@@ -3265,7 +4725,12 @@ window.ACU_COORDS3D = {
         0.0974,
         -0.0148
       ],
-      "raiCm": 1.63
+      "raiCm": 1.63,
+      "n": [
+        0.994,
+        0.064,
+        -0.087
+      ]
     },
     "GB39": {
       "x": 0.0634,
@@ -3275,7 +4740,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.981,
+        0.135,
+        -0.136
+      ]
     },
     "GB40": {
       "x": 0.0728,
@@ -3285,7 +4755,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.768,
+        0.512,
+        -0.385
+      ]
     },
     "GB41": {
       "x": 0.0664,
@@ -3295,7 +4770,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.729,
+        0.677,
+        -0.097
+      ]
     },
     "GB42": {
       "x": 0.0814,
@@ -3305,7 +4785,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.663,
+        0.74,
+        0.111
+      ]
     },
     "GB43": {
       "x": 0.0818,
@@ -3315,7 +4800,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.644,
+        0.73,
+        0.229
+      ]
     },
     "GB44": {
       "x": 0.0966,
@@ -3325,7 +4815,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.672,
+        0.674,
+        0.307
+      ]
     },
     "LR1": {
       "x": 0.0692,
@@ -3335,7 +4830,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.014,
+        -0.998,
+        -0.069
+      ]
     },
     "LR2": {
       "x": 0.06,
@@ -3345,7 +4845,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.033,
+        0.346,
+        0.938
+      ]
     },
     "LR3": {
       "x": 0.0519,
@@ -3355,7 +4860,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.303,
+        0.621,
+        0.723
+      ]
     },
     "LR4": {
       "x": 0.0329,
@@ -3365,7 +4875,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.737,
+        0.351,
+        0.578
+      ]
     },
     "LR5": {
       "x": 0.029,
@@ -3375,7 +4890,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.811,
+        0.035,
+        0.584
+      ]
     },
     "LR6": {
       "x": 0.0206,
@@ -3385,7 +4905,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.873,
+        -0.001,
+        0.488
+      ]
     },
     "LR7": {
       "x": 0.0169,
@@ -3395,7 +4920,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.996,
+        -0.064,
+        -0.056
+      ]
     },
     "LR8": {
       "x": 0.0119,
@@ -3405,7 +4935,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.979,
+        -0.198,
+        0.047
+      ]
     },
     "LR9": {
       "x": 0.0143,
@@ -3415,7 +4950,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.965,
+        -0.115,
+        0.237
+      ]
     },
     "LR10": {
       "x": 0.0282,
@@ -3425,7 +4965,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.514,
+        -0.044,
+        0.857
+      ]
     },
     "LR11": {
       "x": 0.0295,
@@ -3435,7 +4980,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.49,
+        -0.043,
+        0.871
+      ]
     },
     "LR12": {
       "x": 0.0287,
@@ -3445,7 +4995,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.301,
+        -0.034,
+        0.953
+      ]
     },
     "LR13": {
       "x": 0.0764,
@@ -3455,7 +5010,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.99,
+        -0.046,
+        0.134
+      ]
     },
     "LR14": {
       "x": 0.0438,
@@ -3465,7 +5025,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.229,
+        0.002,
+        0.973
+      ]
     },
     "CV1": {
       "x": -0.0016,
@@ -3475,7 +5040,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "who",
       "conf": "WHO-lấp",
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.014,
+        0.655,
+        -0.756
+      ]
     },
     "CV2": {
       "x": 0,
@@ -3486,7 +5056,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.065,
+        0.376,
+        0.924
+      ]
     },
     "CV3": {
       "x": 0,
@@ -3497,7 +5072,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.039,
+        -0.036,
+        0.999
+      ]
     },
     "CV4": {
       "x": 0,
@@ -3508,7 +5088,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.029,
+        -0.058,
+        0.998
+      ]
     },
     "CV5": {
       "x": 0,
@@ -3519,7 +5104,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.019,
+        -0.079,
+        0.997
+      ]
     },
     "CV6": {
       "x": 0,
@@ -3530,7 +5120,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.014,
+        -0.09,
+        0.996
+      ]
     },
     "CV7": {
       "x": 0,
@@ -3541,7 +5136,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.008,
+        -0.124,
+        0.992
+      ]
     },
     "CV8": {
       "x": 0,
@@ -3552,7 +5152,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.027,
+        -0.256,
+        0.966
+      ]
     },
     "CV9": {
       "x": 0,
@@ -3563,7 +5168,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.025,
+        -0.183,
+        0.983
+      ]
     },
     "CV10": {
       "x": 0,
@@ -3574,7 +5184,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.024,
+        -0.109,
+        0.994
+      ]
     },
     "CV11": {
       "x": 0,
@@ -3585,7 +5200,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.022,
+        -0.035,
+        0.999
+      ]
     },
     "CV12": {
       "x": 0,
@@ -3596,7 +5216,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.023,
+        0.023,
+        0.999
+      ]
     },
     "CV13": {
       "x": 0,
@@ -3607,7 +5232,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.024,
+        0.082,
+        0.996
+      ]
     },
     "CV14": {
       "x": 0,
@@ -3618,7 +5248,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.025,
+        0.14,
+        0.99
+      ]
     },
     "CV15": {
       "x": 0,
@@ -3629,7 +5264,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.026,
+        0.198,
+        0.98
+      ]
     },
     "CV16": {
       "x": 0,
@@ -3640,7 +5280,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.041,
+        0.163,
+        0.986
+      ]
     },
     "CV17": {
       "x": 0,
@@ -3652,7 +5297,12 @@ window.ACU_COORDS3D = {
       "conf": "mốc",
       "anchor": true,
       "snapDir": "front",
-      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 1.8cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai."
+      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 1.8cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai.",
+      "n": [
+        -0.031,
+        0.254,
+        0.967
+      ]
     },
     "CV18": {
       "x": 0,
@@ -3663,7 +5313,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.021,
+        0.316,
+        0.949
+      ]
     },
     "CV19": {
       "x": 0,
@@ -3674,7 +5329,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.012,
+        0.374,
+        0.927
+      ]
     },
     "CV20": {
       "x": -0.001,
@@ -3685,7 +5345,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        -0.001,
+        0.439,
+        0.898
+      ]
     },
     "CV21": {
       "x": 0,
@@ -3696,7 +5361,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.017,
+        0.597,
+        0.802
+      ]
     },
     "CV22": {
       "x": 0,
@@ -3707,7 +5377,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.011,
+        0.695,
+        0.719
+      ]
     },
     "CV23": {
       "x": 0,
@@ -3719,7 +5394,12 @@ window.ACU_COORDS3D = {
       "conf": "mốc",
       "anchor": true,
       "snapDir": "front",
-      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.7cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai."
+      "canSoat": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.7cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai.",
+      "n": [
+        0.023,
+        0.186,
+        0.982
+      ]
     },
     "CV24": {
       "x": 0,
@@ -3730,7 +5410,12 @@ window.ACU_COORDS3D = {
       "src": "anchor",
       "conf": "mốc",
       "anchor": true,
-      "snapDir": "front"
+      "snapDir": "front",
+      "n": [
+        0.027,
+        -0.121,
+        0.992
+      ]
     },
     "GV1": {
       "x": 0,
@@ -3740,7 +5425,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.013,
+        -0.71,
+        -0.704
+      ]
     },
     "GV2": {
       "x": 0,
@@ -3750,7 +5440,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.012,
+        -0.386,
+        -0.922
+      ]
     },
     "GV3": {
       "x": 0,
@@ -3760,7 +5455,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.004,
+        0.132,
+        -0.991
+      ]
     },
     "GV4": {
       "x": 0,
@@ -3770,7 +5470,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.042,
+        0.069,
+        -0.997
+      ]
     },
     "GV5": {
       "x": 0,
@@ -3780,7 +5485,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.058,
+        0.039,
+        -0.998
+      ]
     },
     "GV6": {
       "x": 0,
@@ -3790,7 +5500,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.094,
+        -0.028,
+        -0.995
+      ]
     },
     "GV7": {
       "x": 0,
@@ -3800,7 +5515,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.056,
+        -0.086,
+        -0.995
+      ]
     },
     "GV8": {
       "x": 0,
@@ -3810,7 +5530,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.051,
+        -0.091,
+        -0.995
+      ]
     },
     "GV9": {
       "x": 0,
@@ -3820,7 +5545,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.04,
+        -0.103,
+        -0.994
+      ]
     },
     "GV10": {
       "x": 0.0017,
@@ -3830,7 +5560,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.027,
+        -0.038,
+        -0.999
+      ]
     },
     "GV11": {
       "x": 0,
@@ -3840,7 +5575,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.001,
+        0.135,
+        -0.991
+      ]
     },
     "GV12": {
       "x": 0,
@@ -3850,7 +5590,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.017,
+        0.263,
+        -0.965
+      ]
     },
     "GV13": {
       "x": 0,
@@ -3860,7 +5605,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.028,
+        0.347,
+        -0.938
+      ]
     },
     "GV14": {
       "x": 0,
@@ -3870,7 +5620,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.033,
+        0.382,
+        -0.924
+      ]
     },
     "GV15": {
       "x": 0,
@@ -3880,7 +5635,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.016,
+        -0.402,
+        -0.916
+      ]
     },
     "GV16": {
       "x": 0,
@@ -3890,7 +5650,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.039,
+        -0.528,
+        -0.848
+      ]
     },
     "GV17": {
       "x": 0,
@@ -3900,7 +5665,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.017,
+        -0.037,
+        -0.999
+      ]
     },
     "GV18": {
       "x": 0,
@@ -3910,7 +5680,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.004,
+        0.487,
+        -0.873
+      ]
     },
     "GV19": {
       "x": 0,
@@ -3920,7 +5695,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.006,
+        0.854,
+        -0.52
+      ]
     },
     "GV20": {
       "x": 0,
@@ -3930,7 +5710,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.01,
+        0.993,
+        -0.12
+      ]
     },
     "GV21": {
       "x": 0,
@@ -3940,7 +5725,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.009,
+        0.975,
+        0.222
+      ]
     },
     "GV22": {
       "x": 0,
@@ -3950,7 +5740,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.003,
+        0.925,
+        0.38
+      ]
     },
     "GV23": {
       "x": 0,
@@ -3960,7 +5755,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.001,
+        0.877,
+        0.481
+      ]
     },
     "GV24": {
       "x": 0,
@@ -3970,7 +5770,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        -0.017,
+        0.751,
+        0.66
+      ]
     },
     "GV25": {
       "x": 0,
@@ -3980,7 +5785,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.071,
+        -0.147,
+        0.987
+      ]
     },
     "GV26": {
       "x": 0,
@@ -3990,7 +5800,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.057,
+        -0.257,
+        0.965
+      ]
     },
     "GV27": {
       "x": 0,
@@ -4000,7 +5815,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.053,
+        -0.288,
+        0.956
+      ]
     },
     "GV28": {
       "x": 0,
@@ -4010,7 +5830,12 @@ window.ACU_COORDS3D = {
       "snap": true,
       "src": "anchor",
       "conf": "mốc",
-      "anchor": true
+      "anchor": true,
+      "n": [
+        0.049,
+        -0.379,
+        0.924
+      ]
     }
   }
 };

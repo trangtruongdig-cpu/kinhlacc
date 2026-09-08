@@ -270,11 +270,61 @@ for (const r of rows) {
   pt.src = /\+duong$/.test(pt.src || '') ? pt.src : (pt.src || '?') + '+duong';
   if (r.cm > 3) { pt.q = 'approx'; pt.canSoat = (pt.canSoat ? pt.canSoat + ' · ' : '') + `RẢI DỌC ĐƯỜNG: dời ${r.cm}cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt`; }
 }
+/* ---- PHÁP TUYẾN MẶT DA CHO TỪNG HUYỆT ----------------------------------------------------------
+ * map3d.js nhấc chấm huyệt khỏi da 1,55cm cho khỏi chìm. Trước đây nó nhấc theo hướng TOẢ RA TỪ TRỤC
+ * DỌC THÂN — ở tay chân hướng ấy lệch 90–150° so với mặt da nên chấm bị đẩy vào trong thịt. Nay ghi
+ * sẵn pháp tuyến vào bảng.
+ *
+ * LẤY PHÁP TUYẾN TỪ ĐƯỜNG KINH, KHÔNG TÍNH RIÊNG CHO HUYỆT. Đây là điều kiện bắt buộc, không phải
+ * tối ưu: chấm và ống phải nhấc bằng ĐÚNG MỘT véc-tơ, nếu không chúng tách nhau ngay trên màn hình
+ * dù dữ liệu đặt huyệt đúng trên đường — lỗi này đã xảy ra một lần với phép "dán da lần hai" và người
+ * dùng thấy ngay. Pháp tuyến của đường đã được làm mượt dọc đường (bake-paths), nên lấy từ đó vừa
+ * khớp ống vừa mượt. Chỉ huyệt nào không nằm gần đường nào mới hỏi thẳng mặt da. */
+const { loadSkinNormals } = require('./skin-normal.cjs');
+const SN = await loadSkinNormals();
+const MER_CUA = {};
+for (const [mer, def] of Object.entries(NODES)) for (const s of def.doan) for (const c of s.diem) MER_CUA[c] = mer;
+
+/** Pháp tuyến tại q lấy từ đường kinh `mer`: điểm gần nhất trên polyline, nội suy nrm hai đầu cạnh. */
+function nrmTuDuong(mer, q) {
+  const mp = MP.mer[mer]; if (!mp) return null;
+  let best = null, bd = Infinity;
+  for (const s of mp.doan) {
+    if (!s.pts || s.pts.length < 2 || !s.nrm) continue;
+    for (let i = 0; i < s.pts.length - 1; i++) {
+      const A = s.pts[i], B = s.pts[i + 1];
+      const ab = [B[0] - A[0], B[1] - A[1], B[2] - A[2]];
+      const L2 = ab[0] ** 2 + ab[1] ** 2 + ab[2] ** 2;
+      const t = L2 < 1e-12 ? 0 : Math.max(0, Math.min(1, ((q.x - A[0]) * ab[0] + (q.y - A[1]) * ab[1] + (q.z - A[2]) * ab[2]) / L2));
+      const c = [A[0] + ab[0] * t, A[1] + ab[1] * t, A[2] + ab[2] * t];
+      const d = (c[0] - q.x) ** 2 + (c[1] - q.y) ** 2 + (c[2] - q.z) ** 2;
+      if (d < bd) { bd = d; best = { s, i, t }; }
+    }
+  }
+  if (!best || bd > 0.02 ** 2) return null;            // xa đường quá 3,4cm thì đừng mượn pháp tuyến của nó
+  const a = best.s.nrm[best.i], b = best.s.nrm[best.i + 1], t = best.t;
+  const n = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t];
+  const l = Math.hypot(n[0], n[1], n[2]);
+  return l < 1e-9 ? null : [n[0] / l, n[1] / l, n[2] / l];
+}
+
+let tuDuong = 0, tuDa = 0, khongCo = 0;
+for (const [code, pt] of Object.entries(P.points)) {
+  if (!pt || pt.x === undefined) { khongCo++; continue; }        // GV dạng cực toạ độ {h,az}
+  let n = MER_CUA[code] ? nrmTuDuong(MER_CUA[code], pt) : null;
+  if (n) tuDuong++; else { n = SN.normalAt(pt); if (n) tuDa++; else khongCo++; }
+  if (n) pt.n = [+n[0].toFixed(3), +n[1].toFixed(3), +n[2].toFixed(3)];
+}
+console.log(`\nPHÁP TUYẾN: ${tuDuong} huyệt lấy theo đường kinh · ${tuDa} hỏi thẳng mặt da · ${khongCo} không có (cực toạ độ)`);
+
 const header = `/* Toạ độ huyệt 3D — ENGINE cốt-độ 5 TẦNG + RẢI DỌC ĐƯỜNG KINH (backend/src/acu-solver).
  *  Tầng 1 mốc/chấm tay · 2 WHO 2008 · 3 sách VỊ TRÍ + cốt độ · 4 khe mô · 5 ép lên da
  *  · rồi RẢI LẠI theo cốt độ dọc đường kinh (bake-points.cjs) — đường dựng bởi bake-paths.cjs.
  *  src có hậu tố '+duong' = đã rải dọc đường · truocRai = toạ độ trước khi rải · raiCm = quãng dời.
  *  q=exact (≥2 nguồn) · approx (1 nguồn, hoặc bị dời xa → xem canSoat).
+ *  n = PHÁP TUYẾN MẶT DA tại huyệt, chuẩn hoá, hướng RA NGOÀI — lấy theo pháp tuyến của chính đường
+ *    kinh chứa nó (meridian-paths.js field nrm) để chấm và ống nhấc bằng CÙNG một véc-tơ.
+ *    Frontend nhấc chấm theo n; KHÔNG được nhấc theo hướng toả ra từ trục dọc thân (chấm sẽ chìm).
  *  GV vẫn là cực toạ độ {h,az} — chưa qua engine.
  *  Sinh lại: node bake.cjs → node bake-paths.cjs → node bake-points.cjs */
 window.ACU_COORDS3D = `;

@@ -646,7 +646,9 @@
   let _ptCacheLoaded = false, _ptCacheDirty = false;
   // 'v2' = đổi phép đặt chấm (giữ toạ độ engine thay vì chỗ tia rơi). Không đổi khoá thì trình duyệt
   // nạp lại cache CŨ và chấm vẫn nằm sai chỗ dù mã đã sửa.
-  function _ptVerKey() { return 'acu3d_pts:v2:' + (window.ACU_ASSET_VER || '0'); }
+  // 'v3' = nhấc chấm theo PHÁP TUYẾN MẶT DA (trường n do backend bake) thay cho hướng toả ra từ trục
+  //        dọc thân. Cache v2 giữ vị trí tính bằng hướng cũ nên bắt buộc phải đổi khoá.
+  function _ptVerKey() { return 'acu3d_pts:v3:' + (window.ACU_ASSET_VER || '0'); }
   function _ptCacheLoad() {
     if (_ptCacheLoaded) return; _ptCacheLoaded = true;
     try {
@@ -685,6 +687,9 @@
    * Hai thứ này phải nhấc bằng CÙNG MỘT vector, nếu không chúng tách nhau ngay trên màn hình dù dữ
    * liệu đặt huyệt đúng trên đường. Xem chú thích trong _limbPointRaw. */
   const _SKIN_LIFT = 0.009;
+  // khai ở đây (không khai cạnh _huongNhac bên dưới) vì _limbPointRaw gọi _huongNhac và const có
+  // vùng chết tạm thời — khai muộn thì lần đặt huyệt đầu tiên ném lỗi
+  const _PUP = new THREE.Vector3(0, 1, 0);
 
   // ---- đặt huyệt THÂN/ĐẦU bằng raycast hướng vào trục dọc thân ----
   const _o = new THREE.Vector3(), _t = new THREE.Vector3(), _d = new THREE.Vector3();
@@ -741,20 +746,23 @@
      * 1cm, 148 chấm quá 3cm, xa nhất Khí Xung ST30 13,8cm — vì ở bụng dưới tia từ bên hông chạm
      * đùi trước khi chạm bụng. Đường kinh thì vẽ thẳng từ polyline backend nên đứng yên; thế là
      * chấm rời khỏi đường, đúng như người dùng nhìn thấy.
-     * Nay giữ nguyên toạ độ engine và nhấc bằng ĐÚNG vector mà pathToWorld() dùng cho ống (toả ra
-     * từ trục dọc thân, _SKIN_LIFT) → chấm luôn nằm trên ống. Tia vẫn bắn, nhưng chỉ để lấy PHÁP
-     * TUYẾN cho kim châm và cho phép đo độ sâu, vì pháp tuyến bề mặt thật tốt hơn hướng toả. */
-    const toa = new THREE.Vector3(_LP.x, 0, _LP.z);
-    if (toa.lengthSq() < 1e-9) toa.set(0, 0, 1);
-    toa.normalize();
+     * Nay giữ nguyên toạ độ engine và nhấc bằng ĐÚNG vector mà pathToWorld() dùng cho ống → chấm
+     * luôn nằm trên ống. Tia vẫn bắn, nhưng chỉ để lấy pháp tuyến dự phòng cho kim châm.
+     *
+     * VÉC-TƠ ẤY LÀ p.n — PHÁP TUYẾN MẶT DA backend bake sẵn (acu-coords3d.js), chính là pháp tuyến
+     * của đoạn đường kinh chứa huyệt này nên chấm và ống nhấc khít nhau. Chỉ khi bảng chưa có n mới
+     * lùi về hướng toả ra từ trục dọc thân — hướng ấy sai tới 150° ở tay chân, xem _huongNhac(). */
+    const toa = _huongNhac(_LP.x, (_LP.y - bodyMinY) / bodyHeight, _LP.z, p.n, false);
     const pos = _LP.clone().addScaledVector(toa, _SKIN_LIFT * bodyHeight);
-    return { pos, n: bestN || toa };
+    return { pos, n: p.n ? toa : (bestN || toa) };
   }
 
   // soi gương 1 điểm sang bên đối diện: chi x→−x; thân lệch giữa az→360−az; điểm giữa (az 0/180) bỏ.
   function placeMirror(p) {
     if (p.x !== undefined || p.y !== undefined || p.z !== undefined)
-      return limbPoint({ x: -(p.x || 0), y: p.y, z: p.z, snap: p.snap, snapDir: p.snapDir });
+      // pháp tuyến phải soi gương theo: bỏ quên nó thì chấm bên phải lùi về hướng toả và rời khỏi ống
+      return limbPoint({ x: -(p.x || 0), y: p.y, z: p.z, snap: p.snap, snapDir: p.snapDir,
+        n: p.n ? [-p.n[0], p.n[1], p.n[2]] : undefined });
     if (p.az % 180 !== 0) return surfacePoint(p.h, (360 - p.az) % 360, p.dir);
     return null;
   }
@@ -953,16 +961,32 @@
    * Cách MỚI: đường có hình học RIÊNG, dựng ở backend bằng đường trắc địa trên chính mặt da, đi qua
    * các nút giải phẫu đã duyệt. Huyệt sai không còn kéo được đường ra khỏi người.                    */
   const _PATH_LIFT = _SKIN_LIFT;   // nhấc khỏi da — PHẢI bằng đúng độ nhấc của chấm huyệt
-  const _PUP = new THREE.Vector3(0, 1, 0);
-  function pathToWorld(pts, mirror) {
+  /* HƯỚNG NHẤC KHỎI DA — dùng chung cho ống đường kinh và chấm huyệt.
+   * `nrm` là PHÁP TUYẾN MẶT DA do backend bake sẵn (skin-normal.cjs). Nếu có thì dùng thẳng.
+   *
+   * Không có thì mới lùi về hướng TOẢ RA TỪ TRỤC DỌC THÂN. Hướng toả CHỈ đúng ở thân mình: trên ngực,
+   * bụng, lưng nó lệch pháp tuyến thật 11–31°. Ở TAY CHÂN buông xuôi nó lệch 90–150° — mặt trong cẳng
+   * tay có pháp tuyến hướng vào trong người còn hướng toả hướng ra ngoài, nên "nhấc" 1,55cm chính là
+   * ĐẨY VÀO TRONG THỊT rồi da lấp mất đường. Đo trên mesh da trước khi sửa: 140/507 đỉnh đường kinh
+   * (28%) có độ hở nhỏ hơn bán kính ống; sau khi dùng pháp tuyến còn 7/507. */
+  function _huongNhac(nx, ny, nz, nrm, mirror) {
+    if (nrm) {
+      const o = new THREE.Vector3(mirror ? -nrm[0] : nrm[0], nrm[1], nrm[2]);
+      if (o.lengthSq() > 1e-9) return o.normalize();
+    }
+    const o = new THREE.Vector3(nx, 0, nz);
+    if (o.lengthSq() < 1e-9) o.set(0, 0, 1);
+    o.normalize();
+    // gần đỉnh đầu thì pháp tuyến ngả dần lên trên, nếu không đường sẽ chìm vào sọ
+    if (ny > 0.95) o.lerp(_PUP, Math.min(1, (ny - 0.95) / 0.05)).normalize();
+    return o;
+  }
+  function pathToWorld(pts, mirror, nrm) {
     const out = [];
-    for (const p of pts) {
+    for (let i = 0; i < pts.length; i++) {
+      const p = pts[i];
       const nx = (mirror ? -p[0] : p[0]), ny = p[1], nz = p[2];
-      const o = new THREE.Vector3(nx, 0, nz);
-      if (o.lengthSq() < 1e-9) o.set(0, 0, 1);
-      o.normalize();
-      // gần đỉnh đầu thì pháp tuyến ngả dần lên trên, nếu không đường sẽ chìm vào sọ
-      if (ny > 0.95) o.lerp(_PUP, Math.min(1, (ny - 0.95) / 0.05)).normalize();
+      const o = _huongNhac(nx, ny, nz, nrm && nrm[i], mirror);
       out.push(new THREE.Vector3(
         nx * bodyHeight + o.x * _PATH_LIFT * bodyHeight,
         bodyMinY + ny * bodyHeight + o.y * _PATH_LIFT * bodyHeight,
@@ -982,7 +1006,7 @@
     for (const side of sides) {
       let seg = 0;
       for (const s of usable) {
-        const pts = pathToWorld(s.pts, side === 'R');
+        const pts = pathToWorld(s.pts, side === 'R', s.nrm);
         const curve = new THREE.CatmullRomCurve3(pts, false, 'centripetal');
         const chim = s.mo === 'chim';       // kinh đi trong sâu: vẽ mảnh + mờ, để phân biệt với đoạn trên da
         const skey = mer + '|' + side + '|p' + (seg++);
