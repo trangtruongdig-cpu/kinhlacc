@@ -134,21 +134,21 @@
    "ngay": "2026-09-07"
   },
   "LI13": {
-   "x": 0.1287,
-   "y": 0.7031,
-   "z": 0.0043,
+   "x": 0.1316,
+   "y": 0.6876,
+   "z": 0.0018,
    "hang": "B",
    "nguon": "anchor",
-   "ly": "Vong 34: DOI 2,74cm xuong. Thuoc thon in san trong sach, doc truc tiep tren vach, 3 ban khac (LR10_p470 · LI14_p31 · LI13_p30) cho 2,99 thon (sigma 0,04) — sach doi 3. Muc cu la NOI SUY 1/3 day LI11-LI15 (lech 0,008cm khoi cong thuc), tuc nhan 'moc hang A' la gia. Ha A->B vi dich moi chua qua tang 5 va goc vong quanh thua huong tu duong kinh, chua do rieng.",
+   "ly": "Vong 34 DOI CHO CO Y: doc thuoc thon IN SAN trong sach tren 3 ban khac (LR10_p470 / LI14_p31 / LI13_p30) -> LI13 = 2,99 thon (sigma 0,04, sach doi 3), LI14 = 6,97 thon (sach doi 7). Muc cu la NOI SUY 1/3 doan LI11-LI15, tuc 'moc' gia. Van de hang B vi dich moi chua qua tang 5 va goc vong quanh chua do rieng. Ghi lai gia tri chot de canh bao troi bam vao vi tri MOI.",
    "ngay": "2026-09-08"
   },
   "LI14": {
-   "x": 0.1121,
-   "y": 0.7715,
-   "z": 0.0141,
+   "x": 0.1156,
+   "y": 0.7388,
+   "z": 0.0078,
    "hang": "B",
    "nguon": "anchor",
-   "ly": "Vong 34: DOI 5,76cm xuong. Thuoc in cho 6,97 thon tren LI11 (sach 7), do 3 lan tren 3 ban khac. Kiem cheo MIEN NHIEM voi moi thang: sach dat LI14 va PC2 CUNG muc 7 thon, mesh cu lech 6,33cm cao do. Mesh xac nhan doc lap: mut bam tan co delta chieu ra 6,79-7,62 thon tren truc CUBITAL-AXILLA_ANT. Goc vong quanh: anh chup p31 cho Di14 thang dung tren Di11 (lech 0,2 do) nen giu theo duong kinh, khong keo ra mut co delta. Ha A->B: cao do chac +-0,7cm, goc thua huong chua do rieng.",
+   "ly": "Vong 34 DOI CHO CO Y: doc thuoc thon IN SAN trong sach tren 3 ban khac (LR10_p470 / LI14_p31 / LI13_p30) -> LI13 = 2,99 thon (sigma 0,04, sach doi 3), LI14 = 6,97 thon (sach doi 7). Muc cu la NOI SUY 1/3 doan LI11-LI15, tuc 'moc' gia. Van de hang B vi dich moi chua qua tang 5 va goc vong quanh chua do rieng. Ghi lai gia tri chot de canh bao troi bam vao vi tri MOI.",
    "ngay": "2026-09-08"
   },
   "LI15": {
@@ -3246,17 +3246,18 @@
    "nguon": "anchor",
    "ly": "Phien dut diem: hoi dong xu GIU do tin cay cao. ST32 va BL61 duoc chinh THUOC IN SAN cua sach xac nhan engine dung (trang p70 moc 0=bo tren khop mu vach 18=bo tren banh che; trang p200). GB15 kiem bang phep doc lap voi thang thon (lay ST8 lam mut: BL4=1/3, GB15=1/2, GB13=2/3). LI2 va PC4 co day du 3-4 phep anh khop",
    "ngay": "2026-09-08"
-  }
- },
- "ngo": {
+  },
   "SI9": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 17.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
+   "x": 0.1181,
+   "y": 0.7655,
+   "z": -0.0518,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vong 33-35: cam moc do tu ANH SACH, thay cho suy tu AXILLA_POST (moc nay da biet la lech 6-8cm, ghi o dau anchors.cjs). Bon phep doc lap: (1) anh chup p129 co thuoc '1 thon' in san 67px -> SI10->SI9 = 2,94 thon; (2) ban ve p129 lay SJ14->SJ13 = 3 thon lam thang -> SI10->SI9 ~ 3,6 thon va SI9 thap hon SJ13 1,6cm; (3) dinh nghia Focks 'bo DUOI phan gai vai co delta (FMA34685)' — do tren mesh atlas; (4) diem cu tut 4,4cm DUOI co delta, trai dinh nghia. Sau bake: cach duong kinh cua minh 0,2cm, audit khong con co nao. SI10 cach SI9 7,0cm = 2,94 thon voi thang canh tay 2,38 — khop phep (1).",
+   "ngay": "2026-09-08"
   }
  },
+ "ngo": {},
  "doiChieu": {
   "mo": "BẢN ĐỐI CHIẾU — 126 huyệt người dùng chấm tay trong app, lấy từ server 07/09/2026. KHÔNG dùng để vẽ (đã ngừng đè lên engine vì thua 2 bộ kiểm độc lập), giữ lại để trọng tài từng huyệt bằng ảnh sách khi có dịp. Lệch engine trung bình 4,63cm.",
   "nguon": "GET /kinh-mach-3d/anchors",

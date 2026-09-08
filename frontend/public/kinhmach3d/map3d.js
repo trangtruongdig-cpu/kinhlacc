@@ -21,8 +21,21 @@
   function setDrawer(html) { drawer.innerHTML = html; drawerSheet?.classList.add('open'); }
   function hideDrawerSheet() { drawerSheet?.classList.remove('open'); }
 
-  const MODEL_URL = (window.ACU_MAP_BASE || '') + 'models/body-layers-v2.glb'
-    + (window.ACU_ASSET_VER ? '?v=' + window.ACU_ASSET_VER : '');   // 3 lớp Da/Cơ/Xương (BodyParts3D 4.0, chuyển từ Human Atlas — Giai đoạn 1, xem backend/tmp/convert-human-atlas.mjs). ACU_MAP_BASE do Vue đặt (vd '/kinhmach3d/'); ?v=<số build> để phá cache (khớp preload trong acuMap3d.ts).
+  /* TẢI HAI GIAI ĐOẠN. body-layers-v2.glb nặng 22,4MB và engine phải tải TRỌN rồi mới vẽ được gì —
+   * người dùng nhìn vòng xoay ~25 giây. Nhưng cảnh mặc định chỉ bật CƠ + XƯƠNG (MAC_DINH_BAT), cộng
+   * lớp DA cần cho việc bắn tia đặt huyệt; 12 hệ còn lại (mạch, thần kinh, tạng…) chỉ hiện khi người
+   * dùng bật trong panel Hệ Cơ Quan. Nên tách làm hai: lõi 14,4MB tải ngay, phần còn lại 13,4MB tải
+   * NGẦM sau khi cảnh đã hiện. Sinh hai tệp bằng models/_tach-glb.cjs (giữ nguyên byte đã nén
+   * meshopt, không dựng lại hình học nên chất lượng y hệt bản gốc).
+   * Giữ lại đường dẫn bản gộp để lùi về được nếu hai tệp kia thiếu. */
+  const MODEL_BASE = (window.ACU_MAP_BASE || '') + 'models/'
+  // ?v=<số build> phá cache — PHẢI dán vào CẢ BA đường dẫn. Ngày 08/09/2026 nó chỉ còn dính ở dòng
+  // cuối (do tách tệp làm lệch dấu nối dòng), nên preload xin 'body-core.glb?v=…' còn GLTFLoader xin
+  // 'body-core.glb' — trình duyệt coi là hai tài nguyên khác nhau và tải 15MB HAI LẦN, im lặng.
+  const _v = window.ACU_ASSET_VER ? '?v=' + window.ACU_ASSET_VER : '';
+  const MODEL_URL = MODEL_BASE + 'body-core.glb' + _v;        // lõi: Da + Cơ + Xương — tải NGAY
+  const MODEL_REST_URL = MODEL_BASE + 'body-rest.glb' + _v;   // 12 hệ còn lại — tải NGẦM sau
+  const MODEL_FULL_URL = MODEL_BASE + 'body-layers-v2.glb' + _v;  // bản gộp — chỉ dùng khi lõi hỏng. ACU_MAP_BASE do Vue đặt (vd '/kinhmach3d/'); preload trong acuMap3d.ts phải trỏ ĐÚNG MODEL_URL.
   // TẠM THỜI: dùng file body-layers-v2.glb (mới) song song với body-layers.glb (cũ, vẫn dùng cho
   // banner trang chủ + BatCuongFigure3D.vue qua heroThree.ts) — chưa gộp lại tên, chờ QA xong.
   const BODY_H = 1.7;                            // chuẩn hoá chiều cao thân về 1.7 đơn vị
@@ -484,27 +497,13 @@
     contactShadow = m; scene.add(m);
   }
 
-  function loadModel() {
-    setDrawer('<div class="dr-welcome"><p class="hint">Đang tải mô hình 3D…</p></div>');
-    const loader = new THREE.GLTFLoader();
-    if (window.MeshoptDecoder) loader.setMeshoptDecoder(window.MeshoptDecoder);   // giải nén EXT_meshopt_compression (model đã tối ưu)
-    loader.load(MODEL_URL, gltf => {
-      modelRoot = gltf.scene;
-      modelRoot.updateMatrixWorld(true);
-      const _raw = new THREE.Box3().setFromObject(modelRoot), _rs = new THREE.Vector3(); _raw.getSize(_rs);
-      // Mặc định coi mô hình là Y-up. Trục NHỎ NHẤT là độ dày trước-sau;
-      // chỉ khi Y là trục nhỏ nhất (Y = độ dày) thì model mới chưa đứng -> xoay.
-      const _min = Math.min(_rs.x, _rs.y, _rs.z);
-      if (_rs.y === _min) {
-        if (_rs.z >= _rs.x) modelRoot.rotation.x = -Math.PI / 2; // Z-up
-        else modelRoot.rotation.z = Math.PI / 2;                 // X-up
-      }
-      modelRoot.updateMatrixWorld(true);
-      // ép về tư thế bind (raycast skinned-mesh dùng hình bind nên hình hiển thị phải khớp)
-      skinTargets = [];
-      for (const k in layerMats) delete layerMats[k];
-      for (const k in layerMeshes) delete layerMeshes[k];
-      modelRoot.traverse(o => {
+
+  /* Nhận diện lớp cho MỘT cây node: gán material, đánh dấu bóc tách, gom vào layerMeshes.
+   * TÁCH RA THÀNH HÀM để gọi được HAI LẦN — một cho phần lõi (da+cơ+xương, tải ngay) và một cho
+   * phần còn lại (12 hệ, tải nền sau). Trước đây nó nằm thẳng trong callback của loader nên chỉ
+   * chạy được một lần, tức buộc phải tải trọn 22,4MB rồi mới vẽ được gì. */
+  function nhanDienLop(root) {
+    root.traverse(o => {
         if (o.isSkinnedMesh && o.skeleton) o.skeleton.pose();
         if (o.isMesh) {
           const id = layerOf(o), L = LBY[id];
@@ -566,7 +565,67 @@
           if (o.geometry && !o.geometry.attributes.normal) o.geometry.computeVertexNormals(); // model thiếu normals -> tô mượt
           o.frustumCulled = false;
         }
+    });
+  }
+
+  /* Tải NGẦM 12 hệ còn lại sau khi cảnh đã hiện. Chúng vào thẳng modelRoot nên thừa hưởng đúng
+   * scale/vị trí đã căn ở giai đoạn lõi — không tính lại box, không đụng camera, để cảnh đang xem
+   * không giật. Lỗi ở đây KHÔNG được làm hỏng gì: 12 hệ ấy chỉ hiện khi người dùng tự bật, nên nếu
+   * tải hụt thì cùng lắm panel Hệ Cơ Quan thiếu vài mục, cảnh chính vẫn nguyên. */
+  let restLoaded = false, _loaderChung = null;
+  function taiPhanConLai() {
+    const loader = _loaderChung;
+    if (restLoaded || !modelRoot || !loader) return;
+    restLoaded = true;
+    loader.load(MODEL_REST_URL, gltf => {
+      const them = [];
+      for (const n of [...gltf.scene.children]) { modelRoot.add(n); them.push(n); }
+      them.forEach(n => nhanDienLop(n));
+      // gắn shader Bóc Tách cho các hệ vừa vào (prepareExplode đã chạy cho CẢ 15 hệ ở giai đoạn lõi)
+      them.forEach(n => n.traverse(o => {
+        if (o.isMesh && o.userData && o.userData.needsExplodeShader) {
+          attachExplodeShader(o, LBY[o.userData.layer]); o.userData.needsExplodeShader = false;
+        }
+      }));
+      applyVisibility(); applyLayers(); ensureSystemsPanel();
+      if (typeof window.ACU_ON_REST_READY === 'function') window.ACU_ON_REST_READY();
+    }, undefined, err => {
+      console.warn('[kinhmach3d] không tải được ' + MODEL_REST_URL + ' — 12 hệ phụ sẽ thiếu, cảnh chính vẫn chạy', err);
+      restLoaded = false;
+    });
+  }
+
+  function loadModel() {
+    setDrawer('<div class="dr-welcome"><p class="hint">Đang tải mô hình 3D…</p></div>');
+    const loader = _loaderChung = new THREE.GLTFLoader();
+    if (window.MeshoptDecoder) loader.setMeshoptDecoder(window.MeshoptDecoder);   // giải nén EXT_meshopt_compression (model đã tối ưu)
+    const onLoi = err => {
+      // Lõi hỏng/thiếu → lùi về bản gộp 22,4MB. Thà chậm còn hơn trắng màn hình.
+      console.warn('[kinhmach3d] không tải được ' + MODEL_URL + ' → lùi về bản gộp', err);
+      loader.load(MODEL_FULL_URL, dungCanh, tienDo, err2 => {
+        window.ACU_MODEL_READY = true;   // lỗi cũng phải tắt màn chờ, đừng để treo
+        if (typeof window.ACU_ON_MODEL_READY === 'function') window.ACU_ON_MODEL_READY();
+        setDrawer('<p class="empty-note">Không tải được mô hình 3D (' + esc(String(err2 && err2.message || err2)) + ').</p>');
       });
+    };
+    loader.load(MODEL_URL, dungCanh, tienDo, onLoi);
+    function dungCanh(gltf) {
+      modelRoot = gltf.scene;
+      modelRoot.updateMatrixWorld(true);
+      const _raw = new THREE.Box3().setFromObject(modelRoot), _rs = new THREE.Vector3(); _raw.getSize(_rs);
+      // Mặc định coi mô hình là Y-up. Trục NHỎ NHẤT là độ dày trước-sau;
+      // chỉ khi Y là trục nhỏ nhất (Y = độ dày) thì model mới chưa đứng -> xoay.
+      const _min = Math.min(_rs.x, _rs.y, _rs.z);
+      if (_rs.y === _min) {
+        if (_rs.z >= _rs.x) modelRoot.rotation.x = -Math.PI / 2; // Z-up
+        else modelRoot.rotation.z = Math.PI / 2;                 // X-up
+      }
+      modelRoot.updateMatrixWorld(true);
+      // ép về tư thế bind (raycast skinned-mesh dùng hình bind nên hình hiển thị phải khớp)
+      skinTargets = [];
+      for (const k in layerMats) delete layerMats[k];
+      for (const k in layerMeshes) delete layerMeshes[k];
+      nhanDienLop(modelRoot);
       // canh tâm + tỉ lệ
       let box = new THREE.Box3().setFromObject(modelRoot);
       const size = new THREE.Vector3(); box.getSize(size);
@@ -614,6 +673,9 @@
       applyVisibility();
       ensureSystemsPanel();
       applyLayers();
+      // 12 hệ còn lại KHÔNG gọi ở đây: giải nén meshopt chạy trên luồng chính, giành CPU đúng lúc
+      // loadUserAnchors đang bắn tia đặt 670 chấm huyệt (~9s) → đo được lúc-hiện dao động 27–50s.
+      // Dời xuống revealAcuOverlay, tức sau khi người dùng ĐÃ thấy hình.
       applyExplode();
       resetView();
       drawerWelcome();
@@ -621,7 +683,8 @@
       if (pendingFocus) { const c = pendingFocus, o = pendingOpts; pendingFocus = pendingOpts = null; setTimeout(() => focusPoint(c, o), 120); }
       // ACU_MODEL_READY (tắt MÀN CHỜ TO) dời vào revealAcuOverlay → giữ màn chờ tới khi huyệt SẴN SÀNG,
       // không hiện hình người trống. (Lần sau vào lại: cờ đã true nên không hiện màn chờ.)
-    }, xhr => {
+    }
+    function tienDo(xhr) {
       // % tải model cho màn chờ to (đỡ sốt ruột). Chỉ khi server gửi Content-Length (xhr.total>0). Model đã
       // preload nên có thể nhảy nhanh tới ~99% rồi đứng chút lúc giải nén — vẫn rõ hơn là đứng im "Đang tải…".
       if (xhr && xhr.lengthComputable && xhr.total) {
@@ -629,11 +692,7 @@
         setDrawer('<div class="dr-welcome"><p class="hint">Đang tải mô hình 3D… ' + pct + '%</p></div>');
         if (typeof window.ACU_ON_MODEL_PROGRESS === 'function') window.ACU_ON_MODEL_PROGRESS(pct);
       }
-    }, err => {
-      window.ACU_MODEL_READY = true;     // lỗi cũng phải tắt màn chờ, đừng để treo
-      if (typeof window.ACU_ON_MODEL_READY === 'function') window.ACU_ON_MODEL_READY();
-      setDrawer('<p class="empty-note">Không tải được mô hình 3D (' + esc(String(err && err.message || err)) + ').</p>');
-    });
+    }
   }
 
   // ── CACHE toạ độ bề mặt (chống TREO + tải NHANH) ──
@@ -652,6 +711,7 @@
   function _ptCacheLoad() {
     if (_ptCacheLoaded) return; _ptCacheLoaded = true;
     try {
+      _ptCacheMoi();          // bản nướng sẵn TRƯỚC, rồi localStorage đè lên (bản của chính máy này)
       for (let i = localStorage.length - 1; i >= 0; i--) {       // dọn cache của các build CŨ (mỗi build 1 khoá)
         const k = localStorage.key(i);
         if (k && k.indexOf('acu3d_pts:') === 0 && k !== _ptVerKey()) localStorage.removeItem(k);
@@ -660,6 +720,28 @@
       const o = JSON.parse(raw);
       for (const k in o) { const a = o[k]; if (a && a.length === 6) _ptCache.set(k, { pos: new THREE.Vector3(a[0], a[1], a[2]), n: new THREE.Vector3(a[3], a[4], a[5]) }); }
     } catch (e) { /* localStorage bị chặn/hỏng → bỏ qua, cache trong RAM vẫn chạy */ }
+  }
+  /* MỒI cache bằng bản NƯỚNG SẴN lúc build (data/acu-surface-cache.js).
+   * localStorage chỉ cứu được lần vào THỨ HAI; lần ĐẦU vẫn phải bắn ~4000 tia vào lưới da 30K tam
+   * giác — đo ngày 08/09/2026: 20 trong 29 giây chờ là ở đây. Bản nướng sẵn lấy đúng chuỗi mà chính
+   * map3d.js đã ghi ra nên không có đường nào lệch.
+   * KHOÁ PHIÊN BẢN: chỉ dùng khi thẻ trong tệp khớp thẻ hiện tại của _ptVerKey(). Luật sẵn có là đổi
+   * phép đặt chấm thì phải tăng thẻ ('v2'->'v3'->…) — nhờ đó bản nướng cũ tự hết hiệu lực thay vì
+   * âm thầm ghim chấm ở chỗ tính bằng mã cũ.
+   * KHÔNG ghi đè: mục nào localStorage đã có thì giữ, vì đó là bản của CHÍNH máy này. */
+  function _ptCacheMoi() {
+    const S = window.ACU_SURFACE_CACHE;
+    if (!S || !S.diem) return;
+    const theHienTai = _ptVerKey().split(':')[1];
+    if (S.the !== theHienTai) { console.warn('[kinhmach3d] acu-surface-cache.js thẻ ' + S.the + ' ≠ ' + theHienTai + ' — bỏ qua, chạy lại data/_build-surface-cache.cjs'); return; }
+    let n = 0;
+    for (const k in S.diem) {
+      if (_ptCache.has(k)) continue;
+      const a = S.diem[k]; if (!a || a.length !== 6) continue;
+      _ptCache.set(k, { pos: new THREE.Vector3(a[0], a[1], a[2]), n: new THREE.Vector3(a[3], a[4], a[5]) });
+      n++;
+    }
+    if (n) console.log('[kinhmach3d] mồi ' + n + ' điểm da nướng sẵn — khỏi bắn tia');
   }
   function _ptCacheSave() {
     if (!_ptCacheDirty) return; _ptCacheDirty = false;
@@ -827,6 +909,10 @@
     lopKinhLac: acuLayerOn,
     an: [...hidden],
     chon: focusMer,
+    // TẢI HAI GIAI ĐOẠN: lõi vào trước (3 hệ Da/Cơ/Xương), 12 hệ kia vào sau khi body-rest.glb xong.
+    // Đếm ở đây để kiểm bằng máy được — nhìn màn hình KHÔNG phân biệt nổi vì 12 hệ ấy mặc định TẮT.
+    heDaVao: Object.keys(layerMeshes).sort(),
+    soMesh: Object.values(layerMeshes).reduce((n, v) => n + v.length, 0),
   });
 
   /* Móc ĐO — chấm huyệt có THẬT SỰ nằm trên ống đường kinh trong CẢNH không?
@@ -2386,6 +2472,12 @@
     // sớm hơn lúc có chấm nên "không bay thẳng tới huyệt").
     if (pendingFocus) { const c = pendingFocus, o = pendingOpts; pendingFocus = pendingOpts = null; setTimeout(() => focusPoint(c, o), 60); }
     if (pendingExports.length) { const q = pendingExports; pendingExports = []; q.forEach(fn => fn()); }
+    // GIỜ mới tải 12 hệ còn lại: màn chờ đã tắt, chấm huyệt đã đặt xong nên phần giải nén nặng của
+    // body-rest.glb không còn cướp CPU của khâu bắn tia. requestIdleCallback để nhường tiếp vài nhịp
+    // vẽ đầu (có timeout để trình duyệt không hoãn vô hạn khi tab bận).
+    const _tai = () => taiPhanConLai();
+    if (typeof requestIdleCallback === 'function') requestIdleCallback(_tai, { timeout: 3000 });
+    else setTimeout(_tai, 1200);
   }
   function loadUserAnchors() {
     let settled = false;
@@ -2838,21 +2930,38 @@
     const prevSize = new THREE.Vector2(); renderer.getSize(prevSize);
     const prevRatio = renderer.getPixelRatio();
 
-    // Ảnh nền sạch: ẩn chấm/đường kinh/kim, hiện đủ Da·Cơ·Xương (Da phủ kín nên đủ), tắt hẳn các
-    // hệ Giai đoạn 3 (mạch máu/thần kinh/nội tạng…) dù người dùng có đang bật xem trên màn hình —
-    // phiếu in chỉ cần đúng đồ hình kinh lạc trên nền cơ thể, không cần các hệ đó.
+    // Ảnh nền sạch: ẩn chấm/đường kinh/kim, CHỈ bật lớp DA, tắt hẳn 14 hệ còn lại dù người dùng có
+    // đang bật xem trên màn hình — phiếu in chỉ cần bóng người làm nền cho chấm huyệt.
+    // VÌ SAO BỎ CƠ & XƯƠNG: vỏ da atlas có vài đường xẻ (chỗ cổ, kẽ đùi, cẳng chân); bật kèm lớp cơ
+    // thì bó cơ ĐỎ ló qua khe, in ra trông như vết thương trên phiếu phát cho bệnh nhân. Da một mình
+    // đã phủ kín bóng người ở góc nhìn thẳng, đủ cho phiếu in.
     dotsGroup.visible = false; linesGroup.visible = false; flowGroup.visible = false; needleGroup.visible = false;
-    for (const L of LAYERS) layerState[L.id] = (L.id === 'skin' || L.id === 'muscle' || L.id === 'bone') ? 1 : 0;
+    for (const L of LAYERS) layerState[L.id] = (L.id === 'skin') ? 1 : 0;
     applyLayers();
 
-    const box = new THREE.Box3().setFromObject(modelRoot);
+    // KHUNG THÂN — KHÔNG dùng Box3.setFromObject(modelRoot). modelRoot còn chứa lớp CHẤM ĐÁNH DẤU
+    // BỘ PHẬN (partMarkers): mảnh của hệ đang TẮT bị đẩy ra toạ độ sentinel MARKER_HIDDEN = 1e4 cho
+    // khuất mắt, mà Box3 KHÔNG xét .visible nên nuốt luôn đám chấm đó → khung cao ~10.000 đơn vị
+    // trong khi thân chỉ cao 1,7. Camera trực giao thu trọn cái "tinh vân" ấy: thân người còn 0,02%
+    // chiều cao ảnh (PHIẾU IN RA CHỈ CÒN NỀN XÁM #f2f3f3, đo được: 900×1400 pixel CÙNG MỘT MÀU) và
+    // mọi huyệt chiếu dồn về một điểm sát đáy, lọt hẳn ra ngoài mép ảnh (x = -0,19 mặt trước /
+    // 1,19 mặt sau) — đúng cái bẫy mà chỗ chốt fitSphere trong loadModel() đã tránh, hàm này tính
+    // lại nên dính lại. Vì vậy chỉ gom MESH GIẢI PHẪU của 15 hệ, bỏ ngoài chấm đánh dấu.
+    const box = new THREE.Box3();
+    modelRoot.updateMatrixWorld(true);
+    for (const L of LAYERS) for (const o of (layerMeshes[L.id] || [])) if (o.geometry) box.expandByObject(o);
+    if (box.isEmpty()) box.setFromObject(modelRoot);   // chưa nhận diện được hệ nào → lùi về cách cũ
     const size = new THREE.Vector3(); box.getSize(size);
     const center = new THREE.Vector3(); box.getCenter(center);
     addModestyCover();
     const padY = size.y * 0.06;
     const top = box.max.y + padY, bottom = box.min.y - padY;
-    const camH = top - bottom;
-    const camW = camH * (W / H);
+    let camH = top - bottom;
+    let camW = camH * (W / H);
+    // Chiều cao là ràng buộc với thân người đứng (cao 1,7 · rộng ~0,5), nhưng nếu ai đó đổi tỉ lệ
+    // ảnh hẹp hơn thì vai sẽ bị cắt — nới khung ngang cho đủ rộng, giữ nguyên tỉ lệ để ảnh không méo.
+    const canW = size.x * 1.12;
+    if (camW < canW) { camW = canW; camH = camW * (H / W); }
     const dist = Math.max(size.x, size.z, camH) * 3;   // đặt camera đủ xa, tránh cắt hình
 
     const cam = new THREE.OrthographicCamera(-camW / 2, camW / 2, camH / 2, -camH / 2, 0.01, dist * 4);
@@ -2869,7 +2978,10 @@
       const image = renderer.domElement.toDataURL('image/png');
       const proj = {};
       for (const code of list) {
-        const p = dotByCode[code].position.clone().project(cam);
+        // TOẠ ĐỘ THẾ GIỚI, không phải .position: dotsGroup là con của scene và bị DỜI cả khối theo
+        // lệch của lớp Da mỗi khi bóc tách (xem applyExplode) — lấy .position thì in lúc đang bóc
+        // tách sẽ chấm lệch đúng bằng khoảng dời đó.
+        const p = dotByCode[code].getWorldPosition(new THREE.Vector3()).project(cam);
         proj[code] = { x: (p.x + 1) / 2, y: (1 - p.y) / 2 };
       }
       return { image, proj };

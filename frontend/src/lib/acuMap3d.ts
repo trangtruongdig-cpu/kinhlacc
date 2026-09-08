@@ -43,6 +43,19 @@ const DATA_SCRIPTS: string[] = [
   'data/dict-facets.js',
 ]
 
+// ── BẢN GỌN CHO BẢN ĐỒ 3D ──
+// Engine 3D chỉ đọc sáu thứ của mỗi huyệt: id (link "Xem Thêm"), ten (nhãn), và bốn mục VỊ TRÍ /
+// CHỦ TRỊ / CHÂM CỨU / GIẢI PHẪU (mục CHÂM CỨU còn dùng để suy góc kim — xem needleSpec trong
+// map3d.js). Từ điển đầy đủ nặng 437KB sau gzip, bản gọn chỉ 98KB — bớt 339KB mỗi lần mở bản đồ.
+// Sinh bằng data/_build-acu-3d.cjs, chạy lại mỗi khi acupoints.js đổi.
+// dict-facets.js (index tra ngược Nguồn↔Huyệt) engine KHÔNG dùng → cũng bỏ khỏi nhánh 3D.
+const DATA_SCRIPTS_3D: string[] = [
+  'data/acupoints-3d.js',
+  'data/acu-index.js',
+  'data/acu-coords3d.js',
+  'data/meridians.js',
+]
+
 // ── ENGINE 3D ── (Three + bộ mở rộng + dữ liệu riêng của 3D + map3d). Nạp SAU phần dữ liệu thuần.
 // map3d.js phải chạy sau khi THREE + toàn bộ dữ liệu trên + spacing/handfoot đã có (xem thứ tự THỰC THI bên dưới).
 const ENGINE_SCRIPTS: string[] = [
@@ -57,6 +70,10 @@ const ENGINE_SCRIPTS: string[] = [
   'data/human-atlas-index.js',
   'data/human-atlas-vi.js',
   'data/meridian-paths.js',
+  // Kết quả bắn tia "dán huyệt vào da" nướng sẵn (data/_build-surface-cache.cjs). Không có nó thì
+  // lần vào trang ĐẦU TIÊN phải tự bắn ~4000 tia vào lưới da 30K tam giác — đo được 20 giây, tức
+  // phần lớn thời gian chờ. Không bắt buộc: thiếu tệp thì map3d.js tính lại như cũ, chỉ chậm.
+  'data/acu-surface-cache.js',
   'map3d.js',
   'hand-foot-inset.js',
 ]
@@ -131,6 +148,7 @@ const HOST_HTML = `
 
 let bootPromise: Promise<void> | null = null
 let dictPromise: Promise<void> | null = null
+let dictLevel: 'full' | 'slim' | null = null
 let hostEl: HTMLElement | null = null
 let parkingEl: HTMLElement | null = null
 
@@ -168,8 +186,15 @@ function ensureModelPreload(): void {
   link.id = 'acu3d-model-preload'
   link.rel = 'preload'
   link.as = 'fetch'
-  link.href = asset('models/body-layers-v2.glb')
-  // KHÔNG đặt crossOrigin: GLTFLoader tải bằng XHR same-origin → để khớp request (tránh tải 2 lần).
+  // PHẢI đặt crossOrigin: với as='fetch', preload KHÔNG có crossOrigin đi ở chế độ khác với XHR của
+  // GLTFLoader nên trình duyệt coi là hai tài nguyên riêng và tải 15MB HAI LẦN — im lặng, không cảnh
+  // báo nào. Đo ngày 08/09/2026: có crossOrigin → 1 lần; bỏ đi → 2 lần. (Chú thích cũ ở đây dặn
+  // NGƯỢC LẠI là sai, đã kiểm bằng trình duyệt.)
+  link.crossOrigin = 'anonymous'
+  link.href = asset('models/body-core.glb')
+  // PHẢI TRÙNG ĐÚNG file map3d.js tải ĐẦU TIÊN (MODEL_URL). Ngày 08/09/2026 chỗ này còn trỏ
+  // body-layers-v2.glb trong khi map3d.js đã chuyển sang body-core.glb → trình duyệt tải CẢ HAI,
+  // 22MB + 14MB, trang chậm gấp đôi mà không có lỗi nào báo.
   document.head.appendChild(link)
 }
 
@@ -179,11 +204,34 @@ function ensureModelPreload(): void {
  * (xem ensureBooted) nên dữ liệu chỉ tải/parse 1 lần dù mở cả hai trang.
  */
 export function ensureDictData(): Promise<void> {
-  if (dictPromise) return dictPromise
+  return loadDict('full')
+}
+
+/**
+ * Nạp dữ liệu huyệt ở MỘT TRONG HAI MỨC.
+ *  'full' — từ điển đầy đủ, cho trang Từ Điển (cần noiDung/phối huyệt/xuất xứ… và dict-facets).
+ *  'slim' — bản gọn cho bản đồ 3D (bớt 339KB sau gzip).
+ *
+ * BẪY PHẢI XỬ LÝ, VÌ NÓ IM LẶNG: hai mức cùng gán window.ACUPOINTS. Nếu người dùng mở Bản Đồ 3D
+ * trước (nạp bản gọn) rồi sang Từ Điển, mà ta chỉ cache một promise chung thì Từ Điển sẽ dùng lại
+ * bản gọn và các mục Xuất Xứ / Phối Huyệt / Tác Dụng biến mất — không lỗi, không cảnh báo, chỉ
+ * thiếu chữ. Nên ở đây nhớ MỨC đã nạp: xin 'full' mà đang có 'slim' thì nạp đè bản đầy đủ.
+ * Chiều ngược lại vô hại: đã có 'full' thì 3D dùng luôn, khỏi tải gì thêm.
+ */
+function loadDict(muc: 'full' | 'slim'): Promise<void> {
+  if (dictPromise && (dictLevel === 'full' || muc === 'slim')) return dictPromise
   // Một vài chỗ (đường dẫn ảnh…) đọc window.ACU_MAP_BASE → đặt sẵn cho cả nhánh dùng dữ liệu thuần.
   ;(window as unknown as { ACU_MAP_BASE?: string }).ACU_MAP_BASE = BASE
-  // el.async=false giữ ĐÚNG thứ tự THỰC THI dù các <script> tải song song.
-  dictPromise = Promise.all(DATA_SCRIPTS.map((s) => loadScript(asset(s)))).then(() => undefined)
+  const ds = muc === 'full' ? DATA_SCRIPTS : DATA_SCRIPTS_3D
+  const nap = () => Promise.all(ds.map((s) => loadScript(asset(s)))).then(() => undefined)
+  dictLevel = muc
+  /* PHẢI CHÈN NGAY, KHÔNG ĐƯỢC BỌC TRONG .then() — đây là lỗi đã làm trang trắng xoá một lần.
+   * ensureBooted() chèn ENGINE_SCRIPTS ĐỒNG BỘ ngay sau khi gọi hàm này, và cả hai nhóm dựa vào
+   * el.async=false để giữ thứ tự THỰC THI = thứ tự CHÈN (dữ liệu → THREE → map3d). Nếu nhánh nạp
+   * lần đầu đi qua .then() thì nó chèn ở microtask, tức SAU engine — map3d.js chạy khi chưa có
+   * window.ACUPOINTS và treo ở "Đang tải đồ hình…" vĩnh viễn, không có lỗi nào trong console.
+   * Chỉ nhánh NÂNG CẤP slim→full mới được chờ, vì lúc ấy engine đã chạy xong từ lâu. */
+  dictPromise = dictPromise ? dictPromise.then(nap) : nap()
   return dictPromise
 }
 
@@ -236,7 +284,7 @@ export function ensureBooted(): Promise<void> {
     // Nạp SONG SONG cả 2 nhóm: ensureDictData() chèn ngay các <script> dữ liệu (dùng chung promise với
     // trang Từ Điển → không tải lại), ENGINE_SCRIPTS chèn ngay sau đó. el.async=false bảo đảm THỨ TỰ THỰC
     // THI = thứ tự chèn (dữ liệu → THREE → map3d), nên map3d luôn thấy đủ globals + THREE. Tải vẫn đồng thời.
-    const dict = ensureDictData()
+    const dict = loadDict('slim')   // bản đồ 3D chỉ cần bản gọn
     const engine = Promise.all(ENGINE_SCRIPTS.map((s) => loadScript(asset(s))))
     await Promise.all([dict, engine])
   })()
