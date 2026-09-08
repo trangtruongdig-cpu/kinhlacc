@@ -43,3 +43,4 @@
 ## Hội thoại đã lưu
 
 - `conversations/vscode-YYYY-MM-DD.md` — 24 ngày (07/07–08/09/2026), 392 tin nhắn do chính user viết, trích từ transcript Claude Code.
+- [File hội thoại tồn tại nhưng engine hiện tại không đọc được](facts/conversation-files-exist-but-unreadable.md) — 24 ngày transcript VS Code (07/07–08/09/2026) nằm trong vault nhưng engine openrouter không có tool đọc file
