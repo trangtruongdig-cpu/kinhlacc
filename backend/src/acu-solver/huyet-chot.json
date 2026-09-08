@@ -137,19 +137,19 @@
    "x": 0.1287,
    "y": 0.7031,
    "z": 0.0043,
-   "hang": "A",
+   "hang": "B",
    "nguon": "anchor",
-   "ly": "Thủ Ngũ Lý — trên Khúc Trì LI11 3 thốn, đường LI11→LI15",
-   "ngay": "2026-09-07"
+   "ly": "Vong 34: DOI 2,74cm xuong. Thuoc thon in san trong sach, doc truc tiep tren vach, 3 ban khac (LR10_p470 · LI14_p31 · LI13_p30) cho 2,99 thon (sigma 0,04) — sach doi 3. Muc cu la NOI SUY 1/3 day LI11-LI15 (lech 0,008cm khoi cong thuc), tuc nhan 'moc hang A' la gia. Ha A->B vi dich moi chua qua tang 5 va goc vong quanh thua huong tu duong kinh, chua do rieng.",
+   "ngay": "2026-09-08"
   },
   "LI14": {
    "x": 0.1121,
    "y": 0.7715,
    "z": 0.0141,
-   "hang": "A",
+   "hang": "B",
    "nguon": "anchor",
-   "ly": "Tý Nhu — chỗ bám cơ delta, trên Khúc Trì LI11 7 thốn",
-   "ngay": "2026-09-07"
+   "ly": "Vong 34: DOI 5,76cm xuong. Thuoc in cho 6,97 thon tren LI11 (sach 7), do 3 lan tren 3 ban khac. Kiem cheo MIEN NHIEM voi moi thang: sach dat LI14 va PC2 CUNG muc 7 thon, mesh cu lech 6,33cm cao do. Mesh xac nhan doc lap: mut bam tan co delta chieu ra 6,79-7,62 thon tren truc CUBITAL-AXILLA_ANT. Goc vong quanh: anh chup p31 cho Di14 thang dung tren Di11 (lech 0,2 do) nen giu theo duong kinh, khong keo ra mut co delta. Ha A->B: cao do chac +-0,7cm, goc thua huong chua do rieng.",
+   "ngay": "2026-09-08"
   },
   "LI15": {
    "x": 0.1009,
@@ -1638,12 +1638,12 @@
   },
   "PC2": {
    "x": 0.1053,
-   "y": 0.8005,
-   "z": 0.0111,
+   "y": 0.7347,
+   "z": 0.0058,
    "hang": "A",
    "nguon": "anchor",
-   "ly": "Thiên Tuyền — dưới đầu nếp nách trước 2 thốn",
-   "ngay": "2026-09-07"
+   "ly": "Vong 33 - phien dut diem, luc anh sach tim thuoc. PC2: 2 thon duoi nep nach truoc theo thuoc in trang TE12, hoanh do chinh ve dai kinh (16,9 to 18,1) vi gia tri hoi dong de nghi lam duong gap 108 do. GB20 dung tu giai phau mesh. GB25 do thang tren xuong suon 12. CV23 quy anh ra cm bang than xuong mong. BL57/BL58 sua kem ca cum BL56-59. LI3 lui ve phia goc theo 3 phep anh doc lap",
+   "ngay": "2026-09-08"
   },
   "PC3": {
    "x": 0.1196,
@@ -3035,9 +3035,9 @@
    "x": 0.1368,
    "y": 0.6664,
    "z": 0.0002,
-   "hang": "A",
+   "hang": "B",
    "nguon": "book+khe+duong",
-   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ly": "Vong 34: GIU toa do, nhung XOA bang chung cu. Ly cu ghi 'anh 0,110 vs mesh 0,111 KHOP' la VONG TRON: khong trang anh nao co ca Di11 lan Di15 de do ti le do; nguoi doc vong 31 do dung 'LI12 ~1 thon tren LI11' roi CHIA cho chinh con so 9 dang tranh cai ra 1/9=0,111. Trang duy nhat ve du 5 huyet (LI13_p30 panel phai) cho t = 0,070-0,087. Thuoc in cho LI12 = 0,83 thon (sach ghi 1). Quang doi can thiet 0,73-1,22cm, DUOI nguong 1,2cm o 3/4 bien the nen giu cho — giu vi duoi nguong, KHONG phai vi phep do vong 31.",
    "ngay": "2026-09-08"
   },
   "CV17": {
@@ -3147,97 +3147,113 @@
    "nguon": "book+khe+duong",
    "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
    "ngay": "2026-09-08"
+  },
+  "LI3": {
+   "x": 0.1798,
+   "y": 0.4683,
+   "z": 0.0225,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vong 33 - phien dut diem, luc anh sach tim thuoc. PC2: 2 thon duoi nep nach truoc theo thuoc in trang TE12, hoanh do chinh ve dai kinh (16,9 to 18,1) vi gia tri hoi dong de nghi lam duong gap 108 do. GB20 dung tu giai phau mesh. GB25 do thang tren xuong suon 12. CV23 quy anh ra cm bang than xuong mong. BL57/BL58 sua kem ca cum BL56-59. LI3 lui ve phia goc theo 3 phep anh doc lap",
+   "ngay": "2026-09-08"
+  },
+  "GB20": {
+   "x": 0.0288,
+   "y": 0.9126,
+   "z": -0.0423,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vong 33 - phien dut diem, luc anh sach tim thuoc. PC2: 2 thon duoi nep nach truoc theo thuoc in trang TE12, hoanh do chinh ve dai kinh (16,9 to 18,1) vi gia tri hoi dong de nghi lam duong gap 108 do. GB20 dung tu giai phau mesh. GB25 do thang tren xuong suon 12. CV23 quy anh ra cm bang than xuong mong. BL57/BL58 sua kem ca cum BL56-59. LI3 lui ve phia goc theo 3 phep anh doc lap",
+   "ngay": "2026-09-08"
+  },
+  "GB25": {
+   "x": 0.0649,
+   "y": 0.6338,
+   "z": -0.0307,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vong 33 - phien dut diem, luc anh sach tim thuoc. PC2: 2 thon duoi nep nach truoc theo thuoc in trang TE12, hoanh do chinh ve dai kinh (16,9 to 18,1) vi gia tri hoi dong de nghi lam duong gap 108 do. GB20 dung tu giai phau mesh. GB25 do thang tren xuong suon 12. CV23 quy anh ra cm bang than xuong mong. BL57/BL58 sua kem ca cum BL56-59. LI3 lui ve phia goc theo 3 phep anh doc lap",
+   "ngay": "2026-09-08"
+  },
+  "CV23": {
+   "x": 0,
+   "y": 0.8677,
+   "z": 0.0291,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vong 33 - phien dut diem, luc anh sach tim thuoc. PC2: 2 thon duoi nep nach truoc theo thuoc in trang TE12, hoanh do chinh ve dai kinh (16,9 to 18,1) vi gia tri hoi dong de nghi lam duong gap 108 do. GB20 dung tu giai phau mesh. GB25 do thang tren xuong suon 12. CV23 quy anh ra cm bang than xuong mong. BL57/BL58 sua kem ca cum BL56-59. LI3 lui ve phia goc theo 3 phep anh doc lap",
+   "ngay": "2026-09-08"
+  },
+  "BL57": {
+   "x": 0.0389,
+   "y": 0.1519,
+   "z": -0.049,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vong 33 - phien dut diem, luc anh sach tim thuoc. PC2: 2 thon duoi nep nach truoc theo thuoc in trang TE12, hoanh do chinh ve dai kinh (16,9 to 18,1) vi gia tri hoi dong de nghi lam duong gap 108 do. GB20 dung tu giai phau mesh. GB25 do thang tren xuong suon 12. CV23 quy anh ra cm bang than xuong mong. BL57/BL58 sua kem ca cum BL56-59. LI3 lui ve phia goc theo 3 phep anh doc lap",
+   "ngay": "2026-09-08"
+  },
+  "BL58": {
+   "x": 0.0532,
+   "y": 0.1376,
+   "z": -0.049,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vong 33 - phien dut diem, luc anh sach tim thuoc. PC2: 2 thon duoi nep nach truoc theo thuoc in trang TE12, hoanh do chinh ve dai kinh (16,9 to 18,1) vi gia tri hoi dong de nghi lam duong gap 108 do. GB20 dung tu giai phau mesh. GB25 do thang tren xuong suon 12. CV23 quy anh ra cm bang than xuong mong. BL57/BL58 sua kem ca cum BL56-59. LI3 lui ve phia goc theo 3 phep anh doc lap",
+   "ngay": "2026-09-08"
+  },
+  "ST32": {
+   "x": 0.0778,
+   "y": 0.3498,
+   "z": 0.0211,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "Phien dut diem: hoi dong xu GIU do tin cay cao. ST32 va BL61 duoc chinh THUOC IN SAN cua sach xac nhan engine dung (trang p70 moc 0=bo tren khop mu vach 18=bo tren banh che; trang p200). GB15 kiem bang phep doc lap voi thang thon (lay ST8 lam mut: BL4=1/3, GB15=1/2, GB13=2/3). LI2 va PC4 co day du 3-4 phep anh khop",
+   "ngay": "2026-09-08"
+  },
+  "BL61": {
+   "x": 0.0729,
+   "y": 0.0101,
+   "z": -0.0244,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phien dut diem: hoi dong xu GIU do tin cay cao. ST32 va BL61 duoc chinh THUOC IN SAN cua sach xac nhan engine dung (trang p70 moc 0=bo tren khop mu vach 18=bo tren banh che; trang p200). GB15 kiem bang phep doc lap voi thang thon (lay ST8 lam mut: BL4=1/3, GB15=1/2, GB13=2/3). LI2 va PC4 co day du 3-4 phep anh khop",
+   "ngay": "2026-09-08"
+  },
+  "LI2": {
+   "x": 0.1797,
+   "y": 0.462,
+   "z": 0.0225,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phien dut diem: hoi dong xu GIU do tin cay cao. ST32 va BL61 duoc chinh THUOC IN SAN cua sach xac nhan engine dung (trang p70 moc 0=bo tren khop mu vach 18=bo tren banh che; trang p200). GB15 kiem bang phep doc lap voi thang thon (lay ST8 lam mut: BL4=1/3, GB15=1/2, GB13=2/3). LI2 va PC4 co day du 3-4 phep anh khop",
+   "ngay": "2026-09-08"
+  },
+  "PC4": {
+   "x": 0.1296,
+   "y": 0.5694,
+   "z": 0.0111,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "Phien dut diem: hoi dong xu GIU do tin cay cao. ST32 va BL61 duoc chinh THUOC IN SAN cua sach xac nhan engine dung (trang p70 moc 0=bo tren khop mu vach 18=bo tren banh che; trang p200). GB15 kiem bang phep doc lap voi thang thon (lay ST8 lam mut: BL4=1/3, GB15=1/2, GB13=2/3). LI2 va PC4 co day du 3-4 phep anh khop",
+   "ngay": "2026-09-08"
+  },
+  "GB15": {
+   "x": 0.0178,
+   "y": 0.9829,
+   "z": 0.0284,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phien dut diem: hoi dong xu GIU do tin cay cao. ST32 va BL61 duoc chinh THUOC IN SAN cua sach xac nhan engine dung (trang p70 moc 0=bo tren khop mu vach 18=bo tren banh che; trang p200). GB15 kiem bang phep doc lap voi thang thon (lay ST8 lam mut: BL4=1/3, GB15=1/2, GB13=2/3). LI2 va PC4 co day du 3-4 phep anh khop",
+   "ngay": "2026-09-08"
   }
  },
  "ngo": {
-  "LI2": {
-   "loai": [
-    "da"
-   ],
-   "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
-   "ngay": "2026-09-07"
-  },
-  "LI3": {
-   "loai": [
-    "da"
-   ],
-   "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
-   "ngay": "2026-09-07"
-  },
-  "ST32": {
-   "loai": [
-    "da",
-    "duong",
-    "sach"
-   ],
-   "ly": "TẦNG DA: ép lên da, dời 3.9cm · RẢI DỌC ĐƯỜNG: dời 4.78cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · hai nguồn sách cùng kêu lệch 1.5/1.5 thốn",
-   "ngay": "2026-09-07"
-  },
   "SI9": {
    "loai": [
     "duong"
    ],
    "ly": "RẢI DỌC ĐƯỜNG: dời 17.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "BL57": {
-   "loai": [
-    "da",
-    "duong"
-   ],
-   "ly": "TẦNG DA: ép lên da, dời 4.3cm · RẢI DỌC ĐƯỜNG: dời 4.52cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "BL58": {
-   "loai": [
-    "da",
-    "duong"
-   ],
-   "ly": "TẦNG DA: huyệt nằm sâu — đã ép lên da, dời 4.7cm (2.0 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 10.27cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: huyệt",
-   "ngay": "2026-09-07"
-  },
-  "BL61": {
-   "loai": [
-    "da"
-   ],
-   "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.6cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.6cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
-   "ngay": "2026-09-07"
-  },
-  "PC4": {
-   "loai": [
-    "mota",
-    "duong",
-    "khac"
-   ],
-   "ly": "mô tả \"bờ ? cơ gấp cổ tay quay\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.33 thốn · RẢI DỌC ĐƯỜNG: dời 4.39cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜN",
-   "ngay": "2026-09-07"
-  },
-  "GB15": {
-   "loai": [
-    "sach"
-   ],
-   "ly": "hai nguồn sách cùng kêu lệch 1.6/2.1 thốn",
-   "ngay": "2026-09-07"
-  },
-  "GB20": {
-   "loai": [
-    "khe"
-   ],
-   "ly": "nằm giữa bụng cơ (sâu 0.85 thốn trong khối Cơ gối đầu trái)",
-   "ngay": "2026-09-07"
-  },
-  "GB25": {
-   "loai": [
-    "khe"
-   ],
-   "ly": "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ chéo bụng ngoài trái)",
-   "ngay": "2026-09-07"
-  },
-  "CV23": {
-   "loai": [
-    "da"
-   ],
-   "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.7cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.7cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
    "ngay": "2026-09-07"
   }
  },

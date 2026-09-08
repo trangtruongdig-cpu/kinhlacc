@@ -66,7 +66,11 @@ const L = {
    * Dò bằng thứ mesh có: bờ DƯỚI-NGOÀI của phần đòn cơ ngực lớn trái (FMA34691) — phần này có x lớn
    * nhất trong ba phần cơ ngực lớn (19,19 so với 15,31 và 18,44), tức nằm ngoài nhất, đúng chỗ cơ bám
    * vào cánh tay và tạo nếp nách trước. Ba phần cho bờ dưới ở 131,28 / 132,36 / 132,53cm — dải 4%.
-   * THANG: nếp nách 131,28 → nếp khuỷu 111,61 = 19,67cm, sách chia 9 thốn ⇒ 1 thốn = 2,19cm.
+   * THANG: 1 thốn = 2,246cm — đo DỌC TRỤC chi (khoảng cách 3D nếp nách→nếp khuỷu = 20,21cm ÷ 9).
+   * CẨN THẬN, ở đây có hai con số và chỉ một cái đúng: chênh CAO ĐỘ thuần chỉ 19,67cm ⇒ 2,185cm/thốn,
+   * thấp hơn 2,8%. Trục này lệch ngang nhiều (x −4,44cm · z +1,50cm — nách nằm trong hơn khuỷu) nên
+   * hai phép không bằng nhau. Luật dự án đã chốt sau ba lần vấp: THỐN ĐO DỌC TRỤC CHI, không đo theo
+   * cao độ, cũng không đo dọc đường cong bề mặt. Lấy nhầm 2,185 thì ở mốc 7 thốn đích trôi 0,43cm.
    * KIỂM CHÉO ĐỘC LẬP bằng ba huyệt vòng 31 dựng trước khi có mốc này: LU3 đo 2,94 thốn (sách 3) ·
    * LU4 3,98 (4) · HT2 5,79 (6) — lệch 0,13 / 0,04 / 0,45cm. */
   AXILLA_ANT:   { x: 0.1116, y: 0.7637, z: -0.0100, side: 1 }, // nếp nách trước — bờ dưới-ngoài phần đòn cơ ngực lớn

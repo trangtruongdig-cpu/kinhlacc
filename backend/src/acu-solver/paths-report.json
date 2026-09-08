@@ -1,20 +1,6 @@
 {
  "rows": [
   {
-   "mer": "BL",
-   "code": "BL58",
-   "doan": "cang-chan",
-   "cm": 8.97,
-   "conf": "cao"
-  },
-  {
-   "mer": "SI",
-   "code": "SI9",
-   "doan": "vai",
-   "cm": 7.15,
-   "conf": "cao"
-  },
-  {
    "mer": "SP",
    "code": "SP8",
    "doan": "cang-chan",
@@ -46,7 +32,7 @@
    "mer": "BL",
    "code": "BL55",
    "doan": "cang-chan",
-   "cm": 6.04,
+   "cm": 5.91,
    "conf": "cao"
   },
   {
@@ -62,13 +48,6 @@
    "doan": "canh-tay",
    "cm": 5.01,
    "conf": "khe"
-  },
-  {
-   "mer": "BL",
-   "code": "BL57",
-   "doan": "cang-chan",
-   "cm": 4.51,
-   "conf": "WHO+khe"
   },
   {
    "mer": "PC",
@@ -130,7 +109,7 @@
    "mer": "BL",
    "code": "BL59",
    "doan": "cang-chan",
-   "cm": 2.91,
+   "cm": 2.77,
    "conf": "khe-khoá"
   },
   {
@@ -288,6 +267,13 @@
    "conf": "mốc"
   },
   {
+   "mer": "LI",
+   "code": "LI13",
+   "doan": "canh-tay",
+   "cm": 0.22,
+   "conf": "mốc"
+  },
+  {
    "mer": "ST",
    "code": "ST43",
    "doan": "ban-chan",
@@ -340,6 +326,13 @@
    "mer": "LU",
    "code": "LU4",
    "doan": "canh-tay",
+   "cm": 0.19,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SI",
+   "code": "SI9",
+   "doan": "vai",
    "cm": 0.19,
    "conf": "mốc"
   },
@@ -802,13 +795,6 @@
    "mer": "LI",
    "code": "LI9",
    "doan": "cang-tay",
-   "cm": 0,
-   "conf": "mốc"
-  },
-  {
-   "mer": "LI",
-   "code": "LI13",
-   "doan": "canh-tay",
    "cm": 0,
    "conf": "mốc"
   },
@@ -1563,6 +1549,20 @@
   },
   {
    "mer": "BL",
+   "code": "BL57",
+   "doan": "cang-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL58",
+   "doan": "cang-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
    "code": "BL61",
    "doan": "ban-chan",
    "cm": 0,
@@ -1983,7 +1983,7 @@
   }
  ],
  "tongDoan": 79,
- "tongCm": 2146,
+ "tongCm": 2136,
  "doiNhip": [
   {
    "doan": "GB/suon",
@@ -1994,8 +1994,8 @@
   {
    "doan": "GB/suon",
    "cap": "GB24→GB25",
-   "nhipCu": 0.84,
-   "nhipMoi": 0.12
+   "nhipCu": 0.8,
+   "nhipMoi": 0.14
   },
   {
    "doan": "SP/nguc",

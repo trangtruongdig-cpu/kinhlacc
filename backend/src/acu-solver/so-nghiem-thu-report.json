@@ -1,7 +1,22 @@
 {
  "ngay": "2026-09-08",
  "hoiQuy": [],
- "canhBao": [],
+ "canhBao": [
+  {
+   "code": "LI14",
+   "hang": "B",
+   "cm": 5.76,
+   "nguong": 2,
+   "ly": "Vong 34: DOI 5,76cm xuong. Thuoc in cho 6,97 thon tren LI11 (sach 7), do 3 lan tren 3 ban khac. Kiem cheo MIEN NHIEM voi moi thang: sach dat LI14 va PC2 CUNG muc 7 thon, mesh cu lech 6,33cm cao do. Mesh xac nhan doc lap: mut bam tan co delta chieu ra 6,79-7,62 thon tren truc CUBITAL-AXILLA_ANT. Goc vong quanh: anh chup p31 cho Di14 thang dung tren Di11 (lech 0,2 do) nen giu theo duong kinh, khong keo ra mut co delta. Ha A->B: cao do chac +-0,7cm, goc thua huong chua do rieng."
+  },
+  {
+   "code": "LI13",
+   "hang": "B",
+   "cm": 2.74,
+   "nguong": 2,
+   "ly": "Vong 34: DOI 2,74cm xuong. Thuoc thon in san trong sach, doc truc tiep tren vach, 3 ban khac (LR10_p470 · LI14_p31 · LI13_p30) cho 2,99 thon (sigma 0,04) — sach doi 3. Muc cu la NOI SUY 1/3 day LI11-LI15 (lech 0,008cm khoi cong thuc), tuc nhan 'moc hang A' la gia. Ha A->B vi dich moi chua qua tang 5 va goc vong quanh thua huong tu duong kinh, chua do rieng."
+  }
+ ],
  "mat": [],
  "moi": []
 }

@@ -1,0 +1,137 @@
+{
+ "code": "LI11",
+ "mer": "LI",
+ "num": 11,
+ "tenApp": "Khúc Trì",
+ "tenFocks": "KHÚC TRÌ",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Co khuỷu tay vào ngực, huyệt ở đầu lằn chỉ nếp gấp khuỷu, nơi bám của cơ ngửa dài, cơ quay 1, cơ ngửa ngắn khớp khủy.",
+  "focksViTri": "Khi uốn cong khuỷu tay, huyệt ở gần đầu bên của nếp gấp khuỷu tay, tại chỗ lõm giữa phần cuối của nếp gấp và mỏm trên lồi cầu ngoài của xương cánh tay, trong khu vực cơ duỗi cổ tay quay dài.",
+  "focksCachXacDinh": "Đầu tiên, uốn cong khuỷu tay 90°, xác định vị trí đầu bên của nếp gấp khuỷu tay, sau đó sờ cảm thấy một vết lõm mềm ở khu vực này trong khu vực của cơ duỗi cổ tay quay dài. Huyệt Khúc trì (Di 11) nằm ở sát đầu gần của xương trụ. Huyệt Xích trạch (Lu 5) nằm ngoài gân cơ nhị đầu trên nếp gấp khuỷu tay; huyệt Khúc trạch (Pe 3) trong gân gân cơ nhị đầu trên nếp gấp khuỷu tay và huyệt Thiếu hải (He 3) tận cùng nếp gấp khuỷu phía trong.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LI11_p28_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1426,
+  "y": 0.6483,
+  "z": 0.0007,
+  "conf": "mốc",
+  "caoDoCm": 111.44,
+  "ngangCm": 24.51,
+  "truocSauCm": 0.12
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Khúc Trì — đầu NGOÀI nếp khuỷu, giữa Xích Trạch và lồi cầu ngoài. Dựng từ xương/gân atlas",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "cang-tay",
+  "vung": "mặt sau-ngoài cẳng tay",
+  "moTaRanh": "bờ ngoài xương quay, giữa cơ ngửa dài và cơ duỗi cổ tay quay",
+  "diemTrongDoan": [
+   "LI5",
+   "LI6",
+   "LI7",
+   "LI8",
+   "LI9",
+   "LI10",
+   "LI11"
+  ]
+ },
+ "nutMoc": {
+  "code": "LI11",
+  "loai": "moc",
+  "at": "CUBITAL",
+  "vi_sao": "Khúc Trì — đầu ngoài nếp khuỷu"
+ },
+ "cotDo": {
+  "doan": "LI/cang-tay",
+  "tong": 12,
+  "xa": "LI5",
+  "gan": "LI11",
+  "xaMoc": "WRIST",
+  "ganMoc": "CUBITAL",
+  "thonCuaHuyet": 12,
+  "lechNgang": null,
+  "moiDiem": {
+   "LI6": 3,
+   "LI7": 5,
+   "LI8": 8,
+   "LI9": 9,
+   "LI10": 10
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LI10",
+   "ten": "Thủ Tam Lý",
+   "thang": 3.01,
+   "sachDoiCm": 4.02,
+   "thonCm": 2.01,
+   "docDa": 3.3,
+   "sachDoiThon": 2,
+   "vitri": "Dưới huyệt Khúc Trì (Đtr.11) 2 thốn, trên đường nối Khúc Trì (Đtr.11) và Dương Khê (Đtr.5)."
+  },
+  {
+   "code": "LI12",
+   "ten": "Trửu Liêu",
+   "thang": 3.27,
+   "sachDoiCm": null,
+   "thonCm": 2.01,
+   "docDa": 3.6,
+   "sachDoiThon": null,
+   "vitri": "Từ huyệt Khúc Trì (Đtr.11) đo xiên lên ra ngoài 01 thốn, ở bờ ngoài đầu xương cánh tay."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "LU5",
+   "ten": "Xích Trạch",
+   "cm": 1.57
+  },
+  {
+   "code": "LI10",
+   "ten": "Thủ Tam Lý",
+   "cm": 3.01
+  },
+  {
+   "code": "LI12",
+   "ten": "Trửu Liêu",
+   "cm": 3.27
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ cánh tay quay trái",
+   "lop": "muscle",
+   "cm": 0.4
+  },
+  {
+   "ten": "Xương quay trái",
+   "lop": "bone",
+   "cm": 2.34
+  },
+  {
+   "ten": "Đầu cánh tay của cơ sấp tròn trái",
+   "lop": "muscle",
+   "cm": 2.52
+  },
+  {
+   "ten": "Xương cánh tay trái",
+   "lop": "bone",
+   "cm": 2.79
+  },
+  {
+   "ten": "Cơ cánh tay trái",
+   "lop": "muscle",
+   "cm": 2.79
+  }
+ ],
+ "coKiemMay": []
+}

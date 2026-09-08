@@ -1,0 +1,121 @@
+{
+ "code": "LI15",
+ "mer": "LI",
+ "num": 15,
+ "tenApp": "Kiên Ngung",
+ "tenFocks": "KIÊN NGUNG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Dang cánh tay thẳng, huyệt ở chỗ lõm, phía trước và ngoài khớp, mỏm cùng – xương đòn.",
+  "focksViTri": "Ở chỗ lõm xa và trước của mỏm cùng vai giữa phần xương đòn và phần mỏm cùng vai của cơ delta.",
+  "focksCachXacDinh": "Yêu cầu bệnh nhân dang cánh tay cao ngang vai. Ở vị trí nằm ngang xa so với mỏm cùng vai, hai vết lõm được hình thành trong vùng nguyên uỷ của cơ delta. Bây giờ, đặt ngón cái và ngón trỏ của bàn tay bạn vào kẹp nhíp (khoảng cách các ngón tay bằng chiều rộng 1 ngón tay cái) từ phía trên. Lúc này ngón trước ở giữa chỗ lõm huyệt Kiên ngung (Di 15). Chỗ lõm dưới ngón sau là huyệt Kiên liêu (SJ 14).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LI15_p32_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1009,
+  "y": 0.8128,
+  "z": 0.0116,
+  "conf": "mốc",
+  "caoDoCm": 139.72,
+  "ngangCm": 17.34,
+  "truocSauCm": 1.99
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Kiên Ngung — hõm trước-dưới mỏm cùng vai, giữa phần ĐÒN và phần MỎM CÙNG của cơ delta. Dịch 7cm so toạ độ cũ",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "canh-tay",
+  "vung": "mặt ngoài cánh tay",
+  "moTaRanh": "bờ ngoài cơ tam đầu, bờ trước cơ delta",
+  "diemTrongDoan": [
+   "LI11",
+   "LI12",
+   "LI13",
+   "LI14",
+   "LI15"
+  ]
+ },
+ "nutMoc": {
+  "code": "LI15",
+  "loai": "gap",
+  "at": "ACROMION",
+  "vi_sao": "Kiên Ngung — mỏm cùng vai; kinh bẻ từ cánh tay lên vai"
+ },
+ "cotDo": {
+  "doan": "LI/canh-tay",
+  "tong": 9,
+  "xa": "LI11",
+  "gan": "LI15",
+  "thonCuaHuyet": 9,
+  "lechNgang": null,
+  "moiDiem": {
+   "LI12": 1,
+   "LI13": 3,
+   "LI14": 7
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LI14",
+   "ten": "Tý Nhu",
+   "thang": 7.37,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 8.5,
+   "sachDoiThon": 2,
+   "vitri": "Huyệt ở đầu cuối của cơ tam giác cánh tay, trên đường nối huyệt Khúc Trì (Đtr.11) và Kiên Ngung (Đtr.15)."
+  },
+  {
+   "code": "LI16",
+   "ten": "Cự Cốt",
+   "thang": 9.38,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 9.7,
+   "sachDoiThon": null,
+   "vitri": "Chỗ lõm giữa xương đòn với gai sống vai."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "PC2",
+   "ten": "Thiên Tuyền",
+   "cm": 2.25
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Phần đòn của cơ delta trái",
+   "lop": "muscle",
+   "cm": 1.02
+  },
+  {
+   "ten": "Xương cánh tay trái",
+   "lop": "bone",
+   "cm": 2.16
+  },
+  {
+   "ten": "Phần mỏm cùng vai của cơ delta trái",
+   "lop": "muscle",
+   "cm": 2.18
+  },
+  {
+   "ten": "Cơ dưới vai trái",
+   "lop": "bone",
+   "cm": 2.24
+  },
+  {
+   "ten": "Đầu dài của cơ nhị đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 2.48
+  }
+ ],
+ "coKiemMay": []
+}

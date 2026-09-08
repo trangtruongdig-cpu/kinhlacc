@@ -24,15 +24,12 @@
   "truocSauCm": 0.03
  },
  "nghiemThu": {
-  "hang": "C",
-  "ly": "chưa vào sổ"
+  "hang": "A",
+  "nguon": "book+khe+duong",
+  "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+  "ngay": "2026-09-08"
  },
- "conNgo": {
-  "loai": [
-   "duong"
-  ],
-  "ly": "RẢI DỌC ĐƯỜNG: dời 5.02cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG:"
- },
+ "conNgo": null,
  "duongKinh": {
   "doan": "canh-tay",
   "vung": "mặt ngoài cánh tay",

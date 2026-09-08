@@ -1,24 +1,8 @@
 {
- "outsideTruoc": 29,
- "moved": 33,
- "flagged": 7,
+ "outsideTruoc": 28,
+ "moved": 30,
+ "flagged": 5,
  "rows": [
-  {
-   "code": "BL58",
-   "outside": false,
-   "cm": 4.7,
-   "cun": 2.03,
-   "conf": "cao",
-   "src": "book"
-  },
-  {
-   "code": "BL57",
-   "outside": false,
-   "cm": 4.3,
-   "cun": 1.86,
-   "conf": "WHO+khe",
-   "src": "who"
-  },
   {
    "code": "ST32",
    "outside": false,
@@ -50,14 +34,6 @@
    "cun": 1.22,
    "conf": "khoá",
    "src": "book"
-  },
-  {
-   "code": "CV23",
-   "outside": false,
-   "cm": 2.7,
-   "cun": 1.18,
-   "conf": "mốc",
-   "src": "anchor"
   },
   {
    "code": "SP6",
@@ -162,14 +138,6 @@
    "cun": 0.23,
    "conf": "mốc",
    "src": "anchor"
-  },
-  {
-   "code": "GB20",
-   "outside": true,
-   "cm": 0.5,
-   "cun": 0.22,
-   "conf": "WHO+khe",
-   "src": "who"
   },
   {
    "code": "ST29",

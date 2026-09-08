@@ -1,0 +1,125 @@
+{
+ "code": "LI13",
+ "mer": "LI",
+ "num": 13,
+ "tenApp": "Thủ Ngũ Lý",
+ "tenFocks": "THỦ NGŨ LÝ",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Huyệt ở sát bờ xương cánh tay, trên nếp gấp khuỷu (Khúc Trì – Đtr.11), 3 thốn.",
+  "focksViTri": "Ở mặt ngoài của bắp tay (cơ hai đầu), cách đầu ngoài của nếp gấp khuỷu tay (huyệt Khúc trì Di 11) 3 thốn, gần về phía đầu xương cánh tay.",
+  "focksCachXacDinh": "Gập khuỷu tay và co cơ bắp tay (cơ hai đầu) để thấy rõ hơn cạnh bên của bắp tay. Huyệt nằm trên đường nối giữa huyệt Khúc trì Di11 (đầu bên của nếp gấp khuỷu tay) và huyệt Kiên ngung Di 15 (lõm ở đầu vai). Đo khoảng 3 thốn dọc theo đường này từ Di 11 và xác định huyệt Thủ ngũ lý (Di 13) trên đường viền bên của bắp tay (cơ hai đầu) hoặc trong rãnh giữa bắp tay và cơ cánh tay.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LI13_p30_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1287,
+  "y": 0.7031,
+  "z": 0.0043,
+  "conf": "mốc",
+  "caoDoCm": 120.86,
+  "ngangCm": 22.12,
+  "truocSauCm": 0.74
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Thủ Ngũ Lý — trên Khúc Trì LI11 3 thốn, đường LI11→LI15",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "canh-tay",
+  "vung": "mặt ngoài cánh tay",
+  "moTaRanh": "bờ ngoài cơ tam đầu, bờ trước cơ delta",
+  "diemTrongDoan": [
+   "LI11",
+   "LI12",
+   "LI13",
+   "LI14",
+   "LI15"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "LI/canh-tay",
+  "tong": 9,
+  "xa": "LI11",
+  "gan": "LI15",
+  "thonCuaHuyet": 3,
+  "lechNgang": null,
+  "moiDiem": {
+   "LI12": 1,
+   "LI13": 3,
+   "LI14": 7
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LI12",
+   "ten": "Trửu Liêu",
+   "thang": 6.5,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 8.9,
+   "sachDoiThon": 2,
+   "vitri": "Từ huyệt Khúc Trì (Đtr.11) đo xiên lên ra ngoài 01 thốn, ở bờ ngoài đầu xương cánh tay."
+  },
+  {
+   "code": "LI14",
+   "ten": "Tý Nhu",
+   "thang": 12.22,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 14.4,
+   "sachDoiThon": 4,
+   "vitri": "Huyệt ở đầu cuối của cơ tam giác cánh tay, trên đường nối huyệt Khúc Trì (Đtr.11) và Kiên Ngung (Đtr.15)."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "LU4",
+   "ten": "Hiệp Bạch",
+   "cm": 1.93
+  },
+  {
+   "code": "SP21",
+   "ten": "Đại Bao",
+   "cm": 3.89
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu dài của cơ nhị đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 1.02
+  },
+  {
+   "ten": "Đầu ngắn của cơ nhị đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 2.16
+  },
+  {
+   "ten": "Cơ cánh tay trái",
+   "lop": "muscle",
+   "cm": 2.65
+  },
+  {
+   "ten": "Xương cánh tay trái",
+   "lop": "bone",
+   "cm": 3.91
+  },
+  {
+   "ten": "Cơ cánh tay quay trái",
+   "lop": "muscle",
+   "cm": 4.32
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm",
+  "TỪ ĐIỂN APP kêu: dọc \"CUBITAL\" đòi 3 thốn, đo được 2.75  (lệch 0.85cm)",
+  "ATLAS FOCKS kêu: dọc \"LI11\" đòi 3 thốn, đo được 2.84  (lệch 0.54cm)"
+ ]
+}

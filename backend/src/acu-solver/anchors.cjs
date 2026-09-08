@@ -520,7 +520,52 @@ const A = {
    *   · SP/cang-chan dùng MALLEOLUS_MED→TIBIA_MED_CONDYLE; anchor mới cho SP8 9,37 thốn thay vì 10
    *     (lệch 1,78cm).
    * Trục neo mốc xương đáng tin hơn trục tự dựng, nên bỏ hai anchor, để engine rải theo bảng. */
+  /* SI9 Kiên Trinh — vòng 33 bổ sung. Chủ toạ phiên dứt điểm BỎ SÓT huyệt này (không có trong bảng
+   * phán quyết), nhưng người lục ảnh đưa được bốn phép độc lập cùng chỉ một chỗ, và nó trùng đúng
+   * một lỗi mốc đã ghi trong chính tệp này từ vòng trước: SI9/SI10 neo vào AXILLA_POST, mà mốc ấy
+   * đang ở y=136,4cm — chỉ thấp hơn gai xương bả vai 1,7cm, trong khi nếp nách sau thật phải cách
+   * 6–8cm (xem ghi chú "CHƯA CẮM SI9 Kiên Trinh và SI10 Nhu Du" ở đầu tệp).
+   * Bốn phép: (1) ảnh chụp p129, thước "1 thốn" in sẵn 67px → SI10→SI9 = 2,94 thốn; (2) bản vẽ p129,
+   * lấy SJ14→SJ13 = 3 thốn làm thang → SI10→SI9 ≈ 3,6 thốn, và SI9 thấp hơn SJ13 1,6cm ⇒ cao độ
+   * ≈132,0; (3) dò mesh: bờ DƯỚI phần gai vai cơ delta trái FMA34685 tại z≈−8,9 nằm ở y≈131,3–131,8,
+   * trong khi SI9 cũ ở y=127,36 tức TỤT 4,4cm DƯỚI cơ delta — trái định nghĩa Focks "sờ ngược lên
+   * tới khi cảm được bờ dưới cơ delta"; (4) chính ghi chú cũ trong tệp này.
+   * ĐIỂM YẾU đã khai: hoành độ x là phần yếu nhất — bản vẽ đòi lệch vào trong 2,8cm còn mesh chỉ
+   * 0,5cm; lấy x theo bờ dưới cơ delta + mặt da chứ không theo tỉ lệ ảnh, vì mặt vai cong. */
+  SI9 : { pos: { x: 0.11810, y: 0.76550, z: -0.05180 }, why: 'Kiên Trinh — bờ DƯỚI phần gai vai cơ delta (FMA34685), trên đầu nếp nách sau ~1 thốn. Điểm cũ tụt 4,4cm dưới cơ delta vì neo vào AXILLA_POST vốn đã biết là sai' },
   BL36: { pos: { x: 0.0399, y: 0.4827, z: -0.0692 }, why: 'Thừa Phù — giữa nếp mông, suy từ bờ dưới cơ mông lớn; điểm cũ ở x=3,3 tức sát khe mông' },
+
+  /* ===== VÒNG 33 — PHIÊN DỨT ĐIỂM: lục ảnh tìm thước, xử 12 huyệt còn ngờ (08/09/2026) ============
+   * 4 agent, 942k token. Phán quyết: hoi-dong/dut-diem-phan-quyet.json.
+   *
+   * SÁCH IN THƯỚC THỐN NHIỀU HƠN TA TƯỞNG. Agent lục ra: trang TE12/TE13/TE14 có HAI thước nối tiếp
+   * dọc trục chi (cánh tay 9 quãng + cẳng tay 12 quãng, nghiêng 17 độ nên bộ dò tự động bỏ sót);
+   * bản khắc khác ở LU3/LU4/HT2 cũng hai thước, vạch 0 chú thích thẳng là "điểm kết thúc nếp nhăn
+   * nách trước"; GB33/BL37/LR9 có thước chi dưới. Ba huyệt ST32, BL57, BL61 được xử GIỮ nhờ chính
+   * thước của sách xác nhận engine đã đúng.
+   *
+   * PHÉP KIỂM HAY NHẤT PHIÊN — "sách vẽ theo tỉ lệ thật hay vẽ ước lệ?". Trang GB33 có ĐỒNG THỜI
+   * thước đùi (19 thốn) và thước cẳng chân (16 thốn), hai thang đã chốt độc lập. Nếu vẽ ước lệ thì
+   * tỉ số pixel phải ≈ 1,00; nếu vẽ theo tỉ lệ thật phải ≈ 0,879. Đo được 0,863 (BL37 cho 0,842)
+   * ⇒ sách VẼ THEO TỈ LỆ THẬT, sai số hệ thống 2–4%. Nhờ phép này mới dám dùng tỉ số hai thước.
+   *
+   * THANG CÁNH TAY: thước sách xác nhận con số 2,19cm/thốn vừa chốt bằng mốc AXILLA_ANT, và bác cả
+   * ba con số cũ. Riêng 2,57 KHÔNG sai — nó là thang KHÁC (Focks: mỏm khuỷu → mỏm cùng vai, 11 thốn);
+   * hai hệ phải để riêng, chép số thốn từ hệ này sang hệ kia đúng là lỗi "lẫn hai thang" đã ghi.
+   *
+   * CHỦ TOẠ BÁC AGENT TÌM THƯỚC ở một điểm, và đó là việc nền còn lại: thước đòi tỉ số thốn-cánh-tay
+   * / thốn-cẳng-tay = 1,028 nhưng mesh cho 1,130, vì mốc CUBITAL đang đặt ở ĐẦU XA XƯƠNG CÁNH TAY
+   * (y=111,61) chứ không phải NẾP KHUỶU trên da. Đặt nếp khuỷu ở y≈112,60 thì tỉ số ra 1,030 — khớp.
+   * CHƯA SỬA: CUBITAL là mốc dùng chung của sáu kinh cẳng tay và bốn kinh cánh tay, đổi nó là dịch cả
+   * mười kinh cùng lúc, phải làm thành phiên riêng có nghiệm thu. Ba huyệt nếp khuỷu dựng độc lập
+   * (LU5, PC3, HT3) cho trung bình 112,13 — cùng chiều, thấp hơn 0,47cm. */
+  PC2 : { pos: { x: 0.10530, y: 0.73467, z: 0.00582 }, why: 'Thiên Tuyền — 2 thốn dưới nếp nách trước (7 thốn trên nếp khuỷu). Cao độ theo thước sách; HOÀNH ĐỘ chỉnh về đúng dải kinh (x 16,9 → 18,1): giá trị hội đồng đề nghị nằm lệch vào trong 1,2cm so với đường, làm đường quặt vào rồi quay ra, gấp 108°. Điểm cũ trước vòng 33 nằm CAO HƠN cả nếp nách 6,3cm' },
+  LI3 : { pos: { x: 0.17981, y: 0.47382, z: 0.02036 }, why: 'Tam Gian — lùi về phía gốc, ba phép ảnh độc lập đều bảo điểm cũ quá sát chỏm xương bàn 2' },
+  GB20: { pos: { x: 0.02880, y: 0.91257, z: -0.04235 }, why: 'Phong Trì — dựng từ GIẢI PHẪU MESH (xương chẩm + hai cơ), điểm cũ chìm 0,85 thốn trong bụng cơ gối đầu' },
+  GB25: { pos: { x: 0.06486, y: 0.63380, z: -0.03072 }, why: 'Kinh Môn — đo THẲNG trên xương sườn 12 trái FMA8534, đầu tự do; không qua huyệt trung gian nào' },
+  CV23: { pos: { x: 0.00000, y: 0.86766, z: 0.02909 }, why: 'Liêm Tuyền — quy ảnh ra cm bằng chính thân xương móng của mesh (150,07→151,05)' },
+  BL57: { pos: { x: 0.03892, y: 0.15189, z: -0.04900 }, why: 'Thừa Sơn — chỉ đổi hoành độ về khe giữa hai đầu cơ bụng chân; ĐỘ SÂU để tầng 5 ấn định' },
+  BL58: { pos: { x: 0.05317, y: 0.13764, z: -0.04900 }, why: 'Phi Dương — sửa KÈM CẢ CỤM BL56/57/59, không sửa lẻ (thẩm tra đã đo: sửa lẻ làm góc cột vọt từ 10 lên 47 độ)' },
   BL37: { pos: { x: 0.0436, y: 0.3881, z: -0.0558 }, why: 'Ân Môn — 6 thốn dưới nếp mông (8 thốn trên nếp kheo), thang đùi sau 2,712cm/thốn' },
   BL38: { pos: { x: 0.0613, y: 0.2737, z: -0.0508 }, why: 'Phù Khích — 1 thốn trên Uỷ Dương BL39 (hạng A), bờ trong gân cơ nhị đầu đùi' },
   HT8 : { pos: { x: 0.1367, y: 0.4787, z: 0.0313 }, why: 'Thiếu Phủ — khe xương đốt bàn tay 4–5 ở mặt GAN tay; điểm cũ chỉ cách TE3 (mu tay) 0,87cm, tức mỏng hơn bề dày bàn tay' },
@@ -702,9 +747,42 @@ const A = {
   BL56: { pos: { x: 0.0318, y: 0.1875, z: -0.0603 }, why: 'Thừa Cân — trung điểm Hợp Dương BL55 và Thừa Sơn BL57' },
   LR7:  { pos: { x: 0.0169, y: 0.2471, z: -0.0268 }, why: 'Tất Quan — ngang Âm Lăng Tuyền SP9, lùi ra SAU 1 thốn' },
   KI5:  { pos: { x: 0.0202, y: 0.0391, z: -0.0223 }, why: 'Thuỷ Tuyền — thẳng dưới Thái Khê KI3 1 thốn' },
-  PC2:  { pos: { x: 0.1053, y: 0.8005, z: 0.0111 }, why: 'Thiên Tuyền — dưới đầu nếp nách trước 2 thốn' },
-  LI13: { pos: { x: 0.1287, y: 0.7031, z: 0.0043 }, why: 'Thủ Ngũ Lý — trên Khúc Trì LI11 3 thốn, đường LI11→LI15' },
-  LI14: { pos: { x: 0.1121, y: 0.7715, z: 0.0141 }, why: 'Tý Nhu — chỗ bám cơ delta, trên Khúc Trì LI11 7 thốn' },
+  /* PC2 mục cũ (y=137,6cm) đã bỏ — vòng 33 dựng lại ở y=126,3cm. Mục cũ đặt Thiên Tuyền CAO HƠN
+   * cả nếp nách trước 6,3cm và cao hơn HT1 Cực Tuyền, tức ngoài vùng cánh tay. */
+  /* ===== VÒNG 34 — CỤM LI CÁNH TAY, dựng lại CẢ CỘT (08/09/2026) ==================================
+   * 3 agent (đọc ảnh · đọc mesh · thẩm tra đối kháng). Người dùng duyệt thi hành.
+   *
+   * HAI MỤC CŨ Ở ĐÂY LÀ "MỐC GIẢ" — nhãn hạng A mà bên dưới là phép nội suy từ một thang hỏng.
+   * Bảng cốt độ khai `'LI/canh-tay': { tong: 9, xa:'LI11', gan:'LI15' }`, tức tuyên bố Kiên Ngung
+   * LI15 nằm ở 9 thốn trên Khúc Trì. Sai: LI15 ở khoảng 12–13 thốn, nên cả cột bị DÃN ~1,44 lần.
+   * Chứng minh không cãi được: LI11 + (3/9)·(LI15−LI11) = (0,128700 · 0,703133 · 0,004333), còn mục
+   * LI13 cũ là (0,1287 · 0,7031 · 0,0043) — LỆCH 0,008cm. Chính trường `why` cũ tự khai "đường
+   * LI11→LI15". LI14 thì lệch 1,22cm khỏi điểm 7/9 vì đã bị chỉnh tay về phía cơ delta.
+   *
+   * BẰNG CHỨNG NGOÀI ENGINE — THƯỚC THỐN IN SẴN, đọc trực tiếp trên vạch, 4 lần trên 3 bản khắc
+   * (LR10_p470 · LI14_p31 · LI13_p30 panel phải): LI12 = 0,83 · LI13 = 2,99 · LI14 = 6,97 thốn trên
+   * LI11 (σ 0,04–0,06). Thước p30 hồi quy 9 vạch ra rms 0,011 thốn và TỰ NGHIỆM THU: Di13 → 3,02,
+   * Di14 → 6,98. Đường gióng trong bản khắc đi XUYÊN TÂM chấm huyệt (lệch 0,26–0,36 px).
+   * KIỂM CHÉO MIỄN NHIỄM VỚI MỌI THANG: sách đặt LI14 và Thiên Tuyền PC2 CÙNG mức 7 thốn; trên mesh
+   * chúng lệch nhau 6,33cm theo cao độ (LI14 y=132,62 · PC2 y=126,29).
+   * Mesh xác nhận độc lập: chiếu các mốc GIẢI PHẪU (không dính huyệt nào) lên trục CUBITAL→AXILLA_ANT
+   * thì mút bám tận cơ delta ra 6,79–7,62 thốn — sách đặt LI14 ở 7.
+   *
+   * GÓC VÒNG QUANH — gỡ treo bằng ảnh chụp người thật `LI14_p31`: tâm chấm Di 14 (715,2 · 458,0) và
+   * Di 11 (716,6 · 917,9) lệch ngang 1,4px trên 460px = 0,2°, tức sách đặt Tý Nhu THẲNG ĐỨNG trên
+   * Khúc Trì. Nên giữ đúng góc của đường kinh hiện hành, KHÔNG kéo ra mút cơ delta của mesh.
+   *
+   * BẪY THI HÀNH, ghi để người sau khỏi mất một vòng: `bake-points.cjs` có
+   * `if (pt.src === 'anchor') { giu++; continue; }` — TẦNG 1 THẮNG TUYỆT ĐỐI. Sửa bảng cốt độ mà để
+   * nguyên hai mục này thì huyệt KHÔNG nhúc nhích và người sửa tưởng bảng sai. Đã xảy ra hai lần
+   * trong ngày, ở cả hai phiên.
+   *
+   * CÒN TREO, đã ghi cờ: hằng số "LI11→LI15 = ? thốn" (ba phép cho 11,96 / 12,43 / 13,01 — không hai
+   * phép nào khớp, nên TREO; phương án này KHÔNG dùng đến nó) và mốc AXILLA_ANT (có dấu hiệu thấp
+   * ~1,0cm; nâng 1cm thì chiếu LI15 ra 12,41, khớp thước sách 12,43 — nhưng mới một đường chỉ tới,
+   * và đụng vào là dịch cả LU3/LU4/HT2/PC2 nên phải là phiên riêng). */
+  LI13: { pos: { x: 0.1316, y: 0.6876, z: 0.0018 }, why: 'Thủ Ngũ Lý — 3 thốn trên Khúc Trì LI11 ĐO TRÊN THƯỚC IN của sách (2,99; σ 0,04). Dời 2,74cm xuống từ mục cũ vốn là nội suy 1/3 của thang hỏng' },
+  LI14: { pos: { x: 0.1156, y: 0.7388, z: 0.0078 }, why: 'Tý Nhu — 7 thốn trên Khúc Trì LI11, thước in cho 6,97 (3 bản khắc). Dời 5,76cm xuống; kiểm chéo: sách đặt nó CÙNG mức PC2, mesh cũ lệch 6,33cm. Góc vòng quanh giữ theo đường kinh (ảnh p31: thẳng đứng trên LI11, lệch 0,2°)' },
   SP12: { pos: { x: 0.0397, y: 0.5099, z: 0.0391 }, why: 'Xung Môn — ngang bờ trên xương mu, cách đường giữa 3,5 thốn' },
   ST4:  { pos: { x: 0.0218, y: 0.8938, z: 0.0400 }, why: 'Địa Thương — ngoài khoé miệng 0,4 thốn' },
   TE17: { pos: { x: 0.0346, y: 0.9098, z: -0.0063 }, why: 'Ế Phong — hõm giữa góc hàm dưới và mỏm chũm' },

@@ -1,0 +1,119 @@
+{
+ "code": "LI14",
+ "mer": "LI",
+ "num": 14,
+ "tenApp": "Tý Nhu",
+ "tenFocks": "TÝ NHU",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Huyệt ở đầu cuối của cơ tam giác cánh tay, trên đường nối huyệt Khúc Trì (Đtr.11) và Kiên Ngung (Đtr.15).",
+  "focksViTri": "Ở mặt ngoài bắp tay trên đường nối Di 11-Di 15, cách huyệt Khúc trì (Di 11) 7 thốn, chỗ uốn cong bám tận của cơ delta.",
+  "focksCachXacDinh": "Gập khuỷu tay và co cơ delta (ví dụ: chống lại lực cản) để hình dung rõ hơn các bờ bên ngoài của cơ. Huyệt Tý nhu (Di 14) nằm ở phần bám tận, thuôn nhọn của cơ delta trong một chỗ trũng. Để định hướng: Điểm dưới nếp nách khoảng 2 thốn",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LI14_p31_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1121,
+  "y": 0.7715,
+  "z": 0.0141,
+  "conf": "mốc",
+  "caoDoCm": 132.62,
+  "ngangCm": 19.27,
+  "truocSauCm": 2.42
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Tý Nhu — chỗ bám cơ delta, trên Khúc Trì LI11 7 thốn",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "canh-tay",
+  "vung": "mặt ngoài cánh tay",
+  "moTaRanh": "bờ ngoài cơ tam đầu, bờ trước cơ delta",
+  "diemTrongDoan": [
+   "LI11",
+   "LI12",
+   "LI13",
+   "LI14",
+   "LI15"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "LI/canh-tay",
+  "tong": 9,
+  "xa": "LI11",
+  "gan": "LI15",
+  "thonCuaHuyet": 7,
+  "lechNgang": null,
+  "moiDiem": {
+   "LI12": 1,
+   "LI13": 3,
+   "LI14": 7
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LI13",
+   "ten": "Thủ Ngũ Lý",
+   "thang": 12.22,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 14.4,
+   "sachDoiThon": 4,
+   "vitri": "Huyệt ở sát bờ xương cánh tay, trên nếp gấp khuỷu (Khúc Trì – Đtr.11), 3 thốn."
+  },
+  {
+   "code": "LI15",
+   "ten": "Kiên Ngung",
+   "thang": 7.37,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 8.5,
+   "sachDoiThon": 2,
+   "vitri": "Dang cánh tay thẳng, huyệt ở chỗ lõm, phía trước và ngoài khớp, mỏm cùng – xương đòn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "HT1",
+   "ten": "Cực Tuyền",
+   "cm": 3.99
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Phần đòn của cơ delta trái",
+   "lop": "muscle",
+   "cm": 1.62
+  },
+  {
+   "ten": "Phần đòn của cơ ngực lớn trái",
+   "lop": "muscle",
+   "cm": 2.82
+  },
+  {
+   "ten": "Đầu dài của cơ nhị đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 2.86
+  },
+  {
+   "ten": "Phần ức sườn của cơ ngực lớn trái",
+   "lop": "muscle",
+   "cm": 2.91
+  },
+  {
+   "ten": "Phần mỏm cùng vai của cơ delta trái",
+   "lop": "muscle",
+   "cm": 3.03
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm",
+  "ATLAS FOCKS kêu: dọc \"LI11\" đòi 7 thốn, đo được 6.39  (lệch 2.09cm)"
+ ]
+}
