@@ -2556,19 +2556,20 @@
   function renderMeridianPanel(mer, activeCode) {
     const m = COORDS.meridians[mer]; if (!m) return;
     const codes = Object.keys(placed).filter(c => merOf(c) === mer).sort((a, b) => numOf(a) - numOf(b));
-    const tot = merTotal[mer] ? '/' + merTotal[mer] : '';
     // mỗi dòng = nút bay-tới-huyệt + nút "Xem Thêm" (📖) sang chi tiết huyệt trong Từ Điển
     const list = codes.map(c => {
       const rid = recOf(c);
       const more = rid ? `<a class="dr-pt-more" href="#acu/${rid.id}" title="Xem ${esc(nameOf(c))} trong Từ Điển" aria-label="Xem trong Từ Điển">📖</a>` : '';
       return `<div class="dr-pt-row"><button class="dr-pt${c === activeCode ? ' active' : ''}" data-code="${esc(c)}" style="--c:${m.color}"><b>${esc(c)}</b> ${esc(nameOf(c))}</button>${more}</div>`;
     }).join('');
+    /* Tiêu đề GỌN: chỉ "mã kinh + tên kinh" trên MỘT hàng. Bản cũ nhồi thêm nút "← Kinh Lạc" và
+     * dòng "N huyệt · bấm huyệt → bay tới + chi tiết" vào cùng hàng flex rộng 310px nên chữ bị ép
+     * vỡ dòng thành 4 cột lít nhít, rất khó đọc và khó bấm. Danh sách kinh vẫn mở được ở tab
+     * "Kinh Lạc" bên panel trái, nên nút quay-về ở đây là thừa. */
     setDrawer(`
-      <div class="dr-head">
-        <button type="button" class="dr-back" id="drBackLegend" title="Về danh sách Kinh Lạc">← Kinh Lạc</button>
+      <div class="dr-head dr-head-mer">
         <span class="dr-code" style="--c:${m.color}">${mer}</span>
         <h3>${esc(m.name)}</h3>
-        <div class="dr-mer" style="color:${m.color}">${codes.length}${tot} huyệt · bấm huyệt → bay tới + chi tiết</div>
       </div>
       <div class="dr-ptlist">${list}</div>
       <a class="dr-full" href="#meridian/${mer}">📖 Lý thuyết kinh đầy đủ →</a>
@@ -2700,7 +2701,6 @@
   // bấm 1 huyệt trong DANH SÁCH ở ngăn phải → camera bay tới đúng huyệt
   drawer.addEventListener('click', e => {
     const pt = e.target.closest('.dr-pt'); if (pt) { focusPoint(pt.dataset.code); return; }
-    const back = e.target.closest('#drBackLegend'); if (back) { openMeridianTab(); return; }
     const inl = e.target.closest('.dr-pt-inline'); if (inl) { focusPoint(inl.dataset.code); }
   });
   search.addEventListener('input', doSearch);
@@ -2938,6 +2938,10 @@
     dotsGroup.visible = false; linesGroup.visible = false; flowGroup.visible = false; needleGroup.visible = false;
     for (const L of LAYERS) layerState[L.id] = (L.id === 'skin') ? 1 : 0;
     applyLayers();
+    // Nền TRẮNG cho ảnh phiếu (trên màn hình cảnh để nền xám #f2f3f3). In lên giấy trắng thì nền xám
+    // hiện thành một khối hộp xám quanh người, trông như ảnh dán vào chứ không phải hình vẽ trên phiếu.
+    const prevBg = scene.background;
+    scene.background = new THREE.Color(0xffffff);
 
     // KHUNG THÂN — KHÔNG dùng Box3.setFromObject(modelRoot). modelRoot còn chứa lớp CHẤM ĐÁNH DẤU
     // BỘ PHẬN (partMarkers): mảnh của hệ đang TẮT bị đẩy ra toạ độ sentinel MARKER_HIDDEN = 1e4 cho
@@ -2991,6 +2995,7 @@
     const backShot = shoot(new THREE.Vector3(center.x, center.y, box.min.z - dist));
 
     // khôi phục nguyên trạng khung đang xem.
+    scene.background = prevBg;
     removeModestyCover();
     renderer.setPixelRatio(prevRatio);
     renderer.setSize(prevSize.x || stage.clientWidth || W, prevSize.y || stage.clientHeight || H, false);

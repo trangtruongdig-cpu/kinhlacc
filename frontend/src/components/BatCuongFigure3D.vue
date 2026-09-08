@@ -33,7 +33,7 @@ export const MER3D: Record<string, string> = {
  * Khi không có WebGL / lỗi tải → render DEFAULT SLOT (cha truyền hình 2D rơi-về vào).
  */
 import { onMounted, onBeforeUnmount, ref, watch } from 'vue'
-import { ensureModelDeps, fetchModelBuffer, hasWebGL } from '@/lib/heroThree'
+import { ensureModelDeps, ensureMeridianPaths, fetchModelBuffer, hasWebGL } from '@/lib/heroThree'
 
 // ── Props & emits ──
 interface OrganState {
@@ -482,6 +482,74 @@ function applyAura() {
 
 const FRAME_BUDGET_MS = 8
 
+// ── ĐƯỜNG KINH DỰNG SẴN (data/meridian-paths.js) ──
+// Đồ hình Kinh Mạch 3D đã BỎ HẲN lối "nối thẳng huyệt → huyệt": đường kinh giờ là polyline TRẮC ĐỊA
+// bám mặt da (backend/src/acu-solver/bake-paths.cjs), kèm PHÁP TUYẾN da tại từng điểm. Cảnh nhỏ ở
+// trang Kết Quả Đo vẫn giữ lối cũ nên hai nơi vẽ ra hai bộ đường khác hẳn nhau — cùng một bệnh nhân,
+// bấm sang đồ hình lớn lại thấy đường chạy chỗ khác. Lối cũ sai hai chỗ: (1) nối thẳng nên đường cắt
+// ngang qua không khí ở nách/bẹn/khoeo; (2) nhấc khỏi da theo hướng TOẢ RA TỪ TRỤC THÂN, mà ở tay
+// chân buông xuôi hướng đó lệch pháp tuyến thật 90–150° nên "nhấc" chính là đẩy đường vào trong thịt.
+// Dùng chung dữ liệu đã bake thì hai đồ hình khớp nhau, lại nhanh hơn vì khỏi raycast 670 huyệt.
+const PATHS = () => (window as unknown as { MERIDIAN_PATHS?: Any }).MERIDIAN_PATHS
+const PATH_LIFT = 0.009 // = _SKIN_LIFT trong map3d.js — hai bên phải bằng nhau thì đường mới trùng
+
+/** Hướng nhấc khỏi da: pháp tuyến bake nếu có, không thì lùi về hướng toả từ trục (port _huongNhac). */
+function huongNhac(nx: number, ny: number, nz: number, nrm: number[] | undefined, mirror: boolean): Any {
+  if (nrm) {
+    const o = new T.Vector3(mirror ? -(nrm[0] as number) : (nrm[0] as number), nrm[1], nrm[2])
+    if (o.lengthSq() > 1e-9) return o.normalize()
+  }
+  const o = new T.Vector3(nx, 0, nz)
+  if (o.lengthSq() < 1e-9) o.set(0, 0, 1)
+  o.normalize()
+  // gần đỉnh đầu thì pháp tuyến ngả dần lên trên, nếu không đường sẽ chìm vào sọ
+  if (ny > 0.95) o.lerp(new T.Vector3(0, 1, 0), Math.min(1, (ny - 0.95) / 0.05)).normalize()
+  return o
+}
+
+/** Polyline chuẩn-hoá (theo chiều cao thân) → toạ độ cảnh, đã nhấc khỏi da (port pathToWorld). */
+function pathToWorld(pts: number[][], mirror: boolean, nrm?: number[][]): Any[] {
+  const out: Any[] = []
+  for (let i = 0; i < pts.length; i++) {
+    const p = pts[i]
+    if (!p) continue
+    const nx = mirror ? -(p[0] as number) : (p[0] as number)
+    const ny = p[1] as number
+    const nz = p[2] as number
+    const o = huongNhac(nx, ny, nz, nrm && nrm[i], mirror)
+    out.push(
+      new T.Vector3(
+        nx * bodyHeight + o.x * PATH_LIFT * bodyHeight,
+        bodyMinY + ny * bodyHeight + o.y * PATH_LIFT * bodyHeight,
+        nz * bodyHeight + o.z * PATH_LIFT * bodyHeight,
+      ),
+    )
+  }
+  return out
+}
+
+/** Kinh này đã có đường dựng sẵn chưa (chưa thì rơi về lối nối huyệt cũ). */
+function coDuongSan(mer: string): boolean {
+  const d = PATHS()?.mer?.[mer]
+  return !!(d && d.doan && d.doan.some((x: Any) => x && x.pts && x.pts.length >= 2 && x.mo !== 'chim'))
+}
+
+/** Các đoạn ống của 1 kinh lấy từ bảng đường đã bake (cả hai bên nếu kinh song phương). */
+function runsFromPaths(mer: string): Any[][] {
+  const d = PATHS()?.mer?.[mer]
+  if (!d || !d.doan) return []
+  const runs: Any[][] = []
+  for (const mirror of isBilateral(mer) ? [false, true] : [false]) {
+    for (const doan of d.doan) {
+      // mo='chim' = kinh đi NGẦM trong sâu. Đồ hình lớn vẽ nét mảnh mờ; ở cảnh nhỏ này bỏ hẳn cho sạch.
+      if (!doan || !doan.pts || doan.pts.length < 2 || doan.mo === 'chim') continue
+      const pts = pathToWorld(doan.pts, mirror, doan.nrm)
+      if (pts.length >= 2) runs.push(pts)
+    }
+  }
+  return runs
+}
+
 /** Rải đường kinh lên bề mặt — RẢI DẦN theo ngân sách khung (giữ figure đứng yên lúc raycast). */
 function buildMeridiansDeferred() {
   const C = COORDS()
@@ -506,6 +574,10 @@ function buildMeridiansDeferred() {
         const p = placed[code]
         const mer = merOf(code)
         const num = numOf(code)
+        if (coDuongSan(mer)) {
+          idx++ // kinh này dựng từ polyline bake → khỏi raycast (đây là phần tốn thời gian nhất)
+          continue
+        }
         const left = pointOf(p, false)
         if (left) (groups[mer + '|L'] = groups[mer + '|L'] || []).push({ mer, num, pos: left })
         if (isBilateral(mer)) {
@@ -538,6 +610,17 @@ function finalizeLinesDeferred(groups: Record<string, { mer: string; num: number
   const sb = stateByMer3D()
   const jobs: { run: Any[]; mer: string; name: string | null; i: number }[] = []
   let i = 0
+  // Đường DỰNG SẴN đi trước; groups (lối nối huyệt cũ) giờ chỉ còn chứa kinh nào thiếu dữ liệu bake.
+  const P = PATHS()
+  if (P && P.mer) {
+    for (const mer in P.mer) {
+      const name = sb.get(mer)?.name ?? null
+      for (const run of runsFromPaths(mer)) {
+        jobs.push({ run, mer, name, i })
+        i++
+      }
+    }
+  }
   for (const key in groups) {
     const all = (groups[key] ?? []).sort((a, b) => a.num - b.num)
     const first = all[0]
@@ -1018,6 +1101,9 @@ async function boot() {
       }).then((b) => {
         buf = b
       }),
+      // Đường kinh dựng sẵn — chờ cùng nhịp để dựng đúng ngay từ đầu; thiếu thì tự rơi về lối cũ
+      // (hàm này đã nuốt lỗi sẵn, không làm hỏng nhánh tải chính).
+      ensureMeridianPaths(),
     ])
     if (!alive) return
     await init(buf)

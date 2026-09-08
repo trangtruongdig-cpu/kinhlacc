@@ -121,7 +121,27 @@ function escHtml(v: unknown): string {
   return String(v ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' })[c] as string)
 }
 
-const ACP_MARGIN = 190 // lề trái/phải quanh ảnh thân người, dành chỗ cho nhãn + đường dẫn chỉ
+// LỀ + CỠ CHỮ TÍNH THEO HỆ TOẠ ĐỘ SVG, KHÔNG PHẢI PIXEL THẬT. viewBox rộng ACP_MARGIN*2 + 700 =
+// 1120 đơn vị nhưng khung in chỉ 340px → mọi kích thước bên trong bị THU NHỎ 3,3 lần. Cỡ chữ 9 (mặc
+// định quen tay) hiện ra 2,7px — phiếu in ra không ai đọc nổi tên huyệt. Vì vậy các hằng số dưới đây
+// đều là ĐƠN VỊ VIEWBOX đã nhân sẵn ~3,3: chữ 26 ≈ 7,9px thật, chấm r 9 ≈ 2,7px, nét chỉ 2,4 ≈ 0,7px.
+const ACP_MARGIN = 260 // lề trái/phải quanh ảnh thân người, dành chỗ cho nhãn + đường dẫn chỉ
+const ACP_FONT = 27 // cỡ chữ nhãn (≈7,5px thật sau khi thu về khung 340px)
+const ACP_LABEL_GAP = 42 // khoảng cách dọc tối thiểu giữa 2 nhãn (≈12px thật — đủ cho chữ 7,5px)
+const ACP_DOT_R = 9 // bán kính chấm huyệt trên ảnh
+const ACP_LEAD_W = 2.4 // độ dày nét dẫn chỉ từ nhãn tới chấm
+// SVG cắt cụt chữ tràn khỏi viewBox, KHÔNG xuống dòng và không báo gì: "ST36 Túc Tam Lý" từng in ra
+// thành "ST36 Túc Tam". Không biết trước bề rộng chữ thật nên ước lượng theo số ký tự (Arial: bề
+// rộng trung bình ≈ 0,58 cỡ chữ, đã tính phần tên in đậm) rồi ép nhãn nào vượt lề co lại vừa khít —
+// thà chữ hơi hẹp còn hơn mất chữ.
+// Chỗ trống thật cho chữ = lề trừ đoạn từ mép ảnh ra tới đầu chữ (24 nét dẫn + 14 khoảng thở) và
+// trừ thêm 6 đệm mép. Lấy dư tay ở hệ số bề rộng (0,62 chứ không 0,58) vì chữ Việt có dấu và nửa
+// sau nhãn in đậm — ước non thì nhãn không được co và lại bị cắt, đúng lỗi vừa sửa.
+const ACP_LABEL_MAX = ACP_MARGIN - 44
+function labelFit(text: string): string {
+  const est = text.length * 0.62 * ACP_FONT
+  return est > ACP_LABEL_MAX ? ` textLength="${ACP_LABEL_MAX}" lengthAdjust="spacingAndGlyphs"` : ''
+}
 
 // Xếp nhãn dọc theo lề, tránh đè nhau: sắp theo chiều cao thực tế trên ảnh rồi đẩy xuống tối thiểu
 // `minGap` mỗi khi 2 nhãn kề nhau quá gần (kỹ thuật "callout ladder" quen thuộc trong bản đồ/atlas).
@@ -158,29 +178,29 @@ function buildSideSvg(
   const left = layoutLabelSlots(
     pts.filter((p) => p.x < 0.5),
     H,
-    24,
+    ACP_LABEL_GAP,
   )
   const right = layoutLabelSlots(
     pts.filter((p) => p.x >= 0.5),
     H,
-    24,
+    ACP_LABEL_GAP,
   )
 
   const dotsMarkup = pts
-    .map((p) => `<circle cx="${(M + p.x * W).toFixed(1)}" cy="${(p.y * H).toFixed(1)}" r="4.2" fill="${p.color}" stroke="#fff" stroke-width="1.2" />`)
+    .map((p) => `<circle cx="${(M + p.x * W).toFixed(1)}" cy="${(p.y * H).toFixed(1)}" r="${ACP_DOT_R}" fill="${p.color}" stroke="#fff" stroke-width="2.6" />`)
     .join('')
   const leaderAndLabel = (p: { code: string; name: string; color: string; x: number; y: number; labelY: number }, anchor: 'start' | 'end', labelX: number) => {
     const dotX = M + p.x * W
     const dotY = p.y * H
-    const textX = anchor === 'end' ? labelX - 6 : labelX + 6
+    const textX = anchor === 'end' ? labelX - 14 : labelX + 14
     return (
-      `<line x1="${labelX.toFixed(1)}" y1="${p.labelY.toFixed(1)}" x2="${dotX.toFixed(1)}" y2="${dotY.toFixed(1)}" stroke="${p.color}" stroke-width="1" opacity="0.8" />` +
-      `<circle cx="${labelX.toFixed(1)}" cy="${p.labelY.toFixed(1)}" r="2.4" fill="${p.color}" />` +
-      `<text x="${textX.toFixed(1)}" y="${p.labelY.toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle" class="acp-label">${escHtml(p.code)} <tspan class="acp-label-name">${escHtml(p.name)}</tspan></text>`
+      `<line x1="${labelX.toFixed(1)}" y1="${p.labelY.toFixed(1)}" x2="${dotX.toFixed(1)}" y2="${dotY.toFixed(1)}" stroke="${p.color}" stroke-width="${ACP_LEAD_W}" opacity="0.8" />` +
+      `<circle cx="${labelX.toFixed(1)}" cy="${p.labelY.toFixed(1)}" r="5" fill="${p.color}" />` +
+      `<text x="${textX.toFixed(1)}" y="${p.labelY.toFixed(1)}" text-anchor="${anchor}" dominant-baseline="middle" class="acp-label"${labelFit(p.code + ' ' + p.name)}>${escHtml(p.code)} <tspan class="acp-label-name">${escHtml(p.name)}</tspan></text>`
     )
   }
-  const leftMarkup = left.map((p) => leaderAndLabel(p, 'end', M - 10)).join('')
-  const rightMarkup = right.map((p) => leaderAndLabel(p, 'start', M + W + 10)).join('')
+  const leftMarkup = left.map((p) => leaderAndLabel(p, 'end', M - 24)).join('')
+  const rightMarkup = right.map((p) => leaderAndLabel(p, 'start', M + W + 24)).join('')
 
   return `<svg class="acp-svg" viewBox="0 0 ${totalW} ${H}" xmlns="http://www.w3.org/2000/svg">
     <image href="${imgDataUrl}" x="${M}" y="0" width="${W}" height="${H}" preserveAspectRatio="xMidYMid meet" />
@@ -241,9 +261,9 @@ function renderAcuPrintSheet(result: AcuExportResult, payload: AcuPrintPayload |
   .acp-meta { font-size: 11px; color: #4b5563; margin-bottom: 10px; }
   .acp-diagrams { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
   .acp-diagram { text-align: center; }
-  .acp-svg { width: 320px; height: auto; border: 1px solid #e5e7eb; border-radius: 6px; background: #fff; }
+  .acp-svg { width: 340px; height: auto; border: 1px solid #e5e7eb; border-radius: 6px; background: #fff; }
   .acp-cap { font-weight: 700; font-size: 11px; margin-top: 4px; }
-  .acp-label { font-size: 9px; fill: #1f2937; font-family: Arial, sans-serif; }
+  .acp-label { font-size: ${ACP_FONT}px; fill: #1f2937; font-family: Arial, Helvetica, sans-serif; }
   .acp-label-name { font-weight: 700; }
   .acp-legend { margin-top: 14px; column-count: 2; column-gap: 22px; }
   .acp-grp { break-inside: avoid; margin-bottom: 8px; }
@@ -254,7 +274,7 @@ function renderAcuPrintSheet(result: AcuExportResult, payload: AcuPrintPayload |
   .acp-src { color: #1d4ed8; font-size: 9.5px; }
   .acp-note { color: #6b7280; font-size: 10px; }
   .acp-missing { margin-top: 10px; font-size: 10.5px; color: #b45309; }
-  .acp-empty { width: 320px; padding: 40px 10px; text-align: center; color: #9ca3af; border: 1px dashed #d1d5db; border-radius: 6px; }
+  .acp-empty { width: 340px; padding: 40px 10px; text-align: center; color: #9ca3af; border: 1px dashed #d1d5db; border-radius: 6px; }
   .foot { margin-top: 16px; font-size: 9.5px; color: #6b7280; text-align: center; }
   @media print { body { padding: 8px 12px; } }
 </style>
@@ -294,7 +314,9 @@ function printAcuDiagram(codes: string[], payload: AcuPrintPayload | null) {
     alert('Đồ hình 3D chưa sẵn sàng, vui lòng thử lại.')
     return
   }
-  w.AcuMap.exportPrintDiagram(codes, { width: 900, height: 1400 })
+  // 700×1400 (KHÔNG phải 900×1400): khung ảnh bám sát tỉ lệ người đứng nên bớt được hai dải trắng
+  // hai bên, thân người to lên ~30% trong cùng khổ phiếu mà không phải phóng to ảnh.
+  w.AcuMap.exportPrintDiagram(codes, { width: 700, height: 1400 })
     .then((result) => {
       const opened = renderAcuPrintSheet(result, payload)
       if (opened && window.opener) window.close()

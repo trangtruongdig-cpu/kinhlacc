@@ -30,6 +30,10 @@ const THREE_SRC = ver(`${BASE}vendor/three.min.js`)
 const GLTF_SRC = ver(`${BASE}vendor/GLTFLoader.js`)
 const MESHOPT_SRC = ver(`${BASE}vendor/meshopt_decoder.js`)
 const COORDS_SRC = ver(`${BASE}data/acu-coords3d.js`)
+// Đường kinh DỰNG SẴN (polyline trắc địa bám mặt da + pháp tuyến da, do backend/src/acu-solver/
+// bake-paths.cjs sinh). Cảnh 3D nhỏ trước đây tự nối thẳng huyệt→huyệt nên vẽ ra bộ đường KHÁC hẳn
+// đồ hình Kinh Mạch 3D; nạp file này (92KB) để hai nơi dùng chung một bộ đường.
+const PATHS_SRC = ver(`${BASE}data/meridian-paths.js`)
 const MODEL_SRC = ver(`${BASE}models/body-layers.glb`)
 
 // Kích thước ước lượng (byte) — chỉ dùng làm mẫu số cho thanh % khi máy chủ KHÔNG gửi Content-Length.
@@ -172,6 +176,18 @@ export async function ensureModelDeps(onProgress?: ProgressFn): Promise<ThreeNS>
   )
   onProgress?.(1)
   return THREE
+}
+
+/**
+ * Nạp bảng ĐƯỜNG KINH DỰNG SẴN (window.MERIDIAN_PATHS). Chỉ đồ hình chẩn đoán (BatCuongFigure3D)
+ * cần — banner trang chủ vẫn vẽ đường trang trí theo lối cũ nên KHÔNG kéo thêm 92KB này.
+ *
+ * KHÔNG BAO GIỜ NÉM LỖI: file này chỉ làm đường kinh đúng hơn, không phải thứ cảnh cần để chạy. Lúc
+ * để nó trong nhóm bắt buộc của ensureModelDeps, thử chặn file thì Promise.all reject và CẢ đồ hình
+ * 3D biến mất (rơi hẳn về hình 2D) — hỏng nhiều hơn được. Thiếu thì nơi gọi tự dùng lối cũ.
+ */
+export function ensureMeridianPaths(): Promise<void> {
+  return loadScriptOnce(PATHS_SRC).catch(() => {})
 }
 
 /** Tải file .glb dạng dòng (đo %), trả ArrayBuffer để GLTFLoader.parse() — chỉ tải 1 lần. */

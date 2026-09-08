@@ -226,10 +226,11 @@
 .acu3d .dr-welcome .hint { color: var(--muted); font-size: 13px; }
 .acu3d .dr-head { border-bottom: 1px solid var(--glass-border); padding-bottom: 12px; margin-bottom: 8px; display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
 .acu3d .dr-code { display: inline-block; background: var(--c); color: #fff; font-weight: 700; font-size: 12px; padding: 2px 9px; border-radius: 12px; }
-/* nút quay về sheet chú giải Kinh Lạc — chỉ xuất hiện khi mở 1 đường kinh TỪ dòng "Kinh Lạc" trong
-   panel Hệ Cơ Quan (showMeridianLegend()); xem drBackLegend trong renderMeridianPanel(). */
-.acu3d .dr-back { flex: none; order: -1; border: none; background: rgba(0,0,0,.05); color: var(--green-dark); font-weight: 700; font-size: 12px; padding: 4px 10px; border-radius: 999px; cursor: pointer; }
-.acu3d .dr-back:hover { background: rgba(0,0,0,.1); }
+/* Tiêu đề panel 1 đường kinh: mã kinh + tên kinh nằm NGANG HÀNG, căn trái. .dr-head mặc định
+   space-between là để dàn nhiều khối ở panel huyệt; ở đây chỉ có 2 khối nên phải căn trái, không
+   thì "LI" dạt trái còn "Đại Trường" dạt phải rồi vỡ dòng trong bề ngang 310px. */
+.acu3d .dr-head-mer { align-items: center; justify-content: flex-start; }
+.acu3d .dr-head-mer h3 { margin: 0; font-size: 17px; line-height: 1.25; }
 .acu3d .dr-mer { font-size: 13px; font-weight: 600; margin-top: 2px; }
 .acu3d .dr-close { flex: none; width: 26px; height: 26px; border-radius: 8px; border: none; background: rgba(0,0,0,.05); color: var(--muted); cursor: pointer; font-size: 13px; }
 .acu3d .dr-close:hover { background: rgba(0,0,0,.1); }
