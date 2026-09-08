@@ -44,3 +44,5 @@
 
 - `conversations/vscode-YYYY-MM-DD.md` — 24 ngày (07/07–08/09/2026), 392 tin nhắn do chính user viết, trích từ transcript Claude Code.
 - [File hội thoại tồn tại nhưng engine hiện tại không đọc được](facts/conversation-files-exist-but-unreadable.md) — 24 ngày transcript VS Code (07/07–08/09/2026) nằm trong vault nhưng engine openrouter không có tool đọc file
+- [Cơ chế Ngũ Hành lệch (tương thừa/tương vũ) suy từ Bát Cương hư-thực; Lục Kinh suy luận tương tự](facts/co-che-tuong-thua-tuong-vu-tu-bat-cuong.md) — Bát cương hư/thực (cao/thấp) → xác định hành ngũ hành bị lệch qua tương thừa/tương vũ (khác tương sinh/khắc bình thường); lục kinh giai đoạn/tầng bệnh suy luận theo logic tương tự.
+- [OpenRouter model miễn phí trả lỗi 404 khi giao việc nền viết wiki](facts/openrouter-mien-phi-loi-404-khi-giao-viec-nen.md) — Giao 3 task nền viết wiki (Bát Cương, Lục Kinh, Ngũ Hành) qua OpenRouter model free đều lỗi 404 'unavailable for free' - cần đổi model trả phí mới chạy được.
