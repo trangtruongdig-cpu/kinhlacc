@@ -1,0 +1,173 @@
+{
+ "code": "HT6",
+ "mer": "HT",
+ "num": 6,
+ "tenApp": "Âm Khích",
+ "tenFocks": "ÂM KHÍCH",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Mặt trước trong cẳng tay, trên nếp gấp cổ tay 0,5 thốn, ở trong khe gân cơ trụ trước và gân cơ gấp chung nông các ngón tay.",
+  "focksViTri": "Cách khe khớp cổ tay 0,5 thốn (nếp gấp cổ tay xa), bờ gân gấp cổ tay trụ.",
+  "focksCachXacDinh": "Cẳng tay để ngửa ở tư thế thoải mái. Gân của cơ gấp cổ tay trụ có thể dễ dàng cảm nhận được ở bụng cẳng tay phía xương trụ và gần với nếp gấp cổ tay; điểm bám của nó nằm trên xương đậu. Huyệt Âm khích (He 6) cách khe khớp cổ tay (huyệt Thần môn (He 7) khoảng 0,5 thốn trên bờ gân gấp cổ tay trụ. Huyệt Thông lý (He 5) và huyệt Linh đạo (He 4) nằm trên cùng một đường thẳng, cách nhau 0,5 cun.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/HT6_p114_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1386,
+  "y": 0.5183,
+  "z": 0.0198,
+  "conf": "khe-khoá",
+  "caoDoCm": 89.1,
+  "ngangCm": 23.83,
+  "truocSauCm": 3.4
+ },
+ "nghiemThu": {
+  "hang": "B",
+  "nguon": "book+khe+duong",
+  "ly": "conf=khe-khoá, src=book+khe+duong",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "cang-tay",
+  "vung": "bờ trong mặt trước cẳng tay",
+  "moTaRanh": "bờ trong gân cơ gấp cổ tay trụ, sát bờ trước xương trụ",
+  "diemTrongDoan": [
+   "HT3",
+   "HT4",
+   "HT5",
+   "HT6",
+   "HT7"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "HT/cang-tay",
+  "tong": 12,
+  "xa": "HT7",
+  "gan": "HT3",
+  "xaMoc": "WRIST",
+  "ganMoc": "CUBITAL",
+  "thonCuaHuyet": 0.5,
+  "lechNgang": null,
+  "moiDiem": {
+   "HT4": 1.5,
+   "HT5": 1,
+   "HT6": 0.5
+  }
+ },
+ "hangXom": [
+  {
+   "code": "HT5",
+   "ten": "Thông Lý",
+   "thang": 1.03,
+   "sachDoiCm": 1,
+   "thonCm": 2.01,
+   "docDa": 1,
+   "sachDoiThon": 0.5,
+   "vitri": "Mặt trước trong cẳng tay, trên nếp gấp cổ tay 1 thốn (huyệt Thần Môn – Tm.7), khe giữa gân cơ trụ trước và cơ gấp chung nông các ngón tay."
+  },
+  {
+   "code": "HT7",
+   "ten": "Thần Môn",
+   "thang": 0.73,
+   "sachDoiCm": 1,
+   "thonCm": 2.01,
+   "docDa": 0.7,
+   "sachDoiThon": 0.5,
+   "vitri": "Ở phía xương trụ, nằm trên lằn chỉ cổ tay, nơi chỗ lõm sát bờ ngoài gân cơ trụ trước và góc ngoài bờ trên xương trụ."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "HT7",
+   "ten": "Thần Môn",
+   "cm": 0.73
+  },
+  {
+   "code": "HT5",
+   "ten": "Thông Lý",
+   "cm": 1.03
+  },
+  {
+   "code": "HT4",
+   "ten": "Linh Đạo",
+   "cm": 2.02
+  },
+  {
+   "code": "LU8",
+   "ten": "Kinh Cừ",
+   "cm": 2.8
+  },
+  {
+   "code": "SI5",
+   "ten": "Dương Cốc",
+   "cm": 2.85
+  },
+  {
+   "code": "PC7",
+   "ten": "Đại Lăng",
+   "cm": 2.85
+  },
+  {
+   "code": "LU7",
+   "ten": "Liệt Khuyết",
+   "cm": 2.86
+  },
+  {
+   "code": "SI6",
+   "ten": "Dưỡng Lão",
+   "cm": 2.97
+  },
+  {
+   "code": "PC6",
+   "ten": "Nội Quan",
+   "cm": 3.25
+  },
+  {
+   "code": "SI4",
+   "ten": "Uyển Cốt",
+   "cm": 3.84
+  },
+  {
+   "code": "TE4",
+   "ten": "Dương Trì",
+   "cm": 3.99
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 0.62
+  },
+  {
+   "ten": "Cơ gấp các ngón nông trái",
+   "lop": "muscle",
+   "cm": 0.73
+  },
+  {
+   "ten": "Cơ gấp các ngón sâu trái",
+   "lop": "muscle",
+   "cm": 0.76
+  },
+  {
+   "ten": "Cơ gan tay dài trái",
+   "lop": "muscle",
+   "cm": 0.87
+  },
+  {
+   "ten": "Xương trụ trái",
+   "lop": "bone",
+   "cm": 1.14
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 2.09cm (conf=khe-khoá)",
+  "XA ĐƯỜNG KINH 2.09cm",
+  "TỪ ĐIỂN APP kêu: dọc \"WRIST\" đòi 0.5 thốn, đo được 0.5  (lệch 0.01cm)",
+  "ATLAS FOCKS kêu: dọc \"WRIST\" đòi 0.5 thốn, đo được 0.5  (lệch 0.01cm)"
+ ]
+}

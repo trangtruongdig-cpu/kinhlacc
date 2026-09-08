@@ -1,0 +1,129 @@
+{
+ "code": "LI19",
+ "mer": "LI",
+ "num": 19,
+ "tenApp": "Hòa Liêu",
+ "tenFocks": "KHẨU HOÀ LIÊU",
+ "canhBaoTen": "TÊN HAI NGUỒN KHÁC NHAU — app \"Hòa Liêu\" vs Focks \"KHẨU HOÀ LIÊU\". Phải trọng tài TRƯỚC khi bàn toạ độ: nếu mã lệch thì đang dựng nhầm huyệt.",
+ "nguon": {
+  "app": "Huyệt nằm trên đường ngang qua 1/3 trên hoặc 2/3 dưới của rãnh nhân trung, cách đường giữa rãnh 0,5 thốn.",
+  "focksViTri": "Trên hàm trên, hơi dưới mép bên của lỗ mũi.",
+  "focksCachXacDinh": "Chia khoảng cách giữa mép bên của lỗ mũi và mép của môi trên thành ba phần, huyệt Hoà liêu (Di 19) nằm ở điểm giao nhau giữa phần trên và phần ba ở giữa. Huyệt Nhân trung (Du/GV 26) nằm ngang hàng, trên đường giữa trước và cách nhau khoảng 0,5 thốn.",
+  "who": null
+ },
+ "anh": [],
+ "toaDoHienTai": {
+  "x": 0.0041,
+  "y": 0.9036,
+  "z": 0.0584,
+  "conf": "mốc",
+  "caoDoCm": 155.33,
+  "ngangCm": 0.7,
+  "truocSauCm": 10.04
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Hoà Liêu — ngang Nhân Trung GV26, cách đường giữa 0,5 thốn",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "mat",
+  "vung": "mặt dưới",
+  "moTaRanh": "rãnh mũi-má, cạnh cánh mũi",
+  "diemTrongDoan": [
+   "LI18",
+   "LI19",
+   "LI20"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "LI18",
+   "ten": "Phù Đột",
+   "thang": 11.23,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 12.5,
+   "sachDoiThon": null,
+   "vitri": "Trên cơ ức – đòn – chũm, trên đường ngang qua bờ trên sụn giáp trạng, ngang ra 3 thốn."
+  },
+  {
+   "code": "LI20",
+   "ten": "Nghênh Hương",
+   "thang": 3.45,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 3.4,
+   "sachDoiThon": null,
+   "vitri": "Điểm gặp nhau của đường ngang qua chân cách mũi và rãnh mũi - miệng."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "GV26",
+   "ten": "Nhân Trung",
+   "cm": 1.22
+  },
+  {
+   "code": "GV27",
+   "ten": "Đoài Đoan",
+   "cm": 1.49
+  },
+  {
+   "code": "GV25",
+   "ten": "Tố Liêu",
+   "cm": 1.51
+  },
+  {
+   "code": "GV28",
+   "ten": "Ngân Giao",
+   "cm": 2.12
+  },
+  {
+   "code": "LI20",
+   "ten": "Nghênh Hương",
+   "cm": 3.45
+  },
+  {
+   "code": "ST5",
+   "ten": "Đại Nghênh",
+   "cm": 4
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Sụn cánh mũi lớn trái",
+   "lop": "bone",
+   "cm": 0.49
+  },
+  {
+   "ten": "Sụn cánh mũi lớn phải",
+   "lop": "bone",
+   "cm": 0.95
+  },
+  {
+   "ten": "Lợi của hàm trên",
+   "lop": "bone",
+   "cm": 2.16
+  },
+  {
+   "ten": "Xương hàm trên trái",
+   "lop": "bone",
+   "cm": 2.22
+  },
+  {
+   "ten": "Răng cửa giữa vĩnh viễn hàm trên trái",
+   "lop": "bone",
+   "cm": 2.26
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm",
+  "VÙNG: xương gần nhất \"Sụn cánh mũi lớn trái\" cách 0.5cm",
+  "TỪ ĐIỂN APP kêu: ngang \"null\" đòi 0.5 thốn, đo được 0.5  (lệch 0.01cm)"
+ ]
+}

@@ -88,42 +88,24 @@ window.ACU_COORDS3D = {
       "snapDir": "front"
     },
     "LU3": {
-      "x": 0.0969,
-      "y": 0.7603,
-      "z": 0.0176,
-      "q": "approx",
+      "x": 0.1303,
+      "y": 0.7272,
+      "z": 0.0006,
+      "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "cao",
-      "khe": "bờ ngoai cơ nhị đầu cánh tay",
-      "kheLoai": "sat-bo",
-      "kheXacNhan": true,
-      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 20.5cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: ép lên da, dời 4.3cm · RẢI DỌC ĐƯỜNG: dời 6.38cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-      "truocRai": [
-        0.1281,
-        0.7648,
-        -0.0019
-      ],
-      "raiCm": 6.38
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "LU4": {
-      "x": 0.103,
-      "y": 0.7437,
-      "z": 0.0088,
-      "q": "approx",
+      "x": 0.1309,
+      "y": 0.7138,
+      "z": 0.0017,
+      "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "khoá",
-      "khe": "bờ ngoai cơ nhị đầu cánh tay",
-      "kheLoai": "sat-bo",
-      "kheXacNhan": true,
-      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 27.4cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: ép lên da, dời 3.8cm · RẢI DỌC ĐƯỜNG: dời 5.8cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-      "truocRai": [
-        0.1324,
-        0.7455,
-        -0.0076
-      ],
-      "raiCm": 5.8
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "LU5": {
       "x": 0.1345,
@@ -136,51 +118,34 @@ window.ACU_COORDS3D = {
       "anchor": true
     },
     "LU6": {
-      "x": 0.1297,
+      "x": 0.1475,
       "y": 0.5934,
-      "z": 0.0102,
-      "q": "approx",
+      "z": 0.009,
+      "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "cao",
-      "khe": "bờ trong cơ cánh tay quay",
-      "canSoat": "khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 4.22cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-      "truocRai": [
-        0.1475,
-        0.593,
-        -0.0067
-      ],
-      "raiCm": 4.22
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "LU7": {
-      "x": 0.1482,
+      "x": 0.1588,
       "y": 0.5314,
-      "z": 0.0163,
+      "z": 0.0128,
       "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "khoá",
-      "truocRai": [
-        0.1587,
-        0.5312,
-        0.0066
-      ],
-      "raiCm": 2.46
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "LU8": {
-      "x": 0.1526,
+      "x": 0.1611,
       "y": 0.5263,
-      "z": 0.0173,
+      "z": 0.0143,
       "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "cao",
-      "truocRai": [
-        0.1597,
-        0.5255,
-        0.0078
-      ],
-      "raiCm": 2.04
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "LU9": {
       "x": 0.1658,
@@ -1036,9 +1001,9 @@ window.ACU_COORDS3D = {
       "anchor": true
     },
     "SP6": {
-      "x": 0.0263,
+      "x": 0.0264,
       "y": 0.0969,
-      "z": -0.0234,
+      "z": -0.0233,
       "q": "approx",
       "snap": true,
       "src": "book+duong",
@@ -1049,13 +1014,13 @@ window.ACU_COORDS3D = {
       "canhBao": [
         "nằm trong lòng xương — phải lùi ra mặt xương"
       ],
-      "canSoat": "TẦNG DA: ép lên da, dời 2.6cm · RẢI DỌC ĐƯỜNG: dời 6.35cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+      "canSoat": "TẦNG DA: ép lên da, dời 2.6cm · RẢI DỌC ĐƯỜNG: dời 6.33cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
       "truocRai": [
         0.0629,
         0.0968,
         -0.0188
       ],
-      "raiCm": 6.35
+      "raiCm": 6.33
     },
     "SP7": {
       "x": 0.0215,
@@ -1068,23 +1033,14 @@ window.ACU_COORDS3D = {
       "anchor": true
     },
     "SP8": {
-      "x": 0.0152,
-      "y": 0.2129,
-      "z": -0.0239,
-      "q": "approx",
+      "x": 0.014,
+      "y": 0.2017,
+      "z": -0.0175,
+      "q": "exact",
       "snap": true,
-      "src": "who+duong",
-      "conf": "WHO+khe",
-      "khe": "bờ sau xương chày",
-      "kheLoai": "sat-bo",
-      "kheXacNhan": true,
-      "canSoat": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-      "truocRai": [
-        0.0399,
-        0.2178,
-        0.0088
-      ],
-      "raiCm": 7.1
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "SP9": {
       "x": 0.0169,
@@ -1107,23 +1063,14 @@ window.ACU_COORDS3D = {
       "anchor": true
     },
     "SP11": {
-      "x": 0.0779,
-      "y": 0.3709,
-      "z": 0.029,
-      "q": "approx",
+      "x": 0.032,
+      "y": 0.378,
+      "z": 0.0315,
+      "q": "exact",
       "snap": true,
-      "src": "who+duong",
-      "conf": "WHO+khe",
-      "khe": "cơ may | cơ thẳng đùi",
-      "kheLoai": "co-co",
-      "kheXacNhan": true,
-      "canSoat": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 7.65cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-      "truocRai": [
-        0.0376,
-        0.3889,
-        0.0349
-      ],
-      "raiCm": 7.65
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "SP12": {
       "x": 0.0397,
@@ -1236,23 +1183,14 @@ window.ACU_COORDS3D = {
       "anchor": true
     },
     "HT2": {
-      "x": 0.0936,
-      "y": 0.7123,
-      "z": -0.0035,
-      "q": "approx",
+      "x": 0.1012,
+      "y": 0.6905,
+      "z": -0.0058,
+      "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "khoá",
-      "khe": "bờ ? cơ nhị đầu cánh tay",
-      "kheLoai": "sat-bo",
-      "kheXacNhan": true,
-      "canSoat": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.77cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-      "truocRai": [
-        0.1383,
-        0.707,
-        -0.0079
-      ],
-      "raiCm": 7.77
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "HT3": {
       "x": 0.1067,
@@ -1397,7 +1335,7 @@ window.ACU_COORDS3D = {
     "SI6": {
       "x": 0.1325,
       "y": 0.5198,
-      "z": 0.0037,
+      "z": 0.0036,
       "q": "approx",
       "snap": true,
       "src": "book+duong",
@@ -1410,22 +1348,14 @@ window.ACU_COORDS3D = {
       "raiCm": 2.61
     },
     "SI7": {
-      "x": 0.1206,
-      "y": 0.5642,
-      "z": -0.0053,
-      "q": "approx",
+      "x": 0.1196,
+      "y": 0.5728,
+      "z": -0.0072,
+      "q": "exact",
       "snap": true,
-      "src": "book+khe+duong",
-      "conf": "khe",
-      "khe": "bờ sau xương trụ",
-      "kheLoai": "sat-bo",
-      "truocRai": [
-        0.1559,
-        0.5706,
-        -0.0154
-      ],
-      "raiCm": 6.4,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 6.4cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "SI8": {
       "x": 0.1128,
@@ -1539,20 +1469,14 @@ window.ACU_COORDS3D = {
       "raiCm": 0
     },
     "SI18": {
-      "x": 0.0327,
-      "y": 0.9013,
-      "z": 0.0033,
-      "q": "approx",
+      "x": 0.0326,
+      "y": 0.9069,
+      "z": 0.0314,
+      "q": "exact",
       "snap": true,
-      "src": "who+duong",
-      "conf": "WHO-lấp",
-      "truocRai": [
-        0.0271,
-        0.9065,
-        0.0261
-      ],
-      "raiCm": 4.14,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 4.14cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "SI19": {
       "x": 0.0382,
@@ -1910,72 +1834,44 @@ window.ACU_COORDS3D = {
       "anchor": true
     },
     "BL35": {
-      "x": 0.0017,
-      "y": 0.53,
-      "z": -0.0697,
-      "q": "approx",
+      "x": 0.0056,
+      "y": 0.5009,
+      "z": -0.064,
+      "q": "exact",
       "snap": true,
-      "src": "who+duong",
-      "conf": "WHO-lấp",
-      "canSoat": "TẦNG DA: ép lên da, dời 4.3cm",
-      "truocRai": [
-        0.0017,
-        0.53,
-        -0.0697
-      ],
-      "raiCm": 0
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "BL36": {
-      "x": 0.0567,
-      "y": 0.42,
-      "z": -0.0559,
-      "q": "approx",
+      "x": 0.0399,
+      "y": 0.4827,
+      "z": -0.0692,
+      "q": "exact",
       "snap": true,
-      "src": "who+duong",
-      "conf": "WHO-lấp",
-      "truocRai": [
-        0.0567,
-        0.42,
-        -0.0559
-      ],
-      "raiCm": 0
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "BL37": {
-      "x": 0.0189,
-      "y": 0.3484,
-      "z": -0.0373,
-      "q": "approx",
+      "x": 0.0436,
+      "y": 0.3881,
+      "z": -0.0558,
+      "q": "exact",
       "snap": true,
-      "src": "who+duong",
-      "conf": "WHO+khe",
-      "khe": "bờ ? cơ nhị đầu đùi",
-      "kheLoai": "sat-bo",
-      "kheXacNhan": true,
-      "truocRai": [
-        0.0472,
-        0.3551,
-        -0.0468
-      ],
-      "raiCm": 5.26,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 5.26cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "BL38": {
-      "x": 0.0546,
-      "y": 0.2739,
-      "z": -0.0462,
-      "q": "approx",
+      "x": 0.06,
+      "y": 0.2737,
+      "z": -0.048,
+      "q": "exact",
       "snap": true,
-      "src": "book+khe+duong",
-      "conf": "khe",
-      "khe": "bờ ngoai cơ bán màng",
-      "kheLoai": "sat-bo",
-      "canSoat": "hai bản sách lệch nhau 5.9cm — đã lấy bản cũ · RẢI DỌC ĐƯỜNG: dời 5.54cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-      "truocRai": [
-        0.0233,
-        0.2809,
-        -0.0432
-      ],
-      "raiCm": 5.54
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "BL39": {
       "x": 0.0613,
@@ -2616,9 +2512,9 @@ window.ACU_COORDS3D = {
       "anchor": true
     },
     "PC1": {
-      "x": 0.0485,
-      "y": 0.7412,
-      "z": 0.0707,
+      "x": 0.0556,
+      "y": 0.7481,
+      "z": 0.0689,
       "q": "exact",
       "snap": true,
       "src": "anchor",
@@ -2832,20 +2728,14 @@ window.ACU_COORDS3D = {
       "anchor": true
     },
     "TE11": {
-      "x": 0.1259,
-      "y": 0.7028,
-      "z": -0.0491,
-      "q": "approx",
+      "x": 0.1251,
+      "y": 0.676,
+      "z": -0.0493,
+      "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "cao",
-      "canSoat": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 7.04cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-      "truocRai": [
-        0.144,
-        0.6878,
-        -0.0156
-      ],
-      "raiCm": 7.04
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "TE12": {
       "x": 0.1281,
@@ -2908,55 +2798,34 @@ window.ACU_COORDS3D = {
       "anchor": true
     },
     "TE18": {
-      "x": 0.0372,
+      "x": 0.039,
       "y": 0.9183,
-      "z": -0.0035,
-      "q": "approx",
+      "z": -0.0198,
+      "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "cao",
-      "khe": "bờ ? xương thái dương",
-      "kheLoai": "sat-bo",
-      "kheXacNhan": true,
-      "truocRai": [
-        0.0274,
-        0.9136,
-        -0.034
-      ],
-      "raiCm": 5.57,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 5.57cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "TE19": {
-      "x": 0.0383,
-      "y": 0.9255,
-      "z": 0.0016,
-      "q": "approx",
+      "x": 0.0448,
+      "y": 0.9357,
+      "z": -0.0208,
+      "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "tạm",
-      "truocRai": [
-        0.0355,
-        0.9346,
-        -0.0416
-      ],
-      "raiCm": 7.6,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 7.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "TE20": {
-      "x": 0.0364,
-      "y": 0.9297,
-      "z": 0.0098,
-      "q": "approx",
+      "x": 0.0413,
+      "y": 0.9442,
+      "z": -0.0119,
+      "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "cao",
-      "truocRai": [
-        0,
-        0.9807,
-        0.0356
-      ],
-      "raiCm": 11.65,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 11.65cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "TE21": {
       "x": 0.039,
@@ -2969,21 +2838,14 @@ window.ACU_COORDS3D = {
       "anchor": true
     },
     "TE22": {
-      "x": 0.0327,
-      "y": 0.938,
-      "z": 0.0263,
-      "q": "approx",
+      "x": 0.0401,
+      "y": 0.9279,
+      "z": -0.0002,
+      "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "cao",
-      "khe": "bờ tren xương thái dương",
-      "canSoat": "khe dời vào trong lòng xương — rút lại, cần soát · RẢI DỌC ĐƯỜNG: dời 5.48cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-      "truocRai": [
-        0.039,
-        0.9239,
-        -0.0016
-      ],
-      "raiCm": 5.48
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "TE23": {
       "x": 0.0308,
@@ -3067,35 +2929,23 @@ window.ACU_COORDS3D = {
     },
     "GB8": {
       "x": 0.0419,
-      "y": 0.9501,
-      "z": -0.0066,
-      "q": "approx",
+      "y": 0.9587,
+      "z": -0.0116,
+      "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "cao",
-      "truocRai": [
-        0,
-        0.991,
-        0.0248
-      ],
-      "raiCm": 11.43,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 11.43cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "GB9": {
       "x": 0.0399,
-      "y": 0.9382,
-      "z": -0.0097,
-      "q": "approx",
+      "y": 0.9587,
+      "z": -0.0163,
+      "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "khoá",
-      "truocRai": [
-        0,
-        0.9936,
-        0.0199
-      ],
-      "raiCm": 12.79,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 12.79cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "GB10": {
       "x": 0.0374,
@@ -3317,37 +3167,24 @@ window.ACU_COORDS3D = {
       "anchor": true
     },
     "GB31": {
-      "x": 0.0786,
+      "x": 0.0884,
       "y": 0.3551,
-      "z": 0.0214,
-      "q": "approx",
+      "z": 0.0029,
+      "q": "exact",
       "snap": true,
-      "src": "who+duong",
-      "conf": "WHO-lấp",
-      "truocRai": [
-        0.0893,
-        0.3544,
-        0.008
-      ],
-      "raiCm": 2.95
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "GB32": {
-      "x": 0.0789,
+      "x": 0.082,
       "y": 0.3298,
-      "z": 0.0096,
-      "q": "approx",
+      "z": 0.0023,
+      "q": "exact",
       "snap": true,
-      "src": "book+khe+duong",
-      "conf": "khe",
-      "khe": "bờ truoc cơ nhị đầu đùi",
-      "kheLoai": "sat-bo",
-      "truocRai": [
-        0.0679,
-        0.3299,
-        -0.0339
-      ],
-      "raiCm": 7.71,
-      "canSoat": "RẢI DỌC ĐƯỜNG: dời 7.71cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "GB33": {
       "x": 0.0774,
@@ -3375,42 +3212,29 @@ window.ACU_COORDS3D = {
       "anchor": true
     },
     "GB35": {
-      "x": 0.0609,
+      "x": 0.0704,
       "y": 0.1352,
-      "z": -0.003,
+      "z": -0.0268,
       "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "cao",
-      "khe": "bờ truoc xương mác",
-      "canSoat": "khe dời vào trong lòng xương — rút lại, cần soát",
-      "truocRai": [
-        0.0555,
-        0.1398,
-        -0.0088
-      ],
-      "raiCm": 1.57
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "GB36": {
-      "x": 0.0552,
+      "x": 0.0716,
       "y": 0.1389,
-      "z": 0.0062,
-      "q": "approx",
+      "z": -0.0192,
+      "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "tạm",
-      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 30.1cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG: dời 30.27cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-      "truocRai": [
-        0.0813,
-        0.3129,
-        -0.0011
-      ],
-      "raiCm": 30.27
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "GB37": {
-      "x": 0.0581,
-      "y": 0.1107,
-      "z": -0.0069,
+      "x": 0.0679,
+      "y": 0.1131,
+      "z": -0.0197,
       "q": "exact",
       "snap": true,
       "src": "book+duong",
@@ -3423,12 +3247,12 @@ window.ACU_COORDS3D = {
         0.1115,
         -0.0128
       ],
-      "raiCm": 1.04
+      "raiCm": 2.23
     },
     "GB38": {
-      "x": 0.0553,
-      "y": 0.096,
-      "z": -0.0061,
+      "x": 0.0658,
+      "y": 0.0986,
+      "z": -0.02,
       "q": "exact",
       "snap": true,
       "src": "book+duong",
@@ -3441,28 +3265,17 @@ window.ACU_COORDS3D = {
         0.0974,
         -0.0148
       ],
-      "raiCm": 1.58
+      "raiCm": 1.63
     },
     "GB39": {
-      "x": 0.0546,
+      "x": 0.0634,
       "y": 0.0815,
-      "z": -0.0058,
+      "z": -0.0204,
       "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "khoá",
-      "khe": "xương mác | cơ mác dài (gân)",
-      "kheLoai": "gan-xuong",
-      "kheXacNhan": true,
-      "canhBao": [
-        "nằm trong lòng xương — phải lùi ra mặt xương"
-      ],
-      "truocRai": [
-        0.0588,
-        0.0832,
-        -0.0167
-      ],
-      "raiCm": 2.04
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "GB40": {
       "x": 0.0728,
@@ -3595,71 +3408,44 @@ window.ACU_COORDS3D = {
       "anchor": true
     },
     "LR9": {
-      "x": 0.0115,
-      "y": 0.3214,
-      "z": -0.0141,
+      "x": 0.0143,
+      "y": 0.3298,
+      "z": 0.0025,
       "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "cao",
-      "khe": "cơ rộng trong | cơ may",
-      "kheLoai": "co-co",
-      "kheXacNhan": true,
-      "canhBao": [
-        "nằm giữa bụng cơ (sâu 0.51 thốn trong khối Cơ thon trái)"
-      ],
-      "canSoat": "hai bản sách lệch nhau 5.2cm — đã lấy bản cũ",
-      "truocRai": [
-        0.0151,
-        0.3258,
-        -0.0068
-      ],
-      "raiCm": 1.59
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "LR10": {
       "x": 0.0282,
-      "y": 0.4938,
+      "y": 0.4705,
       "z": 0.0357,
-      "q": "approx",
+      "q": "exact",
       "snap": true,
-      "src": "book+duong",
-      "conf": "tạm",
-      "canSoat": "bản Focks phân tích HỎNG (bắn lệch 14.0cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: huyệt nằm sâu — đã ép lên da, dời 5.8cm (2.5 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 15.72cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-      "truocRai": [
-        0.0853,
-        0.4879,
-        -0.0354
-      ],
-      "raiCm": 15.72
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "LR11": {
       "x": 0.0295,
-      "y": 0.5058,
+      "y": 0.4833,
       "z": 0.0377,
-      "q": "approx",
-      "snap": true,
-      "src": "who+duong",
-      "conf": "WHO-lấp",
-      "canSoat": "TẦNG DA: huyệt NẰM NGOÀI da — đã ép lên da, dời 5.5cm (2.4 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 15.52cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-      "truocRai": [
-        0.0839,
-        0.5089,
-        -0.0343
-      ],
-      "raiCm": 15.52
-    },
-    "LR12": {
-      "x": 0.0322,
-      "y": 0.5298,
-      "z": 0.0417,
       "q": "exact",
       "snap": true,
-      "src": "book",
-      "conf": "cao",
-      "khe": "bờ tren xương chậu",
-      "kheLoai": "sat-bo",
-      "kheXacNhan": true,
-      "canSoat": "hai bản sách lệch nhau 7.8cm — đã lấy bản cũ · TẦNG DA: ép lên da, dời 4.5cm"
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
+    },
+    "LR12": {
+      "x": 0.0287,
+      "y": 0.4961,
+      "z": 0.0371,
+      "q": "exact",
+      "snap": true,
+      "src": "anchor",
+      "conf": "mốc",
+      "anchor": true
     },
     "LR13": {
       "x": 0.0764,

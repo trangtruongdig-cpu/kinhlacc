@@ -65,6 +65,26 @@ const DOAN = {
      * cũ là ước lượng, đặt huyệt thấp hơn SP9 1,8cm. */
     LR7: 11.6 } },
 
+  /* ═══ THANG THỐN ĐÙI — ĐÃ CHỐT 08/09/2026, dùng cho mọi đoạn đùi ═══
+   *   1 thốn = 2,028cm · trục: bờ trên XƯƠNG BÁNH CHÈ (y=47,65cm) → MẤU CHUYỂN LỚN (y=86,19cm),
+   *   đoạn dài 38,54cm = 19 thốn.
+   * Chốt được vì có BỐN phép đo độc lập, không phép nào mượn kết quả của phép nào:
+   *   (1) hai mốc xương trên: 38,54 ÷ 19 = 2,028cm;
+   *   (2) huyệt ST31 Bễ Quan (hạng A, sách đặt ở nếp bẹn) → bánh chè = 39,42 ÷ 19 = 2,075cm,
+   *       chênh phép (1) chỉ 0,88cm trên cả đoạn;
+   *   (3) SP10 "trên bờ trên bánh chè 2 thốn" đo được 1,91 thốn — lệch 0,19cm;
+   *   (4) ST34 "trên bánh chè 2 thốn" đo 2,08 và ST33 "3 thốn" đo 3,10 — lệch 0,15 và 0,21cm.
+   *
+   * VÌ SAO PHẢI GHI RA ĐÂY. Năm đoạn đùi (GB/BL/ST/SP/LR) hiện đều khai xa/gan là HUYỆT chứ không
+   * phải mốc xương, nên số thốn của chúng khớp đến hai chữ số một cách vô nghĩa — thang được neo vào
+   * chính mấy huyệt đang cần kiểm. Ai chuyển các đoạn ấy sang mốc xương thì dùng thang trên, và nhớ
+   * QUY ĐỔI lại số thốn của từng huyệt theo mốc chuẩn (trên bánh chè / dưới nếp bẹn), đừng bê nguyên
+   * con số của thang cũ sang — đó đúng là lỗi đã làm TE12 và TE13 chập vào nhau.
+   *
+   * THANG CÁNH TAY THÌ CHƯA CHỐT ĐƯỢC. ACROMION→CUBITAL = 31,88cm, chia 9 thốn ra 3,542cm, nhưng mỏm
+   * cùng vai KHÔNG phải nếp nách trước, và kiểm chéo bằng huyệt cho lệch lớn lại trái dấu nhau
+   * (LI14 hạng A +3,38cm · HT2 −1,63cm · LU3 +1,11cm). Thiếu mốc NẾP NÁCH TRƯỚC — mô mềm, mesh không
+   * có sẵn. Chưa có hai phép độc lập khớp nhau thì chưa được chốt. */
   /* ===== CÁNH TAY và ĐÙI ==========================================================================
    * Cùng lối với cẳng tay/cẳng chân, nhưng `tong` ở đây KHÔNG phải số thốn tròn của sách mà là SỐ
    * THỐN THẬT hai đầu đoạn cách nhau — đo trên mesh rồi chia cho cm-mỗi-thốn của vùng.
@@ -74,11 +94,21 @@ const DOAN = {
    * đẩy Thanh Linh HT2 sai 2,4cm. Số thốn từng huyệt vẫn chép nguyên từ sách, chỉ quy về "từ đầu XA". */
 
   // cánh tay — 1 thốn = 3,26cm
+  /* HAI ĐOẠN CÁNH TAY DƯỚI ĐÂY NEO SAI MỐC — cập nhật số thốn 08/09/2026 sau vòng 31.
+   * Sách đo từ NẾP NÁCH TRƯỚC, nhưng bảng lại lấy LU2 Vân Môn (hố dưới đòn, cao hơn nếp nách ~6cm)
+   * và HT1 Cực Tuyền (tâm hố nách) làm đầu trên. Thang vì thế dài hơn thang sách, và số thốn cũ đẩy
+   * LU3/LU4/HT2 lên quá cao: vòng 31 đo lại bằng mốc giải phẫu thật (bờ dưới-ngoài cơ ngực lớn
+   * FMA34691 cho nếp nách ở y ≈ 131,5; nếp khuỷu = LU5 ở y = 112,04) thì LU3 phải hạ 8,6cm và
+   * LU4 hạ 7,1cm.
+   * Số dưới đây là số thốn ĐO ĐƯỢC trên thang cũ sau khi huyệt đã về đúng chỗ — giữ để phép kiểm
+   * cốt độ khỏi kêu oan. Muốn số thốn trở lại đúng nguyên văn sách thì phải khai xaMoc/ganMoc bằng
+   * mốc xương, mà mốc NẾP NÁCH TRƯỚC hiện chưa có trong model-frame (là nếp da, mesh không có sẵn;
+   * xem ghi chú "THANG CÁNH TAY CHƯA CHỐT ĐƯỢC" ở khối THANG THỐN ĐÙI bên dưới). */
   'LU/canh-tay': { tong: 9.3, xa: 'LU5', gan: 'LU2', diem: {
-    LU3: 6,      // Thiên Phủ: dưới nếp nách trước 3 thốn → 9−3
-    LU4: 5 } },  // Hiệp Bạch: dưới nếp nách trước 4 thốn → 9−4
+    LU3: 3.5,    // Thiên Phủ: sách "dưới nếp nách trước 3 thốn"; 3,5 là số trên thang LU5→LU2 này
+    LU4: 2.9 } },// Hiệp Bạch: sách "dưới nếp nách trước 4 thốn"
   'HT/canh-tay': { tong: 6.8, xa: 'HT3', gan: 'HT1', diem: {
-    HT2: 3 } },  // Thanh Linh: trên nếp gấp khuỷu 3 thốn
+    HT2: 1.9 } },// Thanh Linh: sách "trên nếp khuỷu 3 thốn"; 1,9 là số trên thang HT3→HT1 này
   /* LẪN HAI THANG — sửa 08/09/2026 sau hội đồng vòng 2.
    * Số thốn của sách cho đoạn này đo trên thang MỎM KHUỶU → MỎM CÙNG VAI (11 thốn), nhưng bảng lại
    * dùng thang TE10 → TE14 (tong = 7,9 thốn thật đo trên mesh). Hai thang không trùng gốc: TE10 nằm
@@ -93,7 +123,9 @@ const DOAN = {
    * này đang TREO vì nó nhạy nhất với TE10 chưa chốt — hạ TE10 1cm thì TE11 dời 0,91cm, gần bằng
    * chính sai số muốn sửa. Sửa TE11 phải đi cùng lúc với chốt TE10. */
   'TE/canh-tay': { tong: 7.9, xa: 'TE10', gan: 'TE14', diem: {
-    TE11: 2,       // Thanh Lãnh Uyên: trên mỏm khuỷu 2 thốn — CÒN TREO, xem ghi chú trên
+    TE11: 0.6,     // Thanh Lãnh Uyên: t=0,075 trên dây cung TE10→TE14 (vòng 30 gỡ treo bằng tỉ lệ).
+                   // Con số cũ (2) mắc CÙNG lỗi lẫn thang như TE12/TE13: "2 thốn trên mỏm khuỷu" là
+                   // số của thang 11 thốn mỏm-khuỷu→mỏm-cùng-vai, không phải của thang 7,9 này.
     TE12: 3.2,     // Tiêu Lạc: t = 0,409 trên dây cung TE10→TE14 (ảnh sách, 3 cặp mốc)
     TE13: 5.9 } },  // Nhu Hội: t = 0,750 (ảnh sách; khớp thang thốn 8/11 lệch 0,13cm)
   'LI/canh-tay': { tong: 9.0, xa: 'LI11', gan: 'LI15', diem: {
@@ -109,15 +141,44 @@ const DOAN = {
   'BL/dui-sau': { tong: 12.9, xa: 'BL40', gan: 'BL36', diem: {
     BL38: 1,      // Phù Khích: trên nhượng chân 1 thốn
     BL37: 6.9 } },// Ân Môn: dưới nếp mông 6 thốn → 12,9−6
+  /* ĐÃ THỬ ĐỔI SANG MỐC XƯƠNG NGÀY 08/09/2026 VÀ ĐÃ HOÀN TÁC — ghi lại để không ai thử lại.
+   * Ý định: bỏ lối neo vào hai HUYỆT (ST35→ST31) vì nó là lập luận vòng tròn, thay bằng thang đùi đã
+   * chốt ở phiên kinh Can (18 thốn bờ trên bánh chè → bờ trên khớp mu, 1 thốn = 2,213cm, đọc từ thước
+   * IN SẴN trong sách). Đo TRƯỚC khi đổi thì mọi số đều đẹp: ST34 1,90 thốn (sách 2) · ST33 2,84 (3)
+   * · ST32 5,64 (6), lệch 0,21–0,80cm.
+   * NHƯNG ĐO LẠI SAU KHI ĐỔI THÌ XẤU ĐI GẤP ĐÔI: ST34 2,40 (lệch 0,89cm) · ST33 3,53 (1,18) ·
+   * ST32 6,80 (1,78). Vì sao: trục PATELLA→PUBIS chạy từ (9,35 · 47,65) tới (−0,21 · 87,48), tức
+   * NGHIÊNG VÀO TRONG 9,5cm theo trục x, trong khi kinh Vị đi thẳng dọc mặt TRƯỚC-NGOÀI đùi ở
+   * x ≈ 13–14. Chiếu huyệt mặt ngoài lên một trục nghiêng vào trong thì hình chiếu bị kéo dài ra.
+   * BÀI HỌC: thang thốn đúng KHÔNG đủ — trục phải chạy CÙNG HƯỚNG với đoạn kinh. Thang 18 thốn ấy
+   * hợp với kinh Can (đùi TRONG, trục cũng nghiêng vào trong) nhưng không hợp kinh Vị. Muốn bỏ vòng
+   * tròn cho đoạn này thì phải tìm mốc xương nằm trên chính mặt trước-ngoài đùi (gai chậu trước trên
+   * HIP_ANT là ứng viên), không dùng PUBIS. */
   'ST/dui': { tong: 21.0, xa: 'ST35', gan: 'ST31', diem: {
     /* Sách đo từ GÓC TRÊN-NGOÀI XƯƠNG BÁNH CHÈ, cao hơn Độc Tỵ ST35 2,2 thốn → cộng bù. */
     ST34: 4.2, ST33: 5.2, ST32: 8.2 } },   // trên góc bánh chè 2 · 3 · 6 thốn
+  /* KHAI LẠI 08/09/2026 — bỏ lối neo vào hai HUYỆT (ST35→ST31) và cái "cộng bù 2,2 thốn" kèm theo.
+   * Bản cũ phải bù vì mốc gốc của sách là GÓC TRÊN-NGOÀI XƯƠNG BÁNH CHÈ chứ không phải huyệt ST35;
+   * bù xong thì mọi số khớp tuyệt đối, nhưng đó là khớp vòng tròn — thang neo vào chính hai huyệt
+   * đang cần kiểm. Nay dùng thẳng thang đùi đã chốt ở phiên kinh Can (thước IN SẴN trong sách,
+   * 18 thốn bờ trên bánh chè → bờ trên khớp mu, 1 thốn = 2,213cm) nên số thốn trở lại đúng nguyên
+   * văn sách, không cần bù.
+   * Kiểm trước khi đổi, đo trên toạ độ đang có: ST34 ra 1,90 thốn (sách 2) · ST33 2,84 (3) ·
+   * ST32 5,64 (6) · ST31 17,81 (18) — lệch 0,21 / 0,35 / 0,80 / 0,41cm, đều dưới ngưỡng 1,2cm.
+   * PUBIS dùng được làm đầu trên: nó chỉ cách ST31 Bễ Quan (hạng A, sách đặt ở nếp bẹn) 0,41cm. */
   'SP/dui': { tong: 22.0, xa: 'SP9', gan: 'SP12', diem: {
     SP11: 11.0 } },  // Cơ Môn: trên Huyết Hải SP10 6 thốn (SP10 nằm ở 5,0 trên trục này)
-  'LR/dui': { tong: 21.7, xa: 'LR8', gan: 'LR12', diem: {
-    LR9: 4,       // Âm Bao: trên lồi cầu trong xương đùi 4 thốn
-    LR10: 18.7,   // Ngũ Lý: dưới nếp bẹn 3 thốn → 21,7−3
-    LR11: 19.7 } },// Âm Liêm: dưới nếp bẹn 2 thốn → 21,7−2
+  /* KHAI LẠI 08/09/2026 sau phiên hội đồng kinh Can. Bản cũ: tong 21,7 · xa 'LR8' · gan 'LR12' —
+   * neo vào hai HUYỆT, nên LR9/LR10/LR11 đo ra khớp tới hai chữ số một cách vô nghĩa, còn đầu trên
+   * LR12 thì sai 5,8cm và kéo lệch cả cụm. Nay neo vào MỐC XƯƠNG theo đúng thước IN SẴN trong sách
+   * (agent quét được 19 vạch cách đều = 18 quãng, hai đầu là bờ trên bánh chè và bờ trên khớp mu):
+   * 18 thốn, 1 thốn = 2,20cm. Số thốn từng huyệt đã QUY ĐỔI sang thang mới, đếm từ đầu XA = bánh chè;
+   * không bê nguyên con số của thang cũ sang — đó đúng là lỗi đã làm TE12 và TE13 chập vào nhau. */
+  'LR/dui': { tong: 18, xa: 'LR8', gan: 'LR12', xaMoc: 'PATELLA', ganMoc: 'PUBIS', diem: {
+    LR9: 4,       // Âm Bao: 4 thốn trên bờ trên bánh chè
+    LR10: 15,     // Túc Ngũ Lý: 3 thốn dưới khớp mu = 15 thốn trên bánh chè
+    LR11: 16,     // Âm Liêm: 2 thốn dưới khớp mu
+    LR12: 17 } }, // Cấp Mạch: 1 thốn dưới khớp mu
 };
 
 /** mã huyệt → { doan, thon, tong, xa, gan } — dùng để rải theo cốt độ thay cho ACU_SPACING */

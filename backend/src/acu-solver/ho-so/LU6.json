@@ -1,0 +1,122 @@
+{
+ "code": "LU6",
+ "mer": "LU",
+ "num": 6,
+ "tenApp": "Khổng Tối",
+ "tenFocks": "KHỔNG TỐI",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở bờ ngoài cẳng tay, trên cổ tay 7 thốn, nơi gặp nhau của bờ trong cơ ngửa dài hay bờ ngoài của cơ gan tay to với đường ngang trên khớp cổ tay 7 thốn, trên đường thẳng nối huyệt Xích Trạch (P 5) và Thái Uyên (P 9).",
+  "focksViTri": "Trên đường nối giữa huyệt Xích trạch (Lu 5) (nếp gấp khuỷu tay) và huyệt Thái uyên (Lu 9) (nếp cổ tay), cách Xích trạch (Lu 5) 5 thốn và cách Thái uyên (Lu 9) 7 thốn.",
+  "focksCachXacDinh": "Hơi uốn cong cánh tay để thấy gân bắp tay. Chia đôi khoảng cách giữa huyệt Xích trạch (Lu 5) (ở nếp gấp khuỷu tay, trên mặt hướng tâm của gân cơ nhị đầu) và huyệt Thái uyên (Lu 9) (nếp cổ tay,ngoài động mạch quay ở khe cổ tay). Tiếp theo, tìm điểm giữa của khoảng cách giữa Lu 5 và Lu 9; huyệt Khổng tối dịch về phía khuỷu tay, cách điểm này 1 thốn. Huyệt Khích môn (Pe 4) dịch từ trung điểm về phía cổ thay 1 thốn, nằm giữa các gân.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LU6_p12_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1297,
+  "y": 0.5934,
+  "z": 0.0102,
+  "conf": "cao",
+  "caoDoCm": 102.01,
+  "ngangCm": 22.3,
+  "truocSauCm": 1.75
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "khe",
+   "duong"
+  ],
+  "ly": "khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 4.22cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 4.22cm v"
+ },
+ "duongKinh": {
+  "doan": "cang-tay",
+  "vung": "mặt trước-ngoài cẳng tay",
+  "moTaRanh": "bờ ngoài gân cơ gan tay dài, sát bờ trong xương quay, cạnh động mạch quay",
+  "diemTrongDoan": [
+   "LU5",
+   "LU6",
+   "LU7",
+   "LU8",
+   "LU9"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "LU/cang-tay",
+  "tong": 12,
+  "xa": "LU9",
+  "gan": "LU5",
+  "xaMoc": "WRIST",
+  "ganMoc": "CUBITAL",
+  "thonCuaHuyet": 7,
+  "lechNgang": null,
+  "moiDiem": {
+   "LU6": 7,
+   "LU7": 1.5,
+   "LU8": 1
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LU5",
+   "ten": "Xích Trạch",
+   "thang": 10.15,
+   "sachDoiCm": 10.05,
+   "thonCm": 2.01,
+   "docDa": 11.3,
+   "sachDoiThon": 5,
+   "vitri": "Gấp nếp khuỷu tay lại, huyệt ở chỗ lõm bờ ngoài gân cơ nhị đầu cánh tay, bờ trong phần trên cơ ngửa dài, cơ cánh tay trước."
+  },
+  {
+   "code": "LU7",
+   "ten": "Liệt Khuyết",
+   "thang": 11.17,
+   "sachDoiCm": 11.05,
+   "thonCm": 2.01,
+   "docDa": 13.1,
+   "sachDoiThon": 5.5,
+   "vitri": "Dưới đầu xương quay nối với thân xương, cách lằn chỉ ngang cổ tay 1,5 thốn. Hoặc chéo 2 ngón tay trỏ và ngón tay cái của 2 bàn tay với nhau, huyệt ở chỗ lõm ngay dưới đầu ngón tay trỏ."
+  }
+ ],
+ "lanCan": [],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ gấp cổ tay quay trái",
+   "lop": "muscle",
+   "cm": 0.17
+  },
+  {
+   "ten": "Cơ gan tay dài trái",
+   "lop": "muscle",
+   "cm": 0.95
+  },
+  {
+   "ten": "Cơ gấp các ngón nông trái",
+   "lop": "muscle",
+   "cm": 0.95
+  },
+  {
+   "ten": "Cơ gấp các ngón sâu trái",
+   "lop": "muscle",
+   "cm": 1.61
+  },
+  {
+   "ten": "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 2.86
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 4.22cm (conf=cao)",
+  "XA ĐƯỜNG KINH 3.99cm",
+  "AUDIT cờ soát: khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 4.22cm v",
+  "TỪ ĐIỂN APP kêu: dọc \"WRIST\" đòi 7 thốn, đo được 7  (lệch 0.01cm)",
+  "ATLAS FOCKS kêu: dọc \"LU5\" đòi 5 thốn, đo được 4.87  (lệch 0.26cm)"
+ ]
+}

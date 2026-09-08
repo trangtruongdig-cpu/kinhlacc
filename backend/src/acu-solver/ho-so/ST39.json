@@ -1,0 +1,140 @@
+{
+ "code": "ST39",
+ "mer": "ST",
+ "num": 39,
+ "tenApp": "Hạ Cự Hư",
+ "tenFocks": "HẠ CỰ HƯ",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Dưới huyệt Thượng Cự Hư 3 thốn, phía ngoài xương mác 1 khoát ngón tay, bờ ngoài cơ cẳng chân trước.",
+  "focksViTri": "Dưới huyệt Điều khẩu (Ma/ST 38) 1 thốn (giữa đường nối Ma/ST 35 - Ma/ST 41) và từ mép xương chày ra phía ngoài bề rộng 1 ngón tay (ngón giữa), ở trên cơ chày trước.",
+  "focksCachXacDinh": "Kỹ thuật căng tay: Đo từ điểm giữa huyệt Độc tị (Ma/ST 35) (ngoại tất nhãn) và huyệt Giải khê (Ma/ST 41 - ngang đỉnh mắt cá ngoài) xuống 1 thốn và từ mép xương chày ngang ra phía ngoài bề rộng 1 ngón tay (ngón giữa). Xác định vị trí huyệt Hạ cự hư (Ma/ST 39) ở chỗ lõm có thể sờ thấy “động khí” (chọn vị trí có độ nhạy với áp lực lớn nhất). Cùng mức, 7 thốn trên điểm nhô cao nhất của mắt cá ngoài là huyệt Dương giao (Gb 35), ở bờ sau của xương mác; huyệt Ngoại khâu (Gb 36), ở bờ trước của xương mác; huyệt Phi dương (Bl 58), ở rìa bên của cơ bụng chân.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/ST39_p77_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0554,
+  "y": 0.1388,
+  "z": -0.0015,
+  "conf": "khe",
+  "caoDoCm": 23.86,
+  "ngangCm": 9.52,
+  "truocSauCm": -0.26
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 3.36cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG:"
+ },
+ "duongKinh": {
+  "doan": "cang-chan",
+  "vung": "mặt trước-ngoài cẳng chân",
+  "moTaRanh": "ngoài mào chày một khoát ngón, trên cơ chày trước",
+  "diemTrongDoan": [
+   "ST35",
+   "ST36",
+   "ST37",
+   "ST38",
+   "ST39",
+   "ST40",
+   "ST41"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "ST/cang-chan",
+  "tong": 16,
+  "xa": "ST41",
+  "gan": "ST35",
+  "xaMoc": "MALLEOLUS_LAT",
+  "ganMoc": "KNEE_EYE_LAT",
+  "thonCuaHuyet": 7,
+  "lechNgang": null,
+  "moiDiem": {
+   "ST36": 13,
+   "ST37": 10,
+   "ST38": 8,
+   "ST39": 7,
+   "ST40": {
+    "thon": 8,
+    "lech": 1,
+    "huong": "ngoai"
+   }
+  }
+ },
+ "hangXom": [
+  {
+   "code": "ST38",
+   "ten": "Điều Khẩu",
+   "thang": 2.48,
+   "sachDoiCm": 2.46,
+   "thonCm": 2.46,
+   "docDa": 2.8,
+   "sachDoiThon": 1,
+   "vitri": "Ở giữa đoạn nối huyệt Độc Tỷ (Vi 35) và Giải Khê (Vi 41), cách dưới mắt gối ngoài 8 thốn, ngay dưới Thượng Cự Hư 2 thốn."
+  },
+  {
+   "code": "ST40",
+   "ten": "Phong Long",
+   "thang": 3.05,
+   "sachDoiCm": 2.46,
+   "thonCm": 2.46,
+   "docDa": 3.4,
+   "sachDoiThon": 1,
+   "vitri": "Đỉnh mắt cá chân ngoài lên 8 thốn hoặc lấy huyệt ở điểm giữa nếp kheo chân và mắt cá chân ngoài."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "ST38",
+   "ten": "Điều Khẩu",
+   "cm": 2.48
+  },
+  {
+   "code": "ST40",
+   "ten": "Phong Long",
+   "cm": 3.05
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ chày trước trái",
+   "lop": "bone",
+   "cm": 0.67
+  },
+  {
+   "ten": "Xương chày trái",
+   "lop": "bone",
+   "cm": 1.28
+  },
+  {
+   "ten": "Màng gian cốt của cẳng chân trái",
+   "lop": "connective",
+   "cm": 1.72
+  },
+  {
+   "ten": "Cơ chày sau trái",
+   "lop": "bone",
+   "cm": 2.02
+  },
+  {
+   "ten": "Cơ duỗi ngón chân cái dài trái",
+   "lop": "muscle",
+   "cm": 2.3
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 3.36cm (conf=khe)",
+  "XA ĐƯỜNG KINH 3.27cm",
+  "AUDIT cờ soát: bản Focks phân tích HỎNG (bắn lệch 20.2cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG:",
+  "TỪ ĐIỂN APP kêu: dọc \"ST37\" đòi 3 thốn, đo được 3  (lệch 0cm)",
+  "ATLAS FOCKS kêu: dọc \"ST38\" đòi 1 thốn, đo được 1  (lệch 0.01cm)"
+ ]
+}

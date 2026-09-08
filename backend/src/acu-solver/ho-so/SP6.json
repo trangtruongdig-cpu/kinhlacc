@@ -1,0 +1,135 @@
+{
+ "code": "SP6",
+ "mer": "SP",
+ "num": 6,
+ "tenApp": "Tam Âm Giao",
+ "tenFocks": "TAM ÂM GIAO",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở sát bờ sau – trong xương chày, bờ trước cơ gấp dài các ngón chân và cơ cẳng chân sau, từ đỉnh cao của mắt cá chân trong đo lên 3 thốn.",
+  "focksViTri": "Bờ trong xương chày, trên điểm cao nhất của mắt cá trong khoảng 3 thốn.",
+  "focksCachXacDinh": "Từ điểm cao nhất của mắt cá trong, đo lên 3 thốn (chiều rộng 1 bàn tay) và xác định vị trí huyệt Tam âm giao (Mi/SP 6) tại đây, trong chỗ lõm thường nhạy cảm với áp lực ở bờ sau của xương chày. Đôi khi, điểm này cũng nằm ở xa hơn xương chày về vùng bụng chân, độ nhạy với áp lực sẽ quyết định. Ở trạng thái sung mãn, huyệt cũng thường nổi lên. Ở vị trí bên ngoài tương đương là Tuyệt cốt/Huyền chung (Gb 39) (3 thốn trên điểm cao nhất của mắt cá ngoài ở bờ trước xương mác, điểm giao nhau của ba kinh dương).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/SP6_p93_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0263,
+  "y": 0.0969,
+  "z": -0.0234,
+  "conf": "khoá",
+  "caoDoCm": 16.66,
+  "ngangCm": 4.52,
+  "truocSauCm": -4.02
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "khe",
+   "da",
+   "duong"
+  ],
+  "ly": "nằm trong lòng xương — phải lùi ra mặt xương · TẦNG DA: ép lên da, dời 2.6cm · RẢI DỌC ĐƯỜNG: dời 6.35cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "cang-chan",
+  "vung": "mặt trong cẳng chân",
+  "moTaRanh": "sát bờ sau xương chày, trước cơ dép",
+  "diemTrongDoan": [
+   "SP5",
+   "SP6",
+   "SP7",
+   "SP8",
+   "SP9"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "SP/cang-chan",
+  "tong": 13,
+  "xa": "SP5",
+  "gan": "SP9",
+  "xaMoc": "MALLEOLUS_MED",
+  "ganMoc": "TIBIA_MED_CONDYLE",
+  "thonCuaHuyet": 3,
+  "lechNgang": null,
+  "moiDiem": {
+   "SP6": 3,
+   "SP7": 6,
+   "SP8": 10
+  }
+ },
+ "hangXom": [
+  {
+   "code": "SP5",
+   "ten": "Thương Khâu",
+   "thang": 12.25,
+   "sachDoiCm": 8.49,
+   "thonCm": 2.83,
+   "docDa": 13,
+   "sachDoiThon": 3,
+   "vitri": "Ở chỗ lõm phía dưới – trước mắt cá chân trong, bờ trên gân cơ cẳng chân sau, sát khe khớp gót – sên – thuyền."
+  },
+  {
+   "code": "SP7",
+   "ten": "Lậu Cốc",
+   "thang": 9.55,
+   "sachDoiCm": 8.49,
+   "thonCm": 2.83,
+   "docDa": 13.7,
+   "sachDoiThon": 3,
+   "vitri": "Ở chỗ lõm sát bờ sau trong xương chày, từ đỉnh cao của mắt cá trong đo thẳng lên 6 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "KI7",
+   "ten": "Phục Lưu",
+   "cm": 2.84
+  },
+  {
+   "code": "KI8",
+   "ten": "Giao Tín",
+   "cm": 2.97
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ gan chân trái",
+   "lop": "muscle",
+   "cm": 0.71
+  },
+  {
+   "ten": "Cơ dép trái",
+   "lop": "muscle",
+   "cm": 0.86
+  },
+  {
+   "ten": "Gân gót trái",
+   "lop": "connective",
+   "cm": 1.04
+  },
+  {
+   "ten": "Cơ gấp các ngón chân dài trái",
+   "lop": "muscle",
+   "cm": 1.27
+  },
+  {
+   "ten": "Cơ chày sau trái",
+   "lop": "bone",
+   "cm": 2.46
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 6.35cm (conf=khoá)",
+  "XA ĐƯỜNG KINH 6.33cm",
+  "ÉP LÊN DA dời 2.6cm",
+  "AUDIT cờ soát: TẦNG DA: ép lên da, dời 2.6cm · RẢI DỌC ĐƯỜNG: dời 6.35cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"MALLEOLUS_MED\" đòi 3 thốn, đo được 3  (lệch 0.01cm)",
+  "ATLAS FOCKS kêu: dọc \"MALLEOLUS_MED\" đòi 3 thốn, đo được 3  (lệch 0.01cm)"
+ ]
+}

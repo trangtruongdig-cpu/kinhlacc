@@ -1,0 +1,138 @@
+{
+ "code": "BL58",
+ "mer": "BL",
+ "num": 58,
+ "tenApp": "Phi Dương",
+ "tenFocks": "PHI DƯƠNG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Đỉnh ngoài mắt cá chân đo lên 7 thốn, ngang huyệt Thừa Sơn (Bq.57) 1 thốn. Nơi tiếp giáp giữa phần thịt và phần gân của bờ ngoài cơ sinh đôi ngoài.",
+  "focksViTri": "Huyệt Thừa sơn (Bl 57) xuống 1 thốn và ra bên ngoài 1 thốn; huyệt Côn luân (Bl 60) lên 7 thốn, ở bờ sau của xương mác và ở bờ dưới của cơ bụng chân.",
+  "focksCachXacDinh": "Sờ nắn huyệt Thừa sơn (Bl 57), nằm ở giữa bắp chân, 2 bụng của cơ bụng chân. Từ huyệt Thừa sơn (Bl 57), đo 1 thốn xuống dười và ngang ra ngoài 1 thốn định vị huyệt Phi dương (Bl 58) ở bờ sau của xương mác và ở bờ dưới của cơ bụng chân. Ở cùng mức (7 thốn từ điểm cao nhất của mắt cá ngoài): huyệt Dương giao (Gb 35) ở bờ sau của xương mác; huyệt Ngoại khâu (Gb 36) ở bờ trước của xương mác và huyệt Hạ cự hư (Ma/ST 39) cách 1 thốn so với xương mác, giữa đường nối huyệt Độc tị (Ma/ST 35) với huyệt Giải khê (Ma/ST 41) và ở phía ngoài mép xương chày bề rộng 1 ngón tay.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/BL58_p196_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.031,
+  "y": 0.1376,
+  "z": -0.0465,
+  "conf": "cao",
+  "caoDoCm": 23.65,
+  "ngangCm": 5.33,
+  "truocSauCm": -7.99
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da",
+   "duong"
+  ],
+  "ly": "TẦNG DA: huyệt nằm sâu — đã ép lên da, dời 4.7cm (2.0 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 10.27cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: huyệt"
+ },
+ "duongKinh": {
+  "doan": "cang-chan",
+  "vung": "mặt sau cẳng chân",
+  "moTaRanh": "rãnh giữa hai bụng cơ bụng chân, rồi cạnh gân gót",
+  "diemTrongDoan": [
+   "BL40",
+   "BL55",
+   "BL56",
+   "BL57",
+   "BL58",
+   "BL59",
+   "BL60"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "BL/cang-chan",
+  "tong": 16,
+  "xa": "BL60",
+  "gan": "BL40",
+  "xaMoc": "MALLEOLUS_LAT",
+  "ganMoc": "POPLITEAL",
+  "thonCuaHuyet": 7,
+  "lechNgang": null,
+  "moiDiem": {
+   "BL55": 14,
+   "BL56": 11,
+   "BL57": 8,
+   "BL58": 7,
+   "BL59": 3
+  }
+ },
+ "hangXom": [
+  {
+   "code": "BL57",
+   "ten": "Thừa Sơn",
+   "thang": 2.51,
+   "sachDoiCm": 2.47,
+   "thonCm": 2.47,
+   "docDa": 3.1,
+   "sachDoiThon": 1,
+   "vitri": "Ở giữa đường nối huyệt Ủy Trung và gót chân, dưới Ủy Trung 8 thốn, ngay chỗ lõm giữa 2 khe cơ sinh đôi ngoài và trong."
+  },
+  {
+   "code": "BL59",
+   "ten": "Phụ Dương",
+   "thang": 9.89,
+   "sachDoiCm": 9.88,
+   "thonCm": 2.47,
+   "docDa": 10,
+   "sachDoiThon": 4,
+   "vitri": "Trên mắt cá chân ngoài (huyệt Côn Lôn – Bq.60), đo thẳng lên 3 thốn, ở khe giữa cơ dép và cơ mác bên ngắn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "KI9",
+   "ten": "Trúc Tân",
+   "cm": 1.93
+  },
+  {
+   "code": "BL57",
+   "ten": "Thừa Sơn",
+   "cm": 2.51
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu trong của cơ bụng chân trái",
+   "lop": "muscle",
+   "cm": 0.59
+  },
+  {
+   "ten": "Gân gót trái",
+   "lop": "connective",
+   "cm": 1.75
+  },
+  {
+   "ten": "Đầu ngoài của cơ bụng chân trái",
+   "lop": "muscle",
+   "cm": 1.83
+  },
+  {
+   "ten": "Cơ dép trái",
+   "lop": "muscle",
+   "cm": 2.12
+  },
+  {
+   "ten": "Cơ gan chân trái",
+   "lop": "muscle",
+   "cm": 3.33
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 10.27cm (conf=cao)",
+  "XA ĐƯỜNG KINH 8.97cm",
+  "ÉP LÊN DA dời 4.7cm",
+  "AUDIT cờ soát: bản Focks phân tích HỎNG (bắn lệch 40.4cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: huyệt",
+  "TỪ ĐIỂN APP kêu: dọc \"BL57\" đòi 7 thốn, đo được 1  (lệch 14.82cm, SAI CHIỀU)",
+  "ATLAS FOCKS kêu: dọc \"BL60\" đòi 7 thốn, đo được 7.72  (lệch 1.78cm)"
+ ]
+}

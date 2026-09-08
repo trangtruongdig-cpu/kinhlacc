@@ -1,0 +1,127 @@
+{
+ "code": "ST3",
+ "mer": "ST",
+ "num": 3,
+ "tenApp": "Cự Liêu",
+ "tenFocks": "CỰ LIÊU",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Tại nơi gặp nhau của đường giữa mắt kéo xuống và chân cánh mũi kéo ra, ngay dưới huyệt Tứ Bạch (Vi 2).",
+  "focksViTri": "Nhìn thẳng về phía trước, trên đường vuông góc đi qua tâm đồng tử, ở chỗ ngang với mép dưới của cánh mũi.",
+  "focksCachXacDinh": "Bốn điểm đầu tiên của kinh Vị (Ma/ST) nằm trên trên đường vuông góc đi qua tâm đồng tử khi bệnh nhân nhìn thẳng về phía trước. Huyệt Cự liêu (Ma 3) nằm ở giao điểm của đường vuông góc đi qua tâm đồng tử với đường ngang với mép dưới của cánh mũi.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/ST3_p41_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0206,
+  "y": 0.9104,
+  "z": 0.0412,
+  "conf": "cao",
+  "caoDoCm": 156.5,
+  "ngangCm": 3.54,
+  "truocSauCm": 7.08
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 4.55cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "mat",
+  "vung": "mặt",
+  "moTaRanh": "trục dọc đồng tử, xuống bờ dưới xương hàm dưới rồi ra góc hàm, trên cơ cắn",
+  "diemTrongDoan": [
+   "ST1",
+   "ST2",
+   "ST3",
+   "ST4",
+   "ST5",
+   "ST6"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "ST2",
+   "ten": "Tứ Bạch",
+   "thang": 2.32,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 1.7,
+   "sachDoiThon": null,
+   "vitri": "Ngay giữa mi dưới thẳng xuống 1 thốn, chỗ lõm dưới hố mắt, bờ dưới cơ vòng mi."
+  },
+  {
+   "code": "ST4",
+   "ten": "Địa Thương",
+   "thang": 2.87,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 3.5,
+   "sachDoiThon": null,
+   "vitri": "Cách khóe miệng 0,4 thốn, hoặc trên đường ngang qua mép và rãnh mép mũi."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "ST2",
+   "ten": "Tứ Bạch",
+   "cm": 2.32
+  },
+  {
+   "code": "ST4",
+   "ten": "Địa Thương",
+   "cm": 2.87
+  },
+  {
+   "code": "LI20",
+   "ten": "Nghênh Hương",
+   "cm": 3.34
+  },
+  {
+   "code": "GV28",
+   "ten": "Ngân Giao",
+   "cm": 3.91
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương gò má trái",
+   "lop": "bone",
+   "cm": 1.15
+  },
+  {
+   "ten": "Xương hàm trên trái",
+   "lop": "bone",
+   "cm": 1.17
+  },
+  {
+   "ten": "Răng hàm nhỏ vĩnh viễn hàm trên 1 trái",
+   "lop": "bone",
+   "cm": 1.74
+  },
+  {
+   "ten": "Răng hàm nhỏ vĩnh viễn hàm trên 2 trái",
+   "lop": "bone",
+   "cm": 1.82
+  },
+  {
+   "ten": "Lợi của hàm trên",
+   "lop": "bone",
+   "cm": 1.85
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 4.55cm (conf=cao)",
+  "XA ĐƯỜNG KINH 1.13cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 4.55cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ ]
+}

@@ -1,0 +1,167 @@
+{
+ "code": "HT4",
+ "mer": "HT",
+ "num": 4,
+ "tenApp": "Linh Đạo",
+ "tenFocks": "LINH ĐẠO",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở mặt trước trong cẳng tay, trên nếp gấp cổ tay 1,5 thốn.",
+  "focksViTri": "Từ khe khớp cổ tay (\"nếp gấp cổ tay xa\") lên 1,5 thốn, bờ gân cơ gấp cổ tay trụ.",
+  "focksCachXacDinh": "Cẳng tay để ngửa ở tư thế thoải mái. Gân của cơ gấp cổ tay trụ có thể dễ dàng cảm nhận được ở bụng cẳng tay phía xương trụ và gần với nếp gấp cổ tay; điểm bám của nó nằm trên xương đậu. Huyệt Linh đạo (He 4) nằm cách khe khớp cổ tay (huyệt Thần môn (He 7) khoảng 1,5 thốn. Các huyệt Thông lý (He 5), Âm khích (He 6) và Thần môn (He 7) xếp thành một hàng về phía cổ tay, mỗi cái cách nhau 0,5 thốn. Huyệt Liệt khuyết (Lu 7) cách khe khớp cổ tay khoảng 1,5 thốn ở bụng cẳng tay phía xương quay.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/HT4_p112_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1368,
+  "y": 0.5292,
+  "z": 0.0158,
+  "conf": "cao",
+  "caoDoCm": 90.97,
+  "ngangCm": 23.52,
+  "truocSauCm": 2.72
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 4.09cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "cang-tay",
+  "vung": "bờ trong mặt trước cẳng tay",
+  "moTaRanh": "bờ trong gân cơ gấp cổ tay trụ, sát bờ trước xương trụ",
+  "diemTrongDoan": [
+   "HT3",
+   "HT4",
+   "HT5",
+   "HT6",
+   "HT7"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "HT/cang-tay",
+  "tong": 12,
+  "xa": "HT7",
+  "gan": "HT3",
+  "xaMoc": "WRIST",
+  "ganMoc": "CUBITAL",
+  "thonCuaHuyet": 1.5,
+  "lechNgang": null,
+  "moiDiem": {
+   "HT4": 1.5,
+   "HT5": 1,
+   "HT6": 0.5
+  }
+ },
+ "hangXom": [
+  {
+   "code": "HT3",
+   "ten": "Thiếu Hải",
+   "thang": 22.24,
+   "sachDoiCm": 21.1,
+   "thonCm": 2.01,
+   "docDa": 23.8,
+   "sachDoiThon": 10.5,
+   "vitri": "Co tay lại, huyệt nằm ở cuối đầu nếp gấp khuỷu tay, mặt trong cánh tay, cách mỏm trên lồi cầu trong 0,5 thốn."
+  },
+  {
+   "code": "HT5",
+   "ten": "Thông Lý",
+   "thang": 1.01,
+   "sachDoiCm": 1,
+   "thonCm": 2.01,
+   "docDa": 1.8,
+   "sachDoiThon": 0.5,
+   "vitri": "Mặt trước trong cẳng tay, trên nếp gấp cổ tay 1 thốn (huyệt Thần Môn – Tm.7), khe giữa gân cơ trụ trước và cơ gấp chung nông các ngón tay."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "HT5",
+   "ten": "Thông Lý",
+   "cm": 1.01
+  },
+  {
+   "code": "PC6",
+   "ten": "Nội Quan",
+   "cm": 1.6
+  },
+  {
+   "code": "LU7",
+   "ten": "Liệt Khuyết",
+   "cm": 2
+  },
+  {
+   "code": "HT6",
+   "ten": "Âm Khích",
+   "cm": 2.02
+  },
+  {
+   "code": "HT7",
+   "ten": "Thần Môn",
+   "cm": 2.74
+  },
+  {
+   "code": "SI6",
+   "ten": "Dưỡng Lão",
+   "cm": 2.74
+  },
+  {
+   "code": "LU8",
+   "ten": "Kinh Cừ",
+   "cm": 2.77
+  },
+  {
+   "code": "PC5",
+   "ten": "Gian Sử",
+   "cm": 3.14
+  },
+  {
+   "code": "SI5",
+   "ten": "Dương Cốc",
+   "cm": 3.3
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ gấp các ngón nông trái",
+   "lop": "muscle",
+   "cm": 0.33
+  },
+  {
+   "ten": "Cơ gấp các ngón sâu trái",
+   "lop": "muscle",
+   "cm": 0.55
+  },
+  {
+   "ten": "Cơ sấp vuông trái",
+   "lop": "muscle",
+   "cm": 0.65
+  },
+  {
+   "ten": "Cơ gan tay dài trái",
+   "lop": "muscle",
+   "cm": 0.7
+  },
+  {
+   "ten": "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 0.85
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 4.09cm (conf=cao)",
+  "XA ĐƯỜNG KINH 4.08cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 4.09cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"WRIST\" đòi 1.5 thốn, đo được 1.5  (lệch 0cm)",
+  "ATLAS FOCKS kêu: dọc \"WRIST\" đòi 1.5 thốn, đo được 1.5  (lệch 0cm)"
+ ]
+}

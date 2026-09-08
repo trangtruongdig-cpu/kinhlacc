@@ -1,0 +1,158 @@
+{
+ "code": "GB15",
+ "mer": "GB",
+ "num": 15,
+ "tenApp": "Đầu Lâm Khấp",
+ "tenFocks": "ĐẦU LÂM KHẤP",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Từ huyệt Dương Bạch (Đ 14) đo thẳng lên trong chân tóc 0,5 thốn.",
+  "focksViTri": "Cách đường chân tóc trước 0,5 thốn ở đường đồng tử khi nhìn thẳng về phía trước hoặc cách đường giữa 2,25 thốn.",
+  "focksCachXacDinh": "Đầu tiên, hãy tìm đường chân tóc phía trước (người bị mất tóc hiện rõ nếp nhăn khi cau mày). Sau đó xác định vị trí huyệt Đầu lâm khấp (Gb 15) ở đường đồng tử (khi nhìn thẳng về phía trước) và cách đường chân tóc trước 0,5 thốn. Hoặc: Huyệt còn được coi là tâm của đường nối huyệt Thần đình (Du/GV 24) (đường giữa) với huyệt Đầu duy (Ma 8) (ở góc trán-thái dương). Ngoài ra, cách đường chân tóc phía trước 0,5 thốn cũng có các huyệt Thần đình (Du/GV 24) đường chính giữa; huyệt Mi xung (Bl 3) phía trên góc trong của mắt; huyệt Khúc sai (Bl 4) đường chính giữa ngang ra 1,5 thốn; huyệt Bản thần (Gb 13) đường chính giữa ngang ra 3 thốn (giữa đồng tử thẳng lên); huyệt Đầu duy (Ma/ST 8) ở góc trán-thái dương.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/GB15_p286_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0178,
+  "y": 0.9829,
+  "z": 0.0284,
+  "conf": "mốc",
+  "caoDoCm": 168.96,
+  "ngangCm": 3.06,
+  "truocSauCm": 4.88
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "sach"
+  ],
+  "ly": "hai nguồn sách cùng kêu lệch 1.6/2.1 thốn"
+ },
+ "duongKinh": {
+  "doan": "tran-dinh",
+  "vung": "trán → đỉnh → chẩm",
+  "moTaRanh": "đường dọc cách đường giữa 2,25 thốn, đi trên cung sọ",
+  "diemTrongDoan": [
+   "GB13",
+   "GB14",
+   "GB15",
+   "GB16",
+   "GB17",
+   "GB18",
+   "GB19"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "GB14",
+   "ten": "Dương Bạch",
+   "thang": 3.72,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 3.3,
+   "sachDoiThon": null,
+   "vitri": "Trước trán, trên đường thẳng qua chính giữa mắt và phía trên lông mày cách 1 thốn."
+  },
+  {
+   "code": "GB16",
+   "ten": "Mục Song",
+   "thang": 0.88,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 1.7,
+   "sachDoiThon": null,
+   "vitri": "Trên huyệt Lâm Khấp 0,1 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "GB16",
+   "ten": "Mục Song",
+   "cm": 0.88
+  },
+  {
+   "code": "BL4",
+   "ten": "Khúc Sai",
+   "cm": 1.02
+  },
+  {
+   "code": "BL3",
+   "ten": "Mi Xung",
+   "cm": 1.33
+  },
+  {
+   "code": "GB13",
+   "ten": "Bản Thần",
+   "cm": 1.33
+  },
+  {
+   "code": "BL5",
+   "ten": "Ngũ Xứ",
+   "cm": 1.51
+  },
+  {
+   "code": "GV24",
+   "ten": "Thần Đình",
+   "cm": 3.12
+  },
+  {
+   "code": "GV23",
+   "ten": "Thượng Tinh",
+   "cm": 3.25
+  },
+  {
+   "code": "BL6",
+   "ten": "Thừa Quang",
+   "cm": 3.41
+  },
+  {
+   "code": "GB17",
+   "ten": "Chính Dinh",
+   "cm": 3.46
+  },
+  {
+   "code": "GB14",
+   "ten": "Dương Bạch",
+   "cm": 3.72
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương trán",
+   "lop": "bone",
+   "cm": 0.71
+  },
+  {
+   "ten": "Xương đỉnh trái",
+   "lop": "bone",
+   "cm": 3.29
+  },
+  {
+   "ten": "Xương đỉnh phải",
+   "lop": "bone",
+   "cm": 4.74
+  },
+  {
+   "ten": "Xương bướm",
+   "lop": "bone",
+   "cm": 6.88
+  },
+  {
+   "ten": "Cơ nâng mi trên trái",
+   "lop": "muscle",
+   "cm": 7.5
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm",
+  "TỪ ĐIỂN APP kêu: dọc \"GB14\" đòi 0.5 thốn, đo được 2.12  (lệch 4.55cm)",
+  "ATLAS FOCKS kêu: ngang \"PUPIL\" đòi 2.25 thốn, đo được 0.1  (lệch 3.06cm)"
+ ]
+}

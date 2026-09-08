@@ -1,0 +1,116 @@
+{
+ "code": "GB41",
+ "mer": "GB",
+ "num": 41,
+ "tenApp": "Túc Lâm Khấp",
+ "tenFocks": "TÚC LÂM KHẤP",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Chỗ lõm phía trước khớp xương bàn – ngón chân thứ 4 – 5.",
+  "focksViTri": "Trong chỗ lõm ở điểm chuyển tiếp từ thân đến gốc xương bàn chân thứ 4 và thứ 5, phía bên ngoài gân cơ duỗi dài các ngón.",
+  "focksCachXacDinh": "Yêu cầu bệnh nhân dang ngón chân, thao tác này sẽ thấy rõ hơn nhánh gân của cơ duỗi dài các ngón kéo dài đến ngón chân út. Sau đó trượt vào rãnh giữa xương bàn chân thứ 4 và thứ 5 từ đầu xa (ngón chân) đến đầu gần (mắt cá chân) cho đến khi nó cắt ngang gân. Huyệt Địa ngũ hội (Gb 42) nằm ở chỗ lõm phía trước gân. Khi bạn tiếp tục trượt trên gân, hãy xác định vị trí huyệt Túc lâm khấp (Gb 41) ở chỗ lõm phía sau gân.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/GB41_p315_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0664,
+  "y": 0.0464,
+  "z": 0.0109,
+  "conf": "mốc",
+  "caoDoCm": 7.98,
+  "ngangCm": 11.41,
+  "truocSauCm": 1.87
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Túc Lâm Khấp — ngay xa chỗ nối gốc xương bàn 4–5",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "ban-chan",
+  "vung": "mu bàn chân",
+  "moTaRanh": "khe giữa xương bàn chân 4 và 5",
+  "diemTrongDoan": [
+   "GB40",
+   "GB41",
+   "GB42",
+   "GB43",
+   "GB44"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "GB40",
+   "ten": "Khâu Khư",
+   "thang": 5.46,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 5.5,
+   "sachDoiThon": null,
+   "vitri": "Ở phía trước và dưới mắt cá ngoài chân, nơi chỗ lõm của khe xương cạnh nhóm cơ duỗi dài các ngón chân, hoặc từ ngón chân thứ 4 kéo thẳng lên mắt cá gặp chỗ lõm hoặc lấy ở chỗ lõm giữa huyệt Thân Mạch (Bq 62) và huyệt Giải Khê (Vi 41), ấn vào thấy tức."
+  },
+  {
+   "code": "GB42",
+   "ten": "Địa Ngũ Hội",
+   "thang": 5.05,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 5.4,
+   "sachDoiThon": null,
+   "vitri": "Ở trong khoảng gian đốt xương bàn chân thứ 4 và 5, chỗ lõm trước gân cơ duỗi ngón út và cơ duỗi chung các ngón chân, cách huyệt Túc Lâm Khấp 0,5 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "ST42",
+   "ten": "Xung Dương",
+   "cm": 1.48
+  },
+  {
+   "code": "LR3",
+   "ten": "Thái Xung",
+   "cm": 3.44
+  },
+  {
+   "code": "ST41",
+   "ten": "Giải Khê",
+   "cm": 3.74
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ duỗi các ngón chân dài trái",
+   "lop": "muscle",
+   "cm": 1.4
+  },
+  {
+   "ten": "Cơ duỗi ngón chân cái ngắn trái",
+   "lop": "muscle",
+   "cm": 1.93
+  },
+  {
+   "ten": "Xương chêm giữa trái",
+   "lop": "bone",
+   "cm": 2.36
+  },
+  {
+   "ten": "Xương chêm ngoài trái",
+   "lop": "bone",
+   "cm": 2.36
+  },
+  {
+   "ten": "Xương đốt bàn chân 2 trái",
+   "lop": "bone",
+   "cm": 2.52
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm"
+ ]
+}

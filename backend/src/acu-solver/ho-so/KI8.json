@@ -1,0 +1,139 @@
+{
+ "code": "KI8",
+ "mer": "KI",
+ "num": 8,
+ "tenApp": "Giao Tín",
+ "tenFocks": "GIAO TÍN",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Huyệt Thái Khê (Th 3) đo lên 2 thốn, trước huyệt Phục Lưu 0,5 thốn, cạnh bờ sau trong xương chầy.",
+  "focksViTri": "Trên đỉnh của mắt cá trong 2 thốn, bờ sau xương chày.",
+  "focksCachXacDinh": "Đỉnh của mắt cá trong đo lên 2 thốn về phía khớp gối và xác định vị trí huyệt Giao tín (Ni/KID 8) ở bờ sau xương chày.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/KI8_p216_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0258,
+  "y": 0.0809,
+  "z": -0.0169,
+  "conf": "khoá",
+  "caoDoCm": 13.91,
+  "ngangCm": 4.44,
+  "truocSauCm": -2.91
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 4.48cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "cang-chan",
+  "vung": "mặt trong-sau cẳng chân",
+  "moTaRanh": "bờ trong gân gót lên rãnh trong cơ bụng chân, tới đầu trong nếp kheo",
+  "diemTrongDoan": [
+   "KI6",
+   "KI7",
+   "KI8",
+   "KI9",
+   "KI10"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "KI/cang-chan",
+  "tong": 13,
+  "xa": "KI3",
+  "gan": "KI10",
+  "xaMoc": "MALLEOLUS_MED",
+  "ganMoc": "TIBIA_MED_CONDYLE",
+  "thonCuaHuyet": 2,
+  "lechNgang": {
+   "lech": 0.5,
+   "huong": "truoc"
+  },
+  "moiDiem": {
+   "KI7": 2,
+   "KI8": {
+    "thon": 2,
+    "lech": 0.5,
+    "huong": "truoc"
+   },
+   "KI9": 5
+  }
+ },
+ "hangXom": [
+  {
+   "code": "KI7",
+   "ten": "Phục Lưu",
+   "thang": 1.43,
+   "sachDoiCm": 0,
+   "thonCm": 2.83,
+   "docDa": 1.2,
+   "sachDoiThon": 0,
+   "vitri": "Giữa mắt cá chân trong và gân gót (huyệt Thái Khê (Th.3) đo thẳng lên 2 thốn, trong khe của mặt trước gân gót chân và cơ gấp dài riêng ngón cái."
+  },
+  {
+   "code": "KI9",
+   "ten": "Trúc Tân",
+   "thang": 9.45,
+   "sachDoiCm": 8.49,
+   "thonCm": 2.83,
+   "docDa": 9.6,
+   "sachDoiThon": 3,
+   "vitri": "Trên huyệt Thái Khê (Th.3) 5 thốn, sau bờ trong xương chày 2 thốn, khe giữa gân gót chân và cơ dép."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "KI7",
+   "ten": "Phục Lưu",
+   "cm": 1.43
+  },
+  {
+   "code": "SP6",
+   "ten": "Tam Âm Giao",
+   "cm": 2.97
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ gấp các ngón chân dài trái",
+   "lop": "muscle",
+   "cm": 1.06
+  },
+  {
+   "ten": "Cơ chày sau trái",
+   "lop": "bone",
+   "cm": 1.88
+  },
+  {
+   "ten": "Xương chày trái",
+   "lop": "bone",
+   "cm": 2.07
+  },
+  {
+   "ten": "Cơ dép trái",
+   "lop": "muscle",
+   "cm": 2.17
+  },
+  {
+   "ten": "Gân gót trái",
+   "lop": "connective",
+   "cm": 2.18
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 4.48cm (conf=khoá)",
+  "XA ĐƯỜNG KINH 3.84cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 4.48cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"KI3\" đòi 2 thốn, đo được 2.08  (lệch 0.23cm)",
+  "ATLAS FOCKS kêu: dọc \"MALLEOLUS_MED\" đòi 2 thốn, đo được 2.08  (lệch 0.23cm)"
+ ]
+}

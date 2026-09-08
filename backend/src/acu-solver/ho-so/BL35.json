@@ -1,0 +1,129 @@
+{
+ "code": "BL35",
+ "mer": "BL",
+ "num": 35,
+ "tenApp": "Hội Dương",
+ "tenFocks": "HỘI DƯƠNG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ngang đầu dưới xương cụt, cách đường giữa lưng 0,5 thốn.",
+  "focksViTri": "Cách đường giữa lưng 0,5 thốn, ngang mức đầu xương cụt.",
+  "focksCachXacDinh": "Xương cụt, có thể di chuyển đàn hồi so với xương cùng, được sờ phía trên hậu môn. Huyệt Hội dương (Bl 35) vị trí cách đường trung tuyến 0,5 thốn, ngang mức đầu xương cụt. Huyệt Yêu du (Du/GV 2) nằm ở đường giữa ở khe xương cùng và xương cụt trên huyệt Hội dương (Bl 35) .",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/BL35_p173_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0017,
+  "y": 0.53,
+  "z": -0.0697,
+  "conf": "WHO-lấp",
+  "caoDoCm": 91.11,
+  "ngangCm": 0.29,
+  "truocSauCm": -11.98
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da"
+  ],
+  "ly": "TẦNG DA: ép lên da, dời 4.3cm"
+ },
+ "duongKinh": {
+  "doan": "cung",
+  "vung": "xương cùng",
+  "moTaRanh": "bốn lỗ cùng sau, rồi cạnh đầu xương cụt",
+  "diemTrongDoan": [
+   "BL31",
+   "BL32",
+   "BL33",
+   "BL34",
+   "BL35"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "BL34",
+   "ten": "Hạ Liêu",
+   "thang": 1.82,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 1.2,
+   "sachDoiThon": null,
+   "vitri": "Nơi lỗ xương cùng thứ 4, điểm giữa huyệt Bạch Hoàn Du (Bq 30) và Đốc Mạch."
+  },
+  {
+   "code": "BL36",
+   "ten": "Thừa Phù",
+   "thang": 21.27,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 22.2,
+   "sachDoiThon": null,
+   "vitri": "Điểm giữa nếp mông."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "BL34",
+   "ten": "Hạ Liêu",
+   "cm": 1.82
+  },
+  {
+   "code": "BL33",
+   "ten": "Trung Liêu",
+   "cm": 2.44
+  },
+  {
+   "code": "BL30",
+   "ten": "Bạch Hoàn Du",
+   "cm": 3.43
+  },
+  {
+   "code": "BL29",
+   "ten": "Trung Lữ Du",
+   "cm": 3.79
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương cùng",
+   "lop": "bone",
+   "cm": 1.7
+  },
+  {
+   "ten": "Cơ chậu sườn thắt lưng trái",
+   "lop": "muscle",
+   "cm": 1.89
+  },
+  {
+   "ten": "Cơ chậu sườn thắt lưng phải",
+   "lop": "muscle",
+   "cm": 2.2
+  },
+  {
+   "ten": "Cơ dài nhất ngực trái",
+   "lop": "muscle",
+   "cm": 2.45
+  },
+  {
+   "ten": "Cơ dài nhất ngực phải",
+   "lop": "muscle",
+   "cm": 2.67
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 0cm (conf=WHO-lấp)",
+  "XA ĐƯỜNG KINH 0cm",
+  "ÉP LÊN DA dời 4.3cm",
+  "AUDIT cờ soát: TẦNG DA: ép lên da, dời 4.3cm",
+  "TỪ ĐIỂN APP kêu: ngang \"null\" đòi 0.5 thốn, đo được 0.13  (lệch 0.83cm)",
+  "ATLAS FOCKS kêu: ngang \"null\" đòi 0.5 thốn, đo được 0.13  (lệch 0.83cm)"
+ ]
+}

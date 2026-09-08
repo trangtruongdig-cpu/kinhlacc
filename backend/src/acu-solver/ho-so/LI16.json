@@ -1,0 +1,111 @@
+{
+ "code": "LI16",
+ "mer": "LI",
+ "num": 16,
+ "tenApp": "Cự Cốt",
+ "tenFocks": "CỰ CỐT",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Chỗ lõm giữa xương đòn với gai sống vai.",
+  "focksViTri": "Ở chỗ lõm giữa đầu bên của xương đòn và chỗ nối của xương bả vai vào mỏm cùng vai.",
+  "focksCachXacDinh": "Điểm nằm trên vai ở góc giữa khớp quạ đòn và điểm nối của xương bả vai và mỏm cùng vai trên phần bên nhất của cơ thang và cơ trên gai. Tại điểm này, gân của cơ trên gai đi xuống dưới mỏm cùng vai, nơi nó thường gây ra các vấn đề (ví dụ: hội chứng chèn ép) do cấu trúc giải phẫu bó hẹp.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LI16_p33_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0706,
+  "y": 0.8411,
+  "z": -0.0239,
+  "conf": "mốc",
+  "caoDoCm": 144.59,
+  "ngangCm": 12.14,
+  "truocSauCm": -4.11
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Cự Cốt — hõm giữa đầu cùng vai xương đòn và gai xương bả vai. Dịch 2.9cm so toạ độ cũ",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "vai",
+  "vung": "vai",
+  "moTaRanh": "giữa mỏm cùng vai và gai xương bả vai",
+  "diemTrongDoan": [
+   "LI15",
+   "LI16"
+  ]
+ },
+ "nutMoc": {
+  "code": "LI16",
+  "loai": "gap",
+  "at": "ACROMION",
+  "vi_sao": "Cự Cốt — kinh bẻ từ vai vào cổ"
+ },
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "LI15",
+   "ten": "Kiên Ngung",
+   "thang": 9.38,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 9.7,
+   "sachDoiThon": null,
+   "vitri": "Dang cánh tay thẳng, huyệt ở chỗ lõm, phía trước và ngoài khớp, mỏm cùng – xương đòn."
+  },
+  {
+   "code": "LI17",
+   "ten": "Thiên Đỉnh",
+   "thang": 5.53,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 5.8,
+   "sachDoiThon": null,
+   "vitri": "Nơi gặp nhau của bờ sau bó đòn cơ ức – đòn chũm và đường ngang qua giữa cổ, cách tuyến giáp 3 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "TE15",
+   "ten": "Thiên Liêu",
+   "cm": 1.15
+  },
+  {
+   "code": "GB21",
+   "ten": "Kiên Tỉnh",
+   "cm": 3.14
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ bám da cổ trái",
+   "lop": "muscle",
+   "cm": 1.2
+  },
+  {
+   "ten": "Xương đòn trái",
+   "lop": "bone",
+   "cm": 1.47
+  },
+  {
+   "ten": "Phần ngang của cơ thang trái",
+   "lop": "muscle",
+   "cm": 1.64
+  },
+  {
+   "ten": "Phần xuống của cơ thang trái",
+   "lop": "muscle",
+   "cm": 1.66
+  },
+  {
+   "ten": "Phần đòn của cơ delta trái",
+   "lop": "muscle",
+   "cm": 2.22
+  }
+ ],
+ "coKiemMay": []
+}

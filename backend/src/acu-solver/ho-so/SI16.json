@@ -1,0 +1,117 @@
+{
+ "code": "SI16",
+ "mer": "SI",
+ "num": 16,
+ "tenApp": "Thiên Song",
+ "tenFocks": "THIÊN SONG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở phía sau cơ ức – đòn – chũm, sau huyệt Phù Đột (Đtr.18) 0,5 thốn, cách củ hầu 3,5 thốn, ngang huyệt Liêm Tuyền (Nh 23).",
+  "focksViTri": "Lồi thanh quản ngang ra khoảng 3,5 thốn, ở bờ sau của cơ ức đòn chũm.",
+  "focksCachXacDinh": "Từ lồi thanh quản (đầu quả táo của Adam) ngang ra khoảng 3,5 thốn, ở bờ sau của cơ ức đòn chũm. Huyệt Thiên song (Dü/SI 16) nằm ngay sau bờ cơ, dễ cảm nhận và nhìn thấy hơn khi quay đầu sang phía đối diện. Cùng cấp độ là Nhân nghinh (Ma/ST 9) (phía trước cơ ức đòn chũm) và huyệt Phù đột (Di/Li 18) (giữa hai đầu cơ)",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/SI16_p136_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0297,
+  "y": 0.8776,
+  "z": -0.0025,
+  "conf": "mốc",
+  "caoDoCm": 150.86,
+  "ngangCm": 5.11,
+  "truocSauCm": -0.43
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Thiên Song — sau Phù Đột LI18 0,5 thốn",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "co",
+  "vung": "gáy–cổ bên",
+  "moTaRanh": "bờ sau cơ ức-đòn-chũm, sau góc hàm",
+  "diemTrongDoan": [
+   "SI14",
+   "SI15",
+   "SI16",
+   "SI17"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "SI15",
+   "ten": "Kiên Trung Du",
+   "thang": 12.89,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 13.3,
+   "sachDoiThon": null,
+   "vitri": "Cách tuyến giữa lưng 2 thốn, ngang đốt sống cổ 7, trên đường nối huyệt Đại Chùy (Đc 14) và Kiên Tỉnh (Đ 21)."
+  },
+  {
+   "code": "SI17",
+   "ten": "Thiên Dung",
+   "thang": 3.07,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 3,
+   "sachDoiThon": null,
+   "vitri": "Ở phía sau góc xương hàm dưới, bờ trước cơ ức – đòn – chũm, phía dưới cơ hai thân."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "LI18",
+   "ten": "Phù Đột",
+   "cm": 1.05
+  },
+  {
+   "code": "SI17",
+   "ten": "Thiên Dung",
+   "cm": 3.07
+  },
+  {
+   "code": "TE16",
+   "ten": "Thiên Dũ",
+   "cm": 3.42
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ bám da cổ trái",
+   "lop": "muscle",
+   "cm": 0.46
+  },
+  {
+   "ten": "Cơ ức đòn chũm trái",
+   "lop": "muscle",
+   "cm": 0.69
+  },
+  {
+   "ten": "Xương hàm dưới",
+   "lop": "bone",
+   "cm": 2.28
+  },
+  {
+   "ten": "Cơ bậc thang giữa trái",
+   "lop": "muscle",
+   "cm": 2.54
+  },
+  {
+   "ten": "Cơ dài đầu trái",
+   "lop": "muscle",
+   "cm": 2.74
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm",
+  "TỪ ĐIỂN APP kêu: dọc \"LI18\" đòi 3.5 thốn, đo được 0.38  (lệch 8.74cm)",
+  "ATLAS FOCKS kêu: ngang \"null\" đòi 3.5 thốn, đo được 3.59  (lệch 0.13cm)"
+ ]
+}

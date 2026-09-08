@@ -1,0 +1,134 @@
+{
+ "code": "ST32",
+ "mer": "ST",
+ "num": 32,
+ "tenApp": "Phục Thố",
+ "tenFocks": "PHỤC THỎ",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở điểm cách góc trên phía ngoài xương bánh chè 6 thốn, bờ ngoài cơ thẳng trước, bờ trong cơ rộng ngoài. Hoặc bàn tay úp lên đầu gối, các ngón tay khép lại, để ngay giữa lằn cổ tay thứ nhất lên trên giữa đầu gối, đầu ngón tay giữa áp lên da chân ở đầu, nơi đó là huyệt.",
+  "focksViTri": "Ở đùi, tại đường nối bờ trên xương bánh chè và gai chậu trước trên (SIAS), bờ trên xương bánh chè lên 6 thốn.",
+  "focksCachXacDinh": "Chia chiều dài của đùi từ gai chậu trước trên (SIAS) đến bờ trên ngoài của xương bánh chè thành 3 phần. Sau đó, vấn đề là sự chuyển đổi từ phần dưới sang phần giữa của đùi trong một chỗ lõm ở cơ tứ đầu. Chia khoảng cách giữa đầu của mấu chuyển lớn và bờ bên trên của xương bánh chè thành ba phần. Huyệt Phục thỏ (Ma/ST 32) nằm ở điểm nối của phần dưới và phần giữa, trong một chỗ lõm trên cơ tứ đầu đùi.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/ST32_p70_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0778,
+  "y": 0.3498,
+  "z": 0.0211,
+  "conf": "khoá",
+  "caoDoCm": 60.13,
+  "ngangCm": 13.37,
+  "truocSauCm": 3.63
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da",
+   "duong",
+   "sach"
+  ],
+  "ly": "TẦNG DA: ép lên da, dời 3.9cm · RẢI DỌC ĐƯỜNG: dời 4.78cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · hai nguồn sách cùng kêu lệch 1.5/1.5 thốn"
+ },
+ "duongKinh": {
+  "doan": "dui",
+  "vung": "mặt trước-ngoài đùi",
+  "moTaRanh": "rãnh giữa cơ thẳng đùi và cơ rộng ngoài",
+  "diemTrongDoan": [
+   "ST30",
+   "ST31",
+   "ST32",
+   "ST33",
+   "ST34",
+   "ST35"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "ST/dui",
+  "tong": 21,
+  "xa": "ST35",
+  "gan": "ST31",
+  "thonCuaHuyet": 8.2,
+  "lechNgang": null,
+  "moiDiem": {
+   "ST34": 4.2,
+   "ST33": 5.2,
+   "ST32": 8.2
+  }
+ },
+ "hangXom": [
+  {
+   "code": "ST31",
+   "ten": "Bễ Quan",
+   "thang": 27.04,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 31.1,
+   "sachDoiThon": 12.8,
+   "vitri": "Trong vùng phễu đùi (scarpa), nơi gặp nhau của đường kẻ ngang qua xương mu và đường thẳng qua gai chậu trước trên, nơi bờ trong cơ may và cơ căng cân đùi, trên lằn gối chân 13 thốn, ngang huyệt Hội Âm (Nh 1)."
+  },
+  {
+   "code": "ST33",
+   "ten": "Âm Thị",
+   "thang": 6.36,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 5.9,
+   "sachDoiThon": 2.999999999999999,
+   "vitri": "Ở chỗ lõm trên góc trên ngoài xương bánh chè 3 thốn, sát bờ ngoài gân cơ thẳng trước đùi."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "GB31",
+   "ten": "Phong Thị",
+   "cm": 3.73
+  },
+  {
+   "code": "SP11",
+   "ten": "Cơ Môn",
+   "cm": 3.87
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ rộng ngoài trái",
+   "lop": "muscle",
+   "cm": 0.76
+  },
+  {
+   "ten": "Cơ thẳng đùi trái",
+   "lop": "muscle",
+   "cm": 1.43
+  },
+  {
+   "ten": "Cơ rộng giữa trái",
+   "lop": "muscle",
+   "cm": 1.76
+  },
+  {
+   "ten": "Dải chậu chày trái",
+   "lop": "bone",
+   "cm": 3.65
+  },
+  {
+   "ten": "Cơ rộng trong trái",
+   "lop": "muscle",
+   "cm": 4.43
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 4.78cm (conf=khoá)",
+  "XA ĐƯỜNG KINH 0.91cm",
+  "ÉP LÊN DA dời 3.9cm",
+  "AUDIT cờ soát: TẦNG DA: ép lên da, dời 3.9cm · RẢI DỌC ĐƯỜNG: dời 4.78cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"PATELLA\" đòi 6 thốn, đo được 4.48  (lệch 4.36cm)",
+  "ATLAS FOCKS kêu: dọc \"PATELLA\" đòi 6 thốn, đo được 4.48  (lệch 4.36cm)"
+ ]
+}

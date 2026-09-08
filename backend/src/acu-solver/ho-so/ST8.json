@@ -1,0 +1,124 @@
+{
+ "code": "ST8",
+ "mer": "ST",
+ "num": 8,
+ "tenApp": "Đầu Duy",
+ "tenFocks": "ĐẦU DUY",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Nơi góc trán, cách bờ chân tóc 0,5 thốn, trên đường khớp đỉnh trán, từ huyệt Thần Đình (Đc 24) đo ra 4 thốn.",
+  "focksViTri": "Ở góc thái dương của trán, trên bờ cơ thái dương và cách chân tóc trước 0,5 thốn hoặc ra ngoài 4,5 thốn so với đường giữa trước (huyệt Thần đình Du/GV-24)",
+  "focksCachXacDinh": "Định vị huyệt Đầu duy (Ma 8) ở góc trán-thái dương, cách đường chân tóc phía trước 0,5 thốn. Các chuyển động nhai của cơ thái dương thường có thể sờ thấy ở đây. Các huyệt Thần đình (Du/GV 24), đường giữa trán; My xung (Bl 3), phía trên khóe mắt trong; Khúc sai (Bl 4), đường giữa trán ra 1,5 thốn; Đầu lâm khấp (Gb 15), đường đồng tử; Bản thần (Gb 13), 3 thốn so với đường giữa trán cũng cách đường chân tóc phía trước 0,5 thốn. Khoảng cách ám chỉ khoảng cách thốn cơ thể: từ Du/GV 24 đến Ma 8 = 4,5 thốn. Ma 8 tới Gb 7 (vết lõm ở đỉnh tai, trong đường chân tóc thái dương) một đường vòng cung trên đó các điểm Ma 8, Gb 4-7 được phân bố với các khoảng cách bằng nhau (chia thành năm phần).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/ST8_p46_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0372,
+  "y": 0.9651,
+  "z": 0.0146,
+  "conf": "mốc",
+  "caoDoCm": 165.9,
+  "ngangCm": 6.39,
+  "truocSauCm": 2.51
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Đầu Duy — góc trán chân tóc (mốc đầu). SỬA: giá trị cũ (0,086; 0,957; 0,060) đặt trên mesh CŨ, cách da mesh v2 tới 10,5cm dù mang nhãn tin cậy CAO NHẤT (conf=mốc) — nay dò lại bằng điểm da NGOÀI nhất của dải trán trên (y 0,962–0,978, z>0,01), khớp x≈3,7 thốn ngang đầu",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "nhanh-tran",
+  "vung": "NHÁNH lên trán",
+  "moTaRanh": "dưới cung gò má lên góc trán chân tóc",
+  "diemTrongDoan": [
+   "ST6",
+   "ST7",
+   "ST8"
+  ]
+ },
+ "nutMoc": {
+  "code": "ST8",
+  "loai": "cuoi",
+  "at": "HAIRLINE_ANT",
+  "vi_sao": "Đầu Duy — điểm cuối NHÁNH trán, không phải cuối kinh"
+ },
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "ST7",
+   "ten": "Hạ Quan",
+   "thang": 8.62,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 14,
+   "sachDoiThon": null,
+   "vitri": "Khi ngậm miệng lại, huyệt ở chỗ lõm phía trước tai, dưới xương gò má, nơi góc phía trước của mỏm tiếp xương thái dương và lồi cầu xương hàm dưới."
+  },
+  {
+   "code": "ST9",
+   "ten": "Nhân Nghênh",
+   "thang": 15.99,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 18.7,
+   "sachDoiThon": null,
+   "vitri": "Nơi gặp nhau của bờ trước cơ ức – đòn chũm và đường ngang qua chỗ lồi nhất của yết hầu, sờ ở cổ có động mạch cảnh đập."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "GB4",
+   "ten": "Hàm Yến",
+   "cm": 0.92
+  },
+  {
+   "code": "GB5",
+   "ten": "Huyền Lư",
+   "cm": 1.84
+  },
+  {
+   "code": "GB6",
+   "ten": "Huyền Ly",
+   "cm": 2.76
+  },
+  {
+   "code": "GB7",
+   "ten": "Khúc Tân",
+   "cm": 3.68
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương trán",
+   "lop": "bone",
+   "cm": 0.46
+  },
+  {
+   "ten": "Xương đỉnh trái",
+   "lop": "bone",
+   "cm": 0.5
+  },
+  {
+   "ten": "Xương bướm",
+   "lop": "bone",
+   "cm": 3.54
+  },
+  {
+   "ten": "Xương thái dương trái",
+   "lop": "bone",
+   "cm": 3.7
+  },
+  {
+   "ten": "Xương gò má trái",
+   "lop": "bone",
+   "cm": 5.32
+  }
+ ],
+ "coKiemMay": [
+  "TỪ ĐIỂN APP kêu: ngang \"GV24\" đòi 4 thốn, đo được 4.5  (lệch 0.71cm)"
+ ]
+}

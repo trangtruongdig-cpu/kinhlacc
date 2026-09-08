@@ -1,0 +1,122 @@
+{
+ "code": "LR9",
+ "mer": "LR",
+ "num": 9,
+ "tenApp": "Âm Bao",
+ "tenFocks": "ÂM BAO",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở cách lồi cầu trên trong xương đùi 4 thốn, hoặc từ huyệt Khúc Tuyền (C 8) đo lên 4 thốn, giữa cơ rộng trong và cơ may.",
+  "focksViTri": "Cách lồi cầu trong xương chày 4 thốn, giữa cơ may và cơ rộng trong. Các cách xác định khác: 4 thốn trên huyệt Khúc tuyền (Le/Liv 8) hoặc 4 thốn gần điểm chuyển tiếp giữa trục xương đùi và lồi cầu, hoặc 4 thốn trên điểm giữa lồi cầu xương đùi.",
+  "focksCachXacDinh": "Đo từ huyệt Khúc tuyền (Le/Liv 8) (gần đầu trong của nếp gấp đầu gối (khe khớp gối) ở chỗ lõm phía trước các gân của cơ bán gân và cơ bán màng) lên khoảng cách 4 thốn và xác định vị trí huyệt Âm bao (Le/Liv 9) ở ranh giới của cơ may đoạn thu hẹp và cơ rộng trong. Theo chuẩn hoá của tổ chức y tế thế giới: huyệt Âm bao (Le/Liv 9) giữa cơ may và cơ thon, trên bờ trên xương bánh chè 4 thốn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR9_p330_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR9_p461_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR9_p461_1.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0115,
+  "y": 0.3214,
+  "z": -0.0141,
+  "conf": "cao",
+  "caoDoCm": 55.25,
+  "ngangCm": 1.98,
+  "truocSauCm": -2.42
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "khe",
+   "sach"
+  ],
+  "ly": "nằm giữa bụng cơ (sâu 0.51 thốn trong khối Cơ thon trái) · hai bản sách lệch nhau 5.2cm — đã lấy bản cũ"
+ },
+ "duongKinh": {
+  "doan": "dui",
+  "vung": "mặt trong đùi",
+  "moTaRanh": "giữa cơ khép dài và cơ may, tới nếp bẹn",
+  "diemTrongDoan": [
+   "LR8",
+   "LR9",
+   "LR10",
+   "LR11",
+   "LR12"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "LR/dui",
+  "tong": 21.7,
+  "xa": "LR8",
+  "gan": "LR12",
+  "thonCuaHuyet": 4,
+  "lechNgang": null,
+  "moiDiem": {
+   "LR9": 4,
+   "LR10": 18.7,
+   "LR11": 19.7
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LR8",
+   "ten": "Khúc Tuyền",
+   "thang": 8.63,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 9,
+   "sachDoiThon": null,
+   "vitri": "Ở đầu trong nếp gấp nhượng chân, nơi khe giữa của bờ trước gân cơ bán mạc và cơ thẳng trong."
+  },
+  {
+   "code": "LR10",
+   "ten": "Túc Ngũ Lý",
+   "thang": 30.98,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 40.7,
+   "sachDoiThon": 14.7,
+   "vitri": "Ở bờ trong đùi, huyệt Âm Liêm (C.11) đo xuống 1 thốn, hoặc dưới nếp nhăn của bẹn 3 thốn."
+  }
+ ],
+ "lanCan": [],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ thon trái",
+   "lop": "muscle",
+   "cm": 0.34
+  },
+  {
+   "ten": "Cơ bán màng trái",
+   "lop": "muscle",
+   "cm": 0.96
+  },
+  {
+   "ten": "Cơ may trái",
+   "lop": "muscle",
+   "cm": 1.98
+  },
+  {
+   "ten": "Cơ khép lớn trái",
+   "lop": "muscle",
+   "cm": 2.3
+  },
+  {
+   "ten": "Cơ rộng trong trái",
+   "lop": "muscle",
+   "cm": 3.35
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 1.59cm (conf=cao)",
+  "XA ĐƯỜNG KINH 1.42cm",
+  "AUDIT cờ soát: hai bản sách lệch nhau 5.2cm — đã lấy bản cũ",
+  "TỪ ĐIỂN APP kêu: dọc \"FEMUR_MED_EPICONDYLE\" đòi 4 thốn, đo được 3.65  (lệch 0.8cm)",
+  "ATLAS FOCKS kêu: dọc \"LR8\" đòi 4 thốn, đo được 3.79  (lệch 0.49cm)"
+ ]
+}

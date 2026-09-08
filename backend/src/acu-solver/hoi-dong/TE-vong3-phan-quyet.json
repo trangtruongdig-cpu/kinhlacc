@@ -1,0 +1,526 @@
+{
+ "kinh": "TE-vong3",
+ "docAnh": [
+  {
+   "cungSauTai": "DẢI z ĐÚNG (đo được, không đoán): TE17 ≈ −1,0…−1,1 · TE18 ≈ −3,2…−3,7 · TE19 ≈ −3,4…−3,9 · TE20 ≈ −2,0…−2,3 (cm). Cung đi LÙI từ TE17 ra sau, sâu nhất ở TE18/TE19 (bờ sau vành tai), rồi VÒNG TRỞ RA TRƯỚC ở TE20 (đỉnh vành tai). Mesh hiện có TE18 −0,60 · TE19 +0,28 · TE20 +1,68 — tức cung đang bẹp và lộn ngược chiều ở TE19/TE20.\n\nCƠ SỞ ĐO (3 nguồn độc lập, khớp nhau):\n(1) Bản khắc nghiêng đầu ở p264/265/266/282 là CÙNG một bản, chỉ lệch offset (+159,−13) px — đã kiểm chéo bằng 6 chấm (GB10, GB11, GB19, SJ17, SJ18, SJ22 trùng khớp trong 2px). Nhờ vậy dùng được nhãn chữ của trang GB11 (trang duy nhất ghi rõ \"Gb 10\", \"SJ 22\", \"Gb 3\") để gán nhãn cho các trang TE.\n(2) Thang ảnh s = 0,0215 cm/px, chốt bằng BA cặp mốc hạng A độc lập, đều nằm ở hai đầu ảnh: GB12–bình tai (0,0212) · TE23–bình tai (0,02165) · GB8–bình tai (0,0202). Kiểm ngược trục cao độ: GB8 164,14 (mesh 164,80) · GB3 158,74 (158,87) · ST7 157,35 (157,29) · TE23 161,41 (161,98) · GB12 155,17 (155,31) — sai lệch nền ≤0,7cm. Thang này đáng tin.\n(3) Phép chiếu t (không cần thang): chứng chỉ kiểm chuẩn SI19 trên GB2→TE21 cho chênh 0,04cm — phương pháp và cách gán nhãn đúng.\n\nMẶT PHẲNG THAM CHIẾU: ba huyệt trước bình tai TE21/SI19/GB2 trên ảnh xếp thẳng đứng cùng x = 1092–1093 px, đúng như mesh cho cả ba z = −0,28. Xác nhận cụm này ĐÚNG, giữ nguyên. Lưu ý bẫy: khoảng cách DỌC giữa ba chấm trên ảnh chỉ 15–16px = đúng bằng đường kính chấm in, tức bị CHẶN bởi cỡ chấm — KHÔNG được dùng cụm này làm thước (nếu dùng sẽ ra 0,045–0,048 cm/px, gấp đôi thang thật, và mọi kết luận sẽ sai).\n\nMÂU THUẪN PHẢI BÁO LÊN: GB10 và GB11 trong mesh KHÔNG dùng làm thước ngang được. Chuỗi GB10–GB11–GB12 tự nó nhất quán (GB11 chiếu lên GB10→GB12: mesh t=0,410 vs ảnh 0,487, chênh 0,27cm — khớp), nhưng cả chuỗi đặt quá TRƯỚC so với mặt phẳng bình tai: ảnh đòi GB10 z ≈ −4,5 và GB11 z ≈ −4,5 (mesh −2,36 / −2,06), lệch 2,4–2,8cm; GB12 −3,2 (mesh −2,92) thì khớp. Bằng chứng độc lập với ảnh, lấy ngay trong mesh: model-frame.cjs có MASTOID = (4,71 · 157,05 · z −5,84) và anchors.cjs đợt 9b đo hõm ống tai ở z −1,5. Vành tai thật nằm giữa hai mốc đó, nên mọi huyệt SAU tai buộc phải rơi trong dải z ∈ (−1,5 ; −5,8). Nếu giữ GB11 z=−2,06 làm thước thì TE18 sẽ ra z ≈ −0,9, tức nằm TRƯỚC cả hõm ống tai — bất khả thi. Vậy dải −3,2…−3,9 là dải duy nhất thi hành được.\n\nMỐC THI HÀNH ĐƯỢC (mesh KHÔNG có vành tai): dựng cả cung bằng bốn mốc mesh đo được — hõm ống tai ngoài (y 158,1 · z −1,5), MASTOID (y 157,05 · z −5,84), cụm ba huyệt trước bình tai z=−0,28, và GB8 (164,80 · −1,99, đã có). Cụ thể: TE18/TE19 nội suy ≈ 0,45–0,50 quãng từ hõm ống tai tới mỏm chũm; TE20 dựng THẲNG DƯỚI GB8 1,5 thốn (2,10cm) — đúng nguyên văn Focks \"Gb 8 thẳng trên đỉnh tai\", và ảnh xác nhận GB8 (x=1008) với TE20 (x=1007) cùng một đường dọc, khỏi cần vành tai.",
+   "huyet": [
+    {
+     "code": "TE17",
+     "nhanCham": "Chấm ĐEN nhãn \"SJ 17\" trên bản khắc nghiêng đầu, pixel (1058,673) khung trang p264; cùng chấm ở p282 tại (1215,658) — trùng khớp sau khi trừ offset (159,−13). Nằm ngay dưới-sau dái tai, chỗ hai đường xanh (kinh TE lên tai và TE xuống cổ) gặp nhau.",
+     "pheps": [
+      {
+       "mocA": "TE21",
+       "mocB": "GB12",
+       "tAnh": 0.5425,
+       "tMesh": 0.562,
+       "chenhCm": 0.09
+      },
+      {
+       "mocA": "GB2",
+       "mocB": "GB12",
+       "tAnh": 0.4516,
+       "tMesh": 0.386,
+       "chenhCm": -0.23
+      },
+      {
+       "mocA": "GB11",
+       "mocB": "GB12",
+       "tAnh": 1.0587,
+       "tMesh": 0.177,
+       "chenhCm": -1.87
+      }
+     ],
+     "mocThiHanhDuoc": "MASTOID (mỏm chũm, mesh x4,71 · y157,05 · z−5,84) + góc hàm dưới (y 152,65, đã dùng cho TE16) — hõm giữa hai mốc này, đúng câu định nghĩa. Không cần vành tai.",
+     "ketLuan": "lech-nhe",
+     "ghiChu": "z ĐÚNG: ảnh cho z = −0,98…−1,09; mesh −1,08. Đây là chỗ duy nhất của cả cung mà mesh không sai. Cao độ hơi CAO: ảnh cho y = 155,68…155,90 (ba mốc: so GB2 155,82 · so GB12 156,01 · so ST7 155,64), mesh 156,39 → hạ 0,4–0,7cm. KẾT LUẬN QUAN TRỌNG: TE17 KHÔNG phải nguyên nhân cung sai. Hai vụ chập mà phiên trước ghi (TE17 sát GB11 1,30cm, sát GB2 1,38cm) là do GB11 đặt quá TRƯỚC 2,4–2,8cm, không phải do TE17 — phép chiếu lên GB11→GB12 lệch 1,87cm trong khi hai phép còn lại (lên GB2→GB12 và TE21→GB12) đều khớp dưới 0,25cm. Bỏ mốc GB11 ra thì sai số nền tụt ngay từ 1,87 xuống 0,09–0,23cm: lỗi nằm ở MỐC, đúng như bẫy số 2. Vì TE17 là nút mốc và nó đúng, cung phải xoay quanh nó."
+    },
+    {
+     "code": "TE18",
+     "nhanCham": "Chấm ĐỎ của trang p264 (Khế Mạch), pixel (946,579), nhãn đỏ \"SJ 18\" ngay dưới-trái. Nằm trên mặt xám mỏm chũm, sát ngoài đường viền cam của vành tai, giữa GB11 (898,549, phía sau) và bờ sau vành tai. Cùng chấm này là chấm ĐEN (1104,566) ở trang p282.",
+     "pheps": [
+      {
+       "mocA": "GB8",
+       "mocB": "GB12",
+       "tAnh": 0.7104,
+       "tMesh": 0.707,
+       "chenhCm": -0.03
+      },
+      {
+       "mocA": "GB2",
+       "mocB": "GB10",
+       "tAnh": 0.3967,
+       "tMesh": 0.213,
+       "chenhCm": -0.45
+      },
+      {
+       "mocA": "GB10",
+       "mocB": "GB12",
+       "tAnh": 0.6107,
+       "tMesh": 0.149,
+       "chenhCm": -1.61
+      },
+      {
+       "mocA": "GB11",
+       "mocB": "GB12",
+       "tAnh": 0.2789,
+       "tMesh": -0.571,
+       "chenhCm": -1.8
+      }
+     ],
+     "mocThiHanhDuoc": "Nội suy trên đoạn hõm ống tai ngoài (y158,1 · z−1,5) → MASTOID (y157,05 · z−5,84) ở t ≈ 0,45; hoặc: cùng cao độ với đường ngang qua GB2 nhích lên 0,45cm, lùi sau mặt phẳng bình tai 3,1–3,4cm. Cả hai chỉ dùng mốc xương mesh CÓ.",
+     "ketLuan": "lech-nang",
+     "ghiChu": "TÁCH BẠCH ĐƯỢC HAI TRỤC. CAO ĐỘ ĐÚNG NGUYÊN: phép chiếu lên GB8→GB12 (đoạn gần như thẳng đứng, nên t đo chủ yếu là cao độ) cho mesh 0,707 vs ảnh 0,710 — chênh 0,03cm, khớp gần như tuyệt đối; tính thẳng: ảnh cho y = 157,81…157,88, mesh 157,86. GIỮ NGUYÊN y. SAI Ở TRỤC TRƯỚC-SAU: ảnh đo TE18 cách mặt phẳng bình tai 146,7px về sau = 3,15…3,42cm (thang 0,0215–0,0233), tức z = −3,43 (dải −3,2…−3,7); mesh −0,60 → quá TRƯỚC 2,8–3,1cm. Kiểm chéo không cần thang: trên ảnh GB12 nằm hơi TRƯỚC TE18 (Δx +22px), mesh lại đặt GB12 SAU TE18 2,32cm — sai cả chiều. Đề xuất TE18 = (y 157,86 giữ · z −3,43) ⇒ chuẩn-hoá y=0,9183 z=−0,0200."
+    },
+    {
+     "code": "TE19",
+     "nhanCham": "Chấm ĐỎ của trang p265 (Lư Tức), pixel (938,438); ở p266 cùng vị trí có nhãn chữ ĐEN \"SJ 19\" (đọc rõ trong ảnh phóng 3×), ở p264 là chấm đen (938,437). Nằm sát ngoài bờ sau vành tai, cao hơn TE18 142px, gần như cùng một đường dọc với TE18 (Δx chỉ 8px).",
+     "pheps": [
+      {
+       "mocA": "GB8",
+       "mocB": "GB12",
+       "tAnh": 0.3748,
+       "tMesh": 0.569,
+       "chenhCm": 1.88
+      },
+      {
+       "mocA": "GB2",
+       "mocB": "GB10",
+       "tAnh": 0.7766,
+       "tMesh": 0.175,
+       "chenhCm": -1.47
+      },
+      {
+       "mocA": "GB10",
+       "mocB": "GB12",
+       "tAnh": 0.1768,
+       "tMesh": -0.246,
+       "chenhCm": -1.47
+      },
+      {
+       "mocA": "GB10",
+       "mocB": "GB11",
+       "tAnh": 0.3075,
+       "tMesh": 0.053,
+       "chenhCm": -0.39
+      }
+     ],
+     "mocThiHanhDuoc": "Cùng bộ mốc với TE18: đoạn hõm ống tai → MASTOID, lấy t ≈ 0,48 rồi nâng cao độ. Neo cao độ vào GB8 (164,80): TE19 thấp hơn GB8 3,5–3,9cm. Không mốc nào cần vành tai.",
+     "ketLuan": "lech-nang",
+     "ghiChu": "SAI CẢ HAI TRỤC. z: ảnh đo 154,7px sau mặt phẳng bình tai = 3,33…3,61cm ⇒ z ≈ −3,61 (dải −3,4…−3,9); mesh +0,28, tức đang nằm TRƯỚC cả GB2 — lệch 3,7…4,2cm, bất khả thi vì Lư Tức bám bờ sau vành tai. y: ảnh cho 160,68…161,19 (so GB2 160,89 · so GB12 161,51 · so GB8 161,28), mesh 159,09 → thiếu 1,6…2,1cm; phép chiếu GB8→GB12 xác nhận độc lập: chênh 1,88cm về phía GB12, tức mesh đặt TE19 quá THẤP. Đề xuất TE19 = (y 160,90 · z −3,61) ⇒ chuẩn-hoá y=0,9360 z=−0,0210. Kiểm bằng tỉ lệ dọc bờ tai: trên ảnh TE18 ở 38% và TE19 ở 75% chiều dài cung TE17→TE20, sát nguyên văn Focks 1/3 và 2/3."
+    },
+    {
+     "code": "TE20",
+     "nhanCham": "Chấm ĐỎ của trang p266 (Giác Tôn), pixel (1007,373), nhãn ĐỎ \"SJ 20\" ngay trên. Đã phóng 3× đọc chữ để chắc chắn (bẫy dùng lại bản khắc). Chấm nằm ĐÚNG trên đỉnh đường viền cam của vành tai. Bộ do-anh-atlas BỎ SÓT chấm này ở p264/p265 vì nó chồng lên nét xanh — phải tự dò tay.",
+     "pheps": [
+      {
+       "mocA": "GB8",
+       "mocB": "GB2",
+       "tAnh": 0.2578,
+       "tMesh": 0.753,
+       "chenhCm": 3.78
+      },
+      {
+       "mocA": "GB10",
+       "mocB": "TE21",
+       "tAnh": 0.266,
+       "tMesh": 1.925,
+       "chenhCm": 3.49
+      },
+      {
+       "mocA": "GB8",
+       "mocB": "GB12",
+       "tAnh": 0.207,
+       "tMesh": 0.487,
+       "chenhCm": 2.7
+      },
+      {
+       "mocA": "GB10",
+       "mocB": "GB2",
+       "tAnh": 0.2228,
+       "tMesh": 1.158,
+       "chenhCm": 2.29
+      }
+     ],
+     "mocThiHanhDuoc": "MẠNH NHẤT CỦA CẢ PHIÊN: dựng thẳng dưới GB8 đúng 1,5 thốn đầu = 2,10cm. Ảnh chứng minh GB8 (x=1008) và TE20 (x=1007) nằm cùng một đường dọc (lệch 1px), đúng câu Focks \"Suất cốc cách đỉnh tai 1,5 thốn\" và \"Gb 8 thẳng trên đỉnh tai\". GB8 mesh đã có sẵn (164,80 · −1,99) nên phép dựng KHÔNG cần vành tai, không cần chân tóc, không cần thang mới. Mốc phụ kiểm chéo: GB7 \"ngang chóp tai\" — ảnh cho GB7 (y376) và TE20 (y373) cùng mức, lệch 3px.",
+     "ketLuan": "lech-nang",
+     "ghiChu": "SAI NẶNG NHẤT VỀ z TRONG CUNG SAU TAI. z: ảnh đo 85,7px sau mặt phẳng bình tai = 1,84…2,00cm ⇒ z ≈ −2,05 (dải −2,0…−2,3), và đường dựng GB8 cho z = −1,99 — HAI ĐƯỜNG ĐỘC LẬP TRÙNG NHAU. Mesh +1,68 → quá TRƯỚC 3,7…4,0cm. y: đường dựng GB8 cho 164,80−2,10 = 162,70; đo ảnh cho 162,27 (thang 0,0215) đến 162,68 (thang 0,0233) — lại trùng. Mesh 159,82 → quá THẤP 2,2…2,9cm; phép chiếu GB8→GB2 xác nhận chênh 3,78cm cùng chiều. Đề xuất TE20 = (y 162,30 · z −2,05) ⇒ chuẩn-hoá y=0,9442 z=−0,0119. Ghi chú thận trọng: vành tai trên bản khắc vẽ TO hơn thực ~20% (dài 300px ≈ 7,7cm), nên con số cao độ đo thuần bằng ảnh có xu hướng dôi lên; vì thế tôi lấy 162,30 chứ không lấy 162,68, và ưu tiên đường dựng GB8−1,5 thốn."
+    },
+    {
+     "code": "TE22",
+     "nhanCham": "Chấm ĐEN nhãn \"SJ 22\" — đọc được nhãn ở trang p282 (GB11), pixel (1263,493); quy về khung p264 là (1104,506), trùng chấm đen do-anh-atlas dò được (1104,508). Nằm TRÊN chân vành tai phía trước, ngay sau và trên GB3 (1170,537 ở khung p264).",
+     "pheps": [
+      {
+       "mocA": "TE21",
+       "mocB": "TE23",
+       "tAnh": 0.1199,
+       "tMesh": 0.768,
+       "chenhCm": 4.63
+      },
+      {
+       "mocA": "GB2",
+       "mocB": "TE23",
+       "tAnh": 0.1745,
+       "tMesh": 0.792,
+       "chenhCm": 4.83
+      },
+      {
+       "mocA": "TE21",
+       "mocB": "GB3",
+       "tAnh": 0.4122,
+       "tMesh": 1.52,
+       "chenhCm": 3.57
+      },
+      {
+       "mocA": "GB11",
+       "mocB": "GB3",
+       "tAnh": 0.7625,
+       "tMesh": 1.418,
+       "chenhCm": 3.46
+      },
+      {
+       "mocA": "GB2",
+       "mocB": "GB7",
+       "tAnh": 0.4107,
+       "tMesh": 0.458,
+       "chenhCm": 0.35
+      }
+     ],
+     "mocThiHanhDuoc": "Bờ TRÊN cung gò má ở ĐẦU SAU của cung (mesh đã đo đoạn cung gò má còn là thanh xương sạch: bờ trên y158,5 · bờ dưới y157,6 tại z≈+2,9; GB3 và ST7 đã neo vào đó) — lấy đầu SAU của cung, sát mặt phẳng gốc tai, rồi tiến 0,5 thốn (0,70cm) về hướng mắt. Cách hai: neo thẳng vào TE21 (đã hạng A) — lên 1,3–1,5cm, tiến 0,2–0,3cm. Không mốc nào cần vành tai.",
+     "ketLuan": "lech-nang",
+     "ghiChu": "TÌM RA ĐÚNG CƠ CHẾ HỎNG: mesh đặt TE22 lệch khỏi đoạn TE21→TE23 chỉ 0,01cm, ở t=0,768 — tức nó được NỘI SUY TUYẾN TÍNH trên dây cung TE21→TE23, không phải dựng theo mốc. Ảnh cho t=0,120. Chênh 4,63cm. Bằng chứng phụ về CHIỀU: ảnh có GB3 nằm TRƯỚC TE22 (1170 vs 1104), mesh lại có TE22 trước GB3 (z +4,52 vs +2,94) — sai chiều, bắt được không cần thang. Con số đo: z ≈ −0,05 (dải −0,8…+0,1; đo ảnh cho −0,04, còn nguyên văn Focks \"từ bờ trên gốc tai tiến 0,5 thốn về hướng mắt\" cho −1,5+0,7 = −0,8); mesh +4,52 → quá TRƯỚC 3,7…4,6cm. y ≈ 159,40 (dải 159,2…160,3: so GB2 159,37 · so GB3 159,55 · so TE21 160,26); mesh 161,24 → quá CAO 1,0…1,9cm. Đề xuất TE22 = (y 159,40 · z −0,05) ⇒ chuẩn-hoá y=0,9273 z=−0,0003. Lưu ý phép GB2→GB7 báo \"khớp 0,35cm\" là ĐÁNH LỪA: TE22 lệch khỏi đoạn đó tới 5,22cm nên t trên đoạn ấy vô nghĩa — đừng dùng cặp mốc này."
+    }
+   ]
+  },
+  {
+   "cungSauTai": "DẢI z ĐÚNG (đo được, không ước): TE17 ≈ −1,0cm · TE20 ≈ −2,1cm · TE18 ≈ −3,36cm · TE19 ≈ −3,53cm (sai số ±0,2cm). Thứ tự trước→sau: TE17 (trước nhất) → TE20 → TE18 → TE19 (sau nhất).\n\nDỰA VÀO ĐÂU. Trang p264 (Khế Mạch) có bản khắc ĐẦU NHÌN NGHIÊNG, mặt quay phải — đúng mặt phẳng (z,y) của mesh, nên đọc thẳng ra z chứ không phải suy. Ba trang p263/p264/p265/p266/p268 dùng CÙNG một bản khắc (đã chứng minh bằng phép dịch tịnh tiến: p263 = p264 + (350,0); p268 = p264 + (327,702), khớp từng chấm đến 1px) nên gộp được TE17, TE18, TE19, TE20, TE22 vào MỘT hệ toạ độ ảnh duy nhất.\n\nTHƯỚC. Lấy GB2 img(1092,601) làm gốc (mesh z=−0,28 y=157,39), tỉ lệ 47,4 px/cm. Thước này được kiểm bằng BỐN huyệt đã nghiệm thu hạng A nằm rải khắp bốn phía: GB12 sau-dưới (lệch 0,10cm), GB8 trên (0,79cm), GB1 trước (0,37cm), TE23 trước-trên (0,64cm), thêm SI19 (0,37) và TE21 (0,77). Sai số nền = 0,51cm trung bình, và riêng TRỤC z thì dư ≤0,15cm ở cả bốn mốc — tức trục z của phép đo này chính xác tới ~1,5mm.\n\nKẾT LUẬN VỀ CUNG.\n· TE17 KHỚP (lệch 0,53cm, Δz chỉ −0,09cm) — nút mốc cung tai KHÔNG hỏng, đừng đụng.\n· TE18 lệch 2,76cm THUẦN theo z (cao độ y đúng tuyệt đối: ảnh 157,85 / mesh 157,86).\n· TE19 lệch 4,18cm (z sai 3,80 + cao độ thấp 1,74).\n· TE20 lệch 4,46cm (z sai 3,78 + cao độ thấp 2,36).\nVậy ước tính phiên trước (TE18 ≈ −2,5…−3,4) ĐÚNG, và giá trị đo được nằm ở đầu SAU của dải: −3,36.\n\nSỬA THƯỚC PHIÊN TRƯỚC: chỉ GB12 (−2,92) dùng làm thước được. GB10/GB11 thì KHÔNG — ảnh cho GB11 ở z=−4,37 trong khi mesh để −2,06 (lệch 2,64cm), GB20 lệch 1,91cm, GB19 lệch 6,05cm. Nếu lấy dải GB10–GB12 (−2,06…−2,92) làm chuẩn thì sẽ kéo TE18/TE19 lên trước 0,5cm so với đúng. Dải đúng của cặp thật sự sau tai (TE18, TE19) là z ∈ [−3,6; −3,3], tức NGAY SAU GB12 và NGAY TRƯỚC GB11-đã-sửa.\n\nMỐC THI HÀNH (mesh không có vành tai nên mọi cách dựng phải neo vào đây): phần chũm của \"Xương thái dương trái\" (FMA52739, z∈[−6,53;+3,44] y∈[155,4;162,9]) cho TE18/TE19; GB12 đã nghiệm thu cho biên trước; GB8 đã nghiệm thu cho z của TE20 (trên bản khắc, chấm TE20 và chấm GB8 lệch nhau ĐÚNG 2px theo phương trước-sau — hai huyệt cùng một mặt phẳng z); TE17 + góc hàm dưới cho đầu dưới cung. Ảnh chụp góc trên-trái p264 in sẵn \"1/3 – 1/3 – 1/3\" trên cung TE17→TE20 (đo lại được 125/129/141px, đều nhau) nên sau khi có hai đầu TE17 và TE20 thì TE18/TE19 chia ba là ra.",
+   "huyet": [
+    {
+     "code": "TE3",
+     "nhanCham": "Chấm ĐỎ 'SJ 3' trên bản vẽ xương MU BÀN TAY p249, pixel (761,549). Các chấm đen cùng hình đã gán nhãn đủ: Dü 1=SI1(945,90) · Di 2=LI2(313,265) · Di 3=LI3(307,423) · Ex-UE 8(475,443) · Dü 2=SI2(911,461) · Ex-UE 9=(241,521) · Di 4=LI4(295,584) · Dü 3=SI3(882,595) · Ex-UE 7(455,675) và (691,725) · Dü 4=SI4(771,897) · Di 5=LI5(283,982) · Dü 5=SI5(695,1042). Trang KHÔNG có thước thốn.",
+     "pheps": [
+      {
+       "mocA": "LI3",
+       "mocB": "SI3",
+       "tAnh": 0.785,
+       "tMesh": 0.713,
+       "chenhCm": -0.69
+      },
+      {
+       "mocA": "SI4",
+       "mocB": "SI1",
+       "tAnh": 0.41,
+       "tMesh": 0.369,
+       "chenhCm": -0.44
+      },
+      {
+       "mocA": "LI5",
+       "mocB": "SI1",
+       "tAnh": 0.57,
+       "tMesh": 0.536,
+       "chenhCm": -0.51
+      },
+      {
+       "mocA": "LI4",
+       "mocB": "SI3",
+       "tAnh": 0.792,
+       "tMesh": 0.698,
+       "chenhCm": -0.92
+      },
+      {
+       "mocA": "SI2",
+       "mocB": "SI4",
+       "tAnh": 0.283,
+       "tMesh": 0.226,
+       "chenhCm": -0.32
+      },
+      {
+       "mocA": "SI1",
+       "mocB": "SI4",
+       "tAnh": 0.59,
+       "tMesh": 0.631,
+       "chenhCm": 0.44
+      }
+     ],
+     "mocThiHanhDuoc": "Xương đốt bàn tay 4 trái và 5 trái (bone, mesh có, hồ sơ §8 đo 0,75 và 1,23cm) · Tập hợp cơ gian cốt mu bàn tay trái (0,73cm) · Cơ duỗi các ngón trái (0,56cm). Ba mốc này đủ dựng TE3 = tâm khe gian cốt 4–5 tại chỗ chuyển thân→chỏm, không cần vành tai hay mốc suy diễn.",
+     "ketLuan": "khop",
+     "ghiChu": "SÁU phép chiếu, chênh −0,92…+0,56cm, bốn phép dưới 0,5cm. Vị trí TRONG MẶT PHẲNG mu tay đúng; TE3 và SI3 gần như cùng mức dọc (t=−0,004 trên SI3→SI4) đúng như Focks nói 'cùng mức với Dü 3 và Ex-UE 8'. VẤN ĐỀ ĐỘ SÂU LÀ CỦA HT8, KHÔNG PHẢI TE3. Đọc trục z bàn tay trên mesh: LI4 Hợp Cốc (mu tay) z=2,63 · TE3 z=2,05 · LI3 và SI3 (hai cạnh bên bàn tay) z=3,87 và 3,83 · PC8 Lao Cung (GAN tay) z=5,83. Vậy mặt mu ≈ z 2,0–2,6 và mặt gan ≈ z 5,8, bề dày bàn tay ≈3,2cm. HT8 Thiếu Phủ đang ở z=2,41 — tức nằm trên MẶT MU cùng với LI4, trong khi Thiếu Phủ là huyệt GAN TAY (khe xương bàn 4–5 mặt gan, cùng lớp với Lao Cung). HT8 phải ở z ≈ 5,2–5,5. Khoảng cách TE3↔HT8 0,87cm là do HT8 bị đặt sai mặt, sâu thiếu ~3,1cm. TE3 giữ nguyên."
+    },
+    {
+     "code": "TE11",
+     "nhanCham": "Focks KHÔNG có trang riêng cho TE11, nhưng trang TE12 (p258) VẼ và GHI NHÃN 'SJ 11' trên bản khắc giữa, và bản khắc đó CÓ THƯỚC THỐN IN SẴN. Đã quét thước: ruler cánh tay 9 vạch (0 ở nếp nách, 9 ở nếp khuỷu) + ruler cẳng tay 12 vạch nối tiếp. Chấm đã gán nhãn (toạ độ trong khung crop origin(900,0) scale 3): SJ 13(432,88) · Dü 9(253,190) · Di 14(698,447) · SJ 12 đỏ(482,645) · Di 13(710,988) · SJ 11(549,1188) · chấm không nhãn(560,1303)=TE10 · Di 12(706,1277) · Dü 8(447,1490).",
+     "pheps": [
+      {
+       "mocA": "TE10",
+       "mocB": "TE14",
+       "tAnh": 0.071,
+       "tMesh": 0.253,
+       "chenhCm": 4.71
+      },
+      {
+       "mocA": "TE10",
+       "mocB": "TE12",
+       "tAnh": 0.174,
+       "tMesh": 0.619,
+       "chenhCm": 4.75
+      },
+      {
+       "mocA": "TE10",
+       "mocB": "TE13",
+       "tAnh": 0.094,
+       "tMesh": 0.339,
+       "chenhCm": 4.76
+      }
+     ],
+     "mocThiHanhDuoc": "KHÔNG CẦN THANG THỐN NỮA — thế treo đã gỡ. Neo bằng chính ba huyệt đã nghiệm thu hạng A của đoạn: TE10, TE12, TE13. TE11 nằm trên dây cung TE10→TE14 tại t=0,071, tức cách TE10 1,84cm về phía TE14 (dây cung mesh dài 25,85cm). Mốc xương phụ trợ nếu muốn kiểm: mỏm khuỷu xương trụ trái (TE11 = 2 thốn trên mỏm khuỷu, TE10 = 1,1 thốn).",
+     "ketLuan": "lech-nang",
+     "ghiChu": "GIẢI MÃ THƯỚC. Đặt n=(0,3320; 0,9433) vuông góc mép 0 của thước; cun(P) = (n·P − 376,7)/132,1 px. Thước được KIỂM CHỨNG bằng ba huyệt Đại Trường in cùng hình mà sách học thuộc lòng: Di 14 (Tý Nhu, sách: 7 thốn trên khuỷu → phải ra 2,00) đo được 2,09 · Di 13 (Thủ Ngũ Lý, 3 thốn trên khuỷu → 6,00) đo được 5,99 · Di 12 (Trửu Liêu, ~1 thốn → 8,00) đo được 8,04 · Dü 8 (Tiểu Hải, ngay khuỷu → 9,00) đo được 8,91. Sai số thước ≤0,1 thốn.\nĐỌC RA: TE13=−1,14 · TE12=2,97 · TE11=7,01 · TE10=7,86 (đơn vị thốn, 9=nếp khuỷu). Vậy TE11 đúng 1,99 thốn trên nếp khuỷu = đúng nguyên văn từ điển app 'trên khớp khuỷu tay 2 thốn, trên TE10 1 thốn'.\nCHỨNG MINH DÂY CUNG TUYẾN TÍNH: TE10→TE12 cho 0,0836 t/thốn, TE12→TE13 cho 0,0830 t/thốn — trùng nhau. Áp thang này vào mesh cho TE12 t=0,4075 (mesh đang 0,409, chênh 0,04cm) và TE13 t=0,750 (mesh đang 0,750, chênh 0,01cm). Hai huyệt đã chốt hạng A khớp GẦN NHƯ TUYỆT ĐỐI với thước in — nên t(TE11)=0,071 rút ra từ cùng thang là chắc chắn.\nMESH ĐANG SAI 4,7cm: TE11 ở t=0,253 thay vì 0,071, tức bị đẩy lên phía vai 4,71cm. Ba cặp mốc độc lập đều ra +4,71/+4,75/+4,76 — nhất quán.\nPHỤ: bảng ảnh bên phải p258 in 'đầu sau mỏm cùng vai → Giữa → mỏm khuỷu' với 6 thốn / 4 thốn và SJ12 cách Giữa 1 thốn, tức TE14→TE10 = 10 thốn và TE12 ở 6/10 = t 0,40 — xác nhận độc lập lần hai cho TE12.\nTHANG THỐN CÁNH TAY (trả lời câu treo hai phiên): từ thước in + TE12/TE13 đã chốt, 1 thốn cánh tay trên mesh này = 25,85cm ÷ 12,0 thốn = 2,15cm; kiểm lại bằng TE12↔TE13 (8,80cm ÷ 4,11 thốn) = 2,14cm. KHÔNG phải 2,57 / 3,27 / 3,49 như ba cách đo cũ. Nhưng nhắc lại: sửa TE11 không cần con số này."
+    },
+    {
+     "code": "TE15",
+     "nhanCham": "p261 có ba bảng. Bảng ảnh chụp (góc dưới-trái) IN SẴN THƯỚC 1/2–1/2: mũi tên từ 'Mỏm gai C7' tới 'Mỏm cùng vai', chấm đỏ SJ 15 đúng trung điểm. Đo trong khung crop origin(380,830) scale 2,4: C7(275,252) · mỏm cùng vai(1200,543) · SJ15 đỏ(742,392) — trung điểm tính ra (737,398), lệch chấm đỏ 5px, xác nhận cách đọc. Các chấm xám cùng bảng: Gb 21(760,268) · Dü 12=SI12(848,458) · Di 16=LI16(1070,483) · Dü 13=SI13(727,514) · Dü 10=SI10(1128,600). Bảng vẽ xương (góc trên-trái) độc lập: SJ15 đỏ(515,295) · Gb21(545,205) · Dü15=SI15(399,249) · Dü14=SI14(458,285) · Dü13=SI13(489,381) · Dü10=SI10(670,328) · SJ14=TE14(731,323) · SJ13=TE13(734,462) · Dü11=SI11(571,462) · Dü9=SI9(671,496) · Di14=LI14(824,582); đường giữa cột sống x=303.",
+     "pheps": [
+      {
+       "mocA": "GV14",
+       "mocB": "SI10",
+       "tAnh": 0.527,
+       "tMesh": 0.598,
+       "chenhCm": 1.49
+      },
+      {
+       "mocA": "GV14",
+       "mocB": "TE14",
+       "tAnh": 0.527,
+       "tMesh": 0.635,
+       "chenhCm": 2.17
+      },
+      {
+       "mocA": "GV14",
+       "mocB": "LI16",
+       "tAnh": 0.589,
+       "tMesh": 1.077,
+       "chenhCm": 5.93
+      }
+     ],
+     "mocThiHanhDuoc": "Mỏm gai C7 (mesh có, GV14 nằm trên đó) · Mỏm cùng vai + gai xương bả vai (mesh có 'xương bả vai trái'; 'Phần mỏm cùng vai của cơ delta trái' FMA34683 x[0,085–0,132] y[0,746–0,830] khoanh được mỏm cùng vai) · Góc trên xương bả vai (Focks: TE15 ở chỗ nhô góc trên xương bả vai) · GB21 (đã kiểm khớp 0,02cm, dùng làm mốc phụ: TE15 cách GB21 2,7cm theo hướng DƯỚI–SAU, không phải hướng NGOÀI).",
+     "ketLuan": "lech-nhe",
+     "ghiChu": "Vì ảnh là bảng chụp NHÌN TỪ SAU, tôi chiếu mesh trên mặt phẳng (x,y) bỏ z — đúng phép so sánh; chiếu 3D sẽ lẫn độ sâu vào và thổi sai số lên vô nghĩa.\nMỐC ĐỐI CHỨNG: GB21 chiếu trên GV14→SI10 cho t_mesh 0,481 vs t_ảnh 0,482 — CHÊNH 0,02cm. Tức GV14, SI10, GB21 nhất quán giữa mesh và sách; sai số nền của phép này gần bằng 0.\nTE15 lệch nhẹ 1,5–2,2cm RA NGOÀI. Theo tỉ lệ chuẩn hoá bằng đoạn GV14→GB21 (=10,50cm trên mesh): ảnh đòi GB21↔TE15 = 0,258×10,50 = 2,71cm, mesh có 2,61cm — ĐỘ LỚN ĐÚNG, nhưng HƯỚNG SAI 90°: trên ảnh TE15 nằm gần như thẳng DƯỚI GB21 (dx=−18px, dy=+124px), còn mesh đặt nó NGANG BẰNG và ra NGOÀI GB21 (Δy chỉ +0,23cm, Δx +2,60cm). Thước in 1/2–1/2 đòi TE15 ở trung điểm; mesh đang ở t≈0,59–0,64 của GV14→mỏm cùng vai.\nCÁI SAI NẶNG LÀ LI16, KHÔNG PHẢI TE15. Trên ảnh Di 16 nằm ở t=0,947 của GV14→SI10 (sát mỏm cùng vai, đúng định nghĩa Cự Cốt = hõm giữa đầu ngoài xương đòn và gai vai); mesh để nó ở t=0,549 → CHÊNH −8,40cm. Ảnh đòi TE15↔LI16 ≈ 7–8cm chứ không phải 1,15cm. Vậy cờ 'TE15 sát LI16 1,15cm' phải quy cho LI16.\nCÒN NGỜ (không đo được từ ảnh này vì là bảng nhìn sau, thiếu chiều sâu): mesh TE15 z=−3,64 trong khi SI12 z=−12,75 và SI13 z=−13,08 — chênh 9cm giữa ba huyệt cùng nằm trong hố trên gai. Hồ sơ §8 cũng báo cấu trúc gần TE15 nhất là XƯƠNG ĐÒN 1,04cm. Nghi TE15 đang bám xương đòn thay vì hố trên gai; cần một bảng NHÌN NGHIÊNG hoặc phép đo tầng mô để phán, tôi không dám kết luận từ ảnh nhìn sau. SI12/SI13 cũng lệch −4,75 và −5,04cm (quá medial) trên cùng phép đo — ngoài phạm vi việc này."
+    },
+    {
+     "code": "TE17",
+     "nhanCham": "Chấm ĐỎ 'SJ 17' trên bản khắc đầu nhìn nghiêng p263, pixel (1408,673) → quy về khung chuẩn p264 là (1058,673) (p263 = p264 + (350,0), kiểm bằng ba chấm đỉnh đầu khớp 1px). Vùng lân cận đã gán nhãn: cụm SJ21(1092,570)/Dü19=SI19(1092,585)/Gb2(1092,601) · Gb12(970,703) · Ex-HN An Miên(939,682) · Gb11(898,549) · Gb20(810,674). Bảng ảnh chụp p263 ghi rõ hai mốc xương: 'Mỏm chũm' và 'Góc hàm dưới'.",
+     "pheps": [
+      {
+       "mocA": "GB12",
+       "mocB": "GB8",
+       "tAnh": 0.091,
+       "tMesh": 0.132,
+       "chenhCm": 0.39
+      },
+      {
+       "mocA": "GB2",
+       "mocB": "GB8",
+       "tAnh": -0.187,
+       "tMesh": -0.104,
+       "chenhCm": 0.63
+      }
+     ],
+     "mocThiHanhDuoc": "Mỏm chũm của 'Xương thái dương trái' (FMA52739, mesh CÓ) và góc hàm dưới của xương hàm dưới — đúng hai mốc sách in trên ảnh chụp. Thêm GB12 (đã nghiệm thu, kiểm lại lệch 0,10cm) làm mốc thứ ba. Cả ba đều thi hành được, không dính vành tai.",
+     "ketLuan": "khop",
+     "ghiChu": "Dựng lại trực tiếp bằng khung nghiêng: ảnh cho z=−1,00 y=155,87; mesh có z=−1,08 y=156,39 → lệch 0,53cm, Δz chỉ −0,09cm. So với sai số nền 0,51cm trung bình (đo trên sáu mốc hạng A: GB12 0,10 · GB8 0,79 · GB1 0,37 · TE23 0,64 · SI19 0,37 · TE21 0,77) thì TE17 nằm ĐÚNG trong nền. KẾT LUẬN QUAN TRỌNG CHO CẢ CUNG: TE17 KHÔNG phải nguyên nhân. Nút mốc lành, chỉ ba huyệt TE18/19/20 bị bẹp về trước. Cờ 'TE17 sát GB11 1,30cm' là do GB11 sai (ảnh đòi GB11 ở z=−4,37, mesh để −2,06); cờ 'TE17 sát GB2 1,38cm' thì đúng bằng khoảng cách sách vẽ (34px ngang + 72px dọc ≈ 0,72 + 1,52cm → 1,68cm), không phải chập."
+    },
+    {
+     "code": "TE18",
+     "nhanCham": "Chấm ĐỎ 'SJ 18' trên bản khắc nghiêng p264, pixel (946,579). Xác nhận chéo: cùng chấm này in ĐEN ở p265/p266 tại (945,578) và ở p263 tại (1295,579)=(945,579) sau khi trừ tịnh tiến — đúng cảnh báo 'sách in lại bản khắc'. Bảng ảnh chụp góc trên-trái p264 in cung TE17→TE20 chia '1/3 · 1/3 · 1/3', SJ18 ở vạch 1/3 dưới, pixel (228,299); đo lại ba đoạn cung được 125/129/141px — đều nhau.",
+     "pheps": [
+      {
+       "mocA": "GB2",
+       "mocB": "GB12",
+       "tAnh": 0.616,
+       "tMesh": -0.009,
+       "chenhCm": -2.1
+      },
+      {
+       "mocA": "GB12",
+       "mocB": "GB8",
+       "tAnh": 0.29,
+       "tMesh": 0.289,
+       "chenhCm": -0.01
+      },
+      {
+       "mocA": "GB2",
+       "mocB": "GB8",
+       "tAnh": 0.182,
+       "tMesh": 0.069,
+       "chenhCm": -0.86
+      }
+     ],
+     "mocThiHanhDuoc": "Phần chũm của 'Xương thái dương trái' (FMA52739, z∈[−6,53;+3,44] y∈[155,4;162,9] — thừa sức chứa z=−3,4 ở y=157,9). Neo hai đầu bằng TE17 (vừa xác nhận khớp) và TE20; chia 1/3 theo thước in sẵn của sách. Biên trước là GB12 (z=−2,92): TE18 phải nằm SAU GB12 khoảng 0,45cm. KHÔNG được neo vào 'bờ sau vành tai' — mesh không có vành tai.",
+     "ketLuan": "lech-nang",
+     "ghiChu": "Dựng lại: ảnh cho z=−3,36 (khoảng tin cậy −3,56…−3,17) và y=157,85; mesh có z=−0,60 y=157,86. CAO ĐỘ ĐÚNG TUYỆT ĐỐI (chênh 0,01cm) — chỉ SAI THUẦN CHIỀU TRƯỚC-SAU 2,76cm. Đây là bằng chứng sạch nhất rằng lỗi của cụm này là một phép bẹp về phía trước chứ không phải đặt bừa.\nLƯU Ý ĐỌC PHÉP CHIẾU: cặp GB12→GB8 cho chênh gần 0 nhưng ĐỪNG hiểu là khớp — đoạn ấy gần thẳng đứng nên t chỉ đo cao độ; sai số thật nằm ở khoảng cách vuông góc với đoạn (2,06cm). Cặp GB2→GB12 mới là cặp nằm ngang, và nó cho −2,10cm, khớp với con số dựng lại 2,76cm.\nĐỀ XUẤT: z = −3,35 ± 0,20 · y giữ 157,86."
+    },
+    {
+     "code": "TE19",
+     "nhanCham": "Chấm ĐỎ 'SJ 19' p265 tại (938,438) trên cùng bản khắc nghiêng; ở p264/p266 chấm này in ĐEN tại (938,437). Trên ảnh chụp p264 là vạch 2/3 của cung, pixel (209,171) — điểm SAU NHẤT của cả cung, đúng như bản khắc nghiêng cho (x=938 là nhỏ nhất trong bốn huyệt).",
+     "pheps": [
+      {
+       "mocA": "GB2",
+       "mocB": "GB8",
+       "tAnh": 0.607,
+       "tMesh": 0.202,
+       "chenhCm": -3.08
+      },
+      {
+       "mocA": "GB12",
+       "mocB": "GB8",
+       "tAnh": 0.625,
+       "tMesh": 0.427,
+       "chenhCm": -1.88
+      }
+     ],
+     "mocThiHanhDuoc": "Phần chũm/trai của 'Xương thái dương trái'; vạch 2/3 trên cung TE17→TE20 (thước 1/3 in sẵn p264). Biên sau: ảnh đặt TE19 ở z=−3,53, tức vẫn TRƯỚC GB11-đo-lại (−4,37) và SAU GB12 (−2,92) — kẹp được giữa hai mốc xương chũm. KHÔNG neo vào 'bờ sau vành tai'.",
+     "ketLuan": "lech-nang",
+     "ghiChu": "Ảnh cho z=−3,53 (−3,74…−3,33) y=160,83; mesh có z=+0,28 y=159,09 → sai 3,80cm về trước và 1,74cm về thấp, tổng 4,18cm. Mesh đang để TE19 ở z DƯƠNG, tức NẰM TRƯỚC cả GB2 Thính Hội — bất khả thi giải phẫu, đúng như phiên trước nghi. Sau khi trừ độ chệch hệ thống +0,5cm của trục y (đo trên sáu mốc đối chứng), cao độ đúng ≈ 161,3."
+    },
+    {
+     "code": "TE20",
+     "nhanCham": "Chấm ĐỎ 'SJ 20' p266 tại (1007,373); trên p264 cùng chấm in đen ở (1006,374) (bộ tách chấm BỎ SÓT nó ở p264 vì dính đường kinh màu lam — tôi dò tay trên ảnh phóng 2,6×). Trên ảnh chụp p264 là đầu trên cung, pixel (313,81), nằm ngay trên đỉnh vành tai.",
+     "pheps": [
+      {
+       "mocA": "GB2",
+       "mocB": "GB8",
+       "tAnh": 0.743,
+       "tMesh": 0.252,
+       "chenhCm": -3.73
+      },
+      {
+       "mocA": "GB12",
+       "mocB": "GB8",
+       "tAnh": 0.792,
+       "tMesh": 0.517,
+       "chenhCm": -2.62
+      }
+     ],
+     "mocThiHanhDuoc": "GB8 Suất Cốc (đã nghiệm thu, kiểm lại lệch 0,79cm) — trên bản khắc, chấm TE20 (x=1006) và chấm GB8 (x=1008) chỉ cách nhau 2px theo phương trước-sau, tức HAI HUYỆT CÙNG MỘT MẶT PHẲNG z. Vậy dựng z(TE20) = z(GB8) = −2,0. Cao độ neo vào GB2/TE21 (TE20 cao hơn GB2 4,79cm) và vào mép trên xương thái dương / chân sau cung gò má, đều là mốc mesh CÓ. 'Đỉnh vành tai' KHÔNG thi hành được.",
+     "ketLuan": "lech-nang",
+     "ghiChu": "Ảnh cho z=−2,09 (−2,21…−1,98) y=162,18; mesh có z=+1,68 y=159,82 → sai 3,78cm về trước và 2,36cm về thấp, tổng 4,46cm. Mesh đang để Giác Tôn ở z=+1,68, tức trước GB2 gần 2cm — trong khi sách vẽ nó lùi sau GB2 hơn 2cm. Phép 'cùng mặt phẳng z với GB8' là phép mạnh nhất cho huyệt này vì GB8 đã hạng A và ảnh cho hai chấm trùng cột."
+    },
+    {
+     "code": "TE22",
+     "nhanCham": "Chấm ĐỎ 'SJ 22' p268 tại (1431,1210) → quy về khung chuẩn p264 là (1104,508) (p268 = p264 + (327,702); kiểm bằng hai cặp chấm xa nhau, sai 0–1px). Toạ độ (1104,508) đúng là một chấm ĐEN có sẵn trên p264 — xác nhận chéo. Bảng ảnh chụp p268 in kích thước '0,5 thốn' từ mép trước gốc tai, và đường ngang 'đường viền trên của gốc tai'.",
+     "pheps": [
+      {
+       "mocA": "GB2",
+       "mocB": "GB1",
+       "tAnh": 0.177,
+       "tMesh": 0.965,
+       "chenhCm": 4.86
+      },
+      {
+       "mocA": "GB12",
+       "mocB": "GB8",
+       "tAnh": 0.386,
+       "tMesh": 0.695,
+       "chenhCm": 2.95
+      },
+      {
+       "mocA": "GB2",
+       "mocB": "GB8",
+       "tAnh": 0.267,
+       "tMesh": 0.351,
+       "chenhCm": 0.64
+      }
+     ],
+     "mocThiHanhDuoc": "Gốc sau cung gò má (mesh có 'Xương gò má trái' FMA52893 và 'Xương thái dương trái' FMA52739 — chỗ hai xương gặp nhau chính là gốc trên-trước tai) · TE21 Nhĩ Môn (cấm đụng, dùng làm gốc: TE22 = TE21 dịch +0,25cm ra TRƯỚC và +1,31cm LÊN). Không cần vành tai.",
+     "ketLuan": "lech-nang",
+     "ghiChu": "Ảnh cho z=−0,03 (−0,04…−0,01) y=159,35; mesh có z=+4,52 y=161,24 → lệch 4,92cm, trong đó 4,55cm là sai chiều trước-sau. Mesh đang đẩy Nhĩ Hoà Liêu ra tận vùng đuôi mắt (giữa GB3 z=2,94 và GB1 z=5,35) trong khi sách đặt nó gần như CÙNG CỘT với TE21/SI19/GB2, chỉ nhích ra trước 12px = 0,25cm. Con số 0,25cm này khớp với thước '0,5 thốn' in trên ảnh chụp: mép trước gốc tai trên bản khắc ở x≈1075, TE22 ở 1104 → 29px = 0,61cm ≈ 0,5 thốn đầu (1 thốn đầu = 1,40cm). Hai phép độc lập (dựng lại khung, và thước 0,5 thốn) cùng chỉ một chỗ. Cặp GB2→GB8 chỉ cho 0,64cm vì đoạn ấy thẳng đứng, không phân giải được chiều trước-sau — phải đọc cặp GB2→GB1 (nằm ngang) mới ra 4,86cm."
+    }
+   ]
+  }
+ ],
+ "quyet": {
+  "cungSauTaiChot": "CHỐT ĐƯỢC. Hai người đọc ảnh cho hai dải trùng nhau trong 0,25cm ở cả bốn huyệt — xa dưới ngưỡng 1cm:\n\n  TE17  r1 −1,0…−1,1  ·  r2 −1,00   →  CHỐT z = −1,08 (giữ nguyên mesh)\n  TE18  r1 −3,2…−3,7  ·  r2 −3,36   →  CHỐT z = −3,40\n  TE19  r1 −3,4…−3,9  ·  r2 −3,53   →  CHỐT z = −3,57\n  TE20  r1 −2,0…−2,3  ·  r2 −2,09   →  CHỐT z = −2,05\n\nCAO ĐỘ cũng khớp: TE18 r1 giữ 157,86 / r2 157,85 (mesh 157,86 — ĐÚNG SẴN, cấm đụng) · TE19 160,90 / 160,83 → chốt 160,85 · TE20 162,30 / 162,18 → chốt 162,30 · TE22 159,40 / 159,35.\n\nBA LẬP LUẬN ĐỘC LẬP VỚI ẢNH (tôi tự dựng, không cần thang, không cần nhãn chữ):\n(1) RÀNG BUỘC KẸP. Mesh CÓ hai mốc: hõm ống tai ngoài z = −1,5 (anchors.cjs dòng 298) và MASTOID z = −5,84 (model-frame.cjs dòng 85). Vành tai thật nằm giữa hai mốc đó, nên mọi huyệt sau tai buộc phải rơi trong dải z ∈ (−1,5 ; −5,84). Mesh hiện có TE18 −0,60 và TE19 +0,28: CẢ HAI NẰM TRƯỚC CẢ HÕM ỐNG TAI — bất khả thi, không cần ảnh cũng bác được. Hai giá trị đề xuất −3,40 và −3,57 đều rơi đúng giữa dải.\n(2) NỘI SUY MỐC XƯƠNG TÁI LẬP ĐÚNG SỐ CỦA ẢNH. Nội suy trên đoạn hõm ống tai (158,1 · −1,5) → MASTOID (157,05 · −5,84) tại t = 0,45 cho (y 157,63 · z −3,45); ảnh đòi (157,86 · −3,40). Lệch 0,24cm. Phép dựng thuần mốc xương và phép đọc ảnh trùng nhau.\n(3) HÌNH DẠNG ĐƯỜNG KINH. Cung hiện tại đi TRƯỚC dần TE17 −1,08 → TE18 −0,60 → TE19 +0,28 → TE20 +1,68 rồi NHẢY LÙI 1,96cm về TE21 −0,28: một gấp khúc GIỮA hai huyệt, đúng loại lỗi mà sổ đã ghi là phải bắt. Cung đề xuất −1,08 → −3,40 → −3,57 → −2,05 → −0,28 lùi ra sau rồi vòng trở ra trước, liền mạch quanh tai.\n\nTÔI ĐÃ KIỂM MỌI CON SỐ HAI NGƯỜI ĐƯA. Chạy lại doi-chieu-ti-le.cjs cho 24 phép chiếu: khớp đến chữ số thứ ba ở gần hết (TE18/GB8→GB12 t_mesh 0,707 ✓ · TE20/GB2→GB8 0,247 vs r2 ghi 0,252 ✓ · TE22/TE21→TE23 0,768 ✓ · TE11 ba phép +4,71/+4,75/+4,77 ✓). Riêng TE15 tôi phải tự viết phép chiếu 2D (x,y) vì ảnh là bảng NHÌN TỪ SAU — và tái lập ĐÚNG bốn số của r2 (0,598 · 0,635 · 1,077 · GB21 0,481). Không có số nào bịa.\n\nCHỖ HAI NGƯỜI KHÔNG THỰC SỰ ĐỘC LẬP — PHẢI GHI: toạ độ pixel các chấm của hai người TRÙNG KHÍT (TE18 946/579 · TE19 938/438 · TE20 1007/373). Tức khâu DÒ CHẤM là MỘT nguồn, không phải hai. Độc lập chỉ nằm ở khâu gán nhãn và chọn mốc thước. Nếu nhãn sai thì cả hai sai cùng nhau. Bù lại, lập luận (1) và (3) ở trên không dùng nhãn lẫn thang, nên phán quyết SỬA cho TE18/19/20 vẫn đứng kể cả khi bác toàn bộ phần đọc ảnh.",
+  "vanDeKhung": "BẮT ĐƯỢC MỘT LỖI KHUNG MỚI, KHÔNG AI TRONG HAI NGƯỜI THẤY: cụm vai được dựng từ một \"mỏm cùng vai\" SAI CHỖ, và nhãn ghi trong anchors.cjs không khớp với chính toạ độ nó lưu.\n\nanchors.cjs dòng 581 ghi TE15 = \"Thiên Liêu — trung điểm Đại Chuỳ GV14 và mỏm cùng vai\". Tôi đo mỏm cùng vai THẲNG TỪ LƯỚI XƯƠNG (FMA13396 xương vai trái, lấy 10 điểm cao nhất ở nửa ngoài): x 15,51 · y 142,72 · z −2,68. Trung điểm GV14→mốc đó = (7,75 · 143,24 · −7,08). Nhưng toạ độ TE15 đang lưu là (13,10 · 144,16 · −3,64) — CÁCH TRUNG ĐIỂM CỦA CHÍNH NÓ 6,42cm. Nhãn nói một đằng, số một nẻo.\n\nGB21 dòng 33 mắc ĐÚNG lỗi ấy, cùng chiều: nhãn \"trung điểm mỏm gai C7 và mỏm cùng vai\", toạ độ (10,50 · 143,93 · −1,51), cách trung điểm 6,24cm. Muốn TE15 và GB21 thành trung điểm thật thì \"mỏm cùng vai\" phải nằm quanh x 26 · z +4 — đó không phải mỏm cùng vai, đó là vùng cơ delta trước. Vậy cả cụm bị kéo RA NGOÀI và RA TRƯỚC ~6cm bởi một mốc hỏng dùng chung. Đúng bài học đã ghi trong sổ: dựng theo cụm thì một mốc trật làm hỏng cả nhóm.\n\nHệ quả trực tiếp: TE15 đang ở y 144,16 trong khi ĐỈNH toàn bộ xương vai chỉ tới y 142,8 — nó CAO HƠN CẢ XƯƠNG BẢ VAI 1,4cm, nên không thể là \"hố trên gai xương bả vai\"/\"góc trên xương bả vai\" như cả từ điển app lẫn Focks đòi. Và z = −3,64 rơi gọn trong dải xương đòn (FMA13323 z −4,64…+4,64), khớp với cờ §8 \"gần nhất: Xương đòn 1,04cm\". Một huyệt hố trên gai mà cấu trúc gần nhất là XƯƠNG ĐÒN thì đang bám nhầm xương.\n\nLỖI KHUNG THỨ HAI — HỒ SƠ ĐỌC LỆCH BẢN: ho-so/TE12.md và ho-so/TE13.md vẫn in toạ độ CŨ (TE12 y=130,64 · TE13 y=130,32, hạng \"C — chưa vào sổ\") trong khi acu-coords3d.js đang chạy có TE12 y=124,87 · TE13 y=133,65 (hạng A, t=0,409 và 0,750). Lệch tới 6cm. Ai soi hồ sơ mà không soi file toạ độ sẽ phán trên bản đã chết — đúng cảnh báo \"pipeline bake phải chạy trọn\". Tôi đã dùng acu-coords3d.js cho toàn bộ phiên này; cần chạy lại ho-so.cjs trước phiên sau.\n\nLỖI KHUNG THỨ BA — LI16 mới là thủ phạm, không phải TE15: ảnh đặt LI16 Cự Cốt ở t = 0,947 của GV14→SI10 (sát mỏm cùng vai, đúng định nghĩa hõm giữa đầu ngoài xương đòn và gai vai), mesh để 0,549 → lệch 8,40cm. Cờ \"TE15 sát LI16 1,15cm\" phải quy cho LI16. Ngoài phạm vi kinh TE, chuyển sang phiên Đại Trường.\n\nCuối cùng, một bẫy đo mà cả hai người đều tự bắt được và tôi xác nhận bằng công cụ: cột \"lệch khỏi đoạn\" là thứ phải đọc TRƯỚC cột chênh. TE22 chiếu lên GB2→GB8 cho chênh 0,53cm trông như khớp, nhưng TE22 lệch KHỎI đoạn ấy 5,65cm — t trên đoạn đó vô nghĩa. Tương tự TE17 trên GB11→GB12: đoạn dài 2,12cm mà huyệt lệch khỏi đoạn 1,24cm.",
+  "phanQuyet": [
+   {
+    "code": "TE17",
+    "quyetDinh": "GIU",
+    "doTinCay": "cao",
+    "bangChung": "NÚT MỐC LÀNH — cả cung phải xoay quanh nó. Tôi tự chạy lại bốn phép chiếu: TE21→GB12 chênh +0,09cm · GB2→GB12 −0,23cm · GB12→GB8 +0,39cm — ba phép đều DƯỚI ngưỡng khớp 0,5cm. z gần như hoàn hảo: ảnh cho −0,98…−1,09 (r1) và −1,00 (r2), mesh −1,08. Cao độ hơi cao: ảnh cho 155,68…155,90, mesh 156,39, lệch 0,49–0,71cm — dưới ngưỡng sửa 1,2cm. Tổng lệch r2 tính được 0,53cm, đúng bằng sai số nền 0,51cm đo trên sáu mốc hạng A (GB12 0,10 · GB8 0,79 · GB1 0,37 · TE23 0,64 · SI19 0,37 · TE21 0,77).\n\nHAI CỜ CHẬP CŨ ĐỀU LÀ LỖI CỦA MỐC, KHÔNG PHẢI CỦA TE17. Cờ 'sát GB11 1,30cm': phép chiếu lên GB11→GB12 cho lệch 1,87cm trong khi ba phép còn lại đều dưới 0,4cm — bỏ đúng mốc GB11 ra thì sai số nền tụt từ 1,87 xuống 0,09–0,39cm, đúng bài kiểm 'thử bỏ từng mốc'. Thêm nữa đoạn GB11→GB12 chỉ dài 2,12cm mà TE17 lệch KHỎI đoạn 1,24cm, nên t trên đoạn ấy vô nghĩa về mặt hình học. Cờ 'sát GB2 1,38cm': r2 đo trên bản khắc được 34px ngang + 72px dọc ≈ 1,68cm, tức sách vẽ hai huyệt cách nhau đúng chừng ấy — không phải chập.",
+    "cachDung": "GIỮ NGUYÊN (5,95 · 156,39 · −1,08). Nếu phiên sau muốn tinh chỉnh cao độ thì hạ 0,5cm xuống y≈155,90, neo vào hai mốc mesh CÓ mà chính sách in trên ảnh chụp p263: mỏm chũm của Xương thái dương trái (FMA52739) và góc hàm dưới (y 152,65, đã dùng cho TE16) — huyệt là hõm giữa hai mốc đó. Nhưng dịch 0,5cm là dưới ngưỡng, không đáng động, và động vào nút mốc thì cả cung trôi theo.",
+    "dichChuyenCm": "0 (giữ). Sai lệch còn lại 0,49–0,71cm, dưới ngưỡng sửa 1,2cm và xấp xỉ sai số nền 0,51cm.",
+    "haiNguoiCoKhop": "CÓ, khớp mạnh. r1 kết 'lech-nhe' và r2 kết 'khop'; hai kết luận này không mâu thuẫn vì cùng ra lệch ~0,5cm, chỉ khác cách gọi tên. Quan trọng hơn: CẢ HAI đều tự kết luận 'TE17 KHÔNG phải nguyên nhân cung sai' bằng hai đường lập luận khác nhau (r1 bỏ mốc GB11, r2 so với sai số nền sáu mốc). Đây là chỗ hai người hội tụ mạnh nhất phiên.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: cả hai người đều đo cao độ CAO hơn mesh, cùng chiều, cùng độ lớn ~0,5cm — lệch cùng chiều ở hai phép 'độc lập' thường là dấu hiệu chệch HỆ THỐNG chứ không phải nhiễu ngẫu nhiên, và r2 tự thú nhận có 'độ chệch hệ thống +0,5cm của trục y'. Nếu chệch ấy có thật thì TE17 thật ra đúng y hơn con số tôi ghi, càng củng cố GIỮ. Nhưng nếu ngược lại — chệch ấy là của MESH chứ không của phép đo — thì TE17 lệch 0,7cm và tôi đang giữ một điểm hơi cao, kéo theo cả cung cao 0,7cm. Không đủ nặng để hạ xuống TREO vì (a) 0,7cm vẫn dưới ngưỡng 1,2cm, (b) TE18 — huyệt ngay trên nó — có cao độ khớp mesh tới 0,01cm ở CẢ HAI người, nên trục y quanh vùng này không thể lệch 0,7cm một cách hệ thống. Chính TE18 là bằng chứng bác lại nghi ngờ của chính tôi."
+   },
+   {
+    "code": "TE18",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "TÁCH BẠCH ĐƯỢC HAI TRỤC — đây là bằng chứng sạch nhất của cả phiên. CAO ĐỘ ĐÚNG SẴN: phép chiếu lên GB8→GB12 (đoạn gần thẳng đứng nên t chủ yếu đo cao độ) tôi chạy lại được t_mesh = 0,707 vs t_ảnh 0,710, chênh −0,03cm; tính thẳng thì ảnh cho y = 157,85 (r2) và 157,81…157,88 (r1), mesh có 157,86. Khớp tới 0,01cm. SAI THUẦN TRỤC TRƯỚC-SAU: chiếu lên GB2→GB12 (đoạn NẰM NGANG, mới phân giải được chiều trước-sau) cho t_mesh −0,006 vs t_ảnh 0,616 → chênh −2,14cm. Hai người đo z ra −3,36 (r2) và −3,43 (r1), mesh −0,60.\n\nBA CHỨNG KHÔNG CẦN ẢNH: (1) mesh để TE18 ở z −0,60, tức nằm TRƯỚC hõm ống tai ngoài (z −1,5) — bất khả thi cho một huyệt trên xương chũm SAU tai; (2) nội suy thuần mốc xương từ hõm ống tai (158,1 · −1,5) tới MASTOID (157,05 · −5,84) tại t=0,45 cho (157,63 · −3,45), chỉ cách con số đọc ảnh 0,24cm — phép dựng và phép đọc gặp nhau; (3) kiểm CHIỀU không cần thang: trên ảnh GB12 nằm hơi TRƯỚC TE18 (Δx +22px), mesh lại đặt GB12 SAU TE18 2,32cm — sai cả dấu.\n\nCỜ CHẬP TỰ GIẢI: mesh đang để TE18 cách SI19 0,44cm và GB2 0,57cm. Đẩy về z −3,40 thì khoảng cách tới cụm ba huyệt trước bình tai bật lên hơn 3cm, hết chập.",
+    "cachDung": "Đặt TE18 = (y 157,86 GIỮ NGUYÊN · z −3,40). Dựng bằng NỘI SUY trên đoạn nối hai mốc mesh CÓ, tại t ≈ 0,45: hõm ống tai ngoài (y 158,1 · z −1,5, anchors.cjs dòng 298) → MASTOID (x 4,71 · y 157,05 · z −5,84, model-frame.cjs dòng 85). Kiểm chéo bằng biên trước GB12 (z −2,92, hạng A): TE18 phải nằm SAU GB12 khoảng 0,48cm. Tôi đã dò lưới da: tại (y 157,86 · z −3,40) mặt da bên trái ở x ≈ 6,70 — điểm đề xuất NẰM TRÊN DA, tầng 5 sẽ không phải bẻ. TUYỆT ĐỐI KHÔNG neo vào 'bờ sau vành tai' như câu từ điển: mesh không có vành tai.",
+    "dichChuyenCm": "2,80cm, thuần theo trục z (−0,60 → −3,40). Cao độ y giữ nguyên 157,86, x để tầng 5 ép lên da (≈6,70).",
+    "haiNguoiCoKhop": "CÓ, khớp rất mạnh. z: r1 −3,43 (dải −3,2…−3,7) · r2 −3,36 (dải −3,56…−3,17) — chênh nhau 0,07cm. y: cả hai đều kết luận GIỮ NGUYÊN mesh 157,86, r1 đo 157,81…157,88, r2 đo 157,85. Cả hai còn độc lập cảnh báo cùng một bẫy: đừng đọc cặp GB8→GB12 (hay GB12→GB8) là 'khớp' vì đoạn ấy thẳng đứng, không phân giải chiều trước-sau — phải dùng cặp nằm ngang GB2→GB12.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: hai người dùng CHUNG một bộ toạ độ pixel (cả hai ghi chấm SJ18 tại đúng 946/579), nên khâu dò chấm là MỘT nguồn chứ không phải hai; nếu chấm ấy bị gán nhãn nhầm thì cả hai sai cùng nhau, và vùng đầu-tai đúng là chỗ sách tái sử dụng bản khắc nhiều nhất. Weakness thật, nhưng KHÔNG đủ nặng để treo, vì phán quyết SỬA không dựa vào nhãn: mesh để TE18 ở z −0,60 tức TRƯỚC hõm ống tai — bác được bằng riêng hai mốc xương của mesh, không cần biết chấm nào tên gì. Điểm yếu thứ hai, nhẹ hơn: giá trị z cuối −3,40 (chứ không phải −2,5 hay −4,2) thì CÓ phụ thuộc thang ảnh; nếu thang sai 15% thì z ra −2,9 hoặc −3,9. Cả hai vẫn nằm trong dải kẹp (−1,5;−5,84) và vẫn cách mesh hiện tại hơn 2,3cm, nên chiều và độ lớn của phép sửa không đổi — chỉ điểm đến xê dịch ±0,5cm."
+   },
+   {
+    "code": "TE19",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "SAI CẢ HAI TRỤC, và trục z sai đến mức bất khả thi về giải phẫu. Mesh để TE19 ở z = +0,28, tức NẰM TRƯỚC cả GB2 Thính Hội (z −0,28) — trong khi Lư Tức bám bờ sau vành tai. Đây là lỗi bác được mà không cần ảnh, không cần thang, không cần nhãn: chỉ cần biết hõm ống tai ở z −1,5, mà TE19 đang ở +0,28, tức trước hõm ống tai 1,78cm.\n\nSỐ ĐO: z ảnh cho −3,61 (r1) và −3,53 (r2, dải −3,74…−3,33); mesh +0,28 → sai 3,8…3,9cm. y ảnh cho 160,90 (r1, từ ba mốc: so GB2 160,89 · so GB12 161,51 · so GB8 161,28) và 160,83 (r2); mesh 159,09 → thiếu 1,74…1,81cm. Tôi chạy lại phép chiếu GB8→GB12: t_mesh 0,569 vs t_ảnh 0,375, chênh +1,88cm về phía GB12 — xác nhận ĐỘC LẬP rằng mesh đặt TE19 quá THẤP, đúng chiều và đúng độ lớn với phép đo cao độ. Chiếu GB2→GB8 cho −3,10cm, đúng chiều z.\n\nKIỂM BẰNG TỈ LỆ CUNG: sách in sẵn thước '1/3 · 1/3 · 1/3' trên cung TE17→TE20 ở ảnh chụp p264, r2 đo lại ba đoạn được 125/129/141px (đều nhau) và TE19 đứng ở vạch 2/3; r1 đo độc lập ra TE18 ở 38% và TE19 ở 75% chiều dài cung — cả hai khớp nguyên văn Focks 'điểm 1/3 trên của đường vòng từ Ế phong tới Giác tôn'.",
+    "cachDung": "Đặt TE19 = (y 160,85 · z −3,57). Hai mốc mesh CÓ, dùng tách hai trục: (a) TRỤC z — nội suy trên đoạn hõm ống tai ngoài (158,1 · −1,5) → MASTOID (4,71 · 157,05 · −5,84) tại t ≈ 0,48, và kẹp giữa hai mốc hạng A: phải SAU GB12 (z −2,92) và không quá mỏm chũm; (b) TRỤC y — neo vào GB8 (y 164,80, hạng A): TE19 thấp hơn GB8 đúng 3,95cm. Kiểm chéo: phần chũm/trai của Xương thái dương trái FMA52739 trải y[155,4;162,9] z[−6,53;+3,44] (tôi đã tra lưới), thừa sức chứa (160,85 · −3,57). Dò lưới da tại điểm này cho x ≈ 7,68 — nằm trên da. KHÔNG neo 'bờ sau vành tai'.",
+    "dichChuyenCm": "4,23cm — gồm 3,85cm theo z (+0,28 → −3,57) và 1,76cm theo y (159,09 → 160,85). x để tầng 5 ép lên da (≈7,7).",
+    "haiNguoiCoKhop": "CÓ, khớp mạnh trên cả hai trục. z: −3,61 vs −3,53, chênh 0,08cm. y: 160,90 vs 160,83, chênh 0,07cm. Hai người đến từ hai đường: r1 dựng từ mặt phẳng bình tai + neo cao độ vào GB8, r2 dựng lại trực tiếp trong khung nghiêng rồi kiểm bằng thước 1/3 in sẵn. LƯU Ý MỘT VÊNH NHỎ: r2 đề nghị cộng thêm 0,5cm 'độ chệch hệ thống' để ra 161,3; tôi KHÔNG áp hiệu chỉnh đó, vì chính r2 đo thô được 160,83 và r1 đo độc lập được 160,90 — hai số thô đã trùng nhau, cộng thêm hiệu chỉnh chỉ dựa trên một người là làm hỏng sự trùng khớp ấy.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: TE19 là huyệt duy nhất trong cung mà tôi phải sửa CẢ HAI trục cùng lúc, mà hai trục lại dựa trên hai loại bằng chứng khác hạng. Trục z rất chắc (bác được bằng ràng buộc kẹp thuần mốc xương). Trục y thì YẾU HƠN HẲN: nó dựa vào việc đọc ảnh, và phép chiếu GB8→GB12 tuy xác nhận đúng chiều nhưng TE19 lệch KHỎI đoạn ấy tới 2,82cm — đoạn càng bị lệch xa thì t càng kém tin. Nếu chỉ trục y sai mà tôi vẫn nâng 1,76cm thì TE19 sẽ leo quá cao và bóp méo khoảng cách tới TE20. Không hạ xuống TREO vì: 1,76cm vẫn vượt ngưỡng sửa 1,2cm; hai người đo y độc lập ra 160,83 và 160,90; và sau khi sửa thì TE18→TE19→TE20 chia gần đều đúng như thước 1/3 in sẵn, trong khi mesh hiện tại chia lệch hẳn. Nhưng tôi ghi rõ: nếu phiên sau chỉ muốn sửa MỘT trục thì sửa z trước, y có thể để lại."
+   },
+   {
+    "code": "TE20",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "SAI NẶNG NHẤT CỦA CUNG, và là huyệt có cách dựng MẠNH NHẤT phiên. Mesh để TE20 ở z = +1,68, tức trước GB2 gần 2cm và trước hõm ống tai 3,18cm — trong khi Giác Tôn ở ngay trên đỉnh vành tai. Bất khả thi, bác được không cần ảnh.\n\nHAI ĐƯỜNG ĐỘC LẬP TRÙNG NHAU. Đường 1 (đo ảnh): r1 đo 85,7px sau mặt phẳng bình tai = 1,84…2,00cm → z ≈ −2,05; r2 đo z = −2,09. Đường 2 (dựng thuần mốc mesh, KHÔNG dùng thang ảnh): Focks viết 'Suất cốc GB8 cách đỉnh tai 1,5 thốn' và 'GB8 thẳng trên đỉnh tai'; GB8 đã hạng A ở (7,20 · 164,80 · −1,99); thốn đầu đã xác minh 1,40cm nên 1,5 thốn = 2,10cm → TE20 = (164,80 − 2,10 = 162,70 · z −1,99). Hai đường cho z −2,05 và −1,99: chênh 0,06cm. Ảnh còn xác nhận GB8 (x=1008) và TE20 (x=1007) nằm ĐÚNG một đường dọc, lệch 1px — cả hai người tự tìm ra chi tiết này riêng rẽ. Mốc phụ: GB7 'ngang chóp tai', ảnh cho GB7 y=376 và TE20 y=373, lệch 3px.\n\ny: mesh 159,82; đường dựng GB8 cho 162,70, r1 chốt 162,30, r2 đo 162,18 → thiếu 2,4…2,9cm. Tôi chạy lại chiếu GB2→GB8: t_mesh 0,247 vs t_ảnh 0,743, chênh −3,79cm — cùng chiều, cùng độ lớn.",
+    "cachDung": "MẠNH NHẤT PHIÊN, KHÔNG CẦN VÀNH TAI, KHÔNG CẦN CHÂN TÓC, KHÔNG CẦN THANG ẢNH: dựng TE20 THẲNG DƯỚI GB8 đúng 1,5 thốn đầu = 2,10cm. GB8 mesh đã có sẵn và đã nghiệm thu hạng A (7,20 · 164,80 · −1,99). Cho ra TE20 = (y 162,30 · z −2,05) sau khi hoà với hai phép đo ảnh (162,18 và 162,30) — tôi lấy 162,30 chứ không lấy 162,70 của phép dựng thuần, vì r1 chỉ ra bản khắc vẽ vành tai TO hơn thực ~20% nên số cao độ đo bằng ảnh dôi lên, và hai người đo ảnh đều cho thấp hơn 162,70. Dò lưới da tại (162,30 · −2,05) cho x ≈ 7,12: nằm trên da. Mốc kiểm chéo dùng được: GB7 (y 164,65) — TE20 phải thấp hơn GB7 khoảng 2,35cm.",
+    "dichChuyenCm": "4,48cm — gồm 3,73cm theo z (+1,68 → −2,05) và 2,48cm theo y (159,82 → 162,30). x để tầng 5 ép lên da (≈7,1).",
+    "haiNguoiCoKhop": "CÓ, khớp mạnh nhất phiên vì có thêm đường dựng độc lập làm trọng tài. z: r1 −2,05 · r2 −2,09 · đường dựng GB8 −1,99 — ba số trong 0,10cm. y: r1 162,30 · r2 162,18 · đường dựng GB8 162,70 — ba số trong 0,52cm. Hai người còn độc lập phát hiện cùng một chi tiết ảnh (TE20 và GB8 cùng cột dọc) và độc lập ghi rằng bộ do-anh-atlas BỎ SÓT chấm TE20 ở p264/p265 vì nó chồng lên nét kinh màu lam, phải dò tay — hai người tự dò và ra cùng pixel.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: phép dựng 'thẳng dưới GB8 1,5 thốn' đứng hay đổ hoàn toàn theo GB8. Nếu GB8 sai thì TE20 sai theo y hệt, và r2 tự đo GB8 lệch 0,79cm — con số lớn nhất trong sáu mốc đối chứng của họ. Tệ hơn, phép này đưa thẳng thốn đầu 1,40cm vào kết quả, mà sổ đã ghi lỗi 'mượn toạ độ làm thốn' tái diễn ba lần. Tôi đã chống lại bằng cách KHÔNG lấy con số dựng thuần 162,70 mà hoà với hai phép đo ảnh để ra 162,30 — nghĩa là phép dựng chỉ dùng để xác nhận CHIỀU và bậc độ lớn, không dùng làm số cuối. Điểm yếu thứ hai: y sau khi sửa (162,30) cao hơn TE19 (160,85) 1,45cm, mà từ điển app đòi TE19 'trên TE18 1 thốn' — chuỗi cách đều này tôi chưa kiểm được vì thốn đầu 1,40cm chỉ có một phép đo. Không đủ nặng để treo: sai lệch z 3,73cm là bất khả thi giải phẫu và không phụ thuộc bất kỳ thang thốn nào."
+   },
+   {
+    "code": "TE22",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "TÌM RA ĐÚNG CƠ CHẾ HỎNG, không phải chỉ đo thấy lệch. Tôi chạy lại phép chiếu: TE22 nằm trên dây cung TE21→TE23 tại t = 0,768 và lệch KHỎI dây cung chỉ 0,01cm — tức nó không được dựng theo mốc nào cả, nó bị NỘI SUY TUYẾN TÍNH trên dây cung nối hai huyệt hàng xóm. Ảnh đòi t = 0,120. Chênh 4,63cm. Cùng cơ chế, cùng con số ở cặp GB2→TE23: t_mesh 0,792 vs ảnh 0,174, lệch khỏi đoạn 0,27cm, chênh 4,83cm.\n\nHỆ QUẢ: mesh đẩy Nhĩ Hoà Liêu ra tận vùng đuôi mắt, z = +4,52, nằm lọt giữa GB3 (+2,94) và GB1 (+5,35) — trong khi sách đặt nó gần như CÙNG CỘT với TE21/SI19/GB2 (z −0,28), chỉ nhích ra trước chừng 0,25cm. Khoảng cách TE22↔TE21 trên mesh là 5,48cm; sách đòi hai huyệt kề nhau ngay trên-dưới cung gò má.\n\nKIỂM CHIỀU KHÔNG CẦN THANG: ảnh có GB3 nằm TRƯỚC TE22 (x 1170 vs 1104), mesh lại có TE22 trước GB3 (z +4,52 vs +2,94) — sai dấu, bắt được mà không cần thang ảnh.\n\nCHỨNG PHỤ TỪ THƯỚC IN SẴN: ảnh chụp p268 in kích thước '0,5 thốn' từ mép trước gốc tai; r2 đo mép trước gốc tai ở x≈1075 và TE22 ở 1104 → 29px = 0,61cm ≈ 0,5 thốn đầu (1,40cm). Khớp nguyên văn Focks 'từ bờ trên gốc tai tiến 0,5 thốn về hướng mắt'.",
+    "cachDung": "Đặt TE22 = (y 159,50 · z −0,04). Neo vào mốc mesh CÓ, hai cách cùng ra một chỗ: (a) BỜ TRÊN CUNG GÒ MÁ ở ĐẦU SAU của cung — anchors.cjs đợt 9b đã đo đoạn cung gò má còn là thanh xương sạch (bờ trên y 158,50 · bờ dưới y 157,60 tại z ≈ +2,9) và đã dùng nó neo GB3/ST7; lấy đầu SAU của cung sát mặt phẳng gốc tai rồi tiến 0,5 thốn = 0,70cm về hướng mắt. Điểm ra nằm ~0,9cm TRÊN bờ trên cung gò má, đúng câu Focks 'nằm phía trên vòm gò má' (và TE21 ở DƯỚI vòm — mesh giữ nguyên TE21). (b) Neo thẳng vào TE21 (hạng A, cấm đụng, z −0,28): TE22 tiến ra trước 0,24cm, lên trên 0,68cm. Dò lưới da tại (159,50 · −0,04) cho x ≈ 6,94 — nằm trên da. Không mốc nào cần vành tai.",
+    "dichChuyenCm": "4,88cm — gồm 4,56cm theo z (+4,52 → −0,04) và 1,74cm theo y (161,24 → 159,50). x để tầng 5 ép lên da (≈6,9).",
+    "haiNguoiCoKhop": "CÓ trên trục quyết định, VÊNH trên trục phụ. z: r1 −0,05 · r2 −0,03 — chênh 0,02cm, khớp gần tuyệt đối, và đây là trục mang 4,56cm sai số. y: r1 159,40 · r2 159,35 — số cuối khớp 0,05cm, NHƯNG tôi soi ra cả hai đều tự mâu thuẫn ở phần diễn giải (r1 viết 'neo TE21 lên 1,3–1,5cm', r2 viết 'TE21 +1,31cm LÊN' — TE21 y=158,82 nên cộng 1,31 phải ra 160,13, không phải 159,35). r1 còn liệt kê ba ước lượng y trải 159,37…160,26. Vậy y chỉ chốt được trong dải 159,4…160,3; tôi lấy 159,50, thiên về đầu dưới vì hai số cuối cùng của hai người đều ở đó. Cả hai cũng độc lập cảnh báo cùng một bẫy: phép GB2→GB8 báo 'khớp 0,53cm' là ĐÁNH LỪA vì TE22 lệch khỏi đoạn ấy 5,65cm — tôi chạy lại và xác nhận đúng 5,65cm.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: cao độ y không chốt chắc — dải khả dĩ 159,4…160,3 rộng 0,9cm, và cả hai người đều để lại mâu thuẫn số học 0,78cm giữa câu diễn giải và con số cuối của chính họ. Nếu y thật là 160,3 thì tôi đang hạ TE22 thấp quá 0,8cm. Tôi KHÔNG hạ xuống TREO vì phán quyết SỬA được quyết bởi trục z chứ không phải trục y: z lệch 4,56cm, hai người khớp nhau 0,02cm, và sai CHIỀU so với GB3 thì bắt được không cần thang lẫn nhãn. Sửa z mà để y sai 0,8cm vẫn tốt hơn nhiều so với để nguyên huyệt ở tận đuôi mắt. Điểm yếu thứ hai: cách dựng (a) dùng 'đầu SAU của cung gò má', mà anchors.cjs chỉ ghi số đo của cung tại z ≈ +2,9 — tôi chưa tự dò được toạ độ đầu sau của cung, nên (a) hiện là cách dựng MÔ TẢ chứ chưa phải cách dựng ĐO ĐƯỢC; cách (b) neo vào TE21 mới là cách thi hành ngay được, và nó phụ thuộc TE21 vốn đã hạng A."
+   },
+   {
+    "code": "TE3",
+    "quyetDinh": "GIU",
+    "doTinCay": "cao",
+    "bangChung": "LỖI Ở HT8, KHÔNG PHẢI TE3 — trả lời dứt khoát câu hỏi của bối cảnh. Tôi tự đọc trục z của bàn tay trái trên mesh, ở cùng mức cao độ y ≈ 80–83: mặt MU có TE3 z=2,05 · TE2 2,34 · LI5 2,18 · LI4 2,63 · SI4 2,60; hai CẠNH bên bàn tay có LI3 3,87 · SI3 3,83 · LI2 3,87 · SI2 3,85; mặt GAN có PC8 Lao Cung 5,83 · PC7 4,25 · LU10 3,78. Vậy mu tay ≈ z 2,0–2,6, gan tay ≈ z 5,8, bề dày bàn tay ≈ 3,2–3,8cm.\n\nHT8 Thiếu Phủ đang ở z = 2,41 — tức nằm trên MẶT MU, cùng lớp với LI4 Hợp Cốc và TE3. Nhưng Thiếu Phủ là huyệt GAN TAY (khe xương bàn 4–5 mặt gan, chỗ đầu ngón út chạm vào khi nắm tay), cùng lớp với Lao Cung. HT8 phải ở z ≈ 5,2–5,6, tức đang thiếu độ sâu ~3,0cm. Khoảng cách TE3↔HT8 = 0,87cm (tôi đo lại đúng 0,864cm) chính là hệ quả của việc HT8 bị đặt nhầm MẶT: hai huyệt cùng khe gian cốt 4–5, cùng x, cùng y, chỉ khác mặt — nên khi HT8 mất 3cm độ sâu thì nó rơi chồng lên TE3.\n\nTE3 TỰ NÓ ĐÚNG: tôi chạy lại cả SÁU phép chiếu, chênh −0,92…+0,44cm, ba phép dưới 0,5cm (SI4→SI1 −0,44 · SI2→SI4 −0,32 · SI1→SI4 +0,44), phép xấu nhất LI4→SI3 chỉ −0,92cm — dưới ngưỡng sửa 1,2cm.",
+    "cachDung": "GIỮ NGUYÊN TE3 (24,17 · 81,69 · 2,05). CHUYỂN VIỆC SANG KINH TÂM: HT8 cần dời từ z 2,41 sang z ≈ 5,3, giữ nguyên x 23,62 và y 82,25. Mốc thi hành được cho HT8, đều là thứ mesh CÓ: Xương đốt bàn tay 4 trái và 5 trái (hồ sơ §8 của TE3 đã đo 0,75 và 1,23cm) — HT8 là khe gian cốt 4–5 ở MẶT GAN, còn TE3 là chính khe ấy ở MẶT MU; neo độ sâu bằng PC8 Lao Cung (z 5,83, cùng lớp gan tay) trừ đi chút vì HT8 nằm phía trụ, trên gò mô út. Sau khi sửa, TE3↔HT8 phải bằng bề dày bàn tay ≈ 3,2cm chứ không phải 0,87cm.",
+    "dichChuyenCm": "TE3: 0 (giữ). HT8: cần dời ≈ 2,9cm theo trục z (2,41 → ≈5,3) — NGOÀI PHẠM VI phiên kinh Tam Tiêu, chuyển sang phiên kinh Tâm.",
+    "haiNguoiCoKhop": "KHÔNG ĐỐI CHIẾU ĐƯỢC — chỉ MỘT người đọc ảnh (người thứ hai) xét TE3; người thứ nhất chỉ làm cung sau tai. Bù lại tôi đã tự kiểm toàn bộ: chạy lại cả sáu phép chiếu và tái lập đúng sáu con số của họ (0,713 · 0,369 · 0,536 · 0,698 · 0,226 · 0,631), và tự đọc lại trục z của 25 huyệt bàn tay để kiểm lập luận 'HT8 sai mặt' — lập luận này không dựa vào ảnh chút nào, chỉ dựa vào toạ độ mesh, nên không cần người đọc thứ hai.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: tôi kết luận 'HT8 sai mặt' bằng cách suy mặt gan tay từ PC8 Lao Cung (z 5,83) — nhưng PC8 chưa được phiên nào nghiệm thu hạng A trong phạm vi tôi kiểm được, nên tôi đang lấy một điểm chưa chốt làm chuẩn cho mặt gan tay. Nếu PC8 cũng lệch thì con số 5,3 của tôi trôi theo. Giảm nhẹ: kết luận KHÔNG phụ thuộc PC8 về mặt định tính — chỉ cần biết LI3/SI3 (hai CẠNH bàn tay) ở z 3,83–3,87 là đủ, vì bất kỳ điểm nào trên mặt GAN buộc phải sâu hơn hai cạnh bên, tức z > 3,87; HT8 ở 2,41 thì thậm chí còn nông hơn cả cạnh bên, nên nó chắc chắn ở mặt MU. Điểm yếu thứ hai: phép chiếu xấu nhất của TE3 (LI4→SI3) cho −0,92cm, không phải nhiễu nhỏ; nếu ba phép 'khớp' kia đều là các đoạn mà TE3 lệch xa (3,0–3,5cm) thì chúng kém tin hơn vẻ ngoài. Không đủ nặng: mọi phép đều cùng dấu âm và đều dưới ngưỡng 1,2cm, và không phép nào đòi dời TE3 quá 1cm."
+   },
+   {
+    "code": "TE11",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "GỠ ĐƯỢC THẾ TREO HAI PHIÊN, VÀ GỠ MÀ KHÔNG CẦN THANG THỐN — đúng cách đã gỡ cho TE12/TE13. Trang p258 (TE12) vẽ và ghi nhãn 'SJ 11', và bản khắc đó CÓ THƯỚC THỐN IN SẴN (9 vạch cánh tay + 12 vạch cẳng tay). Thước được kiểm bằng bốn huyệt in cùng hình mà sách định nghĩa sẵn: LI14 (7 thốn trên khuỷu → phải ra 2,00) đo 2,09 · LI13 (3 thốn → 6,00) đo 5,99 · LI12 (1 thốn → 8,00) đo 8,04 · SI8 (ngay khuỷu → 9,00) đo 8,91. Sai số thước ≤0,1 thốn.\n\nKIỂM CHUẨN BẰNG HAI HUYỆT ĐÃ HẠNG A — đây mới là chỗ chắc nhất: cùng thang ấy suy ra t trên dây cung TE10→TE14 cho TE12 = 0,4075 và TE13 = 0,752. Tôi chạy lại mesh: TE12 t = 0,409 và TE13 t = 0,750. Trùng tới 0,04cm và 0,01cm trên một dây cung dài 25,85cm. Thước in của sách tái lập được hai điểm đã nghiệm thu độc lập ⇒ số thứ ba rút từ cùng thang, t(TE11) = 0,071, là đáng tin.\n\nMESH SAI 4,7cm: tôi chạy ba cặp mốc độc lập, cả ba nhất quán — TE10→TE14 t_mesh 0,253 vs ảnh 0,071 (+4,71cm) · TE10→TE12 0,619 vs 0,174 (+4,75cm) · TE10→TE13 0,339 vs 0,094 (+4,77cm). Tức TE11 bị đẩy lên phía vai gần 4,75cm.\n\nHAI BỘ KIỂM MÁY ĐỘC LẬP ĐÃ TỰ BẮN CỜ, tôi đọc trong ho-so/TE11.md §9: 'TỪ ĐIỂN APP kêu: dọc TE10 đòi 1 thốn, đo được 1.9 (lệch 3.07cm)' và 'XA ĐƯỜNG KINH 6.69cm' + 'RẢI DỌC ĐƯỜNG dời 7.04cm'. Bộ kiểm từ điển và bộ kiểm đường kinh không hề dùng ảnh, vẫn kêu cùng một chiều.",
+    "cachDung": "KHÔNG CẦN THANG THỐN CÁNH TAY — thế treo hai phiên được gỡ bằng TỈ LỆ, không bằng đơn vị. Đặt TE11 trên dây cung TE10→TE14 tại t = 0,075 (hoà giữa 0,071 đọc từ thước in và 0,0836 suy từ câu từ điển 'trên TE10 1 thốn' với thang t/thốn = 0,0836 rút từ chính TE12/TE13 đã hạng A). Tức TE11 cách TE10 1,84–2,16cm về phía TE14, trên dây cung dài 25,85cm. Cả ba mốc TE10, TE12, TE13 đều đã nghiệm thu hạng A nên phép này thi hành ngay được. Mốc xương phụ để kiểm: mỏm khuỷu xương trụ trái (model-frame.cjs OLECRANON) — TE10 ở 1 thốn trên mỏm khuỷu, TE11 ở 2 thốn, tức TE11 cách TE10 đúng 1 thốn.",
+    "dichChuyenCm": "4,71–4,77cm, kéo XUỐNG phía khuỷu dọc dây cung TE10→TE14 (t từ 0,253 về 0,075). Ba cặp mốc độc lập cho ba con số trong 0,06cm của nhau.",
+    "haiNguoiCoKhop": "KHÔNG ĐỐI CHIẾU ĐƯỢC — chỉ người đọc ảnh thứ hai xét TE11. Nhưng đây là huyệt mà tôi thấy AN TÂM NHẤT dù chỉ một người, vì nó có bốn đường xác nhận không phụ thuộc lẫn nhau: (1) thước thốn IN SẴN trên bản khắc, tự kiểm bằng bốn huyệt Đại Trường; (2) thước ấy tái lập đúng hai huyệt TE12/TE13 đã hạng A tới 0,04cm và 0,01cm; (3) ba cặp mốc chiếu độc lập cùng cho +4,7cm; (4) hai bộ kiểm máy trong repo (từ điển app và rải-dọc-đường) đã tự bắn cờ cùng chiều mà không dùng ảnh. Tôi đã chạy lại (2) và (3) bằng doi-chieu-ti-le.cjs, và đọc (4) thẳng trong hồ sơ.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: một vênh 1 thốn mà người đọc ảnh KHÔNG tự khai. Thước của họ đọc TE12 ở 6,03 thốn trên khuỷu, nhưng từ điển app ghi TE12 'trên khớp khuỷu tay 5 thốn' và Focks ghi 'TE10 lên 4 thốn' (TE10 ở 1 thốn trên mỏm khuỷu ⇒ TE12 ở 5 thốn). Lệch đúng 1 thốn. Nếu thang của họ trượt 1 thốn thì t(TE11) phải là 0,155 chứ không phải 0,071, và phép sửa chỉ còn ~2,5cm thay vì 4,7cm. VÌ SAO VẪN KHÔNG TREO: dù thang trượt 1 thốn, mesh vẫn sai — t_mesh 0,253 nằm ngoài cả hai đáp án (0,071 và 0,155), và câu từ điển 'TE11 trên TE10 1 thốn' cho t = 0,0836 hoàn toàn độc lập với thước in, lại rơi sát 0,071. Thêm nữa bộ kiểm từ điển của chính repo đã đo được 1,9 thốn thay vì 1 thốn — xác nhận TE11 cao gấp đôi mức đáng có. Tôi chọn t = 0,075 (khoảng giữa 0,071 và 0,0836) thay vì lấy thẳng 0,071 của họ, chính là để không phụ thuộc hoàn toàn vào thước có thể trượt. Điểm yếu thứ hai: chỉ MỘT người đọc ảnh, nên khâu gán nhãn chấm 'SJ 11' không có người kiểm chéo."
+   },
+   {
+    "code": "TE15",
+    "quyetDinh": "SUA",
+    "doTinCay": "vua",
+    "bangChung": "TÔI TỰ TÌM RA BẰNG CHỨNG MẠNH HƠN CẢ HAI NGƯỜI ĐỌC ẢNH, và nó KHÔNG dùng ảnh chút nào — nên nó gỡ được đúng chỗ mà người đọc ảnh phải bỏ ngỏ ('cần một bảng NHÌN NGHIÊNG, tôi không dám kết luận từ ảnh nhìn sau').\n\n(1) ANCHOR TỰ MÂU THUẪN. anchors.cjs dòng 581 ghi TE15 = 'trung điểm Đại Chuỳ GV14 và mỏm cùng vai'. Tôi đo mỏm cùng vai THẲNG TỪ LƯỚI XƯƠNG (FMA13396 xương vai trái, 3097 điểm; lấy 10 điểm cao nhất ở nửa ngoài x>13): x 15,51 · y 142,72 · z −2,68. Trung điểm GV14→mốc đó = (7,75 · 143,24 · −7,08). Toạ độ TE15 đang lưu là (13,10 · 144,16 · −3,64), CÁCH TRUNG ĐIỂM CỦA CHÍNH NÓ 6,42cm.\n\n(2) HAI PHÉP DỰNG ĐỘC LẬP HỘI TỤ. Focks còn một câu thứ hai: TE15 'ở chỗ nhô góc trên xương bả vai'. Tôi dò góc trên xương bả vai từ cùng lưới (25 điểm cao nhất ở nửa TRONG x<10,5): x 7,82 · y 141,56 · z −7,00. So với trung điểm (7,75 · 143,24 · −7,08): x lệch 0,07cm, z lệch 0,08cm. Hai câu sách khác nhau, hai phép dò khác nhau, cùng chỉ về một chỗ.\n\n(3) BA CỜ GIẢI PHẪU CÙNG BẮN. TE15 đang ở y 144,16 trong khi ĐỈNH toàn bộ xương vai chỉ tới y 142,8 — nó CAO HƠN CẢ XƯƠNG BẢ VAI 1,4cm, không thể là 'hố trên gai xương bả vai' (từ điển app) hay 'góc trên xương bả vai' (Focks). z = −3,64 rơi gọn trong dải xương đòn (FMA13323 z −4,64…+4,64). Hồ sơ §8 xác nhận: cấu trúc gần nhất là Xương đòn 1,04cm. Một huyệt hố trên gai mà bám xương ĐÒN là bám nhầm xương, nhầm cả mặt trước/sau.\n\n(4) ẢNH XÁC NHẬN ĐÚNG CHIỀU. Tôi tự viết phép chiếu 2D (x,y) — đúng phép cho bảng NHÌN TỪ SAU — và tái lập đúng bốn số của người đọc: TE15 trên GV14→SI10 t 0,598 vs ảnh 0,527 (+1,49cm), trên GV14→TE14 0,635 vs 0,527 (+2,17cm), mốc đối chứng GB21 t 0,481 vs ảnh 0,482 (chênh 0,02cm). Ảnh chỉ thấy được 1,5–2,2cm vì nó không thấy chiều sâu; phép 3D của tôi cho thấy sai số thật là 6,4cm.",
+    "cachDung": "Đặt TE15 ≈ (x 7,8 · y 143,0 · z −7,0). Ba mốc mesh CÓ, tôi đã tự đo cả ba: (a) TRUNG ĐIỂM GV14 (0 · 143,76 · −11,47) → mỏm cùng vai đo từ xương vai FMA13396 (15,51 · 142,72 · −2,68), cho (7,75 · 143,24 · −7,08) — đúng nguyên văn cả từ điển app lẫn Focks; (b) KIỂM CHÉO bằng GÓC TRÊN xương bả vai đo từ cùng lưới (7,82 · 141,56 · −7,00), huyệt nằm trên da phủ mốc này nên cao hơn xương ~1,5cm; (c) ràng buộc âm: phải RỜI XA xương đòn và phải nằm THẤP HƠN đỉnh xương vai (y<142,8) hoặc sát ngay trên nó. KHÔNG dùng GB21 làm mốc (xem tự thẩm tra).",
+    "dichChuyenCm": "≈6,3cm — gồm 5,3cm vào TRONG theo x (13,10 → 7,8), 3,4cm ra SAU theo z (−3,64 → −7,0) và 1,2cm xuống theo y (144,16 → 143,0). Sai số điểm đến ±1,5cm dọc trục nối tới GB21.",
+    "haiNguoiCoKhop": "KHÔNG ĐỐI CHIẾU ĐƯỢC — chỉ người đọc ảnh thứ hai xét TE15, và họ chủ động ghi CÒN NGỜ, từ chối kết luận vì ảnh nhìn từ sau không có chiều sâu. Tôi giải quyết phần họ bỏ ngỏ bằng phép đo lưới xương, không bằng người đọc thứ hai. Chỗ khớp: họ đo TE15 lệch RA NGOÀI 1,5–2,2cm và nghi 'TE15 đang bám xương đòn thay vì hố trên gai' — tôi xác nhận cả hai, và định lượng được phần chiều sâu mà họ không thấy. Họ cũng đúng khi quy cờ 'TE15 sát LI16 1,15cm' cho LI16: tôi chạy lại, LI16 lệch −8,40cm (2D) / −7,63cm (3D), ảnh đòi nó ở t 0,947 sát mỏm cùng vai.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT, đủ nặng để tôi hạ độ tin xuống VỪA: điểm đến của tôi cách GB21 tới 6,24cm, trong khi Focks viết rõ 'TE15 nằm cách GB21 khoảng 1 thốn' và người đọc ảnh đo được GB21↔TE15 ≈ 2,71cm. Nếu tôn trọng ràng buộc GB21 thì TE15 gần như KHÔNG phải dời (mesh hiện cách GB21 3,37cm) và phán quyết đúng phải là GIỮ. Hai ràng buộc chỉ về hai chỗ cách nhau ~3,5cm — đây là mâu thuẫn thật, tôi không giấu.\n\nVÌ SAO TÔI VẪN CHỌN SỬA CHỨ KHÔNG TREO: tôi kiểm được rằng chính GB21 mắc ĐÚNG lỗi ấy. anchors.cjs dòng 33 ghi GB21 = 'trung điểm mỏm gai C7 và mỏm cùng vai', nhưng toạ độ (10,50 · 143,93 · −1,51) cách trung điểm thật 6,24cm — cùng độ lớn, cùng chiều với TE15. GB21 lại đang ở z −1,51, nằm giữa dải xương đòn, tức cũng bám nhầm xương đòn. Cả hai được dựng từ MỘT 'mỏm cùng vai' hỏng dùng chung (muốn cả hai thành trung điểm thì mốc ấy phải ở quanh x 26 · z +4, tức vùng cơ delta trước, không phải mỏm cùng vai). Ràng buộc '1 thốn từ GB21' vì thế neo vào một điểm đang hỏng, không được phép lật hai phép dựng hội tụ ở trên. Người đọc ảnh xác nhận GB21 'khớp 0,02cm' chỉ trong mặt phẳng (x,y) của ảnh nhìn từ sau — phép ấy MÙ với trục z, đúng trục mà GB21 sai.\n\nĐIỂM YẾU CÒN LẠI: (a) chỉ một người đọc ảnh; (b) tôi dò 'mỏm cùng vai' và 'góc trên xương bả vai' bằng cực trị đám mây điểm, cách dò này từng làm hỏng cụm quanh tai ở đợt 9b (mốc 'điểm ngoài nhất xương thái dương' sai chỗ) — nên hai mốc của tôi cần một người thứ hai dò lại; (c) dịch 6,3cm là quãng lớn, nếu điểm đến sai thì hỏng nặng hơn hiện tại. Vì (b) và (c) tôi để độ tin VỪA và ghi rõ sai số ±1,5cm, đồng thời đề nghị SỬA GB21 CÙNG ĐỢT (phiên kinh Đởm) chứ đừng sửa TE15 một mình — sửa lẻ sẽ làm TE15 và GB21 xa nhau 6,2cm, sai nguyên văn Focks theo một kiểu khác."
+   }
+  ]
+ }
+}

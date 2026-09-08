@@ -1,0 +1,145 @@
+{
+ "code": "LR12",
+ "mer": "LR",
+ "num": 12,
+ "tenApp": "Cấp Mạch",
+ "tenFocks": "CẤP MẠCH",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở bờ trên xương mu 1 thốn, đo ngang ra 2,5 thốn nằm trên nếp lằn của bẹn, dưới cung đùi.",
+  "focksViTri": "Từ giữa bờ trên của khớp mu, huyệt Khúc cốt (Ren 2), ngang ra 2,5 thốn và xuống khoảng 1 thốn, ở bẹn phía trên động mạch đùi có thể sờ thấy được.",
+  "focksCachXacDinh": "Từ giữa bờ trên của khớp mu, huyệt Khúc cốt (Ren 2), ngang ra 2,5 thốn và xuống khoảng 1 thốn. Có thể cảm nhận được nhịp đập của động mạch đùi ở khu vực này. Huyệt Cấp mạch (Le/Liv 12) ở phía trong mạch đập. Vì tĩnh mạch đùi cũng chạy vào phía trong động mạch nên huyệt Cấp mạch (Le/Liv 12) phải được châm vào phía trong cách ít nhất bề ngang 1 ngón tay so với chỗ động mạch đập. Huyệt Khí xung (Ma 30) ở trên khoảng 1 thốn và vào trong 0,5 thốn so với huyệt Cấp mạch (Le/Liv 12).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR12_p333_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0322,
+  "y": 0.5298,
+  "z": 0.0417,
+  "conf": "cao",
+  "caoDoCm": 91.07,
+  "ngangCm": 5.54,
+  "truocSauCm": 7.17
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "sach",
+   "da"
+  ],
+  "ly": "hai bản sách lệch nhau 7.8cm — đã lấy bản cũ · TẦNG DA: ép lên da, dời 4.5cm"
+ },
+ "duongKinh": {
+  "doan": "dui",
+  "vung": "mặt trong đùi",
+  "moTaRanh": "giữa cơ khép dài và cơ may, tới nếp bẹn",
+  "diemTrongDoan": [
+   "LR8",
+   "LR9",
+   "LR10",
+   "LR11",
+   "LR12"
+  ]
+ },
+ "nutMoc": {
+  "code": "LR12",
+  "loai": "gap",
+  "at": "PUBIS",
+  "vi_sao": "Cấp Mạch — nếp bẹn; kinh bẻ từ đùi lên sườn"
+ },
+ "cotDo": {
+  "doan": "LR/dui",
+  "tong": 21.7,
+  "xa": "LR8",
+  "gan": "LR12",
+  "thonCuaHuyet": 21.7,
+  "lechNgang": null,
+  "moiDiem": {
+   "LR9": 4,
+   "LR10": 18.7,
+   "LR11": 19.7
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LR11",
+   "ten": "Âm Liêm",
+   "thang": 4.21,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 3.8,
+   "sachDoiThon": 2,
+   "vitri": "Để bệnh nhân ở tư thế nằm ngửa, sờ động mạch nhảy ở bẹn, huyệt nằm sát bờ trong động mạch đùi, hoặc dưới nếp nhăn của bẹn 1 thốn."
+  },
+  {
+   "code": "LR13",
+   "ten": "Chương Môn",
+   "thang": 20.49,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 28.1,
+   "sachDoiThon": null,
+   "vitri": "Ở đầu xương sườn tự do thứ 11."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "ST29",
+   "ten": "Quy Lai",
+   "cm": 1.83
+  },
+  {
+   "code": "SP13",
+   "ten": "Phủ Xá",
+   "cm": 2.35
+  },
+  {
+   "code": "SP12",
+   "ten": "Xung Môn",
+   "cm": 3.68
+  },
+  {
+   "code": "ST30",
+   "ten": "Khí Xung",
+   "cm": 3.98
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ chéo bụng ngoài trái",
+   "lop": "muscle",
+   "cm": 1.01
+  },
+  {
+   "ten": "Đường trắng",
+   "lop": "connective",
+   "cm": 5.36
+  },
+  {
+   "ten": "Cơ lược trái",
+   "lop": "muscle",
+   "cm": 5.45
+  },
+  {
+   "ten": "Cơ chậu trái",
+   "lop": "muscle",
+   "cm": 5.51
+  },
+  {
+   "ten": "Cơ khép dài trái",
+   "lop": "muscle",
+   "cm": 5.64
+  }
+ ],
+ "coKiemMay": [
+  "ÉP LÊN DA dời 4.5cm",
+  "AUDIT cờ soát: hai bản sách lệch nhau 7.8cm — đã lấy bản cũ · TẦNG DA: ép lên da, dời 4.5cm",
+  "TỪ ĐIỂN APP kêu: dọc \"PUBIS\" đòi 1 thốn, đo được 1.45  (lệch 1.81cm)",
+  "ATLAS FOCKS kêu: dọc \"CV2\" đòi 1 thốn, đo được 1.4  (lệch 1.14cm, SAI CHIỀU)"
+ ]
+}

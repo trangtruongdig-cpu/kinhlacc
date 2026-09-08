@@ -1,0 +1,139 @@
+{
+ "code": "PC5",
+ "mer": "PC",
+ "num": 5,
+ "tenApp": "Gian Sử",
+ "tenFocks": "GIAN SỬ/SỨ",
+ "canhBaoTen": "TÊN HAI NGUỒN KHÁC NHAU — app \"Gian Sử\" vs Focks \"GIAN SỬ/SỨ\". Phải trọng tài TRƯỚC khi bàn toạ độ: nếu mã lệch thì đang dựng nhầm huyệt.",
+ "nguon": {
+  "app": "Bàn tay để ngửa, huyệt ở trên lằn chỉ cổ tay 3 thốn, giữa khe gân cơ gan tay lớn và bé.",
+  "focksViTri": "Cách khe khớp cổ tay khoảng 3 thốn giữa các gân của cơ gan tay dài và cơ gấp cổ tay quay.",
+  "focksCachXacDinh": "Khe khớp cổ tay có thể được sờ thấy rõ ràng bằng các cử động thả lỏng của bàn tay. Đo khoảng 3 thốn tính từ tâm khe khớp, huyệt Đại lăng (Pe/Pc 7). Ở đây, xác định vị trí huyệt Gian sử (Pe/Pc 5) giữa hai gân, làm lộ gân bằng cách siết chặt nắm tay. Nếu chỉ nhìn thấy một gân thì đó là gân gấp cổ tay quay.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/PC5_p241_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1384,
+  "y": 0.5473,
+  "z": 0.0142,
+  "conf": "cao",
+  "caoDoCm": 94.08,
+  "ngangCm": 23.79,
+  "truocSauCm": 2.44
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "mota",
+   "duong",
+   "khac"
+  ],
+  "ly": "mô tả \"bờ ? cơ gấp cổ tay quay (gân)\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.86 thốn · RẢI DỌC ĐƯỜNG: dời 3.53cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌ"
+ },
+ "duongKinh": {
+  "doan": "cang-tay",
+  "vung": "giữa mặt trước cẳng tay",
+  "moTaRanh": "giữa gân cơ gan tay dài và gân cơ gấp cổ tay quay",
+  "diemTrongDoan": [
+   "PC3",
+   "PC4",
+   "PC5",
+   "PC6",
+   "PC7"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "PC/cang-tay",
+  "tong": 12,
+  "xa": "PC7",
+  "gan": "PC3",
+  "xaMoc": "WRIST",
+  "ganMoc": "CUBITAL",
+  "thonCuaHuyet": 3,
+  "lechNgang": null,
+  "moiDiem": {
+   "PC4": 5,
+   "PC5": 3,
+   "PC6": 2
+  }
+ },
+ "hangXom": [
+  {
+   "code": "PC4",
+   "ten": "Khích Môn",
+   "thang": 4.12,
+   "sachDoiCm": 4.02,
+   "thonCm": 2.01,
+   "docDa": 3.9,
+   "sachDoiThon": 2,
+   "vitri": "Trên khớp cổ tay 5 thốn, giữa 2 khe cơ gan tay lớn và bé."
+  },
+  {
+   "code": "PC6",
+   "ten": "Nội Quan",
+   "thang": 2.05,
+   "sachDoiCm": 2.01,
+   "thonCm": 2.01,
+   "docDa": 2.8,
+   "sachDoiThon": 1,
+   "vitri": "Trên cổ tay 2 thốn, dưới huyệt Gian Sử (Tb 5) 1 thốn, giữa khe gân cơ gan tay lớn và bé."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "PC6",
+   "ten": "Nội Quan",
+   "cm": 2.05
+  },
+  {
+   "code": "HT4",
+   "ten": "Linh Đạo",
+   "cm": 3.14
+  },
+  {
+   "code": "LU7",
+   "ten": "Liệt Khuyết",
+   "cm": 3.23
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ gấp các ngón nông trái",
+   "lop": "muscle",
+   "cm": 0.15
+  },
+  {
+   "ten": "Cơ gan tay dài trái",
+   "lop": "muscle",
+   "cm": 0.41
+  },
+  {
+   "ten": "Cơ gấp cổ tay quay trái",
+   "lop": "muscle",
+   "cm": 0.42
+  },
+  {
+   "ten": "Cơ gấp các ngón sâu trái",
+   "lop": "muscle",
+   "cm": 0.72
+  },
+  {
+   "ten": "Cơ sấp vuông trái",
+   "lop": "muscle",
+   "cm": 1.29
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 3.53cm (conf=cao)",
+  "XA ĐƯỜNG KINH 3.46cm",
+  "AUDIT cờ soát: mô tả \"bờ ? cơ gấp cổ tay quay (gân)\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.86 thốn · RẢI DỌ",
+  "TỪ ĐIỂN APP kêu: dọc \"WRIST\" đòi 3 thốn, đo được 3  (lệch 0.01cm)",
+  "ATLAS FOCKS kêu: dọc \"WRIST\" đòi 3 thốn, đo được 3  (lệch 0.01cm)"
+ ]
+}

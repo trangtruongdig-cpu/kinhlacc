@@ -1,0 +1,122 @@
+{
+ "code": "LR7",
+ "mer": "LR",
+ "num": 7,
+ "tenApp": "Tất Quan",
+ "tenFocks": "LAN VĨ",
+ "canhBaoTen": "TÊN HAI NGUỒN KHÁC NHAU — app \"Tất Quan\" vs Focks \"LAN VĨ\". Phải trọng tài TRƯỚC khi bàn toạ độ: nếu mã lệch thì đang dựng nhầm huyệt.",
+ "nguon": {
+  "app": "Ở bờ sau dưới lồi cầu trong xương chầy, cách sau huyệt Âm Lăng Tuyền (Ty 9) một thốn.",
+  "focksViTri": "Điểm nhạy áp lực nhất dưới huyệt Túc tam lý (Ma/ST 36) khoảng 2 thốn trên kinh Vị (Ma/ST) của chân phải.",
+  "focksCachXacDinh": "Huyệt ở chân phải (tương ứng với vị trí một bên của ruột thừa ở bụng phải). Định hướng từ huyệt Túc tam lý (Ma/ST 36, dưới khe khớp gối 3 thốn và cách mép xương chày bề rộng 1 ngón tay). Sau đó sờ nắn xuống khoảng 2 thốn dọc theo kinh Vị (Ma/ST) và xác định vị trí huyệt Lan vĩ (Ex-LE 7) ở chỗ nhạy cảm với áp lực nhất.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR7_p328_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR7_p460_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0169,
+  "y": 0.2471,
+  "z": -0.0268,
+  "conf": "mốc",
+  "caoDoCm": 42.48,
+  "ngangCm": 2.91,
+  "truocSauCm": -4.61
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Tất Quan — ngang Âm Lăng Tuyền SP9, lùi ra SAU 1 thốn",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "cang-chan",
+  "vung": "mặt trong cẳng chân",
+  "moTaRanh": "sát bờ sau-trong xương chày, lên đầu trong nếp kheo",
+  "diemTrongDoan": [
+   "LR4",
+   "LR5",
+   "LR6",
+   "LR7",
+   "LR8"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "LR/cang-chan",
+  "tong": 13,
+  "xa": "LR4",
+  "gan": "LR8",
+  "xaMoc": "MALLEOLUS_MED",
+  "ganMoc": "TIBIA_MED_CONDYLE",
+  "thonCuaHuyet": 11.6,
+  "lechNgang": null,
+  "moiDiem": {
+   "LR5": 5,
+   "LR6": 7,
+   "LR7": 11.6
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LR6",
+   "ten": "Trung Đô",
+   "thang": 14.09,
+   "sachDoiCm": 13.02,
+   "thonCm": 2.83,
+   "docDa": 15.9,
+   "sachDoiThon": 4.6,
+   "vitri": "Ở bờ sau xương chày, trên mắt cá trong 7 thốn."
+  },
+  {
+   "code": "LR8",
+   "ten": "Khúc Tuyền",
+   "thang": 4.77,
+   "sachDoiCm": 3.96,
+   "thonCm": 2.83,
+   "docDa": 5.2,
+   "sachDoiThon": 1.4000000000000004,
+   "vitri": "Ở đầu trong nếp gấp nhượng chân, nơi khe giữa của bờ trước gân cơ bán mạc và cơ thẳng trong."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "SP9",
+   "ten": "Âm Lăng Tuyền",
+   "cm": 2.23
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ bán gân trái",
+   "lop": "muscle",
+   "cm": 1.06
+  },
+  {
+   "ten": "Đầu trong của cơ bụng chân trái",
+   "lop": "muscle",
+   "cm": 1.4
+  },
+  {
+   "ten": "Xương chày trái",
+   "lop": "bone",
+   "cm": 1.76
+  },
+  {
+   "ten": "Cơ bán màng trái",
+   "lop": "muscle",
+   "cm": 1.99
+  },
+  {
+   "ten": "Xương đùi trái",
+   "lop": "bone",
+   "cm": 2.98
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm",
+  "ATLAS FOCKS kêu: dọc \"ST36\" đòi 2 thốn, đo được 2.05  (lệch 0.12cm, SAI CHIỀU)"
+ ]
+}

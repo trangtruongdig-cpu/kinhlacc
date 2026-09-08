@@ -1,0 +1,118 @@
+{
+ "code": "ST42",
+ "mer": "ST",
+ "num": 42,
+ "tenApp": "Xung Dương",
+ "tenFocks": "XUNG DƯƠNG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Nơi cao nhất của mu bàn chân, có động mạch đập, trên huyệt Nội Đình 5 thốn, nằm giữa huyệt Nội Đình và Giải Khê, bờ trong gân cơ duỗi ngón thứ 2 và cơ duỗi ngắn ngón cái.",
+  "focksViTri": "Điểm cao nhất của mu bàn chân, giữa gân cơ duỗi dài ngón chân cái và cơ duỗi ngón chân dài, ngay phía ngoài điểm có thể sờ thấy động mạch mu bàn chân. Ranh giới xương là xương bàn chân 2 và 3 ở gần và xương hình nêm 2 và 3 ở phía xa. Vị trí thay đổi: Đôi khi điểm này có thể nằm ở phía ngoài phần trong của gân cơ duỗi dài các ngón (dẫn đến ngón chân thứ 2)",
+  "focksCachXacDinh": "Sử dụng ngón tay sờ, trượt từ huyệt Hãm cốc (Ma/ST 42) (ở chỗ lõm giữa gốc xương bàn chân thứ 2 và thứ 3) theo hướng của huyệt Giải khê (Ma/ST 41) (chỗ lõm giữa các gân cơ duỗi các ngón và cơ duỗi dài ngón chân cái). Xác định vị trí huyệt Xung dương (Ma/ST 42) ở chỗ lõm bên cạnh điểm bắt mạch ở điểm cao nhất của mu bàn chân. Nó thường nằm ở bên cạnh gân duỗi dài ngón chân cái, có thể thấy rõ khi ngón chân cái giơ lên.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/ST42_p81_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0597,
+  "y": 0.0488,
+  "z": 0.0157,
+  "conf": "mốc",
+  "caoDoCm": 8.39,
+  "ngangCm": 10.26,
+  "truocSauCm": 2.7
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Xung Dương — chỗ cao nhất mu chân, giữa gốc xương bàn 2 và 3",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "ban-chan",
+  "vung": "mu bàn chân",
+  "moTaRanh": "khe giữa xương bàn chân 2 và 3, cạnh động mạch mu chân",
+  "diemTrongDoan": [
+   "ST41",
+   "ST42",
+   "ST43",
+   "ST44",
+   "ST45"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "ST41",
+   "ten": "Giải Khê",
+   "thang": 2.54,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2.6,
+   "sachDoiThon": null,
+   "vitri": "Ở chỗ lõm trên nếp gấp trước khớp cổ chân, giữa 2 gân cơ cẳng chân trước và gân cơ duỗi dài ngón chân cái."
+  },
+  {
+   "code": "ST43",
+   "ten": "Hãm Cốc",
+   "thang": 5.75,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 6.2,
+   "sachDoiThon": null,
+   "vitri": "Ở chỗ lõm nối thân và đầu trước xương bàn chân 2, giữa kẽ ngón chân 2 – 3, huyệt Nội Đình (Vi 45) lên 2 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "GB41",
+   "ten": "Túc Lâm Khấp",
+   "cm": 1.48
+  },
+  {
+   "code": "LR3",
+   "ten": "Thái Xung",
+   "cm": 2.09
+  },
+  {
+   "code": "ST41",
+   "ten": "Giải Khê",
+   "cm": 2.54
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ duỗi các ngón chân dài trái",
+   "lop": "muscle",
+   "cm": 1.48
+  },
+  {
+   "ten": "Cơ duỗi ngón chân cái ngắn trái",
+   "lop": "muscle",
+   "cm": 1.82
+  },
+  {
+   "ten": "Xương chêm giữa trái",
+   "lop": "bone",
+   "cm": 2.26
+  },
+  {
+   "ten": "Cơ duỗi ngón chân cái dài trái",
+   "lop": "muscle",
+   "cm": 2.3
+  },
+  {
+   "ten": "Xương chêm trong trái",
+   "lop": "bone",
+   "cm": 2.46
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm",
+  "ÉP LÊN DA dời 0.1cm",
+  "TỪ ĐIỂN APP kêu: dọc \"ST44\" đòi 5 thốn, đo được 1.45  (lệch 8.74cm)"
+ ]
+}

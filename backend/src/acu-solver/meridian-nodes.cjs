@@ -19,6 +19,18 @@
  *   doan       : quãng giữa hai nút. `mo:'hien'` = chạy trên mặt da, có vẽ. `mo:'chim'` = kinh đi
  *                trong sâu (vd Thận từ nếp kheo lên bụng), KHÔNG được vẽ đường thẳng nối hai đầu.
  *
+ * LUẬT GỐI ĐẦU — HAI ĐOẠN LIỀN NHAU PHẢI DÙNG CHUNG HUYỆT ĐẦU-CUỐI
+ * bake-paths dựng đường RIÊNG cho từng đoạn và frontend vẽ mỗi đoạn một ống riêng: KHÔNG khâu nào
+ * nối hai đoạn với nhau. Nên nếu đoạn trước kết ở KI21 mà đoạn sau bắt ở KI22 thì quãng KI21→KI22
+ * KHÔNG THUỘC ĐOẠN NÀO — trên màn hình là một lỗ hổng, đúng chỗ kinh bẻ góc. Rà lần đầu thấy 9 lỗ
+ * kiểu này: ST18→ST19 (5,3cm), GB12→GB13 (15,1cm), GB33→GB34 (10,7cm), BL10→BL11 (12,8cm),
+ * BL30→BL31 (9,4cm), BL35→BL36 (21,3cm), SP12→SP13 (2,5cm), SP16→SP17 (12,1cm), KI21→KI22 (4,6cm).
+ * Cách viết đúng: đoạn sau MỞ ĐẦU bằng đúng huyệt cuối của đoạn trước (`nguc: ['KI21','KI22',…]`).
+ * Hai ngoại lệ HỢP LỆ, không được "vá": NHÁNH (ST `nhanh-tran` kết ở ST8 rồi ST `co` quay về bắt ở
+ * ST6 — vẫn nối, vì ST6 là cuối đoạn `mat`), và HAI CHUỖI SONG SONG của Bàng Quang (BL40 ở kheo,
+ * BL41 ở lưng trên — nối theo số sẽ vẽ một đường 94,6cm bay ngang người).
+ * Kiểm bằng: node backend/src/acu-solver/kiem-lien-doan.cjs
+ *
  * TRƯỜNG `ranh` là rãnh giải phẫu mà đoạn bám theo, viết bằng đúng từ vựng của `tissue-lexicon.cjs`
  * để bước 3 (hút đường vào rãnh) tra thẳng được sang khối atlas.
  *
@@ -192,7 +204,8 @@ const M = {
         ranh: 'bờ trước cơ ức-đòn-chũm, cạnh động mạch cảnh, xuống hố trên đòn' },
       { id: 'nguc',     mo: 'hien', vung: 'ngực, đường 4 thốn ngang', diem: ['ST12', 'ST13', 'ST14', 'ST15', 'ST16', 'ST17', 'ST18'],
         ranh: 'trên cơ gian sườn ngoài, thẳng đường đầu vú' },
-      { id: 'bung',     mo: 'hien', vung: 'bụng, đường 2 thốn ngang', diem: ['ST19', 'ST20', 'ST21', 'ST22', 'ST23', 'ST24', 'ST25', 'ST26', 'ST27', 'ST28', 'ST29', 'ST30'],
+      // bắt đầu ở ST18 (huyệt cuối đoạn ngực) chứ không ở ST19: xem LUẬT GỐI ĐẦU ở đầu file
+      { id: 'bung',     mo: 'hien', vung: 'bụng, đường 2 thốn ngang', diem: ['ST18', 'ST19', 'ST20', 'ST21', 'ST22', 'ST23', 'ST24', 'ST25', 'ST26', 'ST27', 'ST28', 'ST29', 'ST30'],
         ranh: 'giữa đường trắng giữa bụng và bờ trong cơ chéo bụng ngoài' },   // atlas KHÔNG dựng cơ thẳng bụng; hai mô này kẹp đúng chỗ nó nằm
       { id: 'dui',      mo: 'hien', vung: 'mặt trước-ngoài đùi', diem: ['ST30', 'ST31', 'ST32', 'ST33', 'ST34', 'ST35'],
         ranh: 'rãnh giữa cơ thẳng đùi và cơ rộng ngoài' },
@@ -225,7 +238,7 @@ const M = {
         ranh: 'vòng theo chân tóc thái dương, trên cơ thái dương' },
       { id: 'sau-tai',  mo: 'hien', vung: 'trên và sau tai', diem: ['GB7', 'GB8', 'GB9', 'GB10', 'GB11', 'GB12'],
         ranh: 'vòng trên đỉnh tai rồi xuống sau tai, tới bờ dưới mỏm chũm' },
-      { id: 'tran-dinh', mo: 'hien', vung: 'trán → đỉnh → chẩm', diem: ['GB13', 'GB14', 'GB15', 'GB16', 'GB17', 'GB18', 'GB19'],
+      { id: 'tran-dinh', mo: 'hien', vung: 'trán → đỉnh → chẩm', diem: ['GB12', 'GB13', 'GB14', 'GB15', 'GB16', 'GB17', 'GB18', 'GB19'],
         ranh: 'đường dọc cách đường giữa 2,25 thốn, đi trên cung sọ' },
       { id: 'gay',      mo: 'hien', vung: 'gáy', diem: ['GB19', 'GB20'],
         ranh: 'hõm giữa cơ thang và cơ ức-đòn-chũm, dưới xương chẩm' },
@@ -237,7 +250,7 @@ const M = {
         ranh: 'giữa mấu chuyển lớn và khe xương cùng, trong cơ mông lớn' },
       { id: 'dui',      mo: 'hien', vung: 'mặt ngoài đùi', diem: ['GB30', 'GB31', 'GB32', 'GB33'],
         ranh: 'dải chậu-chày, giữa cơ rộng ngoài và cơ nhị đầu đùi' },
-      { id: 'cang-chan', mo: 'hien', vung: 'mặt ngoài cẳng chân', diem: ['GB34', 'GB35', 'GB36', 'GB37', 'GB38', 'GB39', 'GB40'],
+      { id: 'cang-chan', mo: 'hien', vung: 'mặt ngoài cẳng chân', diem: ['GB33', 'GB34', 'GB35', 'GB36', 'GB37', 'GB38', 'GB39', 'GB40'],
         ranh: 'bờ trước rồi bờ sau xương mác, giữa cơ mác dài và cơ duỗi các ngón' },
       { id: 'ban-chan', mo: 'hien', vung: 'mu bàn chân', diem: ['GB40', 'GB41', 'GB42', 'GB43', 'GB44'],
         ranh: 'khe giữa xương bàn chân 4 và 5' },
@@ -267,12 +280,17 @@ const M = {
         ranh: 'đường dọc cách đường giữa 1,5 thốn, đi trên cung sọ' },
       { id: 'gay',        mo: 'hien', vung: 'gáy', diem: ['BL9', 'BL10'],
         ranh: 'bờ ngoài cơ thang, dưới xương chẩm' },
-      { id: 'lung-trong', mo: 'hien', vung: 'ĐƯỜNG TRONG — lưng, 1,5 thốn ngang', diem: ['BL11', 'BL12', 'BL13', 'BL14', 'BL15', 'BL16', 'BL17', 'BL18', 'BL19', 'BL20', 'BL21', 'BL22', 'BL23', 'BL24', 'BL25', 'BL26', 'BL27', 'BL28', 'BL29', 'BL30'],
+      { id: 'lung-trong', mo: 'hien', vung: 'ĐƯỜNG TRONG — lưng, 1,5 thốn ngang', diem: ['BL10', 'BL11', 'BL12', 'BL13', 'BL14', 'BL15', 'BL16', 'BL17', 'BL18', 'BL19', 'BL20', 'BL21', 'BL22', 'BL23', 'BL24', 'BL25', 'BL26', 'BL27', 'BL28', 'BL29', 'BL30'],
         ranh: 'rãnh giữa cơ dài lưng và mỏm gai, ngang mỏm gai từng đốt sống' },
-      { id: 'cung',       mo: 'hien', vung: 'xương cùng', diem: ['BL31', 'BL32', 'BL33', 'BL34', 'BL35'],
+      { id: 'cung',       mo: 'hien', vung: 'xương cùng', diem: ['BL30', 'BL31', 'BL32', 'BL33', 'BL34', 'BL35'],
         ranh: 'bốn lỗ cùng sau, rồi cạnh đầu xương cụt' },
-      { id: 'dui-sau',    mo: 'hien', vung: 'mặt sau đùi', diem: ['BL36', 'BL37', 'BL38', 'BL39', 'BL40'],
+      { id: 'dui-sau',    mo: 'hien', vung: 'mặt sau đùi', diem: ['BL35', 'BL36', 'BL37', 'BL38', 'BL39', 'BL40'],
         ranh: 'giữa cơ nhị đầu đùi và cơ bán gân, xuống giữa nếp kheo' },
+      // NHÁNH TÁCH Ở GÁY: đường NGOÀI không tự mọc ra ở BL41 — nó tách khỏi thân chung tại Thiên Trụ
+      // (BL10) rồi chạy chéo xuống bờ trong xương bả vai. Thiếu đoạn này thì cả cột 14 huyệt BL41–BL54
+      // treo lơ lửng, không dính vào kinh nào.
+      { id: 'nhanh-gay',  mo: 'hien', vung: 'NHÁNH gáy → đầu đường ngoài', diem: ['BL10', 'BL41'],
+        ranh: 'bờ ngoài cơ thang, chéo xuống bờ trong xương bả vai' },
       { id: 'lung-ngoai', mo: 'hien', vung: 'ĐƯỜNG NGOÀI — lưng, 3 thốn ngang', diem: ['BL41', 'BL42', 'BL43', 'BL44', 'BL45', 'BL46', 'BL47', 'BL48', 'BL49', 'BL50', 'BL51', 'BL52', 'BL53', 'BL54'],
         ranh: 'bờ trong xương bả vai kéo dài xuống, ngoài cơ dài lưng' },
       { id: 'hoi-kheo',   mo: 'chim', vung: 'đường NGOÀI nhập vào đường trong', diem: ['BL54', 'BL40'],
@@ -284,7 +302,7 @@ const M = {
     ],
     ve: [
       ['BL1', '…', 'BL10', 'BL11', '…', 'BL35', 'BL36', '…', 'BL40', 'BL55', '…', 'BL67'],
-      ['BL41', '…', 'BL54'],
+      ['BL10', 'BL41', '…', 'BL54', '→ nhập BL40'],
     ],
     nut: [
       { code: 'BL1', loai: 'dau', at: 'PUPIL', vi_sao: 'Tình Minh — khoé mắt trong' },
@@ -309,9 +327,9 @@ const M = {
         ranh: 'sát bờ sau xương chày, trước cơ dép' },
       { id: 'dui',       mo: 'hien', vung: 'mặt trong đùi', diem: ['SP9', 'SP10', 'SP11', 'SP12'],
         ranh: 'rãnh giữa cơ may và cơ rộng trong, rồi giữa cơ may và cơ khép dài' },
-      { id: 'bung',      mo: 'hien', vung: 'bụng, đường 4 thốn ngang', diem: ['SP13', 'SP14', 'SP15', 'SP16'],
+      { id: 'bung',      mo: 'hien', vung: 'bụng, đường 4 thốn ngang', diem: ['SP12', 'SP13', 'SP14', 'SP15', 'SP16'],
         ranh: 'bờ trong cơ chéo bụng ngoài' },   // = đường bán nguyệt, trùng bờ ngoài cơ thẳng bụng (atlas không có cơ thẳng bụng)
-      { id: 'nguc',      mo: 'hien', vung: 'ngực, đường 6 thốn ngang', diem: ['SP17', 'SP18', 'SP19', 'SP20'],
+      { id: 'nguc',      mo: 'hien', vung: 'ngực, đường 6 thốn ngang', diem: ['SP16', 'SP17', 'SP18', 'SP19', 'SP20'],
         ranh: 'trên cơ gian sườn ngoài, ngoài đường vú' },
       { id: 'nach',      mo: 'hien', vung: 'sườn bên', diem: ['SP20', 'SP21'],
         ranh: 'đường nách giữa, gian sườn 6' },
@@ -340,7 +358,7 @@ const M = {
         ranh: 'không có huyệt trên da — kinh đi trong, qua đáy chậu lên bụng dưới' },
       { id: 'bung',      mo: 'hien', vung: 'bụng, đường 0,5 thốn ngang', diem: ['KI11', 'KI12', 'KI13', 'KI14', 'KI15', 'KI16', 'KI17', 'KI18', 'KI19', 'KI20', 'KI21'],
         ranh: 'bờ ngoài đường trắng giữa bụng' },
-      { id: 'nguc',      mo: 'hien', vung: 'ngực, đường 2 thốn ngang', diem: ['KI22', 'KI23', 'KI24', 'KI25', 'KI26', 'KI27'],
+      { id: 'nguc',      mo: 'hien', vung: 'ngực, đường 2 thốn ngang', diem: ['KI21', 'KI22', 'KI23', 'KI24', 'KI25', 'KI26', 'KI27'],
         ranh: 'các khoảng gian sườn cạnh xương ức, lên bờ dưới xương đòn' },
     ],
     nut: [

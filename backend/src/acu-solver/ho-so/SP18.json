@@ -1,0 +1,110 @@
+{
+ "code": "SP18",
+ "mer": "SP",
+ "num": 18,
+ "tenApp": "Thiên Khê",
+ "tenFocks": "THIÊN KHÊ",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở khoảng gian sườn 4, cách đường giữa bụng 6 thốn (ngang huyệt Đản Trung (Nh 17), từ đầu ngực đo ra 2 thốn.",
+  "focksViTri": "Ở khoang gian sườn thứ tư, cách đường giữa ngực 6 thốn hoặc cách núm vú 2 thốn.",
+  "focksCachXacDinh": "Ở nam giới, núm vú thường nằm ở mức khoang gian sườn thứ 4, trong khi ở phụ nữ, khi ở tư thế nằm ngửa, không phải lúc nào núm vú cũng ở mức này. Xác định vị trí huyệt xác định vị trí huyệt Thiên khê (Mi/SP 18) ở khoang gian sườn thứ 4, cách đường dọc qua vú 2 thốn (lưu ý: khoang gian sườn cong lên theo chiều ngang). Ở phụ nữ, sự định hướng đáng tin cậy từ xương đòn hoặc khớp sụn xương ức. Từ đó, đếm ngược đến khoang gian sườn 4 (4. ICR) và đi theo khe sườn sang ngang 6 thốn (từ đường giữa) hoặc ra 2 thốn từ đường dọc qua vú. Đây là vị trí huyệt Thiên khê (Mi/SP 18). Cũng nằm ngang mức khoang gian sườn thứ 4 là huyệt Đản trung/Chiên trung (Ren-17), đường giữa; huyệt Thần phong (Ni/KID 23), đường giữa ngang ra ngoài 2 thốn; huyệt Nhũ trung (Ma/ST 17), đường giữa ngang ra ngoài 4 thốn; huyệt Thiên trì (Pe/P 1), núm vú ngang ra 1 thốn; huyệt Uyên dịch (Gb 22) thẳng đường giữa nách xuống, trong khoang gian sườn 4; huyệt Trấp cân (Gb 23), trước huyệt Uyên dịch (Gb 22) 1 thốn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/SP18_p105_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0666,
+  "y": 0.7505,
+  "z": 0.0638,
+  "conf": "mốc",
+  "caoDoCm": 129.01,
+  "ngangCm": 11.45,
+  "truocSauCm": 10.97
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "sach"
+  ],
+  "ly": "hai nguồn sách cùng kêu lệch 4.0/4.0 thốn"
+ },
+ "duongKinh": {
+  "doan": "nguc",
+  "vung": "ngực, đường 6 thốn ngang",
+  "moTaRanh": "trên cơ gian sườn ngoài, ngoài đường vú",
+  "diemTrongDoan": [
+   "SP17",
+   "SP18",
+   "SP19",
+   "SP20"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "SP17",
+   "ten": "Thực Đậu",
+   "thang": 4.39,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 4.8,
+   "sachDoiThon": null,
+   "vitri": "Ở giữa gian sườn 5, cách đường giữa bụng 6 thốn."
+  },
+  {
+   "code": "SP19",
+   "ten": "Hung Hương",
+   "thang": 4.68,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 7,
+   "sachDoiThon": null,
+   "vitri": "Ở khoảng gian sườn 3, cách đường giữa 6 thốn (ngang huyệt Ngọc Đường – Nh.18)."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "PC1",
+   "ten": "Thiên Trì",
+   "cm": 3.69
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Phần ức sườn của cơ ngực lớn trái",
+   "lop": "muscle",
+   "cm": 1.03
+  },
+  {
+   "ten": "Cơ chéo bụng ngoài trái",
+   "lop": "muscle",
+   "cm": 3.71
+  },
+  {
+   "ten": "Phần bụng của cơ ngực lớn trái",
+   "lop": "muscle",
+   "cm": 3.72
+  },
+  {
+   "ten": "Cơ gian sườn ngoài",
+   "lop": "muscle",
+   "cm": 3.94
+  },
+  {
+   "ten": "Cơ gian sườn trong",
+   "lop": "muscle",
+   "cm": 4.14
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm",
+  "TỪ ĐIỂN APP kêu: ngang \"CV17\" đòi 2 thốn, đo được 6  (lệch 7.63cm)",
+  "ATLAS FOCKS kêu: ngang \"MIDLINE_CHEST\" đòi 2 thốn, đo được 6  (lệch 7.63cm)"
+ ]
+}

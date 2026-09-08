@@ -1,0 +1,135 @@
+{
+ "code": "SI18",
+ "mer": "SI",
+ "num": 18,
+ "tenApp": "Quyền Liêu",
+ "tenFocks": "QUYỀN LIÊU",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Huyệt ở dưới xương gò má, giao điểm của đường chân cánh mũi kéo ngang ra và bờ ngoài của mắt kéo thẳng xuống, dưới huyệt là bờ trước cơ cắn, nơi bám vào xương gò má.",
+  "focksViTri": "Tại điểm giao nhau của đường thẳng đứng qua góc ngoài của mắt với mép dưới xương gò má, ở mép trước cơ cắn.",
+  "focksCachXacDinh": "Vẽ một đường thẳng đứng tưởng tượng đi qua khoé mắt ngoài đến mép dưới của xương gò má. Huyệt Quyền liêu (Dü/SI 18) nằm ở chỗ lõm ở mép trước của cơ cắn (xấp xỉ ngang mức bờ ngoài của lỗ mũi, huyệt Nghinh hương (Di/LI 20). Khi bệnh nhân nhai, có thể sờ thấy rõ mép trước của cơ cắn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/SI18_p137_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/SI18_p138_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0327,
+  "y": 0.9013,
+  "z": 0.0033,
+  "conf": "WHO-lấp",
+  "caoDoCm": 154.93,
+  "ngangCm": 5.62,
+  "truocSauCm": 0.57
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 4.14cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "mat",
+  "vung": "mặt bên",
+  "moTaRanh": "bờ dưới xương gò má, trước bình tai",
+  "diemTrongDoan": [
+   "SI17",
+   "SI18",
+   "SI19"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "SI17",
+   "ten": "Thiên Dung",
+   "thang": 4.14,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 4.9,
+   "sachDoiThon": null,
+   "vitri": "Ở phía sau góc xương hàm dưới, bờ trước cơ ức – đòn – chũm, phía dưới cơ hai thân."
+  },
+  {
+   "code": "SI19",
+   "ten": "Thính Cung",
+   "thang": 3.41,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 3.5,
+   "sachDoiThon": null,
+   "vitri": "Khi há miệng, huyệt ở chỗ lõm phía trước bình tai, sau lồi cầu xương hàm dưới."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "TE17",
+   "ten": "Ế Phong",
+   "cm": 2.23
+  },
+  {
+   "code": "GB2",
+   "ten": "Thính Hội",
+   "cm": 2.73
+  },
+  {
+   "code": "SI19",
+   "ten": "Thính Cung",
+   "cm": 3.41
+  },
+  {
+   "code": "ST7",
+   "ten": "Hạ Quan",
+   "cm": 3.42
+  },
+  {
+   "code": "GB12",
+   "ten": "Hoàn Cốt",
+   "cm": 3.51
+  },
+  {
+   "code": "GB11",
+   "ten": "Đầu Khiếu Âm",
+   "cm": 3.52
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương hàm dưới",
+   "lop": "bone",
+   "cm": 1.11
+  },
+  {
+   "ten": "Cơ bám da cổ trái",
+   "lop": "muscle",
+   "cm": 1.26
+  },
+  {
+   "ten": "Cơ ức đòn chũm trái",
+   "lop": "muscle",
+   "cm": 2.04
+  },
+  {
+   "ten": "Cơ nhị thân trái",
+   "lop": "muscle",
+   "cm": 2.17
+  },
+  {
+   "ten": "Cơ trâm móng trái",
+   "lop": "muscle",
+   "cm": 2.26
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 4.14cm (conf=WHO-lấp)",
+  "XA ĐƯỜNG KINH 4.12cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 4.14cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ ]
+}

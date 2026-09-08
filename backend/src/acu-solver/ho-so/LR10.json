@@ -1,0 +1,171 @@
+{
+ "code": "LR10",
+ "mer": "LR",
+ "num": 10,
+ "tenApp": "Túc Ngũ Lý",
+ "tenFocks": "TÚC NGŨ LÝ",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở bờ trong đùi, huyệt Âm Liêm (C.11) đo xuống 1 thốn, hoặc dưới nếp nhăn của bẹn 3 thốn.",
+  "focksViTri": "Bờ trên của khớp mu (ngang huyệt Khí xung (Ma 30) xuống 3 thốn, ở mặt trước đùi ở bờ ngoài của cơ khép dài.",
+  "focksCachXacDinh": "Yêu cầu bệnh nhân gồng ấn hai chân vào nhau để làm căng cơ khép. Huyệt Túc ngũ lý (Le/Liv 10) nằm trong rãnh ở bờ của cơ cơ khép dài, tạo thành góc với cơ may.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p331_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p462_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p463_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p463_1.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p464_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p465_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p466_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p467_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p467_1.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p467_2.png",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p467_3.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p468_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p469_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p470_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p471_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p472_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p473_0.png",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p474_0.png",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p475_0.png",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p476_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p477_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p477_1.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p484_0.png",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p485_0.png",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p486_0.png",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p488_0.png",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p489_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p490_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p490_1.png",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p490_2.png",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p491_0.png",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p491_1.png",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p491_2.png",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR10_p515_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0282,
+  "y": 0.4938,
+  "z": 0.0357,
+  "conf": "tạm",
+  "caoDoCm": 84.88,
+  "ngangCm": 4.85,
+  "truocSauCm": 6.14
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da",
+   "duong",
+   "sach"
+  ],
+  "ly": "TẦNG DA: huyệt nằm sâu — đã ép lên da, dời 5.8cm (2.5 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 15.72cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: huyệt · hai nguồn sách cùng kêu lệch 2.1/1.8 thốn"
+ },
+ "duongKinh": {
+  "doan": "dui",
+  "vung": "mặt trong đùi",
+  "moTaRanh": "giữa cơ khép dài và cơ may, tới nếp bẹn",
+  "diemTrongDoan": [
+   "LR8",
+   "LR9",
+   "LR10",
+   "LR11",
+   "LR12"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "LR/dui",
+  "tong": 21.7,
+  "xa": "LR8",
+  "gan": "LR12",
+  "thonCuaHuyet": 18.7,
+  "lechNgang": null,
+  "moiDiem": {
+   "LR9": 4,
+   "LR10": 18.7,
+   "LR11": 19.7
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LR9",
+   "ten": "Âm Bao",
+   "thang": 30.98,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 40.7,
+   "sachDoiThon": 14.7,
+   "vitri": "Ở cách lồi cầu trên trong xương đùi 4 thốn, hoặc từ huyệt Khúc Tuyền (C 8) đo lên 4 thốn, giữa cơ rộng trong và cơ may."
+  },
+  {
+   "code": "LR11",
+   "ten": "Âm Liêm",
+   "thang": 2.1,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2.6,
+   "sachDoiThon": 1,
+   "vitri": "Để bệnh nhân ở tư thế nằm ngửa, sờ động mạch nhảy ở bẹn, huyệt nằm sát bờ trong động mạch đùi, hoặc dưới nếp nhăn của bẹn 1 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "LR11",
+   "ten": "Âm Liêm",
+   "cm": 2.1
+  },
+  {
+   "code": "ST30",
+   "ten": "Khí Xung",
+   "cm": 2.97
+  },
+  {
+   "code": "SP12",
+   "ten": "Xung Môn",
+   "cm": 3.45
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ lược trái",
+   "lop": "muscle",
+   "cm": 2.59
+  },
+  {
+   "ten": "Cơ khép dài trái",
+   "lop": "muscle",
+   "cm": 3.05
+  },
+  {
+   "ten": "Cơ khép ngắn trái",
+   "lop": "muscle",
+   "cm": 4.05
+  },
+  {
+   "ten": "Cơ chéo bụng ngoài trái",
+   "lop": "muscle",
+   "cm": 4.24
+  },
+  {
+   "ten": "Xương chậu trái",
+   "lop": "bone",
+   "cm": 4.34
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 15.72cm (conf=tạm)",
+  "XA ĐƯỜNG KINH 15.6cm",
+  "ÉP LÊN DA dời 5.8cm",
+  "AUDIT cờ soát: bản Focks phân tích HỎNG (bắn lệch 14.0cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: huyệt",
+  "TỪ ĐIỂN APP kêu: dọc \"LR11\" đòi 3 thốn, đo được 0.91  (lệch 4.74cm)",
+  "ATLAS FOCKS kêu: dọc \"ST30\" đòi 3 thốn, đo được 1.21  (lệch 4.04cm)"
+ ]
+}

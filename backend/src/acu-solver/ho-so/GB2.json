@@ -1,0 +1,159 @@
+{
+ "code": "GB2",
+ "mer": "GB",
+ "num": 2,
+ "tenApp": "Thính Hội",
+ "tenFocks": "THÍNH HỘI",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Phía trước rãnh bình tai, ở chỗ lõm khi há miệng, bờ sau tuyến mang tai, dưới huyệt Thính Cung (Ttr.19).",
+  "focksViTri": "Phía trước tai trong chỗ lõm ngang mức rãnh giữa tai ở bờ dưới mỏm lồi cầu của hàm dưới.",
+  "focksCachXacDinh": "Chỗ chuyển tiếp từ sụn bình tai sang má (khi chúng ta già đi, rãnh này thấy rõ hơn). Xác định vị trí của huyệt Thính hội (Gb 2) ở mức rãnh giữa tai (intertragic notch 珠間切痕). Huyệt Thính hội (Gb 2) là điểm thấp nhất trong 3 điểm trước tai, các điểm còn lại thiên phía trên hơn: Huyệt Thính cung (Dü/SI 19) ở mức bình tai và huyệt Nhĩ môn (SJ/TB 21) ở mức rãnh trên tai.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/GB2_p272_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0375,
+  "y": 0.9156,
+  "z": -0.0016,
+  "conf": "mốc",
+  "caoDoCm": 157.39,
+  "ngangCm": 6.45,
+  "truocSauCm": -0.28
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Thính Hội — trước khuyết gian bình tai, dưới Thính Cung 0,5 thốn",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "thai-duong",
+  "vung": "đuôi mắt → trước tai",
+  "moTaRanh": "bờ ngoài ổ mắt, trên cung gò má, trước bình tai",
+  "diemTrongDoan": [
+   "GB1",
+   "GB2",
+   "GB3"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "GB1",
+   "ten": "Đồng Tử Liêu",
+   "thang": 6.27,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 6.8,
+   "sachDoiThon": null,
+   "vitri": "Cách góc ngoài mắt 0,5 thốn, chỗ lõm sát ngoài đường khớp của mỏm ngoài ổ mắt."
+  },
+  {
+   "code": "GB3",
+   "ten": "Thượng Quan",
+   "thang": 3.54,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 3.8,
+   "sachDoiThon": null,
+   "vitri": "Ở phía trước tai, bờ trên xương gò má, xác định huyệt Hạ Quan kéo thẳng lên, đến chỗ lõm bờ sau chân tóc mai."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "TE18",
+   "ten": "Khế Mạch",
+   "cm": 0.57
+  },
+  {
+   "code": "SI19",
+   "ten": "Thính Cung",
+   "cm": 0.71
+  },
+  {
+   "code": "TE17",
+   "ten": "Ế Phong",
+   "cm": 1.38
+  },
+  {
+   "code": "TE21",
+   "ten": "Nhĩ Môn",
+   "cm": 1.45
+  },
+  {
+   "code": "TE19",
+   "ten": "Lư Tức",
+   "cm": 1.79
+  },
+  {
+   "code": "GB11",
+   "ten": "Đầu Khiếu Âm",
+   "cm": 1.81
+  },
+  {
+   "code": "GB10",
+   "ten": "Phù Bạch",
+   "cm": 2.45
+  },
+  {
+   "code": "SI18",
+   "ten": "Quyền Liêu",
+   "cm": 2.73
+  },
+  {
+   "code": "TE20",
+   "ten": "Giác Tôn",
+   "cm": 3.12
+  },
+  {
+   "code": "ST7",
+   "ten": "Hạ Quan",
+   "cm": 3.22
+  },
+  {
+   "code": "GB12",
+   "ten": "Hoàn Cốt",
+   "cm": 3.44
+  },
+  {
+   "code": "GB3",
+   "ten": "Thượng Quan",
+   "cm": 3.54
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương thái dương trái",
+   "lop": "bone",
+   "cm": 1.04
+  },
+  {
+   "ten": "Xương hàm dưới",
+   "lop": "bone",
+   "cm": 1.22
+  },
+  {
+   "ten": "Cơ nhị thân trái",
+   "lop": "muscle",
+   "cm": 2.22
+  },
+  {
+   "ten": "Cơ dài nhất đầu trái",
+   "lop": "muscle",
+   "cm": 2.28
+  },
+  {
+   "ten": "Cơ ức đòn chũm trái",
+   "lop": "muscle",
+   "cm": 2.3
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm"
+ ]
+}

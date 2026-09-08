@@ -1,0 +1,128 @@
+{
+ "code": "HT2",
+ "mer": "HT",
+ "num": 2,
+ "tenApp": "Thanh Linh",
+ "tenFocks": "THANH LINH",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở phía trên đầu nếp gấp khuỷu tay 3 thốn, ở rãnh giữa cơ nhị đầu cánh tay, cơ cánh tay trước.",
+  "focksViTri": "Trên nếp gấp khuỷu tay 3 thốn, ở bờ trong của cơ hai đầu cánh tay.",
+  "focksCachXacDinh": "Khuỷu tay gấp lại, sờ từ đầu nếp gấp khuỷu tay huyệt Thiếu hải (He 3) lên 3 thốn về phía nách. Huyệt Thanh linh (He 2) nằm trong rãnh phía trước bờ trong của cơ hai đầu cánh tay. Để dễ thấy hơn, hãy căng cơ bắp tay.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/HT2_p110_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0936,
+  "y": 0.7123,
+  "z": -0.0035,
+  "conf": "khoá",
+  "caoDoCm": 122.44,
+  "ngangCm": 16.09,
+  "truocSauCm": -0.6
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da",
+   "duong"
+  ],
+  "ly": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.77cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "canh-tay",
+  "vung": "mặt trong cánh tay",
+  "moTaRanh": "rãnh bờ trong cơ nhị đầu, cạnh động mạch cánh tay",
+  "diemTrongDoan": [
+   "HT1",
+   "HT2",
+   "HT3"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "HT/canh-tay",
+  "tong": 6.8,
+  "xa": "HT3",
+  "gan": "HT1",
+  "thonCuaHuyet": 3,
+  "lechNgang": null,
+  "moiDiem": {
+   "HT2": 3
+  }
+ },
+ "hangXom": [
+  {
+   "code": "HT1",
+   "ten": "Cực Tuyền",
+   "thang": 12.89,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 12.1,
+   "sachDoiThon": 3.8,
+   "vitri": "Chỗ lõm ở giữa hố nách, khe giữa động mạch nách, sau gân cơ nhị đầu và gân cơ quạ cánh tay."
+  },
+  {
+   "code": "HT3",
+   "ten": "Thiếu Hải",
+   "thang": 10.39,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 12.5,
+   "sachDoiThon": null,
+   "vitri": "Co tay lại, huyệt nằm ở cuối đầu nếp gấp khuỷu tay, mặt trong cánh tay, cách mỏm trên lồi cầu trong 0,5 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "GB23",
+   "ten": "Triếp Cân",
+   "cm": 2.86
+  },
+  {
+   "code": "SP21",
+   "ten": "Đại Bao",
+   "cm": 3.08
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu ngắn của cơ nhị đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 0.83
+  },
+  {
+   "ten": "Cơ răng trước trái",
+   "lop": "muscle",
+   "cm": 1.87
+  },
+  {
+   "ten": "Cơ cánh tay trái",
+   "lop": "muscle",
+   "cm": 2.52
+  },
+  {
+   "ten": "Cơ chéo bụng ngoài trái",
+   "lop": "muscle",
+   "cm": 2.54
+  },
+  {
+   "ten": "Cơ gian sườn ngoài",
+   "lop": "muscle",
+   "cm": 2.61
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 7.77cm (conf=khoá)",
+  "XA ĐƯỜNG KINH 7.76cm",
+  "ÉP LÊN DA dời 3.2cm",
+  "AUDIT cờ soát: TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.77cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"CUBITAL\" đòi 3 thốn, đo được 3.64  (lệch 2.19cm)",
+  "ATLAS FOCKS kêu: dọc \"CUBITAL\" đòi 3 thốn, đo được 3.64  (lệch 2.19cm)"
+ ]
+}

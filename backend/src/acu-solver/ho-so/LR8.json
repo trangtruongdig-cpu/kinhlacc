@@ -1,0 +1,117 @@
+{
+ "code": "LR8",
+ "mer": "LR",
+ "num": 8,
+ "tenApp": "Khúc Tuyền",
+ "tenFocks": "KHÚC TUYỀN",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở đầu trong nếp gấp nhượng chân, nơi khe giữa của bờ trước gân cơ bán mạc và cơ thẳng trong.",
+  "focksViTri": "Trong quá trình gập đầu gối, ngay gần đầu trong của nếp gấp đầu gối (khe khớp gối) ở chỗ lõm phía trước các gân của cơ bán gân và cơ bán màng.",
+  "focksCachXacDinh": "Gập đầu gối và xoay nhẹ ra ngoài ở khớp hông. Đầu tiên, sờ nắn gân giống sợi dây nổi bật nhất của cơ bán gân ở vùng khoeo. Nó thấy rõ hơn khi gập đầu gối, phần gân phẳng hơn, khó sờ thấy hơn của cơ bán màng chạy bên dưới. Trượt ngón tay xúc giác của bạn từ gân giống như sợi dây qua phần cơ phình ra về phía xương bánh chè. Sau khoảng 1 thốn, ngón tay cảm thấy có một vết lõm nhỏ giữa các cơ phình ra: huyệt Khúc tuyền (Le/Liv 8). Chỗ này nằm ở phía trước cả hai gân. Huyệt Âm cốc (Ni/Ki 10) nằm sau khoảng 1 thốn về phía hố khoeo, nhìn từ phía trong phía sau gân cơ bán màng và phía trước gân cơ bán gân.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR8_p329_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0119,
+  "y": 0.2712,
+  "z": -0.014,
+  "conf": "mốc",
+  "caoDoCm": 46.62,
+  "ngangCm": 2.05,
+  "truocSauCm": -2.41
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Khúc Tuyền — đầu TRONG nếp kheo, ngay TRƯỚC gân bán gân/bán màng. Dựng từ xương/gân atlas. Dịch 0cm so toạ độ cũ.",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "cang-chan",
+  "vung": "mặt trong cẳng chân",
+  "moTaRanh": "sát bờ sau-trong xương chày, lên đầu trong nếp kheo",
+  "diemTrongDoan": [
+   "LR4",
+   "LR5",
+   "LR6",
+   "LR7",
+   "LR8"
+  ]
+ },
+ "nutMoc": {
+  "code": "LR8",
+  "loai": "gap",
+  "at": "POPLITEAL",
+  "vi_sao": "Khúc Tuyền — đầu trong nếp kheo; kinh bẻ lên đùi trong"
+ },
+ "cotDo": {
+  "doan": "LR/cang-chan",
+  "tong": 13,
+  "xa": "LR4",
+  "gan": "LR8",
+  "xaMoc": "MALLEOLUS_MED",
+  "ganMoc": "TIBIA_MED_CONDYLE",
+  "thonCuaHuyet": 13,
+  "lechNgang": null,
+  "moiDiem": {
+   "LR5": 5,
+   "LR6": 7,
+   "LR7": 11.6
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LR7",
+   "ten": "Tất Quan",
+   "thang": 4.77,
+   "sachDoiCm": 3.96,
+   "thonCm": 2.83,
+   "docDa": 5.2,
+   "sachDoiThon": 1.4000000000000004,
+   "vitri": "Ở bờ sau dưới lồi cầu trong xương chầy, cách sau huyệt Âm Lăng Tuyền (Ty 9) một thốn."
+  },
+  {
+   "code": "LR9",
+   "ten": "Âm Bao",
+   "thang": 8.63,
+   "sachDoiCm": null,
+   "thonCm": 2.83,
+   "docDa": 9,
+   "sachDoiThon": null,
+   "vitri": "Ở cách lồi cầu trên trong xương đùi 4 thốn, hoặc từ huyệt Khúc Tuyền (C 8) đo lên 4 thốn, giữa cơ rộng trong và cơ may."
+  }
+ ],
+ "lanCan": [],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ thon trái",
+   "lop": "muscle",
+   "cm": 0.71
+  },
+  {
+   "ten": "Cơ bán màng trái",
+   "lop": "muscle",
+   "cm": 0.92
+  },
+  {
+   "ten": "Cơ may trái",
+   "lop": "muscle",
+   "cm": 1.05
+  },
+  {
+   "ten": "Cơ khép lớn trái",
+   "lop": "muscle",
+   "cm": 1.36
+  },
+  {
+   "ten": "Xương đùi trái",
+   "lop": "bone",
+   "cm": 1.46
+  }
+ ],
+ "coKiemMay": []
+}

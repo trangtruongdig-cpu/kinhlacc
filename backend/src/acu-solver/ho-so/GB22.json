@@ -1,0 +1,124 @@
+{
+ "code": "GB22",
+ "mer": "GB",
+ "num": 22,
+ "tenApp": "Uyên Dịch",
+ "tenFocks": "UYÊN DỊCH",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Dưới nếp nách trước 3 thốn, ở khoảng gian sườn 4, bờ trước cơ lưng to.",
+  "focksViTri": "Ở đường giữa nách với cánh tay dạng ra, cách nách khoảng 3 thốn ở khoang liên sườn thứ 4 (theo Deadman, ở khoang liên sườn thứ 5).",
+  "focksCachXacDinh": "Với cánh tay dang vừa phải, xác định đỉnh của nách. Từ đó xuống khoảng 3 thốn là huyệt Uyên dịch (Gb 22) ở ở khoang liên sườn thứ 4, theo một số tác giả, ở khoang liên sườn thứ 5 (độ nhạy áp với lực là yếu tố quyết định). Để định hướng: Núm vú thường nằm ở ở khoang liên sườn thứ 4 ở nam và ở nữ khi nằm ngửa. Lưu ý: khoang gian sườn cong lên theo chiều ngang. Sự định hướng tin cậy từ xương đòn hoặc khớp sụn xương ức, từ đó, đếm ngược đến khoang gian sườn 4. Cũng nằm ngang mức khoang gian sườn thứ 4 là huyệt Đản trung/Chiên trung (Ren-17), đường giữa; huyệt Thần phong (Ni/KID 23), đường giữa ngang ra ngoài 2 thốn; huyệt Nhũ trung (Ma/ST 17), đường giữa ngang ra ngoài 4 thốn; huyệt Thiên khê (Mi/SP 18), đường giữa ngang ra ngoài 6 thốn (cách đường dọc qua vú 2 thốn); huyệt Thiên trì (Pe/P 1), núm vú ngang ra 1 thốn; huyệt Trấp cân (Gb 23), trước huyệt Uyên dịch (Gb 22) 1 thốn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/GB22_p293_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0966,
+  "y": 0.7427,
+  "z": 0.0055,
+  "conf": "mốc",
+  "caoDoCm": 127.67,
+  "ngangCm": 16.61,
+  "truocSauCm": 0.95
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Uyên Dịch — đường nách giữa, khe gian sườn 4",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "suon",
+  "vung": "nách → sườn bên",
+  "moTaRanh": "bờ ngoài cơ gian sườn ngoài, đường nách giữa, xuống đầu xương sườn tự do",
+  "diemTrongDoan": [
+   "GB21",
+   "GB22",
+   "GB23",
+   "GB24",
+   "GB25",
+   "GB26",
+   "GB27",
+   "GB28"
+  ]
+ },
+ "nutMoc": {
+  "code": "GB22",
+  "loai": "moc",
+  "at": "NIPPLE",
+  "vi_sao": "Uyên Dịch — đường nách giữa, ngang gian sườn 4. THÊM sau bước 2: thiếu nút này, đoạn sườn GB21→GB25 đi tắt qua ngực, các huyệt lệch trung bình 10,6cm"
+ },
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "GB21",
+   "ten": "Kiên Tỉnh",
+   "thang": 17.54,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 23.4,
+   "sachDoiThon": null,
+   "vitri": "Tại giao điểm của đường thẳng ngang qua đầu ngực với đường ngang nối huyệt Đại Chùy (Đc 14) và điểm cao nhất của đầu ngoài xương đòn, ấn vào có cảm giác ê tức. Hoặc đứng thẳng, dùng tay áp vào ngực, với sang bả vai phía đối diện, làm sao cho bàn tay úp vào vùng vai – cơ thang, đầu ngón tay giữa chạm vào vùng vai chỗ nào, đó là huyệt."
+  },
+  {
+   "code": "GB23",
+   "ten": "Triếp Cân",
+   "thang": 3.49,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 7.3,
+   "sachDoiThon": null,
+   "vitri": "Trước huyệt Uyên Dịch 1 thốn, ngang giữa xương sườn thứ 5."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "LU4",
+   "ten": "Hiệp Bạch",
+   "cm": 1.25
+  },
+  {
+   "code": "GB23",
+   "ten": "Triếp Cân",
+   "cm": 3.49
+  },
+  {
+   "code": "LU3",
+   "ten": "Thiên Phủ",
+   "cm": 3.67
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu ngắn của cơ nhị đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 0.59
+  },
+  {
+   "ten": "Đầu dài của cơ nhị đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 1.94
+  },
+  {
+   "ten": "Cơ răng trước trái",
+   "lop": "muscle",
+   "cm": 2.44
+  },
+  {
+   "ten": "Cơ quạ cánh tay trái",
+   "lop": "muscle",
+   "cm": 3.23
+  },
+  {
+   "ten": "Cơ cánh tay trái",
+   "lop": "muscle",
+   "cm": 3.48
+  }
+ ],
+ "coKiemMay": [
+  "TỪ ĐIỂN APP kêu: dọc \"AXILLA_ANT\" đòi 3 thốn, đo được 3.91  (lệch 3.12cm)"
+ ]
+}

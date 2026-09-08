@@ -1,0 +1,128 @@
+{
+ "code": "ST2",
+ "mer": "ST",
+ "num": 2,
+ "tenApp": "Tứ Bạch",
+ "tenFocks": "TỨ BẠCH",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ngay giữa mi dưới thẳng xuống 1 thốn, chỗ lõm dưới hố mắt, bờ dưới cơ vòng mi.",
+  "focksViTri": "Nhìn thẳng về phía trước, trên đường vuông góc đi qua tâm đồng tử, ở chỗ lỗ sâu dưới hốc mắt.",
+  "focksCachXacDinh": "Bốn điểm đầu tiên của kinh Vị (Ma/ST) nằm trên trên đường vuông góc đi qua tâm đồng tử khi bệnh nhân nhìn thẳng về phía trước. Bờ dưới hốc mắt như một cạnh xương có thể sờ thấy rõ ràng. Bắt đầu từ mép dưới của hốc mắt, sờ theo dọc theo đường đồng tử cho đến lỗ sâu hơn dưới hốc mắt (thường nằm ở phía trong hơn một chút so với đường đồng tử) vị trí huyệt Tứ bạch (Ma 2) tại đây.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/ST2_p40_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0196,
+  "y": 0.9238,
+  "z": 0.0421,
+  "conf": "WHO-lấp",
+  "caoDoCm": 158.8,
+  "ngangCm": 3.37,
+  "truocSauCm": 7.24
+ },
+ "nghiemThu": {
+  "hang": "B",
+  "nguon": "who+duong",
+  "ly": "conf=WHO-lấp, src=who+duong",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "mat",
+  "vung": "mặt",
+  "moTaRanh": "trục dọc đồng tử, xuống bờ dưới xương hàm dưới rồi ra góc hàm, trên cơ cắn",
+  "diemTrongDoan": [
+   "ST1",
+   "ST2",
+   "ST3",
+   "ST4",
+   "ST5",
+   "ST6"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "ST1",
+   "ten": "Thừa Khấp",
+   "thang": 2.8,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 3.4,
+   "sachDoiThon": null,
+   "vitri": "Dưới đồng tử 0,7 thốn, ở chỗ gặp nhau của bờ dưới xương ổ mắt với đường dọc chính giữa mắt."
+  },
+  {
+   "code": "ST3",
+   "ten": "Cự Liêu",
+   "thang": 2.32,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 1.7,
+   "sachDoiThon": null,
+   "vitri": "Tại nơi gặp nhau của đường giữa mắt kéo xuống và chân cánh mũi kéo ra, ngay dưới huyệt Tứ Bạch (Vi 2)."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "ST3",
+   "ten": "Cự Liêu",
+   "cm": 2.32
+  },
+  {
+   "code": "LI20",
+   "ten": "Nghênh Hương",
+   "cm": 2.75
+  },
+  {
+   "code": "ST1",
+   "ten": "Thừa Khấp",
+   "cm": 2.8
+  },
+  {
+   "code": "GB1",
+   "ten": "Đồng Tử Liêu",
+   "cm": 2.96
+  },
+  {
+   "code": "TE23",
+   "ten": "Ty Trúc Không",
+   "cm": 3.93
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ thẳng dưới trái",
+   "lop": "muscle",
+   "cm": 1.34
+  },
+  {
+   "ten": "Cơ thẳng ngoài trái",
+   "lop": "muscle",
+   "cm": 1.59
+  },
+  {
+   "ten": "Cơ chéo dưới trái",
+   "lop": "muscle",
+   "cm": 1.61
+  },
+  {
+   "ten": "Xương gò má trái",
+   "lop": "bone",
+   "cm": 1.72
+  },
+  {
+   "ten": "Xương hàm trên trái",
+   "lop": "bone",
+   "cm": 1.75
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 2.39cm (conf=WHO-lấp)",
+  "XA ĐƯỜNG KINH 1.13cm"
+ ]
+}

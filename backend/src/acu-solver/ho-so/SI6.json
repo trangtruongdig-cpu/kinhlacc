@@ -1,0 +1,165 @@
+{
+ "code": "SI6",
+ "mer": "SI",
+ "num": 6,
+ "tenApp": "Dưỡng Lão",
+ "tenFocks": "DƯỠNG LÃO",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Co khuỷu tay với lòng bàn tay đặt vào ngực, huyệt ở chỗ mỏm trâm xương trụ, từ huyệt Dương Cốc (Ttr 5) đo lên 1 thốn.",
+  "focksViTri": "Ở mặt ngoài của cẳng tay trong chỗ lõm phía trong và gần với mỏm trâm trụ, sờ thấy khi bàn tay di chuyển từ tư thế sấp sang tư thế ngửa.",
+  "focksCachXacDinh": "Gập nhẹ khuỷu tay. Đặt ngón tay sờ vào phần xa của mỏm trâm trụ. Trong quá trình chuyển động của bàn tay từ tư thế quay sấp sang tư thế nửa ngửa, ngón tay sẽ cảm nhận được một rãnh xương ở độ dốc gần mỏm trâm (rãnh trượt của gân cơ duỗi cổ tay trụ). Rãnh xương này cũng có thể được cảm nhận khi bệnh nhân đặt tay lên ngực (tư thế nửa ngửa). Xác định vị trí huyệt Dưỡng lão (Dü/SI 6) tại rãnh này.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/SI6_p126_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1325,
+  "y": 0.5198,
+  "z": 0.0037,
+  "conf": "tạm",
+  "caoDoCm": 89.35,
+  "ngangCm": 22.78,
+  "truocSauCm": 0.64
+ },
+ "nghiemThu": {
+  "hang": "B",
+  "nguon": "book+duong",
+  "ly": "conf=tạm, src=book+duong",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "cang-tay",
+  "vung": "mặt sau-trong cẳng tay",
+  "moTaRanh": "sát bờ sau xương trụ",
+  "diemTrongDoan": [
+   "SI5",
+   "SI6",
+   "SI7",
+   "SI8"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "SI/cang-tay",
+  "tong": 12,
+  "xa": "SI5",
+  "gan": "SI8",
+  "xaMoc": "WRIST",
+  "ganMoc": "CUBITAL",
+  "thonCuaHuyet": 1,
+  "lechNgang": null,
+  "moiDiem": {
+   "SI6": 1,
+   "SI7": 5
+  }
+ },
+ "hangXom": [
+  {
+   "code": "SI5",
+   "ten": "Dương Cốc",
+   "thang": 1.04,
+   "sachDoiCm": 2.01,
+   "thonCm": 2.01,
+   "docDa": 0.8,
+   "sachDoiThon": 1,
+   "vitri": "Ở bờ trong cổ ngón tay, nơi chỗ lõm giữa xương hạt đậu và đầu mỏm trâm xương trụ."
+  },
+  {
+   "code": "SI7",
+   "ten": "Chi Chính",
+   "thang": 8.05,
+   "sachDoiCm": 8.04,
+   "thonCm": 2.01,
+   "docDa": 9.4,
+   "sachDoiThon": 4,
+   "vitri": "Tại sát bờ sau xương trụ, cách cổ tay 5 thốn, trên đường nối huyệt Dương Cốc và huyệt Tiểu Hải."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "SI5",
+   "ten": "Dương Cốc",
+   "cm": 1.04
+  },
+  {
+   "code": "TE4",
+   "ten": "Dương Trì",
+   "cm": 2.43
+  },
+  {
+   "code": "HT5",
+   "ten": "Thông Lý",
+   "cm": 2.57
+  },
+  {
+   "code": "HT4",
+   "ten": "Linh Đạo",
+   "cm": 2.74
+  },
+  {
+   "code": "HT6",
+   "ten": "Âm Khích",
+   "cm": 2.97
+  },
+  {
+   "code": "HT7",
+   "ten": "Thần Môn",
+   "cm": 3.43
+  },
+  {
+   "code": "TE5",
+   "ten": "Ngoại Quan",
+   "cm": 3.75
+  },
+  {
+   "code": "PC6",
+   "ten": "Nội Quan",
+   "cm": 3.93
+  },
+  {
+   "code": "SI4",
+   "ten": "Uyển Cốt",
+   "cm": 3.95
+  },
+  {
+   "code": "LU7",
+   "ten": "Liệt Khuyết",
+   "cm": 3.99
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ duỗi cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 0.63
+  },
+  {
+   "ten": "Xương trụ trái",
+   "lop": "bone",
+   "cm": 0.73
+  },
+  {
+   "ten": "Cơ duỗi ngón út trái",
+   "lop": "muscle",
+   "cm": 1.19
+  },
+  {
+   "ten": "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 1.26
+  },
+  {
+   "ten": "Cơ sấp vuông trái",
+   "lop": "muscle",
+   "cm": 1.49
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 2.61cm (conf=tạm)",
+  "XA ĐƯỜNG KINH 0.77cm",
+  "TỪ ĐIỂN APP kêu: dọc \"SI5\" đòi 1 thốn, đo được 0.52  (lệch 0.97cm)"
+ ]
+}

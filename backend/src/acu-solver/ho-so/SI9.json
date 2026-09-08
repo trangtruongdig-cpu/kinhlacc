@@ -1,0 +1,114 @@
+{
+ "code": "SI9",
+ "mer": "SI",
+ "num": 9,
+ "tenApp": "Kiên Trinh",
+ "tenFocks": "KIÊN TRINH",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Đặt cánh tay lên hông sườn, huyệt ở mặt sau vai, từ đầu chỉ nếp nách thẳng lên 1 thốn hoặc chỗ lõm ở giao điểm đường dọc từ Kiên Ngung (Đtr 15) xuống và đường ngang qua lằn sau nách, cách tuyến giữa lưng 6 thốn.",
+  "focksViTri": "Với cánh tay khép lại (vị trí bình thường), trên nếp gấp nách phía sau, cách đầu nếp gấp khoảng 1 thốn, cạnh bờ dưới của cơ delta.",
+  "focksCachXacDinh": "Khi bệnh nhân ngồi thẳng, sờ nắn từ đầu của nếp gấp nách đi lên cho đến khi có thể cảm nhận được bờ dưới của cơ delta. Nếu nghi ngờ, hãy để cơ căng. Huyệt Kiên trinh (Dü/SP 9) nằm ở bờ dưới cơ.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/SI9_p129_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1227,
+  "y": 0.7409,
+  "z": -0.0494,
+  "conf": "cao",
+  "caoDoCm": 127.36,
+  "ngangCm": 21.09,
+  "truocSauCm": -8.49
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 17.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "vai",
+  "vung": "vùng bả vai",
+  "moTaRanh": "quanh hố dưới gai và bờ trong xương bả vai",
+  "diemTrongDoan": [
+   "SI8",
+   "SI9",
+   "SI10",
+   "SI11",
+   "SI12",
+   "SI13",
+   "SI14"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "SI8",
+   "ten": "Tiểu Hải",
+   "thang": 13.96,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 13.7,
+   "sachDoiThon": null,
+   "vitri": "Co khuỷu tay, huyệt ở giữa mỏm khuỷu và mỏm trên ròng rọc đầu dưới xương cánh tay, nơi tận cơ 3 đầu cánh tay."
+  },
+  {
+   "code": "SI10",
+   "ten": "Nhu Du",
+   "thang": 11.24,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 13.4,
+   "sachDoiThon": null,
+   "vitri": "Huyệt ở phía sau lưng, chỗ lõm nơi đầu xương giáp vai hoặc là nơi gặp nhau của đường nếp nách sau kéo dài và chỗ lõm dưới sống vai."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "TE12",
+   "ten": "Tiêu Lạc",
+   "cm": 2.66
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu ngoài của cơ tam đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 1.42
+  },
+  {
+   "ten": "Đầu dài của cơ tam đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 2.34
+  },
+  {
+   "ten": "Phần gai vai của cơ delta trái",
+   "lop": "muscle",
+   "cm": 3.49
+  },
+  {
+   "ten": "Xương cánh tay trái",
+   "lop": "bone",
+   "cm": 5
+  },
+  {
+   "ten": "Đầu trong của cơ tam đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 5.05
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 17.6cm (conf=cao)",
+  "XA ĐƯỜNG KINH 7.15cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 17.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"LI15\" đòi 1 thốn, đo được 3.85  (lệch 9.74cm, SAI CHIỀU)"
+ ]
+}

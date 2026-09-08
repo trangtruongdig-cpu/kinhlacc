@@ -1,67 +1,11 @@
 {
  "rows": [
   {
-   "mer": "LR",
-   "code": "LR10",
-   "doan": "dui",
-   "cm": 15.6,
-   "conf": "tạm"
-  },
-  {
-   "mer": "LR",
-   "code": "LR11",
-   "doan": "dui",
-   "cm": 15.51,
-   "conf": "WHO-lấp"
-  },
-  {
-   "mer": "GB",
-   "code": "GB36",
-   "doan": "cang-chan",
-   "cm": 11,
-   "conf": "tạm"
-  },
-  {
-   "mer": "GB",
-   "code": "GB8",
-   "doan": "sau-tai",
-   "cm": 10.64,
-   "conf": "cao"
-  },
-  {
-   "mer": "GB",
-   "code": "GB9",
-   "doan": "sau-tai",
-   "cm": 10.52,
-   "conf": "khoá"
-  },
-  {
    "mer": "BL",
    "code": "BL58",
    "doan": "cang-chan",
    "cm": 8.97,
    "conf": "cao"
-  },
-  {
-   "mer": "TE",
-   "code": "TE20",
-   "doan": "tai",
-   "cm": 8.46,
-   "conf": "cao"
-  },
-  {
-   "mer": "HT",
-   "code": "HT2",
-   "doan": "canh-tay",
-   "cm": 7.76,
-   "conf": "khoá"
-  },
-  {
-   "mer": "GB",
-   "code": "GB32",
-   "doan": "dui",
-   "cm": 7.35,
-   "conf": "khe"
   },
   {
    "mer": "SI",
@@ -71,27 +15,6 @@
    "conf": "cao"
   },
   {
-   "mer": "TE",
-   "code": "TE19",
-   "doan": "tai",
-   "cm": 7.12,
-   "conf": "tạm"
-  },
-  {
-   "mer": "SP",
-   "code": "SP8",
-   "doan": "cang-chan",
-   "cm": 6.96,
-   "conf": "WHO+khe"
-  },
-  {
-   "mer": "SP",
-   "code": "SP11",
-   "doan": "dui",
-   "cm": 6.92,
-   "conf": "WHO+khe"
-  },
-  {
    "mer": "KI",
    "code": "KI9",
    "doan": "cang-chan",
@@ -99,24 +22,10 @@
    "conf": "khe-khoá"
   },
   {
-   "mer": "TE",
-   "code": "TE11",
-   "doan": "canh-tay",
-   "cm": 6.69,
-   "conf": "cao"
-  },
-  {
-   "mer": "SI",
-   "code": "SI7",
-   "doan": "cang-tay",
-   "cm": 6.38,
-   "conf": "khe"
-  },
-  {
    "mer": "SP",
    "code": "SP6",
    "doan": "cang-chan",
-   "cm": 6.33,
+   "cm": 6.31,
    "conf": "khoá"
   },
   {
@@ -127,32 +36,11 @@
    "conf": "cao"
   },
   {
-   "mer": "LU",
-   "code": "LU3",
-   "doan": "canh-tay",
-   "cm": 5.62,
-   "conf": "cao"
-  },
-  {
-   "mer": "LU",
-   "code": "LU4",
-   "doan": "canh-tay",
-   "cm": 5.5,
-   "conf": "khoá"
-  },
-  {
    "mer": "KI",
    "code": "KI4",
    "doan": "ban-chan",
    "cm": 5.38,
    "conf": "khe"
-  },
-  {
-   "mer": "BL",
-   "code": "BL37",
-   "doan": "dui-sau",
-   "cm": 5.23,
-   "conf": "WHO+khe"
   },
   {
    "mer": "LI",
@@ -163,24 +51,10 @@
   },
   {
    "mer": "BL",
-   "code": "BL38",
-   "doan": "dui-sau",
-   "cm": 4.52,
-   "conf": "khe"
-  },
-  {
-   "mer": "BL",
    "code": "BL57",
    "doan": "cang-chan",
    "cm": 4.51,
    "conf": "WHO+khe"
-  },
-  {
-   "mer": "TE",
-   "code": "TE18",
-   "doan": "tai",
-   "cm": 4.48,
-   "conf": "cao"
   },
   {
    "mer": "PC",
@@ -188,13 +62,6 @@
    "doan": "cang-tay",
    "cm": 4.3,
    "conf": "cao"
-  },
-  {
-   "mer": "SI",
-   "code": "SI18",
-   "doan": "mat",
-   "cm": 4.12,
-   "conf": "WHO-lấp"
   },
   {
    "mer": "HT",
@@ -208,13 +75,6 @@
    "code": "HT5",
    "doan": "cang-tay",
    "cm": 4.02,
-   "conf": "cao"
-  },
-  {
-   "mer": "LU",
-   "code": "LU6",
-   "doan": "cang-tay",
-   "cm": 3.99,
    "conf": "cao"
   },
   {
@@ -261,16 +121,9 @@
   },
   {
    "mer": "GB",
-   "code": "GB31",
-   "doan": "dui",
-   "cm": 2.74,
-   "conf": "WHO-lấp"
-  },
-  {
-   "mer": "LU",
-   "code": "LU7",
-   "doan": "cang-tay",
-   "cm": 2.27,
+   "code": "GB37",
+   "doan": "cang-chan",
+   "cm": 2.17,
    "conf": "khoá"
   },
   {
@@ -279,20 +132,6 @@
    "doan": "cang-tay",
    "cm": 2.09,
    "conf": "khe-khoá"
-  },
-  {
-   "mer": "GB",
-   "code": "GB39",
-   "doan": "cang-chan",
-   "cm": 2.01,
-   "conf": "khoá"
-  },
-  {
-   "mer": "LU",
-   "code": "LU8",
-   "doan": "cang-tay",
-   "cm": 1.93,
-   "conf": "cao"
   },
   {
    "mer": "ST",
@@ -326,7 +165,7 @@
    "mer": "GB",
    "code": "GB38",
    "doan": "cang-chan",
-   "cm": 1.53,
+   "cm": 1.59,
    "conf": "khoá"
   },
   {
@@ -344,10 +183,10 @@
    "conf": "cao"
   },
   {
-   "mer": "LR",
-   "code": "LR9",
-   "doan": "dui",
-   "cm": 1.42,
+   "mer": "GB",
+   "code": "GB33",
+   "doan": "cang-chan",
+   "cm": 1.5,
    "conf": "cao"
   },
   {
@@ -370,20 +209,6 @@
    "doan": "mat",
    "cm": 1.13,
    "conf": "cao"
-  },
-  {
-   "mer": "GB",
-   "code": "GB35",
-   "doan": "cang-chan",
-   "cm": 1.1,
-   "conf": "cao"
-  },
-  {
-   "mer": "GB",
-   "code": "GB37",
-   "doan": "cang-chan",
-   "cm": 1.04,
-   "conf": "khoá"
   },
   {
    "mer": "ST",
@@ -435,6 +260,20 @@
    "conf": "mốc"
   },
   {
+   "mer": "GB",
+   "code": "GB15",
+   "doan": "tran-dinh",
+   "cm": 0.23,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LU",
+   "code": "LU8",
+   "doan": "cang-tay",
+   "cm": 0.22,
+   "conf": "mốc"
+  },
+  {
    "mer": "ST",
    "code": "ST43",
    "doan": "ban-chan",
@@ -442,10 +281,10 @@
    "conf": "mốc"
   },
   {
-   "mer": "BL",
-   "code": "BL17",
-   "doan": "lung-trong",
-   "cm": 0.21,
+   "mer": "GB",
+   "code": "GB32",
+   "doan": "dui",
+   "cm": 0.22,
    "conf": "mốc"
   },
   {
@@ -460,13 +299,6 @@
    "code": "GV15",
    "doan": "gay",
    "cm": 0.21,
-   "conf": "mốc"
-  },
-  {
-   "mer": "GB",
-   "code": "GB16",
-   "doan": "tran-dinh",
-   "cm": 0.2,
    "conf": "mốc"
   },
   {
@@ -491,9 +323,23 @@
    "conf": "mốc"
   },
   {
+   "mer": "LU",
+   "code": "LU4",
+   "doan": "canh-tay",
+   "cm": 0.19,
+   "conf": "mốc"
+  },
+  {
    "mer": "ST",
    "code": "ST27",
    "doan": "bung",
+   "cm": 0.19,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL17",
+   "doan": "lung-trong",
    "cm": 0.19,
    "conf": "mốc"
   },
@@ -519,16 +365,16 @@
    "conf": "mốc"
   },
   {
-   "mer": "BL",
-   "code": "BL5",
-   "doan": "dau",
+   "mer": "GB",
+   "code": "GB10",
+   "doan": "sau-tai",
    "cm": 0.18,
    "conf": "mốc"
   },
   {
    "mer": "BL",
-   "code": "BL22",
-   "doan": "lung-trong",
+   "code": "BL5",
+   "doan": "dau",
    "cm": 0.18,
    "conf": "mốc"
   },
@@ -554,10 +400,24 @@
    "conf": "mốc"
   },
   {
+   "mer": "LR",
+   "code": "LR10",
+   "doan": "dui",
+   "cm": 0.17,
+   "conf": "mốc"
+  },
+  {
    "mer": "CV",
    "code": "CV14",
    "doan": "bung-tren",
    "cm": 0.17,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB17",
+   "doan": "tran-dinh",
+   "cm": 0.16,
    "conf": "mốc"
   },
   {
@@ -589,6 +449,13 @@
    "conf": "mốc"
   },
   {
+   "mer": "GB",
+   "code": "GB8",
+   "doan": "sau-tai",
+   "cm": 0.13,
+   "conf": "mốc"
+  },
+  {
    "mer": "GV",
    "code": "GV3",
    "doan": "cung-that-lung",
@@ -606,6 +473,13 @@
    "mer": "ST",
    "code": "ST20",
    "doan": "bung",
+   "cm": 0.12,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL22",
+   "doan": "lung-trong",
    "cm": 0.12,
    "conf": "mốc"
   },
@@ -652,10 +526,24 @@
    "conf": "mốc"
   },
   {
+   "mer": "BL",
+   "code": "BL21",
+   "doan": "lung-trong",
+   "cm": 0.1,
+   "conf": "mốc"
+  },
+  {
    "mer": "KI",
    "code": "KI19",
    "doan": "bung",
    "cm": 0.1,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL18",
+   "doan": "lung-trong",
+   "cm": 0.09,
    "conf": "mốc"
   },
   {
@@ -702,16 +590,16 @@
   },
   {
    "mer": "BL",
-   "code": "BL28",
+   "code": "BL20",
    "doan": "lung-trong",
    "cm": 0.06,
    "conf": "mốc"
   },
   {
    "mer": "BL",
-   "code": "BL18",
+   "code": "BL28",
    "doan": "lung-trong",
-   "cm": 0.05,
+   "cm": 0.06,
    "conf": "mốc"
   },
   {
@@ -744,16 +632,16 @@
   },
   {
    "mer": "BL",
-   "code": "BL19",
-   "doan": "lung-trong",
+   "code": "BL51",
+   "doan": "lung-ngoai",
    "cm": 0.04,
    "conf": "mốc"
   },
   {
    "mer": "BL",
-   "code": "BL51",
-   "doan": "lung-ngoai",
-   "cm": 0.04,
+   "code": "BL19",
+   "doan": "lung-trong",
+   "cm": 0.02,
    "conf": "mốc"
   },
   {
@@ -793,13 +681,6 @@
   },
   {
    "mer": "BL",
-   "code": "BL21",
-   "doan": "lung-trong",
-   "cm": 0.01,
-   "conf": "mốc"
-  },
-  {
-   "mer": "BL",
    "code": "BL27",
    "doan": "lung-trong",
    "cm": 0.01,
@@ -814,6 +695,27 @@
   },
   {
    "mer": "LU",
+   "code": "LU3",
+   "doan": "canh-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LU",
+   "code": "LU6",
+   "doan": "cang-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LU",
+   "code": "LU7",
+   "doan": "cang-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LU",
    "code": "LU10",
    "doan": "ban-tay",
    "cm": 0,
@@ -823,6 +725,13 @@
    "mer": "PC",
    "code": "PC8",
    "doan": "ban-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "HT",
+   "code": "HT2",
+   "doan": "canh-tay",
    "cm": 0,
    "conf": "mốc"
   },
@@ -919,6 +828,13 @@
   },
   {
    "mer": "SI",
+   "code": "SI7",
+   "doan": "cang-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SI",
    "code": "SI11",
    "doan": "vai",
    "cm": 0,
@@ -974,6 +890,13 @@
    "conf": "WHO-lấp"
   },
   {
+   "mer": "SI",
+   "code": "SI18",
+   "doan": "mat",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
    "mer": "TE",
    "code": "TE2",
    "doan": "ban-tay",
@@ -1017,6 +940,13 @@
   },
   {
    "mer": "TE",
+   "code": "TE11",
+   "doan": "canh-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
    "code": "TE12",
    "doan": "canh-tay",
    "cm": 0,
@@ -1052,6 +982,27 @@
   },
   {
    "mer": "TE",
+   "code": "TE18",
+   "doan": "tai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE19",
+   "doan": "tai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE20",
+   "doan": "tai",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
    "code": "TE21",
    "doan": "tai",
    "cm": 0,
@@ -1062,7 +1013,7 @@
    "code": "TE22",
    "doan": "tai",
    "cm": 0,
-   "conf": "cao"
+   "conf": "mốc"
   },
   {
    "mer": "ST",
@@ -1157,6 +1108,13 @@
   },
   {
    "mer": "ST",
+   "code": "ST18",
+   "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "ST",
    "code": "ST19",
    "doan": "bung",
    "cm": 0,
@@ -1227,7 +1185,7 @@
   },
   {
    "mer": "GB",
-   "code": "GB10",
+   "code": "GB9",
    "doan": "sau-tai",
    "cm": 0,
    "conf": "mốc"
@@ -1255,14 +1213,7 @@
   },
   {
    "mer": "GB",
-   "code": "GB15",
-   "doan": "tran-dinh",
-   "cm": 0,
-   "conf": "mốc"
-  },
-  {
-   "mer": "GB",
-   "code": "GB17",
+   "code": "GB16",
    "doan": "tran-dinh",
    "cm": 0,
    "conf": "mốc"
@@ -1334,6 +1285,34 @@
    "mer": "GB",
    "code": "GB29",
    "doan": "mong",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB31",
+   "doan": "dui",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB35",
+   "doan": "cang-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB36",
+   "doan": "cang-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "GB",
+   "code": "GB39",
+   "doan": "cang-chan",
    "cm": 0,
    "conf": "mốc"
   },
@@ -1416,13 +1395,6 @@
   },
   {
    "mer": "BL",
-   "code": "BL20",
-   "doan": "lung-trong",
-   "cm": 0,
-   "conf": "mốc"
-  },
-  {
-   "mer": "BL",
    "code": "BL24",
    "doan": "lung-trong",
    "cm": 0,
@@ -1446,6 +1418,13 @@
    "mer": "BL",
    "code": "BL30",
    "doan": "lung-trong",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL30",
+   "doan": "cung",
    "cm": 0,
    "conf": "mốc"
   },
@@ -1482,19 +1461,47 @@
    "code": "BL35",
    "doan": "cung",
    "cm": 0,
-   "conf": "WHO-lấp"
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL35",
+   "doan": "dui-sau",
+   "cm": 0,
+   "conf": "mốc"
   },
   {
    "mer": "BL",
    "code": "BL36",
    "doan": "dui-sau",
    "cm": 0,
-   "conf": "WHO-lấp"
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL37",
+   "doan": "dui-sau",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL38",
+   "doan": "dui-sau",
+   "cm": 0,
+   "conf": "mốc"
   },
   {
    "mer": "BL",
    "code": "BL39",
    "doan": "dui-sau",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "BL",
+   "code": "BL41",
+   "doan": "nhanh-gay",
    "cm": 0,
    "conf": "mốc"
   },
@@ -1619,7 +1626,21 @@
   },
   {
    "mer": "SP",
+   "code": "SP8",
+   "doan": "cang-chan",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
    "code": "SP10",
+   "doan": "dui",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP11",
    "doan": "dui",
    "cm": 0,
    "conf": "mốc"
@@ -1642,6 +1663,13 @@
    "mer": "SP",
    "code": "SP16",
    "doan": "bung",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "SP",
+   "code": "SP16",
+   "doan": "nguc",
    "cm": 0,
    "conf": "mốc"
   },
@@ -1793,6 +1821,20 @@
    "conf": "mốc"
   },
   {
+   "mer": "LR",
+   "code": "LR9",
+   "doan": "dui",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LR",
+   "code": "LR11",
+   "doan": "dui",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
    "mer": "CV",
    "code": "CV3",
    "doan": "bung-duoi",
@@ -1940,6 +1982,6 @@
    "conf": "mốc"
   }
  ],
- "tongDoan": 78,
- "tongCm": 2027
+ "tongDoan": 79,
+ "tongCm": 2147
 }

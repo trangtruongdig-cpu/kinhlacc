@@ -1,0 +1,148 @@
+{
+ "code": "SI19",
+ "mer": "SI",
+ "num": 19,
+ "tenApp": "Thính Cung",
+ "tenFocks": "THÍNH CUNG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Khi há miệng, huyệt ở chỗ lõm phía trước bình tai, sau lồi cầu xương hàm dưới.",
+  "focksViTri": "Phía trước tai ngang mức giữa vành tai, khi mở miệng ở chỗ lõm giữa bình tai và mỏm lồi cầu của xương hàm dưới.",
+  "focksCachXacDinh": "Xác định vị trí và châm huyệt này với miệng mở. Điều này cho phép mỏm lồi cầu của xương hàm dưới trượt ra phía trước và bộc lộ chỗ lõm. Xác định vị trí rãnh dọc ở điểm tiếp giáp giữa tai và má (không phải lúc nào cũng thấy rõ). Sau đó xác định vị trí huyệt Thính cung (Dü/SI 19) trên rãnh ở mức giữa bình tai. Nếu bạn không thể xác định rõ ràng rãnh (nó sẽ thấy rõ hơn khi tuổi càng cao), có thể sử dụng máy định vị huyệt (tai) để xác định vị trí huyệt (bệnh nhân nên há miệng để lộ phần lõm). Huyệt Thính cung Dü/SI 19) là huyệt ở giữa 3 huyệt nằm phía trước tai; huyệt Nhĩ môn (SJ/TB 21) nằm ở phía trên và huyệt Thính hội (Gb 2) nằm ở dưới huyệt Thính cung (Dü/SI 19).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/SI19_p139_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/SI19_p140_0.png"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0382,
+  "y": 0.9197,
+  "z": -0.0016,
+  "conf": "mốc",
+  "caoDoCm": 158.1,
+  "ngangCm": 6.57,
+  "truocSauCm": -0.28
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Thính Cung — trước bình tai, ngang ống tai ngoài",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "mat",
+  "vung": "mặt bên",
+  "moTaRanh": "bờ dưới xương gò má, trước bình tai",
+  "diemTrongDoan": [
+   "SI17",
+   "SI18",
+   "SI19"
+  ]
+ },
+ "nutMoc": {
+  "code": "SI19",
+  "loai": "cuoi",
+  "at": null,
+  "vi_sao": "Thính Cung — trước bình tai"
+ },
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "SI18",
+   "ten": "Quyền Liêu",
+   "thang": 3.41,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 3.5,
+   "sachDoiThon": null,
+   "vitri": "Huyệt ở dưới xương gò má, giao điểm của đường chân cánh mũi kéo ngang ra và bờ ngoài của mắt kéo thẳng xuống, dưới huyệt là bờ trước cơ cắn, nơi bám vào xương gò má."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "GB2",
+   "ten": "Thính Hội",
+   "cm": 0.71
+  },
+  {
+   "code": "TE21",
+   "ten": "Nhĩ Môn",
+   "cm": 0.73
+  },
+  {
+   "code": "TE22",
+   "ten": "Hòa Liêu",
+   "cm": 1.47
+  },
+  {
+   "code": "TE17",
+   "ten": "Ế Phong",
+   "cm": 1.98
+  },
+  {
+   "code": "GB11",
+   "ten": "Đầu Khiếu Âm",
+   "cm": 2.03
+  },
+  {
+   "code": "GB10",
+   "ten": "Phù Bạch",
+   "cm": 2.16
+  },
+  {
+   "code": "TE18",
+   "ten": "Khế Mạch",
+   "cm": 3.14
+  },
+  {
+   "code": "GB3",
+   "ten": "Thượng Quan",
+   "cm": 3.31
+  },
+  {
+   "code": "ST7",
+   "ten": "Hạ Quan",
+   "cm": 3.32
+  },
+  {
+   "code": "SI18",
+   "ten": "Quyền Liêu",
+   "cm": 3.41
+  },
+  {
+   "code": "GB12",
+   "ten": "Hoàn Cốt",
+   "cm": 3.93
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương thái dương trái",
+   "lop": "bone",
+   "cm": 0.69
+  },
+  {
+   "ten": "Xương hàm dưới",
+   "lop": "bone",
+   "cm": 1.44
+  },
+  {
+   "ten": "Cơ nhị thân trái",
+   "lop": "muscle",
+   "cm": 2.49
+  },
+  {
+   "ten": "Cơ ức đòn chũm trái",
+   "lop": "muscle",
+   "cm": 2.51
+  },
+  {
+   "ten": "Cơ dài nhất đầu trái",
+   "lop": "muscle",
+   "cm": 2.51
+  }
+ ],
+ "coKiemMay": []
+}

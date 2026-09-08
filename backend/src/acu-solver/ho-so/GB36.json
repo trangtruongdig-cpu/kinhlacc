@@ -1,0 +1,157 @@
+{
+ "code": "GB36",
+ "mer": "GB",
+ "num": 36,
+ "tenApp": "Ngoại Khâu",
+ "tenFocks": "NGOẠI KHÂU",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Trên mắt cá chân 7 thốn, phía sau huyệt Dương Giao (Đ 33), đo ngang ra 1 thốn, ở bờ sau xương mác, khe giữa cơ mác bên đùi và cơ dép.",
+  "focksViTri": "Trên điểm cao nhất của mắt cá ngoài 7 thốn ở bờ trước xương mác.",
+  "focksCachXacDinh": "Xác định điểm giữa đường nối huyệt Dương lăng tuyền (Gb 34) (phần lõm phía trước và bên dưới đầu xương mác) và đỉnh cao nhất mắt cá ngoài (khoảng cách 14 thốn), từ đó ngang ra bờ trước xương mác và xác định vị trí huyệt Ngoại khâu (Gb 36), trên điểm cao nhất của mắt cá ngoài 7 thốn. Để định hướng: Các mép xương mác thường không dễ sờ thấy ở vùng bên cẳng chân do bị bao phủ bởi cơ mác ngắn. Vì vậy, trước tiên, hãy sờ mép sau của xương mác ngay phía trên mắt cá và đi theo nó về phía đầu trên xương mác. Cùng mức là huyệt Dương giao (Gb 35) ở bờ sau của xương mác và huyệt Phi dương (Bl 58) trên huyệt Côn luân 7 thốn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/GB36_p309_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0552,
+  "y": 0.1389,
+  "z": 0.0062,
+  "conf": "tạm",
+  "caoDoCm": 23.88,
+  "ngangCm": 9.49,
+  "truocSauCm": 1.07
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 30.27cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG:"
+ },
+ "duongKinh": {
+  "doan": "cang-chan",
+  "vung": "mặt ngoài cẳng chân",
+  "moTaRanh": "bờ trước rồi bờ sau xương mác, giữa cơ mác dài và cơ duỗi các ngón",
+  "diemTrongDoan": [
+   "GB34",
+   "GB35",
+   "GB36",
+   "GB37",
+   "GB38",
+   "GB39",
+   "GB40"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "GB/cang-chan",
+  "tong": 16,
+  "xa": "GB40",
+  "gan": "GB34",
+  "xaMoc": "MALLEOLUS_LAT",
+  "ganMoc": "KNEE_EYE_LAT",
+  "thonCuaHuyet": 7,
+  "lechNgang": {
+   "lech": 0.6,
+   "huong": "truoc"
+  },
+  "moiDiem": {
+   "GB35": {
+    "thon": 7,
+    "lech": 0.6,
+    "huong": "sau"
+   },
+   "GB36": {
+    "thon": 7,
+    "lech": 0.6,
+    "huong": "truoc"
+   },
+   "GB37": 5,
+   "GB38": 4,
+   "GB39": 3
+  }
+ },
+ "hangXom": [
+  {
+   "code": "GB35",
+   "ten": "Dương Giao",
+   "thang": 1.97,
+   "sachDoiCm": 0,
+   "thonCm": 2.46,
+   "docDa": 1.6,
+   "sachDoiThon": 0,
+   "vitri": "Nằm trên đường nối huyệt Dương Lăng Tuyền (Đ 34) và đỉnh cao mắt cá ngoài, trên mắt cá ngoài 7 thốn, bờ trước xương mác, trong khe cơ mác bên đùi và cơ mác bên ngắn."
+  },
+  {
+   "code": "GB37",
+   "ten": "Quang Minh",
+   "thang": 5.37,
+   "sachDoiCm": 4.92,
+   "thonCm": 2.46,
+   "docDa": 7,
+   "sachDoiThon": 2,
+   "vitri": "Trên đỉnh mắt cá ngoài 5 thốn, gần bờ trước xương mác, trong khe duỗi chung các ngón chân và cơ mác bên ngắn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "ST39",
+   "ten": "Hạ Cự Hư",
+   "cm": 1.32
+  },
+  {
+   "code": "GB35",
+   "ten": "Dương Giao",
+   "cm": 1.97
+  },
+  {
+   "code": "ST38",
+   "ten": "Điều Khẩu",
+   "cm": 2.51
+  },
+  {
+   "code": "ST40",
+   "ten": "Phong Long",
+   "cm": 3.22
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ chày trước trái",
+   "lop": "bone",
+   "cm": 1.42
+  },
+  {
+   "ten": "Xương chày trái",
+   "lop": "bone",
+   "cm": 1.67
+  },
+  {
+   "ten": "Màng gian cốt của cẳng chân trái",
+   "lop": "connective",
+   "cm": 2.95
+  },
+  {
+   "ten": "Cơ chày sau trái",
+   "lop": "bone",
+   "cm": 3.24
+  },
+  {
+   "ten": "Cơ gấp các ngón chân dài trái",
+   "lop": "muscle",
+   "cm": 3.48
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 30.27cm (conf=tạm)",
+  "XA ĐƯỜNG KINH 11cm",
+  "AUDIT cờ soát: bản Focks phân tích HỎNG (bắn lệch 30.1cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG:",
+  "TỪ ĐIỂN APP kêu: dọc \"GB33\" đòi 7 thốn, đo được 11.83  (lệch 11.87cm, SAI CHIỀU)",
+  "ATLAS FOCKS kêu: dọc \"MALLEOLUS_LAT\" đòi 7 thốn, đo được 7.08  (lệch 0.21cm)"
+ ]
+}

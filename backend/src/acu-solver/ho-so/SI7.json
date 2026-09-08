@@ -1,0 +1,125 @@
+{
+ "code": "SI7",
+ "mer": "SI",
+ "num": 7,
+ "tenApp": "Chi Chính",
+ "tenFocks": "CHI CHÍNH",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Tại sát bờ sau xương trụ, cách cổ tay 5 thốn, trên đường nối huyệt Dương Cốc và huyệt Tiểu Hải.",
+  "focksViTri": "Ở mặt ngoài cẳng tay, cách đường cổ tay 5 thốn trên đường nối huyệt Dương cốc (Dü/SI 5) khe khớp cổ tay trong, với huyệt Tiểu hải (Dü/SI 8) (lõm ở mỏm khuỷu và lồi cầu trong) hoặc cách điểm giữa đường này 1 thốn.",
+  "focksCachXacDinh": "Bắt đầu từ điểm giữa đường nối huyệt Dương cốc (Dü/SI 5) (khe khớp cổ tay trong) và huyệt Tiểu hải (Dü/SI 8) (lõm ở mỏm khuỷu và lồi cầu trong), đo 1 thốn về pía cổ tay và xác định vị trí huyệt Chi chính (Dü/SI 7) tại đây. Huyệt có thể sờ thấy được giữa bờ xương trụ và cơ gấp cổ tay trụ hơi về phía bụng tay.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/SI7_p127_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1206,
+  "y": 0.5642,
+  "z": -0.0053,
+  "conf": "khe",
+  "caoDoCm": 96.99,
+  "ngangCm": 20.73,
+  "truocSauCm": -0.91
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 6.4cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "cang-tay",
+  "vung": "mặt sau-trong cẳng tay",
+  "moTaRanh": "sát bờ sau xương trụ",
+  "diemTrongDoan": [
+   "SI5",
+   "SI6",
+   "SI7",
+   "SI8"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "SI/cang-tay",
+  "tong": 12,
+  "xa": "SI5",
+  "gan": "SI8",
+  "xaMoc": "WRIST",
+  "ganMoc": "CUBITAL",
+  "thonCuaHuyet": 5,
+  "lechNgang": null,
+  "moiDiem": {
+   "SI6": 1,
+   "SI7": 5
+  }
+ },
+ "hangXom": [
+  {
+   "code": "SI6",
+   "ten": "Dưỡng Lão",
+   "thang": 8.05,
+   "sachDoiCm": 8.04,
+   "thonCm": 2.01,
+   "docDa": 9.4,
+   "sachDoiThon": 4,
+   "vitri": "Co khuỷu tay với lòng bàn tay đặt vào ngực, huyệt ở chỗ mỏm trâm xương trụ, từ huyệt Dương Cốc (Ttr 5) đo lên 1 thốn."
+  },
+  {
+   "code": "SI8",
+   "ten": "Tiểu Hải",
+   "thang": 18,
+   "sachDoiCm": 14.07,
+   "thonCm": 2.01,
+   "docDa": 19.7,
+   "sachDoiThon": 7,
+   "vitri": "Co khuỷu tay, huyệt ở giữa mỏm khuỷu và mỏm trên ròng rọc đầu dưới xương cánh tay, nơi tận cơ 3 đầu cánh tay."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "PC4",
+   "ten": "Khích Môn",
+   "cm": 3.34
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu trụ của cơ gấp cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 0.56
+  },
+  {
+   "ten": "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 0.56
+  },
+  {
+   "ten": "Xương trụ trái",
+   "lop": "bone",
+   "cm": 1.46
+  },
+  {
+   "ten": "Cơ gấp các ngón sâu trái",
+   "lop": "muscle",
+   "cm": 1.51
+  },
+  {
+   "ten": "Cơ duỗi cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 1.53
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 6.4cm (conf=khe)",
+  "XA ĐƯỜNG KINH 6.38cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 6.4cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"WRIST\" đòi 5 thốn, đo được 5  (lệch 0.01cm)",
+  "ATLAS FOCKS kêu: dọc \"WRIST\" đòi 1 thốn, đo được 5  (lệch 8.03cm)"
+ ]
+}

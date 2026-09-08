@@ -1,0 +1,122 @@
+{
+ "code": "SP8",
+ "mer": "SP",
+ "num": 8,
+ "tenApp": "Địa Cơ",
+ "tenFocks": "ĐỊA CƠ",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở sát bờ sau trong xương chầy, dưới đường khớp ngang đầu gối 5 thốn, dưới huyệt Âm Lăng Tuyền 3 thốn.",
+  "focksViTri": "Cách huyệt Âm lăng tuyền (Mi/SP 9), điểm nối thân và lồi cầu xương chày) 3 thốn, tại bờ trong xương chày.",
+  "focksCachXacDinh": "Đo từ điểm nối thân và lồi cầu trong xương chày (huyệt Âm lăng tuyền (Mi/SP 9) xuống 3 thốn (1 khoát tay); xác định vị trí của huyệt Địa cơ (Mi/SP 8) ở bờ trong xương chày, trên đường nối giữa Mi/SP 9 và điểm cao nhất của mắt cá trong.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/SP8_p95_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0152,
+  "y": 0.2129,
+  "z": -0.0239,
+  "conf": "WHO+khe",
+  "caoDoCm": 36.6,
+  "ngangCm": 2.61,
+  "truocSauCm": -4.11
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da",
+   "duong"
+  ],
+  "ly": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "cang-chan",
+  "vung": "mặt trong cẳng chân",
+  "moTaRanh": "sát bờ sau xương chày, trước cơ dép",
+  "diemTrongDoan": [
+   "SP5",
+   "SP6",
+   "SP7",
+   "SP8",
+   "SP9"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "SP/cang-chan",
+  "tong": 13,
+  "xa": "SP5",
+  "gan": "SP9",
+  "xaMoc": "MALLEOLUS_MED",
+  "ganMoc": "TIBIA_MED_CONDYLE",
+  "thonCuaHuyet": 10,
+  "lechNgang": null,
+  "moiDiem": {
+   "SP6": 3,
+   "SP7": 6,
+   "SP8": 10
+  }
+ },
+ "hangXom": [
+  {
+   "code": "SP7",
+   "ten": "Lậu Cốc",
+   "thang": 10.71,
+   "sachDoiCm": 11.32,
+   "thonCm": 2.83,
+   "docDa": 12.1,
+   "sachDoiThon": 4,
+   "vitri": "Ở chỗ lõm sát bờ sau trong xương chày, từ đỉnh cao của mắt cá trong đo thẳng lên 6 thốn."
+  },
+  {
+   "code": "SP9",
+   "ten": "Âm Lăng Tuyền",
+   "thang": 6.14,
+   "sachDoiCm": 8.49,
+   "thonCm": 2.83,
+   "docDa": 9.3,
+   "sachDoiThon": 3,
+   "vitri": "Ở chỗ lõm làm thành bởi bờ sau trong đầu trên xương chầy với đường ngang qua nơi lồi cao nhất của củ cơ cẳng chân trước xương chầy, ở mặt trong đầu gối. Hoặc dùng ngón tay lần theo bờ trong xương ống chân, đến ngay dưới chỗ lồi xương cao nhất, đó là huyệt."
+  }
+ ],
+ "lanCan": [],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu trong của cơ bụng chân trái",
+   "lop": "muscle",
+   "cm": 1
+  },
+  {
+   "ten": "Cơ dép trái",
+   "lop": "muscle",
+   "cm": 3.3
+  },
+  {
+   "ten": "Cơ khoeo trái",
+   "lop": "muscle",
+   "cm": 3.92
+  },
+  {
+   "ten": "Cơ bán gân trái",
+   "lop": "muscle",
+   "cm": 4.05
+  },
+  {
+   "ten": "Cơ gan chân trái",
+   "lop": "muscle",
+   "cm": 4.32
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 7.1cm (conf=WHO+khe)",
+  "XA ĐƯỜNG KINH 6.96cm",
+  "ÉP LÊN DA dời 3.2cm",
+  "AUDIT cờ soát: TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "ATLAS FOCKS kêu: dọc \"SP9\" đòi 3 thốn, đo được 2.22  (lệch 1.93cm)"
+ ]
+}

@@ -1,0 +1,117 @@
+{
+ "code": "BL37",
+ "mer": "BL",
+ "num": 37,
+ "tenApp": "Ân Môn",
+ "tenFocks": "ÂN MÔN",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Dưới nếp mông 6 thốn, mặt sau xương đùi, điểm giữa khe của cơ bám gân và cơ nhị đầu đùi.",
+  "focksViTri": "Cách huyệt Thừa phù (Bl 36) (nếp lằn mông) 6 thốn trên đường giữa huyệt Thừa phù (Bl 36) – huyệt Uỷ trung (Bl 40) (giữa hố khoeo) trong khoảng khe giữa các cơ.",
+  "focksCachXacDinh": "Huyệt Thừa phù (Bl 36) (giữa nếp gấp mông); từ đó sờ khoảng 6 thốn ở mặt sau đùi về phía huyệt Uỷ trung (Bl 40) giữa mặt sau đầu gối. Đây là vị trí của huyệt Ân môn (Bl 37), hơi nhô ra, đặc biệt ở những bệnh nhân gầy, ở đỉnh giữa phần dài của cơ nhị đầu đùi và cơ bán gân và thường cách trung tâm hố khoeo khoảng 8 thốn. Hoặc: 1/2 khoảng cách giữa Bl 40 (giữa sau đầu gối) và Bl 36 (giữa nếp gấp mông) = 8 thốn; từ đó lùi lên phía trên nếp mông khoảng 1-2 thốn và xác định vị trí huyệt Ân môn (Bl 37) ở chỗ lõm giữa hai bụng cơ",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/BL37_p175_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0189,
+  "y": 0.3484,
+  "z": -0.0373,
+  "conf": "WHO+khe",
+  "caoDoCm": 59.89,
+  "ngangCm": 3.25,
+  "truocSauCm": -6.41
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 5.26cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "dui-sau",
+  "vung": "mặt sau đùi",
+  "moTaRanh": "giữa cơ nhị đầu đùi và cơ bán gân, xuống giữa nếp kheo",
+  "diemTrongDoan": [
+   "BL36",
+   "BL37",
+   "BL38",
+   "BL39",
+   "BL40"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "BL/dui-sau",
+  "tong": 12.9,
+  "xa": "BL40",
+  "gan": "BL36",
+  "thonCuaHuyet": 6.9,
+  "lechNgang": null,
+  "moiDiem": {
+   "BL38": 1,
+   "BL37": 6.9
+  }
+ },
+ "hangXom": [
+  {
+   "code": "BL36",
+   "ten": "Thừa Phù",
+   "thang": 14.28,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 21.7,
+   "sachDoiThon": 6,
+   "vitri": "Điểm giữa nếp mông."
+  },
+  {
+   "code": "BL38",
+   "ten": "Phù Khích",
+   "thang": 14.28,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 15.9,
+   "sachDoiThon": 5.9,
+   "vitri": "Trên nhượng chân 1 thốn, ở trong góc tạo bởi cơ 2 đầu đùi và bờ ngoài cơ bán mạc."
+  }
+ ],
+ "lanCan": [],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ bán gân trái",
+   "lop": "muscle",
+   "cm": 0.96
+  },
+  {
+   "ten": "Cơ bán màng trái",
+   "lop": "muscle",
+   "cm": 1.62
+  },
+  {
+   "ten": "Đầu dài của cơ nhị đầu đùi trái",
+   "lop": "muscle",
+   "cm": 3.34
+  },
+  {
+   "ten": "Cơ thon trái",
+   "lop": "muscle",
+   "cm": 3.9
+  },
+  {
+   "ten": "Cơ khép lớn trái",
+   "lop": "muscle",
+   "cm": 4.66
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 5.26cm (conf=WHO+khe)",
+  "XA ĐƯỜNG KINH 5.23cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 5.26cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "ATLAS FOCKS kêu: dọc \"BL36\" đòi 6 thốn, đo được 6.11  (lệch 0.23cm)"
+ ]
+}

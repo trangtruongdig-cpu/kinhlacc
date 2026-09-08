@@ -1,0 +1,138 @@
+{
+ "code": "GB39",
+ "mer": "GB",
+ "num": 39,
+ "tenApp": "Huyền Chung",
+ "tenFocks": "HUYỀN CHUNG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Trên đỉnh mắt cá ngoài 3 thốn, giữa bờ sau xương mác và gân cơ mác bên dài, cơ mác bên ngắn.",
+  "focksViTri": "Trên đỉnh cao nhất của mắt cá ngoài 3 thốn ở bờ trước xương mác.",
+  "focksCachXacDinh": "Tìm đỉnh cao nhất của mắt cá ngoài đo lên 3 thốn (bề rộng 4 ngón tay) và xác định vị trí huyệt Huyền chung (GB 39) ở chỗ lõm bờ trước của xương mác. Theo một số tác giả, huyệt Huyền chung (GB 39) nằm giữa bờ sau xương mác và các gân cơ mác dài và ngắn. Nếu nghi ngờ, hãy chọn vị trí có độ nhạy với áp lực lớn nhất. Cùng mức, nhưng 3 thốn thẳng trên huyệt Côn luân (Bl 60) (giữa mắt cá ngoài và gân Achilles) là huyệt Phụ dương (Bl 59). Ở vị trí tương đương, nhưng ở mặt trong cẳng chân, là huyệt Tam âm giao (Mi/SP 6) (Trên đỉnh cao nhất của mắt cá trong 3 thốn).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/GB39_p313_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0546,
+  "y": 0.0815,
+  "z": -0.0058,
+  "conf": "khoá",
+  "caoDoCm": 14.01,
+  "ngangCm": 9.39,
+  "truocSauCm": -1
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "khe"
+  ],
+  "ly": "nằm trong lòng xương — phải lùi ra mặt xương"
+ },
+ "duongKinh": {
+  "doan": "cang-chan",
+  "vung": "mặt ngoài cẳng chân",
+  "moTaRanh": "bờ trước rồi bờ sau xương mác, giữa cơ mác dài và cơ duỗi các ngón",
+  "diemTrongDoan": [
+   "GB34",
+   "GB35",
+   "GB36",
+   "GB37",
+   "GB38",
+   "GB39",
+   "GB40"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "GB/cang-chan",
+  "tong": 16,
+  "xa": "GB40",
+  "gan": "GB34",
+  "xaMoc": "MALLEOLUS_LAT",
+  "ganMoc": "KNEE_EYE_LAT",
+  "thonCuaHuyet": 3,
+  "lechNgang": null,
+  "moiDiem": {
+   "GB35": {
+    "thon": 7,
+    "lech": 0.6,
+    "huong": "sau"
+   },
+   "GB36": {
+    "thon": 7,
+    "lech": 0.6,
+    "huong": "truoc"
+   },
+   "GB37": 5,
+   "GB38": 4,
+   "GB39": 3
+  }
+ },
+ "hangXom": [
+  {
+   "code": "GB38",
+   "ten": "Dương Phụ",
+   "thang": 2.5,
+   "sachDoiCm": 2.46,
+   "thonCm": 2.46,
+   "docDa": 5.9,
+   "sachDoiThon": 1,
+   "vitri": "Trên đỉnh mắt cá ngoài 4 thốn, ở bờ trước xương mác."
+  },
+  {
+   "code": "GB40",
+   "ten": "Khâu Khư",
+   "thang": 10.83,
+   "sachDoiCm": 7.38,
+   "thonCm": 2.46,
+   "docDa": 11.3,
+   "sachDoiThon": 3,
+   "vitri": "Ở phía trước và dưới mắt cá ngoài chân, nơi chỗ lõm của khe xương cạnh nhóm cơ duỗi dài các ngón chân, hoặc từ ngón chân thứ 4 kéo thẳng lên mắt cá gặp chỗ lõm hoặc lấy ở chỗ lõm giữa huyệt Thân Mạch (Bq 62) và huyệt Giải Khê (Vi 41), ấn vào thấy tức."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "GB38",
+   "ten": "Dương Phụ",
+   "cm": 2.5
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ chày trước trái",
+   "lop": "bone",
+   "cm": 0.67
+  },
+  {
+   "ten": "Cơ duỗi ngón chân cái dài trái",
+   "lop": "muscle",
+   "cm": 1.03
+  },
+  {
+   "ten": "Cơ duỗi các ngón chân dài trái",
+   "lop": "muscle",
+   "cm": 1.37
+  },
+  {
+   "ten": "Xương chày trái",
+   "lop": "bone",
+   "cm": 1.72
+  },
+  {
+   "ten": "Màng gian cốt của cẳng chân trái",
+   "lop": "connective",
+   "cm": 1.72
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 2.04cm (conf=khoá)",
+  "XA ĐƯỜNG KINH 2.01cm",
+  "TỪ ĐIỂN APP kêu: dọc \"MALLEOLUS_LAT\" đòi 3 thốn, đo được 3  (lệch 0.01cm)",
+  "ATLAS FOCKS kêu: dọc \"MALLEOLUS_LAT\" đòi 3 thốn, đo được 3  (lệch 0.01cm)"
+ ]
+}

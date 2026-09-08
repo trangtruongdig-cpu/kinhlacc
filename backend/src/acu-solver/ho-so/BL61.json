@@ -1,0 +1,125 @@
+{
+ "code": "BL61",
+ "mer": "BL",
+ "num": 61,
+ "tenApp": "Bộc Tham",
+ "tenFocks": "BỘC THAM",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Xác định bờ trên mặt ngoài xương gót chân, huyệt ở sát bờ trên xương gót, thẳng dưới huyệt Côn Lôn, trên đường tiếp giáp lằn da đổi màu.",
+  "focksViTri": "Ở vùng bên ngoài gót chân, cách huyệt Côn luân (Bl 60) chỗ lõm giữa đỉnh mắt cá ngoài và gân Achilles) 1,5 thốn ở chỗ lõm trên xương gót chân.",
+  "focksCachXacDinh": "Đầu tiên, xác định vị trí huyệt Côn luân (Bl 60) ở chỗ lõm giữa đỉnh mắt cá ngoài và gân Achilles); trong trường hợp phù mắt cá chân hoặc cẳng chân, vết lõm thường không còn nhìn thấy được nhưng có thể cảm nhận được. Từ đó, đo xuống dưới 1,5 thốn và xác định vị trí huyệt Bộc tham (Bl 61) ở chỗ lõm trên xương gót chân, gần như ở điểm giữa của đường nối lòng bàn chân và huyệt Côn luân (Bl 60).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/BL61_p199_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0729,
+  "y": 0.0101,
+  "z": -0.0244,
+  "conf": "mốc",
+  "caoDoCm": 1.74,
+  "ngangCm": 12.53,
+  "truocSauCm": -4.19
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da"
+  ],
+  "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.6cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.6cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá"
+ },
+ "duongKinh": {
+  "doan": "ban-chan",
+  "vung": "bờ ngoài bàn chân",
+  "moTaRanh": "ranh da đỏ–trắng bờ ngoài bàn chân, dưới xương gót và xương hộp",
+  "diemTrongDoan": [
+   "BL60",
+   "BL61",
+   "BL62",
+   "BL63",
+   "BL64",
+   "BL65",
+   "BL66",
+   "BL67"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "BL60",
+   "ten": "Côn Lôn",
+   "thang": 5.42,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 4.9,
+   "sachDoiThon": null,
+   "vitri": "Tại giao điểm của bờ ngoài gót chân và đường kéo từ nơi cao nhất của mắt cá chân, chỗ lõm giữa khe gân cơ mác bên ngắn và gân cơ mác bên dài, trước gân gót chân, ở sau đầu dưới xương chầy."
+  },
+  {
+   "code": "BL62",
+   "ten": "Thân Mạch",
+   "thang": 2.53,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2.2,
+   "sachDoiThon": null,
+   "vitri": "Nơi rãnh thẳng từ đầu nhọn mắt cá ngoài xuống 0,5 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "BL63",
+   "ten": "Kim Môn",
+   "cm": 1.8
+  },
+  {
+   "code": "BL62",
+   "ten": "Thân Mạch",
+   "cm": 2.53
+  },
+  {
+   "code": "GB40",
+   "ten": "Khâu Khư",
+   "cm": 3.5
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ dạng ngón út của bàn chân trái",
+   "lop": "muscle",
+   "cm": 2.84
+  },
+  {
+   "ten": "Xương đốt bàn chân 5 trái",
+   "lop": "bone",
+   "cm": 3.38
+  },
+  {
+   "ten": "Cơ mác ngắn trái",
+   "lop": "bone",
+   "cm": 3.41
+  },
+  {
+   "ten": "Cơ mác dài trái",
+   "lop": "bone",
+   "cm": 3.44
+  },
+  {
+   "ten": "Dây chằng gan chân dài trái",
+   "lop": "connective",
+   "cm": 3.52
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm",
+  "ÉP LÊN DA dời 0.6cm",
+  "AUDIT cờ soát: TẦNG DA: phép chiếu đòi bẻ NGANG 0.6cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
+  "ATLAS FOCKS kêu: dọc \"MALLEOLUS_LAT\" đòi 1.5 thốn, đo được 1.98  (lệch 1.19cm)"
+ ]
+}

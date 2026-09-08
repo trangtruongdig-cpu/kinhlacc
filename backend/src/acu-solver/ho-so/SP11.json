@@ -1,0 +1,123 @@
+{
+ "code": "SP11",
+ "mer": "SP",
+ "num": 11,
+ "tenApp": "Cơ Môn",
+ "tenFocks": "CƠ MÔN",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở chỗ lõm tạo nên bởi bờ ngoài cơ may, bờ trong cơ thẳng trước đùi và cơ rộng trong. Ngồi ngay, từ đầu gối đo lên 8 thốn, cách Huyết Hải 6 thốn, nơi có động mạch nhảy.",
+  "focksViTri": "cách huyệt Huyết hải (Mi/SP 10) 6 thốn, tức là 8 thốn trên bờ trên trong của xương bánh chè, ngang mức giữa xương đùi, giữa cơ may và cơ rộng trong.",
+  "focksCachXacDinh": "Ở mặt trong của đùi, trước tiên hãy xác định vị trí huyệt Huyết hải (Mi/SP 10) 2 thốn tính từ bờ trên trong của xương bánh chè, trong hõm của cơ rộng trong. Từ đó, đo 6 thốn theo chiều dọc gần với mép bên của cơ cơ may và xác định vị trí huyệt Cơ môn (Mi/SP 11) tại chỗ lõm ở đây. Hoặc: Kỹ thuật căng tay: Giữa khoảng cách khe khớp gối và huyệt Xung môn (Mi/SP 12) giữa bở trên xương mu ngang ra 3,5 thốn, và định vị Cơ môn (Mi/SP 11) tại đây.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/SP11_p98_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0779,
+  "y": 0.3709,
+  "z": 0.029,
+  "conf": "WHO+khe",
+  "caoDoCm": 63.76,
+  "ngangCm": 13.39,
+  "truocSauCm": 4.99
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da",
+   "duong"
+  ],
+  "ly": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 7.65cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "dui",
+  "vung": "mặt trong đùi",
+  "moTaRanh": "rãnh giữa cơ may và cơ rộng trong, rồi giữa cơ may và cơ khép dài",
+  "diemTrongDoan": [
+   "SP9",
+   "SP10",
+   "SP11",
+   "SP12"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "SP/dui",
+  "tong": 22,
+  "xa": "SP9",
+  "gan": "SP12",
+  "thonCuaHuyet": 11,
+  "lechNgang": null,
+  "moiDiem": {
+   "SP11": 11
+  }
+ },
+ "hangXom": [
+  {
+   "code": "SP10",
+   "ten": "Huyết Hải",
+   "thang": 14.26,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 18.1,
+   "sachDoiThon": null,
+   "vitri": "Mặt trước trong đùi, từ xương bánh chè đầu gối đo lên 2 thốn, huyệt nằm trong khe lõm giữa cơ may và cơ rộng trong, ấn vào có cảm giác ê tức."
+  },
+  {
+   "code": "SP12",
+   "ten": "Xung Môn",
+   "thang": 24.84,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 29.6,
+   "sachDoiThon": 11,
+   "vitri": "Ở ngoài động mạch đùi, trên khớp xương mu (huyệt Khúc Cốt – Nh.2), cách đường giữa bụng ngang ra 3,5 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "ST32",
+   "ten": "Phục Thố",
+   "cm": 3.87
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ thẳng đùi trái",
+   "lop": "muscle",
+   "cm": 1.09
+  },
+  {
+   "ten": "Cơ rộng ngoài trái",
+   "lop": "muscle",
+   "cm": 1.7
+  },
+  {
+   "ten": "Cơ rộng giữa trái",
+   "lop": "muscle",
+   "cm": 2.78
+  },
+  {
+   "ten": "Cơ rộng trong trái",
+   "lop": "muscle",
+   "cm": 4.28
+  },
+  {
+   "ten": "Dải chậu chày trái",
+   "lop": "bone",
+   "cm": 5.06
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 7.65cm (conf=WHO+khe)",
+  "XA ĐƯỜNG KINH 6.92cm",
+  "ÉP LÊN DA dời 2.9cm",
+  "AUDIT cờ soát: TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 7.65cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "ATLAS FOCKS kêu: dọc \"SP10\" đòi 8 thốn, đo được 4.47  (lệch 10.13cm)"
+ ]
+}

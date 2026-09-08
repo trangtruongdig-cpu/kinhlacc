@@ -1,0 +1,132 @@
+{
+ "code": "ST34",
+ "mer": "ST",
+ "num": 34,
+ "tenApp": "Lương Khâu",
+ "tenFocks": "LƯƠNG KHÂU",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở chỗ lõm trên bờ trên ngoài xương đầu gối 2 thốn, thẳng trên huyệt Độc Tỵ (Vi.35).",
+  "focksViTri": "Nằm cách bờ trên ngoài của xương bánh chè 2 thốn trên đường nối bờ ngoài xương bánh chè với gai chậu trước trên (SIAS), trong chỗ lõm của cơ rộng ngoài.",
+  "focksCachXacDinh": "Đo gần 2 thốn tính từ bờ trên ngoài của xương bánh chè dọc theo đường nối bờ ngoài xương bánh chè với gai chậu trước trên (SIAS). Huyệt Lương khâu (Ma/ST 34) nằm ở chỗ lõm có thể sờ thấy được ở cơ rộng ngoài của cơ tứ đầu đùi. Các huyệt Khoan cốt (Ex-LE 1- Kuangu 髋骨: xương chậu, xương hông) mỗi huyệt cách 1,5 thốn bên ngoài và bên trong Lương khâu. Ở một vị trí tương đương ở phía trong của chân là huyệt Huyết hải (Mi/SP 10) bờ trên trong của xương bánh chè lên 2 thốn, ở gần và ở phía trong ở chỗ lõm của cơ rộng trong).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/ST34_p72_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0679,
+  "y": 0.3017,
+  "z": 0.0156,
+  "conf": "khoá",
+  "caoDoCm": 51.86,
+  "ngangCm": 11.67,
+  "truocSauCm": 2.68
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da"
+  ],
+  "ly": "TẦNG DA: ép lên da, dời 2.8cm"
+ },
+ "duongKinh": {
+  "doan": "dui",
+  "vung": "mặt trước-ngoài đùi",
+  "moTaRanh": "rãnh giữa cơ thẳng đùi và cơ rộng ngoài",
+  "diemTrongDoan": [
+   "ST30",
+   "ST31",
+   "ST32",
+   "ST33",
+   "ST34",
+   "ST35"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "ST/dui",
+  "tong": 21,
+  "xa": "ST35",
+  "gan": "ST31",
+  "thonCuaHuyet": 4.2,
+  "lechNgang": null,
+  "moiDiem": {
+   "ST34": 4.2,
+   "ST33": 5.2,
+   "ST32": 8.2
+  }
+ },
+ "hangXom": [
+  {
+   "code": "ST33",
+   "ten": "Âm Thị",
+   "thang": 2.16,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2.2,
+   "sachDoiThon": 1,
+   "vitri": "Ở chỗ lõm trên góc trên ngoài xương bánh chè 3 thốn, sát bờ ngoài gân cơ thẳng trước đùi."
+  },
+  {
+   "code": "ST35",
+   "ten": "Độc Tỵ",
+   "thang": 8.9,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 9.6,
+   "sachDoiThon": null,
+   "vitri": "Ngồi co đầu gối, huyệt ở chỗ lõm dưới góc dưới – ngoài xương bánh chè và ở ngoài gân cơ tứ đầu đùi."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "ST33",
+   "ten": "Âm Thị",
+   "cm": 2.16
+  },
+  {
+   "code": "GB33",
+   "ten": "Tất Dương Quan",
+   "cm": 3.08
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ rộng ngoài trái",
+   "lop": "muscle",
+   "cm": 0.73
+  },
+  {
+   "ten": "Cơ thẳng đùi trái",
+   "lop": "muscle",
+   "cm": 1.41
+  },
+  {
+   "ten": "Cơ rộng giữa trái",
+   "lop": "muscle",
+   "cm": 1.96
+  },
+  {
+   "ten": "Dải chậu chày trái",
+   "lop": "bone",
+   "cm": 2.78
+  },
+  {
+   "ten": "Xương đùi trái",
+   "lop": "bone",
+   "cm": 3.17
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 0.46cm (conf=khoá)",
+  "XA ĐƯỜNG KINH 0.33cm",
+  "ÉP LÊN DA dời 2.8cm",
+  "AUDIT cờ soát: TẦNG DA: ép lên da, dời 2.8cm",
+  "TỪ ĐIỂN APP kêu: dọc \"KNEE_EYE_LAT\" đòi 2 thốn, đo được 2.18  (lệch 0.52cm)",
+  "ATLAS FOCKS kêu: dọc \"PATELLA\" đòi 2 thốn, đo được 1.55  (lệch 1.3cm)"
+ ]
+}

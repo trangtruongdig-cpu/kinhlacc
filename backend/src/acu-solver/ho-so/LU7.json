@@ -1,0 +1,163 @@
+{
+ "code": "LU7",
+ "mer": "LU",
+ "num": 7,
+ "tenApp": "Liệt Khuyết",
+ "tenFocks": "LIỆT KHUYẾT",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Dưới đầu xương quay nối với thân xương, cách lằn chỉ ngang cổ tay 1,5 thốn. Hoặc chéo 2 ngón tay trỏ và ngón tay cái của 2 bàn tay với nhau, huyệt ở chỗ lõm ngay dưới đầu ngón tay trỏ.",
+  "focksViTri": "Ở cạnh xương quay của cẳng tay, ngay phía trên mỏm trâm quay, cách khe khớp cổ tay (“nếp gấp cổ tay”) khoảng 1,5 thốn trong một rãnh hình chữ V.",
+  "focksCachXacDinh": "Đầu tiên đặt ngón tay trỏ lên hố lào (huyệt Dương khê (Di 5), và từ đó lướt qua mỏm trâm cho đến khi ngón tay cảm nhận được khoảng trống giữa hai gân (cơ cánh tay quay/cơ giạng dài ngón tay cái). Vị trí huyệt Liệt khuyết (Lu 7) tại đây.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LU7_p13_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1482,
+  "y": 0.5314,
+  "z": 0.0163,
+  "conf": "khoá",
+  "caoDoCm": 91.35,
+  "ngangCm": 25.48,
+  "truocSauCm": 2.8
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "book+duong",
+  "ly": "conf=khoá, src=book+duong",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "cang-tay",
+  "vung": "mặt trước-ngoài cẳng tay",
+  "moTaRanh": "bờ ngoài gân cơ gan tay dài, sát bờ trong xương quay, cạnh động mạch quay",
+  "diemTrongDoan": [
+   "LU5",
+   "LU6",
+   "LU7",
+   "LU8",
+   "LU9"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "LU/cang-tay",
+  "tong": 12,
+  "xa": "LU9",
+  "gan": "LU5",
+  "xaMoc": "WRIST",
+  "ganMoc": "CUBITAL",
+  "thonCuaHuyet": 1.5,
+  "lechNgang": null,
+  "moiDiem": {
+   "LU6": 7,
+   "LU7": 1.5,
+   "LU8": 1
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LU6",
+   "ten": "Khổng Tối",
+   "thang": 11.17,
+   "sachDoiCm": 11.05,
+   "thonCm": 2.01,
+   "docDa": 13.1,
+   "sachDoiThon": 5.5,
+   "vitri": "Ở bờ ngoài cẳng tay, trên cổ tay 7 thốn, nơi gặp nhau của bờ trong cơ ngửa dài hay bờ ngoài của cơ gan tay to với đường ngang trên khớp cổ tay 7 thốn, trên đường thẳng nối huyệt Xích Trạch (P 5) và Thái Uyên (P 9)."
+  },
+  {
+   "code": "LU8",
+   "ten": "Kinh Cừ",
+   "thang": 1.17,
+   "sachDoiCm": 1,
+   "thonCm": 2.01,
+   "docDa": 1.2,
+   "sachDoiThon": 0.5,
+   "vitri": "Trên lằn chỉ cổ tay 1 thốn, ở mặt trong đầu dưới xương quay."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "LU8",
+   "ten": "Kinh Cừ",
+   "cm": 1.17
+  },
+  {
+   "code": "PC6",
+   "ten": "Nội Quan",
+   "cm": 1.26
+  },
+  {
+   "code": "HT4",
+   "ten": "Linh Đạo",
+   "cm": 2
+  },
+  {
+   "code": "HT5",
+   "ten": "Thông Lý",
+   "cm": 2.18
+  },
+  {
+   "code": "HT6",
+   "ten": "Âm Khích",
+   "cm": 2.86
+  },
+  {
+   "code": "PC5",
+   "ten": "Gian Sử",
+   "cm": 3.23
+  },
+  {
+   "code": "PC7",
+   "ten": "Đại Lăng",
+   "cm": 3.38
+  },
+  {
+   "code": "HT7",
+   "ten": "Thần Môn",
+   "cm": 3.44
+  },
+  {
+   "code": "SI6",
+   "ten": "Dưỡng Lão",
+   "cm": 3.99
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ gấp cổ tay quay trái",
+   "lop": "muscle",
+   "cm": 0.35
+  },
+  {
+   "ten": "Cơ gấp ngón cái dài trái",
+   "lop": "muscle",
+   "cm": 0.5
+  },
+  {
+   "ten": "Cơ sấp vuông trái",
+   "lop": "muscle",
+   "cm": 0.64
+  },
+  {
+   "ten": "Cơ gấp các ngón sâu trái",
+   "lop": "muscle",
+   "cm": 0.71
+  },
+  {
+   "ten": "Cơ gấp các ngón nông trái",
+   "lop": "muscle",
+   "cm": 0.73
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 2.46cm (conf=khoá)",
+  "XA ĐƯỜNG KINH 2.27cm",
+  "TỪ ĐIỂN APP kêu: dọc \"WRIST\" đòi 1.5 thốn, đo được 1.5  (lệch 0cm)",
+  "ATLAS FOCKS kêu: dọc \"WRIST\" đòi 1.5 thốn, đo được 1.5  (lệch 0cm)"
+ ]
+}

@@ -1,0 +1,125 @@
+{
+ "code": "GB31",
+ "mer": "GB",
+ "num": 31,
+ "tenApp": "Phong Thị",
+ "tenFocks": "PHONG THỊ",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Xuôi cánh tay thẳng xuống đùi, ép ngón tay vào bờ sau cơ căng cân đùi, huyệt ở đầu ngón tay giữa áp lên đùi, trên nếp nhượng chân 7 thốn, giữa gân cơ nhị đầu đùi và cơ rộng giữa.",
+  "focksViTri": "Ở bên đùi, cách mấu chuyển lớn, khoảng 7 thốn về phía gần nếp gấp khớp gối.",
+  "focksCachXacDinh": "Yêu cầu bệnh nhân đặt lòng bàn tay lên “đường may quần” khi đứng. Huyệt Phong thị (GB 31) lúc đó nằm ở cuối ngón giữa của bệnh nhân. Hoặc: Đường nối giữa mấu chuyển lớn và nếp gấp khớp gối là 19 thốn. Chia đường này thành các phần ba và xác định vị trí huyệt Phong thị (Gb 31) cách gần khoảng cách nếp gấp khớp gối khoảng 7 thốn. Độ nhạy cảm với áp lực sẽ giúp xác định vị trí của huyệt này.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/GB31_p303_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0786,
+  "y": 0.3551,
+  "z": 0.0214,
+  "conf": "WHO-lấp",
+  "caoDoCm": 61.04,
+  "ngangCm": 13.51,
+  "truocSauCm": 3.68
+ },
+ "nghiemThu": {
+  "hang": "B",
+  "nguon": "who+duong",
+  "ly": "conf=WHO-lấp, src=who+duong",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "dui",
+  "vung": "mặt ngoài đùi",
+  "moTaRanh": "dải chậu-chày, giữa cơ rộng ngoài và cơ nhị đầu đùi",
+  "diemTrongDoan": [
+   "GB30",
+   "GB31",
+   "GB32",
+   "GB33"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "GB/dui",
+  "tong": 20.1,
+  "xa": "GB34",
+  "gan": "GB30",
+  "thonCuaHuyet": 8.5,
+  "lechNgang": null,
+  "moiDiem": {
+   "GB33": 4.5,
+   "GB32": 6.5,
+   "GB31": 8.5
+  }
+ },
+ "hangXom": [
+  {
+   "code": "GB30",
+   "ten": "Hoàn Khiêu",
+   "thang": 24.91,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 28.7,
+   "sachDoiThon": 11.600000000000001,
+   "vitri": "Nằm nghiêng co chân đau ở trên, chân dưới duỗi thẳng, huyệt ở vị trí 1/3 ngoài và 2/3 trong của đoạn nối điểm cao nhất của mấu chuyển lớn xương đùi và khe xương cùng. Hoặc nằm sấp, gấp chân vào mông, gót chân chạm mông ở đâu, đó là huyệt."
+  },
+  {
+   "code": "GB32",
+   "ten": "Trung Độc",
+   "thang": 4.8,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 5.3,
+   "sachDoiThon": 2,
+   "vitri": "Xác định huyệt Phong Thị (Đ.31) đo thẳng xuống 2 thốn, trên lằn nhượng chân 5 thốn, bờ sau cân cơ đùi, bờ trước cơ nhị đầu đùi."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "ST32",
+   "ten": "Phục Thố",
+   "cm": 0.92
+  },
+  {
+   "code": "SP11",
+   "ten": "Cơ Môn",
+   "cm": 3.02
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ rộng ngoài trái",
+   "lop": "muscle",
+   "cm": 0.36
+  },
+  {
+   "ten": "Cơ thẳng đùi trái",
+   "lop": "muscle",
+   "cm": 1.5
+  },
+  {
+   "ten": "Cơ rộng giữa trái",
+   "lop": "muscle",
+   "cm": 1.89
+  },
+  {
+   "ten": "Dải chậu chày trái",
+   "lop": "bone",
+   "cm": 3.7
+  },
+  {
+   "ten": "Cơ rộng trong trái",
+   "lop": "muscle",
+   "cm": 4.38
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 2.95cm (conf=WHO-lấp)",
+  "XA ĐƯỜNG KINH 2.74cm",
+  "TỪ ĐIỂN APP kêu: dọc \"POPLITEAL\" đòi 7 thốn, đo được 8.07  (lệch 2.32cm)",
+  "ATLAS FOCKS kêu: dọc \"GREATER_TROCHANTER\" đòi 7 thốn, đo được 10.93  (lệch 8.54cm)"
+ ]
+}

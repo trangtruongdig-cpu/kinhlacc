@@ -1,0 +1,121 @@
+{
+ "code": "ST17",
+ "mer": "ST",
+ "num": 17,
+ "tenApp": "Nhũ Trung",
+ "tenFocks": "NHŨ TRUNG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": null,
+  "focksViTri": "Ở trung tâm của núm vú.",
+  "focksCachXacDinh": "Ở trung tâm của núm vú. Ở nam giới, huyệt này thường nằm cách đường giữa ngực 4 thốn, ngang với khoang gian sườn thứ 4 và cũng được dùng để làm mốc tham khảo. Cũng nằm trên cùng mức khoang gian sườn thứ 4 là huyệt Đản trung (Ren- 17),đường giữa trước; huyệt Thần phong (Ni/KID 23), 2 thốn bên cạnh đường giữa ngực; huyệt Thiên khê (Mi/SP 18), 6 thốn bên cạnh đường giữa ngực; huyệt Thiên trì (Pe/P 1), núm vú ra ngoài 1 thốn); huyệt Uyên dịch (Gb 22) và huyệt Trấp/Triếp cân (Gb 23). Ở phụ nữ, vị trí của núm vú thay đổi khác nhau và do đó không nên sử dụng làm điểm tham chiếu.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/ST17_p55_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0444,
+  "y": 0.7458,
+  "z": 0.0741,
+  "conf": "mốc",
+  "caoDoCm": 128.2,
+  "ngangCm": 7.63,
+  "truocSauCm": 12.74
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Nhũ Trung — khe gian sườn 4, cách đường giữa 4 thốn",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "nguc",
+  "vung": "ngực, đường 4 thốn ngang",
+  "moTaRanh": "trên cơ gian sườn ngoài, thẳng đường đầu vú",
+  "diemTrongDoan": [
+   "ST12",
+   "ST13",
+   "ST14",
+   "ST15",
+   "ST16",
+   "ST17",
+   "ST18"
+  ]
+ },
+ "nutMoc": {
+  "code": "ST17",
+  "loai": "moc",
+  "at": "NIPPLE",
+  "vi_sao": "Nhũ Trung — chính giữa đầu vú, định đường 4 thốn ngang"
+ },
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "ST16",
+   "ten": "Ưng Song",
+   "thang": 3.67,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 5,
+   "sachDoiThon": null,
+   "vitri": "Ở khoảng gian sườn 3, trên đường thẳng qua đầu ngực, cách đường giữa ngực 4 thốn (ngang huyệt Ngọc Đường – Nh.18), nơi cơ ngực to."
+  },
+  {
+   "code": "ST18",
+   "ten": "Nhũ Căn",
+   "thang": 4.02,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 4.3,
+   "sachDoiThon": null,
+   "vitri": "Ở giữa gian sườn 5, thẳng dưới đầu vú, cách đường giữa ngực 4 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "PC1",
+   "ten": "Thiên Trì",
+   "cm": 1.21
+  },
+  {
+   "code": "ST16",
+   "ten": "Ưng Song",
+   "cm": 3.67
+  },
+  {
+   "code": "KI23",
+   "ten": "Thần Phong",
+   "cm": 3.82
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Phần ức sườn của cơ ngực lớn trái",
+   "lop": "muscle",
+   "cm": 1.13
+  },
+  {
+   "ten": "Sụn sườn 5 trái",
+   "lop": "bone",
+   "cm": 3.13
+  },
+  {
+   "ten": "Cơ gian sườn trong",
+   "lop": "muscle",
+   "cm": 3.49
+  },
+  {
+   "ten": "Xương sườn 5 trái",
+   "lop": "bone",
+   "cm": 3.53
+  },
+  {
+   "ten": "Cơ ngang ngực trái",
+   "lop": "muscle",
+   "cm": 3.87
+  }
+ ],
+ "coKiemMay": []
+}

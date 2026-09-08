@@ -1,0 +1,126 @@
+{
+ "code": "GB20",
+ "mer": "GB",
+ "num": 20,
+ "tenApp": "Phong Trì",
+ "tenFocks": "PHONG TRÌ",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở chỗ lõm của bờ trong cơ ức–đòn–chũm và bờ ngoài cơ thang bám vào đáy hộp sọ.",
+  "focksViTri": "Dưới chẩm ở chỗ lõm giữa điểm bám của cơ ức đòn chũm và cơ thang.",
+  "focksCachXacDinh": "Nằm sấp, ngồi hoặc nằm ngửa (sau đó dùng gối kê cổ để định vị bệnh nhân sao cho cổ vẫn có thể tiếp cận được). Từ đường giữa trượt dọc theo mép dưới của chẩm sang một bên, qua phần phình ra của nguyên uỷ cơ thang đến chỗ lõm có kích thước bằng đầu ngón tay ở phía trước chỗ bám của cơ ức đòn chũm. Xác định vị trí huyệt Phong trì (Gb 20) ở giữa chỗ này. Huyệt Phong phủ (Du/GV 16) cũng ngang bằng, huyệt Thân trụ (Bl 10) vào trong một chút và xuống dưới.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/GB20_p291_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0337,
+  "y": 0.9,
+  "z": -0.0273,
+  "conf": "WHO+khe",
+  "caoDoCm": 154.71,
+  "ngangCm": 5.79,
+  "truocSauCm": -4.69
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "khe"
+  ],
+  "ly": "nằm giữa bụng cơ (sâu 0.85 thốn trong khối Cơ gối đầu trái)"
+ },
+ "duongKinh": {
+  "doan": "gay",
+  "vung": "gáy",
+  "moTaRanh": "hõm giữa cơ thang và cơ ức-đòn-chũm, dưới xương chẩm",
+  "diemTrongDoan": [
+   "GB19",
+   "GB20"
+  ]
+ },
+ "nutMoc": {
+  "code": "GB20",
+  "loai": "gap",
+  "at": "MASTOID",
+  "vi_sao": "Phong Trì — hõm dưới chẩm; điểm bẻ lớn nhất của kinh, từ đầu xuống vai"
+ },
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "GB19",
+   "ten": "Não Không",
+   "thang": 10.99,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 12.7,
+   "sachDoiThon": null,
+   "vitri": "Sau huyệt Thừa Linh 1,5 thốn, trên Phong Trì 1,5 thốn, ngang với ụ chẩm và Não Hộ (Đốc Mạch)."
+  },
+  {
+   "code": "GB21",
+   "ten": "Kiên Tỉnh",
+   "thang": 12.18,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 15.7,
+   "sachDoiThon": null,
+   "vitri": "Tại giao điểm của đường thẳng ngang qua đầu ngực với đường ngang nối huyệt Đại Chùy (Đc 14) và điểm cao nhất của đầu ngoài xương đòn, ấn vào có cảm giác ê tức. Hoặc đứng thẳng, dùng tay áp vào ngực, với sang bả vai phía đối diện, làm sao cho bàn tay úp vào vùng vai – cơ thang, đầu ngón tay giữa chạm vào vùng vai chỗ nào, đó là huyệt."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "GB12",
+   "ten": "Hoàn Cốt",
+   "cm": 1.87
+  },
+  {
+   "code": "TE16",
+   "ten": "Thiên Dũ",
+   "cm": 2.64
+  },
+  {
+   "code": "GB11",
+   "ten": "Đầu Khiếu Âm",
+   "cm": 3.65
+  },
+  {
+   "code": "TE17",
+   "ten": "Ế Phong",
+   "cm": 3.99
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ ức đòn chũm trái",
+   "lop": "muscle",
+   "cm": 0.9
+  },
+  {
+   "ten": "Cơ gối đầu trái",
+   "lop": "muscle",
+   "cm": 1.21
+  },
+  {
+   "ten": "Cơ chéo đầu trên trái",
+   "lop": "muscle",
+   "cm": 1.88
+  },
+  {
+   "ten": "Cơ chéo đầu dưới trái",
+   "lop": "muscle",
+   "cm": 2.23
+  },
+  {
+   "ten": "Xương thái dương trái",
+   "lop": "bone",
+   "cm": 2.25
+  }
+ ],
+ "coKiemMay": [
+  "ÉP LÊN DA dời 0.5cm"
+ ]
+}

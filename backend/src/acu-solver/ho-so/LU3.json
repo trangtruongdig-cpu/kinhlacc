@@ -1,0 +1,135 @@
+{
+ "code": "LU3",
+ "mer": "LU",
+ "num": 3,
+ "tenApp": "Thiên Phủ",
+ "tenFocks": "THIÊN PHỦ",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở bờ trong bắp cánh tay trong, dưới nếp nách trước 3 thốn nơi bờ ngoài cơ 2 đầu cánh tay, trên huyệt Xích Trạch 6 thốn.",
+  "focksViTri": "Ở mặt trong trên cánh tay, cách 3 thốn so với đầu cùng điểm tận cùng nếp nách trước, bên rãnh cơ nhị đầu.",
+  "focksCachXacDinh": "Để bắp tay co (gồng cơ nhị đầu) chống lại lực cản. Tìm huyệt Thiên phủ (Lu 3) ở chỗ lõm trên rãnh cơ nhị đầu ngoài, cách đầu nách trước 3 thốn. Đôi khi, có thể cảm nhận được mạch đập (động mạch cánh tay). Hoặc: Chia khoảng cách giữa nếp gấp nách và nếp gấp khuỷu tay (Xích trạch - Lu 5) thành ba phần. huyệt Thiên phủ (Lu 3) nằm ở điểm 1/3 của đường nối tính từ nếp nách. Huyệt Hiệp bạch (Lu 4) cách huyệt Thiên phủ (Lu 3) 1 thốn. Huyệt Thiên tuyền (Pe 2) nằm giữa 2 đầu của cơ nhị đầu cánh tay cách nếp nách 2 thốn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LU3_p9_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0969,
+  "y": 0.7603,
+  "z": 0.0176,
+  "conf": "cao",
+  "caoDoCm": 130.7,
+  "ngangCm": 16.66,
+  "truocSauCm": 3.03
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da",
+   "duong"
+  ],
+  "ly": "TẦNG DA: ép lên da, dời 4.3cm · RẢI DỌC ĐƯỜNG: dời 6.38cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: ép lê"
+ },
+ "duongKinh": {
+  "doan": "canh-tay",
+  "vung": "mặt trước-ngoài cánh tay",
+  "moTaRanh": "bờ ngoài cơ nhị đầu cánh tay",
+  "diemTrongDoan": [
+   "LU2",
+   "LU3",
+   "LU4",
+   "LU5"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "LU/canh-tay",
+  "tong": 9.3,
+  "xa": "LU5",
+  "gan": "LU2",
+  "thonCuaHuyet": 6,
+  "lechNgang": null,
+  "moiDiem": {
+   "LU3": 6,
+   "LU4": 5
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LU2",
+   "ten": "Vân Môn",
+   "thang": 11.4,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 12,
+   "sachDoiThon": 3.3000000000000007,
+   "vitri": "Bờ dưới xương đòn gánh, nơi chỗ lõm ngang cơ ngực to, giữa cơ Delta, nơi có gian sườn 1, cách đường ngực 06 thốn, trên huyệt Trung Phủ 1,6 thốn."
+  },
+  {
+   "code": "LU4",
+   "ten": "Hiệp Bạch",
+   "thang": 3.4,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 4.6,
+   "sachDoiThon": 1,
+   "vitri": "Ở mặt trong cánh tay, nơi gặp nhau của bờ ngoài cơ 2 đầu cánh tay với đường ngang dưới đầu nếp nách trước 4 thốn, trên khớp khuỷu (Xích Trạch) 5 thốn, dưới huyệt Thiên Phủ 1 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "LI14",
+   "ten": "Tý Nhu",
+   "cm": 3.3
+  },
+  {
+   "code": "LU4",
+   "ten": "Hiệp Bạch",
+   "cm": 3.4
+  },
+  {
+   "code": "GB22",
+   "ten": "Uyên Dịch",
+   "cm": 3.67
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Phần ức sườn của cơ ngực lớn trái",
+   "lop": "muscle",
+   "cm": 2.59
+  },
+  {
+   "ten": "Phần bụng của cơ ngực lớn trái",
+   "lop": "muscle",
+   "cm": 2.65
+  },
+  {
+   "ten": "Đầu ngắn của cơ nhị đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 3
+  },
+  {
+   "ten": "Cơ răng trước trái",
+   "lop": "muscle",
+   "cm": 3.32
+  },
+  {
+   "ten": "Đầu dài của cơ nhị đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 3.38
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 6.38cm (conf=cao)",
+  "XA ĐƯỜNG KINH 5.62cm",
+  "ÉP LÊN DA dời 4.3cm",
+  "AUDIT cờ soát: bản Focks phân tích HỎNG (bắn lệch 20.5cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: ép lê",
+  "TỪ ĐIỂN APP kêu: dọc \"LU5\" đòi 6 thốn, đo được 5.77  (lệch 0.79cm)",
+  "ATLAS FOCKS kêu: dọc \"AXILLA_ANT\" đòi 3 thốn, đo được 3.05  (lệch 0.16cm, SAI CHIỀU)"
+ ]
+}

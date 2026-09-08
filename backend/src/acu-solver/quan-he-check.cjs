@@ -193,9 +193,14 @@ const LUAT = [
     (H) => H.GB4.z > H.GB5.z && H.GB5.z > H.GB6.z && H.GB6.z > H.GB7.z],
   ['GB2 Thính Hội ở TRƯỚC lỗ tai, GB12 Hoàn Cốt ở SAU lỗ tai',
     (H, M) => H.GB2.z > M.LO_TAI.z && H.GB12.z < M.LO_TAI.z],
-  ['GB8→GB12 vòng sau tai hạ dần, không đảo chỗ',
-    (H) => { const y = ['GB8', 'GB9', 'GB10', 'GB11', 'GB12'].map(c => H[c].y);
-      return y.every((v, i) => i === 0 || v < y[i - 1]); }],
+  /* GB8 và GB9 là NGOẠI LỆ của luật hạ dần: sách định nghĩa Thiên Xung GB9 lệch khỏi Suất Cốc GB8
+   * 0,5 thốn RA SAU, không phải xuống dưới (WHO: "0,5 thốn sau GB8"; ảnh sách đo được hai chấm gần
+   * ngang nhau, chỉ cách 47px ≈ 1,0cm theo phương ngang). Bản kiểm cũ đòi y giảm NGHIÊM NGẶT nên
+   * báo lỗi ngay khi hai huyệt được đặt đúng cùng mức. Cho phép chênh tới 0,3cm ở riêng cặp này;
+   * từ GB9 trở đi vẫn phải hạ dần thật. */
+  ['GB8→GB12 vòng sau tai hạ dần (GB8/GB9 được phép ngang nhau)',
+    (H) => { const y = ['GB9', 'GB10', 'GB11', 'GB12'].map(c => H[c].y);
+      return H.GB8.y - H.GB9.y > -0.3 / 171.9 && y.every((v, i) => i === 0 || v < y[i - 1]); }],
   ['GB3 Thượng Quan ở TRÊN cung gò má, ST7 Hạ Quan ở DƯỚI — GB3 phải cao hơn ST7',
     (H) => H.GB3.y > H.ST7.y],
   ['BL1 (khoé mắt trong) gần đường giữa hơn TE23 (đầu ngoài lông mày)',

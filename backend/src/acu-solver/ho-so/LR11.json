@@ -1,0 +1,136 @@
+{
+ "code": "LR11",
+ "mer": "LR",
+ "num": 11,
+ "tenApp": "Âm Liêm",
+ "tenFocks": "ÂM LIÊM",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Để bệnh nhân ở tư thế nằm ngửa, sờ động mạch nhảy ở bẹn, huyệt nằm sát bờ trong động mạch đùi, hoặc dưới nếp nhăn của bẹn 1 thốn.",
+  "focksViTri": "Bờ trên của khớp mu (ngang huyệt Khí xung (Ma 30) xuống 2 thốn, ở mặt trước đùi ở bờ ngoài của cơ khép dài.",
+  "focksCachXacDinh": "Yêu cầu bệnh nhân ấn hai chân vào nhau để làm căng cơ khép. Huyệt Âm liêm (Le/Liv 11) nằm thấp hơn bờ trên khớp mu 2 thốn, trong một rãnh ở mép trong của cơ khép dài. Huyệt này cách động mạch đùi đi qua dưới dây chằng bẹn khoảng 1 thốn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR11_p332_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0295,
+  "y": 0.5058,
+  "z": 0.0377,
+  "conf": "WHO-lấp",
+  "caoDoCm": 86.95,
+  "ngangCm": 5.07,
+  "truocSauCm": 6.48
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da",
+   "duong"
+  ],
+  "ly": "TẦNG DA: huyệt NẰM NGOÀI da — đã ép lên da, dời 5.5cm (2.4 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 15.52cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: huyệt NẰM NGOÀI da — đã ép lên da, dời 5.5cm (2.4 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai"
+ },
+ "duongKinh": {
+  "doan": "dui",
+  "vung": "mặt trong đùi",
+  "moTaRanh": "giữa cơ khép dài và cơ may, tới nếp bẹn",
+  "diemTrongDoan": [
+   "LR8",
+   "LR9",
+   "LR10",
+   "LR11",
+   "LR12"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "LR/dui",
+  "tong": 21.7,
+  "xa": "LR8",
+  "gan": "LR12",
+  "thonCuaHuyet": 19.7,
+  "lechNgang": null,
+  "moiDiem": {
+   "LR9": 4,
+   "LR10": 18.7,
+   "LR11": 19.7
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LR10",
+   "ten": "Túc Ngũ Lý",
+   "thang": 2.1,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2.6,
+   "sachDoiThon": 1,
+   "vitri": "Ở bờ trong đùi, huyệt Âm Liêm (C.11) đo xuống 1 thốn, hoặc dưới nếp nhăn của bẹn 3 thốn."
+  },
+  {
+   "code": "LR12",
+   "ten": "Cấp Mạch",
+   "thang": 4.21,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 3.8,
+   "sachDoiThon": 2,
+   "vitri": "Ở bờ trên xương mu 1 thốn, đo ngang ra 2,5 thốn nằm trên nếp lằn của bẹn, dưới cung đùi."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "ST30",
+   "ten": "Khí Xung",
+   "cm": 1.52
+  },
+  {
+   "code": "SP12",
+   "ten": "Xung Môn",
+   "cm": 1.9
+  },
+  {
+   "code": "LR10",
+   "ten": "Túc Ngũ Lý",
+   "cm": 2.1
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ chéo bụng ngoài trái",
+   "lop": "muscle",
+   "cm": 2.67
+  },
+  {
+   "ten": "Cơ lược trái",
+   "lop": "muscle",
+   "cm": 3.09
+  },
+  {
+   "ten": "Cơ khép dài trái",
+   "lop": "muscle",
+   "cm": 3.65
+  },
+  {
+   "ten": "Xương chậu trái",
+   "lop": "bone",
+   "cm": 3.92
+  },
+  {
+   "ten": "Cơ khép ngắn trái",
+   "lop": "muscle",
+   "cm": 4.36
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 15.52cm (conf=WHO-lấp)",
+  "XA ĐƯỜNG KINH 15.51cm",
+  "ÉP LÊN DA dời 5.5cm",
+  "AUDIT cờ soát: TẦNG DA: huyệt NẰM NGOÀI da — đã ép lên da, dời 5.5cm (2.4 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai",
+  "ATLAS FOCKS kêu: dọc \"ST30\" đòi 2 thốn, đo được 0.31  (lệch 3.83cm)"
+ ]
+}

@@ -1,0 +1,163 @@
+{
+ "code": "PC6",
+ "mer": "PC",
+ "num": 6,
+ "tenApp": "Nội Quan",
+ "tenFocks": "NỘI QUAN",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Trên cổ tay 2 thốn, dưới huyệt Gian Sử (Tb 5) 1 thốn, giữa khe gân cơ gan tay lớn và bé.",
+  "focksViTri": "Cách khe khớp cổ tay khoảng 2 thốn giữa các gân của cơ gan tay dài và cơ gấp cổ tay quay.",
+  "focksCachXacDinh": "Khoe khớp cổ tay có thể được sờ thấy rõ ràng bằng cách thả lỏng bàn tay. Đo khoảng 2 thốn tính từ tâm khe khớp cổ tay, huyệt Đại lăng (Pe/Pc 7); xác định vị trí huyệt Nội quan (Pe/Pc 6) giữa hai gân, làm hiện gân bằng cách siết chặt nắm tay. Nếu chỉ nhìn thấy một gân thì đó là gân gấp cổ tay quay. Đối diện là huyệt Ngoại quan (SJ/TB 5) ở mặt lưng cổ tay, nếp gấp cổ tay lên gần 2 thốn).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/PC6_p242_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1428,
+  "y": 0.5363,
+  "z": 0.0157,
+  "conf": "khoá",
+  "caoDoCm": 92.19,
+  "ngangCm": 24.55,
+  "truocSauCm": 2.7
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "khe",
+   "duong"
+  ],
+  "ly": "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ duỗi cổ tay quay ngắn trái) · RẢI DỌC ĐƯỜNG: dời 3.12cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "cang-tay",
+  "vung": "giữa mặt trước cẳng tay",
+  "moTaRanh": "giữa gân cơ gan tay dài và gân cơ gấp cổ tay quay",
+  "diemTrongDoan": [
+   "PC3",
+   "PC4",
+   "PC5",
+   "PC6",
+   "PC7"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "PC/cang-tay",
+  "tong": 12,
+  "xa": "PC7",
+  "gan": "PC3",
+  "xaMoc": "WRIST",
+  "ganMoc": "CUBITAL",
+  "thonCuaHuyet": 2,
+  "lechNgang": null,
+  "moiDiem": {
+   "PC4": 5,
+   "PC5": 3,
+   "PC6": 2
+  }
+ },
+ "hangXom": [
+  {
+   "code": "PC5",
+   "ten": "Gian Sử",
+   "thang": 2.05,
+   "sachDoiCm": 2.01,
+   "thonCm": 2.01,
+   "docDa": 2.8,
+   "sachDoiThon": 1,
+   "vitri": "Bàn tay để ngửa, huyệt ở trên lằn chỉ cổ tay 3 thốn, giữa khe gân cơ gan tay lớn và bé."
+  },
+  {
+   "code": "PC7",
+   "ten": "Đại Lăng",
+   "thang": 4.47,
+   "sachDoiCm": 4.02,
+   "thonCm": 2.01,
+   "docDa": 3.7,
+   "sachDoiThon": 2,
+   "vitri": "Ở ngay trên lằn nếp cổ tay, khe giữa gân cơ gan tay lớn và bé, hoặc gấp các ngón tay vào lòng bàn tay, đầu ngón tay giữa chạm vào lằn chỉ (văn) tay ở đâu, đó là huyệt."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "LU7",
+   "ten": "Liệt Khuyết",
+   "cm": 1.26
+  },
+  {
+   "code": "HT4",
+   "ten": "Linh Đạo",
+   "cm": 1.6
+  },
+  {
+   "code": "PC5",
+   "ten": "Gian Sử",
+   "cm": 2.05
+  },
+  {
+   "code": "HT5",
+   "ten": "Thông Lý",
+   "cm": 2.33
+  },
+  {
+   "code": "LU8",
+   "ten": "Kinh Cừ",
+   "cm": 2.42
+  },
+  {
+   "code": "HT6",
+   "ten": "Âm Khích",
+   "cm": 3.25
+  },
+  {
+   "code": "SI6",
+   "ten": "Dưỡng Lão",
+   "cm": 3.93
+  },
+  {
+   "code": "HT7",
+   "ten": "Thần Môn",
+   "cm": 3.94
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ gấp cổ tay quay trái",
+   "lop": "muscle",
+   "cm": 0.08
+  },
+  {
+   "ten": "Cơ gấp các ngón nông trái",
+   "lop": "muscle",
+   "cm": 0.3
+  },
+  {
+   "ten": "Cơ gấp các ngón sâu trái",
+   "lop": "muscle",
+   "cm": 0.52
+  },
+  {
+   "ten": "Cơ gan tay dài trái",
+   "lop": "muscle",
+   "cm": 0.66
+  },
+  {
+   "ten": "Cơ sấp vuông trái",
+   "lop": "muscle",
+   "cm": 0.72
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 3.12cm (conf=khoá)",
+  "XA ĐƯỜNG KINH 3.05cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 3.12cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"WRIST\" đòi 2 thốn, đo được 2  (lệch 0.01cm)",
+  "ATLAS FOCKS kêu: dọc \"WRIST\" đòi 2 thốn, đo được 2  (lệch 0.01cm)"
+ ]
+}

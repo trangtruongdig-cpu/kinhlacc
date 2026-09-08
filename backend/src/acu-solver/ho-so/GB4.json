@@ -1,0 +1,126 @@
+{
+ "code": "GB4",
+ "mer": "GB",
+ "num": 4,
+ "tenApp": "Hàm Yến",
+ "tenFocks": "HÀM YẾN",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Trong chân tóc vùng thái dương, nơi có di động khi há miệng nhai, huyệt Đầu Duy (Vi 8) đo xuống một thốn, tại 1/4 trên và 3/4 dưới của đoạn nối huyệt Đầu Duy và Khúc Tân (Đ 7).",
+  "focksViTri": "Trong vùng chân tóc thái dương, trên ranh giới giữa phần tư thứ nhất và thứ hai của đường nối giữa huyệt Đầu duy (Ma/ST 8) và huyệt Khúc tấn/mấn (Gb 7).",
+  "focksCachXacDinh": "Đầu tiên tìm, xác định hai điểm mốc: huyệt Đầu duy (Ma/ST 8) (ở góc trán/thái dương) và huyệt Khúc tấn/mấn (Gb 7) (phần lõm ở ngang chóp tai, xấp xỉ đường chân tóc quanh tai). Sau đó chia đường này làm 4 phần. Trên đường này, từ huyệt Đầu duy (Ma/ST 8), xác định vị trí huyệt Hàm yến (Gb 4) tại điểm phần tư đầu tiên (giữa phần tư thứ nhất và thứ 2). Huyệt thường nằm trong chân tóc thái dương và phần trước của cơ thái dương, có thể cảm nhận được khi nhai.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/GB4_p274_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0387,
+  "y": 0.9633,
+  "z": 0.0098,
+  "conf": "mốc",
+  "caoDoCm": 165.59,
+  "ngangCm": 6.65,
+  "truocSauCm": 1.68
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Hàm Yếm — 1/4 đường nối Đầu Duy (ST8) với Khúc Tấn (GB7)",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "chan-toc-ben",
+  "vung": "chân tóc thái dương",
+  "moTaRanh": "vòng theo chân tóc thái dương, trên cơ thái dương",
+  "diemTrongDoan": [
+   "GB3",
+   "GB4",
+   "GB5",
+   "GB6",
+   "GB7"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "GB3",
+   "ten": "Thượng Quan",
+   "thang": 6.84,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 12.2,
+   "sachDoiThon": null,
+   "vitri": "Ở phía trước tai, bờ trên xương gò má, xác định huyệt Hạ Quan kéo thẳng lên, đến chỗ lõm bờ sau chân tóc mai."
+  },
+  {
+   "code": "GB5",
+   "ten": "Huyền Lư",
+   "thang": 0.92,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 0.4,
+   "sachDoiThon": null,
+   "vitri": "Ở sát động mạch Thái Dương nông, trên đường nối huyệt Hàm Yến (Đ 4) và Khúc Tân (Đ 7), cách Hàm Yến 0,6 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "ST8",
+   "ten": "Đầu Duy",
+   "cm": 0.92
+  },
+  {
+   "code": "GB5",
+   "ten": "Huyền Lư",
+   "cm": 0.92
+  },
+  {
+   "code": "GB6",
+   "ten": "Huyền Ly",
+   "cm": 1.84
+  },
+  {
+   "code": "GB7",
+   "ten": "Khúc Tân",
+   "cm": 2.76
+  },
+  {
+   "code": "GB8",
+   "ten": "Suất Cốc",
+   "cm": 3.66
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương đỉnh trái",
+   "lop": "bone",
+   "cm": 0.33
+  },
+  {
+   "ten": "Xương trán",
+   "lop": "bone",
+   "cm": 0.67
+  },
+  {
+   "ten": "Xương thái dương trái",
+   "lop": "bone",
+   "cm": 3.25
+  },
+  {
+   "ten": "Xương bướm",
+   "lop": "bone",
+   "cm": 3.47
+  },
+  {
+   "ten": "Xương gò má trái",
+   "lop": "bone",
+   "cm": 5.54
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm"
+ ]
+}

@@ -1,0 +1,677 @@
+{
+ "kinh": "GB",
+ "docAnh": [
+  {
+   "huyet": [
+    {
+     "code": "GB2",
+     "nhanCham": "Trang GB2_p272_0.jpeg (2019×1779). BẢN VẼ SƠ ĐỒ XƯƠNG (bảng dưới-trái) — đã tự tách chấm bằng bộ dò riêng (do-anh-atlas.cjs bỏ sót 7 chấm), rồi gán nhãn bằng cách phóng to đọc chữ: ĐỎ GB2 (456,1546). ĐEN: TE21/SJ21 (457,1514) · SI19/Dü19 (457,1529) — ba chấm này xếp chồng dọc sát nhau trước bình tai, TE21 trên cùng, SI19 giữa, GB2 dưới cùng; TE17/SJ17 (422,1617) · TE18 (311,1523) · TE19 (303,1382) · TE20/SJ20 (371,1317) · GB12 (334,1647) · GB11 (262,1494) · GB10 (260,1332) · GB9 (326,1234) · GB8 (373,1230) · GB7 (456,1320) · GB6 (487,1282) · GB5 (519,1240) · GB4 (551,1194) · ST8/Ma8 (576,1141) · GB13 (729,1106) · GB14 (819,1220) · GB15 (767,1096) · GB16 (671,1030) · GB17 (546,994) · GB18 (414,979) · GV20/Du20 (321,969) · GB19 (129,1484) · GB20 (175,1618) · ST7/Ma7 (544,1546) · GB3 (534,1482) · GB1 (725,1406) · TE23/SJ23 (745,1357) · Ex-HN5 (673,1388) · ST1 (820,1435) · ST2 (819,1473). Đối chiếu chéo: cùng bản khắc này in lại ở trang GB4_p274 (lệch −28,−14 px), GB8_p279 (lệch +824,−958) và GB9_p280 (lệch +810,−957) — chấm ĐỎ của từng trang rơi ĐÚNG vào chấm tôi đã gán, nên nhãn GB4/GB8/GB9 là đọc trực tiếp chứ không suy. ẢNH CHỤP NGƯỜI THẬT (bảng trên-trái): TE21 (592,401) · SI19 (646,499) · GB2 đỏ (672,612); đỉnh bình tai ~(588,526), khuyết gian bình tai ~(613,592), đường gạch nối ghi 'Bình tai' trỏ vào bình tai. GB2 nằm NGAY TRƯỚC và hơi DƯỚI khuyết gian bình tai, tức trước tai — không phải sau tai.",
+     "pheps": [
+      {
+       "mocA": "GB12",
+       "mocB": "GB1",
+       "tAnh": 0.342,
+       "tMesh": 0.347,
+       "chenhCm": 0.05
+      },
+      {
+       "mocA": "TE20",
+       "mocB": "TE17",
+       "tAnh": 0.789,
+       "tMesh": 0.702,
+       "chenhCm": -0.38
+      },
+      {
+       "mocA": "TE21",
+       "mocB": "TE17",
+       "tAnh": 0.281,
+       "tMesh": 0.515,
+       "chenhCm": 0.62
+      },
+      {
+       "mocA": "GB11",
+       "mocB": "ST7",
+       "tAnh": 0.698,
+       "tMesh": 0.359,
+       "chenhCm": -1.7
+      }
+     ],
+     "ketLuan": "khop",
+     "ghiChu": "GB2 ĐÚNG — lỗi nằm ở TE18. Ba cặp mốc độc lập cho 0,05 / −0,38 / +0,62cm; thêm phép khớp hình toàn cục (fit tương tự 2D từ 32 chấm ảnh sang mặt phẳng (z,cao) của mesh, 16 mốc nội, thang 45,3 px/cm) cho GB2 sai số 0,58cm — nhỏ thứ 6 trong 31 huyệt. XÁC ĐỊNH BÊN SAI: trên bản vẽ TE18 ở (311,1523) tức SAU tai, cách GB2 (456,1546) 147px ≈ 3,0–3,2cm; mesh để hai huyệt cách 0,57cm. Mesh TE18 z=−0,60cm còn GB2 z=−0,28cm, chỉ lùi 0,32cm; theo ảnh phải lùi ~3,2cm (z ≈ −3,4cm). Bằng chứng phụ: mesh TE19 z=+0,28cm, tức nằm TRƯỚC cả GB2 — bất khả thi về giải phẫu vì Lư Tức bám bờ sau vành tai; phép khớp toàn cục cho TE19 sai 4,74cm và TE20 sai 5,10cm. Kết luận: cả cung sau tai TE17→TE18→TE19→TE20 bị bẹp về phía trước tai, TE18 là huyệt phải sửa, KHÔNG được đụng GB2. Cặp GB11→ST7 lệch −1,70cm là lỗi của MỐC: đo riêng ST7 trên đoạn GB2→GB1 cho lệch +1,25cm, GB11 trên GB12→TE20 cho −0,84cm; bỏ hai mốc này ra thì sai số nền của GB2 tụt về ~0,3cm. Đừng dùng ST7/GB11/GB10/GB19 làm mốc cho vùng tai."
+    },
+    {
+     "code": "GB4",
+     "nhanCham": "Trang GB4_p274_0.jpeg (2127×1765). BẢN VẼ (dưới-trái, cùng bản khắc trang GB2, lệch −28,−14 px): ĐỎ GB4 (523,1180). ĐEN đọc trực tiếp nhãn chữ khi phóng to: ST8/Ma8 (548,1128) · GB5 (491,1227) · GB6 (459,1268) · GB7 (428,1307) · GB8 (345,1216) · GB9 (297,1220) · TE20/SJ20 (343,1303) · GB13 (701,1093) · GB14 (791,1206) · GB12 (306,1634) · TE17 (394,1604) · TE21 (429,1500) · SI19 (429,1516) · GB2 (429,1532) · ST7 (516,1533) · GB3 (506,1468) · TE22/SJ22 (440,1438) · GB11 (235,1480) · GB19 (101,1471) · GB20 (147,1605) · GV20 (293,955) · GB18 (387,965). BẢNG XƯƠNG SỌ (trên-phải) và ẢNH CHỤP (trên-trái) đều in rõ chuỗi ¼ + ¼ + ¼ + ¼ từ Ma 8 xuống Gb 7, với Gb 4 ở nấc ¼ ĐẦU TIÊN — tức sách tự khai t=0,250 trên đoạn ST8→GB7. Ảnh chụp còn ghi mốc mô mềm mesh không có: 'Ngang đỉnh vành tai, trên đường chân tóc quanh tai' cho GB7, và GB4 nằm trên đường chân tóc thái dương.",
+     "pheps": [
+      {
+       "mocA": "ST8",
+       "mocB": "GB7",
+       "tAnh": 0.265,
+       "tMesh": 0.25,
+       "chenhCm": -0.06
+      },
+      {
+       "mocA": "GB5",
+       "mocB": "ST8",
+       "tAnh": 0.496,
+       "tMesh": 0.502,
+       "chenhCm": 0.01
+      },
+      {
+       "mocA": "ST8",
+       "mocB": "GB8",
+       "tAnh": 0.197,
+       "tMesh": 0.195,
+       "chenhCm": -0.01
+      },
+      {
+       "mocA": "GB13",
+       "mocB": "GB7",
+       "tAnh": 0.559,
+       "tMesh": 0.647,
+       "chenhCm": 0.67
+      }
+     ],
+     "ketLuan": "khop",
+     "ghiChu": "BÁO ĐỘNG SAI — 0,92cm tới ST8 là ĐÚNG SÁCH, không phải chập huyệt. Sách in thẳng quy tắc ¼: GB4 ở nấc một phần tư đầu của đoạn ST8→GB7, đo trên ảnh được t=0,265, mesh dựng t=0,250, chênh chỉ 0,06cm. Vì đoạn ST8→GB7 chỉ dài 3,68cm nên ¼ của nó tất yếu là ~0,92cm — hai huyệt gần nhau là bản chất giải phẫu, không phải lỗi toạ độ. Phép khớp toàn cục cho GB4 sai số 0,18cm, nhỏ thứ ba trong 31 huyệt của trang. Ghi nhận phụ (KHÔNG phải lỗi của GB4): cả chuỗi ST8→GB4→GB5→GB6→GB7 hơi bị co — ảnh cho 215,5px ≈ 4,4–4,8cm tuỳ thang (45,3–48,4 px/cm), mesh cho 3,68cm, tức ngắn ~0,7–1,1cm; nếu sau này giãn chuỗi thì giữ nguyên tỉ lệ ¼ và khoảng cách GB4–ST8 sẽ tự nới lên ~1,1–1,2cm. Cặp GB13→GB7 lệch +0,67cm là do GB7 (sai số nền 1,73cm), không phải GB4."
+    },
+    {
+     "code": "GB8",
+     "nhanCham": "Trang GB8_p279_0.jpeg (1843×988) — bản khắc trùng trang GB2, lệch +824,−958 px. ĐỎ GB8 (1198,272) → quy về khung trang GB2 là (374,1230), TRÙNG KHỚP chấm tôi đã gán là GB8 ở trang GB2 (373,1230): nhãn xác nhận bằng chấm đỏ, không phải suy đoán. Chấm kề (1150,276) → (326,1234) chính là GB9 (trang GB9_p280 tô đỏ đúng chấm này). GB8 là chấm TRƯỚC (phía mặt), GB9 là chấm SAU. ĐEN cùng trang: GB7 (1281,363)→(457,1321) · GB4 (1376,236)→(552,1194) · ST8 (1401,184)→(577,1142) · TE20 (1085,375)→(261,1333 sai — chấm TE20 đúng là (1127,424)→(303,1382)... đã kiểm lại: TE20=(1147,359)→(371,1317)) · GB12 (1158,690)→(334,1648) · GB19 (954,526)→(130,1484) · GB20 (1000,660)→(176,1618). ẢNH CHỤP NGƯỜI THẬT (bảng trái) có mốc mô mềm mesh không có: 'Đỉnh tai' (đỉnh vành tai) với thanh đo ghi rõ '1,5 thốn' từ đỉnh tai thẳng lên tới Gb 8, và GB8 nằm trong chân tóc trên tai.",
+     "pheps": [
+      {
+       "mocA": "GB18",
+       "mocB": "TE17",
+       "tAnh": 0.393,
+       "tMesh": 0.559,
+       "chenhCm": 2.49
+      },
+      {
+       "mocA": "GB17",
+       "mocB": "TE17",
+       "tAnh": 0.417,
+       "tMesh": 0.562,
+       "chenhCm": 2.12
+      },
+      {
+       "mocA": "GB16",
+       "mocB": "GB12",
+       "tAnh": 0.453,
+       "tMesh": 0.528,
+       "chenhCm": 1.21
+      },
+      {
+       "mocA": "GB4",
+       "mocB": "GB12",
+       "tAnh": 0.218,
+       "tMesh": 0.281,
+       "chenhCm": 0.71
+      }
+     ],
+     "ketLuan": "lech-nang",
+     "ghiChu": "GB8 SAI ~1,9–2,0cm, nhưng KHÔNG PHẢI 11,4cm như cờ 'rải dời' báo. Bốn cặp mốc đều cùng dấu dương: mesh đẩy GB8 về phía TE17/GB12, tức XUỐNG THẤP và RA TRƯỚC quá. Đo trực tiếp so với mốc tốt nhất là GB4 (sai số nền 0,18cm): ảnh đặt GB8 lùi sau GB4 178px ≈ 3,9cm và thấp hơn 36px ≈ 0,8cm; mesh đặt lùi 2,81cm và thấp 2,27cm → GB8 mesh THIẾU 1,1cm về sau và THỪA 1,5cm xuống dưới. Phép khớp toàn cục cho sai số 1,97cm (ảnh đòi z −2,28cm / cao 164,92cm; mesh đang z −1,13cm / cao 163,32cm). Kiểm bằng câu sách: '1,5 thốn trên đỉnh tai' = 1,5×1,40 = 2,10cm; ảnh cho GB8 cao hơn TE20 (Giác Tôn, ở đỉnh tai) 87px ≈ 1,9cm — khớp sách; mesh cho 3,50cm ≈ 2,5 thốn — cao quá 1 thốn (nhưng lưu ý TE20 mesh cũng hỏng, sai số nền 5,10cm, nên phép này chỉ để tham khảo). Cờ 'RẢI DỌC ĐƯỜNG dời 11,43cm' và 'XA ĐƯỜNG KINH 10,64cm' KHÔNG đo được bằng ảnh sách: ảnh chỉ chứng minh toạ độ HUYỆT sai ~2cm, nên 10–11cm kia gần như chắc chắn là lỗi của NÚT ĐƯỜNG KINH (đường GB đoạn trên tai bị vạch lạc chỗ), không phải của huyệt. Đừng kéo GB8 11cm theo đường."
+    },
+    {
+     "code": "GB9",
+     "nhanCham": "Trang GB9_p280_0.jpeg (1828×1011) — bản khắc trùng trang GB2, lệch +810,−957 px. ĐỎ GB9 (1136,275) → khung trang GB2 (326,1232). Phóng to đọc rõ: nhãn đỏ 'Gb 9' bên TRÁI chấm đỏ, nhãn đen 'Gb 8' ngay phải và chấm đen GB8 (1183,272)→(373,1229); tức GB9 là chấm SAU, GB8 là chấm TRƯỚC — khớp với trang GB8 tô đỏ đúng chấm trước. ĐEN cùng trang: TE20/SJ20 (1145,357)→(335,1314) · GB7 (1268,362)→(458,1319) · GB4 (1363,235)→(553,1192) · ST8/Ma8 (1386,184)→(576,1141). Khoảng cách GB8→GB9 trên ảnh chỉ 47px ≈ 1,0cm (sách: 0,5 thốn ra sau).",
+     "pheps": [
+      {
+       "mocA": "GB18",
+       "mocB": "TE17",
+       "tAnh": 0.398,
+       "tMesh": 0.691,
+       "chenhCm": 4.38
+      },
+      {
+       "mocA": "GB17",
+       "mocB": "TE17",
+       "tAnh": 0.438,
+       "tMesh": 0.699,
+       "chenhCm": 3.81
+      },
+      {
+       "mocA": "GB16",
+       "mocB": "GB12",
+       "tAnh": 0.49,
+       "tMesh": 0.651,
+       "chenhCm": 2.59
+      },
+      {
+       "mocA": "GB4",
+       "mocB": "GB12",
+       "tAnh": 0.265,
+       "tMesh": 0.467,
+       "chenhCm": 2.28
+      }
+     ],
+     "ketLuan": "lech-nang",
+     "ghiChu": "GB9 là huyệt SAI NẶNG NHẤT trong sáu huyệt, ~3,8–3,9cm, và cũng KHÔNG phải 12,8cm. Bốn cặp mốc cùng dấu dương, biên độ 2,28–4,38cm: mesh tụt GB9 xuống phía TE17/GB12. So trực tiếp với GB4: ảnh đặt GB9 lùi sau GB4 225px ≈ 5,0cm và thấp hơn 40px ≈ 0,9cm; mesh đặt lùi 3,35cm và thấp 4,31cm → THIẾU 1,6cm về sau, THỪA 3,4cm xuống dưới. Phép khớp toàn cục: sai số 3,91cm (ảnh đòi z −3,32cm / cao 164,82cm; mesh đang z −1,67cm / cao 161,28cm). Kiểm bằng quan hệ cặp: sách và ảnh đều để GB9 chỉ cách GB8 khoảng 0,5 thốn — ảnh đo 47px ≈ 1,0cm; mesh để 2,14cm, tức GIÃN GẤP ĐÔI. Vậy GB9 vừa bị kéo tụt khỏi vòm sọ vừa bị đẩy xa GB8. Toạ độ GB9 đang mang conf=khoá nhưng ảnh sách bác: phải mở khoá. Cùng nguyên nhân với GB8 (cả cụm trên-sau tai bị hạ thấp), nên sửa THEO CỤM GB8+GB9 chứ đừng sửa lẻ. Cờ 'rải dời 12,8cm' lại là lỗi nút đường kinh, không phải lỗi huyệt."
+    },
+    {
+     "code": "GB15",
+     "nhanCham": "Hai trang. (a) GB2_p272 — mặt bên: GB15 (767,1096) trên cung xanh ngoài đi GB14(819,1220)→GB15→GB16(671,1030)→GB17(546,994)→GB18(414,979); nhãn 'Gb 18' và 'Gb 14' đọc trực tiếp, GB15/16/17 suy theo thứ tự nút trên đúng cung đó (cung TRONG là đoạn GB12→GB13→GB14, chấm GB13=(729,1106) có nhãn chữ nên không lẫn). (b) GB15_p286_0.jpeg (1733×883) — BẢN VẼ MẶT TRƯỚC, có nhãn chữ đầy đủ: ĐỎ GB15 hai bên (286,217) và (623,217); ĐEN: Ma8/ST8 (117,232) và (792,232) · Gb13 (247,218) và (662,218) · Bl4 (355,220) và (554,220) · Bl3 (382,220) và (524,220) · Bl5 (355,164) · Du23/GV23 (454,164) · Du24/GV24 (454,220) · GB14 (280,376) và (629,376). Đường giữa x=454. Tự kiểm thang ngang bằng chính ảnh: GB15 lệch giữa 168px, ST8 lệch 337px → 168/2,25 = 74,7 px/thốn và 337/4,5 = 74,9 px/thốn, khớp nhau, nên nhãn chắc chắn đúng. ẢNH CHỤP NGƯỜI THẬT (bảng phải) ghi mốc mô mềm: 'Đường chân tóc', 'Đường giữa', 'Đường đồng tử', '0,5 thốn' (trên chân tóc) và '2,25 thốn' mỗi bên — GB15 nằm trên đường đồng tử, 0,5 thốn trong chân tóc.",
+     "pheps": [
+      {
+       "mocA": "GB16",
+       "mocB": "GB14",
+       "tAnh": 0.461,
+       "tMesh": 0.186,
+       "chenhCm": -1.25
+      },
+      {
+       "mocA": "GB17",
+       "mocB": "GB14",
+       "tAnh": 0.664,
+       "tMesh": 0.48,
+       "chenhCm": -1.27
+      },
+      {
+       "mocA": "GB18",
+       "mocB": "GB14",
+       "tAnh": 0.771,
+       "tMesh": 0.624,
+       "chenhCm": -1.34
+      },
+      {
+       "mocA": "GB13",
+       "mocB": "GB18",
+       "tAnh": -0.093,
+       "tMesh": 0.111,
+       "chenhCm": 1.33
+      },
+      {
+       "mocA": "BL4",
+       "mocB": "GB13",
+       "tAnh": 0.639,
+       "tMesh": 0.426,
+       "chenhCm": -0.47
+      },
+      {
+       "mocA": "BL3",
+       "mocB": "GB13",
+       "tAnh": 0.718,
+       "tMesh": 0.501,
+       "chenhCm": -0.48
+      }
+     ],
+     "ketLuan": "lech-nang",
+     "ghiChu": "XÁC NHẬN hai nguồn sách, nhưng biên độ tôi đo nhỏ hơn: ~1,3cm chứ không tới 1,6–2,1 thốn (1,3cm ≈ 0,93 thốn ngang đầu 1,40cm, hoặc ~0,5 thốn dọc da đầu). Bốn cặp mốc trên mặt bên cho −1,25 / −1,27 / −1,34 / +1,33cm — bốn con số gần như y hệt nhau và cùng một chiều, đây là lệch thật chứ không phải nhiễu. HƯỚNG LỆCH: mesh đặt GB15 quá LÙI VỀ SAU (về phía GB16/GB17/GB18) và hơi quá CAO. Đo trực tiếp so GB16: ảnh đặt GB15 ra trước GB16 96px ≈ 2,1cm và thấp hơn 66px ≈ 1,5cm; mesh chỉ cho ra trước 0,69cm và thấp 0,55cm → phải đẩy GB15 ra TRƯỚC ~1,4cm và HẠ ~0,9cm. Phép khớp toàn cục: sai số 1,79cm (ảnh đòi z 6,38cm / cao 167,98cm; mesh đang z 4,88cm / cao 168,96cm). TRỤC NGANG THÌ ĐÚNG: mặt trước cho GB15 ở 2,25 thốn (168px / 74,8px mỗi thốn), mesh x=3,06cm = 2,19 thốn — khớp. Hai phép mặt trước BL4→GB13 và BL3→GB13 ra −0,47/−0,48cm là do trục z rò vào phép chiếu 3D, không phải lệch ngang. Vậy sai số của GB15 là THUẦN TRƯỚC-SAU, đừng đụng cột 2,25 thốn. Ba huyệt láng giềng GB16/GB17/GB18 đều nằm trong nhóm mốc nội của phép khớp (sai số 0,11/0,38/1,02cm) nên cột GB đầu không hỏng — chỉ mình GB15 trượt."
+    },
+    {
+     "code": "GB20",
+     "nhanCham": "Hai trang. (a) GB2_p272 — mặt bên: GB20 (175,1618) đọc trực tiếp nhãn 'Gb 20'; GB12 (334,1647) nhãn 'Gb 12'; GB19 (129,1484) nhãn 'Gb 19'; TE17 (422,1617) nhãn 'SJ 17'. (b) GB20_p291_0.jpeg (2112×1570) — BẢN VẼ MẶT SAU GÁY, nhãn chữ đầy đủ: ĐỎ GB20 hai bên (342,1108) và (707,1108); ĐEN: Du18/GV18 (523,731) · Gb8+Gb9 (105,802)+(136,802) và (935,802)+(904,802) · Gb19 (343,926) và (707,926) · Bl9 (421,926) và (631,926) · Du17/GV17 (522,926) · Du16/GV16 (525,1092) · Gb12 (226,1118) và (813,1118) · Bl10 (420,1167) và (632,1167) · Du15/GV15 (525,1168). Đường giữa x≈523,5. Tự kiểm thang: GB20 lệch giữa 181–184px, BL10 lệch 103–109px, tỉ số 1,73 đúng bằng 2,25/1,3 của sách → 1 thốn ngang ≈ 80px. BẢNG XƯƠNG SỌ MẶT SAU (bên phải): Gb19 (1452,792)+(1774,792) · Du17 (1610,792) · Gb20 đỏ (1452,1003)+(1775,1003), kèm vòng vàng đánh dấu 'Ụ chẩm ngoài' ở giữa hai GB19 — GB19 ngang mức ụ chẩm, GB20 nằm THẤP HƠN và cùng khoảng cách ngang với GB19. ẢNH CHỤP NGƯỜI THẬT (bảng trên) ghi mốc mô mềm mesh không có: 'Đường viền dưới của chẩm', 'Cơ ức-đòn-chũm', 'Cơ thang, bó trên' — GB20 nằm trong hõm GIỮA hai cơ đó, ngay dưới viền chẩm, ngang mức Du16.",
+     "pheps": [
+      {
+       "mocA": "GV17",
+       "mocB": "GB12",
+       "tAnh": 0.73,
+       "tMesh": 0.925,
+       "chenhCm": 2.52
+      },
+      {
+       "mocA": "BL9",
+       "mocB": "GB12",
+       "tAnh": 0.697,
+       "tMesh": 0.923,
+       "chenhCm": 2.86
+      },
+      {
+       "mocA": "GV16",
+       "mocB": "GB12",
+       "tAnh": 0.632,
+       "tMesh": 0.871,
+       "chenhCm": 2.29
+      },
+      {
+       "mocA": "BL10",
+       "mocB": "GB12",
+       "tAnh": 0.468,
+       "tMesh": 0.716,
+       "chenhCm": 1.4
+      },
+      {
+       "mocA": "GB12",
+       "mocB": "GB1",
+       "tAnh": -0.262,
+       "tMesh": -0.194,
+       "chenhCm": 0.64
+      },
+      {
+       "mocA": "TE17",
+       "mocB": "GB13",
+       "tAnh": -0.215,
+       "tMesh": -0.235,
+       "chenhCm": -0.26
+      }
+     ],
+     "ketLuan": "lech-nang",
+     "ghiChu": "XÁC NHẬN cờ 'nằm sâu trong bụng cơ gối đầu', và chỉ ra nguyên nhân chính là LỆCH NGANG chứ không chỉ lệch sâu. Phải dùng bản vẽ MẶT SAU mới thấy: bốn cặp mốc trên trang GB20_p291 đều cùng dấu dương 1,40–2,86cm, tức mesh đẩy GB20 về phía GB12 (mỏm chũm) quá xa. Con số cứng: trên ảnh mặt sau GB20 cách đường giữa 181–184px = 2,25 thốn (đúng sách), còn GB12 cách 290px; tỉ lệ GB20/GB12 = 0,63. Mesh cho GB20 x=5,79cm và GB12 x=5,76cm, tỉ lệ 1,00 — tức mesh đặt Phong Trì RA NGANG BẰNG MỎM CHŨM. Phải kéo vào trong ~1,9–2,1cm, về x ≈ 3,7–3,9cm. Trục trước-sau: ảnh mặt bên đặt GB20 lùi sau GB12 159px ≈ 3,5cm, mesh chỉ 1,77cm → còn quá RA TRƯỚC ~1,7cm, chính là phần chui vào bụng cơ. Cao độ: ảnh đặt GB20 cao hơn GB12 29px ≈ 0,6cm, mesh đặt THẤP hơn 0,60cm → thấp quá ~1,2cm; bản xương sọ cũng cho thấy GB20 phải nằm ngay dưới viền chẩm chứ không tụt sâu vào gáy. Tổng lệch ~3cm. LƯU Ý MỐC: hai phép trên mặt bên chỉ ra 0,64 và −0,26cm, KHÔNG phải vì GB20 đúng mà vì mặt bên không nhìn thấy trục ngang và hai thành phần sai số triệt tiêu nhau trên hướng chiếu — đừng lấy hai số đó làm bằng chứng GB20 ổn. Mốc GB19 trong mesh hỏng nặng (z=−12,26cm, sai số nền 5,41cm, và mesh cho GB19 x=2,56 trong khi ảnh đòi GB19 và GB20 CÙNG khoảng cách ngang) nên tôi đã loại GB19 khỏi mọi phép đo GB20."
+    }
+   ]
+  },
+  {
+   "huyet": [
+    {
+     "code": "GB22",
+     "nhanCham": "Dùng bảng xương sườn nhìn nghiêng ở trang GB25_p297 (nhiều mốc hơn trang riêng): GB21(1130,194) · GB22(1215,348) · GB23(1237,345) · GB24(1283,436) · GB25 đỏ(1166,593) · LR13/Le13(1212,596) · GB27(1264,759) · CV4/Ren4(1308,759) · GB28(1262,787) · GB29(1237,816) · GB30(1139,886). Trước=PHẢI, sau=TRÁI. Thang: GB21→GB30 = 692,2px ↔ 59,15cm mesh = 11,70px/cm. Trang riêng GB22_p293: bảng TRÁI là ảnh chụp người thật — GB22 đỏ(321,344), GB23 xám(389,429), mốc mô mềm 'Đỉnh nách'(~321,118) và 'Đường giữa nách' = đường đứt dọc x≈321; thước dọc 3 thốn = 226px, thước ngang 1 thốn = 63px. Bảng PHẢI là lồng ngực nhìn nghiêng: GB22 đỏ(1368,592) nằm ĐÚNG trên đường xanh đứt (đường giữa nách) ở khoang liên sườn 4.",
+     "pheps": [
+      {
+       "mocA": "GB21",
+       "mocB": "GB30",
+       "tAnh": 0.224,
+       "tMesh": 0.283,
+       "chenhCm": 3.49
+      },
+      {
+       "mocA": "GB21",
+       "mocB": "GB25",
+       "tAnh": 0.401,
+       "tMesh": 0.472,
+       "chenhCm": 2.45
+      },
+      {
+       "mocA": "GB23",
+       "mocB": "GB24",
+       "tAnh": -0.075,
+       "tMesh": -0.161,
+       "chenhCm": -1.25
+      },
+      {
+       "mocA": "GB21",
+       "mocB": "GB24",
+       "tAnh": 0.613,
+       "tMesh": 0.507,
+       "chenhCm": -3.11
+      }
+     ],
+     "ketLuan": "lech-nang",
+     "ghiChu": "HAI lỗi chồng nhau. (1) THẤP một khoang sườn: ba cặp mốc (GB21→GB30, GB21→GB25, GB23→GB24) đều nói mesh đặt GB22 xuống dưới 1,25–3,49cm. Kiểm thẳng bằng xương sườn mesh: tại chỗ GB22, sườn 5 ở y=128,65 và sườn 4 ở y=132,06, mà GB22 y=127,67 → huyệt đang ở KHOANG LIÊN SƯỜN 5, thấp hơn KLS 4 chừng 2,6cm (sách có ghi biến thể KLS 5 nên đây là lỗi nhẹ hơn). Cặp GB21→GB24 lệch ngược dấu nhưng GB22 lệch khỏi trục ấy 9,12cm nên không dùng để phán. (2) RA NGOÀI THÀNH NGỰC: GB22 cách sườn gần nhất 4,26cm nhưng chỉ cách xương cánh tay 3,82cm; ở cao độ y=127,7 lớp da bên trái chỉ bắt đầu từ x=16,05 (cánh tay khép sát ngực, không còn khe nách) mà GB22 x=16,61 → huyệt đậu lên MẶT TRONG CÁNH TAY chứ không trên lồng ngực. ĐỤNG ĐỘ GB22↔LU4 1,25cm: LỖI Ở GB22, không phải LU4 — LU4 cách xương cánh tay 3,91cm là đúng chỗ của nó trên chi trên; GB22 phải lùi LÊN một khoang sườn và VÀO TRONG (giảm x xuống ~14–15) để nằm trên đường giữa nách của lồng ngực. Ảnh chụp người thật bổ sung hai mốc mô mềm mesh không có: đỉnh nách (GB22 ở dưới 3 thốn) và đường giữa nách."
+    },
+    {
+     "code": "GB25",
+     "nhanCham": "Cùng bảng xương sườn nhìn nghiêng trang GB25_p297: GB25 đỏ(1166,593) · LR13/Le13(1212,596) · GB24(1283,436) · GB21(1130,194) · GB27(1264,759) · GB29(1237,816) · GB30(1139,886) · CV4(1308,759). Thang 11,70px/cm. Bảng TRÁI là ảnh chụp người thật, ghi mốc mô mềm 'Sườn cụt 12' với đường chỉ ngay cạnh chấm đỏ GB25(281,773).",
+     "pheps": [
+      {
+       "mocA": "GB24",
+       "mocB": "GB27",
+       "tAnh": 0.506,
+       "tMesh": 0.5,
+       "chenhCm": -0.14
+      },
+      {
+       "mocA": "GB21",
+       "mocB": "GB30",
+       "tAnh": 0.578,
+       "tMesh": 0.586,
+       "chenhCm": 0.5
+      },
+      {
+       "mocA": "GB24",
+       "mocB": "GB29",
+       "tAnh": 0.444,
+       "tMesh": 0.473,
+       "chenhCm": 0.9
+      },
+      {
+       "mocA": "GB25",
+       "mocB": "GB30",
+       "tAnh": 0.03,
+       "tMesh": -0.051,
+       "chenhCm": -1.88
+      }
+     ],
+     "ketLuan": "lech-nhe",
+     "ghiChu": "Huyệt ĐỠ NHẤT trong tám huyệt được giao. Ba cặp mốc trong chuỗi GB cho -0,14 / +0,50 / +0,90cm → cao độ dọc thân đúng. Kiểm thẳng bằng xương: đầu tự do sườn 12 trái trong mesh ở (8,51 · 109,28 · -4,14); GB25 ở (12,26 · 109,29 · -3,40) — CAO ĐỘ trùng khít tới 0,01cm, đúng định nghĩa 'ở đầu sườn cụt 12'; phần chênh 3,75cm theo x là hợp lý vì huyệt nằm trên DA phủ đầu sườn còn xương thì nằm sâu. Chỉ còn một sai số nhỏ theo chiều trước–sau: ảnh đòi GB25 lùi ra SAU LR13 46px = 3,93cm, mesh chỉ cho 2,09cm; đối chiếu xương thì đầu sườn 12 (z=-4,14) sau đầu sườn 11 (z=-1,24) 2,90cm → GB25 quá TRƯỚC khoảng 0,8–1,9cm (cặp LR13→GB30 chính là phép bắt được lỗi này, -1,88cm; một phần có thể do LR13 quá sau). CỜ 'nằm trong bụng cơ chéo bụng ngoài' KHÔNG phải lỗi vị trí: vùng đầu sườn 12 vốn do cơ chéo bụng ngoài phủ, sách cũng mô tả vậy; đây chỉ là chuyện tầng mô, không cần dời huyệt."
+    },
+    {
+     "code": "GB31",
+     "nhanCham": "Trang GB31_p303, bảng TRÁI = đùi trái nhìn nghiêng, SAU=trái / TRƯỚC=phải, thước thốn 0–19 đặt dọc bên phải tính từ GB30 xuống nếp khoeo. Thang dọc đo được 36,4px/thốn (kiểm chéo: GB30 hàng 0 y=318 · BL36 hàng 4 y=464 · BL37 hàng 10 y=682 · GB31 hàng 12 y=757 · GB32 hàng 14 y=830 · GB33 hàng 17 y=932 — tuyến tính, khớp cả ngoặc '6 thốn' vẽ giữa BL36 và BL37). Chấm: GB27(481,139) · GB28(491,161) · GB29(400,230) · GB30(290,318) · BL36(216,464) · BL37(213,682) · GB31 đỏ(358,757) · GB32(356,830) · GB33(338,932) · GB34(319,1104). Chấm đỏ thứ hai (1098,736) nằm ở ảnh chụp người thật, không dùng để đo. Quét dòng tại y=757: da sau (viền cam) x=224, da trước x≈478, xương đùi x=369–418.",
+     "pheps": [
+      {
+       "mocA": "GB30",
+       "mocB": "GB34",
+       "tAnh": 0.561,
+       "tMesh": 0.577,
+       "chenhCm": 0.69
+      },
+      {
+       "mocA": "GB30",
+       "mocB": "GB32",
+       "tAnh": 0.86,
+       "tMesh": 0.861,
+       "chenhCm": 0.03
+      },
+      {
+       "mocA": "BL36",
+       "mocB": "GB32",
+       "tAnh": 0.828,
+       "tMesh": 0.883,
+       "chenhCm": 1.07
+      },
+      {
+       "mocA": "BL37",
+       "mocB": "GB33",
+       "tAnh": 0.472,
+       "tMesh": 0.875,
+       "chenhCm": 5.57
+      }
+     ],
+     "ketLuan": "lech-nang",
+     "ghiChu": "DỌC thì đúng, NGANG thì sai — đúng như dự đoán của bối cảnh. Hai cặp mốc dọc trục chi (GB30→GB34 +0,69cm; GB30→GB32 +0,03cm) nói vị trí theo chiều cao chuẩn. Cặp BL37→GB33 vọt lên 5,57cm chỉ vì nó cắt NGANG qua đùi (GB31 lệch khỏi đoạn ấy 7,86cm trên mesh) — chính là dấu hiệu lệch dải. Đo ngang trên ảnh: GB31 x=358 nằm ở (358-224)/(478-224) = 52,8% bề dày trước–sau của đùi, tức ĐÚNG ĐƯỜNG GIỮA MẶT NGOÀI đùi như sách. Trên mesh, lát cắt da đùi trái tại y=61 trải z từ -8,65 đến +6,11; GB31 z=+3,68 = 83,5% tính từ sau → quá TRƯỚC khoảng 4,5cm; điểm ngoài nhất của đùi (x=15,4) nằm ở z≈+1, còn GB31 ở (13,51 · 3,68) tức lệch ra trước ~3,2cm dọc mặt da. Kiểm mô: GB31 cách DẢI CHẬU CHÀY (chỗ nó phải nằm) 3,69cm, nhưng chỉ 0,33cm khỏi cơ rộng ngoài. ĐỤNG ĐỘ GB31↔ST32 0,92cm: LỖI CHÍNH Ở GB31 — ST32 cách cơ thẳng đùi (nhà của nó) 1,36cm, sai nhẹ hơn 2,6 lần; GB31 phải lùi ra SAU ~3–4,5cm và ra NGOÀI (tăng x lên ~15) để lên dải chậu chày."
+    },
+    {
+     "code": "GB32",
+     "nhanCham": "Cùng bản khắc với trang GB31 (trang GB32_p304 in lại nguyên hình, chỉ đổi chấm đỏ): GB27(481,139) · GB28(492,161) · GB29(400,231) · GB30(291,318) · BL36(216,464) · BL37(213,683) · GB31(359,757) · GB32 đỏ(357,831) · GB33(338,932) · GB34(318,1104). Thang 36,4px/thốn; GB32 ở hàng 14 thốn (tính ra y=827,6 so với đo được 831). Chấm đỏ (1098,817) là ảnh chụp người thật. Quét dòng tại y=830: da sau x=244, da trước x≈476, xương đùi x=366–409.",
+     "pheps": [
+      {
+       "mocA": "GB30",
+       "mocB": "GB34",
+       "tAnh": 0.655,
+       "tMesh": 0.677,
+       "chenhCm": 0.92
+      },
+      {
+       "mocA": "BL36",
+       "mocB": "GB34",
+       "tAnh": 0.594,
+       "tMesh": 0.599,
+       "chenhCm": 0.16
+      },
+      {
+       "mocA": "GB31",
+       "mocB": "GB33",
+       "tAnh": 0.418,
+       "tMesh": 0.595,
+       "chenhCm": 1.42
+      },
+      {
+       "mocA": "BL37",
+       "mocB": "GB33",
+       "tAnh": 0.707,
+       "tMesh": 0.945,
+       "chenhCm": 3.31
+      }
+     ],
+     "ketLuan": "lech-nhe",
+     "ghiChu": "Cao độ tốt (BL36→GB34 chỉ +0,16cm; GB30→GB34 +0,92cm). Cặp GB31→GB33 lệch 1,42cm nhưng đoạn chỉ dài 8,05cm nên khuếch đại lớn; cặp BL37→GB33 lệch 3,31cm lại là cặp cắt ngang, cùng loại dấu hiệu như ở GB31. Đo ngang trên ảnh: GB32 x=357 gần trùng GB31 x=359 → sách vẽ hai huyệt trên CÙNG MỘT ĐƯỜNG DỌC mặt ngoài đùi, GB32 ở 48,7% bề dày trước–sau (đường giữa mặt ngoài). Mesh: GB32 z=+1,65 = 71% tính từ sau, tức quá trước ~3,1cm so với mốc 50%, nhưng chỉ cách dải chậu chày 1,38cm (so với 3,69cm của GB31). Kết luận: cả cột GB đùi bị xoay ra TRƯỚC, nhưng GB32 nhẹ hơn GB31 hơn hai lần — nghĩa là lỗi không đều, GB31 mới là huyệt bị kéo lệch mạnh nhất, và nếu dựng lại cả cột thì phải neo theo GB32/GB33 rồi kéo GB31 về, chứ không dời đều cả cột."
+    },
+    {
+     "code": "GB35",
+     "nhanCham": "Trang GB35_p308, bảng GIỮA = cẳng chân trái nhìn nghiêng. Hướng đã xác định chắc bằng bàn chân: ngón chân ở PHẢI, gót ở TRÁI, BL60 (Côn Lôn) ở SAU mắt cá còn GB40 ở TRƯỚC-DƯỚI mắt cá → TRƯỚC = phải, SAU = trái. Thước thốn bên trái đánh 7–16 tính từ GB34 xuống, 41,95px/thốn (kiểm: BL57 hàng 8 y=644 · BL58/GB35/GB36 hàng 9 y=686 · GB37 hàng 11 y=770 · GB38 hàng 12 y=814 · BL59/GB39 hàng 13 y=854 · BL60 hàng 16 y=980 — tuyến tính suốt). Chấm: BL57(1055,644) · BL58(1079,686) · GB35 đỏ(1104,686) · GB36(1148,686) · GB37(1148,770) · GB38(1148,814) · BL59(1104,854) · GB39(1151,854) · BL60(1109,980) · GB40(1185,1012) · GB42(1288,1069). XƯƠNG MÁC trên bản vẽ (tách bằng quét dòng, dải xám chạy liên tục từ y=600 xuống thành mắt cá ngoài): tại y=686 bờ SAU x≈1106, bờ TRƯỚC x≈1144; tại y=854 bờ sau 1119, bờ trước 1145. Dải xám hẹp ở x=1079–1100 (tắt dần ở y≈830) là khối cơ mác/cơ dép chứ không phải xương.",
+     "pheps": [
+      {
+       "mocA": "GB37",
+       "mocB": "GB40",
+       "tAnh": -0.366,
+       "tMesh": -0.262,
+       "chenhCm": 1.62
+      },
+      {
+       "mocA": "GB36",
+       "mocB": "GB39",
+       "tAnh": -0.006,
+       "tMesh": 0.093,
+       "chenhCm": 0.99
+      },
+      {
+       "mocA": "BL58",
+       "mocB": "GB39",
+       "tAnh": 0.053,
+       "tMesh": 0.487,
+       "chenhCm": 5.46
+      },
+      {
+       "mocA": "BL58",
+       "mocB": "GB36",
+       "tAnh": 0.363,
+       "tMesh": 0.895,
+       "chenhCm": 5.31
+      }
+     ],
+     "ketLuan": "lech-nang",
+     "ghiChu": "BẰNG CHỨNG MẠNH NHẤT không nằm ở t mà ở phép đo bờ xương. Trên ảnh, chấm GB35 (x=1104) nằm ĐÚNG bờ SAU xương mác (bờ sau x≈1106, lệch 2px = 0,05 thốn) — sách và hình khớp nhau tuyệt đối. Trên mesh, xương mác trái ở cao độ y=23,2 trải z từ -4,63 đến -3,40, mà GB35 z=-0,52 → nằm TRƯỚC bờ trước xương mác 2,88cm, tức trước bờ SAU khoảng 4,1cm; đồng thời GB35 chỉ cách cơ chày trước 0,85cm và xương chày 1,77cm. Nghĩa là GB35 đã rơi hẳn sang KHOANG TRƯỚC cẳng chân, không còn ở khoang bên. ĐỤNG ĐỘ GB35↔ST39 1,16cm: LỖI Ở GB35 — ST39 cách cơ chày trước 0,13cm, đúng chỗ của ST39 (bờ ngoài mào chày, trên cơ chày trước). LỖI CỦA MỐC: BL58 trong mesh ở (5,33 · 23,65 · -7,99), trong khi ảnh đòi BL58 chỉ nằm sau bờ sau xương mác 0,64 thốn ≈1,6cm; bỏ BL58 ra thì sai số nền tụt từ ~5,4cm xuống 0,99–1,62cm → phần lệch DỌC của GB35 chỉ khoảng 1cm (khớp với cốt độ 6,72/7 thốn), toàn bộ phần còn lại là lệch DẢI."
+    },
+    {
+     "code": "GB36",
+     "nhanCham": "Trang GB36_p309 in lại đúng bản khắc của trang GB35 (chấm ở cùng toạ độ, chỉ đổi chấm đỏ sang GB36) — đúng cái bẫy đã cảnh báo. Chấm: BL58(1080,686) · GB35(1104,686) · GB36 đỏ(1148,686) · GB37(1148,770) · GB38(1147,814) · BL59(1104,854) · GB39(1151,854) · BL60(1109,980) · GB40(1185,1012). Chấm (1722,698) nằm ở bảng giải phẫu bên phải, không dùng đo. Bờ xương mác tại y=686: SAU 1106, TRƯỚC 1144. Thang 41,95px/thốn.",
+     "pheps": [
+      {
+       "mocA": "GB37",
+       "mocB": "GB39",
+       "tAnh": -1.001,
+       "tMesh": -0.922,
+       "chenhCm": 0.4
+      },
+      {
+       "mocA": "GB35",
+       "mocB": "GB40",
+       "tAnh": 0,
+       "tMesh": -0.04,
+       "chenhCm": -0.79
+      },
+      {
+       "mocA": "GB35",
+       "mocB": "GB39",
+       "tAnh": 0.068,
+       "tMesh": -0.064,
+       "chenhCm": -1.23
+      }
+     ],
+     "ketLuan": "lech-nang",
+     "ghiChu": "TRẢ LỜI THẲNG CÂU HỎI 'mesh có giữ đúng hai bờ đối nhau của xương mác không': KHÔNG. Trên ảnh, GB36 (x=1148) nằm đúng bờ TRƯỚC xương mác (1144) và cách GB35 43,3px = 1,03 thốn = 2,54cm — khớp y hệt con số 1 thốn sách đòi, và hai huyệt kẹp lấy thân xương mác từ hai phía. Trên mesh: GB36 z=+1,07, cách bờ TRƯỚC xương mác 4,52cm về phía trước (cách cả cụm cơ mác dài/ngắn 5,2–5,3cm), còn GB35 z=-0,52; hai huyệt cùng nằm PHÍA TRƯỚC xương chứ không kẹp hai bên, khoảng cách giữa chúng chỉ 1,97cm (thiếu 0,57cm) và GB36 lại NẰM TRONG hơn GB35 theo x (9,49 so với 10,47) — tức đảo cả chiều ngang. Cặp GB37→GB39 (t ảnh -1,001, mesh -0,922, chênh 0,40cm) xác nhận cao độ GB36 đúng, đúng như cốt độ 7,08/7 thốn. ĐỤNG ĐỘ GB36↔ST39 1,32cm: LỖI Ở GB36; ST39 nằm sát cơ chày trước 0,13cm là đúng vị trí, GB36 phải dời ra sau-ngoài ~3–4,5cm tới bờ trước xương mác."
+    },
+    {
+     "code": "GB39",
+     "nhanCham": "Đo trên cùng bản khắc trang GB35_p308 (bảng giữa, cẳng chân nhìn nghiêng, trước=phải). GB39(1151,854) ở hàng 13 thốn dưới GB34 = 3 thốn trên mắt cá; BL59(1104,854) cùng hàng, phía sau. Các mốc khác: GB37(1148,770) · GB38(1148,814) · GB36(1148,686) · GB35(1104,686) · BL60(1109,980) · GB40(1185,1012). Bờ xương mác tại y=854: SAU x≈1119, TRƯỚC x≈1145.",
+     "pheps": [
+      {
+       "mocA": "GB37",
+       "mocB": "GB40",
+       "tAnh": 0.34,
+       "tMesh": 0.311,
+       "chenhCm": -0.44
+      },
+      {
+       "mocA": "GB36",
+       "mocB": "GB40",
+       "tAnh": 0.509,
+       "tMesh": 0.482,
+       "chenhCm": -0.56
+      },
+      {
+       "mocA": "BL60",
+       "mocB": "GB40",
+       "tAnh": -0.126,
+       "tMesh": 0.464,
+       "chenhCm": 3.89
+      }
+     ],
+     "ketLuan": "lech-nang",
+     "ghiChu": "Dọc thì tốt: hai cặp trong chuỗi GB cho -0,44 và -0,56cm, khớp cốt độ 3,00/3 thốn. Cặp BL60→GB40 (trục SAU→TRƯỚC ở cổ chân, hai mốc đều ngoài cột cẳng chân) lệch +3,89cm về phía GB40 — đúng chiều và đúng cỡ của lỗi dải. Đo bờ xương trên ảnh: GB39 (x=1151) nằm ngay bờ TRƯỚC xương mác (1145), lệch 6px = 0,14 thốn = 0,35cm — khớp sách. Mesh: xương mác ở cao độ y=14,0 trải z từ -4,82 đến -3,48; GB39 z=-1,00 → trước bờ trước 2,48cm, đồng thời chỉ cách cơ chày trước 0,42cm. CỜ 'nằm trong lòng xương' cần đọc lại: ở lát cắt này GB39 cách xương chày 1,69cm và xương mác 2,51cm, không nằm trong lòng xương mác — nó bị đẩy sang phía xương chày/cơ chày trước. Đây là cùng MỘT nguyên nhân với GB35 và GB36: cả cột GB cẳng chân bị kéo ra TRƯỚC 2,5–4,1cm khỏi xương mác, nên nên sửa theo CỤM (dựng lại cả đoạn GB34→GB40 neo vào hai bờ xương mác) chứ đừng sửa lẻ từng huyệt."
+    },
+    {
+     "code": "GB41",
+     "nhanCham": "Trang GB41_p315, bảng TRÊN = mu bàn chân trái nhìn từ trên, ngón ở PHẢI, bờ TRONG ở trên / bờ NGOÀI ở dưới. Gán nhãn (ký hiệu Đức đã quy đổi): SP1/Mi1(1543,90) · SP2/Mi2(1353,62) · SP3/Mi3(1220,67) · SP4/Mi4(1035,104) · SP5/Mi5(718,231) · LR1/Le1(1544,192) · LR2(1335,203) · LR3/Le3(1108,225) · LR4/Le4(699,296) · ST42/Ma42(907,316) · ST43/Ma43(1191,312) · ST44/Ma44(1366,325) · ST45/Ma45(1601,316) · GB41 ĐỎ(958,461) · GB42(1110,479) · GB43(1212,491) · GB44(1409,491) · BL63/Bl63(676,488) · BL64(866,539) · BL65(1079,561) · BL66(1222,573) · BL67(1328,562). Chấm đỏ (630,1126) thuộc hình giải phẫu góc dưới-trái, (1323,1213) thuộc ảnh chụp người thật — không dùng đo.",
+     "pheps": [
+      {
+       "mocA": "BL64",
+       "mocB": "LR3",
+       "tAnh": 0.2975,
+       "tMesh": 0.694,
+       "chenhCm": 3.47
+      },
+      {
+       "mocA": "BL65",
+       "mocB": "LR3",
+       "tAnh": 0.5,
+       "tMesh": 0.82,
+       "chenhCm": 3.34
+      },
+      {
+       "mocA": "GB42",
+       "mocB": "ST42",
+       "tAnh": 0.4986,
+       "tMesh": 0.871,
+       "chenhCm": 2.09
+      },
+      {
+       "mocA": "ST42",
+       "mocB": "GB43",
+       "tAnh": 0.331,
+       "tMesh": 0.062,
+       "chenhCm": -1.87
+      }
+     ],
+     "ketLuan": "lech-nang",
+     "ghiChu": "Bốn cặp mốc độc lập (hai cặp KHÔNG dùng huyệt GB nào: BL64→LR3 và BL65→LR3) đều nói cùng một chuyện: mesh kéo GB41 về phía ST42/LR3, tức vào TRONG và lên GẦN, 1,9–3,5cm. Trên ảnh GB41 cách đều ST42 (153,7px) và GB42 (153,0px); mesh cho 1,48cm và 5,06cm — tỉ lệ 3,4:1 thay vì 1:1. KIỂM XƯƠNG dứt điểm câu hỏi lỗi thuộc về ai: GB41 gần xương đốt bàn chân 2 nhất (2,52cm) rồi đốt 3 (2,74cm), XA đốt 4 (3,38cm) và đốt 5 (4,28cm) — ngược hẳn định nghĩa 'hõm phía trước chỗ nối nền đốt bàn 4 và 5'; trong khi ST42 gần đốt bàn 2 nhất (2,50cm), đúng chỗ Xung Dương. Vậy ĐỤNG ĐỘ GB41↔ST42 1,48cm là LỖI CỦA GB41, không phải ST42. Thêm một lỗi thứ hai theo chiều cao: nền đốt bàn 4 ở y=3,84cm và nền đốt bàn 5 ở y=2,53cm, còn GB41 ở y=7,98cm — huyệt cao hơn nền đốt bàn 4,1cm, đang ở tầm khớp cổ chân (ngang ST41 y=8,32 và LR3 y=7,96). Chỗ đúng của GB41 phải quanh (12,5 · 4,5 · 1,0). Ảnh chụp người thật ghi mốc mô mềm 'các gân cơ duỗi dài các ngón chân' — GB41 nằm ở khe NGOÀI gân duỗi ngón út; mesh không có gân này nên không dùng làm neo được, phải neo bằng nền đốt bàn 4–5."
+    }
+   ]
+  }
+ ],
+ "quyet": {
+  "phanQuyet": [
+   {
+    "code": "GB2",
+    "quyetDinh": "GIU",
+    "doTinCay": "cao",
+    "bangChung": "Tái lập đủ 4 phép của người 1: +0,05 / −0,38 / +0,62 / −1,70cm. Ba phép đầu dưới hoặc sát ngưỡng. THÊM một phép mesh-nội mà người 1 không chạy: TE21 (6,70·158,82·−0,28) · SI19 (6,57·158,10·−0,28) · GB2 (6,45·157,39·−0,28) — BA huyệt CÙNG z=−0,28, xếp chồng dọc cách nhau 0,72cm, GB2 thấp nhất. Đây đúng nguyên văn Focks trong hồ sơ: 'GB2 là điểm thấp nhất trong 3 điểm trước tai'. Bằng chứng này không phụ thuộc thang ảnh. Hạng A giữ nguyên.",
+    "cachDung": "Không đụng. Giữ x=0.0375 y=0.9156 z=−0.0016.",
+    "dichChuyenCm": "0",
+    "haiNguoiCoKhop": "Chỉ người 1 đo. Tôi tái lập khớp từng chữ số. Tôi BÁC một chi tiết: người 1 nói phép TE21→TE17 (+0,62cm) là bằng chứng phụ về GB2; thực ra TE17 là đầu trên của chính cung TE bị bẹp nên phần dư đó thuộc TE17.",
+    "tuThamTra": "Điểm yếu: phép TE21→TE17 cho +0,62cm, vượt ngưỡng 0,5cm, và đoạn chỉ dài 2,66cm nên khuếch đại mạnh. Vẫn GIỮ vì cả hai mốc của phép đó (TE21, TE17) nằm trong cung sau tai đang hỏng, và ba huyệt trước tai trong mesh xếp thẳng hàng z hoàn hảo — nếu GB2 sai thì SI19 và TE21 phải sai theo cùng lượng, mà chúng lại khớp sách."
+   },
+   {
+    "code": "GB4",
+    "quyetDinh": "GIU",
+    "doTinCay": "cao",
+    "bangChung": "Tái lập: −0,06 / +0,01 / −0,01 / +0,67cm. Ba phép đầu là bộ số SẠCH NHẤT cả phiên, và quan trọng hơn: lệch-khỏi-đoạn chỉ 0,00 / 0,01 / 0,25cm — tức GB4 nằm gần như ĐÚNG TRÊN các đoạn mốc, nên phép chiếu t ở đây thực sự đo được vị trí chứ không phải nhiễu chiếu. Sách in thẳng quy tắc ¼ trên đoạn ST8→GB7; mesh dựng t=0,250, ảnh cho 0,265.",
+    "cachDung": "Không đụng. Giữ x=0.0387 y=0.9633 z=0.0098. GB4 là mốc TỐT NHẤT của cả trang đầu — dùng nó làm neo khi sửa GB8.",
+    "dichChuyenCm": "0",
+    "haiNguoiCoKhop": "Chỉ người 1 đo; tái lập khớp. Tôi xác nhận luôn kết luận phụ của họ: 0,92cm tới ST8 là hệ quả tất yếu của quy tắc ¼ trên đoạn 3,68cm, không phải chập huyệt.",
+    "tuThamTra": "Điểm yếu: cả chuỗi ST8→GB4→GB5→GB6→GB7 trong mesh dài 3,68cm còn ảnh đòi ~4,4–4,8cm, tức chuỗi bị CO ~0,7–1,1cm; tỉ lệ ¼ đúng không bảo đảm vị trí TUYỆT ĐỐI đúng — GB4 có thể lệch ~0,3cm theo chuỗi co. Vẫn GIỮ vì 0,3cm dưới ngưỡng và vì nếu giãn chuỗi thì phải giãn cả ST8/GB5/GB6/GB7, không phải việc của phiên này."
+   },
+   {
+    "code": "GB8",
+    "quyetDinh": "SUA",
+    "doTinCay": "vua",
+    "bangChung": "Tái lập 4 phép: +2,48 / +2,12 / +1,20 / +0,71cm, cùng dấu. THÊM hai phép mesh-nội độc lập với thang ảnh: (1) ĐẢO DẤU so với GB7 — ảnh đặt GB8 CAO hơn GB7 90px (~1,9cm), mesh đặt GB8 THẤP hơn GB7 1,33cm, tức sai lệch ~3,2cm và là sai về DẤU nên không thể do sai thang. (2) So với GB4 (hạng A, mốc sạch nhất trang): ảnh cho GB8 thấp hơn GB4 ~0,8cm và lùi sau ~3,9cm; mesh cho thấp 2,27cm và lùi 2,81cm → THỪA 1,5cm xuống dưới. Ngay ở đầu lỏng nhất của thang (±20%) phần thừa 1,5cm vẫn vượt ngưỡng 1,2cm.",
+    "cachDung": "Neo vào GB4 (hạng A, x=6,65 y=165,59 z=1,68). Đặt GB8 sao cho: cao độ y ≈ 164,8cm (thấp hơn GB4 0,8cm — thay vì 163,32 hiện nay), z ≈ −1,8 tới −2,2cm (lùi sau GB4 3,5–3,9cm — thay vì −1,13), giữ x ≈ 7,2cm, rồi ép lên da đầu bằng skin-clamp (chỉ sửa độ sâu, không bẻ ngang). TUYỆT ĐỐI KHÔNG neo vào 'đỉnh vành tai' hay TE20 — mesh không có vành tai, và TE20 đang nằm trong cung TE bị bẹp.",
+    "dichChuyenCm": "1,5–2,0",
+    "haiNguoiCoKhop": "Chỉ người 1 đo; tái lập khớp cả 4 phép. Tôi XÁC NHẬN họ đúng khi bác cờ 'rải dời 11,43cm' — không phép ảnh nào đo được 11cm, đó là lỗi nút đường kinh. Tôi thêm bằng chứng đảo dấu GB7/GB8 mà họ không nêu.",
+    "tuThamTra": "Điểm yếu nhất: mọi mốc trên cung sau tai (GB7, TE17, TE20) đều đáng ngờ, và mesh KHÔNG có vành tai nên quy tắc gốc của GB8 ('1,5 thốn trên đỉnh tai') không dựng được — tôi phải mượn GB4 làm neo, mà GB4 lại nằm ở chuỗi bị co 0,7–1,1cm. Nếu GB7 mới là huyệt sai chứ không phải GB8 thì bằng chứng đảo dấu quay ngược. Vẫn SỬA (không hạ TREO) vì thành phần CAO ĐỘ +1,5cm được hai đường độc lập nói (GB4 và GB7) và vượt ngưỡng ngay cả ở thang lỏng nhất; nhưng để độ tin cậy 'vừa' và đề nghị làm GB8 sau khi cả cụm GB7–GB12 được dựng lại, không sửa lẻ."
+   },
+   {
+    "code": "GB9",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "Bằng chứng mạnh nhất KHÔNG phải 4 phép ảnh (+4,37/+2,59/+2,28) mà là văn sách đối chiếu thẳng vào mesh: Focks (trích ngay trong ho-so/GB8.md) viết 'Huyệt Thiên xung (Gb 9) nằm CÙNG MỨC, từ huyệt Suất cốc (Gb 8) ngang ra sau 0,5 thốn'. Mesh: GB8 (7,20·163,32·−1,13), GB9 (6,86·161,28·−1,67) → GB9 THẤP hơn GB8 2,04cm và chỉ lùi sau 0,54cm. Quy tắc định nghĩa của chính GB9 bị vi phạm 2,04cm theo phương thẳng đứng — phép này không dùng thang ảnh, không dùng mốc nào khác, nên miễn nhiễm với mọi bẫy mốc. Ảnh cũng đo GB8→GB9 chỉ 47px ≈ 1,0cm; mesh để 2,14cm (giãn gấp đôi).",
+    "cachDung": "Mở khoá conf=khoá trước. Sau khi đặt xong GB8: y(GB9) = y(GB8) (cùng cao độ, chênh 0), z(GB9) = z(GB8) − 0,8cm (0,5 thốn đầu = 0,70cm; ảnh đo 1,0cm — lấy 0,8), x giữ nguyên rồi ép lên da đầu. Nếu quyết định KHÔNG đụng GB8 thì vẫn phải nâng GB9 lên ngang GB8 (+2,04cm) — phần này đúng bất kể GB8 ở đâu.",
+    "dichChuyenCm": "2,1",
+    "haiNguoiCoKhop": "Chỉ người 1 đo; tái lập khớp 3/3 phép tôi chạy lại. Tôi thay bằng chứng chính của họ (biên độ 3,8–3,9cm từ phép khớp toàn cục — tôi không tái lập được phép đó) bằng phép văn-sách-vs-mesh nói trên, cho ~2,1cm. Tôi cũng xác nhận cờ 'rải dời 12,8cm' là lỗi nút đường kinh.",
+    "tuThamTra": "Điểm yếu: lệnh sửa phụ thuộc GB8, mà GB8 chỉ ở độ tin cậy 'vừa'; nếu GB8 sai thì GB9 sai theo. Thêm nữa biên độ tôi chốt (2,1cm) NHỎ HƠN nhiều so với 3,8–3,9cm người 1 báo, vì tôi không dùng được phép khớp toàn cục của họ. Vẫn giữ độ tin cậy CAO cho quyết định SỬA (không cho biên độ) vì phần 'GB9 phải ngang mức GB8' là mệnh đề tuyệt đối của sách, mesh vi phạm 2,04cm, và không cần bất kỳ mốc hay thang nào để kiểm."
+   },
+   {
+    "code": "GB15",
+    "quyetDinh": "TREO",
+    "doTinCay": "vua",
+    "bangChung": "Tái lập cả 6 phép của người 1. Nhưng phân tách theo mốc thì lộ chuyện khác: BỐN phép cho ~1,3cm đều dùng GB16 hoặc GB17 hoặc GB18 làm mốc; HAI phép KHÔNG dùng nhóm đó (BL4→GB13 = −0,47cm, BL3→GB13 = −0,48cm) đều KHỚP. Tôi kiểm bằng khoảng cách sách trên mesh: GB14→GB15 = 3,72cm, sách đòi 2,5 thốn đầu = 3,50cm → KHỚP; GB13→GB15 = 1,33cm, sách đòi ~0,75 thốn = 1,05cm → gần khớp. Nhưng GB15→GB16 = 0,88cm trong khi sách đòi 1,5 thốn = 2,10cm (THIẾU 1,2cm), và GB16→GB17 = 2,61cm trong khi sách đòi 1 thốn = 1,40cm (THỪA 1,2cm). Hai sai số bằng nhau và NGƯỢC CHIỀU → thủ phạm là GB16 bị đẩy 1,2cm về phía GB15, không phải GB15 bị đẩy về sau.",
+    "cachDung": "KHÔNG đụng GB15 phiên này. Việc phải làm trước: rà GB16 — đặt lại GB16 cách GB15 1,5 thốn đầu (2,10cm) dọc cột và cách GB17 1 thốn (1,40cm), rồi ĐO LẠI GB15. Nếu sau khi GB16 về đúng chỗ mà bốn phép ảnh vẫn cho 1,3cm thì mới mở hồ sơ GB15.",
+    "dichChuyenCm": "0 (treo)",
+    "haiNguoiCoKhop": "Chỉ người 1 đo; tái lập khớp cả 6 số. Nhưng tôi ĐẢO kết luận: họ ra 'lech-nang, đẩy GB15 ra trước 1,4cm và hạ 0,9cm'. Làm vậy sẽ phá quan hệ GB14→GB15 (từ 3,72cm đúng-sách tụt còn ~2,7cm = 1,9 thốn thay vì 2,5 thốn) và phá cả quan hệ BL3/BL4→GB13 vốn đang khớp. Người 1 tự nói 'GB16/17/18 sai số nền 0,11/0,38/1,02' nên coi chúng là mốc tốt — tôi không tái lập được phép khớp toàn cục ấy nên không nhận.",
+    "tuThamTra": "Điểm yếu nhất của chính phán quyết TREO: bốn phép ảnh cho bốn con số gần y hệt nhau (−1,25/−1,27/−1,34/+1,33) và CÙNG một chiều — đó là dấu hiệu lệch thật, không phải nhiễu, nên khả năng GB15 thật sự sai là có. Nếu thủ phạm là GB15 thì tôi đang bỏ sót một lỗi 1,3cm. Tôi vẫn TREO vì giả thuyết thay thế (GB16 lệch 1,2cm) giải thích ĐỦ cả bốn phép ấy bằng một nguyên nhân duy nhất, lại còn giải thích thêm khoảng GB16→GB17 thừa 1,2cm mà giả thuyết 'GB15 sai' KHÔNG giải thích được; và dời nhầm GB15 sẽ phá ba quan hệ đang đúng. Thà thiếu còn hơn sai."
+   },
+   {
+    "code": "GB20",
+    "quyetDinh": "SUA",
+    "doTinCay": "vua",
+    "bangChung": "Tái lập cả 6 phép. Bằng chứng tôi tự dựng, mesh-nội, không dùng thang thốn nào: cắt lát tại chính cao độ GB20 (y=154,71) thì cơ THANG (phần xuống, trái) trải x = −0,35…3,61 và cơ ỨC-ĐÒN-CHŨM trải x = 4,22…5,67. Hõm giữa hai cơ — đúng định nghĩa Phong Trì — nằm ở x ≈ 3,6–4,6. GB20 đang ở x = 5,79, tức NGOÀI cả bờ ngoài cơ ức-đòn-chũm, ra khỏi hõm hoàn toàn. Đo khoảng cách: GB20 hiện cách ức-đòn-chũm 0,90cm nhưng cách cơ thang 2,59cm — lệch hẳn về một bên thay vì nằm giữa.",
+    "cachDung": "Giữ NGUYÊN cao độ y = 0,9000 (154,71cm). Chỉ sửa x và z: đặt GB20 lên điểm da gáy CÁCH ĐỀU bờ ngoài cơ thang (FMA33587) và bờ sau cơ ức-đòn-chũm (FMA13409) ở cùng lát cắt → đích ≈ (x 4,6cm · y 154,71cm · z −5,4cm), tại đó cách cơ thang 1,35cm, cách ức-đòn-chũm 1,46cm, cách da 0,35cm. Chuẩn hoá: x≈0.0268, z≈−0.0314.",
+    "dichChuyenCm": "1,4 (nếu theo tiêu chí cách-đều-hai-cơ); tối đa 3,1 nếu theo tỉ lệ ngang GB20/GB12=0,63 của người 1",
+    "haiNguoiCoKhop": "Chỉ người 1 đo; tái lập khớp cả 6 số. CÙNG CHIỀU với họ (vào trong + ra sau) — hai phương pháp hoàn toàn độc lập (họ dùng tỉ lệ ngang trên bản vẽ mặt sau, tôi dùng khe hai bụng cơ trong mesh) mà ra cùng một hướng, đó là chỗ khớp đáng giá nhất. KHÁC về biên độ: họ ra ~3cm, tôi ra 1,4cm. Tôi BÁC phần 'nâng cao 1,2cm' của họ — nó dựa trên GB12 đúng, mà tôi chưa kiểm GB12.",
+    "tuThamTra": "Điểm yếu nhất: BIÊN ĐỘ không chốt được — 1,4cm hay 3,1cm tuỳ phương pháp, và 1,4cm chỉ nhỉnh hơn ngưỡng hành động 1,2cm. Tôi từ chối đường 'thốn tính từ đường giữa' của người 1 vì thốn vùng GÁY chưa được đo trong phiên này, mà đây đúng là cái bẫy 'mượn toạ độ làm thốn' đã vấp ba lần. Vẫn SỬA vì HƯỚNG là chắc chắn: huyệt đang nằm ngoài bờ ngoài cơ ức-đòn-chũm, tức ngoài hõm mà định nghĩa đòi — đó là mâu thuẫn nhị phân, không phải chuyện biên độ. Sửa theo tiêu chí cách-đều (dịch ít hơn) là lựa chọn thận trọng."
+   },
+   {
+    "code": "GB22",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "Đây là huyệt HẠNG A nên tôi chỉ chấp nhận bằng chứng mạnh hơn cái đã chốt nó. Lý do chốt ghi trong sổ: 'Uyên Dịch — đường nách giữa, KHE GIAN SƯỜN 4'. Tôi đo thẳng xương sườn trong mesh, không qua ảnh: lấy 20 đỉnh NGOÀI NHẤT của mỗi cung sườn (đường nách giữa, z≈0) thì sườn 4 ở y = 132,94cm và sườn 5 ở y = 129,60cm → khe gian sườn 4 tâm ở y ≈ 131,3cm. GB22 đang ở y = 127,67cm, tức DƯỚI cả sườn 5 → đang nằm ở khe gian sườn 5, THẤP 3,6cm. Bằng chứng này bác thẳng chính lý do đã chốt hạng A, không phụ thuộc thang ảnh, không phụ thuộc mốc huyệt nào.",
+    "cachDung": "CHỈ sửa cao độ. Nâng y từ 0.7427 lên ≈ 0.7638 (127,67 → 131,3cm), GIỮ NGUYÊN x=0.0966 và z=0.0055, rồi chạy skin-clamp (điểm mới cách da 1,11cm nên cần ép lên). KHÔNG thi hành phần 'kéo vào trong x≈14–15' của người 2: tại y=127,7 và z≈+1, mesh KHÔNG CÓ da thành ngực nào ở phía trong x=16,3 — cánh tay khép dính vào ngực, mesh đã hàn liền, không còn khe nách; kéo vào sẽ chôn huyệt vào trong người. Sau khi sửa phải BAKE LẠI đoạn sườn: GB22 là nút mốc 'NIPPLE' của đoạn GB21→GB28.",
+    "dichChuyenCm": "3,6 (thuần theo trục cao độ)",
+    "haiNguoiCoKhop": "Chỉ người 2 đo; tái lập khớp cả 4 phép. Cùng chiều với họ về cao độ và cùng cách đọc va chạm. KHÁC: tôi bỏ toàn bộ 4 phép ảnh của họ làm bằng chứng cao độ (xem tự thẩm tra) và chỉ dựa vào phép đo sườn; và tôi BÁC lệnh 'ra ngoài thành ngực → kéo vào trong' vì mesh không cho thi hành.",
+    "tuThamTra": "Điểm yếu nhất: bốn phép ảnh MÂU THUẪN NHAU, người 2 đã trình bày sai chỗ này. GB21→GB30 (+3,48) và GB21→GB25 (+2,46) nói huyệt quá THẤP nhưng cả hai dùng chung mốc GB21 (không độc lập) và lệch-khỏi-đoạn tới 5,27 và 6,25cm; còn GB23→GB24 (−1,26) lại nói huyệt quá CAO. Nếu chỉ có ảnh thì phải TREO. Tôi vẫn SỬA vì phán quyết KHÔNG dựa vào ảnh chút nào — nó dựa vào phép đo sườn trong chính mesh, đối chiếu với chính câu chữ đã chốt hạng A. Rủi ro còn lại: đây là nút mốc của cả đoạn sườn, dời nó dời cả GB21→GB28, nên phải nghiệm thu lại toàn đoạn (ghi nhận thêm: GB23 hiện cách sườn 5 tới 5,22cm — cả cột sườn có vẻ thấp một khoang, không riêng GB22)."
+   },
+   {
+    "code": "GB25",
+    "quyetDinh": "GIU",
+    "doTinCay": "cao",
+    "bangChung": "Tái lập 4 phép: −0,14 / +0,48 / +0,88 / −1,89cm. Kiểm mesh-nội của riêng tôi: đầu tự do sườn 12 trái ở (8,51 · 109,28 · −4,14); GB25 ở (12,26 · 109,29 · −3,40) — cao độ trùng tới 0,01cm, đúng định nghĩa 'đầu sườn cụt 12'. Quét da mặt sườn tại y=109,3 có điểm da ở (12,2 · −3,4) và (12,3 · −3,7) → GB25 nằm ĐÚNG TRÊN DA, ngay trên đầu sườn, sâu 3,75cm mô mềm là hợp lý cho vùng hông. Sai số còn lại theo trục trước-sau ~0,7cm, dưới ngưỡng.",
+    "cachDung": "Không đụng. Giữ x=0.0713 y=0.6358 z=−0.0198. Cờ 'nằm trong bụng cơ chéo bụng ngoài' là chuyện TẦNG MÔ đúng giải phẫu, không phải lỗi vị trí.",
+    "dichChuyenCm": "0",
+    "haiNguoiCoKhop": "Chỉ người 2 đo; tái lập khớp. Tôi nâng kết luận của họ từ 'lech-nhe' lên GIỮ: ba phép trong chuỗi GB đều dưới ngưỡng, và phép ngoại lệ duy nhất (LR13→GB30, −1,89) dùng LR13 mà không ai kiểm LR13.",
+    "tuThamTra": "Điểm yếu: hai trong ba phép 'sạch' của người 2 có lệch-khỏi-đoạn khổng lồ (GB24→GB27: 13,08cm; GB24→GB29: 10,31cm) nên gần như KHÔNG đo được gì — nói chúng 'xác nhận cao độ đúng' là quá lời. Phép thật sự dùng được chỉ còn GB21→GB30 (+0,48cm, lệch-khỏi-đoạn 2,08cm). Vẫn GIỮ vì bằng chứng quyết định không nằm ở phép chiếu mà ở phép đo xương: cao độ GB25 trùng đầu sườn 12 tới 0,01cm và huyệt nằm trên da — hai điều kiện của định nghĩa đều thoả."
+   },
+   {
+    "code": "GB31",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "Tái lập 4 phép (+0,68 / +0,03 / +1,07 / +5,57). Hai phép DỌC trục chi (+0,68 và +0,03) chốt cao độ ĐÚNG. Kiểm mesh-nội: cắt lát đùi trái tại y=61,0 → DẢI CHẬU CHÀY (FMA58777) trải z = −4,02…+0,52, x = 13,24…15,51; sống da ngoài đùi ở x ≈ 15,0–15,4, z ≈ −1,8…+2,3. GB31 đang ở (13,51 · 61,04 · +3,68) → trước bờ trước dải chậu chày 3,16cm và trong sống da 1,8cm: không nằm trên dải, cũng không nằm trên da mặt ngoài. Khoảng cách 3D tới dải chậu chày = 3,70cm.",
+    "cachDung": "Giữ nguyên cao độ y=0.3551. Đặt GB31 lên giao của SỐNG DA MẶT NGOÀI đùi với dải chậu chày tại cùng lát cắt → đích ≈ (x 15,20cm · y 61,04cm · z +0,50cm); tại đó cách dải chậu chày 0,25cm và cách da 0,58cm. Chuẩn hoá: x≈0.0884, z≈0.0029. Dựng theo CỤM với GB32/GB33 nhưng KHÔNG dời đều — GB31 cần 3,6cm, GB32 chỉ cần 1,4cm.",
+    "dichChuyenCm": "3,6",
+    "haiNguoiCoKhop": "Chỉ người 2 đo; tái lập khớp cả 4 số và tái lập độc lập con số 3,69cm (tôi ra 3,70cm) tới dải chậu chày. Cùng hướng, cùng biên độ. Tôi làm rõ thêm đích đến cụ thể mà họ chỉ nói định tính ('tăng x lên ~15').",
+    "tuThamTra": "Điểm yếu nhất: đích z=+0,50 tôi chọn là BỜ TRƯỚC dải chậu chày (chỗ nó cắt sống da), không phải TÂM dải (z ≈ −1,75). Nếu 'đường giữa mặt ngoài đùi' của sách nghĩa là tâm dải thì huyệt còn phải lùi thêm 1,5–2cm nữa. Tôi chọn bờ trước vì đó là giao điểm dải-với-da — thứ duy nhất mesh dựng được, và vì dời ít hơn thì an toàn hơn. HƯỚNG thì không thể sai: 3,7cm cách dải chậu chày là mâu thuẫn thô, và hai phép dọc trục chứng minh cao độ đúng nên toàn bộ sai số là ngang."
+   },
+   {
+    "code": "GB32",
+    "quyetDinh": "SUA",
+    "doTinCay": "vua",
+    "bangChung": "Tái lập 4 phép (+0,91 / +0,15 / +1,42 / +3,30); hai phép dọc trục chốt cao độ đúng. Kiểm mesh-nội tại y=56,69: dải chậu chày trải z = −3,26…+0,54, x = 12,90…14,84; sống da ngoài ở x ≈ 14,1–14,2, z ≈ −0,3…+0,7. GB32 ở (13,56 · 56,69 · +1,65) → cách dải chậu chày 1,49cm. Cùng bệnh với GB31 nhưng nhẹ hơn 2,5 lần.",
+    "cachDung": "Giữ cao độ y=0.3298. Đích ≈ (x 14,10cm · y 56,69cm · z +0,40cm) — tại đó cách dải chậu chày 0,47cm, cách da 0,24cm. Chuẩn hoá: x≈0.0820, z≈0.0023. Làm CÙNG LÚC với GB31 nhưng dời riêng từng huyệt, tuyệt đối không tịnh tiến cả cột.",
+    "dichChuyenCm": "1,4",
+    "haiNguoiCoKhop": "Chỉ người 2 đo; tái lập khớp, và tái lập độc lập con số 1,38cm của họ (tôi ra 1,49cm). Tôi nâng kết luận từ 'lech-nhe' lên SỬA vì 1,4–1,5cm vượt ngưỡng hành động 1,2cm, nhưng giữ đúng cảnh báo của họ về việc không dời đều cả cột.",
+    "tuThamTra": "Điểm yếu nhất: 1,4cm chỉ nhỉnh hơn ngưỡng 1,2cm, và phép ảnh mạnh nhất (GB31→GB33 = +1,42cm) chạy trên đoạn chỉ dài 8,05cm nên khuếch đại sai số rất lớn; nếu GB31 sai (mà nó sai 3,6cm) thì chính phép đó đã nhiễm bẩn. Vẫn SỬA vì bằng chứng quyết định là phép đo dải chậu chày trong mesh, không dùng GB31 làm mốc. Nếu người dùng muốn tối giản rủi ro thì sửa GB31 trước, đo lại GB32, rồi mới quyết — đó là lý do tôi để độ tin cậy 'vừa'."
+   },
+   {
+    "code": "GB35",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "Tái lập 4 phép. Bằng chứng quyết định là phép đo xương tôi tự chạy: tại y=23,24 XƯƠNG MÁC trái trải z = −4,63…−3,40 (x 9,38…10,46), XƯƠNG CHÀY trải z = −2,26…−0,04 (x 6,74…8,90). GB35 ở (10,47 · 23,24 · −0,52) → khoảng cách 3D: tới xương mác 2,92cm, tới xương CHÀY chỉ 1,91cm, tới cơ chày trước 0,92cm. Dương Giao phải nằm ở BỜ SAU xương mác mà lại đang gần xương chày hơn xương mác — huyệt đã rơi hẳn sang khoang TRƯỚC cẳng chân. Trên ảnh sách chấm GB35 nằm cách bờ sau xương mác 2px = 0,05 thốn.",
+    "cachDung": "Giữ cao độ y=0.1352. Đặt GB35 lên điểm DA phủ BỜ SAU xương mác ở cùng lát cắt → đích ≈ (x 12,10cm · y 23,24cm · z −4,60cm); tại đó cách xương mác 1,71cm, cách xương chày 4,23cm, cách da 0,40cm. Chuẩn hoá: x≈0.0704, z≈−0.0268. Dựng theo CỤM cả đoạn GB34→GB40, neo vào hai bờ xương mác, không sửa lẻ.",
+    "dichChuyenCm": "4,4",
+    "haiNguoiCoKhop": "Chỉ người 2 đo; tái lập khớp 3/3 phép tôi chạy và tái lập độc lập lát cắt xương mác của họ (z −4,63…−3,40, y đúng như họ báo). Cùng kết luận, cùng biên độ. Tôi xác nhận luôn cảnh báo của họ về mốc BL58 hỏng.",
+    "tuThamTra": "Điểm yếu nhất: xương mác trong mesh chỉ có 149 đỉnh cho cả xương dài 38cm — lát cắt tại y=23,24 chỉ bắt được 5 đỉnh, nên hai bờ z (−4,63 / −3,40) là ước lượng THÔ, có thể hụt vài milimét. Ngoài ra bỏ mốc BL58 ra thì phần lệch mà ẢNH chứng minh được chỉ còn ~1,0–1,6cm, tức 4,4cm là con số từ phép đo xương chứ không từ ảnh. Vẫn để độ tin cậy CAO vì việc huyệt gần xương chày hơn xương mác là đảo bên ở cỡ 3–4cm, không thể do lấy mẫu thưa gây ra."
+   },
+   {
+    "code": "GB36",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "Tái lập 3 phép (+0,40 / −0,79 / −1,23); phép GB37→GB39 (+0,40) chốt cao độ ĐÚNG. Phép đo xương của tôi: GB36 ở (9,49 · 23,88 · +1,07) cách xương mác 4,63cm nhưng chỉ cách xương chày 1,67cm và cơ chày trước 1,43cm. Ngoại Khâu phải ở BỜ TRƯỚC xương mác. Thêm một lỗi ĐẢO CHIỀU NGANG: GB36 (x=9,49) đang nằm TRONG hơn GB35 (x=10,47), trong khi cả hai phải kẹp lấy thân xương mác từ hai phía nên GB36 không thể ở trong hơn.",
+    "cachDung": "Giữ cao độ y=0.1389. Đích ≈ (x 12,30cm · y 23,88cm · z −3,30cm) — điểm da phủ bờ TRƯỚC xương mác; tại đó cách xương mác 2,18cm, cách da 0,23cm. Chuẩn hoá: x≈0.0716, z≈−0.0192. Làm cùng lúc GB35/GB36/GB39 trong một lần dựng lại đoạn GB34→GB40.",
+    "dichChuyenCm": "5,2",
+    "haiNguoiCoKhop": "Chỉ người 2 đo; tái lập khớp. Tôi xác nhận câu trả lời của họ cho câu hỏi 'mesh có giữ đúng hai bờ đối nhau của xương mác không': KHÔNG — hai huyệt cùng nằm phía trước xương và đảo cả thứ tự ngang.",
+    "tuThamTra": "Điểm yếu nhất, phải khai thẳng: sau khi sửa, GB35 và GB36 chỉ còn cách nhau ~1,3cm theo đường thẳng, KHÔNG đạt 1 thốn (2,5cm) mà sách đòi — vì xương mác trong mesh này chỉ dày 1,23cm theo trục z ở tầm cẳng chân. TUYỆT ĐỐI KHÔNG được lấy lại 1 thốn bằng cách đẩy GB36 ra trước, vì đó chính là lỗi đang sửa; hoặc đo 1 thốn DỌC MẶT DA vòng quanh bắp chân, hoặc chấp nhận thiếu và ghi vào sổ. Vẫn SỬA vì việc huyệt gần xương chày hơn xương mác 3cm là mâu thuẫn không thể để lại."
+   },
+   {
+    "code": "GB39",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "Tái lập 3 phép; hai phép trong cột (−0,45 / −0,57) chốt cao độ ĐÚNG, khớp cốt độ 3,00/3 thốn. Phép đo xương: tại y=14,01 xương mác trải z = −4,82…−3,48 (x 9,26…10,26). GB39 ở (9,39 · 14,01 · −1,00) → cách xương mác 2,68cm, cách xương chày 1,72cm, cách cơ chày trước chỉ 0,67cm. Huyền Chung phải ở BỜ TRƯỚC xương mác, 3 thốn trên mắt cá ngoài; ảnh sách đặt chấm cách bờ trước xương mác 6px = 0,14 thốn.",
+    "cachDung": "Mở khoá conf=khoá trước. Giữ cao độ y=0.0815. Đích ≈ (x 10,90cm · y 14,01cm · z −3,50cm) — điểm da phủ bờ trước xương mác; tại đó cách xương mác 1,05cm, cách xương chày 2,42cm, cách da 0,83cm. Chuẩn hoá: x≈0.0634, z≈−0.0204.",
+    "dichChuyenCm": "2,9",
+    "haiNguoiCoKhop": "Chỉ người 2 đo; tái lập khớp. Tôi xác nhận cách đọc lại cờ của họ: cờ 'nằm trong lòng xương' là đọc sai — huyệt không chui vào xương mác, nó bị ĐẨY sang phía xương chày. Tôi cũng loại phép BL60→GB40 (+3,89) như họ ngầm cảnh báo: lệch-khỏi-đoạn tới 10,24cm, không dùng làm biên độ được.",
+    "tuThamTra": "Điểm yếu nhất: cùng cảnh báo xương mác 149 đỉnh như GB35; và dời GB39 2,9cm về sau sẽ kéo theo cả đường kinh đoạn GB34→GB40, nên nếu chỉ sửa lẻ GB39 thì đường kinh sẽ vặn. Vẫn SỬA vì ba huyệt GB35/GB36/GB39 cùng MỘT nguyên nhân (cả cột GB cẳng chân bị kéo ra khoang trước) và phải sửa một lượt; sửa lẻ là điều tôi CẤM trong cách dựng."
+   },
+   {
+    "code": "GB41",
+    "quyetDinh": "SUA",
+    "doTinCay": "vua",
+    "bangChung": "Huyệt HẠNG A, nên bằng chứng phải mạnh hơn cái đã chốt — và nó mạnh hơn theo đúng kiểu cần thiết: LÝ DO CHỐT TỰ MÂU THUẪN. Sổ ghi 'Túc Lâm Khấp — ngay xa chỗ nối gốc xương bàn 4–5'. Tôi đo lại độc lập khoảng cách 3D từ GB41 tới từng đốt bàn chân trái: đốt 2 = 2,52cm · đốt 3 = 2,74cm · đốt 4 = 3,38cm · đốt 5 = 4,29cm. Huyệt GẦN đốt bàn 2 và 3 NHẤT, XA đốt 4 và 5 nhất — ngược hẳn lý do đã chốt nó. Tâm gốc đốt bàn 4 ở (11,30 · 3,84 · 1,06), tâm gốc đốt bàn 5 ở (11,47 · 2,51 · −0,67), điểm nối ≈ (11,39 · 3,18 · 0,20); GB41 đang ở (11,41 · 7,98 · 1,87), tức quá GẦN (về phía cổ chân) so với chỗ nối.",
+    "cachDung": "Từ điểm nối hai gốc đốt bàn 4–5 (11,39 · 3,18 · 0,20), đi RA XA 1,2cm dọc trục thân đốt bàn 4 (trục gốc→chỏm: đơn vị 0,377 · −0,333 · 0,861) rồi ép lên DA MU CHÂN → đích ≈ (x 11,9cm · y 6,5cm · z 1,2cm); tại đó cách da 0,40cm, gần nhất là đốt bàn 3 (1,79cm) rồi đốt bàn 4 (2,01cm). Chuẩn hoá: x≈0.0692, y≈0.0378, z≈0.0070. KHÔNG neo vào 'gân cơ duỗi ngón út' — mesh không có gân duỗi.",
+    "dichChuyenCm": "1,7",
+    "haiNguoiCoKhop": "Chỉ người 2 đo; tái lập khớp cả 4 phép ảnh VÀ cả bốn khoảng cách tới đốt bàn (2,52/2,74/3,38/4,29 — trùng từng chữ số). Cùng kết luận về việc lỗi thuộc GB41. KHÁC về biên độ: họ báo huyệt 'cao hơn nền đốt bàn 4,1cm' và đề nghị đích (12,5 · 4,5 · 1,0), tức dời ~3,5cm. Đó là ĐO QUÁ: họ so cao độ huyệt với cao độ XƯƠNG mà quên ~2,5cm mô mềm + da mu chân. Dời thật chỉ ~1,7cm.",
+    "tuThamTra": "Điểm yếu nhất: 1,7cm chỉ nhỉnh hơn ngưỡng 1,2cm, mà đây là huyệt hạng A — dời một huyệt hạng A vì 1,7cm là sát mép. Tệ hơn, sau khi dời thì đốt bàn 3 (1,79cm) VẪN gần hơn đốt bàn 4 (2,01cm), nên phép kiểm 'gần đốt bàn 4 nhất' không đạt được hoàn toàn — vì da mu chân cách xương ~2,5cm trong khi hai đốt bàn chỉ cách nhau ~1cm, phép này vốn kém nhạy trên mu chân. Vẫn SỬA (không TREO) vì CHIỀU sai là rõ ràng và không phụ thuộc thang: huyệt đang ở tầm khớp cổ chân/nền đốt bàn thay vì ở XA chỗ nối, và bốn phép ảnh độc lập (hai phép không dùng huyệt GB nào) đều cùng chiều. Nhưng để độ tin cậy 'vừa', và đề nghị chỉ dời sau khi người dùng đồng ý mở hạng A."
+   }
+  ],
+  "vanDeKhung": "Vấn đề khung của phiên này KHÔNG phải 14 sai số rời rạc mà là BA nguyên nhân cụm, cộng một lỗi phương pháp của chính hai người đọc.\n\nBA CỤM (mỗi cụm phải dựng lại một lượt, cấm sửa lẻ):\n1. Cụm CẲNG CHÂN — GB35, GB36, GB39 (và kéo theo cả đoạn GB34→GB40). Cả cột GB cẳng chân bị kéo sang KHOANG TRƯỚC: đo trong mesh thì cả ba huyệt đều gần XƯƠNG CHÀY hơn XƯƠNG MÁC (GB35: 1,91 vs 2,92cm · GB36: 1,67 vs 4,63cm · GB39: 1,72 vs 2,68cm), trong khi cả ba đều là huyệt bám bờ xương mác. Đây là cụm nặng nhất và chắc chắn nhất.\n2. Cụm ĐÙI — GB31 (3,6cm) và GB32 (1,4cm). Cả hai trượt ra TRƯỚC khỏi dải chậu chày, nhưng KHÔNG đều nhau — GB31 nặng gấp 2,6 lần, nên tuyệt đối không tịnh tiến cả cột.\n3. Cụm TRÊN/SAU TAI — GB8 và GB9. Đoạn 'sau-tai' GB7→GB12 trong mesh là một cung nội suy ĐƠN ĐIỆU đi xuống, nó nuốt luôn quy tắc riêng của từng huyệt: GB9 bị đặt THẤP hơn GB8 2,04cm trong khi sách nói hai huyệt CÙNG MỨC, và GB8 bị đặt THẤP hơn GB7 1,33cm trong khi ảnh sách đặt nó CAO hơn GB7 ~1,9cm.\n\nLỖI PHƯƠNG PHÁP CẦN CHẶN: cả hai người đọc đều dùng phép chiếu t làm bằng chứng chính, kể cả khi lệch-khỏi-đoạn lên tới 5–13cm (GB25: 13,08cm · GB22: 6,25cm · GB31: 7,86cm · GB39: 10,24cm). Khi huyệt nằm cách trục mốc 10cm thì tỉ số t gần như không đo được gì. Mọi phán quyết ĐÁNG TIN trong phiên này đều đến từ phép ĐO GIẢI PHẪU TRONG MESH (bờ xương mác, cung sườn 4/5, dải chậu chày, khe cơ thang–ức đòn chũm, gốc đốt bàn 4–5), không từ tỉ số t. Đề nghị bổ sung cho doi-chieu-ti-le.cjs một luật: lệch-khỏi-đoạn > 1/3 chiều dài đoạn thì in cảnh báo 'phép này không dùng làm bằng chứng biên độ'.\n\nHAI HUYỆT HẠNG A ĐƯỢC DỜI — cả hai đều vì LÝ DO CHỐT TỰ MÂU THUẪN với mesh, đây là mức bằng chứng duy nhất tôi chấp nhận cho hạng A: GB22 (sổ ghi 'khe gian sườn 4', đo sườn trong mesh cho thấy nó đang ở khe gian sườn 5 — sườn 4 y=132,94 · sườn 5 y=129,60 · huyệt y=127,67) và GB41 (sổ ghi 'chỗ nối gốc xương bàn 4–5', đo cho thấy nó gần đốt bàn 2 và 3 nhất, xa đốt bàn 4 và 5 nhất). Hai huyệt hạng A còn lại, GB2 và GB4, được GIỮ và còn được củng cố thêm bằng bằng chứng mesh-nội mới.\n\nMỘT PHÁN QUYẾT ĐẢO NGƯỢC NGƯỜI ĐỌC: GB15. Người 1 kết luận 'lech-nang, đẩy ra trước 1,4cm'. Tôi TREO: sáu phép của họ thì bốn phép cho ~1,3cm đều dùng GB16/GB17/GB18 làm mốc, còn hai phép KHÔNG dùng nhóm đó (BL3/BL4→GB13) đều khớp; và kiểm khoảng cách sách cho thấy GB15→GB16 = 0,88cm (thiếu 1,2cm so với 1,5 thốn) trong khi GB16→GB17 = 2,61cm (thừa 1,2cm so với 1 thốn) — hai sai số bằng nhau, ngược chiều, tức thủ phạm là GB16. Dời GB15 sẽ phá quan hệ GB14→GB15 hiện đang đúng sách (3,72cm ≈ 2,5 thốn = 3,50cm). Đây đúng cái bẫy 'lỗi thuộc về MỐC' đã ghi trong đề bài.",
+  "caDungKinhKhac": "Cả năm cặp: LỖI NẰM Ở HUYỆT GB, không phải huyệt kinh kia. Nhưng lý do khác nhau ở từng cặp, và có một cặp có huyệt kinh kia cũng hơi lệch.\n\n1. GB2 ↔ TE18 (0,57cm) — LỖI Ở TE18, đây là cặp DUY NHẤT lỗi thuộc kinh kia. Bằng chứng mesh-nội: TE21 (z=−0,28), SI19 (z=−0,28), GB2 (z=−0,28) xếp chồng dọc cách nhau 0,72cm, đúng nguyên văn Focks 'GB2 thấp nhất trong 3 điểm trước tai'. Trong khi đó TE19 đang ở z=+0,28 và TE20 ở z=+1,68, tức NẰM TRƯỚC cả GB2 — bất khả thi vì Lư Tức và Giác Tôn phải ở SAU/TRÊN vành tai. Cả cung TE17→TE18→TE19→TE20 bị bẹp về phía trước tai. Dải z đúng cho huyệt sau tai đọc được từ chính kinh GB: GB10 z=−2,36 và GB11 z=−2,06, nên TE18 phải nằm quanh z ≈ −2,5 đến −3,4 chứ không phải −0,60. LƯU Ý THI HÀNH: mesh KHÔNG có vành tai, nên sửa TE18 phải suy từ mỏm chũm / hõm ống tai / dải z của GB10–GB11, không neo vào vành tai. Việc này thuộc phiên kinh TE, phiên này chỉ chốt: CẤM đụng GB2.\n\n2. GB22 ↔ LU4 (1,25cm) — LỖI Ở GB22. LU4 (Hiệp Bạch) là huyệt MẶT TRONG CÁNH TAY: tại y=127,84 xương cánh tay trái trải x = 18,47…20,49 và LU4 ở x=17,71, tức nằm trong xương cánh tay 0,8cm — đúng chỗ của nó. GB22 thì ở khe gian sườn 5 thay vì khe gian sườn 4 (sườn 4 y=132,94 · sườn 5 y=129,60 · GB22 y=127,67). Chỉ cần NÂNG GB22 lên y≈131,3 là khoảng cách mở từ 1,25cm lên 3,67cm, KHÔNG ĐỘNG ĐẾN LU4. Cảnh báo thi hành: đừng kéo GB22 vào trong theo x — tại cao độ đó mesh không có da thành ngực nào ở phía trong x=16,3 (cánh tay khép hàn liền vào ngực, không còn khe nách), kéo vào là chôn huyệt.\n\n3. GB31 ↔ ST32 (0,92cm) — LỖI CHÍNH Ở GB31, nhưng ST32 cũng lệch nhẹ. GB31 cách dải chậu chày (nhà của nó) 3,70cm. ST32 (Phục Thố) phải nằm trên cơ thẳng đùi: tại y=61 cơ thẳng đùi trải x = 9,13…12,04, z = 3,31…4,76; ST32 ở (13,37 · 60,13 · 3,63) → trục z ĐÚNG, nhưng x lệch ra ngoài 1,3cm (nó đang nằm trên cơ rộng ngoài). Vậy ST32 sai ~1,4cm, GB31 sai 3,6cm — GB31 nặng gấp 2,6 lần. Dời riêng GB31 là đủ mở va chạm; ST32 nên vào danh sách rà của kinh ST, không sửa trong phiên này.\n\n4. GB35 ↔ ST39 (1,16cm) và GB36 ↔ ST39 (1,32cm) — LỖI Ở GB35 và GB36. ST39 (Hạ Cự Hư) đúng chỗ tuyệt đối: nó phải nằm trên cơ chày trước, ngang ngoài mào chày — đo được ST39 cách cơ chày trước 0,67cm và cách xương chày 1,28cm. Còn GB35 (bờ SAU xương mác) đang cách xương mác 2,92cm mà cách xương chày chỉ 1,91cm; GB36 (bờ TRƯỚC xương mác) đang cách xương mác 4,63cm mà cách xương chày 1,67cm. Hai huyệt GB đã rơi hẳn sang khoang trước, đúng chỗ ST39 ở. Sửa GB, cấm đụng ST39.\n\n5. GB41 ↔ ST42 (1,48cm) — LỖI Ở GB41. ST42 (Xung Dương) là hạng A neo 'giữa gốc xương bàn 2 và 3', và nó THOẢ quy tắc ấy: trung điểm hai tâm gốc đốt bàn 2–3 là (10,34 · 4,68 · 2,17), ST42 ở (10,26 · 8,39 · 2,70) tức nằm thẳng phía trên trung điểm đó (lệch x 0,08cm, z 0,53cm) và cách da 0,68cm. GB41 thì PHẢN LẠI quy tắc của chính nó: gần đốt bàn 2 (2,52cm) và 3 (2,74cm) nhất, xa đốt bàn 4 (3,38cm) và 5 (4,29cm) nhất. Dời GB41 ra xa 1,2cm dọc trục đốt bàn 4 rồi ép lên da mu chân thì khoảng cách mở từ 1,48cm lên 2,92cm. Cấm đụng ST42."
+ }
+}

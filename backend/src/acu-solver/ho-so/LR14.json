@@ -1,0 +1,110 @@
+{
+ "code": "LR14",
+ "mer": "LR",
+ "num": 14,
+ "tenApp": "Kỳ Môn",
+ "tenFocks": "KỲ MÔN",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Đầu vú đo thẳng xuống 2 xương sườn, huyệt ở giữa khe sườn.",
+  "focksViTri": "Ở khoang liên sườn (ICR) thứ 6, trên đường vú hoặc cách đường giữa 4 thốn.",
+  "focksCachXacDinh": "Núm vú thường ở mức khoang liên sườn (ICR) thứ 4. Sau đó đếm trực tiếp 2 khoang liên sườn (ICR) thẳng xuống dưới và xác định vị trí huyệt Kỳ môn (Le/Liv 14) ở khoang liên sườn (ICR) thứ 6. Hoặc: Để định hướng chính xác ở vùng liên sườn, trước tiên hãy cảm nhận khớp cơ xương ức trên xương ức như một điểm đánh dấu xương ngang rõ ràng. Bên cạnh đó là phần sụn sườn thứ 2 bám vào, khoang liên sườn (ICR) bên dưới là khoang liên sườn (ICR) thứ 2. Từ đó, đếm 4 khoang liên sườn (ICR) xuống dưới đến khoang liên sườn (ICR) thứ 6 và sau đó xác định vị trí huyệt (Le/Liv 14) trong khoang liên sườn (ICR) thứ 6 trên đường vú (tức là đường giữa ngang ra 4 thốn). Huyệt Nhật nguyệt (Gb 24) ở khoang liên sườn (ICR) thứ 7. Ở cùng mức dưới góc ức sườn 2 thốn là các huyệt Cự khuyết (Ren 14) trên đường giữa; huyệt U môn (Ni/Ki 21) cách đường giữa 0,5 thốn; huyệt Bất dung (Ma/ST 19) cách đường giữa 2 thốn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR14_p335_0.jpeg",
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LR14_p337_0.png"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0438,
+  "y": 0.7026,
+  "z": 0.068,
+  "conf": "mốc",
+  "caoDoCm": 120.78,
+  "ngangCm": 7.53,
+  "truocSauCm": 11.69
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Kỳ Môn — khe gian sườn 6, đường dọc qua đầu vú",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "suon",
+  "vung": "sườn bên",
+  "moTaRanh": "bờ trước cơ gian sườn ngoài, từ đầu xương sườn tự do 11 lên",
+  "diemTrongDoan": [
+   "LR12",
+   "LR13",
+   "LR14"
+  ]
+ },
+ "nutMoc": {
+  "code": "LR14",
+  "loai": "cuoi",
+  "at": "NIPPLE",
+  "vi_sao": "Kỳ Môn — gian sườn 6, thẳng đầu vú; mộ huyệt Can"
+ },
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "LR13",
+   "ten": "Chương Môn",
+   "thang": 18.99,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 28.1,
+   "sachDoiThon": null,
+   "vitri": "Ở đầu xương sườn tự do thứ 11."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "GB24",
+   "ten": "Nhật Nguyệt",
+   "cm": 3.17
+  },
+  {
+   "code": "ST18",
+   "ten": "Nhũ Căn",
+   "cm": 3.53
+  },
+  {
+   "code": "ST19",
+   "ten": "Bất Dung",
+   "cm": 3.74
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ chéo bụng ngoài trái",
+   "lop": "muscle",
+   "cm": 0.51
+  },
+  {
+   "ten": "Phần bụng của cơ ngực lớn trái",
+   "lop": "muscle",
+   "cm": 0.6
+  },
+  {
+   "ten": "Cơ gian sườn trong",
+   "lop": "muscle",
+   "cm": 1.51
+  },
+  {
+   "ten": "Sụn sườn 7 trái",
+   "lop": "bone",
+   "cm": 1.59
+  },
+  {
+   "ten": "Sụn sườn 6 trái",
+   "lop": "bone",
+   "cm": 1.85
+  }
+ ],
+ "coKiemMay": [
+  "ATLAS FOCKS kêu: ngang \"null\" đòi 4 thốn, đo được 3.95  (lệch 0.1cm)"
+ ]
+}

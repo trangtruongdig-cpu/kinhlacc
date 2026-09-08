@@ -1,0 +1,114 @@
+{
+ "code": "LI18",
+ "mer": "LI",
+ "num": 18,
+ "tenApp": "Phù Đột",
+ "tenFocks": "PHÙ DỘT",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Trên cơ ức – đòn – chũm, trên đường ngang qua bờ trên sụn giáp trạng, ngang ra 3 thốn.",
+  "focksViTri": "Trên cổ ngang với lồi thanh quản giữa hai đầu của cơ ức đòn chũm.",
+  "focksCachXacDinh": "Từ điểm lồi của thanh quản (đầu quả táo của Adam), vẽ một đường ngang qua cơ ức đòn chũm đến đường viền sau của nó. Huyệt Phù đột (Di/Li 18) nằm giữa hai đầu cơ, cơ này nhìn rõ và dễ sờ thấy hơn khi xoay đầu sang bên đối diện. Cùng cấp độ là Nhân nghinh (Ma/ST 9) ở bờ trước cơ ức đòn chũm và Thiên song (Dü 16) ở bờ sau của cơ ức đòn chũm.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LI18_p35_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0272,
+  "y": 0.8776,
+  "z": 0.0031,
+  "conf": "mốc",
+  "caoDoCm": 150.86,
+  "ngangCm": 4.68,
+  "truocSauCm": 0.53
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Phù Đột — ngang bờ trên sụn giáp, cách đường giữa 3 thốn",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "co",
+  "vung": "cổ bên",
+  "moTaRanh": "bờ sau cơ ức-đòn-chũm",
+  "diemTrongDoan": [
+   "LI16",
+   "LI17",
+   "LI18"
+  ]
+ },
+ "nutMoc": {
+  "code": "LI18",
+  "loai": "gap",
+  "at": "LARYNX",
+  "vi_sao": "Phù Đột — kinh bẻ từ cổ lên mặt"
+ },
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "LI17",
+   "ten": "Thiên Đỉnh",
+   "thang": 5.51,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 5.7,
+   "sachDoiThon": null,
+   "vitri": "Nơi gặp nhau của bờ sau bó đòn cơ ức – đòn chũm và đường ngang qua giữa cổ, cách tuyến giáp 3 thốn."
+  },
+  {
+   "code": "LI19",
+   "ten": "Hòa Liêu",
+   "thang": 11.23,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 12.5,
+   "sachDoiThon": null,
+   "vitri": "Huyệt nằm trên đường ngang qua 1/3 trên hoặc 2/3 dưới của rãnh nhân trung, cách đường giữa rãnh 0,5 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "SI16",
+   "ten": "Thiên Song",
+   "cm": 1.05
+  },
+  {
+   "code": "SI17",
+   "ten": "Thiên Dung",
+   "cm": 2.12
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ bám da cổ trái",
+   "lop": "muscle",
+   "cm": 0.18
+  },
+  {
+   "ten": "Cơ ức đòn chũm trái",
+   "lop": "muscle",
+   "cm": 0.72
+  },
+  {
+   "ten": "Xương hàm dưới",
+   "lop": "bone",
+   "cm": 1.7
+  },
+  {
+   "ten": "Cơ dài đầu trái",
+   "lop": "muscle",
+   "cm": 2.72
+  },
+  {
+   "ten": "Lợi của hàm dưới",
+   "lop": "bone",
+   "cm": 2.74
+  }
+ ],
+ "coKiemMay": [
+  "TỪ ĐIỂN APP kêu: ngang \"LARYNX\" đòi 3 thốn, đo được 3.29  (lệch 0.41cm)"
+ ]
+}

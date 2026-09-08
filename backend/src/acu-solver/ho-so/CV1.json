@@ -1,0 +1,98 @@
+{
+ "code": "CV1",
+ "mer": "CV",
+ "num": 1,
+ "tenApp": "Hội Âm",
+ "tenFocks": "HỘI ÂM",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Giữa tiền âm và hậu âm (Giáp Ất) hoặc ở giữa bìu dái và hậu môn (đàn ông) hoặc ở đường sau của âm thần và hậu môn (phụ nữ), huyệt ở giữa nút đáy chậu (chỗ tụ hội của các nếp da chạy từ hậu môn, phần sinh dục ngoài và 2 bên háng tới).",
+  "focksViTri": "Ở giữa đáy chậu.",
+  "focksCachXacDinh": "Ở phụ nữ: Nằm ở giữa hậu môn và mép sau môi âm hộ. Ở nam giới: Nằm ở giữa hậu môn và gốc bìu.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/CV1_p338_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": -0.0016,
+  "y": 0.492,
+  "z": 0.0076,
+  "conf": "WHO-lấp",
+  "caoDoCm": 84.57,
+  "ngangCm": -0.28,
+  "truocSauCm": 1.31
+ },
+ "nghiemThu": {
+  "hang": "B",
+  "nguon": "who",
+  "ly": "conf=WHO-lấp, src=who",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "bung-duoi",
+  "vung": "đáy chậu → rốn",
+  "moTaRanh": "trên đường trắng giữa bụng",
+  "diemTrongDoan": [
+   "CV1",
+   "CV2",
+   "CV3",
+   "CV4",
+   "CV5",
+   "CV6",
+   "CV7",
+   "CV8"
+  ]
+ },
+ "nutMoc": {
+  "code": "CV1",
+  "loai": "dau",
+  "at": null,
+  "vi_sao": "Hội Âm — trung tâm đáy chậu"
+ },
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "CV2",
+   "ten": "Khúc Cốt",
+   "thang": 7.25,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 9.8,
+   "sachDoiThon": null,
+   "vitri": "Ở trên xương mu, dưới huyệt Trung Cực 1 thốn hoặc chỗ lõm ngay chính giữa bờ trên xương mu."
+  }
+ ],
+ "lanCan": [],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương chậu phải",
+   "lop": "bone",
+   "cm": 1.09
+  },
+  {
+   "ten": "Cơ mu trực tràng phải",
+   "lop": "muscle",
+   "cm": 1.45
+  },
+  {
+   "ten": "Xương chậu trái",
+   "lop": "bone",
+   "cm": 1.52
+  },
+  {
+   "ten": "Cơ thon phải",
+   "lop": "muscle",
+   "cm": 1.55
+  },
+  {
+   "ten": "Cơ khép bé phải",
+   "lop": "muscle",
+   "cm": 1.68
+  }
+ ],
+ "coKiemMay": [
+  "ÉP LÊN DA dời 2.1cm"
+ ]
+}

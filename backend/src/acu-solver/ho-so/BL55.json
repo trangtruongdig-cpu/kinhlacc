@@ -1,0 +1,133 @@
+{
+ "code": "BL55",
+ "mer": "BL",
+ "num": 55,
+ "tenApp": "Hợp Dương",
+ "tenFocks": "HỢP DƯƠNG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở đỉnh của góc dưới tứ giác kheo chân tạo nên bởi phần trên cơ sinh đôi ngoài, giữa mặt sau đầu trên xương chày. Từ huyệt ủy Trung (Bq 40) đo thẳng xuống 2 thốn.",
+  "focksViTri": "Cách huyệt Uỷ trung (Bl 40, giữa hố khoeo) 2 thốn trong hõm giữa hai bụng cơ của cơ bụng chân.",
+  "focksCachXacDinh": "Xác định vị trí nếp lằn khoeo bằng cách gập đầu gối. Ở những người gầy, hãy cảm nhận khoảng trống ở khớp gối. Từ giữa nếp gấp khớp gối (Bl 40) sờ xuống 2 thốn và xác định vị trí huyệt Hợp dương (Bl 55) trong hõm giữa hai bụng cơ của cơ bụng chân.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/BL55_p193_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0444,
+  "y": 0.2407,
+  "z": -0.0573,
+  "conf": "cao",
+  "caoDoCm": 41.38,
+  "ngangCm": 7.63,
+  "truocSauCm": -9.85
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "khe",
+   "duong"
+  ],
+  "ly": "nằm giữa bụng cơ (sâu 0.65 thốn trong khối Đầu trong của cơ bụng chân trái) · RẢI DỌC ĐƯỜNG:"
+ },
+ "duongKinh": {
+  "doan": "cang-chan",
+  "vung": "mặt sau cẳng chân",
+  "moTaRanh": "rãnh giữa hai bụng cơ bụng chân, rồi cạnh gân gót",
+  "diemTrongDoan": [
+   "BL40",
+   "BL55",
+   "BL56",
+   "BL57",
+   "BL58",
+   "BL59",
+   "BL60"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "BL/cang-chan",
+  "tong": 16,
+  "xa": "BL60",
+  "gan": "BL40",
+  "xaMoc": "MALLEOLUS_LAT",
+  "ganMoc": "POPLITEAL",
+  "thonCuaHuyet": 14,
+  "lechNgang": null,
+  "moiDiem": {
+   "BL55": 14,
+   "BL56": 11,
+   "BL57": 8,
+   "BL58": 7,
+   "BL59": 3
+  }
+ },
+ "hangXom": [
+  {
+   "code": "BL54",
+   "ten": "Trật Biên",
+   "thang": 49.24,
+   "sachDoiCm": null,
+   "thonCm": 2.47,
+   "docDa": 57.4,
+   "sachDoiThon": null,
+   "vitri": "Ngang lỗ xương cùng thứ 4, cách Đốc Mạch 3 thốn, cách Trung Lữ Du 1,5 thốn."
+  },
+  {
+   "code": "BL56",
+   "ten": "Thừa Cân",
+   "thang": 9.41,
+   "sachDoiCm": 7.41,
+   "thonCm": 2.47,
+   "docDa": 9.7,
+   "sachDoiThon": 3,
+   "vitri": "Ở trung điểm nối 2 huyệt Thừa Sơn (Bq.57) và Hợp Dương (Bq.55)."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "BL40",
+   "ten": "Ủy Trung",
+   "cm": 3.75
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu ngoài của cơ bụng chân trái",
+   "lop": "muscle",
+   "cm": 1.88
+  },
+  {
+   "ten": "Đầu trong của cơ bụng chân trái",
+   "lop": "muscle",
+   "cm": 2.62
+  },
+  {
+   "ten": "Cơ gan chân trái",
+   "lop": "muscle",
+   "cm": 4.18
+  },
+  {
+   "ten": "Cơ dép trái",
+   "lop": "muscle",
+   "cm": 4.82
+  },
+  {
+   "ten": "Cơ khoeo trái",
+   "lop": "muscle",
+   "cm": 5.01
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 6.6cm (conf=cao)",
+  "XA ĐƯỜNG KINH 6.04cm",
+  "ÉP LÊN DA dời 2.1cm",
+  "AUDIT cờ soát: bản Focks phân tích HỎNG (bắn lệch 14.3cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG:",
+  "TỪ ĐIỂN APP kêu: dọc \"BL40\" đòi 2 thốn, đo được 1.42  (lệch 1.44cm)",
+  "ATLAS FOCKS kêu: dọc \"BL40\" đòi 2 thốn, đo được 1.42  (lệch 1.44cm)"
+ ]
+}

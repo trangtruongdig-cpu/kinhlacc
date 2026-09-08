@@ -1,0 +1,133 @@
+{
+ "code": "GB32",
+ "mer": "GB",
+ "num": 32,
+ "tenApp": "Trung Độc",
+ "tenFocks": "TRUNG ĐỘC",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Xác định huyệt Phong Thị (Đ.31) đo thẳng xuống 2 thốn, trên lằn nhượng chân 5 thốn, bờ sau cân cơ đùi, bờ trước cơ nhị đầu đùi.",
+  "focksViTri": "Ở bên đùi ngoài, tính từ nếp gấp đầu gối lên 5 thốn, nằm giữa cơ rộng ngoài (vastus lateralis) và cơ nhị đầu đùi (biceps femoris).",
+  "focksCachXacDinh": "Đoạn đường nối giữa mấu chuyển lớn và nếp gấp khớp gối có chiều dài 19 thốn. Sau đó, xác định vị trí của huyệt Trung độc (Gb 32) cách nếp gấp khớp gối khoảng 5 thốn. Độ nhạy cảm với áp lực sẽ giúp xác định vị trí của huyệt này.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/GB32_p304_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0789,
+  "y": 0.3298,
+  "z": 0.0096,
+  "conf": "khe",
+  "caoDoCm": 56.69,
+  "ngangCm": 13.56,
+  "truocSauCm": 1.65
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 7.71cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "dui",
+  "vung": "mặt ngoài đùi",
+  "moTaRanh": "dải chậu-chày, giữa cơ rộng ngoài và cơ nhị đầu đùi",
+  "diemTrongDoan": [
+   "GB30",
+   "GB31",
+   "GB32",
+   "GB33"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "GB/dui",
+  "tong": 20.1,
+  "xa": "GB34",
+  "gan": "GB30",
+  "thonCuaHuyet": 6.5,
+  "lechNgang": null,
+  "moiDiem": {
+   "GB33": 4.5,
+   "GB32": 6.5,
+   "GB31": 8.5
+  }
+ },
+ "hangXom": [
+  {
+   "code": "GB31",
+   "ten": "Phong Thị",
+   "thang": 4.8,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 5.3,
+   "sachDoiThon": 2,
+   "vitri": "Xuôi cánh tay thẳng xuống đùi, ép ngón tay vào bờ sau cơ căng cân đùi, huyệt ở đầu ngón tay giữa áp lên đùi, trên nếp nhượng chân 7 thốn, giữa gân cơ nhị đầu đùi và cơ rộng giữa."
+  },
+  {
+   "code": "GB33",
+   "ten": "Tất Dương Quan",
+   "thang": 3.28,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 4.1,
+   "sachDoiThon": 2,
+   "vitri": "Chỗ lõm phía trên-ngoài đầu gối, nơi khe giữa mỏm trên lồi cầu ngoài xương đùi và gân cơ nhị đầu đùi; trên huyệt Dương Lăng Tuyền (Đ 34) khoảng 3 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "ST33",
+   "ten": "Âm Thị",
+   "cm": 3.2
+  },
+  {
+   "code": "GB33",
+   "ten": "Tất Dương Quan",
+   "cm": 3.28
+  },
+  {
+   "code": "ST32",
+   "ten": "Phục Thố",
+   "cm": 3.97
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ rộng ngoài trái",
+   "lop": "muscle",
+   "cm": 0.64
+  },
+  {
+   "ten": "Dải chậu chày trái",
+   "lop": "bone",
+   "cm": 1.48
+  },
+  {
+   "ten": "Cơ rộng giữa trái",
+   "lop": "muscle",
+   "cm": 1.67
+  },
+  {
+   "ten": "Cơ thẳng đùi trái",
+   "lop": "muscle",
+   "cm": 2.7
+  },
+  {
+   "ten": "Xương đùi trái",
+   "lop": "bone",
+   "cm": 3.74
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 7.71cm (conf=khe)",
+  "XA ĐƯỜNG KINH 7.35cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 7.71cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"POPLITEAL\" đòi 5 thốn, đo được 5.95  (lệch 2.07cm)"
+ ]
+}

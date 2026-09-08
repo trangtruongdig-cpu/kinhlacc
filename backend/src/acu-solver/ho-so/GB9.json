@@ -1,0 +1,148 @@
+{
+ "code": "GB9",
+ "mer": "GB",
+ "num": 9,
+ "tenApp": "Thiên Xung",
+ "tenFocks": "THIÊN XUNG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Sau huyệt Suất Cốc 0,5 thốn, ở trên và sau tai, trong chân tóc 2 thốn, vùng cơ tai trên.",
+  "focksViTri": "Trên đỉnh tai (huyệt Giác tôn (SJ/TB 20) 1,5 thốn là huyệt Suất cốc (SJ/TB 20) và ra phía sau 0,5 thốn. Vị trí này thẳng xuống xấp xỉ rìa sau của tai.",
+  "focksCachXacDinh": "Đầu tiên, tìm huyệt Suất cốc (SJ/TB 20) trong một chỗ lõm xương nhỏ trên đỉnh tai 1,5 thốn. Từ đó lui về sau khoảng 0,5 thốn và xác định vị trí huyệt Thiên xung (Gb 9) trong một “vết lõm xương” nhỏ, thường sờ thấy được. Huyệt Thiên xung (Gb 9) cùng với huyệt Hoàn cốt (Gb 12) (ở vùng lõm phía sau và bên dưới xương chũm) làm điểm định hướng cho đường kinh chạy cong gần như song song với mép sau của tai ở vùng chân tóc và trên đó có các huyệt Phù bạch (Gb 10) và huyệt Đầu khiếu âm (Gb 11) nằm ở hai đầu của phần thứ 2 (xem hình).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/GB9_p280_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0399,
+  "y": 0.9382,
+  "z": -0.0097,
+  "conf": "khoá",
+  "caoDoCm": 161.28,
+  "ngangCm": 6.86,
+  "truocSauCm": -1.67
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 12.79cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "sau-tai",
+  "vung": "trên và sau tai",
+  "moTaRanh": "vòng trên đỉnh tai rồi xuống sau tai, tới bờ dưới mỏm chũm",
+  "diemTrongDoan": [
+   "GB7",
+   "GB8",
+   "GB9",
+   "GB10",
+   "GB11",
+   "GB12"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "GB8",
+   "ten": "Suất Cốc",
+   "thang": 2.14,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2.6,
+   "sachDoiThon": null,
+   "vitri": "Gấp vành tai, huyệt ở ngay trên đỉnh vành tai, trong chân tóc 1,5 thốn."
+  },
+  {
+   "code": "GB10",
+   "ten": "Phù Bạch",
+   "thang": 2.72,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 5,
+   "sachDoiThon": null,
+   "vitri": "Tại bờ trên chân vành tai, trong chân tóc 01 thốn. Hoặc lấy tỉ lệ 1/3 trên và 2/3 dưới của đoạn nối huyệt Thiên Xung (Đ.9) và Hoàn Cốt (Đ.12)."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "GB8",
+   "ten": "Suất Cốc",
+   "cm": 2.14
+  },
+  {
+   "code": "GB10",
+   "ten": "Phù Bạch",
+   "cm": 2.72
+  },
+  {
+   "code": "TE21",
+   "ten": "Nhĩ Môn",
+   "cm": 2.83
+  },
+  {
+   "code": "TE19",
+   "ten": "Lư Tức",
+   "cm": 2.94
+  },
+  {
+   "code": "SI19",
+   "ten": "Thính Cung",
+   "cm": 3.48
+  },
+  {
+   "code": "GB7",
+   "ten": "Khúc Tân",
+   "cm": 3.53
+  },
+  {
+   "code": "TE18",
+   "ten": "Khế Mạch",
+   "cm": 3.61
+  },
+  {
+   "code": "TE20",
+   "ten": "Giác Tôn",
+   "cm": 3.71
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương thái dương trái",
+   "lop": "bone",
+   "cm": 0.46
+  },
+  {
+   "ten": "Xương đỉnh trái",
+   "lop": "bone",
+   "cm": 0.74
+  },
+  {
+   "ten": "Xương hàm dưới",
+   "lop": "bone",
+   "cm": 3.88
+  },
+  {
+   "ten": "Cơ dài nhất đầu trái",
+   "lop": "muscle",
+   "cm": 3.98
+  },
+  {
+   "ten": "Xương bướm",
+   "lop": "bone",
+   "cm": 4.02
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 12.79cm (conf=khoá)",
+  "XA ĐƯỜNG KINH 10.52cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 12.79cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "ATLAS FOCKS kêu: dọc \"TE20\" đòi 1.5 thốn, đo được 1.3  (lệch 0.55cm)"
+ ]
+}

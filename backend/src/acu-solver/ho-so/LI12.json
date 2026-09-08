@@ -1,0 +1,135 @@
+{
+ "code": "LI12",
+ "mer": "LI",
+ "num": 12,
+ "tenApp": "Trửu Liêu",
+ "tenFocks": "TRỬU LIÊU",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Từ huyệt Khúc Trì (Đtr.11) đo xiên lên ra ngoài 01 thốn, ở bờ ngoài đầu xương cánh tay.",
+  "focksViTri": "Phía trước xương cánh tay, cách đầu bên của nếp gấp khuỷu tay, huyệt Khúc trì (Di 11) 1 thốn.",
+  "focksCachXacDinh": "Uốn cong khuỷu tay khoảng 90°, từ huyệt Khúc trì (Di 11) (ở đầu bên của nếp gấp khuỷu tay) sờ lên gần 1 thốn, mép bụng xương cánh tay ở đó. Tại đây, huyệt Trửu liêu (Di 12) nằm ở phần chuyển tiếp từ thân sang mỏm trên lồi cầu bên của xương cánh tay, bờ trước xương.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LI12_p29_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.1368,
+  "y": 0.6664,
+  "z": 0.0002,
+  "conf": "khe",
+  "caoDoCm": 114.55,
+  "ngangCm": 23.52,
+  "truocSauCm": 0.03
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 5.02cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG:"
+ },
+ "duongKinh": {
+  "doan": "canh-tay",
+  "vung": "mặt ngoài cánh tay",
+  "moTaRanh": "bờ ngoài cơ tam đầu, bờ trước cơ delta",
+  "diemTrongDoan": [
+   "LI11",
+   "LI12",
+   "LI13",
+   "LI14",
+   "LI15"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "LI/canh-tay",
+  "tong": 9,
+  "xa": "LI11",
+  "gan": "LI15",
+  "thonCuaHuyet": 1,
+  "lechNgang": null,
+  "moiDiem": {
+   "LI12": 1,
+   "LI13": 3,
+   "LI14": 7
+  }
+ },
+ "hangXom": [
+  {
+   "code": "LI11",
+   "ten": "Khúc Trì",
+   "thang": 3.27,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 3.6,
+   "sachDoiThon": null,
+   "vitri": "Co khuỷu tay vào ngực, huyệt ở đầu lằn chỉ nếp gấp khuỷu, nơi bám của cơ ngửa dài, cơ quay 1, cơ ngửa ngắn khớp khủy."
+  },
+  {
+   "code": "LI13",
+   "ten": "Thủ Ngũ Lý",
+   "thang": 6.5,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 8.9,
+   "sachDoiThon": 2,
+   "vitri": "Huyệt ở sát bờ xương cánh tay, trên nếp gấp khuỷu (Khúc Trì – Đtr.11), 3 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "LU5",
+   "ten": "Xích Trạch",
+   "cm": 2.59
+  },
+  {
+   "code": "LI11",
+   "ten": "Khúc Trì",
+   "cm": 3.27
+  },
+  {
+   "code": "PC3",
+   "ten": "Khúc Trạch",
+   "cm": 3.9
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ cánh tay quay trái",
+   "lop": "muscle",
+   "cm": 1.36
+  },
+  {
+   "ten": "Cơ cánh tay trái",
+   "lop": "muscle",
+   "cm": 1.59
+  },
+  {
+   "ten": "Đầu dài của cơ nhị đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 2.08
+  },
+  {
+   "ten": "Đầu ngắn của cơ nhị đầu cánh tay trái",
+   "lop": "muscle",
+   "cm": 2.58
+  },
+  {
+   "ten": "Xương cánh tay trái",
+   "lop": "bone",
+   "cm": 2.88
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 5.02cm (conf=khe)",
+  "XA ĐƯỜNG KINH 5.01cm",
+  "AUDIT cờ soát: bản Focks phân tích HỎNG (bắn lệch 24.1cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG:",
+  "TỪ ĐIỂN APP kêu: dọc \"LI11\" đòi 1 thốn, đo được 0.95  (lệch 0.16cm)",
+  "ATLAS FOCKS kêu: dọc \"LI11\" đòi 1 thốn, đo được 0.95  (lệch 0.16cm)"
+ ]
+}

@@ -129,9 +129,9 @@
    "cm": 3.59
   },
   {
-   "code": "GB9",
-   "ten": "Thiên Xung",
-   "cm": 3.61
+   "code": "GB3",
+   "ten": "Thượng Quan",
+   "cm": 3.68
   }
  ],
  "giaiPhauGanNhat": [
@@ -163,7 +163,6 @@
  ],
  "coKiemMay": [
   "RẢI DỌC ĐƯỜNG dời 5.57cm (conf=cao)",
-  "XA ĐƯỜNG KINH 4.48cm",
-  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 5.57cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  "XA ĐƯỜNG KINH 4.48cm"
  ]
 }

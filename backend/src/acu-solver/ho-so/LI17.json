@@ -1,0 +1,100 @@
+{
+ "code": "LI17",
+ "mer": "LI",
+ "num": 17,
+ "tenApp": "Thiên Đỉnh",
+ "tenFocks": "THIÊN ĐỈNH",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Nơi gặp nhau của bờ sau bó đòn cơ ức – đòn chũm và đường ngang qua giữa cổ, cách tuyến giáp 3 thốn.",
+  "focksViTri": "Ở bờ sau cơ ức đòn chũm, ngang lồi thanh quản xuống 1 thốn.",
+  "focksCachXacDinh": "Huyệt này nằm trên cơ bên của cổ, ngay sau cơ ức đòn chũmn. Bằng cách xoay đầu bệnh nhân sang phía đối diện, cơ này có thể được nhìn thấy và sờ thấy rõ hơn. Huyệt Phù dột (Di 18) nằm trên huyệt Thiên đỉnh (Di 17) 1 thốn, giữa hai đầu cơ ức đòn chũm.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/LI17_p34_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0441,
+  "y": 0.8562,
+  "z": -0.0137,
+  "conf": "WHO-lấp",
+  "caoDoCm": 147.18,
+  "ngangCm": 7.58,
+  "truocSauCm": -2.36
+ },
+ "nghiemThu": {
+  "hang": "B",
+  "nguon": "who+duong",
+  "ly": "conf=WHO-lấp, src=who+duong",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "co",
+  "vung": "cổ bên",
+  "moTaRanh": "bờ sau cơ ức-đòn-chũm",
+  "diemTrongDoan": [
+   "LI16",
+   "LI17",
+   "LI18"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "LI16",
+   "ten": "Cự Cốt",
+   "thang": 5.53,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 5.8,
+   "sachDoiThon": null,
+   "vitri": "Chỗ lõm giữa xương đòn với gai sống vai."
+  },
+  {
+   "code": "LI18",
+   "ten": "Phù Đột",
+   "thang": 5.51,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 5.7,
+   "sachDoiThon": null,
+   "vitri": "Trên cơ ức – đòn – chũm, trên đường ngang qua bờ trên sụn giáp trạng, ngang ra 3 thốn."
+  }
+ ],
+ "lanCan": [],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ bám da cổ trái",
+   "lop": "muscle",
+   "cm": 2.23
+  },
+  {
+   "ten": "Phần xuống của cơ thang trái",
+   "lop": "muscle",
+   "cm": 2.26
+  },
+  {
+   "ten": "Cơ bậc thang sau trái",
+   "lop": "muscle",
+   "cm": 3.26
+  },
+  {
+   "ten": "Cơ bậc thang giữa trái",
+   "lop": "muscle",
+   "cm": 3.33
+  },
+  {
+   "ten": "Cơ nâng vai trái",
+   "lop": "bone",
+   "cm": 3.55
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 1.67cm (conf=WHO-lấp)",
+  "XA ĐƯỜNG KINH 0.69cm",
+  "ÉP LÊN DA dời 0.5cm"
+ ]
+}

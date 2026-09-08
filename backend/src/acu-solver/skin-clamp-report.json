@@ -1,24 +1,8 @@
 {
  "outsideTruoc": 29,
- "moved": 41,
- "flagged": 9,
+ "moved": 32,
+ "flagged": 7,
  "rows": [
-  {
-   "code": "LR10",
-   "outside": false,
-   "cm": 5.8,
-   "cun": 2.53,
-   "conf": "tạm",
-   "src": "book"
-  },
-  {
-   "code": "LR11",
-   "outside": true,
-   "cm": 5.5,
-   "cun": 2.4,
-   "conf": "WHO-lấp",
-   "src": "who"
-  },
   {
    "code": "BL58",
    "outside": false,
@@ -26,30 +10,6 @@
    "cun": 2.03,
    "conf": "cao",
    "src": "book"
-  },
-  {
-   "code": "LR12",
-   "outside": false,
-   "cm": 4.5,
-   "cun": 1.95,
-   "conf": "cao",
-   "src": "book"
-  },
-  {
-   "code": "LU3",
-   "outside": false,
-   "cm": 4.3,
-   "cun": 1.89,
-   "conf": "cao",
-   "src": "book"
-  },
-  {
-   "code": "BL35",
-   "outside": true,
-   "cm": 4.3,
-   "cun": 1.88,
-   "conf": "WHO-lấp",
-   "src": "who"
   },
   {
    "code": "BL57",
@@ -68,52 +28,12 @@
    "src": "book"
   },
   {
-   "code": "LU4",
-   "outside": false,
-   "cm": 3.8,
-   "cun": 1.65,
-   "conf": "khoá",
-   "src": "book"
-  },
-  {
    "code": "CV17",
    "outside": true,
    "cm": 3.4,
    "cun": 1.47,
    "conf": "mốc",
    "src": "anchor"
-  },
-  {
-   "code": "SP8",
-   "outside": false,
-   "cm": 3.2,
-   "cun": 1.38,
-   "conf": "WHO+khe",
-   "src": "who"
-  },
-  {
-   "code": "HT2",
-   "outside": false,
-   "cm": 3.2,
-   "cun": 1.4,
-   "conf": "khoá",
-   "src": "book"
-  },
-  {
-   "code": "SP11",
-   "outside": false,
-   "cm": 2.9,
-   "cun": 1.26,
-   "conf": "WHO+khe",
-   "src": "who"
-  },
-  {
-   "code": "TE11",
-   "outside": false,
-   "cm": 2.9,
-   "cun": 1.26,
-   "conf": "cao",
-   "src": "book"
   },
   {
    "code": "ST34",
@@ -164,20 +84,12 @@
    "src": "who"
   },
   {
-   "code": "TE19",
-   "outside": false,
-   "cm": 1.9,
-   "cun": 0.84,
-   "conf": "tạm",
-   "src": "book"
-  },
-  {
-   "code": "BL36",
+   "code": "LR12",
    "outside": true,
-   "cm": 0.9,
-   "cun": 0.4,
-   "conf": "WHO-lấp",
-   "src": "who"
+   "cm": 0.8,
+   "cun": 0.35,
+   "conf": "mốc",
+   "src": "anchor"
   },
   {
    "code": "BL64",
@@ -236,6 +148,14 @@
    "src": "who"
   },
   {
+   "code": "BL38",
+   "outside": true,
+   "cm": 0.5,
+   "cun": 0.23,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
    "code": "GB20",
    "outside": true,
    "cm": 0.5,
@@ -245,6 +165,14 @@
   },
   {
    "code": "ST29",
+   "outside": true,
+   "cm": 0.4,
+   "cun": 0.17,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "TE11",
    "outside": true,
    "cm": 0.4,
    "cun": 0.17,

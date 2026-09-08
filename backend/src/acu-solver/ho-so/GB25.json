@@ -1,0 +1,115 @@
+{
+ "code": "GB25",
+ "mer": "GB",
+ "num": 25,
+ "tenApp": "Kinh Môn",
+ "tenFocks": "KINH MÔN",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ngang vùng bụng, huyệt ở bờ dưới đầu xương sườn tự do thứ 12.",
+  "focksViTri": "Ở mép dưới của đầu tự do của xương sườn thứ 12 ở vùng bên thắt lưng.",
+  "focksCachXacDinh": "Đầu tiên, trượt dọc theo mép dưới của vòm xương sườn cho đến khi bạn có thể sờ thấy đầu tự do của xương sườn thứ 12 ở vùng thắt lưng. Xác định vị trí huyệt Kinh môn (Gb 25) ở bờ dưới. Đầu tự do của xương sườn thứ 11 có huyệt Chương môn (Le/Liv 13) xấp xỉ ngang mức rốn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/GB25_p297_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0713,
+  "y": 0.6358,
+  "z": -0.0198,
+  "conf": "khe",
+  "caoDoCm": 109.29,
+  "ngangCm": 12.26,
+  "truocSauCm": -3.4
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "khe"
+  ],
+  "ly": "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ chéo bụng ngoài trái)"
+ },
+ "duongKinh": {
+  "doan": "suon",
+  "vung": "nách → sườn bên",
+  "moTaRanh": "bờ ngoài cơ gian sườn ngoài, đường nách giữa, xuống đầu xương sườn tự do",
+  "diemTrongDoan": [
+   "GB21",
+   "GB22",
+   "GB23",
+   "GB24",
+   "GB25",
+   "GB26",
+   "GB27",
+   "GB28"
+  ]
+ },
+ "nutMoc": {
+  "code": "GB25",
+  "loai": "moc",
+  "at": "RIB12",
+  "vi_sao": "Kinh Môn — đầu tự do xương sườn 12, mộ huyệt Thận"
+ },
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "GB24",
+   "ten": "Nhật Nguyệt",
+   "thang": 17.75,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 27.8,
+   "sachDoiThon": null,
+   "vitri": "Tại giao điểm của đường thẳng ngang qua đầu ngực và khoảng gian sườn 7."
+  },
+  {
+   "code": "GB26",
+   "ten": "Đái Mạch",
+   "thang": 6.57,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 7,
+   "sachDoiThon": null,
+   "vitri": "Tại trung điểm của đầu xương sườn thứ 11 và 12, ngang với rốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "LR13",
+   "ten": "Chương Môn",
+   "cm": 2.56
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ chéo bụng ngoài trái",
+   "lop": "muscle",
+   "cm": 1.02
+  },
+  {
+   "ten": "Xương sườn 11 trái",
+   "lop": "bone",
+   "cm": 1.89
+  },
+  {
+   "ten": "Cơ gian sườn ngoài",
+   "lop": "muscle",
+   "cm": 1.96
+  },
+  {
+   "ten": "Cơ gian sườn trong cùng",
+   "lop": "muscle",
+   "cm": 2.13
+  },
+  {
+   "ten": "Cơ gian sườn trong",
+   "lop": "muscle",
+   "cm": 2.23
+  }
+ ],
+ "coKiemMay": []
+}

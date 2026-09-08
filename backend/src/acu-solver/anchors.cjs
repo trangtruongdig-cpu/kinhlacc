@@ -369,6 +369,180 @@ const A = {
    * lên 4,14cm; u (0 = giữa khe quay–trụ, 1 = tâm xương quay) ra 2,56–3,25 — nhất quán với chính giá
    * trị đo được trước khi đụng vào LI5 (LI7 2,27 · LI9 2,97 · LI10 3,08), tức dải bờ quay không đổi. */
   LI6:  { pos: { x: 0.1604, y: 0.5492, z: 0.0046 }, why: 'Thiên Lịch — 3 thốn trên lằn cổ tay, trên đường nối LI5–LI11' },
+
+  /* ===== VÒNG 28 — KINH ĐỞM, phiên rà soát gọn bằng ảnh sách (08/09/2026) =========================
+   * Phiên này chỉ 3 agent (2 đọc ảnh độc lập + 1 chủ toạ kiêm thẩm tra) thay vì 17, vì phần lớn việc
+   * đã do MÁY làm trước: bộ kiem-dai-kinh.cjs khoanh sẵn các cặp huyệt hai kinh chồng nhau, và ba
+   * thang ngang (bụng/ngực 1,91cm · đầu 1,40cm) suy từ ba cột độc lập đã loại 21 báo động giả.
+   * Kết quả: 3 GIỮ · 10 SỬA · 1 TREO. Phán quyết đầy đủ: hoi-dong/GB-phan-quyet.json.
+   *
+   * BA BÁO ĐỘNG GIẢ bị loại — đáng ghi vì chúng cho thấy phép kiểm khoảng cách tự nó chưa đủ:
+   *   · GB2 ↔ TE18 chập 0,57cm: lỗi ở TE18. Ảnh cho TE21/SI19/GB2 xếp chồng dọc trước bình tai cách
+   *     nhau 0,72cm, đúng nguyên văn Focks; còn cả cung sau tai TE17→TE20 bị bẹp về phía trước (TE19
+   *     đang ở z=+0,28 tức TRƯỚC cả GB2 — bất khả thi vì Lư Tức bám bờ sau vành tai).
+   *   · GB4 ↔ ST8 sát 0,92cm: ĐÚNG SÁCH. Sách in thẳng quy tắc ¼ — GB4 ở nấc một phần tư đầu của đoạn
+   *     ST8→GB7; đoạn ấy chỉ dài 3,68cm nên ¼ tất yếu là ~0,92cm. Ảnh cho t=0,265, mesh 0,250.
+   *   · GB25 nằm trong bụng cơ chéo bụng ngoài: bốn phép ảnh cho −0,14 / +0,48 / +0,88 / −1,89cm.
+   *
+   * HAI CA TREO, theo đúng lời tự thẩm tra của chính chủ toạ:
+   *   · GB20 Phong Trì — biên độ không chốt được: 1,4cm nếu lấy tiêu chí cách đều hai cơ, 3,1cm nếu
+   *     lấy tỉ lệ ngang. Thốn vùng gáy chưa xác lập nên chưa có trọng tài.
+   *   · GB41 Túc Lâm Khấp — hạng A, dời 1,7cm (chỉ nhỉnh hơn ngưỡng 1,2cm), mà sau khi dời thì phép
+   *     nghiệm thu VẪN không đạt: đốt bàn 3 còn gần hơn đốt bàn 4. Sửa mà không nghiệm thu được thì
+   *     không sửa.
+   *
+   * NGHIỆM THU tám huyệt dưới đây — mọi cặp đụng độ đều mở ra:
+   *   GB22↔LU4 1,25 → 3,67cm · GB31↔ST32 0,92 → 3,73cm · GB35↔ST39 1,16 → 5,09cm ·
+   *   GB36↔ST39 1,32 → 4,12cm · GB8↔GB9 0,88cm (sách đòi 0,5 thốn đầu = 0,70cm).
+   * MỘT ĐIỀU KHÔNG ĐẠT, khai thẳng: GB35↔GB36 sau khi sửa chỉ cách 1,47cm trong khi sách đòi 1 thốn
+   * ≈ 2,5cm. Nguyên nhân do mesh: xương mác ở tầm đó chỉ dày 1,23cm theo trục z, mà hai huyệt được
+   * định nghĩa là bờ SAU và bờ TRƯỚC của chính xương ấy. Chủ toạ đã khai trước khi tôi đo. Vẫn tốt
+   * hơn trạng thái cũ (hai huyệt cùng phía, GB36 ở z=+1,07 tức trước xương mác 5,6cm). */
+  GB8:  { pos: { x: 0.0419, y: 0.9587, z: -0.0116 }, why: 'Suất Cốc — neo vào GB4 (hạng A): thấp hơn 0,8cm và lùi sau 3,5–3,9cm. Không neo đỉnh vành tai vì mesh không có vành tai' },
+
+  /* ===== VÒNG 29 — KINH CAN, phiên rà soát gọn (08/09/2026) =======================================
+   * 3 agent, 496k token. Phán quyết: hoi-dong/LR-phan-quyet.json.
+   *
+   * PHÁT HIỆN LỚN NHẤT CỦA PHIÊN: SÁCH CÓ THƯỚC THỐN IN SẴN trên bản vẽ, và đọc được bằng máy. Agent
+   * quét từng vạch: trang LR9 có 19 vạch cách đều 43,17px = 18 quãng, hai vạch dài nhất là hai đầu
+   * thước (bờ trên bánh chè = 0 · bờ trên khớp mu = 18); ba vạch dài có nhãn rơi đúng chỗ sách ghi
+   * (SP11 ở 7,99 thốn · LR9 ở 3,98 · SP10 ở 1,99). Trang LR8 có thước thứ hai, 40,92px/thốn, cũng 18
+   * quãng, cũng ba vạch khớp. Đây là bằng chứng NGOÀI engine chắc nhất từng có trong dự án — không
+   * suy từ mốc, mà đọc thẳng con số sách tự in ra.
+   *
+   * THANG ĐÙI TRONG = 2,20cm/thốn, chuẩn 18 THỐN từ BỜ TRÊN KHỚP MU tới BỜ TRÊN XƯƠNG BÁNH CHÈ.
+   * Kiểm trên mesh: 87,48 − 47,65 = 39,83cm ÷ 18 = 2,213cm — khớp thước sách.
+   * (Con số 2,028 đo trước đó KHÔNG mâu thuẫn: nó dùng chuẩn khác — 19 thốn từ mấu chuyển lớn.
+   *  Chuẩn của chính sách này là 18 thốn từ khớp mu, nên lấy 2,20.)
+   *
+   * BỐN HUYỆT SỬA — cả bốn đều là lỗi CAO ĐỘ do đoạn 'LR/dui' neo vào hai HUYỆT (LR8→LR12) thay vì
+   * mốc xương: đầu trên LR12 sai 5,8cm nên kéo lệch cả cụm, trong khi bảng vẫn báo "khớp 0,00cm" vì
+   * thang được neo vào chính mấy huyệt ấy.
+   * NGHIỆM THU sau khi dựng, đo theo thước sách: LR9 4,09 thốn (sách 4) · LR10 2,98 (3) · LR11 1,99
+   * (2) · LR12 0,99 (1) — lệch 0,19 / 0,04 / 0,03 / 0,01cm. Thứ tự cao độ đúng.
+   *
+   * LR9 còn lỗi thứ hai, nặng hơn lỗi cao độ: MẶT CẮT. Điểm cũ rơi vào trong bụng CƠ THON, trong khi
+   * sách đặt nó ở KHE giữa cơ may và cơ thon. Hai bản sách còn chỉ hai khe khác nhau quanh cơ may
+   * (WHO: khe cơ may|cơ thon · Focks và từ điển app: khe cơ may|cơ rộng trong, cách nhau ~3cm) — lấy
+   * chuẩn WHO vì thước in trên chính trang ấy cũng theo WHO.
+   *
+   * HAI CA TREO: LR8 (chờ chốt mốc gối) và LR13 (hai nguồn bất đồng, độ tin cậy thấp). */
+  LR9:  { pos: { x: 0.0143, y: 0.3298, z: 0.0025 }, why: 'Âm Bao — 4 thốn trên bờ trên bánh chè, KHE giữa cơ may và cơ thon (điểm cũ nằm trong bụng cơ thon)' },
+
+  /* ===== VÒNG 30 — KINH TAM TIÊU vòng 3: CUNG SAU TAI (08/09/2026) ================================
+   * 3 agent, 694k token. Phán quyết: hoi-dong/TE-vong3-phan-quyet.json.
+   *
+   * CẢ CUNG SAU TAI BỊ BẸP VÀ LỘN NGƯỢC. TE18 nằm trước GB2 chỉ 0,32cm (chập SI19 0,44cm và GB2
+   * 0,57cm — chỗ chập nặng nhất toàn hệ), còn TE19 (z +0,28) và TE20 (z +1,68) nằm TRƯỚC CẢ ba huyệt
+   * trước bình tai, tức trước cả vành tai. Bất khả thi: Lư Tức bám bờ sau vành tai, Giác Tôn ở ngay
+   * trên đỉnh vành tai.
+   *
+   * RÀNG BUỘC KẸP — bác được mà KHÔNG CẦN ẢNH, chỉ cần hai mốc mesh đã có: hõm ống tai ngoài
+   * (z −1,5, anchors đợt 9b) và MASTOID (z −5,84, model-frame). Vành tai thật nằm giữa hai mốc ấy,
+   * nên mọi huyệt sau tai buộc phải rơi trong dải z ∈ (−1,5 ; −5,84). TE18 −0,60 và TE19 +0,28 đều
+   * NGOÀI dải. Ba giá trị mới (−3,40 · −3,57 · −2,05) đều rơi đúng trong dải.
+   * Hai người đọc ảnh, làm độc lập, cho hai dải trùng nhau trong 0,25cm ở cả bốn huyệt.
+   *
+   * TE20 — phép dựng chắc nhất phiên, không cần vành tai, không cần chân tóc, không cần thang ảnh:
+   * đặt THẲNG DƯỚI GB8 đúng 1,5 thốn đầu (2,10cm), vì sách viết "Suất Cốc cách đỉnh tai 1,5 thốn" và
+   * ảnh cho GB8 (x=1008px) với TE20 (x=1007px) nằm cùng một đường dọc, lệch 1 pixel.
+   *
+   * TE11 — GỠ ĐƯỢC THẾ TREO của hai phiên trước, và gỡ bằng TỈ LỆ chứ không bằng đơn vị: thang thốn
+   * CÁNH TAY vẫn chưa chốt (ba cách đo cho 2,57 / 3,27 / 3,49 cm mỗi thốn), nhưng chiếu lên dây cung
+   * TE10→TE14 thì ba cặp mốc độc lập cho ba con số nằm trong 0,06cm của nhau: t = 0,075. Cùng lối đã
+   * gỡ cho TE12/TE13. Giữ nguyên vector lệch ngang vì ảnh chỉ đo được chiều dọc.
+   *
+   * HAI VIỆC PHIÊN NÀY ĐẨY SANG KINH KHÁC, đã đo nhưng KHÔNG sửa ở đây:
+   *   · GB10 và GB11 đặt quá TRƯỚC 2,4–2,8cm (mesh z −2,36 / −2,06; ảnh đòi ≈ −4,5). Chính vì thế
+   *     phiên kinh Đởm thấy "TE17 sát GB11 1,30cm" — lỗi ở GB11, không phải TE17: bỏ mốc GB11 ra thì
+   *     sai số nền của TE17 tụt từ 1,87cm xuống 0,09–0,23cm.
+   *   · HT8 Thiếu Phủ lệch ≈2,9cm theo trục z. Cặp "TE3 sát HT8 0,87cm" là lỗi của HT8: TE3 ở MU tay
+   *     và HT8 ở GAN tay, hai mặt đối nhau, nên khoảng cách phải bằng bề dày bàn tay.
+   *
+   * TE15 TREO: chủ toạ tự hạ độ tin xuống "vừa" và khai điểm yếu đủ nặng — điểm đến cách GB21 6,24cm
+   * trong khi Focks viết khác. Sửa mà chính người đề xuất không dám chắc thì chưa sửa.
+   *
+   * NGHIỆM THU: TE18↔SI19 0,44 → 3,14cm · TE18↔GB2 0,57 → 3,17cm · TE19↔SI19 1,14 → 4,44cm ·
+   * TE20 dưới GB8 2,49cm (sách 2,10) · thứ tự cung TE17 156,4 < TE18 157,9 < TE19 160,8 < TE20 162,3
+   * và thứ tự cánh tay TE10 114,2 < TE11 116,2 < TE12 124,9 < TE13 133,7. */
+  TE11: { pos: { x: 0.1272, y: 0.6760, z: -0.0502 }, why: 'Thanh Lãnh Uyên — t=0,075 trên dây cung TE10→TE14 (ba cặp mốc ảnh trùng nhau trong 0,06cm); gỡ treo bằng tỉ lệ, không cần thang thốn cánh tay' },
+
+  /* ===== VÒNG 31 — 11 KINH CÒN LẠI, rà theo VÙNG (08/09/2026) =====================================
+   * 11 agent cho 11 kinh (5 vùng giải phẫu × 1 người đọc ảnh + 1 chủ toạ, cộng 1 thẩm tra liên vùng),
+   * 1,82M token. Gom theo vùng chứ không theo kinh vì sách dùng chung bản khắc theo vùng — một lần
+   * đọc ảnh dùng được cho nhiều kinh. Phán quyết: hoi-dong/11-kinh-phan-quyet.json.
+   *
+   * 68 phán quyết: 34 GIỮ · 27 SỬA · 7 TREO. Thẩm tra liên vùng BÁC 14/27 đề nghị SỬA, và điều đáng
+   * ghi là phần lớn bị bác vì CHÍNH CHỦ TOẠ đã tự khai "đừng áp lẻ" rồi vẫn đề nghị áp:
+   *   · LI17/ST2 — chủ toạ tự viết phải dựng lại cả cụm cổ trước / cả cột ST1–ST4 trong một phiên
+   *     riêng, rồi vẫn áp lẻ;
+   *   · ST32/ST33/BL37/BL57/BL58/BL59 — áp lẻ làm GÃY CỘT: thẩm tra đo góc gấp, BL56-57-58 từ 10°
+   *     vọt lên 47° nếu chỉ sửa BL57;
+   *   · LI19 — cặp LI19↔GV26 cách nhau 0,70cm là ĐÚNG ĐỊNH NGHĨA (0,5 thốn đầu), y hệt HT9↔SI1 mà
+   *     chính phiên này đã bắt là dương tính giả; phương án "dè dặt" của chủ toạ lại làm cặp CHẶT
+   *     hơn (1,22 → 0,83cm);
+   *   · ST40 — biên độ 1,04cm dưới ngưỡng 1,2cm, ba ước lượng phân kỳ gấp bốn lần;
+   *   · TE15/SI13 — dời lẻ phá một quan hệ định nghĩa của chính sách.
+   *
+   * GB10/GB11: thẩm tra GIỮ quyết định SỬA nhưng BÁC con số đích. Chủ toạ dùng phép khớp 14 mốc cho
+   * z = −4,86/−4,89; thẩm tra tự mở ảnh chụp (có thước in) đo bằng tỉ số cùng trục và ra z ≈ −4,0,
+   * kèm bằng chứng hình học: đích của chủ toạ sinh gãy 57° tại GB10 và 100° tại GB12, còn z = −4,0
+   * chỉ cho 26° và 17°. Đã lấy số của thẩm tra.
+   * Việc này khép lại chuỗi ba phiên: phiên GB tưởng TE17 sai → phiên TE chỉ ra lỗi ở GB10/GB11 →
+   * phiên này sửa chúng, và TE17↔GB11 nở từ 1,30cm lên 4,23cm mà không phải đụng vào TE17.
+   *
+   * NGHIỆM THU: HT8↔TE3 0,87 → 3,45cm · LU7↔PC6 1,26 → 2,92cm · ST17↔PC1 1,21 → 2,16cm (sách đòi
+   * 1 thốn ngực = 1,91) · TE17↔GB11 1,30 → 4,23cm · HT2↔HT3 6,47cm = 2,94 thốn (sách 3) ·
+   * GB10/GB11 nằm gọn trong kẹp z ∈ (−1,5 ; −5,84) · cung GB9 164,8 > GB10 162,7 > GB11 159,3 >
+   * GB12 155,3 đúng thứ tự. */
+  SI18: { pos: { x: 0.0326, y: 0.9069, z: 0.0314 }, why: 'Quyền Liêu — bờ DƯỚI xương gò má FMA52893 tại cột x 5,1–6,1; điểm cũ lùi 1,66cm ra sau toàn bộ khối xương, còn nằm sau cả ST7' },
+
+  /* ===== VÒNG 32 — CỘT BÀNG QUANG ĐÙI SAU, dựng lại CẢ CỘT (08/09/2026) ===========================
+   * Thẩm tra vòng 31 bác việc sửa lẻ BL37 vì "áp lẻ làm gãy cột" — đo được góc BL56-57-58 vọt từ 10
+   * lên 47 độ. Đúng, nên phiên này dựng lại cả cột thay vì nhích từng huyệt.
+   *
+   * MỐC CỦA SÁCH LÀ NẾP MÔNG VÀ NẾP KHEO — cả hai là nếp da, mesh không có. Suy bằng thứ mesh CÓ:
+   *   · nếp mông = bờ DƯỚI cơ mông lớn trái, trung bình 40 đỉnh thấp nhất trong cột x 3,4–9,5cm
+   *     (dải giữa mặt sau đùi) → y = 82,98 · x = 6,86 · z = −7,76;
+   *   · nếp kheo = BL40 Uỷ Trung, đã nghiệm thu hạng A, sách đặt nó ở giữa nếp kheo.
+   * Đoạn đùi sau đo được 37,96cm; sách chia 14 thốn ⇒ 1 thốn = 2,712cm. Kiểm chéo độc lập bằng chiều
+   * dài xương đùi (mấu chuyển 86,19 → lồi cầu ≈47, tức 39cm chia 14 = 2,79cm) — hai phép chênh 3 phần trăm.
+   *
+   * TRẠNG THÁI CŨ: cột GÃY hẳn. BL36 và BL37 nằm ở x ≈ 3,2 (sát khe mông) trong khi BL38–BL40 ở
+   * x ≈ 8–10, tức hai nửa cột lệch nhau 6cm theo chiều ngang.
+   * NGHIỆM THU: góc gấp tại BL37 từ 30 xuống 9 độ · cột x đơn điệu 6,86 → 7,49 → 10,54 → 8,34 ·
+   * BL36→BL37 ra 16,44cm trong khi sách đòi 6 thốn = 16,27cm (lệch 0,17cm). */
+  BL36: { pos: { x: 0.0399, y: 0.4827, z: -0.0692 }, why: 'Thừa Phù — giữa nếp mông, suy từ bờ dưới cơ mông lớn; điểm cũ ở x=3,3 tức sát khe mông' },
+  BL37: { pos: { x: 0.0436, y: 0.3881, z: -0.0558 }, why: 'Ân Môn — 6 thốn dưới nếp mông (8 thốn trên nếp kheo), thang đùi sau 2,712cm/thốn' },
+  BL38: { pos: { x: 0.0613, y: 0.2737, z: -0.0508 }, why: 'Phù Khích — 1 thốn trên Uỷ Dương BL39 (hạng A), bờ trong gân cơ nhị đầu đùi' },
+  HT8 : { pos: { x: 0.1367, y: 0.4787, z: 0.0313 }, why: 'Thiếu Phủ — khe xương đốt bàn tay 4–5 ở mặt GAN tay; điểm cũ chỉ cách TE3 (mu tay) 0,87cm, tức mỏng hơn bề dày bàn tay' },
+  LU7 : { pos: { x: 0.1588, y: 0.5314, z: 0.0128 }, why: 'Liệt Khuyết — bờ QUAY cẳng tay ngay trên mỏm trâm quay, 1,5 thốn trên nếp cổ tay' },
+  LU8 : { pos: { x: 0.1611, y: 0.5263, z: 0.0143 }, why: 'Kinh Cừ — bờ quay cẳng tay, 1 thốn trên nếp cổ tay; cùng một lần dựng với LU7' },
+  LU6 : { pos: { x: 0.1475, y: 0.5934, z: 0.0090 }, why: 'Khổng Tối — mặt trước-NGOÀI cẳng tay trên bờ ngoài xương quay, 7 thốn trên nếp cổ tay' },
+  LU3 : { pos: { x: 0.1303, y: 0.7272, z: 0.0006 }, why: 'Thiên Phủ — 3 thốn dưới nếp nách trước, bờ NGOÀI cơ nhị đầu; thang cánh tay dựng từ bờ dưới-ngoài cơ ngực lớn tới nếp khuỷu' },
+  LU4 : { pos: { x: 0.1309, y: 0.7138, z: 0.0017 }, why: 'Hiệp Bạch — 4 thốn dưới nếp nách trước, cùng một lần dựng với LU3' },
+  HT2 : { pos: { x: 0.1012, y: 0.6905, z: -0.0058 }, why: 'Thanh Linh — bờ TRONG cơ nhị đầu cánh tay, 3 thốn trên nếp khuỷu; nghiệm thu HT2–HT3 ra 6,47cm = 2,94 thốn' },
+  SI7 : { pos: { x: 0.1196, y: 0.5728, z: -0.0072 }, why: 'Chi Chính — trượt dọc TRỤC XƯƠNG TRỤ về đúng vạch 5/12, giữ nguyên vector lệch ngang' },
+  BL35: { pos: { x: 0.0056, y: 0.5009, z: -0.0640 }, why: 'Hội Dương — cạnh ĐỈNH XƯƠNG CỤT 0,5 thốn lưng; điểm cũ sai chiều' },
+  PC1 : { pos: { x: 0.0556, y: 0.7481, z: 0.0689 }, why: 'Thiên Trì — 5 thốn ngang ngực (5 × 1,91cm) ngang khoang liên sườn 4; nghiệm thu cách ST17 2,16cm, sách đòi 1 thốn = 1,91' },
+  SP11: { pos: { x: 0.0320, y: 0.3780, z: 0.0315 }, why: 'Cơ Môn — 8 thốn trên bờ trên xương bánh chè, mặt TRONG đùi; điểm cũ lệch hẳn ra mặt ngoài' },
+  SP8 : { pos: { x: 0.0140, y: 0.2017, z: -0.0175 }, why: 'Địa Cơ — 3 thốn dưới SP9 dọc bờ sau trong xương chày' },
+  GB10: { pos: { x: 0.0454, y: 0.9465, z: -0.0233 }, why: 'Phù Bạch — cao độ ngang TE20 và dưới GB9 1,5 thốn đầu; z lấy theo THẨM TRA (−4,0) chứ không lấy −4,86 của chủ toạ' },
+  GB11: { pos: { x: 0.0378, y: 0.9267, z: -0.0239 }, why: 'Đầu Khiếu Âm — cùng hoành độ với GB10 trên ảnh chụp (z ≈ −4,1), cao độ 2/3 cung GB9→GB12' },
+  TE18: { pos: { x: 0.0390, y: 0.9183, z: -0.0198 }, why: 'Khế Mạch — giữ nguyên cao độ (đã đúng), chỉ lùi ra sau về z −3,40: nội suy hõm ống tai → mỏm chũm tại t≈0,45' },
+  TE19: { pos: { x: 0.0448, y: 0.9357, z: -0.0208 }, why: 'Lư Tức — sau vành tai (z −3,57), cao độ neo vào GB8: thấp hơn GB8 3,95cm' },
+  TE20: { pos: { x: 0.0413, y: 0.9442, z: -0.0119 }, why: 'Giác Tôn — THẲNG DƯỚI GB8 1,5 thốn đầu; ảnh cho hai huyệt cùng một đường dọc lệch 1 pixel' },
+  TE22: { pos: { x: 0.0401, y: 0.9279, z: -0.0002 }, why: 'Nhĩ Hoà Liêu — neo bờ trên cung gò má ở đầu sau; điểm cũ bị kéo ra tận đuôi mày (z +4,52)' },
+  LR10: { pos: { x: 0.0282, y: 0.4705, z: 0.0357 }, why: 'Túc Ngũ Lý — 3 thốn dưới bờ trên khớp mu, bờ ngoài cơ khép dài' },
+  LR11: { pos: { x: 0.0295, y: 0.4833, z: 0.0377 }, why: 'Âm Liêm — 2 thốn dưới bờ trên khớp mu, sát bờ trong động mạch đùi' },
+  LR12: { pos: { x: 0.0278, y: 0.4961, z: 0.0417 }, why: 'Cấp Mạch — 1 thốn dưới bờ trên khớp mu, 2,5 thốn ngang, cạnh bó mạch đùi' },
+  GB9:  { pos: { x: 0.0399, y: 0.9587, z: -0.0163 }, why: 'Thiên Xung — ngang cao độ GB8, lùi sau 0,8cm (0,5 thốn đầu)' },
+  GB22: { pos: { x: 0.0966, y: 0.7638, z: 0.0055 }, why: 'Uyên Dịch — CHỈ nâng cao độ về khe gian sườn 4 (đang ở khe 5). Không kéo vào trong: mesh hàn liền cánh tay với ngực, kéo vào là chôn huyệt' },
+  GB31: { pos: { x: 0.0884, y: 0.3551, z: 0.0029 }, why: 'Phong Thị — giao của sống da mặt ngoài đùi với dải chậu chày' },
+  GB32: { pos: { x: 0.0820, y: 0.3298, z: 0.0023 }, why: 'Trung Độc — cùng cách dựng GB31, nhưng dời riêng từng huyệt, không tịnh tiến cả cột' },
+  GB35: { pos: { x: 0.0704, y: 0.1352, z: -0.0268 }, why: 'Dương Giao — điểm da phủ bờ SAU xương mác, cùng 7 thốn với GB36' },
+  GB36: { pos: { x: 0.0716, y: 0.1389, z: -0.0192 }, why: 'Ngoại Khâu — điểm da phủ bờ TRƯỚC xương mác, cùng 7 thốn với GB35' },
+  GB39: { pos: { x: 0.0634, y: 0.0815, z: -0.0204 }, why: 'Huyền Chung — 3 thốn trên mắt cá ngoài, bờ trước xương mác (trước nằm lọt trong lòng xương)' },
   LI7:  { pos: { x: 0.1560, y: 0.5732, z: 0.0068 }, why: 'Ôn Lưu — 5 thốn trên lằn cổ tay, trên đường nối LI5–LI11' },
   LI8:  { pos: { x: 0.1527, y: 0.6082, z: 0.0029 }, why: 'Hạ Liêm — 8 thốn trên lằn cổ tay (dưới LI11 4 thốn)' },
   LI9:  { pos: { x: 0.1504, y: 0.6200, z: 0.0035 }, why: 'Thượng Liêm — 9 thốn trên lằn cổ tay (dưới LI11 3 thốn)' },

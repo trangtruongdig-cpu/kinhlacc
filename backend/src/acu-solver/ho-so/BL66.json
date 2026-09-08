@@ -1,0 +1,119 @@
+{
+ "code": "BL66",
+ "mer": "BL",
+ "num": 66,
+ "tenApp": "Túc Thông Cốc",
+ "tenFocks": "TÚC THÔNG CỐC",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở chỗ lõm phía trước khớp xương bàn và ngón chân 5, bờ ngoài bàn chân, nơi tiếp giáp lằn da gan chân – mu chân.",
+  "focksViTri": "Ở mép ngoài bàn chân, tại ranh giới giữa vùng da nhăn và da láng của lòng bàn chân, ở hõm phía xa khớp bàn-ngón của ngón chân út.",
+  "focksCachXacDinh": "Khi sờ nắn dọc theo cấu trúc xương của mép ngoài của bàn chân ở ranh giới giữa vùng da nhăn và da láng của lòng bàn chân, có thể cảm nhận được một phần xương nhô ra rõ ràng ở khoảng giữa toàn bộ chiều dài của bàn chân, đây là lồi củ của xương bàn chân thứ 5. Ở phía xa của nó (tức là về phía ngón chân) có một hình lồi khác có thể sờ thấy ở điểm bắt đầu bên của đầu ngón chân út, khớp bàn ngón của ngón chân út. Ngay phía sau so với điểm nổi bật của xương này, huyệt Túc thông cốc (Bl 66) nằm trong hõm tại điểm chuyển tiếp gốc/thân của xương đốt ngón chân thứ 5. Huyệt Thúc cốt (Bl 65) nằm gần đầu xương bàn chân thứ 5. Ở vị trí tương đương ở mép trong của bàn chân là huyệt Đại đô (Mi/SP 2).",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/BL66_p206_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0997,
+  "y": 0.0088,
+  "z": 0.0345,
+  "conf": "mốc",
+  "caoDoCm": 1.51,
+  "ngangCm": 17.14,
+  "truocSauCm": 5.93
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "da"
+  ],
+  "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá"
+ },
+ "duongKinh": {
+  "doan": "ban-chan",
+  "vung": "bờ ngoài bàn chân",
+  "moTaRanh": "ranh da đỏ–trắng bờ ngoài bàn chân, dưới xương gót và xương hộp",
+  "diemTrongDoan": [
+   "BL60",
+   "BL61",
+   "BL62",
+   "BL63",
+   "BL64",
+   "BL65",
+   "BL66",
+   "BL67"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "BL65",
+   "ten": "Thúc Cốt",
+   "thang": 1.34,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 1.7,
+   "sachDoiThon": null,
+   "vitri": "Ở chỗ lõm phía sau đầu nhỏ của xương bàn chân 5, nơi tiếp giáp da gan chân – mu chân."
+  },
+  {
+   "code": "BL67",
+   "ten": "Chí Âm",
+   "thang": 1.95,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 1.7,
+   "sachDoiThon": null,
+   "vitri": "Ở bờ ngoài ngón út, cách góc chân móng 0,2 thốn, trên đường tiếp giáp da gan chân – mu chân."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "BL65",
+   "ten": "Thúc Cốt",
+   "cm": 1.34
+  },
+  {
+   "code": "BL67",
+   "ten": "Chí Âm",
+   "cm": 1.95
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đốt ngón gần của ngón chân út trái",
+   "lop": "bone",
+   "cm": 1.29
+  },
+  {
+   "ten": "Đốt ngón giữa của ngón chân út trái",
+   "lop": "bone",
+   "cm": 1.48
+  },
+  {
+   "ten": "Cơ duỗi các ngón chân dài trái",
+   "lop": "muscle",
+   "cm": 1.5
+  },
+  {
+   "ten": "Cơ gấp ngón út ngắn của bàn chân trái",
+   "lop": "muscle",
+   "cm": 1.59
+  },
+  {
+   "ten": "Cơ gấp các ngón chân ngắn trái",
+   "lop": "muscle",
+   "cm": 1.66
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm",
+  "ÉP LÊN DA dời 0.6cm",
+  "AUDIT cờ soát: TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá"
+ ]
+}

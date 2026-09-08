@@ -1,0 +1,434 @@
+{
+ "kinh": "LR",
+ "docAnh": [
+  {
+   "huyet": [
+    {
+     "code": "LR9",
+     "nhanCham": "Trang LR9_p330_0.jpeg, bản vẽ xương ở GIỮA trang. Chấm ĐỎ duy nhất (1063,777) mang nhãn chữ đỏ 'Le 9' — đúng huyệt của trang. Chấm ĐEN (tự dò lại bằng bộ tách vệt, chính xác hơn do-anh-atlas): (974.3,293.0)='Le 10', (972.0,604.1)='Mi 11'=SP11, (991.3,863.3)='Mi 10'=SP10, (1067.4,1058.2)='Le 8', (1122.3,1058.3)='Ni 10'=KI10, (1095.6,1167.8)='Mi 9'=SP9, (1136.9,1167.8)='Le 7'. Bảng trái là ẢNH CHỤP người thật (chấm đỏ Le 9 + chấm xám Le 8, mũi tên '4 thốn'); bảng phải là hình cơ-xương có thước riêng.",
+     "pheps": [
+      {
+       "mocA": "SP10",
+       "mocB": "SP11",
+       "tAnh": 0.311,
+       "tMesh": 0.061,
+       "chenhCm": -3.56
+      },
+      {
+       "mocA": "LR8",
+       "mocB": "LR10",
+       "tAnh": 0.363,
+       "tMesh": 0.213,
+       "chenhCm": -5.88
+      },
+      {
+       "mocA": "LR8",
+       "mocB": "SP11",
+       "tAnh": 0.595,
+       "tMesh": 0.308,
+       "chenhCm": -6.27
+      },
+      {
+       "mocA": "SP10",
+       "mocB": "LR10",
+       "tAnh": 0.148,
+       "tMesh": 0.106,
+       "chenhCm": -1.41
+      }
+     ],
+     "mocGiaiPhau": "Ảnh chụp người thật (bảng trái p330): huyệt nằm trên mặt TRONG đùi, ngay trên bờ sau của khối cơ may (bản vẽ nét xanh kẻ rõ 'Cơ may' chạy chéo), cao hơn nếp gấp gối, không nằm trên bụng cơ mà ở RÃNH cạnh cơ may. Trên mesh, ở cao độ đích y=56,7cm: cơ may FMA22355 chiếm x[2,22–4,41] z[−0,32–2,21]; cơ thon FMA43884 x[1,74–3,62] z[−3,26–−1,04] (nằm ngay SAU cơ may); cơ rộng trong FMA38933 x[3,96–8,67] z[−0,63–4,23] (nằm ngay TRƯỚC cơ may). Da mặt trong tại đó: điểm trong nhất (2,4 / 0,4). Vậy khe cơ may|cơ thon (chuẩn WHO) ≈ (x 2,4 · z 0,4); khe cơ may|cơ rộng trong (bản Focks + từ điển app) ≈ (x 3,7 · z 3,2). Hai bản sách chỉ hai khe KHÁC NHAU, cách nhau ~3cm quanh cơ may.",
+     "ketLuan": "lech-nhe",
+     "ghiChu": "CAO ĐỘ: thước IN SẴN trên bản vẽ p330 (đã dò từng vạch: 20 vạch, y=172→994 px, 43,22 px/thốn; vạch dài có nhãn ở 18=bờ trên khớp mu, 8=Mi11, 2=Mi10, 0=bờ trên xương bánh chè) đặt chấm đỏ Le 9 ở đúng 4,00 thốn TRÊN BỜ TRÊN XƯƠNG BÁNH CHÈ. Quy ra mesh (bánh chè y=47,87 · 1 thốn=2,22cm): LR9 phải ở y≈56,8cm; engine để y=55,25 → THẤP 1,51cm (0,68 thốn). Nếu theo quy ước Focks/từ điển app ('trên Khúc Tuyền LR8 4 thốn') thì đích là y≈55,6 → chỉ lệch 0,37cm. Ảnh chụp bảng trái đúng là ghi '4 thốn' từ Le 9 xuống Le 8, còn bản vẽ giữa lại ghi 4 thốn trên bánh chè — CHÍNH TRANG NÀY MÂU THUẪN, khớp với cờ 'hai bản sách lệch nhau 5,2cm' engine đã bắn. LỖI CHÍNH KHÔNG PHẢI SỐ THỐN mà là MẶT CẮT: engine đặt LR9 ở (1,98 · 55,25 · −2,42), rơi vào trong bụng CƠ THON (cơ thon ở y=55,25 chiếm x[1,73–3,34] z[−3,26–−0,95]) — tức lùi ra sau cơ may ~2,8cm so với khe cơ may|cơ thon, và ~5,6cm so với khe cơ may|cơ rộng trong. Bốn phép chiếu đều âm nhưng ĐỘ TIN THẤP vì LR9 lệch khỏi đoạn 2,0–8,9cm (bản vẽ 2D, đoạn mesh xiên 3D) và vì mốc LR10 tự nó sai 4cm. Phép sạch nhất: chiếu theo TRỤC DỌC trên cột SP (ảnh: SP10=2, LR9=4, SP11=8 → t=0,333; mesh theo y: t=0,305) → chỉ chênh −0,34cm; nhưng chính cột SP cũng đang thấp (SP10 thấp 0,9cm, SP11 thấp 2,1cm so thước 18 thốn)."
+    },
+    {
+     "code": "LR10",
+     "nhanCham": "Trang LR10_p331_0.jpeg, bản vẽ xương GIỮA trang. Chấm ĐỎ (1012,570) có nhãn chữ đỏ 'Le 10'. Chấm ĐEN dò lại: (913,8/136)='Mi 15', (914,223)='Mi 14', cột x=1006='Ma' (Ma25 ở y=134, Ma28 y=327, Ma30 y≈462), cột x=1044,8='Ni' (Ni16 y=134, Ni11 y=461,7), cột x=1065='Ren' (Ren8=rốn y=134, Ren4 y=327, Ren3 y=386, Ren2 y=461,7), (941,8/460)='Mi 12'=SP12, (837,500)='Ma 31'=ST31 (ngang 'lồi cao nhất của mấu chuyển lớn'), (991,1/500,1)= chấm KHÔNG nhãn trên đường Can = LR12 (xác nhận ở p333, xem dưới), (999,0/539,3)='Le 11', (1008,818,8)='Mi 11'=SP11, (871,7/889,8)='Ma 32'=ST32. BẪY đã kiểm: p331/p332/p333 là CÙNG MỘT bản khắc (lệch nhau đúng +180px theo x, +18,9px theo y), chỉ đổi chấm nào được tô đỏ — nên phải đọc nhãn chữ, không tin màu.",
+     "pheps": [
+      {
+       "mocA": "ST30",
+       "mocB": "ST32",
+       "tAnh": 0.227,
+       "tMesh": 0.099,
+       "chenhCm": -3.73
+      },
+      {
+       "mocA": "ST30",
+       "mocB": "SP11",
+       "tAnh": 0.303,
+       "tMesh": 0.112,
+       "chenhCm": -4.91
+      },
+      {
+       "mocA": "SP12",
+       "mocB": "ST32",
+       "tAnh": 0.223,
+       "tMesh": 0.08,
+       "chenhCm": -4.06
+      },
+      {
+       "mocA": "CV2",
+       "mocB": "ST32",
+       "tAnh": 0.257,
+       "tMesh": 0.152,
+       "chenhCm": -3.23
+      }
+     ],
+     "mocGiaiPhau": "Ảnh chụp người thật (bảng trái p331) chú thích rõ ba mốc mô mềm: 'Bờ trên của khớp mu' (đường ngang), 'Cơ khép dài' và 'Cơ may'; huyệt nằm trong RÃNH ở bờ NGOÀI cơ khép dài, chỗ cơ khép dài tạo góc với cơ may. Bảng phải (hình bóc cơ) đặt chấm Le 10 ngay cạnh bó mạch đùi, có đường chỉ tới 'Cơ khép dài'. Trên mesh ở cao độ đích y=80,9cm: cơ khép dài FMA22457 x[2,89–6,35] z[1,29–3,15], bờ NGOÀI ở (x=6,35 · z=1,54); cơ lược x[5,91–9,58]; động mạch đùi FMA70250 tại y≈80 ở (x≈4,4 · z≈4,2) tức nằm NÔNG hơn và hơi trong so với bờ ngoài cơ khép dài. Da mặt trước-trong tại (x≈6,4 · y=80,9) có z≈6,6cm. Toạ độ đích trên da ≈ (x 5,5–6,4 · y 80,9 · z ≈6,6).",
+     "ketLuan": "lech-nang",
+     "ghiChu": "Thước IN SẴN trên p331/332/333 (đã dò từng vạch: 464→924 px cho 0→13 thốn, 35,38 px/thốn, gốc 0 = đường ngang 'Bờ trên của khớp mu' đi qua Ren2/Ma30/Ni11/Mi12) đặt chấm đỏ Le 10 ở 3,00 thốn DƯỚI BỜ TRÊN KHỚP MU. Kiểm chéo bằng trang p330 (thước 18-thốn khác hẳn): Le 10 ở 15,20 thốn trên bánh chè = 2,80 thốn dưới khớp mu — hai trang lệch nhau chỉ 0,2 thốn. Quy ra mesh (mức khớp mu = y 87,48 nơi CV2/ST30/KI11 đang đứng · 1 thốn=2,22cm): LR10 phải ở y≈80,8cm; engine để y=84,88 → CAO 4,07cm (1,83 thốn). Bốn phép chiếu độc lập cho −3,2 đến −4,9cm, cùng dấu, khớp con số suy từ mốc xương. ĐÃ TRỪ SAI SỐ NỀN: trên chính trục ST30→ST32, mốc CV2 lệch −0,13cm và SP12 lệch −0,33cm (tức trục sạch); chỉ SP11 lệch +3,59cm và ST31 lệch −2,09cm nên đã tránh dùng làm mốc chính. Bề ngang: theo tỉ lệ với ST25 (2 thốn ngang) ảnh đòi x≈3,4cm, mesh có 4,85 → hơi ra ngoài 1,45cm, nhỏ so với lỗi cao độ. NGUYÊN NHÂN GỐC: bảng cot-do-chi khai LR10=18,7/21,7 trên đoạn 'LR/dui' neo vào HAI HUYỆT (LR8→LR12) chứ không vào mốc xương; thang đó ra 2,05cm/thốn (nhỏ hơn thang xương 8%) và đầu trên của nó (LR12) đang sai 5,9cm, nên cả cụm bị kéo lên."
+    },
+    {
+     "code": "LR11",
+     "nhanCham": "Trang LR11_p332_0.jpeg — CÙNG bản khắc với p331, chấm ĐỎ chuyển sang (999,5/539,5) mang nhãn 'Le 11'; chấm ở (1013,1/570,0) lúc này là chấm đen = Le 10. Đối chiếu ngược với p331 (Le 11 đen ở 999,0/539,3; Le 10 đỏ ở 1012/570) khớp trong 0,5px → nhãn chắc chắn đúng. Các mốc đen còn lại giống hệt p331 (Mi12 941,8/460 · Ma30 1006,7/461,7 · Ni11 1045,2/462 · Ren2 1065,6/461,7 · Ma31 837/500 · LR12 991,6/500,4 · Mi11 1008,4/818,9 · Ma32 872,1/890).",
+     "pheps": [
+      {
+       "mocA": "ST30",
+       "mocB": "ST32",
+       "tAnh": 0.17,
+       "tMesh": 0.034,
+       "chenhCm": -3.97
+      },
+      {
+       "mocA": "ST30",
+       "mocB": "SP11",
+       "tAnh": 0.217,
+       "tMesh": 0.04,
+       "chenhCm": -4.55
+      },
+      {
+       "mocA": "SP12",
+       "mocB": "ST32",
+       "tAnh": 0.159,
+       "tMesh": 0.011,
+       "chenhCm": -4.22
+      },
+      {
+       "mocA": "CV2",
+       "mocB": "ST32",
+       "tAnh": 0.208,
+       "tMesh": 0.094,
+       "chenhCm": -3.51
+      }
+     ],
+     "mocGiaiPhau": "Từ điển app: 'sờ động mạch nhảy ở bẹn, huyệt sát bờ trong động mạch đùi'; Focks: 'trong một rãnh ở mép cơ khép dài, cách động mạch đùi khoảng 1 thốn'. Mesh CÓ động mạch đùi (FMA70250): tại y≈82–84 nó ở (x 5,3–5,5 · z 3,9–4,1); bờ NGOÀI cơ khép dài ở y=82,8 là (x=5,27 · z=2,13). Tức mạch đùi nằm ngay TRÊN (nông hơn ~1,8cm) bờ ngoài cơ khép dài — hai mốc này gần trùng nhau theo chiều ngang, đúng như sách mô tả. Da trước-trong tại (x≈5,3 · y=82,8) có z≈6,1cm. Toạ độ đích trên da ≈ (x 4,3–5,3 · y 82,8 · z ≈6,1).",
+     "ketLuan": "lech-nang",
+     "ghiChu": "Thước in sẵn p332 đặt chấm đỏ Le 11 ở 2,13 thốn dưới bờ trên khớp mu (sách viết 2 thốn — khớp). Quy ra mesh: y≈82,8cm; engine để y=86,95 → CAO 4,20cm (1,89 thốn). Bốn phép chiếu cho −3,5 đến −4,6cm, cùng dấu, khớp. Bề ngang theo tỉ lệ ST25: ảnh đòi x≈4,3cm, mesh có 5,07 → ra ngoài 0,78cm (nhỏ). Cờ máy cũ nói 'huyệt NẰM NGOÀI da, ép vào dời 5,5cm' — nay giải thích được: điểm bị đặt cao 4,2cm nên rơi lên vùng bụng dưới/bẹn nơi mặt da cong ra trước mạnh (z da tăng từ 6,1 ở y=82 lên 7,6 ở y=90), sinh ra tình trạng nằm ngoài vỏ da. Sửa cao độ là hết, KHÔNG cần tầng 5 bẻ ngang."
+    },
+    {
+     "code": "LR12",
+     "nhanCham": "Trang LR12_p333_0.jpeg — vẫn CÙNG bản khắc (lệch +180px x, +18,9px y so p332), chấm ĐỎ (1170,8/518,9) có nhãn chữ đỏ 'Le 12'. Quy về khung p332 = (990,8/500,0), trùng đúng chấm đen KHÔNG nhãn (991,6/500,4) mà tôi đã gán là LR12 khi đọc p331/p332 → nhãn được xác nhận chéo bằng hai trang. Bảng trái p333 là ẢNH CHỤP người thật, có mũi tên ngang ghi '2,5 cun' từ 'Đường giữa' (Ren 2) ra, và mũi tên dọc ghi '1 thốn' đi XUỐNG từ đường 'Bờ trên của khớp mu' tới chấm đỏ — chiều đo không còn nghi ngờ. Bảng phải là hình bóc cơ-mạch, đặt Le 12 sát bó mạch đùi, có đường chỉ tới 'Cơ khép dài'.",
+     "pheps": [
+      {
+       "mocA": "ST30",
+       "mocB": "ST32",
+       "tAnh": 0.092,
+       "tMesh": -0.096,
+       "chenhCm": -5.49
+      },
+      {
+       "mocA": "ST30",
+       "mocB": "SP11",
+       "tAnh": 0.107,
+       "tMesh": -0.104,
+       "chenhCm": -5.43
+      },
+      {
+       "mocA": "SP12",
+       "mocB": "ST32",
+       "tAnh": 0.073,
+       "tMesh": -0.128,
+       "chenhCm": -5.73
+      },
+      {
+       "mocA": "CV2",
+       "mocB": "ST32",
+       "tAnh": 0.139,
+       "tMesh": -0.022,
+       "chenhCm": -4.95
+      }
+     ],
+     "mocGiaiPhau": "Ảnh chụp: huyệt nằm ngay trên NẾP LẰN BẸN, ở rìa ngoài vùng lông mu, dưới dây chằng bẹn (cung đùi), ngoài bó mạch đùi. Mesh KHÔNG có nếp bẹn (xem trường thangDui). Mốc thay thế đo được: (a) khái niệm 'động mạch đùi trái' FMA70250 bắt đầu ở y=90,82cm (x≈4,8 · z≈2,0) — theo định nghĩa giải phẫu đó chính là chỗ mạch chui dưới dây chằng bẹn, tức mức dây chằng bẹn tại x≈5cm; (b) nguyên uỷ cơ khép dài FMA22457 kết thúc ở y=87,75cm = mức củ mu (đo trên xương chậu: củ mu ở x=1,85 · y=87,94 · z=3,81); (c) đường dây chằng bẹn nối HIP_ANT (x 12,69 · y 97,33) → củ mu (x 1,85 · y 87,94) thì tại x=5,5 nằm ở y≈91,1 — trùng với (a), hai phép độc lập. Vậy tại toạ độ đích y=85,2 huyệt nằm khoảng 5,9cm DƯỚI dây chằng bẹn ở cùng cột x, tức trên nếp lằn da chứ không phải trên dây chằng. Da trước tại (x≈5,5 · y=85,2) có z≈6,5cm.",
+     "ketLuan": "lech-nang",
+     "ghiChu": "Thước in sẵn đặt Le 12 ở 1,03 thốn DƯỚI bờ trên khớp mu; ảnh chụp ghi thẳng '1 thốn' xuống và '2,5 cun' ngang. Quy ra mesh: y≈85,2 · x≈4,8 (2,5 thốn ngang, lấy ST25 x=3,82=2 thốn làm thang). Engine để (5,54 · 91,07 · 7,17) → CAO 5,88cm (2,64 thốn), ngang thì ra ngoài 0,74cm. Bốn phép chiếu cho −4,95 đến −5,73cm, cùng dấu, khớp. CHẨN ĐOÁN NGUYÊN NHÂN (chắc chắn): engine đặt LR12 ở đúng y=91,07 — trùng KHÍT cao độ của ST29 Quy Lai và CV3 Trung Cực, tức = mức khớp mu 87,48 CỘNG 1 thốn BỤNG (thang bụng ở đây là 3,59cm/thốn: CV3 91,07 → CV4 94,68). Hai lỗi chồng nhau: (1) đi NHẦM CHIỀU — sách bảo xuống 1 thốn, engine đi lên; (2) dùng NHẦM THANG — lấy thốn bụng 3,59cm thay vì thốn đùi 2,22cm. Cộng lại đúng 5,88cm. Đây cũng là lý do đoạn 'LR/dui' hỏng: LR12 là đầu trên của đoạn nên kéo lệch cả LR10, LR11. Cờ 'hai bản sách lệch nhau 7,8cm — đã lấy bản cũ' là bản cũ SAI; bản mới (đi xuống) mới đúng."
+    },
+    {
+     "code": "LR7",
+     "nhanCham": "Trang LR9_p330_0.jpeg, bản vẽ giữa, góc dưới. Chấm ĐEN (1136,9/1167,8) có nhãn 'Le 7'; ngay bên trái nó chấm đen (1095,6/1167,8) nhãn 'Mi 9' = SP9 Âm Lăng Tuyền — HAI CHẤM NẰM ĐÚNG CÙNG MỘT ĐƯỜNG NGANG (chênh 0,0px). Phía trên là 'Le 8' (1067,4/1058,2) và 'Ni 10'=KI10 (1122,3/1058,3), cả hai trên đường 'Nếp gấp khoeo'. Thước phụ nhỏ bên phải ('Nếp gấp khoeo', vạch 1..4) đặt cặp Mi9/Le7 đúng ở vạch 2.",
+     "pheps": [
+      {
+       "mocA": "LR8",
+       "mocB": "SP9",
+       "tAnh": 1.091,
+       "tMesh": 0.996,
+       "chenhCm": -0.4
+      },
+      {
+       "mocA": "SP10",
+       "mocB": "SP9",
+       "tAnh": 1.042,
+       "tMesh": 1.111,
+       "chenhCm": 0.81
+      },
+      {
+       "mocA": "SP11",
+       "mocB": "SP9",
+       "tAnh": 1.015,
+       "tMesh": 1.027,
+       "chenhCm": 0.29
+      }
+     ],
+     "mocGiaiPhau": "Bản vẽ đặt LR7 ngang bằng SP9 và lùi ra SAU (trong ảnh: lệch ngang 41,3px ≈ 0,96 thốn cẳng chân). Trên mesh LR7 (2,91 · 42,48 · −4,61) và SP9 (2,91 · 42,48 · −2,37) đúng cùng cao độ, lùi sau 2,24cm = 0,80 thốn cẳng chân (1 thốn = 2,81cm trên thang MALLEOLUS_MED→TIBIA_MED_CONDYLE). Mô gần nhất: cơ bán gân 1,06cm, xương chày 1,76cm — hợp với 'bờ sau dưới lồi cầu trong xương chày'.",
+     "ketLuan": "khop",
+     "ghiChu": "CON SỐ 11,6 THỐN CÒN ĐÚNG, giữ nguyên. Ba phép chiếu độc lập cho −0,40 / +0,81 / +0,29cm — hai phép dưới 0,5cm, phép còn lại 0,81cm; không có dấu hệ thống. Chú ý cách kiểm: bản vẽ neo LR7 theo SP9 chứ không theo số thốn, mà mesh đang để LR7 và SP9 CHÍNH XÁC cùng y=42,48 — tức 11,6 là con số suy ra ĐÚNG từ vị trí SP9 hiện có, và bản vẽ xác nhận quan hệ ấy. Cờ 'LR7 lệch +1,25cm' của bộ kiểm là LẬP LUẬN VÒNG: nó so khoảng LR7–LR8 với '1,4 thốn' vốn tính ngược ra từ chính con số 11,6. Cảnh báo kèm (ngoài phạm vi phiên này): trên thước 18-thốn của p330, LR8 phải ở 2,50 thốn DƯỚI bờ trên xương bánh chè (≈y 42,3) còn mesh để y=46,62, tức mốc nếp kheo/LR8 có thể đang cao 3–4cm; mốc POPLITEAL trong model-frame ở y=46,17 nằm ngang GIỮA xương bánh chè (bánh chè y 44,01–47,96) trong khi nếp kheo giải phẫu phải ở ngang hoặc dưới cực dưới bánh chè. Nên giao cho phiên sau soát POPLITEAL/LR8/KI10 — tôi không sửa vì ngoài danh sách."
+    }
+   ],
+   "thangDui": "DỰNG LẠI ĐƯỢC, không cần đoán. 1 THỐN ĐÙI TRONG = 2,22 ± 0,03 cm (KHÔNG phải ~2,05cm như thang neo-vào-huyệt 'LR/dui' 21,7 thốn LR8→LR12 đang ngầm dùng; thang cũ nhỏ hơn 8%).\n\nCHUẨN LÀ 18 THỐN, và mốc là BỜ TRÊN KHỚP MU → BỜ TRÊN XƯƠNG BÁNH CHÈ (không phải nếp bẹn). Bằng chứng: chính atlas IN SẴN thước này. Trang p330 có thước dọc bên trái, tôi dò từng vạch bằng máy: 20 vạch từ y=172px đến y=994px, đều 43,22px/thốn; vạch dài có nhãn nằm ở 18 = 'Bờ trên của khớp mu', 8 = Mi 11 (SP11), 2 = Mi 10 (SP10), 0 = 'Bờ trên của xương bánh chè'. Trang p331/332/333 có thước thứ HAI, khác hẳn (0→13 đi xuống từ bờ trên khớp mu, 35,38px/thốn, dò được vạch ở 464→924px): trên đó SP11 rơi vào 10,03 thốn và ST32 vào 12,04 thốn. Hai thước khớp nhau tuyệt đối: 18−10,03 = 7,97 ≈ 8 (SP11) và 18−12,04 = 5,96 ≈ 6 (ST32 = 6 thốn trên bờ trên bánh chè). Tức toàn đùi = 18 thốn, hai đầu là khớp mu và bánh chè.\n\nĐO TRÊN MESH (hai phép độc lập, đều neo MỐC XƯƠNG):\n· Phép 1 — bờ trên khớp mu: quét xương chậu trái FMA16587, lấy các đỉnh gần đường giữa (x<0,6cm) và ở mặt trước (z>−3cm), đỉnh cao nhất y = 88,43cm (x=0,92 · z=2,81); bờ dưới khớp mu y=85,39; củ mu (x 0,8–3,0 · z lớn nhất) ở (1,85 · 87,94 · 3,81). Bờ trên xương bánh chè: FMA24487 y max = 47,87cm (dải đỉnh trung bình x=8,39 · y=47,71 · z=1,22). Khoảng dọc 40,56cm ÷ 18 = 2,253 cm/thốn. Nếu lấy mốc PUBIS mà model-frame đang khai (y=87,48 — thấp hơn bờ xương thật 0,95cm, chỗ này đáng soát riêng) thì 39,61 ÷ 18 = 2,201 cm/thốn.\n· Phép 2 — chuẩn WHO thứ hai 'khớp mu → lồi cầu TRONG xương đùi = 18 thốn': tôi dò lại lồi cầu trong trên xương đùi trái FMA24475 (lọc đầu xa, x nhỏ nhất) được (3,23 · 48,19 · −3,09); model-frame khai (3,40 · 47,01 · −1,91), lệch 1,2cm. Dùng PUBIS(frame)→FEMUR_MED_EPICONDYLE(frame): dọc 40,47 ÷ 18 = 2,248; theo đường thẳng 3D 40,74 ÷ 18 = 2,264. Dùng mốc tôi dò lại: 40,24 dọc ÷ 18 = 2,236.\nBốn con số 2,201 / 2,236 / 2,248 / 2,253 → chốt 2,22 cm/thốn (dải 2,20–2,26).\n\nKIỂM CHÉO BẰNG HUYỆT CÓ SẴN: ST32 Phục Thố ở mesh y=60,13; bản vẽ đặt nó 12,04 thốn dưới bờ trên khớp mu → (87,48−60,13)/12,04 = 2,272 cm/thốn. Con số này suy hoàn toàn từ hai huyệt khác, mà vẫn rơi đúng dải.\n\nNẾP BẸN: KHÔNG DÒ ĐƯỢC TRÊN MESH — nói thẳng. Lớp da atlas là vỏ trơn không có nếp gấp mô mềm, lại rất thưa (22.902 đỉnh cho toàn thân, ~1–10 đỉnh mỗi dải cao 1cm ở vùng bẹn). Tôi quét z lớn nhất của da mặt trước dải x 3,5–8,5cm từ y=76 lên y=100: 5,7 → 6,9 → 7,1 → 8,1 → 9,3, tăng ĐƠN ĐIỆU, không có chỗ lõm nào để gọi là nếp. Vì vậy tôi KHÔNG dùng nếp bẹn làm gốc thang. Ba mốc thay thế đo được (dùng cho trường mocGiaiPhau, không dùng làm gốc thốn): (a) khái niệm 'động mạch đùi trái' FMA70250 bắt đầu ở y=90,82cm (x≈4,8 · z≈2,0) — theo định nghĩa giải phẫu đó là chỗ mạch chui dưới dây chằng bẹn; (b) đường dây chằng bẹn HIP_ANT(12,69 · 97,33) → củ mu(1,85 · 87,94) tại x=5,5 cho y≈91,1 — trùng (a) trong 0,3cm, hai phép độc lập; (c) nguyên uỷ cơ khép dài FMA22457 cụt ở y=87,75 = mức củ mu. Nói cách khác: dây chằng bẹn ở cột x≈5cm nằm khoảng y≈91, còn bờ trên khớp mu ở y≈88,4 — chênh ~2,7cm, đủ để giải thích vì sao mấy văn bản 'dưới nếp bẹn 3 thốn' (từ điển app) và 'dưới bờ trên khớp mu 3 thốn' (Focks/WHO) cho ra hai chỗ khác nhau. Tôi lấy mốc BỜ TRÊN KHỚP MU vì đó là mốc thước in trên ảnh dùng, và vì nó là xương nên mesh đo được."
+  },
+  {
+   "huyet": [
+    {
+     "code": "LR7",
+     "nhanCham": "Trang LR7_p328_0.jpeg (bản vẽ mặt TRONG cẳng chân, bàn chân quay TRÁI, x lớn = ra SAU). Bộ do-anh-atlas BỎ SÓT 2 chấm ở mức 2 thốn; tự dò lại bằng ngưỡng nới rộng: Mi 9 = SP9 (464.5, 266.7) và Le 7 = LR7 (503.5, 266.7) — hai chấm CÙNG CAO ĐỘ, dính vào đường gạch ngang nên bị bộ tách bỏ. Các chấm còn lại: Le 8 (436,157) + Ni 10 (491,157) ở nếp gấp khoeo = mốc 0; Mi 8 (453,430)=5; Le 6 (423,590)=8; Mi 7 (440,641)=9; Le 5 (423,699) & Ni 9 (495,698)=10; Mi 6 (444,803)=12; Ni 8 (442,864) & Ni 7 (481,864)=13; Le 4 (363,960) & Ni 3 (469,962)=15 (đỉnh mắt cá trong). Thước dọc bên phải: 'Nếp gấp khoeo'=0 → 'Đỉnh mắt cá trong'=15 thốn, đo máy 53,5 px/thốn. Trang LR7_p460_0.jpeg KHÔNG DÙNG ĐƯỢC: nhãn ghi Ex-LE 7 'Lan vĩ', đúng như cảnh báo Focks bốc nhầm trang. Trang phụ LR8_p329 cũng vẽ LR7: Mi 9 (500.1,1063) và Le 7 (541.2,1063), cách nhau 41,1 px = đúng 1,00 thốn theo thước trang đó.",
+     "pheps": [
+      {
+       "mocA": "LR4",
+       "mocB": "LR8",
+       "tAnh": 0.872,
+       "tMesh": 0.894,
+       "chenhCm": 0.83
+      },
+      {
+       "mocA": "LR5",
+       "mocB": "LR8",
+       "tAnh": 0.801,
+       "tMesh": 0.833,
+       "chenhCm": 0.77
+      },
+      {
+       "mocA": "SP6",
+       "mocB": "SP9",
+       "tAnh": 1.003,
+       "tMesh": 0.995,
+       "chenhCm": -0.22
+      },
+      {
+       "mocA": "LR6",
+       "mocB": "LR8",
+       "tAnh": 0.752,
+       "tMesh": 0.772,
+       "chenhCm": 0.36
+      },
+      {
+       "mocA": "SP10",
+       "mocB": "SP9",
+       "tAnh": 1.042,
+       "tMesh": 1.111,
+       "chenhCm": 0.81
+      }
+     ],
+     "mocGiaiPhau": "Ảnh chụp người thật (nửa phải trang p328) vẽ chồng đường viền xương chày lên da: LR7 nằm ở chỗ lõm SAU-DƯỚI lồi cầu trong xương chày, ngay bờ sau xương chày, trước đầu trong cơ bụng chân. Sách đánh mũi tên '1 thốn' đo NGANG từ Mi 9 (SP9) ra sau tới Le 7 — hai huyệt cùng một cao độ. Bản vẽ p328 ghi rõ mốc mô của cao độ ấy: 'Chỗ nối của thân và lồi cầu trong của xương chày' (= mốc TIBIA_MED_CONDYLE trong model-frame). Mesh cho biết mô gần nhất là cơ bán gân 1,06cm, đầu trong cơ bụng chân 1,4cm, xương chày 1,76cm — khớp với mô tả ảnh.",
+     "ketLuan": "lech-nhe",
+     "ghiChu": "Cao độ CƠ BẢN ĐÚNG: phép SP6→SP9 khớp -0,22cm, tức mesh đặt LR7 đúng ngang SP9 như cả hai trang sách vẽ. Ba phép còn lại đều +0,36..+0,83cm cùng dấu (mesh đẩy LR7 hơi cao về phía LR8). CON SỐ 11,6 THỐN THÌ SAI NHẸ: ảnh đặt LR7 ở 13/15 quãng LR4→LR8 = 0,867, quy sang thang engine (LR4=0, LR8=13) là 11,27 thốn, không phải 11,6 — chênh 0,33 thốn ≈ 0,93cm, đúng bằng lượng đo được. LỖI GỐC SÂU HƠN LÀ CÁCH NEO ĐOẠN: bảng khai 'LR/cang-chan tong=13, xa=LR4(MALLEOLUS_MED), gan=LR8(TIBIA_MED_CONDYLE)' — nhưng sách vẽ TIBIA_MED_CONDYLE ở mức LR7/SP9 chứ KHÔNG ở mức LR8; LR8 nằm cao hơn 2 thốn nữa, tại nếp gấp khoeo (15 thốn trên đỉnh mắt cá trong). Sửa đúng là: giữ LR7 = 13 thốn (đúng mốc TIBIA_MED_CONDYLE) và đẩy LR8 lên 15 thốn, thay vì vá số 11,6. Ghi chú 'ngang Âm Lăng Tuyền SP9, lùi ra sau 1 thốn' thì ĐÚNG y sách và nên giữ làm luật dựng, vì nó neo vào mốc xương chứ không vào con số thốn tự do."
+    },
+    {
+     "code": "LR8",
+     "nhanCham": "Trang LR8_p329_0.jpeg, bản vẽ trái = mặt TRONG đùi + gối (bàn chân quay TRÁI, x lớn = ra SAU). Chấm ĐỎ Le 8 (472,953). Chấm đen: Le 10 (379,188), Mi 11 (378,517), Le 9 (470,682), Mi 10 (396,763), Ni 10 (527,953) — Ni 10 cùng cao độ với Le 8, cách 55px về phía sau. Hai chấm ở mức dưới bị bộ tách bỏ sót, tự dò lại: Mi 9 = SP9 (500.1,1063) và Le 7 (541.2,1063). Chấm đỏ (1254,959) là Le 8 trên tranh giải phẫu giữa, chấm đỏ (1973,392) là Le 8 trên ảnh chụp — không dùng để chiếu. THƯỚC: đo máy 20 vạch từ y=67,5 đến y=845,0, bước ĐỀU 41,0px (19 quãng). Nhãn in 'Bờ trên của khớp mu / 18 thốn' ở đầu trên và 'Bờ trên của xương bánh chè' ở đầu dưới. Bốn điểm có nhãn thốn trên chính trang ấy chỉ hợp với cách đọc 19 quãng (0 = bờ trên bánh chè tại y=845, 40,92 px/thốn): Mi 11 → 8,02 (nhãn '8 thốn'), Mi 10 → 2,01 (nhãn '2 thốn'), Le 9 → 4,00, Le 10 → 2,94 thốn dưới đường xương mu (sách đòi 3). Đọc theo 18 quãng (43,2px/thốn) thì Mi 11 ra 7,59 và Mi 10 ra 1,90 — sai vạch. Thước phụ dưới gối: nếp gấp khoeo (Le8/Ni10, y=953) = 0, mức SP9/LR7 (y=1063) = 2 → 55,0 px/thốn cẳng chân.",
+     "pheps": [
+      {
+       "mocA": "SP9",
+       "mocB": "SP10",
+       "tAnh": 0.356,
+       "tMesh": 0.247,
+       "chenhCm": -1.28
+      },
+      {
+       "mocA": "LR7",
+       "mocB": "LR9",
+       "tAnh": 0.312,
+       "tMesh": 0.347,
+       "chenhCm": 0.45
+      },
+      {
+       "mocA": "LR7",
+       "mocB": "LR10",
+       "tAnh": 0.136,
+       "tMesh": 0.103,
+       "chenhCm": -1.44
+      },
+      {
+       "mocA": "SP9",
+       "mocB": "SP11",
+       "tAnh": 0.203,
+       "tMesh": 0.128,
+       "chenhCm": -1.87
+      }
+     ],
+     "mocGiaiPhau": "Ảnh chụp người thật (khung phải trang p329) chú thích bốn mốc MÔ MỀM mà mesh không dựng thành đường: cơ may (sartorius) và cơ thon (gracilis) ở phía TRƯỚC, cơ bán màng và cơ bán gân ở phía SAU. Chấm đỏ Le 8 nằm ở đầu TRONG nếp gấp gối khi gập gối, trong hõm NGAY TRƯỚC hai gân bán gân/bán màng và sau khối cơ may–cơ thon. Tranh giải phẫu giữa đặt Le 8 ngay trên 'gân chân ngỗng' (pes anserinus), cạnh 'đầu trong cơ bụng chân'. Mesh cho mô gần nhất: cơ thon 0,71cm, cơ bán màng 0,92cm, cơ may 1,05cm — đúng bộ ba mà ảnh chú thích, nên CHIỀU SÂU/khe mô của LR8 là đúng; chỉ CAO ĐỘ lệch. Focks còn cho mốc kiểm chéo: Ni 10 (KI10) ở SAU LR8 khoảng 1 thốn — trên ảnh đo được đúng 55px = 1,00 thốn cẳng chân.",
+     "ketLuan": "lech-nhe",
+     "ghiChu": "Ba trên bốn phép nói mesh đặt LR8 THẤP (về phía xa) hơn ảnh 1,3–1,9cm. Phép độc lập không qua thang đùi cũng cho cùng kết quả: cả hai trang sách đều vẽ LR8 cách SP9 đúng 2 thốn cẳng chân (p328: 109,5px/53,5 = 2,05; p329: 110px/55,0 = 2,00), tức 2 × 2,828 = 5,66cm; mesh chỉ có 4,23cm → LR8 thiếu ~1,4cm. Phép LR7→LR9 khớp (+0,45cm) nhưng KHÔNG tin được vì LR9 nằm trong đoạn 'LR/dui' đang bị neo vào chính LR8. THỬ BỎ TỪNG MỐC: bỏ SP10/SP11 (cả hai đều là điểm đùi) vẫn còn phép LR7→LR10 cho -1,44cm, nên sai số không đến từ riêng một mốc. CẢNH BÁO NGUYÊN NHÂN GỐC CÓ THỂ Ở MỐC KHUNG chứ không ở luật dựng LR8: model-frame khai POPLITEAL y=46,17cm, mà LR8 engine y=46,62 — tức engine ĐÃ đặt LR8 đúng nếp kheo theo mốc của nó; nhưng mốc POPLITEAL ấy chỉ cao hơn SP9 3,69cm = 1,30 thốn, trong khi sách đòi 2 thốn. Ba thang cẳng chân trong khung đang mâu thuẫn nhau tới 19%: MALLEOLUS_MED→TIBIA_MED_CONDYLE 13 thốn cho 2,83cm/thốn; MALLEOLUS_LAT→POPLITEAL 16 thốn cho 2,37cm/thốn; còn sách p328 (mắt cá trong→nếp khoeo = 15 thốn) cho 2,53cm/thốn. Trước khi dời LR8 nên trọng tài mốc POPLITEAL. Một cờ phụ bắt được nhân tiện: mesh để KI10 cách LR8 tới 6,63cm (2,34 thốn) trong khi sách vẽ đúng 1 thốn — lệch 3,8cm, KI10 quá ra sau (z lệch 5,94cm); huyệt này ngoài phần việc của phiên nhưng nên đưa vào danh sách ngờ."
+    },
+    {
+     "code": "LR13",
+     "nhanCham": "Trang LR13_p334_0.jpeg, bản vẽ phải = mặt BÊN thân, người quay MẶT SANG PHẢI (kiểm chứng bằng Ren 4 nằm ở x lớn nhất còn Gb 30 ở x nhỏ nhất → x lớn = ra TRƯỚC). Dò lại đủ 12 chấm: Gb 21 (1139.6,38.6), Gb 22 (1224.6,192.5), Gb 23 (1246.3,190.3), Gb 24 (1291.9,281.1), Gb 25 (1175.4,437.6), Le 13 ĐỎ (1225,437), Gb 26 (1218.3,484.2), Gb 27 (1273.4,603.6), Ren 4 (1317.2,603.5), Gb 28 (1271.7,632.3), Gb 29 (1246.7,660.7), Gb 30 (1148,730.9). Ba đường gạch mốc: 'Mức ngang núm vú' ở Gb 23 (y=190), 'Mức ngang rốn' ở Gb 26 (y=484), 'Bờ trên của khớp mu' ở y≈718. Trang LR14_p335_0.jpeg (nhìn TRƯỚC) cũng vẽ Le 13 ở (164.2,1073.2) và cho thêm một phép đo CAO ĐỘ độc lập nhờ thước 'Góc ức sườn = 8 → Rốn = 0' (9 vạch, y 702→1144.5, 55,3 px/thốn; kiểm chứng bằng Mi 15 nằm đúng vạch rốn y=1147 và Mi 16 ra 3,08 thốn).",
+     "pheps": [
+      {
+       "mocA": "GB25",
+       "mocB": "GB24",
+       "tAnh": 0.154,
+       "tMesh": 0.055,
+       "chenhCm": -1.75
+      },
+      {
+       "mocA": "GB26",
+       "mocB": "GB24",
+       "tAnh": 0.216,
+       "tMesh": 0.088,
+       "chenhCm": -2.31
+      },
+      {
+       "mocA": "GB25",
+       "mocB": "GB21",
+       "tAnh": -0.01,
+       "tMesh": -0.032,
+       "chenhCm": -0.77
+      },
+      {
+       "mocA": "SP15",
+       "mocB": "SP17",
+       "tAnh": 0.161,
+       "tMesh": 0.129,
+       "chenhCm": -0.63
+      },
+      {
+       "mocA": "GB30",
+       "mocB": "GB24",
+       "tAnh": 0.642,
+       "tMesh": 0.596,
+       "chenhCm": -1.67
+      }
+     ],
+     "mocGiaiPhau": "Ảnh chụp người thật (nửa trái trang p334) chú thích hai mốc mô mà mesh không có nhãn: 'Sườn cụt 11' vẽ thành hai cung mảnh chạy chéo xuống-trước, và 'Rốn'. Chấm đỏ Le 13 đặt ở ĐÚNG MÚT (đầu tự do) của cung sườn cụt 11, ở bờ DƯỚI-TRƯỚC của mút ấy, phía dưới-ngoài rốn. Focks bổ sung mốc kiểm chéo: cùng mức Le 13 (trên rốn 1 thốn) có Thuỷ phân Ren 9 ở đường giữa và Hoạt nhục môn Ma/ST 24 cách giữa 2 thốn; xa hơn ra sau-dưới là Kinh môn Gb 25 ở mút xương sườn 12. Trên mesh, mút tự do (điểm xa cột sống nhất) của xương sườn 11 trái nằm ở (10,85 / 109,12 / -0,51) và điểm DA gần nó nhất là (12,79 / 109,23 / -2,21), cách xương 2,58cm.",
+     "ketLuan": "lech-nhe",
+     "ghiChu": "TÁCH RIÊNG HAI CHIỀU: (a) CAO ĐỘ ĐÚNG. Thước trang p335 cho Le 13 ở 1,29 thốn trên rốn — sách Focks đòi 'trên rốn 1 thốn'; mesh cho 108,11-105,48 = 2,63cm, chia thốn bụng trên 2,528cm (đo từ rốn tới khớp ức-mũi ức, 8 thốn) ra 1,03 thốn. Phép SP15→SP17 chỉ lệch -0,63cm. (b) CHIỀU TRƯỚC-SAU THÌ THIẾU ~2cm: bản vẽ bên đặt Le 13 trước Gb 25 49,6px = 1,35 thốn ≈ 3,4cm, mesh chỉ cho 2,09cm; so với Gb 26 thì ảnh đặt Le 13 hơi RA TRƯỚC còn mesh đặt nó lùi SAU 2,14cm. Hai phép mạnh nhất (-1,75 và -2,31cm) cùng chỉ một hướng: LR13 phải tiến ra TRƯỚC (z bớt âm) 1,7–2,3cm. THỬ BỎ TỪNG MỐC: bỏ Gb 25 vẫn còn Gb 26 cho -2,31cm, nên không phải lỗi riêng của một mốc GB. Hai phép Gb30→Gb24 và Ren4→Gb24 phải LOẠI vì đoạn cắt ngang thân, khoảng lệch khỏi đoạn tới 8,4cm và 14,8cm. MÂU THUẪN PHẢI KHAI THẲNG: engine đang đặt LR13 cách điểm da phủ mút sườn 11 chỉ 1,47cm (chủ yếu thấp hơn 1,1cm — hợp với luật 'bờ dưới mút sườn'), nên nếu đẩy LR13 ra trước 2cm nữa thì nó rời khỏi mút sườn 11. Nghi thủ phạm là hình học sườn của chính mesh: mút sườn 11 ở đây mới tới z=-0,51 (rất ngắn, gần như chưa vòng ra trước) và mút sườn 12 lại nằm CÙNG CAO ĐỘ với mút sườn 11 (y 109,25 so 109,12) thay vì thấp hơn. Đề nghị: chưa dời LR13 vội, mà trọng tài mút xương sườn 11/12 trên mesh trước; nếu mút sườn 11 đúng thì giữ nguyên LR13 và xem lại GB25/GB26."
+    },
+    {
+     "code": "LR14",
+     "nhanCham": "Trang LR14_p335_0.jpeg, bản vẽ trái = nhìn TRƯỚC lồng ngực-bụng, ảnh-trái = bên PHẢI người. Chấm ĐỎ Le 14 (155,791) và bản đối xứng (723,791); hai chấm đỏ (1233,691) và (1716,700) nằm trên ảnh chụp, không dùng để chiếu. Cột chấm ngoài cùng bên trái là kinh TỲ: Mi 20 (153,388), Mi 19 (129,478), Mi 18 (117,578), Mi 17 (107,687). Cột thứ hai (x≈155) mang Le 14 (155,791), Gb 24 (155.3,864.8), Mi 16 (151.5,974), Le 13 (164.2,1073.2), Mi 15 (155,1147.5) — LƯU Ý bản vẽ GỘP các huyệt 4 thốn và 6 thốn vào chung cột nên hoành độ KHÔNG trung thực, chỉ dùng CAO ĐỘ. THƯỚC (đo máy, 9 vạch y=702→1144.5, bước 55,3px): 'Góc ức sườn' = 8 thốn, 'Rốn' = 0. Kiểm chứng thước bằng hai điểm độc lập: Mi 15 (Đại Hoành, ngang rốn) rơi đúng vạch 0 (y=1147 so 1144,5) và Mi 16 (Phúc Ai, trên rốn 3 thốn) ra 3,08. Theo thước ấy: Le 14 = 6,39 thốn trên rốn, Gb 24 = 5,06, Le 13 = 1,29.",
+     "pheps": [
+      {
+       "mocA": "SP15",
+       "mocB": "SP17",
+       "tAnh": 0.774,
+       "tMesh": 0.775,
+       "chenhCm": 0.03
+      },
+      {
+       "mocA": "SP16",
+       "mocB": "SP17",
+       "tAnh": 0.638,
+       "tMesh": 0.606,
+       "chenhCm": -0.39
+      },
+      {
+       "mocA": "GB24",
+       "mocB": "SP17",
+       "tAnh": 0.415,
+       "tMesh": 0.344,
+       "chenhCm": -0.56
+      }
+     ],
+     "mocGiaiPhau": "Ảnh chụp người thật (nửa phải trang p335) vẽ chồng khung sườn đánh số 1–6 lên ngực và kẻ nét đứt 'Đường giữa vú' thẳng đứng qua núm vú; chấm đỏ Le 14 nằm ngay giao của đường ấy với 'Khoang liên sườn 6'. Núm vú ở ICR4, đếm xuống 2 khoang là ICR6. Focks cho thêm hàng mốc cùng mức (dưới góc ức sườn 2 thốn): Cự khuyết Ren 14 ở đường giữa, U môn Ni/Ki 21 cách 0,5 thốn, Bất dung Ma/ST 19 cách 2 thốn; Nhật nguyệt Gb 24 thì ở ICR7 ngay dưới. Mesh KHÔNG dựng núm vú (tìm nipple/areola/breast đều rỗng) nên mốc 'đường giữa vú' phải suy từ khe sườn: trên dải x = 6,5–8,5cm, mặt trước (z>5cm), bờ dưới sườn+sụn 6 ở y=121,57 và bờ trên sườn+sụn 7 ở y=120,28 → khoang liên sườn 6 là dải y 120,28–121,57, giữa khe 120,93.",
+     "ketLuan": "khop",
+     "ghiChu": "Ba phép chiếu đều dưới 0,6cm. Phép ĐO XƯƠNG TRỰC TIẾP còn chắc hơn: toạ độ engine y=120,78 nằm LỌT trong khoang liên sườn 6 (120,28–121,57), chỉ dưới giữa khe 0,15cm — đúng định nghĩa 'khe gian sườn 6'. Chiều ngang cũng đã có cờ Focks xác nhận: đòi 4 thốn, đo được 3,95 (lệch 0,1cm). Điểm gợn duy nhất: theo thước rốn của sách, Le 14 ở 6,39 thốn trên rốn còn mesh cho 6,05 thốn (chia thốn bụng trên 2,528cm = 20,22cm/8, đo từ rốn CV8 y=105,48 tới khớp ức-mũi ức y=125,70) — chênh 0,34 thốn ≈ 0,86cm. Nhưng đây KHÔNG phải lỗi của LR14: Gb 24 lệch cùng chiều 0,32 thốn và Mi 17 lệch cùng chiều 0,70 thốn, tức là cả cột ngực trên mesh trôi đều so với thước rốn của sách — vấn đề của tỉ lệ thân, không của huyệt. Khoảng cách LR14–GB24 thì khớp: ảnh 1,33 thốn, mesh 1,24 thốn (đúng một khoang liên sườn). Kết luận: giữ nguyên LR14."
+    }
+   ],
+   "thangDui": "DỰNG LẠI TỪ MỐC XƯƠNG, KHÔNG DÙNG THANG NEO-VÀO-HUYỆT. Kết quả: 1 thốn đùi trong ≈ 2,09cm (khoảng 2,08–2,10cm theo trường phái 19 thốn; 2,20–2,27cm nếu theo trường phái 18 thốn).\n\nBẰNG CHỨNG SÁCH — thước trên trang LR8_p329_0.jpeg. Trang này có sẵn một thước chia độ chạy dọc mặt trong đùi, đầu trên ghi 'Bờ trên của khớp mu', đầu dưới ghi 'Bờ trên của xương bánh chè'. Đo máy các vạch (quét cột pixel x=100–125): 20 vạch từ y=67,5 tới y=845,0, bước ĐỀU 41,0px → 19 quãng. Nhãn in ở đầu trên là '18 thốn', nhưng bốn điểm CÓ NHÃN THỐN trên chính hình ấy chỉ hợp với cách đọc 19 quãng (0 = bờ trên bánh chè tại y=845, 40,92 px/thốn): Mi 11 → 8,02 (nhãn '8 thốn'), Mi 10 → 2,01 (nhãn '2 thốn'), Le 9 → 4,00 (sách: trên lồi cầu 4 thốn), Le 10 → 2,94 thốn dưới đường xương mu (sách: dưới nếp bẹn 3 thốn). Đọc theo 18 quãng (43,2 px/thốn) thì Mi 11 ra 7,59 và Mi 10 ra 1,90 — trượt vạch. Vậy BẢN VẼ TỰ NÓ CHIA 19 THỐN, con số '18 thốn' in ở đầu thước lệch đúng một vạch.\n\nPHÉP ĐO 1 (mốc xương trên mesh). PUBIS y=87,48cm (bờ trên xương mu, model-frame) → bờ trên xương bánh chè trái, lấy maxY của khối FMA24487 = 47,87cm. Quãng dọc 39,61cm. Chia 19 → 2,085cm/thốn. Chia 18 → 2,201cm/thốn.\n\nPHÉP ĐO 2 (độc lập, không phụ thuộc chọn 18 hay 19). Cũng trên trang p329, thước cẳng chân dưới gối đo được 55,0 px/thốn (Le 8 ở nếp gấp khoeo y=953, Mi 9/Le 7 y=1063, cách nhau 2 thốn), còn thước đùi là 40,92 px/thốn → thốn đùi = thốn cẳng / 1,344. Thốn cẳng chân thì neo vào mốc xương đàng hoàng: MALLEOLUS_MED → TIBIA_MED_CONDYLE = 13 thốn cho 36,76cm = 2,828cm/thốn. Suy ra thốn đùi = 2,828 / 1,344 = 2,104cm. Hai phép độc lập chụm ở 2,085 và 2,104 → chốt 2,09cm.\n\nPHÉP ĐO 3 (trường phái WHO 18 thốn, để đối chiếu). Trục thigh_medial đã có sẵn trong model-frame: PUBIS → FEMUR_MED_EPICONDYLE = 18 thốn; đo 3D được 40,76cm → 2,265cm/thốn. Cao hơn 8% chỉ vì mẫu số 18 chứ không phải vì mesh khác — quãng xương đo được vẫn ~40cm ở cả ba phép.\n\nNẾP BẸN TRÊN MESH — DÒ ĐƯỢC NHƯNG GIÁN TIẾP, KHAI THẲNG. Mesh không có nhãn 'nếp bẹn'. Quét lớp da theo từng lát cao độ (dải z từ -2 đến +6cm), tìm đỉnh da TRONG nhất của đùi trái: ở y=87,50 điểm trong nhất còn ở x=13,21cm (vẫn là thành bụng/hông), xuống y=86,25 tụt còn x=5,12cm, y=85,00 còn x=1,08cm. Nghĩa là mặt da MẶT TRONG đùi chỉ bắt đầu tồn tại từ khoảng y ≈ 86–87cm — đó chính là cao độ nếp bẹn ở đầu trong, cách PUBIS (87,48) chưa tới 1cm. Nên dùng PUBIS làm mốc gần đúng cho nếp bẹn là chấp nhận được. NGƯỢC LẠI, KHÔNG ĐƯỢC dùng 'đáy chậu' của mesh: điểm da giữa hai đùi thấp nhất nằm ở y=69,10cm, thấp hơn nếp bẹn tới 18cm vì đó là vùng đáy chậu/sinh dục, không phải nếp bẹn.\n\nHỆ QUẢ TRỰC TIẾP CHO BỐN HUYỆT NGỜ (suy từ thang vừa dựng, thang này KHÔNG neo vào LR8/LR12 nên không vòng tròn):\n· Thang engine 'LR/dui' đang khai tong=21,7 với xa=LR8, gan=LR12 — không có xaMoc/ganMoc. Quãng LR8→LR12 trên mesh là 45,6cm, chia 21,7 ra 2,10cm/thốn: KÍCH THƯỚC thốn thì đúng (trùng 2,09 đo được), nhưng ĐIỂM NEO thì hỏng.\n· LR12 engine ở y=91,07cm, tức CAO HƠN bờ trên xương mu 3,59cm. Một huyệt vùng bẹn không thể nằm trên bờ trên xương mu 1,7 thốn. Chính LR12 kéo cả đoạn trôi lên.\n· LR10 (dưới nếp bẹn 3 thốn) phải ở y ≈ 87,48 − 3×2,09 = 81,2cm; engine đang để 84,88 → CAO HƠN 3,7cm.\n· LR11 (dưới nếp bẹn 2 thốn) phải ở y ≈ 83,3cm; engine đang để 86,95 → CAO HƠN 3,6cm.\n· Lượng trôi 3,6–3,7cm này khớp với cờ 'ép lên da dời 5,5–5,8cm' đã ghi: huyệt bị đẩy lên cao vào vùng bụng dưới/bẹn rồi mới bị tầng 5 kéo ngang ra da.\n· LR9 (trên lồi cầu trong xương đùi 4 thốn) phải ở y ≈ 47,01 + 4×2,09 = 55,4cm; engine để 55,25 → KHỚP. Đây là huyệt duy nhất trong bốn huyệt ngờ không bị thang kéo lệch, vì nó ở đầu gần lồi cầu.\n· Khuyến nghị khai lại: 'LR/dui' nên là tong=19, xaMoc='PATELLA' (bờ trên xương bánh chè, y=47,87) hoặc FEMUR_MED_EPICONDYLE, ganMoc='PUBIS' (y=87,48) — hai đầu là MỐC XƯƠNG, đúng luật đã chốt ở các phiên trước."
+  }
+ ],
+ "quyet": {
+  "phanQuyet": [
+   {
+    "code": "LR9",
+    "quyetDinh": "SUA",
+    "doTinCay": "vua",
+    "bangChung": "TÔI TỰ QUÉT VẠCH THƯỚC trên LR9_p330_0.jpeg (dải x 700–780): 19 vạch từ y=172,5 đến y=949,5, bước đều 43,17px = 18 QUÃNG. Ba vạch DÀI có nhãn rơi đúng vào SP11 (y=604,5 → 7,99 thốn), LR9 (y=777,5 → 3,98) và SP10 (y=863,5 → 1,99); chấm đỏ Le 9 (do-anh-atlas trả về 1063,777) nằm ngay trên vạch 4 thốn. Vậy sách đặt LR9 ở 4,00 thốn TRÊN BỜ TRÊN XƯƠNG BÁNH CHÈ — trùng WHO 2008 ('4 thốn trên nền xương bánh chè, giữa cơ thon và cơ may'). Quy ra mesh: bánh chè maxY=47,87 + 4×2,201 = y 56,67; engine để 55,25 → thấp 1,42cm. LỖI NẶNG HƠN LÀ MẶT CẮT: tôi đo lát y=55,25 thì cơ thon FMA43884 chiếm x[1,73–3,34] z[−3,26–−0,95], mà engine đặt LR9 ở (1,98 · 55,25 · −2,42) — NẰM LỌT TRONG BỤNG CƠ THON. Cả hai bản sách đều đòi huyệt ở RANH cơ may (WHO: cơ may|cơ thon; Focks+từ điển app: cơ may|cơ rộng trong), không bản nào đặt trong bụng cơ thon.",
+    "cachDung": "Cao độ: y = PATELLA_TOP(47,87) + 4 × thốn_đùi_trong(2,201) = 56,67cm. Mặt cắt: lấy KHE giữa cơ may FMA22355 (tại y=56,7 chiếm x[2,22–4,41] z[−0,32–2,21]) và cơ thon FMA43884 (x[1,74–3,62] z[−3,26–−1,04]) — khe nằm ở z ≈ −0,7, x ≈ 2,5–3,0; rồi ép lên da mặt trong, điểm da đo được tại lát ấy là (2,45 · 56,70 · 0,43). Toàn bộ ba khối này CÓ trong mesh nên luật thi hành được. Nếu chỉ muốn sửa một chiều thì sửa MẶT CẮT trước, cao độ để sau.",
+    "dichChuyenCm": "≈2,9–3,0cm tổng: từ (1,98 · 55,25 · −2,42) tới ≈ (2,4 · 56,7 · +0,2). Tách ra: mặt cắt 2,6cm (ra khỏi bụng cơ thon), cao độ 1,42cm (lên).",
+    "haiNguoiCoKhop": "KHÔNG HẲN. Chỉ người-1 đọc trực tiếp LR9 và kết luận 'lệch-nhẹ, lỗi chính là mặt cắt'. Người-2 chỉ suy gián tiếp trong phần thang đùi và bảo LR9 'KHỚP' (đích 55,4 so engine 55,25) — vì họ dùng thang 2,09 và mốc lồi cầu trong xương đùi. Hai người KHỚP ở chỗ: LR9 là huyệt duy nhất trong bốn huyệt ngờ KHÔNG bị đoạn 'LR/dui' kéo lệch. Họ LỆCH ở cao độ, và chỉ người-1 nhìn ra lỗi mặt cắt — lỗi này tôi đã tự đo lại và xác nhận.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: cao độ phụ thuộc chọn gốc nào. Gốc 'nền bánh chè' (WHO + thước p330 tôi tự đo) cho 56,67; gốc 'lồi cầu trong xương đùi' (từ điển app, Focks văn chính) với trục thigh_medial sẵn có cho 56,00 — chỉ cách engine 0,75cm, tức DƯỚI ngưỡng 1,2cm. Nghĩa là con số 1,42cm có thể thật ra chỉ là 0,75cm và cao độ đáng lẽ GIỮ. VÌ SAO VẪN SỬA: (a) phần bắt buộc của phán quyết là MẶT CẮT, và cả hai biến thể sách đều đòi ranh cơ may — engine đang nằm trong bụng cơ thon, sai theo mọi cách đọc; (b) LR9 hạng C (đang trong sổ 'ngo'), không có rào hạng A. Nếu người thi hành muốn dè dặt, sửa mặt cắt và đặt cao độ ở 56,0–56,7 (giữa hai biến thể) là an toàn."
+   },
+   {
+    "code": "LR10",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "TÔI TỰ QUÉT VẠCH THƯỚC trên LR10_p331_0.jpeg (dải x 1120–1180): 14 vạch từ y=463,5 đến y=924,0, bước đều 35,42px = 13 quãng; vạch 0 (y=463,5) là đường ngang 'Bờ trên khớp mu' mà chấm SP12 (do-anh-atlas: 942,460) nằm trên. Chấm ĐỎ LR10 (do-anh-atlas: 1012,570) → (570−463,5)/35,42 = 3,01 THỐN DƯỚI BỜ TRÊN KHỚP MU. Đúng WHO 2008 ('dưới ST30 3 thốn') và đúng Focks. Trên mesh mức ấy là y=87,48 (CV2, ST30, KI11 đều đang đứng đúng đó) → đích y = 87,48 − 3×2,201 = 80,88; engine để 84,88 → CAO 4,00cm. Bốn phép chiếu ảnh mà tôi chạy lại đều ra cùng dấu và cùng cỡ, ĐỘC LẬP với mọi thang thốn: ST30→ST32 −3,73cm · ST30→SP11 −4,91 · SP12→ST32 −4,06 · CV2→ST32 −3,23. NGUYÊN NHÂN GỐC tôi đã xác nhận trong cot-do-chi.cjs dòng 137: đoạn 'LR/dui' khai tong=21,7 với xa='LR8', gan='LR12', KHÔNG có xaMoc/ganMoc — neo vào hai HUYỆT, mà LR12 sai 5,8cm.",
+    "cachDung": "Khai lại đoạn: 'LR/dui' tong=18, xaMoc='PATELLA' (hoặc FEMUR_MED_EPICONDYLE, sai khác 0,86cm), ganMoc='PUBIS' — hai đầu là MỐC XƯƠNG, đúng luật đã chốt. LR10 ở mốc 15 thốn (= 3 thốn dưới PUBIS) → y = 87,48 − 3×2,201 = 80,88cm. Mặt cắt: rãnh ở BỜ NGOÀI cơ khép dài FMA22457 — tôi đo lát y=80,9 thì cơ này chiếm x[2,89–6,35] z[1,29–3,15], bờ ngoài ≈ (x 6,35 · z 1,5); cơ lược FMA22451 nằm ngoài nó (x[5,91–9,58]). Da mặt trước tại lát ấy: (6,94 · 81,63 · 6,66). Cả hai cơ CÓ trong mesh nên thi hành được; KHÔNG dùng 'nếp bẹn' vì mesh không có.",
+    "dichChuyenCm": "Cao độ: XUỐNG 4,00cm (y 84,88 → 80,88) — đây là phần BẮT BUỘC. Bề ngang: nếu theo bờ ngoài cơ khép dài thì x 4,85 → ≈6,0 (ra ngoài 1,15cm) — phần này ĐỘ TIN THẤP HƠN, xem tuThamTra.",
+    "haiNguoiCoKhop": "CÓ, chặt. Người-1 (đo thước p331): engine CAO 4,07cm. Người-2 (suy từ thang đùi tự dựng, không qua ảnh p331): engine CAO 3,7cm. Hai con số cách nhau 0,37cm — nằm gọn trong chênh lệch thang 2,20 vs 2,09 của chính họ. Cùng chiều, cùng cỡ, hai đường đi khác nhau.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: từ điển app khai gốc là 'dưới NẾP NHĂN BẸN 3 thốn', không phải bờ trên khớp mu. Tôi đo được dây chằng bẹn trên mesh ở cột x≈5 nằm khoảng y≈91 (đầu trên động mạch đùi FMA70250 = 90,82; đường HIP_ANT→củ mu tại x=5,5 cho y≈91,1) — cao hơn bờ trên khớp mu ~3,5cm. Đọc theo nếp bẹn thì đích là ≈84,4, tức ENGINE GẦN ĐÚNG và phán quyết của tôi sai hẳn. VÌ SAO VẪN SỬA: (a) mesh KHÔNG có nếp bẹn (người-2 quét da từ y=76 lên 100 thấy z tăng đơn điệu, không có chỗ lõm) nên luật ấy vô dụng theo yêu cầu 5 của phiên; (b) chính thước IN TRÊN ẢNH lấy gốc là bờ trên khớp mu, và WHO neo vào ST30 — hai nguồn mạnh hơn một câu văn; (c) quyết định nhất: bốn phép chiếu ảnh KHÔNG DÙNG THANG THỐN NÀO cho −3,2 đến −4,9cm, khớp với cách đọc 'khớp mu' (−4,0) và bác cách đọc 'nếp bẹn' (chỉ −0,5). Điểm yếu còn lại là BỀ NGANG: người-1 suy từ tỉ lệ ST25 ra x≈3,4 (vào trong), còn khe cơ khép dài cho x≈6,0 (ra ngoài) — hai hướng NGƯỢC NHAU, cách nhau 2,6cm. Nên chỉ áp cao độ, để bề ngang cho tầng khe mô tự giải, và ghi rõ là chưa chốt."
+   },
+   {
+    "code": "LR11",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "Cùng thước p331/p332 tôi đã tự quét (35,42px/thốn, gốc 0 = bờ trên khớp mu tại y=463,5): chấm LR11 (do-anh-atlas trên p331 trả về 999,539) → (539−463,5)/35,42 = 2,13 THỐN DƯỚI BỜ TRÊN KHỚP MU. Sách viết 2 thốn — khớp trong 0,13 thốn. Đích trên mesh: y = 87,48 − 2×2,201 = 83,08; engine để 86,95 → CAO 3,87cm. Bốn phép chiếu tôi chạy lại: ST30→ST32 −3,97cm · ST30→SP11 −4,55 · SP12→ST32 −4,22 · CV2→ST32 −3,51 — cùng dấu, cùng cỡ, độc lập thang thốn. Kiểm chuỗi: ba chấm LR12/LR11/LR10 trên cùng bản khắc ra 1,03 / 2,13 / 3,01 thốn — ĐƠN ĐIỆU và trùng đúng 1/2/3 thốn sách đòi; xác suất trùng ngẫu nhiên coi như không.",
+    "cachDung": "LR11 ở mốc 16 thốn của đoạn 'LR/dui' khai lại (tong=18, xaMoc=PATELLA, ganMoc=PUBIS) → y = 87,48 − 2×2,201 = 83,08cm. Mặt cắt: tôi đo lát y=83,1 — bờ NGOÀI cơ khép dài FMA22457 ở (x 5,27 · z ~2,5), và mesh CÓ động mạch đùi trái FMA70250 ngay đó tại (5,45 · 3,91), tức nông hơn ~1,4cm và gần trùng cột x. Đúng mô tả sách 'sát bờ trong động mạch đùi' / 'cách ĐM đùi ~1 thốn'. Da mặt trước tại lát ấy: (4,62 · 83,47 · 5,99). Giữ nguyên x≈5,1 của engine (đã đúng), chỉ hạ y rồi ép lên da.",
+    "dichChuyenCm": "XUỐNG 3,87cm (y 86,95 → 83,08). Bề ngang giữ nguyên (x 5,07 đã nằm đúng bờ ngoài cơ khép dài / sát ĐM đùi).",
+    "haiNguoiCoKhop": "CÓ, chặt. Người-1: engine CAO 4,20cm. Người-2 (đường suy hoàn toàn khác, qua thang đùi tự dựng): engine CAO 3,6cm. Cách nhau 0,6cm, cùng chiều. Cả hai cũng cùng giải thích được cờ máy cũ 'ÉP LÊN DA dời 5,5cm' bằng chính lỗi cao độ.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: tôi chỉ ĐO LẠI PIXEL chấm, KHÔNG tự đọc được nhãn chữ 'Le 11' trên ảnh — tôi tin nhãn do hai người đọc gán. Mà bẫy 'chấm đỏ không phải huyệt của trang' đã vấp ở chính bộ trang này (p331/332/333 là cùng một bản khắc, chỉ đổi chấm nào tô đỏ). Nếu gán nhãn sai thì con số 2,13 vô nghĩa. VÌ SAO VẪN GIỮ: hai người gán nhãn ĐỘC LẬP và trùng nhau trong 0,5px; và quan trọng hơn, chuỗi ba giá trị 1,03/2,13/3,01 tự nó là một phép kiểm — nếu nhãn bị hoán vị thì chuỗi sẽ không ra đúng 1/2/3 theo đúng thứ tự LR12<LR11<LR10 mà sách đòi. Điểm yếu thứ hai: đích 83,08 phụ thuộc mốc PUBIS của model-frame (87,48), mà bờ trên xương mu THẬT tôi đo trên FMA16587 là 88,43 — thấp hơn 0,95cm. Dùng 88,43 thì đích tụt thêm ~1cm, tức lệch còn LỚN HƠN; tôi lấy 87,48 vì đó là con số bảo thủ và là mức mà CV2/ST30/KI11 đang đứng, trùng đường gốc 0 của thước sách."
+   },
+   {
+    "code": "LR12",
+    "quyetDinh": "SUA",
+    "doTinCay": "cao",
+    "bangChung": "BẰNG CHỨNG MẠNH NHẤT CẢ PHIÊN, có dấu vân tay lỗi. (1) Thước p331 tôi tự quét đặt chấm LR12 (do-anh-atlas: 991,500) ở (500−463,5)/35,42 = 1,03 THỐN DƯỚI bờ trên khớp mu; ảnh chụp người thật ở p333 còn in thẳng mũi tên dọc '1 thốn' đi XUỐNG và mũi tên ngang '2,5 cun'. (2) Đích mesh: y = 87,48 − 1×2,201 = 85,28; engine để 91,07 → CAO 5,79cm. (3) DẤU VÂN TAY: tôi kiểm toạ độ engine thì LR12 y=91,07 TRÙNG KHÍT tới hai chữ số với CV3 Trung Cực (y=91,07), và 91,07 − 87,48 = 3,59 = ĐÚNG MỘT THỐN BỤNG DƯỚI (trục abd_lower: NAVEL 105,48 → PUBIS 87,48 = 18,0cm / 5 thốn = 3,60cm/thốn). Tức engine đã (a) đi NGƯỢC CHIỀU — sách bảo xuống 1 thốn, engine đi LÊN — và (b) dùng NHẦM THANG — thốn bụng 3,60 thay vì thốn đùi 2,20. Cộng lại 3,59 + 2,20 = 5,79cm, trùng ĐÚNG lượng lệch đo được. Đây không phải sai số vặt mà là lỗi luật, kiểm được bằng máy. (4) Bốn phép chiếu tôi chạy lại: −5,49 / −5,43 / −5,73 / −4,95cm, cùng dấu.",
+    "cachDung": "LR12 ở mốc 17 thốn của đoạn khai lại → y = PUBIS(87,48) − 1 × thốn_đùi(2,201) = 85,28cm. Bề ngang 2,5 thốn bụng: lấy ST25 (x=3,82 = 2 thốn ngang) làm thang → 1,91cm/thốn → x ≈ 4,78cm. Kiểm giải phẫu bằng thứ mesh CÓ: tại lát y=85,3 động mạch đùi trái FMA70250 nằm ở x[4,48–5,42] z[3,07–4,23] — đích rơi đúng cạnh bó mạch đùi như hình bóc cơ của sách vẽ; cơ khép dài FMA22457 ở x[1,83–4,16] tức đích nằm ngay bờ NGOÀI nó. Da mặt trước tại lát ấy z≈6,2–6,9. KHÔNG neo vào 'nếp bẹn' (mesh không có) và KHÔNG neo vào dây chằng bẹn (suy được y≈91 nhưng đó là chỗ engine đang đứng sai).",
+    "dichChuyenCm": "XUỐNG 5,79cm (y 91,07 → 85,28) và VÀO TRONG 0,76cm (x 5,54 → 4,78). Tổng dịch ≈5,84cm.",
+    "haiNguoiCoKhop": "CÓ. Người-1 đo thước ra CAO 5,88cm và tự tìm ra dấu vân tay 'thốn bụng + sai chiều'. Người-2 không đo ảnh LR12 nhưng phát biểu độc lập: 'LR12 engine ở y=91,07, CAO HƠN bờ trên xương mu 3,59cm — một huyệt vùng bẹn không thể nằm trên bờ trên xương mu 1,7 thốn'. Hai người cùng chỉ ra LR12 là đầu trên hỏng của đoạn, kéo lệch cả LR10 và LR11.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: bề ngang 2,5 thốn được quy đổi qua ST25, một huyệt bụng chưa hề được nghiệm thu trong phiên này; nếu ST25 lệch thì x=4,78 lệch theo. Ngoài ra LR12 là huyệt mà mesh THẬT SỰ không có mốc riêng (không nếp bẹn, không nếp lằn da) — mọi cách dựng đều là suy. VÌ SAO VẪN GIỮ: cao độ — phần chiếm 5,79 trong 5,84cm dịch chuyển — được chốt bằng BA đường độc lập (thước in trên ảnh, bốn phép chiếu tỉ lệ, và dấu vân tay số học trùng CV3), không đường nào đi qua ST25. Sai số bề ngang cỡ 1cm không lật được phán quyết. Điểm yếu thứ hai: cờ cũ ghi 'hai bản sách lệch nhau 7,8cm — đã lấy bản cũ'; tôi kết luận BẢN CŨ SAI (nó là bản đi lên) dựa vào mũi tên '1 thốn' in ngay trên ảnh chụp — bằng chứng hình, không phải suy diễn."
+   },
+   {
+    "code": "LR7",
+    "quyetDinh": "GIU",
+    "doTinCay": "cao",
+    "bangChung": "Bảy phép chiếu ảnh từ hai người, tôi chạy lại toàn bộ: SP6→SP9 −0,22cm (KHỚP) · LR4→LR8 +0,83 · LR5→LR8 +0,77 · LR6→LR8 +0,36 · SP10→SP9 +0,81 · LR8→SP9 −0,40 · SP11→SP9 +0,29. Giá trị lớn nhất 0,83cm, DƯỚI ngưỡng sửa 1,2cm. Kiểm trực tiếp trên toạ độ: mesh để LR7 (2,91 · 42,48 · −4,61) và SP9 (2,91 · 42,48 · −2,37) — CÙNG y, CÙNG x, lùi sau đúng 2,24cm = 0,79 thốn cẳng chân (thang MALLEOLUS_MED→TIBIA_MED_CONDYLE 13 thốn = 2,828cm/thốn). Sách vẽ hai chấm Mi 9 và Le 7 trên cùng một đường ngang ở CẢ HAI trang (p328 chênh 0,0px; p329 chênh 0,0px) và ghi mũi tên '1 thốn' đo ngang. Ghi chú trong sổ ('ngang Âm Lăng Tuyền SP9, lùi ra sau 1 thốn') là ĐÚNG SÁCH.",
+    "cachDung": "Giữ nguyên luật hiện có: ngang SP9 (mốc TIBIA_MED_CONDYLE), lùi ra SAU 1 thốn cẳng chân, đặt ở bờ sau xương chày trước đầu trong cơ bụng chân. Mô gần nhất mesh trả về (cơ bán gân 1,06cm · cơ bụng chân trong 1,4cm · xương chày 1,76cm) khớp mô tả sách.",
+    "dichChuyenCm": "0 — không dời.",
+    "haiNguoiCoKhop": "CÓ về TOẠ ĐỘ (cả hai đều thấy sai lệch dưới ngưỡng, và hai người trùng nhau ở phép SP10→SP9 = +0,81cm). LỆCH về CON SỐ SỔ SÁCH: người-1 nói giữ 11,6 thốn; người-2 nói con số đúng là 11,27 (ảnh đặt LR7 ở 13/15 quãng LR4→LR8). Tôi đứng về người-1 ở chỗ toạ độ, và về người-2 ở chỗ chẩn đoán: 11,6 chỉ là số SUY RA từ vị trí SP9, không phải số sách cho.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: cờ máy cũ 'LR7 lệch +1,25cm' bị tôi bác là LẬP LUẬN VÒNG (nó so khoảng LR7–LR8 với 1,4 thốn vốn tính ngược từ chính 11,6) — nhưng người-2 chỉ ra một lỗi THẬT nằm sâu hơn mà tôi KHÔNG sửa: bảng khai 'LR/cang-chan' lấy ganMoc='TIBIA_MED_CONDYLE' gán cho LR8, trong khi sách vẽ mốc ấy ở mức LR7/SP9, còn LR8 cao hơn 2 thốn nữa (nếp kheo). Nghĩa là con số 11,6 đang đúng vị trí nhưng SAI HỌ HÀNG. VÌ SAO VẪN GIỮ: sửa cách neo đoạn sẽ kéo theo LR5, LR6 và cả LR8 — mà LR8 tôi đang TREO chờ trọng tài mốc gối. Dời LR7 lúc này là dời một huyệt hạng A đang ĐÚNG để chạy theo một con số sổ sách; thà giữ toạ độ đúng và ghi nợ việc khai lại đoạn."
+   },
+   {
+    "code": "LR8",
+    "quyetDinh": "TREO",
+    "doTinCay": "vua",
+    "bangChung": "CÓ dấu hiệu lệch thật, nhưng KHÔNG chốt được thủ phạm. Bốn phép chiếu tôi chạy lại: SP9→SP10 −1,28cm · LR7→LR10 −1,44 · SP9→SP11 −1,87 · LR7→LR9 +0,45. Ba trên bốn vượt ngưỡng 1,2cm, cùng dấu (mesh đặt LR8 thấp hơn ảnh). Phép độc lập không qua thang đùi: cả hai trang vẽ LR8 cách SP9 đúng 2 thốn cẳng chân — tôi quét lại thước phụ p329 và ra 41,0px/thốn-đùi so 55,0px/thốn-cẳng, tỉ số 1,274; tỉ số THẬT trên mesh là 2,828/2,201 = 1,285 (khớp 0,9%), nên phép quy đổi đáng tin: 2 thốn cẳng = 5,66cm, mesh chỉ có 4,14cm → thiếu 1,52cm. NHƯNG: engine đã đặt LR8 (y=46,62) đúng vào mốc POPLITEAL của model-frame (y=46,17), tức luật dựng LR8 KHÔNG sai — MỐC sai. Và mốc ấy khả nghi thật: tôi đo bánh chè trái FMA24487 spans y[43,95–47,87], nên POPLITEAL 46,17 đang nằm ngang GIỮA xương bánh chè, trong khi nếp kheo giải phẫu phải ở ngang hoặc dưới cực dưới bánh chè (43,95). Nâng LR8 thêm 1,5cm sẽ đẩy nó lên y≈48,1 — CAO HƠN cả bờ trên xương bánh chè, vô lý về giải phẫu.",
+    "cachDung": "CHƯA DỰNG LẠI. Việc phải làm trước, giao phiên sau: trọng tài mốc POPLITEAL và ba thang cẳng chân đang mâu thuẫn tới 19% trong model-frame (MALLEOLUS_MED→TIBIA_MED_CONDYLE 13 thốn = 2,83cm/thốn · MALLEOLUS_LAT→POPLITEAL 16 thốn = 2,37 · thước sách p328 mắt cá trong→nếp kheo 15 thốn = 2,53). Kèm hai huyệt cùng cụm: SP9 (đang ở y=42,48 trong khi TIBIA_MED_CONDYLE khai y=44,73 — lệch 2,25cm) và KI10 (mesh để cách LR8 6,63cm = 2,34 thốn trong khi sách vẽ đúng 1 thốn, z lệch 5,94cm).",
+    "dichChuyenCm": "0 lúc này. Nếu sau khi chốt mốc gối vẫn còn lệch thì hướng dịch là LÊN 1,3–1,9cm dọc trục cẳng chân.",
+    "haiNguoiCoKhop": "CHỈ MỘT NGƯỜI ĐỌC (người-2). Người-1 không đọc LR8 nhưng khi đọc LR7 có bắn cùng một cờ độc lập: 'trên thước 18 thốn của p330, LR8 phải ở 2,50 thốn DƯỚI bờ trên bánh chè (≈y 42,3) còn mesh để 46,62 — mốc nếp kheo/LR8 có thể đang cao 3–4cm'. Hai người CÙNG nghi mốc POPLITEAL nhưng chỉ hai HƯỚNG NGƯỢC NHAU (người-2 bảo LR8 quá THẤP, người-1 bảo quá CAO) — chính mâu thuẫn này là lý do treo.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT CỦA CHÍNH PHÁN QUYẾT TREO: ba phép đo vượt ngưỡng và một phép quy đổi thốn cẳng/thốn đùi khớp tới 0,9% — theo luật ngưỡng của phiên (trên 1,2cm là đáng sửa) thì lẽ ra phải SỬA, và treo là trốn việc. VÌ SAO VẪN TREO: (a) LR8 hạng A, neo bằng bằng chứng giải phẫu ('đầu trong nếp kheo, ngay trước gân bán gân/bán màng', dựng từ xương/gân atlas) — luật 6 đòi bằng chứng MẠNH HƠN, mà bằng chứng tôi có lại tự mâu thuẫn: hai người đọc ảnh suy ra hai HƯỚNG dịch ngược nhau (lên 1,5cm vs xuống 4,3cm); (b) đích nào cũng vô lý — nâng 1,5cm thì LR8 vượt lên trên bờ trên bánh chè; (c) đây đúng khuôn cái bẫy TE11/TE12/TE13 phiên trước: ba cách đo cho ba thang khác nhau rồi hội đồng suýt áp con số sai. Cẳng chân đang có ĐÚNG ba thang lệch 19%. Thà thiếu còn hơn sai."
+   },
+   {
+    "code": "LR13",
+    "quyetDinh": "TREO",
+    "doTinCay": "thap",
+    "bangChung": "CAO ĐỘ THÌ ĐÚNG, CHIỀU TRƯỚC-SAU thì ngờ. Cao độ: phép SP15→SP17 chỉ lệch −0,63cm; thước rốn p335 cho LR13 ở 1,29 thốn trên rốn, mesh cho (108,11−105,48)/2,528 = 1,04 thốn, sách đòi 1 — khớp. Chiều trước-sau: hai phép mạnh nhất tôi chạy lại là GB25→GB24 −1,75cm và GB26→GB24 −2,31cm, cùng đòi LR13 tiến RA TRƯỚC 1,7–2,3cm (hai phép GB30→GB24 và CV4→GB24 phải LOẠI vì đoạn cắt ngang thân, LR13 lệch khỏi đoạn tới 8,4 và 14,8cm). NHƯNG tôi tự đo mút sườn trên mesh và thấy hình học sườn đáng ngờ: mút tự do sườn 11 trái FMA8532 ở (11,00 · 109,60 · −1,24), mút sườn 12 FMA8534 ở (8,51 · 109,28 · −4,14) — HAI MÚT GẦN NHƯ CÙNG CAO ĐỘ (chênh 0,32cm) trong khi giải phẫu đòi sườn 12 phải thấp hơn rõ; và mút sườn 11 mới vươn tới z=−1,24 (rất ngắn, gần như chưa vòng ra trước) trong khi mút sườn 10 đã ở z=+0,63. Engine đặt LR13 (13,13 · 108,11 · −1,31) tức cách mút sườn 11 đúng 2,60cm theo đường thẳng — bằng bề dày da vùng đó, hợp luật 'bờ dưới đầu tự do xương sườn 11'. Đẩy ra trước 2cm nữa thì LR13 RỜI KHỎI mút sườn 11 và trôi về phía sườn 10.",
+    "cachDung": "CHƯA DỰNG LẠI. Việc trước: trọng tài hình học mút sườn 11/12 trên mesh (FMA8532 / FMA8534), và soát lại GB25 (mút sườn 12) cùng GB26 — vì hai mốc GB này chính là thứ sinh ra cả hai phép chiếu vượt ngưỡng. Nếu mút sườn 11 của mesh đúng thì GIỮ NGUYÊN LR13 và lỗi nằm ở GB25/GB26.",
+    "dichChuyenCm": "0 lúc này. Nếu sau trọng tài vẫn còn lệch thì hướng là RA TRƯỚC (z bớt âm) 1,7–2,3cm, nhưng khi đó phải kiểm lại xem huyệt còn bám mút sườn 11 không.",
+    "haiNguoiCoKhop": "CHỈ MỘT NGƯỜI ĐỌC (người-2), và chính người ấy tự đề nghị 'chưa dời LR13 vội, trọng tài mút sườn 11/12 trước'. Không có người thứ hai để đối chứng — đây là lý do độ tin đặt THẤP.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: tôi treo một huyệt hạng A dựa phần lớn vào nghi ngờ về hình học mesh, mà nghi ngờ ấy tự nó chưa được kiểm bằng nguồn ngoài — tôi mới chỉ thấy hai mút sườn cùng cao độ và cho là bất thường, chứ chưa đối chiếu với hình sách. Có thể mesh đúng và LR13 thật sự phải ra trước 2cm. VÌ SAO VẪN TREO chứ không SỬA: LR13 hạng A với lý do 'đầu tự do xương sườn 11' — dời ra trước 2cm sẽ PHÁ CHÍNH CÁI NEO ĐÓ, tức bằng chứng mới phải mạnh hơn bằng chứng cũ mà nó lại chỉ là hai phép chiếu qua GB25/GB26, hai huyệt chưa ai nghiệm thu trong phiên này. Đúng khuôn bẫy 'một lệch đo được có thể là lỗi của MỐC, không của huyệt đang xét'. VÌ SAO KHÔNG GIỮ hẳn: hai phép chiếu vượt ngưỡng 1,2cm và cùng dấu — đủ để không dám tuyên là sạch."
+   },
+   {
+    "code": "LR14",
+    "quyetDinh": "GIU",
+    "doTinCay": "cao",
+    "bangChung": "Ba phép chiếu tôi chạy lại đều dưới ngưỡng: SP15→SP17 +0,03cm (KHỚP) · SP16→SP17 −0,39 (KHỚP) · GB24→SP17 −0,56. Nhưng bằng chứng mạnh hơn là phép ĐO XƯƠNG TRỰC TIẾP: engine để LR14 y=120,78; tôi đo trên mesh thì mút sụn sườn 6 trái FMA8221 ở (9,29 · 121,82 · 9,26) và mút sụn sườn 7 FMA8275 ở (10,84 · 119,05 · 7,80) — LR14 nằm LỌT giữa hai bờ ấy, đúng định nghĩa 'khe gian sườn 6'. Bề ngang: cờ Focks đòi 4 thốn, đo được 3,95 (lệch 0,1cm). Khoảng LR14–GB24 cũng khớp: ảnh 1,33 thốn, mesh 1,24 thốn = đúng một khoang liên sườn.",
+    "cachDung": "Giữ nguyên luật hiện có: khe gian sườn 6, trên đường dọc qua đầu vú (4 thốn ngang). Mesh KHÔNG dựng núm vú (tìm nipple/areola/breast đều rỗng) nên đường ấy phải suy từ khe sườn — cách engine đang làm là đúng và thi hành được.",
+    "dichChuyenCm": "0 — không dời.",
+    "haiNguoiCoKhop": "CHỈ MỘT NGƯỜI ĐỌC (người-2), kết luận 'khớp'. Tôi đã tự chạy lại cả ba phép chiếu và tự đo lại mút sụn sườn 6/7 trên mesh, ra cùng kết luận — nên tuy chỉ một người đọc ảnh, phần đo mesh là độc lập.",
+    "tuThamTra": "ĐIỂM YẾU NHẤT: theo thước rốn của sách p335, LR14 ở 6,39 thốn trên rốn còn mesh cho 6,05 — chênh 0,34 thốn ≈ 0,86cm, tức gần chạm ngưỡng lệch-nhẹ. VÌ SAO VẪN GIỮ: lệch ấy KHÔNG riêng của LR14 — GB24 lệch cùng chiều 0,32 thốn và SP17 lệch cùng chiều 0,70 thốn, tức cả cột ngực trên mesh trôi đều so với thước rốn của sách. Đó là chuyện TỈ LỆ THÂN của mesh, không phải chuyện huyệt; dời riêng LR14 để chạy theo nó sẽ phá quan hệ LR14–GB24 hiện đang khớp đúng một khoang liên sườn. Điểm yếu thứ hai: 'đường dọc qua đầu vú' không kiểm được vì mesh không có núm vú — nhưng con số 3,95 so 4 thốn cho thấy cách suy hiện tại chưa lệch."
+   }
+  ],
+  "thangDuiChot": "CHỐT ĐƯỢC, KHÔNG PHẢI TREO. **1 thốn đùi trong = 2,20cm** (dải 2,20–2,25), trên chuẩn **18 THỐN từ BỜ TRÊN KHỚP MU tới BỜ TRÊN XƯƠNG BÁNH CHÈ**.\n\nBỐN PHÉP ĐO ĐỘC LẬP, TÔI TỰ CHẠY (không chép của hai người đọc ảnh):\n\n1. QUÉT VẠCH THƯỚC p330 (LR9_p330_0.jpeg, dải x 700–780). Kết quả máy: 19 vạch từ y=172,5 tới y=949,5, bước ĐỀU 43,17px → **18 QUÃNG**. Ba vạch DÀI có nhãn rơi đúng chỗ: y=604,5 → 7,99 thốn (SP11, sách ghi 8), y=777,5 → 3,98 (LR9, sách ghi 4), y=863,5 → 1,99 (SP10, sách ghi 2). Hai vạch dài nhất (81px) là hai ĐẦU thước: y=949,5 = bờ trên bánh chè (0) và y=172,5 = bờ trên khớp mu (18).\n\n2. QUÉT VẠCH THƯỚC p329 (LR8_p329_0.jpeg, dải x 80–140). 19 vạch từ y=108,5 tới y=845,0, bước ĐỀU 41,0px → **18 QUÃNG**, 40,92px/thốn. Cũng ba vạch dài đúng chỗ: y=518,5 → 8,02 (SP11), y=764,5 → 2,00 (SP10), y=681,5 → 3,98 (LR9).\n\n3. QUÉT VẠCH THƯỚC p331 (thước THỨ HAI, kiểu khác hẳn: 0→13 đi XUỐNG từ bờ trên khớp mu). 14 vạch từ y=463,5 tới y=924,0, bước đều 35,42px. Trên thước ấy SP11 rơi vào 10,01 thốn dưới khớp mu và ST32 vào 12,04. Nếu tổng đùi là 18 thì SP11 = 18−10,01 = 7,99 (đúng 8 thốn sách) và ST32 = 18−12,04 = 5,96 (đúng 6 thốn trên bánh chè). Nếu tổng là 19 thì ra 8,99 và 6,96 — SAI cả hai.\n\n4. KIỂM CHÉO KHÔNG QUA VẠCH NÀO: tỉ số px thốn-cẳng/thốn-đùi trên p329 là 55,0/40,92 = 1,344... (đọc 19) hoặc tính đúng theo vạch đo được là 55,0/40,92; còn tỉ số THẬT trên mesh là thốn-cẳng 2,828 (MALLEOLUS_MED→TIBIA_MED_CONDYLE, 13 thốn) chia thốn-đùi. Với thốn-đùi 2,201 ra 1,285; với 2,085 ra 1,356. Tỉ số px đo được 55,0/43,17 (thước p330) = 1,274 → khớp bản 18 thốn trong 0,9%, lệch bản 19 thốn 6%.\n\nĐO TRÊN MESH (tôi tự quét, hai phép neo MỐC XƯƠNG):\n· Bờ trên khớp mu: quét xương chậu trái FMA16587, đỉnh gần đường giữa (|x|<1cm) cho y max = 88,43 (x=0,92 · z=2,81); bờ dưới khớp mu 85,39; củ mu (1,85 · 87,94 · 3,81). Bờ trên xương bánh chè FMA24487: y max = 47,87.\n· Quãng dọc: 88,43−47,87 = 40,56cm ÷ 18 = **2,253**; dùng mốc PUBIS mà model-frame đang khai (87,48, thấp hơn bờ xương thật 0,95cm): 39,61 ÷ 18 = **2,201**.\n· Lồi cầu trong xương đùi tôi dò lại trên FMA24475 (đầu xa, x nhỏ nhất) = (3,23 · 48,19 · −3,09); model-frame khai (3,40 · 47,01 · −1,91), lệch 1,18cm — chỗ này đáng soát riêng nhưng không lật thang.\n\nHAI NGƯỜI ĐỌC ẢNH LỆCH NHAU 6,2% (2,22 vs 2,09) — DƯỚI ngưỡng 15% nên không phải treo; và tôi đã phân xử được nguyên nhân lệch, không phải hoà. **NGƯỜI-2 SAI: họ đếm nhầm vạch.** Họ khai 'p329 có 20 vạch từ y=67,5 đến y=845,0 → 19 quãng'. Quét máy của tôi cho thấy y=72,5 KHÔNG PHẢI VẠCH mà là khối chữ nhãn '18 thốn' (dày 14px, trong khi vạch thật chỉ dày 1–2px); vạch trên cùng THẬT là y=108,5. Bỏ khối chữ đi thì còn đúng 19 vạch / 18 quãng. Người-1 ra đúng 18 nhưng cũng khai nhầm '20 vạch' vì gộp glyph chữ ở y=139,5/152,5 vào.\n\nHỆ QUẢ: mọi đích trong phiên này tính bằng 2,201 (bảo thủ, và trùng mức mà CV2/ST30/KI11 đang đứng — đúng đường gốc 0 của thước sách). Dùng 2,253 thì các huyệt LR10/11/12 lệch còn LỚN HƠN, nên chọn 2,201 không làm nhẹ tay ai.\n\nNẾP BẸN: KHÔNG DÙNG LÀM GỐC THANG. Mesh không có nếp gấp mô mềm (lớp da là vỏ trơn, ~22.900 đỉnh toàn thân). Suy gián tiếp được mức dây chằng bẹn ở cột x≈5 là y≈91 (đầu trên động mạch đùi FMA70250 = 90,82 tôi đo được, và đường HIP_ANT→củ mu tại x=5,5 cho y≈91,1 — hai phép trùng trong 0,3cm), tức cao hơn bờ trên khớp mu ~2,7–3,5cm. Con số này chỉ dùng để GIẢI THÍCH vì sao văn bản 'dưới nếp bẹn 3 thốn' và 'dưới bờ trên khớp mu 3 thốn' ra hai chỗ khác nhau; KHÔNG dùng làm mốc dựng.",
+  "vanDeKhung": "BA LỖI KHUNG, xếp theo mức chắc chắn.\n\n1. **ĐOẠN 'LR/dui' NEO VÀO HAI HUYỆT — lỗi đã xác nhận, phải sửa.** cot-do-chi.cjs dòng 137 khai `'LR/dui': { tong: 21.7, xa: 'LR8', gan: 'LR12', diem: { LR9: 4, LR10: 18.7, LR11: 19.7 } }` — KHÔNG có xaMoc/ganMoc, trong khi mọi đoạn tử tế khác (kể cả 'LR/cang-chan' ngay trên nó) đều khai mốc xương. Hậu quả đúng như bối cảnh máy đã cảnh báo: LR9/LR10/LR11 đo ra khớp hoàn hảo tới hai chữ số vì thang được neo vào chính chúng, còn đầu trên LR12 thì sai 5,8cm nên kéo lệch cả cụm. ĐỀ NGHỊ KHAI LẠI: `{ tong: 18, xaMoc: 'PATELLA', ganMoc: 'PUBIS', diem: { LR9: 4, LR10: 15, LR11: 16, LR12: 17 } }` — hai đầu là MỐC XƯƠNG, tổng 18 thốn đã chốt bằng bốn phép đo. (Trục `thigh_medial` PUBIS→FEMUR_MED_EPICONDYLE cun 18 ĐÃ CÓ SẴN trong model-frame dòng 196; dùng nó cũng được, sai khác so mốc bánh chè chỉ 0,15–0,20cm ở LR10/11/12 và 0,67cm ở LR9.) LR8 KHÔNG nên là điểm của đoạn này — nó thuộc nếp kheo, một hệ mốc khác.\n\n2. **CỤM MỐC GỐI MÂU THUẪN — chưa chốt, làm LR8 không phán được.** POPLITEAL khai y=46,17 nhưng tôi đo xương bánh chè FMA24487 spans y[43,95–47,87], tức mốc nếp kheo đang nằm ngang GIỮA bánh chè trong khi giải phẫu đòi nó ở ngang hoặc dưới cực dưới (43,95). Cùng lúc TIBIA_MED_CONDYLE khai y=44,73 nhưng SP9 — huyệt được định nghĩa CHÍNH LÀ mốc ấy — đang ở y=42,48, lệch 2,25cm. Và ba thang cẳng chân trong khung lệch nhau tới 19%: MALLEOLUS_MED→TIBIA_MED_CONDYLE 13 thốn = 2,83cm/thốn; MALLEOLUS_LAT→POPLITEAL 16 thốn = 2,37; thước sách p328 (mắt cá trong→nếp kheo, 15 thốn) = 2,53. Đây ĐÚNG khuôn bẫy TE11/TE12/TE13 phiên trước (ba cách đo cho 2,57/3,27/3,49). Giao phiên sau: trọng tài POPLITEAL + TIBIA_MED_CONDYLE, kéo theo LR8, SP9, KI10 (mesh để KI10 cách LR8 6,63cm = 2,34 thốn trong khi sách vẽ 1 thốn; z lệch 5,94cm).\n\n3. **HÌNH HỌC MÚT SƯỜN 11/12 ĐÁNG NGỜ — làm LR13 không phán được.** Tôi đo trên mesh: mút tự do sườn 11 trái FMA8532 ở (11,00 · 109,60 · −1,24) và mút sườn 12 FMA8534 ở (8,51 · 109,28 · −4,14) — hai mút gần như CÙNG CAO ĐỘ (chênh 0,32cm), trong khi giải phẫu đòi sườn 12 thấp hơn rõ. Sườn 11 lại rất ngắn (mới tới z=−1,24) trong khi sườn 10 đã vươn tới z=+0,63. GB25 (mút sườn 12) và GB26 — hai mốc sinh ra hai phép chiếu vượt ngưỡng của LR13 — do đó cũng đáng ngờ. Giao phiên sau.\n\nGHI THÊM, ngoài phạm vi nhưng lộ ra khi làm: (a) mốc PUBIS trong model-frame (87,48) thấp hơn bờ trên xương mu THẬT mà tôi quét được trên FMA16587 (88,43) đúng 0,95cm — dùng số thật thì mọi lệch của LR10/11/12 còn lớn hơn, nên tôi giữ 87,48 cho bảo thủ, nhưng nên soát riêng; (b) FEMUR_MED_EPICONDYLE khai (3,40 · 47,01 · −1,91) trong khi tôi dò lại được (3,23 · 48,19 · −3,09), lệch 1,18cm; (c) SP11 Cơ Môn đang ở x=13,39 — thuộc mặt NGOÀI đùi, trong khi nó là huyệt mặt TRONG (SP10 ở x=6,09); cả cột SP đùi trong cũng đang thấp ~1,7cm so bờ trên bánh chè. Cả ba đều ngoài danh sách phiên này.\n\nVỀ CẶP ĐỤNG ĐỘ: đúng như bối cảnh nói, kinh Can không đụng kinh nào dưới 1,5cm — phiên này không phân xử cặp nào."
+ }
+}

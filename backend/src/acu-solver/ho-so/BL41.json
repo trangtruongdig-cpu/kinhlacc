@@ -1,0 +1,142 @@
+{
+ "code": "BL41",
+ "mer": "BL",
+ "num": 41,
+ "tenApp": "Phụ Phân",
+ "tenFocks": "PHỤ PHÂN",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Dưới gai sống lưng 2, đo ra 3 thốn, cách ngang huyệt Phong Môn 1,5 thốn.",
+  "focksViTri": "Cách đường giữa lưng 3 thốn, ngang bờ dưới của mỏm gai đốt sống T2.",
+  "focksCachXacDinh": "Từ mỏm gai đốt sống C7. Từ đó, đếm xuống tới bờ dưới mỏm gai đốt sống T2. Từ đây, sang ngang 3 thốn và xác định vị trí huyệt Phụ phân (Bl 41) ở đây. Nhánh ngoài của kinh Bàng quang bắt đầu từ huyệt Phụ phân (Bl 41) đi đến huyệt Trật biên (Bl 54). Ở cùng độ cao có huyệt Hoa đà giáp tích (Huatuojiaji 華佗夾脊 Ex-B 2) đường chính giữa ra 0,5 thốn; huyệt Phong môn (Bl 12) đường chính giữa ra 1,5 thốn và huyệt Khúc viên (Dü/SI 13) nằm xa hơn về phía bên, huyệt nằm trên xương bả vai.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/BL41_p179_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0336,
+  "y": 0.8113,
+  "z": -0.0792,
+  "conf": "mốc",
+  "caoDoCm": 139.46,
+  "ngangCm": 5.78,
+  "truocSauCm": -13.61
+ },
+ "nghiemThu": {
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "đường Bàng Quang NGOÀI — cách đường giữa lưng 3 thốn",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "lung-ngoai",
+  "vung": "ĐƯỜNG NGOÀI — lưng, 3 thốn ngang",
+  "moTaRanh": "bờ trong xương bả vai kéo dài xuống, ngoài cơ dài lưng",
+  "diemTrongDoan": [
+   "BL41",
+   "BL42",
+   "BL43",
+   "BL44",
+   "BL45",
+   "BL46",
+   "BL47",
+   "BL48",
+   "BL49",
+   "BL50",
+   "BL51",
+   "BL52",
+   "BL53",
+   "BL54"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "BL40",
+   "ten": "Ủy Trung",
+   "thang": 94.57,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 110.6,
+   "sachDoiThon": null,
+   "vitri": "Ngay giữa lằn chỉ ngang nếp nhượng chân."
+  },
+  {
+   "code": "BL42",
+   "ten": "Phách Hộ",
+   "thang": 2.2,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 1.7,
+   "sachDoiThon": null,
+   "vitri": "Dưới gai đốt sống lưng 3, đo ngang ra 3 thốn."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "SI13",
+   "ten": "Khúc Viên",
+   "cm": 0.85
+  },
+  {
+   "code": "BL42",
+   "ten": "Phách Hộ",
+   "cm": 2.2
+  },
+  {
+   "code": "SI12",
+   "ten": "Bỉnh Phong",
+   "cm": 3.01
+  },
+  {
+   "code": "BL12",
+   "ten": "Phong Môn",
+   "cm": 3.03
+  },
+  {
+   "code": "BL13",
+   "ten": "Phế Du",
+   "cm": 3.76
+  },
+  {
+   "code": "BL11",
+   "ten": "Đại Trử",
+   "cm": 3.9
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Phần lên của cơ thang trái",
+   "lop": "muscle",
+   "cm": 2.44
+  },
+  {
+   "ten": "Phần ngang của cơ thang trái",
+   "lop": "muscle",
+   "cm": 3.42
+  },
+  {
+   "ten": "Cơ trám bé trái",
+   "lop": "muscle",
+   "cm": 4.52
+  },
+  {
+   "ten": "Xương vai trái",
+   "lop": "bone",
+   "cm": 4.81
+  },
+  {
+   "ten": "Cơ trám lớn trái",
+   "lop": "muscle",
+   "cm": 4.85
+  }
+ ],
+ "coKiemMay": [
+  "XA ĐƯỜNG KINH 0cm",
+  "TỪ ĐIỂN APP kêu: dọc \"BL12\" đòi 1.5 thốn, đo được 0.22  (lệch 4.37cm)",
+  "ATLAS FOCKS kêu: ngang \"null\" đòi 3 thốn, đo được 3.05  (lệch 0.1cm)"
+ ]
+}

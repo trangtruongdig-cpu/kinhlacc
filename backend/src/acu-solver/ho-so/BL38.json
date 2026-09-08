@@ -1,0 +1,130 @@
+{
+ "code": "BL38",
+ "mer": "BL",
+ "num": 38,
+ "tenApp": "Phù Khích",
+ "tenFocks": "PHÙ KHÍCH",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Trên nhượng chân 1 thốn, ở trong góc tạo bởi cơ 2 đầu đùi và bờ ngoài cơ bán mạc.",
+  "focksViTri": "Bên ngoài vùng khoeo, trên 1 thốn bên ngoài huyệt Uỷ trung Bl 40 (giữa xương khoeo) và ở phía trong cơ nhị đầu đùi, tức là cách huyệt Uỷ dương (Bl 39) gần 1 thốn.",
+  "focksCachXacDinh": "Từ khe khớp gối, khi gập đầu gối, gân cơ nhị đầu đùi trở nên rõ ràng hơn và sờ thấy được mặt bên ở hố khoeo. Xác định vị trí huyệt Phù khích (Bl 38) trên cạnh trong của nó, cách khớp gối gần 1 thốn. Huyệt Uỷ dương (Bl 39) cách huyệt Phù khích (Bl 38) 1 thốn ở nếp gấp khớp gối.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/BL38_p176_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0546,
+  "y": 0.2739,
+  "z": -0.0462,
+  "conf": "khe",
+  "caoDoCm": 47.08,
+  "ngangCm": 9.39,
+  "truocSauCm": -7.94
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "sach",
+   "duong"
+  ],
+  "ly": "hai bản sách lệch nhau 5.9cm — đã lấy bản cũ · RẢI DỌC ĐƯỜNG: dời 5.54cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 5.54cm về đường kinh — toạ độ cũ sai nhiều,"
+ },
+ "duongKinh": {
+  "doan": "dui-sau",
+  "vung": "mặt sau đùi",
+  "moTaRanh": "giữa cơ nhị đầu đùi và cơ bán gân, xuống giữa nếp kheo",
+  "diemTrongDoan": [
+   "BL36",
+   "BL37",
+   "BL38",
+   "BL39",
+   "BL40"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": {
+  "doan": "BL/dui-sau",
+  "tong": 12.9,
+  "xa": "BL40",
+  "gan": "BL36",
+  "thonCuaHuyet": 1,
+  "lechNgang": null,
+  "moiDiem": {
+   "BL38": 1,
+   "BL37": 6.9
+  }
+ },
+ "hangXom": [
+  {
+   "code": "BL37",
+   "ten": "Ân Môn",
+   "thang": 14.28,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 15.9,
+   "sachDoiThon": 5.9,
+   "vitri": "Dưới nếp mông 6 thốn, mặt sau xương đùi, điểm giữa khe của cơ bám gân và cơ nhị đầu đùi."
+  },
+  {
+   "code": "BL39",
+   "ten": "Ủy Dương",
+   "thang": 2.99,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2.8,
+   "sachDoiThon": null,
+   "vitri": "Ở đầu ngoài nếp nhượng chân, mặt sau lồi cầu ngoài xương đùi, giữa 2 gân cơ nhị đầu đùi và cơ gan chân."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "BL40",
+   "ten": "Ủy Trung",
+   "cm": 2.71
+  },
+  {
+   "code": "BL39",
+   "ten": "Ủy Dương",
+   "cm": 2.99
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Đầu ngoài của cơ bụng chân trái",
+   "lop": "muscle",
+   "cm": 1.81
+  },
+  {
+   "ten": "Cơ gan chân trái",
+   "lop": "muscle",
+   "cm": 2.72
+  },
+  {
+   "ten": "Đầu trong của cơ bụng chân trái",
+   "lop": "muscle",
+   "cm": 2.79
+  },
+  {
+   "ten": "Đầu dài của cơ nhị đầu đùi trái",
+   "lop": "muscle",
+   "cm": 2.99
+  },
+  {
+   "ten": "Cơ khoeo trái",
+   "lop": "muscle",
+   "cm": 3.23
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 5.54cm (conf=khe)",
+  "XA ĐƯỜNG KINH 4.52cm",
+  "AUDIT cờ soát: hai bản sách lệch nhau 5.9cm — đã lấy bản cũ · RẢI DỌC ĐƯỜNG: dời 5.54cm về đường kinh — toạ độ cũ sai nhiều, ",
+  "TỪ ĐIỂN APP kêu: dọc \"POPLITEAL\" đòi 1 thốn, đo được 0.78  (lệch 0.48cm)",
+  "ATLAS FOCKS kêu: dọc \"BL39\" đòi 1 thốn, đo được 1.11  (lệch 0.23cm)"
+ ]
+}

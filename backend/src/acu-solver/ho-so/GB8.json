@@ -1,0 +1,132 @@
+{
+ "code": "GB8",
+ "mer": "GB",
+ "num": 8,
+ "tenApp": "Suất Cốc",
+ "tenFocks": "SUẤT CỐC",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Gấp vành tai, huyệt ở ngay trên đỉnh vành tai, trong chân tóc 1,5 thốn.",
+  "focksViTri": "Nằm ngay phía trên đỉnh tai, chỗ lõm ở bờ trên của cơ thái dương, cách đường chân tóc khoảng 1,5 thốn.",
+  "focksCachXacDinh": "Tìm đỉnh vành tai, ở đây tại chân tóc thái dương là huyệt Giác tôn (SJ/TB 20). Sờ nắn từ đây thẳng lên trên đến khi ngón tay trượt vào một chỗ lõm xương nhỏ huyệt Suất cốc (Gb 8), thường nhạy cảm với áp lực. Để tham chiếu: Huyệt cách đường chân tóc quanh tai khoảng 1,5 thốn (bề rộng 2 ngón tay). Trong quá trình cử động nhai, sờ thấy được chuyển động của cơ thái dương ở huyệt Suất cốc (Gb 8). Huyệt Thiên xung (Gb 9) nằm cùng mức, từ huyệt Suất cốc (Gb 8) ngang ra sau 0,5 thốn.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/GB8_p279_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0419,
+  "y": 0.9501,
+  "z": -0.0066,
+  "conf": "cao",
+  "caoDoCm": 163.32,
+  "ngangCm": 7.2,
+  "truocSauCm": -1.13
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 11.43cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "sau-tai",
+  "vung": "trên và sau tai",
+  "moTaRanh": "vòng trên đỉnh tai rồi xuống sau tai, tới bờ dưới mỏm chũm",
+  "diemTrongDoan": [
+   "GB7",
+   "GB8",
+   "GB9",
+   "GB10",
+   "GB11",
+   "GB12"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "GB7",
+   "ten": "Khúc Tân",
+   "thang": 1.39,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 0.8,
+   "sachDoiThon": null,
+   "vitri": "Tại giao điểm của đường nằm ngang bờ trên tai ngoài và đường thẳng trước tai ngoài, trên chân tóc, sát động mạch thái dương nông."
+  },
+  {
+   "code": "GB9",
+   "ten": "Thiên Xung",
+   "thang": 2.14,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 2.6,
+   "sachDoiThon": null,
+   "vitri": "Sau huyệt Suất Cốc 0,5 thốn, ở trên và sau tai, trong chân tóc 2 thốn, vùng cơ tai trên."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "GB7",
+   "ten": "Khúc Tân",
+   "cm": 1.39
+  },
+  {
+   "code": "GB6",
+   "ten": "Huyền Ly",
+   "cm": 2.01
+  },
+  {
+   "code": "GB9",
+   "ten": "Thiên Xung",
+   "cm": 2.14
+  },
+  {
+   "code": "GB5",
+   "ten": "Huyền Lư",
+   "cm": 2.8
+  },
+  {
+   "code": "GB4",
+   "ten": "Hàm Yến",
+   "cm": 3.66
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Xương đỉnh trái",
+   "lop": "bone",
+   "cm": 0.15
+  },
+  {
+   "ten": "Xương thái dương trái",
+   "lop": "bone",
+   "cm": 0.5
+  },
+  {
+   "ten": "Xương trán",
+   "lop": "bone",
+   "cm": 3.67
+  },
+  {
+   "ten": "Xương bướm",
+   "lop": "bone",
+   "cm": 3.82
+  },
+  {
+   "ten": "Xương hàm dưới",
+   "lop": "bone",
+   "cm": 5.66
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 11.43cm (conf=cao)",
+  "XA ĐƯỜNG KINH 10.64cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 11.43cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ ]
+}

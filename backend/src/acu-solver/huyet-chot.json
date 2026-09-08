@@ -35,22 +35,22 @@
    "ngay": "2026-09-07"
   },
   "LU7": {
-   "x": 0.1482,
+   "x": 0.1588,
    "y": 0.5314,
-   "z": 0.0163,
+   "z": 0.0128,
    "hang": "A",
-   "nguon": "book+duong",
-   "ly": "conf=khoá, src=book+duong",
-   "ngay": "2026-09-07"
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
   },
   "LU8": {
-   "x": 0.1526,
+   "x": 0.1611,
    "y": 0.5263,
-   "z": 0.0173,
-   "hang": "B",
-   "nguon": "book+duong",
-   "ly": "conf=cao, src=book+duong",
-   "ngay": "2026-09-07"
+   "z": 0.0143,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
   },
   "LU9": {
    "x": 0.1658,
@@ -754,15 +754,6 @@
    "ly": "Thần Môn — lằn cổ tay, mé trụ, bờ quay xương đậu. Dựng từ xương/gân thật trong atlas. SỬA: lệch 4.4cm so toạ độ cũ",
    "ngay": "2026-09-07"
   },
-  "HT8": {
-   "x": 0.1374,
-   "y": 0.4785,
-   "z": 0.014,
-   "hang": "A",
-   "nguon": "anchor",
-   "ly": "Thiếu Phủ — gan bàn tay, giữa xương đốt bàn 4 và 5",
-   "ngay": "2026-09-07"
-  },
   "HT9": {
    "x": 0.1316,
    "y": 0.4441,
@@ -1213,15 +1204,6 @@
    "ly": "lỗ cùng sau thứ 4",
    "ngay": "2026-09-07"
   },
-  "BL36": {
-   "x": 0.0567,
-   "y": 0.42,
-   "z": -0.0559,
-   "hang": "B",
-   "nguon": "who+duong",
-   "ly": "conf=WHO-lấp, src=who+duong",
-   "ngay": "2026-09-07"
-  },
   "BL39": {
    "x": 0.0613,
    "y": 0.2579,
@@ -1646,13 +1628,13 @@
    "ngay": "2026-09-07"
   },
   "PC1": {
-   "x": 0.0485,
-   "y": 0.7412,
-   "z": 0.0707,
+   "x": 0.0556,
+   "y": 0.7481,
+   "z": 0.0689,
    "hang": "A",
    "nguon": "anchor",
-   "ly": "Thiên Trì — ngang đầu vú, 5 thốn ngang (ngoài đầu vú 1 thốn). Dịch 4.2cm so toạ độ cũ",
-   "ngay": "2026-09-07"
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
   },
   "PC2": {
    "x": 0.1053,
@@ -1861,24 +1843,6 @@
    "ly": "Khúc Tấn — chân tóc thái dương, trước đỉnh tai",
    "ngay": "2026-09-07"
   },
-  "GB10": {
-   "x": 0.0374,
-   "y": 0.9231,
-   "z": -0.0137,
-   "hang": "A",
-   "nguon": "anchor",
-   "ly": "Phù Bạch — giữa Thiên Xung GB9 và Hoàn Cốt GB12, trên chân vành tai",
-   "ngay": "2026-09-07"
-  },
-  "GB11": {
-   "x": 0.0361,
-   "y": 0.9145,
-   "z": -0.012,
-   "hang": "A",
-   "nguon": "anchor",
-   "ly": "Khiếu Âm — trung điểm Phù Bạch GB10 và Hoàn Cốt GB12",
-   "ngay": "2026-09-07"
-  },
   "GB12": {
    "x": 0.0335,
    "y": 0.9035,
@@ -1957,8 +1921,8 @@
    "z": 0.0055,
    "hang": "A",
    "nguon": "anchor",
-   "ly": "Uyên Dịch — đường nách giữa, khe gian sườn 4",
-   "ngay": "2026-09-07"
+   "ly": "Phiên rà soát GB bằng ảnh sách (3 agent): mọi cặp đụng kinh khác đều mở ra — GB22-LU4 1,25→3,67cm, GB31-ST32 0,92→3,73, GB35-ST39 1,16→5,09, GB36-ST39 1,32→4,12. Cẳng chân GB35-GB39 nay cùng dải bờ mác, cốt độ đúng cả 5. Chưa đạt: GB35-GB36 chỉ cách 1,47cm thay vì 1 thốn 2,5cm do mesh xương mác chỉ dày 1,23cm",
+   "ngay": "2026-09-08"
   },
   "GB23": {
    "x": 0.0926,
@@ -2024,13 +1988,13 @@
    "ngay": "2026-09-07"
   },
   "GB31": {
-   "x": 0.0786,
+   "x": 0.0884,
    "y": 0.3551,
-   "z": 0.0214,
-   "hang": "B",
-   "nguon": "who+duong",
-   "ly": "conf=WHO-lấp, src=who+duong",
-   "ngay": "2026-09-07"
+   "z": 0.0029,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phiên rà soát GB bằng ảnh sách (3 agent): mọi cặp đụng kinh khác đều mở ra — GB22-LU4 1,25→3,67cm, GB31-ST32 0,92→3,73, GB35-ST39 1,16→5,09, GB36-ST39 1,32→4,12. Cẳng chân GB35-GB39 nay cùng dải bờ mác, cốt độ đúng cả 5. Chưa đạt: GB35-GB36 chỉ cách 1,47cm thay vì 1 thốn 2,5cm do mesh xương mác chỉ dày 1,23cm",
+   "ngay": "2026-09-08"
   },
   "GB33": {
    "x": 0.0774,
@@ -2051,22 +2015,22 @@
    "ngay": "2026-09-07"
   },
   "GB37": {
-   "x": 0.0581,
-   "y": 0.1107,
-   "z": -0.0069,
+   "x": 0.0679,
+   "y": 0.1131,
+   "z": -0.0197,
    "hang": "A",
    "nguon": "book+duong",
-   "ly": "conf=khoá, src=book+duong",
-   "ngay": "2026-09-07"
+   "ly": "Bị kéo theo khi GB36/GB39 dời sang bờ mác — và kéo về ĐÚNG: z=-3,39/-3,44 cùng dải với GB36/GB39, cốt độ ra đúng 5,00 và 4,00 thốn",
+   "ngay": "2026-09-08"
   },
   "GB38": {
-   "x": 0.0553,
-   "y": 0.096,
-   "z": -0.0061,
+   "x": 0.0658,
+   "y": 0.0986,
+   "z": -0.02,
    "hang": "A",
    "nguon": "book+duong",
-   "ly": "conf=khoá, src=book+duong",
-   "ngay": "2026-09-07"
+   "ly": "Bị kéo theo khi GB36/GB39 dời sang bờ mác — và kéo về ĐÚNG: z=-3,39/-3,44 cùng dải với GB36/GB39, cốt độ ra đúng 5,00 và 4,00 thốn",
+   "ngay": "2026-09-08"
   },
   "GB40": {
    "x": 0.0728,
@@ -2742,33 +2706,252 @@
    "nguon": "anchor",
    "ly": "Hệ quả của việc dời LI5: đường kinh neo hai đầu nên cắt góc sang mặt trước, LI6 chập PC5 0,05cm. Dựng lại trên đường nối LI5-LI11 theo thốn (sách nói rõ), nâng lên da bằng đỉnh gần nhất. Nghiệm thu: chiếu trục ra đúng 3/5/8/9/10 thốn, LI6-PC5 nở lên 4,14cm, u=2,56-3,25 nhất quán dải bờ quay",
    "ngay": "2026-09-08"
+  },
+  "GB8": {
+   "x": 0.0419,
+   "y": 0.9587,
+   "z": -0.0116,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phiên rà soát GB bằng ảnh sách (3 agent): mọi cặp đụng kinh khác đều mở ra — GB22-LU4 1,25→3,67cm, GB31-ST32 0,92→3,73, GB35-ST39 1,16→5,09, GB36-ST39 1,32→4,12. Cẳng chân GB35-GB39 nay cùng dải bờ mác, cốt độ đúng cả 5. Chưa đạt: GB35-GB36 chỉ cách 1,47cm thay vì 1 thốn 2,5cm do mesh xương mác chỉ dày 1,23cm",
+   "ngay": "2026-09-08"
+  },
+  "GB9": {
+   "x": 0.0399,
+   "y": 0.9587,
+   "z": -0.0163,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phiên rà soát GB bằng ảnh sách (3 agent): mọi cặp đụng kinh khác đều mở ra — GB22-LU4 1,25→3,67cm, GB31-ST32 0,92→3,73, GB35-ST39 1,16→5,09, GB36-ST39 1,32→4,12. Cẳng chân GB35-GB39 nay cùng dải bờ mác, cốt độ đúng cả 5. Chưa đạt: GB35-GB36 chỉ cách 1,47cm thay vì 1 thốn 2,5cm do mesh xương mác chỉ dày 1,23cm",
+   "ngay": "2026-09-08"
+  },
+  "GB32": {
+   "x": 0.082,
+   "y": 0.3298,
+   "z": 0.0023,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phiên rà soát GB bằng ảnh sách (3 agent): mọi cặp đụng kinh khác đều mở ra — GB22-LU4 1,25→3,67cm, GB31-ST32 0,92→3,73, GB35-ST39 1,16→5,09, GB36-ST39 1,32→4,12. Cẳng chân GB35-GB39 nay cùng dải bờ mác, cốt độ đúng cả 5. Chưa đạt: GB35-GB36 chỉ cách 1,47cm thay vì 1 thốn 2,5cm do mesh xương mác chỉ dày 1,23cm",
+   "ngay": "2026-09-08"
+  },
+  "GB35": {
+   "x": 0.0704,
+   "y": 0.1352,
+   "z": -0.0268,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phiên rà soát GB bằng ảnh sách (3 agent): mọi cặp đụng kinh khác đều mở ra — GB22-LU4 1,25→3,67cm, GB31-ST32 0,92→3,73, GB35-ST39 1,16→5,09, GB36-ST39 1,32→4,12. Cẳng chân GB35-GB39 nay cùng dải bờ mác, cốt độ đúng cả 5. Chưa đạt: GB35-GB36 chỉ cách 1,47cm thay vì 1 thốn 2,5cm do mesh xương mác chỉ dày 1,23cm",
+   "ngay": "2026-09-08"
+  },
+  "GB36": {
+   "x": 0.0716,
+   "y": 0.1389,
+   "z": -0.0192,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phiên rà soát GB bằng ảnh sách (3 agent): mọi cặp đụng kinh khác đều mở ra — GB22-LU4 1,25→3,67cm, GB31-ST32 0,92→3,73, GB35-ST39 1,16→5,09, GB36-ST39 1,32→4,12. Cẳng chân GB35-GB39 nay cùng dải bờ mác, cốt độ đúng cả 5. Chưa đạt: GB35-GB36 chỉ cách 1,47cm thay vì 1 thốn 2,5cm do mesh xương mác chỉ dày 1,23cm",
+   "ngay": "2026-09-08"
+  },
+  "GB39": {
+   "x": 0.0634,
+   "y": 0.0815,
+   "z": -0.0204,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phiên rà soát GB bằng ảnh sách (3 agent): mọi cặp đụng kinh khác đều mở ra — GB22-LU4 1,25→3,67cm, GB31-ST32 0,92→3,73, GB35-ST39 1,16→5,09, GB36-ST39 1,32→4,12. Cẳng chân GB35-GB39 nay cùng dải bờ mác, cốt độ đúng cả 5. Chưa đạt: GB35-GB36 chỉ cách 1,47cm thay vì 1 thốn 2,5cm do mesh xương mác chỉ dày 1,23cm",
+   "ngay": "2026-09-08"
+  },
+  "LR9": {
+   "x": 0.0143,
+   "y": 0.3298,
+   "z": 0.0025,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phiên hội đồng kinh Can (3 agent): dựng theo THƯỚC THỐN IN SẴN trong sách — agent quét 19 vạch cách đều = 18 quãng, hai đầu là bờ trên bánh chè và bờ trên khớp mu, 1 thốn = 2,20cm. Nghiệm thu đo lại: LR9 4,09 thốn (sách 4), LR10 2,98 (3), LR11 1,99 (2), LR12 0,99 (1) — lệch 0,19/0,04/0,03/0,01cm. Đoạn LR/dui đã khai lại bằng mốc xương PATELLA-PUBIS thay vì neo hai huyệt",
+   "ngay": "2026-09-08"
+  },
+  "LR10": {
+   "x": 0.0282,
+   "y": 0.4705,
+   "z": 0.0357,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phiên hội đồng kinh Can (3 agent): dựng theo THƯỚC THỐN IN SẴN trong sách — agent quét 19 vạch cách đều = 18 quãng, hai đầu là bờ trên bánh chè và bờ trên khớp mu, 1 thốn = 2,20cm. Nghiệm thu đo lại: LR9 4,09 thốn (sách 4), LR10 2,98 (3), LR11 1,99 (2), LR12 0,99 (1) — lệch 0,19/0,04/0,03/0,01cm. Đoạn LR/dui đã khai lại bằng mốc xương PATELLA-PUBIS thay vì neo hai huyệt",
+   "ngay": "2026-09-08"
+  },
+  "LR11": {
+   "x": 0.0295,
+   "y": 0.4833,
+   "z": 0.0377,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phiên hội đồng kinh Can (3 agent): dựng theo THƯỚC THỐN IN SẴN trong sách — agent quét 19 vạch cách đều = 18 quãng, hai đầu là bờ trên bánh chè và bờ trên khớp mu, 1 thốn = 2,20cm. Nghiệm thu đo lại: LR9 4,09 thốn (sách 4), LR10 2,98 (3), LR11 1,99 (2), LR12 0,99 (1) — lệch 0,19/0,04/0,03/0,01cm. Đoạn LR/dui đã khai lại bằng mốc xương PATELLA-PUBIS thay vì neo hai huyệt",
+   "ngay": "2026-09-08"
+  },
+  "LR12": {
+   "x": 0.0287,
+   "y": 0.4961,
+   "z": 0.0371,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Phiên hội đồng kinh Can (3 agent): dựng theo THƯỚC THỐN IN SẴN trong sách — agent quét 19 vạch cách đều = 18 quãng, hai đầu là bờ trên bánh chè và bờ trên khớp mu, 1 thốn = 2,20cm. Nghiệm thu đo lại: LR9 4,09 thốn (sách 4), LR10 2,98 (3), LR11 1,99 (2), LR12 0,99 (1) — lệch 0,19/0,04/0,03/0,01cm. Đoạn LR/dui đã khai lại bằng mốc xương PATELLA-PUBIS thay vì neo hai huyệt",
+   "ngay": "2026-09-08"
+  },
+  "TE11": {
+   "x": 0.1251,
+   "y": 0.676,
+   "z": -0.0493,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kinh TE vòng 3 (3 agent): cung sau tai bị bẹp và lộn ngược — TE18/TE19 nằm TRƯỚC cả hõm ống tai, bất khả thi. Ràng buộc kẹp z thuộc (-1,5 hõm ống tai; -5,84 mỏm chũm) bác được không cần ảnh. Hai người đọc ảnh độc lập trùng nhau trong 0,25cm. TE20 dựng thẳng dưới GB8 1,5 thốn. TE11 gỡ treo bằng tỉ lệ t=0,075 trên dây cung TE10-TE14. Nghiệm thu: chập TE18-SI19 0,44 to 3,14cm",
+   "ngay": "2026-09-08"
+  },
+  "TE18": {
+   "x": 0.039,
+   "y": 0.9183,
+   "z": -0.0198,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kinh TE vòng 3 (3 agent): cung sau tai bị bẹp và lộn ngược — TE18/TE19 nằm TRƯỚC cả hõm ống tai, bất khả thi. Ràng buộc kẹp z thuộc (-1,5 hõm ống tai; -5,84 mỏm chũm) bác được không cần ảnh. Hai người đọc ảnh độc lập trùng nhau trong 0,25cm. TE20 dựng thẳng dưới GB8 1,5 thốn. TE11 gỡ treo bằng tỉ lệ t=0,075 trên dây cung TE10-TE14. Nghiệm thu: chập TE18-SI19 0,44 to 3,14cm",
+   "ngay": "2026-09-08"
+  },
+  "TE19": {
+   "x": 0.0448,
+   "y": 0.9357,
+   "z": -0.0208,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kinh TE vòng 3 (3 agent): cung sau tai bị bẹp và lộn ngược — TE18/TE19 nằm TRƯỚC cả hõm ống tai, bất khả thi. Ràng buộc kẹp z thuộc (-1,5 hõm ống tai; -5,84 mỏm chũm) bác được không cần ảnh. Hai người đọc ảnh độc lập trùng nhau trong 0,25cm. TE20 dựng thẳng dưới GB8 1,5 thốn. TE11 gỡ treo bằng tỉ lệ t=0,075 trên dây cung TE10-TE14. Nghiệm thu: chập TE18-SI19 0,44 to 3,14cm",
+   "ngay": "2026-09-08"
+  },
+  "TE20": {
+   "x": 0.0413,
+   "y": 0.9442,
+   "z": -0.0119,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kinh TE vòng 3 (3 agent): cung sau tai bị bẹp và lộn ngược — TE18/TE19 nằm TRƯỚC cả hõm ống tai, bất khả thi. Ràng buộc kẹp z thuộc (-1,5 hõm ống tai; -5,84 mỏm chũm) bác được không cần ảnh. Hai người đọc ảnh độc lập trùng nhau trong 0,25cm. TE20 dựng thẳng dưới GB8 1,5 thốn. TE11 gỡ treo bằng tỉ lệ t=0,075 trên dây cung TE10-TE14. Nghiệm thu: chập TE18-SI19 0,44 to 3,14cm",
+   "ngay": "2026-09-08"
+  },
+  "TE22": {
+   "x": 0.0401,
+   "y": 0.9279,
+   "z": -0.0002,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Kinh TE vòng 3 (3 agent): cung sau tai bị bẹp và lộn ngược — TE18/TE19 nằm TRƯỚC cả hõm ống tai, bất khả thi. Ràng buộc kẹp z thuộc (-1,5 hõm ống tai; -5,84 mỏm chũm) bác được không cần ảnh. Hai người đọc ảnh độc lập trùng nhau trong 0,25cm. TE20 dựng thẳng dưới GB8 1,5 thốn. TE11 gỡ treo bằng tỉ lệ t=0,075 trên dây cung TE10-TE14. Nghiệm thu: chập TE18-SI19 0,44 to 3,14cm",
+   "ngay": "2026-09-08"
+  },
+  "SI18": {
+   "x": 0.0326,
+   "y": 0.9069,
+   "z": 0.0314,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
+  },
+  "HT8": {
+   "x": 0.1374,
+   "y": 0.4785,
+   "z": 0.014,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
+  },
+  "LU6": {
+   "x": 0.1475,
+   "y": 0.5934,
+   "z": 0.009,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
+  },
+  "LU3": {
+   "x": 0.1303,
+   "y": 0.7272,
+   "z": 0.0006,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
+  },
+  "LU4": {
+   "x": 0.1309,
+   "y": 0.7138,
+   "z": 0.0017,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
+  },
+  "HT2": {
+   "x": 0.1012,
+   "y": 0.6905,
+   "z": -0.0058,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
+  },
+  "SI7": {
+   "x": 0.1196,
+   "y": 0.5728,
+   "z": -0.0072,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
+  },
+  "BL35": {
+   "x": 0.0056,
+   "y": 0.5009,
+   "z": -0.064,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
+  },
+  "SP11": {
+   "x": 0.032,
+   "y": 0.378,
+   "z": 0.0315,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
+  },
+  "SP8": {
+   "x": 0.014,
+   "y": 0.2017,
+   "z": -0.0175,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
+  },
+  "GB10": {
+   "x": 0.0374,
+   "y": 0.9231,
+   "z": -0.0137,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
+  },
+  "GB11": {
+   "x": 0.0361,
+   "y": 0.9145,
+   "z": -0.012,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "ngay": "2026-09-08"
   }
  },
  "ngo": {
-  "LU3": {
-   "loai": [
-    "da",
-    "duong"
-   ],
-   "ly": "TẦNG DA: ép lên da, dời 4.3cm · RẢI DỌC ĐƯỜNG: dời 6.38cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: ép lê",
-   "ngay": "2026-09-07"
-  },
-  "LU4": {
-   "loai": [
-    "da",
-    "duong"
-   ],
-   "ly": "TẦNG DA: ép lên da, dời 3.8cm · RẢI DỌC ĐƯỜNG: dời 5.8cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: ép lê",
-   "ngay": "2026-09-07"
-  },
-  "LU6": {
-   "loai": [
-    "khe",
-    "duong"
-   ],
-   "ly": "khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 4.22cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 4.22cm v",
-   "ngay": "2026-09-07"
-  },
   "LI2": {
    "loai": [
     "da"
@@ -2837,35 +3020,11 @@
    "ly": "nằm trong lòng xương — phải lùi ra mặt xương · TẦNG DA: ép lên da, dời 2.6cm · RẢI DỌC ĐƯỜNG: dời 6.35cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
    "ngay": "2026-09-07"
   },
-  "SP8": {
-   "loai": [
-    "da",
-    "duong"
-   ],
-   "ly": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "SP11": {
-   "loai": [
-    "da",
-    "duong"
-   ],
-   "ly": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 7.65cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
   "SP18": {
    "loai": [
     "sach"
    ],
    "ly": "hai nguồn sách cùng kêu lệch 4.0/4.0 thốn",
-   "ngay": "2026-09-07"
-  },
-  "HT2": {
-   "loai": [
-    "da",
-    "duong"
-   ],
-   "ly": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.77cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
    "ngay": "2026-09-07"
   },
   "HT4": {
@@ -2883,25 +3042,11 @@
    "ly": "khe cách chỗ cốt độ chỉ ra 3.5 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 4.04cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 4.04cm v",
    "ngay": "2026-09-07"
   },
-  "SI7": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 6.4cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
   "SI9": {
    "loai": [
     "duong"
    ],
    "ly": "RẢI DỌC ĐƯỜNG: dời 17.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "SI18": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 4.14cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
    "ngay": "2026-09-07"
   },
   "BL10": {
@@ -2912,19 +3057,9 @@
    "ly": "nằm giữa bụng cơ (sâu 0.63 thốn trong khối Phần xuống của cơ thang trái) · hai bản sách lệch nhau 5.3cm — đã lấy bản cũ",
    "ngay": "2026-09-07"
   },
-  "BL35": {
-   "loai": [
-    "da"
-   ],
-   "ly": "TẦNG DA: ép lên da, dời 4.3cm",
-   "ngay": "2026-09-07"
-  },
   "BL37": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 5.26cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
+   "ly": "Cung ly do BL36 - cho phien dung lai ca doan dui sau",
+   "ngay": "2026-09-08"
   },
   "BL38": {
    "loai": [
@@ -3027,57 +3162,6 @@
    "ly": "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ duỗi cổ tay quay ngắn trái) · RẢI DỌC ĐƯỜNG: dời 3.12cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
    "ngay": "2026-09-07"
   },
-  "TE11": {
-   "loai": [
-    "da",
-    "duong"
-   ],
-   "ly": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 8.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "TE18": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 5.63cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "TE19": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 7.69cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "TE20": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 11.24cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "TE22": {
-   "loai": [
-    "khe",
-    "duong"
-   ],
-   "ly": "khe dời vào trong lòng xương — rút lại, cần soát · RẢI DỌC ĐƯỜNG: dời 6.04cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 6.04cm về đường kinh — toạ độ cũ sai nhi",
-   "ngay": "2026-09-07"
-  },
-  "GB8": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 11.43cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "GB9": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 12.79cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
   "GB15": {
    "loai": [
     "sach"
@@ -3099,67 +3183,6 @@
    "ly": "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ chéo bụng ngoài trái)",
    "ngay": "2026-09-07"
   },
-  "GB32": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 7.71cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "GB35": {
-   "loai": [
-    "khe"
-   ],
-   "ly": "khe dời vào trong lòng xương — rút lại, cần soát",
-   "ngay": "2026-09-07"
-  },
-  "GB36": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 30.27cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG:",
-   "ngay": "2026-09-07"
-  },
-  "GB39": {
-   "loai": [
-    "khe"
-   ],
-   "ly": "nằm trong lòng xương — phải lùi ra mặt xương",
-   "ngay": "2026-09-07"
-  },
-  "LR9": {
-   "loai": [
-    "khe",
-    "sach"
-   ],
-   "ly": "nằm giữa bụng cơ (sâu 0.51 thốn trong khối Cơ thon trái) · hai bản sách lệch nhau 5.2cm — đã lấy bản cũ",
-   "ngay": "2026-09-07"
-  },
-  "LR10": {
-   "loai": [
-    "da",
-    "duong",
-    "sach"
-   ],
-   "ly": "TẦNG DA: huyệt nằm sâu — đã ép lên da, dời 5.8cm (2.5 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 15.72cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: huyệt · hai nguồn sách cùng kêu lệch 2.1/1.8 thốn",
-   "ngay": "2026-09-07"
-  },
-  "LR11": {
-   "loai": [
-    "da",
-    "duong"
-   ],
-   "ly": "TẦNG DA: huyệt NẰM NGOÀI da — đã ép lên da, dời 5.5cm (2.4 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai. · RẢI DỌC ĐƯỜNG: dời 15.52cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · TẦNG DA: huyệt NẰM NGOÀI da — đã ép lên da, dời 5.5cm (2.4 thốn). Mốc/quy tắc sinh ra nó gần như chắc chắn sai",
-   "ngay": "2026-09-07"
-  },
-  "LR12": {
-   "loai": [
-    "sach",
-    "da"
-   ],
-   "ly": "hai bản sách lệch nhau 7.8cm — đã lấy bản cũ · TẦNG DA: ép lên da, dời 4.5cm",
-   "ngay": "2026-09-07"
-  },
   "CV17": {
    "loai": [
     "da"
@@ -3173,6 +3196,10 @@
    ],
    "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.7cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.7cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
    "ngay": "2026-09-07"
+  },
+  "BL36": {
+   "ly": "Ca doan BL/dui-sau lech: BL36 so ghi y=72,20 hien 82,19; BL37 x=3,16 trong khi noi suy BL40-BL36 doi 6,32. Tham tra vong 31 da bac viec sua le BL37/57/58/59 vi lam GAY COT (goc gap 10 do vot len 47 do). Phai dung lai CA COT trong mot phien rieng, moc that cua sach la NEP MONG va NEP KHEO - deu la nep da, mesh khong co",
+   "ngay": "2026-09-08"
   }
  },
  "doiChieu": {

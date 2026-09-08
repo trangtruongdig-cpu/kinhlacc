@@ -109,11 +109,6 @@
    "cm": 2.68
   },
   {
-   "code": "GB9",
-   "ten": "Thiên Xung",
-   "cm": 2.94
-  },
-  {
    "code": "GB11",
    "ten": "Đầu Khiếu Âm",
    "cm": 3.03
@@ -160,7 +155,6 @@
   "RẢI DỌC ĐƯỜNG dời 7.6cm (conf=tạm)",
   "XA ĐƯỜNG KINH 7.12cm",
   "ÉP LÊN DA dời 1.9cm",
-  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 7.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
   "TỪ ĐIỂN APP kêu: dọc \"TE18\" đòi 1 thốn, đo được 0.6  (lệch 1.13cm)"
  ]
 }

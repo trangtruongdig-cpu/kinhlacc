@@ -1,0 +1,124 @@
+{
+ "code": "KI4",
+ "mer": "KI",
+ "num": 4,
+ "tenApp": "Đại Chung",
+ "tenFocks": "ĐẠI CHUNG",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở chỗ lõm tạo nên do gân gót bám vào bờ trên trong xương gót, dưới huyệt Thái Khê 0,5 thốn.",
+  "focksViTri": "Phía trước bờ trong của gân Achilles phía trên điểm bám của nó vào xương gót, cách huyệt Thái khê (Ni/KID 3) khoảng 0,5 thốn xuống dưới và ra sau.",
+  "focksCachXacDinh": "Từ đỉnh của mắt cá trong, vẽ một đường ngang lên đến mép trong của gân Achilles, sau đó đo 0,5 thốn xuống dưới. Huyệt Đại chung (Ni/KID 4) nằm trong một hõm phía trước gân Achilles, hơi phía trên điểm bám của nó vào xương gót. Hoặc: Huyệt Đại chung (Ni/KID 4) nằm giữa của đường nối huyệt Thái khê (Ni/KID 3) và huyệt huyệt Thuỷ tuyền (Ni/KID 5), phía trước gân Achilles.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/KI4_p213_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.022,
+  "y": 0.0356,
+  "z": -0.0212,
+  "conf": "khe",
+  "caoDoCm": 6.12,
+  "ngangCm": 3.78,
+  "truocSauCm": -3.64
+ },
+ "nghiemThu": {
+  "hang": "C",
+  "ly": "chưa vào sổ"
+ },
+ "conNgo": {
+  "loai": [
+   "duong"
+  ],
+  "ly": "RẢI DỌC ĐƯỜNG: dời 5.38cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+ },
+ "duongKinh": {
+  "doan": "ban-chan",
+  "vung": "gan bàn chân → mắt cá trong",
+  "moTaRanh": "gan bàn chân, rồi vòng quanh mắt cá trong giữa xương chày và gân gót",
+  "diemTrongDoan": [
+   "KI1",
+   "KI2",
+   "KI3",
+   "KI4",
+   "KI5",
+   "KI6"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "KI3",
+   "ten": "Thái Khê",
+   "thang": 1.93,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 1.7,
+   "sachDoiThon": null,
+   "vitri": "Tại trung điểm giữa đường nối bờ sau mắt cá trong và mép trong gân gót, khe giữa gân gót chân ở phía sau."
+  },
+  {
+   "code": "KI5",
+   "ten": "Thủy Tuyền",
+   "thang": 0.7,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 0.4,
+   "sachDoiThon": null,
+   "vitri": "Thẳng dưới huyệt Thái Khê (Th.3) 1 thốn, trên xương gót chân, bờ sau gân gấp dài ngón chân cái."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "KI5",
+   "ten": "Thủy Tuyền",
+   "cm": 0.7
+  },
+  {
+   "code": "KI3",
+   "ten": "Thái Khê",
+   "cm": 1.93
+  },
+  {
+   "code": "KI6",
+   "ten": "Chiếu Hải",
+   "cm": 2.51
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ gấp các ngón chân dài trái",
+   "lop": "muscle",
+   "cm": 0.47
+  },
+  {
+   "ten": "Cơ chày sau trái",
+   "lop": "bone",
+   "cm": 1.16
+  },
+  {
+   "ten": "Xương sên trái",
+   "lop": "bone",
+   "cm": 1.23
+  },
+  {
+   "ten": "Cơ gấp ngón chân cái dài trái",
+   "lop": "muscle",
+   "cm": 1.56
+  },
+  {
+   "ten": "Xương chày trái",
+   "lop": "bone",
+   "cm": 2.16
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 5.38cm (conf=khe)",
+  "XA ĐƯỜNG KINH 5.38cm",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 5.38cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "TỪ ĐIỂN APP kêu: dọc \"KI3\" đòi 0.5 thốn, đo được 0.68  (lệch 0.51cm)",
+  "ATLAS FOCKS kêu: dọc \"KI3\" đòi 0.5 thốn, đo được 0.68  (lệch 0.51cm)"
+ ]
+}

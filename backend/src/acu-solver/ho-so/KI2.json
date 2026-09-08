@@ -1,0 +1,118 @@
+{
+ "code": "KI2",
+ "mer": "KI",
+ "num": 2,
+ "tenApp": "Nhiên Cốc",
+ "tenFocks": "NHIÊN CỐC",
+ "canhBaoTen": null,
+ "nguon": {
+  "app": "Ở chỗ lõm sát giữa bờ dưới xương thuyền, trên đường nối da gan chân và mu chân.",
+  "focksViTri": "Ở mép trong của bàn chân trong một chỗ lõm ở bờ dưới trước của xương thuyền (ghe), trên ranh giới da gan và da mu bàn chân.",
+  "focksCachXacDinh": "Từ xa đến gần, sờ nắn trên bờ trong của xương bàn chân cho đến khi bạn lần đầu tiên cảm nhận được đáy của trục xương bàn chân thứ nhất huyệt Công tôn (Mi/SP 4), sau đó là xương chêm trong và cuối cùng là xương thuyền (ghe) nổi rõ hơn. Huyệt Nhiên cốc (Ni/KID 2) nằm ở góc đuôi của khớp nối giữa xương chêm trong và xương thuyền.",
+  "who": null
+ },
+ "anh": [
+  "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/KI2_p211_0.jpeg"
+ ],
+ "toaDoHienTai": {
+  "x": 0.0329,
+  "y": 0.0207,
+  "z": 0.004,
+  "conf": "WHO-lấp",
+  "caoDoCm": 3.56,
+  "ngangCm": 5.66,
+  "truocSauCm": 0.69
+ },
+ "nghiemThu": {
+  "hang": "B",
+  "nguon": "who+duong",
+  "ly": "conf=WHO-lấp, src=who+duong",
+  "ngay": "2026-09-07"
+ },
+ "conNgo": null,
+ "duongKinh": {
+  "doan": "ban-chan",
+  "vung": "gan bàn chân → mắt cá trong",
+  "moTaRanh": "gan bàn chân, rồi vòng quanh mắt cá trong giữa xương chày và gân gót",
+  "diemTrongDoan": [
+   "KI1",
+   "KI2",
+   "KI3",
+   "KI4",
+   "KI5",
+   "KI6"
+  ]
+ },
+ "nutMoc": null,
+ "cotDo": null,
+ "hangXom": [
+  {
+   "code": "KI1",
+   "ten": "Dũng Tuyền",
+   "thang": 5.95,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 7.4,
+   "sachDoiThon": null,
+   "vitri": "Dưới lòng bàn chân, huyệt ở điểm nối 2/5 trước với 3/5 sau của đoạn đầu ngón chân thứ 2 và giữa bờ sau gót chân, chỗ lõm dưới bàn chân."
+  },
+  {
+   "code": "KI3",
+   "ten": "Thái Khê",
+   "thang": 6.36,
+   "sachDoiCm": null,
+   "thonCm": null,
+   "docDa": 6.4,
+   "sachDoiThon": null,
+   "vitri": "Tại trung điểm giữa đường nối bờ sau mắt cá trong và mép trong gân gót, khe giữa gân gót chân ở phía sau."
+  }
+ ],
+ "lanCan": [
+  {
+   "code": "SP5",
+   "ten": "Thương Khâu",
+   "cm": 1.98
+  },
+  {
+   "code": "KI6",
+   "ten": "Chiếu Hải",
+   "cm": 3.03
+  },
+  {
+   "code": "SP4",
+   "ten": "Công Tôn",
+   "cm": 3.37
+  }
+ ],
+ "giaiPhauGanNhat": [
+  {
+   "ten": "Cơ dạng ngón chân cái trái",
+   "lop": "muscle",
+   "cm": 0.45
+  },
+  {
+   "ten": "Cơ chày sau trái",
+   "lop": "bone",
+   "cm": 1.1
+  },
+  {
+   "ten": "Cơ gấp ngón chân cái dài trái",
+   "lop": "muscle",
+   "cm": 1.41
+  },
+  {
+   "ten": "Xương ghe bàn chân trái",
+   "lop": "bone",
+   "cm": 1.52
+  },
+  {
+   "ten": "Xương chêm trong trái",
+   "lop": "bone",
+   "cm": 1.58
+  }
+ ],
+ "coKiemMay": [
+  "RẢI DỌC ĐƯỜNG dời 1.82cm (conf=WHO-lấp)",
+  "XA ĐƯỜNG KINH 1.4cm"
+ ]
+}

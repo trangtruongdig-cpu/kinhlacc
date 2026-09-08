@@ -13,13 +13,13 @@
  },
  "anh": [],
  "toaDoHienTai": {
-  "x": 0.1184,
-  "y": 0.7026,
-  "z": -0.0523,
+  "x": 0.1259,
+  "y": 0.7028,
+  "z": -0.0491,
   "conf": "cao",
-  "caoDoCm": 120.78,
-  "ngangCm": 20.35,
-  "truocSauCm": -8.99
+  "caoDoCm": 120.81,
+  "ngangCm": 21.64,
+  "truocSauCm": -8.44
  },
  "nghiemThu": {
   "hang": "C",
@@ -54,29 +54,29 @@
   "lechNgang": null,
   "moiDiem": {
    "TE11": 2,
-   "TE12": 5,
-   "TE13": 4.9
+   "TE12": 3.2,
+   "TE13": 5.9
   }
  },
  "hangXom": [
   {
    "code": "TE10",
    "ten": "Thiên Tỉnh",
-   "thang": 6.6,
+   "thang": 6.61,
    "sachDoiCm": null,
    "thonCm": null,
-   "docDa": 6.9,
+   "docDa": 7.8,
    "sachDoiThon": null,
    "vitri": "Chỗ lõm trên đầu mỏm khuỷu xương trụ, trên khớp khuỷu một thốn, nơi gân cơ tam đầu cánh tay."
   },
   {
    "code": "TE12",
    "ten": "Tiêu Lạc",
-   "thang": 10,
+   "thang": 4.07,
    "sachDoiCm": null,
    "thonCm": null,
-   "docDa": 10.7,
-   "sachDoiThon": 3,
+   "docDa": 3.2,
+   "sachDoiThon": 1.2000000000000002,
    "vitri": "Ở giữa đoạn nối huyệt Thanh Lãnh Uyên (Ttu.11) và Nhu Hội (Ttu.13), trên khớp khuỷu tay 5 thốn, khe giữa phần ngoài và phần rộng ngoài của cơ tam đầu cánh tay."
   }
  ],
@@ -85,7 +85,7 @@
   {
    "ten": "Đầu ngoài của cơ tam đầu cánh tay trái",
    "lop": "muscle",
-   "cm": 1.55
+   "cm": 1.5
   },
   {
    "ten": "Đầu dài của cơ tam đầu cánh tay trái",
@@ -95,24 +95,23 @@
   {
    "ten": "Đầu trong của cơ tam đầu cánh tay trái",
    "lop": "muscle",
-   "cm": 4.12
+   "cm": 3.8
   },
   {
    "ten": "Xương cánh tay trái",
    "lop": "bone",
-   "cm": 4.39
+   "cm": 3.9
   },
   {
    "ten": "Cơ cánh tay quay trái",
    "lop": "muscle",
-   "cm": 4.88
+   "cm": 4.17
   }
  ],
  "coKiemMay": [
-  "RẢI DỌC ĐƯỜNG dời 8.1cm (conf=cao)",
-  "XA ĐƯỜNG KINH 7.36cm",
+  "RẢI DỌC ĐƯỜNG dời 7.04cm (conf=cao)",
+  "XA ĐƯỜNG KINH 6.69cm",
   "ÉP LÊN DA dời 2.9cm",
-  "AUDIT cờ soát: TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 8.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
   "TỪ ĐIỂN APP kêu: dọc \"TE10\" đòi 1 thốn, đo được 1.9  (lệch 3.07cm)"
  ]
 }
