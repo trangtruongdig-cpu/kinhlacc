@@ -15,13 +15,6 @@
    "conf": "WHO-lấp"
   },
   {
-   "mer": "LI",
-   "code": "LI9",
-   "doan": "cang-tay",
-   "cm": 12.15,
-   "conf": "khe"
-  },
-  {
    "mer": "GB",
    "code": "GB36",
    "doan": "cang-chan",
@@ -50,6 +43,13 @@
    "conf": "cao"
   },
   {
+   "mer": "TE",
+   "code": "TE20",
+   "doan": "tai",
+   "cm": 8.46,
+   "conf": "cao"
+  },
+  {
    "mer": "HT",
    "code": "HT2",
    "doan": "canh-tay",
@@ -57,31 +57,10 @@
    "conf": "khoá"
   },
   {
-   "mer": "TE",
-   "code": "TE20",
-   "doan": "tai",
-   "cm": 7.49,
-   "conf": "cao"
-  },
-  {
-   "mer": "TE",
-   "code": "TE11",
-   "doan": "canh-tay",
-   "cm": 7.36,
-   "conf": "cao"
-  },
-  {
    "mer": "GB",
    "code": "GB32",
    "doan": "dui",
    "cm": 7.35,
-   "conf": "khe"
-  },
-  {
-   "mer": "TE",
-   "code": "TE13",
-   "doan": "canh-tay",
-   "cm": 7.17,
    "conf": "khe"
   },
   {
@@ -121,10 +100,10 @@
   },
   {
    "mer": "TE",
-   "code": "TE12",
+   "code": "TE11",
    "doan": "canh-tay",
-   "cm": 6.63,
-   "conf": "WHO-trọng tài"
+   "cm": 6.69,
+   "conf": "cao"
   },
   {
    "mer": "SI",
@@ -145,13 +124,6 @@
    "code": "BL55",
    "doan": "cang-chan",
    "cm": 6.04,
-   "conf": "cao"
-  },
-  {
-   "mer": "TE",
-   "code": "TE9",
-   "doan": "cang-tay",
-   "cm": 5.87,
    "conf": "cao"
   },
   {
@@ -183,39 +155,11 @@
    "conf": "WHO+khe"
   },
   {
-   "mer": "TE",
-   "code": "TE8",
-   "doan": "cang-tay",
-   "cm": 5.1,
-   "conf": "khoá"
-  },
-  {
    "mer": "LI",
    "code": "LI12",
    "doan": "canh-tay",
    "cm": 5.01,
    "conf": "khe"
-  },
-  {
-   "mer": "TE",
-   "code": "TE18",
-   "doan": "tai",
-   "cm": 4.96,
-   "conf": "cao"
-  },
-  {
-   "mer": "TE",
-   "code": "TE7",
-   "doan": "cang-tay",
-   "cm": 4.82,
-   "conf": "khe"
-  },
-  {
-   "mer": "TE",
-   "code": "TE6",
-   "doan": "cang-tay",
-   "cm": 4.69,
-   "conf": "khoá"
   },
   {
    "mer": "BL",
@@ -233,10 +177,10 @@
   },
   {
    "mer": "TE",
-   "code": "TE5",
-   "doan": "cang-tay",
-   "cm": 4.33,
-   "conf": "khoá"
+   "code": "TE18",
+   "doan": "tai",
+   "cm": 4.48,
+   "conf": "cao"
   },
   {
    "mer": "PC",
@@ -286,13 +230,6 @@
    "doan": "cang-chan",
    "cm": 3.84,
    "conf": "khoá"
-  },
-  {
-   "mer": "LI",
-   "code": "LI6",
-   "doan": "cang-tay",
-   "cm": 3.54,
-   "conf": "cao"
   },
   {
    "mer": "PC",
@@ -351,13 +288,6 @@
    "conf": "khoá"
   },
   {
-   "mer": "LI",
-   "code": "LI7",
-   "doan": "cang-tay",
-   "cm": 2,
-   "conf": "WHO-trọng tài"
-  },
-  {
    "mer": "LU",
    "code": "LU8",
    "doan": "cang-tay",
@@ -369,13 +299,6 @@
    "code": "ST38",
    "doan": "cang-chan",
    "cm": 1.92,
-   "conf": "tạm"
-  },
-  {
-   "mer": "LI",
-   "code": "LI10",
-   "doan": "cang-tay",
-   "cm": 1.88,
    "conf": "tạm"
   },
   {
@@ -468,13 +391,6 @@
    "doan": "dui",
    "cm": 0.91,
    "conf": "khoá"
-  },
-  {
-   "mer": "LI",
-   "code": "LI8",
-   "doan": "cang-tay",
-   "cm": 0.82,
-   "conf": "WHO-lấp"
   },
   {
    "mer": "SI",
@@ -589,6 +505,13 @@
    "conf": "mốc"
   },
   {
+   "mer": "TE",
+   "code": "TE3",
+   "doan": "ban-tay",
+   "cm": 0.18,
+   "conf": "mốc"
+  },
+  {
    "mer": "ST",
    "code": "ST24",
    "doan": "bung",
@@ -614,6 +537,13 @@
    "code": "BL25",
    "doan": "lung-trong",
    "cm": 0.18,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LI",
+   "code": "LI10",
+   "doan": "cang-tay",
+   "cm": 0.17,
    "conf": "mốc"
   },
   {
@@ -926,6 +856,34 @@
   },
   {
    "mer": "LI",
+   "code": "LI6",
+   "doan": "cang-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LI",
+   "code": "LI7",
+   "doan": "cang-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LI",
+   "code": "LI8",
+   "doan": "cang-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LI",
+   "code": "LI9",
+   "doan": "cang-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "LI",
    "code": "LI13",
    "doan": "canh-tay",
    "cm": 0,
@@ -1024,8 +982,50 @@
   },
   {
    "mer": "TE",
-   "code": "TE3",
-   "doan": "ban-tay",
+   "code": "TE5",
+   "doan": "cang-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE6",
+   "doan": "cang-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE7",
+   "doan": "cang-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE8",
+   "doan": "cang-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE9",
+   "doan": "cang-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE12",
+   "doan": "canh-tay",
+   "cm": 0,
+   "conf": "mốc"
+  },
+  {
+   "mer": "TE",
+   "code": "TE13",
+   "doan": "canh-tay",
    "cm": 0,
    "conf": "mốc"
   },
@@ -1941,5 +1941,5 @@
   }
  ],
  "tongDoan": 78,
- "tongCm": 2028
+ "tongCm": 2027
 }

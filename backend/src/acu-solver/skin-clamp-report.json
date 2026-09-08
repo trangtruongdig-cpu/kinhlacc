@@ -1,7 +1,7 @@
 {
- "outsideTruoc": 30,
- "moved": 44,
- "flagged": 10,
+ "outsideTruoc": 29,
+ "moved": 41,
+ "flagged": 9,
  "rows": [
   {
    "code": "LR10",
@@ -26,14 +26,6 @@
    "cun": 2.03,
    "conf": "cao",
    "src": "book"
-  },
-  {
-   "code": "TE12",
-   "outside": false,
-   "cm": 4.6,
-   "cun": 2.01,
-   "conf": "WHO-trọng tài",
-   "src": "who-arb"
   },
   {
    "code": "LR12",
@@ -124,14 +116,6 @@
    "src": "book"
   },
   {
-   "code": "LI6",
-   "outside": true,
-   "cm": 2.8,
-   "cun": 1.23,
-   "conf": "cao",
-   "src": "book"
-  },
-  {
    "code": "ST34",
    "outside": false,
    "cm": 2.8,
@@ -154,14 +138,6 @@
    "cun": 1.15,
    "conf": "khoá",
    "src": "book"
-  },
-  {
-   "code": "LI8",
-   "outside": false,
-   "cm": 2.3,
-   "cun": 1,
-   "conf": "WHO-lấp",
-   "src": "who"
   },
   {
    "code": "ST33",
@@ -324,14 +300,6 @@
    "src": "anchor"
   },
   {
-   "code": "TE3",
-   "outside": true,
-   "cm": 0.2,
-   "cun": 0.08,
-   "conf": "mốc",
-   "src": "anchor"
-  },
-  {
    "code": "GB42",
    "outside": true,
    "cm": 0.2,
@@ -400,6 +368,14 @@
    "outside": true,
    "cm": 0,
    "cun": 0.02,
+   "conf": "mốc",
+   "src": "anchor"
+  },
+  {
+   "code": "TE12",
+   "outside": true,
+   "cm": 0,
+   "cun": 0.01,
    "conf": "mốc",
    "src": "anchor"
   }

@@ -2,9 +2,9 @@
  "code": "TE22",
  "mer": "TE",
  "num": 22,
- "tenApp": "Hòa liêu",
+ "tenApp": "Hòa Liêu",
  "tenFocks": "NHĨ HOÀ LIÊU",
- "canhBaoTen": "TÊN HAI NGUỒN KHÁC NHAU — app \"Hòa liêu\" vs Focks \"NHĨ HOÀ LIÊU\". Phải trọng tài TRƯỚC khi bàn toạ độ: nếu mã lệch thì đang dựng nhầm huyệt.",
+ "canhBaoTen": "TÊN HAI NGUỒN KHÁC NHAU — app \"Hòa Liêu\" vs Focks \"NHĨ HOÀ LIÊU\". Phải trọng tài TRƯỚC khi bàn toạ độ: nếu mã lệch thì đang dựng nhầm huyệt.",
  "nguon": {
   "app": "Phía trước lỗ tai, trong chân tóc, trước và trên huyệt Nhĩ Môn (Ttu 21). Huyệt ở bờ trên của mỏm tiếp xương thái dương phía trên và sau bờ sau chân tóc mai, sờ thấy động mạch thái dương nông, trước bình tai một đốt ngón tay.",
   "focksViTri": "Phía trước và phía trên huyệt Nhĩ môn (SJ/TB 21), ngang với gốc tai, ở bờ sau của đường chân tóc thái dương nơi động mạch thái dương nông đi qua.",
@@ -16,12 +16,12 @@
  ],
  "toaDoHienTai": {
   "x": 0.0327,
-  "y": 0.944,
-  "z": 0.0265,
+  "y": 0.938,
+  "z": 0.0263,
   "conf": "cao",
-  "caoDoCm": 162.27,
+  "caoDoCm": 161.24,
   "ngangCm": 5.62,
-  "truocSauCm": 4.56
+  "truocSauCm": 4.52
  },
  "nghiemThu": {
   "hang": "C",
@@ -54,8 +54,8 @@
  "hangXom": [
   {
    "code": "TE21",
-   "ten": "Nhĩ môn",
-   "thang": 6.04,
+   "ten": "Nhĩ Môn",
+   "thang": 5.48,
    "sachDoiCm": null,
    "thonCm": null,
    "docDa": 7.3,
@@ -64,72 +64,72 @@
   },
   {
    "code": "TE23",
-   "ten": "Ty trúc không",
-   "thang": 1.77,
+   "ten": "Ty Trúc Không",
+   "thang": 1.65,
    "sachDoiCm": null,
    "thonCm": null,
-   "docDa": 1.6,
+   "docDa": 1,
    "sachDoiThon": null,
    "vitri": "Tại chỗ lõm bên ngoài đuôi lông mày, ấn vào có cảm giác ê tức, bờ ngoài cơ vòng mi."
   }
  ],
  "lanCan": [
   {
-   "code": "TE23",
-   "ten": "Ty trúc không",
-   "cm": 1.77
+   "code": "GB1",
+   "ten": "Đồng Tử Liêu",
+   "cm": 1.57
   },
   {
-   "code": "GB1",
-   "ten": "Đồng tử liêu",
-   "cm": 2.48
+   "code": "TE23",
+   "ten": "Ty Trúc Không",
+   "cm": 1.65
+  },
+  {
+   "code": "GB3",
+   "ten": "Thượng Quan",
+   "cm": 2.97
   },
   {
    "code": "TE20",
-   "ten": "Giác tôn",
-   "cm": 3.46
+   "ten": "Giác Tôn",
+   "cm": 3.24
   },
   {
    "code": "ST1",
    "ten": "Thừa Khấp",
-   "cm": 3.85
-  },
-  {
-   "code": "GB3",
-   "ten": "Thượng quan",
-   "cm": 3.86
+   "cm": 3.83
   }
  ],
  "giaiPhauGanNhat": [
   {
-   "ten": "Xương trán",
-   "lop": "bone",
-   "cm": 0.42
-  },
-  {
    "ten": "Xương gò má trái",
    "lop": "bone",
-   "cm": 1.12
+   "cm": 0.51
+  },
+  {
+   "ten": "Xương trán",
+   "lop": "bone",
+   "cm": 0.54
   },
   {
    "ten": "Xương bướm",
    "lop": "bone",
-   "cm": 1.41
+   "cm": 1.14
   },
   {
-   "ten": "Xương đỉnh trái",
-   "lop": "bone",
-   "cm": 1.54
+   "ten": "Dây chằng hãm của cơ thẳng ngoài trái",
+   "lop": "connective",
+   "cm": 1.43
   },
   {
-   "ten": "Cơ nâng mi trên trái",
+   "ten": "Cơ thẳng ngoài trái",
    "lop": "muscle",
-   "cm": 2.28
+   "cm": 1.84
   }
  ],
  "coKiemMay": [
-  "RẢI DỌC ĐƯỜNG dời 6.04cm (conf=cao)",
+  "RẢI DỌC ĐƯỜNG dời 5.48cm (conf=cao)",
   "XA ĐƯỜNG KINH 0cm",
-  "AUDIT cờ soát: khe dời vào trong lòng xương — rút lại, cần soát · RẢI DỌC ĐƯỜNG: dời 6.04cm về đường kinh — toạ độ cũ sai nhi"
+  "AUDIT cờ soát: khe dời vào trong lòng xương — rút lại, cần soát · RẢI DỌC ĐƯỜNG: dời 5.48cm về đường kinh — toạ độ cũ sai nhi"
  ]
 }

@@ -46,7 +46,7 @@
    "xaDuong": 0,
    "daoThuTu": 0,
    "saiThon": 0,
-   "coSoat": 7
+   "coSoat": 3
   },
   {
    "mer": "SI",
@@ -70,7 +70,7 @@
    "xaDuong": 0,
    "daoThuTu": 1,
    "saiThon": 0,
-   "coSoat": 12
+   "coSoat": 5
   },
   {
    "mer": "ST",
@@ -332,13 +332,6 @@
    "mo": "RẢI DỌC ĐƯỜNG: dời 7.95cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
   },
   {
-   "code": "LI10",
-   "mer": "LI",
-   "loai": "cờ soát",
-   "muc": "nhẹ",
-   "mo": "bản Focks phân tích HỎNG (bắn lệch 14.4cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · RẢI DỌC ĐƯỜNG:"
-  },
-  {
    "code": "LI12",
    "mer": "LI",
    "loai": "cờ soát",
@@ -358,27 +351,6 @@
    "loai": "cờ soát",
    "muc": "nhẹ",
    "mo": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá"
-  },
-  {
-   "code": "LI6",
-   "mer": "LI",
-   "loai": "cờ soát",
-   "muc": "nhẹ",
-   "mo": "TẦNG DA: ép lên da, dời 2.8cm · RẢI DỌC ĐƯỜNG: dời 3.67cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
-  },
-  {
-   "code": "LI7",
-   "mer": "LI",
-   "loai": "cờ soát",
-   "muc": "nhẹ",
-   "mo": "bản Focks phân tích HỎNG (bắn lệch 9.2cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ"
-  },
-  {
-   "code": "LI9",
-   "mer": "LI",
-   "loai": "cờ soát",
-   "muc": "nhẹ",
-   "mo": "RẢI DỌC ĐƯỜNG: dời 16.88cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
   },
   {
    "code": "LR10",
@@ -546,84 +518,35 @@
    "mer": "TE",
    "loai": "cờ soát",
    "muc": "nhẹ",
-   "mo": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 8.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
-  },
-  {
-   "code": "TE12",
-   "mer": "TE",
-   "loai": "cờ soát",
-   "muc": "nhẹ",
-   "mo": "bản Focks phân tích HỎNG (bắn lệch 25.1cm — quá xa để là bất đồng thật) — đã loại, giữ bản cũ · TẦNG DA: huyệt"
-  },
-  {
-   "code": "TE13",
-   "mer": "TE",
-   "loai": "cờ soát",
-   "muc": "nhẹ",
-   "mo": "RẢI DỌC ĐƯỜNG: dời 8.68cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+   "mo": "TẦNG DA: ép lên da, dời 2.9cm · RẢI DỌC ĐƯỜNG: dời 7.04cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
   },
   {
    "code": "TE18",
    "mer": "TE",
    "loai": "cờ soát",
    "muc": "nhẹ",
-   "mo": "RẢI DỌC ĐƯỜNG: dời 5.63cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+   "mo": "RẢI DỌC ĐƯỜNG: dời 5.57cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
   },
   {
    "code": "TE19",
    "mer": "TE",
    "loai": "cờ soát",
    "muc": "nhẹ",
-   "mo": "RẢI DỌC ĐƯỜNG: dời 7.69cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+   "mo": "RẢI DỌC ĐƯỜNG: dời 7.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
   },
   {
    "code": "TE20",
    "mer": "TE",
    "loai": "cờ soát",
    "muc": "nhẹ",
-   "mo": "RẢI DỌC ĐƯỜNG: dời 11.24cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+   "mo": "RẢI DỌC ĐƯỜNG: dời 11.65cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
   },
   {
    "code": "TE22",
    "mer": "TE",
    "loai": "cờ soát",
    "muc": "nhẹ",
-   "mo": "khe dời vào trong lòng xương — rút lại, cần soát · RẢI DỌC ĐƯỜNG: dời 6.04cm về đường kinh — toạ độ cũ sai nhi"
-  },
-  {
-   "code": "TE5",
-   "mer": "TE",
-   "loai": "cờ soát",
-   "muc": "nhẹ",
-   "mo": "RẢI DỌC ĐƯỜNG: dời 4.41cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
-  },
-  {
-   "code": "TE6",
-   "mer": "TE",
-   "loai": "cờ soát",
-   "muc": "nhẹ",
-   "mo": "RẢI DỌC ĐƯỜNG: dời 4.79cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
-  },
-  {
-   "code": "TE7",
-   "mer": "TE",
-   "loai": "cờ soát",
-   "muc": "nhẹ",
-   "mo": "RẢI DỌC ĐƯỜNG: dời 5.31cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
-  },
-  {
-   "code": "TE8",
-   "mer": "TE",
-   "loai": "cờ soát",
-   "muc": "nhẹ",
-   "mo": "RẢI DỌC ĐƯỜNG: dời 5.21cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
-  },
-  {
-   "code": "TE9",
-   "mer": "TE",
-   "loai": "cờ soát",
-   "muc": "nhẹ",
-   "mo": "khe cách chỗ cốt độ chỉ ra 3.6 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 5.9cm về"
+   "mo": "khe dời vào trong lòng xương — rút lại, cần soát · RẢI DỌC ĐƯỜNG: dời 5.48cm về đường kinh — toạ độ cũ sai nhi"
   }
  ],
  "ngoaiLe": [

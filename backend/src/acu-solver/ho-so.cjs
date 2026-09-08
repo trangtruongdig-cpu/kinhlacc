@@ -206,8 +206,45 @@ function coCua(code) {
     L.push(`\n**Atlas Focks — vị trí:** ${f ? f.vitri : '(không có)'}`);
     if (f && f.cach) L.push(`\n**Atlas Focks — cách xác định:** ${f.cach}`);
     L.push(`\n**WHO 2008:** (chưa thu thập — agent thư lại điền)`);
-    L.push(`\n## 2. Ảnh atlas (bảng trái = trên da, bảng phải = trên giải phẫu)`);
+    L.push(`\n## 2. Ảnh atlas — BẰNG CHỨNG MẠNH NHẤT, phải ĐO chứ đừng chỉ tả`);
     L.push(anh.length ? anh.map(a => `- ${a}`).join('\n') : '- (không có ảnh)');
+    L.push(`
+Mỗi trang thường có hai bảng: **bản vẽ sơ đồ xương** (bên trái) và **ảnh chụp người thật** (bên phải).
+Bản vẽ là thứ đáng giá nhất vì nó đặt huyệt đang xét CẠNH NHIỀU HUYỆT KINH KHÁC trên cùng một hình —
+vị trí tương đối giữa chúng không phụ thuộc cỡ ảnh hay tầm vóc người mẫu.
+
+**KÝ HIỆU TRONG ẢNH LÀ TIẾNG ĐỨC** (bản Focks dịch từ *Leitfaden Akupunktur*). Đọc nhầm ký hiệu là
+phán quyết sai từ gốc mà không ai phát hiện:
+| trong ảnh | tiếng Đức | kinh | mã quốc tế |
+|---|---|---|---|
+| Lu | Lunge | Phế | LU |
+| Di | Dickdarm | Đại Trường | **LI** |
+| Ma | Magen | Vị | ST |
+| Mi | Milz | Tỳ | SP |
+| He | Herz | Tâm | HT |
+| **Dü** | Dünndarm | Tiểu Trường | **SI** |
+| Bl | Blase | Bàng Quang | BL |
+| Ni | Niere | Thận | KI |
+| Pe | Perikard | Tâm Bào | PC |
+| **SJ / 3E / TB** | San Jiao | Tam Tiêu | **TE** |
+| Gb / G | Gallenblase | Đởm | GB |
+| Le / Liv | Leber | Can | LR |
+| Du | Du Mai | Đốc | GV |
+| Ren | Ren Mai | Nhâm | CV |
+| Ex-UE | Extrapunkte obere Extremität | kỳ huyệt chi trên | (ngoài kinh) |
+| Ex-LE / Ex-KH / Ex-B | chi dưới / đầu-cổ / lưng | kỳ huyệt | (ngoài kinh) |
+
+Chú ý hai chỗ dễ lẫn nhất: **Dü là Tiểu Trường (SI), không phải Đốc**; **SJ là Tam Tiêu (TE), không
+phải Tiểu Trường**.
+
+**CÁCH ĐO (bắt buộc, đừng tả bằng lời):**
+1. \`node do-anh-atlas.cjs ${code} --luoi\` → toạ độ pixel của mọi chấm huyệt trên trang (chấm ĐỎ =
+   huyệt của trang này, chấm ĐEN = các huyệt vẽ kèm).
+2. Mở ảnh bằng công cụ Read, gán nhãn cho từng toạ độ pixel (máy tách được chấm nhưng không đọc được chữ).
+3. Chọn HAI huyệt làm mốc mà bản vẽ có và mesh cũng có, chiếu huyệt đang xét lên đoạn nối chúng:
+   \`t = ((X−A)·(B−A)) / |B−A|²\` tính trên pixel.
+4. \`node doi-chieu-ti-le.cjs ${code} <A> <B> --anh <t vừa tính>\` → in ngay chênh lệch quy ra cm.
+Đây là phép kiểm ĐỘC LẬP với cốt độ và với mốc xương, tức độc lập với chính engine đã dựng toạ độ.`);
     L.push(`\n## 3. Toạ độ engine đang dựng`);
     L.push(pt ? `x=${pt.x} y=${pt.y} z=${pt.z}  →  ngang ${hs.toaDoHienTai.ngangCm}cm · cao ${hs.toaDoHienTai.caoDoCm}cm · trước-sau ${hs.toaDoHienTai.truocSauCm}cm · conf=${pt.conf || '?'}` : '(CHƯA CÓ TOẠ ĐỘ)');
     L.push(`\n## 4. Khung đường kinh`);

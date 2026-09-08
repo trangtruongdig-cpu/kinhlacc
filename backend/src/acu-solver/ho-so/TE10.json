@@ -2,7 +2,7 @@
  "code": "TE10",
  "mer": "TE",
  "num": 10,
- "tenApp": "Thiên tỉnh",
+ "tenApp": "Thiên Tỉnh",
  "tenFocks": "THIÊN TỈNH",
  "canhBaoTen": null,
  "nguon": {
@@ -75,17 +75,17 @@
  "hangXom": [
   {
    "code": "TE9",
-   "ten": "Tứ độc",
-   "thang": 14.73,
+   "ten": "Tứ Độc",
+   "thang": 14.1,
    "sachDoiCm": 10.05,
    "thonCm": 2.01,
-   "docDa": 16.7,
+   "docDa": 14.7,
    "sachDoiThon": 5,
    "vitri": "Ở mặt sau cẳng tay, dưới khớp khuỷu 5 thốn, giữa khe xương trụ và xương quay."
   },
   {
    "code": "TE11",
-   "ten": "Thanh lãnh uyên",
+   "ten": "Thanh Lãnh Uyên",
    "thang": 6.6,
    "sachDoiCm": null,
    "thonCm": 2.01,
@@ -97,7 +97,7 @@
  "lanCan": [
   {
    "code": "SI8",
-   "ten": "Tiểu hải",
+   "ten": "Tiểu Hải",
    "cm": 1.91
   }
  ],

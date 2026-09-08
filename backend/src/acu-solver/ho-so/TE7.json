@@ -2,7 +2,7 @@
  "code": "TE7",
  "mer": "TE",
  "num": 7,
- "tenApp": "Hội tông",
+ "tenApp": "Hội Tông",
  "tenFocks": "HỘI TÔNG",
  "canhBaoTen": null,
  "nguon": {
@@ -15,25 +15,21 @@
   "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE7_p253_0.jpeg"
  ],
  "toaDoHienTai": {
-  "x": 0.1247,
-  "y": 0.5426,
-  "z": -0.0047,
-  "conf": "khe",
-  "caoDoCm": 93.27,
-  "ngangCm": 21.44,
-  "truocSauCm": -0.81
+  "x": 0.1358,
+  "y": 0.5408,
+  "z": -0.0143,
+  "conf": "mốc",
+  "caoDoCm": 92.96,
+  "ngangCm": 23.34,
+  "truocSauCm": -2.46
  },
  "nghiemThu": {
-  "hang": "C",
-  "ly": "chưa vào sổ"
+  "hang": "A",
+  "nguon": "anchor",
+  "ly": "Hiệu chỉnh lần 2: thốn đo dọc TRỤC WRIST-CUBITAL kể cả sau khi ép ra da mặt mu (trục nghiêng 4,97cm/24,10cm nên không bù thì hình chiếu dư 0,6 thốn). Chiếu lên trục ra đúng 2/3/3/4/7 thốn, nhất quán với 11 huyệt cẳng tay của 5 kinh kia",
+  "ngay": "2026-09-07"
  },
- "conNgo": {
-  "loai": [
-   "khe",
-   "duong"
-  ],
-  "ly": "nằm giữa bụng cơ (sâu 0.56 thốn trong khối Cơ gấp cổ tay quay trái) · RẢI DỌC ĐƯỜNG: dời 5.31cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
- },
+ "conNgo": null,
  "duongKinh": {
   "doan": "cang-tay",
   "vung": "giữa mặt sau cẳng tay",
@@ -76,21 +72,21 @@
  "hangXom": [
   {
    "code": "TE6",
-   "ten": "Chi câu",
-   "thang": 0.98,
+   "ten": "Chi Câu",
+   "thang": 0.91,
    "sachDoiCm": 0,
    "thonCm": 2.01,
-   "docDa": 0.4,
+   "docDa": 1.1,
    "sachDoiThon": 0,
    "vitri": "Trên lằn cổ tay 3 thốn, giữa khe xương trụ và xương quay, trên huyệt Ngoại Quan (Ttu.5) 1 thốn."
   },
   {
    "code": "TE8",
-   "ten": "Tam dương lạc",
-   "thang": 1.78,
+   "ten": "Tam Dương Lạc",
+   "thang": 2.37,
    "sachDoiCm": 2.01,
    "thonCm": 2.01,
-   "docDa": 1.7,
+   "docDa": 3.1,
    "sachDoiThon": 1,
    "vitri": "Trên lằn cổ tay 4 thốn, khe giữa xương quay và trụ, ở mặt sau cẳng tay."
   }
@@ -98,56 +94,54 @@
  "lanCan": [
   {
    "code": "TE6",
-   "ten": "Chi câu",
-   "cm": 0.98
-  },
-  {
-   "code": "TE8",
-   "ten": "Tam dương lạc",
-   "cm": 1.78
+   "ten": "Chi Câu",
+   "cm": 0.91
   },
   {
    "code": "TE5",
-   "ten": "Ngoại quan",
-   "cm": 2.72
+   "ten": "Ngoại Quan",
+   "cm": 2.2
   },
   {
-   "code": "SI7",
-   "ten": "Chi chính",
-   "cm": 3.78
+   "code": "TE8",
+   "ten": "Tam Dương Lạc",
+   "cm": 2.37
+  },
+  {
+   "code": "LI6",
+   "ten": "Thiên Lịch",
+   "cm": 3.37
   }
  ],
  "giaiPhauGanNhat": [
   {
-   "ten": "Đầu trụ của cơ gấp cổ tay trụ trái",
-   "lop": "muscle",
-   "cm": 1.29
-  },
-  {
-   "ten": "Cơ duỗi cổ tay trụ trái",
+   "ten": "Cơ duỗi ngón út trái",
    "lop": "muscle",
    "cm": 1.4
   },
   {
-   "ten": "Xương trụ trái",
-   "lop": "bone",
-   "cm": 1.59
+   "ten": "Cơ duỗi cổ tay trụ trái",
+   "lop": "muscle",
+   "cm": 1.57
   },
   {
-   "ten": "Đầu cánh tay của cơ gấp cổ tay trụ trái",
+   "ten": "Cơ duỗi các ngón trái",
    "lop": "muscle",
-   "cm": 1.64
+   "cm": 2.1
   },
   {
    "ten": "Cơ duỗi ngón trỏ trái",
    "lop": "muscle",
-   "cm": 1.77
+   "cm": 2.11
+  },
+  {
+   "ten": "Cơ duỗi ngón cái dài trái",
+   "lop": "muscle",
+   "cm": 2.18
   }
  ],
  "coKiemMay": [
-  "RẢI DỌC ĐƯỜNG dời 5.31cm (conf=khe)",
-  "XA ĐƯỜNG KINH 4.82cm",
-  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 5.31cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "XA ĐƯỜNG KINH 0cm",
   "TỪ ĐIỂN APP kêu: dọc \"TE6\" đòi 1 thốn, đo được 0.15  (lệch 1.71cm)",
   "ATLAS FOCKS kêu: dọc \"WRIST\" đòi 0.5 thốn, đo được 3.15  (lệch 5.31cm)"
  ]

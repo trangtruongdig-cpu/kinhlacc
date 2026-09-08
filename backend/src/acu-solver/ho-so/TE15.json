@@ -2,7 +2,7 @@
  "code": "TE15",
  "mer": "TE",
  "num": 15,
- "tenApp": "Thiên liêu",
+ "tenApp": "Thiên Liêu",
  "tenFocks": "THIÊN LIÊU",
  "canhBaoTen": null,
  "nguon": {
@@ -45,7 +45,7 @@
  "hangXom": [
   {
    "code": "TE14",
-   "ten": "Kiên liêu",
+   "ten": "Kiên Liêu",
    "thang": 8.77,
    "sachDoiCm": null,
    "thonCm": null,
@@ -55,11 +55,11 @@
   },
   {
    "code": "TE16",
-   "ten": "Thiên dũ",
-   "thang": 11.08,
+   "ten": "Thiên Dũ",
+   "thang": 11.83,
    "sachDoiCm": null,
    "thonCm": null,
-   "docDa": 12.6,
+   "docDa": 12.8,
    "sachDoiThon": null,
    "vitri": "Ở phía ngoài cổ, bờ sau và trong gai xương chũm, bờ sau cơ ức đòn chũm, nơi góc hàm dưới. Hoặc lấy nếp sau gáy làm chuẩn, huyệt ở 1/3 ngoài của đường nối huyệt Thiên Trụ (Bq 12) và Thiên Dung (Ttr.17)."
   }
@@ -67,12 +67,12 @@
  "lanCan": [
   {
    "code": "LI16",
-   "ten": "Cự cốt",
+   "ten": "Cự Cốt",
    "cm": 1.15
   },
   {
    "code": "GB21",
-   "ten": "Kiên tỉnh",
+   "ten": "Kiên Tỉnh",
    "cm": 3.37
   }
  ],

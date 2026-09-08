@@ -216,7 +216,8 @@ const A = {
   HT7:   { pos: { x: 0.1389, y: 0.5146, z: 0.0219 }, why: 'Thần Môn — lằn cổ tay, mé trụ, bờ quay xương đậu. Dựng từ xương/gân thật trong atlas. SỬA: lệch 4.4cm so toạ độ cũ' },
   TE4:   { pos: { x: 0.143, y: 0.5124, z: -0.0022 }, why: 'Dương Trì — giữa lằn cổ tay mặt mu. Dựng từ xương/gân thật trong atlas' },
   SI5:   { pos: { x: 0.1333, y: 0.5139, z: 0.0047 }, why: 'Dương Cốc — khe giữa mỏm trâm trụ và xương tháp, mặt mu mé trụ. Dựng từ xương/gân thật trong atlas' },
-  LI5:   { pos: { x: 0.175, y: 0.4977, z: 0.0112 }, why: 'Dương Khê — hố lào — giữa gân duỗi ngón cái dài và ngắn. Dựng từ xương/gân thật trong atlas. SỬA: lệch 4.2cm so toạ độ cũ' },
+  /* LI5 Dương Khê đã chuyển xuống VÒNG 27 — mục cũ dựng bằng phép dò GÂN duỗi ngón cái và ra
+   * y = 85,55cm, thấp hơn lằn cổ tay 2,9cm. Xem lý do đo lại ở vòng 27. */
   KI3:   { pos: { x: 0.0215, y: 0.0467, z: -0.0197 }, why: 'Thái Khê — giữa đỉnh mắt cá trong và gân gót, ngang đỉnh mắt cá. Dựng từ xương/gân thật trong atlas. SỬA: lệch 4.8cm so toạ độ cũ' },
   BL60:  { pos: { x: 0.0515, y: 0.0286, z: -0.0383 }, why: 'Côn Lôn — giữa đỉnh mắt cá ngoài và gân gót. Dựng từ xương/gân thật trong atlas' },
   SP5:   { pos: { x: 0.0286, y: 0.0314, z: 0.0046 }, why: 'Thương Khâu — hõm trước-dưới mắt cá trong, giữa mắt cá và xương ghe. Dựng từ xương/gân thật trong atlas. SỬA: lệch 7cm so toạ độ cũ' },
@@ -315,6 +316,63 @@ const A = {
   GB19: { pos: { x: 0.0149, y: 0.9424, z: -0.0713 }, why: 'Não Không — ngang Não Hộ (GV17), đường dọc đồng tử' },
   ST1:  { pos: { x: 0.0184, y: 0.9400, z: 0.0433 }, why: 'Thừa Khấp — bờ dưới ổ mắt, trục dọc đồng tử' },
   TE23: { pos: { x: 0.0308, y: 0.9499, z: 0.0347 }, why: 'Ty Trúc Không — hõm đầu NGOÀI lông mày' },
+
+  /* ===== VÒNG 27 — HỘI ĐỒNG VÒNG 2: ĐO TRÊN ẢNH SÁCH (08/09/2026) ==================================
+   * Vòng 1 có giao việc "đọc ảnh atlas" nhưng sản phẩm chỉ là câu chữ, nên rốt cuộc mọi phán quyết
+   * vẫn dựa vào cốt độ và mốc xương. Người dùng chỉ ra chỗ ấy. Vòng 2 dựng hai công cụ mới —
+   * do-anh-atlas.cjs (tách chấm huyệt trên ảnh sách thành toạ độ pixel) và doi-chieu-ti-le.cjs (chiếu
+   * huyệt lên đoạn nối hai mốc, so t trên ảnh với t trên mesh) — rồi cho 17 agent đo lại cả 23 huyệt.
+   * Phán quyết: hoi-dong/TE-vong2-phan-quyet.json.
+   *
+   * Vì sao phép tỉ lệ đáng tin hơn: nó KHÔNG cần thang thốn, không cần biết đoạn dài mấy centimet.
+   * Nhờ vậy nó gỡ được thế treo của TE11/12/13 mà vòng 1 phải bỏ dở vì ba cách đo thang cánh tay cho
+   * 2,57 / 3,27 / 3,49 cm/thốn.
+   *
+   * TE12 và TE13 — SỬA, và phải sửa CÙNG LÚC. Hai huyệt đang CHẬP: cách nhau 0,33cm trên một đoạn
+   * 25,85cm, lại ĐẢO THỨ TỰ (TE12 cao hơn TE13 0,32cm trong khi sách xếp TE13 ở trên). Ba cặp mốc
+   * độc lập trên ảnh cùng chỉ một hướng: TE12 lệch +5,79 / +5,62 / +6,51cm, TE13 lệch −3,35 / −2,47 /
+   * −2,05cm. Suy từ thang thốn của sách cho t = 0,426 (TE12) và 0,745 (TE13), lệch 0,44cm và 0,13cm
+   * so với số đo trên ảnh — hai đường độc lập gặp nhau.
+   * Dựng bằng TỈ LỆ trên dây cung TE10→TE14 (t = 0,409 và 0,750), GIỮ NGUYÊN vector lệch ngang: ảnh
+   * là hình chiếu nên chỉ đo được chiều dọc, còn độ lệch ngang chính là thứ đặt huyệt vào khe giữa
+   * hai đầu cơ tam đầu, không có bằng chứng nào nói nó sai.
+   * SAI SỐ TỒN DƯ ĐÃ BIẾT: TE10 vẫn chưa chốt (thẩm tra nghi nó cao 0,9–1,9cm). Hạ TE10 1cm thì TE12
+   * dời 0,58cm và TE13 dời 0,25cm — nhỏ hơn nhiều so với 5,79 và 3,35cm đang sửa, nên sửa trước là
+   * đúng, nhưng phải soát lại hai huyệt này sau khi TE10 được chốt.
+   * TE11 KHÔNG SỬA: nó nhạy nhất với TE10 (hạ TE10 1cm thì TE11 dời 0,91cm, gần bằng chính sai số
+   * đang muốn sửa), và thẩm tra đã bác phép nghiệm thu mà chủ toạ đề nghị cho nó.
+   * NGHIỆM THU: TE12↔TE13 nở từ 0,33cm lên 8,80cm; thứ tự cao độ TE11 120,8 < TE12 124,9 < TE13 133,7.
+   *
+   * LI5 Dương Khê — KHÔNG thuộc kinh TE, nhưng lộ ra từ chính phiên này và là lỗi nặng hơn mọi lỗi
+   * của kinh TE. Khi chất vấn "TE4 lệch 1,38cm", hội đồng khớp affine 8 mốc rồi jackknife: bỏ LI5 ra
+   * thì sai số nền tụt 1,38 → 0,88cm, bỏ bất kỳ mốc nào khác đều không cải thiện. Đo lại trực tiếp:
+   * LI5 thấp hơn SI5 2,78cm dù cả LI5, SI5 và TE4 đều phải nằm trên lằn cổ tay; LI4→LI5 chỉ 2,73cm
+   * trong khi ảnh đòi ~5,5cm. Dựng lại vào HÕM LÀO GIẢI PHẪU: trung điểm mỏm trâm quay (điểm thấp
+   * nhất của xương quay về phía quay: 27,91/89,12/1,59cm) và tâm xương thuyền (26,09/88,19/1,77cm),
+   * rồi đẩy ra da phía quay-lưng.
+   * NGHIỆM THU: cao độ 88,65cm — ngang SI5 88,34 · TE4 88,08 · mốc WRIST 88,41; LI4→LI5 ra 5,84cm;
+   * thứ tự ngang tại lằn cổ tay LI5 29,32 › TE4 24,58 › SI5 22,91, đúng chiều quay→trụ.
+   * Mục này THAY mục LI5 cũ (dựng bằng phép dò gân duỗi ngón cái, cho y = 85,55cm). Phép dò gân
+   * ấy hỏng ở chỗ nào thì chưa rõ, nhưng nó đặt huyệt thấp hơn lằn cổ tay 2,9cm và làm LI4→LI5
+   * co lại còn 2,73cm — bằng nửa số ảnh sách đòi. Dùng mốc XƯƠNG thì cả ba phép nghiệm thu đạt. */
+  TE12: { pos: { x: 0.1281, y: 0.7264, z: -0.0487 }, why: 'Tiêu Lạc — t=0,409 trên dây cung TE10→TE14 theo ba cặp mốc đo trên ảnh sách; giữ nguyên lệch ngang. Gỡ chập với TE13' },
+  TE13: { pos: { x: 0.1256, y: 0.7775, z: -0.0466 }, why: 'Nhu Hội — t=0,750 trên dây cung TE10→TE14 (ảnh), khớp thang thốn sách 8/11 lệch 0,13cm' },
+  LI5:  { pos: { x: 0.1706, y: 0.5157, z: 0.0127 }, why: 'Dương Khê — hõm lào giải phẫu, giữa mỏm trâm quay và xương thuyền, ngang lằn cổ tay. Điểm cũ thấp hơn SI5 2,78cm' },
+  /* LI6–LI10 — HỆ QUẢ BẮT BUỘC của việc dời LI5, và lại đúng cái lỗi khung đã sửa cho kinh TE.
+   * Đoạn LI/cang-tay của đường kinh chỉ neo hai đầu LI5→LI11, nên khi LI5 dời 3,2cm thì đường trắc
+   * địa cắt góc sang mặt TRƯỚC và kéo cả năm huyệt theo: LI6 rơi CHẬP vào PC5 (cách 0,05cm), LI7 trôi
+   * 5,73cm, LI8 trôi 3,45cm. Sách nói rõ cả năm nằm TRÊN ĐƯỜNG NỐI LI5–LI11 theo số thốn của thang
+   * cẳng tay 12 thốn, nên dựng thẳng như thế rồi chỉ nâng lên mặt da bằng đỉnh GẦN NHẤT.
+   * Không đẩy theo hướng "quay-lưng": làm thế thì LI10 văng ra z = −3,0cm trong khi LI11 ngay trên nó
+   * ở z = +0,1cm, tức tự bẻ cong đoạn mà sách bảo là thẳng.
+   * NGHIỆM THU: chiếu lên trục WRIST→CUBITAL ra đúng 3 / 5 / 8 / 9 / 10 thốn; LI6↔PC5 nở từ 0,05cm
+   * lên 4,14cm; u (0 = giữa khe quay–trụ, 1 = tâm xương quay) ra 2,56–3,25 — nhất quán với chính giá
+   * trị đo được trước khi đụng vào LI5 (LI7 2,27 · LI9 2,97 · LI10 3,08), tức dải bờ quay không đổi. */
+  LI6:  { pos: { x: 0.1604, y: 0.5492, z: 0.0046 }, why: 'Thiên Lịch — 3 thốn trên lằn cổ tay, trên đường nối LI5–LI11' },
+  LI7:  { pos: { x: 0.1560, y: 0.5732, z: 0.0068 }, why: 'Ôn Lưu — 5 thốn trên lằn cổ tay, trên đường nối LI5–LI11' },
+  LI8:  { pos: { x: 0.1527, y: 0.6082, z: 0.0029 }, why: 'Hạ Liêm — 8 thốn trên lằn cổ tay (dưới LI11 4 thốn)' },
+  LI9:  { pos: { x: 0.1504, y: 0.6200, z: 0.0035 }, why: 'Thượng Liêm — 9 thốn trên lằn cổ tay (dưới LI11 3 thốn)' },
+  LI10: { pos: { x: 0.1466, y: 0.6314, z: 0.0031 }, why: 'Thủ Tam Lý — 10 thốn trên lằn cổ tay (dưới LI11 2 thốn)' },
 
 
   /* ===== VÒNG 10 — CẲNG CHÂN MẶT TRONG (rà soát toàn diện bắt được) ================================
@@ -534,7 +592,7 @@ const A = {
   SI4:  { pos: { x: 0.1248, y: 0.5014, z: 0.0151 }, why: 'Uyển Cốt — giữa xương móc và gốc xương bàn tay 5' },
   SI3:  { pos: { x: 0.1244, y: 0.4750, z: 0.0223 }, why: 'Hậu Khê — sau khớp bàn–ngón 5, ranh da đỏ–trắng' },
   SI2:  { pos: { x: 0.1253, y: 0.4699, z: 0.0224 }, why: 'Tiền Cốc — trước khớp bàn–ngón 5, ranh da đỏ–trắng' },
-  TE3:  { pos: { x: 0.1395, y: 0.4752, z: 0.0097 }, why: 'Trung Chử — mu tay, khe xương bàn 4–5' },
+  TE3:  { pos: { x: 0.1406, y: 0.4752, z: 0.0119 }, why: 'Trung Chử — tâm rãnh gian cốt bàn 4–5 tại CỔ xương bàn 4 (chỗ thân loe thành chỏm), ép lên da mặt mu. Hội đồng 08/09: điểm cũ treo 0,5cm ngoài da; cao độ cổ xương đo lại TRÙNG cao độ cũ nên KHÔNG dời dọc — phần "lùi về phía đầu ngón" hội đồng đề nghị không được phép đo xác nhận' },
   TE2:  { pos: { x: 0.1391, y: 0.4679, z: 0.0122 }, why: 'Dịch Môn — kẽ ngón 4–5, mu tay' },
   LU10: { pos: { x: 0.1860, y: 0.4984, z: 0.0220 }, why: 'Ngư Tế — giữa xương bàn tay 1, ranh da đỏ–trắng' },
   PC8:  { pos: { x: 0.1601, y: 0.4698, z: 0.0339 }, why: 'Lao Cung — gan tay, khe xương bàn 2–3' },
@@ -547,6 +605,49 @@ const A = {
    * (GB29 ra x=28,1cm trong khi mấu chuyển chỉ 15,0) — phải chặn theo bề ngang xương. */
   GB29: { pos: { x: 0.0953, y: 0.5287, z: -0.0019 }, why: 'Cư Liêu — trung điểm gai chậu trước trên và đỉnh mấu chuyển lớn' },
   GB30: { pos: { x: 0.0939, y: 0.4948, z: -0.0139 }, why: 'Hoàn Khiêu — nối 1/3 ngoài và 2/3 trong đoạn mấu chuyển lớn–khe xương cùng' },
+
+  /* ===== VÒNG 26 — KINH TAM TIÊU sau HỘI ĐỒNG PHẢN BIỆN (08/09/2026) ===============================
+   * Nguồn: hoi-dong/TE-phan-quyet.json — 27 agent (thư lại tra WHO 2008 → 3 phản biện độc lập theo ba
+   * giác quan → chủ toạ từng cụm → 2 thẩm tra đối kháng). Chỉ chép vào đây những phán quyết mà CẢ
+   * hội đồng LẪN hai thẩm tra cùng đứng, và mà tôi đã đo lại được trên chính mesh.
+   *
+   * A. CẲNG TAY TE5–TE9 — LỖI KHUNG, KHÔNG PHẢI LỖI TỪNG HUYỆT.
+   * Đoạn TE/cang-tay của đường kinh chỉ neo hai đầu TE4→TE10, nên đường trắc địa CẮT GÓC qua mặt trụ
+   * (đo được đường chạy ở x = 19,2–21,2cm trong khi khe gian cốt ở x ≈ 23,4–24,6cm), rồi khâu rải kéo
+   * cả năm huyệt theo. Hậu quả đo được: cả năm nằm NGOÀI rìa xương trụ, chiếm dải của kinh Tiểu Trường
+   * (u = −1,5 đến −5,5, trong đó u = 0 là giữa khe, −1 là tâm xương trụ). TE9 lệch 3,43cm.
+   * Nay dựng thẳng từ hình học: mức dọc theo thang WRIST→CUBITAL (2,008cm/thốn — thẩm tra đã bác đề
+   * nghị đổi sang TE4→mỏm khuỷu 2,128, vì nó neo vào HUYỆT và lấy mỏm khuỷu thay nếp khuỷu), ngang
+   * đặt đúng TÂM KHE gian cốt quay–trụ tại mức đó, rồi ép lên da mặt MU.
+   * Vì chúng thành mốc tầng 1, bake-paths sẽ lấy chúng làm điểm neo và đường kinh hết cắt góc.
+   * THỐN ĐO DỌC TRỤC, KỂ CẢ SAU KHI ÉP RA DA. Trục WRIST→CUBITAL nghiêng 4,97cm theo z trên 24,10cm,
+   * nên đẩy huyệt ra mặt da mu (z tụt ~5cm) làm hình chiếu lên trục tăng 0,6 thốn nếu cứ giữ nguyên
+   * cao độ — audit bắt đúng chỗ này (TE6 ra 3,6 thốn thay vì 3). Phải giải ngược lại cao độ cho hình
+   * chiếu đúng mức, lặp vì z của da lại phụ thuộc cao độ.
+   * NGHIỆM THU NGOÀI ENGINE — dùng phép NHẤT QUÁN LIÊN KINH, không dùng phép "cùng cao độ":
+   * cả 11 huyệt cẳng tay của năm kinh kia (PC6=2,00 · PC5=3,00 · PC4=5,00 · LU7=1,50 · LU6=7,00 ·
+   * HT5=1,00 · HT4=1,50 · SI6=1,00 · SI7=5,00 · LI6=3,00 · LI7=5,00 thốn) đều chiếu lên chính trục này
+   * ĐÚNG số thốn sách. TE5–TE9 sau khi dựng cũng ra đúng 2/3/3/4/7. Lưu ý phép nghiệm thu mà thẩm tra
+   * đề nghị — "TE5 phải CÙNG CAO ĐỘ với PC6 vì là cặp thấu châm" — KHÔNG dùng được khi trục nghiêng:
+   * hai huyệt cùng 2 thốn nhưng nằm hai mặt đối nhau thì lệch cao độ đúng 4,8cm × 0,206 = 0,99cm, và
+   * đo được 1,01cm. Cùng MỨC TRÊN TRỤC mới là điều kiện đúng, không phải cùng cao độ.
+   *
+   * B. TE7 Hội Tông không ở tâm khe: sách cho nó cùng mức 3 thốn với Chi Câu TE6 nhưng lệch về phía
+   * TRỤ, sát BỜ QUAY của xương trụ — nên đặt ở u ≈ −0,75, không phải u = 0.
+   *
+   * C. TE11 Thanh Lãnh Uyên: hội đồng đồng thuận SỬA (hạ 2,7cm) nhưng TÔI KHÔNG ÁP. Cách dựng ấy phụ
+   * thuộc hằng số 2,60cm/thốn suy từ giả định "mỏm khuỷu → mỏm cùng vai = 11 thốn". Ba phép đo cho ba
+   * kết quả: 2,57 (giả định ấy) · 3,27 (bảng cot-do-chi hiện dùng, neo vào hai HUYỆT TE10–TE14) ·
+   * 3,49 (nếp nách → nếp khuỷu = 9 thốn theo WHO, nhưng phép dò nếp nách trên mesh này không đơn điệu
+   * nên KHÔNG tin được). Chưa có hai phép đo độc lập nào khớp nhau thì chưa được chốt thang — đúng
+   * luật đã vấp ba lần trước. TE11/TE12/TE13 để lại chờ chốt mốc nếp nách. */
+  TE5:  { pos: { x: 0.1430, y: 0.5304, z: -0.0122 }, why: 'Ngoại Quan — 2 thốn trên lằn cổ tay, TÂM khe gian cốt quay–trụ, mặt mu. Nghiệm thu: đối diện PC6 lệch 0,03cm' },
+  TE6:  { pos: { x: 0.1410, y: 0.5416, z: -0.0146 }, why: 'Chi Câu — 3 thốn trên lằn cổ tay, tâm khe gian cốt, mặt mu' },
+  TE7:  { pos: { x: 0.1358, y: 0.5408, z: -0.0143 }, why: 'Hội Tông — cùng mức 3 thốn với Chi Câu nhưng sát BỜ QUAY của xương trụ (u≈−0,75), không ở tâm khe' },
+  TE8:  { pos: { x: 0.1403, y: 0.5525, z: -0.0200 }, why: 'Tam Dương Lạc — 4 thốn trên lằn cổ tay, tâm khe gian cốt, mặt mu' },
+  TE9:  { pos: { x: 0.1380, y: 0.5857, z: -0.0332 }, why: 'Tứ Độc — 7 thốn trên lằn cổ tay (5 thốn dưới mỏm khuỷu), tâm khe gian cốt. Điểm cũ lệch 3,43cm sang dải kinh Tiểu Trường' },
+  TE16: { pos: { x: 0.0283, y: 0.8880, z: -0.0194 }, why: 'Thiên Dũ — ngang GÓC HÀM DƯỚI (dò bằng mức bờ sau ngành hàm bắt đầu quay ra trước, y=152,65cm), tại BỜ SAU cơ ức–đòn–chũm. Điểm cũ đè lên bụng cơ' },
+  TE23: { pos: { x: 0.0308, y: 0.9423, z: 0.0347 }, why: 'Ty Trúc Không — hõm ngay trên KHỚP TRÁN–GÒ MÁ (hai xương cách 0,013cm ở cao 161,38cm). Nghiệm thu: cách GB1 2,05cm, hội đồng đòi 1,6–2,2 (trước 3,35)' },
 };
 
 // ---- CHẤM TAY (backend): trộn chốt người dùng (TRUYỀN QUA THAM SỐ) vào BẢN SAO của A.

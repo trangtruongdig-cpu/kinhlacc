@@ -2,7 +2,7 @@
  "code": "TE3",
  "mer": "TE",
  "num": 3,
- "tenApp": "Trung chử",
+ "tenApp": "Trung Chử",
  "tenFocks": "TRUNG CHỬ",
  "canhBaoTen": null,
  "nguon": {
@@ -15,18 +15,18 @@
   "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE3_p249_0.jpeg"
  ],
  "toaDoHienTai": {
-  "x": 0.1403,
+  "x": 0.1406,
   "y": 0.4752,
-  "z": 0.009,
+  "z": 0.0119,
   "conf": "mốc",
   "caoDoCm": 81.69,
-  "ngangCm": 24.12,
-  "truocSauCm": 1.55
+  "ngangCm": 24.17,
+  "truocSauCm": 2.05
  },
  "nghiemThu": {
   "hang": "A",
   "nguon": "anchor",
-  "ly": "Trung Chử — mu tay, khe xương bàn 4–5",
+  "ly": "Hội đồng phản biện 08/09: TE3 ép lên da mặt mu tại cổ xương bàn 4 (cao độ giữ nguyên, phần lùi dọc hội đồng đề nghị KHÔNG được phép đo xác nhận). TE16 ngang góc hàm 152,65cm tại bờ SAU cơ ức-đòn-chũm. TE23 hõm trên khớp trán-gò má, nghiệm thu cách GB1 2,05cm",
   "ngay": "2026-09-07"
  },
  "conNgo": null,
@@ -46,21 +46,21 @@
  "hangXom": [
   {
    "code": "TE2",
-   "ten": "Dịch môn",
-   "thang": 1.49,
+   "ten": "Dịch Môn",
+   "thang": 1.3,
    "sachDoiCm": null,
    "thonCm": null,
-   "docDa": 2,
+   "docDa": 1.9,
    "sachDoiThon": null,
    "vitri": "Giữa xương bàn ngón tay thứ 4 và 5, nơi chỗ lõm ở kẽ ngón tay, ngang phần tiếp nối của thân với đầu trên xương đốt ngón tay."
   },
   {
    "code": "TE4",
-   "ten": "Dương trì",
-   "thang": 6.69,
+   "ten": "Dương Trì",
+   "thang": 6.85,
    "sachDoiCm": null,
    "thonCm": null,
-   "docDa": 6.6,
+   "docDa": 6.7,
    "sachDoiThon": null,
    "vitri": "Ở chỗ lõm trên lằn ngang khớp xương cổ tay, khe giữa gân cơ duỗi chung ngón tay và cơ duỗi riêng ngón tay trỏ, khe giữa đầu dưới xương quay và xương trụ."
   }
@@ -68,54 +68,53 @@
  "lanCan": [
   {
    "code": "HT8",
-   "ten": "Thiếu phủ",
-   "cm": 1.14
+   "ten": "Thiếu Phủ",
+   "cm": 0.87
   },
   {
    "code": "TE2",
-   "ten": "Dịch môn",
-   "cm": 1.49
+   "ten": "Dịch Môn",
+   "cm": 1.3
   },
   {
    "code": "SI3",
-   "ten": "Hậu khê",
-   "cm": 3.56
+   "ten": "Hậu Khê",
+   "cm": 3.31
   },
   {
    "code": "SI2",
-   "ten": "Tiền cốc",
-   "cm": 3.58
+   "ten": "Tiền Cốc",
+   "cm": 3.32
   }
  ],
  "giaiPhauGanNhat": [
   {
    "ten": "Cơ duỗi các ngón trái",
    "lop": "muscle",
-   "cm": 1.03
+   "cm": 0.56
   },
   {
    "ten": "Tập hợp của các cơ gian cốt mu của bàn tay trái",
    "lop": "muscle",
-   "cm": 1.18
+   "cm": 0.73
   },
   {
    "ten": "Xương đốt bàn tay 4 trái",
    "lop": "bone",
-   "cm": 1.21
+   "cm": 0.75
   },
   {
    "ten": "Xương đốt bàn tay 5 trái",
    "lop": "bone",
-   "cm": 1.63
+   "cm": 1.23
   },
   {
    "ten": "Cơ duỗi ngón út trái",
    "lop": "muscle",
-   "cm": 1.74
+   "cm": 1.42
   }
  ],
  "coKiemMay": [
-  "XA ĐƯỜNG KINH 0cm",
-  "ÉP LÊN DA dời 0.2cm"
+  "XA ĐƯỜNG KINH 0.18cm"
  ]
 }

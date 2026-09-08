@@ -2,7 +2,7 @@
  "code": "TE4",
  "mer": "TE",
  "num": 4,
- "tenApp": "Dương trì",
+ "tenApp": "Dương Trì",
  "tenFocks": "DƯƠNG TRÌ",
  "canhBaoTen": null,
  "nguon": {
@@ -71,21 +71,21 @@
  "hangXom": [
   {
    "code": "TE3",
-   "ten": "Trung chử",
-   "thang": 6.69,
+   "ten": "Trung Chử",
+   "thang": 6.85,
    "sachDoiCm": null,
    "thonCm": 2.01,
-   "docDa": 6.6,
+   "docDa": 6.7,
    "sachDoiThon": null,
    "vitri": "Trên mu tay, giữa ngón tay xương bàn tay thứ 4 và thứ 5, trong chỗ lõm trên kẽ ngón tay 1 thốn."
   },
   {
    "code": "TE5",
-   "ten": "Ngoại quan",
-   "thang": 3.44,
+   "ten": "Ngoại Quan",
+   "thang": 3.54,
    "sachDoiCm": 4.02,
    "thonCm": 2.01,
-   "docDa": 3.6,
+   "docDa": 4.3,
    "sachDoiThon": 2,
    "vitri": "Trên lằn chỉ cổ tay 2 thốn, giữa xương quay và xương trụ, ở mặt giữa sau cánh tay."
   }
@@ -93,27 +93,27 @@
  "lanCan": [
   {
    "code": "SI5",
-   "ten": "Dương cốc",
+   "ten": "Dương Cốc",
    "cm": 2.06
   },
   {
    "code": "SI6",
-   "ten": "Dưỡng lão",
+   "ten": "Dưỡng Lão",
    "cm": 2.43
   },
   {
    "code": "TE5",
-   "ten": "Ngoại quan",
-   "cm": 3.44
+   "ten": "Ngoại Quan",
+   "cm": 3.54
   },
   {
    "code": "HT5",
-   "ten": "Thông lý",
+   "ten": "Thông Lý",
    "cm": 3.91
   },
   {
    "code": "HT6",
-   "ten": "Âm khích",
+   "ten": "Âm Khích",
    "cm": 3.99
   }
  ],

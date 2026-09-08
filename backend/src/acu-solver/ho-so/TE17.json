@@ -2,7 +2,7 @@
  "code": "TE17",
  "mer": "TE",
  "num": 17,
- "tenApp": "Ế phong",
+ "tenApp": "Ế Phong",
  "tenFocks": "Ế PHONG",
  "canhBaoTen": null,
  "nguon": {
@@ -55,18 +55,18 @@
  "hangXom": [
   {
    "code": "TE16",
-   "ten": "Thiên dũ",
-   "thang": 4.44,
+   "ten": "Thiên Dũ",
+   "thang": 4.5,
    "sachDoiCm": null,
    "thonCm": null,
-   "docDa": 4.5,
+   "docDa": 4.4,
    "sachDoiThon": null,
    "vitri": "Ở phía ngoài cổ, bờ sau và trong gai xương chũm, bờ sau cơ ức đòn chũm, nơi góc hàm dưới. Hoặc lấy nếp sau gáy làm chuẩn, huyệt ở 1/3 ngoài của đường nối huyệt Thiên Trụ (Bq 12) và Thiên Dung (Ttr.17)."
   },
   {
    "code": "TE18",
-   "ten": "Khế mạch",
-   "thang": 1.7,
+   "ten": "Khế Mạch",
+   "thang": 1.6,
    "sachDoiCm": null,
    "thonCm": null,
    "docDa": 1.2,
@@ -77,52 +77,52 @@
  "lanCan": [
   {
    "code": "GB11",
-   "ten": "Khiếu âm",
+   "ten": "Đầu Khiếu Âm",
    "cm": 1.3
   },
   {
    "code": "GB2",
-   "ten": "Thính hội",
+   "ten": "Thính Hội",
    "cm": 1.38
   },
   {
    "code": "TE18",
-   "ten": "Khế mạch",
-   "cm": 1.7
+   "ten": "Khế Mạch",
+   "cm": 1.6
   },
   {
    "code": "SI19",
-   "ten": "Thính cung",
+   "ten": "Thính Cung",
    "cm": 1.98
   },
   {
    "code": "GB12",
-   "ten": "Hoàn cốt",
+   "ten": "Hoàn Cốt",
    "cm": 2.14
   },
   {
    "code": "SI18",
-   "ten": "Quyền liêu",
+   "ten": "Quyền Liêu",
    "cm": 2.23
   },
   {
    "code": "TE21",
-   "ten": "Nhĩ môn",
+   "ten": "Nhĩ Môn",
    "cm": 2.66
   },
   {
    "code": "GB10",
-   "ten": "Phù bạch",
+   "ten": "Phù Bạch",
    "cm": 2.66
   },
   {
    "code": "TE19",
-   "ten": "Lư tức",
-   "cm": 3.31
+   "ten": "Lư Tức",
+   "cm": 3.09
   },
   {
    "code": "GB20",
-   "ten": "Phong trì",
+   "ten": "Phong Trì",
    "cm": 3.99
   }
  ],

@@ -2,7 +2,7 @@
  "code": "TE13",
  "mer": "TE",
  "num": 13,
- "tenApp": "Nhu hội",
+ "tenApp": "Nhu Hội",
  "tenFocks": "NHU HỘI",
  "canhBaoTen": null,
  "nguon": {
@@ -62,7 +62,7 @@
  "hangXom": [
   {
    "code": "TE12",
-   "ten": "Tiêu lạc",
+   "ten": "Tiêu Lạc",
    "thang": 0.33,
    "sachDoiCm": null,
    "thonCm": null,
@@ -72,7 +72,7 @@
   },
   {
    "code": "TE14",
-   "ten": "Kiên liêu",
+   "ten": "Kiên Liêu",
    "thang": 9.92,
    "sachDoiCm": null,
    "thonCm": null,
@@ -84,12 +84,12 @@
  "lanCan": [
   {
    "code": "TE12",
-   "ten": "Tiêu lạc",
+   "ten": "Tiêu Lạc",
    "cm": 0.33
   },
   {
    "code": "SI9",
-   "ten": "Kiên trinh",
+   "ten": "Kiên Trinh",
    "cm": 3.05
   }
  ],

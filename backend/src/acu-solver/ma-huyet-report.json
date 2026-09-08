@@ -1,116 +1,67 @@
 {
- "n": 16,
+ "n": 9,
  "hang": [
   {
    "code": "SP20",
    "loai": "thieu-nguon",
-   "app": "Chu vinh",
+   "app": "Chu Vinh",
    "focks": null,
    "mo": "Atlas Focks không có mã này — chỉ còn một nguồn chữ, không trọng tài được."
   },
   {
    "code": "BL43",
    "loai": "khac-han",
-   "app": "Cao hoang",
+   "app": "Cao Hoang",
    "focks": "CAO HOANG/CAO HOANG DU",
    "mo": "Hai tên không quy về nhau — phải tra nguồn thứ ba (WHO / Deadman)."
   },
   {
-   "code": "KI17",
-   "loai": "lech-ma",
-   "app": "Thương khâu",
-   "focks": "THƯƠNG KHÚC",
-   "mo": "Tên app \"Thương khâu\" chính là tên Focks gán cho SP5. Nghi từ điển app LỆCH MÃ; câu VỊ TRÍ của mã này đang tả huyệt SP5."
-  },
-  {
    "code": "TE11",
    "loai": "thieu-nguon",
-   "app": "Thanh lãnh uyên",
+   "app": "Thanh Lãnh Uyên",
    "focks": null,
    "mo": "Atlas Focks không có mã này — chỉ còn một nguồn chữ, không trọng tài được."
   },
   {
-   "code": "GB24",
-   "loai": "lech-ma",
-   "app": "Kinh môn",
-   "focks": "NHẬT NGUYỆT",
-   "mo": "Tên app \"Kinh môn\" chính là tên Focks gán cho GB25. Nghi từ điển app LỆCH MÃ; câu VỊ TRÍ của mã này đang tả huyệt GB25."
-  },
-  {
-   "code": "GB25",
-   "loai": "lech-ma",
-   "app": "Đái mạch",
-   "focks": "KINH MÔN",
-   "mo": "Tên Focks \"KINH MÔN\" chính là tên app gán cho GB24. Hai nguồn lệch nhau một bậc quanh đây."
-  },
-  {
-   "code": "GB33",
-   "loai": "khac-han",
-   "app": "Dương quan",
-   "focks": "TẤT DƯƠNG QUAN",
-   "mo": "Hai tên không quy về nhau — phải tra nguồn thứ ba (WHO / Deadman)."
-  },
-  {
    "code": "LR1",
    "loai": "ky-huyet",
-   "app": "Đại đôn",
+   "app": "Đại Đôn",
    "focks": "KHOAN CỐT",
    "mo": "Focks gán tên KỲ HUYỆT ngoài kinh \"KHOAN CỐT\" cho mã trong kinh — gần chắc là bóc sách lẫn trang. Nguồn Focks cho mã này KHÔNG DÙNG ĐƯỢC."
   },
   {
    "code": "LR3",
    "loai": "ky-huyet",
-   "app": "Thái xung",
+   "app": "Thái Xung",
    "focks": "BÁCH TRÙNG OA",
    "mo": "Focks gán tên KỲ HUYỆT ngoài kinh \"BÁCH TRÙNG OA\" cho mã trong kinh — gần chắc là bóc sách lẫn trang. Nguồn Focks cho mã này KHÔNG DÙNG ĐƯỢC."
   },
   {
    "code": "LR5",
    "loai": "ky-huyet",
-   "app": "Lãi câu",
+   "app": "Lãi Câu",
    "focks": "TẤT NHÃN",
    "mo": "Focks gán tên KỲ HUYỆT ngoài kinh \"TẤT NHÃN\" cho mã trong kinh — gần chắc là bóc sách lẫn trang. Nguồn Focks cho mã này KHÔNG DÙNG ĐƯỢC."
   },
   {
    "code": "LR7",
    "loai": "ky-huyet",
-   "app": "Tất quan",
+   "app": "Tất Quan",
    "focks": "LAN VĨ",
    "mo": "Focks gán tên KỲ HUYỆT ngoài kinh \"LAN VĨ\" cho mã trong kinh — gần chắc là bóc sách lẫn trang. Nguồn Focks cho mã này KHÔNG DÙNG ĐƯỢC."
   },
   {
-   "code": "LR10",
-   "loai": "lech-ma",
-   "app": "Ngũ lý trạch điền",
-   "focks": "TÚC NGŨ LÝ",
-   "mo": "Tên Focks \"TÚC NGŨ LÝ\" chính là tên app gán cho LI13. Hai nguồn lệch nhau một bậc quanh đây."
-  },
-  {
-   "code": "GV7",
-   "loai": "lech-ma",
-   "app": "Trung xung",
-   "focks": "TRUNG KHU",
-   "mo": "Tên app \"Trung xung\" chính là tên Focks gán cho PC9. Nghi từ điển app LỆCH MÃ; câu VỊ TRÍ của mã này đang tả huyệt PC9."
-  },
-  {
-   "code": "GV20",
-   "loai": "khac-han",
-   "app": "Bá hội thập tự thích",
-   "focks": "BÁCH HỘI",
-   "mo": "Hai tên không quy về nhau — phải tra nguồn thứ ba (WHO / Deadman)."
-  },
-  {
    "code": "GV26",
    "loai": "thieu-nguon",
-   "app": "Nhân trung",
+   "app": "Nhân Trung",
    "focks": null,
    "mo": "Atlas Focks không có mã này — chỉ còn một nguồn chữ, không trọng tài được."
   },
   {
-   "code": "CV3",
+   "code": "CV21",
    "loai": "khac-han",
-   "app": "Trung cự",
-   "focks": "TRUNG CỰC",
+   "app": "Tuyền Cơ",
+   "focks": "TOÀN CƠ",
    "mo": "Hai tên không quy về nhau — phải tra nguồn thứ ba (WHO / Deadman)."
   }
  ],
@@ -132,15 +83,6 @@
    ],
    "nheHon": true,
    "mo": "Không phải lệch mã: Focks phân biệt bằng bộ vị (ĐẦU LÂM KHẤP / TÚC LÂM KHẤP). Từ điển app lược mất bộ vị nên hai mã trông như một — nên bổ sung để tra cứu khỏi nhầm."
-  },
-  {
-   "ten": "dai mach",
-   "ma": [
-    "GB25",
-    "GB26"
-   ],
-   "nheHon": false,
-   "mo": "Hai mã CÙNG MỘT KINH mang cùng tên và Focks KHÔNG phân biệt được — một dãy đang bị đẩy lệch một bậc."
   }
  ]
 }

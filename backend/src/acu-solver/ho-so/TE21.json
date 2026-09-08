@@ -2,7 +2,7 @@
  "code": "TE21",
  "mer": "TE",
  "num": 21,
- "tenApp": "Nhĩ môn",
+ "tenApp": "Nhĩ Môn",
  "tenFocks": "NHĨ MÔN",
  "canhBaoTen": null,
  "nguon": {
@@ -50,8 +50,8 @@
  "hangXom": [
   {
    "code": "TE20",
-   "ten": "Giác tôn",
-   "thang": 2.58,
+   "ten": "Giác Tôn",
+   "thang": 2.24,
    "sachDoiCm": null,
    "thonCm": null,
    "docDa": 3.6,
@@ -60,8 +60,8 @@
   },
   {
    "code": "TE22",
-   "ten": "Hòa liêu",
-   "thang": 6.04,
+   "ten": "Hòa Liêu",
+   "thang": 5.48,
    "sachDoiCm": null,
    "thonCm": null,
    "docDa": 7.3,
@@ -71,53 +71,53 @@
  ],
  "lanCan": [
   {
+   "code": "TE19",
+   "ten": "Lư Tức",
+   "cm": 0.63
+  },
+  {
    "code": "SI19",
-   "ten": "Thính cung",
+   "ten": "Thính Cung",
    "cm": 0.73
   },
   {
-   "code": "TE19",
-   "ten": "Lư tức",
-   "cm": 0.84
-  },
-  {
    "code": "TE18",
-   "ten": "Khế mạch",
-   "cm": 0.96
+   "ten": "Khế Mạch",
+   "cm": 1.06
   },
   {
    "code": "GB2",
-   "ten": "Thính hội",
+   "ten": "Thính Hội",
    "cm": 1.45
   },
   {
    "code": "GB10",
-   "ten": "Phù bạch",
+   "ten": "Phù Bạch",
    "cm": 2.1
   },
   {
+   "code": "TE20",
+   "ten": "Giác Tôn",
+   "cm": 2.24
+  },
+  {
    "code": "GB11",
-   "ten": "Khiếu âm",
+   "ten": "Đầu Khiếu Âm",
    "cm": 2.46
   },
   {
-   "code": "TE20",
-   "ten": "Giác tôn",
-   "cm": 2.58
-  },
-  {
    "code": "TE17",
-   "ten": "Ế phong",
+   "ten": "Ế Phong",
    "cm": 2.66
   },
   {
    "code": "GB9",
-   "ten": "Thiên xung",
+   "ten": "Thiên Xung",
    "cm": 2.83
   },
   {
    "code": "GB3",
-   "ten": "Thượng quan",
+   "ten": "Thượng Quan",
    "cm": 3.22
   },
   {

@@ -2,7 +2,7 @@
  "code": "TE19",
  "mer": "TE",
  "num": 19,
- "tenApp": "Lư tức",
+ "tenApp": "Lư Tức",
  "tenFocks": "LƯ TỨC",
  "canhBaoTen": null,
  "nguon": {
@@ -15,13 +15,13 @@
   "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE19_p265_0.jpeg"
  ],
  "toaDoHienTai": {
-  "x": 0.0381,
-  "y": 0.9267,
-  "z": 0.0023,
+  "x": 0.0383,
+  "y": 0.9255,
+  "z": 0.0016,
   "conf": "tạm",
-  "caoDoCm": 159.3,
-  "ngangCm": 6.55,
-  "truocSauCm": 0.4
+  "caoDoCm": 159.09,
+  "ngangCm": 6.58,
+  "truocSauCm": 0.28
  },
  "nghiemThu": {
   "hang": "C",
@@ -53,8 +53,8 @@
  "hangXom": [
   {
    "code": "TE18",
-   "ten": "Khế mạch",
-   "thang": 1.67,
+   "ten": "Khế Mạch",
+   "thang": 1.53,
    "sachDoiCm": null,
    "thonCm": null,
    "docDa": 2.5,
@@ -63,8 +63,8 @@
   },
   {
    "code": "TE20",
-   "ten": "Giác tôn",
-   "thang": 1.74,
+   "ten": "Giác Tôn",
+   "thang": 1.62,
    "sachDoiCm": null,
    "thonCm": null,
    "docDa": 2,
@@ -75,92 +75,92 @@
  "lanCan": [
   {
    "code": "TE21",
-   "ten": "Nhĩ môn",
-   "cm": 0.84
+   "ten": "Nhĩ Môn",
+   "cm": 0.63
   },
   {
    "code": "SI19",
-   "ten": "Thính cung",
-   "cm": 1.38
+   "ten": "Thính Cung",
+   "cm": 1.14
   },
   {
    "code": "TE18",
-   "ten": "Khế mạch",
-   "cm": 1.67
+   "ten": "Khế Mạch",
+   "cm": 1.53
   },
   {
    "code": "TE20",
-   "ten": "Giác tôn",
-   "cm": 1.74
+   "ten": "Giác Tôn",
+   "cm": 1.62
   },
   {
    "code": "GB2",
-   "ten": "Thính hội",
-   "cm": 2.03
-  },
-  {
-   "code": "GB3",
-   "ten": "Thượng quan",
-   "cm": 2.58
+   "ten": "Thính Hội",
+   "cm": 1.79
   },
   {
    "code": "GB10",
-   "ten": "Phù bạch",
-   "cm": 2.82
+   "ten": "Phù Bạch",
+   "cm": 2.67
+  },
+  {
+   "code": "GB3",
+   "ten": "Thượng Quan",
+   "cm": 2.68
   },
   {
    "code": "GB9",
-   "ten": "Thiên xung",
-   "cm": 2.87
+   "ten": "Thiên Xung",
+   "cm": 2.94
+  },
+  {
+   "code": "GB11",
+   "ten": "Đầu Khiếu Âm",
+   "cm": 3.03
+  },
+  {
+   "code": "TE17",
+   "ten": "Ế Phong",
+   "cm": 3.09
   },
   {
    "code": "ST7",
    "ten": "Hạ Quan",
-   "cm": 3.25
-  },
-  {
-   "code": "GB11",
-   "ten": "Khiếu âm",
-   "cm": 3.25
-  },
-  {
-   "code": "TE17",
-   "ten": "Ế phong",
-   "cm": 3.31
+   "cm": 3.23
   }
  ],
  "giaiPhauGanNhat": [
   {
    "ten": "Xương thái dương trái",
    "lop": "bone",
-   "cm": 0.64
+   "cm": 0.51
   },
   {
    "ten": "Xương hàm dưới",
    "lop": "bone",
-   "cm": 2.21
-  },
-  {
-   "ten": "Xương bướm",
-   "lop": "bone",
-   "cm": 2.42
+   "cm": 2.07
   },
   {
    "ten": "Xương gò má trái",
    "lop": "bone",
-   "cm": 2.48
+   "cm": 2.45
+  },
+  {
+   "ten": "Xương bướm",
+   "lop": "bone",
+   "cm": 2.53
   },
   {
    "ten": "Xương đỉnh trái",
    "lop": "bone",
-   "cm": 2.77
+   "cm": 2.99
   }
  ],
  "coKiemMay": [
-  "RẢI DỌC ĐƯỜNG dời 7.69cm (conf=tạm)",
+  "RẢI DỌC ĐƯỜNG dời 7.6cm (conf=tạm)",
   "XA ĐƯỜNG KINH 7.12cm",
   "ÉP LÊN DA dời 1.9cm",
-  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 7.69cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
+  "AUDIT cờ soát: RẢI DỌC ĐƯỜNG: dời 7.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
   "TỪ ĐIỂN APP kêu: dọc \"TE18\" đòi 1 thốn, đo được 0.6  (lệch 1.13cm)"
  ]
 }

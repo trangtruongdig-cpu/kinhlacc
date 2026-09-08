@@ -2,7 +2,7 @@
  "code": "TE1",
  "mer": "TE",
  "num": 1,
- "tenApp": "Quan xung",
+ "tenApp": "Quan Xung",
  "tenFocks": "QUAN XUNG",
  "canhBaoTen": null,
  "nguon": {
@@ -51,7 +51,7 @@
  "hangXom": [
   {
    "code": "TE2",
-   "ten": "Dịch môn",
+   "ten": "Dịch Môn",
    "thang": 8.22,
    "sachDoiCm": null,
    "thonCm": null,
@@ -63,12 +63,12 @@
  "lanCan": [
   {
    "code": "HT9",
-   "ten": "Thiếu xung",
+   "ten": "Thiếu Xung",
    "cm": 2.33
   },
   {
    "code": "SI1",
-   "ten": "Thiếu trạch",
+   "ten": "Thiếu Trạch",
    "cm": 3.09
   }
  ],

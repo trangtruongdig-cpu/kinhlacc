@@ -2,7 +2,7 @@
  "code": "TE16",
  "mer": "TE",
  "num": 16,
- "tenApp": "Thiên dũ",
+ "tenApp": "Thiên Dũ",
  "tenFocks": "THIÊN DŨ",
  "canhBaoTen": null,
  "nguon": {
@@ -15,18 +15,18 @@
   "/Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE16_p262_0.jpeg"
  ],
  "toaDoHienTai": {
-  "x": 0.0322,
-  "y": 0.8844,
-  "z": -0.0103,
+  "x": 0.0283,
+  "y": 0.888,
+  "z": -0.0194,
   "conf": "mốc",
-  "caoDoCm": 152.03,
-  "ngangCm": 5.54,
-  "truocSauCm": -1.77
+  "caoDoCm": 152.65,
+  "ngangCm": 4.86,
+  "truocSauCm": -3.33
  },
  "nghiemThu": {
   "hang": "A",
   "nguon": "anchor",
-  "ly": "Thiên Dũ — ngang góc hàm dưới, bờ sau cơ ức–đòn–chũm",
+  "ly": "Hội đồng phản biện 08/09: TE3 ép lên da mặt mu tại cổ xương bàn 4 (cao độ giữ nguyên, phần lùi dọc hội đồng đề nghị KHÔNG được phép đo xác nhận). TE16 ngang góc hàm 152,65cm tại bờ SAU cơ ức-đòn-chũm. TE23 hõm trên khớp trán-gò má, nghiệm thu cách GB1 2,05cm",
   "ngay": "2026-09-07"
  },
  "conNgo": null,
@@ -45,77 +45,67 @@
  "hangXom": [
   {
    "code": "TE15",
-   "ten": "Thiên liêu",
-   "thang": 11.08,
+   "ten": "Thiên Liêu",
+   "thang": 11.83,
    "sachDoiCm": null,
    "thonCm": null,
-   "docDa": 12.6,
+   "docDa": 12.8,
    "sachDoiThon": null,
    "vitri": "Tại trung điểm của đoạn nối huyệt Đại Chùy (Đc 14) và bờ ngoài phía sau mỏm cùng vai, hoặc trung điểm của đoạn nối từ huyệt Kiên Tỉnh (Đ.21) và Khúc Viên (Ttr.13), nằm ở hố trên gai xương bả vai."
   },
   {
    "code": "TE17",
-   "ten": "Ế phong",
-   "thang": 4.44,
+   "ten": "Ế Phong",
+   "thang": 4.5,
    "sachDoiCm": null,
    "thonCm": null,
-   "docDa": 4.5,
+   "docDa": 4.4,
    "sachDoiThon": null,
    "vitri": "Phía sau trái tai, nơi chỗ lõm giữa góc hàm dưới và gai xương chũm, sau mỏm nhọn cao nhất của trái tai, sát bờ trước cơ ức đòn chũm."
   }
  ],
  "lanCan": [
   {
-   "code": "SI16",
-   "ten": "Thiên song",
-   "cm": 1.83
-  },
-  {
-   "code": "LI18",
-   "ten": "Phù đột",
-   "cm": 2.72
+   "code": "GB20",
+   "ten": "Phong Trì",
+   "cm": 2.64
   },
   {
    "code": "GB12",
-   "ten": "Hoàn cốt",
-   "cm": 3.49
+   "ten": "Hoàn Cốt",
+   "cm": 2.84
   },
   {
-   "code": "SI18",
-   "ten": "Quyền liêu",
-   "cm": 3.73
-  },
-  {
-   "code": "GB20",
-   "ten": "Phong trì",
-   "cm": 3.97
+   "code": "SI16",
+   "ten": "Thiên Song",
+   "cm": 3.42
   }
  ],
  "giaiPhauGanNhat": [
   {
    "ten": "Cơ ức đòn chũm trái",
    "lop": "muscle",
-   "cm": 0.76
+   "cm": 0.66
   },
   {
    "ten": "Cơ nâng vai trái",
    "lop": "bone",
-   "cm": 2.06
-  },
-  {
-   "ten": "Cơ bám da cổ trái",
-   "lop": "muscle",
-   "cm": 2.11
+   "cm": 0.92
   },
   {
    "ten": "Cơ gối đầu trái",
    "lop": "muscle",
-   "cm": 2.26
+   "cm": 1.12
   },
   {
    "ten": "Cơ gối cổ trái",
    "lop": "muscle",
-   "cm": 2.32
+   "cm": 1.19
+  },
+  {
+   "ten": "Tập hợp của các cơ gian mỏm ngang cổ sau",
+   "lop": "muscle",
+   "cm": 1.55
   }
  ],
  "coKiemMay": [

@@ -79,10 +79,23 @@ const DOAN = {
     LU4: 5 } },  // Hiệp Bạch: dưới nếp nách trước 4 thốn → 9−4
   'HT/canh-tay': { tong: 6.8, xa: 'HT3', gan: 'HT1', diem: {
     HT2: 3 } },  // Thanh Linh: trên nếp gấp khuỷu 3 thốn
+  /* LẪN HAI THANG — sửa 08/09/2026 sau hội đồng vòng 2.
+   * Số thốn của sách cho đoạn này đo trên thang MỎM KHUỶU → MỎM CÙNG VAI (11 thốn), nhưng bảng lại
+   * dùng thang TE10 → TE14 (tong = 7,9 thốn thật đo trên mesh). Hai thang không trùng gốc: TE10 nằm
+   * 1 thốn TRÊN mỏm khuỷu, TE14 ở ≈10,4 thốn. Chép thẳng số thốn của thang này sang thang kia là đặt
+   * TE12 ở 5/7,9 = 0,633 và TE13 ở 4,9/7,9 = 0,620 — hai huyệt CHẬP nhau 0,33cm và ĐẢO THỨ TỰ, đúng
+   * cái mà ảnh sách bắt được.
+   * Quy đổi đúng: TE12 = (5−1)/9,4 = 0,426 → 3,4 và TE13 = (8−1)/9,4 = 0,745 → 5,9 trên thang 7,9.
+   * Số dùng ở đây (3,2 và 5,9) lấy từ ẢNH SÁCH: chiếu SJ12/SJ13 lên SJ10→SJ14 trên ba cặp mốc độc
+   * lập cho t = 0,409 và 0,750 — lệch 0,44cm và 0,13cm so với quy đổi trên, tức hai đường độc lập
+   * gặp nhau.
+   * TE11 GIỮ NGUYÊN số cũ dù nó mắc CÙNG lỗi lẫn thang (đúng ra là (2−1)/9,4 = 0,106 → 0,84): huyệt
+   * này đang TREO vì nó nhạy nhất với TE10 chưa chốt — hạ TE10 1cm thì TE11 dời 0,91cm, gần bằng
+   * chính sai số muốn sửa. Sửa TE11 phải đi cùng lúc với chốt TE10. */
   'TE/canh-tay': { tong: 7.9, xa: 'TE10', gan: 'TE14', diem: {
-    TE11: 2,     // Thanh Lãnh Uyên: trên khớp khuỷu 2 thốn
-    TE12: 5,     // Tiêu Lạc: trên khớp khuỷu 5 thốn
-    TE13: 4.9 } },  // Nhu Hội: dưới Kiên Liêu TE14 3 thốn → 7,9−3
+    TE11: 2,       // Thanh Lãnh Uyên: trên mỏm khuỷu 2 thốn — CÒN TREO, xem ghi chú trên
+    TE12: 3.2,     // Tiêu Lạc: t = 0,409 trên dây cung TE10→TE14 (ảnh sách, 3 cặp mốc)
+    TE13: 5.9 } },  // Nhu Hội: t = 0,750 (ảnh sách; khớp thang thốn 8/11 lệch 0,13cm)
   'LI/canh-tay': { tong: 9.0, xa: 'LI11', gan: 'LI15', diem: {
     LI12: 1, LI13: 3, LI14: 7 } },   // LI13/LI14 đã là mốc, ghi để thấy rõ thang
 

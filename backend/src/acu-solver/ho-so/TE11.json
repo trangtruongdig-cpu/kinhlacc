@@ -2,7 +2,7 @@
  "code": "TE11",
  "mer": "TE",
  "num": 11,
- "tenApp": "Thanh lãnh uyên",
+ "tenApp": "Thanh Lãnh Uyên",
  "tenFocks": null,
  "canhBaoTen": "FOCKS KHÔNG CÓ HUYỆT NÀY — chỉ còn một nguồn chữ.",
  "nguon": {
@@ -61,7 +61,7 @@
  "hangXom": [
   {
    "code": "TE10",
-   "ten": "Thiên tỉnh",
+   "ten": "Thiên Tỉnh",
    "thang": 6.6,
    "sachDoiCm": null,
    "thonCm": null,
@@ -71,7 +71,7 @@
   },
   {
    "code": "TE12",
-   "ten": "Tiêu lạc",
+   "ten": "Tiêu Lạc",
    "thang": 10,
    "sachDoiCm": null,
    "thonCm": null,

@@ -1,4 +1,4 @@
-# HỒ SƠ HUYỆT TE4 — Dương trì (Focks: DƯƠNG TRÌ)
+# HỒ SƠ HUYỆT TE4 — Dương Trì (Focks: DƯƠNG TRÌ)
 
 Kinh TE (Tam Tiêu), huyệt thứ 4. Hạng nghiệm thu: **A** — Dương Trì — giữa lằn cổ tay mặt mu. Dựng từ xương/gân thật trong atlas
 
@@ -11,8 +11,45 @@ Kinh TE (Tam Tiêu), huyệt thứ 4. Hạng nghiệm thu: **A** — Dương Tr�
 
 **WHO 2008:** (chưa thu thập — agent thư lại điền)
 
-## 2. Ảnh atlas (bảng trái = trên da, bảng phải = trên giải phẫu)
+## 2. Ảnh atlas — BẰNG CHỨNG MẠNH NHẤT, phải ĐO chứ đừng chỉ tả
 - /Users/truongtrang/Desktop/kinhlacc-atlas-hinh/TE4_p250_0.jpeg
+
+Mỗi trang thường có hai bảng: **bản vẽ sơ đồ xương** (bên trái) và **ảnh chụp người thật** (bên phải).
+Bản vẽ là thứ đáng giá nhất vì nó đặt huyệt đang xét CẠNH NHIỀU HUYỆT KINH KHÁC trên cùng một hình —
+vị trí tương đối giữa chúng không phụ thuộc cỡ ảnh hay tầm vóc người mẫu.
+
+**KÝ HIỆU TRONG ẢNH LÀ TIẾNG ĐỨC** (bản Focks dịch từ *Leitfaden Akupunktur*). Đọc nhầm ký hiệu là
+phán quyết sai từ gốc mà không ai phát hiện:
+| trong ảnh | tiếng Đức | kinh | mã quốc tế |
+|---|---|---|---|
+| Lu | Lunge | Phế | LU |
+| Di | Dickdarm | Đại Trường | **LI** |
+| Ma | Magen | Vị | ST |
+| Mi | Milz | Tỳ | SP |
+| He | Herz | Tâm | HT |
+| **Dü** | Dünndarm | Tiểu Trường | **SI** |
+| Bl | Blase | Bàng Quang | BL |
+| Ni | Niere | Thận | KI |
+| Pe | Perikard | Tâm Bào | PC |
+| **SJ / 3E / TB** | San Jiao | Tam Tiêu | **TE** |
+| Gb / G | Gallenblase | Đởm | GB |
+| Le / Liv | Leber | Can | LR |
+| Du | Du Mai | Đốc | GV |
+| Ren | Ren Mai | Nhâm | CV |
+| Ex-UE | Extrapunkte obere Extremität | kỳ huyệt chi trên | (ngoài kinh) |
+| Ex-LE / Ex-KH / Ex-B | chi dưới / đầu-cổ / lưng | kỳ huyệt | (ngoài kinh) |
+
+Chú ý hai chỗ dễ lẫn nhất: **Dü là Tiểu Trường (SI), không phải Đốc**; **SJ là Tam Tiêu (TE), không
+phải Tiểu Trường**.
+
+**CÁCH ĐO (bắt buộc, đừng tả bằng lời):**
+1. `node do-anh-atlas.cjs TE4 --luoi` → toạ độ pixel của mọi chấm huyệt trên trang (chấm ĐỎ =
+   huyệt của trang này, chấm ĐEN = các huyệt vẽ kèm).
+2. Mở ảnh bằng công cụ Read, gán nhãn cho từng toạ độ pixel (máy tách được chấm nhưng không đọc được chữ).
+3. Chọn HAI huyệt làm mốc mà bản vẽ có và mesh cũng có, chiếu huyệt đang xét lên đoạn nối chúng:
+   `t = ((X−A)·(B−A)) / |B−A|²` tính trên pixel.
+4. `node doi-chieu-ti-le.cjs TE4 <A> <B> --anh <t vừa tính>` → in ngay chênh lệch quy ra cm.
+Đây là phép kiểm ĐỘC LẬP với cốt độ và với mốc xương, tức độc lập với chính engine đã dựng toạ độ.
 
 ## 3. Toạ độ engine đang dựng
 x=0.143 y=0.5124 z=-0.0022  →  ngang 24.58cm · cao 88.08cm · trước-sau -0.38cm · conf=mốc
@@ -29,17 +66,17 @@ Huyệt này ở mốc **0 thốn**.
 Cả đoạn: TE5=2, TE6=3, TE7=3, TE8=4, TE9=7
 
 ## 6. Hàng xóm cùng kinh (khoảng cách ĐO so với SÁCH ĐÒI)
-- **TE3** Trung chử: đo thẳng 6.69cm, đo trên da 6.6cm
+- **TE3** Trung Chử: đo thẳng 6.85cm, đo trên da 6.7cm
   > Trên mu tay, giữa ngón tay xương bàn tay thứ 4 và thứ 5, trong chỗ lõm trên kẽ ngón tay 1 thốn.
-- **TE5** Ngoại quan: đo thẳng 3.44cm, đo trên da 3.6cm — **sách đòi 2 thốn ≈ 4.02cm** → LỆCH -0.42cm
+- **TE5** Ngoại Quan: đo thẳng 3.54cm, đo trên da 4.3cm — **sách đòi 2 thốn ≈ 4.02cm** → LỆCH 0.28cm
   > Trên lằn chỉ cổ tay 2 thốn, giữa xương quay và xương trụ, ở mặt giữa sau cánh tay.
 
 ## 7. Huyệt lân cận khác kinh (bán kính 4cm) — dùng để bắt CHẬP HUYỆT và sai vùng
-- SI5 Dương cốc — 2.06cm
-- SI6 Dưỡng lão — 2.43cm
-- TE5 Ngoại quan — 3.44cm
-- HT5 Thông lý — 3.91cm
-- HT6 Âm khích — 3.99cm
+- SI5 Dương Cốc — 2.06cm
+- SI6 Dưỡng Lão — 2.43cm
+- TE5 Ngoại Quan — 3.54cm
+- HT5 Thông Lý — 3.91cm
+- HT6 Âm Khích — 3.99cm
 
 ## 8. Cấu trúc giải phẫu gần nhất trên mesh atlas
 - Cơ duỗi các ngón trái (muscle) — 1.01cm

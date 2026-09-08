@@ -230,7 +230,7 @@ window.MERIDIANS = {
         },
         {
           "n": 20,
-          "ten": "Nghinh hương",
+          "ten": "Nghênh Hương",
           "code": "LI20"
         }
       ],
@@ -1015,7 +1015,7 @@ window.MERIDIANS = {
         },
         {
           "n": 36,
-          "ten": "Thừa phò",
+          "ten": "Thừa Phù",
           "code": "BL36"
         },
         {
@@ -1165,7 +1165,7 @@ window.MERIDIANS = {
         },
         {
           "n": 66,
-          "ten": "Thông cốc",
+          "ten": "Túc Thông Cốc",
           "code": "BL66"
         },
         {
@@ -1282,7 +1282,7 @@ window.MERIDIANS = {
         },
         {
           "n": 17,
-          "ten": "Thương khâu",
+          "ten": "Thương Khúc",
           "code": "KI17"
         },
         {
@@ -1628,7 +1628,7 @@ window.MERIDIANS = {
         },
         {
           "n": 11,
-          "ten": "Khiếu âm",
+          "ten": "Đầu Khiếu Âm",
           "code": "GB11"
         },
         {
@@ -1648,7 +1648,7 @@ window.MERIDIANS = {
         },
         {
           "n": 15,
-          "ten": "Lâm khấp",
+          "ten": "Đầu Lâm Khấp",
           "code": "GB15"
         },
         {
@@ -1693,12 +1693,12 @@ window.MERIDIANS = {
         },
         {
           "n": 24,
-          "ten": "Kinh môn",
+          "ten": "Nhật Nguyệt",
           "code": "GB24"
         },
         {
           "n": 25,
-          "ten": "Đái mạch",
+          "ten": "Kinh Môn",
           "code": "GB25"
         },
         {
@@ -1708,7 +1708,7 @@ window.MERIDIANS = {
         },
         {
           "n": 27,
-          "ten": "Ngũ xứ",
+          "ten": "Ngũ Khu",
           "code": "GB27"
         },
         {
@@ -1738,7 +1738,7 @@ window.MERIDIANS = {
         },
         {
           "n": 33,
-          "ten": "Dương quan",
+          "ten": "Tất Dương Quan",
           "code": "GB33"
         },
         {
@@ -1946,7 +1946,7 @@ window.MERIDIANS = {
         },
         {
           "n": 7,
-          "ten": "Trung xung",
+          "ten": "Trung Khu",
           "code": "GV7"
         },
         {
@@ -2011,7 +2011,7 @@ window.MERIDIANS = {
         },
         {
           "n": 20,
-          "ten": "Bá hội thập tự thích",
+          "ten": "Bách Hội",
           "code": "GV20"
         },
         {
@@ -2085,7 +2085,7 @@ window.MERIDIANS = {
         },
         {
           "n": 3,
-          "ten": "Trung cự",
+          "ten": "Trung Cực",
           "code": "CV3"
         },
         {
@@ -2175,7 +2175,7 @@ window.MERIDIANS = {
         },
         {
           "n": 21,
-          "ten": "Toàn cơ",
+          "ten": "Tuyền Cơ",
           "code": "CV21"
         },
         {
