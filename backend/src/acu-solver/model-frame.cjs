@@ -60,6 +60,16 @@ const L = {
   AXILLA_ANT:   { x: 0.0918, y: 0.8225, z: -0.0142, side: 1 }, // xấp xỉ đầu gần xương cánh tay — CHƯA phải nếp nách da thật, cần soát
   AXILLA_POST:  { x: 0.0901, y: 0.7933, z: -0.0744, side: 1 },  // nếp nách sau — điểm da SAU nhất trong dải nách (x 0,09–0,14 · y 0,76–0,80) trên mesh v2
   CUBITAL:      { x: 0.1374, y: 0.6493, z: -0.0187, side: 1 }, // khuỷu — đầu xa xương cánh tay (gần khối cẳng tay)
+  /* NẾP NÁCH TRƯỚC — thêm 08/09/2026. Đây là mốc gỡ được thế bí của THANG CÁNH TAY, thứ đã ba lần
+   * không chốt nổi (ba cách đo cho 2,57 / 3,27 / 3,49 cm mỗi thốn). Lý do ba lần đều hỏng: dùng
+   * ACROMION làm đầu trên, mà mỏm cùng vai cao hơn nếp nách tới 11,1cm — sách thì đo từ NẾP NÁCH.
+   * Dò bằng thứ mesh có: bờ DƯỚI-NGOÀI của phần đòn cơ ngực lớn trái (FMA34691) — phần này có x lớn
+   * nhất trong ba phần cơ ngực lớn (19,19 so với 15,31 và 18,44), tức nằm ngoài nhất, đúng chỗ cơ bám
+   * vào cánh tay và tạo nếp nách trước. Ba phần cho bờ dưới ở 131,28 / 132,36 / 132,53cm — dải 4%.
+   * THANG: nếp nách 131,28 → nếp khuỷu 111,61 = 19,67cm, sách chia 9 thốn ⇒ 1 thốn = 2,19cm.
+   * KIỂM CHÉO ĐỘC LẬP bằng ba huyệt vòng 31 dựng trước khi có mốc này: LU3 đo 2,94 thốn (sách 3) ·
+   * LU4 3,98 (4) · HT2 5,79 (6) — lệch 0,13 / 0,04 / 0,45cm. */
+  AXILLA_ANT:   { x: 0.1116, y: 0.7637, z: -0.0100, side: 1 }, // nếp nách trước — bờ dưới-ngoài phần đòn cơ ngực lớn
   WRIST:        { x: 0.1617, y: 0.5143, z: 0.0102, side: 1 },  // cổ tay — đầu xa xương quay+trụ (gần khối bàn tay)
   // —— chi dưới (cặp) ——
   HIP_ANT:      { x: 0.0738, y: 0.5662, z: 0.0221, side: 1 },  // gai chậu trước trên — dò từ hip bone (SOÁT: lệch +6.6% so bản cũ)

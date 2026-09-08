@@ -94,21 +94,24 @@ const DOAN = {
    * đẩy Thanh Linh HT2 sai 2,4cm. Số thốn từng huyệt vẫn chép nguyên từ sách, chỉ quy về "từ đầu XA". */
 
   // cánh tay — 1 thốn = 3,26cm
-  /* HAI ĐOẠN CÁNH TAY DƯỚI ĐÂY NEO SAI MỐC — cập nhật số thốn 08/09/2026 sau vòng 31.
-   * Sách đo từ NẾP NÁCH TRƯỚC, nhưng bảng lại lấy LU2 Vân Môn (hố dưới đòn, cao hơn nếp nách ~6cm)
-   * và HT1 Cực Tuyền (tâm hố nách) làm đầu trên. Thang vì thế dài hơn thang sách, và số thốn cũ đẩy
-   * LU3/LU4/HT2 lên quá cao: vòng 31 đo lại bằng mốc giải phẫu thật (bờ dưới-ngoài cơ ngực lớn
-   * FMA34691 cho nếp nách ở y ≈ 131,5; nếp khuỷu = LU5 ở y = 112,04) thì LU3 phải hạ 8,6cm và
-   * LU4 hạ 7,1cm.
-   * Số dưới đây là số thốn ĐO ĐƯỢC trên thang cũ sau khi huyệt đã về đúng chỗ — giữ để phép kiểm
-   * cốt độ khỏi kêu oan. Muốn số thốn trở lại đúng nguyên văn sách thì phải khai xaMoc/ganMoc bằng
-   * mốc xương, mà mốc NẾP NÁCH TRƯỚC hiện chưa có trong model-frame (là nếp da, mesh không có sẵn;
-   * xem ghi chú "THANG CÁNH TAY CHƯA CHỐT ĐƯỢC" ở khối THANG THỐN ĐÙI bên dưới). */
-  'LU/canh-tay': { tong: 9.3, xa: 'LU5', gan: 'LU2', diem: {
-    LU3: 3.5,    // Thiên Phủ: sách "dưới nếp nách trước 3 thốn"; 3,5 là số trên thang LU5→LU2 này
-    LU4: 2.9 } },// Hiệp Bạch: sách "dưới nếp nách trước 4 thốn"
-  'HT/canh-tay': { tong: 6.8, xa: 'HT3', gan: 'HT1', diem: {
-    HT2: 1.9 } },// Thanh Linh: sách "trên nếp khuỷu 3 thốn"; 1,9 là số trên thang HT3→HT1 này
+  /* KHAI LẠI 08/09/2026 — thang cánh tay ĐÃ CHỐT. Mốc AXILLA_ANT (nếp nách trước) vừa thêm vào
+   * model-frame gỡ được thế bí ba phiên: sách đo cánh tay 9 thốn từ NẾP NÁCH tới NẾP KHUỶU, mà bảng
+   * cũ lại lấy LU2 Vân Môn (hố dưới đòn) và HT1 Cực Tuyền (tâm hố nách) làm đầu trên — cả hai đều
+   * cao hơn nếp nách. Nay neo đúng hai mốc sách dùng, nên số thốn trở lại đúng nguyên văn: LU3 ở
+   * 3 thốn dưới nách (= 6 thốn trên khuỷu), LU4 ở 4 (= 5), HT2 ở 3 thốn trên khuỷu.
+   * 1 thốn cánh tay = (131,28 − 111,61) / 9 = 2,19cm. */
+  'LU/canh-tay': { tong: 9, xa: 'LU5', gan: 'LU2', xaMoc: 'CUBITAL', ganMoc: 'AXILLA_ANT', diem: {
+    LU3: 6,      // Thiên Phủ: dưới nếp nách 3 thốn = 6 thốn trên nếp khuỷu
+    LU4: 5 } },  // Hiệp Bạch: dưới nếp nách 4 thốn
+  /* KINH TÂM DÙNG CHUNG TRỤC NHƯNG KHÔNG DÙNG CHUNG SỐ THỐN. AXILLA_ANT là nếp nách TRƯỚC, hợp kinh
+   * Phế (mặt trước-ngoài cánh tay) — LU3 và LU4 chiếu lên trục ấy ra đúng 6,03 và 5,03 thốn, lệch
+   * 0,06cm. Nhưng kinh Tâm đi mặt TRONG, cách trục ấy ~4cm theo x, nên hình chiếu bị kéo dài: HT2 ở
+   * đúng 3 thốn trên nếp khuỷu (cao độ 118,70 so với 118,35 tính ra) lại chiếu thành 3,75 thốn.
+   * Đây đúng là lỗi "trục không cùng hướng đoạn kinh" đã vấp khi đem thang đùi trong áp cho kinh Vị.
+   * Ghi 3,75 là số ĐO ĐƯỢC trên trục này, không phải số của sách. Muốn số thốn trở lại đúng nguyên
+   * văn thì phải thêm mốc NẾP NÁCH SAU (hoặc nách trong) — chưa dò được trên mesh này. */
+  'HT/canh-tay': { tong: 9, xa: 'HT3', gan: 'HT1', xaMoc: 'CUBITAL', ganMoc: 'AXILLA_ANT', diem: {
+    HT2: 3.75 } },  // Thanh Linh: sách "trên nếp khuỷu 3 thốn"; 3,75 là số trên trục nách-TRƯỚC
   /* LẪN HAI THANG — sửa 08/09/2026 sau hội đồng vòng 2.
    * Số thốn của sách cho đoạn này đo trên thang MỎM KHUỶU → MỎM CÙNG VAI (11 thốn), nhưng bảng lại
    * dùng thang TE10 → TE14 (tong = 7,9 thốn thật đo trên mesh). Hai thang không trùng gốc: TE10 nằm
@@ -128,6 +131,30 @@ const DOAN = {
                    // số của thang 11 thốn mỏm-khuỷu→mỏm-cùng-vai, không phải của thang 7,9 này.
     TE12: 3.2,     // Tiêu Lạc: t = 0,409 trên dây cung TE10→TE14 (ảnh sách, 3 cặp mốc)
     TE13: 5.9 } },  // Nhu Hội: t = 0,750 (ảnh sách; khớp thang thốn 8/11 lệch 0,13cm)
+  /* THANG NÀY NEO VÒNG TRÒN — biết mà CHƯA sửa được, ghi ra để đừng ai tin con số nó in.
+   * Hai đầu thang là HAI HUYỆT (LI11, LI15) chứ không phải mốc xương, nên sàng lọc in ra
+   * "LI12 sách 1 đo 1,00 lệch 0,00cm" — lời khen tự cấp cho mình, đúng loại bẫy hội đồng vòng 29 bắt
+   * được ở LR/dui. Và `tong: 9` sai thật: LI11→LI15 dài 29,3cm, còn 9 thốn cánh tay của sách (nếp
+   * nách trước → nếp khuỷu) chỉ 20,21cm; chiếu LI15 lên trục mốc CUBITAL→AXILLA_ANT thì nó ra 12,96
+   * thốn. Thang đang dùng vì thế dãn 3,25cm/thốn thay vì 2,25cm.
+   *
+   * ĐÃ THỬ SỬA (08/09/2026) bằng cách khai thêm xaMoc:'CUBITAL', ganMoc:'AXILLA_ANT' — đúng trục mà
+   * LU/HT dùng, trục ấy tự nghiệm thu tốt trên kinh Phế (LU3 sách 6 → chiếu 6,03; LU4 sách 5 → 5,03).
+   * SỔ NGHIỆM THU BÁC: LI12 trôi 0,89cm, mà LI12 là hạng A đã được hội đồng vòng 31 chốt GIỮ với độ
+   * tin cậy CAO bằng phép ĐỌC ẢNH — tỉ lệ dọc LI11→LI15 trên ảnh sách 0,110 so với mesh 0,111, chênh
+   * 0,03cm. Phép ảnh ấy không phụ thuộc thang thốn nào cả, nên nó mạnh hơn lập luận thang của tôi.
+   * Đã gỡ ra, trả về khai cũ.
+   *
+   * HAI BẰNG CHỨNG THẬT SỰ MÂU THUẪN, và mâu thuẫn ấy KHÔNG nằm ở LI12:
+   *   · phép ẢNH đo TỈ LỆ dọc dây LI11→LI15 nên nó vô can với thang thốn — nó chỉ nói LI12 chia dây
+   *     ấy đúng chỗ, không nói dây ấy dài bao nhiêu thốn;
+   *   · phép THANG (2,19cm/thốn, đã chốt ở khối LU/HT ngay trên) nói LI12 phải cách LI11 2,19cm,
+   *     trong khi mesh cho 3,27cm.
+   * Hai điều ấy cùng đúng được nếu CẢ ĐOẠN LI11→LI15 trên mesh dài hơn sách theo thốn — và đúng là
+   * có dấu hiệu: chiếu lên trục mốc thì LI13 ra 4,28 thốn (sách 3), LI14 ra 9,71 (sách 7), LI15 ra
+   * 12,96 (bảng khai 9). Tức nghi vấn là CÁNH TAY MESH DÀI, không phải LI12 đặt sai.
+   * VIỆC CHO HỘI ĐỒNG: thẩm tra LI13/LI14/LI15 trước (LI14 neo vào chỗ bám cơ delta của chính mesh),
+   * rồi mới khai lại cả đoạn MỘT LẦN. Đừng dời LI12 lẻ — nó chỉ là hệ quả. */
   'LI/canh-tay': { tong: 9.0, xa: 'LI11', gan: 'LI15', diem: {
     LI12: 1, LI13: 3, LI14: 7 } },   // LI13/LI14 đã là mốc, ghi để thấy rõ thang
 

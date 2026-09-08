@@ -57,8 +57,8 @@
    "saiVung": 0,
    "xaDuong": 0,
    "daoThuTu": 0,
-   "saiThon": 1,
-   "coSoat": 1
+   "saiThon": 0,
+   "coSoat": 2
   },
   {
    "mer": "TE",
@@ -117,8 +117,8 @@
    "saiVung": 0,
    "xaDuong": 0,
    "daoThuTu": 0,
-   "saiThon": 1,
-   "coSoat": 1
+   "saiThon": 0,
+   "coSoat": 2
   },
   {
    "mer": "KI",
@@ -170,27 +170,6 @@
   }
  ],
  "loi": [
-  {
-   "code": "SI7",
-   "mer": "SI",
-   "loai": "sai cốt độ",
-   "muc": "vừa",
-   "mo": "đo 5.8 thốn, sách 5 thốn (lệch 1.5cm)"
-  },
-  {
-   "code": "SP/dui",
-   "mer": "SP",
-   "loai": "đường gấp",
-   "muc": "vừa",
-   "mo": "gấp 60° ở chỗ cách mọi huyệt 8.5cm — đường tự đi lệch"
-  },
-  {
-   "code": "SP8",
-   "mer": "SP",
-   "loai": "sai cốt độ",
-   "muc": "vừa",
-   "mo": "đo 9.4 thốn, sách 10 thốn (lệch 1.8cm)"
-  },
   {
    "code": "BL10",
    "mer": "BL",
@@ -332,6 +311,13 @@
    "mo": "RẢI DỌC ĐƯỜNG: dời 3.12cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
   },
   {
+   "code": "SI7",
+   "mer": "SI",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "RẢI DỌC ĐƯỜNG: dời 6.4cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
    "code": "SI9",
    "mer": "SI",
    "loai": "cờ soát",
@@ -343,7 +329,14 @@
    "mer": "SP",
    "loai": "cờ soát",
    "muc": "nhẹ",
-   "mo": "TẦNG DA: ép lên da, dời 2.6cm · RẢI DỌC ĐƯỜNG: dời 6.33cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+   "mo": "TẦNG DA: ép lên da, dời 2.6cm · RẢI DỌC ĐƯỜNG: dời 6.35cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
+  },
+  {
+   "code": "SP8",
+   "mer": "SP",
+   "loai": "cờ soát",
+   "muc": "nhẹ",
+   "mo": "TẦNG DA: ép lên da, dời 3.2cm · RẢI DỌC ĐƯỜNG: dời 7.1cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt"
   },
   {
    "code": "ST3",
@@ -415,6 +408,11 @@
    "code": "ST40",
    "loai": "đảo thứ tự",
    "ly": "Phong Long ở 8 thốn trên mắt cá, CAO hơn Hạ Cự Hư ST39 (7 thốn); số hiệu tăng nhưng vị trí lùi lên — đúng sách"
+  },
+  {
+   "code": "SP/dui",
+   "loai": "đường gấp",
+   "ly": "vỏ da atlas hở ở khe đùi trong nên trắc địa SP10→SP11 dài gấp đôi đường thẳng; hai huyệt hai đầu đều đã nghiệm thu đúng"
   },
   {
    "code": "KI5",

@@ -1,0 +1,36 @@
+[
+ {
+  "code": "ST27",
+  "file": "ST27_p65_0.jpeg",
+  "W": 1911,
+  "H": 921,
+  "thuoc": [
+   {
+    "x": 489,
+    "soVach": 6,
+    "tuY": 356,
+    "denY": 809,
+    "buocPx": 90.6,
+    "doDeu": 0.009,
+    "quang": 5
+   }
+  ]
+ },
+ {
+  "code": "ST37",
+  "file": "ST37_p75_0.jpeg",
+  "W": 1443,
+  "H": 1319,
+  "thuoc": [
+   {
+    "x": 1220,
+    "soVach": 6,
+    "tuY": 372,
+    "denY": 724,
+    "buocPx": 70.4,
+    "doDeu": 0.216,
+    "quang": 5
+   }
+  ]
+ }
+]

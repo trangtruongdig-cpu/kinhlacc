@@ -512,6 +512,14 @@ const A = {
    * x ≈ 8–10, tức hai nửa cột lệch nhau 6cm theo chiều ngang.
    * NGHIỆM THU: góc gấp tại BL37 từ 30 xuống 9 độ · cột x đơn điệu 6,86 → 7,49 → 10,54 → 8,34 ·
    * BL36→BL37 ra 16,44cm trong khi sách đòi 6 thốn = 16,27cm (lệch 0,17cm). */
+  /* SI7 và SP8 — ĐÃ ÁP RỒI GỠ RA, ghi lại để không ai áp lại. Vòng 31 dựng chúng bằng trục riêng
+   * (SI7 theo trục xương trụ, SP8 theo "SP9 trừ 3 thốn" với thang tự suy). Đo lại thì cả hai XUNG ĐỘT
+   * với bảng cốt độ, mà bảng ở hai đoạn này neo vào MỐC XƯƠNG thật:
+   *   · SI/cang-tay dùng WRIST→CUBITAL — chính trục đã được 11 huyệt cẳng tay của năm kinh khác xác
+   *     nhận đúng chằn chặn số thốn sách; anchor mới đẩy SI7 ra 5,75 thốn thay vì 5 (lệch 1,52cm);
+   *   · SP/cang-chan dùng MALLEOLUS_MED→TIBIA_MED_CONDYLE; anchor mới cho SP8 9,37 thốn thay vì 10
+   *     (lệch 1,78cm).
+   * Trục neo mốc xương đáng tin hơn trục tự dựng, nên bỏ hai anchor, để engine rải theo bảng. */
   BL36: { pos: { x: 0.0399, y: 0.4827, z: -0.0692 }, why: 'Thừa Phù — giữa nếp mông, suy từ bờ dưới cơ mông lớn; điểm cũ ở x=3,3 tức sát khe mông' },
   BL37: { pos: { x: 0.0436, y: 0.3881, z: -0.0558 }, why: 'Ân Môn — 6 thốn dưới nếp mông (8 thốn trên nếp kheo), thang đùi sau 2,712cm/thốn' },
   BL38: { pos: { x: 0.0613, y: 0.2737, z: -0.0508 }, why: 'Phù Khích — 1 thốn trên Uỷ Dương BL39 (hạng A), bờ trong gân cơ nhị đầu đùi' },
@@ -522,11 +530,9 @@ const A = {
   LU3 : { pos: { x: 0.1303, y: 0.7272, z: 0.0006 }, why: 'Thiên Phủ — 3 thốn dưới nếp nách trước, bờ NGOÀI cơ nhị đầu; thang cánh tay dựng từ bờ dưới-ngoài cơ ngực lớn tới nếp khuỷu' },
   LU4 : { pos: { x: 0.1309, y: 0.7138, z: 0.0017 }, why: 'Hiệp Bạch — 4 thốn dưới nếp nách trước, cùng một lần dựng với LU3' },
   HT2 : { pos: { x: 0.1012, y: 0.6905, z: -0.0058 }, why: 'Thanh Linh — bờ TRONG cơ nhị đầu cánh tay, 3 thốn trên nếp khuỷu; nghiệm thu HT2–HT3 ra 6,47cm = 2,94 thốn' },
-  SI7 : { pos: { x: 0.1196, y: 0.5728, z: -0.0072 }, why: 'Chi Chính — trượt dọc TRỤC XƯƠNG TRỤ về đúng vạch 5/12, giữ nguyên vector lệch ngang' },
   BL35: { pos: { x: 0.0056, y: 0.5009, z: -0.0640 }, why: 'Hội Dương — cạnh ĐỈNH XƯƠNG CỤT 0,5 thốn lưng; điểm cũ sai chiều' },
   PC1 : { pos: { x: 0.0556, y: 0.7481, z: 0.0689 }, why: 'Thiên Trì — 5 thốn ngang ngực (5 × 1,91cm) ngang khoang liên sườn 4; nghiệm thu cách ST17 2,16cm, sách đòi 1 thốn = 1,91' },
   SP11: { pos: { x: 0.0320, y: 0.3780, z: 0.0315 }, why: 'Cơ Môn — 8 thốn trên bờ trên xương bánh chè, mặt TRONG đùi; điểm cũ lệch hẳn ra mặt ngoài' },
-  SP8 : { pos: { x: 0.0140, y: 0.2017, z: -0.0175 }, why: 'Địa Cơ — 3 thốn dưới SP9 dọc bờ sau trong xương chày' },
   GB10: { pos: { x: 0.0454, y: 0.9465, z: -0.0233 }, why: 'Phù Bạch — cao độ ngang TE20 và dưới GB9 1,5 thốn đầu; z lấy theo THẨM TRA (−4,0) chứ không lấy −4,86 của chủ toạ' },
   GB11: { pos: { x: 0.0378, y: 0.9267, z: -0.0239 }, why: 'Đầu Khiếu Âm — cùng hoành độ với GB10 trên ảnh chụp (z ≈ −4,1), cao độ 2/3 cung GB9→GB12' },
   TE18: { pos: { x: 0.0390, y: 0.9183, z: -0.0198 }, why: 'Khế Mạch — giữ nguyên cao độ (đã đúng), chỉ lùi ra sau về z −3,40: nội suy hõm ống tai → mỏm chũm tại t≈0,45' },

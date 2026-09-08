@@ -2897,12 +2897,12 @@
    "ngay": "2026-09-08"
   },
   "SI7": {
-   "x": 0.1196,
-   "y": 0.5728,
-   "z": -0.0072,
+   "x": 0.1206,
+   "y": 0.5642,
+   "z": -0.0053,
    "hang": "A",
-   "nguon": "anchor",
-   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "nguon": "book+khe+duong",
+   "ly": "Gỡ anchor vòng 31, tra ve vi tri bang cot do neo MOC XUONG (SI: WRIST-CUBITAL da duoc 11 huyet cang tay xac nhan; SP: MALLEOLUS_MED-TIBIA_MED_CONDYLE). Anchor cu dung truc tu dung nen lech 1,52 va 1,78cm so bang",
    "ngay": "2026-09-08"
   },
   "BL35": {
@@ -2924,12 +2924,12 @@
    "ngay": "2026-09-08"
   },
   "SP8": {
-   "x": 0.014,
-   "y": 0.2017,
-   "z": -0.0175,
+   "x": 0.0152,
+   "y": 0.2129,
+   "z": -0.0239,
    "hang": "A",
-   "nguon": "anchor",
-   "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
+   "nguon": "who+duong",
+   "ly": "Gỡ anchor vòng 31, tra ve vi tri bang cot do neo MOC XUONG (SI: WRIST-CUBITAL da duoc 11 huyet cang tay xac nhan; SP: MALLEOLUS_MED-TIBIA_MED_CONDYLE). Anchor cu dung truc tu dung nen lech 1,52 va 1,78cm so bang",
    "ngay": "2026-09-08"
   },
   "GB10": {
@@ -2949,6 +2949,204 @@
    "nguon": "anchor",
    "ly": "Vòng 31 - ra soat 11 kinh con lai theo 5 vung (11 agent). Tham tra lien vung bac 14/27 de nghi SUA, 13 song sot + GB10/GB11 lay so cua tham tra. Nghiem thu: HT8-TE3 0,87 to 3,45cm; LU7-PC6 1,26 to 2,92; ST17-PC1 1,21 to 2,16; TE17-GB11 1,30 to 4,23; HT2-HT3 6,47cm=2,94 thon; GB10/GB11 vao dung kep z",
    "ngay": "2026-09-08"
+  },
+  "BL36": {
+   "x": 0.0399,
+   "y": 0.4827,
+   "z": -0.0692,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vong 32 - dung lai CA COT dui sau thay vi sua le (tham tra vong 31 da chung minh sua le lam gay cot). Nep mong suy tu bo duoi co mong lon (y=82,98), nep kheo = BL40 hang A. Doan 37,96cm chia 14 thon = 2,712cm/thon, kiem cheo bang chieu dai xuong dui 39cm/14=2,79. Nghiem thu: goc gap tai BL37 tu 30 xuong 9 do, BL36-BL37 ra 16,44cm (sach doi 16,27)",
+   "ngay": "2026-09-08"
+  },
+  "BL37": {
+   "x": 0.0436,
+   "y": 0.3881,
+   "z": -0.0558,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vong 32 - dung lai CA COT dui sau thay vi sua le (tham tra vong 31 da chung minh sua le lam gay cot). Nep mong suy tu bo duoi co mong lon (y=82,98), nep kheo = BL40 hang A. Doan 37,96cm chia 14 thon = 2,712cm/thon, kiem cheo bang chieu dai xuong dui 39cm/14=2,79. Nghiem thu: goc gap tai BL37 tu 30 xuong 9 do, BL36-BL37 ra 16,44cm (sach doi 16,27)",
+   "ngay": "2026-09-08"
+  },
+  "BL38": {
+   "x": 0.06,
+   "y": 0.2737,
+   "z": -0.048,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vong 32 - dung lai CA COT dui sau thay vi sua le (tham tra vong 31 da chung minh sua le lam gay cot). Nep mong suy tu bo duoi co mong lon (y=82,98), nep kheo = BL40 hang A. Doan 37,96cm chia 14 thon = 2,712cm/thon, kiem cheo bang chieu dai xuong dui 39cm/14=2,79. Nghiem thu: goc gap tai BL37 tu 30 xuong 9 do, BL36-BL37 ra 16,44cm (sach doi 16,27)",
+   "ngay": "2026-09-08"
+  },
+  "BL10": {
+   "x": 0.0171,
+   "y": 0.8936,
+   "z": -0.0437,
+   "hang": "A",
+   "nguon": "book+khe",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "ST3": {
+   "x": 0.0206,
+   "y": 0.9104,
+   "z": 0.0412,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "HT4": {
+   "x": 0.1368,
+   "y": 0.5292,
+   "z": 0.0158,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "HT5": {
+   "x": 0.1382,
+   "y": 0.5236,
+   "z": 0.017,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "PC5": {
+   "x": 0.1384,
+   "y": 0.5473,
+   "z": 0.0142,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "PC6": {
+   "x": 0.1428,
+   "y": 0.5363,
+   "z": 0.0157,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "LI12": {
+   "x": 0.1368,
+   "y": 0.6664,
+   "z": 0.0002,
+   "hang": "A",
+   "nguon": "book+khe+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "CV17": {
+   "x": 0,
+   "y": 0.7458,
+   "z": 0.0695,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "SP18": {
+   "x": 0.0666,
+   "y": 0.7505,
+   "z": 0.0638,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "ST34": {
+   "x": 0.0679,
+   "y": 0.3017,
+   "z": 0.0156,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "ST38": {
+   "x": 0.0527,
+   "y": 0.1526,
+   "z": 0.0018,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "ST39": {
+   "x": 0.0554,
+   "y": 0.1388,
+   "z": -0.0015,
+   "hang": "A",
+   "nguon": "book+khe+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "SP6": {
+   "x": 0.0263,
+   "y": 0.0969,
+   "z": -0.0234,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "BL55": {
+   "x": 0.0444,
+   "y": 0.2407,
+   "z": -0.0573,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "BL66": {
+   "x": 0.0997,
+   "y": 0.0088,
+   "z": 0.0345,
+   "hang": "A",
+   "nguon": "anchor",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "KI4": {
+   "x": 0.022,
+   "y": 0.0356,
+   "z": -0.0212,
+   "hang": "A",
+   "nguon": "book+khe+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "KI7": {
+   "x": 0.0257,
+   "y": 0.0805,
+   "z": -0.0252,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "KI8": {
+   "x": 0.0258,
+   "y": 0.0809,
+   "z": -0.0169,
+   "hang": "A",
+   "nguon": "book+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
+  },
+  "KI9": {
+   "x": 0.0271,
+   "y": 0.1318,
+   "z": -0.0377,
+   "hang": "A",
+   "nguon": "book+khe+duong",
+   "ly": "Vong 31: hoi dong da xet va xu GIU voi do tin cay cao/vua. Co ngo cu la co LICH SU ghi luc bake truoc, khong phai trang thai hien tai - da doi chieu anh sach va cot do neo moc xuong",
+   "ngay": "2026-09-08"
   }
  },
  "ngo": {
@@ -2966,20 +3164,6 @@
    "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
    "ngay": "2026-09-07"
   },
-  "LI12": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 5.02cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG:",
-   "ngay": "2026-09-07"
-  },
-  "ST3": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 4.55cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
   "ST32": {
    "loai": [
     "da",
@@ -2989,92 +3173,11 @@
    "ly": "TẦNG DA: ép lên da, dời 3.9cm · RẢI DỌC ĐƯỜNG: dời 4.78cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · hai nguồn sách cùng kêu lệch 1.5/1.5 thốn",
    "ngay": "2026-09-07"
   },
-  "ST34": {
-   "loai": [
-    "da"
-   ],
-   "ly": "TẦNG DA: ép lên da, dời 2.8cm",
-   "ngay": "2026-09-07"
-  },
-  "ST38": {
-   "loai": [
-    "sach",
-    "duong"
-   ],
-   "ly": "hai bản sách lệch nhau 6.7cm — đã lấy bản cũ · RẢI DỌC ĐƯỜNG: dời 14.83cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 14.83cm về đường kinh — toạ độ cũ sai nhiều,",
-   "ngay": "2026-09-07"
-  },
-  "ST39": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 3.36cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG:",
-   "ngay": "2026-09-07"
-  },
-  "SP6": {
-   "loai": [
-    "khe",
-    "da",
-    "duong"
-   ],
-   "ly": "nằm trong lòng xương — phải lùi ra mặt xương · TẦNG DA: ép lên da, dời 2.6cm · RẢI DỌC ĐƯỜNG: dời 6.35cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "SP18": {
-   "loai": [
-    "sach"
-   ],
-   "ly": "hai nguồn sách cùng kêu lệch 4.0/4.0 thốn",
-   "ngay": "2026-09-07"
-  },
-  "HT4": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 4.09cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "HT5": {
-   "loai": [
-    "khe",
-    "duong"
-   ],
-   "ly": "khe cách chỗ cốt độ chỉ ra 3.5 cm (trần 3.1 cm) — giữ nguyên toạ độ cũ, cần soát · RẢI DỌC ĐƯỜNG: dời 4.04cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 4.04cm v",
-   "ngay": "2026-09-07"
-  },
   "SI9": {
    "loai": [
     "duong"
    ],
    "ly": "RẢI DỌC ĐƯỜNG: dời 17.6cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "BL10": {
-   "loai": [
-    "khe",
-    "sach"
-   ],
-   "ly": "nằm giữa bụng cơ (sâu 0.63 thốn trong khối Phần xuống của cơ thang trái) · hai bản sách lệch nhau 5.3cm — đã lấy bản cũ",
-   "ngay": "2026-09-07"
-  },
-  "BL37": {
-   "ly": "Cung ly do BL36 - cho phien dung lai ca doan dui sau",
-   "ngay": "2026-09-08"
-  },
-  "BL38": {
-   "loai": [
-    "sach",
-    "duong"
-   ],
-   "ly": "hai bản sách lệch nhau 5.9cm — đã lấy bản cũ · RẢI DỌC ĐƯỜNG: dời 5.54cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜNG: dời 5.54cm về đường kinh — toạ độ cũ sai nhiều,",
-   "ngay": "2026-09-07"
-  },
-  "BL55": {
-   "loai": [
-    "khe",
-    "duong"
-   ],
-   "ly": "nằm giữa bụng cơ (sâu 0.65 thốn trong khối Đầu trong của cơ bụng chân trái) · RẢI DỌC ĐƯỜNG:",
    "ngay": "2026-09-07"
   },
   "BL57": {
@@ -3100,42 +3203,6 @@
    "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.6cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.6cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
    "ngay": "2026-09-07"
   },
-  "BL66": {
-   "loai": [
-    "da"
-   ],
-   "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.5cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
-   "ngay": "2026-09-07"
-  },
-  "KI4": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 5.38cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "KI7": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 4.19cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "KI8": {
-   "loai": [
-    "duong"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 4.48cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
-   "ngay": "2026-09-07"
-  },
-  "KI9": {
-   "loai": [
-    "duong",
-    "sach"
-   ],
-   "ly": "RẢI DỌC ĐƯỜNG: dời 7.95cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · hai nguồn sách cùng kêu lệch 3.9/3.0 thốn",
-   "ngay": "2026-09-07"
-  },
   "PC4": {
    "loai": [
     "mota",
@@ -3143,23 +3210,6 @@
     "khac"
    ],
    "ly": "mô tả \"bờ ? cơ gấp cổ tay quay\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.33 thốn · RẢI DỌC ĐƯỜNG: dời 4.39cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌC ĐƯỜN",
-   "ngay": "2026-09-07"
-  },
-  "PC5": {
-   "loai": [
-    "mota",
-    "duong",
-    "khac"
-   ],
-   "ly": "mô tả \"bờ ? cơ gấp cổ tay quay (gân)\" không nêu phía nào — chỉ đủ xác nhận, không đủ để dời 0.86 thốn · RẢI DỌC ĐƯỜNG: dời 3.53cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt · RẢI DỌ",
-   "ngay": "2026-09-07"
-  },
-  "PC6": {
-   "loai": [
-    "khe",
-    "duong"
-   ],
-   "ly": "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ duỗi cổ tay quay ngắn trái) · RẢI DỌC ĐƯỜNG: dời 3.12cm về đường kinh — toạ độ cũ sai nhiều, nên soát mắt",
    "ngay": "2026-09-07"
   },
   "GB15": {
@@ -3183,23 +3233,12 @@
    "ly": "nằm giữa bụng cơ (sâu 0.80 thốn trong khối Cơ chéo bụng ngoài trái)",
    "ngay": "2026-09-07"
   },
-  "CV17": {
-   "loai": [
-    "da"
-   ],
-   "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 1.8cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 1.8cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
-   "ngay": "2026-09-07"
-  },
   "CV23": {
    "loai": [
     "da"
    ],
    "ly": "TẦNG DA: phép chiếu đòi bẻ NGANG 0.7cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soát lại nếu mốc này nghi sai. · TẦNG DA: phép chiếu đòi bẻ NGANG 0.7cm — đã GIỮ hoành độ của mốc (mốc dựng theo số thốn), chỉ nhận độ sâu. Soá",
    "ngay": "2026-09-07"
-  },
-  "BL36": {
-   "ly": "Ca doan BL/dui-sau lech: BL36 so ghi y=72,20 hien 82,19; BL37 x=3,16 trong khi noi suy BL40-BL36 doi 6,32. Tham tra vong 31 da bac viec sua le BL37/57/58/59 vi lam GAY COT (goc gap 10 do vot len 47 do). Phai dung lai CA COT trong mot phien rieng, moc that cua sach la NEP MONG va NEP KHEO - deu la nep da, mesh khong co",
-   "ngay": "2026-09-08"
   }
  },
  "doiChieu": {

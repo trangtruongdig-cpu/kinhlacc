@@ -29,6 +29,13 @@ const saiVung = new Set(REG.sai.map(r => r.code));
  * Khai ra để báo cáo khỏi kêu oan, và để lần sau ai đọc cũng biết đây là đã xét chứ không phải bỏ sót.
  * Mỗi dòng phải kèm LÝ DO lấy từ sách, không được thêm chỉ vì muốn báo cáo đẹp. */
 const NGOAI_LE = {
+  /* LỖI CỦA LƯỚI DA, KHÔNG PHẢI CỦA HUYỆT. Đo được 08/09/2026: SP10→SP11 đường thẳng 13,50cm nhưng
+   * trắc địa TRÊN DA tới 25,80cm — gần gấp đôi. Nguyên nhân là vỏ da atlas hở ở khe giữa hai đùi, nên
+   * đường ngắn nhất phải vòng ra sau rồi quặt lại, sinh góc gấp 60 độ ở chỗ không có huyệt nào.
+   * Hai huyệt hai đầu thì ĐÚNG: SP10 đo 1,91 thốn trên bờ trên bánh chè (sách 2), và SP11 nằm đúng
+   * giữa cột theo trục x (SP10 6,09 → SP11 5,50 → SP12 6,82). Sửa huyệt để chiều lòng đường là đi
+   * ngược — phải vá lưới da hoặc cho đoạn này một điểm hướng dẫn, cả hai đều ngoài phạm vi phép kiểm. */
+  'SP/dui/đường gấp': 'vỏ da atlas hở ở khe đùi trong nên trắc địa SP10→SP11 dài gấp đôi đường thẳng; hai huyệt hai đầu đều đã nghiệm thu đúng',
   'ST40/lệch đường': 'Phong Long nằm NGOÀI Điều Khẩu ST38 một khoát ngón tay — sách đặt nó lệch khỏi đường Vị chính',
   'ST40/đảo thứ tự': 'Phong Long ở 8 thốn trên mắt cá, CAO hơn Hạ Cự Hư ST39 (7 thốn); số hiệu tăng nhưng vị trí lùi lên — đúng sách',
   'GB35/lệch đường': 'Dương Giao ở bờ SAU xương mác, đường Đởm chính đi ở bờ TRƯỚC — hai bên kẹp thân xương',

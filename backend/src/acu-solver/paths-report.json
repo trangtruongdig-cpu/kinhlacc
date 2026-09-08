@@ -15,6 +15,13 @@
    "conf": "cao"
   },
   {
+   "mer": "SP",
+   "code": "SP8",
+   "doan": "cang-chan",
+   "cm": 6.96,
+   "conf": "WHO+khe"
+  },
+  {
    "mer": "KI",
    "code": "KI9",
    "doan": "cang-chan",
@@ -22,10 +29,17 @@
    "conf": "khe-khoá"
   },
   {
+   "mer": "SI",
+   "code": "SI7",
+   "doan": "cang-tay",
+   "cm": 6.38,
+   "conf": "khe"
+  },
+  {
    "mer": "SP",
    "code": "SP6",
    "doan": "cang-chan",
-   "cm": 6.31,
+   "cm": 6.33,
    "conf": "khoá"
   },
   {
@@ -828,13 +842,6 @@
   },
   {
    "mer": "SI",
-   "code": "SI7",
-   "doan": "cang-tay",
-   "cm": 0,
-   "conf": "mốc"
-  },
-  {
-   "mer": "SI",
    "code": "SI11",
    "doan": "vai",
    "cm": 0,
@@ -1626,13 +1633,6 @@
   },
   {
    "mer": "SP",
-   "code": "SP8",
-   "doan": "cang-chan",
-   "cm": 0,
-   "conf": "mốc"
-  },
-  {
-   "mer": "SP",
    "code": "SP10",
    "doan": "dui",
    "cm": 0,
@@ -1983,5 +1983,31 @@
   }
  ],
  "tongDoan": 79,
- "tongCm": 2147
+ "tongCm": 2146,
+ "doiNhip": [
+  {
+   "doan": "GB/suon",
+   "cap": "GB21→GB22",
+   "nhipCu": 1.03,
+   "nhipMoi": 0.29
+  },
+  {
+   "doan": "GB/suon",
+   "cap": "GB24→GB25",
+   "nhipCu": 0.84,
+   "nhipMoi": 0.12
+  },
+  {
+   "doan": "SP/nguc",
+   "cap": "SP16→SP17",
+   "nhipCu": 1.51,
+   "nhipMoi": 0.63
+  },
+  {
+   "doan": "LR/suon",
+   "cap": "LR13→LR14",
+   "nhipCu": 0.86,
+   "nhipMoi": 0.1
+  }
+ ]
 }
