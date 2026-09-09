@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Patient } from '../models/patient.model';
 import { Examination } from '../models/examination.model';
+import { MeridianMeasurement } from '../models/meridian-measurement.model';
 import { PatientAuditLog } from '../models/patient-audit-log.model';
 import { CreatePatientDto, UpdatePatientDto } from '../models/patient.dto';
 import { BenhDongYExcelService } from './benh-dong-y-excel.controller';
@@ -136,6 +137,27 @@ function dimValues(rec: ThongKeRecord, dim: string): string[] {
 }
 
 const THONG_KE_MAX_CATEGORIES = 25;
+
+/** Dựng object khớp shape InputData (24 khoá <tạng><phải|trái>, xem rawUpper/rawLower trong
+ * meridian-analysis.util.ts) từ bảng meridian_measurements — bảng cột examinations."inputData"
+ * ĐÃ BỊ XOÁ (sự cố DB_SYNCHRONIZE=true tự ALTER TABLE trên VPS, 2026-09-09). Toàn bộ dữ liệu thô
+ * may mắn đã được backfill sang meridian_measurements TRƯỚC khi cột cũ mất, nên vẫn dựng lại được
+ * input y hệt. Alias bảng đo trong SQL dùng subquery PHẢI là "mm".
+ */
+const MERIDIAN_INPUT_DATA_JSON_SQL = `json_build_object(
+  'tieutruongtrai', mm.tieutruong_trai, 'tieutruongphai', mm.tieutruong_phai,
+  'tamtrai', mm.tam_trai, 'tamphai', mm.tam_phai,
+  'tamtieutrai', mm.tamtieu_trai, 'tamtieuphai', mm.tamtieu_phai,
+  'tambaotrai', mm.tambao_trai, 'tambaophai', mm.tambao_phai,
+  'daitrangtrai', mm.daitrang_trai, 'daitrangphai', mm.daitrang_phai,
+  'phetrai', mm.phe_trai, 'phephai', mm.phe_phai,
+  'bangquangtrai', mm.bangquang_trai, 'bangquangphai', mm.bangquang_phai,
+  'thantrai', mm.than_trai, 'thanphai', mm.than_phai,
+  'damtrai', mm.dam_trai, 'damphai', mm.dam_phai,
+  'vitrai', mm.vi_trai, 'viphai', mm.vi_phai,
+  'cantrai', mm.can_trai, 'canphai', mm.can_phai,
+  'tytrai', mm.ty_trai, 'typhai', mm.ty_phai
+)`;
 
 /** "dim1:value1,dim2:value2" → [{dim,value}] — bỏ qua entry rỗng/sai định dạng/đại lượng không hợp lệ. */
 function parseThongKeFilters(
@@ -290,16 +312,18 @@ export class PatientsService {
     const total = await qb.getCount();
 
     // Chỉ 1 trang bệnh nhân (10-20 dòng) cần Hư-Thực, không phải cả 5675 bệnh nhân — nên
-    // dùng subquery tương quan lấy inputData của CA KHÁM GẦN NHẤT/bệnh nhân (tận dụng index
+    // dùng subquery tương quan lấy input của CA KHÁM GẦN NHẤT/bệnh nhân (tận dụng index
     // idx_examinations_thoi_diem_kham) rồi tính bằng computeFullAnalysis, ĐÚNG hàm
     // PatientsService.buildThongKeDataset() dùng để khớp tuyệt đối với màn Kết Quả Đo — thay vì
     // đọc thẳng cột examinations.huThuc (lưu bằng thuật toán backend midpoint/dungSai, có thể
     // lệch nhẹ so với màn hình).
+    // Dựng lại input từ meridian_measurements (JOIN) — xem comment ở MERIDIAN_INPUT_DATA_JSON_SQL.
     qb.addSelect((subQb) =>
       subQb
         .subQuery()
-        .select('e."inputData"', 'inputData')
+        .select(MERIDIAN_INPUT_DATA_JSON_SQL, 'inputData')
         .from(Examination, 'e')
+        .innerJoin(MeridianMeasurement, 'mm', 'mm.examination_id = e.id')
         .where('e."patientId" = patient.id')
         .orderBy('COALESCE(e."thoiDiemKham", e."createdAt")', 'DESC')
         .limit(1),
@@ -456,9 +480,16 @@ export class PatientsService {
     });
     const patientById = new Map(patients.map((p) => [p.id, p]));
 
-    const exams = await this.examinationRepository.find({
-      select: ['id', 'patientId', 'inputData'],
-    });
+    // inputData thô đã bị xoá khỏi examinations (xem comment ở MERIDIAN_INPUT_DATA_JSON_SQL) —
+    // dựng lại từ meridian_measurements bằng JOIN thay vì find({select:['inputData']}).
+    const exams: { id: number; patientId: number; inputData: InputData | null }[] =
+      await this.examinationRepository
+        .createQueryBuilder('e')
+        .select('e.id', 'id')
+        .addSelect('e.patientId', 'patientId')
+        .addSelect(MERIDIAN_INPUT_DATA_JSON_SQL, 'inputData')
+        .leftJoin(MeridianMeasurement, 'mm', 'mm.examination_id = e.id')
+        .getRawMany();
     // Khớp luật Excel cần input dạng ô Excel (D7/E10/AN10/...), KHÔNG phải inputData thô — dựng qua
     // đúng hàm MeridiansService dùng cho analyze() (buildExcelIndicatorsForInput, xem comment ở đó).
     // Bọc try/catch từng ca: 1 bản ghi dữ liệu hỏng (vd nhiệt độ ngoài 20-40°C) không được làm hỏng
