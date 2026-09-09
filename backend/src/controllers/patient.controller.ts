@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Patient } from '../models/patient.model';
 import { Examination } from '../models/examination.model';
+import { PatientAuditLog } from '../models/patient-audit-log.model';
 import { CreatePatientDto, UpdatePatientDto } from '../models/patient.dto';
 import { BenhDongYExcelService } from './benh-dong-y-excel.controller';
 import { MeridiansService, AnalyzeInputDto } from './meridian.controller';
@@ -254,6 +255,8 @@ export class PatientsService {
     private readonly patientRepository: Repository<Patient>,
     @InjectRepository(Examination)
     private readonly examinationRepository: Repository<Examination>,
+    @InjectRepository(PatientAuditLog)
+    private readonly patientAuditLogRepository: Repository<PatientAuditLog>,
     private readonly benhDongYExcelService: BenhDongYExcelService,
     private readonly meridiansService: MeridiansService,
   ) {}
@@ -361,9 +364,25 @@ export class PatientsService {
     return toSafePatient(await this.patientRepository.save(patient));
   }
 
-  async update(id: number, dto: UpdatePatientDto): Promise<PatientAnToan> {
+  async update(id: number, dto: UpdatePatientDto, adminId?: number): Promise<PatientAnToan> {
     const patient = await this.findOneRaw(id);
     const normalized = normalizePatientDto(dto);
+
+    // Danh sách trường theo dõi audit — giá trị lưu dạng string để so sánh đơn giản
+    const TRACKED_FIELDS: (keyof typeof normalized)[] = [
+      'fullName', 'gender', 'dateOfBirth', 'address', 'province',
+      'phone', 'medicalHistory', 'notes', 'treatmentTarget', 'treatmentCourseStart',
+    ];
+
+    // Snapshot giá trị cũ trước khi gán
+    const oldValues: Record<string, string | null> = {};
+    for (const field of TRACKED_FIELDS) {
+      if (normalized[field] !== undefined) {
+        const v = (patient as any)[field];
+        oldValues[field] = v !== null && v !== undefined ? String(v) : null;
+      }
+    }
+
     // Gán tường minh từng field khai báo trong UpdatePatientDto — KHÔNG dùng Object.assign trực
     // tiếp trên body request, tránh mass-assignment ghi đè passwordHash/id/createdAt/...
     if (normalized.fullName !== undefined) patient.fullName = normalized.fullName;
@@ -377,7 +396,34 @@ export class PatientsService {
     if (normalized.notes !== undefined) patient.notes = normalized.notes;
     if (normalized.treatmentTarget !== undefined) patient.treatmentTarget = normalized.treatmentTarget;
     if (normalized.treatmentCourseStart !== undefined) patient.treatmentCourseStart = normalized.treatmentCourseStart;
-    return toSafePatient(await this.patientRepository.save(patient));
+
+    const saved = await this.patientRepository.save(patient);
+
+    // Ghi audit log cho mỗi trường thực sự thay đổi (fire-and-forget, không chặn response)
+    const auditLogs: Partial<PatientAuditLog>[] = [];
+    for (const field of TRACKED_FIELDS) {
+      if (normalized[field] === undefined) continue;
+      const newVal = normalized[field] !== null && normalized[field] !== undefined
+        ? String(normalized[field])
+        : null;
+      const oldVal = oldValues[field] ?? null;
+      if (newVal !== oldVal) {
+        auditLogs.push({
+          patientId: id,
+          changedByAdminId: adminId ?? null,
+          changedField: field,
+          oldValue: oldVal,
+          newValue: newVal,
+        });
+      }
+    }
+    if (auditLogs.length > 0) {
+      void this.patientAuditLogRepository.save(auditLogs).catch(() => {
+        // Audit log không được làm gián đoạn luồng chính
+      });
+    }
+
+    return toSafePatient(saved);
   }
 
   async updateFcmToken(id: number, fcmToken: string): Promise<void> {
