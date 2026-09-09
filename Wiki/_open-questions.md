@@ -12,3 +12,7 @@ Câu hỏi wiki chưa trả lời đủ. Format mỗi dòng:
 - [ ] (2026-09-08) [[Lessons Learned - INGEST Kinh Lạc]]: provenance=assistant (Javis tự nói, cần xác minh) — status: open
 
 - [ ] (2026-09-08) [[Bát Cương và Đồ Hình Thái Cực]]: đề xuất bổ sung từ chat 2026-09-08 (dedup) — status: open
+
+- [ ] (2026-09-09) [[Backend Data Model]]: đề xuất bổ sung từ chat 2026-09-09 (dedup) — status: open
+
+- [ ] (2026-09-09) [[Nguyên Tắc Cộng Tác Với AI Agent]]: đề xuất bổ sung từ chat 2026-09-09 (dedup) — status: open
