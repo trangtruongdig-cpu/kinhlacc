@@ -112,7 +112,7 @@ Bệnh do Đông Y định nghĩa (khác Western medicine):
 Công việc:
 1. ✅ Taxonomy xây dựng
 2. ⏳ Kinh Mạch Toàn Tập
-3. ⏳ Huyệt Vị Cơ Bản
+3. ✅ Huyệt Vị Cơ Bản — [[Huyệt Vị Cơ Bản]] (56 huyệt / 13 kinh, 2026-09-08)
 4. ⏳ Chứng Bệnh Lâm Sàng  
 5. ⏳ Bài Thuốc Thường Dùng
 

@@ -1,23 +1,480 @@
 {
   "schema": 2,
   "source": "kanban.sqlite3",
-  "orchestration": "off",
+  "orchestration": "auto",
   "tasks": [
     {
       "id": "t_296263dd6417",
       "brain_root": "/Users/truongtrang/Desktop/kinhlacc",
       "title": "Wiki Huyệt Vị Cơ Bản từ hồ sơ acu-solver",
-      "intent": "Đọc các file backend/src/acu-solver/ho-so/*.md trong vault này (mỗi file là hồ sơ một huyệt, có mục '1. Nguồn chữ' gồm từ điển app và Atlas Focks), chọn 3-5 huyệt tiêu biểu cho mỗi kinh, rồi ghi trang Wiki/Huyệt Vị Cơ Bản.md (frontmatter type: wiki) gồm mã huyệt, tên Việt, kinh, mô tả định vị trích nguyên văn từ hồ sơ, kèm tên file nguồn cho từng huyệt. Chỉ dùng phần CHỮ trong hồ sơ, không cần ảnh atlas (ảnh nằm ngoài vault). Huyệt nào hồ sơ ghi 'chưa thu thập' thì đánh dấu (cần xác minh). Thêm dòng vào Wiki/index.md và tick mục 3 trong danh sách công việc của Wiki/Taxonomy Kinh Lắc.md.",
+      "intent": "Đọc toàn bộ hồ sơ huyệt tại backend/src/acu-solver/ho-so/*.md trong vault /Users/truongtrang/Desktop/kinhlacc, chọn 3-5 huyệt tiêu biểu cho mỗi đường kinh, rồi tạo trang Wiki/Huyệt Vị Cơ Bản.md (frontmatter type: wiki) liệt kê từng huyệt gồm mã huyệt, tên Việt, kinh, mô tả định vị TRÍCH NGUYÊN VĂN từ mục '1. Nguồn chữ' của hồ sơ (từ điển app và Atlas Focks), kèm tên file hồ sơ nguồn cho từng huyệt. Chỉ dùng phần CHỮ trong hồ sơ, bỏ qua ảnh atlas vì ảnh nằm ngoài vault. Huyệt nào hồ sơ ghi 'chưa thu thập' thì gắn nhãn (cần xác minh). Sau đó thêm một dòng trỏ tới trang mới vào Wiki/index.md và tick mục 3 trong danh sách công việc của Wiki/Taxonomy Kinh Lắc.md. Không sửa code, không đụng file ngoài thư mục Wiki/.",
       "route": "auto",
-      "capability": "auto",
+      "capability": "files",
       "execution_mode": "auto",
       "priority": 2,
-      "status": "triage",
+      "status": "done",
       "needs_approval": false,
       "block_kind": "",
       "block_reason": "",
       "created_by": "learn",
       "chat_id": "",
+      "idempotency_key": "",
+      "attempts": 2,
+      "max_attempts": 3,
+      "claimed_by": "",
+      "claim_expires_at": 0.0,
+      "last_heartbeat_at": 1788868231.550208,
+      "current_run_id": "",
+      "result": "Xong. Báo cáo ngắn:\n\n### Đã làm\n\n**Tạo `Wiki/Huyệt Vị Cơ Bản.md`** (frontmatter `type: wiki`) từ 109 hồ sơ trong `backend/src/acu-solver/ho-so/`. Chọn **56 huyệt trên 13 đường kinh**:\n\n| Kinh | Số huyệt | Kinh | Số huyệt |\n|---|---|---|---|\n| LU (Phế) | 4 | KI (Thận) | 5 |\n| LI (Đại Trường) | 5 | PC (Tâm Bào) | 4 |\n| ST (Vị) | 5 | TE (Tam Tiêu) | 5 |\n| SP (Tỳ) | 4 | GB (Đởm) | 5 |\n| HT (Tâm) | 4 | LR (Can) | 4 |\n| SI (Tiểu Trường) | 4 | CV (Nhâm) | 2 |\n| BL (Bàng Quang) | 5 | | |\n\nMỗi huyệt ghi mã huyệt, tên Việt, tên kinh, tên file hồ sơ, và **hai đoạn trích nguyên văn** từ mục *1. Nguồn chữ*: \"Từ điển app\" và \"Atlas Focks - vị trí\". Ảnh atlas bỏ qua đúng như yêu cầu.\n\n**Hai điểm cần nói rõ:**\n\n- **CV chỉ có 2 huyệt** (`CV1`, `CV17`) vì thư mục hồ sơ chỉ có đúng 2 file cho mạch Nhâm, không đủ 3-5. Đã liệt kê cả hai và ghi chú lý do ngay trong trang. Mạch Đốc (GV) thì chưa có hồ sơ nào.\n- **Nhãn *(cần xác minh)* gắn cho cả 56 huyệt.** Lý do: đúng 109/109 hồ sơ đều ghi \"chưa thu thập\" ở nguồn WHO 2008 (kiểm bằng grep, mỗi file khớp đúng 1 lần). Hai nguồn Từ điển app và Atlas Focks thì đầy đủ ở mọi hồ sơ, không file nào trống. Đã giải thích một lần ở đầu trang thay vì lặp lại.\n\nNhân tiện đọc, có **3 chỗ hai nguồn mâu thuẫn** nên đã ghi thẳng dưới huyệt: ST8 (4 vs 4,5 thốn), GB31 (đo từ hai mốc ngược chiều nhau), GB39 (bờ **sau** vs bờ **trước** xương mác).\n\n**Sửa 2 file khác:** thêm mục \"Tri thức chuyên môn (Domain)\" với dòng trỏ tới trang mới vào `Wiki/index.md`; tick mục 3 thành `✅ Huyệt Vị Cơ Bản` kèm wikilink trong `Wiki/Taxonomy Kinh Lắc.md`.\n\n### Đã kiểm chứng thế nào\n\n- Đếm bằng grep trên trang mới: **56/56** ở cả bốn trường bắt buộc (tiêu đề có mã + tên + nhãn cần xác minh, dòng kinh + tên file hồ sơ, trích Từ điển app, trích Atlas Focks).\n- Đối chiếu nguyên văn: khớp chính xác đuôi câu dài nhất của 3 huyệt dễ bị cắt (`ST42`, `ST40`, `CV1`) ngược lại vào file hồ sơ gốc, cả 3 đều tìm thấy đúng 1 lần.\n- Grep ký tự em dash trên trang mới: **0 lần** (các dấu gạch trong phần trích là en dash có sẵn trong nguồn, giữ nguyên).\n- Chỉ ghi vào 3 file, đều nằm trong `Wiki/`. Không đụng code.",
+      "created_at": 1788836623.836056,
+      "updated_at": 1788868231.550208,
+      "metadata": {
+        "route": "auto",
+        "capability": "files",
+        "execution_mode": "auto",
+        "tool_calls": [
+          "Glob",
+          "Glob",
+          "Glob",
+          "Glob",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Write",
+          "Edit",
+          "Edit",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep"
+        ],
+        "provider": "openrouter"
+      },
+      "artifacts": [
+        {
+          "type": "file",
+          "path": "Wiki/Huyệt Vị Cơ Bản.md"
+        },
+        {
+          "type": "file",
+          "path": "Wiki/index.md"
+        },
+        {
+          "type": "file",
+          "path": "Wiki/Taxonomy Kinh Lắc.md"
+        }
+      ],
+      "deps": [],
+      "log": [
+        {
+          "ts": "2026-09-08 10:03",
+          "msg": "created by learn"
+        },
+        {
+          "ts": "2026-09-08 18:40",
+          "msg": "claimed by worker:3180:6f544cdc"
+        },
+        {
+          "ts": "2026-09-08 18:43",
+          "msg": "TimeoutError: "
+        },
+        {
+          "ts": "2026-09-08 18:43",
+          "msg": "claimed by worker:3180:918ad4fc"
+        },
+        {
+          "ts": "2026-09-08 18:43",
+          "msg": "capability=files"
+        },
+        {
+          "ts": "2026-09-08 18:43",
+          "msg": "claimed by worker:3180:ff8bd15e"
+        },
+        {
+          "ts": "2026-09-08 18:50",
+          "msg": "done"
+        }
+      ]
+    },
+    {
+      "id": "t_74d6bc982abc",
+      "brain_root": "/Users/truongtrang/Desktop/kinhlacc",
+      "title": "Consolidate toàn bộ transcript VS Code khi ở engine Claude Code",
+      "intent": "Đọc toàn bộ 24 file transcript hội thoại VS Code trong /Users/truongtrang/Desktop/kinhlacc/memory/conversations/ (các file vscode-2026-07-07.md đến vscode-2026-08-09.md), rút ra tri thức mới chưa có trong brain, rồi cập nhật brain: (1) đối chiếu với memory/MEMORY.md và memory/facts/ để tạo file fact mới cho từng tri thức bền vững chưa được ghi (type: user|preference|business|decision, kèm created/updated), gộp vào file cũ nếu trùng thay vì tạo bản sao, và thêm 1 dòng chỉ mục cho mỗi fact mới vào memory/MEMORY.md; (2) chưng cất các khái niệm/quy trình/nguyên tắc tái dùng được (không phải thông tin cá nhân) thành ghi chú Wiki trong /Users/truongtrang/Desktop/kinhlacc/Wiki/ với frontmatter type: wiki và [[wikilink]] liên kết chéo; (3) chỉ khi transcript lộ ra thiếu sót CỤ THỂ của một skill/agent đã có trong skills/ hoặc agents/ thì bổ sung vào phần Pitfalls/Lessons của đúng file đó - không viết lại hàng loạt, không tạo skill/agent/workflow mới. Cuối cùng ghi một báo cáo tổng kết liệt kê số fact mới, số wiki note mới, số skill/agent đã sửa và đường dẫn từng file. Task này cần tool đọc/ghi file nên chỉ chạy trên engine Claude Code; nếu engine không có tool đọc file thì dừng và báo rõ thay vì bịa nội dung.",
+      "route": "auto",
+      "capability": "files",
+      "execution_mode": "auto",
+      "priority": 2,
+      "status": "archived",
+      "needs_approval": false,
+      "block_kind": "",
+      "block_reason": "",
+      "created_by": "learn",
+      "chat_id": "",
+      "idempotency_key": "",
+      "attempts": 1,
+      "max_attempts": 3,
+      "claimed_by": "",
+      "claim_expires_at": 0.0,
+      "last_heartbeat_at": 1788868300.304325,
+      "current_run_id": "",
+      "result": "",
+      "created_at": 1788867487.550821,
+      "updated_at": 1788878869.259524,
+      "metadata": {
+        "acceptance": [
+          "Đã đọc hết 24 file trong memory/conversations/ (liệt kê tên file đã đọc trong báo cáo, không bỏ sót file nào)",
+          "Mỗi fact mới là 1 file .md trong memory/facts/ đúng frontmatter (type/created/updated), không trùng nội dung với fact đã có; fact trùng thì cập nhật file cũ chứ không tạo file mới",
+          "memory/MEMORY.md có đúng 1 dòng chỉ mục cho mỗi fact mới tạo, dạng '- [Tiêu đề](facts/<slug>.md) — mô tả ngắn'",
+          "Wiki note mới (nếu có) nằm trong Wiki/, có frontmatter type: wiki và ít nhất 1 [[wikilink]] trỏ tới ghi chú hoặc fact liên quan",
+          "Không tạo mới bất kỳ skill/agent/workflow/loop/plugin nào; chỉ sửa file skill/agent đã tồn tại và chỉ khi transcript chỉ ra thiếu sót cụ thể",
+          "Không thực hiện hành động ra ngoài (gửi tin nhắn, đăng bài, gọi API ghi), không sửa code trong backend/ hay frontend/",
+          "Báo cáo cuối nêu rõ số lượng fact mới, wiki note mới, file skill/agent đã sửa kèm đường dẫn tương đối của từng file đã ghi"
+        ],
+        "specifier": "ai"
+      },
+      "artifacts": [],
+      "deps": [],
+      "log": [
+        {
+          "ts": "2026-09-08 18:38",
+          "msg": "created by learn"
+        },
+        {
+          "ts": "2026-09-08 18:40",
+          "msg": "claimed by worker:3180:a9d8ce3a"
+        },
+        {
+          "ts": "2026-09-08 18:41",
+          "msg": "capability=files"
+        },
+        {
+          "ts": "2026-09-08 18:41",
+          "msg": "claimed by worker:3180:b79d8907"
+        },
+        {
+          "ts": "2026-09-08 18:51",
+          "msg": "worker cancelled"
+        },
+        {
+          "ts": "2026-09-08 21:47",
+          "msg": "cancelled -> archived: operator archive"
+        }
+      ]
+    },
+    {
+      "id": "t_12e22adf805e",
+      "brain_root": "/Users/truongtrang/Desktop/kinhlacc",
+      "title": "Wiki: Bát Cương - Logic E-cells & Chẩn Đoán",
+      "intent": "Viết một wiki note tiếng Việt chi tiết về Bát Cương trong vault kinhlacc (đường dẫn đề xuất: /Users/truongtrang/Desktop/kinhlacc/Wiki/, đặt tên theo quy ước wiki hiện có, frontmatter type: wiki, liên kết [[wikilink]] tới các note Bát Cương và Taxonomy Kinh Lạc đã có). Nội dung phải gồm: (1) giải thích bốn cặp cương lĩnh âm-dương, hàn-nhiệt, hư-thực, khí-huyết và cách chúng phối hợp thành thể bệnh; (2) mô tả cách hệ thống tính E-cells từ 24 điểm đo nhiệt độ (đọc code thật trong repo backend/frontend và map.md để lấy đúng công thức, tên ô C10-C15, F10-F15... và ngưỡng), (3) cách các E-cells được đối chiếu với 47 chứng bệnh trong disease-rules.json (excelFormula / logicExpression / sqlCaseText của engine BenhDongYExcel), (4) ít nhất 2 ví dụ thực tế lấy từ dữ liệu có sẵn trong repo kinhlacc (disease-rules.json, benh_dong_y_excel.sql hoặc seed SQL) đi từ bộ số đo -> E-cells -> chứng bệnh khớp -> quy kết Bát Cương. Chỉ đọc code và dữ liệu để trích xuất sự thật, KHÔNG sửa code, KHÔNG chạy migration, KHÔNG kết nối database ngoài; nếu một chi tiết không xác minh được trong repo thì ghi rõ là chưa xác minh thay vì bịa. Cập nhật Wiki/index.md thêm dòng trỏ tới note mới.",
+      "route": "auto",
+      "capability": "files",
+      "execution_mode": "suggest",
+      "priority": 2,
+      "status": "done",
+      "needs_approval": false,
+      "block_kind": "",
+      "block_reason": "",
+      "created_by": "chat",
+      "chat_id": "web:0534c74b7e784d4cba7b8b60905a1da8",
+      "idempotency_key": "",
+      "attempts": 4,
+      "max_attempts": 3,
+      "claimed_by": "",
+      "claim_expires_at": 0.0,
+      "last_heartbeat_at": 1788875607.179461,
+      "current_run_id": "",
+      "result": "I need to research the kinhlacc vault structure, existing wiki notes, and the actual code/data files to write an accurate wiki note. Let me start by exploring in parallel.\nThe subagents were cancelled. Let me do the research directly.",
+      "created_at": 1788874914.580361,
+      "updated_at": 1788875607.179461,
+      "metadata": {
+        "route": "auto",
+        "capability": "files",
+        "execution_mode": "suggest",
+        "tool_calls": [],
+        "provider": "antigravity-cli"
+      },
+      "artifacts": [],
+      "deps": [],
+      "log": [
+        {
+          "ts": "2026-09-08 20:41",
+          "msg": "created by chat"
+        },
+        {
+          "ts": "2026-09-08 20:41",
+          "msg": "claimed by worker:3029:46168076"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "capability=files"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "claimed by worker:3029:dad8b4fb"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "OpenRouter 404: {\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat\",\"code\":404},\"user_id\":\"user_32gn6xOtE6AnCPXGRIWQdiKWmT3\"}"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "claimed by worker:3029:9a96bfb6"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "OpenRouter 404: {\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat\",\"code\":404},\"user_id\":\"user_32gn6xOtE6AnCPXGRIWQdiKWmT3\"}"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "claimed by worker:3029:82ac84ad"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "OpenRouter 404: {\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat\",\"code\":404},\"user_id\":\"user_32gn6xOtE6AnCPXGRIWQdiKWmT3\"}"
+        },
+        {
+          "ts": "2026-09-08 20:52",
+          "msg": "blocked -> ready: operator retry"
+        },
+        {
+          "ts": "2026-09-08 20:52",
+          "msg": "claimed by worker:3029:a598f5e5"
+        },
+        {
+          "ts": "2026-09-08 20:53",
+          "msg": "done"
+        }
+      ]
+    },
+    {
+      "id": "t_f74af3ccabb7",
+      "brain_root": "/Users/truongtrang/Desktop/kinhlacc",
+      "title": "Wiki: Lục Kinh - 6 Giai Đoạn & Tầng Bệnh",
+      "intent": "Tạo file wiki mới trong brain kinhlacc (/Users/truongtrang/Desktop/kinhlacc/Wiki/) về Lục Kinh Thương Hàn, trình bày đủ 6 kinh: Thái Dương, Dương Minh, Thiếu Dương, Thái Âm, Thiếu Âm, Quyết Âm. Mỗi kinh có một mục riêng gồm: bản khí (Hàn/Nhiệt), cặp phủ-tạng tương ứng, chứng trạng đặc trưng, giai đoạn bệnh theo trục Biểu-Bán biểu bán lý-Lý, tầng bệnh theo Vệ-Khí-Dinh-Huyết, và pháp trị/liệu pháp tương ứng. Kèm một sơ đồ ánh xạ (bảng hoặc sơ đồ dạng văn bản/mermaid) nối 6 kinh với trục Biểu-Lý và 4 tầng Vệ-Khí-Dinh-Huyết. File phải có frontmatter type: wiki, dùng [[wikilink]] liên kết tới các wiki YHCT sẵn có trong Wiki/ (ví dụ Bát Cương và Đồ Hình Thái Cực, Chuẩn Hoá Thể Bệnh và Ánh Xạ YHCT - YHHĐ, Taxonomy Kinh Lắc), và tuân thủ quy ước miền của brain: viết 'Đởm' không viết 'Đảm', dùng dấu gạch ngang '-' tuyệt đối không dùng em dash, toàn bộ nội dung tiếng Việt, văn phong y khoa. Đọc Wiki/index.md và các wiki YHCT hiện có trước khi viết để tránh trùng lặp và giữ đúng thuật ngữ; sau khi tạo file thì thêm một dòng trỏ tới nó trong Wiki/index.md. Không sửa code backend/frontend, không đụng dữ liệu bệnh nhân.",
+      "route": "auto",
+      "capability": "files",
+      "execution_mode": "suggest",
+      "priority": 2,
+      "status": "done",
+      "needs_approval": false,
+      "block_kind": "",
+      "block_reason": "",
+      "created_by": "chat",
+      "chat_id": "web:0534c74b7e784d4cba7b8b60905a1da8",
+      "idempotency_key": "",
+      "attempts": 4,
+      "max_attempts": 3,
+      "claimed_by": "",
+      "claim_expires_at": 0.0,
+      "last_heartbeat_at": 1788875741.887533,
+      "current_run_id": "",
+      "result": "Chỉ có 1 lần \"Đảm\" xuất hiện, đúng trong ngữ cảnh nói về việc không dùng nó (đúng chuẩn), không phải lỗi. Không có em dash. Kiểm tra thêm mermaid syntax và toàn bộ frontmatter đã ổn.\n\n**Đã hoàn thành:**\n\nTạo file `Wiki/Lục Kinh Thương Hàn.md` trình bày đầy đủ 6 kinh (Thái Dương, Dương Minh, Thiếu Dương, Thái Âm, Thiếu Âm, Quyết Âm), mỗi kinh gồm: bản khí, phủ-tạng, chứng trạng đặc trưng, giai đoạn theo trục Biểu - Bán biểu bán lý - Lý, tầng Vệ-Khí-Dinh-Huyết tương ứng, và pháp trị/châm cứu. Kèm sơ đồ mermaid + bảng đối chiếu tổng hợp 6 kinh × Biểu-Lý × Vệ-Khí-Dinh-Huyết.\n\nĐã đọc trước `Wiki/index.md`, 4 wiki YHCT liên quan (Bát Cương và Đồ Hình Thái Cực, Chuẩn Hoá Thể Bệnh và Ánh Xạ YHCT - YHHĐ, Taxonomy Kinh Lắc, Disease Rules - Logic Engine) và 2 memory fact (thuong-han-chi-ap-cho-the-do-ra, thong-nhat-dam-thanh-doi) để giữ đúng thuật ngữ và tránh trùng lặp - dùng [[wikilink]] tới cả 4 wiki đó plus 2 memory fact liên quan.\n\nKiểm chứng: grep xác nhận không còn em dash, và \"Đảm\" chỉ xuất hiện đúng một lần trong câu nói về quy ước cần tránh nó (không phải lỗi chính tả thật). Đã thêm 1 dòng trỏ tới file mới trong `Wiki/index.md`. Không đụng đến code backend/frontend hay dữ liệu bệnh nhân.",
+      "created_at": 1788874918.18102,
+      "updated_at": 1788875741.887533,
+      "metadata": {
+        "route": "auto",
+        "capability": "files",
+        "execution_mode": "suggest",
+        "tool_calls": [
+          "Read",
+          "Glob",
+          "Read",
+          "Read",
+          "Read",
+          "Grep",
+          "Read",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Grep",
+          "Glob",
+          "Read",
+          "Read",
+          "Write",
+          "Edit",
+          "Grep"
+        ],
+        "provider": "antigravity-cli"
+      },
+      "artifacts": [
+        {
+          "type": "file",
+          "path": "Wiki/Lục Kinh Thương Hàn.md"
+        },
+        {
+          "type": "file",
+          "path": "Wiki/index.md"
+        }
+      ],
+      "deps": [],
+      "log": [
+        {
+          "ts": "2026-09-08 20:41",
+          "msg": "created by chat"
+        },
+        {
+          "ts": "2026-09-08 20:41",
+          "msg": "claimed by worker:3029:9d88acbc"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "capability=files"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "claimed by worker:3029:d268260e"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "OpenRouter 404: {\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat\",\"code\":404},\"user_id\":\"user_32gn6xOtE6AnCPXGRIWQdiKWmT3\"}"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "claimed by worker:3029:610f2cc8"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "OpenRouter 404: {\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat\",\"code\":404},\"user_id\":\"user_32gn6xOtE6AnCPXGRIWQdiKWmT3\"}"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "claimed by worker:3029:fc33350b"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "OpenRouter 404: {\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat\",\"code\":404},\"user_id\":\"user_32gn6xOtE6AnCPXGRIWQdiKWmT3\"}"
+        },
+        {
+          "ts": "2026-09-08 20:52",
+          "msg": "blocked -> ready: operator retry"
+        },
+        {
+          "ts": "2026-09-08 20:52",
+          "msg": "claimed by worker:3029:bdfbc053"
+        },
+        {
+          "ts": "2026-09-08 20:55",
+          "msg": "done"
+        }
+      ]
+    },
+    {
+      "id": "t_be7142bb545e",
+      "brain_root": "/Users/truongtrang/Desktop/kinhlacc",
+      "title": "Wiki: Ngũ Hành & Tương Sinh-Khắc Mất Cân Bằng",
+      "intent": "Tạo file wiki mới trong vault kinhlacc (thư mục Wiki/, frontmatter type: wiki, tiếng Việt, có [[wikilink]] nối sang các note Bát Cương, Taxonomy Kinh Lạc, Chuẩn Hoá Thể Bệnh sẵn có) trình bày hệ Ngũ Hành phục vụ engine chẩn đoán kinhlacc. Nội dung bắt buộc: (1) bảng ánh xạ 5 hành Mộc - Hỏa - Thổ - Kim - Thủy với tạng, phủ (dùng 'Đởm' chứ không dùng 'Đảm' theo quy ước hệ thống), mùa, khí/lục dâm, ngũ khiếu - ngũ thể tương ứng; (2) logic vòng tương sinh và vòng tương khắc ở trạng thái bình thường; (3) phân biệt rõ tương thừa (hành khắc quá mạnh, khắc vượt mức lên hành bị khắc) và tương vũ (phản khắc, hành bị khắc mạnh lên khắc ngược lại hành khắc mình), kèm điều kiện phát sinh và dấu hiệu nhận biết; (4) trường hợp mẹ không nuôi con (mẫu bệnh cập tử / tử đạo mẫu khí) tách riêng khỏi tương thừa - tương vũ; (5) quy tắc suy từ số đo bát cương hư - thực (giá trị cao/thấp trên trục hư-thực của từng cặp tạng phủ) ra hành nào đang lệch và lệch theo kiểu sinh hay kiểu khắc, viết dưới dạng bảng ánh xạ điều kiện → kết luận để có thể chuyển thành rule; (6) tối thiểu 3 ví dụ dẫn giải trọn vẹn từ bộ số bát cương → hành lệch → kiểu quan hệ bị phá → pháp trị gợi ý. Chỉ đọc và ghi trong brain, không sửa code backend/frontend, không chạy migration.",
+      "route": "auto",
+      "capability": "files",
+      "execution_mode": "suggest",
+      "priority": 2,
+      "status": "done",
+      "needs_approval": false,
+      "block_kind": "",
+      "block_reason": "",
+      "created_by": "chat",
+      "chat_id": "web:0534c74b7e784d4cba7b8b60905a1da8",
+      "idempotency_key": "",
+      "attempts": 4,
+      "max_attempts": 3,
+      "claimed_by": "",
+      "claim_expires_at": 0.0,
+      "last_heartbeat_at": 1788875627.9257169,
+      "current_run_id": "",
+      "result": "Tôi sẽ bắt đầu bằng việc khảo sát cấu trúc Wiki hiện có và các note liên quan để đảm bảo wikilink chính xác.",
+      "created_at": 1788874921.702584,
+      "updated_at": 1788875627.9257169,
+      "metadata": {
+        "route": "auto",
+        "capability": "files",
+        "execution_mode": "suggest",
+        "tool_calls": [],
+        "provider": "antigravity-cli"
+      },
+      "artifacts": [],
+      "deps": [],
+      "log": [
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "created by chat"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "claimed by worker:3029:89bd88dd"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "capability=files"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "claimed by worker:3029:79d0ff31"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "OpenRouter 404: {\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat\",\"code\":404},\"user_id\":\"user_32gn6xOtE6AnCPXGRIWQdiKWmT3\"}"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "claimed by worker:3029:49ade29d"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "OpenRouter 404: {\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat\",\"code\":404},\"user_id\":\"user_32gn6xOtE6AnCPXGRIWQdiKWmT3\"}"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "claimed by worker:3029:aa2d304c"
+        },
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "OpenRouter 404: {\"error\":{\"message\":\"This model is unavailable for free. The paid version is available now - use this slug instead: deepseek/deepseek-chat\",\"code\":404},\"user_id\":\"user_32gn6xOtE6AnCPXGRIWQdiKWmT3\"}"
+        },
+        {
+          "ts": "2026-09-08 20:52",
+          "msg": "blocked -> ready: operator retry"
+        },
+        {
+          "ts": "2026-09-08 20:53",
+          "msg": "claimed by worker:3029:3a568ed9"
+        },
+        {
+          "ts": "2026-09-08 20:53",
+          "msg": "done"
+        }
+      ]
+    },
+    {
+      "id": "t_5bd878af93e4",
+      "brain_root": "/Users/truongtrang/Desktop/kinhlacc",
+      "title": "Update Agents: Tích hợp Bát Cương + Lục Kinh + Ngũ Hành",
+      "intent": "Update 3 agents (diagnose-syndrome, formula-composer, meridian-analyst) để chúng hiểu rõ logic: bát cương kết quả → xác định ngũ hành nào bị lệch (tương vũ/thừa) + lục kinh giai đoạn + tầng bệnh. Chẩn đoán chính xác hơn, gợi ý liệu pháp phù hợp với giai đoạn bệnh. Test với ví dụ thực tế từ kinhlacc data.",
+      "route": "auto",
+      "capability": "auto",
+      "execution_mode": "suggest",
+      "priority": 2,
+      "status": "todo",
+      "needs_approval": false,
+      "block_kind": "",
+      "block_reason": "",
+      "created_by": "chat",
+      "chat_id": "web:0534c74b7e784d4cba7b8b60905a1da8",
       "idempotency_key": "",
       "attempts": 0,
       "max_attempts": 3,
@@ -26,18 +483,536 @@
       "last_heartbeat_at": 0.0,
       "current_run_id": "",
       "result": "",
-      "created_at": 1788836623.836056,
-      "updated_at": 1788836623.836056,
+      "created_at": 1788874925.013194,
+      "updated_at": 1788874925.013194,
+      "metadata": {},
+      "artifacts": [],
+      "deps": [
+        "Nhiệm vụ 1",
+        "Nhiệm vụ 2",
+        "Nhiệm vụ 3"
+      ],
+      "log": [
+        {
+          "ts": "2026-09-08 20:42",
+          "msg": "created by chat"
+        }
+      ]
+    },
+    {
+      "id": "t_4cbcd8137758",
+      "brain_root": "/Users/truongtrang/Desktop/kinhlacc",
+      "title": "Consolidate transcript VS Code (07/07–08/09/2026)",
+      "intent": "Đọc 24 file memory/conversations/vscode-*.md (392 tin nhắn user, 07/07-08/09/2026), trích xuất fact bền vững (mục tiêu, sở thích, quyết định, ngữ cảnh dự án của user), gộp trùng với memory/facts/ hiện có, xoá memory đã lỗi thời, chưng cất tri thức tái dùng vào Wiki (frontmatter type: wiki, dùng [[wikilink]]), rồi cập nhật memory/facts/*.md và memory/MEMORY.md (mỗi dòng trỏ tới 1 file fact).",
+      "route": "auto",
+      "capability": "files",
+      "execution_mode": "auto",
+      "priority": 2,
+      "status": "done",
+      "needs_approval": false,
+      "block_kind": "",
+      "block_reason": "",
+      "created_by": "chat",
+      "chat_id": "web:65f92ec462c14604826605d545c978fd",
+      "idempotency_key": "",
+      "attempts": 1,
+      "max_attempts": 3,
+      "claimed_by": "",
+      "claim_expires_at": 0.0,
+      "last_heartbeat_at": 1788877675.0642529,
+      "current_run_id": "",
+      "result": "Đối chiếu 40 file (khớp `MEMORY.md`, trừ `kinhlacc-vault-location.md` — không nằm trong facts count vì đã tính riêng ở dòng đầu). Tất cả 40 slug đều có mặt trong `MEMORY.md` sau khi sửa, không lệch đường dẫn nào.\n\n## Báo cáo hoàn thành\n\n**Đã làm:** Đọc trọn 24 file `memory/conversations/vscode-*.md` (392 tin nhắn, 07/07–08/09/2026), đối chiếu từng file với `memory/facts/` hiện có.\n\n**Phát hiện:** Một lượt ingest trước đó (cùng ngày 08/09, thấy trong `Javis/learn-log/2026-09-08.md`) đã trích xuất fact rất kỹ (40 file, đủ frontmatter, có trích nguyên văn + why/how + wikilink chéo) — nhưng **13 file fact đã tồn tại mà chưa từng được thêm dòng vào `MEMORY.md`** (mảng VEDEI: dự án, mentor-mentee, khung năng lực, tài chính; mảng YHCT: lục cương, bóc lớp thái cực, gộp thể trùng, đối chiếu 84 chứng, tự động lấy địa điểm; mảng sản phẩm: định vị lại thương hiệu, tem nhãn; hạ tầng: VPS git-pull; cách làm việc: kế thừa dự án có sẵn). Đây là lỗ hổng chính khiến các fact đó \"mồ côi\" — không được nạp vào context dù đã ghi đúng chuẩn.\n\n**Đã sửa:**\n1. Bổ sung 13 dòng còn thiếu vào `memory/MEMORY.md` (thêm 1 mục \"Dự án song song: VEDEI\" và rải vào 4 mục sẵn có) — giờ 40/40 fact đều có dòng chỉ mục, file vẫn ở dạng index gọn (66 dòng).\n2. Phát hiện wikilink gãy `[[Mô Hình Viện Đào Tạo Kinh Tế Số]]` (được `du-an-vedei-vien-tmdt-kinh-te-so.md` trỏ tới nhưng chưa từng tạo) → viết note Wiki mới (`type: wiki`) chưng cất 4 khung tái dùng phi-YHCT: định vị \"chiếc ô\" rộng, mô hình mentor-mentee thu tiền 2 đầu, thuê hạ tầng trước tự xây sau, tỷ lệ ăn chia cố định — và thêm vào `Wiki/index.md` để không mồ côi.\n\n**Không phát hiện** fact nào sai/lỗi thời cần xoá (fact \"conversation-files-exist-but-unreadable\" vẫn đúng — mô tả phụ thuộc engine, không phải tuyên bố tuyệt đối, và chính phiên này xác nhận lại điều đó). Không có fact trùng lặp cần gộp — bộ facts trước đó đã tách chủ đề khá sạch.\n\n**Kiểm chứng:** Glob lại `memory/facts/*.md` (40 file) đối chiếu từng slug với các dòng vừa thêm trong `MEMORY.md` — khớp 100%, không lệch đường dẫn.",
+      "created_at": 1788877186.334047,
+      "updated_at": 1788877675.0642529,
+      "metadata": {
+        "route": "auto",
+        "capability": "files",
+        "execution_mode": "auto",
+        "tool_calls": [
+          "Glob",
+          "Glob",
+          "Read",
+          "Glob",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Glob",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Edit",
+          "Edit",
+          "Write",
+          "Edit",
+          "Read",
+          "Glob"
+        ],
+        "provider": "ollama-local"
+      },
+      "artifacts": [
+        {
+          "type": "file",
+          "path": "Javis/learn-log/2026-09-08.md"
+        },
+        {
+          "type": "file",
+          "path": "memory/MEMORY.md"
+        },
+        {
+          "type": "file",
+          "path": "Wiki/index.md"
+        }
+      ],
+      "deps": [],
+      "log": [
+        {
+          "ts": "2026-09-08 21:19",
+          "msg": "created by chat"
+        },
+        {
+          "ts": "2026-09-08 21:19",
+          "msg": "claimed by worker:3029:7ae43504"
+        },
+        {
+          "ts": "2026-09-08 21:19",
+          "msg": "capability=files"
+        },
+        {
+          "ts": "2026-09-08 21:19",
+          "msg": "claimed by worker:3029:cb5931ac"
+        },
+        {
+          "ts": "2026-09-08 21:27",
+          "msg": "done"
+        }
+      ]
+    },
+    {
+      "id": "t_077de99134c2",
+      "brain_root": "/Users/truongtrang/Desktop/kinhlacc",
+      "title": "Distil knowledge từ transcript vào Wiki",
+      "intent": "Sau khi task consolidate t_4cbcd8137758 hoàn tất, đọc toàn bộ memory/facts/ và memory/conversations/ để trích xuất các CONCEPT/FRAMEWORK/NGUYÊN TẮC/QUY TRÌNH tái sử dụng được (không lấy thông tin cá nhân của user), chưng cất thành các note Wiki mới hoặc cập nhật note Wiki hiện có trong thư mục Wiki/ của vault kinhlacc, mỗi note có frontmatter type: wiki và liên kết [[wikilink]] tới các note liên quan; đồng thời liệt kê top 5 bài học/kinh nghiệm giá trị nhất để hiển thị cho user xem trong kết quả trả về.",
+      "route": "auto",
+      "capability": "files",
+      "execution_mode": "auto",
+      "priority": 2,
+      "status": "done",
+      "needs_approval": false,
+      "block_kind": "",
+      "block_reason": "",
+      "created_by": "chat",
+      "chat_id": "web:65f92ec462c14604826605d545c978fd",
+      "idempotency_key": "",
+      "attempts": 1,
+      "max_attempts": 3,
+      "claimed_by": "",
+      "claim_expires_at": 0.0,
+      "last_heartbeat_at": 1788908859.520816,
+      "current_run_id": "",
+      "result": "Đã hoàn thành việc chưng cất tri thức từ `memory/facts/` (41 file) và `memory/conversations/` (26 file) vào Wiki của vault kinhlacc.\n\n**Đã làm:**\n- Đọc toàn bộ 41 fact và các file hội thoại liên quan (transcript VS Code + chat JavisOS 08-09/09/2026).\n- Nhận thấy phần lớn fact về domain YHCT (bát cương, thể bệnh, huyệt vị...) đã được task consolidate trước đó (`t_4cbcd8137758`) chưng cất vào các note Wiki domain sẵn có (`Bát Cương và Đồ Hình Thái Cực`, `Chuẩn Hoá Thể Bệnh và Ánh Xạ YHCT - YHHĐ`, `Quy Tắc Xác Định Vị Trí Huyệt`...).\n- Phần **chưa được chưng cất** là lớp nguyên tắc/quy trình làm việc (meta, tái dùng được cho mọi domain, không phải thông tin cá nhân) — tôi tạo 2 note Wiki mới:\n  - `Wiki/Nguyên Tắc Cộng Tác Với AI Agent.md` (frontmatter `type: wiki`, 9 nguyên tắc, link tới `Knowledge Consolidation - Multi-Source Pattern`, `Lessons Learned - INGEST Kinh Lạc`, `Vận Hành Việc Nền và Bẫy Triển Khai`)\n  - `Wiki/Vận Hành Việc Nền và Bẫy Triển Khai.md` (frontmatter `type: wiki`, 3 bẫy kỹ thuật thật đã xảy ra, link ngược lại 2 note trên)\n- Cập nhật `Wiki/index.md`: thêm 2 note mới vào mục \"Phương pháp làm việc (tái dùng mọi domain)\", đồng thời bổ sung các note đã tồn tại nhưng chưa từng được index (Knowledge Consolidation, Lessons Learned, Backend Data Model, Disease Rules, Bát Cương, Chuẩn Hoá Thể Bệnh, Quy Tắc Xác Định Vị Trí Huyệt) — tránh đúng bẫy \"fact mồ côi\" mà chính note mới ghi lại.\n\n**Kiểm chứng:** đọc lại nội dung 2 file vừa ghi để xác nhận frontmatter `type: wiki` và các `[[wikilink]]` trỏ đúng tên note đang tồn tại trong `Wiki/`; rà nội dung không chứa tên/email/thông tin riêng tư của user, chỉ có nguyên tắc/quy trình tổng quát.\n\n**Top 5 bài học giá trị nhất:**\n1. **Hội đồng phản biện cho việc cần độ chính xác cao** — hồ sơ bằng chứng → nhiều phản biện độc lập → thẩm tra đối kháng; chấp nhận chậm để chắc. *(Nguyên Tắc Cộng Tác Với AI Agent)*\n2. **Kế thừa trước khi tự dựng** — \"lấy họ làm gốc mình tuỳ biến theo\", khảo sát giải pháp có sẵn trước khi tự làm bài toán khó. *(Nguyên Tắc Cộng Tác Với AI Agent)*\n3. **Fact/wiki ghi đúng chuẩn vẫn \"vô hình\" nếu quên thêm vào index** — phải đối chiếu số file với số dòng index sau mỗi đợt ingest hàng loạt. *(Vận Hành Việc Nền và Bẫy Triển Khai)*\n4. **Không hứa suông việc nền** — kiểm precondition (MCP/model/quyền) trước khi enqueue, nói thẳng thiếu gì thay vì tạo task chờ mãi không chạy. *(Knowledge Consolidation - Multi-Source Pattern / Lessons Learned - INGEST Kinh Lạc)*\n5. **Neo từ dễ đến khó** — giải quyết phần chắc chắn nhất trước, dùng nó làm mốc suy ra phần mơ hồ, thay vì rải đều công sức. *(Nguyên Tắc Cộng Tác Với AI Agent)*",
+      "created_at": 1788908562.706319,
+      "updated_at": 1788908859.520816,
+      "metadata": {
+        "route": "auto",
+        "capability": "files",
+        "execution_mode": "auto",
+        "tool_calls": [
+          "Glob",
+          "Glob",
+          "Glob",
+          "Read",
+          "Read",
+          "Read",
+          "Glob",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Write",
+          "Write",
+          "Edit"
+        ],
+        "provider": "ollama-local"
+      },
+      "artifacts": [
+        {
+          "type": "file",
+          "path": "Wiki/Nguyên Tắc Cộng Tác Với AI Agent.md"
+        },
+        {
+          "type": "file",
+          "path": "Wiki/Vận Hành Việc Nền và Bẫy Triển Khai.md"
+        },
+        {
+          "type": "file",
+          "path": "Wiki/index.md"
+        }
+      ],
+      "deps": [
+        "t_4cbcd8137758"
+      ],
+      "log": [
+        {
+          "ts": "2026-09-09 06:02",
+          "msg": "created by chat"
+        },
+        {
+          "ts": "2026-09-09 06:02",
+          "msg": "all dependencies completed"
+        },
+        {
+          "ts": "2026-09-09 06:02",
+          "msg": "claimed by worker:3029:7ef86a60"
+        },
+        {
+          "ts": "2026-09-09 06:02",
+          "msg": "capability=files"
+        },
+        {
+          "ts": "2026-09-09 06:02",
+          "msg": "claimed by worker:3029:7887a89c"
+        },
+        {
+          "ts": "2026-09-09 06:07",
+          "msg": "done"
+        }
+      ]
+    },
+    {
+      "id": "t_7ebcec7e9372",
+      "brain_root": "/Users/truongtrang/Desktop/kinhlacc",
+      "title": "Consolidate ALL transcript conversations (full history)",
+      "intent": "Đọc toàn bộ các file .md trong memory/conversations/ (không giới hạn khoảng thời gian, từ cũ nhất đến mới nhất), trích xuất các fact bền vững về: quá trình tiến hoá dự án (khởi đầu .NET desktop → các lần viết lại qua nhiều framework), hành trình quyết định của user, và các bài học rút ra trong quá trình phát triển. Ghi các fact mới/cập nhật vào memory/facts/ (mỗi fact một file, đúng frontmatter type: user|preference|business|decision) và thêm dòng chỉ mục tương ứng vào memory/MEMORY.md cho từng fact mới, tránh trùng lặp với fact đã có.",
+      "route": "auto",
+      "capability": "files",
+      "execution_mode": "auto",
+      "priority": 2,
+      "status": "done",
+      "needs_approval": false,
+      "block_kind": "",
+      "block_reason": "",
+      "created_by": "chat",
+      "chat_id": "web:65f92ec462c14604826605d545c978fd",
+      "idempotency_key": "",
+      "attempts": 1,
+      "max_attempts": 3,
+      "claimed_by": "",
+      "claim_expires_at": 0.0,
+      "last_heartbeat_at": 1788915678.706068,
+      "current_run_id": "",
+      "result": "All 3 new facts are indexed correctly, no orphans. Task complete.\n\n**Đã làm:** Đọc toàn bộ 28 file `.md` trong `memory/conversations/` (24 file `vscode-*.md` từ 07/07 đến 09/08/2026, cộng 4 file chat dashboard Javis: 08/12, 08/13, 09/08, 09/09/2026) — không bỏ sót file nào theo mốc thời gian.\n\n**Phát hiện chính:** hầu hết bài học/quyết định trong lịch sử này đã được một đợt consolidate trước ghi lại đầy đủ trong `memory/facts/` (41 fact có sẵn). Đọc lại toàn văn, tôi tìm ra đúng 3 fact mới, bền vững, chưa từng được ghi:\n\n1. `facts/nguon-goc-net-desktop-doi-framework.md` (type: business) — user tự thuật app kinhlacc ban đầu là desktop .NET, đã đổi framework nhiều lần tới bản NestJS+Vue hiện tại (nguyên văn 09/09/2026), liên hệ tới thư mục di sản `Kinhlac/` mà CLAUDE.md đã ghi.\n2. `facts/hanh-trinh-cong-cu-code-vscode-antigravity-javis.md` (type: decision) — hành trình dùng 3 bề mặt AI-code song song (VS Code+Claude Code → +Antigravity → thử Javis dashboard 12/08), làm rõ đây không phải chuyển hẳn vì transcript VS Code vẫn dày đặc sau đó.\n3. `facts/trung-cat-tri-thuc-phai-sau-khong-chi-cau-truc.md` (type: preference) — bài học từ 09/08: user bác bỏ lần consolidate đầu vì chỉ tóm tắt cấu trúc kỹ thuật (schema/số luật), đòi trưng cất đúng cơ chế suy luận y học (bát cương/ngũ hành/lục kinh).\n\nCả 3 fact đều đã thêm dòng chỉ mục vào `memory/MEMORY.md` (mục mới \"Lịch sử dự án & hành trình quyết định\"), có wikilink chéo tới các fact liên quan đã tồn tại (`doi-chieu-app-cu-84-chung`, `ke-thua-du-an-co-san-thay-vi-tu-lam`, `commit-tru-tien-trinh-song-song`, `co-che-tuong-thua-tuong-vu-tu-bat-cuong`...) để tránh trùng lặp thay vì tạo mới nội dung đã có.\n\n**Kiểm chứng:** grep xác nhận cả 3 file fact đều có dòng trỏ tới trong MEMORY.md (không tạo fact mồ côi, đúng bài học ở `ingest-co-the-tao-fact-mo-coi.md`); đối chiếu nội dung với toàn bộ 41 fact cũ trước khi viết để không trùng lặp.",
+      "created_at": 1788915299.021992,
+      "updated_at": 1788915678.706068,
+      "metadata": {
+        "route": "auto",
+        "capability": "files",
+        "execution_mode": "auto",
+        "tool_calls": [
+          "Glob",
+          "Glob",
+          "Glob",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Grep",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Read",
+          "Glob",
+          "Glob",
+          "Glob",
+          "Grep",
+          "Read",
+          "Read",
+          "Read",
+          "Write",
+          "Write",
+          "Write",
+          "Edit",
+          "Edit",
+          "Grep"
+        ],
+        "provider": "ollama-local"
+      },
+      "artifacts": [
+        {
+          "type": "file",
+          "path": "memory/MEMORY.md"
+        }
+      ],
+      "deps": [],
+      "log": [
+        {
+          "ts": "2026-09-09 07:54",
+          "msg": "created by chat"
+        },
+        {
+          "ts": "2026-09-09 07:54",
+          "msg": "claimed by worker:3029:25ec3d6f"
+        },
+        {
+          "ts": "2026-09-09 07:55",
+          "msg": "capability=files"
+        },
+        {
+          "ts": "2026-09-09 07:55",
+          "msg": "claimed by worker:3029:722cdc2d"
+        },
+        {
+          "ts": "2026-09-09 08:01",
+          "msg": "done"
+        }
+      ]
+    },
+    {
+      "id": "t_960e30a6cb58",
+      "brain_root": "/Users/truongtrang/Desktop/kinhlacc",
+      "title": "Consolidate transcript Cursor conversations",
+      "intent": "Đọc toàn bộ file transcript Cursor trong memory/conversations/ (pattern cursor-*.md hoặc tương tự) chưa được xử lý, trích xuất các fact/decision/lesson bền vững từ giai đoạn dùng Cursor (song song với giai đoạn VS Code đã có), ghi mỗi fact vào file riêng trong memory/facts/ theo đúng format frontmatter chuẩn (type, created, updated), rồi thêm dòng trỏ tới từng file mới vào memory/MEMORY.md ở mục lịch sử phù hợp. Nếu phát hiện mốc chuyển giai đoạn Cursor → VS Code, ghi rõ thành 1 fact riêng nêu thời điểm và lý do chuyển (nếu transcript có đề cập), không suy đoán khi thiếu bằng chứng.",
+      "route": "auto",
+      "capability": "files",
+      "execution_mode": "auto",
+      "priority": 2,
+      "status": "blocked",
+      "needs_approval": false,
+      "block_kind": "needs_input",
+      "block_reason": "Không tìm thấy file transcript Cursor nào trong `memory/conversations/` (đã glob `cursor-*.md` và grep từ khoá \"cursor\" trên toàn thư mục `memory/`, chỉ ra các file `vscode-*.md` đã xử lý trước đó) — ",
+      "created_by": "chat",
+      "chat_id": "web:65f92ec462c14604826605d545c978fd",
+      "idempotency_key": "",
+      "attempts": 2,
+      "max_attempts": 3,
+      "claimed_by": "",
+      "claim_expires_at": 0.0,
+      "last_heartbeat_at": 1788916083.391993,
+      "current_run_id": "",
+      "result": "Đã tìm kỹ trong `memory/conversations/` (glob `cursor-*.md` và các biến thể, grep từ khoá \"cursor\" toàn thư mục `memory/`) nhưng không có file transcript Cursor nào — chỉ có các file `vscode-YYYY-MM-DD.md` và vài file chat dashboard, không file nào khớp nguồn Cursor. Không có dữ liệu đầu vào để trích xuất fact/decision/lesson theo yêu cầu.\n\n[[NEEDS_INPUT]] Không tìm thấy file transcript Cursor nào trong `memory/conversations/` (đã glob `cursor-*.md` và grep từ khoá \"cursor\" trên toàn thư mục `memory/`, chỉ ra các file `vscode-*.md` đã xử lý trước đó) — cần biết đường dẫn thật của các file transcript Cursor (có thể chưa được đưa vào vault, hoặc dùng tên/định dạng khác) trước khi có thể trích xuất.",
+      "created_at": 1788915972.956715,
+      "updated_at": 1788916083.391993,
       "metadata": {},
       "artifacts": [],
       "deps": [],
       "log": [
         {
-          "ts": "2026-09-08 10:03",
-          "msg": "created by learn"
+          "ts": "2026-09-09 08:06",
+          "msg": "created by chat"
+        },
+        {
+          "ts": "2026-09-09 08:06",
+          "msg": "claimed by worker:3029:5dbb1c90"
+        },
+        {
+          "ts": "2026-09-09 08:06",
+          "msg": "capability=files"
+        },
+        {
+          "ts": "2026-09-09 08:06",
+          "msg": "claimed by worker:3029:bf570192"
+        },
+        {
+          "ts": "2026-09-09 08:07",
+          "msg": "Không có dữ liệu nguồn để làm việc: task yêu cầu đọc file transcript Cursor (`cursor-*.md`) trong `memory/conversations/`, nhưng không có file nào như vậy tồn tại trong repo (đã glob toàn bộ repo và c"
+        },
+        {
+          "ts": "2026-09-09 08:07",
+          "msg": "blocked -> ready: operator retry"
+        },
+        {
+          "ts": "2026-09-09 08:07",
+          "msg": "claimed by worker:3029:5bb918c9"
+        },
+        {
+          "ts": "2026-09-09 08:08",
+          "msg": "Không tìm thấy file transcript Cursor nào trong `memory/conversations/` (đã glob `cursor-*.md` và grep từ khoá \"cursor\" trên toàn thư mục `memory/`, chỉ ra các file `vscode-*.md` đã xử lý trước đó) — "
+        }
+      ]
+    },
+    {
+      "id": "t_6e5f585235f9",
+      "brain_root": "/Users/truongtrang/Desktop/kinhlacc",
+      "title": "Tìm kiếm & consolidate transcript Cursor (scan toàn vault)",
+      "intent": "Quét toàn bộ vault /Users/truongtrang/Desktop/kinhlacc/ (tất cả file .md và nội dung liên quan) để tìm file transcript xuất phát từ Cursor editor (khác với transcript VS Code/Claude Code đã có ở memory/conversations/vscode-*.md). Nhận diện bằng cách grep từ khoá 'cursor'/'Cursor' và kiểm tra nội dung từng file .md nghi vấn để xác nhận đúng là transcript Cursor (không phải nhắc tới từ 'cursor' theo nghĩa khác). Với mỗi file xác nhận là transcript Cursor: trích xuất các fact bền vững (quyết định, quy ước, bài học) theo đúng định dạng memory hiện có, ghi file mới vào memory/facts/*.md kèm frontmatter (type, created, updated) và thêm đúng 1 dòng trỏ vào memory/MEMORY.md ở mục phù hợp — không được để fact 'mồ côi' (ghi facts/ mà quên thêm dòng index, lỗi đã từng xảy ra). Không sửa/xoá file transcript gốc. Kết thúc phải trả về báo cáo: danh sách đường dẫn file transcript Cursor tìm thấy (hoặc nêu rõ không tìm thấy file nào), và với mỗi file đã consolidate: tên fact file mới tạo + dòng đã thêm vào MEMORY.md.",
+      "route": "auto",
+      "capability": "files",
+      "execution_mode": "auto",
+      "priority": 2,
+      "status": "done",
+      "needs_approval": false,
+      "block_kind": "",
+      "block_reason": "",
+      "created_by": "chat",
+      "chat_id": "web:65f92ec462c14604826605d545c978fd",
+      "idempotency_key": "",
+      "attempts": 1,
+      "max_attempts": 3,
+      "claimed_by": "",
+      "claim_expires_at": 0.0,
+      "last_heartbeat_at": 1788916350.015987,
+      "current_run_id": "",
+      "result": "Đã hoàn thành task quét vault tìm transcript Cursor.\n\n**Kết quả tìm kiếm:** Không tìm thấy file transcript nào xuất phát từ Cursor editor trong vault. Đã kiểm tra bằng:\n- Grep `cursor`/`Cursor` không phân biệt hoa-thường trên toàn bộ vault (mọi loại file) → 92 file khớp, nhưng toàn bộ là thuộc tính CSS `cursor: pointer` trong code frontend, file nội bộ `node_modules`, tài liệu skill `hallmark` (nói về con trỏ chuột), và chính file `memory/conversations/2026-09-09.md` (bàn về việc đi tìm file này, không phải bản thân transcript).\n- Grep riêng trên toàn bộ file `.md` → không có kết quả nào khác ngoài danh sách trên.\n- Glob tên file chứa \"cursor\" → chỉ khớp file thư viện trong `node_modules`, không liên quan.\n- Kiểm tra thư mục ẩn `.cursor/`, `.specstory/` (nơi extension Cursor hay lưu export chat) → không tồn tại trong vault.\n- Đối chiếu fact đã có về hành trình công cụ code (VS Code → Antigravity → Javis) → không nhắc tới Cursor.\n\n**Kết luận:** nếu giai đoạn dùng Cursor có thật, dữ liệu đó nằm ở kho lưu cục bộ riêng của ứng dụng Cursor trên máy, không nằm trong git repo/vault này nên không thể quét được.\n\n**Đã ghi lại để tránh lặp việc vô ích:** tạo `memory/facts/khong-tim-thay-transcript-cursor-trong-vault.md` (frontmatter type: project, đầy đủ created/updated) ghi chi tiết cách đã kiểm tra và kết luận, kèm hướng xử lý nếu người dùng muốn tiếp tục. Đã thêm đúng 1 dòng trỏ vào `memory/MEMORY.md` (mục \"Hội thoại đã lưu\") - không có fact mồ côi. Không sửa/xoá bất kỳ file transcript gốc nào.",
+      "created_at": 1788916192.4556491,
+      "updated_at": 1788916350.015987,
+      "metadata": {
+        "route": "auto",
+        "capability": "files",
+        "execution_mode": "auto",
+        "tool_calls": [
+          "Grep",
+          "Grep",
+          "Glob",
+          "Glob",
+          "Glob",
+          "Grep",
+          "Glob",
+          "Glob",
+          "Glob",
+          "Grep",
+          "Read",
+          "Read",
+          "Read",
+          "Glob",
+          "Glob",
+          "Glob",
+          "Glob",
+          "Read",
+          "Read",
+          "Write",
+          "Edit"
+        ],
+        "provider": "ollama-local"
+      },
+      "artifacts": [
+        {
+          "type": "file",
+          "path": "memory/conversations/2026-09-09.md"
+        },
+        {
+          "type": "file",
+          "path": "memory/facts/khong-tim-thay-transcript-cursor-trong-vault.md"
+        },
+        {
+          "type": "file",
+          "path": "memory/MEMORY.md"
+        }
+      ],
+      "deps": [],
+      "log": [
+        {
+          "ts": "2026-09-09 08:09",
+          "msg": "created by chat"
+        },
+        {
+          "ts": "2026-09-09 08:09",
+          "msg": "claimed by worker:3029:78a3e887"
+        },
+        {
+          "ts": "2026-09-09 08:10",
+          "msg": "capability=files"
+        },
+        {
+          "ts": "2026-09-09 08:10",
+          "msg": "claimed by worker:3029:26e2a0fb"
+        },
+        {
+          "ts": "2026-09-09 08:12",
+          "msg": "done"
         }
       ]
     }
   ],
-  "updated": 1788836623.841609
+  "updated": 1788916350.034113
 }
