@@ -283,3 +283,80 @@ export function evaluateLogicExpression(expression: string, input: InputValues):
   }
   return evalExpr(ast, input);
 }
+
+// ---------------------------------------------------------------------------
+// Confidence Score
+// ---------------------------------------------------------------------------
+
+/**
+ * Kết quả đánh giá kèm confidence score.
+ * - `matched`: rule có khớp toàn bộ không (như evaluateLogicExpression cũ).
+ * - `score`: % mệnh đề CMP khớp trên tổng (0–100).  Ví dụ: 3/4 clause khớp → 75.
+ * - `matchedClauses`: số mệnh đề CMP đã đánh giá là true.
+ * - `totalClauses`: tổng mệnh đề CMP trong rule.
+ * - `level`: "high" (>=80%), "medium" (>=50%), "low" (<50%).
+ */
+export interface ScoreResult {
+  matched: boolean;
+  score: number;
+  matchedClauses: number;
+  totalClauses: number;
+  level: 'high' | 'medium' | 'low';
+}
+
+/** Đếm số mệnh đề CMP trong expr mà trả true trên input; cũng đếm tổng mệnh đề. */
+function countClauses(
+  e: Expr,
+  input: InputValues,
+): { hit: number; total: number } {
+  switch (e.kind) {
+    case 'and':
+    case 'or': {
+      let hit = 0;
+      let total = 0;
+      for (const child of e.items) {
+        const c = countClauses(child, input);
+        hit += c.hit;
+        total += c.total;
+      }
+      return { hit, total };
+    }
+    case 'cmp': {
+      const l = resolveOperand(e.left, input);
+      const r = resolveOperand(e.right, input);
+      const ok =
+        l !== null && r !== null && compare(l as number | string, e.op, r as number | string);
+      return { hit: ok ? 1 : 0, total: 1 };
+    }
+  }
+}
+
+/**
+ * Như evaluateLogicExpression nhưng trả thêm confidence score.
+ * Dùng cho diagnose() để bác sĩ thấy mức độ khớp (không chỉ true/false).
+ */
+export function evaluateWithScore(expression: string, input: InputValues): ScoreResult {
+  const src = (expression || '').trim();
+  const empty: ScoreResult = {
+    matched: false,
+    score: 0,
+    matchedClauses: 0,
+    totalClauses: 0,
+    level: 'low',
+  };
+  if (!src) return empty;
+
+  let ast: Expr;
+  try {
+    ast = new Parser(src).parse();
+  } catch {
+    return empty;
+  }
+
+  const matched = evalExpr(ast, input);
+  const { hit, total } = countClauses(ast, input);
+  const score = total === 0 ? 0 : Math.round((hit / total) * 100);
+  const level: ScoreResult['level'] = score >= 80 ? 'high' : score >= 50 ? 'medium' : 'low';
+
+  return { matched, score, matchedClauses: hit, totalClauses: total, level };
+}

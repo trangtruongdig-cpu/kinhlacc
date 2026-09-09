@@ -16,7 +16,7 @@ import { TrieuChung } from '../models/trieu-chung.model';
 import { BaiThuoc } from '../models/bai-thuoc.model';
 import { PhapTri } from '../models/phap-tri.model';
 import type { BenhDongYExcelNguyenNhan } from '../models/benh-dong-y-excel-nguyen-nhan.model';
-import { evaluateLogicExpression } from '../utils/excel-rule-engine';
+import { evaluateLogicExpression, evaluateWithScore } from '../utils/excel-rule-engine';
 import { isKepName } from '../utils/the-do-match.util';
 import { TrieuChungService } from './trieu-chung.controller';
 
@@ -577,16 +577,31 @@ export class BenhDongYExcelService {
     }
 
     const rules = await this.repo.find({ order: { id: 'ASC' } });
-    const matched = rules
-      .filter((rule) => this.evaluateRule(rule.logicExpression, input))
-      .map((rule) => ({
+
+    // Tính confidence score cho TẤT CẢ rule (không chỉ matched)
+    // để frontend có thể hiện "gần khớp" (near-match) nếu muốn
+    const evaluated = rules.map((rule) => {
+      const result = evaluateWithScore(rule.logicExpression, input);
+      return {
         id: rule.id,
         code: rule.code,
         name: rule.name,
         outputCell: rule.outputCell,
         logicExpression: rule.logicExpression,
         aliases: rule.aliases,
-      }));
+        matched: result.matched,
+        confidence: {
+          score: result.score,
+          level: result.level,
+          matchedClauses: result.matchedClauses,
+          totalClauses: result.totalClauses,
+        },
+      };
+    });
+
+    const matched = evaluated.filter((r) => r.matched);
+    // Sắp xếp theo score giảm dần để bệnh khớp nhất lên đầu
+    matched.sort((a, b) => b.confidence.score - a.confidence.score);
 
     return {
       success: true,
