@@ -2,7 +2,12 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  CreateDateColumn
+  CreateDateColumn,
+  UpdateDateColumn,
+  DeleteDateColumn,
+  OneToMany,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
 /** Cột NUMERIC của pg đọc ra là chuỗi; đưa về number để API trả số đúng kiểu. */
@@ -68,8 +73,9 @@ export class Examination {
   @Column({ type: 'int' })
   patientId: number;
 
-  @Column({ type: 'jsonb' })
-  inputData: Record<string, number>;
+  // Foreign key to appointment (optional - appointment may not exist for old exams)
+  @Column({ type: 'int', nullable: true })
+  appointmentId: number | null;
 
   @Column({ type: 'varchar', length: 50 })
   amDuong: string;
@@ -142,11 +148,32 @@ export class Examination {
   thoiDiemKham: Date | null;
 
   @Column({ type: 'jsonb', nullable: true })
-  chanDoan: ChanDoanLuu | null;
-
-  @Column({ type: 'jsonb', nullable: true })
   donThuoc: DonThuocLuu | null;
+
+  // Soft delete: examination có thể bị xoá mềm (giữ dữ liệu nhưng ẩn đi)
+  @DeleteDateColumn({ nullable: true })
+  deletedAt: Date | null;
 
   @CreateDateColumn()
   createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  // ============================================================================
+  // Relations
+  // ============================================================================
+
+  // 1:N Examination → MeridianMeasurements (12 ô kinh lạc)
+  @OneToMany('MeridianMeasurement', (m) => m.examination)
+  meridianMeasurements: any[]; // Avoid circular import
+
+  // 1:N Examination → Diagnoses (chẩn đoán + confidence score)
+  @OneToMany('Diagnosis', (d) => d.examination)
+  diagnoses: any[]; // Avoid circular import
+
+  // M:N Examination → AppointmentSlot (nếu có)
+  @ManyToOne('AppointmentSlot', { onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'appointment_id' })
+  appointment: any; // Avoid circular import
 }
