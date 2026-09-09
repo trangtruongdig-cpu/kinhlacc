@@ -4,7 +4,7 @@
 CREATE TABLE IF NOT EXISTS patient_audit_log (
   id SERIAL PRIMARY KEY,
   patient_id INT NOT NULL REFERENCES patients(id) ON DELETE CASCADE,
-  changed_by_admin_id INT REFERENCES admins(id) ON DELETE SET NULL,
+  changed_by_admin_id UUID REFERENCES admins(id) ON DELETE SET NULL,
   changed_field VARCHAR(50) NOT NULL,
   old_value TEXT,
   new_value TEXT,
