@@ -4,91 +4,118 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
+/** Cột NUMERIC của pg đọc ra là chuỗi; đưa về number để API trả số đúng kiểu (giống examination.model.ts). */
+const soThapPhan = {
+  to: (v: number | null | undefined) => (v === null || v === undefined ? null : v),
+  from: (v: string | number | null): number | null => {
+    if (v === null || v === undefined) return null;
+    const n = typeof v === 'number' ? v : Number(v);
+    return Number.isFinite(n) ? n : null;
+  },
+};
+
 /**
- * Dữ liệu đo kinh lạc: 12 ô chi trên (C10-C15) + chi dưới (F10-F15).
- * Thay thế cách cũ: lưu trong JSONB generic inputData.
+ * Dữ liệu đo kinh lạc: 12 tạng phủ (Thập Nhị Kinh) × 2 bên (phải/trái) = 24 cột.
+ * Backfill từ inputData JSONB cũ — xem backend/sql/add-meridian-measurements.sql.
+ *
+ * KHỚP NGUYÊN VĂN với bảng thật trên DB (snake_case, đã có ~9.5k dòng dữ liệu) — đừng đổi
+ * tên cột/thêm cột mới ở đây mà không kiểm tra bảng thật trước, TypeORM synchronize sẽ cố
+ * ALTER TABLE và vỡ NOT NULL constraint trên dữ liệu đã có (đã xảy ra 1 lần với examinationId).
  *
  * Mỗi lần khám (examination) có thể có 1+ lần đo kinh lạc (1:N).
- * Schema rõ ràng → dễ join, filter, aggregate trên DB.
  */
 @Entity('meridian_measurements')
 export class MeridianMeasurement {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', name: 'examination_id' })
   examinationId: number;
 
   // ============================================================================
-  // 12 ô đo: Chi Trên (C10-C15) + Chi Dưới (F10-F15)
+  // 12 tạng phủ × phải/trái — giá trị đo kinh lạc, feed vào BenhDongYExcel rule engine
   // ============================================================================
-  // Giá trị: 0-100 hoặc NULL nếu không đo
-  // Các giá trị này feed trực tiếp vào BenhDongYExcel rule engine
+  @Column({ type: 'numeric', nullable: true, name: 'phe_phai', transformer: soThapPhan })
+  phePhai: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'phe_trai', transformer: soThapPhan })
+  pheTrai: number | null;
 
-  // Chi trên: Tay phải / tay trái, 6 ô
-  @Column({ type: 'int', nullable: true })
-  chiTrenC10: number | null; // Huyệt Thiên Tỉnh (Thiên Khí)
+  @Column({ type: 'numeric', nullable: true, name: 'daitrang_phai', transformer: soThapPhan })
+  daiTrangPhai: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'daitrang_trai', transformer: soThapPhan })
+  daiTrangTrai: number | null;
 
-  @Column({ type: 'int', nullable: true })
-  chiTrenC11: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'vi_phai', transformer: soThapPhan })
+  viPhai: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'vi_trai', transformer: soThapPhan })
+  viTrai: number | null;
 
-  @Column({ type: 'int', nullable: true })
-  chiTrenC12: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'ty_phai', transformer: soThapPhan })
+  tyPhai: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'ty_trai', transformer: soThapPhan })
+  tyTrai: number | null;
 
-  @Column({ type: 'int', nullable: true })
-  chiTrenC13: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'tam_phai', transformer: soThapPhan })
+  tamPhai: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'tam_trai', transformer: soThapPhan })
+  tamTrai: number | null;
 
-  @Column({ type: 'int', nullable: true })
-  chiTrenC14: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'tieutruong_phai', transformer: soThapPhan })
+  tieuTruongPhai: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'tieutruong_trai', transformer: soThapPhan })
+  tieuTruongTrai: number | null;
 
-  @Column({ type: 'int', nullable: true })
-  chiTrenC15: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'bangquang_phai', transformer: soThapPhan })
+  bangQuangPhai: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'bangquang_trai', transformer: soThapPhan })
+  bangQuangTrai: number | null;
 
-  // Chi dưới: Chân phải / chân trái, 6 ô
-  @Column({ type: 'int', nullable: true })
-  chiDuoiF10: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'than_phai', transformer: soThapPhan })
+  thanPhai: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'than_trai', transformer: soThapPhan })
+  thanTrai: number | null;
 
-  @Column({ type: 'int', nullable: true })
-  chiDuoiF11: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'tambao_phai', transformer: soThapPhan })
+  tamBaoPhai: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'tambao_trai', transformer: soThapPhan })
+  tamBaoTrai: number | null;
 
-  @Column({ type: 'int', nullable: true })
-  chiDuoiF12: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'tamtieu_phai', transformer: soThapPhan })
+  tamTieuPhai: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'tamtieu_trai', transformer: soThapPhan })
+  tamTieuTrai: number | null;
 
-  @Column({ type: 'int', nullable: true })
-  chiDuoiF13: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'can_phai', transformer: soThapPhan })
+  canPhai: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'can_trai', transformer: soThapPhan })
+  canTrai: number | null;
 
-  @Column({ type: 'int', nullable: true })
-  chiDuoiF14: number | null;
-
-  @Column({ type: 'int', nullable: true })
-  chiDuoiF15: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'dam_phai', transformer: soThapPhan })
+  damPhai: number | null;
+  @Column({ type: 'numeric', nullable: true, name: 'dam_trai', transformer: soThapPhan })
+  damTrai: number | null;
 
   // ============================================================================
-  // Raw data từ máy đo (giữ lại để reference, debug)
+  // Timestamps + audit
   // ============================================================================
-  @Column({ type: 'jsonb', nullable: true })
-  measurementsRaw: Record<string, any> | null;
+  @Column({ type: 'timestamp', nullable: true, name: 'measured_at' })
+  measuredAt: Date | null;
 
-  // ============================================================================
-  // Timestamps
-  // ============================================================================
-  @Column({ type: 'timestamp' })
-  measuredAt: Date;
+  @Column({ type: 'uuid', nullable: true, name: 'measured_by_admin_id' })
+  measuredByAdminId: string | null;
 
-  @CreateDateColumn()
-  createdAt: Date;
+  @Column({ type: 'timestamp', nullable: true, name: 'created_at' })
+  createdAt: Date | null;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @Column({ type: 'timestamp', nullable: true, name: 'updated_at' })
+  updatedAt: Date | null;
 
   // ============================================================================
   // Relations
   // ============================================================================
-  @ManyToOne('Examination', (e) => e.meridianMeasurements, { onDelete: 'CASCADE' })
+  @ManyToOne('Examination', (e: any) => e.meridianMeasurements, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'examination_id' })
   examination: any; // Avoid circular import
 }

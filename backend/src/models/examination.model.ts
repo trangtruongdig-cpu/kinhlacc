@@ -173,7 +173,9 @@ export class Examination {
   diagnoses: any[]; // Avoid circular import
 
   // M:N Examination → AppointmentSlot (nếu có)
+  // Dùng CHUNG cột "appointmentId" ở trên (camelCase, khớp convention bảng examinations) —
+  // KHÔNG đặt tên khác cho JoinColumn, kẻo TypeORM tưởng có 2 cột FK riêng biệt.
   @ManyToOne('AppointmentSlot', { onDelete: 'SET NULL' })
-  @JoinColumn({ name: 'appointment_id' })
+  @JoinColumn({ name: 'appointmentId' })
   appointment: any; // Avoid circular import
 }

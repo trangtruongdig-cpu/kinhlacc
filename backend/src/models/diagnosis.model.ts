@@ -20,7 +20,7 @@ export class Diagnosis {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'int' })
+  @Column({ type: 'int', name: 'examination_id' })
   examinationId: number;
 
   // ============================================================================
