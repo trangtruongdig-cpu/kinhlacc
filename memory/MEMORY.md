@@ -75,3 +75,5 @@
 - [Ba tiêu chí đánh giá phần mềm kinhlacc](facts/tieu-chi-danh-gia-phan-mem-kinhlacc.md) — User dùng cố định 3 trục để đánh giá app: UX tối giản, hạ tầng ổn định + bảo mật trên VPS giá rẻ, kế thừa tri thức/dữ liệu để suy luận bệnh YHHĐ từ đo kinh lạc.
 - [Toàn quyền thực thi sau khi duyệt kế hoạch rủi ro](facts/toan-quyen-thuc-thi-sau-khi-duyet-ke-hoach.md) — Sau khi duyệt bảng tóm tắt rủi ro & kế hoạch sửa, user cho Javis toàn quyền tự làm, chỉ cần báo kết quả hoặc khó khăn.
 - [Tối ưu schema CSDL theo bài toán tổng thể, không mở rộng phản ứng](facts/toi-uu-schema-tong-the-thay-vi-mo-rong-phan-ung.md) — User muốn phân tích toàn bộ CSDL (thừa/thiếu) trước khi tối ưu, thay vì kiểu cũ: phát sinh vấn đề tới đâu mới mở/thu bảng tới đó.
+- [Trả lời thẳng câu hỏi kỹ thuật, không né bằng "đang xử lý nền"](facts/tra-loi-thang-khong-ne-tranh.md) — User hỏi lại 3 lần liền vì Javis né câu hỏi trực tiếp bằng "đã giao agent, sẽ báo lại"
+- [Giao việc/kế hoạch phải có mốc thời gian cụ thể và nơi theo dõi rõ ràng](facts/giao-viec-phai-co-thoi-gian-va-noi-theo-doi.md) — User hỏi "giao ở đâu? theo dõi như thế nào?" và yêu cầu kế hoạch "phải có thời gian cụ thể, theo dõi được"
