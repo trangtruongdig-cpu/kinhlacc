@@ -2,6 +2,7 @@ import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseInterceptors
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ViThuocService } from '../controllers/vi-thuoc.controller';
 import { CreateViThuocDto, UpdateViThuocDto } from '../models/dongy-thuoc.dto';
+import { imageFileFilter, fileSizeValidator } from '../middlewares/upload.middleware';
 
 /** File ảnh multer (khai báo tối giản, khỏi thêm @types/multer). */
 interface UploadedImage { buffer: Buffer; mimetype: string; originalname: string; size: number }
@@ -66,12 +67,16 @@ export class ViThuocRouter {
   // ===== ẢNH DƯỢC LIỆU do người dùng upload =====
   // Upload 1 ảnh (multipart field "file") + tuỳ chọn giai_doan / mo_ta.
   @Post(':id/anh')
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(FileInterceptor('file', { fileFilter: imageFileFilter }))
   async uploadAnh(
     @Param('id') id: string,
     @UploadedFile() file: UploadedImage,
     @Body() body: { giai_doan?: string; mo_ta?: string },
   ) {
+    // Validate file size trước khi process
+    if (file) {
+      fileSizeValidator(file);
+    }
     const data = await this.service.uploadAnh(+id, file, { giai_doan: body?.giai_doan, mo_ta: body?.mo_ta });
     return { success: true, data };
   }

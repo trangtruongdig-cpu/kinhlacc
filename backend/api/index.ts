@@ -20,7 +20,17 @@ const ALLOWED_ORIGINS = new Set<string>(
 async function bootstrap() {
   if (!cachedApp) {
     const app = await NestFactory.create(AppModule);
-    app.enableCors(); // Already handled by vercel.json, but keep for safety
+    // CORS: allowlist enforced dưới đây ở handler level
+    app.enableCors({
+      origin: (origin, callback) => {
+        if (!origin || ALLOWED_ORIGINS.has(origin)) {
+          callback(null, true);
+        } else {
+          callback(new Error(`CORS: Origin ${origin} not allowed`));
+        }
+      },
+      credentials: true,
+    });
     app.useGlobalInterceptors(new LoggingInterceptor());
     await app.init();
     cachedApp = app.getHttpAdapter().getInstance();

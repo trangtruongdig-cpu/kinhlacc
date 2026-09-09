@@ -1,0 +1,7 @@
+[mcp_servers.javis]
+url = "http://127.0.0.1:7777/hub/mcp"
+
+[mcp_servers.javis.headers]
+Authorization = "Bearer Z80GjN9iMawepP57TgQ25Hzud53aycDPZ9rZgtmdZXA"
+X-Javis-Mode = "full"
+X-Javis-Vault = "/Users/truongtrang/Desktop/kinhlacc"

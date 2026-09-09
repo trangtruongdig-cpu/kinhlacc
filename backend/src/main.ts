@@ -19,11 +19,30 @@ async function bootstrap() {
   try { mkdirSync(UPLOAD_DIR, { recursive: true }); } catch { /* đã có */ }
   app.useStaticAssets(UPLOAD_DIR, { prefix: '/uploads' });
 
-  // CORS: cho phép nhiều domain frontend (prod + local).
-  // FRONTEND_URL có thể là list phân tách bởi dấu phẩy.
+  // CORS: whitelist trusted origins để prevent CSRF/XSS từ trang độc hại.
+  const allowedOrigins = [
+    'http://localhost:5173',      // Dev frontend Vite
+    'http://localhost:3000',      // Dev backend (same-origin during dev)
+    'http://127.0.0.1:5173',
+    'http://127.0.0.1:3000',
+    'https://kinhlac.online',     // Prod domain
+    'https://www.kinhlac.online',
+    'https://kinhlac.vercel.app', // Vercel staging
+  ];
+  // Dev mode: cho phép localhost
+  if (process.env.NODE_ENV !== 'production') {
+    allowedOrigins.push('http://localhost:8080');
+  }
+
   app.enableCors({
-    // Cho phép mọi origin (API có JWT bảo vệ; allowlist cũ là code chết đã gỡ).
-    origin: (origin, callback) => callback(null, true),
+    origin: (origin, callback) => {
+      // Origin undefined = same-origin request (ví dụ server-side render)
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error(`CORS: Origin ${origin} not allowed`));
+      }
+    },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
