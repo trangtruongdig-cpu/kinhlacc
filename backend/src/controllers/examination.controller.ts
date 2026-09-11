@@ -8,9 +8,31 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Examination, ChanDoanLuu, DonThuocLuu } from '../models/examination.model';
+import { MeridianMeasurement } from '../models/meridian-measurement.model';
+import { Diagnosis } from '../models/diagnosis.model';
 import { CreateExaminationDto, UpdateExaminationDto } from '../models/examination.dto';
 import { MeridiansService, AnalyzeInputDto } from './meridian.controller';
 import { PatientsService } from './patient.controller';
+
+/**
+ * 24 khoá <tạng><phải|trái> của AnalyzeInputDto/inputData <-> 24 cột snake_case thật trên
+ * bảng meridian_measurements (xem meridian-measurement.model.ts). Dùng chung cho chiều ghi
+ * (create/update) và chiều đọc (ganInputData) để khỏi lệch tên ở 2 nơi.
+ */
+const MERIDIAN_FIELD_MAP: Array<[keyof AnalyzeInputDto, keyof MeridianMeasurement]> = [
+  ['tieutruongtrai', 'tieuTruongTrai'], ['tieutruongphai', 'tieuTruongPhai'],
+  ['tamtrai', 'tamTrai'], ['tamphai', 'tamPhai'],
+  ['tamtieutrai', 'tamTieuTrai'], ['tamtieuphai', 'tamTieuPhai'],
+  ['tambaotrai', 'tamBaoTrai'], ['tambaophai', 'tamBaoPhai'],
+  ['daitrangtrai', 'daiTrangTrai'], ['daitrangphai', 'daiTrangPhai'],
+  ['phetrai', 'pheTrai'], ['phephai', 'phePhai'],
+  ['bangquangtrai', 'bangQuangTrai'], ['bangquangphai', 'bangQuangPhai'],
+  ['thantrai', 'thanTrai'], ['thanphai', 'thanPhai'],
+  ['damtrai', 'damTrai'], ['damphai', 'damPhai'],
+  ['vitrai', 'viTrai'], ['viphai', 'viPhai'],
+  ['cantrai', 'canTrai'], ['canphai', 'canPhai'],
+  ['tytrai', 'tyTrai'], ['typhai', 'tyPhai'],
+];
 
 @Injectable()
 export class ExaminationsService implements OnModuleInit {
@@ -19,9 +41,125 @@ export class ExaminationsService implements OnModuleInit {
   constructor(
     @InjectRepository(Examination)
     private readonly examinationRepository: Repository<Examination>,
+    @InjectRepository(MeridianMeasurement)
+    private readonly meridianMeasurementRepository: Repository<MeridianMeasurement>,
+    @InjectRepository(Diagnosis)
+    private readonly diagnosisRepository: Repository<Diagnosis>,
     private readonly meridiansService: MeridiansService,
     private readonly patientsService: PatientsService,
   ) {}
+
+  /**
+   * Ghi 24 số đo thô vào meridian_measurements — thay cho cột examinations."inputData" đã bị
+   * xoá khi tách bảng (Schema Migration ccf3fd1, 2026-09-09). Không có bước này thì số đo của
+   * MỌI ca khám tạo/sửa từ nay chỉ tồn tại trong bộ nhớ của 1 request rồi mất hẳn — ca đo/sửa
+   * xong hiện đúng, mở lại thì bảng Kết Quả Đo Kinh Lạc rỗng.
+   */
+  private async luuMeridianMeasurement(
+    examinationId: number,
+    inputData: Record<string, number>,
+    thoiDiem: Date | null,
+  ): Promise<void> {
+    const cot: Record<string, number | null> = {};
+    for (const [key, col] of MERIDIAN_FIELD_MAP) {
+      cot[col] = inputData[key] ?? null;
+    }
+    const existing = await this.meridianMeasurementRepository.findOneBy({ examinationId });
+    if (existing) {
+      Object.assign(existing, cot);
+      existing.updatedAt = new Date();
+      await this.meridianMeasurementRepository.save(existing);
+    } else {
+      await this.meridianMeasurementRepository.save(
+        this.meridianMeasurementRepository.create({
+          examinationId,
+          ...cot,
+          measuredAt: thoiDiem,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        }),
+      );
+    }
+  }
+
+  /**
+   * Gắn lại `inputData` (thuộc tính runtime, KHÔNG phải cột DB — xem comment ở
+   * luuMeridianMeasurement) cho một lô ca khám, đọc từ meridian_measurements bằng 1 query
+   * duy nhất (khỏi N+1 khi findByPatient/demo trả về nhiều ca).
+   */
+  private async ganInputData(exams: Examination[]): Promise<void> {
+    const ids = exams.map((e) => e.id);
+    if (!ids.length) return;
+    const rows = await this.meridianMeasurementRepository
+      .createQueryBuilder('mm')
+      .where('mm.examination_id IN (:...ids)', { ids })
+      .getMany();
+    const theoExam = new Map<number, MeridianMeasurement>();
+    for (const row of rows) theoExam.set(row.examinationId, row);
+    for (const exam of exams) {
+      const mm = theoExam.get(exam.id);
+      if (!mm) continue;
+      const inputData: Record<string, number> = {};
+      for (const [key, col] of MERIDIAN_FIELD_MAP) {
+        inputData[key] = Number((mm as any)[col] ?? 0);
+      }
+      (exam as any).inputData = inputData;
+    }
+  }
+
+  /** ChanDoanLuu (lưu trên examinations trước khi tách bảng) -> cột Diagnosis. */
+  private tuChanDoanLuu(examinationId: number, cd: ChanDoanLuu): Partial<Diagnosis> {
+    return {
+      examinationId,
+      concludedPatterns:
+        cd.ket_luan_items && cd.ket_luan_items.length
+          ? cd.ket_luan_items
+          : cd.ket_luan_key
+            ? [{ label: cd.ket_luan, key: cd.ket_luan_key }]
+            : null,
+      ranking: cd.xep_hang ?? null,
+      symptomsAnswered: cd.trieu_chung ?? null,
+      notes: cd.ghi_chu ?? null,
+      diagnosedAt: cd.luu_luc ? new Date(cd.luu_luc) : new Date(),
+    };
+  }
+
+  /** Cột Diagnosis -> ChanDoanLuu (dựng lại đúng shape cũ cho frontend). */
+  private thanhChanDoanLuu(d: Diagnosis): ChanDoanLuu {
+    const items = d.concludedPatterns ?? [];
+    return {
+      ket_luan: items.map((i) => i.label).join(', '),
+      ket_luan_key: items[0]?.key,
+      ket_luan_items: items.length ? items : undefined,
+      xep_hang: d.ranking ?? [],
+      trieu_chung: d.symptomsAnswered ?? [],
+      ghi_chu: d.notes ?? undefined,
+      luu_luc: (d.diagnosedAt ?? d.updatedAt ?? d.createdAt).toISOString(),
+    };
+  }
+
+  /**
+   * Gắn lại `chanDoan` (thuộc tính runtime — cột examinations."chanDoan" đã bị xoá khi tách
+   * bảng diagnoses, xem Schema Migration ccf3fd1) cho một lô ca khám. Mỗi ca chỉ giữ 1 kết
+   * luận hiện hành (khớp hành vi JSONB cũ) nên lấy dòng diagnoses mới nhất theo examinationId.
+   */
+  private async ganChanDoan(exams: Examination[]): Promise<void> {
+    const ids = exams.map((e) => e.id);
+    if (!ids.length) return;
+    const rows = await this.diagnosisRepository
+      .createQueryBuilder('d')
+      .where('d.examination_id IN (:...ids)', { ids })
+      .orderBy('d.updatedAt', 'DESC')
+      .getMany();
+    const theoExam = new Map<number, Diagnosis>();
+    for (const row of rows) {
+      if (!theoExam.has(row.examinationId)) theoExam.set(row.examinationId, row);
+    }
+    for (const exam of exams) {
+      const d = theoExam.get(exam.id);
+      if (d) (exam as any).chanDoan = this.thanhChanDoanLuu(d);
+    }
+  }
 
   /**
    * Cache ca đo dùng cho trang DEMO công khai (trang landing cho khách xem thử).
@@ -126,14 +264,9 @@ export class ExaminationsService implements OnModuleInit {
       kinhDo: dto.kinhDo ?? null,
     });
 
+    let saved: Examination;
     try {
-      const saved = await this.examinationRepository.save(examination);
-      (saved as any).currentSyndromes = result.currentSyndromes ?? result.syndromes ?? [];
-      (saved as any).legacySyndromes = result.legacySyndromes ?? [];
-      (saved as any).excelSyndromes = result.excelSyndromes ?? [];
-      (saved as any).modernSyndromes = result.modernSyndromes ?? [];
-      (saved as any).comparisonRows = result.comparisonRows ?? [];
-      return saved;
+      saved = await this.examinationRepository.save(examination);
     } catch (error) {
       // 23505 is PostgreSQL unique_violation.
       // If it's a conflict on the primary key, we try to fix the sequence and retry.
@@ -143,15 +276,21 @@ export class ExaminationsService implements OnModuleInit {
       ) {
         console.warn('Primary key sequence out of sync, fixing and retrying...');
         await this.fixSequence();
-        const saved = await this.examinationRepository.save(examination);
-        (saved as any).currentSyndromes = result.currentSyndromes ?? result.syndromes ?? [];
-        (saved as any).legacySyndromes = result.legacySyndromes ?? [];
-        (saved as any).excelSyndromes = result.excelSyndromes ?? [];
-        (saved as any).comparisonRows = result.comparisonRows ?? [];
-        return saved;
+        saved = await this.examinationRepository.save(examination);
+      } else {
+        throw error;
       }
-      throw error;
     }
+    // Ghi số đo thô vào meridian_measurements — cột examinations.inputData không còn tồn tại
+    // (xem luuMeridianMeasurement); thiếu bước này thì bảng Kết Quả Đo Kinh Lạc trống khi mở lại ca.
+    await this.luuMeridianMeasurement(saved.id, inputData, saved.thoiDiemKham ?? saved.createdAt);
+    (saved as any).inputData = inputData;
+    (saved as any).currentSyndromes = result.currentSyndromes ?? result.syndromes ?? [];
+    (saved as any).legacySyndromes = result.legacySyndromes ?? [];
+    (saved as any).excelSyndromes = result.excelSyndromes ?? [];
+    (saved as any).modernSyndromes = result.modernSyndromes ?? [];
+    (saved as any).comparisonRows = result.comparisonRows ?? [];
+    return saved;
   }
 
   async update(id: number, dto: UpdateExaminationDto): Promise<Examination> {
@@ -215,6 +354,8 @@ export class ExaminationsService implements OnModuleInit {
     if (dto.kinhDo !== undefined) existing.kinhDo = dto.kinhDo;
 
     const saved = await this.examinationRepository.save(existing);
+    await this.luuMeridianMeasurement(saved.id, inputData, saved.thoiDiemKham ?? saved.createdAt);
+    (saved as any).inputData = inputData;
     (saved as any).currentSyndromes = result.currentSyndromes ?? result.syndromes ?? [];
     (saved as any).legacySyndromes = result.legacySyndromes ?? [];
     (saved as any).excelSyndromes = result.excelSyndromes ?? [];
@@ -223,16 +364,32 @@ export class ExaminationsService implements OnModuleInit {
   }
 
   /**
-   * Lưu CHẨN ĐOÁN cho 1 ca khám (D5) — chỉ ghi trường chanDoan, KHÔNG phân tích lại
-   * kinh lạc (nhẹ). Truyền null để xoá chẩn đoán đã lưu.
+   * Lưu CHẨN ĐOÁN cho 1 ca khám (D5) — ghi vào bảng diagnoses (cột examinations."chanDoan"
+   * cũ đã bị xoá khi tách bảng, xem tuChanDoanLuu/ganChanDoan), KHÔNG phân tích lại kinh lạc
+   * (nhẹ). Truyền null để xoá chẩn đoán đã lưu.
    */
   async saveChanDoan(id: number, chanDoan: ChanDoanLuu | null): Promise<Examination> {
     const exam = await this.examinationRepository.findOneBy({ id });
     if (!exam) {
       throw new NotFoundException(`Ca khám #${id} không tồn tại`);
     }
-    exam.chanDoan = chanDoan;
-    return this.examinationRepository.save(exam);
+    const existing = await this.diagnosisRepository.findOneBy({ examinationId: id });
+
+    if (chanDoan === null) {
+      if (existing) await this.diagnosisRepository.remove(existing);
+      (exam as any).chanDoan = null;
+      return exam;
+    }
+
+    const cot = this.tuChanDoanLuu(id, chanDoan);
+    if (existing) {
+      Object.assign(existing, cot);
+      await this.diagnosisRepository.save(existing);
+    } else {
+      await this.diagnosisRepository.save(this.diagnosisRepository.create(cot));
+    }
+    (exam as any).chanDoan = chanDoan;
+    return exam;
   }
 
   async saveDonThuoc(id: number, donThuoc: DonThuocLuu | null): Promise<Examination> {
@@ -320,6 +477,8 @@ export class ExaminationsService implements OnModuleInit {
       .orderBy('COALESCE(e."thoiDiemKham", e."createdAt")', 'DESC')
       .getMany();
 
+    await Promise.all([this.ganInputData(exams), this.ganChanDoan(exams)]);
+
     // Phân tích lại cả danh sách SONG SONG (trước đây nối đuôi từng ca) và qua cache theo bộ số đo.
     await Promise.all(
       exams.map(async (exam) => {
@@ -339,6 +498,7 @@ export class ExaminationsService implements OnModuleInit {
     if (!examination) {
       throw new NotFoundException(`Ca khám #${id} không tồn tại`);
     }
+    await Promise.all([this.ganInputData([examination]), this.ganChanDoan([examination])]);
 
     // Tự động phân tích lại theo logic mới nhất để luôn trả về kết quả chính xác nhất
     if (examination.inputData) {
@@ -378,6 +538,7 @@ export class ExaminationsService implements OnModuleInit {
       order: { createdAt: 'DESC' },
       take: 24,
     });
+    await this.ganInputData(candidates);
 
     // Phân tích MỘT lần cho mỗi ca và giữ lại kết quả — khỏi gọi findOne()
     // để phân tích lại ca được chọn lần nữa.
@@ -442,6 +603,7 @@ export class ExaminationsService implements OnModuleInit {
       order: { createdAt: 'DESC' },
       take: 24,
     });
+    await this.ganInputData(candidates);
 
     // Phân tích một lần cho mỗi ca, GIỮ LẠI kết quả để khỏi phân tích lại.
     const scored: { exam: Examination; fresh: any; score: number }[] = [];
