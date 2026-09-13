@@ -4748,7 +4748,7 @@ watch(
 /* Trong Bát Cương band: hình 3D (trái, rộng) | tóm tắt (phải, gọn) — 2 cột */
 .mr-grid--v1 .bc-wrap--band {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.4fr) minmax(360px, 1fr);
   gap: var(--space-4);
   align-items: start;
 }
