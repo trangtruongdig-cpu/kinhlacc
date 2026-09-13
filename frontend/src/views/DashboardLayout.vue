@@ -85,6 +85,7 @@ watch(isMobileOpen, (open) => {
 onBeforeUnmount(() => {
   if (typeof document !== 'undefined') document.body.style.overflow = ''
   if (typeof window !== 'undefined') window.removeEventListener('resize', updateViewportScale)
+  if (resizeObserver) resizeObserver.disconnect()
 })
 
 // ── Adaptive Design: Viewport Scaling (1024px – 1440px) ────────────────────
@@ -99,33 +100,66 @@ onBeforeUnmount(() => {
 // ≤1024px: chuyển sang Drawer mode (mobile/tablet), không cần scale.
 const DESIGN_WIDTH = 1440
 const viewportScale = ref(1)
+const layoutHeight = ref('auto')
 
-const adaptiveStyle = computed(() => {
+let resizeObserver: ResizeObserver | null = null
+const layoutRef = ref<HTMLElement | null>(null)
+
+const adaptiveWrapperStyle = computed(() => {
+  if (viewportScale.value >= 1) return {}
+  return {
+    width: '100%',
+    overflowX: 'hidden',
+    height: layoutHeight.value
+  }
+})
+
+const adaptiveLayoutStyle = computed(() => {
   if (viewportScale.value >= 1) return {}
   const s = viewportScale.value
   return {
-    zoom: s,
-    // Cố định chiều rộng bằng DESIGN_WIDTH (1440px). 
-    // Khi zoom xuống s, nó sẽ vừa khít viewport w.
-    // Dùng % có thể bị lỗi nếu content push chiều rộng parent > 100vw.
     width: `${DESIGN_WIDTH}px`,
+    transform: `scale(${s})`,
+    transformOrigin: 'top left',
     minHeight: `${(100 / s).toFixed(3)}dvh`,
   }
 })
 
 function updateViewportScale() {
   if (typeof window === 'undefined') return
-  const w = window.innerWidth
+  // Loại trừ thanh cuộn (scrollbar) để tránh tính sai kích thước dẫn đến tràn viền
+  const w = document.documentElement.clientWidth || window.innerWidth
   if (w >= DESIGN_WIDTH || w <= 1024) {
     viewportScale.value = 1
   } else {
     viewportScale.value = Math.round((w / DESIGN_WIDTH) * 1000) / 1000
+  }
+  updateWrapperHeight()
+}
+
+function updateWrapperHeight() {
+  if (viewportScale.value >= 1) {
+    layoutHeight.value = 'auto'
+    return
+  }
+  if (layoutRef.value) {
+    // Đo chiều cao thực tế của giao diện (ví dụ bảng dữ liệu rất dài)
+    const h = layoutRef.value.offsetHeight
+    // Tính chiều cao sau khi thu nhỏ để gán cho wrapper bên ngoài, loại bỏ khoảng trắng thừa
+    layoutHeight.value = `${h * viewportScale.value}px`
   }
 }
 
 onMounted(() => {
   updateViewportScale()
   window.addEventListener('resize', updateViewportScale)
+  
+  if (typeof ResizeObserver !== 'undefined' && layoutRef.value) {
+    resizeObserver = new ResizeObserver(() => {
+      updateWrapperHeight()
+    })
+    resizeObserver.observe(layoutRef.value)
+  }
 })
 
 const navItems = [
@@ -180,11 +214,13 @@ function handleLogout() {
 </script>
 
 <template>
-  <div
-    class="dashboard-layout"
-    :class="{ collapsed: isSidebarCollapsed, 'mobile-open': isMobileOpen }"
-    :style="adaptiveStyle"
-  >
+  <div class="adaptive-wrapper" :style="adaptiveWrapperStyle">
+    <div
+      ref="layoutRef"
+      class="dashboard-layout"
+      :class="{ collapsed: isSidebarCollapsed, 'mobile-open': isMobileOpen }"
+      :style="adaptiveLayoutStyle"
+    >
     <!-- Backdrop cho drawer trên mobile -->
     <div class="sidebar-backdrop" @click="closeMobile" aria-hidden="true"></div>
 
