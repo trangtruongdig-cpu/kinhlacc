@@ -5632,6 +5632,12 @@ watch(
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+    gap: 4px;
+  }
+  /* Ép các thẻ tạng phủ chiếm 30% chiều rộng để rớt thành 2 hàng (3 thẻ/hàng) */
+  .bc-organs-col :deep(.organ-card-wrap) {
+    flex: 1 1 30%;
+    min-width: 90px;
   }
   .bc-band .bc-figure {
     flex: 0 0 400px;
