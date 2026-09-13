@@ -4758,7 +4758,7 @@ watch(
 /* Thứ tự cột theo ĐÚNG thứ tự DOM (III rồi mới IV+V) — không cần ép bằng CSS `order` nữa,
    vì `order` tách rời thứ tự ĐỌC (bàn phím/trình đọc màn hình/di động xếp chồng) khỏi thứ tự
    NHÌN, từng khiến di động và trình đọc màn hình gặp IV, V trước rồi mới tới III. */
-.mr-grid--v2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); }
+.mr-grid--v2 { grid-template-columns: minmax(360px, 1fr) minmax(400px, 1.35fr); }
 .phacdo-col { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
 .phacdo-head { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; }
 .phacdo-title { font-size: var(--font-size-base); font-weight: 700; color: var(--brown-900); }

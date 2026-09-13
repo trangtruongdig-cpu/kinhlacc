@@ -1339,7 +1339,7 @@ onMounted(async () => {
 /* ─── Tab 2: Mô Hình Bệnh Lý (trái, gọn) | Phương Huyệt (phải, rộng) — tỉ lệ như app ─── */
 .dkq-dx-cols {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+  grid-template-columns: minmax(360px, 1fr) minmax(400px, 1.35fr);
   gap: var(--space-5);
   align-items: start;
 }
@@ -1355,7 +1355,7 @@ onMounted(async () => {
 /* Trong band: hình 3D (trái, rộng) | Tóm Tắt Bát Cương (phải, gọn) — 2 cột như app */
 .dkq-bc-wrap {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.3fr) minmax(360px, 1fr);
   gap: var(--space-4);
   align-items: start;
 }
