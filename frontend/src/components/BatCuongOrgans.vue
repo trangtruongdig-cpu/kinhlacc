@@ -101,10 +101,25 @@ function tempLabel(t: string) {
   flex-direction: column;
   gap: var(--space-1);
 }
+@media (max-width: 900px) {
+  .bc-organs {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center;
+    gap: 6px !important;
+  }
+}
 .organ-card-wrap {
   position: relative;
   display: flex;
   flex: 1 1 0;
+}
+@media (max-width: 900px) {
+  .organ-card-wrap {
+    flex: 1 1 30% !important;
+    min-width: 90px !important;
+    max-width: 32% !important;
+  }
 }
 .organ-card {
   display: flex;

@@ -4965,7 +4965,13 @@ watch(
 }
 
 /* Sections */
-.result-section { display: flex; flex-direction: column; gap: var(--space-2); }
+.result-section { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+.mr-grid { display: grid; gap: var(--space-4); align-items: start; min-width: 0; }
+.mr-grid > * { min-width: 0; }
+.bcpt { display: flex; flex-direction: column; gap: var(--space-3); max-width: 1100px; min-width: 0; }
+.meridian-results-page { min-width: 0; display: flex; flex-direction: column; }
+.mr-tabs { min-width: 0; }
+
 .section-title {
   font-size: var(--font-size-lg);
   font-weight: 700;
