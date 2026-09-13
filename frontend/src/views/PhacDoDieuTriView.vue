@@ -1087,12 +1087,15 @@ async function handleDelete() {
   flex-direction: column;
   border: 1px solid var(--gray-200);
   border-radius: var(--radius-md);
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   background: var(--white);
+  min-width: 0;
 }
 .huyet-table__head {
   display: grid;
   grid-template-columns: minmax(120px, 1.4fr) minmax(90px, 0.9fr) minmax(140px, 1.6fr) minmax(120px, 1.4fr);
+  min-width: 480px;
   gap: var(--space-2);
   padding: 8px var(--space-2);
   align-items: center;
@@ -1107,6 +1110,7 @@ async function handleDelete() {
 .huyet-table__row {
   display: grid;
   grid-template-columns: minmax(120px, 1.4fr) minmax(90px, 0.9fr) minmax(140px, 1.6fr) minmax(120px, 1.4fr);
+  min-width: 480px;
   gap: var(--space-2);
   padding: 10px var(--space-2);
   align-items: flex-start;
@@ -1443,5 +1447,6 @@ async function handleDelete() {
   .form-grid { grid-template-columns: 1fr; }
   .field--full { grid-column: 1; }
   .management-page { padding: var(--space-4); }
+  .huyet-table__head, .huyet-table__row { min-width: 0; grid-template-columns: 1fr 1fr; }
 }
 </style>

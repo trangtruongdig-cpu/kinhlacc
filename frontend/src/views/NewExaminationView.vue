@@ -453,7 +453,7 @@ async function saveExamination() {
 .page-title-wrap { margin-bottom: var(--space-4); border-bottom: 2px solid var(--brown-100); padding-bottom: var(--space-2); }
 .page-title { font-size: var(--font-size-2xl); font-weight: 700; color: var(--brown-800); }
 
-.sections-row { display: grid; grid-template-columns: 300px 1fr 340px; gap: var(--space-4); align-items: start; }
+.sections-row { display: grid; grid-template-columns: minmax(260px, 300px) 1fr minmax(280px, 340px); gap: var(--space-4); align-items: start; }
 .form-section { margin-bottom: 0; }
 .section-title { font-size: var(--font-size-lg); font-weight: 700; color: var(--brown-700); margin-bottom: var(--space-4); display: flex; align-items: center; gap: var(--space-2); }
 .section-title::before { content: ""; display: block; width: 4px; height: 18px; background: var(--brown-500); border-radius: 2px; }

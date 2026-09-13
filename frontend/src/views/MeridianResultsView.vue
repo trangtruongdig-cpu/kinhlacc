@@ -4759,6 +4759,10 @@ watch(
    vì `order` tách rời thứ tự ĐỌC (bàn phím/trình đọc màn hình/di động xếp chồng) khỏi thứ tự
    NHÌN, từng khiến di động và trình đọc màn hình gặp IV, V trước rồi mới tới III. */
 .mr-grid--v2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr); }
+@media (max-width: 1280px) {
+  .mr-grid--v2 { grid-template-columns: 1fr; }
+  .mr-grid--v2 > .result-section, .mr-grid--v2 > .phacdo-col { max-height: none; overflow: visible; }
+}
 .phacdo-col { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
 .phacdo-head { display: flex; align-items: baseline; gap: var(--space-2); flex-wrap: wrap; }
 .phacdo-title { font-size: var(--font-size-base); font-weight: 700; color: var(--brown-900); }
@@ -4837,7 +4841,7 @@ watch(
 .bcpt-loading { color: var(--gray-500); font-style: italic; padding: var(--space-3); }
 /* Khối đồ hình định vị: vòng bên trái + chú giải/tạng phủ bên phải */
 .bcpt-wheel-block {
-  display: grid; grid-template-columns: minmax(320px, 500px) 1fr; gap: var(--space-4);
+  display: grid; grid-template-columns: minmax(0, 1fr) 1fr; gap: var(--space-4);
   align-items: start;
   padding: var(--space-3); background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md);
 }
@@ -5569,8 +5573,11 @@ watch(
   align-self: stretch;
 }
 .bc-band .bc-summary {
-  flex: 1 1 300px;
-  min-width: 260px;
+  flex: 1 1 240px;
+  min-width: 200px;
+}
+@media (max-width: 1280px) {
+  .bc-band .bc-summary { flex: 1 1 100%; }
 }
 @media (max-width: 900px) {
   .bc-figblock {
@@ -6162,6 +6169,10 @@ watch(
 .btn-secondary:hover { background: var(--gray-50); }
 
 /* Responsive */
+/* Mac Air / mid-range laptop: chuyển multi-cột → 1 cột sớm hơn */
+@media (max-width: 1280px) {
+  .results-layout { grid-template-columns: 1fr; }
+}
 @media (max-width: 1024px) {
   .results-layout { grid-template-columns: 1fr; }
   .mock-stats-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }

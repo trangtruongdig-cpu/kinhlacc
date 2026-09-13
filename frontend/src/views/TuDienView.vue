@@ -1752,7 +1752,7 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
   /* tab con: nút gọn lại để bớt xuống nhiều dòng */
   .td-tab { padding: var(--space-2) var(--space-3); font-size: var(--font-size-sm); }
   /* chi tiết: giảm padding để nội dung có thêm bề ngang */
-  .td-main { padding: var(--space-4); overflow-x: hidden; }
+  .td-main { padding: var(--space-4); overflow-x: clip; }
   .td-main :deep(.detail-head) { gap: 16px; }
   .td-main :deep(.detail-head .photo) { width: 150px; }
   .td-main :deep(.detail-head .titles) { min-width: 0; flex-basis: 100%; }

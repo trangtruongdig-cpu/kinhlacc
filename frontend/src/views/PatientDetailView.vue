@@ -1100,6 +1100,9 @@ textarea.input{resize:vertical;font:inherit;width:100%}
 .luoi-ghi-chu{font-size:var(--font-size-xs);color:var(--gray-500);font-style:italic}
 .luoi-empty{font-size:var(--font-size-sm);color:var(--gray-400);font-style:italic}
 
+@media(max-width:1024px){
+  .info-grid{grid-template-columns:1fr}
+}
 @media(max-width:768px){
   .patient-header-card{flex-direction:column;text-align:center;padding:var(--space-5)}
   .patient-meta{justify-content:center}

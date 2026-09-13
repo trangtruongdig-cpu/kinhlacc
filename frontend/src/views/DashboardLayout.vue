@@ -511,8 +511,10 @@ function handleLogout() {
 .content-area{flex:1;padding:var(--space-8);min-width:0}
 
 /* ============ Responsive ============ */
+/* Mac Air (1280px): giảm sidebar width + content padding để layout thở hơn */
 @media(max-width:1280px){
-  .content-area{padding:var(--space-6)}
+  :root{ --sidebar-width: 220px; }
+  .content-area{padding:var(--space-5)}
 }
 @media(max-width:1024px){
   /* Drawer mode: sidebar trượt từ trái, có backdrop */

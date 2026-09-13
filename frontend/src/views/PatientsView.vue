@@ -456,15 +456,16 @@ const pageNumbers = computed(() => {
 .empty-text{font-size:var(--font-size-sm);color:var(--gray-500)}
 
 /* Table */
-.table-wrapper{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-md);overflow:hidden;position:relative}
+.table-wrapper{background:var(--white);border:1px solid var(--gray-200);border-radius:var(--radius-md);overflow:hidden;position:relative;overflow-x:auto;-webkit-overflow-scrolling:touch}
 .table-loading{position:absolute;top:12px;right:12px;z-index:5}
 .data-table{width:100%;border-collapse:collapse}
+.data-table{min-width:640px}
 .data-table th{padding:12px 16px;text-align:left;font-size:var(--font-size-xs);font-weight:600;color:var(--gray-500);text-transform:uppercase;letter-spacing:.05em;background:var(--gray-50);border-bottom:1px solid var(--gray-200)}
 .data-table td{padding:12px 16px;font-size:var(--font-size-sm);color:var(--gray-700);border-bottom:1px solid var(--gray-100);vertical-align:middle}
 .table-row{transition:background var(--transition-fast)}
 .table-row:hover{background:var(--brown-50)}
 .table-row:last-child td{border-bottom:none}
-.th-actions{text-align:right;width:200px}
+.th-actions{text-align:right;width:180px}
 
 .td-name{display:flex;align-items:center;gap:var(--space-3);font-weight:600;color:var(--black)}
 .patient-avatar{width:32px;height:32px;border-radius:var(--radius-full);background:linear-gradient(135deg,var(--brown-300),var(--brown-500));color:var(--white);display:flex;align-items:center;justify-content:center;font-size:var(--font-size-xs);font-weight:700;flex-shrink:0}
@@ -536,11 +537,19 @@ const pageNumbers = computed(() => {
 .fade-enter-active,.fade-leave-active{transition:opacity .2s ease}
 .fade-enter-from,.fade-leave-to{opacity:0}
 
-@media(max-width:768px){
+/* Mac Air / 1280px: ẩn cột địa chỉ cho gọn */
+@media(max-width:1280px){
+  .data-table th:nth-child(5),.data-table td:nth-child(5){display:none}
+  .th-actions{width:150px}
+}
+@media(max-width:1024px){
   .data-table th:nth-child(3),.data-table td:nth-child(3),
   .data-table th:nth-child(5),.data-table td:nth-child(5){display:none}
+  .page-header{flex-direction:column}
+}
+@media(max-width:768px){
+  .data-table th:nth-child(4),.data-table td:nth-child(4){display:none}
   .form-row{grid-template-columns:1fr}
   .form-group--sm{max-width:none}
-  .page-header{flex-direction:column}
 }
 </style>
