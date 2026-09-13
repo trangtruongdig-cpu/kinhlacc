@@ -4885,14 +4885,23 @@ watch(
   .mr-grid--v2 > .result-section, .mr-grid--v2 > .phacdo-col { max-height: none; overflow: visible; }
   
   /* Thu gọn Header và các nút in thành thanh cuộn ngang để tiết kiệm diện tích */
-  .page-header { min-width: 0; }
-  .exam-summary-row { flex-direction: column; align-items: stretch; gap: var(--space-2); min-width: 0; }
+  .page-header { min-width: 0; width: 100%; }
+  .exam-summary-row { flex-direction: column; align-items: stretch; gap: var(--space-2); min-width: 0; width: 100%; }
   .print-btns { 
-    flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; 
+    display: flex; flex-wrap: nowrap !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch; 
     padding-bottom: 4px; margin-right: -16px; padding-right: 16px;
-    min-width: 0;
+    min-width: 0; width: 100%;
+    /* Hiệu ứng bóng mờ 2 bên báo hiệu cuộn (giống table-responsive) */
+    background: 
+      linear-gradient(to right, white 30%, rgba(255,255,255,0)),
+      linear-gradient(to right, rgba(255,255,255,0), white 70%) 100% 0,
+      radial-gradient(farthest-side at 0 50%, rgba(0,0,0,.12), rgba(0,0,0,0)),
+      radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.12), rgba(0,0,0,0)) 100% 0;
+    background-repeat: no-repeat;
+    background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
+    background-attachment: local, local, scroll, scroll;
   }
-  .print-btn { white-space: nowrap; flex-shrink: 0; }
+  .print-btn { white-space: nowrap !important; flex-shrink: 0 !important; }
   /* Trên tablet/mobile (<=1024px), thanh ngữ cảnh vẫn sticky nhưng thiết kế nhỏ gọn lại thành Mini Bar */
   .mr-ctxbar {
     position: sticky;
