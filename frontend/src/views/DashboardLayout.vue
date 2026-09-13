@@ -105,8 +105,10 @@ const adaptiveStyle = computed(() => {
   const s = viewportScale.value
   return {
     zoom: s,
-    // Bù kích thước để element lấp đầy viewport sau zoom
-    width: `${(100 / s).toFixed(3)}%`,
+    // Cố định chiều rộng bằng DESIGN_WIDTH (1440px). 
+    // Khi zoom xuống s, nó sẽ vừa khít viewport w.
+    // Dùng % có thể bị lỗi nếu content push chiều rộng parent > 100vw.
+    width: `${DESIGN_WIDTH}px`,
     minHeight: `${(100 / s).toFixed(3)}dvh`,
   }
 })
