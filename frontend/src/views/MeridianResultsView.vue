@@ -4878,25 +4878,7 @@ watch(
 }
 
 /* ============ Bảng số liệu ngang (Horizontal Scroll) ============ */
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  margin-bottom: var(--space-3);
-  
-  /* Tạo hiệu ứng bóng mờ (shadow gradient) báo hiệu có thể cuộn ngang */
-  background: 
-    linear-gradient(to right, white 30%, rgba(255,255,255,0)),
-    linear-gradient(to right, rgba(255,255,255,0), white 70%) 100% 0,
-    radial-gradient(farthest-side at 0 50%, rgba(0,0,0,.12), rgba(0,0,0,0)),
-    radial-gradient(farthest-side at 100% 50%, rgba(0,0,0,.12), rgba(0,0,0,0)) 100% 0;
-  background-repeat: no-repeat;
-  background-size: 40px 100%, 40px 100%, 14px 100%, 14px 100%;
-  background-attachment: local, local, scroll, scroll;
-}
-.table-responsive .data-table {
-  min-width: 640px; /* Bảng phải rộng ít nhất 640px để hiển thị đủ cột */
-}
+/* Đã chuyển class .table-responsive ra file main.css để dùng chung toàn hệ thống */
 
 @media (max-width: 1024px) {
   .mr-grid--v1, .mr-grid--v2 { grid-template-columns: 1fr; }
