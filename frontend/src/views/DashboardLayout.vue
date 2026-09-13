@@ -469,6 +469,7 @@ function handleLogout() {
         </div>
       </div>
     </div>
+    </div>
   </div>
 </template>
 
