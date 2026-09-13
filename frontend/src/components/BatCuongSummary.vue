@@ -577,7 +577,7 @@ const huThucWhy = computed(() => {
 }
 
 /* ═══════════ Progressive Disclosure (Mobile) ═══════════ */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   /* Mặc định giấu nội dung chi tiết */
   .sum-groups, .sum-why { display: none; }
   /* Chỉ hiện khi dòng có class is-expanded */

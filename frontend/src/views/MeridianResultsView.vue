@@ -4880,29 +4880,34 @@ watch(
 @media (max-width: 1024px) {
   .mr-grid--v1, .mr-grid--v2 { grid-template-columns: 1fr; }
   .mr-grid--v2 > .result-section, .mr-grid--v2 > .phacdo-col { max-height: none; overflow: visible; }
+  
+  /* Thu gọn Header và các nút in thành thanh cuộn ngang để tiết kiệm diện tích */
+  .exam-summary-row { flex-direction: column; align-items: stretch; gap: var(--space-2); }
+  .print-btns { 
+    flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; 
+    padding-bottom: 4px; margin-right: -16px; padding-right: 16px;
+  }
+  .print-btn { white-space: nowrap; }
   /* Trên tablet/mobile (<=1024px), thanh ngữ cảnh vẫn sticky nhưng thiết kế nhỏ gọn lại thành Mini Bar */
   .mr-ctxbar {
     position: sticky;
     top: 0;
     border-radius: 0;
     border-left: none; border-right: none; border-top: none;
-    padding: var(--space-2) var(--space-3);
+    padding: 8px 16px;
     margin-left: -16px; margin-right: -16px; /* Kéo giãn sát viền màn hình di động */
+    gap: 6px; margin-bottom: var(--space-2);
   }
-  .mr-tabs { top: 48px; } /* Đẩy tabs xuống dưới thanh mini bar */
-}
-
-@media (max-width: 768px) {
-  /* Thu gọn thành Mini Patient Bar trên điện thoại */
-  .mr-ctxbar { gap: 6px; padding: 6px 12px; margin-bottom: var(--space-2); }
   .mr-ctx-patient { width: 100%; display: flex; justify-content: space-between; }
-  .mr-ctx-meta { font-size: 11px; }
+  .mr-ctx-meta { font-size: 12px; }
   .mr-ctx-more { display: none; }
+  
   /* Ẩn bớt các verdict phụ, chỉ chừa Bát Cương chính để giữ Neo ngữ cảnh */
   .mr-verdict { gap: 4px; }
   .mr-vd-label, .mr-vd-sep, .mr-vd-badge--organ, .mr-vd-badge--tc { display: none; }
   .mr-ctx-right { width: 100%; justify-content: flex-end; }
-  .mr-tabs { top: 72px; } /* Chiều cao bar khoảng 72px khi rớt dòng */
+  
+  .mr-tabs { top: 64px; } /* Đẩy tabs xuống dưới thanh mini bar */
 }
 
 /* IN: bỏ dính, hiện CẢ 2 view + bỏ cap cột để in đủ 5 mục */
