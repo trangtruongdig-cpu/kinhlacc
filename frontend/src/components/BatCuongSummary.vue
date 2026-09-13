@@ -38,9 +38,9 @@ const props = defineProps<{
 
 const emit = defineEmits<{ (e: 'toggle', key: string): void; (e: 'detail', name: string): void }>()
 
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
-// 'mixed' xuất hiện ở CẢ hai danh sách của cặp (đúng bản chất vừa Hàn vừa Nhiệt / vừa Biểu vừa Lý).
+const expandedRows = ref<Record<string, boolean>>({})
 const bieuList = computed(() => props.organs.filter((o) => o.depth === 'bieu' || o.depth === 'mixed'))
 const lyList = computed(() => props.organs.filter((o) => o.depth === 'ly' || o.depth === 'mixed'))
 
@@ -106,8 +106,8 @@ const huThucWhy = computed(() => {
     </div>
 
     <!-- ② Biểu — Lý -->
-    <div class="sum-row sum-row--bl">
-      <div class="sum-head"><span class="sum-pair">② Biểu — Lý</span><span class="sum-tempkey"><i class="dot dot--han" />Hàn<i class="dot dot--nhiet" />Nhiệt</span></div>
+    <div class="sum-row sum-row--bl" :class="{ 'is-expanded': expandedRows.bl }">
+      <div class="sum-head" @click="expandedRows.bl = !expandedRows.bl" role="button" tabindex="0"><span class="sum-pair">② Biểu — Lý</span><span class="sum-tempkey"><i class="dot dot--han" />Hàn<i class="dot dot--nhiet" />Nhiệt</span></div>
       <div class="sum-groups">
         <div
           v-for="g in [
@@ -151,14 +151,14 @@ const huThucWhy = computed(() => {
     <!-- ③ Hư — Thực (cương độc lập — biên độ/diện rộng phản ứng toàn thân, KHÔNG gắn Khí/Huyết) -->
     <div
       class="sum-row sum-row--ht sum-row--clickable"
-      :class="{ 'is-active': huThucActive }"
+      :class="{ 'is-active': huThucActive, 'is-expanded': expandedRows.ht }"
       role="button"
       tabindex="0"
       :aria-pressed="huThucActive"
       :title="'Soi các kinh lệch (Hư-Thực) trên hình + bảng đo'"
-      @click="emit('toggle', 'group:huthuc')"
-      @keydown.enter.prevent="emit('toggle', 'group:huthuc')"
-      @keydown.space.prevent="emit('toggle', 'group:huthuc')"
+      @click="emit('toggle', 'group:huthuc'); expandedRows.ht = !expandedRows.ht"
+      @keydown.enter.prevent="emit('toggle', 'group:huthuc'); expandedRows.ht = !expandedRows.ht"
+      @keydown.space.prevent="emit('toggle', 'group:huthuc'); expandedRows.ht = !expandedRows.ht"
     >
       <div class="sum-head">
         <span class="sum-pair">③ Hư — Thực</span>
@@ -210,8 +210,8 @@ const huThucWhy = computed(() => {
     </div>
 
     <!-- ④ Thể Chất (Khí — chi trên / Huyết — chi dưới) — biện chứng ĐỘC LẬP, tách khỏi Hư-Thực -->
-    <div class="sum-row sum-row--tc">
-      <div class="sum-head"><span class="sum-pair">④ Thể Chất</span></div>
+    <div class="sum-row sum-row--tc" :class="{ 'is-expanded': expandedRows.tc }">
+      <div class="sum-head" @click="expandedRows.tc = !expandedRows.tc" role="button" tabindex="0"><span class="sum-pair">④ Thể Chất</span></div>
       <div class="sum-groups sum-groups--tc">
         <div class="sum-grp sum-grp--kh">
           <button
@@ -574,5 +574,27 @@ const huThucWhy = computed(() => {
   height: 11px;
   border-radius: 50%;
   background: rgba(176, 140, 100, 0.5);
+}
+
+/* ═══════════ Progressive Disclosure (Mobile) ═══════════ */
+@media (max-width: 768px) {
+  /* Mặc định giấu nội dung chi tiết */
+  .sum-groups, .sum-why { display: none; }
+  /* Chỉ hiện khi dòng có class is-expanded */
+  .sum-row.is-expanded .sum-groups { display: flex; }
+  .sum-row.is-expanded .sum-why { display: inline; margin-top: 8px; }
+  
+  /* Dấu mũi tên chỉ thị thả xuống */
+  .sum-pair::after {
+    content: '▾';
+    margin-left: 6px;
+    opacity: 0.5;
+    transition: transform 0.2s ease;
+    display: inline-block;
+  }
+  .sum-row.is-expanded .sum-pair::after {
+    transform: rotate(180deg);
+  }
+  .sum-head { cursor: pointer; }
 }
 </style>
