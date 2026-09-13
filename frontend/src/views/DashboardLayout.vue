@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch, onBeforeUnmount } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useTheme } from '@/composables/useTheme'
@@ -84,6 +84,46 @@ watch(isMobileOpen, (open) => {
 })
 onBeforeUnmount(() => {
   if (typeof document !== 'undefined') document.body.style.overflow = ''
+  if (typeof window !== 'undefined') window.removeEventListener('resize', updateViewportScale)
+})
+
+// ── Adaptive Design: Viewport Scaling (1024px – 1440px) ────────────────────
+// Tư duy: giữ nguyên layout 1440px, thu nhỏ toàn bộ theo tỷ lệ viewport.
+// Khác với Responsive (dồn cột, ẩn hiện) — Adaptive giống zoom PDF:
+// cùng 1 giao diện, chỉ nhỏ hơn — tỷ lệ và bố cục không đổi.
+//
+// Công thức:  scale = innerWidth / DESIGN_WIDTH
+// Bù kích thước: element cần width = 100%/scale và height = 100vh/scale
+// để sau khi bị zoom xuống, nó vừa khít 100vw × 100vh.
+//
+// ≤1024px: chuyển sang Drawer mode (mobile/tablet), không cần scale.
+const DESIGN_WIDTH = 1440
+const viewportScale = ref(1)
+
+const adaptiveStyle = computed(() => {
+  if (viewportScale.value >= 1) return {}
+  const s = viewportScale.value
+  return {
+    zoom: s,
+    // Bù kích thước để element lấp đầy viewport sau zoom
+    width: `${(100 / s).toFixed(3)}%`,
+    minHeight: `${(100 / s).toFixed(3)}dvh`,
+  }
+})
+
+function updateViewportScale() {
+  if (typeof window === 'undefined') return
+  const w = window.innerWidth
+  if (w >= DESIGN_WIDTH || w <= 1024) {
+    viewportScale.value = 1
+  } else {
+    viewportScale.value = Math.round((w / DESIGN_WIDTH) * 1000) / 1000
+  }
+}
+
+onMounted(() => {
+  updateViewportScale()
+  window.addEventListener('resize', updateViewportScale)
 })
 
 const navItems = [
@@ -138,7 +178,11 @@ function handleLogout() {
 </script>
 
 <template>
-  <div class="dashboard-layout" :class="{ collapsed: isSidebarCollapsed, 'mobile-open': isMobileOpen }">
+  <div
+    class="dashboard-layout"
+    :class="{ collapsed: isSidebarCollapsed, 'mobile-open': isMobileOpen }"
+    :style="adaptiveStyle"
+  >
     <!-- Backdrop cho drawer trên mobile -->
     <div class="sidebar-backdrop" @click="closeMobile" aria-hidden="true"></div>
 
@@ -511,11 +555,8 @@ function handleLogout() {
 .content-area{flex:1;padding:var(--space-8);min-width:0}
 
 /* ============ Responsive ============ */
-/* Mac Air (1280px): giảm sidebar width + content padding để layout thở hơn */
-@media(max-width:1280px){
-  :root{ --sidebar-width: 220px; }
-  .content-area{padding:var(--space-5)}
-}
+/* Lưu ý: khoảng 1024px–1440px được xử lý bằng CSS zoom (viewportScale) trong JS,
+   không dùng media query phá vỡ layout ở khoảng đó. */
 @media(max-width:1024px){
   /* Drawer mode: sidebar trượt từ trái, có backdrop */
   .sidebar{transform:translateX(-100%);width:var(--sidebar-width) !important;box-shadow:var(--shadow-xl)}

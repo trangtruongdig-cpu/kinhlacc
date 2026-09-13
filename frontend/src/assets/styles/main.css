@@ -319,7 +319,6 @@ img {
    Thu nhỏ nhẹ thang rem trên màn hình nhỏ để toàn bộ
    khoảng cách / cỡ chữ co lại đồng đều, gọn gàng hơn.
    ============================================ */
-@media (max-width: 1280px) { html { font-size: 15.5px; } }
 @media (max-width: 1024px) { html { font-size: 15.5px; } }
 @media (max-width: 768px)  { html { font-size: 15px; } }
 @media (max-width: 400px)  { html { font-size: 14.5px; } }

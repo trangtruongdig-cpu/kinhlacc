@@ -1744,10 +1744,6 @@ onMounted(async () => {
   }
 }
 
-@media (max-width: 1280px) {
-  .dkq-dx-cols { grid-template-columns: 1fr; }
-  .dkq-bc-wrap { grid-template-columns: 1fr; }
-}
 @media (max-width: 860px) {
   .dkq-dx-cols,
   .dkq-t3 {

@@ -1721,10 +1721,6 @@ const unexplainedSymptoms = computed<DiagnosisMatchedSymptom[]>(() => {
 
 .muted { color: var(--gray-400); font-style: italic; }
 
-@media (max-width: 1280px) {
-  .diagnose-grid { grid-template-columns: 1fr; }
-  .input-panel { position: static; }
-}
 @media (max-width: 900px) {
   .diagnose-grid { grid-template-columns: 1fr; }
   .input-panel { position: static; }
