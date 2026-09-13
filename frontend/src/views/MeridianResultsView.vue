@@ -5603,12 +5603,31 @@ watch(
 }
 @media (max-width: 900px) {
   .bc-figblock {
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex-wrap: nowrap;
   }
   .bc-organs-col {
-    flex: 1 1 100%;
+    flex: 0 0 auto;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
+  }
+  .bc-band .bc-figure {
+    flex: 0 0 400px;
+    min-height: 400px;
+    width: 100%;
+  }
+}
+
+/* Chống tràn ngang cho Tabs trên màn hình nhỏ */
+@media (max-width: 768px) {
+  .mr-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 4px;
+  }
+  .mr-tab {
+    flex: 1 0 160px; /* Không bóp méo chữ, cho phép cuộn */
   }
 }
 

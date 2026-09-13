@@ -467,6 +467,10 @@ function handleLogout() {
 </template>
 
 <style scoped>
+.adaptive-wrapper {
+  overflow-x: hidden;
+  width: 100%;
+}
 .dashboard-layout{display:flex;min-height:100vh;min-height:100dvh;background:var(--bg-app)}
 
 /* Backdrop (chỉ dùng ở chế độ drawer ≤1024px) */
