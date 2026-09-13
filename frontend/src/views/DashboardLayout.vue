@@ -463,6 +463,35 @@ function handleLogout() {
       </div>
     </div>
     </div>
+
+    <!-- Bottom Navigation Bar (Mobile Only) -->
+    <nav class="bottom-nav">
+      <button class="bn-item" :class="{ active: currentRouteName === 'home' }" @click="navigate('home')">
+        <svg width="24" height="24" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+        </svg>
+        <span>Trang Chủ</span>
+      </button>
+      
+      <button class="bn-item" :class="{ active: currentRouteName === 'patients' || currentRouteName === 'patient-detail' }" @click="navigate('patients')">
+        <svg width="24" height="24" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z"/>
+        </svg>
+        <span>Bệnh Nhân</span>
+      </button>
+
+      <button class="bn-item" :class="{ active: currentRouteName === 'appointments' || currentRouteName === 'schedule-config' }" @click="navigate('appointments')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        <span>Lịch Khám</span>
+      </button>
+
+      <button class="bn-item" :class="{ active: isMobileOpen }" @click="toggleMobile">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <span>Menu</span>
+      </button>
+    </nav>
   </div>
 </template>
 
@@ -607,7 +636,60 @@ function handleLogout() {
 @media(max-width:768px){
   .top-header{padding:0 var(--space-4)}
   .header-greeting{display:none}
-  .content-area{padding:var(--space-4)}
+  
+  /* Giấu nút Menu (Hamburger) ở trên đỉnh vì đã có Menu dưới đáy */
+  .mobile-menu-btn { display: none !important; }
+  
+  /* Dành khoảng trống 70px ở dưới cùng để nội dung không bị Bottom Nav che mất */
+  .content-area{padding:var(--space-4); padding-bottom: 74px !important;}
+  
+  /* Thiết kế Bottom Nav */
+  .bottom-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
+    z-index: 50;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .bn-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: var(--gray-400);
+    transition: color var(--transition-fast);
+  }
+  
+  .bn-item svg {
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  
+  .bn-item span {
+    font-size: 10px;
+    font-weight: 700;
+  }
+  
+  .bn-item:active svg {
+    transform: scale(0.85);
+  }
+  
+  .bn-item.active {
+    color: var(--brown-600);
+  }
+  
+  .bn-item.active svg {
+    transform: translateY(-2px);
+  }
 }
 @media(max-width:480px){
   .top-header{padding:0 var(--space-3)}
