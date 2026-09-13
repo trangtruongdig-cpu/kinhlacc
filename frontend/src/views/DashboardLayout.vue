@@ -109,8 +109,8 @@ const adaptiveWrapperStyle = computed(() => {
   if (viewportScale.value >= 1) return {}
   return {
     width: '100%',
-    height: '100dvh', // Khóa cứng wrapper bằng chiều cao màn hình
-    overflow: 'hidden'  // Ngăn cuộn ngoài wrapper
+    height: '100dvh'
+    // KHÔNG dùng overflow: hidden ở đây vì Safari sẽ tính toán sai bounds và cắt xén layout 1440px của Dashboard.
   }
 })
 

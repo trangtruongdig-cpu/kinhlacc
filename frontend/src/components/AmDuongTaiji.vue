@@ -265,7 +265,7 @@ const modalInfo = computed(() => {
 .adm-close:hover { background: var(--brown-50, #f7efe2); color: var(--brown-700); }
 .adm-body { margin: 0; padding: var(--space-3) var(--space-4) var(--space-4); font-size: var(--font-size-sm); line-height: 1.6; color: var(--brown-800, #3a2712); }
 
-.ad-text { flex: 1 1 200px; min-width: 180px; display: flex; flex-direction: column; gap: 4px; }
+.ad-text { flex: 1 1 200px; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
 .ad-verdict-row { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
 .ad-tag { font-size: var(--font-size-xs); font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; color: var(--gray-500); }
 .ad-verdict { font-size: var(--font-size-lg); font-weight: 800; color: #fff; padding: 3px 14px; border-radius: 999px; background: var(--brown-600); }
