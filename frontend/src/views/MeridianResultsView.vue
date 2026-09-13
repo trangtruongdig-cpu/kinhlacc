@@ -4885,12 +4885,14 @@ watch(
   .mr-grid--v2 > .result-section, .mr-grid--v2 > .phacdo-col { max-height: none; overflow: visible; }
   
   /* Thu gọn Header và các nút in thành thanh cuộn ngang để tiết kiệm diện tích */
-  .exam-summary-row { flex-direction: column; align-items: stretch; gap: var(--space-2); }
+  .page-header { min-width: 0; }
+  .exam-summary-row { flex-direction: column; align-items: stretch; gap: var(--space-2); min-width: 0; }
   .print-btns { 
     flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch; 
     padding-bottom: 4px; margin-right: -16px; padding-right: 16px;
+    min-width: 0;
   }
-  .print-btn { white-space: nowrap; }
+  .print-btn { white-space: nowrap; flex-shrink: 0; }
   /* Trên tablet/mobile (<=1024px), thanh ngữ cảnh vẫn sticky nhưng thiết kế nhỏ gọn lại thành Mini Bar */
   .mr-ctxbar {
     position: sticky;
