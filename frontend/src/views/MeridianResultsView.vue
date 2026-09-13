@@ -5626,9 +5626,11 @@ watch(
   .bc-figblock {
     flex-direction: column;
     flex-wrap: nowrap;
+    width: 100%; /* Ép khuôn để không phình ngang */
   }
   .bc-organs-col {
     flex: 0 0 auto;
+    width: 100%; /* QUAN TRỌNG: Phải có width 100% thì flex-wrap mới rớt dòng được */
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
@@ -5638,11 +5640,13 @@ watch(
   .bc-organs-col :deep(.organ-card-wrap) {
     flex: 1 1 30%;
     min-width: 90px;
+    max-width: 32%; /* Chống thẻ phình to hơn 1/3 */
   }
   .bc-band .bc-figure {
     flex: 0 0 400px;
     min-height: 400px;
     width: 100%;
+    overflow: hidden;
   }
 }
 
