@@ -5626,31 +5626,43 @@ watch(
   .bc-figblock {
     flex-direction: column;
     flex-wrap: nowrap;
-    width: 100%; /* Ép khuôn để không phình ngang */
+    width: 100%;
+    min-width: 0; /* Chống nổ layout */
   }
   .bc-organs-col {
     flex: 0 0 auto;
-    width: 100%; /* QUAN TRỌNG: Phải có width 100% thì flex-wrap mới rớt dòng được */
+    width: 100%;
+    min-width: 0;
   }
-  /* Target đúng component con để đổi từ xếp dọc (column) sang xếp ngang (row) và rớt dòng */
   .bc-organs-col :deep(.bc-organs) {
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
     justify-content: center;
     gap: 6px;
     width: 100%;
   }
-  /* Ép các thẻ tạng phủ chiếm 30% chiều rộng để rớt thành 2 hàng (3 thẻ/hàng) */
   .bc-organs-col :deep(.organ-card-wrap) {
-    flex: 1 1 30%;
-    min-width: 90px;
-    max-width: 32%; /* Chống thẻ phình to hơn 1/3 */
+    flex: 1 1 30% !important;
+    min-width: 90px !important;
+    max-width: 32% !important;
   }
   .bc-band .bc-figure {
     flex: 0 0 400px;
     min-height: 400px;
     width: 100%;
+    min-width: 0;
     overflow: hidden;
+  }
+  
+  /* Chống nổ layout ở Tab Mô Hình Bệnh Lý */
+  .mh-card {
+    grid-template-columns: 28px 1fr !important;
+    gap: 8px !important;
+  }
+  .mh-actions {
+    grid-column: 1 / -1;
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
 }
 
