@@ -6662,4 +6662,49 @@ watch(
 .lk-traj--global .lk-traj-cell {
   padding: 4px 8px !important;
   min-width: 84px !important;
-}</style>
+}
+
+/* ============ BƯỚC 4: BOTTOM SHEETS (CẢI TIẾN UX MOBILE) ============ */
+@media (max-width: 768px) {
+  /* Ép tất cả các lớp phủ (overlay) căn các hộp thoại (modal) xuống đáy màn hình thay vì ở giữa */
+  .dtpt-overlay, .pb-overlay, .ptm-overlay {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+
+  /* Chuyển đổi thiết kế Modal thành Bottom Sheet */
+  .dtpt-modal, .pb-modal, .ptm-modal {
+    width: 100% !important;
+    max-width: 100% !important;
+    max-height: 90vh !important; /* Chiếm tối đa 90% màn hình, phần trên làm khoảng đệm để bấm thoát */
+    border-radius: 20px 20px 0 0 !important; /* Bo góc mượt mà bên trên */
+    margin: 0 !important;
+    animation: slideUpBottomSheet 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) forwards !important;
+  }
+
+  @keyframes slideUpBottomSheet {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* Bo tròn lại Header của Modal để khớp với góc bo của Bottom Sheet */
+  .dtpt-head, .pb-head, .ptm-head {
+    border-radius: 20px 20px 0 0 !important;
+    padding-top: var(--space-4) !important;
+    position: relative;
+  }
+  
+  /* Thêm vạch kẻ mờ ảo (Drag Indicator) ở trên cùng để người dùng biết có thể tương tác trượt */
+  .dtpt-head::before, .pb-head::before, .ptm-head::before {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 36px;
+    height: 4px;
+    background: var(--gray-300);
+    border-radius: 4px;
+  }
+}
+</style>
