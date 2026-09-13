@@ -109,8 +109,8 @@ const adaptiveWrapperStyle = computed(() => {
   if (viewportScale.value >= 1) return {}
   return {
     width: '100%',
-    overflowX: 'hidden',
-    height: layoutHeight.value
+    height: '100dvh', // Khóa cứng wrapper bằng chiều cao màn hình
+    overflow: 'hidden'  // Ngăn cuộn ngoài wrapper
   }
 })
 
@@ -119,9 +119,11 @@ const adaptiveLayoutStyle = computed(() => {
   const s = viewportScale.value
   return {
     width: `${DESIGN_WIDTH}px`,
+    height: `calc(100dvh / ${s})`, // Bù chiều cao để khi scale xuống vừa khít 100dvh
     transform: `scale(${s})`,
     transformOrigin: 'top left',
-    minHeight: `${(100 / s).toFixed(3)}dvh`,
+    overflowY: 'auto', // Layout tự cuộn bên trong
+    overflowX: 'hidden'
   }
 })
 
@@ -138,16 +140,7 @@ function updateViewportScale() {
 }
 
 function updateWrapperHeight() {
-  if (viewportScale.value >= 1) {
-    layoutHeight.value = 'auto'
-    return
-  }
-  if (layoutRef.value) {
-    // Đo chiều cao thực tế của giao diện (ví dụ bảng dữ liệu rất dài)
-    const h = layoutRef.value.offsetHeight
-    // Tính chiều cao sau khi thu nhỏ để gán cho wrapper bên ngoài, loại bỏ khoảng trắng thừa
-    layoutHeight.value = `${h * viewportScale.value}px`
-  }
+  // Không cần tính chiều cao bằng JS nữa vì layout tự cuộn bên trong
 }
 
 onMounted(() => {
@@ -480,7 +473,7 @@ function handleLogout() {
 .sidebar-backdrop{position:fixed;inset:0;background:rgba(28,24,18,.45);backdrop-filter:blur(2px);z-index:90;opacity:0;visibility:hidden;transition:opacity var(--transition-base),visibility var(--transition-base)}
 
 /* Sidebar */
-.sidebar{width:var(--sidebar-width);background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;transition:width var(--transition-base),transform var(--transition-base);position:fixed;top:0;left:0;bottom:0;z-index:100;overflow:hidden}
+.sidebar{width:var(--sidebar-width);position:sticky;top:0;height:100vh;height:100dvh;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;transition:width var(--transition-base);z-index:100;flex-shrink:0}
 .collapsed .sidebar{width:var(--sidebar-collapsed-width)}
 
 .sidebar-header{display:flex;align-items:center;justify-content:space-between;padding:var(--space-5) var(--space-4);border-bottom:1px solid var(--gray-100);min-height:var(--header-height)}
@@ -520,8 +513,8 @@ function handleLogout() {
 .fade-text-enter-from,.fade-text-leave-to{opacity:0}
 
 /* Main content */
-.main-content{flex:1;min-width:0;margin-left:var(--sidebar-width);transition:margin-left var(--transition-base);display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
-.collapsed .main-content{margin-left:var(--sidebar-collapsed-width)}
+.main-content{flex:1;min-width:0;display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+/* Bỏ margin-left vì sidebar đã là phần tử in-flow của flexbox */
 
 .top-header{height:var(--header-height);padding:0 var(--space-8);display:flex;align-items:center;justify-content:space-between;gap:var(--space-3);background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:50}
 .header-left{display:flex;align-items:center;gap:var(--space-4);min-width:0}
@@ -598,7 +591,7 @@ function handleLogout() {
    không dùng media query phá vỡ layout ở khoảng đó. */
 @media(max-width:1024px){
   /* Drawer mode: sidebar trượt từ trái, có backdrop */
-  .sidebar{transform:translateX(-100%);width:var(--sidebar-width) !important;box-shadow:var(--shadow-xl)}
+  .sidebar{position:fixed;top:0;left:0;bottom:0;transform:translateX(-100%);width:var(--sidebar-width) !important;box-shadow:var(--shadow-xl);z-index:100}
   .mobile-open .sidebar{transform:translateX(0)}
   .mobile-open .sidebar-backdrop{opacity:1;visibility:visible}
   .main-content,.collapsed .main-content{margin-left:0}
