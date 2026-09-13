@@ -5631,10 +5631,14 @@ watch(
   .bc-organs-col {
     flex: 0 0 auto;
     width: 100%; /* QUAN TRỌNG: Phải có width 100% thì flex-wrap mới rớt dòng được */
+  }
+  /* Target đúng component con để đổi từ xếp dọc (column) sang xếp ngang (row) và rớt dòng */
+  .bc-organs-col :deep(.bc-organs) {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 4px;
+    gap: 6px;
+    width: 100%;
   }
   /* Ép các thẻ tạng phủ chiếm 30% chiều rộng để rớt thành 2 hàng (3 thẻ/hàng) */
   .bc-organs-col :deep(.organ-card-wrap) {
