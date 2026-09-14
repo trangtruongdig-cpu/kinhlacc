@@ -7,8 +7,10 @@ import ZaloButton from '@/components/ZaloButton.vue'
 
 const route = useRoute()
 
-// CTA Zalo chỉ hiện ở trang CÔNG KHAI (khách chưa đăng nhập) — ẩn trong web app quản trị.
-const showZalo = computed(() => route.meta.requiresAuth !== true)
+// CTA Zalo chỉ hiện ở trang CÔNG KHAI (khách chưa đăng nhập) — ẩn trong web app quản trị và app bệnh nhân.
+const showZalo = computed(() => {
+  return route.meta.requiresAuth !== true && route.meta.isPatientRoute !== true;
+})
 
 // Mỗi lần đổi trang: áp lại thẻ <head> (title, mô tả, Open Graph, JSON-LD).
 // Trang riêng tư (cần đăng nhập) hoặc /login => noindex (không cho lên Google).
