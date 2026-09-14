@@ -2555,9 +2555,21 @@ const batCuongVerdictTokens = computed(() => {
   const d = diagnosis.value
   const tc = tongCuong.value
   const out: { key: string; label: string }[] = []
+  
   if (tc.amDuong) out.push({ key: 'amDuong', label: tc.amDuong })
   if (tc.viTri) out.push({ key: 'bieuly', label: tc.viTri })
-  if (d.huThuc && d.huThuc !== '—') out.push({ key: 'huthuc', label: d.huThuc })
+  
+  if (d.huThuc && d.huThuc !== '—') {
+    // Nếu Tổng cương đã chứa chữ Hư hoặc Thực (ví dụ: Dương hư, Âm hư)
+    // Thì không lặp lại nhãn Hư/Thực ở badge riêng nữa để tránh trùng lặp
+    const tcAmDuongLower = (tc.amDuong || '').toLowerCase()
+    const huThucLower = d.huThuc.toLowerCase()
+    
+    if (!tcAmDuongLower.includes(huThucLower)) {
+      out.push({ key: 'huthuc', label: d.huThuc })
+    }
+  }
+  
   return out
 })
 const theChatVerdictTokens = computed(() => {
@@ -3262,7 +3274,7 @@ watch(
             <span>In phiếu kết quả</span>
           </button>
           <button
-            v-if="matchedPhuongHuyetList.length"
+            v-if="!route.path.startsWith('/ho-so') && matchedPhuongHuyetList.length"
             type="button"
             class="print-btn print-btn--acu"
             title="In phiếu châm huyệt YHCT Cổ Truyền — kèm hình vị trí từng huyệt"
@@ -3274,6 +3286,7 @@ watch(
             <span>In phiếu châm huyệt</span>
           </button>
           <button
+            v-if="!route.path.startsWith('/ho-so')"
             type="button"
             class="print-btn print-btn--nhht"
             title="In phác đồ châm huyệt Ngũ Hành Hồi Tác — theo 12 kinh đo thực tế"
@@ -3285,6 +3298,7 @@ watch(
             <span>In phác đồ Ngũ Hành Hồi Tác</span>
           </button>
           <button
+            v-if="!route.path.startsWith('/ho-so')"
             type="button"
             class="print-btn print-btn--bomau"
             title="In phác đồ Bổ Mẫu Tả Tử (Nạn Kinh 69) — theo 12 kinh đo thực tế"
@@ -3405,7 +3419,8 @@ watch(
         </button>
         <button type="button" class="mr-tab" :class="{ active: activeView === 2 }" @click="activeView = 2">
           <b>2</b> Chẩn Đoán &amp; Điều Trị
-          <span class="mr-tab-badge">{{ excelSyndromesList.length }} thể · {{ matchedPhuongHuyetList.length }} huyệt · {{ matchedBaiThuocList.length }} bài</span>
+          <span class="mr-tab-badge" v-if="!route.path.startsWith('/ho-so')">{{ excelSyndromesList.length }} thể · {{ matchedPhuongHuyetList.length }} huyệt · {{ matchedBaiThuocList.length }} bài</span>
+          <span class="mr-tab-badge" v-else>{{ excelSyndromesList.length }} thể bệnh YHCT</span>
         </button>
         <button type="button" class="mr-tab" :class="{ active: activeView === 3 }" @click="activeView = 3">
           <b>3</b> Biện Chứng – Pháp Trị
@@ -3617,6 +3632,7 @@ watch(
                           Chi tiết
                         </button>
                         <button
+                          v-if="!route.path.startsWith('/ho-so')"
                           type="button"
                           class="pt-search-btn"
                           title="Tìm pháp trị cho mô hình bệnh này"
@@ -3630,7 +3646,7 @@ watch(
                           Pháp trị
                         </button>
                         <button
-                          v-if="phuongHuyetForThe(node.item).length"
+                          v-if="!route.path.startsWith('/ho-so') && phuongHuyetForThe(node.item).length"
                           type="button"
                           class="pt-search-btn"
                           title="In phiếu châm huyệt riêng cho thể bệnh này"
@@ -3724,7 +3740,7 @@ watch(
             </div>
           </section>
 
-          <div class="phacdo-col">
+          <div class="phacdo-col" v-if="!route.path.startsWith('/ho-so')">
             <div class="phacdo-head">
               <span class="phacdo-title">🩹 Phác Đồ Điều Trị</span>
               <span v-if="focusedTheName" class="phacdo-focus">theo thể <b>{{ focusedTheName }}</b></span>
@@ -6349,7 +6365,7 @@ watch(
 .lk-traj-trend--vao-ly { color: #fff; background: #b23a25; }
 .lk-traj-trend--ra-bieu { color: #fff; background: #2e6f52; }
 .lk-traj-trend--giu { color: var(--text-subtle); background: var(--surface-2); border: 1px solid var(--border); }
-.lk-traj-line { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; align-items: stretch; gap: 2px; overflow-x: auto; }
+.lk-traj-line { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: nowrap; align-items: stretch; gap: 2px; overflow-x: auto; padding-bottom: 4px; }
 .lk-traj-node { display: flex; align-items: center; gap: 2px; }
 .lk-traj-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--surface-2); min-width: 92px; text-decoration: none; color: inherit; }
 .lk-traj-node--cur .lk-traj-cell { border-color: var(--brown-600); box-shadow: 0 0 0 2px var(--brown-100, rgba(120,53,15,.14)); }
@@ -6448,6 +6464,7 @@ watch(
 
 .synd-header-row {
   display: flex !important;
+  flex-wrap: wrap !important;
   align-items: center !important;
   justify-content: space-between !important;
   gap: 8px !important;
@@ -6458,7 +6475,7 @@ watch(
   display: flex !important;
   align-items: center !important;
   gap: 6px !important;
-  flex: 1 1 0 !important;
+  flex: 1 1 140px !important;
   min-width: 0 !important;
 }
 

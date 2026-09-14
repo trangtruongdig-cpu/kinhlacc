@@ -16,6 +16,7 @@ import { ChanDoanLuu, DonThuocLuu } from '../models/examination.model';
 import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
 import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 import { ChanLeTanTaoKhamGuard } from '../middlewares/auth/chan-le-tan-tao-kham.guard';
+import { assertStaffOrOwner } from '../middlewares/auth/access.util';
 
 @Controller('examinations')
 export class ExaminationsRouter {
@@ -84,10 +85,11 @@ export class ExaminationsRouter {
   }
 
   // Bệnh nhân tự xem hồ sơ khám của mình qua /my-records (bên dưới) — route này chỉ dành cho
-  // nhân viên tra cứu theo patientId bất kỳ.
-  @UseGuards(NhanVienGuard)
+  // nhân viên tra cứu theo patientId bất kỳ, hoặc bệnh nhân tự tra cứu.
+  @UseGuards(JwtAuthGuard)
   @Get('patient/:patientId')
-  findByPatient(@Param('patientId', ParseIntPipe) patientId: number) {
+  findByPatient(@Param('patientId', ParseIntPipe) patientId: number, @Request() req: any) {
+    assertStaffOrOwner(req.user, patientId);
     return this.examinationsService.findByPatient(patientId);
   }
 
@@ -97,10 +99,14 @@ export class ExaminationsRouter {
     return this.examinationsService.findByPatient(req.user.id);
   }
 
-  @UseGuards(NhanVienGuard)
+  @UseGuards(JwtAuthGuard)
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.examinationsService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number, @Request() req: any) {
+    const exam = await this.examinationsService.findOne(id);
+    if (exam) {
+      assertStaffOrOwner(req.user, exam.patientId);
+    }
+    return exam;
   }
 
   @UseGuards(NhanVienGuard)

@@ -62,7 +62,7 @@ function shortJson(value: unknown): string {
 }
 
 function getAuthHeaders(): Record<string, string> {
-  const token = localStorage.getItem('access_token')
+  const token = localStorage.getItem('access_token') || localStorage.getItem('patient_token')
   return {
     'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -73,9 +73,12 @@ async function handleResponse<T>(response: Response, method: string, path: strin
   const elapsed = Date.now() - startedAt
   if (response.status === 401) {
     console.warn(`[API] ✗ ${method} ${path} 401 ${elapsed}ms — phiên hết hạn, redirect /login`)
+    const isPatient = !!localStorage.getItem('patient_token')
     localStorage.removeItem('access_token')
     localStorage.removeItem('username')
-    window.location.href = '/login'
+    localStorage.removeItem('patient_token')
+    localStorage.removeItem('patient_user')
+    window.location.href = isPatient ? '/khach-hang/dang-nhap' : '/login'
     throw new Error('Phiên đăng nhập hết hạn')
   }
   if (!response.ok) {
@@ -128,7 +131,7 @@ export const api = {
   async upload<T>(path: string, formData: FormData): Promise<T> {
     const startedAt = Date.now()
     if (DEBUG_API) console.log(`[API] → POST(upload) ${path}`)
-    const token = localStorage.getItem('access_token')
+    const token = localStorage.getItem('access_token') || localStorage.getItem('patient_token')
     const res = await fetch(`${API_BASE}${path}`, {
       method: 'POST',
       headers: token ? { Authorization: `Bearer ${token}` } : {},

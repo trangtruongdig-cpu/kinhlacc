@@ -44,6 +44,12 @@ const UsersView = () => import('@/views/UsersView.vue')
 const SeoRadarView = () => import('@/views/SeoRadarView.vue')
 const ChanDoanLuoiView = () => import('@/views/ChanDoanLuoiView.vue')
 
+// --- Patient Routes ---
+const PatientLoginView = () => import('@/views/patient/PatientLoginView.vue')
+const PatientRegisterView = () => import('@/views/patient/PatientRegisterView.vue')
+const PatientAppLayout = () => import('@/views/patient/PatientAppLayout.vue')
+const MyRecordsView = () => import('@/views/patient/MyRecordsView.vue')
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   // Chuyển trang mới → cuộn về đầu (mặc định người dùng mong đợi); bấm Back/Forward → giữ nguyên vị
@@ -169,6 +175,56 @@ const router = createRouter({
       component: QuyTrinhBienTapView,
       meta: { requiresAuth: false },
     },
+    // ======================================
+    // PHÂN HỆ KHÁCH HÀNG (BỆNH NHÂN)
+    // ======================================
+    {
+      path: '/khach-hang/dang-nhap',
+      name: 'patient-login',
+      component: PatientLoginView,
+      meta: { requiresAuth: false },
+    },
+    {
+      path: '/khach-hang/dang-ky',
+      name: 'patient-register',
+      component: PatientRegisterView,
+      meta: { requiresAuth: false },
+    },
+    {
+      path: '/ho-so',
+      name: 'patient-app',
+      component: PatientAppLayout,
+      meta: { requiresPatientAuth: true },
+      redirect: { name: 'patient-records' },
+      children: [
+        {
+          path: 'kham-benh',
+          name: 'patient-dashboard',
+          redirect: { name: 'patient-records' },
+        },
+        {
+          path: 'kham-benh/danh-sach',
+          name: 'patient-records',
+          component: MyRecordsView,
+        },
+        {
+          path: 'kham-benh/:patientId/:examId',
+          name: 'patient-record-detail',
+          component: MeridianResultsView,
+          props: true,
+        },
+        {
+          path: 'tai-khoan',
+          name: 'patient-profile',
+          // Tạm thời để trống hoặc tạo placeholder, 
+          // có thể redirect về danh sách khám bệnh nếu chưa có view
+          redirect: { name: 'patient-records' },
+        }
+      ],
+    },
+    // ======================================
+    // PHÂN HỆ ADMIN / NHÂN VIÊN
+    // ======================================
     {
       path: '/app',
       name: 'dashboard',
@@ -322,9 +378,11 @@ const router = createRouter({
 })
 
 // Navigation guard: kiểm tra đăng nhập + quyền theo trang.
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
   const token = localStorage.getItem('access_token')
+  const patientToken = localStorage.getItem('patient_token')
 
+  // === XỬ LÝ QUYỀN ADMIN ===
   if (to.meta.requiresAuth && !token) {
     return { name: 'login' }
   }
@@ -332,7 +390,6 @@ router.beforeEach((to) => {
     return { name: 'dashboard' }
   }
 
-  // Chặn vào trang không có quyền -> đưa về Trang Chủ.
   const page = to.meta.page as string | undefined
   if (page && token) {
     const auth = useAuthStore()
@@ -343,6 +400,14 @@ router.beforeEach((to) => {
     if (to.name === 'new-examination' && auth.isLeTan) {
       return { name: 'patient-detail', params: to.params }
     }
+  }
+
+  // === XỬ LÝ QUYỀN KHÁCH HÀNG (BỆNH NHÂN) ===
+  if (to.meta.requiresPatientAuth && !patientToken) {
+    return { name: 'patient-login' }
+  }
+  if ((to.name === 'patient-login' || to.name === 'patient-register') && patientToken) {
+    return { name: 'patient-dashboard' }
   }
 })
 

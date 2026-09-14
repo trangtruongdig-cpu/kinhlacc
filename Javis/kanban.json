@@ -12,7 +12,7 @@
       "capability": "files",
       "execution_mode": "auto",
       "priority": 2,
-      "status": "done",
+      "status": "archived",
       "needs_approval": false,
       "block_kind": "",
       "block_reason": "",
@@ -27,7 +27,7 @@
       "current_run_id": "",
       "result": "Xong. Báo cáo ngắn:\n\n### Đã làm\n\n**Tạo `Wiki/Huyệt Vị Cơ Bản.md`** (frontmatter `type: wiki`) từ 109 hồ sơ trong `backend/src/acu-solver/ho-so/`. Chọn **56 huyệt trên 13 đường kinh**:\n\n| Kinh | Số huyệt | Kinh | Số huyệt |\n|---|---|---|---|\n| LU (Phế) | 4 | KI (Thận) | 5 |\n| LI (Đại Trường) | 5 | PC (Tâm Bào) | 4 |\n| ST (Vị) | 5 | TE (Tam Tiêu) | 5 |\n| SP (Tỳ) | 4 | GB (Đởm) | 5 |\n| HT (Tâm) | 4 | LR (Can) | 4 |\n| SI (Tiểu Trường) | 4 | CV (Nhâm) | 2 |\n| BL (Bàng Quang) | 5 | | |\n\nMỗi huyệt ghi mã huyệt, tên Việt, tên kinh, tên file hồ sơ, và **hai đoạn trích nguyên văn** từ mục *1. Nguồn chữ*: \"Từ điển app\" và \"Atlas Focks - vị trí\". Ảnh atlas bỏ qua đúng như yêu cầu.\n\n**Hai điểm cần nói rõ:**\n\n- **CV chỉ có 2 huyệt** (`CV1`, `CV17`) vì thư mục hồ sơ chỉ có đúng 2 file cho mạch Nhâm, không đủ 3-5. Đã liệt kê cả hai và ghi chú lý do ngay trong trang. Mạch Đốc (GV) thì chưa có hồ sơ nào.\n- **Nhãn *(cần xác minh)* gắn cho cả 56 huyệt.** Lý do: đúng 109/109 hồ sơ đều ghi \"chưa thu thập\" ở nguồn WHO 2008 (kiểm bằng grep, mỗi file khớp đúng 1 lần). Hai nguồn Từ điển app và Atlas Focks thì đầy đủ ở mọi hồ sơ, không file nào trống. Đã giải thích một lần ở đầu trang thay vì lặp lại.\n\nNhân tiện đọc, có **3 chỗ hai nguồn mâu thuẫn** nên đã ghi thẳng dưới huyệt: ST8 (4 vs 4,5 thốn), GB31 (đo từ hai mốc ngược chiều nhau), GB39 (bờ **sau** vs bờ **trước** xương mác).\n\n**Sửa 2 file khác:** thêm mục \"Tri thức chuyên môn (Domain)\" với dòng trỏ tới trang mới vào `Wiki/index.md`; tick mục 3 thành `✅ Huyệt Vị Cơ Bản` kèm wikilink trong `Wiki/Taxonomy Kinh Lắc.md`.\n\n### Đã kiểm chứng thế nào\n\n- Đếm bằng grep trên trang mới: **56/56** ở cả bốn trường bắt buộc (tiêu đề có mã + tên + nhãn cần xác minh, dòng kinh + tên file hồ sơ, trích Từ điển app, trích Atlas Focks).\n- Đối chiếu nguyên văn: khớp chính xác đuôi câu dài nhất của 3 huyệt dễ bị cắt (`ST42`, `ST40`, `CV1`) ngược lại vào file hồ sơ gốc, cả 3 đều tìm thấy đúng 1 lần.\n- Grep ký tự em dash trên trang mới: **0 lần** (các dấu gạch trong phần trích là en dash có sẵn trong nguồn, giữ nguyên).\n- Chỉ ghi vào 3 file, đều nằm trong `Wiki/`. Không đụng code.",
       "created_at": 1788836623.836056,
-      "updated_at": 1788868231.550208,
+      "updated_at": 1789128154.3574479,
       "metadata": {
         "route": "auto",
         "capability": "files",
@@ -109,6 +109,10 @@
         {
           "ts": "2026-09-08 18:50",
           "msg": "done"
+        },
+        {
+          "ts": "2026-09-11 19:02",
+          "msg": "done -> archived: đã kết thúc quá 3 ngày"
         }
       ]
     },
@@ -187,7 +191,7 @@
       "capability": "files",
       "execution_mode": "suggest",
       "priority": 2,
-      "status": "done",
+      "status": "archived",
       "needs_approval": false,
       "block_kind": "",
       "block_reason": "",
@@ -202,7 +206,7 @@
       "current_run_id": "",
       "result": "I need to research the kinhlacc vault structure, existing wiki notes, and the actual code/data files to write an accurate wiki note. Let me start by exploring in parallel.\nThe subagents were cancelled. Let me do the research directly.",
       "created_at": 1788874914.580361,
-      "updated_at": 1788875607.179461,
+      "updated_at": 1789135474.076747,
       "metadata": {
         "route": "auto",
         "capability": "files",
@@ -260,6 +264,10 @@
         {
           "ts": "2026-09-08 20:53",
           "msg": "done"
+        },
+        {
+          "ts": "2026-09-11 21:04",
+          "msg": "done -> archived: đã kết thúc quá 3 ngày"
         }
       ]
     },
@@ -272,7 +280,7 @@
       "capability": "files",
       "execution_mode": "suggest",
       "priority": 2,
-      "status": "done",
+      "status": "archived",
       "needs_approval": false,
       "block_kind": "",
       "block_reason": "",
@@ -287,7 +295,7 @@
       "current_run_id": "",
       "result": "Chỉ có 1 lần \"Đảm\" xuất hiện, đúng trong ngữ cảnh nói về việc không dùng nó (đúng chuẩn), không phải lỗi. Không có em dash. Kiểm tra thêm mermaid syntax và toàn bộ frontmatter đã ổn.\n\n**Đã hoàn thành:**\n\nTạo file `Wiki/Lục Kinh Thương Hàn.md` trình bày đầy đủ 6 kinh (Thái Dương, Dương Minh, Thiếu Dương, Thái Âm, Thiếu Âm, Quyết Âm), mỗi kinh gồm: bản khí, phủ-tạng, chứng trạng đặc trưng, giai đoạn theo trục Biểu - Bán biểu bán lý - Lý, tầng Vệ-Khí-Dinh-Huyết tương ứng, và pháp trị/châm cứu. Kèm sơ đồ mermaid + bảng đối chiếu tổng hợp 6 kinh × Biểu-Lý × Vệ-Khí-Dinh-Huyết.\n\nĐã đọc trước `Wiki/index.md`, 4 wiki YHCT liên quan (Bát Cương và Đồ Hình Thái Cực, Chuẩn Hoá Thể Bệnh và Ánh Xạ YHCT - YHHĐ, Taxonomy Kinh Lắc, Disease Rules - Logic Engine) và 2 memory fact (thuong-han-chi-ap-cho-the-do-ra, thong-nhat-dam-thanh-doi) để giữ đúng thuật ngữ và tránh trùng lặp - dùng [[wikilink]] tới cả 4 wiki đó plus 2 memory fact liên quan.\n\nKiểm chứng: grep xác nhận không còn em dash, và \"Đảm\" chỉ xuất hiện đúng một lần trong câu nói về quy ước cần tránh nó (không phải lỗi chính tả thật). Đã thêm 1 dòng trỏ tới file mới trong `Wiki/index.md`. Không đụng đến code backend/frontend hay dữ liệu bệnh nhân.",
       "created_at": 1788874918.18102,
-      "updated_at": 1788875741.887533,
+      "updated_at": 1789135474.076747,
       "metadata": {
         "route": "auto",
         "capability": "files",
@@ -372,6 +380,10 @@
         {
           "ts": "2026-09-08 20:55",
           "msg": "done"
+        },
+        {
+          "ts": "2026-09-11 21:04",
+          "msg": "done -> archived: đã kết thúc quá 3 ngày"
         }
       ]
     },
@@ -384,7 +396,7 @@
       "capability": "files",
       "execution_mode": "suggest",
       "priority": 2,
-      "status": "done",
+      "status": "archived",
       "needs_approval": false,
       "block_kind": "",
       "block_reason": "",
@@ -399,7 +411,7 @@
       "current_run_id": "",
       "result": "Tôi sẽ bắt đầu bằng việc khảo sát cấu trúc Wiki hiện có và các note liên quan để đảm bảo wikilink chính xác.",
       "created_at": 1788874921.702584,
-      "updated_at": 1788875627.9257169,
+      "updated_at": 1789135474.076747,
       "metadata": {
         "route": "auto",
         "capability": "files",
@@ -457,6 +469,10 @@
         {
           "ts": "2026-09-08 20:53",
           "msg": "done"
+        },
+        {
+          "ts": "2026-09-11 21:04",
+          "msg": "done -> archived: đã kết thúc quá 3 ngày"
         }
       ]
     },
@@ -508,7 +524,7 @@
       "capability": "files",
       "execution_mode": "auto",
       "priority": 2,
-      "status": "done",
+      "status": "archived",
       "needs_approval": false,
       "block_kind": "",
       "block_reason": "",
@@ -523,7 +539,7 @@
       "current_run_id": "",
       "result": "Đối chiếu 40 file (khớp `MEMORY.md`, trừ `kinhlacc-vault-location.md` — không nằm trong facts count vì đã tính riêng ở dòng đầu). Tất cả 40 slug đều có mặt trong `MEMORY.md` sau khi sửa, không lệch đường dẫn nào.\n\n## Báo cáo hoàn thành\n\n**Đã làm:** Đọc trọn 24 file `memory/conversations/vscode-*.md` (392 tin nhắn, 07/07–08/09/2026), đối chiếu từng file với `memory/facts/` hiện có.\n\n**Phát hiện:** Một lượt ingest trước đó (cùng ngày 08/09, thấy trong `Javis/learn-log/2026-09-08.md`) đã trích xuất fact rất kỹ (40 file, đủ frontmatter, có trích nguyên văn + why/how + wikilink chéo) — nhưng **13 file fact đã tồn tại mà chưa từng được thêm dòng vào `MEMORY.md`** (mảng VEDEI: dự án, mentor-mentee, khung năng lực, tài chính; mảng YHCT: lục cương, bóc lớp thái cực, gộp thể trùng, đối chiếu 84 chứng, tự động lấy địa điểm; mảng sản phẩm: định vị lại thương hiệu, tem nhãn; hạ tầng: VPS git-pull; cách làm việc: kế thừa dự án có sẵn). Đây là lỗ hổng chính khiến các fact đó \"mồ côi\" — không được nạp vào context dù đã ghi đúng chuẩn.\n\n**Đã sửa:**\n1. Bổ sung 13 dòng còn thiếu vào `memory/MEMORY.md` (thêm 1 mục \"Dự án song song: VEDEI\" và rải vào 4 mục sẵn có) — giờ 40/40 fact đều có dòng chỉ mục, file vẫn ở dạng index gọn (66 dòng).\n2. Phát hiện wikilink gãy `[[Mô Hình Viện Đào Tạo Kinh Tế Số]]` (được `du-an-vedei-vien-tmdt-kinh-te-so.md` trỏ tới nhưng chưa từng tạo) → viết note Wiki mới (`type: wiki`) chưng cất 4 khung tái dùng phi-YHCT: định vị \"chiếc ô\" rộng, mô hình mentor-mentee thu tiền 2 đầu, thuê hạ tầng trước tự xây sau, tỷ lệ ăn chia cố định — và thêm vào `Wiki/index.md` để không mồ côi.\n\n**Không phát hiện** fact nào sai/lỗi thời cần xoá (fact \"conversation-files-exist-but-unreadable\" vẫn đúng — mô tả phụ thuộc engine, không phải tuyên bố tuyệt đối, và chính phiên này xác nhận lại điều đó). Không có fact trùng lặp cần gộp — bộ facts trước đó đã tách chủ đề khá sạch.\n\n**Kiểm chứng:** Glob lại `memory/facts/*.md` (40 file) đối chiếu từng slug với các dòng vừa thêm trong `MEMORY.md` — khớp 100%, không lệch đường dẫn.",
       "created_at": 1788877186.334047,
-      "updated_at": 1788877675.0642529,
+      "updated_at": 1789139134.004355,
       "metadata": {
         "route": "auto",
         "capability": "files",
@@ -627,6 +643,10 @@
         {
           "ts": "2026-09-08 21:27",
           "msg": "done"
+        },
+        {
+          "ts": "2026-09-11 22:05",
+          "msg": "done -> archived: đã kết thúc quá 3 ngày"
         }
       ]
     },
@@ -639,7 +659,7 @@
       "capability": "files",
       "execution_mode": "auto",
       "priority": 2,
-      "status": "done",
+      "status": "archived",
       "needs_approval": false,
       "block_kind": "",
       "block_reason": "",
@@ -654,7 +674,7 @@
       "current_run_id": "",
       "result": "Đã hoàn thành việc chưng cất tri thức từ `memory/facts/` (41 file) và `memory/conversations/` (26 file) vào Wiki của vault kinhlacc.\n\n**Đã làm:**\n- Đọc toàn bộ 41 fact và các file hội thoại liên quan (transcript VS Code + chat JavisOS 08-09/09/2026).\n- Nhận thấy phần lớn fact về domain YHCT (bát cương, thể bệnh, huyệt vị...) đã được task consolidate trước đó (`t_4cbcd8137758`) chưng cất vào các note Wiki domain sẵn có (`Bát Cương và Đồ Hình Thái Cực`, `Chuẩn Hoá Thể Bệnh và Ánh Xạ YHCT - YHHĐ`, `Quy Tắc Xác Định Vị Trí Huyệt`...).\n- Phần **chưa được chưng cất** là lớp nguyên tắc/quy trình làm việc (meta, tái dùng được cho mọi domain, không phải thông tin cá nhân) — tôi tạo 2 note Wiki mới:\n  - `Wiki/Nguyên Tắc Cộng Tác Với AI Agent.md` (frontmatter `type: wiki`, 9 nguyên tắc, link tới `Knowledge Consolidation - Multi-Source Pattern`, `Lessons Learned - INGEST Kinh Lạc`, `Vận Hành Việc Nền và Bẫy Triển Khai`)\n  - `Wiki/Vận Hành Việc Nền và Bẫy Triển Khai.md` (frontmatter `type: wiki`, 3 bẫy kỹ thuật thật đã xảy ra, link ngược lại 2 note trên)\n- Cập nhật `Wiki/index.md`: thêm 2 note mới vào mục \"Phương pháp làm việc (tái dùng mọi domain)\", đồng thời bổ sung các note đã tồn tại nhưng chưa từng được index (Knowledge Consolidation, Lessons Learned, Backend Data Model, Disease Rules, Bát Cương, Chuẩn Hoá Thể Bệnh, Quy Tắc Xác Định Vị Trí Huyệt) — tránh đúng bẫy \"fact mồ côi\" mà chính note mới ghi lại.\n\n**Kiểm chứng:** đọc lại nội dung 2 file vừa ghi để xác nhận frontmatter `type: wiki` và các `[[wikilink]]` trỏ đúng tên note đang tồn tại trong `Wiki/`; rà nội dung không chứa tên/email/thông tin riêng tư của user, chỉ có nguyên tắc/quy trình tổng quát.\n\n**Top 5 bài học giá trị nhất:**\n1. **Hội đồng phản biện cho việc cần độ chính xác cao** — hồ sơ bằng chứng → nhiều phản biện độc lập → thẩm tra đối kháng; chấp nhận chậm để chắc. *(Nguyên Tắc Cộng Tác Với AI Agent)*\n2. **Kế thừa trước khi tự dựng** — \"lấy họ làm gốc mình tuỳ biến theo\", khảo sát giải pháp có sẵn trước khi tự làm bài toán khó. *(Nguyên Tắc Cộng Tác Với AI Agent)*\n3. **Fact/wiki ghi đúng chuẩn vẫn \"vô hình\" nếu quên thêm vào index** — phải đối chiếu số file với số dòng index sau mỗi đợt ingest hàng loạt. *(Vận Hành Việc Nền và Bẫy Triển Khai)*\n4. **Không hứa suông việc nền** — kiểm precondition (MCP/model/quyền) trước khi enqueue, nói thẳng thiếu gì thay vì tạo task chờ mãi không chạy. *(Knowledge Consolidation - Multi-Source Pattern / Lessons Learned - INGEST Kinh Lạc)*\n5. **Neo từ dễ đến khó** — giải quyết phần chắc chắn nhất trước, dùng nó làm mốc suy ra phần mơ hồ, thay vì rải đều công sức. *(Nguyên Tắc Cộng Tác Với AI Agent)*",
       "created_at": 1788908562.706319,
-      "updated_at": 1788908859.520816,
+      "updated_at": 1789168795.476202,
       "metadata": {
         "route": "auto",
         "capability": "files",
@@ -737,6 +757,10 @@
         {
           "ts": "2026-09-09 06:07",
           "msg": "done"
+        },
+        {
+          "ts": "2026-09-12 06:19",
+          "msg": "done -> archived: đã kết thúc quá 3 ngày"
         }
       ]
     },
@@ -749,7 +773,7 @@
       "capability": "files",
       "execution_mode": "auto",
       "priority": 2,
-      "status": "done",
+      "status": "archived",
       "needs_approval": false,
       "block_kind": "",
       "block_reason": "",
@@ -764,7 +788,7 @@
       "current_run_id": "",
       "result": "All 3 new facts are indexed correctly, no orphans. Task complete.\n\n**Đã làm:** Đọc toàn bộ 28 file `.md` trong `memory/conversations/` (24 file `vscode-*.md` từ 07/07 đến 09/08/2026, cộng 4 file chat dashboard Javis: 08/12, 08/13, 09/08, 09/09/2026) — không bỏ sót file nào theo mốc thời gian.\n\n**Phát hiện chính:** hầu hết bài học/quyết định trong lịch sử này đã được một đợt consolidate trước ghi lại đầy đủ trong `memory/facts/` (41 fact có sẵn). Đọc lại toàn văn, tôi tìm ra đúng 3 fact mới, bền vững, chưa từng được ghi:\n\n1. `facts/nguon-goc-net-desktop-doi-framework.md` (type: business) — user tự thuật app kinhlacc ban đầu là desktop .NET, đã đổi framework nhiều lần tới bản NestJS+Vue hiện tại (nguyên văn 09/09/2026), liên hệ tới thư mục di sản `Kinhlac/` mà CLAUDE.md đã ghi.\n2. `facts/hanh-trinh-cong-cu-code-vscode-antigravity-javis.md` (type: decision) — hành trình dùng 3 bề mặt AI-code song song (VS Code+Claude Code → +Antigravity → thử Javis dashboard 12/08), làm rõ đây không phải chuyển hẳn vì transcript VS Code vẫn dày đặc sau đó.\n3. `facts/trung-cat-tri-thuc-phai-sau-khong-chi-cau-truc.md` (type: preference) — bài học từ 09/08: user bác bỏ lần consolidate đầu vì chỉ tóm tắt cấu trúc kỹ thuật (schema/số luật), đòi trưng cất đúng cơ chế suy luận y học (bát cương/ngũ hành/lục kinh).\n\nCả 3 fact đều đã thêm dòng chỉ mục vào `memory/MEMORY.md` (mục mới \"Lịch sử dự án & hành trình quyết định\"), có wikilink chéo tới các fact liên quan đã tồn tại (`doi-chieu-app-cu-84-chung`, `ke-thua-du-an-co-san-thay-vi-tu-lam`, `commit-tru-tien-trinh-song-song`, `co-che-tuong-thua-tuong-vu-tu-bat-cuong`...) để tránh trùng lặp thay vì tạo mới nội dung đã có.\n\n**Kiểm chứng:** grep xác nhận cả 3 file fact đều có dòng trỏ tới trong MEMORY.md (không tạo fact mồ côi, đúng bài học ở `ingest-co-the-tao-fact-mo-coi.md`); đối chiếu nội dung với toàn bộ 41 fact cũ trước khi viết để không trùng lặp.",
       "created_at": 1788915299.021992,
-      "updated_at": 1788915678.706068,
+      "updated_at": 1789174882.8049762,
       "metadata": {
         "route": "auto",
         "capability": "files",
@@ -855,6 +879,10 @@
         {
           "ts": "2026-09-09 08:01",
           "msg": "done"
+        },
+        {
+          "ts": "2026-09-12 08:01",
+          "msg": "done -> archived: đã kết thúc quá 3 ngày"
         }
       ]
     },
@@ -867,10 +895,10 @@
       "capability": "files",
       "execution_mode": "auto",
       "priority": 2,
-      "status": "blocked",
+      "status": "archived",
       "needs_approval": false,
-      "block_kind": "needs_input",
-      "block_reason": "Không tìm thấy file transcript Cursor nào trong `memory/conversations/` (đã glob `cursor-*.md` và grep từ khoá \"cursor\" trên toàn thư mục `memory/`, chỉ ra các file `vscode-*.md` đã xử lý trước đó) — ",
+      "block_kind": "",
+      "block_reason": "",
       "created_by": "chat",
       "chat_id": "web:65f92ec462c14604826605d545c978fd",
       "idempotency_key": "",
@@ -882,7 +910,7 @@
       "current_run_id": "",
       "result": "Đã tìm kỹ trong `memory/conversations/` (glob `cursor-*.md` và các biến thể, grep từ khoá \"cursor\" toàn thư mục `memory/`) nhưng không có file transcript Cursor nào — chỉ có các file `vscode-YYYY-MM-DD.md` và vài file chat dashboard, không file nào khớp nguồn Cursor. Không có dữ liệu đầu vào để trích xuất fact/decision/lesson theo yêu cầu.\n\n[[NEEDS_INPUT]] Không tìm thấy file transcript Cursor nào trong `memory/conversations/` (đã glob `cursor-*.md` và grep từ khoá \"cursor\" trên toàn thư mục `memory/`, chỉ ra các file `vscode-*.md` đã xử lý trước đó) — cần biết đường dẫn thật của các file transcript Cursor (có thể chưa được đưa vào vault, hoặc dùng tên/định dạng khác) trước khi có thể trích xuất.",
       "created_at": 1788915972.956715,
-      "updated_at": 1788916083.391993,
+      "updated_at": 1788917411.5703402,
       "metadata": {},
       "artifacts": [],
       "deps": [],
@@ -918,6 +946,10 @@
         {
           "ts": "2026-09-09 08:08",
           "msg": "Không tìm thấy file transcript Cursor nào trong `memory/conversations/` (đã glob `cursor-*.md` và grep từ khoá \"cursor\" trên toàn thư mục `memory/`, chỉ ra các file `vscode-*.md` đã xử lý trước đó) — "
+        },
+        {
+          "ts": "2026-09-09 08:30",
+          "msg": "blocked -> archived: operator archive"
         }
       ]
     },
@@ -930,7 +962,7 @@
       "capability": "files",
       "execution_mode": "auto",
       "priority": 2,
-      "status": "done",
+      "status": "archived",
       "needs_approval": false,
       "block_kind": "",
       "block_reason": "",
@@ -945,7 +977,7 @@
       "current_run_id": "",
       "result": "Đã hoàn thành task quét vault tìm transcript Cursor.\n\n**Kết quả tìm kiếm:** Không tìm thấy file transcript nào xuất phát từ Cursor editor trong vault. Đã kiểm tra bằng:\n- Grep `cursor`/`Cursor` không phân biệt hoa-thường trên toàn bộ vault (mọi loại file) → 92 file khớp, nhưng toàn bộ là thuộc tính CSS `cursor: pointer` trong code frontend, file nội bộ `node_modules`, tài liệu skill `hallmark` (nói về con trỏ chuột), và chính file `memory/conversations/2026-09-09.md` (bàn về việc đi tìm file này, không phải bản thân transcript).\n- Grep riêng trên toàn bộ file `.md` → không có kết quả nào khác ngoài danh sách trên.\n- Glob tên file chứa \"cursor\" → chỉ khớp file thư viện trong `node_modules`, không liên quan.\n- Kiểm tra thư mục ẩn `.cursor/`, `.specstory/` (nơi extension Cursor hay lưu export chat) → không tồn tại trong vault.\n- Đối chiếu fact đã có về hành trình công cụ code (VS Code → Antigravity → Javis) → không nhắc tới Cursor.\n\n**Kết luận:** nếu giai đoạn dùng Cursor có thật, dữ liệu đó nằm ở kho lưu cục bộ riêng của ứng dụng Cursor trên máy, không nằm trong git repo/vault này nên không thể quét được.\n\n**Đã ghi lại để tránh lặp việc vô ích:** tạo `memory/facts/khong-tim-thay-transcript-cursor-trong-vault.md` (frontmatter type: project, đầy đủ created/updated) ghi chi tiết cách đã kiểm tra và kết luận, kèm hướng xử lý nếu người dùng muốn tiếp tục. Đã thêm đúng 1 dòng trỏ vào `memory/MEMORY.md` (mục \"Hội thoại đã lưu\") - không có fact mồ côi. Không sửa/xoá bất kỳ file transcript gốc nào.",
       "created_at": 1788916192.4556491,
-      "updated_at": 1788916350.015987,
+      "updated_at": 1789175551.347948,
       "metadata": {
         "route": "auto",
         "capability": "files",
@@ -1010,9 +1042,13 @@
         {
           "ts": "2026-09-09 08:12",
           "msg": "done"
+        },
+        {
+          "ts": "2026-09-12 08:12",
+          "msg": "done -> archived: đã kết thúc quá 3 ngày"
         }
       ]
     }
   ],
-  "updated": 1788916350.034113
+  "updated": 1789175551.3615549
 }
