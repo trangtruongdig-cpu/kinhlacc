@@ -19,6 +19,9 @@ export default defineConfig(({ command }) => ({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'favicon.svg', 'pwa-icon-512.png'],
+      workbox: {
+        maximumFileSizeToCacheInBytes: 5000000 // 5 MB để cho phép cache các file JS data lớn như benh.js và acupoints.js
+      },
       manifest: {
         name: "Kinh Lạc Gia Minh",
         short_name: "Kinh Lạc",
