@@ -17,7 +17,7 @@ const props = defineProps<{
   dinhvi?: { kinh: string[]; khi: string[]; tang: string[]; amDuong: 'duong' | 'am' | 'both' | null; amLoai?: string | null; troi?: string | null } | null
 }>()
 // Trỏ vào 1 cung → báo cho panel biết đang trỏ Lục Kinh / Lục Khí / Tạng Phủ nào.
-const emit = defineEmits<{ select: [{ type: 'kinh' | 'khi' | 'tang' | 'hanh'; key: string; label: string; organs?: string[] }] }>()
+const emit = defineEmits<{ select: [{ type: 'kinh' | 'khi' | 'tang' | 'phu' | 'hanh'; key: string; label: string; organs?: string[] }] }>()
 const KINH_SLUG: Record<string, string> = {
   'Thái Dương': 'thai-duong', 'Dương Minh': 'duong-minh', 'Thiếu Dương': 'thieu-duong',
   'Thái Âm': 'thai-am', 'Thiếu Âm': 'thieu-am', 'Quyết Âm': 'quyet-am',
@@ -188,7 +188,7 @@ const sinh = PENTA.map((p, i) => {
 
 // TƯƠNG KHẮC (相克): ngôi sao ĐỎ nối hành cách 2 ô (deg+144), mũi tên vào đích (không cần chữ).
 const khac = PENTA.map((p, i) => {
-  const q = PENTA[(i + 2) % 5]
+  const q = PENTA[(i + 2) % 5]!
   const a = pt(PENTA_R, p.deg)
   const b = pt(PENTA_R, q.deg)
   const dx = b.x - a.x
@@ -226,19 +226,19 @@ const isPartner = (idx: number) => idx === partnerHex.value
 const bieuLyAxis = computed(() => {
   const hi = hoveredHex.value
   const pi = partnerHex.value
-  if (hi === null || pi < 0) return null
-  const p0 = pt(150, HEXA[hi].deg)
-  const p1 = pt(150, HEXA[pi].deg)
+  if (hi === null || pi < 0 || !HEXA[hi] || !HEXA[pi]) return null
+  const p0 = pt(150, HEXA[hi]!.deg)
+  const p1 = pt(150, HEXA[pi]!.deg)
   return { x1: N(p0.x), y1: N(p0.y), x2: N(p1.x), y2: N(p1.y) }
 })
 // Mũi tên ẢNH HƯỞNG: từ kinh đang rê → node tạng bị ảnh hưởng (cong, nét đứt).
 const affectArrow = computed(() => {
   const hi = hoveredHex.value
   const famK = affectFam.value
-  if (hi === null || !famK) return null
+  if (hi === null || !famK || !HEXA[hi]) return null
   const node = nodes.find((n) => n.hanh === famK)
   if (!node) return null
-  const from = pt(150, HEXA[hi].deg)
+  const from = pt(150, HEXA[hi]!.deg)
   const mx = (from.x + node.x) / 2
   const my = (from.y + node.y) / 2
   const ctrl = { x: CX + (mx - CX) * 0.5, y: CY + (my - CY) * 0.5 }
@@ -415,7 +415,7 @@ const QUAI_NOTE: Record<number, { title: string; text: string }> = {
   4: { title: 'Chủ khí (thứ tự trong năm): ① Quyết Âm ② Thiếu Âm ③ Thiếu Dương ④ Thái Âm ⑤ Dương Minh ⑥ Thái Dương', text: 'Theo mùa + ngũ hành TƯƠNG SINH: Phong(Mộc) → Quân Hỏa → Tướng Hỏa(Hỏa) → Thấp(Thổ) → Táo(Kim) → Hàn(Thủy) — 2 hỏa liền nhau. Quẻ: ☵→Thái Dương · ☰☱→Dương Minh · ☲→Thiếu Dương·Thiếu Âm · ☶☷→Thái Âm · ☳☴→Quyết Âm' },
   5: { title: 'Quẻ → Lục Kinh', text: '☵ Thủy → Thái Dương · ☰☱ Kim → Dương Minh · ☳☴ Mộc → Quyết Âm · ☶☷ Thổ → Thái Âm · ☲ Hỏa → Thiếu Âm / Thiếu Dương' },
 }
-const quaiNote = computed(() => QUAI_NOTE[Math.min(5, Math.max(1, props.lop))])
+const quaiNote = computed(() => QUAI_NOTE[Math.min(5, Math.max(1, props.lop)) as keyof typeof QUAI_NOTE] || QUAI_NOTE[1])
 
 const shows = (n: number) => props.lop >= n
 const isCurrent = (n: number) => props.lop === n
@@ -432,7 +432,7 @@ const FRAME = 197 // lớp hiện tại lấp SÁT vành (gần = đĩa) → kh�
 // khít viền ngoài; vòng nét đứt DƯ/KHUYẾT tính LỒI RA/LÕM VÀO tính từ chính cạnh đó (dư → tràn ra
 // ngoài đĩa 1 chút, đúng như "phần thừa"; khuyết → nằm gọn trong, không tính vào EXTENT).
 const EXTENT = [62, 104, 152, 178, 204]
-const zoom = computed(() => FRAME / EXTENT[Math.min(5, Math.max(1, props.lop)) - 1])
+const zoom = computed(() => FRAME / (EXTENT[Math.min(5, Math.max(1, props.lop)) - 1] ?? 204))
 
 // ── BẤM 1 cung → CHỐT chọn (pick: giữ sáng) + BÁO panel (emit select). Rê chỉ xem trước. ──
 function onKinh(s: HexaItem, i: number) {
@@ -692,7 +692,7 @@ onBeforeUnmount(() => {
     </div>
 
     <!-- GHI CHÚ QUẺ — text ngoài vòng, đổi theo lớp (quẻ là cầu nối; để gọn không rối vòng) -->
-    <div v-show="!hoverInfo && !khiInfo" class="bcw-quainote">
+    <div v-if="!hoverInfo && !khiInfo && quaiNote" class="bcw-quainote">
       <span class="qn-title">{{ quaiNote.title }}</span>
       <span class="qn-text">{{ quaiNote.text }}</span>
     </div>

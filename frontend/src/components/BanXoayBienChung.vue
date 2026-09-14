@@ -284,7 +284,7 @@ function readNeedle() {
   if (!key) return
   const ring = ringData.value.find((r) => r.key === key)
   if (!ring || ring.items.length === 0) return
-  let best = ring.items[0]
+  let best = ring.items[0]!
   let bestD = 999
   for (const w of ring.items) {
     const a = (((w.mid + (ang[key] || 0)) % 360) + 360) % 360
@@ -362,7 +362,8 @@ function onPickPt(id: number) {
   if (!l) return
   if (external.value) { emit('drill', { id, name: l.label }); return } // nhúng: chạm bệnh khớp → bóc xuống lớp bệnh
   frozen.value = true
-  setDisplay(schema.value.rings[0].key === 'chungBenh' ? 'benhTayY' : schema.value.rings[0].key, l.label, [id])
+  const firstKey = schema.value.rings[0]?.key ?? 'hoiChung'
+  setDisplay(firstKey === 'chungBenh' ? 'benhTayY' : firstKey, l.label, [id])
   scheduleResume()
 }
 function onClear() {
@@ -462,8 +463,8 @@ const GLOW: Record<string, { fill: string; text: string }> = {
   herb: { fill: 'rgba(216,178,96,.46)', text: '#fbeeca' }, // Thổ vàng — Bài Thuốc (vòng trong)
   method: { fill: 'rgba(198,102,60,.50)', text: '#f6d3be' }, // Hỏa đất nung — Pháp Trị
 }
-function glow(token: string) {
-  return GLOW[token] ?? GLOW.symptom
+function glow(token: string): { fill: string; text: string } {
+  return GLOW[token] || GLOW.symptom || { fill: 'rgba(208,180,120,.44)', text: '#f8edd1' }
 }
 </script>
 

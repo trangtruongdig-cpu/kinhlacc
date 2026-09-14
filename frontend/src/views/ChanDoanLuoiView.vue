@@ -62,7 +62,7 @@ const MAU_REU_OPTS = ['Trắng', 'Vàng', 'Xám', 'Đen', 'Không Rêu']
 const TINH_CHAT_REU_OPTS = ['Mỏng', 'Dày', 'Nhờn / Dính', 'Khô', 'Bong Tróc']
 const PHAN_BO_REU_OPTS = ['Toàn Bộ', 'Đầu Lưỡi', 'Chân Lưỡi', 'Hai Bên', 'Giữa Lưỡi']
 
-const ZONE_INFO: Record<string, { label: string; sub: string }> = {
+const ZONE_INFO: Record<'dau' | 'trai' | 'giua' | 'phai' | 'chan', { label: string; sub: string }> = {
   dau:  { label: 'Đầu Lưỡi', sub: 'Tâm • Phế' },
   trai: { label: 'Bên Trái',  sub: 'Can • Đởm' },
   giua: { label: 'Giữa',      sub: 'Tỳ • Vị' },
@@ -520,7 +520,7 @@ async function analyzeImage() {
   try {
     const base64: string = await new Promise((res, rej) => {
       const r = new FileReader()
-      r.onload = ev => res((ev.target!.result as string).split(',')[1])
+      r.onload = ev => res(((ev.target?.result as string) || '').split(',')[1] || '')
       r.onerror = rej
       r.readAsDataURL(imageFile.value!)
     })
@@ -619,7 +619,7 @@ async function saveLabel() {
   try {
     const base64: string = await new Promise((res, rej) => {
       const r = new FileReader()
-      r.onload = ev => res((ev.target!.result as string).split(',')[1])
+      r.onload = ev => res(((ev.target?.result as string) || '').split(',')[1] || '')
       r.onerror = rej
       r.readAsDataURL(labelFile.value!)
     })
@@ -697,10 +697,10 @@ function applyMlFeatures(results: AiResult['similarity']) {
   if (!top.length) return
 
   const topMauChat = top.find(r => ML_FEATURES[r.id]?.mauChat)
-  if (topMauChat) mauChat.value = ML_FEATURES[topMauChat.id].mauChat!
+  if (topMauChat && ML_FEATURES[topMauChat.id]?.mauChat) mauChat.value = ML_FEATURES[topMauChat.id]!.mauChat!
 
   const topMauReu = top.find(r => ML_FEATURES[r.id]?.mauReu)
-  if (topMauReu) mauReu.value = ML_FEATURES[topMauReu.id].mauReu!
+  if (topMauReu && ML_FEATURES[topMauReu.id]?.mauReu) mauReu.value = ML_FEATURES[topMauReu.id]!.mauReu!
 
   const newHinhDang = new Set<string>()
   const newTinhChat = new Set<string>()
@@ -723,7 +723,7 @@ async function mlSearch() {
   try {
     const base64: string = await new Promise((res, rej) => {
       const r = new FileReader()
-      r.onload = ev => res((ev.target!.result as string).split(',')[1])
+      r.onload = ev => res(((ev.target?.result as string) || '').split(',')[1] || '')
       r.onerror = rej
       r.readAsDataURL(imageFile.value!)
     })
@@ -1079,7 +1079,7 @@ async function mlSearch() {
                 <span class="cdl-hi-date">{{ formatDate(r.ngayKham) }}</span>
                 <span class="cdl-hi-mau">{{ r.mauChat || '—' }}</span>
                 <span v-if="r.ketQuaDongY" class="cdl-hi-diag">
-                  {{ r.ketQuaDongY.split('\n')[0].split(':')[0] }}
+                  {{ (r.ketQuaDongY.split('\n')[0] || '').split(':')[0] }}
                 </span>
               </div>
             </button>

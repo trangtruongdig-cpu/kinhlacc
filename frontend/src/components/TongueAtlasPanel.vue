@@ -66,7 +66,8 @@ onMounted(async () => {
     if (!res.ok) return
     const index: Record<string, string[]> = await res.json()
     ATLAS.forEach(entry => {
-      if (index[entry.id]?.length) entry.images = index[entry.id]
+      const imgs = index[entry.id]
+      if (imgs?.length) entry.images = imgs
     })
     atlasLoaded.value = true
   } catch {}

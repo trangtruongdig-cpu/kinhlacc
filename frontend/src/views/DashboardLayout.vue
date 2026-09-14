@@ -114,7 +114,7 @@ const adaptiveWrapperStyle = computed(() => {
   }
 })
 
-const adaptiveLayoutStyle = computed(() => {
+const adaptiveLayoutStyle = computed<import('vue').CSSProperties>(() => {
   if (viewportScale.value >= 1) return {}
   const s = viewportScale.value
   return {
