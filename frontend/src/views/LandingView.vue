@@ -752,6 +752,9 @@ const faqs: { q: string; a: string }[] = [
           <button @click="scrollTo('bang-gia')">Bảng Giá</button>
           <button @click="scrollTo('faq')">Hỏi Đáp</button>
         </nav>
+        <div class="lp-nav-actions">
+          <RouterLink to="/khach-hang/dang-nhap" class="lp-nav-patient-btn">🔑 Hồ Sơ Của Tôi</RouterLink>
+        </div>
         <button
           type="button"
           class="lp-nav-toggle"
@@ -1471,6 +1474,10 @@ const faqs: { q: string; a: string }[] = [
           <a href="/xem-ket-qua-do">Đo Kinh Lạc</a>
           <a href="/xem-bai-thuoc">Bài Thuốc</a>
         </nav>
+        <nav class="lp-footer-nav lp-footer-nav--patient" aria-label="Khách hàng">
+          <RouterLink to="/khach-hang/dang-nhap">🔑 Xem Hồ Sơ Của Tôi</RouterLink>
+          <RouterLink to="/khach-hang/dang-ky">Đăng Ký Tài Khoản</RouterLink>
+        </nav>
         <nav class="lp-footer-nav lp-footer-nav--legal" aria-label="Thông tin & pháp lý">
           <a href="/ve-chung-toi">Về Chúng Tôi</a>
           <a href="/lien-he">Liên Hệ</a>
@@ -1639,6 +1646,53 @@ const faqs: { q: string; a: string }[] = [
   background: rgba(255, 255, 255, 0.18);
   transform: translateY(-2px);
 }
+/* Nút outline warm: dành riêng cho CTA khách hàng trên nền sáng */
+.lp-btn--outline-warm {
+  background: transparent;
+  color: var(--brown-700);
+  border: 2px solid var(--brown-400);
+  font-weight: 700;
+}
+.lp-btn--outline-warm:hover {
+  background: var(--brown-100, #f5ece0);
+  border-color: var(--brown-600);
+  transform: translateY(-2px);
+}
+.lp-btn--sm {
+  padding: 0.45rem 1rem;
+  font-size: 0.84rem;
+}
+/* Khu CTA khách hàng (dưới 2 nút hero chính) */
+.lp-patient-cta {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
+}
+.lp-patient-cta__label {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.7);
+  white-space: nowrap;
+}
+.lp-patient-cta__signup {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.7);
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.lp-patient-cta__signup:hover {
+  color: #fff;
+}
+/* Footer nav khách hàng */
+.lp-footer-nav--patient {
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 0.6rem;
+}
+.lp-footer-nav--patient a {
+  font-weight: 600;
+}
 .lp-link-btn {
   display: inline-flex;
   align-items: center;
@@ -1714,6 +1768,35 @@ const faqs: { q: string; a: string }[] = [
 .lp-nav-toggle:hover {
   background: var(--brown-50);
 }
+/* Khu nút bên phải nav: chứa nút Hồ Sơ Của Tôi */
+.lp-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+/* Nút "Hồ Sơ Của Tôi" trên top nav */
+.lp-nav-patient-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--brown-700);
+  background: var(--brown-50, #fdf5eb);
+  border: 1.5px solid var(--brown-300);
+  text-decoration: none;
+  transition: background 0.15s, border-color 0.15s, transform 0.15s;
+  white-space: nowrap;
+}
+.lp-nav-patient-btn:hover {
+  background: var(--brown-100, #f5ece0);
+  border-color: var(--brown-500);
+  transform: translateY(-1px);
+}
+
 
 /* ---------- Hero ---------- */
 .lp-hero {

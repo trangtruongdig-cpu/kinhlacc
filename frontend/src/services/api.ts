@@ -72,13 +72,22 @@ function getAuthHeaders(): Record<string, string> {
 async function handleResponse<T>(response: Response, method: string, path: string, startedAt: number): Promise<T> {
   const elapsed = Date.now() - startedAt
   if (response.status === 401) {
-    console.warn(`[API] ✗ ${method} ${path} 401 ${elapsed}ms — phiên hết hạn, redirect /login`)
-    const isPatient = !!localStorage.getItem('patient_token')
-    localStorage.removeItem('access_token')
-    localStorage.removeItem('username')
-    localStorage.removeItem('patient_token')
-    localStorage.removeItem('patient_user')
-    window.location.href = isPatient ? '/khach-hang/dang-nhap' : '/login'
+    const hasPatientToken = !!localStorage.getItem('patient_token')
+    const hasAccessToken = !!localStorage.getItem('access_token')
+
+    if (hasPatientToken && !hasAccessToken) {
+      // Phiên KHÁCH HÀNG hết hạn → chỉ xoá token khách hàng
+      console.warn(`[API] ✗ ${method} ${path} 401 ${elapsed}ms — phiên khách hàng hết hạn`)
+      localStorage.removeItem('patient_token')
+      localStorage.removeItem('patient_user')
+      window.location.href = '/khach-hang/dang-nhap'
+    } else {
+      // Phiên NHÂN VIÊN hết hạn (hoặc token bị xoá)
+      console.warn(`[API] ✗ ${method} ${path} 401 ${elapsed}ms — phiên hết hạn, redirect /login`)
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('username')
+      window.location.href = '/login'
+    }
     throw new Error('Phiên đăng nhập hết hạn')
   }
   if (!response.ok) {

@@ -2335,7 +2335,12 @@ async function loadData() {
 }
 
 function goBack() {
-  router.push({ name: 'patient-detail', params: { id: patientId.value } })
+  // Nếu đang trong phân hệ khách hàng (/ho-so/...) → quay về danh sách hồ sơ
+  if (route.path.startsWith('/ho-so')) {
+    router.push({ name: 'patient-records' })
+  } else {
+    router.push({ name: 'patient-detail', params: { id: patientId.value } })
+  }
 }
 
 /** Chẩn đoán Bát cương → highlight ô liên quan ở bảng I.
@@ -3247,7 +3252,8 @@ watch(
   <div class="meridian-results-page">
     <!-- Header Area -->
     <div class="page-header">
-      <button class="back-btn" @click="goBack">
+      <!-- Nút Quay lại: chỉ hiển thị cho nhân viên nội bộ, ẩn khi bệnh nhân xem qua portal /ho-so -->
+      <button v-if="!$route.path.startsWith('/ho-so')" class="back-btn" @click="goBack">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
         <span>Quay lại hồ sơ</span>
       </button>

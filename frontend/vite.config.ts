@@ -3,6 +3,7 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
+import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 // Dạng hàm ({ command }) để biết đang `vite` (serve = dev) hay `vite build` (production).
@@ -15,6 +16,28 @@ export default defineConfig(({ command }) => ({
   },
   plugins: [
     vue(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      includeAssets: ['favicon.ico', 'favicon.svg', 'pwa-icon-512.png'],
+      manifest: {
+        name: "Kinh Lạc Gia Minh",
+        short_name: "Kinh Lạc",
+        description: "Xem kết quả khám kinh lạc, hồ sơ bệnh nhân và hệ thống chẩn đoán Y học cổ truyền",
+        theme_color: "#6b4423",
+        icons: [
+          {
+            src: 'pwa-icon-192.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'pwa-icon-512.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
+    }),
     // DevTools CHỈ bật khi chạy dev (vite serve). KHÔNG đưa vào bản build production:
     // nó làm chậm build trên VPS RAM thấp và nhét overlay/đồ nghề debug vào bundle người dùng.
     ...(command === 'serve' ? [vueDevTools()] : []),
