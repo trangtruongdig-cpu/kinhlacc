@@ -191,7 +191,7 @@ const isDetailPage = () => route.path.startsWith('/ho-so/kham-benh/') && route.p
 /* ── Main ── */
 .app-main {
   flex: 1;
-  padding-bottom: 70px; /* Dành chỗ bottom nav */
+  padding: 0 var(--space-4) 70px var(--space-4); /* Dành chỗ bottom nav + lề 2 bên trên mobile */
   width: 100%;
 }
 
@@ -232,7 +232,7 @@ const isDetailPage = () => route.path.startsWith('/ho-so/kham-benh/') && route.p
 /* ── Desktop: sidebar layout ── */
 @media (min-width: 768px) {
   .bottom-nav { display: none; }
-  .app-main { padding-bottom: 0; }
+  .app-main { padding: var(--space-6) var(--space-8); }
   .patient-app-layout { flex-direction: row; }
   .app-header {
     display: flex;
