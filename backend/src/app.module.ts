@@ -238,12 +238,12 @@ import { requireJwtSecret } from './middlewares/auth/jwt-secret.util';
       {
         name: 'short',
         ttl: 60 * 1000, // 60 giây
-        limit: 20,      // 20 request/phút per IP
+        limit: 120,     // Nâng lên 120 request/phút để tránh kẹt khi có SSE refresh
       },
       {
         name: 'long',
         ttl: 60 * 60 * 1000, // 1 giờ
-        limit: 500,          // 500 request/giờ per IP
+        limit: 5000,         // 5000 request/giờ per IP
       },
     ]),
   ],

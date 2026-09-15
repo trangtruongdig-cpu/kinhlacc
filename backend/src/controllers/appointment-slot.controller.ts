@@ -69,10 +69,7 @@ export class AppointmentSlotsService {
 
   async findAvailable(date: string): Promise<AppointmentSlot[]> {
     return this.slotRepo.find({
-      where: { 
-        slotDate: date, 
-        status: In(['OPEN', 'BOOKED', 'COMPLETED']) as any
-      },
+      where: { slotDate: date }, // Lấy tất cả các ca trong ngày để UI bệnh nhân không bị khuyết (ẩn)
       order: { slotTime: 'ASC' },
     });
   }
@@ -101,7 +98,9 @@ export class AppointmentSlotsService {
       throw new ConflictException('Vé đã hoàn thành, không thể đóng');
     }
     slot.status = 'CLOSED';
-    return this.slotRepo.save(slot);
+    const saved = await this.slotRepo.save(slot);
+    this.sseService.emitEvent({ type: 'SLOT_UPDATED' });
+    return saved;
   }
 
   async open(id: number): Promise<AppointmentSlot> {
@@ -114,7 +113,9 @@ export class AppointmentSlotsService {
     slot.status = 'OPEN';
     slot.patientId = null;
     slot.reason = null;
-    return this.slotRepo.save(slot);
+    const saved = await this.slotRepo.save(slot);
+    this.sseService.emitEvent({ type: 'SLOT_UPDATED' });
+    return saved;
   }
 
   async book(id: number, dto: BookSlotDto): Promise<AppointmentSlot> {
@@ -122,7 +123,7 @@ export class AppointmentSlotsService {
       throw new BadRequestException('Thiếu patientId');
     }
     const slot = await this.findOne(id);
-    if (slot.status !== 'OPEN') {
+    if (slot.status !== 'OPEN' && slot.status !== 'CANCELLED') {
       throw new ConflictException(
         `Vé không khả dụng (trạng thái: ${slot.status})`,
       );
@@ -158,6 +159,7 @@ export class AppointmentSlotsService {
     slot.status = 'CANCELLED';
     const saved = await this.slotRepo.save(slot);
     await this.notifyStatusChange(saved);
+    this.sseService.emitEvent({ type: 'SLOT_UPDATED' });
     return saved;
   }
 
@@ -179,6 +181,7 @@ export class AppointmentSlotsService {
     slot.status = 'COMPLETED';
     const saved = await this.slotRepo.save(slot);
     await this.notifyStatusChange(saved);
+    this.sseService.emitEvent({ type: 'SLOT_UPDATED' });
     return saved;
   }
 

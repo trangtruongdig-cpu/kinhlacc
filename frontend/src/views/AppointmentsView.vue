@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '@/services/api'
 import type { Patient } from '@/stores/patient'
@@ -52,10 +52,19 @@ function todayYMD(): string {
   }).format(new Date())
 }
 
-const currentDate = ref(parseYMD(todayYMD()))
+const weekStart = ref(parseYMD(todayYMD()))
+
+// Đảm bảo weekStart luôn bắt đầu từ thứ Hai
+;(function initWeekStart() {
+  const d = parseYMD(todayYMD())
+  const dow = d.getDay() // 0=CN
+  const offset = dow === 0 ? 6 : dow - 1
+  d.setDate(d.getDate() - offset)
+  weekStart.value = d
+})()
+
 const selectedDate = ref<string>(todayYMD())
 
-const isLoadingMonth = ref(false)
 const isLoadingDay = ref(false)
 const error = ref<string | null>(null)
 const actionLoading = ref(false)
@@ -63,7 +72,6 @@ const actionSlotId = ref<number | null>(null)
 const actionType = ref<string | null>(null)
 
 const slotsByDate = ref<Record<string, AppointmentSlot[]>>({})
-const summaryByDate = ref<Record<string, DaySummary>>({})
 const effectiveSchedule = ref<EffectiveSchedule | null>(null)
 const patientsMap = ref<Record<number, Patient>>({})
 const patientsList = ref<Patient[]>([])
@@ -74,13 +82,22 @@ const bookReason = ref('')
 const bookNotes = ref('')
 const bookSearch = ref('')
 
+let refreshListener: EventListener | null = null
+
 onMounted(async () => {
-  await Promise.all([loadMonth(), loadPatients()])
+  await loadPatients()
   await loadDay(selectedDate.value)
+  
+  refreshListener = async () => {
+    await loadDay(selectedDate.value)
+  }
+  window.addEventListener('REFRESH_BOOKINGS', refreshListener)
 })
 
-watch(currentDate, async () => {
-  await loadMonth()
+onBeforeUnmount(() => {
+  if (refreshListener) {
+    window.removeEventListener('REFRESH_BOOKINGS', refreshListener)
+  }
 })
 
 watch(selectedDate, async (val) => {
@@ -101,34 +118,62 @@ function parseYMD(ymd: string): Date {
   return new Date(y || 1970, (m || 1) - 1, d || 1)
 }
 
-function monthRange(date: Date): { from: string; to: string } {
-  const y = date.getFullYear()
-  const m = date.getMonth()
-  const first = new Date(y, m, 1)
-  const last = new Date(y, m + 1, 0)
-  // mở rộng để bao cả các ô tháng trước/sau trong grid
-  const startWeekday = first.getDay() === 0 ? 6 : first.getDay() - 1
-  const gridStart = new Date(y, m, 1 - startWeekday)
-  const gridEnd = new Date(gridStart)
-  gridEnd.setDate(gridStart.getDate() + 41)
-  return { from: formatYMD(gridStart), to: formatYMD(gridEnd) }
+const weekDays = computed(() => {
+  const today = todayYMD()
+  const days: { date: string; dayNum: number; dayName: string; isPast: boolean; isToday: boolean }[] = []
+  const start = new Date(weekStart.value)
+  const dayNames = ['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN']
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(start)
+    d.setDate(start.getDate() + i)
+    const ymd = formatYMD(d)
+    days.push({
+      date: ymd,
+      dayNum: d.getDate(),
+      dayName: dayNames[i],
+      isPast: ymd < today,
+      isToday: ymd === today,
+    })
+  }
+  return days
+})
+
+const weekLabel = computed(() => {
+  const start = weekDays.value[0]
+  const end = weekDays.value[6]
+  const sDate = parseYMD(start.date)
+  const eDate = parseYMD(end.date)
+  const sMonth = sDate.getMonth() + 1
+  const eMonth = eDate.getMonth() + 1
+  if (sMonth === eMonth) {
+    return `${start?.dayNum} - ${end?.dayNum} Tháng ${sMonth}, ${sDate.getFullYear()}`
+  }
+  return `${start?.dayNum}/${sMonth} - ${end?.dayNum}/${eMonth}, ${eDate.getFullYear()}`
+})
+
+function prevWeek() {
+  const d = new Date(weekStart.value)
+  d.setDate(d.getDate() - 7)
+  weekStart.value = d
+  const firstDay = formatYMD(d)
+  const today = todayYMD()
+  if (selectedDate.value < firstDay || selectedDate.value > formatYMD(new Date(d.getTime() + 6 * 86400000))) {
+    selectedDate.value = firstDay < today ? today : firstDay
+  }
 }
 
-async function loadMonth() {
-  isLoadingMonth.value = true
-  error.value = null
-  try {
-    const { from, to } = monthRange(currentDate.value)
-    const summary = await api.get<Record<string, DaySummary>>(
-      `/appointment-slots/summary?from=${from}&to=${to}`,
-    )
-    summaryByDate.value = summary || {}
-  } catch (err: any) {
-    console.error(err)
-    error.value = 'Lỗi tải dữ liệu: ' + err.message
-  } finally {
-    isLoadingMonth.value = false
+function nextWeek() {
+  const d = new Date(weekStart.value)
+  d.setDate(d.getDate() + 7)
+  weekStart.value = d
+  const firstDay = formatYMD(d)
+  if (selectedDate.value < firstDay || selectedDate.value > formatYMD(new Date(d.getTime() + 6 * 86400000))) {
+    selectedDate.value = firstDay
   }
+}
+
+function selectDay(day: typeof weekDays.value[0]) {
+  selectedDate.value = day.date
 }
 
 async function loadDay(date: string) {
@@ -136,7 +181,7 @@ async function loadDay(date: string) {
   try {
     const [slots, eff] = await Promise.all([
       api.get<AppointmentSlot[]>(`/appointment-slots?date=${date}`),
-      api.get<EffectiveSchedule>(`/clinic-schedule/effective/${date}`),
+      api.get<EffectiveSchedule>(`/clinic-schedule/effective/${date}`)
     ])
     slotsByDate.value[date] = (slots || []).map(normalizeSlot)
     effectiveSchedule.value = eff
@@ -162,7 +207,7 @@ async function loadPatients() {
         acc[p.id] = p
         return acc
       },
-      {} as Record<number, Patient>,
+      {} as Record<number, Patient>
     )
   } catch (err: any) {
     console.error('Lỗi tải bệnh nhân:', err)
@@ -170,7 +215,7 @@ async function loadPatients() {
 }
 
 const daySlots = computed<AppointmentSlot[]>(
-  () => slotsByDate.value[selectedDate.value] || [],
+  () => slotsByDate.value[selectedDate.value] || []
 )
 
 const dayStats = computed<DaySummary>(() => {
@@ -181,59 +226,10 @@ const dayStats = computed<DaySummary>(() => {
     COMPLETED: 0,
     CANCELLED: 0,
   }
+  if (!daySlots.value) return base
   for (const s of daySlots.value) base[s.status]++
   return base
 })
-
-// --- Calendar grid ---
-const monthGrid = computed(() => {
-  const year = currentDate.value.getFullYear()
-  const month = currentDate.value.getMonth()
-  const first = new Date(year, month, 1)
-  const daysInMonth = new Date(year, month + 1, 0).getDate()
-  const startWeekday = first.getDay() === 0 ? 6 : first.getDay() - 1
-  const cells: { date: Date; ymd: string; inMonth: boolean }[] = []
-  const prevLast = new Date(year, month, 0).getDate()
-  for (let i = startWeekday - 1; i >= 0; i--) {
-    const d = new Date(year, month - 1, prevLast - i)
-    cells.push({ date: d, ymd: formatYMD(d), inMonth: false })
-  }
-  for (let i = 1; i <= daysInMonth; i++) {
-    const d = new Date(year, month, i)
-    cells.push({ date: d, ymd: formatYMD(d), inMonth: true })
-  }
-  while (cells.length < 42) {
-    const last = cells[cells.length - 1]!.date
-    const d = new Date(last)
-    d.setDate(d.getDate() + 1)
-    cells.push({ date: d, ymd: formatYMD(d), inMonth: false })
-  }
-  return cells
-})
-
-const calendarTitle = computed(() => {
-  const m = currentDate.value.getMonth() + 1
-  const y = currentDate.value.getFullYear()
-  return `Tháng ${m}, ${y}`
-})
-
-function prevMonth() {
-  const d = new Date(currentDate.value)
-  d.setMonth(d.getMonth() - 1)
-  currentDate.value = d
-}
-
-function nextMonth() {
-  const d = new Date(currentDate.value)
-  d.setMonth(d.getMonth() + 1)
-  currentDate.value = d
-}
-
-function goToday() {
-  const t = todayYMD()
-  currentDate.value = parseYMD(t)
-  selectedDate.value = t
-}
 
 function isToday(ymd: string) {
   return ymd === todayYMD()
@@ -250,7 +246,7 @@ async function generateForDate() {
       {},
     )
     alert(`Đã sinh ${res.created} vé mới (tổng ${res.total} vé/ngày)`)
-    await Promise.all([loadDay(selectedDate.value), loadMonth()])
+    await loadDay(selectedDate.value)
   } catch (err: any) {
     alert('Lỗi: ' + err.message)
   } finally {
@@ -277,7 +273,7 @@ async function generateForWeek() {
     )
     const total = res.reduce((s, r) => s + r.created, 0)
     alert(`Đã sinh ${total} vé mới trong tuần`)
-    await Promise.all([loadDay(selectedDate.value), loadMonth()])
+    await loadDay(selectedDate.value)
   } catch (err: any) {
     alert('Lỗi: ' + err.message)
   } finally {
@@ -296,7 +292,7 @@ async function runSlotAction(
   actionType.value = type
   try {
     await api.put(`/appointment-slots/${slot.id}/${endpoint}`, {})
-    await Promise.all([loadDay(selectedDate.value), loadMonth()])
+    await loadDay(selectedDate.value)
   } catch (err: any) {
     alert('Lỗi: ' + err.message)
   } finally {
@@ -364,7 +360,7 @@ async function confirmBook() {
       notes: bookNotes.value || undefined,
     })
     closeBookModal()
-    await Promise.all([loadDay(selectedDate.value), loadMonth()])
+    await loadDay(selectedDate.value)
   } catch (err: any) {
     alert('Lỗi: ' + err.message)
   } finally {
@@ -409,64 +405,32 @@ function goToPatient(id: number) {
 
     <div v-if="error" class="alert-error">
       {{ error }}
-      <button class="btn-link" @click="loadMonth">Thử lại</button>
+      <button class="btn-link" @click="loadDay(selectedDate.value)">Thử lại</button>
     </div>
 
-    <div class="layout">
-      <!-- Calendar (left) -->
-      <div class="calendar-card">
-        <div class="cal-toolbar">
-          <div class="cal-nav">
-            <button class="btn-icon" :disabled="isLoadingMonth" @click="prevMonth"><span>‹</span></button>
-            <button class="btn-today" :disabled="isLoadingMonth" @click="goToday">Hôm nay</button>
-            <button class="btn-icon" :disabled="isLoadingMonth" @click="nextMonth"><span>›</span></button>
-          </div>
-          <div class="cal-title-wrap">
-            <h2 class="cal-title">{{ calendarTitle }}</h2>
-            <span v-if="isLoadingMonth" class="inline-spinner" aria-label="Đang tải"></span>
-          </div>
-        </div>
-
-        <div class="progress-bar" :class="{ 'is-loading': isLoadingMonth }"></div>
-
-        <div class="cal-header-row">
-          <div>T2</div><div>T3</div><div>T4</div><div>T5</div><div>T6</div><div>T7</div><div>CN</div>
-        </div>
-        <div class="cal-grid" :class="{ 'is-loading': isLoadingMonth }">
-          <div
-            v-for="cell in monthGrid"
-            :key="cell.ymd"
-            class="cal-cell"
-            :class="{
-              'not-in-month': !cell.inMonth,
-              'is-today': isToday(cell.ymd),
-              'is-selected': cell.ymd === selectedDate,
-            }"
-            @click="selectedDate = cell.ymd"
-          >
-            <div class="cell-date">{{ cell.date.getDate() }}</div>
-            <div class="cell-counts" v-if="summaryByDate[cell.ymd]">
-              <span
-                v-if="summaryByDate[cell.ymd]!.BOOKED > 0"
-                class="chip chip-booked"
-                title="Đã đặt"
-              >{{ summaryByDate[cell.ymd]!.BOOKED }}</span>
-              <span
-                v-if="summaryByDate[cell.ymd]!.OPEN > 0"
-                class="chip chip-open"
-                title="Trống"
-              >{{ summaryByDate[cell.ymd]!.OPEN }}</span>
-              <span
-                v-if="summaryByDate[cell.ymd]!.CLOSED > 0"
-                class="chip chip-closed"
-                title="Đóng"
-              >{{ summaryByDate[cell.ymd]!.CLOSED }}</span>
-            </div>
-          </div>
-        </div>
+    <!-- Week Selector -->
+    <div class="week-selector">
+      <div class="week-toolbar">
+        <button class="btn-icon" @click="prevWeek"><span>‹</span></button>
+        <button class="btn-today" @click="selectedDate = todayYMD()">Hôm nay</button>
+        <button class="btn-icon" @click="nextWeek"><span>›</span></button>
+        <h2 class="week-label">{{ weekLabel }}</h2>
       </div>
 
-      <!-- Day panel (right) -->
+      <div class="week-grid">
+        <div
+          v-for="day in weekDays"
+          :key="day.date"
+          :class="['week-day', { 'is-selected': day.date === selectedDate, 'is-today': day.isToday }]"
+          @click="selectDay(day)"
+        >
+          <div class="day-name">{{ day.dayName }}</div>
+          <div class="day-num">{{ day.dayNum }}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="layout-full">
       <div class="day-card">
         <div class="progress-bar" :class="{ 'is-loading': isLoadingDay }"></div>
         <div class="day-header">
@@ -638,19 +602,30 @@ function goToPatient(id: number) {
 .alert-error { padding: var(--space-3); background: var(--danger-bg); color: var(--danger-fg); border-radius: var(--radius-md); margin-bottom: var(--space-4); display: flex; justify-content: space-between; align-items: center; }
 .btn-link { background: transparent; color: var(--danger-fg); text-decoration: underline; }
 
-.layout { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-5); }
-@media(max-width: 1100px) { .layout { grid-template-columns: 1fr; } }
+.layout-full { display: flex; flex-direction: column; gap: var(--space-5); }
 
-.calendar-card, .day-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-xl); box-shadow: var(--shadow-sm); overflow: hidden; }
+/* --- Week Selector --- */
+.week-selector { background: var(--white); border-radius: var(--radius-lg); border: 1px solid var(--brown-100); padding: var(--space-3) var(--space-4); margin-bottom: var(--space-4); box-shadow: var(--shadow-sm); }
+.week-toolbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-3); }
+.btn-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--brown-200); border-radius: var(--radius-md); background: var(--white); color: var(--brown-600); cursor: pointer; transition: all var(--transition-fast); }
+.btn-icon:hover { background: var(--gray-100); color: var(--brown-700); }
+.btn-today { padding: 4px 12px; border: 1px solid var(--brown-200); border-radius: var(--radius-md); background: var(--white); color: var(--brown-600); font-weight: 600; font-size: var(--font-size-sm); cursor: pointer; transition: all var(--transition-fast); }
+.btn-today:hover { background: var(--gray-100); color: var(--brown-700); }
+.week-label { font-size: var(--font-size-md); font-weight: 700; color: var(--brown-800); }
 
-.cal-toolbar { display: flex; justify-content: space-between; align-items: center; padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--gray-200); background: var(--brown-50); }
-.cal-nav { display: flex; align-items: center; gap: var(--space-2); }
-.btn-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border: 1px solid var(--brown-300); border-radius: var(--radius-md); background: var(--white); color: var(--brown-700); font-size: 18px; font-weight: 600; }
-.btn-icon:hover { background: var(--brown-100); }
-.btn-today { padding: 4px 12px; border: 1px solid var(--brown-300); border-radius: var(--radius-md); background: var(--white); color: var(--brown-700); font-weight: 600; font-size: var(--font-size-sm); }
-.btn-today:hover { background: var(--brown-100); }
-.cal-title { font-size: var(--font-size-md); font-weight: 700; color: var(--brown-900); }
-.cal-title-wrap { display: flex; align-items: center; gap: var(--space-2); }
+.week-grid { display: flex; justify-content: space-between; gap: var(--space-2); overflow-x: auto; padding-bottom: 4px; }
+.week-grid::-webkit-scrollbar { display: none; }
+.week-day { flex: 1; min-width: 45px; text-align: center; padding: var(--space-2) 0; border-radius: var(--radius-md); border: 1px solid transparent; cursor: pointer; transition: all var(--transition-fast); }
+.week-day:hover { background: var(--gray-50); }
+.week-day.is-selected { background: var(--brown-50); border-color: var(--brown-400); }
+.week-day.is-selected .day-num { color: var(--brown-700); font-weight: 700; }
+.week-day.is-selected .day-name { color: var(--brown-700); }
+.week-day.is-today .day-num::after { content: ''; display: block; width: 4px; height: 4px; background: var(--success); border-radius: 50%; margin: 2px auto 0; }
+.day-name { font-size: 11px; font-weight: 600; color: var(--gray-500); text-transform: uppercase; margin-bottom: 4px; }
+.day-num { font-size: var(--font-size-lg); font-weight: 600; color: var(--gray-700); }
+
+/* --- Day Card --- */
+.day-card { background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-xl); box-shadow: var(--shadow-sm); overflow: hidden; }
 
 /* --- Loading indicators --- */
 .progress-bar { height: 3px; background: transparent; overflow: hidden; position: relative; }
@@ -683,7 +658,6 @@ function goToPatient(id: number) {
 }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-.cal-grid.is-loading { opacity: 0.55; pointer-events: none; transition: opacity .2s; }
 .slots-grid.is-loading { opacity: 0.6; transition: opacity .2s; }
 
 /* Skeleton slot card */
@@ -712,24 +686,6 @@ function goToPatient(id: number) {
   backdrop-filter: blur(1px);
 }
 
-.cal-header-row { display: grid; grid-template-columns: repeat(7, 1fr); background: var(--gray-50); border-bottom: 1px solid var(--gray-200); }
-.cal-header-row > div { padding: var(--space-2); text-align: center; font-size: var(--font-size-xs); font-weight: 700; color: var(--gray-500); }
-
-.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); }
-.cal-cell { min-height: 72px; border-right: 1px solid var(--gray-100); border-bottom: 1px solid var(--gray-100); padding: 4px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; transition: background .15s; }
-.cal-cell:nth-child(7n) { border-right: none; }
-.cal-cell:hover { background: var(--brown-50); }
-.cal-cell.not-in-month { background: var(--gray-50); opacity: .55; }
-.cal-cell.is-today .cell-date { color: var(--brown-700); font-weight: 800; }
-.cal-cell.is-selected { background: var(--brown-100); }
-.cal-cell.is-selected .cell-date { color: var(--brown-900); font-weight: 800; }
-.cell-date { font-size: var(--font-size-sm); color: var(--gray-700); }
-.cell-counts { display: flex; flex-wrap: wrap; gap: 2px; }
-.chip { font-size: 10px; padding: 1px 6px; border-radius: 999px; font-weight: 700; }
-.chip-open { background: var(--info-bg); color: var(--info-fg); }
-.chip-booked { background: var(--warning-bg); color: var(--warning-fg); }
-.chip-closed { background: var(--surface-sunken); color: var(--text-muted); }
-
 .day-header { padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--gray-200); background: var(--brown-50); }
 .day-title { font-size: var(--font-size-md); font-weight: 700; color: var(--brown-900); }
 .day-meta { font-size: var(--font-size-sm); color: var(--gray-600); margin-top: 4px; display: flex; gap: var(--space-2); flex-wrap: wrap; }
@@ -748,7 +704,7 @@ function goToPatient(id: number) {
 .empty { padding: var(--space-6); text-align: center; color: var(--gray-500); }
 .empty-hint { font-size: var(--font-size-sm); margin-top: 4px; }
 
-.slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: var(--space-3); padding: 0 var(--space-4) var(--space-4); }
+.slots-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: var(--space-4); padding: 0 var(--space-4) var(--space-4); }
 .slot-card { padding: var(--space-3); border: 1px solid var(--gray-200); border-radius: var(--radius-md); display: flex; flex-direction: column; gap: var(--space-2); background: var(--white); }
 .slot-card.slot-open { border-color: var(--info-border); background: var(--info-bg); }
 .slot-card.slot-booked { border-color: var(--warning-border); background: var(--warning-bg); }

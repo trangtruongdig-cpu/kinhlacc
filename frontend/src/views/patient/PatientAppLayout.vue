@@ -10,9 +10,6 @@ function handleLogout() {
   authStore.logout()
   router.push({ name: 'patient-login' })
 }
-
-// Đang ở trang chi tiết kết quả → hiện nút "Về Hồ Sơ"
-const isDetailPage = () => route.path.startsWith('/ho-so/kham-benh/') && route.params.examId
 </script>
 
 <template>
@@ -33,7 +30,7 @@ const isDetailPage = () => route.path.startsWith('/ho-so/kham-benh/') && route.p
         <nav class="sidebar-nav">
           <RouterLink :to="{ name: 'patient-records' }" class="sidebar-link" active-class="sidebar-link--active">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-            Hồ Sơ Khám
+            Kết quả đo
           </RouterLink>
           <RouterLink :to="{ name: 'patient-schedule' }" class="sidebar-link" active-class="sidebar-link--active">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -43,6 +40,10 @@ const isDetailPage = () => route.path.startsWith('/ho-so/kham-benh/') && route.p
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
             Hỗ trợ Zalo
           </a>
+          <RouterLink :to="{ name: 'patient-profile' }" class="sidebar-link" active-class="sidebar-link--active">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Hồ Sơ
+          </RouterLink>
         </nav>
 
         <!-- Thông tin user + đăng xuất -->
@@ -57,13 +58,6 @@ const isDetailPage = () => route.path.startsWith('/ho-so/kham-benh/') && route.p
     </header>
 
     <main class="app-main">
-      <!-- Nút Về Hồ Sơ (mobile): chỉ hiện khi đang ở trang chi tiết kết quả -->
-      <div v-if="isDetailPage()" class="mobile-back-bar">
-        <button class="mobile-back-btn" @click="router.push({ name: 'patient-records' })">
-          <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
-          Về Hồ Sơ
-        </button>
-      </div>
       <RouterView :key="route.name === 'patient-record-detail' ? route.path : undefined" />
     </main>
 
@@ -71,7 +65,7 @@ const isDetailPage = () => route.path.startsWith('/ho-so/kham-benh/') && route.p
     <nav class="bottom-nav">
       <RouterLink :to="{ name: 'patient-records' }" class="nav-item" active-class="nav-item-active">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
-        <span>Hồ sơ</span>
+        <span>Kết quả đo</span>
       </RouterLink>
       <RouterLink :to="{ name: 'patient-schedule' }" class="nav-item" active-class="nav-item-active">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -81,6 +75,10 @@ const isDetailPage = () => route.path.startsWith('/ho-so/kham-benh/') && route.p
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
         <span>Hỗ trợ</span>
       </a>
+      <RouterLink :to="{ name: 'patient-profile' }" class="nav-item" active-class="nav-item-active">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span>Hồ sơ</span>
+      </RouterLink>
       <button class="nav-item nav-item-logout" @click="handleLogout">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
         <span>Đăng xuất</span>

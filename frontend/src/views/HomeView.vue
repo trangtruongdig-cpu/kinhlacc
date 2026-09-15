@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '@/services/api'
 import { useAuthStore } from '@/stores/auth'
@@ -191,7 +191,22 @@ async function loadDashboard() {
   loading.value = false
 }
 
-onMounted(loadDashboard)
+let refreshListener: EventListener | null = null
+
+onMounted(() => {
+  loadDashboard()
+  
+  refreshListener = () => {
+    loadDashboard()
+  }
+  window.addEventListener('REFRESH_BOOKINGS', refreshListener)
+})
+
+onBeforeUnmount(() => {
+  if (refreshListener) {
+    window.removeEventListener('REFRESH_BOOKINGS', refreshListener)
+  }
+})
 </script>
 
 <template>

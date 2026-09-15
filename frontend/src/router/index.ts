@@ -222,9 +222,7 @@ const router = createRouter({
         {
           path: 'tai-khoan',
           name: 'patient-profile',
-          // Tạm thời để trống hoặc tạo placeholder, 
-          // có thể redirect về danh sách khám bệnh nếu chưa có view
-          redirect: { name: 'patient-records' },
+          component: () => import('@/views/patient/PatientProfileView.vue'),
         }
       ],
     },

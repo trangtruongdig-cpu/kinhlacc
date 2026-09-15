@@ -3000,7 +3000,7 @@ function printPhieuKetQua() {
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<title>Phiếu kết quả khám bệnh - ${escHtml(p.fullName)}</title>
+<title>Phiếu kết quả đo nhiệt độ kinh lạc - ${escHtml(p.fullName)}</title>
 <style>
   * { box-sizing: border-box; }
   body { font-family: "Times New Roman", Times, "Liberation Serif", serif; color: #1f2937; margin: 0; padding: 0; font-size: 8.5px; line-height: 1.32; -webkit-print-color-adjust: exact; print-color-adjust: exact; -webkit-user-select: none; user-select: none; }
@@ -3124,7 +3124,7 @@ function printPhieuKetQua() {
 <div class="sheet">
   <div class="doc-head">
     <div class="clinic">Phòng khám Y Học Cổ Truyền</div>
-    <div class="doc-title">PHIẾU KẾT QUẢ KHÁM BỆNH</div>
+    <div class="doc-title">PHIẾU KẾT QUẢ ĐO NHIỆT ĐỘ KINH LẠC</div>
     <div class="doc-sub">Mã phiếu ${escHtml(ex.ticketNumber)} · Ngày khám ${escHtml(ex.date)} ${escHtml(ex.time)}</div>
   </div>
 
@@ -3264,7 +3264,7 @@ watch(
       
       <div v-if="patient" class="exam-summary-row">
         <div class="exam-summary">
-          <h1 class="page-title">Kết quả Khám bệnh - {{ examDisplay.ticketNumber }}</h1>
+          <h1 class="page-title">Kết quả đo Nhiệt Độ Kinh Lạc - {{ examDisplay.ticketNumber }}</h1>
           <div class="exam-meta">
             <span>Bệnh nhân: <strong>{{ displayPatientName }}</strong></span>
             <span class="divider">|</span>
@@ -3275,7 +3275,7 @@ watch(
           <button
             type="button"
             class="print-btn"
-            title="In phiếu kết quả khám bệnh cho bệnh nhân"
+            title="In phiếu kết quả đo nhiệt độ kinh lạc cho bệnh nhân"
             @click="printPhieuKetQua"
           >
             <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">

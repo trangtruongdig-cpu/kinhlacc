@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { usePatientAuthStore } from '@/stores/patientAuth'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001'
@@ -305,10 +305,24 @@ function statusClass(status: SlotStatus) {
   }
 }
 
+let refreshListener: EventListener | null = null
+
 // ── Init ──
 onMounted(() => {
   fetchAvailable(selectedDate.value)
   fetchMySlots()
+  
+  refreshListener = () => {
+    fetchAvailable(selectedDate.value)
+    fetchMySlots()
+  }
+  window.addEventListener('REFRESH_BOOKINGS', refreshListener)
+})
+
+onBeforeUnmount(() => {
+  if (refreshListener) {
+    window.removeEventListener('REFRESH_BOOKINGS', refreshListener)
+  }
 })
 
 // ── Lịch (Đồng bộ) ──
@@ -467,12 +481,13 @@ END:VCALENDAR`
         <button
           v-for="slot in availableSlots"
           :key="slot.id"
-          :class="['slot-card', slot.status === 'OPEN' ? '' : 'slot-disabled']"
-          :disabled="slot.status !== 'OPEN'"
-          @click="slot.status === 'OPEN' ? openBookModal(slot) : null"
+          :class="['slot-card', (slot.status === 'OPEN' || slot.status === 'CANCELLED') ? '' : 'slot-disabled']"
+          :disabled="(slot.status !== 'OPEN' && slot.status !== 'CANCELLED')"
+          @click="(slot.status === 'OPEN' || slot.status === 'CANCELLED') ? openBookModal(slot) : null"
         >
           <span class="slot-time">{{ formatSlotTime(slot.slotTime) }}</span>
-          <span v-if="slot.status === 'OPEN'" class="slot-status-open">Trống</span>
+          <span v-if="slot.status === 'OPEN' || slot.status === 'CANCELLED'" class="slot-status-open">Trống</span>
+          <span v-else-if="slot.status === 'CLOSED'" class="slot-status-closed">Đã đóng</span>
           <span v-else class="slot-status-booked">Đã Đặt</span>
         </button>
       </div>
@@ -915,6 +930,13 @@ END:VCALENDAR`
   font-size: var(--font-size-xs);
   font-weight: 600;
   color: var(--gray-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.slot-status-closed {
+  font-size: var(--font-size-xs);
+  font-weight: 600;
+  color: var(--danger);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }

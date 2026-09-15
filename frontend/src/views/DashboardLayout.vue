@@ -204,53 +204,7 @@ function handleLogout() {
   authStore.logout()
   router.push({ name: 'login' })
 }
-// ----- SSE Notification (Realtime Bookings) -----
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001'
-const toastMessages = ref<{ id: number; type: string; msg: string; link?: string }[]>([])
-let toastIdCounter = 0
-
-function showToast(msg: string, type = 'success', link?: string) {
-  const id = toastIdCounter++
-  toastMessages.value.push({ id, type, msg, link })
-  setTimeout(() => {
-    toastMessages.value = toastMessages.value.filter(t => t.id !== id)
-  }, 10000)
-}
-
-function dismissToast(id: number) {
-  toastMessages.value = toastMessages.value.filter(t => t.id !== id)
-}
-
-let eventSource: EventSource | null = null
-
-onMounted(() => {
-  if (authStore.token) {
-    const sseUrl = `${API_BASE}/notifications/sse?token=${authStore.token}`
-    eventSource = new EventSource(sseUrl)
-    
-    eventSource.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data)
-        if (data.type === 'NEW_BOOKING') {
-          showToast(data.message, 'success', '/admin/lich-kham') // Link to schedule page (if needed)
-        }
-      } catch (e) {
-        console.error('SSE Parse Error:', e)
-      }
-    }
-    
-    eventSource.onerror = () => {
-      // EventSource tự động reconnect, có thể đóng đi mở lại nếu quá nhiều lỗi
-    }
-  }
-})
-
-onBeforeUnmount(() => {
-  if (eventSource) {
-    eventSource.close()
-  }
-})
-
+// ----- Bỏ SSE ở đây, đã chuyển lên App.vue -----
 </script>
 
 <template>
@@ -540,21 +494,6 @@ onBeforeUnmount(() => {
       </button>
     </nav>
 
-    <!-- SSE Toasts Container -->
-    <div class="sse-toasts-container">
-      <TransitionGroup name="toast">
-        <div v-for="toast in toastMessages" :key="toast.id" :class="['sse-toast', `toast-${toast.type}`]">
-          <div class="toast-icon">
-            <svg v-if="toast.type === 'success'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-          </div>
-          <div class="toast-content">
-            <p>{{ toast.msg }}</p>
-            <RouterLink v-if="toast.link" :to="toast.link" class="toast-link" @click="dismissToast(toast.id)">Xem chi tiết</RouterLink>
-          </div>
-          <button class="toast-close" @click="dismissToast(toast.id)">✕</button>
-        </div>
-      </TransitionGroup>
-    </div>
   </div>
 </template>
 
@@ -564,6 +503,9 @@ onBeforeUnmount(() => {
   width: 100%;
 }
 .dashboard-layout{display:flex;min-height:100vh;min-height:100dvh;background:var(--bg-app)}
+
+/* Bottom Nav mặc định ẩn trên Desktop */
+.bottom-nav { display: none; }
 
 /* Backdrop (chỉ dùng ở chế độ drawer ≤1024px) */
 .sidebar-backdrop{position:fixed;inset:0;background:rgba(28,24,18,.45);backdrop-filter:blur(2px);z-index:90;opacity:0;visibility:hidden;transition:opacity var(--transition-base),visibility var(--transition-base)}
@@ -759,70 +701,4 @@ onBeforeUnmount(() => {
   .page-title{font-size:var(--font-size-md)}
   .content-area{padding:var(--space-3)}
 }
-
-/* ── SSE Toasts ── */
-.sse-toasts-container {
-  position: fixed;
-  bottom: 24px;
-  right: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 9999;
-  pointer-events: none;
-}
-.sse-toast {
-  pointer-events: auto;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  background: var(--white);
-  padding: 16px;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-  border-left: 4px solid var(--gray-400);
-  width: 320px;
-  max-width: calc(100vw - 48px);
-}
-.toast-success { border-left-color: var(--success); }
-.toast-error { border-left-color: var(--danger); }
-.toast-icon {
-  flex-shrink: 0;
-  color: var(--success);
-  margin-top: 2px;
-}
-.toast-content {
-  flex: 1;
-}
-.toast-content p {
-  margin: 0;
-  font-size: var(--font-size-sm);
-  color: var(--gray-800);
-  font-weight: 500;
-  line-height: 1.4;
-}
-.toast-link {
-  display: inline-block;
-  margin-top: 8px;
-  font-size: var(--font-size-xs);
-  color: var(--brown-600);
-  font-weight: 600;
-  text-decoration: none;
-}
-.toast-link:hover { text-decoration: underline; }
-.toast-close {
-  background: none;
-  border: none;
-  color: var(--gray-400);
-  cursor: pointer;
-  padding: 4px;
-  font-size: 14px;
-  line-height: 1;
-}
-.toast-close:hover { color: var(--gray-700); }
-
-/* Transitions */
-.toast-enter-active, .toast-leave-active { transition: all 0.3s ease; }
-.toast-enter-from { opacity: 0; transform: translateX(50px); }
-.toast-leave-to { opacity: 0; transform: translateX(50px); }
 </style>
