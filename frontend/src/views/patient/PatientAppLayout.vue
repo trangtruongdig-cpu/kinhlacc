@@ -60,7 +60,7 @@ const isDetailPage = () => route.path.startsWith('/ho-so/kham-benh/') && route.p
           Về Hồ Sơ
         </button>
       </div>
-      <RouterView />
+      <RouterView :key="route.name === 'patient-record-detail' ? route.fullPath : undefined" />
     </main>
 
     <!-- Bottom Navigation for mobile -->
