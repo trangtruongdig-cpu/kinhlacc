@@ -6,7 +6,7 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, Repository } from 'typeorm';
+import { Between, Repository, In } from 'typeorm';
 import {
   AppointmentSlot,
   AppointmentSlotStatus,
@@ -17,6 +17,7 @@ import {
 } from '../models/appointment-slot.dto';
 import { FirebaseService } from './firebase.controller';
 import { PatientsService } from './patient.controller';
+import { SseService } from './sse.service';
 
 export interface PaginatedSlots {
   data: AppointmentSlot[];
@@ -33,6 +34,7 @@ export class AppointmentSlotsService {
     private readonly slotRepo: Repository<AppointmentSlot>,
     private readonly firebaseService: FirebaseService,
     private readonly patientsService: PatientsService,
+    private readonly sseService: SseService,
   ) {}
 
   async findByDate(date: string): Promise<AppointmentSlot[]> {
@@ -62,6 +64,16 @@ export class AppointmentSlotsService {
     return this.slotRepo.find({
       where: { patientId },
       order: { slotDate: 'DESC', slotTime: 'DESC' },
+    });
+  }
+
+  async findAvailable(date: string): Promise<AppointmentSlot[]> {
+    return this.slotRepo.find({
+      where: { 
+        slotDate: date, 
+        status: In(['OPEN', 'BOOKED', 'COMPLETED']) as any
+      },
+      order: { slotTime: 'ASC' },
     });
   }
 
@@ -124,6 +136,15 @@ export class AppointmentSlotsService {
     slot.status = 'BOOKED';
     const saved = await this.slotRepo.save(slot);
     await this.notifyStatusChange(saved);
+
+    // Bắn event cho Admin
+    const patientName = (await this.patientsService.findOne(dto.patientId))?.fullName || 'Khách hàng';
+    this.sseService.emitEvent({
+      type: 'NEW_BOOKING',
+      message: `${patientName} vừa đặt lịch vào lúc ${slot.slotTime} ngày ${slot.slotDate}`,
+      slot: saved,
+    });
+
     return saved;
   }
 

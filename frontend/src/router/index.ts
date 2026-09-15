@@ -49,6 +49,7 @@ const PatientLoginView = () => import('@/views/patient/PatientLoginView.vue')
 const PatientRegisterView = () => import('@/views/patient/PatientRegisterView.vue')
 const PatientAppLayout = () => import('@/views/patient/PatientAppLayout.vue')
 const MyRecordsView = () => import('@/views/patient/MyRecordsView.vue')
+const PatientScheduleView = () => import('@/views/patient/PatientScheduleView.vue')
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -212,6 +213,11 @@ const router = createRouter({
           name: 'patient-record-detail',
           component: MeridianResultsView,
           props: true,
+        },
+        {
+          path: 'lich-tri-lieu',
+          name: 'patient-schedule',
+          component: PatientScheduleView,
         },
         {
           path: 'tai-khoan',

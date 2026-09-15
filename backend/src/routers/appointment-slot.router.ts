@@ -59,6 +59,14 @@ export class AppointmentSlotsRouter {
     return { success: true, data };
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('available')
+  available(@Query('date') date: string) {
+    if (!date) throw new BadRequestException('Cần tham số date');
+    assertDate(date);
+    return this.service.findAvailable(date);
+  }
+
   // --- Admin ---
   @UseGuards(NhanVienGuard)
   @Get()

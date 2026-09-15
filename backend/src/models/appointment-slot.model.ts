@@ -42,6 +42,15 @@ export class AppointmentSlot {
   @Column({ type: 'text', nullable: true })
   notes: string | null;
 
+  @Column({ type: 'boolean', default: false })
+  reminded1h: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  reminded30m: boolean;
+
+  @Column({ type: 'boolean', default: false })
+  reminded15m: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 

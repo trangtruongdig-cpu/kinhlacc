@@ -1,0 +1,89 @@
+import { Injectable, Logger } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { AppointmentSlot } from '../models/appointment-slot.model';
+import { FirebaseService } from './firebase.controller';
+import { PatientsService } from './patient.controller';
+import * as dayjs from 'dayjs';
+const utc = require('dayjs/plugin/utc');
+const timezone = require('dayjs/plugin/timezone');
+const customParseFormat = require('dayjs/plugin/customParseFormat');
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
+dayjs.extend(customParseFormat);
+
+@Injectable()
+export class AppointmentReminderService {
+  private readonly logger = new Logger(AppointmentReminderService.name);
+
+  constructor(
+    @InjectRepository(AppointmentSlot)
+    private slotsRepository: Repository<AppointmentSlot>,
+    private firebaseService: FirebaseService,
+    private patientsService: PatientsService,
+  ) {}
+
+  @Cron(CronExpression.EVERY_MINUTE)
+  async handleCron() {
+    // 1. Lấy thời gian hiện tại theo VN
+    const nowVn = dayjs().tz('Asia/Ho_Chi_Minh');
+    const todayStr = nowVn.format('YYYY-MM-DD');
+
+    // 2. Tìm tất cả lịch khám trạng thái BOOKED của ngày hôm nay
+    const upcomingSlots = await this.slotsRepository.find({
+      where: {
+        slotDate: todayStr,
+        status: 'BOOKED',
+      },
+    });
+
+    if (!upcomingSlots.length) return;
+
+    for (const slot of upcomingSlots) {
+      if (!slot.patientId) continue;
+
+      // slotTime có dạng "14:00:00"
+      const slotDateTimeVn = dayjs.tz(`${todayStr} ${slot.slotTime}`, 'YYYY-MM-DD HH:mm:ss', 'Asia/Ho_Chi_Minh');
+      
+      const diffMinutes = slotDateTimeVn.diff(nowVn, 'minute');
+
+      // Chỉ quan tâm tương lai gần (ví dụ còn trong vòng 65 phút)
+      if (diffMinutes < 0 || diffMinutes > 65) continue;
+
+      let shouldUpdate = false;
+      let notificationMsg = '';
+
+      if (diffMinutes <= 15 && !slot.reminded15m) {
+        notificationMsg = `Lịch trị liệu của bạn sẽ bắt đầu sau 15 phút nữa (${slot.slotTime}).`;
+        slot.reminded15m = true;
+        shouldUpdate = true;
+      } else if (diffMinutes <= 30 && diffMinutes > 15 && !slot.reminded30m) {
+        notificationMsg = `Lịch trị liệu của bạn sẽ bắt đầu sau 30 phút nữa (${slot.slotTime}).`;
+        slot.reminded30m = true;
+        shouldUpdate = true;
+      } else if (diffMinutes <= 60 && diffMinutes > 30 && !slot.reminded1h) {
+        notificationMsg = `Lịch trị liệu của bạn sẽ bắt đầu trong 1 tiếng nữa (${slot.slotTime}). Bạn vui lòng đến đúng giờ nhé.`;
+        slot.reminded1h = true;
+        shouldUpdate = true;
+      }
+
+      if (shouldUpdate && notificationMsg) {
+        try {
+          const patient = await this.patientsService.findOne(slot.patientId);
+          if (patient?.fcmToken) {
+            await this.firebaseService.sendNotification(patient.fcmToken, 'Nhắc nhở lịch hẹn', notificationMsg, {
+              slotId: slot.id.toString(),
+              type: 'APPOINTMENT_REMINDER',
+            });
+            this.logger.log(`Sent reminder to patient ${patient.id} for slot ${slot.id}: ${diffMinutes}m left`);
+          }
+          await this.slotsRepository.save(slot);
+        } catch (error) {
+          this.logger.error(`Error sending reminder for slot ${slot.id}`, error);
+        }
+      }
+    }
+  }
+}
