@@ -411,7 +411,7 @@ function handleLogout() {
           <keep-alive :include="['TuDienView']">
             <component
               :is="Component"
-              :key="route.name === 'meridian-results' ? route.fullPath : undefined"
+              :key="route.name === 'meridian-results' ? route.path : undefined"
             />
           </keep-alive>
         </RouterView>

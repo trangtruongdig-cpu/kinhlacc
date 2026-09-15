@@ -2343,13 +2343,7 @@ function goBack() {
   }
 }
 
-function goToTimelineExam(targetExamId: number) {
-  router.push({
-    name: isPatientPortal.value ? 'patient-record-detail' : 'meridian-results',
-    params: { patientId: String(patientId.value), examId: String(targetExamId) },
-    query: { view: String(activeView.value), traj: '1' }
-  })
-}
+
 
 /** Chẩn đoán Bát cương → highlight ô liên quan ở bảng I.
  * focus: 'amDuong' | 'khi' | 'huyet' (theo mảng/cột) hoặc 'organ:<mã kinh>' (soi 1 tạng phủ). */
@@ -3405,10 +3399,14 @@ watch(
                 <span v-else class="lk-traj-kinh lk-traj-kinh--none">ngoài LK</span>
                 <span class="lk-traj-dang-xem">đang xem</span>
               </span>
-              <div
+              <RouterLink
                 v-else
                 class="lk-traj-cell lk-traj-cell--link"
-                @click="goToTimelineExam(p.id)"
+                :to="{
+                  name: isPatientPortal ? 'patient-record-detail' : 'meridian-results',
+                  params: { patientId: String(patientId), examId: String(p.id) },
+                  query: { view: String(activeView), traj: '1' }
+                }"
                 :title="`Mở lần đo ${p.date} (ca #${p.id}) — giữ nguyên tab đang xem`"
               >
                 <span v-if="p.trucTrung" class="lk-traj-truc" title="Trực trúng 直中 — tà vào thẳng Tam Âm">直 trực trúng<template v-if="!p.trucTrungBanChac">?</template></span>
@@ -3416,7 +3414,7 @@ watch(
                 <span v-if="p.verdict" class="lk-traj-kinh" :data-kinh="p.verdict.kinh.slug">{{ p.verdict.kinh.ten }} <i>{{ p.verdict.kinh.han }}</i></span>
                 <span v-else class="lk-traj-kinh lk-traj-kinh--none">ngoài LK</span>
                 <span class="lk-traj-mo">xem lần đo →</span>
-              </div>
+              </RouterLink>
             </li>
           </ol>
         </section>
