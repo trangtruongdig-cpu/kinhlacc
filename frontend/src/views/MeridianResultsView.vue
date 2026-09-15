@@ -23,6 +23,8 @@ import { mocKham, mocKhamMs, ngayKhamVN } from '@/lib/caKham'
 const router = useRouter()
 const route = useRoute()
 
+const isPatientPortal = computed(() => route.path.startsWith('/ho-so'))
+
 const patientId = computed(() => Number(route.params.patientId))
 const examId = computed(() => Number(route.params.examId))
 const patient = ref<Patient | null>(null)
