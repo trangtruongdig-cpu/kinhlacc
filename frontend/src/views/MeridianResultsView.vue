@@ -3401,7 +3401,7 @@ watch(
                 v-else
                 class="lk-traj-cell lk-traj-cell--link"
                 :to="{
-                  name: 'meridian-results',
+                  name: route.name,
                   params: { patientId, examId: p.id },
                   query: { view: String(activeView), traj: '1' },
                 }"
