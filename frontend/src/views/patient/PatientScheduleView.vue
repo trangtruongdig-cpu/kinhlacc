@@ -167,7 +167,7 @@ async function fetchMySlots() {
   if (!authStore.token) return
   isLoadingMy.value = true
   try {
-    const res = await fetch(`${API_BASE}/appointment-slots/my`, {
+    const res = await fetch(`${API_BASE}/appointment-slots/my?_t=${Date.now()}`, {
       headers: { Authorization: `Bearer ${authStore.token}` },
     })
     if (res.ok) mySlots.value = await res.json()
@@ -185,10 +185,10 @@ async function fetchAvailable(date: string) {
   error.value = null
   try {
     const [scheduleRes, slotsRes] = await Promise.all([
-      fetch(`${API_BASE}/clinic-schedule/effective/${date}`, {
+      fetch(`${API_BASE}/clinic-schedule/effective/${date}?_t=${Date.now()}`, {
         headers: { Authorization: `Bearer ${authStore.token}` },
       }),
-      fetch(`${API_BASE}/appointment-slots/available?date=${date}`, {
+      fetch(`${API_BASE}/appointment-slots/available?date=${date}&_t=${Date.now()}`, {
         headers: { Authorization: `Bearer ${authStore.token}` },
       }),
     ])
