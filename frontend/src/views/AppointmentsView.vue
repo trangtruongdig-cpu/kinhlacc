@@ -88,8 +88,26 @@ onMounted(async () => {
   await loadPatients()
   await loadDay(selectedDate.value)
   
-  refreshListener = async () => {
-    await loadDay(selectedDate.value)
+  refreshListener = (e: Event) => {
+    const customEvent = e as CustomEvent
+    const updatedSlot = customEvent.detail
+    
+    if (updatedSlot) {
+      const dateString = updatedSlot.slotDate
+      if (slotsByDate.value[dateString]) {
+        const idx = slotsByDate.value[dateString].findIndex(s => s.id === updatedSlot.id)
+        if (idx !== -1) {
+          slotsByDate.value[dateString][idx] = normalizeSlot(updatedSlot)
+        } else {
+          slotsByDate.value[dateString].push(normalizeSlot(updatedSlot))
+          slotsByDate.value[dateString].sort((a, b) => a.slotTime.localeCompare(b.slotTime))
+        }
+      }
+      loadPatients() // reload patients in case it's a new patient
+    } else {
+      loadDay(selectedDate.value)
+      loadPatients()
+    }
   }
   window.addEventListener('REFRESH_BOOKINGS', refreshListener)
 })

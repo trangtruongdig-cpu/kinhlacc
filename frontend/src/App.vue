@@ -27,10 +27,10 @@ function dismissToast(id: number) {
   toastMessages.value = toastMessages.value.filter(t => t.id !== id)
 }
 
-function connectSSE(token: string) {
+function connectSSE(token?: string) {
   if (eventSource) eventSource.close()
   
-  const sseUrl = `${API_BASE}/notifications/sse?token=${token}`
+  const sseUrl = token ? `${API_BASE}/notifications/sse?token=${token}` : `${API_BASE}/notifications/sse`
   eventSource = new EventSource(sseUrl)
   
   eventSource.onmessage = (event) => {
@@ -80,10 +80,10 @@ function connectSSE(token: string) {
         }
       }
       
-      // Bất kể là NEW_BOOKING hay SLOT_UPDATED (huỷ/đóng/mở), gửi event reload data âm thầm
+      // Bất kể là NEW_BOOKING hay SLOT_UPDATED (huỷ/đóng/mở), gửi event reload data âm thầm kèm Payload Slot
       if (data.type === 'NEW_BOOKING' || data.type === 'SLOT_UPDATED') {
         if (typeof window !== 'undefined') {
-          window.dispatchEvent(new CustomEvent('REFRESH_BOOKINGS'))
+          window.dispatchEvent(new CustomEvent('REFRESH_BOOKINGS', { detail: data.slot }))
         }
       }
     } catch (e) {
@@ -98,20 +98,13 @@ onMounted(() => {
     Notification.requestPermission()
   }
   
-  // Nếu đã login từ trước thì connect luôn
-  if (authStore.token) {
-    connectSSE(authStore.token)
-  }
+  // Dù có hay chưa có login thì vẫn connect (Public nhận tín hiệu)
+  connectSSE(authStore.token)
 })
 
-// Tự động kết nối/ngắt kết nối khi login/logout
+// Khi login/logout thì reconnect lại để báo danh với server
 watch(() => authStore.token, (newToken) => {
-  if (newToken) {
-    connectSSE(newToken)
-  } else if (eventSource) {
-    eventSource.close()
-    eventSource = null
-  }
+  connectSSE(newToken)
 })
 
 onBeforeUnmount(() => {
