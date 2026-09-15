@@ -2336,11 +2336,19 @@ async function loadData() {
 
 function goBack() {
   // Nếu đang trong phân hệ khách hàng (/ho-so/...) → quay về danh sách hồ sơ
-  if (route.path.startsWith('/ho-so')) {
+  if (isPatientPortal.value) {
     router.push({ name: 'patient-records' })
   } else {
     router.push({ name: 'patient-detail', params: { id: patientId.value } })
   }
+}
+
+function goToTimelineExam(targetExamId: number) {
+  router.push({
+    name: isPatientPortal.value ? 'patient-record-detail' : 'meridian-results',
+    params: { patientId: String(patientId.value), examId: String(targetExamId) },
+    query: { view: String(activeView.value), traj: '1' }
+  })
 }
 
 /** Chẩn đoán Bát cương → highlight ô liên quan ở bảng I.
@@ -3253,7 +3261,7 @@ watch(
     <!-- Header Area -->
     <div class="page-header">
       <!-- Nút Quay lại: chỉ hiển thị cho nhân viên nội bộ, ẩn khi bệnh nhân xem qua portal /ho-so -->
-      <button v-if="!$route.path.startsWith('/ho-so')" class="back-btn" @click="goBack">
+      <button v-if="!isPatientPortal" class="back-btn" @click="goBack">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/></svg>
         <span>Quay lại hồ sơ</span>
       </button>
@@ -3280,7 +3288,7 @@ watch(
             <span>In phiếu kết quả</span>
           </button>
           <button
-            v-if="!route.path.startsWith('/ho-so') && matchedPhuongHuyetList.length"
+            v-if="!isPatientPortal && matchedPhuongHuyetList.length"
             type="button"
             class="print-btn print-btn--acu"
             title="In phiếu châm huyệt YHCT Cổ Truyền — kèm hình vị trí từng huyệt"
@@ -3292,7 +3300,7 @@ watch(
             <span>In phiếu châm huyệt</span>
           </button>
           <button
-            v-if="!route.path.startsWith('/ho-so')"
+            v-if="!isPatientPortal"
             type="button"
             class="print-btn print-btn--nhht"
             title="In phác đồ châm huyệt Ngũ Hành Hồi Tác — theo 12 kinh đo thực tế"
@@ -3304,7 +3312,7 @@ watch(
             <span>In phác đồ Ngũ Hành Hồi Tác</span>
           </button>
           <button
-            v-if="!route.path.startsWith('/ho-so')"
+            v-if="!isPatientPortal"
             type="button"
             class="print-btn print-btn--bomau"
             title="In phác đồ Bổ Mẫu Tả Tử (Nạn Kinh 69) — theo 12 kinh đo thực tế"
@@ -3397,14 +3405,10 @@ watch(
                 <span v-else class="lk-traj-kinh lk-traj-kinh--none">ngoài LK</span>
                 <span class="lk-traj-dang-xem">đang xem</span>
               </span>
-              <RouterLink
+              <div
                 v-else
                 class="lk-traj-cell lk-traj-cell--link"
-                :to="{
-                  name: route.name,
-                  params: { patientId, examId: p.id },
-                  query: { view: String(activeView), traj: '1' },
-                }"
+                @click="goToTimelineExam(p.id)"
                 :title="`Mở lần đo ${p.date} (ca #${p.id}) — giữ nguyên tab đang xem`"
               >
                 <span v-if="p.trucTrung" class="lk-traj-truc" title="Trực trúng 直中 — tà vào thẳng Tam Âm">直 trực trúng<template v-if="!p.trucTrungBanChac">?</template></span>
@@ -3412,7 +3416,7 @@ watch(
                 <span v-if="p.verdict" class="lk-traj-kinh" :data-kinh="p.verdict.kinh.slug">{{ p.verdict.kinh.ten }} <i>{{ p.verdict.kinh.han }}</i></span>
                 <span v-else class="lk-traj-kinh lk-traj-kinh--none">ngoài LK</span>
                 <span class="lk-traj-mo">xem lần đo →</span>
-              </RouterLink>
+              </div>
             </li>
           </ol>
         </section>
@@ -3425,7 +3429,7 @@ watch(
         </button>
         <button type="button" class="mr-tab" :class="{ active: activeView === 2 }" @click="activeView = 2">
           <b>2</b> Chẩn Đoán &amp; Điều Trị
-          <span class="mr-tab-badge" v-if="!route.path.startsWith('/ho-so')">{{ excelSyndromesList.length }} thể · {{ matchedPhuongHuyetList.length }} huyệt · {{ matchedBaiThuocList.length }} bài</span>
+          <span class="mr-tab-badge" v-if="!isPatientPortal">{{ excelSyndromesList.length }} thể · {{ matchedPhuongHuyetList.length }} huyệt · {{ matchedBaiThuocList.length }} bài</span>
           <span class="mr-tab-badge" v-else>{{ excelSyndromesList.length }} thể bệnh YHCT</span>
         </button>
         <button type="button" class="mr-tab" :class="{ active: activeView === 3 }" @click="activeView = 3">
@@ -3638,7 +3642,7 @@ watch(
                           Chi tiết
                         </button>
                         <button
-                          v-if="!route.path.startsWith('/ho-so')"
+                          v-if="!isPatientPortal"
                           type="button"
                           class="pt-search-btn"
                           title="Tìm pháp trị cho mô hình bệnh này"
@@ -3652,7 +3656,7 @@ watch(
                           Pháp trị
                         </button>
                         <button
-                          v-if="!route.path.startsWith('/ho-so') && phuongHuyetForThe(node.item).length"
+                          v-if="!isPatientPortal && phuongHuyetForThe(node.item).length"
                           type="button"
                           class="pt-search-btn"
                           title="In phiếu châm huyệt riêng cho thể bệnh này"
@@ -3746,7 +3750,7 @@ watch(
             </div>
           </section>
 
-          <div class="phacdo-col" v-if="!route.path.startsWith('/ho-so')">
+          <div class="phacdo-col" v-if="!isPatientPortal">
             <div class="phacdo-head">
               <span class="phacdo-title">🩹 Phác Đồ Điều Trị</span>
               <span v-if="focusedTheName" class="phacdo-focus">theo thể <b>{{ focusedTheName }}</b></span>
