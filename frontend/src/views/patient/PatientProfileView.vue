@@ -19,6 +19,42 @@ const formData = ref({
   province: ''
 })
 
+function formatDateForDisplay(dateStr: string | null): string {
+  if (!dateStr) return ''
+  // YYYY-MM-DD to DD/MM/YYYY
+  const parts = dateStr.split('-')
+  if (parts.length === 3) {
+    return `${parts[2]}/${parts[1]}/${parts[0]}`
+  }
+  return dateStr
+}
+
+function formatDateForApi(dateStr: string): string | null {
+  if (!dateStr) return null
+  const str = dateStr.trim()
+  // YYYY format
+  if (/^\d{4}$/.test(str)) {
+    return `${str}-01-01`
+  }
+  // DD/MM/YYYY or DD-MM-YYYY format
+  const parts = str.includes('/') ? str.split('/') : str.split('-')
+  if (parts.length === 3) {
+    // If user enters DD/MM/YYYY
+    if (parts[0].length <= 2) {
+      const d = parts[0].padStart(2, '0')
+      const m = parts[1].padStart(2, '0')
+      const y = parts[2]
+      return `${y}-${m}-${d}`
+    }
+    // If it's already YYYY-MM-DD
+    if (parts[0].length === 4) {
+      return str
+    }
+  }
+  return str
+}
+
+
 onMounted(async () => {
   if (!authStore.patient?.id || !authStore.token) return
   isLoading.value = true
@@ -32,7 +68,7 @@ onMounted(async () => {
         fullName: data.fullName || '',
         phone: data.phone || '',
         gender: data.gender || '',
-        dateOfBirth: data.dateOfBirth || '',
+        dateOfBirth: formatDateForDisplay(data.dateOfBirth),
         address: data.address || '',
         province: data.province || ''
       }
@@ -60,7 +96,7 @@ async function saveProfile() {
       body: JSON.stringify({
         fullName: formData.value.fullName,
         gender: formData.value.gender,
-        dateOfBirth: formData.value.dateOfBirth,
+        dateOfBirth: formatDateForApi(formData.value.dateOfBirth),
         address: formData.value.address,
         province: formData.value.province
       })

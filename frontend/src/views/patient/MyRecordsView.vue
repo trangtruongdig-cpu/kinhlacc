@@ -20,15 +20,8 @@ async function fetchRecords() {
     if (res.ok) {
       const data = await res.json()
       if (data && data.length > 0) {
-        // Tìm ca khám mới nhất (đầu tiên trong danh sách giả định đã sort desc)
-        const latestRecord = data[0]
-        router.replace({ 
-          name: 'patient-record-detail', 
-          params: { patientId: authStore.patient?.id, examId: latestRecord.id } 
-        })
-        return // Không gán records.value nữa để tránh render chớp nhoáng
+        records.value = data
       }
-      records.value = data
     }
   } catch (error) {
     console.error('Lỗi khi lấy danh sách phiếu khám', error)

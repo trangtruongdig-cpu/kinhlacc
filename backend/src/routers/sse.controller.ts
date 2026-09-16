@@ -8,7 +8,7 @@ import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
 export class SseController {
   constructor(private readonly sseService: SseService) {}
 
-  @UseGuards(JwtAuthGuard) // Chỉ cho admin (có token)
+  // Mở public SSE cho tất cả mọi người để update lịch Realtime Zero-request
   @Sse('sse')
   sse(): Observable<MessageEvent> {
     return this.sseService.getEventStream().pipe(

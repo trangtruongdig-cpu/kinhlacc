@@ -6,7 +6,7 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, Repository, In } from 'typeorm';
+import { Between, Repository, In, DataSource } from 'typeorm';
 import {
   AppointmentSlot,
   AppointmentSlotStatus,
@@ -35,6 +35,7 @@ export class AppointmentSlotsService {
     private readonly firebaseService: FirebaseService,
     private readonly patientsService: PatientsService,
     private readonly sseService: SseService,
+    private readonly dataSource: DataSource,
   ) {}
 
   async findByDate(date: string): Promise<AppointmentSlot[]> {
@@ -99,7 +100,7 @@ export class AppointmentSlotsService {
     }
     slot.status = 'CLOSED';
     const saved = await this.slotRepo.save(slot);
-    this.sseService.emitEvent({ type: 'SLOT_UPDATED' });
+    this.sseService.emitEvent({ type: 'SLOT_UPDATED', slot: saved });
     return saved;
   }
 
@@ -114,7 +115,7 @@ export class AppointmentSlotsService {
     slot.patientId = null;
     slot.reason = null;
     const saved = await this.slotRepo.save(slot);
-    this.sseService.emitEvent({ type: 'SLOT_UPDATED' });
+    this.sseService.emitEvent({ type: 'SLOT_UPDATED', slot: saved });
     return saved;
   }
 
@@ -122,31 +123,55 @@ export class AppointmentSlotsService {
     if (!dto.patientId) {
       throw new BadRequestException('Thiếu patientId');
     }
-    const slot = await this.findOne(id);
-    if (slot.status !== 'OPEN' && slot.status !== 'CANCELLED') {
-      throw new ConflictException(
-        `Vé không khả dụng (trạng thái: ${slot.status})`,
-      );
+    // verify patient exists
+    const patient = await this.patientsService.findOne(dto.patientId);
+
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    try {
+      // Dùng pessimistic_write để lock dòng vé (Chống Race Condition - Trùng vé)
+      const slot = await queryRunner.manager.findOne(AppointmentSlot, {
+        where: { id },
+        lock: { mode: 'pessimistic_write' },
+      });
+
+      if (!slot) {
+        throw new NotFoundException(`Vé #${id} không tồn tại`);
+      }
+
+      if (slot.status !== 'OPEN' && slot.status !== 'CANCELLED') {
+        throw new ConflictException(
+          `Vé không khả dụng (trạng thái: ${slot.status})`,
+        );
+      }
+
+      slot.patientId = dto.patientId;
+      slot.reason = dto.reason ?? null;
+      slot.notes = dto.notes ?? null;
+      slot.status = 'BOOKED';
+
+      const saved = await queryRunner.manager.save(slot);
+      await queryRunner.commitTransaction();
+
+      await this.notifyStatusChange(saved);
+
+      // Bắn event kèm Payload để Client reload tức thì bằng Reactivity (Zero-request)
+      const patientName = patient?.fullName || 'Khách hàng';
+      this.sseService.emitEvent({
+        type: 'NEW_BOOKING',
+        message: `${patientName} vừa đặt lịch vào lúc ${saved.slotTime} ngày ${saved.slotDate}`,
+        slot: saved,
+      });
+
+      return saved;
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw err;
+    } finally {
+      await queryRunner.release();
     }
-    // verify patient exists — sẽ throw NotFoundException nếu không có
-    await this.patientsService.findOne(dto.patientId);
-
-    slot.patientId = dto.patientId;
-    slot.reason = dto.reason ?? null;
-    slot.notes = dto.notes ?? null;
-    slot.status = 'BOOKED';
-    const saved = await this.slotRepo.save(slot);
-    await this.notifyStatusChange(saved);
-
-    // Bắn event cho Admin
-    const patientName = (await this.patientsService.findOne(dto.patientId))?.fullName || 'Khách hàng';
-    this.sseService.emitEvent({
-      type: 'NEW_BOOKING',
-      message: `${patientName} vừa đặt lịch vào lúc ${slot.slotTime} ngày ${slot.slotDate}`,
-      slot: saved,
-    });
-
-    return saved;
   }
 
   async cancel(id: number): Promise<AppointmentSlot> {
@@ -159,7 +184,7 @@ export class AppointmentSlotsService {
     slot.status = 'CANCELLED';
     const saved = await this.slotRepo.save(slot);
     await this.notifyStatusChange(saved);
-    this.sseService.emitEvent({ type: 'SLOT_UPDATED' });
+    this.sseService.emitEvent({ type: 'SLOT_UPDATED', slot: saved });
     return saved;
   }
 
@@ -181,7 +206,7 @@ export class AppointmentSlotsService {
     slot.status = 'COMPLETED';
     const saved = await this.slotRepo.save(slot);
     await this.notifyStatusChange(saved);
-    this.sseService.emitEvent({ type: 'SLOT_UPDATED' });
+    this.sseService.emitEvent({ type: 'SLOT_UPDATED', slot: saved });
     return saved;
   }
 

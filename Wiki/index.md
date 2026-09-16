@@ -26,6 +26,7 @@ Catalog nội dung wiki (cập nhật mỗi lần INGEST). Đọc file này trư
 ## Phương pháp làm việc (tái dùng mọi domain, không riêng YHCT)
 
 - [[Nguyên Tắc Cộng Tác Với AI Agent]] — 9 nguyên tắc: tư duy trước khi code, kế thừa trước khi tự dựng, gộp việc theo lô, neo dễ-đến-khó, hội đồng phản biện, bảng phương án duyệt 1 lần, vệ sinh commit đa phiên, custom sống sót qua update, biết giới hạn tool của engine
+- [[Mẫu Kiến Trúc Đặt Lịch Realtime]] — 2 kỹ thuật cốt lõi cho hệ đặt vé: (1) Pessimistic Write Lock chống trùng vé, (2) Zero-Request Push Data (qua SSE + Splice Vue3) giúp UI update trong 0ms không cần fetch lại API
 - [[Vận Hành Việc Nền và Bẫy Triển Khai]] — 3 bẫy đã xảy ra thật: fact mồ côi khi ingest hàng loạt, model miễn phí ngừng khả dụng, VPS git pull bị kẹt local changes
 - [[Knowledge Consolidation - Multi-Source Pattern]] — workflow 3 bước INGEST (code schema → rule files → external docs) + checklist precondition
 - [[Lessons Learned - INGEST Kinh Lạc]] — 8 bài học vận hành cụ thể từ đợt ingest 08/09/2026
