@@ -320,7 +320,7 @@ onMounted(() => {
       // Zero-request update cho mảng Available
       const aIdx = availableSlots.value.findIndex(s => s.id === updatedSlot.id)
       if (aIdx !== -1) {
-        availableSlots.value[aIdx] = updatedSlot
+        availableSlots.value.splice(aIdx, 1, updatedSlot)
       } else if (updatedSlot.slotDate === selectedDate.value) {
         availableSlots.value.push(updatedSlot)
         availableSlots.value.sort((a, b) => a.slotTime.localeCompare(b.slotTime))
@@ -329,7 +329,7 @@ onMounted(() => {
       // Zero-request update cho mảng My Slots
       const mIdx = mySlots.value.findIndex(s => s.id === updatedSlot.id)
       if (mIdx !== -1) {
-        mySlots.value[mIdx] = updatedSlot
+        mySlots.value.splice(mIdx, 1, updatedSlot)
       } else {
         // Nếu đây là vé vừa book của chính mình (nhận biết qua fetch dự phòng)
         fetchMySlots()

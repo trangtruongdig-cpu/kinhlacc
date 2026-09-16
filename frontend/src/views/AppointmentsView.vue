@@ -97,7 +97,7 @@ onMounted(async () => {
       if (slotsByDate.value[dateString]) {
         const idx = slotsByDate.value[dateString].findIndex(s => s.id === updatedSlot.id)
         if (idx !== -1) {
-          slotsByDate.value[dateString][idx] = normalizeSlot(updatedSlot)
+          slotsByDate.value[dateString].splice(idx, 1, normalizeSlot(updatedSlot))
         } else {
           slotsByDate.value[dateString].push(normalizeSlot(updatedSlot))
           slotsByDate.value[dateString].sort((a, b) => a.slotTime.localeCompare(b.slotTime))
