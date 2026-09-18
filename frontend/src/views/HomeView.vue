@@ -2,6 +2,7 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter } from 'vue-router'
 import { api } from '@/services/api'
+import { useRealtimeStore } from '@/stores/realtime'
 import { useAuthStore } from '@/stores/auth'
 import type { Patient } from '@/stores/patient'
 import LucKinhWheel from '@/components/LucKinhWheel.vue'
@@ -9,6 +10,7 @@ import HeroMeridianFigure from '@/components/HeroMeridianFigure.vue'
 import { maskHoTen, maskSdt } from '@/lib/maskThongTin'
 
 const router = useRouter()
+const realtime = useRealtimeStore()
 const authStore = useAuthStore()
 // Lễ Tân không được xem đầy đủ họ tên/SĐT bệnh nhân — chỉ hiện dạng che một phần.
 function displayName(name: string | null | undefined) {
@@ -191,21 +193,23 @@ async function loadDashboard() {
   loading.value = false
 }
 
-let refreshListener: EventListener | null = null
+let offRealtime: (() => void) | null = null
 
 onMounted(() => {
   loadDashboard()
-  
-  refreshListener = () => {
-    loadDashboard()
-  }
-  window.addEventListener('REFRESH_BOOKINGS', refreshListener)
+
+  // Trang chủ chỉ hiện danh sách hẹn HÔM NAY, nên nạp lại cả bảng là đủ và đơn giản nhất —
+  // khác hai màn hình lịch, ở đó phải vá từng ô giờ để không giật.
+  offRealtime = realtime.subscribe((change) => {
+    if (change.type === 'APPOINTMENT_REMINDER') return
+    if (change.resync || !change.date || change.date === todayYMD()) {
+      loadDashboard()
+    }
+  })
 })
 
 onBeforeUnmount(() => {
-  if (refreshListener) {
-    window.removeEventListener('REFRESH_BOOKINGS', refreshListener)
-  }
+  if (offRealtime) offRealtime()
 })
 </script>
 

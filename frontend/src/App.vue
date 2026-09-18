@@ -68,6 +68,50 @@ function playDing() {
   }
 }
 
+onMounted(() => {
+  // Yêu cầu quyền Thông báo khi mở trang
+  if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'default') {
+    Notification.requestPermission()
+  }
+
+  // staffMessage chứa họ tên bệnh nhân nên server CHỈ gửi cho tài khoản nhân viên —
+  // đây không phải chuyện UI ẩn đi.
+  offStaffMessage = realtime.onStaffMessage((msg) => {
+    if (!route.meta.requiresAuth) return
+    showToast(msg, 'success')
+    playDing()
+    if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
+      new Notification('Kinh Lạc Gia Minh', { body: msg, icon: '/favicon.ico' })
+    }
+  })
+
+  // Nhắc hẹn: server chỉ gửi cho đúng bệnh nhân đó (lọc bằng targetPatientId), nên tới được
+  // đây là đã đúng người. Hiện cả toast lẫn thông báo hệ thống — người bệnh có thể đang mở
+  // tab khác.
+  offReminder = realtime.onReminder((msg) => {
+    showToast(msg, 'reminder')
+    playDing()
+    if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
+      new Notification('Nhắc lịch trị liệu', { body: msg, icon: '/favicon.ico' })
+    }
+  })
+
+  realtime.connect(sseToken.value)
+})
+
+// Nhân viên và bệnh nhân dùng HAI store khác nhau (access_token vs patient_token). Trước đây
+// chỗ này chỉ đọc store nhân viên, nên phía bệnh nhân luôn không có token → SSE 401 → toàn bộ
+// cập nhật realtime của phân hệ bệnh nhân chưa từng chạy.
+watch(sseToken, (newToken) => {
+  realtime.connect(newToken)
+})
+
+onBeforeUnmount(() => {
+  if (offStaffMessage) offStaffMessage()
+  if (offReminder) offReminder()
+  realtime.disconnect()
+})
+
 // ----- SEO & Zalo -----
 const showZalo = computed(() => {
   return route.meta.requiresAuth !== true && route.meta.requiresPatientAuth !== true;
