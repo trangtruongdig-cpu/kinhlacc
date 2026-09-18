@@ -71,10 +71,22 @@ export interface PatientBookingView {
  * Cùng bộ mốc với cron nhắc hẹn (appointment-reminder.service.ts) để khách nhận nhắc như nhau
  * dù họ theo dõi bằng ứng dụng của phòng khám hay bằng lịch/báo thức trên điện thoại.
  */
+/** Giữ lượt đã huỷ trong feed bao nhiêu ngày để lệnh huỷ chắc chắn tới được máy khách. */
+const ICS_CANCELLED_KEEP_DAYS = 30;
+
 const REMINDER_ALARMS: IcsAlarm[] = [
-  { minutesBefore: 60, description: 'Còn 1 tiếng nữa tới giờ trị liệu — Kinh Lạc Gia Minh' },
-  { minutesBefore: 30, description: 'Còn 30 phút nữa tới giờ trị liệu — Kinh Lạc Gia Minh' },
-  { minutesBefore: 15, description: 'Còn 15 phút nữa tới giờ trị liệu — Kinh Lạc Gia Minh' },
+  {
+    minutesBefore: 60,
+    description: 'Còn 1 tiếng nữa tới giờ trị liệu — Kinh Lạc Gia Minh',
+  },
+  {
+    minutesBefore: 30,
+    description: 'Còn 30 phút nữa tới giờ trị liệu — Kinh Lạc Gia Minh',
+  },
+  {
+    minutesBefore: 15,
+    description: 'Còn 15 phút nữa tới giờ trị liệu — Kinh Lạc Gia Minh',
+  },
 ];
 
 function toBookingView(b: AppointmentBooking): PatientBookingView {
@@ -263,33 +275,36 @@ export class AppointmentSlotsService {
   }
 
   async open(id: number): Promise<AppointmentSlot> {
-    const { slot: saved } = await this.withLockedSlot(id, async (slot, manager) => {
-      // 'CANCELLED' chỉ còn gặp ở dữ liệu CŨ (huỷ nay trả ô giờ thẳng về OPEN) — vẫn nhận
-      // để nhân viên có lối thoát cho những vé tồn từ trước migration.
-      if (slot.status !== 'CLOSED' && slot.status !== 'CANCELLED') {
-        throw new ConflictException(
-          `Không thể mở lại vé đang ở trạng thái ${slot.status}`,
-        );
-      }
-      // Phòng xa: vé cũ có thể còn lượt đặt treo. Đóng nó lại rồi mới mở ô giờ, không thì
-      // unique index chặn lượt đặt mới và không ai đặt được ô này nữa.
-      const booking = await this.activeBooking(manager, id);
-      if (booking) {
-        booking.status = 'CANCELLED';
-        booking.cancelledBy = 'STAFF';
-        booking.cancelledAt = new Date();
-        await manager.save(booking);
-      }
-      slot.status = 'OPEN';
-      slot.patientId = null;
-      slot.reason = null;
-      // `notes` TRƯỚC ĐÂY KHÔNG được xoá ở đây → ghi chú riêng của bệnh nhân trước còn dính
-      // nguyên trên ô giờ và lộ sang lượt đặt của người sau. Nội dung cũ đã lưu ở lượt đặt rồi.
-      slot.notes = null;
-      slot.reminded1h = false;
-      slot.reminded30m = false;
-      slot.reminded15m = false;
-    });
+    const { slot: saved } = await this.withLockedSlot(
+      id,
+      async (slot, manager) => {
+        // 'CANCELLED' chỉ còn gặp ở dữ liệu CŨ (huỷ nay trả ô giờ thẳng về OPEN) — vẫn nhận
+        // để nhân viên có lối thoát cho những vé tồn từ trước migration.
+        if (slot.status !== 'CLOSED' && slot.status !== 'CANCELLED') {
+          throw new ConflictException(
+            `Không thể mở lại vé đang ở trạng thái ${slot.status}`,
+          );
+        }
+        // Phòng xa: vé cũ có thể còn lượt đặt treo. Đóng nó lại rồi mới mở ô giờ, không thì
+        // unique index chặn lượt đặt mới và không ai đặt được ô này nữa.
+        const booking = await this.activeBooking(manager, id);
+        if (booking) {
+          booking.status = 'CANCELLED';
+          booking.cancelledBy = 'STAFF';
+          booking.cancelledAt = new Date();
+          await manager.save(booking);
+        }
+        slot.status = 'OPEN';
+        slot.patientId = null;
+        slot.reason = null;
+        // `notes` TRƯỚC ĐÂY KHÔNG được xoá ở đây → ghi chú riêng của bệnh nhân trước còn dính
+        // nguyên trên ô giờ và lộ sang lượt đặt của người sau. Nội dung cũ đã lưu ở lượt đặt rồi.
+        slot.notes = null;
+        slot.reminded1h = false;
+        slot.reminded30m = false;
+        slot.reminded15m = false;
+      },
+    );
     this.sseService.emitEvent({
       type: 'SLOT_UPDATED',
       slot: toPublicSlot(saved),
@@ -677,33 +692,53 @@ export class AppointmentSlotsService {
       throw new ForbiddenException('Đường dẫn lịch không hợp lệ');
     }
 
+    // Lấy CẢ lượt đã huỷ gần đây, không chỉ lượt còn hiệu lực.
+    //
+    // Chỉ BỎ sự kiện khỏi feed là chưa đủ: một số ứng dụng lịch vẫn giữ bản đã tải trước đó.
+    // Gửi hẳn một VEVENT mang STATUS:CANCELLED là lệnh huỷ TƯỜNG MINH nên chắc ăn hơn. Sau
+    // ICS_CANCELLED_KEEP_DAYS thì thôi, không giữ mãi cho feed phình ra.
     const bookings = await this.bookingRepo.find({
-      where: { patientId, status: 'BOOKED' },
+      where: { patientId },
       order: { slotDate: 'ASC', slotTime: 'ASC' },
     });
 
     const config = await this.clinicScheduleService.getConfig();
     const duration = config?.slotDurationMinutes || 60;
 
-    const events: IcsEvent[] = bookings.map((b) => ({
-      // UID gắn với LƯỢT ĐẶT, không phải ô giờ: một ô giờ đặt đi đặt lại nhiều lần thì phải là
-      // nhiều sự kiện khác nhau, không thì ứng dụng lịch coi là cùng một cái và ghi đè.
-      uid: `booking-${b.id}@kinhlacgiaminh.vn`,
-      ymd: b.slotDate,
-      hms: b.slotTime,
-      durationMinutes: duration,
-      summary: 'Lịch trị liệu - Kinh Lạc Gia Minh',
-      location: 'Phòng khám Kinh Lạc Gia Minh',
-      // SEQUENCE lấy theo mốc sửa gần nhất — thiếu nó thì bản cập nhật bị coi là trùng và bỏ qua.
-      sequence: Math.floor(new Date(b.updatedAt).getTime() / 1000),
-      alarms: REMINDER_ALARMS,
-    }));
+    const cutoff = new Date(Date.now() - ICS_CANCELLED_KEEP_DAYS * 86_400_000);
+    const events: IcsEvent[] = [];
+    for (const b of bookings) {
+      if (b.status === 'COMPLETED') continue; // buổi đã khám xong, không cần nằm trên lịch nữa
+      const cancelled = b.status === 'CANCELLED';
+      if (cancelled) {
+        const at = b.cancelledAt
+          ? new Date(b.cancelledAt)
+          : new Date(b.updatedAt);
+        if (at < cutoff) continue;
+      }
+      events.push({
+        // UID gắn với LƯỢT ĐẶT, không phải ô giờ: một ô giờ đặt đi đặt lại nhiều lần thì phải là
+        // nhiều sự kiện khác nhau, không thì ứng dụng lịch coi là cùng một cái và ghi đè.
+        uid: `booking-${b.id}@kinhlacgiaminh.vn`,
+        ymd: b.slotDate,
+        hms: b.slotTime,
+        durationMinutes: duration,
+        summary: 'Lịch trị liệu - Kinh Lạc Gia Minh',
+        location: 'Phòng khám Kinh Lạc Gia Minh',
+        // SEQUENCE lấy theo mốc sửa gần nhất — thiếu nó thì bản cập nhật bị coi là trùng và bỏ
+        // qua, tức lệnh huỷ sẽ không bao giờ tới nơi.
+        sequence: Math.floor(new Date(b.updatedAt).getTime() / 1000),
+        status: cancelled ? 'CANCELLED' : 'CONFIRMED',
+        alarms: cancelled ? undefined : REMINDER_ALARMS,
+      });
+    }
 
     return buildIcsCalendar(events, {
       calendarName: 'Lịch trị liệu - Kinh Lạc Gia Minh',
-      // Apple Calendar tôn trọng con số này (làm mới mỗi 60 phút). Google thì bỏ qua và tự
-      // quyết, thường 8-24 tiếng — đó là giới hạn của Google, không sửa được từ phía ta.
-      refreshIntervalMinutes: 60,
+      // Ứng dụng lịch chỉ COI ĐÂY LÀ GỢI Ý. Apple nhìn con số này nhưng nhịp thật vẫn do người
+      // dùng chọn trong Cài đặt; Google bỏ qua hẳn và tự quyết (thường 8-24 tiếng). Để 15 phút
+      // là xin nhịp nhanh nhất có thể, chứ không bảo đảm được.
+      refreshIntervalMinutes: 15,
     });
   }
 

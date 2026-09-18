@@ -95,6 +95,14 @@ export interface IcsEvent {
   sequence: number;
   /** Nhắc trước giờ hẹn. Nhiều VALARM trong một VEVENT là hợp lệ theo RFC 5545. */
   alarms?: IcsAlarm[];
+  /**
+   * CONFIRMED (mặc định) hoặc CANCELLED.
+   *
+   * Vì sao cần CANCELLED thay vì chỉ bỏ sự kiện khỏi feed: nếu chỉ bỏ đi, một số ứng dụng lịch
+   * vẫn giữ bản đã tải trước đó. Gửi hẳn một VEVENT mang STATUS:CANCELLED kèm SEQUENCE cao hơn
+   * là lệnh huỷ TƯỜNG MINH, ứng dụng lịch buộc phải gỡ hoặc gạch bỏ sự kiện.
+   */
+  status?: 'CONFIRMED' | 'CANCELLED';
 }
 
 export interface IcsCalendarOptions {
@@ -144,8 +152,9 @@ export function buildIcsCalendar(
       `DTSTART:${start}`,
       `DTEND:${formatUtcStamp(new Date(endMs))}`,
       `SEQUENCE:${e.sequence}`,
-      'STATUS:CONFIRMED',
-      'TRANSP:OPAQUE',
+      `STATUS:${e.status || 'CONFIRMED'}`,
+      // Sự kiện đã huỷ thì không chiếm chỗ trong lịch nữa.
+      e.status === 'CANCELLED' ? 'TRANSP:TRANSPARENT' : 'TRANSP:OPAQUE',
       `SUMMARY:${escapeIcsText(e.summary)}`,
       `LOCATION:${escapeIcsText(e.location)}`,
     );
@@ -156,7 +165,8 @@ export function buildIcsCalendar(
     // Nhắc trước giờ hẹn. TRIGGER neo vào START và mang dấu ÂM (-PT60M = 60 phút trước).
     // ACTION:DISPLAY là loại được ứng dụng lịch trên điện thoại hỗ trợ rộng nhất; ACTION:EMAIL
     // đòi thêm ATTENDEE và phần lớn ứng dụng bỏ qua.
-    for (const alarm of e.alarms || []) {
+    // Buổi đã huỷ thì tuyệt đối KHÔNG được để báo thức nào còn sống.
+    for (const alarm of e.status === 'CANCELLED' ? [] : e.alarms || []) {
       lines.push(
         'BEGIN:VALARM',
         `TRIGGER;RELATED=START:-PT${Math.max(0, Math.round(alarm.minutesBefore))}M`,
