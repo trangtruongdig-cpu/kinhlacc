@@ -67,3 +67,6 @@ test/*.d.ts
 test/*.js.map
 # Cache build TS (đổi liên tục, vô nghĩa khi commit)
 *.tsbuildinfo
+
+# Script dò/thử một lần — KHÔNG commit (đã từng lộ JWT_SECRET qua test-token.js)
+test-*.js

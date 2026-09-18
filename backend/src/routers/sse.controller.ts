@@ -1,20 +1,31 @@
-import { Controller, Sse, MessageEvent, UseGuards } from '@nestjs/common';
+import { Controller, Sse, MessageEvent, Request } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { SseService } from '../controllers/sse.service';
-import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
+import { SseService, SlotEvent } from '../controllers/sse.service';
 
 @Controller('notifications')
 export class SseController {
   constructor(private readonly sseService: SseService) {}
 
-  // Mở public SSE cho tất cả mọi người để update lịch Realtime Zero-request
+  /**
+   * Luồng realtime trạng thái vé khám.
+   *
+   * KHÔNG public: JwtAuthGuard toàn cục (app.module) vẫn chặn, token lấy từ header
+   * Authorization HOẶC query ?token= (EventSource của trình duyệt không đặt được header).
+   *
+   * Phân tầng theo vai trò: bệnh nhân chỉ nhận phần vé công khai (giờ + trạng thái),
+   * KHÔNG nhận staffMessage vì câu đó chứa họ tên bệnh nhân khác.
+   */
   @Sse('sse')
-  sse(): Observable<MessageEvent> {
+  sse(@Request() req: any): Observable<MessageEvent> {
+    const isStaff = req.user?.kind === 'staff';
     return this.sseService.getEventStream().pipe(
-      map((payload) => ({
-        data: payload,
-      } as MessageEvent)),
+      map((evt: SlotEvent) => {
+        const payload: SlotEvent = isStaff
+          ? evt
+          : { type: evt.type, slot: evt.slot };
+        return { data: payload } as MessageEvent;
+      }),
     );
   }
 }

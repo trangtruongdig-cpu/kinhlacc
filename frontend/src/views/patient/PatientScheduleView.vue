@@ -8,6 +8,14 @@ const authStore = usePatientAuthStore()
 // ── Types ──
 type SlotStatus = 'OPEN' | 'CLOSED' | 'BOOKED' | 'COMPLETED' | 'CANCELLED'
 
+/** Lưới giờ công khai — đúng những gì /appointment-slots/available trả về. */
+interface PublicSlot {
+  id: number
+  slotDate: string
+  slotTime: string
+  status: SlotStatus
+}
+
 interface AppointmentSlot {
   id: number
   slotDate: string
@@ -32,7 +40,7 @@ const activeTab = ref<'my' | 'book'>('book')
 const isLoadingMy = ref(false)
 const isLoadingSlots = ref(false)
 const mySlots = ref<AppointmentSlot[]>([])
-const availableSlots = ref<AppointmentSlot[]>([])
+const availableSlots = ref<PublicSlot[]>([])
 const schedule = ref<EffectiveSchedule | null>(null)
 const error = ref<string | null>(null)
 
@@ -40,7 +48,7 @@ const error = ref<string | null>(null)
 const showBookModal = ref(false)
 const showCancelModal = ref(false)
 const showSyncModal = ref(false)
-const bookingSlot = ref<AppointmentSlot | null>(null)
+const bookingSlot = ref<PublicSlot | null>(null)
 const bookingReason = ref('')
 const isBooking = ref(false)
 const cancellingSlot = ref<AppointmentSlot | null>(null)
@@ -70,7 +78,7 @@ function todayYMD(): string {
 }
 
 function parseYMD(ymd: string): Date {
-  const [y, m, d] = ymd.split('-').map(Number)
+  const [y = 0, m = 1, d = 1] = ymd.split('-').map(Number)
   return new Date(y, m - 1, d)
 }
 
@@ -105,7 +113,7 @@ const weekDays = computed(() => {
     days.push({
       date: ymd,
       dayNum: d.getDate(),
-      dayName: dayNames[i],
+      dayName: dayNames[i] ?? '',
       isPast: ymd < today,
       isToday: ymd === today,
     })
@@ -115,7 +123,8 @@ const weekDays = computed(() => {
 
 const weekLabel = computed(() => {
   const start = weekDays.value[0]
-  const end = weekDays.value[6]
+  const end = weekDays.value[weekDays.value.length - 1]
+  if (!start || !end) return ''
   const sDate = parseYMD(start.date)
   const eDate = parseYMD(end.date)
   const sMonth = sDate.getMonth() + 1
@@ -213,7 +222,7 @@ watch(activeTab, (tab) => {
 })
 
 // ── Book ──
-function openBookModal(slot: AppointmentSlot) {
+function openBookModal(slot: PublicSlot) {
   bookingSlot.value = slot
   bookingReason.value = ''
   showBookModal.value = true
@@ -326,12 +335,11 @@ onMounted(() => {
         availableSlots.value.sort((a, b) => a.slotTime.localeCompare(b.slotTime))
       }
 
-      // Zero-request update cho mảng My Slots
-      const mIdx = mySlots.value.findIndex(s => s.id === updatedSlot.id)
-      if (mIdx !== -1) {
-        mySlots.value.splice(mIdx, 1, updatedSlot)
-      } else {
-        // Nếu đây là vé vừa book của chính mình (nhận biết qua fetch dự phòng)
+      // "Lịch của tôi" cần reason/notes — mà payload SSE cố tình KHÔNG có (để bệnh nhân này
+      // không đọc được dữ liệu của bệnh nhân kia). Nên nếu vé liên quan tới mình thì lấy lại
+      // bản đầy đủ từ endpoint có kiểm quyền, thay vì vá bằng payload thiếu trường.
+      const isMine = mySlots.value.some(s => s.id === updatedSlot.id)
+      if (isMine || updatedSlot.status === 'BOOKED') {
         fetchMySlots()
       }
     } else {
@@ -379,8 +387,9 @@ function downloadIcs() {
   const startDateStr = slot.slotDate.replace(/-/g, '') + 'T' + slot.slotTime.replace(/:/g, '')
   
   // Thời gian kết thúc = startDate + 1 giờ (có thể lấy từ config nhưng mặc định tạm 1h)
-  const endH = String(parseInt(slot.slotTime.split(':')[0]) + 1).padStart(2, '0')
-  const endDateStrLocal = slot.slotDate.replace(/-/g, '') + 'T' + endH + slot.slotTime.split(':')[1] + '00'
+  const [slotH = '00', slotM = '00'] = slot.slotTime.split(':')
+  const endH = String(parseInt(slotH, 10) + 1).padStart(2, '0')
+  const endDateStrLocal = slot.slotDate.replace(/-/g, '') + 'T' + endH + slotM + '00'
 
   const icsContent = `BEGIN:VCALENDAR
 VERSION:2.0

@@ -5,9 +5,14 @@ import { applySeo, type SeoData } from '@/composables/useSeo'
 import { routeSeo, defaultSeo } from '@/seo/routeSeo'
 import ZaloButton from '@/components/ZaloButton.vue'
 import { useAuthStore } from '@/stores/auth'
+import { usePatientAuthStore } from '@/stores/patientAuth'
 
 const route = useRoute()
 const authStore = useAuthStore()
+const patientAuthStore = usePatientAuthStore()
+
+// Token dùng cho SSE: ưu tiên phiên nhân viên, không có thì dùng phiên bệnh nhân.
+const sseToken = computed(() => authStore.token || patientAuthStore.token)
 
 // ----- SSE Notification (Realtime Bookings) -----
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001'
@@ -27,20 +32,26 @@ function dismissToast(id: number) {
   toastMessages.value = toastMessages.value.filter(t => t.id !== id)
 }
 
-function connectSSE(token?: string) {
-  if (eventSource) eventSource.close()
-  
-  const sseUrl = token ? `${API_BASE}/notifications/sse?token=${token}` : `${API_BASE}/notifications/sse`
-  eventSource = new EventSource(sseUrl)
-  
+function connectSSE(token: string | null) {
+  if (eventSource) {
+    eventSource.close()
+    eventSource = null
+  }
+
+  // Luồng SSE nằm sau JwtAuthGuard — không có token thì server trả 401 và EventSource đóng
+  // luôn (theo chuẩn, lỗi HTTP không được nối lại). Nên khách vãng lai thì khỏi mở.
+  if (!token) return
+
+  eventSource = new EventSource(`${API_BASE}/notifications/sse?token=${encodeURIComponent(token)}`)
+
   eventSource.onmessage = (event) => {
     try {
       const data = JSON.parse(event.data)
       if (data.type === 'NEW_BOOKING') {
-        // CHỈ hiển thị Toast và Âm thanh nếu đang đứng ở màn hình Admin (requiresAuth = true)
-        if (route.meta.requiresAuth) {
+        // Chỉ nhân viên mới nhận được staffMessage (server lọc theo vai trò, không phải do UI ẩn đi).
+        if (data.staffMessage && route.meta.requiresAuth) {
           // 1. Toast
-          showToast(data.message, 'success')
+          showToast(data.staffMessage, 'success')
           
           // 2. Phát âm thanh (Ting ting nhẹ nhàng bằng Web Audio API)
           if (typeof window !== 'undefined') {
@@ -73,7 +84,7 @@ function connectSSE(token?: string) {
           // 3. Browser Notification (bất chấp đang mở tab khác)
           if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
             new Notification('Kinh Lạc Gia Minh', {
-              body: data.message,
+              body: data.staffMessage,
               icon: '/favicon.ico'
             })
           }
@@ -98,12 +109,13 @@ onMounted(() => {
     Notification.requestPermission()
   }
   
-  // Dù có hay chưa có login thì vẫn connect (Public nhận tín hiệu)
-  connectSSE(authStore.token)
+  connectSSE(sseToken.value)
 })
 
-// Khi login/logout thì reconnect lại để báo danh với server
-watch(() => authStore.token, (newToken) => {
+// Nhân viên và bệnh nhân dùng HAI store khác nhau (access_token vs patient_token). Trước đây
+// chỗ này chỉ đọc store nhân viên, nên phía bệnh nhân luôn không có token → SSE 401 → toàn bộ
+// cập nhật realtime của phân hệ bệnh nhân chưa từng chạy.
+watch(sseToken, (newToken) => {
   connectSSE(newToken)
 })
 
