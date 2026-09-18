@@ -72,6 +72,17 @@ export function foldIcsLine(line: string): string {
   return parts.join('\r\n ');
 }
 
+/**
+ * Một lời nhắc gắn vào sự kiện (VALARM).
+ *
+ * `minutesBefore` là số phút TRƯỚC giờ bắt đầu. RFC 5545 viết mốc này dạng thời lượng âm:
+ * -PT60M = 60 phút trước.
+ */
+export interface IcsAlarm {
+  minutesBefore: number;
+  description: string;
+}
+
 export interface IcsEvent {
   uid: string;
   ymd: string;
@@ -82,6 +93,8 @@ export interface IcsEvent {
   description?: string;
   /** Tăng mỗi lần sự kiện đổi — thiếu nó thì ứng dụng lịch coi bản mới là trùng và bỏ qua. */
   sequence: number;
+  /** Nhắc trước giờ hẹn. Nhiều VALARM trong một VEVENT là hợp lệ theo RFC 5545. */
+  alarms?: IcsAlarm[];
 }
 
 export interface IcsCalendarOptions {
@@ -137,6 +150,20 @@ export function buildIcsCalendar(
     if (e.description) {
       lines.push(`DESCRIPTION:${escapeIcsText(e.description)}`);
     }
+
+    // Nhắc trước giờ hẹn. TRIGGER neo vào START và mang dấu ÂM (-PT60M = 60 phút trước).
+    // ACTION:DISPLAY là loại được ứng dụng lịch trên điện thoại hỗ trợ rộng nhất; ACTION:EMAIL
+    // đòi thêm ATTENDEE và phần lớn ứng dụng bỏ qua.
+    for (const alarm of e.alarms || []) {
+      lines.push(
+        'BEGIN:VALARM',
+        `TRIGGER;RELATED=START:-PT${Math.max(0, Math.round(alarm.minutesBefore))}M`,
+        'ACTION:DISPLAY',
+        `DESCRIPTION:${escapeIcsText(alarm.description)}`,
+        'END:VALARM',
+      );
+    }
+
     lines.push('END:VEVENT');
   }
 

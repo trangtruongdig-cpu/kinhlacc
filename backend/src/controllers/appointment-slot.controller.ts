@@ -20,7 +20,7 @@ import { FirebaseService } from './firebase.controller';
 import { PatientsService } from './patient.controller';
 import { SseService, toPublicSlot, PublicSlotView } from './sse.service';
 import { ClinicScheduleService } from './clinic-schedule.controller';
-import { buildIcsCalendar, IcsEvent } from './ics.util';
+import { buildIcsCalendar, IcsEvent, IcsAlarm } from './ics.util';
 import { randomBytes, timingSafeEqual } from 'crypto';
 
 /**
@@ -64,6 +64,18 @@ export interface PatientBookingView {
   cancelledAt: Date | null;
   createdAt: Date;
 }
+
+/**
+ * Nhắc trước giờ trị liệu: 1 tiếng, 30 phút, 15 phút.
+ *
+ * Cùng bộ mốc với cron nhắc hẹn (appointment-reminder.service.ts) để khách nhận nhắc như nhau
+ * dù họ theo dõi bằng ứng dụng của phòng khám hay bằng lịch/báo thức trên điện thoại.
+ */
+const REMINDER_ALARMS: IcsAlarm[] = [
+  { minutesBefore: 60, description: 'Còn 1 tiếng nữa tới giờ trị liệu — Kinh Lạc Gia Minh' },
+  { minutesBefore: 30, description: 'Còn 30 phút nữa tới giờ trị liệu — Kinh Lạc Gia Minh' },
+  { minutesBefore: 15, description: 'Còn 15 phút nữa tới giờ trị liệu — Kinh Lạc Gia Minh' },
+];
 
 function toBookingView(b: AppointmentBooking): PatientBookingView {
   return {
@@ -684,6 +696,7 @@ export class AppointmentSlotsService {
       location: 'Phòng khám Kinh Lạc Gia Minh',
       // SEQUENCE lấy theo mốc sửa gần nhất — thiếu nó thì bản cập nhật bị coi là trùng và bỏ qua.
       sequence: Math.floor(new Date(b.updatedAt).getTime() / 1000),
+      alarms: REMINDER_ALARMS,
     }));
 
     return buildIcsCalendar(events, {
