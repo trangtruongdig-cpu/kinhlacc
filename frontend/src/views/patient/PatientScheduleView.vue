@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { usePatientAuthStore } from '@/stores/patientAuth'
+import { useRealtimeStore } from '@/stores/realtime'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001'
 const authStore = usePatientAuthStore()
+const realtime = useRealtimeStore()
 
 // ── Types ──
 type SlotStatus = 'OPEN' | 'CLOSED' | 'BOOKED' | 'COMPLETED' | 'CANCELLED'
@@ -357,33 +359,40 @@ function statusClass(status: SlotStatus) {
   }
 }
 
-let refreshListener: EventListener | null = null
+let offRealtime: (() => void) | null = null
 
 // ── Init ──
 onMounted(() => {
   fetchAvailable(selectedDate.value)
   fetchMySlots()
   
-  refreshListener = (e: Event) => {
-    const customEvent = e as CustomEvent
-    const updatedSlot = customEvent.detail
-
-    // detail = null là tín hiệu "vừa nối lại SSE, có thể đã bỏ lỡ sự kiện" → nạp lại cho chắc.
-    if (!updatedSlot) {
+  offRealtime = realtime.subscribe((change) => {
+    // Vừa nối lại SSE → có thể đã bỏ lỡ sự kiện, nạp lại cho chắc.
+    if (change.resync) {
       fetchAvailable(selectedDate.value)
       fetchMySlots()
       return
     }
 
-    if (updatedSlot.status === 'REMOVED') {
-      removeAvailable(updatedSlot.id)
-    } else {
-      patchAvailable(updatedSlot)
+    // Phòng khám vừa sinh vé cho cả ngày.
+    if (change.type === 'DAY_REGENERATED') {
+      if (change.date === selectedDate.value) fetchAvailable(selectedDate.value)
+      return
     }
+
+    const updatedSlot = change.slot
+    if (!updatedSlot) return
+
+    if (change.type === 'SLOT_REMOVED') {
+      removeAvailable(updatedSlot.id)
+      return
+    }
+    patchAvailable(updatedSlot as PublicSlot)
 
     // "Lịch của tôi" cần reason/notes — mà payload SSE cố tình KHÔNG có (để bệnh nhân này
     // không đọc được dữ liệu của bệnh nhân kia). Nên nếu vé liên quan tới mình thì lấy lại
     // bản đầy đủ từ endpoint có kiểm quyền, thay vì vá bằng payload thiếu trường.
+    //
     // Number() cả hai vế: id ô giờ là BIGINT, driver pg có thể trả về dưới dạng chuỗi, khi đó
     // so sánh `===` với slotId (INTEGER, trả về số) luôn sai và sự kiện bị bỏ qua âm thầm.
     const isMine = mySlots.value.some(
@@ -392,64 +401,81 @@ onMounted(() => {
     if (isMine || updatedSlot.status === 'BOOKED') {
       fetchMySlots()
     }
-  }
-  window.addEventListener('REFRESH_BOOKINGS', refreshListener)
+  })
 })
 
 onBeforeUnmount(() => {
-  if (refreshListener) {
-    window.removeEventListener('REFRESH_BOOKINGS', refreshListener)
-  }
+  if (offRealtime) offRealtime()
 })
 
 // ── Lịch (Đồng bộ) ──
+//
+// HAI cách, khác nhau về BẢN CHẤT:
+//  1. ĐĂNG KÝ (feed .ics): ứng dụng lịch tự hỏi lại máy chủ định kỳ → huỷ lịch ở đây thì sự
+//     kiện tự biến mất bên đó. Đây mới là "đồng bộ".
+//  2. THÊM MỘT LẦN (nút Google/Apple cũ): tạo một BẢN SAO RỜI trong lịch khách. Máy chủ không
+//     biết id sự kiện bên đó nên không bao giờ chạm tới được nữa — huỷ lịch KHÔNG đồng bộ.
+// Trước đây chỉ có cách 2 mà lại đặt tên là "Đồng bộ", nên mới có chuyện huỷ rồi mà lịch
+// Google vẫn còn.
+
 function openSyncModal(slot: MyBooking) {
   syncingSlot.value = slot
   showSyncModal.value = true
+  if (!calendarUrl.value) loadCalendarUrl()
+}
+
+/** Thời lượng một ca, lấy từ cấu hình phòng khám thay vì đoán cứng 1 tiếng. */
+function slotDurationMinutes(): number {
+  return schedule.value?.slotDurationMinutes || 60
+}
+
+/** Mốc bắt đầu/kết thúc của lượt hẹn, tính bằng thời điểm tuyệt đối (giờ VN là UTC+7 cố định). */
+function slotRange(slot: MyBooking): { start: Date; end: Date } {
+  const start = new Date(`${slot.slotDate}T${slot.slotTime}+07:00`)
+  return { start, end: new Date(start.getTime() + slotDurationMinutes() * 60_000) }
 }
 
 function openGoogleCalendar() {
   if (!syncingSlot.value) return
-  const slot = syncingSlot.value
-  const start = new Date(`${slot.slotDate}T${slot.slotTime}+07:00`)
-  const end = new Date(start.getTime() + 60 * 60 * 1000)
-  
-  const formatGcal = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
-  const startStr = formatGcal(start)
-  const endStr = formatGcal(end)
-  
-  const text = encodeURIComponent('Lịch trị liệu - Kinh Lạc Gia Minh')
-  const details = encodeURIComponent(`Lý do: ${slot.reason || 'Không có'}`)
-  const location = encodeURIComponent('Phòng khám Kinh Lạc Gia Minh')
-  
-  const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${text}&dates=${startStr}/${endStr}&details=${details}&location=${location}`
-  window.open(url, '_blank')
+  const { start, end } = slotRange(syncingSlot.value)
+  const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
+
+  const url =
+    'https://calendar.google.com/calendar/render?action=TEMPLATE' +
+    `&text=${encodeURIComponent('Lịch trị liệu - Kinh Lạc Gia Minh')}` +
+    `&dates=${fmt(start)}/${fmt(end)}` +
+    `&location=${encodeURIComponent('Phòng khám Kinh Lạc Gia Minh')}`
+  window.open(url, '_blank', 'noopener')
   showSyncModal.value = false
 }
 
 function downloadIcs() {
   if (!syncingSlot.value) return
   const slot = syncingSlot.value
-  const startDateStr = slot.slotDate.replace(/-/g, '') + 'T' + slot.slotTime.replace(/:/g, '')
-  
-  // Thời gian kết thúc = startDate + 1 giờ (có thể lấy từ config nhưng mặc định tạm 1h)
-  const [slotH = '00', slotM = '00'] = slot.slotTime.split(':')
-  const endH = String(parseInt(slotH, 10) + 1).padStart(2, '0')
-  const endDateStrLocal = slot.slotDate.replace(/-/g, '') + 'T' + endH + slotM + '00'
+  const { start, end } = slotRange(slot)
+  // 'YYYYMMDDTHHMMSSZ' — có hậu tố Z. Bản cũ ghi giờ KHÔNG có Z cũng không có TZID ("giờ trôi
+  // nổi"), nên máy đặt múi giờ khác sẽ hiện sai giờ hẹn.
+  const stamp = (d: Date) => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '')
 
-  const icsContent = `BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//Kinh Lạc Gia Minh//NONSGML v1.0//EN
-BEGIN:VEVENT
-UID:booking-${slot.id}@kinhlacgiaminh.vn
-DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'}
-DTSTART:${startDateStr}
-DTEND:${endDateStrLocal}
-SUMMARY:Lịch trị liệu - Kinh Lạc Gia Minh
-DESCRIPTION:Lý do: ${slot.reason || 'Không có'}
-LOCATION:Phòng khám Kinh Lạc Gia Minh
-END:VEVENT
-END:VCALENDAR`
+  const icsContent = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Kinh Lac Gia Minh//Lich tri lieu//VI',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    // UID gắn với LƯỢT ĐẶT: một ô giờ đặt lại nhiều lần phải là nhiều sự kiện khác nhau.
+    `UID:booking-${slot.id}@kinhlacgiaminh.vn`,
+    `DTSTAMP:${stamp(new Date())}`,
+    `DTSTART:${stamp(start)}`,
+    `DTEND:${stamp(end)}`,
+    'SEQUENCE:0',
+    'STATUS:CONFIRMED',
+    'SUMMARY:Lịch trị liệu - Kinh Lạc Gia Minh',
+    'LOCATION:Phòng khám Kinh Lạc Gia Minh',
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].join('\r\n') + '\r\n'
 
   const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' })
   const url = URL.createObjectURL(blob)
@@ -462,6 +488,56 @@ END:VCALENDAR`
   URL.revokeObjectURL(url)
   showSyncModal.value = false
 }
+
+// ── Đăng ký lịch tự đồng bộ ──
+const calendarUrl = ref<string | null>(null)
+const isLoadingCalendarUrl = ref(false)
+
+/** Ghép đường dẫn tương đối máy chủ trả về thành URL tuyệt đối mà ứng dụng lịch gọi được. */
+function toAbsolute(path: string): string {
+  if (API_BASE.startsWith('http')) return API_BASE + path
+  return window.location.origin + API_BASE + path
+}
+
+async function loadCalendarUrl() {
+  if (!authStore.token) return
+  isLoadingCalendarUrl.value = true
+  try {
+    const res = await fetch(`${API_BASE}/appointment-slots/my-calendar-url`, {
+      headers: { Authorization: `Bearer ${authStore.token}` },
+    })
+    if (!res.ok) throw new Error('lỗi')
+    const data = await res.json()
+    calendarUrl.value = toAbsolute(data.path)
+  } catch {
+    calendarUrl.value = null
+  } finally {
+    isLoadingCalendarUrl.value = false
+  }
+}
+
+/** webcal:// khiến máy mở thẳng ứng dụng Lịch thay vì tải file về. */
+const webcalUrl = computed(() =>
+  calendarUrl.value ? calendarUrl.value.replace(/^https?:/, 'webcal:') : null,
+)
+
+/** Google có màn hình "Thêm lịch qua URL" nhận sẵn tham số cid. */
+const googleSubscribeUrl = computed(() =>
+  calendarUrl.value
+    ? `https://calendar.google.com/calendar/r?cid=${encodeURIComponent(calendarUrl.value)}`
+    : null,
+)
+
+async function copyCalendarUrl() {
+  if (!calendarUrl.value) return
+  try {
+    await navigator.clipboard.writeText(calendarUrl.value)
+    showToast('Đã sao chép đường dẫn lịch.')
+  } catch {
+    showToast('Không sao chép được, bạn hãy chọn và copy thủ công.', 'error')
+  }
+}
+
 </script>
 
 <template>
@@ -698,24 +774,80 @@ END:VCALENDAR`
       </div>
     </Transition>
 
-    <!-- ═══ Modal: Đồng bộ lịch ═══ -->
+    <!-- ═══ Modal: Thêm vào lịch ═══ -->
     <Transition name="modal">
       <div v-if="showSyncModal" class="modal-overlay" @click.self="showSyncModal = false">
         <div class="modal-card">
-          <h3 class="modal-title">Thêm vào lịch</h3>
-          <div class="modal-body text-center">
-            <p style="margin-bottom: 24px; color: var(--gray-600)">Vui lòng chọn ứng dụng Lịch bạn đang sử dụng để thêm lịch hẹn.</p>
-            <div class="sync-actions" style="display: flex; flex-direction: column; gap: 12px;">
-              <button class="btn-primary" style="width: 100%; background: #4285F4; border-color: #4285F4; justify-content: center" @click="openGoogleCalendar">
-                Google Calendar
-              </button>
-              <button class="btn-outline" style="width: 100%; justify-content: center" @click="downloadIcs">
-                Apple Calendar (iOS/Mac)
-              </button>
-              <button class="btn-secondary" style="width: 100%; justify-content: center" @click="showSyncModal = false">
-                Huỷ bỏ
-              </button>
+          <h3 class="modal-title">Thêm vào lịch điện thoại</h3>
+          <div class="modal-body">
+
+            <!-- Cách 1: ĐĂNG KÝ — đây mới thật sự là đồng bộ hai chiều -->
+            <div class="sync-block sync-block-primary">
+              <div class="sync-block-head">
+                <span class="sync-badge">Nên dùng</span>
+                <strong>Đăng ký lịch tự cập nhật</strong>
+              </div>
+              <p class="sync-desc">
+                Đăng ký một lần cho tất cả các buổi. Sau này bạn đặt thêm hay huỷ lịch,
+                lịch trên máy <strong>tự cập nhật theo</strong> mà không cần làm gì.
+              </p>
+
+              <div v-if="isLoadingCalendarUrl" class="sync-loading">
+                <div class="spinner"></div><span>Đang tạo đường dẫn...</span>
+              </div>
+
+              <template v-else-if="calendarUrl">
+                <div class="sync-actions-row">
+                  <a v-if="webcalUrl" :href="webcalUrl" class="btn-primary sync-btn">
+                    iPhone / iPad / Mac
+                  </a>
+                  <a
+                    v-if="googleSubscribeUrl"
+                    :href="googleSubscribeUrl"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn-primary sync-btn sync-btn-google"
+                  >Google Calendar</a>
+                </div>
+
+                <button class="btn-outline sync-btn-wide" @click="copyCalendarUrl">
+                  Sao chép đường dẫn lịch
+                </button>
+
+                <p class="sync-note">
+                  Lịch Apple hỏi lại máy chủ khoảng mỗi giờ. Riêng Google Calendar tự quyết
+                  nhịp làm mới, thường <strong>8–24 tiếng</strong> mới cập nhật một lần — đây là
+                  giới hạn của Google, phòng khám không chỉnh được. Cần chắc chắn ngay thì bạn
+                  xem mục “Lịch của tôi” trong ứng dụng này.
+                </p>
+                <p class="sync-note sync-note-warn">
+                  Đường dẫn này riêng của bạn — ai có nó là xem được giờ hẹn của bạn, đừng chia sẻ.
+                </p>
+              </template>
+
+              <p v-else class="sync-note sync-note-warn">
+                Chưa tạo được đường dẫn lịch.
+                <button class="link-btn" @click="loadCalendarUrl">Thử lại</button>
+              </p>
             </div>
+
+            <!-- Cách 2: THÊM MỘT LẦN — nói rõ là không đồng bộ -->
+            <div class="sync-block">
+              <div class="sync-block-head"><strong>Chỉ thêm buổi này</strong></div>
+              <p class="sync-desc">
+                Thêm đúng một buổi vào lịch. Lưu ý: đây là <strong>bản chép rời</strong> —
+                nếu sau này buổi hẹn bị huỷ hoặc đổi giờ thì lịch trên máy bạn
+                <strong>sẽ không tự đổi theo</strong>.
+              </p>
+              <div class="sync-actions-row">
+                <button class="btn-outline sync-btn" @click="openGoogleCalendar">Google Calendar</button>
+                <button class="btn-outline sync-btn" @click="downloadIcs">Tải file .ics</button>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-actions">
+            <button class="btn-secondary" @click="showSyncModal = false">Đóng</button>
           </div>
         </div>
       </div>
@@ -1301,5 +1433,79 @@ END:VCALENDAR`
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
     gap: var(--space-3);
   }
+}
+
+/* ── Modal thêm vào lịch ── */
+.sync-block {
+  padding: 14px;
+  border: 1px solid var(--gray-200, #e5e7eb);
+  border-radius: 10px;
+  margin-bottom: 14px;
+  text-align: left;
+}
+.sync-block-primary {
+  border-color: #b45309;
+  background: #fffbeb;
+}
+.sync-block-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+.sync-badge {
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  background: #b45309;
+  border-radius: 999px;
+}
+.sync-desc {
+  margin: 0 0 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--gray-600, #4b5563);
+}
+.sync-actions-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.sync-btn {
+  flex: 1 1 140px;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+}
+.sync-btn-google { background: #4285F4; border-color: #4285F4; }
+.sync-btn-wide {
+  width: 100%;
+  justify-content: center;
+  margin-top: 8px;
+}
+.sync-loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--gray-600, #4b5563);
+}
+.sync-note {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--gray-600, #4b5563);
+}
+.sync-note-warn { color: #92400e; }
+.link-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #b45309;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
 }
 </style>

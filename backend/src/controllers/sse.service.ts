@@ -15,9 +15,14 @@ export interface PublicSlotView {
 }
 
 export interface SlotEvent {
-  type: 'NEW_BOOKING' | 'SLOT_UPDATED' | 'SLOT_REMOVED';
-  /** Luôn phát cho mọi người — chỉ chứa trường công khai. */
-  slot: PublicSlotView;
+  type: 'NEW_BOOKING' | 'SLOT_UPDATED' | 'SLOT_REMOVED' | 'DAY_REGENERATED';
+  /**
+   * Luôn phát cho mọi người — chỉ chứa trường công khai.
+   * Vắng mặt ở DAY_REGENERATED: sự kiện đó nói về CẢ NGÀY, không về một ô giờ cụ thể.
+   */
+  slot?: PublicSlotView;
+  /** Chỉ có ở DAY_REGENERATED — ngày vừa được sinh lại vé (YYYY-MM-DD). */
+  date?: string;
   /** CHỈ nhân viên nhận được (có thể chứa họ tên bệnh nhân). */
   staffMessage?: string;
   /**

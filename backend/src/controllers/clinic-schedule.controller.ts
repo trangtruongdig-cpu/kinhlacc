@@ -8,6 +8,7 @@ import { Repository, In } from 'typeorm';
 import { ClinicScheduleConfig } from '../models/clinic-schedule-config.model';
 import { ClinicDayOverride } from '../models/clinic-day-override.model';
 import { AppointmentSlot } from '../models/appointment-slot.model';
+import { SseService } from './sse.service';
 import {
   UpdateClinicScheduleConfigDto,
   UpsertClinicDayOverrideDto,
@@ -58,6 +59,7 @@ export class ClinicScheduleService {
     private readonly overrideRepo: Repository<ClinicDayOverride>,
     @InjectRepository(AppointmentSlot)
     private readonly slotRepo: Repository<AppointmentSlot>,
+    private readonly sseService: SseService,
   ) {}
 
   async getConfig(): Promise<ClinicScheduleConfig> {
@@ -217,6 +219,13 @@ export class ClinicScheduleService {
         );
         closed = orphans.length;
       }
+    }
+
+    // Sinh vé xong mà không báo ai thì bệnh nhân vẫn thấy "Không có khung giờ trống" cho tới
+    // khi họ tự tải lại trang. Phát MỘT sự kiện cho CẢ NGÀY thay vì mỗi vé một sự kiện —
+    // sinh vé cả tuần có thể tạo hàng trăm vé, bắn từng cái là làm ngập luồng realtime.
+    if (toCreate.length > 0 || closed > 0) {
+      this.sseService.emitEvent({ type: 'DAY_REGENERATED', date });
     }
 
     return {

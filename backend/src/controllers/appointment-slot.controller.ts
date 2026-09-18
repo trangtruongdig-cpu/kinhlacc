@@ -19,6 +19,23 @@ import { BookSlotDto, UpdateSlotDto } from '../models/appointment-slot.dto';
 import { FirebaseService } from './firebase.controller';
 import { PatientsService } from './patient.controller';
 import { SseService, toPublicSlot, PublicSlotView } from './sse.service';
+import { ClinicScheduleService } from './clinic-schedule.controller';
+import { buildIcsCalendar, IcsEvent } from './ics.util';
+import { randomBytes, timingSafeEqual } from 'crypto';
+
+/**
+ * So khớp khoá theo thời gian HẰNG ĐỊNH.
+ *
+ * `===` trên chuỗi thoát ra ngay ở byte đầu khác nhau, nên thời gian phản hồi rò rỉ từng byte
+ * của khoá đúng. Khoá này lại nằm ở endpoint công khai, đoán được là đọc trọn lịch hẹn.
+ */
+function timingSafeEqualStr(a: string, b: string): boolean {
+  const ba = Buffer.from(a, 'utf8');
+  const bb = Buffer.from(b, 'utf8');
+  // timingSafeEqual ném lỗi nếu khác độ dài — so độ dài trước (độ dài không phải bí mật).
+  if (ba.length !== bb.length) return false;
+  return timingSafeEqual(ba, bb);
+}
 
 export interface PaginatedSlots {
   data: AppointmentSlot[];
@@ -74,6 +91,7 @@ export class AppointmentSlotsService {
     private readonly firebaseService: FirebaseService,
     private readonly patientsService: PatientsService,
     private readonly sseService: SseService,
+    private readonly clinicScheduleService: ClinicScheduleService,
     private readonly dataSource: DataSource,
   ) {}
 
@@ -179,18 +197,51 @@ export class AppointmentSlotsService {
     return saved;
   }
 
+  /**
+   * Chạy một thao tác đổi trạng thái ô giờ TRONG transaction có khoá dòng.
+   *
+   * Đọc-rồi-ghi mà không khoá thì hai nhân viên bấm cùng lúc (hoặc nhân viên bấm Đóng đúng
+   * lúc bệnh nhân bấm Đặt) sẽ đè lên nhau: cả hai đọc cùng một bản cũ, người ghi sau thắng,
+   * và kiểm tra trạng thái ở giữa trở thành vô nghĩa.
+   */
+  private async withLockedSlot<T>(
+    id: number,
+    fn: (slot: AppointmentSlot, manager: EntityManager) => Promise<T> | T,
+  ): Promise<{ slot: AppointmentSlot; result: T }> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+    try {
+      const slot = await queryRunner.manager.findOne(AppointmentSlot, {
+        where: { id },
+        lock: { mode: 'pessimistic_write' },
+      });
+      if (!slot) throw new NotFoundException(`Vé #${id} không tồn tại`);
+
+      const result = await fn(slot, queryRunner.manager);
+      const saved = await queryRunner.manager.save(slot);
+      await queryRunner.commitTransaction();
+      return { slot: saved, result };
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
+  }
+
   async close(id: number): Promise<AppointmentSlot> {
-    const slot = await this.findOne(id);
-    if (slot.status === 'BOOKED') {
-      throw new ConflictException(
-        'Vé này đã có bệnh nhân đặt, huỷ trước khi đóng',
-      );
-    }
-    if (slot.status === 'COMPLETED') {
-      throw new ConflictException('Vé đã hoàn thành, không thể đóng');
-    }
-    slot.status = 'CLOSED';
-    const saved = await this.slotRepo.save(slot);
+    const { slot: saved } = await this.withLockedSlot(id, (slot) => {
+      if (slot.status === 'BOOKED') {
+        throw new ConflictException(
+          'Vé này đã có bệnh nhân đặt, huỷ trước khi đóng',
+        );
+      }
+      if (slot.status === 'COMPLETED') {
+        throw new ConflictException('Vé đã hoàn thành, không thể đóng');
+      }
+      slot.status = 'CLOSED';
+    });
     this.sseService.emitEvent({
       type: 'SLOT_UPDATED',
       slot: toPublicSlot(saved),
@@ -200,22 +251,33 @@ export class AppointmentSlotsService {
   }
 
   async open(id: number): Promise<AppointmentSlot> {
-    const slot = await this.findOne(id);
-    if (slot.status !== 'CLOSED' && slot.status !== 'CANCELLED') {
-      throw new ConflictException(
-        `Không thể mở lại vé đang ở trạng thái ${slot.status}`,
-      );
-    }
-    slot.status = 'OPEN';
-    slot.patientId = null;
-    slot.reason = null;
-    // `notes` TRƯỚC ĐÂY KHÔNG được xoá ở đây → ghi chú riêng của bệnh nhân trước còn dính
-    // nguyên trên ô giờ và lộ sang lượt đặt của người sau. Nội dung cũ đã lưu ở lượt đặt rồi.
-    slot.notes = null;
-    slot.reminded1h = false;
-    slot.reminded30m = false;
-    slot.reminded15m = false;
-    const saved = await this.slotRepo.save(slot);
+    const { slot: saved } = await this.withLockedSlot(id, async (slot, manager) => {
+      // 'CANCELLED' chỉ còn gặp ở dữ liệu CŨ (huỷ nay trả ô giờ thẳng về OPEN) — vẫn nhận
+      // để nhân viên có lối thoát cho những vé tồn từ trước migration.
+      if (slot.status !== 'CLOSED' && slot.status !== 'CANCELLED') {
+        throw new ConflictException(
+          `Không thể mở lại vé đang ở trạng thái ${slot.status}`,
+        );
+      }
+      // Phòng xa: vé cũ có thể còn lượt đặt treo. Đóng nó lại rồi mới mở ô giờ, không thì
+      // unique index chặn lượt đặt mới và không ai đặt được ô này nữa.
+      const booking = await this.activeBooking(manager, id);
+      if (booking) {
+        booking.status = 'CANCELLED';
+        booking.cancelledBy = 'STAFF';
+        booking.cancelledAt = new Date();
+        await manager.save(booking);
+      }
+      slot.status = 'OPEN';
+      slot.patientId = null;
+      slot.reason = null;
+      // `notes` TRƯỚC ĐÂY KHÔNG được xoá ở đây → ghi chú riêng của bệnh nhân trước còn dính
+      // nguyên trên ô giờ và lộ sang lượt đặt của người sau. Nội dung cũ đã lưu ở lượt đặt rồi.
+      slot.notes = null;
+      slot.reminded1h = false;
+      slot.reminded30m = false;
+      slot.reminded15m = false;
+    });
     this.sseService.emitEvent({
       type: 'SLOT_UPDATED',
       slot: toPublicSlot(saved),
@@ -552,6 +614,84 @@ export class AppointmentSlotsService {
       out[date][r.status] = parseInt(r.count, 10);
     }
     return out;
+  }
+
+  // ───────────────────────── Lịch .ics đăng ký được ─────────────────────────
+
+  /**
+   * Lấy (hoặc tạo lười) khoá bí mật cho đường dẫn lịch của bệnh nhân.
+   *
+   * Tạo lười thay vì sinh sẵn cho mọi bệnh nhân: ai không dùng thì không có khoá nào tồn tại
+   * để mà rò.
+   */
+  async getOrCreateIcsToken(patientId: number): Promise<string> {
+    const existing = await this.patientsService.getIcsToken(patientId);
+    if (existing) return existing;
+
+    const token = randomBytes(32).toString('hex');
+    await this.patientsService.setIcsToken(patientId, token);
+    return token;
+  }
+
+  /** Đổi khoá = mọi đăng ký cũ ngừng hoạt động ngay. */
+  async resetIcsToken(patientId: number): Promise<string> {
+    const token = randomBytes(32).toString('hex');
+    await this.patientsService.setIcsToken(patientId, token);
+    return token;
+  }
+
+  /**
+   * Nội dung lịch .ics cho một bệnh nhân.
+   *
+   * Cố ý CHỈ gồm ngày/giờ hẹn — KHÔNG có họ tên, KHÔNG có lý do khám. Đường dẫn này xác thực
+   * bằng khoá trong URL, mà URL thì nằm trong ứng dụng lịch, đồng bộ qua nhiều thiết bị, và
+   * dễ lọt ra ngoài hơn một phiên đăng nhập. Không đưa thông tin bệnh vào đó.
+   *
+   * Lượt đã huỷ được BỎ HẲN khỏi feed: ứng dụng lịch thay toàn bộ nội dung mỗi lần làm mới,
+   * nên vắng mặt = sự kiện biến mất khỏi lịch của khách. Đó chính là "huỷ thì đồng bộ theo".
+   */
+  async buildPatientIcs(patientId: number, token: string): Promise<string> {
+    // Bệnh nhân không tồn tại cũng phải trả về Y HỆT khoá sai. Nếu để lọt NotFoundException,
+    // 404-hay-403 trở thành máy dò: kẻ tấn công quét id là biết được id nào có bệnh nhân thật.
+    let stored: string | null = null;
+    try {
+      stored = await this.patientsService.getIcsToken(patientId);
+    } catch {
+      stored = null;
+    }
+    // Phải KHỚP CHÍNH XÁC và bệnh nhân phải CÓ khoá — nếu không, một chuỗi rỗng hay null
+    // sẽ mở toang lịch của người khác.
+    if (!stored || !token || !timingSafeEqualStr(stored, token)) {
+      throw new ForbiddenException('Đường dẫn lịch không hợp lệ');
+    }
+
+    const bookings = await this.bookingRepo.find({
+      where: { patientId, status: 'BOOKED' },
+      order: { slotDate: 'ASC', slotTime: 'ASC' },
+    });
+
+    const config = await this.clinicScheduleService.getConfig();
+    const duration = config?.slotDurationMinutes || 60;
+
+    const events: IcsEvent[] = bookings.map((b) => ({
+      // UID gắn với LƯỢT ĐẶT, không phải ô giờ: một ô giờ đặt đi đặt lại nhiều lần thì phải là
+      // nhiều sự kiện khác nhau, không thì ứng dụng lịch coi là cùng một cái và ghi đè.
+      uid: `booking-${b.id}@kinhlacgiaminh.vn`,
+      ymd: b.slotDate,
+      hms: b.slotTime,
+      durationMinutes: duration,
+      summary: 'Lịch trị liệu - Kinh Lạc Gia Minh',
+      location: 'Phòng khám Kinh Lạc Gia Minh',
+      // SEQUENCE lấy theo mốc sửa gần nhất — thiếu nó thì bản cập nhật bị coi là trùng và bỏ qua.
+      sequence: Math.floor(new Date(b.updatedAt).getTime() / 1000),
+    }));
+
+    return buildIcsCalendar(events, {
+      calendarName: 'Lịch trị liệu - Kinh Lạc Gia Minh',
+      // Apple Calendar tôn trọng con số này (làm mới mỗi 60 phút). Google thì bỏ qua và tự
+      // quyết, thường 8-24 tiếng — đó là giới hạn của Google, không sửa được từ phía ta.
+      refreshIntervalMinutes: 60,
+    });
   }
 
   /**

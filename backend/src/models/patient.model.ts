@@ -43,6 +43,16 @@ export class Patient {
   @Column({ type: 'text', nullable: true })
   fcmToken: string | null;
 
+  /**
+   * Khoá bí mật của đường dẫn lịch .ics mà bệnh nhân đăng ký vào Google/Apple Calendar.
+   *
+   * Đường dẫn đó KHÔNG qua đăng nhập được (ứng dụng lịch không gửi kèm JWT), nên chính khoá này
+   * là thứ xác thực. Sinh ngẫu nhiên 32 byte, tạo lười ở lần đầu bệnh nhân bấm "Đăng ký".
+   * Đổi khoá = huỷ mọi đăng ký cũ.
+   */
+  @Column({ type: 'text', nullable: true })
+  icsToken: string | null;
+
   @Column({ type: 'text', nullable: true })
   notes: string | null;
 

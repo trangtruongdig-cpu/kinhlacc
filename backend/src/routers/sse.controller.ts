@@ -34,7 +34,7 @@ export class SseController {
         // Bệnh nhân chỉ nhận phần công khai: cắt bỏ cả staffMessage lẫn staffSlot.
         const payload: SlotEvent = isStaff
           ? evt
-          : { type: evt.type, slot: evt.slot, seq: evt.seq };
+          : { type: evt.type, slot: evt.slot, date: evt.date, seq: evt.seq };
         return {
           data: payload,
           // `id:` cho phép máy khách phát hiện mình bỏ lỡ sự kiện (số nhảy cóc → tải lại).

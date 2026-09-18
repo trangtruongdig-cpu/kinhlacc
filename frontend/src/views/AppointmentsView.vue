@@ -4,9 +4,11 @@ import { useRouter } from 'vue-router'
 import { api } from '@/services/api'
 import type { Patient } from '@/stores/patient'
 import { useAuthStore } from '@/stores/auth'
+import { useRealtimeStore } from '@/stores/realtime'
 import { maskHoTen, maskSdt } from '@/lib/maskThongTin'
 
 const authStore = useAuthStore()
+const realtime = useRealtimeStore()
 // Lễ Tân không được xem đầy đủ họ tên/SĐT bệnh nhân — chỉ hiện dạng che một phần (tìm kiếm vẫn khớp trên dữ liệu thật).
 function displayName(name: string | null | undefined) {
   return authStore.isLeTan ? maskHoTen(name) : (name || '—')
@@ -82,26 +84,32 @@ const bookReason = ref('')
 const bookNotes = ref('')
 const bookSearch = ref('')
 
-let refreshListener: EventListener | null = null
+let offRealtime: (() => void) | null = null
 
 onMounted(async () => {
   await loadPatients()
   await loadDay(selectedDate.value)
   
-  refreshListener = (e: Event) => {
-    const customEvent = e as CustomEvent
-    const updatedSlot = customEvent.detail
-
-    // detail = null là tín hiệu "vừa nối lại SSE, có thể đã bỏ lỡ sự kiện" → nạp lại cho chắc.
-    if (!updatedSlot) {
+  offRealtime = realtime.subscribe((change) => {
+    // Vừa nối lại SSE → có thể đã bỏ lỡ sự kiện, nạp lại cho chắc.
+    if (change.resync) {
       loadDay(selectedDate.value)
       return
     }
 
-    if (updatedSlot.status === 'REMOVED') {
-      removeSlotLocal(updatedSlot.id, updatedSlot.slotDate)
+    // Nhân viên vừa sinh vé cho cả ngày ở máy khác.
+    if (change.type === 'DAY_REGENERATED') {
+      if (change.date === selectedDate.value) loadDay(selectedDate.value)
       return
     }
+
+    if (!change.slot) return
+
+    if (change.type === 'SLOT_REMOVED') {
+      removeSlotLocal(change.slot.id, change.slot.slotDate)
+      return
+    }
+    const updatedSlot = change.slot as AppointmentSlot
 
     // "Đang BOOKED mà thành OPEN" = vừa có người huỷ ở máy khác. Payload SSE không mang lượt đặt,
     // nên phải nạp lại lịch sử ngày để dấu "⟲ từng huỷ" hiện đúng. Chỉ tốn 1 request và CHỈ khi
@@ -126,14 +134,11 @@ onMounted(async () => {
     if (updatedSlot.patientId && !patientsMap.value[updatedSlot.patientId]) {
       loadPatients()
     }
-  }
-  window.addEventListener('REFRESH_BOOKINGS', refreshListener)
+  })
 })
 
 onBeforeUnmount(() => {
-  if (refreshListener) {
-    window.removeEventListener('REFRESH_BOOKINGS', refreshListener)
-  }
+  if (offRealtime) offRealtime()
 })
 
 watch(selectedDate, async (val) => {
@@ -219,7 +224,12 @@ async function loadDay(date: string) {
     const [slots, eff, bookings] = await Promise.all([
       api.get<AppointmentSlot[]>(`/appointment-slots?date=${date}`),
       api.get<EffectiveSchedule>(`/clinic-schedule/effective/${date}`),
-      api.get<SlotBooking[]>(`/appointment-slots/bookings?date=${date}`)
+      // Lịch sử huỷ chỉ để VẼ HUY HIỆU — hỏng thì bảng ngày vẫn phải lên bình thường.
+      // Không bọc catch ở đây thì một backend chưa kịp deploy (chưa có route /bookings) sẽ
+      // làm sập cả màn hình với "Lỗi tải ngày", trong khi dữ liệu chính vẫn lấy được.
+      api
+        .get<SlotBooking[]>(`/appointment-slots/bookings?date=${date}`)
+        .catch(() => [] as SlotBooking[])
     ])
     slotsByDate.value[date] = (slots || []).map(normalizeSlot)
     effectiveSchedule.value = eff
@@ -678,8 +688,12 @@ function goToPatient(id: number) {
                 <button class="btn-sm btn-success" :disabled="actionLoading" @click="completeSlot(slot)">Hoàn thành</button>
                 <button class="btn-sm btn-danger" :disabled="actionLoading" @click="cancelSlot(slot)">Huỷ</button>
               </template>
-              <!-- KHÔNG còn nhánh 'CANCELLED': huỷ nay trả ô giờ thẳng về OPEN, nên nút
-                   "Mở lại" chỉ còn ý nghĩa cho vé nhân viên tự Đóng (nhánh CLOSED ở trên). -->
+              <!-- 'CANCELLED' là DỮ LIỆU CŨ. Huỷ nay trả ô giờ thẳng về OPEN, nên nhánh này chỉ
+                   còn gặp ở vé huỷ TRƯỚC khi migration chạy (hoặc khi backend chưa kịp deploy).
+                   Vẫn phải giữ nút, không thì thẻ vé thành ngõ cụt không thao tác được gì. -->
+              <template v-else-if="slot.status === 'CANCELLED'">
+                <button class="btn-sm btn-primary" :disabled="actionLoading" @click="openSlot(slot)">Mở lại</button>
+              </template>
             </div>
 
             <div v-if="isSlotBusy(slot)" class="slot-overlay">

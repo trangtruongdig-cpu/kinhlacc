@@ -27,10 +27,13 @@ export interface PaginatedPatients {
 }
 
 /** Dạng dữ liệu trả ra ngoài — KHÔNG bao giờ kèm passwordHash. */
-export type PatientAnToan = Omit<Patient, 'passwordHash'>;
+// `icsToken` bị loại cùng passwordHash: nó là KHOÁ XÁC THỰC của đường dẫn lịch .ics, ai cầm
+// được là đọc được lịch hẹn của bệnh nhân đó mà không cần đăng nhập. Không có màn hình nào cần
+// hiển thị nó, nên đừng để nó lọt ra bất kỳ API nào — muốn đọc thì dùng getIcsToken().
+export type PatientAnToan = Omit<Patient, 'passwordHash' | 'icsToken'>;
 
 function toSafePatient(p: Patient): PatientAnToan {
-  const { passwordHash: _passwordHash, ...safe } = p;
+  const { passwordHash: _passwordHash, icsToken: _icsToken, ...safe } = p;
   return safe;
 }
 
@@ -368,6 +371,18 @@ export class PatientsService {
 
   async findOne(id: number): Promise<PatientAnToan> {
     return toSafePatient(await this.findOneRaw(id));
+  }
+
+  /** Nội bộ — đọc khoá lịch .ics. Cố ý tách riêng vì findOne() đã cắt trường này đi. */
+  async getIcsToken(id: number): Promise<string | null> {
+    const patient = await this.findOneRaw(id);
+    return patient.icsToken ?? null;
+  }
+
+  async setIcsToken(id: number, token: string): Promise<void> {
+    // update() thay vì save(): chỉ đụng đúng một cột, không ghi đè bản ghi bệnh nhân
+    // bằng dữ liệu đã đọc từ trước.
+    await this.patientRepository.update({ id }, { icsToken: token });
   }
 
   async create(dto: CreatePatientDto): Promise<PatientAnToan> {

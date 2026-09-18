@@ -159,6 +159,10 @@ export class SchemaBootstrapService implements OnApplicationBootstrap {
         AND s.status IN ('BOOKED','COMPLETED','CANCELLED')
         AND NOT EXISTS (SELECT 1 FROM appointment_bookings b WHERE b."slotId" = s.id)`,
 
+    // Khoá bí mật cho đường dẫn lịch .ics bệnh nhân đăng ký (xem patient.model.ts).
+    `ALTER TABLE patients ADD COLUMN IF NOT EXISTS "icsToken" TEXT`,
+    `CREATE UNIQUE INDEX IF NOT EXISTS ux_patients_ics_token ON patients ("icsToken") WHERE "icsToken" IS NOT NULL`,
+
     // Dọn ô giờ đã huỷ: bỏ mọi dấu vết bệnh nhân (notes trước đây KHÔNG được xoá → ghi chú riêng
     // của người trước dính sang người đặt sau) và trả về OPEN.
     //

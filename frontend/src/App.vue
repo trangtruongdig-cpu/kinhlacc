@@ -6,6 +6,7 @@ import { routeSeo, defaultSeo } from '@/seo/routeSeo'
 import ZaloButton from '@/components/ZaloButton.vue'
 import { useAuthStore } from '@/stores/auth'
 import { usePatientAuthStore } from '@/stores/patientAuth'
+import { useRealtimeStore } from '@/stores/realtime'
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -16,24 +17,15 @@ const sseToken = computed(() => authStore.token || patientAuthStore.token)
 
 // ----- SSE Notification (Realtime Bookings) -----
 //
-// Yêu cầu cốt lõi: đường dây này phải TỰ LÀNH. Bản trước chỉ gán `onmessage`, không có onerror,
-// không canh chết, không đồng bộ lại — nên trên điện thoại (khoá màn hình, chuyển app, đổi sóng)
-// kết nối đứt là nằm im vĩnh viễn, và người dùng phải tải lại trang mới thấy dữ liệu mới.
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001'
+// Kết nối và logic tự-lành nay nằm trong store `realtime` (stores/realtime.ts) — App.vue chỉ
+// còn lo phần GIAO DIỆN: toast, tiếng ting, thông báo trình duyệt, và dải báo mất kết nối.
+// Trước đây mọi thứ nằm ở đây rồi phát tin qua `window.dispatchEvent`, nên màn hình nào muốn
+// nghe cũng phải tự gắn/gỡ listener trên window, không có kiểu dữ liệu, và không ai biết
+// đường dây đang sống hay chết.
+const realtime = useRealtimeStore()
 const toastMessages = ref<{ id: number; type: string; msg: string; link?: string }[]>([])
 let toastIdCounter = 0
-let eventSource: EventSource | null = null
-
-/** Không nhận được gì (kể cả nhịp tim 20s của server) quá ngần này → coi như đường dây đã chết. */
-const WATCHDOG_MS = 55_000
-let lastBeatAt = 0
-let watchdogTimer: ReturnType<typeof setInterval> | null = null
-
-/** Số thứ tự sự kiện gần nhất đã nhận — nhảy cóc nghĩa là đã bỏ lỡ sự kiện lúc mất mạng. */
-let lastSeq = 0
-/** Lần thử nối lại thứ mấy (dùng cho backoff khi server đang lỗi/token hỏng). */
-let retryCount = 0
-let retryTimer: ReturnType<typeof setTimeout> | null = null
+let offStaffMessage: (() => void) | null = null
 
 function showToast(msg: string, type = 'success', link?: string) {
   const id = toastIdCounter++
@@ -45,17 +37,6 @@ function showToast(msg: string, type = 'success', link?: string) {
 
 function dismissToast(id: number) {
   toastMessages.value = toastMessages.value.filter(t => t.id !== id)
-}
-
-/**
- * Yêu cầu các màn hình đang mở tự nạp lại toàn bộ dữ liệu.
- *
- * `detail: null` là quy ước sẵn có: màn hình nào nhận null thì gọi lại API thay vì vá tại chỗ.
- * Dùng sau mỗi lần nối lại, vì mọi sự kiện xảy ra trong lúc đứt mạch đã mất hẳn.
- */
-function requestFullResync() {
-  if (typeof window === 'undefined') return
-  window.dispatchEvent(new CustomEvent('REFRESH_BOOKINGS', { detail: null }))
 }
 
 function playDing() {
@@ -85,140 +66,6 @@ function playDing() {
   }
 }
 
-function closeStream() {
-  if (eventSource) {
-    eventSource.close()
-    eventSource = null
-  }
-  if (retryTimer) {
-    clearTimeout(retryTimer)
-    retryTimer = null
-  }
-}
-
-/** Hẹn nối lại với backoff 3s → 6s → 12s → 24s → tối đa 30s (tránh nện server khi nó đang lỗi). */
-function scheduleReconnect(token: string | null) {
-  if (!token || retryTimer) return
-  const delay = Math.min(3000 * 2 ** retryCount, 30_000)
-  retryCount += 1
-  retryTimer = setTimeout(() => {
-    retryTimer = null
-    connectSSE(token)
-  }, delay)
-}
-
-function connectSSE(token: string | null) {
-  closeStream()
-
-  // Luồng SSE nằm sau JwtAuthGuard — không có token thì server trả 401 và EventSource đóng
-  // luôn (theo chuẩn, lỗi HTTP không được nối lại). Nên khách vãng lai thì khỏi mở.
-  if (!token) return
-
-  const es = new EventSource(`${API_BASE}/notifications/sse?token=${encodeURIComponent(token)}`)
-  eventSource = es
-  lastBeatAt = Date.now()
-
-  es.onopen = () => {
-    lastBeatAt = Date.now()
-    // Nối lại xong là dữ liệu trên màn hình đã có thể cũ (mọi sự kiện lúc đứt mạch đã mất).
-    // Lần mở ĐẦU TIÊN thì các màn hình tự nạp trong onMounted rồi, nên chỉ đồng bộ khi nối LẠI.
-    if (retryCount > 0) requestFullResync()
-    retryCount = 0
-  }
-
-  // Nhịp tim mang tên sự kiện riêng nên KHÔNG vào onmessage — bắt riêng để nuôi đồng hồ canh chết.
-  es.addEventListener('ping', () => {
-    lastBeatAt = Date.now()
-  })
-
-  es.onerror = () => {
-    // Kết nối này đã bị thay bằng cái mới → bỏ qua, đừng để nó hẹn nối lại chồng lên.
-    if (eventSource !== es) return
-    // CLOSED = lỗi ở tầng HTTP (401 token hết hạn, 502 backend chết). Trình duyệt sẽ KHÔNG tự
-    // thử lại trong trường hợp này, phải tự hẹn giờ. CONNECTING = rớt mạng, trình duyệt lo được.
-    if (es.readyState === EventSource.CLOSED) {
-      closeStream()
-      scheduleReconnect(token)
-    }
-  }
-
-  es.onmessage = (event) => {
-    lastBeatAt = Date.now()
-    try {
-      const data = JSON.parse(event.data)
-
-      // Phát hiện bỏ lỡ: server đánh số liên tục, số nhảy cóc nghĩa là có sự kiện đã rơi mất
-      // trong lúc mình không kết nối. Số TỤT nghĩa là backend vừa khởi động lại (đếm từ đầu).
-      const seq = typeof data.seq === 'number' ? data.seq : null
-      if (seq !== null) {
-        if (lastSeq !== 0 && seq !== lastSeq + 1) requestFullResync()
-        lastSeq = seq
-      }
-
-      if (data.type === 'NEW_BOOKING') {
-        // Chỉ nhân viên mới nhận được staffMessage (server lọc theo vai trò, không phải do UI ẩn đi).
-        if (data.staffMessage && route.meta.requiresAuth) {
-          showToast(data.staffMessage, 'success')
-          playDing()
-
-          // Browser Notification (bất chấp đang mở tab khác)
-          if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
-            new Notification('Kinh Lạc Gia Minh', {
-              body: data.staffMessage,
-              icon: '/favicon.ico'
-            })
-          }
-        }
-      }
-
-      // Bất kể NEW_BOOKING / SLOT_UPDATED / SLOT_REMOVED, gửi event cập nhật âm thầm kèm payload vé.
-      //
-      // Nhân viên nhận thêm `staffSlot` — bản ĐẦY ĐỦ có patientId. Phải ưu tiên bản này, vì bảng
-      // ngày của nhân viên lấy tên bệnh nhân từ patientId; vá bằng bản công khai (đã cắt trường
-      // đó) là mỗi sự kiện lại xoá trắng tên trên màn hình. Bệnh nhân không bao giờ có staffSlot
-      // (SseController lọc ở server), nên phía họ vẫn đúng là bản công khai.
-      if (data.type === 'NEW_BOOKING' || data.type === 'SLOT_UPDATED' || data.type === 'SLOT_REMOVED') {
-        if (typeof window !== 'undefined') {
-          window.dispatchEvent(
-            new CustomEvent('REFRESH_BOOKINGS', { detail: data.staffSlot || data.slot }),
-          )
-        }
-      }
-    } catch (e) {
-      console.error('SSE Error:', e)
-    }
-  }
-}
-
-/**
- * Ép nối lại + đồng bộ NGAY khi có dấu hiệu đường dây có thể đã chết.
- *
- * Gọi khi: quay lại app, máy có mạng trở lại, hoặc đồng hồ canh chết kêu.
- */
-function reviveStream() {
-  const token = sseToken.value
-  if (!token) return
-  // Máy đang mất mạng hẳn: dựng lại cũng vô ích. Sự kiện 'online' sẽ gọi lại đúng lúc có sóng.
-  if (typeof navigator !== 'undefined' && navigator.onLine === false) return
-  if (!eventSource || eventSource.readyState === EventSource.CLOSED) {
-    retryCount = 0
-    connectSSE(token)
-    requestFullResync()
-    return
-  }
-  // Còn OPEN nhưng im quá lâu: trên di động, kết nối "còn sống" trên giấy tờ mà thực tế đã đứt
-  // là chuyện thường. Dựng lại cho chắc.
-  if (Date.now() - lastBeatAt > WATCHDOG_MS) {
-    retryCount = 0
-    connectSSE(token)
-    requestFullResync()
-  }
-}
-
-function onVisibilityChange() {
-  if (document.visibilityState === 'visible') reviveStream()
-}
-
 // ----- SEO & Zalo -----
 const showZalo = computed(() => {
   return route.meta.requiresAuth !== true && route.meta.requiresPatientAuth !== true;
@@ -237,6 +84,13 @@ watch(
 </script>
 
 <template>
+  <!-- Mất kết nối realtime = dữ liệu trên màn hình có thể đã cũ. Nói thẳng ra, thay vì để người
+       dùng nhìn một bảng lịch đứng im mà tưởng là đúng. -->
+  <div v-if="realtime.isStale && sseToken" class="rt-offline-bar">
+    <span class="rt-dot"></span>
+    Mất kết nối máy chủ — đang thử lại. Dữ liệu hiển thị có thể chưa mới nhất.
+  </div>
+
   <RouterView />
   <ZaloButton v-if="showZalo" />
 
@@ -258,6 +112,36 @@ watch(
 </template>
 
 <style scoped>
+/* ── Dải báo mất kết nối realtime ── */
+.rt-offline-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 12px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #7c2d12;
+  background: #fed7aa;
+  border-bottom: 1px solid #fb923c;
+}
+.rt-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ea580c;
+  animation: rt-pulse 1.2s ease-in-out infinite;
+}
+@keyframes rt-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
 /* ── SSE Toasts ── */
 .sse-toasts-container {
   position: fixed;
