@@ -403,6 +403,10 @@ const trajSegs = computed(() => {
       <span><i class="lg-cb"></i> Viền nét đứt đỏ/xanh = <b>DỰ ĐOÁN</b> (vào lý / ra biểu)</span>
       <span :class="{ 'lg-muted': showTraj && trajLocatedCount >= 2 }"><i class="lg-flow"></i> ①→⑥ = thứ tự truyền (sách)</span>
       <span><i class="lg-tk"></i> Trung kiến (cặp biểu-lý)</span>
+      <!-- Vòng xếp theo THỨ TỰ TRUYỀN (①→⑥), còn vào lý/ra biểu đo theo TẦNG nông–sâu. Hai trục
+           lệch nhau đúng ở cặp Thiếu Dương ↔ Dương Minh (bán biểu bán lý nông hơn lý thực nhiệt),
+           nên ở đó mũi tên "vào lý" đi NGƯỢC chiều số — nói rõ để khỏi bị đọc là lỗi vẽ. -->
+      <span class="lg-note">Thiếu Dương ③ nông hơn Dương Minh ②, nên ③→② vẫn là <b>vào lý</b></span>
     </div>
   </div>
 </template>
@@ -524,6 +528,7 @@ const trajSegs = computed(() => {
 .tl-arrow { font-size: 10.5px; font-weight: 700; color: var(--text-muted, #8a7a60); white-space: nowrap; }
 .tl-arrow--vao-ly { color: #b23a25; }
 .tl-arrow--ra-bieu { color: #2e6f52; }
+.vlk-legend .lg-note { opacity: .82; font-weight: 500; font-style: italic; }
 .vlk-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; font-size: 12px; font-weight: 600; color: var(--text, #3a2c1a); }
 .vlk-legend span { display: inline-flex; align-items: center; gap: 6px; }
 .vlk-legend span.lg-muted { opacity: 0.5; }

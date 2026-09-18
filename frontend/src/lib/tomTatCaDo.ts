@@ -18,7 +18,7 @@ import {
   type InputData,
   type TongCuong,
 } from './meridianAnalysis'
-import { locateLucKinh, KINH_META, type LucKinhVerdict, type TheKinhMap } from './lucKinh'
+import { locateLucKinh, type LucKinhVerdict, type TheKinhMap } from './lucKinh'
 
 /** Lát cắt tối thiểu của 1 ca đo lấy từ GET /examinations/my-records. */
 export interface CaDoInput {
@@ -125,38 +125,6 @@ export function tomTatCaDo(e: CaDoInput, theKinhMap?: TheKinhMap | null): TomTat
   }
 }
 
-/** Câu giải thích ngắn, đúng nghĩa thuật toán, để người bệnh hiểu chữ Hán-Việt trên thẻ. */
-export function nghiaCuong(key: string, giaTri: string): string {
-  const v = (giaTri || '').trim()
-  if (!v) return ''
-  switch (key) {
-    case 'khi':
-      if (v === 'Khí hư') return 'Nhiệt độ 6 đường kinh tay thiên thấp — phần Khí đang yếu.'
-      if (v === 'Khí thịnh') return 'Nhiệt độ 6 đường kinh tay thiên cao — phần Khí đang vượng.'
-      return 'Nhiệt độ 6 đường kinh tay cân đối quanh mức trung bình.'
-    case 'huyet':
-      if (v === 'Huyết hư') return 'Nhiệt độ 6 đường kinh chân thiên thấp — phần Huyết đang yếu.'
-      if (v === 'Huyết thịnh') return 'Nhiệt độ 6 đường kinh chân thiên cao — phần Huyết đang vượng.'
-      return 'Nhiệt độ 6 đường kinh chân cân đối quanh mức trung bình.'
-    case 'huThuc':
-      if (v === 'Thực') return 'Nhiều đường kinh lệch xa mức trung bình — cơ thể đang phản ứng mạnh.'
-      if (v === 'Hư') return 'Ít đường kinh lệch, biên độ hẹp — sức phản ứng của cơ thể đang yếu.'
-      return 'Không đường kinh nào vượt ngưỡng lệch — trong ngưỡng bình thường.'
-    case 'viTri':
-      if (v === 'Biểu') return 'Phần lớn đường kinh lệch ở tầng nông (ngoài).'
-      if (v === 'Lý') return 'Phần lớn đường kinh lệch ở tầng sâu (tạng phủ bên trong).'
-      if (v === 'Biểu Lý') return 'Lệch cả tầng nông lẫn tầng sâu.'
-      return ''
-    case 'tinhChat':
-      if (v === 'Nhiệt') return 'Số đường kinh nghiêng nóng nhiều hơn nghiêng lạnh.'
-      if (v === 'Hàn') return 'Số đường kinh nghiêng lạnh nhiều hơn nghiêng nóng.'
-      if (v === 'Hàn Nhiệt lẫn lộn') return 'Nóng và lạnh đan xen, không bên nào trội hẳn.'
-      return ''
-    default:
-      return ''
-  }
-}
-
 // ── SO SÁNH HAI LẦN ĐO ────────────────────────────────────────────────────────────────────────
 export type Huong = 'tot' | 'xau' | 'ngang'
 export interface MucThayDoi {
@@ -238,7 +206,9 @@ export function soSanhCaDo(truoc: TomTat, sau: TomTat): ChuyenBien {
   themNgang('tinhChat', 'Tính chất (Hàn – Nhiệt)', truoc.tinhChat, sau.tinhChat)
   themNgang('tongCuong', 'Tổng cương', truoc.tongCuong?.amDuong ?? '', sau.tongCuong?.amDuong ?? '')
 
-  // Lục Kinh: so TẦNG biểu→lý (tang 1 nông … 6 sâu).
+  // Lục Kinh: so TẦNG biểu→lý — dùng `tang`, KHÔNG dùng `thuTu`. Hai trục đã tách (2026-09-19):
+  // Thái Dương 1 · Thiếu Dương 2 · Dương Minh 3 · Thái Âm 4 · Thiếu Âm 5 · Quyết Âm 6, vì Thiếu
+  // Dương là bán biểu bán lý nên nông hơn Dương Minh (lý thực nhiệt).
   let lucKinh: ChuyenBien['lucKinh'] = null
   const kt = truoc.lucKinh?.kinh
   const ks = sau.lucKinh?.kinh
@@ -277,9 +247,4 @@ export function soSanhCaDo(truoc: TomTat, sau: TomTat): ChuyenBien {
         : 'Chưa đổi rõ'
 
   return { muc, nhan, diem, soNgay, lucKinh, thayDoi, soThe, dotMoi }
-}
-
-/** Nhãn tầng Lục Kinh để tô màu nông → sâu (1..6). Trả 0 khi chưa định vị được. */
-export function tangLucKinh(t: TomTat): number {
-  return t.lucKinh ? KINH_META[t.lucKinh.kinh.slug].tang : 0
 }
