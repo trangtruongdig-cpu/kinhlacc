@@ -148,7 +148,7 @@ const weekDays = computed(() => {
     days.push({
       date: ymd,
       dayNum: d.getDate(),
-      dayName: dayNames[i],
+      dayName: dayNames[i] ?? '',
       isPast: ymd < today,
       isToday: ymd === today,
     })
@@ -158,7 +158,8 @@ const weekDays = computed(() => {
 
 const weekLabel = computed(() => {
   const start = weekDays.value[0]
-  const end = weekDays.value[6]
+  const end = weekDays.value[weekDays.value.length - 1]
+  if (!start || !end) return ''
   const sDate = parseYMD(start.date)
   const eDate = parseYMD(end.date)
   const sMonth = sDate.getMonth() + 1
@@ -423,7 +424,7 @@ function goToPatient(id: number) {
 
     <div v-if="error" class="alert-error">
       {{ error }}
-      <button class="btn-link" @click="loadDay(selectedDate.value)">Thử lại</button>
+      <button class="btn-link" @click="loadDay(selectedDate)">Thử lại</button>
     </div>
 
     <!-- Week Selector -->

@@ -48,7 +48,7 @@ function handleLogout() {
 
         <!-- Thông tin user + đăng xuất -->
         <div class="user-menu">
-          <span class="user-avatar">{{ (authStore.patient?.fullName || authStore.patient?.phone || '?')[0].toUpperCase() }}</span>
+          <span class="user-avatar">{{ ((authStore.patient?.fullName || authStore.patient?.phone || '?')[0] ?? '?').toUpperCase() }}</span>
           <div class="user-info">
             <span class="user-name">{{ authStore.patient?.fullName || authStore.patient?.phone }}</span>
             <button @click="handleLogout" class="btn-logout">Đăng xuất</button>

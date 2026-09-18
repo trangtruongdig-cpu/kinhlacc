@@ -40,14 +40,15 @@ function formatDateForApi(dateStr: string): string | null {
   const parts = str.includes('/') ? str.split('/') : str.split('-')
   if (parts.length === 3) {
     // If user enters DD/MM/YYYY
-    if (parts[0].length <= 2) {
-      const d = parts[0].padStart(2, '0')
-      const m = parts[1].padStart(2, '0')
-      const y = parts[2]
+    const [p0 = '', p1 = '', p2 = ''] = parts
+    if (p0.length <= 2) {
+      const d = p0.padStart(2, '0')
+      const m = p1.padStart(2, '0')
+      const y = p2
       return `${y}-${m}-${d}`
     }
     // If it's already YYYY-MM-DD
-    if (parts[0].length === 4) {
+    if (p0.length === 4) {
       return str
     }
   }
