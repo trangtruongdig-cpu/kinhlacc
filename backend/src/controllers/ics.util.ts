@@ -120,7 +120,9 @@ export function buildIcsCalendar(
     'X-WR-TIMEZONE:Asia/Ho_Chi_Minh',
   ];
   if (opts.refreshIntervalMinutes) {
-    lines.push(`REFRESH-INTERVAL;VALUE=DURATION:PT${opts.refreshIntervalMinutes}M`);
+    lines.push(
+      `REFRESH-INTERVAL;VALUE=DURATION:PT${opts.refreshIntervalMinutes}M`,
+    );
     lines.push(`X-PUBLISHED-TTL:PT${opts.refreshIntervalMinutes}M`);
   }
 
