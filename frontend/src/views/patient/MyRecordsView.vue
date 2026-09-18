@@ -10,7 +10,7 @@
  * thì bấm vào mốc. Các con số tính tại máy người đọc bằng lib/tomTatCaDo.ts — cùng bộ hàm trang
  * Kết Quả Đo dùng, nên không lệch trang chi tiết.
  */
-import { ref, computed, onMounted, nextTick, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { usePatientAuthStore } from '@/stores/patientAuth'
 import MedicalDisclaimer from '@/components/MedicalDisclaimer.vue'
 import AmDuongTaiji from '@/components/AmDuongTaiji.vue'
@@ -106,6 +106,16 @@ function chipsTheChat(t: TomTat): { nhan: string; cuc: 'duong' | 'am' | 'trung' 
     .map((nhan) => ({ nhan, cuc: cuc(nhan) }))
 }
 
+/**
+ * Thứ tự BÀY RA: mới nhất trước. Người bệnh mở trang là để xem lần đo gần nhất — trước đây dải
+ * xếp cũ→mới nên trên điện thoại (xếp dọc) phải cuộn xuống tận cuối mới thấy nó.
+ *
+ * `mocs` bên dưới vẫn giữ thứ tự cũ→mới, vì `cb` của mỗi mốc là chuyển biến SO VỚI MỐC LIỀN TRƯỚC
+ * — đảo ở khâu tính sẽ làm sai ngữ nghĩa đó. Chỉ đảo ở đây, và template bù lại bằng cách đặt khối
+ * nối XUỐNG DƯỚI mỗi mốc (mốc cũ hơn giờ nằm sau).
+ */
+const mocsHienThi = computed<Moc[]>(() => [...mocs.value].reverse())
+
 const mocs = computed<Moc[]>(() => {
   const arr = tomTats.value
   return arr.map((t, i) => ({
@@ -134,16 +144,9 @@ function muiTen(cb: ChuyenBien): string {
   return cb.lucKinh.loai === 'ra-bieu' ? '↑' : cb.lucKinh.loai === 'vao-ly' ? '↓' : '→'
 }
 /** Dải chạy cũ → mới; mốc MỚI NHẤT mới là thứ cần thấy trước, nên cuộn sẵn về cuối. */
-const scrollRef = ref<HTMLElement | null>(null)
-watch(
-  mocs,
-  async () => {
-    await nextTick()
-    const el = scrollRef.value
-    if (el) el.scrollLeft = el.scrollWidth
-  },
-  { flush: 'post' },
-)
+// (Trước đây có watch cuộn `scrollLeft = scrollWidth` để lộ mốc mới nhất ở cuối dải, cùng một
+//  template ref cho khối cuộn. Nay mốc mới nhất đứng ĐẦU nên bỏ cả hai — cuộn như cũ sẽ đưa người
+//  đọc tới mốc cũ nhất.)
 
 function khoangCach(cb: ChuyenBien): string {
   if (cb.soNgay === null) return ''
@@ -173,19 +176,9 @@ function khoangCach(cb: ChuyenBien): string {
           <h3 class="mach-title">{{ mocs.length }} lần đo</h3>
         </div>
 
-        <div ref="scrollRef" class="mach-scroll">
+        <div class="mach-scroll">
         <ol class="mach-line">
-          <li v-for="m in mocs" :key="m.id" class="mach-item">
-            <!-- Nối với mốc trước: đợt mới / số ngày + hướng -->
-            <span v-if="m.cb && m.cb.dotMoi" class="mach-break" title="Cách lần trước quá lâu — tính là đợt đo mới">
-              ⋯ đợt mới
-            </span>
-            <span v-else-if="m.cb" class="mach-conn" :class="'mach-conn--' + (m.cb.lucKinh?.loai || 'giu')">
-              <span class="mach-days">{{ khoangCach(m.cb) }}</span>
-              <span class="mach-arrow">{{ muiTen(m.cb) }}</span>
-              <span class="mach-nhan">{{ nhanHuong(m.cb) }}</span>
-            </span>
-
+          <li v-for="m in mocsHienThi" :key="m.id" class="mach-item">
             <RouterLink
               class="mach-cell"
               :class="{ 'is-moi': m.moiNhat }"
@@ -220,6 +213,21 @@ function khoangCach(cb: ChuyenBien): string {
                 </span>
               </span>
             </RouterLink>
+
+            <!-- Nối với mốc CŨ HƠN (nằm sau, vì dải xếp mới → cũ): đợt mới / số ngày + hướng -->
+            <span v-if="m.cb && m.cb.dotMoi" class="mach-break" title="Cách lần đo trước đó quá lâu — tính là đợt đo mới, không nối diễn biến">
+              ⋯ đợt mới
+            </span>
+            <span
+              v-else-if="m.cb"
+              class="mach-conn"
+              :class="'mach-conn--' + (m.cb.lucKinh?.loai || 'giu')"
+              :title="`So với lần đo trước đó ${khoangCach(m.cb)}: ${nhanHuong(m.cb)}`"
+            >
+              <span class="mach-days">{{ khoangCach(m.cb) }}</span>
+              <span class="mach-arrow">{{ muiTen(m.cb) }}</span>
+              <span class="mach-nhan">{{ nhanHuong(m.cb) }}</span>
+            </span>
           </li>
         </ol>
         </div>
