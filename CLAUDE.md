@@ -10,7 +10,7 @@ The `Kinhlac/` directory at repo root is a legacy Windows desktop app (`.exe`, `
 
 ## Repo layout
 
-- `backend/` — NestJS 11 + TypeORM + PostgreSQL API. Entry `src/main.ts` (listens on `APP_PORT`, default 3001). Vercel serverless entry at `backend/api/index.ts`.
+- `backend/` — NestJS 11 + TypeORM + PostgreSQL API. Entry `src/main.ts` (listens on `APP_PORT`, default 3001).
 - `frontend/` — Vue 3 + Vite + Pinia + Vue Router SPA. Served via nginx (`frontend/nginx.conf`) in Docker or statically on Vercel.
 - `backend/sql/` — hand-written PostgreSQL migrations. **TypeORM `synchronize` is off by default**; schema changes must be added here and run manually. See `backend/sql/README.md` for caveats.
 - `backend/tmp/` — one-off scripts (`migrate.ts`, `seed-pg.ts`, `import-legacy-models.js`, `test-conn.js`). Not part of the build.
@@ -44,7 +44,7 @@ Connection pool is tuned for **serverless** (`max: 1`, short timeouts). If runni
 
 ### CORS
 
-`src/main.ts` defines `brandmasterRegex`, `localhostRegex`, `vercelRegex` allowlists but the actual `origin` callback returns `callback(null, true)` (allow all). The regex constants are dead code. The Vercel deployment path (`backend/api/index.ts`) mirrors the origin header back. If tightening CORS, fix both entry points.
+`src/main.ts` defines `brandmasterRegex`, `localhostRegex`, `vercelRegex` allowlists but the actual `origin` callback returns `callback(null, true)` (allow all). The regex constants are dead code. There is now only ONE entry point (`src/main.ts`), so tightening CORS means changing it there.
 
 ### BenhDongYExcel diagnostic engine
 
@@ -59,6 +59,7 @@ Connection pool is tuned for **serverless** (`max: 1`, short timeouts). If runni
 - Pinia stores in `src/stores/`. No global state library beyond Pinia.
 - Styling is plain CSS in `src/assets/styles/` (no Tailwind, no UI framework).
 - Lint stack is **oxlint + eslint**, both run via `npm run lint` (oxlint first, then eslint). Format is `prettier --experimental-cli`.
+- ⚠️ **`npm run lint` WRITES to files** — both steps run with `--fix` (`oxlint . --fix`, `eslint . --fix --cache`). It is not a read-only check. It will happily rewrite vendored libraries (`public/kinhmach3d/vendor/`) and files unrelated to your change. To check without writing, run `npx oxlint` / `npx eslint .` directly, and `git status` afterwards either way. Same applies to `backend/` (`eslint --fix`).
 
 ## Common commands
 
@@ -99,10 +100,11 @@ Apply files in `backend/sql/` manually with `psql` (or any client). **Back up be
 
 ## Deployment paths
 
-Three coexisting deployment paths — know which one you're touching:
+**Only ONE deployment is live: Docker Compose on a VPS.** Verified 2026-09-18 — `kinhlac.online` serves the app; `kinhlac.vercel.app` returns `DEPLOYMENT_NOT_FOUND`.
 
-1. **Docker Compose** (`docker-compose.yml`, `DEPLOYMENT.md`) — backend on `:3000`, frontend nginx on `:80`, Postgres on `:5432`. Uses `NODE_ENV=production` and `DB_*` env vars.
-2. **PM2** (`ecosystem.config.cjs`, `start.sh`) — backend on `APP_PORT=3001`, frontend assumed to be a Nuxt-style `.output/server/index.mjs` (note: the current frontend is **Vite SPA**, not Nuxt — the PM2 frontend block is stale and will not work as-is against this codebase).
-3. **Vercel** — backend via `backend/vercel.json` → `backend/api/index.ts` (serverless, caches the Nest app between invocations); frontend via `frontend/vercel.json` (SPA rewrites). The hard-coded allowed origin in `backend/vercel.json` is `https://kinhlac.vercel.app`.
+1. **Docker Compose** (`docker-compose.yml`, `DEPLOYMENT.md`) — **THE LIVE ONE**. nginx serves the SPA and proxies `/api/` to the backend container (`proxy_buffering off`, `proxy_read_timeout 600s` — required for SSE). Postgres is external (Aiven), not in Docker. Env comes from `backend/.env`.
+   Because this is a single long-lived process, two things in the code are safe that would NOT be safe on serverless or multi-instance: `@Cron` in `appointment-reminder.service.ts` (fires reliably, no duplicates) and the in-memory rxjs `Subject` in `sse.service.ts` (all clients share one process). **If you ever add a second instance, both break** — the cron will double-send reminders and SSE events will not cross instances.
+2. **PM2** (`ecosystem.config.cjs`) — stale, references a Nuxt-style `.output/server/index.mjs`; the frontend is a Vite SPA. Does not work as-is.
+3. ~~**Vercel**~~ — removed 2026-09-18 (deployment no longer existed; the stale config kept causing wrong conclusions about cron and SSE). Restore with `git checkout 18d0a92 -- backend/vercel.json backend/api/index.ts` if ever needed. `frontend/vercel.json` is kept (inert SPA rewrites).
 
-The backend port differs between deployments (3000 in Docker, 3001 in PM2/local). When fixing CORS, redirects, or links between services, confirm which deployment is in play.
+The backend port differs between contexts (3000 in Docker, 3001 local). When fixing CORS, redirects, or links between services, confirm which one is in play.
