@@ -41,9 +41,15 @@ function arcPath(r: number, deg: number, span: number) {
   const p0 = pt(r, a0), p1 = pt(r, a1)
   return `M${N(p0.x)} ${N(p0.y)} A${r} ${r} 0 0 ${bottom ? 0 : 1} ${N(p1.x)} ${N(p1.y)}`
 }
-function arrowHead(tip: { x: number; y: number }, dir: { x: number; y: number }, len = 7, w = 4) {
+/**
+ * Đầu mũi tên hình DART (có khấc lõm ở đuôi), KHÔNG phải tam giác đều: tam giác đều nhìn không ra
+ * chiều đi. Dài/rộng ≈ 1.4 + đuôi lõm 45% → mắt bắt ngay hướng, kể cả khi mũi tên nhỏ.
+ */
+function arrowHead(tip: { x: number; y: number }, dir: { x: number; y: number }, len = 10, w = 3.6) {
   const px = -dir.y, py = dir.x
-  return `${N(tip.x)},${N(tip.y)} ${N(tip.x - dir.x * len + px * w)},${N(tip.y - dir.y * len + py * w)} ${N(tip.x - dir.x * len - px * w)},${N(tip.y - dir.y * len - py * w)}`
+  const bx = tip.x - dir.x * len, by = tip.y - dir.y * len // hai vai
+  const nx = tip.x - dir.x * len * 0.55, ny = tip.y - dir.y * len * 0.55 // khấc lõm giữa đuôi
+  return `${N(tip.x)},${N(tip.y)} ${N(bx + px * w)},${N(by + py * w)} ${N(nx)},${N(ny)} ${N(bx - px * w)},${N(by - py * w)}`
 }
 
 type HanhKey = 'thuy' | 'kim' | 'hoaT' | 'hoaQ' | 'tho' | 'moc'
@@ -164,12 +170,20 @@ const tenOfSlug = (s: string) => KINH.find((k) => k.slug === s)?.ten ?? s
 // phân biệt hẳn với chuyển biến DỰ ĐOÁN (viền wedge nét ĐỨT) và vòng ①→⑥ trang trí (vành ngoài).
 // Góc = kinh đo được; BÁN KÍNH = độ sâu lý tích luỹ (vào lý → gần tâm, ra biểu → ra vành). Đã qua phản biện.
 const TR = { base: 47, step: 4, min: 41, max: 53 }
-const DIRC: Record<string, string> = { 'vao-ly': '#b23a25', 'ra-bieu': '#2e6f52', giu: '#c9b48f' }
+// Màu hướng phải SÁNG hơn hẳn nền xanh rêu tối của vòng, nếu không đường đo chìm mất.
+const DIRC: Record<string, string> = { 'vao-ly': '#e2563c', 'ra-bieu': '#46b07c', giu: '#d8c39c' }
 const showTraj = ref(true)
 const trajNodes = computed(() => {
   const src = props.trajectory ?? []
   let depth = 0, k = 0
   const seenAtDeg: Record<number, number> = {} // đếm lặp cùng góc → xoè để hạt không đè
+  // Đếm TRƯỚC số lần mỗi kinh xuất hiện: xoè phải CÂN hai bên tâm cung, không lệch dồn một phía;
+  // và cụm càng đông thì bước xoè càng nhỏ để không tràn sang cung kinh bên cạnh (mỗi kinh 60°).
+  const tongTaiDeg: Record<number, number> = {}
+  for (const p of src) {
+    const d = p.kinhSlug != null ? degOf[p.kinhSlug] : null
+    if (d != null) tongTaiDeg[d] = (tongTaiDeg[d] ?? 0) + 1
+  }
   return src.map((p) => {
     if (p.moiDot) depth = 0
     if (p.huong === 'vao-ly') depth++
@@ -179,7 +193,10 @@ const trajNodes = computed(() => {
     let deg: number | null = baseDeg, pos: { x: number; y: number } | null = null, n: number | null = null
     if (baseDeg != null) {
       const rep = (seenAtDeg[baseDeg] = (seenAtDeg[baseDeg] ?? 0) + 1)
-      deg = baseDeg + (rep - 1) * 3.5 // xoè ±3.5°/lần lặp cùng kinh
+      const tong = tongTaiDeg[baseDeg] ?? 1
+      // Bước xoè: giãn hết mức trong ~48° (cung kinh 60°), tối thiểu 9° để cụm đông vẫn nằm gọn.
+      const buoc = Math.max(9, Math.min(15, 48 / Math.max(1, tong - 1)))
+      deg = baseDeg + (rep - (tong + 1) / 2) * buoc // xoè CÂN quanh tâm cung kinh
       pos = pt(r, deg)
       n = ++k // đánh số 1..k TRONG đợt (bỏ qua điểm ngoài Lục Kinh)
     }
@@ -188,6 +205,31 @@ const trajNodes = computed(() => {
   })
 })
 const trajLocatedCount = computed(() => trajNodes.value.filter((n) => n.pos).length)
+/** Chuỗi lần đo in thành dải chip DƯỚI vòng — đĩa trong quá chật để ghi ngày, hạt số chỉ mang số thứ tự. */
+const trajChips = computed(() =>
+  trajNodes.value
+    .filter((n) => n.pos && n.kinhSlug)
+    .map((n) => ({ id: n.id, n: n.n, date: n.date, ten: tenOfSlug(n.kinhSlug as string), huong: n.huong })),
+)
+/** Điểm + tiếp tuyến tại tham số t trên đoạn thẳng (C = null) hoặc Bezier bậc 2 (P, C, Q). */
+function diemTren(
+  P: { x: number; y: number },
+  C: { x: number; y: number } | null,
+  Q: { x: number; y: number },
+  t: number,
+): { p: { x: number; y: number }; dir: { x: number; y: number } } {
+  if (!C) {
+    const dx = Q.x - P.x, dy = Q.y - P.y, l = Math.hypot(dx, dy) || 1
+    return { p: { x: P.x + dx * t, y: P.y + dy * t }, dir: { x: dx / l, y: dy / l } }
+  }
+  const u = 1 - t
+  const p = { x: u * u * P.x + 2 * u * t * C.x + t * t * Q.x, y: u * u * P.y + 2 * u * t * C.y + t * t * Q.y }
+  const dx = 2 * u * (C.x - P.x) + 2 * t * (Q.x - C.x)
+  const dy = 2 * u * (C.y - P.y) + 2 * t * (Q.y - C.y)
+  const l = Math.hypot(dx, dy) || 1
+  return { p, dir: { x: dx / l, y: dy / l } }
+}
+
 const trajSegs = computed(() => {
   const out: { d: string; head: string | null; color: string; cap: boolean; kieu: string | null; mid: { x: number; y: number } }[] = []
   const ns = trajNodes.value
@@ -196,6 +238,7 @@ const trajSegs = computed(() => {
     if (!P.pos || !Q.pos) continue // gặp điểm ngoài Lục Kinh → NGẮT, không nội suy
     let d: string
     let mid: { x: number; y: number }
+    let ctrl: { x: number; y: number } | null = null
     if (P.kinhSlug === Q.kinhSlug) {
       d = `M${N(P.pos.x)} ${N(P.pos.y)} L${N(Q.pos.x)} ${N(Q.pos.y)}` // cùng kinh → đoạn radial thẳng
       mid = { x: (P.pos.x + Q.pos.x) / 2, y: (P.pos.y + Q.pos.y) / 2 }
@@ -210,11 +253,27 @@ const trajSegs = computed(() => {
       const off = 10 // bow RA NGOÀI theo pháp tuyến hướng tâm → lệch khỏi dây Trung Kiến
       const cx = mx + nx * off, cy = my + ny * off
       d = `M${N(P.pos.x)} ${N(P.pos.y)} Q${N(cx)} ${N(cy)} ${N(Q.pos.x)} ${N(Q.pos.y)}`
+      ctrl = { x: cx, y: cy }
       mid = { x: 0.25 * P.pos.x + 0.5 * cx + 0.25 * Q.pos.x, y: 0.25 * P.pos.y + 0.5 * cy + 0.25 * Q.pos.y } // điểm giữa Bezier (t=0.5)
     }
     const L = Math.hypot(Q.pos.x - P.pos.x, Q.pos.y - P.pos.y)
-    const head = L < 2 ? null : arrowHead(Q.pos, { x: (Q.pos.x - P.pos.x) / L, y: (Q.pos.y - P.pos.y) / L })
     const kieu = Q.kieuTruyen === 'viet' ? 'viet' : Q.kieuTruyen === 'bieu-ly' ? 'bieu-ly' : null
+    // Mũi tên đặt GIỮA đoạn, không ở mút: ở mút nó chui xuống dưới hạt số nên không ai thấy hướng.
+    // Nhưng Thái Cực (r30) vẽ SAU nên che mọi thứ ở giữa vòng → chọn t nào cho mũi tên nằm NGOÀI
+    // đĩa đó; đoạn nào có dấu ◇ kiểu truyền (t=0.5) thì ưu tiên t xa dấu ◇ ra.
+    const UNG_VIEN = kieu ? [0.72, 0.8, 0.65, 0.3, 0.86] : [0.55, 0.65, 0.45, 0.72, 0.35]
+    let m = diemTren(P.pos, ctrl, Q.pos, UNG_VIEN[0]!)
+    let rTot = Math.hypot(m.p.x - CX, m.p.y - CY)
+    for (const t of UNG_VIEN.slice(1)) {
+      if (rTot > 36) break // đã ra khỏi Thái Cực + lề an toàn
+      const c = diemTren(P.pos, ctrl, Q.pos, t)
+      const r = Math.hypot(c.p.x - CX, c.p.y - CY)
+      if (r > rTot) { m = c; rTot = r }
+    }
+    // Đoạn quá ngắn (hai lần đo cùng kinh, hạt sát nhau) thì mũi tên to hơn cả đoạn → bỏ hẳn;
+    // đoạn vừa thì co mũi tên lại cho cân.
+    const lenMui = Math.min(13, L * 0.5)
+    const head = L < 16 ? null : arrowHead(m.p, m.dir, lenMui, lenMui * 0.36)
     const cap = Q.capTinh === 'cap' || Q.capTinh === 'cap?'
     out.push({ d, head, color: DIRC[Q.huong ?? 'giu'] ?? DIRC.giu!, cap, kieu, mid })
   }
@@ -281,7 +340,7 @@ const trajSegs = computed(() => {
       <g v-if="showTraj && trajLocatedCount >= 2" class="traj-real" aria-label="Truyền biến đã đo qua các lần đo">
         <path v-for="(s, i) in trajSegs" :key="'trl' + i" :d="s.d" class="tr-link" :class="{ cap: s.cap }" :style="{ stroke: s.color }" />
         <template v-for="(s, i) in trajSegs" :key="'trh' + i">
-          <polygon v-if="s.head" :points="s.head" :style="{ fill: s.color }" />
+          <polygon v-if="s.head" class="tr-head" :points="s.head" :style="{ fill: s.color }" />
         </template>
         <!-- Dấu ◇ ở trung điểm đoạn: việt kinh (ochre) / biểu-lý truyền (vàng Trung kiến) -->
         <template v-for="(s, i) in trajSegs" :key="'trk' + i">
@@ -290,10 +349,10 @@ const trajSegs = computed(() => {
         </template>
         <template v-for="nd in trajNodes" :key="'trn' + nd.id">
           <g v-if="nd.pos" class="tr-node" :class="{ cur: nd.id === currentId }"
-             :style="{ opacity: 0.45 + 0.55 * ((nd.n || 1) / Math.max(1, trajLocatedCount)) }">
+             :style="{ opacity: 0.74 + 0.26 * ((nd.n || 1) / Math.max(1, trajLocatedCount)) }">
             <circle v-if="nd.trucTrung" :cx="nd.pos.x" :cy="nd.pos.y" class="tr-trucrung" />
             <circle v-if="nd.id === currentId" :cx="nd.pos.x" :cy="nd.pos.y" class="tr-halo" />
-            <circle :cx="nd.pos.x" :cy="nd.pos.y" :r="nd.id === currentId ? 5.5 : 4.5" class="tr-bead" />
+            <circle :cx="nd.pos.x" :cy="nd.pos.y" :r="nd.id === currentId ? 7.5 : trajLocatedCount >= 5 ? 5.4 : 6.2" class="tr-bead" />
             <text :x="nd.pos.x" :y="nd.pos.y">{{ nd.n }}</text>
             <title>Lần {{ nd.n }} · {{ nd.date }}<template v-if="nd.kinhSlug"> · {{ tenOfSlug(nd.kinhSlug) }}</template><template v-if="nd.trucTrung"> · 直 trực trúng</template></title>
           </g>
@@ -328,6 +387,16 @@ const trajSegs = computed(() => {
         {{ showTraj ? '◉' : '○' }} Đường đo <small>{{ trajLocatedCount }} lần · {{ showTraj ? 'đang hiện' : 'đã ẩn' }}</small>
       </button>
     </div>
+    <ol v-if="showTraj && trajLocatedCount >= 2" class="vlk-trajlist" aria-label="Các lần đo theo thứ tự thời gian">
+      <li v-for="(nd, i) in trajChips" :key="'tl' + nd.id" class="tl-item">
+        <span v-if="i" class="tl-arrow" :class="'tl-arrow--' + (nd.huong || 'giu')">
+          {{ nd.huong === 'vao-ly' ? '↓ vào lý' : nd.huong === 'ra-bieu' ? '↑ ra biểu' : '→ giữ kinh' }}
+        </span>
+        <span class="tl-chip" :class="{ cur: nd.id === currentId }">
+          <b>{{ nd.n }}</b> {{ nd.date }} · {{ nd.ten }}
+        </span>
+      </li>
+    </ol>
     <div class="vlk-legend">
       <span v-if="showTraj && trajLocatedCount >= 2"><i class="lg-traj"></i> Chuỗi hạt số (nét liền) = <b>ĐÃ ĐO</b> theo thời gian</span>
       <span v-if="showTraj && trajLocatedCount >= 2" class="lg-kieu"><b style="color:#e39a4a">◇</b> việt kinh · <b style="color:#ecc766">◇</b> biểu-lý · <b style="color:#e0655a">◌</b> trực trúng · đoạn dày = <b>cấp</b></span>
@@ -415,18 +484,20 @@ const trajSegs = computed(() => {
 
 /* ── ③ TRUYỀN BIẾN THỰC ĐO: đường LIỀN (quá khứ) + hạt số, tách hẳn dự đoán (nét đứt) ── */
 .traj-real { pointer-events: none; }
-.tr-link { fill: none; stroke-width: 2.1; stroke-linecap: round; opacity: 0.92; }
+.tr-link { fill: none; stroke-width: 2.4; stroke-linecap: round; opacity: 0.95; }
+/* Viền sáng quanh mũi tên — nền vòng tối, mũi tên trần sẽ không đọc được hướng */
+.tr-head { stroke: #2a1c0c; stroke-width: 1; stroke-linejoin: round; paint-order: stroke; }
 .tr-link.cap { stroke-width: 3.4; filter: drop-shadow(0 0 2.5px rgba(143, 42, 28, 0.7)); } /* truyền cấp — đoạn dày, sậm */
 /* Dấu ◇ kiểu truyền ở trung điểm đoạn — kênh riêng, không mượn màu hướng */
 .tr-kieu { fill: none; stroke-width: 1.5; }
 .tr-kieu--viet { stroke: #e39a4a; } /* việt kinh — ochre sáng (nổi trên nền tối) */
 .tr-kieu--bieu-ly { stroke: #ecc766; } /* biểu-lý — vàng Trung kiến */
 .tr-node { pointer-events: auto; cursor: help; }
-.tr-bead { fill: #fbf1dd; stroke: #7a5a2c; stroke-width: 1.4; }
-.tr-trucrung { r: 7.5; fill: none; stroke: #e0655a; stroke-width: 1.6; stroke-dasharray: 3 2; } /* trực trúng — vòng đứt TĨNH */
-.tr-node text { font-size: 8px; font-weight: 800; fill: #4b3319; stroke: none; }
-.tr-node.cur .tr-bead { fill: #fff; stroke: #c98a2e; stroke-width: 2; }
-.tr-halo { r: 6; fill: none; stroke: #ffd27a; stroke-width: 1.8; transform-box: fill-box; transform-origin: center; animation: trPulse 1.6s ease-in-out infinite; }
+.tr-bead { fill: #fdf6e6; stroke: #5c4018; stroke-width: 1.8; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.45)); }
+.tr-trucrung { r: 9.5; fill: none; stroke: #e0655a; stroke-width: 1.6; stroke-dasharray: 3 2; } /* trực trúng — vòng đứt TĨNH */
+.tr-node text { font-size: 10.5px; font-weight: 800; fill: #3a2610; stroke: none; }
+.tr-node.cur .tr-bead { fill: #fff; stroke: #c98a2e; stroke-width: 2.6; }
+.tr-halo { r: 8.5; fill: none; stroke: #ffd27a; stroke-width: 1.8; transform-box: fill-box; transform-origin: center; animation: trPulse 1.6s ease-in-out infinite; }
 @keyframes trPulse { 0%, 100% { opacity: 0.7; transform: scale(1); } 50% { opacity: 0.2; transform: scale(1.45); } }
 @media (prefers-reduced-motion: reduce) { .tr-halo { animation: none; } }
 .vk-badge circle { fill: #6b4a24; stroke: #f4e2b8; stroke-width: 1.4; }
@@ -445,6 +516,14 @@ const trajSegs = computed(() => {
 .hb.traj.on { background: #efe6d4; border-color: #c9a24e; }
 .hb.traj.on small { color: var(--text, #3a2c1a); }
 
+.vlk-trajlist { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 6px; list-style: none; margin: 0; padding: 0; }
+.tl-item { display: flex; align-items: center; gap: 6px; }
+.tl-chip { display: inline-flex; align-items: baseline; gap: 5px; font-size: 11.5px; font-weight: 600; color: var(--text, #3a2c1a); background: var(--surface, #fff); border: 1px solid var(--border, #e7ddcd); border-radius: 999px; padding: 3px 10px; white-space: nowrap; }
+.tl-chip b { display: inline-grid; place-items: center; width: 16px; height: 16px; border-radius: 50%; background: #5c4018; color: #fdf6e6; font-size: 10px; }
+.tl-chip.cur { border-color: #c9a24e; background: #efe6d4; }
+.tl-arrow { font-size: 10.5px; font-weight: 700; color: var(--text-muted, #8a7a60); white-space: nowrap; }
+.tl-arrow--vao-ly { color: #b23a25; }
+.tl-arrow--ra-bieu { color: #2e6f52; }
 .vlk-legend { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 18px; font-size: 12px; font-weight: 600; color: var(--text, #3a2c1a); }
 .vlk-legend span { display: inline-flex; align-items: center; gap: 6px; }
 .vlk-legend span.lg-muted { opacity: 0.5; }
