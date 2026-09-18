@@ -61,6 +61,26 @@ Nội dung từ điển là văn xuôi nhắc tên riêng của mục từ khác
 
 `backend/sql/audit-rac-tu-dien.sql` (chỉ đọc) dò 6 dạng lỗi mã hoá di sản từ app Windows cũ. Chạy nó trước khi tin bất kỳ số liệu nào về chất lượng từ điển; mọi số D1–D6 phải bằng 0. Các file `clean-*.sql`, `dich-chu-han-*.sql`, `gop-*.sql`, `bo-sung-nguon-*.sql` đã xử lý xong phần rác ký tự, chữ Hán chưa dịch, nguồn trùng và nguồn thiếu (18/09/2026). Việc còn nợ ghi ở cuối từng file.
 
+### Thuật toán đo kinh lạc — ĐỌC TRƯỚC KHI SỬA
+
+`docs/thuat-toan-do-kinh-lac.md` là đặc tả đầy đủ của logic cốt lõi: nguồn gốc (phương pháp **Lê Văn
+Sửu 1983**, kế thừa **Akabane**), công thức từng tầng, và **lý do** của mỗi quyết định. Vài điều phải
+biết trước khi đụng vào `meridianAnalysis.ts` / `meridian-analysis.util.ts`:
+
+- `(MAX+MIN)/2` và `range/6` là **"nguyên tắc chia ba" của sách**, không phải trung bình cộng bị làm
+  sai. Đổi sang trung vị/trung bình là **ly khai khỏi phương pháp gốc** — quyết định của thầy thuốc,
+  không phải của kỹ thuật.
+- Phân định có **BA hạng**, hạng thứ ba là *"kinh không biểu không lý → không có bệnh lý"*. Thiếu nó
+  thì bảng tạng phủ luôn đủ 12/12 với mọi phiếu.
+- `thuTu` (thứ tự truyền kinh) và `tang` (nông→sâu) là **HAI trục khác nhau**, chỉ lệch ở cặp Dương
+  Minh ↔ Thiếu Dương. Đừng gộp lại.
+- Toàn bộ đầu ra **bất biến affine** (nhân/cộng cả 24 số → kết quả y hệt). Mức tuyệt đối chỉ nhìn
+  thấy qua `soSanhChinhKhi`.
+- **BA bản sao thuật toán** phải sửa đồng thời: lib frontend, util backend, và bản riêng trong
+  `MeridianResultsView.vue`.
+- Phép kiểm vàng neo vào ví dụ có lời giải in trong sách:
+  `npm test --prefix backend -- meridian-analysis`.
+
 ### BenhDongYExcel diagnostic engine
 
 `benh-dong-y-excel.*` implements a rule engine whose rules are stored as Excel-formula-like strings (`excelFormula`), a logic expression (`logicExpression`), and SQL CASE clauses (`sqlCaseText`, `sqlCaseBoolean`). Input cell refs (`C10`, `F15`, `D7`, etc.) match the layout in `map.md`. The `MeridianResultsView.vue` frontend renders these results with cell-reference highlighting; recent commits (`refToHint`, `splitCellRefs`) revolve around mapping rule cells back to the UI.
