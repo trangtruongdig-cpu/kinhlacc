@@ -206,7 +206,9 @@ function handleLogout() {
 .app-main {
   flex: 1;
   padding: 0 var(--space-4) 70px var(--space-4); /* Dành chỗ bottom nav + lề 2 bên trên mobile */
-  width: 100%;
+  /* min-width:0 — flex item mặc định không co dưới min-content; thiếu nó thì một khối rộng bên
+     trong (dải mốc đo) đẩy cả trang tràn ngang đúng bằng bề rộng thanh bên. */
+  min-width: 0;
 }
 
 /* ── Bottom nav (mobile) ── */
