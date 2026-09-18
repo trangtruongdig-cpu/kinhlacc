@@ -86,15 +86,21 @@ const tomTats = computed<TomTat[]>(() =>
     .sort((a, b) => a.ts - b.ts),
 )
 
-/** Chip thể chất. Cực ẤM (dương) cho thịnh/Thực, LAM (âm) cho hư — đúng quy ước màu Âm-Dương
- * đang dùng khắp app; Biểu/Lý là vị trí, không thuộc cực nào nên để trung tính. */
+/** Chip thể chất. Cực ẤM (dương) cho thịnh, LAM (âm) cho hư — đúng quy ước màu Âm-Dương đang
+ * dùng khắp app.
+ *
+ * Hội chứng tổng cương đã đọc đủ ba cương ("Biểu Thực Nhiệt") nên Hư-Thực và Biểu-Lý ở đây là
+ * LẶP LẠI — chỉ giữ Khí · Huyết, hai cương tổng cương không nói tới. Ca thiếu số đo không dựng
+ * được hội chứng thì mới bày lại đủ bốn, để không mất thông tin. */
 function chipsTheChat(t: TomTat): { nhan: string; cuc: 'duong' | 'am' | 'trung' }[] {
   const cuc = (v: string): 'duong' | 'am' | 'trung' => {
     if (/thịnh|Thực/.test(v)) return 'duong'
     if (/hư|Hư/.test(v)) return 'am'
     return 'trung'
   }
-  return [t.khi, t.huyet, t.huThuc, t.viTri]
+  const coTongCuong = !!t.tongCuong?.hoiChung
+  const nguon = coTongCuong ? [t.khi, t.huyet] : [t.khi, t.huyet, t.huThuc, t.viTri]
+  return nguon
     .map((x) => (x || '').trim())
     .filter(Boolean)
     .map((nhan) => ({ nhan, cuc: cuc(nhan) }))
