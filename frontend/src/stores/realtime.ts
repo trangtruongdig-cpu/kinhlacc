@@ -20,12 +20,19 @@ export interface StaffSlot extends PublicSlot {
 }
 
 export interface SlotEvent {
-  type: 'NEW_BOOKING' | 'SLOT_UPDATED' | 'SLOT_REMOVED' | 'DAY_REGENERATED'
+  type:
+    | 'NEW_BOOKING'
+    | 'SLOT_UPDATED'
+    | 'SLOT_REMOVED'
+    | 'DAY_REGENERATED'
+    | 'APPOINTMENT_REMINDER'
   slot?: PublicSlot
   staffSlot?: StaffSlot
   /** Chỉ có ở DAY_REGENERATED — ngày vừa được sinh lại vé. */
   date?: string
   staffMessage?: string
+  /** Nội dung nhắc hẹn (APPOINTMENT_REMINDER). Server chỉ gửi cho đúng bệnh nhân đó. */
+  message?: string
   seq?: number
 }
 
@@ -175,6 +182,11 @@ export const useRealtimeStore = defineStore('realtime', () => {
 
         if (data.staffMessage) emitStaffMessage(data.staffMessage)
 
+        if (data.type === 'APPOINTMENT_REMINDER') {
+          if (data.message) emitReminder(data.message)
+          return // không phải thay đổi vé, đừng bắt các màn hình vá lưới giờ
+        }
+
         emit({
           type: data.type,
           // Nhân viên có staffSlot (đầy đủ patientId); bệnh nhân chỉ có bản công khai.
@@ -184,6 +196,23 @@ export const useRealtimeStore = defineStore('realtime', () => {
         })
       } catch (e) {
         console.error('SSE: không đọc được gói tin', e)
+      }
+    }
+  }
+
+  // Lời nhắc hẹn gửi riêng cho bệnh nhân. Server đã lọc theo danh tính (targetPatientId),
+  // nên tới được đây nghĩa là đúng người — không cần lọc lại ở máy khách.
+  const reminderHandlers = new Set<(msg: string) => void>()
+  function onReminder(fn: (msg: string) => void): () => void {
+    reminderHandlers.add(fn)
+    return () => reminderHandlers.delete(fn)
+  }
+  function emitReminder(msg: string) {
+    for (const fn of reminderHandlers) {
+      try {
+        fn(msg)
+      } catch (e) {
+        console.error('Lỗi trong handler nhắc hẹn:', e)
       }
     }
   }
@@ -280,6 +309,7 @@ export const useRealtimeStore = defineStore('realtime', () => {
     lastEventAt,
     subscribe,
     onStaffMessage,
+    onReminder,
     connect,
     disconnect,
     revive,

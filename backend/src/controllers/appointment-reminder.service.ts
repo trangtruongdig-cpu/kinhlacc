@@ -5,10 +5,14 @@ import { Repository } from 'typeorm';
 import { AppointmentSlot } from '../models/appointment-slot.model';
 import { FirebaseService } from './firebase.controller';
 import { PatientsService } from './patient.controller';
-import * as dayjs from 'dayjs';
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
-const customParseFormat = require('dayjs/plugin/customParseFormat');
+import { SseService } from './sse.service';
+import dayjs from 'dayjs';
+// Nạp plugin bằng `import`, KHÔNG phải `require()`: chỉ đường import mới mang theo phần khai
+// báo kiểu mở rộng, nhờ đó TypeScript mới biết `dayjs.tz` tồn tại. Dùng require thì mã vẫn
+// chạy nhưng `.tz` là lỗi kiểu bị bỏ qua âm thầm — backend build bằng SWC nên không ai thấy.
+import utc from 'dayjs/plugin/utc';
+import timezone from 'dayjs/plugin/timezone';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -23,6 +27,7 @@ export class AppointmentReminderService {
     private slotsRepository: Repository<AppointmentSlot>,
     private firebaseService: FirebaseService,
     private patientsService: PatientsService,
+    private sseService: SseService,
   ) {}
 
   @Cron(CronExpression.EVERY_MINUTE)
@@ -70,6 +75,24 @@ export class AppointmentReminderService {
       }
 
       if (shouldUpdate && notificationMsg) {
+        // Nhắc NGAY trong ứng dụng qua SSE, không phụ thuộc Firebase.
+        // Thông báo đẩy chỉ tới được người đã cài app và đã cho phép; ai đang MỞ sẵn ứng dụng
+        // trên web thì đây là đường duy nhất. Phát trước vì nó rẻ và tức thì.
+        //
+        // `targetPatientId` khiến SseController CHỈ gửi cho đúng người này — lời nhắc có giờ
+        // hẹn, không được lọt sang bệnh nhân khác.
+        this.sseService.emitEvent({
+          type: 'APPOINTMENT_REMINDER',
+          targetPatientId: slot.patientId,
+          message: notificationMsg,
+          slot: {
+            id: slot.id,
+            slotDate: slot.slotDate,
+            slotTime: slot.slotTime,
+            status: slot.status,
+          },
+        });
+
         try {
           const patient = await this.patientsService.findOne(slot.patientId);
           if (patient?.fcmToken) {

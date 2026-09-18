@@ -1,6 +1,6 @@
 import { Controller, Sse, MessageEvent, Request } from '@nestjs/common';
 import { Observable, merge, interval } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 import { SseService, SlotEvent } from '../controllers/sse.service';
 
 /**
@@ -28,13 +28,27 @@ export class SseController {
   @Sse('sse')
   sse(@Request() req: any): Observable<MessageEvent> {
     const isStaff = req.user?.kind === 'staff';
+    const viewerId = req.user?.id;
 
     const events$ = this.sseService.getEventStream().pipe(
+      // Sự kiện RIÊNG của một bệnh nhân: loại bỏ khỏi luồng của mọi người khác NGAY TẠI ĐÂY.
+      // Nhân viên cũng không nhận — lời nhắc là việc riêng giữa phòng khám và người bệnh đó.
+      filter(
+        (evt: SlotEvent) =>
+          evt.targetPatientId == null ||
+          (!isStaff && Number(viewerId) === Number(evt.targetPatientId)),
+      ),
       map((evt: SlotEvent) => {
         // Bệnh nhân chỉ nhận phần công khai: cắt bỏ cả staffMessage lẫn staffSlot.
         const payload: SlotEvent = isStaff
           ? evt
-          : { type: evt.type, slot: evt.slot, date: evt.date, seq: evt.seq };
+          : {
+              type: evt.type,
+              slot: evt.slot,
+              date: evt.date,
+              message: evt.message,
+              seq: evt.seq,
+            };
         return {
           data: payload,
           // `id:` cho phép máy khách phát hiện mình bỏ lỡ sự kiện (số nhảy cóc → tải lại).

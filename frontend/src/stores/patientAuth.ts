@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import { forgetPushToken } from '@/services/push'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001'
 
@@ -123,6 +124,8 @@ export const usePatientAuthStore = defineStore('patientAuth', () => {
     patient.value = null
     localStorage.removeItem('patient_token')
     localStorage.removeItem('patient_user')
+    // Máy dùng chung: quên token đẩy, kẻo thông báo của người trước gửi nhầm cho người sau.
+    forgetPushToken()
   }
 
   function clearError() {

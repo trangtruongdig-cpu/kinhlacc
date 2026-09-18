@@ -26,13 +26,15 @@ const realtime = useRealtimeStore()
 const toastMessages = ref<{ id: number; type: string; msg: string; link?: string }[]>([])
 let toastIdCounter = 0
 let offStaffMessage: (() => void) | null = null
+let offReminder: (() => void) | null = null
 
 function showToast(msg: string, type = 'success', link?: string) {
   const id = toastIdCounter++
   toastMessages.value.push({ id, type, msg, link })
+  // Nhắc hẹn là việc phải HÀNH ĐỘNG (sắp tới giờ khám) nên để lâu hơn hẳn tin báo thường.
   setTimeout(() => {
     toastMessages.value = toastMessages.value.filter(t => t.id !== id)
-  }, 10000)
+  }, type === 'reminder' ? 60000 : 10000)
 }
 
 function dismissToast(id: number) {
@@ -99,7 +101,8 @@ watch(
     <TransitionGroup name="toast">
       <div v-for="toast in toastMessages" :key="toast.id" :class="['sse-toast', `toast-${toast.type}`]">
         <div class="toast-icon">
-          <svg v-if="toast.type === 'success'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          <svg v-if="toast.type === 'reminder'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <svg v-else-if="toast.type === 'success'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
         </div>
         <div class="toast-content">
           <p>{{ toast.msg }}</p>
@@ -168,6 +171,8 @@ watch(
 }
 .toast-success { border-left-color: #10b981; }
 .toast-error { border-left-color: #ef4444; }
+.toast-reminder { border-left-color: #b45309; }
+.toast-reminder .toast-icon { color: #b45309; }
 .toast-icon {
   flex-shrink: 0;
   color: #10b981;

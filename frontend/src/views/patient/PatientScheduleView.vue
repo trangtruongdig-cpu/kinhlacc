@@ -2,6 +2,7 @@
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { usePatientAuthStore } from '@/stores/patientAuth'
 import { useRealtimeStore } from '@/stores/realtime'
+import { enablePush, isPushConfigured, pushPermission } from '@/services/push'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001'
 const authStore = usePatientAuthStore()
@@ -408,6 +409,34 @@ onBeforeUnmount(() => {
   if (offRealtime) offRealtime()
 })
 
+// ── Bật nhắc hẹn (thông báo đẩy) ──
+//
+// CHỈ hiện khi đã cấu hình khoá Firebase (VITE_FIREBASE_*). Chưa cấu hình thì cả khối này
+// không tồn tại trên giao diện, thay vì mời người dùng bật một thứ không chạy.
+const pushState = ref<NotificationPermission | 'unsupported'>(pushPermission())
+const isEnablingPush = ref(false)
+
+const showPushPrompt = computed(
+  () => isPushConfigured() && pushState.value === 'default',
+)
+
+async function turnOnPush() {
+  const id = authStore.patient?.id
+  if (!id || !authStore.token) return
+  isEnablingPush.value = true
+  try {
+    const ok = await enablePush(id, authStore.token)
+    pushState.value = pushPermission()
+    showToast(
+      ok ? 'Đã bật nhắc hẹn. Chúng tôi sẽ báo trước giờ khám.'
+         : 'Chưa bật được nhắc hẹn. Bạn có thể bật lại trong cài đặt trình duyệt.',
+      ok ? 'success' : 'error',
+    )
+  } finally {
+    isEnablingPush.value = false
+  }
+}
+
 // ── Lịch (Đồng bộ) ──
 //
 // HAI cách, khác nhau về BẢN CHẤT:
@@ -653,6 +682,18 @@ async function copyCalendarUrl() {
 
     <!-- ═══ TAB: Lịch của tôi ═══ -->
     <div v-if="activeTab === 'my'" class="tab-content">
+      <!-- Mời bật nhắc hẹn. Xin quyền PHẢI xuất phát từ một cú bấm của người dùng: trình duyệt
+           phạt trang tự bật hộp thoại lúc vừa mở, còn Safari thì đòi hẳn một cử chỉ. -->
+      <div v-if="showPushPrompt" class="push-prompt">
+        <div class="push-prompt-text">
+          <strong>Nhắc trước giờ khám?</strong>
+          <span>Chúng tôi báo trước 1 tiếng, 30 phút và 15 phút.</span>
+        </div>
+        <button class="btn-primary-sm" :disabled="isEnablingPush" @click="turnOnPush">
+          {{ isEnablingPush ? 'Đang bật...' : 'Bật nhắc' }}
+        </button>
+      </div>
+
       <div v-if="isLoadingMy" class="loading-slots">
         <div class="spinner"></div>
         <span>Đang tải...</span>
@@ -1507,5 +1548,26 @@ async function copyCalendarUrl() {
   font-weight: 600;
   text-decoration: underline;
   cursor: pointer;
+}
+
+/* ── Mời bật nhắc hẹn ── */
+.push-prompt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  background: #fffbeb;
+  border: 1px solid #fcd34d;
+  border-radius: 10px;
+}
+.push-prompt-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 13px;
+  color: #78350f;
 }
 </style>

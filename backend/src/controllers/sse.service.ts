@@ -15,7 +15,12 @@ export interface PublicSlotView {
 }
 
 export interface SlotEvent {
-  type: 'NEW_BOOKING' | 'SLOT_UPDATED' | 'SLOT_REMOVED' | 'DAY_REGENERATED';
+  type:
+    | 'NEW_BOOKING'
+    | 'SLOT_UPDATED'
+    | 'SLOT_REMOVED'
+    | 'DAY_REGENERATED'
+    | 'APPOINTMENT_REMINDER';
   /**
    * Luôn phát cho mọi người — chỉ chứa trường công khai.
    * Vắng mặt ở DAY_REGENERATED: sự kiện đó nói về CẢ NGÀY, không về một ô giờ cụ thể.
@@ -33,6 +38,19 @@ export interface SlotEvent {
    * nhân trên màn hình nhân viên cho tới khi tải lại cả ngày.
    */
   staffSlot?: AppointmentSlot;
+  /**
+   * Sự kiện RIÊNG của một bệnh nhân — SseController chỉ gửi cho đúng người này, không phát
+   * cho ai khác (kể cả nhân viên).
+   *
+   * Có trường này thì sự kiện KHÔNG còn là quảng bá. Lọc phải nằm ở SERVER: xoá bớt trường
+   * rồi vẫn gửi là sai, vì bản thân việc "bệnh nhân B nhận được lời nhắc của bệnh nhân A"
+   * đã rò thông tin.
+   */
+  targetPatientId?: number;
+
+  /** Nội dung nhắc hẹn, đi cùng APPOINTMENT_REMINDER. */
+  message?: string;
+
   /** Số thứ tự do SseService gán lúc phát — xem chú thích `seq` trong SseService. */
   seq?: number;
 }
@@ -61,6 +79,13 @@ export class SseService {
   private seq = 0;
 
   emitEvent(event: SlotEvent) {
+    // Sự kiện RIÊNG của một người KHÔNG được đánh số: nó bị lọc khỏi luồng của mọi người khác,
+    // nên nếu đánh số chung thì với họ dãy số sẽ nhảy cóc, và máy khách hiểu nhầm là "mình vừa
+    // bỏ lỡ sự kiện" rồi tải lại toàn bộ dữ liệu một cách vô ích.
+    if (event.targetPatientId != null) {
+      this.events.next(event);
+      return;
+    }
     this.seq += 1;
     this.events.next({ ...event, seq: this.seq });
   }
