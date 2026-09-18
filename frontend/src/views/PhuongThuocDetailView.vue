@@ -82,7 +82,7 @@ onMounted(() => load(String(route.params.slug)))
 
         <section v-if="bai.tac_dung" class="pd-sec">
           <h2 class="pd-h2">Tác dụng</h2>
-          <VanBanYVan :text="bai.tac_dung" />
+          <VanBanYVan :text="bai.tac_dung" :vi-thuoc="bai.thanh_phan" />
         </section>
 
         <section v-if="bai.thanh_phan && bai.thanh_phan.length" class="pd-sec">
@@ -98,12 +98,12 @@ onMounted(() => load(String(route.params.slug)))
 
         <section v-if="bai.cach_dung" class="pd-sec">
           <h2 class="pd-h2">Cách bào chế &amp; sử dụng</h2>
-          <VanBanYVan :text="bai.cach_dung" />
+          <VanBanYVan :text="bai.cach_dung" :vi-thuoc="bai.thanh_phan" />
         </section>
 
         <section v-if="bai.ghi_chu" class="pd-sec">
           <h2 class="pd-h2">Ghi chú</h2>
-          <VanBanYVan :text="bai.ghi_chu" />
+          <VanBanYVan :text="bai.ghi_chu" :vi-thuoc="bai.thanh_phan" />
         </section>
 
         <p class="pd-disclaimer">

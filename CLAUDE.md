@@ -44,7 +44,22 @@ Connection pool is tuned for **serverless** (`max: 1`, short timeouts). If runni
 
 ### CORS
 
-`src/main.ts` defines `brandmasterRegex`, `localhostRegex`, `vercelRegex` allowlists but the actual `origin` callback returns `callback(null, true)` (allow all). The regex constants are dead code. There is now only ONE entry point (`src/main.ts`), so tightening CORS means changing it there.
+`src/main.ts` enforces a **fixed allowlist** and rejects everything else with `CORS: Origin <x> not allowed` — it is NOT allow-all (that was true of an older revision). Allowed: `localhost:5173`, `localhost:3000`, the `127.0.0.1` equivalents, `kinhlac.online` (+`www`), `kinhlac.vercel.app`, plus `localhost:8080` when `NODE_ENV !== 'production'`.
+
+Practical consequence: **a dev frontend on any other port gets `Failed to fetch`** with no clue in the browser — the reason only shows in the backend log. If you need a second Vite instance for testing, either use an allowlisted port or add it to the list in `src/main.ts`.
+
+### Liên kết chéo từ điển (cross-reference)
+
+Nội dung từ điển là văn xuôi nhắc tên riêng của mục từ khác. `POST /tra-cuu/ten` (`tra-cuu.router.ts` + `tra-cuu.controller.ts`) nhận một LÔ tên và trả về mục nào có thật: nguồn (slug), bài thuốc (slug), vị thuốc (id).
+
+- Client trích sẵn cụm **nghi là tên riêng** theo vị trí (trong ngoặc đơn cuối câu, sau chữ "gọi là") rồi hỏi một lượt — nhờ vậy không phải tải 13.942 tên bài thuốc về máy người đọc, và `(30g)` / `(Spongilla fragilis)` không bao giờ thành link.
+- Nguồn + vị thuốc khớp qua index trong bộ nhớ (TTL 10 phút), có khoá **chuẩn hoá mạnh** (bỏ dấu thanh + mọi dấu câu) nên `Tam Nhân Cực-…` và `Tam Nhân Cực – …` cùng trỏ một mục; khi nhiều bản trùng thì chọn bản được trích nhiều nhất. Bài thuốc tra thẳng bằng cột `slug`.
+- `frontend/src/components/VanBanYVan.vue` dựng bố cục (tiểu đề mục, khối trích dẫn, danh sách biến pháp) và bọc link; `frontend/src/lib/traCuuTen.ts` gom nhiều lời gọi trong một nhịp render thành 1 request, cache cả kết quả rỗng.
+- Tên vị thuốc chỉ link khi được truyền vào qua prop `viThuoc` (lấy từ thành phần của chính mục đang xem) và chỉ ở lần nhắc đầu tiên. ⚠️ Việc đếm "đã link" phải nằm TRONG computed — để ở ngoài thì lần render sau thấy Set đã đầy và mất sạch link.
+
+### Chất lượng dữ liệu từ điển
+
+`backend/sql/audit-rac-tu-dien.sql` (chỉ đọc) dò 6 dạng lỗi mã hoá di sản từ app Windows cũ. Chạy nó trước khi tin bất kỳ số liệu nào về chất lượng từ điển; mọi số D1–D6 phải bằng 0. Các file `clean-*.sql`, `dich-chu-han-*.sql`, `gop-*.sql`, `bo-sung-nguon-*.sql` đã xử lý xong phần rác ký tự, chữ Hán chưa dịch, nguồn trùng và nguồn thiếu (18/09/2026). Việc còn nợ ghi ở cuối từng file.
 
 ### BenhDongYExcel diagnostic engine
 
