@@ -15,6 +15,13 @@ const patientAuthStore = usePatientAuthStore()
 // Token dùng cho SSE: ưu tiên phiên nhân viên, không có thì dùng phiên bệnh nhân.
 const sseToken = computed(() => authStore.token || patientAuthStore.token)
 
+// Trang đăng nhập KHÔNG cần realtime. Trước đây vẫn mở SSE ở đây, nên khi token
+// trong localStorage đã hết hạn (JWT sống 1 ngày) thì SSE nhận 401, đóng, hẹn
+// nối lại vô tận, và người đang đứng ở trang đăng nhập đọc được dòng
+// "Mất kết nối máy chủ" trong khi máy chủ hoàn toàn khoẻ.
+const laTrangDangNhap = computed(() => route.name === 'login' || route.name === 'patient-login')
+const tokenChoSse = computed(() => (laTrangDangNhap.value ? null : sseToken.value))
+
 // ----- SSE Notification (Realtime Bookings) -----
 //
 // Kết nối và logic tự-lành nay nằm trong store `realtime` (stores/realtime.ts) — App.vue chỉ
@@ -96,19 +103,67 @@ onMounted(() => {
     }
   })
 
-  realtime.connect(sseToken.value)
+  realtime.connect(tokenChoSse.value)
 })
 
 // Nhân viên và bệnh nhân dùng HAI store khác nhau (access_token vs patient_token). Trước đây
 // chỗ này chỉ đọc store nhân viên, nên phía bệnh nhân luôn không có token → SSE 401 → toàn bộ
 // cập nhật realtime của phân hệ bệnh nhân chưa từng chạy.
-watch(sseToken, (newToken) => {
+watch(tokenChoSse, (newToken) => {
   realtime.connect(newToken)
 })
+
+// Store realtime chỉ NÊU NGHI VẤN "token có lẽ đã hết hạn" (SSE bị đóng ở tầng HTTP trong khi
+// máy chủ vẫn trả lời). Việc xác thực phải làm ở đây, vì chỉ chỗ này biết token đang giữ là của
+// nhân viên hay bệnh nhân. Cả hai store đều có fetchMe() tự logout khi gặp 401.
+const SO_LAN_NOI_LAI_TOI_DA = 3
+let soLanNoiLai = 0
+let henNoiLai: ReturnType<typeof setTimeout> | null = null
+
+// Nối được rồi thì quên các lần thất bại cũ đi.
+watch(
+  () => realtime.status,
+  (s) => {
+    if (s !== 'open') return
+    soLanNoiLai = 0
+    if (henNoiLai) {
+      clearTimeout(henNoiLai)
+      henNoiLai = null
+    }
+  },
+)
+
+watch(
+  () => realtime.nghiHetPhien,
+  async (nghi) => {
+    if (!nghi) return
+    if (authStore.token) await authStore.fetchMe()
+    else if (patientAuthStore.token) await patientAuthStore.fetchMe()
+
+    // Đã bị dọn phiên (fetchMe gặp 401) → đưa về trang đăng nhập, giống cách
+    // api.ts xử lý 401 cho request thường.
+    if (!sseToken.value) {
+      if (route.meta.requiresAuth === true) window.location.href = '/login'
+      else if (route.meta.requiresPatientAuth === true) window.location.href = '/khach-hang/dang-nhap'
+      return
+    }
+
+    // Token vẫn hợp lệ → SSE chết vì lý do khác (proxy cắt, quá nhiều kết nối).
+    // Nối lại có giãn cách và CÓ GIỚI HẠN: connect() reset cờ nghi vấn, nên nối
+    // lại ngay lập tức sẽ thành vòng quay vô tận nện vào máy chủ.
+    if (soLanNoiLai >= SO_LAN_NOI_LAI_TOI_DA || henNoiLai) return
+    soLanNoiLai += 1
+    henNoiLai = setTimeout(() => {
+      henNoiLai = null
+      realtime.connect(tokenChoSse.value)
+    }, 3000 * soLanNoiLai)
+  },
+)
 
 onBeforeUnmount(() => {
   if (offStaffMessage) offStaffMessage()
   if (offReminder) offReminder()
+  if (henNoiLai) clearTimeout(henNoiLai)
   realtime.disconnect()
 })
 
@@ -131,8 +186,10 @@ watch(
 
 <template>
   <!-- Mất kết nối realtime = dữ liệu trên màn hình có thể đã cũ. Nói thẳng ra, thay vì để người
-       dùng nhìn một bảng lịch đứng im mà tưởng là đúng. -->
-  <div v-if="realtime.isStale && sseToken" class="rt-offline-bar">
+       dùng nhìn một bảng lịch đứng im mà tưởng là đúng.
+       Chỉ báo khi máy chủ THẬT SỰ không trả lời: token hết hạn là bệnh khác, xử lý ở watch
+       nghiHetPhien phía trên (dọn phiên rồi đưa về trang đăng nhập), không dán nhãn lỗi máy chủ. -->
+  <div v-if="realtime.isStale && tokenChoSse" class="rt-offline-bar">
     <span class="rt-dot"></span>
     Mất kết nối máy chủ — đang thử lại. Dữ liệu hiển thị có thể chưa mới nhất.
   </div>

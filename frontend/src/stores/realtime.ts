@@ -66,6 +66,20 @@ export const useRealtimeStore = defineStore('realtime', () => {
   const status = ref<'idle' | 'connecting' | 'open' | 'retrying'>('idle')
   const lastEventAt = ref(0)
 
+  /**
+   * SSE bị đóng ở tầng HTTP TRONG KHI máy chủ vẫn trả lời request thường
+   * → gần như chắc chắn token không còn hợp lệ, không phải mất mạng.
+   *
+   * Phân biệt được hai ca này là điều quan trọng: token hết hạn thì thử lại
+   * bao nhiêu lần cũng 401, mà người dùng lại đọc được dòng "Mất kết nối
+   * máy chủ" trong khi máy chủ hoàn toàn khoẻ.
+   *
+   * Store chỉ NÊU NGHI VẤN; việc xác thực token và dọn phiên do App.vue làm,
+   * vì nhân viên và bệnh nhân dùng hai token khác nhau và store không biết
+   * token đang giữ là của bên nào.
+   */
+  const nghiHetPhien = ref(false)
+
   /** Dữ liệu trên màn hình có thể đã cũ (mất kết nối) → nên báo cho người dùng biết. */
   const isStale = computed(() => status.value === 'retrying')
 
@@ -113,6 +127,23 @@ export const useRealtimeStore = defineStore('realtime', () => {
     }
   }
 
+  /**
+   * Máy chủ có còn trả lời không?
+   *
+   * Gọi một endpoint cần xác thực mà KHÔNG kèm token: máy chủ sống thì đáp
+   * 401, chết/mất mạng thì fetch ném lỗi. Chỉ cần biết "có đáp hay không",
+   * nên cách này không phụ thuộc token đang giữ là của nhân viên hay bệnh
+   * nhân — hỏi bằng token sai loại sẽ ra 401 và kết luận oan.
+   */
+  async function mayChuConSong(): Promise<boolean> {
+    try {
+      await fetch(`${API_BASE}/auth/me`, { method: 'GET', cache: 'no-store' })
+      return true
+    } catch {
+      return false
+    }
+  }
+
   /** Backoff 3s → 6s → 12s → 24s → tối đa 30s (tránh nện server khi nó đang lỗi). */
   function scheduleReconnect() {
     if (!token || retryTimer) return
@@ -142,6 +173,7 @@ export const useRealtimeStore = defineStore('realtime', () => {
     stream.onopen = () => {
       lastBeatAt = Date.now()
       status.value = 'open'
+      nghiHetPhien.value = false
       // Lần mở ĐẦU TIÊN thì các màn hình tự nạp trong onMounted rồi, chỉ đồng bộ khi nối LẠI.
       if (retryCount > 0) requestResync()
       retryCount = 0
@@ -160,7 +192,17 @@ export const useRealtimeStore = defineStore('realtime', () => {
       // thử lại trong trường hợp này, phải tự hẹn giờ. CONNECTING = rớt mạng, trình duyệt lo được.
       if (stream.readyState === EventSource.CLOSED) {
         closeStream()
-        scheduleReconnect()
+        // Đừng vội hẹn nối lại: hỏi máy chủ một câu đã. Máy chủ vẫn trả lời
+        // mà riêng SSE bị đóng thì lỗi nằm ở token, thử lại vô ích và còn
+        // hiện sai thông báo "mất kết nối máy chủ".
+        void (async () => {
+          if (await mayChuConSong()) {
+            nghiHetPhien.value = true
+            status.value = 'idle'
+            return
+          }
+          scheduleReconnect()
+        })()
       } else {
         status.value = 'retrying'
       }
@@ -287,6 +329,7 @@ export const useRealtimeStore = defineStore('realtime', () => {
     token = newToken
     retryCount = 0
     lastSeq = 0
+    nghiHetPhien.value = false
     if (!newToken) {
       closeStream()
       status.value = 'idle'
@@ -306,6 +349,7 @@ export const useRealtimeStore = defineStore('realtime', () => {
   return {
     status,
     isStale,
+    nghiHetPhien,
     lastEventAt,
     subscribe,
     onStaffMessage,
