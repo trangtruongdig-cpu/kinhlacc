@@ -111,6 +111,65 @@ export class SchemaBootstrapService implements OnApplicationBootstrap {
      END $$`,
     `UPDATE examinations SET "thoiDiemKham" = "createdAt" WHERE "thoiDiemKham" IS NULL`,
     `CREATE INDEX IF NOT EXISTS idx_examinations_thoi_diem_kham ON examinations ("patientId", "thoiDiemKham" DESC)`,
+
+    // ── Cờ nhắc hẹn (AppointmentReminderService) — trước đây ALTER tay trên production ──
+    `ALTER TABLE appointment_slots ADD COLUMN IF NOT EXISTS "reminded1h"  boolean NOT NULL DEFAULT false`,
+    `ALTER TABLE appointment_slots ADD COLUMN IF NOT EXISTS "reminded30m" boolean NOT NULL DEFAULT false`,
+    `ALTER TABLE appointment_slots ADD COLUMN IF NOT EXISTS "reminded15m" boolean NOT NULL DEFAULT false`,
+
+    // ── LỊCH SỬ ĐẶT VÉ: tách "lượt đặt" khỏi "ô giờ" ──
+    // Ô giờ được dùng lại (A huỷ → B đặt), nên `appointment_slots.patientId` bị ghi đè và lượt đặt
+    // của A biến mất. Bảng này giữ lịch sử bất biến; ô giờ chỉ còn giữ trạng thái hiện tại.
+    `CREATE TABLE IF NOT EXISTS appointment_bookings (
+       id            SERIAL PRIMARY KEY,
+       "slotId"      INTEGER NOT NULL,
+       "patientId"   INTEGER NOT NULL,
+       "slotDate"    DATE NOT NULL,
+       "slotTime"    TIME NOT NULL,
+       status        VARCHAR(20) NOT NULL DEFAULT 'BOOKED',
+       reason        TEXT,
+       notes         TEXT,
+       "cancelledBy" VARCHAR(10),
+       -- TIMESTAMPTZ cho khớp appointment_slots (xem rebuild-appointment-system.sql).
+       -- Dùng TIMESTAMP trần ở đây thì backfill bên dưới chép từ timestamptz sang sẽ lệch 7 tiếng.
+       "cancelledAt" TIMESTAMPTZ,
+       "createdAt"   TIMESTAMPTZ NOT NULL DEFAULT now(),
+       "updatedAt"   TIMESTAMPTZ NOT NULL DEFAULT now(),
+       CONSTRAINT appointment_bookings_status_check
+         CHECK (status IN ('BOOKED', 'CANCELLED', 'COMPLETED'))
+     )`,
+    `CREATE INDEX IF NOT EXISTS idx_appt_booking_slot ON appointment_bookings ("slotId")`,
+    `CREATE INDEX IF NOT EXISTS idx_appt_booking_patient ON appointment_bookings ("patientId", "slotDate" DESC)`,
+    // Chốt ở TẦNG DB: mỗi ô giờ nhiều nhất MỘT lượt đặt còn hiệu lực. Đây mới là bảo đảm thật
+    // chống đặt trùng — khoá pessimistic chỉ chặn trong phạm vi một tiến trình backend.
+    `CREATE UNIQUE INDEX IF NOT EXISTS ux_appt_booking_active
+       ON appointment_bookings ("slotId") WHERE status = 'BOOKED'`,
+
+    // Backfill: dựng lại lịch sử từ dữ liệu vé đang có. Chỉ chép ô giờ CÒN gắn bệnh nhân —
+    // lượt đặt nào đã bị ghi đè trước khi có bảng này thì đã mất hẳn, không cứu được.
+    `INSERT INTO appointment_bookings
+       ("slotId", "patientId", "slotDate", "slotTime", status, reason, notes, "cancelledAt", "createdAt", "updatedAt")
+     SELECT s.id, s."patientId", s."slotDate", s."slotTime",
+            CASE WHEN s.status IN ('BOOKED','COMPLETED','CANCELLED') THEN s.status ELSE 'BOOKED' END,
+            s.reason, s.notes,
+            CASE WHEN s.status = 'CANCELLED' THEN s."updatedAt" ELSE NULL END,
+            s."createdAt", s."updatedAt"
+       FROM appointment_slots s
+      WHERE s."patientId" IS NOT NULL
+        AND s.status IN ('BOOKED','COMPLETED','CANCELLED')
+        AND NOT EXISTS (SELECT 1 FROM appointment_bookings b WHERE b."slotId" = s.id)`,
+
+    // Dọn ô giờ đã huỷ: bỏ mọi dấu vết bệnh nhân (notes trước đây KHÔNG được xoá → ghi chú riêng
+    // của người trước dính sang người đặt sau) và trả về OPEN.
+    //
+    // OPEN cho MỌI ngày, kể cả ngày đã qua: 'CANCELLED' là trạng thái của LƯỢT ĐẶT, không phải
+    // của ô giờ. Lịch sử huỷ đã nằm ở appointment_bookings (câu INSERT ngay bên trên chạy trước),
+    // nên giữ thêm nhãn trên ô giờ chỉ tạo ra nút "Mở lại" thủ công vô nghĩa.
+    `UPDATE appointment_slots
+        SET "patientId" = NULL, reason = NULL, notes = NULL,
+            "reminded1h" = false, "reminded30m" = false, "reminded15m" = false,
+            status = 'OPEN'
+      WHERE status = 'CANCELLED'`,
   ];
 
   async onApplicationBootstrap(): Promise<void> {

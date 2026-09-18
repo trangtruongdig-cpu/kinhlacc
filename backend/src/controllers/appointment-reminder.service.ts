@@ -79,7 +79,19 @@ export class AppointmentReminderService {
             });
             this.logger.log(`Sent reminder to patient ${patient.id} for slot ${slot.id}: ${diffMinutes}m left`);
           }
-          await this.slotsRepository.save(slot);
+          // CHỈ ghi 3 cột cờ, KHÔNG `save(slot)` cả bản ghi.
+          //
+          // `slot` được đọc từ đầu phút. Nếu trong lúc đó bệnh nhân huỷ lịch (huỷ sẽ xoá
+          // patientId và trả ô giờ về OPEN) thì save cả entity sẽ ghi đè ngược bản cũ lên,
+          // làm vé "sống lại" ở trạng thái BOOKED kèm bệnh nhân đã huỷ.
+          await this.slotsRepository.update(
+            { id: slot.id },
+            {
+              reminded1h: slot.reminded1h,
+              reminded30m: slot.reminded30m,
+              reminded15m: slot.reminded15m,
+            },
+          );
         } catch (error) {
           this.logger.error(`Error sending reminder for slot ${slot.id}`, error);
         }

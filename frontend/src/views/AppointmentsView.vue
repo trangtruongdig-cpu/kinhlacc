@@ -91,21 +91,39 @@ onMounted(async () => {
   refreshListener = (e: Event) => {
     const customEvent = e as CustomEvent
     const updatedSlot = customEvent.detail
-    
-    if (updatedSlot) {
-      const dateString = updatedSlot.slotDate
-      if (slotsByDate.value[dateString]) {
-        const idx = slotsByDate.value[dateString].findIndex(s => s.id === updatedSlot.id)
-        if (idx !== -1) {
-          slotsByDate.value[dateString].splice(idx, 1, normalizeSlot(updatedSlot))
-        } else {
-          slotsByDate.value[dateString].push(normalizeSlot(updatedSlot))
-          slotsByDate.value[dateString].sort((a, b) => a.slotTime.localeCompare(b.slotTime))
-        }
-      }
-      loadPatients() // reload patients in case it's a new patient
-    } else {
+
+    // detail = null là tín hiệu "vừa nối lại SSE, có thể đã bỏ lỡ sự kiện" → nạp lại cho chắc.
+    if (!updatedSlot) {
       loadDay(selectedDate.value)
+      return
+    }
+
+    if (updatedSlot.status === 'REMOVED') {
+      removeSlotLocal(updatedSlot.id, updatedSlot.slotDate)
+      return
+    }
+
+    // "Đang BOOKED mà thành OPEN" = vừa có người huỷ ở máy khác. Payload SSE không mang lượt đặt,
+    // nên phải nạp lại lịch sử ngày để dấu "⟲ từng huỷ" hiện đúng. Chỉ tốn 1 request và CHỈ khi
+    // thật sự có huỷ — khác hẳn loadPatients() cũ chạy cho mọi sự kiện.
+    const before = (slotsByDate.value[updatedSlot.slotDate] || []).find(
+      s => s.id === updatedSlot.id,
+    )
+    const vuaHuy = before?.status === 'BOOKED' && updatedSlot.status === 'OPEN'
+
+    patchSlotLocal(updatedSlot)
+
+    if (vuaHuy && updatedSlot.slotDate === selectedDate.value) {
+      api
+        .get<SlotBooking[]>(`/appointment-slots/bookings?date=${selectedDate.value}`)
+        .then(rows => { dayBookings.value = rows || [] })
+        .catch(() => {})
+    }
+
+    // Vé của một bệnh nhân CHƯA có trong danh bạ đang giữ (bệnh nhân mới đăng ký hôm nay):
+    // chỉ khi đó mới cần gọi lại danh bạ. Trước đây gọi `loadPatients()` cho MỌI sự kiện, tức
+    // GET /patients?limit=1000 mỗi lần bất kỳ ai đặt/huỷ vé.
+    if (updatedSlot.patientId && !patientsMap.value[updatedSlot.patientId]) {
       loadPatients()
     }
   }
@@ -198,18 +216,47 @@ function selectDay(day: typeof weekDays.value[0]) {
 async function loadDay(date: string) {
   isLoadingDay.value = true
   try {
-    const [slots, eff] = await Promise.all([
+    const [slots, eff, bookings] = await Promise.all([
       api.get<AppointmentSlot[]>(`/appointment-slots?date=${date}`),
-      api.get<EffectiveSchedule>(`/clinic-schedule/effective/${date}`)
+      api.get<EffectiveSchedule>(`/clinic-schedule/effective/${date}`),
+      api.get<SlotBooking[]>(`/appointment-slots/bookings?date=${date}`)
     ])
     slotsByDate.value[date] = (slots || []).map(normalizeSlot)
     effectiveSchedule.value = eff
+    dayBookings.value = bookings || []
   } catch (err: any) {
     console.error(err)
     error.value = 'Lỗi tải ngày: ' + err.message
   } finally {
     isLoadingDay.value = false
   }
+}
+
+/**
+ * Vá một vé vào bảng ngày đang giữ trong bộ nhớ.
+ *
+ * Nhận bản ĐẦY ĐỦ (có patientId) — sự kiện SSE gửi cho nhân viên kèm `staffSlot`, còn phản hồi
+ * của chính thao tác vừa bấm thì vốn đã đầy đủ. Vá bằng bản CÔNG KHAI (thiếu patientId) sẽ xoá
+ * trắng tên bệnh nhân trên màn hình.
+ */
+function patchSlotLocal(slot: AppointmentSlot) {
+  const dateString = slot.slotDate
+  const list = slotsByDate.value[dateString]
+  if (!list) return
+  const idx = list.findIndex(s => s.id === slot.id)
+  if (idx !== -1) {
+    list.splice(idx, 1, normalizeSlot(slot))
+  } else {
+    list.push(normalizeSlot(slot))
+    list.sort((a, b) => a.slotTime.localeCompare(b.slotTime))
+  }
+}
+
+function removeSlotLocal(slotId: number, slotDate: string) {
+  const list = slotsByDate.value[slotDate]
+  if (!list) return
+  const idx = list.findIndex(s => s.id === slotId)
+  if (idx !== -1) list.splice(idx, 1)
 }
 
 function normalizeSlot(s: AppointmentSlot): AppointmentSlot {
@@ -231,6 +278,59 @@ async function loadPatients() {
   } catch (err: any) {
     console.error('Lỗi tải bệnh nhân:', err)
   }
+}
+
+/** Một LƯỢT ĐẶT (bảng appointment_bookings) — `slotId` trỏ về ô giờ. */
+interface SlotBooking {
+  id: number
+  slotId: number
+  patientId: number
+  slotDate: string
+  slotTime: string
+  status: 'BOOKED' | 'CANCELLED' | 'COMPLETED'
+  reason: string | null
+  cancelledBy: 'PATIENT' | 'STAFF' | null
+  cancelledAt: string | null
+}
+
+// Lượt đặt của ngày đang xem. Ô giờ nay LUÔN về OPEN sau khi huỷ, nên nhìn ô giờ không còn biết
+// nó từng bị huỷ — dấu "⟲ từng huỷ" trên thẻ vé lấy từ đây.
+const dayBookings = ref<SlotBooking[]>([])
+const cancelledDetail = ref<{ slotTime: string; items: SlotBooking[] } | null>(null)
+
+/** Gom các lượt ĐÃ HUỶ theo ô giờ, để tra O(1) khi vẽ lưới. */
+const cancelledBySlot = computed<Record<number, SlotBooking[]>>(() => {
+  const out: Record<number, SlotBooking[]> = {}
+  for (const b of dayBookings.value) {
+    if (b.status !== 'CANCELLED') continue
+    const key = Number(b.slotId)
+    ;(out[key] ||= []).push(b)
+  }
+  return out
+})
+
+function cancelledOf(slotId: number): SlotBooking[] {
+  return cancelledBySlot.value[Number(slotId)] || []
+}
+
+function openCancelledDetail(slot: AppointmentSlot) {
+  const items = cancelledOf(slot.id)
+  if (items.length) cancelledDetail.value = { slotTime: slot.slotTime, items }
+}
+
+function cancelledByLabel(b: SlotBooking) {
+  if (b.cancelledBy === 'PATIENT') return 'khách tự huỷ'
+  if (b.cancelledBy === 'STAFF') return 'phòng khám huỷ'
+  return 'không rõ ai huỷ'
+}
+
+function formatCancelledAt(iso: string | null) {
+  if (!iso) return ''
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return ''
+  const hh = String(d.getHours()).padStart(2, '0')
+  const mm = String(d.getMinutes()).padStart(2, '0')
+  return `${hh}:${mm} ${d.getDate()}/${d.getMonth() + 1}`
 }
 
 const daySlots = computed<AppointmentSlot[]>(
@@ -310,8 +410,17 @@ async function runSlotAction(
   actionSlotId.value = slot.id
   actionType.value = type
   try {
-    await api.put(`/appointment-slots/${slot.id}/${endpoint}`, {})
-    await loadDay(selectedDate.value)
+    // Server trả `data` = vé sau thao tác → vá thẳng, khỏi gọi lại cả ngày.
+    // Riêng huỷ còn trả kèm `booking` = lượt đặt vừa chuyển sang CANCELLED → thêm vào lịch sử
+    // ngày để dấu "⟲ từng huỷ" hiện ra ngay, cũng không cần gọi lại.
+    const res = await api.put<{
+      success: boolean
+      data: AppointmentSlot
+      booking?: SlotBooking
+    }>(`/appointment-slots/${slot.id}/${endpoint}`, {})
+    if (res?.booking) dayBookings.value = [...dayBookings.value, res.booking]
+    if (res?.data) patchSlotLocal(res.data)
+    else await loadDay(selectedDate.value)
   } catch (err: any) {
     alert('Lỗi: ' + err.message)
   } finally {
@@ -373,13 +482,18 @@ async function confirmBook() {
   }
   actionLoading.value = true
   try {
-    await api.post(`/appointment-slots/${bookModal.value.slot.id}/book`, {
-      patientId: bookPatientId.value,
-      reason: bookReason.value || undefined,
-      notes: bookNotes.value || undefined,
-    })
+    const res = await api.post<{ success: boolean; data: AppointmentSlot }>(
+      `/appointment-slots/${bookModal.value.slot.id}/book`,
+      {
+        patientId: bookPatientId.value,
+        reason: bookReason.value || undefined,
+        notes: bookNotes.value || undefined,
+      },
+    )
     closeBookModal()
-    await loadDay(selectedDate.value)
+    // Vá thẳng từ phản hồi (đã có patientId) thay vì tải lại cả ngày.
+    if (res?.data) patchSlotLocal(res.data)
+    else await loadDay(selectedDate.value)
   } catch (err: any) {
     alert('Lỗi: ' + err.message)
   } finally {
@@ -544,6 +658,14 @@ function goToPatient(id: number) {
               <div v-if="slot.reason" class="slot-reason">{{ slot.reason }}</div>
             </div>
 
+            <!-- Ô giờ nay luôn về OPEN sau khi huỷ; dấu này là thứ DUY NHẤT cho biết nó từng bị huỷ. -->
+            <button
+              v-if="cancelledOf(slot.id).length"
+              class="slot-cancelled-mark"
+              :title="'Xem ' + cancelledOf(slot.id).length + ' lượt đã huỷ'"
+              @click="openCancelledDetail(slot)"
+            >⟲ {{ cancelledOf(slot.id).length }} lượt huỷ</button>
+
             <div class="slot-actions">
               <template v-if="slot.status === 'OPEN'">
                 <button class="btn-sm btn-primary" :disabled="actionLoading" @click="openBookModal(slot)">Đặt</button>
@@ -556,9 +678,8 @@ function goToPatient(id: number) {
                 <button class="btn-sm btn-success" :disabled="actionLoading" @click="completeSlot(slot)">Hoàn thành</button>
                 <button class="btn-sm btn-danger" :disabled="actionLoading" @click="cancelSlot(slot)">Huỷ</button>
               </template>
-              <template v-else-if="slot.status === 'CANCELLED'">
-                <button class="btn-sm btn-primary" :disabled="actionLoading" @click="openSlot(slot)">Mở lại</button>
-              </template>
+              <!-- KHÔNG còn nhánh 'CANCELLED': huỷ nay trả ô giờ thẳng về OPEN, nên nút
+                   "Mở lại" chỉ còn ý nghĩa cho vé nhân viên tự Đóng (nhánh CLOSED ở trên). -->
             </div>
 
             <div v-if="isSlotBusy(slot)" class="slot-overlay">
@@ -602,6 +723,32 @@ function goToPatient(id: number) {
             <span v-if="actionLoading && bookModal" class="inline-spinner inline-spinner-light"></span>
             {{ actionLoading && bookModal ? 'Đang đặt...' : 'Đặt vé' }}
           </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Lịch sử huỷ của một ô giờ ═══ -->
+    <div v-if="cancelledDetail" class="modal-backdrop" @click.self="cancelledDetail = null">
+      <div class="modal">
+        <h3>Lượt đã huỷ — {{ cancelledDetail.slotTime }}</h3>
+        <p class="muted-note">
+          Ô giờ này hiện đang trống và đặt được bình thường. Dưới đây là các lượt từng đặt rồi huỷ.
+        </p>
+        <ul class="cancelled-list">
+          <li v-for="b in cancelledDetail.items" :key="b.id">
+            <button class="patient-link" @click="goToPatient(b.patientId)">{{
+              patientsMap[b.patientId]?.fullName
+                ? displayName(patientsMap[b.patientId]?.fullName)
+                : 'BN #' + b.patientId
+            }}</button>
+            <span class="cancelled-meta">
+              — {{ cancelledByLabel(b) }}<span v-if="formatCancelledAt(b.cancelledAt)">, lúc {{ formatCancelledAt(b.cancelledAt) }}</span>
+            </span>
+            <div v-if="b.reason" class="slot-reason">Lý do khám: {{ b.reason }}</div>
+          </li>
+        </ul>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" @click="cancelledDetail = null">Đóng</button>
         </div>
       </div>
     </div>
@@ -771,5 +918,43 @@ function goToPatient(id: number) {
 @media(max-width: 560px) {
   .day-stats { grid-template-columns: repeat(2, 1fr); }
   .slots-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+}
+
+/* Dấu "từng huỷ" trên thẻ vé — ô giờ đã trống trở lại, đây là dấu vết duy nhất còn thấy được. */
+.slot-cancelled-mark {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  padding: 2px 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #92400e;
+  background: #fef3c7;
+  border: 1px solid #fcd34d;
+  border-radius: 999px;
+  cursor: pointer;
+}
+.slot-cancelled-mark:hover { background: #fde68a; }
+
+.cancelled-list {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.cancelled-list li {
+  padding: 8px 10px;
+  background: var(--gray-50, #f9fafb);
+  border-radius: 6px;
+  font-size: 13px;
+}
+.cancelled-meta { color: var(--gray-600, #4b5563); }
+.muted-note {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: var(--gray-600, #4b5563);
 }
 </style>

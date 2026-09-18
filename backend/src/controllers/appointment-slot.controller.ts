@@ -6,15 +6,16 @@ import {
   ConflictException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Between, Repository, DataSource } from 'typeorm';
+import { Between, Repository, DataSource, EntityManager } from 'typeorm';
 import {
   AppointmentSlot,
   AppointmentSlotStatus,
 } from '../models/appointment-slot.model';
 import {
-  BookSlotDto,
-  UpdateSlotDto,
-} from '../models/appointment-slot.dto';
+  AppointmentBooking,
+  AppointmentBookingStatus,
+} from '../models/appointment-booking.model';
+import { BookSlotDto, UpdateSlotDto } from '../models/appointment-slot.dto';
 import { FirebaseService } from './firebase.controller';
 import { PatientsService } from './patient.controller';
 import { SseService, toPublicSlot, PublicSlotView } from './sse.service';
@@ -27,11 +28,49 @@ export interface PaginatedSlots {
   totalPages: number;
 }
 
+/**
+ * Một LƯỢT ĐẶT như frontend nhìn thấy.
+ *
+ * `id` là id lượt đặt (khoá duy nhất để render — một ô giờ có thể được đặt nhiều lần nên
+ * dùng id ô giờ làm khoá sẽ trùng). Muốn thao tác lên ô giờ (huỷ) thì dùng `slotId`.
+ */
+export interface PatientBookingView {
+  id: number;
+  slotId: number;
+  slotDate: string;
+  slotTime: string;
+  status: AppointmentBookingStatus;
+  patientId: number;
+  reason: string | null;
+  notes: string | null;
+  cancelledBy: 'PATIENT' | 'STAFF' | null;
+  cancelledAt: Date | null;
+  createdAt: Date;
+}
+
+function toBookingView(b: AppointmentBooking): PatientBookingView {
+  return {
+    id: b.id,
+    slotId: b.slotId,
+    slotDate: b.slotDate,
+    slotTime: b.slotTime,
+    status: b.status,
+    patientId: b.patientId,
+    reason: b.reason,
+    notes: b.notes,
+    cancelledBy: b.cancelledBy,
+    cancelledAt: b.cancelledAt,
+    createdAt: b.createdAt,
+  };
+}
+
 @Injectable()
 export class AppointmentSlotsService {
   constructor(
     @InjectRepository(AppointmentSlot)
     private readonly slotRepo: Repository<AppointmentSlot>,
+    @InjectRepository(AppointmentBooking)
+    private readonly bookingRepo: Repository<AppointmentBooking>,
     private readonly firebaseService: FirebaseService,
     private readonly patientsService: PatientsService,
     private readonly sseService: SseService,
@@ -52,20 +91,38 @@ export class AppointmentSlotsService {
     });
   }
 
-  async findMy(patientId: number): Promise<AppointmentSlot[]> {
-    return this.slotRepo.find({
+  /**
+   * Lịch sử của BỆNH NHÂN — đọc ở bảng lượt đặt, KHÔNG đọc ở ô giờ.
+   *
+   * Ô giờ bị dùng lại (người sau đặt vào ô người trước đã huỷ) nên lọc theo
+   * `appointment_slots.patientId` sẽ làm lượt đặt cũ biến mất khỏi lịch sử.
+   */
+  async findMy(patientId: number): Promise<PatientBookingView[]> {
+    const rows = await this.bookingRepo.find({
       where: { patientId },
       order: { slotDate: 'DESC', slotTime: 'DESC' },
     });
+    return rows.map(toBookingView);
   }
 
-  // Admin: lấy toàn bộ vé của 1 bệnh nhân bất kỳ (mới nhất trước).
-  // Dùng cho hồ sơ bệnh nhân để đếm số buổi trị liệu + liệt kê lịch sử.
-  async findByPatient(patientId: number): Promise<AppointmentSlot[]> {
-    return this.slotRepo.find({
-      where: { patientId },
-      order: { slotDate: 'DESC', slotTime: 'DESC' },
+  /**
+   * Lượt đặt của MỘT NGÀY — cho bảng ngày của nhân viên.
+   *
+   * Ô giờ nay luôn về OPEN sau khi huỷ, nên nhìn ô giờ không còn biết nó từng bị huỷ hay chưa.
+   * Dấu "⟲ từng huỷ" trên bảng ngày đọc từ đây. Chỉ nhân viên gọi được (có patientId/reason).
+   */
+  async findBookingsByDate(date: string): Promise<PatientBookingView[]> {
+    const rows = await this.bookingRepo.find({
+      where: { slotDate: date },
+      order: { slotTime: 'ASC', createdAt: 'ASC' },
     });
+    return rows.map(toBookingView);
+  }
+
+  // Admin: toàn bộ lượt đặt của 1 bệnh nhân (mới nhất trước).
+  // Dùng cho hồ sơ bệnh nhân để đếm số buổi trị liệu + liệt kê lịch sử.
+  async findByPatient(patientId: number): Promise<PatientBookingView[]> {
+    return this.findMy(patientId);
   }
 
   /**
@@ -91,11 +148,35 @@ export class AppointmentSlotsService {
     return slot;
   }
 
+  /** Lượt đặt đang còn hiệu lực của một ô giờ (nhiều nhất 1 — có unique index chặn ở DB). */
+  private activeBooking(
+    manager: EntityManager,
+    slotId: number,
+  ): Promise<AppointmentBooking | null> {
+    return manager.findOne(AppointmentBooking, {
+      where: { slotId, status: 'BOOKED' },
+    });
+  }
+
   async update(id: number, dto: UpdateSlotDto): Promise<AppointmentSlot> {
     const slot = await this.findOne(id);
     if (dto.reason !== undefined) slot.reason = dto.reason;
     if (dto.notes !== undefined) slot.notes = dto.notes;
-    return this.slotRepo.save(slot);
+    const saved = await this.slotRepo.save(slot);
+
+    // Ghi cùng nội dung sang lượt đặt để lịch sử không lệch với ô giờ.
+    const booking = await this.activeBooking(this.slotRepo.manager, id);
+    if (booking) {
+      if (dto.reason !== undefined) booking.reason = dto.reason;
+      if (dto.notes !== undefined) booking.notes = dto.notes;
+      await this.bookingRepo.save(booking);
+    }
+    this.sseService.emitEvent({
+      type: 'SLOT_UPDATED',
+      slot: toPublicSlot(saved),
+      staffSlot: saved,
+    });
+    return saved;
   }
 
   async close(id: number): Promise<AppointmentSlot> {
@@ -110,7 +191,11 @@ export class AppointmentSlotsService {
     }
     slot.status = 'CLOSED';
     const saved = await this.slotRepo.save(slot);
-    this.sseService.emitEvent({ type: 'SLOT_UPDATED', slot: toPublicSlot(saved) });
+    this.sseService.emitEvent({
+      type: 'SLOT_UPDATED',
+      slot: toPublicSlot(saved),
+      staffSlot: saved,
+    });
     return saved;
   }
 
@@ -124,12 +209,25 @@ export class AppointmentSlotsService {
     slot.status = 'OPEN';
     slot.patientId = null;
     slot.reason = null;
+    // `notes` TRƯỚC ĐÂY KHÔNG được xoá ở đây → ghi chú riêng của bệnh nhân trước còn dính
+    // nguyên trên ô giờ và lộ sang lượt đặt của người sau. Nội dung cũ đã lưu ở lượt đặt rồi.
+    slot.notes = null;
+    slot.reminded1h = false;
+    slot.reminded30m = false;
+    slot.reminded15m = false;
     const saved = await this.slotRepo.save(slot);
-    this.sseService.emitEvent({ type: 'SLOT_UPDATED', slot: toPublicSlot(saved) });
+    this.sseService.emitEvent({
+      type: 'SLOT_UPDATED',
+      slot: toPublicSlot(saved),
+      staffSlot: saved,
+    });
     return saved;
   }
 
-  async book(id: number, dto: BookSlotDto): Promise<AppointmentSlot> {
+  async book(
+    id: number,
+    dto: BookSlotDto,
+  ): Promise<{ slot: AppointmentSlot; booking: PatientBookingView }> {
     if (!dto.patientId) {
       throw new BadRequestException('Thiếu patientId');
     }
@@ -141,6 +239,7 @@ export class AppointmentSlotsService {
     await queryRunner.startTransaction();
 
     let savedSlot: AppointmentSlot;
+    let savedBooking: AppointmentBooking;
     try {
       // Dùng pessimistic_write để lock dòng vé (Chống Race Condition - Trùng vé)
       const slot = await queryRunner.manager.findOne(AppointmentSlot, {
@@ -152,7 +251,10 @@ export class AppointmentSlotsService {
         throw new NotFoundException(`Vé #${id} không tồn tại`);
       }
 
-      if (slot.status !== 'OPEN' && slot.status !== 'CANCELLED') {
+      // CHỈ nhận OPEN. Trước đây nhận cả 'CANCELLED', mà ô giờ CANCELLED vẫn còn giữ
+      // patientId của người huỷ → đặt đè lên là xoá sổ lượt đặt của họ. Nay huỷ đã trả ô giờ
+      // về OPEN và dọn sạch, nên không còn lý do gì để nhận CANCELLED nữa.
+      if (slot.status !== 'OPEN') {
         throw new ConflictException(
           `Vé không khả dụng (trạng thái: ${slot.status})`,
         );
@@ -162,8 +264,116 @@ export class AppointmentSlotsService {
       slot.reason = dto.reason ?? null;
       slot.notes = dto.notes ?? null;
       slot.status = 'BOOKED';
+      // Ô giờ được bán lại → cờ nhắc hẹn của lượt trước phải reset, không thì
+      // bệnh nhân mới mất luôn tin nhắn nhắc giờ.
+      slot.reminded1h = false;
+      slot.reminded30m = false;
+      slot.reminded15m = false;
 
       savedSlot = await queryRunner.manager.save(slot);
+
+      // Mở một LƯỢT ĐẶT mới. Unique index `ux_appt_booking_active` chặn ở tầng DB nếu ô giờ
+      // này đã có lượt đặt còn hiệu lực → an toàn cả khi chạy nhiều tiến trình backend.
+      const booking = queryRunner.manager.create(AppointmentBooking, {
+        slotId: slot.id,
+        patientId: dto.patientId,
+        slotDate: slot.slotDate,
+        slotTime: slot.slotTime,
+        status: 'BOOKED' as AppointmentBookingStatus,
+        reason: dto.reason ?? null,
+        notes: dto.notes ?? null,
+        cancelledBy: null,
+        cancelledAt: null,
+      });
+      savedBooking = await queryRunner.manager.save(booking);
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      if ((err as { code?: string }).code === '23505') {
+        throw new ConflictException(
+          'Vé vừa có người khác đặt mất, mời chọn giờ khác',
+        );
+      }
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
+
+    const saved = savedSlot;
+
+    // Bắn SSE NGAY, TRƯỚC khi gọi Firebase. Trước đây thứ tự ngược lại: `await notifyStatusChange`
+    // (lần đầu phải nạp firebase-admin ~45MB) chặn cả broadcast realtime lẫn phản hồi HTTP.
+    this.sseService.emitEvent({
+      type: 'NEW_BOOKING',
+      slot: toPublicSlot(saved),
+      staffSlot: saved,
+      // Câu có họ tên → chỉ nhân viên nhận (SseController lọc theo vai trò).
+      staffMessage: `${patient?.fullName || 'Khách hàng'} vừa đặt lịch vào lúc ${saved.slotTime} ngày ${saved.slotDate}`,
+    });
+
+    // Thông báo đẩy chạy NỀN — không ai phải chờ nó, và lỗi của nó không được làm
+    // việc đặt lịch báo hỏng oan (vé đã ghi thành công từ trước khối này).
+    this.notifyPatient(
+      dto.patientId,
+      saved.slotDate,
+      saved.slotTime,
+      saved.id,
+      'BOOKED',
+    );
+
+    return { slot: saved, booking: toBookingView(savedBooking) };
+  }
+
+  /**
+   * Huỷ một lượt đặt.
+   *
+   * Ô giờ được TRẢ VỀ TRỐNG (không còn mang dấu vết bệnh nhân), lượt đặt được đánh dấu
+   * CANCELLED và ở lại vĩnh viễn trong lịch sử. Trước đây ô giờ giữ nguyên patientId ở trạng thái
+   * CANCELLED, rồi người sau đặt vào chính ô đó là ghi đè mất lượt đặt cũ.
+   */
+  async cancel(
+    id: number,
+    by: 'PATIENT' | 'STAFF' = 'STAFF',
+  ): Promise<{ slot: AppointmentSlot; booking: PatientBookingView | null }> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    let savedSlot: AppointmentSlot;
+    let savedBooking: AppointmentBooking | null = null;
+    try {
+      const slot = await queryRunner.manager.findOne(AppointmentSlot, {
+        where: { id },
+        lock: { mode: 'pessimistic_write' },
+      });
+      if (!slot) throw new NotFoundException(`Vé #${id} không tồn tại`);
+      if (slot.status !== 'BOOKED') {
+        throw new ConflictException(
+          `Chỉ có thể huỷ vé đang BOOKED (hiện: ${slot.status})`,
+        );
+      }
+
+      const booking = await this.activeBooking(queryRunner.manager, id);
+      if (booking) {
+        booking.status = 'CANCELLED';
+        booking.cancelledBy = by;
+        booking.cancelledAt = new Date();
+        savedBooking = await queryRunner.manager.save(booking);
+      }
+
+      // LUÔN về OPEN, kể cả ngày đã qua. 'CANCELLED' là chuyện của LƯỢT ĐẶT, không phải của
+      // ô giờ — dán nhãn đó lên ô giờ chính là thứ đẻ ra nút "Mở lại" thủ công, và là đường đi
+      // đã làm mất lịch sử. Ai huỷ / lúc nào nay đọc ở appointment_bookings.
+      slot.status = 'OPEN';
+      slot.patientId = null;
+      slot.reason = null;
+      slot.notes = null;
+      slot.reminded1h = false;
+      slot.reminded30m = false;
+      slot.reminded15m = false;
+      savedSlot = await queryRunner.manager.save(slot);
+
       await queryRunner.commitTransaction();
     } catch (err) {
       await queryRunner.rollbackTransaction();
@@ -172,64 +382,99 @@ export class AppointmentSlotsService {
       await queryRunner.release();
     }
 
-    // Từ đây trở xuống vé ĐÃ ghi thành công. Mọi việc phụ (đẩy thông báo, bắn SSE) phải nằm
-    // NGOÀI khối try/catch của transaction: nếu để bên trong, một lỗi Firebase sẽ kích hoạt
-    // rollbackTransaction() trên transaction đã commit → ném TransactionNotStartedError, đè mất
-    // lỗi thật và báo cho bệnh nhân là đặt lịch hỏng trong khi vé đã đặt xong.
-    const saved = savedSlot;
-    try {
-      // notifyStatusChange hiện đã tự nuốt lỗi bên trong; bọc thêm ở đây để nếu sau này ai đó
-      // bỏ khối catch đó đi thì việc đặt lịch vẫn không bị báo hỏng oan.
-      await this.notifyStatusChange(saved);
-    } catch (err) {
-      console.error(`Không gửi được thông báo cho vé #${saved.id}:`, err);
-    }
-
-    const patientName = patient?.fullName || 'Khách hàng';
     this.sseService.emitEvent({
-      type: 'NEW_BOOKING',
-      slot: toPublicSlot(saved),
-      // Câu có họ tên → chỉ nhân viên nhận (SseController lọc theo vai trò).
-      staffMessage: `${patientName} vừa đặt lịch vào lúc ${saved.slotTime} ngày ${saved.slotDate}`,
+      type: 'SLOT_UPDATED',
+      slot: toPublicSlot(savedSlot),
+      staffSlot: savedSlot,
     });
 
-    return saved;
-  }
-
-  async cancel(id: number): Promise<AppointmentSlot> {
-    const slot = await this.findOne(id);
-    if (slot.status !== 'BOOKED') {
-      throw new ConflictException(
-        `Chỉ có thể huỷ vé đang BOOKED (hiện: ${slot.status})`,
+    if (savedBooking) {
+      this.notifyPatient(
+        savedBooking.patientId,
+        savedBooking.slotDate,
+        savedBooking.slotTime,
+        savedSlot.id,
+        'CANCELLED',
       );
     }
-    slot.status = 'CANCELLED';
-    const saved = await this.slotRepo.save(slot);
-    await this.notifyStatusChange(saved);
-    this.sseService.emitEvent({ type: 'SLOT_UPDATED', slot: toPublicSlot(saved) });
-    return saved;
+
+    return {
+      slot: savedSlot,
+      booking: savedBooking ? toBookingView(savedBooking) : null,
+    };
   }
 
-  async cancelMy(id: number, patientId: number): Promise<AppointmentSlot> {
-    const slot = await this.findOne(id);
-    if (slot.patientId !== patientId) {
+  async cancelMy(
+    id: number,
+    patientId: number,
+  ): Promise<{ slot: AppointmentSlot; booking: PatientBookingView }> {
+    // Kiểm quyền trên LƯỢT ĐẶT còn hiệu lực (nguồn sự thật), không dựa vào ô giờ.
+    const booking = await this.activeBooking(this.slotRepo.manager, id);
+    if (!booking || booking.patientId !== patientId) {
       throw new ForbiddenException('Bạn không có quyền thao tác trên vé này');
     }
-    return this.cancel(id);
+    const res = await this.cancel(id, 'PATIENT');
+    if (!res.booking) {
+      throw new NotFoundException('Không tìm thấy lượt đặt để huỷ');
+    }
+    return { slot: res.slot, booking: res.booking };
   }
 
   async complete(id: number): Promise<AppointmentSlot> {
-    const slot = await this.findOne(id);
-    if (slot.status !== 'BOOKED') {
-      throw new ConflictException(
-        `Chỉ có thể hoàn thành vé đang BOOKED (hiện: ${slot.status})`,
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    let savedSlot: AppointmentSlot;
+    let savedBooking: AppointmentBooking | null = null;
+    try {
+      const slot = await queryRunner.manager.findOne(AppointmentSlot, {
+        where: { id },
+        lock: { mode: 'pessimistic_write' },
+      });
+      if (!slot) throw new NotFoundException(`Vé #${id} không tồn tại`);
+      if (slot.status !== 'BOOKED') {
+        throw new ConflictException(
+          `Chỉ có thể hoàn thành vé đang BOOKED (hiện: ${slot.status})`,
+        );
+      }
+
+      const booking = await this.activeBooking(queryRunner.manager, id);
+      if (booking) {
+        booking.status = 'COMPLETED';
+        savedBooking = await queryRunner.manager.save(booking);
+      }
+
+      // Ô giờ giữ nguyên patientId: buổi đã khám xong thì ô giờ đó thuộc về bệnh nhân đó,
+      // bảng ngày của nhân viên vẫn cần hiện tên.
+      slot.status = 'COMPLETED';
+      savedSlot = await queryRunner.manager.save(slot);
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
+
+    this.sseService.emitEvent({
+      type: 'SLOT_UPDATED',
+      slot: toPublicSlot(savedSlot),
+      staffSlot: savedSlot,
+    });
+
+    if (savedBooking) {
+      this.notifyPatient(
+        savedBooking.patientId,
+        savedBooking.slotDate,
+        savedBooking.slotTime,
+        savedSlot.id,
+        'COMPLETED',
       );
     }
-    slot.status = 'COMPLETED';
-    const saved = await this.slotRepo.save(slot);
-    await this.notifyStatusChange(saved);
-    this.sseService.emitEvent({ type: 'SLOT_UPDATED', slot: toPublicSlot(saved) });
-    return saved;
+
+    return savedSlot;
   }
 
   async remove(id: number): Promise<void> {
@@ -239,14 +484,30 @@ export class AppointmentSlotsService {
         'Không thể xoá vé đang có booking, huỷ trước',
       );
     }
+    const booking = await this.activeBooking(this.slotRepo.manager, id);
+    if (booking) {
+      throw new ConflictException(
+        'Vé này còn lượt đặt đang hiệu lực, huỷ trước khi xoá',
+      );
+    }
     await this.slotRepo.remove(slot);
+    // Vé biến mất khỏi lưới giờ → phải báo cho máy khác, không thì họ vẫn thấy vé đã xoá.
+    this.sseService.emitEvent({
+      type: 'SLOT_REMOVED',
+      slot: {
+        id,
+        slotDate: slot.slotDate,
+        slotTime: slot.slotTime,
+        status: 'REMOVED',
+      },
+    });
   }
 
   async bookMy(
     id: number,
     patientId: number,
     dto: BookSlotDto,
-  ): Promise<AppointmentSlot> {
+  ): Promise<{ slot: AppointmentSlot; booking: PatientBookingView }> {
     return this.book(id, { ...dto, patientId });
   }
 
@@ -262,7 +523,11 @@ export class AppointmentSlotsService {
       .where('s.slotDate BETWEEN :from AND :to', { from, to })
       .groupBy('s.slotDate')
       .addGroupBy('s.status')
-      .getRawMany<{ date: string; status: AppointmentSlotStatus; count: string }>();
+      .getRawMany<{
+        date: string;
+        status: AppointmentSlotStatus;
+        count: string;
+      }>();
 
     const out: Record<string, Record<AppointmentSlotStatus, number>> = {};
     for (const r of rows) {
@@ -289,21 +554,34 @@ export class AppointmentSlotsService {
     return out;
   }
 
-  private async notifyStatusChange(slot: AppointmentSlot) {
-    if (!slot.patientId) return;
-    try {
-      const patient = await this.patientsService.findOne(slot.patientId);
-      if (patient?.fcmToken) {
-        const title = 'Cập nhật lịch hẹn';
-        const body = `Lịch hẹn ngày ${slot.slotDate} lúc ${slot.slotTime} của bạn đã chuyển sang: ${this.getStatusText(slot.status)}`;
-        await this.firebaseService.sendNotification(patient.fcmToken, title, body, {
-          slotId: slot.id.toString(),
-          type: 'APPOINTMENT_UPDATE',
-        });
+  /**
+   * Đẩy thông báo cho bệnh nhân — CHẠY NỀN, cố ý KHÔNG await ở nơi gọi.
+   *
+   * Lần gửi đầu tiên sau mỗi lần khởi động backend phải nạp firebase-admin (~45MB) nên tốn vài
+   * giây. Trước đây việc này nằm trên đường đi của request nên cả SSE lẫn phản hồi HTTP đều bị
+   * chặn theo — đúng triệu chứng "huỷ xong mà mãi mới thấy".
+   */
+  private notifyPatient(
+    patientId: number,
+    slotDate: string,
+    slotTime: string,
+    slotId: number,
+    status: AppointmentSlotStatus,
+  ): void {
+    void (async () => {
+      try {
+        const patient = await this.patientsService.findOne(patientId);
+        if (!patient?.fcmToken) return;
+        await this.firebaseService.sendNotification(
+          patient.fcmToken,
+          'Cập nhật lịch hẹn',
+          `Lịch hẹn ngày ${slotDate} lúc ${slotTime} của bạn đã chuyển sang: ${this.getStatusText(status)}`,
+          { slotId: String(slotId), type: 'APPOINTMENT_UPDATE' },
+        );
+      } catch (error) {
+        console.error(`Không gửi được thông báo cho vé #${slotId}:`, error);
       }
-    } catch (error) {
-      console.error('Failed to send notification:', error);
-    }
+    })();
   }
 
   private getStatusText(status: AppointmentSlotStatus): string {

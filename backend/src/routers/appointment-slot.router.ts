@@ -45,8 +45,10 @@ export class AppointmentSlotsRouter {
     @Request() req: any,
     @Body() dto: BookSlotDto,
   ) {
-    const data = await this.service.bookMy(id, req.user.id, dto);
-    return { success: true, data };
+    // `data` = ô giờ (để vá lưới giờ), `booking` = lượt đặt vừa tạo (để vá "Lịch của tôi").
+    // Trả đủ ở đây thì máy khách khỏi gọi lại 2 API sau mỗi lần đặt.
+    const { slot, booking } = await this.service.bookMy(id, req.user.id, dto);
+    return { success: true, data: slot, booking };
   }
 
   @UseGuards(JwtAuthGuard)
@@ -55,8 +57,8 @@ export class AppointmentSlotsRouter {
     @Param('id', ParseIntPipe) id: number,
     @Request() req: any,
   ) {
-    const data = await this.service.cancelMy(id, req.user.id);
-    return { success: true, data };
+    const { slot, booking } = await this.service.cancelMy(id, req.user.id);
+    return { success: true, data: booking, slot };
   }
 
   @UseGuards(JwtAuthGuard)
@@ -96,6 +98,16 @@ export class AppointmentSlotsRouter {
     assertDate(from);
     assertDate(to);
     return this.service.summaryByDate(from, to);
+  }
+
+  // Lịch sử lượt đặt trong 1 ngày — cho bảng ngày hiện dấu "từng huỷ".
+  // Khai báo TRƯỚC @Get(':id') để Nest không nhầm "bookings" là một id.
+  @UseGuards(NhanVienGuard)
+  @Get('bookings')
+  bookingsByDate(@Query('date') date: string) {
+    if (!date) throw new BadRequestException('Cần tham số date');
+    assertDate(date);
+    return this.service.findBookingsByDate(date);
   }
 
   // Lấy toàn bộ vé của 1 bệnh nhân (cho hồ sơ bệnh nhân, phía nhân viên).
@@ -142,15 +154,17 @@ export class AppointmentSlotsRouter {
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: BookSlotDto,
   ) {
-    const data = await this.service.book(id, dto);
-    return { success: true, data };
+    const { slot } = await this.service.book(id, dto);
+    return { success: true, data: slot };
   }
 
   @UseGuards(NhanVienGuard)
   @Put(':id/cancel')
   async cancel(@Param('id', ParseIntPipe) id: number) {
-    const data = await this.service.cancel(id);
-    return { success: true, data };
+    // `data` là Ô GIỜ sau khi huỷ (đã trả về trống) — bảng ngày của nhân viên vá thẳng từ đây,
+    // khỏi gọi lại cả ngày. `booking` là lượt đặt vừa bị huỷ, giữ lại cho lịch sử.
+    const { slot, booking } = await this.service.cancel(id, 'STAFF');
+    return { success: true, data: slot, booking };
   }
 
   @UseGuards(NhanVienGuard)

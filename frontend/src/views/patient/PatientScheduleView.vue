@@ -16,12 +16,20 @@ interface PublicSlot {
   status: SlotStatus
 }
 
-interface AppointmentSlot {
+/**
+ * Một LƯỢT ĐẶT của tôi (`/appointment-slots/my`).
+ *
+ * `id` là id LƯỢT ĐẶT — dùng làm khoá render. `slotId` là id Ô GIỜ — dùng khi gọi API huỷ.
+ * Hai cái này KHÁC nhau: một ô giờ có thể được đặt đi đặt lại nhiều lần, nên lấy id ô giờ
+ * làm khoá thì hai lượt đặt cùng ô sẽ trùng khoá và Vue render sai.
+ */
+interface MyBooking {
   id: number
+  slotId: number
   slotDate: string
   slotTime: string
-  status: SlotStatus
-  patientId: number | null
+  status: 'BOOKED' | 'CANCELLED' | 'COMPLETED'
+  patientId: number
   reason: string | null
   notes: string | null
 }
@@ -39,7 +47,7 @@ interface EffectiveSchedule {
 const activeTab = ref<'my' | 'book'>('book')
 const isLoadingMy = ref(false)
 const isLoadingSlots = ref(false)
-const mySlots = ref<AppointmentSlot[]>([])
+const mySlots = ref<MyBooking[]>([])
 const availableSlots = ref<PublicSlot[]>([])
 const schedule = ref<EffectiveSchedule | null>(null)
 const error = ref<string | null>(null)
@@ -51,9 +59,9 @@ const showSyncModal = ref(false)
 const bookingSlot = ref<PublicSlot | null>(null)
 const bookingReason = ref('')
 const isBooking = ref(false)
-const cancellingSlot = ref<AppointmentSlot | null>(null)
+const cancellingSlot = ref<MyBooking | null>(null)
 const isCancelling = ref(false)
-const syncingSlot = ref<AppointmentSlot | null>(null)
+const syncingSlot = ref<MyBooking | null>(null)
 
 // Success toast
 const toast = ref<{ message: string; type: 'success' | 'error' } | null>(null)
@@ -221,6 +229,36 @@ watch(activeTab, (tab) => {
   if (tab === 'book') fetchAvailable(selectedDate.value)
 })
 
+// ── Vá tại chỗ ──
+// Sau mỗi thao tác, server ĐÃ trả về bản mới nhất. Gọi lại API chỉ để đọc đúng thứ vừa nhận
+// là thêm 1–2 vòng round-trip trên mạng 4G — đó chính là độ trễ người dùng cảm nhận.
+
+/** Đưa một ô giờ (bản công khai) vào lưới giờ đang hiển thị. */
+function patchAvailable(slot: PublicSlot | null | undefined) {
+  if (!slot) return
+  const idx = availableSlots.value.findIndex(s => s.id === slot.id)
+  if (idx !== -1) {
+    availableSlots.value.splice(idx, 1, slot)
+  } else if (slot.slotDate === selectedDate.value) {
+    availableSlots.value.push(slot)
+    availableSlots.value.sort((a, b) => a.slotTime.localeCompare(b.slotTime))
+  }
+}
+
+/** Xoá một ô giờ khỏi lưới (vé bị nhân viên xoá hẳn). */
+function removeAvailable(slotId: number) {
+  const idx = availableSlots.value.findIndex(s => s.id === slotId)
+  if (idx !== -1) availableSlots.value.splice(idx, 1)
+}
+
+/** Thêm/cập nhật một lượt đặt trong "Lịch của tôi" (khoá theo id LƯỢT ĐẶT). */
+function patchMyBooking(booking: MyBooking | null | undefined) {
+  if (!booking) return
+  const idx = mySlots.value.findIndex(b => b.id === booking.id)
+  if (idx !== -1) mySlots.value.splice(idx, 1, booking)
+  else mySlots.value.unshift(booking)
+}
+
 // ── Book ──
 function openBookModal(slot: PublicSlot) {
   bookingSlot.value = slot
@@ -243,8 +281,10 @@ async function confirmBook() {
     if (res.ok) {
       showToast('Đặt lịch thành công!')
       showBookModal.value = false
-      // Refresh cả 2 danh sách
-      await Promise.all([fetchAvailable(selectedDate.value), fetchMySlots()])
+      // Server trả sẵn `data` (ô giờ) + `booking` (lượt đặt) → vá thẳng, khỏi gọi lại API.
+      const payload = await res.json().catch(() => null)
+      patchAvailable(payload?.data)
+      patchMyBooking(payload?.booking)
     } else {
       const data = await res.json().catch(() => null)
       showToast(data?.message || 'Không thể đặt lịch. Vui lòng thử lại.', 'error')
@@ -257,7 +297,7 @@ async function confirmBook() {
 }
 
 // ── Cancel ──
-function openCancelModal(slot: AppointmentSlot) {
+function openCancelModal(slot: MyBooking) {
   cancellingSlot.value = slot
   showCancelModal.value = true
 }
@@ -266,14 +306,17 @@ async function confirmCancel() {
   if (!cancellingSlot.value || !authStore.token) return
   isCancelling.value = true
   try {
-    const res = await fetch(`${API_BASE}/appointment-slots/${cancellingSlot.value.id}/my-cancel`, {
+    const res = await fetch(`${API_BASE}/appointment-slots/${cancellingSlot.value.slotId}/my-cancel`, {
       method: 'PUT',
       headers: { Authorization: `Bearer ${authStore.token}` },
     })
     if (res.ok) {
       showToast('Đã huỷ lịch hẹn.')
       showCancelModal.value = false
-      await fetchMySlots()
+      // `data` = lượt đặt đã chuyển sang CANCELLED, `slot` = ô giờ đã trả về trống.
+      const payload = await res.json().catch(() => null)
+      patchMyBooking(payload?.data)
+      patchAvailable(payload?.slot)
     } else {
       const data = await res.json().catch(() => null)
       showToast(data?.message || 'Không thể huỷ. Vui lòng thử lại.', 'error')
@@ -324,26 +367,29 @@ onMounted(() => {
   refreshListener = (e: Event) => {
     const customEvent = e as CustomEvent
     const updatedSlot = customEvent.detail
-    
-    if (updatedSlot) {
-      // Zero-request update cho mảng Available
-      const aIdx = availableSlots.value.findIndex(s => s.id === updatedSlot.id)
-      if (aIdx !== -1) {
-        availableSlots.value.splice(aIdx, 1, updatedSlot)
-      } else if (updatedSlot.slotDate === selectedDate.value) {
-        availableSlots.value.push(updatedSlot)
-        availableSlots.value.sort((a, b) => a.slotTime.localeCompare(b.slotTime))
-      }
 
-      // "Lịch của tôi" cần reason/notes — mà payload SSE cố tình KHÔNG có (để bệnh nhân này
-      // không đọc được dữ liệu của bệnh nhân kia). Nên nếu vé liên quan tới mình thì lấy lại
-      // bản đầy đủ từ endpoint có kiểm quyền, thay vì vá bằng payload thiếu trường.
-      const isMine = mySlots.value.some(s => s.id === updatedSlot.id)
-      if (isMine || updatedSlot.status === 'BOOKED') {
-        fetchMySlots()
-      }
-    } else {
+    // detail = null là tín hiệu "vừa nối lại SSE, có thể đã bỏ lỡ sự kiện" → nạp lại cho chắc.
+    if (!updatedSlot) {
       fetchAvailable(selectedDate.value)
+      fetchMySlots()
+      return
+    }
+
+    if (updatedSlot.status === 'REMOVED') {
+      removeAvailable(updatedSlot.id)
+    } else {
+      patchAvailable(updatedSlot)
+    }
+
+    // "Lịch của tôi" cần reason/notes — mà payload SSE cố tình KHÔNG có (để bệnh nhân này
+    // không đọc được dữ liệu của bệnh nhân kia). Nên nếu vé liên quan tới mình thì lấy lại
+    // bản đầy đủ từ endpoint có kiểm quyền, thay vì vá bằng payload thiếu trường.
+    // Number() cả hai vế: id ô giờ là BIGINT, driver pg có thể trả về dưới dạng chuỗi, khi đó
+    // so sánh `===` với slotId (INTEGER, trả về số) luôn sai và sự kiện bị bỏ qua âm thầm.
+    const isMine = mySlots.value.some(
+      b => Number(b.slotId) === Number(updatedSlot.id) && b.status === 'BOOKED',
+    )
+    if (isMine || updatedSlot.status === 'BOOKED') {
       fetchMySlots()
     }
   }
@@ -357,7 +403,7 @@ onBeforeUnmount(() => {
 })
 
 // ── Lịch (Đồng bộ) ──
-function openSyncModal(slot: AppointmentSlot) {
+function openSyncModal(slot: MyBooking) {
   syncingSlot.value = slot
   showSyncModal.value = true
 }
@@ -395,7 +441,7 @@ function downloadIcs() {
 VERSION:2.0
 PRODID:-//Kinh Lạc Gia Minh//NONSGML v1.0//EN
 BEGIN:VEVENT
-UID:${slot.id}@kinhlacgiaminh.vn
+UID:booking-${slot.id}@kinhlacgiaminh.vn
 DTSTAMP:${new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'}
 DTSTART:${startDateStr}
 DTEND:${endDateStrLocal}
@@ -510,15 +556,19 @@ END:VCALENDAR`
 
       <!-- Slot grid -->
       <div v-else class="slot-grid">
+        <!-- Chỉ OPEN mới đặt được. Trước đây CANCELLED cũng được vẽ là "Trống" vì ô giờ bị huỷ
+             vẫn nằm nguyên ở trạng thái đó; nay huỷ trả ô giờ thẳng về OPEN nên không còn
+             trường hợp CANCELLED trên lưới giờ, và cũng hết cảnh màn hình nhân viên thấy
+             "cần Mở lại" trong khi bệnh nhân đã đặt được từ lâu. -->
         <button
           v-for="slot in availableSlots"
           :key="slot.id"
-          :class="['slot-card', (slot.status === 'OPEN' || slot.status === 'CANCELLED') ? '' : 'slot-disabled']"
-          :disabled="(slot.status !== 'OPEN' && slot.status !== 'CANCELLED')"
-          @click="(slot.status === 'OPEN' || slot.status === 'CANCELLED') ? openBookModal(slot) : null"
+          :class="['slot-card', slot.status === 'OPEN' ? '' : 'slot-disabled']"
+          :disabled="slot.status !== 'OPEN'"
+          @click="slot.status === 'OPEN' ? openBookModal(slot) : null"
         >
           <span class="slot-time">{{ formatSlotTime(slot.slotTime) }}</span>
-          <span v-if="slot.status === 'OPEN' || slot.status === 'CANCELLED'" class="slot-status-open">Trống</span>
+          <span v-if="slot.status === 'OPEN'" class="slot-status-open">Trống</span>
           <span v-else-if="slot.status === 'CLOSED'" class="slot-status-closed">Đã đóng</span>
           <span v-else class="slot-status-booked">Đã Đặt</span>
         </button>
