@@ -24,7 +24,7 @@ async function fetchRecords() {
       }
     }
   } catch (error) {
-    console.error('Lỗi khi lấy danh sách phiếu khám', error)
+    console.error('Lỗi khi lấy danh sách kết quả đo', error)
   } finally {
     isLoading.value = false
   }
@@ -49,7 +49,7 @@ function formatTime(dateString: string) {
 
 <template>
   <div class="my-records">
-    <h2 class="page-title">Hồ Sơ Khám Bệnh</h2>
+    <h2 class="page-title">Hồ Sơ Chẩn Trị</h2>
 
     <div v-if="isLoading" class="loading">
       Đang tải danh sách...
@@ -57,7 +57,7 @@ function formatTime(dateString: string) {
     
     <div v-else-if="records.length === 0" class="empty-state">
       <div class="empty-icon">📋</div>
-      <p>Bạn chưa có hồ sơ khám bệnh nào.</p>
+      <p>Bạn chưa có hồ sơ chẩn trị nào.</p>
     </div>
 
     <div v-else class="record-list">
@@ -67,12 +67,12 @@ function formatTime(dateString: string) {
             <span class="date">{{ formatDate(record.thoiDiemKham || record.createdAt) }}</span>
             <span class="time">{{ formatTime(record.thoiDiemKham || record.createdAt) }}</span>
           </div>
-          <span class="record-status">Đã khám</span>
+          <span class="record-status">Đã đo</span>
         </div>
         
         <div class="record-body">
           <div v-if="record.chanDoan?.lyDoKham" class="record-row">
-            <span class="label">Lý do khám:</span>
+            <span class="label">Lý do đến:</span>
             <span class="value">{{ record.chanDoan.lyDoKham }}</span>
           </div>
           <div class="record-row">
@@ -83,7 +83,7 @@ function formatTime(dateString: string) {
 
         <div class="record-actions">
           <RouterLink :to="{ name: 'patient-record-detail', params: { patientId: authStore.patient?.id, examId: record.id } }" class="btn-view">
-            Xem chi tiết phiếu khám
+            Xem chi tiết kết quả đo nhiệt độ Kinh Lạc
           </RouterLink>
         </div>
       </div>

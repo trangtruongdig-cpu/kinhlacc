@@ -1,6 +1,6 @@
 /**
  * lucKinhTruyenBien.ts — CHUYỂN BIẾN có thể tiếp theo của ca đang định vị ở một kinh (theo SÁCH:
- * Thương Hàn Luận), KHÁC với huongTruyen (đo thực tế giữa 2 lần khám ở lucKinh.ts).
+ * Thương Hàn Luận), KHÁC với huongTruyen (đo thực tế giữa 2 lần đo ở lucKinh.ts).
  *
  * Bảng đã thẩm định qua workflow (6 chuyên gia THL + 1 design lead, 2026-08-01):
  *  - vaoLy  = bệnh NẶNG lên / truyền vào sâu (đỏ, "nặng").

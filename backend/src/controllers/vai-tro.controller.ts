@@ -111,8 +111,8 @@ export class VaiTroService {
       },
       {
         ma: 'bac_si',
-        ten: 'Bác Sĩ',
-        moTa: 'Khám bệnh, kê đơn, tra cứu chuyên môn (không quản lý tài khoản).',
+        ten: 'Y Sỹ',
+        moTa: 'Đo kinh lạc, chẩn trị, tra cứu chuyên môn (không quản lý tài khoản).',
         laQuanTri: false,
         laHeThong: true,
         trangCho: [

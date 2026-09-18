@@ -141,7 +141,7 @@ const upcomingSlots = computed(() =>
     .slice()
     .sort((a, b) => (a.slotDate + a.slotTime).localeCompare(b.slotDate + b.slotTime)),
 )
-// Vé đã đặt nhưng đã qua ngày mà chưa "Hoàn thành"/"Huỷ" — nhắc bác sĩ xử lý (mới nhất trước).
+// Vé đã đặt nhưng đã qua ngày mà chưa "Hoàn thành"/"Huỷ" — nhắc thầy thuốc xử lý (mới nhất trước).
 const overdueSlots = computed(() =>
   slots.value
     .filter((s) => s.status === 'BOOKED' && ymd(s.slotDate) < todayYMD())
@@ -323,7 +323,7 @@ function goToLatestExamination() {
   if (examinations.value && examinations.value.length > 0) {
     goToMeridianResults(examinations.value[0].id)
   } else {
-    alert('Bệnh nhân này chưa có ca khám nào.')
+    alert('Bệnh nhân này chưa có ca đo nào.')
   }
 }
 
@@ -361,8 +361,8 @@ function formatDateTime(d: string | null | undefined) {
   } catch { return d }
 }
 
-// ------------------------------------------------- Sửa giờ khám của từng ca
-// `thoiDiemKham` là giờ khám THỰC TẾ (thầy thuốc nhập/sửa, lùi hoặc tiến được);
+// ------------------------------------------------- Sửa giờ đo của từng ca
+// `thoiDiemKham` là giờ đo THỰC TẾ (thầy thuốc nhập/sửa, lùi hoặc tiến được);
 // `createdAt` chỉ là lúc bấm lưu. Ca cũ chưa có thoiDiemKham thì lấy tạm createdAt.
 
 const suaGioId = ref<number | null>(null)
@@ -394,7 +394,7 @@ async function luuGioKham(exam: any) {
   if (dangLuuGio.value) return
   const d = new Date(suaGioGiaTri.value)
   if (!suaGioGiaTri.value || Number.isNaN(d.getTime())) {
-    alert('Giờ khám không hợp lệ')
+    alert('Giờ đo không hợp lệ')
     return
   }
   dangLuuGio.value = true
@@ -406,7 +406,7 @@ async function luuGioKham(exam: any) {
     examinations.value = [...examinations.value].sort((a, b) => mocKhamMs(b) - mocKhamMs(a))
     huySuaGio()
   } catch (err: any) {
-    alert('Không sửa được giờ khám: ' + (err?.message || ''))
+    alert('Không sửa được giờ đo: ' + (err?.message || ''))
   } finally {
     dangLuuGio.value = false
   }
@@ -507,7 +507,7 @@ function goToLuoiDiagnosis() {
           </button>
           <button v-if="!authStore.isLeTan" class="btn-primary" @click="goToNewExamination">
             <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clip-rule="evenodd"/></svg>
-            Thêm Khám mới
+            Thêm Ca Đo mới
           </button>
         </div>
       </div>
@@ -556,7 +556,7 @@ function goToLuoiDiagnosis() {
         </button>
         <button class="tab" :class="{ active: activeTab === 'history' }" @click="activeTab = 'history'">
           <svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
-          Lịch Sử Khám
+          Lịch Sử Đo
           <span v-if="examinations.length" class="tab-badge">{{ examinations.length }}</span>
         </button>
         <button class="tab" :class="{ active: activeTab === 'treatment' }" @click="activeTab = 'treatment'">
@@ -608,14 +608,14 @@ function goToLuoiDiagnosis() {
         </div>
       </div>
 
-      <!-- Tab: Lịch sử khám -->
+      <!-- Tab: Lịch sử đo -->
       <div v-if="activeTab === 'history'" class="tab-content">
         <div v-if="isLoadingExams" class="loading-state loading-state--sm">
           <div class="spinner"></div>
         </div>
         <div v-else-if="examinations.length === 0" class="empty-state-sm">
           <svg width="40" height="40" viewBox="0 0 20 20" fill="currentColor" class="empty-icon-sm"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
-          <p>Chưa có lịch sử khám bệnh</p>
+          <p>Chưa có lịch sử đo</p>
         </div>
         <div v-else class="exam-list">
           <div
@@ -645,7 +645,7 @@ function goToLuoiDiagnosis() {
               <div v-else class="exam-date-badge">
                 <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
                 {{ formatDateTime(gioKham(exam)) }}
-                <button class="nut-sua-gio" title="Sửa giờ khám" @click.stop="moSuaGio(exam)">Sửa giờ</button>
+                <button class="nut-sua-gio" title="Sửa giờ đo" @click.stop="moSuaGio(exam)">Sửa giờ</button>
               </div>
               <span class="exam-id">#{{ exam.id }}</span>
             </div>
@@ -979,7 +979,7 @@ function goToLuoiDiagnosis() {
 .exam-header{display:flex;align-items:center;justify-content:space-between;padding:var(--space-3) var(--space-5);background:var(--gray-50);border-bottom:1px solid var(--gray-100)}
 .exam-date-badge{display:inline-flex;align-items:center;gap:var(--space-2);font-size:var(--font-size-sm);font-weight:600;color:var(--gray-700)}
 .exam-id{font-size:var(--font-size-xs);color:var(--gray-400);font-weight:600}
-/* Sửa giờ khám (lùi/tiến) ngay trên thẻ ca khám */
+/* Sửa giờ đo (lùi/tiến) ngay trên thẻ ca đo */
 .nut-sua-gio{margin-left:var(--space-2);padding:2px 8px;background:var(--white);border:1px solid var(--gray-300);border-radius:var(--radius-full);font-size:11px;font-weight:600;color:var(--gray-600);cursor:pointer;opacity:0;transition:all var(--transition-fast)}
 .exam-card:hover .nut-sua-gio,.nut-sua-gio:focus-visible{opacity:1}
 .nut-sua-gio:hover{background:var(--brown-600);color:var(--white);border-color:var(--brown-600)}

@@ -196,7 +196,7 @@ const phCompositionMap = computed<Map<string, string[]>>(() => {
 })
 
 // Ánh xạ tên thể ĐO → tên thể trong thư viện (benh_dong_y) khi khác chữ nhưng cùng phác đồ
-// huyệt (9 cặp bác sĩ đã duyệt) — để Section IV lấy đúng phương huyệt.
+// huyệt (9 cặp thầy thuốc đã duyệt) — để Section IV lấy đúng phương huyệt.
 const PH_THE_ALIAS: Record<string, string> = (() => {
   const pairs: [string, string][] = [
     ['Thận âm dương lưỡng hư', 'Thận Âm Hư, Thận Dương Hư'],
@@ -231,7 +231,7 @@ function phNamesOf(name: string): string[] {
   }
   return [...out]
 }
-// Tên các thể ĐO đang xét (tôn trọng excelFocusRuleId nếu bác sĩ bấm chọn 1 thể).
+// Tên các thể ĐO đang xét (tôn trọng excelFocusRuleId nếu thầy thuốc bấm chọn 1 thể).
 const measuredThemeNames = computed<Set<string>>(() => {
   const list = excelSyndromesList.value as Array<{ id: number; name: string }>
   const focus = excelFocusRuleId.value
@@ -255,7 +255,7 @@ const matchedPhuongHuyetList = computed(() => {
   return out
 })
 
-// Thể đo nào CHƯA có phương huyệt (không có phác đồ nào TRÙNG TÊN) — nhắc bác sĩ nhập.
+// Thể đo nào CHƯA có phương huyệt (không có phác đồ nào TRÙNG TÊN) — nhắc thầy thuốc nhập.
 const phuongHuyetNames = computed(
   () => new Set(phacDoAllList.value.map((r) => phNormName(r.benh?.chung_trang)).filter(Boolean)),
 )
@@ -351,7 +351,7 @@ function soiKinh(slug: KinhSlug) {
 
 // ── V. THANG ĐẶC TRỊ: gộp vị thuốc từ MỌI bài của các thể khớp, bỏ trùng theo vị,
 //    đếm SỐ BÀI chứa vị rồi xếp giảm dần (thông dụng → đặc trị). Thầy thuốc tích/bỏ
-//    vị + chỉnh liều → lưu thành đơn riêng của ca khám (như phương huyệt).
+//    vị + chỉnh liều → lưu thành đơn riêng của ca đo (như phương huyệt).
 interface TongHopViItem {
   key: string
   id_vi_thuoc: number | null
@@ -461,7 +461,7 @@ async function saveDonThuoc() {
   try {
     await api.put(`/examinations/${examId.value}/don-thuoc`, { donThuoc: payload })
     if (examination.value) examination.value.donThuoc = payload
-    dtSavedMsg.value = 'Đã lưu đơn vào bệnh án.'
+    dtSavedMsg.value = 'Đã lưu đơn vào hồ sơ chẩn trị.'
   } catch (e: unknown) {
     dtSavedMsg.value = 'Lỗi lưu: ' + (e instanceof Error ? e.message : String(e))
   } finally {
@@ -526,7 +526,7 @@ const kepPicks = ref<KepPick[]>([])
 const kepSearching = ref(false)
 const kepError = ref<string | null>(null)
 let kepTimer: ReturnType<typeof setTimeout> | null = null
-// D5 — lưu chẩn đoán vào bệnh án (cho phép chốt NHIỀU thể bệnh)
+// D5 — lưu chẩn đoán vào hồ sơ chẩn trị (cho phép chốt NHIỀU thể bệnh)
 const chanDoanKetLuanKeys = ref<string[]>([])
 const chanDoanNote = ref('')
 const chanDoanSaving = ref(false)
@@ -903,7 +903,7 @@ function removeKepCandidate(key: string) {
   phanBietCandidates.value = phanBietCandidates.value.filter((c) => c.key !== key)
 }
 
-// D5 — lưu kết luận chẩn đoán vào ca khám (bệnh án + lịch sử). Cho phép chốt NHIỀU thể bệnh.
+// D5 — lưu kết luận chẩn đoán vào ca đo (hồ sơ chẩn trị + lịch sử). Cho phép chốt NHIỀU thể bệnh.
 // Sắp theo thứ tự xếp hạng (cao điểm trước); chưa chọn gì → mặc định lấy thể cao điểm nhất.
 const chanDoanConclusionKeys = computed<string[]>(() => {
   const picked = new Set(chanDoanKetLuanKeys.value)
@@ -943,7 +943,7 @@ async function saveChanDoan() {
   try {
     await api.put(`/examinations/${examId.value}/chan-doan`, { chanDoan: payload })
     if (examination.value) examination.value.chanDoan = payload
-    chanDoanSavedMsg.value = 'Đã lưu vào bệnh án.'
+    chanDoanSavedMsg.value = 'Đã lưu vào hồ sơ chẩn trị.'
   } catch (e: unknown) {
     chanDoanSavedMsg.value = 'Lỗi lưu: ' + (e instanceof Error ? e.message : String(e))
   } finally {
@@ -1244,7 +1244,7 @@ function phuongHuyetKinhMach(row: PhacDoApiRow): string {
   return k.ten_kinh_mach || k.ten_viet_tat || ''
 }
 
-// Ý nghĩa châm huyệt (soạn từ giải nghĩa phương huyệt) — để bác sĩ biết châm huyệt này nhằm gì.
+// Ý nghĩa châm huyệt (soạn từ giải nghĩa phương huyệt) — để thầy thuốc biết châm huyệt này nhằm gì.
 function phuongHuyetYNghia(row: PhacDoApiRow): string {
   return (row.y_nghia_huyet || '').trim()
 }
@@ -1273,7 +1273,7 @@ function togglePhuongHuyetNote(id: number) {
 }
 
 // Nhảy sang Kinh Mạch 3D, bay tới đúng huyệt (KinhMach3DView đọc query.focus sau khi engine sẵn sàng),
-// kèm dữ liệu để hiện nút "Quay lại" đúng ca khám + đúng tab.
+// kèm dữ liệu để hiện nút "Quay lại" đúng ca đo + đúng tab.
 function gotoAcuMap(code?: string | null) {
   if (!code) return
   router.push({
@@ -1447,7 +1447,7 @@ function inPhieuChamHuyet(theItem?: { name: string } | null) {
   }
   // Mở TAB MỚI để dựng phiếu (cần tải engine 3D + chụp ảnh) — KHÔNG router.push, để trang "Kết quả
   // khám" đang xem giữ nguyên, không bị điều hướng đi mất. Tab mới tự đóng lại sau khi mở xong cửa sổ
-  // in (xem `printAcuDiagram` trong KinhMach3DView.vue) — chỉ còn phiếu in đọng lại cho bác sĩ.
+  // in (xem `printAcuDiagram` trong KinhMach3DView.vue) — chỉ còn phiếu in đọng lại cho thầy thuốc.
   const url = router.resolve({
     name: 'kinh-mach-3d',
     query: {
@@ -2082,7 +2082,7 @@ const dinhViKinhChips = computed(() => {
 interface ExamLite {
   id: number
   createdAt?: string | null
-  /** Giờ khám thầy thuốc đặt/sửa — trục truyền biến phải theo mốc này, không theo createdAt. */
+  /** Giờ đo thầy thuốc đặt/sửa — trục truyền biến phải theo mốc này, không theo createdAt. */
   thoiDiemKham?: string | null
   excelSyndromes?: { name: string }[] | null
 }
@@ -2779,7 +2779,7 @@ function footerDiffClassMerged() {
   return footerDiffClass()
 }
 
-/* --- In phiếu kết quả khám bệnh cho bệnh nhân cầm về --- */
+/* --- In phiếu kết quả đo cho bệnh nhân cầm về --- */
 function escHtml(s: unknown): string {
   return String(s ?? '').replace(/[&<>"]/g, (c) =>
     c === '&' ? '&amp;' : c === '<' ? '&lt;' : c === '>' ? '&gt;' : '&quot;',
@@ -3123,9 +3123,9 @@ function printPhieuKetQua() {
 <body>
 <div class="sheet">
   <div class="doc-head">
-    <div class="clinic">Phòng khám Y Học Cổ Truyền</div>
+    <div class="clinic">Phòng chẩn trị Y Học Cổ Truyền</div>
     <div class="doc-title">PHIẾU KẾT QUẢ ĐO NHIỆT ĐỘ KINH LẠC</div>
-    <div class="doc-sub">Mã phiếu ${escHtml(ex.ticketNumber)} · Ngày khám ${escHtml(ex.date)} ${escHtml(ex.time)}</div>
+    <div class="doc-sub">Mã phiếu ${escHtml(ex.ticketNumber)} · Ngày đo ${escHtml(ex.date)} ${escHtml(ex.time)}</div>
   </div>
 
   <table class="pinfo">
@@ -3182,13 +3182,13 @@ function printPhieuKetQua() {
       <div class="sign-space"></div>
     </div>
     <div class="sign-box">
-      <div class="role">Bác sĩ điều trị</div>
+      <div class="role">Y sỹ Y học cổ truyền</div>
       <div class="hint">(Ký, ghi rõ họ tên)</div>
       <div class="sign-space"></div>
     </div>
   </div>
 
-  <div class="foot">Phiếu in lúc ${escHtml(printedAt)} · Kết quả mang tính tham khảo, vui lòng tuân thủ hướng dẫn của bác sĩ.</div>
+  <div class="foot">Phiếu in lúc ${escHtml(printedAt)} · Kết quả mang tính tham khảo, vui lòng tuân thủ hướng dẫn của thầy thuốc.</div>
 </div>
   <script>window.onload=function(){setTimeout(function(){window.print()},120)}<\/script>
 </body>
@@ -3268,7 +3268,7 @@ watch(
           <div class="exam-meta">
             <span>Bệnh nhân: <strong>{{ displayPatientName }}</strong></span>
             <span class="divider">|</span>
-            <span>Ngày khám: {{ examDisplay.date }} {{ examDisplay.time }}</span>
+            <span>Ngày đo: {{ examDisplay.date }} {{ examDisplay.time }}</span>
           </div>
         </div>
         <div class="print-btns">
@@ -4244,7 +4244,7 @@ watch(
         <div class="pb-head">
           <div>
             <h3>Đối chiếu triệu chứng — phân biệt thể bệnh</h3>
-            <span class="pb-sub">Bác sĩ hỏi, bệnh nhân xác nhận → xem lời kể ủng hộ thể nào nhất.</span>
+            <span class="pb-sub">Thầy thuốc hỏi, bệnh nhân xác nhận → xem lời kể ủng hộ thể nào nhất.</span>
           </div>
           <button type="button" class="ptm-close" aria-label="Đóng" @click="closePhanBiet">✕</button>
         </div>
@@ -4383,7 +4383,7 @@ watch(
 
             <!-- D5: kết luận & lưu vào bệnh án -->
             <div class="pb-conclude">
-              <div class="pb-group-title">Kết luận chẩn đoán <span>(lưu vào bệnh án)</span></div>
+              <div class="pb-group-title">Kết luận chẩn đoán <span>(lưu vào hồ sơ chẩn trị)</span></div>
               <div class="pb-conclude-row pb-conclude-row--multi">
                 <label class="pb-conclude-lbl">Thể kết luận <span class="pb-conclude-sub">(chọn 1 hoặc nhiều thể)</span></label>
                 <div class="pb-conclude-checks">
@@ -4409,7 +4409,7 @@ watch(
               ></textarea>
               <div class="pb-conclude-actions">
                 <button type="button" class="pb-save-btn" :disabled="chanDoanSaving" @click="saveChanDoan">
-                  {{ chanDoanSaving ? 'Đang lưu…' : '💾 Lưu vào bệnh án' }}
+                  {{ chanDoanSaving ? 'Đang lưu…' : '💾 Lưu vào hồ sơ chẩn trị' }}
                 </button>
                 <span v-if="chanDoanSavedMsg" class="pb-save-msg">{{ chanDoanSavedMsg }}</span>
                 <span v-else-if="savedChanDoan" class="pb-save-prev">

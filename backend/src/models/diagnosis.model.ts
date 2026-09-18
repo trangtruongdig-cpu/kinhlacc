@@ -12,7 +12,7 @@ import {
  * Chẩn đoán: Kết quả suy luận từ dữ liệu kinh lạc + BenhDongYExcel rule engine.
  * Normalize từ cách cũ: lưu JSONB chanDoanLuu trong examinations table.
  *
- * Mỗi examination có thể có 1+ diagnoses (nếu bác sĩ review nhiều lần).
+ * Mỗi examination có thể có 1+ diagnoses (nếu thầy thuốc review nhiều lần).
  * Lưu: bệnh chính + danh sách ứng viên + score + triệu chứng + ghi chú.
  */
 @Entity('diagnoses')

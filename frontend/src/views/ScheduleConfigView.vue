@@ -176,8 +176,8 @@ async function deleteOverride(date: string) {
   <div class="config-page">
     <div class="page-header">
       <div>
-        <h1 class="page-title">Cấu hình giờ khám</h1>
-        <p class="page-subtitle">Thiết lập giờ mở cửa, slot khám và ngày đặc biệt</p>
+        <h1 class="page-title">Cấu hình giờ làm việc</h1>
+        <p class="page-subtitle">Thiết lập giờ mở cửa, khung giờ đo và ngày đặc biệt</p>
       </div>
       <button class="btn btn-ghost" @click="router.push({ name: 'appointments' })">
         ← Quay lại Lịch Trị Liệu
@@ -194,7 +194,7 @@ async function deleteOverride(date: string) {
       <section class="card">
         <h2 class="card-title">Cấu hình mặc định</h2>
         <p class="card-hint">
-          Áp dụng cho mọi ngày trừ khi có override riêng. Mỗi ca khám = số phút cấu hình.
+          Áp dụng cho mọi ngày trừ khi có override riêng. Mỗi ca đo = số phút cấu hình.
         </p>
 
         <div v-if="config" class="form">

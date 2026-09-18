@@ -1,7 +1,7 @@
 /**
  * Mốc thời gian của MỘT ca đo.
  *
- * `thoiDiemKham` là giờ khám THỰC TẾ — thầy thuốc nhập lúc tạo phiếu và sửa được sau đó
+ * `thoiDiemKham` là giờ đo THỰC TẾ — thầy thuốc nhập lúc tạo phiếu và sửa được sau đó
  * (lùi khi nhập bù ca cũ, tiến khi gõ nhầm). `createdAt` chỉ là lúc bấm nút lưu, hệ thống
  * ghi và không đổi được.
  *
@@ -14,7 +14,7 @@ export interface CoThoiDiemKham {
   createdAt?: string | Date | null
 }
 
-/** Mốc giờ khám để hiển thị/sắp xếp: ưu tiên giờ thầy thuốc đặt, ca cũ thì lấy giờ tạo. */
+/** Mốc giờ đo để hiển thị/sắp xếp: ưu tiên giờ thầy thuốc đặt, ca cũ thì lấy giờ tạo. */
 export function mocKham(exam: CoThoiDiemKham | null | undefined): string | null {
   if (!exam) return null
   const raw = exam.thoiDiemKham ?? exam.createdAt ?? null
@@ -22,7 +22,7 @@ export function mocKham(exam: CoThoiDiemKham | null | undefined): string | null 
   return raw instanceof Date ? raw.toISOString() : raw
 }
 
-/** Mốc giờ khám dạng số (ms) để so sánh/sắp xếp; không đọc được trả 0. */
+/** Mốc giờ đo dạng số (ms) để so sánh/sắp xếp; không đọc được trả 0. */
 export function mocKhamMs(exam: CoThoiDiemKham | null | undefined): number {
   const raw = mocKham(exam)
   if (!raw) return 0

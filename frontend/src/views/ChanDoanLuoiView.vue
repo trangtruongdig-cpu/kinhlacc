@@ -692,7 +692,7 @@ const ML_ZONES: Record<string, string[]> = {
 }
 
 function applyMlFeatures(results: AiResult['similarity']) {
-  // Threshold 15% = 3x random chance (5% for 20 classes) — bác sĩ kiểm tra lại
+  // Threshold 15% = 3x random chance (5% for 20 classes) — thầy thuốc kiểm tra lại
   const top = results.filter(r => r.score >= 15).slice(0, 4)
   if (!top.length) return
 
@@ -1192,7 +1192,7 @@ async function mlSearch() {
 
           <div class="cdl-field cdl-field--notes">
             <label class="cdl-field__label">Ghi Chú Thêm</label>
-            <textarea v-model="ghiChu" class="cdl-textarea" rows="3" placeholder="Ghi chú bổ sung của bác sĩ..."/>
+            <textarea v-model="ghiChu" class="cdl-textarea" rows="3" placeholder="Ghi chú bổ sung của thầy thuốc..."/>
           </div>
         </section>
       </section><!-- /cột 3: kết quả -->
@@ -1231,8 +1231,8 @@ async function mlSearch() {
               v-if="selectedPatient"
               class="btn-goto-examination"
               @click="goToNewExamination"
-              title="Tạo phiếu khám mới cho bệnh nhân này"
-            >Tạo Phiếu Khám →</button>
+              title="Tạo phiếu đo mới cho bệnh nhân này"
+            >Tạo Phiếu Đo →</button>
             <span v-if="!selectedPatient" class="cdl-actionbar__need-patient">⚠ Chọn bệnh nhân để lưu</span>
             <button
               class="btn-save"

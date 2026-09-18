@@ -16,7 +16,7 @@ export class NhanVienGuard implements CanActivate {
     const user = req.user;
     if (!user || user.kind !== 'staff') {
       throw new ForbiddenException(
-        'Chỉ nhân viên phòng khám mới được thực hiện thao tác này.',
+        'Chỉ nhân viên phòng chẩn trị mới được thực hiện thao tác này.',
       );
     }
     return true;

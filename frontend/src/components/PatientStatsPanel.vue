@@ -74,7 +74,7 @@ async function fetchPivot(rows: string, opts: { cols?: string; excludeFilterDim?
 // hiện đủ lựa chọn kể cả giá trị đang lọc, cho phép đổi/bỏ lọc dễ dàng thay vì chỉ thấy 1 dòng 100%).
 // Gọi 1 LẦN qua /patients/thong-ke/grid thay vì 1 request/đại lượng (11 request riêng lẻ) — trên
 // backend serverless (Vercel), bắn 11 request gần như đồng thời dễ khiến nó scale ra nhiều instance
-// nguội song song, MỖI instance phải tự tính lại toàn bộ dataset (~9.5k ca khám) từ đầu vì cache RAM
+// nguội song song, MỖI instance phải tự tính lại toàn bộ dataset (~9.5k ca đo) từ đầu vì cache RAM
 // không chia sẻ được giữa các instance — đây là nguyên nhân chính khiến tab "load hơi lâu" trên web đã
 // deploy dù chạy nhanh ở local (chỉ 1 instance ấm, cache dùng chung). ──
 const widgetPivots = ref<Record<string, ThongKePivot | null>>({})
@@ -355,15 +355,15 @@ onBeforeUnmount(() => {
     <div class="pst-overview">
       <div class="pst-ov-card">
         <span class="pst-ov-num">{{ (totals?.totalPatients ?? 0).toLocaleString('vi-VN') }}</span>
-        <span class="pst-ov-label">Tổng bệnh nhân (có ca khám)</span>
+        <span class="pst-ov-label">Tổng bệnh nhân (có ca đo)</span>
       </div>
       <div class="pst-ov-card">
         <span class="pst-ov-num">{{ (totals?.totalExaminations ?? 0).toLocaleString('vi-VN') }}</span>
-        <span class="pst-ov-label">Tổng ca khám</span>
+        <span class="pst-ov-label">Tổng ca đo</span>
       </div>
       <div class="pst-ov-card" :class="{ 'pst-ov-card--dim': !filters.length }">
         <span class="pst-ov-num">{{ (widgetPivots.amDuong?.grandTotal ?? 0).toLocaleString('vi-VN') }}</span>
-        <span class="pst-ov-label">Ca khám khớp bộ lọc hiện tại</span>
+        <span class="pst-ov-label">Ca đo khớp bộ lọc hiện tại</span>
       </div>
     </div>
 
@@ -512,7 +512,7 @@ onBeforeUnmount(() => {
             để xem chi tiết theo từng giá trị.
           </p>
           <p v-if="focusIsMultiValued" class="pst-truncate-note pst-truncate-note--info">
-            ℹ "{{ dimLabel(focusResult.pivot.rows) }}" là đại lượng ĐA TRỊ (1 ca khám có thể thuộc nhiều nhóm cùng
+            ℹ "{{ dimLabel(focusResult.pivot.rows) }}" là đại lượng ĐA TRỊ (1 ca đo có thể thuộc nhiều nhóm cùng
             lúc) — tổng % các dòng có thể vượt 100%, đây không phải lỗi tính toán.
           </p>
 

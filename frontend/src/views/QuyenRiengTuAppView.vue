@@ -4,13 +4,13 @@
  *
  * Mục đích: URL chính sách quyền riêng tư để dán vào Google Play Console cho APP Flutter
  * "Kinh Lạc Trương Gia" (app_kinhlac) — app dành cho BỆNH NHÂN (đăng ký, đặt lịch, xem
- * lịch sử khám). Khác với /chinh-sach-bao-mat (viết cho website + phòng khám): ở đây
+ * lịch sử đo). Khác với /chinh-sach-bao-mat (viết cho website + cơ sở dùng phần mềm): ở đây
  * BỆNH NHÂN là người trực tiếp tạo tài khoản và là chủ thể dữ liệu.
  *
  * Bám sát thực tế app (đã đối chiếu mã nguồn app_kinhlac):
  *   - Quyền duy nhất: INTERNET (không camera/vị trí/danh bạ/ảnh).
  *   - Dữ liệu: SĐT + mật khẩu (đăng nhập), hồ sơ (họ tên, giới tính, ngày/giờ sinh,
- *     địa chỉ, tỉnh), tiền sử bệnh, lịch sử khám/đo kinh lạc, lịch hẹn.
+ *     địa chỉ, tỉnh), tiền sử bệnh, lịch sử đo kinh lạc, lịch hẹn.
  *   - Lưu cục bộ: access_token + hồ sơ (shared_preferences). Gửi tới https://kinhlac.online/api.
  *   - KHÔNG quảng cáo, KHÔNG SDK phân tích bên thứ ba, KHÔNG bán dữ liệu.
  *
@@ -32,8 +32,8 @@ import MedicalDisclaimer from '@/components/MedicalDisclaimer.vue'
     <p>
       Chính sách này mô tả cách ứng dụng <strong>“Kinh Lạc Trương Gia”</strong> (gọi tắt là
       <strong>“ứng dụng”</strong>) thu thập, sử dụng, lưu trữ, chia sẻ và bảo vệ dữ liệu cá nhân của bạn.
-      Ứng dụng dành cho người bệnh để đăng ký tài khoản, đặt lịch khám và xem lịch sử khám của chính mình
-      tại phòng khám Đông Y Kinh Lạc Trương Gia. Chúng tôi tuân thủ
+      Ứng dụng dành cho người bệnh để đăng ký tài khoản, đặt lịch hẹn và xem lịch sử đo của chính mình
+      tại Phòng chẩn trị Đông Y Kinh Lạc Trương Gia. Chúng tôi tuân thủ
       <strong>Nghị định 13/2023/NĐ-CP</strong> về bảo vệ dữ liệu cá nhân và chính sách của Google Play.
     </p>
 
@@ -47,8 +47,8 @@ import MedicalDisclaimer from '@/components/MedicalDisclaimer.vue'
         <strong>Thông tin hồ sơ cá nhân:</strong> họ tên, giới tính, ngày sinh, giờ sinh, địa chỉ, tỉnh/thành.
       </li>
       <li>
-        <strong>Dữ liệu sức khoẻ (nhạy cảm):</strong> tiền sử bệnh, lịch sử khám và kết quả đo kinh lạc,
-        ghi chú khám, lịch hẹn. Đây là <strong>dữ liệu cá nhân nhạy cảm</strong> nên được bảo vệ ở mức cao.
+        <strong>Dữ liệu sức khoẻ (nhạy cảm):</strong> tiền sử bệnh, kết quả đo kinh lạc,
+        ghi chú chuyên môn, lịch hẹn. Đây là <strong>dữ liệu cá nhân nhạy cảm</strong> nên được bảo vệ ở mức cao.
       </li>
     </ul>
     <p>
@@ -66,8 +66,8 @@ import MedicalDisclaimer from '@/components/MedicalDisclaimer.vue'
     <h2>3. Mục Đích Sử Dụng Dữ Liệu</h2>
     <ul>
       <li>Tạo và xác thực tài khoản, đăng nhập an toàn.</li>
-      <li>Đặt lịch hẹn khám và quản lý lịch hẹn của bạn.</li>
-      <li>Hiển thị hồ sơ cá nhân và lịch sử khám/đo kinh lạc của chính bạn.</li>
+      <li>Đặt lịch hẹn và quản lý lịch hẹn của bạn.</li>
+      <li>Hiển thị hồ sơ cá nhân và lịch sử đo kinh lạc của chính bạn.</li>
       <li>Hỗ trợ, chăm sóc người bệnh và cải thiện chất lượng dịch vụ.</li>
     </ul>
     <p>Chúng tôi <strong>không bán</strong> và <strong>không chia sẻ</strong> dữ liệu cá nhân của bạn cho bên thứ ba vì mục đích quảng cáo.</p>
@@ -76,15 +76,15 @@ import MedicalDisclaimer from '@/components/MedicalDisclaimer.vue'
     <ul>
       <li>
         Dữ liệu được gửi và lưu trên máy chủ của chúng tôi tại <strong>kinhlac.online</strong>, dùng cho
-        hoạt động khám chữa bệnh của phòng khám.
+        hoạt động chẩn trị của phòng chẩn trị.
       </li>
       <li>
         Trên thiết bị, ứng dụng chỉ lưu cục bộ <strong>mã đăng nhập (token)</strong> và <strong>hồ sơ tóm tắt</strong>
         để giữ phiên đăng nhập; khi bạn đăng xuất, các dữ liệu này được xoá khỏi thiết bị.
       </li>
       <li>
-        Dữ liệu sức khoẻ của bạn được dùng nội bộ để phục vụ việc khám, chữa bệnh; chỉ nhân sự được phân quyền
-        của phòng khám mới truy cập được.
+        Dữ liệu sức khoẻ của bạn được dùng nội bộ để phục vụ việc chẩn trị; chỉ nhân sự được phân quyền
+        của phòng chẩn trị mới truy cập được.
       </li>
     </ul>
 
@@ -111,7 +111,7 @@ import MedicalDisclaimer from '@/components/MedicalDisclaimer.vue'
       </li>
       <li>
         Chúng tôi sẽ xác minh và xoá dữ liệu trong vòng <strong>tối đa 30 ngày</strong>, trừ phần dữ liệu phải
-        lưu giữ theo quy định pháp luật về hồ sơ khám chữa bệnh (nếu có), phần này sẽ được hạn chế truy cập
+        lưu giữ theo quy định pháp luật về hồ sơ chẩn trị (nếu có), phần này sẽ được hạn chế truy cập
         và xoá khi hết thời hạn lưu giữ.
       </li>
       <li>Bạn cũng có thể đăng xuất bất cứ lúc nào để xoá dữ liệu phiên đăng nhập khỏi thiết bị.</li>

@@ -92,8 +92,8 @@ function onKeydown(e: KeyboardEvent) {
   if (e.key === 'Escape' && expanded.value) toggleExpand()
 }
 
-// Mở từ kết quả khám (?from=meridian-results&patientId&examId&view) → hiện nút "Quay lại kết quả
-// khám" bay đúng ca khám + đúng tab (thay vì reset về tab đầu).
+// Mở từ kết quả đo (?from=meridian-results&patientId&examId&view) → hiện nút "Quay lại kết quả
+// khám" bay đúng ca đo + đúng tab (thay vì reset về tab đầu).
 function qp(name: string): string | null {
   const v = route.query[name]
   const s = Array.isArray(v) ? v[0] : v
@@ -281,14 +281,14 @@ function renderAcuPrintSheet(result: AcuExportResult, payload: AcuPrintPayload |
 </head>
 <body>
   <h1>${escHtml(heading)}</h1>
-  <div class="acp-meta">${payload?.patientName ? `Bệnh nhân: <b>${escHtml(payload.patientName)}</b>` : ''}${payload?.examDate ? ` · Ngày khám: ${escHtml(payload.examDate)}` : ''}</div>
+  <div class="acp-meta">${payload?.patientName ? `Bệnh nhân: <b>${escHtml(payload.patientName)}</b>` : ''}${payload?.examDate ? ` · Ngày đo: ${escHtml(payload.examDate)}` : ''}</div>
   <div class="acp-diagrams">
     <div class="acp-diagram">${frontSvg}<div class="acp-cap">Mặt trước</div></div>
     <div class="acp-diagram">${backSvg}<div class="acp-cap">Mặt sau</div></div>
   </div>
   ${missingHtml}
   <div class="acp-legend">${legendHtml}</div>
-  <div class="foot">Phiếu in lúc ${escHtml(printedAt)} · Vị trí huyệt trên đồ hình mang tính minh hoạ tương đối, tham khảo thêm hướng dẫn của bác sĩ.</div>
+  <div class="foot">Phiếu in lúc ${escHtml(printedAt)} · Vị trí huyệt trên đồ hình mang tính minh hoạ tương đối, tham khảo thêm hướng dẫn của thầy thuốc.</div>
   <script>window.onload=function(){setTimeout(function(){window.print()},150)}<\/script>
 </body>
 </html>`
@@ -306,8 +306,8 @@ function renderAcuPrintSheet(result: AcuExportResult, payload: AcuPrintPayload |
 }
 
 // Trang này được MỞ RIÊNG (window.open, không router.push) chỉ để tải engine 3D + chụp ảnh phiếu in —
-// trang "Kết quả khám" gốc vẫn đứng yên. Sau khi mở được cửa sổ phiếu in, tự đóng tab tạm này lại →
-// bác sĩ chỉ còn thấy phiếu in đọng lại, không phải dọn thêm 1 tab đồ hình 3D thừa.
+// trang "Kết quả đo" gốc vẫn đứng yên. Sau khi mở được cửa sổ phiếu in, tự đóng tab tạm này lại →
+// thầy thuốc chỉ còn thấy phiếu in đọng lại, không phải dọn thêm 1 tab đồ hình 3D thừa.
 function printAcuDiagram(codes: string[], payload: AcuPrintPayload | null) {
   const w = window as unknown as AcuWin
   if (!w.AcuMap?.exportPrintDiagram) {
@@ -366,7 +366,7 @@ onMounted(async () => {
     const focus = route.query.focus
     const code = Array.isArray(focus) ? focus[0] : focus
     if (code) w.AcuMap?.focus(code)
-    // Mở từ "Kết quả khám" với ?diagram=LU9,ST36,... → tự dựng + mở cửa sổ in "Phiếu châm huyệt".
+    // Mở từ "Kết quả đo" với ?diagram=LU9,ST36,... → tự dựng + mở cửa sổ in "Phiếu châm huyệt".
     // Tên huyệt/ghi chú kỹ thuật (nếu có) lấy từ payload MeridianResultsView để lại trong sessionStorage
     // trước khi điều hướng (exportPrintDiagram của map3d.js chỉ biết mã + toạ độ 3D, không biết ghi chú).
     const diagram = qp('diagram')
@@ -413,12 +413,12 @@ onBeforeUnmount(() => {
       <p>{{ error }}</p>
     </div>
 
-    <!-- Chỉ hiện khi mở từ trang Kết Quả Khám (kèm ?from=meridian-results...) — bay về đúng ca + đúng tab. -->
+    <!-- Chỉ hiện khi mở từ trang Kết Quả Đo (kèm ?from=meridian-results...) — bay về đúng ca + đúng tab. -->
     <button v-if="backTarget" type="button" class="km3d-back" @click="goBackToResults">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5M12 19l-7-7 7-7" />
       </svg>
-      <span>Quay lại kết quả khám</span>
+      <span>Quay lại kết quả đo</span>
     </button>
 
     <!-- Nút gạt ẩn/hiện mô hình 3D — chỉ hiện trên mobile (CSS), để dành chỗ cho danh sách. -->
@@ -571,10 +571,10 @@ onBeforeUnmount(() => {
 .km3d-mount.is-expanded .km3d-expand {
   display: inline-flex !important;
 }
-/* Nút back (khi mở từ Kết Quả Khám) là dòng riêng phía trên canvas — chừa lề cho nó vì trang đã tràn viền. */
+/* Nút back (khi mở từ Kết Quả Đo) là dòng riêng phía trên canvas — chừa lề cho nó vì trang đã tràn viền. */
 .km3d-back { margin: var(--space-3) 0 var(--space-2) var(--space-3); }
 
-/* Nút quay lại kết quả khám — chỉ hiện khi đến từ MeridianResultsView (?from=...). */
+/* Nút quay lại kết quả đo — chỉ hiện khi đến từ MeridianResultsView (?from=...). */
 .km3d-back {
   display: inline-flex;
   align-self: flex-start;

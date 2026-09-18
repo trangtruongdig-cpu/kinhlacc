@@ -38,7 +38,7 @@ let offReminder: (() => void) | null = null
 function showToast(msg: string, type = 'success', link?: string) {
   const id = toastIdCounter++
   toastMessages.value.push({ id, type, msg, link })
-  // Nhắc hẹn là việc phải HÀNH ĐỘNG (sắp tới giờ khám) nên để lâu hơn hẳn tin báo thường.
+  // Nhắc hẹn là việc phải HÀNH ĐỘNG (sắp tới giờ hẹn) nên để lâu hơn hẳn tin báo thường.
   setTimeout(() => {
     toastMessages.value = toastMessages.value.filter(t => t.id !== id)
   }, type === 'reminder' ? 60000 : 10000)

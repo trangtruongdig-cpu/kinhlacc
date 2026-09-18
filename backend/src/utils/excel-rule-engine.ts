@@ -333,7 +333,7 @@ function countClauses(
 
 /**
  * Như evaluateLogicExpression nhưng trả thêm confidence score.
- * Dùng cho diagnose() để bác sĩ thấy mức độ khớp (không chỉ true/false).
+ * Dùng cho diagnose() để thầy thuốc thấy mức độ khớp (không chỉ true/false).
  */
 export function evaluateWithScore(expression: string, input: InputValues): ScoreResult {
   const src = (expression || '').trim();

@@ -330,7 +330,7 @@ function openCancelledDetail(slot: AppointmentSlot) {
 
 function cancelledByLabel(b: SlotBooking) {
   if (b.cancelledBy === 'PATIENT') return 'khách tự huỷ'
-  if (b.cancelledBy === 'STAFF') return 'phòng khám huỷ'
+  if (b.cancelledBy === 'STAFF') return 'phòng chẩn trị huỷ'
   return 'không rõ ai huỷ'
 }
 
@@ -366,7 +366,7 @@ function isToday(ymd: string) {
 
 // --- Actions ---
 async function generateForDate() {
-  if (!confirm('Sinh vé khám cho ngày ' + selectedDate.value + ' ?')) return
+  if (!confirm('Sinh vé đo cho ngày ' + selectedDate.value + ' ?')) return
   actionLoading.value = true
   actionType.value = 'gen-day'
   try {
@@ -541,7 +541,7 @@ function goToPatient(id: number) {
       <div class="header-actions">
         <button class="btn btn-secondary" @click="router.push({ name: 'schedule-config' })">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          Cấu hình giờ khám
+          Cấu hình giờ làm việc
         </button>
       </div>
     </div>
@@ -724,7 +724,7 @@ function goToPatient(id: number) {
           </select>
         </div>
         <div class="form-group">
-          <label>Lý do khám (tuỳ chọn)</label>
+          <label>Lý do đến (tuỳ chọn)</label>
           <input v-model="bookReason" class="input" />
         </div>
         <div class="form-group">
@@ -758,7 +758,7 @@ function goToPatient(id: number) {
             <span class="cancelled-meta">
               — {{ cancelledByLabel(b) }}<span v-if="formatCancelledAt(b.cancelledAt)">, lúc {{ formatCancelledAt(b.cancelledAt) }}</span>
             </span>
-            <div v-if="b.reason" class="slot-reason">Lý do khám: {{ b.reason }}</div>
+            <div v-if="b.reason" class="slot-reason">Lý do đến: {{ b.reason }}</div>
           </li>
         </ul>
         <div class="modal-actions">

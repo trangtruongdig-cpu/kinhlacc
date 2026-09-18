@@ -42,7 +42,7 @@ interface ApptRow {
   patientId: number | null
 }
 
-// "Hôm nay" theo timezone phòng khám (Asia/Ho_Chi_Minh) để không lệch ngày.
+// "Hôm nay" theo timezone phòng chẩn trị (Asia/Ho_Chi_Minh) để không lệch ngày.
 const CLINIC_TZ = 'Asia/Ho_Chi_Minh'
 function todayYMD(): string {
   return new Intl.DateTimeFormat('en-CA', {
@@ -121,8 +121,8 @@ const quickActions = [
 const statusText: Record<SlotStatus, string> = {
   OPEN: 'Đang mở',
   CLOSED: 'Đã đóng',
-  BOOKED: 'Chờ khám',
-  COMPLETED: 'Đã khám',
+  BOOKED: 'Chờ đo',
+  COMPLETED: 'Đã đo',
   CANCELLED: 'Đã huỷ',
 }
 
@@ -168,7 +168,7 @@ async function loadDashboard() {
   for (const s of slots) if (counts[s.status] != null) counts[s.status]++
   todayCounts.value = counts
 
-  // Lịch hẹn hôm nay có bệnh nhân (chờ khám / đã khám / đã huỷ).
+  // Lịch hẹn hôm nay có bệnh nhân (chờ đo / đã đo / đã huỷ).
   const withPatient = slots.filter((s) => s.patientId != null && s.status !== 'OPEN' && s.status !== 'CLOSED')
   const nameMap = new Map<number, string>()
   for (const p of recentPatients.value) if (p?.id != null) nameMap.set(p.id, p.fullName || '')
@@ -222,10 +222,10 @@ onBeforeUnmount(() => {
         <h2 class="hero-title">
           Chào Mừng Trở Lại, <span class="hl">{{ authStore.username || 'Admin' }}</span> 👋
         </h2>
-        <p class="hero-sub">Tổng quan hoạt động phòng khám Y Học Cổ Truyền hôm nay.</p>
+        <p class="hero-sub">Tổng quan hoạt động phòng chẩn trị Y Học Cổ Truyền hôm nay.</p>
         <div class="hero-chips">
-          <span class="hero-chip"><b>{{ todayCounts.BOOKED }}</b> lịch chờ khám</span>
-          <span class="hero-chip"><b>{{ todayCounts.COMPLETED }}</b> đã khám</span>
+          <span class="hero-chip"><b>{{ todayCounts.BOOKED }}</b> lịch chờ đo</span>
+          <span class="hero-chip"><b>{{ todayCounts.COMPLETED }}</b> đã đo</span>
           <span class="hero-chip"><b>{{ todayCounts.OPEN }}</b> chỗ trống</span>
         </div>
       </div>
@@ -252,7 +252,7 @@ onBeforeUnmount(() => {
           </span>
           <div class="kpi-body">
             <span class="kpi-value" :class="{ shimmer: loading }">{{ loading ? '' : todayCounts.BOOKED }}</span>
-            <span class="kpi-label">Chờ Khám</span>
+            <span class="kpi-label">Chờ Đo</span>
           </div>
         </div>
         <div class="today-card tone-green" @click="go('appointments')">
@@ -261,7 +261,7 @@ onBeforeUnmount(() => {
           </span>
           <div class="kpi-body">
             <span class="kpi-value" :class="{ shimmer: loading }">{{ loading ? '' : todayCounts.COMPLETED }}</span>
-            <span class="kpi-label">Đã Khám</span>
+            <span class="kpi-label">Đã Đo</span>
           </div>
         </div>
         <div class="today-card tone-brown" @click="go('appointments')">
@@ -289,7 +289,7 @@ onBeforeUnmount(() => {
     <section class="block">
       <div class="block-head">
         <h3 class="block-title">Tổng Quan Dữ Liệu</h3>
-        <span class="block-hint">Kho tri thức Đông Y của phòng khám</span>
+        <span class="block-hint">Kho tri thức Đông Y của phòng chẩn trị</span>
       </div>
       <div class="kb-grid">
         <button v-for="c in kbCards" :key="c.label" class="kb-card" :class="c.tone" @click="go(c.route)">

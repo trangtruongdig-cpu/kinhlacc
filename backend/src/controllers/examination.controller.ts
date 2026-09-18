@@ -343,7 +343,7 @@ export class ExaminationsService implements OnModuleInit {
     // Chỉ đụng field nào client thực sự gửi — tránh xoá trắng bối cảnh đo khi sửa số liệu.
     if (dto.thoiDiemKham !== undefined) {
       const moc = this.docThoiDiem(dto.thoiDiemKham);
-      if (dto.thoiDiemKham && !moc) throw new BadRequestException('Thời điểm khám không hợp lệ');
+      if (dto.thoiDiemKham && !moc) throw new BadRequestException('Thời điểm đo không hợp lệ');
       existing.thoiDiemKham = moc ?? existing.createdAt ?? new Date();
     }
     if (dto.nhietDoMoiTruong !== undefined) existing.nhietDoMoiTruong = dto.nhietDoMoiTruong;
@@ -371,7 +371,7 @@ export class ExaminationsService implements OnModuleInit {
   async saveChanDoan(id: number, chanDoan: ChanDoanLuu | null): Promise<Examination> {
     const exam = await this.examinationRepository.findOneBy({ id });
     if (!exam) {
-      throw new NotFoundException(`Ca khám #${id} không tồn tại`);
+      throw new NotFoundException(`Ca đo #${id} không tồn tại`);
     }
     const existing = await this.diagnosisRepository.findOneBy({ examinationId: id });
 
@@ -395,7 +395,7 @@ export class ExaminationsService implements OnModuleInit {
   async saveDonThuoc(id: number, donThuoc: DonThuocLuu | null): Promise<Examination> {
     const exam = await this.examinationRepository.findOneBy({ id });
     if (!exam) {
-      throw new NotFoundException(`Ca khám #${id} không tồn tại`);
+      throw new NotFoundException(`Ca đo #${id} không tồn tại`);
     }
     exam.donThuoc = donThuoc;
     return this.examinationRepository.save(exam);
@@ -458,10 +458,10 @@ export class ExaminationsService implements OnModuleInit {
   /** Đổi thời điểm khám của một ca (nhập bù / sửa sai giờ). */
   async doiThoiDiemKham(id: number, thoiDiemKham: string | null): Promise<Examination> {
     const exam = await this.examinationRepository.findOne({ where: { id } });
-    if (!exam) throw new NotFoundException(`Không tìm thấy ca khám #${id}`);
+    if (!exam) throw new NotFoundException(`Không tìm thấy ca đo #${id}`);
     const moc = this.docThoiDiem(thoiDiemKham);
     if (thoiDiemKham && !moc) {
-      throw new BadRequestException('Thời điểm khám không hợp lệ');
+      throw new BadRequestException('Thời điểm đo không hợp lệ');
     }
     // Bỏ trống -> quay về mốc hệ thống tạo ca, không để danh sách mất ngày.
     exam.thoiDiemKham = moc ?? exam.createdAt ?? new Date();
@@ -496,7 +496,7 @@ export class ExaminationsService implements OnModuleInit {
   async findOne(id: number): Promise<Examination> {
     const examination = await this.examinationRepository.findOneBy({ id });
     if (!examination) {
-      throw new NotFoundException(`Ca khám #${id} không tồn tại`);
+      throw new NotFoundException(`Ca đo #${id} không tồn tại`);
     }
     await Promise.all([this.ganInputData([examination]), this.ganChanDoan([examination])]);
 

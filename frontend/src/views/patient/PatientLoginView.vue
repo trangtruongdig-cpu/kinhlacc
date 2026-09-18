@@ -34,7 +34,7 @@ async function handleLogin() {
         
         <div class="form-header">
           <h2 class="form-title">Đăng Nhập Khách Hàng</h2>
-          <p class="form-description">Xem kết quả khám và theo dõi điều trị</p>
+          <p class="form-description">Xem kết quả đo và theo dõi điều trị</p>
         </div>
 
         <Transition name="fade">

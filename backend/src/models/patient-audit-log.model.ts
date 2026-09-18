@@ -8,7 +8,7 @@ import {
 
 /**
  * Audit log mỗi lần thay đổi thông tin bệnh nhân.
- * Ghi tự động trong PatientsService.update() - bác sĩ không cần làm gì thêm.
+ * Ghi tự động trong PatientsService.update() - thầy thuốc không cần làm gì thêm.
  * Dùng để tra lịch sử: ai, khi nào, thay đổi trường gì, từ giá trị gì thành giá trị gì.
  */
 @Entity('patient_audit_log')

@@ -400,7 +400,7 @@ router.beforeEach(async (to) => {
     if (!auth.can(page)) {
       return { name: 'home' }
     }
-    // Khám và đo nhiệt độ kinh lạc chỉ dành cho Bác Sĩ — Lễ Tân không được tạo phiên khám mới.
+    // Đo nhiệt độ kinh lạc chỉ dành cho Y Sỹ — Lễ Tân không được tạo phiên đo mới.
     if (to.name === 'new-examination' && auth.isLeTan) {
       return { name: 'patient-detail', params: to.params }
     }

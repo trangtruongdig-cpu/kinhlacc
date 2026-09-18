@@ -319,7 +319,7 @@ function handleLogout() {
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
           </button>
           <h1 class="page-title">
-            {{ currentRouteName === 'patient-detail' ? 'Chi Tiết Bệnh Nhân' : (currentRouteName === 'new-examination' ? 'Khám Mới' : currentRouteName === 'meridian-results' ? 'Kết Quả Đo Kinh Lạc' : currentRouteName === 'western-medicine' ? 'Bệnh Tây Y' : currentRouteName === 'meridian-diseases' ? 'Bệnh Đo Kinh Lạc' : currentRouteName === 'medicines' ? 'Quản Lý Thuốc' : currentRouteName === 'symptoms' ? 'Triệu Chứng' : currentRouteName === 'treatments' ? 'Pháp Trị' : currentRouteName === 'schedule-config' ? 'Cấu Hình Giờ Khám' : (navItems.find(i => i.routeName === currentRouteName)?.name || 'Trang Chủ')) }}
+            {{ currentRouteName === 'patient-detail' ? 'Chi Tiết Bệnh Nhân' : (currentRouteName === 'new-examination' ? 'Ca Đo Mới' : currentRouteName === 'meridian-results' ? 'Kết Quả Đo Kinh Lạc' : currentRouteName === 'western-medicine' ? 'Bệnh Tây Y' : currentRouteName === 'meridian-diseases' ? 'Bệnh Đo Kinh Lạc' : currentRouteName === 'medicines' ? 'Quản Lý Thuốc' : currentRouteName === 'symptoms' ? 'Triệu Chứng' : currentRouteName === 'treatments' ? 'Pháp Trị' : currentRouteName === 'schedule-config' ? 'Cấu Hình Giờ Làm Việc' : (navItems.find(i => i.routeName === currentRouteName)?.name || 'Trang Chủ')) }}
           </h1>
         </div>
         <div class="header-right">
@@ -483,7 +483,7 @@ function handleLogout() {
 
       <button class="bn-item" :class="{ active: currentRouteName === 'appointments' || currentRouteName === 'schedule-config' }" @click="navigate('appointments')">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        <span>Lịch Khám</span>
+        <span>Lịch Hẹn</span>
       </button>
 
       <button class="bn-item" :class="{ active: isMobileOpen }" @click="toggleMobile">

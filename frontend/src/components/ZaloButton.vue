@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * ZaloButton — CTA nổi "Kết nối nhanh qua Zalo" cho các trang CÔNG KHAI.
- * Hiện ở góc dưới-phải trên cả desktop lẫn mobile; mở thẳng Zalo của phòng khám.
+ * Hiện ở góc dưới-phải trên cả desktop lẫn mobile; mở thẳng Zalo của phòng chẩn trị.
  * Mount 1 lần ở App.vue, ẩn trên web app đã đăng nhập (xem điều kiện trong App.vue).
  */
 // Link Zalo dùng số định dạng QUỐC TẾ (bỏ số 0 đầu, thêm mã VN 84) → zalo.me/84353247247.

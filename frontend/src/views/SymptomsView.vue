@@ -407,7 +407,7 @@ async function handleSave() {
   }
 }
 
-// ===== Gợi ý NHÓM bằng AI (theo lô) → bác sĩ duyệt → lưu hàng loạt =====
+// ===== Gợi ý NHÓM bằng AI (theo lô) → thầy thuốc duyệt → lưu hàng loạt =====
 const AI_NHOM_BATCH = 30
 interface AiNhomRow { id: number; ten: string; nhom: string | null; ly_do?: string }
 const aiNhomLoading = ref(false)
@@ -705,7 +705,7 @@ function coverageClass(matched: number, total: number): string {
   return 'cov-low'
 }
 
-/** Nhãn chữ kèm theo % để bác sĩ đọc nhanh mức độ phù hợp. */
+/** Nhãn chữ kèm theo % để thầy thuốc đọc nhanh mức độ phù hợp. */
 function confidenceLabel(percent: number): string {
   if (percent >= 60) return 'Rất phù hợp'
   if (percent >= 30) return 'Khá phù hợp'
@@ -717,7 +717,7 @@ const hasAnyResults = computed(
 )
 
 /** Các triệu chứng đã nhập nhưng không khớp với bất kỳ thể bệnh / bệnh Tây Y nào.
- *  Tín hiệu cho bác sĩ: dữ liệu chưa đầy đủ hoặc cần cân nhắc lại triệu chứng đó. */
+ *  Tín hiệu cho thầy thuốc: dữ liệu chưa đầy đủ hoặc cần cân nhắc lại triệu chứng đó. */
 const unexplainedSymptoms = computed<DiagnosisMatchedSymptom[]>(() => {
   const res = diagResult.value
   if (!res) return []
@@ -796,7 +796,7 @@ const unexplainedSymptoms = computed<DiagnosisMatchedSymptom[]>(() => {
               @click="searchQuery = ''"
             >×</button>
           </div>
-          <button type="button" class="btn-ai-nhom" :disabled="aiNhomLoading" title="AI gợi ý nhóm cho các triệu chứng chưa phân nhóm (theo lô), bác sĩ duyệt trước khi lưu" @click="runAiNhomSuggest">
+          <button type="button" class="btn-ai-nhom" :disabled="aiNhomLoading" title="AI gợi ý nhóm cho các triệu chứng chưa phân nhóm (theo lô), thầy thuốc duyệt trước khi lưu" @click="runAiNhomSuggest">
             {{ aiNhomLoading ? 'Đang gợi ý…' : `✨ Gợi ý nhóm (AI · ${untaggedCount} chưa nhóm)` }}
           </button>
           <span class="badge badge-warning">{{ filteredList.length }}<template v-if="searchQuery">/{{ dataList.length }}</template> triệu chứng</span>
@@ -1339,7 +1339,7 @@ const unexplainedSymptoms = computed<DiagnosisMatchedSymptom[]>(() => {
           <button class="modal-close" @click="aiNhomModal = false">×</button>
         </div>
         <div class="modal-body">
-          <p class="ai-nhom-hint">AI chỉ <strong>gợi ý</strong> — bác sĩ chỉnh/duyệt rồi lưu. Dòng để "Chưa phân nhóm" sẽ bỏ qua.</p>
+          <p class="ai-nhom-hint">AI chỉ <strong>gợi ý</strong> — thầy thuốc chỉnh/duyệt rồi lưu. Dòng để "Chưa phân nhóm" sẽ bỏ qua.</p>
           <table class="ai-nhom-table">
             <thead>
               <tr><th>Triệu chứng</th><th>Nhóm (AI gợi ý)</th><th>Lý do</th></tr>

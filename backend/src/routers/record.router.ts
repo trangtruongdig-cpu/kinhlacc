@@ -24,7 +24,7 @@ export class RecordsRouter {
 
   private async getExam(id: number): Promise<Examination> {
     const exam = await this.examRepo.findOneBy({ id });
-    if (!exam) throw new NotFoundException(`Phiếu khám #${id} không tồn tại`);
+    if (!exam) throw new NotFoundException(`Phiếu đo #${id} không tồn tại`);
     return exam;
   }
 

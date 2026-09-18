@@ -194,7 +194,7 @@ function saveCustom() {
 const allThemes = computed<Theme[]>(() => [...themes, ...customThemes.value])
 
 // ============ Chọn theo ngày / áp dụng ============
-/** Số ngày kể từ epoch tính theo giờ phòng khám — đổi đúng nửa đêm VN. */
+/** Số ngày kể từ epoch tính theo giờ phòng chẩn trị — đổi đúng nửa đêm VN. */
 function clinicEpochDay(): number {
   const ymd = new Intl.DateTimeFormat('en-CA', {
     timeZone: CLINIC_TZ,

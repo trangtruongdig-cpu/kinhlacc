@@ -35,7 +35,7 @@ async function handleRegister() {
         
         <div class="form-header">
           <h2 class="form-title">Tạo Tài Khoản</h2>
-          <p class="form-description">Đăng ký để xem hồ sơ bệnh án của bạn</p>
+          <p class="form-description">Đăng ký để xem hồ sơ chẩn trị của bạn</p>
         </div>
 
         <Transition name="fade">

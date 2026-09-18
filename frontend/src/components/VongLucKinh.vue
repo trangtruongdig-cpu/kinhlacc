@@ -159,7 +159,7 @@ const activeAxis = computed(() => {
 const cnt = (slug: string) => props.counts?.[slug] ?? 0
 const tenOfSlug = (s: string) => KINH.find((k) => k.slug === s)?.ten ?? s
 
-// ── ③ TRUYỀN BIẾN THỰC ĐO (lịch sử các lần khám, CHỈ đợt hiện tại) ──────────────────────────────
+// ── ③ TRUYỀN BIẾN THỰC ĐO (lịch sử các lần đo, CHỈ đợt hiện tại) ──────────────────────────────
 // Chuỗi HẠT SỐ ở ĐĨA TRONG (r40–54, giữa Thái Cực r30 và vành Tạng r64) — QUÁ KHỨ đã đo (nét LIỀN),
 // phân biệt hẳn với chuyển biến DỰ ĐOÁN (viền wedge nét ĐỨT) và vòng ①→⑥ trang trí (vành ngoài).
 // Góc = kinh đo được; BÁN KÍNH = độ sâu lý tích luỹ (vào lý → gần tâm, ra biểu → ra vành). Đã qua phản biện.
@@ -278,7 +278,7 @@ const trajSegs = computed(() => {
       </g>
 
       <!-- ③ TRUYỀN BIẾN THỰC ĐO — chuỗi hạt số ở đĩa trong (chỉ khi ≥2 lần đo định vị được, trong 1 đợt) -->
-      <g v-if="showTraj && trajLocatedCount >= 2" class="traj-real" aria-label="Truyền biến đã đo qua các lần khám">
+      <g v-if="showTraj && trajLocatedCount >= 2" class="traj-real" aria-label="Truyền biến đã đo qua các lần đo">
         <path v-for="(s, i) in trajSegs" :key="'trl' + i" :d="s.d" class="tr-link" :class="{ cap: s.cap }" :style="{ stroke: s.color }" />
         <template v-for="(s, i) in trajSegs" :key="'trh' + i">
           <polygon v-if="s.head" :points="s.head" :style="{ fill: s.color }" />

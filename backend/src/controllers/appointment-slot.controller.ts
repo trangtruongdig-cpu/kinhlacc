@@ -69,7 +69,7 @@ export interface PatientBookingView {
  * Nhắc trước giờ trị liệu: 1 tiếng, 30 phút, 15 phút.
  *
  * Cùng bộ mốc với cron nhắc hẹn (appointment-reminder.service.ts) để khách nhận nhắc như nhau
- * dù họ theo dõi bằng ứng dụng của phòng khám hay bằng lịch/báo thức trên điện thoại.
+ * dù họ theo dõi bằng ứng dụng của phòng chẩn trị hay bằng lịch/báo thức trên điện thoại.
  */
 /** Giữ lượt đã huỷ trong feed bao nhiêu ngày để lệnh huỷ chắc chắn tới được máy khách. */
 const ICS_CANCELLED_KEEP_DAYS = 30;
@@ -173,7 +173,7 @@ export class AppointmentSlotsService {
    * Trả về tất cả ca trong ngày để lưới giờ không bị khuyết, nhưng CHỈ gồm trường công khai
    * (giờ + trạng thái trống/đã đặt/đã đóng). Tuyệt đối không kèm patientId / reason / notes:
    * endpoint này bất kỳ tài khoản bệnh nhân nào cũng gọi được, kèm vào là bệnh nhân A đọc
-   * được lý do đi khám của bệnh nhân B.
+   * được lý do đến của bệnh nhân B.
    */
   async findAvailable(date: string): Promise<PublicSlotView[]> {
     const slots = await this.slotRepo.find({
@@ -534,7 +534,7 @@ export class AppointmentSlotsService {
         savedBooking = await queryRunner.manager.save(booking);
       }
 
-      // Ô giờ giữ nguyên patientId: buổi đã khám xong thì ô giờ đó thuộc về bệnh nhân đó,
+      // Ô giờ giữ nguyên patientId: buổi đã đo xong thì ô giờ đó thuộc về bệnh nhân đó,
       // bảng ngày của nhân viên vẫn cần hiện tên.
       slot.status = 'COMPLETED';
       savedSlot = await queryRunner.manager.save(slot);
@@ -670,7 +670,7 @@ export class AppointmentSlotsService {
   /**
    * Nội dung lịch .ics cho một bệnh nhân.
    *
-   * Cố ý CHỈ gồm ngày/giờ hẹn — KHÔNG có họ tên, KHÔNG có lý do khám. Đường dẫn này xác thực
+   * Cố ý CHỈ gồm ngày/giờ hẹn — KHÔNG có họ tên, KHÔNG có lý do đến. Đường dẫn này xác thực
    * bằng khoá trong URL, mà URL thì nằm trong ứng dụng lịch, đồng bộ qua nhiều thiết bị, và
    * dễ lọt ra ngoài hơn một phiên đăng nhập. Không đưa thông tin bệnh vào đó.
    *
@@ -708,7 +708,7 @@ export class AppointmentSlotsService {
     const cutoff = new Date(Date.now() - ICS_CANCELLED_KEEP_DAYS * 86_400_000);
     const events: IcsEvent[] = [];
     for (const b of bookings) {
-      if (b.status === 'COMPLETED') continue; // buổi đã khám xong, không cần nằm trên lịch nữa
+      if (b.status === 'COMPLETED') continue; // buổi đã đo xong, không cần nằm trên lịch nữa
       const cancelled = b.status === 'CANCELLED';
       if (cancelled) {
         const at = b.cancelledAt
@@ -724,7 +724,7 @@ export class AppointmentSlotsService {
         hms: b.slotTime,
         durationMinutes: duration,
         summary: 'Lịch trị liệu - Kinh Lạc Gia Minh',
-        location: 'Phòng khám Kinh Lạc Gia Minh',
+        location: 'Phòng chẩn trị Kinh Lạc Gia Minh',
         // SEQUENCE lấy theo mốc sửa gần nhất — thiếu nó thì bản cập nhật bị coi là trùng và bỏ
         // qua, tức lệnh huỷ sẽ không bao giờ tới nơi.
         sequence: Math.floor(new Date(b.updatedAt).getTime() / 1000),

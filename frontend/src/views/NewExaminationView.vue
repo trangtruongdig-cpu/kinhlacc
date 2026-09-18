@@ -35,7 +35,7 @@ const meridianTemps = reactive({
 })
 
 // ---------------------------------------------------------------- Định vị điểm đo
-// Nhiệt độ MT được điền TỰ ĐỘNG (môi trường bên ngoài lúc đo, dù đo ở phòng khám hay tại nhà
+// Nhiệt độ MT được điền TỰ ĐỘNG (môi trường bên ngoài lúc đo, dù đo ở phòng chẩn trị hay tại nhà
 // bệnh nhân đều đúng). Riêng địa chỉ chỉ ghi vào hồ sơ khi thầy thuốc BẤM NÚT — vì vị trí máy
 // đo chỉ trùng nơi ở của bệnh nhân khi mang máy tới tận nhà.
 
@@ -134,7 +134,7 @@ async function dungDiaChiChoHoSo() {
   }
 }
 
-/** Ghép Ngày khám + Giờ khám trên form thành mốc ISO để lưu (cho phép nhập bù ca cũ). */
+/** Ghép Ngày đo + Giờ đo trên form thành mốc ISO để lưu (cho phép nhập bù ca cũ). */
 function thoiDiemKhamISO(): string | null {
   if (!form.date) return null
   const d = new Date(`${form.date}T${form.time || '00:00'}:00`)
@@ -201,7 +201,7 @@ async function saveExamination() {
     const dto: any = {
       patientId: patientId.value,
       notes: `Triệu chứng: ${form.symptoms}\nXét nghiệm: ${form.tests}`,
-      // Giờ khám thầy thuốc chọn (có thể lùi/tiến so với lúc bấm lưu).
+      // Giờ đo thầy thuốc chọn (có thể lùi/tiến so với lúc bấm lưu).
       thoiDiemKham: thoiDiemKhamISO(),
       // Bối cảnh môi trường + địa điểm lúc đo.
       nhietDoMoiTruong: form.environmentTemp === '' ? null : Number(form.environmentTemp),
@@ -229,17 +229,17 @@ async function saveExamination() {
     const response = await api.post<any>('/examinations', dto)
 
     if (response && response.success && response.id) {
-      alert('Đã lưu phiếu khám thành công!')
+      alert('Đã lưu phiếu đo thành công!')
       router.push({
         name: 'meridian-results',
         params: { patientId: patientId.value, examId: response.id }
       })
     } else {
-      throw new Error('Không nhận được ID phiếu khám từ máy chủ')
+      throw new Error('Không nhận được ID phiếu đo từ máy chủ')
     }
   } catch (err: any) {
     console.error(err)
-    alert('Lỗi khi lưu phiếu khám: ' + (err.message || ''))
+    alert('Lỗi khi lưu phiếu đo: ' + (err.message || ''))
   } finally {
     isSubmitting.value = false
   }
@@ -265,7 +265,7 @@ async function saveExamination() {
 
     <template v-else-if="patient">
       <div class="page-title-wrap">
-        <h1 class="page-title">Điền thông tin phiếu khám</h1>
+        <h1 class="page-title">Điền thông tin phiếu đo</h1>
       </div>
 
       <div class="sections-row">
@@ -364,17 +364,17 @@ async function saveExamination() {
         </div>
       </section>
 
-      <!-- Phần 3: Thông tin phiếu khám -->
+      <!-- Phần 3: Thông tin phiếu đo -->
       <section class="form-section">
-        <h3 class="section-title">3. Thông tin phiếu khám</h3>
+        <h3 class="section-title">3. Thông tin phiếu đo</h3>
         <div class="info-card">
           <div class="form-grid">
             <div class="form-group">
-              <label class="form-label">Ngày khám</label>
+              <label class="form-label">Ngày đo</label>
               <input type="date" v-model="form.date" class="form-input" />
             </div>
             <div class="form-group">
-              <label class="form-label">Giờ khám</label>
+              <label class="form-label">Giờ đo</label>
               <input type="time" v-model="form.time" class="form-input" />
             </div>
             <div class="form-group">
@@ -401,7 +401,7 @@ async function saveExamination() {
           </div>
 
           <!-- Địa chỉ điểm đo: chỉ ghi vào hồ sơ khi thầy thuốc chủ động bấm,
-               vì máy đo có thể đang ở phòng khám chứ không phải nhà bệnh nhân. -->
+               vì máy đo có thể đang ở phòng chẩn trị chứ không phải nhà bệnh nhân. -->
           <div v-if="dinhViTrangThai === 'xong' && diaDiem?.diaChi" class="the-dia-chi">
             <div class="dia-chi-tieu-de">Địa chỉ tại điểm đo</div>
             <div class="dia-chi-noi-dung">{{ [diaDiem.diaChi, diaDiem.tinhThanh].filter(Boolean).join(', ') }}</div>
@@ -436,7 +436,7 @@ async function saveExamination() {
         <button class="btn-secondary" :disabled="isSubmitting" @click="goBack">Hủy</button>
         <button class="btn-primary" :disabled="isSubmitting" @click="saveExamination">
           <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-          {{ isSubmitting ? 'Đang lưu…' : 'Lưu phiếu khám' }}
+          {{ isSubmitting ? 'Đang lưu…' : 'Lưu phiếu đo' }}
         </button>
       </div>
     </template>

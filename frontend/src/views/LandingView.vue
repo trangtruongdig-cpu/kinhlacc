@@ -166,7 +166,7 @@ const formulaLoading = ref(true)
 const demoFormula = ref<any>(null)
 
 onMounted(async () => {
-  // 6 ca khám THẬT (ẩn danh) giàu thể bệnh nhất — nguồn cho khối "Kết Quả Đo" + 3-tab.
+  // 6 ca đo THẬT (ẩn danh) giàu thể bệnh nhất — nguồn cho khối "Kết Quả Đo" + 3-tab.
   try {
     const [res, ref] = await Promise.all([
       api.get<{ cases: RealCase[] }>('/demo/ket-qua-do-list?count=6'),
@@ -209,7 +209,7 @@ interface RealCase {
     syndromes?: { tieuket?: string; chung_trang?: string; phap_tri?: string }[]
   }
 }
-// 6 ca khám THẬT (ẩn danh) GIÀU THỂ BỆNH NHẤT — /demo/ket-qua-do-list xếp hạng theo
+// 6 ca đo THẬT (ẩn danh) GIÀU THỂ BỆNH NHẤT — /demo/ket-qua-do-list xếp hạng theo
 // (số thể YHCT ×2 + số thể YHHĐ). Dùng CHUNG engine meridianAnalysis với app.
 const cases = ref<RealCase[]>([])
 const casesLoading = ref(true)
@@ -898,7 +898,7 @@ const faqs: { q: string; a: string }[] = [
       </div>
 
       <p v-if="!cases.length" class="mc-cases-loading">
-        {{ casesLoading ? 'Đang tải ca khám thật (nhiều thể bệnh nhất)…' : 'Chưa tải được ca đo — thử lại sau.' }}
+        {{ casesLoading ? 'Đang tải ca đo thật (nhiều thể bệnh nhất)…' : 'Chưa tải được ca đo — thử lại sau.' }}
       </p>
       <div v-else class="lp-measure-card">
         <!-- Dải Bát Cương full-width: hình người 3D XOAY + 2 cột tạng phủ hai bên (y như trang Kết Quả Đo). -->
@@ -923,7 +923,7 @@ const faqs: { q: string; a: string }[] = [
         </div>
 
         <div class="mc-chart">
-          <!-- Đầu thẻ: ca nào · ai (ẩn danh) · lý do khám + nút lật ca -->
+          <!-- Đầu thẻ: ca nào · ai (ẩn danh) · lý do đến + nút lật ca -->
           <div class="mc-casehead">
             <div class="mc-casemeta">
               <span class="mc-caseid">Ca {{ String(activeCase + 1).padStart(2, '0') }}</span>
@@ -1014,7 +1014,7 @@ const faqs: { q: string; a: string }[] = [
         <aside class="mc-readout">
           <span class="lp-eyebrow">Đo Xong — 3 Kết Quả Sẵn Sàng</span>
 
-          <!-- Bộ 3-tab y như app Kết Quả Khám: ① Bát Cương · ② Thể Bệnh · ③ Biện Chứng–Pháp Trị -->
+          <!-- Bộ 3-tab y như app Kết Quả Đo: ① Bát Cương · ② Thể Bệnh · ③ Biện Chứng–Pháp Trị -->
           <div class="mc-tabs" role="tablist" aria-label="Kết quả sau khi đo">
             <button
               v-for="t in resultTabs"
@@ -2778,7 +2778,7 @@ const faqs: { q: string; a: string }[] = [
   color: var(--brown-400);
 }
 
-/* Đầu thẻ: ca · người ẩn danh · lý do khám + nút lật ca */
+/* Đầu thẻ: ca · người ẩn danh · lý do đến + nút lật ca */
 .mc-casehead {
   display: flex;
   align-items: center;

@@ -138,11 +138,11 @@ async function goToLatestExamination(patientId: number) {
         params: { patientId, examId: exams[0].id }
       })
     } else {
-      alert('Bệnh nhân này chưa có ca khám nào.')
+      alert('Bệnh nhân này chưa có ca đo nào.')
     }
   } catch (error) {
     console.error('Failed to fetch examinations:', error)
-    alert('Không thể tải thông tin ca khám.')
+    alert('Không thể tải thông tin ca đo.')
   }
 }
 
@@ -196,7 +196,7 @@ const pageNumbers = computed(() => {
     <div class="page-header">
       <div>
         <h2 class="page-heading">Danh Sách Bệnh Nhân</h2>
-        <p class="page-description">Quản lý thông tin bệnh nhân của phòng khám</p>
+        <p class="page-description">Quản lý thông tin bệnh nhân của phòng chẩn trị</p>
       </div>
       <button class="btn-primary" @click="openCreateModal">
         <svg width="18" height="18" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd"/></svg>

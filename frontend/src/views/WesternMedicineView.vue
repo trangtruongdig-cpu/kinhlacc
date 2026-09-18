@@ -28,7 +28,7 @@ function chanDoanLuoiHref(): string {
 // Chỉ ánh xạ sang Atlas hình lưỡi (frontend/src/data/tongue-atlas.ts) những tên CHẮC CHẮN đúng
 // đối tượng — màu/rêu/hình dạng lưỡi cụ thể. Dấu hiệu không phải lưỡi, hoặc lưỡi dạng cử động
 // (cứng, lệch, run — Atlas hiện chưa có mục) cố tình để trống, hiện dạng chip thường, không gán
-// nhầm. Đây là ánh xạ theo tên do AI đối chiếu mô tả, CHƯA qua bác sĩ duyệt như PH_THE_ALIAS.
+// nhầm. Đây là ánh xạ theo tên do AI đối chiếu mô tả, CHƯA qua thầy thuốc duyệt như PH_THE_ALIAS.
 const THIET_CHAN_ATLAS_MAP: Record<string, string> = {
   'lưỡi nhạt': 'nhashe',
   'có vết nứt': 'liewenshe',
@@ -391,7 +391,7 @@ interface TheBenhGroup {
 }
 
 /**
- * Gộp thể bệnh + pháp trị + triệu chứng + bài thuốc vào CÙNG 1 nhóm (theo thể bệnh) để bác sĩ
+ * Gộp thể bệnh + pháp trị + triệu chứng + bài thuốc vào CÙNG 1 nhóm (theo thể bệnh) để thầy thuốc
  * theo dõi liền mạch thay vì 3 danh sách rời (thể bệnh / pháp trị / bài thuốc tách nhau).
  *
  * Bài thuốc lấy từ 2 nguồn rồi gộp (khử trùng theo id), vì benh_tay_y_bai_thuoc (bài gắn RIÊNG

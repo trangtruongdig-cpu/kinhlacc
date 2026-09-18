@@ -803,7 +803,7 @@ async function suggestTheBenhAi() {
       form.value.id_trieu_chung_list = Array.from(merged)
     }
     // Triệu chứng chưa có trong danh mục → TỰ TẠO (kèm nhóm) rồi chọn luôn,
-    // để được lưu + phân loại + hiển thị ngay (bác sĩ vẫn duyệt/bỏ chọn trước khi Lưu).
+    // để được lưu + phân loại + hiển thị ngay (thầy thuốc vẫn duyệt/bỏ chọn trước khi Lưu).
     const unmatched = Array.isArray(d.trieu_chung_unmatched)
       ? d.trieu_chung_unmatched.filter((x) => (x?.ten ?? '').trim())
       : []

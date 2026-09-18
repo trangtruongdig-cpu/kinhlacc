@@ -41,7 +41,7 @@ interface SyndromeLite {
 interface DemoExam {
   inputData?: InputData
   createdAt?: string
-  /** Giờ khám thầy thuốc đặt/sửa — ưu tiên hơn createdAt khi hiển thị. */
+  /** Giờ đo thầy thuốc đặt/sửa — ưu tiên hơn createdAt khi hiển thị. */
   thoiDiemKham?: string
   excelSyndromes?: SyndromeLite[]
   modernSyndromes?: SyndromeLite[]

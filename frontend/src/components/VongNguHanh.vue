@@ -15,7 +15,7 @@ const props = defineProps<{
   // z mỗi hành (đã gộp tạng 0.6 + phủ 0.4, chỉ kinh đo được); null = thiếu dữ liệu.
   z: { hoa: number | null; tho: number | null; kim: number | null; thuy: number | null; moc: number | null } | null
   tongCuong?: TongCuong | null // Thái Cực NỀN (dư/khuyết âm dương tổng) — ngũ tạng lệch làm âm dương dư/khuyết
-  reversePolarity?: boolean // máy đo TRỞ KHÁNG (đảo cao↔thấp) — cần bác sĩ xác nhận
+  reversePolarity?: boolean // máy đo TRỞ KHÁNG (đảo cao↔thấp) — cần thầy thuốc xác nhận
 }>()
 
 const CX = 210, CY = 210, D2R = Math.PI / 180

@@ -17,7 +17,7 @@ export interface Patient {
   treatmentCourseStart?: string | null
   createdAt: string
   updatedAt: string
-  /** Kết luận Hư-Thực (Bát Cương) của ca khám gần nhất — null nếu chưa khám hoặc chưa đủ dữ liệu. */
+  /** Kết luận Hư-Thực (Bát Cương) của ca đo gần nhất — null nếu chưa đo hoặc chưa đủ dữ liệu. */
   huThuc?: string | null
 }
 

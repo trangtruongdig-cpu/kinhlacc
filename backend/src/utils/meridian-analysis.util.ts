@@ -5,7 +5,7 @@
  * mà MeridiansService.analyze() trả về — nó tự tính lại ở client bằng đúng các hàm này (xem comment
  * ở meridian.controller.ts quanh dòng 662: "nền thống kê backend (midpoint/dungSai) khác frontend
  * (mean/sd) nên kết luận có thể lệch nhẹ so với màn hình — màn hình luôn tính lại"). Để bảng thống kê
- * tổng hợp (PatientsService.thongKe()) khớp TUYỆT ĐỐI với những gì bác sĩ thấy trên từng ca khám, phải
+ * tổng hợp (PatientsService.thongKe()) khớp TUYỆT ĐỐI với những gì thầy thuốc thấy trên từng ca đo, phải
  * dùng ĐÚNG bộ hàm frontend này, không phải MeridiansService.analyze().
  *
  * ĐỔI GÌ Ở frontend/src/lib/meridianAnalysis.ts THÌ ĐỔI THEO Ở ĐÂY — không viết lại thuật toán.

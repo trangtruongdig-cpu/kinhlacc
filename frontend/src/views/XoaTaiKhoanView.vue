@@ -76,12 +76,12 @@ async function submit() {
     <ul>
       <li>Thông tin tài khoản: số điện thoại, mật khẩu.</li>
       <li>Hồ sơ cá nhân: họ tên, giới tính, ngày/giờ sinh, địa chỉ, tỉnh/thành.</li>
-      <li>Dữ liệu sức khoẻ gắn với tài khoản: tiền sử bệnh, lịch sử khám/đo, lịch hẹn.</li>
+      <li>Dữ liệu sức khoẻ gắn với tài khoản: tiền sử bệnh, lịch sử đo, lịch hẹn.</li>
     </ul>
     <p>
       Sau khi gửi yêu cầu, tài khoản của bạn <strong>bị vô hiệu hoá ngay</strong> (không đăng nhập lại được).
       Dữ liệu được gỡ khỏi hoạt động bình thường và <strong>xoá hẳn theo chính sách lưu trữ</strong>;
-      một phần hồ sơ khám chữa bệnh có thể được lưu giữ trong thời hạn pháp luật yêu cầu, sau đó xoá.
+      một phần hồ sơ chẩn trị có thể được lưu giữ trong thời hạn pháp luật yêu cầu, sau đó xoá.
       Hành động này <strong>không thể hoàn tác</strong>.
     </p>
 

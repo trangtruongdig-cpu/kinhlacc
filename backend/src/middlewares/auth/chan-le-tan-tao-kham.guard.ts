@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 
 /**
- * Chặn tài khoản Lễ Tân tạo phiên khám mới — khám và đo nhiệt độ kinh lạc chỉ dành cho Bác Sĩ.
+ * Chặn tài khoản Lễ Tân tạo phiên đo mới — đo nhiệt độ kinh lạc chỉ dành cho Y Sỹ.
  * Phải đặt SAU NhanVienGuard (req.user đã có, đã xác nhận là nhân viên).
  */
 @Injectable()
@@ -16,7 +16,7 @@ export class ChanLeTanTaoKhamGuard implements CanActivate {
     const user = req.user;
     if (user?.role === 'le_tan') {
       throw new ForbiddenException(
-        'Lễ Tân không có quyền tạo phiên khám. Vui lòng liên hệ Bác Sĩ.',
+        'Lễ Tân không có quyền tạo phiên đo. Vui lòng liên hệ Y Sỹ.',
       );
     }
     return true;

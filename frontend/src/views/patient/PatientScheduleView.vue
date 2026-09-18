@@ -375,7 +375,7 @@ onMounted(() => {
       return
     }
 
-    // Phòng khám vừa sinh vé cho cả ngày.
+    // Phòng chẩn trị vừa sinh vé cho cả ngày.
     if (change.type === 'DAY_REGENERATED') {
       if (change.date === selectedDate.value) fetchAvailable(selectedDate.value)
       return
@@ -428,7 +428,7 @@ async function turnOnPush() {
     const ok = await enablePush(id, authStore.token)
     pushState.value = pushPermission()
     showToast(
-      ok ? 'Đã bật nhắc hẹn. Chúng tôi sẽ báo trước giờ khám.'
+      ok ? 'Đã bật nhắc hẹn. Chúng tôi sẽ báo trước giờ hẹn.'
          : 'Chưa bật được nhắc hẹn. Bạn có thể bật lại trong cài đặt trình duyệt.',
       ok ? 'success' : 'error',
     )
@@ -453,7 +453,7 @@ function openSyncModal(slot: MyBooking) {
   if (!calendarUrl.value) loadCalendarUrl()
 }
 
-/** Thời lượng một ca, lấy từ cấu hình phòng khám thay vì đoán cứng 1 tiếng. */
+/** Thời lượng một ca, lấy từ cấu hình phòng chẩn trị thay vì đoán cứng 1 tiếng. */
 function slotDurationMinutes(): number {
   return schedule.value?.slotDurationMinutes || 60
 }
@@ -473,7 +473,7 @@ function openGoogleCalendar() {
     'https://calendar.google.com/calendar/render?action=TEMPLATE' +
     `&text=${encodeURIComponent('Lịch trị liệu - Kinh Lạc Gia Minh')}` +
     `&dates=${fmt(start)}/${fmt(end)}` +
-    `&location=${encodeURIComponent('Phòng khám Kinh Lạc Gia Minh')}`
+    `&location=${encodeURIComponent('Phòng chẩn trị Kinh Lạc Gia Minh')}`
   window.open(url, '_blank', 'noopener')
   showSyncModal.value = false
 }
@@ -501,7 +501,7 @@ function downloadIcs() {
     'SEQUENCE:0',
     'STATUS:CONFIRMED',
     'SUMMARY:Lịch trị liệu - Kinh Lạc Gia Minh',
-    'LOCATION:Phòng khám Kinh Lạc Gia Minh',
+    'LOCATION:Phòng chẩn trị Kinh Lạc Gia Minh',
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n') + '\r\n'
@@ -633,7 +633,7 @@ async function copyCalendarUrl() {
           <span v-if="schedule.breakStart"> · Nghỉ {{ schedule.breakStart }}-{{ schedule.breakEnd }}</span>
           <span> · {{ schedule.slotDurationMinutes }} phút/buổi</span>
         </p>
-        <p v-if="schedule?.isClosed" class="date-closed">Phòng khám nghỉ ngày này</p>
+        <p v-if="schedule?.isClosed" class="date-closed">Phòng chẩn trị nghỉ ngày này</p>
       </div>
 
       <!-- Loading -->
@@ -648,7 +648,7 @@ async function copyCalendarUrl() {
       <!-- Closed day -->
       <div v-else-if="schedule?.isClosed" class="empty-slots">
         <div class="empty-icon">🏥</div>
-        <p>Phòng khám không hoạt động vào ngày này.</p>
+        <p>Phòng chẩn trị không hoạt động vào ngày này.</p>
         <p class="empty-hint">Vui lòng chọn ngày khác.</p>
       </div>
 
@@ -656,7 +656,7 @@ async function copyCalendarUrl() {
       <div v-else-if="availableSlots.length === 0 && !isLoadingSlots" class="empty-slots">
         <div class="empty-icon">📅</div>
         <p>Không có khung giờ trống trong ngày này.</p>
-        <p class="empty-hint">Vui lòng chọn ngày khác hoặc liên hệ phòng khám.</p>
+        <p class="empty-hint">Vui lòng chọn ngày khác hoặc liên hệ phòng chẩn trị.</p>
       </div>
 
       <!-- Slot grid -->
@@ -686,7 +686,7 @@ async function copyCalendarUrl() {
            phạt trang tự bật hộp thoại lúc vừa mở, còn Safari thì đòi hẳn một cử chỉ. -->
       <div v-if="showPushPrompt" class="push-prompt">
         <div class="push-prompt-text">
-          <strong>Nhắc trước giờ khám?</strong>
+          <strong>Nhắc trước giờ hẹn?</strong>
           <span>Chúng tôi báo trước 1 tiếng, 30 phút và 15 phút.</span>
         </div>
         <button class="btn-primary-sm" :disabled="isEnablingPush" @click="turnOnPush">
@@ -858,7 +858,7 @@ async function copyCalendarUrl() {
                 <p class="sync-note">
                   Lịch Apple hỏi lại máy chủ khoảng mỗi giờ. Riêng Google Calendar tự quyết
                   nhịp làm mới, thường <strong>8–24 tiếng</strong> mới cập nhật một lần — đây là
-                  giới hạn của Google, phòng khám không chỉnh được. Cần chắc chắn ngay thì bạn
+                  giới hạn của Google, phòng chẩn trị không chỉnh được. Cần chắc chắn ngay thì bạn
                   xem mục “Lịch của tôi” trong ứng dụng này.
                 </p>
                 <p class="sync-note sync-note-warn">
