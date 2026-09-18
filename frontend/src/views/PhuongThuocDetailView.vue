@@ -8,6 +8,7 @@ import { ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import PublicTopBar from '@/components/PublicTopBar.vue'
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue'
+import VanBanYVan from '@/components/VanBanYVan.vue'
 import { api } from '@/services/api'
 import { useDictLinks } from '@/lib/dictLinks'
 
@@ -81,7 +82,7 @@ onMounted(() => load(String(route.params.slug)))
 
         <section v-if="bai.tac_dung" class="pd-sec">
           <h2 class="pd-h2">Tác dụng</h2>
-          <p class="pd-text">{{ bai.tac_dung }}</p>
+          <VanBanYVan :text="bai.tac_dung" />
         </section>
 
         <section v-if="bai.thanh_phan && bai.thanh_phan.length" class="pd-sec">
@@ -97,12 +98,12 @@ onMounted(() => load(String(route.params.slug)))
 
         <section v-if="bai.cach_dung" class="pd-sec">
           <h2 class="pd-h2">Cách bào chế &amp; sử dụng</h2>
-          <p class="pd-text">{{ bai.cach_dung }}</p>
+          <VanBanYVan :text="bai.cach_dung" />
         </section>
 
         <section v-if="bai.ghi_chu" class="pd-sec">
           <h2 class="pd-h2">Ghi chú</h2>
-          <p class="pd-text">{{ bai.ghi_chu }}</p>
+          <VanBanYVan :text="bai.ghi_chu" />
         </section>
 
         <p class="pd-disclaimer">
