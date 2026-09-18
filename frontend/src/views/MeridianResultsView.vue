@@ -9,7 +9,13 @@ import BatCuongFigure3D, { MER3D } from '@/components/BatCuongFigure3D.vue'
 import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
 import BatCuongSummary from '@/components/BatCuongSummary.vue'
 import { ORGAN_ART } from '@/lib/organArt'
-import { computeTongCuong, type TongCuong } from '@/lib/meridianAnalysis'
+import {
+  computeTongCuong,
+  tongCuongTuInputData,
+  soSanhChinhKhi,
+  type TongCuong,
+  type ChinhKhiSo,
+} from '@/lib/meridianAnalysis'
 import { buildDinhVi, parseAmDuong, type PhapTriByBaiThuoc } from '@/lib/dinhVi'
 import BienChungWheel from '@/components/BienChungWheel.vue'
 import VongLucKinh from '@/components/VongLucKinh.vue'
@@ -1646,16 +1652,24 @@ function getSign(val: number, lower: number, upper: number) {
 
 function processRows(data: any[], stats: any) {
   return data.map(item => {
-    const avg = round2((item.left + item.right) / 2)
-    const diff = round2(avg - stats.mean)
-    const absDiff = round2(Math.abs(item.left - item.right))
+    // Ô BỎ TRỐNG về tới đây dưới dạng 0 (form nhập dùng `Number(...) || 0`). Số 0 KHÔNG phải "lạnh
+    // nhất" — nó là KHÔNG CÓ SỐ ĐO. calculateBounds đã lọc `v > 0` khi dựng ngưỡng, nên nếu ở đây
+    // vẫn chia đôi vô điều kiện thì một ô trống kéo avg của kinh đó xuống một nửa và biến kinh lành
+    // thành kinh hàn nặng (đo được: đổi kết luận ~50% số ca, im lặng). Chỉ lấy các bên THỰC CÓ.
+    const coDo = [item.left, item.right].filter((v: number) => v > 0)
+    const avg = coDo.length ? round2(coDo.reduce((a: number, b: number) => a + b, 0) / coDo.length) : 0
+    const thieuDo = coDo.length < 2
+    const diff = coDo.length ? round2(avg - stats.mean) : 0
+    const absDiff = thieuDo ? 0 : round2(Math.abs(item.left - item.right))
     return {
       ...item,
-      leftSign: getSign(item.left, stats.lowerBound, stats.upperBound),
-      rightSign: getSign(item.right, stats.lowerBound, stats.upperBound),
+      // Bên không có số đo thì KHÔNG mang dấu — chấm nó thành '-' là dựng ra một chứng hàn không có thật.
+      leftSign: item.left > 0 ? getSign(item.left, stats.lowerBound, stats.upperBound) : '0',
+      rightSign: item.right > 0 ? getSign(item.right, stats.lowerBound, stats.upperBound) : '0',
       avg,
       diff,
-      absDiff
+      absDiff,
+      thieuDo
     }
   })
 }
@@ -1696,6 +1710,18 @@ function groupingV2(
   c10: number,
   saiSo: number
 ) {
+  // ── HẠNG THỨ BA của sách (trước đây thiếu hẳn) ──────────────────────────────────────────────
+  // "Các kinh không thuộc biểu và lý — đây là các kinh có nhiệt độ bên trái và phải ĐỀU KHÔNG MANG
+  // DẤU. Các kinh này KHÔNG CÓ BỆNH LÝ, biến đổi nhiệt của kinh nằm trong phạm vi biến đổi sinh lý
+  // cho phép." (Lê Văn Sửu, phân định hàn/nhiệt/biểu/lý — mục c.)
+  // Phải xét TRƯỚC mọi nhánh khác: khi hai bên đều không mang dấu, tổng ba dấu chỉ còn lại dấu của
+  // số tương quan — mà số tương quan hầu như không bao giờ đúng bằng 0 (nhiệt độ có số lẻ 0,1) — nên
+  // kinh lành luôn bị tổng ±1 đẩy vào nhóm Biểu. Đó là vì sao bảng tạng phủ trước đây LUÔN đủ 12/12.
+  if (dauC8 === 0 && dauC11 === 0) return
+
+  // Sách còn một cửa nữa cho BIỂU (|số tương quan| "từ gần bằng cho đến lớn hơn" sai số giới hạn)
+  // nhưng KHÔNG cài được: cụm "gần bằng" không định lượng, và trong chính ví dụ có lời giải của sách
+  // (Lê Quang T.) kinh Tâm có số tương quan 0,1 trên sai số 0,2 vẫn được xếp Biểu nhiệt.
   const sum = dauC8 + dauC10 + dauC11
 
   if (sum === -3 && Math.abs(c10) > saiSo) {
@@ -2085,6 +2111,10 @@ interface ExamLite {
   /** Giờ đo thầy thuốc đặt/sửa — trục truyền biến phải theo mốc này, không theo createdAt. */
   thoiDiemKham?: string | null
   excelSyndromes?: { name: string }[] | null
+  /** 24 số thô — API /examinations/patient/:id đã trả sẵn; cần để dựng Bát Cương cho TỪNG mốc. */
+  inputData?: Record<string, number> | null
+  /** Nhiệt độ phòng lúc đo — để biết chênh nhiệt toàn thân là của người hay của căn phòng. */
+  nhietDoMoiTruong?: number | null
 }
 const examHistory = ref<ExamLite[]>([])
 async function loadExamHistory() {
@@ -2094,7 +2124,11 @@ async function loadExamHistory() {
     examHistory.value = []
   }
 }
-type KieuTruyen = 'giu' | 'tuan' | 'viet' | 'bieu-ly' | 'am-chuyen-duong' | 'giai-o-bieu' | 'benh-lui'
+type KieuTruyen =
+  | 'giu' | 'tuan' | 'viet' | 'bieu-ly' | 'am-chuyen-duong' | 'giai-o-bieu' | 'benh-lui'
+  // Hai bước mà trục THỨ TỰ TRUYỀN KINH và trục NÔNG-SÂU nói ngược nhau (chỉ xảy ra giữa Dương Minh
+  // và Thiếu Dương). Mượn thẳng chữ của Thương Hàn Luận thay vì ép vào "tuần kinh" hay "bệnh lui".
+  | 'chuyen-thuoc-duong-minh' | 'ra-ban-bieu-ban-ly'
 type CapTinh = 'cap' | 'cap?' | 'ban-cap' | 'man' | 'giai-nhanh' | 'khong-xac-dinh' | 'thuong'
 interface TrajPoint {
   id: number; ts: number; date: string; dot: number // số đợt bệnh (gap lớn = đợt mới)
@@ -2106,37 +2140,86 @@ interface TrajPoint {
   vuot: number | null // việt kinh: số kinh nhảy qua
   capTinh: CapTinh | null // tốc độ: cấp / bán cấp / mạn / hồi phục…
   gianDoan: boolean // có mốc ngoài LK xen giữa bước → hạ độ tin
+  /** Số ngày từ lần đo TRƯỚC (bất kỳ) — để hiện cạnh dấu cắt đợt, thầy thuốc tự phán. */
+  gapNgay: number | null
+  /** Cắt đợt nằm trong vùng xám 45–90 ngày → ranh giới do quy ước, chưa chắc là hai bệnh khác nhau. */
+  moiDotNgo: boolean
   trucTrung: boolean // ONSET đợt đã ở Tam Âm (tà đánh thẳng lý)
   trucTrungBanChac: boolean // onset không có mốc mù trước → chắc chắn
+  /** Định vị của CHÍNH mốc này có đủ chắc không: Bát Cương đo được khớp chữ ký kinh + độ tin ≠ thấp.
+   * Cùng tiêu chí với khối "Chuyển biến" ở dưới trang, để hai chỗ không còn nói ngược nhau. */
+  chac: boolean
+  /** Bát Cương đo được của mốc (để nói rõ mốc nào hụt, hụt cái gì) — rỗng nếu thiếu số đo. */
+  hoiChung: string
+  /** Bước vào điểm này có đầu nào chưa chắc không → nhãn mang dấu ngờ. */
+  buocNgo: boolean
+  /** Vì sao bước này mang dấu ngờ (đọc được cho thầy thuốc). */
+  buocNgoLyDo: string
+  /** TRỤC THỨ HAI — chính khí, so bằng °C thô với mốc trước. Độc lập với trục vị trí nông–sâu. */
+  chinhKhi: ChinhKhiSo | null
 }
+// ── NGƯỠNG CẮT ĐỢT BỆNH ──────────────────────────────────────────────────────────────────────
 // Cách nhau > 45 ngày coi là ĐỢT BỆNH khác (không nối truyền biến xuyên đợt — tránh nối nhầm 2 bệnh).
-const GAP_DOT_MS = 45 * 24 * 3600 * 1000
+//
+// ⚠️ 45 là QUY ƯỚC VẬN HÀNH, KHÔNG phải hằng số y lý. Không tra được cơ sở nào — kinh điển lẫn thực
+// nghiệm — cho con số này; truyền biến Lục Kinh vốn mô tả ngoại cảm diễn tiến theo NGÀY, nên mọi mốc
+// tính bằng tháng đều là lựa chọn vận hành. Vì vậy: (a) luôn hiện SỐ NGÀY thật cạnh dấu cắt để thầy
+// thuốc tự phán, (b) khoảng cách nằm gần ngưỡng thì đánh dấu ngờ thay vì cắt dứt khoát.
+const GAP_DOT_NGAY = 45
+const GAP_DOT_MS = GAP_DOT_NGAY * 24 * 3600 * 1000
+// Vùng xám quanh ngưỡng: cắt trong khoảng 45–90 ngày là cắt "có thể sai" — vẫn cắt (để không nối
+// nhầm hai bệnh) nhưng nói rõ là chưa chắc. Trên 90 ngày thì coi như chắc chắn khác đợt.
+const GAP_DOT_CHAC_MS = GAP_DOT_NGAY * 2 * 24 * 3600 * 1000
 const DAY_MS = 24 * 3600 * 1000
 // Cặp BIỂU-LÝ (Trung kiến) theo thuTu — BẢNG CỨNG (không suy 6−thuTu vì sai cho 3↔6).
 const PARTNER_THUTU: Record<number, number> = { 1: 5, 5: 1, 2: 4, 4: 2, 3: 6, 6: 3 }
 const lucKinhTrajectory = computed<TrajPoint[]>(() => {
   const pts = examHistory.value
-    .map((e) => ({
-      id: e.id,
-      ts: mocKhamMs(e),
-      date: ngayKhamVN(e),
-      verdict: locateLucKinh((e.excelSyndromes ?? []).map((s) => s.name), null, theKinhMap.value),
-    }))
+    .map((e) => {
+      // Bát Cương dựng từ 24 số thô của CHÍNH mốc đó — cùng thước với ca đang xem. Truyền null như
+      // trước là tự bỏ đói hàm định vị: batCuongKhop luôn false, giai đoạn luôn rơi về mặc định.
+      const tc = tongCuongTuInputData(e.inputData)
+      return {
+        id: e.id,
+        ts: mocKhamMs(e),
+        date: ngayKhamVN(e),
+        inputData: e.inputData ?? null,
+        nhietPhong: e.nhietDoMoiTruong ?? null,
+        hoiChung: tc?.hoiChung ?? '',
+        verdict: locateLucKinh((e.excelSyndromes ?? []).map((s) => s.name), tc, theKinhMap.value),
+      }
+    })
     .sort((a, b) => a.ts - b.ts) // cũ → mới
   const out: TrajPoint[] = []
   let prevExamTs = 0 // mốc thời gian lần đo BẤT KỲ trước (chỉ để dò đợt mới)
   let prevLocSlug: import('@/lib/lucKinh').KinhSlug | null = null // kinh LOCATED gần nhất
   let prevLocTs = 0 // ts của lần LOCATED gần nhất (để tính days đúng, KHÔNG tính mốc ngoài LK)
+  let prevChac = false // mốc LOCATED trước có định vị đủ chắc không
+  let prevLocDate = '' // ngày của mốc LOCATED trước — để tooltip gọi đích danh
+  let prevLocHoiChung = '' // Bát Cương đo được của mốc trước
+  let prevInput: Record<string, number> | null = null // 24 số thô của mốc LOCATED trước
+  let prevNhietPhong: number | null = null
   let blindGap = false // có mốc ngoài LK xen giữa → bước kế bắc qua khoảng mù
   let dot = 0
   for (const p of pts) {
-    const moiDot = prevExamTs > 0 && p.ts - prevExamTs > GAP_DOT_MS
-    if (moiDot || dot === 0) { dot++; prevLocSlug = null; prevLocTs = 0; blindGap = false } // sang đợt → reset
+    const gapMs = prevExamTs > 0 && p.ts > 0 ? p.ts - prevExamTs : null
+    const moiDot = gapMs != null && gapMs > GAP_DOT_MS
+    const gapNgay = gapMs != null ? Math.round(gapMs / DAY_MS) : null
+    const moiDotNgo = moiDot && gapMs! <= GAP_DOT_CHAC_MS
+    // sang đợt → reset
+    if (moiDot || dot === 0) {
+      dot++; prevLocSlug = null; prevLocTs = 0; blindGap = false
+      prevChac = false; prevLocDate = ''; prevLocHoiChung = ''; prevInput = null; prevNhietPhong = null
+    }
     const slug = p.verdict?.kinh.slug ?? null
     const pt: TrajPoint = {
       id: p.id, ts: p.ts, date: p.date, dot, verdict: p.verdict, moiDot,
       huong: null, days: null, kieuTruyen: null, vuot: null, capTinh: null, gianDoan: false,
-      trucTrung: false, trucTrungBanChac: true,
+      gapNgay, moiDotNgo,
+      trucTrung: false, trucTrungBanChac: true, chinhKhi: null,
+      chac: !!p.verdict && p.verdict.batCuongKhop && p.verdict.doTin !== 'thap',
+      hoiChung: p.hoiChung,
+      buocNgo: false, buocNgoLyDo: '',
     }
     if (slug == null) {
       // NGOÀI LỤC KINH — mốc mù: không nối, đánh dấu để bước kế hạ độ tin. KHÔNG reset prevLoc.
@@ -2149,8 +2232,29 @@ const lucKinhTrajectory = computed<TrajPoint[]>(() => {
       pt.trucTrung = tCur >= 4
       pt.trucTrungBanChac = !blindGap
     } else {
+      // ĐỘ CHẮC CỦA BƯỚC = bậc thấp nhất trong hai đầu. Không chặn hẳn nhãn (thầy thuốc vẫn muốn thấy
+      // hướng), nhưng phải hạ giọng bằng dấu "?" và nói RÕ mốc nào hụt — thầy thuốc đọc một câu là
+      // biết nên tin bao nhiêu. Cùng tiêu chí `dinhViChac` của khối Chuyển biến ở dưới trang.
+      const dauChuaChac: string[] = []
+      if (!prevChac) dauChuaChac.push(`mốc ${prevLocDate}${prevLocHoiChung ? ` (Bát Cương đo được: ${prevLocHoiChung})` : ''}`)
+      if (!pt.chac) dauChuaChac.push(`mốc ${p.date}${p.hoiChung ? ` (Bát Cương đo được: ${p.hoiChung})` : ''}`)
+      if (dauChuaChac.length) {
+        pt.buocNgo = true
+        pt.buocNgoLyDo =
+          `${dauChuaChac.join(' và ')} — Bát Cương đo được chưa khớp trọn chữ ký kinh, ` +
+          'nên hướng này suy từ tên thể bệnh, chưa được số đo xác nhận.'
+      }
+      // Trục chính khí: neo vào mốc LOCATED trước, so bằng °C thô. Đây là chỗ DUY NHẤT nhìn thấy
+      // mức tuyệt đối — mọi kết luận Bát Cương/Lục Kinh đều bất biến khi cả bộ số dịch lên xuống.
+      pt.chinhKhi = soSanhChinhKhi(prevInput, p.inputData, prevNhietPhong, p.nhietPhong)
+
       const tPrev = KINH_META[prevLocSlug].thuTu
-      const d = tCur - tPrev
+      const d = tCur - tPrev // trục THỨ TỰ TRUYỀN KINH — để phân tuần kinh / việt kinh
+      // Trục NÔNG-SÂU — để phân vào lý / ra biểu. Hai trục chỉ lệch nhau ở cặp Dương Minh ↔ Thiếu
+      // Dương, và đúng chỗ lệch đó mới cần tên riêng của Thương Hàn Luận (xem dưới).
+      const gPrev = KINH_META[prevLocSlug].tang
+      const gCur = KINH_META[slug].tang
+      const dg = gCur - gPrev
       pt.huong = huongTruyen(prevLocSlug, slug)
       pt.gianDoan = blindGap
       const days = prevLocTs > 0 && p.ts > 0 ? (p.ts - prevLocTs) / DAY_MS : null
@@ -2158,10 +2262,20 @@ const lucKinhTrajectory = computed<TrajPoint[]>(() => {
       const nhip = days != null && days > 0 ? Math.abs(d) / days : null
       if (d === 0) {
         pt.kieuTruyen = 'giu'; pt.capTinh = 'thuong'
-      } else if (d < 0) {
+      } else if (d < 0 && dg > 0) {
+        // Lùi trên trục truyền kinh NHƯNG vào sâu trên trục vị trí = Thiếu Dương → Dương Minh.
+        // THL gọi là "chuyển thuộc Dương Minh" (điều 229-230, chứng Đại Sài Hồ): tà từ bán biểu bán
+        // lý vào phủ hoá táo thực — bệnh TIẾN. Trước đây rơi nhầm vào nhánh 'benh-lui'.
+        pt.kieuTruyen = 'chuyen-thuoc-duong-minh'
+        pt.capTinh = days == null || days <= 0 ? 'khong-xac-dinh' : days <= 7 ? 'ban-cap' : 'man'
+      } else if (d > 0 && dg < 0) {
+        // Tiến trên trục truyền kinh nhưng ra nông trên trục vị trí = Dương Minh → Thiếu Dương:
+        // ra khỏi lý thực về bán biểu bán lý — bệnh LUI.
+        pt.kieuTruyen = 'ra-ban-bieu-ban-ly'; pt.capTinh = 'thuong'
+      } else if (dg < 0) {
         // RA BIỂU = HỒI PHỤC — KHÔNG bao giờ tuần/việt
-        pt.kieuTruyen = PARTNER_THUTU[tPrev] === tCur && tPrev >= 4 ? 'am-chuyen-duong' : tCur === 1 ? 'giai-o-bieu' : 'benh-lui'
-        pt.capTinh = days != null && days > 0 && days <= 3 && Math.abs(d) >= 2 ? 'giai-nhanh' : 'thuong'
+        pt.kieuTruyen = PARTNER_THUTU[tPrev] === tCur && tPrev >= 4 ? 'am-chuyen-duong' : gCur === 1 ? 'giai-o-bieu' : 'benh-lui'
+        pt.capTinh = days != null && days > 0 && days <= 3 && Math.abs(dg) >= 2 ? 'giai-nhanh' : 'thuong'
       } else {
         // VÀO LÝ — thứ tự BẮT BUỘC: biểu-lý > tuần > việt (chặn 1→5,2→4,3→6 trước việt)
         pt.kieuTruyen = PARTNER_THUTU[tPrev] === tCur ? 'bieu-ly' : d === 1 ? 'tuan' : 'viet'
@@ -2173,17 +2287,10 @@ const lucKinhTrajectory = computed<TrajPoint[]>(() => {
     }
     out.push(pt)
     prevLocSlug = slug; prevLocTs = p.ts; blindGap = false; prevExamTs = p.ts
+    prevChac = pt.chac; prevLocDate = p.date; prevLocHoiChung = p.hoiChung
+    prevInput = p.inputData; prevNhietPhong = p.nhietPhong
   }
   return out
-})
-// Xu hướng tổng — CHỈ trong đợt bệnh của ca ĐANG XEM (đầu → cuối đợt đó), không xuyên đợt.
-const truyenBienXuHuong = computed(() => {
-  const all = lucKinhTrajectory.value
-  const cur = all.find((p) => p.id === examId.value) ?? all[all.length - 1]
-  if (!cur) return null
-  const located = all.filter((p) => p.dot === cur.dot && p.verdict)
-  if (located.length < 2) return null
-  return huongTruyen(located[0]!.verdict!.kinh.slug, located[located.length - 1]!.verdict!.kinh.slug)
 })
 // Đường đo cho ĐỒ HÌNH — CHỈ đợt bệnh của ca đang xem (không xuyên đợt), rút gọn về lát cắt VongLucKinh cần.
 const trajForWheel = computed(() => {
@@ -2209,13 +2316,149 @@ const KIEU_CHIP: Record<string, { nhan: string; cls: string; tip: string }> = {
   viet: { nhan: '» việt kinh', cls: 'viet', tip: 'Việt kinh 越經傳 — truyền nhảy cách kinh, truyền nhanh, cảnh giác.' },
   'am-chuyen-duong': { nhan: 'âm→dương', cls: 'hoiphuc', tip: 'Âm chứng chuyển dương 陰證轉陽 — điềm lành, đang hồi phục.' },
   'giai-o-bieu': { nhan: 'giải ở biểu', cls: 'hoiphuc', tip: 'Tà theo mồ hôi ra, giải tại biểu — khỏi.' },
-  'benh-lui': { nhan: 'bệnh lui', cls: 'hoiphuc', tip: 'Tang giảm — bệnh đang lui ra ngoài.' },
+  'benh-lui': { nhan: 'bệnh lui', cls: 'hoiphuc', tip: 'Tà lui ra tầng nông hơn — bệnh đang lui.' },
+  'chuyen-thuoc-duong-minh': {
+    nhan: 'tiến · chuyển thuộc Dương Minh',
+    cls: 'bieuly',
+    tip: 'Chuyển thuộc Dương Minh 轉屬陽明 (THL điều 229-230, chứng Đại Sài Hồ) — tà từ bán biểu bán lý vào phủ hoá táo thực. BỆNH TIẾN, không phải lui.',
+  },
+  'ra-ban-bieu-ban-ly': {
+    nhan: 'lui · ra bán biểu bán lý',
+    cls: 'hoiphuc',
+    tip: 'Ra khỏi lý thực về bán biểu bán lý — tà rút ra tầng nông hơn, bệnh lui.',
+  },
 }
 function kieuChip(p: TrajPoint) {
   const m = p.kieuTruyen ? KIEU_CHIP[p.kieuTruyen] : null
   if (!m) return null
-  return { nhan: p.kieuTruyen === 'viet' && p.vuot ? `» vượt ${p.vuot}` : m.nhan, cls: m.cls, tip: m.tip }
+  const nhan = p.kieuTruyen === 'viet' && p.vuot ? `» vượt ${p.vuot}` : m.nhan
+  // Hạ giọng thay vì im lặng: vẫn nói hướng, nhưng gắn "?" và tooltip nêu đích danh mốc nào hụt.
+  return {
+    nhan: p.buocNgo ? `${nhan}?` : nhan,
+    cls: p.buocNgo ? `${m.cls} is-ngo` : m.cls,
+    tip: p.buocNgo ? `${m.tip}\n\nCHƯA CHẮC: ${p.buocNgoLyDo}` : m.tip,
+  }
 }
+
+/**
+ * Xu hướng cả đợt + phạm vi ngày + bậc giọng (đợt có bất kỳ bước ngờ nào thì cả câu mang dấu ngờ).
+ *
+ * CHỈ hiện khi đợt có từ 3 mốc trở lên. Đợt 2 mốc thì "đầu → cuối đợt" CHÍNH LÀ bước duy nhất, nên
+ * câu này sẽ lặp nguyên văn dòng liên hệ ngay bên dưới. Xu hướng tổng chỉ đáng nói khi nó tóm tắt
+ * được thứ mà từng bước rời rạc không cho thấy — tức khi đường đi có nhiều chặng, có thể zigzag.
+ */
+const xuHuongDot = computed(() => {
+  const all = lucKinhTrajectory.value
+  const cur = all.find((p) => p.id === examId.value) ?? all[all.length - 1]
+  if (!cur) return null
+  const located = all.filter((p) => p.dot === cur.dot && p.verdict)
+  if (located.length < 3) return null
+  const dau = located[0]!, cuoi = located[located.length - 1]!
+  const h = huongTruyen(dau.verdict!.kinh.slug, cuoi.verdict!.kinh.slug)
+  const ngo = located.some((p) => p.buocNgo)
+  return { ...h, pham: `${dau.date} → ${cuoi.date}`, ngo }
+})
+
+/**
+ * Câu biện chứng lấy CA ĐANG XEM làm tâm, nối sang mốc kề trong cùng đợt — nhìn lui và nhìn tới.
+ * Mở một ca cũ thì thấy "về sau bệnh đi đâu"; mở ca mới nhất thì thấy "từ đâu tới". Thì quá khứ,
+ * vì đều là việc đã xảy ra — KHÔNG phải tiên lượng.
+ */
+const lienHeHaiChieu = computed(() => {
+  const all = lucKinhTrajectory.value
+  const cur = all.find((p) => p.id === examId.value)
+  if (!cur?.verdict) return []
+  const cungDot = all.filter((p) => p.dot === cur.dot && p.verdict)
+  const i = cungDot.findIndex((p) => p.id === cur.id)
+  if (i < 0) return []
+  const ra: {
+    huong: 'lui' | 'toi'
+    text: string
+    loai: string
+    ngo: boolean
+    tip: string
+    /** Trục thứ hai. Chỉ tách thành dòng riêng khi nó KHÔNG cùng hướng với trục vị trí — lúc ấy ép
+     *  hai thứ vào một câu là bịa ra sự nhất trí không có. */
+    ck: ChinhKhiSo | null
+    ckNguoc: boolean
+    /** Mốc kia nằm ở ĐỢT KHÁC → đối chiếu tham khảo, KHÔNG phải truyền biến. */
+    xuyenDot: boolean
+  }[] = []
+  // Vị trí lui ra nông nhưng chính khí chưa lên (hoặc ngược lại) = hai trục nói khác nhau.
+  const nguoc = (h: string, ck: ChinhKhiSo | null) =>
+    !!ck && ((h === 'ra-bieu' && ck.loai !== 'phuc') || (h === 'vao-ly' && ck.loai === 'phuc'))
+  const truoc = i > 0 ? cungDot[i - 1] : null
+  const sau = i < cungDot.length - 1 ? cungDot[i + 1] : null
+  if (truoc && cur.huong) {
+    const ng = ngayLabel(cur)
+    ra.push({
+      huong: 'lui',
+      text: `Trước đó${ng ? ' ' + ng : ''} (${truoc.date} · ${truoc.verdict!.kinh.ten}) → hôm nay: ${cur.huong.nhan}`,
+      loai: cur.huong.loai, ngo: cur.buocNgo, tip: cur.buocNgoLyDo,
+      ck: cur.chinhKhi, ckNguoc: nguoc(cur.huong.loai, cur.chinhKhi), xuyenDot: false,
+    })
+  }
+  if (sau && sau.huong) {
+    const ng = ngayLabel(sau)
+    ra.push({
+      huong: 'toi',
+      text: `${ng ? ng + ' sau' : 'Lần đo sau'} (${sau.date} · ${sau.verdict!.kinh.ten}): ${sau.huong.nhan}`,
+      loai: sau.huong.loai, ngo: sau.buocNgo, tip: sau.buocNgoLyDo,
+      ck: sau.chinhKhi, ckNguoc: nguoc(sau.huong.loai, sau.chinhKhi), xuyenDot: false,
+    })
+  }
+  // ── ĐỐI CHIẾU XUYÊN ĐỢT ─────────────────────────────────────────────────────────────────────
+  // Ca đứng đầu đợt thì không có bước truyền biến nào — trước đây trang im lặng hoàn toàn, kể cả khi
+  // bệnh nhân có lần đo trước đó chỉ vài tuần. Nhưng ranh giới đợt là QUY ƯỚC (xem GAP_DOT_NGAY), và
+  // trục CHÍNH KHÍ thì so được bất kể đợt vì nó đo nhiệt độ tuyệt đối, không đo hình dạng phân bố.
+  // Nên vẫn đối chiếu — chỉ đổi cách gọi: "đối chiếu tham khảo", không phải "truyền biến".
+  if (!truoc) {
+    const locatedAll = all.filter((p) => p.verdict)
+    const j = locatedAll.findIndex((p) => p.id === cur.id)
+    const xa = j > 0 ? locatedAll[j - 1]! : null
+    if (xa) {
+      const eTruoc = examHistory.value.find((e) => e.id === xa.id)
+      const eNay = examHistory.value.find((e) => e.id === cur.id)
+      const ck = soSanhChinhKhi(
+        eTruoc?.inputData, eNay?.inputData,
+        eTruoc?.nhietDoMoiTruong, eNay?.nhietDoMoiTruong,
+      )
+      const gP = KINH_META[xa.verdict!.kinh.slug].tang
+      const gC = KINH_META[cur.verdict!.kinh.slug].tang
+      // Nhận xét CHỈ về vị trí, tránh chữ "lui/tiến" vì hai đợt có thể là hai bệnh khác nhau.
+      const nx =
+        gP >= 4 && gC <= 3
+          ? 'từ tam âm ra tam dương (âm chứng chuyển dương — điềm lành)'
+          : gP <= 3 && gC >= 4
+            ? 'từ tam dương vào tam âm (chính khí sút, cần lưu tâm)'
+            : gC < gP
+              ? 'ra tầng nông hơn'
+              : gC > gP
+                ? 'vào tầng sâu hơn'
+                : 'vẫn ở cùng tầng'
+      const soNgay = xa.ts > 0 && cur.ts > 0 ? Math.round((cur.ts - xa.ts) / DAY_MS) : null
+      ra.push({
+        huong: 'lui',
+        text:
+          `Đối chiếu lần đo trước (${xa.date} · ${xa.verdict!.kinh.ten})` +
+          `${soNgay ? ` — cách ${soNgay} ngày, khác đợt nên KHÔNG nối truyền biến` : ''}: ` +
+          `định vị đổi ${xa.verdict!.kinh.ten} → ${cur.verdict!.kinh.ten}, ${nx}`,
+        loai: gC < gP ? 'ra-bieu' : gC > gP ? 'vao-ly' : 'giu',
+        ngo: false,
+        tip: '',
+        ck,
+        ckNguoc: false, // không phán "bệnh lui thật" khi hai mốc có thể là hai bệnh khác nhau
+        xuyenDot: true,
+      })
+    }
+  }
+
+  return ra
+})
+/** Nhãn đọc được của độ tin. Slug nội bộ ('cao'|'vua'|'thap') KHÔNG được in thẳng ra màn hình. */
+const DO_TIN_NHAN: Record<string, string> = { cao: 'Cao', vua: 'Vừa', thap: 'Thấp' }
+const doTinNhan = (d: string) => DO_TIN_NHAN[d] ?? d
+
 const isCap = (p: TrajPoint) => p.capTinh === 'cap' || p.capTinh === 'cap?'
 function ngayLabel(p: TrajPoint) {
   if (p.days == null) return null
@@ -3376,11 +3619,23 @@ watch(
         <section ref="trajRef" class="lk-traj lk-traj--global">
           <div class="lk-traj-head">
             <span class="lk-eyebrow">↳ TRUYỀN BIẾN QUA {{ lucKinhTrajectory.length }} LẦN ĐO (Bấm mốc để chuyển &amp; đối sánh ca đo)</span>
-            <span v-if="truyenBienXuHuong" class="lk-traj-trend" :class="'lk-traj-trend--' + truyenBienXuHuong.loai">Xu hướng: {{ truyenBienXuHuong.nhan }}</span>
+            <span
+              v-if="xuHuongDot"
+              class="lk-traj-trend"
+              :class="['lk-traj-trend--' + xuHuongDot.loai, { 'is-ngo': xuHuongDot.ngo }]"
+              :title="xuHuongDot.ngo ? 'Trong đợt này có bước mà Bát Cương đo được chưa khớp chữ ký kinh — xem dấu ? trên từng bước.' : ''"
+            >Xu hướng đợt này ({{ xuHuongDot.pham }}): {{ xuHuongDot.nhan }}<template v-if="xuHuongDot.ngo">?</template></span>
           </div>
           <ol class="lk-traj-line">
             <li v-for="p in lucKinhTrajectory" :key="p.id" class="lk-traj-node" :class="{ 'lk-traj-node--cur': p.id === examId }">
-              <span v-if="p.moiDot" class="lk-traj-break" title="Đợt bệnh khác (cách > 45 ngày) — không nối truyền biến">⋯ đợt mới</span>
+              <span
+                v-if="p.moiDot"
+                class="lk-traj-break"
+                :class="{ 'is-ngo': p.moiDotNgo }"
+                :title="p.moiDotNgo
+                  ? `Cách lần đo trước ${p.gapNgay} ngày. Quy ước vận hành của phần mềm: cách nhau hơn ${GAP_DOT_NGAY} ngày thì coi là đợt bệnh khác và KHÔNG nối truyền biến. Con số ${GAP_DOT_NGAY} không có cơ sở y lý — khoảng cách này nằm gần ngưỡng nên ranh giới đợt chưa chắc, thầy thuốc tự phán.`
+                  : `Cách lần đo trước ${p.gapNgay} ngày — đủ xa để coi là đợt bệnh khác, không nối truyền biến.`"
+              >⋯ đợt mới<template v-if="p.gapNgay"> ({{ p.gapNgay }} ngày)</template><template v-if="p.moiDotNgo">?</template></span>
               <span v-else-if="p.huong" class="lk-traj-conn">
                 <span class="lk-traj-speed" :class="{ 'is-cap': isCap(p), 'is-blind': p.gianDoan }">
                   <template v-if="ngayLabel(p)">{{ ngayLabel(p) }}</template>
@@ -3419,6 +3674,31 @@ watch(
               </RouterLink>
             </li>
           </ol>
+          <!-- Câu biện chứng lấy CA ĐANG XEM làm tâm: nhìn lui về mốc trước, nhìn tới mốc sau. -->
+          <ul v-if="lienHeHaiChieu.length" class="lk-traj-lienhe">
+            <li
+              v-for="(c, i) in lienHeHaiChieu"
+              :key="i"
+              :class="['lk-lh', 'lk-lh--' + c.loai, { 'is-ngo': c.ngo, 'is-xuyendot': c.xuyenDot }]"
+              :title="c.ngo ? c.tip : ''"
+            >
+              <span class="lk-lh-mui">{{ c.xuyenDot ? '⋯' : c.huong === 'lui' ? '←' : '→' }}</span>
+              <span class="lk-lh-body">
+                <span class="lk-lh-text">
+                  <span v-if="c.xuyenDot" class="lk-lh-truc lk-lh-truc--tk">Tham khảo</span><span
+                    v-else-if="c.ck" class="lk-lh-truc">Vị trí</span> {{ c.text }}<template v-if="c.ngo">?</template>
+                </span>
+                <!-- Trục thứ hai nói riêng khi nó không cùng hướng với trục vị trí. -->
+                <span v-if="c.ck" class="lk-lh-ck" :class="'lk-lh-ck--' + c.ck.loai">
+                  <span class="lk-lh-truc">Chính khí</span> {{ c.ck.nhan }}<template v-if="c.ck.canhBao">&nbsp;<i class="lk-lh-canh" :title="c.ck.canhBao">ⓘ dè dặt</i></template>
+                </span>
+                <span v-if="c.ckNguoc" class="lk-lh-canhgiac">
+                  ⚠ Tà khí lui ra nông (ra ngoài) mà chính khí chưa lên — chưa mạnh lên, hoặc còn
+                  giảm đi — thì <b>chưa phải bệnh lui</b>. Xem kỹ hư/thực trước khi giảm pháp.
+                </span>
+              </span>
+            </li>
+          </ul>
         </section>
       </div>
 
@@ -4111,7 +4391,12 @@ watch(
                     <b class="lk-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
                     <span class="lk-giaidoan">{{ lucKinhVerdict.giaiDoan }}</span>
                     <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="lk-hopbenh">+ {{ lucKinhVerdict.phu.ten }}</span>
-                    <span class="lk-badge" :class="'lk-badge--' + lucKinhVerdict.doTin">độ tin {{ lucKinhVerdict.doTin }}</span>
+                    <span
+                      v-if="lucKinhVerdict.hoaPhieu"
+                      class="lk-donghang"
+                      :title="`${lucKinhVerdict.dongHang.map((k) => k.ten).join(' và ')} cùng điểm, cùng mức chứng cứ — chưa tách được kinh trội. Đọc như hợp bệnh; kinh nêu trước chỉ là kinh đứng trước.`"
+                    >⇄ đồng hạng: {{ lucKinhVerdict.dongHang.map((k) => k.ten).join(' · ') }}</span>
+                    <span class="lk-badge" :class="'lk-badge--' + lucKinhVerdict.doTin">độ tin {{ doTinNhan(lucKinhVerdict.doTin) }}</span>
                   </div>
                   <div v-if="bienChung" class="lk-chips">
                     <div class="lk-chip-row">
@@ -4801,6 +5086,79 @@ watch(
 }
 /* Cuộn mảnh + đổ bóng mép trên/dưới báo còn nội dung (tránh tưởng bị cắt) */
 .mr-grid--v2 > .result-section, .mr-grid--v2 > .phacdo-col { scrollbar-width: thin; }
+
+/* Dấu ngờ trên dải truyền biến: vẫn nói hướng, nhưng nhạt đi + nét đứt để mắt tự hạ tin cậy. */
+.lk-traj-kieu.is-ngo,
+.lk-traj-trend.is-ngo {
+  opacity: 0.72;
+  border-style: dashed;
+}
+/* Câu liên hệ hai chiều quanh ca đang xem */
+.lk-traj-lienhe {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px dashed var(--brown-200, #ded3c4);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+.lk-lh {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.55;
+}
+/* Nhãn "Vị trí:" / "Chính khí:" — cho mắt bắt được ngay đây là HAI trục khác nhau. */
+.lk-lh-truc {
+  display: inline-block;
+  font-weight: 700;
+  font-size: 10.5px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--brown-700, #6b5a44);
+  background: var(--brown-100, #f0e9df);
+  border-radius: 3px;
+  padding: 1px 6px;
+  margin-right: 5px;
+  vertical-align: 1px;
+}
+.lk-lh-mui {
+  font-weight: 700;
+  flex: none;
+  opacity: 0.75;
+}
+.lk-lh-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.lk-lh-ck { font-size: 12.5px; opacity: .92; }
+.lk-lh-ck--phuc { color: #4a7a3c; }
+.lk-lh-ck--suy { color: #a8442a; }
+.lk-lh-ck--giu,
+.lk-lh-ck--khong-ro { color: var(--brown-700, #6b5a44); }
+.lk-lh-canh { font-style: normal; border-bottom: 1px dotted currentColor; cursor: help; opacity: .8; }
+.lk-lh-canhgiac {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #7a5a1c;
+  background: #f7f0e0;
+  border-left: 3px solid #d9bb77;
+  padding: 6px 10px;
+  border-radius: 0 4px 4px 0;
+  margin-top: 5px;
+  max-width: 78ch;
+}
+.lk-lh-canhgiac b { font-weight: 800; }
+/* Đối chiếu xuyên đợt: nhìn là biết đây KHÔNG phải truyền biến trong một đợt bệnh. */
+.lk-lh.is-xuyendot { opacity: 0.88; }
+.lk-lh-truc--tk {
+  color: #7a5a1c;
+  background: #f5eedf;
+  border: 1px dashed #d9bb77;
+}
+.lk-lh--vao-ly { color: #a8442a; }
+.lk-lh--ra-bieu { color: #4a7a3c; }
+.lk-lh--giu { color: var(--brown-700, #6b5a44); }
+.lk-lh.is-ngo { opacity: 0.8; }
 
 /* ═══════════ TAB 3: Biện chứng – Pháp trị (bảng ĐỊNH VỊ) ═══════════ */
 .bcpt { display: flex; flex-direction: column; gap: var(--space-3); max-width: 1100px; }
@@ -6333,6 +6691,17 @@ watch(
 .lk-badge--vua { color: #fff; background: var(--brown-600); }
 .lk-badge--thap { color: var(--text-subtle); background: var(--surface-2); border: 1px solid var(--border); }
 .lk-main { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 12px; margin: var(--space-2) 0 var(--space-1); }
+/* Đồng hạng: hai kinh trở lên không tách được — nói ra thay vì giấu sau một kinh chọn do may rủi. */
+.lk-donghang {
+  font-size: var(--font-size-xs, 12px);
+  font-weight: 600;
+  color: #8a6520;
+  background: #f5eedf;
+  border: 1px dashed #d9bb77;
+  border-radius: 3px;
+  padding: 1px 7px;
+  cursor: help;
+}
 .lk-kinh { font-size: var(--font-size-lg); font-weight: 800; color: var(--text-brand); }
 .lk-kinh i { font-style: normal; font-weight: 600; opacity: .7; font-size: .85em; }
 .lk-giaidoan { font-size: var(--font-size-sm); font-weight: 700; color: var(--brown-700); }

@@ -419,6 +419,12 @@ img {
 .content-area .selected-empty,
 .content-area .form-error,
 .content-area .muted,
+/* Dải truyền biến Lục Kinh: các dòng dưới đây là CÂU HOÀN CHỈNH (biện chứng, cảnh báo, số đo °C),
+   không phải nhãn — Title Case làm câu tiếng Việt rất khó đọc. */
+.content-area .lk-traj-lienhe,
+.content-area .lk-traj-break,
+.content-area .lk-traj-trend,
+.content-area .lk-donghang,
 .content-area p {
   text-transform: none;
 }

@@ -36,6 +36,8 @@ export interface ProcessedRow extends RawRow {
   avg: number;
   diff: number;
   absDiff: number;
+  /** Thiếu số đo ở một hoặc cả hai bên (ô nhập bỏ trống) — kết luận của kinh này không đáng tin. */
+  thieuDo: boolean;
 }
 
 export function round2(n: number): number {
@@ -101,16 +103,24 @@ export function getSign(val: number, lower: number, upper: number): string {
 
 export function processRows(data: RawRow[], stats: MeridianStats): ProcessedRow[] {
   return data.map((item) => {
-    const avg = round2((item.left + item.right) / 2);
-    const diff = round2(avg - stats.mean);
-    const absDiff = round2(Math.abs(item.left - item.right));
+    // Ô BỎ TRỐNG về tới đây dưới dạng 0 (form nhập dùng `Number(...) || 0`). Số 0 KHÔNG phải "lạnh
+    // nhất" — nó là KHÔNG CÓ SỐ ĐO. calculateBounds đã lọc `v > 0` khi dựng ngưỡng, nên nếu ở đây
+    // vẫn chia đôi vô điều kiện thì một ô trống kéo avg của kinh đó xuống một nửa và biến kinh lành
+    // thành kinh hàn nặng (đo được: đổi kết luận ~50% số ca, im lặng). Chỉ lấy các bên THỰC CÓ.
+    const coDo = [item.left, item.right].filter((v) => v > 0);
+    const avg = coDo.length ? round2(coDo.reduce((a, b) => a + b, 0) / coDo.length) : 0;
+    const thieuDo = coDo.length < 2;
+    const diff = coDo.length ? round2(avg - stats.mean) : 0;
+    const absDiff = thieuDo ? 0 : round2(Math.abs(item.left - item.right));
     return {
       ...item,
-      leftSign: getSign(item.left, stats.lowerBound, stats.upperBound),
-      rightSign: getSign(item.right, stats.lowerBound, stats.upperBound),
+      // Bên không có số đo thì KHÔNG mang dấu — chấm nó thành '-' là dựng ra một chứng hàn không có thật.
+      leftSign: item.left > 0 ? getSign(item.left, stats.lowerBound, stats.upperBound) : '0',
+      rightSign: item.right > 0 ? getSign(item.right, stats.lowerBound, stats.upperBound) : '0',
       avg,
       diff,
       absDiff,
+      thieuDo,
     };
   });
 }
@@ -373,6 +383,18 @@ function groupingV2(
   c10: number,
   saiSo: number,
 ): void {
+  // ── HẠNG THỨ BA của sách (trước đây thiếu hẳn) ──────────────────────────────────────────────
+  // "Các kinh không thuộc biểu và lý — đây là các kinh có nhiệt độ bên trái và phải ĐỀU KHÔNG MANG
+  // DẤU. Các kinh này KHÔNG CÓ BỆNH LÝ, biến đổi nhiệt của kinh nằm trong phạm vi biến đổi sinh lý
+  // cho phép." (Lê Văn Sửu, phân định hàn/nhiệt/biểu/lý — mục c.)
+  // Phải xét TRƯỚC mọi nhánh khác: khi hai bên đều không mang dấu, tổng ba dấu chỉ còn lại dấu của
+  // số tương quan — mà số tương quan hầu như không bao giờ đúng bằng 0 (nhiệt độ có số lẻ 0,1) — nên
+  // kinh lành luôn bị tổng ±1 đẩy vào nhóm Biểu. Đó là vì sao bảng tạng phủ trước đây LUÔN đủ 12/12.
+  if (dauC8 === 0 && dauC11 === 0) return;
+
+  // Sách còn một cửa nữa cho BIỂU (|số tương quan| "từ gần bằng cho đến lớn hơn" sai số giới hạn)
+  // nhưng KHÔNG cài được: cụm "gần bằng" không định lượng, và trong chính ví dụ có lời giải của sách
+  // (Lê Quang T.) kinh Tâm có số tương quan 0,1 trên sai số 0,2 vẫn được xếp Biểu nhiệt.
   const sum = dauC8 + dauC10 + dauC11;
 
   if (sum === -3 && Math.abs(c10) > saiSo) {

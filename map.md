@@ -8,7 +8,7 @@ F8 = D7 - E7
 C10 = Tiểu trái
 C11 = Tâm trái
 C12 = Tam trái
-C13 = Bào phải
+C13 = Bào trái
 C14 = Đại trái
 C15 = Phế trái
 

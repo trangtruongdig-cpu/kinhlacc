@@ -22,9 +22,14 @@ export interface KinhMeta {
   tangPhu: string
   khi: string
   viTri: string
-  /** Thứ tự truyền kinh (1 nông → 6 sâu): Thái Dương→Dương Minh→Thiếu Dương→Thái Âm→Thiếu Âm→Quyết Âm. */
+  /** Thứ tự TRUYỀN KINH (Tố Vấn · Nhiệt luận): Thái Dương→Dương Minh→Thiếu Dương→Thái Âm→Thiếu Âm
+   * →Quyết Âm. Trả lời "tà đã đi được mấy chặng" — dùng để phân tuần kinh / việt kinh. */
   thuTu: number
-  /** Tầng biểu→lý (1 biểu nông … 6 lý sâu nhất) — để suy HƯỚNG truyền biến. */
+  /** Tầng NÔNG→SÂU (1 biểu nông … 6 lý sâu nhất). Trả lời "tà đang nằm ở đâu" — dùng để suy hướng
+   * vào lý / ra biểu. KHÁC thuTu ở đúng một chỗ: Thiếu Dương (bán biểu bán lý) NÔNG hơn Dương Minh
+   * (lý thực nhiệt), trong khi thứ tự truyền kinh lại xếp Dương Minh trước. Trước đây hai trục dùng
+   * chung một dãy số, nên Thiếu Dương→Dương Minh — tức "chuyển thuộc Dương Minh", tà vào phủ hoá táo
+   * thực, bệnh TIẾN — bị dán nhãn "bệnh lui". */
   tang: number
   /** Chữ ký Bát Cương kỳ vọng (để đối chiếu số đo). */
   chuKy: Partial<Record<'bieu' | 'ly' | 'han' | 'nhiet' | 'hu' | 'thuc', 1>>
@@ -42,13 +47,13 @@ export const KINH_META: Record<KinhSlug, KinhMeta> = {
   },
   'duong-minh': {
     slug: 'duong-minh', ten: 'Dương Minh', han: '陽明', tangPhu: 'Vị / Đại Trường', khi: 'Táo Kim', viTri: 'Lý thực nhiệt',
-    thuTu: 2, tang: 2, chuKy: { ly: 1, nhiet: 1, thuc: 1 },
+    thuTu: 2, tang: 3, chuKy: { ly: 1, nhiet: 1, thuc: 1 },
     deCuong: 'Vị gia thực (陽明之為病，胃家實是也 — điều 180): tà nhiệt kết ở Vị / Đại Trường, dương nhiệt cực thịnh.',
     ketLuan: 'Định vị kinh Dương Minh (Vị / Đại Trường) — {the}, tính chất {tinhChat}. Pháp trị: thanh nhiệt tả hạ (kinh chứng thanh khí sinh tân, phủ chứng thông phủ).',
   },
   'thieu-duong': {
     slug: 'thieu-duong', ten: 'Thiếu Dương', han: '少陽', tangPhu: 'Đởm / Tam Tiêu', khi: 'Tướng Hỏa', viTri: 'Bán biểu bán lý',
-    thuTu: 3, tang: 3, chuKy: { nhiet: 1 },
+    thuTu: 3, tang: 2, chuKy: { nhiet: 1 },
     deCuong: 'Miệng đắng, họng khô, hoa mắt (少陽之為病，口苦、咽乾、目眩也): tà uất bán biểu bán lý.',
     ketLuan: 'Định vị kinh Thiếu Dương (Đởm / Tam Tiêu) — {the}, tính chất {tinhChat}. Bán biểu bán lý; pháp trị hòa giải Thiếu Dương.',
   },
@@ -74,8 +79,8 @@ export const KINH_META: Record<KinhSlug, KinhMeta> = {
 
 export const KINH_ORDER: KinhSlug[] = ['thai-duong', 'duong-minh', 'thieu-duong', 'thai-am', 'thieu-am', 'quyet-am']
 
-/** Hướng truyền biến giữa 2 lần đo — so tầng biểu→lý (tang). Sâu hơn = truyền vào lý (nặng lên),
- * nông hơn = lui ra biểu (đang hồi phục). Dùng cho timeline lịch sử đo cùng đợt bệnh. */
+/** Hướng truyền biến giữa 2 lần đo — so tầng NÔNG→SÂU (`tang`, KHÔNG phải `thuTu`). Sâu hơn = truyền
+ * vào lý (nặng lên), nông hơn = lui ra biểu (đang hồi phục). Dùng cho timeline lịch sử đo cùng đợt. */
 export function huongTruyen(prev: KinhSlug, cur: KinhSlug): { nhan: string; loai: 'vao-ly' | 'ra-bieu' | 'giu' } {
   const dp = KINH_META[prev].tang, dc = KINH_META[cur].tang
   if (dc > dp) return { nhan: `truyền vào lý (${KINH_META[prev].ten} → ${KINH_META[cur].ten})`, loai: 'vao-ly' }
@@ -190,6 +195,10 @@ export interface LucKinhVerdict {
   batCuongKhop: boolean // chữ ký kinh có khớp Bát Cương đo được không
   theThuongHan: { ten: string; kinh: KinhSlug; muc: Muc }[]
   theNgoai: string[] // thể đo được nhưng ngoài Thương Hàn (không phân tích sâu)
+  /** Còn ≥2 kinh đồng hạng sau cả hai vòng phá hoà → chưa tách được kinh trội, kết luận là HỢP BỆNH. */
+  hoaPhieu: boolean
+  /** Các kinh đồng hạng (gồm cả kinh được chọn). Chỉ có ý nghĩa khi hoaPhieu. */
+  dongHang: KinhMeta[]
 }
 
 /**
@@ -221,17 +230,40 @@ export function locateLucKinh(
 
   if (!theThuongHan.length) return null
 
+  // Bát Cương đo được — phải có TRƯỚC khi chọn kinh trội, vì nó là một trong hai căn cứ phá hoà.
+  const chuKy = parseChuKy(tongCuong?.hoiChung)
+  const khopChuKy = (s: KinhSlug): boolean => {
+    const e = Object.keys(KINH_META[s].chuKy)
+    return e.length > 0 && e.every((k) => chuKy.has(k))
+  }
+
   const ranked = (Object.keys(vote) as KinhSlug[])
     .map((k) => [k, vote[k]] as [KinhSlug, number])
     .filter(([, v]) => v > 0)
     .sort((a, b) => b[1] - a[1])
-  const [topSlug, topVal] = ranked[0]!
-  const secondary = ranked[1] && ranked[1][1] >= topVal * 0.6 ? ranked[1][0] : null
+  const topVal = ranked[0]![1]
+
+  // ── PHÁ HOÀ CÓ CĂN CỨ ────────────────────────────────────────────────────────────────────────
+  // Trước đây khi nhiều kinh bằng điểm, sort ổn định của JS tự lấy kinh đứng trước trong danh sách
+  // khai báo — tức kinh NÔNG hơn luôn thắng, một thiên lệch không có căn cứ y lý nào. Đo trên ca đo
+  // thật: 3/5 ca có hoà, và kết luận đổi hẳn chỉ vì thứ tự viết code. Nay phá hoà bằng hai căn cứ
+  // thật, và nếu vẫn không tách được thì NÓI RA thay vì chọn bừa.
+  let dongHangSlugs = ranked.filter(([, v]) => v === topVal).map(([k]) => k)
+  if (dongHangSlugs.length > 1) {
+    // (a) Thể mức A (chắc Thương Hàn) là bằng chứng mạnh hơn thể mức B (thiên nội thương, cần soi).
+    const coThe = dongHangSlugs.filter((sl) => theThuongHan.some((t) => t.kinh === sl && t.muc === 'A'))
+    if (coThe.length) dongHangSlugs = coThe
+    // (b) Bát Cương ĐO ĐƯỢC khớp chữ ký kinh — căn cứ từ SỐ ĐO, không phải từ tên thể bệnh.
+    const khop = dongHangSlugs.filter(khopChuKy)
+    if (khop.length) dongHangSlugs = khop
+  }
+  const hoaPhieu = dongHangSlugs.length > 1
+  const topSlug = dongHangSlugs[0]!
+  // Kinh phụ: kinh mạnh nhất còn lại đạt ngưỡng hợp bệnh (kinh đồng hạng luôn đạt).
+  const secondary = ranked.find(([k, v]) => k !== topSlug && v >= topVal * 0.6)?.[0] ?? null
   const kinh = KINH_META[topSlug]
   const phu = secondary ? KINH_META[secondary] : null
 
-  // Đối chiếu chữ ký Bát Cương
-  const chuKy = parseChuKy(tongCuong?.hoiChung)
   const expect = Object.keys(kinh.chuKy)
   const batCuongKhop = expect.length > 0 && expect.every((k) => chuKy.has(k))
 
@@ -247,6 +279,9 @@ export function locateLucKinh(
   let doTin: 'cao' | 'vua' | 'thap' = 'thap'
   if (coA && batCuongKhop) doTin = 'cao'
   else if (coA || batCuongKhop || topVal >= 3) doTin = 'vua'
+  // Còn đồng hạng sau cả hai vòng phá hoà → chưa tách được kinh trội, hạ một bậc. Nhờ đó dải truyền
+  // biến tự khoác dấu ngờ cho ca hợp bệnh, thay vì tuyên bố chắc nịch một kinh chọn được do may rủi.
+  if (hoaPhieu) doTin = doTin === 'cao' ? 'vua' : 'thap'
 
   const tinhChat = tongCuong?.hoiChung || tongCuong?.amDuong || '—'
   const ketLuan = kinh.ketLuan.replace('{the}', giaiDoan).replace('{tinhChat}', tinhChat)
@@ -260,9 +295,17 @@ export function locateLucKinh(
     ? `Bát Cương đo được (${tinhChat}) KHỚP chữ ký ${kinh.ten} (${kinh.viTri}).`
     : `Bát Cương đo được (${tinhChat}) chưa khớp trọn chữ ký ${kinh.ten} — cần đối chiếu triệu chứng.`)
   if (phu) lyDo.push(`Có bắc cầu / hợp bệnh với kinh ${phu.ten}.`)
+  if (hoaPhieu) {
+    lyDo.push(
+      `Các kinh ${dongHangSlugs.map((sl) => KINH_META[sl].ten).join(' và ')} ĐỒNG HẠNG ` +
+        `(cùng ${topVal} điểm, cùng mức chứng cứ) — chưa tách được kinh trội, nên đọc như HỢP BỆNH. ` +
+        `Kinh nêu đầu chỉ là kinh đứng trước, không phải kinh mạnh hơn.`,
+    )
+  }
 
   return {
     kinh, phu, hopBenh: !!phu, giaiDoan, tinhChat, doTin, ketLuan, lyDo,
     batCuongKhop, theThuongHan, theNgoai,
+    hoaPhieu, dongHang: dongHangSlugs.map((sl) => KINH_META[sl]),
   }
 }

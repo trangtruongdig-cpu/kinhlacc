@@ -33,6 +33,8 @@ export interface ProcessedRow extends RawRow {
   avg: number
   diff: number
   absDiff: number
+  /** Thiếu số đo ở một hoặc cả hai bên (ô nhập bỏ trống) — kết luận của kinh này không đáng tin. */
+  thieuDo: boolean
 }
 
 export function round2(n: number): number {
@@ -98,16 +100,26 @@ export function getSign(val: number, lower: number, upper: number): string {
 
 export function processRows(data: RawRow[], stats: MeridianStats): ProcessedRow[] {
   return data.map((item) => {
-    const avg = round2((item.left + item.right) / 2)
-    const diff = round2(avg - stats.mean)
-    const absDiff = round2(Math.abs(item.left - item.right))
+    // Ô BỎ TRỐNG về tới đây dưới dạng 0 (form nhập dùng `Number(...) || 0`). Số 0 KHÔNG phải "lạnh
+    // nhất" — nó là KHÔNG CÓ SỐ ĐO. calculateBounds đã lọc `v > 0` khi dựng ngưỡng, nên nếu ở đây
+    // vẫn chia đôi vô điều kiện thì một ô trống kéo avg của kinh đó xuống một nửa và biến kinh lành
+    // thành kinh hàn nặng (đo được: đổi kết luận ~50% số ca, im lặng). Chỉ lấy các bên THỰC CÓ.
+    const coDo = [item.left, item.right].filter((v) => v > 0)
+    const avg = coDo.length ? round2(coDo.reduce((a, b) => a + b, 0) / coDo.length) : 0
+    const thieuDo = coDo.length < 2
+    // Thiếu đo cả hai bên thì không có số tương quan; để 0 để các tầng sau (đã lọc avg === 0) bỏ qua.
+    const diff = coDo.length ? round2(avg - stats.mean) : 0
+    // Chênh lệch trái-phải chỉ có nghĩa khi CÓ ĐỦ hai bên.
+    const absDiff = thieuDo ? 0 : round2(Math.abs(item.left - item.right))
     return {
       ...item,
-      leftSign: getSign(item.left, stats.lowerBound, stats.upperBound),
-      rightSign: getSign(item.right, stats.lowerBound, stats.upperBound),
+      // Bên không có số đo thì KHÔNG mang dấu — chấm nó thành '-' là dựng ra một chứng hàn không có thật.
+      leftSign: item.left > 0 ? getSign(item.left, stats.lowerBound, stats.upperBound) : '0',
+      rightSign: item.right > 0 ? getSign(item.right, stats.lowerBound, stats.upperBound) : '0',
       avg,
       diff,
       absDiff,
+      thieuDo,
     }
   })
 }
@@ -386,6 +398,129 @@ export function computeTongCuong(
  *   - Khí thịnh / Huyết thịnh: không có nhãn "…Thịnh" tương ứng trong taxonomy.
  *   - Tân Dịch Khuy: app không đo/tính khái niệm tân dịch — không có tín hiệu để suy ra, để trống.
  */
+/**
+ * Bát Cương đầy đủ của MỘT ca đo, dựng thẳng từ 24 số thô.
+ *
+ * Có hàm này để các mốc LỊCH SỬ trên dải truyền biến được chấm bằng CÙNG một thước với ca đang xem.
+ * Trước đây timeline gọi locateLucKinh với Bát Cương = null, nên `batCuongKhop` của mọi mốc lịch sử
+ * luôn false và nhánh giai đoạn luôn rơi về mặc định (mọi mốc Thiếu Âm đều thành "hàn hoá", mọi mốc
+ * Dương Minh đều thành "Dương Minh nhiệt") — cùng một ca đo bị chấm hai điểm khác nhau tuỳ nó đang
+ * là ca đang xem hay chỉ là một mốc trong dải.
+ */
+export function tongCuongTuInputData(d: InputData | null | undefined): TongCuong | null {
+  if (!d) return null
+  const ru = rawUpper(d)
+  const rl = rawLower(d)
+  const su = calculateBounds(ru)
+  const sl = calculateBounds(rl)
+  if (!su.range && !sl.range) return null // chưa có số đo nào
+  const pu = processRows(ru, su)
+  const pl = processRows(rl, sl)
+  const organs = computeAffectedOrgans(pu, pl, su, sl)
+  const nhiet = organs.filter((o) => o.temp === 'nhiet' || o.temp === 'mixed').length
+  const han = organs.filter((o) => o.temp === 'han' || o.temp === 'mixed').length
+  const bieu = organs.filter((o) => o.depth === 'bieu' || o.depth === 'mixed').length
+  const ly = organs.filter((o) => o.depth === 'ly' || o.depth === 'mixed').length
+  return computeTongCuong(nhiet, han, bieu, ly, computeDiagnosis(d, pu, pl, su, sl).huThuc)
+}
+
+/** Hồ sơ nhiệt của một ca: 12 kinh → trung bình hai bên (°C). Kinh thiếu đo bị bỏ, không để 0. */
+export function hoSoNhiet(d: InputData | null | undefined): Record<string, number> | null {
+  if (!d) return null
+  const out: Record<string, number> = {}
+  for (const r of [...rawUpper(d), ...rawLower(d)]) {
+    const co = [r.left, r.right].filter((v) => v > 0)
+    if (co.length) out[r.name] = round2(co.reduce((a, b) => a + b, 0) / co.length)
+  }
+  return Object.keys(out).length ? out : null
+}
+
+export interface ChinhKhiSo {
+  /** Chênh nhiệt trung bình toàn thân giữa hai lần đo (°C). Dương = ấm lên. */
+  delta: number
+  /** Tổng độ TỤT và tổng độ TĂNG cộng trên các kinh (°C) — thấy được bệnh lan hay rút. */
+  tongTut: number
+  tongTang: number
+  /** Số kinh có đủ số đo ở CẢ HAI lần (mẫu số của mọi con số trên). */
+  soKinh: number
+  loai: 'phuc' | 'suy' | 'giu' | 'khong-ro'
+  nhan: string
+  /** Lý do phải đọc con số này dè dặt (nhiệt phòng lệch, quá ít kinh…). Rỗng = không có vướng mắc. */
+  canhBao: string
+}
+
+/** Dưới ngưỡng này coi như không phân biệt được với nhiễu đo (lấy theo độ tản trái-phải đo được
+ *  trên ca thật, ≈0,3 °C — hai bên cùng người cùng lúc lẽ ra phải bằng nhau). */
+const NGUONG_CHINH_KHI = 0.3
+/** Nhiệt phòng lệch quá mức này thì chênh nhiệt toàn thân phản ánh CĂN PHÒNG, không phải người bệnh. */
+const NGUONG_NHIET_PHONG = 1.0
+
+/**
+ * Trục CHÍNH KHÍ giữa hai lần đo — độc lập với trục vị trí (nông–sâu) của Lục Kinh.
+ *
+ * Vì sao cần: mọi ngưỡng của phép đo đều dựng lại từ chính 24 số của lần đo đó, nên toàn bộ kết luận
+ * Bát Cương/Lục Kinh BẤT BIẾN khi cả bộ số nhân hay cộng thêm một lượng — người nguội đi 2 °C toàn
+ * thân vẫn ra y hệt kết luận cũ. Trục này là chỗ duy nhất nhìn thấy mức tuyệt đối.
+ *
+ * Cách đo (theo đúng khuyến nghị đã thẩm tra): so bằng °C THÔ, neo vào lần đo trước của CHÍNH bệnh
+ * nhân, KHÔNG chia cho dung sai (chia vào là tự xoá tín hiệu, vì dung sai nở cùng nhịp với độ tụt)
+ * và KHÔNG khử trôi nền (khử trôi là mù đúng chỗ cần nhìn). Dùng TỔNG ĐỘ, không đếm số kinh — đếm
+ * số kinh có công suất ngang tung đồng xu và còn đi ngược chiều khi bệnh nhân hồi phục nhiều.
+ */
+export function soSanhChinhKhi(
+  truoc: InputData | null | undefined,
+  sau: InputData | null | undefined,
+  nhietPhongTruoc?: number | null,
+  nhietPhongSau?: number | null,
+): ChinhKhiSo | null {
+  const a = hoSoNhiet(truoc)
+  const b = hoSoNhiet(sau)
+  if (!a || !b) return null
+  const chung = Object.keys(a).filter((k) => k in b)
+  if (chung.length < 6) return null // quá ít kinh đối chiếu được thì không kết luận
+
+  let tut = 0
+  let tang = 0
+  for (const k of chung) {
+    const d = b[k]! - a[k]!
+    if (d < 0) tut += -d
+    else tang += d
+  }
+  const delta = round2((tang - tut) / chung.length)
+
+  const canh: string[] = []
+  if (nhietPhongTruoc != null && nhietPhongSau != null) {
+    const dPhong = Math.abs(nhietPhongSau - nhietPhongTruoc)
+    if (dPhong >= NGUONG_NHIET_PHONG) {
+      canh.push(
+        `nhiệt độ phòng hai lần đo lệch ${String(round2(dPhong)).replace('.', ',')} °C — chênh nhiệt toàn thân có thể là của CĂN PHÒNG, không phải của người bệnh`,
+      )
+    }
+  } else {
+    canh.push('thiếu nhiệt độ phòng của một trong hai lần đo — chưa loại trừ được trôi nền')
+  }
+  if (chung.length < 12) canh.push(`chỉ ${chung.length}/12 kinh đối chiếu được`)
+
+  // Số thập phân kiểu Việt: dấu PHẨY, không phải dấu chấm.
+  const soVN = (n: number) => String(round2(n)).replace('.', ',')
+
+  let loai: ChinhKhiSo['loai']
+  let nhan: string
+  if (Math.abs(delta) < NGUONG_CHINH_KHI) {
+    loai = 'giu'
+    nhan = `giữ mức (chênh ${delta >= 0 ? '+' : '−'}${soVN(Math.abs(delta))} °C, dưới ngưỡng nhiễu đo)`
+  } else if (delta > 0) {
+    loai = 'phuc'
+    nhan = `ấm lên ${soVN(delta)} °C toàn thân — đang phục`
+  } else {
+    loai = 'suy'
+    nhan = `nguội đi ${soVN(-delta)} °C toàn thân — chưa phục`
+  }
+  if (canh.length) loai = loai === 'giu' ? 'khong-ro' : loai
+
+  return { delta, tongTut: round2(tut), tongTang: round2(tang), soKinh: chung.length, loai, nhan, canhBao: canh.join('; ') }
+}
+
 export function mapTongCuongToTinhChat(tongCuong: TongCuong, khi: string, huyet: string): string[] {
   const tags = new Set<string>()
   if (tongCuong.loai === 'am-hu') tags.add('Âm Hư')
@@ -417,6 +552,20 @@ function groupingV2(
   c10: number,
   saiSo: number,
 ): void {
+  // ── HẠNG THỨ BA của sách (trước đây thiếu hẳn) ──────────────────────────────────────────────
+  // "Các kinh không thuộc biểu và lý — đây là các kinh có nhiệt độ bên trái và phải ĐỀU KHÔNG MANG
+  // DẤU. Các kinh này KHÔNG CÓ BỆNH LÝ, biến đổi nhiệt của kinh nằm trong phạm vi biến đổi sinh lý
+  // cho phép." (Lê Văn Sửu, phân định hàn/nhiệt/biểu/lý — mục c.)
+  // Phải xét TRƯỚC mọi nhánh khác: khi hai bên đều không mang dấu, tổng ba dấu chỉ còn lại dấu của
+  // số tương quan — mà số tương quan hầu như không bao giờ đúng bằng 0 (nhiệt độ có số lẻ 0,1) — nên
+  // kinh lành luôn bị tổng ±1 đẩy vào nhóm Biểu. Đó là vì sao bảng tạng phủ trước đây LUÔN đủ 12/12.
+  if (dauC8 === 0 && dauC11 === 0) return
+
+  // Sách còn một cửa nữa cho BIỂU — *"được xem là bệnh lý khi giá trị tuyệt đối của số tương quan TỪ
+  // GẦN BẰNG cho đến lớn hơn sai số giới hạn"* — nhưng KHÔNG cài được: cụm "gần bằng" không định
+  // lượng, và trong chính ví dụ có lời giải của sách (Lê Quang T.), kinh Tâm có số tương quan 0,1
+  // trên sai số 0,2 (một nửa) vẫn được xếp Biểu nhiệt. Áp ngưỡng cứng |số tương quan| ≥ sai số thì
+  // loại nhầm Tâm, Thận, Đởm — cả ba sách đều xếp là bệnh lý. Để nguyên cho tới khi có ngưỡng thật.
   const sum = dauC8 + dauC10 + dauC11
 
   if (sum === -3 && Math.abs(c10) > saiSo) {
