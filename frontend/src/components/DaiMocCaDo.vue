@@ -99,6 +99,16 @@ function khoangCach(cb: ChuyenBien): string {
   if (cb.soNgay === 0) return 'cùng ngày'
   return `${cb.soNgay} ngày`
 }
+/**
+ * Nhãn khoảng cách trên chip nối. Dải bày ra mới → cũ, nên ô bên PHẢI của chip là mốc CŨ hơn —
+ * chip đang mô tả chiều phải → trái, ngược thói quen đọc. Chữ "trước" ghim mốc cũ vào đúng phía
+ * nó đứng, để không ai đọc thành "từ mốc mới sang mốc cũ thì bệnh lui".
+ */
+function nhanKhoangCach(cb: ChuyenBien): string {
+  if (cb.soNgay === null) return ''
+  if (cb.soNgay === 0) return 'cùng ngày'
+  return `${cb.soNgay} ngày trước`
+}
 </script>
 
 <template>
@@ -156,7 +166,7 @@ function khoangCach(cb: ChuyenBien): string {
         :class="'mach-conn--' + (m.cb.lucKinh?.loai || 'giu')"
         :title="`So với lần đo trước đó ${khoangCach(m.cb)}: ${nhanHuong(m.cb)}`"
       >
-        <span class="mach-days">{{ khoangCach(m.cb) }}</span>
+        <span class="mach-days">{{ nhanKhoangCach(m.cb) }}</span>
         <span class="mach-arrow">{{ muiTen(m.cb) }}</span>
         <span class="mach-nhan">{{ nhanHuong(m.cb) }}</span>
       </span>
