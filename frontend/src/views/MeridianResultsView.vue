@@ -22,7 +22,7 @@ import VongLucKinh from '@/components/VongLucKinh.vue'
 import VongLucKhi from '@/components/VongLucKhi.vue'
 import VongNguHanh from '@/components/VongNguHanh.vue'
 import PhuongHuyetNguDu from '@/components/PhuongHuyetNguDu.vue'
-import { locateLucKinh, huongTruyen, KINH_META, type KinhSlug, type LucKinhVerdict, type TheKinhMap } from '@/lib/lucKinh'
+import { locateLucKinh, huongTruyen, dinhViChac, KINH_META, type KinhSlug, type LucKinhVerdict, type TheKinhMap } from '@/lib/lucKinh'
 import { truyenBienCua } from '@/lib/lucKinhTruyenBien'
 import { mocKham, mocKhamMs, ngayKhamVN } from '@/lib/caKham'
 
@@ -2079,7 +2079,7 @@ const bienChung = computed(() => {
   // CHUYỂN BIẾN (truyền kinh cấp) CHỈ suy khi định vị ĐỦ CHẮC: Bát Cương đo được KHỚP chữ ký kinh
   // (không mâu thuẫn) → mới là Thương Hàn cấp một kinh. Ngược lại (nội thương / Bát Cương lệch /
   // nhiều kinh) → KHÔNG suy, tránh dự đoán vô lý.
-  const dinhViChac = v.batCuongKhop && v.doTin !== 'thap'
+  const chacChan = dinhViChac(v)
   return {
     kinhTroi: v.kinh, // KinhMeta (slug, ten, han…)
     giaiDoan: v.giaiDoan,
@@ -2088,12 +2088,12 @@ const bienChung = computed(() => {
     phu: v.phu,
     tapKinh: Object.keys(lucKinhCaseCounts.value), // slug[] các kinh ca có (= tập chip Định Vị)
     counts: lucKinhCaseCounts.value,
-    dinhViChac,
+    dinhViChac: chacChan,
     // lý do KHÔNG suy chuyển biến (để hiển thị caveat)
-    cbLyDo: dinhViChac ? '' : (!v.batCuongKhop
+    cbLyDo: chacChan ? '' : (!v.batCuongKhop
       ? 'Bát Cương đo được chưa khớp chữ ký kinh — định vị chưa chắc, chưa suy truyền kinh.'
       : 'Định vị độ tin thấp — chưa suy chuyển biến.'),
-    chuyenBien: dinhViChac ? truyenBienCua(v.kinh.slug, { nhietHoa }) : null,
+    chuyenBien: chacChan ? truyenBienCua(v.kinh.slug, { nhietHoa }) : null,
   }
 })
 // Chips ĐỊNH VỊ: tập kinh của ca, kinh TRỘI đứng đầu (dùng chung cho chip + đồ hình).
@@ -2217,7 +2217,7 @@ const lucKinhTrajectory = computed<TrajPoint[]>(() => {
       huong: null, days: null, kieuTruyen: null, vuot: null, capTinh: null, gianDoan: false,
       gapNgay, moiDotNgo,
       trucTrung: false, trucTrungBanChac: true, chinhKhi: null,
-      chac: !!p.verdict && p.verdict.batCuongKhop && p.verdict.doTin !== 'thap',
+      chac: dinhViChac(p.verdict),
       hoiChung: p.hoiChung,
       buocNgo: false, buocNgoLyDo: '',
     }

@@ -79,6 +79,18 @@ export const KINH_META: Record<KinhSlug, KinhMeta> = {
 
 export const KINH_ORDER: KinhSlug[] = ['thai-duong', 'duong-minh', 'thieu-duong', 'thai-am', 'thieu-am', 'quyet-am']
 
+/**
+ * Định vị của một ca có ĐỦ CHẮC để phán lui/tiến không: Bát Cương ĐO ĐƯỢC khớp chữ ký kinh, và
+ * độ tin không ở mức thấp (hoà phiếu cũng bị hạ xuống thấp, nên tự rơi vào đây).
+ *
+ * Để ở lib vì có BA nơi cần cùng một câu trả lời: khối "Chuyển biến" và dải truyền biến trên trang
+ * Kết Quả Đo, cùng dải mốc dùng chung của cổng bệnh nhân / tab Lịch sử đo. Trước đây mỗi nơi tự
+ * quyết, nên cùng một bước mà chỗ ghi "bệnh lui?" chỗ ghi "bệnh lui" khẳng định.
+ */
+export function dinhViChac(v: LucKinhVerdict | null | undefined): boolean {
+  return !!v && v.batCuongKhop && v.doTin !== 'thap'
+}
+
 /** Hướng truyền biến giữa 2 lần đo — so tầng NÔNG→SÂU (`tang`, KHÔNG phải `thuTu`). Sâu hơn = truyền
  * vào lý (nặng lên), nông hơn = lui ra biểu (đang hồi phục). Dùng cho timeline lịch sử đo cùng đợt. */
 export function huongTruyen(prev: KinhSlug, cur: KinhSlug): { nhan: string; loai: 'vao-ly' | 'ra-bieu' | 'giu' } {

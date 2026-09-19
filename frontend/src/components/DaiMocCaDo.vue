@@ -13,7 +13,7 @@ import { computed } from 'vue'
 import AmDuongTaiji from '@/components/AmDuongTaiji.vue'
 import { tomTatCaDo, soSanhCaDo, type CaDoInput, type TomTat, type ChuyenBien } from '@/lib/tomTatCaDo'
 import type { TongCuong } from '@/lib/meridianAnalysis'
-import type { TheKinhMap } from '@/lib/lucKinh'
+import { dinhViChac, type TheKinhMap } from '@/lib/lucKinh'
 
 const props = withDefaults(
   defineProps<{
@@ -40,6 +40,10 @@ interface Moc {
   moiNhat: boolean
   /** So với mốc liền trước (null ở mốc đầu). */
   cb: ChuyenBien | null
+  /** Bước này có đầu nào định vị chưa đủ chắc không → nhãn phải mang dấu ngờ. */
+  cbNgo: boolean
+  /** Vì sao ngờ — nêu đích danh mốc hụt và Bát Cương đo được của nó. */
+  cbNgoLyDo: string
 }
 
 /** Dải phải đi cũ → mới ở khâu TÍNH (để `cb` đúng ngữ nghĩa), dù bày ra thì ngược lại. */
@@ -78,8 +82,28 @@ const mocs = computed<Moc[]>(() => {
     tongCuong: t.tongCuong,
     moiNhat: i === arr.length - 1,
     cb: i > 0 ? soSanhCaDo(arr[i - 1]!, t) : null,
+    cbNgo: i > 0 && (!dinhViChac(arr[i - 1]!.lucKinh) || !dinhViChac(t.lucKinh)),
+    cbNgoLyDo: i > 0 ? lyDoNgo(arr[i - 1]!, t) : '',
   }))
 })
+
+/** Câu giải thích dấu ngờ: gọi đích danh mốc nào hụt và Bát Cương đo được của nó, để thầy thuốc
+ *  đọc một câu là biết nên tin bao nhiêu. */
+function lyDoNgo(truoc: TomTat, sau: TomTat): string {
+  const hut: string[] = []
+  const mo = (t: TomTat) => {
+    const ngay = t.ts ? new Date(t.ts).toLocaleDateString('vi-VN') : '—'
+    const hc = t.tongCuong?.hoiChung
+    return `mốc ${ngay}${hc ? ` (Bát Cương đo được: ${hc})` : ''}`
+  }
+  if (!dinhViChac(truoc.lucKinh)) hut.push(mo(truoc))
+  if (!dinhViChac(sau.lucKinh)) hut.push(mo(sau))
+  if (!hut.length) return ''
+  return (
+    `${hut.join(' và ')} — Bát Cương đo được chưa khớp trọn chữ ký kinh, ` +
+    'nên hướng này suy từ tên thể bệnh, chưa được số đo xác nhận.'
+  )
+}
 
 /** Mới nhất trước — thứ người đọc cần thấy đầu tiên, khỏi cuộn tới cuối dải. */
 const mocsHienThi = computed<Moc[]>(() => [...mocs.value].reverse())
@@ -163,12 +187,14 @@ function nhanKhoangCach(cb: ChuyenBien): string {
       <span
         v-else-if="m.cb"
         class="mach-conn"
-        :class="'mach-conn--' + (m.cb.lucKinh?.loai || 'giu')"
-        :title="`So với lần đo trước đó ${khoangCach(m.cb)}: ${nhanHuong(m.cb)}`"
+        :class="['mach-conn--' + (m.cb.lucKinh?.loai || 'giu'), { 'is-ngo': m.cbNgo }]"
+        :title="m.cbNgo
+          ? `So với lần đo trước đó ${khoangCach(m.cb)}: ${nhanHuong(m.cb)}.\n\nCHƯA CHẮC: ${m.cbNgoLyDo}`
+          : `So với lần đo trước đó ${khoangCach(m.cb)}: ${nhanHuong(m.cb)}`"
       >
         <span class="mach-days">{{ nhanKhoangCach(m.cb) }}</span>
         <span class="mach-arrow">{{ muiTen(m.cb) }}</span>
-        <span class="mach-nhan">{{ nhanHuong(m.cb) }}</span>
+        <span class="mach-nhan">{{ nhanHuong(m.cb) }}<template v-if="m.cbNgo">?</template></span>
       </span>
     </li>
   </ol>
@@ -387,6 +413,12 @@ function nhanKhoangCach(cb: ChuyenBien): string {
   color: var(--success-fg);
   border-color: var(--success-border);
   background: var(--success-bg);
+}
+/* Dấu ngờ: vẫn nói hướng, nhưng nhạt đi + nét đứt để mắt tự hạ tin cậy — cùng quy ước với dải
+   truyền biến trên trang Kết Quả Đo. */
+.mach-conn.is-ngo {
+  opacity: 0.74;
+  border-style: dashed;
 }
 .mach-conn--vao-ly {
   color: var(--warning-fg);
