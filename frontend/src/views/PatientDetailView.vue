@@ -6,6 +6,8 @@ import { useAuthStore } from '@/stores/auth'
 import { api } from '@/services/api'
 import { mocKham, mocKhamMs } from '@/lib/caKham'
 import { maskHoTen, maskSdt } from '@/lib/maskThongTin'
+import DaiMocCaDo from '@/components/DaiMocCaDo.vue'
+import type { TheKinhMap } from '@/lib/lucKinh'
 
 const router = useRouter()
 const route = useRoute()
@@ -26,6 +28,16 @@ const displayPhone = computed(() => {
   return authStore.isLeTan ? maskSdt(v) : v
 })
 const examinations = ref<any[]>([])
+/** Bản đồ thể bệnh → Lục Kinh cho dải mốc. Không có thì lib rơi về bảng tĩnh, vẫn ra kết luận. */
+const theKinhMap = ref<TheKinhMap | null>(null)
+async function fetchTheKinhMap() {
+  try {
+    const m = await api.get<TheKinhMap>('/thuong-han/the-kinh')
+    if (m && Object.keys(m).length) theKinhMap.value = m
+  } catch {
+    theKinhMap.value = null
+  }
+}
 const isLoading = ref(true)
 const isLoadingExams = ref(true)
 const error = ref<string | null>(null)
@@ -35,7 +47,7 @@ const patientId = computed(() => Number(route.params.id))
 
 onMounted(async () => {
   await loadPatient()
-  await Promise.all([loadExaminations(), loadSlots()])
+  await Promise.all([loadExaminations(), loadSlots(), fetchTheKinhMap()])
   if (route.query.tab === 'luoi') {
     activeTab.value = 'luoi'
     loadLuoiRecords()
@@ -617,7 +629,19 @@ function goToLuoiDiagnosis() {
           <svg width="40" height="40" viewBox="0 0 20 20" fill="currentColor" class="empty-icon-sm"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
           <p>Chưa có lịch sử đo</p>
         </div>
-        <div v-else class="exam-list">
+        <template v-else>
+          <!-- Dải mốc: ĐÚNG cách đọc mà người bệnh thấy ở cổng của họ, để hai bên nói cùng một
+               ngôn ngữ khi trao đổi. Danh sách chi tiết bên dưới giữ nguyên — nó mang những thứ
+               chỉ thầy thuốc cần: sửa giờ đo, chẩn đoán đã lưu, nhiệt-ẩm môi trường, phân trang. -->
+          <DaiMocCaDo
+            :records="examinations"
+            :the-kinh-map="theKinhMap"
+            route-name="meridian-results"
+            :fallback-patient-id="patientId"
+            class="exam-dai-moc"
+          />
+
+        <div class="exam-list">
           <div
             v-for="exam in pagedExaminations"
             :key="exam.id"
@@ -688,6 +712,7 @@ function goToLuoiDiagnosis() {
             <span class="page-info">Trang {{ examPage }} / {{ totalPages }}</span>
           </div>
         </div>
+        </template>
       </div>
 
       <!-- Tab: Lịch trị liệu -->
@@ -921,6 +946,12 @@ function goToLuoiDiagnosis() {
 </template>
 
 <style scoped>
+/* Dải mốc đặt trên danh sách chi tiết — tách bằng một đường mảnh cho rõ hai tầng thông tin. */
+.exam-dai-moc {
+  margin-bottom: var(--space-4, 16px);
+  padding-bottom: var(--space-3, 12px);
+  border-bottom: 1px solid var(--gray-200, #e5e7eb);
+}
 /* (Previous styles...) */
 .pagination { display: flex; align-items: center; justify-content: center; gap: var(--space-2); padding: var(--space-6) 0; }
 .page-btn { min-width: 32px; height: 32px; padding: 0 8px; display: flex; align-items: center; justify-content: center; background: var(--white); border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-size: var(--font-size-sm); font-weight: 600; color: var(--gray-600); cursor: pointer; transition: all var(--transition-fast); }
