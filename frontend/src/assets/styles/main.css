@@ -425,6 +425,12 @@ img {
 .content-area .lk-traj-break,
 .content-area .lk-traj-trend,
 .content-area .lk-donghang,
+/* Công thức Ngũ Hành Hồi Tác: câu chỉ đạo trị, diễn giải mệnh lệnh và lời giải Nguyên–Lạc đều là
+   CÂU HOÀN CHỈNH; Title Case làm "bổ thuỷ tại Tiểu Trường — phù nhược" thành khó đọc. */
+.content-area .nhht-chidao,
+.content-area .nhht-rx-text,
+.content-area .nhht-nl-box .cond-sub,
+.content-area .nhht-empty,
 .content-area p {
   text-transform: none;
 }

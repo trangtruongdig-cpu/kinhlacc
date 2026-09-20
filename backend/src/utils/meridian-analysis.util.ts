@@ -154,6 +154,12 @@ export interface DiagnosisSummary {
 }
 
 /** Chẩn đoán Âm/Dương · Khí · Huyết · Hư-Thực từ chỉ số chi trên/chi dưới. */
+/**
+ * ĐỒNG BỘ VỚI FRONTEND: bản ở frontend/src/lib/meridianAnalysis.ts từ 20/09/2026 còn trả thêm
+ * `explain` (các số trung gian + `lechRows` — danh sách kinh đo lệch kèm hướng). Bản này giữ nguyên
+ * kết luận, chưa cần explain; nếu backend cần tới thì chép nguyên phần thu lechRows của bản kia,
+ * đừng tự nghĩ lại luật — hai bản phải cho cùng một kết luận trên cùng bộ số.
+ */
 export function computeDiagnosis(
   d: InputData | null | undefined,
   upperRows: ProcessedRow[],

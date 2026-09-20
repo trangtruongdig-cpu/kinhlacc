@@ -57,6 +57,27 @@ export function huyetTheoHanh(kinhId: string, hanh: HanhId): HuyetTra | null {
   return { ten: k.huyet[ROLE_ORDER.indexOf(role)]!, role, roleTen: ROLE_TEN[role] }
 }
 
+// ── CẶP BIỂU–LÝ (tạng ↔ phủ thông nhau qua lạc mạch) — NGUỒN DUY NHẤT ────────
+// Dùng ở ba chỗ: khung Biểu–Lý của Ngũ Hành Hồi Tác, phối huyệt Nguyên–Lạc chủ-khách,
+// và mọi chỗ cần hỏi "kinh này biểu-lý với kinh nào". Viết [phủ (biểu, dương), tạng (lý, âm)].
+export const BIEU_LY: ReadonlyArray<readonly [string, string]> = [
+  ['Đại trường', 'Phế'],
+  ['Vị', 'Tỳ'],
+  ['Tam tiêu', 'Tâm bào'],
+  ['Tiểu trường', 'Tâm'],
+  ['Đởm', 'Can'],
+  ['Bàng quang', 'Thận'],
+]
+
+/** Kinh biểu-lý với `kinh` (Phế↔Đại trường…). null nếu không thuộc 12 kinh chính. */
+export function bieuLyCua(kinh: string): string | null {
+  for (const [phu, tang] of BIEU_LY) {
+    if (phu === kinh) return tang
+    if (tang === kinh) return phu
+  }
+  return null
+}
+
 // ── Ngũ hành tương sinh: a sinh SINH[a] ──
 const SINH: Record<HanhId, HanhId> = { moc: 'hoa', hoa: 'tho', tho: 'kim', kim: 'thuy', thuy: 'moc' }
 

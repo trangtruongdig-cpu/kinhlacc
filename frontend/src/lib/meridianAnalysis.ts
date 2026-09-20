@@ -145,11 +145,32 @@ function signToInt(sign: string): number {
   return 0
 }
 
+/** Kinh đo lệch khỏi khoảng bình thường của NHÓM nó, kèm hướng. */
+export interface LechRow {
+  /** Mã ngắn như trong bảng đo: 'Tâm', 'Bào', 'Tiểu', 'Bàng'… */
+  name: string
+  tone: 'high' | 'low'
+}
+
+/**
+ * Các con số trung gian dẫn tới kết luận — LỘ RA để bảng giải thích không phải tính lại.
+ * `huThuc.lechRows` là danh sách kinh lệch: trang Kết Quả Đo dùng để soi đúng kinh trên bảng đo và
+ * hình 3D, Section IV dùng làm đầu vào định gốc. Trước 20/09/2026 phần này chỉ tồn tại trong
+ * computed `diagnosis` của MeridianResultsView.vue — một bản sao thứ ba của thuật toán, khiến mọi
+ * phép kiểm lấy từ lib đều ra rỗng và kết luận sai theo.
+ */
+export interface DiagnosisExplain {
+  khi: { huCount: number; total: number; sum: number; mean: number }
+  huyet: { huCount: number; total: number; sum: number; mean: number }
+  huThuc: { lechCount: number; tongDo: number; totalLech: number; nguong: number; lechRows: LechRow[] }
+}
+
 export interface DiagnosisSummary {
   amDuong: string
   khi: string
   huyet: string
   huThuc: string
+  explain: DiagnosisExplain | null
 }
 
 /** Chẩn đoán Âm/Dương · Khí · Huyết · Hư-Thực từ chỉ số chi trên/chi dưới. */
@@ -160,7 +181,7 @@ export function computeDiagnosis(
   upperStats: MeridianStats,
   lowerStats: MeridianStats,
 ): DiagnosisSummary {
-  if (!d) return { amDuong: '—', khi: '—', huyet: '—', huThuc: '—' }
+  if (!d) return { amDuong: '—', khi: '—', huyet: '—', huThuc: '—', explain: null }
 
   // 2. Khí (dựa trên 6 kinh Chi trên).
   let huTrenCount = 0
@@ -218,12 +239,14 @@ export function computeDiagnosis(
   let totalLech = 0
   let tongDoTren = 0
   let tongDoDuoi = 0
+  const lechRows: LechRow[] = []
   upperRows.forEach((r) => {
     if (r.avg === 0) return
     tongDoTren++
     if (r.avg > upperStats.upperBound || r.avg < upperStats.lowerBound) {
       lechCount++
       totalLech += Math.abs(r.avg - upperStats.mean)
+      lechRows.push({ name: r.name, tone: r.avg > upperStats.upperBound ? 'high' : 'low' })
     }
   })
   lowerRows.forEach((r) => {
@@ -232,6 +255,7 @@ export function computeDiagnosis(
     if (r.avg > lowerStats.upperBound || r.avg < lowerStats.lowerBound) {
       lechCount++
       totalLech += Math.abs(r.avg - lowerStats.mean)
+      lechRows.push({ name: r.name, tone: r.avg > lowerStats.upperBound ? 'high' : 'low' })
     }
   })
   const tongDo = tongDoTren + tongDoDuoi
@@ -259,7 +283,17 @@ export function computeDiagnosis(
   const lyN = organs.filter((o) => o.depth === 'ly' || o.depth === 'mixed').length
   const amDuong = computeTongCuong(nhietN, hanN, bieuN, lyN, huThuc).amDuong
 
-  return { amDuong, khi, huyet, huThuc }
+  return {
+    amDuong,
+    khi,
+    huyet,
+    huThuc,
+    explain: {
+      khi: { huCount: huTrenCount, total: upperRows.length, sum: round2(sumDiffTren), mean: round2(upperStats.mean) },
+      huyet: { huCount: huDuoiCount, total: lowerRows.length, sum: round2(sumDiffDuoi), mean: round2(lowerStats.mean) },
+      huThuc: { lechCount, tongDo, totalLech, nguong, lechRows },
+    },
+  }
 }
 
 /** Loại kết luận tổng cương (để tô màu nhất quán ở UI). */
@@ -714,4 +748,81 @@ export function computeAffectedOrgans(
 /** Định dạng số kiểu VN: dùng dấu phẩy thập phân. */
 export function fmt(val: number, decimals = 2): string {
   return val.toFixed(decimals).replace('.', ',')
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Z NGŨ HÀNH — chỉ số lệch của mỗi hành, gộp từ tạng (0,6) và phủ (0,4).
+// Rút về lib 20/09/2026: trước đó phép này nằm trong MeridianResultsView.vue nên mọi nơi khác
+// (so hai lần đo, script kiểm) phải chép lại — đúng lối đã sinh ra bản sao lechRows.
+// ═══════════════════════════════════════════════════════════════════════════
+
+export interface NguHanhZ {
+  hoa: number | null
+  tho: number | null
+  kim: number | null
+  thuy: number | null
+  moc: number | null
+}
+
+/** z của MỘT kinh trong nhóm của nó. null = thiếu đo (0 KHÔNG phải "lạnh nhất"). */
+function zKinh(rows: ProcessedRow[], stats: MeridianStats, name: string): number | null {
+  const row = rows.find((r) => r.name === name)
+  if (!row || !(row.avg > 0)) return null
+  if (!(stats.sd > 1e-6)) return 0 // thiếu phân tán → đứng ở mốc, không kết luận hư/thực
+  return (row.avg - stats.mean) / stats.sd
+}
+
+/** Gộp z của tạng (trọng số 0,6) và phủ (0,4); nhóm nào thiếu đo thì bỏ, không kéo kết quả. */
+function gopHanh(
+  tangNames: string[],
+  phuNames: string[],
+  rows: ProcessedRow[],
+  stats: MeridianStats,
+): number | null {
+  const tb = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length
+  const tangZ = tangNames.map((n) => zKinh(rows, stats, n)).filter((v): v is number => v != null)
+  const phuZ = phuNames.map((n) => zKinh(rows, stats, n)).filter((v): v is number => v != null)
+  const parts: { v: number; w: number }[] = []
+  if (tangZ.length) parts.push({ v: tb(tangZ), w: 0.6 })
+  if (phuZ.length) parts.push({ v: tb(phuZ), w: 0.4 })
+  if (!parts.length) return null
+  return parts.reduce((s, p) => s + p.v * p.w, 0) / parts.reduce((s, p) => s + p.w, 0)
+}
+
+/** z của 5 hành. Hoả gộp cả Quân Hoả (Tâm/Tiểu trường) và Tướng Hoả (Tâm bào/Tam tiêu). */
+export function nguHanhZTuRows(
+  upperRows: ProcessedRow[],
+  lowerRows: ProcessedRow[],
+  upperStats: MeridianStats,
+  lowerStats: MeridianStats,
+): NguHanhZ {
+  return {
+    hoa: gopHanh(['Tâm', 'Bào'], ['Tiểu', 'Tam'], upperRows, upperStats),
+    kim: gopHanh(['Phế'], ['Đại'], upperRows, upperStats),
+    tho: gopHanh(['Tỳ'], ['Vị'], lowerRows, lowerStats),
+    thuy: gopHanh(['Thận'], ['Bàng'], lowerRows, lowerStats),
+    moc: gopHanh(['Can'], ['Đởm'], lowerRows, lowerStats),
+  }
+}
+
+/** Tiện dụng: z ngũ hành thẳng từ 24 số thô (dùng khi so hai lần đo). */
+export function nguHanhZTuInputData(d: InputData | null | undefined): NguHanhZ | null {
+  if (!d) return null
+  const u0 = rawUpper(d)
+  const l0 = rawLower(d)
+  if (!u0.length || !l0.length) return null
+  const uB = calculateBounds(u0)
+  const lB = calculateBounds(l0)
+  return nguHanhZTuRows(processRows(u0, uB), processRows(l0, lB), uB, lB)
+}
+
+/** Tiện dụng: chẩn đoán Bát Cương (kèm explain/lechRows) thẳng từ 24 số thô. */
+export function diagnosisTuInputData(d: InputData | null | undefined): DiagnosisSummary | null {
+  if (!d) return null
+  const u0 = rawUpper(d)
+  const l0 = rawLower(d)
+  if (!u0.length || !l0.length) return null
+  const uB = calculateBounds(u0)
+  const lB = calculateBounds(l0)
+  return computeDiagnosis(d, processRows(u0, uB), processRows(l0, lB), uB, lB)
 }

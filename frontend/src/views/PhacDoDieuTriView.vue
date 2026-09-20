@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { api } from '@/services/api'
+
+const route = useRoute()
 
 interface KinhMachLite {
   idKinhMach: number
@@ -77,54 +80,93 @@ const benhSearch = ref('')
 
 const activeCategoryTab = ref<'standard' | 'nhht'>('standard')
 
-interface NhhtModel {
-  code: string
-  name: string
-  organ: string
-  type: 'hu' | 'thuc'
-  condition: string
-  frame: string
-  ta: string
-  bo: string
-  bm: string
-  rationale: string
+/**
+ * Ngũ Hành Hồi Tác — ĐỌC TỪ BẢNG `nhht_cong_thuc`, không nhập tay trong màn hình nữa.
+ * Bộ chuẩn 120 công thức (12 kinh × hư/thực × 5 khung) do engine lib/nguHanhHoiTac.ts sinh ra,
+ * backend seed vào DB lúc khởi động và giữ nguyên bản nào thầy thuốc đã sửa (cờ sua_tay).
+ * Bảng nhập tay cũ đã bị bỏ: nó lệch bộ chuẩn ở 3 chỗ (Tỳ hư, Tâm thực, Tâm bào thực — bổ mẫu/
+ * tả tử lấy nhầm sang bản hành), phát hiện bằng scripts/nhht-cong-thuc.mjs đối chiếu từ điển huyệt.
+ */
+interface HuyetChiDinhLite { kinh: string; hanhTen: string; huyet: string; role: string; boTa: string }
+interface MenhLenhLite { bac: string; tacDong: string; hanh: string; kinh: string; huyet: string | null; vaiTro: string | null; phap: string }
+interface CongThucNhht {
+  ma: string; kinh: string; hanh: string; trang_thai: string; khung: string; khung_ten: string
+  kinh_ban: string | null; chi_dao: string | null
+  menh_lenh: MenhLenhLite[] | null
+  huyet_ngu_du: { bo: HuyetChiDinhLite; ta: HuyetChiDinhLite } | null
+  huyet_nan_kinh: HuyetChiDinhLite | null
+  huyet_nguyen_lac: { chuKinh: string; nguyen: { ten: string; ma: string }; khachKinh: string; lac: { ten: string; ma: string }; giaiThich: string } | null
+  phap_co_dien: Array<{ id: string; ten: string; han: string; coChe: string; nguon: string }> | null
+  ghi_chu: string | null; sua_tay: boolean
 }
 
-const nhhtModels = ref<NhhtModel[]>([
-  { code: 'NHHT-TY-HU', name: 'Ngũ Hành Hồi Tác: Tỳ Hư', organ: 'Tỳ', type: 'hu', condition: 'Chỉ số kinh Tỳ < Cận dưới (Hư)', frame: 'Thượng–Hạ (Hư Hàn)', ta: 'Ẩn Bạch (Tỉnh Mộc · kinh Tỳ)', bo: 'Túc Tam Lý (Hợp Thổ · kinh Vị)', bm: 'Bổ Mẫu: Thái Bạch (Du Thổ · kinh Tỳ)', rationale: 'Tỳ Hư bị Mộc khắc đè nén → Tả Mộc (Ẩn Bạch) tại kinh Gốc, Bổ Thổ (Túc Tam Lý) tại kinh Bạn Vị để bồi dưỡng khí Thổ.' },
-  { code: 'NHHT-PHE-HU', name: 'Ngũ Hành Hồi Tác: Phế Hư', organ: 'Phế', type: 'hu', condition: 'Chỉ số kinh Phế < Cận dưới (Hư)', frame: 'Thượng–Hạ (Hư Hàn)', ta: 'Kinh Cừ (Kinh Kim · kinh Phế)', bo: 'Thái Bạch (Du Thổ · kinh Tỳ)', bm: 'Bổ Mẫu: Thái Uyên (Du Thổ · kinh Phế)', rationale: 'Phế Kim Hư bị Hỏa khắc đè nén → Tả Hỏa tại kinh Gốc, Bổ Thổ tại kinh Bạn Tỳ.' },
-  { code: 'NHHT-THAN-HU', name: 'Ngũ Hành Hồi Tác: Thận Hư', organ: 'Thận', type: 'hu', condition: 'Chỉ số kinh Thận < Cận dưới (Hư)', frame: 'Thượng–Hạ (Hư Hàn)', ta: 'Dũng Tuyền (Tỉnh Mộc · kinh Thận)', bo: 'Thiếu Hải (Hợp Thủy · kinh Tâm)', bm: 'Bổ Mẫu: Phục Lưu (Kinh Kim · kinh Thận)', rationale: 'Thận Thủy Hư bị Thổ khắc đè nén → Tả Thổ tại kinh Gốc, Bổ Thủy tại kinh Bạn Tâm.' },
-  { code: 'NHHT-CAN-HU', name: 'Ngũ Hành Hồi Tác: Can Hư', organ: 'Can', type: 'hu', condition: 'Chỉ số kinh Can < Cận dưới (Hư)', frame: 'Thượng–Hạ (Hư Hàn)', ta: 'Trung Phong (Kinh Kim · kinh Can)', bo: 'Khúc Trạch (Hợp Thủy · kinh Tâm Bào)', bm: 'Bổ Mẫu: Khúc Tuyền (Hợp Thủy · kinh Can)', rationale: 'Can Mộc Hư bị Kim khắc đè nén → Tả Kim tại kinh Gốc, Bổ Mộc tại kinh Bạn Tâm Bào.' },
-  { code: 'NHHT-TAM-HU', name: 'Ngũ Hành Hồi Tác: Tâm Hư', organ: 'Tâm', type: 'hu', condition: 'Chỉ số kinh Tâm < Cận dưới (Hư)', frame: 'Thượng–Hạ (Hư Hàn)', ta: 'Linh Đạo (Kinh Kim · kinh Tâm)', bo: 'Âm Cốc (Hợp Thủy · kinh Thận)', bm: 'Bổ Mẫu: Thiếu Xung (Tỉnh Mộc · kinh Tâm)', rationale: 'Tâm Hỏa Hư bị Thủy khắc đè nén → Tả Thủy tại kinh Gốc, Bổ Hỏa tại kinh Bạn Thận.' },
-  { code: 'NHHT-VI-HU', name: 'Ngũ Hành Hồi Tác: Vị Hư', organ: 'Vị', type: 'hu', condition: 'Chỉ số kinh Vị < Cận dưới (Hư)', frame: 'Thượng–Hạ (Hư Hàn)', ta: 'Giải Khê (Kinh Hỏa · kinh Vị)', bo: 'Khúc Trì (Hợp Thổ · kinh Đại Trường)', bm: 'Bổ Mẫu: Giải Khê (Kinh Hỏa · kinh Vị)', rationale: 'Vị Thổ Hư bị Mộc khắc đè nén → Tả Mộc tại kinh Gốc, Bổ Thổ tại kinh Bạn Đại Trường.' },
-  { code: 'NHHT-DAI-HU', name: 'Ngũ Hành Hồi Tác: Đại Trường Hư', organ: 'Đại trường', type: 'hu', condition: 'Chỉ số kinh Đại Trường < Cận dưới (Hư)', frame: 'Thượng–Hạ (Hư Hàn)', ta: 'Dương Khê (Kinh Hỏa · kinh Đại Trường)', bo: 'Túc Tam Lý (Hợp Thổ · kinh Vị)', bm: 'Bổ Mẫu: Khúc Trì (Hợp Thổ · kinh Đại Trường)', rationale: 'Đại Trường Kim Hư bị Hỏa khắc → Tả Hỏa tại kinh Gốc, Bổ Kim tại kinh Bạn Vị.' },
-  { code: 'NHHT-TIEU-HU', name: 'Ngũ Hành Hồi Tác: Tiểu Trường Hư', organ: 'Tiểu trường', type: 'hu', condition: 'Chỉ số kinh Tiểu Trường < Cận dưới (Hư)', frame: 'Thượng–Hạ (Hư Hàn)', ta: 'Dương Cốc (Kinh Hỏa · kinh Tiểu Trường)', bo: 'Ủy Trung (Hợp Thổ · kinh Bàng Quang)', bm: 'Bổ Mẫu: Hậu Khê (Du Mộc · kinh Tiểu Trường)', rationale: 'Tiểu Trường Hỏa Hư bị Thủy khắc → Tả Thủy tại kinh Gốc, Bổ Hỏa tại kinh Bạn Bàng Quang.' },
-  { code: 'NHHT-DAM-HU', name: 'Ngũ Hành Hồi Tác: Đởm Hư', organ: 'Đởm', type: 'hu', condition: 'Chỉ số kinh Đởm < Cận dưới (Hư)', frame: 'Thượng–Hạ (Hư Hàn)', ta: 'Dương Phụ (Kinh Hỏa · kinh Đởm)', bo: 'Thiên Tỉnh (Hợp Thổ · kinh Tam Tiêu)', bm: 'Bổ Mẫu: Hiệp Khê (Huỳnh Thủy · kinh Đởm)', rationale: 'Đởm Mộc Hư bị Kim khắc → Tả Kim tại kinh Gốc, Bổ Mộc tại kinh Bạn Tam Tiêu.' },
-  { code: 'NHHT-TT-HU', name: 'Ngũ Hành Hồi Tác: Tam Tiêu Hư', organ: 'Tam tiêu', type: 'hu', condition: 'Chỉ số kinh Tam Tiêu < Cận dưới (Hư)', frame: 'Thượng–Hạ (Hư Hàn)', ta: 'Chi Câu (Kinh Hỏa · kinh Tam Tiêu)', bo: 'Dương Lăng Tuyền (Hợp Thổ · kinh Đởm)', bm: 'Bổ Mẫu: Trung Chử (Du Mộc · kinh Tam Tiêu)', rationale: 'Tam Tiêu Hỏa Hư bị Thủy khắc → Tả Thủy tại kinh Gốc, Bổ Hỏa tại kinh Bạn Đởm.' },
-  { code: 'NHHT-BQ-HU', name: 'Ngũ Hành Hồi Tác: Bàng Quang Hư', organ: 'Bàng quang', type: 'hu', condition: 'Chỉ số kinh Bàng Quang < Cận dưới (Hư)', frame: 'Thượng–Hạ (Hư Hàn)', ta: 'Côn Lôn (Kinh Hỏa · kinh Bàng Quang)', bo: 'Tiểu Hải (Hợp Thổ · kinh Tiểu Trường)', bm: 'Bổ Mẫu: Chí Âm (Tỉnh Kim · kinh Bàng Quang)', rationale: 'Bàng Quang Thủy Hư bị Thổ khắc → Tả Thổ tại kinh Gốc, Bổ Thủy tại kinh Bạn Tiểu Trường.' },
-  { code: 'NHHT-TB-HU', name: 'Ngũ Hành Hồi Tác: Tâm Bào Hư', organ: 'Tâm bào', type: 'hu', condition: 'Chỉ số kinh Tâm Bào < Cận dưới (Hư)', frame: 'Thượng–Hạ (Hư Hàn)', ta: 'Gian Sử (Kinh Kim · kinh Tâm Bào)', bo: 'Khúc Tuyền (Hợp Thủy · kinh Can)', bm: 'Bổ Mẫu: Trung Xung (Tỉnh Mộc · kinh Tâm Bào)', rationale: 'Tâm Bào Hỏa Hư bị Thủy khắc → Tả Thủy tại kinh Gốc, Bổ Hỏa tại kinh Bạn Can.' },
-  { code: 'NHHT-PHE-THUC', name: 'Ngũ Hành Hồi Tác: Phế Thực', organ: 'Phế', type: 'thuc', condition: 'Chỉ số kinh Phế > Cận trên (Thực)', frame: 'Biểu–Lý (Thực Nhiệt)', ta: 'Nhị Gian (Huỳnh Thủy · kinh Đại Trường)', bo: 'Xích Trạch (Hợp Thủy · kinh Phế)', bm: 'Tả Tử: Xích Trạch (Hợp Thủy · kinh Phế)', rationale: 'Phế Kim THỰC gây Tương Thừa & Tương Vũ → Bổ Thủy (Xích Trạch) chế ngự Kim, Tả Kim tại kinh Bạn Đại Trường.' },
-  { code: 'NHHT-TY-THUC', name: 'Ngũ Hành Hồi Tác: Tỳ Thực', organ: 'Tỳ', type: 'thuc', condition: 'Chỉ số kinh Tỳ > Cận trên (Thực)', frame: 'Biểu–Lý (Thực Nhiệt)', ta: 'Nội Đình (Huỳnh Thủy · kinh Vị)', bo: 'Thương Khâu (Kinh Kim · kinh Tỳ)', bm: 'Tả Tử: Thương Khâu (Kinh Kim · kinh Tỳ)', rationale: 'Tỳ Thổ THỰC gây Tương Thừa Mộc → Bổ Mộc chế ngự Thổ, Tả Thổ tại kinh Bạn Vị.' },
-  { code: 'NHHT-TAM-THUC', name: 'Ngũ Hành Hồi Tác: Tâm Thực', organ: 'Tâm', type: 'thuc', condition: 'Chỉ số kinh Tâm > Cận trên (Thực)', frame: 'Biểu–Lý (Thực Nhiệt)', ta: 'Dương Cốc (Kinh Hỏa · kinh Tiểu Trường)', bo: 'Thiếu Hải (Hợp Thủy · kinh Tâm)', bm: 'Tả Tử: Thiếu Phủ (Huỳnh Hỏa · kinh Tâm)', rationale: 'Tâm Hỏa THỰC gây Tương Thừa Kim → Bổ Thủy (Thiếu Hải) chế ngự Hỏa, Tả Hỏa tại kinh Bạn Tiểu Trường.' },
-  { code: 'NHHT-CAN-THUC', name: 'Ngũ Hành Hồi Tác: Can Thực', organ: 'Can', type: 'thuc', condition: 'Chỉ số kinh Can > Cận trên (Thực)', frame: 'Biểu–Lý (Thực Nhiệt)', ta: 'Dương Phụ (Kinh Hỏa · kinh Đởm)', bo: 'Trung Phong (Kinh Kim · kinh Can)', bm: 'Tả Tử: Hành Gian (Huỳnh Hỏa · kinh Can)', rationale: 'Can Mộc THỰC gây Tương Thừa Thổ → Bổ Kim (Trung Phong) chế ngự Mộc, Tả Mộc tại kinh Bạn Đởm.' },
-  { code: 'NHHT-THAN-THUC', name: 'Ngũ Hành Hồi Tác: Thận Thực', organ: 'Thận', type: 'thuc', condition: 'Chỉ số kinh Thận > Cận trên (Thực)', frame: 'Biểu–Lý (Thực Nhiệt)', ta: 'Ủy Trung (Hợp Thổ · kinh Bàng Quang)', bo: 'Thái Khê (Du Thổ · kinh Thận)', bm: 'Tả Tử: Dũng Tuyền (Tỉnh Mộc · kinh Thận)', rationale: 'Thận Thủy THỰC gây Tương Thừa Hỏa → Bổ Thổ chế ngự Thủy, Tả Thủy tại kinh Bàng Quang.' },
-  { code: 'NHHT-VI-THUC', name: 'Ngũ Hành Hồi Tác: Vị Thực', organ: 'Vị', type: 'thuc', condition: 'Chỉ số kinh Vị > Cận trên (Thực)', frame: 'Biểu–Lý (Thực Nhiệt)', ta: 'Hãm Cốc (Du Mộc · kinh Vị)', bo: 'Thương Khâu (Kinh Kim · kinh Tỳ)', bm: 'Tả Tử: Lệ Đoài (Tỉnh Kim · kinh Vị)', rationale: 'Vị Thổ THỰC gây Tương Thừa Thủy → Bổ Mộc chế ngự Thổ, Tả Thổ tại kinh Bạn Tỳ.' },
-  { code: 'NHHT-DAI-THUC', name: 'Ngũ Hành Hồi Tác: Đại Trường Thực', organ: 'Đại trường', type: 'thuc', condition: 'Chỉ số kinh Đại Trường > Cận trên (Thực)', frame: 'Biểu–Lý (Thực Nhiệt)', ta: 'Dương Khê (Kinh Hỏa · kinh Đại Trường)', bo: 'Xích Trạch (Hợp Thủy · kinh Phế)', bm: 'Tả Tử: Nhị Gian (Huỳnh Thủy · kinh Đại Trường)', rationale: 'Đại Trường Kim THỰC gây Tương Thừa Mộc → Bổ Hỏa chế ngự Kim, Tả Kim tại kinh Bạn Phế.' },
-  { code: 'NHHT-TIEU-THUC', name: 'Ngũ Hành Hồi Tác: Tiểu Trường Thực', organ: 'Tiểu trường', type: 'thuc', condition: 'Chỉ số kinh Tiểu Trường > Cận trên (Thực)', frame: 'Biểu–Lý (Thực Nhiệt)', ta: 'Tiểu Hải (Hợp Thổ · kinh Tiểu Trường)', bo: 'Thiếu Hải (Hợp Thủy · kinh Tâm)', bm: 'Tả Tử: Tiểu Hải (Hợp Thổ · kinh Tiểu Trường)', rationale: 'Tiểu Trường Hỏa THỰC gây Tương Thừa Kim → Bổ Thủy chế ngự Hỏa, Tả Hỏa tại kinh Bạn Tâm.' },
-  { code: 'NHHT-DAM-THUC', name: 'Ngũ Hành Hồi Tác: Đởm Thực', organ: 'Đởm', type: 'thuc', condition: 'Chỉ số kinh Đởm > Cận trên (Thực)', frame: 'Biểu–Lý (Thực Nhiệt)', ta: 'Dương Lăng Tuyền (Hợp Thổ · kinh Đởm)', bo: 'Trung Phong (Kinh Kim · kinh Can)', bm: 'Tả Tử: Dương Phụ (Kinh Hỏa · kinh Đởm)', rationale: 'Đởm Mộc THỰC gây Tương Thừa Thổ → Bổ Kim chế ngự Mộc, Tả Mộc tại kinh Bạn Can.' },
-  { code: 'NHHT-TT-THUC', name: 'Ngũ Hành Hồi Tác: Tam Tiêu Thực', organ: 'Tam tiêu', type: 'thuc', condition: 'Chỉ số kinh Tam Tiêu > Cận trên (Thực)', frame: 'Biểu–Lý (Thực Nhiệt)', ta: 'Thiên Tỉnh (Hợp Thổ · kinh Tam Tiêu)', bo: 'Khúc Trạch (Hợp Thủy · kinh Tâm Bào)', bm: 'Tả Tử: Thiên Tỉnh (Hợp Thổ · kinh Tam Tiêu)', rationale: 'Tam Tiêu Hỏa THỰC gây Tương Thừa Kim → Bổ Thủy chế ngự Hỏa, Tả Hỏa tại kinh Bạn Tâm Bào.' },
-  { code: 'NHHT-BQ-THUC', name: 'Ngũ Hành Hồi Tác: Bàng Quang Thực', organ: 'Bàng quang', type: 'thuc', condition: 'Chỉ số kinh Bàng Quang > Cận trên (Thực)', frame: 'Biểu–Lý (Thực Nhiệt)', ta: 'Ủy Trung (Hợp Thổ · kinh Bàng Quang)', bo: 'Thái Khê (Du Thổ · kinh Thận)', bm: 'Tả Tử: Thúc Cốt (Du Mộc · kinh Bàng Quang)', rationale: 'Bàng Quang Thủy THỰC gây Tương Thừa Hỏa → Bổ Thổ chế ngự Thủy, Tả Thủy tại kinh Bạn Thận.' },
-  { code: 'NHHT-TB-THUC', name: 'Ngũ Hành Hồi Tác: Tâm Bào Thực', organ: 'Tâm bào', type: 'thuc', condition: 'Chỉ số kinh Tâm Bào > Cận trên (Thực)', frame: 'Biểu–Lý (Thực Nhiệt)', ta: 'Khúc Trạch (Hợp Thủy · kinh Tâm Bào)', bo: 'Trung Phong (Kinh Kim · kinh Can)', bm: 'Tả Tử: Lao Cung (Huỳnh Hỏa · kinh Tâm Bào)', rationale: 'Tâm Bào Hỏa THỰC gây Tương Thừa Kim → Bổ Thủy chế ngự Hỏa, Tả Hỏa tại kinh Bạn Can.' }
-])
+const congThucList = ref<CongThucNhht[]>([])
+/** Mã công thức được dẫn tới từ trang Kết Quả Đo (?ct=NHHT-…) — mở đúng khung và soi đúng thẻ. */
+const maFocus = ref<string | null>(null)
+const congThucLoading = ref(false)
+const KHUNG_CHON: ReadonlyArray<{ id: string; ten: string; mota: string }> = [
+  { id: 'auto', ten: 'Theo Hư/Thực', mota: 'Thực → Biểu–Lý · Hư → Thượng–Hạ (khung mặc định)' },
+  { id: 'bieuly', ten: 'Biểu–Lý', mota: 'bệnh Thực & Cấp' },
+  { id: 'thuongha', ten: 'Thượng–Hạ', mota: 'bệnh Hư & Mãn (= cặp Lục Kinh)' },
+  { id: 'phuthe', ten: 'Phu–Thê', mota: 'rối loạn chức năng' },
+  { id: 'tyngo', ten: 'Tý–Ngọ', mota: 'theo giờ kinh Tý–Ngọ' },
+  { id: 'lackhi', ten: 'Lục Khí', mota: 'vòng tương sinh Lục Khí (hồi tác mới)' },
+]
+const khungChon = ref<string>('auto')
+
+// Đường dẫn ?ct=<mã công thức> → nhảy thẳng vào danh mục NHHT, mở đúng khung ghi trong mã.
+const KHUNG_THEO_HAU_TO: Record<string, string> = {
+  BIEULY: 'bieuly', THUONGHA: 'thuongha', PHUTHE: 'phuthe', TYNGO: 'tyngo', LACKHI: 'lackhi',
+}
+watch(
+  () => route.query.ct,
+  (v) => {
+    const ma = String(v || '').toUpperCase()
+    if (!ma.startsWith('NHHT-')) return
+    maFocus.value = ma
+    activeCategoryTab.value = 'nhht'
+    const hauTo = ma.split('-').pop() || ''
+    khungChon.value = KHUNG_THEO_HAU_TO[hauTo] ?? 'auto'
+  },
+  { immediate: true },
+)
+
+async function loadCongThuc() {
+  congThucLoading.value = true
+  try {
+    congThucList.value = await api.get<CongThucNhht[]>('/nhht/cong-thuc')
+  } catch {
+    congThucList.value = []
+  } finally {
+    congThucLoading.value = false
+  }
+}
 
 const filteredNhhtModels = computed(() => {
+  const kh = khungChon.value
+  // 'auto' = đúng 24 mô hình như trước: Thực lấy khung Biểu–Lý, Hư lấy khung Thượng–Hạ.
+  const theoKhung = congThucList.value.filter((c) =>
+    kh === 'auto' ? c.khung === (c.trang_thai === 'thực' ? 'bieuly' : 'thuongha') : c.khung === kh,
+  )
   const q = searchQuery.value.trim().toLowerCase()
-  if (!q) return nhhtModels.value
-  return nhhtModels.value.filter((m) => {
-    const hay = `${m.code} ${m.name} ${m.organ} ${m.condition} ${m.ta} ${m.bo} ${m.bm} ${m.rationale}`.toLowerCase()
-    return hay.includes(q)
+  if (!q) return theoKhung
+  return theoKhung.filter((c) => {
+    const huyet = (c.menh_lenh || []).map((m) => `${m.huyet} ${m.kinh} ${m.phap}`).join(' ')
+    const nl = c.huyet_nguyen_lac ? `${c.huyet_nguyen_lac.nguyen.ten} ${c.huyet_nguyen_lac.lac.ten}` : ''
+    return `${c.ma} ${c.kinh} ${c.hanh} ${c.khung_ten} ${c.chi_dao} ${huyet} ${nl}`.toLowerCase().includes(q)
   })
 })
+const soSuaTay = computed(() => congThucList.value.filter((c) => c.sua_tay).length)
+
+/** Thẻ được dẫn tới đứng ĐẦU danh sách để khỏi phải cuộn tìm. */
+const nhhtHienThi = computed(() => {
+  const ds = filteredNhhtModels.value
+  if (!maFocus.value) return ds
+  const i = ds.findIndex((c) => c.ma === maFocus.value)
+  return i <= 0 ? ds : [ds[i]!, ...ds.slice(0, i), ...ds.slice(i + 1)]
+})
+
+const BAC_TEN: Record<string, string> = { chinh: 'CHÍNH', ta: 'TÁ', kiem: 'KIÊM' }
 
 const showModal = ref(false)
 const showDeleteConfirm = ref(false)
@@ -217,7 +259,7 @@ const currentPage = ref(1)
 const itemsPerPage = ref(10)
 
 onMounted(async () => {
-  await Promise.all([fetchData(), fetchHuyetVi(), fetchBenh()])
+  await Promise.all([fetchData(), fetchHuyetVi(), fetchBenh(), loadCongThuc()])
 })
 
 watch(searchQuery, () => {
@@ -656,49 +698,104 @@ async function handleDelete() {
       <!-- VÙNG HIỂN THỊ MÔ HÌNH THỂ BỆNH THUẬT TOÁN NGŨ HÀNH HỒI TÁC & NẠN KINH 69 (MASONRY LAYOUT CHUẨN) -->
       <div v-else-if="activeCategoryTab === 'nhht'" class="data-card">
         <div class="card-header">
-          <h3>Mô Hình Thể Bệnh Thuật Toán (Ngũ Hành Hồi Tác &amp; Nạn Kinh 69)</h3>
-          <span class="badge badge-success">24 Mô Hình Chuẩn · Tự động đối sánh 12 Đường Kinh</span>
+          <h3>Công Thức Ngũ Hành Hồi Tác (kèm Nạn Kinh 69 &amp; Nguyên–Lạc)</h3>
+          <span class="badge badge-success">
+            {{ filteredNhhtModels.length }} công thức · {{ congThucList.length }} trong kho
+            <template v-if="soSuaTay"> · {{ soSuaTay }} đã sửa tay</template>
+          </span>
         </div>
 
+        <!-- CHỌN KHUNG HỒI TÁC -->
+        <div class="nhht-khung-bar">
+          <span class="nhht-khung-label">Khung hồi tác</span>
+          <div class="nhht-khung-btns">
+            <button
+              v-for="k in KHUNG_CHON"
+              :key="k.id"
+              type="button"
+              class="nhht-khung-btn"
+              :class="{ 'is-active': khungChon === k.id }"
+              :title="k.mota"
+              @click="khungChon = k.id"
+            >
+              {{ k.ten }}
+            </button>
+          </div>
+        </div>
+
+        <p v-if="congThucLoading" class="nhht-empty">Đang nạp kho công thức…</p>
+        <p v-else-if="!congThucList.length" class="nhht-empty">
+          Chưa nạp được kho công thức. Bộ chuẩn nằm ở bảng <code>nhht_cong_thuc</code>, backend tự seed khi khởi động.
+        </p>
+
         <div class="disease-grid">
-          <article v-for="m in filteredNhhtModels" :key="m.code" class="disease-card">
+          <article v-for="c in nhhtHienThi" :key="c.ma" class="disease-card"
+            :class="{ 'is-focus': c.ma === maFocus }">
             <header class="disease-card__head">
               <div class="disease-card__title">
-                <span class="disease-card__id">#{{ m.code }}</span>
-                <h4 class="disease-card__name">{{ m.name }}</h4>
+                <span class="disease-card__id">#{{ c.ma }}</span>
+                <h4 class="disease-card__name">{{ c.kinh }} {{ c.trang_thai === 'thực' ? 'Thực' : 'Hư' }} · hành {{ c.hanh }}</h4>
               </div>
-              <span :class="m.type === 'thuc' ? 'badge-tone-thuc' : 'badge-tone-hu'">
-                {{ m.type === 'thuc' ? 'THỰC' : 'HƯ' }}
+              <span :class="c.trang_thai === 'thực' ? 'badge-tone-thuc' : 'badge-tone-hu'">
+                {{ c.trang_thai === 'thực' ? 'THỰC' : 'HƯ' }}
               </span>
             </header>
 
             <div class="disease-card__body">
-              <!-- ĐIỀU KIỆN ĐỐI CHIẾU DO ĐẠC -->
+              <!-- ĐIỀU KIỆN ĐỐI CHIẾU SỐ ĐO -->
               <div class="cond-box">
-                <span class="cond-label">ĐIỀU KIỆN ĐỐI CHIẾU DO ĐẠC</span>
-                <div class="cond-val">{{ m.condition }}</div>
-                <div class="cond-sub">Khung tác động mặc định: {{ m.frame }}</div>
+                <span class="cond-label">Điều kiện đối chiếu số đo</span>
+                <div class="cond-val">
+                  Chỉ số kinh {{ c.kinh }} {{ c.trang_thai === 'thực' ? '> Cận trên (Thực)' : '< Cận dưới (Hư)' }}
+                </div>
+                <div class="cond-sub">
+                  Khung {{ c.khung_ten }} · kinh bạn: <b>{{ c.kinh_ban }}</b>
+                  <span v-if="c.sua_tay" class="nhht-badge-sua">đã sửa tay</span>
+                </div>
               </div>
 
-              <!-- PHƯƠNG HUYỆT CẤU TRÚC -->
+              <!-- PHƯƠNG CHÂM -->
+              <div class="nhht-chidao">{{ c.chi_dao }}</div>
+
+              <!-- MỆNH LỆNH có bậc chính / tá / kiêm -->
               <div class="nhht-rx-list">
-                <div class="nhht-rx-item">
-                  <span class="nhht-rx-badge nhht-rx-badge--ta">TẢ</span>
-                  <span class="nhht-rx-text">{{ m.ta }}</span>
-                </div>
-                <div class="nhht-rx-item">
-                  <span class="nhht-rx-badge nhht-rx-badge--bo">BỔ</span>
-                  <span class="nhht-rx-text">{{ m.bo }}</span>
-                </div>
-                <div class="nhht-rx-item">
-                  <span class="nhht-rx-badge nhht-rx-badge--bm">NK69</span>
-                  <span class="nhht-rx-text">{{ m.bm }}</span>
+                <div v-for="(m, i) in c.menh_lenh || []" :key="i" class="nhht-rx-item">
+                  <span
+                    class="nhht-rx-badge"
+                    :class="m.tacDong === 'ta' ? 'nhht-rx-badge--ta' : 'nhht-rx-badge--bo'"
+                  >{{ m.tacDong === 'ta' ? 'TẢ' : 'BỔ' }}</span>
+                  <span class="nhht-rx-bac">{{ BAC_TEN[m.bac] || m.bac }}</span>
+                  <span class="nhht-rx-text">
+                    {{ m.huyet }} <em>({{ m.vaiTro }} {{ m.hanh }} · kinh {{ m.kinh }})</em> — {{ m.phap }}
+                  </span>
                 </div>
               </div>
 
-              <!-- LÝ LUẬN BỆNH LÝ YHCT -->
-              <div class="rationale-box">
-                <span class="rationale-label">Lý luận YHCT:</span> {{ m.rationale }}
+              <!-- TRỤC NGUYÊN–LẠC (cặp biểu–lý thông nhau) -->
+              <div v-if="c.huyet_nguyen_lac" class="nhht-nl-box">
+                <span class="nhht-nl-label">Nguyên – Lạc (chủ ↔ khách)</span>
+                <div class="nhht-nl-row">
+                  <span class="nhht-nl-chip nhht-nl-chip--nguyen">
+                    NGUYÊN {{ c.huyet_nguyen_lac.nguyen.ten }}
+                    <em>{{ c.huyet_nguyen_lac.nguyen.ma }} · kinh {{ c.huyet_nguyen_lac.chuKinh }} (chủ)</em>
+                  </span>
+                  <span class="nhht-nl-chip nhht-nl-chip--lac">
+                    LẠC {{ c.huyet_nguyen_lac.lac.ten }}
+                    <em>{{ c.huyet_nguyen_lac.lac.ma }} · kinh {{ c.huyet_nguyen_lac.khachKinh }} (khách)</em>
+                  </span>
+                </div>
+                <div class="cond-sub">Cặp này theo BIỂU–LÝ, không theo khung — nên khách luôn là {{ c.huyet_nguyen_lac.khachKinh }}.</div>
+              </div>
+
+              <!-- PHÁP TRỊ NGŨ HÀNH CỔ ĐIỂN để tra thêm -->
+              <div v-if="c.phap_co_dien?.length" class="rationale-box">
+                <span class="rationale-label">Pháp ngũ hành hợp ca này:</span>&#32;
+                <span v-for="(p, i) in c.phap_co_dien" :key="p.id">
+                  <b>{{ p.ten }}</b> ({{ p.han }}){{ i < c.phap_co_dien.length - 1 ? ' · ' : '' }}
+                </span>
+              </div>
+              <div v-if="c.ghi_chu" class="rationale-box">
+                <span class="rationale-label">Ghi chú thầy thuốc:</span> {{ c.ghi_chu }}
               </div>
             </div>
           </article>
@@ -1416,6 +1513,24 @@ async function handleDelete() {
 }
 .nhht-rx-badge--ta { background: #fce8e4; color: #a82e1e; }
 .nhht-rx-badge--bo { background: #e4f3de; color: #2e5c1e; }
+/* ── Công thức NHHT đọc từ bảng: khung, phương châm, trục Nguyên–Lạc ── */
+.nhht-khung-bar { display: flex; align-items: center; gap: var(--space-3); flex-wrap: wrap; padding: var(--space-2) 0 var(--space-3); }
+.nhht-khung-label { font-size: var(--font-size-xs); font-weight: 700; text-transform: uppercase; color: var(--brown-700); letter-spacing: 0.04em; }
+.nhht-khung-btns { display: flex; gap: 6px; flex-wrap: wrap; }
+.nhht-khung-btn { padding: 4px 12px; border: 1px solid var(--brown-200); border-radius: 999px; background: var(--surface-1); color: var(--brown-700); font-size: var(--font-size-xs); font-weight: 600; cursor: pointer; }
+.nhht-khung-btn:hover { border-color: var(--brown-400); }
+.nhht-khung-btn.is-active { background: var(--brown-700); border-color: var(--brown-700); color: #fff; }
+.nhht-empty { padding: var(--space-4); color: var(--gray-600); font-size: var(--font-size-sm); }
+.nhht-chidao { margin: var(--space-2) 0; padding: var(--space-2) var(--space-3); border-left: 3px solid var(--brown-600); background: var(--surface-2); font-weight: 600; color: var(--brown-800); font-size: var(--font-size-sm); line-height: 1.5; }
+.nhht-rx-bac { font-size: 10px; font-weight: 700; color: var(--gray-600); letter-spacing: 0.05em; min-width: 38px; }
+.nhht-badge-sua { margin-left: 6px; padding: 1px 7px; border-radius: 999px; background: var(--brown-100, #efe6da); color: var(--brown-800); font-size: 10px; font-weight: 700; }
+.nhht-nl-box { margin-top: var(--space-2); padding: var(--space-2) var(--space-3); border: 1px dashed var(--brown-200); border-radius: 8px; }
+.nhht-nl-label { font-size: var(--font-size-xs); font-weight: 700; text-transform: uppercase; color: var(--brown-700); letter-spacing: 0.04em; }
+.nhht-nl-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0; }
+.nhht-nl-chip { padding: 4px 10px; border-radius: 8px; font-size: var(--font-size-xs); font-weight: 700; }
+.nhht-nl-chip em { display: block; font-weight: 500; font-style: normal; opacity: 0.75; font-size: 10px; }
+.nhht-nl-chip--nguyen { background: rgba(178, 58, 41, 0.1); color: #8f2f21; }
+.nhht-nl-chip--lac { background: rgba(53, 99, 141, 0.1); color: #2b5070; }
 .nhht-rx-badge--bm { background: #f5ece0; color: #6b4d1b; }
 
 .nhht-rx-text {
@@ -1449,4 +1564,5 @@ async function handleDelete() {
   .management-page { padding: var(--space-4); }
   .huyet-table__head, .huyet-table__row { min-width: 0; grid-template-columns: 1fr 1fr; }
 }
+.disease-card.is-focus { border-color: var(--brown-600); box-shadow: 0 0 0 2px rgba(122, 90, 60, 0.18); }
 </style>

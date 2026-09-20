@@ -8,6 +8,7 @@
 
 import {
   type HanhId, huyetTheoHanh, controllerOf, motherOf, sonOf, hanhCuaKinh, HANH_TEN, KINH_THEO_HANH,
+  BIEU_LY,
 } from './nguDuHuyet'
 
 export type KhungLoai = 'bieuly' | 'thuongha' | 'phuthe' | 'tyngo' | 'lackhi'
@@ -30,7 +31,8 @@ export const KHUNG_ALL: KhungLoai[] = ['bieuly', 'thuongha', 'phuthe', 'tyngo', 
 
 // Mỗi khung = 6 cặp [ngoài (Dương/biểu), trong (Âm/lý)]. Cả 5 khung đều phủ đủ 12 tạng phủ.
 const PAIRS: Record<KhungLoai, [string, string][]> = {
-  bieuly: [['Đại trường', 'Phế'], ['Vị', 'Tỳ'], ['Tam tiêu', 'Tâm bào'], ['Tiểu trường', 'Tâm'], ['Đởm', 'Can'], ['Bàng quang', 'Thận']],
+  // Khung Biểu–Lý KHÔNG chép lại bảng cặp: lấy thẳng nguồn duy nhất BIEU_LY (nguDuHuyet).
+  bieuly: BIEU_LY.map(([phu, tang]) => [phu, tang] as [string, string]),
   thuongha: [['Tỳ', 'Phế'], ['Vị', 'Đại trường'], ['Thận', 'Tâm'], ['Bàng quang', 'Tiểu trường'], ['Can', 'Tâm bào'], ['Đởm', 'Tam tiêu']],
   phuthe: [['Tâm', 'Phế'], ['Can', 'Tỳ'], ['Thận', 'Tâm bào'], ['Tiểu trường', 'Đại trường'], ['Đởm', 'Vị'], ['Bàng quang', 'Tam tiêu']],
   tyngo: [['Can', 'Tiểu trường'], ['Phế', 'Bàng quang'], ['Đại trường', 'Thận'], ['Vị', 'Tâm bào'], ['Tỳ', 'Tam tiêu'], ['Tâm', 'Đởm']],

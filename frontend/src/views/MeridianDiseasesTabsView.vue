@@ -1,14 +1,29 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import MeridianDiseasesView from './MeridianDiseasesView.vue'
 import ModernDiseasesView from './ModernDiseasesView.vue'
 import KinhMachView from './KinhMachView.vue'
 import HuyetViView from './HuyetViView.vue'
 import PhacDoDieuTriView from './PhacDoDieuTriView.vue'
+import ThuongHanChungView from './ThuongHanChungView.vue'
 import TonThuongTacNhanView from './TonThuongTacNhanView.vue'
 
-type SubTab = 'dong-y' | 'hien-dai' | 'kinh-mach' | 'huyet-vi' | 'phac-do' | 'ton-thuong'
+type SubTab = 'dong-y' | 'hien-dai' | 'kinh-mach' | 'huyet-vi' | 'phac-do' | 'thuong-han' | 'ton-thuong'
 const activeSub = ref<SubTab>('dong-y')
+
+// Mở thẳng một tab qua đường dẫn: ?tab=phac-do (dùng khi trang Kết Quả Đo dẫn sang tra công thức
+// Ngũ Hành Hồi Tác — xem chip mã công thức ở Section IV).
+const route = useRoute()
+const TAB_HOP_LE: SubTab[] = ['dong-y', 'hien-dai', 'kinh-mach', 'huyet-vi', 'phac-do', 'thuong-han', 'ton-thuong']
+watch(
+  () => route.query.tab,
+  (t) => {
+    const v = String(t || '') as SubTab
+    if (TAB_HOP_LE.includes(v)) activeSub.value = v
+  },
+  { immediate: true },
+)
 
 const tabs: { key: SubTab; label: string }[] = [
   { key: 'dong-y', label: 'Bệnh YHCT - Đông Y' },
@@ -16,6 +31,7 @@ const tabs: { key: SubTab; label: string }[] = [
   { key: 'kinh-mach', label: 'Kinh Mạch' },
   { key: 'huyet-vi', label: 'Huyệt Vị' },
   { key: 'phac-do', label: 'Phương Huyệt' },
+  { key: 'thuong-han', label: 'Thương Hàn' },
   { key: 'ton-thuong', label: 'Tổn Thương - Tác Nhân' },
 ]
 </script>
@@ -41,6 +57,7 @@ const tabs: { key: SubTab; label: string }[] = [
       <KinhMachView v-else-if="activeSub === 'kinh-mach'" />
       <HuyetViView v-else-if="activeSub === 'huyet-vi'" />
       <PhacDoDieuTriView v-else-if="activeSub === 'phac-do'" />
+      <ThuongHanChungView v-else-if="activeSub === 'thuong-han'" />
       <TonThuongTacNhanView v-else />
     </KeepAlive>
   </div>

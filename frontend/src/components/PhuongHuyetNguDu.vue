@@ -1,17 +1,34 @@
 <script setup lang="ts">
 // Mục nhỏ của Section IV — PHƯƠNG HUYỆT NGŨ DU (theo Ngũ Hành Hồi Tác & Bổ Mẫu Tả Tử Nạn Kinh 69).
 // Kết nối trực tiếp và tự động đối sánh từ kết quả đo 12 đường kinh thực tế của ca bệnh.
+//
+// ĐỐI CHIẾU, KHÔNG TỰ LUẬN: phương huyệt lấy từ KHO CÔNG THỨC `nhht_cong_thuc` (GET /nhht/cong-thuc)
+// — cùng bộ mà trang Bệnh Đo Kinh Lạc → Phương Huyệt hiển thị và thầy thuốc sửa được. Mỗi thẻ ghi rõ
+// mã công thức đã dùng, nên về sau luôn truy được "ca này chữa theo công thức nào".
+// Engine lib (khungNHHT) chỉ còn là LƯỚI ĐỠ khi chưa tải được kho — lúc đó thẻ tự báo "tính tại chỗ".
 import { ref, reactive, computed, watch, onMounted } from 'vue'
+import { RouterLink } from 'vue-router'
 import { api } from '@/services/api'
 import { KINH_THEO_HANH, KINH, hanhCuaKinh, type HanhId } from '@/lib/nguDuHuyet'
 import {
   phuongHuyetNHHT, phuongHuyetBoMauTaCon, autoKhung, KHUNG_TEN, KHUNG_MOTA, KHUNG_ALL,
   type KhungLoai, type HuyetChiDinh,
 } from '@/lib/khungNHHT'
+import { dinhGoc, chamHoiTac, QUAN_HE_TEN } from '@/lib/nguHanhHoiTac'
 
 const props = defineProps<{
   z: { hoa: number | null; tho: number | null; kim: number | null; thuy: number | null; moc: number | null } | null
   huThuc?: string
+  /** Bát Cương vị trí ('Biểu' | 'Lý' | 'Biểu Lý') — định gốc dùng để chọn phủ hay tạng. */
+  viTri?: string
+  /** z ngũ hành của lần đo LIỀN TRƯỚC — để chấm hồi tác (phương châm lần đó có đáp ứng không). */
+  zTruoc?: { hoa: number | null; tho: number | null; kim: number | null; thuy: number | null; moc: number | null } | null
+  /** Kinh đo lệch của lần trước — để chấm gốc lần đó bằng kinh thật. */
+  lechTruoc?: Array<{ name: string; tone: 'high' | 'low' }> | null
+  ngayTruoc?: string
+  soNgayTruoc?: number | null
+  /** Lần trước thuộc ĐỢT KHÁC (cách quá ngưỡng) — khi đó không chấm phương châm, chỉ đối chiếu. */
+  khacDot?: boolean
   lechRows?: Array<{ name: string; tone: 'high' | 'low' }>
   matchedBenhIds?: number[]
 }>()
@@ -32,13 +49,35 @@ const huyetMap = computed(() => {
   return m
 })
 
+// ── KHO CÔNG THỨC NHHT (nguồn sự thật, sửa được trên app) ─────────────────
+interface CongThucKho {
+  ma: string; kinh: string; hanh: string; trang_thai: string; khung: string; khung_ten: string
+  kinh_ban: string | null; chi_dao: string | null
+  menh_lenh: Array<{ bac: string; tacDong: string; hanh: string; kinh: string; huyet: string | null; vaiTro: string | null; phap: string }> | null
+  huyet_ngu_du: { bo: HuyetChiDinh; ta: HuyetChiDinh; giaiThich: string } | null
+  huyet_nan_kinh: (HuyetChiDinh & { giaiThich: string }) | null
+  huyet_nguyen_lac: { chuKinh: string; nguyen: { ten: string; ma: string }; khachKinh: string; lac: { ten: string; ma: string }; giaiThich: string } | null
+  sua_tay: boolean; ghi_chu: string | null
+}
+const khoCongThuc = ref<CongThucKho[]>([])
+/** khoá tra: kinh|trạng thái|khung */
+const khoIndex = computed(() => {
+  const m = new Map<string, CongThucKho>()
+  for (const c of khoCongThuc.value) m.set(`${c.kinh}|${c.trang_thai}|${c.khung}`, c)
+  return m
+})
+function traKho(organ: string, thuc: boolean, khung: KhungLoai): CongThucKho | null {
+  return khoIndex.value.get(`${organ}|${thuc ? 'thực' : 'hư'}|${khung}`) ?? null
+}
+
 onMounted(async () => {
-  try {
-    const res = await api.get<HuyetViRow[] | { data?: HuyetViRow[] }>('/huyet-vi')
-    huyetList.value = Array.isArray(res) ? res : (res?.data ?? [])
-  } catch {
-    huyetList.value = []
-  }
+  const [huyet, kho] = await Promise.allSettled([
+    api.get<HuyetViRow[] | { data?: HuyetViRow[] }>('/huyet-vi'),
+    api.get<CongThucKho[]>('/nhht/cong-thuc'),
+  ])
+  huyetList.value =
+    huyet.status === 'fulfilled' ? (Array.isArray(huyet.value) ? huyet.value : (huyet.value?.data ?? [])) : []
+  khoCongThuc.value = kho.status === 'fulfilled' && Array.isArray(kho.value) ? kho.value : []
 })
 
 // Ánh xạ tên ngắn kinh mạch trong lechRows sang tên tạng phủ đầy đủ
@@ -88,6 +127,34 @@ const organStatuses = computed<OrganStatus[]>(() => {
   return out.sort((a, b) => (b.isDamaged ? 1 : 0) - (a.isDamaged ? 1 : 0))
 })
 
+// ── TẦNG B — ĐỊNH GỐC: kinh nào KHỞI bệnh, kinh nào chỉ lan theo ngũ hành ──────
+// Không phải kinh nào đo lệch cũng đáng trị: Mộc thực đè Thổ thì Thổ cũng lệch, trị Thổ là trị
+// ngọn. Hàm dinhGoc chấm theo cạnh bệnh lý nặng nhất, rồi chọn kinh trong hành đó theo Biểu–Lý.
+const dinhGocCa = computed(() => {
+  const kinhLech = organStatuses.value
+    .filter((o) => o.isDamaged)
+    .map((o) => ({ kinh: o.organ, thuc: o.thuc }))
+  if (!props.z || !kinhLech.length) return null
+  return dinhGoc({ z: props.z, kinhLech, viTri: props.viTri })
+})
+
+// HỒI TÁC: gốc lần trước chấm lại trên chính z của lần trước, rồi so với lần này.
+const hoiTac = computed(() => {
+  if (!props.zTruoc || !props.z) return null
+  const kinhLechTruoc = (props.lechTruoc ?? []).map((r) => ({
+    kinh: SHORT_TO_ORGAN[r.name] || r.name,
+    thuc: r.tone === 'high',
+  }))
+  const gocTruoc = dinhGoc({ z: props.zTruoc, kinhLech: kinhLechTruoc, viTri: props.viTri })
+  return chamHoiTac(props.zTruoc, props.z, gocTruoc.hanhGoc, dinhGocCa.value?.hanhGoc ?? null, !!props.khacDot)
+})
+const HOI_TAC_TEN: Record<string, string> = {
+  'chuyen-tot': 'CÓ ĐÁP ỨNG', 'chua-chuyen': 'CHƯA CHUYỂN', 'nang-them': 'LỆCH THÊM', 'khong-du-cu': 'CHƯA ĐỦ CĂN CỨ',
+}
+
+/** Chính khí tổng KHUYẾT → mọi mệnh lệnh TẢ phải hoãn (z chỉ là số tương đối trong nội bộ phiếu). */
+const chinhKhiKhuyet = computed(() => /hư/i.test(props.huThuc || ''))
+
 // Các tạng phủ tổn thương thực tế được chọn mặc định
 const selectedOrgans = ref<Set<string>>(new Set())
 
@@ -116,12 +183,6 @@ const activeMode = ref<'nhht' | 'bomautacon'>('nhht')
 // Ghi đè khung tác động theo từng tạng phủ
 const khungOv = reactive<Record<string, KhungLoai | undefined>>({})
 
-// Quản lý trạng thái mở rộng / thu gọn chi tiết từng thẻ Tạng Phủ
-const expandedCards = reactive<Record<string, boolean>>({})
-function toggleExpand(organ: string) {
-  expandedCards[organ] = !expandedCards[organ]
-}
-
 function recOf(ci: HuyetChiDinh): HuyetViRow | undefined {
   return huyetMap.value.get(norm(ci.huyet))
 }
@@ -133,7 +194,16 @@ const nhhtCards = computed(() => {
     const st = organStatuses.value.find(s => s.organ === organ)
     if (!st) continue
     const khung = khungOv[organ] ?? autoKhung(props.huThuc)
-    const ph = phuongHuyetNHHT(organ, st.thuc, khung)
+    const ct = traKho(organ, st.thuc, khung)
+    // Từ kho: dựng lại đúng hình dạng `ph` mà thẻ đang dùng. Từ engine: chỉ khi kho chưa về.
+    const ph = ct?.huyet_ngu_du
+      ? {
+          ...phuongHuyetNHHT(organ, st.thuc, khung)!,
+          ta: ct.huyet_ngu_du.ta,
+          bo: ct.huyet_ngu_du.bo,
+          giaiThich: ct.huyet_ngu_du.giaiThich,
+        }
+      : phuongHuyetNHHT(organ, st.thuc, khung)
     if (!ph) continue
     out.push({
       organ,
@@ -142,11 +212,17 @@ const nhhtCards = computed(() => {
       isDamaged: st.isDamaged,
       khung,
       ph,
+      ct,
+      maCongThuc: ct?.ma ?? null,
+      tuKho: !!ct,
+      laGoc: dinhGocCa.value?.kinhGoc === organ,
+      keoTheo: dinhGocCa.value?.keoTheo.find((k) => k.kinh === organ)?.vi ?? null,
       taRec: recOf(ph.ta),
       boRec: recOf(ph.bo)
     })
   }
-  return out
+  // Kinh GỐC đứng đầu — thầy thuốc nhìn thấy chỗ cần trị trước, không phải cuộn tìm.
+  return out.sort((a, b) => (b.laGoc ? 1 : 0) - (a.laGoc ? 1 : 0))
 })
 
 // Tính các Card Bổ Mẫu Tả Con
@@ -155,7 +231,12 @@ const bmCards = computed(() => {
   for (const organ of selectedOrgans.value) {
     const st = organStatuses.value.find(s => s.organ === organ)
     if (!st) continue
-    const bm = phuongHuyetBoMauTaCon(organ, st.thuc)
+    // Nạn Kinh 69 không phụ thuộc khung, nhưng vẫn nằm trong cùng công thức của kho.
+    const ct = traKho(organ, st.thuc, khungOv[organ] ?? autoKhung(props.huThuc))
+    const goc = phuongHuyetBoMauTaCon(organ, st.thuc)
+    const bm = ct?.huyet_nan_kinh && goc
+      ? { ...goc, targetHuyet: ct.huyet_nan_kinh, giaiThich: ct.huyet_nan_kinh.giaiThich }
+      : goc
     if (!bm) continue
     out.push({
       organ,
@@ -163,6 +244,9 @@ const bmCards = computed(() => {
       thuc: st.thuc,
       isDamaged: st.isDamaged,
       bm,
+      ct,
+      maCongThuc: ct?.ma ?? null,
+      tuKho: !!ct,
       rec: recOf(bm.targetHuyet)
     })
   }
@@ -200,8 +284,8 @@ function getPrintPayload(mode: 'nhht' | 'bomautacon') {
     ? 'PHÁC ĐỒ PHƯƠNG HUYỆT NGŨ DU — NGŨ HÀNH HỒI TÁC'
     : 'PHÁC ĐỒ PHƯƠNG HUYỆT NGŨ DU — BỔ "MẪU" TẢ "TỬ" (NẠN KINH 69)'
 
-  const taList: Array<{ code: string; name: string; note: string }> = []
-  const boList: Array<{ code: string; name: string; note: string }> = []
+  const taList: Array<{ code: string; name: string; note: string; ct: string | null }> = []
+  const boList: Array<{ code: string; name: string; note: string; ct: string | null }> = []
 
   if (isNHHT) {
     for (const c of nhhtCards.value) {
@@ -210,6 +294,7 @@ function getPrintPayload(mode: 'nhht' | 'bomautacon') {
           code: c.taRec?.ma_huyet || c.ph.ta.huyet,
           name: c.ph.ta.huyet,
           note: `${c.ph.ta.role} · ${c.ph.ta.hanhTen} · Kinh ${c.ph.ta.kinh} (Tả Hồi Tác ← ${c.organ} Thực)`,
+          ct: c.maCongThuc,
         })
       }
       if (c.ph.bo) {
@@ -217,6 +302,7 @@ function getPrintPayload(mode: 'nhht' | 'bomautacon') {
           code: c.boRec?.ma_huyet || c.ph.bo.huyet,
           name: c.ph.bo.huyet,
           note: `${c.ph.bo.role} · ${c.ph.bo.hanhTen} · Kinh ${c.ph.bo.kinh} (Bổ Hồi Tác ← ${c.organ} Hư)`,
+          ct: c.maCongThuc,
         })
       }
     }
@@ -227,6 +313,7 @@ function getPrintPayload(mode: 'nhht' | 'bomautacon') {
         code: c.rec?.ma_huyet || c.bm.targetHuyet.huyet,
         name: c.bm.targetHuyet.huyet,
         note: `${c.bm.targetHuyet.role} · ${c.bm.targetHuyet.hanhTen} · Kinh ${c.bm.targetHuyet.kinh} (${relName} ← ${c.organ} ${c.bm.thuc ? 'Thực' : 'Hư'})`,
+        ct: c.maCongThuc,
       }
       if (c.bm.targetHuyet.boTa === 'ta') taList.push(item)
       else boList.push(item)
@@ -246,7 +333,9 @@ function getPrintPayload(mode: 'nhht' | 'bomautacon') {
           code: i.code,
           name: i.name,
           note: i.note,
-          yNghia: isNHHT ? 'Thuật toán Ngũ Hành Hồi Tác' : 'Thuật toán Nạn Kinh 69',
+          yNghia: i.ct
+            ? `${isNHHT ? 'Ngũ Hành Hồi Tác' : 'Nạn Kinh 69'} · công thức ${i.ct}`
+            : (isNHHT ? 'Thuật toán Ngũ Hành Hồi Tác (tính tại chỗ)' : 'Thuật toán Nạn Kinh 69 (tính tại chỗ)'),
           source: 'Bát Cương 12 Kinh',
         })),
       },
@@ -256,7 +345,9 @@ function getPrintPayload(mode: 'nhht' | 'bomautacon') {
           code: i.code,
           name: i.name,
           note: i.note,
-          yNghia: isNHHT ? 'Thuật toán Ngũ Hành Hồi Tác' : 'Thuật toán Nạn Kinh 69',
+          yNghia: i.ct
+            ? `${isNHHT ? 'Ngũ Hành Hồi Tác' : 'Nạn Kinh 69'} · công thức ${i.ct}`
+            : (isNHHT ? 'Thuật toán Ngũ Hành Hồi Tác (tính tại chỗ)' : 'Thuật toán Nạn Kinh 69 (tính tại chỗ)'),
           source: 'Bát Cương 12 Kinh',
         })),
       },
@@ -382,6 +473,22 @@ defineExpose({
       </div>
     </div>
 
+    <!-- Ở ĐÂY CHỈ GIỮ THỨ THUỘC VỀ CA BỆNH. Lý luận định gốc (quan hệ tương thừa/tương vũ, vì sao
+         chọn kinh này) đã nằm ở tab Bệnh Đo Kinh Lạc → Phương Huyệt dưới dạng công thức — bày lại
+         ở trang Kết Quả Đo chỉ làm thầy thuốc phải cuộn qua một lần nữa. -->
+    <div v-if="hoiTac || chinhKhiKhuyet" class="ngd-dai">
+      <span v-if="hoiTac" class="ngd-dai-muc" :class="`is-${khacDot ? 'khong-du-cu' : hoiTac.muc}`">
+        <b>{{ khacDot ? 'Đối chiếu khác đợt' : HOI_TAC_TEN[hoiTac.muc] }}</b>
+        <template v-if="ngayTruoc"> so với {{ ngayTruoc }}</template>
+        <template v-if="soNgayTruoc"> · {{ soNgayTruoc }} ngày</template>
+        — {{ hoiTac.nhan }}
+      </span>
+      <span v-if="chinhKhiKhuyet" class="ngd-dai-canh">
+        ⚠ Bát Cương toàn thân HƯ — hoãn mọi mệnh lệnh TẢ, lấy phù chính làm gốc.
+      </span>
+    </div>
+
+
     <!-- NẾU CHƯA CHỌN TẠNG PHỦ NÀO -->
     <p v-if="!selectedOrgans.size" class="ngd-empty">
       Chưa chọn tạng phủ tổn thương nào. Nhấp vào các thẻ kinh/tạng phủ ở trên để tạo phác đồ châm cứu.
@@ -397,57 +504,40 @@ defineExpose({
               <b>{{ c.organ }}</b> ({{ c.ph.hanhETen }})
               <span class="ngd-tt" :class="c.thuc ? 'is-thuc' : 'is-hu'">{{ c.thuc ? 'THỰC' : 'HƯ' }}</span>
             </span>
+            <span v-if="c.laGoc" class="ngd-vai ngd-vai--goc" title="Kinh khởi bệnh — trị trước">GỐC</span>
+            <span v-else-if="c.keoTheo" class="ngd-vai ngd-vai--keo" :title="c.keoTheo">lan theo</span>
             <span class="ngd-khung-tag">Khung {{ KHUNG_TEN[c.khung] }}</span>
+            <RouterLink v-if="c.maCongThuc" class="ngd-ct-tag ngd-ct-tag--link"
+              :to="{ name: 'meridian-diseases', query: { tab: 'phac-do', ct: c.maCongThuc } }"
+              title="Mở công thức đầy đủ (phương châm · 3 mệnh lệnh · Nguyên–Lạc · pháp ngũ hành)">
+              #{{ c.maCongThuc }}<span v-if="c.ct?.sua_tay" class="ngd-ct-sua">đã chỉnh</span>
+            </RouterLink>
+            <span v-else class="ngd-ct-tag ngd-ct-tag--local" title="Chưa tải được kho công thức — số liệu do máy tính tại chỗ">tính tại chỗ</span>
           </div>
 
           <div class="ngd-card-quick-huyet">
-            <span class="ngd-qh ngd-qh--ta">Tả: <b>{{ c.ph.ta.huyet }}</b></span>
-            <span class="ngd-qh ngd-qh--bo">Bổ: <b>{{ c.ph.bo.huyet }}</b></span>
-          </div>
-
-          <button type="button" class="ngd-expand-btn" @click="toggleExpand(c.organ)">
-            {{ expandedCards[c.organ] ? 'Thu gọn' : 'Xem chi tiết & lý luận' }}
-          </button>
-        </div>
-
-        <!-- VÙNG MỞ RỘNG CHI TIẾT (COLLAPSIBLE) -->
-        <div v-if="expandedCards[c.organ]" class="ngd-card-expand-body">
-          <div class="ngd-card-controls">
-            <label class="ngd-sel">Đổi Khung tác động:
-              <select :value="c.khung" @change="khungOv[c.organ] = ($event.target as HTMLSelectElement).value as KhungLoai"
-                :title="KHUNG_MOTA[c.khung]">
-                <option v-for="k in KHUNG_ALL" :key="k" :value="k">{{ KHUNG_TEN[k] }} ({{ KHUNG_MOTA[k] }})</option>
-              </select>
-            </label>
-            <span class="ngd-khung-line">Cặp Hồi Tác: <b>{{ c.ph.khung.ngoai }}</b> (ngoài) – <b>{{ c.ph.khung.trong }}</b> (trong)</span>
-          </div>
-
-          <div class="ngd-rows">
-            <div class="ngd-row">
-              <span class="ngd-badge ngd-badge--ta">TẢ</span>
-              <span class="ngd-chip ngd-chip--ta">
-                <b class="ngd-hy">{{ c.ph.ta.huyet }}</b>
-                <span class="ngd-meta">{{ c.ph.ta.role }} · {{ c.ph.ta.hanhTen }} huyệt · kinh {{ c.ph.ta.kinh }}</span>
-              </span>
+            <span class="ngd-qh ngd-qh--ta">
+              Tả: <b>{{ c.ph.ta.huyet }}</b>
               <button v-if="c.taRec?.ma_huyet" type="button" class="ngd-map" title="Xem trên đồ hình 3D"
-                @click="emit('goto-acu', c.taRec!.ma_huyet!)">[3D]</button>
+                @click="emit('goto-acu', c.taRec!.ma_huyet!)">3D</button>
               <button v-else-if="c.taRec?.id_tu_dien" type="button" class="ngd-map" title="Tra ở Từ Điển"
-                @click="emit('goto-dict', c.taRec!.id_tu_dien!)">[Từ điển]</button>
-            </div>
-            <div class="ngd-row">
-              <span class="ngd-badge ngd-badge--bo">BỔ</span>
-              <span class="ngd-chip ngd-chip--bo">
-                <b class="ngd-hy">{{ c.ph.bo.huyet }}</b>
-                <span class="ngd-meta">{{ c.ph.bo.role }} · {{ c.ph.bo.hanhTen }} huyệt · kinh {{ c.ph.bo.kinh }}</span>
-              </span>
+                @click="emit('goto-dict', c.taRec!.id_tu_dien!)">Từ điển</button>
+            </span>
+            <span class="ngd-qh ngd-qh--bo">
+              Bổ: <b>{{ c.ph.bo.huyet }}</b>
               <button v-if="c.boRec?.ma_huyet" type="button" class="ngd-map" title="Xem trên đồ hình 3D"
-                @click="emit('goto-acu', c.boRec!.ma_huyet!)">[3D]</button>
+                @click="emit('goto-acu', c.boRec!.ma_huyet!)">3D</button>
               <button v-else-if="c.boRec?.id_tu_dien" type="button" class="ngd-map" title="Tra ở Từ Điển"
-                @click="emit('goto-dict', c.boRec!.id_tu_dien!)">[Từ điển]</button>
-            </div>
+                @click="emit('goto-dict', c.boRec!.id_tu_dien!)">Từ điển</button>
+            </span>
           </div>
 
-          <p class="ngd-giaithich">Lý luận YHCT: {{ c.ph.giaiThich }}</p>
+          <label class="ngd-sel ngd-sel--inline">Khung:
+            <select :value="c.khung" :title="KHUNG_MOTA[c.khung]"
+              @change="khungOv[c.organ] = ($event.target as HTMLSelectElement).value as KhungLoai">
+              <option v-for="k in KHUNG_ALL" :key="k" :value="k">{{ KHUNG_TEN[k] }}</option>
+            </select>
+          </label>
         </div>
       </div>
     </div>
@@ -461,6 +551,12 @@ defineExpose({
               <b>{{ c.organ }}</b> ({{ c.bm.hanhETen }})
               <span class="ngd-tt" :class="c.thuc ? 'is-thuc' : 'is-hu'">{{ c.thuc ? 'THỰC' : 'HƯ' }}</span>
             </span>
+            <RouterLink v-if="c.maCongThuc" class="ngd-ct-tag ngd-ct-tag--link"
+              :to="{ name: 'meridian-diseases', query: { tab: 'phac-do', ct: c.maCongThuc } }"
+              title="Mở công thức đầy đủ trong trang Phương Huyệt">
+              #{{ c.maCongThuc }}<span v-if="c.ct?.sua_tay" class="ngd-ct-sua">đã chỉnh</span>
+            </RouterLink>
+            <span v-else class="ngd-ct-tag ngd-ct-tag--local" title="Chưa tải được kho công thức — số liệu do máy tính tại chỗ">tính tại chỗ</span>
           </div>
 
           <div class="ngd-card-quick-huyet">
@@ -469,27 +565,11 @@ defineExpose({
             </span>
           </div>
 
-          <button type="button" class="ngd-expand-btn" @click="toggleExpand(c.organ)">
-            {{ expandedCards[c.organ] ? 'Thu gọn' : 'Xem chi tiết & lý luận' }}
-          </button>
-        </div>
-
-        <div v-if="expandedCards[c.organ]" class="ngd-card-expand-body">
-          <div class="ngd-rows">
-            <div class="ngd-row">
-              <span class="ngd-badge" :class="c.thuc ? 'ngd-badge--ta' : 'ngd-badge--bo'">{{ c.thuc ? 'TẢ TỬ' : 'BỔ MẪU' }}</span>
-              <span class="ngd-chip" :class="c.thuc ? 'ngd-chip--ta' : 'ngd-chip--bo'">
-                <b class="ngd-hy">{{ c.bm.targetHuyet.huyet }}</b>
-                <span class="ngd-meta">{{ c.bm.targetHuyet.role }} · {{ c.bm.targetHuyet.hanhTen }} huyệt · kinh {{ c.bm.targetHuyet.kinh }}</span>
-              </span>
-              <button v-if="c.rec?.ma_huyet" type="button" class="ngd-map" title="Xem trên đồ hình 3D"
-                @click="emit('goto-acu', c.rec!.ma_huyet!)">[3D]</button>
-              <button v-else-if="c.rec?.id_tu_dien" type="button" class="ngd-map" title="Tra ở Từ Điển"
-                @click="emit('goto-dict', c.rec!.id_tu_dien!)">[Từ điển]</button>
-            </div>
-          </div>
-
-          <p class="ngd-giaithich">Lý luận YHCT (Nạn Kinh 69): {{ c.bm.giaiThich }}</p>
+          <span v-if="c.maCongThuc" class="ngd-meta ngd-meta--nk">{{ c.bm.targetHuyet.role }} · {{ c.bm.targetHuyet.hanhTen }} huyệt · kinh {{ c.bm.targetHuyet.kinh }}</span>
+          <button v-if="c.rec?.ma_huyet" type="button" class="ngd-map" title="Xem trên đồ hình 3D"
+            @click="emit('goto-acu', c.rec!.ma_huyet!)">3D</button>
+          <button v-else-if="c.rec?.id_tu_dien" type="button" class="ngd-map" title="Tra ở Từ Điển"
+            @click="emit('goto-dict', c.rec!.id_tu_dien!)">Từ điển</button>
         </div>
       </div>
     </div>
@@ -586,4 +666,32 @@ defineExpose({
 .ngd-map:hover { background: var(--brown-100, #efe5d5); }
 .ngd-giaithich { margin: 4px 0 0; font-size: 0.78rem; color: var(--brown-700, #5a4636); line-height: 1.45; background: #f7f1e7; padding: 6px 8px; border-radius: 6px; }
 .ngd-note { margin: 10px 0 0; font-size: 0.74rem; color: var(--gray-500, #8a7c68); line-height: 1.45; }
+
+/* ── Đối chiếu KHO CÔNG THỨC: chip mã công thức (bấm sang trang Phương Huyệt) ── */
+.ngd-ct-tag {
+  display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 999px;
+  border: 1px solid var(--brown-200); background: var(--surface-2);
+  font-size: 10px; font-weight: 700; letter-spacing: 0.02em; color: var(--brown-700); text-transform: none;
+}
+.ngd-ct-tag--local { border-style: dashed; color: var(--gray-600); }
+.ngd-ct-sua { padding: 0 5px; border-radius: 999px; background: var(--brown-700); color: #fff; font-size: 9px; }
+.ngd-ct-tag--link { text-decoration: none; cursor: pointer; }
+.ngd-ct-tag--link:hover { border-color: var(--brown-600); background: var(--surface-1); }
+.ngd-sel--inline { font-size: 11px; color: var(--gray-700); display: inline-flex; align-items: center; gap: 4px; }
+.ngd-sel--inline select { font-size: 11px; padding: 1px 4px; }
+.ngd-meta--nk { font-size: 11px; color: var(--gray-600); }
+
+/* ── Tầng B: dải định gốc + vai trò từng kinh ─────────────────────────────── */
+.ngd-vai { font-size: 9px; font-weight: 700; padding: 1px 7px; border-radius: 999px; letter-spacing: 0.04em; }
+.ngd-vai--goc { background: var(--brown-700, #5a4636); color: #fff; }
+.ngd-vai--keo { background: #ece4d8; color: #6b5540; text-transform: none; }
+
+/* ── Hồi tác (so hai lần đo) ──────────────────────────────────────────────── */
+/* Dải mảnh của CA BỆNH (hồi tác + cảnh báo an toàn) — lý luận định gốc để ở tab tra cứu. */
+.ngd-dai { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0; padding: 6px 10px; border-radius: 8px; background: #fbf7f1; border-left: 3px solid var(--brown-600, #7a5a3c); font-size: 11px; line-height: 1.55; text-transform: none; }
+.ngd-dai-muc { color: var(--gray-800, #374151); }
+.ngd-dai-muc.is-chuyen-tot b { color: #3d6029; }
+.ngd-dai-muc.is-nang-them b { color: #8f2f21; }
+.ngd-dai-muc.is-chua-chuyen b { color: #8a5a20; }
+.ngd-dai-canh { color: #8a4b20; }
 </style>
