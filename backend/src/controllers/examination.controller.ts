@@ -534,45 +534,17 @@ export class ExaminationsService implements OnModuleInit {
       return chosen;
     }
 
-    const candidates = await this.examinationRepository.find({
-      order: { createdAt: 'DESC' },
-      take: 24,
-    });
-    await this.ganInputData(candidates);
-
-    // Phân tích MỘT lần cho mỗi ca và giữ lại kết quả — khỏi gọi findOne()
-    // để phân tích lại ca được chọn lần nữa.
-    let best: { exam: Examination; fresh: any } | null = null;
-    let bestScore = -1;
-    for (const exam of candidates) {
-      if (!exam.inputData) continue;
-      try {
-        const fresh = await this.meridiansService.analyze(exam.inputData as any);
-        const score =
-          (fresh.excelSyndromes?.length ?? 0) * 2 +
-          (fresh.modernSyndromes?.length ?? 0) +
-          (fresh.syndromes?.length ?? 0);
-        if (score > bestScore) {
-          bestScore = score;
-          best = { exam, fresh };
-        }
-      } catch {
-        // Bỏ qua ca lỗi phân tích, thử ca tiếp theo.
-      }
+    // Dùng LẠI kết quả của findDemoExaminations (cùng cách chọn "ca đẹp nhất trong 24 ca gần
+    // nhất", cùng công thức điểm — mục 0 sau khi sắp giảm dần chính là ca số ít cần) thay vì tự
+    // quét + phân tích lại từ đầu: bản cũ không dùng chung cache/pre-warm với bản nhiều ca, nên
+    // /demo/ket-qua-do luôn trả chậm (đo thật trên production ~10s) dù /demo/ket-qua-do-list đã
+    // được làm nóng sẵn lúc khởi động (onModuleInit) và phản hồi nhanh.
+    const [first] = await this.findDemoExaminations(1);
+    if (!first) {
+      throw new NotFoundException('Chưa có ca đo nào để demo');
     }
-
-    if (!best) {
-      const fallback = candidates.find((e) => e.inputData) ?? candidates[0];
-      if (!fallback) {
-        throw new NotFoundException('Chưa có ca đo nào để demo');
-      }
-      const fresh = await this.meridiansService.analyze(fallback.inputData as any);
-      best = { exam: fallback, fresh };
-    }
-
-    const chosen = this.attachFreshAnalysis(best.exam, best.fresh);
-    this.demoExamCache = chosen;
-    return chosen;
+    this.demoExamCache = first;
+    return first;
   }
 
   /**

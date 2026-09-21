@@ -27,16 +27,20 @@ export class BaiThuocService {
     private dataSource: DataSource,
   ) {}
 
+  /**
+   * Từng có thêm congDungLinks/chuTriLinks/tenGoiKhacList của viThuoc — đã bỏ (đã rà toàn bộ
+   * frontend: không nơi nào đọc 3 nhánh này từ đối tượng bài thuốc; ViThuocDetail/Pharmacology
+   * Manager/MedicinesView đọc chúng qua endpoint /vi-thuoc riêng, không qua đây). 3 nhánh 1-nhiều
+   * song song đó khiến TypeORM LEFT JOIN 1 câu bị nhân bản dòng theo tích số các nhánh — đo thật
+   * trên production: 1 bài thuốc ~15 vị thuốc phình thành 1.592 dòng. Trang demo công khai tải 12
+   * bài cùng lúc (Promise.all) nên bị treo hẳn >30s. Giữ kiengKyLinks (BaiThuocAnalysis.vue có
+   * đọc) + trieuChungList/phapTri.trieu_chung_list (MedicinesView.vue có đọc).
+   */
   private static readonly BT_VI_RELATIONS = [
     'chiTietViThuoc',
     'chiTietViThuoc.viThuoc',
-    'chiTietViThuoc.viThuoc.congDungLinks',
-    'chiTietViThuoc.viThuoc.congDungLinks.congDung',
-    'chiTietViThuoc.viThuoc.chuTriLinks',
-    'chiTietViThuoc.viThuoc.chuTriLinks.chuTri',
     'chiTietViThuoc.viThuoc.kiengKyLinks',
     'chiTietViThuoc.viThuoc.kiengKyLinks.kiengKy',
-    'chiTietViThuoc.viThuoc.tenGoiKhacList',
     'phapTriLinks',
     'phapTriLinks.phapTri',
     'phapTriLinks.phapTri.trieu_chung_list',
@@ -458,18 +462,30 @@ export class BaiThuocService {
     return rows[0]?.id ?? null;
   }
 
-  /** Bù danh sách ID bài thuốc Tây Y "đẹp" (loại placeholder trùng tên triệu chứng). */
+  /**
+   * Bù danh sách ID bài thuốc Tây Y "đẹp" (loại placeholder trùng tên triệu chứng).
+   *
+   * Đếm số vị (id_bai_thuoc) qua 1 CTE gộp-nhóm thay vì subquery tương quan lặp lại ở cả WHERE
+   * lẫn ORDER BY — bản cũ khiến Postgres quét lại bai_thuoc_chi_tiet cho MỖI ứng viên, 2 lần/ứng
+   * viên; production từng treo >30s vì bảng không có index theo id_bai_thuoc (đã thêm ở
+   * schema-bootstrap.service.ts) và bị quét lặp kiểu này — 1 request treo còn giữ luôn 1 kết nối
+   * DB, kéo các request khác (kể cả không đụng bai_thuoc) chờ theo do pool bị chiếm dụng.
+   */
   private async fallbackTayYDemoIds(limit: number): Promise<number[]> {
     if (limit <= 0) return [];
     const rows: { id: number }[] = await this.dataSource.query(
-      `SELECT bt.id
+      `WITH chi_tiet_count AS (
+         SELECT id_bai_thuoc, COUNT(*) AS cnt FROM bai_thuoc_chi_tiet GROUP BY id_bai_thuoc
+       )
+       SELECT bt.id
          FROM bai_thuoc bt
-        WHERE EXISTS (SELECT 1 FROM benh_tay_y_bai_thuoc x WHERE x.id_bai_thuoc = bt.id)
-          AND (SELECT COUNT(*) FROM bai_thuoc_chi_tiet c WHERE c.id_bai_thuoc = bt.id) >= 4
+         JOIN chi_tiet_count cc ON cc.id_bai_thuoc = bt.id
+        WHERE cc.cnt >= 4
+          AND EXISTS (SELECT 1 FROM benh_tay_y_bai_thuoc x WHERE x.id_bai_thuoc = bt.id)
           AND EXISTS (SELECT 1 FROM bai_thuoc_phap_tri l JOIN phap_tri pt ON pt.id = l.id_phap_tri
                       WHERE l.id_bai_thuoc = bt.id AND length(trim(coalesce(pt.the_benh, ''))) > 0)
           AND bt.ten_bai_thuoc !~ '\\((Biểu|Ngoại|Tiết Niệu|Phụ Khoa|Nhi Khoa|Ngũ Quan)\\)'
-        ORDER BY (SELECT COUNT(*) FROM bai_thuoc_chi_tiet c WHERE c.id_bai_thuoc = bt.id) DESC, bt.id
+        ORDER BY cc.cnt DESC, bt.id
         LIMIT $1`,
       [limit],
     );
@@ -500,16 +516,18 @@ export class BaiThuocService {
       // VALUES (ục_index, pattern) với tham số bắt đầu từ $1
       const valueRows = patterns.map((_, i) => `(${i}, $${i + 1})`).join(', ');
       const rows: { id: number; pattern_idx: number }[] = await this.dataSource.query(
-        `SELECT DISTINCT ON (ord.idx) ord.idx AS pattern_idx, bt.id
+        `WITH chi_tiet_count AS (
+           SELECT id_bai_thuoc, COUNT(*) AS cnt FROM bai_thuoc_chi_tiet GROUP BY id_bai_thuoc
+         )
+         SELECT DISTINCT ON (ord.idx) ord.idx AS pattern_idx, bt.id
            FROM (VALUES ${valueRows}) AS ord(idx, pat)
            JOIN bai_thuoc bt ON bt.ten_bai_thuoc ILIKE ord.pat
-          WHERE EXISTS (SELECT 1 FROM benh_tay_y_bai_thuoc x WHERE x.id_bai_thuoc = bt.id)
-            AND (SELECT COUNT(*) FROM bai_thuoc_chi_tiet c WHERE c.id_bai_thuoc = bt.id) >= 3
+           JOIN chi_tiet_count cc ON cc.id_bai_thuoc = bt.id
+          WHERE cc.cnt >= 3
+            AND EXISTS (SELECT 1 FROM benh_tay_y_bai_thuoc x WHERE x.id_bai_thuoc = bt.id)
             AND EXISTS (SELECT 1 FROM bai_thuoc_phap_tri l JOIN phap_tri pt ON pt.id = l.id_phap_tri
                         WHERE l.id_bai_thuoc = bt.id AND length(trim(coalesce(pt.the_benh, ''))) > 0)
-          ORDER BY ord.idx,
-                   (SELECT COUNT(*) FROM bai_thuoc_chi_tiet c WHERE c.id_bai_thuoc = bt.id) DESC,
-                   bt.id`,
+          ORDER BY ord.idx, cc.cnt DESC, bt.id`,
         patterns,
       );
       // Sắp thứ tự theo pattern_idx (đảm bảo thứ tự ưu tiên)
@@ -594,7 +612,16 @@ export class BaiThuocService {
 
     this.demoFormulasPromise = this._buildDemoFormulasCache();
     try {
-      const list = await this.demoFormulasPromise;
+      // Chốt trần thời gian: nếu truy vấn bên dưới bất ngờ chậm bất thường (khoá, phình dữ liệu),
+      // request khách demo vẫn nhận lỗi rõ ràng thay vì treo vô hạn — frontend đã có nhánh dự
+      // phòng (lùi về /demo/bai-thuoc 1 bài). Không huỷ được truy vấn SQL đang chạy dở, nhưng ít
+      // nhất các request MỚI không còn xếp hàng chờ đúng promise đã lỡ chậm này.
+      const list = await Promise.race([
+        this.demoFormulasPromise,
+        new Promise<never>((_, reject) =>
+          setTimeout(() => reject(new Error('Xây kho bài thuốc demo quá 8s, bỏ qua')), 8_000),
+        ),
+      ]);
       this.demoFormulasCache = list;
       return list.slice(0, want);
     } finally {

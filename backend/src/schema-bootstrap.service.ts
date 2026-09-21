@@ -189,6 +189,13 @@ export class SchemaBootstrapService implements OnApplicationBootstrap {
             "reminded1h" = false, "reminded30m" = false, "reminded15m" = false,
             status = 'OPEN'
       WHERE status = 'CANCELLED'`,
+
+    // Thiếu 2 index này làm mỗi lượt dò "bài thuốc demo công khai" (đếm số vị/kiểm chỉ định theo
+    // id_bai_thuoc) phải quét toàn bảng lặp lại cho từng ứng viên — quan sát thực tế trên production
+    // là request treo >30s và giữ luôn 1 kết nối DB, kéo các request khác (kể cả không liên quan
+    // bai_thuoc) chờ theo do pool bị chiếm dụng. Xem trang-cong-khai-tai-cham.md.
+    `CREATE INDEX IF NOT EXISTS idx_bai_thuoc_chi_tiet_id_bai_thuoc ON bai_thuoc_chi_tiet (id_bai_thuoc)`,
+    `CREATE INDEX IF NOT EXISTS idx_bai_thuoc_phap_tri_id_bai_thuoc ON bai_thuoc_phap_tri (id_bai_thuoc)`,
   ];
 
   async onApplicationBootstrap(): Promise<void> {
