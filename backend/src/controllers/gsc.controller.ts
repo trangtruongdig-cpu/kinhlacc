@@ -5,7 +5,7 @@ import {
   ServiceUnavailableException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { google, searchconsole_v1 } from 'googleapis';
+import { searchconsole, searchconsole_v1, auth as googleAuth } from '@googleapis/searchconsole';
 import { existsSync, readFileSync } from 'node:fs';
 import { isAbsolute, resolve as pathResolve } from 'node:path';
 import { safeUpstreamStatus } from '../utils/external-error.util';
@@ -136,7 +136,7 @@ export class GscService {
    * không có thì fallback Service Account. Ném lỗi gọn nếu chưa cấu hình gì.
    */
   private buildAuth(): {
-    auth: InstanceType<typeof google.auth.OAuth2> | InstanceType<typeof google.auth.GoogleAuth>;
+    auth: InstanceType<typeof googleAuth.OAuth2> | InstanceType<typeof googleAuth.GoogleAuth>;
     sig: string;
     mode: 'oauth' | 'service_account';
     who: string;
@@ -145,14 +145,14 @@ export class GscService {
     const csec = this.config.get<string>('GSC_OAUTH_CLIENT_SECRET');
     const rt = this.config.get<string>('GSC_OAUTH_REFRESH_TOKEN');
     if (cid && csec && rt) {
-      const o = new google.auth.OAuth2(cid, csec);
+      const o = new googleAuth.OAuth2(cid, csec);
       o.setCredentials({ refresh_token: rt });
       // Tài khoản đăng nhập (vd trangtruong.dig@gmail.com) đã có sẵn quyền trên property.
       return { auth: o, sig: `oauth:${cid}:${rt.length}`, mode: 'oauth', who: 'tài khoản OAuth đã uỷ quyền' };
     }
     // Fallback: Service Account (cần được thêm vào Search Console mới có quyền).
     const sa = this.loadServiceAccount();
-    const auth = new google.auth.GoogleAuth({
+    const auth = new googleAuth.GoogleAuth({
       credentials: { client_email: sa.client_email, private_key: sa.private_key },
       scopes: SCOPES,
     });
@@ -168,8 +168,8 @@ export class GscService {
   private client(): searchconsole_v1.Searchconsole {
     const { auth, sig, mode, who } = this.buildAuth();
     if (this.sc && this.cachedSig === sig) return this.sc;
-    // googleapis nhận cả OAuth2 lẫn GoogleAuth làm 'auth'.
-    this.sc = google.searchconsole({ version: 'v1', auth: auth as never });
+    // Nhận cả OAuth2 lẫn GoogleAuth làm 'auth'.
+    this.sc = searchconsole({ version: 'v1', auth: auth as never });
     this.cachedSig = sig;
     this.authMode = mode;
     this.authWho = who;
