@@ -479,6 +479,7 @@ interface ChungRowLite {
 const thuongHanChungList = ref<ChungRowLite[]>([])
 const thuongHanLoading = ref(false)
 const PHAN_LOAI_TEN: Record<string, string> = { 'kinh-chung': 'Kinh chứng', 'phu-chung': 'Phủ chứng', 'bien-chung': 'Biến chứng', 'kiem-chung': 'Kiêm chứng' }
+const DO_TIN_NHAN: Record<string, string> = { cao: 'Cao', vua: 'Vừa', thap: 'Thấp' }
 watch(
   () => lucKinhVerdict.value?.kinh.slug ?? null,
   async (slug) => {
@@ -1041,6 +1042,32 @@ onMounted(async () => {
                   <span v-else class="dkq-empty">chưa xác định thể bệnh</span>
                 </div>
 
+                <!-- Kết luận Lục Kinh (Thương Hàn) — khối trang thật CÓ mà demo còn thiếu: giai đoạn,
+                     độ tin, lý do suy luận. Bỏ phần chip "soi kinh" tương tác (cần dữ liệu số ca
+                     lịch sử toàn hệ thống mà demo không có) — giữ nguyên phần thông tin văn bản. -->
+                <section v-if="lucKinhVerdict" class="dkq-lk-verdict" :class="'dkq-lk-verdict--' + lucKinhVerdict.doTin">
+                  <div class="dkq-lk-head">
+                    <span class="dkq-lk-eyebrow">◎ Kết luận Lục Kinh</span>
+                    <b class="dkq-lk-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
+                    <span class="dkq-lk-giaidoan">{{ lucKinhVerdict.giaiDoan }}</span>
+                    <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="dkq-lk-hopbenh">+ {{ lucKinhVerdict.phu.ten }}</span>
+                    <span class="dkq-lk-badge" :class="'dkq-lk-badge--' + lucKinhVerdict.doTin">độ tin {{ DO_TIN_NHAN[lucKinhVerdict.doTin] }}</span>
+                  </div>
+                  <details class="dkq-lk-details">
+                    <summary class="dkq-lk-summary">Vì sao · thể ngoài phạm vi</summary>
+                    <p class="dkq-lk-ketluan">{{ lucKinhVerdict.ketLuan }}</p>
+                    <ul class="dkq-lk-lydo">
+                      <li v-for="(r, i) in lucKinhVerdict.lyDo" :key="i">{{ r }}</li>
+                    </ul>
+                    <p v-if="lucKinhVerdict.theNgoai.length" class="dkq-lk-ngoai">
+                      Ngoài phạm vi Thương Hàn (chưa phân tích sâu): {{ lucKinhVerdict.theNgoai.join(', ') }}.
+                    </p>
+                  </details>
+                </section>
+                <p v-else-if="excelSyndromes.length" class="dkq-lk-none">
+                  Các thể đo được chưa thuộc phạm vi Thương Hàn Lục Kinh — chưa định vị (có thể là nội thương / ôn bệnh / tạp bệnh).
+                </p>
+
                 <!-- ③ Tính chất (bát cương · chính khí) — ngang hàng đầu như app -->
                 <section v-if="!dinhViLoading && tinhChatAxis" class="dkq-axis dkq-axis--tinhchat">
                   <h3 class="dkq-axis-title"><span class="dkq-axis-num">{{ tinhChatAxis.num }}</span> {{ tinhChatAxis.title }} <em>{{ tinhChatAxis.sub }}</em></h3>
@@ -1473,6 +1500,38 @@ onMounted(async () => {
 .dkq-th-chung-ten { font-size: var(--font-size-md); color: var(--text); }
 .dkq-th-chung-han { font-style: normal; color: var(--text-subtle); font-size: 12px; }
 .dkq-th-chung-decuong { font-size: var(--font-size-sm); color: var(--text-subtle); margin: 6px 0 0; }
+
+/* Kết luận Lục Kinh (Tab 3) — port từ .lk-verdict của trang thật, đổi tiền tố dkq- để không đụng
+   scoped style khác; bỏ phần chip "soi kinh" tương tác cần dữ liệu số ca lịch sử toàn hệ thống. */
+.dkq-lk-verdict {
+  margin: var(--space-2) 0 var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--brown-600);
+  border-radius: var(--radius-md);
+  background: var(--brown-50, var(--surface-2));
+}
+.dkq-lk-verdict--cao { border-left-color: #2e6f52; }
+.dkq-lk-verdict--vua { border-left-color: var(--brown-600); }
+.dkq-lk-verdict--thap { border-left-color: var(--gray-400, #b6a892); }
+.dkq-lk-head { display: flex; align-items: baseline; gap: 6px 10px; flex-wrap: wrap; }
+.dkq-lk-eyebrow { font-size: var(--font-size-xs); font-weight: 800; letter-spacing: .03em; color: var(--brown-700); text-transform: uppercase; align-self: center; }
+.dkq-lk-kinh { font-size: var(--font-size-lg); font-weight: 800; color: var(--text-brand); }
+.dkq-lk-kinh i { font-style: normal; font-weight: 600; opacity: .7; font-size: .85em; }
+.dkq-lk-giaidoan { font-size: var(--font-size-sm); font-weight: 700; color: var(--brown-700); }
+.dkq-lk-hopbenh { font-size: 11.5px; font-weight: 700; color: #fff; background: #8a5a2e; padding: 1px 9px; border-radius: 999px; }
+.dkq-lk-badge { font-size: 11px; font-weight: 800; padding: 2px 10px; border-radius: 999px; white-space: nowrap; margin-left: auto; }
+.dkq-lk-badge--cao { color: #fff; background: #2e6f52; }
+.dkq-lk-badge--vua { color: #fff; background: var(--brown-600); }
+.dkq-lk-badge--thap { color: var(--text-subtle); background: var(--surface-2); border: 1px solid var(--border); }
+.dkq-lk-details { margin-top: var(--space-2); }
+.dkq-lk-details > summary { font-size: 12px; font-weight: 700; color: var(--brown-700); cursor: pointer; list-style: revert; }
+.dkq-lk-details[open] > summary { margin-bottom: var(--space-2); }
+.dkq-lk-ketluan { margin: 0 0 var(--space-2); font-size: var(--font-size-sm); line-height: 1.55; color: var(--text); }
+.dkq-lk-lydo { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 3px; }
+.dkq-lk-lydo li { font-size: 12.5px; line-height: 1.45; color: var(--text-subtle); }
+.dkq-lk-ngoai { margin: var(--space-2) 0 0; font-size: 12px; font-style: italic; color: var(--text-subtle); }
+.dkq-lk-none { margin: var(--space-3) 0 var(--space-4); padding: var(--space-3) var(--space-4); font-size: 13px; font-style: italic; color: var(--text-subtle); background: var(--surface-2); border: 1px dashed var(--border); border-radius: var(--radius-md); }
 
 .dkq-cta {
   display: flex;
