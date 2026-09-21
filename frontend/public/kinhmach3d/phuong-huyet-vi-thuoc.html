@@ -41,28 +41,41 @@
 
   .acp-diagrams { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
   .acp-diagram { text-align: center; }
-  .acp-svg { width: 320px; height: auto; border: 1px solid #e5e7eb; border-radius: 6px; background: #fff; }
+  .acp-svg { width: 340px; height: auto; border: 1px solid #e5e7eb; border-radius: 6px; background: #fff; }
   .acp-cap { font-weight: 700; font-size: 11px; margin-top: 4px; }
-  .acp-empty { width: 320px; padding: 40px 10px; text-align: center; color: #9ca3af; border: 1px dashed #d1d5db; border-radius: 6px; }
-  .acp-label { font-size: 9px; fill: #1f2937; font-family: Arial, sans-serif; }
+  .acp-empty { width: 340px; padding: 40px 10px; text-align: center; color: #9ca3af; border: 1px dashed #d1d5db; border-radius: 6px; }
+  .acp-label { font-size: 27px; fill: #1f2937; font-family: Arial, Helvetica, sans-serif; }
   .acp-label-name { font-weight: 700; }
   .acp-missing { margin-top: 8px; font-size: 10.5px; color: #b45309; }
 
-  /* Chú giải & bảng 2 mục */
-  .acp-legend { margin-top: 16px; display: flex; gap: 22px; flex-wrap: wrap; }
-  .sec { flex: 1 1 340px; break-inside: avoid; }
+  /* Chú giải & bảng các nhóm phương */
+  /* 2 cột như phiếu châm huyệt: 13 mục xếp 1 cột dọc thì tràn sang trang thứ hai gần trống. */
+  .acp-legend { margin-top: 14px; column-count: 2; column-gap: 18px; }
+  .sec { break-inside: avoid; margin-bottom: 9px; }
+  /* Dải tiêu đề nhóm: tên nhóm bên trái, gợi nhớ cấu thành bên phải (Nhân–Truật–Linh–Thảo…) */
   .sec-h {
-    font-weight: 700; font-size: 12.5px; padding: 4px 8px; border-radius: 5px;
-    color: #fff; margin-bottom: 6px; display: flex; align-items: center; gap: 6px;
+    font-weight: 700; font-size: 12px; padding: 5px 10px; border-radius: 4px;
+    color: #fff; margin-bottom: 0; display: flex; align-items: baseline;
+    justify-content: space-between; gap: 10px; letter-spacing: 0.02em;
   }
-  .sec-h i { font-weight: 400; font-style: normal; opacity: 0.9; font-size: 11px; }
-  table.tbl { width: 100%; border-collapse: collapse; font-size: 10.5px; }
-  table.tbl th, table.tbl td { border: 1px solid #e2ddd3; padding: 3px 6px; text-align: left; vertical-align: top; }
-  table.tbl thead th { background: #f6f1e8; font-weight: 700; font-size: 10px; }
-  table.tbl td.huyet { white-space: nowrap; }
-  table.tbl td .ma { font-weight: 700; }
-  table.tbl td .dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
-  table.tbl td.vithuoc { font-weight: 600; white-space: nowrap; }
+  .sec-h .sec-sub { font-weight: 400; font-size: 10.5px; opacity: 0.92; white-space: nowrap; }
+  table.tbl { width: 100%; border-collapse: collapse; font-size: 11px; }
+  table.tbl td {
+    border: 0; border-bottom: 1px solid #ece7dd; padding: 5px 8px;
+    text-align: left; vertical-align: top;
+  }
+  table.tbl tr:last-child td { border-bottom: 0; }
+  /* Nền kem rất nhạt cho cả khối, để dải màu tiêu đề đứng liền mạch với bảng */
+  .sec table.tbl { background: #fdfbf7; }
+  table.tbl td.stt { width: 22px; color: #9a8f7e; font-size: 10.5px; text-align: right; padding-right: 2px; }
+  table.tbl td.huyet { white-space: nowrap; width: 42%; }
+  table.tbl td.huyet .ten-huyet { font-weight: 700; font-size: 12px; }
+  table.tbl td.huyet .ma { color: #8d8477; font-size: 10px; letter-spacing: 0.02em; }
+  table.tbl td.eq { width: 14px; color: #b9b0a1; text-align: center; }
+  table.tbl td.vithuoc { white-space: nowrap; }
+  table.tbl td.vithuoc .ten-thuoc { font-weight: 700; font-size: 12px; }
+  table.tbl td.vithuoc .han { font-size: 11px; color: #b23b2e; }
+  table.tbl td.vithuoc .congnang { font-size: 10px; color: #6b6154; margin-top: 1px; white-space: normal; }
 
   .toolbar { text-align: center; margin: 4px 0 14px; }
   .toolbar button {
@@ -155,28 +168,44 @@
     // ─────────────────────────────────────────────────────────────────────────
     var SECTIONS = [
       {
-        title: 'Phương I',
-        color: '#b45309', // nâu/cam
+        title: 'Tứ Quân Tử · Bổ khí',
+        sub: 'Nhân–Truật–Linh–Thảo',
+        color: '#8a5a1b', // nâu
         rows: [
-          { code: 'LR13', ma: 'LR-13', ten: 'Chương Môn',      vithuoc: 'Nhân sâm',  congnang: 'Đại bổ nguyên khí, an thần' },
-          { code: 'ST36', ma: 'ST-36', ten: 'Túc Tam Lý',      vithuoc: 'Bạch truật', congnang: 'Kiện Tỳ hòa Vị' },
-          { code: 'PC6',  ma: 'PC-6',  ten: 'Nội Quan',        vithuoc: 'Phục linh',  congnang: 'Ninh Tâm, trừ thấp' },
-          { code: 'CV12', ma: 'CV-12', ten: 'Trung Quản',      vithuoc: 'Cam thảo',   congnang: 'Ích Vị khí, điều hòa' },
-          { code: 'SP6',  ma: 'SP-6',  ten: 'Tam Âm Giao',     vithuoc: 'Đương quy',  congnang: 'Dưỡng huyết hòa doanh' },
-          { code: 'LI4',  ma: 'LI-4',  ten: 'Hợp Cốc',         vithuoc: 'Hoàng kỳ',   congnang: 'Cố biểu, bổ vệ khí' },
-          { code: 'CV4',  ma: 'CV-4',  ten: 'Quan Nguyên',     vithuoc: 'Thục địa',   congnang: 'Tư âm dưỡng huyết' },
+          { stt: 1, code: 'LR13', ma: 'LR-13', ten: 'Chương môn',  vithuoc: 'Nhân sâm',  han: '人參', congnang: 'Đại bổ nguyên khí, an thần' },
+          { stt: 2, code: 'ST36', ma: 'ST-36', ten: 'Túc tam lý',  vithuoc: 'Bạch truật', han: '白朮', congnang: 'Kiện Tỳ hòa Vị' },
+          { stt: 3, code: 'PC6',  ma: 'PC-6',  ten: 'Nội quan',    vithuoc: 'Phục linh',  han: '茯苓', congnang: 'Ninh Tâm, trừ thấp' },
+          { stt: 4, code: 'CV12', ma: 'CV-12', ten: 'Trung quản',  vithuoc: 'Cam thảo',   han: '甘草', congnang: 'Ích Vị khí, điều hòa' },
         ],
       },
       {
-        title: 'Phương II',
-        color: '#1d4ed8', // xanh
+        title: 'Tứ Vật · Bổ huyết',
+        sub: 'Quy–Địa–Thược–Khung',
+        color: '#b0281a', // đỏ
         rows: [
-          { code: 'LR3',  ma: 'LR-3',  ten: 'Thái Xung',       vithuoc: 'Bạch thược', congnang: 'Bình Can, chỉ thống' },
-          { code: 'LI11', ma: 'LI-11', ten: 'Khúc Trì',        vithuoc: 'Xuyên khung', congnang: 'Hành khí hoạt huyết' },
-          { code: 'GB34', ma: 'GB-34', ten: 'Dương Lăng Tuyền', vithuoc: 'Nhục quế',  congnang: 'Ôn thông kinh lạc' },
-          { code: 'ST40', ma: 'ST-40', ten: 'Phong Long',      vithuoc: 'Trần bì',    congnang: 'Hóa đờm, lý khí' },
-          { code: 'PC5',  ma: 'PC-5',  ten: 'Gian Sử',         vithuoc: 'Thăng ma',   congnang: 'Thăng đề dương khí' },
-          { code: 'SI7',  ma: 'SI-7',  ten: 'Chi Chính',       vithuoc: 'Sài hồ',     congnang: 'Sơ tiết Thiếu dương' },
+          { stt: 5, code: 'SP6',  ma: 'SP-6',  ten: 'Tam âm giao', vithuoc: 'Đương quy',  han: '當歸', congnang: 'Dưỡng huyết hòa doanh' },
+          { stt: 6, code: 'CV4',  ma: 'CV-4',  ten: 'Quan nguyên', vithuoc: 'Thục địa',   han: '熟地', congnang: 'Tư âm dưỡng huyết' },
+          { stt: 7, code: 'LR3',  ma: 'LR-3',  ten: 'Thái xung',   vithuoc: 'Bạch thược', han: '白芍', congnang: 'Bình Can, chỉ thống' },
+          { stt: 8, code: 'LI11', ma: 'LI-11', ten: 'Khúc trì',    vithuoc: 'Xuyên khung', han: '川芎', congnang: 'Hành khí hoạt huyết' },
+        ],
+      },
+      {
+        title: 'Hoàng kỳ & Nhục quế',
+        sub: '→ Thập toàn đại bổ (10)',
+        color: '#8a6d1b', // vàng nâu
+        rows: [
+          { stt: 9,  code: 'LI4',  ma: 'LI-4',  ten: 'Hợp cốc',           vithuoc: 'Hoàng kỳ', han: '黃芪', congnang: 'Cố biểu, bổ khí' },
+          { stt: 10, code: 'GB34', ma: 'GB-34', ten: 'Dương lăng tuyền', vithuoc: 'Nhục quế', han: '肉桂', congnang: 'Ôn thông kinh lạc' },
+        ],
+      },
+      {
+        title: 'Nhóm khác',
+        sub: 'Lý khí · thăng đề · sơ tiết',
+        color: '#2f5d3a', // xanh lục
+        rows: [
+          { stt: 11, code: 'ST40', ma: 'ST-40', ten: 'Phong long', vithuoc: 'Trần bì',  han: '陳皮', congnang: 'Hóa đờm, lý khí' },
+          { stt: 12, code: 'PC5',  ma: 'PC-5',  ten: 'Gian sử',    vithuoc: 'Thăng ma', han: '升麻', congnang: 'Thăng đề dương khí' },
+          { stt: 13, code: 'SI7',  ma: 'SI-7',  ten: 'Chi chính',  vithuoc: 'Sài hồ',   han: '柴胡', congnang: 'Sơ tiết Thiếu dương' },
         ],
       },
     ];
@@ -198,7 +227,23 @@
     // Vẽ SVG 1 mặt (front/back): ảnh thân người + chấm huyệt + đường dẫn nhãn.
     // Port từ KinhMach3DView.vue (buildSideSvg / layoutLabelSlots), tô màu theo mục.
     // ─────────────────────────────────────────────────────────────────────────
-    var ACP_MARGIN = 190;
+    // LỀ + CỠ CHỮ TÍNH THEO HỆ TOẠ ĐỘ SVG, KHÔNG PHẢI PIXEL THẬT. viewBox rộng ACP_MARGIN*2 + 700 =
+    // 1220 đơn vị nhưng khung in chỉ 340px → mọi kích thước bên trong bị THU NHỎ ~3,6 lần. Cỡ chữ 9
+    // (bản đầu của phiếu này) hiện ra 2,5px — in ra không ai đọc nổi tên huyệt. Các hằng số dưới đây
+    // là ĐƠN VỊ VIEWBOX đã nhân sẵn, đồng bộ với phiếu châm huyệt ở KinhMach3DView.vue.
+    var ACP_MARGIN = 260;   // lề trái/phải quanh ảnh thân người, dành chỗ cho nhãn + nét dẫn chỉ
+    var ACP_FONT = 27;      // cỡ chữ nhãn (≈7,5px thật sau khi thu về khung 340px)
+    var ACP_LABEL_GAP = 42; // khoảng cách dọc tối thiểu giữa 2 nhãn (≈12px thật)
+    var ACP_DOT_R = 9;      // bán kính chấm huyệt trên ảnh
+    var ACP_LEAD_W = 2.4;   // độ dày nét dẫn chỉ từ nhãn tới chấm
+    // SVG cắt cụt chữ tràn khỏi viewBox, KHÔNG xuống dòng và không báo gì: "ST36 Túc Tam Lý" từng in
+    // ra thành "ST36 Túc Tam". Ước bề rộng theo số ký tự (Arial ≈ 0,62 cỡ chữ, lấy dư tay vì chữ Việt
+    // có dấu và nửa sau nhãn in đậm) rồi ép nhãn nào vượt lề co vừa khít — thà hẹp còn hơn mất chữ.
+    var ACP_LABEL_MAX = ACP_MARGIN - 44;
+    function labelFit(text) {
+      var est = text.length * 0.62 * ACP_FONT;
+      return est > ACP_LABEL_MAX ? ' textLength="' + ACP_LABEL_MAX + '" lengthAdjust="spacingAndGlyphs"' : '';
+    }
 
     function layoutLabelSlots(points, imgH, minGap) {
       var sorted = points.slice().sort(function (a, b) { return a.y - b.y; });
@@ -224,28 +269,29 @@
         var meta = META[p.code] || {};
         var row = meta.row || {};
         return {
-          code: p.code,
-          label: (row.ma || p.code) + ' ' + (row.ten || p.name || ''),
+          code: row.ma || p.code,
+          name: row.ten || p.name || '',
           color: meta.color || p.color || '#8a6d3b',
           x: proj.x, y: proj.y,
         };
       });
-      var left = layoutLabelSlots(pts.filter(function (p) { return p.x < 0.5; }), H, 24);
-      var right = layoutLabelSlots(pts.filter(function (p) { return p.x >= 0.5; }), H, 24);
+      var left = layoutLabelSlots(pts.filter(function (p) { return p.x < 0.5; }), H, ACP_LABEL_GAP);
+      var right = layoutLabelSlots(pts.filter(function (p) { return p.x >= 0.5; }), H, ACP_LABEL_GAP);
 
       var dots = pts.map(function (p) {
-        return '<circle cx="' + (M + p.x * W).toFixed(1) + '" cy="' + (p.y * H).toFixed(1) + '" r="4.2" fill="' + p.color + '" stroke="#fff" stroke-width="1.2" />';
+        return '<circle cx="' + (M + p.x * W).toFixed(1) + '" cy="' + (p.y * H).toFixed(1) + '" r="' + ACP_DOT_R + '" fill="' + p.color + '" stroke="#fff" stroke-width="2.6" />';
       }).join('');
 
       function leaderAndLabel(p, anchor, labelX) {
         var dotX = M + p.x * W, dotY = p.y * H;
-        var textX = anchor === 'end' ? labelX - 6 : labelX + 6;
-        return '<line x1="' + labelX.toFixed(1) + '" y1="' + p.labelY.toFixed(1) + '" x2="' + dotX.toFixed(1) + '" y2="' + dotY.toFixed(1) + '" stroke="' + p.color + '" stroke-width="1" opacity="0.8" />'
-          + '<circle cx="' + labelX.toFixed(1) + '" cy="' + p.labelY.toFixed(1) + '" r="2.4" fill="' + p.color + '" />'
-          + '<text x="' + textX.toFixed(1) + '" y="' + p.labelY.toFixed(1) + '" text-anchor="' + anchor + '" dominant-baseline="middle" class="acp-label">' + escHtml(p.label) + '</text>';
+        var textX = anchor === 'end' ? labelX - 14 : labelX + 14;
+        return '<line x1="' + labelX.toFixed(1) + '" y1="' + p.labelY.toFixed(1) + '" x2="' + dotX.toFixed(1) + '" y2="' + dotY.toFixed(1) + '" stroke="' + p.color + '" stroke-width="' + ACP_LEAD_W + '" opacity="0.8" />'
+          + '<circle cx="' + labelX.toFixed(1) + '" cy="' + p.labelY.toFixed(1) + '" r="5" fill="' + p.color + '" />'
+          + '<text x="' + textX.toFixed(1) + '" y="' + p.labelY.toFixed(1) + '" text-anchor="' + anchor + '" dominant-baseline="middle" class="acp-label"' + labelFit(p.code + ' ' + p.name) + '>'
+          + escHtml(p.code) + ' <tspan class="acp-label-name">' + escHtml(p.name) + '</tspan></text>';
       }
-      var leftMarkup = left.map(function (p) { return leaderAndLabel(p, 'end', M - 10); }).join('');
-      var rightMarkup = right.map(function (p) { return leaderAndLabel(p, 'start', M + W + 10); }).join('');
+      var leftMarkup = left.map(function (p) { return leaderAndLabel(p, 'end', M - 24); }).join('');
+      var rightMarkup = right.map(function (p) { return leaderAndLabel(p, 'start', M + W + 24); }).join('');
 
       return '<svg class="acp-svg" viewBox="0 0 ' + totalW + ' ' + H + '" xmlns="http://www.w3.org/2000/svg">'
         + '<image href="' + imgDataUrl + '" x="' + M + '" y="0" width="' + W + '" height="' + H + '" preserveAspectRatio="xMidYMid meet" />'
@@ -253,19 +299,26 @@
         + '</svg>';
     }
 
-    // Bảng 1 mục.
+    // Bảng 1 nhóm: số thứ tự · huyệt (tên + mã) · vị thuốc (tên + chữ Hán) · công năng.
     function sectionTableHtml(s) {
       var rows = s.rows.map(function (r) {
         return '<tr>'
-          + '<td class="huyet"><span class="dot" style="background:' + s.color + '"></span><span class="ma">' + escHtml(r.ma) + '</span> ' + escHtml(r.ten) + '</td>'
-          + '<td class="vithuoc">' + escHtml(r.vithuoc) + '</td>'
-          + '<td>' + escHtml(r.congnang) + '</td>'
+          + '<td class="stt">' + r.stt + '</td>'
+          + '<td class="huyet"><span class="ten-huyet">' + escHtml(r.ten) + '</span> <span class="ma">' + escHtml(r.ma) + '</span></td>'
+          + '<td class="eq">=</td>'
+          + '<td class="vithuoc">'
+            + '<span class="ten-thuoc" style="color:' + s.color + '">' + escHtml(r.vithuoc) + '</span>'
+            + ' <span class="han">' + escHtml(r.han || '') + '</span>'
+            + '<div class="congnang">' + escHtml(r.congnang) + '</div>'
+          + '</td>'
           + '</tr>';
       }).join('');
       return '<div class="sec">'
-        + '<div class="sec-h" style="background:' + s.color + '">' + escHtml(s.title) + ' <i>(' + s.rows.length + ' huyệt)</i></div>'
-        + '<table class="tbl"><thead><tr><th>Huyệt</th><th>Vị thuốc</th><th>Công năng</th></tr></thead><tbody>'
-        + rows + '</tbody></table></div>';
+        + '<div class="sec-h" style="background:' + s.color + '">'
+          + '<span class="sec-t">' + escHtml(s.title.toUpperCase()) + '</span>'
+          + '<span class="sec-sub">' + escHtml(s.sub || '') + '</span>'
+        + '</div>'
+        + '<table class="tbl"><tbody>' + rows + '</tbody></table></div>';
     }
 
     function renderSheet(result) {
@@ -309,7 +362,7 @@
     var waited = 0, MAX_WAIT = 45000, STEP = 200;
     function tryExport() {
       if (window.AcuMap && typeof window.AcuMap.exportPrintDiagram === 'function') {
-        window.AcuMap.exportPrintDiagram(ALL_CODES, { width: 900, height: 1400 })
+        window.AcuMap.exportPrintDiagram(ALL_CODES, { width: 700, height: 1400 })
           .then(function (result) {
             if (!result || (!result.front && !result.back)) {
               fail('Không dựng được đồ hình (không chụp được ảnh thân người).');

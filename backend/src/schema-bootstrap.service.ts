@@ -112,6 +112,21 @@ export class SchemaBootstrapService implements OnApplicationBootstrap {
     `UPDATE examinations SET "thoiDiemKham" = "createdAt" WHERE "thoiDiemKham" IS NULL`,
     `CREATE INDEX IF NOT EXISTS idx_examinations_thoi_diem_kham ON examinations ("patientId", "thoiDiemKham" DESC)`,
 
+    // ── BỘ HUYỆT: mở rộng phac_do_chuan (vốn chỉ gắn bệnh chứng) để ôm luôn quan hệ
+    // huyệt↔huyệt kinh điển (Nguyên-Lạc, Bát Mạch Giao Hội, Du-Mộ, Tứ Quan…) và nhóm "bài thuốc
+    // tương đương" — tái dùng bộ máy kế thừa + vai_tro_huyet sẵn có, không dựng bảng mới.
+    `ALTER TABLE phac_do_chuan ADD COLUMN IF NOT EXISTS loai VARCHAR(40) NOT NULL DEFAULT 'chung_benh'`,
+    `CREATE INDEX IF NOT EXISTS idx_phac_do_chuan_loai ON phac_do_chuan (loai)`,
+
+    // ── PHIẾU HUYỆT: ghép "huyệt ⇄ vị thuốc" để in cột vị thuốc tương ứng ──
+    // Ghép mặc định, KHÔNG phải chân lý: một huyệt ứng vị nào còn tuỳ ngữ cảnh phương (Chương Môn
+    // = Nhân sâm là trong Tứ Quân Tử). Vì vậy lúc soạn phiếu vẫn sửa được tại chỗ, cột này chỉ là
+    // gợi ý điền sẵn. `cong_nang_ghep` là câu công năng NGẮN để in vừa dòng phiếu — công dụng
+    // trong vi_thuoc dài hàng đoạn, in ra vỡ bảng.
+    `ALTER TABLE huyet_vi ADD COLUMN IF NOT EXISTS id_vi_thuoc INTEGER`,
+    `ALTER TABLE huyet_vi ADD COLUMN IF NOT EXISTS cong_nang_ghep VARCHAR(255)`,
+    `CREATE INDEX IF NOT EXISTS idx_huyet_vi_id_vi_thuoc ON huyet_vi (id_vi_thuoc)`,
+
     // ── Cờ nhắc hẹn (AppointmentReminderService) — trước đây ALTER tay trên production ──
     `ALTER TABLE appointment_slots ADD COLUMN IF NOT EXISTS "reminded1h"  boolean NOT NULL DEFAULT false`,
     `ALTER TABLE appointment_slots ADD COLUMN IF NOT EXISTS "reminded30m" boolean NOT NULL DEFAULT false`,

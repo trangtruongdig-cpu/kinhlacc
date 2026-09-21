@@ -40,6 +40,16 @@ export class HuyetVi {
   @Column({ type: 'int', name: 'id_tu_dien', nullable: true })
   id_tu_dien: number | null;
 
+  // Vị thuốc ứng với huyệt này trên "phiếu huyệt" (xem SchemaBootstrap: ghép mặc định, sửa được
+  // lúc soạn phiếu). Không đặt ràng buộc khoá ngoại: vị thuốc bị xoá thì cột chỉ trỏ trượt, không
+  // kéo theo việc xoá huyệt.
+  @Column({ type: 'int', name: 'id_vi_thuoc', nullable: true })
+  id_vi_thuoc: number | null;
+
+  // Câu công năng ngắn in trên phiếu ("Đại bổ nguyên khí, an thần").
+  @Column({ type: 'varchar', length: 255, nullable: true })
+  cong_nang_ghep: string | null;
+
   @ManyToOne(() => KinhMach, (k) => k.huyetViList, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'id_kinh_mach' })
   kinhMach: KinhMach;

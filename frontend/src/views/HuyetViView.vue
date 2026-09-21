@@ -1,6 +1,16 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import { api } from '@/services/api'
+import SoanPhieuHuyet, { type HuyetChon } from '@/components/SoanPhieuHuyet.vue'
+
+const router = useRouter()
+
+// "Bộ huyệt" là quan hệ huyệt↔huyệt (kết hợp với gì, làm gì trong nhóm) — sống ở tab riêng, không
+// lẫn vào tab này (vốn để tra cứu huyệt ĐƠN LẺ). Nút dưới chỉ điều hướng sang đó, lọc sẵn theo huyệt.
+function xemBoHuyet(idHuyet: number) {
+  router.push({ query: { tab: 'phac-do', huyet: String(idHuyet) } })
+}
 
 interface KinhMachLite {
   idKinhMach: number
@@ -19,6 +29,10 @@ interface HuyetViRow {
   loai_huyet: string | null
   chong_chi_dinh: string | null
   kinhMach: KinhMachLite | null
+  // Ghép "huyệt ⇄ vị thuốc" để in phiếu huyệt (backend gắn kèm, xem huyet-vi.controller.ts).
+  id_vi_thuoc?: number | null
+  cong_nang_ghep?: string | null
+  viThuoc?: { id: number; ten_vi_thuoc: string | null; ten_han: string | null } | null
 }
 
 interface FormState {
@@ -59,6 +73,47 @@ const emptyForm = (): FormState => ({
 })
 
 const form = ref<FormState>(emptyForm())
+
+// ── GIỎ CHỌN để in phiếu ──────────────────────────────────────────────────────────────────
+// Giữ nguyên BẢN GHI đã chọn chứ không chỉ id: danh sách nạp lại theo từng trang/lần tìm, nếu chỉ
+// giữ id thì lúc soạn phiếu phải gọi lại API cho những huyệt đã trôi khỏi trang hiện tại.
+// Cùng lối với "in tem vị thuốc" (printCache trong MedicinesView).
+const gioChon = ref<Map<number, HuyetViRow>>(new Map())
+const soDaChon = computed(() => gioChon.value.size)
+const phieuOpen = ref(false)
+
+function daChon(id: number): boolean {
+  return gioChon.value.has(id)
+}
+function toggleChon(item: HuyetViRow) {
+  const m = new Map(gioChon.value) // thay cả Map để Vue thấy thay đổi
+  if (m.has(item.idHuyet)) m.delete(item.idHuyet)
+  else m.set(item.idHuyet, item)
+  gioChon.value = m
+}
+function boChonHet() {
+  gioChon.value = new Map()
+}
+const chonHetTrang = computed(() =>
+  pagedList.value.length > 0 && pagedList.value.every((x) => gioChon.value.has(x.idHuyet)),
+)
+function toggleChonTrang() {
+  const m = new Map(gioChon.value)
+  if (chonHetTrang.value) pagedList.value.forEach((x) => m.delete(x.idHuyet))
+  else pagedList.value.forEach((x) => m.set(x.idHuyet, x))
+  gioChon.value = m
+}
+const huyetDaChon = computed<HuyetChon[]>(() =>
+  [...gioChon.value.values()].map((h) => ({
+    idHuyet: h.idHuyet,
+    ten_huyet: h.ten_huyet,
+    ma_huyet: h.ma_huyet,
+    tac_dung: h.tac_dung,
+    id_vi_thuoc: h.id_vi_thuoc ?? null,
+    cong_nang_ghep: h.cong_nang_ghep ?? null,
+    viThuoc: h.viThuoc ?? null,
+  })),
+)
 
 const currentPage = ref(1)
 const itemsPerPage = ref(10)
@@ -263,7 +318,18 @@ async function handleDelete() {
         <h1 class="page-title">Quản Lý Huyệt Vị</h1>
         <p class="page-subtitle">Danh mục huyệt vị thuộc các kinh mạch — vị trí giải phẫu, loại huyệt, chống chỉ định</p>
       </div>
-      <button type="button" class="btn-primary" @click="openCreateModal">+ Thêm huyệt</button>
+      <div class="header-actions">
+        <button
+          type="button"
+          class="btn-print"
+          :disabled="soDaChon === 0"
+          :title="soDaChon ? 'Soạn phiếu từ các huyệt đã chọn' : 'Tick chọn huyệt ở cột đầu bảng trước'"
+          @click="phieuOpen = true"
+        >
+          🖶 In phiếu huyệt<span v-if="soDaChon"> ({{ soDaChon }})</span>
+        </button>
+        <button type="button" class="btn-primary" @click="openCreateModal">+ Thêm huyệt</button>
+      </div>
     </div>
 
     <div v-if="isLoading" class="loading-state">
@@ -310,22 +376,33 @@ async function handleDelete() {
           <table class="data-table">
             <thead>
               <tr>
+                <th width="38" class="text-center">
+                  <input
+                    type="checkbox"
+                    :checked="chonHetTrang"
+                    title="Chọn cả trang"
+                    @change="toggleChonTrang"
+                  />
+                </th>
                 <th width="64">ID</th>
                 <th width="180">Kinh mạch</th>
                 <th>Tên huyệt</th>
                 <th width="100">Mã</th>
                 <th width="120">Loại huyệt</th>
-                <th>Vị trí giải phẫu</th>
+                <th width="150">Vị thuốc ghép</th>
                 <th width="120" class="text-right">Thao tác</th>
               </tr>
             </thead>
             <tbody>
               <tr v-if="pagedList.length === 0">
-                <td colspan="7" class="text-center py-8 text-gray-500">
+                <td colspan="8" class="text-center py-8 text-gray-500">
                   {{ searchQuery.trim() || kinhMachFilter != null ? 'Không khớp bản ghi nào' : 'Chưa có dữ liệu' }}
                 </td>
               </tr>
-              <tr v-for="item in pagedList" :key="item.idHuyet">
+              <tr v-for="item in pagedList" :key="item.idHuyet" :class="{ 'row-chon': daChon(item.idHuyet) }">
+                <td class="text-center">
+                  <input type="checkbox" :checked="daChon(item.idHuyet)" @change="toggleChon(item)" />
+                </td>
                 <td class="font-bold cell-id">#{{ item.idHuyet }}</td>
                 <td>
                   <span class="chip chip-kinh">{{ kinhMachLabel(item.kinhMach) }}</span>
@@ -339,9 +416,16 @@ async function handleDelete() {
                   <span v-if="item.loai_huyet" class="chip chip-type">{{ item.loai_huyet }}</span>
                   <span v-else class="muted">—</span>
                 </td>
-                <td class="cell-wrap">{{ item.vi_tri_giai_phau || '—' }}</td>
+                <td>
+                  <template v-if="item.viThuoc?.ten_vi_thuoc">
+                    <span class="chip chip-thuoc">{{ item.viThuoc.ten_vi_thuoc }}</span>
+                    <span v-if="item.viThuoc.ten_han" class="han-nho">{{ item.viThuoc.ten_han }}</span>
+                  </template>
+                  <span v-else class="muted">—</span>
+                </td>
                 <td class="text-right">
                   <div class="row-actions">
+                    <button type="button" class="btn-action" title="Xem huyệt này kết hợp với gì" @click="xemBoHuyet(item.idHuyet)">Bộ huyệt</button>
                     <button type="button" class="btn-action btn-edit" @click="openEditModal(item)">Sửa</button>
                     <button type="button" class="btn-action btn-delete" @click="confirmDelete(item)">Xóa</button>
                   </div>
@@ -466,10 +550,40 @@ async function handleDelete() {
         </div>
       </div>
     </div>
+
+    <!-- Thanh nổi: giỏ chọn theo NHIỀU trang/lần tìm, nhắc số huyệt đang giữ -->
+    <div v-if="soDaChon" class="chon-bar">
+      <span class="chon-bar__text">Đã chọn <b>{{ soDaChon }}</b> huyệt</span>
+      <button type="button" class="chon-bar__ghost" @click="boChonHet">Bỏ chọn hết</button>
+      <button type="button" class="chon-bar__btn" @click="phieuOpen = true">🖶 Soạn phiếu & in</button>
+    </div>
+
+    <SoanPhieuHuyet v-if="phieuOpen" :huyet="huyetDaChon" @close="phieuOpen = false" />
   </div>
 </template>
 
 <style scoped>
+.header-actions { display: flex; gap: 8px; align-items: center; }
+.btn-print {
+  font: inherit; font-size: 13px; padding: 8px 14px; border-radius: 6px; cursor: pointer;
+  border: 1px solid #8a5a1b; background: #fff; color: #8a5a1b; white-space: nowrap;
+}
+.btn-print:disabled { opacity: 0.5; cursor: default; }
+.row-chon { background: #fdf8ef; }
+.chip-thuoc { display: inline-block; padding: 2px 7px; border-radius: 4px; background: #f3ece1; color: #8a5a1b; font-size: 12px; font-weight: 600; }
+.han-nho { margin-left: 5px; font-size: 12px; color: #b23b2e; }
+/* Thanh nổi đứng trên nút cuộn/ô nội dung, không che dòng cuối bảng nhờ position: sticky */
+.chon-bar {
+  position: sticky; bottom: 12px; margin: 12px auto 0; width: fit-content;
+  display: flex; align-items: center; gap: 12px; padding: 9px 14px;
+  background: #4a3520; color: #fff; border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,0.22);
+}
+.chon-bar__text { font-size: 13px; }
+.chon-bar__btn, .chon-bar__ghost {
+  font: inherit; font-size: 13px; padding: 5px 14px; border-radius: 999px; cursor: pointer; border: 0;
+}
+.chon-bar__btn { background: #d8a13a; color: #3a2810; font-weight: 600; }
+.chon-bar__ghost { background: transparent; color: #e6dbc9; border: 1px solid rgba(255,255,255,0.35); }
 .management-page {
   width: 100%;
   max-width: 1400px;

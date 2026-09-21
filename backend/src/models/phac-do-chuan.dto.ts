@@ -8,6 +8,8 @@ export class PhacDoChuanHuyetLineDto {
 
 export class CreatePhacDoChuanDto {
   ten: string;
+  // Xem phac-do-chuan.model.ts — mặc định 'chung_benh' nếu bỏ trống (tương thích 42 bản ghi gốc).
+  loai?: string;
   id_ke_thua?: number | null;
   id_benh_dong_y?: number | null;
   ghi_chu?: string | null;
@@ -17,6 +19,7 @@ export class CreatePhacDoChuanDto {
 
 export class UpdatePhacDoChuanDto {
   ten?: string;
+  loai?: string;
   id_ke_thua?: number | null;
   id_benh_dong_y?: number | null;
   ghi_chu?: string | null;

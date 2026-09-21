@@ -13,7 +13,8 @@ type SubTab = 'dong-y' | 'hien-dai' | 'kinh-mach' | 'huyet-vi' | 'phac-do' | 'th
 const activeSub = ref<SubTab>('dong-y')
 
 // Mở thẳng một tab qua đường dẫn: ?tab=phac-do (dùng khi trang Kết Quả Đo dẫn sang tra công thức
-// Ngũ Hành Hồi Tác — xem chip mã công thức ở Section IV).
+// Ngũ Hành Hồi Tác — xem chip mã công thức ở Section IV; cũng dùng khi tab Huyệt Vị dẫn sang xem
+// "huyệt này thuộc bộ nào" — PhacDoDieuTriView tự đọc thêm ?huyet=<id> để mở đúng tab con Bộ Huyệt).
 const route = useRoute()
 const TAB_HOP_LE: SubTab[] = ['dong-y', 'hien-dai', 'kinh-mach', 'huyet-vi', 'phac-do', 'thuong-han', 'ton-thuong']
 watch(

@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import { ref, onMounted, computed, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { api } from '@/services/api'
+import BoHuyetView from './BoHuyetView.vue'
+import { moPhieuInBoHuyet, moXem3D, traMaTheoTen } from '@/lib/inBoHuyet'
 
 const route = useRoute()
+const router = useRouter()
 
 interface KinhMachLite {
   idKinhMach: number
@@ -78,7 +81,18 @@ const benhOptions = ref<BenhLite[]>([])
 const searchQuery = ref('')
 const benhSearch = ref('')
 
-const activeCategoryTab = ref<'standard' | 'nhht'>('standard')
+const activeCategoryTab = ref<'standard' | 'nhht' | 'bo-huyet'>('standard')
+
+// Đường dẫn ?tab=phac-do&huyet=<idHuyet> (dẫn từ tab Huyệt Vị: "huyệt này kết hợp với gì") → mở
+// thẳng tab con Bộ Huyệt, đã lọc theo huyệt đó — BoHuyetView tự đọc route.query.huyet, ở đây chỉ
+// cần chuyển đúng tab con.
+watch(
+  () => route.query.huyet,
+  (v) => {
+    if (v) activeCategoryTab.value = 'bo-huyet'
+  },
+  { immediate: true },
+)
 
 /**
  * Ngũ Hành Hồi Tác — ĐỌC TỪ BẢNG `nhht_cong_thuc`, không nhập tay trong màn hình nữa.
@@ -307,6 +321,37 @@ function huyetViLabel(h: HuyetViLite | null | undefined): string {
 function kinhMachLabel(k: KinhMachLite | null | undefined): string {
   if (!k) return ''
   return k.ten_kinh_mach || k.ten_viet_tat || `#${k.idKinhMach}`
+}
+
+// ── In phiếu + xem 3D dùng chung cho cả 2 tab con (Mô Hình Bệnh Đông Y / NHHT) ─────────────────
+function xem3D(maHuyet: string | null | undefined) {
+  moXem3D(router, maHuyet)
+}
+function inBoBenh(group: BenhGroup) {
+  moPhieuInBoHuyet(
+    router,
+    benhLabel(group.benh, group.idBenh),
+    group.items.map((row) => ({ ma_huyet: row.huyetVi?.ma_huyet, ten_huyet: row.huyetVi?.ten_huyet, cong_nang: row.y_nghia_huyet })),
+  )
+}
+// menh_lenh/huyet_ngu_du/huyet_nan_kinh chỉ ghi TÊN huyệt (không kèm mã) — tra ngược qua
+// huyetViOptions đã nạp sẵn; khớp được thì mới đưa vào phiếu, không đoán mã cho tên không khớp.
+function maTuTenNhht(ten: string | null | undefined): string | null {
+  return traMaTheoTen(ten, huyetViOptions.value)
+}
+function xem3DTheoTen(ten: string | null | undefined) {
+  xem3D(maTuTenNhht(ten))
+}
+function inBoNhht(c: CongThucNhht) {
+  const huyet: { ma_huyet: string | null; ten_huyet: string | null; vai_tro?: string | null; cong_nang?: string | null }[] = []
+  for (const m of c.menh_lenh || []) {
+    huyet.push({ ma_huyet: maTuTenNhht(m.huyet), ten_huyet: m.huyet, vai_tro: m.tacDong === 'ta' ? 'Tả' : 'Bổ', cong_nang: m.phap })
+  }
+  if (c.huyet_nguyen_lac) {
+    huyet.push({ ma_huyet: c.huyet_nguyen_lac.nguyen.ma, ten_huyet: c.huyet_nguyen_lac.nguyen.ten, vai_tro: 'Nguyên (chủ)' })
+    huyet.push({ ma_huyet: c.huyet_nguyen_lac.lac.ma, ten_huyet: c.huyet_nguyen_lac.lac.ten, vai_tro: 'Lạc (khách)' })
+  }
+  moPhieuInBoHuyet(router, `${c.kinh} ${c.trang_thai === 'thực' ? 'Thực' : 'Hư'} · hành ${c.hanh}`, huyet)
 }
 
 function benhLabel(b: BenhLite | null | undefined, idBenh?: number): string {
@@ -561,6 +606,14 @@ async function handleDelete() {
             >
               Ngũ Hành Hồi Tác và Bổ "Mẫu" Tả "Tử"
             </button>
+            <button
+              type="button"
+              class="cat-tab-btn"
+              :class="{ 'is-active': activeCategoryTab === 'bo-huyet' }"
+              @click="activeCategoryTab = 'bo-huyet'"
+            >
+              Bộ Huyệt
+            </button>
           </div>
         </div>
       </div>
@@ -584,6 +637,7 @@ async function handleDelete() {
                 <span v-if="group.benh?.code" class="disease-card__code">{{ group.benh.code }}</span>
               </div>
               <div class="row-actions">
+                <button type="button" class="btn-action btn-in" title="In phiếu huyệt cho cả bộ này" @click="inBoBenh(group)">🖶 In</button>
                 <button type="button" class="btn-action btn-edit" @click="openEditModal(group)">Sửa</button>
                 <button type="button" class="btn-action btn-delete" @click="confirmDelete(group)">Xóa</button>
               </div>
@@ -634,6 +688,13 @@ async function handleDelete() {
                   >
                     <div class="ht-col ht-col--name">
                       <span class="chip chip-huyet">{{ huyetViLabel(row.huyetVi) }}</span>
+                      <button
+                        v-if="row.huyetVi?.ma_huyet"
+                        type="button"
+                        class="btn-3d-mini"
+                        title="Xem huyệt này trên đồ hình 3D"
+                        @click="xem3D(row.huyetVi.ma_huyet)"
+                      >3D</button>
                       <small
                         v-if="row.huyetVi?.kinhMach"
                         class="ht-kinh"
@@ -736,9 +797,12 @@ async function handleDelete() {
                 <span class="disease-card__id">#{{ c.ma }}</span>
                 <h4 class="disease-card__name">{{ c.kinh }} {{ c.trang_thai === 'thực' ? 'Thực' : 'Hư' }} · hành {{ c.hanh }}</h4>
               </div>
-              <span :class="c.trang_thai === 'thực' ? 'badge-tone-thuc' : 'badge-tone-hu'">
-                {{ c.trang_thai === 'thực' ? 'THỰC' : 'HƯ' }}
-              </span>
+              <div class="nhht-head-actions">
+                <button type="button" class="btn-action btn-in" title="In phiếu huyệt cho cả bộ này" @click="inBoNhht(c)">🖶 In</button>
+                <span :class="c.trang_thai === 'thực' ? 'badge-tone-thuc' : 'badge-tone-hu'">
+                  {{ c.trang_thai === 'thực' ? 'THỰC' : 'HƯ' }}
+                </span>
+              </div>
             </header>
 
             <div class="disease-card__body">
@@ -768,6 +832,13 @@ async function handleDelete() {
                   <span class="nhht-rx-text">
                     {{ m.huyet }} <em>({{ m.vaiTro }} {{ m.hanh }} · kinh {{ m.kinh }})</em> — {{ m.phap }}
                   </span>
+                  <button
+                    v-if="maTuTenNhht(m.huyet)"
+                    type="button"
+                    class="btn-3d-mini"
+                    title="Xem huyệt này trên đồ hình 3D"
+                    @click="xem3DTheoTen(m.huyet)"
+                  >3D</button>
                 </div>
               </div>
 
@@ -778,10 +849,12 @@ async function handleDelete() {
                   <span class="nhht-nl-chip nhht-nl-chip--nguyen">
                     NGUYÊN {{ c.huyet_nguyen_lac.nguyen.ten }}
                     <em>{{ c.huyet_nguyen_lac.nguyen.ma }} · kinh {{ c.huyet_nguyen_lac.chuKinh }} (chủ)</em>
+                    <button type="button" class="btn-3d-mini" title="Xem trên đồ hình 3D" @click="xem3D(c.huyet_nguyen_lac.nguyen.ma)">3D</button>
                   </span>
                   <span class="nhht-nl-chip nhht-nl-chip--lac">
                     LẠC {{ c.huyet_nguyen_lac.lac.ten }}
                     <em>{{ c.huyet_nguyen_lac.lac.ma }} · kinh {{ c.huyet_nguyen_lac.khachKinh }} (khách)</em>
+                    <button type="button" class="btn-3d-mini" title="Xem trên đồ hình 3D" @click="xem3D(c.huyet_nguyen_lac.lac.ma)">3D</button>
                   </span>
                 </div>
                 <div class="cond-sub">Cặp này theo BIỂU–LÝ, không theo khung — nên khách luôn là {{ c.huyet_nguyen_lac.khachKinh }}.</div>
@@ -801,6 +874,10 @@ async function handleDelete() {
           </article>
         </div>
       </div>
+
+      <!-- Bộ Huyệt: quan hệ huyệt↔huyệt (Nguyên-Lạc, Bát Mạch Giao Hội, Du-Mộ, Tứ Quan…) và nhóm
+      "bài thuốc tương đương" — khác Mô Hình Bệnh Đông Y / NHHT vốn gắn theo bệnh chứng cụ thể. -->
+      <BoHuyetView v-else-if="activeCategoryTab === 'bo-huyet'" />
     </div>
 
     <div v-if="showModal" class="modal-overlay" @click.self="closeModal">
@@ -1330,6 +1407,19 @@ async function handleDelete() {
 }
 .btn-edit:hover { background: var(--brown-50); border-color: var(--brown-400); color: var(--brown-700); }
 .btn-delete { color: var(--danger); }
+.btn-in { border-color: var(--brown-300); color: var(--brown-700); }
+.btn-in:hover { background: var(--brown-50); border-color: var(--brown-500); }
+
+/* Nút "3D" nhỏ cạnh 1 huyệt — bay thẳng sang Kinh Mạch 3D xem huyệt đó nằm ở đâu, không rời trang
+   đang đọc (mở tab mới). Dùng chung ở cả bảng huyệt (Mô Hình Bệnh) lẫn danh sách NHHT. */
+.btn-3d-mini {
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--brown-300); background: var(--brown-50); color: var(--brown-700);
+  font-size: 9.5px; font-weight: 700; letter-spacing: 0.02em; border-radius: 5px;
+  padding: 1px 5px; margin-left: 4px; cursor: pointer; line-height: 1.5;
+}
+.btn-3d-mini:hover { background: var(--brown-600); color: var(--white); border-color: var(--brown-600); }
+.nhht-head-actions { display: flex; align-items: center; gap: 8px; }
 .btn-delete:hover { background: var(--danger-bg); border-color: var(--danger-border); }
 
 .pagination { display: flex; align-items: center; justify-content: center; gap: var(--space-2); padding: var(--space-4); background: var(--gray-50); border-top: 1px solid var(--gray-100); }

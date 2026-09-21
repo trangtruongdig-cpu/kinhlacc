@@ -4,7 +4,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, In } from 'typeorm';
 import { PhacDoChuan, PhacDoChuanHuyet } from '../models/phac-do-chuan.model';
 import {
   CreatePhacDoChuanDto,
@@ -114,8 +114,9 @@ export class PhacDoChuanService {
     return orderedIds.map((hid) => map.get(hid)!).filter(Boolean);
   }
 
-  findAll(): Promise<PhacDoChuan[]> {
+  findAll(loai?: string): Promise<PhacDoChuan[]> {
     return this.chuanRepo.find({
+      where: loai ? { loai } : {},
       relations: [
         'keThua',
         'benhDongY',
@@ -123,6 +124,20 @@ export class PhacDoChuanService {
         'huyetDong.huyetVi',
         'huyetDong.huyetVi.kinhMach',
       ],
+      order: { thuTuHienThi: 'ASC', id: 'ASC' },
+    });
+  }
+
+  /** "Huyệt X nằm trong những bộ huyệt nào" — tra ngược từ phac_do_chuan_huyet, không tính hiệu
+   * lực kế thừa (chỉ trả những bộ CÓ DÒNG TRỰC TIẾP chứa huyệt này, đơn giản và đủ cho mục đích
+   * "xem huyệt này kết hợp với gì" — khác computeHuyetHieuLuc vốn để RENDER 1 phác đồ hoàn chỉnh). */
+  async findByHuyet(idHuyet: number): Promise<PhacDoChuan[]> {
+    const lines = await this.lineRepo.find({ where: { idHuyet }, select: ['idPhacDoChuan'] });
+    const ids = [...new Set(lines.map((l) => l.idPhacDoChuan))];
+    if (!ids.length) return [];
+    return this.chuanRepo.find({
+      where: { id: In(ids) },
+      relations: ['keThua', 'benhDongY', 'huyetDong', 'huyetDong.huyetVi'],
       order: { thuTuHienThi: 'ASC', id: 'ASC' },
     });
   }
@@ -194,6 +209,7 @@ export class PhacDoChuanService {
 
     const entity = this.chuanRepo.create({
       ten,
+      loai: dto.loai || 'chung_benh',
       idKeThua: dto.id_ke_thua ?? null,
       idBenhDongY: dto.id_benh_dong_y ?? null,
       ghi_chu: dto.ghi_chu ?? null,
@@ -222,6 +238,7 @@ export class PhacDoChuanService {
       if (!t) throw new BadRequestException('Tên phác đồ không được rỗng');
       item.ten = t;
     }
+    if (dto.loai !== undefined) item.loai = dto.loai || 'chung_benh';
     if (dto.id_ke_thua !== undefined) item.idKeThua = dto.id_ke_thua;
     if (dto.id_benh_dong_y !== undefined) item.idBenhDongY = dto.id_benh_dong_y;
     if (dto.ghi_chu !== undefined) item.ghi_chu = dto.ghi_chu;

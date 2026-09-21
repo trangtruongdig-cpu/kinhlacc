@@ -1,4 +1,7 @@
 export class CreateHuyetViDto {
+  // Ghép "huyệt ⇄ vị thuốc" cho phiếu huyệt (xem huyet-vi.model.ts).
+  id_vi_thuoc?: number | null;
+  cong_nang_ghep?: string | null;
   id_kinh_mach: number;
   idKinhMach?: number; // Support alternative naming
   ten_huyet: string;
@@ -10,6 +13,10 @@ export class CreateHuyetViDto {
 }
 
 export class UpdateHuyetViDto {
+  id_vi_thuoc?: number | null;
+  cong_nang_ghep?: string | null;
+  // Link sang Từ Điển 1059 huyệt (window.ACUPOINTS) — xem huyet-vi.model.ts.
+  id_tu_dien?: number | null;
   id_kinh_mach?: number;
   idKinhMach?: number; // Support alternative naming
   ten_huyet?: string;

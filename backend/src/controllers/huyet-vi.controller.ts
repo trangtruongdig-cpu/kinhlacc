@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { HuyetVi } from '../models/huyet-vi.model';
+import { ViThuoc } from '../models/vi-thuoc.model';
 import { CreateHuyetViDto, UpdateHuyetViDto } from '../models/huyet-vi.dto';
 
 @Injectable()
@@ -9,7 +10,31 @@ export class HuyetViService {
   constructor(
     @InjectRepository(HuyetVi)
     private readonly repo: Repository<HuyetVi>,
+    @InjectRepository(ViThuoc)
+    private readonly viThuocRepo: Repository<ViThuoc>,
   ) {}
+
+  /**
+   * Gắn kèm tên + chữ Hán của vị thuốc đã ghép, để phiếu huyệt in được cột "vị thuốc tương ứng"
+   * mà không phải gọi thêm API. Cố tình KHÔNG dùng relation TypeORM: `id_vi_thuoc` không có khoá
+   * ngoại (xem huyet-vi.model.ts), nên vị thuốc đã bị xoá chỉ làm trường này về null, không lỗi.
+   */
+  private async ganViThuoc<T extends HuyetVi>(items: T[]): Promise<T[]> {
+    const ids = [...new Set(items.map((x) => x.id_vi_thuoc).filter((x): x is number => !!x))];
+    if (!ids.length) return items;
+    const list = await this.viThuocRepo.find({
+      where: { id: In(ids) },
+      select: ['id', 'ten_vi_thuoc', 'ten_han'],
+    });
+    const byId = new Map(list.map((v) => [v.id, v]));
+    for (const it of items) {
+      const v = it.id_vi_thuoc != null ? byId.get(it.id_vi_thuoc) : undefined;
+      (it as unknown as { viThuoc: unknown }).viThuoc = v
+        ? { id: v.id, ten_vi_thuoc: v.ten_vi_thuoc, ten_han: v.ten_han }
+        : null;
+    }
+    return items;
+  }
 
   findAll(): Promise<HuyetVi[]> {
     return this.repo.find({
@@ -55,7 +80,7 @@ export class HuyetViService {
         order: { idHuyet: 'ASC' },
       });
     }
-    return { data, total, page, limit };
+    return { data: await this.ganViThuoc(data), total, page, limit };
   }
 
   async findOne(id: number): Promise<HuyetVi> {
@@ -64,7 +89,7 @@ export class HuyetViService {
       relations: ['kinhMach'],
     });
     if (!item) throw new NotFoundException(`Huyệt vị #${id} không tồn tại`);
-    return item;
+    return (await this.ganViThuoc([item]))[0];
   }
 
   async findByKinhMach(idKinhMach: number): Promise<HuyetVi[]> {
@@ -84,6 +109,8 @@ export class HuyetViService {
       tac_dung: dto.tac_dung,
       loai_huyet: dto.loai_huyet,
       chong_chi_dinh: dto.chong_chi_dinh,
+      id_vi_thuoc: dto.id_vi_thuoc ?? null,
+      cong_nang_ghep: dto.cong_nang_ghep ?? null,
     });
     return this.repo.save(entity);
   }
@@ -108,6 +135,9 @@ export class HuyetViService {
     if (dto.tac_dung !== undefined) item.tac_dung = dto.tac_dung;
     if (dto.loai_huyet !== undefined) item.loai_huyet = dto.loai_huyet;
     if (dto.chong_chi_dinh !== undefined) item.chong_chi_dinh = dto.chong_chi_dinh;
+    if (dto.id_vi_thuoc !== undefined) item.id_vi_thuoc = dto.id_vi_thuoc;
+    if (dto.cong_nang_ghep !== undefined) item.cong_nang_ghep = dto.cong_nang_ghep;
+    if (dto.id_tu_dien !== undefined) item.id_tu_dien = dto.id_tu_dien;
     
     await this.repo.save(item);
     

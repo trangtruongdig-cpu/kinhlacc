@@ -20,8 +20,14 @@ export class PhacDoChuanRouter {
   constructor(private readonly service: PhacDoChuanService) {}
 
   @Get()
-  findAll() {
-    return this.service.findAll();
+  findAll(@Query('loai') loai?: string) {
+    return this.service.findAll(loai);
+  }
+
+  // Phải đứng TRƯỚC @Get(':id') để 'theo-huyet' không bị match như id.
+  @Get('theo-huyet/:idHuyet')
+  findByHuyet(@Param('idHuyet', ParseIntPipe) idHuyet: number) {
+    return this.service.findByHuyet(idHuyet);
   }
 
   @Get(':id')

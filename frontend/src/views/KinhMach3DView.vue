@@ -44,9 +44,20 @@ interface AcuPrintPayload {
   patientName: string
   examDate: string
   theBenh?: string
+  // 'phuong-huyet' = phiếu soạn từ tab Huyệt Vị (chọn huyệt tự do, có cột vị thuốc tương ứng);
+  // bỏ trống = phiếu châm huyệt theo bệnh nhân như cũ.
+  loai?: 'cham-huyet' | 'phuong-huyet'
   groups: Array<{
     method: string
-    items: Array<{ code: string; name: string; note?: string; yNghia?: string; source?: string }>
+    items: Array<{
+      code: string
+      name: string
+      note?: string
+      yNghia?: string
+      source?: string
+      viThuoc?: string
+      han?: string
+    }>
   }>
 }
 const ACU_PRINT_PAYLOAD_KEY = 'kinhlac:acu-print-payload'
@@ -227,12 +238,17 @@ function renderAcuPrintSheet(result: AcuExportResult, payload: AcuPrintPayload |
         .map(
           (g) =>
             `<div class="acp-grp"><div class="acp-grp-h">${escHtml(g.method)} <i>(${g.items.length})</i></div><ul class="acp-list">${g.items
-              .map(
-                (it) =>
-                  `<li><b>${escHtml(it.code)}</b> ${escHtml(it.name)}` +
-                  `${it.yNghia ? ` <span class="acp-ynghia">— ${escHtml(it.yNghia)}</span>` : ''}` +
-                  `${it.source ? ` <span class="acp-src">[${escHtml(it.source)}]</span>` : ''}` +
-                  `${it.note ? ` <span class="acp-note">(${escHtml(it.note)})</span>` : ''}</li>`,
+              .map((it) =>
+                it.viThuoc
+                  ? // Phiếu phương huyệt: huyệt ⇄ vị thuốc tương ứng, công năng xuống dòng dưới.
+                    `<li><b>${escHtml(it.name)}</b> <span class="acp-ma">${escHtml(it.code)}</span>` +
+                    `<span class="acp-eq">=</span><b class="acp-vt">${escHtml(it.viThuoc)}</b>` +
+                    `${it.han ? ` <span class="acp-han">${escHtml(it.han)}</span>` : ''}` +
+                    `${it.yNghia ? `<div class="acp-cn">${escHtml(it.yNghia)}</div>` : ''}</li>`
+                  : `<li><b>${escHtml(it.code)}</b> ${escHtml(it.name)}` +
+                    `${it.yNghia ? ` <span class="acp-ynghia">— ${escHtml(it.yNghia)}</span>` : ''}` +
+                    `${it.source ? ` <span class="acp-src">[${escHtml(it.source)}]</span>` : ''}` +
+                    `${it.note ? ` <span class="acp-note">(${escHtml(it.note)})</span>` : ''}</li>`,
               )
               .join('')}</ul></div>`,
         )
@@ -246,8 +262,12 @@ function renderAcuPrintSheet(result: AcuExportResult, payload: AcuPrintPayload |
     : ''
 
   const printedAt = new Date().toLocaleString('vi-VN')
-  const heading = payload?.theBenh ? `PHIẾU CHÂM HUYỆT — ${payload.theBenh.toUpperCase()}` : 'PHIẾU CHÂM HUYỆT'
-  const title = payload?.patientName ? `Phiếu châm huyệt - ${payload.patientName}` : 'Phiếu châm huyệt'
+  const laPhuongHuyet = payload?.loai === 'phuong-huyet'
+  const tenPhieu = laPhuongHuyet ? 'PHIẾU HUYỆT' : 'PHIẾU CHÂM HUYỆT'
+  const heading = payload?.theBenh ? `${tenPhieu} — ${payload.theBenh.toUpperCase()}` : tenPhieu
+  const title = payload?.patientName
+    ? `Phiếu châm huyệt - ${payload.patientName}`
+    : payload?.theBenh || (laPhuongHuyet ? 'Phiếu huyệt' : 'Phiếu châm huyệt')
 
   const html = `<!doctype html>
 <html lang="vi">
@@ -273,6 +293,11 @@ function renderAcuPrintSheet(result: AcuExportResult, payload: AcuPrintPayload |
   .acp-ynghia { color: #92400e; font-weight: 600; }
   .acp-src { color: #1d4ed8; font-size: 9.5px; }
   .acp-note { color: #6b7280; font-size: 10px; }
+  .acp-ma { color: #8d8477; font-size: 9.5px; margin-left: 3px; }
+  .acp-eq { color: #b9b0a1; margin: 0 6px; }
+  .acp-vt { color: #8a5a1b; }
+  .acp-han { color: #b23b2e; font-size: 10.5px; }
+  .acp-cn { color: #6b6154; font-size: 9.5px; margin-left: 2px; }
   .acp-missing { margin-top: 10px; font-size: 10.5px; color: #b45309; }
   .acp-empty { width: 340px; padding: 40px 10px; text-align: center; color: #9ca3af; border: 1px dashed #d1d5db; border-radius: 6px; }
   .foot { margin-top: 16px; font-size: 9.5px; color: #6b7280; text-align: center; }

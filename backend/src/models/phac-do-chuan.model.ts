@@ -17,6 +17,12 @@ export class PhacDoChuan {
   @Column({ type: 'varchar', length: 255 })
   ten: string;
 
+  // 'chung_benh' (mặc định — 42 bản ghi gốc, gắn id_benh_dong_y) | 'phoi_huyet_kinh_dien' (Nguyên-
+  // Lạc, Bát Mạch Giao Hội, Du-Mộ, Tứ Quan… — kiến thức chuẩn hoá, không cần gắn bệnh) |
+  // 'bai_thuoc_tuong_duong' (nhóm huyệt ứng 1 bài thuốc cổ phương, vd Thập Toàn Đại Bổ).
+  @Column({ type: 'varchar', length: 40, default: 'chung_benh' })
+  loai: string;
+
   @Column({ type: 'int', nullable: true, name: 'id_ke_thua' })
   idKeThua: number | null;
 
