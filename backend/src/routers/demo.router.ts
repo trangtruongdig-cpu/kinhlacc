@@ -33,8 +33,11 @@ export class DemoRouter {
   @Public()
   @Get('chan-doan-ref')
   async chanDoanRef() {
+    // slim=true: bản đầy đủ kéo nguyên entity benh + huyetVi cho 684 dòng phác đồ ≈ 2,5MB và
+    // từng đo thật gây 1 request >17s trên production (thiếu cache + payload nặng cộng dồn).
+    // Landing/demo không đọc field nào ngoài slim đã chọn sẵn — xem phac-do-dieu-tri.controller.ts.
     const [phacDo, cauThanh, benhList] = await Promise.all([
-      this.phacDoService.findAll(),
+      this.phacDoService.findAll(true),
       this.cauThanhService.findAll(),
       this.benhExcelService.findAll(),
     ]);

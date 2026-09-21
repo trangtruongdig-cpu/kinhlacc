@@ -165,30 +165,38 @@ function closeHuThucDetail() {
 const formulaLoading = ref(true)
 const demoFormula = ref<any>(null)
 
-onMounted(async () => {
-  // 6 ca đo THẬT (ẩn danh) giàu thể bệnh nhất — nguồn cho khối "Kết Quả Đo" + 3-tab.
-  try {
-    const [res, ref] = await Promise.all([
-      api.get<{ cases: RealCase[] }>('/demo/ket-qua-do-list?count=6'),
-      api.get<{ phacDo: PhacDoRow[]; cauThanh: CauThanhLink[] }>('/demo/chan-doan-ref'),
-    ])
-    cases.value = res.cases ?? []
-    phacDoAll.value = ref.phacDo ?? []
-    cauThanhAll.value = ref.cauThanh ?? []
-  } catch {
-    // Backend chưa sẵn sàng → khối kết quả đo hiện trạng thái đang tải.
-  } finally {
-    casesLoading.value = false
-  }
-  // Bài thuốc demo cho mục "Phân Tích Bài Thuốc" phía sau (độc lập với 3-tab).
-  try {
-    const r = await api.get<{ baiThuoc: unknown }>('/demo/bai-thuoc')
-    demoFormula.value = r.baiThuoc
-  } catch {
-    // ẩn khối phân tích, giữ nguyên phần còn lại của trang.
-  } finally {
-    formulaLoading.value = false
-  }
+onMounted(() => {
+  // 3 khối demo ĐỘC LẬP nhau (kết quả đo, dữ liệu tham chiếu, bài thuốc) — bắn cùng lúc thay vì
+  // chờ khối trước xong mới gọi khối sau. Trước đây bài thuốc bị await SAU Promise.all() của 2
+  // API kia nên luôn cộng dồn thêm cả round-trip network, dù 3 API này không phụ thuộc nhau.
+  void (async () => {
+    // 6 ca đo THẬT (ẩn danh) giàu thể bệnh nhất — nguồn cho khối "Kết Quả Đo" + 3-tab.
+    try {
+      const [res, ref] = await Promise.all([
+        api.get<{ cases: RealCase[] }>('/demo/ket-qua-do-list?count=6'),
+        api.get<{ phacDo: PhacDoRow[]; cauThanh: CauThanhLink[] }>('/demo/chan-doan-ref'),
+      ])
+      cases.value = res.cases ?? []
+      phacDoAll.value = ref.phacDo ?? []
+      cauThanhAll.value = ref.cauThanh ?? []
+    } catch {
+      // Backend chưa sẵn sàng → khối kết quả đo hiện trạng thái đang tải.
+    } finally {
+      casesLoading.value = false
+    }
+  })()
+  // Bài thuốc demo cho mục "Phân Tích Bài Thuốc" phía sau (độc lập với 3-tab) — chạy song song
+  // với khối trên, không chờ.
+  void (async () => {
+    try {
+      const r = await api.get<{ baiThuoc: unknown }>('/demo/bai-thuoc')
+      demoFormula.value = r.baiThuoc
+    } catch {
+      // ẩn khối phân tích, giữ nguyên phần còn lại của trang.
+    } finally {
+      formulaLoading.value = false
+    }
+  })()
 })
 
 // ── "Nhá hàng" kết quả đo kinh lạc — XOAY QUA NHIỀU CA THẬT (đã ẩn danh) ──
