@@ -43,7 +43,7 @@ const PhuongHuyetNguDu = defineAsyncComponent(() => import('@/components/PhuongH
 // Gọi thẳng CÙNG endpoint /thuong-han-chung/goi-y (đã @Public), tự hiển thị phẳng toàn bộ chứng +
 // chủ phương, không cần bấm vào đâu. theKinhMap truyền null cho locateLucKinh: lib có bảng dự phòng
 // tĩnh cho đúng trường hợp này (xem lib/lucKinh.ts), y hệt lúc app không tải được bảng sống.
-import { locateLucKinh, dinhViChac } from '@/lib/lucKinh'
+import { locateLucKinh, dinhViChac, KINH_META, type KinhSlug } from '@/lib/lucKinh'
 
 interface SyndromeLite {
   id?: number
@@ -466,6 +466,21 @@ const matchedBenhIds = computed<number[]>(() => excelSyndromes.value.map((s) => 
 // Mục V — luồng Thương Hàn lý luận: kinh Lục Kinh suy từ các thể đo được + Bát Cương (giống hệt lib
 // trang thật, theKinhMap=null dùng bảng dự phòng tĩnh có sẵn trong lib).
 const lucKinhVerdict = computed(() => locateLucKinh(excelSyndromes.value.map((s) => s.name ?? ''), tongCuong.value, null))
+// Chip "Lục kinh (Thương hàn)" của tab Định Vị — PHẢI suy từ lucKinhVerdict (kinh trội + tập kinh
+// của các thể ĐO ĐƯỢC), giống hệt dinhViKinhChips của trang thật (MeridianResultsView.vue). Trước
+// đây khối "①ĐỊNH VỊ" dùng chung vòng lặp generic render axis.gd-luc-kinh.tags (union luc_kinh của
+// MỌI pháp trị thuộc MỌI bài thuốc khớp thể) — một nguồn hoàn toàn khác, nên nói ngược khối "Kết
+// luận Lục Kinh" ngay phía trên (vd kết luận Thái Dương nhưng chip lại không có Thái Dương). Không
+// cần dữ liệu lịch sử toàn hệ thống — theThuongHan đã có sẵn trong lucKinhVerdict của CHÍNH ca này.
+const dinhViKinhChips = computed(() => {
+  const v = lucKinhVerdict.value
+  if (!v) return []
+  const counts: Partial<Record<KinhSlug, number>> = {}
+  for (const t of v.theThuongHan) counts[t.kinh] = (counts[t.kinh] ?? 0) + 1
+  const tapKinh = Object.keys(counts) as KinhSlug[]
+  const order = [v.kinh.slug, ...tapKinh.filter((s) => s !== v.kinh.slug)] as KinhSlug[]
+  return order.map((s) => ({ slug: s, ten: KINH_META[s].ten, count: counts[s] ?? 0, troi: s === v.kinh.slug }))
+})
 const vTab = ref<'thong-ke' | 'thuong-han'>('thong-ke')
 
 // Bản CHỈ XEM của Thương Hàn — gọi thẳng cùng API công khai mà ThuongHanDoiChieu.vue dùng, tự hiển
@@ -1108,7 +1123,13 @@ onMounted(async () => {
                       <h3 class="dkq-axis-title"><span class="dkq-axis-num">{{ ax.num }}</span> {{ ax.title }} <em>{{ ax.sub }}</em></h3>
                       <div v-for="sg in ax.subgroups" :key="sg.nhom" class="dkq-axis-sub">
                         <span class="dkq-axis-sub-lb">{{ sg.label }}</span>
-                        <div class="dkq-dv-chips">
+                        <div v-if="sg.nhom === 'gd-luc-kinh'" class="dkq-dv-chips">
+                          <span v-for="c in dinhViKinhChips" :key="c.slug" class="dkq-dv-chip" :class="{ 'dkq-dv-chip--troi': c.troi }">
+                            <b v-if="c.troi">◉ </b>{{ c.ten }}<em v-if="c.count"> ·{{ c.count }}</em>
+                          </span>
+                          <span v-if="!dinhViKinhChips.length" class="dkq-empty">chưa định vị Lục Kinh</span>
+                        </div>
+                        <div v-else class="dkq-dv-chips">
                           <span v-for="t in sg.tags" :key="t.name" class="dkq-dv-chip" :title="t.name">{{ t.label }}</span>
                           <span v-if="!sg.tags.length" class="dkq-empty">—</span>
                         </div>
@@ -1857,6 +1878,12 @@ onMounted(async () => {
   color: var(--white);
   font-size: var(--font-size-xs);
   font-weight: 700;
+}
+/* Kinh trội (chủ kinh của Kết Luận Lục Kinh) — nổi hơn các kinh phụ trong cùng chip list. */
+.dkq-dv-chip--troi {
+  background: var(--brown-600);
+  border-color: var(--brown-600);
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px var(--brown-600);
 }
 
 /* Thể bệnh (ngữ cảnh định vị) + các trục Định Vị / Tác Nhân / Tính Chất */
