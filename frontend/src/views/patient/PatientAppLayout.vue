@@ -23,7 +23,7 @@ function handleLogout() {
             <path d="M32 12C32 12 20 22 20 32C20 38.627 25.373 44 32 44C38.627 44 44 38.627 44 32C44 22 32 12 32 12Z" fill="var(--brown-600)"/>
             <circle cx="32" cy="32" r="4" fill="white"/>
           </svg>
-          <span class="app-title">Kinh Lạc Gia Minh</span>
+          <span class="app-title">Kinh Lạc Trương Gia</span>
         </div>
 
         <!-- Menu sidebar (desktop) -->

@@ -26,7 +26,7 @@ export default defineConfig(({ command }) => ({
       // nhưng nó luôn bị bản sinh ra ở đây ghi đè — nên start_url, lang: 'vi' và background_color
       // nâu (#3d1f0a) chưa bao giờ có hiệu lực, Android vẫn hiện nền trắng.
       manifest: {
-        name: 'Kinh Lạc Gia Minh',
+        name: 'Kinh Lạc Trương Gia',
         short_name: 'Kinh Lạc',
         description: 'Xem kết quả khám kinh lạc, hồ sơ bệnh nhân và hệ thống chẩn đoán Y học cổ truyền',
         start_url: '/khach-hang/dang-nhap',

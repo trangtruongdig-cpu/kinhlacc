@@ -88,7 +88,7 @@ onMounted(() => {
     showToast(msg, 'success')
     playDing()
     if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
-      new Notification('Kinh Lạc Gia Minh', { body: msg, icon: '/favicon.ico' })
+      new Notification('Kinh Lạc Trương Gia', { body: msg, icon: '/favicon.ico' })
     }
   })
 

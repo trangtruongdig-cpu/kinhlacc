@@ -120,8 +120,8 @@ export function buildIcsCalendar(
   const lines: string[] = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    // PRODID phải là ASCII — bản cũ để "Kinh Lạc Gia Minh" có dấu, sai chuẩn.
-    'PRODID:-//Kinh Lac Gia Minh//Lich tri lieu//VI',
+    // PRODID phải là ASCII — bản cũ để "Kinh Lạc Trương Gia" có dấu, sai chuẩn.
+    'PRODID:-//Kinh Lac Truong Gia//Lich tri lieu//VI',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     `X-WR-CALNAME:${escapeIcsText(opts.calendarName)}`,

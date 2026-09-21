@@ -77,15 +77,15 @@ const ICS_CANCELLED_KEEP_DAYS = 30;
 const REMINDER_ALARMS: IcsAlarm[] = [
   {
     minutesBefore: 60,
-    description: 'Còn 1 tiếng nữa tới giờ trị liệu — Kinh Lạc Gia Minh',
+    description: 'Còn 1 tiếng nữa tới giờ trị liệu — Kinh Lạc Trương Gia',
   },
   {
     minutesBefore: 30,
-    description: 'Còn 30 phút nữa tới giờ trị liệu — Kinh Lạc Gia Minh',
+    description: 'Còn 30 phút nữa tới giờ trị liệu — Kinh Lạc Trương Gia',
   },
   {
     minutesBefore: 15,
-    description: 'Còn 15 phút nữa tới giờ trị liệu — Kinh Lạc Gia Minh',
+    description: 'Còn 15 phút nữa tới giờ trị liệu — Kinh Lạc Trương Gia',
   },
 ];
 
@@ -723,8 +723,8 @@ export class AppointmentSlotsService {
         ymd: b.slotDate,
         hms: b.slotTime,
         durationMinutes: duration,
-        summary: 'Lịch trị liệu - Kinh Lạc Gia Minh',
-        location: 'Phòng chẩn trị Kinh Lạc Gia Minh',
+        summary: 'Lịch trị liệu - Kinh Lạc Trương Gia',
+        location: 'Phòng chẩn trị Kinh Lạc Trương Gia',
         // SEQUENCE lấy theo mốc sửa gần nhất — thiếu nó thì bản cập nhật bị coi là trùng và bỏ
         // qua, tức lệnh huỷ sẽ không bao giờ tới nơi.
         sequence: Math.floor(new Date(b.updatedAt).getTime() / 1000),
@@ -734,7 +734,7 @@ export class AppointmentSlotsService {
     }
 
     return buildIcsCalendar(events, {
-      calendarName: 'Lịch trị liệu - Kinh Lạc Gia Minh',
+      calendarName: 'Lịch trị liệu - Kinh Lạc Trương Gia',
       // Ứng dụng lịch chỉ COI ĐÂY LÀ GỢI Ý. Apple nhìn con số này nhưng nhịp thật vẫn do người
       // dùng chọn trong Cài đặt; Google bỏ qua hẳn và tự quyết (thường 8-24 tiếng). Để 15 phút
       // là xin nhịp nhanh nhất có thể, chứ không bảo đảm được.

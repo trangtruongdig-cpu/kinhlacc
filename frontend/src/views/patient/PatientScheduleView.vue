@@ -471,9 +471,9 @@ function openGoogleCalendar() {
 
   const url =
     'https://calendar.google.com/calendar/render?action=TEMPLATE' +
-    `&text=${encodeURIComponent('Lịch trị liệu - Kinh Lạc Gia Minh')}` +
+    `&text=${encodeURIComponent('Lịch trị liệu - Kinh Lạc Trương Gia')}` +
     `&dates=${fmt(start)}/${fmt(end)}` +
-    `&location=${encodeURIComponent('Phòng chẩn trị Kinh Lạc Gia Minh')}`
+    `&location=${encodeURIComponent('Phòng chẩn trị Kinh Lạc Trương Gia')}`
   window.open(url, '_blank', 'noopener')
   showSyncModal.value = false
 }
@@ -489,7 +489,7 @@ function downloadIcs() {
   const icsContent = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//Kinh Lac Gia Minh//Lich tri lieu//VI',
+    'PRODID:-//Kinh Lac Truong Gia//Lich tri lieu//VI',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'BEGIN:VEVENT',
@@ -500,8 +500,8 @@ function downloadIcs() {
     `DTEND:${stamp(end)}`,
     'SEQUENCE:0',
     'STATUS:CONFIRMED',
-    'SUMMARY:Lịch trị liệu - Kinh Lạc Gia Minh',
-    'LOCATION:Phòng chẩn trị Kinh Lạc Gia Minh',
+    'SUMMARY:Lịch trị liệu - Kinh Lạc Trương Gia',
+    'LOCATION:Phòng chẩn trị Kinh Lạc Trương Gia',
     'END:VEVENT',
     'END:VCALENDAR',
   ].join('\r\n') + '\r\n'
