@@ -596,7 +596,7 @@ async function handleDelete() {
               :class="{ 'is-active': activeCategoryTab === 'standard' }"
               @click="activeCategoryTab = 'standard'"
             >
-              Mô Hình Bệnh Đông Y
+              Bệnh Đông Y <em>thống kê</em>
             </button>
             <button
               type="button"
@@ -604,7 +604,7 @@ async function handleDelete() {
               :class="{ 'is-active': activeCategoryTab === 'nhht' }"
               @click="activeCategoryTab = 'nhht'"
             >
-              Ngũ Hành Hồi Tác và Bổ "Mẫu" Tả "Tử"
+              NHHT - Nạn Kinh <em>lý luận</em>
             </button>
             <button
               type="button"
@@ -1553,6 +1553,12 @@ async function handleDelete() {
   color: #fff;
   font-weight: 700;
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+.cat-tab-btn em {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 10px;
+  opacity: 0.7;
 }
 
 /* NHHT Card details */
