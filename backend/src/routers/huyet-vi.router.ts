@@ -11,11 +11,16 @@ import {
 } from '@nestjs/common';
 import { HuyetViService } from '../controllers/huyet-vi.controller';
 import { CreateHuyetViDto, UpdateHuyetViDto } from '../models/huyet-vi.dto';
+import { Public } from '../middlewares/auth/public.decorator';
 
 @Controller('huyet-vi')
 export class HuyetViRouter {
   constructor(private readonly service: HuyetViService) {}
 
+  // Công khai: danh mục huyệt vị (tra cứu, không phải dữ liệu bệnh nhân) — giống /nhht/cong-thuc,
+  // để PhuongHuyetNguDu.vue tự fetch được khi nhúng vào trang demo công khai (DemoKetQuaDoView).
+  // Các route ghi (POST/PUT/DELETE) và :id BÊN DƯỚI vẫn yêu cầu đăng nhập như cũ.
+  @Public()
   @Get()
   findAll(@Query('kinh_mach') kinhMachId?: string) {
     if (kinhMachId) {

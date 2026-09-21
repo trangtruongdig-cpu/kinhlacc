@@ -20,10 +20,12 @@ import {
   processRows,
   computeAffectedOrgans,
   computeTongCuong,
+  nguHanhZTuRows,
   round2,
   fmt,
   type InputData,
   type TongCuong,
+  type NguHanhZ,
 } from '@/lib/meridianAnalysis'
 // TÁI DÙNG đúng component của app (đều tự mang style scoped) → Bát Cương "y hệt" trang Kết Quả Đo.
 import BienChungWheel from '@/components/BienChungWheel.vue'
@@ -31,6 +33,17 @@ import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
 import BatCuongSummary from '@/components/BatCuongSummary.vue'
 import { buildDinhVi, parseAmDuong, type PhapTriByBaiThuoc } from '@/lib/dinhVi'
 const BatCuongFigure3D = defineAsyncComponent(() => import('@/components/BatCuongFigure3D.vue'))
+// Ngũ Hành Hồi Tác (luồng "lý luận" của Mục IV) — component tự fetch /huyet-vi + /nhht/cong-thuc
+// (cả hai đều @Public), chỉ cần truyền z/huThuc/viTri hiện tại; KHÔNG truyền các prop "…Truoc" vì
+// demo không có bệnh nhân thật để so lần đo trước (component tự ẩn khối hồi tác khi thiếu).
+const PhuongHuyetNguDu = defineAsyncComponent(() => import('@/components/PhuongHuyetNguDu.vue'))
+// Thương Hàn lý luận (luồng "lý luận" của Mục V) — bản CHỈ XEM tự viết (không dùng thẳng
+// ThuongHanDoiChieu.vue vì component đó là công cụ HỎI BỆNH tương tác — tick dấu hiệu, bấm chọn
+// chứng — hợp với thầy thuốc đang khám bệnh nhân thật, không hợp khách xem thử không click gì cả).
+// Gọi thẳng CÙNG endpoint /thuong-han-chung/goi-y (đã @Public), tự hiển thị phẳng toàn bộ chứng +
+// chủ phương, không cần bấm vào đâu. theKinhMap truyền null cho locateLucKinh: lib có bảng dự phòng
+// tĩnh cho đúng trường hợp này (xem lib/lucKinh.ts), y hệt lúc app không tải được bảng sống.
+import { locateLucKinh, dinhViChac } from '@/lib/lucKinh'
 
 interface SyndromeLite {
   id?: number
@@ -443,6 +456,52 @@ const tongCuong = computed<TongCuong>(() => {
   const ly = orgs.filter((o) => o.depth === 'ly' || o.depth === 'mixed').length
   return computeTongCuong(nhiet, han, bieu, ly, diagnosis.value.huThuc)
 })
+// z ngũ hành cho luồng NHHT lý luận (Mục IV) — cùng lib với trang thật, không tự tính riêng.
+const nguHanhZ = computed<NguHanhZ>(() =>
+  nguHanhZTuRows(upperRows.value, lowerRows.value, upperStats.value, lowerStats.value),
+)
+const ivTab = ref<'thong-ke' | 'nhht'>('thong-ke')
+const matchedBenhIds = computed<number[]>(() => excelSyndromes.value.map((s) => s.id).filter((id): id is number => id != null))
+
+// Mục V — luồng Thương Hàn lý luận: kinh Lục Kinh suy từ các thể đo được + Bát Cương (giống hệt lib
+// trang thật, theKinhMap=null dùng bảng dự phòng tĩnh có sẵn trong lib).
+const lucKinhVerdict = computed(() => locateLucKinh(excelSyndromes.value.map((s) => s.name ?? ''), tongCuong.value, null))
+const vTab = ref<'thong-ke' | 'thuong-han'>('thong-ke')
+
+// Bản CHỈ XEM của Thương Hàn — gọi thẳng cùng API công khai mà ThuongHanDoiChieu.vue dùng, tự hiển
+// thị phẳng toàn bộ chứng khớp kinh + chủ phương, KHÔNG cần bấm/tick gì (khác bản tương tác trong
+// app — công cụ hỏi bệnh, chỉ hợp khi có bệnh nhân thật để hỏi).
+interface ViPhuongLite { ten: string; lieuGoc: string; vaiTro?: string; canhBaoLieu?: string | null }
+interface ChungRowLite {
+  slug: string; ten: string; han: string | null; phan_loai: string; de_cuong: string | null
+  chu_phuong: { ten: string; han: string; viThuoc: ViPhuongLite[] } | null
+}
+const thuongHanChungList = ref<ChungRowLite[]>([])
+const thuongHanLoading = ref(false)
+const PHAN_LOAI_TEN: Record<string, string> = { 'kinh-chung': 'Kinh chứng', 'phu-chung': 'Phủ chứng', 'bien-chung': 'Biến chứng', 'kiem-chung': 'Kiêm chứng' }
+watch(
+  () => lucKinhVerdict.value?.kinh.slug ?? null,
+  async (slug) => {
+    thuongHanChungList.value = []
+    if (!slug) return
+    thuongHanLoading.value = true
+    try {
+      const res = await api.get<{ chung: ChungRowLite[] }>(`/thuong-han-chung/goi-y?kinh=${encodeURIComponent(slug)}`)
+      thuongHanChungList.value = res.chung ?? []
+    } catch {
+      thuongHanChungList.value = []
+    } finally {
+      thuongHanLoading.value = false
+    }
+  },
+  { immediate: true },
+)
+// Mở tab mới bay tới huyệt trên đồ hình 3D CÔNG KHAI (không cần đăng nhập) — khác bản app dùng
+// /app/kinh-mach-3d (yêu cầu đăng nhập), demo dùng /xem-3d (PublicKinhMach3DView).
+function gotoAcuMap(ma?: string | null) {
+  if (!ma) return
+  window.open(`/xem-3d?focus=${encodeURIComponent(ma)}`, '_blank')
+}
 // Kinh "lệch" kèm tạng phủ + bên + hướng biên độ → BatCuongSummary hiện 2 nhóm chip Hư-Thực.
 const huThucLechOrgans = computed(() => {
   const rows = diagnosis.value.explain?.huThuc?.lechRows ?? []
@@ -511,12 +570,18 @@ const dinhViWheel = computed(() => {
     for (const ax of dinhVi.value.axes) for (const sg of ax.subgroups) if (sg.nhom === nhom) return sg.tags.map((t) => t.label)
     return []
   }
+  // Gộp kinh sáng = tag engine ∪ {kinh trội + kinh phụ của KẾT LUẬN Thương Hàn} để kinh trội chắc
+  // chắn không bị mờ — y hệt trang thật (lucKinhVerdict mới có từ khi làm luồng Thương Hàn ở Mục V).
+  const v = lucKinhVerdict.value
+  const kinhSet = new Set(tagsOf('gd-luc-kinh'))
+  if (v) { kinhSet.add(v.kinh.ten); if (v.phu) kinhSet.add(v.phu.ten) }
   return {
-    kinh: tagsOf('gd-luc-kinh'),
+    kinh: [...kinhSet],
     khi: tagsOf('tn-luc-khi'),
     tang: dinhVi.value.tangPhu.map((t) => t.label),
     amDuong: parseAmDuong(tongCuong.value.amDuong),
     amLoai: tongCuong.value.loai,
+    troi: v ? v.kinh.ten : null,
   }
 })
 const activeView = ref<1 | 2 | 3>(1)
@@ -809,33 +874,113 @@ onMounted(async () => {
           <p v-else class="dkq-empty">Không có mô hình bệnh nào khớp ở ca đo này.</p>
         </section>
 
-        <!-- IV — Phương huyệt: TOÀN BỘ huyệt khớp thể đo được, nhóm Châm/Cứu/Bổ/Tả (y hệt app) -->
-        <section v-if="matchedPhuongHuyet.length" class="dkq-card">
+        <!-- Cột phải: IV + V xếp chồng — y hệt .phacdo-col của trang thật (không bọc thì CSS Grid
+             tự đẩy phần tử thứ 3 xuống hàng mới ở CỘT TRÁI thay vì xếp dưới Mục IV). -->
+        <div class="dkq-phacdo-col">
+        <!-- IV — Phương huyệt: HAI LUỒNG như app — ① thống kê (huyệt khớp thể đo được, nhóm
+             Châm/Cứu/Bổ/Tả) · ② NHHT lý luận (Ngũ Hành Hồi Tác, đối chiếu tự động từ số đo). -->
+        <section class="dkq-card">
           <p class="dkq-phacdo-eyebrow">✎ Phác Đồ Điều Trị <span>Gộp tất cả các thể đo được</span></p>
-          <h2 class="dkq-sec-title"><span class="dkq-num">IV</span> Phương Huyệt <small>{{ matchedPhuongHuyet.length }} huyệt</small></h2>
-          <div v-for="g in phuongHuyetGroups" :key="g.method" class="dkq-phg">
-            <span class="dkq-phg-method">{{ g.method }} <em>({{ g.items.length }})</em></span>
-            <div class="dkq-phg-chips">
-              <span
-                v-for="r in g.items"
-                :key="r.idHuyet"
-                class="dkq-huyet-chip"
-                :title="r.y_nghia_huyet || (r.huyetVi?.ten_huyet ?? '')"
-              >
-                {{ r.huyetVi?.ten_huyet }}<em v-if="r.huyetVi?.ma_huyet"> ({{ r.huyetVi.ma_huyet }})</em>
-              </span>
-            </div>
+          <h2 class="dkq-sec-title"><span class="dkq-num">IV</span> Phương Huyệt <small v-if="matchedPhuongHuyet.length">{{ matchedPhuongHuyet.length }} huyệt</small></h2>
+
+          <div class="v-tabs">
+            <button type="button" class="v-tab" :class="{ 'is-on': ivTab === 'thong-ke' }" @click="ivTab = 'thong-ke'">
+              Đặc Trị <em>thống kê</em>
+              <span v-if="matchedPhuongHuyet.length" class="v-tab-so">{{ matchedPhuongHuyet.length }}</span>
+            </button>
+            <button type="button" class="v-tab" :class="{ 'is-on': ivTab === 'nhht' }" @click="ivTab = 'nhht'">
+              NHHT <em>lý luận</em>
+            </button>
+          </div>
+
+          <div v-show="ivTab === 'thong-ke'">
+            <template v-if="matchedPhuongHuyet.length">
+              <div v-for="g in phuongHuyetGroups" :key="g.method" class="dkq-phg">
+                <span class="dkq-phg-method">{{ g.method }} <em>({{ g.items.length }})</em></span>
+                <div class="dkq-phg-chips">
+                  <span
+                    v-for="r in g.items"
+                    :key="r.idHuyet"
+                    class="dkq-huyet-chip"
+                    :title="r.y_nghia_huyet || (r.huyetVi?.ten_huyet ?? '')"
+                  >
+                    {{ r.huyetVi?.ten_huyet }}<em v-if="r.huyetVi?.ma_huyet"> ({{ r.huyetVi.ma_huyet }})</em>
+                  </span>
+                </div>
+              </div>
+            </template>
+            <p v-else class="dkq-empty">Các thể YHCT khớp chưa được cấu hình phương huyệt.</p>
+          </div>
+
+          <div v-show="ivTab === 'nhht'">
+            <PhuongHuyetNguDu
+              :z="nguHanhZ"
+              :hu-thuc="diagnosis.huThuc"
+              :vi-tri="tongCuong.viTri"
+              :matched-benh-ids="matchedBenhIds"
+              readonly
+              @goto-acu="gotoAcuMap"
+            />
           </div>
         </section>
-        </div><!-- /dkq-dx-cols -->
 
-        <!-- V — Phương Dược: Thang Đặc Trị (bảng vị gộp, CHỈ XEM) + bài thuốc nguồn + phân tích
-             Tứ Khí·Ngũ Vị·Quy Kinh + Quân–Thần–Tá–Sứ từng bài (y hệt app, bỏ tick chọn/sửa liều/lưu
-             đơn vì demo không có bệnh nhân thật để lưu). -->
-        <section v-if="matchedBaiThuoc.length" class="dkq-card">
-          <p class="dkq-phacdo-eyebrow">✎ Thang Đặc Trị <span>Gộp vị thuốc từ mọi bài khớp — bỏ trùng, thông dụng → đặc trị</span></p>
-          <h2 class="dkq-sec-title"><span class="dkq-num">V</span> Phương Dược <small>{{ matchedBaiThuoc.length }} bài · {{ tongHopViThuoc.length }} vị</small></h2>
+        <!-- V — Phương Dược: HAI LUỒNG như app — ① thống kê (Thang Đặc Trị: bảng vị gộp, CHỈ XEM)
+             · ② Thương Hàn lý luận (hỏi triệu chứng theo kinh → chứng/chủ phương khớp nhất). Bỏ
+             tick chọn/sửa liều/lưu đơn ở cả hai — demo không có bệnh nhân thật để lưu.
+             NẰM CÙNG CỘT PHẢI với Mục IV (xếp chồng), y hệt .phacdo-col của trang thật. -->
+        <section v-if="matchedBaiThuoc.length || lucKinhVerdict" class="dkq-card">
+          <p class="dkq-phacdo-eyebrow">✎ Phác Đồ Điều Trị <span>Gộp tất cả các thể đo được</span></p>
+          <h2 class="dkq-sec-title"><span class="dkq-num">V</span> Phương Dược <small v-if="matchedBaiThuoc.length">{{ matchedBaiThuoc.length }} bài</small></h2>
 
+          <div class="v-tabs">
+            <button type="button" class="v-tab" :class="{ 'is-on': vTab === 'thong-ke' }" @click="vTab = 'thong-ke'">
+              Thuốc Đặc Trị <em>thống kê</em>
+              <span v-if="matchedBaiThuoc.length" class="v-tab-so">{{ matchedBaiThuoc.length }}</span>
+            </button>
+            <button type="button" class="v-tab" :class="{ 'is-on': vTab === 'thuong-han' }" @click="vTab = 'thuong-han'">
+              Thuốc Thương Hàn <em>lý luận</em>
+            </button>
+          </div>
+
+          <div v-show="vTab === 'thuong-han'">
+            <p v-if="!lucKinhVerdict" class="dkq-empty">Các thể đo được chưa đủ căn cứ để định vị theo Thương Hàn.</p>
+            <template v-else>
+              <p class="dkq-th-kinh-lb">
+                Lý luận Thương Hàn theo kinh <b>{{ lucKinhVerdict.kinh.ten }}</b>
+                <em v-if="!dinhViChac(lucKinhVerdict)">— định vị chưa chắc, xem như gợi ý</em>
+              </p>
+              <p v-if="thuongHanLoading" class="dkq-empty">Đang tra chứng theo kinh…</p>
+              <p v-else-if="!thuongHanChungList.length" class="dkq-empty">Chưa có chứng nào gắn kinh này trong kho.</p>
+              <div v-else class="dkq-th-chung-list">
+                <div v-for="c in thuongHanChungList" :key="c.slug" class="dkq-th-chung">
+                  <div class="dkq-th-chung-head">
+                    <span class="dkq-th-chung-loai">{{ PHAN_LOAI_TEN[c.phan_loai] || c.phan_loai }}</span>
+                    <b class="dkq-th-chung-ten">{{ c.ten }}</b>
+                    <em v-if="c.han" class="dkq-th-chung-han">{{ c.han }}</em>
+                  </div>
+                  <p v-if="c.de_cuong" class="dkq-th-chung-decuong">{{ c.de_cuong }}</p>
+                  <div v-if="c.chu_phuong" class="dkq-tonghop" style="margin-top: 8px">
+                    <div class="dkq-tonghop-head">
+                      <span class="dkq-th-c dkq-th-c--name">{{ c.chu_phuong.ten }} — vị thuốc</span>
+                      <span class="dkq-th-c dkq-th-c--lieu">Liều cổ phương</span>
+                      <span class="dkq-th-c dkq-th-c--role">Vai trò</span>
+                    </div>
+                    <div v-for="(vi, i) in c.chu_phuong.viThuoc" :key="i" class="dkq-tonghop-row" style="grid-template-columns: 1fr 120px 90px">
+                      <span class="dkq-th-c dkq-th-c--name">
+                        <span class="dkq-th-ten">{{ vi.ten }}</span>
+                        <span v-if="vi.canhBaoLieu" class="dkq-th-from" style="color: var(--danger, #b91c1c)">{{ vi.canhBaoLieu }}</span>
+                      </span>
+                      <span class="dkq-th-c dkq-th-c--lieu">{{ vi.lieuGoc }}</span>
+                      <span class="dkq-th-c dkq-th-c--role">{{ vi.vaiTro || '—' }}</span>
+                    </div>
+                  </div>
+                  <p v-else class="dkq-empty" style="margin-top: 6px">Chứng này chưa gắn chủ phương trong kho.</p>
+                </div>
+              </div>
+            </template>
+          </div>
+
+          <div v-show="vTab === 'thong-ke'">
           <p v-if="tongHopLoading" class="dkq-empty">Đang gộp vị thuốc…</p>
           <div v-else-if="tongHopViThuoc.length" class="dkq-tonghop">
             <div class="dkq-tonghop-head">
@@ -857,6 +1002,7 @@ onMounted(async () => {
             </div>
           </div>
 
+          <template v-if="matchedBaiThuoc.length">
           <p class="dkq-phacdo-eyebrow" style="margin-top: 18px">Bài Thuốc Nguồn <span>bấm 1 bài để xem phân tích riêng</span></p>
           <div class="dkq-bt-list">
             <button
@@ -874,7 +1020,11 @@ onMounted(async () => {
             <BaiThuocAnalysis :bai-thuoc="activeFormula" hide-dosage />
           </div>
           <p v-else class="dkq-empty">Bấm một bài thuốc để xem phân tích tính vị quy kinh của từng vị thuốc.</p>
+          </template>
+          </div><!-- /vTab thong-ke -->
         </section>
+        </div><!-- /dkq-phacdo-col -->
+        </div><!-- /dkq-dx-cols (III trái | IV+V phải) -->
             </div><!-- /VIEW 2 -->
 
             <!-- ═══ VIEW 3: Biện Chứng – Pháp Trị — đồ hình Định Vị bóc lớp + Định Vị/Tác Nhân (y hệt app) ═══ -->
@@ -1224,6 +1374,14 @@ onMounted(async () => {
   font-style: italic;
 }
 /* Phương huyệt nhóm theo phương pháp + bài thuốc + phân tích */
+/* Hai luồng song song (thống kê ↔ lý luận) — dùng chung ở cả Mục IV và Mục V, y hệt trang thật. */
+.v-tabs { display: flex; gap: 6px; margin-bottom: 10px; border-bottom: 1px solid var(--brown-200); }
+.v-tab { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border: 1px solid var(--brown-200); border-bottom: none; border-radius: 8px 8px 0 0; background: var(--surface-2); color: var(--brown-700); font-size: var(--font-size-sm); font-weight: 700; cursor: pointer; position: relative; top: 1px; }
+.v-tab em { font-style: normal; font-weight: 500; font-size: 10px; opacity: 0.7; text-transform: none; }
+.v-tab.is-on { background: var(--surface-1, #fff); color: var(--brown-800); border-color: var(--brown-200); box-shadow: 0 -2px 0 var(--brown-700) inset; }
+.v-tab-so { padding: 0 7px; border-radius: 999px; background: rgba(0, 0, 0, 0.07); font-size: 10px; }
+.v-luong { min-height: 40px; }
+
 .dkq-phg { margin-bottom: var(--space-4); }
 .dkq-phg-method {
   display: inline-block;
@@ -1299,6 +1457,22 @@ onMounted(async () => {
   .dkq-th-c--role { display: none; }
 }
 .dkq-bt-analysis { margin-top: var(--space-4); border-top: 1px dashed var(--border); padding-top: var(--space-4); }
+
+/* Thương Hàn lý luận — bản CHỈ XEM: danh sách chứng phẳng, không tick/bấm gì */
+.dkq-th-kinh-lb { font-size: var(--font-size-sm); color: var(--text-subtle); margin-bottom: 12px; }
+.dkq-th-kinh-lb b { color: var(--brown-800); }
+.dkq-th-kinh-lb em { font-style: normal; color: var(--danger, #b45309); margin-left: 6px; }
+.dkq-th-chung-list { display: flex; flex-direction: column; gap: var(--space-3); }
+.dkq-th-chung { border: 1px solid var(--border); border-radius: var(--radius-md); padding: 10px 12px; }
+.dkq-th-chung-head { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+.dkq-th-chung-loai {
+  font-size: 10.5px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.03em;
+  color: var(--brown-700); background: var(--brown-50); border: 1px solid var(--brown-200);
+  border-radius: 999px; padding: 1px 8px;
+}
+.dkq-th-chung-ten { font-size: var(--font-size-md); color: var(--text); }
+.dkq-th-chung-han { font-style: normal; color: var(--text-subtle); font-size: 12px; }
+.dkq-th-chung-decuong { font-size: var(--font-size-sm); color: var(--text-subtle); margin: 6px 0 0; }
 
 .dkq-cta {
   display: flex;
@@ -1461,6 +1635,8 @@ onMounted(async () => {
   gap: var(--space-5);
   align-items: start;
 }
+/* Cột phải: IV Phương Huyệt + V Phương Dược xếp chồng trong CÙNG 1 cột — y hệt .phacdo-col */
+.dkq-phacdo-col { display: flex; flex-direction: column; gap: var(--space-4); min-width: 0; }
 
 /* ─── Tab 1 · Bát Cương (II) LÊN ĐẦU, bảng đo (I) xuống dưới — y hệt app ─── */
 .dkq-view1 {

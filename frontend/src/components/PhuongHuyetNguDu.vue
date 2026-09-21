@@ -31,6 +31,9 @@ const props = defineProps<{
   khacDot?: boolean
   lechRows?: Array<{ name: string; tone: 'high' | 'low' }>
   matchedBenhIds?: number[]
+  /** Bỏ ô đổi khung tính (chỉ hợp khi thầy thuốc đang chỉnh cho bệnh nhân thật) — dùng cho trang
+   *  demo công khai, chỉ xem không thao tác. Mặc định false để không đổi hành vi app hiện có. */
+  readonly?: boolean
 }>()
 const emit = defineEmits<{ (e: 'goto-acu', ma: string): void; (e: 'goto-dict', id: number): void }>()
 
@@ -533,10 +536,11 @@ defineExpose({
           </div>
 
           <label class="ngd-sel ngd-sel--inline">Khung:
-            <select :value="c.khung" :title="KHUNG_MOTA[c.khung]"
+            <select v-if="!props.readonly" :value="c.khung" :title="KHUNG_MOTA[c.khung]"
               @change="khungOv[c.organ] = ($event.target as HTMLSelectElement).value as KhungLoai">
               <option v-for="k in KHUNG_ALL" :key="k" :value="k">{{ KHUNG_TEN[k] }}</option>
             </select>
+            <span v-else class="ngd-khung-ro" :title="KHUNG_MOTA[c.khung]">{{ KHUNG_TEN[c.khung] }}</span>
           </label>
         </div>
       </div>
@@ -679,6 +683,7 @@ defineExpose({
 .ngd-ct-tag--link:hover { border-color: var(--brown-600); background: var(--surface-1); }
 .ngd-sel--inline { font-size: 11px; color: var(--gray-700); display: inline-flex; align-items: center; gap: 4px; }
 .ngd-sel--inline select { font-size: 11px; padding: 1px 4px; }
+.ngd-khung-ro { font-size: 11px; font-weight: 700; color: var(--brown-800, #4b3626); }
 .ngd-meta--nk { font-size: 11px; color: var(--gray-600); }
 
 /* ── Tầng B: dải định gốc + vai trò từng kinh ─────────────────────────────── */
