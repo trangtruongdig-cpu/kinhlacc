@@ -355,6 +355,60 @@ function pickFormula(id: number) {
 }
 const activeFormula = computed(() => (activeFormulaId.value != null ? formulaMap.value[activeFormulaId.value] ?? null : null))
 
+// ── V. Phương Dược — bảng vị thuốc GỘP từ mọi bài khớp (bản CHỈ XEM của "Thang Đặc Trị" trong
+// app — bỏ tick chọn/sửa liều/lưu đơn, vì demo không có bệnh nhân thật để lưu vào). Cần nạp ĐỦ
+// chi tiết mọi bài khớp (không chỉ bài đang xem), nên watch matchedBaiThuoc để nạp nền hết 1 lượt.
+const tongHopLoading = ref(false)
+watch(
+  () => matchedBaiThuoc.value.map((b) => b.id).join(','),
+  async () => {
+    const ids = matchedBaiThuoc.value.map((b) => b.id)
+    if (!ids.length) return
+    tongHopLoading.value = true
+    try {
+      await Promise.all(ids.map((id) => ensureFormula(id)))
+    } finally {
+      tongHopLoading.value = false
+    }
+  },
+  { immediate: true },
+)
+interface TongHopViItem {
+  key: string
+  ten: string
+  ma_huyet?: string | null
+  so_bai: number
+  tu_bai: string[]
+  vai_tro: string | null
+  lieu_goi_y: string | null
+}
+// Gộp vị thuốc từ MỌI bài khớp, bỏ trùng theo vị, đếm số bài chứa vị rồi xếp giảm dần (thông
+// dụng → đặc trị) — giống hệt logic "Thang Đặc Trị" của app, chỉ bỏ phần chỉnh sửa/lưu.
+const tongHopViThuoc = computed<TongHopViItem[]>(() => {
+  const map = new Map<string, TongHopViItem>()
+  for (const b of matchedBaiThuoc.value) {
+    const full = formulaMap.value[b.id]
+    const seenInBai = new Set<string>()
+    for (const ct of full?.chiTietViThuoc ?? []) {
+      const ten = (ct.viThuoc?.ten_vi_thuoc || '').trim() || (ct.idViThuoc != null ? `#${ct.idViThuoc}` : '—')
+      const key = ct.idViThuoc != null ? 'id:' + ct.idViThuoc : 'ten:' + ten.toLowerCase()
+      if (seenInBai.has(key)) continue
+      seenInBai.add(key)
+      let it = map.get(key)
+      if (!it) {
+        it = { key, ten, so_bai: 0, tu_bai: [], vai_tro: ct.vai_tro || null, lieu_goi_y: null }
+        map.set(key, it)
+      }
+      it.so_bai++
+      if (!it.tu_bai.includes(b.ten)) it.tu_bai.push(b.ten)
+      const lieuKho = (ct.lieu_luong || '').trim()
+      if (!it.lieu_goi_y && lieuKho && lieuKho !== '*') it.lieu_goi_y = lieuKho
+      if (!it.vai_tro && ct.vai_tro) it.vai_tro = ct.vai_tro
+    }
+  }
+  return [...map.values()].sort((a, b) => b.so_bai - a.so_bai || a.ten.localeCompare(b.ten, 'vi'))
+})
+
 // ── Tạng phủ đang bệnh để VẼ lên hình người 3D (BatCuongFigure3D) + 2 cột thẻ (BatCuongOrgans) ──
 const affectedOrgans = computed(() =>
   computeAffectedOrgans(upperRows.value, lowerRows.value, upperStats.value, lowerStats.value),
@@ -775,9 +829,35 @@ onMounted(async () => {
         </section>
         </div><!-- /dkq-dx-cols -->
 
-        <!-- V — Bài thuốc + phân tích Tứ Khí·Ngũ Vị·Quy Kinh + Quân–Thần–Tá–Sứ (y hệt app) -->
+        <!-- V — Phương Dược: Thang Đặc Trị (bảng vị gộp, CHỈ XEM) + bài thuốc nguồn + phân tích
+             Tứ Khí·Ngũ Vị·Quy Kinh + Quân–Thần–Tá–Sứ từng bài (y hệt app, bỏ tick chọn/sửa liều/lưu
+             đơn vì demo không có bệnh nhân thật để lưu). -->
         <section v-if="matchedBaiThuoc.length" class="dkq-card">
-          <h2 class="dkq-sec-title"><span class="dkq-num">V</span> Bài Thuốc <small>{{ matchedBaiThuoc.length }} bài</small></h2>
+          <p class="dkq-phacdo-eyebrow">✎ Thang Đặc Trị <span>Gộp vị thuốc từ mọi bài khớp — bỏ trùng, thông dụng → đặc trị</span></p>
+          <h2 class="dkq-sec-title"><span class="dkq-num">V</span> Phương Dược <small>{{ matchedBaiThuoc.length }} bài · {{ tongHopViThuoc.length }} vị</small></h2>
+
+          <p v-if="tongHopLoading" class="dkq-empty">Đang gộp vị thuốc…</p>
+          <div v-else-if="tongHopViThuoc.length" class="dkq-tonghop">
+            <div class="dkq-tonghop-head">
+              <span class="dkq-th-c dkq-th-c--name">Vị thuốc</span>
+              <span class="dkq-th-c dkq-th-c--freq">Số bài</span>
+              <span class="dkq-th-c dkq-th-c--lieu">Liều gợi ý</span>
+              <span class="dkq-th-c dkq-th-c--role">Vai trò</span>
+            </div>
+            <div v-for="it in tongHopViThuoc" :key="it.key" class="dkq-tonghop-row">
+              <span class="dkq-th-c dkq-th-c--name">
+                <span class="dkq-th-ten">{{ it.ten }}</span>
+                <span v-if="it.tu_bai.length" class="dkq-th-from" :title="'Từ: ' + it.tu_bai.join(' · ')">{{ it.tu_bai.length }} bài</span>
+              </span>
+              <span class="dkq-th-c dkq-th-c--freq">
+                <span class="dkq-th-freq" :class="{ 'dkq-th-freq--core': it.so_bai >= 2 }">{{ it.so_bai }}</span>
+              </span>
+              <span class="dkq-th-c dkq-th-c--lieu">{{ it.lieu_goi_y || '—' }}</span>
+              <span class="dkq-th-c dkq-th-c--role">{{ it.vai_tro || '—' }}</span>
+            </div>
+          </div>
+
+          <p class="dkq-phacdo-eyebrow" style="margin-top: 18px">Bài Thuốc Nguồn <span>bấm 1 bài để xem phân tích riêng</span></p>
           <div class="dkq-bt-list">
             <button
               v-for="b in matchedBaiThuoc"
@@ -1180,6 +1260,44 @@ onMounted(async () => {
 }
 .dkq-bt-btn:hover { border-color: var(--brown-600); }
 .dkq-bt-btn.on { background: var(--brown-600); border-color: var(--brown-600); color: var(--white); }
+
+/* V. Phương Dược — bảng "Thang Đặc Trị" gộp vị thuốc (chỉ xem, không tick/sửa liều) */
+.dkq-tonghop { border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: var(--space-4); }
+.dkq-tonghop-head,
+.dkq-tonghop-row {
+  display: grid;
+  grid-template-columns: 1fr 70px 120px 90px;
+  gap: var(--space-2);
+  align-items: center;
+  padding: 7px 12px;
+}
+.dkq-tonghop-head {
+  background: var(--surface-2);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--text-subtle);
+}
+.dkq-tonghop-row { border-top: 1px solid var(--border); font-size: var(--font-size-sm); }
+.dkq-tonghop-row:nth-child(even) { background: var(--bg-app); }
+.dkq-th-c--freq,
+.dkq-th-c--role { text-align: center; }
+.dkq-th-ten { font-weight: 700; color: var(--text); }
+.dkq-th-from { display: block; font-size: 11px; color: var(--text-subtle); margin-top: 1px; }
+.dkq-th-freq {
+  display: inline-flex;
+  min-width: 20px;
+  justify-content: center;
+  font-weight: 700;
+  color: var(--text-subtle);
+}
+.dkq-th-freq--core { color: var(--brown-700); }
+@media (max-width: 640px) {
+  .dkq-tonghop-head,
+  .dkq-tonghop-row { grid-template-columns: 1fr 50px 90px; }
+  .dkq-th-c--role { display: none; }
+}
 .dkq-bt-analysis { margin-top: var(--space-4); border-top: 1px dashed var(--border); padding-top: var(--space-4); }
 
 .dkq-cta {
