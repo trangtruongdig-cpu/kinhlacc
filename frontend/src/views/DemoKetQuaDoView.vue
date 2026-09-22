@@ -29,9 +29,18 @@ import {
 } from '@/lib/meridianAnalysis'
 // TÁI DÙNG đúng component của app (đều tự mang style scoped) → Bát Cương "y hệt" trang Kết Quả Đo.
 import BienChungWheel from '@/components/BienChungWheel.vue'
+// 3 đồ hình RIÊNG cho từng lớp bóc — trang thật KHÔNG dùng BienChungWheel cho lớp 3/4/5 (chỉ lớp 1
+// fallback về nó): lớp 5 Lục Kinh → VongLucKinh (giàu hơn, có chuyển biến/trajectory), lớp 4 Lục Khí
+// → VongLucKhi, lớp 3 Tạng Phủ → VongNguHanh (sao méo Ngũ Hành theo số đo). Trước đây demo dùng
+// BienChungWheel cho MỌI lớp — nhìn khác hẳn trang thật dù cùng dữ liệu. Cả 3 prop đều optional, chỉ
+// truyền phần suy được từ CHÍNH ca đang xem (không cần lịch sử nhiều lần đo như trajectory/currentId).
+import VongLucKinh from '@/components/VongLucKinh.vue'
+import VongLucKhi from '@/components/VongLucKhi.vue'
+import VongNguHanh from '@/components/VongNguHanh.vue'
 import BatCuongOrgans from '@/components/BatCuongOrgans.vue'
 import BatCuongSummary from '@/components/BatCuongSummary.vue'
 import { buildDinhVi, parseAmDuong, type PhapTriByBaiThuoc } from '@/lib/dinhVi'
+import { truyenBienCua } from '@/lib/lucKinhTruyenBien'
 const BatCuongFigure3D = defineAsyncComponent(() => import('@/components/BatCuongFigure3D.vue'))
 // Ngũ Hành Hồi Tác (luồng "lý luận" của Mục IV) — component tự fetch /huyet-vi + /nhht/cong-thuc
 // (cả hai đều @Public), chỉ cần truyền z/huThuc/viTri hiện tại; KHÔNG truyền các prop "…Truoc" vì
@@ -466,20 +475,61 @@ const matchedBenhIds = computed<number[]>(() => excelSyndromes.value.map((s) => 
 // Mục V — luồng Thương Hàn lý luận: kinh Lục Kinh suy từ các thể đo được + Bát Cương (giống hệt lib
 // trang thật, theKinhMap=null dùng bảng dự phòng tĩnh có sẵn trong lib).
 const lucKinhVerdict = computed(() => locateLucKinh(excelSyndromes.value.map((s) => s.name ?? ''), tongCuong.value, null))
-// Chip "Lục kinh (Thương hàn)" của tab Định Vị — PHẢI suy từ lucKinhVerdict (kinh trội + tập kinh
-// của các thể ĐO ĐƯỢC), giống hệt dinhViKinhChips của trang thật (MeridianResultsView.vue). Trước
-// đây khối "①ĐỊNH VỊ" dùng chung vòng lặp generic render axis.gd-luc-kinh.tags (union luc_kinh của
-// MỌI pháp trị thuộc MỌI bài thuốc khớp thể) — một nguồn hoàn toàn khác, nên nói ngược khối "Kết
-// luận Lục Kinh" ngay phía trên (vd kết luận Thái Dương nhưng chip lại không có Thái Dương). Không
-// cần dữ liệu lịch sử toàn hệ thống — theThuongHan đã có sẵn trong lucKinhVerdict của CHÍNH ca này.
-const dinhViKinhChips = computed(() => {
+// Số thể ĐO ĐƯỢC của bệnh nhân theo từng kinh — y hệt trang thật (nuôi VongLucKinh + chip Định Vị).
+const lucKinhCaseCounts = computed<Record<string, number>>(() => {
+  const c: Record<string, number> = {}
   const v = lucKinhVerdict.value
-  if (!v) return []
-  const counts: Partial<Record<KinhSlug, number>> = {}
-  for (const t of v.theThuongHan) counts[t.kinh] = (counts[t.kinh] ?? 0) + 1
-  const tapKinh = Object.keys(counts) as KinhSlug[]
-  const order = [v.kinh.slug, ...tapKinh.filter((s) => s !== v.kinh.slug)] as KinhSlug[]
-  return order.map((s) => ({ slug: s, ten: KINH_META[s].ten, count: counts[s] ?? 0, troi: s === v.kinh.slug }))
+  if (v) for (const t of v.theThuongHan) c[t.kinh] = (c[t.kinh] ?? 0) + 1
+  return c
+})
+// Lục Khí của bệnh nhân (Hàn/Nhiệt từ nhiệt độ tạng phủ) — nuôi VongLucKhi, y hệt trang thật.
+const lucKhiCaseCounts = computed<Record<string, number>>(() => {
+  const c: Record<string, number> = {}
+  for (const o of affectedOrgans.value) {
+    if (o.temp === 'han' || o.temp === 'mixed') c['Hàn'] = (c['Hàn'] ?? 0) + 1
+    if (o.temp === 'nhiet' || o.temp === 'mixed') c['Nhiệt'] = (c['Nhiệt'] ?? 0) + 1
+  }
+  return c
+})
+const lucKhiTroi = computed<string | null>(() => {
+  const han = lucKhiCaseCounts.value['Hàn'] ?? 0
+  const nhiet = lucKhiCaseCounts.value['Nhiệt'] ?? 0
+  if (!han && !nhiet) return null
+  return nhiet > han ? 'Nhiệt' : 'Hàn'
+})
+// ── 1 NGUỒN SỰ THẬT cho KẾT LUẬN + ĐỊNH VỊ (chips) + ĐỒ HÌNH: đều dẫn từ verdict + chuyển biến
+// (sách) — port thẳng từ MeridianResultsView.vue, KHÔNG cần dữ liệu lịch sử nhiều lần đo (chỉ dùng
+// CHÍNH ca đang xem). Trước đây demo thiếu khối này nên khối "①ĐỊNH VỊ" dùng nhầm tag union của
+// buildDinhVi (theo bài thuốc khớp thể) → nói ngược "Kết Luận Lục Kinh" (vd kết luận Thái Dương
+// nhưng chip lại không có Thái Dương).
+const bienChung = computed(() => {
+  const v = lucKinhVerdict.value
+  if (!v) return null
+  const nhietHoa = /nhiệt hóa/.test(v.giaiDoan)
+  const chacChan = dinhViChac(v)
+  return {
+    kinhTroi: v.kinh,
+    giaiDoan: v.giaiDoan,
+    doTin: v.doTin,
+    hopBenh: v.hopBenh,
+    phu: v.phu,
+    tapKinh: Object.keys(lucKinhCaseCounts.value),
+    counts: lucKinhCaseCounts.value,
+    dinhViChac: chacChan,
+    cbLyDo: chacChan
+      ? ''
+      : !v.batCuongKhop
+        ? 'Bát Cương đo được chưa khớp chữ ký kinh — định vị chưa chắc, chưa suy truyền kinh.'
+        : 'Định vị độ tin thấp — chưa suy chuyển biến.',
+    chuyenBien: chacChan ? truyenBienCua(v.kinh.slug, { nhietHoa }) : null,
+  }
+})
+// Chips ĐỊNH VỊ: tập kinh của ca, kinh TRỘI đứng đầu (dùng chung cho chip + đồ hình).
+const dinhViKinhChips = computed(() => {
+  const b = bienChung.value
+  if (!b) return []
+  const order = [b.kinhTroi.slug, ...b.tapKinh.filter((s) => s !== b.kinhTroi.slug)] as KinhSlug[]
+  return order.map((s) => ({ slug: s, ten: KINH_META[s].ten, count: b.counts[s] ?? 0, troi: s === b.kinhTroi.slug }))
 })
 const vTab = ref<'thong-ke' | 'thuong-han'>('thong-ke')
 
@@ -571,8 +621,9 @@ async function loadDinhVi() {
   }
 }
 const dinhVi = computed(() => buildDinhVi(dinhViRows.value))
+const dinhViAxis = computed(() => dinhVi.value.axes.find((ax) => ax.key === 'dinh-vi') ?? null)
+const tacNhanAxis = computed(() => dinhVi.value.axes.find((ax) => ax.key === 'tac-nhan') ?? null)
 const tinhChatAxis = computed(() => dinhVi.value.axes.find((ax) => ax.key === 'tinh-chat') ?? null)
-const otherAxes = computed(() => dinhVi.value.axes.filter((ax) => ax.key !== 'tinh-chat'))
 const DINH_VI_LOP: ReadonlyArray<{ n: 1 | 2 | 3 | 4 | 5; ten: string; han: string }> = [
   { n: 1, ten: 'Âm Dương', han: '太極' },
   { n: 3, ten: 'Tạng Phủ', han: '臟腑' },
@@ -1043,61 +1094,18 @@ onMounted(async () => {
         </div><!-- /dkq-dx-cols (III trái | IV+V phải) -->
             </div><!-- /VIEW 2 -->
 
-            <!-- ═══ VIEW 3: Biện Chứng – Pháp Trị — đồ hình Định Vị bóc lớp + Định Vị/Tác Nhân (y hệt app) ═══ -->
+            <!-- ═══ VIEW 3: Biện Chứng – Pháp Trị — đồ hình Định Vị bóc lớp + Định Vị/Tác Nhân (y hệt app,
+                 cùng thứ tự khối + cùng 3 đồ hình riêng theo lớp: VongLucKinh/VongLucKhi/VongNguHanh) ═══ -->
             <div v-show="activeView === 3">
               <section class="dkq-card">
                 <h2 class="dkq-sec-title"><span class="dkq-num">III</span> Biện Chứng – Pháp Trị</h2>
 
-                <!-- Thể bệnh đã đo (ngữ cảnh nguồn định vị) -->
-                <div class="dkq-bcpt-the">
-                  <span class="dkq-bcpt-the-lb">Thể bệnh:</span>
-                  <template v-if="excelSyndromes.length">
-                    <span v-for="(s, i) in excelSyndromes" :key="'bt-' + (s.code || i)" class="dkq-bcpt-the-chip">{{ s.name }}</span>
-                  </template>
-                  <span v-else class="dkq-empty">chưa xác định thể bệnh</span>
-                </div>
-
-                <!-- Kết luận Lục Kinh (Thương Hàn) — khối trang thật CÓ mà demo còn thiếu: giai đoạn,
-                     độ tin, lý do suy luận. Bỏ phần chip "soi kinh" tương tác (cần dữ liệu số ca
-                     lịch sử toàn hệ thống mà demo không có) — giữ nguyên phần thông tin văn bản. -->
-                <section v-if="lucKinhVerdict" class="dkq-lk-verdict" :class="'dkq-lk-verdict--' + lucKinhVerdict.doTin">
-                  <div class="dkq-lk-head">
-                    <span class="dkq-lk-eyebrow">◎ Kết luận Lục Kinh</span>
-                    <b class="dkq-lk-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
-                    <span class="dkq-lk-giaidoan">{{ lucKinhVerdict.giaiDoan }}</span>
-                    <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="dkq-lk-hopbenh">+ {{ lucKinhVerdict.phu.ten }}</span>
-                    <span class="dkq-lk-badge" :class="'dkq-lk-badge--' + lucKinhVerdict.doTin">độ tin {{ DO_TIN_NHAN[lucKinhVerdict.doTin] }}</span>
-                  </div>
-                  <details class="dkq-lk-details">
-                    <summary class="dkq-lk-summary">Vì sao · thể ngoài phạm vi</summary>
-                    <p class="dkq-lk-ketluan">{{ lucKinhVerdict.ketLuan }}</p>
-                    <ul class="dkq-lk-lydo">
-                      <li v-for="(r, i) in lucKinhVerdict.lyDo" :key="i">{{ r }}</li>
-                    </ul>
-                    <p v-if="lucKinhVerdict.theNgoai.length" class="dkq-lk-ngoai">
-                      Ngoài phạm vi Thương Hàn (chưa phân tích sâu): {{ lucKinhVerdict.theNgoai.join(', ') }}.
-                    </p>
-                  </details>
-                </section>
-                <p v-else-if="excelSyndromes.length" class="dkq-lk-none">
-                  Các thể đo được chưa thuộc phạm vi Thương Hàn Lục Kinh — chưa định vị (có thể là nội thương / ôn bệnh / tạp bệnh).
-                </p>
-
-                <!-- ③ Tính chất (bát cương · chính khí) — ngang hàng đầu như app -->
-                <section v-if="!dinhViLoading && tinhChatAxis" class="dkq-axis dkq-axis--tinhchat">
-                  <h3 class="dkq-axis-title"><span class="dkq-axis-num">{{ tinhChatAxis.num }}</span> {{ tinhChatAxis.title }} <em>{{ tinhChatAxis.sub }}</em></h3>
-                  <div v-for="sg in tinhChatAxis.subgroups" :key="sg.nhom" class="dkq-axis-sub">
-                    <span class="dkq-axis-sub-lb">{{ sg.label }}</span>
-                    <div class="dkq-dv-chips">
-                      <span v-for="t in sg.tags" :key="t.name" class="dkq-dv-chip" :title="t.name">{{ t.label }}</span>
-                      <span v-if="!sg.tags.length" class="dkq-empty">—</span>
-                    </div>
-                  </div>
-                </section>
-
                 <p v-if="dinhViLoading" class="dkq-empty">Đang tổng hợp định vị…</p>
                 <div v-else class="dkq-t3">
                   <div class="dkq-t3-wheel">
+                    <!-- BÓC LỚP: 1 Âm Dương 太極 → 3 Tạng Phủ 臟腑 → 4 Lục Khí 六氣 → 5 Lục Kinh 六經.
+                         Mỗi lớp một đồ hình RIÊNG (y hệt trang thật) — không còn dùng chung BienChungWheel
+                         cho mọi lớp như trước (khác hẳn trang thật dù cùng dữ liệu). -->
                     <div class="dkq-t3-layers" role="tablist" aria-label="Bóc lớp đồ hình">
                       <button
                         v-for="l in DINH_VI_LOP"
@@ -1108,20 +1116,91 @@ onMounted(async () => {
                         @click="dinhViLop = l.n"
                       ><b>{{ l.n }}</b> {{ l.ten }} <i>{{ l.han }}</i></button>
                     </div>
-                    <BienChungWheel :lop="dinhViLop" :dinhvi="dinhViWheel" />
-                    <p class="dkq-t3-cap">Bấm bóc từng lớp (Âm Dương → Lục Kinh). Ô <b>sáng vàng</b> = bệnh nhân có; mờ = không.</p>
+                    <!-- KẾT LUẬN ngay trên đồ hình: kinh trội -->
+                    <div v-if="lucKinhVerdict" class="dkq-lk-wheel-cap" :data-kinh="lucKinhVerdict.kinh.slug">
+                      <span class="dkq-lk-wheel-cap-lb">◉ Định vị</span>
+                      <b class="dkq-lk-wheel-cap-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
+                      <span class="dkq-lk-wheel-cap-gd">{{ lucKinhVerdict.giaiDoan }}</span>
+                      <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="dkq-lk-wheel-cap-phu">+ {{ lucKinhVerdict.phu.ten }}</span>
+                      <button v-if="dinhViLop !== 5" type="button" class="dkq-lk-wheel-cap-btn" @click="dinhViLop = 5">soi lớp Lục Kinh ▸</button>
+                    </div>
+                    <VongLucKinh
+                      v-if="dinhViLop === 5"
+                      :counts="lucKinhCaseCounts"
+                      :case-set="bienChung ? bienChung.tapKinh : null"
+                      :troi-kinh="bienChung ? bienChung.kinhTroi.slug : null"
+                      :chuyen-bien="bienChung ? bienChung.chuyenBien : null"
+                    />
+                    <VongLucKhi
+                      v-else-if="dinhViLop === 4"
+                      :counts="lucKhiCaseCounts"
+                      :show-card="false"
+                      :active-khi="lucKhiTroi"
+                    />
+                    <VongNguHanh v-else-if="dinhViLop === 3" :z="nguHanhZ" :tong-cuong="tongCuong" />
+                    <BienChungWheel v-else :lop="dinhViLop" :dinhvi="dinhViWheel" />
                   </div>
                   <div class="dkq-t3-side">
-                    <p v-if="dinhVi.isEmpty" class="dkq-empty">Các thể bệnh trên chưa có liên kết bài thuốc → chưa suy được định vị.</p>
-                    <div class="dkq-mini">
-                      <span class="dkq-mini-lb">Tạng phủ tổn thương:</span>
-                      <span v-for="o in dinhVi.tangPhu" :key="o.name" class="dkq-dv-chip">{{ o.label }}</span>
-                      <span v-if="!dinhVi.tangPhu.length" class="dkq-empty">—</span>
+                    <!-- Thể bệnh đã đo (ngữ cảnh nguồn định vị) -->
+                    <div class="dkq-bcpt-the">
+                      <span class="dkq-bcpt-the-lb">Thể bệnh:</span>
+                      <template v-if="excelSyndromes.length">
+                        <span v-for="(s, i) in excelSyndromes" :key="'bt-' + (s.code || i)" class="dkq-bcpt-the-chip">{{ s.name }}</span>
+                      </template>
+                      <span v-else class="dkq-empty">chưa xác định thể bệnh</span>
                     </div>
-                    <!-- ①② Định vị (Lục Kinh · Vệ-Khí-Dinh-Huyết · Tam Tiêu) + Tác nhân (Lục Khí · Nội Sinh/Độc) -->
-                    <section v-for="ax in otherAxes" :key="ax.key" class="dkq-axis">
-                      <h3 class="dkq-axis-title"><span class="dkq-axis-num">{{ ax.num }}</span> {{ ax.title }} <em>{{ ax.sub }}</em></h3>
-                      <div v-for="sg in ax.subgroups" :key="sg.nhom" class="dkq-axis-sub">
+
+                    <!-- Kết luận Lục Kinh (Thương Hàn) — bỏ phần bấm "soi kinh"/chuyển biến trên đồ
+                         hình (cần dữ liệu lịch sử nhiều lần đo mà demo — 1 ca ẩn danh — không có),
+                         giữ nguyên phần thông tin văn bản + chip Định vị/Chuyển biến (suy được từ
+                         CHÍNH ca này, không cần lịch sử). -->
+                    <section v-if="lucKinhVerdict" class="dkq-lk-verdict" :class="'dkq-lk-verdict--' + lucKinhVerdict.doTin">
+                      <div class="dkq-lk-head">
+                        <span class="dkq-lk-eyebrow">◎ Kết luận Lục Kinh</span>
+                        <b class="dkq-lk-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
+                        <span class="dkq-lk-giaidoan">{{ lucKinhVerdict.giaiDoan }}</span>
+                        <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="dkq-lk-hopbenh">+ {{ lucKinhVerdict.phu.ten }}</span>
+                        <span class="dkq-lk-badge" :class="'dkq-lk-badge--' + lucKinhVerdict.doTin">độ tin {{ DO_TIN_NHAN[lucKinhVerdict.doTin] }}</span>
+                      </div>
+                      <div v-if="bienChung" class="dkq-lk-chips">
+                        <div class="dkq-lk-chip-row">
+                          <span class="dkq-lk-chip-lb">Định vị</span>
+                          <span
+                            v-for="c in dinhViKinhChips"
+                            :key="c.slug"
+                            class="dkq-lk-kchip"
+                            :class="{ troi: c.troi }"
+                            :data-kinh="c.slug"
+                          ><b v-if="c.troi">◉ </b>{{ c.ten }}<em v-if="c.count"> ·{{ c.count }}</em></span>
+                        </div>
+                        <div class="dkq-lk-chip-row">
+                          <span class="dkq-lk-chip-lb">Chuyển biến</span>
+                          <template v-if="bienChung.chuyenBien">
+                            <span class="dkq-lk-cb dkq-lk-cb--vaoly" :title="bienChung.chuyenBien.vaoLy.coChe">↓ vào lý → {{ bienChung.chuyenBien.vaoLy.ten }}</span>
+                            <span class="dkq-lk-cb dkq-lk-cb--rabieu" :title="bienChung.chuyenBien.raBieu.coChe">↑ ra biểu → {{ bienChung.chuyenBien.raBieu.ten }}</span>
+                          </template>
+                          <span v-else class="dkq-lk-cb dkq-lk-cb--none" :title="bienChung.cbLyDo">— chưa suy (định vị chưa chắc)</span>
+                        </div>
+                      </div>
+                      <details class="dkq-lk-details">
+                        <summary class="dkq-lk-summary">Vì sao · thể ngoài phạm vi</summary>
+                        <p class="dkq-lk-ketluan">{{ lucKinhVerdict.ketLuan }}</p>
+                        <ul class="dkq-lk-lydo">
+                          <li v-for="(r, i) in lucKinhVerdict.lyDo" :key="i">{{ r }}</li>
+                        </ul>
+                        <p v-if="lucKinhVerdict.theNgoai.length" class="dkq-lk-ngoai">
+                          Ngoài phạm vi Thương Hàn (chưa phân tích sâu): {{ lucKinhVerdict.theNgoai.join(', ') }}.
+                        </p>
+                      </details>
+                    </section>
+                    <p v-else-if="excelSyndromes.length" class="dkq-lk-none">
+                      Các thể đo được chưa thuộc phạm vi Thương Hàn Lục Kinh — chưa định vị (có thể là nội thương / ôn bệnh / tạp bệnh).
+                    </p>
+
+                    <!-- ① ĐỊNH VỊ (Giai đoạn · Tầng bệnh) -->
+                    <section v-if="dinhViAxis" class="dkq-axis">
+                      <h3 class="dkq-axis-title"><span class="dkq-axis-num">{{ dinhViAxis.num }}</span> {{ dinhViAxis.title }} <em>{{ dinhViAxis.sub }}</em></h3>
+                      <div v-for="sg in dinhViAxis.subgroups" :key="sg.nhom" class="dkq-axis-sub">
                         <span class="dkq-axis-sub-lb">{{ sg.label }}</span>
                         <div v-if="sg.nhom === 'gd-luc-kinh'" class="dkq-dv-chips">
                           <span v-for="c in dinhViKinhChips" :key="c.slug" class="dkq-dv-chip" :class="{ 'dkq-dv-chip--troi': c.troi }">
@@ -1135,6 +1214,43 @@ onMounted(async () => {
                         </div>
                       </div>
                     </section>
+
+                    <!-- Tạng phủ tổn thương -->
+                    <div class="dkq-mini">
+                      <span class="dkq-mini-lb">Tạng phủ tổn thương:</span>
+                      <span v-for="o in dinhVi.tangPhu" :key="o.name" class="dkq-dv-chip">{{ o.label }}</span>
+                      <span v-if="!dinhVi.tangPhu.length" class="dkq-empty">—</span>
+                    </div>
+
+                    <!-- ② TÁC NHÂN (Khí · Tà gây bệnh) -->
+                    <section v-if="tacNhanAxis" class="dkq-axis">
+                      <h3 class="dkq-axis-title"><span class="dkq-axis-num">{{ tacNhanAxis.num }}</span> {{ tacNhanAxis.title }} <em>{{ tacNhanAxis.sub }}</em></h3>
+                      <div v-for="sg in tacNhanAxis.subgroups" :key="sg.nhom" class="dkq-axis-sub">
+                        <span class="dkq-axis-sub-lb">{{ sg.label }}</span>
+                        <div class="dkq-dv-chips">
+                          <span v-for="t in sg.tags" :key="t.name" class="dkq-dv-chip" :title="t.name">{{ t.label }}</span>
+                          <span v-if="!sg.tags.length" class="dkq-empty">—</span>
+                        </div>
+                      </div>
+                    </section>
+
+                    <!-- ③ Tính chất (bát cương · chính khí) -->
+                    <section v-if="!dinhViLoading && tinhChatAxis" class="dkq-axis dkq-axis--tinhchat">
+                      <h3 class="dkq-axis-title"><span class="dkq-axis-num">{{ tinhChatAxis.num }}</span> {{ tinhChatAxis.title }} <em>{{ tinhChatAxis.sub }}</em></h3>
+                      <div v-for="sg in tinhChatAxis.subgroups" :key="sg.nhom" class="dkq-axis-sub">
+                        <span class="dkq-axis-sub-lb">{{ sg.label }}</span>
+                        <div class="dkq-dv-chips">
+                          <span v-for="t in sg.tags" :key="t.name" class="dkq-dv-chip" :title="t.name">{{ t.label }}</span>
+                          <span v-if="!sg.tags.length" class="dkq-empty">—</span>
+                        </div>
+                      </div>
+                    </section>
+
+                    <p v-if="dinhViLop === 5" class="dkq-t3-cap">Lớp Lục Kinh — <b style="color: #c99a2e">viền vàng đậm</b> = kinh <b>định vị (trội)</b> · viền vàng nhạt = kinh của ca · <b style="color: #e35a2f">đỏ</b> = có thể <b>vào lý (nặng)</b> · <b style="color: #5f9e4a">xanh</b> = có thể <b>ra biểu (hồi phục)</b>. Trục nét đứt = cặp biểu-lý.</p>
+                    <p v-else-if="dinhViLop === 4" class="dkq-t3-cap">Lớp Lục Khí: rê một <b>Khí</b> → tia Khí → Kinh (bản khí) → Tạng/Phủ; tâm <b>Ngũ Hành</b> sinh-khắc. Số = <b>tạng bị tác động</b> theo khí (Hàn/Nhiệt).</p>
+                    <p v-else-if="dinhViLop === 3" class="dkq-t3-cap">Lớp Tạng Phủ — ngôi sao <b>Ngũ Hành méo theo số đo</b>: đỉnh <b style="color: #35638d">co vào = tạng HƯ</b> (suy), <b style="color: #b23a29">đẩy ra = THỰC</b> (dư). Dây <b style="color: #b23a29">đỏ</b> = tương thừa (khắc quá), <b style="color: #8a2f4f">mận</b> = tương vũ; viền vàng = tạng <b>gốc</b>. So với ngũ giác mờ (mốc cân bằng) để thấy độ xộc xệch.</p>
+                    <p v-else class="dkq-t3-cap">Bóc từng lớp (Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh). Ô <b>sáng vàng</b> = bệnh nhân có; mờ = không.</p>
+                    <p v-if="dinhVi.isEmpty" class="dkq-empty">Các thể bệnh trên chưa có liên kết bài thuốc → chưa suy được định vị.</p>
                   </div>
                 </div>
               </section>
@@ -1523,7 +1639,8 @@ onMounted(async () => {
 .dkq-th-chung-decuong { font-size: var(--font-size-sm); color: var(--text-subtle); margin: 6px 0 0; }
 
 /* Kết luận Lục Kinh (Tab 3) — port từ .lk-verdict của trang thật, đổi tiền tố dkq- để không đụng
-   scoped style khác; bỏ phần chip "soi kinh" tương tác cần dữ liệu số ca lịch sử toàn hệ thống. */
+   scoped style khác. Chip Định vị/Chuyển biến hiển thị y hệt trang thật nhưng KHÔNG bấm được (span
+   thay vì button) — demo không có soiKinh/focusKinh, chỉ xem. */
 .dkq-lk-verdict {
   margin: var(--space-2) 0 var(--space-3);
   padding: var(--space-2) var(--space-3);
@@ -1553,6 +1670,58 @@ onMounted(async () => {
 .dkq-lk-lydo li { font-size: 12.5px; line-height: 1.45; color: var(--text-subtle); }
 .dkq-lk-ngoai { margin: var(--space-2) 0 0; font-size: 12px; font-style: italic; color: var(--text-subtle); }
 .dkq-lk-none { margin: var(--space-3) 0 var(--space-4); padding: var(--space-3) var(--space-4); font-size: 13px; font-style: italic; color: var(--text-subtle); background: var(--surface-2); border: 1px dashed var(--border); border-radius: var(--radius-md); }
+
+/* Chip Định vị + Chuyển biến bên trong khối Kết Luận Lục Kinh — port từ .lk-chips của trang thật. */
+.dkq-lk-chips { display: flex; flex-direction: column; gap: 5px; margin-top: var(--space-2); }
+.dkq-lk-chip-row { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.dkq-lk-chip-lb { font-size: 10.5px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; color: var(--text-subtle); min-width: 62px; }
+.dkq-lk-kchip { font-size: 12px; font-weight: 700; color: #fff; padding: 2px 10px; border-radius: 999px; background: var(--brown-600); line-height: 1.35; }
+.dkq-lk-kchip em { font-style: normal; font-weight: 600; opacity: .85; }
+.dkq-lk-kchip.troi { box-shadow: 0 0 0 2px var(--surface), 0 0 0 3.5px currentColor; }
+.dkq-lk-kchip[data-kinh='thai-duong'] { background: #3d6a8c; }
+.dkq-lk-kchip[data-kinh='duong-minh'] { background: #a3801f; }
+.dkq-lk-kchip[data-kinh='thieu-duong'] { background: #bd5730; }
+.dkq-lk-kchip[data-kinh='thai-am'] { background: #8c6f2e; }
+.dkq-lk-kchip[data-kinh='thieu-am'] { background: #ab3644; }
+.dkq-lk-kchip[data-kinh='quyet-am'] { background: #4c7742; }
+.dkq-lk-cb { font-size: 12px; font-weight: 700; padding: 2px 10px; border-radius: 999px; cursor: help; white-space: nowrap; }
+.dkq-lk-cb--vaoly { color: #fff; background: #bf4632; }
+.dkq-lk-cb--rabieu { color: #fff; background: #4f8a3f; }
+.dkq-lk-cb--none { color: var(--text-subtle); background: var(--surface-2); border: 1px dashed var(--border); font-weight: 700; }
+
+/* Cap "◎ Định vị" ngay trên đồ hình — port từ .lk-wheel-cap của trang thật. */
+.dkq-lk-wheel-cap {
+  --kc: var(--brown-600);
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  padding: 4px 2px;
+}
+.dkq-lk-wheel-cap[data-kinh='thai-duong'] { --kc: #3d6a8c; }
+.dkq-lk-wheel-cap[data-kinh='duong-minh'] { --kc: #a3801f; }
+.dkq-lk-wheel-cap[data-kinh='thieu-duong'] { --kc: #bd5730; }
+.dkq-lk-wheel-cap[data-kinh='thai-am'] { --kc: #8c6f2e; }
+.dkq-lk-wheel-cap[data-kinh='thieu-am'] { --kc: #ab3644; }
+.dkq-lk-wheel-cap[data-kinh='quyet-am'] { --kc: #4c7742; }
+.dkq-lk-wheel-cap-lb { font-size: 11px; font-weight: 800; letter-spacing: .03em; color: var(--kc); text-transform: uppercase; }
+.dkq-lk-wheel-cap-kinh { font-size: var(--font-size-lg); font-weight: 800; color: var(--kc); }
+.dkq-lk-wheel-cap-kinh i { font-style: normal; font-weight: 600; opacity: .75; font-size: .8em; }
+.dkq-lk-wheel-cap-gd { font-size: var(--font-size-sm); font-weight: 700; color: var(--text); }
+.dkq-lk-wheel-cap-phu { font-size: 11.5px; font-weight: 700; color: #fff; background: #8a5a2e; padding: 1px 8px; border-radius: 999px; }
+.dkq-lk-wheel-cap-btn {
+  margin-left: auto;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--kc);
+  background: transparent;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: 2px 10px;
+  cursor: pointer;
+  font-family: inherit;
+}
+.dkq-lk-wheel-cap-btn:hover { background: color-mix(in srgb, var(--kc) 14%, transparent); }
 
 .dkq-cta {
   display: flex;
@@ -1793,10 +1962,6 @@ onMounted(async () => {
   flex-direction: column;
   align-items: center;
   gap: var(--space-3);
-}
-.dkq-t3-wheel :deep(svg) {
-  max-width: 380px;
-  height: auto;
 }
 .dkq-t3-layers {
   display: flex;
