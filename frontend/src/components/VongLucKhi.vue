@@ -290,6 +290,13 @@ const isTangSub = (organ: string) => props.activeTang != null && props.activeTan
       <!-- ===== Tâm: Ngũ Hành + mối liên quan sinh/khắc ===== -->
       <g class="hub" :class="{ 'rel-mode': activeRel != null }">
         <circle :cx="CX" :cy="CY" r="60" fill="url(#vlk-stone)" stroke="rgba(226,205,154,.35)" stroke-width="1" />
+        <!-- Thái Cực TÂM — vẽ TRƯỚC (dưới) mũi tên sinh/khắc + node tạng, không đè lên chúng -->
+        <g class="core">
+          <circle :cx="CX" :cy="CY" :r="TR" :fill="yang" stroke="rgba(247,239,222,.6)" stroke-width="1" />
+          <path :d="taiji" :fill="yin" />
+          <circle :cx="CX" :cy="CY - TR / 2" :r="dotR" :fill="yin" />
+          <circle :cx="CX" :cy="CY + TR / 2" :r="dotR" :fill="yang" />
+        </g>
         <!-- Tương khắc -->
         <g class="p-khac-g">
           <g
@@ -318,12 +325,6 @@ const isTangSub = (organ: string) => props.activeTang != null && props.activeTan
           <circle :cx="n.c.x" :cy="n.c.y" :r="PNODE_R" class="p-badge" :style="{ stroke: n.bright }" />
           <text class="p-vi" :x="n.c.x" :y="n.c.y - 2.5" :fill="n.bright">{{ n.vi }}</text>
           <text class="p-han" :x="n.c.x" :y="n.c.y + 6" :fill="n.bright">{{ n.han }}</text>
-        </g>
-        <g class="core">
-          <circle :cx="CX" :cy="CY" :r="TR" :fill="yang" stroke="rgba(247,239,222,.6)" stroke-width="1" />
-          <path :d="taiji" :fill="yin" />
-          <circle :cx="CX" :cy="CY - TR / 2" :r="dotR" :fill="yang" />
-          <circle :cx="CX" :cy="CY + TR / 2" :r="dotR" :fill="yin" />
         </g>
       </g>
 

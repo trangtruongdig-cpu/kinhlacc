@@ -21,7 +21,12 @@ import BanXoayBienChung from '@/components/BanXoayBienChung.vue'
 // Khối Bát Cương "y như app": hình người 3D XOAY được + 2 cột tạng phủ hai bên.
 import BatCuongOrgans from '@/components/BatCuongOrgans.vue' // 2 cột thẻ tạng phủ (SVG, nhẹ)
 import BatCuongSummary from '@/components/BatCuongSummary.vue' // khối Bát Cương giàu (TỔNG CƯƠNG · Hư-Thực · Thể chất) — y hệt app
-import BienChungWheel from '@/components/BienChungWheel.vue' // đồ hình Thái Cực bóc lớp (Âm Dương → Tạng Phủ → Lục Khí → Lục Kinh) cho Tab ③
+import BienChungWheel from '@/components/BienChungWheel.vue' // đồ hình Thái Cực bóc lớp — CHỈ còn dùng cho lớp ① Âm Dương ở Tab ③
+// Lớp ③④⑤ (Tạng Phủ · Lục Khí · Lục Kinh) của Tab ③ dùng ĐÚNG 3 đồ hình "chuẩn → biến hoá lệch" của trang Kết Quả Đo thật,
+// thay vì bánh xe taxonomy tĩnh — để "nhá hàng" đúng hiệu ứng méo/trội/chuyển biến người xem thấy khi đăng nhập.
+import VongNguHanh from '@/components/VongNguHanh.vue' // lớp ③ Tạng Phủ: ngũ giác méo theo z-score đo được
+import VongLucKhi from '@/components/VongLucKhi.vue' // lớp ④ Lục Khí: khí trội (Hàn/Nhiệt) sáng lên
+import VongLucKinh from '@/components/VongLucKinh.vue' // lớp ⑤ Lục Kinh: kinh trội + giai đoạn + chuyển biến dự đoán
 // 3D nặng (three.js) → nạp ĐỘNG (chunk riêng); component tự HOÃN tải three tới khi cuộn tới (IntersectionObserver).
 const BatCuongFigure3D = defineAsyncComponent(() => import('@/components/BatCuongFigure3D.vue'))
 // Nạp ĐỘNG: chart.js (nặng) chỉ tải khi component phân tích bài thuốc thực sự được dựng,
@@ -39,11 +44,15 @@ import {
   computeDiagnosis,
   computeAffectedOrgans,
   computeTongCuong,
+  nguHanhZTuRows,
   round2,
   fmt,
   type InputData,
   type TongCuong,
+  type NguHanhZ,
 } from '@/lib/meridianAnalysis'
+import { locateLucKinh, dinhViChac } from '@/lib/lucKinh'
+import { truyenBienCua } from '@/lib/lucKinhTruyenBien'
 
 const router = useRouter()
 
@@ -533,7 +542,52 @@ const tongCuong = computed<TongCuong>(() => {
   return computeTongCuong(nhiet, han, bieu, ly, diagnosis.value.huThuc)
 })
 
-// ── Đồ hình Thái Cực bóc lớp cho Tab ③ (BienChungWheel) — y hệt app (bỏ lớp Ngũ Hành) ──
+// ── Ngũ hành (z từng hành) — TÍNH LẠI TỪ SỐ THÔ của ca mẫu (không suy diễn số), y hệt VongNguHanh
+//    ở trang Kết Quả Đo thật: ngũ giác méo lệch liên tục theo z-score đo được (lớp ③ Tạng Phủ). ──
+const nguHanhZ = computed<NguHanhZ>(() =>
+  nguHanhZTuRows(upperRows.value, lowerRows.value, upperStats.value, lowerStats.value),
+)
+
+// ── Lục Khí trội (Hàn/Nhiệt, suy từ tạng phủ đang bệnh) — cho VongLucKhi lớp ④. ──
+const lucKhiCaseCounts = computed<Record<string, number>>(() => {
+  const c: Record<string, number> = {}
+  for (const o of affectedOrgans.value) {
+    if (o.temp === 'han' || o.temp === 'mixed') c['Hàn'] = (c['Hàn'] ?? 0) + 1
+    if (o.temp === 'nhiet' || o.temp === 'mixed') c['Nhiệt'] = (c['Nhiệt'] ?? 0) + 1
+  }
+  return c
+})
+const lucKhiTroi = computed<string | null>(() => {
+  const han = lucKhiCaseCounts.value['Hàn'] ?? 0
+  const nhiet = lucKhiCaseCounts.value['Nhiệt'] ?? 0
+  if (!han && !nhiet) return null
+  return nhiet > han ? 'Nhiệt' : 'Hàn'
+})
+
+// ── Lục Kinh: định vị kinh trội + giai đoạn + chuyển biến dự đoán từ thể Thương Hàn đo được của ca
+//    mẫu — CHUNG hàm locateLucKinh/truyenBienCua với trang thật (bảng thể-kinh tĩnh, không cần API
+//    engineMap riêng). Cho VongLucKinh lớp ⑤. ──
+const lucKinhVerdict = computed(() => locateLucKinh(excelList.value.map((s) => s.name), tongCuong.value, null))
+const lucKinhCaseCounts = computed<Record<string, number>>(() => {
+  const c: Record<string, number> = {}
+  const v = lucKinhVerdict.value
+  if (v) for (const t of v.theThuongHan) c[t.kinh] = (c[t.kinh] ?? 0) + 1
+  return c
+})
+const bienChung = computed(() => {
+  const v = lucKinhVerdict.value
+  if (!v) return null
+  const nhietHoa = /nhiệt hóa/.test(v.giaiDoan)
+  const chacChan = dinhViChac(v)
+  return {
+    kinhTroi: v.kinh,
+    giaiDoan: v.giaiDoan,
+    tapKinh: Object.keys(lucKinhCaseCounts.value),
+    chuyenBien: chacChan ? truyenBienCua(v.kinh.slug, { nhietHoa }) : null,
+  }
+})
+
+// ── Đồ hình Thái Cực bóc lớp cho Tab ③ (BienChungWheel) — CHỈ còn dùng cho lớp ① Âm Dương. ──
 const wheelLop = ref(1)
 const wheelLayers = [
   { id: 1, label: 'Âm Dương' },
@@ -803,7 +857,7 @@ const faqs: { q: string; a: string }[] = [
 
         <div class="lp-hero-art">
           <!-- Vòng xoay Khung: tự xoay + đổi lớp Lục Kinh → Lục Khí → Tạng Phủ cho đỡ nhàm -->
-          <div class="lp-hero-wheel"><HeroKhungWheel /></div>
+          <div class="lp-hero-wheel"><HeroKhungWheel :ngu-hanh-z="nguHanhZ" :tong-cuong="tongCuong" /></div>
         </div>
       </div>
     </section>
@@ -1136,8 +1190,32 @@ const faqs: { q: string; a: string }[] = [
                     {{ l.label }}
                   </button>
                 </div>
-                <BienChungWheel :lop="wheelLop" :dinhvi="dinhViWheel" />
-                <p class="mc-t3-cap">Bấm bóc từng lớp: Âm Dương (Thái Cực) → Tạng Phủ → Lục Khí → Lục Kinh. Ô sáng = bệnh nhân có.</p>
+                <!-- ĐỊNH VỊ — câu kết luận Lục Kinh, đứng NGOÀI 4 lớp bóc (y hệt app): giải thích 4 đồ hình
+                     bên dưới đang cùng minh hoạ MỘT kết luận, để người xem không lạc vào hình mà quên nghĩa. -->
+                <div v-if="lucKinhVerdict" class="mc-lk-cap" :data-kinh="lucKinhVerdict.kinh.slug">
+                  <span class="mc-lk-cap-lb">◉ Định vị</span>
+                  <b class="mc-lk-cap-kinh">{{ lucKinhVerdict.kinh.ten }} <i>{{ lucKinhVerdict.kinh.han }}</i></b>
+                  <span class="mc-lk-cap-gd">{{ lucKinhVerdict.giaiDoan }}</span>
+                  <span v-if="lucKinhVerdict.hopBenh && lucKinhVerdict.phu" class="mc-lk-cap-phu">+ {{ lucKinhVerdict.phu.ten }}</span>
+                  <button v-if="wheelLop !== 5" type="button" class="mc-lk-cap-btn" @click="wheelLop = 5">soi lớp Lục Kinh ▸</button>
+                </div>
+                <p v-else class="mc-lk-cap mc-lk-cap--none">
+                  Ca này chưa định vị được theo Lục Kinh Thương Hàn (có thể nội thương/tạp bệnh) — 4 lớp bên dưới vẫn đọc riêng được.
+                </p>
+                <VongLucKinh
+                  v-if="wheelLop === 5"
+                  :counts="lucKinhCaseCounts"
+                  :case-set="bienChung ? bienChung.tapKinh : null"
+                  :troi-kinh="bienChung ? bienChung.kinhTroi.slug : null"
+                  :chuyen-bien="bienChung ? bienChung.chuyenBien : null"
+                />
+                <VongLucKhi v-else-if="wheelLop === 4" :counts="lucKhiCaseCounts" :show-card="false" :active-khi="lucKhiTroi" />
+                <VongNguHanh v-else-if="wheelLop === 3" :z="nguHanhZ" :tong-cuong="tongCuong" />
+                <BienChungWheel v-else :lop="wheelLop" :dinhvi="dinhViWheel" />
+                <p class="mc-t3-cap">
+                  Bấm bóc từng lớp: Âm Dương (Thái Cực dư/khuyết) → Tạng Phủ (ngũ hành méo theo số đo) →
+                  Lục Khí (khí trội) → Lục Kinh (kinh trội · chuyển biến). Chuẩn (nét đứt/mờ) so với thực tế đo được (nét sáng/méo).
+                </p>
               </div>
               <div class="mc-t3-side">
                 <div class="mc-t3-block">
@@ -2654,6 +2732,13 @@ const faqs: { q: string; a: string }[] = [
 @media (max-width: 860px) { .mc-t3 { grid-template-columns: 1fr; } }
 .mc-t3-wheel { display: flex; flex-direction: column; align-items: center; gap: var(--space-3); }
 .mc-t3-wheel :deep(svg) { max-width: 360px; height: auto; }
+/* VongNguHanh/VongLucKinh/VongLucKhi bọc svg trong 1 khối riêng (.vnh/.vlk) rộng theo container (100%,
+   tới 62vh) — nếu khối đó rộng hơn svg đã bị chặn 360px ở trên thì nền tròn bên trong (căn theo % của
+   CHÍNH khối đó) bị kéo méo thành hình bầu dục. Chặn khối bằng đúng 360px để khớp lại với svg. */
+.mc-t3-wheel :deep(.vnh),
+.mc-t3-wheel :deep(.vlk) {
+  max-width: 360px;
+}
 .mc-t3-layers { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 .mc-t3-layer {
   font-size: 12px;
@@ -2668,6 +2753,35 @@ const faqs: { q: string; a: string }[] = [
 }
 .mc-t3-layer.on { background: var(--brown-600); border-color: var(--brown-600); color: var(--white); }
 .mc-t3-cap { font-size: 12px; color: var(--text-subtle); text-align: center; max-width: 42ch; line-height: 1.5; }
+
+/* Caption "Định vị" — CÙNG style/màu-theo-kinh với .lk-wheel-cap ở MeridianResultsView.vue, để
+   giữ nhất quán khi khách bấm "Xem Kết Quả Đo Thật" sang trang app. */
+.mc-lk-cap {
+  --kc: var(--brown-600);
+  width: 100%;
+  display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 10px;
+  padding: 8px 12px; border-radius: var(--radius-md);
+  border: 1px solid var(--kc); border-left: 4px solid var(--kc);
+  background: color-mix(in srgb, var(--kc) 10%, var(--surface));
+}
+.mc-lk-cap[data-kinh="thai-duong"] { --kc: #3d6a8c; }
+.mc-lk-cap[data-kinh="duong-minh"] { --kc: #a3801f; }
+.mc-lk-cap[data-kinh="thieu-duong"] { --kc: #bd5730; }
+.mc-lk-cap[data-kinh="thai-am"] { --kc: #8c6f2e; }
+.mc-lk-cap[data-kinh="thieu-am"] { --kc: #ab3644; }
+.mc-lk-cap[data-kinh="quyet-am"] { --kc: #4c7742; }
+.mc-lk-cap-lb { font-size: 11px; font-weight: 800; letter-spacing: .03em; color: var(--kc); text-transform: uppercase; }
+.mc-lk-cap-kinh { font-size: var(--font-size-lg); font-weight: 800; color: var(--kc); }
+.mc-lk-cap-kinh i { font-style: normal; font-weight: 600; opacity: .75; font-size: .8em; }
+.mc-lk-cap-gd { font-size: var(--font-size-sm); font-weight: 700; color: var(--text); }
+.mc-lk-cap-phu { font-size: 11.5px; font-weight: 700; color: #fff; background: #8a5a2e; padding: 1px 8px; border-radius: 999px; }
+.mc-lk-cap-btn {
+  margin-left: auto; font-size: 11.5px; font-weight: 700; color: var(--kc);
+  background: transparent; border: 1px solid var(--kc); border-radius: 999px;
+  padding: 2px 10px; cursor: pointer; white-space: nowrap;
+}
+.mc-lk-cap-btn:hover { background: color-mix(in srgb, var(--kc) 14%, transparent); }
+.mc-lk-cap--none { display: block; --kc: var(--text-subtle); border-style: dashed; font-size: 12.5px; color: var(--text-subtle); text-align: left; }
 .mc-t3-side { padding-top: var(--space-2); }
 .mc-t3-block { margin-bottom: var(--space-5); }
 .mc-dv-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--space-2); }
