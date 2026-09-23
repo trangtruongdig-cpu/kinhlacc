@@ -857,7 +857,7 @@ const faqs: { q: string; a: string }[] = [
 
         <div class="lp-hero-art">
           <!-- Vòng xoay Khung: tự xoay + đổi lớp Lục Kinh → Lục Khí → Tạng Phủ cho đỡ nhàm -->
-          <div class="lp-hero-wheel"><HeroKhungWheel :ngu-hanh-z="nguHanhZ" :tong-cuong="tongCuong" /></div>
+          <div class="lp-hero-wheel"><HeroKhungWheel /></div>
         </div>
       </div>
     </section>
