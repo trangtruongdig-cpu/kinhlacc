@@ -1,32 +1,37 @@
 <script setup lang="ts">
 /**
  * HeroKhungWheel — "Hình" hero trang chủ: KỂ MỘT CÂU CHUYỆN xuyên suốt (không phải 4 cảnh rời rạc),
- * lấy THÁI CỰC làm trục xuyên suốt, thu nhỏ dần khi chuyện đi sâu hơn — do lương y yêu cầu (đối thoại
- * "cần hiệu ứng chuyển cảnh... lấy trung tâm là đồ hình thái cực"):
+ * lấy THÁI CỰC làm trục xuyên suốt. THỨ TỰ HIỂN THỊ đi từ NGOÀI vào TRONG — Lục Kinh → Lục Khí →
+ * Ngũ Hành → Âm Dương — CỐ Ý ngược với thứ tự sinh thành của sách (Âm Dương → Ngũ Hành → Lục Khí →
+ * Lục Kinh): mở trang bằng Thái Cực to ngay khung hình đầu khiến người xem lần đầu giật mình, dễ
+ * ngỡ phần mềm thiên về tâm linh — nên ĐẨY Thái Cực (hồi ④, sâu nhất về Ý NGHĨA) xuống cảnh CUỐI
+ * cùng của vòng lặp, mở đầu bằng Lục Kinh/Lục Khí — nhìn giống sơ đồ y học hơn. Thứ tự SINH THÀNH
+ * (ý nghĩa) và thứ tự XUẤT HIỆN (UX) là HAI TRỤC KHÁC NHAU — code dưới đây giữ nguyên mode 0=Âm
+ * Dương/1=Ngũ Hành/2=Lục Khí/3=Lục Kinh (khớp thứ tự sinh thành, mọi computed dựa vào số này), chỉ
+ * đổi CHIỀU + ĐIỂM XUẤT PHÁT của bộ đếm mode (xem modeTimer trong onMounted) để thứ tự XUẤT HIỆN
+ * đảo lại — không phải renumber lại toàn bộ logic bên dưới.
  *
- *   HỒI 1 — Âm Dương 太極 (BienChungWheel lớp 1, Thái Cực TO, làm tiêu điểm):
- *     Cân bằng → Âm thịnh → Dương thịnh → Âm hư → Dương hư. "Vạn vật từ 2 khí Âm Dương, vốn có xu
- *     hướng cân bằng — nhưng thực tế Âm thường bất túc, Dương thường hữu dư."
- *   HỒI 2 — Tạng Phủ 五臟 (VongNguHanh): Thái Cực LÙI làm nền mờ phía sau, Ngũ Hành lên tiêu điểm.
- *     Pha A "cân bằng" (chỉ tương sinh/khắc, nền Thái Cực CŨNG cân bằng — "Ngũ Hành cân bằng nhờ
- *     tương sinh/khắc thì Âm Dương cũng cân bằng"). Pha B "mất cân bằng" (tương thừa/vũ nổi lên —
- *     4 CẶP riêng biệt, mỗi biến thể Âm Dương lệch (nền) đi kèm MỘT kiểu Tạng Phủ sộc sệch RIÊNG
- *     (Thủy thừa Hỏa · Hỏa thừa Kim · Mộc vũ Kim · Thổ sinh Kim bất cập) đổi CÙNG LÚC, không phải 1
- *     ví dụ cố định — "Âm Dương lệch kiểu nào, Tạng Phủ cũng sộc sệch kiểu đó".
- *   HỒI 3 — Lục Khí 六氣 (VongLucKhi) · HỒI 4 — Lục Kinh 六經 (VongLucKinh): Thái Cực THU NHỎ hẳn về
- *     tâm (2 đồ hình này vốn đã có Thái Cực nhỏ ở tâm) — không còn là tiêu điểm mà là điểm tựa cho
- *     mối quan hệ Lục Khí/Tam Âm Tam Dương với Tạng Phủ xoay quanh.
+ *   Xuất hiện ① — Lục Kinh 六經 (VongLucKinh, mode=3) · ② — Lục Khí 六氣 (VongLucKhi, mode=2):
+ *     Thái Cực đã có sẵn, nhỏ ở tâm 2 đồ hình này (không phải tiêu điểm).
+ *   Xuất hiện ③ — Tạng Phủ 五臟 (VongNguHanh, mode=1): Thái Cực làm nền mờ phía sau, Ngũ Hành tiêu
+ *     điểm. Pha A "cân bằng" (tương sinh/khắc đều, nền Thái Cực CŨNG cân bằng). Pha B "mất cân bằng"
+ *     (tương thừa/vũ nổi lên — 4 CẶP riêng biệt, mỗi biến thể Âm Dương lệch (nền) đi kèm MỘT kiểu
+ *     Tạng Phủ sộc sệch RIÊNG: Thủy thừa Hỏa · Hỏa thừa Kim · Mộc vũ Kim · Thổ sinh Kim bất cập).
+ *   Xuất hiện ④ — Âm Dương 太極 (BienChungWheel lớp 1, mode=0, Thái Cực TO, tiêu điểm — CUỐI vòng
+ *     lặp): Cân bằng → Âm thịnh → Dương thịnh → Âm hư → Dương hư — "gốc của vạn vật" chốt câu chuyện
+ *     thay vì mở đầu.
  *
  * TOÀN BỘ dữ liệu là MINH HOẠ SÁCH (TÁI DÙNG computeTongCuong() thật, không viết lại luật), KHÔNG gắn
  * ca mẫu thật — Hero kể khái niệm chung, khối Tab ③ Biện Chứng·Pháp Trị ở LandingView mới dùng ca thật.
  *
- * NHỊP PHIM: mỗi HỒI dài đúng SCENE_MS như nhau, mỗi hồi tự chia đều SCENE_MS cho ĐÚNG số nhịp của nó
- * (5 biến thể Âm Dương / cân bằng·mất cân bằng-với-4-biến-thể-nền của Ngũ Hành / 6 khí / 6 kinh), tính
- * bằng ĐỒNG HỒ thời gian-trong-hồi (elapsedInMode) — không dùng 1 con trỏ "step" chung cho nhiều danh
- * sách khác độ dài (từng gây "lệch mắt").
+ * NHỊP PHIM: mỗi cảnh dài đúng SCENE_MS như nhau, mỗi cảnh tự chia đều SCENE_MS cho ĐÚNG số nhịp của
+ * nó (5 biến thể Âm Dương / cân bằng·mất cân bằng-với-4-biến-thể-nền của Ngũ Hành / 6 khí / 6 kinh),
+ * tính bằng ĐỒNG HỒ thời gian-trong-cảnh (elapsedInMode) — không dùng 1 con trỏ "step" chung cho
+ * nhiều danh sách khác độ dài (từng gây "lệch mắt").
  *
  * Ở hero chỉ là TRANG TRÍ: khoá tương tác (pointer-events:none), ẩn nút/chú thích/thẻ của component,
- * và cho cả đĩa XOAY chậm (CSS). Tôn trọng prefers-reduced-motion: đứng yên ở hồi Âm Dương.
+ * và cho cả đĩa XOAY chậm (CSS). Tôn trọng prefers-reduced-motion: đứng yên ở cảnh Lục Kinh (mở đầu
+ * mới, KHÔNG phải Âm Dương — cùng lý do tránh giật mình ngay khung hình tĩnh đầu tiên).
  */
 import { computed, onMounted, onBeforeUnmount, ref, watch } from 'vue'
 import VongLucKinh from '@/components/VongLucKinh.vue'
@@ -80,7 +85,11 @@ const reduce =
   typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches
 const motion = ref(!reduce)
 
-const mode = ref(0) // 0 Âm Dương · 1 Tạng Phủ/Ngũ Hành · 2 Lục Khí · 3 Lục Kinh
+// Ý NGHĨA của mỗi số giữ nguyên (0 Âm Dương · 1 Tạng Phủ/Ngũ Hành · 2 Lục Khí · 3 Lục Kinh — khớp
+// thứ tự sinh thành, mọi computed bên dưới dựa vào số này) — chỉ XUẤT PHÁT từ 3 (Lục Kinh) và ĐẾM
+// LÙI (xem modeTimer) để thứ tự XUẤT HIỆN trên màn hình thành 3→2→1→0, tức Lục Kinh trước, Âm
+// Dương (Thái Cực to) chốt cuối — tránh giật mình mê tín ngay khung hình tĩnh đầu tiên.
+const mode = ref(3)
 const SCENE_MS = 9000 // MỌI hồi dài bằng nhau — nhịp phim đều, không hồi nào cảm giác vội/lê thê
 
 // Đồng hồ thời gian-trong-hồi: nowMs tick 100ms, modeStartAt mốc lúc vào hồi hiện tại.
@@ -155,7 +164,8 @@ onMounted(() => {
   if (!motion.value) return
   tickTimer = setInterval(() => { nowMs.value = Date.now() }, 100)
   modeTimer = setInterval(() => {
-    mode.value = (mode.value + 1) % 4
+    // ĐẾM LÙI (+3 ≡ -1 mod 4): 3→2→1→0→3… — xem chú thích ở khai báo mode phía trên.
+    mode.value = (mode.value + 3) % 4
   }, SCENE_MS)
 })
 onBeforeUnmount(() => {
@@ -201,6 +211,12 @@ onBeforeUnmount(() => {
   width: 100%;
   aspect-ratio: 1; /* giữ chỗ vuông để các lớp xếp chồng không nhảy */
 }
+/* Crossfade PHẲNG (chỉ opacity) đổi cảnh trông "cắt cứng" — thêm SCALE + BLUR (rack-focus kiểu điện
+   ảnh: cảnh cũ lùi ra xa + nhoè khi rút, cảnh mới tiến vào + rõ nét dần khi tới) cho cảm giác trôi
+   liền mạch hơn, dù các cảnh vẫn là component khác nhau (không morph SVG thật — quá rủi ro vì mỗi
+   đồ hình khác cấu trúc/bảng màu). Dùng thuộc tính `scale` RIÊNG (không phải `transform`) để KHÔNG
+   đụng transform:scale(K) hiệu chỉnh cỡ đĩa của từng lớp (xem .hkw-l-* bên dưới) — 2 thuộc tính
+   nhân dồn với nhau đúng theo đặc tả CSS, không cần lồng thêm phần tử wrapper. */
 .hkw-layer {
   position: absolute;
   inset: 0;
@@ -208,11 +224,18 @@ onBeforeUnmount(() => {
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+  scale: 0.94;
+  filter: blur(9px);
+  transition:
+    opacity 1.35s cubic-bezier(0.4, 0, 0.2, 1),
+    scale 1.35s cubic-bezier(0.4, 0, 0.2, 1),
+    filter 1.35s cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none; /* hero = trang trí, khoá mọi tương tác/hover */
 }
 .hkw-layer.on {
   opacity: 1;
+  scale: 1;
+  filter: blur(0);
 }
 /* Câu thuyết minh dưới đĩa — đổi theo hồi, fade nhẹ mỗi lần đổi chữ (key đổi → remount → transition). */
 .hkw-cap {

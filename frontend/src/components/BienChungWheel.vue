@@ -631,7 +631,7 @@ onBeforeUnmount(() => {
 
         <!-- ĐỊNH VỊ: lưỡi liềm DƯ (lồi ra, cần tả) / KHUYẾT (hụt vào, cần bổ) — xem dvTaiji -->
         <template v-if="dvTaiji">
-          <clipPath id="dv-tj-clip"><path fill-rule="evenodd" :d="dvTaiji.clipD" /></clipPath>
+          <clipPath id="dv-tj-clip"><path class="dv-tj-clip-path" fill-rule="evenodd" :d="dvTaiji.clipD" /></clipPath>
           <path :d="dvTaiji.fillD" :fill="dvTaiji.color" class="dv-tj-band" :class="'dv-tj-band--' + dvTaiji.mode" clip-path="url(#dv-tj-clip)" />
           <circle :cx="dvTaiji.refX" :cy="dvTaiji.refY" :r="dvTaiji.TR" fill="none" class="dv-tj-ring" :class="'dv-tj-ring--' + dvTaiji.mode" />
         </template>
@@ -765,8 +765,13 @@ onBeforeUnmount(() => {
   50% { filter: drop-shadow(0 0 8px rgba(255, 224, 150, 1)) drop-shadow(0 0 20px rgba(255, 168, 60, 0.85)); }
 }
 /* Lưỡi liềm DƯ/KHUYẾT + vòng nét đứt ở tâm Thái Cực (định vị Âm-Dương) — đồng bộ AmDuongTaiji.vue:
-   DƯ tô ĐẬM (đang thừa) · KHUYẾT tô NHẠT (đang thiếu) — ngược hẳn nhau để phân biệt tả/bổ. */
-.dv-tj-band { stroke: rgba(251, 242, 221, 0.85); stroke-width: 1.1; }
+   DƯ tô ĐẬM (đang thừa) · KHUYẾT tô NHẠT (đang thiếu) — ngược hẳn nhau để phân biệt tả/bổ.
+   TRƯỚC ĐÂY không có transition nào ở cả 3 phần tử (band/clip-path/ring) → lưỡi liềm snap cứng mỗi
+   khi đổi biến thể Âm Dương, trong khi Thái Cực nền cạnh nó tự quay đều — lệch pha rất rõ. fillD/
+   clipD đều dựng từ fullCircleD()/outsideCircleClip() nên CÙNG cấu trúc lệnh (M..A..A..Z) ở MỌI
+   trạng thái dư/khuyết → "d" nội suy mượt được, không cần đổi cách dựng path. */
+.dv-tj-band { stroke: rgba(251, 242, 221, 0.85); stroke-width: 1.1; transition: d 0.45s ease, fill 0.45s ease, stroke 0.45s ease, opacity 0.45s ease; }
+.dv-tj-clip-path { transition: d 0.45s ease; }
 /* KHÔNG dùng filter:drop-shadow (blur) ở đây — lớp 1 bị .zoom phóng to ~3 lần (197/66), 1 quầng
    mờ 6px trước khi zoom biến thành quầng ~18px SAU zoom, nhìn như 1 vòng tròn lạ tách hẳn ra
    khỏi Thái Cực. Chỉ tô màu ĐẶC (không glow) là đủ rõ, tránh bị khuếch đại biến dạng. */
@@ -774,7 +779,7 @@ onBeforeUnmount(() => {
 .dv-tj-band--khuyet { opacity: 0.4; stroke: #1273c9; stroke-width: 1.4; stroke-dasharray: 3.5 2.5; }
 /* Vòng nét đứt DƯ/KHUYẾT — tô MÀU THEO CHIỀU (dư=cam-đỏ · khuyết=xanh) để nổi trên MỌI nền (kể cả
    nền trắng ở lớp 1). KHÔNG filter (lớp 1 zoom ~3× sẽ khuếch đại quầng). */
-.dv-tj-ring { stroke: #6a6154; stroke-width: 1.7; stroke-dasharray: 3.5 2.5; }
+.dv-tj-ring { stroke: #6a6154; stroke-width: 1.7; stroke-dasharray: 3.5 2.5; transition: cx 0.45s ease, cy 0.45s ease, stroke 0.45s ease; }
 .dv-tj-ring--du { stroke: #e0450c; }
 .dv-tj-ring--khuyet { stroke: #1273c9; }
 /* Kinh ĐỐI biểu-lý (Trung kiến): không mờ + viền VÀNG nổi để thấy quan hệ cặp */

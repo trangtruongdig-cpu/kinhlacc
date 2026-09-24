@@ -73,6 +73,18 @@ const nodes = computed(() => HANHS.map((h, i) => {
 }))
 // vị trí hiện tại (méo hay chuẩn) cho từng node
 const posOf = (i: number) => (showMeo.value ? nodes.value[i]!.p : nodes.value[i]!.home)
+// Ngũ giác méo dạng PATH (không phải polygon) — "points" của <polygon> KHÔNG animate được bằng CSS
+// transition ở bất kỳ trình duyệt nào (chỉ "d" của <path>, cx/cy/r… của circle mới animate được),
+// nên trước đây dù có khai transition:all, viền ngũ giác vẫn snap cứng mỗi khi z đổi hay bấm "Sao
+// méo" — đây là nguồn "cứng nhắc" chính lương y phản ánh. Chuyển sang <path d="M..L..L..L..L..Z">:
+// CÙNG cấu trúc lệnh (1 M + 4 L + Z) ở MỌI trạng thái vì luôn đúng 5 đỉnh cố định thứ tự, nên trình
+// duyệt nội suy mượt từng toạ độ khi "d" đổi — không cần đổi CSS, transition:all sẵn có tự phủ "d".
+const polyD = computed(() => {
+  const pts = nodes.value.map((n) => (showMeo.value ? n.p : n.home))
+  const [first, ...rest] = pts
+  if (!first) return ''
+  return `M${N(first.x)} ${N(first.y)} ` + rest.map((p) => `L${N(p.x)} ${N(p.y)}`).join(' ') + ' Z'
+})
 
 // ── TƯƠNG KHẮC (dây i→i+2): tính thừa/vũ, chỉ tô tối đa 2 cạnh cường độ cao nhất ──
 const khacRaw = computed(() => {
@@ -223,8 +235,8 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
       <line v-for="n in nodes" :key="'sp' + n.key" class="vnh-spoke" :class="showMeo ? n.duKhuyet : ''"
         :x1="n.home.x" :y1="n.home.y" :x2="showMeo ? n.p.x : n.home.x" :y2="showMeo ? n.p.y : n.home.y" />
 
-      <!-- (3) NGŨ GIÁC MÉO (hoặc chuẩn khi tắt) -->
-      <polygon class="vnh-poly" :points="nodes.map((n) => `${N(showMeo ? n.p.x : n.home.x)},${N(showMeo ? n.p.y : n.home.y)}`).join(' ')" />
+      <!-- (3) NGŨ GIÁC MÉO (hoặc chuẩn khi tắt) — path (không phải polygon) để "d" animate mượt được -->
+      <path class="vnh-poly" :d="polyD" />
 
       <!-- (4) TƯƠNG SINH — cung ngoài; MỖI cạnh 1 hướng: dao = mũi tên NGƯỢC hổ phách (con hút mẹ),
            còn lại mũi tên xuôi mẹ→con (đứt mờ nếu mẹ hư, đậm nếu dồn nuôi) -->
@@ -332,9 +344,11 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 /* Ngũ giác méo — lõi PARCHMENT sáng (nổi trên nền đá tối), halo kép lo mọi nền */
 .vnh-poly { fill: rgba(230, 214, 180, 0.05); stroke: #e6d3aa; stroke-width: 2.7; stroke-linejoin: round; transition: all 0.35s ease; }
 
-/* Tương sinh (cung ngoài) */
-.vnh-sinh path { fill: none; stroke: #5c9142; stroke-width: 2.7; stroke-linecap: round; }
-.vnh-sinh polygon { fill: #5c9142; }
+/* Tương sinh (cung ngoài) — vị trí cung CỐ ĐỊNH (theo góc hành, không đổi theo z) nên không cần
+   transition hình học; chỉ MÀU/NÉT đổi khi mode (normal/batcap/donnuoi/dao) đổi — thêm transition
+   để không snap cứng lúc chuyển trạng thái sinh-khắc. */
+.vnh-sinh path { fill: none; stroke: #5c9142; stroke-width: 2.7; stroke-linecap: round; transition: stroke 0.3s ease, stroke-width 0.3s ease; }
+.vnh-sinh polygon { fill: #5c9142; transition: fill 0.3s ease; }
 /* mẹ HƯ → sinh bất cập: đứt, mờ (nuôi hụt) */
 .vnh-sinh .batcap path { stroke: rgba(120, 170, 100, 0.5); stroke-width: 1.4; stroke-dasharray: 3 3; filter: none; }
 .vnh-sinh .batcap polygon { fill: rgba(120, 170, 100, 0.5); filter: none; }
@@ -344,8 +358,13 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 .vnh-sinh .dao path { stroke: #d98a3a; stroke-width: 2.7; }
 .vnh-sinh-dao { fill: #d98a3a; }
 
-/* Tương khắc (dây chéo) */
-.vnh-kline { stroke-linecap: round; }
+/* Tương khắc (dây chéo) — 2 đầu dây bám theo posOf(i)/posOf(j) (đổi theo z hoặc showMeo) nhưng
+   TRƯỚC ĐÂY không có transition nào → snap cứng trong khi node/nan-hoa cạnh nó lại trượt mượt
+   (đã có transition riêng) — lệch pha rất rõ mắt. Thêm transition đủ cả toạ độ lẫn màu/nét. */
+.vnh-kline {
+  stroke-linecap: round;
+  transition: x1 0.35s ease, y1 0.35s ease, x2 0.35s ease, y2 0.35s ease, stroke 0.3s ease, stroke-width 0.3s ease, opacity 0.3s ease;
+}
 .vnh-kline.rest { stroke: rgba(150, 70, 55, 0.28); stroke-width: 1; }
 .vnh-kline.on-thua { stroke: #b23a29; stroke-width: var(--kw, 3); opacity: 0.95; }
 .vnh-kline.on-vu { stroke: #8a2f4f; stroke-width: 2; stroke-dasharray: 4 3; opacity: 0.95; }

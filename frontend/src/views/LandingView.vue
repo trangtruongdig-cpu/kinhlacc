@@ -13,7 +13,7 @@
  * Hiệu năng: hero dùng vòng SVG nhẹ; hình người 3D nặng (khu "Kết Quả Đo") tự lazy-load khi cuộn tới
  * (IntersectionObserver bên trong component) nên KHÔNG làm chậm lúc mới mở trang.
  */
-import { ref, computed, onMounted, defineAsyncComponent } from 'vue'
+import { ref, computed, watch, onMounted, defineAsyncComponent } from 'vue'
 import { useRouter } from 'vue-router'
 // Vòng xoay KHUNG cho hero: tự XOAY + luân chuyển lớp Lục Kinh → Lục Khí → Tạng Phủ (trang trí).
 import HeroKhungWheel from '@/components/HeroKhungWheel.vue'
@@ -175,23 +175,35 @@ const formulaLoading = ref(true)
 const demoFormula = ref<any>(null)
 
 onMounted(() => {
-  // 3 khối demo ĐỘC LẬP nhau (kết quả đo, dữ liệu tham chiếu, bài thuốc) — bắn cùng lúc thay vì
-  // chờ khối trước xong mới gọi khối sau. Trước đây bài thuốc bị await SAU Promise.all() của 2
-  // API kia nên luôn cộng dồn thêm cả round-trip network, dù 3 API này không phụ thuộc nhau.
+  // 4 khối demo ĐỘC LẬP nhau (kết quả đo, dữ liệu tham chiếu, bài thuốc demo) — bắn cùng lúc, KHÔNG
+  // gộp Promise.all() giữa ket-qua-do-list và chan-doan-ref nữa: chan-doan-ref đo được ~17,5s (bảng
+  // benh_dong_y_excel kéo nguyên entity BaiThuoc cho toàn bộ 51 thể — xem comment findAll() trong
+  // benh-dong-y-excel.controller.ts), trong khi ket-qua-do-list chỉ ~2s — gộp chung khiến "ca đo
+  // xong" (Bát Cương/hero) phải chờ oan theo cái chậm nhất, dù 2 API không phụ thuộc nhau. Tách
+  // riêng: ca đo hiện ngay ~2s, còn Phương huyệt/Phương dược (chỉ cần ở Tab 2) tự trôi vào sau.
   void (async () => {
     // 6 ca đo THẬT (ẩn danh) giàu thể bệnh nhất — nguồn cho khối "Kết Quả Đo" + 3-tab.
     try {
-      const [res, ref] = await Promise.all([
-        api.get<{ cases: RealCase[] }>('/demo/ket-qua-do-list?count=6'),
-        api.get<{ phacDo: PhacDoRow[]; cauThanh: CauThanhLink[] }>('/demo/chan-doan-ref'),
-      ])
+      const res = await api.get<{ cases: RealCase[] }>('/demo/ket-qua-do-list?count=6')
       cases.value = res.cases ?? []
-      phacDoAll.value = ref.phacDo ?? []
-      cauThanhAll.value = ref.cauThanh ?? []
     } catch {
       // Backend chưa sẵn sàng → khối kết quả đo hiện trạng thái đang tải.
     } finally {
       casesLoading.value = false
+    }
+  })()
+  // Dữ liệu tham chiếu (phác đồ/cấu thành/bệnh+bài thuốc) — CHẬM (~17,5s), chỉ Tab 2 (Phương huyệt·
+  // Phương dược) cần nên không chặn hiển thị ca đo chính.
+  void (async () => {
+    try {
+      const ref = await api.get<{ phacDo: PhacDoRow[]; cauThanh: CauThanhLink[]; benhList: BenhLite[] }>('/demo/chan-doan-ref')
+      phacDoAll.value = ref.phacDo ?? []
+      cauThanhAll.value = ref.cauThanh ?? []
+      benhList.value = ref.benhList ?? []
+    } catch {
+      // ẩn khối Phương huyệt/Phương dược, giữ nguyên phần còn lại của Tab 2.
+    } finally {
+      refDataLoading.value = false
     }
   })()
   // Bài thuốc demo cho mục "Phân Tích Bài Thuốc" phía sau (độc lập với 3-tab) — chạy song song
@@ -230,6 +242,7 @@ interface RealCase {
 // (số thể YHCT ×2 + số thể YHHĐ). Dùng CHUNG engine meridianAnalysis với app.
 const cases = ref<RealCase[]>([])
 const casesLoading = ref(true)
+const refDataLoading = ref(true) // /demo/chan-doan-ref (phác đồ/bài thuốc) — chậm, tách riêng khỏi casesLoading
 const EMPTY_INPUT = {} as InputData
 
 const activeCase = ref(0)
@@ -300,6 +313,12 @@ interface CauThanhLink {
   component: { tieuket: string | null; chung_trang: string | null } | null
 }
 const cauThanhAll = ref<CauThanhLink[]>([])
+interface BenhLite {
+  id: number
+  name?: string | null
+  baiThuocList?: { id: number; ten_bai_thuoc?: string | null; name?: string | null }[]
+}
+const benhList = ref<BenhLite[]>([])
 // norm(tên bệnh compound) → { root: norm(tên thể gốc), rootLabel, ghiChu } — quan hệ nhân-quả.
 const causeMap = computed(() => {
   const m = new Map<string, { root: string; rootLabel: string; ghiChu: string | null }>()
@@ -407,6 +426,69 @@ const phuongHuyetGroups = computed<{ method: string; items: PhacDoRow[] }[]>(() 
   for (const [m, it] of g) out.push({ method: m, items: it })
   return out
 })
+
+// ── Phương dược: bài thuốc khớp thể đo được (từ benhList.baiThuocList theo id thể — GIỐNG
+//    matchedBaiThuoc của /xem-ket-qua-do), rồi gộp vị thuốc từ MỌI bài khớp để ra "vị thông dụng
+//    nhất" — bản RÚT GỌN cho landing: chỉ hiện top vị (chip), KHÔNG hiện bảng Số Bài/Liều/Vai Trò
+//    hay 2 luồng Đặc Trị/Thương Hàn như trang demo, giữ khối ngắn gọn. ──
+const matchedBaiThuoc = computed<{ id: number; ten: string }[]>(() => {
+  const byId = new Map(benhList.value.map((b) => [b.id, b]))
+  const seen = new Set<number>()
+  const out: { id: number; ten: string }[] = []
+  for (const s of excelList.value) {
+    const detail = byId.get(s.id)
+    for (const b of detail?.baiThuocList ?? []) {
+      if (seen.has(b.id)) continue
+      seen.add(b.id)
+      out.push({ id: b.id, ten: b.ten_bai_thuoc || b.name || `Bài #${b.id}` })
+    }
+  }
+  return out
+})
+interface FormulaDetail {
+  chiTietViThuoc?: {
+    idViThuoc?: number | null
+    viThuoc?: { ten_vi_thuoc?: string | null } | null
+    vai_tro?: string | null
+  }[]
+}
+const formulaMap = ref<Record<number, FormulaDetail>>({})
+async function ensureFormula(id: number) {
+  if (formulaMap.value[id]) return
+  try {
+    const r = await api.get<{ baiThuoc: FormulaDetail }>(`/demo/bai-thuoc/${id}`)
+    formulaMap.value[id] = r.baiThuoc
+  } catch {
+    // bỏ qua — thiếu 1 bài không chặn cả khối, chỉ hụt vài vị trong bảng gộp.
+  }
+}
+watch(
+  () => matchedBaiThuoc.value.map((b) => b.id).join(','),
+  () => { void Promise.all(matchedBaiThuoc.value.map((b) => ensureFormula(b.id))) },
+  { immediate: true },
+)
+interface ViThuocTongHop { key: string; ten: string; soBai: number }
+// Gộp vị thuốc từ mọi bài khớp, bỏ trùng theo vị, đếm số bài chứa vị rồi xếp giảm dần (thông dụng
+// → đặc trị) — CÙNG logic "Thang Đặc Trị" của app, chỉ giữ lại tên + số bài cho gọn (bỏ liều/vai trò).
+const tongHopViThuoc = computed<ViThuocTongHop[]>(() => {
+  const map = new Map<string, ViThuocTongHop>()
+  for (const b of matchedBaiThuoc.value) {
+    const full = formulaMap.value[b.id]
+    const seenInBai = new Set<string>()
+    for (const ct of full?.chiTietViThuoc ?? []) {
+      const ten = (ct.viThuoc?.ten_vi_thuoc || '').trim() || (ct.idViThuoc != null ? `#${ct.idViThuoc}` : '—')
+      const key = ct.idViThuoc != null ? 'id:' + ct.idViThuoc : 'ten:' + ten.toLowerCase()
+      if (seenInBai.has(key)) continue
+      seenInBai.add(key)
+      const it = map.get(key) ?? { key, ten, soBai: 0 }
+      it.soBai++
+      map.set(key, it)
+    }
+  }
+  return [...map.values()].sort((a, b) => b.soBai - a.soBai || a.ten.localeCompare(b.ten, 'vi'))
+})
+// Đại diện: top 12 vị thông dụng nhất (đủ để thấy trọng tâm, không dài như bảng đầy đủ của app).
+const viThuocRep = computed(() => tongHopViThuoc.value.slice(0, 12))
 
 // Bảng kết quả đo (chi trên / chi dưới) + Bát Cương — chạy đúng engine của trang đo thật.
 const upperStats = computed(() => calculateBounds(rawUpper(currentInput.value)))
@@ -1149,9 +1231,14 @@ const faqs: { q: string; a: string }[] = [
                   </div>
                 </div>
               </div>
-              <!-- CỘT PHẢI: phương huyệt (như panel PHƯƠNG HUYỆT bên phải của app) -->
-              <div v-if="matchedPhuongHuyet.length" class="mc-dx2-col">
-                <div class="mc-dx2-block">
+              <!-- CỘT PHẢI: phương huyệt + phương dược (như panel bên phải của app, rút gọn cho landing) —
+                   nguồn (/demo/chan-doan-ref) tải RIÊNG, chậm hơn ca đo (xem refDataLoading), nên hiện
+                   trạng thái "đang tải" thay vì im lặng biến mất cho tới khi có dữ liệu. -->
+              <div v-if="matchedPhuongHuyet.length || matchedBaiThuoc.length || refDataLoading" class="mc-dx2-col">
+                <p v-if="refDataLoading && !matchedPhuongHuyet.length && !matchedBaiThuoc.length" class="muted">
+                  Đang tải phương huyệt · phương dược…
+                </p>
+                <div v-if="matchedPhuongHuyet.length" class="mc-dx2-block">
                   <span class="mc-dx2-lb">
                     Phương huyệt
                     <em class="mc-dx2-hint">— {{ matchedPhuongHuyet.length }} huyệt · hiện {{ phuongHuyetRep.length }} đại diện</em>
@@ -1169,6 +1256,20 @@ const faqs: { q: string; a: string }[] = [
                       </span>
                     </div>
                   </div>
+                </div>
+                <!-- Phương dược: vị thuốc thông dụng gộp từ mọi bài khớp — RÚT GỌN (chỉ top vị, không
+                     bảng liều/vai trò hay 2 luồng Đặc Trị/Thương Hàn như trang demo /xem-ket-qua-do). -->
+                <div v-if="matchedBaiThuoc.length" class="mc-dx2-block">
+                  <span class="mc-dx2-lb">
+                    Phương dược
+                    <em class="mc-dx2-hint">— {{ matchedBaiThuoc.length }} bài · vị thông dụng nhất</em>
+                  </span>
+                  <div v-if="viThuocRep.length" class="mc-phg-chips">
+                    <span v-for="v in viThuocRep" :key="v.key" class="mc-phg-chip" :title="`${v.ten} — ${v.soBai} bài`">
+                      {{ v.ten }} <em>({{ v.soBai }})</em>
+                    </span>
+                  </div>
+                  <p v-else class="muted">Đang tính vị thuốc gộp…</p>
                 </div>
               </div>
             </div>
