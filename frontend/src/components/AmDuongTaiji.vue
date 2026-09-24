@@ -175,6 +175,9 @@ const modalInfo = computed(() => {
       </div>
       <p v-if="tongCuong?.hoiChung" class="ad-hoichung">Hội chứng: <b>{{ tongCuong.hoiChung }}</b></p>
       <p v-if="tongCuong?.reason" class="ad-reason">{{ tongCuong.reason }}</p>
+      <p v-if="tongCuong?.phapTri" class="ad-phaptri">
+        <span class="ad-pt-lb">◈ Hướng lập lại cân bằng</span> {{ tongCuong.phapTri }}
+      </p>
     </div>
   </div>
 </template>
@@ -280,4 +283,8 @@ const modalInfo = computed(() => {
 .ad-hoichung { margin: 0; font-size: var(--font-size-sm); color: var(--brown-800); }
 .ad-hoichung b { font-weight: 800; }
 .ad-reason { margin: 0; font-size: var(--font-size-xs); font-style: italic; color: var(--gray-600); line-height: 1.5; }
+/* Hướng lập lại cân bằng — gợi ý NGUYÊN TẮC (không phải đơn cụ thể), đồng bộ màu xanh lá với khối
+   tương tự ở VongNguHanh.vue (Tạng Phủ) để người dùng nhận ra cùng 1 loại nội dung xuyên các lớp. */
+.ad-phaptri { margin: 2px 0 0; font-size: var(--font-size-sm); color: var(--brown-800); line-height: 1.5; }
+.ad-pt-lb { font-size: 11px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; color: #4f7d39; }
 </style>

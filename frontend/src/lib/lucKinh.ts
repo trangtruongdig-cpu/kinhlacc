@@ -36,6 +36,9 @@ export interface KinhMeta {
   deCuong: string
   /** Mẫu câu kết luận, {the} = giai đoạn/thể, {tinhChat} = Bát Cương của ca. */
   ketLuan: string
+  /** Nguyên tắc pháp trị của kinh (TÁCH RIÊNG khỏi câu ketLuan — cùng nội dung đã lương y duyệt,
+   *  chỉ để hiển thị thành khối "Hướng lập lại cân bằng" độc lập, không lẫn trong văn xuôi). */
+  phapTri: string
 }
 
 export const KINH_META: Record<KinhSlug, KinhMeta> = {
@@ -44,36 +47,42 @@ export const KINH_META: Record<KinhSlug, KinhMeta> = {
     thuTu: 1, tang: 1, chuKy: { bieu: 1, han: 1 },
     deCuong: 'Mạch phù, đầu gáy cứng đau, sợ lạnh (太陽之為病，脈浮，頭項強痛而惡寒 — điều 1).',
     ketLuan: 'Định vị kinh Thái Dương (Bàng Quang / Tiểu Trường) — {the}, tính chất {tinhChat}. Pháp trị: giải biểu tán hàn, điều hòa doanh vệ.',
+    phapTri: 'Giải biểu tán hàn, điều hòa doanh vệ',
   },
   'duong-minh': {
     slug: 'duong-minh', ten: 'Dương Minh', han: '陽明', tangPhu: 'Vị / Đại Trường', khi: 'Táo Kim', viTri: 'Lý thực nhiệt',
     thuTu: 2, tang: 3, chuKy: { ly: 1, nhiet: 1, thuc: 1 },
     deCuong: 'Vị gia thực (陽明之為病，胃家實是也 — điều 180): tà nhiệt kết ở Vị / Đại Trường, dương nhiệt cực thịnh.',
     ketLuan: 'Định vị kinh Dương Minh (Vị / Đại Trường) — {the}, tính chất {tinhChat}. Pháp trị: thanh nhiệt tả hạ (kinh chứng thanh khí sinh tân, phủ chứng thông phủ).',
+    phapTri: 'Thanh nhiệt tả hạ (kinh chứng thanh khí sinh tân, phủ chứng thông phủ)',
   },
   'thieu-duong': {
     slug: 'thieu-duong', ten: 'Thiếu Dương', han: '少陽', tangPhu: 'Đởm / Tam Tiêu', khi: 'Tướng Hỏa', viTri: 'Bán biểu bán lý',
     thuTu: 3, tang: 2, chuKy: { nhiet: 1 },
     deCuong: 'Miệng đắng, họng khô, hoa mắt (少陽之為病，口苦、咽乾、目眩也): tà uất bán biểu bán lý.',
     ketLuan: 'Định vị kinh Thiếu Dương (Đởm / Tam Tiêu) — {the}, tính chất {tinhChat}. Bán biểu bán lý; pháp trị hòa giải Thiếu Dương.',
+    phapTri: 'Hòa giải Thiếu Dương (bán biểu bán lý)',
   },
   'thai-am': {
     slug: 'thai-am', ten: 'Thái Âm', han: '太陰', tangPhu: 'Tỳ / Phế', khi: 'Thấp Thổ', viTri: 'Lý hư hàn',
     thuTu: 4, tang: 4, chuKy: { ly: 1, han: 1, hu: 1 },
     deCuong: 'Bụng đầy nôn, ăn không xuống, tự lợi (太陰之為病，腹滿而吐…自利益甚 — điều 273): Tỳ dương hư, hàn thấp nội thịnh.',
     ketLuan: 'Định vị kinh Thái Âm (Tỳ / Phế) — {the}, tính chất {tinhChat}. Pháp trị: ôn trung kiện Tỳ, tán hàn táo thấp.',
+    phapTri: 'Ôn trung kiện Tỳ, tán hàn táo thấp',
   },
   'thieu-am': {
     slug: 'thieu-am', ten: 'Thiếu Âm', han: '少陰', tangPhu: 'Thận / Tâm', khi: 'Quân Hỏa', viTri: 'Lý hư (hàn/nhiệt hóa)',
     thuTu: 5, tang: 5, chuKy: { ly: 1, hu: 1 },
     deCuong: 'Mạch vi tế, chỉ muốn nằm (少陰之為病，脈微細，但欲寐也): tâm-thận suy, lý hư toàn thân.',
     ketLuan: 'Định vị kinh Thiếu Âm (gốc Tâm – Thận) — {the}, tính chất {tinhChat}. Pháp trị phù chính: hồi dương cứu nghịch (hàn hóa) hoặc tư âm thanh nhiệt (nhiệt hóa).',
+    phapTri: 'Phù chính: hồi dương cứu nghịch (hàn hóa) hoặc tư âm thanh nhiệt (nhiệt hóa)',
   },
   'quyet-am': {
     slug: 'quyet-am', ten: 'Quyết Âm', han: '厥陰', tangPhu: 'Can / Tâm Bào', khi: 'Phong Mộc', viTri: 'Hàn nhiệt thác tạp',
     thuTu: 6, tang: 6, chuKy: {},
     deCuong: 'Tiêu khát, khí xông lên tim, đói mà không muốn ăn (厥陰之為病…): thượng nhiệt hạ hàn, hàn nhiệt thác tạp.',
     ketLuan: 'Định vị kinh Quyết Âm (Can / Tâm Bào) — {the}, tính chất {tinhChat}. Hàn nhiệt thác tạp; pháp trị điều hòa hàn nhiệt.',
+    phapTri: 'Điều hòa hàn nhiệt (hàn nhiệt thác tạp)',
   },
 }
 

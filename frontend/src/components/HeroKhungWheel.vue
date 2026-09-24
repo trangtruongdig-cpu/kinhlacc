@@ -308,6 +308,7 @@ onBeforeUnmount(() => {
 .hkw-layer :deep(.vlk-legend),
 .hkw-layer :deep(.vlk-hint),
 .hkw-layer :deep(.vlk-card),
+.hkw-layer :deep(.vlk-phaptri),
 .hkw-layer :deep(.vnh-ctrls),
 .hkw-layer :deep(.vnh-legend),
 .hkw-layer :deep(.vnh-phaptri),

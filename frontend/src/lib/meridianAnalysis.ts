@@ -321,6 +321,21 @@ export interface TongCuong {
   /** Câu giải thích vì sao ra kết luận (đọc hiểu cho thầy thuốc). */
   reason: string
   loai: TongCuongLoai
+  /** Gợi ý NGUYÊN TẮC pháp trị theo đúng loại Tổng Cương (Bát Cương căn bản) — không phải đơn
+   *  thuốc/huyệt cụ thể, chỉ hướng chung (tả/bổ, thanh/ôn) để thầy thuốc lập phương. Rỗng khi
+   *  chưa đủ dữ liệu kết luận (loai='unknown'). */
+  phapTri: string
+}
+
+/** Nguyên tắc pháp trị theo từng loại Tổng Cương — Bát Cương căn bản, đã lương y duyệt. */
+const PHAP_TRI_TONG_CUONG: Record<Exclude<TongCuongLoai, 'unknown'>, string> = {
+  'duong-thinh': 'Thanh nhiệt tả hỏa',
+  'am-thinh': 'Ôn trung tán hàn',
+  'am-hu': 'Tư âm thanh nhiệt (dưỡng âm)',
+  'duong-hu': 'Ôn bổ dương khí',
+  'thien-duong': 'Thiên hướng Dương nhẹ — theo dõi thêm, chưa cần can thiệp mạnh',
+  'thien-am': 'Thiên hướng Âm nhẹ — theo dõi thêm, chưa cần can thiệp mạnh',
+  'can-bang': 'Âm Dương đang cân bằng — giữ điều hoà, không cần chỉnh',
 }
 
 /**
@@ -416,7 +431,9 @@ export function computeTongCuong(
     reason = `Bệnh ${tcTxt}, ${ckTxt} → ${amDuong}.`
   }
 
-  return { amDuong, tinhChat, viTri, chinhKhi, hoiChung, reason, loai }
+  const phapTri = loai === 'unknown' ? '' : PHAP_TRI_TONG_CUONG[loai]
+
+  return { amDuong, tinhChat, viTri, chinhKhi, hoiChung, reason, loai, phapTri }
 }
 
 /**

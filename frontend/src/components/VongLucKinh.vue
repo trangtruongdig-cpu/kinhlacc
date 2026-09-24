@@ -7,6 +7,7 @@
  * Overlay: ① truyền biến (badge số + cung mũi tên vành ngoài) · ② Trung kiến biểu-lý (dây cung, sáng khi rê) · ③ Khai–Hạp–Xu.
  */
 import { ref, computed } from 'vue'
+import { KINH_META, type KinhSlug } from '@/lib/lucKinh'
 
 const props = defineProps<{
   counts?: Record<string, number>
@@ -128,6 +129,12 @@ const partnerOf = (slug: string | null) => (slug ? KINH.find((k) => k.slug === s
 const caseSet = computed(() => new Set(props.caseSet ?? []))
 const inCase = (slug: string) => caseSet.value.has(slug)
 const isTroi = (slug: string) => !!props.troiKinh && slug === props.troiKinh
+// Hướng lập lại cân bằng — pháp trị của kinh TRỘI (kết luận), lấy đúng nội dung đã lương y duyệt
+// trong KINH_META (không suy diễn thêm).
+const troiPhapTri = computed(() => {
+  const slug = props.troiKinh as KinhSlug | null | undefined
+  return slug ? KINH_META[slug]?.phapTri ?? null : null
+})
 // CHUYỂN BIẾN (đích DỰ ĐOÁN): vào lý (đỏ, nặng) / ra biểu (xanh, hồi phục). Guard trùng slug → ưu tiên vào lý.
 const cbVaoLy = computed(() => props.chuyenBien?.vaoLy?.slug ?? null)
 const cbRaBieu = computed(() => {
@@ -397,6 +404,10 @@ const trajSegs = computed(() => {
         </span>
       </li>
     </ol>
+    <div v-if="troiPhapTri" class="vlk-phaptri">
+      <span class="vlk-pt-lb">◈ Hướng lập lại cân bằng</span>
+      {{ troiPhapTri }}
+    </div>
     <div class="vlk-legend">
       <span v-if="showTraj && trajLocatedCount >= 2"><i class="lg-traj"></i> Chuỗi hạt số (nét liền) = <b>ĐÃ ĐO</b> theo thời gian</span>
       <span v-if="showTraj && trajLocatedCount >= 2" class="lg-kieu"><b style="color:#e39a4a">◇</b> việt kinh · <b style="color:#ecc766">◇</b> biểu-lý · <b style="color:#e0655a">◌</b> trực trúng · đoạn dày = <b>cấp</b></span>
@@ -519,6 +530,11 @@ const trajSegs = computed(() => {
 .vlk-trajbtn { display: flex; justify-content: center; }
 .hb.traj.on { background: #efe6d4; border-color: #c9a24e; }
 .hb.traj.on small { color: var(--text, #3a2c1a); }
+
+/* Hướng lập lại cân bằng — đồng bộ màu xanh lá với khối tương tự ở VongNguHanh.vue/AmDuongTaiji.vue/
+   VongLucKhi.vue để người dùng nhận ra cùng 1 loại nội dung xuyên các lớp bóc. */
+.vlk-phaptri { margin: 0; font-size: 12px; line-height: 1.5; text-align: center; max-width: 44ch; color: var(--text, #3a2c1a); }
+.vlk-pt-lb { display: block; font-size: 11px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; color: #4f7d39; }
 
 .vlk-trajlist { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 4px 6px; list-style: none; margin: 0; padding: 0; }
 .tl-item { display: flex; align-items: center; gap: 6px; }

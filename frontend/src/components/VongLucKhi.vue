@@ -183,6 +183,10 @@ const activeKhiIdx = computed(() => {
   const i = segs.findIndex((s) => s.khiVi === props.activeKhi)
   return i >= 0 ? i : null
 })
+// Khí TRỘI THẬT (chỉ từ props.activeKhi — KHÔNG lẫn hover/pin như activeSeg) — dùng cho khối
+// "Hướng lập lại cân bằng" luôn hiển thị, để không lỡ hiện pháp trị của khí đang RÊ CHUỘT (không
+// phải khí thật của ca đang xem) như là kết luận của bệnh nhân.
+const troiInfo = computed(() => (activeKhiIdx.value != null ? segs[activeKhiIdx.value] ?? null : null))
 // Rê chỉ tô sáng CỤC BỘ (hovered ưu tiên); bỏ chuột ra → quay về cung ĐÃ CHỐT (pinned) /
 // cung đang lọc bên panel (activeKhiIdx). KHÔNG để hover tự đổi panel (tránh "nhảy" khi rê ra).
 const active = computed(() => (hovered.value != null ? hovered.value : pinned.value != null ? pinned.value : activeKhiIdx.value))
@@ -386,6 +390,13 @@ const isTangSub = (organ: string) => props.activeTang != null && props.activeTan
       </g>
     </svg>
 
+    <!-- Hướng lập lại cân bằng — CHỈ theo khí TRỘI thật (troiInfo, không lẫn hover) — LUÔN hiện
+         (không phụ thuộc showCard, khác .vlk-card vốn chỉ hiện khi rê chuột). -->
+    <div v-if="troiInfo" class="vlk-phaptri">
+      <span class="vlk-pt-lb">◈ Hướng lập lại cân bằng</span>
+      {{ troiInfo.triPhap }}
+    </div>
+
     <!-- ===== Thẻ chi tiết (ẩn khi panel ngoài đã hiển thị lý thuyết) ===== -->
     <transition name="vlk-fade">
       <div v-if="showCard && activeSeg" class="vlk-card" :class="activeSeg.group">
@@ -523,6 +534,10 @@ const isTangSub = (organ: string) => props.activeTang != null && props.activeTan
 /* Gợi ý nằm DƯỚI đồ hình, trên nền trang SÁNG → dùng chữ tối cho dễ đọc (không trùng nền). */
 .vlk-hint { margin: 0; font-size: 10.5px; line-height: 1.4; text-align: center; color: var(--text-muted, #6f685c); max-width: 44ch; }
 .vlk-hint b { color: var(--brown-700, #6f4a22); }
+/* Hướng lập lại cân bằng — đồng bộ màu xanh lá với khối tương tự ở VongNguHanh.vue/AmDuongTaiji.vue
+   (Tạng Phủ/Âm Dương) để người dùng nhận ra cùng 1 loại nội dung xuyên các lớp bóc. */
+.vlk-phaptri { margin: 0; font-size: 12px; line-height: 1.5; text-align: center; max-width: 44ch; color: var(--brown-800, #3a2712); }
+.vlk-pt-lb { display: block; font-size: 11px; font-weight: 800; letter-spacing: .03em; text-transform: uppercase; color: #4f7d39; }
 
 .vlk-fade-enter-active, .vlk-fade-leave-active { transition: opacity 0.18s ease, transform 0.18s ease; }
 .vlk-fade-enter-from, .vlk-fade-leave-to { opacity: 0; transform: translateX(6px); }
