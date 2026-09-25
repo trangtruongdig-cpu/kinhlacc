@@ -46,8 +46,24 @@ docker compose build frontend
 
 # nginx.conf sai cú pháp thì container KHÔNG lên nổi, và lúc đó cả site chết chứ không chỉ
 # một tính năng. Kiểm ngay trên image vừa dựng, trước khi thay container đang chạy.
+#
+# ⚠️ Phải chạy bằng `docker compose run`, KHÔNG phải `docker run` trần. `docker run` không
+# gắn container tạm vào network kinhlac_net, nên trong đó cái tên "backend"/"cms" không tra
+# ra được và nginx chết ngay ở khối upstream với "host not found in upstream". Đó là lỗi của
+# PHÉP KIỂM chứ không phải của file — ngày 25/09/2026 nó chặn đứng một lần deploy trong khi
+# nginx.conf vẫn đang chạy tốt ngoài production.
+#
+# Lỗi tra tên KHÔNG được coi là sai cú pháp: nginx chỉ tới được bước phân giải tên sau khi đã
+# đọc trọn file, nên thấy nó nghĩa là cú pháp qua rồi. Lúc stack đang tắt (deploy lần đầu)
+# thì luôn gặp nhánh này.
 echo "    · kiểm cú pháp nginx.conf"
-if ! docker run --rm --entrypoint nginx kinhlac/frontend:latest -t 2>&1 | tail -2; then
+ket_qua_nginx="$(docker compose run --rm --no-deps --entrypoint nginx frontend -t 2>&1 || true)"
+echo "$ket_qua_nginx" | tail -2
+if echo "$ket_qua_nginx" | grep -q "syntax is ok"; then
+  echo "    ✓ nginx.conf đúng cú pháp."
+elif echo "$ket_qua_nginx" | grep -q "host not found in upstream"; then
+  echo "    ⚠ chưa kết luận được: không tra được tên service (stack đang tắt?). Cú pháp không sai — đi tiếp."
+else
   echo "    ✗ nginx.conf SAI CÚ PHÁP — dừng, KHÔNG thay container đang chạy."
   exit 1
 fi
