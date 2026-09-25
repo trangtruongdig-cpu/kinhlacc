@@ -15,11 +15,14 @@
 // ngược ra từng dòng rồi áp lại đúng luật của formatBody.
 
 interface Props {
-	nhan: string;
+	/** Bỏ trống khi dùng kiểu TRẦN (chỉ .body, không có thẻ section + tiêu đề). */
+	nhan?: string;
 	value?: unknown;
 	tho?: string | null;
+	/** Kiểu trần — bản cũ dùng ở các tab của trang kinh: chỉ <div class="body">. */
+	tran?: boolean;
 }
-const { nhan, value, tho } = Astro.props;
+const { nhan = "", value, tho, tran = false } = Astro.props;
 
 // Biểu tượng từng mục — CHÉP NGUYÊN bảng SECTION_ICONS của bản cũ.
 const BIEU_TUONG: Record<string, string> = {
@@ -83,12 +86,8 @@ if (ds.length === 1 && !laTieuDe(ds[0]!) && !/^[\p{L}\d][.)]\s/u.test(ds[0]!)) {
 ---
 
 {
-	ds.length > 0 && (
-		<section class="field">
-			<h3>
-				<span class="fi">{icon}</span>
-				<span class="ft">{nhan}</span>
-			</h3>
+	ds.length > 0 &&
+		(tran ? (
 			<div class="body">
 				{nut.map((n) =>
 					n.loai === "p" ? (
@@ -104,6 +103,27 @@ if (ds.length === 1 && !laTieuDe(ds[0]!) && !/^[\p{L}\d][.)]\s/u.test(ds[0]!)) {
 					),
 				)}
 			</div>
-		</section>
-	)
+		) : (
+			<section class="field">
+				<h3>
+					<span class="fi">{icon}</span>
+					<span class="ft">{nhan}</span>
+				</h3>
+				<div class="body">
+					{nut.map((n) =>
+						n.loai === "p" ? (
+							<p class="f-p">{n.chu}</p>
+						) : n.loai === "h" ? (
+							<h4 class="f-h">{n.chu}</h4>
+						) : (
+							<ul class="f-list">
+								{n.muc.map((m) => (
+									<li class={m.lop || undefined}>{m.chu}</li>
+								))}
+							</ul>
+						),
+					)}
+				</div>
+			</section>
+		))
 }

@@ -1,11 +1,24 @@
 ---
-// Trang Đường Kinh — GIỮ NGUYÊN /kinh/<slug>/ của bản tĩnh.
+// Trang Đường Kinh — dựng THEO ĐÚNG bản cũ (TuDienView.vue, nhánh subtab === 'kinh'):
+//
+//   .mer-head (h2 + .mer-badges)
+//   .mer-nav  (.mer-nav-btn × N — TAB TRONG: Đồ Hình / Tổng Quan / Đường Vận Hành /
+//              Chủ Trị / Các Huyệt)
+//   .mer-pane (nội dung tab đang mở)
+//     · do-hinh : .mer-illu > figure.mer-fig.mer-fig--big > img.mer-img
+//     · van-hanh: .vh-subnav > .vh-sub-btn  +  .vh-illu > .body.vh-lead + figure.vh-fig
+//     · chu-tri : .body (mạch thì tách Triệu Chứng / Điều Trị bằng h4.mer-subhead)
+//     · huyet   : .mer-ptsum + .mer-points > a.pt.link + .mer-pthint
+//
+// Trước đây tôi đổ hết 11 mục ra một mạch — bản cũ KHÔNG làm vậy, nó chia tab trong.
+// Bản cũ đổi tab bằng JS; ở đây dùng ?muc= để bò của Google đi vào được từng tab.
 export const prerender = false;
 
 import { getEmDashEntry, decodeSlug } from "emdash";
 import ThanMuc from "../../components/ThanMuc.astro";
 import ThuVienKhung from "../../layouts/ThuVienKhung.astro";
 import { urlAnh } from "../../utils/anh";
+import { truyVan } from "../../lib/csdl";
 import "../../styles/tu-dien.css";
 
 const slug = decodeSlug(Astro.params.slug);
@@ -17,155 +30,199 @@ if (Astro.cache?.enabled && !isPreview) Astro.cache.set(cacheHint);
 
 const d = entry.data;
 const goc = Astro.url.origin;
+const laMach = String(d.loai || "") === "mach";
 
-const PHAN: [string, string][] = [
-	["dai_cuong", "Đại Cương"],
-	["dac_tinh", "Đặc Tính"],
-	["van_hanh", "Vận Hành"],
-	["duong_chinh", "Đường Kinh Chính"],
-	["kinh_can", "Kinh Cân"],
-	["kinh_biet", "Kinh Biệt"],
-	["lac_doc", "Lạc Dọc"],
-	["lac_ngang", "Lạc Ngang"],
-	["trieu_chung", "Triệu Chứng"],
-	["chu_tri", "Chủ Trị"],
-	["dieu_tri", "Điều Trị"],
+const anh = (k: string) => urlAnh(d[k], goc);
+const anhTongQuat = anh("anh_tong_quat") || anh("anh_so_do");
+
+// ── Danh sách huyệt trên kinh ─────────────────────────────────────────
+// huyet_ds là văn bản: dòng đầu là câu tổng kết, các dòng sau là tên huyệt.
+const dongHuyet = String(d.huyet_ds || "").split(/\n+/).map((x) => x.trim()).filter(Boolean);
+const tenHuyet = dongHuyet.filter((x) => !/^Tổng cộng/i.test(x));
+
+// Tên → slug, để mỗi huyệt thành LIÊN KẾT THẬT (bản cũ mở bên tab Huyệt Vị).
+// Khớp qua cột khoa của chỉ mục (đã bỏ dấu) nên "Xích Trạch" tìm được dù viết hoa khác.
+const slugHuyet = new Map<string, string>();
+if (tenHuyet.length) {
+	const boDau = (s: string) =>
+		s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/đ/g, "d").trim();
+	const r = await truyVan<{ khoa: string; slug: string }>(
+		`SELECT khoa, slug FROM td_muc WHERE bo = 'huyet_vi' AND khoa = ANY($1::text[])`,
+		[tenHuyet.map(boDau)],
+	);
+	const theoKhoa = new Map(r.map((x) => [x.khoa, x.slug]));
+	for (const t of tenHuyet) {
+		const s = theoKhoa.get(boDau(t));
+		if (s) slugHuyet.set(t, s);
+	}
+}
+
+// ── Tab trong — dựng đúng luật merTabs của bản cũ ─────────────────────
+const NHANH_VH: [string, string, string][] = [
+	["duong_chinh", "Kinh Chính", "anh_chinh"],
+	["lac_ngang", "Lạc Ngang", "anh_ngang"],
+	["lac_doc", "Lạc Dọc", "anh_doc"],
+	["kinh_biet", "Kinh Biệt", "anh_biet"],
+	["kinh_can", "Kinh Cân", "anh_can"],
 ];
-const coPhan = PHAN.filter(([k]) => d[k]);
+const nhanhCo = NHANH_VH.filter(([k, , ka]) => d[k] || anh(ka));
 
-// Sơ đồ đi kèm từng phần — hiện ngay dưới đúng phần nó minh hoạ.
-const ANH_CUA: Record<string, string> = {
-	duong_chinh: "anh_chinh",
-	kinh_can: "anh_can",
-	kinh_biet: "anh_biet",
-	lac_doc: "anh_doc",
-	lac_ngang: "anh_ngang",
+const TAB: { key: string; nhan: string }[] = [];
+if (anhTongQuat) TAB.push({ key: "do-hinh", nhan: "Đồ Hình Tổng Quát" });
+if (laMach ? d.dac_tinh || d.ten_khac : d.dai_cuong)
+	TAB.push({ key: "tong-quan", nhan: laMach ? "Đặc Tính" : "Tổng Quan" });
+if (laMach ? d.van_hanh : nhanhCo.length)
+	TAB.push({ key: "van-hanh", nhan: laMach ? "Vận Hành" : "Đường Vận Hành" });
+if (laMach ? d.trieu_chung || d.dieu_tri : d.chu_tri)
+	TAB.push({ key: "chu-tri", nhan: laMach ? "Triệu Chứng · Điều Trị" : "Chủ Trị" });
+if (tenHuyet.length) TAB.push({ key: "huyet", nhan: "Các Huyệt" });
+
+const xin = Astro.url.searchParams.get("muc") || "";
+const tab = TAB.find((t) => t.key === xin)?.key ?? TAB[0]?.key ?? "tong-quan";
+
+const nhanhXin = Astro.url.searchParams.get("nhanh") || "";
+const nhanh = nhanhCo.find(([k]) => k === nhanhXin) ?? nhanhCo[0];
+
+const duong = (t: Record<string, string | undefined>) => {
+	const u = new URLSearchParams();
+	for (const [k, v] of Object.entries({ muc: tab, ...t })) if (v) u.set(k, v);
+	const q = u.toString();
+	return `/kinh/${slug}/${q ? `?${q}` : ""}`;
 };
-const anhTongQuat = urlAnh(d.anh_tong_quat, goc) || urlAnh(d.anh_so_do, goc);
-
-// Danh sách huyệt: dòng đầu là câu tổng kết, các dòng sau là tên huyệt.
-const dsHuyet = String(d.huyet_ds || "")
-	.split(/\n+/).map((x) => x.trim()).filter(Boolean)
-	.filter((x) => !/^Tổng cộng/i.test(x));
 
 const moTa = `${d.title}: đường vận hành, huyệt vị, triệu chứng và chủ trị theo Đông Y.`;
 ---
 
-<ThuVienKhung bo="kinh_mach" slug={slug} title={`${d.title} — Tra Cứu Kinh Mạch`} description={moTa}>
+<ThuVienKhung
+	bo="kinh_mach"
+	slug={slug}
+	title={`${d.title} — Tra Cứu Kinh Mạch`}
+	description={moTa}
+	khongLap={tab !== TAB[0]?.key}
+>
 	{isPreview && (
 		<div class="bang-xem-truoc" role="alert"><strong>Bản nháp — đang xem trước.</strong></div>
 	)}
 
-	<nav class="km-vet" aria-label="Đường dẫn">
-		<a href="/thu-vien/">Thư Viện</a> › <a href="/thu-vien/kinh_mach/">Tra Cứu Kinh</a> › <span>{d.title}</span>
-	</nav>
+	<header class="mer-head">
+		<h2>{d.title}</h2>
+		<div class="mer-badges">
+			{d.ma && <span class="badge">{d.ma}</span>}
+			<span class="badge sec">{laMach ? "Kỳ Kinh / Mạch" : "Chính Kinh"}</span>
+			{tenHuyet.length > 0 && <span class="badge">{tenHuyet.length} huyệt</span>}
+		</div>
+	</header>
 
-	<div class="acu-head"><h2>{d.title}</h2></div>
+	{
+		TAB.length > 1 && (
+			<nav class="mer-nav">
+				{TAB.map((t) => (
+					<a class:list={["mer-nav-btn", t.key === tab && "active"]} href={duong({ muc: t.key, nhanh: undefined })}>
+						{t.nhan}
+					</a>
+				))}
+			</nav>
+		)
+	}
 
-	{(d.ma || d.ten_khac || d.tom_tat_huyet) && (
-		<p class="km-meta">
-			{d.ma && <span class="km-ma">{d.ma}</span>}
-			{d.ten_khac && <span>{d.ten_khac}</span>}
-			{d.tom_tat_huyet && <span>{d.tom_tat_huyet}</span>}
-		</p>
-	)}
+	<div class="mer-pane">
+		{tab === "do-hinh" && anhTongQuat && (
+			<div class="mer-illu">
+				<figure class="mer-fig mer-fig--big">
+					<a href={anhTongQuat} target="_blank" rel="noopener">
+						<img class="mer-img" src={anhTongQuat} alt={`Sơ đồ tổng quát ${d.title}`} loading="lazy" />
+					</a>
+					<figcaption>
+						Sơ đồ tổng quát <span class="zoom-hint">· bấm để phóng to</span>
+					</figcaption>
+				</figure>
+			</div>
+		)}
 
-	{anhTongQuat && (
-		<figure class="km-anh">
-			<img src={anhTongQuat} alt={`Sơ đồ tổng quát ${d.title}`} loading="lazy" />
-			<figcaption>Sơ đồ tổng quát — {d.title}</figcaption>
-		</figure>
-	)}
-
-	{coPhan.map(([k, nhan]) => {
-		const anh = ANH_CUA[k] ? urlAnh(d[ANH_CUA[k]], goc) : undefined;
-		// ⚠️ KHÔNG bọc thêm <section class="field"> quanh ThanMuc — chính ThanMuc đã dựng
-		// thẻ đó rồi; bọc nữa là lồng hai tầng và vỡ bố cục.
-		return (
+		{tab === "tong-quan" && (
 			<>
-				<ThanMuc nhan={nhan} value={d[k]} />
-				{anh && (
-					<figure class="km-anh">
-						<img src={anh} alt={`${nhan} — ${d.title}`} loading="lazy" />
-						<figcaption>{nhan} — {d.title}</figcaption>
-					</figure>
+				<ThanMuc tran value={laMach ? d.dac_tinh : d.dai_cuong} />
+				{laMach && d.ten_khac && (
+					<>
+						<h4 class="mer-subhead">Tên Khác</h4>
+						<ThanMuc tran tho={d.ten_khac} />
+					</>
 				)}
 			</>
-		);
-	})}
+		)}
 
-	{dsHuyet.length > 0 && (
-		<section class="field">
-			<h3><span class="fi">📌</span><span class="ft">CÁC HUYỆT TRÊN KINH ({dsHuyet.length})</span></h3>
-			<ul class="km-huyet">
-				{dsHuyet.map((h) => (
-					<li>{h}</li>
-				))}
-			</ul>
-		</section>
-	)}
+		{tab === "van-hanh" &&
+			(laMach ? (
+				<ThanMuc tran value={d.van_hanh} />
+			) : (
+				<>
+					<div class="vh-subnav">
+						{nhanhCo.map(([k, nhan]) => (
+							<a class:list={["vh-sub-btn", nhanh?.[0] === k && "active"]} href={duong({ nhanh: k })}>
+								{nhan}
+							</a>
+						))}
+					</div>
+					{nhanh && (
+						<div class="vh-illu">
+							{d[nhanh[0]] ? (
+								<ThanMuc tran value={d[nhanh[0]]} />
+							) : (
+								<p class="empty-note">— Không có mô tả trong tài liệu gốc.</p>
+							)}
+							{anh(nhanh[2]) && (
+								<figure class="vh-fig">
+									<a href={anh(nhanh[2])} target="_blank" rel="noopener">
+										<img class="mer-img" src={anh(nhanh[2])} alt={`${nhanh[1]} — ${d.title}`} loading="lazy" />
+									</a>
+									<figcaption>
+										{nhanh[1]} <span class="zoom-hint">· bấm để phóng to</span>
+									</figcaption>
+								</figure>
+							)}
+						</div>
+					)}
+				</>
+			))}
+
+		{tab === "chu-tri" &&
+			(laMach ? (
+				<>
+					{d.trieu_chung && (
+						<>
+							<h4 class="mer-subhead">Triệu Chứng</h4>
+							<ThanMuc tran value={d.trieu_chung} />
+						</>
+					)}
+					{d.dieu_tri && (
+						<>
+							<h4 class="mer-subhead">Điều Trị</h4>
+							<ThanMuc tran value={d.dieu_tri} />
+						</>
+					)}
+				</>
+			) : (
+				<ThanMuc tran value={d.chu_tri} />
+			))}
+
+		{tab === "huyet" && (
+			<>
+				{d.tom_tat_huyet && <p class="mer-ptsum">{d.tom_tat_huyet}</p>}
+				<div class="mer-points">
+					{tenHuyet.map((t) =>
+						slugHuyet.has(t) ? (
+							<a class="pt link" href={`/huyet/${slugHuyet.get(t)}/`}>
+								{t}
+							</a>
+						) : (
+							<span class="pt">{t}</span>
+						),
+					)}
+				</div>
+				<p class="mer-pthint">
+					Bấm một huyệt để mở chi tiết bên mục <b>Huyệt Vị · Châm Cứu</b>.
+				</p>
+			</>
+		)}
+	</div>
 </ThuVienKhung>
-
-<style>
-	.km-vet {
-		font-size: 0.83rem;
-		color: var(--chu-nhat, #6b5f52);
-		margin-bottom: 0.4rem;
-	}
-	.km-vet a {
-		color: var(--nau-700, #6f4a22);
-		text-decoration: none;
-	}
-	.km-meta {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.5rem 1rem;
-		margin: 0 0 1.5rem;
-		font-size: 0.9rem;
-		color: var(--chu-nhat, #6b5f52);
-	}
-	.km-ma {
-		font-weight: 700;
-		color: #fff;
-		background: var(--nau-600, #8a5e28);
-		padding: 0.12rem 0.5rem;
-		border-radius: 5px;
-		font-size: 0.8rem;
-		letter-spacing: 0.04em;
-	}
-	.km-anh {
-		margin: 1.1rem 0 0;
-		text-align: center;
-	}
-	.km-anh img {
-		max-width: 100%;
-		height: auto;
-		border: 1px solid var(--nau-100, #f1e7d6);
-		border-radius: 10px;
-		background: #fff;
-	}
-	.km-anh figcaption {
-		margin-top: 0.45rem;
-		font-size: 0.8rem;
-		color: var(--chu-nhat, #6b5f52);
-	}
-	.km-huyet {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		columns: 3;
-		column-gap: 1.6rem;
-	}
-	.km-huyet li {
-		break-inside: avoid;
-		padding: 0.26rem 0;
-		border-bottom: 1px solid var(--nau-50, #faf6ef);
-		font-size: 0.95rem;
-	}
-	@media (max-width: 640px) {
-		.km-huyet {
-			columns: 2;
-		}
-	}
-</style>
