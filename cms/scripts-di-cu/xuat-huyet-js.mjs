@@ -75,7 +75,9 @@ const urlAnh3d = (v) => {
 		}
 	}
 	if (!o || typeof o !== "object") return null;
-	const khoa = o.meta?.storageKey || o.id;
+	// KHÔNG rơi về o.id khi thiếu storageKey — đó chính là cái bẫy 404-mà-vẫn-render
+	// đã cảnh báo ở trên. Thiếu storageKey thì coi như chưa có ảnh, trả null.
+	const khoa = o.meta?.storageKey;
 	return khoa ? `/_emdash/api/media/file/${khoa}` : null;
 };
 
