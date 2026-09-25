@@ -20,7 +20,27 @@ export default defineConfig(({ command }) => ({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'favicon.svg', 'pwa-icon-512.png'],
       workbox: {
-        maximumFileSizeToCacheInBytes: 5000000 // 5 MB để cho phép cache các file JS data lớn như benh.js và acupoints.js
+        maximumFileSizeToCacheInBytes: 5000000, // 5 MB để cho phép cache các file JS data lớn như benh.js và acupoints.js
+        // ⚠️ KHÔNG được bỏ danh sách này. Service worker mặc định trả index.html cho MỌI lần
+        // điều hướng trong scope '/'. Sinh ra sw.js chỉ có đúng một dòng:
+        //   registerRoute(new NavigationRoute(createHandlerBoundToURL("index.html")))
+        // Hệ quả: với người đã mở app một lần (service worker đã cài), mọi trang KHÔNG thuộc
+        // SPA đều bị nuốt và hiện ra trang chủ — cả 7.161 trang tĩnh SEO lẫn khu quản trị CMS.
+        // Google không dính (bot không chạy service worker) nên lỗi này im lặng với số liệu,
+        // chỉ người thật mới gặp. Phát hiện 25/09/2026 khi bấm "Quản Trị Nội Dung" ra trang chủ.
+        navigateFallbackDenylist: [
+          /^\/_emdash\//,            // khu quản trị + API + ảnh của CMS
+          /^\/_astro\//,             // asset của Astro
+          /^\/api\//,                // API backend
+          /^\/blog\//,               // bài viết (bản tĩnh hoặc backend render)
+          /^\/huyet\//,              // 662 trang huyệt vị
+          /^\/kinh\//,               // 21 trang đường kinh
+          /^\/benh-hoc\//,           // 101 trang bệnh học
+          /^\/cham-cuu-tri-benh\//,  // 101 trang châm cứu trị bệnh
+          /^\/duoc-lieu\//,          // trang dược liệu tĩnh
+          /^\/bai-thuoc\//,          // trang cổ phương tĩnh
+          /^\/sitemap.*\.xml$/,      // sitemap
+        ],
       },
       // NGUỒN DUY NHẤT của manifest. Trước đây còn một bản viết tay ở public/manifest.webmanifest
       // nhưng nó luôn bị bản sinh ra ở đây ghi đè — nên start_url, lang: 'vi' và background_color
