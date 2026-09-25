@@ -1,10 +1,10 @@
 {
-  "_ghiChu": "Hướng nhìn mặc định theo kinh chép từ VIEW trong render-doi-chieu.cjs — chỉ dùng làm DỰ BỊ khi pháp tuyến huyệt không quyết được. banKinhCm là bán kính vùng nhìn quanh huyệt; ảnh 'kinh' bỏ qua bán kính này (dùng 95cm cố định trong __XUONG).",
+  "_ghiChu": "Bảng macDinh theo quy ước HUONG của dungCanh() trong map3d.js (front=(0,0,1) back=(0,0,-1) left=(-1,0,0) right=(1,0,0)) — KHÔNG PHẢI quy ước VIEW của render-doi-chieu.cjs (chiếu khác), dù bảng gốc từng chép nhầm từ đó. Chỉ dùng làm DỰ BỊ cho ảnh 'kinh' (ảnh toàn thân cả đường kinh, muốn 11 ảnh của một kinh cùng nhìn một phía cho giống bộ atlas); ba kiểu 'da'/'gp'/'lan' luôn ưu tiên pháp tuyến THẬT của huyệt, không đụng macDinh — xem chup-huyet.cjs. ngoaiLe của từng huyệt đè lên tất cả, cho cả bốn kiểu. Rà lại 2026-09-26 bằng ĐO: đọc pháp tuyến n của 361 huyệt trong frontend/public/kinhmach3d/data/acu-coords3d.js, mỗi huyệt bầu hướng có tích vô hướng với n lớn nhất, gộp phiếu theo kinh (huong_thang(phiếu/tổng)): LU front(9/11) LI right(12/20)→SỬA, cũ front chỉ 8/20 ST front(37/45) SP front(11/21, sát nút — left 10/21) HT front(5/9) SI back(8/19, sát nút — left 7/19) BL back(54/67) KI front(17/27) PC front(8/9) TE back(11/23, sát nút — right 10/23) GB right(38/44)→SỬA, cũ left chỉ 5/44 LR front(6/14, hoà với left 6/14 — giữ nguyên) CV front(23/24) GV back(20/28). banKinhCm là bán kính vùng nhìn quanh huyệt; ảnh 'kinh' bỏ qua bán kính này (dùng 95cm cố định trong __XUONG).",
   "macDinh": {
-    "LU": { "huong": "front" }, "LI": { "huong": "front" }, "ST": { "huong": "front" },
+    "LU": { "huong": "front" }, "LI": { "huong": "right" }, "ST": { "huong": "front" },
     "SP": { "huong": "front" }, "HT": { "huong": "front" }, "SI": { "huong": "back" },
     "BL": { "huong": "back" },  "KI": { "huong": "front" }, "PC": { "huong": "front" },
-    "TE": { "huong": "back" },  "GB": { "huong": "left" },  "LR": { "huong": "front" },
+    "TE": { "huong": "back" },  "GB": { "huong": "right" }, "LR": { "huong": "front" },
     "CV": { "huong": "front" }, "GV": { "huong": "back" }
   },
   "banKinh": { "da": 10, "gp": 10, "lan": 18 },

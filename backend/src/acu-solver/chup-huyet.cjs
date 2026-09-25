@@ -86,9 +86,16 @@ async function main() {
       for (const kieu of KIEU) {
         const nl = KHUNG.ngoaiLe[ma] || {};
         // HƯỚNG NHÌN: ưu tiên pháp tuyến THẬT của chính huyệt, xếp các hướng theo độ khớp
-        // giảm dần. Hướng dự bị từ ngoaiLe (nếu có) hoặc macDinh (lịch sử từ bảng TRUC cũ).
-        // ⚠️ Kinh GB.macDinh = "left" là từ bảng SAI nên bỏ qua; nếu dùng sẽ chặn huyệt mặt bên.
-        const duBi = nl.huong || (mer !== 'GB' ? (KHUNG.macDinh[mer] || {}).huong : undefined);
+        // giảm dần (xem xepHuong()). Hướng dự bị (duBi) chỉ chèn lên đầu danh sách, không loại
+        // ba hướng kia — nếu hướng dự bị làm ảnh thiếu nhãn thì vòng lặp bên dưới tự đổi hướng.
+        // ⚠️ macDinh CHỈ dùng dự bị cho ảnh 'kinh' — đó là ảnh TOÀN THÂN của cả đường kinh, nên
+        // muốn cả 11 ảnh của một kinh (vd. Phế) nhìn từ cùng một phía cho giống bộ atlas; lúc đó
+        // hướng cố định theo kinh có ích. Ba kiểu 'da'/'gp'/'lan' là ảnh CẬN một huyệt — thứ quyết
+        // định đúng phải là pháp tuyến THẬT của chính huyệt đó, ép theo hướng cả-kinh chỉ làm hỏng
+        // (đây là lỗi đã xảy ra: từng cắm cứng "mer !== 'GB'" vào mã để né macDinh.GB sai, chữa
+        // NGỌN — gốc bệnh là macDinh bị áp cho cả bốn kiểu ảnh trong khi nó chỉ đúng nghĩa cho
+        // 'kinh'). ngoaiLe của từng huyệt (nl.huong) vẫn đè lên tất cả, cho cả bốn kiểu.
+        const duBi = nl.huong || (kieu === 'kinh' ? (KHUNG.macDinh[mer] || {}).huong : undefined);
         const thuTuHuong = xepHuong(ma, duBi);
         const dat = {
           ma, kieu,
