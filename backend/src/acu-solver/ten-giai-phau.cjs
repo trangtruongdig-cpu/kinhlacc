@@ -24,6 +24,18 @@ function concepts() {
 const chuan = (s) =>
   String(s).toLowerCase().normalize('NFC').replace(/[–—]/g, '-').replace(/\s+/g, ' ').trim();
 
+// Bảng đồng nghĩa với khoá đã chuẩn hoá. Giá trị null = chặn (không tô được).
+let _bangChuan = null;
+function bangChuan() {
+  if (_bangChuan) return _bangChuan;
+  _bangChuan = new Map();
+  for (const [khoa, id] of Object.entries(BANG)) {
+    const khoaChuân = chuan(khoa);
+    _bangChuan.set(khoaChuân, id);
+  }
+  return _bangChuan;
+}
+
 // Bỏ mục có "phải"/"trái": đó là bản sao một bên, tô lên sẽ thành nửa người.
 let _theoTen = null;
 function theoTen() {
@@ -44,8 +56,9 @@ function tenCuaConcept(id) {
 
 function traTen(ten) {
   const k = chuan(ten);
-  if (Object.prototype.hasOwnProperty.call(BANG, k)) {
-    const id = BANG[k];
+  const b = bangChuan();
+  if (b.has(k)) {
+    const id = b.get(k);
     return id ? { conceptId: id, cach: 'bang' } : null;
   }
   const m = theoTen();
