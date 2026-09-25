@@ -17,7 +17,7 @@ if (!term) {
 }
 
 const { entries: posts, cacheHint } = await getEmDashCollection("bai_viet", {
-	where: { category: term.slug },
+	where: { chuyen_muc: term.slug },
 	orderBy: { published_at: "desc" },
 });
 
