@@ -189,43 +189,76 @@ Node `^20.19.0 || >=22.12.0` per `frontend/package.json#engines`.
 ### Database migrations
 Apply files in `backend/sql/` manually with `psql` (or any client). **Back up before running**, especially `migrate-vi-thuoc-excel-schema.sql` which drops legacy columns. Do not rely on TypeORM `synchronize`.
 
-## Thư viện từ điển: nội dung sống trong CMS, KHÔNG còn là SPA
+## Thư viện từ điển: CMS là KHO, trang phục vụ khách là HTML TĨNH
 
-Từ 25/09/2026, tám đường sau **do CMS (Astro/EmDash) dựng**, nginx đưa thẳng sang
-container `cms` (`frontend/nginx.conf`, khối "THƯ VIỆN TỪ ĐIỂN"):
+⚠️ Mục này thay cho mô tả cũ ("nội dung sống trong CMS, nginx đưa thẳng sang container
+cms"). Cách đó đã bị **revert** ở `bfe350e` theo yêu cầu của người dùng: *"làm lại y như
+cũ cho tôi, rồi mới cắm CMS vào để quản lý"*. Ai còn đọc theo bản cũ sẽ chẩn đoán sai —
+đã xảy ra một lần: một phiên khác thấy CMS trả 404 cho `/huyet/…` và tưởng hỏng kết nối
+CSDL, trong khi route đó đơn giản là không còn tồn tại.
 
-`/thu-vien/` · `/huyet/` · `/kinh/` · `/benh-hoc/` · `/cham-cuu-tri-benh/` ·
-`/duoc-lieu/` · `/bai-thuoc/` · `/nguon/` — tổng **18.416 mục từ**.
+**Kiến trúc thật (cách A — đổi nguồn ở khâu build):**
 
-Những điều dễ vấp:
+- Khách xem **HTML tĩnh** trong `frontend/dist/`, do `frontend/scripts/build-*.mjs` sinh.
+  nginx `try_files $uri $uri/ /index.html` phục vụ thẳng.
+- nginx CHỈ đẩy sang container cms ba đường: `/_emdash/`, `/_astro/`, `/trang/`.
+  **Không** có đường thư viện nào.
+- CMS là **kho dữ liệu cho khâu build**. `acupoints.js` và `benh.js` đã do CMS sinh ra;
+  phép kiểm là `cmp` với bản gốc phải giống **từng byte**
+  (`cms/scripts-di-cu/xuat-huyet-js.mjs --kiem`, `xuat-benh-js.mjs --kiem`).
+- Giao diện (`TuDienView.vue` và bạn bè) **không được đụng vào**. Ba lần thử dựng lại
+  giao diện trong CMS đều bị bác.
 
-- **Đừng khai lại chúng làm route của Vue.** Làm vậy thì cùng một địa chỉ ra hai nội
-  dung: bấm link thì SPA dựng, tải lại trang thì CMS dựng. Mọi điều hướng phía máy
-  khách tới các đường đó đi qua route chốt `ra-thu-vien` (`views/RaThuVienView.vue`),
-  vốn ép một lần tải trang thật. Ở dev không có nginx nên chốt đó trỏ sang
-  `http://localhost:4321` — không có nhánh này thì lặp vô tận.
-- **Hai kiểu địa chỉ khác nhau**: dược liệu dùng `/duoc-lieu/<ID SỐ>/`, bài thuốc dùng
-  `/bai-thuoc/<slug chữ>/`. Đã kiểm trên site thật; SPA nhận mọi đường nên mã trả về
-  200 KHÔNG chứng minh gì — phải đọc `<title>`.
-- **`/duoc-lieu/nhom/…` VẪN tĩnh** (61 URL, do `build-nhom-duoc-ly.mjs` sinh từ bảng
-  nhóm dược lý của app). nginx chừa đường này ra TRƯỚC khối thư viện.
-- **Xem Lưỡi cố ý ở lại app** tại `/xem-luoi` (ảnh thật + đại diện ML, không phải nội
-  dung biên tập được). Trước đây nó là một tab của `/thu-vien`.
-- **`/app/tu-dien` vẫn còn nhưng không còn là tab sidebar** — chỉ phục vụ deep-link
-  `?acu=` / `?mer=` từ Kết Quả Đo và Kinh Mạch 3D, để tra huyệt ngay trong app lúc đang
-  khám. Tab "Từ Điển" ở sidebar nay mở `/thu-vien/`.
-- **Bản tĩnh trong `dist/` vẫn được build nhưng KHÔNG còn được phục vụ.** Giữ một nhịp
-  deploy để lùi được chỉ bằng cách sửa `nginx.conf`. Khi xoá, phải chuyển nguồn sinh
-  sitemap sang `td_muc` — hiện `gen-sitemap.mjs` + `build-phuong` + `build-duoc-lieu`
-  vẫn là nơi sinh ra 7.161 URL, và `kiem-sitemap.mjs` là cổng chặn.
+**Hai kiểu trang tĩnh, đừng lẫn:**
 
-Tầng tra cứu (ô tìm, lọc đặc tính, duyệt A–Z) nằm ở `cms/sql/chi-muc-tra-cuu.sql` +
-`cms/src/lib/traCuu.ts`. `search()` của EmDash KHÔNG dùng được: FTS5 là của SQLite, trên
+| Kiểu | Đường | Sinh bởi | Có mount Vue? |
+|---|---|---|---|
+| Độc lập | `/huyet/` `/kinh/` `/benh-hoc/` `/cham-cuu-tri-benh/` `/nguon/` | `build-dict`, `build-nguon` | **Không** |
+| Vỏ SPA | `/bai-thuoc/` `/duoc-lieu/` | `build-phuong`, `build-duoc-lieu` | Có (`<div id="app">`) |
+
+Trang độc lập không cần route Vue. Trang vỏ SPA thì **bắt buộc** phải có route Vue khớp,
+không thì tải trang ra nội dung tĩnh còn bấm link ra 404.
+
+`/duoc-lieu/nhom/…` (61 URL) do `build-nhom-duoc-ly.mjs` sinh, vẫn tĩnh.
+`gen-sitemap.mjs` + `kiem-sitemap.mjs` là cổng chặn số lượng URL.
+
+Tầng tra cứu trong CMS (ô tìm, lọc đặc tính, duyệt A–Z) nằm ở `cms/sql/chi-muc-tra-cuu.sql`
++ `cms/src/lib/traCuu.ts`. `search()` của EmDash KHÔNG dùng được: FTS5 là của SQLite, trên
 Postgres nó là lệnh rỗng — không báo lỗi, chỉ trả về rỗng.
 
 Thêm cột nội dung mới cho một bộ thì phải khai tên cột vào mảng `than` trong
 `cms/scripts-di-cu/dung-chi-muc.mjs` rồi chạy lại, không thì nội dung mới hiện trên
-trang nhưng tra không bao giờ ra.
+trang mà tra không bao giờ ra.
+
+## SEO: hai chốt chặn, và chỗ người biên tập sửa được
+
+Thẻ SEO của 18.425 trang tĩnh ráp ở `frontend/scripts/seo-html.mjs`, nội dung do từng
+builder tự sinh. Người biên tập ghi đè được qua bảng `_emdash_seo` của EmDash
+(`seo_title`, `seo_description`, `seo_image`, `seo_canonical`, `seo_no_index`) — mọi bộ
+đều khai `hasSeo: true` nên trang quản trị đã có ô nhập sẵn.
+
+- `frontend/scripts/seo-cms.mjs` là khâu nối. Nó mở kết nối RIÊNG tới `kinhlac_cms`
+  (builder nối `defaultdb`, hai kho không join chéo được) và đóng ngay — Aiven chỉ 20
+  slot. Ô nào để trống thì GIỮ bản tự sinh: ghi đè là bổ sung, không phải thay thế.
+- Không nối được kho thì **không gãy build nhưng KÊU TO**. Im lặng ở đây nghĩa là mọi
+  trang lặng lẽ quay về mô tả tự sinh mà không ai biết.
+- Tra bằng CẢ `slug` lẫn `slug_goc`: builder đọc tệp tĩnh nên cầm slug THÔ, CMS lấy bản
+  KHỬ TRÙNG làm khoá.
+
+Hai chốt chạy cuối `npm run blog:post`, **cả hai đều gãy build khi không đạt**:
+
+- `kiem-sitemap.mjs` — đếm URL theo nhóm. Có vì các builder đều "bỏ qua, build vẫn tiếp
+  tục" khi mất kết nối, và đã giấu lỗi mất 15.054 trang suốt nhiều tháng.
+- `kiem-seo.mjs` — 9 phép kiểm thẻ. Năm phép TUYỆT ĐỐI (ngưỡng 0): thiếu
+  title/description/canonical/JSON-LD, và **canonical trỏ lệch** chính đường dẫn của nó.
+  Bốn phép TỈ LỆ (mô tả quá dài/ngắn, tiêu đề/mô tả trùng) đặt theo số đo thật.
+  ⚠️ Sửa được thật thì phải HẠ ngưỡng xuống theo, không thì chốt hết tác dụng canh chừng.
+
+Liên kết nội bộ sinh bằng MÃ, không quản trong CMS (không ai bảo trì tay nổi 18.425
+trang): engine nối tên huyệt trong thân bài (`build-dict.mjs`), thành phần bài thuốc →
+dược liệu, và `/nguon/` ↔ bài thuốc/vị thuốc qua bảng nối `nguon_phuong_thang` /
+`nguon_vi_thuoc` (33.516 liên kết). **Đừng khớp xuất xứ bằng chuỗi** — cột `xuat_xu` có
+3.217 biến thể cho cùng chừng ấy sách.
 
 ## Deployment paths
 
