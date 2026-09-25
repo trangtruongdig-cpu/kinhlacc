@@ -33,6 +33,13 @@ export default defineConfig({
 		"/chuyen-muc/[...slug]": { maxAge: 3600, swr: 86400 },
 		"/cum/[...slug]": { maxAge: 3600, swr: 86400 },
 		"/trang/[...slug]": { maxAge: 3600, swr: 86400 },
+		// Thư viện: mục lục và trang duyệt A–Z đóng băng được vì chỉ đổi khi nội dung đổi.
+		"/thu-vien": { maxAge: 3600, swr: 86400 },
+		"/thu-vien/[bo]": { maxAge: 3600, swr: 86400 },
+		// Trang kết quả và gợi ý thì KHÔNG: mỗi từ khoá một nội dung, đóng băng chỉ tổ
+		// phình bộ nhớ của tiến trình mà gần như không lần nào trúng lại.
+		"/thu-vien/tra": { maxAge: 0, swr: 0 },
+		"/thu-vien/goi-y.json": { maxAge: 0, swr: 0 },
 		// Khu quản trị và endpoint kiểm sức khoẻ KHÔNG được cache: người biên tập phải thấy
 		// ngay thứ mình vừa sửa, và healthcheck phải chạm database thật mỗi lần.
 		// RouteRule chỉ nhận object, không nhận false — maxAge 0 là cách tắt.
@@ -112,6 +119,15 @@ export default defineConfig({
 			cssVariable: "--font-body",
 			weights: [400, 500, 600, 700],
 			fallbacks: ["sans-serif"],
+		},
+		{
+			// Mặt chữ của thư viện. App đã dùng Noto Serif cho nhãn dược liệu, nên dùng
+			// lại chính nó thay vì rước thêm một họ chữ nữa vào nhà.
+			provider: fontProviders.google(),
+			name: "Noto Serif",
+			cssVariable: "--font-tu-dien",
+			weights: [400, 600, 700],
+			fallbacks: ["Georgia", "serif"],
 		},
 		{
 			provider: fontProviders.google(),

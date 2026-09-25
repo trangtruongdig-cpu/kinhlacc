@@ -36,7 +36,29 @@ export interface BenhHoc {
   status: string;
   title: string;
   doi_chieu_benh_danh?: string;
-  noi_dung?: PortableTextBlock[];
+  cho_index?: boolean;
+  dai_cuong?: PortableTextBlock[];
+  nguyen_nhan?: PortableTextBlock[];
+  chan_doan?: PortableTextBlock[];
+  dieu_tri?: PortableTextBlock[];
+  benh_an?: PortableTextBlock[];
+  tham_khao?: PortableTextBlock[];
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
+export interface ChamCuuTriBenh {
+  id: string;
+  slug: string | null;
+  status: string;
+  title?: string;
+  dai_cuong?: PortableTextBlock[];
+  nguyen_nhan?: PortableTextBlock[];
+  trieu_chung?: PortableTextBlock[];
+  dieu_tri?: PortableTextBlock[];
   cho_index?: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -63,6 +85,24 @@ export interface HuyetVi {
   terms?: Record<string, TaxonomyTerm[]>;
 }
 
+export interface NguonYVan {
+  id: string;
+  slug: string | null;
+  status: string;
+  title?: string;
+  loai?: string;
+  tac_gia?: string;
+  nien_dai?: string;
+  ten_khac?: string;
+  ghi_chu?: string;
+  lien_ket?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
 export interface Trang {
   id: string;
   slug: string | null;
@@ -80,7 +120,9 @@ declare module "emdash" {
   interface EmDashCollections {
     bai_viet: BaiViet;
     benh_hoc: BenhHoc;
+    cham_cuu_tri_benh: ChamCuuTriBenh;
     huyet_vi: HuyetVi;
+    nguon_y_van: NguonYVan;
     trang: Trang;
   }
 }

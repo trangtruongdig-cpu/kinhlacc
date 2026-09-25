@@ -1,0 +1,115 @@
+---
+// OTraCuu.astro — Ô tra cứu kèm gợi ý gõ tới đâu hiện tới đó.
+//
+// Gửi biểu mẫu thường (method=get) nên KHÔNG có JavaScript vẫn tra được, và bot của
+// Google đi theo được. Gợi ý chỉ là lớp tiện tay phủ thêm lên trên.
+interface Props {
+	tu?: string;
+	bo?: string;
+	nhan?: string;
+	tuDong?: boolean;
+}
+const { tu = "", bo, nhan, tuDong = false } = Astro.props;
+const goi = bo ? `Tra trong ${nhan ?? bo}…` : "Tra huyệt, bệnh, vị thuốc, bài thuốc, nguồn…";
+---
+
+<form class="tv-o" action="/thu-vien/tra" method="get" role="search" autocomplete="off">
+	<span class="tv-o-kinh" aria-hidden="true">
+		<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
+			<circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path>
+		</svg>
+	</span>
+	{bo && <input type="hidden" name="bo" value={bo} />}
+	<input
+		type="search"
+		name="q"
+		value={tu}
+		placeholder={goi}
+		aria-label="Tra cứu"
+		autofocus={tuDong}
+		data-o-tra
+	/>
+	<button type="submit">Tra</button>
+	<div class="tv-goiy" data-goiy role="listbox" aria-label="Gợi ý"></div>
+</form>
+
+<script>
+	// Gợi ý: hỏi máy chủ mỗi khi ngưng gõ 130ms. Không tải danh mục về máy người đọc —
+	// thư viện có hàng chục nghìn mục từ, tải hết là vài megabyte cho mỗi lượt vào trang.
+	for (const form of document.querySelectorAll<HTMLFormElement>("form.tv-o")) {
+		const o = form.querySelector<HTMLInputElement>("[data-o-tra]");
+		const hop = form.querySelector<HTMLDivElement>("[data-goiy]");
+		if (!o || !hop) continue;
+		const bo = (form.querySelector<HTMLInputElement>('input[name="bo"]') || {}).value || "";
+
+		let hen: ReturnType<typeof setTimeout>;
+		let bo_qua = 0;
+		let chon = -1;
+
+		const dong = () => {
+			hop.innerHTML = "";
+			chon = -1;
+		};
+
+		// Tiêu đề là dữ liệu, không phải mã. Nhồi thẳng vào innerHTML thì một mục từ
+		// chứa dấu < sẽ vỡ khung — và nếu sau này có người biên tập đặt tên tinh quái thì
+		// thành lỗ chèn mã.
+		const an = (t: string) =>
+			String(t ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]!);
+
+		const ve = (ds: any[]) => {
+			if (!ds.length) return dong();
+			hop.innerHTML = ds
+				.map(
+					(x) =>
+						`<a href="${an(x.duong_dan)}${encodeURIComponent(x.slug)}/" role="option">` +
+						`<span class="ten">${an(x.tieu_de)}</span>` +
+						`<span class="khac">${an(x.ten_khac)}</span>` +
+						`<span class="tv-the">${an(x.nhan)}</span></a>`,
+				)
+				.join("");
+			chon = -1;
+		};
+
+		o.addEventListener("input", () => {
+			clearTimeout(hen);
+			const t = o.value.trim();
+			if (t.length < 2) return dong();
+			hen = setTimeout(async () => {
+				const phien = ++bo_qua;
+				try {
+					const u = `/thu-vien/goi-y.json?q=${encodeURIComponent(t)}${bo ? `&bo=${bo}` : ""}`;
+					const r = await fetch(u);
+					// Bỏ kết quả về muộn: gõ nhanh thì các lần hỏi về không đúng thứ tự,
+					// không chặn thì danh sách sẽ nhấp nháy về trạng thái cũ.
+					if (phien !== bo_qua) return;
+					ve(await r.json());
+				} catch {
+					dong();
+				}
+			}, 130);
+		});
+
+		o.addEventListener("keydown", (e) => {
+			const muc = [...hop.querySelectorAll("a")];
+			if (!muc.length) return;
+			if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+				e.preventDefault();
+				muc[chon]?.classList.remove("chon");
+				const buoc = e.key === "ArrowDown" ? 1 : -1;
+				chon = (chon + buoc + muc.length) % muc.length;
+				muc[chon].classList.add("chon");
+				muc[chon].scrollIntoView({ block: "nearest" });
+			} else if (e.key === "Enter" && chon >= 0) {
+				e.preventDefault();
+				window.location.href = muc[chon].getAttribute("href")!;
+			} else if (e.key === "Escape") {
+				dong();
+			}
+		});
+
+		document.addEventListener("click", (e) => {
+			if (!form.contains(e.target as Node)) dong();
+		});
+	}
+</script>

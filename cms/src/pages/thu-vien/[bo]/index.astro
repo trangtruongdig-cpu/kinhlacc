@@ -1,0 +1,115 @@
+---
+// /thu-vien/<bo>/ — Duyệt một mục của thư viện theo vần A–Z.
+//
+// Đây cũng là ĐƯỜNG BÒ của Google: mỗi mục từ phải có ít nhất một liên kết tĩnh trỏ
+// tới. Ô tra cứu không làm được việc đó (bot không gõ phím), nên danh sách A–Z mới là
+// thứ quyết định kho có được lên chỉ mục hay không.
+export const prerender = false;
+
+import ThuVien from "../../../layouts/ThuVien.astro";
+import OTraCuu from "../../../components/OTraCuu.astro";
+import { mucTheoBo, chuCaiCua, duyet, danhSachMuc } from "../../../lib/traCuu";
+
+const bo = Astro.params.bo!;
+const m = await mucTheoBo(bo);
+if (!m || !m.so_muc) return Astro.redirect("/thu-vien/", 302);
+
+const chuCai = (Astro.url.searchParams.get("van") || "").toUpperCase().slice(0, 1) || undefined;
+const trang = Math.max(1, Number(Astro.url.searchParams.get("trang") || 1) || 1);
+const MOI_TRANG = 300;
+
+const [vanCo, { muc, tong }, tatCa] = await Promise.all([
+	chuCaiCua(bo),
+	duyet(bo, { chuCai, trang, moiTrang: MOI_TRANG }),
+	danhSachMuc(),
+]);
+
+const soTrang = Math.max(1, Math.ceil(tong / MOI_TRANG));
+const coVan = new Map(vanCo.map((v) => [v.chu_cai, v.n]));
+const CHU = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+const soMuc = (n: number) => n.toLocaleString("vi-VN");
+
+const duongDanVan = (c?: string) =>
+	`/thu-vien/${bo}/${c ? `?van=${c}` : ""}`;
+const duongDanTrang = (t: number) =>
+	`/thu-vien/${bo}/?${chuCai ? `van=${chuCai}&` : ""}trang=${t}`;
+---
+
+<ThuVien tieuDe={`${m.nhan} — Thư Viện Đông Y`} moTa={m.mo_ta} khongLap={!!chuCai || trang > 1}>
+	<section class="tv-bia" style="padding:2.25rem 0 1.5rem">
+		<div class="tv-trong">
+			<h1 style="font-size:clamp(1.6rem,3.5vw,2.1rem)">{m.nhan}</h1>
+			<p>{m.mo_ta} <b>{soMuc(m.so_muc)} mục từ.</b></p>
+			<OTraCuu bo={bo} nhan={m.nhan} />
+		</div>
+	</section>
+
+	<div class="tv-trong">
+		<nav class="tv-az" aria-label="Tra theo vần">
+			<a href={duongDanVan()} class={chuCai ? "" : "dang"}>Tất cả</a>
+			{
+				CHU.map((c) =>
+					coVan.has(c) ? (
+						<a href={duongDanVan(c)} class={chuCai === c ? "dang" : ""} title={`${coVan.get(c)} mục`}>
+							{c}
+						</a>
+					) : (
+						<span aria-hidden="true">{c}</span>
+					),
+				)
+			}
+			{coVan.has("#") && <a href={duongDanVan("#")} class={chuCai === "#" ? "dang" : ""}>#</a>}
+		</nav>
+
+		<p style="color:var(--chu-nhat);font-size:.86rem;margin:0 0 1.1rem">
+			{chuCai ? `Vần ${chuCai} — ` : ""}{soMuc(tong)} mục
+			{soTrang > 1 ? ` · trang ${trang}/${soTrang}` : ""}
+		</p>
+
+		<ul class="tv-cot">
+			{
+				muc.map((k) => (
+					<li>
+						<a href={`${k.duong_dan}${k.slug}/`}>
+							<span class="ten">{k.tieu_de}</span>
+							{k.ten_khac && <span class="khac">{k.ten_khac}</span>}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+
+		{
+			soTrang > 1 && (
+				<nav class="tv-trang-so" aria-label="Phân trang">
+					{trang > 1 ? <a href={duongDanTrang(trang - 1)}>← Trước</a> : <span>← Trước</span>}
+					<span>
+						{trang} / {soTrang}
+					</span>
+					{trang < soTrang ? <a href={duongDanTrang(trang + 1)}>Sau →</a> : <span>Sau →</span>}
+				</nav>
+			)
+		}
+
+		<div class="tv-muclucthanh" style="margin-top:3rem"><h2>Mục khác</h2></div>
+		<ol class="tv-mucluc">
+			{
+				tatCa
+					.filter((x) => x.bo !== bo && x.so_muc)
+					.map((x, i) => (
+						<li>
+							<a href={`/thu-vien/${x.bo}/`}>
+								<span class="so">{String(i + 1).padStart(2, "0")}</span>
+								<span>
+									<span class="ten">{x.nhan}</span>
+								</span>
+								<span class="dem">
+									<b>{soMuc(x.so_muc)}</b> mục
+								</span>
+							</a>
+						</li>
+					))
+			}
+		</ol>
+	</div>
+</ThuVien>

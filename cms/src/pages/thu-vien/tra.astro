@@ -1,0 +1,124 @@
+---
+// /thu-vien/tra?q=… — Kết quả tra cứu, GOM THEO MỤC.
+//
+// Gom theo mục chứ không đổ một mạch là có lý do: tra "tri ho" thì một cuốn sách tên
+// "Chứng Trị Hối Bổ" khớp tên rất mạnh, nhưng người tra đang tìm bệnh. Gom theo mục thì
+// cuốn sách nằm ở "Thư Mục Nguồn", bệnh nằm ở "Bệnh Học" — không ai giẫm chân ai.
+export const prerender = false;
+
+import ThuVien from "../../layouts/ThuVien.astro";
+import OTraCuu from "../../components/OTraCuu.astro";
+import { traCuu, goiYTheoTung, danhSachMuc, type KetQua } from "../../lib/traCuu";
+
+const tu = (Astro.url.searchParams.get("q") || "").trim().slice(0, 120);
+const boLoc = Astro.url.searchParams.get("bo") || undefined;
+
+const muc = await danhSachMuc();
+const nhanBo = muc.find((m) => m.bo === boLoc)?.nhan;
+const kq = tu ? await traCuu(tu, { bo: boLoc, gioiHan: 120 }) : [];
+// Không ra gì thì mách mục từ gần đúng, thay vì để người tra đứng trước trang trắng.
+const gan = tu && kq.length === 0 ? await goiYTheoTung(tu) : [];
+
+// Giữ nguyên thứ hạng: mục nào có kết quả mạnh nhất thì đứng trước.
+const nhom: { bo: string; nhan: string; ds: KetQua[] }[] = [];
+for (const k of kq) {
+	let n = nhom.find((x) => x.bo === k.bo);
+	if (!n) nhom.push((n = { bo: k.bo, nhan: k.nhan, ds: [] }));
+	n.ds.push(k);
+}
+
+const tieuDe = tu ? `Tra "${tu}" — Thư Viện Đông Y` : "Tra cứu — Thư Viện Đông Y";
+---
+
+<ThuVien tieuDe={tieuDe} khongLap>
+	<section class="tv-bia" style="padding-bottom:1.5rem">
+		<div class="tv-trong">
+			<OTraCuu tu={tu} bo={boLoc} nhan={nhanBo} tuDong />
+		</div>
+	</section>
+
+	<div class="tv-trong">
+		{
+			!tu ? (
+				<p class="tv-khong">Gõ một từ để tra. Không dấu cũng được.</p>
+			) : kq.length === 0 ? (
+				<div class="tv-khong">
+					<p>
+						Không có mục từ nào khớp <b>“{tu}”</b>
+						{nhanBo ? ` trong ${nhanBo}` : ""}.
+					</p>
+					{boLoc && (
+						<p>
+							<a href={`/thu-vien/tra?q=${encodeURIComponent(tu)}`}>
+								Tra trong toàn thư viện →
+							</a>
+						</p>
+					)}
+					{gan.length > 0 && (
+						<div style="margin-top:2rem;text-align:left;max-width:34rem;margin-inline:auto">
+							<div class="tv-muclucthanh" style="margin-top:0">
+								<h2>Có phải bạn cần tra</h2>
+							</div>
+							<ol class="tv-kq">
+								{gan.map((k) => (
+									<li>
+										<a href={`${k.duong_dan}${k.slug}/`}>
+											<span class="ten">{k.tieu_de}</span>
+											<span class="tv-the" style="margin-left:.5rem">{k.nhan}</span>
+										</a>
+									</li>
+								))}
+							</ol>
+						</div>
+					)}
+				</div>
+			) : (
+				<>
+					<p style="color:var(--chu-nhat);font-size:.88rem;margin:0 0 .5rem">
+						{kq.length}
+						{kq.length >= 120 ? "+" : ""} kết quả cho <b>“{tu}”</b>
+						{nhanBo ? ` trong ${nhanBo}` : ""}
+					</p>
+					{nhom.map((n) => (
+						<section class="tv-nhomkq">
+							<h2>
+								{n.nhan}
+								<em>
+									{n.ds.length} mục
+									{!boLoc && (
+										<>
+											{" · "}
+											<a href={`/thu-vien/tra?q=${encodeURIComponent(tu)}&bo=${n.bo}`}>
+												chỉ tra mục này
+											</a>
+										</>
+									)}
+								</em>
+							</h2>
+							<ol class="tv-kq">
+								{n.ds.slice(0, boLoc ? 120 : 12).map((k) => (
+									<li>
+										<a href={`${k.duong_dan}${k.slug}/`}>
+											<div>
+												<span class="ten">{k.tieu_de}</span>
+												{k.ten_khac && <span class="khac">{k.ten_khac}</span>}
+											</div>
+											{k.tom_tat && <p class="doan">{k.tom_tat}</p>}
+										</a>
+									</li>
+								))}
+							</ol>
+							{!boLoc && n.ds.length > 12 && (
+								<p style="margin:.6rem 0 0;font-size:.85rem">
+									<a href={`/thu-vien/tra?q=${encodeURIComponent(tu)}&bo=${n.bo}`}>
+										Xem tiếp {n.ds.length - 12} mục trong {n.nhan} →
+									</a>
+								</p>
+							)}
+						</section>
+					))}
+				</>
+			)
+		}
+	</div>
+</ThuVien>

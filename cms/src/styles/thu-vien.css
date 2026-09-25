@@ -1,0 +1,515 @@
+/* thu-vien.css — Bộ nhận diện trang tra cứu.
+   Nối tiếp bảng nâu/kem của app Kinh Lạc (xem tu-dien.css) chứ không dựng bảng màu mới.
+   Nguyên tắc: đây là SÁCH TRA, không phải blog — chữ đứng trước, khung đứng sau. */
+
+.tv {
+	--nau-50: #faf6ef;
+	--nau-100: #f1e7d6;
+	--nau-200: #e3cfb0;
+	--nau-300: #cfad78;
+	--nau-400: #bd9050;
+	--nau-500: #a4743a;
+	--nau-600: #8a5e28;
+	--nau-700: #6f4a22;
+	--nau-800: #54391d;
+	--nau-900: #3a2715;
+	--do-an: #9d2b25;
+	--chu: #2c2620;
+	--chu-nhat: #6b5f52;
+	--nen: #fdfbf7;
+	--vien: #e8ddc9;
+
+	--serif: var(--font-tu-dien, "Noto Serif"), Georgia, "Times New Roman", serif;
+
+	color: var(--chu);
+	background: var(--nen);
+	min-height: 100vh;
+}
+
+.tv-trong {
+	max-width: 62rem;
+	margin: 0 auto;
+	padding: 0 1.25rem;
+}
+
+/* ── Đầu trang ───────────────────────────────────────────────────────── */
+.tv-dau {
+	border-bottom: 1px solid var(--vien);
+	background: linear-gradient(180deg, var(--nau-50), var(--nen));
+}
+.tv-dau-trong {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+	padding: 0.85rem 1.25rem;
+	max-width: 62rem;
+	margin: 0 auto;
+}
+.tv-hieu {
+	font-family: var(--serif);
+	font-size: 1.02rem;
+	font-weight: 700;
+	color: var(--nau-800);
+	letter-spacing: 0.01em;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+.tv-hieu span {
+	font-family: system-ui, sans-serif;
+	font-size: 0.7rem;
+	font-weight: 600;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--nau-500);
+	border-left: 1px solid var(--nau-200);
+	padding-left: 0.5rem;
+}
+.tv-ve {
+	font-size: 0.83rem;
+	color: var(--chu-nhat);
+	text-decoration: none;
+}
+.tv-ve:hover {
+	color: var(--nau-700);
+}
+
+/* ── Ô tra cứu — nhân vật chính của trang ────────────────────────────── */
+.tv-bia {
+	text-align: center;
+	padding: 3.25rem 0 2.5rem;
+}
+.tv-bia h1 {
+	font-family: var(--serif);
+	font-size: clamp(1.9rem, 4.5vw, 2.7rem);
+	font-weight: 700;
+	color: var(--nau-900);
+	margin: 0 0 0.5rem;
+	letter-spacing: -0.01em;
+}
+.tv-bia p {
+	margin: 0 auto 1.9rem;
+	max-width: 34rem;
+	color: var(--chu-nhat);
+	font-size: 0.97rem;
+	line-height: 1.6;
+}
+.tv-bia p b {
+	color: var(--nau-700);
+	font-weight: 600;
+}
+
+.tv-o {
+	position: relative;
+	max-width: 40rem;
+	margin: 0 auto;
+}
+.tv-o input {
+	width: 100%;
+	box-sizing: border-box;
+	font: inherit;
+	font-size: 1.05rem;
+	padding: 0.95rem 3.4rem 0.95rem 3rem;
+	border: 1.5px solid var(--nau-200);
+	border-radius: 999px;
+	background: #fff;
+	color: var(--chu);
+	box-shadow: 0 1px 2px rgba(58, 39, 21, 0.04);
+	transition: border-color 0.14s, box-shadow 0.14s;
+}
+.tv-o input::placeholder {
+	color: #a89a88;
+}
+.tv-o input:focus {
+	outline: none;
+	border-color: var(--nau-400);
+	box-shadow: 0 0 0 4px rgba(189, 144, 80, 0.16);
+}
+.tv-o-kinh {
+	position: absolute;
+	left: 1.1rem;
+	top: 50%;
+	transform: translateY(-50%);
+	color: var(--nau-400);
+	pointer-events: none;
+	display: flex;
+}
+.tv-o button {
+	position: absolute;
+	right: 0.35rem;
+	top: 50%;
+	transform: translateY(-50%);
+	border: 0;
+	border-radius: 999px;
+	background: var(--nau-700);
+	color: #fff;
+	font: inherit;
+	font-size: 0.87rem;
+	font-weight: 600;
+	padding: 0.6rem 1.25rem;
+	cursor: pointer;
+}
+.tv-o button:hover {
+	background: var(--nau-800);
+}
+
+/* Gợi ý gõ tới đâu hiện tới đó */
+.tv-goiy {
+	position: absolute;
+	z-index: 20;
+	left: 0;
+	right: 0;
+	top: calc(100% + 0.4rem);
+	background: #fff;
+	border: 1px solid var(--vien);
+	border-radius: 14px;
+	box-shadow: 0 12px 30px rgba(58, 39, 21, 0.13);
+	overflow: hidden;
+	text-align: left;
+}
+.tv-goiy:empty {
+	display: none;
+}
+.tv-goiy a {
+	display: flex;
+	align-items: baseline;
+	gap: 0.6rem;
+	padding: 0.6rem 1rem;
+	text-decoration: none;
+	color: var(--chu);
+	border-bottom: 1px solid var(--nau-50);
+}
+.tv-goiy a:last-child {
+	border-bottom: 0;
+}
+.tv-goiy a:hover,
+.tv-goiy a.chon {
+	background: var(--nau-50);
+}
+.tv-goiy .ten {
+	font-family: var(--serif);
+	font-weight: 600;
+}
+.tv-goiy .khac {
+	font-size: 0.78rem;
+	color: var(--chu-nhat);
+	flex: 1;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.tv-the {
+	font-size: 0.68rem;
+	font-weight: 600;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+	color: var(--nau-600);
+	background: var(--nau-50);
+	border: 1px solid var(--nau-100);
+	border-radius: 4px;
+	padding: 0.1rem 0.4rem;
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+/* ── Mục lục thư viện — dựng như mục lục sách, không phải lưới thẻ ───── */
+.tv-muclucthanh {
+	display: flex;
+	align-items: baseline;
+	gap: 0.85rem;
+	margin: 2.75rem 0 0.25rem;
+}
+.tv-muclucthanh h2 {
+	font-family: var(--serif);
+	font-size: 0.82rem;
+	font-weight: 700;
+	letter-spacing: 0.13em;
+	text-transform: uppercase;
+	color: var(--nau-600);
+	margin: 0;
+	white-space: nowrap;
+}
+.tv-muclucthanh::after {
+	content: "";
+	flex: 1;
+	height: 1px;
+	background: var(--vien);
+}
+
+.tv-mucluc {
+	list-style: none;
+	margin: 0 0 3.5rem;
+	padding: 0;
+}
+.tv-mucluc li {
+	border-bottom: 1px solid var(--nau-50);
+}
+.tv-mucluc a {
+	display: grid;
+	grid-template-columns: 2.1rem 1fr auto;
+	align-items: baseline;
+	gap: 0.9rem;
+	padding: 0.95rem 0.5rem 0.95rem 0.25rem;
+	text-decoration: none;
+	color: inherit;
+	border-radius: 8px;
+}
+.tv-mucluc a:hover {
+	background: var(--nau-50);
+}
+.tv-mucluc .so {
+	font-family: var(--serif);
+	font-size: 0.85rem;
+	color: var(--nau-300);
+	font-variant-numeric: tabular-nums;
+}
+.tv-mucluc .ten {
+	font-family: var(--serif);
+	font-size: 1.08rem;
+	font-weight: 600;
+	color: var(--nau-800);
+}
+.tv-mucluc .mo-ta {
+	display: block;
+	font-family: system-ui, sans-serif;
+	font-size: 0.83rem;
+	font-weight: 400;
+	color: var(--chu-nhat);
+	margin-top: 0.18rem;
+	line-height: 1.5;
+}
+.tv-mucluc .dem {
+	font-size: 0.82rem;
+	color: var(--nau-500);
+	font-variant-numeric: tabular-nums;
+	white-space: nowrap;
+}
+.tv-mucluc .dem b {
+	font-weight: 600;
+	color: var(--nau-700);
+}
+.tv-mucluc a[aria-disabled="true"] {
+	pointer-events: none;
+	opacity: 0.45;
+}
+
+/* ── Thanh A–Z ───────────────────────────────────────────────────────── */
+.tv-az {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.25rem;
+	margin: 1.25rem 0 1.75rem;
+	padding-bottom: 1.25rem;
+	border-bottom: 1px solid var(--vien);
+}
+.tv-az a {
+	min-width: 2rem;
+	text-align: center;
+	padding: 0.35rem 0.45rem;
+	border-radius: 7px;
+	font-family: var(--serif);
+	font-weight: 600;
+	font-size: 0.92rem;
+	color: var(--nau-700);
+	text-decoration: none;
+	border: 1px solid transparent;
+}
+.tv-az a:hover {
+	background: var(--nau-50);
+	border-color: var(--nau-100);
+}
+.tv-az a.dang {
+	background: var(--nau-700);
+	color: #fff;
+}
+.tv-az span {
+	min-width: 2rem;
+	text-align: center;
+	padding: 0.35rem 0.45rem;
+	color: #cdbfa9;
+	font-family: var(--serif);
+	font-size: 0.92rem;
+}
+
+/* ── Danh sách mục từ ────────────────────────────────────────────────── */
+.tv-cot {
+	columns: 2;
+	column-gap: 2.5rem;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+.tv-cot li {
+	break-inside: avoid;
+	margin-bottom: 0.55rem;
+}
+.tv-cot a {
+	text-decoration: none;
+	color: var(--chu);
+	display: block;
+	padding: 0.15rem 0;
+}
+.tv-cot a:hover .ten {
+	color: var(--do-an);
+	text-decoration: underline;
+	text-underline-offset: 3px;
+}
+.tv-cot .ten {
+	font-family: var(--serif);
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--nau-800);
+}
+.tv-cot .khac {
+	display: block;
+	font-size: 0.79rem;
+	color: var(--chu-nhat);
+	line-height: 1.45;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+/* ── Kết quả tra cứu ─────────────────────────────────────────────────── */
+.tv-nhomkq {
+	margin: 2.25rem 0;
+}
+.tv-nhomkq > h2 {
+	font-family: var(--serif);
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.12em;
+	text-transform: uppercase;
+	color: var(--nau-600);
+	margin: 0 0 0.85rem;
+	padding-bottom: 0.45rem;
+	border-bottom: 1px solid var(--vien);
+	display: flex;
+	justify-content: space-between;
+	align-items: baseline;
+}
+.tv-nhomkq > h2 em {
+	font-style: normal;
+	font-family: system-ui, sans-serif;
+	font-size: 0.78rem;
+	font-weight: 500;
+	letter-spacing: 0;
+	text-transform: none;
+	color: var(--chu-nhat);
+}
+.tv-kq {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+.tv-kq li {
+	margin-bottom: 0.15rem;
+}
+.tv-kq a {
+	display: block;
+	padding: 0.65rem 0.7rem;
+	border-radius: 9px;
+	text-decoration: none;
+	color: inherit;
+	border: 1px solid transparent;
+}
+.tv-kq a:hover {
+	background: var(--nau-50);
+	border-color: var(--nau-100);
+}
+.tv-kq .ten {
+	font-family: var(--serif);
+	font-size: 1.05rem;
+	font-weight: 600;
+	color: var(--nau-800);
+}
+.tv-kq .khac {
+	font-size: 0.8rem;
+	color: var(--nau-500);
+	margin-left: 0.5rem;
+}
+.tv-kq .doan {
+	display: -webkit-box;
+	-webkit-line-clamp: 2;
+	line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	font-size: 0.87rem;
+	color: var(--chu-nhat);
+	line-height: 1.58;
+	margin-top: 0.2rem;
+}
+.tv-kq mark {
+	background: #fbeec4;
+	color: inherit;
+	border-radius: 2px;
+	padding: 0 1px;
+}
+
+.tv-khong {
+	text-align: center;
+	padding: 3rem 1rem;
+	color: var(--chu-nhat);
+}
+.tv-khong b {
+	color: var(--nau-800);
+}
+
+/* ── Phân trang ──────────────────────────────────────────────────────── */
+.tv-trang-so {
+	display: flex;
+	gap: 0.4rem;
+	justify-content: center;
+	align-items: center;
+	margin: 2.5rem 0 1rem;
+	font-size: 0.87rem;
+}
+.tv-trang-so a,
+.tv-trang-so span {
+	padding: 0.4rem 0.8rem;
+	border-radius: 7px;
+	border: 1px solid var(--vien);
+	text-decoration: none;
+	color: var(--nau-700);
+}
+.tv-trang-so span {
+	border-color: transparent;
+	color: var(--chu-nhat);
+}
+
+/* ── Chân trang ──────────────────────────────────────────────────────── */
+.tv-chan {
+	border-top: 1px solid var(--vien);
+	margin-top: 3.5rem;
+	padding: 1.75rem 0 2.5rem;
+	font-size: 0.83rem;
+	color: var(--chu-nhat);
+	text-align: center;
+}
+.tv-chan a {
+	color: var(--nau-700);
+}
+
+@media (max-width: 640px) {
+	.tv-cot {
+		columns: 1;
+	}
+	.tv-mucluc a {
+		grid-template-columns: 1.6rem 1fr;
+	}
+	.tv-mucluc .dem {
+		grid-column: 2;
+		margin-top: 0.3rem;
+	}
+	.tv-bia {
+		padding: 2.25rem 0 1.75rem;
+	}
+	.tv-o button {
+		display: none;
+	}
+	.tv-o input {
+		padding-right: 1.2rem;
+	}
+}
