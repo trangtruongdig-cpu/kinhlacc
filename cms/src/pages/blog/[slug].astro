@@ -24,13 +24,16 @@ if (!slug) {
 	return Astro.redirect("/404");
 }
 
-const { entry: post, cacheHint } = await getEmDashEntry("bai_viet", slug);
+// isPreview: bật khi mở qua link "Xem trên site" của admin — middleware của EmDash xác
+// minh token đã ký rồi mới cho getEmDashEntry trả BẢN NHÁP thay vì bản đã đăng.
+const { entry: post, cacheHint, isPreview } = await getEmDashEntry("bai_viet", slug);
 
 if (!post) {
 	return Astro.redirect("/404");
 }
 
-if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+// Không được cache trang xem trước: cache lại thì bản nháp rò ra cho người đọc thường.
+if (Astro.cache?.enabled && !isPreview) Astro.cache.set(cacheHint);
 
 // Get featured image URL for OG fallback
 // The image may have src (external) or meta.storageKey (local)
@@ -114,6 +117,13 @@ const publishDate =
 	modifiedTime={post.data.updatedAt.toISOString()}
 	content={{ collection: "bai_viet", id: post.data.id, slug }}
 >
+	{isPreview && (
+		<div class="bang-xem-truoc" role="alert">
+			<strong>Bản nháp — đang xem trước.</strong>
+			Trang này chưa đăng, người đọc và Google không thấy được.
+		</div>
+	)}
+
 	<article class="article">
 		{/* Hero: Full-width featured image */}
 		{
@@ -961,5 +971,16 @@ const publishDate =
 		.more-grid {
 			grid-template-columns: 1fr;
 		}
+	}
+
+	.bang-xem-truoc {
+		background: #fff4d6;
+		border: 1px solid #e0b64a;
+		border-left: 4px solid #c8901f;
+		color: #6b4a10;
+		padding: 0.75rem 1rem;
+		border-radius: 6px;
+		margin-bottom: 1.25rem;
+		font-size: 0.95rem;
 	}
 </style>
