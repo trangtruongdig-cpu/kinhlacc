@@ -12,7 +12,7 @@ const NGUOI_DUYET = "Trương Đình Trang";
 
 interface Props {
 	entry: any;
-	loai: "benh_hoc" | "cham_cuu_tri_benh";
+	loai: "benh_hoc" | "cham_cuu_tri_benh" | "huyet_vi";
 	/** Mục cùng tên bệnh ở nhóm kia, để dệt liên kết chéo như bản tĩnh đang làm. */
 	cheo?: { slug: string; ten: string } | null;
 	faq?: { q: string; a: string }[];
@@ -21,9 +21,15 @@ const { entry, loai, cheo = null, faq = [] } = Astro.props;
 const d = entry?.data ?? {};
 
 const goc = Astro.site?.origin ?? Astro.url.origin;
-const duong = loai === "benh_hoc" ? "benh-hoc" : "cham-cuu-tri-benh";
+// Tên collection dùng gạch dưới (EmDash bắt buộc), URL dùng gạch ngang.
+const NHOM = {
+	benh_hoc: { duong: "benh-hoc", nhan: "Bệnh Học" },
+	cham_cuu_tri_benh: { duong: "cham-cuu-tri-benh", nhan: "Châm Cứu Trị Bệnh" },
+	huyet_vi: { duong: "huyet", nhan: "Huyệt Vị" },
+} as const;
+const duong = NHOM[loai].duong;
 const url = `${goc}/${duong}/${entry.slug}/`;
-const nhanNhom = loai === "benh_hoc" ? "Bệnh Học" : "Châm Cứu Trị Bệnh";
+const nhanNhom = NHOM[loai].nhan;
 
 const capNhat = (entry.data?.updatedAt ?? entry.updatedAt)
 	? new Date(entry.data?.updatedAt ?? entry.updatedAt).toISOString().slice(0, 10)
@@ -33,6 +39,8 @@ const capNhat = (entry.data?.updatedAt ?? entry.updatedAt)
 // Đây là tín hiệu E-E-A-T mạnh nhất cho một trang y khoa — mạnh hơn cả dòng "đã rà soát".
 const nguon = rutNguon(
 	d.dai_cuong, d.nguyen_nhan, d.chan_doan, d.dieu_tri, d.benh_an, d.tham_khao, d.trieu_chung,
+	// các phần riêng của huyệt
+	d.y_nghia_ten, d.dac_tinh, d.vi_tri, d.giai_phau, d.tac_dung, d.chu_tri, d.cham_cuu, d.xuat_xu,
 );
 
 // Nối trích dẫn với thư mục nguồn: có trong thư mục thì thành liên kết sang trang nguồn,
@@ -106,8 +114,8 @@ if (faq.length)
 
 {cheo && (
 	<div class="dl-cross">
-		<a href={`/${loai === "benh_hoc" ? "cham-cuu-tri-benh" : "benh-hoc"}/${cheo.slug}/`}>
-			{loai === "benh_hoc" ? "🩺 Xem cách Châm Cứu Trị" : "📖 Xem Bệnh Học về"} “{cheo.ten}” →
+		<a href={`/${loai === "cham_cuu_tri_benh" ? "benh-hoc" : "cham-cuu-tri-benh"}/${cheo.slug}/`}>
+			{loai === "cham_cuu_tri_benh" ? "📖 Xem Bệnh Học về" : "🩺 Xem cách Châm Cứu Trị"} “{cheo.ten}” →
 		</a>
 	</div>
 )}

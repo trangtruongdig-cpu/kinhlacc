@@ -1,0 +1,103 @@
+---
+// MucTu.astro — Khung cho MỘT MỤC TỪ của thư viện (huyệt, bệnh, vị thuốc, bài thuốc…).
+//
+// Vì sao không dùng Base.astro: Base là khung blog — thanh đầu đen, ô "Search..." tiếng
+// Anh chạy bằng LiveSearch của EmDash (mà FTS5 không chạy trên Postgres nên ô đó luôn
+// trắng), và thân bài KHÔNG có lề nên chữ chạm sát mép màn hình. Mục từ dùng chung nhận
+// diện với /thu-vien: đầu trang gọn, ô tra cứu thật, cột chữ có bề ngang đọc được.
+import "../styles/thu-vien.css";
+import "../styles/tu-dien.css";
+import { Font } from "astro:assets";
+import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
+import { createPublicPageContext } from "emdash/page";
+import OTraCuu from "../components/OTraCuu.astro";
+
+interface Props {
+	title: string;
+	description?: string | null;
+	type?: "website" | "article";
+	modifiedTime?: string | null;
+	content?: { collection: string; id: string; slug?: string | null };
+}
+const { title, description, type = "article", modifiedTime, content } = Astro.props;
+
+const pageCtx = createPublicPageContext({
+	Astro,
+	kind: content ? "content" : "custom",
+	pageType: type,
+	title,
+	pageTitle: title,
+	description,
+	content,
+	articleMeta: { modifiedTime },
+	siteName: "Kinh Lạc Trương Gia",
+});
+---
+
+<!doctype html>
+<html lang="vi">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<Font cssVariable="--font-body" preload />
+		<Font cssVariable="--font-tu-dien" preload />
+		<title>{title}</title>
+		<EmDashHead page={pageCtx} />
+	</head>
+	<body class="tv">
+		<EmDashBodyStart page={pageCtx} />
+
+		<header class="tv-dau">
+			<div class="tv-dau-trong">
+				<a class="tv-hieu" href="/thu-vien/">
+					Thư Viện Đông Y <span>Kinh Lạc</span>
+				</a>
+				<a class="tv-ve" href="/">← Trang chủ</a>
+			</div>
+		</header>
+
+		<div class="mt-otra">
+			<OTraCuu />
+		</div>
+
+		<main class="mt-than">
+			<article class="dl-article">
+				<slot />
+			</article>
+		</main>
+
+		<footer class="tv-chan">
+			<div class="tv-trong">
+				Tư liệu số hoá từ bộ từ điển Đông Y · <a href="/thu-vien/">Mục lục thư viện</a>
+			</div>
+		</footer>
+
+		<EmDashBodyEnd page={pageCtx} />
+	</body>
+</html>
+
+<style is:global>
+	/* Cột chữ có bề ngang đọc được. Trước đây thân bài ăn hết bề ngang màn hình nên
+	   dòng dài tới 1.280px — mắt đọc xong một dòng thì lạc mất dòng kế. */
+	.mt-otra {
+		max-width: 44rem;
+		margin: 1.75rem auto 0;
+		padding: 0 1.25rem;
+	}
+	.mt-than {
+		max-width: 48rem;
+		margin: 0 auto;
+		padding: 1.75rem 1.25rem 0;
+	}
+	.mt-than h1 {
+		font-family: var(--serif);
+		font-size: clamp(1.7rem, 4vw, 2.3rem);
+		font-weight: 700;
+		color: var(--nau-900);
+		margin: 0.35rem 0 1.25rem;
+		line-height: 1.22;
+	}
+	.mt-than .dl-article {
+		background: transparent;
+	}
+</style>

@@ -1,0 +1,129 @@
+---
+// Trang Huyệt Vị — GIỮ NGUYÊN đường dẫn /huyet/<slug>/ của bản tĩnh.
+//
+// Slug lấy từ _slug của dữ liệu tĩnh (đã khử trùng: am-khich, am-khich-2…), vì bỏ dấu
+// xong thì 15 cặp như Âm Khích/Ẩm Khích hay Hạ Quan/Hạ Quản dồn về cùng một chữ.
+import { getEmDashEntry } from "emdash";
+import VanBanYVan from "../../components/VanBanYVan.astro";
+import KhungSeoYKhoa from "../../components/KhungSeoYKhoa.astro";
+import MucTu from "../../layouts/MucTu.astro";
+import "../../styles/tu-dien.css";
+import { decodeSlug } from "emdash";
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.redirect("/404");
+
+const { entry, cacheHint, isPreview } = await getEmDashEntry("huyet_vi", slug);
+if (!entry) return Astro.redirect("/404");
+if (Astro.cache?.enabled && !isPreview) Astro.cache.set(cacheHint);
+
+const d = entry.data;
+
+// Thứ tự các mục theo đúng bố cục của sách tra huyệt.
+const PHAN: [string, string][] = [
+	["y_nghia_ten", "Ý Nghĩa Tên Huyệt"],
+	["xuat_xu", "Xuất Xứ"],
+	["dac_tinh", "Đặc Tính"],
+	["vi_tri", "Vị Trí"],
+	["giai_phau", "Giải Phẫu"],
+	["tac_dung", "Tác Dụng"],
+	["chu_tri", "Chủ Trị"],
+	["cham_cuu", "Cách Châm Cứu"],
+];
+const coPhan = PHAN.filter(([k]) => d[k]);
+
+// Dòng danh pháp: mã quốc tế, tên Hán, pinyin, tên tiếng Anh.
+const danhPhap = [
+	d.ma_huyet && { nhan: "Mã quốc tế", giaTri: d.ma_huyet },
+	d.ten_han && { nhan: "Tên Hán", giaTri: d.ten_han },
+	d.pinyin && { nhan: "Pinyin", giaTri: d.pinyin },
+	d.ten_anh && { nhan: "Tiếng Anh", giaTri: d.ten_anh },
+].filter(Boolean) as { nhan: string; giaTri: string }[];
+
+const moTa =
+	`Huyệt ${d.title}${d.ma_huyet ? ` (${d.ma_huyet})` : ""}: vị trí, tác dụng, ` +
+	`chủ trị và cách châm cứu theo y văn Đông Y.`;
+---
+
+<MucTu title={`${d.title}${d.ma_huyet ? ` (${d.ma_huyet})` : ""} — Huyệt Vị Đông Y`} description={moTa} type="article">
+	{isPreview && (
+		<div class="bang-xem-truoc" role="alert"><strong>Bản nháp — đang xem trước.</strong></div>
+	)}
+		<KhungSeoYKhoa entry={entry} loai="huyet_vi">
+			<h1>{d.title}</h1>
+
+			{(danhPhap.length > 0 || d.ten_khac) && (
+				<dl class="hv-danh-phap">
+					{d.ten_khac && (
+						<>
+							<dt>Tên khác</dt>
+							<dd>{d.ten_khac}</dd>
+						</>
+					)}
+					{danhPhap.map((x) => (
+						<>
+							<dt>{x.nhan}</dt>
+							<dd>{x.giaTri}</dd>
+						</>
+					))}
+				</dl>
+			)}
+
+			{coPhan.map(([k, nhan]) => (
+				<section class="dl-phan">
+					<h2>{nhan}</h2>
+					<VanBanYVan value={d[k]} />
+				</section>
+			))}
+
+			{d.pho_huyet && (
+				<section class="dl-phan">
+					<h2>Phối Huyệt</h2>
+					<p class="hv-tho">{d.pho_huyet}</p>
+				</section>
+			)}
+			{d.ghi_chu && (
+				<section class="dl-phan">
+					<h2>Ghi Chú</h2>
+					<p class="hv-tho">{d.ghi_chu}</p>
+				</section>
+			)}
+			{d.tham_khao && (
+				<section class="dl-phan">
+					<h2>Tham Khảo</h2>
+					<p class="hv-tho">{d.tham_khao}</p>
+				</section>
+			)}
+		</KhungSeoYKhoa>
+</MucTu>
+
+<style>
+	.hv-danh-phap {
+		display: grid;
+		grid-template-columns: max-content 1fr;
+		gap: 0.3rem 1.1rem;
+		margin: 0 0 1.75rem;
+		padding: 0.9rem 1.1rem;
+		background: var(--nau-50, #faf6ef);
+		border: 1px solid var(--nau-100, #f1e7d6);
+		border-radius: 10px;
+		font-size: 0.93rem;
+	}
+	.hv-danh-phap dt {
+		font-size: 0.73rem;
+		font-weight: 700;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: var(--nau-600, #8a5e28);
+		align-self: baseline;
+		padding-top: 0.12rem;
+	}
+	.hv-danh-phap dd {
+		margin: 0;
+		color: var(--chu, #2c2620);
+	}
+	.hv-tho {
+		line-height: 1.78;
+		white-space: pre-line;
+	}
+</style>

@@ -4,7 +4,7 @@
 import { getEmDashEntry, getEmDashCollection, decodeSlug } from "emdash";
 import VanBanYVan from "../../components/VanBanYVan.astro";
 import "../../styles/tu-dien.css";
-import Base from "../../layouts/Base.astro";
+import MucTu from "../../layouts/MucTu.astro";
 import KhungSeoYKhoa from "../../components/KhungSeoYKhoa.astro";
 
 const slug = decodeSlug(Astro.params.slug);
@@ -27,11 +27,10 @@ const coPhan = PHAN.filter(([k]) => entry.data[k]);
 const moTa = `${entry.data.title}: nguyên nhân, chẩn đoán và cách điều trị theo Đông Y.`;
 ---
 
-<Base title={`${entry.data.title} — Bệnh Học Đông Y`} description={moTa} type="article">
+<MucTu title={`${entry.data.title} — Bệnh Học Đông Y`} description={moTa} type="article">
 	{isPreview && (
 		<div class="bang-xem-truoc" role="alert"><strong>Bản nháp — đang xem trước.</strong></div>
 	)}
-	<main class="bl-main"><article class="bl-article dl-article">
 		<KhungSeoYKhoa entry={entry} loai="benh_hoc" cheo={cheo}>
 			<h1>{entry.data.title}</h1>
 			{coPhan.map(([k, nhan]) => (
@@ -41,5 +40,4 @@ const moTa = `${entry.data.title}: nguyên nhân, chẩn đoán và cách điề
 				</section>
 			))}
 		</KhungSeoYKhoa>
-	</article></main>
-</Base>
+</MucTu>
