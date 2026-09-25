@@ -39,12 +39,13 @@ const MOI_TRANG = 400;
 const vanCuaMuc = slug ? await chuCaiCuaMuc(bo, slug) : undefined;
 const chuCai = vanChon ?? vanCuaMuc;
 
-const [muc, dsChu, dsThe, { muc: ds, tong }] = await Promise.all([
+const [muc, dsChu, dsThe, duyetKQ] = await Promise.all([
 	danhSachMuc(),
 	chuCaiCua(bo),
 	theLocCua(bo),
 	duyet(bo, { chuCai, the, moiTrang: MOI_TRANG }),
 ]);
+let { muc: ds, tong } = duyetKQ;
 
 const mucNay = muc.find((m) => m.bo === bo);
 const duongMuc = mucNay?.duong_dan ?? `/thu-vien/${bo}/`;
@@ -55,11 +56,35 @@ const soMuc = (n: number) => n.toLocaleString("vi-VN");
 // được bằng mắt. Chỉ mục td_muc không giữ chúng nên hỏi thẳng bảng nội dung một lượt
 // cho cả trang (slug = ANY(...)), không hỏi từng dòng.
 const PHU: Record<string, { anh?: boolean; dem?: string; donVi?: string }> = {
-	huyet_vi: { anh: true },
+	huyet_vi: { anh: true, dem: "so_benh", donVi: "bệnh" },
 	duoc_lieu: { anh: true, dem: "so_bai_thuoc", donVi: "bài" },
 	bai_thuoc: { dem: "so_benh", donVi: "bệnh" },
 };
+
+// Kiểu sắp: bản cũ mặc định "Thường dùng" (nhiều bệnh dùng nhất trước), đổi được sang
+// A–Z. Chỉ có nghĩa ở mục nào có cột đếm.
+const sap = (Astro.url.searchParams.get("sap") || "").trim();
+const coSap = !!PHU[bo]?.dem;
+const sapPhoBien = coSap && sap !== "ten" && !chuCai && !the;
 const phu = PHU[bo];
+
+// "Thường dùng" = nhiều bệnh/bài dùng nhất trước. Chỉ mục td_muc không giữ cột đếm nên
+// lấy thứ tự thẳng từ bảng nội dung, rồi ghép lại với td_muc để có tên khác + đường dẫn.
+if (sapPhoBien && phu?.dem) {
+	const top = await truyVan<{ slug: string }>(
+		`SELECT slug FROM ec_${bo}
+		 WHERE deleted_at IS NULL AND status = 'published'
+		 ORDER BY COALESCE(${phu.dem}, 0) DESC, title
+		 LIMIT ${MOI_TRANG}`,
+	);
+	const thuTu = new Map(top.map((x, i) => [x.slug, i]));
+	const toanBo = await duyet(bo, { moiTrang: 100000 });
+	ds = toanBo.muc
+		.filter((k) => thuTu.has(k.slug))
+		.sort((a, b) => thuTu.get(a.slug)! - thuTu.get(b.slug)!);
+	tong = toanBo.tong;
+}
+
 const kemTheo = new Map<string, { anh?: string; dem?: number }>();
 if (phu && ds.length) {
 	const cot = ["slug", phu.anh ? "anh" : null, phu.dem ?? null].filter(Boolean).join(", ");
@@ -85,6 +110,7 @@ for (const t of dsThe) {
 	g.ds.push(t);
 }
 const theDangChon = dsThe.find((t) => t.ma_the === the);
+const moLoc = Astro.url.searchParams.get("loc") === "1";
 
 const duong = (tham: Record<string, string | undefined>) => {
 	const u = new URLSearchParams();
@@ -167,60 +193,93 @@ const pageCtx = createPublicPageContext({
 						<span class="td-count" data-rai-dem>{soMuc(tong)} / {soMuc(tongBo)}</span>
 					</div>
 
+					{/* ── Bộ lọc đặc tính — thẻ và lớp GỐC: .td-filter / .td-filterbtn /
+					     .td-filterpill / .td-traitpanel / .tp-grp / .tp-chip ─────────── */}
 					{
 						nhomThe.length > 0 && (
-							<div class="td-filter">
-								<details class="tv-loc" open={!!the}>
-									<summary>
-										{theDangChon ? (
-											<>
-												⚲ <b>{theDangChon.ten}</b> <span class="tv-loc-bo">✕ bỏ lọc</span>
-											</>
-										) : (
-											"⚲ Lọc Đặc Tính"
-										)}
-									</summary>
-									<div class="tv-loc-than">
-										{the && (
-											<a class="tv-chip tv-chip-bo" href={duong({ the: undefined })}>
-												✕ Bỏ lọc
+							<>
+								<div class="td-filter">
+									{theDangChon ? (
+										<div class="td-filterpill">
+											<a
+												class:list={["pill-main", moLoc && "open"]}
+												href={duong({ loc: moLoc ? undefined : "1" })}
+											>
+												<span class="pill-dot">●</span>
+												{theDangChon.ten}
+												<span class="pill-n">{soMuc(theDangChon.n)}</span>
 											</a>
-										)}
+											<a class="pill-x" href={duong({ the: undefined, loc: undefined })} title="Bỏ lọc đặc tính">
+												✕
+											</a>
+										</div>
+									) : (
+										<a
+											class:list={["td-filterbtn", moLoc && "open"]}
+											href={duong({ loc: moLoc ? undefined : "1" })}
+										>
+											<span>⚲ Lọc Đặc Tính</span>
+											<span class="chev">{moLoc ? "▴" : "▾"}</span>
+										</a>
+									)}
+								</div>
+
+								{moLoc && (
+									<div class="td-traitpanel">
 										{nhomThe.map((g) => (
-											<>
-												<p class="tv-loc-nhom">{g.nhom}</p>
-												<div class="tv-chips">
+											<div class="tp-grp">
+												<h5 class="tp-grp-h">{g.nhom}</h5>
+												<div class="tp-chips">
 													{g.ds.map((t) => (
 														<a
-															class={`tv-chip ${t.ma_the === the ? "dang" : ""}`}
-															href={duong({ the: t.ma_the === the ? undefined : t.ma_the })}
+															class:list={["tp-chip", t.ma_the === the && "active"]}
+															href={duong({ the: t.ma_the === the ? undefined : t.ma_the, loc: undefined })}
 														>
-															{t.ten} <em>{soMuc(t.n)}</em>
+															{t.ten}
+															<span class="tp-n">{soMuc(t.n)}</span>
 														</a>
 													))}
 												</div>
-											</>
+											</div>
 										))}
 									</div>
-								</details>
+								)}
+							</>
+						)
+					}
+
+					{/* ── Sắp xếp — .td-acusort của bản cũ ────────────────────────── */}
+					{
+						coSap && (
+							<div class="td-acusort">
+								<a href={duong({ sap: undefined, van: undefined })} class={sapPhoBien ? "on" : ""}>
+									Thường dùng
+								</a>
+								<a href={duong({ sap: "ten", van: undefined })} class={!sapPhoBien ? "on" : ""}>
+									A–Z
+								</a>
 							</div>
 						)
 					}
 
-					<nav class="tv-van" aria-label="Tra theo vần">
-						<a href={`${duongMuc}${the ? `?the=${the}&` : "?"}van=`} class={chuCai ? "" : "dang"}>Tất cả</a>
-						{
-							CHU.filter((c) => coVan.has(c)).map((c) => (
-								<a
-									href={duong({ van: c === chuCai ? undefined : c })}
-									class={chuCai === c ? "dang" : ""}
-									title={`${coVan.get(c)} mục`}
-								>
-									{c}
-								</a>
-							))
-						}
-					</nav>
+					{/* ── Thanh vần — .td-alpha của bản cũ. Bản cũ chỉ hiện khi đang sắp
+					     A–Z; giữ đúng vậy. ──────────────────────────────────────── */}
+					{
+						!sapPhoBien && (
+							<div class="td-alpha">
+								<a href={duong({ van: undefined })} class={chuCai ? "" : "on"}>Tất cả</a>
+								{CHU.filter((c) => coVan.has(c)).map((c) => (
+									<a
+										href={duong({ van: c === chuCai ? undefined : c })}
+										class={chuCai === c ? "on" : ""}
+										title={`${coVan.get(c)} mục`}
+									>
+										{c}
+									</a>
+								))}
+							</div>
+						)
+					}
 
 					<ul class="td-list" data-rai-ds>
 						{
