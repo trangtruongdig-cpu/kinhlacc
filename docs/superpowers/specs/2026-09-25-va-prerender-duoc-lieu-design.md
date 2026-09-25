@@ -182,10 +182,25 @@ Nghiệm thu — phép thử đối kháng, không chỉ thử đường sáng:
 | Cert giả tự ký (`CN=ke-mao-danh`) | **bị từ chối**: `self-signed certificate in certificate chain` |
 | `rejectUnauthorized: true` không kèm CA | lỗi — Aiven ký bằng CA riêng nên bắt buộc phải có CA |
 
-⚠️ **Rủi ro đã biết, ghi sổ nợ.** Khi không nối được DB (cert sai, mạng hỏng, mật khẩu đổi),
-ba script **âm thầm bỏ qua và build vẫn báo thành công** — đúng cơ chế đã giấu lỗi này suốt thời
-gian qua. Cách phát hiện hiện nay là đếm URL trong sitemap sau mỗi lần deploy; nên có phép kiểm
-tự động chặn deploy khi sitemap tụt đột ngột.
+### Chốt chặn: biến cơ chế giấu lỗi thành lỗi build thật
+
+Khi không nối được DB (cert sai, mạng hỏng, mật khẩu đổi), ba script **âm thầm bỏ qua và build
+vẫn báo thành công** — đúng cơ chế đã giấu lỗi này suốt nhiều tháng. Ý đồ ban đầu tốt (một sự cố
+mạng không nên làm gãy deploy), nhưng cái giá là 15.054 trang biến mất mà không ai biết.
+
+`frontend/scripts/kiem-sitemap.mjs` chạy CUỐI `blog:post`, đọc sitemap đã sinh và so với ngưỡng
+tối thiểu từng nhóm (đặt ở ~70–80% số thật để dao động bình thường không báo động giả). Thiếu →
+`exit 1` → build gãy → deploy dừng, thay vì đẩy lên một site mất hàng nghìn trang.
+
+Nghiệm thu hai chiều:
+
+| Thử | Kết quả |
+|---|---|
+| Sitemap thật (7.161 URL) | exit 0, cả 7 nhóm đạt |
+| Sitemap mô phỏng prerender bị bỏ qua (909 URL) | **exit 1**, chỉ đúng 3 nhóm thiếu |
+
+⚠️ Siết luật index (giảm số trang có chủ ý) thì phải hạ ngưỡng trong `kiem-sitemap.mjs` cùng lúc,
+không thì build gãy oan.
 
 ## Ngoài phạm vi
 

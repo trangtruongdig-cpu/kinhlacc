@@ -15,7 +15,7 @@
     "blog:gate": "node scripts/qa-auto-articles.mjs --gate",
     "blog:review": "node scripts/qa-auto-articles.mjs",
     "blog:pre": "node scripts/qa-auto-articles.mjs --gate && node scripts/gen-sitemap.mjs",
-    "blog:post": "node scripts/prerender-seo.mjs && node scripts/build-blog.mjs && node scripts/build-dict.mjs && node scripts/build-phuong.mjs && node scripts/build-duoc-lieu.mjs && node scripts/build-nhom-duoc-ly.mjs",
+    "blog:post": "node scripts/prerender-seo.mjs && node scripts/build-blog.mjs && node scripts/build-dict.mjs && node scripts/build-phuong.mjs && node scripts/build-duoc-lieu.mjs && node scripts/build-nhom-duoc-ly.mjs && node scripts/kiem-sitemap.mjs",
     "build-phuong": "node scripts/build-phuong.mjs",
     "build-duoc-lieu": "node scripts/build-duoc-lieu.mjs",
     "build-nhom-duoc-ly": "node scripts/build-nhom-duoc-ly.mjs",
@@ -28,7 +28,8 @@
     "lint": "run-s lint:*",
     "lint:oxlint": "oxlint . --fix",
     "lint:eslint": "eslint . --fix --cache",
-    "format": "prettier --write --experimental-cli src/"
+    "format": "prettier --write --experimental-cli src/",
+    "kiem-sitemap": "node scripts/kiem-sitemap.mjs"
   },
   "dependencies": {
     "@types/cytoscape": "^3.21.9",
