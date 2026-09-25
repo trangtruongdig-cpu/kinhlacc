@@ -705,6 +705,53 @@ git commit -m "feat(acu): bộ chụp ảnh huyệt bằng Playwright, nạp mod
 
 ---
 
+### Task 5b: Tự chụp lại khi toạ độ huyệt đổi
+
+Người dùng chốt 26/09 sau khi xem 12 huyệt mẫu: *"mỗi khi sửa huyệt thì ảnh phải tự cập nhật lại vì ảnh này có 1 vài huyệt chưa chính xác"*. Ảnh là sản phẩm phái sinh của `acu-coords3d.js`; sửa toạ độ mà ảnh đứng im là trang dạy sai vị trí.
+
+**Files:**
+- Modify: `backend/src/acu-solver/chup-huyet.cjs`
+
+**Interfaces:**
+- Produces: cờ `--doi-moi` chỉ chụp lại ảnh đã cũ; mỗi dòng `hoso.json` mang thêm `dauVan`.
+
+**Ba loại phụ thuộc, không được bỏ sót loại nào:**
+
+| Ảnh | Cũ khi nào |
+|---|---|
+| `da`, `gp` của X | toạ độ hoặc pháp tuyến của **X** đổi |
+| `lan` của Y | toạ độ của **bất kỳ huyệt nào trong bán kính** của Y đổi — kể cả huyệt khác kinh |
+| `kinh` của X | toạ độ của **bất kỳ huyệt nào trên cùng đường kinh** đổi, hoặc `meridian-paths.js` đổi |
+
+Dời một huyệt là làm cũ nhiều hơn bốn ảnh của chính nó. Bỏ tầng phụ thuộc thì ảnh `lan` của huyệt bên cạnh vẫn vẽ huyệt X ở chỗ cũ, sai mà không ai thấy.
+
+**Vân tay phải gộp cả khung hình**, vì sửa `khung-anh.json` (hướng nhìn, bán kính) cũng làm ảnh cũ:
+- `da`/`gp`: băm `{x, y, z, n}` của X (làm tròn 5 chữ số) + `{huong, banKinhCm}` đã dùng
+- `lan`: băm danh sách đã sắp của `[mã, x, y, z]` mọi huyệt trong bán kính, kể cả chính nó, + `{huong, banKinhCm}`
+- `kinh`: băm danh sách đã sắp của `[mã, x, y, z]` mọi huyệt cùng kinh + băm nội dung `meridian-paths.js` + `{huong}`
+
+- [ ] **Step 1: Ghi vân tay khi chụp**
+
+Tính vân tay theo ba công thức trên, ghi vào mỗi dòng `hoso.json` thành khoá `dauVan`. Dòng cũ chưa có `dauVan` thì coi như CŨ (phải chụp lại) — như vậy 48 ảnh đã chụp trước khi có khâu này sẽ được làm mới một lượt.
+
+- [ ] **Step 2: Cờ `--doi-moi`**
+
+`node chup-huyet.cjs --doi-moi` tính lại vân tay của mọi ảnh ĐANG CÓ trong hồ sơ, so với vân tay đã lưu, rồi chụp lại đúng những ảnh lệch. Ghép được với `--chi-dem` để chỉ liệt kê mà không chụp. In rõ mỗi ảnh cũ vì lý do gì (toạ độ chính nó / huyệt lân cận / cùng kinh / khung hình).
+
+- [ ] **Step 3: Kiểm bằng cách sửa giả một toạ độ**
+
+Sao lưu `acu-coords3d.js`, dịch **một** huyệt kinh Phế đi vài milimét, chạy `--doi-moi --chi-dem`, rồi **trả lại nguyên trạng ngay**. Kỳ vọng: liệt kê đúng 4 ảnh của huyệt đó, cộng ảnh `lan` của các huyệt quanh nó, cộng 11 ảnh `kinh` của cả kinh Phế. Chạy `--doi-moi --chi-dem` lần nữa sau khi trả lại nguyên trạng thì phải ra **rỗng**.
+
+- [ ] **Step 4: Commit**
+
+```bash
+cd /Users/truongtrang/Desktop/kinhlacc
+git add backend/src/acu-solver/chup-huyet.cjs
+git commit -m "feat(acu): tự chụp lại ảnh khi toạ độ huyệt đổi, có tính cả ảnh phụ thuộc"
+```
+
+---
+
 ### Task 6: Chuyển WebP, đo dung lượng, nạp vào CMS
 
 **Files:**
