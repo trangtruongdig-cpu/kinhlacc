@@ -1,0 +1,12 @@
+{
+  "_ghiChu": "Hướng nhìn mặc định theo kinh chép từ VIEW trong render-doi-chieu.cjs — chỉ dùng làm DỰ BỊ khi pháp tuyến huyệt không quyết được. banKinhCm là bán kính vùng nhìn quanh huyệt; ảnh 'kinh' bỏ qua bán kính này (dùng 95cm cố định trong __XUONG).",
+  "macDinh": {
+    "LU": { "huong": "front" }, "LI": { "huong": "front" }, "ST": { "huong": "front" },
+    "SP": { "huong": "front" }, "HT": { "huong": "front" }, "SI": { "huong": "back" },
+    "BL": { "huong": "back" },  "KI": { "huong": "front" }, "PC": { "huong": "front" },
+    "TE": { "huong": "back" },  "GB": { "huong": "left" },  "LR": { "huong": "front" },
+    "CV": { "huong": "front" }, "GV": { "huong": "back" }
+  },
+  "banKinh": { "da": 10, "gp": 10, "lan": 18 },
+  "ngoaiLe": {}
+}
