@@ -230,6 +230,40 @@ Thêm cột nội dung mới cho một bộ thì phải khai tên cột vào m�
 `cms/scripts-di-cu/dung-chi-muc.mjs` rồi chạy lại, không thì nội dung mới hiện trên
 trang mà tra không bao giờ ra.
 
+## Cắm CMS: ba tệp SINH LẠI, hai bộ ĐẨY SANG
+
+Năm bộ nội dung đi hai đường khác nhau, đừng lẫn.
+
+**Sinh lại tệp tĩnh** (huyệt vị, hai bộ bệnh, kinh mạch) — CMS là nguồn, chạy
+`cms/scripts-di-cu/xuat-{huyet,benh,meridians}-js.mjs`. Mỗi bộ có HAI chốt:
+
+- `--kiem` so sâu cả đối tượng với tệp đang dùng. ⚠️ Nó khớp theo id nên **không bắt
+  được thứ tự bản ghi** — chỉ `cmp` mới bắt. Đã cắn một lần ở `benh.js`.
+- `--kiem-goc` so với BẢN GỐC trong git theo TẬP CON: khoá gốc phải còn nguyên, khoá
+  MỚI được phép. Chốt này sống lâu hơn `cmp`, vốn hết vai trò ngay khi có ai cố ý thêm
+  trường. Mốc của mỗi tệp KHÁC NHAU, khai ở `kiem-goc.mjs` — `meridians.js` neo vào
+  `d01a26e` chứ không phải `c7a2652`, vì d01a26e sửa tên huyệt thật.
+
+**Đẩy sang DB app** (dược liệu, bài thuốc) — hai bộ này không có tệp tĩnh, chúng nằm
+thẳng trong `vi_thuoc` / `phuong_thang`. `cms/scripts-di-cu/dong-bo-app.mjs` đẩy MỘT
+CHIỀU CMS → app.
+
+⚠️ **Đây là tệp duy nhất trong `cms/` ghi vào DB mà phòng chẩn trị đang dùng.** Chạy thử
+là mặc định, phải `--ghi` mới ghi thật; ghi trong một giao dịch; trần an toàn 300 ô/lượt
+và 20 ô bị làm rỗng.
+
+Tính chất nền móng: **chưa ai sửa gì thì đồng bộ phải ra ĐÚNG 0 ô.** Có thế thì mỗi ô
+hiện ra trong chế độ thử mới đọc được là "người biên tập đã sửa" chứ không phải "lỗi
+chuyển đổi". Nếu một hôm `--thu` in ra hàng trăm dòng thì **đừng `--ghi`** — hãy đi tìm
+lỗi chuyển đổi trước.
+
+KHÔNG đồng bộ, và đây là giới hạn đã biết chứ không phải bỏ sót: `ten_khac` của dược
+liệu (bản nhập GỘP cột `vi_thuoc.ten_khac` với bảng `vi_thuoc_ten_goi_khac`, ghi ngược
+là app hiện hai lần), và các trường dựa trên bảng liên kết (`cong_dung_ds`,
+`kieng_ky_ds`, chủ trị dạng danh sách, kinh mạch) — app lưu bằng KHOÁ NGOẠI tới bảng
+tra cứu dùng chung, ghi ngược từ chuỗi sẽ tự tạo mục tra cứu mới mỗi khi có lỗi gõ.
+**Sửa những trường đó trong CMS sẽ không tới app.**
+
 ## SEO: hai chốt chặn, và chỗ người biên tập sửa được
 
 Thẻ SEO của 18.425 trang tĩnh ráp ở `frontend/scripts/seo-html.mjs`, nội dung do từng
