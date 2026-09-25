@@ -67,9 +67,14 @@ function scrollTo(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' })
 }
 // Mở một trang "xem thử" CÔNG KHAI (không cần đăng nhập): 3D, kết quả đo, bài thuốc.
-function openDemo(name: 'xem-3d' | 'xem-ket-qua-do' | 'xem-bai-thuoc' | 'thu-vien') {
+function openDemo(name: 'xem-3d' | 'xem-ket-qua-do' | 'xem-bai-thuoc') {
   router.push({ name })
 }
+// Thư viện tra cứu KHÔNG còn là route có tên của SPA (từ 25/09/2026 nó do CMS dựng, nginx
+// đưa thẳng sang container cms). Nút "Mở Thư Viện Tra Cứu" từng gọi openDemo('thu-vien'),
+// mà route tên đó đã bị gỡ — vue-router không khớp được gì nên NÚT CHẾT LẶNG: bấm không ra
+// gì, không báo lỗi, không ai thấy cho tới khi có người thử. Nay nó là <a href="/thu-vien/">
+// như hai nút /huyet/ và /kinh/ ngay dưới.
 
 // ── Thiệt Chẩn · Xem Lưỡi — Atlas 23 mẫu, DỮ LIỆU TĨNH (frontend/src/data/tongue-atlas.ts),
 // không cần gọi API/đăng nhập. Bấm 1 mẫu → xem SVG minh hoạ + mô tả + gợi ý Bát Cương ngay tại chỗ
@@ -1482,7 +1487,7 @@ const faqs: { q: string; a: string }[] = [
       </div>
 
       <div class="lp-lib-cta">
-        <button class="lp-btn lp-btn--primary lp-btn--lg" @click="openDemo('thu-vien')">Mở Thư Viện Tra Cứu →</button>
+        <a class="lp-btn lp-btn--primary lp-btn--lg" href="/thu-vien/">Mở Thư Viện Tra Cứu →</a>
         <!-- Link <a href> THẬT tới 2 trang hub tĩnh (Google bò được, khác button JS): đường vào /huyet/ /kinh/ -->
         <div class="lp-lib-links">
           <a class="lp-btn lp-btn--ghost lp-btn--lg" href="/huyet/">Tra Cứu 1.058 Huyệt →</a>
