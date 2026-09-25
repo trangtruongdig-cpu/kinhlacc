@@ -3163,7 +3163,16 @@
   /* ===== XƯỞNG ẢNH — chỉ dùng bởi xuong-anh.html + chup-huyet.cjs =====
    * Không phải API của app. Đặt ở đây thay vì viết engine thứ hai vì bài học "ba bản sao thuật
    * toán phải sửa đồng thời": một bản sao nữa là một chỗ nữa để lệch.
-   * Mọi hàm đều ĐỒNG BỘ và không đụng history/hash — Playwright gọi xong là chụp được ngay. */
+   * Mọi hàm đều ĐỒNG BỘ và không đụng history/hash — Playwright gọi xong là chụp được ngay.
+   *
+   * CỔNG BẬT TƯỜNG MINH: dungCanh() sửa TRẠNG THÁI DÙNG CHUNG của cảnh thật (controls.minDistance,
+   * camera.near/far) mà KHÔNG có gì tự khôi phục. Nếu móc này lỡ chạy trên trang công khai (mở
+   * devtools gõ tay, hoặc sau này route xưởng lỡ dùng chung tiến trình với trang thật) thì người
+   * dùng zoom ra sẽ thấy mô hình bị CẮT vì camera.far đã bị thu hẹp theo bán kính ảnh cận cuối cùng.
+   * Vì vậy dungCanh()/nhan() CHỈ chạy khi window.__XUONG_CHO_PHEP === true — cờ này chỉ trang xưởng
+   * (xuong-anh.html) mới đặt; thiếu cờ thì trả lỗi thay vì âm thầm sửa cảnh. */
+  let _canhGoc = null;   // { minDistance, near, far } GỐC — lưu đúng MỘT LẦN ở lượt dungCanh() đầu
+                          // tiên (trước khi sửa gì), để traLai() có cái mà khôi phục.
   window.__XUONG = {
     sanSang() { return !!modelRoot && _acuRevealed && dotMeshes.length > 0; },
 
@@ -3171,6 +3180,7 @@
      * dat = { ma, kieu:'da'|'gp'|'lan'|'kinh', huong:'front'|'back'|'left'|'right',
      *         banKinhCm, toSang:[conceptId] } */
     dungCanh(dat) {
+      if (window.__XUONG_CHO_PHEP !== true) return { loi: 'chưa mở cổng xưởng' };
       initScene();
       const { ma, kieu } = dat;
       const cham = dotMeshes.find(d =>
@@ -3209,14 +3219,26 @@
         if (parts.length) highlightParts(parts);
       }
 
+      // Lưu trạng thái GỐC đúng MỘT LẦN, trước khi sửa bất cứ gì — traLai() dựa vào đây. Không lưu
+      // lại ở những lượt dungCanh() sau vì lúc đó minDistance/near/far đã bị chính khối này ghi đè,
+      // lưu lại là lưu nhầm giá trị đã hỏng.
+      if (!_canhGoc) _canhGoc = { minDistance: controls.minDistance, near: camera.near, far: camera.far };
+
       // 4. Camera. Bán kính tính bằng cm → đơn vị world (mesh cao bodyHeight ứng 171,9cm).
-      // Hạ minDistance: controls.minDistance=0.6 đặt lúc initScene() (dòng ~371) kẹp MỌI camera
-      // đứng gần hơn 0,6 đơn vị world (~60cm quy đổi) — xa hơn hẳn bán kính ảnh cận mặc định 12cm
-      // (~0,35 đơn vị world), nên nếu không hạ thì controls.update() bên dưới sẽ kéo camera ra xa
-      // hơn dự kiến. Trang xưởng không ai kéo chuột nên hạ hẳn xuống là an toàn.
+      // Hạ minDistance — chú thích BẢN TRƯỚC ghi sai: minDistance=0.6 chỉ là giá trị initScene()
+      // (dòng ~371) đặt lúc KHỞI TẠO, trước khi model tải xong. Ngay trong callback onLoad của
+      // GLTFLoader, resetView() (dòng ~409) GÁN LẠI controls.minDistance = sph.radius * 0.25, và
+      // resetView() luôn chạy XONG TRƯỚC KHI _acuRevealed bật (tức trước khi sanSang() có thể trả
+      // true) — nên lúc dungCanh() gọi được lần đầu, minDistance đã là giá trị ĐỘNG này chứ không
+      // còn 0.6. Đo trực tiếp trên body-core.glb (mô hình thật đang tải, nửa đường chéo hộp bao —
+      // đúng công thức THREE.Box3.getBoundingSphere() dùng): sph.radius ≈ 0,923 đơn vị world nên
+      // minDistance ≈ 0,231 lúc __XUONG chạy. Vẫn phải hạ tiếp xuống 0,001 vì 0,231 đơn vị world
+      // (~23cm quy đổi) vẫn lớn hơn bán kính ảnh cực cận (dưới ~8cm ≈ 0,047 đơn vị world) — không hạ
+      // thì controls.update() bên dưới kéo camera ra xa hơn dự kiến. Trang xưởng không ai kéo chuột
+      // nên hạ hẳn xuống là an toàn (đã có traLai() khôi phục sau khi chụp xong).
       controls.minDistance = 0.001;
       const CM = bodyHeight / 171.9;
-      const r = (kieu === 'kinh' ? 95 : (dat.banKinhCm || 12)) * CM;
+      const r = (kieu === 'kinh' ? 95 : (dat.banKinhCm ?? 12)) * CM;
       const tam = cham.getWorldPosition(new THREE.Vector3());
       const HUONG = {
         front: new THREE.Vector3(0, 0, 1), back: new THREE.Vector3(0, 0, -1),
@@ -3233,17 +3255,33 @@
       return { ma, kieu, mer, banKinhWorld: +r.toFixed(4), camXa: +xa.toFixed(4) };
     },
 
-    /** Toạ độ MÀN HÌNH (px) của các chấm đang nhìn thấy, để lớp nhãn HTML đặt chữ đúng chỗ. */
+    /** Toạ độ MÀN HÌNH (px) của các chấm đang nhìn thấy, để lớp nhãn HTML đặt chữ đúng chỗ.
+     * NGƯỠNG_PHAP_TUYEN: chỉ giữ chấm có pháp tuyến mặt da hướng VỀ PHÍA CAMERA. Lọc riêng theo
+     * khoảng cách tới tâm (như bản cũ) không đủ — cổ tay chu vi chỉ ~15–16cm mà bán kính lọc mặc
+     * định đã 12cm, nên chụp PC7 (mặt trước cổ tay) thì TE4/SI5 (mặt sau) vẫn lọt bán kính dù ảnh
+     * không hề thấy chúng, làm nhãn dán sai chỗ. ĐỪNG suy pháp tuyến từ trục dọc thân — đã đo: hướng
+     * toả từ trục thân lệch pháp tuyến thật 90–150° ở tay chân. Dùng đúng m.userData.normal, pháp
+     * tuyến mặt da THẬT do addDot() lưu (xem dòng ~893). */
     nhan(banKinhCm = 12) {
+      if (window.__XUONG_CHO_PHEP !== true) return [];
+      const NGUONG_PHAP_TUYEN = 0.15;
       const CM = bodyHeight / 171.9;
       const r = banKinhCm * CM;
       const tam = controls.target;
+      const camPos = camera.position;
       const rect = renderer.domElement.getBoundingClientRect();
       const ra = [];
+      const _huongCam = new THREE.Vector3();
       for (const m of dotMeshes) {
         if ((m.userData.side || 'L') !== 'L') continue;
         const p = m.getWorldPosition(new THREE.Vector3());
         if (p.distanceTo(tam) > r) continue;
+        // che khuất: bỏ chấm ở mặt bên kia của chi — pháp tuyến của nó không hướng về camera.
+        const n = m.userData.normal;
+        if (n) {
+          _huongCam.copy(camPos).sub(p).normalize();
+          if (n.dot(_huongCam) <= NGUONG_PHAP_TUYEN) continue;
+        }
         const v = p.clone().project(camera);
         if (v.z >= 1) continue;
         ra.push({
@@ -3253,6 +3291,21 @@
         });
       }
       return ra;
+    },
+
+    /** Trả lại controls.minDistance / camera.near / camera.far về giá trị TRƯỚC lượt dungCanh() đầu
+     * tiên. KHÔNG tự động gọi — dungCanh() cố tình giữ nguyên cảnh cho tới khi Playwright chụp ảnh
+     * xong; bên gọi (xuong-anh.html/chup-huyet.cjs) phải tự gọi traLai() khi đã chụp xong lượt cuối,
+     * hoặc trước khi rời trang xưởng nếu tiến trình đó còn sống lâu. */
+    traLai() {
+      if (!_canhGoc) return { loi: 'chưa dựng cảnh lần nào, không có gì để trả lại' };
+      controls.minDistance = _canhGoc.minDistance;
+      camera.near = _canhGoc.near;
+      camera.far = _canhGoc.far;
+      camera.updateProjectionMatrix();
+      controls.update();
+      renderer.render(scene, camera);
+      return { daTraLai: true };
     },
   };
 
