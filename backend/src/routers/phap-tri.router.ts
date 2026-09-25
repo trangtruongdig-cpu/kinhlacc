@@ -8,9 +8,11 @@ import {
   Body,
   Query,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { PhapTriService } from '../controllers/phap-tri.controller';
 import { CreatePhapTriDto, UpdatePhapTriDto } from '../models/phap-tri.dto';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 @Controller('phap-tri')
 export class PhapTriRouter {
@@ -100,12 +102,14 @@ export class PhapTriRouter {
     return this.service.findOne(id);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post()
   async create(@Body() dto: CreatePhapTriDto) {
     const item = await this.service.create(dto);
     return { success: true, id: item.id, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -115,6 +119,7 @@ export class PhapTriRouter {
     return { success: true, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.service.remove(id);

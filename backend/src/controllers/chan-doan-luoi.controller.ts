@@ -15,7 +15,7 @@ interface EmbeddingEntry {
 }
 type EmbeddingIndex = Record<string, EmbeddingEntry>;
 
-interface RepresentativeImage { url: string; score: number }
+export interface RepresentativeImage { url: string; score: number }
 type RepresentativesMap = Record<string, RepresentativeImage[]>;
 
 @Injectable()

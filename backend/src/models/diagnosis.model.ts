@@ -136,7 +136,9 @@ export class Diagnosis {
   // ============================================================================
   // Relations
   // ============================================================================
-  @ManyToOne('Examination', (e) => e.diagnoses, { onDelete: 'CASCADE' })
+  @ManyToOne('Examination', (e: { diagnoses: Diagnosis[] }) => e.diagnoses, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'examination_id' })
   examination: any; // Avoid circular import
 }

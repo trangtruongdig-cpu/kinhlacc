@@ -5,6 +5,8 @@ import {
   Delete,
   Param,
   Body,
+  Request,
+  UseGuards,
   ParseIntPipe,
   NotFoundException,
 } from '@nestjs/common';
@@ -12,6 +14,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
 import { Examination } from '../models/examination.model';
 import { MeridianSyndrome } from '../models/meridian-syndrome.model';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
+import { assertStaffOrOwner, RequestDaXacThuc } from '../middlewares/auth/access.util';
 
 @Controller('records')
 export class RecordsRouter {
@@ -28,13 +32,18 @@ export class RecordsRouter {
     return exam;
   }
 
+  // Bệnh nhân xem được thể bệnh trên phiếu đo CỦA CHÍNH MÌNH; nhân viên xem phiếu bất kỳ.
   @Get(':id/models')
-  async getSelectedModels(@Param('id', ParseIntPipe) id: number) {
+  async getSelectedModels(
+    @Param('id', ParseIntPipe) id: number,
+    @Request() req: RequestDaXacThuc,
+  ) {
     const exam = await this.getExam(id);
+    assertStaffOrOwner(req.user, exam.patientId);
     const ids = exam.selectedModelIds || [];
     if (!ids.length) return [];
     const syndromes = await this.syndromeRepo.find({ where: { id: In(ids) } });
-    return syndromes.map(s => ({
+    return syndromes.map((s) => ({
       modelId: s.id,
       ten: s.tieuket || '',
       trieuchung: s.trieuchung || '',
@@ -43,6 +52,7 @@ export class RecordsRouter {
     }));
   }
 
+  @UseGuards(NhanVienGuard)
   @Post(':id/models')
   async addModel(
     @Param('id', ParseIntPipe) id: number,
@@ -59,13 +69,16 @@ export class RecordsRouter {
     return { success: true, modelId: mid };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id/models/:modelId')
   async removeModel(
     @Param('id', ParseIntPipe) id: number,
     @Param('modelId', ParseIntPipe) modelId: number,
   ) {
     const exam = await this.getExam(id);
-    exam.selectedModelIds = (exam.selectedModelIds || []).filter(m => m !== modelId);
+    exam.selectedModelIds = (exam.selectedModelIds || []).filter(
+      (m) => m !== modelId,
+    );
     await this.examRepo.save(exam);
     return { success: true };
   }

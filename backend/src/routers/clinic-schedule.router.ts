@@ -8,8 +8,10 @@ import {
   Body,
   Query,
   BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
 import { ClinicScheduleService } from '../controllers/clinic-schedule.controller';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 import {
   UpdateClinicScheduleConfigDto,
   UpsertClinicDayOverrideDto,
@@ -31,6 +33,7 @@ export class ClinicScheduleRouter {
     return this.service.getConfig();
   }
 
+  @UseGuards(NhanVienGuard)
   @Put('config')
   updateConfig(@Body() dto: UpdateClinicScheduleConfigDto) {
     return this.service.updateConfig(dto);
@@ -48,6 +51,7 @@ export class ClinicScheduleRouter {
     return row ?? null;
   }
 
+  @UseGuards(NhanVienGuard)
   @Put('overrides/:date')
   upsertOverride(
     @Param('date') date: string,
@@ -57,6 +61,7 @@ export class ClinicScheduleRouter {
     return this.service.upsertOverride(date, dto);
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete('overrides/:date')
   async deleteOverride(@Param('date') date: string) {
     assertDate(date);
@@ -70,6 +75,7 @@ export class ClinicScheduleRouter {
     return this.service.getEffectiveSchedule(date);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post('generate/:date')
   generate(
     @Param('date') date: string,
@@ -79,6 +85,7 @@ export class ClinicScheduleRouter {
     return this.service.generateSlotsForDate(date, reconcile === 'true');
   }
 
+  @UseGuards(NhanVienGuard)
   @Post('generate-range')
   generateRange(
     @Query('from') from: string,

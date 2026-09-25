@@ -13,8 +13,13 @@ import {
 } from '@nestjs/common';
 import { PatientsService } from '../controllers/patient.controller';
 import { CreatePatientDto, UpdatePatientDto } from '../models/patient.dto';
+import { ZodPipe } from '../middlewares/validation/zod.pipe';
+import {
+  createPatientSchema,
+  updatePatientSchema,
+} from '../models/validation.schema';
 import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
-import { assertStaffOrOwner } from '../middlewares/auth/access.util';
+import { assertStaffOrOwner, RequestDaXacThuc } from '../middlewares/auth/access.util';
 
 @Controller('patients')
 export class PatientsRouter {
@@ -65,14 +70,14 @@ export class PatientsRouter {
 
   // Bệnh nhân tự xem hồ sơ của chính mình (id trong token phải khớp) hoặc nhân viên xem bất kỳ.
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number, @Request() req: any) {
+  findOne(@Param('id', ParseIntPipe) id: number, @Request() req: RequestDaXacThuc) {
     assertStaffOrOwner(req.user, id);
     return this.patientsService.findOne(id);
   }
 
   @UseGuards(NhanVienGuard)
   @Post()
-  async create(@Body() dto: CreatePatientDto) {
+  async create(@Body(new ZodPipe(createPatientSchema)) dto: CreatePatientDto) {
     const item = await this.patientsService.create(dto);
     return { success: true, id: item.id, data: item };
   }
@@ -80,8 +85,8 @@ export class PatientsRouter {
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() dto: UpdatePatientDto,
-    @Request() req: any,
+    @Body(new ZodPipe(updatePatientSchema)) dto: UpdatePatientDto,
+    @Request() req: RequestDaXacThuc,
   ) {
     assertStaffOrOwner(req.user, id);
     const item = await this.patientsService.update(id, dto);
@@ -92,7 +97,7 @@ export class PatientsRouter {
   async updateFcmToken(
     @Param('id', ParseIntPipe) id: number,
     @Body('fcmToken') fcmToken: string,
-    @Request() req: any,
+    @Request() req: RequestDaXacThuc,
   ) {
     assertStaffOrOwner(req.user, id);
     await this.patientsService.updateFcmToken(id, fcmToken);

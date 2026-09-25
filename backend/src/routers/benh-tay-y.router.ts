@@ -8,9 +8,11 @@ import {
   Body,
   Query,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { BenhTayYService } from '../controllers/benh-tay-y.controller';
 import { CreateBenhTayYDto, UpdateBenhTayYDto } from '../models/benh-tay-y.dto';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 @Controller('benh-tay-y')
 export class BenhTayYRouter {
@@ -44,12 +46,14 @@ export class BenhTayYRouter {
     return this.service.findOne(id);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post()
   async create(@Body() dto: CreateBenhTayYDto) {
     const item = await this.service.create(dto);
     return { success: true, id: item.id, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -59,6 +63,7 @@ export class BenhTayYRouter {
     return { success: true, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.service.remove(id);

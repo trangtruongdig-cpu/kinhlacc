@@ -8,8 +8,10 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { BenhDongYExcelService } from '../controllers/benh-dong-y-excel.controller';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 import {
   CreateBenhDongYExcelDto,
   DiagnoseBenhDongYExcelDto,
@@ -20,6 +22,7 @@ import {
 export class BenhDongYExcelRouter {
   constructor(private readonly service: BenhDongYExcelService) {}
 
+  @UseGuards(NhanVienGuard)
   @Post('chan-doan')
   diagnose(@Body() dto: DiagnoseBenhDongYExcelDto & Record<string, unknown>) {
     const input = dto.chi_so && typeof dto.chi_so === 'object' ? dto.chi_so : dto;
@@ -60,12 +63,14 @@ export class BenhDongYExcelRouter {
     return this.service.findOne(id);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post()
   async create(@Body() dto: CreateBenhDongYExcelDto) {
     const item = await this.service.create(dto);
     return { success: true, id: item.id, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -75,6 +80,7 @@ export class BenhDongYExcelRouter {
     return { success: true, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.service.remove(id);

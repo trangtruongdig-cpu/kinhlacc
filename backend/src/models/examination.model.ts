@@ -12,7 +12,8 @@ import {
 
 /** Cột NUMERIC của pg đọc ra là chuỗi; đưa về number để API trả số đúng kiểu. */
 const soThapPhan = {
-  to: (v: number | null | undefined) => (v === null || v === undefined ? null : v),
+  to: (v: number | null | undefined) =>
+    v === null || v === undefined ? null : v,
   from: (v: string | number | null): number | null => {
     if (v === null || v === undefined) return null;
     const n = typeof v === 'number' ? v : Number(v);
@@ -31,7 +32,12 @@ export interface ChanDoanLuu {
   /** Bảng xếp hạng theo lời kể lúc chốt (snapshot bằng chứng). */
   xep_hang: { label: string; percent: number; is_kep: boolean }[];
   /** Triệu chứng đã hỏi + câu trả lời (chỉ những câu đã trả lời). */
-  trieu_chung: { id: number; ten: string; nhom: string | null; tra_loi: 'co' | 'khong' | 'kho' }[];
+  trieu_chung: {
+    id: number;
+    ten: string;
+    nhom: string | null;
+    tra_loi: 'co' | 'khong' | 'kho';
+  }[];
   /** Ghi chú thầy thuốc. */
   ghi_chu?: string;
   /** Thời điểm lưu (ISO). */
@@ -117,11 +123,23 @@ export class Examination {
   // pg trả kiểu NUMERIC về dạng chuỗi -> transformer đưa lại về number cho frontend.
 
   /** Nhiệt độ môi trường (°C) tại thời điểm đo. */
-  @Column({ type: 'numeric', precision: 5, scale: 2, nullable: true, transformer: soThapPhan })
+  @Column({
+    type: 'numeric',
+    precision: 5,
+    scale: 2,
+    nullable: true,
+    transformer: soThapPhan,
+  })
   nhietDoMoiTruong: number | null;
 
   /** Độ ẩm tương đối (%) tại thời điểm đo. */
-  @Column({ type: 'numeric', precision: 5, scale: 2, nullable: true, transformer: soThapPhan })
+  @Column({
+    type: 'numeric',
+    precision: 5,
+    scale: 2,
+    nullable: true,
+    transformer: soThapPhan,
+  })
   doAmMoiTruong: number | null;
 
   /** Tỉnh/Thành phố nơi đo (hành chính 2 cấp). */
@@ -165,11 +183,14 @@ export class Examination {
   // ============================================================================
 
   // 1:N Examination → MeridianMeasurements (12 ô kinh lạc)
-  @OneToMany('MeridianMeasurement', (m) => m.examination)
+  @OneToMany(
+    'MeridianMeasurement',
+    (m: { examination: Examination }) => m.examination,
+  )
   meridianMeasurements: any[]; // Avoid circular import
 
   // 1:N Examination → Diagnoses (chẩn đoán + confidence score)
-  @OneToMany('Diagnosis', (d) => d.examination)
+  @OneToMany('Diagnosis', (d: { examination: Examination }) => d.examination)
   diagnoses: any[]; // Avoid circular import
 
   // M:N Examination → AppointmentSlot (nếu có)
@@ -178,4 +199,30 @@ export class Examination {
   @ManyToOne('AppointmentSlot', { onDelete: 'SET NULL' })
   @JoinColumn({ name: 'appointmentId' })
   appointment: any; // Avoid circular import
+
+  // ============================================================================
+  // Trường DỰNG LÚC CHẠY — KHÔNG phải cột trong bảng `examinations`
+  // ============================================================================
+  // Các cột jsonb cũ (inputData, chanDoan) đã bị DROP khi tách bảng
+  // (sql/003-remove-jsonb-columns-and-add-fk.sql). Dữ liệu nay nằm ở
+  // `meridian_measurements` và `diagnoses`, được gán ngược vào đối tượng này bởi
+  // ganInputData()/ganChanDoan() trong ExaminationsService để giữ nguyên hình dạng
+  // JSON mà frontend đã dùng từ trước.
+  //
+  // Khai báo ở đây (KHÔNG có @Column) để TypeScript kiểm được thay vì phải ép `as any`
+  // rải rác — TypeORM bỏ qua thuộc tính không mang @Column nên không sinh cột mới.
+  // ⚠️ Chúng chỉ có giá trị trên đối tượng đi qua findOne()/findAll() của service;
+  // đối tượng lấy thẳng từ repository sẽ KHÔNG có, nên luôn kiểm trước khi đọc.
+
+  /** 24 số đo kinh lạc, dựng lại từ bảng `meridian_measurements`. */
+  inputData?: Record<string, number>;
+
+  /** Chẩn đoán đã lưu, dựng lại từ bảng `diagnoses`. */
+  chanDoan?: Record<string, any> | null;
+
+  /** Kết quả phân tích tính lại tại chỗ — không lưu xuống DB. */
+  currentSyndromes?: Array<Record<string, any>>;
+  legacySyndromes?: Array<Record<string, any>>;
+  excelSyndromes?: Array<Record<string, any>>;
+  comparisonRows?: Array<Record<string, any>>;
 }

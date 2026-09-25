@@ -8,8 +8,10 @@ import {
   Body,
   Query,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { TheBenhService, TheBenhPhuongHuyetService } from '../controllers/the-benh.controller';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 import {
   CreateTheBenhDto,
   UpdateTheBenhDto,
@@ -35,12 +37,14 @@ export class TheBenhRouter {
     return this.service.findOne(id);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post()
   async create(@Body() dto: CreateTheBenhDto) {
     const item = await this.service.create(dto);
     return { success: true, id: item.id, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -50,6 +54,7 @@ export class TheBenhRouter {
     return { success: true, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.service.remove(id);
@@ -75,12 +80,14 @@ export class TheBenhPhuongHuyetRouter {
     return this.service.findOne(id);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post()
   async create(@Body() dto: CreateTheBenhPhuongHuyetDto) {
     const item = await this.service.create(dto);
     return { success: true, id: item.id, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -90,6 +97,7 @@ export class TheBenhPhuongHuyetRouter {
     return { success: true, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.service.remove(id);

@@ -51,7 +51,7 @@ interface ServiceAccount {
 }
 
 /** 1 dòng số liệu hiệu suất đã làm gọn cho frontend. */
-interface PerfRow {
+export interface PerfRow {
   key: string; // giá trị chiều (query / page / date) — tuỳ ngữ cảnh
   clicks: number;
   impressions: number;

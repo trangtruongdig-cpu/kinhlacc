@@ -1,0 +1,18 @@
+{
+  // Cấu hình DÙNG RIÊNG cho `npm run type-check`.
+  //
+  // Vì sao cần file riêng: lệnh build chạy bằng SWC (nest-cli.json) — SWC dịch RẤT nhanh
+  // nhưng KHÔNG kiểm kiểu, nên `npm run build` xanh không chứng minh code đúng kiểu.
+  // Đã có tiền lệ: cột jsonb `inputData`/`chanDoan` bị xoá khỏi entity mà code cũ vẫn đọc,
+  // build vẫn qua, lỗi chỉ lộ ra khi chạy thật.
+  //
+  // tsconfig.json gốc đặt rootDir = ./src nên thư mục test/ nằm ngoài và làm tsc báo TS6059;
+  // ở đây nới rootDir lên gốc repo và soi cả test. Nới tới gốc (chứ không chỉ backend/) vì
+  // dong-bo-thuat-toan.spec.ts cố ý import bản thuật toán bên frontend để đối chiếu hai bản sao.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "rootDir": ".."
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"]
+}

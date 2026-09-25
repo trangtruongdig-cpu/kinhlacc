@@ -8,9 +8,11 @@ import {
   Body,
   Query,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { TrieuChungService } from '../controllers/trieu-chung.controller';
 import { CreateTrieuChungDto, UpdateTrieuChungDto } from '../models/trieu-chung.dto';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 @Controller('trieu-chung')
 export class TrieuChungRouter {
@@ -58,6 +60,7 @@ export class TrieuChungRouter {
    * Body: { trieu_chung_ids: number[] } (chấp nhận alias `ids`).
    * Trả về xếp hạng pháp trị (theo thể bệnh) và bệnh Tây Y kèm % tương đồng.
    */
+  @UseGuards(NhanVienGuard)
   @Post('chan-doan')
   diagnose(@Body() body: { trieu_chung_ids?: number[]; ids?: number[] }) {
     const ids = body?.trieu_chung_ids ?? body?.ids ?? [];
@@ -82,12 +85,14 @@ export class TrieuChungRouter {
     return this.service.findOne(id);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post()
   async create(@Body() dto: CreateTrieuChungDto) {
     const item = await this.service.create(dto);
     return { success: true, id: item.id, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -97,6 +102,7 @@ export class TrieuChungRouter {
     return { success: true, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.service.remove(id);

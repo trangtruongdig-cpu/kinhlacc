@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { AuthService } from '../controllers/auth.controller';
 import { Public } from '../middlewares/auth/public.decorator';
+import { ZodPipe } from '../middlewares/validation/zod.pipe';
+import { dangNhapNhanVienSchema } from '../models/validation.schema';
 
 @Controller('auth')
 export class AuthRouter {
@@ -18,8 +20,17 @@ export class AuthRouter {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('admin/login')
-  async login(@Body() signInDto: Record<string, any>) {
-    const admin = await this.authService.validateAdmin(signInDto.username, signInDto.password);
+  async login(
+    @Body(new ZodPipe(dangNhapNhanVienSchema))
+    signInDto: {
+      username: string;
+      password: string;
+    },
+  ) {
+    const admin = await this.authService.validateAdmin(
+      signInDto.username,
+      signInDto.password,
+    );
     if (!admin) {
       throw new UnauthorizedException('Invalid credentials');
     }

@@ -8,8 +8,10 @@ import {
   Body,
   Query,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { PhacDoChuanService } from '../controllers/phac-do-chuan.controller';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 import {
   CreatePhacDoChuanDto,
   UpdatePhacDoChuanDto,
@@ -39,12 +41,14 @@ export class PhacDoChuanRouter {
     return this.service.findOne(id, withHieuLuc);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post()
   async create(@Body() dto: CreatePhacDoChuanDto) {
     const item = await this.service.create(dto);
     return { success: true, id: item.id, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -54,6 +58,7 @@ export class PhacDoChuanRouter {
     return { success: true, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.service.remove(id);

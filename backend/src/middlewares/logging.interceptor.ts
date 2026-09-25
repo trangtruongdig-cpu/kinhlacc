@@ -27,6 +27,41 @@ const SENSITIVE_KEYS = new Set([
   'firebase_service_account',
 ]);
 
+/**
+ * Che giá trị nhạy cảm nằm trong QUERY STRING của URL.
+ *
+ * Cần vì EventSource của trình duyệt không đặt được header Authorization, nên luồng SSE
+ * truyền JWT qua `?token=` (xem jwt.strategy.ts). Log nguyên URL đồng nghĩa với việc chép
+ * token còn hiệu lực vào file log — ai đọc được log là đăng nhập được.
+ */
+const SENSITIVE_QUERY_KEYS = [
+  'token',
+  'access_token',
+  'api_key',
+  'apikey',
+  'secret',
+  'password',
+];
+
+function sanitizeUrl(url: string): string {
+  const i = url.indexOf('?');
+  if (i < 0) return url;
+  const duong = url.slice(0, i);
+  const query = url
+    .slice(i + 1)
+    .split('&')
+    .map((cap) => {
+      const j = cap.indexOf('=');
+      if (j < 0) return cap;
+      const ten = cap.slice(0, j);
+      return SENSITIVE_QUERY_KEYS.includes(ten.toLowerCase())
+        ? `${ten}=***`
+        : cap;
+    })
+    .join('&');
+  return `${duong}?${query}`;
+}
+
 const MAX_BODY_LEN = 1500;
 const MAX_RES_LEN = 1500;
 
@@ -80,14 +115,20 @@ export class LoggingInterceptor implements NestInterceptor {
       return next.handle();
     }
     const http = context.switchToHttp();
-    const req = http.getRequest<Request & { user?: { sub?: number | string; username?: string } }>();
+    const req = http.getRequest<
+      Request & { user?: { sub?: number | string; username?: string } }
+    >();
     const res = http.getResponse<Response>();
 
     const method = req.method;
-    const url = req.originalUrl || req.url;
+    const url = sanitizeUrl(req.originalUrl || req.url);
     const startedAt = Date.now();
 
-    const ip = req.ip || req.headers['x-forwarded-for'] || req.socket?.remoteAddress || '';
+    const ip =
+      req.ip ||
+      req.headers['x-forwarded-for'] ||
+      req.socket?.remoteAddress ||
+      '';
     const user = req.user;
     const userPart = user ? ` user=${user.username ?? user.sub ?? '?'}` : '';
 
@@ -100,17 +141,24 @@ export class LoggingInterceptor implements NestInterceptor {
       LOG_BODIES && req.query && Object.keys(req.query).length
         ? ` query=${shortJson(req.query, 300)}`
         : '';
-    const bodyStr = LOG_BODIES && hasBody ? ` body=${shortJson(req.body, MAX_BODY_LEN)}` : '';
+    const bodyStr =
+      LOG_BODIES && hasBody ? ` body=${shortJson(req.body, MAX_BODY_LEN)}` : '';
 
-    this.logger.log(`→ ${method} ${url} ip=${ip}${userPart}${queryStr}${bodyStr}`);
+    this.logger.log(
+      `→ ${method} ${url} ip=${ip}${userPart}${queryStr}${bodyStr}`,
+    );
 
     return next.handle().pipe(
       tap({
         next: (data) => {
           const elapsed = Date.now() - startedAt;
           const status = res.statusCode;
-          const bodyPart = LOG_BODIES ? ` body=${shortJson(data, MAX_RES_LEN)}` : '';
-          this.logger.log(`← ${method} ${url} ${status} ${elapsed}ms${bodyPart}`);
+          const bodyPart = LOG_BODIES
+            ? ` body=${shortJson(data, MAX_RES_LEN)}`
+            : '';
+          this.logger.log(
+            `← ${method} ${url} ${status} ${elapsed}ms${bodyPart}`,
+          );
         },
         error: (err) => {
           const elapsed = Date.now() - startedAt;

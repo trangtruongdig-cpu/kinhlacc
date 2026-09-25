@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { BaiThuocService } from '../controllers/bai-thuoc.controller';
 import { CreateBaiThuocDto, UpdateBaiThuocDto } from '../models/dongy-thuoc.dto';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 @Controller('bai-thuoc')
 export class BaiThuocRouter {
@@ -74,24 +75,28 @@ export class BaiThuocRouter {
     return this.service.findOne(+id);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post()
   async create(@Body() dto: CreateBaiThuocDto) {
     const item = await this.service.create(dto);
     return { success: true, id: item.id, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id')
   async update(@Param('id') id: string, @Body() dto: UpdateBaiThuocDto) {
     const item = await this.service.update(+id, dto);
     return { success: true, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     await this.service.remove(+id);
     return { success: true };
   }
 
+  @UseGuards(NhanVienGuard)
   @Post(':id/analyze')
   async analyze(
     @Param('id') id: string,

@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { KiemDinhViThuocService } from '../controllers/kiem-dinh-vi-thuoc.controller';
 import { DuplicateClusterInput } from '../controllers/ai-suggest.controller';
 import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 @Controller('kiem-dinh-vi-thuoc')
 @UseGuards(JwtAuthGuard)
@@ -15,6 +16,7 @@ export class KiemDinhViThuocRouter {
   }
 
   /** AI xác nhận từng cụm nghi trùng có đúng là cùng một vị thuốc không. */
+  @UseGuards(NhanVienGuard)
   @Post('duplicates/ai-confirm')
   async aiConfirm(@Body() body: { clusters?: DuplicateClusterInput[] }) {
     const data = await this.service.confirmDuplicates(body?.clusters ?? []);
@@ -22,6 +24,7 @@ export class KiemDinhViThuocRouter {
   }
 
   /** Gộp các vị biến thể vào một vị chuẩn (transaction, có duyệt từ frontend). */
+  @UseGuards(NhanVienGuard)
   @Post('merge')
   async merge(@Body() body: { keepId?: number; mergeIds?: number[] }) {
     const data = await this.service.merge(
@@ -38,6 +41,7 @@ export class KiemDinhViThuocRouter {
   }
 
   /** Đối chiếu nhóm dược hiện tại vs nhóm AI gợi ý (lô tối đa 60 vị). */
+  @UseGuards(NhanVienGuard)
   @Post('check-nhom')
   async checkNhom(@Body() body: { ids?: number[] }) {
     const data = await this.service.checkNhom(body?.ids ?? []);

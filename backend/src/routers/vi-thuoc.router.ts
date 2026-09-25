@@ -1,8 +1,9 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseInterceptors, UploadedFile, UseGuards } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ViThuocService } from '../controllers/vi-thuoc.controller';
 import { CreateViThuocDto, UpdateViThuocDto } from '../models/dongy-thuoc.dto';
 import { imageFileFilter, fileSizeValidator } from '../middlewares/upload.middleware';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 /** File ảnh multer (khai báo tối giản, khỏi thêm @types/multer). */
 interface UploadedImage { buffer: Buffer; mimetype: string; originalname: string; size: number }
@@ -44,6 +45,7 @@ export class ViThuocRouter {
   }
 
   // AI điền tên khoa học cho 1 lô vị thiếu (con trỏ afterId). Frontend gọi lặp tới processed=0.
+  @UseGuards(NhanVienGuard)
   @Post('ai-dien-ten-khoa-hoc')
   async aiDienTenKhoaHoc(@Body() body: { limit?: number; afterId?: number }) {
     const data = await this.service.aiFillTenKhoaHocBatch(body?.limit ?? 15, body?.afterId ?? 0);
@@ -58,6 +60,7 @@ export class ViThuocRouter {
   }
 
   // Gộp vị trùng/biến thể `fromId` VÀO vị `:id` (giữ :id). body { fromId }
+  @UseGuards(NhanVienGuard)
   @Post(':id/gop')
   async gop(@Param('id') id: string, @Body('fromId') fromId: number) {
     const data = await this.service.gop(+id, Number(fromId));
@@ -66,6 +69,7 @@ export class ViThuocRouter {
 
   // ===== ẢNH DƯỢC LIỆU do người dùng upload =====
   // Upload 1 ảnh (multipart field "file") + tuỳ chọn giai_doan / mo_ta.
+  @UseGuards(NhanVienGuard)
   @Post(':id/anh')
   @UseInterceptors(FileInterceptor('file', { fileFilter: imageFileFilter }))
   async uploadAnh(
@@ -87,12 +91,14 @@ export class ViThuocRouter {
     return { success: true, data };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete('anh/:anhId')
   async deleteAnh(@Param('anhId') anhId: string) {
     return this.service.deleteAnh(+anhId);
   }
 
   // Đặt ảnh đại diện (avatar thẻ). body { url } — url rỗng để gỡ.
+  @UseGuards(NhanVienGuard)
   @Put(':id/anh-dai-dien')
   async setAnhDaiDien(@Param('id') id: string, @Body('url') url: string) {
     const data = await this.service.setAnhDaiDien(+id, url ?? null);
@@ -104,18 +110,21 @@ export class ViThuocRouter {
     return this.service.findOne(+id);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post()
   async create(@Body() dto: CreateViThuocDto) {
     const item = await this.service.create(dto);
     return { success: true, id: item.id, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id')
   async update(@Param('id') id: string, @Body() dto: UpdateViThuocDto) {
     const item = await this.service.update(+id, dto);
     return { success: true, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   async remove(@Param('id') id: string) {
     await this.service.remove(+id);

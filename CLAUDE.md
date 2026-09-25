@@ -29,7 +29,21 @@ The codebase **inverts the usual NestJS naming**:
 
 When adding a new domain object, follow this pattern and register the entity, router, and service in `src/app.module.ts` (all three lists: `TypeOrmModule.forFeature([...])`, `controllers: [...]`, `providers: [...]`). The module manually lists every entity/router/service — there is no auto-discovery.
 
-Auth uses `@nestjs/passport` JWT. `JwtStrategy` lives in `src/middlewares/auth/jwt.strategy.ts`; `JwtAuthGuard` in the same folder. `JWT_SECRET` falls back to the literal `'fallback_secret_key'` if unset — never rely on the fallback in production.
+Auth uses `@nestjs/passport` JWT. `JwtStrategy` lives in `src/middlewares/auth/jwt.strategy.ts`; `JwtAuthGuard` in the same folder. `JWT_SECRET` is **mandatory** — `requireJwtSecret()` (`jwt-secret.util.ts`) throws at boot if it is unset. (The old `'fallback_secret_key'` fallback is gone.)
+
+### Phân quyền — BA tầng, đừng nhầm tầng
+
+1. **`JwtAuthGuard` là APP_GUARD toàn cục** (`app.module.ts`) → mọi route đòi token, trừ route gắn `@Public()` (39 route: landing, tra cứu, lịch .ics…).
+2. **Token bệnh nhân cũng là token hợp lệ.** `patient-auth` cấp token `role:'patient'` (không có `kind:'staff'`). Vì vậy "có JwtAuthGuard" **không** có nghĩa là "chỉ nhân viên vào được" — đây là chỗ từng hở 85 route ghi.
+3. Nên: **mọi route GHI (POST/PUT/PATCH/DELETE) phải có `@UseGuards(NhanVienGuard)`**, trừ khi bệnh nhân thực sự cần gọi — khi đó dùng `assertStaffOrOwner(req.user, ownerId)` (`access.util.ts`) để bệnh nhân chỉ đụng được dữ liệu của chính mình.
+
+Kiểu của `req.user` là `NguoiDungDaXacThuc` / `RequestDaXacThuc` trong `access.util.ts` — đừng nhận `req: any`.
+
+Phép kiểm cho tầng này: `npm test -- access.util`.
+
+### Kiểm đầu vào
+
+DTO là *type* TS thuần nên biến mất khi biên dịch — không có gì kiểm thân request. Các endpoint đụng tới người bệnh (phiếu đo, hồ sơ, đăng nhập/đăng ký) đã gắn `@Body(new ZodPipe(<lược đồ>))`; lược đồ ở `src/models/validation.schema.ts`, pipe ở `src/middlewares/validation/zod.pipe.ts`. Lược đồ dùng `.strict()` để chặn cả trường thừa. **Endpoint ghi mới nên gắn lược đồ ngay từ đầu** thay vì kiểm tay trong controller.
 
 ### Database env vars
 
@@ -40,7 +54,9 @@ Auth uses `@nestjs/passport` JWT. `JwtStrategy` lives in `src/middlewares/auth/j
 - `DB_SSL=false` to disable SSL (default is `rejectUnauthorized: false`)
 - `DB_SYNCHRONIZE=true` to enable TypeORM auto-sync (default off — keep it off in shared environments)
 
-Connection pool is tuned for **serverless** (`max: 1`, short timeouts). If running long-lived (PM2/Docker), this is intentionally conservative — change deliberately.
+Connection pool tự nhận môi trường: `max: 1` + idle 1s khi có `VERCEL`/`AWS_LAMBDA_FUNCTION_NAME`, ngược lại `max: 10` + idle 30s + keepAlive (đè bằng `DB_POOL_MAX`, `DB_IDLE_TIMEOUT_MS`).
+
+TLS tới Postgres: đặt `DB_CA_CERT` (nội dung PEM) hoặc `DB_CA_CERT_FILE` (đường dẫn `ca.pem` tải từ trang service Aiven) để **xác minh chứng chỉ máy chủ**. Thiếu cả hai thì vẫn chạy nhưng rơi về `rejectUnauthorized: false` — có mã hoá, không xác minh danh tính — và ghi cảnh báo mỗi lần khởi động.
 
 ### CORS
 
@@ -139,7 +155,8 @@ che dữ liệu và luật gom cụm chỉ viết một lần ở `backend/src/u
 ```bash
 npm install
 npm run start:dev          # nest start --watch
-npm run build              # nest build → dist/
+npm run build              # nest build → dist/ (SWC: KHÔNG kiểm kiểu)
+npm run type-check         # tsc -p tsconfig.check.json — phép kiểm kiểu THẬT
 npm run start:prod         # node dist/main
 npm run lint               # eslint --fix
 npm test                   # jest (looks for *.spec.ts under src/)

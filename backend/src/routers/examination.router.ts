@@ -11,7 +11,15 @@ import {
   Request,
 } from '@nestjs/common';
 import { ExaminationsService } from '../controllers/examination.controller';
-import { CreateExaminationDto, UpdateExaminationDto } from '../models/examination.dto';
+import {
+  CreateExaminationDto,
+  UpdateExaminationDto,
+} from '../models/examination.dto';
+import { ZodPipe } from '../middlewares/validation/zod.pipe';
+import {
+  createExaminationSchema,
+  updateExaminationSchema,
+} from '../models/validation.schema';
 import { ChanDoanLuu, DonThuocLuu } from '../models/examination.model';
 import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
 import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
@@ -36,7 +44,9 @@ export class ExaminationsRouter {
 
   @UseGuards(NhanVienGuard, ChanLeTanTaoKhamGuard)
   @Post()
-  async create(@Body() dto: CreateExaminationDto) {
+  async create(
+    @Body(new ZodPipe(createExaminationSchema)) dto: CreateExaminationDto,
+  ) {
     const item = await this.examinationsService.create(dto);
     return { success: true, id: item.id, data: item };
   }
@@ -45,7 +55,7 @@ export class ExaminationsRouter {
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
-    @Body() dto: UpdateExaminationDto
+    @Body(new ZodPipe(updateExaminationSchema)) dto: UpdateExaminationDto,
   ) {
     const item = await this.examinationsService.update(id, dto);
     return { success: true, id, data: item };
@@ -58,7 +68,10 @@ export class ExaminationsRouter {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: { thoiDiemKham?: string | null },
   ) {
-    const item = await this.examinationsService.doiThoiDiemKham(id, body?.thoiDiemKham ?? null);
+    const item = await this.examinationsService.doiThoiDiemKham(
+      id,
+      body?.thoiDiemKham ?? null,
+    );
     return { success: true, id, thoiDiemKham: item.thoiDiemKham };
   }
 
@@ -69,7 +82,10 @@ export class ExaminationsRouter {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: { chanDoan?: ChanDoanLuu | null },
   ) {
-    const item = await this.examinationsService.saveChanDoan(id, body?.chanDoan ?? null);
+    const item = await this.examinationsService.saveChanDoan(
+      id,
+      body?.chanDoan ?? null,
+    );
     return { success: true, data: item.chanDoan };
   }
 
@@ -80,7 +96,10 @@ export class ExaminationsRouter {
     @Param('id', ParseIntPipe) id: number,
     @Body() body: { donThuoc?: DonThuocLuu | null },
   ) {
-    const item = await this.examinationsService.saveDonThuoc(id, body?.donThuoc ?? null);
+    const item = await this.examinationsService.saveDonThuoc(
+      id,
+      body?.donThuoc ?? null,
+    );
     return { success: true, data: item.donThuoc };
   }
 
@@ -88,7 +107,10 @@ export class ExaminationsRouter {
   // nhân viên tra cứu theo patientId bất kỳ, hoặc bệnh nhân tự tra cứu.
   @UseGuards(JwtAuthGuard)
   @Get('patient/:patientId')
-  findByPatient(@Param('patientId', ParseIntPipe) patientId: number, @Request() req: any) {
+  findByPatient(
+    @Param('patientId', ParseIntPipe) patientId: number,
+    @Request() req: any,
+  ) {
     assertStaffOrOwner(req.user, patientId);
     return this.examinationsService.findByPatient(patientId);
   }

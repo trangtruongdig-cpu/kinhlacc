@@ -1,5 +1,6 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
+import { readFileSync } from 'node:fs';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
@@ -187,6 +188,36 @@ import { JwtStrategy } from './middlewares/auth/jwt.strategy';
 import { JwtAuthGuard } from './middlewares/auth/jwt-auth.guard';
 import { requireJwtSecret } from './middlewares/auth/jwt-secret.util';
 
+/**
+ * Cấu hình TLS cho kết nối Postgres.
+ *
+ * Mặc định cũ là `{ rejectUnauthorized: false }` — nghĩa là có mã hoá đường truyền nhưng
+ * KHÔNG xác minh danh tính máy chủ, nên một kẻ đứng giữa vẫn chèn được chứng chỉ của mình
+ * và đọc trọn dữ liệu bệnh nhân. Đặt `DB_CA_CERT` (nội dung PEM) hoặc `DB_CA_CERT_FILE`
+ * (đường dẫn tới ca.pem — Aiven cho tải trong trang Overview của service) để bật xác minh.
+ *
+ * Vẫn giữ đường lùi cho môi trường chưa kịp gắn CA: chạy được nhưng ghi CẢNH BÁO mỗi lần
+ * khởi động, để trạng thái kém an toàn không lặng lẽ thành vĩnh viễn.
+ */
+function docCauHinhSsl(
+  configService: ConfigService,
+): false | { ca?: string; rejectUnauthorized: boolean } {
+  if (configService.get<string>('DB_SSL') === 'false') return false;
+
+  const caTrucTiep = configService.get<string>('DB_CA_CERT');
+  const caTuFile = configService.get<string>('DB_CA_CERT_FILE');
+  const ca =
+    caTrucTiep?.trim() || (caTuFile ? readFileSync(caTuFile, 'utf8') : '');
+
+  if (ca) return { ca, rejectUnauthorized: true };
+
+  new Logger('Database').warn(
+    'Kết nối Postgres đang KHÔNG xác minh chứng chỉ máy chủ (rejectUnauthorized: false). ' +
+      'Đặt DB_CA_CERT hoặc DB_CA_CERT_FILE trỏ tới ca.pem của nhà cung cấp để bật xác minh.',
+  );
+  return { rejectUnauthorized: false };
+}
+
 @Module({
   imports: [
     ScheduleModule.forRoot(),
@@ -223,7 +254,7 @@ import { requireJwtSecret } from './middlewares/auth/jwt-secret.util';
           username: configService.get<string>('DB_USER') || configService.get<string>('POSTGRES_USER'),
           password: configService.get<string>('DB_PASSWORD') || configService.get<string>('POSTGRES_PASSWORD'),
           database: configService.get<string>('DB_NAME') || configService.get<string>('POSTGRES_DATABASE'),
-          ssl: configService.get<string>('DB_SSL') === 'false' ? false : { rejectUnauthorized: false },
+          ssl: docCauHinhSsl(configService),
           extra: {
             max: poolMax,
             connectionTimeoutMillis: connectionTimeout,
