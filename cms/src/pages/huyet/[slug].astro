@@ -11,6 +11,7 @@ import ThanMuc from "../../components/ThanMuc.astro";
 import ThuVienKhung from "../../layouts/ThuVienKhung.astro";
 import KhungSeoYKhoa from "../../components/KhungSeoYKhoa.astro";
 import { urlAnh } from "../../utils/anh";
+import { truyVan } from "../../lib/csdl";
 import "../../styles/tu-dien.css";
 
 const slug = decodeSlug(Astro.params.slug);
@@ -38,6 +39,27 @@ const PHAN: [string, string][] = [
 const theLoai: { ma?: string; ten?: string; nhom?: string }[] = Array.isArray(d.the_loai)
 	? d.the_loai
 	: [];
+
+// ── Bệnh dùng huyệt này — bản cũ dựng .benh-ref-card với chip bấm được ──
+type BenhRef = { bo: "ccdt" | "benhhoc"; slug: string; ten: string };
+const benhDung: BenhRef[] = Array.isArray(d.benh_dung) ? d.benh_dung : [];
+const NHOM_BENH: [BenhRef["bo"], string, string][] = [
+	["ccdt", "Châm Cứu Trị Bệnh", "/cham-cuu-tri-benh/"],
+	["benhhoc", "Bệnh Học", "/benh-hoc/"],
+];
+const CAP = 24; // bản cũ: hiện 24 chip, phần dư gập trong <details>
+
+// ── Dải nút — .detail-actions của bản cũ ───────────────────────────────
+// Mã huyệt dạng LI4 → mã kinh LI → đường kinh tương ứng, để có nút "Xem Trên Đường Kinh".
+const maKinh = String(d.ma_huyet || "").match(/^([A-Za-z]{2,3})\d/)?.[1]?.toUpperCase();
+const kinhCuaHuyet = maKinh
+	? (
+			await truyVan<{ slug: string; title: string }>(
+				"SELECT slug, title FROM ec_kinh_mach WHERE upper(ma) = $1 AND deleted_at IS NULL LIMIT 1",
+				[maKinh],
+			)
+		)[0]
+	: undefined;
 
 const moTa =
 	`Huyệt ${d.title}${d.ma_huyet ? ` (${d.ma_huyet})` : ""}: vị trí, tác dụng, ` +
@@ -92,10 +114,67 @@ const moTa =
 			)}
 		</dl>
 
+		{(d.ma_huyet || kinhCuaHuyet) && (
+			<div class="detail-actions">
+				{d.ma_huyet && (
+					<a class="td-3dbtn" href={`/app/kinh-mach-3d?acu=${encodeURIComponent(d.ma_huyet)}`}>
+						🧭 Xem Vị Trí Trên Đồ Hình 3D
+					</a>
+				)}
+				{kinhCuaHuyet && (
+					<a class="td-merbtn" href={`/kinh/${kinhCuaHuyet.slug}/?muc=huyet`}>
+						📖 Xem Trên Đường Kinh
+					</a>
+				)}
+			</div>
+		)}
+
 		{anh && <img class="photo" src={anh} alt={d.title} loading="lazy" />}
 
 		{/* VỊ TRÍ hiện đầu tiên — đúng thứ tự bản cũ. */}
 		<ThanMuc nhan="VỊ TRÍ" value={d.vi_tri} />
+
+		{/* Bệnh nào dùng huyệt này — chiều NGƯỢC của liên kết chéo. Bản cũ đặt ngay
+		    sau Vị Trí, trước các mục còn lại. */}
+		{benhDung.length > 0 && (
+			<section class="field benh-ref-card">
+				<h3>
+					<span class="fi">🩹</span>
+					<span class="ft">Bệnh Dùng Huyệt Này</span>
+					<span class="ft-z">{benhDung.length}</span>
+				</h3>
+				{NHOM_BENH.map(([bo, nhan, duong]) => {
+					const muc = benhDung.filter((b) => b.bo === bo);
+					if (!muc.length) return null;
+					return (
+						<div class="benh-ref-grp">
+							<h5 class="benh-ref-h">
+								{nhan} <span class="lz">{muc.length}</span>
+							</h5>
+							<div class="benh-ref-chips">
+								{muc.slice(0, CAP).map((b) => (
+									<a class={`benh-chip benh-chip--${bo}`} href={`${duong}${b.slug}/`}>
+										{b.ten}
+									</a>
+								))}
+							</div>
+							{muc.length > CAP && (
+								<details class="benh-more">
+									<summary>+{muc.length - CAP} bệnh nữa</summary>
+									<div class="benh-ref-chips">
+										{muc.slice(CAP).map((b) => (
+											<a class={`benh-chip benh-chip--${bo}`} href={`${duong}${b.slug}/`}>
+												{b.ten}
+											</a>
+										))}
+									</div>
+								</details>
+							)}
+						</div>
+					);
+				})}
+			</section>
+		)}
 
 		{PHAN.map(([k, nhan]) => <ThanMuc nhan={nhan} value={d[k]} />)}
 

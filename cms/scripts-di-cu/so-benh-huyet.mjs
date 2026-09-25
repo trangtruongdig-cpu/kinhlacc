@@ -72,7 +72,10 @@ function huyetTrongBai(text) {
 }
 
 // Quét cả hai bộ bệnh; mỗi huyệt chỉ tính MỘT lần cho mỗi bệnh.
+// Giữ cả DANH SÁCH bệnh, không chỉ con số: bản cũ dựng khối "Bệnh Dùng Huyệt Này"
+// với chip bấm được, gom theo hai bộ.
 const dem = new Map();
+const ds_benh = new Map();
 let soBai = 0;
 for (const key of ["ccdt", "benhhoc"]) {
 	const bo = D.BENH[key];
@@ -82,13 +85,17 @@ for (const key of ["ccdt", "benhhoc"]) {
 		const than = bo.fields.map(([k]) => r[k] || "");
 		const ids = new Set();
 		for (const b of than) if (b) for (const id of huyetTrongBai(String(b))) ids.add(id);
-		for (const id of ids) dem.set(id, (dem.get(id) || 0) + 1);
+		for (const id of ids) {
+			dem.set(id, (dem.get(id) || 0) + 1);
+			if (!ds_benh.has(id)) ds_benh.set(id, []);
+			ds_benh.get(id).push({ bo: key, slug: r._slug || r.slug, ten: r.ten });
+		}
 	}
 }
 
 const slugTheoId = new Map(D.ACU.records.map((r) => [r.id, r._slug || r.slug]));
 const cap = [...dem.entries()]
-	.map(([id, n]) => [slugTheoId.get(id), n])
+	.map(([id, n]) => [slugTheoId.get(id), n, JSON.stringify(ds_benh.get(id) || [])])
 	.filter(([s]) => s);
 
 console.log(`Quét ${soBai} bài bệnh · ${cap.length}/${D.ACU.records.length} huyệt được nhắc tới`);
@@ -111,10 +118,10 @@ const kho = new Client({
 await kho.connect();
 await kho.query("ALTER TABLE ec_huyet_vi DISABLE TRIGGER USER").catch(() => {});
 const r = await kho.query(
-	`UPDATE ec_huyet_vi e SET so_benh = v.n::int
-	 FROM (SELECT unnest($1::text[]) AS slug, unnest($2::int[]) AS n) v
+	`UPDATE ec_huyet_vi e SET so_benh = v.n::int, benh_dung = v.ds::json
+	 FROM (SELECT unnest($1::text[]) AS slug, unnest($2::int[]) AS n, unnest($3::text[]) AS ds) v
 	 WHERE e.slug = v.slug AND e.deleted_at IS NULL`,
-	[cap.map((x) => x[0]), cap.map((x) => x[1])],
+	[cap.map((x) => x[0]), cap.map((x) => x[1]), cap.map((x) => x[2])],
 );
 await kho.query("ALTER TABLE ec_huyet_vi ENABLE TRIGGER USER").catch(() => {});
 console.log(`Gán ${r.rowCount} huyệt.`);
