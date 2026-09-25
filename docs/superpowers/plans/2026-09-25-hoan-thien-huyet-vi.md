@@ -557,7 +557,12 @@ const KIEU = ['da', 'gp', 'lan', 'kinh'];
  *  Hướng dự bị (theo kinh) chèn lên đầu nếu có, nhưng KHÔNG loại ba hướng kia khỏi danh sách. */
 function xepHuong(ma, duBi) {
   const n = (toaDo()[ma] || {}).n;
-  const TRUC = { front: [0, 0, 1], back: [0, 0, -1], left: [1, 0, 0], right: [-1, 0, 0] };
+  // ⚠️ BẢNG NÀY PHẢI GIỐNG HỆT `HUONG` trong dungCanh() của map3d.js (dòng ~3244).
+  // dungCanh đặt camera tại tam + HUONG[huong]*khoảngCách, nên muốn huyệt hướng về camera
+  // thì pháp tuyến phải cùng chiều ĐÚNG véc-tơ đó. Đảo chiều left/right là xếp hạng ngược:
+  // huyệt mặt bên chọn hướng đầu sai rồi rơi vào một hướng xiên vừa đủ qua ngưỡng 0,15,
+  // ra ảnh nhìn tiếp tuyến. Cả kinh Đởm 44 huyệt nằm ở mặt bên.
+  const TRUC = { front: [0, 0, 1], back: [0, 0, -1], left: [-1, 0, 0], right: [1, 0, 0] };
   let ds = Object.keys(TRUC);
   if (n) {
     ds = ds.sort((a, b) => cham(TRUC[b], n) - cham(TRUC[a], n));
