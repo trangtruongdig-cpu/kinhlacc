@@ -48,9 +48,10 @@ EXPOSE 4321
 # /_emdash/api/media chạm DB: 401 (chưa đăng nhập) = khoẻ; 500 = chưa khởi tạo được.
 # retries=5 với interval=30s nghĩa là phải hỏng liên tục 2,5 phút mới restart — đủ rộng để
 # một cơn chập chờn của Aiven không gây restart vòng tròn, nhưng trạng thái kẹt thì tự thoát.
-# Dùng node chứ không phải wget: với mã 401 thì wget thoát lỗi TRƯỚC khi kịp in header, nên
-# không phân biệt được "401 = khoẻ, chỉ chưa đăng nhập" với "500 = chết". Node có sẵn trong image.
+# Gọi endpoint tự viết (xem src/pages/kiem-suc-khoe.json.ts) vì KHÔNG endpoint sẵn nào của
+# EmDash phân biệt được sống với khoẻ: /admin/login là trang tĩnh luôn 200; /api/media trả 401
+# kể cả khi CMS chưa khởi tạo được — tôi đã mắc đúng bẫy đó một lần.
 HEALTHCHECK --interval=30s --timeout=10s --start-period=45s --retries=5 \
-  CMD node -e "fetch('http://127.0.0.1:4321/_emdash/api/media').then(r=>{process.exit(r.status>=500?1:0)}).catch(()=>process.exit(1))" 
+  CMD node -e "fetch('http://127.0.0.1:4321/kiem-suc-khoe.json').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))" 
 
 CMD ["node", "./dist/server/entry.mjs"]
