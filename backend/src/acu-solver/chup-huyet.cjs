@@ -8,17 +8,102 @@
  *
  * Yêu cầu: frontend dev server đang chạy ở cổng 5173.
  *
- * ⚠️ playwright KHÔNG có trong node_modules của repo (đo ở việc 3): 'npm install playwright' vào
- * repo là quyết định của người dùng, chưa được hỏi. Bản 1.63.0 nằm sẵn trong cache npx tại
- * ~/.npm/_npx/e41f203b7505f1fb/node_modules/playwright — nạp bằng biến môi trường NODE_PATH:
- *
- *   NODE_PATH=~/.npm/_npx/e41f203b7505f1fb/node_modules node chup-huyet.cjs LU9
- *
- * (đường dẫn cache tuỳ máy — dò lại bằng `find ~/.npm/_npx -maxdepth 3 -iname playwright`
- * nếu cache đổi chỗ; KHÔNG hard-code đường dẫn node_modules của repo vì repo không có nó.)  */
+ * Playwright tự động nạp từ: (1) require() trực tiếp nếu có cài; (2) cache npx nếu từng chạy
+ * qua npx playwright; hoặc (3) ném lỗi với hướng dẫn cài. Không cần đặt NODE_PATH.  */
 const fs = require('fs');
 const path = require('path');
-const { chromium } = require('playwright');
+
+/** Dò tìm và nạp Playwright từ ba nguồn theo thứ tự ưu tiên:
+ *  1. require('playwright') trực tiếp — nếu đã cài vào repo.
+ *  2. Cache npx (HOME)/.npm/_npx/ — chọn bản phiên bản cao nhất.
+ *  3. Ném lỗi với hướng dẫn nếu không tìm được.
+ *  Đồng thời in ra bản đang dùng và đường dẫn của nó. */
+function napPlaywright() {
+  // Thử nạp trực tiếp từ repo hoặc node_modules toàn cục
+  try {
+    const pw = require('playwright');
+    console.log(`Nạp playwright từ require() trực tiếp`);
+    return pw;
+  } catch (e) {
+    if (e.code !== 'MODULE_NOT_FOUND') throw e;
+  }
+
+  // Dò trong cache npx
+  const homeDir = process.env.HOME || process.env.USERPROFILE;
+  if (!homeDir) {
+    throw new Error(
+      'Không tìm thấy HOME hoặc USERPROFILE. Vui lòng cài playwright:\n' +
+      '  npx playwright@latest install chromium\n' +
+      'hoặc cài vào repo:\n' +
+      '  npm install playwright'
+    );
+  }
+
+  const npxDir = path.join(homeDir, '.npm/_npx');
+  if (!fs.existsSync(npxDir)) {
+    throw new Error(
+      'Không tìm thấy playwright. Vui lòng cài bằng:\n' +
+      '  npx playwright@latest install chromium\n' +
+      'hoặc cài vào repo:\n' +
+      '  npm install playwright'
+    );
+  }
+
+  // Quét tất cả mục trong cache npx, lấy những bản có playwright
+  const entries = fs.readdirSync(npxDir);
+  const versions = [];
+
+  for (const entry of entries) {
+    const playwrightPath = path.join(npxDir, entry, 'node_modules/playwright');
+    if (!fs.existsSync(playwrightPath)) continue;
+
+    try {
+      const pkgPath = path.join(playwrightPath, 'package.json');
+      if (!fs.existsSync(pkgPath)) continue;
+
+      const packageJson = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+      if (packageJson.version) {
+        versions.push({
+          version: packageJson.version,
+          path: playwrightPath
+        });
+      }
+    } catch (e) {
+      // Bỏ qua nếu không đọc được package.json
+    }
+  }
+
+  if (!versions.length) {
+    throw new Error(
+      'Không tìm thấy playwright trong cache npx. Vui lòng cài bằng:\n' +
+      '  npx playwright@latest install chromium\n' +
+      'hoặc cài vào repo:\n' +
+      '  npm install playwright'
+    );
+  }
+
+  // Sắp xếp theo phiên bản cao nhất (so sánh từng phần của version)
+  versions.sort((a, b) => {
+    const aParts = a.version.split('.').map(x => parseInt(x, 10) || 0);
+    const bParts = b.version.split('.').map(x => parseInt(x, 10) || 0);
+    const maxLen = Math.max(aParts.length, bParts.length);
+    for (let i = 0; i < maxLen; i++) {
+      const aPart = aParts[i] || 0;
+      const bPart = bParts[i] || 0;
+      if (aPart !== bPart) return bPart - aPart;
+    }
+    return 0;
+  });
+
+  const selected = versions[0];
+  console.log(`Nạp playwright ${selected.version} từ ${selected.path}`);
+
+  // Nạp module từ đường dẫn đã chọn
+  return require(selected.path);
+}
+
+const pw = napPlaywright();
+const { chromium } = pw;
 const { traHuyet } = require('./ten-giai-phau.cjs');
 
 const KHUNG = require('./khung-anh.json');
