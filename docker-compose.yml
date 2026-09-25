@@ -75,6 +75,36 @@ services:
     # ports:
     #   - "127.0.0.1:3002:3002"
 
+  cms:
+    build:
+      context: ./cms
+      dockerfile: Dockerfile
+    image: kinhlac/cms:latest
+    container_name: kinhlac_cms
+    restart: unless-stopped
+    # Astro + React SSR. Chưa đo mức thật trên VPS — 512m là mức đặt thận trọng, hãy
+    # xem `docker stats` sau vài ngày rồi siết lại hoặc nới ra cho đúng.
+    mem_limit: 512m
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # DB_HOST/DB_USER/DB_PASSWORD/DB_NAME + EMDASH_ENCRYPTION_KEY. File này KHÔNG vào git.
+    # Role cms_kinhlac chỉ sở hữu database kinhlac_cms, không đọc được dữ liệu bệnh nhân.
+    env_file:
+      - ./cms/.env
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: "4321"
+    volumes:
+      # Ảnh người biên tập tải lên — phải BỀN qua mỗi lần deploy.
+      - ./data/cms-uploads:/app/uploads
+    networks:
+      - kinhlac_net
+    # Không mở ra ngoài: mọi truy cập đi qua nginx của frontend tại /_emdash/.
+
   frontend:
     build:
       context: ./frontend
@@ -102,6 +132,7 @@ services:
       - "${HTTP_PORT:-8080}:80"
     depends_on:
       - backend
+      - cms   # nginx resolve tên upstream lúc khởi động; thiếu cms là nginx không lên được
     volumes:
       # Phục vụ ẢNH AI từ CÙNG thư mục backend ghi (đường dẫn web /blog-images/<slug>/...).
       - ./data/blog-images:/usr/share/nginx/html/blog-images

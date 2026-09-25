@@ -19,24 +19,35 @@ cd "$(dirname "$0")"
 export DOCKER_BUILDKIT=1
 export COMPOSE_DOCKER_CLI_BUILD=1
 
-echo "==> [1/6] Cảnh báo nếu chưa có swap (RAM thấp build dễ treo)"
+echo "==> [1/7] Cảnh báo nếu chưa có swap (RAM thấp build dễ treo)"
 if ! swapon --show | grep -q .; then
   echo "    ⚠️  CHƯA có swap! Nếu build bị treo, chạy 1 lần:  sudo bash setup-swap.sh"
 fi
 
-echo "==> [2/6] Lấy code mới nhất (git pull)"
+echo "==> [2/7] Lấy code mới nhất (git pull)"
 git pull --ff-only
 
-echo "==> [3/6] Build BACKEND (riêng, không trùng RAM với frontend)"
+echo "==> [3/7] Build BACKEND (riêng, không trùng RAM với frontend)"
 docker compose build backend
 
-echo "==> [4/6] Build FRONTEND (riêng)"
+echo "==> [4/7] Build CMS (riêng)"
+# cms/.env KHÔNG nằm trong git (chứa mật khẩu DB riêng của CMS). Thiếu nó thì container
+# khởi động rồi chết vòng tròn — chặn ngay tại đây cho dễ hiểu hơn là để nó tự sập.
+if [ ! -f ./cms/.env ]; then
+  echo "    ✗ THIẾU ./cms/.env — CMS sẽ không nối được database."
+  echo "      Tạo file đó trên VPS với DB_HOST/DB_PORT/DB_USER/DB_PASSWORD/DB_NAME"
+  echo "      và EMDASH_ENCRYPTION_KEY, rồi chạy lại. (Xem DEPLOYMENT.md)"
+  exit 1
+fi
+docker compose build cms
+
+echo "==> [5/7] Build FRONTEND (riêng)"
 docker compose build frontend
 
-echo "==> [5/6] Khởi động lại các service"
+echo "==> [6/7] Khởi động lại các service"
 docker compose up -d
 
-echo "==> [6/6] Tối ưu đĩa tự động: xoá image cũ + cắt cache build (GIỮ ~3GB gần đây cho nhanh)"
+echo "==> [7/7] Tối ưu đĩa tự động: xoá image cũ + cắt cache build (GIỮ ~3GB gần đây cho nhanh)"
 # Xoá mọi image KHÔNG còn container nào dùng (các bản build cũ) — an toàn, stack đang chạy được giữ.
 docker image prune -af || true
 # Cắt cache build BuildKit, GIỮ tối đa 1GB gần nhất.
