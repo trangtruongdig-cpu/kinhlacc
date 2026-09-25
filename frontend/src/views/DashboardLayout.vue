@@ -156,7 +156,12 @@ onMounted(() => {
   }
 })
 
-const navItems = [
+const CMS_URL = import.meta.env.VITE_CMS_URL || '/_emdash/admin/'
+
+/** `ngoai` chỉ có ở mục mở ứng dụng KHÁC (CMS); mục thường đi qua router của Vue. */
+type MucSidebar = { name: string; routeName: string; icon: string; ngoai?: string }
+
+const navItems: MucSidebar[] = [
   { name: 'Trang Chủ', routeName: 'home', icon: 'home' },
   { name: 'Bệnh Nhân', routeName: 'patients', icon: 'patients' },
   { name: 'Lịch Trị Liệu', routeName: 'appointments', icon: 'calendar' },
@@ -172,6 +177,10 @@ const navItems = [
   { name: 'Quản Lý Người Dùng', routeName: 'users', icon: 'users' },
   { name: 'SEO Radar', routeName: 'seo', icon: 'radar' },
   { name: 'Góp Ý & Lỗi', routeName: 'su-co', icon: 'bug' },
+  // Mở CMS (EmDash) — app riêng, KHÔNG phải route Vue. Dev: cổng 4321; thật: cùng tên
+  // miền qua nginx. Khoá quyền 'cms' chưa nằm trong trangCho của vai trò nào nên mặc
+  // định chỉ quản trị viên thấy.
+  { name: 'Quản Trị Nội Dung', routeName: 'cms', icon: 'cms', ngoai: CMS_URL },
 ]
 
 // Chỉ hiện những mục mà vai trò hiện tại được phép vào (routeName trùng key trang).
@@ -180,6 +189,12 @@ const visibleNavItems = computed(() => navItems.filter((i) => authStore.can(i.ro
 const currentRouteName = computed(() => route.name)
 
 function navigate(routeName: string) {
+  const muc = navItems.find((i) => i.routeName === routeName)
+  if (muc?.ngoai) {
+    // CMS là ứng dụng khác, không phải route Vue → rời trang hẳn, không push vào history.
+    window.location.href = muc.ngoai
+    return
+  }
   router.push({ name: routeName })
   isMobileOpen.value = false
 }
@@ -282,6 +297,8 @@ function handleLogout() {
             <svg v-if="item.icon === 'users'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 10-4-4 4 4 0 004 4zm6 0a3 3 0 10-2.5-1.35"/></svg>
             <!-- Bug (Góp Ý & Lỗi) icon -->
             <svg v-if="item.icon === 'bug'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="7" width="8" height="12" rx="4"/><path stroke-linecap="round" d="M8 11H4m16 0h-4M8 16H5m16 0h-3M9.5 7l-1.5-2m6.5 2l1.5-2"/></svg>
+            <!-- CMS (Quản Trị Nội Dung) icon -->
+            <svg v-if="item.icon === 'cms'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path stroke-linecap="round" d="M3 9h18M8 9v11"/></svg>
             <!-- Radar (SEO Radar) icon -->
             <svg v-if="item.icon === 'radar'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><path stroke-linecap="round" d="M12 12l6-4"/></svg>
           </span>
