@@ -29,10 +29,12 @@ const TRANG = process.env.TRANG || 'http://localhost:5173/kinhmach3d/xuong-anh.h
 const KIEU = ['da', 'gp', 'lan', 'kinh'];
 
 /** Xếp bốn hướng nhìn theo độ khớp với pháp tuyến THẬT của huyệt, tốt nhất trước.
- *  Hướng dự bị (theo kinh) chèn lên đầu nếu có, nhưng KHÔNG loại ba hướng kia khỏi danh sách. */
+ *  Hướng dự bị (theo kinh) chèn lên đầu nếu có, nhưng KHÔNG loại ba hướng kia khỏi danh sách.
+ *  ⚠️ TRUC phải CHÍNH XÁC khớp với HUONG trong dungCanh() (map3d.js dòng 3244-3245) —
+ *  sai chiều left/right làm huyệt mặt bên xếp sai hạng, chọn hướng xiên vừa qua ngưỡng → ảnh xấu. */
 function xepHuong(ma, duBi) {
   const n = (toaDo()[ma] || {}).n;
-  const TRUC = { front: [0, 0, 1], back: [0, 0, -1], left: [1, 0, 0], right: [-1, 0, 0] };
+  const TRUC = { front: [0, 0, 1], back: [0, 0, -1], left: [-1, 0, 0], right: [1, 0, 0] };
   let ds = Object.keys(TRUC);
   if (n) {
     ds = ds.sort((a, b) => cham(TRUC[b], n) - cham(TRUC[a], n));
@@ -84,8 +86,10 @@ async function main() {
       for (const kieu of KIEU) {
         const nl = KHUNG.ngoaiLe[ma] || {};
         // HƯỚNG NHÌN: ưu tiên pháp tuyến THẬT của chính huyệt, xếp các hướng theo độ khớp
-        // giảm dần. Hướng theo kinh chỉ là dự bị. Xem ghi chú ở khung-anh.json.
-        const thuTuHuong = xepHuong(ma, nl.huong || (KHUNG.macDinh[mer] || {}).huong);
+        // giảm dần. Hướng dự bị từ ngoaiLe (nếu có) hoặc macDinh (lịch sử từ bảng TRUC cũ).
+        // ⚠️ Kinh GB.macDinh = "left" là từ bảng SAI nên bỏ qua; nếu dùng sẽ chặn huyệt mặt bên.
+        const duBi = nl.huong || (mer !== 'GB' ? (KHUNG.macDinh[mer] || {}).huong : undefined);
+        const thuTuHuong = xepHuong(ma, duBi);
         const dat = {
           ma, kieu,
           huong: thuTuHuong[0],
