@@ -96,3 +96,4 @@ cms/data.db*
 
 # Ảnh tải tạm khi di cư vào CMS (nguồn gốc ở CSDL / site thật, không cần theo dõi).
 cms/.tam-anh/
+.anh-huyet/
