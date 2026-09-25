@@ -491,9 +491,11 @@ Khung suy từ vùng cơ thể của huyệt; chỗ nào lệch thì đè bằng
 
 - [ ] **Step 1: Viết bảng**
 
+⚠️ **Hướng nhìn theo kinh chỉ là DỰ BỊ, không phải cách chọn chính.** Đo ở việc 3: `nhan()` lọc nhãn theo pháp tuyến mặt da so với hướng camera (ngưỡng 0,15), nên hướng cố định theo kinh làm một số huyệt ra **0 nhãn, kể cả nhãn của chính huyệt đang chụp** — tái hiện được với `LI1` ở `huong:'front'` (rỗng) so với `'back'` (4 nhãn). Và `dungCanh()` **vẫn báo thành công** trong cả hai trường hợp, nên không có tín hiệu nào cảnh báo ảnh sẽ trắng nhãn. Việc 5 phải chọn hướng theo **pháp tuyến thật của từng huyệt** (trường `n` trong `acu-coords3d.js`), lấy bảng này làm dự bị.
+
 ```json
 {
-  "_ghiChu": "Hướng nhìn mặc định theo kinh chép từ VIEW trong render-doi-chieu.cjs. banKinhCm là bán kính vùng nhìn quanh huyệt; ảnh 'kinh' bỏ qua bán kính này (dùng 95cm cố định trong __XUONG).",
+  "_ghiChu": "Hướng nhìn mặc định theo kinh chép từ VIEW trong render-doi-chieu.cjs — chỉ dùng làm DỰ BỊ khi pháp tuyến huyệt không quyết được. banKinhCm là bán kính vùng nhìn quanh huyệt; ảnh 'kinh' bỏ qua bán kính này (dùng 95cm cố định trong __XUONG).",
   "macDinh": {
     "LU": { "huong": "front" }, "LI": { "huong": "front" }, "ST": { "huong": "front" },
     "SP": { "huong": "front" }, "HT": { "huong": "front" }, "SI": { "huong": "back" },
@@ -537,7 +539,9 @@ git commit -m "feat(acu): bảng khung hình cho xưởng ảnh"
  * Yêu cầu: frontend dev server đang chạy ở cổng 5173.                                   */
 const fs = require('fs');
 const path = require('path');
-const { chromium } = require(path.join(__dirname, '../../node_modules/playwright'));
+// ⚠️ playwright KHÔNG có trong node_modules của repo (đo ở việc 3). Bản 1.63.0 nằm trong
+// cache npx. Nạp theo NODE_PATH thay vì đường dẫn cứng vào node_modules của repo.
+const { chromium } = require('playwright');
 const { traHuyet } = require('./ten-giai-phau.cjs');
 
 const KHUNG = require('./khung-anh.json');
@@ -548,6 +552,30 @@ const GOC = path.resolve(__dirname, '../../..');
 const OUTDIR = process.env.OUTDIR || path.join(GOC, '.anh-huyet');
 const TRANG = process.env.TRANG || 'http://localhost:5173/kinhmach3d/xuong-anh.html';
 const KIEU = ['da', 'gp', 'lan', 'kinh'];
+
+/** Xếp bốn hướng nhìn theo độ khớp với pháp tuyến THẬT của huyệt, tốt nhất trước.
+ *  Hướng dự bị (theo kinh) chèn lên đầu nếu có, nhưng KHÔNG loại ba hướng kia khỏi danh sách. */
+function xepHuong(ma, duBi) {
+  const n = (toaDo()[ma] || {}).n;
+  const TRUC = { front: [0, 0, 1], back: [0, 0, -1], left: [1, 0, 0], right: [-1, 0, 0] };
+  let ds = Object.keys(TRUC);
+  if (n) {
+    ds = ds.sort((a, b) => cham(TRUC[b], n) - cham(TRUC[a], n));
+  }
+  if (duBi && ds[0] !== duBi) ds = [duBi, ...ds.filter(x => x !== duBi)];
+  return ds;
+}
+const cham = (a, b) => a[0] * (b.x ?? b[0]) + a[1] * (b.y ?? b[1]) + a[2] * (b.z ?? b[2]);
+
+let _toaDo = null;
+function toaDo() {
+  if (_toaDo) return _toaDo;
+  const w = {};
+  new Function('window', fs.readFileSync(
+    path.join(GOC, 'frontend/public/kinhmach3d/data/acu-coords3d.js'), 'utf8'))(w);
+  _toaDo = w.ACU_COORDS3D.points;
+  return _toaDo;
+}
 
 function danhSach(args) {
   const w = {};
@@ -579,14 +607,28 @@ function danhSach(args) {
     const gp = traHuyet(ma);
     for (const kieu of KIEU) {
       const nl = KHUNG.ngoaiLe[ma] || {};
+      // HƯỚNG NHÌN: ưu tiên pháp tuyến THẬT của chính huyệt, xếp các hướng theo độ khớp
+      // giảm dần. Hướng theo kinh chỉ là dự bị. Xem ghi chú ở khung-anh.json.
+      const thuTuHuong = xepHuong(ma, nl.huong || (KHUNG.macDinh[mer] || {}).huong);
       const dat = {
         ma, kieu,
-        huong: nl.huong || (KHUNG.macDinh[mer] || {}).huong || 'front',
-        banKinhCm: nl.banKinhCm || KHUNG.banKinh[kieu] || 12,
+        huong: thuTuHuong[0],
+        banKinhCm: nl.banKinhCm ?? KHUNG.banKinh[kieu] ?? 12,
         toSang: kieu === 'gp' ? gp.toDuoc.map(x => x.conceptId) : [],
       };
-      const canh = await p.evaluate(d => window.__XUONG.dungCanh(d), dat);
+      let canh = await p.evaluate(d => window.__XUONG.dungCanh(d), dat);
       if (canh.loi) { console.error(`  ✗ ${ma}/${kieu}: ${canh.loi}`); continue; }
+
+      // KIỂM NHÃN: dungCanh() báo thành công cả khi ảnh sẽ trắng nhãn. Phải tự đếm, và
+      // đổi hướng nếu bằng 0 — nếu không thì một số huyệt (đầu ngón tay, ngón chân) ra
+      // ảnh không có nhãn nào mà không lỗi gì.
+      let soNhan = await p.evaluate((r) => window.__XUONG.nhan(r).length, dat.banKinhCm);
+      for (let i = 1; i < thuTuHuong.length && soNhan === 0; i++) {
+        dat.huong = thuTuHuong[i];
+        canh = await p.evaluate(d => window.__XUONG.dungCanh(d), dat);
+        soNhan = await p.evaluate((r) => window.__XUONG.nhan(r).length, dat.banKinhCm);
+      }
+      if (soNhan === 0) console.error(`  ⚠ ${ma}/${kieu}: không nhãn nào ở cả 4 hướng`);
 
       // Nhãn: ảnh 'lan' ghi tên mọi huyệt quanh đó; ba kiểu kia chỉ ghi huyệt chính.
       await p.evaluate(({ ma, kieu, r }) => {
@@ -616,7 +658,9 @@ cd /Users/truongtrang/Desktop/kinhlacc/frontend && (npm run dev &) && sleep 8
 cd /Users/truongtrang/Desktop/kinhlacc/backend/src/acu-solver && node chup-huyet.cjs LU9
 ```
 
-Kỳ vọng: `Chụp 1 huyệt × 4 kiểu = 4 ảnh`, rồi `LU9 ✓`, không có dòng `✗`, không có `⚠ lỗi JS`.
+Kỳ vọng: `Chụp 1 huyệt × 4 kiểu = 4 ảnh`, rồi `LU9 ✓`, không có dòng `✗`, không có `⚠ lỗi JS`, không có dòng `không nhãn nào ở cả 4 hướng`.
+
+⚠️ Bọc toàn bộ thân `main()` trong `try/finally` và `await b.close()` ở `finally`. Vòng lặp báo sẵn sàng của trang xưởng không có giới hạn số lần thử, nên khi cảnh không bao giờ dựng xong (model 404, mất WebGL context) thì `waitForFunction` hết 180 giây rồi ném — không đóng trình duyệt ở `finally` là để lại tiến trình Chromium treo mãi.
 
 - [ ] **Step 3: Nhìn bốn ảnh bằng mắt**
 
