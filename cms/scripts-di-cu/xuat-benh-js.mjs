@@ -17,12 +17,14 @@ import { parseEnv } from "node:util";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { docBanGoc, soTapCon, bao } from "./kiem-goc.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const goc = resolve(here, "../..");
 const require = createRequire(import.meta.url);
 const { Client } = require("pg");
 const chiKiem = process.argv.includes("--kiem");
+const kiemGoc = process.argv.includes("--kiem-goc");
 const DICH = resolve(goc, "frontend/public/kinhmach3d/data/benh.js");
 
 // Siêu dữ liệu của hai bộ: nhãn và thứ tự trường là HẰNG SỐ của tệp gốc, không suy ra
@@ -107,6 +109,13 @@ await kho.end();
 
 const DAU = "/* TỰ SINH bởi _build-benh.cjs — KHÔNG sửa tay. window.BENH = { ccdt, benhhoc }. */\n";
 const noiDungMoi = DAU + "window.BENH = " + JSON.stringify(ra) + ";\n";
+
+if (kiemGoc) {
+	// So với BẢN GỐC trong git theo TẬP CON: khoá gốc phải còn nguyên, khoá thêm mới
+	// thì cho phép. Đây là chốt sống lâu hơn `cmp`, xem kiem-goc.mjs.
+	const { du, rev } = docBanGoc("benh.js", "BENH", goc);
+	process.exit(bao("benh.js", rev, soTapCon(du, ra)) === 0 ? 0 : 1);
+}
 
 if (!chiKiem) {
 	writeFileSync(DICH, noiDungMoi);
