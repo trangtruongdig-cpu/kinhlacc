@@ -1,7 +1,7 @@
 import node from "@astrojs/node";
 import react from "@astrojs/react";
 import auditLog from "@emdash-cms/plugin-audit-log";
-import { defineConfig, fontProviders } from "astro/config";
+import { defineConfig, fontProviders, memoryCache } from "astro/config";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import emdash, { local } from "emdash/astro";
@@ -9,6 +9,36 @@ import { postgres } from "emdash/db";
 
 export default defineConfig({
 	output: "server",
+	// ĐÓNG BĂNG TRANG ĐÃ DỰNG — điểm mà WordPress phải cắm plugin mới có.
+	//
+	// Quản trị thì động (sửa trong CMS, lưu vào Postgres), nhưng người đọc nhận một trang đã
+	// dựng sẵn: không chạm database, không render lại. Mã đã gọi Astro.cache.set(cacheHint) ở
+	// mọi trang, nhưng KHÔNG có provider thì Astro.cache.enabled = false và mọi lời gọi đó chạy
+	// rỗng — đó là tình trạng trước dòng này.
+	//
+	// cacheHint của EmDash mang tag là tên collection, nên khi sửa/đăng/xoá một bài, EmDash tự
+	// xoá đúng những trang dính tag đó. Người đọc không bao giờ thấy bản cũ.
+	//
+	// memoryCache: bộ nhớ của chính tiến trình. Hợp với mô hình một container như ở đây. Nếu
+	// sau này chạy nhiều bản sao thì phải đổi sang provider dùng chung, không thì mỗi bản sao
+	// giữ một bản cache riêng và xoá không tới nhau.
+	//
+	// ⚠️ Dev KHÔNG cache (Astro cố ý). Muốn đo phải chạy bản dựng: node ./dist/server/entry.mjs
+	cache: { provider: memoryCache() },
+	// Thời gian sống theo từng nhóm. swr = trả bản cũ ngay rồi dựng lại ngầm, nên người đọc
+	// không bao giờ phải chờ. Không cần đặt ngắn để "cho mới": EmDash xoá theo tag ngay khi
+	// nội dung đổi, nên các số này chỉ là lưới an toàn.
+	routeRules: {
+		"/blog/[...slug]": { maxAge: 3600, swr: 86400 },
+		"/chuyen-muc/[...slug]": { maxAge: 3600, swr: 86400 },
+		"/cum/[...slug]": { maxAge: 3600, swr: 86400 },
+		"/trang/[...slug]": { maxAge: 3600, swr: 86400 },
+		// Khu quản trị và endpoint kiểm sức khoẻ KHÔNG được cache: người biên tập phải thấy
+		// ngay thứ mình vừa sửa, và healthcheck phải chạm database thật mỗi lần.
+		// RouteRule chỉ nhận object, không nhận false — maxAge 0 là cách tắt.
+		"/_emdash/[...path]": { maxAge: 0, swr: 0 },
+		"/kiem-suc-khoe.json": { maxAge: 0, swr: 0 },
+	},
 	adapter: node({
 		mode: "standalone",
 	}),
