@@ -4,6 +4,8 @@
 // Chép từ build-dict.mjs (bản đang phục vụ /benh-hoc/ và /cham-cuu-tri-benh/ hiện nay).
 // Khác KhungSeoBaiViet ở chỗ dùng MedicalWebPage + MedicalEntity thay cho Article: đây là
 // trang tra cứu y khoa, không phải bài viết có tác giả.
+import { rutNguon, citationLd } from "../utils/trich-dan";
+
 const SITE = "Kinh Lạc Trương Gia";
 const NGUOI_DUYET = "Trương Đình Trang";
 
@@ -26,6 +28,12 @@ const capNhat = (entry.data?.updatedAt ?? entry.updatedAt)
 	? new Date(entry.data?.updatedAt ?? entry.updatedAt).toISOString().slice(0, 10)
 	: "";
 
+// Trích dẫn rút từ CHÍNH nội dung: mọi ngoặc đơn chứa tên nguồn trong các phần văn xuôi.
+// Đây là tín hiệu E-E-A-T mạnh nhất cho một trang y khoa — mạnh hơn cả dòng "đã rà soát".
+const nguon = rutNguon(
+	d.dai_cuong, d.nguyen_nhan, d.chan_doan, d.dieu_tri, d.benh_an, d.tham_khao, d.trieu_chung,
+);
+
 const jsonLd: any[] = [
 	{
 		"@context": "https://schema.org", "@type": "MedicalWebPage",
@@ -34,6 +42,7 @@ const jsonLd: any[] = [
 			...(d.doi_chieu_benh_danh ? { alternateName: d.doi_chieu_benh_danh } : {}) },
 		publisher: { "@type": "Organization", name: SITE,
 			logo: { "@type": "ImageObject", url: `${goc}/favicon.svg` } },
+		...(nguon.length ? { citation: citationLd(nguon) } : {}),
 	},
 	{
 		"@context": "https://schema.org", "@type": "BreadcrumbList",
@@ -89,6 +98,23 @@ if (faq.length)
 )}
 
 <div class="bl-cta"><a href="/xem-3d">Khám Phá Đồ Hình Kinh Lạc 3D →</a></div>
+
+{nguon.length > 0 && (
+	<section class="dl-nguon">
+		<h2>Nguồn Trích Dẫn <span class="dl-nguon-dem">{nguon.length}</span></h2>
+		<ol class="dl-nguon-ds">
+			{nguon.map((n) => (
+				<li class={n.loai === "tap_chi" ? "dl-nguon-tc" : "dl-nguon-sach"}>
+					<span class="dl-nguon-loai">{n.loai === "tap_chi" ? "Tạp chí" : "Sách"}</span>
+					<span class="dl-nguon-ten">{n.ten}</span>
+					{n.nam && <span class="dl-nguon-nam">{n.nam}</span>}
+					{n.so && <span class="dl-nguon-so">số {n.so}</span>}
+					{n.trang && <span class="dl-nguon-trang">tr. {n.trang}</span>}
+				</li>
+			))}
+		</ol>
+	</section>
+)}
 
 <aside class="bl-disclaimer" role="note">
 	<p class="bl-disc-title">⚕️ Miễn Trừ Y Tế</p>

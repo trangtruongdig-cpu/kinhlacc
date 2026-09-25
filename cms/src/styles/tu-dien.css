@@ -146,3 +146,21 @@
 .yv-so-kq { background: #e9f1e8; border-color: #cfe3cd; color: #2f5d2a; }
 .yv-so-kq b { color: #235e1d; }
 .yv-nc-than p { margin: .4rem 0; }
+
+/* ── Nguồn trích dẫn ─────────────────────────────────────────────── */
+.dl-nguon { margin: 2rem 0; }
+.dl-nguon > h2 { font-size: 1.1rem; color: var(--nau-800); display: flex; align-items: center; gap: .5rem; }
+.dl-nguon-dem {
+	font-size: .75rem; background: var(--nau-100); border: 1px solid var(--nau-200);
+	color: var(--nau-700); padding: .1rem .45rem; border-radius: 999px;
+}
+.dl-nguon-ds { margin: .7rem 0 0; padding-left: 1.4rem; }
+.dl-nguon-ds li { margin: .45rem 0; line-height: 1.6; font-size: .92rem; }
+.dl-nguon-loai {
+	font-size: .68rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+	padding: .1rem .4rem; border-radius: 3px; margin-right: .45rem;
+}
+.dl-nguon-tc .dl-nguon-loai { background: #e6f0f4; color: #1f5468; border: 1px solid #cfe0e7; }
+.dl-nguon-sach .dl-nguon-loai { background: var(--nau-100); color: var(--nau-700); border: 1px solid var(--nau-200); }
+.dl-nguon-ten { font-weight: 600; color: var(--nau-900); }
+.dl-nguon-nam, .dl-nguon-so, .dl-nguon-trang { color: var(--chu-nhat); font-size: .86rem; margin-left: .4rem; }
