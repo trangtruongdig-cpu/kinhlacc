@@ -51,12 +51,33 @@ const MUC = {
 const r = await kho.query(`
 	SELECT ma_cu, title, slug, slug_goc, ten_khac, muc_goc, ma_huyet, ma_gach, ten_han, pinyin, ten_anh,
 	       pho_huyet, ghi_chu, tham_khao, noi_dung_goc, thu_tu_muc, anh_duong_dan, chi_dinh,
-	       y_nghia_ten, dac_tinh, vi_tri, giai_phau, tac_dung, chu_tri, cham_cuu, xuat_xu
+	       y_nghia_ten, dac_tinh, vi_tri, giai_phau, tac_dung, chu_tri, cham_cuu, xuat_xu,
+	       anh_da, anh_gp, anh_lan, anh_kinh, anh_ghi_chu
 	FROM ec_huyet_vi
 	WHERE deleted_at IS NULL AND status = 'published'
 	ORDER BY ma_cu
 `);
 await kho.end();
+
+// URL ảnh 3D từ cột kiểu image — cột này là TEXT chứa CHUỖI JSON khi truy vấn SQL thô
+// (khác API EmDash, vốn trả object), nên phải JSON.parse rồi mới lấy meta.storageKey.
+// storageKey KHÁC id: dựng URL bằng id trần thì /_emdash/api/media/file/<id> trả 404
+// mà thẻ <img> vẫn render ra — lỗi không lộ khi chỉ nhìn trang. Theo đúng cách
+// cms/src/utils/anh.ts đã làm cho các trang CMS khác.
+const urlAnh3d = (v) => {
+	if (!v) return null;
+	let o = v;
+	if (typeof o === "string") {
+		try {
+			o = JSON.parse(o);
+		} catch {
+			return null;
+		}
+	}
+	if (!o || typeof o !== "object") return null;
+	const khoa = o.meta?.storageKey || o.id;
+	return khoa ? `/_emdash/api/media/file/${khoa}` : null;
+};
 
 // Portable Text → từng dòng chữ, đúng cách đã nhập vào (mỗi khối một dòng).
 const chu = (v) => {
@@ -92,11 +113,27 @@ const records = r.rows.map((x) => {
 					})
 					.filter(Boolean);
 
+	// Bốn ảnh 3D gộp vào MỘT khoá anh3d, không phải bốn khoá phẳng — thoả thuận với
+	// phiên kinhlacc-12 (chủ của tệp sinh này). null khi huyệt chưa có ảnh nào, y như
+	// cách khoá `image` cũ dùng null chứ không bỏ khoá.
+	const coAnh3d = x.anh_da || x.anh_gp || x.anh_lan || x.anh_kinh;
+	const anh3d = coAnh3d
+		? {
+				da: urlAnh3d(x.anh_da),
+				gp: urlAnh3d(x.anh_gp),
+				lan: urlAnh3d(x.anh_lan),
+				kinh: urlAnh3d(x.anh_kinh),
+				ghiChu: x.anh_ghi_chu || null,
+			}
+		: null;
+
 	// CHÍNH SÁCH KHOÁ — đo từ tệp gốc, phải giữ y hệt:
 	//  · 9 khoá LUÔN CÓ ở cả 1.059 bản ghi, kể cả khi rỗng: image là null chứ KHÔNG
 	//    phải bỏ khoá. Bỏ khoá thì 386 bản ghi đổi hình dạng.
 	//  · 6 khoá chỉ có ở 357 bản ghi có mã quốc tế, và có ĐỦ CẢ SÁU cùng lúc
 	//    (indications có thể là mảng rỗng, vẫn phải xuất).
+	//  · anh3d là khoá MỚI (Việc 7) — phải có mặt ở CẢ 1.059 bản ghi, null khi rỗng,
+	//    đúng luật trên chứ không phải luật riêng.
 	const o = {
 		id: x.ma_cu,
 		ten: x.title,
@@ -107,6 +144,7 @@ const records = r.rows.map((x) => {
 		sections,
 		slug: x.slug_goc || x.slug,
 		image: x.anh_duong_dan || null,
+		anh3d,
 	};
 	if (x.ma_huyet) {
 		o.international_code = x.ma_huyet;

@@ -169,6 +169,32 @@ function autolinkHtml(html, selfSlug, cap = 24) {
   return parts.join('')
 }
 
+// ── Khối bốn ảnh 3D (Việc 7) — thay ảnh webp 600px cũ bằng 4 ảnh dựng từ mô hình giải phẫu ──
+// Chỉ vẽ khi rec.anh3d khác null (đang có 11/1.059 huyệt, phần còn lại nạp sau).
+// Bốn nhãn cố định, đúng thứ tự đã chốt với người dùng: da → gp → lan → kinh.
+const ANH3D_NHAN = [
+  ['da', 'Trên Da', 'Huyệt nằm ở đâu trên bề mặt'],
+  ['gp', 'Trên Giải Phẫu', 'Bóc da, thấy cơ và xương'],
+  ['lan', 'Huyệt Lân Cận', 'Các huyệt gần, kể cả khác kinh'],
+  ['kinh', 'Toàn Đường Kinh', 'Vị trí trong cả đường kinh'],
+]
+const ANH3D_RONG = { da: 800, gp: 800, lan: 800, kinh: 1400 } // đúng kích thước thật đã nạp (xem anh-huyet-3d.mjs)
+function anh3dBlock(anh3d, tenHuyet) {
+  if (!anh3d) return ''
+  const items = ANH3D_NHAN.map(([khoa, nhan, moTa]) => {
+    const src = anh3d[khoa]
+    if (!src) return ''
+    const r = ANH3D_RONG[khoa]
+    return `<figure class="dl-anh3d-item">
+      <img src="${escAttr(src)}" alt="${escAttr(`${tenHuyet} — ${nhan.toLowerCase()}`)}" loading="lazy" width="${r}" height="${r}">
+      <figcaption>${escText(nhan)}<span>${escText(moTa)}</span></figcaption>
+    </figure>`
+  }).join('')
+  if (!items) return ''
+  const ghiChu = anh3d.ghiChu ? `<p class="dl-anh3d-note">${escText(anh3d.ghiChu)}</p>` : ''
+  return `<section class="dl-anh3d"><h2>Hình Ảnh Dựng Từ Mô Hình 3D</h2><div class="dl-anh3d-grid">${items}</div>${ghiChu}</section>`
+}
+
 // ───────────────────────── TRANG HUYỆT ──────────────────────────────────────
 function leadHuyet(rec, cls) {
   let h
@@ -198,12 +224,20 @@ function huyetPage(rec) {
       (vtForDesc ? ` Vị trí: ${clip(vtForDesc, 80)}` : ''),
     160,
   )
-  const img = rec.image ? ASSET_BASE + String(rec.image).replace(/^\/+/, '') : null
-  const ogImg = img
-    ? DOMAIN + img
-    : cls.loai === 'kinh' && cls.mer && cls.mer.images
-      ? DOMAIN + ASSET_BASE + String(cls.mer.images.chinh || cls.mer.images.sodo || cls.mer.images.gen || '').replace(/^\/+/, '')
-      : GENERIC_OG
+  // Ảnh 3D (4 tấm) thay thế ảnh webp 600px cũ khi có; ảnh cũ CHỈ dùng khi anh3d null
+  // (698 huyệt chưa có toạ độ 3D) — theo đúng thoả thuận với phiên kinhlacc-12.
+  const anh3d = rec.anh3d || null
+  const img = !anh3d && rec.image ? ASSET_BASE + String(rec.image).replace(/^\/+/, '') : null
+  // OG: ưu tiên ảnh "toàn đường kinh" của bộ anh3d — mỗi huyệt có ảnh chia sẻ riêng thay vì
+  // dùng chung GENERIC_OG cho cả 1.059 trang (URL anh3d.* đã là đường dẫn tuyệt đối
+  // /_emdash/api/media/file/<storageKey>, chỉ cần nối DOMAIN, KHÔNG qua ASSET_BASE).
+  const ogImg = anh3d && anh3d.kinh
+    ? DOMAIN + anh3d.kinh
+    : img
+      ? DOMAIN + img
+      : cls.loai === 'kinh' && cls.mer && cls.mer.images
+        ? DOMAIN + ASSET_BASE + String(cls.mer.images.chinh || cls.mer.images.sodo || cls.mer.images.gen || '').replace(/^\/+/, '')
+        : GENERIC_OG
   const indexable = huyetIndexable(rec)
 
   const traitNames = traitsByAcuId.get(rec.id) || []
@@ -289,6 +323,7 @@ function huyetPage(rec) {
   <p class="dl-byline"><span class="bl-review-badge">✔ Đã rà soát chuyên môn</span> ${escText(DEFAULT_REVIEWER)} · Cập nhật ${escText(BUILD_DATE)}</p>
   ${infobox}
   <p class="dl-lead">${escText(lead)}</p>
+  ${anh3dBlock(anh3d, dispName)}
   <div class="bl-body">${body}</div>
   ${faqBlock(faq)}
   <div class="bl-cta"><a href="/xem-3d">Khám Phá Đồ Hình Kinh Lạc 3D →</a></div>
@@ -297,7 +332,7 @@ function huyetPage(rec) {
   ${disclaimer({ note: 'Thông tin huyệt vị trên trang này' })}
 </article></main>
 ${footer}</body></html>`
-  return { htmlDoc, indexable, loai: cls.loai, hasImg: !!img }
+  return { htmlDoc, indexable, loai: cls.loai, hasImg: !!img || !!anh3d }
 }
 
 // ───────────────────────── TRANG KINH (TRỤ) ─────────────────────────────────
@@ -410,7 +445,15 @@ const DICT_STYLE = `<style>
   .dl-trait-chip{display:inline-block;background:#f3ebdd;border:1px solid #d4b896;border-radius:6px;padding:.1em .55em;font-size:.85rem;color:#5a4427;margin:.1em .2em .1em 0}
   .dl-cn-char{font-size:1.15rem;font-weight:700;color:#3d2b0e}
   .dl-cn-pinyin{font-size:.88rem;color:#7a6a55;font-style:italic}
-  @media(max-width:560px){.dl-info-img{width:100%}}
+  .dl-anh3d{margin:0 0 1.6rem;border-top:1px dashed #e3d6c2;padding-top:1.1rem}
+  .dl-anh3d>h2{font-size:1.15rem;color:#5a4427;margin:0 0 .8rem}
+  .dl-anh3d-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem}
+  .dl-anh3d-item{margin:0;background:#faf6ef;border:1px solid #e3d6c2;border-radius:10px;overflow:hidden}
+  .dl-anh3d-item img{display:block;width:100%;height:auto;aspect-ratio:1/1;object-fit:cover;background:#fff}
+  .dl-anh3d-item figcaption{padding:.45rem .6rem;font-size:.85rem;color:#5a4427;font-weight:600}
+  .dl-anh3d-item figcaption span{display:block;font-weight:400;color:#7a6a55;font-size:.78rem;margin-top:.1rem}
+  .dl-anh3d-note{font-size:.85rem;color:#8a5a2b;background:#f6e9d6;border-radius:8px;padding:.5rem .8rem;margin:.9rem 0 0}
+  @media(max-width:560px){.dl-info-img{width:100%}.dl-anh3d-grid{grid-template-columns:repeat(2,1fr)}}
 </style>`
 
 // ───────────────────────── TRANG HUB (mục lục — "đường vào") ────────────────
