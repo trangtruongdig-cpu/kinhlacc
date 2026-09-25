@@ -210,9 +210,21 @@ function stub(v, rel) {
     nhom: groupBy(nhomQ.rows, 'id_vi_thuoc'),
   }
 
+  // ── Van chống thin/doorway trên site YMYL ─────────────────────────────────
+  // Đo trên 1.045 vị (25/09/2026): 840 vị (80,4%) RỖNG hoàn toàn 9 trường văn xuôi —
+  // chỉ có tên + tính + vị + quy kinh. 205 vị đã biên soạn thì rất dày (p90 ~7.957 ký tự).
+  // Luật: chỉ MỜI bot vào trang đã có người biên soạn. Trang chưa biên soạn vẫn dựng để
+  // liên kết nội bộ chạy, mở dần khi kho nội dung đầy lên.
+  const VAN_XUOI = ['mo_ta', 'thanh_phan', 'duoc_ly', 'tinh_vi_quy_kinh', 'nuoi_duong',
+                    'bao_che', 'don_thuoc', 'chu_tri', 'tham_khao']
+  const daBienSoan = (v) => VAN_XUOI.some((f) => String(v[f] ?? '').trim().length > 0)
+
   const urls = []
   let n = 0
+  let nNoindex = 0
   for (const v of rows) {
+    const index = daBienSoan(v)
+    if (!index) nNoindex++
     const url = `${DOMAIN}/duoc-lieu/${v.id}/`
     const congDungNames = (rel.congDung.get(v.id) || []).map((r) => r.ten)
     const title = `${v.ten_vi_thuoc} — Vị thuốc Đông Y${v.xuat_xu ? ' (' + v.xuat_xu + ')' : ''} | Kinh Lạc Trương Gia`
@@ -231,7 +243,7 @@ function stub(v, rel) {
     let html = baseHtml
     html = setTitle(html, title)
     html = setMeta(html, 'name', 'description', desc)
-    html = setMeta(html, 'name', 'robots', 'index, follow')
+    html = setMeta(html, 'name', 'robots', index ? 'index, follow' : 'noindex, follow')
     html = setCanonical(html, url)
     html = setMeta(html, 'property', 'og:title', title)
     html = setMeta(html, 'property', 'og:description', desc)
@@ -245,7 +257,7 @@ function stub(v, rel) {
     const outDir = join(distDir, 'duoc-lieu', String(v.id))
     mkdirSync(outDir, { recursive: true })
     writeFileSync(join(outDir, 'index.html'), html, 'utf8')
-    urls.push(url)
+    if (index) urls.push(url)
     if (++n % 500 === 0) console.log(`  …${n}/${rows.length}`)
   }
 
@@ -258,5 +270,5 @@ function stub(v, rel) {
     if (sm.includes('</urlset>')) writeFileSync(smPath, sm.replace('</urlset>', entries + '\n</urlset>'), 'utf8')
   }
 
-  console.log(`✓ build-duoc-lieu: ${n} trang dược liệu tĩnh + ${urls.length} URL vào sitemap.`)
+  console.log(`✓ build-duoc-lieu: ${n} trang dược liệu tĩnh (${nNoindex} noindex: chưa biên soạn văn xuôi) + ${urls.length} URL vào sitemap.`)
 })().catch((e) => { console.warn('⚠ build-duoc-lieu: lỗi khi prerender (' + (e && e.message) + ') — BỎ QUA, build vẫn tiếp tục.'); process.exit(0) })

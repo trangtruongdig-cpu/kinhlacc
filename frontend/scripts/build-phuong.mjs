@@ -49,6 +49,26 @@ function setJsonLd(h, obj) {
     .replace(/<\/head>/i, `    <script type="application/ld+json" id="seo-jsonld">${json}</script>\n  </head>`)
 }
 
+// ── Van chống thin/doorway trên site YMYL ───────────────────────────────────
+// Cùng tinh thần MIN_BODY_CHARS của dict-data.mjs, nhưng đo theo CHỮ NGƯỜI ĐỌC THẤY
+// (văn xuôi + tên vị + liều, đúng như stub() dựng) — KHÔNG tính cú pháp JSON của
+// thanh_phan, vì mỗi bài sẽ bị cộng khống ~570 ký tự dấu ngoặc và tên trường.
+// Đo trên 13.942 bài (25/09/2026): trung vị 236 ký tự, p25 173, p75 340.
+// Ngưỡng 250 giữ 5.983 bài (42,9%). Nới xuống 150 sẽ thành 11.057 bài (79,3%).
+const MIN_CHU_HIEN = 250
+const MIN_SO_VI = 3
+
+const chuoi = (v) => (v == null ? '' : String(v)).trim()
+const dsVi = (b) => (Array.isArray(b.thanh_phan) ? b.thanh_phan : [])
+const soVi = (b) => dsVi(b).filter((t) => chuoi(t.ten)).length
+const chuNhinThay = (b) =>
+  (chuoi(b.tac_dung) + ' ' + chuoi(b.cach_dung) + ' ' + chuoi(b.ghi_chu) + ' ' +
+   dsVi(b).map((t) => chuoi(t.ten) + ' ' + chuoi(t.lieu)).join(' ')).replace(/\s+/g, ' ').trim()
+
+/** Trang đủ dày để MỜI bot vào? Không đủ thì vẫn dựng (liên kết nội bộ vẫn chạy), chỉ không index. */
+const duDay = (b) =>
+  soVi(b) >= MIN_SO_VI && chuoi(b.tac_dung).length > 0 && chuNhinThay(b).length >= MIN_CHU_HIEN
+
 function stub(b) {
   const tp = Array.isArray(b.thanh_phan) ? b.thanh_phan : []
   const ing = tp.map((t) => {
@@ -97,8 +117,11 @@ function stub(b) {
 
   const urls = []
   let n = 0
+  let nNoindex = 0
   for (const b of rows) {
     const url = `${DOMAIN}/bai-thuoc/${b.slug}/`
+    const index = duDay(b)
+    if (!index) nNoindex++
     const vi = (Array.isArray(b.thanh_phan) ? b.thanh_phan : []).map((t) => t.ten).filter(Boolean)
     const title = `${b.ten} — bài thuốc Đông Y${b.xuat_xu ? ' (' + b.xuat_xu + ')' : ''} | Kinh Lạc Trương Gia`
     const desc = `Bài thuốc ${b.ten}${b.tac_dung ? ' — ' + b.tac_dung : ''}. Thành phần: ${vi.slice(0, 8).join(', ')}.`.slice(0, 300)
@@ -110,7 +133,7 @@ function stub(b) {
     let html = baseHtml
     html = setTitle(html, title)
     html = setMeta(html, 'name', 'description', desc)
-    html = setMeta(html, 'name', 'robots', 'index, follow')
+    html = setMeta(html, 'name', 'robots', index ? 'index, follow' : 'noindex, follow')
     html = setCanonical(html, url)
     html = setMeta(html, 'property', 'og:title', title)
     html = setMeta(html, 'property', 'og:description', desc)
@@ -125,7 +148,7 @@ function stub(b) {
     const outDir = join(distDir, 'bai-thuoc', b.slug)
     mkdirSync(outDir, { recursive: true })
     writeFileSync(join(outDir, 'index.html'), html, 'utf8')
-    urls.push(url)
+    if (index) urls.push(url)
     if (++n % 2000 === 0) console.log(`  …${n}/${rows.length}`)
   }
 
@@ -138,5 +161,5 @@ function stub(b) {
     if (sm.includes('</urlset>')) writeFileSync(smPath, sm.replace('</urlset>', entries + '\n</urlset>'), 'utf8')
   }
 
-  console.log(`✓ build-phuong: ${n} trang bài thuốc tĩnh + ${urls.length} URL vào sitemap.`)
+  console.log(`✓ build-phuong: ${n} trang bài thuốc tĩnh (${nNoindex} noindex: <${MIN_SO_VI} vị / thiếu tác dụng / <${MIN_CHU_HIEN} ký tự) + ${urls.length} URL vào sitemap.`)
 })().catch((e) => { console.warn('⚠ build-phuong: lỗi khi prerender (' + (e && e.message) + ') — BỎ QUA, build vẫn tiếp tục.'); process.exit(0) })

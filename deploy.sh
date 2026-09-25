@@ -40,7 +40,9 @@ echo "==> [6/6] Tối ưu đĩa tự động: xoá image cũ + cắt cache build
 # Xoá mọi image KHÔNG còn container nào dùng (các bản build cũ) — an toàn, stack đang chạy được giữ.
 docker image prune -af || true
 # Cắt cache build BuildKit nhưng giữ tối đa 3GB gần nhất → đĩa gọn mà lần build sau vẫn nhanh.
-docker builder prune -f --keep-storage=3GB || docker builder prune -f --filter "until=72h" || true
+docker builder prune -f --max-storage=3GB 2>/dev/null \
+  || docker builder prune -f --keep-storage=3GB 2>/dev/null \
+  || docker builder prune -f --filter "until=72h" || true
 
 echo ""
 echo "==> ✅ Xong. Đĩa còn trống:"

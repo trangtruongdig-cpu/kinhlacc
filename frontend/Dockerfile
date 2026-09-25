@@ -24,7 +24,20 @@ COPY . .
 #   blog:pre  = van YMYL (--gate: bài auto chưa duyệt -> noindex) + sinh sitemap (vào public/ TRƯỚC vite)
 #   build-only= vite build (SPA -> dist/)
 #   blog:post = mini-prerender meta SEO tĩnh + build-blog (Markdown -> HTML tĩnh), đều cần dist/ đã có
-RUN npm run blog:pre && npm run build-only && npm run blog:post
+# Biến DB nạp qua BuildKit SECRET, KHÔNG qua ARG: ARG bị ghi vĩnh viễn vào lịch sử image,
+# ai đọc được image là đọc được mật khẩu Aiven + JWT_SECRET. Secret chỉ sống trong RUN này.
+#
+# CHỈ lọc các dòng DB_* rồi mới nạp: backend/.env còn chứa CA_CERTIFICATE (PEM trải 25 dòng)
+# và FIREBASE_SERVICE_ACCOUNT — source cả file thì shell cố chạy dòng base64 như lệnh → vỡ build.
+#
+# Thiếu secret (vd ai đó chạy `docker build` tay) → vẫn build được, chỉ là ba bước prerender
+# dược liệu / cổ phương / nhóm dược lý tự bỏ qua như trước. Không làm gãy deploy.
+RUN --mount=type=secret,id=db_env \
+    if [ -f /run/secrets/db_env ]; then \
+      grep -E '^(DB_HOST|DB_PORT|DB_USER|DB_PASSWORD|DB_NAME|DB_SSL)=' /run/secrets/db_env > /tmp/db.env || true; \
+      set -a; . /tmp/db.env; set +a; rm -f /tmp/db.env; \
+    fi; \
+    npm run blog:pre && npm run build-only && npm run blog:post
 
 # Nén sẵn asset tĩnh (.gz) để nginx "gzip_static on" phục vụ trực tiếp — khỏi nén lại mỗi request.
 # Bỏ qua file < 1KB (nén không lợi). Dùng gzip -c (khỏi cần -k) cho tương thích busybox alpine.

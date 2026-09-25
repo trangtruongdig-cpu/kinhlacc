@@ -83,6 +83,11 @@ services:
         # Bake URL API vào bundle Vite lúc build.
         # Để mặc định "/api" -> nginx reverse-proxy sang backend (same-origin).
         VITE_API_URL: ${VITE_API_URL:-/api}
+      # Biến DB cho ba bước prerender (dược liệu / cổ phương / nhóm dược lý) chạy lúc build.
+      # Là SECRET chứ không phải arg: arg bị ghi vào lịch sử image cùng mật khẩu Aiven.
+      # Thiếu file này thì build vẫn chạy, chỉ bỏ qua ba bước đó (xem frontend/Dockerfile).
+      secrets:
+        - db_env
     image: kinhlac/frontend:latest
     container_name: kinhlac_frontend
     restart: unless-stopped
@@ -106,3 +111,10 @@ services:
 networks:
   kinhlac_net:
     driver: bridge
+
+secrets:
+  # Dùng lại chính file env của backend — nơi đã có DB_HOST/DB_PORT/DB_USER/DB_PASSWORD/DB_NAME.
+  # Dockerfile chỉ lọc ra các dòng DB_* nên CA_CERTIFICATE và FIREBASE_SERVICE_ACCOUNT
+  # (giá trị trải nhiều dòng) không lọt vào bước build.
+  db_env:
+    file: ./backend/.env
