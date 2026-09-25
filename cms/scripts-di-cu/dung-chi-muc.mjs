@@ -28,7 +28,7 @@ export const MUC = [
 	{
 		bo: "kinh_mach", nhan: "Lý Thuyết · Tra Cứu Kinh", duongDan: "/kinh/", thuTu: 20,
 		moTa: "Mười hai chính kinh, tám mạch kỳ kinh: đường vận hành và chủ trị.",
-		tenKhac: ["ten_khac"],
+		tenKhac: ["ten_khac", "ma", "tom_tat_huyet"],
 		than: ["dai_cuong", "dac_tinh", "van_hanh", "duong_chinh", "kinh_can", "kinh_biet", "lac_doc", "lac_ngang", "trieu_chung", "chu_tri", "dieu_tri"],
 	},
 	{

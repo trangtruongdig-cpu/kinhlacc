@@ -93,7 +93,9 @@ async function chay(
 	return truyVan<KetQua>(
 		`
 		WITH q AS (
-			SELECT td_bo_dau($1) AS k, ${hamHoi}('simple', td_bo_dau($1)) AS tq
+			SELECT td_bo_dau($1) AS k,
+			       ${hamHoi}('simple', td_bo_dau($1)) AS tq,
+			       plainto_tsquery('simple', td_bo_dau($1)) AS tq_roi
 		)
 		SELECT m.bo, ch.nhan, ch.duong_dan, m.slug, m.tieu_de, m.ten_khac, m.tom_tat,
 			CASE
@@ -101,6 +103,10 @@ async function chay(
 				WHEN m.khoa LIKE q.k || '%'                  THEN 90
 				WHEN m.khoa_khac LIKE '%' || q.k || '%'      THEN 80
 				WHEN m.khoa LIKE '%' || q.k || '%'           THEN 70
+				-- Mọi chữ đều nằm trong TÊN nhưng không liền nhau: "kinh phe" phải ra
+				-- "Kinh Thủ Thái âm Phế". Trọng số {D,C,B,A} = {0,0,0,1} nên chỉ tính
+				-- phần A, tức chỉ xét tiêu đề, không xét thân bài.
+				WHEN ts_rank_cd('{0,0,0,1}', m.tsv, q.tq_roi) > 0 THEN 60
 				ELSE 40
 			END AS diem
 		FROM td_muc m
@@ -111,6 +117,7 @@ async function chay(
 			m.khoa LIKE '%' || q.k || '%'
 			OR m.khoa_khac LIKE '%' || q.k || '%'
 			OR (q.tq IS NOT NULL AND m.tsv @@ q.tq)
+			OR ts_rank_cd('{0,0,0,1}', m.tsv, q.tq_roi) > 0
 		  )
 		ORDER BY diem DESC,
 			ts_rank_cd('{0.1,0.3,0.6,1.0}', m.tsv, q.tq) DESC,

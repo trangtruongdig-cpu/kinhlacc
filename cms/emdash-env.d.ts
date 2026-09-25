@@ -5,6 +5,25 @@
 
 import type { ContentBylineCredit, TaxonomyTerm, PortableTextBlock } from "emdash";
 
+export interface BaiThuoc {
+  id: string;
+  slug: string | null;
+  status: string;
+  xuat_xu?: string;
+  tac_gia?: string;
+  thanh_phan?: unknown;
+  cach_dung?: PortableTextBlock[];
+  tac_dung?: PortableTextBlock[];
+  ghi_chu?: PortableTextBlock[];
+  cho_index?: boolean;
+  title: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
 export interface BaiViet {
   id: string;
   slug: string | null;
@@ -67,6 +86,43 @@ export interface ChamCuuTriBenh {
   terms?: Record<string, TaxonomyTerm[]>;
 }
 
+export interface DuocLieu {
+  id: string;
+  slug: string | null;
+  status: string;
+  ten_khac?: string;
+  ten_khoa_hoc?: string;
+  ten_han?: string;
+  ten_pinyin?: string;
+  ho_khoa_hoc?: string;
+  bo_phan_dung?: string;
+  tinh?: string;
+  vi?: string;
+  quy_kinh?: string;
+  lieu_dung?: string;
+  cong_dung_tom_tat?: string;
+  cong_dung_ds?: string;
+  kieng_ky_ds?: string;
+  anh_dai_dien?: string;
+  mo_ta?: PortableTextBlock[];
+  thanh_phan_hoa_hoc?: PortableTextBlock[];
+  duoc_ly?: PortableTextBlock[];
+  tinh_vi_quy_kinh?: PortableTextBlock[];
+  nuoi_duong?: PortableTextBlock[];
+  bao_che?: PortableTextBlock[];
+  chu_tri?: PortableTextBlock[];
+  don_thuoc?: PortableTextBlock[];
+  xuat_xu?: PortableTextBlock[];
+  tham_khao?: PortableTextBlock[];
+  cho_index?: boolean;
+  title: string;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
 export interface HuyetVi {
   id: string;
   slug: string | null;
@@ -89,6 +145,42 @@ export interface HuyetVi {
   ten_han?: string;
   pinyin?: string;
   ten_anh?: string;
+  anh?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
+export interface KinhMach {
+  id: string;
+  slug: string | null;
+  status: string;
+  ten_khac?: string;
+  ma?: string;
+  dai_cuong?: PortableTextBlock[];
+  dac_tinh?: PortableTextBlock[];
+  van_hanh?: PortableTextBlock[];
+  duong_chinh?: PortableTextBlock[];
+  kinh_can?: PortableTextBlock[];
+  kinh_biet?: PortableTextBlock[];
+  lac_doc?: PortableTextBlock[];
+  lac_ngang?: PortableTextBlock[];
+  trieu_chung?: PortableTextBlock[];
+  chu_tri?: PortableTextBlock[];
+  dieu_tri?: PortableTextBlock[];
+  huyet_ds?: string;
+  tom_tat_huyet?: string;
+  loai?: string;
+  anh_tong_quat?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  anh_chinh?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  anh_can?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  anh_biet?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  anh_doc?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  anh_ngang?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  anh_so_do?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  title: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -129,10 +221,13 @@ export interface Trang {
 
 declare module "emdash" {
   interface EmDashCollections {
+    bai_thuoc: BaiThuoc;
     bai_viet: BaiViet;
     benh_hoc: BenhHoc;
     cham_cuu_tri_benh: ChamCuuTriBenh;
+    duoc_lieu: DuocLieu;
     huyet_vi: HuyetVi;
+    kinh_mach: KinhMach;
     nguon_y_van: NguonYVan;
     trang: Trang;
   }

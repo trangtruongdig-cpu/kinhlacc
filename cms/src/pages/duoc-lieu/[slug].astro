@@ -1,0 +1,142 @@
+---
+// Trang Dược Liệu — GIỮ NGUYÊN /duoc-lieu/<ID SỐ>/ của bản tĩnh.
+// Slug trong CMS chính là id số; đổi sang slug chữ là gãy mọi liên kết cũ và mọi trang
+// đã lên chỉ mục Google.
+export const prerender = false;
+
+import { getEmDashEntry, decodeSlug } from "emdash";
+import VanBanYVan from "../../components/VanBanYVan.astro";
+import MucTu from "../../layouts/MucTu.astro";
+import "../../styles/tu-dien.css";
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.redirect("/404");
+
+const { entry, cacheHint, isPreview } = await getEmDashEntry("duoc_lieu", slug);
+if (!entry) return Astro.redirect("/404");
+if (Astro.cache?.enabled && !isPreview) Astro.cache.set(cacheHint);
+
+const d = entry.data;
+
+const PHAN: [string, string][] = [
+	["mo_ta", "Mô Tả"],
+	["tinh_vi_quy_kinh", "Tính Vị Quy Kinh"],
+	["chu_tri", "Chủ Trị"],
+	["thanh_phan_hoa_hoc", "Thành Phần Hoá Học"],
+	["duoc_ly", "Tác Dụng Dược Lý"],
+	["nuoi_duong", "Nuôi Trồng — Thu Hái"],
+	["bao_che", "Bào Chế"],
+	["don_thuoc", "Đơn Thuốc Kinh Nghiệm"],
+	["xuat_xu", "Xuất Xứ"],
+	["tham_khao", "Tham Khảo"],
+];
+const coPhan = PHAN.filter(([k]) => d[k]);
+
+const bang = [
+	d.ten_khac && ["Tên khác", d.ten_khac],
+	d.ten_khoa_hoc && ["Tên khoa học", d.ten_khoa_hoc],
+	d.ho_khoa_hoc && ["Họ", d.ho_khoa_hoc],
+	d.ten_han && ["Tên Hán", d.ten_han],
+	d.ten_pinyin && ["Pinyin", d.ten_pinyin],
+	d.bo_phan_dung && ["Bộ phận dùng", d.bo_phan_dung],
+	d.tinh && ["Tính", d.tinh],
+	d.vi && ["Vị", d.vi],
+	d.quy_kinh && ["Quy kinh", d.quy_kinh],
+	d.lieu_dung && ["Liều dùng", d.lieu_dung],
+	d.cong_dung_ds && ["Công dụng", d.cong_dung_ds],
+	d.kieng_ky_ds && ["Kiêng kỵ", d.kieng_ky_ds],
+].filter(Boolean) as [string, string][];
+
+// cho_index = 0 nghĩa là vị này chưa có phần văn xuôi nào — cùng phép chặn với bản tĩnh.
+const choIndex = d.cho_index === true || d.cho_index === 1;
+const moTa =
+	d.cong_dung_tom_tat ||
+	`Vị thuốc ${d.title}: tính vị, quy kinh, công dụng, liều dùng và kiêng kỵ theo Đông Y.`;
+---
+
+<MucTu title={`${d.title} — Vị Thuốc Đông Y`} description={moTa} khongLap={!choIndex}>
+	{isPreview && (
+		<div class="bang-xem-truoc" role="alert"><strong>Bản nháp — đang xem trước.</strong></div>
+	)}
+
+	<nav class="dl-vet" aria-label="Đường dẫn">
+		<a href="/thu-vien/">Thư Viện</a> › <a href="/thu-vien/duoc_lieu/">Dược Liệu</a> › <span>{d.title}</span>
+	</nav>
+
+	<h1>{d.title}</h1>
+
+	{bang.length > 0 && (
+		<dl class="dl-bang">
+			{bang.map(([k, v]) => (
+				<>
+					<dt>{k}</dt>
+					<dd>{v}</dd>
+				</>
+			))}
+		</dl>
+	)}
+
+	{coPhan.map(([k, nhan]) => (
+		<section class="dl-phan">
+			<h2>{nhan}</h2>
+			<VanBanYVan value={d[k]} kieu={k === "tham_khao" ? "tham_khao" : "thuong"} />
+		</section>
+	))}
+
+	{coPhan.length === 0 && (
+		<p class="dl-chua-soan">
+			Mục từ này mới có phần tra nhanh ở bảng trên; phần diễn giải đang được biên soạn.
+		</p>
+	)}
+</MucTu>
+
+<style>
+	.dl-vet {
+		font-size: 0.83rem;
+		color: var(--chu-nhat, #6b5f52);
+		margin-bottom: 0.4rem;
+	}
+	.dl-vet a {
+		color: var(--nau-700, #6f4a22);
+		text-decoration: none;
+	}
+	.dl-bang {
+		display: grid;
+		grid-template-columns: max-content 1fr;
+		gap: 0.35rem 1.1rem;
+		margin: 0 0 1.9rem;
+		padding: 0.95rem 1.15rem;
+		background: var(--nau-50, #faf6ef);
+		border: 1px solid var(--nau-100, #f1e7d6);
+		border-radius: 10px;
+		font-size: 0.93rem;
+	}
+	.dl-bang dt {
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: var(--nau-600, #8a5e28);
+		padding-top: 0.14rem;
+	}
+	.dl-bang dd {
+		margin: 0;
+		line-height: 1.6;
+	}
+	.dl-chua-soan {
+		color: var(--chu-nhat, #6b5f52);
+		font-style: italic;
+		padding: 1.1rem;
+		background: var(--nau-50, #faf6ef);
+		border-radius: 9px;
+	}
+	@media (max-width: 560px) {
+		.dl-bang {
+			grid-template-columns: 1fr;
+			gap: 0.1rem;
+		}
+		.dl-bang dd {
+			margin-bottom: 0.6rem;
+		}
+	}
+</style>

@@ -17,9 +17,11 @@ interface Props {
 	description?: string | null;
 	type?: "website" | "article";
 	modifiedTime?: string | null;
+	/** Mục chưa đủ nội dung để mời Google vào — cùng phép chặn với bản tĩnh. */
+	khongLap?: boolean;
 	content?: { collection: string; id: string; slug?: string | null };
 }
-const { title, description, type = "article", modifiedTime, content } = Astro.props;
+const { title, description, type = "article", modifiedTime, content, khongLap = false } = Astro.props;
 
 const pageCtx = createPublicPageContext({
 	Astro,
@@ -42,6 +44,7 @@ const pageCtx = createPublicPageContext({
 		<Font cssVariable="--font-body" preload />
 		<Font cssVariable="--font-tu-dien" preload />
 		<title>{title}</title>
+		{khongLap && <meta name="robots" content="noindex,follow" />}
 		<EmDashHead page={pageCtx} />
 	</head>
 	<body class="tv">
