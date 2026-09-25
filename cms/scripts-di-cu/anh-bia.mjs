@@ -56,19 +56,22 @@ for (const b of bai) {
     if (chiThu) { console.log(`  · sẽ nạp ${ten}`); idTheoAnh.set(b.anh, 'THU'); continue }
     try {
       const ra = execFileSync(BIN, ['media', 'upload', duong, '--alt', b.tieuDe || b.slug], { cwd: cmsDir, encoding: 'utf8', stdio: ['ignore','pipe','pipe'] })
-      idTheoAnh.set(b.anh, JSON.parse(ra).id)
-      console.log(`  ↑ nạp ${ten} -> ${JSON.parse(ra).id}`)
+      const j = JSON.parse(ra)
+      // CẦN cả storageKey: file trên đĩa đặt tên theo storage_key, KHÁC id. Dựng URL bằng id
+      // thì /_emdash/api/media/file/<id> trả 404 — trang vẫn hiện thẻ img nhưng ảnh vỡ.
+      idTheoAnh.set(b.anh, { id: j.id, storageKey: j.storageKey || j.storage_key })
+      console.log(`  ↑ nạp ${ten} -> ${j.id}`)
     } catch (e) {
       console.log(`  ✗ nạp ${ten} lỗi: ${String(e.stderr || e.message).split('\n').filter(Boolean)[0]}`)
       idTheoAnh.set(b.anh, null)
     }
   }
-  const id = idTheoAnh.get(b.anh)
-  if (!id || chiThu) { if (chiThu) console.log(`  · ${b.slug} <- ${basename(b.anh)}`); continue }
+  const anh = idTheoAnh.get(b.anh)
+  if (!anh || chiThu) { if (chiThu) console.log(`  · ${b.slug} <- ${basename(b.anh)}`); continue }
 
-  // featured_image là trường kiểu image: lưu đối tượng { id }, không phải đường dẫn.
+  // Trường kiểu image cần { id, meta: { storageKey } } — xem getImageUrl trong blog/[slug].astro.
   await c.query(`UPDATE ec_bai_viet SET featured_image = $1 WHERE slug = $2 AND deleted_at IS NULL`,
-    [JSON.stringify({ id }), b.slug])
+    [JSON.stringify({ id: anh.id, meta: { storageKey: anh.storageKey } }), b.slug])
   console.log(`  ✓ ${b.slug.padEnd(32)} <- ${basename(b.anh)}`)
   gan++
 }
