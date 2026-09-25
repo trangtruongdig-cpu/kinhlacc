@@ -168,14 +168,7 @@ const navItems: MucSidebar[] = [
   { name: 'Bệnh Tây Y', routeName: 'western-medicine', icon: 'stethoscope' },
   { name: 'Bệnh Đo Kinh Lạc', routeName: 'meridian-diseases', icon: 'rules' },
   { name: 'Kinh Mạch 3D', routeName: 'kinh-mach-3d', icon: 'activity' },
-  // Từ Điển nay do CMS dựng (/thu-vien/ → /huyet/…). Route /app/tu-dien VẪN CÒN nhưng
-  // không còn là một tab: nó chỉ phục vụ deep-link ?acu= / ?mer= từ Kết Quả Đo và
-  // Kinh Mạch 3D, để thầy thuốc tra huyệt ngay trong app lúc đang khám.
-  // routeName GIỮ NGUYÊN 'tu-dien' dù route đó đã gỡ: visibleNavItems lọc bằng
-  // authStore.can(routeName), nên đổi tên khoá là vai trò không-quản-trị mất sạch tab
-  // (không vai trò nào được cấp khoá mới). navigate() thấy `ngoai` thì rời trang hẳn,
-  // không đụng tới router, nên tên route không cần tồn tại.
-  { name: 'Từ Điển', routeName: 'tu-dien', icon: 'book', ngoai: '/thu-vien/' },
+  { name: 'Từ Điển', routeName: 'tu-dien', icon: 'book' },
   { name: 'Chẩn Đoán Lưỡi', routeName: 'chan-doan-luoi', icon: 'tongue' },
   { name: 'Quản Lý Thuốc', routeName: 'medicines', icon: 'pill' },
   { name: 'Triệu Chứng', routeName: 'symptoms', icon: 'clipboard' },
@@ -431,16 +424,18 @@ function handleLogout() {
       </header>
 
       <div class="content-area">
-        <!-- keep-alive trước đây giữ riêng trang "Từ Điển" vì nó nạp ~5MB dữ liệu. Trang đó
-             đã gỡ (thư viện nay do CMS dựng), nên không còn trang nào cần giữ trong bộ nhớ. -->
+        <!-- Giữ riêng trang "Từ Điển" trong bộ nhớ (keep-alive): dữ liệu ~5MB + việc dựng bản đồ tra cứu
+             rất nặng, chỉ nên chạy 1 lần. Các trang khác vẫn mount/unmount bình thường để luôn tải dữ liệu mới. -->
         <!-- Trang Kết Quả Đo được gắn key theo URL: bấm sang lần đo khác trong trục Truyền Biến là
              ĐỔI param của CÙNG route, Vue Router sẽ tái dùng component và không nạp lại dữ liệu ca mới.
              Có key thì nó mount lại sạch sẽ. Các trang khác giữ nguyên (key undefined = không khoá). -->
         <RouterView v-slot="{ Component, route }">
-          <component
-            :is="Component"
-            :key="route.name === 'meridian-results' ? route.path : undefined"
-          />
+          <keep-alive :include="['TuDienView']">
+            <component
+              :is="Component"
+              :key="route.name === 'meridian-results' ? route.path : undefined"
+            />
+          </keep-alive>
         </RouterView>
       </div>
     </main>

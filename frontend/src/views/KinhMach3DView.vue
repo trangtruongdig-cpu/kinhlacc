@@ -355,16 +355,15 @@ function printAcuDiagram(codes: string[], payload: AcuPrintPayload | null) {
 /**
  * Cầu nối engine → SPA: drawer 3D có sẵn 2 link "Xem thêm" (href #acu/<id>) và "Lý thuyết kinh
  * đầy đủ" (href #meridian/<mã>) — di sản từ webapp gốc, không tự điều hướng trong SPA. Bắt sự kiện
- * hashchange để đẩy sang thư viện (CMS): /huyet/id/<mã cũ>/ và /kinh/ma/<mã kinh>/ tự
- * đổi sang slug rồi chuyển 301.
+ * hashchange để đẩy sang trang "Từ Điển" đúng mục huyệt / đúng đường kinh.
  */
 function onHashNav() {
   const h = location.hash
   let m: RegExpExecArray | null
   if ((m = /^#acu\/(\d+)/.exec(h))) {
-    router.push(`/huyet/id/${m[1]}/`)
+    router.push({ name: 'tu-dien', query: { acu: m[1] } })
   } else if ((m = /^#meridian\/([A-Za-z]+)/.exec(h))) {
-    router.push(`/kinh/ma/${m[1]}/`)
+    router.push({ name: 'tu-dien', query: { mer: m[1] } })
   }
 }
 

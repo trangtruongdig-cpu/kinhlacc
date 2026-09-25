@@ -1,6 +1,6 @@
 /**
  * herbCard — tiện ích cho thẻ vị thuốc phong cách "nhãn thuốc Đông Y" (.hlc).
- * Dùng chung: Từ Điển (DuocLieuBrowser) (trang công khai nay do CMS dựng).
+ * Dùng chung: Từ Điển (DuocLieuBrowser) + trang công khai (DuocLieuListView).
  */
 export interface HerbCardLite {
   id: number

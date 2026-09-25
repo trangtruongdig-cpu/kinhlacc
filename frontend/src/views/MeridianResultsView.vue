@@ -1442,15 +1442,11 @@ function gotoAcuMap(code?: string | null) {
   })
 }
 
-// Huyệt KHÔNG có toạ độ trên đồ hình 3D (kỳ huyệt / nhĩ châm) → mở trang huyệt trong
-// thư viện. Dùng thay nút "xem trên 3D".
-//
-// /huyet/id/<n>/ đổi mã của bộ Từ Điển 1.059 sang slug rồi chuyển 301 — thư viện nay do
-// CMS dựng và định danh bằng slug, không biết mã số cũ. Điều hướng này RỜI KHỎI app
-// (route chốt 'ra-thu-vien' ép một lần tải trang thật).
+// Huyệt KHÔNG có toạ độ trên đồ hình 3D (kỳ huyệt / nhĩ châm) → mở trang Từ Điển đúng huyệt đó
+// (tu-dien đọc ?acu=<id trong bộ Từ Điển 1059>). Dùng thay nút "xem trên 3D".
 function gotoTuDien(idTuDien?: number | null) {
   if (!idTuDien) return
-  router.push(`/huyet/id/${idTuDien}/`)
+  router.push({ name: 'tu-dien', query: { acu: String(idTuDien) } })
 }
 
 const PHUONG_PHAP_ORDER = [
