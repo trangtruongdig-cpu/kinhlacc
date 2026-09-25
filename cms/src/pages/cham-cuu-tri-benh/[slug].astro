@@ -1,7 +1,7 @@
 ---
 // Trang Châm Cứu Trị Bệnh — GIỮ NGUYÊN đường dẫn /cham-cuu-tri-benh/<slug>/ của bản tĩnh.
 import { getEmDashEntry, getEmDashCollection, decodeSlug } from "emdash";
-import VanBanYVan from "../../components/VanBanYVan.astro";
+import ThanMuc from "../../components/ThanMuc.astro";
 import "../../styles/tu-dien.css";
 import ThuVienKhung from "../../layouts/ThuVienKhung.astro";
 import KhungSeoYKhoa from "../../components/KhungSeoYKhoa.astro";
@@ -18,8 +18,10 @@ const cheoRec = bh.find((x) => (x.slug ?? x.id) === slug);
 const cheo = cheoRec ? { slug: cheoRec.slug ?? cheoRec.id, ten: cheoRec.data.title } : null;
 
 const PHAN: [string, string][] = [
-	["dai_cuong", "Đại Cương"], ["nguyen_nhan", "Nguyên Nhân"],
-	["trieu_chung", "Triệu Chứng"], ["dieu_tri", "Điều Trị"],
+	["dai_cuong", "ĐẠI CƯƠNG"],
+	["nguyen_nhan", "NGUYÊN NHÂN"],
+	["trieu_chung", "TRIỆU CHỨNG"],
+	["dieu_tri", "ĐIỀU TRỊ"],
 ];
 const coPhan = PHAN.filter(([k]) => entry.data[k]);
 const moTa = `${entry.data.title}: triệu chứng, nguyên nhân và cách châm cứu điều trị theo Đông Y.`;
@@ -30,12 +32,7 @@ const moTa = `${entry.data.title}: triệu chứng, nguyên nhân và cách châ
 		<div class="bang-xem-truoc" role="alert"><strong>Bản nháp — đang xem trước.</strong></div>
 	)}
 		<KhungSeoYKhoa entry={entry} loai="cham_cuu_tri_benh" cheo={cheo}>
-			<h1>{entry.data.title}</h1>
-			{coPhan.map(([k, nhan]) => (
-				<section class="dl-phan">
-					<h2>{nhan}</h2>
-					<VanBanYVan value={entry.data[k]} />
-				</section>
-			))}
+			<div class="acu-head"><h2>{entry.data.title}</h2></div>
+			{PHAN.map(([k, nhan]) => <ThanMuc nhan={nhan} value={entry.data[k]} />)}
 		</KhungSeoYKhoa>
 </ThuVienKhung>

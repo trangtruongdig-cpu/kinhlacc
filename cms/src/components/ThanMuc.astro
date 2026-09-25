@@ -1,0 +1,109 @@
+---
+// ThanMuc.astro — Một mục nội dung, dựng THEO ĐÚNG bản cũ.
+//
+// Bản cũ (TuDienView.vue, hàm fieldH + formatBody) dựng:
+//
+//   <section class="field">
+//     <h3><span class="fi">📍</span><span class="ft">VỊ TRÍ</span></h3>
+//     <div class="body"> …<p class="f-p"> / <h4 class="f-h"> / <ul class="f-list"><li>… </div>
+//   </section>
+//
+// Tiêu đề IN HOA kèm biểu tượng là nét nhận dạng của bản cũ — trước đây tôi dựng
+// <h2>Vị Trí</h2> kiểu khác hẳn, đó là chỗ người dùng nói "chưa như cũ".
+//
+// Nội dung trong CMS là Portable Text (mỗi dòng gốc thành một khối), nên ở đây rút
+// ngược ra từng dòng rồi áp lại đúng luật của formatBody.
+
+interface Props {
+	nhan: string;
+	value?: unknown;
+	tho?: string | null;
+}
+const { nhan, value, tho } = Astro.props;
+
+// Biểu tượng từng mục — CHÉP NGUYÊN bảng SECTION_ICONS của bản cũ.
+const BIEU_TUONG: Record<string, string> = {
+	"TÊN HUYỆT": "🏷️", "TÊN KHÁC": "🏷️", "XUẤT XỨ": "📜", "VỊ TRÍ": "📍", "GIẢI PHẪU": "🦴",
+	"ĐẶC TÍNH": "⭐", "TÁC DỤNG": "✨", "CHỦ TRỊ": "🎯", "CHÂM CỨU": "📌", "THAM KHẢO": "📚",
+	"PHỐI HUYỆT": "🔗", "Ý NGHĨA": "💡", "CHÚ Ý": "⚠️", "GHI CHÚ": "📝",
+	"ĐẠI CƯƠNG": "📖", "NGUYÊN NHÂN": "🔬", "TRIỆU CHỨNG": "🩺", "CHẨN ĐOÁN": "🔍",
+	"ĐIỀU TRỊ (CHÂM CỨU)": "📌", "CƠ CHẾ BỆNH SINH": "⚙️", "BIỆN CHỨNG LUẬN TRỊ": "⚖️",
+	"BỆNH ÁN": "📋", "ĐIỀU TRỊ": "💊", "Ý NGHĨA TÊN HUYỆT": "💡", "CÁCH CHÂM CỨU": "📌",
+	"CÁCH DÙNG": "🥄", "THÀNH PHẦN": "🧪", "LIỀU DÙNG": "⚖️", "KIÊNG KỴ": "⚠️",
+	"MÔ TẢ": "📖", "BÀO CHẾ": "⚗️", "ĐƠN THUỐC KINH NGHIỆM": "📋",
+};
+const icon = BIEU_TUONG[nhan.toUpperCase().trim()] ?? "•";
+
+// Rút từng dòng ra khỏi Portable Text (mỗi khối một dòng, đúng cách đã nhập vào).
+function dong(v: unknown): string[] {
+	if (typeof v === "string") return v.split(/\n+/).map((x) => x.trim()).filter(Boolean);
+	if (!Array.isArray(v)) return [];
+	return v
+		.map((khoi: any) =>
+			Array.isArray(khoi?.children)
+				? khoi.children.map((c: any) => String(c?.text ?? "")).join("")
+				: "",
+		)
+		.map((x: string) => x.trim())
+		.filter(Boolean);
+}
+
+const ds = dong(value ?? tho);
+
+// isHeading của bản cũ: một dòng VIẾT HOA TOÀN BỘ, ≤34 ký tự, không mở đầu bằng số.
+const laTieuDe = (t: string) =>
+	t.length <= 34 && /\p{Lu}/u.test(t) && !/\p{Ll}/u.test(t) && !/^\d/.test(t);
+
+// Dựng lại đúng cây thẻ của formatBody: đoạn đơn → <p class="f-p">; dòng hoa → <h4
+// class="f-h">; còn lại gom vào <ul class="f-list">, đánh số thì thêm lớp riêng.
+type Nut =
+	| { loai: "p"; chu: string }
+	| { loai: "h"; chu: string }
+	| { loai: "ul"; muc: { chu: string; lop: string }[] };
+
+const nut: Nut[] = [];
+if (ds.length === 1 && !laTieuDe(ds[0]!) && !/^[\p{L}\d][.)]\s/u.test(ds[0]!)) {
+	nut.push({ loai: "p", chu: ds[0]! });
+} else {
+	let ul: { chu: string; lop: string }[] | null = null;
+	for (const t of ds) {
+		if (laTieuDe(t)) {
+			ul = null;
+			nut.push({ loai: "h", chu: t });
+			continue;
+		}
+		if (!ul) {
+			ul = [];
+			nut.push({ loai: "ul", muc: ul });
+		}
+		const lop = /^\d+[.)]\s/.test(t) ? "f-num" : /^[\p{L}][.)]\s/u.test(t) ? "f-sub-item" : "";
+		ul.push({ chu: t, lop });
+	}
+}
+---
+
+{
+	ds.length > 0 && (
+		<section class="field">
+			<h3>
+				<span class="fi">{icon}</span>
+				<span class="ft">{nhan}</span>
+			</h3>
+			<div class="body">
+				{nut.map((n) =>
+					n.loai === "p" ? (
+						<p class="f-p">{n.chu}</p>
+					) : n.loai === "h" ? (
+						<h4 class="f-h">{n.chu}</h4>
+					) : (
+						<ul class="f-list">
+							{n.muc.map((m) => (
+								<li class={m.lop || undefined}>{m.chu}</li>
+							))}
+						</ul>
+					),
+				)}
+			</div>
+		</section>
+	)
+}

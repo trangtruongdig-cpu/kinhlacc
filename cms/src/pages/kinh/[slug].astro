@@ -3,7 +3,7 @@
 export const prerender = false;
 
 import { getEmDashEntry, decodeSlug } from "emdash";
-import VanBanYVan from "../../components/VanBanYVan.astro";
+import ThanMuc from "../../components/ThanMuc.astro";
 import ThuVienKhung from "../../layouts/ThuVienKhung.astro";
 import { urlAnh } from "../../utils/anh";
 import "../../styles/tu-dien.css";
@@ -60,7 +60,7 @@ const moTa = `${d.title}: đường vận hành, huyệt vị, triệu chứng v
 		<a href="/thu-vien/">Thư Viện</a> › <a href="/thu-vien/kinh_mach/">Tra Cứu Kinh</a> › <span>{d.title}</span>
 	</nav>
 
-	<h1>{d.title}</h1>
+	<div class="acu-head"><h2>{d.title}</h2></div>
 
 	{(d.ma || d.ten_khac || d.tom_tat_huyet) && (
 		<p class="km-meta">
@@ -79,23 +79,24 @@ const moTa = `${d.title}: đường vận hành, huyệt vị, triệu chứng v
 
 	{coPhan.map(([k, nhan]) => {
 		const anh = ANH_CUA[k] ? urlAnh(d[ANH_CUA[k]], goc) : undefined;
+		// ⚠️ KHÔNG bọc thêm <section class="field"> quanh ThanMuc — chính ThanMuc đã dựng
+		// thẻ đó rồi; bọc nữa là lồng hai tầng và vỡ bố cục.
 		return (
-			<section class="dl-phan">
-				<h2>{nhan}</h2>
-				<VanBanYVan value={d[k]} />
+			<>
+				<ThanMuc nhan={nhan} value={d[k]} />
 				{anh && (
 					<figure class="km-anh">
 						<img src={anh} alt={`${nhan} — ${d.title}`} loading="lazy" />
 						<figcaption>{nhan} — {d.title}</figcaption>
 					</figure>
 				)}
-			</section>
+			</>
 		);
 	})}
 
 	{dsHuyet.length > 0 && (
-		<section class="dl-phan">
-			<h2>Các Huyệt Trên Kinh ({dsHuyet.length})</h2>
+		<section class="field">
+			<h3><span class="fi">📌</span><span class="ft">CÁC HUYỆT TRÊN KINH ({dsHuyet.length})</span></h3>
 			<ul class="km-huyet">
 				{dsHuyet.map((h) => (
 					<li>{h}</li>

@@ -8,7 +8,7 @@
 // Đây cũng là ĐƯỜNG BÒ của Google: mọi mục từ phải có ít nhất một liên kết tĩnh trỏ
 // tới, mà ô tìm thì bot không gõ được — danh sách ở cột trái mới là thứ dẫn bot vào.
 import ThuVienKhung from "../layouts/ThuVienKhung.astro";
-import { danhSachMuc, duyet } from "../lib/traCuu";
+import { danhSachMuc } from "../lib/traCuu";
 
 interface Props { bo: string }
 const { bo } = Astro.props;
@@ -18,9 +18,6 @@ if (!m || !m.so_muc) return Astro.redirect("/thu-vien/", 302);
 
 const chuCai = (Astro.url.searchParams.get("van") || "").toUpperCase().slice(0, 1) || undefined;
 const the = Astro.url.searchParams.get("the") || undefined;
-
-// Vài mục mở đầu để cột phải không trống trơn và để bot có thêm liên kết.
-const { muc: dau } = await duyet(bo, { chuCai, the, moiTrang: 24 });
 const soMuc = (n: number) => n.toLocaleString("vi-VN");
 ---
 
@@ -30,94 +27,26 @@ const soMuc = (n: number) => n.toLocaleString("vi-VN");
 	description={m.mo_ta}
 	khongLap={!!chuCai || !!the}
 >
-	<h1>{m.nhan}</h1>
-	<p class="tv-dan">{m.mo_ta} <b>{soMuc(m.so_muc)} mục từ.</b></p>
-	<p class="tv-dan-nho">
-		Gõ vào ô tìm bên trái — <b>không dấu cũng ra</b>. Hoặc chọn vần, chọn đặc tính rồi
-		bấm một mục từ để xem đầy đủ.
-	</p>
-
-	<h2 class="tv-dan-h2">Mở đầu danh mục</h2>
-	<ul class="tv-dan-ds">
-		{
-			dau.map((k) => (
-				<li>
-					<a href={`${k.duong_dan}${k.slug}/`}>
-						<span class="ten">{k.tieu_de}</span>
-						{k.ten_khac && <span class="khac">{k.ten_khac}</span>}
-					</a>
-				</li>
-			))
-		}
-	</ul>
+	{/* Bản cũ: chưa chọn mục nào thì cột phải chỉ có CÂU MỜI (.mer-welcome), không có
+	    danh sách nào cả. Trước đây tôi tự thêm khối "Mở đầu danh mục" — bản cũ không hề
+	    có, và nó cũng thừa: cột trái đã có sẵn liên kết tới từng mục cho cả người đọc
+	    lẫn bò của Google. */}
+	<div class="mer-welcome">
+		<h3>{m.nhan}</h3>
+		<p>{m.mo_ta}</p>
+		<p>
+			Chọn một mục ở danh sách bên trái để xem chi tiết — hoặc gõ vào ô tìm,
+			<b> không dấu cũng ra</b>.
+		</p>
+		<p class="tv-dan-so">{soMuc(m.so_muc)} mục từ</p>
+	</div>
 </ThuVienKhung>
 
 <style>
-	.tv-dan {
-		font-size: 1rem;
-		line-height: 1.7;
-		color: var(--chu-nhat);
-		margin: 0 0 0.6rem;
-	}
-	.tv-dan b {
-		color: var(--nau-800);
-	}
-	.tv-dan-nho {
-		font-size: 0.9rem;
-		line-height: 1.65;
-		color: var(--chu-nhat);
-		margin: 0 0 2rem;
-		padding: 0.8rem 1rem;
-		background: var(--nau-50);
-		border: 1px solid var(--nau-100);
-		border-radius: 9px;
-	}
-	.tv-dan-h2 {
-		font-family: var(--serif);
-		font-size: 0.82rem;
+	.mer-welcome p { margin: 0 0 8px; line-height: 1.7; }
+	.mer-welcome .tv-dan-so {
+		margin-top: 14px;
 		font-weight: 700;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-		color: var(--nau-600);
-		margin: 0 0 0.8rem;
-		padding-bottom: 0.4rem;
-		border-bottom: 1px solid var(--vien);
-	}
-	.tv-dan-ds {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		columns: 2;
-		column-gap: 2rem;
-	}
-	.tv-dan-ds li {
-		break-inside: avoid;
-		margin-bottom: 0.5rem;
-	}
-	.tv-dan-ds a {
-		text-decoration: none;
-	}
-	.tv-dan-ds .ten {
-		font-family: var(--serif);
-		font-weight: 600;
-		color: var(--nau-800);
-	}
-	.tv-dan-ds a:hover .ten {
-		color: var(--do-an);
-		text-decoration: underline;
-		text-underline-offset: 3px;
-	}
-	.tv-dan-ds .khac {
-		display: block;
-		font-size: 0.78rem;
-		color: var(--chu-nhat);
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-	@media (max-width: 640px) {
-		.tv-dan-ds {
-			columns: 1;
-		}
+		color: var(--brown-700);
 	}
 </style>

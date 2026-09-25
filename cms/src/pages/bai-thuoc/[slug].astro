@@ -4,7 +4,7 @@
 export const prerender = false;
 
 import { getEmDashEntry, decodeSlug } from "emdash";
-import VanBanYVan from "../../components/VanBanYVan.astro";
+import ThanMuc from "../../components/ThanMuc.astro";
 import ThuVienKhung from "../../layouts/ThuVienKhung.astro";
 import "../../styles/tu-dien.css";
 
@@ -37,7 +37,7 @@ const moTa =
 		<a href="/thu-vien/">Thư Viện</a> › <a href="/thu-vien/bai_thuoc/">Bài Thuốc</a> › <span>{d.title}</span>
 	</nav>
 
-	<h1>{d.title}</h1>
+	<div class="acu-head"><h2>{d.title}</h2></div>
 
 	{(d.xuat_xu || d.tac_gia || d.so_benh) && (
 		<p class="bt-xuat-xu">
@@ -52,8 +52,8 @@ const moTa =
 	)}
 
 	{coVi.length > 0 && (
-		<section class="dl-phan">
-			<h2>Thành Phần ({coVi.length} vị)</h2>
+		<section class="field">
+			<h3><span class="fi">🧪</span><span class="ft">THÀNH PHẦN ({coVi.length} vị)</span></h3>
 			<ul class="bt-vi">
 				{coVi.map((x) => (
 					<li>
@@ -65,24 +65,9 @@ const moTa =
 		</section>
 	)}
 
-	{d.tac_dung && (
-		<section class="dl-phan">
-			<h2>Tác Dụng</h2>
-			<VanBanYVan value={d.tac_dung} />
-		</section>
-	)}
-	{d.cach_dung && (
-		<section class="dl-phan">
-			<h2>Cách Dùng</h2>
-			<VanBanYVan value={d.cach_dung} />
-		</section>
-	)}
-	{d.ghi_chu && (
-		<section class="dl-phan">
-			<h2>Ghi Chú</h2>
-			<VanBanYVan value={d.ghi_chu} />
-		</section>
-	)}
+	<ThanMuc nhan="TÁC DỤNG" value={d.tac_dung} />
+	<ThanMuc nhan="CÁCH DÙNG" value={d.cach_dung} />
+	<ThanMuc nhan="GHI CHÚ" value={d.ghi_chu} />
 </ThuVienKhung>
 
 <style>

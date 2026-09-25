@@ -5,7 +5,7 @@
 export const prerender = false;
 
 import { getEmDashEntry, decodeSlug } from "emdash";
-import VanBanYVan from "../../components/VanBanYVan.astro";
+import ThanMuc from "../../components/ThanMuc.astro";
 import ThuVienKhung from "../../layouts/ThuVienKhung.astro";
 import { urlAnh } from "../../utils/anh";
 import "../../styles/tu-dien.css";
@@ -74,7 +74,7 @@ const moTa =
 		<a href="/thu-vien/">Thư Viện</a> › <a href="/thu-vien/duoc_lieu/">Dược Liệu</a> › <span>{d.title}</span>
 	</nav>
 
-	<h1>{d.title}</h1>
+	<div class="acu-head"><h2>{d.title}</h2></div>
 
 	{anh && (
 		<figure class="dl-anh">
@@ -129,12 +129,7 @@ const moTa =
 		</dl>
 	)}
 
-	{coPhan.map(([k, nhan]) => (
-		<section class="dl-phan">
-			<h2>{nhan}</h2>
-			<VanBanYVan value={d[k]} kieu={k === "tham_khao" ? "tham_khao" : "thuong"} />
-		</section>
-	))}
+	{coPhan.map(([k, nhan]) => <ThanMuc nhan={nhan.toUpperCase()} value={d[k]} />)}
 
 	{coPhan.length === 0 && (
 		<p class="dl-chua-soan">
