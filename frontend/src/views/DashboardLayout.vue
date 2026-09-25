@@ -3,6 +3,7 @@ import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useTheme } from '@/composables/useTheme'
+import NutBaoLoi from '@/components/NutBaoLoi.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -170,6 +171,7 @@ const navItems = [
   { name: 'Biện Chứng Luận Trị', routeName: 'bien-chung-luan-tri', icon: 'compass' },
   { name: 'Quản Lý Người Dùng', routeName: 'users', icon: 'users' },
   { name: 'SEO Radar', routeName: 'seo', icon: 'radar' },
+  { name: 'Góp Ý & Lỗi', routeName: 'su-co', icon: 'bug' },
 ]
 
 // Chỉ hiện những mục mà vai trò hiện tại được phép vào (routeName trùng key trang).
@@ -278,6 +280,8 @@ function handleLogout() {
             </svg>
             <!-- Users (quản lý người dùng) icon -->
             <svg v-if="item.icon === 'users'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-3.13a4 4 0 10-4-4 4 4 0 004 4zm6 0a3 3 0 10-2.5-1.35"/></svg>
+            <!-- Bug (Góp Ý & Lỗi) icon -->
+            <svg v-if="item.icon === 'bug'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="7" width="8" height="12" rx="4"/><path stroke-linecap="round" d="M8 11H4m16 0h-4M8 16H5m16 0h-3M9.5 7l-1.5-2m6.5 2l1.5-2"/></svg>
             <!-- Radar (SEO Radar) icon -->
             <svg v-if="item.icon === 'radar'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><path stroke-linecap="round" d="M12 12l6-4"/></svg>
           </span>
@@ -493,6 +497,10 @@ function handleLogout() {
         <span>Menu</span>
       </button>
     </nav>
+
+    <!-- Cửa duy nhất để người dùng nói về những lỗi IM LẶNG (số sai, nút không ăn) — thứ bộ
+         bắt lỗi tự động không bao giờ thấy vì chúng không ném exception nào cả. -->
+    <NutBaoLoi />
 
   </div>
 </template>

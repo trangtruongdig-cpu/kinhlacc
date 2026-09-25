@@ -38,6 +38,9 @@ export class SseController {
           evt.targetPatientId == null ||
           (!isStaff && Number(viewerId) === Number(evt.targetPatientId)),
       ),
+      // Cảnh báo sự cố là việc NỘI BỘ. Khác với vé khám (cắt bớt trường rồi vẫn gửi được),
+      // ở đây phải bỏ HẲN sự kiện: bản thân việc bệnh nhân biết "trang X đang lỗi" đã là rò rỉ.
+      filter((evt: SlotEvent) => evt.type !== 'SU_CO_MOI' || isStaff),
       map((evt: SlotEvent) => {
         // Bệnh nhân chỉ nhận phần công khai: cắt bỏ cả staffMessage lẫn staffSlot.
         const payload: SlotEvent = isStaff

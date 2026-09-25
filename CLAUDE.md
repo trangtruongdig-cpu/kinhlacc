@@ -81,6 +81,43 @@ biết trước khi đụng vào `meridianAnalysis.ts` / `meridian-analysis.util
 - Phép kiểm vàng neo vào ví dụ có lời giải in trong sách:
   `npm test --prefix backend -- meridian-analysis`.
 
+### Tab "Góp Ý & Lỗi" (`su-co`) — tự phát hiện, báo và dựng hồ sơ sửa lỗi
+
+Đặc tả đầy đủ: `docs/superpowers/specs/2026-09-25-tab-gop-y-loi-design.md`.
+
+Bốn nguồn tín hiệu đều đổ vào MỘT cửa `POST /su-co/bao` (công khai, có trần theo IP), nên luật
+che dữ liệu và luật gom cụm chỉ viết một lần ở `backend/src/utils/su-co-van-tay.util.ts`:
+
+| Nguồn | Nơi bắt |
+|---|---|
+| Lỗi backend 5xx | `middlewares/su-co.filter.ts` (kế thừa `BaseExceptionFilter`, đăng ký bằng `APP_FILTER`) |
+| Lỗi frontend | `frontend/src/lib/baoSuCo.ts` + móc trong `main.ts` và `services/api.ts` |
+| Góp ý người dùng | `frontend/src/components/NutBaoLoi.vue` |
+| Tín hiệu UX (API chậm, rage-click) | cùng `baoSuCo.ts` |
+
+**Phải biết trước khi sửa:**
+
+- **Gom cụm bằng vân tay** `sha1(loai|route_chuan|thong_diep_chuan)`. Chuẩn hoá (`/patients/123`
+  → `/patients/:id`, bỏ số trong thông điệp) là thứ giữ cho bảng khỏi thành rác. Có bộ test
+  riêng: `npm test --prefix backend -- su-co-van-tay`. **Sửa phần chuẩn hoá là đổi vân tay của
+  MỌI cụm cũ** — chúng sẽ tách đôi thành cụm cũ (đứng im) và cụm mới.
+- **Bộ lọc lỗi KHÔNG tự dựng phản hồi**, nó gọi `super.catch()`. Định dạng thân lỗi đang được
+  frontend đọc (màn đăng nhập phân biệt 401 "sai mật khẩu" với 502 "máy chủ sập" bằng chính
+  thân bài đó). Tự viết catch-all rất dễ làm lệch mà không ai biết cho tới khi có người không
+  đăng nhập được.
+- **Chống bão sự kiện có ở CẢ hai đầu**: máy khách 5 lần/vân tay/phiên và 20 sự kiện/phiên;
+  máy chủ ngừng chèn dòng chi tiết khi cụm vượt 200 lần/giờ (bộ đếm nằm trong bộ nhớ — chỉ
+  đúng khi chạy MỘT tiến trình; thêm bản thứ hai là mất tác dụng).
+- **`baoSuCo.ts` không bao giờ được ném lỗi và không bao giờ báo lỗi của chính `/su-co/*`** —
+  đó là chỗ sinh vòng lặp vô tận khi backend sập.
+- **Che dữ liệu chạy hai lớp** (máy khách rồi máy chủ). Người dùng lưu dưới dạng băm với muối
+  `JWT_SECRET`. Cố ý KHÔNG che khoá `ten` — ở app này `ten` hầu hết là tên vị thuốc/huyệt.
+- Tab khoá bằng `meta.page: 'su-co'` KHÔNG có trong `constants/pages.ts`, nên `authStore.can()`
+  chỉ trả true cho vai trò Quản Trị. API dùng `QuanTriGuard`. Riêng `POST /su-co/bao` phải công
+  khai vì lỗi hay xảy ra nhất lại ở trang đăng nhập và các trang công khai.
+- Telegram chỉ bật khi có `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`; push nhân viên cần
+  `admins.fcm_token` (đăng ký qua nút trong tab). Thiếu cấu hình thì cả hai NẰM IM, không lỗi.
+
 ### BenhDongYExcel diagnostic engine
 
 `benh-dong-y-excel.*` implements a rule engine whose rules are stored as Excel-formula-like strings (`excelFormula`), a logic expression (`logicExpression`), and SQL CASE clauses (`sqlCaseText`, `sqlCaseBoolean`). Input cell refs (`C10`, `F15`, `D7`, etc.) match the layout in `map.md`. The `MeridianResultsView.vue` frontend renders these results with cell-reference highlighting; recent commits (`refToHint`, `splitCellRefs`) revolve around mapping rule cells back to the UI.

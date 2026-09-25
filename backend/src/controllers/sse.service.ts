@@ -14,13 +14,28 @@ export interface PublicSlotView {
   status: string;
 }
 
+/**
+ * Phần cụm sự cố phát qua SSE cho NHÂN VIÊN. Cố ý không có stack/ngữ cảnh: đây chỉ là tiếng
+ * chuông, chi tiết nằm sau `QuanTriGuard` ở tab "Góp Ý & Lỗi".
+ */
+export interface SuCoEventView {
+  id: number;
+  vanTay: string;
+  hang: string;
+  lane: string;
+  khuVuc: string;
+  tomTat: string;
+  taiPhat: boolean;
+}
+
 export interface SlotEvent {
   type:
     | 'NEW_BOOKING'
     | 'SLOT_UPDATED'
     | 'SLOT_REMOVED'
     | 'DAY_REGENERATED'
-    | 'APPOINTMENT_REMINDER';
+    | 'APPOINTMENT_REMINDER'
+    | 'SU_CO_MOI';
   /**
    * Luôn phát cho mọi người — chỉ chứa trường công khai.
    * Vắng mặt ở DAY_REGENERATED: sự kiện đó nói về CẢ NGÀY, không về một ô giờ cụ thể.
@@ -50,6 +65,12 @@ export interface SlotEvent {
 
   /** Nội dung nhắc hẹn, đi cùng APPOINTMENT_REMINDER. */
   message?: string;
+
+  /**
+   * Cụm sự cố mới, đi cùng SU_CO_MOI. CHỈ nhân viên nhận được — lọc ở SseController.
+   * Tên khu vực và tóm tắt lỗi là chuyện nội bộ, bệnh nhân không có việc gì phải biết.
+   */
+  suCo?: SuCoEventView;
 
   /** Số thứ tự do SseService gán lúc phát — xem chú thích `seq` trong SseService. */
   seq?: number;

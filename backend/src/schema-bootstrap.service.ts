@@ -196,6 +196,61 @@ export class SchemaBootstrapService implements OnApplicationBootstrap {
     // bai_thuoc) chờ theo do pool bị chiếm dụng. Xem trang-cong-khai-tai-cham.md.
     `CREATE INDEX IF NOT EXISTS idx_bai_thuoc_chi_tiet_id_bai_thuoc ON bai_thuoc_chi_tiet (id_bai_thuoc)`,
     `CREATE INDEX IF NOT EXISTS idx_bai_thuoc_phap_tri_id_bai_thuoc ON bai_thuoc_phap_tri (id_bai_thuoc)`,
+
+    // ── Tab "Góp Ý & Lỗi" ────────────────────────────────────────────────────────────
+    // Cột thời gian dùng TIMESTAMPTZ ở CẢ entity lẫn đây. Bảng cũ trong dự án bị lệch 7 tiếng
+    // vì file .sql ghi timestamptz còn DB thật là timestamp — bảng mới thì khớp từ đầu.
+    `CREATE TABLE IF NOT EXISTS su_co_cum (
+       id                SERIAL PRIMARY KEY,
+       van_tay           VARCHAR(16) NOT NULL UNIQUE,
+       loai              VARCHAR(10) NOT NULL,
+       lane              VARCHAR(10) NOT NULL,
+       khu_vuc           VARCHAR(60) NOT NULL,
+       route_chuan       TEXT NOT NULL,
+       tom_tat           TEXT NOT NULL,
+       thong_diep_goc    TEXT,
+       so_lan            INTEGER NOT NULL DEFAULT 0,
+       so_nguoi          INTEGER NOT NULL DEFAULT 0,
+       nguoi_dung_hashes JSONB NOT NULL DEFAULT '[]',
+       chan_thao_tac     BOOLEAN NOT NULL DEFAULT false,
+       hang              VARCHAR(6) NOT NULL DEFAULT 'nhe',
+       trang_thai        VARCHAR(12) NOT NULL DEFAULT 'moi',
+       tai_phat          BOOLEAN NOT NULL DEFAULT false,
+       lan_dau           TIMESTAMPTZ NOT NULL DEFAULT now(),
+       lan_cuoi          TIMESTAMPTZ NOT NULL DEFAULT now(),
+       ghi_chu           TEXT,
+       ho_so_ai          TEXT,
+       ho_so_ai_luc      TIMESTAMPTZ,
+       phien_ban_app     VARCHAR(40),
+       created_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
+       updated_at        TIMESTAMPTZ NOT NULL DEFAULT now()
+     )`,
+    `CREATE INDEX IF NOT EXISTS idx_su_co_cum_trang_thai ON su_co_cum (trang_thai)`,
+    `CREATE INDEX IF NOT EXISTS idx_su_co_cum_lan_cuoi ON su_co_cum (lan_cuoi DESC)`,
+    `CREATE TABLE IF NOT EXISTS su_co (
+       id                 SERIAL PRIMARY KEY,
+       cum_id             INTEGER NOT NULL REFERENCES su_co_cum(id) ON DELETE CASCADE,
+       xay_ra_luc         TIMESTAMPTZ NOT NULL DEFAULT now(),
+       loai               VARCHAR(10) NOT NULL,
+       route_tho          TEXT,
+       route_chuan        TEXT NOT NULL,
+       thong_diep         TEXT NOT NULL,
+       stack              TEXT,
+       ma_loi             VARCHAR(80),
+       http_status        INTEGER,
+       breadcrumbs        JSONB,
+       ngu_canh           JSONB,
+       trinh_duyet        VARCHAR(250),
+       vai_tro_nguoi_dung VARCHAR(40),
+       nguoi_dung_hash    VARCHAR(16),
+       phien_ban_app      VARCHAR(40),
+       ip_rut_gon         VARCHAR(45),
+       mo_ta_nguoi_dung   TEXT
+     )`,
+    `CREATE INDEX IF NOT EXISTS idx_su_co_cum_id ON su_co (cum_id)`,
+    `CREATE INDEX IF NOT EXISTS idx_su_co_xay_ra_luc ON su_co (xay_ra_luc DESC)`,
+    // Token thiết bị của nhân viên — để đẩy cảnh báo sự cố hạng nặng ra điện thoại.
+    `ALTER TABLE admins ADD COLUMN IF NOT EXISTS fcm_token TEXT`,
   ];
 
   async onApplicationBootstrap(): Promise<void> {

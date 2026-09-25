@@ -1,3 +1,5 @@
+import { baoApiCham, baoLoiApi } from '@/lib/baoSuCo'
+
 export const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001'
 
 /** Dựng URL hiển thị cho ảnh: http tuyệt đối giữ nguyên; "/uploads/..." (backend serve) ghép API_BASE. */
@@ -94,10 +96,14 @@ async function handleResponse<T>(response: Response, method: string, path: strin
     const data = await response.json().catch(() => null)
     const msg = data?.message || `Lỗi ${response.status}`
     console.error(`[API] ✗ ${method} ${path} ${response.status} ${elapsed}ms err="${msg}" body=${shortJson(data)}`)
+    // Gửi về tab "Góp Ý & Lỗi". Console chỉ sống trong máy người dùng và mất khi đóng tab —
+    // lỗi chỉ tồn tại ở đó thì coi như chưa từng xảy ra đối với người sửa.
+    baoLoiApi(method, path, response.status, msg, elapsed)
     throw new Error(msg)
   }
   const data = (await response.json()) as T
   if (DEBUG_API) console.log(`[API] ← ${method} ${path} ${response.status} ${elapsed}ms body=${shortJson(data)}`)
+  baoApiCham(method, path, elapsed)
   return data
 }
 
@@ -118,6 +124,9 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
     if (err?.name === 'TypeError') {
       const elapsed = Date.now() - startedAt
       console.error(`[API] ✗ ${method} ${path} NETWORK ${elapsed}ms err="${err.message}"`)
+      // Lỗi mạng của fetch KHÔNG nói được lý do (CORS, DNS, backend sập đều ra "Failed to
+      // fetch"). Chính vì mù mịt thế nên nó càng đáng ghi lại kèm route và trình duyệt.
+      baoLoiApi(method, path, null, err.message || 'Failed to fetch', elapsed)
     }
     throw err
   }
@@ -132,6 +141,9 @@ export const api = {
   },
   put<T>(path: string, body: unknown): Promise<T> {
     return request<T>('PUT', path, body)
+  },
+  patch<T>(path: string, body: unknown): Promise<T> {
+    return request<T>('PATCH', path, body)
   },
   delete<T>(path: string): Promise<T> {
     return request<T>('DELETE', path)

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
+import { ghiVetDoiTrang } from '@/lib/baoSuCo'
 
 const LandingView = () => import('@/views/LandingView.vue')
 const LoginView = () => import('@/views/LoginView.vue')
@@ -42,6 +43,7 @@ const KinhMach3DView = () => import('@/views/KinhMach3DView.vue')
 const TuDienView = () => import('@/views/TuDienView.vue')
 const UsersView = () => import('@/views/UsersView.vue')
 const SeoRadarView = () => import('@/views/SeoRadarView.vue')
+const SuCoView = () => import('@/views/SuCoView.vue')
 const ChanDoanLuoiView = () => import('@/views/ChanDoanLuoiView.vue')
 
 // --- Patient Routes ---
@@ -346,6 +348,15 @@ const router = createRouter({
           meta: { page: 'seo' },
         },
         {
+          // `meta.page` không nằm trong APP_PAGES nên `authStore.can()` chỉ trả true cho vai trò
+          // Quản Trị (laQuanTri bỏ qua danh sách trang). Nhờ vậy tab tự khoá mà không phải thêm
+          // khoá quyền mới — và không ai lỡ tay cấp nhầm cho lễ tân.
+          path: 'su-co',
+          name: 'su-co',
+          component: SuCoView,
+          meta: { page: 'su-co' },
+        },
+        {
           path: 'chan-doan-luoi',
           name: 'chan-doan-luoi',
           component: ChanDoanLuoiView,
@@ -382,6 +393,11 @@ const router = createRouter({
 })
 
 // Navigation guard: kiểm tra đăng nhập + quyền theo trang.
+router.afterEach((to) => {
+  // Ghi vết SAU khi đã vào trang: danh sách 20 bước cuối là thứ giúp tái hiện lỗi.
+  ghiVetDoiTrang(to.fullPath)
+})
+
 router.beforeEach(async (to) => {
   const token = localStorage.getItem('access_token')
   const patientToken = localStorage.getItem('patient_token')

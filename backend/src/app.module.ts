@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
@@ -58,6 +58,11 @@ import { TonThuongTacNhan } from './models/ton-thuong-tac-nhan.model';
 import { KinhMach3dAnchor } from './models/kinh-mach-3d-anchor.model';
 import { SeoDoiThu } from './models/seo-doi-thu.model';
 import { SeoUrl } from './models/seo-url.model';
+import { SuCo } from './models/su-co.model';
+import { SuCoCum } from './models/su-co-cum.model';
+import { SuCoRouter } from './routers/su-co.router';
+import { SuCoService } from './controllers/su-co.controller';
+import { SuCoExceptionFilter } from './middlewares/su-co.filter';
 import { SeoCum } from './models/seo-cum.model';
 import { SeoBaiViet } from './models/seo-bai-viet.model';
 import { SeoIndexStatus } from './models/seo-index-status.model';
@@ -233,7 +238,7 @@ import { requireJwtSecret } from './middlewares/auth/jwt-secret.util';
       },
       inject: [ConfigService],
     }),
-    TypeOrmModule.forFeature([ChanDoanLuoi, Admin, VaiTro, MeridianSyndrome, LegacyMeridianSyndrome, Patient, Examination, MeridianMeasurement, Diagnosis, PatientAuditLog, ChungBenh, BenhTayY, TrieuChung, KinhMach, HuyetVi, PhacDoDieuTri, BenhCauThanh, PhacDoChuan, PhacDoChuanHuyet, ViThuoc, BaiThuoc, BaiThuocChiTiet, BaiThuocPhapTri, TheBenh, TheBenhPhuongHuyet, ClinicScheduleConfig, ClinicDayOverride, AppointmentSlot, AppointmentBooking, ThietChan, MachChan, ViThuocCongDung, ViThuocChuTri, ViThuocKiengKy, ViThuocTenGoiKhac, ViThuocKinhMach, ViThuocAnh, CongDung, ChuTri, KiengKy, PhapTri, PhapTriNguyenNhan, BenhDongYExcel, BenhDongYExcelNguyenNhan, BenhDongYHienDai, NhomLonDuocLy, NhomNhoDuocLy, NhomNhoViThuoc, NhomNhoChuTri, TonThuongTacNhan, KinhMach3dAnchor, SeoDoiThu, SeoUrl, SeoCum, SeoBaiViet, SeoIndexStatus, PhuongThang, Nguon, ThuongHanLop, ThuongHanLucKinh, ThuongHanBenhCo, NhhtCongThuc, ThuongHanChungModel]),
+    TypeOrmModule.forFeature([ChanDoanLuoi, Admin, VaiTro, MeridianSyndrome, LegacyMeridianSyndrome, Patient, Examination, MeridianMeasurement, Diagnosis, PatientAuditLog, ChungBenh, BenhTayY, TrieuChung, KinhMach, HuyetVi, PhacDoDieuTri, BenhCauThanh, PhacDoChuan, PhacDoChuanHuyet, ViThuoc, BaiThuoc, BaiThuocChiTiet, BaiThuocPhapTri, TheBenh, TheBenhPhuongHuyet, ClinicScheduleConfig, ClinicDayOverride, AppointmentSlot, AppointmentBooking, ThietChan, MachChan, ViThuocCongDung, ViThuocChuTri, ViThuocKiengKy, ViThuocTenGoiKhac, ViThuocKinhMach, ViThuocAnh, CongDung, ChuTri, KiengKy, PhapTri, PhapTriNguyenNhan, BenhDongYExcel, BenhDongYExcelNguyenNhan, BenhDongYHienDai, NhomLonDuocLy, NhomNhoDuocLy, NhomNhoViThuoc, NhomNhoChuTri, TonThuongTacNhan, KinhMach3dAnchor, SeoDoiThu, SeoUrl, SuCo, SuCoCum, SeoCum, SeoBaiViet, SeoIndexStatus, PhuongThang, Nguon, ThuongHanLop, ThuongHanLucKinh, ThuongHanBenhCo, NhhtCongThuc, ThuongHanChungModel]),
     PassportModule,
     JwtModule.registerAsync({
       imports: [ConfigModule],
@@ -256,10 +261,14 @@ import { requireJwtSecret } from './middlewares/auth/jwt-secret.util';
       },
     ]),
   ],
-  controllers: [AppController, ChanDoanLuoiRouter, AuthRouter, VaiTroRouter, NguoiDungRouter, MeridiansRouter, PatientsRouter, ExaminationsRouter, RecordsRouter, ChungBenhRouter, BenhTayYRouter, TrieuChungRouter, KinhMachRouter, HuyetViRouter, PhacDoDieuTriRouter, BenhCauThanhRouter, PhacDoChuanRouter, ViThuocRouter, BaiThuocRouter, TheBenhRouter, TheBenhPhuongHuyetRouter, PatientAuthRouter, ClinicScheduleRouter, AppointmentSlotsRouter, ThietChanRouter, MachChanRouter, CongDungRouter, PhapTriRouter, BenhDongYExcelRouter, BenhDongYRouter, BenhDongYHienDaiRouter, ChuTriController, KiengKyController, NhomLonDuocLyRouter, NhomNhoDuocLyRouter, AiSuggestRouter, KiemDinhViThuocRouter, TonThuongTacNhanRouter, KinhMach3dRouter, DemoRouter, SeoRouter, SeoBlogRouter, GscRouter, GraphRouter, DuocLieuRouter, PhuongThangRouter, NguonRouter, TraCuuRouter, ThuongHanRouter, NhhtCongThucRouter, ThuongHanChungRouter, DiaDiemRouter, SseController],
+  controllers: [AppController, ChanDoanLuoiRouter, AuthRouter, VaiTroRouter, NguoiDungRouter, MeridiansRouter, PatientsRouter, ExaminationsRouter, RecordsRouter, ChungBenhRouter, BenhTayYRouter, TrieuChungRouter, KinhMachRouter, HuyetViRouter, PhacDoDieuTriRouter, BenhCauThanhRouter, PhacDoChuanRouter, ViThuocRouter, BaiThuocRouter, TheBenhRouter, TheBenhPhuongHuyetRouter, PatientAuthRouter, ClinicScheduleRouter, AppointmentSlotsRouter, ThietChanRouter, MachChanRouter, CongDungRouter, PhapTriRouter, BenhDongYExcelRouter, BenhDongYRouter, BenhDongYHienDaiRouter, ChuTriController, KiengKyController, NhomLonDuocLyRouter, NhomNhoDuocLyRouter, AiSuggestRouter, KiemDinhViThuocRouter, TonThuongTacNhanRouter, KinhMach3dRouter, DemoRouter, SeoRouter, SeoBlogRouter, GscRouter, GraphRouter, DuocLieuRouter, PhuongThangRouter, NguonRouter, TraCuuRouter, ThuongHanRouter, NhhtCongThucRouter, ThuongHanChungRouter, DiaDiemRouter, SseController, SuCoRouter],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_GUARD, useClass: ThrottlerGuard },
-    AppService, ChanDoanLuoiService, AdminsService, AuthService, VaiTroService, NguoiDungService, JwtStrategy, MeridiansService, PatientsService, ExaminationsService, ChungBenhService, BenhTayYService, TrieuChungService, KinhMachService, HuyetViService, PhacDoDieuTriService, BenhCauThanhService, PhacDoChuanService, ViThuocService, BaiThuocService, TheBenhService, TheBenhPhuongHuyetService, PatientAuthService, ClinicScheduleService, AppointmentSlotsService, FirebaseService, ThietChanService, MachChanService, CongDungService, PhapTriService, BenhDongYExcelService, BenhDongYHienDaiService, NhomLonDuocLyService, NhomNhoDuocLyService, AiSuggestService, KiemDinhViThuocService, TonThuongTacNhanService, KinhMach3dService, SeoService, GscService, GraphService, SchemaBootstrapService, PhuongThangService, NguonService, TraCuuService, ThuongHanService, NhhtCongThucService, ThuongHanChungService, DiaDiemService, AppointmentReminderService, SseService],
+    AppService, ChanDoanLuoiService, AdminsService, AuthService, VaiTroService, NguoiDungService, JwtStrategy, MeridiansService, PatientsService, ExaminationsService, ChungBenhService, BenhTayYService, TrieuChungService, KinhMachService, HuyetViService, PhacDoDieuTriService, BenhCauThanhService, PhacDoChuanService, ViThuocService, BaiThuocService, TheBenhService, TheBenhPhuongHuyetService, PatientAuthService, ClinicScheduleService, AppointmentSlotsService, FirebaseService, ThietChanService, MachChanService, CongDungService, PhapTriService, BenhDongYExcelService, BenhDongYHienDaiService, NhomLonDuocLyService, NhomNhoDuocLyService, AiSuggestService, KiemDinhViThuocService, TonThuongTacNhanService, KinhMach3dService, SeoService, GscService, GraphService, SchemaBootstrapService, PhuongThangService, NguonService, TraCuuService, ThuongHanService, NhhtCongThucService, ThuongHanChungService, DiaDiemService, AppointmentReminderService, SseService, SuCoService,
+    // Bộ lọc TOÀN CỤC: ghi mọi lỗi 5xx vào bảng sự cố rồi để Nest trả lời y như cũ.
+    // Đăng ký qua APP_FILTER (không phải app.useGlobalFilters ở main.ts) vì nó cần tiêm
+    // SuCoService — bản dựng bằng `new` ở main.ts không có container để lấy service.
+    { provide: APP_FILTER, useClass: SuCoExceptionFilter }],
 })
 export class AppModule {}

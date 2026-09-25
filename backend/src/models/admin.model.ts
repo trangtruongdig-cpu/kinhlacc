@@ -40,6 +40,13 @@ export class Admin {
   @Column({ default: true })
   trangThai: boolean;
 
+  /**
+   * Token thiết bị để đẩy thông báo (Firebase). Dùng cho cảnh báo sự cố hạng nặng.
+   * NULL khi người dùng chưa bật thông báo trên trình duyệt/máy này.
+   */
+  @Column({ name: 'fcm_token', type: 'text', nullable: true })
+  fcmToken: string | null;
+
   @CreateDateColumn()
   createdAt: Date;
 }

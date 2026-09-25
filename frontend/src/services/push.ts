@@ -72,6 +72,20 @@ const SENT_TOKEN_KEY = 'fcm_token_sent'
  * @returns true nếu đã đăng ký xong
  */
 export async function enablePush(patientId: number, authToken: string): Promise<boolean> {
+  return dangKyToken(`/patients/${patientId}/fcm-token`, authToken)
+}
+
+/**
+ * Bản dành cho NHÂN VIÊN — nhận cảnh báo sự cố hạng nặng của tab "Góp Ý & Lỗi".
+ *
+ * Tách endpoint chứ không dùng chung với bệnh nhân: token nhân viên phải nằm ở bảng `admins`,
+ * và người gửi cảnh báo cần biết chắc mình chỉ bắn tin nội bộ cho nhân viên.
+ */
+export async function batPushNhanVien(authToken: string): Promise<boolean> {
+  return dangKyToken('/su-co/fcm-token', authToken)
+}
+
+async function dangKyToken(duongDan: string, authToken: string): Promise<boolean> {
   const cfg = readConfig()
   if (!cfg) return false
   if (typeof window === 'undefined' || !('serviceWorker' in navigator)) return false
@@ -99,9 +113,12 @@ export async function enablePush(patientId: number, authToken: string): Promise<
     if (!token) return false
 
     // Token FCM đổi theo thời gian — gửi lại khi khác với lần trước.
-    if (localStorage.getItem(SENT_TOKEN_KEY) === token) return true
+    // Khoá nhớ gắn theo TỪNG endpoint: một máy vừa có phiên bệnh nhân vừa có phiên nhân viên
+    // thì dùng chung khoá sẽ làm bên đăng ký sau tưởng mình đã gửi rồi và im lặng bỏ qua.
+    const khoaNho = `${SENT_TOKEN_KEY}:${duongDan}`
+    if (localStorage.getItem(khoaNho) === token) return true
 
-    const res = await fetch(`${API_BASE}/patients/${patientId}/fcm-token`, {
+    const res = await fetch(`${API_BASE}${duongDan}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
@@ -112,7 +129,7 @@ export async function enablePush(patientId: number, authToken: string): Promise<
     if (!res.ok) return false
 
     try {
-      localStorage.setItem(SENT_TOKEN_KEY, token)
+      localStorage.setItem(khoaNho, token)
     } catch {
       // Chế độ riêng tư chặn localStorage — chỉ mất tối ưu, lần sau gửi lại là cùng.
     }
@@ -132,7 +149,11 @@ export function pushPermission(): NotificationPermission | 'unsupported' {
 /** Quên token đã gửi (gọi lúc đăng xuất, kẻo máy dùng chung gửi nhầm cho người trước). */
 export function forgetPushToken(): void {
   try {
-    localStorage.removeItem(SENT_TOKEN_KEY)
+    // Xoá mọi khoá theo endpoint (bệnh nhân lẫn nhân viên), kẻo máy dùng chung gửi nhầm
+    // cảnh báo nội bộ cho người đăng nhập sau.
+    for (const k of Object.keys(localStorage)) {
+      if (k === SENT_TOKEN_KEY || k.startsWith(`${SENT_TOKEN_KEY}:`)) localStorage.removeItem(k)
+    }
   } catch {
     // không sao
   }
