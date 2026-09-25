@@ -1,0 +1,73 @@
+---
+// Trang một nguồn y văn: thông tin thư mục + mọi mục đang trích dẫn nó.
+//
+// Với 2.139 nguồn, đây là 2.139 trang mới và một mạng liên kết nội bộ rất dày — thứ Google
+// đánh giá cao ở site tra cứu. Và nó trả lời được câu "sách này được dẫn ở những đâu".
+import { getEmDashEntry, getEmDashCollection, decodeSlug } from "emdash";
+import Base from "../../layouts/Base.astro";
+import { rutNguon } from "../../utils/trich-dan";
+import "../../styles/tu-dien.css";
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.redirect("/404");
+
+const { entry, cacheHint } = await getEmDashEntry("nguon_y_van", slug);
+if (!entry) return Astro.redirect("/404");
+if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
+
+const d = entry.data;
+const chuan = (s: string) => String(s || "").toLowerCase().normalize("NFD")
+	.replace(/[̀-ͯ]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+const khoa = chuan(d.title);
+
+// Quét các mục đang dẫn nguồn này. Giới hạn 200 vì hai nhóm hiện mỗi nhóm 100 mục.
+const [bh, cc] = await Promise.all([
+	getEmDashCollection("benh_hoc", { limit: 200 }),
+	getEmDashCollection("cham_cuu_tri_benh", { limit: 200 }),
+]);
+type Dan = { duong: string; slug: string; ten: string };
+const dan: Dan[] = [];
+for (const [ds, duong] of [[bh.entries, "benh-hoc"], [cc.entries, "cham-cuu-tri-benh"]] as const)
+	for (const e of ds) {
+		const ng = rutNguon(e.data.dai_cuong, e.data.nguyen_nhan, e.data.chan_doan,
+			e.data.dieu_tri, e.data.benh_an, e.data.tham_khao, e.data.trieu_chung);
+		if (ng.some((n) => chuan(n.ten) === khoa))
+			dan.push({ duong, slug: e.slug ?? e.id, ten: e.data.title });
+	}
+
+const nhanLoai = d.loai === "tac_gia" ? "Tác giả" : d.loai === "tap_chi" ? "Tạp chí" : "Sách";
+---
+
+<Base title={`${d.title} — Nguồn Y Văn`} description={`${nhanLoai}: ${d.title}${d.tac_gia ? ` — ${d.tac_gia}` : ""}. Các mục từ điển Đông Y trích dẫn nguồn này.`}>
+	<main class="bl-main"><article class="bl-article dl-article">
+		<nav class="bl-crumb">
+			<a href="/">Trang Chủ</a> › <a href="/thu-vien">Từ Điển</a> ›
+			<a href="/nguon/">Nguồn Y Văn</a> › <span>{d.title}</span>
+		</nav>
+
+		<h1>{d.title}</h1>
+		<div class="ng-the">
+			<span class={`dl-nguon-loai ${d.loai === "tac_gia" ? "ng-tg" : "ng-s"}`}>{nhanLoai}</span>
+			{d.tac_gia && <p><strong>Tác giả:</strong> {d.tac_gia}</p>}
+			{d.nien_dai && <p><strong>Niên đại:</strong> {d.nien_dai}</p>}
+			{d.ten_khac && <p><strong>Tên khác:</strong> {d.ten_khac}</p>}
+			{d.ghi_chu && <p>{d.ghi_chu}</p>}
+			{d.lien_ket && <p><a href={d.lien_ket} target="_blank" rel="noopener noreferrer">Xem nguồn gốc ↗</a></p>}
+		</div>
+
+		<section class="dl-nguon">
+			<h2>Được Trích Dẫn Trong <span class="dl-nguon-dem">{dan.length}</span></h2>
+			{dan.length === 0 ? (
+				<p class="ng-trong">Chưa có mục nào trong từ điển dẫn nguồn này.</p>
+			) : (
+				<ul class="ng-ds">
+					{dan.map((x) => (
+						<li><a href={`/${x.duong}/${x.slug}/`}>{x.ten}</a>
+							<span class="ng-nhom">{x.duong === "benh-hoc" ? "Bệnh Học" : "Châm Cứu Trị Bệnh"}</span>
+						</li>
+					))}
+				</ul>
+			)}
+		</section>
+	</article></main>
+</Base>

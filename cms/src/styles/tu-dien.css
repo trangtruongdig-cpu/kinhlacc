@@ -164,3 +164,28 @@
 .dl-nguon-sach .dl-nguon-loai { background: var(--nau-100); color: var(--nau-700); border: 1px solid var(--nau-200); }
 .dl-nguon-ten { font-weight: 600; color: var(--nau-900); }
 .dl-nguon-nam, .dl-nguon-so, .dl-nguon-trang { color: var(--chu-nhat); font-size: .86rem; margin-left: .4rem; }
+
+/* ── Trang nguồn y văn ───────────────────────────────────────────── */
+.ng-the {
+	background: var(--nau-50); border: 1px solid var(--nau-200); border-radius: 10px;
+	padding: .9rem 1.1rem; margin: .8rem 0 1.6rem;
+}
+.ng-the p { margin: .35rem 0; font-size: .94rem; }
+.ng-s { background: var(--nau-100); color: var(--nau-700); border: 1px solid var(--nau-200); }
+.ng-tg { background: #e6f0f4; color: #1f5468; border: 1px solid #cfe0e7; }
+.ng-ds { list-style: none; padding: 0; margin: .7rem 0 0; }
+.ng-ds li {
+	display: flex; align-items: center; justify-content: space-between; gap: .8rem;
+	padding: .5rem .2rem; border-bottom: 1px solid var(--nau-100);
+}
+.ng-ds a { color: var(--nau-700); text-decoration: none; font-weight: 500; }
+.ng-ds a:hover { text-decoration: underline; }
+.ng-nhom { font-size: .76rem; color: var(--chu-nhat); background: var(--nau-50);
+	border: 1px solid var(--nau-100); padding: .1rem .45rem; border-radius: 999px; white-space: nowrap; }
+.ng-trong { color: var(--chu-nhat); font-style: italic; }
+.dl-nguon-noi {
+	font-size: .72rem; font-weight: 500; color: #2f5d2a; background: #e9f1e8;
+	border: 1px solid #cfe3cd; padding: .1rem .45rem; border-radius: 999px; margin-left: .4rem;
+}
+a.dl-nguon-ten { color: var(--nau-700); text-decoration: none; border-bottom: 1px dotted var(--nau-400); }
+a.dl-nguon-ten:hover { color: var(--nau-900); border-bottom-style: solid; }

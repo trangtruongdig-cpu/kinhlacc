@@ -4,6 +4,7 @@
 // Chép từ build-dict.mjs (bản đang phục vụ /benh-hoc/ và /cham-cuu-tri-benh/ hiện nay).
 // Khác KhungSeoBaiViet ở chỗ dùng MedicalWebPage + MedicalEntity thay cho Article: đây là
 // trang tra cứu y khoa, không phải bài viết có tác giả.
+import { getEmDashCollection } from "emdash";
 import { rutNguon, citationLd } from "../utils/trich-dan";
 
 const SITE = "Kinh Lạc Trương Gia";
@@ -33,6 +34,20 @@ const capNhat = (entry.data?.updatedAt ?? entry.updatedAt)
 const nguon = rutNguon(
 	d.dai_cuong, d.nguyen_nhan, d.chan_doan, d.dieu_tri, d.benh_an, d.tham_khao, d.trieu_chung,
 );
+
+// Nối trích dẫn với thư mục nguồn: có trong thư mục thì thành liên kết sang trang nguồn,
+// chưa có thì vẫn hiện nhưng đánh dấu để người biên tập biết mà bổ sung.
+// Nạp cả thư mục một lần rồi tra trong bộ nhớ — rẻ hơn gọi từng nguồn, và trang đã được đệm
+// nên chi phí chỉ nằm ở lần dựng đầu.
+const chuanHoa = (x: string) => String(x || "").toLowerCase().normalize("NFD")
+	.replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, " ").trim();
+let thuMuc = new Map<string, string>();
+try {
+	const { entries } = await getEmDashCollection("nguon_y_van", { limit: 3000 });
+	thuMuc = new Map(entries.map((e: any) => [chuanHoa(e.data.title), e.slug ?? e.id]));
+} catch { /* chưa nhập thư mục thì bỏ qua, trích dẫn vẫn hiện dạng chữ */ }
+const nguonCoLink = nguon.map((n) => ({ ...n, slugNguon: thuMuc.get(chuanHoa(n.ten)) }));
+const soNoi = nguonCoLink.filter((n) => n.slugNguon).length;
 
 const jsonLd: any[] = [
 	{
@@ -101,12 +116,16 @@ if (faq.length)
 
 {nguon.length > 0 && (
 	<section class="dl-nguon">
-		<h2>Nguồn Trích Dẫn <span class="dl-nguon-dem">{nguon.length}</span></h2>
+		<h2>Nguồn Trích Dẫn <span class="dl-nguon-dem">{nguon.length}</span>
+			{soNoi > 0 && <span class="dl-nguon-noi">{soNoi} có trong thư mục</span>}
+		</h2>
 		<ol class="dl-nguon-ds">
-			{nguon.map((n) => (
+			{nguonCoLink.map((n) => (
 				<li class={n.loai === "tap_chi" ? "dl-nguon-tc" : "dl-nguon-sach"}>
 					<span class="dl-nguon-loai">{n.loai === "tap_chi" ? "Tạp chí" : "Sách"}</span>
-					<span class="dl-nguon-ten">{n.ten}</span>
+					{n.slugNguon
+						? <a class="dl-nguon-ten" href={`/nguon/${n.slugNguon}/`}>{n.ten}</a>
+						: <span class="dl-nguon-ten">{n.ten}</span>}
 					{n.nam && <span class="dl-nguon-nam">{n.nam}</span>}
 					{n.so && <span class="dl-nguon-so">số {n.so}</span>}
 					{n.trang && <span class="dl-nguon-trang">tr. {n.trang}</span>}
