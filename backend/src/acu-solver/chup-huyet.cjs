@@ -3,6 +3,8 @@
  *   node chup-huyet.cjs LU9                # chụp một huyệt
  *   node chup-huyet.cjs LU                 # chụp cả kinh Phế
  *   node chup-huyet.cjs --tat-ca           # cả 361 huyệt
+ *   node chup-huyet.cjs --chi-dem --tat-ca # đếm thử: in 361 mã rồi thoát (không chụp)
+ *   node chup-huyet.cjs --chi-dem LU9      # đếm thử: in 1 mã LU9 rồi thoát
  *
  * Yêu cầu: frontend dev server đang chạy ở cổng 5173.
  *
@@ -59,10 +61,40 @@ function danhSach(args) {
   new Function('window', fs.readFileSync(
     path.join(GOC, 'frontend/public/kinhmach3d/data/acu-coords3d.js'), 'utf8'))(w);
   const tatCa = Object.keys(w.ACU_COORDS3D.points);
-  if (args.includes('--tat-ca')) return tatCa;
+  // SỬA LỖI 1: Kiểm --chi-dem TRƯỚC nhánh --tat-ca để đếm thử hoạt động với cả --tat-ca
+  const chiDem = args.includes('--chi-dem');
+  if (chiDem) {
+    // Nhánh đếm thử: lọc mã (có thể là --tat-ca hay danh sách cụ thể) rồi in danh sách mà không chụp
+    let ketQua;
+    if (args.includes('--tat-ca')) {
+      ketQua = tatCa;
+    } else {
+      const loc = args.filter(a => !a.startsWith('--'));
+      ketQua = tatCa.filter(c => loc.some(x => {
+        const coSo = /\d/.test(x);
+        if (coSo) {
+          return c === x;  // Đúng bằng
+        } else {
+          return c.startsWith(x) && /^\d+$/.test(c.slice(x.length));  // Tiền tố + phần dư là số
+        }
+      }));
+    }
+    // SỬA LỖI 4: Báo lỗi khi không có huyệt nào khớp (giống nhánh chụp thật)
+    if (!ketQua.length) {
+      console.error('Không có huyệt nào khớp.');
+      process.exit(1);
+    }
+    console.log(ketQua.join(', '));
+    process.exit(0);
+  }
+
+  // Nhánh chụp thật: lọc mã từ danh sách cung cấp
+  if (args.includes('--tat-ca')) {
+    return tatCa;
+  }
   const loc = args.filter(a => !a.startsWith('--'));
   const ketQua = tatCa.filter(c => loc.some(x => {
-    // SỬA LỖI 1: Lọc mã huyệt chính xác.
+    // Lọc mã huyệt chính xác.
     // - Nếu x có chữ số (vd LI1, GB34): chỉ khớp ĐÚNG BẰNG, không khớp tiền tố (tránh LI10 trùng LI1)
     // - Nếu x chỉ chữ cái (vd LI, GB): khớp mọi mã bắt đầu bằng x với phần dư toàn chữ số
     const coSo = /\d/.test(x);
@@ -72,10 +104,6 @@ function danhSach(args) {
       return c.startsWith(x) && /^\d+$/.test(c.slice(x.length));  // Tiền tố + phần dư là số
     }
   }));
-  if (process.env.CHI_DEM) {
-    console.log(ketQua.join(', '));
-    process.exit(0);
-  }
   return ketQua;
 }
 
@@ -103,7 +131,9 @@ async function main() {
         hoso = cuSo;
       }
     } catch (e) {
-      // Tệp không tồn tại, hỏng, hay không phải mảng → bắt đầu từ rỗng. Không lỗi.
+      // SỬA LỖI 5: Cảnh báo khi hồ sơ cũ không đọc được (tệp hỏng hay không phải mảng)
+      console.error(`⚠ Hồ sơ cũ ${teHoSo} không đọc được, sẽ ghi mới.`);
+      // Bắt đầu từ rỗng. Không thoát — tiếp tục chụp.
     }
     // Xây dựng khóa để gộp: ma|kieu
     const khoaTrong = new Set(hoso.map(x => `${x.ma}|${x.kieu}`));
