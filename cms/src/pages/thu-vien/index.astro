@@ -1,8 +1,0 @@
----
-// /thu-vien/ — Mở thẳng vào mục đầu tiên, đúng như bản cũ (không có trang cửa riêng).
-import { danhSachMuc } from "../../lib/traCuu";
-export const prerender = false;
-const muc = await danhSachMuc();
-const dau = muc.find((m) => m.so_muc > 0);
-return Astro.redirect(dau?.duong_dan ?? "/", 301);
----
