@@ -38,13 +38,13 @@ export const MUC = [
 	{
 		bo: "cham_cuu_tri_benh", nhan: "Châm Cứu Trị Bệnh", duongDan: "/cham-cuu-tri-benh/", thuTu: 30,
 		moTa: "Phép châm cứu theo từng chứng bệnh.",
-		tenKhac: [], than: ["dai_cuong", "nguyen_nhan", "trieu_chung", "dieu_tri"],
+		tenKhac: [], than: ["dai_cuong", "nguyen_nhan", "trieu_chung", "chan_doan", "dieu_tri", "tham_khao"],
 	},
 	{
 		bo: "benh_hoc", nhan: "Bệnh Học", duongDan: "/benh-hoc/", thuTu: 40,
 		moTa: "Bệnh danh Đông Y: nguyên nhân, chẩn đoán, điều trị, bệnh án.",
 		tenKhac: ["doi_chieu_benh_danh"],
-		than: ["dai_cuong", "nguyen_nhan", "chan_doan", "dieu_tri", "benh_an", "tham_khao"],
+		than: ["dai_cuong", "nguyen_nhan", "co_che", "trieu_chung", "chan_doan", "dieu_tri", "benh_an", "tham_khao"],
 	},
 	{
 		bo: "duoc_lieu", nhan: "Dược Liệu", duongDan: "/duoc-lieu/", thuTu: 50,

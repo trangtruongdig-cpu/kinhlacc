@@ -63,6 +63,8 @@ export interface BenhHoc {
   dieu_tri?: PortableTextBlock[];
   benh_an?: PortableTextBlock[];
   tham_khao?: PortableTextBlock[];
+  trieu_chung?: PortableTextBlock[];
+  co_che?: PortableTextBlock[];
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -80,6 +82,9 @@ export interface ChamCuuTriBenh {
   trieu_chung?: PortableTextBlock[];
   dieu_tri?: PortableTextBlock[];
   cho_index?: boolean;
+  chan_doan?: PortableTextBlock[];
+  tham_khao?: PortableTextBlock[];
+  ten_khac?: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
