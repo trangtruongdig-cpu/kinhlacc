@@ -1,58 +1,8 @@
 ---
-// /thu-vien/ — Cửa vào thư viện: ô tra cứu là nhân vật chính, dưới nó là mục lục.
-import ThuVien from "../../layouts/ThuVien.astro";
-import OTraCuu from "../../components/OTraCuu.astro";
-import { danhSachMuc, tongSoMuc } from "../../lib/traCuu";
-
+// /thu-vien/ — Mở thẳng vào mục đầu tiên, đúng như bản cũ (không có trang cửa riêng).
+import { danhSachMuc } from "../../lib/traCuu";
+export const prerender = false;
 const muc = await danhSachMuc();
-const tong = await tongSoMuc();
-const soMuc = (n: number) => n.toLocaleString("vi-VN");
-
-const moTa =
-	`Tra cứu ${soMuc(tong)} mục từ Đông Y: huyệt vị, đường kinh, bệnh học, ` +
-	`châm cứu trị bệnh, dược liệu, bài thuốc và thư mục nguồn y văn.`;
+const dau = muc.find((m) => m.so_muc > 0);
+return Astro.redirect(dau ? `/thu-vien/${dau.bo}/` : "/", 302);
 ---
-
-<ThuVien tieuDe="Thư Viện Đông Y — Tra cứu huyệt vị, bệnh học, dược liệu, bài thuốc" moTa={moTa}>
-	<section class="tv-bia">
-		<div class="tv-trong">
-			<h1>Thư Viện Đông Y</h1>
-			<p>
-				{soMuc(tong)} mục từ trong một chỗ tra. Gõ <b>không dấu</b> cũng ra — "hop coc",
-				"mat ngu", "thuong han".
-			</p>
-			<OTraCuu tuDong />
-		</div>
-	</section>
-
-	<div class="tv-trong">
-		<div class="tv-muclucthanh"><h2>Mục lục</h2></div>
-		<ol class="tv-mucluc">
-			{
-				muc.map((m, i) => (
-					<li>
-						<a
-							href={m.so_muc ? `/thu-vien/${m.bo}/` : "#"}
-							aria-disabled={m.so_muc ? undefined : "true"}
-						>
-							<span class="so">{String(i + 1).padStart(2, "0")}</span>
-							<span>
-								<span class="ten">{m.nhan}</span>
-								<span class="mo-ta">{m.mo_ta}</span>
-							</span>
-							<span class="dem">
-								{m.so_muc ? (
-									<>
-										<b>{soMuc(m.so_muc)}</b> mục
-									</>
-								) : (
-									"đang đưa vào"
-								)}
-							</span>
-						</a>
-					</li>
-				))
-			}
-		</ol>
-	</div>
-</ThuVien>

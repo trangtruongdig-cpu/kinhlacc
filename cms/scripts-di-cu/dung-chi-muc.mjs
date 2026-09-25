@@ -23,12 +23,16 @@ export const MUC = [
 	{
 		bo: "huyet_vi", nhan: "Huyệt Vị · Châm Cứu", duongDan: "/huyet/", thuTu: 10,
 		moTa: "Vị trí, tác dụng, chủ trị và cách châm cứu từng huyệt.",
-		tenKhac: ["ma_huyet"], than: ["noi_dung", "pho_huyet", "ghi_chu", "tham_khao"],
+		tenKhac: ["ma_huyet"],
+		than: ["y_nghia_ten", "dac_tinh", "vi_tri", "giai_phau", "tac_dung", "chu_tri", "cham_cuu", "xuat_xu", "pho_huyet", "ghi_chu", "tham_khao"],
+		// Thẻ lọc lấy từ trường the_loai (mảng {ma, ten, nhom}) — dữ liệu rà tay.
+		theLoc: ["the_loai"],
 	},
 	{
 		bo: "kinh_mach", nhan: "Lý Thuyết · Tra Cứu Kinh", duongDan: "/kinh/", thuTu: 20,
 		moTa: "Mười hai chính kinh, tám mạch kỳ kinh: đường vận hành và chủ trị.",
 		tenKhac: ["ten_khac", "ma", "tom_tat_huyet"],
+		theLoc: ["loai:Loại"],
 		than: ["dai_cuong", "dac_tinh", "van_hanh", "duong_chinh", "kinh_can", "kinh_biet", "lac_doc", "lac_ngang", "trieu_chung", "chu_tri", "dieu_tri"],
 	},
 	{
@@ -46,7 +50,9 @@ export const MUC = [
 		bo: "duoc_lieu", nhan: "Dược Liệu", duongDan: "/duoc-lieu/", thuTu: 50,
 		moTa: "Vị thuốc: tính vị, quy kinh, công dụng, liều dùng, kiêng kỵ.",
 		tenKhac: ["ten_khac", "ten_khoa_hoc", "ten_han"],
-		than: ["mo_ta", "tinh_vi", "cong_dung", "chu_tri", "lieu_dung", "bao_che", "kieng_ky", "don_thuoc", "tham_khao"],
+		than: ["mo_ta", "thanh_phan_hoa_hoc", "duoc_ly", "tinh_vi_quy_kinh", "nuoi_duong", "bao_che", "chu_tri", "don_thuoc", "xuat_xu", "tham_khao", "cong_dung_ds", "kieng_ky_ds"],
+		// Tính và Vị là cột chữ ("Ôn", "Cam, Tân, Khổ") — tách theo dấu phẩy thành thẻ.
+		theLoc: ["tinh:Tính", "vi:Vị"],
 	},
 	{
 		bo: "bai_thuoc", nhan: "Bài Thuốc", duongDan: "/bai-thuoc/", thuTu: 60,
@@ -86,12 +92,12 @@ try {
 	console.log("② Khai báo các mục thư viện…");
 	for (const m of MUC) {
 		await c.query(
-			`INSERT INTO td_cau_hinh (bo, nhan, duong_dan, cot_ten_khac, cot_than, thu_tu, mo_ta)
-			 VALUES ($1,$2,$3,$4,$5,$6,$7)
+			`INSERT INTO td_cau_hinh (bo, nhan, duong_dan, cot_ten_khac, cot_than, thu_tu, mo_ta, cot_nhan)
+			 VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
 			 ON CONFLICT (bo) DO UPDATE SET nhan=EXCLUDED.nhan, duong_dan=EXCLUDED.duong_dan,
 			   cot_ten_khac=EXCLUDED.cot_ten_khac, cot_than=EXCLUDED.cot_than,
-			   thu_tu=EXCLUDED.thu_tu, mo_ta=EXCLUDED.mo_ta`,
-			[m.bo, m.nhan, m.duongDan, m.tenKhac, m.than, m.thuTu, m.moTa],
+			   thu_tu=EXCLUDED.thu_tu, mo_ta=EXCLUDED.mo_ta, cot_nhan=EXCLUDED.cot_nhan`,
+			[m.bo, m.nhan, m.duongDan, m.tenKhac, m.than, m.thuTu, m.moTa, m.theLoc ?? []],
 		);
 	}
 
@@ -106,7 +112,12 @@ try {
 		await c.query("SELECT td_gan_trigger($1)", [m.bo]);
 		const t0 = Date.now();
 		const n = await c.query("SELECT td_dung_lai($1) AS n", [m.bo]);
-		console.log(`   ✓ ${m.nhan.padEnd(24)} ${String(n.rows[0].n).padStart(6)} mục  (${((Date.now() - t0) / 1000).toFixed(1)}s)`);
+		const the = await c.query("SELECT td_dung_nhan($1) AS n", [m.bo]);
+		console.log(
+			`   ✓ ${m.nhan.padEnd(24)} ${String(n.rows[0].n).padStart(6)} mục` +
+			(the.rows[0].n ? ` · ${the.rows[0].n} thẻ lọc` : "") +
+			`  (${((Date.now() - t0) / 1000).toFixed(1)}s)`,
+		);
 	}
 
 	const tong = await c.query("SELECT count(*)::int n FROM td_muc");

@@ -4,7 +4,7 @@
 // Với 2.139 nguồn, đây là 2.139 trang mới và một mạng liên kết nội bộ rất dày — thứ Google
 // đánh giá cao ở site tra cứu. Và nó trả lời được câu "sách này được dẫn ở những đâu".
 import { getEmDashEntry, getEmDashCollection, decodeSlug } from "emdash";
-import MucTu from "../../layouts/MucTu.astro";
+import ThuVienKhung from "../../layouts/ThuVienKhung.astro";
 import { rutNguon } from "../../utils/trich-dan";
 import "../../styles/tu-dien.css";
 
@@ -38,7 +38,7 @@ for (const [ds, duong] of [[bh.entries, "benh-hoc"], [cc.entries, "cham-cuu-tri-
 const nhanLoai = d.loai === "tac_gia" ? "Tác giả" : d.loai === "tap_chi" ? "Tạp chí" : "Sách";
 ---
 
-<MucTu title={`${d.title} — Nguồn Y Văn`} description={`${nhanLoai}: ${d.title}${d.tac_gia ? ` — ${d.tac_gia}` : ""}. Các mục từ điển Đông Y trích dẫn nguồn này.`}>
+<ThuVienKhung bo="nguon_y_van" slug={slug} title={`${d.title} — Nguồn Y Văn`} description={`${nhanLoai}: ${d.title}${d.tac_gia ? ` — ${d.tac_gia}` : ""}. Các mục từ điển Đông Y trích dẫn nguồn này.`}>
 		<nav class="bl-crumb">
 			<a href="/">Trang Chủ</a> › <a href="/thu-vien">Từ Điển</a> ›
 			<a href="/nguon/">Nguồn Y Văn</a> › <span>{d.title}</span>
@@ -68,4 +68,4 @@ const nhanLoai = d.loai === "tac_gia" ? "Tác giả" : d.loai === "tap_chi" ? "T
 				</ul>
 			)}
 		</section>
-</MucTu>
+</ThuVienKhung>

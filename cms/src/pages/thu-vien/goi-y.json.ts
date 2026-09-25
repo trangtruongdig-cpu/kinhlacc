@@ -10,13 +10,14 @@ export const prerender = false;
 export const GET: APIRoute = async ({ url }) => {
 	const q = (url.searchParams.get("q") || "").trim().slice(0, 80);
 	const bo = url.searchParams.get("bo") || undefined;
+	const n = Math.min(60, Math.max(1, Number(url.searchParams.get("n")) || 8));
 	if (q.length < 2) {
 		return new Response("[]", { headers: { "content-type": "application/json" } });
 	}
 
 	try {
-		const ds = await goiY(q, 8);
-		const loc = bo ? ds.filter((x) => x.bo === bo) : ds;
+		const ds = await goiY(q, bo ? n * 3 : n);
+		const loc = (bo ? ds.filter((x) => x.bo === bo) : ds).slice(0, n);
 		return new Response(
 			JSON.stringify(
 				loc.map((x) => ({

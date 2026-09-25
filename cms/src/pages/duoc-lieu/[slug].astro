@@ -6,7 +6,7 @@ export const prerender = false;
 
 import { getEmDashEntry, decodeSlug } from "emdash";
 import VanBanYVan from "../../components/VanBanYVan.astro";
-import MucTu from "../../layouts/MucTu.astro";
+import ThuVienKhung from "../../layouts/ThuVienKhung.astro";
 import "../../styles/tu-dien.css";
 
 const slug = decodeSlug(Astro.params.slug);
@@ -54,7 +54,7 @@ const moTa =
 	`Vị thuốc ${d.title}: tính vị, quy kinh, công dụng, liều dùng và kiêng kỵ theo Đông Y.`;
 ---
 
-<MucTu title={`${d.title} — Vị Thuốc Đông Y`} description={moTa} khongLap={!choIndex}>
+<ThuVienKhung bo="duoc_lieu" slug={slug} title={`${d.title} — Vị Thuốc Đông Y`} description={moTa} khongLap={!choIndex}>
 	{isPreview && (
 		<div class="bang-xem-truoc" role="alert"><strong>Bản nháp — đang xem trước.</strong></div>
 	)}
@@ -88,7 +88,7 @@ const moTa =
 			Mục từ này mới có phần tra nhanh ở bảng trên; phần diễn giải đang được biên soạn.
 		</p>
 	)}
-</MucTu>
+</ThuVienKhung>
 
 <style>
 	.dl-vet {

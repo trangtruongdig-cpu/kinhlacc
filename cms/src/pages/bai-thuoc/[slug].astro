@@ -5,7 +5,7 @@ export const prerender = false;
 
 import { getEmDashEntry, decodeSlug } from "emdash";
 import VanBanYVan from "../../components/VanBanYVan.astro";
-import MucTu from "../../layouts/MucTu.astro";
+import ThuVienKhung from "../../layouts/ThuVienKhung.astro";
 import "../../styles/tu-dien.css";
 
 const slug = decodeSlug(Astro.params.slug);
@@ -28,7 +28,7 @@ const moTa =
 	`cách dùng và tác dụng theo y văn Đông Y.`;
 ---
 
-<MucTu title={`${d.title} — Bài Thuốc Đông Y`} description={moTa} khongLap={!choIndex}>
+<ThuVienKhung bo="bai_thuoc" slug={slug} title={`${d.title} — Bài Thuốc Đông Y`} description={moTa} khongLap={!choIndex}>
 	{isPreview && (
 		<div class="bang-xem-truoc" role="alert"><strong>Bản nháp — đang xem trước.</strong></div>
 	)}
@@ -78,7 +78,7 @@ const moTa =
 			<VanBanYVan value={d.ghi_chu} />
 		</section>
 	)}
-</MucTu>
+</ThuVienKhung>
 
 <style>
 	.bt-vet {

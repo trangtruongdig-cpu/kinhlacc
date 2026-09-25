@@ -6,7 +6,7 @@
 import { getEmDashEntry } from "emdash";
 import VanBanYVan from "../../components/VanBanYVan.astro";
 import KhungSeoYKhoa from "../../components/KhungSeoYKhoa.astro";
-import MucTu from "../../layouts/MucTu.astro";
+import ThuVienKhung from "../../layouts/ThuVienKhung.astro";
 import "../../styles/tu-dien.css";
 import { decodeSlug } from "emdash";
 import { urlAnh } from "../../utils/anh";
@@ -48,7 +48,7 @@ const moTa =
 	`chủ trị và cách châm cứu theo y văn Đông Y.`;
 ---
 
-<MucTu title={`${d.title}${d.ma_huyet ? ` (${d.ma_huyet})` : ""} — Huyệt Vị Đông Y`} description={moTa} type="article">
+<ThuVienKhung bo="huyet_vi" slug={slug} title={`${d.title}${d.ma_huyet ? ` (${d.ma_huyet})` : ""} — Huyệt Vị Đông Y`} description={moTa} type="article">
 	{isPreview && (
 		<div class="bang-xem-truoc" role="alert"><strong>Bản nháp — đang xem trước.</strong></div>
 	)}
@@ -105,7 +105,7 @@ const moTa =
 				</section>
 			)}
 		</KhungSeoYKhoa>
-</MucTu>
+</ThuVienKhung>
 
 <style>
 	.hv-danh-phap {

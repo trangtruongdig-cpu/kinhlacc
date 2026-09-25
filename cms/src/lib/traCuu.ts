@@ -136,14 +136,21 @@ export async function chuCaiCua(bo: string): Promise<{ chu_cai: string; n: numbe
 	);
 }
 
-/** Duyệt mục từ theo chữ cái (hoặc toàn bộ nếu không nêu chữ cái). */
+/** Duyệt mục từ: lọc theo chữ cái và/hoặc thẻ đặc tính. */
 export async function duyet(
 	bo: string,
-	{ chuCai, trang = 1, moiTrang = 200 }: { chuCai?: string; trang?: number; moiTrang?: number } = {},
+	{
+		chuCai, the, trang = 1, moiTrang = 200,
+	}: { chuCai?: string; the?: string; trang?: number; moiTrang?: number } = {},
 ): Promise<{ muc: KetQua[]; tong: number }> {
 	const lech = (Math.max(1, trang) - 1) * moiTrang;
-	const dk = chuCai ? "AND m.chu_cai = $2" : "";
-	const tham: unknown[] = chuCai ? [bo, chuCai] : [bo];
+	const tham: unknown[] = [bo];
+	let dk = "";
+	if (chuCai) { tham.push(chuCai); dk += ` AND m.chu_cai = $${tham.length}`; }
+	if (the) {
+		tham.push(the);
+		dk += ` AND EXISTS (SELECT 1 FROM td_nhan n WHERE n.bo = m.bo AND n.ma = m.ma AND n.ma_the = $${tham.length})`;
+	}
 
 	const [muc, dem] = await Promise.all([
 		truyVan<KetQua>(
@@ -160,6 +167,38 @@ export async function duyet(
 		),
 	]);
 	return { muc, tong: dem[0]?.n ?? 0 };
+}
+
+export interface TheLoc {
+	nhom: string;
+	ten: string;
+	ma_the: string;
+	n: number;
+}
+
+/**
+ * Các thẻ lọc của một mục, kèm số mục từ mang thẻ đó.
+ *
+ * Gom theo MÃ THẺ, không theo tên hiển thị. Dữ liệu di sản viết cùng một thẻ nhiều
+ * kiểu — "Hơi hàn" 94, "Hơi Hàn" 9, "hơi Hàn" 1 — nên gom theo tên thì ra ba chip,
+ * mỗi chip đếm thiếu, trong khi bấm vào lại lọc ra đủ 104. Lấy cách viết phổ biến
+ * nhất làm nhãn.
+ */
+export async function theLocCua(bo: string): Promise<TheLoc[]> {
+	return truyVan<TheLoc>(
+		`SELECT ma_the,
+		        (array_agg(ten ORDER BY dem DESC, ten))[1]  AS ten,
+		        (array_agg(nhom ORDER BY dem DESC, nhom))[1] AS nhom,
+		        sum(dem)::int AS n
+		 FROM (
+		   SELECT ma_the, ten, nhom, count(*)::int AS dem
+		   FROM td_nhan WHERE bo = $1
+		   GROUP BY 1, 2, 3
+		 ) x
+		 GROUP BY ma_the
+		 ORDER BY min(nhom), sum(dem) DESC`,
+		[bo],
+	);
 }
 
 /** Gợi ý gõ tới đâu hiện tới đó — chỉ khớp TÊN, không lục thân bài cho nhanh. */
@@ -189,4 +228,13 @@ export async function tongSoMuc(): Promise<number> {
 		`SELECT count(*)::int AS n FROM td_muc WHERE bo <> 'bai_viet'`,
 	);
 	return r[0]?.n ?? 0;
+}
+
+/** Chữ cái đầu của một mục từ — để cột trái mở sẵn đúng vần đang xem. */
+export async function chuCaiCuaMuc(bo: string, slug: string): Promise<string | undefined> {
+	const r = await truyVan<{ chu_cai: string }>(
+		`SELECT chu_cai FROM td_muc WHERE bo = $1 AND slug = $2 LIMIT 1`,
+		[bo, slug],
+	);
+	return r[0]?.chu_cai;
 }

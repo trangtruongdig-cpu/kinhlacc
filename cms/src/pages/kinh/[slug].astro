@@ -4,7 +4,7 @@ export const prerender = false;
 
 import { getEmDashEntry, decodeSlug } from "emdash";
 import VanBanYVan from "../../components/VanBanYVan.astro";
-import MucTu from "../../layouts/MucTu.astro";
+import ThuVienKhung from "../../layouts/ThuVienKhung.astro";
 import { urlAnh } from "../../utils/anh";
 import "../../styles/tu-dien.css";
 
@@ -51,7 +51,7 @@ const dsHuyet = String(d.huyet_ds || "")
 const moTa = `${d.title}: đường vận hành, huyệt vị, triệu chứng và chủ trị theo Đông Y.`;
 ---
 
-<MucTu title={`${d.title} — Tra Cứu Kinh Mạch`} description={moTa}>
+<ThuVienKhung bo="kinh_mach" slug={slug} title={`${d.title} — Tra Cứu Kinh Mạch`} description={moTa}>
 	{isPreview && (
 		<div class="bang-xem-truoc" role="alert"><strong>Bản nháp — đang xem trước.</strong></div>
 	)}
@@ -103,7 +103,7 @@ const moTa = `${d.title}: đường vận hành, huyệt vị, triệu chứng v
 			</ul>
 		</section>
 	)}
-</MucTu>
+</ThuVienKhung>
 
 <style>
 	.km-vet {

@@ -8,12 +8,15 @@ interface Props {
 	bo?: string;
 	nhan?: string;
 	tuDong?: boolean;
+	/** "nho" dùng cho ô tra riêng của từng mục trên trang mục lục. */
+	co?: "lon" | "nho";
+	goiY?: string;
 }
-const { tu = "", bo, nhan, tuDong = false } = Astro.props;
-const goi = bo ? `Tra trong ${nhan ?? bo}…` : "Tra huyệt, bệnh, vị thuốc, bài thuốc, nguồn…";
+const { tu = "", bo, nhan, tuDong = false, co = "lon", goiY } = Astro.props;
+const goi = goiY ?? (bo ? `Tra trong ${nhan ?? bo}…` : "Tra huyệt, bệnh, vị thuốc, bài thuốc, nguồn…");
 ---
 
-<form class="tv-o" action="/thu-vien/tra" method="get" role="search" autocomplete="off">
+<form class:list={["tv-o", co === "nho" && "tv-o-nho"]} action="/thu-vien/tra" method="get" role="search" autocomplete="off">
 	<span class="tv-o-kinh" aria-hidden="true">
 		<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round">
 			<circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path>

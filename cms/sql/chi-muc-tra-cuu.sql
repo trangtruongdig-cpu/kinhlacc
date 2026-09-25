@@ -218,3 +218,77 @@ BEGIN
 	RETURN n;
 END
 $fn$;
+
+-- ═══════════════════════════════════════════════════════════════════════
+-- 6. THẺ LỌC — bộ lọc nhỏ của từng mục (Đặc Tính của huyệt, Tính/Vị của
+--    vị thuốc…). Đây là dữ liệu đã RÀ TAY, không phải suy ra từ văn xuôi
+--    bằng regex; nguồn là trường the_loai trong CMS nên sửa được ở trang
+--    quản trị, và chỉ mục dựng lại theo.
+-- ═══════════════════════════════════════════════════════════════════════
+ALTER TABLE td_cau_hinh ADD COLUMN IF NOT EXISTS cot_nhan text[] NOT NULL DEFAULT '{}';
+
+CREATE TABLE IF NOT EXISTS td_nhan (
+	bo     text NOT NULL,
+	ma     text NOT NULL,
+	nhom   text NOT NULL,
+	ten    text NOT NULL,
+	ma_the text NOT NULL,
+	PRIMARY KEY (bo, ma, ma_the)
+);
+CREATE INDEX IF NOT EXISTS td_nhan_loc ON td_nhan (bo, ma_the);
+CREATE INDEX IF NOT EXISTS td_nhan_dem ON td_nhan (bo, nhom, ten);
+
+-- Rút thẻ từ một hàng nội dung.
+--   · cột kiểu json: mảng {ma, ten, nhom} (huyệt vị)
+--   · cột kiểu chữ:  khai dạng "cot:Nhãn nhóm", giá trị tách theo dấu phẩy
+--     (vị thuốc: tinh = "Ôn", vi = "Cam, Tân, Khổ")
+CREATE OR REPLACE FUNCTION td_the(j jsonb, cot text[])
+	RETURNS TABLE (nhom text, ten text, ma_the text)
+	LANGUAGE sql IMMUTABLE AS $fn$
+	SELECT x.nhom, x.ten, x.ma_the
+	FROM unnest(COALESCE(cot, '{}'::text[])) AS c
+	CROSS JOIN LATERAL (
+		SELECT split_part(c, ':', 1) AS ten_cot,
+		       NULLIF(split_part(c, ':', 2), '') AS nhan_nhom
+	) k
+	CROSS JOIN LATERAL (
+		SELECT
+			COALESCE(e ->> 'nhom', k.nhan_nhom, k.ten_cot) AS nhom,
+			COALESCE(e ->> 'ten', e #>> '{}')              AS ten,
+			COALESCE(e ->> 'ma', td_bo_dau(COALESCE(e ->> 'ten', e #>> '{}'))) AS ma_the
+		FROM jsonb_array_elements(
+			CASE jsonb_typeof(j -> k.ten_cot)
+				WHEN 'array' THEN j -> k.ten_cot
+				WHEN 'string' THEN (
+					SELECT COALESCE(jsonb_agg(to_jsonb(trim(t))), '[]'::jsonb)
+					FROM regexp_split_to_table(j ->> k.ten_cot, '[,;]') AS t
+					WHERE trim(t) <> ''
+				)
+				ELSE '[]'::jsonb
+			END
+		) AS e
+	) x
+	WHERE NULLIF(trim(x.ten), '') IS NOT NULL
+$fn$;
+
+-- Dựng lại thẻ lọc của một bộ.
+CREATE OR REPLACE FUNCTION td_dung_nhan(p_bo text) RETURNS int
+	LANGUAGE plpgsql AS $fn$
+DECLARE bang text := 'ec_' || p_bo; ch td_cau_hinh%ROWTYPE; n int;
+BEGIN
+	SELECT * INTO ch FROM td_cau_hinh WHERE bo = p_bo;
+	IF NOT FOUND OR to_regclass(bang) IS NULL THEN RETURN 0; END IF;
+	DELETE FROM td_nhan WHERE bo = p_bo;
+	IF array_length(ch.cot_nhan, 1) IS NULL THEN RETURN 0; END IF;
+	EXECUTE format($q$
+		INSERT INTO td_nhan (bo, ma, nhom, ten, ma_the)
+		SELECT %L, r.id, t.nhom, t.ten, t.ma_the
+		FROM %I r
+		CROSS JOIN LATERAL td_the(to_jsonb(r), %L::text[]) t
+		WHERE r.deleted_at IS NULL AND r.status = 'published'
+		ON CONFLICT (bo, ma, ma_the) DO NOTHING
+	$q$, p_bo, bang, ch.cot_nhan);
+	SELECT count(*) INTO n FROM td_nhan WHERE bo = p_bo;
+	RETURN n;
+END
+$fn$;
