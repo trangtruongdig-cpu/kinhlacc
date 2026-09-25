@@ -20,6 +20,11 @@ import {
   BENH, BENH_SETS, benhIndexable, benhCross, huyetLinkTargets,
   traitsByAcuId,
 } from './dict-data.mjs'
+import { napGhiDe, apGhiDe } from './seo-cms.mjs'
+
+// Phần SEO người biên tập gõ trong CMS. Nạp ở cuối tệp, TRƯỚC các vòng sinh trang;
+// khai ở đây để ba hàm dựng trang dưới đây đọc được.
+let ghiDeSEO = () => null
 
 const here = dirname(fileURLToPath(import.meta.url))
 const root = resolve(here, '..')
@@ -273,10 +278,10 @@ function huyetPage(rec) {
     cls.loai === 'kinh' ? ` › <a href="/kinh/${escAttr(cls.kinhSlug)}/">${escText(cls.kinhTen)}</a>` : ''
   } › <span>${escText(rec.ten)}</span></nav>`
 
-  const htmlDoc = head({
+  const htmlDoc = head(apGhiDe({
     title: `${seoTitle} — ${SITE}`, description: metaDesc, canonical: url,
     jsonLds, ogImage: ogImg, index: indexable, extraHead: DICT_STYLE,
-  }) +
+  }, ghiDeSEO('huyet_vi', slug))) +
     `<body>${topbar}
 <main class="bl-main"><article class="bl-article dl-article">
   ${crumbHtml}
@@ -352,10 +357,10 @@ function kinhPage(m) {
     }),
   ]
 
-  const htmlDoc = head({
+  const htmlDoc = head(apGhiDe({
     title: `${m.ten} — Đồ Hình, Huyệt Vị & Chủ Trị — ${SITE}`,
     description: clip(lead, 160), canonical: url, jsonLds, ogImage: ogImg, index: indexable, extraHead: DICT_STYLE,
-  }) +
+  }, ghiDeSEO('kinh_mach', slug))) +
     `<body>${topbar}
 <main class="bl-main"><article class="bl-article dl-article">
   <nav class="bl-crumb"><a href="/">Trang Chủ</a> › <a href="/thu-vien">Từ Điển</a> › <span>${escText(m.ten)}</span></nav>
@@ -562,10 +567,10 @@ function benhPage(rec, set, cfg) {
     ...(faq.length ? [faqLd(faq)] : []),
   ]
 
-  const htmlDoc = head({
+  const htmlDoc = head(apGhiDe({
     title: `${seoTitle} — ${SITE}`,
     description: metaDesc, canonical: url, jsonLds, ogImage: GENERIC_OG, index: indexable, extraHead: DICT_STYLE,
-  }) +
+  }, ghiDeSEO(cfg.key === 'ccdt' ? 'cham_cuu_tri_benh' : 'benh_hoc', slug))) +
     `<body>${topbar}
 <main class="bl-main"><article class="bl-article dl-article">
   <nav class="bl-crumb"><a href="/">Trang Chủ</a> › <a href="/thu-vien">Từ Điển</a> › <a href="/${escAttr(cfg.dir)}/">${escText(set.title)}</a> › <span>${escText(title)}</span></nav>
@@ -604,6 +609,10 @@ function writePage(kind, slug, html) {
   mkdirSync(dir, { recursive: true })
   writeFileSync(join(dir, 'index.html'), html, 'utf8')
 }
+
+// Nạp ghi-đè SEO TRƯỚC mọi vòng sinh trang. Không nối được kho thì hàm trả null và
+// mọi trang lặng lẽ dùng bản tự sinh — seo-cms.mjs đã in cảnh báo, đừng nuốt thêm.
+ghiDeSEO = await napGhiDe()
 
 // Hai trang HUB mục lục ("đường vào") — nhất là cho 727 kỳ huyệt vốn không nằm trên kinh nào.
 writePage('kinh', '', kinhIndexPage())

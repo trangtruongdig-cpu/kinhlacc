@@ -28,6 +28,12 @@ try {
 }
 try { require(join(BE, 'node_modules/dotenv')).config({ path: join(BE, '.env') }) } catch { /* env đã có sẵn từ môi trường runtime */ }
 
+import { napGhiDe } from './seo-cms.mjs'
+
+// Ghi đè SEO người biên tập gõ trong CMS. Nạp một lần ở đây; không nối được kho thì
+// hàm trả null và trang dùng bản tự sinh (seo-cms.mjs đã kêu, đừng nuốt cảnh báo).
+const ghiDeSEO = await napGhiDe()
+
 const distDir = process.env.DIST_DIR ? resolve(process.env.DIST_DIR) : resolve(root, 'dist')
 const DOMAIN = (process.env.SITE_DOMAIN || 'https://kinhlac.online').replace(/\/+$/, '')
 const indexPath = resolve(distDir, 'index.html')
@@ -224,13 +230,14 @@ function stub(v, rel) {
   let n = 0
   let nNoindex = 0
   for (const v of rows) {
-    const index = daBienSoan(v)
+    const gd = ghiDeSEO('duoc_lieu', String(v.id))
+    const index = gd?.noIndex ? false : daBienSoan(v)
     if (!index) nNoindex++
-    const url = `${DOMAIN}/duoc-lieu/${v.id}/`
+    const url = gd?.canonical || `${DOMAIN}/duoc-lieu/${v.id}/`
     const congDungNames = (rel.congDung.get(v.id) || []).map((r) => r.ten)
-    const title = `${v.ten_vi_thuoc} — Vị thuốc Đông Y${v.xuat_xu ? ' (' + v.xuat_xu + ')' : ''} | Kinh Lạc Trương Gia`
+    const title = gd?.title || `${v.ten_vi_thuoc} — Vị thuốc Đông Y${v.xuat_xu ? ' (' + v.xuat_xu + ')' : ''} | Kinh Lạc Trương Gia`
     const descSrc = v.mo_ta || v.chu_tri || (congDungNames.length ? `Công dụng: ${congDungNames.join(', ')}.` : '')
-    const desc = `Vị thuốc ${v.ten_vi_thuoc}${v.tinh || v.vi ? ` — tính ${v.tinh || '?'}, vị ${v.vi || '?'}` : ''}. ${descSrc}`.slice(0, 300)
+    const desc = gd?.description || `Vị thuốc ${v.ten_vi_thuoc}${v.tinh || v.vi ? ` — tính ${v.tinh || '?'}, vị ${v.vi || '?'}` : ''}. ${descSrc}`.slice(0, 300)
     const jsonLd = {
       '@context': 'https://schema.org', '@type': 'MedicalWebPage', inLanguage: 'vi', url,
       name: v.ten_vi_thuoc, description: desc, isAccessibleForFree: true,

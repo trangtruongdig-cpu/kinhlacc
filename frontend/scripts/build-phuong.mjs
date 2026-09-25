@@ -24,6 +24,12 @@ try {
 }
 try { require(join(BE, 'node_modules/dotenv')).config({ path: join(BE, '.env') }) } catch { /* env đã có sẵn từ môi trường runtime */ }
 
+import { napGhiDe } from './seo-cms.mjs'
+
+// Ghi đè SEO người biên tập gõ trong CMS. Nạp một lần ở đây; không nối được kho thì
+// hàm trả null và trang dùng bản tự sinh (seo-cms.mjs đã kêu, đừng nuốt cảnh báo).
+const ghiDeSEO = await napGhiDe()
+
 const distDir = process.env.DIST_DIR ? resolve(process.env.DIST_DIR) : resolve(root, 'dist')
 const DOMAIN = (process.env.SITE_DOMAIN || 'https://kinhlac.online').replace(/\/+$/, '')
 const indexPath = resolve(distDir, 'index.html')
@@ -120,12 +126,13 @@ function stub(b) {
   let n = 0
   let nNoindex = 0
   for (const b of rows) {
-    const url = `${DOMAIN}/bai-thuoc/${b.slug}/`
-    const index = duDay(b)
+    const gd = ghiDeSEO('bai_thuoc', b.slug)
+    const url = gd?.canonical || `${DOMAIN}/bai-thuoc/${b.slug}/`
+    const index = gd?.noIndex ? false : duDay(b)
     if (!index) nNoindex++
     const vi = (Array.isArray(b.thanh_phan) ? b.thanh_phan : []).map((t) => t.ten).filter(Boolean)
-    const title = `${b.ten} — bài thuốc Đông Y${b.xuat_xu ? ' (' + b.xuat_xu + ')' : ''} | Kinh Lạc Trương Gia`
-    const desc = `Bài thuốc ${b.ten}${b.tac_dung ? ' — ' + b.tac_dung : ''}. Thành phần: ${vi.slice(0, 8).join(', ')}.`.slice(0, 300)
+    const title = gd?.title || `${b.ten} — bài thuốc Đông Y${b.xuat_xu ? ' (' + b.xuat_xu + ')' : ''} | Kinh Lạc Trương Gia`
+    const desc = gd?.description || `Bài thuốc ${b.ten}${b.tac_dung ? ' — ' + b.tac_dung : ''}. Thành phần: ${vi.slice(0, 8).join(', ')}.`.slice(0, 300)
     const jsonLd = {
       '@context': 'https://schema.org', '@type': 'MedicalWebPage', inLanguage: 'vi', url,
       name: b.ten, description: desc, isAccessibleForFree: true,
