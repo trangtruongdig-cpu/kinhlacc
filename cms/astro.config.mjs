@@ -31,11 +31,17 @@ export default defineConfig({
 			// CA đọc từ file, không qua biến môi trường: PEM trải 26 dòng, nhét vào .env là vỡ.
 			// Chứng chỉ CA là công khai (xác minh máy chủ, không phải khoá bí mật) nên commit được.
 			database: postgres({
-				host: process.env.DB_HOST,
-				port: Number(process.env.DB_PORT ?? 5432),
-				database: process.env.DB_NAME,
-				user: process.env.DB_USER,
-				password: process.env.DB_PASSWORD,
+				// KHÔNG truyền host/port/user/password/database ở đây — CỐ Ý.
+				//
+				// astro.config.mjs chạy lúc BUILD, nên mọi process.env đọc ở đây bị ĐÓNG BĂNG
+				// vào bản dựng. Build trong Docker không có biến DB, nên trước đây chúng đóng
+				// băng thành undefined và pg rơi về mặc định localhost:5432 — container trên VPS
+				// báo ECONNREFUSED 127.0.0.1:5432 dù .env đủ biến. Còn nếu truyền biến vào lúc
+				// build thì MẬT KHẨU bị nhúng vĩnh viễn vào image.
+				//
+				// Để trống thì pg tự đọc PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE từ môi
+				// trường LÚC CHẠY — mật khẩu ở lại trong env, không vào image.
+				// (Đo được: grep "aivencloud.com" trong dist/ ra 1 file khi truyền tay, 0 khi để trống.)
 				ssl: {
 					ca: readFileSync(fileURLToPath(new URL("./aiven-ca.pem", import.meta.url)), "utf8"),
 					rejectUnauthorized: true,
