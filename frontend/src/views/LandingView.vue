@@ -2667,6 +2667,21 @@ const faqs: { q: string; a: string }[] = [
   background: var(--brown-600);
   color: var(--white);
 }
+/* Điện thoại: 3 nhãn (nhất là "Biện Chứng · Pháp Trị") không vừa 1 hàng nowrap → nút thứ 3 tràn ra
+   ngoài khung. Chia đều 3 cột, số đứng trên chữ, cho nhãn xuống dòng thay vì cuộn ngang. */
+@media (max-width: 600px) {
+  .mc-tab {
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: column;
+    gap: 3px;
+    padding: 8px 2px;
+    font-size: 11.5px;
+    line-height: 1.25;
+    text-align: center;
+    white-space: normal;
+  }
+}
 .mc-tabpanel {
   min-height: 210px; /* giữ chiều cao ổn định giữa các tab, tránh nhảy layout */
   animation: mc-fade 0.25s ease;
@@ -2853,6 +2868,11 @@ const faqs: { q: string; a: string }[] = [
   transition: background 0.15s, color 0.15s, border-color 0.15s;
 }
 .mc-t3-layer.on { background: var(--brown-600); border-color: var(--brown-600); color: var(--white); }
+/* Điện thoại: 4 nút bóc lớp gọn lại để nằm vừa 1 hàng (trước đây "Lục Kinh" rớt xuống hàng riêng). */
+@media (max-width: 600px) {
+  .mc-t3-layers { width: 100%; flex-wrap: nowrap; gap: 4px; }
+  .mc-t3-layer { flex: 1 1 auto; padding: 5px 4px; font-size: 11.5px; white-space: nowrap; }
+}
 .mc-t3-cap { font-size: 12px; color: var(--text-subtle); text-align: center; max-width: 42ch; line-height: 1.5; }
 
 /* Caption "Định vị" — CÙNG style/màu-theo-kinh với .lk-wheel-cap ở MeridianResultsView.vue, để
@@ -2942,6 +2962,10 @@ const faqs: { q: string; a: string }[] = [
 .mc-bcsummary :deep(.sum-why),
 .mc-bcsummary :deep(.ad-reason) {
   display: none !important;
+}
+/* Dãy chú giải màu đứng ngay trên dòng ghi chú (.mc-note) — chừa khoảng thở, không dính chữ. */
+.mc-bcsummary :deep(.sum-legend) {
+  margin-bottom: var(--space-3);
 }
 .mc-note {
   font-size: var(--font-size-xs);
@@ -4710,6 +4734,10 @@ const faqs: { q: string; a: string }[] = [
   }
   .mc-stats {
     grid-template-columns: repeat(2, 1fr);
+  }
+  /* Khối 3-tab đã nằm trong thẻ có lề riêng → bớt lề trong để nhường chỗ cho nội dung. */
+  .mc-readout {
+    padding: var(--space-4);
   }
   .mc-tbl {
     font-size: var(--font-size-xs);

@@ -192,6 +192,9 @@ const modalInfo = computed(() => {
 .ad-card--compact { justify-content: center; padding: var(--space-4); }
 .ad-card--compact .ad-svg { width: 240px; height: 240px; }
 .ad-fig { position: relative; flex: none; }
+/* Điện thoại: khối chữ (flex-basis 200px) không còn chỗ cạnh hình nên rớt xuống dưới — hình đứng
+   một mình ở hàng trên thì căn giữa, không dồn sát mép trái. (Khối chữ tự giãn hết hàng nên không đổi.) */
+@media (max-width: 560px) { .ad-card { justify-content: center; } }
 /* KHÔNG overflow:visible — mọi nội dung (kể cả vòng nét đứt dịch lệch tâm) phải nằm TRỌN trong
    viewBox (đã chừa dư biên ở CX/CY) để không tràn/che các phần tử khác cạnh khối này. */
 .ad-svg { width: 128px; height: 128px; display: block; filter: drop-shadow(0 3px 8px rgba(60, 40, 15, 0.22)); }
