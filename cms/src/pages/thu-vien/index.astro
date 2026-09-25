@@ -4,5 +4,5 @@ import { danhSachMuc } from "../../lib/traCuu";
 export const prerender = false;
 const muc = await danhSachMuc();
 const dau = muc.find((m) => m.so_muc > 0);
-return Astro.redirect(dau ? `/thu-vien/${dau.bo}/` : "/", 302);
+return Astro.redirect(dau?.duong_dan ?? "/", 301);
 ---

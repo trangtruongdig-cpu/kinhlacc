@@ -189,6 +189,44 @@ Node `^20.19.0 || >=22.12.0` per `frontend/package.json#engines`.
 ### Database migrations
 Apply files in `backend/sql/` manually with `psql` (or any client). **Back up before running**, especially `migrate-vi-thuoc-excel-schema.sql` which drops legacy columns. Do not rely on TypeORM `synchronize`.
 
+## Thư viện từ điển: nội dung sống trong CMS, KHÔNG còn là SPA
+
+Từ 25/09/2026, tám đường sau **do CMS (Astro/EmDash) dựng**, nginx đưa thẳng sang
+container `cms` (`frontend/nginx.conf`, khối "THƯ VIỆN TỪ ĐIỂN"):
+
+`/thu-vien/` · `/huyet/` · `/kinh/` · `/benh-hoc/` · `/cham-cuu-tri-benh/` ·
+`/duoc-lieu/` · `/bai-thuoc/` · `/nguon/` — tổng **18.416 mục từ**.
+
+Những điều dễ vấp:
+
+- **Đừng khai lại chúng làm route của Vue.** Làm vậy thì cùng một địa chỉ ra hai nội
+  dung: bấm link thì SPA dựng, tải lại trang thì CMS dựng. Mọi điều hướng phía máy
+  khách tới các đường đó đi qua route chốt `ra-thu-vien` (`views/RaThuVienView.vue`),
+  vốn ép một lần tải trang thật. Ở dev không có nginx nên chốt đó trỏ sang
+  `http://localhost:4321` — không có nhánh này thì lặp vô tận.
+- **Hai kiểu địa chỉ khác nhau**: dược liệu dùng `/duoc-lieu/<ID SỐ>/`, bài thuốc dùng
+  `/bai-thuoc/<slug chữ>/`. Đã kiểm trên site thật; SPA nhận mọi đường nên mã trả về
+  200 KHÔNG chứng minh gì — phải đọc `<title>`.
+- **`/duoc-lieu/nhom/…` VẪN tĩnh** (61 URL, do `build-nhom-duoc-ly.mjs` sinh từ bảng
+  nhóm dược lý của app). nginx chừa đường này ra TRƯỚC khối thư viện.
+- **Xem Lưỡi cố ý ở lại app** tại `/xem-luoi` (ảnh thật + đại diện ML, không phải nội
+  dung biên tập được). Trước đây nó là một tab của `/thu-vien`.
+- **`/app/tu-dien` vẫn còn nhưng không còn là tab sidebar** — chỉ phục vụ deep-link
+  `?acu=` / `?mer=` từ Kết Quả Đo và Kinh Mạch 3D, để tra huyệt ngay trong app lúc đang
+  khám. Tab "Từ Điển" ở sidebar nay mở `/thu-vien/`.
+- **Bản tĩnh trong `dist/` vẫn được build nhưng KHÔNG còn được phục vụ.** Giữ một nhịp
+  deploy để lùi được chỉ bằng cách sửa `nginx.conf`. Khi xoá, phải chuyển nguồn sinh
+  sitemap sang `td_muc` — hiện `gen-sitemap.mjs` + `build-phuong` + `build-duoc-lieu`
+  vẫn là nơi sinh ra 7.161 URL, và `kiem-sitemap.mjs` là cổng chặn.
+
+Tầng tra cứu (ô tìm, lọc đặc tính, duyệt A–Z) nằm ở `cms/sql/chi-muc-tra-cuu.sql` +
+`cms/src/lib/traCuu.ts`. `search()` của EmDash KHÔNG dùng được: FTS5 là của SQLite, trên
+Postgres nó là lệnh rỗng — không báo lỗi, chỉ trả về rỗng.
+
+Thêm cột nội dung mới cho một bộ thì phải khai tên cột vào mảng `than` trong
+`cms/scripts-di-cu/dung-chi-muc.mjs` rồi chạy lại, không thì nội dung mới hiện trên
+trang nhưng tra không bao giờ ra.
+
 ## Deployment paths
 
 **Only ONE deployment is live: Docker Compose on a VPS.** Verified 2026-09-18 — `kinhlac.online` serves the app; `kinhlac.vercel.app` returns `DEPLOYMENT_NOT_FOUND`.

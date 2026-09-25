@@ -168,7 +168,10 @@ const navItems: MucSidebar[] = [
   { name: 'Bệnh Tây Y', routeName: 'western-medicine', icon: 'stethoscope' },
   { name: 'Bệnh Đo Kinh Lạc', routeName: 'meridian-diseases', icon: 'rules' },
   { name: 'Kinh Mạch 3D', routeName: 'kinh-mach-3d', icon: 'activity' },
-  { name: 'Từ Điển', routeName: 'tu-dien', icon: 'book' },
+  // Từ Điển nay do CMS dựng (/thu-vien/ → /huyet/…). Route /app/tu-dien VẪN CÒN nhưng
+  // không còn là một tab: nó chỉ phục vụ deep-link ?acu= / ?mer= từ Kết Quả Đo và
+  // Kinh Mạch 3D, để thầy thuốc tra huyệt ngay trong app lúc đang khám.
+  { name: 'Từ Điển', routeName: 'thu-vien-cms', icon: 'book', ngoai: '/thu-vien/' },
   { name: 'Chẩn Đoán Lưỡi', routeName: 'chan-doan-luoi', icon: 'tongue' },
   { name: 'Quản Lý Thuốc', routeName: 'medicines', icon: 'pill' },
   { name: 'Triệu Chứng', routeName: 'symptoms', icon: 'clipboard' },

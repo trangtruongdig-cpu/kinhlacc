@@ -100,7 +100,7 @@ function tongueByCategory(cat: AtlasCategory): TongueAtlasEntry[] {
 // CTA "Xem Ảnh Lưỡi Thật" → mở thẳng tab "Xem Lưỡi" trong Thư Viện công khai (ảnh thật + đại diện ML,
 // component TongueAtlasPanel — landing chỉ có minh hoạ SVG, không kéo ảnh thật vào bundle trang chủ).
 function openTongueLibrary() {
-  router.push({ name: 'thu-vien', query: { tab: 'luoi' } })
+  router.push({ name: 'xem-luoi' })
 }
 
 // ── Nút "i" trong khối Tóm Tắt Bát Cương (BatCuongSummary, tab "Kết Quả Đo") — phát 'detail',

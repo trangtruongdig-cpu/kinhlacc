@@ -40,6 +40,8 @@ const [muc, dsChu, dsThe, { muc: ds, tong }] = await Promise.all([
 ]);
 
 const mucNay = muc.find((m) => m.bo === bo);
+// Mọi liên kết lọc/vần bám đường CŨ (/huyet/, /benh-hoc/…) — đó là đường chính.
+const duongMuc = mucNay?.duong_dan ?? `/thu-vien/${bo}/`;
 const tongBo = mucNay?.so_muc ?? 0;
 const soMuc = (n: number) => n.toLocaleString("vi-VN");
 
@@ -60,7 +62,7 @@ const duong = (tham: Record<string, string | undefined>) => {
 	const v = { van: chuCai, the, ...tham };
 	for (const [k, x] of Object.entries(v)) if (x) u.set(k, x);
 	const q = u.toString();
-	return `/thu-vien/${bo}/${q ? `?${q}` : ""}`;
+	return `${duongMuc}${q ? `?${q}` : ""}`;
 };
 
 const pageCtx = createPublicPageContext({
@@ -106,7 +108,7 @@ const pageCtx = createPublicPageContext({
 					muc
 						.filter((m) => m.so_muc > 0)
 						.map((m) => (
-							<a href={`/thu-vien/${m.bo}/`} class={m.bo === bo ? "dang" : ""}>
+							<a href={m.duong_dan} class={m.bo === bo ? "dang" : ""}>
 								{m.nhan}
 							</a>
 						))
@@ -171,7 +173,7 @@ const pageCtx = createPublicPageContext({
 				}
 
 				<nav class="tv-van" aria-label="Tra theo vần">
-					<a href={`/thu-vien/${bo}/${the ? `?the=${the}&` : "?"}van=`} class={chuCai ? "" : "dang"}>Tất cả</a>
+					<a href={`${duongMuc}${the ? `?the=${the}&` : "?"}van=`} class={chuCai ? "" : "dang"}>Tất cả</a>
 					{
 						CHU.filter((c) => coVan.has(c)).map((c) => (
 							<a

@@ -41,7 +41,7 @@ const activeFormula = computed<BaiThuoc | null>(() => formulas.value[activeIndex
 // Kho 13.942 bài thuốc nằm trong Thư Viện (/thu-vien, tab Bài Thuốc) —
 // CTA dẫn thẳng sang /thu-vien để người dùng tra cứu toàn bộ kho.
 function goFullCatalog() {
-  router.push({ name: 'thu-vien' })
+  router.push('/thu-vien/')
 }
 
 function nextFormula() {

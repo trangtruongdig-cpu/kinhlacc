@@ -5,10 +5,8 @@ import { ghiVetDoiTrang } from '@/lib/baoSuCo'
 const LandingView = () => import('@/views/LandingView.vue')
 const LoginView = () => import('@/views/LoginView.vue')
 const PublicKinhMach3DView = () => import('@/views/PublicKinhMach3DView.vue')
-const PublicTuDienView = () => import('@/views/PublicTuDienView.vue')
-const DuocLieuListView = () => import('@/views/DuocLieuListView.vue')
+const PublicXemLuoiView = () => import('@/views/PublicXemLuoiView.vue')
 const DuocLieuDetailView = () => import('@/views/DuocLieuDetailView.vue')
-const PhuongThuocListView = () => import('@/views/PhuongThuocListView.vue')
 const PhuongThuocDetailView = () => import('@/views/PhuongThuocDetailView.vue')
 const DemoKetQuaDoView = () => import('@/views/DemoKetQuaDoView.vue')
 const DemoBaiThuocView = () => import('@/views/DemoBaiThuocView.vue')
@@ -93,11 +91,30 @@ const router = createRouter({
       component: DemoBaiThuocView,
       meta: { requiresAuth: false },
     },
-    // Thư viện tra cứu CÔNG KHAI — mở ĐẦY ĐỦ (không cần đăng nhập).
+    // Thư viện tra cứu /thu-vien, /huyet/, /kinh/, /benh-hoc/, /cham-cuu-tri-benh/,
+    // /duoc-lieu/, /bai-thuoc/, /nguon/ KHÔNG còn là route của SPA — nginx đưa thẳng
+    // sang CMS (xem frontend/nginx.conf, khối "THƯ VIỆN TỪ ĐIỂN"). Khai lại ở đây thì
+    // cùng một địa chỉ ra hai nội dung khác nhau: bấm link thì SPA dựng, tải lại trang
+    // thì CMS dựng.
+    //
+    // Xem Lưỡi CỐ Ý ở lại app (ảnh thật, không phải nội dung biên tập được) nên tách
+    // thành trang riêng thay vì nằm trong tab của /thu-vien như trước.
+    // Chốt RA KHỎI SPA: mọi điều hướng phía máy khách tới đường của thư viện phải
+    // thành một lần tải trang THẬT, để nginx đưa sang CMS. Không có chốt này thì
+    // <RouterLink to="/duoc-lieu/1/"> rơi vào route bắt-hết và ra trang 404.
+    //
+    // ⚠️ Ở chế độ dev KHÔNG có nginx: tải lại chính địa chỉ đó thì Vite trả index.html,
+    // SPA lại vào đúng chốt này → lặp vô tận. Nên dev trỏ thẳng sang cổng của CMS.
     {
-      path: '/thu-vien',
-      name: 'thu-vien',
-      component: PublicTuDienView,
+      path: '/:duong(thu-vien|huyet|kinh|benh-hoc|cham-cuu-tri-benh|duoc-lieu|bai-thuoc|nguon)/:phan(.*)*',
+      name: 'ra-thu-vien',
+      component: () => import('@/views/RaThuVienView.vue'),
+      meta: { requiresAuth: false },
+    },
+    {
+      path: '/xem-luoi',
+      name: 'xem-luoi',
+      component: PublicXemLuoiView,
       meta: { requiresAuth: false },
     },
     // Bàn Xoay Biện Chứng CÔNG KHAI — tra cứu miễn phí (không cần đăng nhập).
@@ -105,32 +122,6 @@ const router = createRouter({
       path: '/tra-cuu-bien-chung',
       name: 'tra-cuu-bien-chung',
       component: TraCuuBienChungView,
-      meta: { requiresAuth: false },
-    },
-    // Từ điển dược liệu CÔNG KHAI (vị thuốc + thư viện ảnh theo giai đoạn).
-    {
-      path: '/duoc-lieu',
-      name: 'duoc-lieu',
-      component: DuocLieuListView,
-      meta: { requiresAuth: false },
-    },
-    {
-      path: '/duoc-lieu/:id',
-      name: 'duoc-lieu-detail',
-      component: DuocLieuDetailView,
-      meta: { requiresAuth: false },
-    },
-    // Từ điển BÀI THUỐC / cổ phương CÔNG KHAI (13.942 bài, nguồn legacy Đông Y Dược).
-    {
-      path: '/bai-thuoc',
-      name: 'bai-thuoc',
-      component: PhuongThuocListView,
-      meta: { requiresAuth: false },
-    },
-    {
-      path: '/bai-thuoc/:slug',
-      name: 'bai-thuoc-detail',
-      component: PhuongThuocDetailView,
       meta: { requiresAuth: false },
     },
     // Trang "Tin Cậy" (YMYL) — công khai.
