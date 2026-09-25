@@ -4,6 +4,8 @@
 //
 // Dùng cho mục nào mà bản cũ dựng thành lưới thẻ chứ không phải danh sách — hiện là
 // Dược Liệu. Đừng gộp vào ThuVienKhung: gộp thì một trong hai mục phải đổi bố cục.
+import "../styles/app-token.css";
+import "../styles/tu-dien-goc.css";
 import "../styles/thu-vien.css";
 import "../styles/tu-dien.css";
 import "../styles/the-duoc-lieu.css";
@@ -47,7 +49,7 @@ const pageCtx = createPublicPageContext({
 		{khongLap && <meta name="robots" content="noindex,follow" />}
 		<EmDashHead page={pageCtx} />
 	</head>
-	<body class="tv">
+	<body class="tv-than">
 		<EmDashBodyStart page={pageCtx} />
 
 		<header class="tv-dau">
@@ -60,24 +62,24 @@ const pageCtx = createPublicPageContext({
 		</header>
 
 		{/* ── Thanh tab ngang ─────────────────────────────────────────── */}
-		<nav class="tv-tab" aria-label="Các mục thư viện">
-			<div class="tv-tab-trong">
+		<div class="tudien-page">
+			<div class="td-tabs">
 				{
 					muc
 						.filter((m) => m.so_muc > 0)
 						.map((m) => (
-							<a href={m.duong_dan} class={m.bo === bo ? "dang" : ""}>
+							<a href={m.duong_dan} class:list={["td-tab", m.bo === bo && "active"]}>
 								{m.nhan}
 							</a>
 						))
 				}
-				<a href="/app/kinh-mach-3d" class="tv-tab-ngoai">🧭 Đồ Hình 3D</a>
+								<a href="/app/kinh-mach-3d" class="td-tab td-tab--link">🧭 Đồ Hình 3D</a>
 			</div>
-		</nav>
 
-		<main class="tv-rong">
-			<slot />
-		</main>
+			<main class="tv-rong">
+				<slot />
+			</main>
+		</div>
 
 		<EmDashBodyEnd page={pageCtx} />
 

@@ -1,16 +1,25 @@
 ---
-// ThuVienKhung.astro — Khung thư viện theo BỐ CỤC CŨ của app:
-//   thanh tab ngang  →  cột trái (ô tìm + bộ lọc + danh sách)  →  cột phải (nội dung).
+// ThuVienKhung.astro — Khung thư viện, dựng THEO ĐÚNG bản cũ của app.
 //
-// Khung này dùng chung cho CẢ trang mục (/thu-vien/<bo>/) lẫn trang một mục từ
-// (/huyet/<slug>/, /duoc-lieu/<id>/…), nên người đọc đi từ mục này sang mục khác mà
-// cột trái không biến mất — đúng như bản cũ.
+// Người dùng yêu cầu giữ Y NGUYÊN bố cục và kiểu chữ; nên khung này KHÔNG tự đặt ra
+// lớp CSS mới mà dùng lại chính bộ lớp .td-* của TuDienView.vue cũ (chép nguyên vào
+// src/styles/tu-dien-goc.css) trên nền token của app (src/styles/app-token.css).
+//
+//   .tudien-page → .td-tabs → .td-shell → .td-aside (.td-search + .td-list) + .td-main
+//
+// ⚠️ Đừng "sửa cho đẹp hơn" mấy lớp này. Hai lần trước tôi tự dò lại từng luật và cả
+// hai lần đều lệch — lệch mặt chữ (serif thay vì Inter) và lệch hình khối (nút bo
+// tròn thay vì bo 10px). Muốn phát triển thêm thì THÊM lớp mới, đừng sửa lớp cũ.
+import "../styles/app-token.css";
+import "../styles/tu-dien-goc.css";
 import "../styles/thu-vien.css";
 import "../styles/tu-dien.css";
 import { Font } from "astro:assets";
 import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
 import { createPublicPageContext } from "emdash/page";
 import { danhSachMuc, duyet, chuCaiCua, theLocCua, chuCaiCuaMuc } from "../lib/traCuu";
+import { truyVan } from "../lib/csdl";
+import { urlAnh } from "../utils/anh";
 
 interface Props {
 	bo: string;
@@ -27,8 +36,6 @@ const the = Astro.url.searchParams.get("the") || undefined;
 const MOI_TRANG = 400;
 
 // Đang mở một mục từ mà người đọc chưa tự chọn vần → mở sẵn đúng vần của mục đó.
-// Không làm vậy thì với 13.942 bài thuốc, mục đang xem nằm ngoài 400 dòng đầu và cột
-// trái không hề cho thấy mình đang đứng ở đâu.
 const vanCuaMuc = slug ? await chuCaiCuaMuc(bo, slug) : undefined;
 const chuCai = vanChon ?? vanCuaMuc;
 
@@ -40,15 +47,37 @@ const [muc, dsChu, dsThe, { muc: ds, tong }] = await Promise.all([
 ]);
 
 const mucNay = muc.find((m) => m.bo === bo);
-// Mọi liên kết lọc/vần bám đường CŨ (/huyet/, /benh-hoc/…) — đó là đường chính.
 const duongMuc = mucNay?.duong_dan ?? `/thu-vien/${bo}/`;
 const tongBo = mucNay?.so_muc ?? 0;
 const soMuc = (n: number) => n.toLocaleString("vi-VN");
 
+// Ảnh nhỏ + huy hiệu đếm trong danh sách — bản cũ có, và đó là thứ làm cột trái đọc
+// được bằng mắt. Chỉ mục td_muc không giữ chúng nên hỏi thẳng bảng nội dung một lượt
+// cho cả trang (slug = ANY(...)), không hỏi từng dòng.
+const PHU: Record<string, { anh?: boolean; dem?: string; donVi?: string }> = {
+	huyet_vi: { anh: true },
+	duoc_lieu: { anh: true, dem: "so_bai_thuoc", donVi: "bài" },
+	bai_thuoc: { dem: "so_benh", donVi: "bệnh" },
+};
+const phu = PHU[bo];
+const kemTheo = new Map<string, { anh?: string; dem?: number }>();
+if (phu && ds.length) {
+	const cot = ["slug", phu.anh ? "anh" : null, phu.dem ?? null].filter(Boolean).join(", ");
+	const hang = await truyVan<Record<string, unknown>>(
+		`SELECT ${cot} FROM ec_${bo} WHERE slug = ANY($1::text[]) AND deleted_at IS NULL`,
+		[ds.map((k) => k.slug)],
+	);
+	for (const h of hang) {
+		kemTheo.set(String(h.slug), {
+			anh: phu.anh ? urlAnh(h.anh, Astro.url.origin) : undefined,
+			dem: phu.dem ? Number(h[phu.dem]) || undefined : undefined,
+		});
+	}
+}
+
 const coVan = new Map(dsChu.map((v) => [v.chu_cai, v.n]));
 const CHU = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
 
-// Thẻ lọc gom theo nhóm, giữ thứ tự nhóm như dữ liệu trả về.
 const nhomThe: { nhom: string; ds: typeof dsThe }[] = [];
 for (const t of dsThe) {
 	let g = nhomThe.find((x) => x.nhom === t.nhom);
@@ -59,10 +88,20 @@ const theDangChon = dsThe.find((t) => t.ma_the === the);
 
 const duong = (tham: Record<string, string | undefined>) => {
 	const u = new URLSearchParams();
-	const v = { van: chuCai, the, ...tham };
-	for (const [k, x] of Object.entries(v)) if (x) u.set(k, x);
+	for (const [k, x] of Object.entries({ van: chuCai, the, ...tham })) if (x) u.set(k, x);
 	const q = u.toString();
 	return `${duongMuc}${q ? `?${q}` : ""}`;
+};
+
+// Câu gợi ý trong ô tìm, lấy đúng chữ của bản cũ cho từng mục.
+const GOI: Record<string, string> = {
+	huyet_vi: "Tìm huyệt / mã (LU9, ST36…) / tên khác / chỉ định (Ho, Đau Đầu…)",
+	kinh_mach: "Tìm kinh / mã (LU, ST…)",
+	cham_cuu_tri_benh: "Tìm bệnh / triệu chứng / tên khác",
+	benh_hoc: "Tìm bệnh / triệu chứng / tên khác",
+	duoc_lieu: "Tìm vị thuốc / tên Hán / tên khoa học…",
+	bai_thuoc: "Tìm bài thuốc…",
+	nguon_y_van: "Tìm sách / tác giả…",
 };
 
 const pageCtx = createPublicPageContext({
@@ -83,154 +122,165 @@ const pageCtx = createPublicPageContext({
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<Font cssVariable="--font-body" preload />
-		<Font cssVariable="--font-tu-dien" preload />
 		<title>{title}</title>
 		{description && <meta name="description" content={description} />}
 		{khongLap && <meta name="robots" content="noindex,follow" />}
 		<EmDashHead page={pageCtx} />
 	</head>
-	<body class="tv">
+	<body class="tv-than">
 		<EmDashBodyStart page={pageCtx} />
 
 		<header class="tv-dau">
 			<div class="tv-dau-trong">
-				<a class="tv-hieu" href="/thu-vien/">
-					Thư Viện Đông Y <span>Kinh Lạc</span>
-				</a>
+				<a class="tv-hieu" href="/thu-vien/">Thư Viện Đông Y <span>Kinh Lạc</span></a>
 				<a class="tv-ve" href="/">← Trang chủ</a>
 			</div>
 		</header>
 
-		{/* ── Thanh tab ngang ─────────────────────────────────────────── */}
-		<nav class="tv-tab" aria-label="Các mục thư viện">
-			<div class="tv-tab-trong">
+		<div class="tudien-page">
+			{/* ── Thanh tab — lớp .td-tabs/.td-tab của bản cũ ─────────────── */}
+			<div class="td-tabs">
 				{
 					muc
 						.filter((m) => m.so_muc > 0)
 						.map((m) => (
-							<a href={m.duong_dan} class={m.bo === bo ? "dang" : ""}>
+							<a href={m.duong_dan} class:list={["td-tab", m.bo === bo && "active"]}>
 								{m.nhan}
 							</a>
 						))
 				}
-				<a href="/app/kinh-mach-3d" class="tv-tab-ngoai">🧭 Đồ Hình 3D</a>
+				<a href="/app/kinh-mach-3d" class="td-tab td-tab--link">🧭 Đồ Hình 3D</a>
 			</div>
-		</nav>
 
-		<div class="tv-hai-cot">
-			{/* ── Cột trái: ô tìm + bộ lọc + danh sách ────────────────── */}
-			<aside class="tv-rai" aria-label={`Danh sách ${mucNay?.nhan ?? ""}`}>
-				<div class="tv-rai-tim">
-					<input
-						type="search"
-						placeholder={`Tìm trong ${mucNay?.nhan ?? "mục"}…`}
-						aria-label="Tìm trong mục"
-						data-rai-tim
-						data-bo={bo}
-						autocomplete="off"
-					/>
-					{/* Số KHỚP, không phải số dòng đang vẽ — cột trái chỉ dựng 400 dòng mỗi lượt,
-				    hiện "400 / 1.045" thì người đọc tưởng bộ lọc chỉ bắt được 400. */}
-					<span class="tv-rai-dem" data-rai-dem>{soMuc(tong)} / {soMuc(tongBo)}</span>
-				</div>
+			<div class="td-shell">
+				<aside class="td-aside">
+					<div class="td-search">
+						<input
+							type="search"
+							class="td-input"
+							placeholder={GOI[bo] ?? `Tìm trong ${mucNay?.nhan ?? "mục"}…`}
+							aria-label="Tìm trong mục"
+							autocomplete="off"
+							data-rai-tim
+							data-bo={bo}
+						/>
+						<span class="td-count" data-rai-dem>{soMuc(tong)} / {soMuc(tongBo)}</span>
+					</div>
 
-				{
-					nhomThe.length > 0 && (
-						<details class="tv-loc" open={!!the}>
-							<summary>
-								{theDangChon ? (
-									<>
-										<b>{theDangChon.ten}</b> <span class="tv-loc-bo">✕ bỏ lọc</span>
-									</>
-								) : (
-									"Lọc đặc tính"
-								)}
-							</summary>
-							<div class="tv-loc-than">
-								{the && (
-									<a class="tv-chip tv-chip-bo" href={duong({ the: undefined })}>
-										✕ Bỏ lọc
-									</a>
-								)}
-								{nhomThe.map((g) => (
-									<>
-										<p class="tv-loc-nhom">{g.nhom}</p>
-										<div class="tv-chips">
-											{g.ds.map((t) => (
-												<a
-													class={`tv-chip ${t.ma_the === the ? "dang" : ""}`}
-													href={duong({ the: t.ma_the === the ? undefined : t.ma_the })}
-												>
-													{t.ten} <em>{soMuc(t.n)}</em>
-												</a>
-											))}
-										</div>
-									</>
-								))}
+					{
+						nhomThe.length > 0 && (
+							<div class="td-filter">
+								<details class="tv-loc" open={!!the}>
+									<summary>
+										{theDangChon ? (
+											<>
+												⚲ <b>{theDangChon.ten}</b> <span class="tv-loc-bo">✕ bỏ lọc</span>
+											</>
+										) : (
+											"⚲ Lọc Đặc Tính"
+										)}
+									</summary>
+									<div class="tv-loc-than">
+										{the && (
+											<a class="tv-chip tv-chip-bo" href={duong({ the: undefined })}>
+												✕ Bỏ lọc
+											</a>
+										)}
+										{nhomThe.map((g) => (
+											<>
+												<p class="tv-loc-nhom">{g.nhom}</p>
+												<div class="tv-chips">
+													{g.ds.map((t) => (
+														<a
+															class={`tv-chip ${t.ma_the === the ? "dang" : ""}`}
+															href={duong({ the: t.ma_the === the ? undefined : t.ma_the })}
+														>
+															{t.ten} <em>{soMuc(t.n)}</em>
+														</a>
+													))}
+												</div>
+											</>
+										))}
+									</div>
+								</details>
 							</div>
-						</details>
-					)
-				}
-
-				<nav class="tv-van" aria-label="Tra theo vần">
-					<a href={`${duongMuc}${the ? `?the=${the}&` : "?"}van=`} class={chuCai ? "" : "dang"}>Tất cả</a>
-					{
-						CHU.filter((c) => coVan.has(c)).map((c) => (
-							<a
-								href={duong({ van: c === chuCai ? undefined : c })}
-								class={chuCai === c ? "dang" : ""}
-								title={`${coVan.get(c)} mục`}
-							>
-								{c}
-							</a>
-						))
+						)
 					}
-				</nav>
 
-				<ul class="tv-rai-ds" data-rai-ds>
-					{
-						ds.map((k) => (
-							<li>
-								<a href={`${k.duong_dan}${k.slug}/`} class={k.slug === slug ? "dang" : ""}>
-									<span class="ten">{k.tieu_de}</span>
-									{k.ten_khac && <span class="khac">{k.ten_khac}</span>}
+					<nav class="tv-van" aria-label="Tra theo vần">
+						<a href={`${duongMuc}${the ? `?the=${the}&` : "?"}van=`} class={chuCai ? "" : "dang"}>Tất cả</a>
+						{
+							CHU.filter((c) => coVan.has(c)).map((c) => (
+								<a
+									href={duong({ van: c === chuCai ? undefined : c })}
+									class={chuCai === c ? "dang" : ""}
+									title={`${coVan.get(c)} mục`}
+								>
+									{c}
 								</a>
-							</li>
-						))
+							))
+						}
+					</nav>
+
+					<ul class="td-list" data-rai-ds>
+						{
+							ds.map((k) => {
+								const x = kemTheo.get(k.slug);
+								return (
+									<li class:list={[k.slug === slug && "active"]}>
+										<a href={`${k.duong_dan}${k.slug}/`}>
+											{phu?.anh &&
+												(x?.anh ? (
+													<img class="thumb" src={x.anh} alt="" loading="lazy" />
+												) : (
+													<span class="thumb no-thumb">◉</span>
+												))}
+											<span class="nm">
+												{k.tieu_de}
+												{k.ten_khac && <small>{k.ten_khac.split("\n")[0]?.slice(0, 60)}</small>}
+											</span>
+											{x?.dem ? (
+												<span class="acu-nbenh">
+													{soMuc(x.dem)} {phu?.donVi}
+												</span>
+											) : null}
+										</a>
+									</li>
+								);
+							})
+						}
+						{ds.length === 0 && <li class="td-empty">Không khớp mục nào.</li>}
+					</ul>
+
+					{
+						tong > ds.length && (
+							<p class="tv-rai-con">
+								Còn {soMuc(tong - ds.length)} mục nữa — dùng ô tìm hoặc chọn vần ở trên.
+							</p>
+						)
 					}
-				</ul>
+				</aside>
 
-				{
-					tong > ds.length && (
-						<p class="tv-rai-con">
-							Còn {soMuc(tong - ds.length)} mục nữa — dùng ô tìm hoặc chọn vần ở trên.
-						</p>
-					)
-				}
-			</aside>
-
-			{/* ── Cột phải: nội dung ──────────────────────────────────── */}
-			<main class="tv-noi-dung">
-				<article class="dl-article">
+				<div class="td-main">
 					<slot />
-				</article>
-			</main>
+				</div>
+			</div>
 		</div>
 
 		<EmDashBodyEnd page={pageCtx} />
 
 		<script>
-			// Kéo mục đang xem vào tầm mắt trong CỘT TRÁI.
-			// ⚠️ Không dùng scrollIntoView: nó cuộn mọi khung cha, tức kéo luôn cả trang
-			// xuống và đẩy thanh tab ra khỏi màn hình. Đặt thẳng scrollTop của danh sách.
-			const dang = document.querySelector<HTMLElement>(".tv-rai-ds a.dang");
-			const khung = document.querySelector<HTMLElement>(".tv-rai-ds");
+			// Kéo mục đang xem vào tầm mắt TRONG cột trái.
+			// ⚠️ Không dùng scrollIntoView: nó cuộn mọi khung cha, kéo luôn cả trang xuống
+			// và đẩy thanh tab ra khỏi màn hình.
+			const dang = document.querySelector<HTMLElement>(".td-list li.active");
+			const khung = document.querySelector<HTMLElement>(".td-list");
 			if (dang && khung) {
 				khung.scrollTop = dang.offsetTop - khung.clientHeight / 2 + dang.clientHeight / 2;
 			}
 
-			// Ô tìm ở cột trái: gõ tới đâu lọc tới đó. Hỏi máy chủ thay vì tải cả danh
-			// mục về máy — Bài Thuốc có 13.942 mục, tải hết là vài megabyte mỗi lượt vào.
+			// Ô tìm: gõ tới đâu lọc tới đó. Hỏi máy chủ thay vì tải cả danh mục về máy —
+			// Bài Thuốc có 13.942 mục, tải hết là vài megabyte mỗi lượt vào trang.
 			const o = document.querySelector<HTMLInputElement>("[data-rai-tim]");
 			const ds = document.querySelector<HTMLUListElement>("[data-rai-ds]");
 			const dem = document.querySelector<HTMLElement>("[data-rai-dem]");
@@ -255,9 +305,7 @@ const pageCtx = createPublicPageContext({
 					hen = setTimeout(async () => {
 						const lan = ++phien;
 						try {
-							const r = await fetch(
-								`/thu-vien/goi-y.json?q=${encodeURIComponent(t)}&bo=${bo}&n=60`,
-							);
+							const r = await fetch(`/thu-vien/goi-y.json?q=${encodeURIComponent(t)}&bo=${bo}&n=60`);
 							const kq = await r.json();
 							if (lan !== phien) return; // bỏ kết quả về muộn khi gõ nhanh
 							dem.textContent = `${kq.length} tìm thấy`;
@@ -266,12 +314,12 @@ const pageCtx = createPublicPageContext({
 										.map(
 											(x: any) =>
 												`<li><a href="${an(x.duong_dan)}${encodeURIComponent(x.slug)}/">` +
-												`<span class="ten">${an(x.tieu_de)}</span>` +
-												(x.ten_khac ? `<span class="khac">${an(x.ten_khac)}</span>` : "") +
-												`</a></li>`,
+												`<span class="nm">${an(x.tieu_de)}` +
+												(x.ten_khac ? `<small>${an(x.ten_khac)}</small>` : "") +
+												`</span></a></li>`,
 										)
 										.join("")
-								: `<li class="tv-rai-khong">Không có mục nào khớp “${an(t)}”.</li>`;
+								: `<li class="td-empty">Không khớp mục nào.</li>`;
 						} catch {
 							/* mạng hỏng thì giữ nguyên danh sách đang có */
 						}
