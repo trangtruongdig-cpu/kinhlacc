@@ -10,9 +10,11 @@
 // Ghép lại là mạch THỂ BỆNH → PHÁP TRỊ → PHƯƠNG THUỐC — đúng cách thầy thuốc đọc một mục
 // bệnh. Đổ chữ liền khối là bắt người đọc tự tách lại cái vốn đã có cấu trúc.
 interface Props {
-	value: any;   // Portable Text
+	value: any;        // Portable Text
+	/** "tham_khao" bật nhận diện nghiên cứu lâm sàng: tên phương + nguồn, cỡ mẫu, kết quả. */
+	kieu?: "thuong" | "tham_khao";
 }
-const { value } = Astro.props;
+const { value, kieu = "thuong" } = Astro.props;
 
 // Rút chữ thuần từ một block Portable Text.
 const chu = (b: any): string =>
@@ -22,7 +24,18 @@ const NHAN = /^(\p{Lu}[\p{Lu}\s]{2,28}):\s*(.*)$/u;          // ĐIỀU TRỊ: �
 const THE  = /^(\p{Lu}[\p{L}\s]{2,24}):\s+(\S.*)$/u;          // Phong Độc: …
 const SACH = /^(Sách\s+\p{Lu}[\p{L}\s]+?)\s+(viết|ghi|chép|nói)\s*:\s*(.*)$/u;
 
+// ── Mục Tham Khảo: đo trên 939 dòng (25/09/2026) ─────────────────────────────
+//   20,8%  "Tên Phương (Nguồn 1992 (2): 401): thành phần…"
+//   18,5%  có cỡ mẫu — "trị 50 ca", "61 ca, nam 19, nữ 42"
+//   10,9%  có tỉ lệ kết quả
+// Đây KHÔNG phải danh mục tài liệu mà là nghiên cứu lâm sàng có số liệu — thứ phân biệt
+// trang khoa học với trang chép lại. Phải hiện cỡ mẫu và kết quả cho thấy được.
+const NGHIEN_CUU = /^(\p{Lu}[\p{L}\s]{2,60}?)\s*\(([^)]{6,})\)\s*:\s*(.*)$/u;
+const CO_MAU = /(\d{1,4})\s*ca\b/;
+const TI_LE  = /(\d{1,3}(?:[.,]\d)?)\s*%/;
+
 type Doan =
+	| { kieu: "nghien_cuu"; ten: string; nguon: string; than: string; coMau?: string; tiLe?: string }
 	| { kieu: "the"; ten: string; than: string }
 	| { kieu: "nhan"; nhan: string; than: string }
 	| { kieu: "sach"; sach: string; than: string }
@@ -35,6 +48,24 @@ const doan: Doan[] = (Array.isArray(value) ? value : [])
 		if (!t) return null;
 		let m = SACH.exec(t);
 		if (m) return { kieu: "sach", sach: m[1], than: m[3] } as Doan;
+		if (kieu === "tham_khao") {
+			const n = NGHIEN_CUU.exec(t);
+			if (n) return {
+				kieu: "nghien_cuu", ten: n[1].trim(), nguon: n[2].trim(), than: n[3],
+				coMau: CO_MAU.exec(t)?.[1], tiLe: TI_LE.exec(t)?.[1],
+			} as Doan;
+			// Dạng thứ hai, KHÔNG kèm ngoặc nguồn: "Dùng Ngải cứu trị 50 ca tử cung xuất huyết: …"
+			// Mẫu đầu tôi viết đòi có ngoặc nên bỏ sót hẳn dạng này — dữ liệu thật đa dạng hơn
+			// mẫu bắt gặp đầu tiên.
+			const ca = CO_MAU.exec(t);
+			if (ca) {
+				const c2 = /^(.*?\d{1,4}\s*ca\b[^:]*?):\s*(.*)$/u.exec(t);
+				return {
+					kieu: "nghien_cuu", ten: (c2?.[1] ?? t).trim(), nguon: "",
+					than: c2?.[2] ?? "", coMau: ca[1], tiLe: TI_LE.exec(t)?.[1],
+				} as Doan;
+			}
+		}
 		m = NHAN.exec(t);
 		if (m) return { kieu: "nhan", nhan: m[1], than: m[2] } as Doan;
 		m = THE.exec(t);
@@ -48,7 +79,11 @@ const doan: Doan[] = (Array.isArray(value) ? value : [])
 type Khoi = { the: string | null; noi: Doan[] };
 const khoi: Khoi[] = [];
 for (const d of doan) {
-	if (d.kieu === "the") khoi.push({ the: d.ten, noi: [{ kieu: "thuong", than: d.than }] });
+	if (d.kieu === "nghien_cuu") khoi.push({ the: null, noi: [d] });
+	// "KẾT QUẢ:" / "TÁC DỤNG:" đứng ngay sau một nghiên cứu là phần CỦA nghiên cứu đó.
+	else if (d.kieu === "nhan" && khoi.length && khoi[khoi.length - 1].noi.some((x) => x.kieu === "nghien_cuu"))
+		khoi[khoi.length - 1].noi.push(d);
+	else if (d.kieu === "the") khoi.push({ the: d.ten, noi: [{ kieu: "thuong", than: d.than }] });
 	else if (khoi.length && khoi[khoi.length - 1].the) khoi[khoi.length - 1].noi.push(d);
 	else {
 		if (!khoi.length || khoi[khoi.length - 1].the !== null) khoi.push({ the: null, noi: [] });
@@ -70,6 +105,33 @@ function tachPhuong(s: string): { truoc: string; phuong?: string; vi?: string[] 
 		<section class={k.the ? "yv-the" : "yv-tron"}>
 			{k.the && <h3 class="yv-the-ten">{k.the}</h3>}
 			{k.noi.map((d) => {
+				if (d.kieu === "nghien_cuu") {
+					const p = tachPhuong(d.than);
+					return (
+						<article class="yv-nc">
+							<header class="yv-nc-dau">
+								<span class="yv-nc-nhan">Nghiên cứu lâm sàng</span>
+								<h4 class="yv-nc-ten">{d.ten}</h4>
+								{d.nguon && <p class="yv-nc-nguon">📑 {d.nguon}</p>}
+							</header>
+							{(d.coMau || d.tiLe) && (
+								<div class="yv-nc-so">
+									{d.coMau && (
+										<span class="yv-so"><b>{d.coMau}</b> ca điều trị</span>
+									)}
+									{d.tiLe && (
+										<span class="yv-so yv-so-kq"><b>{d.tiLe}%</b> kết quả</span>
+									)}
+								</div>
+							)}
+							<div class="yv-nc-than">
+								{p.truoc && <p>{p.truoc}</p>}
+								{p.vi && <ul class="yv-vi">{p.vi.map((v) => (<li>{v}</li>))}</ul>}
+								{!p.truoc && !p.vi && <p>{d.than}</p>}
+							</div>
+						</article>
+					);
+				}
 				if (d.kieu === "sach")
 					return (
 						<blockquote class="yv-sach">

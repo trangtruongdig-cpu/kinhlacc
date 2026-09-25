@@ -121,3 +121,28 @@
 	.dl-article > h1 { font-size: 1.45rem; }
 	.yv-the { padding: .85rem .9rem; }
 }
+
+/* ── Thẻ NGHIÊN CỨU LÂM SÀNG (mục Tham Khảo) ────────────────────────
+   18,5% số dòng có cỡ mẫu, 10,9% có tỉ lệ kết quả. Đưa hai con số đó lên
+   trước là cách nhanh nhất cho người đọc đánh giá độ tin cậy. */
+.yv-nc {
+	border: 1px solid #cfe0e7; border-radius: 12px; background: #fbfdfe;
+	padding: 1rem 1.15rem; margin: 1rem 0;
+}
+.yv-nc-dau { margin-bottom: .6rem; }
+.yv-nc-nhan {
+	display: inline-block; font-size: .68rem; font-weight: 700; letter-spacing: .07em;
+	text-transform: uppercase; color: #1f5468; background: #e6f0f4;
+	border: 1px solid #cfe0e7; padding: .14rem .5rem; border-radius: 4px;
+}
+.yv-nc-ten { margin: .45rem 0 .2rem; font-size: 1.02rem; color: var(--nau-900); }
+.yv-nc-nguon { margin: 0; font-size: .84rem; color: #46707f; font-style: italic; }
+.yv-nc-so { display: flex; flex-wrap: wrap; gap: .5rem; margin: .7rem 0; }
+.yv-so {
+	font-size: .86rem; background: #fff; border: 1px solid #cfe0e7;
+	padding: .28rem .7rem; border-radius: 8px; color: #24505f;
+}
+.yv-so b { font-size: 1.05rem; color: #14384a; }
+.yv-so-kq { background: #e9f1e8; border-color: #cfe3cd; color: #2f5d2a; }
+.yv-so-kq b { color: #235e1d; }
+.yv-nc-than p { margin: .4rem 0; }

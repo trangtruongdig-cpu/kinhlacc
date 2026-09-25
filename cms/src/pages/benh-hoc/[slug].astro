@@ -37,7 +37,7 @@ const moTa = `${entry.data.title}: nguyên nhân, chẩn đoán và cách điề
 			{coPhan.map(([k, nhan]) => (
 				<section class="dl-phan">
 					<h2>{nhan}</h2>
-					<VanBanYVan value={entry.data[k]} />
+					<VanBanYVan value={entry.data[k]} kieu={k === "tham_khao" ? "tham_khao" : "thuong"} />
 				</section>
 			))}
 		</KhungSeoYKhoa>
