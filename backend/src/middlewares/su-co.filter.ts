@@ -4,16 +4,7 @@ import type { Request } from 'express';
 
 import { SuCoService } from '../controllers/su-co.controller';
 import type { BaoSuCoDto } from '../models/su-co.dto';
-
-/** Phần `req.user` mà JwtStrategy gắn vào — chỉ những trường bộ lọc này thật sự dùng. */
-interface RequestCoNguoiDung extends Request {
-  user?: {
-    id?: string | number;
-    kind?: string;
-    role?: string;
-    quanTri?: boolean;
-  };
-}
+import type { NguoiDungDaXacThuc } from './auth/access.util';
 
 /** Không ghi nhận lỗi của chính tab sự cố — ghi lỗi của bộ ghi lỗi là mở vòng lặp. */
 const BO_QUA_TIEN_TO = ['/su-co'];
@@ -52,7 +43,9 @@ export class SuCoExceptionFilter extends BaseExceptionFilter {
   private ghiNhan(exception: unknown, host: ArgumentsHost): void {
     if (host.getType() !== 'http') return;
 
-    const req = host.switchToHttp().getRequest<RequestCoNguoiDung>();
+    const req = host
+      .switchToHttp()
+      .getRequest<Request & { user?: NguoiDungDaXacThuc }>();
     const url = req?.originalUrl || req?.url || '';
     if (BO_QUA_TIEN_TO.some((t) => url.startsWith(t))) return;
 

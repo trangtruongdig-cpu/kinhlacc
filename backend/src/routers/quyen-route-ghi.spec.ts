@@ -35,14 +35,6 @@ const MIEN_TRU: Record<string, string> = {
     'Bệnh nhân tự sửa hồ sơ của chính mình — chặn bằng assertStaffOrOwner(req.user, id) trong hàm.',
   'patient.router.ts::id/fcm-token':
     'Bệnh nhân tự ghi token thiết bị của chính mình — assertStaffOrOwner.',
-
-  // ⏳ TẠM THỜI, XOÁ ĐƯỢC NGAY khi phiên làm module sự cố commit bản vá của họ.
-  // Tại HEAD hôm nay route này chưa gắn guard, chỉ tự kiểm `u.kind !== 'staff'` trong thân hàm
-  // (trả 200 {luu:false} thay vì 403). Họ đã sửa thành @UseGuards(NhanVienGuard) nhưng thay đổi
-  // còn chờ duyệt commit. Ghi miễn trừ ở đây để HEAD không đỏ vì việc của phiên khác — một bài
-  // kiểm đỏ sẵn sẽ dạy người ta phớt lờ nó. Khi bản vá kia vào, dòng này thành vô dụng và nên xoá.
-  'su-co.router.ts:fcm-token':
-    'TẠM THỜI: tự kiểm kind !== "staff" trong thân hàm; bản vá gắn guard đang chờ commit.',
 };
 
 interface Route {

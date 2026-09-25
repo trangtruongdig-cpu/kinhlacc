@@ -84,7 +84,12 @@ Một trang vỡ có thể bắn hàng nghìn sự kiện/phút; DB là Aiven, k
 
 `POST /su-co/bao` phải CÔNG KHAI: lỗi hay xảy ra nhất là ở trang đăng nhập và các
 trang công khai (landing, từ điển, kinh mạch 3D), lúc chưa có token. Bù lại: giới hạn
-theo IP, chặn payload > 8KB, che dữ liệu phía server.
+theo IP, trần thân request 128KB, che dữ liệu phía server.
+
+> Sửa 25/09/2026: đặc tả ban đầu ghi 8KB — quá chặt, một lô 50 tín hiệu kèm stack vượt ngay.
+> Cài đặt thật là 128KB, đặt trong `main.ts` TRƯỚC trần chung 20MB (body-parser bỏ qua nếu
+> thân request đã được lớp trước phân tích). Trần chung 20MB có lý do của nó — ảnh upload —
+> nhưng không được áp cho một cửa công khai.
 
 ## Giao diện
 

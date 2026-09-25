@@ -25,14 +25,8 @@ import type {
 import { Admin } from '../models/admin.model';
 import { Public } from '../middlewares/auth/public.decorator';
 import { QuanTriGuard } from '../middlewares/auth/quan-tri.guard';
-
-interface NguoiDungToken {
-  id?: string | number;
-  username?: string;
-  role?: string;
-  kind?: string;
-  quanTri?: boolean;
-}
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
+import type { NguoiDungDaXacThuc } from '../middlewares/auth/access.util';
 
 /**
  * Rút gọn IP: bỏ nhóm cuối.
@@ -59,7 +53,7 @@ function rutGonIp(raw: string | string[] | undefined): string | null {
 }
 
 /** Nhãn vai trò để đọc trên hồ sơ sửa lỗi — không phải để phân quyền. */
-function nhanVaiTro(u: NguoiDungToken | undefined): string | null {
+function nhanVaiTro(u: NguoiDungDaXacThuc | undefined): string | null {
   if (!u) return 'khach';
   if (u.kind === 'staff') return u.quanTri ? 'quan_tri' : u.role || 'nhan_vien';
   if (u.role === 'patient') return 'benh_nhan';
@@ -84,7 +78,7 @@ export class SuCoRouter {
   @Post('bao')
   async bao(
     @Body() body: BaoSuCoLoDto | BaoSuCoDto,
-    @Req() req: Request & { user?: NguoiDungToken },
+    @Req() req: Request & { user?: NguoiDungDaXacThuc },
   ) {
     const danhSach: BaoSuCoDto[] = Array.isArray(
       (body as BaoSuCoLoDto)?.danhSach,
@@ -103,14 +97,22 @@ export class SuCoRouter {
     return this.suCoService.ghiNhanLo(danhSach, ctx);
   }
 
-  /** Lưu token thiết bị của NHÂN VIÊN để nhận cảnh báo sự cố hạng nặng. */
+  /**
+   * Lưu token thiết bị của NHÂN VIÊN để nhận cảnh báo sự cố hạng nặng.
+   *
+   * Gắn `NhanVienGuard` dù thân hàm cũng tự kiểm `kind === 'staff'`: JwtAuthGuard toàn cục
+   * KHÔNG đủ vì token bệnh nhân cũng là token hợp lệ. Kiểm trong thân hàm thì đúng hôm nay
+   * nhưng vô hình với mọi phép rà soát quyền (vốn dò theo guard), và biến mất lặng lẽ nếu ai
+   * đó sửa lại hàm. Xem mục "Phân quyền — BA tầng" trong CLAUDE.md.
+   */
+  @UseGuards(NhanVienGuard)
   @Put('fcm-token')
   async luuFcmToken(
     @Body() body: { fcmToken?: string },
-    @Req() req: Request & { user?: NguoiDungToken },
+    @Req() req: Request & { user?: NguoiDungDaXacThuc },
   ) {
     const u = req.user;
-    if (!u || u.kind !== 'staff' || !u.id) return { luu: false };
+    if (!u || !u.id) return { luu: false };
     await this.adminRepo.update(String(u.id), {
       fcmToken: body?.fcmToken || null,
     });
