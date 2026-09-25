@@ -1,0 +1,99 @@
+---
+// KhungSeoYKhoa.astro — Khung SEO cho trang Bệnh Học và Châm Cứu Trị Bệnh.
+//
+// Chép từ build-dict.mjs (bản đang phục vụ /benh-hoc/ và /cham-cuu-tri-benh/ hiện nay).
+// Khác KhungSeoBaiViet ở chỗ dùng MedicalWebPage + MedicalEntity thay cho Article: đây là
+// trang tra cứu y khoa, không phải bài viết có tác giả.
+const SITE = "Kinh Lạc Trương Gia";
+const NGUOI_DUYET = "Trương Đình Trang";
+
+interface Props {
+	entry: any;
+	loai: "benh_hoc" | "cham_cuu_tri_benh";
+	/** Mục cùng tên bệnh ở nhóm kia, để dệt liên kết chéo như bản tĩnh đang làm. */
+	cheo?: { slug: string; ten: string } | null;
+	faq?: { q: string; a: string }[];
+}
+const { entry, loai, cheo = null, faq = [] } = Astro.props;
+const d = entry?.data ?? {};
+
+const goc = Astro.site?.origin ?? Astro.url.origin;
+const duong = loai === "benh_hoc" ? "benh-hoc" : "cham-cuu-tri-benh";
+const url = `${goc}/${duong}/${entry.slug}/`;
+const nhanNhom = loai === "benh_hoc" ? "Bệnh Học" : "Châm Cứu Trị Bệnh";
+
+const capNhat = (entry.data?.updatedAt ?? entry.updatedAt)
+	? new Date(entry.data?.updatedAt ?? entry.updatedAt).toISOString().slice(0, 10)
+	: "";
+
+const jsonLd: any[] = [
+	{
+		"@context": "https://schema.org", "@type": "MedicalWebPage",
+		name: d.title, inLanguage: "vi", url,
+		about: { "@type": "MedicalEntity", name: d.title,
+			...(d.doi_chieu_benh_danh ? { alternateName: d.doi_chieu_benh_danh } : {}) },
+		publisher: { "@type": "Organization", name: SITE,
+			logo: { "@type": "ImageObject", url: `${goc}/favicon.svg` } },
+	},
+	{
+		"@context": "https://schema.org", "@type": "BreadcrumbList",
+		itemListElement: [
+			{ "@type": "ListItem", position: 1, name: "Trang Chủ", item: `${goc}/` },
+			{ "@type": "ListItem", position: 2, name: "Từ Điển", item: `${goc}/thu-vien` },
+			{ "@type": "ListItem", position: 3, name: nhanNhom, item: `${goc}/${duong}/` },
+			{ "@type": "ListItem", position: 4, name: d.title, item: url },
+		],
+	},
+];
+if (faq.length)
+	jsonLd.push({
+		"@context": "https://schema.org", "@type": "FAQPage",
+		mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q,
+			acceptedAnswer: { "@type": "Answer", text: f.a } })),
+	});
+---
+
+{jsonLd.map((o) => (
+	<script type="application/ld+json" set:html={JSON.stringify(o).replace(/</g, "\\u003c")} />
+))}
+
+<nav class="bl-crumb">
+	<a href="/">Trang Chủ</a> › <a href="/thu-vien">Từ Điển</a> ›
+	<a href={`/${duong}/`}>{nhanNhom}</a> › <span>{d.title}</span>
+</nav>
+
+<p class="dl-byline">
+	<span class="bl-review-badge">✔ Đã rà soát chuyên môn</span> {NGUOI_DUYET}
+	{capNhat && <> · Cập nhật {capNhat}</>}
+</p>
+
+{d.doi_chieu_benh_danh && (
+	<p class="dl-doi-chieu"><strong>Đối chiếu bệnh danh:</strong> {d.doi_chieu_benh_danh}</p>
+)}
+
+<slot />
+
+{faq.length > 0 && (
+	<section class="bl-faq">
+		<h2>Câu Hỏi Thường Gặp</h2>
+		{faq.map((f) => (<details><summary>{f.q}</summary><p>{f.a}</p></details>))}
+	</section>
+)}
+
+{cheo && (
+	<div class="dl-cross">
+		<a href={`/${loai === "benh_hoc" ? "cham-cuu-tri-benh" : "benh-hoc"}/${cheo.slug}/`}>
+			{loai === "benh_hoc" ? "🩺 Xem cách Châm Cứu Trị" : "📖 Xem Bệnh Học về"} “{cheo.ten}” →
+		</a>
+	</div>
+)}
+
+<div class="bl-cta"><a href="/xem-3d">Khám Phá Đồ Hình Kinh Lạc 3D →</a></div>
+
+<aside class="bl-disclaimer" role="note">
+	<p class="bl-disc-title">⚕️ Miễn Trừ Y Tế</p>
+	<p>Thông tin trên trang này chỉ mang tính <strong>tham khảo &amp; học tập</strong> theo lý luận
+	Đông Y, không thay thế việc thăm khám, chẩn đoán hay điều trị của thầy thuốc có chuyên môn.
+	Khi có vấn đề sức khoẻ, hãy đến cơ sở y tế.</p>
+	<p class="bl-disc-meta">Rà soát chuyên môn: {NGUOI_DUYET} · Xem <a href="/quy-trinh-bien-tap">Quy Trình Biên Tập</a>.</p>
+</aside>

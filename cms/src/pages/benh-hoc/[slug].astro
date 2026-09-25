@@ -1,0 +1,44 @@
+---
+// Trang Bệnh Học — GIỮ NGUYÊN đường dẫn /benh-hoc/<slug>/ của bản tĩnh.
+// Tên collection là benh_hoc (gạch dưới, EmDash bắt buộc), nhưng URL phải gạch ngang.
+import { getEmDashEntry, getEmDashCollection, decodeSlug } from "emdash";
+import { PortableText } from "emdash/ui";
+import Base from "../../layouts/Base.astro";
+import KhungSeoYKhoa from "../../components/KhungSeoYKhoa.astro";
+
+const slug = decodeSlug(Astro.params.slug);
+if (!slug) return Astro.redirect("/404");
+
+const { entry, cacheHint, isPreview } = await getEmDashEntry("benh_hoc", slug);
+if (!entry) return Astro.redirect("/404");
+if (Astro.cache?.enabled && !isPreview) Astro.cache.set(cacheHint);
+
+// Liên kết chéo sang Châm Cứu Trị Bệnh cùng tên bệnh — bản tĩnh đang làm vậy.
+const { entries: ccdt } = await getEmDashCollection("cham_cuu_tri_benh", { limit: 200 });
+const cheoRec = ccdt.find((x) => (x.slug ?? x.id) === slug);
+const cheo = cheoRec ? { slug: cheoRec.slug ?? cheoRec.id, ten: cheoRec.data.title } : null;
+
+const PHAN: [string, string][] = [
+	["dai_cuong", "Đại Cương"], ["nguyen_nhan", "Nguyên Nhân"], ["chan_doan", "Chẩn Đoán"],
+	["dieu_tri", "Điều Trị"], ["benh_an", "Bệnh Án"], ["tham_khao", "Tham Khảo"],
+];
+const coPhan = PHAN.filter(([k]) => entry.data[k]);
+const moTa = `${entry.data.title}: nguyên nhân, chẩn đoán và cách điều trị theo Đông Y.`;
+---
+
+<Base title={`${entry.data.title} — Bệnh Học Đông Y`} description={moTa} type="article">
+	{isPreview && (
+		<div class="bang-xem-truoc" role="alert"><strong>Bản nháp — đang xem trước.</strong></div>
+	)}
+	<main class="bl-main"><article class="bl-article dl-article">
+		<KhungSeoYKhoa entry={entry} loai="benh_hoc" cheo={cheo}>
+			<h1>{entry.data.title}</h1>
+			{coPhan.map(([k, nhan]) => (
+				<section class="dl-phan">
+					<h2>{nhan}</h2>
+					<PortableText value={entry.data[k]} />
+				</section>
+			))}
+		</KhungSeoYKhoa>
+	</article></main>
+</Base>
