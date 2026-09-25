@@ -2,6 +2,7 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { KinhMach3dService } from '../controllers/kinh-mach-3d.controller';
 import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
 import { Public } from '../middlewares/auth/public.decorator';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 /**
  * API cho tính năng "Chấm Tay" của Đồ Hình Kinh Lạc 3D.
@@ -29,6 +30,7 @@ export class KinhMach3dRouter {
 
   /** Lưu (thay toàn bộ) bộ chốt + căn theo — yêu cầu đăng nhập. Trả luôn toạ độ gold. */
   @UseGuards(JwtAuthGuard)
+  @UseGuards(NhanVienGuard)
   @Post('anchors')
   saveAnchors(@Body() body: { points?: unknown; needles?: unknown }) {
     return this.service.saveAnchors(body ?? {});
@@ -36,6 +38,7 @@ export class KinhMach3dRouter {
 
   /** ⚙ Căn Tổng Thể: chạy solver trên các chốt gửi lên, KHÔNG lưu — yêu cầu đăng nhập. */
   @UseGuards(JwtAuthGuard)
+  @UseGuards(NhanVienGuard)
   @Post('recompute')
   recompute(@Body() body: { points?: unknown }) {
     return this.service.recompute(body?.points ?? {});

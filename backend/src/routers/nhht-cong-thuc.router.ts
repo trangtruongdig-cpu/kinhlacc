@@ -7,10 +7,12 @@ import {
   Put,
   Query,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { NhhtCongThucService } from '../controllers/nhht-cong-thuc.controller';
 import { Public } from '../middlewares/auth/public.decorator';
 import type { NhhtCongThuc } from '../models/nhht-cong-thuc.model';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 /** Ngũ Hành Hồi Tác — kho công thức (tra cứu · ca bệnh đối chiếu · thầy thuốc ghi đè). */
 @Controller('nhht')
@@ -45,6 +47,7 @@ export class NhhtCongThucRouter {
     return this.service.doiChieu();
   }
 
+  @UseGuards(NhanVienGuard)
   @Put('cong-thuc/:ma')
   ghiDe(
     @Param('ma') ma: string,
@@ -55,6 +58,7 @@ export class NhhtCongThucRouter {
   }
 
   /** Bỏ ghi đè, trả về bản engine sinh. */
+  @UseGuards(NhanVienGuard)
   @Post('cong-thuc/:ma/khoi-phuc')
   khoiPhuc(@Param('ma') ma: string) {
     return this.service.khoiPhuc(ma);

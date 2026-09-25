@@ -1,8 +1,25 @@
-import { Controller, Get, Post, Put, Delete, Param, Body, Query, ParseIntPipe, Request, BadRequestException, UseGuards } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Body,
+  Query,
+  ParseIntPipe,
+  Request,
+  BadRequestException,
+  UseGuards,
+} from '@nestjs/common';
 import { ChanDoanLuoiService } from '../controllers/chan-doan-luoi.controller';
-import { CreateChanDoanLuoiDto, UpdateChanDoanLuoiDto } from '../models/chan-doan-luoi.dto';
+import {
+  CreateChanDoanLuoiDto,
+  UpdateChanDoanLuoiDto,
+} from '../models/chan-doan-luoi.dto';
 import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
 import { Public } from '../middlewares/auth/public.decorator';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 @Controller('chan-doan-luoi')
 @UseGuards(JwtAuthGuard)
@@ -14,29 +31,43 @@ export class ChanDoanLuoiRouter {
     @Query('id_benh_nhan') idBenhNhan?: string,
     @Query('limit') limit?: string,
   ) {
-    if (idBenhNhan) return this.service.findByBenhNhan(parseInt(idBenhNhan, 10));
+    if (idBenhNhan)
+      return this.service.findByBenhNhan(parseInt(idBenhNhan, 10));
     return this.service.findAll(limit ? parseInt(limit, 10) : 50);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post('ml-search')
   async mlSearch(@Body() body: { image?: string }) {
-    if (!body.image) throw new BadRequestException('Thiếu dữ liệu ảnh (field: image)');
+    if (!body.image)
+      throw new BadRequestException('Thiếu dữ liệu ảnh (field: image)');
     return this.service.mlSearch(body.image);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post('analyze-image')
   async analyzeImage(@Body() body: { image?: string }) {
-    if (!body.image) throw new BadRequestException('Thiếu dữ liệu ảnh (field: image)');
+    if (!body.image)
+      throw new BadRequestException('Thiếu dữ liệu ảnh (field: image)');
     return this.service.analyzeImage(body.image);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post('label-image')
-  async labelImage(@Body() body: { image?: string; classId?: string; classVi?: string }) {
+  async labelImage(
+    @Body() body: { image?: string; classId?: string; classVi?: string },
+  ) {
     if (!body.image) throw new BadRequestException('Thiếu ảnh (field: image)');
-    if (!body.classId) throw new BadRequestException('Thiếu nhãn (field: classId)');
-    return this.service.labelImage(body.classId, body.classVi || body.classId, body.image);
+    if (!body.classId)
+      throw new BadRequestException('Thiếu nhãn (field: classId)');
+    return this.service.labelImage(
+      body.classId,
+      body.classVi || body.classId,
+      body.image,
+    );
   }
 
+  @UseGuards(NhanVienGuard)
   @Post('rebuild-embeddings')
   async rebuildEmbeddings() {
     return this.service.rebuildEmbeddings();
@@ -56,6 +87,7 @@ export class ChanDoanLuoiRouter {
     return this.service.getAtlasRepresentatives();
   }
 
+  @UseGuards(NhanVienGuard)
   @Post('atlas-representatives/rebuild')
   buildAtlasRepresentatives() {
     return this.service.buildAtlasRepresentatives();
@@ -68,6 +100,7 @@ export class ChanDoanLuoiRouter {
     return { success: true, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Post()
   async create(@Body() dto: CreateChanDoanLuoiDto, @Request() req: any) {
     const userId = req.user?.id ?? req.user?.sub ?? null;
@@ -75,12 +108,17 @@ export class ChanDoanLuoiRouter {
     return { success: true, id: item.id, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id')
-  async update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateChanDoanLuoiDto) {
+  async update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateChanDoanLuoiDto,
+  ) {
     const item = await this.service.update(id, dto);
     return { success: true, data: item };
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   async remove(@Param('id', ParseIntPipe) id: number) {
     await this.service.remove(id);

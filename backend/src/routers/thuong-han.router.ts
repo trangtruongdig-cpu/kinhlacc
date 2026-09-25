@@ -1,7 +1,16 @@
-import { Body, Controller, Get, Param, Put, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { ThuongHanService } from '../controllers/thuong-han.controller';
 import { Public } from '../middlewares/auth/public.decorator';
 import type { ThuongHanBenhCo } from '../models/thuong-han-benh-co.model';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 /** Thương Hàn Tạp Luận Bệnh — API đọc (lớp bóc, 6 kinh, và "định vị" bệnh cơ). */
 @Controller('thuong-han')
@@ -59,8 +68,12 @@ export class ThuongHanRouter {
   }
 
   /** Ghi đè tay bệnh cơ 1 pháp trị (rỗng = xoá ghi đè). */
+  @UseGuards(NhanVienGuard)
   @Put('benh-co/:id')
-  saveOverride(@Param('id') id: string, @Body() body: Partial<ThuongHanBenhCo>) {
+  saveOverride(
+    @Param('id') id: string,
+    @Body() body: Partial<ThuongHanBenhCo>,
+  ) {
     return this.service.saveOverride(Number(id), body);
   }
 }

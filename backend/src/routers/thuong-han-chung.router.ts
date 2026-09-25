@@ -7,10 +7,12 @@ import {
   Put,
   Query,
   Req,
+  UseGuards,
 } from '@nestjs/common';
 import { ThuongHanChungService } from '../controllers/thuong-han-chung.controller';
 import { Public } from '../middlewares/auth/public.decorator';
 import type { ThuongHanChungModel } from '../models/thuong-han-chung.model';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 /** Chứng–phương Thương Hàn: tra cứu · ca bệnh đối chiếu · thầy thuốc ghi đè. */
 @Controller('thuong-han-chung')
@@ -44,6 +46,7 @@ export class ThuongHanChungRouter {
     return this.service.findOne(slug);
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':slug')
   ghiDe(
     @Param('slug') slug: string,
@@ -53,6 +56,7 @@ export class ThuongHanChungRouter {
     return this.service.ghiDe(slug, patch, req.user?.username);
   }
 
+  @UseGuards(NhanVienGuard)
   @Post(':slug/khoi-phuc')
   khoiPhuc(@Param('slug') slug: string) {
     return this.service.khoiPhuc(slug);

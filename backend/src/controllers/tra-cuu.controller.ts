@@ -40,6 +40,22 @@ export interface MucTuDien {
 /** Tên tối thiểu 4 ký tự: ngắn hơn thì dễ khớp bừa ("Q.4", "Cam"). */
 const DO_DAI_TOI_THIEU = 4;
 const TOI_DA_MOI_LAN = 200;
+/**
+ * Trần SỐ PHẦN TỬ nhận vào mỗi lượt, tách khỏi `TOI_DA_MOI_LAN`.
+ *
+ * `TOI_DA_MOI_LAN` chỉ đếm tên KHÁC NHAU, nên nó không chặn được cái giá phải trả: gửi một
+ * tên lặp lại hàng triệu lần thì `goc.size` đứng ở 1 mãi mãi mà vòng lặp vẫn chạy `fold()`
+ * (normalize NFD + 4 regex) cho TỪNG phần tử. Đo thật: thân 12MB ≈ 1,14 triệu phần tử
+ * "Cam Thao" khoá event loop ~0,5s trên máy dev, và VPS 768MB thì chậm hơn.
+ *
+ * Đây là cửa @Public (khách chưa đăng nhập tra từ điển), tiến trình backend chỉ có MỘT, nên
+ * mỗi giây khoá là một giây cả API đứng: đo kinh lạc, app bệnh nhân, SSE. ThrottlerGuard
+ * không che được vì `json()` phân tích thân bài ở tầng middleware Express, TRƯỚC khi Nest
+ * gọi tới guard.
+ *
+ * 400 = gấp đôi trần logic 200, đủ dư cho lô lặp tên hợp lệ mà vẫn chặn đứng vòng lặp dài.
+ */
+const TOI_DA_PHAN_TU_NHAN = 400;
 const CACHE_TTL_MS = 10 * 60 * 1000;
 
 /**
@@ -71,13 +87,22 @@ export class TraCuuService {
   private napLuc = 0;
 
   private async napIndex(): Promise<void> {
-    if (this.nguonIndex && this.viThuocIndex && Date.now() - this.napLuc < CACHE_TTL_MS) return;
+    if (
+      this.nguonIndex &&
+      this.viThuocIndex &&
+      Date.now() - this.napLuc < CACHE_TTL_MS
+    )
+      return;
 
     // do_trich = số chỗ đang trích nguồn này. Khi nhiều bản ghi trùng nhau
     // sau chuẩn hoá mạnh, giữ bản ĐƯỢC TRÍCH NHIỀU NHẤT — đó là bản người
     // dùng thực sự đọc, và cũng là bản nên giữ nếu sau này gộp sổ nguồn.
-    const nguonRows: { ten: string; slug: string; ten_khac: string | null; do_trich: number }[] =
-      await this.repo.query(`
+    const nguonRows: {
+      ten: string;
+      slug: string;
+      ten_khac: string | null;
+      do_trich: number;
+    }[] = await this.repo.query(`
         select n.ten, n.slug, n.ten_khac,
                (select count(*) from nguon_phuong_thang x where x.nguon_id = n.id)
              + (select count(*) from nguon_vi_thuoc y where y.nguon_id = n.id) as do_trich
@@ -101,9 +126,10 @@ export class TraCuuService {
       }
     }
 
-    const viRows: { id: number; ten_vi_thuoc: string }[] = await this.repo.query(
-      `select id, ten_vi_thuoc from vi_thuoc where ten_vi_thuoc is not null`,
-    );
+    const viRows: { id: number; ten_vi_thuoc: string }[] =
+      await this.repo.query(
+        `select id, ten_vi_thuoc from vi_thuoc where ten_vi_thuoc is not null`,
+      );
     const viIdx = new Map<string, MucTuDien>();
     for (const r of viRows) {
       const t = String(r.ten_vi_thuoc || '').trim();
@@ -127,7 +153,13 @@ export class TraCuuService {
     await this.napIndex();
 
     const goc = new Map<string, string>(); // key chuẩn hoá -> tên gốc đầu tiên gặp
-    for (const raw of Array.isArray(tens) ? tens : []) {
+    // Cắt TRƯỚC khi lặp: xem TOI_DA_PHAN_TU_NHAN để biết vì sao trần theo tên-khác-nhau
+    // bên dưới không đủ.
+    const nhan = (Array.isArray(tens) ? tens : []).slice(
+      0,
+      TOI_DA_PHAN_TU_NHAN,
+    );
+    for (const raw of nhan) {
       const t = String(raw || '').trim();
       if (t.length < DO_DAI_TOI_THIEU || t.length > 140) continue;
       const k = fold(t);
@@ -146,7 +178,8 @@ export class TraCuuService {
     // Nguồn + vị thuốc: đối khớp trong index bộ nhớ.
     // Nguồn thử thêm khoá chuẩn hoá mạnh để dấu câu không cản việc khớp.
     for (const [k, tenGoc] of goc) {
-      const n = this.nguonIndex?.get(k) ?? this.nguonIndex?.get(foldManh(tenGoc));
+      const n =
+        this.nguonIndex?.get(k) ?? this.nguonIndex?.get(foldManh(tenGoc));
       if (n) them(tenGoc, n);
       const v = this.viThuocIndex?.get(k);
       if (v) them(tenGoc, v);
@@ -165,7 +198,8 @@ export class TraCuuService {
       );
       for (const r of rows) {
         const tenGoc = slugToKey.get(r.slug);
-        if (tenGoc) them(tenGoc, { loai: 'bai_thuoc', ten: r.ten, slug: r.slug });
+        if (tenGoc)
+          them(tenGoc, { loai: 'bai_thuoc', ten: r.ten, slug: r.slug });
       }
     }
 

@@ -1,6 +1,17 @@
-import { Controller, Get, Post, Put, Delete, Param, Query, Body } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Put,
+  Delete,
+  Param,
+  Query,
+  Body,
+  UseGuards,
+} from '@nestjs/common';
 import { Public } from '../middlewares/auth/public.decorator';
 import { NguonService, NguonInput } from '../controllers/nguon.controller';
+import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 
 /**
  * NguonRouter — SỔ CÁI TRÍCH DẪN (Thư Mục Nguồn).
@@ -44,24 +55,31 @@ export class NguonRouter {
   // ── Quản trị (cần JWT — không @Public) ──
   @Get('suggest-duplicates')
   suggest(@Query('loai') loai?: string, @Query('limit') limit?: string) {
-    return this.service.suggestDuplicates({ loai: loai ?? undefined, limit: limit ? Number(limit) : undefined });
+    return this.service.suggestDuplicates({
+      loai: loai ?? undefined,
+      limit: limit ? Number(limit) : undefined,
+    });
   }
 
+  @UseGuards(NhanVienGuard)
   @Post()
   create(@Body() body: NguonInput) {
     return this.service.create(body || {});
   }
 
+  @UseGuards(NhanVienGuard)
   @Post('merge')
   merge(@Body() body: { fromId: number; intoId: number }) {
     return this.service.merge(Number(body?.fromId), Number(body?.intoId));
   }
 
+  @UseGuards(NhanVienGuard)
   @Put(':id')
   update(@Param('id') id: string, @Body() body: NguonInput) {
     return this.service.update(+id, body || {});
   }
 
+  @UseGuards(NhanVienGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(+id);
