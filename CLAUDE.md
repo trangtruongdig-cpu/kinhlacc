@@ -56,7 +56,9 @@ DTO là *type* TS thuần nên biến mất khi biên dịch — không có gì 
 
 Connection pool tự nhận môi trường: `max: 1` + idle 1s khi có `VERCEL`/`AWS_LAMBDA_FUNCTION_NAME`, ngược lại `max: 10` + idle 30s + keepAlive (đè bằng `DB_POOL_MAX`, `DB_IDLE_TIMEOUT_MS`).
 
-TLS tới Postgres: đặt `DB_CA_CERT` (nội dung PEM) hoặc `DB_CA_CERT_FILE` (đường dẫn `ca.pem` tải từ trang service Aiven) để **xác minh chứng chỉ máy chủ**. Thiếu cả hai thì vẫn chạy nhưng rơi về `rejectUnauthorized: false` — có mã hoá, không xác minh danh tính — và ghi cảnh báo mỗi lần khởi động.
+TLS tới Postgres (`src/utils/db-ssl.util.ts`): xác minh chứng chỉ máy chủ được bật khi có cert, đọc theo thứ tự `DB_CA_CERT` (nội dung PEM) → `DB_CA_CERT_FILE` (đường dẫn) → **`CA_CERTIFICATE`** — tên Aiven tự đặt và là tên **đang có sẵn trong `backend/.env`**, nên trên môi trường thật xác minh bật mà không cần cấu hình thêm. Không có cert nào thì vẫn chạy nhưng rơi về `rejectUnauthorized: false` và ghi cảnh báo mỗi lần khởi động.
+
+Lưu ý về `backend/.env`: dùng `DB_HOST`/`DB_PORT`/`DB_USER`/`DB_PASSWORD`/`DB_NAME`, **không có** `DATABASE_URL`. `CA_CERTIFICATE` là PEM nhiều dòng đặt trong nháy kép — **đừng `source` cả file .env trong shell**, phải lọc dòng.
 
 ### CORS
 
