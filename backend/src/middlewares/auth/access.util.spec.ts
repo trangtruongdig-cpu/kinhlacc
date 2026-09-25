@@ -63,3 +63,39 @@ describe('NhanVienGuard', () => {
     );
   });
 });
+
+/**
+ * HỒI QUY cho GET /examinations/my-records.
+ *
+ * Route dùng `req.user.id` làm patientId. Với token bệnh nhân thì đúng; nhưng id tài khoản
+ * NHÂN VIÊN nằm ở không gian số khác, nên nhân viên gọi vào sẽ nhận phiếu đo của bệnh nhân
+ * TRÙNG SỐ id — trả ra dữ liệu người khác, im lặng, không ai báo.
+ */
+describe('Điều kiện chặn của /my-records', () => {
+  /** Chép đúng điều kiện trong examination.router.ts để bài kiểm gãy nếu ai nới nó ra. */
+  const duocPhep = (user?: {
+    role?: string;
+    id?: number | string;
+    kind?: string;
+  }) => user?.role === 'patient' && user?.id != null;
+
+  it('token bệnh nhân đi qua', () => {
+    expect(duocPhep({ role: 'patient', id: 42 })).toBe(true);
+  });
+
+  it('CHẶN token nhân viên — đây là chỗ từng trả hồ sơ của bệnh nhân trùng số id', () => {
+    expect(duocPhep({ kind: 'staff', role: 'le_tan', id: 42 })).toBe(false);
+  });
+
+  it('CHẶN token quản trị', () => {
+    expect(duocPhep({ kind: 'staff', role: 'quan_tri', id: 1 })).toBe(false);
+  });
+
+  it('CHẶN token bệnh nhân thiếu id', () => {
+    expect(duocPhep({ role: 'patient' })).toBe(false);
+  });
+
+  it('CHẶN khi không có user', () => {
+    expect(duocPhep(undefined)).toBe(false);
+  });
+});

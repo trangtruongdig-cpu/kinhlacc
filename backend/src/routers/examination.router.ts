@@ -1,5 +1,6 @@
 import {
   Controller,
+  ForbiddenException,
   Get,
   Post,
   Put,
@@ -24,7 +25,10 @@ import { ChanDoanLuu, DonThuocLuu } from '../models/examination.model';
 import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
 import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
 import { ChanLeTanTaoKhamGuard } from '../middlewares/auth/chan-le-tan-tao-kham.guard';
-import { assertStaffOrOwner } from '../middlewares/auth/access.util';
+import {
+  assertStaffOrOwner,
+  RequestDaXacThuc,
+} from '../middlewares/auth/access.util';
 
 @Controller('examinations')
 export class ExaminationsRouter {
@@ -109,21 +113,37 @@ export class ExaminationsRouter {
   @Get('patient/:patientId')
   findByPatient(
     @Param('patientId', ParseIntPipe) patientId: number,
-    @Request() req: any,
+    @Request() req: RequestDaXacThuc,
   ) {
     assertStaffOrOwner(req.user, patientId);
     return this.examinationsService.findByPatient(patientId);
   }
 
+  /**
+   * Bệnh nhân tự xem phiếu đo của CHÍNH MÌNH.
+   *
+   * Chặn token nhân viên: `req.user.id` của tài khoản nhân viên nằm ở KHÔNG GIAN SỐ KHÁC với
+   * id bệnh nhân, nên nhân viên gọi route này sẽ nhận về phiếu đo của bệnh nhân TRÙNG SỐ id —
+   * không leo thang quyền (nhân viên vốn xem được mọi hồ sơ) nhưng là dữ liệu của người khác,
+   * trả ra im lặng, không ai báo. Nhân viên phải dùng GET /examinations/patient/:patientId.
+   */
   @UseGuards(JwtAuthGuard)
   @Get('my-records')
-  findMyRecords(@Request() req: any) {
-    return this.examinationsService.findByPatient(req.user.id);
+  findMyRecords(@Request() req: RequestDaXacThuc) {
+    if (req.user?.role !== 'patient' || req.user?.id == null) {
+      throw new ForbiddenException(
+        'Route này chỉ dành cho tài khoản bệnh nhân. Nhân viên hãy dùng /examinations/patient/:patientId.',
+      );
+    }
+    return this.examinationsService.findByPatient(Number(req.user.id));
   }
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number, @Request() req: any) {
+  async findOne(
+    @Param('id', ParseIntPipe) id: number,
+    @Request() req: RequestDaXacThuc,
+  ) {
     const exam = await this.examinationsService.findOne(id);
     if (exam) {
       assertStaffOrOwner(req.user, exam.patientId);
