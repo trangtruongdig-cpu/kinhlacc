@@ -37,9 +37,20 @@ RUN mkdir -p /app/uploads && chown -R node:node /app
 USER node
 
 EXPOSE 4321
-# Chỉ xác nhận tiến trình Astro còn sống. KHÔNG chạm DB: nếu Aiven chập chờn mà healthcheck
-# fail thì Docker sẽ restart vòng tròn, làm hỏng nặng hơn là để nó trả lỗi cho từng request.
-HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 \
-  CMD wget -qO- http://127.0.0.1:4321/_emdash/admin/login >/dev/null 2>&1 || exit 1
+# Healthcheck PHẢI chạm database, không chỉ kiểm tiến trình sống.
+#
+# Lý do đổi (25/09/2026): lần khởi động đầu trên VPS, hai kết nối cùng chạy migration một lúc
+# nên một cái vấp "duplicate key ... pg_type_typname_nsp_index", rồi EmDash vào trạng thái
+# "backing off after a recent migration failure" và KẸT VĨNH VIỄN — tiến trình vẫn sống, trang
+# admin vẫn trả 200, nhưng mọi API trả 500 NOT_CONFIGURED. Healthcheck cũ chỉ kiểm tiến trình
+# nên báo "healthy" trong khi CMS thật ra đã chết. Phải restart tay mới khỏi.
+#
+# /_emdash/api/media chạm DB: 401 (chưa đăng nhập) = khoẻ; 500 = chưa khởi tạo được.
+# retries=5 với interval=30s nghĩa là phải hỏng liên tục 2,5 phút mới restart — đủ rộng để
+# một cơn chập chờn của Aiven không gây restart vòng tròn, nhưng trạng thái kẹt thì tự thoát.
+# Dùng node chứ không phải wget: với mã 401 thì wget thoát lỗi TRƯỚC khi kịp in header, nên
+# không phân biệt được "401 = khoẻ, chỉ chưa đăng nhập" với "500 = chết". Node có sẵn trong image.
+HEALTHCHECK --interval=30s --timeout=10s --start-period=45s --retries=5 \
+  CMD node -e "fetch('http://127.0.0.1:4321/_emdash/api/media').then(r=>{process.exit(r.status>=500?1:0)}).catch(()=>process.exit(1))" 
 
 CMD ["node", "./dist/server/entry.mjs"]
