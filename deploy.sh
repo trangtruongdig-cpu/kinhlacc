@@ -44,6 +44,14 @@ docker compose build cms
 echo "==> [5/7] Build FRONTEND (riêng)"
 docker compose build frontend
 
+# nginx.conf sai cú pháp thì container KHÔNG lên nổi, và lúc đó cả site chết chứ không chỉ
+# một tính năng. Kiểm ngay trên image vừa dựng, trước khi thay container đang chạy.
+echo "    · kiểm cú pháp nginx.conf"
+if ! docker run --rm --entrypoint nginx kinhlac/frontend:latest -t 2>&1 | tail -2; then
+  echo "    ✗ nginx.conf SAI CÚ PHÁP — dừng, KHÔNG thay container đang chạy."
+  exit 1
+fi
+
 echo "==> [6/7] Khởi động lại các service"
 docker compose up -d
 
