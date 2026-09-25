@@ -38,7 +38,6 @@ const BanXoayBienChungView = () => import('@/views/BanXoayBienChungView.vue')
 const BienChungLuanTriView = () => import('@/views/BienChungLuanTriView.vue')
 const TraCuuBienChungView = () => import('@/views/TraCuuBienChungView.vue')
 const KinhMach3DView = () => import('@/views/KinhMach3DView.vue')
-const TuDienView = () => import('@/views/TuDienView.vue')
 const UsersView = () => import('@/views/UsersView.vue')
 const SeoRadarView = () => import('@/views/SeoRadarView.vue')
 const SuCoView = () => import('@/views/SuCoView.vue')
@@ -307,12 +306,11 @@ const router = createRouter({
           component: KinhMach3DView,
           meta: { page: 'kinh-mach-3d' },
         },
-        {
-          path: 'tu-dien',
-          name: 'tu-dien',
-          component: TuDienView,
-          meta: { page: 'tu-dien' },
-        },
+        // Tab Từ Điển ĐÃ GỠ (25/09/2026) — thư viện nay do CMS dựng ở /huyet/, /kinh/,
+        // /duoc-lieu/… Link cũ dạng ?acu=<mã số> nay đi qua /huyet/id/<n>/, đổi mã của
+        // bộ Từ Điển 1.059 sang slug rồi chuyển 301 (cột ma_cu trong CMS).
+        // Hai route chi tiết dưới đây GIỮ LẠI: chúng mở trong DashboardLayout, dùng khi
+        // kê đơn — không được văng thầy thuốc ra ngoài giữa ca.
         // Chi tiết dược liệu / bài thuốc XEM TRONG APP (giữ trong DashboardLayout — không văng ra trang public).
         {
           path: 'duoc-lieu/:id',

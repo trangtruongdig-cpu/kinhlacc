@@ -25,13 +25,17 @@ export function useDictLinks() {
     baiThuoc(slug: string): RouteLocationRaw {
       return inApp.value ? { name: 'app-bai-thuoc-detail', params: { slug } } : `/bai-thuoc/${slug}/`
     },
-    /** Quay về danh sách dược liệu. */
+    /**
+     * Quay về danh sách dược liệu.
+     * Trong app không còn tab Từ Điển nữa nên về Quản Lý Thuốc — vẫn ở trong app,
+     * không văng thầy thuốc ra ngoài giữa ca.
+     */
     duocLieuList(): RouteLocationRaw {
-      return inApp.value ? { name: 'tu-dien' } : '/duoc-lieu/'
+      return inApp.value ? { name: 'medicines', query: { tab: 'vi-thuoc' } } : '/duoc-lieu/'
     },
-    /** Mở Thư Mục Nguồn tới 1 nguồn cụ thể. */
+    /** Mở Thư Mục Nguồn tới 1 nguồn cụ thể (thư viện CMS, cả hai ngữ cảnh). */
     nguon(slug: string): RouteLocationRaw {
-      return inApp.value ? { name: 'tu-dien', query: { nguon: slug } } : `/nguon/${slug}/`
+      return `/nguon/${slug}/`
     },
   }
 }

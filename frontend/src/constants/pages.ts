@@ -14,6 +14,8 @@ export const APP_PAGES: AppPage[] = [
   { key: 'western-medicine', label: 'Bệnh Tây Y' },
   { key: 'meridian-diseases', label: 'Bệnh Đo Kinh Lạc' },
   { key: 'kinh-mach-3d', label: 'Kinh Mạch 3D' },
+  // Khoá này nay chi phối: mục Từ Điển ở sidebar (mở thư viện CMS) + hai trang chi
+  // tiết in-app /app/duoc-lieu/:id và /app/bai-thuoc/:slug dùng khi kê đơn.
   { key: 'tu-dien', label: 'Từ Điển' },
   { key: 'medicines', label: 'Quản Lý Thuốc' },
   { key: 'symptoms', label: 'Triệu Chứng' },
