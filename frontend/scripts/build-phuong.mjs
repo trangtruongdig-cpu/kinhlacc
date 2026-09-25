@@ -76,7 +76,7 @@ const chuNhinThay = (b) =>
 const duDay = (b) =>
   soVi(b) >= MIN_SO_VI && chuoi(b.tac_dung).length > 0 && chuNhinThay(b).length >= MIN_CHU_HIEN
 
-function stub(b) {
+function stub(b, nguonCua) {
   const tp = Array.isArray(b.thanh_phan) ? b.thanh_phan : []
   const ing = tp.map((t) => {
     const name = escText(t.ten) + (t.lieu ? ` <span>${escText(t.lieu)}</span>` : '')
@@ -87,6 +87,14 @@ function stub(b) {
     + `<h1>${escText(b.ten)}</h1>`
     + (b.xuat_xu ? `<p>Xuất xứ: <strong>${escText(b.xuat_xu)}</strong></p>` : '')
     + (b.tac_gia ? `<p>Tác giả: <strong>${escText(b.tac_gia)}</strong></p>` : '')
+    // Liên kết VỀ NGUỒN. Trước đây xuất xứ chỉ là chữ chết trong <strong>: 13.937 trang
+    // ghi tên sách mà không trỏ đi đâu. Quan hệ lấy từ bảng nối nguon_phuong_thang
+    // (32.194 liên kết) chứ KHÔNG khớp chuỗi — chuỗi xuat_xu có 3.217 biến thể.
+    + (nguonCua.length
+        ? `<p>Nguồn y văn: ${nguonCua
+            .map((g) => `<a href="/nguon/${escAttr(g.slug)}/">${escText(g.ten)}</a>`)
+            .join(', ')}</p>`
+        : '')
     + (b.tac_dung ? `<h2>Tác dụng</h2><p>${escText(b.tac_dung)}</p>` : '')
     + (ing ? `<h2>Thành phần (${tp.length} vị)</h2><ul>${ing}</ul>` : '')
     + (b.cach_dung ? `<h2>Cách bào chế & sử dụng</h2><p>${escText(b.cach_dung)}</p>` : '')
@@ -120,6 +128,24 @@ function stub(b) {
   const rows = (await client.query(
     'SELECT id, ten, slug, xuat_xu, tac_gia, thanh_phan, cach_dung, tac_dung, ghi_chu FROM phuong_thang ORDER BY id',
   )).rows
+
+  // Bản đồ bài thuốc → nguồn, lấy MỘT lần rồi gom trong JS. Truy vấn theo từng bài là
+  // 13.942 lượt đi-về tới Aiven — đủ để biến khâu này thành hàng chục phút.
+  const nguonTheoBai = new Map()
+  try {
+    for (const r of (await client.query(
+      `SELECT np.phuong_thang_id AS pid, n.slug, n.ten FROM nguon_phuong_thang np
+       JOIN nguon n ON n.id = np.nguon_id
+       WHERE n.slug IS NOT NULL AND n.slug <> '' ORDER BY n.ten`,
+    )).rows) {
+      if (!nguonTheoBai.has(r.pid)) nguonTheoBai.set(r.pid, [])
+      nguonTheoBai.get(r.pid).push(r)
+    }
+    console.log(`  nguồn y văn: ${nguonTheoBai.size} bài thuốc có liên kết về nguồn.`)
+  } catch (e) {
+    // Bảng nối chưa có thì trang vẫn dựng, chỉ mất phần link — KHÔNG làm gãy build.
+    console.warn('⚠ build-phuong: không đọc được nguon_phuong_thang (' + e.message + ') — bỏ khối liên kết nguồn.')
+  }
   await client.end()
 
   const urls = []
@@ -151,7 +177,7 @@ function stub(b) {
     // Không dùng \s* (chỉ khớp div RỖNG): nếu prerender-seo.mjs (route "/") chạy trước và đã
     // ghi đè dist/index.html với stub của TRANG CHỦ, div không còn rỗng nữa → [\s\S]*? khớp
     // được nội dung cũ và thay đúng, tránh mọi trang bài thuốc lặp lại nội dung trang chủ.
-    html = html.replace(/<div id="app">[\s\S]*?<\/div>/i, `<div id="app">${stub(b)}</div>`)
+    html = html.replace(/<div id="app">[\s\S]*?<\/div>/i, `<div id="app">${stub(b, nguonTheoBai.get(b.id) || [])}</div>`)
 
     const outDir = join(distDir, 'bai-thuoc', b.slug)
     mkdirSync(outDir, { recursive: true })

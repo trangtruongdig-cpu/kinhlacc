@@ -23,13 +23,16 @@ const smPath = resolve(distDir, 'sitemap.xml')
 
 // [nhãn, mẫu khớp, ngưỡng tối thiểu, số thật lúc đo]
 const NGUONG = [
-  ['TỔNG',            null,                  6000, 7161],
+  ['TỔNG',            null,                  7800, 9206],
   ['/bai-thuoc/',     '/bai-thuoc/',         4000, 5984],
   ['/duoc-lieu/',     '/duoc-lieu/',          150,  268],
   ['/huyet/',         '/huyet/',              600,  662],
   ['/cham-cuu-tri-benh/', '/cham-cuu-tri-benh/', 80,  101],
   ['/benh-hoc/',      '/benh-hoc/',            80,  101],
   ['/blog/',          '/blog/',                 8,   12],
+  // Thư mục nguồn: 2.139 nguồn, 2.044 có ít nhất một mục trích dẫn (95 nguồn không ai
+  // trích → noindex, không vào sitemap). Ngưỡng 1500 ≈ 73% số thật, cùng cỡ các nhóm khác.
+  ['/nguon/',         '/nguon/',             1500, 2045],
 ]
 
 if (!existsSync(smPath)) {

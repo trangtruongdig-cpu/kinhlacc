@@ -100,6 +100,7 @@ function stub(v, rel) {
   const anh = rel.anh.get(v.id) || []
   const baiThuoc = rel.baiThuoc.get(v.id) || []
   const nhom = rel.nhom.get(v.id) || []
+  const nguon = rel.nguon.get(v.id) || []
 
   const chipList = (label, rows, field) => rows.length
     ? `<h2>${label}</h2><ul>${rows.map((r) => `<li>${escText(r[field])}</li>`).join('')}</ul>`
@@ -135,6 +136,9 @@ function stub(v, rel) {
 
   return '<div data-seo-stub>'
     + `<nav aria-label="Breadcrumb"><a href="/">Trang Chủ</a> › <a href="/duoc-lieu/">Từ Điển Dược Liệu</a> › ${escText(v.ten_vi_thuoc)}</nav>`
+    + (nguon.length
+        ? `<p>Nguồn y văn: ${nguon.map((g) => `<a href="/nguon/${escAttr(g.slug)}/">${escText(g.ten)}</a>`).join(', ')}</p>`
+        : '')
     + `<h1>${escText(v.ten_vi_thuoc)}</h1>`
     + (idBlock ? `<p>${idBlock}</p>` : '')
     + (tvqk ? `<p>${tvqk}</p>` : '')
@@ -203,6 +207,18 @@ function stub(v, rel) {
       FROM nhom_nho_vi_thuoc nnv
       JOIN nhom_nho_duoc_ly nn ON nn.id = nnv.id_nhom_nho
       JOIN nhom_lon_duoc_ly nl ON nl.id = nn.id_nhom_lon`)
+
+  // Liên kết VỀ NGUỒN. Trước đây trang dược liệu không trỏ về thư mục nguồn nào.
+  // Quan hệ lấy từ bảng nối nguon_vi_thuoc (1.322 liên kết), KHÔNG khớp chuỗi.
+  let nguonQ = { rows: [] }
+  try {
+    nguonQ = await client.query(
+      `SELECT nv.vi_thuoc_id AS id_vi_thuoc, n.slug, n.ten FROM nguon_vi_thuoc nv
+       JOIN nguon n ON n.id = nv.nguon_id
+       WHERE n.slug IS NOT NULL AND n.slug <> '' ORDER BY n.ten`)
+  } catch (e) {
+    console.warn('⚠ build-duoc-lieu: không đọc được nguon_vi_thuoc (' + e.message + ') — bỏ khối liên kết nguồn.')
+  }
   await client.end()
 
   const rows = rowsQ.rows
@@ -215,6 +231,7 @@ function stub(v, rel) {
     anh: groupBy(anhQ.rows, 'id_vi_thuoc'),
     baiThuoc: groupBy(baiThuocQ.rows, 'id_vi_thuoc'),
     nhom: groupBy(nhomQ.rows, 'id_vi_thuoc'),
+    nguon: groupBy(nguonQ.rows, 'id_vi_thuoc'),
   }
 
   // ── Van chống thin/doorway trên site YMYL ─────────────────────────────────
