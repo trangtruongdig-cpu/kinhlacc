@@ -98,6 +98,25 @@ services:
       NODE_ENV: production
       HOST: 0.0.0.0
       PORT: "4321"
+      # ĐỊA CHỈ CÔNG KHAI — thiếu dòng này là KHÔNG đăng nhập được bằng passkey.
+      #
+      # Chuỗi thật là Caddy (cắt TLS) → nginx → cms, cả hai chặng sau đều là HTTP thuần.
+      # @astrojs/node lấy scheme từ req.socket.encrypted và KHÔNG đọc X-Forwarded-Proto
+      # (xem createRequestFromNodeRequest trong astro/dist/core/app/node.js), nên CMS tưởng
+      # site là http://kinhlac.online — đo được bằng: curl -I https://kinhlac.online/_emdash/admin
+      # → "location: http://kinhlac.online/_emdash/admin/login".
+      #
+      # Hệ quả: khi xác minh passkey, EmDash chờ origin "http://kinhlac.online" còn trình
+      # duyệt gửi "https://kinhlac.online" → lệch → 401 "Authentication failed", không có
+      # thông báo nào nói ra lý do. Magic link và link mời cũng sinh ra địa chỉ http://.
+      #
+      # EMDASH_SITE_URL là nấc ĐẦU trong getPublicOrigin(), đè lên suy đoán từ request.
+      # Đặt Ở ĐÂY chứ KHÔNG đặt trong cms/.env: file .env được chép qua lại giữa máy dev và
+      # VPS, mà trên máy dev origin phải là http://localhost:4321 — dính biến này là hỏng
+      # passkey ở máy dev.
+      #
+      # Đổi tên miền thì phải sửa dòng này, nếu không passkey chết lặng y như cũ.
+      EMDASH_SITE_URL: https://kinhlac.online
     volumes:
       # Ảnh người biên tập tải lên — phải BỀN qua mỗi lần deploy.
       - ./data/cms-uploads:/app/uploads
