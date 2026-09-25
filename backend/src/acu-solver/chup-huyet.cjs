@@ -61,7 +61,22 @@ function danhSach(args) {
   const tatCa = Object.keys(w.ACU_COORDS3D.points);
   if (args.includes('--tat-ca')) return tatCa;
   const loc = args.filter(a => !a.startsWith('--'));
-  return tatCa.filter(c => loc.some(x => c === x || c.startsWith(x) && /^\d+$/.test(c.slice(x.length))));
+  const ketQua = tatCa.filter(c => loc.some(x => {
+    // SỬA LỖI 1: Lọc mã huyệt chính xác.
+    // - Nếu x có chữ số (vd LI1, GB34): chỉ khớp ĐÚNG BẰNG, không khớp tiền tố (tránh LI10 trùng LI1)
+    // - Nếu x chỉ chữ cái (vd LI, GB): khớp mọi mã bắt đầu bằng x với phần dư toàn chữ số
+    const coSo = /\d/.test(x);
+    if (coSo) {
+      return c === x;  // Đúng bằng
+    } else {
+      return c.startsWith(x) && /^\d+$/.test(c.slice(x.length));  // Tiền tố + phần dư là số
+    }
+  }));
+  if (process.env.CHI_DEM) {
+    console.log(ketQua.join(', '));
+    process.exit(0);
+  }
+  return ketQua;
 }
 
 async function main() {
@@ -79,7 +94,20 @@ async function main() {
     await p.waitForFunction(() => document.title === 'XUONG-SAN-SANG', { timeout: 180000 });
     console.log('Model đã nạp, bắt đầu chụp.');
 
-    const hoso = [];
+    // SỬA LỖI 2: Đọc hoso.json cũ (nếu có) rồi gộp, không ghi đè sạch.
+    let hoso = [];
+    const teHoSo = path.join(OUTDIR, 'hoso.json');
+    try {
+      const cuSo = JSON.parse(fs.readFileSync(teHoSo, 'utf8'));
+      if (Array.isArray(cuSo)) {
+        hoso = cuSo;
+      }
+    } catch (e) {
+      // Tệp không tồn tại, hỏng, hay không phải mảng → bắt đầu từ rỗng. Không lỗi.
+    }
+    // Xây dựng khóa để gộp: ma|kieu
+    const khoaTrong = new Set(hoso.map(x => `${x.ma}|${x.kieu}`));
+
     for (const ma of ds) {
       const mer = ma.match(/^[A-Z]+/)[0];
       const gp = traHuyet(ma);
@@ -136,13 +164,27 @@ async function main() {
 
         const tep = path.join(OUTDIR, `${ma}-${kieu}.png`);
         await p.screenshot({ path: tep });
-        hoso.push({ ma, kieu, tep: path.basename(tep), toSang: gp.toDuoc.map(x => x.ten),
-          khongCo: gp.khongCo, hang: (CHOT[ma] || {}).hang || null });
+
+        // Gộp: nếu khóa ma|kieu đã có → cập nhật (thay thế); không có → thêm mới
+        const khoa = `${ma}|${kieu}`;
+        const dongMoi = { ma, kieu, tep: path.basename(tep), toSang: gp.toDuoc.map(x => x.ten),
+          khongCo: gp.khongCo, hang: (CHOT[ma] || {}).hang || null };
+        if (khoaTrong.has(khoa)) {
+          // Tìm dòng cũ và thay thế
+          const viTri = hoso.findIndex(x => x.ma === ma && x.kieu === kieu);
+          if (viTri !== -1) {
+            hoso[viTri] = dongMoi;
+          }
+        } else {
+          // Dòng mới
+          hoso.push(dongMoi);
+          khoaTrong.add(khoa);
+        }
       }
       process.stdout.write(`  ${ma} ✓\n`);
     }
 
-    fs.writeFileSync(path.join(OUTDIR, 'hoso.json'), JSON.stringify(hoso, null, 1));
+    fs.writeFileSync(teHoSo, JSON.stringify(hoso, null, 1));
     console.log(`\nXong ${hoso.length} ảnh → ${OUTDIR}`);
     if (loi.length) console.error(`⚠ ${loi.length} lỗi JS trong trang:`, loi.slice(0, 3));
   } finally {
