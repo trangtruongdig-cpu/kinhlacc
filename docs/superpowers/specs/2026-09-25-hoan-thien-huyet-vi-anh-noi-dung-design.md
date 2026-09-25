@@ -95,15 +95,42 @@ hoá đang lưu hành rộng. Ảnh tự dựng là thứ duy nhất trang này 
 | Mã | Ảnh | Nội dung | Sách có? |
 |---|---|---|---|
 | `da` | Trên da | cận cảnh vùng, huyệt sáng, mốc xương/gân gần nhất có nhãn tiếng Việt | ✅ |
-| `gp` | Trên giải phẫu | **cùng góc, cùng khung**, bóc da, tô sáng đúng những cơ/xương mà mục GIẢI PHẪU của chính huyệt đó gọi tên | ✅ (vẽ chung vùng) |
+| `gp` | Trên giải phẫu | **cùng góc, cùng khung**, bóc da, hiện lớp cơ + xương quanh huyệt; tô sáng những cấu trúc mà mục GIẢI PHẪU của chính huyệt đó gọi tên **và mô hình có chứa** | ✅ (vẽ chung vùng) |
 | `lan` | Huyệt lân cận | vùng rộng hơn, mọi huyệt trong bán kính ~6cm **kể cả khác kinh**, có nhãn mã + tên | ❌ |
 | `kinh` | Toàn đường kinh | toàn thân, đường kinh nổi, huyệt đang xem nhấn mạnh | ❌ |
 
 `da` và `gp` phải **cùng camera** — đặt cạnh nhau mới đọc được như hai bảng của sách.
 
-Ảnh `gp` là chỗ hơn sách: hình sách vẽ chung cả vùng, còn ta tô đúng cơ mà chữ nhắc tên, lấy từ
-`backend/src/acu-solver/giai-phau-data.json` (361 huyệt, đã bóc sẵn `duoiDa[]`, `thanKinh`,
-`tietDoan`). **Chữ và hình cùng một nguồn nên không vênh nhau được.**
+Ảnh `gp` lấy tên cấu trúc từ `backend/src/acu-solver/giai-phau-data.json` (361 huyệt, đã bóc sẵn
+`duoiDa[]`, `thanKinh`, `tietDoan`).
+
+**Đo trước khi hứa (25/09/2026) — kết quả buộc phải hạ mức hứa:** khớp 643 tên cấu trúc trong
+`duoiDa[]` sang mã FMA của mô hình chỉ được **78 tên**; tính theo huyệt thì **186/322 huyệt tô được
+ít nhất một cấu trúc, chỉ 10 huyệt tô được đủ**. Tách theo loại mô, lý do rõ ngay:
+
+| Loại mô | Tên khớp/tổng | Lần nhắc khớp/tổng |
+|---|---|---|
+| cơ | 42/187 | 148/512 |
+| xương / mốc | 17/124 | 68/206 |
+| cân, mạc | 1/23 | 8/109 |
+| dây chằng | 0/4 | 0/37 |
+| mạch, thần kinh | 0/8 | 0/8 |
+
+Hai nguyên nhân khác hẳn nhau: (1) **mô hình không chứa cân, mạc, dây chằng** — nó là mô hình
+cơ–xương–mạch–thần kinh, loại mô đó không có mesh nào để mà tô; (2) **từ điển dùng lối gọi giải
+phẫu cũ** ("cơ ngang gai", "cơ lưng dài") còn atlas dùng danh pháp FMA ("Khu vực cơ ngực lớn",
+"Phần đòn của cơ thang"), nên tra thẳng theo tên hỏng.
+
+**Vì vậy ảnh `gp` định nghĩa lại làm hai tầng:**
+
+- **Tầng nền, luôn có:** bóc da, hiện cơ + xương quanh huyệt, đánh dấu huyệt và hướng/độ sâu kim
+  (`goc`, `sau`, `huong` đã có sẵn trong `giai-phau-data.json`). Không cần khớp tên, không huyệt
+  nào hỏng.
+- **Tầng tô sáng, tăng dần:** tô những cấu trúc tra được qua bảng đồng nghĩa
+  `backend/src/acu-solver/ten-giai-phau-map.json` (tệp mới, dựng dần theo tần suất — 20 tên hay
+  gặp nhất đã chiếm ~144 lần nhắc). **Bất biến: không bao giờ tô một cấu trúc mà chữ không gọi
+  tên.** Thà tô thiếu còn hơn tô sai.
+- Cấu trúc mô hình không có (cân, mạc, dây chằng) **liệt kê bằng chữ dưới ảnh**, không giấu đi.
 
 Ảnh `lan` tính bằng khoảng cách 3D giữa các huyệt — có toạ độ cả 361 huyệt nên tính thẳng.
 
@@ -210,8 +237,10 @@ Ghi công Claudia Focks và Phùng Văn Chiến rõ ràng trên trang.
 
 1. **Đủ ảnh**: 361 huyệt × 4 loại, không loại nào hụt; ảnh `da` và `gp` cùng khung camera.
 2. **Huyệt nằm trên da**: chạy `skin-clamp.cjs`, không huyệt nào chìm trong thịt hay bay ra ngoài.
-3. **Hình khớp chữ**: với 10 huyệt lấy ngẫu nhiên, cơ được tô sáng trong ảnh `gp` phải đúng bằng
-   danh sách `duoiDa[]` của huyệt đó trong `giai-phau-data.json`.
+3. **Hình không nói dối chữ**: với 10 huyệt lấy ngẫu nhiên, tập cấu trúc được tô sáng trong ảnh
+   `gp` phải là **tập con** của `duoiDa[]` huyệt đó — tô thiếu thì được, tô một cấu trúc không có
+   trong `duoiDa[]` là lỗi. Và mọi tên trong `duoiDa[]` không tô được phải xuất hiện trong chú
+   thích chữ dưới ảnh.
 4. **Dung lượng**: tổng thư mục ảnh mới ≤ 1,5GB, đo bằng `du -sh` trước khi nạp.
 5. **60 ô có nguồn**: mỗi ô lấp phải ghi được trang sách đã đối chiếu; không ô nào không nguồn.
 6. **Tra cứu thấy nội dung mới**: gõ một cụm chỉ có trong `cong_dung_nhom` vào ô tìm của
