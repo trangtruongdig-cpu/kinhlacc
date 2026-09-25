@@ -57,7 +57,10 @@ export const MUC = [
 	{
 		bo: "bai_thuoc", nhan: "Bài Thuốc", duongDan: "/bai-thuoc/", thuTu: 60,
 		moTa: "Cổ phương: thành phần, cách dùng, tác dụng, xuất xứ.",
-		tenKhac: [], than: ["thanh_phan", "cach_dung", "tac_dung", "xuat_xu", "ghi_chu"],
+		// Xuất xứ + tác giả vào nhóm "tên khác": bản cũ hiện chúng ở DÒNG PHỤ của danh
+		// sách, và tra theo tên sách ("Chứng Trị Chuẩn Thằng") ra hết phương của sách đó.
+		tenKhac: ["xuat_xu", "tac_gia"],
+		than: ["thanh_phan", "cach_dung", "tac_dung", "ghi_chu"],
 	},
 	{
 		bo: "nguon_y_van", nhan: "Thư Mục Nguồn", duongDan: "/nguon/", thuTu: 70,

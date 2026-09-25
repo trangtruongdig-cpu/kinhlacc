@@ -954,3 +954,10 @@
 		padding: 1.2rem 1.1rem 1.8rem;
 	}
 }
+
+/* Khung MỘT CỘT toàn chiều ngang — dùng cho mục nào bản cũ dựng thành lưới thẻ. */
+.tv-rong {
+	max-width: 88rem;
+	margin: 0 auto;
+	padding: 1.1rem;
+}

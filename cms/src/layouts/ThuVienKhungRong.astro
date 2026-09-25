@@ -1,0 +1,85 @@
+---
+// ThuVienKhungRong.astro — Cùng đầu trang + thanh tab với ThuVienKhung, nhưng MỘT CỘT
+// toàn chiều ngang, không có cột trái.
+//
+// Dùng cho mục nào mà bản cũ dựng thành lưới thẻ chứ không phải danh sách — hiện là
+// Dược Liệu. Đừng gộp vào ThuVienKhung: gộp thì một trong hai mục phải đổi bố cục.
+import "../styles/thu-vien.css";
+import "../styles/tu-dien.css";
+import "../styles/the-duoc-lieu.css";
+import { Font } from "astro:assets";
+import { EmDashHead, EmDashBodyStart, EmDashBodyEnd } from "emdash/ui";
+import { createPublicPageContext } from "emdash/page";
+import { danhSachMuc } from "../lib/traCuu";
+
+interface Props {
+	bo: string;
+	title: string;
+	description?: string | null;
+	khongLap?: boolean;
+	content?: { collection: string; id: string; slug?: string | null };
+}
+const { bo, title, description, khongLap = false, content } = Astro.props;
+
+const muc = await danhSachMuc();
+
+const pageCtx = createPublicPageContext({
+	Astro,
+	kind: content ? "content" : "custom",
+	pageType: content ? "article" : "website",
+	title,
+	pageTitle: title,
+	description,
+	content,
+	siteName: "Kinh Lạc Trương Gia",
+});
+---
+
+<!doctype html>
+<html lang="vi">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<Font cssVariable="--font-body" preload />
+		<Font cssVariable="--font-tu-dien" preload />
+		<title>{title}</title>
+		{description && <meta name="description" content={description} />}
+		{khongLap && <meta name="robots" content="noindex,follow" />}
+		<EmDashHead page={pageCtx} />
+	</head>
+	<body class="tv">
+		<EmDashBodyStart page={pageCtx} />
+
+		<header class="tv-dau">
+			<div class="tv-dau-trong">
+				<a class="tv-hieu" href="/thu-vien/">
+					Thư Viện Đông Y <span>Kinh Lạc</span>
+				</a>
+				<a class="tv-ve" href="/">← Trang chủ</a>
+			</div>
+		</header>
+
+		{/* ── Thanh tab ngang ─────────────────────────────────────────── */}
+		<nav class="tv-tab" aria-label="Các mục thư viện">
+			<div class="tv-tab-trong">
+				{
+					muc
+						.filter((m) => m.so_muc > 0)
+						.map((m) => (
+							<a href={m.duong_dan} class={m.bo === bo ? "dang" : ""}>
+								{m.nhan}
+							</a>
+						))
+				}
+				<a href="/app/kinh-mach-3d" class="tv-tab-ngoai">🧭 Đồ Hình 3D</a>
+			</div>
+		</nav>
+
+		<main class="tv-rong">
+			<slot />
+		</main>
+
+		<EmDashBodyEnd page={pageCtx} />
+
+	</body>
+</html>

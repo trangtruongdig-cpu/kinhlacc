@@ -1,8 +1,242 @@
 ---
-// /duoc-lieu/ — Trang mục lục. Đường này đã nằm trong sitemap và chỉ mục Google từ bản
-// tĩnh, nên giữ nguyên làm đường chính; /thu-vien/duoc_lieu/ chuyển hướng về đây.
+// /duoc-lieu/ — Trang Dược Liệu.
+//
+// ⚠️ Mục này KHÔNG dùng bố cục hai cột như Huyệt Vị / Bệnh Học. Bản cũ của app dựng nó
+// thành LƯỚI THẺ toàn chiều ngang (ô tìm trên cùng, dưới là thẻ "nhãn thuốc Đông Y" có
+// ảnh, tên Hán, tên khoa học, tính vị, số bài thuốc). Giữ đúng như vậy — người dùng chỉ
+// đổi chỗ quản lý nội dung, không đổi trải nghiệm tra cứu.
 export const prerender = false;
-import TrangMuc from "../../components/TrangMuc.astro";
+
+import ThuVienKhungRong from "../../layouts/ThuVienKhungRong.astro";
+import TheDuocLieu from "../../components/TheDuocLieu.astro";
+import { danhSachMuc, duyet, chuCaiCua, theLocCua } from "../../lib/traCuu";
+import { truyVan } from "../../lib/csdl";
+
+const BO = "duoc_lieu";
+const chuCai = (Astro.url.searchParams.get("van") || "").toUpperCase().slice(0, 1) || undefined;
+const the = Astro.url.searchParams.get("the") || undefined;
+const trang = Math.max(1, Number(Astro.url.searchParams.get("trang") || 1) || 1);
+const MOI_TRANG = 60;
+
+const [muc, dsChu, dsThe, { tong }] = await Promise.all([
+	danhSachMuc(),
+	chuCaiCua(BO),
+	theLocCua(BO),
+	duyet(BO, { chuCai, the, moiTrang: 1 }),
+]);
+const m = muc.find((x) => x.bo === BO);
+if (!m) return Astro.redirect("/thu-vien/", 302);
+
+// Lấy thẳng từ bảng nội dung: thẻ cần ảnh, tên Hán, tên khoa học, tính, vị, số bài
+// thuốc — chỉ mục tra cứu (td_muc) không giữ những trường đó.
+const dk: string[] = ["e.deleted_at IS NULL", "e.status = 'published'"];
+const tham: unknown[] = [];
+if (chuCai) {
+	tham.push(chuCai);
+	dk.push(`upper(left(td_bo_dau(e.title), 1)) = $${tham.length}`);
+}
+if (the) {
+	tham.push(the);
+	dk.push(`EXISTS (SELECT 1 FROM td_nhan n WHERE n.bo = '${BO}' AND n.ma = e.id AND n.ma_the = $${tham.length})`);
+}
+const lech = (trang - 1) * MOI_TRANG;
+const ds = await truyVan<{
+	slug: string; title: string; ten_han: string | null; ten_khoa_hoc: string | null;
+	tinh: string | null; vi: string | null; so_bai_thuoc: number | null; anh: unknown;
+}>(
+	`SELECT e.slug, e.title, e.ten_han, e.ten_khoa_hoc, e.tinh, e.vi, e.so_bai_thuoc, e.anh
+	 FROM ec_duoc_lieu e
+	 WHERE ${dk.join(" AND ")}
+	 ORDER BY e.title
+	 LIMIT ${MOI_TRANG} OFFSET ${lech}`,
+	tham,
+);
+
+const soTrang = Math.max(1, Math.ceil(tong / MOI_TRANG));
+const coVan = new Map(dsChu.map((v) => [v.chu_cai, v.n]));
+const CHU = [..."ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+const soMuc = (n: number) => n.toLocaleString("vi-VN");
+
+const duong = (t: Record<string, string | undefined>) => {
+	const u = new URLSearchParams();
+	for (const [k, x] of Object.entries({ van: chuCai, the, trang: trang > 1 ? String(trang) : undefined, ...t })) {
+		if (x) u.set(k, x);
+	}
+	const q = u.toString();
+	return `/duoc-lieu/${q ? `?${q}` : ""}`;
+};
+
+// Thẻ lọc gom theo nhóm (Tính / Vị).
+const nhomThe: { nhom: string; ds: typeof dsThe }[] = [];
+for (const t of dsThe) {
+	let g = nhomThe.find((x) => x.nhom === t.nhom);
+	if (!g) nhomThe.push((g = { nhom: t.nhom, ds: [] }));
+	g.ds.push(t);
+}
 ---
 
-<TrangMuc bo="duoc_lieu" />
+<ThuVienKhungRong
+	bo={BO}
+	title={`${m.nhan} — Thư Viện Đông Y`}
+	description={m.mo_ta}
+	khongLap={!!chuCai || !!the || trang > 1}
+>
+	<div class="dlx-thanh">
+		<form class="dlx-tim" action="/thu-vien/tra" method="get" role="search" autocomplete="off">
+			<input type="hidden" name="bo" value={BO} />
+			<input
+				type="search"
+				name="q"
+				placeholder="Tìm vị thuốc / tên Hán / tên khoa học…"
+				aria-label="Tìm vị thuốc"
+				data-dlx-tim
+			/>
+			<button type="submit">Tìm</button>
+		</form>
+		<span class="dlx-dem">{soMuc(tong)} / {soMuc(m.so_muc)}</span>
+	</div>
+
+	{
+		nhomThe.length > 0 && (
+			<div class="dlx-loc">
+				{the && (
+					<a class="tv-chip tv-chip-bo" href={duong({ the: undefined, trang: undefined })}>
+						✕ Bỏ lọc
+					</a>
+				)}
+				{nhomThe.map((g) => (
+					<div class="dlx-loc-nhom">
+						<span class="dlx-loc-ten">{g.nhom}</span>
+						{g.ds.map((t) => (
+							<a
+								class={`tv-chip ${t.ma_the === the ? "dang" : ""}`}
+								href={duong({ the: t.ma_the === the ? undefined : t.ma_the, trang: undefined })}
+							>
+								{t.ten} <em>{soMuc(t.n)}</em>
+							</a>
+						))}
+					</div>
+				))}
+			</div>
+		)
+	}
+
+	<nav class="tv-van dlx-van" aria-label="Tra theo vần">
+		<a href={duong({ van: undefined, trang: undefined })} class={chuCai ? "" : "dang"}>Tất cả</a>
+		{
+			CHU.filter((c) => coVan.has(c)).map((c) => (
+				<a
+					href={duong({ van: c === chuCai ? undefined : c, trang: undefined })}
+					class={chuCai === c ? "dang" : ""}
+					title={`${coVan.get(c)} vị`}
+				>
+					{c}
+				</a>
+			))
+		}
+	</nav>
+
+	<div class="hlc-grid" data-dlx-luoi>
+		{ds.map((v) => <TheDuocLieu vi={v} />)}
+	</div>
+
+	{
+		ds.length === 0 && (
+			<p class="dlx-khong">Không có vị thuốc nào khớp bộ lọc đang chọn.</p>
+		)
+	}
+
+	{
+		soTrang > 1 && (
+			<nav class="tv-trang-so" aria-label="Phân trang">
+				{trang > 1 ? <a href={duong({ trang: String(trang - 1) })}>← Trước</a> : <span>← Trước</span>}
+				<span>
+					{trang} / {soTrang}
+				</span>
+				{trang < soTrang ? <a href={duong({ trang: String(trang + 1) })}>Sau →</a> : <span>Sau →</span>}
+			</nav>
+		)
+	}
+</ThuVienKhungRong>
+
+<style>
+	.dlx-thanh {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin: 0 0 0.9rem;
+	}
+	.dlx-tim {
+		flex: 1;
+		display: flex;
+		gap: 0.5rem;
+	}
+	.dlx-tim input {
+		flex: 1;
+		min-width: 0;
+		font: inherit;
+		font-size: 0.95rem;
+		padding: 0.6rem 0.95rem;
+		border: 1px solid var(--nau-200);
+		border-radius: 10px;
+		background: #fff;
+		color: var(--chu);
+	}
+	.dlx-tim input:focus {
+		outline: none;
+		border-color: var(--nau-400);
+		box-shadow: 0 0 0 3px rgba(189, 144, 80, 0.15);
+	}
+	.dlx-tim button {
+		border: 0;
+		border-radius: 10px;
+		background: var(--nau-700);
+		color: #fff;
+		font: inherit;
+		font-size: 0.88rem;
+		font-weight: 600;
+		padding: 0 1.2rem;
+		cursor: pointer;
+	}
+	.dlx-dem {
+		font-size: 0.82rem;
+		color: var(--nau-500);
+		font-variant-numeric: tabular-nums;
+		white-space: nowrap;
+	}
+	.dlx-loc {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.45rem 1.2rem;
+		margin: 0 0 0.9rem;
+		padding: 0.7rem 0.9rem;
+		background: var(--nau-50);
+		border: 1px solid var(--nau-100);
+		border-radius: 10px;
+	}
+	.dlx-loc-nhom {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.32rem;
+	}
+	.dlx-loc-ten {
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--nau-500);
+		margin-right: 0.15rem;
+	}
+	.dlx-van {
+		margin: 0 0 1.2rem;
+		padding: 0 0 0.9rem;
+		border-bottom: 1px solid var(--vien);
+		border-top: 0;
+	}
+	.dlx-khong {
+		padding: 2.5rem 1rem;
+		text-align: center;
+		color: var(--chu-nhat);
+	}
+</style>

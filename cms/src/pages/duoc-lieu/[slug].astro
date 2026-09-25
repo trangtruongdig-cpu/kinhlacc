@@ -7,6 +7,7 @@ export const prerender = false;
 import { getEmDashEntry, decodeSlug } from "emdash";
 import VanBanYVan from "../../components/VanBanYVan.astro";
 import ThuVienKhung from "../../layouts/ThuVienKhung.astro";
+import { urlAnh } from "../../utils/anh";
 import "../../styles/tu-dien.css";
 
 const slug = decodeSlug(Astro.params.slug);
@@ -32,6 +33,20 @@ const PHAN: [string, string][] = [
 ];
 const coPhan = PHAN.filter(([k]) => d[k]);
 
+const anh = urlAnh(d.anh, Astro.url.origin);
+
+// Bản cũ hiện Tính / Vị / Quy kinh / Công dụng / Kiêng kỵ thành CHIP chứ không phải
+// bảng chữ — giữ đúng như vậy. Mỗi chip có sắc riêng để mắt phân biệt nhóm.
+const tach = (x?: string | null) =>
+	String(x || "").split(/[,;/]/).map((t) => t.trim()).filter(Boolean);
+
+const chipTinh = tach(d.tinh);
+const chipVi = tach(d.vi);
+const chipQuyKinh = tach(d.quy_kinh);
+const chipCongDung = tach(d.cong_dung_ds);
+const chipKiengKy = tach(d.kieng_ky_ds);
+
+// Những trường còn lại vẫn hợp với bảng: danh pháp và liều dùng.
 const bang = [
 	d.ten_khac && ["Tên khác", d.ten_khac],
 	d.ten_khoa_hoc && ["Tên khoa học", d.ten_khoa_hoc],
@@ -39,12 +54,8 @@ const bang = [
 	d.ten_han && ["Tên Hán", d.ten_han],
 	d.ten_pinyin && ["Pinyin", d.ten_pinyin],
 	d.bo_phan_dung && ["Bộ phận dùng", d.bo_phan_dung],
-	d.tinh && ["Tính", d.tinh],
-	d.vi && ["Vị", d.vi],
-	d.quy_kinh && ["Quy kinh", d.quy_kinh],
 	d.lieu_dung && ["Liều dùng", d.lieu_dung],
-	d.cong_dung_ds && ["Công dụng", d.cong_dung_ds],
-	d.kieng_ky_ds && ["Kiêng kỵ", d.kieng_ky_ds],
+	d.so_bai_thuoc && ["Dùng trong", `${Number(d.so_bai_thuoc).toLocaleString("vi-VN")} bài thuốc`],
 ].filter(Boolean) as [string, string][];
 
 // cho_index = 0 nghĩa là vị này chưa có phần văn xuôi nào — cùng phép chặn với bản tĩnh.
@@ -64,6 +75,48 @@ const moTa =
 	</nav>
 
 	<h1>{d.title}</h1>
+
+	{anh && (
+		<figure class="dl-anh">
+			<img src={anh} alt={`Vị thuốc ${d.title}`} loading="lazy" />
+			<figcaption>{d.ten_khoa_hoc || d.title}</figcaption>
+		</figure>
+	)}
+
+	{(chipTinh.length > 0 || chipVi.length > 0 || chipQuyKinh.length > 0) && (
+		<div class="dl-chips">
+			{chipTinh.length > 0 && (
+				<div class="dl-chip-hang">
+					<span class="dl-chip-nhan">Tính</span>
+					{chipTinh.map((x) => <span class="dl-chip dl-chip--tinh">{x}</span>)}
+				</div>
+			)}
+			{chipVi.length > 0 && (
+				<div class="dl-chip-hang">
+					<span class="dl-chip-nhan">Vị</span>
+					{chipVi.map((x) => <span class="dl-chip dl-chip--vi">{x}</span>)}
+				</div>
+			)}
+			{chipQuyKinh.length > 0 && (
+				<div class="dl-chip-hang">
+					<span class="dl-chip-nhan">Quy kinh</span>
+					{chipQuyKinh.map((x) => <span class="dl-chip dl-chip--qk">{x}</span>)}
+				</div>
+			)}
+			{chipCongDung.length > 0 && (
+				<div class="dl-chip-hang">
+					<span class="dl-chip-nhan">Công dụng</span>
+					{chipCongDung.map((x) => <span class="dl-chip dl-chip--cd">{x}</span>)}
+				</div>
+			)}
+			{chipKiengKy.length > 0 && (
+				<div class="dl-chip-hang">
+					<span class="dl-chip-nhan">Kiêng kỵ</span>
+					{chipKiengKy.map((x) => <span class="dl-chip dl-chip--kk">{x}</span>)}
+				</div>
+			)}
+		</div>
+	)}
 
 	{bang.length > 0 && (
 		<dl class="dl-bang">
@@ -100,6 +153,56 @@ const moTa =
 		color: var(--nau-700, #6f4a22);
 		text-decoration: none;
 	}
+	.dl-anh {
+		margin: 0 0 1.4rem;
+		text-align: center;
+	}
+	.dl-anh img {
+		max-width: 100%;
+		height: auto;
+		border: 1px solid var(--nau-100, #f1e7d6);
+		border-radius: 10px;
+		background: #fff;
+	}
+	.dl-anh figcaption {
+		margin-top: 0.45rem;
+		font-size: 0.8rem;
+		font-style: italic;
+		color: var(--chu-nhat, #6b5f52);
+	}
+	.dl-chips {
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
+		margin: 0 0 1.5rem;
+	}
+	.dl-chip-hang {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.3rem;
+	}
+	.dl-chip-nhan {
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.07em;
+		text-transform: uppercase;
+		color: var(--nau-500, #a4743a);
+		min-width: 4.6rem;
+	}
+	.dl-chip {
+		font-size: 0.82rem;
+		padding: 0.16rem 0.55rem;
+		border-radius: 999px;
+		border: 1px solid var(--nau-200, #e3cfb0);
+		background: #fff;
+		color: var(--nau-800, #54391d);
+	}
+	.dl-chip--tinh { background: #fdf3e6; border-color: #f0dcc0; }
+	.dl-chip--vi { background: #f2f7ee; border-color: #d8e6cc; }
+	.dl-chip--qk { background: #eef3fa; border-color: #cfdcee; }
+	.dl-chip--cd { background: #f6f0fa; border-color: #e0d0ec; }
+	.dl-chip--kk { background: #fbeae5; border-color: #f0cfc8; color: #8a2b22; }
 	.dl-bang {
 		display: grid;
 		grid-template-columns: max-content 1fr;
@@ -131,7 +234,57 @@ const moTa =
 		border-radius: 9px;
 	}
 	@media (max-width: 560px) {
-		.dl-bang {
+		.dl-anh {
+		margin: 0 0 1.4rem;
+		text-align: center;
+	}
+	.dl-anh img {
+		max-width: 100%;
+		height: auto;
+		border: 1px solid var(--nau-100, #f1e7d6);
+		border-radius: 10px;
+		background: #fff;
+	}
+	.dl-anh figcaption {
+		margin-top: 0.45rem;
+		font-size: 0.8rem;
+		font-style: italic;
+		color: var(--chu-nhat, #6b5f52);
+	}
+	.dl-chips {
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
+		margin: 0 0 1.5rem;
+	}
+	.dl-chip-hang {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.3rem;
+	}
+	.dl-chip-nhan {
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.07em;
+		text-transform: uppercase;
+		color: var(--nau-500, #a4743a);
+		min-width: 4.6rem;
+	}
+	.dl-chip {
+		font-size: 0.82rem;
+		padding: 0.16rem 0.55rem;
+		border-radius: 999px;
+		border: 1px solid var(--nau-200, #e3cfb0);
+		background: #fff;
+		color: var(--nau-800, #54391d);
+	}
+	.dl-chip--tinh { background: #fdf3e6; border-color: #f0dcc0; }
+	.dl-chip--vi { background: #f2f7ee; border-color: #d8e6cc; }
+	.dl-chip--qk { background: #eef3fa; border-color: #cfdcee; }
+	.dl-chip--cd { background: #f6f0fa; border-color: #e0d0ec; }
+	.dl-chip--kk { background: #fbeae5; border-color: #f0cfc8; color: #8a2b22; }
+	.dl-bang {
 			grid-template-columns: 1fr;
 			gap: 0.1rem;
 		}

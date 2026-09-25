@@ -1,0 +1,79 @@
+---
+// TheDuocLieu.astro — Thẻ vị thuốc kiểu "nhãn thuốc Đông Y".
+// Dựng lại đúng thẻ .hlc của bản cũ (DuocLieuBrowser) — cùng cấu trúc, cùng CSS.
+import { urlAnh } from "../utils/anh";
+
+interface Props {
+	vi: {
+		slug: string;
+		title: string;
+		ten_han?: string | null;
+		ten_khoa_hoc?: string | null;
+		tinh?: string | null;
+		vi?: string | null;
+		so_bai_thuoc?: number | null;
+		anh?: unknown;
+	};
+}
+const { vi: v } = Astro.props;
+
+// Chữ Hán trong đĩa tròn: ưu tiên tên Hán, không có thì lấy ký tự đầu tên Việt.
+const chuDia = (v.ten_han || "").trim() || (v.title || "?").trim().charAt(0);
+const cvDia = "n" + Math.min(4, Math.max(1, [...chuDia].length));
+
+// Thu nhỏ tên theo độ dài để không tràn thẻ.
+const nLen = (v.title || "").length;
+const cvTen = nLen > 13 ? "xlong" : nLen > 9 ? "long" : "";
+
+// Màu chip "tính" gợi hàn/nhiệt.
+const t = (v.tinh || "").toLowerCase();
+const cvTinh = t.includes("nhiệt")
+	? "hlc-tinh--nhiet"
+	: t.includes("hơi hàn") || t.includes("lương") || t.includes("mát")
+		? "hlc-tinh--luong"
+		: t.includes("hàn")
+			? "hlc-tinh--han"
+			: t.includes("ôn") || t.includes("ấm")
+				? "hlc-tinh--on"
+				: "hlc-tinh--binh";
+
+// Gam màu xoay vòng theo id (slug của dược liệu CHÍNH LÀ id số).
+const cvMau = "hlc--c" + ((((Number(v.slug) || 0) % 8) + 8) % 8);
+
+const anh = urlAnh(v.anh, Astro.url.origin);
+---
+
+<a class:list={["hlc", cvMau]} href={`/duoc-lieu/${v.slug}/`}>
+	<span class="hlc-frame" aria-hidden="true"></span>
+	<i class="hlc-corner tl" aria-hidden="true"></i><i class="hlc-corner tr" aria-hidden="true"></i>
+	<i class="hlc-corner bl" aria-hidden="true"></i><i class="hlc-corner br" aria-hidden="true"></i>
+
+	{anh && <img class="hlc-photo" src={anh} alt={`Ảnh ${v.title}`} loading="lazy" />}
+
+	<div class="hlc-top">
+		<div class="hlc-disc"><span class:list={["hlc-han-art", cvDia]}>{chuDia}</span></div>
+		<div class="hlc-headtext">
+			<h4 class:list={["hlc-name", cvTen]}>{v.title}</h4>
+			{v.ten_han && <div class="hlc-hanline"><span class="hlc-han">{v.ten_han}</span></div>}
+			{v.ten_khoa_hoc && <em class="hlc-latin" title={v.ten_khoa_hoc}>{v.ten_khoa_hoc}</em>}
+		</div>
+	</div>
+
+	<div class="hlc-rule"></div>
+
+	<div class="hlc-meta">
+		{(v.tinh || v.vi) && (
+			<div class="hlc-line">
+				<span class="k">Tính vị:</span>
+				{v.tinh && <span class:list={["hlc-tinh", cvTinh]}>{v.tinh}</span>}
+				{v.vi && <span> · {v.vi.split("/").join(", ")}</span>}
+			</div>
+		)}
+	</div>
+
+	{v.so_bai_thuoc ? (
+		<div class="hlc-foot">
+			<span class="hlc-nbai">Dùng trong {v.so_bai_thuoc.toLocaleString("vi-VN")} bài thuốc</span>
+		</div>
+	) : null}
+</a>

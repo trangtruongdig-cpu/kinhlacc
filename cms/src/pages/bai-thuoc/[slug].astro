@@ -39,10 +39,15 @@ const moTa =
 
 	<h1>{d.title}</h1>
 
-	{(d.xuat_xu || d.tac_gia) && (
+	{(d.xuat_xu || d.tac_gia || d.so_benh) && (
 		<p class="bt-xuat-xu">
 			{d.xuat_xu && <span>Xuất xứ: <b>{d.xuat_xu}</b></span>}
 			{d.tac_gia && <span>Tác giả: <b>{d.tac_gia}</b></span>}
+			{d.so_benh ? (
+				<span class="bt-so-benh">
+					Dùng trong {Number(d.so_benh).toLocaleString("vi-VN")} bệnh (Đông Y)
+				</span>
+			) : null}
 		</p>
 	)}
 
@@ -106,6 +111,14 @@ const moTa =
 		color: var(--nau-800, #54391d);
 		font-weight: 600;
 	}
+	.bt-so-benh {
+		font-weight: 600;
+		color: #fff;
+		background: var(--nau-600, #8a5e28);
+		padding: 0.1rem 0.5rem;
+		border-radius: 999px;
+		font-size: 0.8rem;
+	}
 	.bt-vi {
 		list-style: none;
 		margin: 0;
@@ -138,7 +151,15 @@ const moTa =
 		white-space: nowrap;
 	}
 	@media (max-width: 560px) {
-		.bt-vi {
+		.bt-so-benh {
+		font-weight: 600;
+		color: #fff;
+		background: var(--nau-600, #8a5e28);
+		padding: 0.1rem 0.5rem;
+		border-radius: 999px;
+		font-size: 0.8rem;
+	}
+	.bt-vi {
 			columns: 1;
 		}
 	}

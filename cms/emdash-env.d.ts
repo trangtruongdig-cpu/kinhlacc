@@ -17,6 +17,7 @@ export interface BaiThuoc {
   ghi_chu?: PortableTextBlock[];
   cho_index?: boolean;
   title: string;
+  so_benh?: number;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -116,6 +117,8 @@ export interface DuocLieu {
   tham_khao?: PortableTextBlock[];
   cho_index?: boolean;
   title: string;
+  anh?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  so_bai_thuoc?: number;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
