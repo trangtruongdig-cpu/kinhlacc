@@ -933,116 +933,80 @@ git commit -m "feat(cms): nạp ảnh huyệt 3D, đo dung lượng trước khi
 
 ---
 
-### Task 7: Trang huyệt hiện bốn ảnh
+### Task 7: Trang huyệt hiện bốn ảnh (VIẾT LẠI 26/09)
+
+> **Bản cũ của việc này đã sai đích.** Nó định sửa `cms/src/pages/huyet/[slug].astro` và thêm `cms/src/components/AnhHuyet.astro`. Tệp đó **không còn**: commit `bfe350e` (26/09 01:31) gỡ toàn bộ `cms/src/pages/{huyet,kinh,thu-vien,benh-hoc,cham-cuu-tri-benh,duoc-lieu,bai-thuoc,nguon}` theo lệnh người dùng — *"khôi phục nguyên bản TRƯỚC, cắm CMS SAU"*, vì hai bộ trang thư viện song song là rối. CMS nay chỉ là **kho dữ liệu**, không phục vụ trang cho khách.
+
+**Đường hiện ảnh thật, sau khi đổi kiến trúc:**
+
+```
+ec_huyet_vi (CMS)
+  → cms/scripts-di-cu/xuat-huyet-js.mjs        (phiên kinhlacc-12 giữ)
+  → frontend/public/kinhmach3d/data/acupoints.js
+  → frontend/scripts/dict-data.mjs
+  → frontend/scripts/build-dict.mjs            (sinh HTML tĩnh)
+  → /huyet/<slug>/
+```
 
 **Files:**
-- Create: `cms/src/components/AnhHuyet.astro`
-- Modify: `cms/src/pages/huyet/[slug].astro` (thay khối `{anh && (<figure class="hv-anh">…)}`)
+- Modify: `cms/scripts-di-cu/xuat-huyet-js.mjs` — thêm khoá `anh3d` vào bản sinh
+- Modify: `frontend/scripts/build-dict.mjs` — vẽ khối bốn ảnh trên trang huyệt
 
 **Interfaces:**
-- Consumes: `entry.data.anh_da|anh_gp|anh_lan|anh_kinh|anh`, `urlAnh()` từ `src/utils/anh.ts`.
-- Produces: component `<AnhHuyet d={d} goc={Astro.url.origin} khongCo={string[]} />`.
+- Consumes: cột `anh_da`, `anh_gp`, `anh_lan`, `anh_kinh` (kiểu image), `anh_ghi_chu` (text) của `ec_huyet_vi`.
+- Produces: khoá `anh3d` trong mỗi bản ghi `acupoints.js`, dạng `{ da, gp, lan, kinh, ghiChu }` hoặc `null`.
 
-- [ ] **Step 1: Viết component**
+**Bốn điều đã thống nhất với phiên kinhlacc-12, không được đổi:**
 
-```astro
----
-// AnhHuyet.astro — bốn ảnh dựng từ mô hình 3D. Rơi về ảnh cũ (`anh`) khi huyệt chưa có ảnh mới
-// (698 huyệt kỳ huyệt/tân huyệt không có toạ độ 3D nên sẽ không bao giờ có).
-import { urlAnh } from "../utils/anh";
+1. **MỘT khoá `anh3d`, không phải bốn khoá phẳng**, và nó phải có mặt ở **cả 1.059 bản ghi** — giá trị `null` khi huyệt không có ảnh, y như cách khoá `image` là `null` chứ không bị bỏ. Luật khoá của tệp gốc rất chặt: 9 khoá luôn có ở mọi bản ghi, 6 khoá nữa có đủ cả sáu ở 357 huyệt có mã quốc tế. Bỏ khoá khi rỗng là đổi hình dạng bản ghi — đã từng làm lệch 386 bản ghi.
+2. **URL ảnh là `/_emdash/api/media/file/<storageKey>`**, tuyệt đối KHÔNG phải `<id>`. Đo rồi: gọi bằng `storageKey` trả 200, gọi bằng `id` trần trả 404 **mà thẻ `<img>` vẫn render** — nhìn qua tưởng có ảnh. nginx đã đẩy `/_emdash/` sang CMS nên trang tĩnh gọi được, không cần cấu hình thêm.
+3. **Cột kiểu image là TEXT chứa chuỗi JSON.** Truy vấn SQL thô ra CHUỖI chứ không ra object, phải `JSON.parse` rồi mới lấy `meta.storageKey`. Đây là chỗ đã làm mất ảnh một lần mà không báo lỗi.
+4. **`anh_ghi_chu` là ghi chú nhỏ dưới khối ảnh**, không dựng thành mục riêng. Nội dung nó mang là lời thú nhận giới hạn (cấu trúc mô hình không chứa; 17 huyệt hạng B vị trí do engine dựng).
 
-interface Props { d: any; goc: string }
-const { d, goc } = Astro.props;
+**Chốt an toàn đã có sẵn:** `node scripts-di-cu/xuat-huyet-js.mjs --kiem-goc` (commit `7df9640`) lấy bản gốc từ git rồi so **theo TẬP CON** — mọi khoá/giá trị gốc phải còn nguyên từng ký tự, khoá MỚI thì cho phép. **Phải chạy chốt này sau khi thêm `anh3d`.**
 
-const BO: [string, string, string][] = [
-  ["anh_da", "Vị trí trên da", "Huyệt nằm ở đâu trên bề mặt cơ thể"],
-  ["anh_gp", "Lớp giải phẫu", "Bóc da, thấy cơ và xương dưới huyệt"],
-  ["anh_lan", "Huyệt lân cận", "Những huyệt nằm gần, kể cả khác đường kinh"],
-  ["anh_kinh", "Trên đường kinh", "Vị trí huyệt trong toàn bộ đường kinh"],
-];
-const co = BO.map(([k, nhan, mo]) => ({ nhan, mo, url: urlAnh(d[k], goc) })).filter((x) => x.url);
-const cu = co.length === 0 ? urlAnh(d.anh, goc) : null;
----
+- [ ] **Step 1: Thêm `anh3d` vào bản sinh**
 
-{co.length > 0 && (
-  <section class="ah">
-    <div class="ah-luoi">
-      {co.map((x) => (
-        <figure class="ah-o">
-          <img src={x.url} alt={`Huyệt ${d.title} — ${x.nhan.toLowerCase()}`} loading="lazy" width="800" height="800" />
-          <figcaption><strong>{x.nhan}</strong><span>{x.mo}</span></figcaption>
-        </figure>
-      ))}
-    </div>
-    {d.anh_ghi_chu && <p class="ah-thieu">{d.anh_ghi_chu}</p>}
-    <p class="ah-nguon">Ảnh dựng từ mô hình giải phẫu 3D của Kinh Lạc, không phải ảnh chụp người thật.</p>
-  </section>
-)}
+Thêm 5 cột vào truy vấn của `xuat-huyet-js.mjs`, dựng `anh3d` theo đúng bốn điều trên. Huyệt không có ảnh nào → `anh3d: null`.
 
-{cu && (
-  <figure class="hv-anh">
-    <img src={cu} alt={`Vị trí huyệt ${d.title}`} loading="lazy" width="540" />
-    <figcaption>Vị trí huyệt {d.title}</figcaption>
-  </figure>
-)}
-
-<style>
-  .ah { margin: 0 0 1.9rem; }
-  .ah-luoi { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; }
-  @media (max-width: 640px) { .ah-luoi { grid-template-columns: 1fr; } }
-  .ah-o { margin: 0; }
-  .ah-o img {
-    width: 100%; height: auto; display: block; background: #fff;
-    border: 1px solid var(--nau-100, #f1e7d6); border-radius: 10px;
-  }
-  .ah-o figcaption { margin-top: 0.4rem; font-size: 0.82rem; line-height: 1.45; }
-  .ah-o figcaption strong { display: block; color: var(--nau-700, #7a4e1d); }
-  .ah-o figcaption span { color: var(--chu-nhat, #6b5f52); }
-  .ah-thieu, .ah-nguon { margin: 0.8rem 0 0; font-size: 0.8rem; color: var(--chu-nhat, #6b5f52); }
-</style>
-```
-
-- [ ] **Step 2: Nối vào trang huyệt**
-
-Trong `cms/src/pages/huyet/[slug].astro`, thêm import cạnh các import khác:
-
-```astro
-import AnhHuyet from "../../components/AnhHuyet.astro";
-```
-
-rồi thay TRỌN khối:
-
-```astro
-			{anh && (
-				<figure class="hv-anh">
-					<img src={anh} alt={`Vị trí huyệt ${d.title}`} loading="lazy" width="540" />
-					<figcaption>Vị trí huyệt {d.title}</figcaption>
-				</figure>
-			)}
-```
-
-bằng:
-
-```astro
-			<AnhHuyet d={d} goc={Astro.url.origin} />
-```
-
-- [ ] **Step 3: Xem trang thật**
+- [ ] **Step 2: Chạy chốt gốc, phải ĐẠT**
 
 ```bash
-cd /Users/truongtrang/Desktop/kinhlacc/cms && (npm run dev &) && sleep 6
-curl -s http://localhost:4321/huyet/thai-uyen/ | grep -c "ah-o"
+cd /Users/truongtrang/Desktop/kinhlacc/cms && node scripts-di-cu/xuat-huyet-js.mjs --kiem-goc
 ```
 
-Kỳ vọng: ≥ 4 (bốn ảnh). Rồi mở `http://localhost:4321/huyet/thai-uyen/` bằng mắt: bốn ảnh xếp lưới 2×2, không ảnh nào vỡ.
+Kỳ vọng: ĐẠT. Chốt này chứng minh không đánh rơi khoá hay giá trị nào của bản gốc. Không đạt thì dừng, **đừng nới chốt**.
 
-- [ ] **Step 4: Commit**
+- [ ] **Step 3: Đếm trong bản sinh**
 
 ```bash
-cd /Users/truongtrang/Desktop/kinhlacc
-git add cms/src/components/AnhHuyet.astro cms/src/pages/huyet/\[slug\].astro
-git commit -m "feat(cms): trang huyệt hiện bốn ảnh 3D, rơi về ảnh cũ khi chưa có"
+cd /Users/truongtrang/Desktop/kinhlacc && node -e "
+const fs=require('fs'); const w={};
+new Function('window', fs.readFileSync('frontend/public/kinhmach3d/data/acupoints.js','utf8'))(w);
+const r=w.ACUPOINTS.records;
+console.log('bản ghi:', r.length, '| có khoá anh3d:', r.filter(x=>'anh3d' in x).length,
+  '| anh3d khác null:', r.filter(x=>x.anh3d).length);
+const m=r.find(x=>x.anh3d); console.log('mẫu:', JSON.stringify(m.anh3d).slice(0,240));
+"
 ```
+
+Kỳ vọng: `bản ghi: 1059`, `có khoá anh3d: 1059`, `anh3d khác null:` bằng số huyệt đã nạp ảnh. URL trong mẫu phải bắt đầu bằng `/_emdash/api/media/file/`.
+
+- [ ] **Step 4: Vẽ khối bốn ảnh trong `build-dict.mjs`**
+
+Trên trang huyệt, khi `rec.anh3d` khác null thì vẽ lưới bốn ảnh có chú thích tiếng Việt: **Trên da** (huyệt nằm ở đâu trên bề mặt) · **Trên giải phẫu** (bóc da, thấy cơ và xương) · **Huyệt lân cận** (các huyệt gần, kể cả khác kinh) · **Toàn đường kinh** (vị trí trong cả đường kinh). Dưới lưới, nếu có `anh3d.ghiChu` thì in thành ghi chú nhỏ. Ảnh cũ (`rec.image`) chỉ dùng khi `anh3d` null — đó là 698 huyệt không có toạ độ 3D.
+
+Giữ đúng lối trình bày của thư viện hiện có: CSS thuần, bảng màu nâu/kem đang dùng, `loading="lazy"`, có `width`/`height` để khỏi nhảy bố cục. Không thêm thư viện, không đổi giao diện chung.
+
+**Thêm một việc đáng giá cho SEO:** hiện `ogImg` của trang huyệt rơi về `GENERIC_OG` (một ảnh sơ đồ kinh dùng chung cho mọi huyệt). Khi có `anh3d`, dùng `anh3d.kinh` làm ảnh OG — mỗi huyệt có ảnh chia sẻ riêng thay vì 1.059 trang dùng chung một ảnh.
+
+- [ ] **Step 5: Dựng thật và xem bằng mắt**
+
+Dựng lại trang tĩnh rồi mở `/huyet/thai-uyen/` xem: bốn ảnh có hiện đủ, có vỡ ảnh nào không, ghi chú có đúng chỗ. Kiểm thêm một huyệt KHÔNG có ảnh 3D (kỳ huyệt) để chắc là nó vẫn dùng ảnh cũ chứ không ra khung rỗng.
+
+- [ ] **Step 6: Commit và nhắn kinhlacc-12**
+
+Nhắn phiên đó biết đã sửa `xuat-huyet-js.mjs` và chốt `--kiem-goc` vẫn đạt.
 
 ---
 
