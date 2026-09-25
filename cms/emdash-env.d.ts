@@ -153,6 +153,13 @@ export interface HuyetVi {
   ma_cu?: number;
   so_benh?: number;
   benh_dung?: unknown;
+  noi_dung_goc?: string;
+  thu_tu_muc?: unknown;
+  anh_duong_dan?: string;
+  ma_gach?: string;
+  chi_dinh?: unknown;
+  slug_goc?: string;
+  muc_goc?: unknown;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
