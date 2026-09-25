@@ -1,4 +1,5 @@
 ---
+import KhungSeoBaiViet from "../../components/KhungSeoBaiViet.astro";
 import {
 	getEmDashEntry,
 	getEmDashCollection,
@@ -113,8 +114,11 @@ const publishDate =
 	canonical={seo.canonical}
 	robots={seo.robots}
 	type="article"
-	publishedTime={post.data.publishedAt?.toISOString() ?? null}
-	modifiedTime={post.data.updatedAt.toISOString()}
+	{/* Ngày ĐĂNG THẬT của bài, không phải thời điểm bản ghi được tạo trong CMS.
+	    post.data.publishedAt là lúc di cư (25/09/2026) — để nguyên thì Google thấy cả 11
+	    bài cùng "đăng hôm nay", mất hết tín hiệu tuổi nội dung. */}
+	publishedTime={post.data.ngay_dang ? new Date(post.data.ngay_dang).toISOString() : (post.data.publishedAt?.toISOString() ?? null)}
+	modifiedTime={post.data.ngay_cap_nhat ? new Date(post.data.ngay_cap_nhat).toISOString() : (post.data.ngay_dang ? new Date(post.data.ngay_dang).toISOString() : post.data.updatedAt.toISOString())}
 	content={{ collection: "bai_viet", id: post.data.id, slug }}
 >
 	{isPreview && (
@@ -235,9 +239,11 @@ const publishDate =
 					}
 				</header>
 
-				<div class="article-content">
-					<PortableText value={post.data.content} />
-				</div>
+				<KhungSeoBaiViet post={post} lienQuan={otherPosts.map((p) => ({ slug: p.slug ?? p.id, title: p.data.title }))}>
+					<div class="article-content">
+						<PortableText value={post.data.content} />
+					</div>
+				</KhungSeoBaiViet>
 
 				<div class="article-comments">
 					<Comments collection="bai_viet" contentId={post.data.id} threaded />

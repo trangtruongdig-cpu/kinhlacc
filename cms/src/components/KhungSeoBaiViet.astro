@@ -1,0 +1,135 @@
+---
+// KhungSeoBaiViet.astro — Toàn bộ phần SEO + E-E-A-T của một bài viết.
+//
+// Chép từ backend/src/controllers/seo-blog.renderer.ts (bản đang phục vụ /blog/ hiện nay).
+// Thiếu khối này thì khi chuyển /blog/ sang CMS, 12 URL đang nằm trong Google sẽ mất sạch
+// JSON-LD, dòng "đã rà soát chuyên môn", nguồn tham khảo và miễn trừ y tế — tức mất đúng
+// phần khiến Google tin một trang YMYL.
+const SITE = "Kinh Lạc Trương Gia";
+const TAC_GIA_MAC_DINH = "Ban Biên Tập Kinh Lạc";
+const NGUOI_DUYET_MAC_DINH = "Trương Đình Trang";
+const CHUC_DANH_MAC_DINH = "Y Sỹ Y Học Cổ Truyền (đang theo học)";
+
+const NHAN_CTA: Record<string, string> = {
+	"/xem-ket-qua-do": "Xem Demo Kết Quả Đo Kinh Lạc →",
+	"/xem-3d": "Khám Phá Đồ Hình Kinh Lạc 3D →",
+	"/xem-bai-thuoc": "Xem Phân Tích Bài Thuốc →",
+	"/thu-vien": "Tra Cứu Từ Điển Huyệt Vị →",
+	"/app": "Dùng Thử Phần Mềm →",
+};
+
+interface Props {
+	post: any;
+	lienQuan?: { slug: string; title: string }[];
+}
+const { post, lienQuan = [] } = Astro.props;
+const d = post?.data ?? {};
+
+const goc = Astro.site?.origin ?? Astro.url.origin;
+const url = `${goc}/blog/${post.slug}/`;
+
+// Trường json có thể về dạng chuỗi hoặc mảng tuỳ đường ghi — chuẩn hoá một lần.
+const mang = (v: unknown): any[] => {
+	if (Array.isArray(v)) return v;
+	if (typeof v === "string" && v.trim()) { try { const x = JSON.parse(v); return Array.isArray(x) ? x : []; } catch { return []; } }
+	return [];
+};
+// ISO cho JSON-LD (máy đọc), dd/mm/yyyy cho người đọc.
+const ngay = (v: unknown) => (v ? String(v).slice(0, 10) : "");
+const ngayViet = (v: unknown) => {
+	const s = ngay(v);
+	if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+	const [n, t, g] = s.split("-");
+	return `${g}/${t}/${n}`;
+};
+
+const tacGia = d.tac_gia || TAC_GIA_MAC_DINH;
+const nguoiDuyet = d.nguoi_duyet || NGUOI_DUYET_MAC_DINH;
+const chucDanh = d.chuc_danh_nguoi_duyet || CHUC_DANH_MAC_DINH;
+const ngayDang = ngay(d.ngay_dang) || ngay(post.publishedAt);
+const ngayCapNhat = ngay(d.ngay_cap_nhat) || ngayDang;
+const faq = mang(d.faq).filter((f) => f?.q && f?.a);
+const nguon = mang(d.nguon_tham_khao);
+const tuKhoa = mang(d.tu_khoa);
+const duongCta = NHAN_CTA[d.cta] ? d.cta : "/xem-ket-qua-do";
+
+const jsonLd: any[] = [
+	{
+		"@context": "https://schema.org", "@type": "Article",
+		headline: d.title, description: d.description, inLanguage: "vi",
+		datePublished: ngayDang, dateModified: ngayCapNhat,
+		author: { "@type": "Organization", name: tacGia },
+		// reviewedBy là trụ E-E-A-T: nói cho Google biết ai chịu trách nhiệm chuyên môn.
+		reviewedBy: { "@type": "Person", name: nguoiDuyet, jobTitle: chucDanh },
+		publisher: { "@type": "Organization", name: SITE, logo: { "@type": "ImageObject", url: `${goc}/favicon.svg` } },
+		mainEntityOfPage: { "@type": "WebPage", "@id": url },
+		...(tuKhoa.length ? { keywords: tuKhoa.join(", ") } : {}),
+		...(nguon.length ? { citation: nguon.map((s) => (typeof s === "string" ? s : s.title || s.url || "")) } : {}),
+	},
+	{
+		"@context": "https://schema.org", "@type": "BreadcrumbList",
+		itemListElement: [
+			{ "@type": "ListItem", position: 1, name: "Trang Chủ", item: `${goc}/` },
+			{ "@type": "ListItem", position: 2, name: "Cẩm Nang", item: `${goc}/blog/` },
+			{ "@type": "ListItem", position: 3, name: d.title, item: url },
+		],
+	},
+];
+if (faq.length)
+	jsonLd.push({
+		"@context": "https://schema.org", "@type": "FAQPage",
+		mainEntity: faq.map((f) => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } })),
+	});
+---
+
+{jsonLd.map((o) => (
+	<script type="application/ld+json" set:html={JSON.stringify(o).replace(/</g, "\\u003c")} />
+))}
+
+<div class="bl-byline">
+	<p class="bl-byline-line">
+		<span class="bl-byline-by">{tacGia}</span>
+		{ngayDang && <><span class="bl-byline-sep">·</span><span>Đăng {ngayViet(ngayDang)}</span></>}
+		{ngayCapNhat && ngayCapNhat !== ngayDang && <><span class="bl-byline-sep">·</span><span>Cập nhật {ngayViet(ngayCapNhat)}</span></>}
+	</p>
+	<p class="bl-byline-review">
+		<span class="bl-review-badge">✔ Đã rà soát chuyên môn</span> {nguoiDuyet} — {chucDanh}
+	</p>
+</div>
+
+<slot />
+
+{faq.length > 0 && (
+	<section class="bl-faq">
+		<h2>Câu Hỏi Thường Gặp</h2>
+		{faq.map((f) => (
+			<details><summary>{f.q}</summary><p>{f.a}</p></details>
+		))}
+	</section>
+)}
+
+<div class="bl-cta"><a href={duongCta}>{NHAN_CTA[duongCta]}</a></div>
+
+{nguon.length > 0 && (
+	<section class="bl-sources">
+		<h2>Nguồn Tham Khảo</h2>
+		<ul>{nguon.map((s) => (
+			<li>{typeof s === "string" ? s : s.url
+				? <a href={s.url} target="_blank" rel="noopener noreferrer">{s.title || s.url}</a>
+				: (s.title || "")}</li>
+		))}</ul>
+	</section>
+)}
+
+<aside class="bl-disclaimer" role="note">
+	<p class="bl-disc-title">⚕️ Miễn Trừ Y Tế</p>
+	<p>Bài viết chỉ mang tính <strong>tham khảo &amp; học tập</strong> theo lý luận Đông Y, không thay thế việc thăm khám, chẩn đoán hay điều trị của thầy thuốc có chuyên môn. Khi có vấn đề sức khoẻ, hãy đến cơ sở y tế.</p>
+	<p class="bl-disc-meta">Biên soạn với sự hỗ trợ của công cụ AI · Rà soát chuyên môn: {nguoiDuyet} ({chucDanh}) · Xem <a href="/quy-trinh-bien-tap">Quy Trình Biên Tập</a>.</p>
+</aside>
+
+{lienQuan.length > 0 && (
+	<section class="bl-related">
+		<h2>Bài Liên Quan</h2>
+		<ul>{lienQuan.map((r) => (<li><a href={`/blog/${r.slug}/`}>{r.title}</a></li>))}</ul>
+	</section>
+)}
