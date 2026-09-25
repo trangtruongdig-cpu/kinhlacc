@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<title>Xưởng ảnh huyệt — nội bộ</title>
+<meta name="robots" content="noindex,nofollow" />
+<style>
+  html, body { margin:0; padding:0; height:100%; background:#ffffff; overflow:hidden; }
+  #mapStage { position:fixed; inset:0; }
+  #mapStage canvas { display:block; }
+  /* Engine đòi các nút/panel này tồn tại; xưởng không dùng nên giấu hẳn. */
+  .an { position:absolute; left:-9999px; top:-9999px; width:1px; height:1px; overflow:hidden; }
+  #lopNhan { position:fixed; inset:0; pointer-events:none; font:600 13px/1.2 system-ui,-apple-system,'Segoe UI',sans-serif; }
+  #lopNhan .nh { position:absolute; transform:translate(8px,-50%); color:#7a2e12; background:rgba(255,255,255,.86); border:1px solid #e6d3bf; border-radius:5px; padding:1px 5px; white-space:nowrap; }
+  #lopNhan .nh.chinh { color:#fff; background:#b3401a; border-color:#b3401a; font-size:14px; }
+</style>
+</head>
+<body>
+<div id="mapStage"></div>
+<div id="lopNhan"></div>
+<div class="an">
+  <div id="mapDrawer"><div id="drawerBody"></div><div id="drActions"></div>
+    <button id="drCloseBtn"></button><button id="drClear"></button><button id="drIsolate"></button></div>
+  <input id="mapSearch" /><span id="mapCount"></span><span id="mapCaptionText"></span>
+  <button id="mapFlow"></button><button id="mapRotate"></button><button id="mapMirror"></button>
+  <button id="mapReset"></button><button id="mapResetAll"></button><button id="mapSystems"></button>
+  <button id="mapEdit"></button><button id="mspExplode"></button><span id="mspExplodeV"></span>
+  <input id="mapPartSearch" /><div id="mapPartResults"></div><div id="view-meridian"></div>
+</div>
+
+<script src="vendor/three.min.js"></script>
+<script src="vendor/OrbitControls.js"></script>
+<script src="vendor/GLTFLoader.js"></script>
+<script src="vendor/meshopt_decoder.js"></script>
+<script src="data/acupoints.js"></script>
+<script src="data/acu-index.js"></script>
+<script src="data/acu-coords3d.js"></script>
+<script src="data/meridian-paths.js"></script>
+<script src="data/human-atlas-index.js"></script>
+<script src="data/human-atlas-vi.js"></script>
+<script src="map3d.js"></script>
+<script>
+// MỞ CỔNG XƯỞNG — không có dòng này thì __XUONG.dungCanh() và nhan() trơ hoàn toàn,
+// trả {loi:'chưa mở cổng xưởng'} và không ảnh nào ra. Cổng có để móc không bao giờ
+// sửa được trạng thái camera trên trang công khai.
+window.__XUONG_CHO_PHEP = true;
+
+// Báo hiệu cho Playwright: đổi title thay vì cờ toàn cục, vì title đọc được ngay cả khi
+// script trong trang ném lỗi giữa chừng.
+(function cho() {
+  if (window.__XUONG && window.__XUONG.sanSang()) { document.title = 'XUONG-SAN-SANG'; return; }
+  setTimeout(cho, 250);
+})();
+
+/** Vẽ lớp nhãn HTML — KHÔNG vẽ chữ trong WebGL (chữ có dấu trong texture rất xấu). */
+window.__NHAN = function (ds, maChinh) {
+  const lop = document.getElementById('lopNhan');
+  lop.innerHTML = '';
+  for (const x of ds) {
+    const d = document.createElement('div');
+    d.className = 'nh' + (x.ma === maChinh ? ' chinh' : '');
+    d.style.left = x.x + 'px'; d.style.top = x.y + 'px';
+    d.textContent = x.nhan || x.ma;
+    lop.appendChild(d);
+  }
+};
+</script>
+</body>
+</html>
