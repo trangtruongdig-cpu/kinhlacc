@@ -65,6 +65,35 @@ describe('traTen', () => {
     // có nguy hiểm trả nhầm mã FMA nếu atlas có tên tương tự với dạng hoa
   });
 
+  it('bangChuan() phải chuẩn hoá KHOÁ của bảng, không chỉ chuẩn hoá tham số đầu vào', () => {
+    // Test trên (dòng trên) không canh được bangChuan(): "cân cơ chéo ngoài" trong bảng
+    // thật đã sẵn ở dạng chuẩn, nên dù có gỡ bangChuan() thì lời gọi vẫn rơi vào nhánh
+    // fallback (atlas không có "cân cơ chéo ngoài" dưới mọi dạng) và vẫn trả null — xanh giả.
+    //
+    // Test này giả lập một bảng bịa có khoá CỐ TÌNH không chuẩn hoá ("Cơ Ngực Bé", viết
+    // hoa) để phân biệt thật: nếu bangChuan() không chuẩn hoá khoá, khoá hoa này sẽ không
+    // khớp với chuỗi tra đã chuẩn hoá ("cơ ngực bé"), traTen() rơi xuống nhánh khớp thẳng
+    // theo atlas — mà atlas CÓ "cơ ngực bé" = FMA13109 — nên rò rỉ ra FMA13109 thay vì null.
+    // Bảng thật (ten-giai-phau-map.json) không hề bị đụng tới nên độ phủ không đổi.
+    jest.doMock('./ten-giai-phau-map.json', () => ({
+      'Cơ Ngực Bé': null,
+    }));
+    let boGiaLap!: typeof boTra;
+    jest.isolateModules(() => {
+      boGiaLap = require('./ten-giai-phau.cjs') as typeof boTra;
+    });
+    jest.dontMock('./ten-giai-phau-map.json');
+
+    expect(boGiaLap.traTen('cơ ngực bé')).toBeNull();
+  });
+
+  it('bỏ qua khoá mô tả (vd "_ghiChu"), không được coi nó là tên mô', () => {
+    // BANG là require() nguyên tệp JSON, có khoá "_ghiChu" trỏ tới một đoạn văn dài.
+    // Nếu bangChuan() không lọc khoá gạch dưới, traTen('_ghiChu') sẽ trả về cả đoạn văn
+    // đó làm conceptId — đúng kiểu "trả nhầm" mà bộ này sinh ra để tránh.
+    expect(traTen('_ghiChu')).toBeNull();
+  });
+
   it('không nhận nhầm bên trái/phải', () => {
     const r = traTen('cơ ngực bé');
     expect(r).not.toBeNull();

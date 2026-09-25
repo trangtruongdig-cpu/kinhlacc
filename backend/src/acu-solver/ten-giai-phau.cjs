@@ -30,6 +30,7 @@ function bangChuan() {
   if (_bangChuan) return _bangChuan;
   _bangChuan = new Map();
   for (const [khoa, id] of Object.entries(BANG)) {
+    if (khoa.startsWith('_')) continue; // khoá mô tả (vd "_ghiChu"), không phải tên mô thật
     const khoaChuân = chuan(khoa);
     _bangChuan.set(khoaChuân, id);
   }
