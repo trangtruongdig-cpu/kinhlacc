@@ -162,6 +162,31 @@ Và log deploy không còn dòng `⚠ ... BỎ QUA prerender`.
   là chỗ đầu tiên phải nhìn.
 - **Build lâu hơn** — dựng 15.054 trang cộng bước gzip.
 
+## Bổ sung sau khi deploy: xác minh chứng chỉ máy chủ
+
+Ba script prerender vốn nối Postgres với `rejectUnauthorized: false` — kết nối được **mã hoá**
+nhưng **không xác minh danh tính máy chủ**, nên kẻ chen giữa mạo danh Aiven sẽ không bị phát hiện.
+
+Đã sửa: `frontend/scripts/db-ssl.mjs` là nguồn sự thật duy nhất cho cả ba script (tránh ba bản
+sao lệch nhau). CA lấy theo thứ tự `CA_CERTIFICATE` (máy dev, qua dotenv) → `DB_CA_CERT_FILE`
+(trong Docker). Không có CA thì cảnh báo và lui về mức cũ, không làm gãy build.
+
+`CA_CERTIFICATE` là PEM **26 dòng** nên không nạp qua env được. Dockerfile trích nó ra
+`/tmp/aiven-ca.pem` bằng `util.parseEnv` của Node rồi trỏ `DB_CA_CERT_FILE` vào, xoá sau khi build.
+
+Nghiệm thu — phép thử đối kháng, không chỉ thử đường sáng:
+
+| Thử | Kết quả |
+|---|---|
+| Cert thật của Aiven | ✓ kết nối, cả ba script ra đúng 6.250 URL như trước |
+| Cert giả tự ký (`CN=ke-mao-danh`) | **bị từ chối**: `self-signed certificate in certificate chain` |
+| `rejectUnauthorized: true` không kèm CA | lỗi — Aiven ký bằng CA riêng nên bắt buộc phải có CA |
+
+⚠️ **Rủi ro đã biết, ghi sổ nợ.** Khi không nối được DB (cert sai, mạng hỏng, mật khẩu đổi),
+ba script **âm thầm bỏ qua và build vẫn báo thành công** — đúng cơ chế đã giấu lỗi này suốt thời
+gian qua. Cách phát hiện hiện nay là đếm URL trong sitemap sau mỗi lần deploy; nên có phép kiểm
+tự động chặn deploy khi sitemap tụt đột ngột.
+
 ## Ngoài phạm vi
 
 Nội dung dược liệu sửa trong app vẫn phải chờ lần deploy kế tiếp mới lên trang. Muốn tức

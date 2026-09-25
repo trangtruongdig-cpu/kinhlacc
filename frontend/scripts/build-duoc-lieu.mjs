@@ -9,6 +9,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
+import { sslConfig } from './db-ssl.mjs'
 import { createRequire } from 'node:module'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -166,7 +167,7 @@ function stub(v, rel) {
     user: process.env.DB_USER || process.env.POSTGRES_USER,
     password: process.env.DB_PASSWORD || process.env.POSTGRES_PASSWORD,
     database: process.env.DB_NAME || process.env.POSTGRES_DATABASE,
-    ssl: process.env.DB_SSL === 'false' ? false : { rejectUnauthorized: false },
+    ssl: sslConfig(),
   })
   try {
     await client.connect()

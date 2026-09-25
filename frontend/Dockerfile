@@ -30,14 +30,21 @@ COPY . .
 # CHỈ lọc các dòng DB_* rồi mới nạp: backend/.env còn chứa CA_CERTIFICATE (PEM trải 25 dòng)
 # và FIREBASE_SERVICE_ACCOUNT — source cả file thì shell cố chạy dòng base64 như lệnh → vỡ build.
 #
+# CA_CERTIFICATE (PEM 26 dòng) KHÔNG nạp qua env được, nên trích riêng ra /tmp/aiven-ca.pem
+# bằng util.parseEnv của Node rồi trỏ DB_CA_CERT_FILE vào — nhờ vậy ba bước prerender XÁC MINH
+# được danh tính máy chủ Aiven (rejectUnauthorized: true) thay vì chỉ mã hoá. Xem db-ssl.mjs.
+#
 # Thiếu secret (vd ai đó chạy `docker build` tay) → vẫn build được, chỉ là ba bước prerender
 # dược liệu / cổ phương / nhóm dược lý tự bỏ qua như trước. Không làm gãy deploy.
 RUN --mount=type=secret,id=db_env \
     if [ -f /run/secrets/db_env ]; then \
       grep -E '^(DB_HOST|DB_PORT|DB_USER|DB_PASSWORD|DB_NAME|DB_SSL)=' /run/secrets/db_env > /tmp/db.env || true; \
       set -a; . /tmp/db.env; set +a; rm -f /tmp/db.env; \
+      node -e 'const fs=require("node:fs"),u=require("node:util");const e=u.parseEnv(fs.readFileSync("/run/secrets/db_env","utf8"));if(e.CA_CERTIFICATE)fs.writeFileSync("/tmp/aiven-ca.pem",e.CA_CERTIFICATE)' || true; \
+      [ -f /tmp/aiven-ca.pem ] && export DB_CA_CERT_FILE=/tmp/aiven-ca.pem || true; \
     fi; \
-    npm run blog:pre && npm run build-only && npm run blog:post
+    npm run blog:pre && npm run build-only && npm run blog:post; \
+    rc=$?; rm -f /tmp/aiven-ca.pem; exit $rc
 
 # Nén sẵn asset tĩnh (.gz) để nginx "gzip_static on" phục vụ trực tiếp — khỏi nén lại mỗi request.
 # Bỏ qua file < 1KB (nén không lợi). Dùng gzip -c (khỏi cần -k) cho tương thích busybox alpine.
