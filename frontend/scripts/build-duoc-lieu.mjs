@@ -33,6 +33,14 @@ import { napGhiDe } from './seo-cms.mjs'
 // Ghi đè SEO người biên tập gõ trong CMS. Nạp một lần ở đây; không nối được kho thì
 // hàm trả null và trang dùng bản tự sinh (seo-cms.mjs đã kêu, đừng nuốt cảnh báo).
 const ghiDeSEO = await napGhiDe()
+// Cắt mô tả cho vừa ô kết quả tìm kiếm. Trước đây cắt cứng ở 300 ký tự, mà Google chỉ
+// hiện ~155–160: đo trên dist/ thấy 8.492/13.943 trang bài thuốc (61%) bị cắt cụt giữa
+// chừng. Cắt ở RANH GIỚI TỪ rồi thêm "…" để câu còn đọc được.
+const clipMoTa = (t, max = 158) => {
+  const s = String(t || '').replace(/\s+/g, ' ').trim()
+  return s.length <= max ? s : s.slice(0, max - 1).replace(/\s+\S*$/, '') + '…'
+}
+
 
 const distDir = process.env.DIST_DIR ? resolve(process.env.DIST_DIR) : resolve(root, 'dist')
 const DOMAIN = (process.env.SITE_DOMAIN || 'https://kinhlac.online').replace(/\/+$/, '')
@@ -254,7 +262,7 @@ function stub(v, rel) {
     const congDungNames = (rel.congDung.get(v.id) || []).map((r) => r.ten)
     const title = gd?.title || `${v.ten_vi_thuoc} — Vị thuốc Đông Y${v.xuat_xu ? ' (' + v.xuat_xu + ')' : ''} | Kinh Lạc Trương Gia`
     const descSrc = v.mo_ta || v.chu_tri || (congDungNames.length ? `Công dụng: ${congDungNames.join(', ')}.` : '')
-    const desc = gd?.description || `Vị thuốc ${v.ten_vi_thuoc}${v.tinh || v.vi ? ` — tính ${v.tinh || '?'}, vị ${v.vi || '?'}` : ''}. ${descSrc}`.slice(0, 300)
+    const desc = gd?.description || clipMoTa(`Vị thuốc ${v.ten_vi_thuoc}${v.tinh || v.vi ? ` — tính ${v.tinh || '?'}, vị ${v.vi || '?'}` : ''}. ${descSrc}`)
     const jsonLd = {
       '@context': 'https://schema.org', '@type': 'MedicalWebPage', inLanguage: 'vi', url,
       name: v.ten_vi_thuoc, description: desc, isAccessibleForFree: true,
