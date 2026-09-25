@@ -5,6 +5,20 @@ import { defineConfig, fontProviders, memoryCache } from "astro/config";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import emdash, { local } from "emdash/astro";
+// Nhà gửi email. Bản dựng production KHÔNG có nhà gửi nào sẵn: nhà gửi "console" của
+// EmDash chỉ đăng ký khi import.meta.env.DEV nên nó bị loại khỏi bản dựng — đó là lý do
+// /_emdash/api/auth/magic-link/send trên VPS trả 503 EMAIL_NOT_CONFIGURED còn ở máy dev
+// thì link vẫn hiện ra trong terminal. Không có biến môi trường nào bật lại được.
+//
+// Gói khai peer "emdash ^0.5.0" trong khi dự án ở 0.39.1 nên phải cài kèm
+// --legacy-peer-deps. Vẫn dùng được: capability "email:provide" còn nằm trong danh sách
+// hợp lệ của 0.39.1, và plugin dạng "standard" được nạp thẳng trong tiến trình Node
+// (sandbox của EmDash chỉ chạy trên Cloudflare) — y như plugin-audit-log đang chạy.
+//
+// Khoá API KHÔNG nằm ở đây: nhập trong Admin → Resend, EmDash cất vào database đã mã hoá
+// bằng EMDASH_ENCRYPTION_KEY. Database dùng chung nên nhập một lần ở máy dev là VPS đọc
+// được luôn, không phải khai biến trên server.
+import resend from "emdash-plugin-resend";
 import { postgres } from "emdash/db";
 
 export default defineConfig({
@@ -109,7 +123,10 @@ export default defineConfig({
 				directory: "./uploads",
 				baseUrl: "/_emdash/api/media/file",
 			}),
-			plugins: [auditLog],
+			// Hai nhà cung cấp cùng giành hook "email:deliver" (ở máy dev còn có nhà gửi
+			// console nữa) — hook này là loại độc quyền, nên phải vào Admin → Settings →
+			// Email chọn đúng một cái. Lựa chọn đó cất trong database dùng chung.
+			plugins: [auditLog, resend()],
 		}),
 	],
 	fonts: [
