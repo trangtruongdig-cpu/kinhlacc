@@ -5,12 +5,24 @@
 
 import type { ContentBylineCredit, TaxonomyTerm, PortableTextBlock } from "emdash";
 
-export interface Page {
+export interface BaiViet {
   id: string;
   slug: string | null;
   status: string;
   title: string;
+  description?: string;
   content?: PortableTextBlock[];
+  featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  ngay_dang?: string;
+  ngay_cap_nhat?: string;
+  tac_gia?: string;
+  nguoi_duyet?: string;
+  chuc_danh_nguoi_duyet?: string;
+  cta?: string;
+  tu_khoa?: unknown;
+  faq?: unknown;
+  nguon_tham_khao?: unknown;
+  cho_index?: boolean;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -18,14 +30,45 @@ export interface Page {
   terms?: Record<string, TaxonomyTerm[]>;
 }
 
-export interface Post {
+export interface BenhHoc {
   id: string;
   slug: string | null;
   status: string;
   title: string;
-  featured_image?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown>; darkVariant?: { id: string; src?: string; alt?: string; width?: number; height?: number; filename?: string; mimeType?: string; blurhash?: string; dominantColor?: string; focalX?: number; focalY?: number; provider?: string; previewUrl?: string; meta?: Record<string, unknown> } };
+  doi_chieu_benh_danh?: string;
+  noi_dung?: PortableTextBlock[];
+  cho_index?: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
+export interface HuyetVi {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
+  ma_huyet?: string;
+  noi_dung?: PortableTextBlock[];
+  pho_huyet?: string;
+  ghi_chu?: string;
+  tham_khao?: string;
+  cho_index?: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  publishedAt: Date | null;
+  bylines?: ContentBylineCredit[];
+  terms?: Record<string, TaxonomyTerm[]>;
+}
+
+export interface Trang {
+  id: string;
+  slug: string | null;
+  status: string;
+  title: string;
   content?: PortableTextBlock[];
-  excerpt?: string;
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
@@ -35,7 +78,9 @@ export interface Post {
 
 declare module "emdash" {
   interface EmDashCollections {
-    pages: Page;
-    posts: Post;
+    bai_viet: BaiViet;
+    benh_hoc: BenhHoc;
+    huyet_vi: HuyetVi;
+    trang: Trang;
   }
 }

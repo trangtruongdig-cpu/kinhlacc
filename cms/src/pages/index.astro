@@ -15,7 +15,7 @@ import { resolveBlogSiteIdentity } from "../utils/site-identity";
 const POSTS_PER_PAGE = 7;
 
 const [{ entries: posts, cacheHint }, settings] = await Promise.all([
-	getEmDashCollection("posts", {
+	getEmDashCollection("bai_viet", {
 		orderBy: { published_at: "desc" },
 		limit: POSTS_PER_PAGE + 1, // +1 to detect "view all" need
 	}),
@@ -43,7 +43,7 @@ const tagEntryIds = [
 	...(featuredPost ? [featuredPost.data.id] : []),
 	...gridPosts.map((p) => p.data.id),
 ];
-const tagsByEntry = await getTermsForEntries("posts", tagEntryIds, "tag");
+const tagsByEntry = await getTermsForEntries("bai_viet", tagEntryIds, "cum");
 
 const featuredTags = featuredPost
 	? (tagsByEntry.get(featuredPost.data.id) ?? []).map((t) => ({
@@ -79,7 +79,7 @@ function formatDate(date: Date | null | undefined) {
 			<section class="empty-state">
 				<h2>No posts yet</h2>
 				<p>Create your first post in the admin panel.</p>
-				<a href="/_emdash/admin/content/posts/new" class="btn">
+				<a href="/_emdash/admin/content/bai_viet/new" class="btn">
 					Create a post
 				</a>
 			</section>
@@ -89,7 +89,7 @@ function formatDate(date: Date | null | undefined) {
 				{featuredPost && (
 					<section class="featured-section">
 						<div class="featured-grid">
-							<a href={`/posts/${featuredPost.id}`} class="featured-image-link">
+							<a href={`/blog/${featuredPost.slug ?? featuredPost.id}/`} class="featured-image-link">
 								<div class="featured-image">
 									<Image image={featuredPost.data.featured_image} />
 								</div>
@@ -134,7 +134,7 @@ function formatDate(date: Date | null | undefined) {
 									</span>
 								</div>
 								<a
-									href={`/posts/${featuredPost.id}`}
+									href={`/blog/${featuredPost.slug ?? featuredPost.id}/`}
 									class="featured-title-link"
 								>
 									<h1 class="featured-title">{featuredPost.data.title}</h1>
@@ -145,7 +145,7 @@ function formatDate(date: Date | null | undefined) {
 								{featuredTags.length > 0 && (
 									<div class="featured-tags">
 										{featuredTags.map((tag) => (
-											<a href={`/tag/${tag.slug}`} class="featured-tag">
+											<a href={`/cum/${tag.slug}`} class="featured-tag">
 												{tag.label}
 											</a>
 										))}
@@ -162,7 +162,7 @@ function formatDate(date: Date | null | undefined) {
 						<header class="section-header">
 							<h2 class="section-title">Latest</h2>
 							{hasMorePosts && (
-								<a href="/posts" class="section-link">
+								<a href="/blog/" class="section-link">
 									View all
 								</a>
 							)}
@@ -173,7 +173,7 @@ function formatDate(date: Date | null | undefined) {
 									title={post.data.title ?? "Untitled"}
 									excerpt={post.data.excerpt}
 									featuredImage={post.data.featured_image}
-									href={`/posts/${post.id}`}
+									href={`/blog/${post.slug ?? post.id}/`}
 									date={post.data.publishedAt ?? undefined}
 									readingTime={getReadingTime(post.data.content)}
 									tags={tags}

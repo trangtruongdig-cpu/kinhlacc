@@ -10,25 +10,26 @@ import PostCard from "../../components/PostCard.astro";
 import { getReadingTime } from "../../utils/reading-time";
 
 const slug = decodeSlug(Astro.params.slug);
-const term = slug ? await getTerm("tag", slug, { includeCounts: false }) : null;
+const term = slug ? await getTerm("chuyen_muc", slug, { includeCounts: false }) : null;
 
 if (!term) {
 	return Astro.redirect("/404");
 }
 
-const { entries: posts, cacheHint } = await getEmDashCollection("posts", {
-	where: { tag: term.slug },
+const { entries: posts, cacheHint } = await getEmDashCollection("bai_viet", {
+	where: { category: term.slug },
 	orderBy: { published_at: "desc" },
 });
 
 if (Astro.cache?.enabled) Astro.cache.set(cacheHint);
 
-// Single batched query for tags on every post tagged with this term,
-// rather than calling getEntryTerms() per post.
+// Single batched query for tags on every post in this category, rather
+// than calling getEntryTerms() per post (which would be one round-trip
+// per post).
 const tagsByEntry = await getTermsForEntries(
-	"posts",
+	"bai_viet",
 	posts.map((p) => p.data.id),
-	"tag",
+	"cum",
 );
 const filteredPosts = posts.map((post) => ({
 	post,
@@ -36,23 +37,20 @@ const filteredPosts = posts.map((post) => ({
 }));
 ---
 
-<Base
-	title={`Posts tagged "${term.label}"`}
-	description={`All posts tagged with ${term.label}`}
->
+<Base title={`${term.label} posts`} description={`All posts in ${term.label}`}>
 	<section class="archive-section">
 		<header class="archive-header">
-			<span class="archive-label">Tag</span>
+			<span class="archive-label">Category</span>
 			<h1 class="archive-title">{term.label}</h1>
 			<p class="archive-count">
 				{filteredPosts.length}
-				{filteredPosts.length === 1 ? "post" : "posts"}
+				{filteredPosts.length === 1 ? "post" : "bai_viet"}
 			</p>
 		</header>
 
 		{
 			filteredPosts.length === 0 ? (
-				<p class="no-posts">No posts with this tag yet.</p>
+				<p class="no-posts">No posts in this category yet.</p>
 			) : (
 				<div class="posts-grid">
 					{filteredPosts.map(({ post, tags }) => (
@@ -60,7 +58,7 @@ const filteredPosts = posts.map((post) => ({
 							title={post.data.title}
 							excerpt={post.data.excerpt}
 							featuredImage={post.data.featured_image}
-							href={`/posts/${post.id}`}
+							href={`/blog/${post.slug ?? post.id}/`}
 							date={post.data.publishedAt ?? undefined}
 							readingTime={getReadingTime(post.data.content)}
 							tags={tags.map((t) => ({ slug: t.slug, label: t.label }))}

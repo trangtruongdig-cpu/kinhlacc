@@ -24,7 +24,7 @@ if (!slug) {
 	return Astro.redirect("/404");
 }
 
-const { entry: post, cacheHint } = await getEmDashEntry("posts", slug);
+const { entry: post, cacheHint } = await getEmDashEntry("bai_viet", slug);
 
 if (!post) {
 	return Astro.redirect("/404");
@@ -75,7 +75,7 @@ const readingTime = getReadingTime(post.data.content);
 const tags = post.data.terms?.tag ?? [];
 
 // Fetch a few extra recent posts in case the current post is among them.
-const { entries: recentPosts } = await getEmDashCollection("posts", {
+const { entries: recentPosts } = await getEmDashCollection("bai_viet", {
 	orderBy: { published_at: "desc" },
 	limit: 4,
 });
@@ -84,9 +84,9 @@ const otherPosts = recentPosts.filter((p) => p.id !== post.id).slice(0, 3);
 // Single batched query for related-posts tags, rather than one
 // getEntryTerms() call per related post.
 const otherTagsByEntry = await getTermsForEntries(
-	"posts",
+	"bai_viet",
 	otherPosts.map((p) => p.data.id),
-	"tag",
+	"cum",
 );
 const otherPostsWithTags = otherPosts.map((p) => ({
 	post: p,
@@ -112,7 +112,7 @@ const publishDate =
 	type="article"
 	publishedTime={post.data.publishedAt?.toISOString() ?? null}
 	modifiedTime={post.data.updatedAt.toISOString()}
-	content={{ collection: "posts", id: post.data.id, slug }}
+	content={{ collection: "bai_viet", id: post.data.id, slug }}
 >
 	<article class="article">
 		{/* Hero: Full-width featured image */}
@@ -177,7 +177,7 @@ const publishDate =
 								<span class="meta-label">Tags</span>
 								<div class="meta-tags">
 									{tags.map((t) => (
-										<a href={`/tag/${t.slug}`} class="meta-tag">
+										<a href={`/cum/${t.slug}`} class="meta-tag">
 											{t.label}
 										</a>
 									))}
@@ -230,8 +230,8 @@ const publishDate =
 				</div>
 
 				<div class="article-comments">
-					<Comments collection="posts" contentId={post.data.id} threaded />
-					<CommentForm collection="posts" contentId={post.data.id} />
+					<Comments collection="bai_viet" contentId={post.data.id} threaded />
+					<CommentForm collection="bai_viet" contentId={post.data.id} />
 				</div>
 			</div>
 
@@ -264,7 +264,7 @@ const publishDate =
 									title={p.data.title}
 									excerpt={p.data.excerpt}
 									featuredImage={p.data.featured_image}
-									href={`/posts/${p.id}`}
+									href={`/blog/${p.slug ?? p.id}/`}
 									date={p.data.publishedAt ?? undefined}
 									readingTime={getReadingTime(p.data.content)}
 									tags={postTags.map((t) => ({ slug: t.slug, label: t.label }))}
