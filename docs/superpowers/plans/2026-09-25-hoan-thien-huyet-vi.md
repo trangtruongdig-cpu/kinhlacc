@@ -247,6 +247,8 @@ git commit -m "feat(acu): bộ tra tên giải phẫu sang mã FMA, thà null c�
 **Files:**
 - Modify: `frontend/public/kinhmach3d/map3d.js` (thêm khối trước `})();` ở cuối tệp, sau khối `window.AcuMap = {...}`)
 
+> **Đã thi công, mã dưới đây KHÔNG còn khớp bản thật.** Xem commit `3937f60` + `168e1c1`. Ba chỗ khác với mã trong kế hoạch: `partsOfConcept()` trả `{parts, kids}` nên phải gộp qua `.parts`; `dungCanh()`/`nhan()` có cổng `window.__XUONG_CHO_PHEP`; `nhan()` lọc huyệt bị che bằng `userData.normal` với ngưỡng 0,15. Thêm `traLai()` khôi phục `minDistance`/`near`/`far`.
+
 **Interfaces:**
 - Consumes: hàm nội bộ sẵn có `initScene()`, `focusPoint(code, opts)`, `highlightParts(parts)`, `partsOfConcept(conceptId)`, `clearHighlight()`, `applyLayers()`, `applyVisibility()`; biến `camera`, `controls`, `renderer`, `scene`, `dotMeshes`, `bodyHeight`, `layerState`, `hidden`, `focusMer`, `_acuRevealed`, `modelRoot`.
 - Produces: `window.__XUONG` với `sanSang()`, `dungCanh(dat)`, `nhan()`; `dat` là `{ma, kieu, huong, banKinhCm, toSang}`.
@@ -415,6 +417,11 @@ git commit -m "feat(3d): móc __XUONG cho xưởng ảnh, chỉ thêm không s�
 <script src="data/human-atlas-vi.js"></script>
 <script src="map3d.js"></script>
 <script>
+// MỞ CỔNG XƯỞNG — không có dòng này thì __XUONG.dungCanh() và nhan() trơ hoàn toàn,
+// trả {loi:'chưa mở cổng xưởng'} và không ảnh nào ra. Cổng có để móc không bao giờ
+// sửa được trạng thái camera trên trang công khai.
+window.__XUONG_CHO_PHEP = true;
+
 // Báo hiệu cho Playwright: đổi title thay vì cờ toàn cục, vì title đọc được ngay cả khi
 // script trong trang ném lỗi giữa chừng.
 (function cho() {
