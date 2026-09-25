@@ -3159,6 +3159,103 @@
       });
     },
   };
+
+  /* ===== XƯỞNG ẢNH — chỉ dùng bởi xuong-anh.html + chup-huyet.cjs =====
+   * Không phải API của app. Đặt ở đây thay vì viết engine thứ hai vì bài học "ba bản sao thuật
+   * toán phải sửa đồng thời": một bản sao nữa là một chỗ nữa để lệch.
+   * Mọi hàm đều ĐỒNG BỘ và không đụng history/hash — Playwright gọi xong là chụp được ngay. */
+  window.__XUONG = {
+    sanSang() { return !!modelRoot && _acuRevealed && dotMeshes.length > 0; },
+
+    /** Đặt cảnh cho MỘT kiểu ảnh rồi trả về mô tả cảnh để bên gọi kiểm.
+     * dat = { ma, kieu:'da'|'gp'|'lan'|'kinh', huong:'front'|'back'|'left'|'right',
+     *         banKinhCm, toSang:[conceptId] } */
+    dungCanh(dat) {
+      initScene();
+      const { ma, kieu } = dat;
+      const cham = dotMeshes.find(d =>
+        (d.userData.code || (d.userData.mer + d.userData.num)) === ma &&
+        (d.userData.side || 'L') === 'L');
+      if (!cham) return { loi: 'không thấy chấm ' + ma };
+
+      clearHighlight();
+      const mer = cham.userData.mer;
+
+      // 1. Lớp giải phẫu. 'gp' bóc da để lộ cơ + xương; ba kiểu kia giữ da.
+      layerState.skin   = (kieu === 'gp') ? 0 : 1;
+      layerState.muscle = (kieu === 'gp') ? 1 : 0;
+      layerState.bone   = (kieu === 'gp') ? 1 : 0;
+      applyLayers();
+
+      // 2. Đường kinh. Ảnh 'kinh' hiện cả đường; ba kiểu kia chỉ giữ đường của chính kinh đó.
+      // Ép acuLayerOn=true: applyVisibility() ẩn TOÀN BỘ huyệt/đường kinh khi cờ này tắt (công tắc
+      // "Kinh Lạc" của panel Hệ Cơ Quan, xem dòng ~1359), bất kể hidden/focusMer bên dưới — trang
+      // xưởng không ai bấm tắt nó, nhưng lỡ trạng thái trước đó (chế độ bóc tách) để nó = false thì
+      // ảnh sẽ trắng trơn không có đường kinh nào.
+      acuLayerOn = true;
+      hidden.clear();
+      focusMer = mer;
+      applyVisibility();
+
+      // 3. Tô sáng cấu trúc — CHỈ những conceptId bên gọi truyền vào (đã lọc ở ten-giai-phau.cjs).
+      // partsOfConcept() trả {parts, kids}, KHÔNG phải mảng phần tử trực tiếp (xem dòng ~1883) —
+      // gộp .parts của từng id lại rồi mới tô sáng.
+      if (kieu === 'gp' && Array.isArray(dat.toSang) && dat.toSang.length) {
+        const parts = [];
+        for (const id of dat.toSang) {
+          const got = partsOfConcept(id);
+          if (got && got.parts && got.parts.length) parts.push(...got.parts);
+        }
+        if (parts.length) highlightParts(parts);
+      }
+
+      // 4. Camera. Bán kính tính bằng cm → đơn vị world (mesh cao bodyHeight ứng 171,9cm).
+      // Hạ minDistance: controls.minDistance=0.6 đặt lúc initScene() (dòng ~371) kẹp MỌI camera
+      // đứng gần hơn 0,6 đơn vị world (~60cm quy đổi) — xa hơn hẳn bán kính ảnh cận mặc định 12cm
+      // (~0,35 đơn vị world), nên nếu không hạ thì controls.update() bên dưới sẽ kéo camera ra xa
+      // hơn dự kiến. Trang xưởng không ai kéo chuột nên hạ hẳn xuống là an toàn.
+      controls.minDistance = 0.001;
+      const CM = bodyHeight / 171.9;
+      const r = (kieu === 'kinh' ? 95 : (dat.banKinhCm || 12)) * CM;
+      const tam = cham.getWorldPosition(new THREE.Vector3());
+      const HUONG = {
+        front: new THREE.Vector3(0, 0, 1), back: new THREE.Vector3(0, 0, -1),
+        left: new THREE.Vector3(-1, 0, 0), right: new THREE.Vector3(1, 0, 0),
+      };
+      const dir = HUONG[dat.huong] || HUONG.front;
+      const xa = r / Math.sin(camera.fov * Math.PI / 360);
+      controls.target.copy(tam);
+      camera.position.copy(tam).addScaledVector(dir, xa);
+      camera.near = Math.max(0.01, xa - r * 2); camera.far = xa + r * 4;
+      camera.updateProjectionMatrix();
+      controls.update();
+      renderer.render(scene, camera);
+      return { ma, kieu, mer, banKinhWorld: +r.toFixed(4), camXa: +xa.toFixed(4) };
+    },
+
+    /** Toạ độ MÀN HÌNH (px) của các chấm đang nhìn thấy, để lớp nhãn HTML đặt chữ đúng chỗ. */
+    nhan(banKinhCm = 12) {
+      const CM = bodyHeight / 171.9;
+      const r = banKinhCm * CM;
+      const tam = controls.target;
+      const rect = renderer.domElement.getBoundingClientRect();
+      const ra = [];
+      for (const m of dotMeshes) {
+        if ((m.userData.side || 'L') !== 'L') continue;
+        const p = m.getWorldPosition(new THREE.Vector3());
+        if (p.distanceTo(tam) > r) continue;
+        const v = p.clone().project(camera);
+        if (v.z >= 1) continue;
+        ra.push({
+          ma: m.userData.code || (m.userData.mer + m.userData.num),
+          x: Math.round(rect.left + (v.x + 1) / 2 * rect.width),
+          y: Math.round(rect.top + (1 - v.y) / 2 * rect.height),
+        });
+      }
+      return ra;
+    },
+  };
+
   // hỗ trợ link dạng #map/LU9 (mở thẳng tới huyệt)
   function focusFromHash() { const m = /^#map\/([A-Z]{2}\d+)/.exec(location.hash); if (m) window.AcuMap.focus(m[1]); }
   window.addEventListener('hashchange', focusFromHash);
