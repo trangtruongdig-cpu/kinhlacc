@@ -1,7 +1,8 @@
 ---
 // Trang Châm Cứu Trị Bệnh — GIỮ NGUYÊN đường dẫn /cham-cuu-tri-benh/<slug>/ của bản tĩnh.
 import { getEmDashEntry, getEmDashCollection, decodeSlug } from "emdash";
-import { PortableText } from "emdash/ui";
+import VanBanYVan from "../../components/VanBanYVan.astro";
+import "../../styles/tu-dien.css";
 import Base from "../../layouts/Base.astro";
 import KhungSeoYKhoa from "../../components/KhungSeoYKhoa.astro";
 
@@ -34,7 +35,7 @@ const moTa = `${entry.data.title}: triệu chứng, nguyên nhân và cách châ
 			{coPhan.map(([k, nhan]) => (
 				<section class="dl-phan">
 					<h2>{nhan}</h2>
-					<PortableText value={entry.data[k]} />
+					<VanBanYVan value={entry.data[k]} />
 				</section>
 			))}
 		</KhungSeoYKhoa>

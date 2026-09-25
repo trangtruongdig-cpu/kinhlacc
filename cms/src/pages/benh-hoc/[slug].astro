@@ -2,7 +2,8 @@
 // Trang Bệnh Học — GIỮ NGUYÊN đường dẫn /benh-hoc/<slug>/ của bản tĩnh.
 // Tên collection là benh_hoc (gạch dưới, EmDash bắt buộc), nhưng URL phải gạch ngang.
 import { getEmDashEntry, getEmDashCollection, decodeSlug } from "emdash";
-import { PortableText } from "emdash/ui";
+import VanBanYVan from "../../components/VanBanYVan.astro";
+import "../../styles/tu-dien.css";
 import Base from "../../layouts/Base.astro";
 import KhungSeoYKhoa from "../../components/KhungSeoYKhoa.astro";
 
@@ -36,7 +37,7 @@ const moTa = `${entry.data.title}: nguyên nhân, chẩn đoán và cách điề
 			{coPhan.map(([k, nhan]) => (
 				<section class="dl-phan">
 					<h2>{nhan}</h2>
-					<PortableText value={entry.data[k]} />
+					<VanBanYVan value={entry.data[k]} />
 				</section>
 			))}
 		</KhungSeoYKhoa>

@@ -1,0 +1,112 @@
+---
+// VanBanYVan.astro — Trình bày văn bản y văn theo ĐÚNG cấu trúc của nó.
+//
+// Không phải trang trí. Đo trên 9.432 dòng của kho CD (25/09/2026) thấy bốn mẫu lặp:
+//   27,7%  Thể bệnh   — "Phong Độc: trong da có đờm hạch, sưng, mềm…"
+//    8,5%  Pháp trị   — "ĐIỀU TRỊ: Thanh nhiệt hóa thấp, giải độc tán kết."
+//    3,9%  Phương     — "Dùng bài Ngưu Bàng Giải Độc Thang gia giảm: …"
+//    1,0%  Trích y văn— "Sách Chư Bệnh Nguyên Hậu Luận viết: …"
+//
+// Ghép lại là mạch THỂ BỆNH → PHÁP TRỊ → PHƯƠNG THUỐC — đúng cách thầy thuốc đọc một mục
+// bệnh. Đổ chữ liền khối là bắt người đọc tự tách lại cái vốn đã có cấu trúc.
+interface Props {
+	value: any;   // Portable Text
+}
+const { value } = Astro.props;
+
+// Rút chữ thuần từ một block Portable Text.
+const chu = (b: any): string =>
+	(b?.children ?? []).map((c: any) => c?.text ?? "").join("").trim();
+
+const NHAN = /^(\p{Lu}[\p{Lu}\s]{2,28}):\s*(.*)$/u;          // ĐIỀU TRỊ: …
+const THE  = /^(\p{Lu}[\p{L}\s]{2,24}):\s+(\S.*)$/u;          // Phong Độc: …
+const SACH = /^(Sách\s+\p{Lu}[\p{L}\s]+?)\s+(viết|ghi|chép|nói)\s*:\s*(.*)$/u;
+
+type Doan =
+	| { kieu: "the"; ten: string; than: string }
+	| { kieu: "nhan"; nhan: string; than: string }
+	| { kieu: "sach"; sach: string; than: string }
+	| { kieu: "thuong"; than: string };
+
+const doan: Doan[] = (Array.isArray(value) ? value : [])
+	.filter((b: any) => b?._type === "block")
+	.map((b: any) => {
+		const t = chu(b);
+		if (!t) return null;
+		let m = SACH.exec(t);
+		if (m) return { kieu: "sach", sach: m[1], than: m[3] } as Doan;
+		m = NHAN.exec(t);
+		if (m) return { kieu: "nhan", nhan: m[1], than: m[2] } as Doan;
+		m = THE.exec(t);
+		// Nhãn thể bệnh phải NGẮN: "Phong Độc" là thể, còn cả câu có dấu phẩy thì không phải.
+		if (m && m[1].length <= 24 && !m[1].includes(",")) return { kieu: "the", ten: m[1], than: m[2] } as Doan;
+		return { kieu: "thuong", than: t } as Doan;
+	})
+	.filter(Boolean) as Doan[];
+
+// Gom: một "thể bệnh" nuốt các đoạn theo sau cho tới thể kế tiếp — thành một thẻ liền mạch.
+type Khoi = { the: string | null; noi: Doan[] };
+const khoi: Khoi[] = [];
+for (const d of doan) {
+	if (d.kieu === "the") khoi.push({ the: d.ten, noi: [{ kieu: "thuong", than: d.than }] });
+	else if (khoi.length && khoi[khoi.length - 1].the) khoi[khoi.length - 1].noi.push(d);
+	else {
+		if (!khoi.length || khoi[khoi.length - 1].the !== null) khoi.push({ the: null, noi: [] });
+		khoi[khoi.length - 1].noi.push(d);
+	}
+}
+
+/** Tách "Dùng bài X: vị, vị, vị" thành tên phương + danh sách vị, để hiện thành thẻ vị thuốc. */
+function tachPhuong(s: string): { truoc: string; phuong?: string; vi?: string[] } {
+	const m = /^(.*?)(Dùng bài|Dùng phương)\s+([^:.]+)[:.]\s*(.*)$/u.exec(s);
+	if (!m) return { truoc: s };
+	const vi = (m[4] || "").split(/[,;]/).map((x) => x.trim()).filter((x) => x && x.length < 40);
+	return { truoc: (m[1] || "").trim(), phuong: m[3].trim(), vi: vi.length >= 2 ? vi : undefined };
+}
+---
+
+<div class="yvan">
+	{khoi.map((k) => (
+		<section class={k.the ? "yv-the" : "yv-tron"}>
+			{k.the && <h3 class="yv-the-ten">{k.the}</h3>}
+			{k.noi.map((d) => {
+				if (d.kieu === "sach")
+					return (
+						<blockquote class="yv-sach">
+							<cite>{d.sach}</cite>
+							<p>{d.than}</p>
+						</blockquote>
+					);
+				if (d.kieu === "nhan") {
+					const p = tachPhuong(d.than);
+					return (
+						<div class="yv-nhan">
+							<span class="yv-nhan-ten">{d.nhan}</span>
+							<div class="yv-nhan-than">
+								{p.truoc && <p>{p.truoc}</p>}
+								{p.phuong && (
+									<p class="yv-phuong"><span class="yv-phuong-nhan">Phương</span> {p.phuong}</p>
+								)}
+								{p.vi && (
+									<ul class="yv-vi">{p.vi.map((v) => (<li>{v}</li>))}</ul>
+								)}
+								{!p.phuong && !p.truoc && <p>{d.than}</p>}
+							</div>
+						</div>
+					);
+				}
+				const p = tachPhuong(d.than);
+				return (
+					<>
+						{p.truoc && <p>{p.truoc}</p>}
+						{p.phuong && (
+							<p class="yv-phuong"><span class="yv-phuong-nhan">Phương</span> {p.phuong}</p>
+						)}
+						{p.vi && <ul class="yv-vi">{p.vi.map((v) => (<li>{v}</li>))}</ul>}
+						{!p.phuong && !p.truoc && <p>{d.than}</p>}
+					</>
+				);
+			})}
+		</section>
+	))}
+</div>
