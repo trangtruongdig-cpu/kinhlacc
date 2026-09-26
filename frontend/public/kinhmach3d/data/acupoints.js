@@ -44,6 +44,7 @@ window.ACUPOINTS = {
       ],
       "slug": "a-thi-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -81,6 +82,7 @@ window.ACUPOINTS = {
       ],
       "slug": "a-huyet-1",
       "image": "images/acupoints/0002-a-huyet-1.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSGYG9BSQEWPKYP9TX57X.webp",
       "anh3d": null
     },
     {
@@ -118,6 +120,7 @@ window.ACUPOINTS = {
       ],
       "slug": "a-huyet-2",
       "image": "images/acupoints/0003-a-huyet-2.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSGVG0ZMG5SKMA4T950NQ.webp",
       "anh3d": null
     },
     {
@@ -155,6 +158,7 @@ window.ACUPOINTS = {
       ],
       "slug": "a-minh",
       "image": "images/acupoints/0004-a-minh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSGRGBT52MA390YXT690J.webp",
       "anh3d": null
     },
     {
@@ -204,6 +208,7 @@ window.ACUPOINTS = {
       ],
       "slug": "a-mon",
       "image": "images/acupoints/0005-a-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSGNGRC92QW2G3GME5K0M.webp",
       "anh3d": null,
       "international_code": "GV15",
       "code_dash": "GV-15",
@@ -258,6 +263,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ach-nghich",
       "image": "images/acupoints/0006-ach-nghich.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSJ8VV0K5GP822VECTJ7F.webp",
       "anh3d": null
     },
     {
@@ -295,6 +301,7 @@ window.ACUPOINTS = {
       ],
       "slug": "an-mien-1",
       "image": "images/acupoints/0007-an-mien-1.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSJTY449RB83AV0FMNZSQ.webp",
       "anh3d": null
     },
     {
@@ -332,6 +339,7 @@ window.ACUPOINTS = {
       ],
       "slug": "an-mien-2",
       "image": "images/acupoints/0008-an-mien-2.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSK42MA96PKVBRGKSWP55.webp",
       "anh3d": null
     },
     {
@@ -369,6 +377,7 @@ window.ACUPOINTS = {
       ],
       "slug": "an-mien-3",
       "image": "images/acupoints/0009-an-mien-3.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSKA1TJY97QXAA08APSNS.webp",
       "anh3d": null
     },
     {
@@ -406,6 +415,7 @@ window.ACUPOINTS = {
       ],
       "slug": "an-mien-4",
       "image": "images/acupoints/0010-an-mien-4.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSM52V0PEBS85Y8VFAX60.webp",
       "anh3d": null
     },
     {
@@ -439,6 +449,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ap-huyet-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -488,6 +499,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-bao",
       "image": "images/acupoints/0012-am-bao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSMQ34T78FCY8T329RZDB.webp",
       "anh3d": null,
       "international_code": "LR9",
       "code_dash": "LR-9",
@@ -537,6 +549,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-bien",
       "image": "images/acupoints/0013-am-bien.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSN07XVXMQRHN72QPK756.webp",
       "anh3d": null
     },
     {
@@ -582,6 +595,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-coc",
       "image": "images/acupoints/0014-am-coc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSN69M15B643JAX4AVF0B.webp",
       "anh3d": null,
       "international_code": "KI10",
       "code_dash": "KI-10",
@@ -633,6 +647,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-duong",
       "image": "images/acupoints/0015-am-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSP1W4E8DYQ52M1QK7N3B.webp",
       "anh3d": null
     },
     {
@@ -678,6 +693,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-do",
       "image": "images/acupoints/0016-am-do.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSPKXWS6284825K04MY1D.webp",
       "anh3d": null,
       "international_code": "KI19",
       "code_dash": "KI-19",
@@ -723,6 +739,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-doc",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -772,6 +789,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-giao",
       "image": "images/acupoints/0018-am-giao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSPX1SWBH8EHP601ED4DS.webp",
       "anh3d": null,
       "international_code": "CV7",
       "code_dash": "CV-7",
@@ -821,6 +839,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-khang",
       "image": "images/acupoints/0019-am-khang.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSQ397Z40QEDT20CV60D5.webp",
       "anh3d": null
     },
     {
@@ -870,6 +889,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-khich",
       "image": "images/acupoints/0020-am-khich.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSQVSKZZD1SQA5AEN4JWH.webp",
       "anh3d": null
     },
     {
@@ -919,6 +939,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-lang-tuyen",
       "image": "images/acupoints/0021-am-lang-tuyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSRKTYMSZBYYT5QR7ZCRK.webp",
       "anh3d": null,
       "international_code": "SP9",
       "code_dash": "SP-9",
@@ -979,6 +1000,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-liem",
       "image": "images/acupoints/0022-am-liem.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSRSVPH401M42ZFD1MEQ1.webp",
       "anh3d": null,
       "international_code": "LR11",
       "code_dash": "LR-11",
@@ -1024,6 +1046,7 @@ window.ACUPOINTS = {
       ],
       "slug": "yeu-thong-iii",
       "image": "images/acupoints/0023-yeu-thong-iii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSS2YZKQMY0MV3FAQQA0W.webp",
       "anh3d": null
     },
     {
@@ -1057,6 +1080,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-nang-phung",
       "image": "images/acupoints/0024-am-nang-phung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSSMXEM7A69D893G3F66M.webp",
       "anh3d": null
     },
     {
@@ -1106,6 +1130,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-thi",
       "image": "images/acupoints/0025-am-thi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSTA4STVFDTCZJYQYSZTJ.webp",
       "anh3d": null,
       "international_code": "ST33",
       "code_dash": "ST-33",
@@ -1153,6 +1178,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-tri",
       "image": "images/acupoints/0026-am-tri.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSTP38J8QV7TYD15A4N6R.webp",
       "anh3d": null
     },
     {
@@ -1190,6 +1216,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-uy-1",
       "image": "images/acupoints/0027-am-uy-1.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSV8A23TBC88GTDRPENA6.webp",
       "anh3d": null
     },
     {
@@ -1227,6 +1254,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-uy-2",
       "image": "images/acupoints/0028-am-uy-2.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSVHA3RJ51NCDHHYPGKC5.webp",
       "anh3d": null
     },
     {
@@ -1264,6 +1292,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-uy-3",
       "image": "images/acupoints/0029-am-uy-3.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSV8A23TBC88GTDRPENA6.webp",
       "anh3d": null
     },
     {
@@ -1301,6 +1330,7 @@ window.ACUPOINTS = {
       ],
       "slug": "am-khich",
       "image": "images/acupoints/0030-am-khich.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSQVSKZZD1SQA5AEN4JWH.webp",
       "anh3d": null,
       "international_code": "HE6",
       "code_dash": "HE-6",
@@ -1344,6 +1374,7 @@ window.ACUPOINTS = {
       ],
       "slug": "an-ha",
       "image": "images/acupoints/0031-an-ha.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSWVDB5TZ2GJ1S80KZRQH.webp",
       "anh3d": null
     },
     {
@@ -1385,6 +1416,7 @@ window.ACUPOINTS = {
       ],
       "slug": "an-mon",
       "image": "images/acupoints/0032-an-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSX1N9Z79S4N5RDMBMFWF.webp",
       "anh3d": null,
       "international_code": "BL37",
       "code_dash": "BL-37",
@@ -1436,6 +1468,7 @@ window.ACUPOINTS = {
       ],
       "slug": "an-thuong",
       "image": "images/acupoints/0033-an-thuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSXMED1NRFVEQCJ6AZXG9.webp",
       "anh3d": null
     },
     {
@@ -1485,6 +1518,7 @@ window.ACUPOINTS = {
       ],
       "slug": "an-bach",
       "image": "images/acupoints/0034-an-bach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSY3YB1F7KKC7CMRE0H2A.webp",
       "anh3d": null,
       "international_code": "SP1",
       "code_dash": "SP-1",
@@ -1544,6 +1578,7 @@ window.ACUPOINTS = {
       ],
       "slug": "an-duong",
       "image": "images/acupoints/0035-an-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSYNYZ71E9NG778GZ8GFR.webp",
       "anh3d": null
     },
     {
@@ -1573,6 +1608,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ba-hoi-thap-tu-thich",
       "image": "images/acupoints/0036-ba-hoi-thap-tu-thich.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSYYYD7K7RHGQH2X47E6F.webp",
       "anh3d": null
     },
     {
@@ -1614,6 +1650,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bach-chung-phong",
       "image": "images/acupoints/0037-bach-chung-phong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSZGX2NN15W5Z6TV5DCGT.webp",
       "anh3d": null
     },
     {
@@ -1663,6 +1700,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bach-hoi",
       "image": "images/acupoints/0038-bach-hoi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSYYYD7K7RHGQH2X47E6F.webp",
       "anh3d": null,
       "international_code": "GV20",
       "code_dash": "GV-20",
@@ -1713,6 +1751,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bach-lao",
       "image": "images/acupoints/0039-bach-lao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT0FH9QQRKR868V35MB3G.webp",
       "anh3d": null
     },
     {
@@ -1754,6 +1793,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bach-trung-sao",
       "image": "images/acupoints/0040-bach-trung-sao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT0NJCPY5WW5CNPSASS6D.webp",
       "anh3d": null
     },
     {
@@ -1787,6 +1827,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bach-tuc",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -1836,6 +1877,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bach-hoan-du",
       "image": "images/acupoints/0042-bach-hoan-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT1AH81Z9ZT0Y9MNQPMPY.webp",
       "anh3d": null,
       "international_code": "BL30",
       "code_dash": "BL-30",
@@ -1890,6 +1932,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ban-mon",
       "image": "images/acupoints/0043-ban-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT1GHXSMN8VA41H40F029.webp",
       "anh3d": null
     },
     {
@@ -1939,6 +1982,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ban-than",
       "image": "images/acupoints/0044-ban-than.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT2BD6FPAAS3ZA3FW6AED.webp",
       "anh3d": null,
       "international_code": "GB13",
       "code_dash": "GB-13",
@@ -1983,6 +2027,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bang-coc",
       "image": "images/acupoints/0045-bang-coc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT2HEYQKYBDRB4GQPRA7F.webp",
       "anh3d": null
     },
     {
@@ -2016,6 +2061,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bang-dinh",
       "image": "images/acupoints/0046-bang-dinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT36EM52X2FENC740GXSM.webp",
       "anh3d": null
     },
     {
@@ -2049,6 +2095,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bang-ho",
       "image": "images/acupoints/0047-bang-ho.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT3CFP6EJV2767CQQNTJ1.webp",
       "anh3d": null
     },
     {
@@ -2082,6 +2129,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bang-lao-cung",
       "image": "images/acupoints/0048-bang-lao-cung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT47FMPPQ9TG0XT1AWKJK.webp",
       "anh3d": null
     },
     {
@@ -2115,6 +2163,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bang-liem-tuyen",
       "image": "images/acupoints/0049-bang-liem-tuyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT4AFXFAPAPF1P46KBWZZ.webp",
       "anh3d": null
     },
     {
@@ -2160,6 +2209,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bang-quang-du",
       "image": "images/acupoints/0050-bang-quang-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT55HV692V1C292057BK9.webp",
       "anh3d": null,
       "international_code": "BL28",
       "code_dash": "BL-28",
@@ -2219,6 +2269,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bao-hoang",
       "image": "images/acupoints/0051-bao-hoang.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT5BKAV7030Q3MHTNBEM8.webp",
       "anh3d": null,
       "international_code": "BL53",
       "code_dash": "BL-53",
@@ -2267,6 +2318,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bat-chuy-ha",
       "image": "images/acupoints/0052-bat-chuy-ha.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT60JP7AS2S0DVTFHZWWH.webp",
       "anh3d": null
     },
     {
@@ -2300,6 +2352,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bat-dieu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -2341,6 +2394,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bat-du",
       "image": "images/acupoints/0054-bat-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT66J96V4BWZ8DMAS57TN.webp",
       "anh3d": null
     },
     {
@@ -2374,6 +2428,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bat-hoa",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -2415,6 +2470,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bat-lieu",
       "image": "images/acupoints/0056-bat-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT71M3PM69PPRWHYT9JPQ.webp",
       "anh3d": null
     },
     {
@@ -2460,6 +2516,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bat-phong",
       "image": "images/acupoints/0057-bat-phong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT77KGBFYTP8WRJJ95GYA.webp",
       "anh3d": null
     },
     {
@@ -2505,6 +2562,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bat-ta",
       "image": "images/acupoints/0058-bat-ta.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT7X676TFA5KESXEM4T5J.webp",
       "anh3d": null
     },
     {
@@ -2538,6 +2596,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bat-tu-cham",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -2575,6 +2634,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ban-huyet-linh",
       "image": "images/acupoints/0060-ban-huyet-linh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT835K59QYDRZ0KXNN5Q8.webp",
       "anh3d": null
     },
     {
@@ -2616,6 +2676,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ban-cot",
       "image": "images/acupoints/0061-ban-cot.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT8Y64DQMXF6KVTY8160E.webp",
       "anh3d": null
     },
     {
@@ -2653,6 +2714,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ban-cuu",
       "image": "images/acupoints/0062-ban-cuu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT94ABSGPVN4HQRG6CYDX.webp",
       "anh3d": null
     },
     {
@@ -2698,6 +2760,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bat-dung",
       "image": "images/acupoints/0063-bat-dung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT9SCDG74HCKY6EFBRVX7.webp",
       "anh3d": null,
       "international_code": "ST19",
       "code_dash": "ST-19",
@@ -2754,6 +2817,7 @@ window.ACUPOINTS = {
       ],
       "slug": "be-quan",
       "image": "images/acupoints/0064-be-quan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT9ZDQGKKJV2PMY52M7MW.webp",
       "anh3d": null,
       "international_code": "ST31",
       "code_dash": "ST-31",
@@ -2799,6 +2863,7 @@ window.ACUPOINTS = {
       ],
       "slug": "be-khong",
       "image": "images/acupoints/0065-be-khong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTATG6P9ZE4KK8W0TQHTE.webp",
       "anh3d": null
     },
     {
@@ -2840,6 +2905,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bi-can",
       "image": "images/acupoints/0066-bi-can.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTB0GBR7D24FWMCDDR4GG.webp",
       "anh3d": null
     },
     {
@@ -2881,6 +2947,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bien-dao",
       "image": "images/acupoints/0067-bien-dao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTBNN5Q50X619R48WVK7A.webp",
       "anh3d": null
     },
     {
@@ -2926,6 +2993,7 @@ window.ACUPOINTS = {
       ],
       "slug": "binh-phong",
       "image": "images/acupoints/0068-binh-phong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTBVN7PWV906VM4XSVNJC.webp",
       "anh3d": null,
       "international_code": "SI12",
       "code_dash": "SI-12",
@@ -2983,6 +3051,7 @@ window.ACUPOINTS = {
       ],
       "slug": "bo-lang",
       "image": "images/acupoints/0069-bo-lang.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTCPPDV48JJX586VAMVJH.webp",
       "anh3d": null,
       "international_code": "KI22",
       "code_dash": "KI-22",
@@ -3047,6 +3116,7 @@ window.ACUPOINTS = {
       ],
       "slug": "boc-tham",
       "image": "images/acupoints/0070-boc-tham.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTCWP4H7CY0MAV2Q522DX.webp",
       "anh3d": null,
       "international_code": "BL61",
       "code_dash": "BL-61",
@@ -3090,6 +3160,7 @@ window.ACUPOINTS = {
       ],
       "slug": "boi-giam",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -3127,6 +3198,7 @@ window.ACUPOINTS = {
       ],
       "slug": "boi-giap-trung-gian",
       "image": "images/acupoints/0072-boi-giap-trung-gian.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTDJG3VHMV1RKW10RMR5Z.webp",
       "anh3d": null
     },
     {
@@ -3160,6 +3232,7 @@ window.ACUPOINTS = {
       ],
       "slug": "boi-lam",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -3193,6 +3266,7 @@ window.ACUPOINTS = {
       ],
       "slug": "boi-phung",
       "image": "images/acupoints/0074-boi-phung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTDRJM5FQB0BKZB506WXC.webp",
       "anh3d": null
     },
     {
@@ -3226,6 +3300,7 @@ window.ACUPOINTS = {
       ],
       "slug": "boi-tam-cham",
       "image": "images/acupoints/0075-boi-tam-cham.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTEKMRC1ZKFV8ENTYJCNM.webp",
       "anh3d": null
     },
     {
@@ -3263,6 +3338,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cac-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -3308,6 +3384,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cach-du",
       "image": "images/acupoints/0077-cach-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTESKCA7MKC4QZRE6FQRD.webp",
       "anh3d": null,
       "international_code": "BL17",
       "code_dash": "BL-17",
@@ -3366,6 +3443,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cach-quan",
       "image": "images/acupoints/0078-cach-quan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTFF0JGKET1SAH329AN2N.webp",
       "anh3d": null,
       "international_code": "BL46",
       "code_dash": "BL-46",
@@ -3412,6 +3490,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cach-thuong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -3445,6 +3524,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cach-tien-ha",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -3490,6 +3570,7 @@ window.ACUPOINTS = {
       ],
       "slug": "can-du",
       "image": "images/acupoints/0081-can-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTFMZKYRTD11QW5AE8QZ9.webp",
       "anh3d": null,
       "international_code": "BL18",
       "code_dash": "BL-18",
@@ -3544,6 +3625,7 @@ window.ACUPOINTS = {
       ],
       "slug": "can-nhiet-huyet",
       "image": "images/acupoints/0082-can-nhiet-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTGFY8EEECYC44ZD3NDSQ.webp",
       "anh3d": null
     },
     {
@@ -3577,6 +3659,7 @@ window.ACUPOINTS = {
       ],
       "slug": "can-tam-cham",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -3610,6 +3693,7 @@ window.ACUPOINTS = {
       ],
       "slug": "canh-trung",
       "image": "images/acupoints/0084-canh-trung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTGNY3V4PXQFEHZNXF17V.webp",
       "anh3d": null
     },
     {
@@ -3647,6 +3731,7 @@ window.ACUPOINTS = {
       ],
       "slug": "canh-ty",
       "image": "images/acupoints/0085-canh-ty.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTHAYNDWQ9D7P56TZ84SR.webp",
       "anh3d": null
     },
     {
@@ -3680,6 +3765,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cao-cot",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -3729,6 +3815,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cao-hoang",
       "image": "images/acupoints/0087-cao-hoang.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTHGY946C61FX7CJ3HTE4.webp",
       "anh3d": null,
       "international_code": "BL43",
       "code_dash": "BL-43",
@@ -3780,6 +3867,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cat-lam",
       "image": "images/acupoints/0088-cat-lam.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTJC16R3HG55KQMSWVP1Q.webp",
       "anh3d": null
     },
     {
@@ -3817,6 +3905,7 @@ window.ACUPOINTS = {
       ],
       "slug": "can-binh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -3850,6 +3939,7 @@ window.ACUPOINTS = {
       ],
       "slug": "can-khan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -3899,6 +3989,7 @@ window.ACUPOINTS = {
       ],
       "slug": "can-suc",
       "image": "images/acupoints/0091-can-suc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTJJ1RJJ5D9V6P6E38T05.webp",
       "anh3d": null,
       "international_code": "GV8",
       "code_dash": "GV-8",
@@ -3954,6 +4045,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cap-mach",
       "image": "images/acupoints/0092-cap-mach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTK70WMPEV02SQ8DRP9R3.webp",
       "anh3d": null,
       "international_code": "LR12",
       "code_dash": "LR-12",
@@ -4001,6 +4093,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cau-hau",
       "image": "images/acupoints/0093-cau-hau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTKD1QYMA5A7FQ3W7H7YJ.webp",
       "anh3d": null
     },
     {
@@ -4034,6 +4127,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chau-dinh",
       "image": "images/acupoints/0094-chau-dinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTM7Z7KH8H28MZ1RGA4V7.webp",
       "anh3d": null
     },
     {
@@ -4067,6 +4161,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chau-hoan",
       "image": "images/acupoints/0095-chau-hoan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTMDYRZ0DEKY4QBBC8X7V.webp",
       "anh3d": null
     },
     {
@@ -4116,6 +4211,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chi-cau",
       "image": "images/acupoints/0096-chi-cau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTN2Z50CS88DST3JXZY91.webp",
       "anh3d": null,
       "international_code": "TE6",
       "code_dash": "TE-6",
@@ -4183,6 +4279,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chi-chinh",
       "image": "images/acupoints/0097-chi-chinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTN8ZXG6S1R1BFXFWBE50.webp",
       "anh3d": null,
       "international_code": "SI7",
       "code_dash": "SI-7",
@@ -4246,6 +4343,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chi-am",
       "image": "images/acupoints/0098-chi-am.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTP43GKC414JTFF89VN4V.webp",
       "anh3d": null,
       "international_code": "BL67",
       "code_dash": "BL-67",
@@ -4310,6 +4408,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chi-duong",
       "image": "images/acupoints/0099-chi-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTPA3FJM2BRHS59KWXN7Z.webp",
       "anh3d": null,
       "international_code": "GV9",
       "code_dash": "GV-9",
@@ -4360,6 +4459,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chi-duong-luc-cuu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -4409,6 +4509,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chi-that",
       "image": "images/acupoints/0101-chi-that.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTPZ5M7RK85WT2M0MHJJE.webp",
       "anh3d": null,
       "international_code": "BL52",
       "code_dash": "BL-52",
@@ -4462,6 +4563,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chi-can",
       "image": "images/acupoints/0102-chi-can.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTQ54TD8YX4YFJ8XPTHG6.webp",
       "anh3d": null
     },
     {
@@ -4503,6 +4605,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chi-ta",
       "image": "images/acupoints/0103-chi-ta.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTR05WJSDSTARYT4AJ80X.webp",
       "anh3d": null
     },
     {
@@ -4532,6 +4635,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chi-trung-tiet-van-dau",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -4581,6 +4685,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chien-trung",
       "image": "images/acupoints/0105-chien-trung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTR659GD8WZ02W7SGPEXM.webp",
       "anh3d": null,
       "international_code": "CV17",
       "code_dash": "CV-17",
@@ -4644,6 +4749,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chieu-hai",
       "image": "images/acupoints/0106-chieu-hai.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTRV9MBKD6CP7V3DEEP1Y.webp",
       "anh3d": null,
       "international_code": "KI6",
       "code_dash": "KI-6",
@@ -4711,6 +4817,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chinh-dinh",
       "image": "images/acupoints/0107-chinh-dinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTS1CMHRPY2AN0JP7P285.webp",
       "anh3d": null,
       "international_code": "GB17",
       "code_dash": "GB-17",
@@ -4765,6 +4872,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chu-vinh",
       "image": "images/acupoints/0108-chu-vinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTSWEXZ8S43VZ9KNPA57J.webp",
       "anh3d": null,
       "international_code": "SP20",
       "code_dash": "SP-20",
@@ -4813,6 +4921,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chu-thi",
       "image": "images/acupoints/0109-chu-thi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTT2RV5HWT6TCJH0CFTR2.webp",
       "anh3d": null
     },
     {
@@ -4850,6 +4959,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chuy-ha",
       "image": "images/acupoints/0110-chuy-ha.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTTQPBZDH5CSBD0BHC1YJ.webp",
       "anh3d": null
     },
     {
@@ -4883,6 +4993,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chuyen-coc",
       "image": "images/acupoints/0111-chuyen-coc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTTXQ0V3REQHXBNXE6DFM.webp",
       "anh3d": null
     },
     {
@@ -4932,6 +5043,7 @@ window.ACUPOINTS = {
       ],
       "slug": "chuong-mon",
       "image": "images/acupoints/0112-chuong-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTVRVQBQYJ8WNB4QCEYBY.webp",
       "anh3d": null,
       "international_code": "LR13",
       "code_dash": "LR-13",
@@ -4978,6 +5090,7 @@ window.ACUPOINTS = {
       ],
       "slug": "co-noi-thau",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -5027,6 +5140,7 @@ window.ACUPOINTS = {
       ],
       "slug": "con-lon",
       "image": "images/acupoints/0114-con-lon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTVVTY2M320NKANT671CY.webp",
       "anh3d": null,
       "international_code": "BL60",
       "code_dash": "BL-60",
@@ -5090,6 +5204,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cong-ton",
       "image": "images/acupoints/0115-cong-ton.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTWPYAKVAGSTK2907ZSTJ.webp",
       "anh3d": null,
       "international_code": "SP4",
       "code_dash": "SP-4",
@@ -5149,6 +5264,7 @@ window.ACUPOINTS = {
       ],
       "slug": "co-mon",
       "image": "images/acupoints/0116-co-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTWY7T73BBMY87M8PQ574.webp",
       "anh3d": null,
       "international_code": "SP11",
       "code_dash": "SP-11",
@@ -5197,6 +5313,7 @@ window.ACUPOINTS = {
       ],
       "slug": "co-quan",
       "image": "images/acupoints/0117-co-quan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTXG526CWBAQ730T82NBW.webp",
       "anh3d": null
     },
     {
@@ -5230,6 +5347,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cu-ngoai-phien",
       "image": "images/acupoints/0118-cu-ngoai-phien.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTXW8AQMRBF4M2VQQG6WB.webp",
       "anh3d": null
     },
     {
@@ -5263,6 +5381,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cu-ngoai-phien-ii",
       "image": "images/acupoints/0119-cu-ngoai-phien-ii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTYMYQ2TRVHNJB25HW29Z.webp",
       "anh3d": null
     },
     {
@@ -5296,6 +5415,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cu-noi-phien",
       "image": "images/acupoints/0120-cu-noi-phien.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTYTZNF11GNYKDXR3W0FC.webp",
       "anh3d": null
     },
     {
@@ -5329,6 +5449,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cung-tri",
       "image": "images/acupoints/0121-cung-tri.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTZGBH34HT8MKZXE8822S.webp",
       "anh3d": null
     },
     {
@@ -5366,6 +5487,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cung-cot",
       "image": "images/acupoints/0122-cung-cot.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHTZPAD06H8DT43AVHAG3H.webp",
       "anh3d": null
     },
     {
@@ -5403,6 +5525,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cung-cot-ii",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -5452,6 +5575,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cu-lieu",
       "image": "images/acupoints/0124-cu-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV0J06R8AMFNRQV74R2E8.webp",
       "anh3d": null
     },
     {
@@ -5485,6 +5609,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cu-ty",
       "image": "images/acupoints/0125-cu-ty.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV0QZ6BGTADVNQR7VH0F3.webp",
       "anh3d": null
     },
     {
@@ -5530,7 +5655,14 @@ window.ACUPOINTS = {
       ],
       "slug": "cu-cot",
       "image": "images/acupoints/0126-cu-cot.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CHV1DG22MKC4V1GSB2534G.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPAYWN8GX83JHWJV87TVNZ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPAYZPMQ5H9B3WCZAQ4VGQ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPAZXXAK30BQBJXFBEZPSG.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPB020AQAP9ZF4QS4MHDHK.webp",
+        "ghiChu": null
+      },
       "international_code": "LI16",
       "code_dash": "LI-16",
       "chinese": "巨骨",
@@ -5578,6 +5710,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cu-cot-ha",
       "image": "images/acupoints/0127-cu-cot-ha.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV1MXCMN5S5DP03655VW1.webp",
       "anh3d": null
     },
     {
@@ -5599,6 +5732,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cu-duong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -5632,6 +5766,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cu-giac",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -5653,6 +5788,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cu-hu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -5702,6 +5838,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cu-khuyet",
       "image": "images/acupoints/0131-cu-khuyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV2GTK4D3EX16SEAJCTTP.webp",
       "anh3d": null,
       "international_code": "CV14",
       "code_dash": "CV-14",
@@ -5755,6 +5892,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cu-khuyet-du",
       "image": "images/acupoints/0132-cu-khuyet-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV2QEPMH3FJFQ2FE53E28.webp",
       "anh3d": null
     },
     {
@@ -5800,6 +5938,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cu-lieu",
       "image": "images/acupoints/0133-cu-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV0J06R8AMFNRQV74R2E8.webp",
       "anh3d": null,
       "international_code": "GB29",
       "code_dash": "GB-29",
@@ -5858,6 +5997,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cuc-tuyen",
       "image": "images/acupoints/0134-cuc-tuyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV42QP1BCNNSD2Q990YSH.webp",
       "anh3d": null,
       "international_code": "HE1",
       "code_dash": "HE-1",
@@ -5913,6 +6053,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cuong-gian",
       "image": "images/acupoints/0135-cuong-gian.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV4RG23QMJ10WHPP6DTW6.webp",
       "anh3d": null,
       "international_code": "GV18",
       "code_dash": "GV-18",
@@ -5957,6 +6098,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cuu-ky",
       "image": "images/acupoints/0136-cuu-ky.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV5253EY565WNW22W9YRJ.webp",
       "anh3d": null
     },
     {
@@ -6006,6 +6148,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cuu-vi",
       "image": "images/acupoints/0137-cuu-vi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV5MTNDKSTKRHNA788987.webp",
       "anh3d": null,
       "international_code": "CV15",
       "code_dash": "CV-15",
@@ -6062,6 +6205,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cuu-vi-cot-doan",
       "image": "images/acupoints/0138-cuu-vi-cot-doan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV6DS7QBHCR3H27T0938A.webp",
       "anh3d": null
     },
     {
@@ -6099,6 +6243,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cuu-dien-phong",
       "image": "images/acupoints/0139-cuu-dien-phong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV79WHDD1ZFXJMQNE4PCN.webp",
       "anh3d": null
     },
     {
@@ -6140,6 +6285,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cuu-hao",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -6177,6 +6323,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cuu-huyet-benh",
       "image": "images/acupoints/0141-cuu-huyet-benh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV7G3DXTGKF8SWD8ASM4P.webp",
       "anh3d": null
     },
     {
@@ -6210,6 +6357,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cuu-lao",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -6243,6 +6391,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cuu-xi-thong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -6276,6 +6425,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cuu-khuc-trung-phu",
       "image": "images/acupoints/0144-cuu-khuc-trung-phu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV82X28NM52GRPKATZ5HB.webp",
       "anh3d": null
     },
     {
@@ -6309,6 +6459,7 @@ window.ACUPOINTS = {
       ],
       "slug": "cuu-lien-hoan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -6342,6 +6493,7 @@ window.ACUPOINTS = {
       ],
       "slug": "da-nieu-diem",
       "image": "images/acupoints/0146-da-nieu-diem.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV8TWRKHKXGAF7YW1RBBZ.webp",
       "anh3d": null
     },
     {
@@ -6375,6 +6527,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dan-mon",
       "image": "images/acupoints/0147-dan-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHV9NWNG9719C3X2PX9K8W.webp",
       "anh3d": null
     },
     {
@@ -6412,6 +6565,7 @@ window.ACUPOINTS = {
       ],
       "slug": "di-du",
       "image": "images/acupoints/0148-di-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT60JP7AS2S0DVTFHZWWH.webp",
       "anh3d": null
     },
     {
@@ -6445,6 +6599,7 @@ window.ACUPOINTS = {
       ],
       "slug": "di-dao",
       "image": "images/acupoints/0149-di-dao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVADYZMDP76DXDE7R7A97.webp",
       "anh3d": null
     },
     {
@@ -6478,6 +6633,7 @@ window.ACUPOINTS = {
       ],
       "slug": "di-nieu",
       "image": "images/acupoints/0150-di-nieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVB05EN5RKPQRZKZ9CJQZ.webp",
       "anh3d": null
     },
     {
@@ -6511,6 +6667,7 @@ window.ACUPOINTS = {
       ],
       "slug": "di-nieu-cuu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -6544,6 +6701,7 @@ window.ACUPOINTS = {
       ],
       "slug": "di-tinh",
       "image": "images/acupoints/0152-di-tinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVBR7C6ZW3A9BNTBDPN97.webp",
       "anh3d": null
     },
     {
@@ -6581,6 +6739,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dich-ha",
       "image": "images/acupoints/0153-dich-ha.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVC175FN5N32SVHNVFHAY.webp",
       "anh3d": null
     },
     {
@@ -6614,6 +6773,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dich-khi",
       "image": "images/acupoints/0154-dich-khi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVCS68FPBFT2425MJ2FEB.webp",
       "anh3d": null
     },
     {
@@ -6647,6 +6807,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dich-linh",
       "image": "images/acupoints/0155-dich-linh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVDB6KSPA1Z45ZK544RX6.webp",
       "anh3d": null
     },
     {
@@ -6692,6 +6853,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dich-mon",
       "image": "images/acupoints/0156-dich-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVE348TH6P39YPCXBMK91.webp",
       "anh3d": null,
       "international_code": "TE2",
       "code_dash": "TE-2",
@@ -6738,6 +6900,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dien-nham",
       "image": "images/acupoints/0157-dien-nham.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVEF4JAA4X22S799N48AR.webp",
       "anh3d": null
     },
     {
@@ -6771,6 +6934,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dieu-trung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -6808,6 +6972,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doanh-tri",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -6849,6 +7014,7 @@ window.ACUPOINTS = {
       ],
       "slug": "du-phu",
       "image": "images/acupoints/0160-du-phu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVF44QT5Z18N4BRZADTJD.webp",
       "anh3d": null,
       "international_code": "KI27",
       "code_dash": "KI-27",
@@ -6892,6 +7058,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duc-doan-san",
       "image": "images/acupoints/0161-duc-doan-san.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVFPJQG6RN2AJGZTP9DHZ.webp",
       "anh3d": null
     },
     {
@@ -6929,6 +7096,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dung-hau",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -6978,6 +7146,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dung-tuyen",
       "image": "images/acupoints/0163-dung-tuyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVGF56TCZG26TVMKB88BA.webp",
       "anh3d": null,
       "international_code": "KI1",
       "code_dash": "KI-1",
@@ -7028,6 +7197,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duy-bao",
       "image": "images/acupoints/0164-duy-bao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVGV8ABZGM45AFK4C1C21.webp",
       "anh3d": null
     },
     {
@@ -7061,6 +7231,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duy-cung",
       "image": "images/acupoints/0165-duy-cung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVHGJWVAKE0AM4TQQSMX5.webp",
       "anh3d": null
     },
     {
@@ -7110,6 +7281,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duy-dao",
       "image": "images/acupoints/0166-duy-dao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVJ30DNQ3AYP1R2P4404E.webp",
       "anh3d": null,
       "international_code": "GB28",
       "code_dash": "GB-28",
@@ -7154,6 +7326,7 @@ window.ACUPOINTS = {
       ],
       "slug": "du-long",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -7199,6 +7372,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-bach",
       "image": "images/acupoints/0168-duong-bach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVJTSFKBYE883Z4NMK5D1.webp",
       "anh3d": null,
       "international_code": "GB14",
       "code_dash": "GB-14",
@@ -7254,6 +7428,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-coc",
       "image": "images/acupoints/0169-duong-coc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVKJVPC5N13AXAAQQRM87.webp",
       "anh3d": null,
       "international_code": "SI5",
       "code_dash": "SI-5",
@@ -7311,6 +7486,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-cuong",
       "image": "images/acupoints/0170-duong-cuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVMB237HPHFYWXCEVA5BC.webp",
       "anh3d": null,
       "international_code": "BL48",
       "code_dash": "BL-48",
@@ -7368,6 +7544,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-giao",
       "image": "images/acupoints/0171-duong-giao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVN0G0EVDSD3YK6M48P0G.webp",
       "anh3d": null,
       "international_code": "GB35",
       "code_dash": "GB-35",
@@ -7412,6 +7589,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-khang",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -7461,7 +7639,14 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-khe",
       "image": "images/acupoints/0173-duong-khe.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CHVNHMWSZSCCYYPQHNHA9W.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPA62T5HBVH22CQFJW8NDR.webp",
+        "gp": "/_emdash/api/media/file/01M3DPA65VJT1TKKDDZKT89138.webp",
+        "lan": "/_emdash/api/media/file/01M3DPA718R6TPVT16JGGSV71C.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPA749D9AV2SQ0S0SNYCKD.webp",
+        "ghiChu": null
+      },
       "international_code": "LI5",
       "code_dash": "LI-5",
       "chinese": "陽谿",
@@ -7524,7 +7709,14 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-lang-tuyen",
       "image": "images/acupoints/0174-duong-lang-tuyen.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CHVPK20NEKP3FM5HV5N3SC.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DP9A2DBPZGFNRDKE5WBXDR.webp",
+        "gp": "/_emdash/api/media/file/01M3DP9AEJB9NGMD7K0BQKNY7Q.webp",
+        "lan": "/_emdash/api/media/file/01M3DP9B1BK2P445WNF0N4WQ7Z.webp",
+        "kinh": "/_emdash/api/media/file/01M3DP9B7DGHFMZEG17F3QCQQD.webp",
+        "ghiChu": null
+      },
       "international_code": "GB34",
       "code_dash": "GB-34",
       "chinese": "陽陵泉",
@@ -7588,6 +7780,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-phu",
       "image": "images/acupoints/0175-duong-phu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVQ837DWGSVB66M75SH39.webp",
       "anh3d": null,
       "international_code": "GB38",
       "code_dash": "GB-38",
@@ -7637,6 +7830,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-thi",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -7686,6 +7880,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-tri",
       "image": "images/acupoints/0177-duong-tri.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVQM40D188959S1FK2FB0.webp",
       "anh3d": null,
       "international_code": "TE4",
       "code_dash": "TE-4",
@@ -7736,6 +7931,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-uy-1",
       "image": "images/acupoints/0178-duong-uy-1.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVR050CACE4AHA2ZTZNZ1.webp",
       "anh3d": null
     },
     {
@@ -7773,6 +7969,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-uy-2",
       "image": "images/acupoints/0179-duong-uy-2.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVTXE70AAYA9QS9K0GZK1.webp",
       "anh3d": null
     },
     {
@@ -7810,6 +8007,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-uy-3",
       "image": "images/acupoints/0180-duong-uy-3.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVW22QTCPY42A122YNMJ1.webp",
       "anh3d": null
     },
     {
@@ -7843,6 +8041,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-yeu",
       "image": "images/acupoints/0181-duong-yeu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVWB2ZP24CPRVYZ9EF238.webp",
       "anh3d": null
     },
     {
@@ -7888,6 +8087,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-lao",
       "image": "images/acupoints/0182-duong-lao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVWM62VT4RJ5AN8XGQHNE.webp",
       "anh3d": null,
       "international_code": "SI6",
       "code_dash": "SI-6",
@@ -7948,6 +8148,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-mach",
       "image": "images/acupoints/0183-dai-mach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVXRS7H9N55SP7C4ABNCN.webp",
       "anh3d": null,
       "international_code": "GB26",
       "code_dash": "GB-26",
@@ -7995,6 +8196,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-kien",
       "image": "images/acupoints/0184-dai-kien.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVYDZNFH1X65Q572KCJ4Z.webp",
       "anh3d": null
     },
     {
@@ -8032,6 +8234,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-thoai",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -8081,6 +8284,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-bao",
       "image": "images/acupoints/0186-dai-bao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVYPYGV3XYGV0E43Q58QT.webp",
       "anh3d": null,
       "international_code": "SP21",
       "code_dash": "SP-21",
@@ -8126,6 +8330,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-chi-giap-can",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -8159,6 +8364,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-chi-giap-ha",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -8196,6 +8402,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-chi-tiet-hoanh-van",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -8229,6 +8436,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-chi-tu-mao",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -8274,6 +8482,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-chung",
       "image": "images/acupoints/0191-dai-chung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVYWZ2MF58K8VX8XNZPGC.webp",
       "anh3d": null,
       "international_code": "KI4",
       "code_dash": "KI-4",
@@ -8338,6 +8547,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-chuy",
       "image": "images/acupoints/0192-dai-chuy.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVZR5F3AQW3223BVKW39P.webp",
       "anh3d": null,
       "international_code": "GV14",
       "code_dash": "GV-14",
@@ -8388,6 +8598,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-chuy-tu-huyet",
       "image": "images/acupoints/0193-dai-chuy-tu-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHVZR5F3AQW3223BVKW39P.webp",
       "anh3d": null
     },
     {
@@ -8421,6 +8632,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-cot-khong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -8466,6 +8678,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-cu",
       "image": "images/acupoints/0195-dai-cu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW0G5ER243ZM2042MJVF7.webp",
       "anh3d": null,
       "international_code": "ST27",
       "code_dash": "ST-27",
@@ -8522,6 +8735,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-do",
       "image": "images/acupoints/0196-dai-do.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW0WD80KKKW32XST346YT.webp",
       "anh3d": null,
       "international_code": "SP2",
       "code_dash": "SP-2",
@@ -8566,6 +8780,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-do-ii",
       "image": "images/acupoints/0197-dai-do-ii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW0WD80KKKW32XST346YT.webp",
       "anh3d": null
     },
     {
@@ -8595,6 +8810,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-do-iii",
       "image": "images/acupoints/0198-dai-do-iii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW0WD80KKKW32XST346YT.webp",
       "anh3d": null
     },
     {
@@ -8644,6 +8860,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-don",
       "image": "images/acupoints/0199-dai-don.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW20CES1PPN6G8S84TG8Y.webp",
       "anh3d": null,
       "international_code": "LR1",
       "code_dash": "LR-1",
@@ -8705,6 +8922,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-hach",
       "image": "images/acupoints/0200-dai-hach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW2D54JE37AD0B6NTEEXW.webp",
       "anh3d": null,
       "international_code": "KI12",
       "code_dash": "KI-12",
@@ -8766,6 +8984,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-hoanh",
       "image": "images/acupoints/0201-dai-hoanh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW2WAXBMKS8HN34CWTHMJ.webp",
       "anh3d": null,
       "international_code": "SP15",
       "code_dash": "SP-15",
@@ -8827,6 +9046,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-lang",
       "image": "images/acupoints/0202-dai-lang.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW3B9RP83T48V36GYKYQ6.webp",
       "anh3d": null,
       "international_code": "PC7",
       "code_dash": "PC-7",
@@ -8879,6 +9099,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-luan",
       "image": "images/acupoints/0203-dai-luan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW3TAJ8KCY5H2PQ2S2MFY.webp",
       "anh3d": null
     },
     {
@@ -8912,6 +9133,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-mau-chi-dau",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -8945,6 +9167,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-mon",
       "image": "images/acupoints/0205-dai-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW4CDBRB7BWY6HK4TH4HH.webp",
       "anh3d": null
     },
     {
@@ -8994,6 +9217,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-nghenh",
       "image": "images/acupoints/0206-dai-nghenh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW4NED9DJ4DAVTWAYP8P2.webp",
       "anh3d": null,
       "international_code": "ST5",
       "code_dash": "ST-5",
@@ -9051,6 +9275,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-tru",
       "image": "images/acupoints/0207-dai-tru.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW5A39QGXMTYHTDMA036M.webp",
       "anh3d": null,
       "international_code": "BL11",
       "code_dash": "BL-11",
@@ -9111,6 +9336,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-truong-du",
       "image": "images/acupoints/0208-dai-truong-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW5S43236BGBBHFH30EAV.webp",
       "anh3d": null,
       "international_code": "BL25",
       "code_dash": "BL-25",
@@ -9161,6 +9387,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dai-tuyen",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -9198,6 +9425,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dam-suyen",
       "image": "images/acupoints/0210-dam-suyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW6B43168YCVCG5AMWM7H.webp",
       "anh3d": null
     },
     {
@@ -9243,6 +9471,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dao-dao",
       "image": "images/acupoints/0211-dao-dao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW6M65F0KZVMZ51DBYSEY.webp",
       "anh3d": null,
       "international_code": "GV13",
       "code_dash": "GV-13",
@@ -9303,6 +9532,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dau-duy",
       "image": "images/acupoints/0212-dau-duy.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW767JP8BCAMXWP7A16TR.webp",
       "anh3d": null,
       "international_code": "ST8",
       "code_dash": "ST-8",
@@ -9351,6 +9581,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dau-hac-dinh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -9400,6 +9631,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dau-khieu-am",
       "image": "images/acupoints/0214-dau-khieu-am.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW7NAJ0TTWPC9N4BF2YA5.webp",
       "anh3d": null,
       "international_code": "GB11",
       "code_dash": "GB-11",
@@ -9461,6 +9693,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dau-lam-khap",
       "image": "images/acupoints/0215-dau-lam-khap.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW87E5DA80AMPTCKHQTC7.webp",
       "anh3d": null,
       "international_code": "GB15",
       "code_dash": "GB-15",
@@ -9508,6 +9741,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dau-phong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -9545,6 +9779,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dau-quang-minh",
       "image": "images/acupoints/0217-dau-quang-minh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW8GER3N2GWBD15Z815VY.webp",
       "anh3d": null
     },
     {
@@ -9578,6 +9813,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dau-truu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -9619,6 +9855,7 @@ window.ACUPOINTS = {
       ],
       "slug": "de-cuu-chuy-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -9656,6 +9893,7 @@ window.ACUPOINTS = {
       ],
       "slug": "de-nhi-thap-nhat-chuy-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -9693,6 +9931,7 @@ window.ACUPOINTS = {
       ],
       "slug": "de-nhi-thap-nhi-chuy-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -9730,6 +9969,7 @@ window.ACUPOINTS = {
       ],
       "slug": "de-thap-ngu-chuy-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -9771,6 +10011,7 @@ window.ACUPOINTS = {
       ],
       "slug": "de-that-chuy-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -9820,6 +10061,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dia-co",
       "image": "images/acupoints/0224-dia-co.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW92F72GG5BY30B0MMD89.webp",
       "anh3d": null,
       "international_code": "SP8",
       "code_dash": "SP-8",
@@ -9868,6 +10110,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dia-hop",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -9917,6 +10160,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dia-ngu-hoi",
       "image": "images/acupoints/0226-dia-ngu-hoi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHW9HMEPWNPBQ75GTVT3ZQ.webp",
       "anh3d": null,
       "international_code": "GB42",
       "code_dash": "GB-42",
@@ -9962,6 +10206,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dia-than",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -10011,6 +10256,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dia-thuong",
       "image": "images/acupoints/0228-dia-thuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWA4F6KX0JA6MXBE347KV.webp",
       "anh3d": null,
       "international_code": "ST4",
       "code_dash": "ST-4",
@@ -10058,6 +10304,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dien-khon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -10107,6 +10354,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dieu-khau",
       "image": "images/acupoints/0230-dieu-khau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWADFZYJNWB28CEB06DDS.webp",
       "anh3d": null,
       "international_code": "ST38",
       "code_dash": "ST-38",
@@ -10156,6 +10404,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dinh-can",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -10189,6 +10438,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dinh-du",
       "image": "images/acupoints/0232-dinh-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWB0XBD2GH2P54J86NDF4.webp",
       "anh3d": null
     },
     {
@@ -10222,6 +10472,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dinh-thuong-hoi-mao",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -10255,6 +10506,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dinh-dau",
       "image": "images/acupoints/0234-dinh-dau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWBFY90YDZ580BKS0YS95.webp",
       "anh3d": null
     },
     {
@@ -10284,6 +10536,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dinh-chuy",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -10321,6 +10574,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dinh-suyen",
       "image": "images/acupoints/0236-dinh-suyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWC1ZN2FP7V8DEWZ86M61.webp",
       "anh3d": null
     },
     {
@@ -10370,6 +10624,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doai-doan",
       "image": "images/acupoints/0237-doai-doan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWCB0V83AMZK04BQ51T9J.webp",
       "anh3d": null,
       "international_code": "GV27",
       "code_dash": "GV-27",
@@ -10415,6 +10670,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doan-chinh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -10448,6 +10704,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doan-dong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -10485,6 +10742,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doan-cuong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -10518,6 +10776,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doan-khu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -10551,6 +10810,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doan-ho",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -10584,6 +10844,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doan-hong",
       "image": "images/acupoints/0243-doan-hong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWCXMVKNME44SYP9K6YPM.webp",
       "anh3d": null
     },
     {
@@ -10621,6 +10882,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doat-menh",
       "image": "images/acupoints/0244-doat-menh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWDCXSKHBT3P5CQ4TSFKH.webp",
       "anh3d": null
     },
     {
@@ -10670,6 +10932,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doc-du",
       "image": "images/acupoints/0245-doc-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWDZ1WACX53SEZSMGZQHX.webp",
       "anh3d": null,
       "international_code": "BL16",
       "code_dash": "BL-16",
@@ -10708,6 +10971,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doc-mach",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -10741,6 +11005,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doc-tich",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -10774,6 +11039,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doc-am",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -10823,6 +11089,7 @@ window.ACUPOINTS = {
       ],
       "slug": "doc-ty",
       "image": "images/acupoints/0249-doc-ty.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWE81Q4KG2QRANKVWYRPE.webp",
       "anh3d": null,
       "international_code": "ST35",
       "code_dash": "ST-35",
@@ -10867,6 +11134,7 @@ window.ACUPOINTS = {
       ],
       "slug": "don-trung",
       "image": "images/acupoints/0250-don-trung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWET7WHH5802ZCSYZ6SYW.webp",
       "anh3d": null
     },
     {
@@ -10900,6 +11168,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dong-minh",
       "image": "images/acupoints/0251-dong-minh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWF9B761FCHVRWGG2QHWV.webp",
       "anh3d": null
     },
     {
@@ -10949,6 +11218,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dong-tu-lieu",
       "image": "images/acupoints/0252-dong-tu-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWFVD3Z8158PEDAG4M33W.webp",
       "anh3d": null,
       "international_code": "GB1",
       "code_dash": "GB-1",
@@ -11008,6 +11278,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dom-du",
       "image": "images/acupoints/0253-dom-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWG4H7K1X0R1GM8AQWNPH.webp",
       "anh3d": null,
       "international_code": "BL19",
       "code_dash": "BL-19",
@@ -11054,6 +11325,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dom-giang",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -11095,6 +11367,7 @@ window.ACUPOINTS = {
       ],
       "slug": "dom-nang-huyet",
       "image": "images/acupoints/0255-dom-nang-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWGPMS38VPHP3D4AJQCX4.webp",
       "anh3d": null
     },
     {
@@ -11128,6 +11401,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duc-du",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -11161,6 +11435,7 @@ window.ACUPOINTS = {
       ],
       "slug": "duong-duong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -11198,6 +11473,7 @@ window.ACUPOINTS = {
       ],
       "slug": "e-minh",
       "image": "images/acupoints/0258-e-minh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWH6HQCBTFHZY74FPJMFF.webp",
       "anh3d": null
     },
     {
@@ -11239,6 +11515,7 @@ window.ACUPOINTS = {
       ],
       "slug": "e-minh-ha",
       "image": "images/acupoints/0259-e-minh-ha.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWHRKR3C1BEXT4SCMXC7B.webp",
       "anh3d": null
     },
     {
@@ -11284,6 +11561,7 @@ window.ACUPOINTS = {
       ],
       "slug": "e-phong",
       "image": "images/acupoints/0260-e-phong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWJ3EZ9905PFR7S2VZM16.webp",
       "anh3d": null,
       "international_code": "TE17",
       "code_dash": "TE-17",
@@ -11344,6 +11622,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giac-ton",
       "image": "images/acupoints/0261-giac-ton.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWJK3APV6CSEJ8H0AJQKV.webp",
       "anh3d": null,
       "international_code": "TE20",
       "code_dash": "TE-20",
@@ -11407,6 +11686,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giai-khe",
       "image": "images/acupoints/0262-giai-khe.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWK5ANA6WJ08ZYWBHDXJS.webp",
       "anh3d": null,
       "international_code": "ST41",
       "code_dash": "ST-41",
@@ -11458,6 +11738,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giai-suyen",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -11507,6 +11788,7 @@ window.ACUPOINTS = {
       ],
       "slug": "gian-su",
       "image": "images/acupoints/0264-gian-su.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWKTJ185C0R9STH1HDQ0F.webp",
       "anh3d": null,
       "international_code": "PC5",
       "code_dash": "PC-5",
@@ -11563,6 +11845,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giang-mon-tu-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -11596,6 +11879,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giang-ap",
       "image": "images/acupoints/0266-giang-ap.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWM0P0S8A79GQRAV8BFC5.webp",
       "anh3d": null
     },
     {
@@ -11645,6 +11929,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giao-tin",
       "image": "images/acupoints/0267-giao-tin.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWMJQH8Z4DK3ZQC01A7YM.webp",
       "anh3d": null,
       "international_code": "KI8",
       "code_dash": "KI-8",
@@ -11693,6 +11978,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giao-co",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -11726,6 +12012,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giap-can",
       "image": "images/acupoints/0269-giap-can.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWMZ2A7TQN74KQBA6J6XF.webp",
       "anh3d": null
     },
     {
@@ -11763,6 +12050,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giap-ly",
       "image": "images/acupoints/0270-giap-ly.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWNQD4J2PB2VGSJJ04J1M.webp",
       "anh3d": null
     },
     {
@@ -11796,6 +12084,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giap-nhan-trung",
       "image": "images/acupoints/0271-giap-nhan-trung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWNXCYBXZ7MR7HEVXMWBM.webp",
       "anh3d": null
     },
     {
@@ -11829,6 +12118,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giap-phung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -11870,6 +12160,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giap-thua-tuong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -11907,6 +12198,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giap-thuong-tinh",
       "image": "images/acupoints/0274-giap-thuong-tinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWPG097VXTWBJHGH72YS4.webp",
       "anh3d": null
     },
     {
@@ -11944,6 +12236,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giap-ty",
       "image": "images/acupoints/0275-giap-ty.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWPZANQ4CNKXB499G9E47.webp",
       "anh3d": null
     },
     {
@@ -11993,6 +12286,7 @@ window.ACUPOINTS = {
       ],
       "slug": "giap-xa",
       "image": "images/acupoints/0276-giap-xa.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWQHARXXY64VHDSKSB8A7.webp",
       "anh3d": null,
       "international_code": "ST6",
       "code_dash": "ST-6",
@@ -12039,6 +12333,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-khau",
       "image": "images/acupoints/0277-ha-khau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWQTACWCZTFGVTJHK0R2V.webp",
       "anh3d": null
     },
     {
@@ -12076,6 +12371,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-a-mon",
       "image": "images/acupoints/0278-ha-a-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWRCGD34MECY8F4Y7J431.webp",
       "anh3d": null
     },
     {
@@ -12113,6 +12409,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-ba-lao",
       "image": "images/acupoints/0279-ha-ba-lao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWRVHEET1TNN8K3F41Y52.webp",
       "anh3d": null
     },
     {
@@ -12146,6 +12443,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-chuy",
       "image": "images/acupoints/0280-ha-chuy.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWSDGHV478ACBBP0K0422.webp",
       "anh3d": null
     },
     {
@@ -12187,6 +12485,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-con-lon",
       "image": "images/acupoints/0281-ha-con-lon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWSPGEMZGH32XT9WPWQJC.webp",
       "anh3d": null
     },
     {
@@ -12236,6 +12535,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-cu-hu",
       "image": "images/acupoints/0282-ha-cu-hu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWT8H5XMECJJTEEX2MK5B.webp",
       "anh3d": null,
       "international_code": "ST39",
       "code_dash": "ST-39",
@@ -12281,6 +12581,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-cuc-du",
       "image": "images/acupoints/0283-ha-cuc-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWTR15E27G6YPJ0521G0M.webp",
       "anh3d": null
     },
     {
@@ -12322,6 +12623,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-dia-thuong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -12355,6 +12657,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-do",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -12392,6 +12695,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-hiep-bach",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -12425,6 +12729,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-khe-mach",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -12470,7 +12775,14 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-liem",
       "image": "images/acupoints/0288-ha-liem.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CHWVAAD6J3TAY2KHW8Q1SB.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPABQVR7H65NXZ9CWAP0QH.webp",
+        "gp": "/_emdash/api/media/file/01M3DPACBH1DD0H29DM9S12ZJA.webp",
+        "lan": "/_emdash/api/media/file/01M3DPADG6KB6F5F96VGSRE24S.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPADK7182MWGABX7P80SEH.webp",
+        "ghiChu": null
+      },
       "international_code": "LI8",
       "code_dash": "LI-8",
       "chinese": "下廉",
@@ -12527,6 +12839,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-lieu",
       "image": "images/acupoints/0289-ha-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWVKAA0CQ42X0879TQS81.webp",
       "anh3d": null,
       "international_code": "BL34",
       "code_dash": "BL-34",
@@ -12584,6 +12897,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-quan",
       "image": "images/acupoints/0290-ha-quan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWW57RVDTAN483SA4RG3D.webp",
       "anh3d": null
     },
     {
@@ -12625,6 +12939,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-quan-ha",
       "image": "images/acupoints/0291-ha-quan-ha.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWWM8TEY7888R78M5ZE8G.webp",
       "anh3d": null
     },
     {
@@ -12674,6 +12989,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-quan",
       "image": "images/acupoints/0292-ha-quan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWX66174P4D93AKP989XE.webp",
       "anh3d": null,
       "international_code": "CV10",
       "code_dash": "CV-10",
@@ -12724,6 +13040,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-tri",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -12761,6 +13078,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-yeu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -12790,6 +13108,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ha-yeu-ii",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -12835,6 +13154,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hac-dinh",
       "image": "images/acupoints/0296-hac-dinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWXF744E50H5BVZ538VVB.webp",
       "anh3d": null
     },
     {
@@ -12868,6 +13188,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hai-dai",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -12909,6 +13230,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hai-lieu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -12950,6 +13272,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hai-tuyen",
       "image": "images/acupoints/0299-hai-tuyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWY16QNPH8NQ5G3BY1MMP.webp",
       "anh3d": null
     },
     {
@@ -12991,6 +13314,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ham-yen",
       "image": "images/acupoints/0300-ham-yen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWYG4KBPC81QTZBSS8MAY.webp",
       "anh3d": null,
       "international_code": "GB4",
       "code_dash": "GB-4",
@@ -13050,6 +13374,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ham-coc",
       "image": "images/acupoints/0301-ham-coc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWZ24BK0RC96JGP7E4YXR.webp",
       "anh3d": null,
       "international_code": "ST43",
       "code_dash": "ST-43",
@@ -13100,6 +13425,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hang-trung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -13145,6 +13471,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hanh-gian",
       "image": "images/acupoints/0303-hanh-gian.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWZBD5GPMZVC3N1GWAC4F.webp",
       "anh3d": null,
       "international_code": "LR2",
       "code_dash": "LR-2",
@@ -13189,6 +13516,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hau-dich-ha",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -13222,6 +13550,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hau-duong-quan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -13271,6 +13600,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hau-dinh",
       "image": "images/acupoints/0306-hau-dinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHWZXGPFHHS6GR4JPY5ETQ.webp",
       "anh3d": null,
       "international_code": "GV19",
       "code_dash": "GV-19",
@@ -13311,6 +13641,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hau-e-minh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -13356,6 +13687,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hau-khe",
       "image": "images/acupoints/0308-hau-khe.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX0CRF1XYNKHN8Y7A6ACQ.webp",
       "anh3d": null,
       "international_code": "SI3",
       "code_dash": "SI-3",
@@ -13406,6 +13738,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hau-ky-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -13443,6 +13776,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hau-ngu-hoi",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -13480,6 +13814,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hau-phat-te",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -13517,6 +13852,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hau-thai-xung",
       "image": "images/acupoints/0312-hau-thai-xung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX0YSKXENXTXTDQEYRB7C.webp",
       "anh3d": null
     },
     {
@@ -13558,6 +13894,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hau-thinh-cung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -13599,6 +13936,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hau-thinh-hoi",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -13636,6 +13974,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hau-thinh-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -13673,6 +14012,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hau-thong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -13706,6 +14046,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hiep-duong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -13751,6 +14092,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hiep-bach",
       "image": "images/acupoints/0318-hiep-bach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX17SKFEJGT5XRZN61B59.webp",
       "anh3d": {
         "da": "/_emdash/api/media/file/01M3D10J92WVMTFGQANDFMC3RV.webp",
         "gp": "/_emdash/api/media/file/01M3D10JC9DH7XJFDY3Z23GM1Q.webp",
@@ -13812,6 +14154,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hiep-khe",
       "image": "images/acupoints/0319-hiep-khe.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX1SSNK52AECG81NEA0DW.webp",
       "anh3d": null,
       "international_code": "GB43",
       "code_dash": "GB-43",
@@ -13874,6 +14217,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoa-cai",
       "image": "images/acupoints/0320-hoa-cai.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX2BTZ1KZFRQCKMV762V0.webp",
       "anh3d": null,
       "international_code": "CV20",
       "code_dash": "CV-20",
@@ -13920,6 +14264,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoa-da-huyet",
       "image": "images/acupoints/0321-hoa-da-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX36TBQE1C849X86W5PEM.webp",
       "anh3d": null
     },
     {
@@ -13969,6 +14314,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoa-lieu",
       "image": "images/acupoints/0322-hoa-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX3CVSG122PK8TXGDWJQH.webp",
       "anh3d": null,
       "international_code": "TE22",
       "code_dash": "TE-22",
@@ -14028,7 +14374,14 @@ window.ACUPOINTS = {
       ],
       "slug": "hoa-lieu",
       "image": "images/acupoints/0323-hoa-lieu.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CHX3CVSG122PK8TXGDWJQH.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPB4WVQHZ0RW9494R41DB7.webp",
+        "gp": "/_emdash/api/media/file/01M3DPB5C247XWQ1VMHRDD9DB0.webp",
+        "lan": "/_emdash/api/media/file/01M3DPB61BJ5S2QHW6PDFKZM8Y.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPB6AFQ02VH8GFGS4Z45KN.webp",
+        "ghiChu": null
+      },
       "international_code": "LI19",
       "code_dash": "LI-19",
       "chinese": "口禾髎",
@@ -14087,6 +14440,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoan-cot",
       "image": "images/acupoints/0324-hoan-cot.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX4M82K0GQYBQNZT9DMQ0.webp",
       "anh3d": null,
       "international_code": "GB12",
       "code_dash": "GB-12",
@@ -14150,6 +14504,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoan-khieu",
       "image": "images/acupoints/0325-hoan-khieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX5CH25QK67E6V4JZ6E21.webp",
       "anh3d": null,
       "international_code": "GB30",
       "code_dash": "GB-30",
@@ -14194,6 +14549,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoan-trung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -14227,6 +14583,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoan-mon",
       "image": "images/acupoints/0327-hoan-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX5NNQ8N3RVV8RYVQC9P5.webp",
       "anh3d": null
     },
     {
@@ -14272,6 +14629,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoang-du",
       "image": "images/acupoints/0328-hoang-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX5YRGNZAZD7EM28QC5XG.webp",
       "anh3d": null,
       "international_code": "KI16",
       "code_dash": "KI-16",
@@ -14317,6 +14675,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoang-mo",
       "image": "images/acupoints/0329-hoang-mo.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX72S50FWK9SGN6V6N3R3.webp",
       "anh3d": null
     },
     {
@@ -14362,6 +14721,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoang-mon",
       "image": "images/acupoints/0330-hoang-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX72S50FWK9SGN6V6N3R3.webp",
       "anh3d": null,
       "international_code": "BL51",
       "code_dash": "BL-51",
@@ -14405,6 +14765,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoang-huyen",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -14454,6 +14815,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoanh-cot",
       "image": null,
+      "anhCms": null,
       "anh3d": null,
       "international_code": "KI11",
       "code_dash": "KI-11",
@@ -14497,6 +14859,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoanh-cot-2",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -14526,6 +14889,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoanh-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -14559,6 +14923,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoanh-van",
       "image": "images/acupoints/0335-hoanh-van.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX8AMC9939M2PAFF2HQKP.webp",
       "anh3d": null
     },
     {
@@ -14608,6 +14973,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoat-nhuc-mon",
       "image": "images/acupoints/0336-hoat-nhuc-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX8KMW279959AD8DJ5FSW.webp",
       "anh3d": null,
       "international_code": "ST24",
       "code_dash": "ST-24",
@@ -14663,6 +15029,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoac-trung",
       "image": null,
+      "anhCms": null,
       "anh3d": null,
       "international_code": "KI26",
       "code_dash": "KI-26",
@@ -14708,6 +15075,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ho-hap-huyet",
       "image": "images/acupoints/0338-ho-hap-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHX9MX36XF3AND3SAE310T.webp",
       "anh3d": null
     },
     {
@@ -14741,6 +15109,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ho-bien",
       "image": "images/acupoints/0339-ho-bien.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXASK0MSGHQYFXBXPN3VX.webp",
       "anh3d": null
     },
     {
@@ -14774,6 +15143,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ho-khau",
       "image": "images/acupoints/0340-ho-khau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXBMMPQA7KT35YGZ7CM8R.webp",
       "anh3d": null
     },
     {
@@ -14807,6 +15177,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ho-cung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -14840,6 +15211,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoi-duong",
       "image": "images/acupoints/0342-hoi-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXBXRVQH8HAZ3R0YVNEEY.webp",
       "anh3d": null
     },
     {
@@ -14877,6 +15249,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoi-duong-cuu-cham-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -14914,6 +15287,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoi-khi",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -14963,6 +15337,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoi-am",
       "image": "images/acupoints/0345-hoi-am.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXD51D951BVEM33MWH931.webp",
       "anh3d": null,
       "international_code": "CV1",
       "code_dash": "CV-1",
@@ -15026,6 +15401,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoi-duong",
       "image": "images/acupoints/0346-hoi-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXBXRVQH8HAZ3R0YVNEEY.webp",
       "anh3d": null,
       "international_code": "BL35",
       "code_dash": "BL-35",
@@ -15084,6 +15460,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hoi-tong",
       "image": "images/acupoints/0347-hoi-tong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXEDPZP0V41K99MS96G71.webp",
       "anh3d": null,
       "international_code": "TE7",
       "code_dash": "TE-7",
@@ -15140,6 +15517,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hon-mon",
       "image": "images/acupoints/0348-hon-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXESQYE7TBA5DEM8EP8MZ.webp",
       "anh3d": null,
       "international_code": "BL47",
       "code_dash": "BL-47",
@@ -15185,6 +15563,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hon-xa",
       "image": "images/acupoints/0349-hon-xa.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXFTRY7F90Z36JXJVHCFN.webp",
       "anh3d": null
     },
     {
@@ -15222,6 +15601,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hong-am",
       "image": "images/acupoints/0350-hong-am.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXG0RZGNT16KCHK8GCEES.webp",
       "anh3d": null
     },
     {
@@ -15251,6 +15631,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hong-tuyen",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -15300,7 +15681,14 @@ window.ACUPOINTS = {
       ],
       "slug": "hop-coc",
       "image": "images/acupoints/0352-hop-coc.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CHXHM166NCC02MXECQH4WW.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPA3HDAY71NVCFRJD07X72.webp",
+        "gp": "/_emdash/api/media/file/01M3DPA3E7PXHDX6PSHG1TJWFE.webp",
+        "lan": "/_emdash/api/media/file/01M3DPA4JERGV9GE4XKS99H835.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPA4NGDGB5R8D49CDE4CY6.webp",
+        "ghiChu": null
+      },
       "international_code": "LI4",
       "code_dash": "LI-4",
       "chinese": "合谷",
@@ -15365,6 +15753,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hop-duong",
       "image": "images/acupoints/0353-hop-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXJ33H94BE4NFCK9M5XWF.webp",
       "anh3d": null,
       "international_code": "BL55",
       "code_dash": "BL-55",
@@ -15420,6 +15809,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hung-huong",
       "image": "images/acupoints/0354-hung-huong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXJV6E6FVH5MAVS3WX99C.webp",
       "anh3d": null,
       "international_code": "SP19",
       "code_dash": "SP-19",
@@ -15468,6 +15858,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hung-thong-coc",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -15517,6 +15908,7 @@ window.ACUPOINTS = {
       ],
       "slug": "huyen-chung",
       "image": "images/acupoints/0356-huyen-chung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXJY6HMSWG9FJ35W2BZ95.webp",
       "anh3d": null,
       "international_code": "GB39",
       "code_dash": "GB-39",
@@ -15581,6 +15973,7 @@ window.ACUPOINTS = {
       ],
       "slug": "huyen-khu",
       "image": "images/acupoints/0357-huyen-khu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXNA3YE55Z679KF2AAEQH.webp",
       "anh3d": null,
       "international_code": "GV5",
       "code_dash": "GV-5",
@@ -15641,6 +16034,7 @@ window.ACUPOINTS = {
       ],
       "slug": "huyen-lu",
       "image": "images/acupoints/0358-huyen-lu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXNS4JQAF8WDG1N6TSQ35.webp",
       "anh3d": null,
       "international_code": "GB5",
       "code_dash": "GB-5",
@@ -15696,6 +16090,7 @@ window.ACUPOINTS = {
       ],
       "slug": "huyen-ly",
       "image": "images/acupoints/0359-huyen-ly.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXPH6H8EV93B69WSH3X4Q.webp",
       "anh3d": null,
       "international_code": "GB6",
       "code_dash": "GB-6",
@@ -15740,6 +16135,7 @@ window.ACUPOINTS = {
       ],
       "slug": "huyen-mang",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -15777,6 +16173,7 @@ window.ACUPOINTS = {
       ],
       "slug": "huyet-ap-diem",
       "image": "images/acupoints/0361-huyet-ap-diem.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXPQ49KFBVH6VCFYEF92Q.webp",
       "anh3d": null
     },
     {
@@ -15826,6 +16223,7 @@ window.ACUPOINTS = {
       ],
       "slug": "huyet-hai",
       "image": "images/acupoints/0362-huyet-hai.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXR4CGTRCFXHERHCHB8WJ.webp",
       "anh3d": null,
       "international_code": "SP10",
       "code_dash": "SP-10",
@@ -15878,6 +16276,7 @@ window.ACUPOINTS = {
       ],
       "slug": "huyet-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -15915,6 +16314,7 @@ window.ACUPOINTS = {
       ],
       "slug": "huyet-phu",
       "image": "images/acupoints/0364-huyet-phu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXRKCBRKXBG94VBPE4346.webp",
       "anh3d": null
     },
     {
@@ -15952,6 +16352,7 @@ window.ACUPOINTS = {
       ],
       "slug": "huyet-sau",
       "image": "images/acupoints/0365-huyet-sau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXSBCEFWEP3QVQ307C9AV.webp",
       "anh3d": null
     },
     {
@@ -15985,6 +16386,7 @@ window.ACUPOINTS = {
       ],
       "slug": "hung-phan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -16018,6 +16420,7 @@ window.ACUPOINTS = {
       ],
       "slug": "huu-du",
       "image": "images/acupoints/0367-huu-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXSHDRTMXW52FGZ4884DP.webp",
       "anh3d": null
     },
     {
@@ -16051,6 +16454,7 @@ window.ACUPOINTS = {
       ],
       "slug": "huu-nghi",
       "image": "images/acupoints/0368-huu-nghi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXTYK66CJXHMQ9DBGD3TT.webp",
       "anh3d": null
     },
     {
@@ -16080,6 +16484,7 @@ window.ACUPOINTS = {
       ],
       "slug": "huu-quan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -16117,6 +16522,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ket-hach-huyet",
       "image": "images/acupoints/0370-ket-hach-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXVSGXANT62S9Y2JGJTJ4.webp",
       "anh3d": null
     },
     {
@@ -16154,6 +16560,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khai-thau-huyet",
       "image": "images/acupoints/0371-khai-thau-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXWHVVTTZDKVB90YYBCPF.webp",
       "anh3d": null
     },
     {
@@ -16187,6 +16594,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khao-son",
       "image": "images/acupoints/0372-khao-son.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXWQVAA04G1DHE11WVHSR.webp",
       "anh3d": null
     },
     {
@@ -16236,6 +16644,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khau-khu",
       "image": "images/acupoints/0373-khau-khu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXY4XTX7G4HDHTTBSRXF4.webp",
       "anh3d": null,
       "international_code": "GB40",
       "code_dash": "GB-40",
@@ -16285,6 +16694,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khe-thuong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -16334,6 +16744,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khe-mach",
       "image": "images/acupoints/0375-khe-mach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHXZF9DX0CEKM0Z3MY3PMX.webp",
       "anh3d": null,
       "international_code": "TE18",
       "code_dash": "TE-18",
@@ -16378,6 +16789,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khi-doan",
       "image": "images/acupoints/0376-khi-doan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY0A9CGS68Y9KJXZTA8XG.webp",
       "anh3d": null
     },
     {
@@ -16411,6 +16823,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khi-duong",
       "image": "images/acupoints/0377-khi-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY0D9RZ6D6T0QVP6K7TM0.webp",
       "anh3d": null
     },
     {
@@ -16460,6 +16873,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khi-hai",
       "image": "images/acupoints/0378-khi-hai.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY1HDDBK57Z3EXAHK5RFY.webp",
       "anh3d": null,
       "international_code": "CV6",
       "code_dash": "CV-6",
@@ -16533,6 +16947,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khi-hai-du",
       "image": "images/acupoints/0379-khi-hai-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY1QEFATARCCFJ1N0NZNT.webp",
       "anh3d": null,
       "international_code": "BL24",
       "code_dash": "BL-24",
@@ -16589,6 +17004,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khi-ho",
       "image": "images/acupoints/0380-khi-ho.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY2RKCA9HJ7MDR0Q072QS.webp",
       "anh3d": null,
       "international_code": "ST13",
       "code_dash": "ST-13",
@@ -16651,6 +17067,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khi-huyet",
       "image": "images/acupoints/0381-khi-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY2VH4YJGS40KTRS8A2CX.webp",
       "anh3d": null,
       "international_code": "KI13",
       "code_dash": "KI-13",
@@ -16696,6 +17113,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khi-mon",
       "image": "images/acupoints/0382-khi-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY3ZSBRNE49A1C0W30WSR.webp",
       "anh3d": null
     },
     {
@@ -16733,6 +17151,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khi-suyen",
       "image": "images/acupoints/0383-khi-suyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY42RW826411HYYS4GCSS.webp",
       "anh3d": null
     },
     {
@@ -16766,6 +17185,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khi-trung",
       "image": "images/acupoints/0384-khi-trung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY5M7R89M2ZWWPEMBP2XQ.webp",
       "anh3d": null
     },
     {
@@ -16787,6 +17207,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khi-ve",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -16832,6 +17253,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khi-xa",
       "image": "images/acupoints/0386-khi-xa.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY5THK0EFYMNNRPAVM2ZQ.webp",
       "anh3d": null,
       "international_code": "ST11",
       "code_dash": "ST-11",
@@ -16894,6 +17316,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khi-xung",
       "image": "images/acupoints/0387-khi-xung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY6PNC7NX5H117Z10V2N1.webp",
       "anh3d": null,
       "international_code": "ST30",
       "code_dash": "ST-30",
@@ -16954,6 +17377,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khich-mon",
       "image": "images/acupoints/0388-khich-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY6WP3DA5SKA1SE57TYCS.webp",
       "anh3d": null,
       "international_code": "PC4",
       "code_dash": "PC-4",
@@ -17010,6 +17434,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khien-chinh-huyet",
       "image": "images/acupoints/0389-khien-chinh-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY8YY5NGXZ8YWQGD423A4.webp",
       "anh3d": null
     },
     {
@@ -17043,6 +17468,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khoa-ha",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -17080,6 +17506,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khoa-tam-cham",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -17117,6 +17544,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khoan-cot",
       "image": "images/acupoints/0392-khoan-cot.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY97ZF22KQC4TAB3DEE2H.webp",
       "anh3d": null
     },
     {
@@ -17158,6 +17586,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kho-phong",
       "image": "images/acupoints/0393-kho-phong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY9SZGVFR46ADV5AZJVND.webp",
       "anh3d": null,
       "international_code": "ST14",
       "code_dash": "ST-14",
@@ -17201,6 +17630,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khong-cap",
       "image": "images/acupoints/0394-khong-cap.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHY9ZZVYK8PZCSB23322GR.webp",
       "anh3d": null
     },
     {
@@ -17246,6 +17676,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khong-toi",
       "image": "images/acupoints/0395-khong-toi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYB7DCG1P0ATE7N26T820.webp",
       "anh3d": {
         "da": "/_emdash/api/media/file/01M3D10PWBEF2Q6D5YPQ889K9Z.webp",
         "gp": "/_emdash/api/media/file/01M3D10PZKF8PV4XGAJ9AAFEGW.webp",
@@ -17303,6 +17734,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khuat-cot-doan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -17344,6 +17776,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khuat-duong-uy",
       "image": "images/acupoints/0397-khuat-duong-uy.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYBDE6QC50M7JSMR68XH7.webp",
       "anh3d": null
     },
     {
@@ -17389,6 +17822,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khuc-cot",
       "image": "images/acupoints/0398-khuc-cot.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYCENEC69EBV4WS98S6PA.webp",
       "anh3d": null,
       "international_code": "CV2",
       "code_dash": "CV-2",
@@ -17454,6 +17888,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khuc-sai",
       "image": "images/acupoints/0399-khuc-sai.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYD0J3RYMKZV9J2FB43YY.webp",
       "anh3d": null,
       "international_code": "BL4",
       "code_dash": "BL-4",
@@ -17515,6 +17950,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khuc-tan",
       "image": "images/acupoints/0400-khuc-tan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYE1M26W31RWADY4B5RV5.webp",
       "anh3d": null,
       "international_code": "GB7",
       "code_dash": "GB-7",
@@ -17572,6 +18008,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khuc-trach",
       "image": "images/acupoints/0401-khuc-trach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYE4M6C0VMT8Z8XCS3FY8.webp",
       "anh3d": null,
       "international_code": "PC3",
       "code_dash": "PC-3",
@@ -17638,7 +18075,14 @@ window.ACUPOINTS = {
       ],
       "slug": "khuc-tri",
       "image": "images/acupoints/0402-khuc-tri.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CHYF5P8VX9AHQ8XHAWEX1G.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPAMDQ2TEM0YKXFTKS8KAS.webp",
+        "gp": "/_emdash/api/media/file/01M3DPAMKSS97FE8M6DTSBWFGE.webp",
+        "lan": "/_emdash/api/media/file/01M3DPANFSDBDG605551WZ3V7Q.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPAP9DBV8CVNQD5J3W338B.webp",
+        "ghiChu": null
+      },
       "international_code": "LI11",
       "code_dash": "LI-11",
       "chinese": "曲池",
@@ -17689,6 +18133,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khuc-tri-dinh-tu-thich",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -17734,6 +18179,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khuc-tuyen",
       "image": "images/acupoints/0404-khuc-tuyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYG9V4FKQTQSJV47S9WQK.webp",
       "anh3d": null,
       "international_code": "LR8",
       "code_dash": "LR-8",
@@ -17794,6 +18240,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khuc-vien",
       "image": "images/acupoints/0405-khuc-vien.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYH4W13GRFSVBYCCCSYVW.webp",
       "anh3d": null,
       "international_code": "SI13",
       "code_dash": "SI-13",
@@ -17836,6 +18283,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khuc-xich",
       "image": "images/acupoints/0406-khuc-xich.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYHAVZK7CEMT6YK4B32T3.webp",
       "anh3d": null
     },
     {
@@ -17885,6 +18333,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khuyet-bon",
       "image": "images/acupoints/0407-khuyet-bon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYJBW4HDR7N69JVF91EHQ.webp",
       "anh3d": null,
       "international_code": "ST12",
       "code_dash": "ST-12",
@@ -17929,6 +18378,7 @@ window.ACUPOINTS = {
       ],
       "slug": "khu-dom-thuat",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -17962,6 +18412,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kiem-cu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -17991,6 +18442,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-boi",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -18024,6 +18476,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-du",
       "image": "images/acupoints/0411-kien-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYJQSEJ53RX36Q2K3ZXFM.webp",
       "anh3d": null
     },
     {
@@ -18061,6 +18514,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-dau",
       "image": "images/acupoints/0412-kien-dau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYKFR35PHV1EVQY7BDP0J.webp",
       "anh3d": null
     },
     {
@@ -18106,6 +18560,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-lieu",
       "image": "images/acupoints/0413-kien-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYKJRK9WHJAC18XME1B5C.webp",
       "anh3d": null,
       "international_code": "TE14",
       "code_dash": "TE-14",
@@ -18166,6 +18621,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-ngoai-du",
       "image": "images/acupoints/0414-kien-ngoai-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYMSNP4NR74YSM8C3BW8R.webp",
       "anh3d": null,
       "international_code": "SI14",
       "code_dash": "SI-14",
@@ -18226,7 +18682,14 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-ngung",
       "image": null,
-      "anh3d": null,
+      "anhCms": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPAWZCDBRDSC1NE8EDMH33.webp",
+        "gp": "/_emdash/api/media/file/01M3DPAX2D8SF16RAYP7BZV8YH.webp",
+        "lan": "/_emdash/api/media/file/01M3DPAXY3DWSXXFY7X61QF5B0.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPAY14HB778N3SD9SXH3RQ.webp",
+        "ghiChu": null
+      },
       "international_code": "LI15",
       "code_dash": "LI-15",
       "chinese": "肩髃",
@@ -18271,6 +18734,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-noi-du",
       "image": "images/acupoints/0416-kien-noi-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYNBNEWE55DC0WMW7JSC9.webp",
       "anh3d": null
     },
     {
@@ -18304,6 +18768,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-noi-lang",
       "image": "images/acupoints/0417-kien-noi-lang.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYPDH65MPWGYJ236KSTDG.webp",
       "anh3d": null
     },
     {
@@ -18337,6 +18802,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-tam-cham",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -18370,6 +18836,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-thong-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -18403,6 +18870,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-thuong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -18452,6 +18920,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-tinh",
       "image": "images/acupoints/0421-kien-tinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYPGGR40T85QD8EHQ8R12.webp",
       "anh3d": null,
       "international_code": "GB21",
       "code_dash": "GB-21",
@@ -18514,6 +18983,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-trinh",
       "image": "images/acupoints/0422-kien-trinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYRFRS9VNFDZ677EH4PAJ.webp",
       "anh3d": null,
       "international_code": "SI9",
       "code_dash": "SI-9",
@@ -18557,6 +19027,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-tru-cot",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -18606,6 +19077,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-trung-du",
       "image": "images/acupoints/0424-kien-trung-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYRJRG38SH0910F253M5T.webp",
       "anh3d": null,
       "international_code": "SI15",
       "code_dash": "SI-15",
@@ -18663,6 +19135,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-ly",
       "image": "images/acupoints/0425-kien-ly.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYSM0DCEEAP1K6JJ3PTMM.webp",
       "anh3d": null,
       "international_code": "CV11",
       "code_dash": "CV-11",
@@ -18709,6 +19182,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-minh",
       "image": "images/acupoints/0426-kien-minh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYSQ1FBJYMTTGNAJA2KGK.webp",
       "anh3d": null
     },
     {
@@ -18742,6 +19216,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-kho",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -18775,6 +19250,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-ly-tam-huyet",
       "image": "images/acupoints/0428-kien-ly-tam-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYTV3H6SKSA7RD6DENXP2.webp",
       "anh3d": null
     },
     {
@@ -18812,6 +19288,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kien-tat",
       "image": "images/acupoints/0429-kien-tat.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYV43EG0AHFTHZHHPQQTK.webp",
       "anh3d": null
     },
     {
@@ -18861,6 +19338,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kim-mon",
       "image": "images/acupoints/0430-kim-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYVWAD3S4BRCK64M8DGCQ.webp",
       "anh3d": null,
       "international_code": "BL63",
       "code_dash": "BL-63",
@@ -18914,6 +19392,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kim-tan-ngoc-dich",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -18959,6 +19438,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kinh-cot",
       "image": "images/acupoints/0432-kinh-cot.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYW5B5BXGK1N4T49FSW9Z.webp",
       "anh3d": null,
       "international_code": "BL64",
       "code_dash": "BL-64",
@@ -19026,6 +19506,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kinh-cu",
       "image": "images/acupoints/0433-kinh-cu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYX6BK64R51DMYRFXDDRJ.webp",
       "anh3d": {
         "da": "/_emdash/api/media/file/01M3D10V2MFAK32BSKNFS79RQ6.webp",
         "gp": "/_emdash/api/media/file/01M3D10V5XBEFB2QNE02H362TE.webp",
@@ -19094,6 +19575,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kinh-mon",
       "image": "images/acupoints/0434-kinh-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYXV8C8CBTY2QVD21B547.webp",
       "anh3d": null,
       "international_code": "GB25",
       "code_dash": "GB-25",
@@ -19139,6 +19621,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kinh-mon-trach-dien",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -19176,6 +19659,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kinh-mon-tu-hoa",
       "image": "images/acupoints/0436-kinh-mon-tu-hoa.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYYK7ZNQHHPNHQ3JA64YT.webp",
       "anh3d": null
     },
     {
@@ -19209,6 +19693,7 @@ window.ACUPOINTS = {
       ],
       "slug": "kinh-trung",
       "image": "images/acupoints/0437-kinh-trung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYYW8GR9PJK9SYY9N0KBD.webp",
       "anh3d": null
     },
     {
@@ -19258,6 +19743,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ky-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -19291,6 +19777,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ky-mon",
       "image": "images/acupoints/0439-ky-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHYZX6KSM4HTV489DB4B77.webp",
       "anh3d": null,
       "international_code": "LR14",
       "code_dash": "LR-14",
@@ -19322,6 +19809,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ky-hai-du",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -19363,6 +19851,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ky-truc-ma",
       "image": "images/acupoints/0441-ky-truc-ma.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZ11CS4B4GH78D5TTVNR6.webp",
       "anh3d": null
     },
     {
@@ -19396,6 +19885,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lac-canh",
       "image": "images/acupoints/0442-lac-canh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZ1SCB3HYPH3K78XNHXTV.webp",
       "anh3d": null
     },
     {
@@ -19433,6 +19923,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lac-cham",
       "image": "images/acupoints/0443-lac-cham.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZ25DGWBH5S55YWQXYZD8.webp",
       "anh3d": null
     },
     {
@@ -19450,6 +19941,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lac-cham",
       "image": "images/acupoints/0444-lac-cham.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZ25DGWBH5S55YWQXYZD8.webp",
       "anh3d": null
     },
     {
@@ -19487,6 +19979,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lac-dia",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -19508,6 +20001,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lac-khich",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -19557,6 +20051,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lac-khuoc",
       "image": "images/acupoints/0447-lac-khuoc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZ3CD8BV21MKBNBV5VGY8.webp",
       "anh3d": null,
       "international_code": "BL8",
       "code_dash": "BL-8",
@@ -19617,6 +20112,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lai-cau",
       "image": "images/acupoints/0448-lai-cau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZ41CTN80KDV2FTQGKD4B.webp",
       "anh3d": null,
       "international_code": "LR5",
       "code_dash": "LR-5",
@@ -19665,6 +20161,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lan-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -19698,6 +20195,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lan-mon-2",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -19743,6 +20241,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lan-vi",
       "image": "images/acupoints/0451-lan-vi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZ4ADWDG61VBNHSKRWJGN.webp",
       "anh3d": null
     },
     {
@@ -19780,6 +20279,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lan-vi-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -19829,6 +20329,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lao-cung",
       "image": "images/acupoints/0453-lao-cung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZ4WK80Y4J053CAH986PV.webp",
       "anh3d": null,
       "international_code": "PC8",
       "code_dash": "PC-8",
@@ -19878,6 +20379,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lao-thuong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -19911,6 +20413,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lat-ma",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -19948,6 +20451,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lac-dau",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -19981,6 +20485,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lac-duong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -20014,6 +20519,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lac-ha",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -20051,6 +20557,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lang-ha",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -20088,6 +20595,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lang-hau",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -20125,6 +20633,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lang-hau-ha",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -20158,6 +20667,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lam-tuyen",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -20195,6 +20705,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lap-mang",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -20228,6 +20739,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lau-am",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -20273,6 +20785,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lau-coc",
       "image": "images/acupoints/0465-lau-coc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZ5MJA7W1KHQDX98TJSNG.webp",
       "anh3d": null,
       "international_code": "SP7",
       "code_dash": "SP-7",
@@ -20337,6 +20850,7 @@ window.ACUPOINTS = {
       ],
       "slug": "le-doai",
       "image": "images/acupoints/0466-le-doai.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZ6VZSDVJ3P9PN4HZYBNG.webp",
       "anh3d": null,
       "international_code": "ST45",
       "code_dash": "ST-45",
@@ -20405,6 +20919,7 @@ window.ACUPOINTS = {
       ],
       "slug": "liem-tuyen",
       "image": "images/acupoints/0467-liem-tuyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZ720FTD6F5JH8DE3KNPR.webp",
       "anh3d": null,
       "international_code": "CV23",
       "code_dash": "CV-23",
@@ -20470,6 +20985,7 @@ window.ACUPOINTS = {
       ],
       "slug": "liet-khuyet",
       "image": "images/acupoints/0468-liet-khuyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZ7M4HM3PAZPQCE14RN0D.webp",
       "anh3d": {
         "da": "/_emdash/api/media/file/01M3D10RXMRMC9S7KRV7C1AT73.webp",
         "gp": "/_emdash/api/media/file/01M3D10S0W7SGBY64FDV3JDEZ0.webp",
@@ -20528,6 +21044,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lieu-lieu",
       "image": "images/acupoints/0469-lieu-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZ8C6Q9GN06KDM6FJWETC.webp",
       "anh3d": null
     },
     {
@@ -20561,6 +21078,7 @@ window.ACUPOINTS = {
       ],
       "slug": "linh-bao",
       "image": "images/acupoints/0470-linh-bao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZA2THXB92A3EJCQN06BX.webp",
       "anh3d": null
     },
     {
@@ -20606,6 +21124,7 @@ window.ACUPOINTS = {
       ],
       "slug": "linh-dai",
       "image": "images/acupoints/0471-linh-dai.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZA8TKE5C24EEZG5R20BM.webp",
       "anh3d": null,
       "international_code": "GV10",
       "code_dash": "GV-10",
@@ -20659,6 +21178,7 @@ window.ACUPOINTS = {
       ],
       "slug": "linh-dao",
       "image": "images/acupoints/0472-linh-dao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZATTFDM3R2SYZ1WT0RKE.webp",
       "anh3d": null,
       "international_code": "HE4",
       "code_dash": "HE-4",
@@ -20714,6 +21234,7 @@ window.ACUPOINTS = {
       ],
       "slug": "linh-khu",
       "image": "images/acupoints/0473-linh-khu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZBJQV30W03CM0D9YQA7R.webp",
       "anh3d": null,
       "international_code": "KI24",
       "code_dash": "KI-24",
@@ -20759,6 +21280,7 @@ window.ACUPOINTS = {
       ],
       "slug": "long-cot",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -20792,6 +21314,7 @@ window.ACUPOINTS = {
       ],
       "slug": "long-ham",
       "image": "images/acupoints/0475-long-ham.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZCDRWMPYR3GVTYB15M1R.webp",
       "anh3d": null
     },
     {
@@ -20829,6 +21352,7 @@ window.ACUPOINTS = {
       ],
       "slug": "long-huyen",
       "image": "images/acupoints/0476-long-huyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZCM41H0NQ2S6J2E2DTWN.webp",
       "anh3d": null
     },
     {
@@ -20866,6 +21390,7 @@ window.ACUPOINTS = {
       ],
       "slug": "long-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -20895,6 +21420,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lo-can",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -20932,6 +21458,7 @@ window.ACUPOINTS = {
       ],
       "slug": "loi-lich",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -20965,6 +21492,7 @@ window.ACUPOINTS = {
       ],
       "slug": "luc-canh-chuy-bang",
       "image": "images/acupoints/0480-luc-canh-chuy-bang.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZD3336XC3BKCY20ARDN8.webp",
       "anh3d": null
     },
     {
@@ -20998,6 +21526,7 @@ window.ACUPOINTS = {
       ],
       "slug": "luc-hoa",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -21035,6 +21564,7 @@ window.ACUPOINTS = {
       ],
       "slug": "luc-phung",
       "image": "images/acupoints/0482-luc-phung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZDY420CDX59GDGJMPAXY.webp",
       "anh3d": null
     },
     {
@@ -21076,6 +21606,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lung-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -21105,6 +21636,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lung-thong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -21138,6 +21670,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lu-mon-bat-hop",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -21171,6 +21704,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lu-thuong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -21216,6 +21750,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lu-tuc",
       "image": "images/acupoints/0487-lu-tuc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZF83KBZVGAQNVAQXXVK5.webp",
       "anh3d": null,
       "international_code": "TE19",
       "code_dash": "TE-19",
@@ -21256,6 +21791,7 @@ window.ACUPOINTS = {
       ],
       "slug": "lu-thuong",
       "image": "images/acupoints/0488-lu-thuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZFHA30TRD8T6ZS8DDE4F.webp",
       "anh3d": null
     },
     {
@@ -21305,6 +21841,7 @@ window.ACUPOINTS = {
       ],
       "slug": "luong-khau",
       "image": "images/acupoints/0489-luong-khau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZG3KQZEDS5PRGTQF6NE4.webp",
       "anh3d": null,
       "international_code": "ST34",
       "code_dash": "ST-34",
@@ -21362,6 +21899,7 @@ window.ACUPOINTS = {
       ],
       "slug": "luong-mon",
       "image": "images/acupoints/0490-luong-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZGAT8SS3JCXZ1AKCS2P9.webp",
       "anh3d": null,
       "international_code": "ST21",
       "code_dash": "ST-21",
@@ -21407,6 +21945,7 @@ window.ACUPOINTS = {
       ],
       "slug": "luong-nhan",
       "image": "images/acupoints/0491-luong-nhan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZJGYADWAKPPXH9K2Z7ET.webp",
       "anh3d": null
     },
     {
@@ -21436,6 +21975,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ly-ky-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -21473,6 +22013,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ly-ngoai",
       "image": "images/acupoints/0493-ly-ngoai.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZJSX3TCYBCZ7Q3N2R5VY.webp",
       "anh3d": null
     },
     {
@@ -21506,6 +22047,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ly-noi-dinh",
       "image": "images/acupoints/0494-ly-noi-dinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZKCCXB6MQJT8RRGSJCAG.webp",
       "anh3d": null
     },
     {
@@ -21543,6 +22085,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ly-thuong",
       "image": "images/acupoints/0495-ly-thuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZKJGY98NA3V1J1KQJ0XD.webp",
       "anh3d": null
     },
     {
@@ -21580,6 +22123,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ly-tat-man-cam-diem",
       "image": "images/acupoints/0496-ly-tat-man-cam-diem.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZNBRTAC8VTHPB54FJYC2.webp",
       "anh3d": null
     },
     {
@@ -21617,6 +22161,7 @@ window.ACUPOINTS = {
       ],
       "slug": "mach-lap-thung",
       "image": "images/acupoints/0497-mach-lap-thung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZNMQHCJAFXDXK1KMK3KB.webp",
       "anh3d": null
     },
     {
@@ -21654,6 +22199,7 @@ window.ACUPOINTS = {
       ],
       "slug": "mai-hoa-huyet",
       "image": "images/acupoints/0498-mai-hoa-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZNXRJPT5BCM7Z1A4SJKZ.webp",
       "anh3d": null
     },
     {
@@ -21687,6 +22233,7 @@ window.ACUPOINTS = {
       ],
       "slug": "mai-hoa-tam-cham",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -21720,6 +22267,7 @@ window.ACUPOINTS = {
       ],
       "slug": "mang-quan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -21753,6 +22301,7 @@ window.ACUPOINTS = {
       ],
       "slug": "manh-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -21786,6 +22335,7 @@ window.ACUPOINTS = {
       ],
       "slug": "manh-truong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -21819,6 +22369,7 @@ window.ACUPOINTS = {
       ],
       "slug": "mau-chi-gian",
       "image": "images/acupoints/0503-mau-chi-gian.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZP0R4PX1CA4N75DRFEXN.webp",
       "anh3d": null
     },
     {
@@ -21852,6 +22403,7 @@ window.ACUPOINTS = {
       ],
       "slug": "mau-chi-hoanh-ly-tam-mao",
       "image": "images/acupoints/0504-mau-chi-hoanh-ly-tam-mao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZR38VAXK5JSQZ94T3DBR.webp",
       "anh3d": null
     },
     {
@@ -21885,6 +22437,7 @@ window.ACUPOINTS = {
       ],
       "slug": "mau-chi-ly-hoanh-van",
       "image": "images/acupoints/0505-mau-chi-ly-hoanh-van.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZRC94NXSN9F4ZS7K4KRM.webp",
       "anh3d": null
     },
     {
@@ -21918,6 +22471,7 @@ window.ACUPOINTS = {
       ],
       "slug": "mau-chi-tiet-hoanh-van",
       "image": "images/acupoints/0506-mau-chi-tiet-hoanh-van.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZRN9ZPZETYKX635NRFDA.webp",
       "anh3d": null
     },
     {
@@ -21951,6 +22505,7 @@ window.ACUPOINTS = {
       ],
       "slug": "mau-chi-tu-mao",
       "image": "images/acupoints/0507-mau-chi-tu-mao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZRR7YDTR2K4ZV0TRF097.webp",
       "anh3d": null
     },
     {
@@ -22000,6 +22555,7 @@ window.ACUPOINTS = {
       ],
       "slug": "menh-mon",
       "image": "images/acupoints/0508-menh-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZV5EENH3P9CGVY21KDNK.webp",
       "anh3d": null,
       "international_code": "GV4",
       "code_dash": "GV-4",
@@ -22064,6 +22620,7 @@ window.ACUPOINTS = {
       ],
       "slug": "mi-xung",
       "image": "images/acupoints/0509-mi-xung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZV8E9Y569MYDAED9VP8E.webp",
       "anh3d": null,
       "international_code": "BL3",
       "code_dash": "BL-3",
@@ -22108,6 +22665,7 @@ window.ACUPOINTS = {
       ],
       "slug": "minh-nhan",
       "image": "images/acupoints/0510-minh-nhan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZWDPG92RPG620AAREMTA.webp",
       "anh3d": null
     },
     {
@@ -22137,6 +22695,7 @@ window.ACUPOINTS = {
       ],
       "slug": "mo-tu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -22170,6 +22729,7 @@ window.ACUPOINTS = {
       ],
       "slug": "muc-minh",
       "image": "images/acupoints/0512-muc-minh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZWPRZNFH750HTCWSG195.webp",
       "anh3d": null
     },
     {
@@ -22203,6 +22763,7 @@ window.ACUPOINTS = {
       ],
       "slug": "muc-phi",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -22252,6 +22813,7 @@ window.ACUPOINTS = {
       ],
       "slug": "muc-song",
       "image": "images/acupoints/0514-muc-song.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZY0YZVCJ8XT4Q9AFSNQ5.webp",
       "anh3d": null,
       "international_code": "GB16",
       "code_dash": "GB-16",
@@ -22297,6 +22859,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nam-am-phung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -22334,6 +22897,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nan-lap",
       "image": "images/acupoints/0516-nan-lap.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZY41T5FMS2RTWB78TWM7.webp",
       "anh3d": null
     },
     {
@@ -22371,6 +22935,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nan-phuc",
       "image": "images/acupoints/0517-nan-phuc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHZZM58PTF778KGRDDXZRM.webp",
       "anh3d": null
     },
     {
@@ -22412,6 +22977,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nang-de",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -22433,6 +22999,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nao-cai",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -22466,6 +23033,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nao-can",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -22515,6 +23083,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nao-ho",
       "image": "images/acupoints/0521-nao-ho.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0005648R4RV2T3YYW1W4.webp",
       "anh3d": null,
       "international_code": "GV17",
       "code_dash": "GV-17",
@@ -22575,6 +23144,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nao-khong",
       "image": "images/acupoints/0522-nao-khong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ00N4BF65FQHCSV9H533Z.webp",
       "anh3d": null,
       "international_code": "GB19",
       "code_dash": "GB-19",
@@ -22625,6 +23195,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nao-thanh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -22658,6 +23229,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nga-can",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -22695,6 +23267,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngach-trung",
       "image": "images/acupoints/0525-ngach-trung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ00R4799XNR0X8MYW5GV1.webp",
       "anh3d": null
     },
     {
@@ -22732,6 +23305,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngan-binh",
       "image": "images/acupoints/0526-ngan-binh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ01WD7XPTZKME0QFJS0AA.webp",
       "anh3d": null
     },
     {
@@ -22777,6 +23351,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngan-giao",
       "image": "images/acupoints/0527-ngan-giao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ02EEGN3XY9BDH3PQV90E.webp",
       "anh3d": null,
       "international_code": "GV28",
       "code_dash": "GV-28",
@@ -22821,6 +23396,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngan-khau",
       "image": "images/acupoints/0528-ngan-khau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ030ZK98HNR0CM8PC3SP9.webp",
       "anh3d": null
     },
     {
@@ -22870,7 +23446,14 @@ window.ACUPOINTS = {
       ],
       "slug": "nghenh-huong",
       "image": "images/acupoints/0529-nghenh-huong.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CJ036ZZ5BYBY59YFJ31NKY.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPB72RQF014YM3JSEDMH0K.webp",
+        "gp": "/_emdash/api/media/file/01M3DPB75TGCYQ7FWR6A2VH2VR.webp",
+        "lan": null,
+        "kinh": null,
+        "ghiChu": null
+      },
       "international_code": "LI20",
       "code_dash": "LI-20",
       "chinese": "迎香",
@@ -22917,6 +23500,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nghien-tu-cot",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -22950,6 +23534,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-am-liem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -22983,6 +23568,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-dinh-suyen",
       "image": "images/acupoints/0532-ngoai-dinh-suyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0482YJEV4N30V35C25CQ.webp",
       "anh3d": null
     },
     {
@@ -23032,6 +23618,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-khau",
       "image": "images/acupoints/0533-ngoai-khau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ04T14VRMCP3RCDYBYVHM.webp",
       "anh3d": null,
       "international_code": "GB36",
       "code_dash": "GB-36",
@@ -23079,6 +23666,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-khoa-thuong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -23112,6 +23700,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-khoa-tiem",
       "image": "images/acupoints/0535-ngoai-khoa-tiem.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ05FB11NRA617FN0QW528.webp",
       "anh3d": null
     },
     {
@@ -23145,6 +23734,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-khoa-tien-giao-mach",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -23178,6 +23768,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-kim-tan-ngoc-dich",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -23211,6 +23802,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-lao-cung",
       "image": "images/acupoints/0538-ngoai-lao-cung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ05NPY3VT1VX56XGBTQDC.webp",
       "anh3d": null
     },
     {
@@ -23244,6 +23836,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-lao-cung-ii",
       "image": "images/acupoints/0539-ngoai-lao-cung-ii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ05NPY3VT1VX56XGBTQDC.webp",
       "anh3d": null
     },
     {
@@ -23277,6 +23870,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-lao-cung-iii",
       "image": "images/acupoints/0540-ngoai-lao-cung-iii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ05NPY3VT1VX56XGBTQDC.webp",
       "anh3d": null
     },
     {
@@ -23322,6 +23916,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-lang",
       "image": "images/acupoints/0541-ngoai-lang.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ07YFA00VSM1VH0E0GXBT.webp",
       "anh3d": null,
       "international_code": "ST26",
       "code_dash": "ST-26",
@@ -23369,6 +23964,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-minh",
       "image": "images/acupoints/0542-ngoai-minh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ081FHXMF8JMDVVHF1CYA.webp",
       "anh3d": null
     },
     {
@@ -23402,6 +23998,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-nhi-dao-khau",
       "image": "images/acupoints/0543-ngoai-nhi-dao-khau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ08GMSB63GVHQ4N14ZCBR.webp",
       "anh3d": null
     },
     {
@@ -23447,6 +24044,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-quan",
       "image": "images/acupoints/0544-ngoai-quan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ09N3NWMBGHHARFJEETWT.webp",
       "anh3d": null,
       "international_code": "TE5",
       "code_dash": "TE-5",
@@ -23498,6 +24096,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoai-tu-man",
       "image": "images/acupoints/0545-ngoai-tu-man.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0A75QENPK2V0F8XQTKH3.webp",
       "anh3d": null
     },
     {
@@ -23543,6 +24142,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoc-cham",
       "image": "images/acupoints/0546-ngoc-cham.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0AA54MYY7XDXK3VZTWDB.webp",
       "anh3d": null,
       "international_code": "BL9",
       "code_dash": "BL-9",
@@ -23592,6 +24192,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoc-dich",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -23625,6 +24226,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoc-dien",
       "image": "images/acupoints/0548-ngoc-dien.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0AS829KED52RY7H802HN.webp",
       "anh3d": null
     },
     {
@@ -23674,6 +24276,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoc-duong",
       "image": "images/acupoints/0549-ngoc-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0BHN06C9AFFX4F7AHRV4.webp",
       "anh3d": null,
       "international_code": "CV18",
       "code_dash": "CV-18",
@@ -23718,6 +24321,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoc-tuyen",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -23751,6 +24355,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngoc-tuyen-ii",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -23784,6 +24389,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-chi-huyet",
       "image": "images/acupoints/0552-ngu-chi-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0C3Q2MHPHGZXMQ57Q2DT.webp",
       "anh3d": null
     },
     {
@@ -23817,6 +24423,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-chi-huyet-ii",
       "image": "images/acupoints/0553-ngu-chi-huyet-ii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0C9QMV5TKS7Q9YPEH2Z2.webp",
       "anh3d": null
     },
     {
@@ -23854,6 +24461,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-chuy-thuong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -23887,6 +24495,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-ho",
       "image": "images/acupoints/0555-ngu-ho.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0CNQ5XP9FNZA1N7YYN4P.webp",
       "anh3d": null
     },
     {
@@ -23936,6 +24545,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-khu",
       "image": "images/acupoints/0556-ngu-khu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0DBPA4M31NW2FP4VHTMX.webp",
       "anh3d": null,
       "international_code": "GB27",
       "code_dash": "GB-27",
@@ -23981,6 +24591,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-linh",
       "image": "images/acupoints/0557-ngu-linh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0E155208JFDSDRDSXA4Y.webp",
       "anh3d": null
     },
     {
@@ -24018,6 +24629,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-ly-trach-dien",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -24055,6 +24667,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-tang-du",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -24088,6 +24701,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-tru-cuu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -24137,6 +24751,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-xu",
       "image": "images/acupoints/0561-ngu-xu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0E746HPA3D7512KPCZQZ.webp",
       "anh3d": null,
       "international_code": "BL5",
       "code_dash": "BL-5",
@@ -24177,6 +24792,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-xu-ii",
       "image": "images/acupoints/0562-ngu-xu-ii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0E746HPA3D7512KPCZQZ.webp",
       "anh3d": null
     },
     {
@@ -24210,6 +24826,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngung-tien",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -24259,6 +24876,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-te",
       "image": "images/acupoints/0564-ngu-te.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0F5R8FA3258FW0EDZMJC.webp",
       "anh3d": {
         "da": "/_emdash/api/media/file/01M3D10X3KDHPEACTSDABTW0Z8.webp",
         "gp": "/_emdash/api/media/file/01M3D10X6VJDN1773Z9AQBD8HD.webp",
@@ -24311,6 +24929,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-vi",
       "image": "images/acupoints/0565-ngu-vi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0FHR30MFQ3RQWZKDM8NE.webp",
       "anh3d": null
     },
     {
@@ -24352,6 +24971,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ngu-yeu",
       "image": "images/acupoints/0566-ngu-yeu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0G0RZ64TDS4MKC5FWR2A.webp",
       "anh3d": null
     },
     {
@@ -24389,6 +25009,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nguoc-mon",
       "image": "images/acupoints/0567-nguoc-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0GFQHE7T9R4K693F9897.webp",
       "anh3d": null
     },
     {
@@ -24422,6 +25043,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nha-thong",
       "image": "images/acupoints/0568-nha-thong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0GYQMGEG81CG7JR8MHFW.webp",
       "anh3d": null
     },
     {
@@ -24455,6 +25077,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nham-tri",
       "image": "images/acupoints/0569-nham-tri.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0HDQZ4S22ZC0KSD43KZH.webp",
       "anh3d": null
     },
     {
@@ -24504,6 +25127,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhan-nghenh",
       "image": "images/acupoints/0570-nhan-nghenh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0HWVG6F1C637ERYD9N8Q.webp",
       "anh3d": null,
       "international_code": "ST9",
       "code_dash": "ST-9",
@@ -24565,6 +25189,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhan-trung",
       "image": "images/acupoints/0571-nhan-trung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0JBWSY2D5JBAM861RPE3.webp",
       "anh3d": null,
       "international_code": "GV26",
       "code_dash": "GV-26",
@@ -24616,6 +25241,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhan-trung-tam-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -24653,6 +25279,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhat-oa-phong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -24686,6 +25313,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhat-phien-mon",
       "image": "images/acupoints/0574-nhat-phien-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0JV44JJTXP37HKC687B2.webp",
       "anh3d": null
     },
     {
@@ -24719,6 +25347,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhat-y",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -24768,6 +25397,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhat-nguyet",
       "image": "images/acupoints/0576-nhat-nguyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0KA7SAQSNR2FRWKQ8R1J.webp",
       "anh3d": null,
       "international_code": "GB24",
       "code_dash": "GB-24",
@@ -24814,6 +25444,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-binh-ngoai-tam-huyet",
       "image": "images/acupoints/0577-nhi-binh-ngoai-tam-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0KS6GNE365K7RJFWHHYP.webp",
       "anh3d": null
     },
     {
@@ -24847,6 +25478,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-boi-tinh-mach-tam-dieu",
       "image": "images/acupoints/0578-nhi-boi-tinh-mach-tam-dieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0M87VF44TSWB4M9M70A5.webp",
       "anh3d": null
     },
     {
@@ -24880,6 +25512,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-hau-phat-te",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -24917,6 +25550,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-khong-trung",
       "image": "images/acupoints/0580-nhi-khong-trung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0MQKEEW4CMYCW76AD8J3.webp",
       "anh3d": null
     },
     {
@@ -24966,6 +25600,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null,
       "international_code": "TE21",
       "code_dash": "TE-21",
@@ -25011,6 +25646,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-mon-ha-quan-dinh-tu-thich",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -25044,6 +25680,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-mon-tien-mach",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -25077,6 +25714,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-thuy",
       "image": "images/acupoints/0584-nhi-thuy.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0N3J0PQX7QA5ZM2SRKW8.webp",
       "anh3d": null
     },
     {
@@ -25114,6 +25752,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-thuong",
       "image": "images/acupoints/0585-nhi-thuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0NRKA7C9A4Q3MPE864YC.webp",
       "anh3d": null
     },
     {
@@ -25155,6 +25794,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-tiem",
       "image": "images/acupoints/0586-nhi-tiem.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0P4KG885WM8VXJH7YY5P.webp",
       "anh3d": null
     },
     {
@@ -25192,6 +25832,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-bach",
       "image": "images/acupoints/0587-nhi-bach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0PKPJF879KN4YFZZ7PJS.webp",
       "anh3d": null
     },
     {
@@ -25229,6 +25870,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-chi-thuong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -25266,6 +25908,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-chuy-ha",
       "image": "images/acupoints/0589-nhi-chuy-ha.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0Q2QSQQKS0NF57V6Y416.webp",
       "anh3d": null
     },
     {
@@ -25315,7 +25958,14 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-gian",
       "image": "images/acupoints/0590-nhi-gian.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CJ0QER9JQQJ60MRD2XSR7J.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DP9WPSZK9N1E58PCKSG2P7.webp",
+        "gp": "/_emdash/api/media/file/01M3DP9WSX2YKV7K7FFH0RMHKD.webp",
+        "lan": "/_emdash/api/media/file/01M3DP9YABPJ7JCEJ69M533C7Z.webp",
+        "kinh": "/_emdash/api/media/file/01M3DP9YDCHZ5B8TYDAAA498GQ.webp",
+        "ghiChu": null
+      },
       "international_code": "LI2",
       "code_dash": "LI-2",
       "chinese": "二間",
@@ -25363,6 +26013,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-ly-ban",
       "image": "images/acupoints/0591-nhi-ly-ban.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0R412NRBMVQPYY5F56VH.webp",
       "anh3d": null
     },
     {
@@ -25396,6 +26047,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-nhan-thuong-ma",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -25429,6 +26081,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-phien-mon",
       "image": "images/acupoints/0593-nhi-phien-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0RKEP7NFAYH1BTJS55G1.webp",
       "anh3d": null
     },
     {
@@ -25462,6 +26115,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-phung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -25495,6 +26149,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhi-thap-chuy",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -25544,6 +26199,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhien-coc",
       "image": "images/acupoints/0596-nhien-coc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0RWG4WFDPS8WSZCE1DPT.webp",
       "anh3d": null,
       "international_code": "KI2",
       "code_dash": "KI-2",
@@ -25594,6 +26250,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhien-hau",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -25627,6 +26284,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhiep-nhu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -25656,6 +26314,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhiet-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -25701,6 +26360,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhu-du",
       "image": "images/acupoints/0600-nhu-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0SEK027EXGM8Y49G00X1.webp",
       "anh3d": null,
       "international_code": "SI10",
       "code_dash": "SI-10",
@@ -25758,6 +26418,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhu-hoi",
       "image": "images/acupoints/0601-nhu-hoi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0SXZF52RPRHXAM0REXXM.webp",
       "anh3d": null,
       "international_code": "TE13",
       "code_dash": "TE-13",
@@ -25805,6 +26466,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhu-thuong",
       "image": "images/acupoints/0602-nhu-thuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0TH0FNSZJ4TAH9TRHQAB.webp",
       "anh3d": null
     },
     {
@@ -25838,6 +26500,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhu-anh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -25871,6 +26534,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhu-bang",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -25920,6 +26584,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhu-can",
       "image": "images/acupoints/0605-nhu-can.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0TT08WZQF1C4HJQHPSVW.webp",
       "anh3d": null,
       "international_code": "ST18",
       "code_dash": "ST-18",
@@ -25969,6 +26634,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhu-ha",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26006,6 +26672,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhu-thuong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26039,6 +26706,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhu-trung",
       "image": "images/acupoints/0608-nhu-trung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0VC0PDZXRN43CZEP1ERR.webp",
       "anh3d": null,
       "international_code": "ST17",
       "code_dash": "ST-17",
@@ -26078,6 +26746,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nhu-tuyen",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26107,6 +26776,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nieu-dao",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26140,6 +26810,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nieu-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26173,6 +26844,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-chi-am",
       "image": "images/acupoints/0612-noi-chi-am.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0VV48T9Y6ZE7DBMDSNND.webp",
       "anh3d": null
     },
     {
@@ -26210,6 +26882,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-con-lon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26247,6 +26920,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-duong-tri",
       "image": "images/acupoints/0614-noi-duong-tri.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0WWNENXQT3HF0VMCK9R5.webp",
       "anh3d": null
     },
     {
@@ -26292,6 +26966,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-dinh",
       "image": "images/acupoints/0615-noi-dinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0X5QQ8RK7BCEECT0VK73.webp",
       "anh3d": null,
       "international_code": "ST44",
       "code_dash": "ST-44",
@@ -26346,6 +27021,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-giap-trac",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26379,6 +27055,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-giap-xa",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26412,6 +27089,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-hop-coc",
       "image": "images/acupoints/0618-noi-hop-coc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0XHRS54KG1H00R6V9A6S.webp",
       "anh3d": null
     },
     {
@@ -26457,6 +27135,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-khoa-tiem",
       "image": "images/acupoints/0619-noi-khoa-tiem.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0Y6RJVEE0GYF5B7QMHG9.webp",
       "anh3d": null
     },
     {
@@ -26490,6 +27169,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-khoa-tien-ha",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26523,6 +27203,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-kien-ngung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26560,6 +27241,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-minh",
       "image": "images/acupoints/0622-noi-minh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0Z7QYJAMGFQRTBMMVWQC.webp",
       "anh3d": null
     },
     {
@@ -26597,6 +27279,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-nghenh-huong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26642,6 +27325,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-quan",
       "image": "images/acupoints/0624-noi-quan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0ZDS1J4YCTQJ8GHACQBH.webp",
       "anh3d": null,
       "international_code": "PC6",
       "code_dash": "PC-6",
@@ -26708,6 +27392,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-tat-nhan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26745,6 +27430,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-thai-xung",
       "image": "images/acupoints/0626-noi-thai-xung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ0ZZZ17KQ7P6XP34Y6HSP.webp",
       "anh3d": null
     },
     {
@@ -26786,6 +27472,7 @@ window.ACUPOINTS = {
       ],
       "slug": "noi-tinh-minh",
       "image": "images/acupoints/0627-noi-tinh-minh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ10J7E7888R77VXRPWA5V.webp",
       "anh3d": null
     },
     {
@@ -26819,6 +27506,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nuc-huyet-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26852,6 +27540,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nu-tat",
       "image": "images/acupoints/0629-nu-tat.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ11ZDF4J5T0RHE0S8FSJN.webp",
       "anh3d": null
     },
     {
@@ -26885,6 +27574,7 @@ window.ACUPOINTS = {
       ],
       "slug": "nuu-thuong-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26918,6 +27608,7 @@ window.ACUPOINTS = {
       ],
       "slug": "oai-linh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -26959,6 +27650,7 @@ window.ACUPOINTS = {
       ],
       "slug": "oc-e",
       "image": "images/acupoints/0632-oc-e.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ128EAFR05HK3BJM7YSPH.webp",
       "anh3d": null,
       "international_code": "ST15",
       "code_dash": "ST-15",
@@ -27022,7 +27714,14 @@ window.ACUPOINTS = {
       ],
       "slug": "on-luu",
       "image": "images/acupoints/0633-on-luu.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CJ12HFNF8ZF6TE4V7AJQPJ.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPA9V16BQNVA2KT02EBHNA.webp",
+        "gp": "/_emdash/api/media/file/01M3DPAA44CMMBDZZ3X2XMJVMY.webp",
+        "lan": "/_emdash/api/media/file/01M3DPAAWDNJE6RW95925E3DF5.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPAAZEJFW834S5Y5208GKT.webp",
+        "ghiChu": null
+      },
       "international_code": "LI7",
       "code_dash": "LI-7",
       "chinese": "溫溜",
@@ -27077,6 +27776,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phach-ho",
       "image": "images/acupoints/0634-phach-ho.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ136HKT6KYZWEPA9A6702.webp",
       "anh3d": null,
       "international_code": "BL42",
       "code_dash": "BL-42",
@@ -27124,6 +27824,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phat-te",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -27157,6 +27858,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phe-bat-hoa",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -27202,6 +27904,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phe-du",
       "image": "images/acupoints/0637-phe-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ158S7T2KA70H1PR97WCJ.webp",
       "anh3d": null,
       "international_code": "BL13",
       "code_dash": "BL-13",
@@ -27248,6 +27951,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phe-nhiet-huyet",
       "image": "images/acupoints/0638-phe-nhiet-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ15HV96SKVSD9NWW5GCT0.webp",
       "anh3d": null
     },
     {
@@ -27297,6 +28001,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phi-duong",
       "image": "images/acupoints/0639-phi-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ15TVWDWDKNFPFN6ZDJ57.webp",
       "anh3d": null,
       "international_code": "BL58",
       "code_dash": "BL-58",
@@ -27344,6 +28049,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phien-vi-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -27377,6 +28083,7 @@ window.ACUPOINTS = {
       ],
       "slug": "pho-a-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -27422,6 +28129,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phong-long",
       "image": "images/acupoints/0642-phong-long.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ163V2C2WXW9VT08W5YY2.webp",
       "anh3d": null,
       "international_code": "ST40",
       "code_dash": "ST-40",
@@ -27493,6 +28201,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phong-mon",
       "image": "images/acupoints/0643-phong-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ17HXMW0BRN4C2P3KMF6A.webp",
       "anh3d": null,
       "international_code": "BL12",
       "code_dash": "BL-12",
@@ -27539,6 +28248,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phong-nham",
       "image": "images/acupoints/0644-phong-nham.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ17MYMWM9F1344HC7EJEZ.webp",
       "anh3d": null
     },
     {
@@ -27572,6 +28282,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phong-phi-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -27621,6 +28332,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phong-phu",
       "image": "images/acupoints/0646-phong-phu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ18P0X23NXRX28AX1J68Q.webp",
       "anh3d": null,
       "international_code": "GV16",
       "code_dash": "GV-16",
@@ -27670,6 +28382,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phong-quac",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -27719,6 +28432,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phong-thi",
       "image": "images/acupoints/0648-phong-thi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ18YZAM2AHKTE26A165VX.webp",
       "anh3d": null,
       "international_code": "GB31",
       "code_dash": "GB-31",
@@ -27778,6 +28492,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phong-tri",
       "image": "images/acupoints/0649-phong-tri.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1A986ANMSY3DEKBVECKZ.webp",
       "anh3d": null,
       "international_code": "GB20",
       "code_dash": "GB-20",
@@ -27839,6 +28554,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phong-xi-thong",
       "image": "images/acupoints/0650-phong-xi-thong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1AF98718RS2PDCN2A26J.webp",
       "anh3d": null
     },
     {
@@ -27880,6 +28596,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phu-bach",
       "image": "images/acupoints/0651-phu-bach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1B49XGNBA59H4Q7FR4DZ.webp",
       "anh3d": null,
       "international_code": "GB10",
       "code_dash": "GB-10",
@@ -27939,7 +28656,14 @@ window.ACUPOINTS = {
       ],
       "slug": "phu-dot",
       "image": "images/acupoints/0652-phu-dot.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CJ1BPCFTT08R2T7EVRSQK9.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPB35Z9SZ2E6BJYW1Q2AWA.webp",
+        "gp": "/_emdash/api/media/file/01M3DPB3FBHK5BBZN4WQAQEG30.webp",
+        "lan": "/_emdash/api/media/file/01M3DPB4AMQF6X23XBHF0QRW5Q.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPB4DPNW9GP2G1D7KEZVTE.webp",
+        "ghiChu": null
+      },
       "international_code": "LI18",
       "code_dash": "LI-18",
       "chinese": "扶突",
@@ -27997,6 +28721,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phu-khich",
       "image": "images/acupoints/0653-phu-khich.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1DKB7BCWNY3P20CX6P89.webp",
       "anh3d": null,
       "international_code": "BL38",
       "code_dash": "BL-38",
@@ -28052,6 +28777,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phu-xa",
       "image": "images/acupoints/0654-phu-xa.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1DSB57ZEP8ZYKNTQWQ8J.webp",
       "anh3d": null,
       "international_code": "SP13",
       "code_dash": "SP-13",
@@ -28110,6 +28836,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phu-duong",
       "image": "images/acupoints/0655-phu-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1EBACJ7DJ6GHWA8STP0P.webp",
       "anh3d": null,
       "international_code": "BL59",
       "code_dash": "BL-59",
@@ -28168,6 +28895,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phu-phan",
       "image": "images/acupoints/0656-phu-phan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1EXB097J5DYCFZRER6HH.webp",
       "anh3d": null,
       "international_code": "BL41",
       "code_dash": "BL-41",
@@ -28228,6 +28956,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phuc-ai",
       "image": "images/acupoints/0657-phuc-ai.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1GSGYBT4N0TTVFA6S5WV.webp",
       "anh3d": null,
       "international_code": "SP16",
       "code_dash": "SP-16",
@@ -28288,6 +29017,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phuc-ket",
       "image": "images/acupoints/0658-phuc-ket.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1HMH04WPG2F6T2MQ9N6S.webp",
       "anh3d": null,
       "international_code": "SP14",
       "code_dash": "SP-14",
@@ -28333,6 +29063,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phuc-tu-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -28366,6 +29097,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phuc-xoang",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -28399,6 +29131,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phuc-co-tong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -28448,6 +29181,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phuc-luu",
       "image": "images/acupoints/0662-phuc-luu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1JCW927985H6RFPA7ZN8.webp",
       "anh3d": null,
       "international_code": "KI7",
       "code_dash": "KI-7",
@@ -28508,6 +29242,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phuc-tho",
       "image": "images/acupoints/0663-phuc-tho.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1JJWEYREJMVCN43HPHWJ.webp",
       "anh3d": null,
       "international_code": "ST32",
       "code_dash": "ST-32",
@@ -28559,6 +29294,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phung-tuong-co-van-dong-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -28596,6 +29332,7 @@ window.ACUPOINTS = {
       ],
       "slug": "phuong-nhan",
       "image": "images/acupoints/0665-phuong-nhan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1M2YSKYY32Y7H7PYTBAS.webp",
       "anh3d": null
     },
     {
@@ -28645,6 +29382,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quan-mon",
       "image": "images/acupoints/0666-quan-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1MR0C0DMHWH0Q3EE0BT9.webp",
       "anh3d": null,
       "international_code": "ST22",
       "code_dash": "ST-22",
@@ -28687,6 +29425,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quan-mon-ii",
       "image": "images/acupoints/0667-quan-mon-ii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1MR0C0DMHWH0Q3EE0BT9.webp",
       "anh3d": null
     },
     {
@@ -28720,6 +29459,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quan-nghi",
       "image": "images/acupoints/0668-quan-nghi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1P5KSSHNAR7FV1VFM8T4.webp",
       "anh3d": null
     },
     {
@@ -28769,6 +29509,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quan-nguyen",
       "image": null,
+      "anhCms": null,
       "anh3d": null,
       "international_code": "CV4",
       "code_dash": "CV-4",
@@ -28840,6 +29581,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quan-nguyen-du",
       "image": "images/acupoints/0670-quan-nguyen-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1Q0V8WJXES08YE5R28RA.webp",
       "anh3d": null,
       "international_code": "BL26",
       "code_dash": "BL-26",
@@ -28886,6 +29628,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quan-tho",
       "image": "images/acupoints/0671-quan-tho.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1RF9969VX1ADFYDMD4AP.webp",
       "anh3d": null
     },
     {
@@ -28919,6 +29662,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quan-thon",
       "image": "images/acupoints/0672-quan-thon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1RRCAW0BYY5C804CGGT3.webp",
       "anh3d": null
     },
     {
@@ -28964,6 +29708,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quan-xung",
       "image": "images/acupoints/0673-quan-xung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1SDDYPA8RFY7C20P4XGB.webp",
       "anh3d": null,
       "international_code": "TE1",
       "code_dash": "TE-1",
@@ -29022,6 +29767,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quang-minh",
       "image": "images/acupoints/0674-quang-minh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1SWCCTWK4RH05TYS73Y5.webp",
       "anh3d": null,
       "international_code": "GB37",
       "code_dash": "GB-37",
@@ -29070,6 +29816,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quang-thai",
       "image": "images/acupoints/0675-quang-thai.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1TEB7J96CV3R5WB5D3Z7.webp",
       "anh3d": null
     },
     {
@@ -29103,6 +29850,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quan-dan",
       "image": "images/acupoints/0676-quan-dan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1TQA4KDBA2CD7CQ7DN16.webp",
       "anh3d": null
     },
     {
@@ -29136,6 +29884,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quac-tri",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -29185,6 +29934,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quy-lai",
       "image": null,
+      "anhCms": null,
       "anh3d": null,
       "international_code": "ST29",
       "code_dash": "ST-29",
@@ -29232,6 +29982,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quy-duong",
       "image": "images/acupoints/0679-quy-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1VFD95WBJCETPZ5V63KE.webp",
       "anh3d": null
     },
     {
@@ -29265,6 +30016,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quy-khoc",
       "image": "images/acupoints/0680-quy-khoc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1WZZ5ZGFA84885897K58.webp",
       "anh3d": null
     },
     {
@@ -29298,6 +30050,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quy-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -29331,6 +30084,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quy-nhan",
       "image": "images/acupoints/0682-quy-nhan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1XN20RW4R14A1Z090ZGK.webp",
       "anh3d": null
     },
     {
@@ -29360,6 +30114,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quy-sang",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -29393,6 +30148,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quy-thanh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -29426,6 +30182,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quy-duong",
       "image": "images/acupoints/0685-quy-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1XY4GHKDCRX9MSQFKM84.webp",
       "anh3d": null
     },
     {
@@ -29475,6 +30232,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quyen-lieu",
       "image": "images/acupoints/0686-quyen-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ1YK15CFKECDF315CPCR5.webp",
       "anh3d": null,
       "international_code": "SI18",
       "code_dash": "SI-18",
@@ -29521,6 +30279,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quyen-tiem",
       "image": "images/acupoints/0687-quyen-tiem.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ209BBD0K5AFY9F9KY845.webp",
       "anh3d": null
     },
     {
@@ -29570,6 +30329,7 @@ window.ACUPOINTS = {
       ],
       "slug": "quyet-am-du",
       "image": null,
+      "anhCms": null,
       "anh3d": null,
       "international_code": "BL14",
       "code_dash": "BL-14",
@@ -29615,6 +30375,7 @@ window.ACUPOINTS = {
       ],
       "slug": "san-khi-huyet",
       "image": "images/acupoints/0689-san-khi-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ20VB7296PD1T3X2VF7KN.webp",
       "anh3d": null
     },
     {
@@ -29648,6 +30409,7 @@ window.ACUPOINTS = {
       ],
       "slug": "sap-hoa",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -29685,6 +30447,7 @@ window.ACUPOINTS = {
       ],
       "slug": "sac-quang",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -29718,6 +30481,7 @@ window.ACUPOINTS = {
       ],
       "slug": "son-can",
       "image": "images/acupoints/0692-son-can.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ21DA68D6RVKHHACENAQM.webp",
       "anh3d": null
     },
     {
@@ -29767,6 +30531,7 @@ window.ACUPOINTS = {
       ],
       "slug": "suat-coc",
       "image": "images/acupoints/0693-suat-coc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ21S89DGRJ4EP8SB8YR12.webp",
       "anh3d": null,
       "international_code": "GB8",
       "code_dash": "GB-8",
@@ -29811,6 +30576,7 @@ window.ACUPOINTS = {
       ],
       "slug": "sung-cot",
       "image": "images/acupoints/0694-sung-cot.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ233J633TQWJYNAH55HWX.webp",
       "anh3d": null
     },
     {
@@ -29844,6 +30610,7 @@ window.ACUPOINTS = {
       ],
       "slug": "suyen-luc-huyet",
       "image": "images/acupoints/0695-suyen-luc-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ23FJ4RQW95QPMD791PH6.webp",
       "anh3d": null
     },
     {
@@ -29885,6 +30652,7 @@ window.ACUPOINTS = {
       ],
       "slug": "suyen-tuc",
       "image": "images/acupoints/0696-suyen-tuc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ23VMAVSAA1EPFQ9HT23R.webp",
       "anh3d": null
     },
     {
@@ -29918,6 +30686,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ta-du",
       "image": "images/acupoints/0697-ta-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ244H80M787VKE394T7ZH.webp",
       "anh3d": null
     },
     {
@@ -29951,6 +30720,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ta-huu-quan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -29984,6 +30754,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ta-nghi",
       "image": "images/acupoints/0699-ta-nghi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ25EP7R7XDEEMHNQNP5PB.webp",
       "anh3d": null
     },
     {
@@ -30013,6 +30784,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ta-quan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -30062,6 +30834,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tam-am-giao",
       "image": "images/acupoints/0701-tam-am-giao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ25TP9ZDEMAFYJ4R44NNA.webp",
       "anh3d": null,
       "international_code": "SP6",
       "code_dash": "SP-6",
@@ -30137,6 +30910,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tam-duong-lac",
       "image": "images/acupoints/0702-tam-duong-lac.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ266XMA7ZHXV92XBPS0QT.webp",
       "anh3d": null,
       "international_code": "TE8",
       "code_dash": "TE-8",
@@ -30188,6 +30962,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tam-giac-cuu",
       "image": "images/acupoints/0703-tam-giac-cuu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ26FW246G4Z7BC132HH9X.webp",
       "anh3d": null
     },
     {
@@ -30237,7 +31012,14 @@ window.ACUPOINTS = {
       ],
       "slug": "tam-gian",
       "image": "images/acupoints/0704-tam-gian.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CJ27KXC4MCZNN9WRRSZ5S0.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DP9ZGHA3S9V73AG9VRR7YN.webp",
+        "gp": "/_emdash/api/media/file/01M3DP9ZDFNK33KV5SEGJHPM33.webp",
+        "lan": "/_emdash/api/media/file/01M3DPA0NXKTFD4N2MJ6B82YHY.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPA0YKD93XN6SMN6J87ZAD.webp",
+        "ghiChu": null
+      },
       "international_code": "LI3",
       "code_dash": "LI-3",
       "chinese": "三間",
@@ -30284,6 +31066,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tam-ly-ngoai",
       "image": "images/acupoints/0705-tam-ly-ngoai.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ288W2RNQ5PH03173B866.webp",
       "anh3d": null
     },
     {
@@ -30317,6 +31100,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tam-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -30354,6 +31138,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tam-thuong",
       "image": "images/acupoints/0707-tam-thuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ28MXJWW8Z1SNQ611FB6G.webp",
       "anh3d": null
     },
     {
@@ -30399,6 +31184,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tam-tieu-du",
       "image": "images/acupoints/0708-tam-tieu-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ28XZ66NDJVXVAT08SM8S.webp",
       "anh3d": null,
       "international_code": "BL22",
       "code_dash": "BL-22",
@@ -30452,6 +31238,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tam-tri",
       "image": "images/acupoints/0709-tam-tri.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2A27BAQ4CZJQAG4AVAJT.webp",
       "anh3d": null
     },
     {
@@ -30489,6 +31276,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tan-tieu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -30538,6 +31326,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tam-du",
       "image": "images/acupoints/0711-tam-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2AM66GQFCTVBQP8ZWQTA.webp",
       "anh3d": null,
       "international_code": "BL15",
       "code_dash": "BL-15",
@@ -30592,6 +31381,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tam-quy-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -30625,6 +31415,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tan-huong-vi-cham",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -30658,6 +31449,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tan-lac-dau",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -30691,6 +31483,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tan-minh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -30724,6 +31517,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tan-minh-ii",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -30757,6 +31551,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tan-thuc",
       "image": "images/acupoints/0717-tan-thuc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2AT7EN9AD3QNBPB3DW48.webp",
       "anh3d": null
     },
     {
@@ -30790,6 +31585,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tat-bang",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -30823,6 +31619,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tat-can",
       "image": "images/acupoints/0719-tat-can.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2BD3HDNGE23Z0QDT9GRY.webp",
       "anh3d": null
     },
     {
@@ -30856,6 +31653,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tat-can-ii",
       "image": "images/acupoints/0720-tat-can-ii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2BD3HDNGE23Z0QDT9GRY.webp",
       "anh3d": null
     },
     {
@@ -30889,6 +31687,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tat-ha",
       "image": "images/acupoints/0721-tat-ha.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2CX5Y0J5S93FTJGY7HBZ.webp",
       "anh3d": null
     },
     {
@@ -30918,6 +31717,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tat-ngan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -30951,6 +31751,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tat-ngoai",
       "image": "images/acupoints/0723-tat-ngoai.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2D37H76H0DPEXTAE5SFH.webp",
       "anh3d": null
     },
     {
@@ -30988,6 +31789,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tat-nhan",
       "image": "images/acupoints/0724-tat-nhan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2DJSCWK1YNQJP9MC97H7.webp",
       "anh3d": null
     },
     {
@@ -31037,6 +31839,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tat-quan",
       "image": "images/acupoints/0725-tat-quan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2EDF84VE68PMD58EA9KN.webp",
       "anh3d": null,
       "international_code": "LR7",
       "code_dash": "LR-7",
@@ -31083,6 +31886,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tat-thuong",
       "image": "images/acupoints/0726-tat-thuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2FBD93D1873409BG3QK6.webp",
       "anh3d": null
     },
     {
@@ -31116,6 +31920,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tat-thuong-nhi-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -31153,6 +31958,7 @@ window.ACUPOINTS = {
       ],
       "slug": "te-ha-luc-nhat",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -31186,6 +31992,7 @@ window.ACUPOINTS = {
       ],
       "slug": "te-thuong-ha",
       "image": "images/acupoints/0729-te-thuong-ha.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2FHEQRHVGW2HDQ7PPCDD.webp",
       "anh3d": null
     },
     {
@@ -31219,6 +32026,7 @@ window.ACUPOINTS = {
       ],
       "slug": "te-trung-tu-bien",
       "image": "images/acupoints/0730-te-trung-tu-bien.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2G3HMHNW2DBSD5QP7D2N.webp",
       "anh3d": null
     },
     {
@@ -31268,6 +32076,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thach-mon",
       "image": "images/acupoints/0731-thach-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2GQAJ7NKFGVX49RMV6MR.webp",
       "anh3d": null,
       "international_code": "CV5",
       "code_dash": "CV-5",
@@ -31330,6 +32139,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thach-quan",
       "image": "images/acupoints/0732-thach-quan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2HYDCSFGN6VR5QW6YX6B.webp",
       "anh3d": null,
       "international_code": "KI18",
       "code_dash": "KI-18",
@@ -31375,6 +32185,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thai-am",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -31412,6 +32223,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thai-am-kieu",
       "image": "images/acupoints/0734-thai-am-kieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2J4C6GWG328AS0H2R5DN.webp",
       "anh3d": null
     },
     {
@@ -31457,6 +32269,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thai-at",
       "image": "images/acupoints/0735-thai-at.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2JSANSS29NZNKRW3RFQH.webp",
       "anh3d": null,
       "international_code": "ST23",
       "code_dash": "ST-23",
@@ -31513,6 +32326,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thai-bach",
       "image": "images/acupoints/0736-thai-bach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2JZA116SP4MHVBDM2DEY.webp",
       "anh3d": null,
       "international_code": "SP3",
       "code_dash": "SP-3",
@@ -31570,6 +32384,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thai-duong",
       "image": "images/acupoints/0737-thai-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2KTHRMDCJ7QS2C32T115.webp",
       "anh3d": null
     },
     {
@@ -31619,6 +32434,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thai-khe",
       "image": "images/acupoints/0738-thai-khe.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2KXHPZHP2VJWM87GDTW6.webp",
       "anh3d": null,
       "international_code": "KI3",
       "code_dash": "KI-3",
@@ -31689,6 +32505,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thai-uyen",
       "image": "images/acupoints/0739-thai-uyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2MSKK09C1FARPKA4ZE45.webp",
       "anh3d": {
         "da": "/_emdash/api/media/file/01M3D1097FCT2FA0E7ARBD7JQG.webp",
         "gp": "/_emdash/api/media/file/01M3D109DZXDD03J4KCZ509FM8.webp",
@@ -31755,6 +32572,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thai-xung",
       "image": "images/acupoints/0740-thai-xung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2MWJCWHMED3GSEZS4P7K.webp",
       "anh3d": null,
       "international_code": "LR3",
       "code_dash": "LR-3",
@@ -31812,6 +32630,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thanh-lanh-uyen",
       "image": "images/acupoints/0741-thanh-lanh-uyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2NMH1CMJBZQM13GCHJW7.webp",
       "anh3d": null,
       "international_code": "TE11",
       "code_dash": "TE-11",
@@ -31869,6 +32688,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thanh-linh",
       "image": "images/acupoints/0742-thanh-linh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2P0H56GYY05EF01BYGV0.webp",
       "anh3d": null,
       "international_code": "HE2",
       "code_dash": "HE-2",
@@ -31908,6 +32728,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thanh-cot",
       "image": "images/acupoints/0743-thanh-cot.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2PJF0TVT7A2BGER3JAD5.webp",
       "anh3d": null
     },
     {
@@ -31941,6 +32762,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-bat-ta",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -31974,6 +32796,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-giao",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -32023,6 +32846,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-mach",
       "image": "images/acupoints/0746-than-mach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2PREWT4BK0NHPXW0Y11E.webp",
       "anh3d": null,
       "international_code": "BL62",
       "code_dash": "BL-62",
@@ -32086,6 +32910,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-tru",
       "image": "images/acupoints/0747-than-tru.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2QDRMMGSDPQ7JNTJ3RZB.webp",
       "anh3d": null,
       "international_code": "GV12",
       "code_dash": "GV-12",
@@ -32148,6 +32973,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-dao",
       "image": "images/acupoints/0748-than-dao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2QX9HNHVTX9HXS6QZQ49.webp",
       "anh3d": null,
       "international_code": "GV11",
       "code_dash": "GV-11",
@@ -32211,6 +33037,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-dinh",
       "image": "images/acupoints/0749-than-dinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2S3R8TB2YTTFRX2GFE1P.webp",
       "anh3d": null,
       "international_code": "GV24",
       "code_dash": "GV-24",
@@ -32274,6 +33101,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-duong",
       "image": "images/acupoints/0750-than-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2S9RXRB9RZ1FCCKPKXHQ.webp",
       "anh3d": null,
       "international_code": "BL44",
       "code_dash": "BL-44",
@@ -32321,6 +33149,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-giac",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -32370,6 +33199,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-khuyet",
       "image": "images/acupoints/0752-than-khuyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2SZ12HGBXHW20J3T86YM.webp",
       "anh3d": null,
       "international_code": "CV8",
       "code_dash": "CV-8",
@@ -32415,6 +33245,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-ly",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -32464,6 +33295,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-mon",
       "image": "images/acupoints/0754-than-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2T50M61EP8N78ARN680H.webp",
       "anh3d": null,
       "international_code": "HE7",
       "code_dash": "HE-7",
@@ -32511,6 +33343,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-phong",
       "image": "images/acupoints/0755-than-phong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2TYD38EYZARE6X7TK4H5.webp",
       "anh3d": null,
       "international_code": "K23",
       "code_dash": "K-23",
@@ -32550,6 +33383,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-phu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -32591,6 +33425,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-tang",
       "image": "images/acupoints/0757-than-tang.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2V7CN29W1GS08EVNGD7H.webp",
       "anh3d": null,
       "international_code": "KI25",
       "code_dash": "KI-25",
@@ -32634,6 +33469,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-thu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -32679,6 +33515,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-du",
       "image": "images/acupoints/0759-than-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2VZ7HHMXRGGQN39MGWRZ.webp",
       "anh3d": null,
       "international_code": "BL23",
       "code_dash": "BL-23",
@@ -32733,6 +33570,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-he",
       "image": "images/acupoints/0760-than-he.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2W25JNWW46YDVS1E41XA.webp",
       "anh3d": null
     },
     {
@@ -32766,6 +33604,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-nhiet-huyet",
       "image": "images/acupoints/0761-than-nhiet-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2WT0CSZJ72HRDTKRKAE5.webp",
       "anh3d": null
     },
     {
@@ -32803,6 +33642,7 @@ window.ACUPOINTS = {
       ],
       "slug": "than-tich",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -32836,6 +33676,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thap-tam-quy-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -32873,6 +33714,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thap-that-chuy-ha",
       "image": "images/acupoints/0764-thap-that-chuy-ha.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2X5YAR1SM2THRB3YBE92.webp",
       "anh3d": null
     },
     {
@@ -32910,6 +33752,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thap-tuyen",
       "image": "images/acupoints/0765-thap-tuyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2XQXQHATRBCWQFK9Q56D.webp",
       "anh3d": null
     },
     {
@@ -32943,6 +33786,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thap-vuong",
       "image": "images/acupoints/0766-thap-vuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2Y0VKNQ5SD430CR0J7CX.webp",
       "anh3d": null
     },
     {
@@ -32976,6 +33820,7 @@ window.ACUPOINTS = {
       ],
       "slug": "that-canh-chuy-bang",
       "image": "images/acupoints/0767-that-canh-chuy-bang.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2YJSPD8WTZKP01J3PP0Q.webp",
       "anh3d": null
     },
     {
@@ -33009,6 +33854,7 @@ window.ACUPOINTS = {
       ],
       "slug": "that-mien",
       "image": "images/acupoints/0768-that-mien.jpg",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2Z1VZ2JH9AMHYYCKKT2P.jpg",
       "anh3d": null
     },
     {
@@ -33042,6 +33888,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thi-to",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -33075,6 +33922,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thiem-dien",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -33108,6 +33956,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thiem-yeu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -33145,6 +33994,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-cu-bang-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -33194,6 +34044,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-du",
       "image": "images/acupoints/0773-thien-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2ZKRSG6PZGEQPR13NQ26.webp",
       "anh3d": null,
       "international_code": "TE16",
       "code_dash": "TE-16",
@@ -33251,6 +34102,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-dung",
       "image": "images/acupoints/0774-thien-dung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ2ZWPYQVDZSX4G55NA9B4.webp",
       "anh3d": null,
       "international_code": "SI17",
       "code_dash": "SI-17",
@@ -33313,7 +34165,14 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-dinh",
       "image": "images/acupoints/0775-thien-dinh.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CJ30EK9SQS9PE770MJRTRP.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPB18NVH8D1XHJ535V8CF1.webp",
+        "gp": "/_emdash/api/media/file/01M3DPB1HSB6AFQZS8D6XJXMPH.webp",
+        "lan": "/_emdash/api/media/file/01M3DPB2AK1XME9VRP2R3RTZ7R.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPB2DMAY46M3XXD0Y98CR0.webp",
+        "ghiChu": null
+      },
       "international_code": "LI17",
       "code_dash": "LI-17",
       "chinese": "天鼎",
@@ -33373,6 +34232,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-dot",
       "image": "images/acupoints/0776-thien-dot.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ30XJ8E1Z7S0J0AFZS8D7.webp",
       "anh3d": null,
       "international_code": "CV22",
       "code_dash": "CV-22",
@@ -33433,6 +34293,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-khe",
       "image": "images/acupoints/0777-thien-khe.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ31FF2A67DCTMQM5V2F8P.webp",
       "anh3d": null,
       "international_code": "SP18",
       "code_dash": "SP-18",
@@ -33493,7 +34354,14 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-lich",
       "image": "images/acupoints/0778-thien-lich.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CJ31RY7HQEMBQSRS10K3DW.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPA7ZMETFNSNTCR0BYRHBF.webp",
+        "gp": "/_emdash/api/media/file/01M3DPA82N84D0WCGXEW8YEA90.webp",
+        "lan": "/_emdash/api/media/file/01M3DPA8Y07QCJYCRX3CS28A7V.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPA911SPK95TDGYDH764Q5.webp",
+        "ghiChu": null
+      },
       "international_code": "LI6",
       "code_dash": "LI-6",
       "chinese": "偏歴",
@@ -33553,6 +34421,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-lieu",
       "image": "images/acupoints/0779-thien-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ32AVFMCH7H2E21JZGR6Y.webp",
       "anh3d": null,
       "international_code": "TE15",
       "code_dash": "TE-15",
@@ -33596,6 +34465,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-linh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -33641,6 +34511,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-phu",
       "image": "images/acupoints/0781-thien-phu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ32QKN6RM41D6FB24644B.webp",
       "anh3d": {
         "da": "/_emdash/api/media/file/01M3D10G87FEBZBQ954FGK6VSR.webp",
         "gp": "/_emdash/api/media/file/01M3D10GBF7M7XH6KCPSPWFY2K.webp",
@@ -33706,6 +34577,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-song",
       "image": "images/acupoints/0782-thien-song.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ33JS8928SS7PTWY8JNXE.webp",
       "anh3d": null,
       "international_code": "SI16",
       "code_dash": "SI-16",
@@ -33752,6 +34624,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-thinh",
       "image": "images/acupoints/0783-thien-thinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ33NSAV3KMCQBR3N68P1G.webp",
       "anh3d": null
     },
     {
@@ -33785,6 +34658,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-thong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -33830,6 +34704,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-tinh",
       "image": "images/acupoints/0785-thien-tinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ344Q17BPY29C1RJTFRH2.webp",
       "anh3d": null,
       "international_code": "TE10",
       "code_dash": "TE-10",
@@ -33889,6 +34764,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-tong",
       "image": "images/acupoints/0786-thien-tong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ34KPJYYM80AHV12CVCPE.webp",
       "anh3d": null,
       "international_code": "SI11",
       "code_dash": "SI-11",
@@ -33949,6 +34825,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-tri",
       "image": "images/acupoints/0787-thien-tri.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ35BHJ8HPNJ7EX6HFGTEA.webp",
       "anh3d": null,
       "international_code": "PC1",
       "code_dash": "PC-1",
@@ -33997,6 +34874,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-tru",
       "image": "images/acupoints/0788-thien-tru.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ35HGTTM1WV87Y2DN1D38.webp",
       "anh3d": null,
       "international_code": "BL10",
       "code_dash": "BL-10",
@@ -34059,6 +34937,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-tuyen",
       "image": "images/acupoints/0789-thien-tuyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ363E9Y94QMGYJJ5WP77J.webp",
       "anh3d": null,
       "international_code": "PC2",
       "code_dash": "PC-2",
@@ -34117,6 +34996,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-xu",
       "image": "images/acupoints/0790-thien-xu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ36FEPDVJ6Q4DC36DCB59.webp",
       "anh3d": null,
       "international_code": "ST25",
       "code_dash": "ST-25",
@@ -34182,6 +35062,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thien-xung",
       "image": "images/acupoints/0791-thien-xung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3779YWPJ18M3N2MFJSHJ.webp",
       "anh3d": null,
       "international_code": "GB9",
       "code_dash": "GB-9",
@@ -34227,6 +35108,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thiet-ha",
       "image": "images/acupoints/0792-thiet-ha.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ37D8ZAZH0G56EK9SH74E.webp",
       "anh3d": null
     },
     {
@@ -34260,6 +35142,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thiet-tru",
       "image": "images/acupoints/0793-thiet-tru.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ37Z5HJTC6BHMZD55ETTY.webp",
       "anh3d": null
     },
     {
@@ -34293,6 +35176,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thieu-duong-duy",
       "image": "images/acupoints/0794-thieu-duong-duy.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ38FH4F2PWZW9E76MPY6M.webp",
       "anh3d": null
     },
     {
@@ -34342,6 +35226,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thieu-hai",
       "image": "images/acupoints/0795-thieu-hai.jpg",
+      "anhCms": "/_emdash/api/media/file/01M3CJ391EQ0E6ASHJ6TYKC6BP.jpg",
       "anh3d": null,
       "international_code": "HE3",
       "code_dash": "HE-3",
@@ -34397,6 +35282,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thieu-phu",
       "image": "images/acupoints/0796-thieu-phu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ39AEWNGPK20DKJPFPK4Q.webp",
       "anh3d": null,
       "international_code": "HE8",
       "code_dash": "HE-8",
@@ -34452,6 +35338,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thieu-thuong",
       "image": "images/acupoints/0797-thieu-thuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ39WTEBE3D6SYB5KJKPP9.webp",
       "anh3d": {
         "da": "/_emdash/api/media/file/01M3D10Z4EVT12GATMGPXVZ605.webp",
         "gp": "/_emdash/api/media/file/01M3D10ZAXSKPAF164R8193BBK.webp",
@@ -34522,6 +35409,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thieu-trach",
       "image": "images/acupoints/0798-thieu-trach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3ABTMY36BSEAF94V4B97.webp",
       "anh3d": null,
       "international_code": "SI1",
       "code_dash": "SI-1",
@@ -34585,6 +35473,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thieu-xung",
       "image": "images/acupoints/0799-thieu-xung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3AXR6FJ72N65XH8D93M6.webp",
       "anh3d": null,
       "international_code": "HE9",
       "code_dash": "HE-9",
@@ -34640,6 +35529,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thinh-cung",
       "image": "images/acupoints/0800-thinh-cung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3B6PY334W6FTE28YJR7F.webp",
       "anh3d": null,
       "international_code": "SI19",
       "code_dash": "SI-19",
@@ -34701,6 +35591,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thinh-hoi",
       "image": "images/acupoints/0801-thinh-hoi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3BRMH1552BS6QJ4K9H05.webp",
       "anh3d": null,
       "international_code": "GB2",
       "code_dash": "GB-2",
@@ -34752,6 +35643,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thon-binh",
       "image": "images/acupoints/0802-thon-binh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3C7TPSCZ8Q6EXG3MXB7D.webp",
       "anh3d": null
     },
     {
@@ -34785,6 +35677,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thon-nhieu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -34834,6 +35727,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thong-coc",
       "image": "images/acupoints/0804-thong-coc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3CSYJGRK2KYS7TX87GG1.webp",
       "anh3d": null,
       "international_code": "KI20",
       "code_dash": "KI-20",
@@ -34894,6 +35788,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thong-coc-ii",
       "image": "images/acupoints/0805-thong-coc-ii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3D2XDC8S26SATC3P7T9N.webp",
       "anh3d": null,
       "international_code": "BL66",
       "code_dash": "BL-66",
@@ -34935,6 +35830,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thong-coc-iii",
       "image": "images/acupoints/0806-thong-coc-iii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3CSYJGRK2KYS7TX87GG1.webp",
       "anh3d": null
     },
     {
@@ -34980,6 +35876,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thong-ly",
       "image": "images/acupoints/0807-thong-ly.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3E0YB4560KTMR37KGP40.webp",
       "anh3d": null,
       "international_code": "HE5",
       "code_dash": "HE-5",
@@ -35019,6 +35916,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thong-ly-ii",
       "image": "images/acupoints/0808-thong-ly-ii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3E0YB4560KTMR37KGP40.webp",
       "anh3d": null
     },
     {
@@ -35068,6 +35966,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thong-thien",
       "image": "images/acupoints/0809-thong-thien.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3EVRYM6EXJDT37FZKPD2.webp",
       "anh3d": null,
       "international_code": "BL7",
       "code_dash": "BL-7",
@@ -35113,6 +36012,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thong-thien-cham",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35146,6 +36046,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thong-thien-cham-doi-phong-thich",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35183,6 +36084,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thot-dien",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35216,6 +36118,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thot-phuc-thong-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35249,6 +36152,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-chuong-hau-bach-nhuc-te-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35278,6 +36182,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-chuong-hau-ty-gian-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35311,6 +36216,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-dai-chi-giap-hau",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35348,6 +36254,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-khoa-cot",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35381,6 +36288,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-kim-mon",
       "image": "images/acupoints/0818-thu-kim-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3EYRHC87Q4M3RX7GG15T.webp",
       "anh3d": null
     },
     {
@@ -35414,6 +36322,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-nghich-chu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35463,7 +36372,14 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-ngu-ly",
       "image": "images/acupoints/0820-thu-ngu-ly.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CJ3FSNF4ADY10SBB3MG6XX.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPAS4V9MZVCMBEQ50KGT1B.webp",
+        "gp": "/_emdash/api/media/file/01M3DPAS7WHD8WQAMDMDJP7ZBY.webp",
+        "lan": "/_emdash/api/media/file/01M3DPAT3PHVBZF7JA7VJYVWKH.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPAT6P4R712PJ4A379CT89.webp",
+        "ghiChu": null
+      },
       "international_code": "LI13",
       "code_dash": "LI-13",
       "chinese": "手五里",
@@ -35524,7 +36440,14 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-tam-ly",
       "image": "images/acupoints/0821-thu-tam-ly.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CJ3FZM597BVRCB566AG0CJ.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPAHXZ994NBXTDRRSW0TQH.webp",
+        "gp": "/_emdash/api/media/file/01M3DPAJ43QQGQE2M19PR7KFEE.webp",
+        "lan": "/_emdash/api/media/file/01M3DPAK5H1FEZHRYDDAHG00CY.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPAKBJJFA0WTWWG5H24AQ3.webp",
+        "ghiChu": null
+      },
       "international_code": "LI10",
       "code_dash": "LI-10",
       "chinese": "手三里",
@@ -35571,6 +36494,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-tam-quan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35604,6 +36528,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-tam",
       "image": "images/acupoints/0823-thu-tam.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3GMK0C4GBPWHQSE0X5Z5.webp",
       "anh3d": null
     },
     {
@@ -35637,6 +36562,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-thai-duong-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35670,6 +36596,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-trung-binh",
       "image": "images/acupoints/0825-thu-trung-binh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3GTKJ5WW6EZP2TG9X2A3.webp",
       "anh3d": null
     },
     {
@@ -35703,6 +36630,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-tuc-tuy-khong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35736,6 +36664,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-tuy-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35769,6 +36698,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-tu-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -35818,6 +36748,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuc-cot",
       "image": "images/acupoints/0829-thuc-cot.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3HNFERPH55ZV21WCTSJ9.webp",
       "anh3d": null,
       "international_code": "BL65",
       "code_dash": "BL-65",
@@ -35876,6 +36807,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuy-dao",
       "image": "images/acupoints/0830-thuy-dao.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3HRED78Z1BQWXKAE1HCN.webp",
       "anh3d": null,
       "international_code": "ST28",
       "code_dash": "ST-28",
@@ -35938,6 +36870,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuy-dot",
       "image": "images/acupoints/0831-thuy-dot.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3JKAB12FSMEGNTAJQZZ9.webp",
       "anh3d": null,
       "international_code": "ST10",
       "code_dash": "ST-10",
@@ -35997,6 +36930,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuy-phan",
       "image": "images/acupoints/0832-thuy-phan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3JP9FQHS3ESGGB533BT0.webp",
       "anh3d": null,
       "international_code": "CV9",
       "code_dash": "CV-9",
@@ -36050,6 +36984,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuy-tuyen",
       "image": "images/acupoints/0833-thuy-tuyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3KH5B7AXAXNCQ9T3M3AZ.webp",
       "anh3d": null,
       "international_code": "KI5",
       "code_dash": "KI-5",
@@ -36108,6 +37043,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-lieu",
       "image": "images/acupoints/0834-thu-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3KM4GCHSFK12W5CN30XR.webp",
       "anh3d": null,
       "international_code": "BL32",
       "code_dash": "BL-32",
@@ -36165,6 +37101,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-he",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -36198,6 +37135,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thu-vi",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -36247,6 +37185,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thua-can",
       "image": "images/acupoints/0837-thua-can.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3MF2DF0SWDW57PY4D620.webp",
       "anh3d": null,
       "international_code": "BL56",
       "code_dash": "BL-56",
@@ -36306,6 +37245,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thua-khap",
       "image": "images/acupoints/0838-thua-khap.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3MJ2PGN0QNYXV7T77S6R.webp",
       "anh3d": null,
       "international_code": "ST1",
       "code_dash": "ST-1",
@@ -36365,6 +37305,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thua-linh",
       "image": "images/acupoints/0839-thua-linh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3NCZ9P8PEVJ6K4N12CA8.webp",
       "anh3d": null,
       "international_code": "GB18",
       "code_dash": "GB-18",
@@ -36423,6 +37364,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thua-man",
       "image": "images/acupoints/0840-thua-man.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3NFYJ3XRJS4SX3VQKF47.webp",
       "anh3d": null,
       "international_code": "ST20",
       "code_dash": "ST-20",
@@ -36467,6 +37409,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thua-mang",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -36484,6 +37427,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thua-pho",
       "image": "images/acupoints/0842-thua-pho.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3P7TR8W245C3VHBAKH8P.webp",
       "anh3d": null
     },
     {
@@ -36533,6 +37477,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thua-phu",
       "image": null,
+      "anhCms": null,
       "anh3d": null,
       "international_code": "BL36",
       "code_dash": "BL-36",
@@ -36592,6 +37537,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thua-quang",
       "image": "images/acupoints/0844-thua-quang.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3PKRG4JTMR5CQ858M8BC.webp",
       "anh3d": null,
       "international_code": "BL6",
       "code_dash": "BL-6",
@@ -36651,6 +37597,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thua-son",
       "image": "images/acupoints/0845-thua-son.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3Q5RAMPB2Q9QBFDG9AJJ.webp",
       "anh3d": null,
       "international_code": "BL57",
       "code_dash": "BL-57",
@@ -36712,6 +37659,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thua-tuong",
       "image": "images/acupoints/0846-thua-tuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3QERBJHGZBTFJ5XMP3P5.webp",
       "anh3d": null,
       "international_code": "CV24",
       "code_dash": "CV-24",
@@ -36775,6 +37723,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuc-dau",
       "image": "images/acupoints/0847-thuc-dau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3R0PANWVKYB7YC7D12AJ.webp",
       "anh3d": null,
       "international_code": "SP17",
       "code_dash": "SP-17",
@@ -36819,6 +37768,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuc-quan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -36856,6 +37806,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuc-thuong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -36889,6 +37840,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuc-thuong-danh-cuu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -36926,6 +37878,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-bach",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -36975,7 +37928,14 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-duong",
       "image": "images/acupoints/0852-thuong-duong.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CJ3RFK7ZB767Y9WD7NHTN5.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DP9TSQEV3AKQHRZ9VZTZ1G.webp",
+        "gp": "/_emdash/api/media/file/01M3DP9TWQ01J8168ETCVS5BF9.webp",
+        "lan": "/_emdash/api/media/file/01M3DP9VR48QGTABQ1QV7D088Z.webp",
+        "kinh": "/_emdash/api/media/file/01M3DP9VV570DADAYF0V6GRPZG.webp",
+        "ghiChu": null
+      },
       "international_code": "LI1",
       "code_dash": "LI-1",
       "chinese": "商陽",
@@ -37038,6 +37998,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-khau",
       "image": "images/acupoints/0853-thuong-khau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3S1FP1PCCMW6Y150PE55.webp",
       "anh3d": null,
       "international_code": "SP5",
       "code_dash": "SP-5",
@@ -37099,6 +38060,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-khuc",
       "image": "images/acupoints/0854-thuong-khuc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3SAEQ1K2AR7H50B5AS90.webp",
       "anh3d": null,
       "international_code": "KI17",
       "code_dash": "KI-17",
@@ -37142,6 +38104,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-bat-phong",
       "image": "images/acupoints/0855-thuong-bat-phong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3SWB3QKFN84B7CBFW5QX.webp",
       "anh3d": null
     },
     {
@@ -37175,6 +38138,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-bat-ta",
       "image": "images/acupoints/0856-thuong-bat-ta.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3TBFX20NNV28V3G6TD0K.webp",
       "anh3d": null
     },
     {
@@ -37224,6 +38188,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-cu-hu",
       "image": "images/acupoints/0857-thuong-cu-hu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3TXEGBN2ECYYABY4KWSN.webp",
       "anh3d": null,
       "international_code": "ST37",
       "code_dash": "ST-37",
@@ -37273,6 +38238,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-do",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -37306,6 +38272,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-ha-tu-cuu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -37351,7 +38318,14 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-liem",
       "image": "images/acupoints/0860-thuong-liem.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CJ3V6D8QG6VKSFJWXY576Q.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPAEV171X2P72H0YP58ZHZ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPAF14G9Z762XJWEHZ3VY4.webp",
+        "lan": "/_emdash/api/media/file/01M3DPAG7A37Q073EFTR6ANTBQ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPAGDC0C27QY8M1JTRQ4M9.webp",
+        "ghiChu": null
+      },
       "international_code": "LI9",
       "code_dash": "LI-9",
       "chinese": "上廉",
@@ -37398,6 +38372,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-liem-tuyen",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -37443,6 +38418,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-lieu",
       "image": "images/acupoints/0862-thuong-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3VRAX5M132SR4TWT9ZEJ.webp",
       "anh3d": null,
       "international_code": "BL31",
       "code_dash": "BL-31",
@@ -37489,6 +38465,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-ngac",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -37522,6 +38499,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-ngan-ly",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -37563,6 +38541,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-nghenh-huong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -37596,6 +38575,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-noi-dinh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -37645,6 +38625,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-quan",
       "image": "images/acupoints/0867-thuong-quan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3W77487G737EH20ZJM50.webp",
       "anh3d": null
     },
     {
@@ -37694,6 +38675,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-quan",
       "image": "images/acupoints/0868-thuong-quan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3WSBPYN6RQ0RX2GXBXV2.webp",
       "anh3d": null,
       "international_code": "CV13",
       "code_dash": "CV-13",
@@ -37756,6 +38738,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-tinh",
       "image": "images/acupoints/0869-thuong-tinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3X2988X9452CQASVES4F.webp",
       "anh3d": null,
       "international_code": "GV23",
       "code_dash": "GV-23",
@@ -37801,6 +38784,7 @@ window.ACUPOINTS = {
       ],
       "slug": "thuong-vi",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -37834,6 +38818,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tich-boi-ngu-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -37871,6 +38856,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tich-cot-giai-trung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -37908,6 +38894,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tich-luong-trung-anh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -37941,6 +38928,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tich-phung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -37974,6 +38962,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tich-tam-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38023,6 +39012,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tich-trung",
       "image": "images/acupoints/0876-tich-trung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3XMER2J2YNWERP3B6TQ0.webp",
       "anh3d": null,
       "international_code": "GV6",
       "code_dash": "GV-6",
@@ -38072,6 +39062,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tich-tu-bi-khoi",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38117,6 +39108,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tien-coc",
       "image": "images/acupoints/0878-tien-coc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3Y3JKCQEJTCZ096VAP4P.webp",
       "anh3d": null,
       "international_code": "SI2",
       "code_dash": "SI-2",
@@ -38178,6 +39170,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tien-dinh",
       "image": "images/acupoints/0879-tien-dinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3YNHSK72E7GV7VE633FT.webp",
       "anh3d": null,
       "international_code": "GV21",
       "code_dash": "GV-21",
@@ -38223,6 +39216,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tien-hau-an-chau",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38256,6 +39250,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tien-khong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38289,6 +39284,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tien-phat-te",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38322,6 +39318,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tien-doc-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38359,6 +39356,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tiep-tich",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38392,6 +39390,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tiet-tuc",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38425,6 +39424,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tiet-van",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38458,6 +39458,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tiet-ha",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38495,6 +39496,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tiet-nguoc",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38520,6 +39522,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tiet-than-hoan-kinh-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38557,6 +39560,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-khoi-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38606,6 +39610,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-lac",
       "image": "images/acupoints/0891-tieu-lac.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3YYJ5MM4X924WNBVKT4J.webp",
       "anh3d": null,
       "international_code": "TE12",
       "code_dash": "TE-12",
@@ -38654,6 +39659,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-lich-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38687,6 +39693,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-chi-trao-van",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38724,6 +39731,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-chi-tiem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38761,6 +39769,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-chi-tiem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38798,6 +39807,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-chi-tiet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38831,6 +39841,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-chi-trung-tiet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -38868,6 +39879,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-cot-khong",
       "image": "images/acupoints/0898-tieu-cot-khong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3ZGQW4WYKSYXBWQ6E70B.webp",
       "anh3d": null
     },
     {
@@ -38917,6 +39929,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-hai",
       "image": "images/acupoints/0899-tieu-hai.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ3ZWNA9WV91AWAH7C0WQV.webp",
       "anh3d": null,
       "international_code": "SI8",
       "code_dash": "SI-8",
@@ -38972,6 +39985,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-nhi-cam-ly",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -39005,6 +40019,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-nhi-cuu-phich",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -39046,6 +40061,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-nhi-giang-suyen",
       "image": "images/acupoints/0902-tieu-nhi-giang-suyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ40MHBAFKGTGDYFYC9CH6.webp",
       "anh3d": null
     },
     {
@@ -39087,6 +40103,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-nhi-ke-hung-huyet",
       "image": "images/acupoints/0903-tieu-nhi-ke-hung-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ40TGNTN02N2XWKZB0CGY.webp",
       "anh3d": null
     },
     {
@@ -39124,6 +40141,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-nhi-thuy-kinh",
       "image": "images/acupoints/0904-tieu-nhi-thuy-kinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ41CD1RX8JDAKJXW6Z2CK.webp",
       "anh3d": null
     },
     {
@@ -39157,6 +40175,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-nhi-thuc-gian",
       "image": "images/acupoints/0905-tieu-nhi-thuc-gian.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ41VAGWP7K0ZMY42G1798.webp",
       "anh3d": null
     },
     {
@@ -39194,6 +40213,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-nhi-tieu-hoa-bat-luong-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -39223,6 +40243,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-thien-tam",
       "image": "images/acupoints/0907-tieu-thien-tam.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ42DRXXPZJEDG9P4F8QAV.webp",
       "anh3d": null
     },
     {
@@ -39268,6 +40289,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tieu-truong-du",
       "image": "images/acupoints/0908-tieu-truong-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ42PPZR7J35497PP5693T.webp",
       "anh3d": null,
       "international_code": "BL27",
       "code_dash": "BL-27",
@@ -39333,6 +40355,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tin-hoi",
       "image": "images/acupoints/0909-tin-hoi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ435MSKD413YAPWS7PVM1.webp",
       "anh3d": null,
       "international_code": "GV22",
       "code_dash": "GV-22",
@@ -39377,6 +40400,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tinh-linh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -39426,6 +40450,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tinh-minh",
       "image": "images/acupoints/0911-tinh-minh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ43TG6F7SGBANTBD0CBB6.webp",
       "anh3d": null,
       "international_code": "BL1",
       "code_dash": "BL-1",
@@ -39474,6 +40499,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tinh-quang",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -39511,6 +40537,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tinh-tinh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -39544,6 +40571,7 @@ window.ACUPOINTS = {
       ],
       "slug": "toa-cot-bo",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -39577,6 +40605,7 @@ window.ACUPOINTS = {
       ],
       "slug": "toan-tri",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -39626,6 +40655,7 @@ window.ACUPOINTS = {
       ],
       "slug": "toan-truc",
       "image": "images/acupoints/0916-toan-truc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ449MSQ0J4YHZYZC5Q2NS.webp",
       "anh3d": null,
       "international_code": "BL2",
       "code_dash": "BL-2",
@@ -39692,6 +40722,7 @@ window.ACUPOINTS = {
       ],
       "slug": "to-lieu",
       "image": "images/acupoints/0917-to-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ44JKH575AD4DY9FYF6WN.webp",
       "anh3d": null,
       "international_code": "GV25",
       "code_dash": "GV-25",
@@ -39741,6 +40772,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trach-dien-hop-coc",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -39774,6 +40806,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trach-ha",
       "image": "images/acupoints/0919-trach-ha.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ45611EQ1T8510BTE2SMX.webp",
       "anh3d": null
     },
     {
@@ -39807,6 +40840,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trach-tien",
       "image": "images/acupoints/0920-trach-tien.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ45N09XB5ZAFZ0AW5D26K.webp",
       "anh3d": null
     },
     {
@@ -39840,6 +40874,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trap-hoa",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -39885,6 +40920,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trat-bien",
       "image": "images/acupoints/0922-trat-bien.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ466W09E16H4KPFF8DHHK.webp",
       "anh3d": null,
       "international_code": "BL54",
       "code_dash": "BL-54",
@@ -39937,6 +40973,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tri-sang-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -39974,6 +41011,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tri-chuyen-can",
       "image": "images/acupoints/0924-tri-chuyen-can.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ46FTXCYF408JH669E41B.webp",
       "anh3d": null
     },
     {
@@ -40019,6 +41057,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tri-lung-tan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -40056,6 +41095,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tri-nao",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -40093,6 +41133,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tri-nao-ii",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -40130,6 +41171,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tri-nao-iii",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -40167,6 +41209,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tri-nao-iv",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -40204,6 +41247,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tri-nao-v",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -40241,6 +41285,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tri-nao-tung-tuyen-yeu-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -40290,6 +41335,7 @@ window.ACUPOINTS = {
       ],
       "slug": "triep-can",
       "image": null,
+      "anhCms": null,
       "anh3d": null,
       "international_code": "GB23",
       "code_dash": "GB-23",
@@ -40333,6 +41379,7 @@ window.ACUPOINTS = {
       ],
       "slug": "troc-duc",
       "image": "images/acupoints/0933-troc-duc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ471ZXMYRWJR6TX11FB0R.webp",
       "anh3d": null
     },
     {
@@ -40382,6 +41429,7 @@ window.ACUPOINTS = {
       ],
       "slug": "truc-tan",
       "image": "images/acupoints/0934-truc-tan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ47E8YR03V8JAHDJCX737.webp",
       "anh3d": null,
       "international_code": "KI9",
       "code_dash": "KI-9",
@@ -40426,6 +41474,7 @@ window.ACUPOINTS = {
       ],
       "slug": "truc-truong",
       "image": "images/acupoints/0935-truc-truong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4864BVBMB7QER3W6VZY1.webp",
       "anh3d": null
     },
     {
@@ -40459,6 +41508,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-ap",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -40492,6 +41542,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-binh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -40529,6 +41580,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-chi-tiet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -40574,6 +41626,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-chu",
       "image": "images/acupoints/0939-trung-chu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ48C2GVTQS03RH431TA3P.webp",
       "anh3d": null
     },
     {
@@ -40623,6 +41676,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-chu",
       "image": "images/acupoints/0940-trung-chu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ48XXXWZ2WJ2JB7T0P088.webp",
       "anh3d": null,
       "international_code": "TE3",
       "code_dash": "TE-3",
@@ -40676,6 +41730,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-cu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -40725,6 +41780,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-cuc",
       "image": "images/acupoints/0942-trung-cuc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ49CYEGJK8JXBSS0VV35M.webp",
       "anh3d": null,
       "international_code": "CV3",
       "code_dash": "CV-3",
@@ -40790,6 +41846,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-dinh",
       "image": "images/acupoints/0943-trung-dinh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ49Z2JST9HVB7NPZ6D7EW.webp",
       "anh3d": null,
       "international_code": "CV16",
       "code_dash": "CV-16",
@@ -40853,6 +41910,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-do",
       "image": "images/acupoints/0944-trung-do.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4A81C3DXHMYNDQF0GX5T.webp",
       "anh3d": null,
       "international_code": "LR6",
       "code_dash": "LR-6",
@@ -40911,6 +41969,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-doc",
       "image": "images/acupoints/0945-trung-doc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ18YZAM2AHKTE26A165VX.webp",
       "anh3d": null,
       "international_code": "GB32",
       "code_dash": "GB-32",
@@ -40962,6 +42021,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-khoi",
       "image": "images/acupoints/0946-trung-khoi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4B63XKJ3FKP6C299TAJE.webp",
       "anh3d": null
     },
     {
@@ -40995,6 +42055,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-khong",
       "image": "images/acupoints/0947-trung-khong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4BJ7PG5998GXHFS6J8AN.webp",
       "anh3d": null
     },
     {
@@ -41044,6 +42105,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-khu",
       "image": "images/acupoints/0948-trung-khu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4C1AWF0XA9YW88RM6GCS.webp",
       "anh3d": null,
       "international_code": "GV7",
       "code_dash": "GV-7",
@@ -41103,6 +42165,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-lieu",
       "image": "images/acupoints/0949-trung-lieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4CG90XPVZXGYVPVBQ8BY.webp",
       "anh3d": null,
       "international_code": "BL33",
       "code_dash": "BL-33",
@@ -41161,6 +42224,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-lu-du",
       "image": "images/acupoints/0950-trung-lu-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4D56V5J50J0RR6SYAPMB.webp",
       "anh3d": null,
       "international_code": "BL29",
       "code_dash": "BL-29",
@@ -41205,6 +42269,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-nhieu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -41254,6 +42319,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-phong",
       "image": "images/acupoints/0952-trung-phong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4E62CDCVJ0Z78GP4KJS4.webp",
       "anh3d": null,
       "international_code": "LR4",
       "code_dash": "LR-4",
@@ -41315,6 +42381,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-phu",
       "image": "images/acupoints/0953-trung-phu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4EC1273SRSKKHSWCJAZG.webp",
       "anh3d": {
         "da": "/_emdash/api/media/file/01M3D10C09BTMC71J92GJR8YQQ.webp",
         "gp": "/_emdash/api/media/file/01M3D10CA38HEXHVHB2NZKVD1A.webp",
@@ -41388,6 +42455,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-quan",
       "image": "images/acupoints/0954-trung-quan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4EY386XQYPADTXZRK8Y8.webp",
       "anh3d": null,
       "international_code": "CV12",
       "code_dash": "CV-12",
@@ -41443,6 +42511,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-suyen",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -41480,6 +42549,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-tuyen",
       "image": "images/acupoints/0956-trung-tuyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4FG494A7FSNMWB2QA2RB.webp",
       "anh3d": null
     },
     {
@@ -41525,6 +42595,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-xung",
       "image": "images/acupoints/0957-trung-xung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4GHCQAYXDT5Y4F9FHQHR.webp",
       "anh3d": null,
       "international_code": "PC9",
       "code_dash": "PC-9",
@@ -41579,6 +42650,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-ac-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -41612,6 +42684,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-phong-bat-ngu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -41645,6 +42718,7 @@ window.ACUPOINTS = {
       ],
       "slug": "trung-phong-that-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -41678,6 +42752,7 @@ window.ACUPOINTS = {
       ],
       "slug": "truyen-thi-cuu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -41711,6 +42786,7 @@ window.ACUPOINTS = {
       ],
       "slug": "truc-cot",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -41780,6 +42856,7 @@ window.ACUPOINTS = {
       ],
       "slug": "truong-cuong",
       "image": "images/acupoints/0963-truong-cuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4GQF4CZ4BWCSQ88KD8WZ.webp",
       "anh3d": null,
       "international_code": "GV1",
       "code_dash": "GV-1",
@@ -41827,6 +42904,7 @@ window.ACUPOINTS = {
       ],
       "slug": "truong-di",
       "image": "images/acupoints/0964-truong-di.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4H9B1NGH673457JNPRKD.webp",
       "anh3d": null
     },
     {
@@ -41860,6 +42938,7 @@ window.ACUPOINTS = {
       ],
       "slug": "truong-nhieu",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -41893,6 +42972,7 @@ window.ACUPOINTS = {
       ],
       "slug": "truong-phong",
       "image": "images/acupoints/0966-truong-phong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4J1APZZ2R54T7X15E8KP.webp",
       "anh3d": null
     },
     {
@@ -41930,6 +43010,7 @@ window.ACUPOINTS = {
       ],
       "slug": "truong-thau-co-van-dong-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -41963,6 +43044,7 @@ window.ACUPOINTS = {
       ],
       "slug": "truu-chuy",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -41996,6 +43078,7 @@ window.ACUPOINTS = {
       ],
       "slug": "truu-du",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -42045,7 +43128,14 @@ window.ACUPOINTS = {
       ],
       "slug": "truu-lieu",
       "image": "images/acupoints/0970-truu-lieu.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CJ4JS4B03XYD78RPETASFK.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPAQ53B38PPZ1SQKDRSVR0.webp",
+        "gp": "/_emdash/api/media/file/01M3DPAQB53TDM2H8ZDT35ATD7.webp",
+        "lan": "/_emdash/api/media/file/01M3DPAR3GC19B7R3N6M0SYP5W.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPARCKHRPMJGYEAWWV9VFK.webp",
+        "ghiChu": null
+      },
       "international_code": "LI12",
       "code_dash": "LI-12",
       "chinese": "肘髎",
@@ -42094,6 +43184,7 @@ window.ACUPOINTS = {
       ],
       "slug": "truu-tiem",
       "image": "images/acupoints/0971-truu-tiem.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4K24QH2YC8G51PQCD6V1.webp",
       "anh3d": null
     },
     {
@@ -42131,6 +43222,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-tuyen",
       "image": "images/acupoints/0972-tu-tuyen.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4KSV393NAVM75SF8J5NB.webp",
       "anh3d": null
     },
     {
@@ -42164,6 +43256,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-chung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -42197,6 +43290,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-dai-chi-hoanh-van",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -42234,6 +43328,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-ich-thong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -42283,6 +43378,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-khieu-am",
       "image": "images/acupoints/0976-tuc-khieu-am.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4MBYVHBG0Z6680AB1FVX.webp",
       "anh3d": null,
       "international_code": "GB44",
       "code_dash": "GB-44",
@@ -42329,6 +43425,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-la",
       "image": "images/acupoints/0977-tuc-la.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4N3N12B87VB9WKEV2ZKV.webp",
       "anh3d": null
     },
     {
@@ -42374,6 +43471,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-lam-khap",
       "image": "images/acupoints/0978-tuc-lam-khap.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4NCHENGFRAVFRP5S472V.webp",
       "anh3d": null,
       "international_code": "GB41",
       "code_dash": "GB-41",
@@ -42425,6 +43523,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-minh",
       "image": "images/acupoints/0979-tuc-minh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4P58M5J09SEH3PY2QNFC.webp",
       "anh3d": null
     },
     {
@@ -42470,6 +43569,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-ngu-ly",
       "image": "images/acupoints/0980-tuc-ngu-ly.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4PME3FK0F9MK5F4J9DBD.webp",
       "anh3d": null,
       "international_code": "LR10",
       "code_dash": "LR-10",
@@ -42529,6 +43629,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-tam-ly",
       "image": "images/acupoints/0981-tuc-tam-ly.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4QJNR59A8E1G3JN4E1ZG.webp",
       "anh3d": null,
       "international_code": "ST36",
       "code_dash": "ST-36",
@@ -42592,6 +43693,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-tam",
       "image": "images/acupoints/0982-tuc-tam.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4QVGDPKKGH92ZTKDBA4G.webp",
       "anh3d": null
     },
     {
@@ -42625,6 +43727,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-thai-am-thai-duong-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -42658,6 +43761,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-thieu-duong-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -42691,6 +43795,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-trung-binh",
       "image": "images/acupoints/0985-tuc-trung-binh.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4RPFH3GCR74HH9PBYHQY.webp",
       "anh3d": null
     },
     {
@@ -42724,6 +43829,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuc-tuy-khong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -42757,6 +43863,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuyen-am",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -42802,6 +43909,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuyen-co",
       "image": "images/acupoints/0988-tuyen-co.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4S2A48PY5Y0AB7CHK0FP.webp",
       "anh3d": null,
       "international_code": "CV21",
       "code_dash": "CV-21",
@@ -42845,6 +43953,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuyen-mon",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -42878,6 +43987,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuyen-sinh-tuc",
       "image": "images/acupoints/0990-tuyen-sinh-tuc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4SX2NFNFH9W4724QHQG6.webp",
       "anh3d": null
     },
     {
@@ -42915,6 +44025,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tuyet-dung",
       "image": "images/acupoints/0991-tuyet-dung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4T30X4SSGCYQRH6HBF78.webp",
       "anh3d": null
     },
     {
@@ -42960,6 +44071,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-bach",
       "image": "images/acupoints/0992-tu-bach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4V0PT0Q8KKA1D06VGKVE.webp",
       "anh3d": null,
       "international_code": "ST2",
       "code_dash": "ST-2",
@@ -43018,6 +44130,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-doc",
       "image": "images/acupoints/0993-tu-doc.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4V3NNN8ZCZS4XB8X573Y.webp",
       "anh3d": null,
       "international_code": "TE9",
       "code_dash": "TE-9",
@@ -43063,6 +44176,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-hoa",
       "image": "images/acupoints/0994-tu-hoa.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4VYWKSBSF8DBXQF92KYC.webp",
       "anh3d": null
     },
     {
@@ -43100,6 +44214,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-hoa-luc-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -43133,6 +44248,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-ly",
       "image": "images/acupoints/0996-tu-ly.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4W2YX4PRR3V8WT7PNMMV.webp",
       "anh3d": null
     },
     {
@@ -43182,6 +44298,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-man",
       "image": "images/acupoints/0997-tu-man.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4WXRJSPWQRDKV1SWBH8V.webp",
       "anh3d": null,
       "international_code": "KI14",
       "code_dash": "KI-14",
@@ -43237,6 +44354,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-phung",
       "image": "images/acupoints/0998-tu-phung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4X0QJBTJJY9XTXJT9K40.webp",
       "anh3d": null
     },
     {
@@ -43278,6 +44396,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-than-thong",
       "image": "images/acupoints/0999-tu-than-thong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4XVSMHDJFZXK8JE72MM8.webp",
       "anh3d": null
     },
     {
@@ -43311,6 +44430,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-cung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -43356,6 +44476,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-cung",
       "image": "images/acupoints/1001-tu-cung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4XYRF7HS66HEDSEVYQNN.webp",
       "anh3d": null,
       "international_code": "CV19",
       "code_dash": "CV-19",
@@ -43403,6 +44524,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-cung-ii",
       "image": "images/acupoints/1002-tu-cung-ii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4YSE1GZ6BTF1YCZE8GQ1.webp",
       "anh3d": null
     },
     {
@@ -43440,6 +44562,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-cung-canh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -43473,6 +44596,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-cung-xuat-huyet-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -43506,6 +44630,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-ho",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -43539,6 +44664,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tu-truong",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -43588,6 +44714,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ty-truc-khong",
       "image": "images/acupoints/1007-ty-truc-khong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4YWDFCP2363813R1PGB8.webp",
       "anh3d": null,
       "international_code": "TE23",
       "code_dash": "TE-23",
@@ -43651,7 +44778,14 @@ window.ACUPOINTS = {
       ],
       "slug": "ty-nhu",
       "image": "images/acupoints/1008-ty-nhu.webp",
-      "anh3d": null,
+      "anhCms": "/_emdash/api/media/file/01M3CJ4ZQ4QRTWA4ZYQ2PNHS2B.webp",
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPAV208G2HNG1855MSDY42.webp",
+        "gp": "/_emdash/api/media/file/01M3DPAV513VKM05V3JGH9KSRV.webp",
+        "lan": "/_emdash/api/media/file/01M3DPAW0G7088BWPRKMF6CA7E.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPAW3HBZEPJGBGH5BS5YT0.webp",
+        "ghiChu": null
+      },
       "international_code": "LI14",
       "code_dash": "LI-14",
       "chinese": "臂臑",
@@ -43695,6 +44829,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ty-thach-tu-dau",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -43736,6 +44871,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ty-trung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -43769,6 +44905,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ty-ba-huyet",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -43814,6 +44951,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ty-du",
       "image": null,
+      "anhCms": null,
       "anh3d": null,
       "international_code": "BL20",
       "code_dash": "BL-20",
@@ -43865,6 +45003,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ty-hoanh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -43894,6 +45033,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ty-nhiet-huyet",
       "image": "images/acupoints/1014-ty-nhiet-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ4ZT42805RK04070KR79H.webp",
       "anh3d": null
     },
     {
@@ -43931,6 +45071,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ty-giao-at-trung",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -43964,6 +45105,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ty-hoan",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -43997,6 +45139,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ty-luu",
       "image": "images/acupoints/1017-ty-luu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ50N17FDJ35AE9KD3PX7A.webp",
       "anh3d": null
     },
     {
@@ -44034,6 +45177,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ty-tieu",
       "image": "images/acupoints/1018-ty-tieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ50QZC1RQVX674ZVNRGJT.webp",
       "anh3d": null
     },
     {
@@ -44067,6 +45211,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ty-tru",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -44116,6 +45261,7 @@ window.ACUPOINTS = {
       ],
       "slug": "u-mon",
       "image": "images/acupoints/1020-u-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ51FSAYKEDG1MCXCYW8W0.webp",
       "anh3d": null,
       "international_code": "KI21",
       "code_dash": "KI-21",
@@ -44163,6 +45309,7 @@ window.ACUPOINTS = {
       ],
       "slug": "uy-linh",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -44208,6 +45355,7 @@ window.ACUPOINTS = {
       ],
       "slug": "uy-duong",
       "image": "images/acupoints/1022-uy-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ51VN6JMX679SJY19BFQN.webp",
       "anh3d": null,
       "international_code": "BL39",
       "code_dash": "BL-39",
@@ -44272,6 +45420,7 @@ window.ACUPOINTS = {
       ],
       "slug": "uy-trung",
       "image": "images/acupoints/1023-uy-trung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ52DK9XDWDW6C2B0NHJXP.webp",
       "anh3d": null,
       "international_code": "BL40",
       "code_dash": "BL-40",
@@ -44324,6 +45473,7 @@ window.ACUPOINTS = {
       ],
       "slug": "uy-trung-dinh-tu-thich",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -44373,6 +45523,7 @@ window.ACUPOINTS = {
       ],
       "slug": "uyen-dich",
       "image": "images/acupoints/1025-uyen-dich.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ52PR7DJRSZE5HA7KS5TA.webp",
       "anh3d": null,
       "international_code": "GB22",
       "code_dash": "GB-22",
@@ -44430,6 +45581,7 @@ window.ACUPOINTS = {
       ],
       "slug": "uyen-cot",
       "image": "images/acupoints/1026-uyen-cot.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ538K68MSNXMZ9Z31Y6GJ.webp",
       "anh3d": null,
       "international_code": "SI4",
       "code_dash": "SI-4",
@@ -44488,6 +45640,7 @@ window.ACUPOINTS = {
       ],
       "slug": "ung-song",
       "image": "images/acupoints/1027-ung-song.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ53QFM3GFA3WM3BZ160ZD.webp",
       "anh3d": null,
       "international_code": "ST16",
       "code_dash": "ST-16",
@@ -44547,6 +45700,7 @@ window.ACUPOINTS = {
       ],
       "slug": "van-mon",
       "image": "images/acupoints/1028-van-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ54981DFV6QZK1VY908TS.webp",
       "anh3d": {
         "da": "/_emdash/api/media/file/01M3D10E3ZH8HY7BWGXYGY0AY5.webp",
         "gp": "/_emdash/api/media/file/01M3D10EDYYPM6TTQNEWGZGNKA.webp",
@@ -44591,6 +45745,7 @@ window.ACUPOINTS = {
       ],
       "slug": "vet-vi-truong-diem",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -44624,6 +45779,7 @@ window.ACUPOINTS = {
       ],
       "slug": "vi-cot-bang",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -44661,6 +45817,7 @@ window.ACUPOINTS = {
       ],
       "slug": "vi-cung-cot",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -44694,6 +45851,7 @@ window.ACUPOINTS = {
       ],
       "slug": "vi-thuy",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -44739,6 +45897,7 @@ window.ACUPOINTS = {
       ],
       "slug": "vi-du",
       "image": "images/acupoints/1033-vi-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ54J7PHWAK197VWFMA18Z.webp",
       "anh3d": null,
       "international_code": "BL21",
       "code_dash": "BL-21",
@@ -44788,6 +45947,7 @@ window.ACUPOINTS = {
       ],
       "slug": "vi-lac",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -44821,6 +45981,7 @@ window.ACUPOINTS = {
       ],
       "slug": "vi-nhiet-huyet",
       "image": "images/acupoints/1035-vi-nhiet-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ5541Y1JY9SN2DGN0VMSZ.webp",
       "anh3d": null
     },
     {
@@ -44858,6 +46019,7 @@ window.ACUPOINTS = {
       ],
       "slug": "vi-quan-ha-du",
       "image": "images/acupoints/1036-vi-quan-ha-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHT60JP7AS2S0DVTFHZWWH.webp",
       "anh3d": null
     },
     {
@@ -44891,6 +46053,7 @@ window.ACUPOINTS = {
       ],
       "slug": "vi-thu",
       "image": "images/acupoints/1037-vi-thu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ55ZVJF18AEP7HKXAT1HP.webp",
       "anh3d": null
     },
     {
@@ -44936,6 +46099,7 @@ window.ACUPOINTS = {
       ],
       "slug": "vi-thuong",
       "image": "images/acupoints/1038-vi-thuong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ56A2B0P5DCS92SDVK08X.webp",
       "anh3d": null,
       "international_code": "BL50",
       "code_dash": "BL-50",
@@ -44980,6 +46144,7 @@ window.ACUPOINTS = {
       ],
       "slug": "xich-huyet",
       "image": "images/acupoints/1039-xich-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ5724F0SG5G7YFRVVA45K.webp",
       "anh3d": null
     },
     {
@@ -45017,6 +46182,7 @@ window.ACUPOINTS = {
       ],
       "slug": "xich-nhieu",
       "image": "images/acupoints/1040-xich-nhieu.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ5781F9N8777GDTAKVGS2.webp",
       "anh3d": null
     },
     {
@@ -45066,6 +46232,7 @@ window.ACUPOINTS = {
       ],
       "slug": "xich-trach",
       "image": "images/acupoints/1041-xich-trach.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ57T6ED14D1H9596PH908.webp",
       "anh3d": {
         "da": "/_emdash/api/media/file/01M3D10MCDGDNR0CVB6420C659.webp",
         "gp": "/_emdash/api/media/file/01M3D10MFNR6YEA7NP4YP28DS9.webp",
@@ -45122,6 +46289,7 @@ window.ACUPOINTS = {
       ],
       "slug": "xuat-khi-huyet",
       "image": "images/acupoints/1042-xuat-khi-huyet.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ58913V6MA8T7N1ASB0PN.webp",
       "anh3d": null
     },
     {
@@ -45171,6 +46339,7 @@ window.ACUPOINTS = {
       ],
       "slug": "xung-duong",
       "image": "images/acupoints/1043-xung-duong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ58TSB4ZPD60HW6PTNY15.webp",
       "anh3d": null,
       "international_code": "ST42",
       "code_dash": "ST-42",
@@ -45233,6 +46402,7 @@ window.ACUPOINTS = {
       ],
       "slug": "xung-mon",
       "image": "images/acupoints/1044-xung-mon.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ593ND09KPY8J182MQ05F.webp",
       "anh3d": null,
       "international_code": "SP12",
       "code_dash": "SP-12",
@@ -45288,6 +46458,7 @@ window.ACUPOINTS = {
       ],
       "slug": "y-hy",
       "image": "images/acupoints/1045-y-hy.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ59NDRGZSKE8R71YGXJ9E.webp",
       "anh3d": null,
       "international_code": "BL45",
       "code_dash": "BL-45",
@@ -45332,6 +46503,7 @@ window.ACUPOINTS = {
       ],
       "slug": "y-lung",
       "image": "images/acupoints/1046-y-lung.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ5A483F27SXAPYR74XBN0.webp",
       "anh3d": null
     },
     {
@@ -45377,6 +46549,7 @@ window.ACUPOINTS = {
       ],
       "slug": "y-xa",
       "image": "images/acupoints/1047-y-xa.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ5ANZHBZYW2VFDPCC8HY8.webp",
       "anh3d": null,
       "international_code": "BL49",
       "code_dash": "BL-49",
@@ -45422,6 +46595,7 @@ window.ACUPOINTS = {
       ],
       "slug": "yen-khau",
       "image": "images/acupoints/1048-yen-khau.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ5AYVSBPQV6TMFXETTS3D.webp",
       "anh3d": null
     },
     {
@@ -45455,6 +46629,7 @@ window.ACUPOINTS = {
       ],
       "slug": "yeu-can",
       "image": "images/acupoints/1049-yeu-can.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ5BGKZ3NY2JJ6VTZWF4WX.webp",
       "anh3d": null
     },
     {
@@ -45504,6 +46679,7 @@ window.ACUPOINTS = {
       ],
       "slug": "yeu-du",
       "image": "images/acupoints/1050-yeu-du.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ5BZEZ04S7HH6H26X6M2K.webp",
       "anh3d": null,
       "international_code": "GV2",
       "code_dash": "GV-2",
@@ -45566,6 +46742,7 @@ window.ACUPOINTS = {
       ],
       "slug": "yeu-duong-quan",
       "image": "images/acupoints/1051-yeu-duong-quan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ5CH7SW4S6Q0H0NDR1M8G.webp",
       "anh3d": null,
       "international_code": "GV3",
       "code_dash": "GV-3",
@@ -45615,6 +46792,7 @@ window.ACUPOINTS = {
       ],
       "slug": "yeu-ky",
       "image": "images/acupoints/1052-yeu-ky.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ5CT5K9FFP61XN7F3BPM5.webp",
       "anh3d": null
     },
     {
@@ -45648,6 +46826,7 @@ window.ACUPOINTS = {
       ],
       "slug": "yeu-muc",
       "image": null,
+      "anhCms": null,
       "anh3d": null
     },
     {
@@ -45681,6 +46860,7 @@ window.ACUPOINTS = {
       ],
       "slug": "yeu-nghi",
       "image": "images/acupoints/1054-yeu-nghi.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ5DC82769TKS7NMMVT8R8.webp",
       "anh3d": null
     },
     {
@@ -45722,6 +46902,7 @@ window.ACUPOINTS = {
       ],
       "slug": "yeu-nhan",
       "image": "images/acupoints/1055-yeu-nhan.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CJ5DVEQ2TVFS1FFWPDMBSZ.webp",
       "anh3d": null
     },
     {
@@ -45755,6 +46936,7 @@ window.ACUPOINTS = {
       ],
       "slug": "yeu-thong",
       "image": "images/acupoints/1056-yeu-thong.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSS2YZKQMY0MV3FAQQA0W.webp",
       "anh3d": null
     },
     {
@@ -45788,6 +46970,7 @@ window.ACUPOINTS = {
       ],
       "slug": "yeu-thong-ii",
       "image": "images/acupoints/1057-yeu-thong-ii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSS2YZKQMY0MV3FAQQA0W.webp",
       "anh3d": null
     },
     {
@@ -45821,6 +47004,7 @@ window.ACUPOINTS = {
       ],
       "slug": "yeu-thong-iii",
       "image": "images/acupoints/1058-yeu-thong-iii.webp",
+      "anhCms": "/_emdash/api/media/file/01M3CHSS2YZKQMY0MV3FAQQA0W.webp",
       "anh3d": null
     },
     {
@@ -45862,6 +47046,7 @@ window.ACUPOINTS = {
       ],
       "slug": "tat-duong-quan",
       "image": null,
+      "anhCms": null,
       "anh3d": null,
       "international_code": "GB33",
       "code_dash": "GB-33",

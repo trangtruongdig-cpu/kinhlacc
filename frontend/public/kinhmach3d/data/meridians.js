@@ -107,7 +107,8 @@ window.MERIDIANS = {
           "code": "LU11"
         }
       ],
-      "slug": "kinh-thu-thai-am-phe"
+      "slug": "kinh-thu-thai-am-phe",
+      "anhCms": "/_emdash/api/media/file/01M3CJMVA36FJC3F3168XD7NHQ.jpg"
     },
     {
       "id": 2,
@@ -234,7 +235,8 @@ window.MERIDIANS = {
           "code": "LI20"
         }
       ],
-      "slug": "kinh-thu-duong-minh-dai-truong"
+      "slug": "kinh-thu-duong-minh-dai-truong",
+      "anhCms": "/_emdash/api/media/file/01M3CJN2NZX2WWZ5Q5YK794SRQ.jpg"
     },
     {
       "id": 3,
@@ -486,7 +488,8 @@ window.MERIDIANS = {
           "code": "ST45"
         }
       ],
-      "slug": "kinh-tuc-duong-minh-vi"
+      "slug": "kinh-tuc-duong-minh-vi",
+      "anhCms": "/_emdash/api/media/file/01M3CAD1AH2PXHAWB51J047BVZ.jpg"
     },
     {
       "id": 4,
@@ -618,7 +621,8 @@ window.MERIDIANS = {
           "code": "SP21"
         }
       ],
-      "slug": "kinh-tuc-thai-am-ty"
+      "slug": "kinh-tuc-thai-am-ty",
+      "anhCms": "/_emdash/api/media/file/01M3CJNHESDR0SV6YT6BTC0TTJ.jpg"
     },
     {
       "id": 5,
@@ -690,7 +694,8 @@ window.MERIDIANS = {
           "code": "HT9"
         }
       ],
-      "slug": "kinh-thu-thieu-am-tam"
+      "slug": "kinh-thu-thieu-am-tam",
+      "anhCms": "/_emdash/api/media/file/01M3CJNRGN60RBZZX0FQ3AM4QX.jpg"
     },
     {
       "id": 6,
@@ -812,7 +817,8 @@ window.MERIDIANS = {
           "code": "SI19"
         }
       ],
-      "slug": "kinh-thu-thai-duong-tieu-truong"
+      "slug": "kinh-thu-thai-duong-tieu-truong",
+      "anhCms": "/_emdash/api/media/file/01M3CJNZW4TFV47G4J2J0ZEBYZ.jpg"
     },
     {
       "id": 7,
@@ -1174,7 +1180,8 @@ window.MERIDIANS = {
           "code": "BL67"
         }
       ],
-      "slug": "kinh-tuc-thai-duong-bang-quang"
+      "slug": "kinh-tuc-thai-duong-bang-quang",
+      "anhCms": "/_emdash/api/media/file/01M3CJP6VJAZZS2YFRSW3J589K.jpg"
     },
     {
       "id": 8,
@@ -1336,7 +1343,8 @@ window.MERIDIANS = {
           "code": "KI27"
         }
       ],
-      "slug": "kinh-tuc-thieu-am-than"
+      "slug": "kinh-tuc-thieu-am-than",
+      "anhCms": "/_emdash/api/media/file/01M3CJPEY9ENVHZ34M4W0VM99Z.jpg"
     },
     {
       "id": 9,
@@ -1408,7 +1416,8 @@ window.MERIDIANS = {
           "code": "PC9"
         }
       ],
-      "slug": "kinh-thu-thieu-am-tam-bao"
+      "slug": "kinh-thu-thieu-am-tam-bao",
+      "anhCms": "/_emdash/api/media/file/01M3CJPP9V5VDY774EE2ZQAM3X.jpg"
     },
     {
       "id": 10,
@@ -1550,7 +1559,8 @@ window.MERIDIANS = {
           "code": "TE23"
         }
       ],
-      "slug": "kinh-thu-thieu-duong-tam-tieu"
+      "slug": "kinh-thu-thieu-duong-tam-tieu",
+      "anhCms": "/_emdash/api/media/file/01M3CJPXR1Q3DVB7DZ7WMX6A4K.jpg"
     },
     {
       "id": 11,
@@ -1797,7 +1807,8 @@ window.MERIDIANS = {
           "code": "GB44"
         }
       ],
-      "slug": "kinh-tuc-thieu-duong-dom"
+      "slug": "kinh-tuc-thieu-duong-dom",
+      "anhCms": "/_emdash/api/media/file/01M3CJQ4YTEH81V2AA4SHZT835.jpg"
     },
     {
       "id": 12,
@@ -1894,7 +1905,8 @@ window.MERIDIANS = {
           "code": "LR14"
         }
       ],
-      "slug": "kinh-tuc-quyet-am-can"
+      "slug": "kinh-tuc-quyet-am-can",
+      "anhCms": "/_emdash/api/media/file/01M3CJQC9V2VHN7NZRTX41XR9T.jpg"
     }
   ],
   "circuits": [
@@ -2055,7 +2067,8 @@ window.MERIDIANS = {
           "code": "GV28"
         }
       ],
-      "slug": "mach-doc"
+      "slug": "mach-doc",
+      "anhCms": "/_emdash/api/media/file/01M3CJQJ0AVP3BXCRZV60KWXYZ.jpg"
     },
     {
       "id": 2,
@@ -2194,7 +2207,8 @@ window.MERIDIANS = {
           "code": "CV24"
         }
       ],
-      "slug": "mach-nham"
+      "slug": "mach-nham",
+      "anhCms": "/_emdash/api/media/file/01M3CJQK219TXP39GKH3042Y9X.jpg"
     },
     {
       "id": 3,
@@ -2212,7 +2226,8 @@ window.MERIDIANS = {
       "pointSummary": "",
       "code": null,
       "points": [],
-      "slug": "mach-am-duy"
+      "slug": "mach-am-duy",
+      "anhCms": "/_emdash/api/media/file/01M3CJQM46P23HYTGZDW4NWM63.jpg"
     },
     {
       "id": 4,
@@ -2230,7 +2245,8 @@ window.MERIDIANS = {
       "pointSummary": "",
       "code": null,
       "points": [],
-      "slug": "mach-duong-duy"
+      "slug": "mach-duong-duy",
+      "anhCms": "/_emdash/api/media/file/01M3CJQN6AR02YGHZG27JVPRDE.jpg"
     },
     {
       "id": 5,
@@ -2248,7 +2264,8 @@ window.MERIDIANS = {
       "pointSummary": "",
       "code": null,
       "points": [],
-      "slug": "mach-duong-kieu"
+      "slug": "mach-duong-kieu",
+      "anhCms": "/_emdash/api/media/file/01M3CJQP9EX14ERB5BT2SDXDB2.jpg"
     },
     {
       "id": 6,
@@ -2266,7 +2283,8 @@ window.MERIDIANS = {
       "pointSummary": "",
       "code": null,
       "points": [],
-      "slug": "mach-am-kieu"
+      "slug": "mach-am-kieu",
+      "anhCms": "/_emdash/api/media/file/01M3CJQQAY9NBYVWCD8WXRHKNJ.jpg"
     },
     {
       "id": 7,
@@ -2284,7 +2302,8 @@ window.MERIDIANS = {
       "pointSummary": "",
       "code": null,
       "points": [],
-      "slug": "mach-xung"
+      "slug": "mach-xung",
+      "anhCms": "/_emdash/api/media/file/01M3CJQRCHAR62870XXCWSCGX2.jpg"
     },
     {
       "id": 8,
@@ -2302,7 +2321,8 @@ window.MERIDIANS = {
       "pointSummary": "",
       "code": null,
       "points": [],
-      "slug": "mach-doi-dai"
+      "slug": "mach-doi-dai",
+      "anhCms": "/_emdash/api/media/file/01M3CJQSDDJN81XSNABAP94B1F.jpg"
     }
   ],
   "count": 20

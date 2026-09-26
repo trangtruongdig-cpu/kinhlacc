@@ -258,7 +258,7 @@ function huyetPage(rec) {
   const infobox = `<aside class="dl-info">
     <div class="dl-info-head">Hồ Sơ Huyệt</div>
     <div class="dl-info-body">
-      ${img ? `<img class="dl-info-img" src="${escAttr(img)}" alt="Sơ đồ huyệt ${escAttr(rec.ten)}" loading="eager" width="320" height="320">` : ''}
+      ${theAnh(anh3d ? null : rec.anhCms, img, `Sơ đồ huyệt ${rec.ten}`, ' width="320" height="320"')}
       <table class="dl-info-tb"><tbody>${infoRows}</tbody></table>
     </div>
   </aside>`
@@ -356,7 +356,7 @@ function kinhPage(m) {
   const infobox = `<aside class="dl-info">
     <div class="dl-info-head">Hồ Sơ Đường Kinh</div>
     <div class="dl-info-body">
-      ${img ? `<img class="dl-info-img" src="${escAttr(img)}" alt="Sơ đồ ${escAttr(m.ten)}" loading="eager">` : ''}
+      ${theAnh(m.anhCms, img, `Sơ đồ ${m.ten}`)}
       <table class="dl-info-tb"><tbody>${infoRows}</tbody></table>
     </div>
   </aside>`
@@ -413,6 +413,23 @@ ${footer}</body></html>`
 }
 
 // ───────────────────────── CSS riêng cho từ điển ────────────────────────────
+// Thẻ ảnh hồ sơ: ưu tiên ảnh do CMS giữ, RƠI VỀ ảnh tĩnh nếu tải hỏng.
+//
+// Vì sao ưu tiên CMS: 1.312 ảnh từ điển không có trong git, chỉ nằm trên ổ đĩa VPS —
+// bản trong CMS là bản lưu duy nhất, và đó cũng là chỗ người biên tập sửa được.
+//
+// Vì sao VẪN giữ đường lùi: ảnh CMS đi qua container cms. nginx đã đệm chúng
+// (`^~ /_emdash/api/media/file/`, đo được MISS→HIT→HIT, và ảnh đã đệm vẫn sống khi CMS
+// sập) NHƯNG ảnh chưa vào đệm thì CMS sập là 502. Ảnh tĩnh không có điểm yếu đó.
+// `onerror` tự gỡ chính nó trước khi đổi src, nếu không thì ảnh tĩnh cũng hỏng sẽ quay
+// vòng vô tận.
+const theAnh = (cms, tinh, alt, kichThuoc = '') => {
+  if (!cms && !tinh) return ''
+  const chinh = cms || tinh
+  const lui = cms && tinh ? ` onerror="this.onerror=null;this.src='${escAttr(tinh)}'"` : ''
+  return `<img class="dl-info-img" src="${escAttr(chinh)}" alt="${escAttr(alt)}" loading="eager"${kichThuoc}${lui}>`
+}
+
 const DICT_STYLE = `<style>
   .dl-article .dl-badge{display:inline-block;font-size:.5em;font-weight:600;vertical-align:middle;background:#6b4423;color:#fff;padding:.18em .6em;border-radius:999px;margin-left:.4em}
   .dl-article .dl-badge-alt{background:#9a7b53}

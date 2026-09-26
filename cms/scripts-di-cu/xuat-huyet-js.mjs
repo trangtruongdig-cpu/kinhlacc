@@ -52,7 +52,7 @@ const r = await kho.query(`
 	SELECT ma_cu, title, slug, slug_goc, ten_khac, muc_goc, ma_huyet, ma_gach, ten_han, pinyin, ten_anh,
 	       pho_huyet, ghi_chu, tham_khao, noi_dung_goc, thu_tu_muc, anh_duong_dan, chi_dinh,
 	       y_nghia_ten, dac_tinh, vi_tri, giai_phau, tac_dung, chu_tri, cham_cuu, xuat_xu,
-	       anh_da, anh_gp, anh_lan, anh_kinh, anh_ghi_chu
+	       anh_da, anh_gp, anh_lan, anh_kinh, anh_ghi_chu, anh
 	FROM ec_huyet_vi
 	WHERE deleted_at IS NULL AND status = 'published'
 	ORDER BY ma_cu
@@ -146,6 +146,17 @@ const records = r.rows.map((x) => {
 		sections,
 		slug: x.slug_goc || x.slug,
 		image: x.anh_duong_dan || null,
+		// anhCms — ảnh sơ đồ huyệt do CMS giữ (684/1.059 huyệt). Khoá MỚI, luôn có mặt,
+		// null khi CMS chưa có ảnh; `image` (đường dẫn tĩnh) GIỮ NGUYÊN làm đường lùi.
+		//
+		// Vì sao cần: 1.312 ảnh từ điển KHÔNG có trong git và KHÔNG có trên máy lập trình
+		// — chúng chỉ nằm trên ổ đĩa VPS. Bản sao trong CMS hiện là bản lưu duy nhất. Cho
+		// CMS làm nguồn chính vừa đúng yêu cầu "CMS quản lý hình ảnh", vừa gỡ được chỗ
+		// hỏng-một-phát-mất-hết đó.
+		//
+		// KHÔNG ghi đè `image`: đổi giá trị của khoá gốc là làm --kiem-goc báo MẤT, và
+		// mất luôn đường lùi khi CMS sập lúc ảnh chưa vào đệm nginx.
+		anhCms: urlAnh3d(x.anh),
 		anh3d,
 	};
 	if (x.ma_huyet) {
