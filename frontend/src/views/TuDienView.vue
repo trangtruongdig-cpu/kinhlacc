@@ -10,7 +10,7 @@
  * ensureDictData() — KHÔNG kéo Three.js. Chi tiết HUYỆT VỊ dựng bằng chuỗi HTML (v-html); chi tiết
  * KINH MẠCH dựng bằng template Vue (tab-trong) để bố cục rõ ràng, phân cấp theo mắt nhìn.
  */
-import { ref, computed, onMounted, nextTick, watch } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount, nextTick, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { ensureDictData, ensureBenhData, BASE } from '@/lib/acuMap3d'
 import PhuongThuocBrowser from '@/components/PhuongThuocBrowser.vue'
@@ -1021,6 +1021,49 @@ function gotoMap(code: string) {
 function goto3D() {
   router.push({ name: props.mapRouteName })
 }
+
+// ───────────── thanh tab con: MỘT hàng cuộn ngang ─────────────
+// 9 tab × nhãn tiếng Việt dài ⇒ mọi bề ngang dưới ~1240px đều gãy 2 dòng, làm thanh DÍNH
+// (sticky) cao gấp đôi và ăn mất phần đầu nội dung. Nay không xuống dòng nữa: thừa thì cuộn
+// ngang (vuốt trên cảm ứng / trackpad, nút mũi tên cho chuột), mép mờ báo còn tab khuất.
+const tabStripEl = ref<HTMLElement | null>(null)
+const tabCon = ref({ trai: false, phai: false })
+
+function doTabCuon() {
+  const el = tabStripEl.value
+  if (!el) return
+  const du = el.scrollWidth - el.clientWidth
+  // ngưỡng 2px: trình duyệt hay lệch phân số pixel khi phóng to ⇒ đừng so bằng 0.
+  tabCon.value = { trai: du > 2 && el.scrollLeft > 2, phai: du > 2 && el.scrollLeft < du - 2 }
+}
+function cuonTab(huong: -1 | 1) {
+  const el = tabStripEl.value
+  if (!el) return
+  el.scrollBy({ left: huong * Math.max(180, el.clientWidth * 0.7), behavior: 'smooth' })
+}
+
+let tabRO: ResizeObserver | null = null
+onMounted(() => {
+  doTabCuon()
+  if (typeof ResizeObserver !== 'undefined' && tabStripEl.value) {
+    tabRO = new ResizeObserver(doTabCuon)
+    tabRO.observe(tabStripEl.value)
+  }
+})
+onBeforeUnmount(() => { tabRO?.disconnect(); tabRO = null })
+
+// ⚠️ ResizeObserver chỉ bắt thay đổi KÍCH THƯỚC của chính .td-tabs-strip — bề rộng nó không đổi
+// khi có THÊM tab, nên phải tự đo lại lúc các tab nạp sau xuất hiện (Châm Cứu Trị Bệnh, Bệnh Học,
+// Thư Mục Nguồn) và lúc đổi tab (kéo tab đang chọn vào tầm nhìn — vd deep-link mở Bài Thuốc).
+watch([facetsReady, () => benhData.value.ccdt, () => benhData.value.benhhoc], () => nextTick(doTabCuon))
+watch(subtab, () => {
+  nextTick(() => {
+    tabStripEl.value
+      ?.querySelector<HTMLElement>('.td-tab.active')
+      ?.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: 'smooth' })
+    doTabCuon()
+  })
+})
 // từ chi tiết huyệt → tab "Lý Thuyết · Tra Cứu Kinh": chọn đúng đường kinh, mở "Các Huyệt",
 // cuộn tới + tô sáng huyệt vừa xem (Kỳ Huyệt thì hiện thẳng danh sách kỳ huyệt).
 function openMerForAcu(i: number, acuId: number | null) {
@@ -1065,38 +1108,45 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
 <template>
   <div class="tudien-page">
     <!-- thanh tab con — ⚠️ "Thư Mục Nguồn" LUÔN để CUỐI cùng: thêm tab mới thì chèn TRƯỚC nút đó.
-         ("Tra theo đặc tính" không còn là tab — đã thành bộ lọc trong tab Huyệt Vị · Châm Cứu.) -->
-    <div class="td-tabs">
-      <button class="td-tab" :class="{ active: subtab === 'huyet' }" @click="subtab = 'huyet'">
-        Huyệt Vị · Châm Cứu
-      </button>
-      <button class="td-tab" :class="{ active: subtab === 'kinh' }" @click="subtab = 'kinh'">
-        Lý Thuyết · Tra Cứu Kinh
-      </button>
-      <button v-if="benhData.ccdt" class="td-tab" :class="{ active: subtab === 'ccdt' }" @click="subtab = 'ccdt'">
-        Châm Cứu Trị Bệnh
-      </button>
-      <button v-if="benhData.benhhoc" class="td-tab" :class="{ active: subtab === 'benhhoc' }" @click="subtab = 'benhhoc'">
-        Bệnh Học
-      </button>
-      <!-- Dược Liệu = từ điển vị thuốc — tab NỘI TUYẾN (chạy cả admin lẫn public). -->
-      <button class="td-tab" :class="{ active: subtab === 'duoclieu' }" @click="subtab = 'duoclieu'">
-        Dược Liệu
-      </button>
-      <!-- Bài Thuốc = từ điển cổ phương (13.942 bài) — tab NỘI TUYẾN (chạy cả admin lẫn public). -->
-      <button class="td-tab" :class="{ active: subtab === 'baithuoc' }" @click="subtab = 'baithuoc'">
-        Bài Thuốc
-      </button>
-      <!-- Đồ Hình 3D = điều hướng SANG trang xem 3D (không phải subtab nội tuyến). -->
-      <button type="button" class="td-tab td-tab--link" @click="goto3D">🧭 Đồ Hình 3D</button>
-      <!-- Xem Lưỡi = Atlas thiệt chẩn (23 mẫu, ảnh thật) — tab NỘI TUYẾN (chạy cả admin lẫn public). -->
-      <button class="td-tab" :class="{ active: subtab === 'luoi' }" @click="subtab = 'luoi'">
-        Xem Lưỡi
-      </button>
-      <!-- ↓↓↓ luôn giữ Thư Mục Nguồn ở CUỐI cùng ↓↓↓ -->
-      <button v-if="facetsReady" class="td-tab" :class="{ active: subtab === 'nguon' }" @click="subtab = 'nguon'">
-        Thư Mục Nguồn
-      </button>
+         ("Tra theo đặc tính" không còn là tab — đã thành bộ lọc trong tab Huyệt Vị · Châm Cứu.)
+         Các nút nằm TRONG .td-tabs-strip: MỘT hàng cuộn ngang, không bao giờ xuống dòng. -->
+    <div class="td-tabs" :class="{ 'con-trai': tabCon.trai, 'con-phai': tabCon.phai }">
+      <button v-show="tabCon.trai" type="button" class="td-tabnav td-tabnav--trai"
+              aria-label="Cuộn thanh tab sang trái" @click="cuonTab(-1)">‹</button>
+      <div ref="tabStripEl" class="td-tabs-strip" @scroll.passive="doTabCuon">
+        <button class="td-tab" :class="{ active: subtab === 'huyet' }" @click="subtab = 'huyet'">
+          Huyệt Vị · Châm Cứu
+        </button>
+        <button class="td-tab" :class="{ active: subtab === 'kinh' }" @click="subtab = 'kinh'">
+          Lý Thuyết · Tra Cứu Kinh
+        </button>
+        <button v-if="benhData.ccdt" class="td-tab" :class="{ active: subtab === 'ccdt' }" @click="subtab = 'ccdt'">
+          Châm Cứu Trị Bệnh
+        </button>
+        <button v-if="benhData.benhhoc" class="td-tab" :class="{ active: subtab === 'benhhoc' }" @click="subtab = 'benhhoc'">
+          Bệnh Học
+        </button>
+        <!-- Dược Liệu = từ điển vị thuốc — tab NỘI TUYẾN (chạy cả admin lẫn public). -->
+        <button class="td-tab" :class="{ active: subtab === 'duoclieu' }" @click="subtab = 'duoclieu'">
+          Dược Liệu
+        </button>
+        <!-- Bài Thuốc = từ điển cổ phương (13.942 bài) — tab NỘI TUYẾN (chạy cả admin lẫn public). -->
+        <button class="td-tab" :class="{ active: subtab === 'baithuoc' }" @click="subtab = 'baithuoc'">
+          Bài Thuốc
+        </button>
+        <!-- Đồ Hình 3D = điều hướng SANG trang xem 3D (không phải subtab nội tuyến). -->
+        <button type="button" class="td-tab td-tab--link" @click="goto3D">🧭 Đồ Hình 3D</button>
+        <!-- Xem Lưỡi = Atlas thiệt chẩn (23 mẫu, ảnh thật) — tab NỘI TUYẾN (chạy cả admin lẫn public). -->
+        <button class="td-tab" :class="{ active: subtab === 'luoi' }" @click="subtab = 'luoi'">
+          Xem Lưỡi
+        </button>
+        <!-- ↓↓↓ luôn giữ Thư Mục Nguồn ở CUỐI cùng ↓↓↓ -->
+        <button v-if="facetsReady" class="td-tab" :class="{ active: subtab === 'nguon' }" @click="subtab = 'nguon'">
+          Thư Mục Nguồn
+        </button>
+      </div>
+      <button v-show="tabCon.phai" type="button" class="td-tabnav td-tabnav--phai"
+              aria-label="Cuộn thanh tab sang phải" @click="cuonTab(1)">›</button>
     </div>
 
     <!-- ═════ TAB XEM LƯỠI — Atlas thiệt chẩn đầy đủ (ảnh thật + đại diện ML), nội tuyến ═════ -->
@@ -1445,7 +1495,6 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
 
 /* ── tab con — DÍNH khi cuộn để đổi mục mà không phải cuộn lên đầu ── */
 .td-tabs {
-  display: flex; gap: var(--space-2); flex-wrap: wrap;
   position: sticky;
   top: var(--sticky-top, 0);   /* public: 60px (dưới PublicTopBar) · admin: 0 */
   z-index: 30;
@@ -1453,16 +1502,78 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
   padding: 10px 0;
   box-shadow: 0 8px 8px -8px rgba(74, 47, 23, 0.18);
 }
+/* Máng cuộn: một hàng duy nhất. `nowrap` là điểm mấu chốt — trước đây `wrap` khiến 9 tab
+   gãy xuống 2 dòng trên gần như mọi màn hình. Ẩn thanh cuộn hệ thống cho sạch mắt. */
+.td-tabs-strip {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;   /* vuốt hết tab thì đừng kéo cả trang/lịch sử trình duyệt */
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  /* chừa chỗ cho viền focus rồi hút lại bằng margin âm → chiều cao thanh không đổi */
+  padding: 3px 0;
+  margin: -3px 0;
+}
+.td-tabs-strip::-webkit-scrollbar { display: none; }
+/* Mép mờ CHỈ bật phía còn tab khuất — đủ chỗ thì không làm nhạt tab cuối vô cớ. */
+.td-tabs.con-phai .td-tabs-strip {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 46px), transparent 100%);
+  mask-image: linear-gradient(to right, #000 calc(100% - 46px), transparent 100%);
+}
+.td-tabs.con-trai .td-tabs-strip {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 46px);
+  mask-image: linear-gradient(to right, transparent 0, #000 46px);
+}
+.td-tabs.con-trai.con-phai .td-tabs-strip {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, #000 46px, #000 calc(100% - 46px), transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, #000 46px, #000 calc(100% - 46px), transparent 100%);
+}
 .td-tab {
-  padding: var(--space-3) var(--space-5);
+  flex: 0 0 auto;              /* không co nhãn → chữ không bao giờ gãy giữa nút */
+  white-space: nowrap;
+  scroll-snap-align: start;
+  /* Cỡ chữ + đệm được ĐO để 9 tab vừa đúng một hàng trong cột 1240px (bề ngang tối đa của
+     trang). Nới thêm là tràn: nguyên bản 16px/20px cần tới 1478px, tức thừa 238px. */
+  padding: var(--space-2) 12px;
   border: 1px solid var(--border);
   background: var(--surface);
   color: var(--text-muted);
-  font-size: var(--font-size-md);
+  font-size: 0.9rem;           /* 14.4px — giữa sm(14) và md(16) */
   font-weight: 600;
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: all var(--transition-fast);
+}
+/* Nút mũi tên cho người dùng CHUỘT (cảm ứng/trackpad đã vuốt ngang được nên ẩn đi). */
+.td-tabnav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-full);
+  background: var(--surface);
+  color: var(--brown-700);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  box-shadow: 0 2px 10px rgba(74, 47, 23, 0.16);
+}
+.td-tabnav:hover { background: var(--brown-50); border-color: var(--brown-300); }
+.td-tabnav--trai { left: 0; }
+.td-tabnav--phai { right: 0; }
+@media (hover: hover) and (pointer: fine) {
+  .td-tabnav { display: flex; }
 }
 .td-tab:hover { border-color: var(--brown-300); color: var(--brown-700); background: var(--brown-50); }
 .td-tab.active { background: var(--brown-600); border-color: var(--brown-600); color: #fff; }
@@ -1749,8 +1860,8 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
 }
 @media (max-width: 768px) {
   .td-shell { min-height: 0; }
-  /* tab con: nút gọn lại để bớt xuống nhiều dòng */
-  .td-tab { padding: var(--space-2) var(--space-3); font-size: var(--font-size-sm); }
+  /* tab con: nút gọn hơn để mỗi màn hẹp thấy được nhiều tab hơn (vẫn một hàng, cuộn ngang) */
+  .td-tab { padding: 7px 11px; font-size: var(--font-size-sm); }
   /* chi tiết: giảm padding để nội dung có thêm bề ngang */
   .td-main { padding: var(--space-4); overflow-x: clip; }
   .td-main :deep(.detail-head) { gap: 16px; }
