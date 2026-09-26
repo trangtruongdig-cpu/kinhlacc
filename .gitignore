@@ -97,3 +97,6 @@ cms/data.db*
 # Ảnh tải tạm khi di cư vào CMS (nguồn gốc ở CSDL / site thật, không cần theo dõi).
 cms/.tam-anh/
 .anh-huyet/
+
+# Hồ sơ nháp bóc từ sách Focks (chứa NGUYÊN VĂN sách, chờ người duyệt) — không commit.
+cms/.tam-focks/
