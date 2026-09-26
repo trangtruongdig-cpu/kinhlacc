@@ -94,6 +94,22 @@ describe('ThamDinhLlmService — trần chi tiêu', () => {
   });
 });
 
+describe('ThamDinhLlmService — trần thời gian', () => {
+  /**
+   * Đo thật 26/09/2026: mạng đứt giữa ca, và một lượt gọi treo 2005 GIÂY — SDK `openai`
+   * mặc định timeout 600s rồi thử lại 2 lần. Với ca 100 mục thì nó không bao giờ xong,
+   * mà kết nối sang kho vẫn bị giữ suốt thời gian đó.
+   *
+   * Trần thời gian là rào chắn, không phải tinh chỉnh: thà bỏ một mục còn hơn treo cả ca.
+   */
+  it('khai timeout và maxRetries cho client, không để mặc định của SDK', () => {
+    const s = svc({ YESCALE_API_KEY: 'k' });
+    const c = (s as unknown as { layClient: () => { timeout: number; maxRetries: number } }).layClient();
+    expect(c.timeout).toBeLessThanOrEqual(180_000);
+    expect(c.maxRetries).toBeLessThanOrEqual(1);
+  });
+});
+
 describe('noiDungTuThan', () => {
   /**
    * Vì sao phải tự đọc thân thay vì để SDK `openai` làm: Yescale trả

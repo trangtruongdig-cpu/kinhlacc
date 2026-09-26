@@ -33,6 +33,17 @@ describe('ThamDinhThayThuocService.loiNhacLapThuoc', () => {
   it('đòi mỗi điều luật kèm ví dụ LẤY TỪ chính mục mẫu', () => {
     expect(s.loiNhacLapThuoc()).toMatch(/ví dụ.*(trích|lấy).*(mẫu|bài)/i);
   });
+
+  /**
+   * Lượt lập thước thứ hai (26/09/2026) ra ba điều bố cục mô tả... chính khung markdown
+   * mà lời nhắc dùng để gói bài ("## [huyet_vi]", "### vi_tri"). Mô hình học bao bì
+   * thành hàng. Lời nhắc phải nói thẳng khung đó là kỹ thuật.
+   */
+  it('nói rõ khung ## và ### là bao bì kỹ thuật, không phải văn phong', () => {
+    const l = s.loiNhacLapThuoc();
+    expect(l).toMatch(/###/);
+    expect(l).toMatch(/kỹ thuật|bao bì|không phải văn phong/i);
+  });
 });
 
 describe('ThamDinhThayThuocService.lapThuoc — khi chưa cấu hình', () => {

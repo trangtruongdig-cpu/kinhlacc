@@ -101,6 +101,11 @@ export class ThamDinhLlmService {
       this.client = new OpenAI({
         apiKey: this.config.get<string>('YESCALE_API_KEY'),
         baseURL: this.config.get<string>('YESCALE_BASE_URL') || 'https://api.yescale.io/v1',
+        // ⚠️ KHÔNG để mặc định của SDK (600s × 2 lần thử lại). Đo thật 26/09/2026: mạng
+        // đứt giữa ca và một lượt gọi treo 2005 GIÂY, trong khi kết nối sang kho vẫn bị
+        // giữ suốt thời gian đó. Thà bỏ một mục còn hơn treo cả ca.
+        timeout: 180_000,
+        maxRetries: 1,
       });
     }
     return this.client;
