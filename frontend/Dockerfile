@@ -36,12 +36,21 @@ COPY . .
 #
 # Thiếu secret (vd ai đó chạy `docker build` tay) → vẫn build được, chỉ là ba bước prerender
 # dược liệu / cổ phương / nhóm dược lý tự bỏ qua như trước. Không làm gãy deploy.
+# Secret THỨ HAI: cms/.env — kho `kinhlac_cms` (khác `defaultdb` của app, hai kho tách biệt).
+# seo-cms.mjs (ghi đè SEO người biên tập gõ) và nguon-cms.mjs (chữ của mục nguồn) cần nó.
+# ⚠️ Thiếu secret này thì build vẫn XANH, chỉ in cảnh báo, rồi trang nguồn lặng lẽ dùng chữ
+# của app và ghi đè SEO không có tác dụng — đúng kiểu "deploy thành công mà tính năng không
+# chạy". Vì vậy phải truyền, đừng bỏ.
+# CA thì DÙNG LẠI /tmp/aiven-ca.pem trích từ db_env: đã đo, CA của CMS giống HỆT
+# CA_CERTIFICATE của backend (cùng 1.526 ký tự) vì cùng một cụm Aiven.
 RUN --mount=type=secret,id=db_env \
+    --mount=type=secret,id=cms_env \
+    if [ -f /run/secrets/cms_env ]; then export CMS_ENV_FILE=/run/secrets/cms_env; fi; \
     if [ -f /run/secrets/db_env ]; then \
       grep -E '^(DB_HOST|DB_PORT|DB_USER|DB_PASSWORD|DB_NAME|DB_SSL)=' /run/secrets/db_env > /tmp/db.env || true; \
       set -a; . /tmp/db.env; set +a; rm -f /tmp/db.env; \
       node -e 'const fs=require("node:fs"),u=require("node:util");const e=u.parseEnv(fs.readFileSync("/run/secrets/db_env","utf8"));if(e.CA_CERTIFICATE)fs.writeFileSync("/tmp/aiven-ca.pem",e.CA_CERTIFICATE)' || true; \
-      [ -f /tmp/aiven-ca.pem ] && export DB_CA_CERT_FILE=/tmp/aiven-ca.pem || true; \
+      [ -f /tmp/aiven-ca.pem ] && export DB_CA_CERT_FILE=/tmp/aiven-ca.pem CMS_CA_CERT_FILE=/tmp/aiven-ca.pem || true; \
     fi; \
     npm run blog:pre && npm run build-only && npm run blog:post; \
     rc=$?; rm -f /tmp/aiven-ca.pem; exit $rc

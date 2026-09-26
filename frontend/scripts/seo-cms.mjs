@@ -21,15 +21,8 @@
 // "bỏ qua, build vẫn tiếp tục" trong im lặng đã giấu lỗi mất 15.054 trang suốt nhiều
 // tháng. Ở đây im lặng nghĩa là mọi trang lặng lẽ quay về mô tả tự sinh.
 
-import { readFileSync, existsSync } from 'node:fs'
-import { parseEnv } from 'node:util'
-import { createRequire } from 'node:module'
-import { dirname, join, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { moKetNoiCms } from './cms-ket-noi.mjs'
 
-const here = dirname(fileURLToPath(import.meta.url))
-const goc = resolve(here, '../..')
-const require = createRequire(import.meta.url)
 
 // Bộ trong CMS ↔ bảng chứa nó. slug_goc chỉ có ở những bộ đã nhập lại cho khớp tệp
 // gốc (huyệt vị, hai bộ bệnh) — bộ nào chưa có cột đó thì bỏ qua, không gãy.
@@ -53,36 +46,14 @@ let boNho = null
 export async function napGhiDe() {
   if (boNho) return boNho
 
-  const envPath = join(goc, 'cms/.env')
-  const caPath = join(goc, 'cms/aiven-ca.pem')
-  const trong = () => {
+  const kn = moKetNoiCms('seo-cms')
+  if (!kn) {
+    console.warn('  Mọi trang sẽ dùng tiêu đề/mô tả tự sinh. Đây KHÔNG phải trạng thái mong muốn.')
     boNho = () => null
     boNho.so = 0
     return boNho
   }
-
-  if (!existsSync(envPath)) {
-    console.warn('⚠ seo-cms: không thấy cms/.env — BỎ QUA ghi đè SEO, mọi trang dùng mô tả tự sinh.')
-    return trong()
-  }
-
-  let Client
-  try {
-    ;({ Client } = require('pg'))
-  } catch {
-    console.warn('⚠ seo-cms: không nạp được `pg` — BỎ QUA ghi đè SEO.')
-    return trong()
-  }
-
-  const env = parseEnv(readFileSync(envPath, 'utf8'))
-  const kho = new Client({
-    host: env.PGHOST,
-    port: Number(env.PGPORT),
-    user: env.PGUSER,
-    password: env.PGPASSWORD,
-    database: env.PGDATABASE,
-    ...(existsSync(caPath) ? { ssl: { ca: readFileSync(caPath, 'utf8'), rejectUnauthorized: true } } : {}),
-  })
+  const kho = kn.kho
 
   const bang = new Map()
   try {
@@ -125,7 +96,7 @@ export async function napGhiDe() {
     console.warn('  Mọi trang sẽ dùng tiêu đề/mô tả tự sinh. Đây KHÔNG phải trạng thái mong muốn.')
     return trong()
   } finally {
-    await kho.end().catch(() => {})
+    await kn.dong()
   }
 
   console.log(`✓ seo-cms: ${bang.size} khoá ghi đè SEO đọc từ CMS.`)

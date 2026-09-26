@@ -13,15 +13,8 @@
 //
 // Không nối được kho thì trả hàm rỗng và KÊU TO — trang vẫn dựng bằng chữ của app.
 
-import { readFileSync, existsSync } from 'node:fs'
-import { parseEnv } from 'node:util'
-import { createRequire } from 'node:module'
-import { dirname, join, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { moKetNoiCms } from './cms-ket-noi.mjs'
 
-const here = dirname(fileURLToPath(import.meta.url))
-const goc = resolve(here, '../..')
-const require = createRequire(import.meta.url)
 
 // Portable Text → chữ thuần, mỗi khối một dòng.
 const chu = (v) => {
@@ -35,23 +28,12 @@ const chu = (v) => {
 }
 
 export async function napNguonCms() {
-  const envPath = join(goc, 'cms/.env')
-  const caPath = join(goc, 'cms/aiven-ca.pem')
-  const trong = (ly) => {
-    console.warn(`⚠ nguon-cms: ${ly} — trang nguồn dùng CHỮ CỦA APP, không thấy phần biên tập trong CMS.`)
+  const kn = moKetNoiCms('nguon-cms')
+  if (!kn) {
+    console.warn('  Trang nguồn dùng CHỮ CỦA APP, không thấy phần biên tập trong CMS.')
     return () => null
   }
-  if (!existsSync(envPath)) return trong('không thấy cms/.env')
-
-  let Client
-  try { ({ Client } = require('pg')) } catch { return trong('không nạp được `pg`') }
-
-  const env = parseEnv(readFileSync(envPath, 'utf8'))
-  const kho = new Client({
-    host: env.PGHOST, port: Number(env.PGPORT), user: env.PGUSER, password: env.PGPASSWORD,
-    database: env.PGDATABASE,
-    ...(existsSync(caPath) ? { ssl: { ca: readFileSync(caPath, 'utf8'), rejectUnauthorized: true } } : {}),
-  })
+  const kho = kn.kho
 
   const bang = new Map()
   try {
@@ -74,7 +56,7 @@ export async function napNguonCms() {
   } catch (e) {
     return trong(`không đọc được ec_nguon_y_van (${e.message})`)
   } finally {
-    await kho.end().catch(() => {})
+    await kn.dong()
   }
 
   console.log(`✓ nguon-cms: ${bang.size} mục nguồn đọc CHỮ từ CMS.`)

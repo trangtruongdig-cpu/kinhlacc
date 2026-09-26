@@ -137,6 +137,8 @@ services:
       # Thiếu file này thì build vẫn chạy, chỉ bỏ qua ba bước đó (xem frontend/Dockerfile).
       secrets:
         - db_env
+        # Kho CMS (kinhlac_cms) — cho seo-cms.mjs + nguon-cms.mjs ở khâu prerender.
+        - cms_env
     image: kinhlac/frontend:latest
     container_name: kinhlac_frontend
     restart: unless-stopped
@@ -168,3 +170,8 @@ secrets:
   # (giá trị trải nhiều dòng) không lọt vào bước build.
   db_env:
     file: ./backend/.env
+  # Kho CMS tách khỏi kho app nên phải có thông tin nối riêng. Thiếu file này thì build
+  # VẪN XANH, chỉ mất phần nội dung do CMS quản (chữ mục nguồn + ghi đè SEO) — xem chú
+  # thích trong frontend/Dockerfile.
+  cms_env:
+    file: ./cms/.env
