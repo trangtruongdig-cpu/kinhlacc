@@ -1,4 +1,4 @@
-import { ThamDinhLlmService } from './tham-dinh-llm.service';
+import { ThamDinhLlmService, noiDungTuThan } from './tham-dinh-llm.service';
 
 function svc(env: Record<string, string | undefined> = {}) {
   return new ThamDinhLlmService({ get: (k: string) => env[k] } as never);
@@ -91,5 +91,37 @@ describe('ThamDinhLlmService — trần chi tiêu', () => {
     s.moCa();
     expect(await s.goi('l', 'n', false)).toBeNull();
     expect(s.soLuotDaGoi()).toBe(0);
+  });
+});
+
+describe('noiDungTuThan', () => {
+  /**
+   * Vì sao phải tự đọc thân thay vì để SDK `openai` làm: Yescale trả
+   * `Content-Type: text/plain` cho các model Claude (đo 26/09/2026 — Gemini và GPT thì
+   * trả application/json). SDK chỉ parse khi content-type là JSON, nên với Claude nó
+   * đưa về một đối tượng KHÔNG có `choices`, và `message.content` thành undefined.
+   *
+   * Không lỗi, không ném, không log — chỉ rỗng. Lượt gọi vẫn bị tính tiền. Mất một giờ
+   * mới lần ra, vì mọi thứ khác đều đúng: HTTP 200, thân JSON hợp lệ, model trả lời tử tế.
+   */
+  it('đọc được thân JSON bình thường', () => {
+    const than = JSON.stringify({ choices: [{ message: { content: '  xin chào  ' } }] });
+    expect(noiDungTuThan(than)).toBe('xin chào');
+  });
+
+  it('thân rỗng → chuỗi rỗng', () => {
+    expect(noiDungTuThan('')).toBe('');
+  });
+
+  it('thân không phải JSON → chuỗi rỗng, KHÔNG ném', () => {
+    expect(noiDungTuThan('502 Bad Gateway')).toBe('');
+  });
+
+  it('không có choices → chuỗi rỗng', () => {
+    expect(noiDungTuThan('{"error":{"message":"hết hạn mức"}}')).toBe('');
+  });
+
+  it('choices rỗng → chuỗi rỗng', () => {
+    expect(noiDungTuThan('{"choices":[]}')).toBe('');
   });
 });

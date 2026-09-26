@@ -11,6 +11,24 @@ import OpenAI from 'openai';
  *     biến thành vòng lặp gọi không giới hạn.
  *   · THIẾU CẤU HÌNH THÌ NẰM IM. Cùng lối với Telegram và push trong `su-co`.
  */
+/**
+ * Bóc nội dung khỏi thân phản hồi `chat/completions`.
+ *
+ * ⚠️ VÌ SAO KHÔNG ĐỂ SDK LÀM: Yescale trả `Content-Type: text/plain` cho các model Claude
+ * (đo 26/09/2026; Gemini và GPT thì trả application/json). SDK `openai` chỉ parse khi
+ * content-type là JSON — với Claude nó đưa về một đối tượng KHÔNG có `choices`, và lời
+ * gọi trông như "mô hình không trả lời" dù thân JSON hoàn toàn hợp lệ và đã bị tính tiền.
+ */
+export function noiDungTuThan(than: string): string {
+  if (!than) return '';
+  try {
+    const j = JSON.parse(than) as { choices?: Array<{ message?: { content?: string } }> };
+    return j?.choices?.[0]?.message?.content?.trim() || '';
+  } catch {
+    return '';
+  }
+}
+
 @Injectable()
 export class ThamDinhLlmService {
   private readonly logger = new Logger('ThamDinhLlm');
@@ -62,16 +80,20 @@ export class ThamDinhLlmService {
 
   /** Tách riêng để test thay được mà không cần mạng. */
   protected async goiThat(loiNhac: string, noiDung: string, doKy: boolean): Promise<string> {
-    const phanHoi = await this.layClient().chat.completions.create({
-      model: this.modelCuaTang(doKy),
-      temperature: 0.1,
-      max_tokens: doKy ? 4000 : 2000,
-      messages: [
-        { role: 'system', content: loiNhac },
-        { role: 'user', content: noiDung },
-      ],
-    });
-    return phanHoi.choices?.[0]?.message?.content?.trim() || '';
+    // `.asResponse()` rồi tự parse: xem chú thích của noiDungTuThan — SDK bỏ thân phản hồi
+    // của model Claude vì Yescale gắn cho nó content-type text/plain.
+    const res = await this.layClient()
+      .chat.completions.create({
+        model: this.modelCuaTang(doKy),
+        temperature: 0.1,
+        max_tokens: doKy ? 4000 : 2000,
+        messages: [
+          { role: 'system', content: loiNhac },
+          { role: 'user', content: noiDung },
+        ],
+      })
+      .asResponse();
+    return noiDungTuThan(await res.text());
   }
 
   private layClient(): OpenAI {
