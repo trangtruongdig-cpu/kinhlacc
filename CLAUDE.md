@@ -230,6 +230,15 @@ Thêm cột nội dung mới cho một bộ thì phải khai tên cột vào m�
 `cms/scripts-di-cu/dung-chi-muc.mjs` rồi chạy lại, không thì nội dung mới hiện trên
 trang mà tra không bao giờ ra.
 
+⚠️ **Khai vào `than` là ĐIỀU KIỆN CẦN, chưa phải đủ.** `td_chu()` chỉ nhặt khoá `text` (nó
+viết cho Portable Text), nên một cột JSON hình khác trả về RỖNG **mà không báo lỗi gì** —
+nội dung hiện trên trang, tra cứu không bao giờ ra, y như khi quên khai. Đo thật
+(26/09/2026): mảng chuỗi phẳng ✓, Portable Text ✓, chuỗi trần ✓, **mảng object → nuốt
+trắng**. Hình JSON an toàn là **mảng chuỗi phẳng** hoặc Portable Text.
+
+`dung-chi-muc.mjs` nay tự dò: cột nào có dữ liệu mà `td_chu()` trả rỗng ở quá nửa số dòng
+thì nó in cảnh báo ngay sau khi dựng chỉ mục, kèm cách sửa.
+
 ## Cắm CMS: ba tệp SINH LẠI, hai bộ ĐẨY SANG
 
 Năm bộ nội dung đi hai đường khác nhau, đừng lẫn.

@@ -120,6 +120,39 @@ try {
 		const t0 = Date.now();
 		const n = await c.query("SELECT td_dung_lai($1) AS n", [m.bo]);
 		const the = await c.query("SELECT td_dung_nhan($1) AS n", [m.bo]);
+
+		// ── Dò cột THÂN BỊ NUỐT ─────────────────────────────────────────────
+		// Khai cột vào `than` là ĐIỀU KIỆN CẦN, chưa phải đủ. td_chu() chỉ nhặt khoá `text`
+		// (nó viết cho Portable Text), nên một cột JSON hình khác sẽ trả về RỖNG mà không
+		// báo lỗi gì: nội dung hiện trên trang, tra cứu không bao giờ ra.
+		//
+		// Đo thật 26/09/2026 bằng td_chu():
+		//   mảng CHUỖI phẳng  → "Giải biểu: Trị cảm mạo. Bình suyễn: Trị hen."   ✓
+		//   Portable Text     → "Trị cảm mạo."                                    ✓
+		//   chuỗi trần        → "Trị cảm mạo."                                    ✓
+		//   mảng OBJECT       → " "   ← NUỐT TRẮNG
+		//
+		// Phiên kinhlacc-29 vấp đúng chỗ này khi thêm cong_dung_nhom và phải tự đo mới thấy.
+		// Chốt dưới đây để người sau được BÁO NGAY thay vì phải tự đo.
+		for (const cot of m.than || []) {
+			const q = await c.query(
+				`SELECT count(*)::int tong,
+				        count(*) FILTER (WHERE ${cot} IS NOT NULL)::int co_du_lieu,
+				        count(*) FILTER (WHERE ${cot} IS NOT NULL
+				                           AND btrim(coalesce(td_chu(to_jsonb(${cot})), '')) = '')::int bi_nuot
+				 FROM ec_${m.bo} WHERE deleted_at IS NULL`,
+			).catch(() => null);
+			if (!q || !q.rows[0].co_du_lieu) continue;
+			const { co_du_lieu: coDl, bi_nuot: biNuot } = q.rows[0];
+			if (biNuot / coDl > 0.5) {
+				console.log(
+					`     ✗ cột "${cot}": ${biNuot}/${coDl} dòng có dữ liệu mà td_chu() trả RỖNG.` +
+					` Nội dung này KHÔNG vào được ô tìm kiếm.`,
+				);
+				console.log(`       Sửa hình JSON thành MẢNG CHUỖI PHẲNG hoặc Portable Text.`);
+			}
+		}
+
 		console.log(
 			`   ✓ ${m.nhan.padEnd(24)} ${String(n.rows[0].n).padStart(6)} mục` +
 			(the.rows[0].n ? ` · ${the.rows[0].n} thẻ lọc` : "") +
