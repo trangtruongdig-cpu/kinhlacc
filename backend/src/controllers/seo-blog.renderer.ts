@@ -149,8 +149,10 @@ function head(o: {
   <meta name="theme-color" content="#6b4423">
   <script async src="https://www.googletagmanager.com/gtag/js?id=${GA_ID}"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${GA_ID}');</script>
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="alternate icon" href="/favicon.ico">
+  <!-- ?v=2 — xem ghi chú ở frontend/index.html: Chrome giữ favicon cũ trong kho riêng,
+       đổi URL mới đẩy được bản mới tới khách đã ghé trước đây. -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+  <link rel="alternate icon" href="/favicon.ico?v=2">
   <title>${escText(title)}</title>
   <meta name="description" content="${escAttr(description)}">
   <meta name="robots" content="${index === false ? 'noindex, nofollow' : 'index, follow'}">
