@@ -62,6 +62,9 @@ import { SuCo } from './models/su-co.model';
 import { SuCoCum } from './models/su-co-cum.model';
 import { SuCoRouter } from './routers/su-co.router';
 import { SuCoService } from './controllers/su-co.controller';
+import { ThamDinhRouter } from './routers/tham-dinh.router';
+import { ThamDinhService } from './controllers/tham-dinh.controller';
+import { ThamDinhCmsService } from './controllers/tham-dinh-cms.service';
 import { SuCoExceptionFilter } from './middlewares/su-co.filter';
 import { SeoCum } from './models/seo-cum.model';
 import { SeoBaiViet } from './models/seo-bai-viet.model';
@@ -402,6 +405,7 @@ import { docCauHinhSsl } from './utils/db-ssl.util';
     DiaDiemRouter,
     SseController,
     SuCoRouter,
+    ThamDinhRouter,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
@@ -458,6 +462,8 @@ import { docCauHinhSsl } from './utils/db-ssl.util';
     AppointmentReminderService,
     SseService,
     SuCoService,
+    ThamDinhService,
+    ThamDinhCmsService,
     // Bộ lọc TOÀN CỤC: ghi mọi lỗi 5xx vào bảng sự cố rồi để Nest trả lời y như cũ.
     // Đăng ký qua APP_FILTER (không phải app.useGlobalFilters ở main.ts) vì nó cần tiêm
     // SuCoService — bản dựng bằng `new` ở main.ts không có container để lấy service.
