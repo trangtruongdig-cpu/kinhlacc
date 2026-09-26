@@ -89,6 +89,10 @@ kinhhlac.csv
 cms/.env
 cms/.env.*
 !cms/.env.example
+# node_modules Ở GỐC repo. Trước đây chỉ che cms/ và frontend/ nên thư mục gốc lọt ra
+# ngoài: `git status` báo `?? node_modules/`, và `git add -A` sẽ nuốt trọn vào commit.
+# Hiện nó chỉ 4KB nhưng ai chạy `npm install` ở gốc là thành bẫy vài trăm MB.
+node_modules/
 cms/node_modules/
 cms/dist/
 cms/uploads/
