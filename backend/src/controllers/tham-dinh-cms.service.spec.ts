@@ -48,3 +48,30 @@ describe('ThamDinhCmsService.daCauHinh', () => {
     expect(s.daCauHinh()).toBe(true);
   });
 });
+
+describe('ThamDinhCmsService.DDL — phần của lớp 2', () => {
+  it('dựng bảng bộ luật văn phong', () => {
+    const all = ThamDinhCmsService.DDL.join('\n');
+    expect(all).toMatch(/CREATE TABLE IF NOT EXISTS td_luat_van_phong/i);
+  });
+
+  /**
+   * Vân tay của lớp 2 phải là CỘT RIÊNG. `van_tay_noi_dung` bị lớp 1 ghi đè mỗi đêm, nên
+   * lấy nó làm mốc thì van tiết kiệm tiền không bao giờ đóng: mục nào cũng "vừa đổi".
+   */
+  it('có cột vân tay riêng cho lần soi thầy thuốc', () => {
+    const all = ThamDinhCmsService.DDL.join('\n');
+    expect(all).toMatch(/van_tay_thay_thuoc/i);
+  });
+
+  it('thêm cột bằng ALTER ... ADD COLUMN IF NOT EXISTS, không dựng lại bảng', () => {
+    const them = ThamDinhCmsService.DDL.filter((s) => /van_tay_thay_thuoc/i.test(s) && /ALTER/i.test(s));
+    expect(them.length).toBeGreaterThan(0);
+    for (const s of them) expect(s).toMatch(/ADD COLUMN IF NOT EXISTS/i);
+  });
+
+  it('bảng bộ luật cũng dùng timestamptz', () => {
+    const tao = ThamDinhCmsService.DDL.filter((s) => /CREATE TABLE/i.test(s)).join('\n');
+    expect(tao).not.toMatch(/\btimestamp\b(?!tz)/i);
+  });
+});

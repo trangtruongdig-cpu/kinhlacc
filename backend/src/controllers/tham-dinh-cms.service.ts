@@ -7,6 +7,9 @@ import { rutChu } from '../utils/tham-dinh-rut-chu.util';
 import { cauUpsertHoSo, cauChenNhanXet, type NhanXetGhi } from '../utils/tham-dinh-sql.util';
 import type { MucKho } from '../utils/tham-dinh-muc.util';
 import type { NhanXetCoMuc } from '../utils/tham-dinh-cum.util';
+import type { UngVienSoi } from '../utils/tham-dinh-hang-doi.util';
+import type { LoiPheSach } from '../utils/tham-dinh-loi-phe.util';
+import type { BoLuatVanPhong, DieuLuat } from '../utils/tham-dinh-luat.util';
 import type { HoSoMuc } from '../models/tham-dinh.dto';
 
 /**
@@ -67,6 +70,20 @@ export class ThamDinhCmsService {
     `CREATE INDEX IF NOT EXISTS idx_td_nhan_xet_ho_so ON td_nhan_xet (ho_so_id)`,
     `CREATE INDEX IF NOT EXISTS idx_td_nhan_xet_kieu ON td_nhan_xet (kieu)`,
     `CREATE INDEX IF NOT EXISTS idx_td_nhan_xet_trang_thai ON td_nhan_xet (trang_thai)`,
+    // ── Lớp 2 ────────────────────────────────────────────────────────────────────────
+    // Vân tay RIÊNG cho lần soi kỹ. `van_tay_noi_dung` bị lớp 1 ghi đè mỗi đêm, nên lấy
+    // nó làm mốc thì van tiết kiệm tiền không bao giờ đóng: mục nào cũng "vừa đổi".
+    `ALTER TABLE td_ho_so ADD COLUMN IF NOT EXISTS van_tay_thay_thuoc VARCHAR(16)`,
+    `CREATE TABLE IF NOT EXISTS td_luat_van_phong (
+       phien_ban   INT PRIMARY KEY,
+       bo_ap_dung  TEXT[] NOT NULL DEFAULT '{}',
+       dieu        JSONB NOT NULL DEFAULT '[]'::jsonb,
+       da_duyet    BOOLEAN NOT NULL DEFAULT false,
+       duyet_boi   TEXT,
+       duyet_luc   timestamptz,
+       created_at  timestamptz NOT NULL DEFAULT now()
+     )`,
+    `CREATE INDEX IF NOT EXISTS idx_td_luat_da_duyet ON td_luat_van_phong (da_duyet, phien_ban DESC)`,
   ];
 
   daCauHinh(): boolean {
@@ -220,5 +237,178 @@ export class ThamDinhCmsService {
       await c.query('ROLLBACK').catch(() => undefined);
       throw e;
     }
+  }
+
+  // ══ Lớp 2 — thầy thuốc ═══════════════════════════════════════════════════════════
+
+  /** Đổi slug sang id. Mục mẫu khai bằng slug vì slug là thứ người đọc nhận ra. */
+  async maTuSlug(bo: string, slug: string): Promise<string | null> {
+    const r = await this.phaiCo().query<{ id: string }>(
+      `SELECT r.id FROM ${JSON.stringify('ec_' + bo)} r WHERE r.slug = $1 LIMIT 1`,
+      [slug],
+    );
+    return r.rows.length ? String(r.rows[0].id) : null;
+  }
+
+  /**
+   * Ứng viên cho hàng đợi lớp 2. Join sang td_muc để lấy độ dày THẬT — td_ho_so không giữ
+   * số ký tự, và `diem_du_phan` là tỉ lệ cột có nội dung chứ không phải độ dày.
+   */
+  async docUngVienSoi(): Promise<UngVienSoi[]> {
+    const r = await this.phaiCo().query<{
+      bo: string; ma: string; slug: string; tieu_de: string; do_day: number;
+      so_loi_may: number; van_tay_noi_dung: string; van_tay_thay_thuoc: string | null;
+    }>(
+      `SELECT h.bo, h.ma, h.slug, h.tieu_de, m.do_day,
+              (SELECT count(*)::int FROM td_nhan_xet n
+                 WHERE n.ho_so_id = h.id AND n.lop = 'may'
+                   AND n.kieu NOT IN ('lien_ket_dung_duoc', 'ten_vi_la')) AS so_loi_may,
+              h.van_tay_noi_dung, h.van_tay_thay_thuoc
+       FROM td_ho_so h
+       JOIN td_muc m ON m.bo = h.bo AND m.ma = h.ma`,
+    );
+    return r.rows.map((x) => ({
+      bo: x.bo, ma: x.ma, slug: x.slug, tieuDe: x.tieu_de,
+      doDay: x.do_day || 0, soLoiMay: x.so_loi_may || 0,
+      vanTayNoiDung: x.van_tay_noi_dung || '',
+      vanTayThayThuoc: x.van_tay_thay_thuoc,
+      diemCoHoiSeo: 0, // lớp 3 nối Search Console vào đây
+    }));
+  }
+
+  /** Thân bài đầy đủ của một mục, rút chữ bằng rutChu như lớp 1. */
+  async docThanBai(bo: string, ma: string, than: string[]): Promise<Record<string, string>> {
+    const cot = than
+      .map((t) => `to_jsonb(r.${JSON.stringify(t)}) AS ${JSON.stringify(t)}`)
+      .join(', ');
+    const sql =
+      `SELECT ${cot || '1 AS x'} FROM ${JSON.stringify('ec_' + bo)} r WHERE r.id = $1 LIMIT 1`;
+    const r = await this.phaiCo().query<Record<string, unknown>>(sql, [ma]);
+    const truong: Record<string, string> = {};
+    if (!r.rows.length) return truong;
+    for (const t of than) truong[t] = rutChu(r.rows[0][t]);
+    return truong;
+  }
+
+  /**
+   * Chùm mục liên quan — "đọc cả chùm, không đọc một mình".
+   *
+   * Tra bằng chỉ mục toàn văn có sẵn (`td_muc.tsv`, khoá đã bỏ dấu qua `td_bo_dau`), lấy
+   * các mục Ở BỘ KHÁC có nhắc tên mục đang soi. Đây là cách duy nhất để phê được loại
+   * nhận xét bắc cầu giữa hai mục — vd huyệt nói chủ trị hàn mà bài châm cứu dùng nó lại
+   * trị nhiệt.
+   */
+  async docChumLienQuan(
+    tieuDe: string,
+    boTru: string,
+    ma: string,
+  ): Promise<Array<{ bo: string; tieuDe: string; tomTat: string }>> {
+    if (!tieuDe.trim()) return [];
+    const r = await this.phaiCo().query<{ bo: string; tieu_de: string; tom_tat: string }>(
+      `SELECT bo, tieu_de, tom_tat FROM td_muc
+       WHERE tsv @@ plainto_tsquery('simple', td_bo_dau($1))
+         AND NOT (bo = $2 AND ma = $3)
+       ORDER BY do_day DESC LIMIT 4`,
+      [tieuDe, boTru, ma],
+    );
+    return r.rows.map((x) => ({ bo: x.bo, tieuDe: x.tieu_de, tomTat: x.tom_tat }));
+  }
+
+  /** Thay toàn bộ nhận xét lớp `thay_thuoc` của một mục và ĐÓNG VAN vân tay. */
+  async ghiLoiPheThayThuoc(
+    bo: string,
+    ma: string,
+    vanTay: string,
+    ds: LoiPheSach[],
+  ): Promise<void> {
+    const c = this.phaiCo();
+    await c.query('BEGIN');
+    try {
+      const r = await c.query<{ id: number }>(
+        `UPDATE td_ho_so SET van_tay_thay_thuoc = $3, soi_thay_thuoc_luc = now(),
+                             updated_at = now()
+         WHERE bo = $1 AND ma = $2 RETURNING id`,
+        [bo, ma, vanTay],
+      );
+      if (!r.rows.length) {
+        await c.query('ROLLBACK');
+        return;
+      }
+      const id = r.rows[0].id;
+      await c.query(`DELETE FROM td_nhan_xet WHERE ho_so_id = $1 AND lop = 'thay_thuoc'`, [id]);
+      for (const n of ds) {
+        await c.query(
+          `INSERT INTO td_nhan_xet
+             (ho_so_id, lop, kieu, truong, trich_dan, nhan_xet, de_xuat, bac_can_cu, nang)
+           VALUES ($1, 'thay_thuoc', $2, $3, $4, $5, $6, $7, false)`,
+          [id, n.kieu, n.truong, n.trichDan, n.nhanXet, n.deXuat, n.bacCanCu],
+        );
+      }
+      await c.query('COMMIT');
+    } catch (e) {
+      await c.query('ROLLBACK').catch(() => undefined);
+      throw e;
+    }
+  }
+
+  /** Mọi lời phê lớp thầy thuốc còn ở trạng thái `moi`, kèm khoá mục để gom cụm. */
+  async docNhanXetThayThuoc(): Promise<NhanXetCoMuc[]> {
+    const r = await this.phaiCo().query<{
+      bo: string; slug: string; tieu_de: string;
+      kieu: string; truong: string | null; trich_dan: string; nhan_xet: string;
+    }>(
+      `SELECT h.bo, h.slug, h.tieu_de, n.kieu, n.truong, n.trich_dan, n.nhan_xet
+       FROM td_nhan_xet n JOIN td_ho_so h ON h.id = n.ho_so_id
+       WHERE n.lop = 'thay_thuoc' AND n.trang_thai = 'moi'`,
+    );
+    return r.rows.map((x) => ({
+      bo: x.bo, slug: x.slug, tieuDe: x.tieu_de,
+      kieu: x.kieu, truong: x.truong, trichDan: x.trich_dan, nhanXet: x.nhan_xet,
+      nang: false,
+    }));
+  }
+
+  /** Lưu một bản bộ luật MỚI (chưa duyệt). Trả về số phiên bản vừa cấp. */
+  async luuBoLuat(bo: BoLuatVanPhong): Promise<number> {
+    const c = this.phaiCo();
+    const m = await c.query<{ pb: number }>(
+      `SELECT COALESCE(MAX(phien_ban), 0) + 1 AS pb FROM td_luat_van_phong`,
+    );
+    const pb = m.rows[0].pb;
+    await c.query(
+      `INSERT INTO td_luat_van_phong (phien_ban, bo_ap_dung, dieu, da_duyet)
+       VALUES ($1, $2, $3::jsonb, false)`,
+      [pb, bo.boApDung, JSON.stringify(bo.dieu)],
+    );
+    return pb;
+  }
+
+  /**
+   * Bản bộ luật đang dùng. `chiBanDaDuyet = true` là thứ ca soi phải gọi: chạy bằng bộ
+   * luật chưa ai duyệt thì lời phê không có thẩm quyền nào cả.
+   */
+  async docBoLuat(chiBanDaDuyet: boolean): Promise<BoLuatVanPhong | null> {
+    const r = await this.phaiCo().query<{
+      phien_ban: number; bo_ap_dung: string[]; dieu: DieuLuat[]; da_duyet: boolean;
+    }>(
+      `SELECT phien_ban, bo_ap_dung, dieu, da_duyet FROM td_luat_van_phong
+       ${chiBanDaDuyet ? 'WHERE da_duyet = true' : ''}
+       ORDER BY phien_ban DESC LIMIT 1`,
+    );
+    if (!r.rows.length) return null;
+    const x = r.rows[0];
+    return {
+      phienBan: x.phien_ban,
+      boApDung: x.bo_ap_dung || [],
+      dieu: Array.isArray(x.dieu) ? x.dieu : [],
+      daDuyet: x.da_duyet,
+    };
+  }
+
+  async duyetBoLuat(phienBan: number): Promise<void> {
+    await this.phaiCo().query(
+      `UPDATE td_luat_van_phong SET da_duyet = true, duyet_luc = now() WHERE phien_ban = $1`,
+      [phienBan],
+    );
   }
 }
