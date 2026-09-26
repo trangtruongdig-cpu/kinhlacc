@@ -112,6 +112,25 @@ nano backend/.env
 
 ## 5. Chạy schema migrations vào Aiven
 
+## ⚠️ ĐỪNG DỌN BA CHỖ NÀY cho tới khi kho S3 chạy ổn
+
+Người dùng đã chốt (26/09/2026): **giữ cho ổn rồi sau mới xoá.** Ghi ra đây vì cả ba đều
+trông như rác và rất dễ bị một phiên sau "dọn cho gọn".
+
+| Chỗ | Dung lượng | Vì sao PHẢI GIỮ |
+|---|---|---|
+| `cms/uploads/` | 84 MB | Kho ảnh ĐANG HOẠT ĐỘNG của CMS, và là nguồn DUY NHẤT cho phép di cư S3. Xoá trước khi di cư xong là mất hẳn byte ảnh. |
+| `frontend/public/kinhmach3d/images/` (chỉ trên VPS) | — | Là ĐƯỜNG LÙI của ảnh huyệt/kinh: `<img src="CMS" onerror="…ảnh tĩnh">`. Không có trong git → xoá là mất hẳn. |
+| 7 tệp mồ côi trong `cms/uploads/` | 1,1 MB | Không có bản ghi `media` nào trỏ tới (lần nạp hỏng). Nhỏ, vô hại. |
+
+Xoá được KHI NÀO: sau khi di cư S3 xong **và** kiểm chứng ảnh phục vụ từ bucket ổn định
+một thời gian. Lúc đó bỏ luôn phần `onerror` trong `build-dict.mjs` cho gọn.
+
+Đã xoá rồi (an toàn, đã kiểm): `cms/.tam-anh/` — 2.752 tệp / 100 MB ảnh tạm. Cách kiểm
+trước khi xoá là điều đáng lặp lại: **tên tệp hai bên khác nhau** (`GV25-kinh.webp` vs
+ULID) nên không đối chiếu được bằng tên; bảng `media` có cột `content_hash` (sha1), băm
+từng tệp rồi so mới chứng minh được cả 2.752 tệp đã nằm trong CMS.
+
 ## ⚠️ ẢNH CỦA CMS KHÔNG ĐI THEO `git push`
 
 Đây là bẫy đã cắn thật (26/09/2026): deploy xong, trang huyệt hiện đủ chữ nhưng **bốn ảnh
