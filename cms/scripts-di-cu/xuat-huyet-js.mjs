@@ -18,7 +18,7 @@ import { parseEnv } from "node:util";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { docBanGoc, soTapCon, bao } from "./kiem-goc.mjs";
+import { docBanGoc, soTapCon, bao, SUA_GOC } from "./kiem-goc.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const goc = resolve(here, "../..");
@@ -191,7 +191,8 @@ if (kiemGoc) {
 	// So với BẢN GỐC trong git theo TẬP CON: khoá gốc phải còn nguyên, khoá thêm mới
 	// thì cho phép. Đây là chốt sống lâu hơn `cmp`, xem kiem-goc.mjs.
 	const { du, rev } = docBanGoc("acupoints.js", "ACUPOINTS", goc);
-	process.exit(bao("acupoints.js", rev, soTapCon(du, raGoc)) === 0 ? 0 : 1);
+	const tha = SUA_GOC.filter((x) => x.tep === "acupoints.js");
+	process.exit(bao("acupoints.js", rev, soTapCon(du, raGoc, "", tha), tha) === 0 ? 0 : 1);
 }
 
 if (!chiKiem) {
