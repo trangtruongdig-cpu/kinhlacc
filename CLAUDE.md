@@ -259,10 +259,22 @@ lỗi chuyển đổi trước.
 
 KHÔNG đồng bộ, và đây là giới hạn đã biết chứ không phải bỏ sót: `ten_khac` của dược
 liệu (bản nhập GỘP cột `vi_thuoc.ten_khac` với bảng `vi_thuoc_ten_goi_khac`, ghi ngược
-là app hiện hai lần), và các trường dựa trên bảng liên kết (`cong_dung_ds`,
-`kieng_ky_ds`, chủ trị dạng danh sách, kinh mạch) — app lưu bằng KHOÁ NGOẠI tới bảng
-tra cứu dùng chung, ghi ngược từ chuỗi sẽ tự tạo mục tra cứu mới mỗi khi có lỗi gõ.
-**Sửa những trường đó trong CMS sẽ không tới app.**
+là app hiện hai lần), và **chủ trị dạng danh sách + kinh mạch** — CMS không có cột danh
+sách cho hai thứ này, chỉ có văn xuôi (`chu_tri`) và `quy_kinh`; muốn quản thì phải thêm
+trường CMS trước. **Sửa hai thứ đó trong CMS sẽ không tới app.**
+
+**Công dụng và kiêng kỵ thì ĐÃ đồng bộ**, nhưng qua `dong-bo-lien-ket.mjs` chứ không qua
+`dong-bo-app.mjs`, vì app lưu chúng bằng KHOÁ NGOẠI tới bảng tra cứu dùng chung.
+
+⚠️ **CHỈ KHỚP TỪ VỰNG CÓ SẴN, tuyệt đối không tự tạo mục tra cứu mới.** `chu_tri` (3.588
+mục) dùng chung với cả `huyet_vi` và `nhom_nho_chu_tri`; `kinh_mach` là tập đóng 18 dòng.
+Một lỗi gõ sinh ra mục mới là làm bẩn luôn phần huyệt vị, rất khó lần ngược. Từ nào không
+khớp thì script BÁO RA và bỏ qua CẢ VỊ đó, không ghi một nửa.
+
+⚠️ **Dấu tách là XUỐNG DÒNG, không phải `;`.** Gộp bằng `;` MẤT DỮ LIỆU: một mục kiêng kỵ
+chứa chính dấu `;` (vị 1004) bị chẻ làm hai. Đã kiểm cả ba bảng tra cứu — không mục nào
+chứa xuống dòng. Dữ liệu cũ gộp bằng `;` thì chạy `--nap-lai`; **đừng thêm `;` vào dấu
+tách** — làm vậy là tái tạo đúng lỗi đó (tôi đã vấp một lần).
 
 ## Ảnh từ điển: CMS là nguồn, và vì sao đó là bước TIẾN chứ không phải lùi
 
