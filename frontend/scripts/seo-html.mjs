@@ -89,9 +89,19 @@ export function head({
 </head>`
 }
 
+// Dấu hiệu thương hiệu — CHÍNH LÀ logo ở public/favicon.svg và ở ba component Vue
+// (PublicTopBar / LandingView / SiteFooter). Trước đây chỗ này dùng emoji 🌿 nên trang
+// tĩnh (/huyet/, /blog/, /nguon/…) đội logo KHÁC hẳn phần SPA. Màu viết cứng theo
+// --brown-300 / --brown-600 của main.css vì blog.css là biểu khác, không dùng chung biến.
+export const LOGO_SVG = `<svg class="bl-brand-mark" width="26" height="26" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+  <circle cx="32" cy="32" r="30" stroke="#cfad78" stroke-width="2"/>
+  <path d="M32 12C32 12 20 22 20 32C20 38.627 25.373 44 32 44C38.627 44 44 38.627 44 32C44 22 32 12 32 12Z" fill="#8a5e28"/>
+  <circle cx="32" cy="32" r="4" fill="#ffffff"/>
+</svg>`
+
 // Thanh đầu trang — link sang các khu công khai (giống build-blog).
 export const topbar = `<header class="bl-top"><div class="bl-top-in">
-  <a class="bl-brand" href="/">🌿 ${SITE}</a>
+  <a class="bl-brand" href="/">${LOGO_SVG}<span>${SITE}</span></a>
   <nav class="bl-nav"><a href="/blog/">Cẩm Nang</a><a href="/thu-vien">Từ Điển</a><a href="/xem-3d">Đồ Hình 3D</a><a class="bl-nav-cta" href="/app">Vào Phần Mềm</a></nav>
 </div></header>`
 

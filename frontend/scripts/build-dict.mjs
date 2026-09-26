@@ -611,7 +611,7 @@ function huyetPage(rec) {
         '@type': 'MedicalEntity', name: rec.ten,
         ...(cls.code ? { code: { '@type': 'MedicalCode', code: cls.code, codingSystem: 'WHO Standard Acupuncture Point Locations' } } : {}),
       },
-      publisher: { '@type': 'Organization', name: SITE, logo: { '@type': 'ImageObject', url: `${DOMAIN}/favicon.svg` } },
+      publisher: { '@type': 'Organization', name: SITE, logo: { '@type': 'ImageObject', url: `${DOMAIN}/logo-512.png` } },
       image: ogImg,
     }),
     ld({ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: crumbItems }),
@@ -691,7 +691,7 @@ function kinhPage(m) {
       '@context': 'https://schema.org', '@type': 'MedicalWebPage',
       name: m.ten, description: clip(lead, 200), inLanguage: 'vi', url,
       about: { '@type': 'MedicalEntity', name: m.ten },
-      publisher: { '@type': 'Organization', name: SITE, logo: { '@type': 'ImageObject', url: `${DOMAIN}/favicon.svg` } },
+      publisher: { '@type': 'Organization', name: SITE, logo: { '@type': 'ImageObject', url: `${DOMAIN}/logo-512.png` } },
       image: ogImg,
     }),
     ld({
@@ -944,7 +944,7 @@ function benhPage(rec, set, cfg) {
       '@context': 'https://schema.org', '@type': 'MedicalWebPage',
       name: title, description: clip(lead, 200), inLanguage: 'vi', url,
       about: { '@type': cfg.aboutType, name: rec.ten, ...(rec._meta ? { alternateName: rec._meta } : {}) },
-      publisher: { '@type': 'Organization', name: SITE, logo: { '@type': 'ImageObject', url: `${DOMAIN}/favicon.svg` } },
+      publisher: { '@type': 'Organization', name: SITE, logo: { '@type': 'ImageObject', url: `${DOMAIN}/logo-512.png` } },
       image: GENERIC_OG,
     }),
     ld({

@@ -61,7 +61,7 @@ const jsonLd: any[] = [
 		author: { "@type": "Organization", name: tacGia },
 		// reviewedBy là trụ E-E-A-T: nói cho Google biết ai chịu trách nhiệm chuyên môn.
 		reviewedBy: { "@type": "Person", name: nguoiDuyet, jobTitle: chucDanh },
-		publisher: { "@type": "Organization", name: SITE, logo: { "@type": "ImageObject", url: `${goc}/favicon.svg` } },
+		publisher: { "@type": "Organization", name: SITE, logo: { "@type": "ImageObject", url: `${goc}/logo-512.png` } },
 		mainEntityOfPage: { "@type": "WebPage", "@id": url },
 		...(tuKhoa.length ? { keywords: tuKhoa.join(", ") } : {}),
 		...(nguon.length ? { citation: nguon.map((s) => (typeof s === "string" ? s : s.title || s.url || "")) } : {}),

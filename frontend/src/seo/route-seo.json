@@ -36,7 +36,7 @@
             "@id": "https://kinhlac.online/#org",
             "name": "Kinh Lạc Trương Gia",
             "url": "https://kinhlac.online",
-            "logo": { "@type": "ImageObject", "url": "https://kinhlac.online/og-default.png" },
+            "logo": { "@type": "ImageObject", "url": "https://kinhlac.online/logo-512.png", "width": 512, "height": 512 },
             "image": "https://kinhlac.online/og-default.png",
             "description": "Nền tảng số hoá Y Học Cổ Truyền toàn diện: đo kinh lạc, biện chứng luận trị, đồ hình kinh lạc 3D, từ điển hơn 1.000 huyệt vị – 1.043 vị thuốc – 13.942 bài thuốc cổ phương, cùng quản lý phòng khám Đông Y (bệnh nhân, bệnh án, kê đơn, lịch hẹn).",
             "email": "lienhe@kinhlac.online",

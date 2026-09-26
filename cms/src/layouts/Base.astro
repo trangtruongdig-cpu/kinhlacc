@@ -106,12 +106,21 @@ const isLoggedIn = !!Astro.locals.user;
 				<a href="/" class="site-title">
 					{siteLogo
 						? <img src={siteLogo.url} alt={siteLogo.alt || siteTitle} class="site-logo-img" />
-						: siteTitle
+						: (
+							<>
+								<svg class="site-logo-mark" width="30" height="30" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+									<circle cx="32" cy="32" r="30" stroke="#cfad78" stroke-width="2" />
+									<path d="M32 12C32 12 20 22 20 32C20 38.627 25.373 44 32 44C38.627 44 44 38.627 44 32C44 22 32 12 32 12Z" fill="#8a5e28" />
+									<circle cx="32" cy="32" r="4" fill="#ffffff" />
+								</svg>
+								<span>{siteTitle}</span>
+							</>
+						)
 					}
 				</a>
 				<div class="nav-right">
 					<LiveSearch
-						placeholder="Search..."
+						placeholder="Tìm kiếm…"
 						class="site-search"
 						inputClass="site-search-input"
 						resultsClass="site-search-results"
@@ -149,15 +158,24 @@ const isLoggedIn = !!Astro.locals.user;
 						<a href="/" class="footer-logo">
 							{siteLogo
 								? <img src={siteLogo.url} alt={siteLogo.alt || siteTitle} class="footer-logo-img" />
-								: siteTitle
+								: (
+									<>
+										<svg class="site-logo-mark" width="26" height="26" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+											<circle cx="32" cy="32" r="30" stroke="#cfad78" stroke-width="2" />
+											<path d="M32 12C32 12 20 22 20 32C20 38.627 25.373 44 32 44C38.627 44 44 38.627 44 32C44 22 32 12 32 12Z" fill="#8a5e28" />
+											<circle cx="32" cy="32" r="4" fill="#ffffff" />
+										</svg>
+										<span>{siteTitle}</span>
+									</>
+								)
 							}
 						</a>
 						<p class="footer-tagline">{siteTagline}</p>
 					</div>
 					<div class="footer-nav">
-						<h4 class="footer-heading">Navigate</h4>
+						<h4 class="footer-heading">Điều Hướng</h4>
 						<ul class="footer-links">
-							<li><a href="/">Home</a></li>
+							<li><a href="/">Trang Chủ</a></li>
 							<li><a href="/blog/">Tất Cả Bài Viết</a></li>
 							{
 								pages.slice(0, 3).map((page) => (
@@ -171,7 +189,7 @@ const isLoggedIn = !!Astro.locals.user;
 						</ul>
 					</div>
 					<div class="footer-nav">
-						<h4 class="footer-heading">Connect</h4>
+						<h4 class="footer-heading">Kết Nối</h4>
 						<ul class="footer-links">
 							{
 								socialMenu?.items.map((item) => (
@@ -190,7 +208,7 @@ const isLoggedIn = !!Astro.locals.user;
 									</li>
 								))
 							}
-							<li><a href="/rss.xml">RSS Feed</a></li>
+							<li><a href="/rss.xml">Nguồn RSS</a></li>
 						</ul>
 					</div>
 					<div class="footer-widgets-section">
@@ -475,6 +493,19 @@ const isLoggedIn = !!Astro.locals.user;
 
 			.site-title:hover {
 				color: var(--color-brand);
+			}
+
+			/* Dấu hiệu dự phòng — cùng logo với favicon.svg và các trang tĩnh. */
+			.site-title,
+			.footer-logo {
+				display: inline-flex;
+				align-items: center;
+				gap: 9px;
+			}
+
+			.site-logo-mark {
+				flex: none;
+				display: block;
 			}
 
 			.site-logo-img {

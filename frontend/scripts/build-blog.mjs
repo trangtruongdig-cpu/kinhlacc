@@ -86,7 +86,7 @@ function articlePage(a, all) {
       dateModified: updated,
       author: { '@type': 'Organization', name: author },
       reviewedBy: { '@type': 'Person', name: reviewer, jobTitle: reviewerTitle },
-      publisher: { '@type': 'Organization', name: SITE, logo: { '@type': 'ImageObject', url: `${DOMAIN}/favicon.svg` } },
+      publisher: { '@type': 'Organization', name: SITE, logo: { '@type': 'ImageObject', url: `${DOMAIN}/logo-512.png` } },
       mainEntityOfPage: { '@type': 'WebPage', '@id': url },
       image: cover || OG_IMAGE,
       keywords: (a.keywords || []).join(', '),

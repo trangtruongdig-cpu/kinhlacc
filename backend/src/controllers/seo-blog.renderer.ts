@@ -174,8 +174,16 @@ function head(o: {
 </head>`;
 }
 
+// Giữ ĐÚNG logo ở frontend/scripts/seo-html.mjs (LOGO_SVG) — hai bản này sinh cùng
+// một thanh đầu trang cho cùng một /blog/, lệch nhau là khách thấy hai logo khác nhau.
+const LOGO_SVG = `<svg class="bl-brand-mark" width="26" height="26" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+  <circle cx="32" cy="32" r="30" stroke="#cfad78" stroke-width="2"/>
+  <path d="M32 12C32 12 20 22 20 32C20 38.627 25.373 44 32 44C38.627 44 44 38.627 44 32C44 22 32 12 32 12Z" fill="#8a5e28"/>
+  <circle cx="32" cy="32" r="4" fill="#ffffff"/>
+</svg>`;
+
 const topbar = `<header class="bl-top"><div class="bl-top-in">
-  <a class="bl-brand" href="/">🌿 ${SITE}</a>
+  <a class="bl-brand" href="/">${LOGO_SVG}<span>${SITE}</span></a>
   <nav class="bl-nav"><a href="/blog/">Cẩm Nang</a><a href="/thu-vien">Từ Điển</a><a href="/xem-3d">Đồ Hình 3D</a><a class="bl-nav-cta" href="/app">Vào Phần Mềm</a></nav>
 </div></header>`;
 
@@ -246,7 +254,7 @@ export function renderArticleHtml(a: RenderArticle, related: { slug: string; tit
       publisher: {
         '@type': 'Organization',
         name: SITE,
-        logo: { '@type': 'ImageObject', url: `${DOMAIN}/favicon.svg` },
+        logo: { '@type': 'ImageObject', url: `${DOMAIN}/logo-512.png` },
       },
       mainEntityOfPage: { '@type': 'WebPage', '@id': url },
       image: cover || OG_IMAGE,

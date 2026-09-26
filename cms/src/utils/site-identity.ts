@@ -12,8 +12,13 @@ export interface BlogSiteIdentitySettings {
 	favicon?: MediaReference;
 }
 
-const DEFAULT_SITE_TITLE = "My Blog";
-const DEFAULT_SITE_TAGLINE = "Thoughts, stories, and ideas.";
+// MẶC ĐỊNH phải là thương hiệu thật: khi CMS chưa được đặt tiêu đề trong phần
+// cài đặt, trang /trang/… đội thẳng dòng này ra trước mặt khách. Mẫu gốc của EmDash
+// là "My Blog" / "Thoughts, stories, and ideas." — tiếng Anh và không phải tên site.
+// Khẩu hiệu giữ ĐÚNG bản ở frontend/src/components/SiteFooter.vue.
+const DEFAULT_SITE_TITLE = "Kinh Lạc Trương Gia";
+const DEFAULT_SITE_TAGLINE =
+	"Đông Y nghìn năm, giờ đây đã có dữ liệu lớn.";
 
 export function resolveBlogSiteIdentity(settings?: BlogSiteIdentitySettings) {
 	return {

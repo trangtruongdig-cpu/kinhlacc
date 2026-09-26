@@ -26,8 +26,9 @@ a:hover { text-decoration: underline; }
 /* Top bar */
 .bl-top { position: sticky; top: 0; z-index: 10; background: rgba(250,246,239,.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--bl-border); }
 .bl-top-in { max-width: 1080px; margin: 0 auto; height: 58px; padding: 0 20px; display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.bl-brand { font-weight: 800; color: var(--bl-brown-800); font-size: 18px; }
+.bl-brand { display: inline-flex; align-items: center; gap: 9px; font-weight: 800; color: var(--bl-brown-800); font-size: 18px; }
 .bl-brand:hover { text-decoration: none; }
+.bl-brand-mark { flex: none; display: block; }
 .bl-nav { display: flex; align-items: center; gap: 18px; font-size: 15px; font-weight: 600; }
 .bl-nav a { color: var(--bl-muted); }
 .bl-nav a:hover { color: var(--bl-brown-700); text-decoration: none; }
@@ -124,7 +125,8 @@ a:hover { text-decoration: underline; }
 
   /* Top bar gọn, không tràn ngang (chỉ giữ nút "Vào Phần Mềm"; điều hướng khác qua breadcrumb + footer) */
   .bl-top-in { height: 54px; padding: 0 14px; gap: 10px; }
-  .bl-brand { font-size: 16px; }
+  .bl-brand { font-size: 16px; gap: 7px; }
+  .bl-brand-mark { width: 23px; height: 23px; }
   .bl-nav { gap: 10px; font-size: 13px; }
   .bl-nav a:not(.bl-nav-cta) { display: none; }
   .bl-nav-cta { padding: 7px 12px; }
@@ -166,7 +168,8 @@ a:hover { text-decoration: underline; }
 
 /* Màn rất nhỏ (≤380px): tránh brand + CTA chen nhau */
 @media (max-width: 380px) {
-  .bl-brand { font-size: 15px; }
+  .bl-brand { font-size: 15px; gap: 6px; }
+  .bl-brand-mark { width: 21px; height: 21px; }
   .bl-nav-cta { padding: 6px 10px; font-size: 12.5px; }
   .bl-article h1 { font-size: 23px; }
 }

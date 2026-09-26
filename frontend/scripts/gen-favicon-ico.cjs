@@ -1,7 +1,14 @@
 /*
- * One-off: rasterize the brand leaf (public/favicon.svg) into a PNG-based
- * favicon.ico (16/32/48) so legacy /favicon.ico requests show the leaf
- * instead of the leftover Vue default. Pure Node (zlib only) — no native deps.
+ * Sinh public/favicon.ico từ LOGO QUY ĐỊNH — chính là hình trong public/favicon.svg
+ * và trong ba component Vue (PublicTopBar / LandingView / SiteFooter):
+ * vòng viền #cfad78 + lá/giọt #8a5e28 + chấm trắng giữa.
+ *
+ * Bản trước của tệp này vẽ một chiếc LÁ XANH trên thẻ bo góc màu mint — không hề
+ * khớp favicon.svg dù comment cũ nói là "transcribed from" nó, và lạc hẳn khỏi bảng
+ * màu nâu/kem của thương hiệu. Chạy lại tệp này là sửa được.
+ *
+ * Thuần Node (chỉ zlib) — không cần thư viện native.
+ *   node frontend/scripts/gen-favicon-ico.cjs
  */
 const fs = require('fs');
 const path = require('path');
@@ -9,15 +16,13 @@ const zlib = require('zlib');
 
 const OUT = path.join(__dirname, '..', 'public', 'favicon.ico');
 
-// Leaf path transcribed from public/favicon.svg (64x64 viewBox)
+// Path lá/giọt chép nguyên từ public/favicon.svg (viewBox 64x64).
 const cmds = [
-  ['M', 48, 12],
-  ['C', 26, 12, 14, 26, 14, 44],
-  ['c', 0, 4, 1, 7, 2, 9],
-  ['c', 2, -15, 12, -26, 26, -31],
-  ['c', -9, 7, -15, 16, -18, 28],
-  ['c', 14, 1, 26, -7, 30, -20],
-  ['c', 3, -11, -2, -18, -6, -18],
+  ['M', 32, 12],
+  ['C', 32, 12, 20, 22, 20, 32],
+  ['C', 20, 38.627, 25.373, 44, 32, 44],
+  ['C', 38.627, 44, 44, 38.627, 44, 32],
+  ['C', 44, 22, 32, 12, 32, 12],
   ['z'],
 ];
 
@@ -42,7 +47,6 @@ function flatten(cmds, steps = 40) {
   return pts;
 }
 
-const leaf = flatten(cmds);
 
 function pointInPoly(x, y, poly) {
   let inside = false;
@@ -53,26 +57,29 @@ function pointInPoly(x, y, poly) {
   return inside;
 }
 
-// Rounded-rect (rx=14) mask on the 64-unit canvas
-function inRoundedRect(x, y, w, h, r) {
-  if (x < 0 || y < 0 || x > w || y > h) return false;
-  if ((x >= r && x <= w - r) || (y >= r && y <= h - r)) return true;
-  const cx = x < r ? r : w - r;
-  const cy = y < r ? r : h - r;
-  const dx = x - cx, dy = y - cy;
-  return dx * dx + dy * dy <= r * r;
+function lerp(a, b, t) { return a + (b - a) * t; }
+function mix(dst, src, a) {
+  dst[0] = lerp(dst[0], src[0], a);
+  dst[1] = lerp(dst[1], src[1], a);
+  dst[2] = lerp(dst[2], src[2], a);
+  dst[3] = dst[3] + (255 - dst[3]) * a;
 }
 
-function lerp(a, b, t) { return a + (b - a) * t; }
+const VIEN = [0xcf, 0xad, 0x78]; // --brown-300, vòng ngoài
+const THAN = [0x8a, 0x5e, 0x28]; // --brown-600, lá/giọt
+const TAM = [0xff, 0xff, 0xff]; // chấm giữa
 
-const G0 = [0x34, 0xd3, 0x99]; // gradient start
-const G1 = [0x15, 0x80, 0x3d]; // gradient end
-const BG = [0xec, 0xfd, 0xf5]; // mint card
-
+// Vòng ngoài của SVG là r=30 stroke-width=2, tức vành 29..31 — ở 16px vành ấy chỉ dày
+// nửa điểm ảnh nên biến mất. Ta nới vành ra cho đủ MỘT điểm ảnh ở mọi cỡ; hình
+// giữ nguyên, chỉ nét đậm lên — đúng cách favicon vẫn làm.
 function renderRGBA(size) {
   const SS = 4;
   const scale = 64 / (size * SS);
+  const donVi = 64 / size; // một điểm ảnh đích bằng bao nhiêu đơn vị canvas
+  const nuaVanh = Math.max(1, donVi * 0.5); // nửa độ dày vành
   const buf = Buffer.alloc(size * size * 4);
+  const la = flatten(cmds, 64);
+
   for (let py = 0; py < size; py++) {
     for (let px = 0; px < size; px++) {
       let r = 0, g = 0, b = 0, a = 0;
@@ -80,22 +87,27 @@ function renderRGBA(size) {
         for (let ox = 0; ox < SS; ox++) {
           const ux = (px * SS + ox + 0.5) * scale;
           const uy = (py * SS + oy + 0.5) * scale;
-          if (!inRoundedRect(ux, uy, 64, 64, 14)) continue;
-          a += 255;
-          if (pointInPoly(ux, uy, leaf)) {
-            const t = Math.min(1, Math.max(0, (ux / 64 + uy / 64) / 2));
-            r += lerp(G0[0], G1[0], t); g += lerp(G0[1], G1[1], t); b += lerp(G0[2], G1[2], t);
-          } else {
-            r += BG[0]; g += BG[1]; b += BG[2];
-          }
+          const d = Math.hypot(ux - 32, uy - 32);
+          const px4 = [0, 0, 0, 0];
+
+          if (Math.abs(d - 30) <= nuaVanh) mix(px4, VIEN, 1);
+          if (pointInPoly(ux, uy, la)) mix(px4, THAN, 1);
+          if (d <= 4) mix(px4, TAM, 1);
+
+          r += px4[0] * (px4[3] / 255);
+          g += px4[1] * (px4[3] / 255);
+          b += px4[2] * (px4[3] / 255);
+          a += px4[3];
         }
       }
       const n = SS * SS;
       const i = (py * size + px) * 4;
-      buf[i] = Math.round(r / n);
-      buf[i + 1] = Math.round(g / n);
-      buf[i + 2] = Math.round(b / n);
-      buf[i + 3] = Math.round(a / n);
+      const alpha = a / n;
+      // Trả về màu không nhân alpha (PNG lưu straight alpha).
+      buf[i] = alpha > 0 ? Math.round((r / n) * 255 / alpha) : 0;
+      buf[i + 1] = alpha > 0 ? Math.round((g / n) * 255 / alpha) : 0;
+      buf[i + 2] = alpha > 0 ? Math.round((b / n) * 255 / alpha) : 0;
+      buf[i + 3] = Math.round(alpha);
     }
   }
   return buf;
