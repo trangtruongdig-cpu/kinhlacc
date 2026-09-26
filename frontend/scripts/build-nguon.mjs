@@ -196,7 +196,15 @@ function trangNguon(n) {
     vi.length
       ? `<h2>Vị thuốc trích từ nguồn này (${vi.length})</h2>
   <ul class="ng-list">${vi.map((v) => `<li><a href="/duoc-lieu/${escAttr(v.id)}/">${escText(v.ten)}</a></li>`).join('')}</ul>`
-      : '<p><em>Chưa có mục nào trích dẫn nguồn này trong kho.</em></p>'
+      : ''
+  }
+  ${
+    // Câu này chỉ đúng khi CẢ HAI danh sách đều rỗng. Trước đây nó treo vào mỗi
+    // `vi.length`, nên trang có 3 bài thuốc vẫn in ngay bên dưới "Chưa có mục nào
+    // trích dẫn nguồn này trong kho" — tự mâu thuẫn với chính khối vừa liệt kê.
+    !bai.length && !vi.length
+      ? '<p><em>Chưa có mục nào trích dẫn nguồn này trong kho.</em></p>'
+      : ''
   }
   ${n.ghi_chu ? `<h2>Ghi chú</h2><p>${escText(n.ghi_chu)}</p>` : ''}
   ${disclaimer({})}
