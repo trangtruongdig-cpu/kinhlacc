@@ -7,6 +7,13 @@ import { fileURLToPath } from "node:url";
 import emdash, { local } from "emdash/astro";
 import { postgres } from "emdash/db";
 
+// Bộ S3 kéo theo @aws-sdk/client-s3 (gói nặng). Nạp ĐỘNG và chỉ khi có khai khoá, để
+// máy nào chưa cài gói đó vẫn chạy được config này — `import` tĩnh sẽ vỡ ngay cả khi
+// nhánh S3 không được dùng.
+const taoKhoS3 = process.env.S3_BUCKET
+	? (await import("emdash/storage/s3")).createStorage
+	: null;
+
 export default defineConfig({
 	output: "server",
 	// ĐÓNG BĂNG TRANG ĐÃ DỰNG — điểm mà WordPress phải cắm plugin mới có.
@@ -105,10 +112,27 @@ export default defineConfig({
 					idleTimeoutMillis: 10_000,
 				},
 			}),
-			storage: local({
-				directory: "./uploads",
-				baseUrl: "/_emdash/api/media/file",
-			}),
+			// KHO ẢNH — S3 khi có cấu hình, ngược lại vẫn dùng đĩa như trước.
+			//
+			// ⚠️ VÌ SAO PHẢI LÀ KHO DÙNG CHUNG: `local` cất ảnh trên ĐĨA TỪNG MÁY, còn CSDL
+			// thì dùng chung (Aiven). Nạp ảnh ở máy lập trình rồi deploy là trang dựng đủ
+			// chữ mà ảnh trả 404 — bản ghi có, byte không có trên VPS. Đã xảy ra thật
+			// 26/09/2026, và không chuyển tệp lên được vì VPS không mở cổng SSH nào.
+			//
+			// Nhánh `local` giữ lại có chủ ý, KHÔNG phải để dự phòng cho production: nó để
+			// máy lập trình và các phiên khác chạy được khi chưa khai khoá S3. Thiếu khoá
+			// trên VPS thì lại rơi vào đúng lỗi trên, nên deploy.sh phải chặn — xem
+			// DEPLOYMENT.md.
+			storage: process.env.S3_BUCKET
+				? taoKhoS3({
+						// Các trường còn lại (endpoint, accessKeyId, secretAccessKey, region)
+						// createStorage tự lấy từ biến môi trường S3_* — xem s3.d.mts.
+						bucket: process.env.S3_BUCKET,
+					})
+				: local({
+						directory: "./uploads",
+						baseUrl: "/_emdash/api/media/file",
+					}),
 			plugins: [auditLog],
 		}),
 	],
