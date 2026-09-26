@@ -264,6 +264,37 @@ là app hiện hai lần), và các trường dựa trên bảng liên kết (`c
 tra cứu dùng chung, ghi ngược từ chuỗi sẽ tự tạo mục tra cứu mới mỗi khi có lỗi gõ.
 **Sửa những trường đó trong CMS sẽ không tới app.**
 
+## Ảnh từ điển: CMS là nguồn, và vì sao đó là bước TIẾN chứ không phải lùi
+
+Trước 26/09/2026, ảnh từ điển đến từ hai nơi, cả hai đều mong manh:
+
+- **Ảnh huyệt + kinh (1.312 tấm)**: tệp tĩnh ở `frontend/public/kinhmach3d/images/`, thư mục
+  này nằm trong `.gitignore` nên **không có trong git, cũng không có trên máy lập trình** —
+  chỉ tồn tại trên ổ đĩa VPS. Mất ổ đó là mất sạch.
+- **Ảnh dược liệu (536 tấm)**: **hotlink sang máy chủ thư viện Đại học Baptist Hồng Kông**
+  (`sys01.lib.hkbu.edu.hk`). Họ chặn lúc nào cũng được — lúc tải về đã phải giảm tốc 420ms
+  vì bị siết.
+
+Nay cả ba bộ lấy ảnh từ CMS. Bản trong CMS **trùng kích thước từng byte** với bản gốc, không
+giảm chất lượng.
+
+| Bộ | Cách dùng | Đường lùi |
+|---|---|---|
+| Huyệt (653) · Kinh (20) | khoá `anhCms` trong tệp sinh; build-dict dựng thẻ ảnh | ✓ `onerror` → ảnh tĩnh |
+| Dược liệu (536) | `vi_thuoc.anh_dai_dien` = URL CMS, SPA dựng qua API | ✗ SPA không có `onerror` |
+
+Dược liệu không có đường lùi vì thêm `onerror` phải sửa component, tức đụng giao diện. Bù
+lại nginx đệm ảnh CMS 365 ngày và ảnh đã đệm vẫn sống khi CMS sập (đã đo). Hoàn nguyên được:
+đường dẫn gốc cất ở `ec_duoc_lieu.anh_dai_dien_tinh`, `chuyen-anh-duoc-lieu.mjs --hoan`.
+
+⚠️ **Đổi ảnh dược liệu phải đổi Ở CMS rồi để `dong-bo-app.mjs` mang sang.** Đổi thẳng
+`vi_thuoc.anh_dai_dien` thì lần đồng bộ sau thấy 536 ô "lệch" rồi **đẩy đường dẫn cũ trở
+lại** — vừa mất thay đổi vừa phá tính chất "chưa ai sửa thì đồng bộ ra 0 ô".
+
+⚠️ URL ảnh dựng bằng `meta.storageKey`, **không phải `id`**: `/_emdash/api/media/file/<id>`
+trả 404 mà thẻ `<img>` vẫn render — lỗi không lộ khi chỉ nhìn trang. Và cột kiểu image là
+TEXT chứa CHUỖI JSON khi truy vấn SQL thô, phải `JSON.parse` trước.
+
 ## SEO: hai chốt chặn, và chỗ người biên tập sửa được
 
 Thẻ SEO của 18.425 trang tĩnh ráp ở `frontend/scripts/seo-html.mjs`, nội dung do từng
