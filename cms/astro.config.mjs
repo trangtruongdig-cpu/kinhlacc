@@ -121,15 +121,6 @@ export default defineConfig({
 			fallbacks: ["sans-serif"],
 		},
 		{
-			// Mặt chữ của thư viện. App đã dùng Noto Serif cho nhãn dược liệu, nên dùng
-			// lại chính nó thay vì rước thêm một họ chữ nữa vào nhà.
-			provider: fontProviders.google(),
-			name: "Noto Serif",
-			cssVariable: "--font-tu-dien",
-			weights: [400, 600, 700],
-			fallbacks: ["Georgia", "serif"],
-		},
-		{
 			provider: fontProviders.google(),
 			name: "JetBrains Mono",
 			cssVariable: "--font-mono",
