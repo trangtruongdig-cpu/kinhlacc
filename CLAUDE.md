@@ -170,6 +170,20 @@ cho ra một cụm việc giả đứng đầu bảng. Lượt nghiệm thu đ�
 (`Ôn cứu` → tcvn3, `0,5 thốn` → lỗi dấu câu). Mọi lần sửa phép dò: đọc `trich_dan`
 thật trong `td_nhan_xet` trước khi tin con số.
 
+**Số đo lượt quét cả kho đầu tiên (26/09/2026):** 18.416 mục trong **2 phút 30**, 0 sót,
+65.321 nhận xét → **110 cụm**. Hạng: 13.604 tạm được · 3.022 yếu · 1.744 hỏng · 46 tốt.
+Ba việc lớn nhất: `lien_ket_dung_duoc` 13.670 bài (đầu vào cho bậc 1 của lớp 2),
+`ten_vi_la` 11.918, `tron_truong` 4.212 — con số cuối khớp độc lập với nợ cũ đã ghi
+("4.140 bài có `cach_dung` trống vì nội dung bị nhét sang chỗ khác").
+
+Lỗi mã hoá còn sót toàn kho chỉ **21 nhận xét**, và đều thật: `tạp chíÕ số 43/1985`,
+`Ã 1"`, `Đđ¼yđHT`, `Ung thư dĩ溃`, `Nội服 quá liều`. Tức `audit-rac-tu-dien.sql` báo
+D1–D6 bằng 0 mà vẫn còn ngần ấy — hai bộ dò không cùng tiêu chí, đừng coi cái này thay
+được cái kia.
+
+⚠️ **Ghi bệnh án phải theo LÔ.** RTT tới Aiven 88ms; ghi lẻ từng mục tốn 8 lượt đi-về và
+cả kho mất **3 giờ** (đã đo). `ghiHoSoLo` gói 200 mục vào 3 lượt trong một giao dịch.
+
 Nghiệm thu: `node backend/tmp/nghiem-thu-tham-dinh.mjs` (chỉ đọc).
 
 ### BenhDongYExcel diagnostic engine

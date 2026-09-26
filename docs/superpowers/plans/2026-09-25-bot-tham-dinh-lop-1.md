@@ -1726,7 +1726,7 @@ console.table((await c.query(`SELECT kieu, truong, count(*)::int so_muc FROM td_
 await c.end();
 ```
 
-- [ ] **Step 4: Chạy ca đầy đủ rồi nghiệm thu**
+- [x] **Step 4: Chạy ca đầy đủ rồi nghiệm thu**
 
 ```bash
 curl -s -X POST localhost:3001/tham-dinh/chay -H "Authorization: Bearer $TOKEN" | tail -5
