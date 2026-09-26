@@ -37,8 +37,10 @@ export default defineConfig(({ command }) => ({
           /^\/kinh\//,               // 21 trang đường kinh
           /^\/benh-hoc\//,           // 101 trang bệnh học
           /^\/cham-cuu-tri-benh\//,  // 101 trang châm cứu trị bệnh
-          /^\/duoc-lieu\//,          // trang dược liệu tĩnh
+          /^\/duoc-lieu\//,          // trang dược liệu tĩnh (gồm cả /duoc-lieu/nhom/…)
           /^\/bai-thuoc\//,          // trang cổ phương tĩnh
+          /^\/nguon\//,              // 2.045 trang thư mục nguồn y văn
+          /^\/trang\//,              // trang do CMS phục vụ (nginx đẩy sang container cms)
           /^\/sitemap.*\.xml$/,      // sitemap
         ],
       },
