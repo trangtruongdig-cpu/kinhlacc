@@ -93,6 +93,11 @@ cms/.env.*
 # ngoài: `git status` báo `?? node_modules/`, và `git add -A` sẽ nuốt trọn vào commit.
 # Hiện nó chỉ 4KB nhưng ai chạy `npm install` ở gốc là thành bẫy vài trăm MB.
 node_modules/
+# Ảnh TẠM của các bước di cư/kết xuất: tải từ site thật, hoặc dựng từ mô hình 3D.
+# Dựng lại được, và bản chuẩn nằm trong kho ảnh của CMS — không có lý gì để trong git.
+# ⚠️ 776 tệp (20 MB) đã lọt vào git ở commit b7747d7 vì thiếu dòng này; phần còn lại
+# (~80 MB, gồm huyet3d) thì `git add -A` sẽ nuốt. Bỏ theo dõi ở commit kèm dòng này.
+cms/.tam-anh/
 cms/node_modules/
 cms/dist/
 cms/uploads/
