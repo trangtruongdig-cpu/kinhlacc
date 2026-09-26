@@ -36,8 +36,14 @@ function cacCau(s: string): Array<{ cau: string; tu: number }> {
 // D5 — mojibake: dấu tiếng Việt UTF-8 bị đọc như Latin-1 ("Triá»‡u chá»©ng").
 const RE_MOJIBAKE = /Ã.|á»./;
 
-// D6 — TCVN3/ABC: chữ hoa Latin-1 lọt vào giữa từ tiếng Việt ("NguyÔn Ngäc").
-const RE_TCVN3 = /[a-zà-ỹ][ÔÕÖÐÝÞßäëïöüÿ]|[ÔÕÖÐÝÞßäëïöüÿ][a-zà-ỹ]/;
+// D6 — TCVN3/ABC: chữ Latin-1 lọt vào GIỮA từ tiếng Việt ("NguyÔn Ngäc").
+//
+// Hai nhóm, và ranh giới giữa chúng là chỗ bản đầu tiên vu oan 13 mục:
+//   · ä ë ï ö ü ÿ Ö Ð Þ ß — không có trong chữ Việt, gặp ở đâu cũng là rác.
+//   · Ô Õ Ý — LÀ chữ Việt. Chỉ đáng ngờ khi đứng sau một chữ thường, tức lọt vào giữa
+//     từ. "Ôn cứu", "Ôn Lưu" mở đầu bằng Ô là hoàn toàn bình thường, và trường cham_cuu
+//     của kho thì đầy chúng.
+const RE_TCVN3 = /[äëïöüÿÖÐÞß]|[a-zà-ỹ][ÔÕÝ]/;
 
 // D2 — dấu thanh hỏng: ký tự dấu câu Latin-1 dính liền chữ ("Ba·c hà", "tri·").
 const RE_DAU_HONG = /[a-zà-ỹ][·¸¹º»¼½¾][a-zà-ỹ ]|[a-zà-ỹ][·¸¹º»¼½¾](?=\s|$)/i;
@@ -49,7 +55,14 @@ const RE_HAN = /[㐀-䶿一-鿿豈-﫿]/;
 const RE_VIET = /[a-zà-ỹ]/i;
 
 // Dấu câu: khoảng trắng đứng TRƯỚC dấu, hoặc thiếu khoảng trắng SAU dấu giữa hai chữ.
-const RE_DAU_CAU = /\s+[,;:.!?]|[,;](?=\S)/;
+//
+// ⚠️ Vế thứ hai phải chừa DẤU PHẨY THẬP PHÂN ra. Tiếng Việt viết "0,5 thốn", và trường
+// cham_cuu của huyệt vị gần như câu nào cũng có một số lẻ — mẫu [,;](?=\S) trần đã báo
+// nhầm 34/50 mục ở lượt nghiệm thu đầu. Phẩy giữa hai chữ số thì bỏ qua; phẩy sau số mà
+// dính CHỮ ("Cứu 3,Ôn châm") thì vẫn là lỗi.
+// Vế đầu chỉ tính khoảng trắng NGANG thường, không tính TAB: mục tham_khao trình bày
+// dạng bảng "Liệt Khuyết<TAB>: thiên về…", tab ở đó là canh cột chứ không phải lỗi gõ.
+const RE_DAU_CAU = /[ \u00a0]+[,;:.!?]|(?<!\d)[,;](?=\S)|(?<=\d)[,;](?=\D)/;
 
 export function doChu(s: string): LoiChu[] {
   if (typeof s !== 'string' || !s.trim()) return [];

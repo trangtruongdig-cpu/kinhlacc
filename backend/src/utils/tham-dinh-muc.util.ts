@@ -234,7 +234,10 @@ export function doLienKet(m: MucKho, chiMuc: ChiMucTen): NhanXetTho[] {
   const tp = m.truong['thanh_phan'];
   if (!tp || !tp.trim()) return ra;
 
-  const { khop, du } = quetTen(tp, chiMuc);
+  // Bỏ chú thích bào chế trong ngoặc — "(sao rượu)", "(bỏ vỏ)" không phải tên vị, và để
+  // nguyên thì cửa sổ quét còn ghép nhầm "Bạch thược (sao" thành một tên. Chỉ bỏ ngoặc
+  // ĐÓNG ĐỦ: ngoặc lệch là lỗi dữ liệu thật, đáng để lọt ra thành "tên vị lạ".
+  const { khop, du } = quetTen(tp.replace(/\([^)]*\)/g, ' '), chiMuc);
   const khac = khop.filter((k) => !(k.muc.bo === m.bo && k.muc.slug === m.slug));
 
   if (khac.length) {

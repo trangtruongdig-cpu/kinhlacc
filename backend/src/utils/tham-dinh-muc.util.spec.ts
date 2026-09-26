@@ -141,6 +141,23 @@ describe('doLienKet', () => {
     expect(l!.trichDan).toContain('Hoàng kỳ');
   });
 
+  /**
+   * Thành phần cổ phương hay kèm chú thích bào chế: "Bạch thược (sao rượu) 60g".
+   * Để nguyên thì cụm "(sao" lọt vào danh sách "tên vị lạ", và cửa sổ quét còn ghép
+   * nhầm "Bạch thược (sao" thành một tên — đo trên kho thật 26/09/2026.
+   */
+  it('bỏ chú thích bào chế trong ngoặc, không coi là tên vị', () => {
+    const r = doLienKet(
+      {
+        bo: 'bai_thuoc', ma: 'X', slug: 'c', tieuDe: 'C',
+        truong: { thanh_phan: 'Cam thảo (sao vàng) 4g Đảng sâm (bỏ lõi) 6g' },
+      },
+      CHI_MUC,
+    );
+    expect(r.find((x) => x.kieu === 'lien_ket_dung_duoc')!.trichDan).toContain('Cam thảo');
+    expect(r.find((x) => x.kieu === 'ten_vi_la')).toBeUndefined();
+  });
+
   it('không nhận nhầm chính mục đang xét làm liên kết', () => {
     const r = doLienKet(
       {

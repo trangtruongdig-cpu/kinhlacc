@@ -45,3 +45,40 @@ describe('doChu — rác di sản', () => {
     expect(loi[0].trichDan).not.toContain('Câu sạch đứng trước');
   });
 });
+
+/**
+ * Ba ca dưới đây đến từ lượt nghiệm thu đầu trên kho thật (26/09/2026, 50 huyệt): bản dò
+ * đầu tiên báo 13 mục "tcvn3" và 34 mục "dau_cau_sai", và cả 47 đều là vu oan.
+ *
+ * Bài học: phép dò rác chạy trên 18.416 mục thì một mẫu quá rộng không cho ra "vài cảnh
+ * báo thừa" — nó cho ra một cụm việc giả đứng đầu bảng, và người đọc mất lòng tin vào cả
+ * bảng. Thà bỏ sót còn hơn.
+ */
+describe('doChu — chữ tiếng Việt hợp lệ, KHÔNG được báo', () => {
+  it('"Ôn cứu" — Ô mở đầu từ là chữ Việt, không phải TCVN3', () => {
+    expect(doChu('Ôn cứu 5 – 10 phút.').map((l) => l.ma)).not.toContain('tcvn3');
+  });
+
+  it('"Ôn Lưu (Đtr 7)" trong phối huyệt cũng vậy', () => {
+    expect(doChu('Phối Lậu Cốc (Ty 7) + Ôn Lưu (Đtr 7) trị ruột sôi.').map((l) => l.ma))
+      .not.toContain('tcvn3');
+  });
+
+  it('"0,5 thốn" — dấu phẩy thập phân, không phải lỗi dấu câu', () => {
+    expect(doChu('Châm thẳng 0,5 – 1 thốn.').map((l) => l.ma)).not.toContain('dau_cau_sai');
+  });
+
+  it('nhưng dấu phẩy dính chữ thì vẫn bắt', () => {
+    expect(doChu('Trị đau đầu,chóng mặt').map((l) => l.ma)).toContain('dau_cau_sai');
+  });
+
+  it('và dấu phẩy sau số mà dính CHỮ thì vẫn bắt', () => {
+    expect(doChu('Cứu 3,Ôn châm 5 phút').map((l) => l.ma)).toContain('dau_cau_sai');
+  });
+
+  it('TAB trước dấu hai chấm là canh cột, không phải lỗi gõ', () => {
+    // Mục tham_khao của huyệt vị trình bày dạng bảng: "Liệt Khuyết<TAB>: thiên về…".
+    expect(doChu('Liệt Khuyết\t: thiên về giải Phế vệ.').map((l) => l.ma))
+      .not.toContain('dau_cau_sai');
+  });
+});
