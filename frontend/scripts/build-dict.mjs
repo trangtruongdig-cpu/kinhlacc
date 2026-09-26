@@ -286,7 +286,7 @@ function huyetPage(rec) {
   const infobox = `<aside class="dl-info">
     <div class="dl-info-head">Hồ Sơ Huyệt</div>
     <div class="dl-info-body">
-      ${theAnh(anh3d ? null : rec.anhCms, img, `Sơ đồ huyệt ${rec.ten}`, ' width="320" height="320"')}
+      ${theAnh(img, anh3d ? null : rec.anhCms, `Sơ đồ huyệt ${rec.ten}`, ' width="320" height="320"')}
       <table class="dl-info-tb"><tbody>${infoRows}</tbody></table>
     </div>
   </aside>`
@@ -387,7 +387,7 @@ function kinhPage(m) {
   const infobox = `<aside class="dl-info">
     <div class="dl-info-head">Hồ Sơ Đường Kinh</div>
     <div class="dl-info-body">
-      ${theAnh(m.anhCms, img, `Sơ đồ ${m.ten}`, Array.isArray(m.anhCmsWH) ? ` width="${m.anhCmsWH[0]}" height="${m.anhCmsWH[1]}"` : '')}
+      ${theAnh(img, m.anhCms, `Sơ đồ ${m.ten}`, Array.isArray(m.anhCmsWH) ? ` width="${m.anhCmsWH[0]}" height="${m.anhCmsWH[1]}"` : '')}
       <table class="dl-info-tb"><tbody>${infoRows}</tbody></table>
     </div>
   </aside>`
@@ -444,7 +444,16 @@ ${footer}</body></html>`
 }
 
 // ───────────────────────── CSS riêng cho từ điển ────────────────────────────
-// Thẻ ảnh hồ sơ: ưu tiên ảnh do CMS giữ, RƠI VỀ ảnh tĩnh nếu tải hỏng.
+// Thẻ ảnh hồ sơ: ưu tiên ảnh TĨNH, rơi về ảnh CMS nếu tải hỏng.
+//
+// ⚠️ TỪNG LÀM NGƯỢC LẠI VÀ ĐÓ LÀ SAI (sửa 26/09/2026). Lý do đảo lại, đo được:
+//   · 1.121 ảnh tĩnh (56,6 MB) ĐÃ CÓ trên VPS và trả 200. Đẩy chúng qua CMS làm chúng
+//     404 hết, vì byte ảnh nằm trên đĩa máy lập trình chứ không ở VPS.
+//   · Tên tệp tĩnh CÓ NGHĨA (`0352-hop-coc.webp`), còn khoá CMS là ULID
+//     (`01M3CHXHM1....webp`). Google dùng tên tệp làm tín hiệu xếp hạng ảnh, nên đổi
+//     sang ULID là bước LÙI về SEO ảnh.
+//   · Ảnh tĩnh do nginx phục vụ thẳng — nhanh hơn, và không chết theo container CMS.
+// CMS vẫn là nơi BIÊN TẬP và là bản lưu; nó chỉ không còn là đường phục vụ.
 //
 // Vì sao ưu tiên CMS: 1.312 ảnh từ điển không có trong git, chỉ nằm trên ổ đĩa VPS —
 // bản trong CMS là bản lưu duy nhất, và đó cũng là chỗ người biên tập sửa được.
@@ -454,10 +463,10 @@ ${footer}</body></html>`
 // sập) NHƯNG ảnh chưa vào đệm thì CMS sập là 502. Ảnh tĩnh không có điểm yếu đó.
 // `onerror` tự gỡ chính nó trước khi đổi src, nếu không thì ảnh tĩnh cũng hỏng sẽ quay
 // vòng vô tận.
-const theAnh = (cms, tinh, alt, kichThuoc = '') => {
-  if (!cms && !tinh) return ''
-  const chinh = cms || tinh
-  const lui = cms && tinh ? ` onerror="this.onerror=null;this.src='${escAttr(tinh)}'"` : ''
+const theAnh = (tinh, cms, alt, kichThuoc = '') => {
+  if (!tinh && !cms) return ''
+  const chinh = tinh || cms
+  const lui = tinh && cms ? ` onerror="this.onerror=null;this.src='${escAttr(cms)}'"` : ''
   return `<img class="dl-info-img" src="${escAttr(chinh)}" alt="${escAttr(alt)}" loading="eager"${kichThuoc}${lui}>`
 }
 

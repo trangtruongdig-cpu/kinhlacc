@@ -214,13 +214,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0005-a-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSGNGRC92QW2G3GME5K0M.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ0QV079Y0YMPE30DYCBJ3.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ0RD9AYZ86XKNX24M3GJ9.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ0SEMFDCVA0RTV40Z0HVT.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ0T0TP9M61T0TW3DTZ2MD.webp",
+        "da": "/anh/huyet/a-mon-tren-da.webp",
+        "gp": "/anh/huyet/a-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/a-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/a-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, cơ rối lớn, cơ thẳng sau đầu lớn, màng đội trục sau, ống sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 378,
+        "nhom": [
+          "Hỗ trợ lưỡi, thính giác, cổ và cột sống: cứng lưỡi, liệt lưỡi, mất ngôn ngữ, giảm thính lực, cứng cổ và cột sống.",
+          "Bình phong: phù thũng, động kinh, trạng thái hưng cảm.",
+          "Thanh dương nhiệt: sốt cao, cảm giác nóng bức, mất ý thức có dấu hiệu viêm, tiểu ít, nhịp tim nhanh, kích động, lú lẫn, chảy máu cam."
+        ]
+      },
       "international_code": "GV15",
       "code_dash": "GV-15",
       "chinese": "瘂門 (啞門)",
@@ -518,13 +525,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0012-am-bao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSMQ34T78FCY8T329RZDB.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPXYJF49F38K96BBG82C15.webp",
-        "gp": "/_emdash/api/media/file/01M3DPXZGZ7VJ3TA8S4KP3F8Y5.webp",
-        "lan": "/_emdash/api/media/file/01M3DPXZM07YMBVGWK4146C4WZ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPY0VJ6PVTZ5BR2PY8Q35Z.webp",
+        "da": "/anh/huyet/am-bao-tren-da.webp",
+        "gp": "/anh/huyet/am-bao-tren-giai-phau.webp",
+        "lan": "/anh/huyet/am-bao-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/am-bao-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: mặt trong xương đùi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 331,
+        "nhom": [
+          "Lợi hạ tiêu: tiểu khó, bí tiểu, tiểu không tự chủ, đái dầm, rối loạn kinh nguyệt.",
+          "Thông kinh lạc: đau, liệt, dị cảm vùng đùi, đau thắt lưng cùng lan xuống bụng."
+        ]
+      },
       "international_code": "LR9",
       "code_dash": "LR-9",
       "chinese": "陰包",
@@ -622,13 +635,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0014-am-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSN69M15B643JAX4AVF0B.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPPZS07Z01D34NAY56BN90.webp",
-        "gp": "/_emdash/api/media/file/01M3DPPZW184FQ7J0CCFKVV300.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQ0QBSWQ6XWG1NX3DHE43.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQ0TDV0XP9WD0HPXEFBHR.webp",
+        "da": "/anh/huyet/am-coc-tren-da.webp",
+        "gp": "/anh/huyet/am-coc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/am-coc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/am-coc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ bán mạc, đầu trên cơ sinh đôi trong."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 219,
+        "nhom": [
+          "Dẫn thấp nhiệt ra khỏi hạ tiêu, bổ trợ Thận: bệnh vùng sinh dục như rối loạn tiểu tiện, đau ngứa sinh dục, đau bụng dưới lan xuống sinh dục và mặt trong đùi, chảy máu tử cung, rối loạn cương dương, hiếm muộn.",
+          "Thông kinh lạc, giảm đau: đau mặt trong đầu gối và đùi."
+        ]
+      },
       "international_code": "KI10",
       "code_dash": "KI-10",
       "chinese": "陰谷",
@@ -728,13 +747,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0016-am-do.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSPKXWS6284825K04MY1D.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQH1WNGQD7JVZ7KWEPKEF.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQHEJ4JE09FFM0E2G3ZPE.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQJ2G4MKYB9QT293N3B49.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQJKWT9W6QJ8WHBK6798P.webp",
+        "da": "/anh/huyet/am-do-tren-da.webp",
+        "gp": "/anh/huyet/am-do-tren-giai-phau.webp",
+        "lan": "/anh/huyet/am-do-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/am-do-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang, khung tá tràng."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 228,
+        "nhom": [
+          "Giáng nghịch khí, hoà Vị: buồn nôn, nôn, đầy đau vùng bụng trên và thượng vị, táo bón, hiếm muộn, rong huyết tử cung, ho, tức ngực."
+        ]
+      },
       "international_code": "KI19",
       "code_dash": "KI-19",
       "chinese": "陰都",
@@ -832,13 +856,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0018-am-giao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSPX1SWBH8EHP601ED4DS.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPYSFDTWAYD4QTB5K30NB1.webp",
-        "gp": "/_emdash/api/media/file/01M3DPYT4MX3PWWMX5AQ4KC8XX.webp",
-        "lan": "/_emdash/api/media/file/01M3DPYTDQ3RNNCGXJHA56WKRG.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPYV30X01EWE2S3WEH6EH8.webp",
+        "da": "/anh/huyet/am-giao-tren-da.webp",
+        "gp": "/anh/huyet/am-giao-tren-giai-phau.webp",
+        "lan": "/anh/huyet/am-giao-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/am-giao-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 345,
+        "nhom": [
+          "Điều hoà kinh nguyệt: kinh nguyệt không đều, vô kinh, rong huyết tử cung, khí hư kéo dài.",
+          "Điều khí vùng bụng dưới và sinh dục: đau quanh rốn, đau bụng dưới lan xuống sinh dục, bệnh sán khí, vô sinh, ngứa sinh dục, bí đại tiểu tiện, khó chịu vùng thắt lưng và chi dưới, khí nghịch từ bụng dưới xông lên ngực (bôn đồn khí)."
+        ]
+      },
       "international_code": "CV7",
       "code_dash": "CV-7",
       "chinese": "陰交",
@@ -991,13 +1021,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0021-am-lang-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSRKTYMSZBYYT5QR7ZCRK.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPF68BS5A9FCHVSAD0HY4E.webp",
-        "gp": "/_emdash/api/media/file/01M3DPF6TMQP6ES4910WJSWMPT.webp",
-        "lan": "/_emdash/api/media/file/01M3DPF70PY1W1G82F9VHR77T8.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPF7P1E8GTCEEHCV85MB0D.webp",
+        "da": "/anh/huyet/am-lang-tuyen-tren-da.webp",
+        "gp": "/anh/huyet/am-lang-tuyen-tren-giai-phau.webp",
+        "lan": "/anh/huyet/am-lang-tuyen-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/am-lang-tuyen-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau – trong, mặt sau đầu xương chầy, chỗ bám của cơ kheo, dưới chỗ bám của cơ bán mạc, mặt trước cơ sinh đôi trong."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 97,
+        "nhom": [
+          "Điều hoà Tỳ Vị, trừ thấp, lợi thuỷ, ích hạ tiêu: bệnh đường tiết niệu và tiêu hoá thuộc trung – hạ tiêu, phù nề, hội chứng thấp ở bất kỳ vị trí nào trên cơ thể.",
+          "Tại chỗ: các vấn đề ở khớp gối, nhất là khi sưng tấy."
+        ]
+      },
       "international_code": "SP9",
       "code_dash": "SP-9",
       "chinese": "陰陵泉",
@@ -1059,13 +1095,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0022-am-liem.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSRSVPH401M42ZFD1MEQ1.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPY2VCGMSW89656N9ABNVA.webp",
-        "gp": "/_emdash/api/media/file/01M3DPY3PN6V3A641Q52YAEPZZ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPY3SQWSZ7HM0R8DQBMM0G.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPY4N1ARZ2GXWE3GKYRXHQ.webp",
+        "da": "/anh/huyet/am-liem-tren-da.webp",
+        "gp": "/anh/huyet/am-liem-tren-giai-phau.webp",
+        "lan": "/anh/huyet/am-liem-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/am-liem-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ khép nhỡ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 333,
+        "nhom": [
+          "Lợi tử cung: rối loạn kinh nguyệt, hiếm muộn.",
+          "Thư cân: đau và hạn chế vận động vùng háng và đùi."
+        ]
+      },
       "international_code": "LR11",
       "code_dash": "LR-11",
       "chinese": "陰廉",
@@ -1198,13 +1240,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0025-am-thi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSTA4STVFDTCZJYQYSZTJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPDJKMHJ1X74ATF3APW2E4.webp",
-        "gp": "/_emdash/api/media/file/01M3DPDK8THD3NS6ASPM5N1XH8.webp",
-        "lan": "/_emdash/api/media/file/01M3DPDKHYJJGH2GX3J7PB10JC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPDMA7QH38WWCP2RKPCK9A.webp",
+        "da": "/anh/huyet/am-thi-tren-da.webp",
+        "gp": "/anh/huyet/am-thi-tren-giai-phau.webp",
+        "lan": "/anh/huyet/am-thi-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/am-thi-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 72,
+        "nhom": [
+          "Thông kinh lạc, khu phong trừ thấp, giảm đau: đau, hạn chế vận động, rối loạn cảm giác hoặc liệt chi dưới, lệch khớp gối, teo cơ, co rút cơ, chứng sán khí."
+        ]
+      },
       "international_code": "ST33",
       "code_dash": "ST-33",
       "chinese": "陰市",
@@ -1409,13 +1456,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0030-am-khich.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSQVSKZZD1SQA5AEN4JWH.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPGBXJVE2TCV9VF7WH2S7C.webp",
-        "gp": "/_emdash/api/media/file/01M3DPGC0K86ZY9TXF1XFVFDCF.webp",
-        "lan": "/_emdash/api/media/file/01M3DPGCVZ9C20ATQFBGQC318K.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPGCZ11K9C1CW2VBFBRB6J.webp",
+        "da": "/anh/huyet/am-khich-2-tren-da.webp",
+        "gp": "/anh/huyet/am-khich-2-tren-giai-phau.webp",
+        "lan": "/anh/huyet/am-khich-2-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/am-khich-2-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gấp chung nông các ngón tay, bờ trong gân cơ gấp chung sâu các ngón tay. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 115,
+        "nhom": [
+          "Bổ dưỡng Tâm âm – Tâm huyết, thanh nhiệt, an thần, trị chứng cấp (Khích huyệt): đổ mồ hôi trộm ban đêm, cảm giác nóng hầm hập trong xương, bồn chồn, rối loạn chức năng tim mạch, nhịp tim nhanh, đau thắt ngực."
+        ]
+      },
       "international_code": "HE6",
       "code_dash": "HE-6",
       "chinese": "陰郄",
@@ -1503,13 +1555,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0032-an-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSX1N9Z79S4N5RDMBMFWF.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPMBG3HAWRW48V9D6H4QRS.webp",
-        "gp": "/_emdash/api/media/file/01M3DPMBS79B11MJBMHYT1BYBK.webp",
-        "lan": "/_emdash/api/media/file/01M3DPMCMS10EZ03710FC5K8EG.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPMCQWZDY5PKBNA25Y5BWN.webp",
+        "da": "/anh/huyet/an-mon-tren-da.webp",
+        "gp": "/anh/huyet/an-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/an-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/an-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong cơ 2 đầu đùi, bờ ngoài cơ bán gân, cơ bán mạc, mặt sau đùi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 176,
+        "nhom": [
+          "Thông kinh lạc, giảm đau, lợi lưng dưới: đau lưng lan dọc đường kinh (không theo rễ thần kinh), teo cơ, đau và hạn chế vận động vùng thắt lưng — chân."
+        ]
+      },
       "international_code": "BL37",
       "code_dash": "BL-37",
       "chinese": "殷門",
@@ -1613,13 +1670,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0034-an-bach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSY3YB1F7KKC7CMRE0H2A.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPEK5ZSG4AKYVNF1J5YR0G.webp",
-        "gp": "/_emdash/api/media/file/01M3DPEKV5SMAKNF17MFAA6SPR.webp",
-        "lan": "/_emdash/api/media/file/01M3DPEM48060FGH13SSWK2KB5.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPEMSPZCRKQX01597HZ9V2.webp",
+        "da": "/anh/huyet/an-bach-tren-da.webp",
+        "gp": "/anh/huyet/an-bach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/an-bach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/an-bach-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: xương đốt 2 ngón chân cái."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 87,
+        "nhom": [
+          "Chỉ huyết (do Tỳ không nhiếp huyết, thường cứu ngải; do nhiệt thì chích huyết): băng huyết, rong huyết, chảy máu cam, tiểu ra máu, đại tiện ra máu.",
+          "Điều hoà Tỳ Vị: tiêu chảy, viêm dạ dày – ruột cấp, đầy hơi cấp.",
+          "Khoan khoái lồng ngực: tức ngực, căng ngực.",
+          "Dưỡng Tâm an thần, khai khiếu: mất ngủ hay mơ, động kinh ở trẻ em, rối loạn tâm thần với bồn chồn, hưng cảm, bất tỉnh."
+        ]
+      },
       "international_code": "SP1",
       "code_dash": "SP-1",
       "chinese": "隱白",
@@ -1805,13 +1870,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0038-bach-hoi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSYYYD7K7RHGQH2X47E6F.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ12V7W0RDVHZVD5S7KWKT.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ13PFAKZK7WQTWF8FC268.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ13ZKY5EY2BVWS5TXP3TG.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ14TWQ15PZV35DSPHNJ2F.webp",
+        "da": "/anh/huyet/bach-hoi-tren-da.webp",
+        "gp": "/anh/huyet/bach-hoi-tren-giai-phau.webp",
+        "lan": "/anh/huyet/bach-hoi-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/bach-hoi-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, dưới cân sọ là xương sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 384,
+        "nhom": [
+          "Bình phong, bình dương, hỗ trợ trí não và các cơ quan cảm giác, an thần: chóng mặt, ù tai, nhức đầu, choáng váng, rối loạn tâm lý, rối loạn giấc ngủ, hội chứng cai nghiện.",
+          "Bồi bổ bể tuỷ, thăng dương: chóng mặt, sa các tạng."
+        ]
+      },
       "international_code": "GV20",
       "code_dash": "GV-20",
       "chinese": "百會",
@@ -1992,13 +2063,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0042-bach-hoan-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHT1AH81Z9ZT0Y9MNQPMPY.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPKPTH8RD5QXNGP913RJTH.webp",
-        "gp": "/_emdash/api/media/file/01M3DPKPXH31GSX3BAERGH2TPG.webp",
-        "lan": "/_emdash/api/media/file/01M3DPKQRV7295VWHH2SR3V2VN.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPKQVWFQ25P18J8DMYQ505.webp",
+        "da": "/anh/huyet/bach-hoan-du-tren-da.webp",
+        "gp": "/anh/huyet/bach-hoan-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/bach-hoan-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/bach-hoan-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, chỗ bám của cơ mông lớn, phía ngoài khối cơ chung của các cơ ở rãnh cột sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 172,
+        "nhom": [
+          "Tăng cường sức mạnh lưng và chân: đau thắt lưng — xương cùng nặng lên khi đứng/ngồi, viêm khớp háng.",
+          "Điều kinh, cầm khí hư và di tinh: khí hư (bạch đới), rối loạn xuất tinh, rối loạn kinh nguyệt như đau bụng kinh và kinh nguyệt không đều, sa trực tràng."
+        ]
+      },
       "international_code": "BL30",
       "code_dash": "BL-30",
       "chinese": "白環俞",
@@ -2105,13 +2182,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0044-ban-than.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHT2BD6FPAAS3ZA3FW6AED.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPV9FC86909A3858MXKWH5.webp",
-        "gp": "/_emdash/api/media/file/01M3DPV9RJF951ZV5BHYZ0V0KF.webp",
-        "lan": "/_emdash/api/media/file/01M3DPVAARWX33XBQ3F2Q1PCE0.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPVASVJFZQXP4J9SZMBGSK.webp",
+        "da": "/anh/huyet/ban-than-tren-da.webp",
+        "gp": "/anh/huyet/ban-than-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ban-than-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ban-than-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ cơ trán dính vào cân sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 285,
+        "nhom": [
+          "Trừ phong đàm, an thần: nhức đầu, chóng mặt, ngủ gà, liệt mặt, động kinh, ngất xỉu."
+        ]
+      },
       "international_code": "GB13",
       "code_dash": "GB-13",
       "chinese": "本神",
@@ -2344,13 +2426,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0050-bang-quang-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHT55HV692V1C292057BK9.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPKHKPD32F07B36A04905B.webp",
-        "gp": "/_emdash/api/media/file/01M3DPKJ42555DW5R1BGQFNY0N.webp",
-        "lan": "/_emdash/api/media/file/01M3DPKK05V34VMVBFMS6Y9RAG.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPKKFTGG9YQWQZBN02H98Z.webp",
+        "da": "/anh/huyet/bang-quang-du-tren-da.webp",
+        "gp": "/anh/huyet/bang-quang-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/bang-quang-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/bang-quang-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ ở rãnh cột sống xương cùng 2."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 170,
+        "nhom": [
+          "Điều hoà Bàng Quang, thanh thấp nhiệt hạ tiêu, hoá ứ, tiêu khối (Du huyệt của Bàng Quang): bệnh tiết niệu — sinh dục, tiêu chảy, khối u ở bụng.",
+          "Lợi lưng dưới và chân: các vấn đề vùng thắt lưng và xương cùng."
+        ]
+      },
       "international_code": "BL28",
       "code_dash": "BL-28",
       "chinese": "膀胱俞",
@@ -2411,13 +2499,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0051-bao-hoang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHT5BKAV7030Q3MHTNBEM8.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPNE8QR610GWWWGJR7ACCA.webp",
-        "gp": "/_emdash/api/media/file/01M3DPNF0ZVQSRMAV1XCDXC79T.webp",
-        "lan": "/_emdash/api/media/file/01M3DPNF70C98MX52P1GB5JA4Y.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPNFS6D85N085HQD1SK294.webp",
+        "da": "/anh/huyet/bao-hoang-tren-da.webp",
+        "gp": "/anh/huyet/bao-hoang-tren-giai-phau.webp",
+        "lan": "/anh/huyet/bao-hoang-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/bao-hoang-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ mông nhỡ, bờ trên cơ tháp, bờ ngoài chỗ bám cân cơ lưng lớn."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 192,
+        "nhom": [
+          "Thông kinh lạc, giảm đau, lợi lưng dưới: đau thắt lưng hoặc xương cùng, đau thần kinh toạ, cứng khớp chân.",
+          "Điều hoà hạ tiêu: tiểu khó, xu hướng phù nề, phì đại tuyến tiền liệt, táo bón."
+        ]
+      },
       "international_code": "BL53",
       "code_dash": "BL-53",
       "chinese": "胞肓",
@@ -2920,13 +3014,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0063-bat-dung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHT9SCDG74HCKY6EFBRVX7.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPC9Z9515Q4Z8BH6MA84WP.webp",
-        "gp": "/_emdash/api/media/file/01M3DPCAED0VS2EXVSGZ2DED08.webp",
-        "lan": "/_emdash/api/media/file/01M3DPCAXJBA9H0PDJBHSFSCJM.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPCBCR3VCM715G5B99ADV9.webp",
+        "da": "/anh/huyet/bat-dung-tren-da.webp",
+        "gp": "/anh/huyet/bat-dung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/bat-dung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/bat-dung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang, trong ổ bụng là gan."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 58,
+        "nhom": [
+          "Điều hoà trung tiêu, giáng nghịch khí: chán ăn, buồn nôn, nôn, đau dạ dày, viêm dạ dày, đầy bụng, sôi bụng.",
+          "Bổ Phế khí: ho, khó thở, hen phế quản."
+        ]
+      },
       "international_code": "ST19",
       "code_dash": "ST-19",
       "chinese": "不容",
@@ -2984,13 +3084,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0064-be-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHT9ZDQGKKJV2PMY52M7MW.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPDFDM2H24E307FA40Q243.webp",
-        "gp": "/_emdash/api/media/file/01M3DPDF4JH0PE1AR048XX8CBR.webp",
-        "lan": "/_emdash/api/media/file/01M3DPDFKP4DV2GEGWP131M1K5.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPDG2XNYXTBQQ4TDA44E84.webp",
+        "da": "/anh/huyet/be-quan-tren-da.webp",
+        "gp": "/anh/huyet/be-quan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/be-quan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/be-quan-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: góc của cơ may, cơ căng cân đùi, cơ thẳng trước đùi, cơ đái – chậu."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 70,
+        "nhom": [
+          "Thông kinh lạc, khu phong trừ thấp, giảm đau: đau, hạn chế vận động, tê bì hoặc liệt chi dưới, đau khớp háng và khớp gối, teo cơ, co rút gối, đau thắt lưng; tê đau lan dọc hông – chân thường phối với Túc Tam Lý (ST36) và Giải Khê (ST41)."
+        ]
+      },
       "international_code": "ST31",
       "code_dash": "ST-31",
       "chinese": "髀關",
@@ -3170,13 +3275,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0068-binh-phong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTBVN7PWV906VM4XSVNJC.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPHBHPQDX1HZQ0WH03CVWN.webp",
-        "gp": "/_emdash/api/media/file/01M3DPHCKQ89BNTRKKXPJ55EG2.webp",
-        "lan": "/_emdash/api/media/file/01M3DPHCWS9ARNZYTRQ04YG3NZ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPHD8XPAMGBAASA2X9RCTZ.webp",
+        "da": "/anh/huyet/binh-phong-tren-da.webp",
+        "gp": "/anh/huyet/binh-phong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/binh-phong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/binh-phong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: xương bả vai."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 133,
+        "nhom": [
+          "Khu phong, lợi vai và xương bả vai: đau nhức vùng vai và cổ, nhất là khi do phong tà gây bệnh."
+        ]
+      },
       "international_code": "SI12",
       "code_dash": "SI-12",
       "chinese": "秉風",
@@ -3235,13 +3345,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0069-bo-lang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTCPPDV48JJX586VAMVJH.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQPWS0GABBA97AWKZ4DYB.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQQC577K167DKFS47SH7R.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQQRAY95BVXMP81ZWR5MT.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQRDHDDB5GCQNHYK3170M.webp",
+        "da": "/anh/huyet/bo-lang-tren-da.webp",
+        "gp": "/anh/huyet/bo-lang-tren-giai-phau.webp",
+        "lan": "/anh/huyet/bo-lang-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/bo-lang-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ thẳng lớn, cơ gian sườn 5, mặt trên gan, phổi (bên phải), tim (bên trái)."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 231,
+        "nhom": [
+          "Điều hoà Phế khí, giáng Vị khí nghịch, khoan khoái lồng ngực: ho, khó thở, hen suyễn, tức ngực, buồn nôn, chán ăn, viêm tuyến vú."
+        ]
+      },
       "international_code": "KI22",
       "code_dash": "KI-22",
       "chinese": "步廊",
@@ -3307,13 +3422,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0070-boc-tham.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTCWP4H7CY0MAV2Q522DX.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPP0QVPW1KWZRNDTKMWR5W.webp",
-        "gp": "/_emdash/api/media/file/01M3DPP15B5RT0XR0EY6SFV1H7.webp",
-        "lan": "/_emdash/api/media/file/01M3DPP1RJ1A5544PD70D1G1M0.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPP2GZWWS62FRBMDY5PECG.webp",
+        "da": "/anh/huyet/boc-tham-tren-da.webp",
+        "gp": "/anh/huyet/boc-tham-tren-giai-phau.webp",
+        "lan": "/anh/huyet/boc-tham-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/boc-tham-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ mác bên dái, gân cơ mác bên ngắn ở phía trước, gân gót chân ở phía sau, bờ trên xương gót."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 200,
+        "nhom": [
+          "Thông kinh lạc, thư cân, giảm đau: nhức đầu, đau lưng, thắt lưng, đầu gối, gót chân, chuột rút chân, tiểu khó, cảm giác nặng đầu, động kinh, hưng cảm, rối loạn tâm thần."
+        ]
+      },
       "international_code": "BL61",
       "code_dash": "BL-61",
       "chinese": "僕參",
@@ -3588,13 +3708,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0077-cach-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTESKCA7MKC4QZRE6FQRD.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJT8SWJ5PRC3V5P6M3M4A.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJTHV9DVX77VY2TXR392B.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJV71658AD4ZHXA3DWR1H.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJVG3YE7XCHEWKB1XJRFF.webp",
+        "da": "/anh/huyet/cach-du-tren-da.webp",
+        "gp": "/anh/huyet/cach-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/cach-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/cach-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ lưng dài, cơ bán gai của ngực, cơ ngang – gai, cơ ngang – sườn, vào trong là phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 158,
+        "nhom": [
+          "Lương huyết, chỉ huyết, hoá ứ huyết, dưỡng và điều hoà khí huyết (Hội huyệt của huyết): bệnh về máu do huyết nhiệt, huyết ứ hoặc huyết hư, đau thắt ngực, các chứng đau do ứ huyết nhất là ở thượng — trung tiêu, bệnh ngoài da, chóng mặt, đổ mồ hôi đêm, sốt kèm ra mồ hôi đêm trong bệnh loãng xương (do huyết và âm hư), bệnh tâm thần nặng do ứ huyết, chứng tý mạn tính.",
+          "Điều hoà cơ hoành, giáng khí nghịch: ho, khó thở, trào ngược, co thắt thực quản, rối loạn cơ hoành.",
+          "Tại chỗ/theo kinh: các chứng ở vùng cột sống ngực, cứng khớp, đau dây thần kinh liên sườn."
+        ]
+      },
       "international_code": "BL17",
       "code_dash": "BL-17",
       "chinese": "膈俞",
@@ -3654,13 +3781,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0078-cach-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTFF0JGKET1SAH329AN2N.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPN060AJAMD9Q1NF2STJYH.webp",
-        "gp": "/_emdash/api/media/file/01M3DPN15XYEGEMGER7TXMMTPW.webp",
-        "lan": "/_emdash/api/media/file/01M3DPN18XRTKJYTZMSC3A75Q6.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPN24M22HPT4QJ41ZQ0KES.webp",
+        "da": "/anh/huyet/cach-quan-tren-da.webp",
+        "gp": "/anh/huyet/cach-quan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/cach-quan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/cach-quan-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ thang, cơ lưng lớn, cơ chậu – sườn – ngực, cơ gian sườn 7, vào trong là phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 185,
+        "nhom": [
+          "Điều hoà cơ hoành, giáng nghịch khí, hoà trung tiêu: ợ chua, ợ hơi, nôn mửa, tăng tiết nước bọt, chán ăn, cảm giác đầy no.",
+          "Thông kinh lạc, giảm đau: đau, cứng vùng lưng bên và ngực dọc đường kinh."
+        ]
+      },
       "international_code": "BL46",
       "code_dash": "BL-46",
       "chinese": "膈關",
@@ -3790,13 +3923,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0081-can-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTFMZKYRTD11QW5AE8QZ9.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJW8B06F8JSZJC49VK88D.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJWECBFF6NJW9PF5W8VT2.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJX0J9ANW3J3Y3TACF1QV.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJXFRHCKV7VS45J6VJAB5.webp",
+        "da": "/anh/huyet/can-du-tren-da.webp",
+        "gp": "/anh/huyet/can-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/can-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/can-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ lưng dài, cơ bán gai của ngực, cơ ngang – gai, cơ ngang – sườn, vào trong là phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 159,
+        "nhom": [
+          "Sơ Can khí, dưỡng Can huyết, thanh Can hoả và thấp nhiệt, bình nội phong (Du huyệt của Can): rối loạn do Can khí uất kết hoặc thấp nhiệt như căng đau vùng ngực, thượng vị, mạn sườn; bệnh Can — Đởm; chảy máu do Can hoả; chóng mặt; rối loạn kinh nguyệt; rối loạn tâm thần với trạng thái hung hãn, hưng cảm; động kinh.",
+          "Dưỡng mắt, lợi gân: giảm thị lực, viêm kết mạc, co thắt cơ, co rút gân."
+        ]
+      },
       "international_code": "BL18",
       "code_dash": "BL-18",
       "chinese": "肝俞",
@@ -4047,13 +4186,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0087-cao-hoang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTHGY946C61FX7CJ3HTE4.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPMTACC2SA60GM8XGZDDA8.webp",
-        "gp": "/_emdash/api/media/file/01M3DPMTZKH7RA7MJ70W2MBWPZ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPMV8RHS8TZS8JYSW0ZHYJ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPMVV6DHQQ851JD6K7H7NP.webp",
+        "da": "/anh/huyet/cao-hoang-tren-da.webp",
+        "gp": "/anh/huyet/cao-hoang-tren-giai-phau.webp",
+        "lan": "/anh/huyet/cao-hoang-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/cao-hoang-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ răng bé sau – trên, cơ chậu – sườn – ngực, cơ gian sườn 4, phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 182,
+        "nhom": [
+          "Bổ dưỡng Phế — Tâm — Thận — Vị — Tỳ, bổ âm, thanh hư nhiệt: các hội chứng suy nhược tạng phủ tương ứng, bệnh phổi mạn tính với ho, hen phế quản, đổ mồ hôi đêm, chứng loãng xương.",
+          "An thần: mất ngủ, lú lẫn, suy giảm trí nhớ.",
+          "Bổ nguyên khí: trạng thái suy yếu, kiệt sức.",
+          "Hoá đờm: đờm tích tụ trong các bệnh mạn tính."
+        ]
+      },
       "international_code": "BL43",
       "code_dash": "BL-43",
       "chinese": "膏肓俞",
@@ -4231,13 +4378,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0091-can-suc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTJJ1RJJ5D9V6P6E38T05.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ091TQHJZC297181QXTF4.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ09KX029CE1SCSSK1M1A4.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ0A3481ADVPW4KJ38Q00N.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ0AN8ZGE14Y7X471SNEWD.webp",
+        "da": "/anh/huyet/can-suc-tren-da.webp",
+        "gp": "/anh/huyet/can-suc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/can-suc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/can-suc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ thang, cân ngực – thắt lưng của cơ lưng lớn, cơ gai dài của lưng, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 371,
+        "nhom": [
+          "Bình Can phong, giảm co thắt: vàng da, uất ức dễ nổi giận, đau dạ dày, co thắt cơ, bồn chồn, đau tim.",
+          "An thần: động kinh, trạng thái hưng cảm."
+        ]
+      },
       "international_code": "GV8",
       "code_dash": "GV-8",
       "chinese": "筋縮",
@@ -4294,13 +4447,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0092-cap-mach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTK70WMPEV02SQ8DRP9R3.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPY4R110AQ1RJDA4KC6JBP.webp",
-        "gp": "/_emdash/api/media/file/01M3DPY5KCNPH8G88JYF49ZR3B.webp",
-        "lan": "/_emdash/api/media/file/01M3DPY5PD85G6FP2742Z76MJ3.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPY6J25F4E73ZXFFXZJZJT.webp",
+        "da": "/anh/huyet/cap-mach-tren-da.webp",
+        "gp": "/anh/huyet/cap-mach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/cap-mach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/cap-mach-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cung đùi fallope, cơ khép nhỡ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 334,
+        "nhom": [
+          "Tán hàn kinh Can, lợi hạ tiêu: đau bụng dưới lan xuống sinh dục, đau háng, sa tử cung, bệnh sán khí."
+        ]
+      },
       "international_code": "LR12",
       "code_dash": "LR-12",
       "chinese": "急脈",
@@ -4470,13 +4628,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0096-chi-cau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTN2Z50CS88DST3JXZY91.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPSBZYDZ01PDMQM15FBWF9.webp",
-        "gp": "/_emdash/api/media/file/01M3DPSCF3MA97DDH1PQH81FB9.webp",
-        "lan": "/_emdash/api/media/file/01M3DPSCYR3G14BQMCE39MB4JE.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPSDPHF9NEDP9NY6V8HM70.webp",
+        "da": "/anh/huyet/chi-cau-tren-da.webp",
+        "gp": "/anh/huyet/chi-cau-tren-giai-phau.webp",
+        "lan": "/anh/huyet/chi-cau-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/chi-cau-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi dài riêng ngón tay cái ở ngoài với các cơ duỗi riêng ngón tay út, cơ duỗi riêng ngón tay trỏ ở trong, giữa màng gian cốt."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 253,
+        "nhom": [
+          "Điều khí, thanh nhiệt Tam Tiêu, lợi mạn sườn, thông đại tiện: táo bón, kiết lỵ cấp tính, đau vùng sườn ngoài/hạ sườn; dùng làm huyệt châm tê trong phẫu thuật lồng ngực.",
+          "Lợi họng, phục hồi giọng nói: mất tiếng cấp tính.",
+          "Thông kinh lạc, giảm đau: các chứng dọc đường kinh."
+        ]
+      },
       "international_code": "TE6",
       "code_dash": "TE-6",
       "chinese": "支溝",
@@ -4545,13 +4710,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0097-chi-chinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTN8ZXG6S1R1BFXFWBE50.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPGZ5XJSGGFCFPQ6ZWF81W.webp",
-        "gp": "/_emdash/api/media/file/01M3DPGZR23S2APKC1S448WTMY.webp",
-        "lan": "/_emdash/api/media/file/01M3DPH046JQKMSAQYX4325TEH.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPH164G6W9MPQETSC66F45.webp",
+        "da": "/anh/huyet/chi-chinh-tren-da.webp",
+        "gp": "/anh/huyet/chi-chinh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/chi-chinh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/chi-chinh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trụ sau, chỗ bám vào xương của cơ duỗi riêng ngón tay trỏ, cơ gấp chung sâu các ngón tay xương trụ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 128,
+        "nhom": [
+          "Thông kinh lạc: đau và hạn chế vận động ở cánh tay, vai và cổ.",
+          "Giải biểu: sốt nhiễm trùng, đau nhức mình mẩy.",
+          "An thần: bồn chồn, lo âu, trạng thái hưng phấn quá mức."
+        ]
+      },
       "international_code": "SI7",
       "code_dash": "SI-7",
       "chinese": "支正",
@@ -4616,13 +4788,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0098-chi-am.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTP43GKC414JTFF89VN4V.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPPC6FAR20GPRDTBRK7ERB.webp",
-        "gp": "/_emdash/api/media/file/01M3DPPCVQ0SVB6VGYB34APJ9K.webp",
-        "lan": "/_emdash/api/media/file/01M3DPPD4VC3FW0YS365Q1Q99K.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPPDY5KG50CNBNR7506M92.webp",
+        "da": "/anh/huyet/chi-am-tren-da.webp",
+        "gp": "/anh/huyet/chi-am-tren-giai-phau.webp",
+        "lan": "/anh/huyet/chi-am-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/chi-am-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: xương đốt 3 ngón chân thứ 5."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 208,
+        "nhom": [
+          "Chuyển ngôi thai (đã có bằng chứng khoa học): xoay thai ngôi mông về ngôi đầu trước sinh — cứu ngải hoặc châm vào huyệt này đạt hiệu quả cao (khoảng 70–80%).",
+          "Trợ sinh: điều hoà và kích thích cơn co thắt tử cung khi chuyển dạ.",
+          "Khu phong, sáng mắt và đầu, nhất là chứng cấp tính: nhức đầu vùng đỉnh — chẩm, viêm kết mạc, đau mắt, viêm mũi, đau họng, điếc, ù tai, đau dây thần kinh liên sườn.",
+          "Điều hoà âm dương, thông điều thuỷ đạo: tiểu khó, cảm giác nóng ở bàn chân."
+        ]
+      },
       "international_code": "BL67",
       "code_dash": "BL-67",
       "chinese": "至陰",
@@ -4688,13 +4868,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0099-chi-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTPA3FJM2BRHS59KWXN7Z.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ0AYB9QVPH5SAYB6B074T.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ0BGJKQV82AFJFRHYTE6P.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ0BZV9D56P7M8E0JGSJCP.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ0CJ2EKWNSKE2WCGJGWVK.webp",
+        "da": "/anh/huyet/chi-duong-tren-da.webp",
+        "gp": "/anh/huyet/chi-duong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/chi-duong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/chi-duong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, cân ngực – thắt lưng của cơ lưng lớn, cơ gai dài của lưng, cơ ngang – gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 372,
+        "nhom": [
+          "Bổ Tỳ, trừ thấp và thấp nhiệt, điều hoà trung tiêu: đầy bụng hoặc cảm giác lạnh bụng, chán ăn, suy nhược kèm đau đớn, vàng da.",
+          "Khai thông lồng ngực: đau thắt ngực, căng tức vùng ngực và mạn sườn, ho, khó thở, các vấn đề cột sống."
+        ]
+      },
       "international_code": "GV9",
       "code_dash": "GV-9",
       "chinese": "至陽",
@@ -4797,13 +4983,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0101-chi-that.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTPZ5M7RK85WT2M0MHJJE.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPNCBRZN0STE23CG6JGAVR.webp",
-        "gp": "/_emdash/api/media/file/01M3DPND1AGZH8R00983W7DJG4.webp",
-        "lan": "/_emdash/api/media/file/01M3DPNDAC30WVTSVDR6JJ1WCE.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPNDZMCCKXKXQX1AD9VZGG.webp",
+        "da": "/anh/huyet/chi-that-tren-da.webp",
+        "gp": "/anh/huyet/chi-that-tren-giai-phau.webp",
+        "lan": "/anh/huyet/chi-that-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/chi-that-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ răng bé sau – dưới, cơ chậu sườn – thắt lưng, cân lưng – thắt lưng, cơ vuông thắt lưng."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 191,
+        "nhom": [
+          "Bổ Thận ích tinh, điều hoà tiểu tiện: rối loạn chức năng tình dục như liệt dương, rối loạn xuất tinh, bệnh ở cơ quan sinh dục, rối loạn tiểu tiện, phù thũng.",
+          "Lợi lưng dưới: hạn chế vận động cột sống thắt lưng."
+        ]
+      },
       "international_code": "BL52",
       "code_dash": "BL-52",
       "chinese": "志室",
@@ -4983,13 +5175,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0105-chien-trung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTR659GD8WZ02W7SGPEXM.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZCHVG80C2Y2MXXFM2B2T.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZCXZV5JW357CGXSFSVY0.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZDK8PCJWH2A23A54B91R.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZDZCK9C1FHPEWT9BB9XE.webp",
+        "da": "/anh/huyet/chien-trung-tren-da.webp",
+        "gp": "/anh/huyet/chien-trung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/chien-trung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/chien-trung-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 355,
+        "nhom": [
+          "Điều khí, bổ khí, khai thông lồng ngực, giáng khí nghịch Phế và Vị: bệnh đường hô hấp, nôn, trào ngược, đau dây thần kinh liên sườn.",
+          "Hỗ trợ sản phụ: rối loạn tiết sữa, viêm tuyến vú."
+        ]
+      },
       "international_code": "CV17",
       "code_dash": "CV-17",
       "chinese": "膻中",
@@ -5054,13 +5252,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0106-chieu-hai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTRV9MBKD6CP7V3DEEP1Y.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPPQT873XWBE1JZGCTC2F3.webp",
-        "gp": "/_emdash/api/media/file/01M3DPPRA0V7X8WJ586NM1JHRD.webp",
-        "lan": "/_emdash/api/media/file/01M3DPPRPQ4SRNKA26GK69CPT4.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPPS8XXRZZS3HJQPMXBS38.webp",
+        "da": "/anh/huyet/chieu-hai-tren-da.webp",
+        "gp": "/anh/huyet/chieu-hai-tren-giai-phau.webp",
+        "lan": "/anh/huyet/chieu-hai-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/chieu-hai-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gấp dài các ngón chân, sau mỏm chân đế, gót của xương gót."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 215,
+        "nhom": [
+          "Bổ Thận âm, thanh hư nhiệt, lợi họng, điều hoà hạ tiêu và mạch Âm Kiều: bệnh mạn tính ở mắt và họng, đau họng, chóng mặt, táo bón do âm hư, rối loạn đường sinh dục, rối loạn kinh nguyệt (đau bụng kinh, vô kinh, chu kỳ không đều), chuyển dạ kéo dài, sa tử cung, triệu chứng mãn kinh, chứng sán khí, căng cứng mặt trong hai chân, đầy bụng.",
+          "An thần: mất ngủ, bồn chồn, kích động, hoặc ngược lại buồn ngủ nhiều.",
+          "Tại chỗ: đau, rối loạn vận động khớp cổ chân (sấp/ngửa)."
+        ]
+      },
       "international_code": "KI6",
       "code_dash": "KI-6",
       "chinese": "照海",
@@ -5129,13 +5334,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0107-chinh-dinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTS1CMHRPY2AN0JP7P285.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPVH9VB67AXPGPXNMFW5M2.webp",
-        "gp": "/_emdash/api/media/file/01M3DPVHD8HFRKFG504D55D39X.webp",
-        "lan": "/_emdash/api/media/file/01M3DPVHWDB4FDTCCEXM6HHXNG.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPVJBJG9EJ5VEH2EA23337.webp",
+        "da": "/anh/huyet/chinh-dinh-tren-da.webp",
+        "gp": "/anh/huyet/chinh-dinh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/chinh-dinh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/chinh-dinh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, xương đỉnh sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 289,
+        "nhom": [
+          "Lợi đầu, điều hoà Vị, giảm đau: nhức đầu một bên, đau răng hàm trên, chóng mặt, buồn nôn và nôn, cứng cổ, sợ gió lạnh."
+        ]
+      },
       "international_code": "GB17",
       "code_dash": "GB-17",
       "chinese": "正營",
@@ -5191,10 +5401,10 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0108-chu-vinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTSWEXZ8S43VZ9KNPA57J.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPFW8KE83TM7HVBJD37AQZ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPFWQRK5P4A2GKPQSKH27G.webp",
-        "lan": "/_emdash/api/media/file/01M3DPFX6ZF9F68W8VGPFVQRJ4.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPFXP457WCN4R1KGGMVE6C.webp",
+        "da": "/anh/huyet/chu-vinh-tren-da.webp",
+        "gp": "/anh/huyet/chu-vinh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/chu-vinh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/chu-vinh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ răng lớn, cơ gian sườn 3, vào trong là phổi."
       },
       "congDung": null,
@@ -5372,13 +5582,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0112-chuong-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTVRVQBQYJ8WNB4QCEYBY.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPY6N0CXGNJ39B32VHF79J.webp",
-        "gp": "/_emdash/api/media/file/01M3DPY7DXDKD7G48KQ68934Y6.webp",
-        "lan": "/_emdash/api/media/file/01M3DPY7Q1B71XTZN1AJJ70J1M.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPY8NRRTSE5G07EAMDJYZS.webp",
+        "da": "/anh/huyet/chuong-mon-tren-da.webp",
+        "gp": "/anh/huyet/chuong-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/chuong-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/chuong-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ chéo lớn của bụng, cơ chéo bé của bụng, cơ ngang bụng, mạc ngang, đầu xương sườn 11, bờ dưới gan, đại trường lên, xuống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 335,
+        "nhom": [
+          "Điều hoà Can và Tỳ, sơ Can khí (nhất là trung — hạ tiêu), bổ Tỳ (Mộ huyệt của Tỳ, Hội huyệt của Tạng): bệnh tiêu hoá nhất là khi Can khí phạm Tỳ Vị, đau hạ sườn/ngực bên, các chứng cột sống hông — thắt lưng nhất là khi xoay người."
+        ]
+      },
       "international_code": "LR13",
       "code_dash": "LR-13",
       "chinese": "章門",
@@ -5477,13 +5692,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0114-con-lon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTVVTY2M320NKANT671CY.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPNYR6272BN5T8131W3M99.webp",
-        "gp": "/_emdash/api/media/file/01M3DPNZABETAQ8T8ZYBR1M9TQ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPNZSG30BTD8SJ505YHCBQ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPP08PQGYRNQV8EZ5VN80C.webp",
+        "da": "/anh/huyet/con-lon-tren-da.webp",
+        "gp": "/anh/huyet/con-lon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/con-lon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/con-lon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ mác bên dài ở trước gân gót chân, ở sau đầu dưới xương chầy."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 199,
+        "nhom": [
+          "Thanh nhiệt, tả thực chứng ở đầu, bình phong (Huyệt Kinh): nhức đầu các loại (nhất là vùng chẩm), chóng mặt, chảy máu cam, bệnh về mắt, động kinh, cứng hàm, đau răng hàm trên.",
+          "Thông kinh lạc, thư cân, giảm đau, lợi lưng: các chứng dọc đường kinh ở cột sống cổ, vẹo cổ, vai, lưng, đau thắt lưng mạn tính, rối loạn khớp cổ chân.",
+          "Trợ sinh: chuyển dạ kéo dài, sót nhau."
+        ]
+      },
       "international_code": "BL60",
       "code_dash": "BL-60",
       "chinese": "昆侖; 崑崙[7]",
@@ -5548,13 +5770,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0115-cong-ton.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTWPYAKVAGSTK2907ZSTJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPET72N9PTMYX4BN9MBN62.webp",
-        "gp": "/_emdash/api/media/file/01M3DPETZ9X1RN6C7VCD6KPQY8.webp",
-        "lan": "/_emdash/api/media/file/01M3DPEV5BBFSR2ADRHHZKKR92.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPEVMFAPWY58DJ9FDAZXPM.webp",
+        "da": "/anh/huyet/cong-ton-tren-da.webp",
+        "gp": "/anh/huyet/cong-ton-tren-giai-phau.webp",
+        "lan": "/anh/huyet/cong-ton-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/cong-ton-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gấp ngắn ngón chân cái, gân cơ gấp dài ngón chân cái, mặt dưới đầu xương bàn chân 1."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 91,
+        "nhom": [
+          "Bổ Tỳ, điều hoà trung tiêu, điều khí trừ thấp: rối loạn tiêu hoá như nôn mửa, tiêu chảy cấp, đau bụng nhất là vùng thượng vị và quanh rốn, đầy hơi.",
+          "Huyệt Lạc, an thần: rối loạn tâm thần như hưng cảm, mất ngủ kèm bồn chồn.",
+          "Thông mạch Xung, dưỡng Tâm ngực: đau vùng tim ngực dọc kinh Tỳ/mạch Xung, phù mặt, bệnh phụ khoa như đau bụng kinh, sót nhau, rối loạn khí hư.",
+          "Tại chỗ: đau vùng xương bàn chân."
+        ]
+      },
       "international_code": "SP4",
       "code_dash": "SP-4",
       "chinese": "公孫",
@@ -5615,13 +5845,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0116-co-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTWY7T73BBMY87M8PQ574.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPFA5R1NJ4V4P624YKKWHC.webp",
-        "gp": "/_emdash/api/media/file/01M3DPFAWQ7J90P0YV4EGNB4K3.webp",
-        "lan": "/_emdash/api/media/file/01M3DPFAZT4MYYBAHJVEAR9GZK.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPFBRD4SW5YGGT5GTYBRHW.webp",
+        "da": "/anh/huyet/co-mon-tren-da.webp",
+        "gp": "/anh/huyet/co-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/co-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/co-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gần bờ trong cơ thẳng, trước đùi, cơ rộng giữa xương đùi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 99,
+        "nhom": [
+          "Điều hoà tiểu tiện, trừ thấp, thanh nhiệt: tiểu khó, bí tiểu, đái dầm, chàm và ngứa sinh dục ngoài, sưng viêm đau vùng bẹn và bụng dưới."
+        ]
+      },
       "international_code": "SP11",
       "code_dash": "SP-11",
       "chinese": "箕門",
@@ -5939,8 +6174,26 @@ window.ACUPOINTS = {
       "slug": "cu-lieu",
       "image": "images/acupoints/0124-cu-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHV0J06R8AMFNRQV74R2E8.webp",
-      "anh3d": null,
-      "congDung": null
+      "anh3d": {
+        "da": "/anh/huyet/cu-lieu-tren-da.webp",
+        "gp": "/anh/huyet/cu-lieu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/cu-lieu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/cu-lieu-toan-duong-kinh.webp",
+        "ghiChu": null
+      },
+      "congDung": {
+        "trang": 302,
+        "nhom": [
+          "Thông kinh lạc, giảm đau, lợi khớp hông: đau thắt lưng, đau hông và chân lan xuống bụng dưới hoặc háng, hạn chế vận động khớp hông; hỗ trợ các vấn đề ở khớp vai.",
+          "Trị chứng sán khí: nhóm bệnh gồm thoát vị, bệnh cơ quan sinh dục ngoài, và đau bụng dữ dội kèm táo bón, bí tiểu hoặc khó tiểu."
+        ]
+      },
+      "international_code": "GB29",
+      "code_dash": "GB-29",
+      "chinese": "居髎",
+      "pinyin": null,
+      "english": null,
+      "indications": []
     },
     {
       "id": 125,
@@ -6022,13 +6275,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0126-cu-cot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHV1DG22MKC4V1GSB2534G.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPAYWN8GX83JHWJV87TVNZ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPAYZPMQ5H9B3WCZAQ4VGQ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPAZXXAK30BQBJXFBEZPSG.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPB020AQAP9ZF4QS4MHDHK.webp",
+        "da": "/anh/huyet/cu-cot-tren-da.webp",
+        "gp": "/anh/huyet/cu-cot-tren-giai-phau.webp",
+        "lan": "/anh/huyet/cu-cot-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/cu-cot-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 34,
+        "nhom": [
+          "Thông kinh lạc, giảm đau, lợi khớp vai: các bệnh ở khớp vai như rách/viêm chóp xoay, hội chứng chèn ép, hội chứng vai – cánh tay.",
+          "Điều hoà khí huyết, tán kết đờm: ứ huyết vùng ngực, nôn ra máu, bướu cổ, lao hạch (phối cùng LI13, LI14, LI15)."
+        ]
+      },
       "international_code": "LI16",
       "code_dash": "LI-16",
       "chinese": "巨骨",
@@ -6210,13 +6469,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0131-cu-khuyet.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHV2GTK4D3EX16SEAJCTTP.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZ71PQYWMHC5X60F3Y2D3.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZ74R2262KPT8V3MV8MP6.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZ8038P9HF064V3G6X4K5.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZ834X1M8601NVA1DSH9A.webp",
+        "da": "/anh/huyet/cu-khuyet-tren-da.webp",
+        "gp": "/anh/huyet/cu-khuyet-tren-giai-phau.webp",
+        "lan": "/anh/huyet/cu-khuyet-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/cu-khuyet-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 352,
+        "nhom": [
+          "Điều hoà Tâm, khai thông lồng ngực, hạ khí Phế và Vị: đau ngực do tim — phổi — xương ức, ho, khó thở, rối loạn tiêu hoá.",
+          "Hoá đờm, an thần: mất ngủ, bồn chồn, hưng cảm liên quan Tâm; huyệt chính trị đau ngực do huyết ứ hoặc đờm trệ tại chỗ."
+        ]
+      },
       "international_code": "CV14",
       "code_dash": "CV-14",
       "chinese": "巨闕",
@@ -6317,17 +6582,17 @@ window.ACUPOINTS = {
       "slug": "cu-lieu",
       "image": "images/acupoints/0133-cu-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHV0J06R8AMFNRQV74R2E8.webp",
-      "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPWAAV9T94CA30T8FRBBD4.webp",
-        "gp": "/_emdash/api/media/file/01M3DPWB137NQSTGJ80VKXQQ8F.webp",
-        "lan": "/_emdash/api/media/file/01M3DPWBDF1XMQGZHMDQB6VPNC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPWC6GDTQ36K84YCZ3W6JV.webp",
-        "ghiChu": null
+      "anh3d": null,
+      "congDung": {
+        "trang": 42,
+        "nhom": [
+          "Khu phong, thông kinh lạc vùng mặt: liệt mặt, giật cơ mặt, đau dây thần kinh mặt.",
+          "Tán ứ trệ, giảm đau tại chỗ: sưng tấy vùng mặt, đau răng, nhức đầu, chảy máu cam."
+        ]
       },
-      "congDung": null,
-      "international_code": "GB29",
-      "code_dash": "GB-29",
-      "chinese": "居髎",
+      "international_code": "ST3",
+      "code_dash": "ST-3",
+      "chinese": "巨髎",
       "pinyin": "Juliao",
       "english": "Squatting Crevice (Bone Hole)",
       "indications": [
@@ -6384,13 +6649,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0134-cuc-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHV42QP1BCNNSD2Q990YSH.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPG0614FEJBPSAPBX31MH2.webp",
-        "gp": "/_emdash/api/media/file/01M3DPG0FCBN2PM39BNDWG546Z.webp",
-        "lan": "/_emdash/api/media/file/01M3DPG11KGDW4RH4PFQQ8D05X.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPG1DRYYQ58BTBRXA9PXCG.webp",
+        "da": "/anh/huyet/cuc-tuyen-tren-da.webp",
+        "gp": "/anh/huyet/cuc-tuyen-tren-giai-phau.webp",
+        "lan": "/anh/huyet/cuc-tuyen-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/cuc-tuyen-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: mặt sau gân cơ quạ cánh tay, gân cơ 2 đầu (phần ngắn), trước nữa là mặt sau cơ ngực lớn, ở trên là đầu trên xương cánh tay."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 110,
+        "nhom": [
+          "Khoan khoái lồng ngực: đau vùng sườn và tim, đau thắt ngực, hồi hộp.",
+          "Thông kinh lạc, lợi cánh tay: đau, hạn chế vận động, rối loạn cảm giác ở chi trên."
+        ]
+      },
       "international_code": "HE1",
       "code_dash": "HE-1",
       "chinese": "極泉",
@@ -6447,13 +6718,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0135-cuong-gian.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHV4RG23QMJ10WHPP6DTW6.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ0YYSS3Y3HBQDAD63Y8DY.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ0ZQ1RVG5XPBBMDDM7FYR.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ10C96APWTF6J66QBSJ33.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ10VD05EV13GT5YVR3BRQ.webp",
+        "da": "/anh/huyet/cuong-gian-tren-da.webp",
+        "gp": "/anh/huyet/cuong-gian-tren-giai-phau.webp",
+        "lan": "/anh/huyet/cuong-gian-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/cuong-gian-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, dưới cân là xương sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 382,
+        "nhom": [
+          "Trừ phong (nhất là nội phong), giảm đau, làm dịu triệu chứng: chóng mặt kèm buồn nôn — nôn, động kinh, các vấn đề vùng cổ, run đầu, co giật, kích động, mất ngủ, trạng thái hưng cảm."
+        ]
+      },
       "international_code": "GV18",
       "code_dash": "GV-18",
       "chinese": "強間",
@@ -6550,13 +6826,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0137-cuu-vi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHV5MTNDKSTKRHNA788987.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZ8YG176241NHJ4JQP6S2.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZ91HWCWWSDBZGV7A6PXC.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZ9WWZFADQ75BBP1S1K9R.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZ9ZXSBFMGCT8Z5R9DYD3.webp",
+        "da": "/anh/huyet/cuu-vi-tren-da.webp",
+        "gp": "/anh/huyet/cuu-vi-tren-giai-phau.webp",
+        "lan": "/anh/huyet/cuu-vi-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/cuu-vi-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 353,
+        "nhom": [
+          "Điều hoà Tâm, an thần: lo âu, bồn chồn, trạng thái hưng cảm, động kinh.",
+          "Giáng khí Phế và Vị, khai thông lồng ngực: cảm giác đè nặng vùng tim — ngực, ho, khó thở, rối loạn tiêu hoá, trào ngược.",
+          "Lạc huyệt của mạch Nhâm: hư thì ngứa da bụng, thực thì da bụng đau nhức."
+        ]
+      },
       "international_code": "CV15",
       "code_dash": "CV-15",
       "chinese": "鳩尾",
@@ -7280,13 +7563,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0156-dich-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVE348TH6P39YPCXBMK91.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPS4D5YVS7Z4EBRJKT1C3D.webp",
-        "gp": "/_emdash/api/media/file/01M3DPS4WBM8TY97KY74M8JC9Z.webp",
-        "lan": "/_emdash/api/media/file/01M3DPS55EK8T70X64XDFSJTJK.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPS5QSVDS1QZSB5ZG1B3HP.webp",
+        "da": "/anh/huyet/dich-mon-tren-da.webp",
+        "gp": "/anh/huyet/dich-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dich-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dich-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của cơ gian cốt mu tay, bờ trong đầu trên đốt 1 xương ngón tay thứ 2."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 249,
+        "nhom": [
+          "Thanh nhiệt thượng tiêu: nhức đầu, đau răng, đau họng, đỏ mặt và đầu, viêm nha chu.",
+          "Lợi tai, an thần khi có nhiệt: giảm thính lực (kể cả đột ngột), ù tai, đau tai, tim đập nhanh sau khi hoảng sợ, bồn chồn, ảo giác, hưng cảm, động kinh.",
+          "Thông kinh lạc, giảm đau: đau tay/cánh tay (có thể do viêm khớp), hội chứng vai — cánh tay, viêm khớp ngón tay, đau họng."
+        ]
+      },
       "international_code": "TE2",
       "code_dash": "TE-2",
       "chinese": "液門",
@@ -7451,13 +7741,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0160-du-phu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVF44QT5Z18N4BRZADTJD.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPR55ZBE2GATR8417365DR.webp",
-        "gp": "/_emdash/api/media/file/01M3DPR61833ETD2W1M6T6P3F9.webp",
-        "lan": "/_emdash/api/media/file/01M3DPR649FRKN02HYH3ZDS21E.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPR6ZW1R1ZSCQDC6RAG2S0.webp",
+        "da": "/anh/huyet/du-phu-tren-da.webp",
+        "gp": "/anh/huyet/du-phu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/du-phu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/du-phu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ ức – móng, đỉnh phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 236,
+        "nhom": [
+          "Điều hoà Phế khí, giáng Vị khí nghịch, hoá đờm: ho, khó thở, hen phế quản, đờm ở đường hô hấp dưới, buồn nôn, nôn, tăng tiết nước bọt, căng bụng, đầy hơi.",
+          "Khoan khoái lồng ngực: tức ngực, đau dây thần kinh liên sườn."
+        ]
+      },
       "international_code": "KI27",
       "code_dash": "KI-27",
       "chinese": "俞府",
@@ -7592,13 +7888,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0163-dung-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVGF56TCZG26TVMKB88BA.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPPE16K7X6CXN7MWGDJDX2.webp",
-        "gp": "/_emdash/api/media/file/01M3DPPESH18Y6VR68Q88V1RGB.webp",
-        "lan": "/_emdash/api/media/file/01M3DPPF2MBAYKKKQZZNVPJJRN.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPPFTX6ZFP95G3NZCM7NGP.webp",
+        "da": "/anh/huyet/dung-tuyen-tren-da.webp",
+        "gp": "/anh/huyet/dung-tuyen-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dung-tuyen-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dung-tuyen-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gấp ngắn các ngón chân, gân cơ gấp dài các ngón chân, cơ giun, cơ gian cốt gan chân, cơ gian cốt mu chân, khoảng gian đốt bàn chân 2 – 3."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 211,
+        "nhom": [
+          "Hồi dương cứu nghịch (chứng thoát dương): suy sụp, bất tỉnh, sốc.",
+          "Giáng nghịch, hạ áp, thanh đầu não: nhức đầu dữ dội, đau nửa đầu, chóng mặt, huyết áp cao, co giật, ngất xỉu, cảm giác khí xông ngược từ bụng dưới lên ngực (chứng Bôn Đồn).",
+          "An thần: bồn chồn, hưng cảm, kích động, mất ngủ nặng."
+        ]
+      },
       "international_code": "KI1",
       "code_dash": "KI-1",
       "chinese": "湧泉",
@@ -7736,13 +8039,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0166-duy-dao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVJ30DNQ3AYP1R2P4404E.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPW7RPXT5B3B8PQRDTEZ54.webp",
-        "gp": "/_emdash/api/media/file/01M3DPW8E99G63P82QX0XQKWFG.webp",
-        "lan": "/_emdash/api/media/file/01M3DPW8VY0WQZJT11MT5A4GQF.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPW9MGHT5Z1SX5Y4AQRZQK.webp",
+        "da": "/anh/huyet/duy-dao-tren-da.webp",
+        "gp": "/anh/huyet/duy-dao-tren-giai-phau.webp",
+        "lan": "/anh/huyet/duy-dao-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/duy-dao-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ chéo lớn, cơ chéo bé của bụng, cơ ngang bụng, mạc ngang, đại trường."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 301,
+        "nhom": [
+          "Điều hoà mạch Đới và hạ tiêu, trừ ứ trệ: khí hư, kinh nguyệt không đều, sa tử cung, đau bụng dưới, đau thắt lưng — hồi tràng, bệnh sán khí."
+        ]
+      },
       "international_code": "GB28",
       "code_dash": "GB-28",
       "chinese": "維道",
@@ -7835,13 +8143,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0168-duong-bach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVJTSFKBYE883Z4NMK5D1.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPVBC0H5EYJBKBQJZKPRJA.webp",
-        "gp": "/_emdash/api/media/file/01M3DPVBN4ZJ72CJD5TTNJJ8G9.webp",
-        "lan": "/_emdash/api/media/file/01M3DPVC78SGSJ4BHFYZXR6CNJ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPVCQ3DT2F6V7WHJYSYSR8.webp",
+        "da": "/anh/huyet/duong-bach-tren-da.webp",
+        "gp": "/anh/huyet/duong-bach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/duong-bach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/duong-bach-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trán."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 286,
+        "nhom": [
+          "Trừ phong (cả nội phong và ngoại phong), lợi đầu mắt, giảm đau: đau đầu vùng trán, dưới ổ mắt, thái dương, đỉnh đầu; đau dây thần kinh sinh ba nhánh 1; liệt mặt và giật cơ mặt (tic); bệnh về mắt và mí mắt."
+        ]
+      },
       "international_code": "GB14",
       "code_dash": "GB-14",
       "chinese": "陽白",
@@ -7898,13 +8211,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0169-duong-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVKJVPC5N13AXAAQQRM87.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPGVDGJ5JP2FBAGR24HBPJ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPGVXD3SFDCXE2ESWFMJTH.webp",
-        "lan": "/_emdash/api/media/file/01M3DPGWDBCT030VKT9GF6NRN6.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPGWX5R298TV1HMXQY7ZGG.webp",
+        "da": "/anh/huyet/duong-coc-tren-da.webp",
+        "gp": "/anh/huyet/duong-coc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/duong-coc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/duong-coc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ trụ sau, mỏm trâm xương trụ, đầu dưới xương trụ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 126,
+        "nhom": [
+          "Thanh nhiệt, tiêu sưng: sưng viêm cổ và dưới hàm, sốt nhiễm trùng, đau răng, viêm mắt và tai, cứng hàm; tại chỗ trị các chứng ở cổ tay.",
+          "Tả hoả (huyệt Hoả của kinh Tiểu Trường, dẫn nhiệt từ Tâm qua quan hệ biểu lý), an thần: rối loạn tâm thần với trạng thái hưng cảm."
+        ]
+      },
       "international_code": "SI5",
       "code_dash": "SI-5",
       "chinese": "陽谷",
@@ -7963,13 +8282,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0170-duong-cuong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVMB237HPHFYWXCEVA5BC.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPN4KTN20A3VBJGPF8DV4E.webp",
-        "gp": "/_emdash/api/media/file/01M3DPN5FNNV6EBSVAXGYY33P5.webp",
-        "lan": "/_emdash/api/media/file/01M3DPN5JPDVWSGBTFDY98NXS9.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPN6E3T8Q87PVSH608ZCJ3.webp",
+        "da": "/anh/huyet/duong-cuong-tren-da.webp",
+        "gp": "/anh/huyet/duong-cuong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/duong-cuong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/duong-cuong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ răng bé sau – dưới, cơ chậu sườn – ngực, cơ gian sườn 10, phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 187,
+        "nhom": [
+          "Điều hoà Đởm, thanh nhiệt, hoà trung tiêu: đau vùng nối ngực — mạn sườn, đau thượng vị, rối loạn dạ dày — ruột, vàng da, viêm túi mật, tiêu chảy, viêm ruột, chán ăn."
+        ]
+      },
       "international_code": "BL48",
       "code_dash": "BL-48",
       "chinese": "陽綱",
@@ -8028,13 +8352,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0171-duong-giao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVN0G0EVDSD3YK6M48P0G.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPWNM9SB69X3EAR2CYB84J.webp",
-        "gp": "/_emdash/api/media/file/01M3DPWP0DCB41BBNPFE4YBQ6F.webp",
-        "lan": "/_emdash/api/media/file/01M3DPWPMB4KW0RH3ECN2YPV9C.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPWQ39VFP6EXV2QE8276JX.webp",
+        "da": "/anh/huyet/duong-giao-tren-da.webp",
+        "gp": "/anh/huyet/duong-giao-tren-giai-phau.webp",
+        "lan": "/anh/huyet/duong-giao-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/duong-giao-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ mác bên ngắn."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 309,
+        "nhom": [
+          "Thông kinh lạc, giảm đau: hội chứng tý ở chi dưới, các vấn đề ở khớp gối.",
+          "Điều hoà Đởm khí, an thần: căng tức vùng mạn sườn và hạ sườn, lo lắng, cáu gắt, khó quyết định."
+        ]
+      },
       "international_code": "GB35",
       "code_dash": "GB-35",
       "chinese": "陽交",
@@ -8131,13 +8461,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0173-duong-khe.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVNHMWSZSCCYYPQHNHA9W.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPA62T5HBVH22CQFJW8NDR.webp",
-        "gp": "/_emdash/api/media/file/01M3DPA65VJT1TKKDDZKT89138.webp",
-        "lan": "/_emdash/api/media/file/01M3DPA718R6TPVT16JGGSV71C.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPA749D9AV2SQ0S0SNYCKD.webp",
+        "da": "/anh/huyet/duong-khe-tren-da.webp",
+        "gp": "/anh/huyet/duong-khe-tren-giai-phau.webp",
+        "lan": "/anh/huyet/duong-khe-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/duong-khe-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: đầu mỏm châm – xương quay, bờ trên xương thuyền, ngoài có gân cơ dạng dài, gân cơ duỗi ngón tay cái, trong có gân cơ duỗi dài ngón tay cái, gân cơ quay 1."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 24,
+        "nhom": [
+          "Lợi khớp cổ tay: các vấn đề ở cổ tay, đau gân cơ tại chỗ.",
+          "Thanh hoả Dương Minh, an thần: viêm xoang, chảy máu cam, viêm mắt, viêm tai giữa, viêm họng, đau răng; rối loạn tâm thần như bồn chồn kèm sốt, trạng thái hưng phấn."
+        ]
+      },
       "international_code": "LI5",
       "code_dash": "LI-5",
       "chinese": "陽谿",
@@ -8202,13 +8538,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0174-duong-lang-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVPK20NEKP3FM5HV5N3SC.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DP9A2DBPZGFNRDKE5WBXDR.webp",
-        "gp": "/_emdash/api/media/file/01M3DP9AEJB9NGMD7K0BQKNY7Q.webp",
-        "lan": "/_emdash/api/media/file/01M3DP9B1BK2P445WNF0N4WQ7Z.webp",
-        "kinh": "/_emdash/api/media/file/01M3DP9B7DGHFMZEG17F3QCQQD.webp",
+        "da": "/anh/huyet/duong-lang-tuyen-tren-da.webp",
+        "gp": "/anh/huyet/duong-lang-tuyen-tren-giai-phau.webp",
+        "lan": "/anh/huyet/duong-lang-tuyen-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/duong-lang-tuyen-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi chung các ngón chân, phía trước, trong đầu trên xương mác."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 307,
+        "nhom": [
+          "Lợi cân và khớp, thông kinh lạc, giảm đau (Hội huyệt của Cân): bệnh về gân như co rút, rối loạn vận động, cứng cơ, cứng khớp, hội chứng tý nhất là ở chi dưới; các chứng dọc đường kinh.",
+          "Thanh thấp nhiệt ở Can Đởm: bệnh túi mật, vàng da.",
+          "Điều hoà Thiếu Dương: hội chứng Thiếu Dương."
+        ]
+      },
       "international_code": "GB34",
       "code_dash": "GB-34",
       "chinese": "陽陵泉",
@@ -8274,13 +8617,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0175-duong-phu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVQ837DWGSVB66M75SH39.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPWVBJM909R3B0PHWM631E.webp",
-        "gp": "/_emdash/api/media/file/01M3DPWW4704A4T9YWF50V90R7.webp",
-        "lan": "/_emdash/api/media/file/01M3DPWWF662DH3GKHV5H881AH.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPWXAT7S0ESHRDCV9CF7XD.webp",
+        "da": "/anh/huyet/duong-phu-tren-da.webp",
+        "gp": "/anh/huyet/duong-phu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/duong-phu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/duong-phu-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 312,
+        "nhom": [
+          "Thông kinh lạc, thanh nhiệt, giảm đau, lợi cân xương: nhức đầu một bên, đau nửa đầu, các chứng dọc đường kinh, sốt, đau khớp lan toả (hội chứng tý).",
+          "Điều hoà Thiếu Dương: hội chứng Thiếu Dương."
+        ]
+      },
       "international_code": "GB38",
       "code_dash": "GB-38",
       "chinese": "陽輔",
@@ -8382,13 +8731,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0177-duong-tri.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVQM40D188959S1FK2FB0.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPS89HMQZ64F9SZW4XDK41.webp",
-        "gp": "/_emdash/api/media/file/01M3DPS8NMRSZANCG1387VVJJ5.webp",
-        "lan": "/_emdash/api/media/file/01M3DPS94TA14YK4DATKMF31YJ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPS9KYT9X3X4M5062JYNAM.webp",
+        "da": "/anh/huyet/duong-tri-tren-da.webp",
+        "gp": "/anh/huyet/duong-tri-tren-giai-phau.webp",
+        "lan": "/anh/huyet/duong-tri-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/duong-tri-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: duỗi riêng ngón tay trỏ ở ngoài với gân cơ duỗi riêng ngón tay út ở trong, ở trên xương nguyệt."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 251,
+        "nhom": [
+          "Thanh nhiệt, thư cân, giảm đau: đau họng, nhức đầu một bên, bệnh về tai; huyệt viễn đạo trị khớp cổ chân; tại chỗ/theo kinh trị vai, cánh tay (nhất là đau vai) và cổ tay."
+        ]
+      },
       "international_code": "TE4",
       "code_dash": "TE-4",
       "chinese": "陽池",
@@ -8600,13 +8954,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0182-duong-lao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVWM62VT4RJ5AN8XGQHNE.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPGX996SBEVZ38Y84KZSFV.webp",
-        "gp": "/_emdash/api/media/file/01M3DPGXYG7JPWH8ACGDPVTXDZ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPGYAK5EG66VSJJYZXWFSH.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPGYWS8FMZM8K6HDE5BZHH.webp",
+        "da": "/anh/huyet/duong-lao-tren-da.webp",
+        "gp": "/anh/huyet/duong-lao-tren-giai-phau.webp",
+        "lan": "/anh/huyet/duong-lao-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/duong-lao-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong của gân cơ trụ sau, phía trong mặt sau của đầu dưới xương trụ. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 127,
+        "nhom": [
+          "Thông kinh lạc, giảm đau, lợi vai và cánh tay, trị chứng cấp: đau vai/cổ, đau thắt lưng cấp, các vấn đề ở khớp cổ chân.",
+          "Hỗ trợ mắt: các bệnh về mắt như giảm thị lực."
+        ]
+      },
       "international_code": "SI6",
       "code_dash": "SI-6",
       "chinese": "養老",
@@ -8668,13 +9028,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0183-dai-mach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVXRS7H9N55SP7C4ABNCN.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPW2T5HQ6P7G73CWCQV7CZ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPW369M8BA937W2ESG6PWX.webp",
-        "lan": "/_emdash/api/media/file/01M3DPW3RGB2M85N2Y2QZRHXEK.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPW42PACKHTFHP6YVC7XZS.webp",
+        "da": "/anh/huyet/dai-mach-tren-da.webp",
+        "gp": "/anh/huyet/dai-mach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dai-mach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dai-mach-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ chéo lớn, cơ chéo bé của bụng, cơ ngang bụng, mạc ngang, đại trường."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 299,
+        "nhom": [
+          "Điều hoà mạch Đới, trừ thấp, điều hoà tử cung: khí hư, kinh nguyệt không đều, đau bụng kinh, hiếm muộn, sa tử cung.",
+          "Thông kinh lạc, giảm đau: đau vùng thắt lưng và mạn sườn, mót rặn, co thắt, bệnh sán khí (thoát vị, bệnh sinh dục ngoài)."
+        ]
+      },
       "international_code": "GB26",
       "code_dash": "GB-26",
       "chinese": "帶脈",
@@ -8813,13 +9179,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0186-dai-bao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVYPYGV3XYGV0E43Q58QT.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPFY5WQ78NNCBW03SA37QW.webp",
-        "gp": "/_emdash/api/media/file/01M3DPFYHZVD2GNKEZZW2W4XNT.webp",
-        "lan": "/_emdash/api/media/file/01M3DPFZ7B29PSCCEJK01ED9QP.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPFZKN0ZMW9ZQPY6F634RV.webp",
+        "da": "/anh/huyet/dai-bao-tren-da.webp",
+        "gp": "/anh/huyet/dai-bao-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dai-bao-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dai-bao-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài cơ lưng lớn, cơ răng lớn, cơ gian sườn 6, bên trong là phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 108,
+        "nhom": [
+          "Điều hoà khí huyết toàn thân, lợi gân khớp (Đại Lạc của Tỳ, thống lĩnh các lạc mạch): đau nhức khắp cơ thể khi lạc mạch thực, mỏi yếu toàn thân khi lạc mạch hư; các bệnh đau như đau cơ xơ hoá, thấp khớp.",
+          "Khoan khoái lồng ngực: đau tức vùng ngực bên, đau dây thần kinh liên sườn, khó thở."
+        ]
+      },
       "international_code": "SP21",
       "code_dash": "SP-21",
       "chinese": "大包",
@@ -9022,13 +9394,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0191-dai-chung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVYWZ2MF58K8VX8XNZPGC.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPPKX9WY6Y66ZR9D5KP6T3.webp",
-        "gp": "/_emdash/api/media/file/01M3DPPMJG3MGWPQNV03RQMMRE.webp",
-        "lan": "/_emdash/api/media/file/01M3DPPMYKCNF1Y5D34BPZ3JQK.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPPNDS9774DHE1CT8SYP1N.webp",
+        "da": "/anh/huyet/dai-chung-tren-da.webp",
+        "gp": "/anh/huyet/dai-chung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dai-chung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dai-chung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong gân gót chân, phía trước cơ gân của cơ gấp dài ngón chân cái, gân cơ gấp dài các ngón chân, mặt trên xương gót chân."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 214,
+        "nhom": [
+          "Bổ Thận khí, trợ Phế (Lạc huyệt): mệt mỏi kiệt sức, khó thở, hen phế quản, khô họng, hội chứng cột sống thắt lưng, tiểu khó.",
+          "Ích chí, an thần: yếu ý chí, lo âu, kích động, hồi hộp khi lo lắng, mất ngủ.",
+          "Tại chỗ: đau gót chân, đau nhức cơ, cứng đau vùng thắt lưng."
+        ]
+      },
       "international_code": "KI4",
       "code_dash": "KI-4",
       "chinese": "大鐘",
@@ -9094,13 +9473,22 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0192-dai-chuy.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVZR5F3AQW3223BVKW39P.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ0NHG8K9NZRFRCEJCDMB3.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ0P0MTYRBZWDVKY853C4S.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ0Q213NGG1JNZQ22H9PG0.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ0QM7GMEVJPQ2BPH3405P.webp",
+        "da": "/anh/huyet/dai-chuy-tren-da.webp",
+        "gp": "/anh/huyet/dai-chuy-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dai-chuy-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dai-chuy-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, gân cơ trán, gân cơ răng bé sau – trên, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 377,
+        "nhom": [
+          "Trừ ngoại phong, cố biểu: nhiễm trùng sốt, điều hoà ra mồ hôi (huyệt chính trị đổ mồ hôi bất thường).",
+          "Thanh nhiệt: sốt, các bệnh nhiệt, bệnh ngoài da do phong nhiệt, chảy máu cam, suy nhược cơ thể (như loãng xương).",
+          "Bình nội phong, an thần: mất ngủ, bồn chồn, động kinh, tăng huyết áp.",
+          "Bổ hư: trạng thái kiệt sức.",
+          "Hỗ trợ cột sống (nhất là cột sống cổ): hội chứng cột sống cổ, các vấn đề vùng cổ."
+        ]
+      },
       "international_code": "GV14",
       "code_dash": "GV-14",
       "chinese": "大椎",
@@ -9234,13 +9622,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0195-dai-cu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW0G5ER243ZM2042MJVF7.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPD1XBM10BSR0C77YESDK0.webp",
-        "gp": "/_emdash/api/media/file/01M3DPD26EWZF06J074MG80PTE.webp",
-        "lan": "/_emdash/api/media/file/01M3DPD5T9FA00XCV5A91X6DSQ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPD60BX06MZ6QN4C64PKV8.webp",
+        "da": "/anh/huyet/dai-cu-tren-da.webp",
+        "gp": "/anh/huyet/dai-cu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dai-cu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dai-cu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang, trong ổ bụng là ruột non, tử cung khi có thai 5 – 6 tháng, bàng quang khi bị bí tiểu tiện vừa."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 65,
+        "nhom": [
+          "Hành khí: căng tức, đầy bụng dưới.",
+          "Bổ Thận, cố tinh: tiểu khó, rối loạn tiểu tiện, bí tiểu, rối loạn xuất tinh, rối loạn kinh nguyệt, hồi hộp đánh trống ngực, rối loạn giấc ngủ."
+        ]
+      },
       "international_code": "ST27",
       "code_dash": "ST-27",
       "chinese": "大巨",
@@ -9298,13 +9692,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0196-dai-do.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW0WD80KKKW32XST346YT.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPEN2WRYE2FHFB1BZ828B3.webp",
-        "gp": "/_emdash/api/media/file/01M3DPENV3G4BMH5E8MPQA6H0H.webp",
-        "lan": "/_emdash/api/media/file/01M3DPEP1444KJJAWV9BFHFY80.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPEPT3YKP8A99JWSZX7Y7Q.webp",
+        "da": "/anh/huyet/dai-do-tren-da.webp",
+        "gp": "/anh/huyet/dai-do-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dai-do-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dai-do-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của gân cơ dạng ngón chân cái, bờ trong đầu sau đốt 1 ngón chân cái."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 89,
+        "nhom": [
+          "Điều hoà Tỳ, thanh nhiệt trừ thấp: bệnh đường tiêu hoá như viêm dạ dày – ruột cấp và mạn, viêm dạ dày, táo bón, đau bụng, chướng bụng, buồn nôn, phù nề, sốt nhiễm trùng không ra mồ hôi.",
+          "Tại chỗ: các chứng ở ngón chân cái."
+        ]
+      },
       "international_code": "SP2",
       "code_dash": "SP-2",
       "chinese": "大都",
@@ -9432,13 +9832,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0199-dai-don.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW20CES1PPN6G8S84TG8Y.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPXF6PNEXY952P4A623BBH.webp",
-        "gp": "/_emdash/api/media/file/01M3DPXG230K1FV73YHH35NAKQ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPXG550PTMJM5M110NWXYM.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPXH0Y3F0XZGN9PS9619SJ.webp",
+        "da": "/anh/huyet/dai-don-tren-da.webp",
+        "gp": "/anh/huyet/dai-don-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dai-don-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dai-don-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của gân cơ duỗi dài riêng ngón chân cái vào đốt 2 ngón cái."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 322,
+        "nhom": [
+          "Điều hoà đường tiểu, lợi sinh dục, giảm đau: đau, viêm, phù nề vùng bụng dưới và sinh dục, bệnh sán khí, khó chịu ở tinh hoàn, tiểu khó, bí tiểu, đái dầm, tiểu buốt.",
+          "Sơ Can khí, cầm máu: rong huyết/băng huyết tử cung, kinh nguyệt không đều, sa tử cung.",
+          "Hồi dương, an thần (huyệt cấp cứu): bất tỉnh, choáng váng, động kinh."
+        ]
+      },
       "international_code": "LR1",
       "code_dash": "LR-1",
       "chinese": "大敦",
@@ -9501,13 +9908,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0200-dai-hach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW2D54JE37AD0B6NTEEXW.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQ3KK52C4WR2WVGNB3Y4M.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQ3PNZHDV1W69HZ96G2ZP.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQ4KHQ45DE9JKT675K5KP.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQ4PJ3ERRMJ9CANXPVV56.webp",
+        "da": "/anh/huyet/dai-hach-tren-da.webp",
+        "gp": "/anh/huyet/dai-hach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dai-hach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dai-hach-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, cơ tháp, bờ trong cơ thẳng lớn, mạc ngang, bàng quang khi căng, tử cung khi có thai 3 – 4 tháng."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 221,
+        "nhom": [
+          "Bổ Thận, ích tinh khí: đau vùng sinh dục nhất là dương vật, rối loạn cương dương (liệt dương, rối loạn xuất tinh), khí hư, sa tử cung."
+        ]
+      },
       "international_code": "KI12",
       "code_dash": "KI-12",
       "chinese": "大赫",
@@ -9570,13 +9982,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0201-dai-hoanh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW2WAXBMKS8HN34CWTHMJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPFJ45H9EZNC9CKY19NEWV.webp",
-        "gp": "/_emdash/api/media/file/01M3DPFJT2CG7CFDMAQX4ESKTF.webp",
-        "lan": "/_emdash/api/media/file/01M3DPFKAC0MGJT374C3XA8CXX.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPFKZPBCF1ZFC51JKMZ8NN.webp",
+        "da": "/anh/huyet/dai-hoanh-tren-da.webp",
+        "gp": "/anh/huyet/dai-hoanh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dai-hoanh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dai-hoanh-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 103,
+        "nhom": [
+          "Hành khí, điều hoà Trường: táo bón (thường được ưa dùng hơn Thiên Khu — ST25), tiêu chảy nhất là do lạnh – thấp.",
+          "Về mặt tâm lý – cảm xúc: hay khóc, buồn bã, trầm cảm."
+        ]
+      },
       "international_code": "SP15",
       "code_dash": "SP-15",
       "chinese": "大横",
@@ -9639,13 +10057,22 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0202-dai-lang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW3B9RP83T48V36GYKYQ6.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPRMK21YKXN29D414EE3PV.webp",
-        "gp": "/_emdash/api/media/file/01M3DPRNTBDH94BBQWTR9AMZBC.webp",
-        "lan": "/_emdash/api/media/file/01M3DPRRA04TJGH9PFEZV7Q4SH.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPRSQ68J9PAK09RTNPYC5T.webp",
+        "da": "/anh/huyet/dai-lang-tren-da.webp",
+        "gp": "/anh/huyet/dai-lang-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dai-lang-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dai-lang-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gan tay bé, ở sâu là khe giữa gân cơ gấp dài ngón tay cái, cơ gấp chung ngón tay nông, sâu."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 244,
+        "nhom": [
+          "Thanh Tâm nhiệt, an thần: bồn chồn lo âu, mất ngủ, tiểu khó và tiểu ra máu khi hoả từ Tâm dồn xuống Bàng Quang.",
+          "Điều hoà Vị Trường: rối loạn tiêu hoá.",
+          "Khoan khoái lồng ngực: đau vùng ngực và mạn sườn, khó thở.",
+          "Lương huyết: sốt cao, bệnh ngoài da do huyết nhiệt.",
+          "Thông kinh lạc tại chỗ: bệnh vùng cổ tay, ngón tay."
+        ]
+      },
       "international_code": "PC7",
       "code_dash": "PC-7",
       "chinese": "大陵",
@@ -9820,13 +10247,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0206-dai-nghenh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW4NED9DJ4DAVTWAYP8P2.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPBEEPKG1CTXRFN4ENXD2F.webp",
-        "gp": "/_emdash/api/media/file/01M3DPBF3XPKT8JA5HEC3SGD29.webp",
-        "lan": "/_emdash/api/media/file/01M3DPBFD9DMZZJ1P49VZG93JX.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPBG8J4GTT42H94E8V69ZD.webp",
+        "da": "/anh/huyet/dai-nghenh-tren-da.webp",
+        "gp": "/anh/huyet/dai-nghenh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dai-nghenh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dai-nghenh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ cười, cơ mút, sát bờ trước cơ cắn, rãnh động mạch mặt của xương hàm dưới. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 44,
+        "nhom": [
+          "Khu phong, thông kinh lạc, tiêu sưng: đau răng hàm dưới, sưng tấy tại chỗ, đau dây thần kinh mặt, liệt mặt, cứng hàm, liệt lưỡi."
+        ]
+      },
       "international_code": "ST5",
       "code_dash": "ST-5",
       "chinese": "大迎",
@@ -9885,13 +10317,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0207-dai-tru.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW5A39QGXMTYHTDMA036M.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJENW7FJ4ZYVZVW5P320W.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJF5176FNRV1FNGZD0GZ1.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJFMASPKSBZ1AY7MZ9WH6.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJG3G3GG5HJ154509XJNA.webp",
+        "da": "/anh/huyet/dai-tru-tren-da.webp",
+        "gp": "/anh/huyet/dai-tru-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dai-tru-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dai-tru-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ thoi, cơ răng bé sau – trên, cơ ngang sườn, rồi vào phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 152,
+        "nhom": [
+          "Điều hoà Phế khí, chỉ khái: bệnh hô hấp như ho, khó thở, hen phế quản, tức ngực, viêm họng.",
+          "Hội huyệt của xương, lợi xương khớp: các chứng ở cổ, bả vai, cột sống cổ — ngực, và các bệnh xương khớp nói chung."
+        ]
+      },
       "international_code": "BL11",
       "code_dash": "BL-11",
       "chinese": "大杼",
@@ -9953,13 +10391,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0208-dai-truong-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW5S43236BGBBHFH30EAV.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPK9H9SD7S4ND4PP0PTF42.webp",
-        "gp": "/_emdash/api/media/file/01M3DPKADHCN64TM23JY4SZ6WZ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPKB67WCRTFT0E8V56S53R.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPKBGQQKNCNKYPWPBHJT08.webp",
+        "da": "/anh/huyet/dai-truong-du-tren-da.webp",
+        "gp": "/anh/huyet/dai-truong-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dai-truong-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dai-truong-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, khối cơ chung của các cơ rãnh cột sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 166,
+        "nhom": [
+          "Điều hoà Đại Trường, hành khí (Du huyệt của Đại Trường): rối loạn đường ruột như buồn nôn, tiêu chảy, đầy hơi, tiểu tiện và đại tiện khó khăn.",
+          "Tăng cường sức mạnh lưng dưới: đau, hạn chế vận động vùng thắt lưng, các chứng ở chi dưới dọc đường kinh."
+        ]
+      },
       "international_code": "BL25",
       "code_dash": "BL-25",
       "chinese": "大腸俞",
@@ -10097,13 +10541,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0211-dao-dao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW6M65F0KZVMZ51DBYSEY.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ0K4G9H7P50R513ATQSKR.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ0KGRTRNSF6E487G8T9M7.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ0MC31P7F3XWNYQGHTJXD.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ0N8BB8ZRCVNE34P7GWH3.webp",
+        "da": "/anh/huyet/dao-dao-tren-da.webp",
+        "gp": "/anh/huyet/dao-dao-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dao-dao-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dao-dao-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, gân cơ trám, cơ thoi, gân cơ răng bé sau – trên, cơ gai dài của lưng, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 376,
+        "nhom": [
+          "Thanh nhiệt: sốt rét luân phiên (hàn nhiệt vãng lai), các hội chứng nhiệt, suy nhược cơ thể (như loãng xương).",
+          "Điều hoà: nhức đầu, đau lưng dọc đường giữa lưng, chóng mặt, co giật, kích động, lú lẫn."
+        ]
+      },
       "international_code": "GV13",
       "code_dash": "GV-13",
       "chinese": "陶道",
@@ -10165,13 +10615,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0212-dau-duy.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW767JP8BCAMXWP7A16TR.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPBMQV8ATFS925KZ7FGK7X.webp",
-        "gp": "/_emdash/api/media/file/01M3DPBNK2G4NBTWD643NVW473.webp",
-        "lan": "/_emdash/api/media/file/01M3DPBNP3NT97MBTG2J67ZC4R.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPBPEDWNT6ZM2BWA4MZR9X.webp",
+        "da": "/anh/huyet/dau-duy-tren-da.webp",
+        "gp": "/anh/huyet/dau-duy-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dau-duy-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dau-duy-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ cơ thái dương dính vào cân sọ, dưới cân sọ là xương sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 47,
+        "nhom": [
+          "Khu phong hàn (cả ngoại cảm lẫn nội sinh) vùng đầu mắt, dưỡng mắt, giảm đau: nhức đầu, đau nửa đầu, chóng mặt, các chứng ở mắt."
+        ]
+      },
       "international_code": "ST8",
       "code_dash": "ST-8",
       "chinese": "頭維",
@@ -10272,13 +10727,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0214-dau-khieu-am.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW7NAJ0TTWPC9N4BF2YA5.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPV5JFG32J6Y15WF0MX9AC.webp",
-        "gp": "/_emdash/api/media/file/01M3DPV6235Z2BF9H5XR1YDRCV.webp",
-        "lan": "/_emdash/api/media/file/01M3DPV6E83NP8Z7PSN6GB252Y.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPV73FHTB45362JX5VW2WH.webp",
+        "da": "/anh/huyet/dau-khieu-am-tren-da.webp",
+        "gp": "/anh/huyet/dau-khieu-am-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dau-khieu-am-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dau-khieu-am-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai sau, cơ chẩm, đường khớp xương thái dương chẩm."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 283,
+        "nhom": [
+          "Làm nhẹ đầu, lợi ngũ quan, thông kinh lạc, giảm đau: nhức đầu, đau mắt, đau tai, đau họng, chóng mặt, lở loét, viêm tuyến mang tai, bệnh về tai (giảm thính lực, ù tai), cứng cổ, bướu cổ, ho, co rút gân tứ chi."
+        ]
+      },
       "international_code": "GB11",
       "code_dash": "GB-11",
       "chinese": "頭竅陰",
@@ -10341,13 +10801,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0215-dau-lam-khap.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW87E5DA80AMPTCKHQTC7.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPVDAFH9XG6DJ86XMTFZ9X.webp",
-        "gp": "/_emdash/api/media/file/01M3DPVDGJGM0CGCYKX9WEK69C.webp",
-        "lan": "/_emdash/api/media/file/01M3DPVE8WNPPZQRSZT961DYSM.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPVEHZ4Y34W4VPJB8GK0X5.webp",
+        "da": "/anh/huyet/dau-lam-khap-tren-da.webp",
+        "gp": "/anh/huyet/dau-lam-khap-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dau-lam-khap-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dau-lam-khap-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ cơ trán dính vào cân sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 287,
+        "nhom": [
+          "Trừ phong, lợi đầu mũi mắt, giảm đau: nhức đầu vùng trên hốc mắt, trán, chẩm; chóng mặt; bệnh về mắt; chảy nước mắt do gió; viêm mũi; viêm xoang; đột quỵ; động kinh."
+        ]
+      },
       "international_code": "GB15",
       "code_dash": "GB-15",
       "chinese": "頭臨泣",
@@ -10724,13 +11189,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0224-dia-co.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW92F72GG5BY30B0MMD89.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPF3VBT6DN1P1AVY6FCGEZ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPF4GPCR6E9PJEJ854S232.webp",
-        "lan": "/_emdash/api/media/file/01M3DPF4WSBB6QGNS3H7Y01GV6.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPF5J39NQGX56JAECKPG9F.webp",
+        "da": "/anh/huyet/dia-co-tren-da.webp",
+        "gp": "/anh/huyet/dia-co-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dia-co-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dia-co-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau – trong xương chầy, chỗ bám của cơ sinh đôi trong, cơ dép là cơ gấp dài các ngón chân, cơ cẳng chân sau."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 96,
+        "nhom": [
+          "Điều kinh, hoạt huyết, trị chứng cấp (Khích huyệt): đau bụng kinh cấp, kinh nguyệt không đều, u xơ.",
+          "Điều hoà Tỳ Vị, trừ thấp: tức đầy bụng, chán ăn, tiêu chảy cấp và mạn, rối loạn tiểu tiện, phù nề."
+        ]
+      },
       "international_code": "SP8",
       "code_dash": "SP-8",
       "chinese": "地機",
@@ -10831,13 +11302,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0226-dia-ngu-hoi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW9HMEPWNPBQ75GTVT3ZQ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPX7B0KSJYS7C6C93VWEP6.webp",
-        "gp": "/_emdash/api/media/file/01M3DPX8YK7WZYRF2XX2JT1JYX.webp",
-        "lan": "/_emdash/api/media/file/01M3DPX91M5DEDTN1P7DR28116.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPX9ZFDCY1K2T39YZ4ZH1C.webp",
+        "da": "/anh/huyet/dia-ngu-hoi-tren-da.webp",
+        "gp": "/anh/huyet/dia-ngu-hoi-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dia-ngu-hoi-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dia-ngu-hoi-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: 5 của cơ duỗi dài các ngón chân, cơ gian cốt mu chân."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 318,
+        "nhom": [
+          "Điều hoà Can khí: nhức đầu, viêm kết mạc, ù tai, giảm thính lực, đau tại chỗ ở mu bàn chân.",
+          "Thanh Đởm nhiệt: đầy tức ngực và mạn sườn, sưng hạch nách, viêm tuyến vú."
+        ]
+      },
       "international_code": "GB42",
       "code_dash": "GB-42",
       "chinese": "地五會",
@@ -10935,13 +11412,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0228-dia-thuong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWA4F6KX0JA6MXBE347KV.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPBCR16DT6DNA6YS5C5F1V.webp",
-        "gp": "/_emdash/api/media/file/01M3DPBD45MEA6PBG0P0F7MFGW.webp",
-        "lan": "/_emdash/api/media/file/01M3DPBDK9448Z8XX4RSWKH8RC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPBE2FQ7RFSTM1FBEA6YE1.webp",
+        "da": "/anh/huyet/dia-thuong-tren-da.webp",
+        "gp": "/anh/huyet/dia-thuong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dia-thuong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dia-thuong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ đan chéo thớ của cơ vòng môi, cơ gò má lớn, cơ cười, cơ tam giác môi, vào sâu có cơ mút, cơ nanh."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 43,
+        "nhom": [
+          "Khu phong vùng mặt, thông kinh lạc, giảm đau, thư giãn cơ mặt: liệt mặt, giật cơ vùng miệng má, đau dây thần kinh sinh ba (nhánh 3), bệnh vùng hàm trên, đau răng, tiết nhiều nước bọt, khó nói do liệt vận động; hỗ trợ gây tê khi nhổ răng hàm trên.",
+          "Huyệt xa (ít dùng): một số bệnh ở chân."
+        ]
+      },
       "international_code": "ST4",
       "code_dash": "ST-4",
       "chinese": "地倉",
@@ -11041,13 +11524,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0230-dieu-khau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWADFZYJNWB28CEB06DDS.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPDWWVKCN4XA9W5RKF5XSJ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPDXR2DBXJVE0RX11W9RJB.webp",
-        "lan": "/_emdash/api/media/file/01M3DPDXV2WRF6MG9B70ASJ301.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPDYPQKW35E34KPN2ZFJVX.webp",
+        "da": "/anh/huyet/dieu-khau-tren-da.webp",
+        "gp": "/anh/huyet/dieu-khau-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dieu-khau-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dieu-khau-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi chung các ngón chân, vào sâu là bờ trong cơ duỗi dài riêng ngón chân cái."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 77,
+        "nhom": [
+          "Khu phong trừ thấp, thông kinh lạc, giảm đau, lợi khớp vai: dùng làm huyệt xa trị đau vai cấp và co rút khớp vai; đồng thời là huyệt tại chỗ cho các chứng ở chi dưới theo đường kinh."
+        ]
+      },
       "international_code": "ST38",
       "code_dash": "ST-38",
       "chinese": "條口",
@@ -11324,13 +11812,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0237-doai-doan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWCB0V83AMZK04BQ51T9J.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ1GAYFNV3RX06625FF9GT.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ1H08VDKK2S5RHS7GEG0S.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ1HCD4W9Z9Z7W4NXH22VN.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ1HZ73DZTJBHNZ3QMGT01.webp",
+        "da": "/anh/huyet/doai-doan-tren-da.webp",
+        "gp": "/anh/huyet/doai-doan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/doai-doan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/doai-doan-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: niêm mạc môi, bờ dưới các cơ vòng môi trên."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 391,
+        "nhom": [
+          "Thanh nhiệt, sinh tân dịch, hỗ trợ miệng: khát nước do nhiệt, khô miệng, viêm miệng, viêm nha chu, sưng hoặc cứng môi, chảy máu cam — nghẹt mũi.",
+          "An thần: trạng thái hưng cảm, động kinh, khít hàm."
+        ]
+      },
       "international_code": "GV27",
       "code_dash": "GV-27",
       "chinese": "兌端",
@@ -11646,13 +12140,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0245-doc-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWDZ1WACX53SEZSMGZQHX.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJR5TGYB0ERWFNEQ56AWD.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJRMY0EF17EZ47PHW1NQC.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJS4C1NJWWK0ERNBR2NQW.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJSGPA2931FA2AFAPVWXS.webp",
+        "da": "/anh/huyet/doc-du-tren-da.webp",
+        "gp": "/anh/huyet/doc-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/doc-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/doc-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ lưng dài, cơ bán gai của ngực, cơ ngang gai, cơ ngang sườn, vào trong là phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 157,
+        "nhom": [
+          "Sơ thông lồng ngực, điều khí ngực — bụng: đau thắt ngực, đau vùng ngực và mạn sườn, chướng bụng, bệnh ngoài da như ngứa, vảy nến, rụng tóc."
+        ]
+      },
       "international_code": "BL16",
       "code_dash": "BL-16",
       "chinese": "督俞",
@@ -11813,13 +12312,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0249-doc-ty.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWE81Q4KG2QRANKVWYRPE.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPDQ4N5QSB9T8HX6FDG31M.webp",
-        "gp": "/_emdash/api/media/file/01M3DPDQGY7FHX8QNQCZ80DXMG.webp",
-        "lan": "/_emdash/api/media/file/01M3DPDQX83M3RBEMPJQMTF3V0.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPDRFFRNYPW0ZVZ799DHSJ.webp",
+        "da": "/anh/huyet/doc-ty-tren-da.webp",
+        "gp": "/anh/huyet/doc-ty-tren-giai-phau.webp",
+        "lan": "/anh/huyet/doc-ty-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/doc-ty-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ căng cân đùi, góc ngoài bờ dưới xương bánh chè."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 74,
+        "nhom": [
+          "Khu phong trừ thấp, thông kinh lạc, tiêu sưng giảm đau: các chứng ở khớp gối."
+        ]
+      },
       "international_code": "ST35",
       "code_dash": "ST-35",
       "chinese": "犢鼻",
@@ -11951,13 +12455,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0252-dong-tu-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWFVD3Z8158PEDAG4M33W.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPTJ1DCT8HQY95YJGZS0BC.webp",
-        "gp": "/_emdash/api/media/file/01M3DPTJSMXCVCNE42QM7T2HCH.webp",
-        "lan": "/_emdash/api/media/file/01M3DPTK2Q8DZ2ZA3WFVWRKZXY.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPTKWG8X2NCF4DN795085A.webp",
+        "da": "/anh/huyet/dong-tu-lieu-tren-da.webp",
+        "gp": "/anh/huyet/dong-tu-lieu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dong-tu-lieu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dong-tu-lieu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài, bó phụ của cơ vòng miệng, cơ thái dương, chỗ tiếp khớp của xương gò má."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 272,
+        "nhom": [
+          "Trừ phong, thanh nhiệt, dưỡng mắt: bệnh về mắt, nhức đầu, liệt mặt."
+        ]
+      },
       "international_code": "GB1",
       "code_dash": "GB-1",
       "chinese": "瞳子髎",
@@ -12018,13 +12527,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0253-dom-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWG4H7K1X0R1GM8AQWNPH.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJXYY3XSTPSVPKWCXGTVC.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJYE36SSNYHYMRE2JE9NX.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJYXAZ4RSACVDCPV334PT.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJZCFVR5KARMJV7736QHF.webp",
+        "da": "/anh/huyet/dom-du-tren-da.webp",
+        "gp": "/anh/huyet/dom-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/dom-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/dom-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ lưng dài, cơ bán gai của ngực, cơ ngang gai, cơ ngang sườn."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 160,
+        "nhom": [
+          "Thanh thấp nhiệt ở Can — Đởm (Du huyệt của Đởm): bệnh Can — Đởm với vàng da, đắng miệng, đau ngực và mạn sườn, rối loạn tiêu hoá.",
+          "Trừ tà ở kinh Thiếu Dương: hội chứng Thiếu Dương.",
+          "Bổ và điều hoà Đởm khí: lo lắng, bồn chồn."
+        ]
+      },
       "international_code": "BL19",
       "code_dash": "BL-19",
       "chinese": "膽俞",
@@ -12314,13 +12830,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0260-e-phong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWJ3EZ9905PFR7S2VZM16.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPT3EVDX1G9W8YDMKF0YGC.webp",
-        "gp": "/_emdash/api/media/file/01M3DPT472X14487N9ATERWBT7.webp",
-        "lan": "/_emdash/api/media/file/01M3DPT4K8103ZTFZ6V85AV4SW.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPT58HF7HPV62A8SFHMX78.webp",
+        "da": "/anh/huyet/e-phong-tren-da.webp",
+        "gp": "/anh/huyet/e-phong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/e-phong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/e-phong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: phía trước bờ trước cơ ức–đòn–chũm, trâm móng, trâm lưỡi, cơ 2 thân, trên các cơ bậc thang."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 264,
+        "nhom": [
+          "Trừ ngoại phong, lợi tai, thanh nhiệt, thông kinh lạc, giảm đau: bệnh về tai do mọi nguyên nhân, viêm tuyến mang tai, khít hàm, rối loạn khớp thái dương hàm, liệt mặt, đau dây thần kinh sinh ba."
+        ]
+      },
       "international_code": "TE17",
       "code_dash": "TE-17",
       "chinese": "翳風",
@@ -12382,13 +12903,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0261-giac-ton.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWJK3APV6CSEJ8H0AJQKV.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPTAD14Y927XXT5VTBYBT1.webp",
-        "gp": "/_emdash/api/media/file/01M3DPTAW6MAK30G2Y0XXGZF0S.webp",
-        "lan": "/_emdash/api/media/file/01M3DPTBMF8KRQZRTDA1DYFR9C.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPTBTHN2DPS695TMKY43FE.webp",
+        "da": "/anh/huyet/giac-ton-tren-da.webp",
+        "gp": "/anh/huyet/giac-ton-tren-giai-phau.webp",
+        "lan": "/anh/huyet/giac-ton-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/giac-ton-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 267,
+        "nhom": [
+          "Thanh nhiệt, lợi tai răng môi: ù tai, giảm thính lực, viêm tai giữa, nhiễm trùng tai, bệnh về mắt, đau răng, sâu răng, viêm nha chu, viêm tuyến mang tai, khô miệng, cứng cổ."
+        ]
+      },
       "international_code": "TE20",
       "code_dash": "TE-20",
       "chinese": "角孫",
@@ -12453,13 +12979,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0262-giai-khe.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWK5ANA6WJ08ZYWBHDXJS.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPE2P6V83XRT1MHXQN4Y74.webp",
-        "gp": "/_emdash/api/media/file/01M3DPE3A7DTK1ZEPBJDDPJSDF.webp",
-        "lan": "/_emdash/api/media/file/01M3DPE3TCNKKTADJ6EA07QW60.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPE57TJE3Z3YYE4TFP5NC6.webp",
+        "da": "/anh/huyet/giai-khe-tren-da.webp",
+        "gp": "/anh/huyet/giai-khe-tren-giai-phau.webp",
+        "lan": "/anh/huyet/giai-khe-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/giai-khe-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ duỗi dài riêng ngón chân cái."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 81,
+        "nhom": [
+          "Thanh Vị nhiệt: các chứng ở mắt, mặt, trán như sưng, đau, đỏ, viêm; rối loạn tiêu hoá do Vị nhiệt.",
+          "An thần: bồn chồn, lú lẫn, hưng cảm, kích động, tăng huyết áp.",
+          "Thông kinh lạc, giảm đau: các chứng ở cổ chân, cẳng chân, đầu gối; phối với Bễ Quan (ST31), Túc Tam Lý (ST36) trong chứng teo cơ."
+        ]
+      },
       "international_code": "ST41",
       "code_dash": "ST-41",
       "chinese": "解谿",
@@ -12563,13 +13096,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0264-gian-su.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWKTJ185C0R9STH1HDQ0F.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPRFMHE0481DSP4Y7YK63F.webp",
-        "gp": "/_emdash/api/media/file/01M3DPRGYJ4CVH1PWGPD4B41X4.webp",
-        "lan": "/_emdash/api/media/file/01M3DPRH7NKJRTKCAB9JK0SCFG.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPRJ05CZTRAX2VGFM2WAKW.webp",
+        "da": "/anh/huyet/gian-su-tren-da.webp",
+        "gp": "/anh/huyet/gian-su-tren-giai-phau.webp",
+        "lan": "/anh/huyet/gian-su-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/gian-su-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gan tay bé, gân cơ gấp dài ngón tay cái, cơ gấp chung các ngón tay nông, sâu, bờ trên cơ sấp vuông."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 242,
+        "nhom": [
+          "Điều hoà trung tiêu, hoá đàm, an thần: cảm giác nghẹn ở họng (mai hạch khí), buồn nôn/nôn, tiêu chảy, rối loạn tâm lý do đờm như bồn chồn, hưng cảm, động kinh.",
+          "Điều hoà kinh nguyệt: kinh nguyệt không đều, đau bụng kinh, nhau bong non, khí hư.",
+          "Thông kinh lạc tại chỗ: hạch u, liệt, dị cảm (tê, kiến bò…) dọc đường kinh."
+        ]
+      },
       "international_code": "PC5",
       "code_dash": "PC-5",
       "chinese": "間使",
@@ -12713,13 +13253,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0267-giao-tin.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWMJQH8Z4DK3ZQC01A7YM.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPPVXY2ZGDCHYP50ENQGAV.webp",
-        "gp": "/_emdash/api/media/file/01M3DPPW0YZE9SD5WKVXC3AYM1.webp",
-        "lan": "/_emdash/api/media/file/01M3DPPWDHV3MJS78N9KE0D856.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPPX4JNN48J1H1KXTF4RPS.webp",
+        "da": "/anh/huyet/giao-tin-tren-da.webp",
+        "gp": "/anh/huyet/giao-tin-tren-giai-phau.webp",
+        "lan": "/anh/huyet/giao-tin-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/giao-tin-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gấp dài các ngón chân, mặt sau đầu dưới xương chầy."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 217,
+        "nhom": [
+          "Điều kinh, điều hoà mạch Nhâm — Xung, thông mạch Âm Kiều (Khích huyệt): rối loạn kinh nguyệt, chảy máu tử cung, sa tử cung, đau cột sống thắt lưng lan mặt trong chân.",
+          "Thanh nhiệt, trừ thấp hạ tiêu: viêm đau ngứa sưng vùng sinh dục (viêm phần phụ, viêm tuyến tiền liệt), tiểu khó, bí tiểu, tiêu chảy, đại tiện khó."
+        ]
+      },
       "international_code": "KI8",
       "code_dash": "KI-8",
       "chinese": "交信",
@@ -13085,13 +13631,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0276-giap-xa.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWQHARXXY64VHDSKSB8A7.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPBGBMBAEFHY53PA7FPW92.webp",
-        "gp": "/_emdash/api/media/file/01M3DPBGTREXWGJQJHP7JSMDVX.webp",
-        "lan": "/_emdash/api/media/file/01M3DPBHWHZNXGF0NQZ3TJVS56.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPBJV63EMMMQX859QK49DW.webp",
+        "da": "/anh/huyet/giap-xa-tren-da.webp",
+        "gp": "/anh/huyet/giap-xa-tren-giai-phau.webp",
+        "lan": "/anh/huyet/giap-xa-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/giap-xa-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ cắn. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 45,
+        "nhom": [
+          "Khu phong, lợi hàm răng, thông kinh lạc, giảm đau: các chứng ở răng, miệng, má, hàm.",
+          "Một trong \"thập tam quỷ huyệt\" của Tôn Tư Mạc: giúp mở hàm cắn chặt trong cơn động kinh."
+        ]
+      },
       "international_code": "ST6",
       "code_dash": "ST-6",
       "chinese": "頰車",
@@ -13346,13 +13898,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0282-ha-cu-hu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWT8H5XMECJJTEEX2MK5B.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPDYSRP0DE8E6EARC2VEXC.webp",
-        "gp": "/_emdash/api/media/file/01M3DPDZN1VMDXGP551DDGYX98.webp",
-        "lan": "/_emdash/api/media/file/01M3DPDZR249ASBSAFV0H3ZWEW.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPE0KD2G61FNV2MA51GSJ6.webp",
+        "da": "/anh/huyet/ha-cu-hu-tren-da.webp",
+        "gp": "/anh/huyet/ha-cu-hu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ha-cu-hu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ha-cu-hu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi chung các ngón chân, ở sâu là bờ trong cơ duỗi dài riêng ngón chân cái."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 78,
+        "nhom": [
+          "Hành khí Tiểu Trường, điều hoà Trường, thanh thấp nhiệt: viêm dạ dày – ruột cấp, tiêu chảy, đầy hơi, đau bụng dưới lan đến vùng tinh hoàn.",
+          "Thông kinh lạc, giảm đau: các chứng ở chi dưới dọc theo đường kinh."
+        ]
+      },
       "international_code": "ST39",
       "code_dash": "ST-39",
       "chinese": "下巨虛",
@@ -13598,13 +14156,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0288-ha-liem.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWVAAD6J3TAY2KHW8Q1SB.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPABQVR7H65NXZ9CWAP0QH.webp",
-        "gp": "/_emdash/api/media/file/01M3DPACBH1DD0H29DM9S12ZJA.webp",
-        "lan": "/_emdash/api/media/file/01M3DPADG6KB6F5F96VGSRE24S.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPADK7182MWGABX7P80SEH.webp",
+        "da": "/anh/huyet/ha-liem-tren-da.webp",
+        "gp": "/anh/huyet/ha-liem-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ha-liem-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ha-liem-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cơ ngửa dài, bờ ngoài cơ quay 1, cơ ngửa ngắn."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 27,
+        "nhom": [
+          "Thông kinh lạc, khu phong, thanh nhiệt: đau nhức, tê bì, dị cảm hoặc liệt cánh tay, nhức đầu dọc kinh Đại Trường; kể cả viêm tuyến vú.",
+          "Điều hoà Tiểu Trường: đầy bụng, đau bụng.",
+          "Thanh nhiệt Dương Minh, an thần: trạng thái kích động, hưng phấn."
+        ]
+      },
       "international_code": "LI8",
       "code_dash": "LI-8",
       "chinese": "下廉",
@@ -13663,13 +14228,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0289-ha-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWVKAA0CQ42X0879TQS81.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPM2BVQ27EVD1J5ZW0W04N.webp",
-        "gp": "/_emdash/api/media/file/01M3DPM2EX8Z4N6FN19YJMRH2K.webp",
-        "lan": "/_emdash/api/media/file/01M3DPM38817MMYX9C9F2FBWA7.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPM42ZHYR8HJ83PG028NTN.webp",
+        "da": "/anh/huyet/ha-lieu-tren-da.webp",
+        "gp": "/anh/huyet/ha-lieu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ha-lieu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ha-lieu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ ở rãnh cột sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 173,
+        "nhom": [
+          "Điều hoà hạ tiêu, lợi tiểu tiện — chuyên về bệnh sinh dục trong nhóm Bát Liêu: rối loạn tiết niệu — sinh dục như đau bụng kinh, các chứng ở bộ phận sinh dục ngoài, khí hư âm đạo.",
+          "Hỗ trợ đại tiện: huyệt có phổ tác dụng rộng nhất trong 4 huyệt Bát Liêu về mặt này.",
+          "Lợi vùng thắt lưng cùng, hỗ trợ cơn co thắt khi sinh: công dụng chung của nhóm Bát Liêu."
+        ]
+      },
       "international_code": "BL34",
       "code_dash": "BL-34",
       "chinese": "下髎",
@@ -13728,13 +14300,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0290-ha-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWW57RVDTAN483SA4RG3D.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPBJR52CE4N6BJMDS6GE2B.webp",
-        "gp": "/_emdash/api/media/file/01M3DPBKPHMSPNG4WR0NPGZCVH.webp",
-        "lan": "/_emdash/api/media/file/01M3DPBKSJFA2V6KC0ZVK4HEQ0.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPBMMTYESTH755WE0QCCZG.webp",
+        "da": "/anh/huyet/ha-quan-tren-da.webp",
+        "gp": "/anh/huyet/ha-quan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ha-quan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ha-quan-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: tuyến mang tai, chỗ bám của bờ sau cơ nhai, ở sâu có cơ chân bướm ngoài."
       },
-      "congDung": null
+      "congDung": {
+        "trang": 46,
+        "nhom": [
+          "Thông kinh lạc, lợi răng hàm và tai, giảm đau: đau nhức răng, miệng, má, hàm (nhất là hàm dưới), đau dây thần kinh sinh ba, bệnh về tai."
+        ]
+      }
     },
     {
       "id": 291,
@@ -13828,13 +14405,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0292-ha-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWX66174P4D93AKP989XE.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPYZ8TV0XS5P0VK2QRR7WG.webp",
-        "gp": "/_emdash/api/media/file/01M3DPYZQZ0E2RCPBC88ZMFPDP.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZ044Q8KJBGR2FQ8ZMP1Z.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZ0SDZHSREZSRGRDJNHD8.webp",
+        "da": "/anh/huyet/ha-quan-2-tren-da.webp",
+        "gp": "/anh/huyet/ha-quan-2-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ha-quan-2-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ha-quan-2-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 348,
+        "nhom": [
+          "Bổ khí, điều khí Tỳ Vị, tiêu tích trệ: chán ăn, buồn nôn, nôn, chướng bụng, đau vùng bụng trên, khó tiêu."
+        ]
+      },
       "international_code": "CV10",
       "code_dash": "CV-10",
       "chinese": "下脘",
@@ -14167,13 +14749,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0300-ham-yen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWYG4KBPC81QTZBSS8MAY.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPTQZBQCAYFVMK3KW5Y0NX.webp",
-        "gp": "/_emdash/api/media/file/01M3DPTRHJVBVGD0J11JDD3M1W.webp",
-        "lan": "/_emdash/api/media/file/01M3DPTRW5WFEZ2GEJWPJW9C1Q.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPTSETD82SZF8C9Q2AXYKX.webp",
+        "da": "/anh/huyet/ham-yen-tren-da.webp",
+        "gp": "/anh/huyet/ham-yen-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ham-yen-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ham-yen-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 275,
+        "nhom": [
+          "Trừ phong, thanh nhiệt, thông kinh lạc, giảm đau: nhức đầu một bên, chóng mặt, động kinh, bệnh về tai, liệt mặt, đau mặt ngoài mắt, khít hàm, đau cổ tay."
+        ]
+      },
       "international_code": "GB4",
       "code_dash": "GB-4",
       "chinese": "頷厭",
@@ -14234,13 +14821,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0301-ham-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWZ24BK0RC96JGP7E4YXR.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPEAV96EPGX2ZS657HSS36.webp",
-        "gp": "/_emdash/api/media/file/01M3DPED1JVGYADZXVD6AKGADG.webp",
-        "lan": "/_emdash/api/media/file/01M3DPEDN1VEATWCS25PPHC5MA.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPEEHZA9WHGQ2YM26M9852.webp",
+        "da": "/anh/huyet/ham-coc-tren-da.webp",
+        "gp": "/anh/huyet/ham-coc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ham-coc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ham-coc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: 3 của cơ duỗi dài, cơ duỗi ngắn các ngón chân, gian cốt mu chân 2."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 83,
+        "nhom": [
+          "Điều hoà Tỳ Vị Trường, tiêu phù: đầy hơi, sôi bụng, nấc cụt, phù và sưng ở mặt và quanh mắt; hội chứng phong – nhiệt – thấp với sưng đỏ đau khớp nói chung, nhất là ngón chân và mu bàn chân."
+        ]
+      },
       "international_code": "ST43",
       "code_dash": "ST-43",
       "chinese": "陷谷",
@@ -14339,13 +14931,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0303-hanh-gian.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWZBD5GPMZVC3N1GWAC4F.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPXH3ZZ81MVX8PNA20ZANF.webp",
-        "gp": "/_emdash/api/media/file/01M3DPXHZ7RCRXA70BVPDR3DBV.webp",
-        "lan": "/_emdash/api/media/file/01M3DPXJ29JXV3NS4DPCFZN8F2.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPXJXVEVYDPZSXHZQCDFJS.webp",
+        "da": "/anh/huyet/hanh-gian-tren-da.webp",
+        "gp": "/anh/huyet/hanh-gian-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hanh-gian-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hanh-gian-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi ngắn các ngón chân ở phía ngoài với các gân duỗi dài riêng ngón 1, gân duỗi ngón chân 1 của cơ duỗi ngắn các ngón chân ở phía trong, cơ gian cốt mu chân."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 323,
+        "nhom": [
+          "Thanh Can nhiệt, sơ Can khí, bình Can phong, cầm máu, lợi hạ tiêu: các chứng thực nhiệt vùng đầu như động kinh/co giật ở trẻ, nhức đầu nhất là đỉnh đầu, đau nửa đầu, tăng huyết áp, chóng mặt, ù tai, bồn chồn, hưng cảm, mất ngủ, bệnh về mắt, viêm đường tiết niệu, rối loạn kinh nguyệt như rong kinh, ngứa/đau vùng sinh dục ngoài, khí hư, bệnh sán khí."
+        ]
+      },
       "international_code": "LR2",
       "code_dash": "LR-2",
       "chinese": "行間",
@@ -14477,13 +15074,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0306-hau-dinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWZXGPFHHS6GR4JPY5ETQ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ10YEV9KA819MRGFDZVKW.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ11SQ4CHJA49KPKA4GWKV.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ1290DKGBEJJJ0WT8RGB5.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ12R5B8M5VG8HT6ZB6WRQ.webp",
+        "da": "/anh/huyet/hau-dinh-tren-da.webp",
+        "gp": "/anh/huyet/hau-dinh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hau-dinh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hau-dinh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, dưới cân sọ là xương sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 383,
+        "nhom": [
+          "Trừ phong, giảm đau, làm dịu triệu chứng: chóng mặt, động kinh, đau đỉnh đầu, cứng cổ, run đầu, rối loạn giấc ngủ."
+        ]
+      },
       "international_code": "GV19",
       "code_dash": "GV-19",
       "chinese": "後頂",
@@ -14572,13 +15174,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0308-hau-khe.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX0CRF1XYNKHN8Y7A6ACQ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPGQPZW8HET46NA74P6VDZ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPGR3588XMVVYP6HS5A67N.webp",
-        "lan": "/_emdash/api/media/file/01M3DPGRJ87KS632808T9APABG.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPGS1E0FQHCEGK7W9M09ET.webp",
+        "da": "/anh/huyet/hau-khe-tren-da.webp",
+        "gp": "/anh/huyet/hau-khe-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hau-khe-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hau-khe-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ dạng ngón tay út, bờ trong cơ gấp ngắn ngón tay, cơ đối ngón út, bờ trong đầu dưới xương bàn tay thứ 5."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 123,
+        "nhom": [
+          "Thanh nhiệt, khu phong nhiệt: sốt nhiễm trùng, sưng đau họng và má.",
+          "Thanh nhiệt, lợi ngũ quan: bệnh ở da mặt, mắt, tai; đổ mồ hôi trộm ban đêm (phối Âm Khích — HE6).",
+          "Điều hoà mạch Đốc, an thần: chuột rút, run rẩy, chóng mặt, động kinh.",
+          "Thông kinh lạc, giảm đau, lợi cổ gáy: đau cổ, vai, cánh tay, cột sống, nhức đầu vùng chẩm, đau khớp ngón tay nhất là ngón út và ngón áp út."
+        ]
+      },
       "international_code": "SI3",
       "code_dash": "SI-3",
       "chinese": "後谿",
@@ -14993,10 +15603,10 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0318-hiep-bach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX17SKFEJGT5XRZN61B59.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3D10J92WVMTFGQANDFMC3RV.webp",
-        "gp": "/_emdash/api/media/file/01M3D10JC9DH7XJFDY3Z23GM1Q.webp",
-        "lan": "/_emdash/api/media/file/01M3D10K9Q9XGJKRZKPPSHFR5A.webp",
-        "kinh": "/_emdash/api/media/file/01M3D10KCZWYV363XFBV287R82.webp",
+        "da": "/anh/huyet/hiep-bach-tren-da.webp",
+        "gp": "/anh/huyet/hiep-bach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hiep-bach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hiep-bach-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài cơ 2 đầu cánh tay, cơ cánh tay trước, bờ ngoài xương cánh tay."
       },
       "congDung": {
@@ -15063,13 +15673,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0319-hiep-khe.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX1SSNK52AECG81NEA0DW.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPXA8M00ER506Z2ZWGZXXT.webp",
-        "gp": "/_emdash/api/media/file/01M3DPXBE4XCVW1F7NB7M7386Q.webp",
-        "lan": "/_emdash/api/media/file/01M3DPXBH5BQJCBX9F631EM1V5.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPXCCKNWWPY5C80MGXZ56G.webp",
+        "da": "/anh/huyet/hiep-khe-tren-da.webp",
+        "gp": "/anh/huyet/hiep-khe-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hiep-khe-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hiep-khe-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: 5 của cơ duỗi dài các ngón chân, gân duỗi ngón 4 của cơ duỗi ngắn các ngón chân, cơ gian cốt mu chân."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 319,
+        "nhom": [
+          "Thanh nhiệt, lợi mắt tai đầu, trừ thấp nhiệt kinh lạc, giảm sưng: bệnh về mắt và tai, đau mặt, nhức đỉnh đầu, viêm tuyến mang tai, viêm kết mạc, tăng trương lực, ù tai, mất thính lực đột ngột, đau dây thần kinh liên sườn, đầy tức vùng sườn — thượng vị, viêm tuyến vú, sốt nhiễm trùng, đau khớp lan toả, đau và co rút ngón chân."
+        ]
+      },
       "international_code": "GB43",
       "code_dash": "GB-43",
       "chinese": "俠谿",
@@ -15133,13 +15748,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0320-hoa-cai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX2BTZ1KZFRQCKMV762V0.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZJ84JH0KWH96BMCG84E5.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZJQBWQVBMR7AT8YRBJ3Q.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZK3GR84Q1P9BBTC1HYG6.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZKRQGWTDCPXEYK03K4H7.webp",
+        "da": "/anh/huyet/hoa-cai-tren-da.webp",
+        "gp": "/anh/huyet/hoa-cai-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hoa-cai-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hoa-cai-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ tiếp nối đầu xương ức với thân xương ức."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 358,
+        "nhom": [
+          "Khai thông lồng ngực: đau, căng tức ngực và mạn sườn, co thắt thực quản, khó nuốt.",
+          "Điều khí, hạ khí nghịch: ho, khó thở, hen phế quản."
+        ]
+      },
       "international_code": "CV20",
       "code_dash": "CV-20",
       "chinese": "華蓋",
@@ -15238,13 +15859,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0322-hoa-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX3CVSG122PK8TXGDWJQH.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPTE6Z0V6CEG07EX5JCM5Z.webp",
-        "gp": "/_emdash/api/media/file/01M3DPTEX66F1Q29CGGDRQS0QP.webp",
-        "lan": "/_emdash/api/media/file/01M3DPTF68PZNT4BNRR7M5ZD6N.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPTFY4FQVWEETCPSHJ3HS2.webp",
+        "da": "/anh/huyet/hoa-lieu-tren-da.webp",
+        "gp": "/anh/huyet/hoa-lieu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hoa-lieu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hoa-lieu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 269,
+        "nhom": [
+          "Trừ phong: liệt mặt, ù tai, giảm thính lực đột ngột, viêm mũi.",
+          "Thông kinh lạc, giảm đau: nhức đầu kèm nặng đầu, cứng hàm, co thắt hàm dưới."
+        ]
+      },
       "international_code": "TE22",
       "code_dash": "TE-22",
       "chinese": "耳和髎",
@@ -15305,13 +15932,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0323-hoa-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX3CVSG122PK8TXGDWJQH.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPB4WVQHZ0RW9494R41DB7.webp",
-        "gp": "/_emdash/api/media/file/01M3DPB5C247XWQ1VMHRDD9DB0.webp",
-        "lan": "/_emdash/api/media/file/01M3DPB61BJ5S2QHW6PDFKZM8Y.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPB6AFQ02VH8GFGS4Z45KN.webp",
+        "da": "/anh/huyet/hoa-lieu-2-tren-da.webp",
+        "gp": "/anh/huyet/hoa-lieu-2-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hoa-lieu-2-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hoa-lieu-2-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ vòng môi trên."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 37,
+        "nhom": [
+          "Giải biểu, thông mũi: nghẹt mũi, viêm mũi, rối loạn khứu giác, polyp mũi, liệt mặt lệch miệng, cứng hàm."
+        ]
+      },
       "international_code": "LI19",
       "code_dash": "LI-19",
       "chinese": "口禾髎",
@@ -15372,13 +16004,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0324-hoan-cot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX4M82K0GQYBQNZT9DMQ0.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPV7JM9VDF7330177N4YK4.webp",
-        "gp": "/_emdash/api/media/file/01M3DPV7VSYZBJTTKTVKEGBY4B.webp",
-        "lan": "/_emdash/api/media/file/01M3DPV8DZCANX9FCFK42FSA36.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPV8X57QVPXH5WZFBHRF30.webp",
+        "da": "/anh/huyet/hoan-cot-tren-da.webp",
+        "gp": "/anh/huyet/hoan-cot-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hoan-cot-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hoan-cot-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ ức – đòn – chũm, cơ đầu dài, cơ trâm lưỡi, cơ 2 thân."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 284,
+        "nhom": [
+          "Trừ phong, lợi đầu, giảm đau và sưng, an thần: nhức đầu, đau cổ, đau họng, đau răng, liệt mặt, sưng má, bệnh về tai (ù tai), mất ngủ, hưng cảm, động kinh."
+        ]
+      },
       "international_code": "GB12",
       "code_dash": "GB-12",
       "chinese": "完骨",
@@ -15443,13 +16080,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0325-hoan-khieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX5CH25QK67E6V4JZ6E21.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPWCSVE8215M0JHHBQWBAG.webp",
-        "gp": "/_emdash/api/media/file/01M3DPWDDNPQER24M1GP928SG8.webp",
-        "lan": "/_emdash/api/media/file/01M3DPWE33XPC7WZAY44R291ZM.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPWENA083G86FJ3BZYYTA9.webp",
+        "da": "/anh/huyet/hoan-khieu-tren-da.webp",
+        "gp": "/anh/huyet/hoan-khieu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hoan-khieu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hoan-khieu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ tháp, bờ trên cơ sinh đôi trên."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 303,
+        "nhom": [
+          "Thông kinh lạc, giảm đau, lợi chân và khớp hông, trừ phong thấp: các chứng ở thắt lưng, chậu, hông; đau thắt lưng lan xuống chân (đau thần kinh toạ); các chứng khớp cùng chậu và cơ hình lê; bệnh ngoài da như mề đay, chàm."
+        ]
+      },
       "international_code": "GB30",
       "code_dash": "GB-30",
       "chinese": "環跳",
@@ -15577,13 +16219,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0328-hoang-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX5YRGNZAZD7EM28QC5XG.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQBB378A0YKW6C4BT9DXR.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQBH4P0G300XEPSH2C43J.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQC9QKGDR2BMJ7TS31AXA.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQCJSVKZ4ARJSZ0Y4CK9S.webp",
+        "da": "/anh/huyet/hoang-du-tren-da.webp",
+        "gp": "/anh/huyet/hoang-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hoang-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hoang-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang, bàng quang khi bí tiểu tiện nhiều, tử cung khi có thai 7 – 8 tháng."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 225,
+        "nhom": [
+          "Điều khí, ôn ấm và điều hoà Vị Trường (nhất là khi có hàn tích hoặc Thận dương hư): táo bón, phân khô, tiêu chảy, đau bụng, đầy hơi, buồn nôn, nôn, đau bụng từng cơn; y học hiện đại còn dùng cho rối loạn nhau bong non."
+        ]
+      },
       "international_code": "KI16",
       "code_dash": "KI-16",
       "chinese": "肓俞",
@@ -15677,13 +16324,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0330-hoang-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX72S50FWK9SGN6V6N3R3.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPNADFDWTP2N2JHYMN89F2.webp",
-        "gp": "/_emdash/api/media/file/01M3DPNB06TJZ4TJA3VEGFY1XE.webp",
-        "lan": "/_emdash/api/media/file/01M3DPNBCB64W8S1FXXQBFF8C6.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPNC28N1FMH7R2CEK7TXE2.webp",
+        "da": "/anh/huyet/hoang-mon-tren-da.webp",
+        "gp": "/anh/huyet/hoang-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hoang-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hoang-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ lưng lớn, cơ răng bé sau – dưới, cơ chậu – sườn – thắt lưng, cân thắt lưng, cơ vuông thắt lưng."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 190,
+        "nhom": [
+          "Hành khí, tiêu ứ trệ: căng bụng, bệnh dạ dày, táo bón.",
+          "Huyệt xa trị vú: viêm tuyến vú, bệnh lý ở vú."
+        ]
+      },
       "international_code": "BL51",
       "code_dash": "BL-51",
       "chinese": "肓門",
@@ -15779,13 +16432,18 @@ window.ACUPOINTS = {
       "image": null,
       "anhCms": null,
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQ1NQ233Z010H6WPKXBFM.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQ1VRA82ZK332HPKFTK2J.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQ2H0J1NE11NM9PKX4WX3.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQ2Q2FM8EM1YDC6BXAYNM.webp",
+        "da": "/anh/huyet/hoanh-cot-tren-da.webp",
+        "gp": "/anh/huyet/hoanh-cot-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hoanh-cot-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hoanh-cot-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, cơ tháp, bờ trong cơ thẳng lớn, mạc ngang, bàng quang khi đầy, tử cung khi có thai."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 220,
+        "nhom": [
+          "Điều hoà hạ tiêu và đường tiểu, bổ Thận: bệnh nam khoa — tiết niệu như tiểu khó, bí tiểu, đái dầm, viêm tuyến tiền liệt, hiếm muộn, liệt dương, rối loạn xuất tinh, đau vùng chậu và sinh dục, sa tử cung, sa trực tràng."
+        ]
+      },
       "international_code": "KI11",
       "code_dash": "KI-11",
       "chinese": "橫骨",
@@ -15947,13 +16605,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0336-hoat-nhuc-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX8KMW279959AD8DJ5FSW.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPCMA1YR07ZXK0DCB8JQCQ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPCNBF7XQ6G396Y9AK0SCY.webp",
-        "lan": "/_emdash/api/media/file/01M3DPCPFE43E417F991SDSE79.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPCPRNCH4234BK7DE0ZHTJ.webp",
+        "da": "/anh/huyet/hoat-nhuc-mon-tren-da.webp",
+        "gp": "/anh/huyet/hoat-nhuc-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hoat-nhuc-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hoat-nhuc-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang, trong ổ bụng là ruột non, tử cung khi có thai đến ngày sinh."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 63,
+        "nhom": [
+          "Hoà Vị, chỉ nôn: buồn nôn, nôn, đau bụng.",
+          "Hoá đờm, an thần: rối loạn tâm thần, trạng thái hưng cảm."
+        ]
+      },
       "international_code": "ST24",
       "code_dash": "ST-24",
       "chinese": "滑肉門",
@@ -16010,13 +16674,20 @@ window.ACUPOINTS = {
       "image": null,
       "anhCms": null,
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPR24WRQVCD7CXR863T51M.webp",
-        "gp": "/_emdash/api/media/file/01M3DPR3549EW3K3RWTFZ53MJA.webp",
-        "lan": "/_emdash/api/media/file/01M3DPR4CYXT08FGV5B1BFJKF6.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPR52ZSP51HA3TYBSA8863.webp",
+        "da": "/anh/huyet/hoac-trung-tren-da.webp",
+        "gp": "/anh/huyet/hoac-trung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hoac-trung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hoac-trung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 1, sâu hơn có động mạch chủ (bên trái), tĩnh mạch thần kinh nách, dây thần kinh gian sườn 1."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 235,
+        "nhom": [
+          "Điều hoà Phế khí, giáng Vị khí nghịch, hoá đờm: ho, khó thở, hen phế quản, tắc nghẽn đường hô hấp dưới, nôn mửa, tăng tiết nước bọt.",
+          "Khoan khoái lồng ngực: tức ngực, đau dây thần kinh liên sườn, hồi hộp đánh trống ngực.",
+          "Lợi sữa: viêm tuyến vú."
+        ]
+      },
       "international_code": "KI26",
       "code_dash": "KI-26",
       "chinese": "彧中",
@@ -16332,13 +17003,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0345-hoi-am.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXD51D951BVEM33MWH931.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPYANH959DDGWX3KB5MTYQ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPYBGVXF4B62ZAA14X5RSB.webp",
-        "lan": "/_emdash/api/media/file/01M3DPYBKWAH8PM8EQ39HD2H7S.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPYCRGTY4BJCY0Q30W588X.webp",
+        "da": "/anh/huyet/hoi-am-tren-da.webp",
+        "gp": "/anh/huyet/hoi-am-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hoi-am-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hoi-am-toan-duong-kinh.webp",
         "ghiChu": "Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 339,
+        "nhom": [
+          "Điều hoà nhị tiện, trừ thấp nhiệt: rối loạn đại tiện và tiểu tiện, bí tiểu, viêm tuyến tiền liệt, bệnh ở cơ quan sinh dục ngoài, sa trực tràng, trĩ, đau vùng hậu môn, kinh nguyệt không đều hoặc vô kinh, sa tử cung, bệnh sán khí (thoát vị tạng bụng, bệnh sinh dục ngoài, đau bụng dữ dội kèm táo bón — bí tiểu).",
+          "An thần, hồi phục ý thức (một trong thập tam quỷ huyệt của Tôn Tư Mạc, dùng cấp cứu): động kinh, hưng cảm, sau khi ngạt nước (hỗ trợ đẩy nước ra khỏi phổi)."
+        ]
+      },
       "international_code": "CV1",
       "code_dash": "CV-1",
       "chinese": "會陰",
@@ -16403,13 +17080,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0346-hoi-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXBXRVQH8HAZ3R0YVNEEY.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPM5R2F2B66VG7R18KXTSZ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPM5WAX7DC5ZAG2YCNX2R2.webp",
-        "lan": "/_emdash/api/media/file/01M3DPM6P47P12YD8P9ZC127AX.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPM75B6ZDEHZEZW52P8132.webp",
+        "da": "/anh/huyet/hoi-duong-2-tren-da.webp",
+        "gp": "/anh/huyet/hoi-duong-2-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hoi-duong-2-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hoi-duong-2-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: khối mỡ nhão của hố ngồi – trực tràng, cơ nâng mông, cơ ngồi cụt."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 174,
+        "nhom": [
+          "Thanh thấp nhiệt hạ tiêu: kiết lỵ, tiêu chảy, ngứa sinh dục, khí hư.",
+          "Trị trĩ: trĩ, sa trực tràng, rối loạn cương dương.",
+          "Tại chỗ: giảm đau xương cụt."
+        ]
+      },
       "international_code": "BL35",
       "code_dash": "BL-35",
       "chinese": "會陽",
@@ -16469,13 +17153,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0347-hoi-tong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXEDPZP0V41K99MS96G71.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPSE6ATXGZ6TD11VS67NDQ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPSERNE6MC8KPMY5K6J7SG.webp",
-        "lan": "/_emdash/api/media/file/01M3DPSF8Y7NKEMWMNAE76BPFX.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPSFSKH1KR109AVSZ7TDYS.webp",
+        "da": "/anh/huyet/hoi-tong-tren-da.webp",
+        "gp": "/anh/huyet/hoi-tong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hoi-tong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hoi-tong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi riêng ngón tay trỏ, bờ ngoài xương trụ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 254,
+        "nhom": [
+          "Thông kinh Tam Tiêu, lợi tai: ù tai, mất thính lực đột ngột, giảm thính lực; giảm đau và rối loạn cảm giác tại chỗ/theo kinh ở cánh tay."
+        ]
+      },
       "international_code": "TE7",
       "code_dash": "TE-7",
       "chinese": "會宗",
@@ -16533,13 +17222,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0348-hon-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXESQYE7TBA5DEM8EP8MZ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPN27M5AZH0AN01MJ67S1G.webp",
-        "gp": "/_emdash/api/media/file/01M3DPN34JFH2JSFTF09HQRXDZ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPN37S54VWTNPJ0DDD80HT.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPN4GS0W84B0BW80X4BDCT.webp",
+        "da": "/anh/huyet/hon-mon-tren-da.webp",
+        "gp": "/anh/huyet/hon-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hon-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hon-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ chậu – sườn – ngực, cơ gian sườn 9 rồi vào phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 186,
+        "nhom": [
+          "Sơ Can khí, thư cân: căng đau ở vùng nối ngực — mạn sườn, co rút gân, các bệnh về khớp và xương.",
+          "Điều hoà trung tiêu: viêm dạ dày — ruột, tiêu chảy, nôn mửa, khó tiêu."
+        ]
+      },
       "international_code": "BL47",
       "code_dash": "BL-47",
       "chinese": "魂門",
@@ -16707,13 +17402,23 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0352-hop-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXHM166NCC02MXECQH4WW.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPA3HDAY71NVCFRJD07X72.webp",
-        "gp": "/_emdash/api/media/file/01M3DPA3E7PXHDX6PSHG1TJWFE.webp",
-        "lan": "/_emdash/api/media/file/01M3DPA4JERGV9GE4XKS99H835.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPA4NGDGB5R8D49CDE4CY6.webp",
+        "da": "/anh/huyet/hop-coc-tren-da.webp",
+        "gp": "/anh/huyet/hop-coc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hop-coc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hop-coc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian cốt mu tay, bờ trên cơ khép ngón tay cái, bờ trong gân cơ duỗi dài ngón tay cái."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 23,
+        "nhom": [
+          "Giải biểu, khu phong: cảm mạo, nhiễm trùng.",
+          "Điều hoà vùng đầu mặt: các chứng ở đầu, đặc biệt vùng mặt, liệt mặt.",
+          "Điều hoà vệ khí, cầm/điều tiết mồ hôi: rối loạn ra mồ hôi.",
+          "Thông kinh lạc, giảm đau: đau, co cứng chi trên, giảm đau toàn thân nói chung.",
+          "Trợ sinh: hỗ trợ, thúc đẩy chuyển dạ.",
+          "Hồi dương cứu nghịch: suy sụp, ngất xỉu, bất tỉnh."
+        ]
+      },
       "international_code": "LI4",
       "code_dash": "LI-4",
       "chinese": "合谷",
@@ -16780,13 +17485,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0353-hop-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXJ33H94BE4NFCK9M5XWF.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPNJQD4VW0YGNQZSRP3BEM.webp",
-        "gp": "/_emdash/api/media/file/01M3DPNKRSRPBDBXCB2KG88SXM.webp",
-        "lan": "/_emdash/api/media/file/01M3DPNKYTBZGCC26G5X42C5RP.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPNMH1GQCE31510DRMTCJP.webp",
+        "da": "/anh/huyet/hop-duong-tren-da.webp",
+        "gp": "/anh/huyet/hop-duong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hop-duong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hop-duong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: góc của 2 cơ sinh đôi, bờ trên cơ kheo, giữa mặt sau đầu trên xương chày."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 194,
+        "nhom": [
+          "Thông kinh lạc, giảm đau: đau lưng kiểu rễ thần kinh lan xuống bụng, sinh dục hoặc chân, có thể kèm liệt, rối loạn cảm giác nóng mặt trong đùi.",
+          "Cầm máu tử cung, giảm đau sinh dục: rong huyết cơ năng, đau vùng sinh dục, chứng sán khí, khí hư."
+        ]
+      },
       "international_code": "BL55",
       "code_dash": "BL-55",
       "chinese": "合陽",
@@ -16843,13 +17554,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0354-hung-huong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXJV6E6FVH5MAVS3WX99C.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPFTDYJFZKJ4G952NJTXGN.webp",
-        "gp": "/_emdash/api/media/file/01M3DPFTY5FQ6EZ003RFBA6A5Q.webp",
-        "lan": "/_emdash/api/media/file/01M3DPFV78T2DNDN3VR71JE99Z.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPFVSE9FREV3K9908KB69R.webp",
+        "da": "/anh/huyet/hung-huong-tren-da.webp",
+        "gp": "/anh/huyet/hung-huong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/hung-huong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/hung-huong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ răng lớn, cơ gian sườn 4 rồi vào phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 107,
+        "nhom": [
+          "Giáng khí: ho, khó thở, hụt hơi.",
+          "Khoan khoái lồng ngực: căng đau vùng ngực bên."
+        ]
+      },
       "international_code": "SP19",
       "code_dash": "SP-19",
       "chinese": "胸鄉",
@@ -16950,13 +17667,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0356-huyen-chung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXJY6HMSWG9FJ35W2BZ95.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPWXDWVGHMNEXP68PDEY4E.webp",
-        "gp": "/_emdash/api/media/file/01M3DPWY9Q6VKK983CP3H6G1PN.webp",
-        "lan": "/_emdash/api/media/file/01M3DPWZ0KMHBG8K7PJS299GHE.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPX0QXB17920N061WGAJ64.webp",
+        "da": "/anh/huyet/huyen-chung-tren-da.webp",
+        "gp": "/anh/huyet/huyen-chung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/huyen-chung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/huyen-chung-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 314,
+        "nhom": [
+          "Thông kinh lạc, lợi cân cốt, trừ phong thấp (Hội huyệt của Tuỷ): các chứng dọc đường kinh, hội chứng tý và chứng nuy (teo, liệt) mạn tính.",
+          "Thanh Đởm nhiệt: căng đầy vùng mạn sườn và bụng."
+        ]
+      },
       "international_code": "GB39",
       "code_dash": "GB-39",
       "chinese": "懸鐘[d]",
@@ -17022,13 +17745,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0357-huyen-khu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXNA3YE55Z679KF2AAEQH.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ035WNVS7MV43P3AGGVWZ.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ0429PMWE23W4X3NNNWX0.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ049034DKD45K09CGPDRV.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ04YTAV8WMWCV0ENK71Z5.webp",
+        "da": "/anh/huyet/huyen-khu-tren-da.webp",
+        "gp": "/anh/huyet/huyen-khu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/huyen-khu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/huyen-khu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, chỗ bám của cơ răng bé sau – dưới, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 368,
+        "nhom": [
+          "Tăng cường sức mạnh cột sống thắt lưng: cứng, đau vùng thắt lưng.",
+          "Điều hoà hạ tiêu: tiêu chảy, thức ăn không tiêu lẫn trong phân, bệnh sán khí, tinh hoàn lạc chỗ, khí nghịch từ bụng dưới xông lên ngực (bôn đồn khí)."
+        ]
+      },
       "international_code": "GV5",
       "code_dash": "GV-5",
       "chinese": "懸樞",
@@ -17090,13 +17819,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0358-huyen-lu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXNS4JQAF8WDG1N6TSQ35.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPTSV63W8B171KTVANHWRT.webp",
-        "gp": "/_emdash/api/media/file/01M3DPTTM3MZ15CJ8162GV5JRM.webp",
-        "lan": "/_emdash/api/media/file/01M3DPTTT5VSTVZFA53S14B0NZ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPTVCF9T758B6S5QQMWWNA.webp",
+        "da": "/anh/huyet/huyen-lu-tren-da.webp",
+        "gp": "/anh/huyet/huyen-lu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/huyen-lu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/huyen-lu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 277,
+        "nhom": [
+          "Trừ phong, thanh nhiệt, thông kinh lạc, giảm đau: nhức đầu một bên, đau vùng ngoài mắt, đau răng, đau mặt, sưng đỏ mặt, viêm mũi, viêm xoang, sốt nhiễm trùng kèm co giật."
+        ]
+      },
       "international_code": "GB5",
       "code_dash": "GB-5",
       "chinese": "懸顱",
@@ -17153,13 +17887,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0359-huyen-ly.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXPH6H8EV93B69WSH3X4Q.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPTVVNY321DFF2FB75R6KM.webp",
-        "gp": "/_emdash/api/media/file/01M3DPTWDWV1CDG1AW8D1DBFKZ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPTWPZE7K1C4BMSKC8Y3G2.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPTX95461DS0JW419HKYCD.webp",
+        "da": "/anh/huyet/huyen-ly-tren-da.webp",
+        "gp": "/anh/huyet/huyen-ly-tren-giai-phau.webp",
+        "lan": "/anh/huyet/huyen-ly-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/huyen-ly-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 278,
+        "nhom": [
+          "Trừ phong, thanh nhiệt, thông kinh lạc, giảm đau: nhức đầu một bên, đỏ bừng mặt, đau vùng ngoài mắt, đau răng, ù tai, hắt hơi, nóng vùng thượng vị."
+        ]
+      },
       "international_code": "GB6",
       "code_dash": "GB-6",
       "chinese": "懸厘",
@@ -17295,13 +18034,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0362-huyet-hai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXR4CGTRCFXHERHCHB8WJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPF857PE9FWVTP7633AWB8.webp",
-        "gp": "/_emdash/api/media/file/01M3DPF8TK77JD2MHMVKPZP6F8.webp",
-        "lan": "/_emdash/api/media/file/01M3DPF8XPTSHC4D3HS06SX8NK.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPF9N5HSEABQTREB9B2MC0.webp",
+        "da": "/anh/huyet/huyet-hai-tren-da.webp",
+        "gp": "/anh/huyet/huyet-hai-tren-giai-phau.webp",
+        "lan": "/anh/huyet/huyet-hai-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/huyet-hai-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ rộng giữa xương đùi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 98,
+        "nhom": [
+          "Bổ khí huyết, hoạt huyết, lương huyết, chỉ huyết, điều kinh, dưỡng da: các bệnh về huyết nói chung, bệnh phụ khoa do huyết nhiệt hoặc huyết ứ, bệnh ngoài da do huyết nhiệt, huyết ứ, huyết hư.",
+          "Tại chỗ: các vấn đề ở khớp gối."
+        ]
+      },
       "international_code": "SP10",
       "code_dash": "SP-10",
       "chinese": "血海",
@@ -17733,13 +18478,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0373-khau-khu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXY4XTX7G4HDHTTBSRXF4.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPX0MKB95EC0S1SC9BS411.webp",
-        "gp": "/_emdash/api/media/file/01M3DPX1YR0X9Z3V0FE8XMZ9RG.webp",
-        "lan": "/_emdash/api/media/file/01M3DPX2EA1DP2QBKHBWHXX1ZG.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPX4HWBNMNG8A7GYX910D3.webp",
+        "da": "/anh/huyet/khau-khu-tren-da.webp",
+        "gp": "/anh/huyet/khau-khu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khau-khu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khau-khu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi ngắn các ngón chân, bờ sau – ngoài cơ mác trước."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 315,
+        "nhom": [
+          "Thông kinh lạc, giảm đau, lợi khớp (Nguyên huyệt của Đởm): các chứng dọc đường kinh, đau thần kinh toạ, nhức đầu một bên, đau khớp cổ chân tại chỗ.",
+          "Sơ Can khí, thanh thấp nhiệt ở Đởm: bệnh về mắt, đầy tức ngực và mạn sườn, mụn rộp (zona).",
+          "Điều hoà Thiếu Dương: hội chứng Thiếu Dương."
+        ]
+      },
       "international_code": "GB40",
       "code_dash": "GB-40",
       "chinese": "丘墟",
@@ -17841,13 +18593,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0375-khe-mach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXZF9DX0CEKM0Z3MY3PMX.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPT5QZJC8F3YCKE36X836X.webp",
-        "gp": "/_emdash/api/media/file/01M3DPT6K82E7H5J6S84FNB1MV.webp",
-        "lan": "/_emdash/api/media/file/01M3DPT7BHHRV752ECK1GV7C44.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPT7MM2AG485JWTZ2T6RA5.webp",
+        "da": "/anh/huyet/khe-mach-tren-da.webp",
+        "gp": "/anh/huyet/khe-mach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khe-mach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khe-mach-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ cơ ức – đòn – chũm, cơ đầu dài, cơ 2 thân bám vào mỏm xương chũm."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 265,
+        "nhom": [
+          "Trừ phong (và kinh phong ở trẻ): liệt mặt, động kinh, đau đầu, trẻ co giật do sợ hãi.",
+          "Lợi tai: giảm thính lực (kể cả đột ngột), ù tai."
+        ]
+      },
       "international_code": "TE18",
       "code_dash": "TE-18",
       "chinese": "契脈",
@@ -17979,13 +18737,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0378-khi-hai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY1HDDBK57Z3EXAHK5RFY.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPYQJ9NK4YNR0VCQ8AXBMS.webp",
-        "gp": "/_emdash/api/media/file/01M3DPYR4JVB1YDV6D9D85RMM7.webp",
-        "lan": "/_emdash/api/media/file/01M3DPYRGZR0G12FT4SKTB16NC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPYS6A70T1BX1P03XHXANH.webp",
+        "da": "/anh/huyet/khi-hai-tren-da.webp",
+        "gp": "/anh/huyet/khi-hai-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khi-hai-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khi-hai-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 344,
+        "nhom": [
+          "Bồi nguyên khí, bổ Thận (nhất là Thận dương), điều khí, điều huyết: kiệt sức và suy nhược mạn tính, bệnh phụ khoa như kinh nguyệt không đều (cả do huyết ứ), sa tử cung.",
+          "Bổ hạ tiêu: rối loạn sinh sản, khí hư, rối loạn chức năng tình dục như liệt dương — di tinh, bệnh tiết niệu, bệnh tiêu hoá."
+        ]
+      },
       "international_code": "CV6",
       "code_dash": "CV-6",
       "chinese": "氣海",
@@ -18060,13 +18824,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0379-khi-hai-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY1QEFATARCCFJ1N0NZNT.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPK7HBP62CA8V6ZA71E37J.webp",
-        "gp": "/_emdash/api/media/file/01M3DPK86KK9PMN1DNXSEV1GV4.webp",
-        "lan": "/_emdash/api/media/file/01M3DPK8JR6ETNAR66GB9YC3FC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPK91VPE6KSB390RK9FYTM.webp",
+        "da": "/anh/huyet/khi-hai-du-tren-da.webp",
+        "gp": "/anh/huyet/khi-hai-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khi-hai-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khi-hai-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, cơ lưng dài, cơ ngang – gai, cơ vuông thắt lưng, cơ đái – chậu."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 165,
+        "nhom": [
+          "Lợi thắt lưng và chân: đau lưng lan xuống chân (cả kiểu rễ thần kinh và không theo rễ).",
+          "Bổ và điều hoà khí huyết hạ tiêu: rối loạn kinh nguyệt như đau bụng kinh, trĩ, tiêu chảy."
+        ]
+      },
       "international_code": "BL24",
       "code_dash": "BL-24",
       "chinese": "氣海俞",
@@ -18124,13 +18894,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0380-khi-ho.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY2RKCA9HJ7MDR0Q072QS.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPBY9VY8W98WDV0YJAMW4V.webp",
-        "gp": "/_emdash/api/media/file/01M3DPBZ5CS3SBQMPBPEXS8NVN.webp",
-        "lan": "/_emdash/api/media/file/01M3DPBZ8C70C7X4CE2JR5PYKN.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPC046X2WTX9D46ER5RPV7.webp",
+        "da": "/anh/huyet/khi-ho-tren-da.webp",
+        "gp": "/anh/huyet/khi-ho-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khi-ho-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khi-ho-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trên xương sườn 1, đỉnh phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 52,
+        "nhom": [
+          "Giáng nghịch khí: ho, khó thở, cơn bốc hoả, hen phế quản.",
+          "Khoan khoái lồng ngực: tức ngực, căng ngực, đau vai lan ra bên ngực và cổ."
+        ]
+      },
       "international_code": "ST13",
       "code_dash": "ST-13",
       "chinese": "氣戶",
@@ -18194,13 +18970,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0381-khi-huyet.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY2VH4YJGS40KTRS8A2CX.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQ5JW1THX7RFB83712M15.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQ5NWTVWF5QGGG2NYW9V2.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQ6H5NEWXXCSV2YASKKNS.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQ6M68CPHMKM0816FPWA1.webp",
+        "da": "/anh/huyet/khi-huyet-tren-da.webp",
+        "gp": "/anh/huyet/khi-huyet-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khi-huyet-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khi-huyet-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang, bàng quang khi bí tiểu ít, tử cung khi có thai 4 – 5 tháng."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 222,
+        "nhom": [
+          "Điều hoà hạ tiêu, mạch Xung — Nhâm: rối loạn kinh nguyệt như chu kỳ không đều, vô kinh, chảy máu tử cung, khí hư, hiếm muộn, bệnh tiết niệu như tiểu khó, bí tiểu, đái dầm, đau bụng và thắt lưng, tiêu chảy mạn tính, cảm giác khí xông ngược từ bụng dưới lên ngực (chứng Bôn Đồn)."
+        ]
+      },
       "international_code": "KI13",
       "code_dash": "KI-13",
       "chinese": "氣穴",
@@ -18391,13 +19172,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0386-khi-xa.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY5THK0EFYMNNRPAVM2ZQ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPBTFR5JQ7W0W549TW8X0C.webp",
-        "gp": "/_emdash/api/media/file/01M3DPBVB1VBNGHM76FDEPN8H7.webp",
-        "lan": "/_emdash/api/media/file/01M3DPBVE28GHB46TBQGMQFPEC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPBW9ET77SC7EEXFHH7RTA.webp",
+        "da": "/anh/huyet/khi-xa-tren-da.webp",
+        "gp": "/anh/huyet/khi-xa-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khi-xa-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khi-xa-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ bó đòn, cơ ức – đòn – chũm, vào sâu là cơ ức – đòn – móng, ức – giáp."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 50,
+        "nhom": [
+          "Lợi hầu họng: viêm họng, viêm thanh quản, cứng cổ nhất là khi xoay đầu, bướu cổ.",
+          "Giáng khí: ho, khó thở, hen phế quản, cơn bốc hoả."
+        ]
+      },
       "international_code": "ST11",
       "code_dash": "ST-11",
       "chinese": "氣舍",
@@ -18461,13 +19248,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0387-khi-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY6PNC7NX5H117Z10V2N1.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPDAZ7NBM7HCQY8RYBNH56.webp",
-        "gp": "/_emdash/api/media/file/01M3DPDB2AZYGN742TA7PWPG34.webp",
-        "lan": "/_emdash/api/media/file/01M3DPDBR5ARSMBYGFW4RYJ2XN.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPDC8HPFD0HKTWH24AVMYJ.webp",
+        "da": "/anh/huyet/khi-xung-tren-da.webp",
+        "gp": "/anh/huyet/khi-xung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khi-xung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khi-xung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, bờ ngoài cơ thẳng lớn, cân cơ chéo bé của bụng, cơ ngang bụng, mạc ngang, phúc mạc; trong ổ bụng là ruột non, tử cung khi có thai 2 – 3 tháng, bàng quang khi đầy."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 69,
+        "nhom": [
+          "Hành khí hạ tiêu: đau bụng, rối loạn tiểu tiện, rối loạn chức năng tình dục, thoát vị bẹn, bệnh vùng sinh dục ngoài.",
+          "Điều hoà mạch Xung: rối loạn phụ khoa, cơn bốc hoả khó chịu kiểu \"lợn con chạy\".",
+          "Kiện Vị, tăng hấp thu: hỗ trợ người mới ốm dậy, chán ăn."
+        ]
+      },
       "international_code": "ST30",
       "code_dash": "ST-30",
       "chinese": "氣沖",
@@ -18529,13 +19323,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0388-khich-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY6WP3DA5SKA1SE57TYCS.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPRD3DNAKQFZF4P5SYTPSE.webp",
-        "gp": "/_emdash/api/media/file/01M3DPREFVJ039F2924HTGD6ZQ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPRERY690760YWH0MS22E8.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPRFHGC6SQ50HNC5RPHAHC.webp",
+        "da": "/anh/huyet/khich-mon-tren-da.webp",
+        "gp": "/anh/huyet/khich-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khich-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khich-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gan tay bé, cơ gấp dài ngón tay cái, cơ gấp chung nông, sâu."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 241,
+        "nhom": [
+          "Hành khí hoạt huyết, hoá ứ (Khích huyệt): giảm đau trong cơn đau thắt ngực cấp, rối loạn nhịp tim.",
+          "An thần: mất ngủ, bồn chồn lo lắng do huyết ứ.",
+          "Lương huyết, chỉ huyết: sốt cao, bệnh ngoài da.",
+          "Thông kinh lạc: các chứng dọc đường kinh."
+        ]
+      },
       "international_code": "PC4",
       "code_dash": "PC-4",
       "chinese": "郄門",
@@ -18749,13 +19551,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0393-kho-phong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY9SZGVFR46ADV5AZJVND.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPC06ZXGRCD7846RS44ZCP.webp",
-        "gp": "/_emdash/api/media/file/01M3DPC129QYK7K85C3CZAESJS.webp",
-        "lan": "/_emdash/api/media/file/01M3DPC15ACKGHCW27SCZFJYSJ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPC22F3KJ4M8CEPS5BZHEB.webp",
+        "da": "/anh/huyet/kho-phong-tren-da.webp",
+        "gp": "/anh/huyet/kho-phong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/kho-phong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/kho-phong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 1, bờ trên xương sườn 2, đỉnh phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 53,
+        "nhom": [
+          "Giáng nghịch khí, điều khí: ho, khó thở.",
+          "Khoan khoái lồng ngực: đau tức, nặng ngực và vùng sườn bên."
+        ]
+      },
       "international_code": "ST14",
       "code_dash": "ST-14",
       "chinese": "庫房",
@@ -18847,10 +19655,10 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0395-khong-toi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYB7DCG1P0ATE7N26T820.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3D10PWBEF2Q6D5YPQ889K9Z.webp",
-        "gp": "/_emdash/api/media/file/01M3D10PZKF8PV4XGAJ9AAFEGW.webp",
-        "lan": "/_emdash/api/media/file/01M3D10QWSVDSRVCGRJEF8CXWG.webp",
-        "kinh": "/_emdash/api/media/file/01M3D10R01HS6VFKKFW2TCY5E6.webp",
+        "da": "/anh/huyet/khong-toi-tren-da.webp",
+        "gp": "/anh/huyet/khong-toi-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khong-toi-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khong-toi-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong cơ ngửa dài, bờ ngoài cơ gan tay lớn, cơ sấp tròn, cơ gấp chung nông các ngón tay."
       },
       "congDung": {
@@ -19003,13 +19811,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0398-khuc-cot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYCENEC69EBV4WS98S6PA.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPYCYHBNQ800RTNWRW202V.webp",
-        "gp": "/_emdash/api/media/file/01M3DPYDZWHPQG87MGFJWYPVNT.webp",
-        "lan": "/_emdash/api/media/file/01M3DPYE5YD3EPB3ZKZDDF5X28.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPYF4K662RFHZ72G12J3JS.webp",
+        "da": "/anh/huyet/khuc-cot-tren-da.webp",
+        "gp": "/anh/huyet/khuc-cot-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khuc-cot-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khuc-cot-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 340,
+        "nhom": [
+          "Lợi tiểu tiện, ôn dương bổ Thận: bệnh nam khoa — tiết niệu như tiểu khó, bí tiểu, tiểu không tự chủ, viêm đường tiết niệu, di tinh, liệt dương, bệnh sán khí; kiệt sức do cảm lạnh.",
+          "Điều hoà hạ tiêu: khó chịu vùng chậu, kinh nguyệt không đều, khí hư, bệnh ở cơ quan sinh dục ngoài."
+        ]
+      },
       "international_code": "CV2",
       "code_dash": "CV-2",
       "chinese": "曲骨",
@@ -19076,13 +19890,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0399-khuc-sai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYD0J3RYMKZV9J2FB43YY.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJ144HRDQ9XNDS94YVCXT.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJ1PB39W4T2J2Q61CQF1E.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJ22E798CKXNWFADF3NYZ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJ2TN9696RZC04524TQGS.webp",
+        "da": "/anh/huyet/khuc-sai-tren-da.webp",
+        "gp": "/anh/huyet/khuc-sai-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khuc-sai-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khuc-sai-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của cơ trán vào cân sọ, dưới cân sọ là xương sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 145,
+        "nhom": [
+          "Thanh nhiệt vùng đầu, lợi mắt mũi: sốt nhiễm trùng kèm đỏ mắt, viêm mũi, viêm xoang, chảy máu cam, nhức đầu vùng trán và đỉnh đầu, chóng mặt, rối loạn thị giác."
+        ]
+      },
       "international_code": "BL4",
       "code_dash": "BL-4",
       "chinese": "曲差",
@@ -19145,13 +19964,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0400-khuc-tan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYE1M26W31RWADY4B5RV5.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPTXRA5GC6ZN4AYC99Y9PR.webp",
-        "gp": "/_emdash/api/media/file/01M3DPTYB05V9NCVH5QKZKDKQV.webp",
-        "lan": "/_emdash/api/media/file/01M3DPTYMAHJ0TC5F4A98NVASB.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPTZ6GRZ2E0X2AJEFC5SNT.webp",
+        "da": "/anh/huyet/khuc-tan-tren-da.webp",
+        "gp": "/anh/huyet/khuc-tan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khuc-tan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khuc-tan-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 279,
+        "nhom": [
+          "Trừ phong, lợi miệng hàm: nhức đầu, sưng má, viêm tuyến mang tai, quai bị, cứng cổ, khít hàm, mất tiếng, liệt mặt, đau cơ."
+        ]
+      },
       "international_code": "GB7",
       "code_dash": "GB-7",
       "chinese": "曲鬢",
@@ -19210,13 +20034,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0401-khuc-trach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYE4M6C0VMT8Z8XCS3FY8.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPRAWHA6T0GE12F07CZ9JJ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPRBQY4M5FN55PNMXWFA58.webp",
-        "lan": "/_emdash/api/media/file/01M3DPRBV0TR4JJQEA95TWZMTC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPRCRZ8ZCK1XNHP8XJJ7A4.webp",
+        "da": "/anh/huyet/khuc-trach-tren-da.webp",
+        "gp": "/anh/huyet/khuc-trach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khuc-trach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khuc-trach-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong gân cơ 2 đầu cánh tay, co cánh tay trước, bờ trên cơ sấp tròn."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 240,
+        "nhom": [
+          "Thanh nhiệt, tả hoả (thường chích nặn máu): sốt cao, say nắng.",
+          "Điều hoà Vị Trường, chỉ ẩu: rối loạn tiêu hoá như đau bụng, viêm dạ dày ruột cấp do nắng nóng mùa hè.",
+          "Thông kinh lạc, giảm đau: đau và co thắt vùng khuỷu — cánh tay, run tay, đau thắt ngực dọc đường kinh."
+        ]
+      },
       "international_code": "PC3",
       "code_dash": "PC-3",
       "chinese": "曲澤",
@@ -19284,13 +20115,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0402-khuc-tri.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYF5P8VX9AHQ8XHAWEX1G.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPAMDQ2TEM0YKXFTKS8KAS.webp",
-        "gp": "/_emdash/api/media/file/01M3DPAMKSS97FE8M6DTSBWFGE.webp",
-        "lan": "/_emdash/api/media/file/01M3DPANFSDBDG605551WZ3V7Q.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPAP9DBV8CVNQD5J3W338B.webp",
+        "da": "/anh/huyet/khuc-tri-tren-da.webp",
+        "gp": "/anh/huyet/khuc-tri-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khuc-tri-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khuc-tri-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của cơ ngửa dài, cơ quay 1, cơ ngửa ngắn khớp khủy."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 29,
+        "nhom": [
+          "Thanh nhiệt, tả hoả Dương Minh: sốt cao, viêm nhiễm vùng đầu và họng; theo Tôn Tư Mạc còn là một trong \"thập tam quỷ huyệt\" dùng cho hưng cảm, động kinh.",
+          "Lương huyết, trừ thấp, khu phong, chỉ ngứa: bệnh ngoài da như mày đay, ban đỏ, giời leo (zona).",
+          "Thông kinh lạc, giảm đau: đau chi trên nhất là vùng khuỷu tay, liệt chi dưới, đau mắt cá chân."
+        ]
+      },
       "international_code": "LI11",
       "code_dash": "LI-11",
       "chinese": "曲池",
@@ -19390,13 +20228,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0404-khuc-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYG9V4FKQTQSJV47S9WQK.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPXWN8ASVR3XTD4XAEMH0Q.webp",
-        "gp": "/_emdash/api/media/file/01M3DPXXGZSFWRB8FZGBZD0NR1.webp",
-        "lan": "/_emdash/api/media/file/01M3DPXXM0W2BHKK0E4VMJ5BRJ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPXYFEC6YV05FXKSQ9TW8J.webp",
+        "da": "/anh/huyet/khuc-tuyen-tren-da.webp",
+        "gp": "/anh/huyet/khuc-tuyen-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khuc-tuyen-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khuc-tuyen-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thẳng trong, đầu trên cơ sinh đôi trong."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 330,
+        "nhom": [
+          "Trừ thấp nhiệt hạ tiêu (tác dụng chính), lợi sinh dục và tử cung: rối loạn tiết niệu, đau/sưng/ngứa vùng sinh dục ngoài, rối loạn chức năng tình dục.",
+          "Dưỡng âm huyết: nhức đầu, chóng mặt, rối loạn kinh nguyệt.",
+          "Thông kinh lạc tại chỗ: đau khớp gối và cẳng chân."
+        ]
+      },
       "international_code": "LR8",
       "code_dash": "LR-8",
       "chinese": "曲泉",
@@ -19458,13 +20303,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0405-khuc-vien.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYH4W13GRFSVBYCCCSYVW.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPHE14WVNRD582Y3NPWPNH.webp",
-        "gp": "/_emdash/api/media/file/01M3DPHEWC29WSRPNRDJCNRAEC.webp",
-        "lan": "/_emdash/api/media/file/01M3DPHF5EAP1PDC3VYYSJEW3F.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPHFEMA6QKTYAKFJH0KRP4.webp",
+        "da": "/anh/huyet/khuc-vien-tren-da.webp",
+        "gp": "/anh/huyet/khuc-vien-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khuc-vien-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khuc-vien-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của cơ góc, góc trên – trong của xương bả vai."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 134,
+        "nhom": [
+          "Thông kinh lạc, lợi vai và xương bả vai: đau và hạn chế vận động vùng bả vai phía trong, vai, và đoạn cột sống cổ dưới — ngực trên."
+        ]
+      },
       "international_code": "SI13",
       "code_dash": "SI-13",
       "chinese": "曲垣",
@@ -19559,13 +20409,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0407-khuyet-bon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYJBW4HDR7N69JVF91EHQ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPBWCFYTQ7SV08DHW0C4WN.webp",
-        "gp": "/_emdash/api/media/file/01M3DPBX8170J9NTAN3PCJNEC7.webp",
-        "lan": "/_emdash/api/media/file/01M3DPBXB1P65XD0RX5XQHDMK2.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPBY6R1RK8PXT9BCX2Y5EP.webp",
+        "da": "/anh/huyet/khuyet-bon-tren-da.webp",
+        "gp": "/anh/huyet/khuyet-bon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/khuyet-bon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/khuyet-bon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: hố trên đòn, có các cơ bậc thang, cơ vai – móng."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 51,
+        "nhom": [
+          "Bổ Phế khí, thanh nhiệt vùng ngực: ho, khó thở, hen phế quản, viêm họng, khó nuốt.",
+          "Thông kinh lạc, giảm đau: đau hố thượng đòn, đau vai lan xuống cổ, đau tứ chi."
+        ]
+      },
       "international_code": "ST12",
       "code_dash": "ST-12",
       "chinese": "缺盆",
@@ -19798,13 +20654,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0413-kien-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYKJRK9WHJAC18XME1B5C.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPSVMC993A8GV9ZE8KMFSS.webp",
-        "gp": "/_emdash/api/media/file/01M3DPSWS4BW5CJE1KEX4MRSD7.webp",
-        "lan": "/_emdash/api/media/file/01M3DPSXBAXJJ3YMYRA2QKW85N.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPSXXNXW8V7VQB1V4EPDP1.webp",
+        "da": "/anh/huyet/kien-lieu-tren-da.webp",
+        "gp": "/anh/huyet/kien-lieu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/kien-lieu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/kien-lieu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bó gai sống của cơ delta, cơ trên sống, cơ dưới sống, đầu trên xương cánh tay."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 261,
+        "nhom": [
+          "Trừ phong thấp, lợi khớp vai, thông kinh lạc, giảm đau: hạn chế vận động và đau vai nhất là khi giang tay, xoay ngoài; khó chịu và dị cảm ở chi trên."
+        ]
+      },
       "international_code": "TE14",
       "code_dash": "TE-14",
       "chinese": "肩髎",
@@ -19866,13 +20727,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0414-kien-ngoai-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYMSNP4NR74YSM8C3BW8R.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPHG0T61A561S1SHT14RTE.webp",
-        "gp": "/_emdash/api/media/file/01M3DPHGW23BV72MTCJ5E0WJ60.webp",
-        "lan": "/_emdash/api/media/file/01M3DPHGZ46MXA7CPYH8HFMWWN.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPHHE9RDFCWCFD2XWDHNQG.webp",
+        "da": "/anh/huyet/kien-ngoai-du-tren-da.webp",
+        "gp": "/anh/huyet/kien-ngoai-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/kien-ngoai-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/kien-ngoai-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ góc, cơ răng bé sau – trên."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 135,
+        "nhom": [
+          "Thông kinh lạc, giảm đau: đau và hạn chế vận động vùng vai và đoạn cột sống cổ dưới — ngực trên.",
+          "Trừ phong hàn: đau nhức, căng cứng cơ sau khi nhiễm lạnh, trúng gió."
+        ]
+      },
       "international_code": "SI14",
       "code_dash": "SI-14",
       "chinese": "肩外俞",
@@ -19934,13 +20801,20 @@ window.ACUPOINTS = {
       "image": null,
       "anhCms": null,
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPAWZCDBRDSC1NE8EDMH33.webp",
-        "gp": "/_emdash/api/media/file/01M3DPAX2D8SF16RAYP7BZV8YH.webp",
-        "lan": "/_emdash/api/media/file/01M3DPAXY3DWSXXFY7X61QF5B0.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPAY14HB778N3SD9SXH3RQ.webp",
+        "da": "/anh/huyet/kien-ngung-tren-da.webp",
+        "gp": "/anh/huyet/kien-ngung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/kien-ngung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/kien-ngung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bó cùng vai của cơ delta."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 33,
+        "nhom": [
+          "Khu phong trừ thấp, thông kinh lạc, giảm đau, lợi khớp vai: các chứng ở vai và chi trên.",
+          "Khu phong, điều hoà khí huyết: mày đay.",
+          "Hành khí, tán kết đờm: bướu cổ (phối cùng LI13, LI14, LI16)."
+        ]
+      },
       "international_code": "LI15",
       "code_dash": "LI-15",
       "chinese": "肩髃",
@@ -20178,13 +21052,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0421-kien-tinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYPGGR40T85QD8EHQ8R12.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPVRY8KNR0QMEG4E2HKT12.webp",
-        "gp": "/_emdash/api/media/file/01M3DPVSBADM2S2SVKY348QJ82.webp",
-        "lan": "/_emdash/api/media/file/01M3DPVT3PS3VSCGV85VJK1JM5.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPVT6QJ5QR6PXP9N89BVEJ.webp",
+        "da": "/anh/huyet/kien-tinh-tren-da.webp",
+        "gp": "/anh/huyet/kien-tinh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/kien-tinh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/kien-tinh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trên sống, cơ góc."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 293,
+        "nhom": [
+          "Điều khí, hoá đàm, tán kết: \"bệnh đờm\" tích tụ, ho, khó thở, cơn hen cấp.",
+          "Thông kinh lạc, giảm đau: các chứng ở vai/cổ.",
+          "Trợ sinh, lợi sữa: hỗ trợ chuyển dạ, sổ nhau, lợi sữa, viêm tuyến vú."
+        ]
+      },
       "international_code": "GB21",
       "code_dash": "GB-21",
       "chinese": "肩井",
@@ -20248,13 +21129,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0422-kien-trinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYRFRS9VNFDZ677EH4PAJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPH48787WJZ4HDXRY67KKK.webp",
-        "gp": "/_emdash/api/media/file/01M3DPH5CHGYVNW3GG537ZHHG3.webp",
-        "lan": "/_emdash/api/media/file/01M3DPH5JKKQT22VWEG7E5MVWT.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPH67TJ733BN3WBG7NW4E9.webp",
+        "da": "/anh/huyet/kien-trinh-tren-da.webp",
+        "gp": "/anh/huyet/kien-trinh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/kien-trinh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/kien-trinh-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 130,
+        "nhom": [
+          "Thông kinh lạc, khu phong, lợi khớp vai: đau và hạn chế vận động vùng xương bả vai bên, khớp vai phía sau và mặt sau cánh tay trên."
+        ]
+      },
       "international_code": "SI9",
       "code_dash": "SI-9",
       "chinese": "肩貞",
@@ -20350,13 +21236,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0424-kien-trung-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYRJRG38SH0910F253M5T.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPHHXP8PK4D2CKBXKSC2W7.webp",
-        "gp": "/_emdash/api/media/file/01M3DPHJNZ96CKEVR7ARY1KA2Y.webp",
-        "lan": "/_emdash/api/media/file/01M3DPHJS165JX818ZR8ARQNQC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPHKM9JGPH8KBAXB72HJ1Q.webp",
+        "da": "/anh/huyet/kien-trung-du-tren-da.webp",
+        "gp": "/anh/huyet/kien-trung-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/kien-trung-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/kien-trung-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ góc, cơ răng bé sau – trên, cơ chậu sườn đoạn lưng cổ, cơ ngang sườn, cơ gian mỏng ngang."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 136,
+        "nhom": [
+          "Thông kinh lạc, giảm đau: đau và hạn chế vận động vùng vai và đoạn cột sống cổ dưới — ngực trên.",
+          "Giáng Phế khí: bệnh hô hấp như ho."
+        ]
+      },
       "international_code": "SI15",
       "code_dash": "SI-15",
       "chinese": "肩中俞",
@@ -20415,13 +21307,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0425-kien-ly.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYSM0DCEEAP1K6JJ3PTMM.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZ15GWG6SWMY3Z9K5Q3RZ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZ1MNB0N87Q7KWXK03XTK.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZ23ZKHGFDEKCSSV09Y2Y.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZ2G5BTFAXCPKTB5XMAJ3.webp",
+        "da": "/anh/huyet/kien-ly-tren-da.webp",
+        "gp": "/anh/huyet/kien-ly-tren-giai-phau.webp",
+        "lan": "/anh/huyet/kien-ly-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/kien-ly-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 349,
+        "nhom": [
+          "Điều hoà trung tiêu, điều khí: chán ăn, buồn nôn, nôn, đầy hơi chướng bụng, đau dạ dày, đau thắt ngực, phù nề."
+        ]
+      },
       "international_code": "CV11",
       "code_dash": "CV-11",
       "chinese": "建里",
@@ -20629,13 +21526,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0430-kim-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYVWAD3S4BRCK64M8DGCQ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPP4GDD9T73FC2JBK0Z1AJ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPP52MD0YG7V5TKT6JTZC4.webp",
-        "lan": "/_emdash/api/media/file/01M3DPP5HS9TV84BH1QMGDZZ98.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPP63YFQZKGEPYMSM42ZE2.webp",
+        "da": "/anh/huyet/kim-mon-tren-da.webp",
+        "gp": "/anh/huyet/kim-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/kim-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/kim-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ dạng ngón út, gân cơ mác bên dài, gân cơ mác bên ngắn, đầu xương bàn chân 5."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 202,
+        "nhom": [
+          "Thông kinh lạc, trị chứng cấp (Khích huyệt): đau cấp tính và hạn chế vận động dọc đường kinh, nhất là vùng thắt lưng và chi dưới, chứng sán khí cấp.",
+          "Bình nội phong, an thần: hưng cảm, động kinh, động kinh cục bộ ở trẻ em."
+        ]
+      },
       "international_code": "BL63",
       "code_dash": "BL-63",
       "chinese": "金門",
@@ -20737,13 +21640,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0432-kinh-cot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYW5B5BXGK1N4T49FSW9Z.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPP6D3VJKTB5X6P8K8ZNSX.webp",
-        "gp": "/_emdash/api/media/file/01M3DPP6ZBGS3M1PZV8CT6YT07.webp",
-        "lan": "/_emdash/api/media/file/01M3DPP7EMXN0M249THE6QH82X.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPP80YQ4XYPN787MRNCF4B.webp",
+        "da": "/anh/huyet/kinh-cot-tren-da.webp",
+        "gp": "/anh/huyet/kinh-cot-tren-giai-phau.webp",
+        "lan": "/anh/huyet/kinh-cot-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/kinh-cot-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ dạng ngón chân út, cùng xương bàn chân 5."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 204,
+        "nhom": [
+          "Thanh sáng đầu mắt, bình phong (Nguyên huyệt): nhức đầu dữ dội kiểu muốn vỡ đầu, nặng đầu, rối loạn thị giác, chóng mặt, phát ban khoé mắt trong, viêm mũi.",
+          "An thần: hồi hộp đánh trống ngực, hưng cảm, lo âu, bồn chồn, động kinh.",
+          "Thông kinh lạc, giảm đau: các chứng ở cổ, lưng, chân."
+        ]
+      },
       "international_code": "BL64",
       "code_dash": "BL-64",
       "chinese": "京骨",
@@ -20812,10 +21722,10 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0433-kinh-cu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYX6BK64R51DMYRFXDDRJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3D10V2MFAK32BSKNFS79RQ6.webp",
-        "gp": "/_emdash/api/media/file/01M3D10V5XBEFB2QNE02H362TE.webp",
-        "lan": "/_emdash/api/media/file/01M3D10W35BVGJ5W743M6P4DM5.webp",
-        "kinh": "/_emdash/api/media/file/01M3D10W6CJFCEVAVPESDV8P08.webp",
+        "da": "/anh/huyet/kinh-cu-tren-da.webp",
+        "gp": "/anh/huyet/kinh-cu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/kinh-cu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/kinh-cu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: rãnh mạch quay."
       },
       "congDung": {
@@ -20889,13 +21799,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0434-kinh-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYXV8C8CBTY2QVD21B547.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPW0ZYNJDAX6765PGCXQPG.webp",
-        "gp": "/_emdash/api/media/file/01M3DPW12Z791P9EQGTXXEQ2Y2.webp",
-        "lan": "/_emdash/api/media/file/01M3DPW1YHEJWP4GXJGFBQHJGG.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPW21HRY7SFC5VEYPQH5EJ.webp",
+        "da": "/anh/huyet/kinh-mon-tren-da.webp",
+        "gp": "/anh/huyet/kinh-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/kinh-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/kinh-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ chéo lớn của bụng, cơ chéo bé của bụng, cơ ngang bụng, đầu cụt xương sườn 12, mạc ngang."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 298,
+        "nhom": [
+          "Bổ Thận, điều hoà thuỷ đạo (Mộ huyệt của Thận): bệnh về thận và đường tiết niệu.",
+          "Bổ Tỳ, điều hoà đường ruột: bệnh về tiêu hoá.",
+          "Lợi vùng thắt lưng: các vấn đề thắt lưng — hông, đau bụng do thận."
+        ]
+      },
       "international_code": "GB25",
       "code_dash": "GB-25",
       "chinese": "京門",
@@ -21102,13 +22019,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0439-ky-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYZX6KSM4HTV489DB4B77.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPY8RT4BS988Z9BG31DH94.webp",
-        "gp": "/_emdash/api/media/file/01M3DPY9M2Z3V9G0XDSXSEY8K0.webp",
-        "lan": "/_emdash/api/media/file/01M3DPY9Q4XWRY0F0B0TEPQGVA.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPYAJH1VXB4R09XKF5ZEP5.webp",
+        "da": "/anh/huyet/ky-mon-2-tren-da.webp",
+        "gp": "/anh/huyet/ky-mon-2-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ky-mon-2-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ky-mon-2-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 336,
+        "nhom": [
+          "Điều hoà Can khí và Can huyết (nhất là thượng — trung tiêu), lương huyết, tiêu tích, điều hoà Can — Vị (Mộ huyệt của Can): bệnh tiêu hoá, bệnh túi mật và gan, căng cứng ngực — vú — hạ sườn — bụng, ho, khó thở, đau dây thần kinh liên sườn, bệnh lý tuyến vú."
+        ]
+      },
       "international_code": "LR14",
       "code_dash": "LR-14",
       "chinese": "期門",
@@ -21390,13 +22312,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0447-lac-khuoc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZ3CD8BV21MKBNBV5VGY8.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJ8ZV8QAT8YADBZAPFCYV.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJ9J0KZGB1D1Y42N0E0PH.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJ9V4M9Y48NGE8YS1DVKH.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJAGFWJBXT6JJRAVJKTE2.webp",
+        "da": "/anh/huyet/lac-khuoc-tren-da.webp",
+        "gp": "/anh/huyet/lac-khuoc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/lac-khuoc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/lac-khuoc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, xương sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 149,
+        "nhom": [
+          "Khai khiếu, bình phong (nội phong), hoá đờm, an thần: viêm mũi, mất khứu giác, ù tai, liệt mặt, bướu cổ, chóng mặt, rối loạn điều hoà tư thế, ngất xỉu, lú lẫn, hưng cảm, động kinh."
+        ]
+      },
       "international_code": "BL8",
       "code_dash": "BL-8",
       "chinese": "絡卻",
@@ -21458,13 +22385,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0448-lai-cau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZ41CTN80KDV2FTQGKD4B.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPXPXSY945DVHPB54XQA69.webp",
-        "gp": "/_emdash/api/media/file/01M3DPXQSXE3FAC97NJT5N33MV.webp",
-        "lan": "/_emdash/api/media/file/01M3DPXQWWG4CZEYVVYB86VT6C.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPXRR97TDK2G5D1NTF5WPC.webp",
+        "da": "/anh/huyet/lai-cau-tren-da.webp",
+        "gp": "/anh/huyet/lai-cau-tren-giai-phau.webp",
+        "lan": "/anh/huyet/lai-cau-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/lai-cau-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: mặt trước – trong của xương chầy."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 327,
+        "nhom": [
+          "Điều hoà Can khí, lợi sinh dục, trừ thấp nhiệt hạ tiêu, điều kinh: bệnh đường sinh dục (ngứa/sưng/đau), rối loạn kinh nguyệt, khí hư, bệnh sán khí, rối loạn tiểu tiện, cảm giác nghẹn ở họng (mai hạch khí).",
+          "Thông kinh lạc tại chỗ: các chứng ở cẳng chân."
+        ]
+      },
       "international_code": "LR5",
       "code_dash": "LR-5",
       "chinese": "蠡溝",
@@ -21686,13 +22619,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0453-lao-cung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZ4WK80Y4J053CAH986PV.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPRSM3P7Q49QRTJ5KB2FPS.webp",
-        "gp": "/_emdash/api/media/file/01M3DPRTMBRQTP6W4BNYP3PMTH.webp",
-        "lan": "/_emdash/api/media/file/01M3DPRV945REG10RPA1NPSWVS.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPRYCPPRWEDAYR587TMKMS.webp",
+        "da": "/anh/huyet/lao-cung-tren-da.webp",
+        "gp": "/anh/huyet/lao-cung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/lao-cung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/lao-cung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân tay giữa, cơ giun, phía trong gân gấp ngón giữa của cơ gấp chung ngón tay nông, sâu, cơ gian cốt gan tay, cơ gian cốt mu tay, bờ trong đầu dưới xương bàn tay 3."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 245,
+        "nhom": [
+          "Thanh Tâm và Tâm bào nhiệt, khai khiếu tỉnh thần, lương huyết, an thần: sốt cao, bất tỉnh, đột quỵ, tăng huyết áp, rối loạn tâm thần thể hưng cảm/kích động, động kinh, viêm miệng, bệnh ngoài da do huyết nhiệt; tại chỗ trị chàm, nấm da tay, ra mồ hôi tay, bong da, run tay.",
+          "Điều hoà và thanh nhiệt trung tiêu: nôn (có thể ra máu), viêm dạ dày."
+        ]
+      },
       "international_code": "PC8",
       "code_dash": "PC-8",
       "chinese": "勞宮",
@@ -22160,13 +23099,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0465-lau-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZ5MJA7W1KHQDX98TJSNG.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPF1F6JAXH3R0RD766H9VE.webp",
-        "gp": "/_emdash/api/media/file/01M3DPF27GEYJJXSW95HABPACM.webp",
-        "lan": "/_emdash/api/media/file/01M3DPF2DKFTWZ24SN6TXDTR63.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPF2WS476AQ7Y7E3Q0HTZ3.webp",
+        "da": "/anh/huyet/lau-coc-tren-da.webp",
+        "gp": "/anh/huyet/lau-coc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/lau-coc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/lau-coc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau – trong xương chầy, bờ trong cơ dép, cơ gấp dài các ngón chân, cơ cẳng sau chân."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 95,
+        "nhom": [
+          "Bổ Tỳ, trừ thấp, lợi tiểu: đầy chướng bụng, đầy hơi, bí tiểu, phù nề, teo cơ, tê hoặc lạnh chi dưới."
+        ]
+      },
       "international_code": "SP7",
       "code_dash": "SP-7",
       "chinese": "漏谷",
@@ -22232,13 +23176,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0466-le-doai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZ6VZSDVJ3P9PN4HZYBNG.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPEHC9H25NYJ621Z13PGFD.webp",
-        "gp": "/_emdash/api/media/file/01M3DPEHVGV302A0FWAW8DRD2R.webp",
-        "lan": "/_emdash/api/media/file/01M3DPEJ7M1HSG0KT5YE3SZ8XY.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPEJWWB83K54ACQPVMCW8X.webp",
+        "da": "/anh/huyet/le-doai-tren-da.webp",
+        "gp": "/anh/huyet/le-doai-tren-giai-phau.webp",
+        "lan": "/anh/huyet/le-doai-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/le-doai-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: xương đốt 3 ngón chân thứ 2."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 86,
+        "nhom": [
+          "Thanh Vị nhiệt, thông kinh lạc: đau và viêm vùng mặt như đau răng, viêm xoang hàm trên, chảy máu cam, đau dây thần kinh sinh ba, đau họng, sốt do nhiễm trùng.",
+          "Khai khiếu, an thần: trạng thái hưng cảm, mất ngủ, ác mộng, bất tỉnh, trầm cảm, bồn chồn."
+        ]
+      },
       "international_code": "ST45",
       "code_dash": "ST-45",
       "chinese": "厲兌",
@@ -22308,13 +23258,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0467-liem-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZ720FTD6F5JH8DE3KNPR.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZQYS57A6VWW5ZW3XH9WW.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZRGZA28V1NEPA72Y89VC.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZRT18NDTCSNEX7DCTV99.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZSC8SVQAXF3AXFXZT0GS.webp",
+        "da": "/anh/huyet/liem-tuyen-tren-da.webp",
+        "gp": "/anh/huyet/liem-tuyen-tren-giai-phau.webp",
+        "lan": "/anh/huyet/liem-tuyen-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/liem-tuyen-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 361,
+        "nhom": [
+          "Hỗ trợ lưỡi: đau hoặc viêm gốc lưỡi, lưỡi yếu hoặc co rút, mất ngôn ngữ (nhất là sau đột quỵ), khó nuốt.",
+          "Hạ khí, chỉ ho: khàn giọng, đau họng, khít hàm, khó thở."
+        ]
+      },
       "international_code": "CV23",
       "code_dash": "CV-23",
       "chinese": "廉泉",
@@ -22381,10 +23337,10 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0468-liet-khuyet.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZ7M4HM3PAZPQCE14RN0D.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3D10RXMRMC9S7KRV7C1AT73.webp",
-        "gp": "/_emdash/api/media/file/01M3D10S0W7SGBY64FDV3JDEZ0.webp",
-        "lan": "/_emdash/api/media/file/01M3D10SXQ4G9FEF23ESZ3ZHAD.webp",
-        "kinh": "/_emdash/api/media/file/01M3D10T7DSNYED9RGFEPM7XRM.webp",
+        "da": "/anh/huyet/liet-khuyet-tren-da.webp",
+        "gp": "/anh/huyet/liet-khuyet-tren-giai-phau.webp",
+        "lan": "/anh/huyet/liet-khuyet-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/liet-khuyet-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong – trước của gân cơ ngửa dài, cơ gấp dài ngón cái, chỗ bám của cơ sấp vuông vào xương quay."
       },
       "congDung": {
@@ -22533,13 +23489,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0471-linh-dai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZA8TKE5C24EEZG5R20BM.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ0CVSWQ29VZTZ0JC1JX5M.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ0DE0A5C1MBNPC4CBN10M.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ0DT3FVY33CCMHN10VXXZ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ0EJA9036JDE44JFM97SM.webp",
+        "da": "/anh/huyet/linh-dai-tren-da.webp",
+        "gp": "/anh/huyet/linh-dai-tren-giai-phau.webp",
+        "lan": "/anh/huyet/linh-dai-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/linh-dai-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, cân ngực – thắt lưng của cơ lưng lớn, cơ gai dài của lưng, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 373,
+        "nhom": [
+          "Giáng nghịch khí Phế, chỉ ho, bình suyễn: khó thở, hen phế quản, ho mạn tính, suy nhược cơ thể (như loãng xương).",
+          "Thanh nhiệt, giải độc: bệnh ngoài da như nhọt, mụn nhọt.",
+          "Thông kinh lạc tại chỗ: các chứng ở vùng cổ và lưng như đau, hạn chế vận động."
+        ]
+      },
       "international_code": "GV10",
       "code_dash": "GV-10",
       "chinese": "靈台",
@@ -22594,13 +23557,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0472-linh-dao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZATTFDM3R2SYZ1WT0RKE.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPG82ZXB142WA3M5EY079G.webp",
-        "gp": "/_emdash/api/media/file/01M3DPG863XQZFFES4HCYA9YWM.webp",
-        "lan": "/_emdash/api/media/file/01M3DPG91E5D8Y65HNY8CC7DBB.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPG94FRA8TMNTK9HWAAD29.webp",
+        "da": "/anh/huyet/linh-dao-tren-da.webp",
+        "gp": "/anh/huyet/linh-dao-tren-giai-phau.webp",
+        "lan": "/anh/huyet/linh-dao-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/linh-dao-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gấp chung nông các ngón tay ở ngoài, bờ trong gân cơ gấp chung sâu các ngón tay."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 113,
+        "nhom": [
+          "Thông kinh lạc, thư cân: đau, co cứng cơ cánh tay, đau dây thần kinh trụ.",
+          "An thần: mất ngủ hay mơ, lo âu, buồn bã, động kinh, trạng thái bồn chồn thuộc thể âm hư.",
+          "Lợi thanh âm: khàn tiếng, mất tiếng đột ngột."
+        ]
+      },
       "international_code": "HE4",
       "code_dash": "HE-4",
       "chinese": "靈道",
@@ -22657,13 +23627,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0473-linh-khu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZBJQV30W03CM0D9YQA7R.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQVCMPZTKJ4CY9Y33PVVW.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQW5A9DGTRNAZAE6HPREE.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQWXVHD972NDYM7X592ZZ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQXXZSM0X7J4FAWESFHVZ.webp",
+        "da": "/anh/huyet/linh-khu-tren-da.webp",
+        "gp": "/anh/huyet/linh-khu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/linh-khu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/linh-khu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 3."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 233,
+        "nhom": [
+          "Điều hoà Phế khí, giáng Vị khí nghịch: ho, khó thở, hen phế quản, buồn nôn, nôn, chán ăn.",
+          "Khoan khoái lồng ngực: tức nặng ngực, hồi hộp đánh trống ngực, bồn chồn.",
+          "Lợi sữa: viêm tuyến vú."
+        ]
+      },
       "international_code": "KI24",
       "code_dash": "KI-24",
       "chinese": "靈墟",
@@ -23193,13 +24170,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0487-lu-tuc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZF83KBZVGAQNVAQXXVK5.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPT878BZGKGHWWGGHV2F8K.webp",
-        "gp": "/_emdash/api/media/file/01M3DPT8SHESHJ7EYCWE0K12RF.webp",
-        "lan": "/_emdash/api/media/file/01M3DPT9TV6M4Q6A5GHM9Z67CX.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPT9XV1WEX0K7ZW3XQSW5F.webp",
+        "da": "/anh/huyet/lu-tuc-tren-da.webp",
+        "gp": "/anh/huyet/lu-tuc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/lu-tuc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/lu-tuc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai sau, cơ chẩm."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 266,
+        "nhom": [
+          "Trấn kinh, chống co giật: chóng mặt, nhức đầu, liệt mặt, động kinh trẻ em.",
+          "Lợi tai, thanh nhiệt: giảm thính lực đột ngột, ù tai."
+        ]
+      },
       "international_code": "TE19",
       "code_dash": "TE-19",
       "chinese": "顱息",
@@ -23292,13 +24275,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0489-luong-khau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZG3KQZEDS5PRGTQF6NE4.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPDMGAVS57YRHG6352QPTA.webp",
-        "gp": "/_emdash/api/media/file/01M3DPDN442WSSX0T44QH7TJQ3.webp",
-        "lan": "/_emdash/api/media/file/01M3DPDNG8N43258ECQKEW5Q0W.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPDPHPF048N24KKX32NDZ5.webp",
+        "da": "/anh/huyet/luong-khau-tren-da.webp",
+        "gp": "/anh/huyet/luong-khau-tren-giai-phau.webp",
+        "lan": "/anh/huyet/luong-khau-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/luong-khau-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 73,
+        "nhom": [
+          "Điều hoà Vị khí, trị chứng cấp (Khích huyệt): đau dạ dày cấp tính.",
+          "Thông kinh lạc, giảm đau: đau và rối loạn vận động khớp gối, viêm tuyến vú."
+        ]
+      },
       "international_code": "ST34",
       "code_dash": "ST-34",
       "chinese": "梁丘",
@@ -23357,13 +24346,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0490-luong-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZGAT8SS3JCXZ1AKCS2P9.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPCDRQM2ZNAJHEZSRT4B6B.webp",
-        "gp": "/_emdash/api/media/file/01M3DPCE7X3P1KF2Y57SMXP8MQ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPCEQ49MMBN13QJMJGVCKG.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPCF6SY8GQBE86KP8S6V80.webp",
+        "da": "/anh/huyet/luong-mon-tren-da.webp",
+        "gp": "/anh/huyet/luong-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/luong-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/luong-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, mạc ngang, bên phải là gan, bên trái là dạ dày."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 60,
+        "nhom": [
+          "Điều khí, kiện trung tiêu, bổ khí, cầm tiêu chảy: đầy hơi, đau vùng thượng vị, nôn mửa, tiêu chảy, sôi bụng."
+        ]
+      },
       "international_code": "ST21",
       "code_dash": "ST-21",
       "chinese": "梁門",
@@ -24037,13 +25031,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0508-menh-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZV5EENH3P9CGVY21KDNK.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ01968R50D6CWHTGCEKY8.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ024F78PVKDBMHBVXWX2T.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ02AHNZ6ANT9NY29EKB80.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ02ZVJWEVEGFQ11CQQ3CP.webp",
+        "da": "/anh/huyet/menh-mon-tren-da.webp",
+        "gp": "/anh/huyet/menh-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/menh-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/menh-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, chỗ bám của cơ răng bé sau – dưới, cơ ngang gai, dây chằng gian gai, dây chằng trên gai, dây chằng vàng, ống sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 367,
+        "nhom": [
+          "Bổ Thận dương, ôn ấm khí huyết (nhất là khi phối cứu ngải), điều hoà mạch Đốc, tăng cường vùng thắt lưng: bệnh tiết niệu, rối loạn chức năng tình dục, sa trực tràng, trĩ, suy nhược mạn tính do Thận dương hư hoặc thiếu tinh, bệnh cột sống thắt lưng mạn tính kèm yếu chi dưới.",
+          "Bình phong ở mạch Đốc: nhức đầu, động kinh."
+        ]
+      },
       "international_code": "GV4",
       "code_dash": "GV-4",
       "chinese": "命門",
@@ -24109,13 +25109,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0509-mi-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZV8E9Y569MYDAED9VP8E.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPHZ7C3K2NH0KW94Z9V1WX.webp",
-        "gp": "/_emdash/api/media/file/01M3DPHZSJ7943MB24SMP7N3P4.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJ05T61FQJA5VJPZ7G60Y.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJ0Y2V4VKV44GFSTGGTAJ.webp",
+        "da": "/anh/huyet/mi-xung-tren-da.webp",
+        "gp": "/anh/huyet/mi-xung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/mi-xung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/mi-xung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ cơ trán bám vào cân sọ, dưới gân là xương sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 144,
+        "nhom": [
+          "Khu phong, thanh nhiệt vùng trán đầu, lợi mũi và mắt: viêm mũi, viêm xoang, nhức đầu vùng trán, nhức đầu dọc đường kinh, chóng mặt, rối loạn thị giác, động kinh."
+        ]
+      },
       "international_code": "BL3",
       "code_dash": "BL-3",
       "chinese": "眉衝",
@@ -24313,13 +25318,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0514-muc-song.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZY0YZVCJ8XT4Q9AFSNQ5.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPVFD7NCMN5HD984BYZNPZ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPVFG82QDFCHAN1YBG919X.webp",
-        "lan": "/_emdash/api/media/file/01M3DPVFZEBVHTR4YGB533EYW1.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPVGEJKFNYC1RTGW00K21Z.webp",
+        "da": "/anh/huyet/muc-song-tren-da.webp",
+        "gp": "/anh/huyet/muc-song-tren-giai-phau.webp",
+        "lan": "/anh/huyet/muc-song-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/muc-song-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, đường khớp trán – đỉnh."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 288,
+        "nhom": [
+          "Trừ phong, dưỡng mắt, giảm đau: bệnh về mắt, viêm mũi, viêm xoang nhất là kèm đau đầu thái dương, sưng mặt và đầu, đau răng hàm trên, viêm nha chu, sốt nhiễm trùng, chóng mặt, động kinh."
+        ]
+      },
       "international_code": "GB16",
       "code_dash": "GB-16",
       "chinese": "目窗",
@@ -24596,13 +25606,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0521-nao-ho.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0005648R4RV2T3YYW1W4.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ0WJT5K5FWNA6W4PRPRPD.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ0X828B9WQQB4BDD5TZP3.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ0Y3CDE09E77SCN7EMXS6.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ0YNP000D0CSDRFHWY1NH.webp",
+        "da": "/anh/huyet/nao-ho-tren-da.webp",
+        "gp": "/anh/huyet/nao-ho-tren-giai-phau.webp",
+        "lan": "/anh/huyet/nao-ho-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/nao-ho-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân hộp sọ, chỗ bám của gân cơ thang, gân cơ rối lớn, mào chẩm ngoài của xương chẩm."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 381,
+        "nhom": [
+          "Trừ phong, giảm đau: nặng đầu, đau đầu, sưng tấy vùng đầu, đau và cứng cổ.",
+          "Sáng mắt: rối loạn thị giác như cận thị, đau mắt, chảy nước mắt, vàng da.",
+          "An thần: trạng thái hưng cảm, mất ngôn ngữ, khít hàm."
+        ]
+      },
       "international_code": "GV17",
       "code_dash": "GV-17",
       "chinese": "腦戶",
@@ -24664,13 +25681,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0522-nao-khong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ00N4BF65FQHCSV9H533Z.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPVN4H7HSPCRRRB0MEC1WC.webp",
-        "gp": "/_emdash/api/media/file/01M3DPVNDMFM0WWQTC9G4X6EWC.webp",
-        "lan": "/_emdash/api/media/file/01M3DPVP7EJWZKFE5KD3K41C98.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPVPAF959TM9646721N824.webp",
+        "da": "/anh/huyet/nao-khong-tren-da.webp",
+        "gp": "/anh/huyet/nao-khong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/nao-khong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/nao-khong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ cơ chẩm, cơ thang bám vào đường cong chẩm trên của xương chẩm."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 291,
+        "nhom": [
+          "Trừ phong, lợi mắt và đầu, tỉnh thần, thông kinh lạc, giảm đau: đau đầu cổ, cứng cổ, bệnh về mắt, sưng mắt, viêm mũi, chảy máu cam, giảm thính lực và ù tai, chóng mặt, lú lẫn do phong."
+        ]
+      },
       "international_code": "GB19",
       "code_dash": "GB-19",
       "chinese": "腦空",
@@ -24882,13 +25904,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0527-ngan-giao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ02EEGN3XY9BDH3PQV90E.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ1J5AVN32A7ZYKJBBKM0W.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ1JXVBEWX35X3T7STGVGW.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ1K6YYSS2ZHHRHXGGSTKD.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ1KS7KP04PSWRA7DAYKEB.webp",
+        "da": "/anh/huyet/ngan-giao-tren-da.webp",
+        "gp": "/anh/huyet/ngan-giao-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ngan-giao-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ngan-giao-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 392,
+        "nhom": [
+          "Thanh nhiệt, hỗ trợ nướu — mắt — mũi: bệnh về nướu như viêm nha chu — tụt nướu — chảy máu, viêm hoặc dị ứng mắt, các vấn đề về mũi như nghẹt mũi — polyp — viêm mũi — viêm xoang, đỏ mặt bồn chồn, vàng da, cứng khớp cổ."
+        ]
+      },
       "international_code": "GV28",
       "code_dash": "GV-28",
       "chinese": "齦交",
@@ -24985,13 +26012,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0529-nghenh-huong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ036ZZ5BYBY59YFJ31NKY.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPB72RQF014YM3JSEDMH0K.webp",
-        "gp": "/_emdash/api/media/file/01M3DPB75TGCYQ7FWR6A2VH2VR.webp",
-        "lan": "/_emdash/api/media/file/01M3DPB7Z2AYG73NXY57NNP01N.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPB8848REDG6DTCRWPSMT5.webp",
+        "da": "/anh/huyet/nghenh-huong-tren-da.webp",
+        "gp": "/anh/huyet/nghenh-huong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/nghenh-huong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/nghenh-huong-toan-duong-kinh.webp",
         "ghiChu": "Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 37,
+        "nhom": [
+          "Thông mũi, khu phong, thanh nhiệt: bệnh về mũi (chảy máu cam, polyp mũi, viêm mũi, viêm xoang, rối loạn khứu giác), các chứng vùng mặt thuộc kinh Dương Minh (Đại Trường, Vị) như liệt mặt, máy giật cơ mặt, đau dây thần kinh sinh ba, ngứa/sưng/phù mặt, mụn trứng cá quanh miệng mũi, viêm kết mạc."
+        ]
+      },
       "international_code": "LI20",
       "code_dash": "LI-20",
       "chinese": "迎香",
@@ -25161,13 +26193,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0533-ngoai-khau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ04T14VRMCP3RCDYBYVHM.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPWQNZ2K56JGW136QEZCQN.webp",
-        "gp": "/_emdash/api/media/file/01M3DPWR65QEH3KKB49MS4MJ7P.webp",
-        "lan": "/_emdash/api/media/file/01M3DPWRRATCAW486E44MFQBY6.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPWS8R2EVJ03G7Q0EW2AME.webp",
+        "da": "/anh/huyet/ngoai-khau-tren-da.webp",
+        "gp": "/anh/huyet/ngoai-khau-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ngoai-khau-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ngoai-khau-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 310,
+        "nhom": [
+          "Điều hoà Đởm khí và Can khí: co thắt cơ/đau ở chi dưới.",
+          "Trừ thấp nhiệt: co thắt dạ dày sau khi ăn đồ nóng, béo.",
+          "Thư cân: căng cứng cổ.",
+          "An thần: động kinh, hưng cảm."
+        ]
+      },
       "international_code": "GB36",
       "code_dash": "GB-36",
       "chinese": "外丘",
@@ -25473,13 +26513,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0541-ngoai-lang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ07YFA00VSM1VH0E0GXBT.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPCTZ73QYH3XEC6PMA4SY8.webp",
-        "gp": "/_emdash/api/media/file/01M3DPCVRJ12T9SPHGNYPBTFT2.webp",
-        "lan": "/_emdash/api/media/file/01M3DPD1Q90H0S9PKCJCRBKJDB.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPD20DNZA1CY8ZBB6Y0942.webp",
+        "da": "/anh/huyet/ngoai-lang-tren-da.webp",
+        "gp": "/anh/huyet/ngoai-lang-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ngoai-lang-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ngoai-lang-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang, trong ổ bụng là ruột non, tử cung khi có thai 6–7 tháng, bàng quang khi bí tiểu."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 65,
+        "nhom": [
+          "Hành khí, giảm đau: đau bụng dữ dội, đầy bụng, rối loạn kinh nguyệt như thống kinh, vô kinh, và chứng sán khí (thoát vị, bệnh vùng sinh dục ngoài)."
+        ]
+      },
       "international_code": "ST26",
       "code_dash": "ST-26",
       "chinese": "外陵",
@@ -25610,13 +26655,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0544-ngoai-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ09N3NWMBGHHARFJEETWT.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPSA36Z82C9MTQPM6S0FQ3.webp",
-        "gp": "/_emdash/api/media/file/01M3DPSAJDQW92TA6AEEBMHZM4.webp",
-        "lan": "/_emdash/api/media/file/01M3DPSB1J90QFZ6HVV2MVKDKH.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPSBGRR3YYEKTF33WKS5FG.webp",
+        "da": "/anh/huyet/ngoai-quan-tren-da.webp",
+        "gp": "/anh/huyet/ngoai-quan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ngoai-quan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ngoai-quan-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi dài riêng ngón tay cái ở ngoài, với các cơ duỗi riêng ngón tay út, cơ duỗi riêng ngón tay trỏ ở trong, giữa màng gian cốt."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 252,
+        "nhom": [
+          "Trừ phong, giải biểu, lợi đầu tai, thanh nhiệt, khai thông mạch Dương Duy: sốt kèm sợ lạnh, bệnh về tai, viêm kết mạc, đau dây thần kinh sinh ba, nhức đầu, hội chứng Thiếu Dương, tức ngực.",
+          "Thông kinh lạc, giảm đau: đau cổ/cột sống cổ nhất là khi khó cúi ngửa xoay, đau khuỷu tay, vai, cánh tay, bàn tay và ngón tay."
+        ]
+      },
       "international_code": "TE5",
       "code_dash": "TE-5",
       "chinese": "外關",
@@ -25716,13 +26767,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0546-ngoc-cham.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0AA54MYY7XDXK3VZTWDB.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJAWK0HA5C2A6V6NM8S3B.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJBER6BTP15C7PP3X0VRR.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJBQXVQ47FCKDPKYY80YT.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJCA4D2D8T4VRRNHPEH5B.webp",
+        "da": "/anh/huyet/ngoc-cham-tren-da.webp",
+        "gp": "/anh/huyet/ngoc-cham-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ngoc-cham-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ngoc-cham-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 150,
+        "nhom": [
+          "Trừ phong hàn, giảm đau, lợi mũi và mắt: sốt nhiễm trùng, viêm mũi, viêm xoang, mất khứu giác, bệnh về mắt, đau vùng mắt và má, nhức đầu kèm cảm giác nặng vùng sau đầu — cổ, trạng thái khó chịu lú lẫn, rối loạn điều hoà tư thế, động kinh."
+        ]
+      },
       "international_code": "BL9",
       "code_dash": "BL-9",
       "chinese": "玉枕",
@@ -25859,13 +26915,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0549-ngoc-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0BHN06C9AFFX4F7AHRV4.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZEEMX8HQEC9WQYRT41XH.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZEXT317KRD7P9AGZ73EQ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZFD06NGXWC4R9ZKT61R8.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZFW6V8S88QCAW9J2EGTB.webp",
+        "da": "/anh/huyet/ngoc-duong-tren-da.webp",
+        "gp": "/anh/huyet/ngoc-duong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ngoc-duong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ngoc-duong-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 356,
+        "nhom": [
+          "Khai thông lồng ngực, điều khí, hạ khí nghịch: đau và tức vùng thượng vị — ngực — mạn sườn, đau họng, khó nuốt, ho, khó thở, hen phế quản, đau vùng trước tim, nôn, bệnh về vú."
+        ]
+      },
       "international_code": "CV18",
       "code_dash": "CV-18",
       "chinese": "玉堂",
@@ -26141,13 +27202,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0556-ngu-khu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0DBPA4M31NW2FP4VHTMX.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPW53M66380BJB5B1FXPF9.webp",
-        "gp": "/_emdash/api/media/file/01M3DPW5WW8G7YKT7E8JCYS23J.webp",
-        "lan": "/_emdash/api/media/file/01M3DPW65ZK4WSTER1D97QF110.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPW701PFP0KKXNN0M0584H.webp",
+        "da": "/anh/huyet/ngu-khu-tren-da.webp",
+        "gp": "/anh/huyet/ngu-khu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ngu-khu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ngu-khu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ chéo lớn của bụng, cơ chéo bé của bụng, cơ ngang bụng, mạch ngang, đại trường."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 300,
+        "nhom": [
+          "Điều hoà mạch Đới và hạ tiêu, trừ ứ trệ: khí hư, kinh nguyệt không đều, sa tử cung, đau vùng chậu, đau tinh hoàn, mót rặn, táo bón, đau lưng — thắt lưng — hồi tràng, co thắt, bệnh sán khí, các vấn đề khớp hông."
+        ]
+      },
       "international_code": "GB27",
       "code_dash": "GB-27",
       "chinese": "五樞",
@@ -26358,13 +27424,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0561-ngu-xu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0E746HPA3D7512KPCZQZ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJ30QCAMEP3F4D8ZSMM01.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJ3JYXMJQQY92V0TMWHBY.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJ3Z2MKTWANS53PX7GS2T.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJ4MPHXKPXGQSAKJCXYFK.webp",
+        "da": "/anh/huyet/ngu-xu-tren-da.webp",
+        "gp": "/anh/huyet/ngu-xu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ngu-xu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ngu-xu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, xương sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 146,
+        "nhom": [
+          "Khu phong, thanh nhiệt vùng đầu mũi, tiềm dương: sốt nhiễm trùng, viêm mũi, viêm xoang, nhức đầu vùng trán — đỉnh, cứng cột sống, buồn ngủ nhiều, chóng mặt, động kinh."
+        ]
+      },
       "international_code": "BL5",
       "code_dash": "BL-5",
       "chinese": "五處",
@@ -26492,10 +27563,10 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0564-ngu-te.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0F5R8FA3258FW0EDZMJC.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3D10X3KDHPEACTSDABTW0Z8.webp",
-        "gp": "/_emdash/api/media/file/01M3D10X6VJDN1773Z9AQBD8HD.webp",
-        "lan": "/_emdash/api/media/file/01M3D10Y4204FRC9SPFG3PZ1ZM.webp",
-        "kinh": "/_emdash/api/media/file/01M3D10Y7AJYXBVT52MKF6Q3EC.webp",
+        "da": "/anh/huyet/ngu-te-tren-da.webp",
+        "gp": "/anh/huyet/ngu-te-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ngu-te-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ngu-te-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài cơ dạng ngắn ngón tay cái, cơ đốt ngón tay cái, bờ ngoài cơ gấp ngón tay cái, xương bàn tay 1."
       },
       "congDung": {
@@ -26758,13 +27829,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0570-nhan-nghenh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0HWVG6F1C637ERYD9N8Q.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPBPQF6J4MT7EEHHDTG0WC.webp",
-        "gp": "/_emdash/api/media/file/01M3DPBQFRGKKV5SX491A037KW.webp",
-        "lan": "/_emdash/api/media/file/01M3DPBQJSJQ0GMF9SYTWYP9RN.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPBRCZ0FGW4H5EJ71ZTQXW.webp",
+        "da": "/anh/huyet/nhan-nghenh-tren-da.webp",
+        "gp": "/anh/huyet/nhan-nghenh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/nhan-nghenh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/nhan-nghenh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trước cơ ức đòn chũm, bó mạch thần kinh cảnh, lớp sâu là cơ bậc thang, cơ cổ dài, cơ góc."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 48,
+        "nhom": [
+          "Điều hoà khí huyết, giáng nghịch khí: nhức đầu, đỏ bừng mặt, chóng mặt, huyết áp cao hoặc thấp, suy sụp, ho, khò khè, khó thở, tức ngực, nôn mửa.",
+          "Thông kinh lạc, giảm đau: đau thắt lưng, hội chứng cột sống thắt lưng.",
+          "Lợi hầu họng: sưng viêm đau họng, bướu cổ, lao hạch (tràng nhạc)."
+        ]
+      },
       "international_code": "ST9",
       "code_dash": "ST-9",
       "chinese": "人迎",
@@ -26827,13 +27905,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0571-nhan-trung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0JBWSY2D5JBAM861RPE3.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ1EH79Q4MWV6ZXB5P97YH.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ1F0C82EK862XQNDVT67Y.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ1FFK6XTXFTEYM29JRSD4.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ1FYVGSJPNES4TZ1N67KJ.webp",
+        "da": "/anh/huyet/nhan-trung-tren-da.webp",
+        "gp": "/anh/huyet/nhan-trung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/nhan-trung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/nhan-trung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ vòng môi trên."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 390,
+        "nhom": [
+          "Khai khiếu, hồi tỉnh (huyệt cấp cứu): sốc cấp mất ý thức, sốc do mất thể dịch, sốc nhiệt (say nắng), sự cố gãy kim khi châm, động kinh, hưng cảm, rối loạn tâm thần kèm mất ý thức.",
+          "Hỗ trợ mặt và mũi, trừ ngoại phong: các vấn đề về mũi, giật cơ mặt, khít hàm, liệt mặt, sưng mặt, phù toàn thân.",
+          "Hỗ trợ cột sống: đau thắt lưng cấp, nhất là khi đau ngay trên đường giữa cột sống.",
+          "Một trong thập tam quỷ huyệt của Tôn Tư Mạc: trạng thái hưng cảm, động kinh."
+        ]
+      },
       "international_code": "GV26",
       "code_dash": "GV-26",
       "chinese": "人中",
@@ -27046,13 +28132,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0576-nhat-nguyet.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0KA7SAQSNR2FRWKQ8R1J.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPVZ09T77N5KP0RPGZHKKT.webp",
-        "gp": "/_emdash/api/media/file/01M3DPVZ9BANWGM0G74996JYT9.webp",
-        "lan": "/_emdash/api/media/file/01M3DPW01HQE0BRH4N2Z1C2E3R.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPW04P05ZNWSXPV2MYXP9B.webp",
+        "da": "/anh/huyet/nhat-nguyet-tren-da.webp",
+        "gp": "/anh/huyet/nhat-nguyet-tren-giai-phau.webp",
+        "lan": "/anh/huyet/nhat-nguyet-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/nhat-nguyet-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ tiếp nối giữa phần thịt, phần cân của cơ chéo lớn của bụng, cơ gian sườn 7, bên phải là gan, bên trái là lách, dạ dầy."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 297,
+        "nhom": [
+          "Lợi Đởm, sơ Can khí, trừ thấp nhiệt, giáng nghịch, điều hoà trung tiêu (Mộ huyệt của Đởm): bệnh gan mật, rối loạn tiêu hoá, đau mạn sườn và bụng, đau dây thần kinh liên sườn."
+        ]
+      },
       "international_code": "GB24",
       "code_dash": "GB-24",
       "chinese": "日月",
@@ -27260,13 +28351,18 @@ window.ACUPOINTS = {
       "image": null,
       "anhCms": null,
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPTCCTREYB1C4NVEJCZE2Z.webp",
-        "gp": "/_emdash/api/media/file/01M3DPTCW04Y6G8RZPDH8M41S2.webp",
-        "lan": "/_emdash/api/media/file/01M3DPTD8G2WH91MDZHVKHRATC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPTDXSNJ4F6A28N2SYW3CP.webp",
+        "da": "/anh/huyet/nhi-mon-tren-da.webp",
+        "gp": "/anh/huyet/nhi-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/nhi-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/nhi-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trước."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 268,
+        "nhom": [
+          "Thanh nhiệt, lợi tai: bệnh về tai, hội chứng Ménière (chóng mặt, buồn nôn, ù tai, nghe kém), khít hàm, đau răng, đau họng, nhức đầu, cứng môi, đau dây thần kinh sinh ba."
+        ]
+      },
       "international_code": "TE21",
       "code_dash": "TE-21",
       "chinese": "耳門",
@@ -27633,13 +28729,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0590-nhi-gian.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0QER9JQQJ60MRD2XSR7J.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DP9WPSZK9N1E58PCKSG2P7.webp",
-        "gp": "/_emdash/api/media/file/01M3DP9WSX2YKV7K7FFH0RMHKD.webp",
-        "lan": "/_emdash/api/media/file/01M3DP9YABPJ7JCEJ69M533C7Z.webp",
-        "kinh": "/_emdash/api/media/file/01M3DP9YDCHZ5B8TYDAAA498GQ.webp",
+        "da": "/anh/huyet/nhi-gian-tren-da.webp",
+        "gp": "/anh/huyet/nhi-gian-tren-giai-phau.webp",
+        "lan": "/anh/huyet/nhi-gian-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/nhi-gian-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gian cốt mu tay, xương."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 21,
+        "nhom": [
+          "Thanh nhiệt, khu phong, tiêu sưng giảm đau: đau nhức răng, khô miệng, chảy máu cam, đau họng, viêm họng, viêm thanh quản, viêm kết mạc mắt."
+        ]
+      },
       "international_code": "LI2",
       "code_dash": "LI-2",
       "chinese": "二間",
@@ -27880,13 +28981,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0596-nhien-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0RWG4WFDPS8WSZCE1DPT.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPPG0ZQ700EPK8C4DNS8BJ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPPGK6PG04BTWW5PRKSE7M.webp",
-        "lan": "/_emdash/api/media/file/01M3DPPGZBGZZHB7YZS1WTXHG7.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPPHQM3C3MGDH1ZKE1R2EW.webp",
+        "da": "/anh/huyet/nhien-coc-tren-da.webp",
+        "gp": "/anh/huyet/nhien-coc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/nhien-coc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/nhien-coc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ dạng ngón cái, cơ gấp ngắn ngón cái, chỗ bám của gân cơ cẳng chân sau, dưới bờ dưới của xương thuyền. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 212,
+        "nhom": [
+          "Thanh hư nhiệt: đau họng kèm khô miệng, khàn tiếng, ra mồ hôi trộm ban đêm, nóng lòng bàn chân, hội chứng chân không yên.",
+          "Điều hoà Thận và tiểu tiện: ngứa sinh dục, rối loạn kinh nguyệt, vô sinh, sa tử cung, giảm ham muốn tình dục, liệt dương.",
+          "Tại chỗ: đau hoặc phù nề vùng xương bàn chân."
+        ]
+      },
       "international_code": "KI2",
       "code_dash": "KI-2",
       "chinese": "然谷",
@@ -28051,13 +29159,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0600-nhu-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0SEK027EXGM8Y49G00X1.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPH6KZAQHCKD9F9AYGM6ZE.webp",
-        "gp": "/_emdash/api/media/file/01M3DPH7VDCXVGBCBA06DS3WSS.webp",
-        "lan": "/_emdash/api/media/file/01M3DPH7YEVP9Z09HQS9B8C52R.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPH8KRJ1585GER29AXEAFN.webp",
+        "da": "/anh/huyet/nhu-du-tren-da.webp",
+        "gp": "/anh/huyet/nhu-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/nhu-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/nhu-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới gai, sống gai."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 131,
+        "nhom": [
+          "Thông kinh lạc, thư cân: đau và hạn chế vận động vùng xương bả vai bên, khớp vai phía sau và cánh tay trên, hội chứng 'vai đông cứng'."
+        ]
+      },
       "international_code": "SI10",
       "code_dash": "SI-10",
       "chinese": "臑俞",
@@ -28116,13 +29229,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0601-nhu-hoi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0SXZF52RPRHXAM0REXXM.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPSSQGQA34J9HK62J64Y86.webp",
-        "gp": "/_emdash/api/media/file/01M3DPSTK0XPNWTB5RW399HJSS.webp",
-        "lan": "/_emdash/api/media/file/01M3DPSTP2RW3DCNB4D9QJW9FT.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPSVHAN7XRVSJ9C128TN00.webp",
+        "da": "/anh/huyet/nhu-hoi-tren-da.webp",
+        "gp": "/anh/huyet/nhu-hoi-tren-giai-phau.webp",
+        "lan": "/anh/huyet/nhu-hoi-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/nhu-hoi-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau – dưới của cơ delta, phần rộng ngoài của cơ 3 đầu cánh tay."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 260,
+        "nhom": [
+          "Thông kinh lạc, giảm đau: đau, sưng, hạn chế vận động ở vai, cánh tay trên, xương bả vai.",
+          "Hành khí, hoá đàm, tán kết: bướu cổ, hạch cổ, động kinh, bệnh về mắt."
+        ]
+      },
       "international_code": "TE13",
       "code_dash": "TE-13",
       "chinese": "臑會",
@@ -28292,13 +29411,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0605-nhu-can.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0TT08WZQF1C4HJQHPSVW.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPC7ZKPBH8ZGW97014RHSD.webp",
-        "gp": "/_emdash/api/media/file/01M3DPC8HS2GJA2BZ3XXNR2JWP.webp",
-        "lan": "/_emdash/api/media/file/01M3DPC90YDG6HCT02YEKHNC7P.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPC9G3PDZ6M3QP98D8CFCV.webp",
+        "da": "/anh/huyet/nhu-can-tren-da.webp",
+        "gp": "/anh/huyet/nhu-can-tren-giai-phau.webp",
+        "lan": "/anh/huyet/nhu-can-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/nhu-can-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 5, bờ trên xương sườn 6, bên phải là phổi, bên trái là mỏm tim."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 57,
+        "nhom": [
+          "Lợi tuyến vú, tiêu sưng: rối loạn tiết sữa, viêm tuyến vú, bệnh lý ở vú; một số tác giả còn dùng hỗ trợ chuyển dạ.",
+          "Khoan khoái lồng ngực, chỉ khái bình suyễn: ho, khó thở, hen phế quản, đau tức ngực và vùng sườn.",
+          "Điều hoà Phế khí (hỗ trợ chung các rối loạn về khí ở Phế)."
+        ]
+      },
       "international_code": "ST18",
       "code_dash": "ST-18",
       "chinese": "乳根",
@@ -28423,10 +29549,10 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0608-nhu-trung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0VC0PDZXRN43CZEP1ERR.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPC5ZRDFV15Q6KSSPZBVNP.webp",
-        "gp": "/_emdash/api/media/file/01M3DPC6V2V6QN1VS9FKGTKCGC.webp",
-        "lan": "/_emdash/api/media/file/01M3DPC6Y3E8M7XGEZHH3R11RE.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPC7SJEN9K7XG8XGYYW94V.webp",
+        "da": "/anh/huyet/nhu-trung-tren-da.webp",
+        "gp": "/anh/huyet/nhu-trung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/nhu-trung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/nhu-trung-toan-duong-kinh.webp",
         "ghiChu": null
       },
       "congDung": null,
@@ -28696,13 +29822,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0615-noi-dinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0X5QQ8RK7BCEECT0VK73.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPEEWXT0PA3Q3QFJJ0ZGEY.webp",
-        "gp": "/_emdash/api/media/file/01M3DPEFQ03V5R7RNFX9ZS24N5.webp",
-        "lan": "/_emdash/api/media/file/01M3DPEG98P2PX0JKWARH9PK5G.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPEH049HZ88TFZEP68PBXK.webp",
+        "da": "/anh/huyet/noi-dinh-tren-da.webp",
+        "gp": "/anh/huyet/noi-dinh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/noi-dinh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/noi-dinh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: 3 của cơ duỗi dài, cơ duỗi ngắn các ngón chân, cơ gian cốt mu chân 2."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 85,
+        "nhom": [
+          "Thanh Vị nhiệt, thông kinh lạc, giảm đau: đau nhức và viêm vùng mặt như đau răng, viêm xoang hàm trên, chảy máu cam, đau dây thần kinh sinh ba, viêm họng.",
+          "Điều hoà Trường, trừ thấp nhiệt: đau bụng, tiêu chảy, đầy hơi.",
+          "An thần: bồn chồn, khó chịu trong người."
+        ]
+      },
       "international_code": "ST44",
       "code_dash": "ST-44",
       "chinese": "内庭",
@@ -29070,13 +30203,22 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0624-noi-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0ZDS1J4YCTQJ8GHACQBH.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPRJ38YDZP7YGSKYFWC788.webp",
-        "gp": "/_emdash/api/media/file/01M3DPRJZZHQXVBD2D2254PRND.webp",
-        "lan": "/_emdash/api/media/file/01M3DPRKFFWGVD1AC4YNK2WGH2.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPRMD0EFC9W90RCV5QF5VK.webp",
+        "da": "/anh/huyet/noi-quan-tren-da.webp",
+        "gp": "/anh/huyet/noi-quan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/noi-quan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/noi-quan-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gan tay bé, gân cơ gấp dài ngón tay cái, gân cơ gấp chung ngón tay nông, sâu, màng gian cốt quay, trụ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 243,
+        "nhom": [
+          "An thần, điều hoà Tâm: hồi hộp, lo âu, bồn chồn, mất ngủ, các vấn đề liên quan chức năng tim.",
+          "Khai thông lồng ngực, điều khí: đau ngực do tim, phổi hoặc xương ức.",
+          "Hoà Vị, giáng nghịch: buồn nôn, nôn, đầy bụng, đầy thượng vị.",
+          "Thanh nhiệt: sốt, tiểu khó, nứt lưỡi.",
+          "Thông kinh lạc tại chỗ: đau vùng cẳng tay (ống cổ tay) và cổ tay."
+        ]
+      },
       "international_code": "PC6",
       "code_dash": "PC-6",
       "chinese": "內關",
@@ -29409,13 +30551,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0632-oc-e.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ128EAFR05HK3BJM7YSPH.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPC25G9QC04BM3W2ETV30Z.webp",
-        "gp": "/_emdash/api/media/file/01M3DPC30ZE5CBPZC6DPHHXZXT.webp",
-        "lan": "/_emdash/api/media/file/01M3DPC33Z0QSCG9A26K184N7S.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPC3ZYEPN7KZJTS82WX9Y3.webp",
+        "da": "/anh/huyet/oc-e-tren-da.webp",
+        "gp": "/anh/huyet/oc-e-tren-giai-phau.webp",
+        "lan": "/anh/huyet/oc-e-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/oc-e-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trên cơ ngực bé, cơ gian sườn 2, bờ trên xương sườn 3, trong sâu có phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 54,
+        "nhom": [
+          "Giáng Phế khí: ho, khó thở, hen phế quản.",
+          "Khoan khoái lồng ngực: đau tức ngực và vùng sườn bên.",
+          "Lợi tuyến vú: viêm tuyến vú, bệnh lý ở vú.",
+          "Chỉ thống, chỉ dưỡng ngoài da: ngứa toàn thân, nặng nề và sưng nề cơ thể, đau da."
+        ]
+      },
       "international_code": "ST15",
       "code_dash": "ST-15",
       "chinese": "屋翳",
@@ -29480,13 +30630,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0633-on-luu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ12HFNF8ZF6TE4V7AJQPJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPA9V16BQNVA2KT02EBHNA.webp",
-        "gp": "/_emdash/api/media/file/01M3DPAA44CMMBDZZ3X2XMJVMY.webp",
-        "lan": "/_emdash/api/media/file/01M3DPAAWDNJE6RW95925E3DF5.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPAAZEJFW834S5Y5208GKT.webp",
+        "da": "/anh/huyet/on-luu-tren-da.webp",
+        "gp": "/anh/huyet/on-luu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/on-luu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/on-luu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ quay 1, cơ quay 2, cơ dạng dài ngón tay cái."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 26,
+        "nhom": [
+          "Trị chứng cấp: hội chứng đau vai – cánh tay, đau/viêm vùng mặt và cổ.",
+          "Thanh nhiệt, giải độc: mụn nhọt, viêm da mặt, viêm họng, viêm amidan, liệt mặt.",
+          "Thanh nhiệt Dương Minh, an thần: trạng thái kích động, hưng phấn.",
+          "Điều hoà Vị Trường: đau bụng, đầy hơi, táo bón."
+        ]
+      },
       "international_code": "LI7",
       "code_dash": "LI-7",
       "chinese": "溫溜",
@@ -29543,13 +30701,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0634-phach-ho.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ136HKT6KYZWEPA9A6702.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPMR8KZ744NCAB3GWG43VH.webp",
-        "gp": "/_emdash/api/media/file/01M3DPMRV374KKY9C2607N9F7H.webp",
-        "lan": "/_emdash/api/media/file/01M3DPMSAD1XXBAJ3EBVMNP4DC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPMT173EAWVEPTJH8VG7KR.webp",
+        "da": "/anh/huyet/phach-ho-tren-da.webp",
+        "gp": "/anh/huyet/phach-ho-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phach-ho-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phach-ho-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ răng bé sau – trên, cơ chậu sườn – ngực, cơ gian sườn 3, bên trong là phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 181,
+        "nhom": [
+          "Bổ dưỡng Phế, chỉ khái bình suyễn, an thần định phách: bệnh phổi mạn tính do suy nhược, hen phế quản, ho, khó thở.",
+          "Thông kinh lạc, giảm đau: đau, hạn chế vận động vùng cổ, vai, lưng trên.",
+          "Thanh Phế nhiệt."
+        ]
+      },
       "international_code": "BL42",
       "code_dash": "BL-42",
       "chinese": "魄戶",
@@ -29680,13 +30845,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0637-phe-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ158S7T2KA70H1PR97WCJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJJ9BJSGRGB9MRDS8EB1Z.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJK1T0JZCCPGSJETT2ECK.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJKATWWH0EW9G8RJR61A3.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJM33R2HZP39TNDXSV7PY.webp",
+        "da": "/anh/huyet/phe-du-tren-da.webp",
+        "gp": "/anh/huyet/phe-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phe-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phe-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ răng bé sau – trên, cơ lưng dài, cơ cổ dài, cơ bán gai của đầu, cơ bán gai của cổ, cơ ngang sườn, phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 154,
+        "nhom": [
+          "Bổ và điều giáng Phế khí, bổ Phế âm (Du huyệt của Phế): bệnh hô hấp như ho, khó thở, hen phế quản; kèm theo trong bệnh dạ dày có ho gây nôn và đầy bụng; dễ nhiễm trùng, tự ra mồ hôi, suy nhược cơ thể, đổ mồ hôi đêm kèm khô miệng họng, bệnh phổi mạn tính hao mòn, ngứa da, nổi mề đay.",
+          "Thanh Phế nhiệt: cảm giác đầy tức ở phổi; sách cổ còn ghi nhận dùng cho rối loạn tâm thần thể hưng cảm.",
+          "Giải biểu: nhiễm trùng cấp tính kèm run rẩy, sợ lạnh trong và sau khi bị bệnh.",
+          "Thông kinh lạc: các chứng ở vùng cổ, lưng, vai."
+        ]
+      },
       "international_code": "BL13",
       "code_dash": "BL-13",
       "chinese": "肺俞",
@@ -29785,13 +30958,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0639-phi-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ15TVWDWDKNFPFN6ZDJ57.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPNSZ8R01B57292CZPWQ7S.webp",
-        "gp": "/_emdash/api/media/file/01M3DPNTQH0R1KE0VAQT0T5DAQ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPNVDGAAGBAHCREG7RBT2C.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPNW2S57WCV4PHXT2SSQWD.webp",
+        "da": "/anh/huyet/phi-duong-tren-da.webp",
+        "gp": "/anh/huyet/phi-duong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phi-duong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phi-duong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài chỗ tiếp nối giữa phần thịt với phần gân của cơ sinh đôi ngoài, cơ gấp dài ngón chân cái."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 197,
+        "nhom": [
+          "Thông kinh lạc, giảm đau: đau thắt lưng, các chứng ở bắp chân, cẳng chân.",
+          "Khu phong, điều hoà trên — dưới (Lạc huyệt): sốt nhiễm trùng không ra mồ hôi, nhức đầu, chóng mặt, nóng đầu, chảy máu cam, hưng cảm, động kinh.",
+          "Trị trĩ (theo kinh): bệnh trĩ."
+        ]
+      },
       "international_code": "BL58",
       "code_dash": "BL-58",
       "chinese": "飛陽",
@@ -29922,13 +31102,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0642-phong-long.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ163V2C2WXW9VT08W5YY2.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPE0PE2N4090FEY3A6NK1W.webp",
-        "gp": "/_emdash/api/media/file/01M3DPE1HP10P70R3MHFRFMHAT.webp",
-        "lan": "/_emdash/api/media/file/01M3DPE1QRN3J8X1KHM34Y1WJB.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPE2A0HQE3ZRJ2S8ENES2P.webp",
+        "da": "/anh/huyet/phong-long-tren-da.webp",
+        "gp": "/anh/huyet/phong-long-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phong-long-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phong-long-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ mác bên ngắn, ở sâu là cơ duỗi dài riêng ngón chân cái. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 79,
+        "nhom": [
+          "Hoá đờm trừ thấp, thanh đờm ở Phế và Tâm, chỉ khái, an thần: đờm hữu hình như bệnh hô hấp, tiêu chảy; và đờm vô hình như hạch dưới da, bướu cổ, u xơ, đau/tê dọc đường kinh, buồn ngủ, chóng mặt, hưng cảm, động kinh, choáng váng — các chứng thuộc \"phong đàm\"."
+        ]
+      },
       "international_code": "ST40",
       "code_dash": "ST-40",
       "chinese": "豐隆",
@@ -30001,13 +31186,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0643-phong-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ17HXMW0BRN4C2P3KMF6A.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJGFP85MG4CWCAH845A07.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJH4YKFV3PEKCVNPKT3Y4.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJHE1Z875XRNFY9EFR562.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJJ6AK4EWVY9JXJKBX2JA.webp",
+        "da": "/anh/huyet/phong-mon-tren-da.webp",
+        "gp": "/anh/huyet/phong-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phong-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phong-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám (hoặc cơ thoi), cơ răng bé sau – trên, cơ lưng dài, cơ cổ dài, cơ đầu dài, cơ bán gai của đầu, cơ ngang sườn, bên trong là phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 153,
+        "nhom": [
+          "Trừ phong, giải biểu, lợi mũi: sốt kèm ớn lạnh sợ gió, nhức đầu, đau nhức mình mẩy, viêm mũi, viêm xoang, chảy máu cam.",
+          "Điều hoà và giáng Phế khí: bệnh đường hô hấp.",
+          "Bổ vệ khí, cố biểu: dễ bị nhiễm trùng, viêm mũi dị ứng, mệt mỏi kéo dài lúc dưỡng bệnh.",
+          "Thông kinh lạc: đau cơ vùng cổ, ngực và đai vai."
+        ]
+      },
       "international_code": "BL12",
       "code_dash": "BL-12",
       "chinese": "風門",
@@ -30141,13 +31334,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0646-phong-phu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ18P0X23NXRX28AX1J68Q.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ0T6XEQR9N37TSD7F4AEY.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ0TS40GA3E248BN9HZMYA.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ0VTFRM846EM1R7V33JCF.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ0WCQPBM6PMAPM8AVM2V5.webp",
+        "da": "/anh/huyet/phong-phu-tren-da.webp",
+        "gp": "/anh/huyet/phong-phu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phong-phu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phong-phu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, cơ rối lớn, cơ thẳng sau đầu bé, màng chẩm–đội sau, ống hành tủy."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 379,
+        "nhom": [
+          "Trừ ngoại phong: nhiễm trùng sốt, liệt mặt ngoại biên, hội chứng phong tý (đau buốt di chuyển không cố định, thường kèm sốt).",
+          "Bình nội phong, an thần: bệnh về thần kinh nhất là vùng đầu, đau đầu vùng chẩm — thái dương — trán, đau nửa đầu, choáng váng, chóng mặt, chảy máu cam, trạng thái hưng cảm, động kinh.",
+          "Bổ bể tuỷ, hỗ trợ đầu cổ: chóng mặt, ù tai, rối loạn thị giác, cứng cổ."
+        ]
+      },
       "international_code": "GV16",
       "code_dash": "GV-16",
       "chinese": "風府",
@@ -30249,13 +31449,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0648-phong-thi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ18YZAM2AHKTE26A165VX.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPWFDK794MMC0497764RNW.webp",
-        "gp": "/_emdash/api/media/file/01M3DPWFSRSQPJZSX0BCCBD115.webp",
-        "lan": "/_emdash/api/media/file/01M3DPWGG33WY6B7SV0X7ZY61R.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPWH2TS1EKR50XKR7AM98E.webp",
+        "da": "/anh/huyet/phong-thi-tren-da.webp",
+        "gp": "/anh/huyet/phong-thi-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phong-thi-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phong-thi-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cân đùi, cơ rộng ngoài bờ trước cơ 2 đầu đùi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 304,
+        "nhom": [
+          "Khu phong, giảm ngứa, thông kinh lạc, giảm đau: hội chứng tý (đau khớp/cơ, khó co duỗi) ở chi dưới, vùng thắt lưng và hông, đau thần kinh toạ, liệt nửa người, ngứa, mề đay."
+        ]
+      },
       "international_code": "GB31",
       "code_dash": "GB-31",
       "chinese": "風市",
@@ -30316,13 +31521,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0649-phong-tri.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1A986ANMSY3DEKBVECKZ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPVQ2PQ5A10S4MCQ01H88P.webp",
-        "gp": "/_emdash/api/media/file/01M3DPVQBR61MAJ6ZA4F1F3F5Q.webp",
-        "lan": "/_emdash/api/media/file/01M3DPVR5D3AQXANW04JBBPMP7.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPVRBGA9YV402XQCS6X62W.webp",
+        "da": "/anh/huyet/phong-tri-tren-da.webp",
+        "gp": "/anh/huyet/phong-tri-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phong-tri-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phong-tri-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: góc tạo nên bởi cơ thang, cơ ức – đòn – chũm, đáy là cơ gối đầu, cơ đầu dài, đáy hộp sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 292,
+        "nhom": [
+          "Trừ phong, lợi mắt và đầu, thanh lợi ngũ quan: nhức đầu, đau nửa đầu, chóng mặt, đau tai, bệnh về mắt và mũi, khít hàm, sưng mặt, mề đay, liệt mặt.",
+          "Thông kinh lạc, giảm đau, an thần: các chứng ở cột sống cổ — vai — lưng trên, tăng huyết áp, động kinh, mất ngủ, suy giảm trí nhớ."
+        ]
+      },
       "international_code": "GB20",
       "code_dash": "GB-20",
       "chinese": "風池",
@@ -30428,13 +31639,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0651-phu-bach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1B49XGNBA59H4Q7FR4DZ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPV3M9PGJYY1SQP4EYFTTK.webp",
-        "gp": "/_emdash/api/media/file/01M3DPV43F9W7G4N2FDRNF6T9Y.webp",
-        "lan": "/_emdash/api/media/file/01M3DPV4JP0JD3VT2EN2HV8Y98.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPV51SVXCP30CN572EBRA4.webp",
+        "da": "/anh/huyet/phu-bach-tren-da.webp",
+        "gp": "/anh/huyet/phu-bach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phu-bach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phu-bach-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 282,
+        "nhom": [
+          "Thanh nhiệt, lợi họng, thông kinh lạc, giảm đau: nhức đầu, đau họng, đau răng, sốt nhiễm trùng, ù tai, giảm thính lực (kể cả đột ngột), bướu cổ, đau và hạn chế vận động vai — cánh tay, chân yếu."
+        ]
+      },
       "international_code": "GB10",
       "code_dash": "GB-10",
       "chinese": "浮白",
@@ -30495,13 +31711,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0652-phu-dot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1BPCFTT08R2T7EVRSQK9.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPB35Z9SZ2E6BJYW1Q2AWA.webp",
-        "gp": "/_emdash/api/media/file/01M3DPB3FBHK5BBZN4WQAQEG30.webp",
-        "lan": "/_emdash/api/media/file/01M3DPB4AMQF6X23XBHF0QRW5Q.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPB4DPNW9GP2G1D7KEZVTE.webp",
+        "da": "/anh/huyet/phu-dot-tren-da.webp",
+        "gp": "/anh/huyet/phu-dot-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phu-dot-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phu-dot-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 36,
+        "nhom": [
+          "Lợi hầu họng: đau họng, viêm họng, mất tiếng, khàn tiếng cấp và mạn, khó nuốt, rối loạn dây thanh, lao hạch, bướu cổ.",
+          "Chỉ khái, bình suyễn: ho, thở khò khè."
+        ]
+      },
       "international_code": "LI18",
       "code_dash": "LI-18",
       "chinese": "扶突",
@@ -30561,13 +31783,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0653-phu-khich.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1DKB7BCWNY3P20CX6P89.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPMDTGCB5GT1ZXMC6RH9CH.webp",
-        "gp": "/_emdash/api/media/file/01M3DPMEC8FD83957AK6XMA0HG.webp",
-        "lan": "/_emdash/api/media/file/01M3DPMFR4Q0YP0QWK0VWZ5R33.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPMFVCZKEGXHC7WE5CYF9N.webp",
+        "da": "/anh/huyet/phu-khich-tren-da.webp",
+        "gp": "/anh/huyet/phu-khich-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phu-khich-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phu-khich-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: góc giữa 2 cơ bán mạc, cơ 2 đầu đùi, mặt sau đầu dưới xương đùi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 177,
+        "nhom": [
+          "Thư cân, giảm đau: co rút, co thắt khớp gối, đau và rối loạn cảm giác dọc đường kinh.",
+          "Thanh nhiệt: rối loạn đường ruột kiểu 'nhiệt ở Tiểu Trường', táo bón."
+        ]
+      },
       "international_code": "BL38",
       "code_dash": "BL-38",
       "chinese": "浮郄",
@@ -30624,13 +31852,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0654-phu-xa.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1DSB57ZEP8ZYKNTQWQ8J.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPFDVHXNZHDDET94GKADA9.webp",
-        "gp": "/_emdash/api/media/file/01M3DPFEY0E8V4MF078GPTXN66.webp",
-        "lan": "/_emdash/api/media/file/01M3DPFF759Z1S7SPA6XRF58YC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPFFZDJEAE1P9QG4QY3XMM.webp",
+        "da": "/anh/huyet/phu-xa-tren-da.webp",
+        "gp": "/anh/huyet/phu-xa-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phu-xa-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phu-xa-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 101,
+        "nhom": [
+          "Hành khí, giảm đau: tức đau bụng dưới, đau háng, bệnh phụ khoa như u xơ, u nang buồng trứng, táo bón, chứng sán khí."
+        ]
+      },
       "international_code": "SP13",
       "code_dash": "SP-13",
       "chinese": "府舍",
@@ -30690,13 +31923,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0655-phu-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1EBACJ7DJ6GHWA8STP0P.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPNWEX9VF73RZJC1FNXT7T.webp",
-        "gp": "/_emdash/api/media/file/01M3DPNX4EFMRMV3TYR2JC3562.webp",
-        "lan": "/_emdash/api/media/file/01M3DPNXSV63JB56AGTKPDGA4E.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPNYF3NWJSPBRWE1K1FNA4.webp",
+        "da": "/anh/huyet/phu-duong-tren-da.webp",
+        "gp": "/anh/huyet/phu-duong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phu-duong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phu-duong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ mác bên ngắn cơ gấp dài ngón chân cái, bờ dưới cơ chày sau. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 198,
+        "nhom": [
+          "Thông kinh lạc, giảm đau, lợi lưng và chân: đau lưng và chân do rễ thần kinh hoặc thần kinh ngoại biên, loét chân, đau cổ chân, co giật cơ, chuột rút, đau mắt.",
+          "Thông mạch Dương Kiều (Khích huyệt): hội chứng phong thấp với sưng khớp và đau lan toả, nhất là một bên cơ thể."
+        ]
+      },
       "international_code": "BL59",
       "code_dash": "BL-59",
       "chinese": "跗陽",
@@ -30756,13 +31995,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0656-phu-phan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1EXB097J5DYCFZRER6HH.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPMP7CEFGDDXMAN3WQSQXD.webp",
-        "gp": "/_emdash/api/media/file/01M3DPMPS3T44J06DRYD087NA8.webp",
-        "lan": "/_emdash/api/media/file/01M3DPMQCMNPNT5V9S3EFCWP1J.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPMQZAYX70HY6RJGVRJSEP.webp",
+        "da": "/anh/huyet/phu-phan-tren-da.webp",
+        "gp": "/anh/huyet/phu-phan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phu-phan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phu-phan-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ răng bé sau – trên, cơ chậu sườn – ngực, cơ gian sườn 2, bên trong là phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 180,
+        "nhom": [
+          "Trừ phong hàn: đau vai, cổ, lưng trong các bệnh nhiễm trùng cấp.",
+          "Thông kinh lạc, giảm đau: đau, hạn chế vận động, giảm cảm giác vùng vai, cổ, lưng trên và khuỷu tay (do nguyên nhân cơ hoặc thần kinh)."
+        ]
+      },
       "international_code": "BL41",
       "code_dash": "BL-41",
       "chinese": "附分",
@@ -30824,13 +32069,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0657-phuc-ai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1GSGYBT4N0TTVFA6S5WV.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPFM5RCCVC8SVTPQZQT72R.webp",
-        "gp": "/_emdash/api/media/file/01M3DPFMRHPD10M23NRBH3QM1F.webp",
-        "lan": "/_emdash/api/media/file/01M3DPFN4YG686ARPNREKTWN0N.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPFP5C3H0Z13D1R9MXFRXW.webp",
+        "da": "/anh/huyet/phuc-ai-tren-da.webp",
+        "gp": "/anh/huyet/phuc-ai-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phuc-ai-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phuc-ai-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ chéo lớn của bụng, cơ chéo bé của bụng, cơ ngang bụng, mạc ngang, đại trường ngang, bờ gan, bờ dưới lách."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 104,
+        "nhom": [
+          "Điều hoà khí Đại Trường: đau bụng quanh rốn, rối loạn tiêu hoá như tiêu chảy, táo bón."
+        ]
+      },
       "international_code": "SP16",
       "code_dash": "SP-16",
       "chinese": "腹哀",
@@ -30892,13 +32142,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0658-phuc-ket.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1HMH04WPG2F6T2MQ9N6S.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPFG2EZ0Y6Q8S1PN8GRYJJ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPFGV0JXPNBFHRQQ2GCYHV.webp",
-        "lan": "/_emdash/api/media/file/01M3DPFH47HXG12YZGYBQCXRR5.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPFHTB4T9NB17GG7TXPQGZ.webp",
+        "da": "/anh/huyet/phuc-ket-tren-da.webp",
+        "gp": "/anh/huyet/phuc-ket-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phuc-ket-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phuc-ket-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ chéo lớn của bụng, mạc ngang, đại trường lên, xuống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 102,
+        "nhom": [
+          "Ôn hạ tiêu, giáng nghịch khí: tiêu chảy do lạnh, táo bón, căng bụng, đau quanh rốn, các chứng ở tim và ho do khí nghịch, chứng sán khí."
+        ]
+      },
       "international_code": "SP14",
       "code_dash": "SP-14",
       "chinese": "腹結",
@@ -31066,13 +32321,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0662-phuc-luu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1JCW927985H6RFPA7ZN8.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPPSY7299RRB1CEKYYPYT8.webp",
-        "gp": "/_emdash/api/media/file/01M3DPPT18TZBSNH367SZ7JPA8.webp",
-        "lan": "/_emdash/api/media/file/01M3DPPTSHCZTFX5GFNS7EDGRQ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPPV2M5XDNE1P3TP4YESFC.webp",
+        "da": "/anh/huyet/phuc-luu-tren-da.webp",
+        "gp": "/anh/huyet/phuc-luu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phuc-luu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phuc-luu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: mặt sau cơ gấp dài ngón chân cái, mặt sau đầu dưới xương chầy."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 216,
+        "nhom": [
+          "Thông điều thuỷ đạo, tiêu phù, bổ Thận (nhất là Thận dương), trừ thấp — thấp nhiệt: các loại phù nề, bệnh tiết niệu (rối loạn bài tiết nước tiểu, nhiễm trùng tiết niệu, di tinh), bệnh đường ruột do thấp nhiệt như tiêu chảy, viêm ruột; là huyệt Kinh nên còn trị khô miệng lưỡi.",
+          "Điều hoà việc ra mồ hôi: rối loạn tiết mồ hôi.",
+          "Tăng cường sức mạnh vùng thắt lưng: đau thắt lưng do khí trệ và Thận hư."
+        ]
+      },
       "international_code": "KI7",
       "code_dash": "KI-7",
       "chinese": "復溜",
@@ -31134,13 +32396,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0663-phuc-tho.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1JJWEYREJMVCN43HPHWJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPDGRGRS5EHD88EQHRSXMQ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPDH8XX6E4ZZB02RYT71HT.webp",
-        "lan": "/_emdash/api/media/file/01M3DPDHR6FQKNYD270XHGCJKW.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPDJAKWPNE37592JCVKQTF.webp",
+        "da": "/anh/huyet/phuc-tho-tren-da.webp",
+        "gp": "/anh/huyet/phuc-tho-tren-giai-phau.webp",
+        "lan": "/anh/huyet/phuc-tho-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/phuc-tho-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài cơ thẳng trước, bờ trong cơ rộng ngoài."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 71,
+        "nhom": [
+          "Thông kinh lạc, khu phong trừ thấp, giảm đau: đau, khó vận động, tê bì hoặc liệt hai chi dưới, đau khớp háng và gối, teo cơ, co rút cơ, chứng sán khí."
+        ]
+      },
       "international_code": "ST32",
       "code_dash": "ST-32",
       "chinese": "伏兔",
@@ -31283,13 +32550,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0666-quan-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1MR0C0DMHWH0Q3EE0BT9.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPCFK1SJ9D0D5D9ZK55EP4.webp",
-        "gp": "/_emdash/api/media/file/01M3DPCG89KNJEJA13TEGMST8J.webp",
-        "lan": "/_emdash/api/media/file/01M3DPCGTMHXTYXAPA61RHZSF2.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPCHA7VNPT50NX3Y2GTYP0.webp",
+        "da": "/anh/huyet/quan-mon-tren-da.webp",
+        "gp": "/anh/huyet/quan-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/quan-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/quan-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang, trong ổ bụng là đại tràng ngang."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 61,
+        "nhom": [
+          "Điều khí, điều hoà Trường Vị, giảm đau: đau bụng nhất là quanh rốn, đầy chướng bụng, chán ăn, tiêu chảy, sôi bụng, táo bón.",
+          "Lợi thuỷ: phù nề, cổ trướng, đái dầm."
+        ]
+      },
       "international_code": "ST22",
       "code_dash": "ST-22",
       "chinese": "關門",
@@ -31419,13 +32692,19 @@ window.ACUPOINTS = {
       "image": null,
       "anhCms": null,
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPYJKMY0WKP3WH8NY605J7.webp",
-        "gp": "/_emdash/api/media/file/01M3DPYKRR26VW7MSQC4946K3F.webp",
-        "lan": "/_emdash/api/media/file/01M3DPYKVT75NJA85H19GPGTS6.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPYN07JFK15G39CB37CK8T.webp",
+        "da": "/anh/huyet/quan-nguyen-tren-da.webp",
+        "gp": "/anh/huyet/quan-nguyen-tren-giai-phau.webp",
+        "lan": "/anh/huyet/quan-nguyen-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/quan-nguyen-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 342,
+        "nhom": [
+          "Bồi bổ nguyên khí, ôn bổ Thận dương, ích tinh: suy nhược cơ thể, thể trạng kiệt sức cần dưỡng bệnh.",
+          "Kiện Tỳ, hỗ trợ tử cung, điều hoà sinh dục: bệnh phụ khoa, rối loạn chức năng tình dục, tiêu chảy, đại tiện không tự chủ ở người già, bệnh sán khí, bệnh tiết niệu như bí tiểu — tiểu khó — phù nề, đau và lạnh vùng thắt lưng."
+        ]
+      },
       "international_code": "CV4",
       "code_dash": "CV-4",
       "chinese": "關元",
@@ -31498,13 +32777,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0670-quan-nguyen-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1Q0V8WJXES08YE5R28RA.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPKCBAZMA7Q4J8JWA693H1.webp",
-        "gp": "/_emdash/api/media/file/01M3DPKCXT33NT0BEJWP1FNG40.webp",
-        "lan": "/_emdash/api/media/file/01M3DPKDS37PM6PYD6RAP369YP.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPKEDSR6S41DPDQ6BAAJ6Y.webp",
+        "da": "/anh/huyet/quan-nguyen-du-tren-da.webp",
+        "gp": "/anh/huyet/quan-nguyen-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/quan-nguyen-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/quan-nguyen-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, khối cơ chung của các cơ ở rãnh cột sống, xương sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 168,
+        "nhom": [
+          "Tăng cường sức mạnh lưng dưới, nhất là khi có suy Thận: đau lưng mạn tính hay tái phát.",
+          "Điều hoà tiêu hoá: đầy hơi, tiêu chảy, táo bón, u xơ tử cung, bệnh đường tiết niệu, tiểu không tự chủ, rối loạn xuất tinh, viêm phần phụ."
+        ]
+      },
       "international_code": "BL26",
       "code_dash": "BL-26",
       "chinese": "關元俞",
@@ -31634,13 +32919,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0673-quan-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1SDDYPA8RFY7C20P4XGB.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPS2B5T6DHEJHYA4A9AG9M.webp",
-        "gp": "/_emdash/api/media/file/01M3DPS2HANJ6YZGVHFZ3JFDZH.webp",
-        "lan": "/_emdash/api/media/file/01M3DPS2TDXGHTGSFKDB74779Y.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPS3TZ3C8AKJB04E9KMP2G.webp",
+        "da": "/anh/huyet/quan-xung-tren-da.webp",
+        "gp": "/anh/huyet/quan-xung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/quan-xung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/quan-xung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: xương, ở giữa chỗ bám gân ngón đeo nhẫn của cơ gấp chung ngón tay sâu, cơ duỗi chung ngón tay, bờ trong của đốt 3 xương ngón tay đeo nhẫn."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 248,
+        "nhom": [
+          "Thanh nhiệt thượng tiêu (huyệt Tỉnh): sốt kèm kích động, nóng ngực, đau vùng tim, tức ngực.",
+          "Lợi tai lưỡi: ù tai, giảm thính lực, đau tai, cứng lưỡi, viêm lưỡi, rối loạn vị giác.",
+          "Thông kinh lạc, giảm đau (dùng cho đau cấp): đau khuỷu tay, vai, cổ, ngực nhất là khi xoay vặn."
+        ]
+      },
       "international_code": "TE1",
       "code_dash": "TE-1",
       "chinese": "關衝",
@@ -31700,13 +32992,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0674-quang-minh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1SWCCTWK4RH05TYS73Y5.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPWSHW9K01F99F276QE1XE.webp",
-        "gp": "/_emdash/api/media/file/01M3DPWT42ECDAVJ2P8EXSZZ73.webp",
-        "lan": "/_emdash/api/media/file/01M3DPWTG8X814Y6A3CSEYGWNS.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPWV8HYMXTBMD71DEFFTA0.webp",
+        "da": "/anh/huyet/quang-minh-tren-da.webp",
+        "gp": "/anh/huyet/quang-minh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/quang-minh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/quang-minh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ mác bên ngắn, bờ trước xương mác."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 311,
+        "nhom": [
+          "Dưỡng mắt: bệnh về mắt.",
+          "Trừ phong thấp, thông kinh lạc, giảm đau: bệnh vú, rối loạn tiết sữa, đau đầu một bên, đau nửa đầu, đau đầu gối, các chứng vùng cẳng chân."
+        ]
+      },
       "international_code": "GB37",
       "code_dash": "GB-37",
       "chinese": "光明",
@@ -31877,13 +33175,18 @@ window.ACUPOINTS = {
       "image": null,
       "anhCms": null,
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPD917GEDYFAXP2AEVR5XE.webp",
-        "gp": "/_emdash/api/media/file/01M3DPD9481H088NMN0PDQT60H.webp",
-        "lan": "/_emdash/api/media/file/01M3DPD9SPZ74ZKKBC3BJGE4XF.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPDA903DR3JHFYFPSAJBM0.webp",
+        "da": "/anh/huyet/quy-lai-tren-da.webp",
+        "gp": "/anh/huyet/quy-lai-tren-giai-phau.webp",
+        "lan": "/anh/huyet/quy-lai-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/quy-lai-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, bờ ngoài cơ thẳng lớn, mạc ngang, trong ổ bụng là ruột non, tử cung khi có thai 3 – 4 tháng, đáy bàng quang khi đầy."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 68,
+        "nhom": [
+          "Ôn hạ tiêu, điều kinh, ích sinh dục: đau bụng dưới, rối loạn kinh nguyệt như vô kinh, u xơ tử cung, sa tử cung, vô sinh, khí hư, tinh hoàn ẩn, liệt dương, đau dương vật, tiểu đêm, chứng sán khí."
+        ]
+      },
       "international_code": "ST29",
       "code_dash": "ST-29",
       "chinese": "歸來 (归来)",
@@ -32189,13 +33492,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0686-quyen-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1YK15CFKECDF315CPCR5.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPHQGX6VT3563TXQDNHG60.webp",
-        "gp": "/_emdash/api/media/file/01M3DPHR9A7MZ1TYZVMFR88X47.webp",
-        "lan": "/_emdash/api/media/file/01M3DPHRJDXSJD00PN5QJ68HWM.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPHSAKRPEBGWBCWK0JGAJF.webp",
+        "da": "/anh/huyet/quyen-lieu-tren-da.webp",
+        "gp": "/anh/huyet/quyen-lieu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/quyen-lieu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/quyen-lieu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trước cơ cắn, chỗ bám vào xương gò má."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 138,
+        "nhom": [
+          "Khu phong, thanh nhiệt, tiêu sưng giảm đau: liệt mặt, giật cơ mặt, đau dây thần kinh sinh ba (nhánh 2), viêm xoang hàm trên, hội chứng đau cân cơ mặt, sưng phù, hỗ trợ chỉnh nha, đau răng hàm trên; dùng châm tê khi nhổ răng."
+        ]
+      },
       "international_code": "SI18",
       "code_dash": "SI-18",
       "chinese": "顴髎",
@@ -32294,13 +33602,18 @@ window.ACUPOINTS = {
       "image": null,
       "anhCms": null,
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJM949P23HGRPSB422YMH.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJMVBF1M542424SMAG7FV.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJN7F05S8XGWX8Y1WKPNT.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJNX13JY44T06MMJNGJR1.webp",
+        "da": "/anh/huyet/quyet-am-du-tren-da.webp",
+        "gp": "/anh/huyet/quyet-am-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/quyet-am-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/quyet-am-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ răng bé sau – trên, cơ lưng dài, cơ cổ dài, cơ bán gai của đầu, cơ bán gai của cổ, cơ ngang – gai, cơ ngang – sườn, phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 155,
+        "nhom": [
+          "Sơ Can khí, điều giáng khí, khoan khoái lồng ngực, điều hoà Tâm (Du huyệt của Tâm bào): tức ngực bó chặt kiểu đau thắt ngực kèm kích động, bệnh về tim, ho, nôn mửa, đau vùng ngực và mạn sườn."
+        ]
+      },
       "international_code": "BL14",
       "code_dash": "BL-14",
       "chinese": "厥陰俞",
@@ -32507,13 +33820,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0693-suat-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ21S89DGRJ4EP8SB8YR12.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPTZSTB9WW0QRBYKMMV37W.webp",
-        "gp": "/_emdash/api/media/file/01M3DPV08ZN4J4NMD7Y3KCQSAP.webp",
-        "lan": "/_emdash/api/media/file/01M3DPV0R5TCV4VGB2BVQTESZR.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPV17AJQ20X0GVCTFH4S6E.webp",
+        "da": "/anh/huyet/suat-coc-tren-da.webp",
+        "gp": "/anh/huyet/suat-coc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/suat-coc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/suat-coc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 280,
+        "nhom": [
+          "Trừ phong, lợi đầu, giảm đau, điều hoà cơ hoành và Vị: đau đầu một bên nhất là kèm nôn (như đau nửa đầu hoặc do say rượu), liệt mặt, chóng mặt, bệnh về mắt."
+        ]
+      },
       "international_code": "GB8",
       "code_dash": "GB-8",
       "chinese": "率谷",
@@ -32824,13 +34142,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0701-tam-am-giao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ25TP9ZDEMAFYJ4R44NNA.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPEYZXBBVK342W5AP93R2Q.webp",
-        "gp": "/_emdash/api/media/file/01M3DPEZN5ASGZHYZ9CHYGDDDN.webp",
-        "lan": "/_emdash/api/media/file/01M3DPEZYM34P04AABNQFCH4CX.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPF0KW32KZSJN58DPT8Q4X.webp",
+        "da": "/anh/huyet/tam-am-giao-tren-da.webp",
+        "gp": "/anh/huyet/tam-am-giao-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tam-am-giao-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tam-am-giao-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau – trong xương chầy, bờ trước cơ gấp dài các ngón chân, cơ cẳng chân sau."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 94,
+        "nhom": [
+          "Bổ Tỳ Vị, hoá thấp: các chứng về đường tiêu hoá.",
+          "Dưỡng âm huyết, điều kinh, thúc đẻ: các tình trạng suy nhược, chủ yếu trong bệnh phụ khoa – sản khoa.",
+          "Điều hoà tiết niệu, ích sinh dục: bệnh tiết niệu ở nam, rối loạn tình dục, bệnh vùng sinh dục.",
+          "An thần: rối loạn tâm thần, mất ngủ."
+        ]
+      },
       "international_code": "SP6",
       "code_dash": "SP-6",
       "chinese": "三陰交",
@@ -32907,13 +34233,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0702-tam-duong-lac.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ266XMA7ZHXV92XBPS0QT.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPSGBQEDAA5S1HDNKDS9C0.webp",
-        "gp": "/_emdash/api/media/file/01M3DPSGTYMK3QD9W8YVWETZ8T.webp",
-        "lan": "/_emdash/api/media/file/01M3DPSH416X793444EG4TGXTN.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPSHP5ZPKAHG7KS537NKSP.webp",
+        "da": "/anh/huyet/tam-duong-lac-tren-da.webp",
+        "gp": "/anh/huyet/tam-duong-lac-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tam-duong-lac-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tam-duong-lac-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi riêng ngón tay út, giữa chỗ bám của cơ duỗi dài riêng, cơ duỗi ngắn riêng ngón tay cái ở trên màng gian cốt."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 255,
+        "nhom": [
+          "Thông lợi kinh Tam Tiêu: mất giọng cấp, mất thính lực cấp, đau răng, sốt.",
+          "Thông kinh lạc, giảm đau: đau cánh tay và cột sống thắt lưng."
+        ]
+      },
       "international_code": "TE8",
       "code_dash": "TE-8",
       "chinese": "三陽絡",
@@ -33017,13 +34349,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0704-tam-gian.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ27KXC4MCZNN9WRRSZ5S0.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DP9ZGHA3S9V73AG9VRR7YN.webp",
-        "gp": "/_emdash/api/media/file/01M3DP9ZDFNK33KV5SEGJHPM33.webp",
-        "lan": "/_emdash/api/media/file/01M3DPA0NXKTFD4N2MJ6B82YHY.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPA0YKD93XN6SMN6J87ZAD.webp",
+        "da": "/anh/huyet/tam-gian-tren-da.webp",
+        "gp": "/anh/huyet/tam-gian-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tam-gian-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tam-gian-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian cốt mu tay, cơ khép ngón tay cái, xương."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 22,
+        "nhom": [
+          "Khu phong, thanh nhiệt, lợi họng răng: viêm nhiễm vùng mặt và miệng, viêm họng, đau răng, chảy máu cam, đau mắt cấp.",
+          "Tiêu trướng, cầm tiêu chảy: tiêu chảy, sôi bụng.",
+          "Thông kinh lạc tại chỗ: cứng, sưng, đau ở ngón tay và mu bàn tay (thường phối với huyệt Hậu Khê — SI3)."
+        ]
+      },
       "international_code": "LI3",
       "code_dash": "LI-3",
       "chinese": "三間",
@@ -33193,13 +34532,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0708-tam-tieu-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ28XZ66NDJVXVAT08SM8S.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPK3SZ201AKZBPP60BFE6T.webp",
-        "gp": "/_emdash/api/media/file/01M3DPK49694QBM62NBYC37H3Q.webp",
-        "lan": "/_emdash/api/media/file/01M3DPK4RMGB9WPNM0NBMYMPXD.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPK54ZK7HHQ20X9B1K6ABV.webp",
+        "da": "/anh/huyet/tam-tieu-du-tren-da.webp",
+        "gp": "/anh/huyet/tam-tieu-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tam-tieu-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tam-tieu-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, cơ răng bé sau – dưới, cơ lưng dài, cơ ngang gai, cơ vuông thắt lưng, cơ đái – chậu."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 163,
+        "nhom": [
+          "Điều hoà Tam Tiêu — Vị — Tỳ, trừ thấp, tiêu khối u bụng (Du huyệt của Tam Tiêu): rối loạn tiêu hoá như đầy hơi đầy bụng, khối u bụng, khó tiêu, rối loạn thèm ăn, sôi bụng; nhức đầu, chóng mặt.",
+          "Thông điều thuỷ đạo: bệnh đường tiết niệu, phù thũng.",
+          "Hoà Thiếu Dương: hội chứng Thiếu Dương.",
+          "Thông kinh lạc tại chỗ: rối loạn vùng thắt lưng và vai, bệnh cơ xơ hoá."
+        ]
+      },
       "international_code": "BL22",
       "code_dash": "BL-22",
       "chinese": "三焦俞",
@@ -33344,13 +34691,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0711-tam-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2AM66GQFCTVBQP8ZWQTA.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJP947P6P2Q4FAQ3WAQVH.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJPRAEDTCKREEAGK8DTN4.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJQ7F2BCNFYPKD5GRFKM6.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJQPN3R16F54KZ8GNDW8M.webp",
+        "da": "/anh/huyet/tam-du-tren-da.webp",
+        "gp": "/anh/huyet/tam-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tam-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tam-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ lưng dài, cơ bán gai của cổ, cơ ngang gai, cơ ngang sườn, vào trong là phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 156,
+        "nhom": [
+          "Điều hoà Tâm khí, bổ Tâm, an thần (Du huyệt của Tâm): hồi hộp đánh trống ngực kèm lo âu, loạn nhịp tim, trẻ chậm nói (qua liên hệ lưỡi — Tâm), các rối loạn tâm lý — thần kinh thực vật như trầm cảm, kiệt sức, mất ngủ, sợ hãi, bồn chồn, khó tập trung, căng thẳng khi học hành thi cử.",
+          "Sơ thông lồng ngực, hoá ứ huyết: đau vùng ngực và xương sườn, đau thắt ngực, ho, nổi mẩn.",
+          "Thanh nhiệt, an thần: rối loạn tâm thần với hoảng sợ, ám ảnh, kích động, mất ngủ nặng kèm nhiều mộng mị (kể cả di tinh do mộng tinh), trạng thái hưng cảm, hay quên, động kinh."
+        ]
+      },
       "international_code": "BL15",
       "code_dash": "BL-15",
       "chinese": "心俞",
@@ -33877,13 +35231,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0725-tat-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2EDF84VE68PMD58EA9KN.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPXTRG53TSF83HWSK7ZTM3.webp",
-        "gp": "/_emdash/api/media/file/01M3DPXVKT50QDZGTHA2S38558.webp",
-        "lan": "/_emdash/api/media/file/01M3DPXVPVP28GP55HA48B7AEA.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPXWJ7M8YMJCS8Z21ZYMHT.webp",
+        "da": "/anh/huyet/tat-quan-tren-da.webp",
+        "gp": "/anh/huyet/tat-quan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tat-quan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tat-quan-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: phần trên cơ sinh đôi trong, cơ kheo, chỗ bám của gân cơ bán mạc vào mặt sau xương chầy."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 329,
+        "nhom": [
+          "Lợi khớp gối, thư cân: đau và viêm vùng trong khớp gối.",
+          "Trừ phong thấp: sưng đau khớp gối, hạn chế vận động khớp gối."
+        ]
+      },
       "international_code": "LR7",
       "code_dash": "LR-7",
       "chinese": "膝關",
@@ -34126,13 +35486,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0731-thach-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2GQAJ7NKFGVX49RMV6MR.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPYN6CK52843Y9D6EYC87B.webp",
-        "gp": "/_emdash/api/media/file/01M3DPYP7SPMST736KHG8DN438.webp",
-        "lan": "/_emdash/api/media/file/01M3DPYPDVZH49E79BKW2MGAZ1.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPYQC77WSABG3BYY8DPKZX.webp",
+        "da": "/anh/huyet/thach-mon-tren-da.webp",
+        "gp": "/anh/huyet/thach-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thach-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thach-mon-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 343,
+        "nhom": [
+          "Điều hoà, thông lợi thuỷ đạo: rối loạn tiểu tiện như tiểu khó, bí tiểu, phù nề, tiêu chảy.",
+          "Điều khí hạ tiêu, giảm đau: đau vùng bụng dưới và quanh rốn, đau — ngứa vùng sinh dục, khí nghịch từ bụng dưới xông lên ngực (bôn đồn khí).",
+          "Điều hoà tử cung: khí hư kéo dài, rong huyết tử cung, khối u vùng bụng."
+        ]
+      },
       "international_code": "CV5",
       "code_dash": "CV-5",
       "chinese": "石門",
@@ -34196,13 +35563,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0732-thach-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2HYDCSFGN6VR5QW6YX6B.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQFB4QBQG6BJR1DFS2922.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQFE5R2BDKPH1AZ00TFAF.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQFTCR3DDAH3RN8NC6HGV.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQGFRTV8EB3A25VWZDYZ3.webp",
+        "da": "/anh/huyet/thach-quan-tren-da.webp",
+        "gp": "/anh/huyet/thach-quan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thach-quan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thach-quan-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang, đại trường ngang."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 227,
+        "nhom": [
+          "Điều khí hạ tiêu, hoạt huyết hoá ứ, hoà Vị, giảm đau: rối loạn tiêu hoá như buồn nôn, nôn, tăng tiết nước bọt, đau bụng kiểu ứ huyết, táo bón, đau sau sinh, đau vùng bụng và mạn sườn, ứ huyết tử cung, hiếm muộn."
+        ]
+      },
       "international_code": "KI18",
       "code_dash": "KI-18",
       "chinese": "石關",
@@ -34335,13 +35707,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0735-thai-at.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2JSANSS29NZNKRW3RFQH.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPCHGRQ9WVQFHM610NGCRX.webp",
-        "gp": "/_emdash/api/media/file/01M3DPCJNMCB3QKTKXM5XEXDWR.webp",
-        "lan": "/_emdash/api/media/file/01M3DPCM0VKK09YK6P94RD67BA.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPCM6ZYDEG01N2PT1KZ3J6.webp",
+        "da": "/anh/huyet/thai-at-tren-da.webp",
+        "gp": "/anh/huyet/thai-at-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thai-at-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thai-at-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang, trong ổ bụng là ruột non."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 62,
+        "nhom": [
+          "Điều hoà trung tiêu, hoá đờm: chán ăn, đau dạ dày, đau bụng, ăn không tiêu, tiêu chảy; và chứng sán khí (thoát vị, bệnh vùng sinh dục ngoài, đau bụng dữ dội kèm táo bón – bí tiểu).",
+          "An thần: bồn chồn, kích động, hưng cảm."
+        ]
+      },
       "international_code": "ST23",
       "code_dash": "ST-23",
       "chinese": "太乙",
@@ -34399,13 +35777,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0736-thai-bach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2JZA116SP4MHVBDM2DEY.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPEQRD5097YQ8HB6MM3K7S.webp",
-        "gp": "/_emdash/api/media/file/01M3DPERDNWHX5JJHM8S6NMBAX.webp",
-        "lan": "/_emdash/api/media/file/01M3DPERGPQJ3W8EV63WZM2GK3.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPES5NTRZM97HMGQE00S6K.webp",
+        "da": "/anh/huyet/thai-bach-tren-da.webp",
+        "gp": "/anh/huyet/thai-bach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thai-bach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thai-bach-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gấp ngắn ngón cái, gân cơ gấp dài ngón chân cái, mặt dưới đùng trước xương bàn chân 1."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 90,
+        "nhom": [
+          "Bổ Tỳ Vị, điều khí: rối loạn tiêu hoá như tiêu chảy, táo bón, chướng bụng, nôn mửa.",
+          "Trừ thấp, thanh thấp nhiệt: cảm giác nặng nề cơ thể, đau nhức xương khớp do thấp.",
+          "Tại chỗ: các chứng ở ngón chân cái và khớp bàn ngón chân thứ nhất."
+        ]
+      },
       "international_code": "SP3",
       "code_dash": "SP-3",
       "chinese": "太白",
@@ -34515,13 +35900,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0738-thai-khe.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2KXHPZHP2VJWM87GDTW6.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPPHXP84BPTYPM064HQAZ3.webp",
-        "gp": "/_emdash/api/media/file/01M3DPPJJ7S84SGBQ9ZY8KYSRH.webp",
-        "lan": "/_emdash/api/media/file/01M3DPPJYCRR49Z9F605CT49JQ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPPKKVRMVF6QYHEMH5M6EC.webp",
+        "da": "/anh/huyet/thai-khe-tren-da.webp",
+        "gp": "/anh/huyet/thai-khe-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thai-khe-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thai-khe-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gấp dài ngón chân cái, gân cơ gấp chung các ngón chân, gân cơ cẳng chân sau, ở trước mặt trong–sau đầu dưới xương chầy."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 213,
+        "nhom": [
+          "Bổ Thận âm lẫn Thận dương, thanh hư nhiệt, giúp Thận nạp khí cho Phế (Nguyên huyệt của Thận): suy nhược mạn tính, giảm thính lực, ù tai, chóng mặt, mất ngủ, bệnh hô hấp mạn tính, táo bón do âm hư, bệnh mạn tính đường sinh dục — tiết niệu (rối loạn tiểu tiện, rối loạn kinh nguyệt, triệu chứng mãn kinh, hiếm muộn), rối loạn chức năng tình dục như liệt dương.",
+          "Tăng cường sức mạnh lưng dưới, tại chỗ: các vấn đề mạn tính ở thắt lưng, đầu gối, cổ chân."
+        ]
+      },
       "international_code": "KI3",
       "code_dash": "KI-3",
       "chinese": "太谿",
@@ -34593,10 +35984,10 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0739-thai-uyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2MSKK09C1FARPKA4ZE45.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3D1097FCT2FA0E7ARBD7JQG.webp",
-        "gp": "/_emdash/api/media/file/01M3D109DZXDD03J4KCZ509FM8.webp",
-        "lan": "/_emdash/api/media/file/01M3D109AQW6C6P8MFSVY4Q0K3.webp",
-        "kinh": "/_emdash/api/media/file/01M3D109H9FYXW2E6M4YHQXE34.webp",
+        "da": "/anh/huyet/thai-uyen-tren-da.webp",
+        "gp": "/anh/huyet/thai-uyen-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thai-uyen-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thai-uyen-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: rãnh mạch quay."
       },
       "congDung": {
@@ -34668,13 +36059,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0740-thai-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2MWJCWHMED3GSEZS4P7K.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPXK0WVQE7JHFJHD8ZNKNV.webp",
-        "gp": "/_emdash/api/media/file/01M3DPXKY6QVXVCJFC7BYD0HGQ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPXM17MWMJPSFTA5DRHZ7V.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPXMWJ210Q7MJRXFAZCYVS.webp",
+        "da": "/anh/huyet/thai-xung-tren-da.webp",
+        "gp": "/anh/huyet/thai-xung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thai-xung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thai-xung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ duỗi dài riêng ngón cái, cơ duỗi ngắn các ngón chân, cơ gian cốt mu chân."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 324,
+        "nhom": [
+          "Sơ Can khí, sáng mắt, lợi đầu, dưỡng Can huyết và âm huyết, điều kinh, lợi hạ tiêu (Nguyên huyệt của Can): Can khí uất kết với cảm giác căng tức, đau nhức nhiều nơi (đầu, mắt, cổ, ngực, tim, tiêu hoá, sinh dục), rối loạn tâm lý — thần kinh thực vật, căng cơ/co thắt.",
+          "Trừ nội phong, bình Can dương: nhức đầu, chóng mặt, động kinh."
+        ]
+      },
       "international_code": "LR3",
       "code_dash": "LR-3",
       "chinese": "太沖",
@@ -34733,13 +36130,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0741-thanh-lanh-uyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2NMH1CMJBZQM13GCHJW7.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPSP00N19Y7X95S741E1DC.webp",
-        "gp": "/_emdash/api/media/file/01M3DPSPKGET6BAHGDQ4KNDG1E.webp",
-        "lan": "/_emdash/api/media/file/01M3DPSPZNZ7DQE7Y68EFR5WRK.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPSQQWZ9X5QHS78QYBB402.webp",
+        "da": "/anh/huyet/thanh-lanh-uyen-tren-da.webp",
+        "gp": "/anh/huyet/thanh-lanh-uyen-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thanh-lanh-uyen-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thanh-lanh-uyen-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ 3 đầu cánh tay, đầu dưới xương cánh tay."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 258,
+        "nhom": [
+          "Trừ phong thấp, thông kinh lạc: nhức đầu, đau vai và cánh tay kèm nặng nề, đau hàm dưới.",
+          "Trừ thấp nhiệt: vàng da."
+        ]
+      },
       "international_code": "TE11",
       "code_dash": "TE-11",
       "chinese": "清冷淵",
@@ -34798,13 +36201,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0742-thanh-linh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2P0H56GYY05EF01BYGV0.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPG26XDAQCT8QY0BGFCZ68.webp",
-        "gp": "/_emdash/api/media/file/01M3DPG29Z8NA6G1W597KWEQ9E.webp",
-        "lan": "/_emdash/api/media/file/01M3DPG3C2JFTGPGCST3EC04QA.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPG3WWT9FPG1EDCRB71356.webp",
+        "da": "/anh/huyet/thanh-linh-tren-da.webp",
+        "gp": "/anh/huyet/thanh-linh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thanh-linh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thanh-linh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: rãnh cơ 2 đầu trong, cơ cánh tay trước, vách lên cơ trong."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 111,
+        "nhom": [
+          "Thông kinh lạc, giảm đau: đau, hạn chế cử động ở vai, cánh tay trên và vùng nách."
+        ]
+      },
       "international_code": "HE2",
       "code_dash": "HE-2",
       "chinese": "青靈",
@@ -34966,13 +36374,22 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0746-than-mach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2PREWT4BK0NHPXW0Y11E.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPP2KZ9T2MT46E3C3P2P82.webp",
-        "gp": "/_emdash/api/media/file/01M3DPP333VFXS50HRNACF6RAJ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPP3J6Q5P3CZCFBCTRK3SQ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPP4ABCQQBDWEJPVB54C01.webp",
+        "da": "/anh/huyet/than-mach-tren-da.webp",
+        "gp": "/anh/huyet/than-mach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/than-mach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/than-mach-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ mác bên dài, gân cơ mác bên ngắn, chỗ bám của cơ duỗi ngắn các ngón chân, rãnh cơ mác của mặt ngoài xương gót chân."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 201,
+        "nhom": [
+          "Bình nội phong, thanh nhiệt vùng đầu, an thần, dưỡng mắt: nhức đầu, chóng mặt, động kinh, hưng cảm, bệnh về mắt.",
+          "Khu phong tà: sốt nhiễm trùng.",
+          "Thông điều mạch Dương Kiều: rối loạn giấc ngủ.",
+          "Thông kinh lạc, giảm đau: các chứng ở cột sống, dọc đường kinh, vùng cổ chân — gót chân.",
+          "Theo kinh cân: sưng vùng nách và cổ."
+        ]
+      },
       "international_code": "BL62",
       "code_dash": "BL-62",
       "chinese": "申脈",
@@ -35037,13 +36454,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0747-than-tru.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2QDRMMGSDPQ7JNTJ3RZB.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ0GN1F8ZVA5965F6PHM0D.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ0H76QR50B614J4GB8B8G.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ0J047VCBJNPPTRGB8AA7.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ0JRBTJS6VXY8YQ2YQXST.webp",
+        "da": "/anh/huyet/than-tru-tren-da.webp",
+        "gp": "/anh/huyet/than-tru-tren-giai-phau.webp",
+        "lan": "/anh/huyet/than-tru-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/than-tru-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, gân cơ trám (hoặc cơ thoi), cơ gai dài của lưng, cơ ngang – gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 375,
+        "nhom": [
+          "Bình phong: chảy máu cam, sốt co giật, ngạt thở, động kinh.",
+          "An thần: kích động, trạng thái hưng cảm.",
+          "Thanh nhiệt Phế và Tâm: ho, khó thở, sốt, sốt nhiễm trùng."
+        ]
+      },
       "international_code": "GV12",
       "code_dash": "GV-12",
       "chinese": "身柱",
@@ -35107,13 +36531,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0748-than-dao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2QX9HNHVTX9HXS6QZQ49.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ0ERC5D153FDRQ13NEN68.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ0FAJQY4EMQ0CHF3BBSAN.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ0FSQRD5CV9PYPCJ6CXMD.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ0GBX40JFK0PBBW1VGZ9S.webp",
+        "da": "/anh/huyet/than-dao-tren-da.webp",
+        "gp": "/anh/huyet/than-dao-tren-giai-phau.webp",
+        "lan": "/anh/huyet/than-dao-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/than-dao-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, cơ gai dài của lưng, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 374,
+        "nhom": [
+          "Bổ Tâm và Phế, an thần: khó thở, lo âu, hồi hộp, lú lẫn, suy giảm trí nhớ, tâm trạng chán nản, động kinh, bồn chồn, co thắt.",
+          "Thanh nhiệt, trừ phong: sốt nhiễm trùng kèm đau đầu, ho, chóng mặt.",
+          "Thông kinh lạc tại chỗ: các chứng vùng lưng trên."
+        ]
+      },
       "international_code": "GV11",
       "code_dash": "GV-11",
       "chinese": "神道",
@@ -35178,13 +36609,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0749-than-dinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2S3R8TB2YTTFRX2GFE1P.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ1AQ3NZG1SM9YAF6324ZW.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ1B6A34Z8ZTM9FAX6FCC5.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ1BNEKD1ZC4X47HB9D3CQ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ1C4WMWRGEA35R57HW8T5.webp",
+        "da": "/anh/huyet/than-dinh-tren-da.webp",
+        "gp": "/anh/huyet/than-dinh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/than-dinh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/than-dinh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ dưới cân sọ là xương sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 388,
+        "nhom": [
+          "Hỗ trợ não và đầu, trừ nội phong, an thần: trạng thái hưng cảm, kích động tâm thần, bồn chồn, rối loạn giấc ngủ, suy giảm ý thức, động kinh, chóng mặt kèm nôn, đau đầu, ngất xỉu.",
+          "Hỗ trợ mắt và mũi: các vấn đề về mũi như chảy máu cam — nghẹt mũi — polyp — viêm mũi — mất khứu giác, chảy nước mắt, rối loạn thị giác."
+        ]
+      },
       "international_code": "GV24",
       "code_dash": "GV-24",
       "chinese": "神庭",
@@ -35249,13 +36686,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0750-than-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2S9RXRB9RZ1FCCKPKXHQ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPMWBQKJNN0F2VGCNVDKEN.webp",
-        "gp": "/_emdash/api/media/file/01M3DPMWZYQZJ92DAY92MKXZ9Y.webp",
-        "lan": "/_emdash/api/media/file/01M3DPMX9D6M04CPMNWQMDC7J3.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPMXYKN6SDJH81JKJFFDA8.webp",
+        "da": "/anh/huyet/than-duong-tren-da.webp",
+        "gp": "/anh/huyet/than-duong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/than-duong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/than-duong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ chậu – sườn – ngực, cơ gian sườn 5, vào trong là phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 183,
+        "nhom": [
+          "Điều khí thượng tiêu, khoan khoái lồng ngực: ho, hen phế quản, tức ngực, khó nuốt.",
+          "Thông kinh lạc, giảm đau: đau, hạn chế vận động vùng cột sống cổ, vai, lưng trên."
+        ]
+      },
       "international_code": "BL44",
       "code_dash": "BL-44",
       "chinese": "神堂",
@@ -35355,13 +36798,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0752-than-khuyet.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2SZ12HGBXHW20J3T86YM.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPYVF59VH3JK2F2KNGNVX0.webp",
-        "gp": "/_emdash/api/media/file/01M3DPYVYBBWD7RHPKYGK90A5C.webp",
-        "lan": "/_emdash/api/media/file/01M3DPYWDHMCYE3KC1PYB04KA3.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPYWWRWGACCXH60THJMBEN.webp",
+        "da": "/anh/huyet/than-khuyet-tren-da.webp",
+        "gp": "/anh/huyet/than-khuyet-tren-giai-phau.webp",
+        "lan": "/anh/huyet/than-khuyet-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/than-khuyet-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 346,
+        "nhom": [
+          "Ôn dương, cố ruột: đau bụng và tiêu chảy do lạnh, đau quanh rốn, mất ý thức do dương khí suy sụp (thoát dương)."
+        ]
+      },
       "international_code": "CV8",
       "code_dash": "CV-8",
       "chinese": "神闕",
@@ -35459,13 +36907,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0754-than-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2T50M61EP8N78ARN680H.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPGE7FY0P8WHF59XY86H3Q.webp",
-        "gp": "/_emdash/api/media/file/01M3DPGEAGG2PT2MJAJQ51QX0M.webp",
-        "lan": "/_emdash/api/media/file/01M3DPGF60XS3A2APKTRXDWM0M.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPGF90FP9M89K1P01ZYDQW.webp",
+        "da": "/anh/huyet/than-mon-tren-da.webp",
+        "gp": "/anh/huyet/than-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/than-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/than-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ trụ trước."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 116,
+        "nhom": [
+          "Điều hoà và bổ Tâm, an thần: rối loạn chức năng tim, hồi hộp đánh trống ngực, rối loạn tâm lý, mất ngủ; hỗ trợ ổn định tâm lý khi cai nghiện và trong sản khoa.",
+          "Thanh Tâm nhiệt (thông qua kinh Thái Dương): rối loạn bài tiết nước tiểu.",
+          "Tại chỗ: các chứng ở vùng cổ tay."
+        ]
+      },
       "international_code": "HE7",
       "code_dash": "HE-7",
       "chinese": "神門",
@@ -35514,13 +36969,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0755-than-phong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2TYD38EYZARE6X7TK4H5.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQRSN7XCGN8PDRC9RCW0P.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQSHYBNVEVD88YB6TW8E2.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQT4E5E26Z1Q03F111583.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQTT5RCPBMT3JVGZZA828.webp",
+        "da": "/anh/huyet/than-phong-tren-da.webp",
+        "gp": "/anh/huyet/than-phong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/than-phong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/than-phong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 4, cơ ngang ngực 4, sâu bên trong bên phải là phổi, bên trái là tim."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 232,
+        "nhom": [
+          "Điều hoà Phế khí, giáng Vị khí nghịch, khoan khoái lồng ngực: ho, khó thở, hen suyễn, tức ngực, buồn nôn, nôn, chán ăn.",
+          "Lợi sữa: viêm tuyến vú, rối loạn tiết sữa."
+        ]
+      },
       "international_code": "K23",
       "code_dash": "K-23",
       "chinese": "神封",
@@ -35604,13 +37065,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0757-than-tang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2V7CN29W1GS08EVNGD7H.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQY11Q8R07WNRCZRX6A2D.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQZ6SHNNZBPCKWVWK8W60.webp",
-        "lan": "/_emdash/api/media/file/01M3DPR0VXADSQZNXC6Q1268HG.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPR1V584J7W78VN37SDEAY.webp",
+        "da": "/anh/huyet/than-tang-tren-da.webp",
+        "gp": "/anh/huyet/than-tang-tren-giai-phau.webp",
+        "lan": "/anh/huyet/than-tang-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/than-tang-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 2, vào sâu hơn có phổi, bên trái có động mạch chủ, bên phải có tĩnh mạch chủ trên."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 234,
+        "nhom": [
+          "Điều hoà Phế khí, giáng Vị khí nghịch: ho, khó thở, hen phế quản, buồn nôn, nôn, chán ăn.",
+          "Khoan khoái lồng ngực: tức ngực, đau dây thần kinh liên sườn."
+        ]
+      },
       "international_code": "KI25",
       "code_dash": "KI-25",
       "chinese": "神藏",
@@ -35702,13 +37169,22 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0759-than-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2VZ7HHMXRGGQN39MGWRZ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPK5TDWRKTERD2X7AX224Y.webp",
-        "gp": "/_emdash/api/media/file/01M3DPK63RZ8CPNA5ADVPCRV1Q.webp",
-        "lan": "/_emdash/api/media/file/01M3DPK6RYGKD3CTSAAF7MY636.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPK758ADQ23YGDDE3MBE96.webp",
+        "da": "/anh/huyet/than-du-tren-da.webp",
+        "gp": "/anh/huyet/than-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/than-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/than-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, cơ răng bé sau – dưới, cơ lưng dài, cơ ngang gai, cơ vuông thắt lưng, cơ đái – chậu."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 164,
+        "nhom": [
+          "Bổ Thận khí, Thận dương và Thận âm, ích tinh (Du huyệt của Thận): suy nhược mạn tính, suy giảm trí nhớ, chóng mặt, khó thở.",
+          "Điều hoà hạ tiêu, hỗ trợ tử cung: bệnh mạn tính vùng tiết niệu — sinh dục.",
+          "Bổ xương tuỷ: loãng xương, nhuyễn xương.",
+          "Dưỡng mắt và tai: bệnh mạn tính về mắt và tai.",
+          "Tăng cường sức mạnh lưng dưới: các vấn đề mạn tính ở thắt lưng và chân."
+        ]
+      },
       "international_code": "BL23",
       "code_dash": "BL-23",
       "chinese": "腎俞",
@@ -36251,13 +37727,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0773-thien-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2ZKRSG6PZGEQPR13NQ26.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPT0TM7ZQY9GRDNGFJE456.webp",
-        "gp": "/_emdash/api/media/file/01M3DPT1QY7XR7V8N244FAT9A4.webp",
-        "lan": "/_emdash/api/media/file/01M3DPT210BGNBH2FZRXGZGPZX.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPT2ZP3672SZ9RM8H88EBW.webp",
+        "da": "/anh/huyet/thien-du-tren-da.webp",
+        "gp": "/anh/huyet/thien-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cơ ức – đòn – chũm, cơ đầu dài."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 263,
+        "nhom": [
+          "Lợi đầu và ngũ quan: giảm thính lực (kể cả đột ngột), giảm thị lực, giảm khứu giác và vị giác, viêm mũi.",
+          "Hạ khí: sưng mặt và cổ, chóng mặt, hạch bướu cổ.",
+          "Thông kinh lạc, giảm đau: nhức đầu vùng thái dương, đau cổ, cứng cổ."
+        ]
+      },
       "international_code": "TE16",
       "code_dash": "TE-16",
       "chinese": "天牖",
@@ -36316,13 +37799,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0774-thien-dung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2ZWPYQVDZSX4G55NA9B4.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPHNM5FPR5C4H9MSG6ADPA.webp",
-        "gp": "/_emdash/api/media/file/01M3DPHPCGY9W87Q14QQ8PB7MD.webp",
-        "lan": "/_emdash/api/media/file/01M3DPHPNK1MGFJA3511H6GQXX.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPHQDWXVSD2QDA0GNEGZ08.webp",
+        "da": "/anh/huyet/thien-dung-tren-da.webp",
+        "gp": "/anh/huyet/thien-dung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-dung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-dung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trước cơ ức – đòn – chũm, bờ sau của góc xương hàm dưới, phía dưới cơ 2 thân. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 138,
+        "nhom": [
+          "Là huyệt cửa sổ bầu trời, lợi tai — cổ — họng, giáng nghịch khí, tiêu sưng, an thần: đau họng, khàn giọng, ù tai, rối loạn ở tai, bướu cổ, sưng bìu, nhức đầu, sưng mặt và má, rối loạn tâm thần như hưng cảm và trầm cảm."
+        ]
+      },
       "international_code": "SI17",
       "code_dash": "SI-17",
       "chinese": "天容",
@@ -36386,13 +37874,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0775-thien-dinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ30EK9SQS9PE770MJRTRP.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPB18NVH8D1XHJ535V8CF1.webp",
-        "gp": "/_emdash/api/media/file/01M3DPB1HSB6AFQZS8D6XJXMPH.webp",
-        "lan": "/_emdash/api/media/file/01M3DPB2AK1XME9VRP2R3RTZ7R.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPB2DMAY46M3XXD0Y98CR0.webp",
+        "da": "/anh/huyet/thien-dinh-tren-da.webp",
+        "gp": "/anh/huyet/thien-dinh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-dinh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-dinh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cơ ức – đòn – chũm. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 35,
+        "nhom": [
+          "Lợi hầu họng: đau họng, viêm họng, khó nuốt, khàn tiếng, mất tiếng cấp, lao hạch, bướu cổ."
+        ]
+      },
       "international_code": "LI17",
       "code_dash": "LI-17",
       "chinese": "天鼎",
@@ -36454,13 +37947,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0776-thien-dot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ30XJ8E1Z7S0J0AFZS8D7.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZP216NJAPY0B8QVP1ZWE.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZPM9Y7D5EDD3TTJ6K7NY.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZPXDSHX97X7K7NMJBRKD.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZQFM2AYKEQ37GFEB7EKY.webp",
+        "da": "/anh/huyet/thien-dot-tren-da.webp",
+        "gp": "/anh/huyet/thien-dot-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-dot-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-dot-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 360,
+        "nhom": [
+          "Giáng khí nghịch, chỉ ho, hạ đờm, lợi họng: bệnh đường hô hấp như ho — khó thở — hen phế quản — viêm phế quản — viêm thanh quản — viêm họng — bệnh dây thanh âm, sốt nhiễm trùng cấp (do phong nhiệt) kèm đau họng và cảm giác nghẹn, bướu cổ, co thắt thực quản, mụn nhọt, khó nuốt."
+        ]
+      },
       "international_code": "CV22",
       "code_dash": "CV-22",
       "chinese": "天突",
@@ -36522,13 +38020,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0777-thien-khe.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ31FF2A67DCTMQM5V2F8P.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPFRH96JXKD0V0XE361Y7F.webp",
-        "gp": "/_emdash/api/media/file/01M3DPFS0G37522J6PMG75VKRB.webp",
-        "lan": "/_emdash/api/media/file/01M3DPFS9JTM4JMZC5SX2KC2SV.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPFSRR5YRBDPVKJG14FRNJ.webp",
+        "da": "/anh/huyet/thien-khe-tren-da.webp",
+        "gp": "/anh/huyet/thien-khe-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-khe-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-khe-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ ngực lớn, phần gân cơ chéo lớn của bụng, cơ răng lớn, cơ gian sườn 5."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 106,
+        "nhom": [
+          "Giáng khí, khoan khoái lồng ngực: ho, khó thở, mụn nhọt, đau tức vùng ngực bên, đau dây thần kinh liên sườn.",
+          "Lợi tuyến vú: viêm tuyến vú, đau ngực, rối loạn tiết sữa."
+        ]
+      },
       "international_code": "SP18",
       "code_dash": "SP-18",
       "chinese": "天谿",
@@ -36590,13 +38094,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0778-thien-lich.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ31RY7HQEMBQSRS10K3DW.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPA7ZMETFNSNTCR0BYRHBF.webp",
-        "gp": "/_emdash/api/media/file/01M3DPA82N84D0WCGXEW8YEA90.webp",
-        "lan": "/_emdash/api/media/file/01M3DPA8Y07QCJYCRX3CS28A7V.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPA911SPK95TDGYDH764Q5.webp",
+        "da": "/anh/huyet/thien-lich-tren-da.webp",
+        "gp": "/anh/huyet/thien-lich-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-lich-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-lich-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi ngắn ngón tay cái, cơ dạng dài ngón tay cái."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 25,
+        "nhom": [
+          "Khu phong, thanh nhiệt (nhất là vùng mặt): đau răng, các vấn đề về hàm, viêm kết mạc, viêm mũi, bệnh về tai giai đoạn cấp.",
+          "Thông điều thuỷ đạo: phù nề, rối loạn tiểu tiện, ứ dịch gây phù.",
+          "Thông kinh lạc: các chứng vùng thượng tiêu theo đường kinh."
+        ]
+      },
       "international_code": "LI6",
       "code_dash": "LI-6",
       "chinese": "偏歴",
@@ -36658,13 +38169,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0779-thien-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ32AVFMCH7H2E21JZGR6Y.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPSY0Q371G559YYSNKC460.webp",
-        "gp": "/_emdash/api/media/file/01M3DPSZ6E5S0V5ZB2775MCKZ1.webp",
-        "lan": "/_emdash/api/media/file/01M3DPSZNMVAQADM09K7A1KD53.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPT0EET1FA4YKH2678J9T9.webp",
+        "da": "/anh/huyet/thien-lieu-tren-da.webp",
+        "gp": "/anh/huyet/thien-lieu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-lieu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-lieu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trên sống, cơ góc."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 262,
+        "nhom": [
+          "Thông kinh lạc, giảm đau: đau vai, cổ, lưng trên, có thể hạn chế vận động.",
+          "Trừ phong thấp, khai thông lồng ngực, điều khí: sốt nhiễm trùng, tức ngực kèm bồn chồn."
+        ]
+      },
       "international_code": "TE15",
       "code_dash": "TE-15",
       "chinese": "天髎",
@@ -36756,10 +38273,10 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0781-thien-phu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ32QKN6RM41D6FB24644B.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3D10G87FEBZBQ954FGK6VSR.webp",
-        "gp": "/_emdash/api/media/file/01M3D10GBF7M7XH6KCPSPWFY2K.webp",
-        "lan": "/_emdash/api/media/file/01M3D10H8M359B7HV78M7T6FQ2.webp",
-        "kinh": "/_emdash/api/media/file/01M3D10HBVMXPJBF253WG84HF9.webp",
+        "da": "/anh/huyet/thien-phu-tren-da.webp",
+        "gp": "/anh/huyet/thien-phu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-phu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-phu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài cơ 2 đầu cánh tay, chỗ bám của cơ cánh tay trước."
       },
       "congDung": {
@@ -36832,13 +38349,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0782-thien-song.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ33JS8928SS7PTWY8JNXE.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPHKTCJ8KZ4CMTMF2AR6KY.webp",
-        "gp": "/_emdash/api/media/file/01M3DPHMFMDHZYSVMJR40J0BD5.webp",
-        "lan": "/_emdash/api/media/file/01M3DPHMNP6C4T0Y5GWYYAGNJM.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPHNH58NVGY7EE1HNDTZ77.webp",
+        "da": "/anh/huyet/thien-song-tren-da.webp",
+        "gp": "/anh/huyet/thien-song-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-song-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-song-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cơ ức – đòn – chũm."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 137,
+        "nhom": [
+          "Là huyệt cửa sổ bầu trời (khai thông vùng đầu cổ), lợi hầu họng — tai — giọng nói, điều khí, an thần: đau họng, khàn giọng, bướu cổ, sưng bìu, nhức đầu, sưng mặt và má, rối loạn tâm thần như hưng cảm và trầm cảm.",
+          "Thông kinh lạc, giảm đau: các chứng ở vùng cổ và vai."
+        ]
+      },
       "international_code": "SI16",
       "code_dash": "SI-16",
       "chinese": "天窗",
@@ -36968,13 +38491,22 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0785-thien-tinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ344Q17BPY29C1RJTFRH2.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPSKYZ5HNJR4NZ04360WXJ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPSMMVZPBCJWW3EZ89XJVQ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPSMXYKKWP74C901GJ62D9.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPSNSS831ASCQ62BDG4TCN.webp",
+        "da": "/anh/huyet/thien-tinh-tren-da.webp",
+        "gp": "/anh/huyet/thien-tinh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-tinh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-tinh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ 3 đầu cánh tay, đầu dưới xương cánh tay."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 257,
+        "nhom": [
+          "Hoá đàm, tiêu u nhọt: ho có nhiều đờm, hạch bìu.",
+          "Điều khí, giáng nghịch: đầy tức ngực, chán ăn kèm cảm giác no.",
+          "An thần: động kinh, hưng phấn, bồn chồn, rối loạn nhịp tim, ngủ nhiều.",
+          "Thanh nhiệt kinh Tam Tiêu: viêm/đau vùng thái dương và họng, mày đay, trĩ.",
+          "Thông kinh lạc, giảm đau: đau dọc đường kinh (kèm teo cơ/co rút), đau nửa đầu, đau dây thần kinh liên sườn, đau thắt lưng sau chấn thương."
+        ]
+      },
       "international_code": "TE10",
       "code_dash": "TE-10",
       "chinese": "天井",
@@ -37035,13 +38567,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0786-thien-tong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ34KPJYYM80AHV12CVCPE.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPH8ZXEJ5C4RRZFNG8AJ3S.webp",
-        "gp": "/_emdash/api/media/file/01M3DPHA7AN45NSJFGF72YPKKW.webp",
-        "lan": "/_emdash/api/media/file/01M3DPHAAANYMMREK6KNYY3CEV.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPHAWFH422CYSGXPWMH0MQ.webp",
+        "da": "/anh/huyet/thien-tong-tren-da.webp",
+        "gp": "/anh/huyet/thien-tong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-tong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-tong-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 132,
+        "nhom": [
+          "Thông kinh lạc, giảm đau, hành khí, khoan khoái vùng ngực sườn: các chứng ở vai và xương bả vai (nhất là hạn chế xoay ngoài), và các chứng dọc đường kinh như đau vùng hàm dưới lan ra cánh tay.",
+          "Lợi sữa: phối cùng Đản Trung (CV17), Nhũ Căn (ST18), Thiếu Trạch (SI1) trị rối loạn tiết sữa và viêm tuyến vú cấp."
+        ]
+      },
       "international_code": "SI11",
       "code_dash": "SI-11",
       "chinese": "天宗",
@@ -37103,13 +38641,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0787-thien-tri.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ35BHJ8HPNJ7EX6HFGTEA.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPR734F259C00AJE1B5EXN.webp",
-        "gp": "/_emdash/api/media/file/01M3DPR7YDVT7V05VDZ4A4VCF9.webp",
-        "lan": "/_emdash/api/media/file/01M3DPR81D3MGBH6NHDEGPF82Q.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPR8WRZ7YJ1VWMAV0VJD3X.webp",
+        "da": "/anh/huyet/thien-tri-tren-da.webp",
+        "gp": "/anh/huyet/thien-tri-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-tri-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-tri-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 237,
+        "nhom": [
+          "Giáng nghịch khí ở Phế: ho, thở khò khè, hen phế quản.",
+          "Khai thông lồng ngực, điều khí, hoá đàm: tức ngực, đau dây thần kinh liên sườn (kể cả sau zona), sưng hạch và đau vùng nách, bồn chồn do co thắt cơ hoành.",
+          "Lợi sữa: rối loạn tiết sữa, viêm tuyến vú."
+        ]
+      },
       "international_code": "PC1",
       "code_dash": "PC-1",
       "chinese": "天池",
@@ -37159,13 +38704,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0788-thien-tru.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ35HGTTM1WV87Y2DN1D38.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJCS8AY5TXQC2652NNN5W.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJD8ETQVMJWJTR7BG4THA.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJDQKNWSBQ2KPNDA79RJC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJE6Q3KBHMFEPE7J0D62Y.webp",
+        "da": "/anh/huyet/thien-tru-tren-da.webp",
+        "gp": "/anh/huyet/thien-tru-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-tru-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-tru-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài cơ thang, cơ bán gai của đầu, cơ thẳng sau nhỏ, lớn của đầu, cơ chéo dưới của đầu."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 151,
+        "nhom": [
+          "Điều khí, bình phong (nội phong), an thần, lợi đầu và ngũ quan: sốt nhiễm trùng, viêm mũi, viêm xoang, bệnh về mắt (đỏ, đau, rối loạn thị giác), chóng mặt, mất ngủ, kích động, hưng cảm, động kinh.",
+          "Thông kinh lạc, giảm đau: nhức đầu vùng cổ — đỉnh kèm hạn chế vận động cột sống cổ.",
+          "Tăng cường sức mạnh lưng dưới: huyệt trọng điểm cho đau thắt lưng cấp tính hai bên."
+        ]
+      },
       "international_code": "BL10",
       "code_dash": "BL-10",
       "chinese": "天柱",
@@ -37229,13 +38781,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0789-thien-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ363E9Y94QMGYJJ5WP77J.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPR8ZSQ9MK6KJ0RSKBYCX2.webp",
-        "gp": "/_emdash/api/media/file/01M3DPR9V1D5SK7QMP35T642HX.webp",
-        "lan": "/_emdash/api/media/file/01M3DPR9Y3AR0509QC1MJRTM6D.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPRASFTMX90VSD2BYCPTND.webp",
+        "da": "/anh/huyet/thien-tuyen-tren-da.webp",
+        "gp": "/anh/huyet/thien-tuyen-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-tuyen-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-tuyen-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: phần ngắn của cơ 2 đầu cánh tay, chỗ bám của cơ cánh tay trước, mặt trước xương cánh tay."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 239,
+        "nhom": [
+          "Khai thông lồng ngực: cảm giác tức ngực, căng tức.",
+          "Dưỡng huyết, hoạt huyết, giảm đau: đau thắt ngực, đau nhói vùng tim, đau lan cả lồng ngực — lưng và mặt trong cánh tay.",
+          "An thần: hồi hộp đánh trống ngực."
+        ]
+      },
       "international_code": "PC2",
       "code_dash": "PC-2",
       "chinese": "天泉",
@@ -37295,13 +38854,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0790-thien-xu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ36FEPDVJ6Q4DC36DCB59.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPCQ1RCTYAZFFYJN445MKY.webp",
-        "gp": "/_emdash/api/media/file/01M3DPCR4KMWVCHAEV5G1CGQD7.webp",
-        "lan": "/_emdash/api/media/file/01M3DPCSFGP726K1ANWKVRWYWC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPCTCF3351R7YMZFGJ9YJ3.webp",
+        "da": "/anh/huyet/thien-xu-tren-da.webp",
+        "gp": "/anh/huyet/thien-xu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-xu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-xu-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 64,
+        "nhom": [
+          "Điều hoà Tỳ Vị Trường, trừ thấp và thấp nhiệt: rối loạn tiêu hoá như táo bón, tiêu chảy, sôi bụng, đầy hơi; rối loạn tiểu tiện, phù nề.",
+          "Điều hoà khí huyết, hành khí tán ứ: khí trệ, đau bụng và quanh rốn, rối loạn kinh nguyệt, chứng sán khí (thoát vị, bệnh vùng sinh dục ngoài, đau bụng dữ dội kèm táo bón – bí tiểu)."
+        ]
+      },
       "international_code": "ST25",
       "code_dash": "ST-25",
       "chinese": "天樞",
@@ -37368,13 +38933,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0791-thien-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3779YWPJ18M3N2MFJSHJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPV1QFW4RA7YJESKEPHS5B.webp",
-        "gp": "/_emdash/api/media/file/01M3DPV26KA5QZT9YB7FRJPMXT.webp",
-        "lan": "/_emdash/api/media/file/01M3DPV2JQHKBNDZE3ED680SE1.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPV3834MY53RPMRWGP7QJE.webp",
+        "da": "/anh/huyet/thien-xung-tren-da.webp",
+        "gp": "/anh/huyet/thien-xung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thien-xung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thien-xung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 281,
+        "nhom": [
+          "Thanh nhiệt kinh lạc, trấn kinh an thần: nhức đầu, ù tai, ngứa và ẩm sau tai, đau răng, sưng nướu, viêm nha chu, bướu cổ, dễ giật mình, động kinh."
+        ]
+      },
       "international_code": "GB9",
       "code_dash": "GB-9",
       "chinese": "天沖",
@@ -37542,13 +39112,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0795-thieu-hai.jpg",
       "anhCms": "/_emdash/api/media/file/01M3CJ391EQ0E6ASHJ6TYKC6BP.jpg",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPG51EQ6PVM7V33PWC68BF.webp",
-        "gp": "/_emdash/api/media/file/01M3DPG54ED3P7PN5EDY6M92TD.webp",
-        "lan": "/_emdash/api/media/file/01M3DPG65F1XS9GQY1DG1J3X45.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPG6JS08CXZE4J3816H3FZ.webp",
+        "da": "/anh/huyet/thieu-hai-tren-da.webp",
+        "gp": "/anh/huyet/thieu-hai-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thieu-hai-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thieu-hai-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám vào xương của khối cơ trên ròng rọc, mặt trước mỏm trên ròng rọc (hoặc mỏm trên lồi cầu trong), phía trong khớp khủy."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 112,
+        "nhom": [
+          "Hoá đờm, thanh Tâm nhiệt, an thần: rối loạn tâm thần, mất ngủ, hưng cảm, đầu óc lú lẫn do Tâm nhiệt, đỏ mắt, loét miệng lưỡi.",
+          "Thông kinh lạc: đau, liệt, run hoặc rối loạn vận động ở khuỷu tay và dọc đường kinh."
+        ]
+      },
       "international_code": "HE3",
       "code_dash": "HE-3",
       "chinese": "少海",
@@ -37605,13 +39181,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0796-thieu-phu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ39AEWNGPK20DKJPFPK4Q.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPGG48BD5Y8JZR5M6M5QYD.webp",
-        "gp": "/_emdash/api/media/file/01M3DPGG79P91E096MJYCQJPJJ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPGH2J3PFR51TQ245S4ZES.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPGH5KVTQVHCENG5DK430D.webp",
+        "da": "/anh/huyet/thieu-phu-tren-da.webp",
+        "gp": "/anh/huyet/thieu-phu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thieu-phu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thieu-phu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân gan tay giữa, cơ giun, bờ trong gân gấp ngón 4 của cơ gấp chung nông, sâu, cơ gian cốt gan tay, gian cốt mu tay, bờ trong đầu dưới xương bàn tay 4."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 117,
+        "nhom": [
+          "Thanh nhiệt ở Tâm và Tiểu Trường: ngứa hoặc đau vùng sinh dục, tiểu khó, đái dầm, bàng quang kích thích, kể cả sa tử cung.",
+          "Điều hoà Tâm khí, an thần: rối loạn chức năng tim, đánh trống ngực, trầm cảm, sợ hãi ám ảnh, cảm giác nghẹn ở họng (hội chứng \"mai hạch khí\"), kích động, động kinh.",
+          "Thông kinh lạc, giảm đau: co rút ngón tay, nóng lòng bàn tay, các chứng dọc đường kinh."
+        ]
+      },
       "international_code": "HE8",
       "code_dash": "HE-8",
       "chinese": "少府",
@@ -37668,10 +39251,10 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0797-thieu-thuong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ39WTEBE3D6SYB5KJKPP9.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3D10Z4EVT12GATMGPXVZ605.webp",
-        "gp": "/_emdash/api/media/file/01M3D10ZAXSKPAF164R8193BBK.webp",
-        "lan": "/_emdash/api/media/file/01M3D1101MYN5332BAT6PHT6HB.webp",
-        "kinh": "/_emdash/api/media/file/01M3D11083NTNYZYKZHHWXHBNY.webp",
+        "da": "/anh/huyet/thieu-thuong-tren-da.webp",
+        "gp": "/anh/huyet/thieu-thuong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thieu-thuong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thieu-thuong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: xương, huyệt ở dưới chỗ bám của gân cơ duỗi dài ngón tay cái."
       },
       "congDung": {
@@ -37748,13 +39331,22 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0798-thieu-trach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3ABTMY36BSEAF94V4B97.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPGKXQ5CCSQQKTY07KBE95.webp",
-        "gp": "/_emdash/api/media/file/01M3DPGM3SZJEDTGGNWK74ZRPV.webp",
-        "lan": "/_emdash/api/media/file/01M3DPGMP56TYDKV0347H1Q6JC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPGN5G5B741FF2JDXN2YQ6.webp",
+        "da": "/anh/huyet/thieu-trach-tren-da.webp",
+        "gp": "/anh/huyet/thieu-trach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thieu-trach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thieu-trach-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: giữa chỗ bám gân ngón 5 của cơ gấp chung sâu các ngón tay, gân ngón út của cơ duỗi chung các ngón tay, bờ trong của đốt 3 xương ngón tay 5."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 120,
+        "nhom": [
+          "Thanh nhiệt, tiêu sưng: sưng đau vùng miệng và mặt, mắt đỏ, chảy máu cam, sốt nhiễm trùng cấp.",
+          "Thông khiếu ngũ quan: giảm thị lực, giảm thính lực, rối loạn vận động lưỡi.",
+          "Khai khiếu, hồi tỉnh (huyệt cấp cứu): ngất xỉu, suy sụp.",
+          "Lợi sữa: rối loạn tiết sữa, viêm tuyến vú.",
+          "Thông kinh lạc: đau dọc cẳng tay phía xương trụ, cánh tay trên, vai và cổ."
+        ]
+      },
       "international_code": "SI1",
       "code_dash": "SI-1",
       "chinese": "少澤",
@@ -37819,13 +39411,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0799-thieu-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3AXR6FJ72N65XH8D93M6.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPGJ0ZF76W03C7QA3GDGHS.webp",
-        "gp": "/_emdash/api/media/file/01M3DPGJ40R66B50GMNMG5BQG2.webp",
-        "lan": "/_emdash/api/media/file/01M3DPGJW93J764S2ZZ6TCTPM6.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPGK5CAH513JM3M41CFDPP.webp",
+        "da": "/anh/huyet/thieu-xung-tren-da.webp",
+        "gp": "/anh/huyet/thieu-xung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thieu-xung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thieu-xung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: giữa chỗ bám của gân ngón 5, cơ gấp chung sâu các ngón tay, gân ngón út, cơ duỗi chung các ngón tay, bờ ngoài của đốt 3 xương ngón tay út."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 118,
+        "nhom": [
+          "Khai khiếu, hồi tỉnh (huyệt cấp cứu): suy sụp, bất tỉnh.",
+          "Thanh nhiệt, lợi mắt lưỡi họng: viêm đau vùng mắt, lưỡi, họng.",
+          "Điều khí lồng ngực, an thần: đánh trống ngực, loạn nhịp tim, tức ngực, đau thắt ngực, bồn chồn lo âu, trầm cảm.",
+          "Thông kinh lạc: đau, hạn chế vận động, rối loạn cảm giác và tuần hoàn ở chi trên."
+        ]
+      },
       "international_code": "HE9",
       "code_dash": "HE-9",
       "chinese": "少沖",
@@ -37882,13 +39482,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0800-thinh-cung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3B6PY334W6FTE28YJR7F.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPHSGPAT2122X9KEQ1AMD7.webp",
-        "gp": "/_emdash/api/media/file/01M3DPHT2VW3N56PTE3P8SG358.webp",
-        "lan": "/_emdash/api/media/file/01M3DPHTEZ5T7XHT1S5WMWYDSF.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPHV76DDQCVJ123AB4ECYN.webp",
+        "da": "/anh/huyet/thinh-cung-tren-da.webp",
+        "gp": "/anh/huyet/thinh-cung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thinh-cung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thinh-cung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau tuyến mang tai, bờ sau lồi cầu xương hàm dưới."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 140,
+        "nhom": [
+          "Lợi tai: các bệnh về tai, rối loạn khớp thái dương hàm (huyệt Thính Hội — GB2 hiệu quả hơn cho khớp hàm).",
+          "An thần: rối loạn tâm thần."
+        ]
+      },
       "international_code": "SI19",
       "code_dash": "SI-19",
       "chinese": "聽宮",
@@ -37951,13 +39557,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0801-thinh-hoi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3BRMH1552BS6QJ4K9H05.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPTM2N51NDSBV3BAKRXN7B.webp",
-        "gp": "/_emdash/api/media/file/01M3DPTMMVQS1AHV71B0SV1PXT.webp",
-        "lan": "/_emdash/api/media/file/01M3DPTN45B6MHWMW2CF5DCSET.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPTNG9RQ6Z94F5VKV6BHY7.webp",
+        "da": "/anh/huyet/thinh-hoi-tren-da.webp",
+        "gp": "/anh/huyet/thinh-hoi-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thinh-hoi-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thinh-hoi-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau tuyến mang tai, bờ dưới mỏm tiếp xương thái dương, sau lồi cầu xương hàm dưới."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 273,
+        "nhom": [
+          "Trừ phong, thanh nhiệt, lợi tai và khớp hàm, thông kinh lạc, giảm đau: bệnh về tai do mọi nguyên nhân, hội chứng Ménière, đau răng, rối loạn khớp thái dương hàm, liệt mặt, đau dây thần kinh sinh ba."
+        ]
+      },
       "international_code": "GB2",
       "code_dash": "GB-2",
       "chinese": "聽會",
@@ -38096,13 +39707,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0804-thong-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3CSYJGRK2KYS7TX87GG1.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQK008F12PM7XHAWSZ1PF.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQKN8TJ0S4T6FSPQ7RDHB.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQKYHPV1WTDVQ122G9BYS.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQMKV7BNRDH1JAP0JCH7A.webp",
+        "da": "/anh/huyet/thong-coc-tren-da.webp",
+        "gp": "/anh/huyet/thong-coc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thong-coc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thong-coc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 229,
+        "nhom": [
+          "Điều hoà trung tiêu, khoan khoái lồng ngực, hoá đờm: buồn nôn, nôn, đau vùng bụng trên và mạn sườn, viêm dạ dày, đầy hơi, táo bón, thức ăn ứ đọng, ho, khó thở, hồi hộp đánh trống ngực."
+        ]
+      },
       "international_code": "KI20",
       "code_dash": "KI-20",
       "chinese": "腹通谷",
@@ -38164,13 +39780,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0805-thong-coc-ii.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3D2XDC8S26SATC3P7T9N.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPPA6Q9QD2856RZ11H5PZB.webp",
-        "gp": "/_emdash/api/media/file/01M3DPPATKSRK8Y5YMTDWS48ZV.webp",
-        "lan": "/_emdash/api/media/file/01M3DPPB83NSQRW2T1ME2PY1G7.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPPBXBEQGKZ532NPW8WK95.webp",
+        "da": "/anh/huyet/thong-coc-ii-tren-da.webp",
+        "gp": "/anh/huyet/thong-coc-ii-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thong-coc-ii-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thong-coc-ii-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của gân cơ dạng ngón chân thứ 5, đầu sau đốt thứ nhất xương ngón chân thứ 5."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 207,
+        "nhom": [
+          "Thanh nhiệt, trừ tà ở đầu: nhức đầu, đau họng, chóng mặt, viêm kết mạc, chảy máu cam, hưng cảm, bồn chồn.",
+          "Giáng Phế khí và Vị khí: ho, khó thở, tức ngực, nôn mửa, ợ hơi, khó nuốt, thức ăn không tiêu ra theo phân."
+        ]
+      },
       "international_code": "BL66",
       "code_dash": "BL-66",
       "chinese": "足通谷",
@@ -38260,13 +39882,22 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0807-thong-ly.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3E0YB4560KTMR37KGP40.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPG9ZX7KSM87MGSWDQEX2Q.webp",
-        "gp": "/_emdash/api/media/file/01M3DPGA2ZZYJX8RFSGRTXTH4E.webp",
-        "lan": "/_emdash/api/media/file/01M3DPGAYMKB3NKC8JDTTDHW1J.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPGB27V022WM91JD7KXJTE.webp",
+        "da": "/anh/huyet/thong-ly-tren-da.webp",
+        "gp": "/anh/huyet/thong-ly-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thong-ly-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thong-ly-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gấp chung sâu các ngón tay, cơ gấp vuông."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 114,
+        "nhom": [
+          "Điều hoà Tâm khí, ổn định nhịp tim (huyệt chính): rối loạn chức năng tim, loạn nhịp tim.",
+          "An thần: rối loạn tâm thần.",
+          "Lợi thiệt: điểm mấu chốt trong các rối loạn ngôn ngữ.",
+          "Thông qua kinh Thái Dương hỗ trợ bàng quang: rối loạn bài tiết nước tiểu.",
+          "Thông kinh lạc, giảm đau: đau cổ tay, cẳng tay."
+        ]
+      },
       "international_code": "HE5",
       "code_dash": "HE-5",
       "chinese": "通里",
@@ -38358,13 +39989,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0809-thong-thien.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3EVRYM6EXJDT37FZKPD2.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJ70QMEWGS2E4252RJPNN.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJ7GC3WB05H9DPKYXAV0W.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJ7ZQ9MMG33RF5S97FHTR.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJ8GMRBTKRM70NTFGK74R.webp",
+        "da": "/anh/huyet/thong-thien-tren-da.webp",
+        "gp": "/anh/huyet/thong-thien-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thong-thien-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thong-thien-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, xương sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 148,
+        "nhom": [
+          "Thanh khiếu đầu, đặc biệt lợi mũi: bệnh về mũi (chảy máu cam, polyp mũi, viêm mũi, viêm xoang, mất khứu giác), nhức đầu đỉnh đầu, liệt mặt, cứng cổ, rối loạn điều hoà tư thế."
+        ]
+      },
       "international_code": "BL7",
       "code_dash": "BL-7",
       "chinese": "通天",
@@ -38781,13 +40417,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0820-thu-ngu-ly.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3FSNF4ADY10SBB3MG6XX.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPAS4V9MZVCMBEQ50KGT1B.webp",
-        "gp": "/_emdash/api/media/file/01M3DPAS7WHD8WQAMDMDJP7ZBY.webp",
-        "lan": "/_emdash/api/media/file/01M3DPAT3PHVBZF7JA7VJYVWKH.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPAT6P4R712PJ4A379CT89.webp",
+        "da": "/anh/huyet/thu-ngu-ly-tren-da.webp",
+        "gp": "/anh/huyet/thu-ngu-ly-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thu-ngu-ly-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thu-ngu-ly-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: phần rộng ngoài của cơ 3 đầu cánh tay, vách liên cơ ngoài. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 31,
+        "nhom": [
+          "Thông kinh lạc, giảm đau: đau vùng khuỷu tay, cánh tay trên và vai.",
+          "Hành khí, trừ thấp, hoá đờm: lao hạch (tràng nhạc), bướu cổ, đau vùng ngực (phối cùng LI14, LI15, LI16).",
+          "Chỉ khái: ho, thở khò khè."
+        ]
+      },
       "international_code": "LI13",
       "code_dash": "LI-13",
       "chinese": "手五里",
@@ -38850,13 +40493,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0821-thu-tam-ly.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3FZM597BVRCB566AG0CJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPAHXZ994NBXTDRRSW0TQH.webp",
-        "gp": "/_emdash/api/media/file/01M3DPAJ43QQGQE2M19PR7KFEE.webp",
-        "lan": "/_emdash/api/media/file/01M3DPAK5H1FEZHRYDDAHG00CY.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPAKBJJFA0WTWWG5H24AQ3.webp",
+        "da": "/anh/huyet/thu-tam-ly-tren-da.webp",
+        "gp": "/anh/huyet/thu-tam-ly-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thu-tam-ly-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thu-tam-ly-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cơ ngửa dài, cơ ngửa ngắn."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 28,
+        "nhom": [
+          "Điều hoà khí huyết, thông kinh lạc, giảm đau: tê bì, đau và liệt chi trên, đau lưng nặng đến mức không nằm được, đau răng hàm trên, liệt mặt.",
+          "Điều hoà Vị Trường: rối loạn tiêu hoá (ít dùng)."
+        ]
+      },
       "international_code": "LI10",
       "code_dash": "LI-10",
       "chinese": "手三里",
@@ -39166,13 +40815,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0829-thuc-cot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3HNFERPH55ZV21WCTSJ9.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPP870J8ZH0C5JVNK4PRQC.webp",
-        "gp": "/_emdash/api/media/file/01M3DPP8Z8QEETQD4NEC9KT8FC.webp",
-        "lan": "/_emdash/api/media/file/01M3DPP98AW0C0BPPW2572VZHN.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPPA0M2JERW994B51Q9FFZ.webp",
+        "da": "/anh/huyet/thuc-cot-tren-da.webp",
+        "gp": "/anh/huyet/thuc-cot-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuc-cot-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuc-cot-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ dạng ngón chân thứ 5, đầu trước xương bàn chân 5."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 205,
+        "nhom": [
+          "Thanh sáng đầu mắt: nhức đầu vùng chẩm, cứng cổ, điếc, chóng mặt, bệnh về mắt.",
+          "Thanh nhiệt, tiêu sưng: sốt nhiễm trùng, bệnh ngoài da như nhọt, trĩ, tiêu chảy.",
+          "Thông kinh lạc, giảm đau: các chứng ở lưng, thắt lưng, chân."
+        ]
+      },
       "international_code": "BL65",
       "code_dash": "BL-65",
       "chinese": "束骨",
@@ -39232,13 +40888,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0830-thuy-dao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3HRED78Z1BQWXKAE1HCN.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPD6FFWMHV4N92EXHM6DCZ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPD6NHQSRMJ1C3ZZ3ZFFC9.webp",
-        "lan": "/_emdash/api/media/file/01M3DPD7WH3TPMVPCBZW0TVF36.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPD8BXA3NY6ADBK48M31KK.webp",
+        "da": "/anh/huyet/thuy-dao-tren-da.webp",
+        "gp": "/anh/huyet/thuy-dao-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuy-dao-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuy-dao-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 67,
+        "nhom": [
+          "Thanh nhiệt, ích hạ tiêu, hành khí: căng đau bụng dưới, viêm nhiễm đường tiết niệu – sinh dục, rối loạn kinh nguyệt như đau bụng kinh lan xuống thắt lưng và đùi, vô sinh, sót nhau, u xơ tử cung, đau lưng, đau vai lưng, chứng sán khí."
+        ]
+      },
       "international_code": "ST28",
       "code_dash": "ST-28",
       "chinese": "水道",
@@ -39302,13 +40963,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0831-thuy-dot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3JKAB12FSMEGNTAJQZZ9.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPBRP18F59D1KR5ZSP5RT4.webp",
-        "gp": "/_emdash/api/media/file/01M3DPBSE8G8JR317WHFGSE65V.webp",
-        "lan": "/_emdash/api/media/file/01M3DPBSH932B26DCTDM27GGCC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPBTCRBPT8ZRVFYEE8BNYY.webp",
+        "da": "/anh/huyet/thuy-dot-tren-da.webp",
+        "gp": "/anh/huyet/thuy-dot-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuy-dot-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuy-dot-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trước cơ ức – đòn – chũm, ức – móng, ức giáp, vào sâu có bó mạch thần kinh cảnh, cơ cổ dài."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 49,
+        "nhom": [
+          "Điều hoà Phế khí: ho, khó thở, hen phế quản.",
+          "Lợi hầu họng: viêm thanh quản, viêm họng, lao hạch, bướu cổ."
+        ]
+      },
       "international_code": "ST10",
       "code_dash": "ST-10",
       "chinese": "水突",
@@ -39369,13 +41036,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0832-thuy-phan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3JP9FQHS3ESGGB533BT0.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPYXC1DXY9ZY5ED4K5K6W2.webp",
-        "gp": "/_emdash/api/media/file/01M3DPYXV7KG830ENNCVTAK63E.webp",
-        "lan": "/_emdash/api/media/file/01M3DPYYADKKGJWB0C2HTJEDSF.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPYYSNR6DPCKEYVFZXECFE.webp",
+        "da": "/anh/huyet/thuy-phan-tren-da.webp",
+        "gp": "/anh/huyet/thuy-phan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuy-phan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuy-phan-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 347,
+        "nhom": [
+          "Điều hoà, thông lợi thuỷ đạo, tiêu phù: phù thũng, cổ trướng (khi đó nên dùng cứu ngải).",
+          "Điều hoà Trường Vị, tiêu tích trệ: chán ăn, ợ chua, nôn, đau quanh rốn, tiêu chảy.",
+          "Hỗ trợ trẻ nhỏ: thóp chậm đóng."
+        ]
+      },
       "international_code": "CV9",
       "code_dash": "CV-9",
       "chinese": "水分",
@@ -39430,13 +41104,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0833-thuy-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3KH5B7AXAXNCQ9T3M3AZ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPPNWZCDCVF4BQDXSK53YP.webp",
-        "gp": "/_emdash/api/media/file/01M3DPPPC5FZB0S0MN8KVVTM4Q.webp",
-        "lan": "/_emdash/api/media/file/01M3DPPPRBB5RZ9XK48113FBGV.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPPQDHB857P59ZEV5SZ7G4.webp",
+        "da": "/anh/huyet/thuy-tuyen-tren-da.webp",
+        "gp": "/anh/huyet/thuy-tuyen-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuy-tuyen-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuy-tuyen-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau gân gấp dài ngón chân cái, chỗ bám của cơ dạng ngón cái, gân gót chân, rãnh gót của xương gót chân."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 215,
+        "nhom": [
+          "Điều hoà mạch Xung — Nhâm, lợi kinh nguyệt và tiểu tiện (Khích huyệt): đau bụng kinh, kinh nguyệt không đều, vô kinh (cả thể hư lẫn thực), nhiễm trùng đường tiết niệu cấp, tiểu khó."
+        ]
+      },
       "international_code": "KI5",
       "code_dash": "KI-5",
       "chinese": "水泉",
@@ -39496,13 +41175,22 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0834-thu-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3KM4GCHSFK12W5CN30XR.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPKWC1X3ZW65N6BXF03BRQ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPKWNEKYGGYNNDJX9F9QX2.webp",
-        "lan": "/_emdash/api/media/file/01M3DPKXRFQN9VNS2R58QP2ADW.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPKYA05T5412SH7M5M5HHK.webp",
+        "da": "/anh/huyet/thu-lieu-tren-da.webp",
+        "gp": "/anh/huyet/thu-lieu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thu-lieu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thu-lieu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ ở rãnh cột sống, lỗ cùng 2."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 173,
+        "nhom": [
+          "Điều hoà hạ tiêu, lợi tiểu tiện — cùng Trung Liêu (BL33) là hai huyệt Bát Liêu tác dụng mạnh nhất với bệnh tiết niệu: rối loạn tiết niệu — sinh dục như đau bụng kinh, các chứng ở bộ phận sinh dục ngoài, khí hư âm đạo.",
+          "Bổ Thận ích tinh, hỗ trợ sinh sản: theo G. Maciocia là huyệt quan trọng trong điều trị hiếm muộn ở nữ.",
+          "Hỗ trợ cơn co thắt khi sinh (thường phối điện châm): cơn co thắt chậm hoặc yếu trong sản khoa.",
+          "Lợi vùng thắt lưng cùng — cùng Trung Liêu (BL33) là hai huyệt tác dụng mạnh nhất: đau, rối loạn cảm giác, liệt chi dưới.",
+          "Hỗ trợ đại tiện: công dụng chung của nhóm Bát Liêu."
+        ]
+      },
       "international_code": "BL32",
       "code_dash": "BL-32",
       "chinese": "次髎",
@@ -39647,13 +41335,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0837-thua-can.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3MF2DF0SWDW57PY4D620.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPNN3686Q1N01CZB4HVQSC.webp",
-        "gp": "/_emdash/api/media/file/01M3DPNP1H08HZCZ8QES7DRJST.webp",
-        "lan": "/_emdash/api/media/file/01M3DPNPGN5Q8GSZJPQK59EYME.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPNQ694BYPM1XXZEKGYEE2.webp",
+        "da": "/anh/huyet/thua-can-tren-da.webp",
+        "gp": "/anh/huyet/thua-can-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thua-can-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thua-can-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: trong."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 195,
+        "nhom": [
+          "Thư cân, thông kinh lạc, giảm đau: chuột rút bắp chân, co giật — co thắt cơ dọc lưng cơ thể, đau gót chân và mu bàn chân, sưng nách (theo kinh cân Bàng Quang).",
+          "Trị trĩ (theo kinh): huyệt kinh nghiệm cắt trĩ, đại tiện khó, nứt hậu môn, sa trực tràng."
+        ]
+      },
       "international_code": "BL56",
       "code_dash": "BL-56",
       "chinese": "承筋",
@@ -39714,13 +41408,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0838-thua-khap.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3MJ2PGN0QNYXV7T77S6R.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPB90AGMTPM26MPS7RH2NG.webp",
-        "gp": "/_emdash/api/media/file/01M3DPB96DZ8FSY2BJ12C5HYNR.webp",
-        "lan": "/_emdash/api/media/file/01M3DPB9RJHRPHFZPMRZEQAFKR.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPBA4Q4QE6GTJ2PCD7VM5H.webp",
+        "da": "/anh/huyet/thua-khap-tren-da.webp",
+        "gp": "/anh/huyet/thua-khap-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thua-khap-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thua-khap-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ vòng mi (giữa phần ổ mắt, phần mi của cơ này), ở sâu là cơ thẳng dưới, cơ chéo bé của mắt, nhãn cầu."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 40,
+        "nhom": [
+          "Khu phong, thanh nhiệt, dưỡng mắt: bệnh về mắt, máy giật cơ mặt, liệt mặt."
+        ]
+      },
       "international_code": "ST1",
       "code_dash": "ST-1",
       "chinese": "承泣",
@@ -39781,13 +41480,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0839-thua-linh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3NCZ9P8PEVJ6K4N12CA8.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPVK5KHJH8Z5PW0GK9MJ8M.webp",
-        "gp": "/_emdash/api/media/file/01M3DPVKBN7KSWSMMCKQHCSWT7.webp",
-        "lan": "/_emdash/api/media/file/01M3DPVM1S39M9MJ4M5ZCPFGJD.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPVM81SNC36D75J1YSRPFB.webp",
+        "da": "/anh/huyet/thua-linh-tren-da.webp",
+        "gp": "/anh/huyet/thua-linh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thua-linh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thua-linh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, xương đỉnh sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 290,
+        "nhom": [
+          "Lợi đầu mũi, nhuận Phế, giảm đau: nhức đầu và đau mắt, chóng mặt, viêm mũi, chảy máu cam, sợ gió lạnh."
+        ]
+      },
       "international_code": "GB18",
       "code_dash": "GB-18",
       "chinese": "承靈",
@@ -39847,13 +41551,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0840-thua-man.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3NFYJ3XRJS4SX3VQKF47.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPCBVYZQZH50ED4J6KGMHV.webp",
-        "gp": "/_emdash/api/media/file/01M3DPCCB340XTY4DCTAJ84QGT.webp",
-        "lan": "/_emdash/api/media/file/01M3DPCCTAH3GRFSWW8VKPEKEQ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPCD9H09Z8YMJTQPC4QAN2.webp",
+        "da": "/anh/huyet/thua-man-tren-da.webp",
+        "gp": "/anh/huyet/thua-man-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thua-man-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thua-man-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 59,
+        "nhom": [
+          "Điều hoà trung tiêu, giáng nghịch khí ở Phế và Vị: ăn không tiêu, chán ăn, buồn nôn, nôn, đau dạ dày, đầy bụng, cùng các bệnh hô hấp như ho, khó thở, hen phế quản."
+        ]
+      },
       "international_code": "ST20",
       "code_dash": "ST-20",
       "chinese": "承滿",
@@ -39969,13 +41678,19 @@ window.ACUPOINTS = {
       "image": null,
       "anhCms": null,
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPM7YX3QWNQHR0QSSR9XY2.webp",
-        "gp": "/_emdash/api/media/file/01M3DPM884SJ7R9NAFFQRRS96B.webp",
-        "lan": "/_emdash/api/media/file/01M3DPM9NASYHKM1SVZR9ECN90.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPMABTSSM4AABH9BM6EQXH.webp",
+        "da": "/anh/huyet/thua-phu-tren-da.webp",
+        "gp": "/anh/huyet/thua-phu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thua-phu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thua-phu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ mông lớn, bờ trong cơ 2 đầu đùi, bờ ngoài cơ bán gân, bờ ngoài cơ bán mạc, cơ khép lớ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 175,
+        "nhom": [
+          "Thông kinh lạc, giảm đau, thư cân: đau thắt lưng cùng lan dọc đường kinh, teo cơ chân, đau lưng kèm căng cứng cơ, bệnh ở gân cơ vùng chậu và mông.",
+          "Điều hoà đại tiểu tiện, tại chỗ: đại tiện — tiểu tiện khó khăn, đau vùng sinh dục, trĩ."
+        ]
+      },
       "international_code": "BL36",
       "code_dash": "BL-36",
       "chinese": "承扶",
@@ -40036,13 +41751,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0844-thua-quang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3PKRG4JTMR5CQ858M8BC.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJ4XVERH1EGBRM3RY9CNY.webp",
-        "gp": "/_emdash/api/media/file/01M3DPJ5K1A424ANKRZRH3BZ7D.webp",
-        "lan": "/_emdash/api/media/file/01M3DPJ60AD0NR7CD9JMCYBWDJ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPJ6CH1DJW3N3KSKQHDR6X.webp",
+        "da": "/anh/huyet/thua-quang-tren-da.webp",
+        "gp": "/anh/huyet/thua-quang-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thua-quang-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thua-quang-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, xương sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 147,
+        "nhom": [
+          "Khu phong, thanh nhiệt vùng đầu, nhất là mắt và mũi: rối loạn thị giác, viêm mũi, viêm xoang, mất khứu giác, nhức đầu đỉnh đầu, chóng mặt (cấp tính hoặc từng cơn), liệt mặt."
+        ]
+      },
       "international_code": "BL6",
       "code_dash": "BL-6",
       "chinese": "承光",
@@ -40103,13 +41823,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0845-thua-son.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3Q5RAMPB2Q9QBFDG9AJJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPNQJFAD57V6J8PZ6YEAX8.webp",
-        "gp": "/_emdash/api/media/file/01M3DPNRAV3X9CGJ9KSZSFHTC3.webp",
-        "lan": "/_emdash/api/media/file/01M3DPNRX241W40BREPBAKKK73.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPNSNVY7DN63NMPSSDXRM4.webp",
+        "da": "/anh/huyet/thua-son-tren-da.webp",
+        "gp": "/anh/huyet/thua-son-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thua-son-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thua-son-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: góc giữa cơ sinh đôi ngoài, trong, góc giữa cơ gấp dài các ngón chân, cơ gấp dài ngón chân cái."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 196,
+        "nhom": [
+          "Thư cân, thông kinh lạc, giảm đau: đau, chuột rút bắp chân, cẳng chân, gót chân, các chứng ở vùng lưng — thắt lưng.",
+          "Trị trĩ (theo kinh): huyệt kinh nghiệm cắt trĩ, đại tiện khó, nứt hậu môn, sa trực tràng."
+        ]
+      },
       "international_code": "BL57",
       "code_dash": "BL-57",
       "chinese": "承山",
@@ -40172,13 +41898,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0846-thua-tuong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3QERBJHGZBTFJ5XMP3P5.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZSVES38VCB7BWFRTFQBG.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZTDM43ATJKPWY46M0CY6.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZTQC6WJFXTF10B77CDJC.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZV9PC7DR2H3GHPAHY1K7.webp",
+        "da": "/anh/huyet/thua-tuong-tren-da.webp",
+        "gp": "/anh/huyet/thua-tuong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thua-tuong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thua-tuong-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 362,
+        "nhom": [
+          "Trừ phong, nâng đỡ mặt, điều hoà mạch Nhâm: liệt mặt, đau dây thần kinh sinh ba (nhánh 3), sưng đau hàm dưới, viêm nướu, loét miệng lưỡi, chảy nhiều nước bọt, đau răng cửa dưới hoặc đau khi nhổ răng.",
+          "Một trong thập tam quỷ huyệt của Tôn Tư Mạc: động kinh, hưng cảm."
+        ]
+      },
       "international_code": "CV24",
       "code_dash": "CV-24",
       "chinese": "承漿",
@@ -40243,13 +41975,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0847-thuc-dau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3R0PANWVKYB7YC7D12AJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPFPHGCJBZGDMF51CKKV66.webp",
-        "gp": "/_emdash/api/media/file/01M3DPFQ3PRZPGXNA5QP4YKJW6.webp",
-        "lan": "/_emdash/api/media/file/01M3DPFQ9SP37FHBX6QT1JPWN5.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPFQZ68BD2V711GZ7XD8YX.webp",
+        "da": "/anh/huyet/thuc-dau-tren-da.webp",
+        "gp": "/anh/huyet/thuc-dau-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuc-dau-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuc-dau-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 105,
+        "nhom": [
+          "Tiêu tích trệ, kiện Vị: đầy tức sau ăn do ứ đọng thức ăn, trào ngược, đau tức vùng ngực và sườn bên, đau dây thần kinh liên sườn."
+        ]
+      },
       "international_code": "SP17",
       "code_dash": "SP-17",
       "chinese": "食竇",
@@ -40459,13 +42196,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0852-thuong-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3RFK7ZB767Y9WD7NHTN5.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DP9TSQEV3AKQHRZ9VZTZ1G.webp",
-        "gp": "/_emdash/api/media/file/01M3DP9TWQ01J8168ETCVS5BF9.webp",
-        "lan": "/_emdash/api/media/file/01M3DP9VR48QGTABQ1QV7D088Z.webp",
-        "kinh": "/_emdash/api/media/file/01M3DP9VV570DADAYF0V6GRPZG.webp",
+        "da": "/anh/huyet/thuong-duong-tren-da.webp",
+        "gp": "/anh/huyet/thuong-duong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuong-duong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuong-duong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: phía ngoài chỗ bám gân duỗi ngón trỏ của cơ duỗi chung các ngón tay, bờ ngoài đốt 3 xương ngón tay trỏ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 20,
+        "nhom": [
+          "Thanh nhiệt, tiêu sưng: đau họng, viêm họng, đau răng, sưng hàm dưới, sốt cao, ù tai, điếc tai.",
+          "Thông kinh lạc: đau vai gáy lan xuống hố xương đòn, tê các ngón tay.",
+          "Khai khiếu, hồi tỉnh: suy sụp, bất tỉnh."
+        ]
+      },
       "international_code": "LI1",
       "code_dash": "LI-1",
       "chinese": "商陽",
@@ -40530,13 +42274,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0853-thuong-khau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3S1FP1PCCMW6Y150PE55.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPEWJXZRSW8YVEN78ZTGER.webp",
-        "gp": "/_emdash/api/media/file/01M3DPEXB4C65KW6C8JVB5K8N6.webp",
-        "lan": "/_emdash/api/media/file/01M3DPEXJFNFYA1MQ4NDPSJFXG.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPEY1K7SWNHV6CCM6Q2EVA.webp",
+        "da": "/anh/huyet/thuong-khau-tren-da.webp",
+        "gp": "/anh/huyet/thuong-khau-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuong-khau-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuong-khau-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trên gân cơ cẳng chân sau, sát khe khớp sên – thuyền."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 93,
+        "nhom": [
+          "Bổ Tỳ, trừ thấp, lợi gân xương: rối loạn tiêu hoá; hội chứng thấp với cứng/sưng/nặng nề cơ khớp có thể tiến triển thành đau biến dạng khớp; rối loạn tại khớp cổ chân.",
+          "An thần: trầm cảm hay suy nghĩ vẩn vơ, mất ngủ kèm ác mộng, bồn chồn."
+        ]
+      },
       "international_code": "SP5",
       "code_dash": "SP-5",
       "chinese": "商丘",
@@ -40599,13 +42349,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0854-thuong-khuc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3SAEQ1K2AR7H50B5AS90.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQDB5VN8YFDGZGKWSV5AV.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQDH6BCDTY7YZRQF8AMTJ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQE0D2NMGS55CYH1ZA8EQ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQEJNVE41DJT6NFK2RMJQ.webp",
+        "da": "/anh/huyet/thuong-khuc-tren-da.webp",
+        "gp": "/anh/huyet/thuong-khuc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuong-khuc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuong-khuc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 226,
+        "nhom": [
+          "Trừ ứ trệ, giảm đau: rối loạn tiêu hoá như khối u ở bụng, chán ăn, táo bón, tiêu chảy, nôn mửa."
+        ]
+      },
       "international_code": "KI17",
       "code_dash": "KI-17",
       "chinese": "商曲",
@@ -40736,13 +42491,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0857-thuong-cu-hu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3TXEGBN2ECYYABY4KWSN.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPDTVXHQJ4WNXZS3JEXNS3.webp",
-        "gp": "/_emdash/api/media/file/01M3DPDVEEMEW7389YCMWFEAPP.webp",
-        "lan": "/_emdash/api/media/file/01M3DPDVZYM37TM58V6CT6PWVF.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPDWSTWS0CCESJ8VJR5VTF.webp",
+        "da": "/anh/huyet/thuong-cu-hu-tren-da.webp",
+        "gp": "/anh/huyet/thuong-cu-hu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuong-cu-hu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuong-cu-hu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài cơ cẳng thân trước, bờ trong cơ duỗi chung các ngón chân. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 76,
+        "nhom": [
+          "Điều hoà Tỳ Vị Trường, trừ ứ trệ, thanh thấp nhiệt: rối loạn tiêu hoá, nhất là viêm dạ dày – ruột cấp, tiêu chảy, chướng bụng, đầy hơi, hội chứng ruột kích thích.",
+          "Thông kinh lạc, giảm đau: các chứng ở chi dưới dọc theo đường kinh."
+        ]
+      },
       "international_code": "ST37",
       "code_dash": "ST-37",
       "chinese": "上巨虛",
@@ -40875,13 +42636,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0860-thuong-liem.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3V6D8QG6VKSFJWXY576Q.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPAEV171X2P72H0YP58ZHZ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPAF14G9Z762XJWEHZ3VY4.webp",
-        "lan": "/_emdash/api/media/file/01M3DPAG7A37Q073EFTR6ANTBQ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPAGDC0C27QY8M1JTRQ4M9.webp",
+        "da": "/anh/huyet/thuong-liem-tren-da.webp",
+        "gp": "/anh/huyet/thuong-liem-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuong-liem-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuong-liem-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cơ ngửa dài, bờ ngoài cơ quay 1, cơ ngửa ngắn."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 27,
+        "nhom": [
+          "Thông kinh lạc, giảm đau: đau nhức, tê bì, dị cảm hoặc liệt tứ chi, nhất là vùng vai và khuỷu tay.",
+          "Điều hoà Đại Trường: sôi bụng, đau bụng, đầy hơi, tiêu chảy."
+        ]
+      },
       "international_code": "LI9",
       "code_dash": "LI-9",
       "chinese": "上廉",
@@ -40977,13 +42744,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0862-thuong-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3VRAX5M132SR4TWT9ZEJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPKRQCPBM7AV6RNJYH68TJ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPKRTDWVRCK3YNV6B4X3B0.webp",
-        "lan": "/_emdash/api/media/file/01M3DPKT9NMJDJH6ZE0FMCR9DF.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPKVJ9ZBA51MS9Y24DDGPE.webp",
+        "da": "/anh/huyet/thuong-lieu-tren-da.webp",
+        "gp": "/anh/huyet/thuong-lieu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuong-lieu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuong-lieu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ rãnh cột sống, lỗ cùng 1."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 173,
+        "nhom": [
+          "Điều hoà hạ tiêu, lợi tiểu tiện (một trong 8 huyệt Bát Liêu ở xương cùng): rối loạn tiết niệu — sinh dục như đau bụng kinh, các chứng ở bộ phận sinh dục ngoài, khí hư âm đạo.",
+          "Bổ Thận ích tinh, lợi đại tiện, hỗ trợ cơn co thắt khi sinh, lợi vùng thắt lưng cùng: công dụng chung của cả bốn huyệt Bát Liêu, được ghi nhận rõ nhất lần lượt ở Trung Liêu (BL33, bổ Thận), Hạ Liêu (BL34, lợi đại tiện) và Thứ Liêu (BL32, hỗ trợ sinh nở và vùng thắt lưng cùng)."
+        ]
+      },
       "international_code": "BL31",
       "code_dash": "BL-31",
       "chinese": "上髎",
@@ -41195,13 +42968,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0867-thuong-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3W77487G737EH20ZJM50.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPTP5FP9KKSS0B1K0CVSWT.webp",
-        "gp": "/_emdash/api/media/file/01M3DPTPMPDY5SQQ569A3BB792.webp",
-        "lan": "/_emdash/api/media/file/01M3DPTPTRHJC2XRABD7NR6CWS.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPTQK63GE3SXN8C7GBWK2N.webp",
+        "da": "/anh/huyet/thuong-quan-tren-da.webp",
+        "gp": "/anh/huyet/thuong-quan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuong-quan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuong-quan-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trước, cơ thái dương."
       },
-      "congDung": null
+      "congDung": {
+        "trang": 274,
+        "nhom": [
+          "Trừ phong, lợi tai, thông kinh lạc, giảm đau: nhức đầu, đau mặt và đau răng hàm trên, cứng môi, khít hàm, bệnh về tai (ù tai, giảm thính lực, viêm tai giữa), liệt mặt."
+        ]
+      }
     },
     {
       "id": 868,
@@ -41252,13 +43030,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0868-thuong-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3WSBPYN6RQ0RX2GXBXV2.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZ520NEYCMCPCJT5M89BW.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZ5B38AEJ07FV9YYBM5E3.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZ63B172MYECVT9QEZK94.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZ66C0RXN9CG6YBD76S8Z.webp",
+        "da": "/anh/huyet/thuong-quan-2-tren-da.webp",
+        "gp": "/anh/huyet/thuong-quan-2-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuong-quan-2-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuong-quan-2-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 351,
+        "nhom": [
+          "Hoà Vị, giáng nghịch khí: ợ nóng, buồn nôn, nôn, ợ chua, đau dạ dày, đầy bụng sau ăn, khí nghịch từ bụng dưới xông lên ngực (bôn đồn khí).",
+          "Điều hoà Tâm: đau vùng tim (chức năng), hồi hộp, bồn chồn vùng ngực."
+        ]
+      },
       "international_code": "CV13",
       "code_dash": "CV-13",
       "chinese": "上脘",
@@ -41322,13 +43106,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0869-thuong-tinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3X2988X9452CQASVES4F.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ18QF70SM213668E80NBG.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ199NH2JJSQYX2P8V9BEG.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ19RW936XEWFQG2BBERMN.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ1A82N4T72PA0SQN6MN3W.webp",
+        "da": "/anh/huyet/thuong-tinh-tren-da.webp",
+        "gp": "/anh/huyet/thuong-tinh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/thuong-tinh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/thuong-tinh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, dưới cân sọ là xương sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 387,
+        "nhom": [
+          "Trừ phong, hỗ trợ đầu — mặt — mũi — mắt, giảm sưng: các vấn đề về mũi như chảy máu cam — nghẹt mũi — polyp — viêm mũi — mất khứu giác, đỏ và sưng mặt, bệnh về mắt, chóng mặt.",
+          "An thần: trạng thái hưng cảm."
+        ]
+      },
       "international_code": "GV23",
       "code_dash": "GV-23",
       "chinese": "上星",
@@ -41609,13 +43399,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0876-tich-trung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3XMER2J2YNWERP3B6TQ0.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ0553867MAQM3AR6MZM2Q.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ05X9K242K7ZDW8QK8087.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ069MYGS6RJVS90266PNJ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ06VT2EFQJ9G4RE9A7QMD.webp",
+        "da": "/anh/huyet/tich-trung-tren-da.webp",
+        "gp": "/anh/huyet/tich-trung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tich-trung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tich-trung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của gân cơ thang, cân ngực – thắt lưng của cơ lưng lớn, cơ răng bé sau – dưới, cơ gai dài của lưng, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 369,
+        "nhom": [
+          "Kiện Tỳ, hoá thấp: chướng bụng, khối u vùng bụng, vàng da, tiêu chảy, trĩ, sa trực tràng.",
+          "Thông lợi cột sống: hạn chế vận động cột sống thắt lưng, động kinh."
+        ]
+      },
       "international_code": "GV6",
       "code_dash": "GV-6",
       "chinese": "脊中",
@@ -41713,13 +43509,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0878-tien-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3Y3JKCQEJTCZ096VAP4P.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPGNQQ9G3FZEB18V2BQ4GN.webp",
-        "gp": "/_emdash/api/media/file/01M3DPGP0T0E4G4CAX7KZKBWZ7.webp",
-        "lan": "/_emdash/api/media/file/01M3DPGPNG6C037SPCE0D4861V.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPGQ1PKQK5GTRD29HE41RP.webp",
+        "da": "/anh/huyet/tien-coc-tren-da.webp",
+        "gp": "/anh/huyet/tien-coc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tien-coc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tien-coc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của cơ dạng ngón thứ 5, cơ gấp ngắn ngón 5, bờ trong đầu trên đốt thứ nhất xương ngón 5."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 121,
+        "nhom": [
+          "Thanh nhiệt, khu phong, tiêu sưng: sốt nhiễm trùng, viêm họng, viêm kết mạc, giảm thị lực, viêm tai giữa, ù tai giảm thính lực, sưng má, viêm mũi, đau răng.",
+          "Thông kinh lạc, giảm đau: đau ngón tay và khớp bàn ngón, rối loạn cảm giác và các chứng khác dọc đường kinh."
+        ]
+      },
       "international_code": "SI2",
       "code_dash": "SI-2",
       "chinese": "前谷",
@@ -41782,13 +43584,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0879-tien-dinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3YNHSK72E7GV7VE633FT.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ14XY08FMC2W2BZT3JVH9.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ15D4XDNH3B38E1E3QMZJ.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ15WFXJ0AE5436F26RC60.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ16MS46B1YJQ6XV4C6480.webp",
+        "da": "/anh/huyet/tien-dinh-tren-da.webp",
+        "gp": "/anh/huyet/tien-dinh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tien-dinh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tien-dinh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, dưới cân sọ là xương sọ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 385,
+        "nhom": [
+          "Trừ nội phong, giảm co rút, làm dịu triệu chứng: chóng mặt, động kinh, viêm mũi chảy nhiều dịch trong, phù mặt, nhức đầu (đỉnh), sưng mặt (có thể hơi xanh), bồn chồn."
+        ]
+      },
       "international_code": "GV21",
       "code_dash": "GV-21",
       "chinese": "前頂",
@@ -42240,13 +44047,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0891-tieu-lac.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3YYJ5MM4X924WNBVKT4J.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPSQTXY9SSRQ6DWN3QG4JS.webp",
-        "gp": "/_emdash/api/media/file/01M3DPSRP64WN79EM9D2GFAN1G.webp",
-        "lan": "/_emdash/api/media/file/01M3DPSRS63VSV2348JT14RATW.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPSSMH26J77HEG9J2S8R8D.webp",
+        "da": "/anh/huyet/tieu-lac-tren-da.webp",
+        "gp": "/anh/huyet/tieu-lac-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tieu-lac-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tieu-lac-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: phần rộng ngoài (xoay cánh tay ra trước sẽ làm hiện rõ khe của phần dài, rộng ngoài của cơ 3 đầu cánh tay)."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 259,
+        "nhom": [
+          "Thông kinh lạc, giảm đau: nhức đầu, đau răng, đau cổ, đau cột sống ngực, đau cánh tay, cứng cổ, chóng mặt."
+        ]
+      },
       "international_code": "TE12",
       "code_dash": "TE-12",
       "chinese": "消濼",
@@ -42573,13 +44385,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0899-tieu-hai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3ZWNA9WV91AWAH7C0WQV.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPH1953XZXNCBBMEC6R0FN.webp",
-        "gp": "/_emdash/api/media/file/01M3DPH2AZT2KVY1PNAPD97T1F.webp",
-        "lan": "/_emdash/api/media/file/01M3DPH2H01Y6N86VX3TWAAV1E.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPH426H7P2ZAANVK9XAPBF.webp",
+        "da": "/anh/huyet/tieu-hai-tren-da.webp",
+        "gp": "/anh/huyet/tieu-hai-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tieu-hai-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tieu-hai-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ 3 đầu cánh tay, rãnh ròng rọc – khuỷu của mặt sau đầu dưới xương cánh tay (ở trong là mỏm trên ròng rọc của xương cánh tay, có gân cơ trụ trước, gân cơ gấp chung sâu các ngón tay bám gần nhất, ở ngoài là mỏm khuỷu của xương trụ, có gân cơ 3 đầu cánh tay bám)."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 129,
+        "nhom": [
+          "Thông kinh lạc: đau mỏm lồi cầu trong khuỷu tay, đau dọc mặt sau-trong cánh tay trên, vai và xương bả vai.",
+          "An thần: bồn chồn, lo âu, trạng thái hưng phấn quá mức.",
+          "Thanh nhiệt, tiêu sưng: đau họng, sưng má, đau răng, nhức đầu."
+        ]
+      },
       "international_code": "SI8",
       "code_dash": "SI-8",
       "chinese": "小海",
@@ -42948,13 +44767,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0908-tieu-truong-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ42PPZR7J35497PP5693T.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPKF01S5Z0MZXQG6TN7487.webp",
-        "gp": "/_emdash/api/media/file/01M3DPKFF7QVC6H793WQ9YYJXW.webp",
-        "lan": "/_emdash/api/media/file/01M3DPKGDG1CKCKNGYBXVABNCB.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPKGYGMN56JBNRNWBBA5HX.webp",
+        "da": "/anh/huyet/tieu-truong-du-tren-da.webp",
+        "gp": "/anh/huyet/tieu-truong-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tieu-truong-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tieu-truong-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ ở rãnh cột sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 169,
+        "nhom": [
+          "Điều hoà khí Tiểu Trường, Đại Trường và Bàng Quang (Du huyệt của Tiểu Trường): bệnh đường tiết niệu, đại tiện — tiểu tiện khó khăn, phù nề, đau bụng dưới, viêm khớp cùng chậu tại chỗ, chứng sán khí.",
+          "Trừ thấp, thấp nhiệt: phù nề, tiêu chảy, viêm ruột, trĩ, táo bón."
+        ]
+      },
       "international_code": "BL27",
       "code_dash": "BL-27",
       "chinese": "小腸俞",
@@ -43021,13 +44846,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0909-tin-hoi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ435MSKD413YAPWS7PVM1.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ16TVHKBSX58FZDEPCVE5.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ17D12SA032W02NGKCV4B.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ17W603XQT7G55NYGQT8K.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ18ED8WY0CY4T9Q0KHKAW.webp",
+        "da": "/anh/huyet/tin-hoi-tren-da.webp",
+        "gp": "/anh/huyet/tin-hoi-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tin-hoi-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tin-hoi-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, dưới cân sọ là thóp trước, vết tích của thóp trước."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 386,
+        "nhom": [
+          "Trừ phong (nội phong), hỗ trợ mũi và đầu: chóng mặt, động kinh, co giật, nhức đầu, các vấn đề về mũi như chảy máu cam — nghẹt mũi — polyp — mất khứu giác, bồn chồn, buồn ngủ."
+        ]
+      },
       "international_code": "GV22",
       "code_dash": "GV-22",
       "chinese": "囟會",
@@ -43124,13 +44954,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0911-tinh-minh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ43TG6F7SGBANTBD0CBB6.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPHVA77M5SGFNE41ER6K86.webp",
-        "gp": "/_emdash/api/media/file/01M3DPHW2F8CDZ7NVV1VWAS2XQ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPHWBKNN5Z54CV3V6S1FX5.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPHX427R03VWQRADAV0B5A.webp",
+        "da": "/anh/huyet/tinh-minh-tren-da.webp",
+        "gp": "/anh/huyet/tinh-minh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tinh-minh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tinh-minh-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ vòng miệng dưới, chỗ bám của cơ tháp, cơ mày, trên chỗ bám của cơ nâng mũi, môi trên."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 142,
+        "nhom": [
+          "Khu phong, thanh nhiệt, dưỡng mắt: các bệnh về mắt, liệt mặt."
+        ]
+      },
       "international_code": "BL1",
       "code_dash": "BL-1",
       "chinese": "睛明",
@@ -43340,13 +45175,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0916-toan-truc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ449MSQ0J4YHZYZC5Q2NS.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPHX74JVB5TT1M8T0DM17X.webp",
-        "gp": "/_emdash/api/media/file/01M3DPHXZNMGV91MMDQAR7C0AC.webp",
-        "lan": "/_emdash/api/media/file/01M3DPHY8SV9QPAQK9NJ0W4FP9.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPHZ1AW06TWJBKFD4KDGS5.webp",
+        "da": "/anh/huyet/toan-truc-tren-da.webp",
+        "gp": "/anh/huyet/toan-truc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/toan-truc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/toan-truc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trán, cơ mày, cơ tháp, bờ cơ vòng mi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 143,
+        "nhom": [
+          "Dưỡng mắt: các bệnh về mắt.",
+          "Khu phong, thanh nhiệt: sốt nhiễm trùng ở mũi và mắt, viêm mũi dị ứng, viêm xoang.",
+          "Thanh đầu, giảm đau: giật cơ mặt, liệt mặt, đau dây thần kinh sinh ba (nhánh 1), nhức đầu vùng trán, đau nửa đầu.",
+          "Hành khí theo nhánh phụ của kinh Bàng Quang: đau do trĩ."
+        ]
+      },
       "international_code": "BL2",
       "code_dash": "BL-2",
       "chinese": "攢竹",
@@ -43414,13 +45257,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0917-to-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ44JKH575AD4DY9FYF6WN.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ1CM1RSKXJZWWEY7JQ509.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ1D39CDBZFPQA8NRWY96Q.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ1DP1D127DVZG0T14ZC17.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ1DZ3G3KSG4AT3CS6ZQS3.webp",
+        "da": "/anh/huyet/to-lieu-tren-da.webp",
+        "gp": "/anh/huyet/to-lieu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/to-lieu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/to-lieu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: ngành ngang sụn cánh mũi, chỗ tiếp khớp của góc dưới – trước sụn lá mía, sụn cánh mũi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 389,
+        "nhom": [
+          "Hỗ trợ mũi: các vấn đề về mũi như chảy máu cam, nghẹt mũi, polyp, viêm mũi, mất khứu giác.",
+          "Điều hoà khí: khó thở, tăng huyết áp."
+        ]
+      },
       "international_code": "GV25",
       "code_dash": "GV-25",
       "chinese": "素髎",
@@ -43623,13 +45472,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0922-trat-bien.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ466W09E16H4KPFF8DHHK.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPNG8B02RZV06Y1ZENJJAF.webp",
-        "gp": "/_emdash/api/media/file/01M3DPNH3RJ1NM466EZQ6KSXPV.webp",
-        "lan": "/_emdash/api/media/file/01M3DPNHFVXF0N677WT28685W9.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPNJ58HNZ8RHPD7VJRNEF7.webp",
+        "da": "/anh/huyet/trat-bien-tren-da.webp",
+        "gp": "/anh/huyet/trat-bien-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trat-bien-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trat-bien-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 193,
+        "nhom": [
+          "Thông kinh lạc, giảm đau, lợi lưng dưới: các chứng ở thắt lưng, mông và chi dưới, đau thần kinh toạ.",
+          "Điều hoà tiểu tiện, trị trĩ: bí tiểu, tiểu khó, phì đại tuyến tiền liệt, trĩ."
+        ]
+      },
       "international_code": "BL54",
       "code_dash": "BL-54",
       "chinese": "秩邊",
@@ -44054,13 +45909,18 @@ window.ACUPOINTS = {
       "image": null,
       "anhCms": null,
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPVWVKYN3QWR8ARGFYPHW6.webp",
-        "gp": "/_emdash/api/media/file/01M3DPVX81NFN9ZHTE319DS63C.webp",
-        "lan": "/_emdash/api/media/file/01M3DPVY3KZF9EEX8E7Y4PEY41.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPVY6WCBBJYAGK8EGRX5K4.webp",
+        "da": "/anh/huyet/triep-can-tren-da.webp",
+        "gp": "/anh/huyet/triep-can-tren-giai-phau.webp",
+        "lan": "/anh/huyet/triep-can-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/triep-can-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của cơ răng lớn, bờ dưới cơ ngực lớn, cơ gian sườn 4, bên trong là phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 295,
+        "nhom": [
+          "Khai thông lồng ngực, điều hoà khí và Tam Tiêu: ho, khó thở, hen phế quản, tức ngực, buồn nôn, nôn, ợ hơi, ợ chua, mất ngủ, tâm trạng chán nản, đau cánh tay và mạn sườn, đau dây thần kinh liên sườn."
+        ]
+      },
       "international_code": "GB23",
       "code_dash": "GB-23",
       "chinese": "輒筋",
@@ -44156,13 +46016,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0934-truc-tan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ47E8YR03V8JAHDJCX737.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPPXTE7R12VDS9Y3S79C4X.webp",
-        "gp": "/_emdash/api/media/file/01M3DPPXXEKQM3F81BHFBEF1NC.webp",
-        "lan": "/_emdash/api/media/file/01M3DPPYPCACWGPTK64BC4TKZW.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPPZ0Q0Y1JJEQW29BAT5V2.webp",
+        "da": "/anh/huyet/truc-tan-tren-da.webp",
+        "gp": "/anh/huyet/truc-tan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/truc-tan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/truc-tan-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi dài các ngón chân."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 218,
+        "nhom": [
+          "Thanh nhiệt, hoá đờm, an thần: rối loạn tâm thần như trầm cảm, bồn chồn, hưng cảm, kích động.",
+          "Điều khí, giảm đau: đau mặt trong hai chân, chuột rút bắp chân."
+        ]
+      },
       "international_code": "KI9",
       "code_dash": "KI-9",
       "chinese": "築賓",
@@ -44364,13 +46230,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0939-trung-chu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ48C2GVTQS03RH431TA3P.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQ9HCH850AS7NFQ3EN6FY.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQ9MDK1RF33YYGQXBJ4K9.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQAFN605SRSSA6W4B606C.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQANY0F063AYRAV1PZFEA.webp",
+        "da": "/anh/huyet/trung-chu-tren-da.webp",
+        "gp": "/anh/huyet/trung-chu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trung-chu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trung-chu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang, bàng quang khi bí tiểu tiện vừa, tử cung khi có thai 6 – 7 tháng."
       },
-      "congDung": null
+      "congDung": {
+        "trang": 224,
+        "nhom": [
+          "Điều hoà Trường và hạ tiêu: rối loạn đường ruột như táo bón, phân khô, tiêu chảy, đau bụng, các chứng ở cột sống thắt lưng, cảm giác nóng bụng dưới, kinh nguyệt không đều, cảm giác khí xông ngược lên ngực (chứng Bôn Đồn)."
+        ]
+      }
     },
     {
       "id": 940,
@@ -44421,13 +46292,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0940-trung-chu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ48XXXWZ2WJ2JB7T0P088.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPS66YBB3WXFZ0EE6A9EA7.webp",
-        "gp": "/_emdash/api/media/file/01M3DPS6P3X39Q4DXE5Z7ZX8HK.webp",
-        "lan": "/_emdash/api/media/file/01M3DPS759D8TPKP1BXEATRFSZ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPS7HH7CMY41W1TS85WR6J.webp",
+        "da": "/anh/huyet/trung-chu-2-tren-da.webp",
+        "gp": "/anh/huyet/trung-chu-2-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trung-chu-2-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trung-chu-2-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi riêng ngón tay thứ 5, cơ gian cốt mu tay, cơ gian cốt gan tay, cơ giun, bờ trong đầu dưới xương bàn tay 4."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 250,
+        "nhom": [
+          "Bổ tai, thanh nhiệt đầu mắt: bệnh về tai, nhức đầu một bên, chóng mặt, viêm kết mạc, sốt nhiễm trùng nhất là phong nhiệt, hội chứng Thiếu Dương.",
+          "Thông kinh lạc, giảm đau: các chứng ở chi trên, co thắt/liệt ngón tay."
+        ]
+      },
       "international_code": "TE3",
       "code_dash": "TE-3",
       "chinese": "中渚",
@@ -44533,13 +46410,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0942-trung-cuc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ49CYEGJK8JXBSS0VV35M.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPYFKQTY12Z6X7VHQ282H4.webp",
-        "gp": "/_emdash/api/media/file/01M3DPYGNC5CF5WTP99B5R0AAZ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPYGVJT6FGYVWHJVY5Y2MS.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPYJ43BBZF4G2T605QJJ2F.webp",
+        "da": "/anh/huyet/trung-cuc-tren-da.webp",
+        "gp": "/anh/huyet/trung-cuc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trung-cuc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trung-cuc-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 341,
+        "nhom": [
+          "Hỗ trợ Bàng Quang, trừ thấp nhiệt, hỗ trợ hạ tiêu: bệnh tiết niệu — sinh dục như tiểu khó, phù nề, ngứa — đau — sưng vùng sinh dục, bệnh sán khí, viêm tuyến tiền liệt, rối loạn chức năng tình dục như liệt dương, di tinh.",
+          "Điều hoà kinh nguyệt: đau bụng kinh, khí nghịch từ bụng dưới xông lên ngực (bôn đồn khí).",
+          "Bổ Thận (thường dùng Quan Nguyên — CV4 — hơn): đau vùng thắt lưng."
+        ]
+      },
       "international_code": "CV3",
       "code_dash": "CV-3",
       "chinese": "中極",
@@ -44606,13 +46490,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0943-trung-dinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ49Z2JST9HVB7NPZ6D7EW.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZAR88BTAPQQBVEYF1KTF.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZB4DAT1E827JFGC5DA1S.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZBPKMA1TJYG9WAETPQGV.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZBZP2PHNMWGFQ377HV7B.webp",
+        "da": "/anh/huyet/trung-dinh-tren-da.webp",
+        "gp": "/anh/huyet/trung-dinh-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trung-dinh-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trung-dinh-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 354,
+        "nhom": [
+          "Khai thông lồng ngực: tức ngực, đau trước tim, căng tức ngực và mạn sườn, khó nuốt.",
+          "Hoà Vị, giáng khí nghịch: buồn nôn, nôn."
+        ]
+      },
       "international_code": "CV16",
       "code_dash": "CV-16",
       "chinese": "中庭",
@@ -44677,13 +46567,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0944-trung-do.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4A81C3DXHMYNDQF0GX5T.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPXRVAHA52QRX890A5DDX3.webp",
-        "gp": "/_emdash/api/media/file/01M3DPXSQ487W3KAP13GM5K2EQ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPXST42716F0JWTQ5QTFZ0.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPXTNFKYHEKCY2DGDKR1NM.webp",
+        "da": "/anh/huyet/trung-do-tren-da.webp",
+        "gp": "/anh/huyet/trung-do-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trung-do-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trung-do-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: mặt trên – trong của xương chày."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 328,
+        "nhom": [
+          "Bổ Can khí, điều hoà hạ tiêu, điều huyết, trừ thấp: khí hư, rong huyết tử cung, dị cảm và teo cơ chi dưới nhất là do thấp nhiệt, bệnh sán khí."
+        ]
+      },
       "international_code": "LR6",
       "code_dash": "LR-6",
       "chinese": "中都",
@@ -44743,13 +46638,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0945-trung-doc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ18YZAM2AHKTE26A165VX.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPWHY2XYWE8JT267MZJ5Z8.webp",
-        "gp": "/_emdash/api/media/file/01M3DPWJA6ZPHTF35VHF403C69.webp",
-        "lan": "/_emdash/api/media/file/01M3DPWJSAH1PW8Z7A6H824F7W.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPWK5E53FEQQFTHX8Y6060.webp",
+        "da": "/anh/huyet/trung-doc-tren-da.webp",
+        "gp": "/anh/huyet/trung-doc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trung-doc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trung-doc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cân đùi, bờ trước cơ 2 đầu đùi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 305,
+        "nhom": [
+          "Khu phong, giảm ngứa, thông kinh lạc, giảm đau: hội chứng tý ở chi dưới, vùng thắt lưng và hông, đau thần kinh toạ, liệt nửa người, ngứa, mề đay."
+        ]
+      },
       "international_code": "GB32",
       "code_dash": "GB-32",
       "chinese": "中瀆",
@@ -44888,13 +46788,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0948-trung-khu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4C1AWF0XA9YW88RM6GCS.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DQ074YSVRR4KSATF6MTY28.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ07Q6SYMVGKSP2AN2K95D.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ086DJS3DDZRBY12FZWWD.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ08RQEDZVRZ011M1BNCAZ.webp",
+        "da": "/anh/huyet/trung-khu-tren-da.webp",
+        "gp": "/anh/huyet/trung-khu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trung-khu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trung-khu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, cân ngực – thắt lưng của cơ lưng lớn, cơ gai dài của lưng, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 370,
+        "nhom": [
+          "Điều hoà trung tiêu: đầy bụng, chán ăn, vàng da, vô kinh.",
+          "Thông lợi cột sống: đau lưng."
+        ]
+      },
       "international_code": "GV7",
       "code_dash": "GV-7",
       "chinese": "中樞",
@@ -44955,13 +46861,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0949-trung-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4CG90XPVZXGYVPVBQ8BY.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPKZK79Y5GM2XSYXS126EF.webp",
-        "gp": "/_emdash/api/media/file/01M3DPKZP9X2TQC7MC5WXCXR3R.webp",
-        "lan": "/_emdash/api/media/file/01M3DPM0WXX4QYSXCVD0E8C6G0.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPM1CNRGY1CG0F6T9764GR.webp",
+        "da": "/anh/huyet/trung-lieu-tren-da.webp",
+        "gp": "/anh/huyet/trung-lieu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trung-lieu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trung-lieu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ ở rãnh cột sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 173,
+        "nhom": [
+          "Điều hoà hạ tiêu, lợi tiểu tiện — cùng Thứ Liêu (BL32) là hai huyệt Bát Liêu tác dụng mạnh nhất với bệnh tiết niệu: rối loạn tiết niệu — sinh dục như đau bụng kinh, các chứng ở bộ phận sinh dục ngoài, khí hư âm đạo.",
+          "Bổ Thận ích tinh: dùng khi cơ thể kiệt sức.",
+          "Lợi vùng thắt lưng cùng — cùng Thứ Liêu (BL32) là hai huyệt tác dụng mạnh nhất: đau, rối loạn cảm giác, liệt chi dưới.",
+          "Hỗ trợ đại tiện: công dụng chung của nhóm Bát Liêu."
+        ]
+      },
       "international_code": "BL33",
       "code_dash": "BL-33",
       "chinese": "中髎",
@@ -45021,13 +46935,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0950-trung-lu-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4D56V5J50J0RR6SYAPMB.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPKMSM3F28YQM7RVH2GBX3.webp",
-        "gp": "/_emdash/api/media/file/01M3DPKMWMX2NVK12SB32YKTVG.webp",
-        "lan": "/_emdash/api/media/file/01M3DPKNERGTKWYRG6PWVZ4VWV.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPKP1Q9FJVYA7M0BQGFGQ6.webp",
+        "da": "/anh/huyet/trung-lu-du-tren-da.webp",
+        "gp": "/anh/huyet/trung-lu-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trung-lu-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trung-lu-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ rãnh cột sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 171,
+        "nhom": [
+          "Tăng cường sức mạnh lưng dưới: đau và cứng vùng thắt lưng.",
+          "Ôn trung, cầm tiêu chảy: lạnh bụng, kiết lỵ, tiêu chảy, đầy bụng, giảm tiết mồ hôi, chứng sán khí."
+        ]
+      },
       "international_code": "BL29",
       "code_dash": "BL-29",
       "chinese": "中膂俞",
@@ -45124,13 +47044,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0952-trung-phong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4E62CDCVJ0Z78GP4KJS4.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPXMZPEJ4B95HJX36TGDNJ.webp",
-        "gp": "/_emdash/api/media/file/01M3DPXNTY2GCVZH5MAHG78S1N.webp",
-        "lan": "/_emdash/api/media/file/01M3DPXNXZMGGMDF8RQ7XQV64Q.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPXPTRTNB30DS9MRC88JFF.webp",
+        "da": "/anh/huyet/trung-phong-tren-da.webp",
+        "gp": "/anh/huyet/trung-phong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trung-phong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trung-phong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong gân cơ chày trước."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 325,
+        "nhom": [
+          "Thông kinh lạc, sơ Can khí, thanh nhiệt kinh Can, điều hoà hạ tiêu: đau bụng dưới và sinh dục ngoài, tiểu khó, rối loạn xuất tinh, các vấn đề khớp cổ chân, bệnh sán khí."
+        ]
+      },
       "international_code": "LR4",
       "code_dash": "LR-4",
       "chinese": "中封",
@@ -45193,10 +47118,10 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0953-trung-phu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4EC1273SRSKKHSWCJAZG.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3D10C09BTMC71J92GJR8YQQ.webp",
-        "gp": "/_emdash/api/media/file/01M3D10CA38HEXHVHB2NZKVD1A.webp",
-        "lan": "/_emdash/api/media/file/01M3D10D6MMVTJX680HXCQMBEH.webp",
-        "kinh": "/_emdash/api/media/file/01M3D10D9X1PWQD1G51Y8MP1PG.webp",
+        "da": "/anh/huyet/trung-phu-tren-da.webp",
+        "gp": "/anh/huyet/trung-phu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trung-phu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trung-phu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ răng lớn, cơ gian sườn 2."
       },
       "congDung": {
@@ -45275,13 +47200,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0954-trung-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4EY386XQYPADTXZRK8Y8.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZ35DS1NFWYJ1RNR54MS5.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZ3EJBQ58D9TT2P1M162Y.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZ46S5QBW3JFM85P997N2.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZ49S3V58PXQ65ZHXTFYV.webp",
+        "da": "/anh/huyet/trung-quan-tren-da.webp",
+        "gp": "/anh/huyet/trung-quan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trung-quan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trung-quan-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 350,
+        "nhom": [
+          "Điều hoà, bồi bổ trung tiêu, giáng nghịch khí, giảm đau: các bệnh đường tiêu hoá nói chung.",
+          "Trừ thấp trọc: mệt mỏi, nặng nề toàn thân, đau âm ỉ cố định, tiết dịch đục."
+        ]
+      },
       "international_code": "CV12",
       "code_dash": "CV-12",
       "chinese": "中脘",
@@ -45424,13 +47355,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0957-trung-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4GHCQAYXDT5Y4F9FHQHR.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPRYJVYNTZFMDQ9CJJ8QHW.webp",
-        "gp": "/_emdash/api/media/file/01M3DPRZ9WYG04JKD59J6GFF9P.webp",
-        "lan": "/_emdash/api/media/file/01M3DPRZK6X76JT3SD03Y11059.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPS284E33EKCAY27BSM5H4.webp",
+        "da": "/anh/huyet/trung-xung-tren-da.webp",
+        "gp": "/anh/huyet/trung-xung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/trung-xung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/trung-xung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của gân ngón giữa, cơ gấp chung ngón tay sâu, đầu đốt 3 xương ngón tay giữa."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 246,
+        "nhom": [
+          "Khai khiếu, hồi tỉnh (huyệt Tỉnh, cấp cứu): bất tỉnh, sốc, suy sụp, say nắng, đột quỵ, động kinh ở trẻ em.",
+          "Thanh nhiệt (Tâm, Tâm bào), an thần: sốt cao kèm kích động, nhức đầu do nhiệt, đau thắt ngực, tăng trương lực cơ, mất ngôn ngữ, cứng/đau lưỡi, viêm miệng, tiêu chảy cấp mùa hè, trẻ hay giật mình sợ hãi ban đêm."
+        ]
+      },
       "international_code": "PC9",
       "code_dash": "PC-9",
       "chinese": "中衝",
@@ -45697,13 +47634,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0963-truong-cuong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4GQF4CZ4BWCSQ88KD8WZ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZVNTJ5QK3C9SGSB7HXE7.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZWE3TCNRPMAHHZSK1P6X.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZWM46NCPQ0YGT8976DX4.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZX9E4553ZY9334NJH9B3.webp",
+        "da": "/anh/huyet/truong-cuong-tren-da.webp",
+        "gp": "/anh/huyet/truong-cuong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/truong-cuong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/truong-cuong-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 364,
+        "nhom": [
+          "Hỗ trợ nhị tiện: tiểu khó, bí tiểu, trĩ, sa trực tràng, đại tiện đau khó, rối loạn cương dương, rối loạn chức năng tình dục.",
+          "Thông kinh lạc, giảm đau: đau thắt lưng cùng, nặng đầu, run.",
+          "An thần: hưng cảm, bồn chồn, co thắt, động kinh."
+        ]
+      },
       "international_code": "GV1",
       "code_dash": "GV-1",
       "chinese": "長強",
@@ -45982,13 +47926,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0970-truu-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4JS4B03XYD78RPETASFK.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPAQ53B38PPZ1SQKDRSVR0.webp",
-        "gp": "/_emdash/api/media/file/01M3DPAQB53TDM2H8ZDT35ATD7.webp",
-        "lan": "/_emdash/api/media/file/01M3DPAR3GC19B7R3N6M0SYP5W.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPARCKHRPMJGYEAWWV9VFK.webp",
+        "da": "/anh/huyet/truu-lieu-tren-da.webp",
+        "gp": "/anh/huyet/truu-lieu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/truu-lieu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/truu-lieu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: rãnh giữa cơ 3 đầu cánh tay (phần rộng ngoài), chỗ bám của cơ ngửa dài, cơ quay 1. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 30,
+        "nhom": [
+          "Thông kinh lạc, giảm đau, lợi khớp khuỷu: đau nhức, tê bì, cứng khớp khuỷu tay và các chứng ở phần trên cánh tay."
+        ]
+      },
       "international_code": "LI12",
       "code_dash": "LI-12",
       "chinese": "肘髎",
@@ -46238,13 +48187,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0976-tuc-khieu-am.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4MBYVHBG0Z6680AB1FVX.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPXCFRYBYG1H6MZQ7THSSN.webp",
-        "gp": "/_emdash/api/media/file/01M3DPXDD0HWPPCC83E9HCMFF2.webp",
-        "lan": "/_emdash/api/media/file/01M3DPXDXGNXHZXRD5SX2TY60C.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPXF3MA346CY1E5B465RVM.webp",
+        "da": "/anh/huyet/tuc-khieu-am-tren-da.webp",
+        "gp": "/anh/huyet/tuc-khieu-am-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tuc-khieu-am-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tuc-khieu-am-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 320,
+        "nhom": [
+          "Thanh nhiệt, lợi đầu và ngực: đau nửa đầu, nhức đầu, đau mắt, chóng mặt, viêm kết mạc, ù tai, giảm thính lực đột ngột, đau họng, cứng lưỡi, căng tức vùng sườn, sốt nhiễm trùng.",
+          "An thần: mất ngủ, kích động."
+        ]
+      },
       "international_code": "GB44",
       "code_dash": "GB-44",
       "chinese": "足竅陰",
@@ -46339,13 +48294,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0978-tuc-lam-khap.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4NCHENGFRAVFRP5S472V.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPX48JBC2FSXTV9SS894G9.webp",
-        "gp": "/_emdash/api/media/file/01M3DPX645YHYD59JPSQ2EZ3X0.webp",
-        "lan": "/_emdash/api/media/file/01M3DPX6DDMZA44TJJ5D8SY478.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPX78039Z3GG6CH3FF91CF.webp",
+        "da": "/anh/huyet/tuc-lam-khap-tren-da.webp",
+        "gp": "/anh/huyet/tuc-lam-khap-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tuc-lam-khap-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tuc-lam-khap-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài gân duỗi ngón chân thứ 5 của cơ duỗi chung các ngón chân, cơ gian cốt mu chân."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 316,
+        "nhom": [
+          "Sơ Can khí, lợi mạn sườn — ngực — vú, hoá đàm tán kết: Can khí uất kết và các chứng dọc đường kinh, viêm tuyến vú, cai sữa.",
+          "Làm nhẹ đầu, dưỡng mắt: nhức đầu, chóng mặt, bệnh về mắt/tai."
+        ]
+      },
       "international_code": "GB41",
       "code_dash": "GB-41",
       "chinese": "足臨泣",
@@ -46445,13 +48406,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0980-tuc-ngu-ly.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4PME3FK0F9MK5F4J9DBD.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPY0YKCQ3CMN9J6XCQR726.webp",
-        "gp": "/_emdash/api/media/file/01M3DPY1SYPM5D1GFPD3HZ3R48.webp",
-        "lan": "/_emdash/api/media/file/01M3DPY1X0P87F5KRMVH88DY3T.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPY2RB1KQYJY3EKBEJB49D.webp",
+        "da": "/anh/huyet/tuc-ngu-ly-tren-da.webp",
+        "gp": "/anh/huyet/tuc-ngu-ly-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tuc-ngu-ly-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tuc-ngu-ly-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ khép nhỡ."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 332,
+        "nhom": [
+          "Thanh nhiệt, lợi tiểu tiện: khó chịu vùng chậu, viêm/u tuyến tiền liệt, chàm sinh dục, tiểu khó, bí tiểu, đái dầm.",
+          "Thư cân: đau và hạn chế vận động ở đùi."
+        ]
+      },
       "international_code": "LR10",
       "code_dash": "LR-10",
       "chinese": "足五里",
@@ -46512,13 +48479,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0981-tuc-tam-ly.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4QJNR59A8E1G3JN4E1ZG.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPDRYXZPBK0Y06FG9N4V25.webp",
-        "gp": "/_emdash/api/media/file/01M3DPDSH197GWJFBPC0C92HWW.webp",
-        "lan": "/_emdash/api/media/file/01M3DPDSX5WRVW7P6793J3W5TJ.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPDTC8YMWHK407N726QB3V.webp",
+        "da": "/anh/huyet/tuc-tam-ly-tren-da.webp",
+        "gp": "/anh/huyet/tuc-tam-ly-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tuc-tam-ly-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tuc-tam-ly-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ cẳng chân trước, chỗ bám các thớ gân cơ 2 đầu đùi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 75,
+        "nhom": [
+          "Hoà Vị, kiện Tỳ, trừ thấp: các rối loạn tiêu hoá nói chung.",
+          "Bổ khí huyết, cường tráng: nâng cao sức đề kháng, dùng khi cơ thể suy nhược, chóng mặt, dị ứng, suy sụp.",
+          "An thần: bồn chồn, trạng thái hưng cảm.",
+          "Thông kinh lạc, giảm đau: các chứng đau dọc theo đường kinh Vị."
+        ]
+      },
       "international_code": "ST36",
       "code_dash": "ST-36",
       "chinese": "足三里",
@@ -46805,13 +48780,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0988-tuyen-co.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4S2A48PY5Y0AB7CHK0FP.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZM4X972EE43034163HAT.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZMQ9CCV2SQNA7C6E7XSA.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZN0FZ2RXBWJY1M3Z3VTT.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZNJR27SDCFRDG5H6TF0P.webp",
+        "da": "/anh/huyet/tuyen-co-tren-da.webp",
+        "gp": "/anh/huyet/tuyen-co-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tuyen-co-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tuyen-co-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: đầu trên xương ức."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 359,
+        "nhom": [
+          "Khai thông lồng ngực: đau, tức ngực và mạn sườn.",
+          "Lợi họng: viêm họng.",
+          "Giáng khí nghịch: ho, khó thở, hen phế quản, đầy trệ do ăn uống, co thắt thực quản, khó nuốt."
+        ]
+      },
       "international_code": "CV21",
       "code_dash": "CV-21",
       "chinese": "璇璣",
@@ -46977,13 +48959,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0992-tu-bach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4V0PT0Q8KKA1D06VGKVE.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPBAV5N06VEQES2ZDQ5S3R.webp",
-        "gp": "/_emdash/api/media/file/01M3DPBB49328EMR8GA7H5P1S8.webp",
-        "lan": "/_emdash/api/media/file/01M3DPBBPKH1G7YK9BG50MNPCB.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPBC5VF41X79BM0MBN87TK.webp",
+        "da": "/anh/huyet/tu-bach-tren-da.webp",
+        "gp": "/anh/huyet/tu-bach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tu-bach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tu-bach-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ vòng mi (phần ổ mắt), trên chỗ bám của cơ gò má (một cơ thuộc cơ vuông môi trên), chỗ tiếp khớp của xương gò má với xương hàm trên. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 41,
+        "nhom": [
+          "Dưỡng mắt, thanh nhiệt, khu phong: bệnh về mắt, viêm mắt dị ứng, viêm mũi, liệt mặt, đau dây thần kinh sinh ba, giật mí mắt."
+        ]
+      },
       "international_code": "ST2",
       "code_dash": "ST-2",
       "chinese": "四白",
@@ -47043,13 +49030,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0993-tu-doc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4V3NNN8ZCZS4XB8X573Y.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPSJ2AKHM04KZS2XZYK3XS.webp",
-        "gp": "/_emdash/api/media/file/01M3DPSJTG1YXCMDKSPAB8KXN6.webp",
-        "lan": "/_emdash/api/media/file/01M3DPSK0KQ4RGCTNJD10442C0.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPSKJW9B7QG4DCBAGSMS9E.webp",
+        "da": "/anh/huyet/tu-doc-tren-da.webp",
+        "gp": "/anh/huyet/tu-doc-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tu-doc-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tu-doc-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi riêng ngón tay út, cơ dạng dài ngón cái."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 256,
+        "nhom": [
+          "Lợi họng tai: đau hàm dưới, đau răng họng, mất thính lực đột ngột, ù tai, mất giọng cấp.",
+          "Thông kinh lạc tại chỗ: đau cẳng tay."
+        ]
+      },
       "international_code": "TE9",
       "code_dash": "TE-9",
       "chinese": "四瀆",
@@ -47221,13 +49214,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/0997-tu-man.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4WXRJSPWQRDKV1SWBH8V.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQ7H8BMZ488K099W3YQXY.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQ7M9QVESFZSA8FH5WR3D.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQ8G0XQ6YN89A2MAC7Y76.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQ8S5ES5VE3QBZG0GF9FN.webp",
+        "da": "/anh/huyet/tu-man-tren-da.webp",
+        "gp": "/anh/huyet/tu-man-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tu-man-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tu-man-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn mạc ngang, bàng quang khi bí tiểu ít, tử cung khi có thai 5 – 6 tháng."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 223,
+        "nhom": [
+          "Điều hoà hạ tiêu, hành khí, hoá ứ huyết, giảm đau: rối loạn kinh nguyệt như chu kỳ không đều, đau bụng kinh, khí hư, đau sau sinh, bế kinh, rối loạn xuất tinh, tiêu chảy, cảm giác khí xông ngược lên ngực (chứng Bôn Đồn).",
+          "Thông điều thuỷ đạo: phù nề, cổ trướng."
+        ]
+      },
       "international_code": "KI14",
       "code_dash": "KI-14",
       "chinese": "四滿",
@@ -47409,13 +49408,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1001-tu-cung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4XYRF7HS66HEDSEVYQNN.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZGBC3ZGPDW2CBDW7CP3R.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZGTKK6189PK4VXYP3C4A.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZH9TNNBRBADM1QZYTZ7J.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZHRZ2HJHE4V95W9VGCWA.webp",
+        "da": "/anh/huyet/tu-cung-2-tren-da.webp",
+        "gp": "/anh/huyet/tu-cung-2-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tu-cung-2-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tu-cung-2-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 357,
+        "nhom": [
+          "Khai thông lồng ngực: đau, căng cứng vùng ngực và xương ức.",
+          "Điều khí, hạ khí nghịch: ho, khó thở, hen phế quản, nôn, co thắt thực quản, khó nuốt, kích động, đau xương."
+        ]
+      },
       "international_code": "CV19",
       "code_dash": "CV-19",
       "chinese": "紫宮",
@@ -47659,13 +49664,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1007-ty-truc-khong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4YWDFCP2363813R1PGB8.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPTG7N11ZB9VQDXD4FMQ0S.webp",
-        "gp": "/_emdash/api/media/file/01M3DPTGSYGAXPKRMX1F6NS216.webp",
-        "lan": "/_emdash/api/media/file/01M3DPTH9670CBW31GKV3645SD.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPTHYCP88FW9DFT3RYJHVP.webp",
+        "da": "/anh/huyet/ty-truc-khong-tren-da.webp",
+        "gp": "/anh/huyet/ty-truc-khong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ty-truc-khong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ty-truc-khong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài cơ vòng mi, phần bám vào da cung mày của cơ trán."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 270,
+        "nhom": [
+          "Dưỡng mắt, trừ phong, giảm đau: rối loạn thị giác, viêm kết mạc, bệnh về mí mắt, liệt mặt và giật cơ mặt, nhức đầu nhất là một bên và vùng mắt, đau nửa đầu, chóng mặt, động kinh và co giật ở trẻ em."
+        ]
+      },
       "international_code": "TE23",
       "code_dash": "TE-23",
       "chinese": "絲竹空",
@@ -47730,13 +49740,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1008-ty-nhu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4ZQ4QRTWA4ZYQ2PNHS2B.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPAV208G2HNG1855MSDY42.webp",
-        "gp": "/_emdash/api/media/file/01M3DPAV513VKM05V3JGH9KSRV.webp",
-        "lan": "/_emdash/api/media/file/01M3DPAW0G7088BWPRKMF6CA7E.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPAW3HBZEPJGBGH5BS5YT0.webp",
+        "da": "/anh/huyet/ty-nhu-tren-da.webp",
+        "gp": "/anh/huyet/ty-nhu-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ty-nhu-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ty-nhu-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: đỉnh cơ delta, bờ ngoài cơ 2 đầu cánh tay, chỗ bám của cơ cánh tay trên vào xương, phía sau là phần rộng ngoài của cơ 3 đầu cánh tay. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 32,
+        "nhom": [
+          "Thông kinh lạc, giảm đau: các chứng ở vai và hố thượng đòn, hạn chế vận động vai – khuỷu tay.",
+          "Minh mục: bệnh về mắt như đỏ, sưng, nóng.",
+          "Hành khí, tán kết đờm: bướu cổ, đau vùng ngực (phối cùng LI13, LI15, LI16)."
+        ]
+      },
       "international_code": "LI14",
       "code_dash": "LI-14",
       "chinese": "臂臑",
@@ -47907,13 +49924,19 @@ window.ACUPOINTS = {
       "image": null,
       "anhCms": null,
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPJZVK758C57JE9E7JT4E6.webp",
-        "gp": "/_emdash/api/media/file/01M3DPK0ARQSR91FBN6EW4D562.webp",
-        "lan": "/_emdash/api/media/file/01M3DPK0XHAF1AQ1PRT6ESW0V1.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPK19MG3W43BF5RM1AZSVB.webp",
+        "da": "/anh/huyet/ty-du-tren-da.webp",
+        "gp": "/anh/huyet/ty-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ty-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ty-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, cơ răng bé sau – dưới, cơ lưng dài, cơ bán gai của ngực, cơ ngang gai, cơ ngang sườn."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 161,
+        "nhom": [
+          "Bổ Tỳ khí và Tỳ dương, kiện trung khí, bổ khí dưỡng huyết, nhiếp huyết (Du huyệt của Tỳ): rối loạn tiêu hoá như tiêu chảy, đầy bụng, chán ăn; kiệt sức cả tâm lý lẫn thể chất; teo cơ, sa nội tạng, thiếu máu, các chứng xuất huyết.",
+          "Hoá thấp: hội chứng thấp như phù nề, sưng nề, cảm giác nặng nề toàn thân."
+        ]
+      },
       "international_code": "BL20",
       "code_dash": "BL-20",
       "chinese": "脾俞",
@@ -48231,13 +50254,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1020-u-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ51FSAYKEDG1MCXCYW8W0.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPQN04NKTEAMMK39DQAE0M.webp",
-        "gp": "/_emdash/api/media/file/01M3DPQNF78JCZ0R5FDV320A6P.webp",
-        "lan": "/_emdash/api/media/file/01M3DPQNYBVQWV0DYMWWR7X3K9.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPQPDGWJAXMVNHMT6991SB.webp",
+        "da": "/anh/huyet/u-mon-tren-da.webp",
+        "gp": "/anh/huyet/u-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/u-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/u-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 230,
+        "nhom": [
+          "Kiện Tỳ, hoà Vị, giáng nghịch khí, sơ Can: buồn nôn, nôn, đầy bụng, chán ăn, ợ nóng, viêm dạ dày, tăng tiết nước bọt, nấc cụt, nôn nghén khi mang thai, căng tức mạn sườn, viêm tuyến vú."
+        ]
+      },
       "international_code": "KI21",
       "code_dash": "KI-21",
       "chinese": "幽門",
@@ -48333,13 +50361,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1022-uy-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ51VN6JMX679SJY19BFQN.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPMJ3MAY0EFECA4250TN1A.webp",
-        "gp": "/_emdash/api/media/file/01M3DPMHTCF4E88FBY44QXB8K5.webp",
-        "lan": "/_emdash/api/media/file/01M3DPMJY55X9DA1TW3Q48G52Q.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPMKBP4NGEK19XJ4E69V1V.webp",
+        "da": "/anh/huyet/uy-duong-tren-da.webp",
+        "gp": "/anh/huyet/uy-duong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/uy-duong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/uy-duong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: góc giữa 2 gân cơ 2 đầu đùi, cơ gan chân gầy, mặt sau lồi cầu ngoài xương đùi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 178,
+        "nhom": [
+          "Điều hoà Tam Tiêu, thông điều thuỷ đạo (Hạ hợp huyệt của Tam Tiêu): bệnh tiết niệu như tiểu khó, bí tiểu, đái dầm, phù thũng.",
+          "Thông kinh lạc, giảm đau: đau khớp gối, đau sưng vùng nách (dọc kinh cân), đầy trướng bụng, trĩ, táo bón."
+        ]
+      },
       "international_code": "BL39",
       "code_dash": "BL-39",
       "chinese": "委陽",
@@ -48405,13 +50439,21 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1023-uy-trung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ52DK9XDWDW6C2B0NHJXP.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPMM7QA8ZY1Y1ETSSR7VB8.webp",
-        "gp": "/_emdash/api/media/file/01M3DPMMPXA3ERWEERJZ6AHEEJ.webp",
-        "lan": "/_emdash/api/media/file/01M3DPMN997NP5EVJDMEHSG1PM.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPMNJCXE63F91S1CXRYKFV.webp",
+        "da": "/anh/huyet/uy-trung-tren-da.webp",
+        "gp": "/anh/huyet/uy-trung-tren-giai-phau.webp",
+        "lan": "/anh/huyet/uy-trung-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/uy-trung-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chính giữa vùng chám kheo."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 179,
+        "nhom": [
+          "Thanh nhiệt (nhất là nhiệt mùa hè), cầm nôn và tiêu chảy: viêm dạ dày — ruột cấp, đầy trướng bụng, say nắng.",
+          "Lương huyết: bệnh ngoài da như chàm, viêm quầng, mụn nhọt, dị ứng.",
+          "Lợi Bàng Quang (Hạ hợp huyệt của Bàng Quang): bệnh đường tiết niệu.",
+          "Thông kinh lạc, giảm đau, lợi lưng và gối: đau khớp gối, vùng thắt lưng cùng và chi dưới, kể cả liệt."
+        ]
+      },
       "international_code": "BL40",
       "code_dash": "BL-40",
       "chinese": "委中",
@@ -48516,13 +50558,18 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1025-uyen-dich.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ52PR7DJRSZE5HA7KS5TA.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPVTZTCHFPEVVAJ11WNYNB.webp",
-        "gp": "/_emdash/api/media/file/01M3DPVV8ZVZ1PSMZ1P6NBAGA2.webp",
-        "lan": "/_emdash/api/media/file/01M3DPVW22PGEJ4JQA7NB32Z3C.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPVW8DV3YT1NTBDF7FBBRB.webp",
+        "da": "/anh/huyet/uyen-dich-tren-da.webp",
+        "gp": "/anh/huyet/uyen-dich-tren-giai-phau.webp",
+        "lan": "/anh/huyet/uyen-dich-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/uyen-dich-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trước cơ lưng lớn, cơ răng lớn, cơ gian sườn 4, phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 294,
+        "nhom": [
+          "Điều khí, khai thông lồng ngực, lợi nách: ho, tức ngực, đau dây thần kinh liên sườn, sưng hạch nách, đau vai — cánh tay kèm hạn chế vận động."
+        ]
+      },
       "international_code": "GB22",
       "code_dash": "GB-22",
       "chinese": "淵腋",
@@ -48581,13 +50628,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1026-uyen-cot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ538K68MSNXMZ9Z31Y6GJ.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPGSGKEAAX7CMD0YKC3QNH.webp",
-        "gp": "/_emdash/api/media/file/01M3DPGSZSEDTZFC2M513YB90E.webp",
-        "lan": "/_emdash/api/media/file/01M3DPGTF16W7RAVMN8EYW6TR8.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPGTY5NVCXK4GCA69Y1KKM.webp",
+        "da": "/anh/huyet/uyen-cot-tren-da.webp",
+        "gp": "/anh/huyet/uyen-cot-tren-giai-phau.webp",
+        "lan": "/anh/huyet/uyen-cot-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/uyen-cot-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ da gan tay, cơ dạng ngón út, chỗ lõm giữa đầu trên xương bàn tay 5, đáy chỗ lõm là xương móc."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 124,
+        "nhom": [
+          "Thanh nhiệt, thông kinh lạc, tiêu sưng giảm đau: đau các ngón tay, cổ tay phía xương trụ, cánh tay, khuỷu tay, vai, cổ, sưng má, ù tai.",
+          "Thanh nhiệt, lợi đảm (huyệt kinh nghiệm): vàng da."
+        ]
+      },
       "international_code": "SI4",
       "code_dash": "SI-4",
       "chinese": "腕骨",
@@ -48647,13 +50700,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1027-ung-song.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ53QFM3GFA3WM3BZ160ZD.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPC42ZMGQJ2ZDJFVNRXW1A.webp",
-        "gp": "/_emdash/api/media/file/01M3DPC4Y9NZXKDXGYE28BT1J5.webp",
-        "lan": "/_emdash/api/media/file/01M3DPC51AZ01JMKFBEJY3JZQD.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPC5WPNKA0GV96FMDD6AZW.webp",
+        "da": "/anh/huyet/ung-song-tren-da.webp",
+        "gp": "/anh/huyet/ung-song-tren-giai-phau.webp",
+        "lan": "/anh/huyet/ung-song-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/ung-song-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 3, bờ trên xương sườn 4, bên trong có phổi, tim ở bên trái."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 55,
+        "nhom": [
+          "Điều khí, chỉ khái bình suyễn, khoan khoái lồng ngực: ho, hen phế quản, đau tức ngực và vùng sườn.",
+          "Lợi tuyến vú: viêm tuyến vú, bệnh lý ở vú."
+        ]
+      },
       "international_code": "ST16",
       "code_dash": "ST-16",
       "chinese": "膺窗",
@@ -48714,10 +50773,10 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1028-van-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ54981DFV6QZK1VY908TS.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3D10E3ZH8HY7BWGXYGY0AY5.webp",
-        "gp": "/_emdash/api/media/file/01M3D10EDYYPM6TTQNEWGZGNKA.webp",
-        "lan": "/_emdash/api/media/file/01M3D10F7W6MJ0KSKJPM42JDE0.webp",
-        "kinh": "/_emdash/api/media/file/01M3D10FB4PRSAHXNGGYR8AXZV.webp",
+        "da": "/anh/huyet/van-mon-tren-da.webp",
+        "gp": "/anh/huyet/van-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/van-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/van-mon-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: rãnh delta ngực, cơ răng lớn, cơ gian sườn 1."
       },
       "congDung": {
@@ -48923,13 +50982,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1033-vi-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ54J7PHWAK197VWFMA18Z.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPK1W13Y9WB7Z4EDG0SZ23.webp",
-        "gp": "/_emdash/api/media/file/01M3DPK2EZHZNT6CCTPKKH4SQF.webp",
-        "lan": "/_emdash/api/media/file/01M3DPK2VARR3B6VV9VMWMN4NM.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPK3AM6BNFDH36SSRR755N.webp",
+        "da": "/anh/huyet/vi-du-tren-da.webp",
+        "gp": "/anh/huyet/vi-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/vi-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/vi-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực-thắt lưng của cơ lưng lớn, cơ răng bé sau – dưới, cơ lưng dài, cơ ngang gai, cơ vuông thắt lưng, cơ đái – chậu."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 162,
+        "nhom": [
+          "Hoà Vị, giáng nghịch khí, điều trung tiêu, trừ thấp và thức ăn ứ trệ (Du huyệt của Vị): rối loạn tiêu hoá như đau thượng vị, đầy hơi đầy bụng, rối loạn cảm giác thèm ăn, chán ăn, tiêu chảy, khối u ở bụng, phù nề.",
+          "Thông kinh lạc tại chỗ: rối loạn ở vùng cột sống ngực — thắt lưng, cứng khớp, đau dây thần kinh liên sườn."
+        ]
+      },
       "international_code": "BL21",
       "code_dash": "BL-21",
       "chinese": "胃俞",
@@ -49136,13 +51201,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1038-vi-thuong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ56A2B0P5DCS92SDVK08X.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPN8DNV51YHZ4QTCMC0SYE.webp",
-        "gp": "/_emdash/api/media/file/01M3DPN98X2FKXNB6B6D9QRF5G.webp",
-        "lan": "/_emdash/api/media/file/01M3DPN9BYRQ2DDG9ZRFB9HZ6W.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPNA7D9Y5XAT54TGJ9T5QC.webp",
+        "da": "/anh/huyet/vi-thuong-tren-da.webp",
+        "gp": "/anh/huyet/vi-thuong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/vi-thuong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/vi-thuong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ răng bé sau – dưới, cơ chậu sườn – thắt lưng, cơ vuông thắt lưng."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 189,
+        "nhom": [
+          "Điều hoà trung tiêu: căng bụng, viêm dạ dày — ruột, đầy hơi, nôn mửa, khó tiêu.",
+          "Tại chỗ: rối loạn vùng nối thắt lưng — ngực kèm sợ lạnh."
+        ]
+      },
       "international_code": "BL50",
       "code_dash": "BL-50",
       "chinese": "胃倉",
@@ -49278,10 +51349,10 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1041-xich-trach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ57T6ED14D1H9596PH908.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3D10MCDGDNR0CVB6420C659.webp",
-        "gp": "/_emdash/api/media/file/01M3D10MFNR6YEA7NP4YP28DS9.webp",
-        "lan": "/_emdash/api/media/file/01M3D10NJA49DYR7XR75ER7HG7.webp",
-        "kinh": "/_emdash/api/media/file/01M3D10NP45Z405BAGXWH3YM7E.webp",
+        "da": "/anh/huyet/xich-trach-tren-da.webp",
+        "gp": "/anh/huyet/xich-trach-tren-giai-phau.webp",
+        "lan": "/anh/huyet/xich-trach-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/xich-trach-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài gân cơ 2 đầu cánh tay, rãnh 2 đầu ngoài, bờ trong gân trên cơ ngửa dài, cơ cánh tay trước, khớp khủy."
       },
       "congDung": {
@@ -49394,13 +51465,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1043-xung-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ58TSB4ZPD60HW6PTNY15.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPE6QHBKN1FS2GHWCSAT1K.webp",
-        "gp": "/_emdash/api/media/file/01M3DPE8Y7X9S6VQTY2XKQVDT6.webp",
-        "lan": "/_emdash/api/media/file/01M3DPE97RSE518SVM1CJEQTM5.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPEA6GX5EJCRCSYWBZ2JPC.webp",
+        "da": "/anh/huyet/xung-duong-tren-da.webp",
+        "gp": "/anh/huyet/xung-duong-tren-giai-phau.webp",
+        "lan": "/anh/huyet/xung-duong-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/xung-duong-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong gân cơ duỗi ngón 2 của cơ duỗi chung các ngón chân, cơ duỗi ngắn ngón cái, sau khớp chêm – thuyền."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 82,
+        "nhom": [
+          "Thanh Vị nhiệt, hoà Vị: các chứng vùng đầu và bụng dọc kinh Vị như liệt mặt, đau răng, sưng đau vùng thượng vị.",
+          "An thần: trạng thái hưng cảm.",
+          "Thông kinh lạc, giảm đau: sưng đau ở cẳng chân và mu bàn chân."
+        ]
+      },
       "international_code": "ST42",
       "code_dash": "ST-42",
       "chinese": "沖陽",
@@ -49464,13 +51542,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1044-xung-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ593ND09KPY8J182MQ05F.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPFC1G0SF7ENJR02RN4HQK.webp",
-        "gp": "/_emdash/api/media/file/01M3DPFCSWCDAEQRB3BBRQWJ01.webp",
-        "lan": "/_emdash/api/media/file/01M3DPFCWZTFT4TTTZ27XEACR4.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPFDRFZT37MJHQMGZGWJNP.webp",
+        "da": "/anh/huyet/xung-mon-tren-da.webp",
+        "gp": "/anh/huyet/xung-mon-tren-giai-phau.webp",
+        "lan": "/anh/huyet/xung-mon-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/xung-mon-toan-duong-kinh.webp",
         "ghiChu": null
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 100,
+        "nhom": [
+          "Bổ khí huyết, hành khí hạ tiêu, giảm đau: đau bụng dưới và vùng háng, lạc nội mạc tử cung, u xơ, u nang buồng trứng, đau lan từ hông xuống háng, chứng sán khí.",
+          "An thai, giáng nghịch khí (thông mạch Âm Duy): chướng đầy bụng, đau vùng bụng và ngực khi mang thai giai đoạn cuối.",
+          "Thanh nhiệt, trừ thấp, điều hoà tiểu tiện: bệnh đường tiết niệu, khí hư nhiều."
+        ]
+      },
       "international_code": "SP12",
       "code_dash": "SP-12",
       "chinese": "衝門",
@@ -49527,13 +51612,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1045-y-hy.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ59NDRGZSKE8R71YGXJ9E.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPMY7Q15XFFVXEDYRDEQGS.webp",
-        "gp": "/_emdash/api/media/file/01M3DPMZ06X7G1MJM4RM1S1T54.webp",
-        "lan": "/_emdash/api/media/file/01M3DPMZ379QNK6Y1F4N515ZJP.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPMZWWSN2H514H5XXD8ZK8.webp",
+        "da": "/anh/huyet/y-hy-tren-da.webp",
+        "gp": "/anh/huyet/y-hy-tren-giai-phau.webp",
+        "lan": "/anh/huyet/y-hy-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/y-hy-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ trám, cơ chậu – sườn – ngực, cơ gian sườn 6, vào trong là phổi."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 184,
+        "nhom": [
+          "Khu phong, thanh nhiệt, giáng Phế khí: sốt nhiễm trùng không ra mồ hôi, chóng mặt, ho, khó thở.",
+          "Bổ khí huyết, giảm đau: nhức đầu, đau vai, ngực, xương bả vai, mạn sườn, lưng, thắt lưng, đầy bụng."
+        ]
+      },
       "international_code": "BL45",
       "code_dash": "BL-45",
       "chinese": "譩譆",
@@ -49626,13 +51717,20 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1047-y-xa.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ5ANZHBZYW2VFDPCC8HY8.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPN6H5S5WKED1ATDYJD63V.webp",
-        "gp": "/_emdash/api/media/file/01M3DPN7CCD5RYJ9V5R851GKC2.webp",
-        "lan": "/_emdash/api/media/file/01M3DPN7FDR82T2AGSNZY46GHN.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPN8AMJ75XP3J9QT0795TA.webp",
+        "da": "/anh/huyet/y-xa-tren-da.webp",
+        "gp": "/anh/huyet/y-xa-tren-giai-phau.webp",
+        "lan": "/anh/huyet/y-xa-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/y-xa-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ răng bé sau – dưới, cơ chậu sườn – ngực, cơ gian sườn 11."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 188,
+        "nhom": [
+          "Thanh nhiệt: viêm ruột, vàng da, viêm gan, tiểu khó kèm nước tiểu sẫm màu.",
+          "Điều hoà Tỳ Vị: viêm dạ dày — ruột, đầy hơi, nôn mửa, cảm giác đầy no.",
+          "Tại chỗ: rối loạn vùng nối thắt lưng — ngực kèm sợ lạnh."
+        ]
+      },
       "international_code": "BL49",
       "code_dash": "BL-49",
       "chinese": "意舍",
@@ -49765,13 +51863,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1050-yeu-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ5BZEZ04S7HH6H26X6M2K.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZXFHFQT49MRFTKZDDPMR.webp",
-        "gp": "/_emdash/api/media/file/01M3DPZYASXZ2MN8P269C7HXD1.webp",
-        "lan": "/_emdash/api/media/file/01M3DPZYGT6T6R8AWNSRW07G3J.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPZZ68B7TSN8RE9P4WMX3X.webp",
+        "da": "/anh/huyet/yeu-du-tren-da.webp",
+        "gp": "/anh/huyet/yeu-du-tren-giai-phau.webp",
+        "lan": "/anh/huyet/yeu-du-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/yeu-du-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, cân của khối cơ chung ở rãnh cột sống, dây chằng cùng – cụt, mỏm gai đốt sống cùng cụt."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 365,
+        "nhom": [
+          "Tăng cường sức mạnh vùng thắt lưng và chi dưới: đau thắt lưng cùng kèm hạn chế vận động, đau lưng do rễ thần kinh kèm teo cơ chi dưới.",
+          "Trừ phong thấp: kinh nguyệt không đều, trĩ, tiểu khó, khí hư."
+        ]
+      },
       "international_code": "GV2",
       "code_dash": "GV-2",
       "chinese": "腰俞",
@@ -49835,13 +51939,19 @@ window.ACUPOINTS = {
       "image": "images/acupoints/1051-yeu-duong-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ5CH7SW4S6Q0H0NDR1M8G.webp",
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPZZCBW5FHYQ8EWPAXPYRK.webp",
-        "gp": "/_emdash/api/media/file/01M3DQ007MKBMZYX8EZ0EQJHFP.webp",
-        "lan": "/_emdash/api/media/file/01M3DQ00DP5ZM9KBE5YAKN3P4S.webp",
-        "kinh": "/_emdash/api/media/file/01M3DQ0134PWDK7C7V3WCXQ63Q.webp",
+        "da": "/anh/huyet/yeu-duong-quan-tren-da.webp",
+        "gp": "/anh/huyet/yeu-duong-quan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/yeu-duong-quan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/yeu-duong-quan-toan-duong-kinh.webp",
         "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, chỗ bám của cân khối cơ chung rãnh cột sống, cơ ngang – gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 366,
+        "nhom": [
+          "Trừ phong thấp, tăng cường sức mạnh vùng thắt lưng và chi dưới: hội chứng tý (đau khớp/cơ, khó co duỗi) ở lưng — chân, co rút gân.",
+          "Điều hoà khí hư: đau bụng kinh, khí hư (bạch đới), liệt dương, di tinh."
+        ]
+      },
       "international_code": "GV3",
       "code_dash": "GV-3",
       "chinese": "腰陽關",
@@ -50153,13 +52263,18 @@ window.ACUPOINTS = {
       "image": null,
       "anhCms": null,
       "anh3d": {
-        "da": "/_emdash/api/media/file/01M3DPWKQQ26XFXYAQ1FNMTW16.webp",
-        "gp": "/_emdash/api/media/file/01M3DPWM6XS6MTFY5XEWSH00Z4.webp",
-        "lan": "/_emdash/api/media/file/01M3DPWMS2PZ1Y2GSF3YVEAZK7.webp",
-        "kinh": "/_emdash/api/media/file/01M3DPWN550DVDVQ0DK1J3QC18.webp",
+        "da": "/anh/huyet/tat-duong-quan-tren-da.webp",
+        "gp": "/anh/huyet/tat-duong-quan-tren-giai-phau.webp",
+        "lan": "/anh/huyet/tat-duong-quan-huyet-lan-can.webp",
+        "kinh": "/anh/huyet/tat-duong-quan-toan-duong-kinh.webp",
         "ghiChu": "Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
-      "congDung": null,
+      "congDung": {
+        "trang": 306,
+        "nhom": [
+          "Trừ phong thấp, thư cân, lợi khớp: hội chứng tý ở vùng gối và cẳng chân, các vấn đề ở khớp gối (đau, dị cảm, hạn chế vận động)."
+        ]
+      },
       "international_code": "GB33",
       "code_dash": "GB-33",
       "chinese": "膝陽關",

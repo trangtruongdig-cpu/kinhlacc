@@ -80,6 +80,26 @@ const urlAnh3d = (v) => {
 	const khoa = o.meta?.storageKey;
 	return khoa ? `/_emdash/api/media/file/${khoa}` : null;
 };
+// Đường dẫn TĨNH của ảnh 3D. Phải khớp TỪNG KÝ TỰ với frontend/scripts/xuat-anh-3d.mjs —
+// hai bên suy từ cùng (slug, vai, đuôi) nên không cần bảng tra, nhưng lệch nhau là ảnh
+// 404 mà trang vẫn dựng bình thường, không ai thấy.
+//
+// ⚠️ Dùng slug ĐÃ KHỬ TRÙNG (`x.slug`), KHÔNG dùng slug_goc: slug thô trùng nhau giữa các
+// huyệt khác tên ("Cư Liêu" và "Cự Liêu" đều ra `cu-lieu`), dùng nó là 16 tấm đè lên nhau.
+//
+// Vì sao không dùng URL của CMS nữa: byte ảnh nằm trên đĩa máy lập trình nên trên VPS trả
+// 404, và tên ULID là bước lùi về SEO ảnh. Xem chú thích đầy đủ ở xuat-anh-3d.mjs.
+const VAI_ANH3D = { anh_da: "tren-da", anh_gp: "tren-giai-phau", anh_lan: "huyet-lan-can", anh_kinh: "toan-duong-kinh" };
+const duongAnh3d = (x, cot) => {
+	let o = x[cot];
+	if (!o) return null;
+	if (typeof o === "string") { try { o = JSON.parse(o); } catch { return null; } }
+	const khoa = o?.meta?.storageKey;
+	if (!khoa) return null;
+	const duoi = khoa.slice(khoa.lastIndexOf("."));
+	return `/anh/huyet/${x.slug}-${VAI_ANH3D[cot]}${duoi}`;
+};
+
 
 // Portable Text → từng dòng chữ, đúng cách đã nhập vào (mỗi khối một dòng).
 const chu = (v) => {
@@ -121,10 +141,10 @@ const records = r.rows.map((x) => {
 	const coAnh3d = x.anh_da || x.anh_gp || x.anh_lan || x.anh_kinh;
 	const anh3d = coAnh3d
 		? {
-				da: urlAnh3d(x.anh_da),
-				gp: urlAnh3d(x.anh_gp),
-				lan: urlAnh3d(x.anh_lan),
-				kinh: urlAnh3d(x.anh_kinh),
+				da: duongAnh3d(x, "anh_da"),
+				gp: duongAnh3d(x, "anh_gp"),
+				lan: duongAnh3d(x, "anh_lan"),
+				kinh: duongAnh3d(x, "anh_kinh"),
 				ghiChu: x.anh_ghi_chu || null,
 			}
 		: null;
