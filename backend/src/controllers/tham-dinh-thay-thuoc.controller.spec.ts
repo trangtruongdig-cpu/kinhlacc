@@ -18,7 +18,7 @@ describe('ThamDinhThayThuocService.MUC_MAU', () => {
 });
 
 describe('ThamDinhThayThuocService.loiNhacLapThuoc', () => {
-  const s = new ThamDinhThayThuocService(null as never, null as never, null as never);
+  const s = new ThamDinhThayThuocService(null as never, null as never, null as never, null as never);
 
   it('cấm mô hình thêm kiến thức ngoài — đây là luật dễ trôi nhất', () => {
     const l = s.loiNhacLapThuoc();
@@ -39,7 +39,7 @@ describe('ThamDinhThayThuocService.lapThuoc — khi chưa cấu hình', () => {
   it('thiếu khoá mô hình thì NẰM IM, không ném lỗi', async () => {
     const llm = { daCauHinh: () => false, moCa: () => undefined } as never;
     const cms = { daCauHinh: () => true } as never;
-    const s = new ThamDinhThayThuocService(cms, llm, null as never);
+    const s = new ThamDinhThayThuocService(cms, llm, null as never, null as never);
     const r = await s.lapThuoc();
     expect(r.phienBan).toBeNull();
     expect(r.loi[0]).toMatch(/chưa cấu hình/i);
@@ -48,7 +48,7 @@ describe('ThamDinhThayThuocService.lapThuoc — khi chưa cấu hình', () => {
   it('thiếu cấu hình kho cũng nằm im', async () => {
     const llm = { daCauHinh: () => true, moCa: () => undefined } as never;
     const cms = { daCauHinh: () => false } as never;
-    const s = new ThamDinhThayThuocService(cms, llm, null as never);
+    const s = new ThamDinhThayThuocService(cms, llm, null as never, null as never);
     expect((await s.lapThuoc()).phienBan).toBeNull();
   });
 });
@@ -64,7 +64,7 @@ const LUAT: BoLuatVanPhong = {
 };
 
 describe('ThamDinhThayThuocService.loiNhacSoi', () => {
-  const s = new ThamDinhThayThuocService(null as never, null as never, null as never);
+  const s = new ThamDinhThayThuocService(null as never, null as never, null as never, null as never);
 
   it('nhúng đủ các điều luật kèm mã để lời phê quy chiếu được', () => {
     const l = s.loiNhacSoi(LUAT);
@@ -89,7 +89,7 @@ describe('ThamDinhThayThuocService.loiNhacSoi', () => {
 });
 
 describe('ThamDinhThayThuocService.dungNoiDungSoi', () => {
-  const s = new ThamDinhThayThuocService(null as never, null as never, null as never);
+  const s = new ThamDinhThayThuocService(null as never, null as never, null as never, null as never);
 
   it('gói thân bài theo từng trường, có nhãn trường', () => {
     const r = s.dungNoiDungSoi(
@@ -124,7 +124,7 @@ describe('ThamDinhThayThuocService.chayCaThayThuoc — rào chắn vào ca', () 
       ...over,
     } as never;
     const llm = { daCauHinh: () => true, moCa: () => undefined, soLuotDaGoi: () => 0 } as never;
-    return new ThamDinhThayThuocService(cms, llm, { get: () => undefined } as never);
+    return new ThamDinhThayThuocService(cms, llm, { get: () => undefined } as never, null as never);
   }
 
   /**
@@ -140,9 +140,50 @@ describe('ThamDinhThayThuocService.chayCaThayThuoc — rào chắn vào ca', () 
   it('thiếu khoá mô hình thì nằm im', async () => {
     const cms = { daCauHinh: () => true } as never;
     const llm = { daCauHinh: () => false, moCa: () => undefined } as never;
-    const s = new ThamDinhThayThuocService(cms, llm, { get: () => undefined } as never);
+    const s = new ThamDinhThayThuocService(cms, llm, { get: () => undefined } as never, null as never);
     const lk = await s.chayCaThayThuoc();
     expect(lk.soMucSoi).toBe(0);
     expect(lk.loi[0]).toMatch(/chưa cấu hình/i);
+  });
+});
+
+describe('ThamDinhThayThuocService — kết tinh cụm', () => {
+  /**
+   * Cụm của lớp 2 phải gom y như lớp 1: theo BỘ + KIỂU, route là đường của bộ. Nộp kèm
+   * slug thì 100 lời phê thành 100 cụm và tab thành bãi rác trong một đêm — đúng thứ cơ
+   * chế vân tay dựng ra để chặn.
+   */
+  it('gom lời phê cùng kiểu trên nhiều mục thành MỘT cụm', async () => {
+    const nhanXet = Array.from({ length: 40 }, (_, i) => ({
+      kieu: 'cau_cut', truong: 'vi_tri', trichDan: 'x', nhanXet: 'y', nang: false,
+      bo: 'huyet_vi', slug: `h-${i}`, tieuDe: `H${i}`,
+    }));
+    const cms = {
+      daCauHinh: () => true, moKetNoi: () => Promise.resolve(), dongKetNoi: () => Promise.resolve(),
+      dungBang: () => Promise.resolve(),
+      docNhanXetThayThuoc: () => Promise.resolve(nhanXet),
+      docCauHinhBo: () => Promise.resolve([{ bo: 'huyet_vi', duongDan: '/huyet/', than: [] }]),
+    } as never;
+    let nopCho: unknown[] = [];
+    const lop1 = { nopCum: (c: unknown[]) => { nopCho = c; return Promise.resolve(c.length); } } as never;
+    const s = new ThamDinhThayThuocService(cms, null as never, null as never, lop1);
+
+    expect(await s.ketTinhCum()).toBe(1);
+    expect((nopCho[0] as { route: string }).route).toBe('/huyet/');
+    expect((nopCho[0] as { soMuc: number }).soMuc).toBe(40);
+  });
+
+  it('không có lời phê nào thì không nộp gì', async () => {
+    const cms = {
+      daCauHinh: () => true, moKetNoi: () => Promise.resolve(), dongKetNoi: () => Promise.resolve(),
+      dungBang: () => Promise.resolve(),
+      docNhanXetThayThuoc: () => Promise.resolve([]),
+      docCauHinhBo: () => Promise.resolve([]),
+    } as never;
+    let goi = 0;
+    const lop1 = { nopCum: () => { goi++; return Promise.resolve(0); } } as never;
+    const s = new ThamDinhThayThuocService(cms, null as never, null as never, lop1);
+    expect(await s.ketTinhCum()).toBe(0);
+    expect(goi).toBe(0);
   });
 });

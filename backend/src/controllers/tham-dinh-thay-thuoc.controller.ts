@@ -3,10 +3,12 @@ import { ConfigService } from '@nestjs/config';
 
 import { ThamDinhCmsService } from './tham-dinh-cms.service';
 import { ThamDinhLlmService } from './tham-dinh-llm.service';
+import { ThamDinhService } from './tham-dinh.controller';
 import { Cron } from '@nestjs/schedule';
 
 import { bocJson, locLoiPhe } from '../utils/tham-dinh-loi-phe.util';
 import { xepHangDoi } from '../utils/tham-dinh-hang-doi.util';
+import { gomCum } from '../utils/tham-dinh-cum.util';
 import { apDungCho, type BoLuatVanPhong } from '../utils/tham-dinh-luat.util';
 import type { LuocKeCaThayThuoc } from '../models/tham-dinh.dto';
 import { LUAT_PHAM_VI_HANH_NGHE, type DieuLuat } from '../utils/tham-dinh-luat.util';
@@ -24,6 +26,7 @@ export class ThamDinhThayThuocService {
     private readonly cms: ThamDinhCmsService,
     private readonly llm: ThamDinhLlmService,
     private readonly config: ConfigService,
+    private readonly lop1: ThamDinhService,
   ) {}
 
   /**
@@ -314,6 +317,16 @@ export class ThamDinhThayThuocService {
       this.dangChay = false;
     }
 
+    // Đặt SAU khối finally: ketTinhCum tự mở và đóng kết nối riêng, gọi nó trong `try`
+    // thì nó đóng mất kết nối mà vòng lặp soi còn đang dùng.
+    if (lk.soLoiPheNhan > 0) {
+      try {
+        await this.ketTinhCum();
+      } catch (e) {
+        lk.loi.push(`Kết tinh cụm hỏng: ${(e as Error).message}`);
+      }
+    }
+
     lk.soLuotGoiModel = this.llm.soLuotDaGoi();
     lk.lyDoLoai = [...demLyDo.entries()]
       .map(([lyDo, soLan]) => ({ lyDo, soLan }))
@@ -330,5 +343,31 @@ export class ThamDinhThayThuocService {
   private soTuCauHinh(ten: string, macDinh: number): number {
     const n = Number(this.config.get<string>(ten));
     return Number.isFinite(n) && n > 0 ? Math.floor(n) : macDinh;
+  }
+
+  /**
+   * Gom lời phê lớp thầy thuốc thành cụm việc rồi nộp vào tab Góp Ý & Lỗi.
+   *
+   * Dùng lại `gomCum` và `nopCum` của lớp 1 — cùng một cửa, cùng một luật gom cụm, cùng
+   * cách chia lô 50. Viết đường nộp thứ hai là cách chắc chắn nhất để hai đường lệch nhau
+   * sau vài tháng.
+   */
+  async ketTinhCum(): Promise<number> {
+    await this.cms.moKetNoi();
+    try {
+      await this.cms.dungBang();
+      const nhanXet = await this.cms.docNhanXetThayThuoc();
+      if (!nhanXet.length) return 0;
+
+      const duongDanBo: Record<string, string> = {};
+      for (const b of await this.cms.docCauHinhBo()) duongDanBo[b.bo] = b.duongDan;
+
+      const cum = gomCum(nhanXet, duongDanBo);
+      await this.lop1.nopCum(cum);
+      this.logger.log(`kết tinh lớp 2: ${nhanXet.length} lời phê → ${cum.length} cụm`);
+      return cum.length;
+    } finally {
+      await this.cms.dongKetNoi();
+    }
   }
 }
