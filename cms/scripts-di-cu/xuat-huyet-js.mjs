@@ -52,7 +52,7 @@ const r = await kho.query(`
 	SELECT ma_cu, title, slug, slug_goc, ten_khac, muc_goc, ma_huyet, ma_gach, ten_han, pinyin, ten_anh,
 	       pho_huyet, ghi_chu, tham_khao, noi_dung_goc, thu_tu_muc, anh_duong_dan, chi_dinh,
 	       y_nghia_ten, dac_tinh, vi_tri, giai_phau, tac_dung, chu_tri, cham_cuu, xuat_xu,
-	       anh_da, anh_gp, anh_lan, anh_kinh, anh_ghi_chu, anh
+	       anh_da, anh_gp, anh_lan, anh_kinh, anh_ghi_chu, anh, cong_dung_nhom
 	FROM ec_huyet_vi
 	WHERE deleted_at IS NULL AND status = 'published'
 	ORDER BY ma_cu
@@ -158,6 +158,12 @@ const records = r.rows.map((x) => {
 		// mất luôn đường lùi khi CMS sập lúc ảnh chưa vào đệm nginx.
 		anhCms: urlAnh3d(x.anh),
 		anh3d,
+		// congDung — Việc 9, thí điểm 11 huyệt kinh Phế. Cột json ở CMS đã ĐÚNG hình dạng
+		// { trang, nhom: [chuỗi] } (chuỗi phẳng, không phải object con — xem chú thích ở
+		// đầu nap-cong-dung.mjs vì sao). pg trả JSON đã parse sẵn thành object JS, không
+		// cần JSON.parse. Khoá MỚI, luôn có mặt ở cả 1.059 bản ghi, null khi chưa có —
+		// đúng luật khoá đã chốt với anh3d, KHÔNG bỏ khoá khi rỗng.
+		congDung: x.cong_dung_nhom || null,
 	};
 	if (x.ma_huyet) {
 		o.international_code = x.ma_huyet;

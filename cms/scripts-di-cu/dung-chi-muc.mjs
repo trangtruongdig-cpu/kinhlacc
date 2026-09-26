@@ -24,7 +24,11 @@ export const MUC = [
 		bo: "huyet_vi", nhan: "Huyệt Vị · Châm Cứu", duongDan: "/huyet/", thuTu: 10,
 		moTa: "Vị trí, tác dụng, chủ trị và cách châm cứu từng huyệt.",
 		tenKhac: ["ma_huyet"],
-		than: ["y_nghia_ten", "dac_tinh", "vi_tri", "giai_phau", "tac_dung", "chu_tri", "cham_cuu", "xuat_xu", "pho_huyet", "ghi_chu", "tham_khao"],
+		// cong_dung_nhom (Việc 9, thí điểm 11 huyệt kinh Phế) — cột json {trang, nhom:[chuỗi]}.
+		// td_chu() chỉ nhặt được chữ khi mảng là CHUỖI PHẲNG (đã đo thật, xem chú thích trong
+		// nap-cong-dung.mjs) nên khai thẳng vào than như một cột bình thường là đủ, không cần
+		// xử lý riêng ở chi-muc-tra-cuu.sql.
+		than: ["y_nghia_ten", "dac_tinh", "vi_tri", "giai_phau", "tac_dung", "chu_tri", "cham_cuu", "xuat_xu", "pho_huyet", "ghi_chu", "tham_khao", "cong_dung_nhom"],
 		// Thẻ lọc lấy từ trường the_loai (mảng {ma, ten, nhom}) — dữ liệu rà tay.
 		theLoc: ["the_loai"],
 	},

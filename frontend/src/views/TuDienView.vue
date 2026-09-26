@@ -45,6 +45,9 @@ interface AcuRecord {
   slug?: string
   image?: string | null
   anh3d?: Anh3d | null
+  // Việc 9 (thí điểm 11 huyệt kinh Phế) — nhóm ["Nhóm: Chỉ định.", …] viết lại bằng lời
+  // riêng, đối chiếu Atlas of Acupuncture (Claudia Focks), bản Việt hoá Phùng Văn Chiến.
+  congDung?: { trang?: number; nhom: string[] } | null
   // AcuKG fields
   international_code?: string   // WHO code: LU1, ST36…
   code_dash?: string            // LU-1, ST-36
@@ -740,10 +743,33 @@ const acuDetailHtml = computed<string>(() => {
   const secCard = (s: AcuSection) => `<section class="field">${fieldH(s.h)}<div class="body">${formatBody(s.body)}</div></section>`
   const bodySecs = (r.sections || []).filter((s) => s.h && !ACU_META_HEADERS.includes(s.h) && s.body)
   const isViTri = (s: AcuSection) => s.h.toUpperCase().trim() === 'VỊ TRÍ'
+  const isTacDung = (s: AcuSection) => s.h.toUpperCase().trim() === 'TÁC DỤNG'
+
+  // "Công Dụng Theo Nhóm Chỉ Định" (Việc 9, thí điểm 11 huyệt kinh Phế) — mục MỚI, đặt
+  // CẠNH mục TÁC DỤNG cổ văn (KHÔNG thay). Diễn giải lại bằng lời riêng cho người mới
+  // học, không chép nguyên khối của sách. r.congDung = { trang, nhom: [chuỗi] } | null.
+  const congDungCard = (() => {
+    const cd = r.congDung
+    if (!cd || !Array.isArray(cd.nhom) || !cd.nhom.length) return ''
+    const items = cd.nhom
+      .map((dong) => {
+        const i = dong.indexOf(':')
+        return i > 0
+          ? `<div class="congdung-item"><strong>${esc(dong.slice(0, i).trim())}:</strong> ${esc(dong.slice(i + 1).trim())}</div>`
+          : `<div class="congdung-item">${esc(dong)}</div>`
+      })
+      .join('')
+    const trangHtml = cd.trang ? ` (đối chiếu trang ${esc(String(cd.trang))})` : ''
+    return `<section class="field congdung-card"><h3><span class="fi">📋</span><span class="ft">Công Dụng Theo Nhóm Chỉ Định</span></h3>` +
+      `<div class="congdung-list">${items}</div>` +
+      `<p class="congdung-note">Nhóm công dụng đối chiếu theo <em>Atlas of Acupuncture</em> (Claudia Focks), bản Việt hoá của Phùng Văn Chiến${trangHtml}.</p>` +
+      `</section>`
+  })()
+
   // "Vị Trí" tách ra hiện ĐẦU TIÊN (trước thẻ Bệnh); các mục khác + Phối Huyệt/Ghi Chú/Tham Khảo hiện sau
   const viTriCard = bodySecs.filter(isViTri).map(secCard).join('')
   const otherCards =
-    bodySecs.filter((s) => !isViTri(s)).map(secCard).join('') +
+    bodySecs.filter((s) => !isViTri(s)).map((s) => secCard(s) + (isTacDung(s) ? congDungCard : '')).join('') +
     ACU_EXTRA.filter(([k]) => r[k])
       .map(([k, label]) => `<section class="field">${fieldH(label)}<div class="body">${formatBody(r[k] as string)}</div></section>`)
       .join('')
@@ -1712,6 +1738,13 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
 .td-main :deep(.anh3d-item:hover img) { box-shadow: 0 6px 18px rgba(58, 39, 21, 0.14); }
 .td-main :deep(.anh3d-cap) { font-size: 11.5px; font-weight: 700; color: var(--brown-600); text-align: center; }
 .td-main :deep(.anh3d-note) { margin: 10px 0 0; font-size: 12px; color: var(--brown-400); font-style: italic; line-height: 1.5; }
+/* "Công Dụng Theo Nhóm Chỉ Định" (Việc 9) — đặt cạnh mục Tác Dụng, cùng bảng màu nâu/kem */
+.td-main :deep(.congdung-card) { background: var(--brown-50); border: 1px solid var(--brown-100); border-radius: 12px; padding: 14px 16px; }
+.td-main :deep(.congdung-list) { display: flex; flex-direction: column; gap: 2px; }
+.td-main :deep(.congdung-item) { padding: 7px 0; border-bottom: 1px dashed var(--brown-100); line-height: 1.6; font-size: 14.5px; }
+.td-main :deep(.congdung-item:last-child) { border-bottom: none; }
+.td-main :deep(.congdung-item strong) { color: var(--brown-600); }
+.td-main :deep(.congdung-note) { margin: 10px 0 0; font-size: 12px; color: var(--brown-400); font-style: italic; line-height: 1.5; }
 .td-main :deep(.detail-head h2) { color: var(--brown-900, var(--brown-800)); font-size: 30px; font-weight: 800; line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.2px; }
 .td-main :deep(.meta) { margin: 0; display: grid; gap: 7px; }
 .td-main :deep(.meta .m-row) { display: flex; gap: 14px; align-items: baseline; }

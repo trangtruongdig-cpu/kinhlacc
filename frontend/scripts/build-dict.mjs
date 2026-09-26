@@ -195,6 +195,34 @@ function anh3dBlock(anh3d, tenHuyet) {
   return `<section class="dl-anh3d"><h2>Hình Ảnh Dựng Từ Mô Hình 3D</h2><div class="dl-anh3d-grid">${items}</div>${ghiChu}</section>`
 }
 
+// ── "Công Dụng Theo Nhóm Chỉ Định" (Việc 9, thí điểm 11 huyệt kinh Phế) ──
+// Mục MỚI, đặt CẠNH mục TÁC DỤNG cổ văn (KHÔNG thay). "Khu phong, hoá đàm, lý Phế"
+// đúng nhưng cô đọng — người MỚI HỌC khó hình dung ra bệnh cụ thể nào. Mục này viết
+// lại theo nhóm công dụng + chỉ định, bằng lời riêng (không chép nguyên khối của
+// sách) nên đây là NGOẠI LỆ có chủ ý với triết lý "thư viện trung thành" ở đầu tệp.
+// rec.congDung = { trang, nhom: ["Nhóm: Chỉ định.", …] } | null (xem xuat-huyet-js.mjs).
+function congDungBlock(congDung) {
+  if (!congDung || !Array.isArray(congDung.nhom) || !congDung.nhom.length) return ''
+  const items = congDung.nhom
+    .map((dong) => {
+      // Mỗi dòng viết theo khuôn "Nhóm: Chỉ định." — tách phần đầu làm tiêu đề nhỏ để
+      // dễ quét bằng mắt; không tách được (thiếu dấu hai chấm) thì hiện nguyên dòng.
+      const i = dong.indexOf(':')
+      return i > 0
+        ? `<div class="dl-congdung-item"><strong>${escText(dong.slice(0, i).trim())}:</strong> ${escText(dong.slice(i + 1).trim())}</div>`
+        : `<div class="dl-congdung-item">${escText(dong)}</div>`
+    })
+    .join('')
+  const trangHtml = congDung.trang
+    ? ` (đối chiếu trang ${escText(String(congDung.trang))})`
+    : ''
+  return `<section class="dl-sec dl-congdung">
+    <h2>Công Dụng Theo Nhóm Chỉ Định</h2>
+    ${items}
+    <p class="dl-congdung-note">Nhóm công dụng đối chiếu theo <em>Atlas of Acupuncture</em> (Claudia Focks), bản Việt hoá của Phùng Văn Chiến${trangHtml}.</p>
+  </section>`
+}
+
 // ───────────────────────── TRANG HUYỆT ──────────────────────────────────────
 function leadHuyet(rec, cls) {
   let h
@@ -264,7 +292,10 @@ function huyetPage(rec) {
   </aside>`
 
   let body = ''
-  for (const [h, label, caution] of HUYET_SECTIONS) body += bodySection(label, sec(rec, h), caution)
+  for (const [h, label, caution] of HUYET_SECTIONS) {
+    body += bodySection(label, sec(rec, h), caution)
+    if (h === 'TÁC DỤNG') body += congDungBlock(rec.congDung) // đặt CẠNH mục TÁC DỤNG, không thay
+  }
   body += bodySection('Phối Huyệt', rec.phoiHuyet, false)
   body += bodySection('Ghi Chú', rec.ghiChu, false)
   if (rec.thamKhao) body += `<section class="dl-sec dl-ref"><h2>Tham Khảo</h2>${para(rec.thamKhao)}</section>`
@@ -470,6 +501,11 @@ const DICT_STYLE = `<style>
   .dl-anh3d-item figcaption{padding:.45rem .6rem;font-size:.85rem;color:#5a4427;font-weight:600}
   .dl-anh3d-item figcaption span{display:block;font-weight:400;color:#7a6a55;font-size:.78rem;margin-top:.1rem}
   .dl-anh3d-note{font-size:.85rem;color:#8a5a2b;background:#f6e9d6;border-radius:8px;padding:.5rem .8rem;margin:.9rem 0 0}
+  .dl-congdung{background:#faf6ef;border:1px solid #e3d6c2;border-radius:10px;padding:1rem 1.1rem}
+  .dl-congdung-item{padding:.5rem 0;border-bottom:1px dashed #e7dcc7;line-height:1.6}
+  .dl-congdung-item:last-of-type{border-bottom:none}
+  .dl-congdung-item strong{color:#6b4423}
+  .dl-congdung-note{font-size:.85rem;color:#8a5a2b;background:#f6e9d6;border-radius:8px;padding:.5rem .8rem;margin:.8rem 0 0;font-style:italic}
   @media(max-width:560px){.dl-info-img{width:100%}.dl-anh3d-grid{grid-template-columns:repeat(2,1fr)}}
 </style>`
 
