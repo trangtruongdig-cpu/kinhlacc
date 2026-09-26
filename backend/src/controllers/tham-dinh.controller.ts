@@ -6,7 +6,7 @@ import { ThamDinhCmsService } from './tham-dinh-cms.service';
 import { SuCoService } from './su-co.controller';
 import { doMuc, dungChiMucTen, doLienKet } from '../utils/tham-dinh-muc.util';
 import { gomCum, vanTayNoiDung, type CumViec, type NhanXetCoMuc } from '../utils/tham-dinh-cum.util';
-import type { HangHoSo, LuocKeCa } from '../models/tham-dinh.dto';
+import type { HangHoSo, HoSoMuc, LuocKeCa } from '../models/tham-dinh.dto';
 
 const LO = 200;
 
@@ -101,11 +101,15 @@ export class ThamDinhService {
           const lo = await this.cms.docLoMuc(bo.bo, bo.than, tu, LO);
           if (!lo.length) break;
 
+          // Soi cả lô trong bộ nhớ trước, rồi ghi MỘT LẦN. Ghi lẻ từng mục tốn 8 lượt
+          // đi-về × 88ms — ba tiếng cho cả kho.
+          const canGhi: Array<{ hoSo: HoSoMuc; nhanXet: NhanXetCoMuc[] }> = [];
           for (const m of lo) {
             const nx = [...doMuc(m), ...doLienKet(m, chiMucTen)];
             const nang = nx.filter((x) => x.nang).length;
-            await this.cms.ghiHoSo(
-              {
+            const coMuc = nx.map((n) => ({ ...n, bo: m.bo, slug: m.slug, tieuDe: m.tieuDe }));
+            canGhi.push({
+              hoSo: {
                 bo: m.bo, ma: m.ma, slug: m.slug, tieuDe: m.tieuDe,
                 vanTayNoiDung: vanTayNoiDung(m.truong, bo.than),
                 diemSach: Math.max(0, 100 - nx.length * 10),
@@ -118,14 +122,13 @@ export class ThamDinhService {
                 uuTien: nang * 100 + nx.length,
                 soiMayLuc: null, soiThayThuocLuc: null, soiSeoLuc: null,
               },
-              nx.map((n) => ({ ...n, bo: m.bo, slug: m.slug, tieuDe: m.tieuDe })),
-            );
-            for (const n of nx) {
-              tatCaNhanXet.push({ ...n, bo: m.bo, slug: m.slug, tieuDe: m.tieuDe });
-            }
+              nhanXet: coMuc,
+            });
+            tatCaNhanXet.push(...coMuc);
             lk.soMucDoc++;
             if (gioiHan && lk.soMucDoc >= gioiHan) break;
           }
+          await this.cms.ghiHoSoLo(canGhi);
           if (gioiHan && lk.soMucDoc >= gioiHan) break;
           tu += LO;
         }

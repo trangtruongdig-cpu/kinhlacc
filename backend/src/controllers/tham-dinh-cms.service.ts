@@ -4,6 +4,7 @@ import { Client } from 'pg';
 
 import { docCauHinhSsl } from '../utils/db-ssl.util';
 import { rutChu } from '../utils/tham-dinh-rut-chu.util';
+import { cauUpsertHoSo, cauChenNhanXet, type NhanXetGhi } from '../utils/tham-dinh-sql.util';
 import type { MucKho } from '../utils/tham-dinh-muc.util';
 import type { NhanXetCoMuc } from '../utils/tham-dinh-cum.util';
 import type { HoSoMuc } from '../models/tham-dinh.dto';
@@ -164,31 +165,60 @@ export class ThamDinhCmsService {
     return r.rows.map((x) => ({ bo: x.bo, slug: x.slug, tieuDe: x.tieu_de }));
   }
 
-  /** Ghi đè hồ sơ của một mục và thay toàn bộ nhận xét lớp `may` của nó. */
-  async ghiHoSo(h: HoSoMuc, nx: NhanXetCoMuc[]): Promise<void> {
+  /**
+   * Ghi đè hồ sơ của CẢ MỘT LÔ mục và thay nhận xét lớp `may` của chúng — ba lượt đi-về
+   * cho 200 mục, thay vì tám lượt cho mỗi mục.
+   *
+   * ⚠️ Đo thật 26/09/2026: RTT tới Aiven 88ms. Ghi lẻ cho ra 0,7 giây một mục, tức 3 giờ
+   * cho cả kho. Đừng "đơn giản hoá" về vòng lặp ghi từng mục.
+   *
+   * Cả lô nằm trong MỘT giao dịch: nửa vời thì hồ sơ có mà nhận xét không, và lần đọc sau
+   * tưởng mục ấy sạch.
+   */
+  async ghiHoSoLo(lo: Array<{ hoSo: HoSoMuc; nhanXet: NhanXetCoMuc[] }>): Promise<void> {
+    if (!lo.length) return;
     const c = this.phaiCo();
-    const r = await c.query<{ id: number }>(
-      `INSERT INTO td_ho_so (bo, ma, slug, tieu_de, van_tay_noi_dung, diem_sach,
-                             diem_du_phan, hang, uu_tien, soi_may_luc, updated_at)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9, now(), now())
-       ON CONFLICT (bo, ma) DO UPDATE SET
-         slug = EXCLUDED.slug, tieu_de = EXCLUDED.tieu_de,
-         van_tay_noi_dung = EXCLUDED.van_tay_noi_dung, diem_sach = EXCLUDED.diem_sach,
-         diem_du_phan = EXCLUDED.diem_du_phan, hang = EXCLUDED.hang,
-         uu_tien = EXCLUDED.uu_tien, soi_may_luc = now(), updated_at = now()
-       RETURNING id`,
-      [h.bo, h.ma, h.slug, h.tieuDe, h.vanTayNoiDung, h.diemSach, h.diemDuPhan, h.hang, h.uuTien],
-    );
-    const id = r.rows[0].id;
 
-    // Chỉ thay nhận xét của lớp `may`; nhận xét của thầy thuốc và SEO giữ nguyên.
-    await c.query(`DELETE FROM td_nhan_xet WHERE ho_so_id = $1 AND lop = 'may'`, [id]);
-    for (const n of nx) {
-      await c.query(
-        `INSERT INTO td_nhan_xet (ho_so_id, lop, kieu, truong, trich_dan, nhan_xet, nang)
-         VALUES ($1, 'may', $2, $3, $4, $5, $6)`,
-        [id, n.kieu, n.truong, n.trichDan.slice(0, 2000), n.nhanXet, n.nang],
+    const cauHoSo = cauUpsertHoSo(lo.map((x) => x.hoSo));
+    if (!cauHoSo) return;
+
+    await c.query('BEGIN');
+    try {
+      const r = await c.query<{ id: number; bo: string; ma: string }>(
+        cauHoSo.sql,
+        cauHoSo.thamSo as unknown[],
       );
+
+      const idTheoKhoa = new Map<string, number>();
+      for (const x of r.rows) idTheoKhoa.set(`${x.bo}\u0001${x.ma}`, x.id);
+
+      const ids = [...idTheoKhoa.values()];
+      if (ids.length) {
+        await c.query(
+          `DELETE FROM td_nhan_xet WHERE lop = 'may' AND ho_so_id = ANY($1::int[])`,
+          [ids],
+        );
+      }
+
+      const canGhi: NhanXetGhi[] = [];
+      for (const x of lo) {
+        const id = idTheoKhoa.get(`${x.hoSo.bo}\u0001${x.hoSo.ma}`);
+        if (id === undefined) continue;
+        for (const n of x.nhanXet) {
+          canGhi.push({
+            hoSoId: id, kieu: n.kieu, truong: n.truong,
+            trichDan: n.trichDan, nhanXet: n.nhanXet, nang: n.nang,
+          });
+        }
+      }
+
+      const cauNx = cauChenNhanXet(canGhi);
+      if (cauNx) await c.query(cauNx.sql, cauNx.thamSo as unknown[]);
+
+      await c.query('COMMIT');
+    } catch (e) {
+      await c.query('ROLLBACK').catch(() => undefined);
+      throw e;
     }
   }
 }
