@@ -1137,161 +1137,30 @@ git commit -m "feat(cms): bóc mục tác dụng của Focks ra hồ sơ chờ d
 
 ---
 
-### Task 9: Trường công dụng + nạp hồ sơ đã duyệt + chỉ mục
+### Task 9: Mục "Công dụng theo nhóm chỉ định" (VIẾT LẠI 26/09)
+
+> **Phần HIỆN của bản cũ đã sai đích**, y như việc 7: nó định sửa `cms/src/pages/huyet/[slug].astro`, tệp đã bị gỡ ở `bfe350e`. Đường hiện chữ giống đường hiện ảnh: CMS → `xuat-huyet-js.mjs` → `acupoints.js` → hai mặt tiêu thụ (`build-dict.mjs` cho trang tĩnh, `TuDienView.vue` cho tab trong app).
 
 **Files:**
-- Create: `cms/scripts-di-cu/nap-hoso-focks.mjs`
-- Modify: `cms/scripts-di-cu/dung-chi-muc.mjs:27`
-- Modify: `cms/src/pages/huyet/[slug].astro`
+- Modify: `cms/scripts-di-cu/xuat-huyet-js.mjs` — thêm khoá `congDung`
+- Modify: `frontend/scripts/build-dict.mjs` — vẽ mục trên trang tĩnh
+- Modify: `frontend/src/views/TuDienView.vue` — vẽ mục trong app
+- Modify: `cms/scripts-di-cu/dung-chi-muc.mjs` — khai `cong_dung_nhom` vào mảng `than`
+- Create: `cms/scripts-di-cu/nap-cong-dung.mjs` — nạp hồ sơ ĐÃ DUYỆT vào cột
 
 **Interfaces:**
-- Consumes: `cms/.tam-focks/hoso.json` (Task 8), đã được người duyệt.
-- Produces: cột `cong_dung_nhom` (json) trên `ec_huyet_vi`, dạng `[{nhom, chiDinh}]`.
+- Consumes: `cms/.tam-focks/hoso.json` (359 huyệt, việc 8 đã bóc).
+- Produces: cột `cong_dung_nhom` (json) dạng `[{nhom, chiDinh}]`; khoá `congDung` trong `acupoints.js`.
 
-- [ ] **Step 1: Khai trường và khai chỉ mục**
+**Năm điều cứng:**
 
-```bash
-cd /Users/truongtrang/Desktop/kinhlacc/cms
-node_modules/.bin/emdash schema add-field huyet_vi cong_dung_nhom --type=json --label="Công dụng theo nhóm chỉ định"
-```
+1. **Giữ nguyên mục TÁC DỤNG cổ văn.** Mục mới đặt CẠNH nó, không thay. Hai lối nói cùng một việc cho hai loại người đọc: *"Khu phong hoá đàm, lý Phế"* cho người có nền, *"Giải nhiệt: viêm sưng vùng miệng và mặt…"* cho người mới học.
+2. **Viết lại bằng lời mình, không chép nguyên khối.** Giữ nguyên SỰ KIỆN (nhóm công dụng nào, chỉ định nào), diễn đạt lại. Mỗi ô phải ghi được trang sách đã đối chiếu.
+3. **Ghi công trên trang:** *"Nhóm công dụng đối chiếu theo Atlas of Acupuncture (Claudia Focks), bản Việt hoá của Phùng Văn Chiến."*
+4. **Khoá `congDung` phải có mặt ở cả 1.059 bản ghi**, `null` khi không có — đúng luật khoá mà `anh3d` đã theo. Sau khi sửa bộ sinh phải chạy `xuat-huyet-js.mjs --kiem-goc`, phải ĐẠT.
+5. **Khai `cong_dung_nhom` vào mảng `than` của `huyet_vi`** trong `dung-chi-muc.mjs`, rồi chạy lại bộ dựng chỉ mục. Bỏ bước này thì nội dung hiện trên trang nhưng **tra cứu không bao giờ tìm ra**, im lặng. Sửa xong nhắn phiên `kinhlacc-12`.
 
-Rồi sửa `cms/scripts-di-cu/dung-chi-muc.mjs` dòng 27, thêm `"cong_dung_nhom"` vào cuối mảng:
-
-```js
-		than: ["y_nghia_ten", "dac_tinh", "vi_tri", "giai_phau", "tac_dung", "chu_tri", "cham_cuu", "xuat_xu", "pho_huyet", "ghi_chu", "tham_khao", "cong_dung_nhom"],
-```
-
-- [ ] **Step 2: Viết bộ nạp**
-
-```js
-// nap-hoso-focks.mjs — đọc hồ sơ ĐÃ DUYỆT rồi ghi vào cột cong_dung_nhom.
-//
-//   node scripts-di-cu/nap-hoso-focks.mjs --thu
-//   node scripts-di-cu/nap-hoso-focks.mjs --kinh=LU     # chỉ một kinh (thí điểm)
-//   node scripts-di-cu/nap-hoso-focks.mjs
-
-import { readFileSync } from "node:fs";
-import { parseEnv } from "node:util";
-import { createRequire } from "node:module";
-import { dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
-
-const here = dirname(fileURLToPath(import.meta.url));
-const cmsDir = resolve(here, "..");
-const require = createRequire(import.meta.url);
-const { Client } = require("pg");
-const chiThu = process.argv.includes("--thu");
-const locKinh = (process.argv.find((a) => a.startsWith("--kinh=")) || "").split("=")[1];
-
-const hoso = JSON.parse(readFileSync(resolve(cmsDir, ".tam-focks/hoso.json"), "utf8"))
-  .filter((x) => !locKinh || x.ma.startsWith(locKinh));
-
-// "Giải nhiệt: viêm sưng vùng miệng và mặt, mắt đỏ" → { nhom, chiDinh }
-const tach = (dong) => {
-  const m = /^([^:]{2,40}):\s*(.+)$/.exec(dong);
-  return m ? { nhom: m[1].trim(), chiDinh: m[2].trim() } : { nhom: "", chiDinh: dong };
-};
-
-const ghi = hoso.map((x) => ({ ma: x.ma, nhom: x.tacDung.map(tach).filter((n) => n.chiDinh) }))
-  .filter((x) => x.nhom.length);
-console.log(`Sẽ ghi ${ghi.length} huyệt${locKinh ? ` (kinh ${locKinh})` : ""}.`);
-if (chiThu) {
-  for (const x of ghi.slice(0, 3)) console.log(" ", x.ma, JSON.stringify(x.nhom.slice(0, 2)));
-  process.exit(0);
-}
-
-const env = parseEnv(readFileSync(resolve(cmsDir, ".env"), "utf8"));
-const kho = new Client({
-  host: env.PGHOST, port: +env.PGPORT, user: env.PGUSER, password: env.PGPASSWORD,
-  database: env.PGDATABASE,
-  ssl: { ca: readFileSync(resolve(cmsDir, "aiven-ca.pem"), "utf8"), rejectUnauthorized: true },
-});
-await kho.connect();
-await kho.query("ALTER TABLE ec_huyet_vi DISABLE TRIGGER USER").catch(() => {});
-
-let n = 0;
-for (const x of ghi) {
-  const r = await kho.query(
-    `UPDATE ec_huyet_vi SET cong_dung_nhom = $1
-     WHERE upper(replace(ma_huyet,'-','')) IN ($2, $3) AND deleted_at IS NULL`,
-    [JSON.stringify(x.nhom), x.ma, x.ma.replace(/^HT/, "HE").replace(/^KI/, "K")],
-  );
-  n += r.rowCount;
-}
-
-await kho.query("ALTER TABLE ec_huyet_vi ENABLE TRIGGER USER").catch(() => {});
-console.log(`Ghi ${n} huyệt.`);
-console.log("→ Chạy tiếp: node scripts-di-cu/dung-chi-muc.mjs huyet_vi");
-await kho.end();
-```
-
-- [ ] **Step 3: Nạp thí điểm kinh Phế**
-
-```bash
-cd /Users/truongtrang/Desktop/kinhlacc/cms
-node scripts-di-cu/nap-hoso-focks.mjs --kinh=LU --thu
-node scripts-di-cu/nap-hoso-focks.mjs --kinh=LU
-node scripts-di-cu/dung-chi-muc.mjs huyet_vi
-```
-
-Kỳ vọng: `Ghi 11 huyệt` (hoặc gần đó nếu sách thiếu vài mục).
-
-- [ ] **Step 4: Hiện mục công dụng trên trang**
-
-Trong `cms/src/pages/huyet/[slug].astro`, thêm ngay SAU khối `{coPhan.map(...)}`:
-
-```astro
-			{Array.isArray(d.cong_dung_nhom) && d.cong_dung_nhom.length > 0 && (
-				<section class="dl-phan">
-					<h2>Công Dụng Theo Nhóm Chỉ Định</h2>
-					<dl class="hv-cdn">
-						{d.cong_dung_nhom.map((x: any) => (
-							<>
-								{x.nhom && <dt>{x.nhom}</dt>}
-								<dd>{x.chiDinh}</dd>
-							</>
-						))}
-					</dl>
-					<p class="hv-nguon-sach">
-						Nhóm công dụng đối chiếu theo <em>Atlas of Acupuncture</em> (Claudia Focks),
-						bản Việt hoá của Phùng Văn Chiến.
-					</p>
-				</section>
-			)}
-```
-
-và thêm vào khối `<style>` cuối tệp:
-
-```css
-	.hv-cdn { display: grid; grid-template-columns: max-content 1fr; gap: 0.35rem 1.1rem; margin: 0; }
-	.hv-cdn dt { font-weight: 700; color: var(--nau-700, #7a4e1d); }
-	.hv-cdn dd { margin: 0; }
-	.hv-nguon-sach { margin: 0.9rem 0 0; font-size: 0.8rem; color: var(--chu-nhat, #6b5f52); }
-```
-
-- [ ] **Step 5: Kiểm tra cứu TÌM RA nội dung mới**
-
-Đây là phép bắt lỗi quên khai `dung-chi-muc.mjs`.
-
-```bash
-cd /Users/truongtrang/Desktop/kinhlacc/cms && (npm run dev &) && sleep 6
-# lấy một cụm CHỈ có trong cong_dung_nhom của một huyệt kinh Phế rồi tra
-curl -s "http://localhost:4321/thu-vien/tra?q=<cụm-vừa-lấy>" | grep -c "huyet/"
-```
-
-Kỳ vọng: ≥ 1. Nếu 0 thì chưa khai cột vào `than` hoặc chưa chạy lại `dung-chi-muc.mjs`.
-
-- [ ] **Step 6: Nhắn phiên a5 rằng đã sửa tệp dùng chung**
-
-Gửi tin: đã thêm `"cong_dung_nhom"` vào mảng `than` của `huyet_vi` trong `dung-chi-muc.mjs`, đã chạy lại bộ dựng chỉ mục.
-
-- [ ] **Step 7: Commit**
-
-```bash
-cd /Users/truongtrang/Desktop/kinhlacc
-git add cms/scripts-di-cu/nap-hoso-focks.mjs cms/scripts-di-cu/dung-chi-muc.mjs cms/src/pages/huyet/\[slug\].astro
-git commit -m "feat(cms): mục công dụng theo nhóm chỉ định, có khai vào chỉ mục tra cứu"
-```
+**Thí điểm kinh Phế 11 huyệt trước.** Người dùng xem trên cả hai mặt (trang tĩnh cổng 4600 và tab trong app cổng 5173), chốt giọng văn và bố cục, rồi mới chạy 348 huyệt còn lại. Sửa khuôn lúc 11 huyệt rẻ hơn lúc 359.
 
 ---
 
