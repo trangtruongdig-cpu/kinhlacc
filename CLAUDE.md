@@ -288,6 +288,13 @@ Hai chốt chạy cuối `npm run blog:post`, **cả hai đều gãy build khi k
   Bốn phép TỈ LỆ (mô tả quá dài/ngắn, tiêu đề/mô tả trùng) đặt theo số đo thật.
   ⚠️ Sửa được thật thì phải HẠ ngưỡng xuống theo, không thì chốt hết tác dụng canh chừng.
 
+⚠️ **`vite build` LUÔN đặt lại `dist/sitemap.xml`.** `gen-sitemap.mjs` ghi ra
+`public/sitemap.xml` (911 URL gốc), và Vite chép cả `public/` đè lên `dist/`. Phần 9.206 URL
+đầy đủ chỉ có sau khi `build-phuong` / `build-duoc-lieu` / `build-nhom-duoc-ly` / `build-nguon`
+chèn thêm. Nên **chạy `vite build` xong thì luôn chạy `npm run blog:post`** — mọi lối gọi đều
+bị, kể cả `npx vite build`, và `emptyOutDir: false` không đỡ được. Đã cắn một lần
+(26/09/2026): sitemap tụt còn 911 mà 18.504 trang HTML vẫn đủ, site trông bình thường.
+
 Liên kết nội bộ sinh bằng MÃ, không quản trong CMS (không ai bảo trì tay nổi 18.425
 trang): engine nối tên huyệt trong thân bài (`build-dict.mjs`), thành phần bài thuốc →
 dược liệu, và `/nguon/` ↔ bài thuốc/vị thuốc qua bảng nối `nguon_phuong_thang` /

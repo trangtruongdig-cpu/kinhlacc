@@ -1,4 +1,16 @@
 // Sinh public/sitemap.xml từ NGUỒN CHUNG src/seo/route-seo.json + các bài blog trong content/blog.
+//
+// ⚠️ BẪY ĐÃ CẮN MỘT LẦN (26/09/2026) — đọc trước khi chạy build tay:
+// Tệp này ghi ra public/sitemap.xml, và `vite build` CHÉP CẢ public/ ĐÈ LÊN dist/. Nghĩa là
+// MỌI lần chạy vite build đều đặt lại dist/sitemap.xml về bản gốc 911 URL, xoá sạch phần mà
+// build-phuong / build-duoc-lieu / build-nhom-duoc-ly / build-nguon đã chèn thêm (tổng 9.206).
+// Chuyện này xảy ra với MỌI lối gọi — `npm run build`, `npm run build-only`, `npx vite build`
+// — và `emptyOutDir: false` KHÔNG đỡ được, vì đây là ghi đè từng tệp chứ không phải xoá thư mục.
+//
+// Vậy nên: chạy vite build xong thì LUÔN chạy `npm run blog:post`. Chuỗi đó chèn lại URL rồi
+// kết bằng hai chốt kiem-sitemap + kiem-seo, cả hai đều gãy build khi thiếu.
+// Lần cắn thật: một phiên chạy `npx vite build` để đổi bundle, sitemap tụt 9.206 → 911 mà
+// trang HTML vẫn đủ 18.504 — site trông hoàn toàn bình thường. Chỉ chốt phát hiện ra.
 // Tự chạy trước mỗi lần build (script "prebuild") hoặc gọi tay: npm run sitemap
 import { readFileSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
