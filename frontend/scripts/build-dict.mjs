@@ -15,16 +15,22 @@ import {
   DOMAIN, SITE, DEFAULT_REVIEWER,
 } from './seo-html.mjs'
 import {
-  meridianList, records, classify, recOfPoint, sec, kinhSlugOf,
+  meridianList, records, classify, recOfPoint, sec, kinhSlugOf, fold,
   LOAI_LABEL, HUYET_SECTIONS, KINH_SECTIONS, huyetIndexable, kinhIndexable,
   BENH, BENH_SETS, benhIndexable, benhCross, huyetLinkTargets,
   traitsByAcuId,
 } from './dict-data.mjs'
 import { napGhiDe, apGhiDe } from './seo-cms.mjs'
+import { moKetNoiCms } from './cms-ket-noi.mjs'
 
 // Phần SEO người biên tập gõ trong CMS. Nạp ở cuối tệp, TRƯỚC các vòng sinh trang;
 // khai ở đây để ba hàm dựng trang dưới đây đọc được.
 let ghiDeSEO = () => null
+// Thư mục nguồn y văn (ec_nguon_y_van) để nối tên sách trong Phối Huyệt → /nguon/<slug>/
+// (Việc 10 ③). Nạp CÙNG LÚC với ghiDeSEO, TRƯỚC vòng sinh trang huyệt. fold(title) → {slug,
+// ten} — đã đo 2.139/2.139 mục có khoá chuẩn hoá DUY NHẤT (không mục nào trùng), nên khớp
+// đơn giản bằng Map là đủ, khỏi cần "chọn bản trích nhiều nhất" như tra-cuu-ten.
+let nguonBySlug = new Map()
 
 const here = dirname(fileURLToPath(import.meta.url))
 const root = resolve(here, '..')
@@ -63,6 +69,87 @@ function bodySection(label, body, caution) {
     ? `<p class="dl-caution-note">⚠️ Thủ thuật châm/cứu phải do người có chuyên môn thực hiện; thông tin liều lượng dưới đây chỉ để <strong>tra cứu học thuật</strong>, không tự áp dụng.</p>`
     : ''
   return `<section class="dl-sec${caution ? ' dl-caution' : ''}"><h2>${escText(label)}</h2>${note}${para(body)}</section>`
+}
+// Biến thể của bodySection cho thân bài ĐÃ CÓ HTML dựng sẵn (link nối nguồn) — không para() lại.
+function bodySectionHtml(label, html) {
+  if (!html) return ''
+  return `<section class="dl-sec"><h2>${escText(label)}</h2>${html}</section>`
+}
+
+// ── Nối tên sách trong Phối Huyệt → /nguon/<slug>/ (Việc 10 ③) ───────────────
+// build-nguon.mjs đã dựng /nguon/<slug>/ (2.139 trang) nhưng KHÔNG trang huyệt nào trỏ tới —
+// Phối Huyệt dày đặc trích dẫn kinh điển trong ngoặc đơn kiểu "(Giáp Ất Kinh)" đang là chữ chết.
+// KHÔNG có bảng nối kiểu nguon_phuong_thang cho huyệt → buộc phải khớp TÊN, nên phải rào chắn
+// kỹ (xem coTheLaTenNguon): trong ngoặc ở Phối Huyệt phần lớn là MÃ HUYỆT viết tắt kiểu Việt
+// "(Tm.7)"/"(Đtr.4)"/"(Bq 23)"/"(C 2)" và liều lượng "(30g)" — tuyệt đối không được thành link.
+async function napNguon() {
+  const map = new Map() // fold(title) → { slug, ten }
+  const kn = moKetNoiCms('build-dict-nguon')
+  if (!kn) {
+    console.warn('  Phối Huyệt sẽ KHÔNG có link sang /nguon/ (không nối được kho CMS).')
+    return map
+  }
+  try {
+    await kn.kho.connect()
+    const r = await kn.kho.query(`SELECT slug, title FROM ec_nguon_y_van WHERE deleted_at IS NULL`)
+    for (const row of r.rows) {
+      if (!row.slug || !row.title) continue
+      const k = fold(row.title)
+      if (!k || map.has(k)) continue // đã đo 2.139/2.139 khoá duy nhất; có trùng thì giữ bản ĐẦU
+      map.set(k, { slug: row.slug, ten: row.title })
+    }
+  } catch (e) {
+    console.warn(`⚠ build-dict: không đọc được ec_nguon_y_van (${e.message}) — Phối Huyệt KHÔNG có link sang /nguon/.`)
+  } finally {
+    await kn.dong()
+  }
+  return map
+}
+// Cụm trong ngoặc có phải TÊN SÁCH/TÁC GIẢ không? (luật đã dùng được ở bản CMS cũ)
+// ≥2 dấu phẩy → danh sách vị thuốc, không phải tên sách. <3 từ → mã huyệt viết tắt hoặc liều
+// lượng ("Th.6", "Nh 1", "Bq 23", "30g" đều ≤2 từ). <3 từ bắt đầu bằng chữ hoa → loại nốt phần còn sót.
+function coTheLaTenNguon(raw) {
+  const soPhay = (raw.match(/,/g) || []).length
+  if (soPhay >= 2) return false
+  const tu = raw.split(/\s+/).filter(Boolean)
+  if (tu.length < 3) return false
+  const hoaDau = tu.filter((w) => /^\p{Lu}/u.test(w)).length
+  return hoaDau >= 3
+}
+let _nguonLinkCount = 0
+const _nguonLinkedSlugs = new Set() // nguồn KHÁC NHAU được nối tới (đếm 1 lần dù xuất hiện nhiều trang)
+// Nối 1 DÒNG Phối Huyệt: chỉ xét cụm TRONG NGOẶC ĐƠN, khớp CHUẨN HOÁ MẠNH (fold — bỏ dấu
+// thanh + dấu câu + gom khoảng trắng) với thư mục nguồn. Chỉ link lần nhắc ĐẦU TIÊN của mỗi
+// nguồn TRONG MỘT TRANG (daLinkTrongTrang truyền vào từ ngoài, sống theo cả trang huyệt).
+// An toàn: KHÔNG đụng nguyên văn ngoài cặp ngoặc đang xét (chỉ bọc <a> quanh phần trong ngoặc).
+function linkNguonDong(line, daLinkTrongTrang) {
+  if (!line) return ''
+  let out = ''
+  let last = 0
+  const re = /\(([^()]+)\)/g
+  let m
+  while ((m = re.exec(line))) {
+    out += escText(line.slice(last, m.index))
+    const raw = m[1].trim()
+    const n = coTheLaTenNguon(raw) ? nguonBySlug.get(fold(raw)) : null
+    if (n && !daLinkTrongTrang.has(n.slug)) {
+      daLinkTrongTrang.add(n.slug)
+      _nguonLinkCount++
+      _nguonLinkedSlugs.add(n.slug)
+      out += `(<a href="/nguon/${escAttr(n.slug)}/">${escText(raw)}</a>)`
+    } else {
+      out += `(${escText(raw)})`
+    }
+    last = m.index + m[0].length
+  }
+  out += escText(line.slice(last))
+  return out
+}
+function phoiHuyetHtml(text) {
+  if (!text) return ''
+  const daLink = new Set()
+  return String(text).split(/\n+/).map((s) => s.trim()).filter(Boolean)
+    .map((s) => `<p>${linkNguonDong(s, daLink)}</p>`).join('')
 }
 
 // ── FAQ (AEO) — dựng câu hỏi theo ĐÚNG MẪU TRUY VẤN THẬT từ chính y văn (KHÔNG để AI viết lại) ──
@@ -296,7 +383,7 @@ function huyetPage(rec) {
     body += bodySection(label, sec(rec, h), caution)
     if (h === 'TÁC DỤNG') body += congDungBlock(rec.congDung) // đặt CẠNH mục TÁC DỤNG, không thay
   }
-  body += bodySection('Phối Huyệt', rec.phoiHuyet, false)
+  body += bodySectionHtml('Phối Huyệt', phoiHuyetHtml(rec.phoiHuyet)) // nối tên sách trong ngoặc → /nguon/
   body += bodySection('Ghi Chú', rec.ghiChu, false)
   if (rec.thamKhao) body += `<section class="dl-sec dl-ref"><h2>Tham Khảo</h2>${para(rec.thamKhao)}</section>`
   body = autolinkHtml(body, slug) // nối tên huyệt nhắc trong bài (Chủ Trị, Phối Huyệt…) → trang huyệt đó
@@ -311,6 +398,31 @@ function huyetPage(rec) {
     if (sibs.length)
       cungKinhHtml = `<section class="dl-rel"><h2>Huyệt Cùng ${escText(cls.kinhTen)}</h2><ul class="dl-rel-list">${sibs
         .map((p) => `<li><a href="/huyet/${escAttr(p.slug)}/">${escText(p.ten)}</a></li>`).join('')}</ul></section>`
+  }
+
+  // ── Huyệt TRƯỚC / SAU dọc đường kinh (Việc 10 ①) ──
+  // Suy từ THỨ TỰ huyệt trong cls.mer.points (đúng nguồn m.points đã dùng để dựng "Huyệt Cùng
+  // Kinh" ở trên) — KHÔNG suy từ chuỗi mã huyệt (mã trong CSDL CMS lệch quy ước ở kinh Tâm
+  // "HE" thay vì "HT" và huyệt Thận "K23" thay vì "KI23"; đã đo: dữ liệu tĩnh của frontend
+  // dùng thống nhất "HT"/"KI23", không lệch, nhưng đi theo mảng điểm vẫn an toàn hơn parse
+  // chuỗi vì không phụ thuộc số thứ tự có liên tục hay không). Đầu/cuối kinh để trống, KHÔNG
+  // vòng lại đầu kia.
+  let prevNextHtml = ''
+  if (cls.loai === 'kinh' && cls.mer) {
+    const full = (cls.mer.points || []).map((p) => recOfPoint(p)).filter(Boolean)
+    const idx = full.findIndex((r) => r.id === rec.id)
+    if (idx !== -1) {
+      const prevRec = idx > 0 ? full[idx - 1] : null
+      const nextRec = idx < full.length - 1 ? full[idx + 1] : null
+      const prevHtml = prevRec
+        ? `<a class="dl-pn-link dl-pn-prev" href="/huyet/${escAttr(prevRec._slug)}/">← ${escText(prevRec.ten)}</a>`
+        : '<span class="dl-pn-link dl-pn-empty" aria-hidden="true"></span>'
+      const nextHtml = nextRec
+        ? `<a class="dl-pn-link dl-pn-next" href="/huyet/${escAttr(nextRec._slug)}/">${escText(nextRec.ten)} →</a>`
+        : '<span class="dl-pn-link dl-pn-empty" aria-hidden="true"></span>'
+      const midHtml = `<a class="dl-pn-link dl-pn-mid" href="/kinh/${escAttr(cls.kinhSlug)}/">Tất cả huyệt ${escText(cls.kinhTen)}</a>`
+      prevNextHtml = `<nav class="dl-prevnext" aria-label="Huyệt trước/sau trên ${escAttr(cls.kinhTen)}">${prevHtml}${midHtml}${nextHtml}</nav>`
+    }
   }
 
   const badge = cls.loai === 'kinh'
@@ -359,6 +471,7 @@ function huyetPage(rec) {
   ${faqBlock(faq)}
   <div class="bl-cta"><a href="/xem-3d">Khám Phá Đồ Hình Kinh Lạc 3D →</a></div>
   ${cungKinhHtml}
+  ${prevNextHtml}
   ${cls.loai === 'kinh' ? `<p class="dl-up">↑ <a href="/kinh/${escAttr(cls.kinhSlug)}/">Về ${escText(cls.kinhTen)}</a></p>` : ''}
   ${disclaimer({ note: 'Thông tin huyệt vị trên trang này' })}
 </article></main>
@@ -498,6 +611,12 @@ const DICT_STYLE = `<style>
   .dl-faq-item h3{font-size:1.05rem;color:#6b4423;margin:0 0 .3rem}
   .dl-faq-item p{margin:.2rem 0;line-height:1.65}
   .dl-up{margin-top:1.2rem;font-weight:600}
+  .dl-prevnext{display:flex;align-items:center;gap:.6rem;flex-wrap:wrap;margin:1.2rem 0;padding:.7rem 1rem;background:#f3ebdd;border:1px solid #e3d6c2;border-radius:10px}
+  .dl-pn-link{text-decoration:none;color:#5a4427;font-weight:600;font-size:.92rem}
+  .dl-pn-link:hover{text-decoration:underline}
+  .dl-pn-mid{flex:1;text-align:center;color:#6b4423}
+  .dl-pn-empty{flex:0 0 1px}
+  @media(max-width:560px){.dl-prevnext{justify-content:center;text-align:center}.dl-pn-mid{order:-1;flex:1 0 100%;margin-bottom:.3rem}}
   .dl-ref{font-size:.9rem;color:#6a5a45}
   .dl-trait-chip{display:inline-block;background:#f3ebdd;border:1px solid #d4b896;border-radius:6px;padding:.1em .55em;font-size:.85rem;color:#5a4427;margin:.1em .2em .1em 0}
   .dl-cn-char{font-size:1.15rem;font-weight:700;color:#3d2b0e}
@@ -718,6 +837,9 @@ function writePage(kind, slug, html) {
 // Nạp ghi-đè SEO TRƯỚC mọi vòng sinh trang. Không nối được kho thì hàm trả null và
 // mọi trang lặng lẽ dùng bản tự sinh — seo-cms.mjs đã in cảnh báo, đừng nuốt thêm.
 ghiDeSEO = await napGhiDe()
+// Nạp thư mục nguồn TRƯỚC vòng sinh trang huyệt (Việc 10 ③) — không nối được kho thì
+// nguonBySlug rỗng và Phối Huyệt lặng lẽ không có link /nguon/ nào (napNguon() đã kêu to).
+nguonBySlug = await napNguon()
 
 // Hai trang HUB mục lục ("đường vào") — nhất là cho 727 kỳ huyệt vốn không nằm trên kinh nào.
 writePage('kinh', '', kinhIndexPage())
@@ -769,3 +891,4 @@ for (const cfg of BENH_SETS) {
 }
 console.log(`✓ build-dict bệnh: tổng ${nBenh} trang.`)
 console.log(`✓ internal link engine: đã tự nối ${_autolinkCount} link nội bộ (anchor = tên huyệt) trong thân bài.`)
+console.log(`✓ nối nguồn Phối Huyệt: ${_nguonLinkCount} link /nguon/ (${_nguonLinkedSlugs.size} nguồn khác nhau), từ ${nguonBySlug.size} nguồn nạp được.`)

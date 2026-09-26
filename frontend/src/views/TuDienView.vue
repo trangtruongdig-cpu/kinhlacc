@@ -825,6 +825,33 @@ const acuDetailHtml = computed<string>(() => {
       `</section>`
     : ''
 
+  // Huyệt TRƯỚC / SAU dọc đường kinh (Việc 10 ①) — dùng lại CƠ CHẾ CHUYỂN HUYỆT sẵn có
+  // (data-acu-id → openAcu(), data-mer-i → openMerForAcu(), cùng delegation onAcuDetailClick
+  // đang xử lý data-source-id/data-trait-id/data-indication ở trên) nên KHÔNG phải dựng thêm
+  // cơ chế điều hướng mới. Thứ tự lấy từ merList[i].points — cùng nguồn đã dùng cho nút
+  // "📖 Xem Trên Đường Kinh" (openMer) — suy theo VỊ TRÍ trong mảng, không suy từ chuỗi mã
+  // huyệt (mã huyệt lệch quy ước ở kinh Tâm/huyệt K23, xem ghi chú ở acuIdOf). Đầu/cuối kinh
+  // để trống, KHÔNG vòng lại.
+  const prevNextCard = (() => {
+    if (!merInfo) return ''
+    const m = merList.value[merInfo.i]
+    if (!m || m.type === 'ky' || !m.points?.length) return ''
+    const orderedIds = m.points.map((p) => acuIdOf(p)).filter((id): id is number => id != null)
+    const idx = orderedIds.indexOf(r.id)
+    if (idx === -1) return ''
+    const prevId = idx > 0 ? orderedIds[idx - 1] : null
+    const nextId = idx < orderedIds.length - 1 ? orderedIds[idx + 1] : null
+    const tenCua = (id: number) => esc(acuById.get(id)?.ten || '')
+    const prevHtml = prevId != null
+      ? `<a class="pn-link pn-prev" role="button" data-acu-id="${prevId}">← ${tenCua(prevId)}</a>`
+      : '<span class="pn-link pn-empty"></span>'
+    const nextHtml = nextId != null
+      ? `<a class="pn-link pn-next" role="button" data-acu-id="${nextId}">${tenCua(nextId)} →</a>`
+      : '<span class="pn-link pn-empty"></span>'
+    const midHtml = `<a class="pn-link pn-mid" role="button" data-mer-i="${merInfo.i}">Tất cả huyệt ${esc(m.ten)}</a>`
+    return `<section class="field prevnext-card"><nav class="pn-nav">${prevHtml}${midHtml}${nextHtml}</nav></section>`
+  })()
+
   return `<article class="detail">
       <div class="detail-head">
         ${photo}
@@ -840,6 +867,7 @@ const acuDetailHtml = computed<string>(() => {
       ${benhRefCard}
       ${indCard}
       ${otherCards || (viTriCard ? '' : '<p class="empty-note">Chưa có nội dung chi tiết cho huyệt này.</p>')}
+      ${prevNextCard}
     </article>`
 })
 
@@ -1759,6 +1787,14 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
 .td-main :deep(.congdung-item:last-child) { border-bottom: none; }
 .td-main :deep(.congdung-item strong) { color: var(--brown-600); }
 .td-main :deep(.congdung-note) { margin: 10px 0 0; font-size: 12px; color: var(--brown-400); font-style: italic; line-height: 1.5; }
+/* Huyệt Trước/Sau dọc đường kinh (Việc 10 ①) — dải điều hướng cuối chi tiết huyệt */
+.td-main :deep(.prevnext-card) { padding: 10px 16px; }
+.td-main :deep(.pn-nav) { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.td-main :deep(.pn-link) { text-decoration: none; color: var(--brown-700); font-weight: 700; font-size: 13.5px; cursor: pointer; background: none; border: none; font-family: inherit; }
+.td-main :deep(.pn-link:hover) { text-decoration: underline; }
+.td-main :deep(.pn-mid) { flex: 1; text-align: center; color: var(--brown-600); }
+.td-main :deep(.pn-empty) { flex: 0 0 1px; }
+@media (max-width: 560px) { .td-main :deep(.pn-nav) { justify-content: center; text-align: center; } .td-main :deep(.pn-mid) { order: -1; flex: 1 0 100%; margin-bottom: 4px; } }
 .td-main :deep(.detail-head h2) { color: var(--brown-900, var(--brown-800)); font-size: 30px; font-weight: 800; line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.2px; }
 .td-main :deep(.meta) { margin: 0; display: grid; gap: 7px; }
 .td-main :deep(.meta .m-row) { display: flex; gap: 14px; align-items: baseline; }
