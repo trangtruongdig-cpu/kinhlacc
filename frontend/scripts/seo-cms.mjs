@@ -7,9 +7,13 @@
 // bài — đo trên dist/: 8.696/16.364 trang có mô tả dài quá 165 ký tự nên bị Google cắt
 // cụt. Người biên tập không có cách nào sửa.
 //
-// EmDash đã có sẵn chỗ chứa: bảng `_emdash_seo` (khoá đôi collection + content_id), và
-// mọi bộ đều khai `hasSeo: true` nên trang quản trị ĐÃ có ô nhập. Thiếu đúng một khâu:
-// builder chưa đọc bảng đó. Tệp này là khâu ấy.
+// EmDash đã có sẵn chỗ chứa: bảng `_emdash_seo` (khoá đôi collection + content_id). Thiếu
+// đúng một khâu: builder chưa đọc bảng đó. Tệp này là khâu ấy.
+//
+// ⚠️ Ô nhập SEO chỉ mở đủ 9 bộ từ 26/09/2026. Trước đó `has_seo = 0` ở 5 bộ (bai_thuoc,
+// nguon_y_van, duoc_lieu, cham_cuu_tri_benh, kinh_mach) nên 17.246 trang không có chỗ
+// nhập, `_emdash_seo` rỗng, và tệp này chạy mà không có gì để ghi đè — không báo lỗi.
+// Phép kiểm: `node cms/scripts-di-cu/khai-seo.mjs --thu` phải in ra 0 bộ.
 //
 // HAI KHO TÁCH BIỆT — không join chéo được
 // Builder nối `defaultdb` (kho của app, qua backend/.env), còn `_emdash_seo` nằm ở
