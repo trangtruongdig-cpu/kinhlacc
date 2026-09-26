@@ -21,6 +21,7 @@
 //   DIST_DIR=/tmp/thu node scripts/build-nguon.mjs   # sinh thử
 
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs'
+import { chenUrl } from './sitemap-chen.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
 import { createRequire } from 'node:module'
@@ -30,6 +31,7 @@ import {
   DOMAIN, SITE, DEFAULT_REVIEWER,
 } from './seo-html.mjs'
 import { napGhiDe, apGhiDe } from './seo-cms.mjs'
+import { napNguonCms } from './nguon-cms.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const root = resolve(here, '..')
@@ -83,6 +85,8 @@ try {
   process.exit(0)
 }
 
+// Vẫn đọc bảng `nguon` của app để lấy ID — bảng nối nguon_phuong_thang / nguon_vi_thuoc
+// khoá theo id đó. Nhưng phần CHỮ thì lấy từ CMS (xem dưới).
 const nguon = (await kho.query(
   `SELECT id, slug, ten, loai, tac_gia, nien_dai, ten_khac, mo_ta, ghi_chu FROM nguon ORDER BY ten`,
 )).rows
@@ -109,6 +113,21 @@ for (const r of (await kho.query(
 await kho.end()
 
 const ghiDeSEO = await napGhiDe()
+
+// Chữ của mục nguồn lấy từ CMS — đây là chỗ người biên tập sửa được.
+// Đối chiếu trước khi chuyển: 2.139/2.139 mục khớp app TUYỆT ĐỐI, 0 ô lệch, nên bước này
+// không đổi một trang nào ở thời điểm chuyển. Cột `mo_ta` bên app rỗng ở CẢ 2.139 mục
+// (trang nguồn chưa từng có văn xuôi); nay CMS có trường Mô Tả để viết.
+// Không nối được CMS thì RƠI VỀ chữ của app — trang vẫn dựng, chỉ không thấy phần biên
+// tập mới. napNguonCms đã in cảnh báo, đừng nuốt thêm.
+const chuCms = await napNguonCms()
+for (const n of nguon) {
+  const c = chuCms(n.slug)
+  if (!c) continue
+  for (const k of ['ten', 'loai', 'tac_gia', 'nien_dai', 'ten_khac', 'ghi_chu', 'mo_ta']) {
+    if (c[k] !== null && c[k] !== undefined) n[k] = c[k]
+  }
+}
 
 const LOAI_NHAN = { sach: 'Sách', tac_gia: 'Tác giả' }
 const chuCai = (s) =>
@@ -259,15 +278,10 @@ for (const x of nguon) {
 
 // Nạp vào sitemap — cùng cách build-phuong làm: chèn trước </urlset>.
 const smPath = join(distDir, 'sitemap.xml')
-if (existsSync(smPath) && urls.length) {
-  const sm = readFileSync(smPath, 'utf8')
-  if (!sm.includes('/nguon/')) {
-    const them =
-      `<url><loc>${DOMAIN}/nguon/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>` +
-      urls.map((u) => `<url><loc>${u}</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>`).join('')
-    writeFileSync(smPath, sm.replace('</urlset>', them + '</urlset>'), 'utf8')
-  }
-}
+// Trước đây chốt ở đây là "thấy /nguon/ rồi thì bỏ qua" — chặn được trùng nhưng cũng chặn
+// luôn việc CẬP NHẬT khi số nguồn đổi. chenUrl xoá phần cũ rồi chèn lại nên vừa không
+// trùng vừa cập nhật được.
+if (urls.length) chenUrl(smPath, '/nguon/', [`${DOMAIN}/nguon/`, ...urls], { priority: '0.5' })
 
 console.log(
   `✓ build-nguon: ${n} trang nguồn (${nNoindex} noindex: không mục nào trích dẫn) + 1 trang mục lục` +
