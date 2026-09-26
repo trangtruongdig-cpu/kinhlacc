@@ -1,4 +1,4 @@
-import { doMuc, KHUNG_TRUONG, type MucKho } from './tham-dinh-muc.util';
+import { doMuc, doLienKet, dungChiMucTen, KHUNG_TRUONG, type MucKho } from './tham-dinh-muc.util';
 
 function muc(bo: string, truong: Record<string, string>): MucKho {
   return { bo, ma: 'X1', slug: 'thu-nghiem', tieuDe: 'Mục thử', truong };
@@ -85,5 +85,70 @@ describe('doMuc — chuyển tiếp lỗi chữ', () => {
     const r = doMuc(muc('huyet_vi', { vi_tri: 'Ba·c hà nằm ở đây' }));
     const l = r.find((x) => x.kieu === 'dau_thanh_hong');
     expect(l!.truong).toBe('vi_tri');
+  });
+});
+
+const CHI_MUC = dungChiMucTen([
+  { bo: 'duoc_lieu', slug: 'cam-thao', tieuDe: 'Cam thảo' },
+  { bo: 'duoc_lieu', slug: 'dang-sam', tieuDe: 'Đảng sâm' },
+  { bo: 'duoc_lieu', slug: 'phuc-linh', tieuDe: 'Phục linh' },
+  { bo: 'duoc_lieu', slug: 'truc-diep', tieuDe: 'Trúc diệp' },
+  { bo: 'benh_hoc', slug: 'tang-tao', tieuDe: 'Tạng táo' },
+]);
+
+describe('dungChiMucTen', () => {
+  it('khớp không cần dấu', () => {
+    expect(CHI_MUC.khop('dang sam')!.slug).toBe('dang-sam');
+  });
+
+  it('khớp không phân biệt hoa thường và dấu câu', () => {
+    expect(CHI_MUC.khop('CAM THẢO,')!.slug).toBe('cam-thao');
+  });
+
+  it('không khớp thì trả null, không đoán bừa', () => {
+    expect(CHI_MUC.khop('hoàng kỳ')).toBeNull();
+  });
+});
+
+describe('doLienKet', () => {
+  /**
+   * Ca thật bốc được lúc khảo sát: bài Trúc Nhự Thang IX. Thành phần ghi liền một dải,
+   * mỗi vị đều có mục dược liệu riêng trong kho mà trang bài thuốc không nối sang.
+   */
+  it('nhận ra các vị nối được sang mục dược liệu', () => {
+    const r = doLienKet(
+      {
+        bo: 'bai_thuoc', ma: 'X', slug: 'truc-nhu-thang-ix', tieuDe: 'Trúc Nhự Thang IX',
+        truong: { thanh_phan: 'Chích thảo 4g Đảng sâm 4g Phục linh 4g Trúc diệp 20g' },
+      },
+      CHI_MUC,
+    );
+    const l = r.find((x) => x.kieu === 'lien_ket_dung_duoc');
+    expect(l).toBeDefined();
+    expect(l!.nhanXet).toContain('3');
+  });
+
+  it('nêu tên vị không khớp mục nào — sai chính tả hoặc kho thiếu vị', () => {
+    const r = doLienKet(
+      {
+        bo: 'bai_thuoc', ma: 'X', slug: 'b', tieuDe: 'B',
+        truong: { thanh_phan: 'Cam thảo 4g Hoàng kỳ 12g' },
+      },
+      CHI_MUC,
+    );
+    const l = r.find((x) => x.kieu === 'ten_vi_la');
+    expect(l).toBeDefined();
+    expect(l!.trichDan).toContain('Hoàng kỳ');
+  });
+
+  it('không nhận nhầm chính mục đang xét làm liên kết', () => {
+    const r = doLienKet(
+      {
+        bo: 'duoc_lieu', ma: 'X', slug: 'cam-thao', tieuDe: 'Cam thảo',
+        truong: { chu_tri: 'Cam thảo dùng trị ho.' },
+      },
+      CHI_MUC,
+    );
+    expect(r.find((x) => x.kieu === 'lien_ket_dung_duoc')).toBeUndefined();
   });
 });

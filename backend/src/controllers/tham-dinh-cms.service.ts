@@ -145,6 +145,14 @@ export class ThamDinhCmsService {
     });
   }
 
+  /** Toàn bộ tên mục từ, để dựng chỉ mục tra tên. 18.416 dòng ngắn — vài MB, nạp một lần. */
+  async docTenMuc(): Promise<Array<{ bo: string; slug: string; tieuDe: string }>> {
+    const r = await this.phaiCo().query<{ bo: string; slug: string; tieu_de: string }>(
+      `SELECT bo, slug, tieu_de FROM td_muc`,
+    );
+    return r.rows.map((x) => ({ bo: x.bo, slug: x.slug, tieuDe: x.tieu_de }));
+  }
+
   /** Ghi đè hồ sơ của một mục và thay toàn bộ nhận xét lớp `may` của nó. */
   async ghiHoSo(h: HoSoMuc, nx: NhanXetCoMuc[]): Promise<void> {
     const c = this.phaiCo();

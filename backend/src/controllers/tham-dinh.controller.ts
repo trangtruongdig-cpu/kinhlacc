@@ -4,7 +4,7 @@ import { Cron } from '@nestjs/schedule';
 
 import { ThamDinhCmsService } from './tham-dinh-cms.service';
 import { SuCoService } from './su-co.controller';
-import { doMuc } from '../utils/tham-dinh-muc.util';
+import { doMuc, dungChiMucTen, doLienKet } from '../utils/tham-dinh-muc.util';
 import { gomCum, vanTayNoiDung, type CumViec, type NhanXetCoMuc } from '../utils/tham-dinh-cum.util';
 import type { HangHoSo, LuocKeCa } from '../models/tham-dinh.dto';
 
@@ -91,6 +91,9 @@ export class ThamDinhService {
       await this.cms.moKetNoi();
       await this.cms.dungBang();
 
+      // Dựng MỘT LẦN cho cả ca: 18.416 tên, nạp lại mỗi mục là 18.416 lượt truy vấn.
+      const chiMucTen = dungChiMucTen(await this.cms.docTenMuc());
+
       for (const bo of await this.cms.docCauHinhBo()) {
         duongDanBo[bo.bo] = bo.duongDan;
         let tu = 0;
@@ -99,7 +102,7 @@ export class ThamDinhService {
           if (!lo.length) break;
 
           for (const m of lo) {
-            const nx = doMuc(m);
+            const nx = [...doMuc(m), ...doLienKet(m, chiMucTen)];
             const nang = nx.filter((x) => x.nang).length;
             await this.cms.ghiHoSo(
               {

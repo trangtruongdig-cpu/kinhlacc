@@ -130,3 +130,138 @@ export function doMuc(m: MucKho): NhanXetTho[] {
 
   return ra;
 }
+
+/** Tra cứu tên mục từ theo cụm chữ đã chuẩn hoá. */
+export interface ChiMucTen {
+  khop(cum: string): { bo: string; slug: string; tieuDe: string } | null;
+}
+
+/**
+ * Chuẩn hoá MẠNH: bỏ dấu thanh và mọi dấu câu.
+ * Cùng lối với khoá tra cứu chéo đã dùng ở tầng từ điển — nhờ nó "Trúc Nhự Thang-…" và
+ * "Trúc Nhự Thang – …" cùng trỏ một mục.
+ */
+function chuanHoaTen(s: string): string {
+  return s
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/đ/g, 'd')
+    .replace(/Đ/g, 'D')
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+export function dungChiMucTen(
+  muc: Array<{ bo: string; slug: string; tieuDe: string }>,
+): ChiMucTen {
+  const bang = new Map<string, { bo: string; slug: string; tieuDe: string }>();
+  for (const m of muc) {
+    const k = chuanHoaTen(m.tieuDe);
+    if (k && !bang.has(k)) bang.set(k, m);
+  }
+  return {
+    khop(cum: string) {
+      return bang.get(chuanHoaTen(cum)) ?? null;
+    },
+  };
+}
+
+/** Số từ tối đa của một tên vị thuốc — quét cửa sổ tới ngần này rồi thôi. */
+const TOI_DA_TU_TEN = 4;
+
+/** Liều lượng và chữ nối — không phải tên vị, và cũng cắt đôi hai tên đứng cạnh nhau. */
+const RE_BO_QUA = /^\d|^(g|gam|chi|lang|va|voi)$/i;
+
+/**
+ * Quét một chuỗi, nhặt ra các cụm khớp tên mục từ trong kho, ưu tiên cụm DÀI NHẤT.
+ *
+ * Quét dài nhất trước là bắt buộc: thành phần bài thuốc hay ghi liền không phân cách
+ * ("Bạch chỉ Bán hạ Cam thảo Độc hoạt"), tách theo dấu cách thì không ra vị nào.
+ *
+ * Phần KHÔNG khớp trả về theo CỤM LIỀN KỀ, không theo từ lẻ: tên vị tiếng Việt hầu hết
+ * hai chữ, nên lọc từng từ một thì "Hoàng kỳ" chỉ còn "Hoàng" — vừa mất nghĩa vừa không
+ * tra ngược được vào sách.
+ */
+function quetTen(
+  s: string,
+  chiMuc: ChiMucTen,
+): { khop: Array<{ cum: string; muc: { bo: string; slug: string; tieuDe: string } }>; du: string[] } {
+  const tu = s.split(/\s+/).filter(Boolean);
+  const khop: Array<{ cum: string; muc: { bo: string; slug: string; tieuDe: string } }> = [];
+  const du: string[] = [];
+  let dang: string[] = [];
+  let i = 0;
+
+  const chot = () => {
+    if (dang.length) du.push(dang.join(' '));
+    dang = [];
+  };
+
+  while (i < tu.length) {
+    let trung: { dai: number; muc: { bo: string; slug: string; tieuDe: string }; cum: string } | null = null;
+    for (let d = Math.min(TOI_DA_TU_TEN, tu.length - i); d >= 1; d--) {
+      const cum = tu.slice(i, i + d).join(' ');
+      const m = chiMuc.khop(cum);
+      if (m) {
+        trung = { dai: d, muc: m, cum };
+        break;
+      }
+    }
+    if (trung) {
+      chot();
+      khop.push({ cum: trung.cum, muc: trung.muc });
+      i += trung.dai;
+    } else {
+      // Liều lượng ngắt cụm: "Cam thảo 4g Hoàng kỳ" là hai tên, không phải một.
+      if (RE_BO_QUA.test(tu[i])) chot();
+      else dang.push(tu[i]);
+      i++;
+    }
+  }
+  chot();
+  return { khop, du };
+}
+
+/**
+ * Dò liên kết hụt. Hai loại phát hiện, đều là đầu vào cho bậc 1 của lớp thầy thuốc:
+ *   · `lien_ket_dung_duoc` — mục khác trong kho nói về đúng thứ bài này nhắc tới
+ *   · `ten_vi_la` — tên vị không khớp mục nào: hoặc viết sai, hoặc kho thiếu vị đó
+ */
+export function doLienKet(m: MucKho, chiMuc: ChiMucTen): NhanXetTho[] {
+  const ra: NhanXetTho[] = [];
+  const tp = m.truong['thanh_phan'];
+  if (!tp || !tp.trim()) return ra;
+
+  const { khop, du } = quetTen(tp, chiMuc);
+  const khac = khop.filter((k) => !(k.muc.bo === m.bo && k.muc.slug === m.slug));
+
+  if (khac.length) {
+    ra.push({
+      kieu: 'lien_ket_dung_duoc',
+      truong: 'thanh_phan',
+      trichDan: khac.map((k) => k.cum).join(' · '),
+      nhanXet:
+        `${khac.length} vị trong bài có mục riêng trong kho — nối được, và đủ căn cứ để dựng ` +
+        `phần phân tích mà không cần viết thêm chữ nào từ ngoài.`,
+      nang: false,
+    });
+  }
+
+  // Cụm chữ còn lại đủ dài để là tên vị mà không khớp mục nào.
+  const nghi = du.filter((t) => t.length >= 3);
+  if (nghi.length) {
+    ra.push({
+      kieu: 'ten_vi_la',
+      truong: 'thanh_phan',
+      trichDan: nghi.slice(0, 12).join(' · '),
+      nhanXet:
+        'Có chữ trong thành phần không khớp mục dược liệu nào: hoặc tên viết sai, ' +
+        'hoặc kho thiếu vị đó. Cần người đối chiếu sách.',
+      nang: false,
+    });
+  }
+
+  return ra;
+}
