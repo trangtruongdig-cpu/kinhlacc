@@ -45,6 +45,27 @@ const locs = sm.match(/<loc>[^<]*<\/loc>/g) || []
 const dem = (mau) => (mau === null ? locs.length : locs.filter((l) => l.includes(mau)).length)
 
 let hong = 0
+
+// URL TRÙNG — ngưỡng 0. Vì sao phải kiểm: các builder chèn URL bằng cách ghép vào trước
+// </urlset>; ba trong bốn builder từng chỉ kiểm `includes('</urlset>')` (là kiểm sitemap có
+// đúng dạng, KHÔNG phải chặn trùng), nên chạy lại một builder là URL của nó vào lần thứ hai.
+// Đo thật 26/09/2026: 62 URL /duoc-lieu/nhom/ trùng đúng 2 lần.
+//
+// Trùng lặp CHE MẤT chính thứ chốt này canh: một bộ mất 62 trang cộng một bộ trùng 62 lần
+// thì TỔNG vẫn "đạt ngưỡng". Đã chữa gốc bằng sitemap-chen.mjs (xoá rồi chèn lại), phép
+// kiểm này là lưới thứ hai.
+const soLan = new Map()
+for (const l of locs) soLan.set(l, (soLan.get(l) || 0) + 1)
+const trung = [...soLan.entries()].filter(([, n]) => n > 1)
+const soTrung = trung.reduce((a, [, n]) => a + n - 1, 0)
+console.log('── kiem-sitemap: URL trùng ──')
+console.log(`  ${soTrung === 0 ? '✓' : '✗'} URL trùng lặp        ${String(soTrung).padStart(6)}  (phải bằng 0)`)
+if (soTrung) {
+  hong++
+  for (const [l, n] of trung.slice(0, 5)) console.log(`      ×${n}  ${l.replace(/<\/?loc>/g, '')}`)
+  if (trung.length > 5) console.log(`      … và ${trung.length - 5} URL nữa`)
+}
+
 console.log('── kiem-sitemap: đối chiếu với ngưỡng tối thiểu ──')
 for (const [nhan, mau, min, lucDo] of NGUONG) {
   const n = dem(mau)

@@ -7,6 +7,7 @@
 // gọi khác/ảnh nằm ở 6 bảng liên kết riêng. Để tránh ~1.043 × 6 query, mỗi bảng liên kết chỉ query 1 lần
 // (lấy toàn bộ), rồi group theo id_vi_thuoc trong JS trước khi ghép với hàng vi_thuoc.
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
+import { chenUrl } from './sitemap-chen.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
 import { sslConfig } from './db-ssl.mjs'
@@ -296,12 +297,11 @@ function stub(v, rel) {
 
   // Nạp URL dược liệu vào sitemap (chèn trước </urlset>); nếu chưa có sitemap thì bỏ qua.
   const smPath = resolve(distDir, 'sitemap.xml')
-  if (existsSync(smPath)) {
-    const lastmod = new Date().toISOString().slice(0, 10)
-    const entries = urls.map((u) => `<url><loc>${u}</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>`).join('\n')
-    const sm = readFileSync(smPath, 'utf8')
-    if (sm.includes('</urlset>')) writeFileSync(smPath, sm.replace('</urlset>', entries + '\n</urlset>'), 'utf8')
-  }
+  // ⚠️ loaiTru: /duoc-lieu/ chứa cả /duoc-lieu/nhom/ của build-nhom-duoc-ly — không loại
+  // ra thì bước này xoá mất 62 URL nhóm dược lý mỗi lần chạy.
+  chenUrl(smPath, '/duoc-lieu/', urls, {
+    loaiTru: ['/duoc-lieu/nhom/'], lastmod: new Date().toISOString().slice(0, 10), priority: '0.6',
+  })
 
   console.log(`✓ build-duoc-lieu: ${n} trang dược liệu tĩnh (${nNoindex} noindex: chưa biên soạn văn xuôi) + ${urls.length} URL vào sitemap.`)
 })().catch((e) => { console.warn('⚠ build-duoc-lieu: lỗi khi prerender (' + (e && e.message) + ') — BỎ QUA, build vẫn tiếp tục.'); process.exit(0) })

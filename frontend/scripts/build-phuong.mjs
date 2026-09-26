@@ -3,6 +3,7 @@
 // sang /duoc-lieu/<id>/) vào dist/index.html; Vue mount sẽ thay #app → user thấy SPA, bot thấy nội dung.
 // Chạy SAU vite build (cần dist/index.html). Cũng nạp URL bài thuốc vào dist/sitemap.xml.
 import { readFileSync, writeFileSync, mkdirSync, existsSync, appendFileSync } from 'node:fs'
+import { chenUrl } from './sitemap-chen.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
 import { sslConfig } from './db-ssl.mjs'
@@ -196,12 +197,10 @@ function stub(b, nguonCua) {
 
   // Nạp URL bài thuốc vào sitemap (chèn trước </urlset>); nếu chưa có sitemap thì bỏ qua.
   const smPath = resolve(distDir, 'sitemap.xml')
-  if (existsSync(smPath)) {
-    const lastmod = new Date().toISOString().slice(0, 10)
-    const entries = urls.map((u) => `<url><loc>${u}</loc><lastmod>${lastmod}</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>`).join('\n')
-    const sm = readFileSync(smPath, 'utf8')
-    if (sm.includes('</urlset>')) writeFileSync(smPath, sm.replace('</urlset>', entries + '\n</urlset>'), 'utf8')
-  }
+  // chenUrl XOÁ phần cũ của /bai-thuoc/ rồi chèn lại — chạy lại không nhân đôi.
+  chenUrl(smPath, '/bai-thuoc/', urls, {
+    lastmod: new Date().toISOString().slice(0, 10), priority: '0.6',
+  })
 
   console.log(`✓ build-phuong: ${n} trang bài thuốc tĩnh (${nNoindex} noindex: <${MIN_SO_VI} vị / thiếu tác dụng / <${MIN_CHU_HIEN} ký tự) + ${urls.length} URL vào sitemap.`)
 })().catch((e) => { console.warn('⚠ build-phuong: lỗi khi prerender (' + (e && e.message) + ') — BỎ QUA, build vẫn tiếp tục.'); process.exit(0) })

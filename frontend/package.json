@@ -31,7 +31,8 @@
     "lint:eslint": "eslint . --fix --cache",
     "format": "prettier --write --experimental-cli src/",
     "kiem-sitemap": "node scripts/kiem-sitemap.mjs",
-    "kiem-seo": "node scripts/kiem-seo.mjs"
+    "kiem-seo": "node scripts/kiem-seo.mjs",
+    "thu-sitemap": "node scripts/thu-sitemap-chen.mjs"
   },
   "dependencies": {
     "@types/cytoscape": "^3.21.9",
