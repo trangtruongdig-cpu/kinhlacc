@@ -5,6 +5,7 @@
  */
 import { ref, watch, onMounted } from 'vue'
 import PublicTopBar from '@/components/PublicTopBar.vue'
+import ThuVienNav from '@/components/ThuVienNav.vue'
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue'
 import { api } from '@/services/api'
 
@@ -60,6 +61,8 @@ onMounted(() => {
 <template>
   <div class="pt">
     <PublicTopBar title="Từ điển bài thuốc" />
+    <!-- Thanh tab thư viện — giữ khách trong mạch tra cứu thay vì cụt đường ở Trang Chủ. -->
+    <ThuVienNav active="baithuoc" />
     <AppBreadcrumb />
 
     <div class="pt-body">

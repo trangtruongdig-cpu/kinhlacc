@@ -6,6 +6,7 @@
  */
 import { ref, watch, onMounted } from 'vue'
 import PublicTopBar from '@/components/PublicTopBar.vue'
+import ThuVienNav from '@/components/ThuVienNav.vue'
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue'
 import { api, assetUrl } from '@/services/api'
 import { discGlyph, hanDiscClass, tenLenClass, tinhLabelClass, cardColorClass } from '@/lib/herbCard'
@@ -88,6 +89,8 @@ onMounted(() => {
 <template>
   <div class="dl">
     <PublicTopBar title="Từ điển dược liệu" />
+    <!-- Thanh tab thư viện — giữ khách trong mạch tra cứu thay vì cụt đường ở Trang Chủ. -->
+    <ThuVienNav active="duoclieu" />
     <AppBreadcrumb />
 
     <div class="dl-body">

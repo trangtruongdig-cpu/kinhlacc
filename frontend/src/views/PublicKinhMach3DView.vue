@@ -12,6 +12,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRoute } from 'vue-router'
 import { mountAcuMap, unmountAcuMap } from '@/lib/acuMap3d'
 import PublicTopBar from '@/components/PublicTopBar.vue'
+import ThuVienNav from '@/components/ThuVienNav.vue'
 
 const route = useRoute()
 const mountPoint = ref<HTMLElement | null>(null)
@@ -109,6 +110,9 @@ onBeforeUnmount(() => {
 <template>
   <div class="pub3d">
     <PublicTopBar title="Đồ Hình Kinh Lạc 3D" />
+    <!-- Thanh tab thư viện: trang này nằm NGOÀI /thu-vien nên không có thanh tab của
+         TuDienView — thiếu nó thì khách xem xong đồ hình là cụt đường, chỉ còn Trang Chủ. -->
+    <ThuVienNav active="3d" />
 
     <div class="pub3d-hint">
       <span class="pub3d-hint-text">
@@ -194,8 +198,10 @@ onBeforeUnmount(() => {
   max-width: 1280px;
   margin: var(--space-3) auto 0;
   padding: 0 var(--space-5) var(--space-5);
-  height: calc(100vh - 120px);
-  height: calc(100dvh - 120px); /* dvh: canvas 3D không bị thanh URL mobile che/đẩy */
+  /* ĐO thật (Playwright, 1440×900): mép trên khung nằm ở 166,4px — top bar 60 + thanh
+     ThuVienNav 59 + dòng gợi ý. Lấy 168 để khung chạm đáy màn mà không tràn. */
+  height: calc(100vh - 168px);
+  height: calc(100dvh - 168px); /* dvh: canvas 3D không bị thanh URL mobile che/đẩy */
   min-height: 440px;
 }
 
@@ -239,8 +245,9 @@ onBeforeUnmount(() => {
 
 @media (max-width: 768px) {
   .pub3d-mount {
-    height: calc(100vh - 150px);
-    height: calc(100dvh - 150px); /* dvh: canvas 3D không bị thanh URL mobile che/đẩy */
+    /* ĐO thật (390×844): mép trên khung ở 177,8px. */
+    height: calc(100vh - 180px);
+    height: calc(100dvh - 180px); /* dvh: canvas 3D không bị thanh URL mobile che/đẩy */
     padding: 0 var(--space-3) var(--space-3);
   }
   .pub3d-hint {

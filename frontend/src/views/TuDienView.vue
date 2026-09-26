@@ -431,8 +431,22 @@ function openSourceByName(name?: string | null) {
 }
 // Deep-link ?nguon=<slug> (từ trang dược liệu/bài thuốc khác sang) → mở thẳng tab + nguồn đó.
 watch(() => route.query.nguon, (v) => { if (v) { subtab.value = 'nguon'; nguonTarget.value = { slug: String(v) } } }, { immediate: true })
-// Deep-link ?tab=luoi (nút CTA từ trang chủ, mục "Thiệt Chẩn · Xem Lưỡi") → mở thẳng tab Atlas lưỡi.
-watch(() => route.query.tab, (v) => { if (v === 'luoi') subtab.value = 'luoi' }, { immediate: true })
+// Deep-link ?tab=<khoá> → mở thẳng mục đó. Dùng bởi: nút CTA trang chủ (?tab=luoi) và thanh
+// ThuVienNav trên các trang công khai ngoài /thu-vien (3D, dược liệu, bài thuốc) — nơi các mục
+// này không có sẵn dưới dạng subtab nên phải quay về /thu-vien kèm khoá.
+// ⚠️ Chỉ nhận khoá TRONG danh sách: ?tab= là dữ liệu từ URL, gán thẳng vào subtab là để lọt
+// giá trị rác, cả 8 khối v-show cùng tắt và khách nhìn thấy trang trắng.
+const TAB_HOP_LE = ['huyet', 'kinh', 'ccdt', 'benhhoc', 'duoclieu', 'baithuoc', 'luoi', 'nguon'] as const
+watch(
+  () => route.query.tab,
+  (v) => {
+    const k = Array.isArray(v) ? v[0] : v
+    if (k && (TAB_HOP_LE as readonly string[]).includes(String(k))) {
+      subtab.value = String(k) as typeof subtab.value
+    }
+  },
+  { immediate: true },
+)
 function openTrait(id?: string | null) {
   if (!id || !traits.value[id]) return
   // "Tra theo đặc tính" giờ là BỘ LỌC trong tab Huyệt Vị: mở tab huyệt, xoá ô tìm rồi đặt bộ lọc.

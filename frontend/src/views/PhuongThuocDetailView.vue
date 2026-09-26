@@ -7,6 +7,7 @@
 import { ref, watch, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import PublicTopBar from '@/components/PublicTopBar.vue'
+import ThuVienNav from '@/components/ThuVienNav.vue'
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue'
 import VanBanYVan from '@/components/VanBanYVan.vue'
 import { api } from '@/services/api'
@@ -61,6 +62,8 @@ onMounted(() => load(String(route.params.slug)))
 <template>
   <div class="pd">
     <PublicTopBar v-if="!inApp" title="Bài thuốc" />
+    <!-- Thanh tab thư viện — giữ khách trong mạch tra cứu thay vì cụt đường ở Trang Chủ. -->
+    <ThuVienNav v-if="!inApp" active="baithuoc" />
     <AppBreadcrumb v-if="!inApp" />
 
     <div class="pd-body">

@@ -6,6 +6,7 @@
 import { computed, defineAsyncComponent, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import PublicTopBar from '@/components/PublicTopBar.vue'
+import ThuVienNav from '@/components/ThuVienNav.vue'
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue'
 import MedicalDisclaimer from '@/components/MedicalDisclaimer.vue'
 import { api } from '@/services/api'
@@ -38,6 +39,8 @@ function onLoaded(h: { id: number; ten: string }) {
 <template>
   <div class="dld">
     <PublicTopBar v-if="!inApp" title="Từ điển dược liệu" />
+    <!-- Thanh tab thư viện — giữ khách trong mạch tra cứu thay vì cụt đường ở Trang Chủ. -->
+    <ThuVienNav v-if="!inApp" active="duoclieu" />
     <AppBreadcrumb v-if="!inApp" />
 
     <div class="dld-body">
