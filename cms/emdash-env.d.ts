@@ -223,6 +223,7 @@ export interface NguonYVan {
   ten_khac?: string;
   ghi_chu?: string;
   lien_ket?: string;
+  mo_ta?: PortableTextBlock[];
   createdAt: Date;
   updatedAt: Date;
   publishedAt: Date | null;
