@@ -54,6 +54,8 @@ Kiểm tra: `docker --version` và `docker compose version`.
 ## 3. Lấy mã nguồn
 
 ```bash
+# ⚠️ Đây là ĐỀ XUẤT cho lần cài mới. Bản ĐANG CHẠY THẬT nằm ở ~/kinhlacc (kiểm
+# 26/09/2026), nên khi viết lệnh cho VPS đó thì dùng ~/kinhlacc, đừng tin đường dẫn dưới.
 sudo mkdir -p /opt/kinhlac && sudo chown $USER:$USER /opt/kinhlac
 cd /opt/kinhlac
 git clone <repo-url> .
@@ -125,18 +127,33 @@ Nguyên nhân là kiến trúc, không phải cấu hình sai: **CSDL dùng chun
   không có trên VPS** → 404 mà trang vẫn dựng bình thường.
 
 **Cách đúng về lâu dài: nạp ảnh qua trang quản trị của SITE THẬT** (`/_emdash/admin` trên
-kinhlac.online), để tệp rơi thẳng vào `/opt/kinhlac/data/cms-uploads/`. Nạp ở máy lập
-trình là tự tạo việc đồng bộ tay.
+kinhlac.online), để tệp rơi thẳng vào `data/cms-uploads/` của VPS. Nạp ở máy lập trình là
+tự tạo việc đồng bộ tay.
 
 **Nếu đã nạp ở máy lập trình rồi** thì đẩy tệp lên trước khi build:
 
-```bash
-# trên VPS, tạo thư mục trước để nó không bị container tạo với quyền root
-mkdir -p /opt/kinhlac/data/cms-uploads
+⚠️ **ĐỪNG đoán đường dẫn repo trên VPS.** Hướng dẫn cài ở trên đề xuất `/opt/kinhlac`
+nhưng bản đang chạy thật nằm ở `~/kinhlacc` — tôi đã chỉ sai lệnh một lần vì tin theo tài
+liệu. Hỏi Docker, đó mới là câu trả lời thật:
 
-# trên máy lập trình
-rsync -avz --progress cms/uploads/ <user>@<vps>:/opt/kinhlac/data/cms-uploads/
+```bash
+# trên VPS — in ra ĐÚNG thư mục host mà container đang gắn
+docker inspect kinhlac_cms --format '{{range .Mounts}}{{.Source}} -> {{.Destination}}{{"\n"}}{{end}}'
+ls ~/kinhlacc/data/cms-uploads 2>/dev/null | wc -l   # đang có bao nhiêu tệp
 ```
+
+```bash
+# trên VPS — tạo thư mục trước để nó không bị container tạo với quyền root
+mkdir -p ~/kinhlacc/data/cms-uploads
+
+# trên máy lập trình, trong thư mục kinhlacc
+rsync -avz --progress cms/uploads/ root@<ip-vps>:~/kinhlacc/data/cms-uploads/
+```
+
+Dấu `/` cuối `cms/uploads/` là BẮT BUỘC. Thiếu nó rsync tạo thêm một cấp `uploads/` bên
+trong đích và ảnh vẫn 404.
+
+Không cần build lại, cũng không cần restart: đó là bind mount nên tệp bỏ vào là thấy ngay.
 
 Kiểm sau khi đẩy — phải ra `200 · image/webp`, không phải `404 · application/json`:
 
