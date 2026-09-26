@@ -42,9 +42,30 @@ const RONG = { kinh: 1400, da: 800, gp: 800, lan: 800 };
 const coLoc = process.argv.find((a) => a.startsWith("--kinh="));
 const tienToLoc = coLoc ? coLoc.slice("--kinh=".length).split(",") : null;
 
+// VIỆC A — ba huyệt có ảnh nhưng cột ma_huyet trong CSDL đang RỖNG nên khớp theo
+// ma_huyet (cách khớp mặc định của bộ nạp) sẽ bỏ sót LẶNG LẼ. Đè bằng slug cho ĐÚNG BA
+// mã này thôi — KHÔNG vá cột ma_huyet của chúng, vì cột đó thuộc bộ sinh acupoints.js của
+// phiên khác: thêm ma_huyet ở đó kéo theo cả sáu khoá đi kèm (international_code,
+// code_dash, chinese, pinyin, english, indications) mà ba huyệt này không có đủ dữ liệu,
+// phá bất biến hình dạng bản ghi của phiên đó.
+const DE_BANG_SLUG = { ST7: "ha-quan", KI15: "trung-chu", GB3: "thuong-quan" };
+
+// VIỆC B — ST3 không có mục riêng trong từ điển: tên "Cự Liêu" chỉ có một mục duy nhất
+// (slug cu-lieu-2) và mục đó đã LÀ GB29. Gắn 4 ảnh ST3 vào đó là gán sai huyệt nên BỎ QUA
+// hẳn — không webp-hoá, không nạp media, không dò theo tên/slug thay thế nào khác.
+const BO_QUA_MA = new Set(["ST3"]);
+
 const hosoGoc = JSON.parse(readFileSync(join(VAO, "hoso.json"), "utf8"));
-const hoso = tienToLoc ? hosoGoc.filter((x) => tienToLoc.some((p) => x.ma.startsWith(p))) : hosoGoc;
-console.log(`Hồ sơ: ${hosoGoc.length} ảnh${tienToLoc ? ` · lọc theo [${tienToLoc.join(", ")}]: ${hoso.length} ảnh` : ""}`);
+const hosoLoc = tienToLoc ? hosoGoc.filter((x) => tienToLoc.some((p) => x.ma.startsWith(p))) : hosoGoc;
+const boQua = hosoLoc.filter((x) => BO_QUA_MA.has(x.ma));
+const hoso = hosoLoc.filter((x) => !BO_QUA_MA.has(x.ma));
+console.log(`Hồ sơ: ${hosoGoc.length} ảnh${tienToLoc ? ` · lọc theo [${tienToLoc.join(", ")}]: ${hosoLoc.length} ảnh` : ""}`);
+if (boQua.length) {
+	console.warn(
+		`⚠ BỎ QUA ${boQua.length} ảnh mã ${[...BO_QUA_MA].join(",")}: từ điển không có mục riêng cho huyệt này ` +
+			`(tên "Cự Liêu" trong từ điển đã là GB29 / slug cu-lieu-2) nên không có mục nào để gắn ảnh vào.`,
+	);
+}
 mkdirSync(RA, { recursive: true });
 
 // ── Bước 1: chuyển WebP + ĐO (luôn chạy, kể cả khi nạp thật, để có số KB làm cơ sở) ──
@@ -65,8 +86,11 @@ for (const x of hoso) {
 	ds.push({ ...x, webp: ra, kb });
 }
 
+// Số huyệt thật sẽ được nạp (đã trừ BO_QUA_MA) — dùng để ước lượng thay vì hằng số cứng,
+// tự đúng dù --kinh= lọc bớt hay danh sách bỏ qua đổi sau này.
+const soHuyetThat = new Set(hoso.map((x) => x.ma)).size;
 const mb = tong / 1024;
-const uocTatCa = (mb / ds.length) * 361 * 4;
+const uocTatCa = (mb / ds.length) * soHuyetThat * 4;
 console.log(`\nĐÃ CHUYỂN ${ds.length} ảnh · ${mb.toFixed(1)}MB · trung bình ${(tong / ds.length).toFixed(0)}KB/ảnh`);
 for (const [kieu, ksList] of Object.entries(theoKieu)) {
 	const tb = ksList.reduce((a, b) => a + b, 0) / ksList.length;
@@ -83,7 +107,7 @@ try {
 }
 const uocTongCong = uocTatCa + khoHienCo;
 console.log(`\nKho ảnh CMS hiện có: ${khoHienCo}MB`);
-console.log(`ƯỚC CHO 361 HUYỆT × 4 KIỂU: ${uocTatCa.toFixed(0)}MB · CỘNG KHO HIỆN CÓ: ${uocTongCong.toFixed(0)}MB (trần ${TRAN_MB}MB)`);
+console.log(`ƯỚC CHO ${soHuyetThat} HUYỆT × 4 KIỂU: ${uocTatCa.toFixed(0)}MB · CỘNG KHO HIỆN CÓ: ${uocTongCong.toFixed(0)}MB (trần ${TRAN_MB}MB)`);
 if (uocTongCong > TRAN_MB) {
 	console.error(`\n✗ VƯỢT TRẦN. Dừng lại, báo người dùng trước khi nạp.`);
 	process.exit(1);
@@ -123,11 +147,18 @@ async function lamMot(x) {
 	// /_emdash/api/media/file/<id> trả 404 và ảnh vỡ dù thẻ <img> vẫn có.
 	const storageKey = j.storageKey || j.storage_key;
 	try {
+		// VIỆC A: ba mã trong DE_BANG_SLUG khớp bằng slug (ma_huyet của chúng rỗng);
+		// còn lại khớp bằng ma_huyet như cũ.
+		const slugDe = DE_BANG_SLUG[x.ma];
 		const r = await kho.query(
-			`UPDATE ec_huyet_vi SET anh_${x.kieu} = $1
-			 WHERE upper(replace(ma_huyet,'-','')) IN ($2, $3) AND deleted_at IS NULL`,
-			[JSON.stringify({ id: j.id, meta: { storageKey } }),
-				x.ma, x.ma.replace(/^HT/, "HE").replace(/^KI/, "K")],
+			slugDe
+				? `UPDATE ec_huyet_vi SET anh_${x.kieu} = $1 WHERE slug = $2 AND deleted_at IS NULL`
+				: `UPDATE ec_huyet_vi SET anh_${x.kieu} = $1
+				   WHERE upper(replace(ma_huyet,'-','')) IN ($2, $3) AND deleted_at IS NULL`,
+			slugDe
+				? [JSON.stringify({ id: j.id, meta: { storageKey } }), slugDe]
+				: [JSON.stringify({ id: j.id, meta: { storageKey } }),
+					x.ma, x.ma.replace(/^HT/, "HE").replace(/^KI/, "K")],
 		);
 		gan += r.rowCount;
 	} catch {
@@ -163,10 +194,16 @@ for (const [ma, v] of theoHuyet) {
 	if (v.hang === "B")
 		phan.push("Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine.");
 	if (!phan.length) continue;
+	// Cùng bảng đè slug của VIỆC A — ghi chú cũng phải khớp đúng bản ghi.
+	const slugDe = DE_BANG_SLUG[ma];
 	const r = await kho.query(
-		`UPDATE ec_huyet_vi SET anh_ghi_chu = $1
-		 WHERE upper(replace(ma_huyet,'-','')) IN ($2, $3) AND deleted_at IS NULL`,
-		[phan.join(" "), ma, ma.replace(/^HT/, "HE").replace(/^KI/, "K")],
+		slugDe
+			? `UPDATE ec_huyet_vi SET anh_ghi_chu = $1 WHERE slug = $2 AND deleted_at IS NULL`
+			: `UPDATE ec_huyet_vi SET anh_ghi_chu = $1
+			   WHERE upper(replace(ma_huyet,'-','')) IN ($2, $3) AND deleted_at IS NULL`,
+		slugDe
+			? [phan.join(" "), slugDe]
+			: [phan.join(" "), ma, ma.replace(/^HT/, "HE").replace(/^KI/, "K")],
 	);
 	ganGhiChu += r.rowCount;
 }

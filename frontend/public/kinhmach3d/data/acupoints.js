@@ -209,7 +209,13 @@ window.ACUPOINTS = {
       "slug": "a-mon",
       "image": "images/acupoints/0005-a-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSGNGRC92QW2G3GME5K0M.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ0QV079Y0YMPE30DYCBJ3.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ0RD9AYZ86XKNX24M3GJ9.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ0SEMFDCVA0RTV40Z0HVT.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ0T0TP9M61T0TW3DTZ2MD.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, cơ rối lớn, cơ thẳng sau đầu lớn, màng đội trục sau, ống sống."
+      },
       "international_code": "GV15",
       "code_dash": "GV-15",
       "chinese": "瘂門 (啞門)",
@@ -500,7 +506,13 @@ window.ACUPOINTS = {
       "slug": "am-bao",
       "image": "images/acupoints/0012-am-bao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSMQ34T78FCY8T329RZDB.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPXYJF49F38K96BBG82C15.webp",
+        "gp": "/_emdash/api/media/file/01M3DPXZGZ7VJ3TA8S4KP3F8Y5.webp",
+        "lan": "/_emdash/api/media/file/01M3DPXZM07YMBVGWK4146C4WZ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPY0VJ6PVTZ5BR2PY8Q35Z.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: mặt trong xương đùi."
+      },
       "international_code": "LR9",
       "code_dash": "LR-9",
       "chinese": "陰包",
@@ -596,7 +608,13 @@ window.ACUPOINTS = {
       "slug": "am-coc",
       "image": "images/acupoints/0014-am-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSN69M15B643JAX4AVF0B.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPPZS07Z01D34NAY56BN90.webp",
+        "gp": "/_emdash/api/media/file/01M3DPPZW184FQ7J0CCFKVV300.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQ0QBSWQ6XWG1NX3DHE43.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQ0TDV0XP9WD0HPXEFBHR.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ bán mạc, đầu trên cơ sinh đôi trong."
+      },
       "international_code": "KI10",
       "code_dash": "KI-10",
       "chinese": "陰谷",
@@ -694,7 +712,13 @@ window.ACUPOINTS = {
       "slug": "am-do",
       "image": "images/acupoints/0016-am-do.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSPKXWS6284825K04MY1D.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQH1WNGQD7JVZ7KWEPKEF.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQHEJ4JE09FFM0E2G3ZPE.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQJ2G4MKYB9QT293N3B49.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQJKWT9W6QJ8WHBK6798P.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang, khung tá tràng."
+      },
       "international_code": "KI19",
       "code_dash": "KI-19",
       "chinese": "陰都",
@@ -790,7 +814,13 @@ window.ACUPOINTS = {
       "slug": "am-giao",
       "image": "images/acupoints/0018-am-giao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSPX1SWBH8EHP601ED4DS.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPYSFDTWAYD4QTB5K30NB1.webp",
+        "gp": "/_emdash/api/media/file/01M3DPYT4MX3PWWMX5AQ4KC8XX.webp",
+        "lan": "/_emdash/api/media/file/01M3DPYTDQ3RNNCGXJHA56WKRG.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPYV30X01EWE2S3WEH6EH8.webp",
+        "ghiChu": null
+      },
       "international_code": "CV7",
       "code_dash": "CV-7",
       "chinese": "陰交",
@@ -940,7 +970,13 @@ window.ACUPOINTS = {
       "slug": "am-lang-tuyen",
       "image": "images/acupoints/0021-am-lang-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSRKTYMSZBYYT5QR7ZCRK.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPF68BS5A9FCHVSAD0HY4E.webp",
+        "gp": "/_emdash/api/media/file/01M3DPF6TMQP6ES4910WJSWMPT.webp",
+        "lan": "/_emdash/api/media/file/01M3DPF70PY1W1G82F9VHR77T8.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPF7P1E8GTCEEHCV85MB0D.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau – trong, mặt sau đầu xương chầy, chỗ bám của cơ kheo, dưới chỗ bám của cơ bán mạc, mặt trước cơ sinh đôi trong."
+      },
       "international_code": "SP9",
       "code_dash": "SP-9",
       "chinese": "陰陵泉",
@@ -1001,7 +1037,13 @@ window.ACUPOINTS = {
       "slug": "am-liem",
       "image": "images/acupoints/0022-am-liem.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSRSVPH401M42ZFD1MEQ1.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPY2VCGMSW89656N9ABNVA.webp",
+        "gp": "/_emdash/api/media/file/01M3DPY3PN6V3A641Q52YAEPZZ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPY3SQWSZ7HM0R8DQBMM0G.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPY4N1ARZ2GXWE3GKYRXHQ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ khép nhỡ."
+      },
       "international_code": "LR11",
       "code_dash": "LR-11",
       "chinese": "陰廉",
@@ -1131,7 +1173,13 @@ window.ACUPOINTS = {
       "slug": "am-thi",
       "image": "images/acupoints/0025-am-thi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSTA4STVFDTCZJYQYSZTJ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPDJKMHJ1X74ATF3APW2E4.webp",
+        "gp": "/_emdash/api/media/file/01M3DPDK8THD3NS6ASPM5N1XH8.webp",
+        "lan": "/_emdash/api/media/file/01M3DPDKHYJJGH2GX3J7PB10JC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPDMA7QH38WWCP2RKPCK9A.webp",
+        "ghiChu": null
+      },
       "international_code": "ST33",
       "code_dash": "ST-33",
       "chinese": "陰市",
@@ -1331,7 +1379,13 @@ window.ACUPOINTS = {
       "slug": "am-khich",
       "image": "images/acupoints/0030-am-khich.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSQVSKZZD1SQA5AEN4JWH.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPGBXJVE2TCV9VF7WH2S7C.webp",
+        "gp": "/_emdash/api/media/file/01M3DPGC0K86ZY9TXF1XFVFDCF.webp",
+        "lan": "/_emdash/api/media/file/01M3DPGCVZ9C20ATQFBGQC318K.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPGCZ11K9C1CW2VBFBRB6J.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gấp chung nông các ngón tay, bờ trong gân cơ gấp chung sâu các ngón tay. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
+      },
       "international_code": "HE6",
       "code_dash": "HE-6",
       "chinese": "陰郄",
@@ -1417,7 +1471,13 @@ window.ACUPOINTS = {
       "slug": "an-mon",
       "image": "images/acupoints/0032-an-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSX1N9Z79S4N5RDMBMFWF.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPMBG3HAWRW48V9D6H4QRS.webp",
+        "gp": "/_emdash/api/media/file/01M3DPMBS79B11MJBMHYT1BYBK.webp",
+        "lan": "/_emdash/api/media/file/01M3DPMCMS10EZ03710FC5K8EG.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPMCQWZDY5PKBNA25Y5BWN.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong cơ 2 đầu đùi, bờ ngoài cơ bán gân, cơ bán mạc, mặt sau đùi."
+      },
       "international_code": "BL37",
       "code_dash": "BL-37",
       "chinese": "殷門",
@@ -1519,7 +1579,13 @@ window.ACUPOINTS = {
       "slug": "an-bach",
       "image": "images/acupoints/0034-an-bach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSY3YB1F7KKC7CMRE0H2A.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPEK5ZSG4AKYVNF1J5YR0G.webp",
+        "gp": "/_emdash/api/media/file/01M3DPEKV5SMAKNF17MFAA6SPR.webp",
+        "lan": "/_emdash/api/media/file/01M3DPEM48060FGH13SSWK2KB5.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPEMSPZCRKQX01597HZ9V2.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: xương đốt 2 ngón chân cái."
+      },
       "international_code": "SP1",
       "code_dash": "SP-1",
       "chinese": "隱白",
@@ -1701,7 +1767,13 @@ window.ACUPOINTS = {
       "slug": "bach-hoi",
       "image": "images/acupoints/0038-bach-hoi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHSYYYD7K7RHGQH2X47E6F.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ12V7W0RDVHZVD5S7KWKT.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ13PFAKZK7WQTWF8FC268.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ13ZKY5EY2BVWS5TXP3TG.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ14TWQ15PZV35DSPHNJ2F.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, dưới cân sọ là xương sọ."
+      },
       "international_code": "GV20",
       "code_dash": "GV-20",
       "chinese": "百會",
@@ -1878,7 +1950,13 @@ window.ACUPOINTS = {
       "slug": "bach-hoan-du",
       "image": "images/acupoints/0042-bach-hoan-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHT1AH81Z9ZT0Y9MNQPMPY.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPKPTH8RD5QXNGP913RJTH.webp",
+        "gp": "/_emdash/api/media/file/01M3DPKPXH31GSX3BAERGH2TPG.webp",
+        "lan": "/_emdash/api/media/file/01M3DPKQRV7295VWHH2SR3V2VN.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPKQVWFQ25P18J8DMYQ505.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, chỗ bám của cơ mông lớn, phía ngoài khối cơ chung của các cơ ở rãnh cột sống."
+      },
       "international_code": "BL30",
       "code_dash": "BL-30",
       "chinese": "白環俞",
@@ -1983,7 +2061,13 @@ window.ACUPOINTS = {
       "slug": "ban-than",
       "image": "images/acupoints/0044-ban-than.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHT2BD6FPAAS3ZA3FW6AED.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPV9FC86909A3858MXKWH5.webp",
+        "gp": "/_emdash/api/media/file/01M3DPV9RJF951ZV5BHYZ0V0KF.webp",
+        "lan": "/_emdash/api/media/file/01M3DPVAARWX33XBQ3F2Q1PCE0.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPVASVJFZQXP4J9SZMBGSK.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ cơ trán dính vào cân sọ."
+      },
       "international_code": "GB13",
       "code_dash": "GB-13",
       "chinese": "本神",
@@ -2210,7 +2294,13 @@ window.ACUPOINTS = {
       "slug": "bang-quang-du",
       "image": "images/acupoints/0050-bang-quang-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHT55HV692V1C292057BK9.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPKHKPD32F07B36A04905B.webp",
+        "gp": "/_emdash/api/media/file/01M3DPKJ42555DW5R1BGQFNY0N.webp",
+        "lan": "/_emdash/api/media/file/01M3DPKK05V34VMVBFMS6Y9RAG.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPKKFTGG9YQWQZBN02H98Z.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ ở rãnh cột sống xương cùng 2."
+      },
       "international_code": "BL28",
       "code_dash": "BL-28",
       "chinese": "膀胱俞",
@@ -2270,7 +2360,13 @@ window.ACUPOINTS = {
       "slug": "bao-hoang",
       "image": "images/acupoints/0051-bao-hoang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHT5BKAV7030Q3MHTNBEM8.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPNE8QR610GWWWGJR7ACCA.webp",
+        "gp": "/_emdash/api/media/file/01M3DPNF0ZVQSRMAV1XCDXC79T.webp",
+        "lan": "/_emdash/api/media/file/01M3DPNF70C98MX52P1GB5JA4Y.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPNFS6D85N085HQD1SK294.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ mông nhỡ, bờ trên cơ tháp, bờ ngoài chỗ bám cân cơ lưng lớn."
+      },
       "international_code": "BL53",
       "code_dash": "BL-53",
       "chinese": "胞肓",
@@ -2761,7 +2857,13 @@ window.ACUPOINTS = {
       "slug": "bat-dung",
       "image": "images/acupoints/0063-bat-dung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHT9SCDG74HCKY6EFBRVX7.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPC9Z9515Q4Z8BH6MA84WP.webp",
+        "gp": "/_emdash/api/media/file/01M3DPCAED0VS2EXVSGZ2DED08.webp",
+        "lan": "/_emdash/api/media/file/01M3DPCAXJBA9H0PDJBHSFSCJM.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPCBCR3VCM715G5B99ADV9.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang, trong ổ bụng là gan."
+      },
       "international_code": "ST19",
       "code_dash": "ST-19",
       "chinese": "不容",
@@ -2818,7 +2920,13 @@ window.ACUPOINTS = {
       "slug": "be-quan",
       "image": "images/acupoints/0064-be-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHT9ZDQGKKJV2PMY52M7MW.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPDFDM2H24E307FA40Q243.webp",
+        "gp": "/_emdash/api/media/file/01M3DPDF4JH0PE1AR048XX8CBR.webp",
+        "lan": "/_emdash/api/media/file/01M3DPDFKP4DV2GEGWP131M1K5.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPDG2XNYXTBQQ4TDA44E84.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: góc của cơ may, cơ căng cân đùi, cơ thẳng trước đùi, cơ đái – chậu."
+      },
       "international_code": "ST31",
       "code_dash": "ST-31",
       "chinese": "髀關",
@@ -2994,7 +3102,13 @@ window.ACUPOINTS = {
       "slug": "binh-phong",
       "image": "images/acupoints/0068-binh-phong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTBVN7PWV906VM4XSVNJC.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPHBHPQDX1HZQ0WH03CVWN.webp",
+        "gp": "/_emdash/api/media/file/01M3DPHCKQ89BNTRKKXPJ55EG2.webp",
+        "lan": "/_emdash/api/media/file/01M3DPHCWS9ARNZYTRQ04YG3NZ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPHD8XPAMGBAASA2X9RCTZ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: xương bả vai."
+      },
       "international_code": "SI12",
       "code_dash": "SI-12",
       "chinese": "秉風",
@@ -3052,7 +3166,13 @@ window.ACUPOINTS = {
       "slug": "bo-lang",
       "image": "images/acupoints/0069-bo-lang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTCPPDV48JJX586VAMVJH.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQPWS0GABBA97AWKZ4DYB.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQQC577K167DKFS47SH7R.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQQRAY95BVXMP81ZWR5MT.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQRDHDDB5GCQNHYK3170M.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ thẳng lớn, cơ gian sườn 5, mặt trên gan, phổi (bên phải), tim (bên trái)."
+      },
       "international_code": "KI22",
       "code_dash": "KI-22",
       "chinese": "步廊",
@@ -3117,7 +3237,13 @@ window.ACUPOINTS = {
       "slug": "boc-tham",
       "image": "images/acupoints/0070-boc-tham.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTCWP4H7CY0MAV2Q522DX.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPP0QVPW1KWZRNDTKMWR5W.webp",
+        "gp": "/_emdash/api/media/file/01M3DPP15B5RT0XR0EY6SFV1H7.webp",
+        "lan": "/_emdash/api/media/file/01M3DPP1RJ1A5544PD70D1G1M0.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPP2GZWWS62FRBMDY5PECG.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ mác bên dái, gân cơ mác bên ngắn ở phía trước, gân gót chân ở phía sau, bờ trên xương gót."
+      },
       "international_code": "BL61",
       "code_dash": "BL-61",
       "chinese": "僕參",
@@ -3385,7 +3511,13 @@ window.ACUPOINTS = {
       "slug": "cach-du",
       "image": "images/acupoints/0077-cach-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTESKCA7MKC4QZRE6FQRD.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJT8SWJ5PRC3V5P6M3M4A.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJTHV9DVX77VY2TXR392B.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJV71658AD4ZHXA3DWR1H.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJVG3YE7XCHEWKB1XJRFF.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ lưng dài, cơ bán gai của ngực, cơ ngang – gai, cơ ngang – sườn, vào trong là phổi."
+      },
       "international_code": "BL17",
       "code_dash": "BL-17",
       "chinese": "膈俞",
@@ -3444,7 +3576,13 @@ window.ACUPOINTS = {
       "slug": "cach-quan",
       "image": "images/acupoints/0078-cach-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTFF0JGKET1SAH329AN2N.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPN060AJAMD9Q1NF2STJYH.webp",
+        "gp": "/_emdash/api/media/file/01M3DPN15XYEGEMGER7TXMMTPW.webp",
+        "lan": "/_emdash/api/media/file/01M3DPN18XRTKJYTZMSC3A75Q6.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPN24M22HPT4QJ41ZQ0KES.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ thang, cơ lưng lớn, cơ chậu – sườn – ngực, cơ gian sườn 7, vào trong là phổi."
+      },
       "international_code": "BL46",
       "code_dash": "BL-46",
       "chinese": "膈關",
@@ -3571,7 +3709,13 @@ window.ACUPOINTS = {
       "slug": "can-du",
       "image": "images/acupoints/0081-can-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTFMZKYRTD11QW5AE8QZ9.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJW8B06F8JSZJC49VK88D.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJWECBFF6NJW9PF5W8VT2.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJX0J9ANW3J3Y3TACF1QV.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJXFRHCKV7VS45J6VJAB5.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ lưng dài, cơ bán gai của ngực, cơ ngang – gai, cơ ngang – sườn, vào trong là phổi."
+      },
       "international_code": "BL18",
       "code_dash": "BL-18",
       "chinese": "肝俞",
@@ -3816,7 +3960,13 @@ window.ACUPOINTS = {
       "slug": "cao-hoang",
       "image": "images/acupoints/0087-cao-hoang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTHGY946C61FX7CJ3HTE4.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPMTACC2SA60GM8XGZDDA8.webp",
+        "gp": "/_emdash/api/media/file/01M3DPMTZKH7RA7MJ70W2MBWPZ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPMV8RHS8TZS8JYSW0ZHYJ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPMVV6DHQQ851JD6K7H7NP.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ răng bé sau – trên, cơ chậu – sườn – ngực, cơ gian sườn 4, phổi."
+      },
       "international_code": "BL43",
       "code_dash": "BL-43",
       "chinese": "膏肓俞",
@@ -3990,7 +4140,13 @@ window.ACUPOINTS = {
       "slug": "can-suc",
       "image": "images/acupoints/0091-can-suc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTJJ1RJJ5D9V6P6E38T05.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ091TQHJZC297181QXTF4.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ09KX029CE1SCSSK1M1A4.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ0A3481ADVPW4KJ38Q00N.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ0AN8ZGE14Y7X471SNEWD.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ thang, cân ngực – thắt lưng của cơ lưng lớn, cơ gai dài của lưng, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
+      },
       "international_code": "GV8",
       "code_dash": "GV-8",
       "chinese": "筋縮",
@@ -4046,7 +4202,13 @@ window.ACUPOINTS = {
       "slug": "cap-mach",
       "image": "images/acupoints/0092-cap-mach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTK70WMPEV02SQ8DRP9R3.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPY4R110AQ1RJDA4KC6JBP.webp",
+        "gp": "/_emdash/api/media/file/01M3DPY5KCNPH8G88JYF49ZR3B.webp",
+        "lan": "/_emdash/api/media/file/01M3DPY5PD85G6FP2742Z76MJ3.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPY6J25F4E73ZXFFXZJZJT.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cung đùi fallope, cơ khép nhỡ."
+      },
       "international_code": "LR12",
       "code_dash": "LR-12",
       "chinese": "急脈",
@@ -4212,7 +4374,13 @@ window.ACUPOINTS = {
       "slug": "chi-cau",
       "image": "images/acupoints/0096-chi-cau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTN2Z50CS88DST3JXZY91.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPSBZYDZ01PDMQM15FBWF9.webp",
+        "gp": "/_emdash/api/media/file/01M3DPSCF3MA97DDH1PQH81FB9.webp",
+        "lan": "/_emdash/api/media/file/01M3DPSCYR3G14BQMCE39MB4JE.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPSDPHF9NEDP9NY6V8HM70.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi dài riêng ngón tay cái ở ngoài với các cơ duỗi riêng ngón tay út, cơ duỗi riêng ngón tay trỏ ở trong, giữa màng gian cốt."
+      },
       "international_code": "TE6",
       "code_dash": "TE-6",
       "chinese": "支溝",
@@ -4280,7 +4448,13 @@ window.ACUPOINTS = {
       "slug": "chi-chinh",
       "image": "images/acupoints/0097-chi-chinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTN8ZXG6S1R1BFXFWBE50.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPGZ5XJSGGFCFPQ6ZWF81W.webp",
+        "gp": "/_emdash/api/media/file/01M3DPGZR23S2APKC1S448WTMY.webp",
+        "lan": "/_emdash/api/media/file/01M3DPH046JQKMSAQYX4325TEH.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPH164G6W9MPQETSC66F45.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trụ sau, chỗ bám vào xương của cơ duỗi riêng ngón tay trỏ, cơ gấp chung sâu các ngón tay xương trụ."
+      },
       "international_code": "SI7",
       "code_dash": "SI-7",
       "chinese": "支正",
@@ -4344,7 +4518,13 @@ window.ACUPOINTS = {
       "slug": "chi-am",
       "image": "images/acupoints/0098-chi-am.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTP43GKC414JTFF89VN4V.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPPC6FAR20GPRDTBRK7ERB.webp",
+        "gp": "/_emdash/api/media/file/01M3DPPCVQ0SVB6VGYB34APJ9K.webp",
+        "lan": "/_emdash/api/media/file/01M3DPPD4VC3FW0YS365Q1Q99K.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPPDY5KG50CNBNR7506M92.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: xương đốt 3 ngón chân thứ 5."
+      },
       "international_code": "BL67",
       "code_dash": "BL-67",
       "chinese": "至陰",
@@ -4409,7 +4589,13 @@ window.ACUPOINTS = {
       "slug": "chi-duong",
       "image": "images/acupoints/0099-chi-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTPA3FJM2BRHS59KWXN7Z.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ0AYB9QVPH5SAYB6B074T.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ0BGJKQV82AFJFRHYTE6P.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ0BZV9D56P7M8E0JGSJCP.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ0CJ2EKWNSKE2WCGJGWVK.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, cân ngực – thắt lưng của cơ lưng lớn, cơ gai dài của lưng, cơ ngang – gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
+      },
       "international_code": "GV9",
       "code_dash": "GV-9",
       "chinese": "至陽",
@@ -4510,7 +4696,13 @@ window.ACUPOINTS = {
       "slug": "chi-that",
       "image": "images/acupoints/0101-chi-that.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTPZ5M7RK85WT2M0MHJJE.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPNCBRZN0STE23CG6JGAVR.webp",
+        "gp": "/_emdash/api/media/file/01M3DPND1AGZH8R00983W7DJG4.webp",
+        "lan": "/_emdash/api/media/file/01M3DPNDAC30WVTSVDR6JJ1WCE.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPNDZMCCKXKXQX1AD9VZGG.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ răng bé sau – dưới, cơ chậu sườn – thắt lưng, cân lưng – thắt lưng, cơ vuông thắt lưng."
+      },
       "international_code": "BL52",
       "code_dash": "BL-52",
       "chinese": "志室",
@@ -4686,7 +4878,13 @@ window.ACUPOINTS = {
       "slug": "chien-trung",
       "image": "images/acupoints/0105-chien-trung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTR659GD8WZ02W7SGPEXM.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZCHVG80C2Y2MXXFM2B2T.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZCXZV5JW357CGXSFSVY0.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZDK8PCJWH2A23A54B91R.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZDZCK9C1FHPEWT9BB9XE.webp",
+        "ghiChu": null
+      },
       "international_code": "CV17",
       "code_dash": "CV-17",
       "chinese": "膻中",
@@ -4750,7 +4948,13 @@ window.ACUPOINTS = {
       "slug": "chieu-hai",
       "image": "images/acupoints/0106-chieu-hai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTRV9MBKD6CP7V3DEEP1Y.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPPQT873XWBE1JZGCTC2F3.webp",
+        "gp": "/_emdash/api/media/file/01M3DPPRA0V7X8WJ586NM1JHRD.webp",
+        "lan": "/_emdash/api/media/file/01M3DPPRPQ4SRNKA26GK69CPT4.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPPS8XXRZZS3HJQPMXBS38.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gấp dài các ngón chân, sau mỏm chân đế, gót của xương gót."
+      },
       "international_code": "KI6",
       "code_dash": "KI-6",
       "chinese": "照海",
@@ -4818,7 +5022,13 @@ window.ACUPOINTS = {
       "slug": "chinh-dinh",
       "image": "images/acupoints/0107-chinh-dinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTS1CMHRPY2AN0JP7P285.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPVH9VB67AXPGPXNMFW5M2.webp",
+        "gp": "/_emdash/api/media/file/01M3DPVHD8HFRKFG504D55D39X.webp",
+        "lan": "/_emdash/api/media/file/01M3DPVHWDB4FDTCCEXM6HHXNG.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPVJBJG9EJ5VEH2EA23337.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, xương đỉnh sọ."
+      },
       "international_code": "GB17",
       "code_dash": "GB-17",
       "chinese": "正營",
@@ -4873,7 +5083,13 @@ window.ACUPOINTS = {
       "slug": "chu-vinh",
       "image": "images/acupoints/0108-chu-vinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTSWEXZ8S43VZ9KNPA57J.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPFW8KE83TM7HVBJD37AQZ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPFWQRK5P4A2GKPQSKH27G.webp",
+        "lan": "/_emdash/api/media/file/01M3DPFX6ZF9F68W8VGPFVQRJ4.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPFXP457WCN4R1KGGMVE6C.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ răng lớn, cơ gian sườn 3, vào trong là phổi."
+      },
       "international_code": "SP20",
       "code_dash": "SP-20",
       "chinese": "周榮",
@@ -5044,7 +5260,13 @@ window.ACUPOINTS = {
       "slug": "chuong-mon",
       "image": "images/acupoints/0112-chuong-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTVRVQBQYJ8WNB4QCEYBY.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPY6N0CXGNJ39B32VHF79J.webp",
+        "gp": "/_emdash/api/media/file/01M3DPY7DXDKD7G48KQ68934Y6.webp",
+        "lan": "/_emdash/api/media/file/01M3DPY7Q1B71XTZN1AJJ70J1M.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPY8NRRTSE5G07EAMDJYZS.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ chéo lớn của bụng, cơ chéo bé của bụng, cơ ngang bụng, mạc ngang, đầu xương sườn 11, bờ dưới gan, đại trường lên, xuống."
+      },
       "international_code": "LR13",
       "code_dash": "LR-13",
       "chinese": "章門",
@@ -5141,7 +5363,13 @@ window.ACUPOINTS = {
       "slug": "con-lon",
       "image": "images/acupoints/0114-con-lon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTVVTY2M320NKANT671CY.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPNYR6272BN5T8131W3M99.webp",
+        "gp": "/_emdash/api/media/file/01M3DPNZABETAQ8T8ZYBR1M9TQ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPNZSG30BTD8SJ505YHCBQ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPP08PQGYRNQV8EZ5VN80C.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ mác bên dài ở trước gân gót chân, ở sau đầu dưới xương chầy."
+      },
       "international_code": "BL60",
       "code_dash": "BL-60",
       "chinese": "昆侖; 崑崙[7]",
@@ -5205,7 +5433,13 @@ window.ACUPOINTS = {
       "slug": "cong-ton",
       "image": "images/acupoints/0115-cong-ton.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTWPYAKVAGSTK2907ZSTJ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPET72N9PTMYX4BN9MBN62.webp",
+        "gp": "/_emdash/api/media/file/01M3DPETZ9X1RN6C7VCD6KPQY8.webp",
+        "lan": "/_emdash/api/media/file/01M3DPEV5BBFSR2ADRHHZKKR92.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPEVMFAPWY58DJ9FDAZXPM.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gấp ngắn ngón chân cái, gân cơ gấp dài ngón chân cái, mặt dưới đầu xương bàn chân 1."
+      },
       "international_code": "SP4",
       "code_dash": "SP-4",
       "chinese": "公孫",
@@ -5265,7 +5499,13 @@ window.ACUPOINTS = {
       "slug": "co-mon",
       "image": "images/acupoints/0116-co-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHTWY7T73BBMY87M8PQ574.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPFA5R1NJ4V4P624YKKWHC.webp",
+        "gp": "/_emdash/api/media/file/01M3DPFAWQ7J90P0YV4EGNB4K3.webp",
+        "lan": "/_emdash/api/media/file/01M3DPFAZT4MYYBAHJVEAR9GZK.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPFBRD4SW5YGGT5GTYBRHW.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gần bờ trong cơ thẳng, trước đùi, cơ rộng giữa xương đùi."
+      },
       "international_code": "SP11",
       "code_dash": "SP-11",
       "chinese": "箕門",
@@ -5839,7 +6079,13 @@ window.ACUPOINTS = {
       "slug": "cu-khuyet",
       "image": "images/acupoints/0131-cu-khuyet.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHV2GTK4D3EX16SEAJCTTP.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZ71PQYWMHC5X60F3Y2D3.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZ74R2262KPT8V3MV8MP6.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZ8038P9HF064V3G6X4K5.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZ834X1M8601NVA1DSH9A.webp",
+        "ghiChu": null
+      },
       "international_code": "CV14",
       "code_dash": "CV-14",
       "chinese": "巨闕",
@@ -5939,7 +6185,13 @@ window.ACUPOINTS = {
       "slug": "cu-lieu",
       "image": "images/acupoints/0133-cu-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHV0J06R8AMFNRQV74R2E8.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPWAAV9T94CA30T8FRBBD4.webp",
+        "gp": "/_emdash/api/media/file/01M3DPWB137NQSTGJ80VKXQQ8F.webp",
+        "lan": "/_emdash/api/media/file/01M3DPWBDF1XMQGZHMDQB6VPNC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPWC6GDTQ36K84YCZ3W6JV.webp",
+        "ghiChu": null
+      },
       "international_code": "GB29",
       "code_dash": "GB-29",
       "chinese": "居髎",
@@ -5998,7 +6250,13 @@ window.ACUPOINTS = {
       "slug": "cuc-tuyen",
       "image": "images/acupoints/0134-cuc-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHV42QP1BCNNSD2Q990YSH.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPG0614FEJBPSAPBX31MH2.webp",
+        "gp": "/_emdash/api/media/file/01M3DPG0FCBN2PM39BNDWG546Z.webp",
+        "lan": "/_emdash/api/media/file/01M3DPG11KGDW4RH4PFQQ8D05X.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPG1DRYYQ58BTBRXA9PXCG.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: mặt sau gân cơ quạ cánh tay, gân cơ 2 đầu (phần ngắn), trước nữa là mặt sau cơ ngực lớn, ở trên là đầu trên xương cánh tay."
+      },
       "international_code": "HE1",
       "code_dash": "HE-1",
       "chinese": "極泉",
@@ -6054,7 +6312,13 @@ window.ACUPOINTS = {
       "slug": "cuong-gian",
       "image": "images/acupoints/0135-cuong-gian.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHV4RG23QMJ10WHPP6DTW6.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ0YYSS3Y3HBQDAD63Y8DY.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ0ZQ1RVG5XPBBMDDM7FYR.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ10C96APWTF6J66QBSJ33.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ10VD05EV13GT5YVR3BRQ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, dưới cân là xương sọ."
+      },
       "international_code": "GV18",
       "code_dash": "GV-18",
       "chinese": "強間",
@@ -6149,7 +6413,13 @@ window.ACUPOINTS = {
       "slug": "cuu-vi",
       "image": "images/acupoints/0137-cuu-vi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHV5MTNDKSTKRHNA788987.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZ8YG176241NHJ4JQP6S2.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZ91HWCWWSDBZGV7A6PXC.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZ9WWZFADQ75BBP1S1K9R.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZ9ZXSBFMGCT8Z5R9DYD3.webp",
+        "ghiChu": null
+      },
       "international_code": "CV15",
       "code_dash": "CV-15",
       "chinese": "鳩尾",
@@ -6854,7 +7124,13 @@ window.ACUPOINTS = {
       "slug": "dich-mon",
       "image": "images/acupoints/0156-dich-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVE348TH6P39YPCXBMK91.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPS4D5YVS7Z4EBRJKT1C3D.webp",
+        "gp": "/_emdash/api/media/file/01M3DPS4WBM8TY97KY74M8JC9Z.webp",
+        "lan": "/_emdash/api/media/file/01M3DPS55EK8T70X64XDFSJTJK.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPS5QSVDS1QZSB5ZG1B3HP.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của cơ gian cốt mu tay, bờ trong đầu trên đốt 1 xương ngón tay thứ 2."
+      },
       "international_code": "TE2",
       "code_dash": "TE-2",
       "chinese": "液門",
@@ -7015,7 +7291,13 @@ window.ACUPOINTS = {
       "slug": "du-phu",
       "image": "images/acupoints/0160-du-phu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVF44QT5Z18N4BRZADTJD.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPR55ZBE2GATR8417365DR.webp",
+        "gp": "/_emdash/api/media/file/01M3DPR61833ETD2W1M6T6P3F9.webp",
+        "lan": "/_emdash/api/media/file/01M3DPR649FRKN02HYH3ZDS21E.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPR6ZW1R1ZSCQDC6RAG2S0.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ ức – móng, đỉnh phổi."
+      },
       "international_code": "KI27",
       "code_dash": "KI-27",
       "chinese": "俞府",
@@ -7147,7 +7429,13 @@ window.ACUPOINTS = {
       "slug": "dung-tuyen",
       "image": "images/acupoints/0163-dung-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVGF56TCZG26TVMKB88BA.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPPE16K7X6CXN7MWGDJDX2.webp",
+        "gp": "/_emdash/api/media/file/01M3DPPESH18Y6VR68Q88V1RGB.webp",
+        "lan": "/_emdash/api/media/file/01M3DPPF2MBAYKKKQZZNVPJJRN.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPPFTX6ZFP95G3NZCM7NGP.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gấp ngắn các ngón chân, gân cơ gấp dài các ngón chân, cơ giun, cơ gian cốt gan chân, cơ gian cốt mu chân, khoảng gian đốt bàn chân 2 – 3."
+      },
       "international_code": "KI1",
       "code_dash": "KI-1",
       "chinese": "湧泉",
@@ -7282,7 +7570,13 @@ window.ACUPOINTS = {
       "slug": "duy-dao",
       "image": "images/acupoints/0166-duy-dao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVJ30DNQ3AYP1R2P4404E.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPW7RPXT5B3B8PQRDTEZ54.webp",
+        "gp": "/_emdash/api/media/file/01M3DPW8E99G63P82QX0XQKWFG.webp",
+        "lan": "/_emdash/api/media/file/01M3DPW8VY0WQZJT11MT5A4GQF.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPW9MGHT5Z1SX5Y4AQRZQK.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ chéo lớn, cơ chéo bé của bụng, cơ ngang bụng, mạc ngang, đại trường."
+      },
       "international_code": "GB28",
       "code_dash": "GB-28",
       "chinese": "維道",
@@ -7373,7 +7667,13 @@ window.ACUPOINTS = {
       "slug": "duong-bach",
       "image": "images/acupoints/0168-duong-bach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVJTSFKBYE883Z4NMK5D1.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPVBC0H5EYJBKBQJZKPRJA.webp",
+        "gp": "/_emdash/api/media/file/01M3DPVBN4ZJ72CJD5TTNJJ8G9.webp",
+        "lan": "/_emdash/api/media/file/01M3DPVC78SGSJ4BHFYZXR6CNJ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPVCQ3DT2F6V7WHJYSYSR8.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trán."
+      },
       "international_code": "GB14",
       "code_dash": "GB-14",
       "chinese": "陽白",
@@ -7429,7 +7729,13 @@ window.ACUPOINTS = {
       "slug": "duong-coc",
       "image": "images/acupoints/0169-duong-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVKJVPC5N13AXAAQQRM87.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPGVDGJ5JP2FBAGR24HBPJ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPGVXD3SFDCXE2ESWFMJTH.webp",
+        "lan": "/_emdash/api/media/file/01M3DPGWDBCT030VKT9GF6NRN6.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPGWX5R298TV1HMXQY7ZGG.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ trụ sau, mỏm trâm xương trụ, đầu dưới xương trụ."
+      },
       "international_code": "SI5",
       "code_dash": "SI-5",
       "chinese": "陽谷",
@@ -7487,7 +7793,13 @@ window.ACUPOINTS = {
       "slug": "duong-cuong",
       "image": "images/acupoints/0170-duong-cuong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVMB237HPHFYWXCEVA5BC.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPN4KTN20A3VBJGPF8DV4E.webp",
+        "gp": "/_emdash/api/media/file/01M3DPN5FNNV6EBSVAXGYY33P5.webp",
+        "lan": "/_emdash/api/media/file/01M3DPN5JPDVWSGBTFDY98NXS9.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPN6E3T8Q87PVSH608ZCJ3.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ răng bé sau – dưới, cơ chậu sườn – ngực, cơ gian sườn 10, phổi."
+      },
       "international_code": "BL48",
       "code_dash": "BL-48",
       "chinese": "陽綱",
@@ -7545,7 +7857,13 @@ window.ACUPOINTS = {
       "slug": "duong-giao",
       "image": "images/acupoints/0171-duong-giao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVN0G0EVDSD3YK6M48P0G.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPWNM9SB69X3EAR2CYB84J.webp",
+        "gp": "/_emdash/api/media/file/01M3DPWP0DCB41BBNPFE4YBQ6F.webp",
+        "lan": "/_emdash/api/media/file/01M3DPWPMB4KW0RH3ECN2YPV9C.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPWQ39VFP6EXV2QE8276JX.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ mác bên ngắn."
+      },
       "international_code": "GB35",
       "code_dash": "GB-35",
       "chinese": "陽交",
@@ -7645,7 +7963,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPA65VJT1TKKDDZKT89138.webp",
         "lan": "/_emdash/api/media/file/01M3DPA718R6TPVT16JGGSV71C.webp",
         "kinh": "/_emdash/api/media/file/01M3DPA749D9AV2SQ0S0SNYCKD.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: đầu mỏm châm – xương quay, bờ trên xương thuyền, ngoài có gân cơ dạng dài, gân cơ duỗi ngón tay cái, trong có gân cơ duỗi dài ngón tay cái, gân cơ quay 1."
       },
       "international_code": "LI5",
       "code_dash": "LI-5",
@@ -7715,7 +8033,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DP9AEJB9NGMD7K0BQKNY7Q.webp",
         "lan": "/_emdash/api/media/file/01M3DP9B1BK2P445WNF0N4WQ7Z.webp",
         "kinh": "/_emdash/api/media/file/01M3DP9B7DGHFMZEG17F3QCQQD.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi chung các ngón chân, phía trước, trong đầu trên xương mác."
       },
       "international_code": "GB34",
       "code_dash": "GB-34",
@@ -7781,7 +8099,13 @@ window.ACUPOINTS = {
       "slug": "duong-phu",
       "image": "images/acupoints/0175-duong-phu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVQ837DWGSVB66M75SH39.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPWVBJM909R3B0PHWM631E.webp",
+        "gp": "/_emdash/api/media/file/01M3DPWW4704A4T9YWF50V90R7.webp",
+        "lan": "/_emdash/api/media/file/01M3DPWWF662DH3GKHV5H881AH.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPWXAT7S0ESHRDCV9CF7XD.webp",
+        "ghiChu": null
+      },
       "international_code": "GB38",
       "code_dash": "GB-38",
       "chinese": "陽輔",
@@ -7881,7 +8205,13 @@ window.ACUPOINTS = {
       "slug": "duong-tri",
       "image": "images/acupoints/0177-duong-tri.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVQM40D188959S1FK2FB0.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPS89HMQZ64F9SZW4XDK41.webp",
+        "gp": "/_emdash/api/media/file/01M3DPS8NMRSZANCG1387VVJJ5.webp",
+        "lan": "/_emdash/api/media/file/01M3DPS94TA14YK4DATKMF31YJ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPS9KYT9X3X4M5062JYNAM.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: duỗi riêng ngón tay trỏ ở ngoài với gân cơ duỗi riêng ngón tay út ở trong, ở trên xương nguyệt."
+      },
       "international_code": "TE4",
       "code_dash": "TE-4",
       "chinese": "陽池",
@@ -8088,7 +8418,13 @@ window.ACUPOINTS = {
       "slug": "duong-lao",
       "image": "images/acupoints/0182-duong-lao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVWM62VT4RJ5AN8XGQHNE.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPGX996SBEVZ38Y84KZSFV.webp",
+        "gp": "/_emdash/api/media/file/01M3DPGXYG7JPWH8ACGDPVTXDZ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPGYAK5EG66VSJJYZXWFSH.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPGYWS8FMZM8K6HDE5BZHH.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong của gân cơ trụ sau, phía trong mặt sau của đầu dưới xương trụ. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
+      },
       "international_code": "SI6",
       "code_dash": "SI-6",
       "chinese": "養老",
@@ -8149,7 +8485,13 @@ window.ACUPOINTS = {
       "slug": "dai-mach",
       "image": "images/acupoints/0183-dai-mach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVXRS7H9N55SP7C4ABNCN.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPW2T5HQ6P7G73CWCQV7CZ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPW369M8BA937W2ESG6PWX.webp",
+        "lan": "/_emdash/api/media/file/01M3DPW3RGB2M85N2Y2QZRHXEK.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPW42PACKHTFHP6YVC7XZS.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ chéo lớn, cơ chéo bé của bụng, cơ ngang bụng, mạc ngang, đại trường."
+      },
       "international_code": "GB26",
       "code_dash": "GB-26",
       "chinese": "帶脈",
@@ -8285,7 +8627,13 @@ window.ACUPOINTS = {
       "slug": "dai-bao",
       "image": "images/acupoints/0186-dai-bao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVYPYGV3XYGV0E43Q58QT.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPFY5WQ78NNCBW03SA37QW.webp",
+        "gp": "/_emdash/api/media/file/01M3DPFYHZVD2GNKEZZW2W4XNT.webp",
+        "lan": "/_emdash/api/media/file/01M3DPFZ7B29PSCCEJK01ED9QP.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPFZKN0ZMW9ZQPY6F634RV.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài cơ lưng lớn, cơ răng lớn, cơ gian sườn 6, bên trong là phổi."
+      },
       "international_code": "SP21",
       "code_dash": "SP-21",
       "chinese": "大包",
@@ -8483,7 +8831,13 @@ window.ACUPOINTS = {
       "slug": "dai-chung",
       "image": "images/acupoints/0191-dai-chung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVYWZ2MF58K8VX8XNZPGC.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPPKX9WY6Y66ZR9D5KP6T3.webp",
+        "gp": "/_emdash/api/media/file/01M3DPPMJG3MGWPQNV03RQMMRE.webp",
+        "lan": "/_emdash/api/media/file/01M3DPPMYKCNF1Y5D34BPZ3JQK.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPPNDS9774DHE1CT8SYP1N.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong gân gót chân, phía trước cơ gân của cơ gấp dài ngón chân cái, gân cơ gấp dài các ngón chân, mặt trên xương gót chân."
+      },
       "international_code": "KI4",
       "code_dash": "KI-4",
       "chinese": "大鐘",
@@ -8548,7 +8902,13 @@ window.ACUPOINTS = {
       "slug": "dai-chuy",
       "image": "images/acupoints/0192-dai-chuy.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHVZR5F3AQW3223BVKW39P.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ0NHG8K9NZRFRCEJCDMB3.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ0P0MTYRBZWDVKY853C4S.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ0Q213NGG1JNZQ22H9PG0.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ0QM7GMEVJPQ2BPH3405P.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, gân cơ trán, gân cơ răng bé sau – trên, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
+      },
       "international_code": "GV14",
       "code_dash": "GV-14",
       "chinese": "大椎",
@@ -8679,7 +9039,13 @@ window.ACUPOINTS = {
       "slug": "dai-cu",
       "image": "images/acupoints/0195-dai-cu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW0G5ER243ZM2042MJVF7.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPD1XBM10BSR0C77YESDK0.webp",
+        "gp": "/_emdash/api/media/file/01M3DPD26EWZF06J074MG80PTE.webp",
+        "lan": "/_emdash/api/media/file/01M3DPD5T9FA00XCV5A91X6DSQ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPD60BX06MZ6QN4C64PKV8.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang, trong ổ bụng là ruột non, tử cung khi có thai 5 – 6 tháng, bàng quang khi bị bí tiểu tiện vừa."
+      },
       "international_code": "ST27",
       "code_dash": "ST-27",
       "chinese": "大巨",
@@ -8736,7 +9102,13 @@ window.ACUPOINTS = {
       "slug": "dai-do",
       "image": "images/acupoints/0196-dai-do.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW0WD80KKKW32XST346YT.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPEN2WRYE2FHFB1BZ828B3.webp",
+        "gp": "/_emdash/api/media/file/01M3DPENV3G4BMH5E8MPQA6H0H.webp",
+        "lan": "/_emdash/api/media/file/01M3DPEP1444KJJAWV9BFHFY80.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPEPT3YKP8A99JWSZX7Y7Q.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của gân cơ dạng ngón chân cái, bờ trong đầu sau đốt 1 ngón chân cái."
+      },
       "international_code": "SP2",
       "code_dash": "SP-2",
       "chinese": "大都",
@@ -8861,7 +9233,13 @@ window.ACUPOINTS = {
       "slug": "dai-don",
       "image": "images/acupoints/0199-dai-don.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW20CES1PPN6G8S84TG8Y.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPXF6PNEXY952P4A623BBH.webp",
+        "gp": "/_emdash/api/media/file/01M3DPXG230K1FV73YHH35NAKQ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPXG550PTMJM5M110NWXYM.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPXH0Y3F0XZGN9PS9619SJ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của gân cơ duỗi dài riêng ngón chân cái vào đốt 2 ngón cái."
+      },
       "international_code": "LR1",
       "code_dash": "LR-1",
       "chinese": "大敦",
@@ -8923,7 +9301,13 @@ window.ACUPOINTS = {
       "slug": "dai-hach",
       "image": "images/acupoints/0200-dai-hach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW2D54JE37AD0B6NTEEXW.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQ3KK52C4WR2WVGNB3Y4M.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQ3PNZHDV1W69HZ96G2ZP.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQ4KHQ45DE9JKT675K5KP.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQ4PJ3ERRMJ9CANXPVV56.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, cơ tháp, bờ trong cơ thẳng lớn, mạc ngang, bàng quang khi căng, tử cung khi có thai 3 – 4 tháng."
+      },
       "international_code": "KI12",
       "code_dash": "KI-12",
       "chinese": "大赫",
@@ -8985,7 +9369,13 @@ window.ACUPOINTS = {
       "slug": "dai-hoanh",
       "image": "images/acupoints/0201-dai-hoanh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW2WAXBMKS8HN34CWTHMJ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPFJ45H9EZNC9CKY19NEWV.webp",
+        "gp": "/_emdash/api/media/file/01M3DPFJT2CG7CFDMAQX4ESKTF.webp",
+        "lan": "/_emdash/api/media/file/01M3DPFKAC0MGJT374C3XA8CXX.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPFKZPBCF1ZFC51JKMZ8NN.webp",
+        "ghiChu": null
+      },
       "international_code": "SP15",
       "code_dash": "SP-15",
       "chinese": "大横",
@@ -9047,7 +9437,13 @@ window.ACUPOINTS = {
       "slug": "dai-lang",
       "image": "images/acupoints/0202-dai-lang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW3B9RP83T48V36GYKYQ6.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPRMK21YKXN29D414EE3PV.webp",
+        "gp": "/_emdash/api/media/file/01M3DPRNTBDH94BBQWTR9AMZBC.webp",
+        "lan": "/_emdash/api/media/file/01M3DPRRA04TJGH9PFEZV7Q4SH.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPRSQ68J9PAK09RTNPYC5T.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gan tay bé, ở sâu là khe giữa gân cơ gấp dài ngón tay cái, cơ gấp chung ngón tay nông, sâu."
+      },
       "international_code": "PC7",
       "code_dash": "PC-7",
       "chinese": "大陵",
@@ -9218,7 +9614,13 @@ window.ACUPOINTS = {
       "slug": "dai-nghenh",
       "image": "images/acupoints/0206-dai-nghenh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW4NED9DJ4DAVTWAYP8P2.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPBEEPKG1CTXRFN4ENXD2F.webp",
+        "gp": "/_emdash/api/media/file/01M3DPBF3XPKT8JA5HEC3SGD29.webp",
+        "lan": "/_emdash/api/media/file/01M3DPBFD9DMZZJ1P49VZG93JX.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPBG8J4GTT42H94E8V69ZD.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ cười, cơ mút, sát bờ trước cơ cắn, rãnh động mạch mặt của xương hàm dưới. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
+      },
       "international_code": "ST5",
       "code_dash": "ST-5",
       "chinese": "大迎",
@@ -9276,7 +9678,13 @@ window.ACUPOINTS = {
       "slug": "dai-tru",
       "image": "images/acupoints/0207-dai-tru.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW5A39QGXMTYHTDMA036M.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJENW7FJ4ZYVZVW5P320W.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJF5176FNRV1FNGZD0GZ1.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJFMASPKSBZ1AY7MZ9WH6.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJG3G3GG5HJ154509XJNA.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ thoi, cơ răng bé sau – trên, cơ ngang sườn, rồi vào phổi."
+      },
       "international_code": "BL11",
       "code_dash": "BL-11",
       "chinese": "大杼",
@@ -9337,7 +9745,13 @@ window.ACUPOINTS = {
       "slug": "dai-truong-du",
       "image": "images/acupoints/0208-dai-truong-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW5S43236BGBBHFH30EAV.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPK9H9SD7S4ND4PP0PTF42.webp",
+        "gp": "/_emdash/api/media/file/01M3DPKADHCN64TM23JY4SZ6WZ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPKB67WCRTFT0E8V56S53R.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPKBGQQKNCNKYPWPBHJT08.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, khối cơ chung của các cơ rãnh cột sống."
+      },
       "international_code": "BL25",
       "code_dash": "BL-25",
       "chinese": "大腸俞",
@@ -9472,7 +9886,13 @@ window.ACUPOINTS = {
       "slug": "dao-dao",
       "image": "images/acupoints/0211-dao-dao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW6M65F0KZVMZ51DBYSEY.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ0K4G9H7P50R513ATQSKR.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ0KGRTRNSF6E487G8T9M7.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ0MC31P7F3XWNYQGHTJXD.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ0N8BB8ZRCVNE34P7GWH3.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, gân cơ trám, cơ thoi, gân cơ răng bé sau – trên, cơ gai dài của lưng, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
+      },
       "international_code": "GV13",
       "code_dash": "GV-13",
       "chinese": "陶道",
@@ -9533,7 +9953,13 @@ window.ACUPOINTS = {
       "slug": "dau-duy",
       "image": "images/acupoints/0212-dau-duy.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW767JP8BCAMXWP7A16TR.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPBMQV8ATFS925KZ7FGK7X.webp",
+        "gp": "/_emdash/api/media/file/01M3DPBNK2G4NBTWD643NVW473.webp",
+        "lan": "/_emdash/api/media/file/01M3DPBNP3NT97MBTG2J67ZC4R.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPBPEDWNT6ZM2BWA4MZR9X.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ cơ thái dương dính vào cân sọ, dưới cân sọ là xương sọ."
+      },
       "international_code": "ST8",
       "code_dash": "ST-8",
       "chinese": "頭維",
@@ -9632,7 +10058,13 @@ window.ACUPOINTS = {
       "slug": "dau-khieu-am",
       "image": "images/acupoints/0214-dau-khieu-am.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW7NAJ0TTWPC9N4BF2YA5.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPV5JFG32J6Y15WF0MX9AC.webp",
+        "gp": "/_emdash/api/media/file/01M3DPV6235Z2BF9H5XR1YDRCV.webp",
+        "lan": "/_emdash/api/media/file/01M3DPV6E83NP8Z7PSN6GB252Y.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPV73FHTB45362JX5VW2WH.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai sau, cơ chẩm, đường khớp xương thái dương chẩm."
+      },
       "international_code": "GB11",
       "code_dash": "GB-11",
       "chinese": "頭竅陰",
@@ -9694,7 +10126,13 @@ window.ACUPOINTS = {
       "slug": "dau-lam-khap",
       "image": "images/acupoints/0215-dau-lam-khap.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW87E5DA80AMPTCKHQTC7.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPVDAFH9XG6DJ86XMTFZ9X.webp",
+        "gp": "/_emdash/api/media/file/01M3DPVDGJGM0CGCYKX9WEK69C.webp",
+        "lan": "/_emdash/api/media/file/01M3DPVE8WNPPZQRSZT961DYSM.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPVEHZ4Y34W4VPJB8GK0X5.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ cơ trán dính vào cân sọ."
+      },
       "international_code": "GB15",
       "code_dash": "GB-15",
       "chinese": "頭臨泣",
@@ -10062,7 +10500,13 @@ window.ACUPOINTS = {
       "slug": "dia-co",
       "image": "images/acupoints/0224-dia-co.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW92F72GG5BY30B0MMD89.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPF3VBT6DN1P1AVY6FCGEZ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPF4GPCR6E9PJEJ854S232.webp",
+        "lan": "/_emdash/api/media/file/01M3DPF4WSBB6QGNS3H7Y01GV6.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPF5J39NQGX56JAECKPG9F.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau – trong xương chầy, chỗ bám của cơ sinh đôi trong, cơ dép là cơ gấp dài các ngón chân, cơ cẳng chân sau."
+      },
       "international_code": "SP8",
       "code_dash": "SP-8",
       "chinese": "地機",
@@ -10161,7 +10605,13 @@ window.ACUPOINTS = {
       "slug": "dia-ngu-hoi",
       "image": "images/acupoints/0226-dia-ngu-hoi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHW9HMEPWNPBQ75GTVT3ZQ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPX7B0KSJYS7C6C93VWEP6.webp",
+        "gp": "/_emdash/api/media/file/01M3DPX8YK7WZYRF2XX2JT1JYX.webp",
+        "lan": "/_emdash/api/media/file/01M3DPX91M5DEDTN1P7DR28116.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPX9ZFDCY1K2T39YZ4ZH1C.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: 5 của cơ duỗi dài các ngón chân, cơ gian cốt mu chân."
+      },
       "international_code": "GB42",
       "code_dash": "GB-42",
       "chinese": "地五會",
@@ -10257,7 +10707,13 @@ window.ACUPOINTS = {
       "slug": "dia-thuong",
       "image": "images/acupoints/0228-dia-thuong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWA4F6KX0JA6MXBE347KV.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPBCR16DT6DNA6YS5C5F1V.webp",
+        "gp": "/_emdash/api/media/file/01M3DPBD45MEA6PBG0P0F7MFGW.webp",
+        "lan": "/_emdash/api/media/file/01M3DPBDK9448Z8XX4RSWKH8RC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPBE2FQ7RFSTM1FBEA6YE1.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ đan chéo thớ của cơ vòng môi, cơ gò má lớn, cơ cười, cơ tam giác môi, vào sâu có cơ mút, cơ nanh."
+      },
       "international_code": "ST4",
       "code_dash": "ST-4",
       "chinese": "地倉",
@@ -10355,7 +10811,13 @@ window.ACUPOINTS = {
       "slug": "dieu-khau",
       "image": "images/acupoints/0230-dieu-khau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWADFZYJNWB28CEB06DDS.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPDWWVKCN4XA9W5RKF5XSJ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPDXR2DBXJVE0RX11W9RJB.webp",
+        "lan": "/_emdash/api/media/file/01M3DPDXV2WRF6MG9B70ASJ301.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPDYPQKW35E34KPN2ZFJVX.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi chung các ngón chân, vào sâu là bờ trong cơ duỗi dài riêng ngón chân cái."
+      },
       "international_code": "ST38",
       "code_dash": "ST-38",
       "chinese": "條口",
@@ -10625,7 +11087,13 @@ window.ACUPOINTS = {
       "slug": "doai-doan",
       "image": "images/acupoints/0237-doai-doan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWCB0V83AMZK04BQ51T9J.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ1GAYFNV3RX06625FF9GT.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ1H08VDKK2S5RHS7GEG0S.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ1HCD4W9Z9Z7W4NXH22VN.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ1HZ73DZTJBHNZ3QMGT01.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: niêm mạc môi, bờ dưới các cơ vòng môi trên."
+      },
       "international_code": "GV27",
       "code_dash": "GV-27",
       "chinese": "兌端",
@@ -10933,7 +11401,13 @@ window.ACUPOINTS = {
       "slug": "doc-du",
       "image": "images/acupoints/0245-doc-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWDZ1WACX53SEZSMGZQHX.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJR5TGYB0ERWFNEQ56AWD.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJRMY0EF17EZ47PHW1NQC.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJS4C1NJWWK0ERNBR2NQW.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJSGPA2931FA2AFAPVWXS.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ lưng dài, cơ bán gai của ngực, cơ ngang gai, cơ ngang sườn, vào trong là phổi."
+      },
       "international_code": "BL16",
       "code_dash": "BL-16",
       "chinese": "督俞",
@@ -11090,7 +11564,13 @@ window.ACUPOINTS = {
       "slug": "doc-ty",
       "image": "images/acupoints/0249-doc-ty.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWE81Q4KG2QRANKVWYRPE.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPDQ4N5QSB9T8HX6FDG31M.webp",
+        "gp": "/_emdash/api/media/file/01M3DPDQGY7FHX8QNQCZ80DXMG.webp",
+        "lan": "/_emdash/api/media/file/01M3DPDQX83M3RBEMPJQMTF3V0.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPDRFFRNYPW0ZVZ799DHSJ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ căng cân đùi, góc ngoài bờ dưới xương bánh chè."
+      },
       "international_code": "ST35",
       "code_dash": "ST-35",
       "chinese": "犢鼻",
@@ -11219,7 +11699,13 @@ window.ACUPOINTS = {
       "slug": "dong-tu-lieu",
       "image": "images/acupoints/0252-dong-tu-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWFVD3Z8158PEDAG4M33W.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPTJ1DCT8HQY95YJGZS0BC.webp",
+        "gp": "/_emdash/api/media/file/01M3DPTJSMXCVCNE42QM7T2HCH.webp",
+        "lan": "/_emdash/api/media/file/01M3DPTK2Q8DZ2ZA3WFVWRKZXY.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPTKWG8X2NCF4DN795085A.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài, bó phụ của cơ vòng miệng, cơ thái dương, chỗ tiếp khớp của xương gò má."
+      },
       "international_code": "GB1",
       "code_dash": "GB-1",
       "chinese": "瞳子髎",
@@ -11279,7 +11765,13 @@ window.ACUPOINTS = {
       "slug": "dom-du",
       "image": "images/acupoints/0253-dom-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWG4H7K1X0R1GM8AQWNPH.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJXYY3XSTPSVPKWCXGTVC.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJYE36SSNYHYMRE2JE9NX.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJYXAZ4RSACVDCPV334PT.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJZCFVR5KARMJV7736QHF.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ lưng dài, cơ bán gai của ngực, cơ ngang gai, cơ ngang sườn."
+      },
       "international_code": "BL19",
       "code_dash": "BL-19",
       "chinese": "膽俞",
@@ -11562,7 +12054,13 @@ window.ACUPOINTS = {
       "slug": "e-phong",
       "image": "images/acupoints/0260-e-phong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWJ3EZ9905PFR7S2VZM16.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPT3EVDX1G9W8YDMKF0YGC.webp",
+        "gp": "/_emdash/api/media/file/01M3DPT472X14487N9ATERWBT7.webp",
+        "lan": "/_emdash/api/media/file/01M3DPT4K8103ZTFZ6V85AV4SW.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPT58HF7HPV62A8SFHMX78.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: phía trước bờ trước cơ ức–đòn–chũm, trâm móng, trâm lưỡi, cơ 2 thân, trên các cơ bậc thang."
+      },
       "international_code": "TE17",
       "code_dash": "TE-17",
       "chinese": "翳風",
@@ -11623,7 +12121,13 @@ window.ACUPOINTS = {
       "slug": "giac-ton",
       "image": "images/acupoints/0261-giac-ton.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWJK3APV6CSEJ8H0AJQKV.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPTAD14Y927XXT5VTBYBT1.webp",
+        "gp": "/_emdash/api/media/file/01M3DPTAW6MAK30G2Y0XXGZF0S.webp",
+        "lan": "/_emdash/api/media/file/01M3DPTBMF8KRQZRTDA1DYFR9C.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPTBTHN2DPS695TMKY43FE.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
+      },
       "international_code": "TE20",
       "code_dash": "TE-20",
       "chinese": "角孫",
@@ -11687,7 +12191,13 @@ window.ACUPOINTS = {
       "slug": "giai-khe",
       "image": "images/acupoints/0262-giai-khe.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWK5ANA6WJ08ZYWBHDXJS.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPE2P6V83XRT1MHXQN4Y74.webp",
+        "gp": "/_emdash/api/media/file/01M3DPE3A7DTK1ZEPBJDDPJSDF.webp",
+        "lan": "/_emdash/api/media/file/01M3DPE3TCNKKTADJ6EA07QW60.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPE57TJE3Z3YYE4TFP5NC6.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ duỗi dài riêng ngón chân cái."
+      },
       "international_code": "ST41",
       "code_dash": "ST-41",
       "chinese": "解谿",
@@ -11789,7 +12299,13 @@ window.ACUPOINTS = {
       "slug": "gian-su",
       "image": "images/acupoints/0264-gian-su.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWKTJ185C0R9STH1HDQ0F.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPRFMHE0481DSP4Y7YK63F.webp",
+        "gp": "/_emdash/api/media/file/01M3DPRGYJ4CVH1PWGPD4B41X4.webp",
+        "lan": "/_emdash/api/media/file/01M3DPRH7NKJRTKCAB9JK0SCFG.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPRJ05CZTRAX2VGFM2WAKW.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gan tay bé, gân cơ gấp dài ngón tay cái, cơ gấp chung các ngón tay nông, sâu, bờ trên cơ sấp vuông."
+      },
       "international_code": "PC5",
       "code_dash": "PC-5",
       "chinese": "間使",
@@ -11930,7 +12446,13 @@ window.ACUPOINTS = {
       "slug": "giao-tin",
       "image": "images/acupoints/0267-giao-tin.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWMJQH8Z4DK3ZQC01A7YM.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPPVXY2ZGDCHYP50ENQGAV.webp",
+        "gp": "/_emdash/api/media/file/01M3DPPW0YZE9SD5WKVXC3AYM1.webp",
+        "lan": "/_emdash/api/media/file/01M3DPPWDHV3MJS78N9KE0D856.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPPX4JNN48J1H1KXTF4RPS.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gấp dài các ngón chân, mặt sau đầu dưới xương chầy."
+      },
       "international_code": "KI8",
       "code_dash": "KI-8",
       "chinese": "交信",
@@ -12287,7 +12809,13 @@ window.ACUPOINTS = {
       "slug": "giap-xa",
       "image": "images/acupoints/0276-giap-xa.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWQHARXXY64VHDSKSB8A7.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPBGBMBAEFHY53PA7FPW92.webp",
+        "gp": "/_emdash/api/media/file/01M3DPBGTREXWGJQJHP7JSMDVX.webp",
+        "lan": "/_emdash/api/media/file/01M3DPBHWHZNXGF0NQZ3TJVS56.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPBJV63EMMMQX859QK49DW.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ cắn. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
+      },
       "international_code": "ST6",
       "code_dash": "ST-6",
       "chinese": "頰車",
@@ -12536,7 +13064,13 @@ window.ACUPOINTS = {
       "slug": "ha-cu-hu",
       "image": "images/acupoints/0282-ha-cu-hu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWT8H5XMECJJTEEX2MK5B.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPDYSRP0DE8E6EARC2VEXC.webp",
+        "gp": "/_emdash/api/media/file/01M3DPDZN1VMDXGP551DDGYX98.webp",
+        "lan": "/_emdash/api/media/file/01M3DPDZR249ASBSAFV0H3ZWEW.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPE0KD2G61FNV2MA51GSJ6.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi chung các ngón chân, ở sâu là bờ trong cơ duỗi dài riêng ngón chân cái."
+      },
       "international_code": "ST39",
       "code_dash": "ST-39",
       "chinese": "下巨虛",
@@ -12781,7 +13315,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPACBH1DD0H29DM9S12ZJA.webp",
         "lan": "/_emdash/api/media/file/01M3DPADG6KB6F5F96VGSRE24S.webp",
         "kinh": "/_emdash/api/media/file/01M3DPADK7182MWGABX7P80SEH.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cơ ngửa dài, bờ ngoài cơ quay 1, cơ ngửa ngắn."
       },
       "international_code": "LI8",
       "code_dash": "LI-8",
@@ -12840,7 +13374,13 @@ window.ACUPOINTS = {
       "slug": "ha-lieu",
       "image": "images/acupoints/0289-ha-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWVKAA0CQ42X0879TQS81.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPM2BVQ27EVD1J5ZW0W04N.webp",
+        "gp": "/_emdash/api/media/file/01M3DPM2EX8Z4N6FN19YJMRH2K.webp",
+        "lan": "/_emdash/api/media/file/01M3DPM38817MMYX9C9F2FBWA7.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPM42ZHYR8HJ83PG028NTN.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ ở rãnh cột sống."
+      },
       "international_code": "BL34",
       "code_dash": "BL-34",
       "chinese": "下髎",
@@ -12898,7 +13438,13 @@ window.ACUPOINTS = {
       "slug": "ha-quan",
       "image": "images/acupoints/0290-ha-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWW57RVDTAN483SA4RG3D.webp",
-      "anh3d": null
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPBJR52CE4N6BJMDS6GE2B.webp",
+        "gp": "/_emdash/api/media/file/01M3DPBKPHMSPNG4WR0NPGZCVH.webp",
+        "lan": "/_emdash/api/media/file/01M3DPBKSJFA2V6KC0ZVK4HEQ0.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPBMMTYESTH755WE0QCCZG.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: tuyến mang tai, chỗ bám của bờ sau cơ nhai, ở sâu có cơ chân bướm ngoài."
+      }
     },
     {
       "id": 291,
@@ -12990,7 +13536,13 @@ window.ACUPOINTS = {
       "slug": "ha-quan",
       "image": "images/acupoints/0292-ha-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWX66174P4D93AKP989XE.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPYZ8TV0XS5P0VK2QRR7WG.webp",
+        "gp": "/_emdash/api/media/file/01M3DPYZQZ0E2RCPBC88ZMFPDP.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZ044Q8KJBGR2FQ8ZMP1Z.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZ0SDZHSREZSRGRDJNHD8.webp",
+        "ghiChu": null
+      },
       "international_code": "CV10",
       "code_dash": "CV-10",
       "chinese": "下脘",
@@ -13315,7 +13867,13 @@ window.ACUPOINTS = {
       "slug": "ham-yen",
       "image": "images/acupoints/0300-ham-yen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWYG4KBPC81QTZBSS8MAY.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPTQZBQCAYFVMK3KW5Y0NX.webp",
+        "gp": "/_emdash/api/media/file/01M3DPTRHJVBVGD0J11JDD3M1W.webp",
+        "lan": "/_emdash/api/media/file/01M3DPTRW5WFEZ2GEJWPJW9C1Q.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPTSETD82SZF8C9Q2AXYKX.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
+      },
       "international_code": "GB4",
       "code_dash": "GB-4",
       "chinese": "頷厭",
@@ -13375,7 +13933,13 @@ window.ACUPOINTS = {
       "slug": "ham-coc",
       "image": "images/acupoints/0301-ham-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWZ24BK0RC96JGP7E4YXR.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPEAV96EPGX2ZS657HSS36.webp",
+        "gp": "/_emdash/api/media/file/01M3DPED1JVGYADZXVD6AKGADG.webp",
+        "lan": "/_emdash/api/media/file/01M3DPEDN1VEATWCS25PPHC5MA.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPEEHZA9WHGQ2YM26M9852.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: 3 của cơ duỗi dài, cơ duỗi ngắn các ngón chân, gian cốt mu chân 2."
+      },
       "international_code": "ST43",
       "code_dash": "ST-43",
       "chinese": "陷谷",
@@ -13472,7 +14036,13 @@ window.ACUPOINTS = {
       "slug": "hanh-gian",
       "image": "images/acupoints/0303-hanh-gian.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWZBD5GPMZVC3N1GWAC4F.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPXH3ZZ81MVX8PNA20ZANF.webp",
+        "gp": "/_emdash/api/media/file/01M3DPXHZ7RCRXA70BVPDR3DBV.webp",
+        "lan": "/_emdash/api/media/file/01M3DPXJ29JXV3NS4DPCFZN8F2.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPXJXVEVYDPZSXHZQCDFJS.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi ngắn các ngón chân ở phía ngoài với các gân duỗi dài riêng ngón 1, gân duỗi ngón chân 1 của cơ duỗi ngắn các ngón chân ở phía trong, cơ gian cốt mu chân."
+      },
       "international_code": "LR2",
       "code_dash": "LR-2",
       "chinese": "行間",
@@ -13601,7 +14171,13 @@ window.ACUPOINTS = {
       "slug": "hau-dinh",
       "image": "images/acupoints/0306-hau-dinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHWZXGPFHHS6GR4JPY5ETQ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ10YEV9KA819MRGFDZVKW.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ11SQ4CHJA49KPKA4GWKV.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ1290DKGBEJJJ0WT8RGB5.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ12R5B8M5VG8HT6ZB6WRQ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, dưới cân sọ là xương sọ."
+      },
       "international_code": "GV19",
       "code_dash": "GV-19",
       "chinese": "後頂",
@@ -13688,7 +14264,13 @@ window.ACUPOINTS = {
       "slug": "hau-khe",
       "image": "images/acupoints/0308-hau-khe.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX0CRF1XYNKHN8Y7A6ACQ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPGQPZW8HET46NA74P6VDZ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPGR3588XMVVYP6HS5A67N.webp",
+        "lan": "/_emdash/api/media/file/01M3DPGRJ87KS632808T9APABG.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPGS1E0FQHCEGK7W9M09ET.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ dạng ngón tay út, bờ trong cơ gấp ngắn ngón tay, cơ đối ngón út, bờ trong đầu dưới xương bàn tay thứ 5."
+      },
       "international_code": "SI3",
       "code_dash": "SI-3",
       "chinese": "後谿",
@@ -14155,7 +14737,13 @@ window.ACUPOINTS = {
       "slug": "hiep-khe",
       "image": "images/acupoints/0319-hiep-khe.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX1SSNK52AECG81NEA0DW.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPXA8M00ER506Z2ZWGZXXT.webp",
+        "gp": "/_emdash/api/media/file/01M3DPXBE4XCVW1F7NB7M7386Q.webp",
+        "lan": "/_emdash/api/media/file/01M3DPXBH5BQJCBX9F631EM1V5.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPXCCKNWWPY5C80MGXZ56G.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: 5 của cơ duỗi dài các ngón chân, gân duỗi ngón 4 của cơ duỗi ngắn các ngón chân, cơ gian cốt mu chân."
+      },
       "international_code": "GB43",
       "code_dash": "GB-43",
       "chinese": "俠谿",
@@ -14218,7 +14806,13 @@ window.ACUPOINTS = {
       "slug": "hoa-cai",
       "image": "images/acupoints/0320-hoa-cai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX2BTZ1KZFRQCKMV762V0.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZJ84JH0KWH96BMCG84E5.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZJQBWQVBMR7AT8YRBJ3Q.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZK3GR84Q1P9BBTC1HYG6.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZKRQGWTDCPXEYK03K4H7.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ tiếp nối đầu xương ức với thân xương ức."
+      },
       "international_code": "CV20",
       "code_dash": "CV-20",
       "chinese": "華蓋",
@@ -14315,7 +14909,13 @@ window.ACUPOINTS = {
       "slug": "hoa-lieu",
       "image": "images/acupoints/0322-hoa-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX3CVSG122PK8TXGDWJQH.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPTE6Z0V6CEG07EX5JCM5Z.webp",
+        "gp": "/_emdash/api/media/file/01M3DPTEX66F1Q29CGGDRQS0QP.webp",
+        "lan": "/_emdash/api/media/file/01M3DPTF68PZNT4BNRR7M5ZD6N.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPTFY4FQVWEETCPSHJ3HS2.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
+      },
       "international_code": "TE22",
       "code_dash": "TE-22",
       "chinese": "耳和髎",
@@ -14380,7 +14980,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPB5C247XWQ1VMHRDD9DB0.webp",
         "lan": "/_emdash/api/media/file/01M3DPB61BJ5S2QHW6PDFKZM8Y.webp",
         "kinh": "/_emdash/api/media/file/01M3DPB6AFQ02VH8GFGS4Z45KN.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ vòng môi trên."
       },
       "international_code": "LI19",
       "code_dash": "LI-19",
@@ -14441,7 +15041,13 @@ window.ACUPOINTS = {
       "slug": "hoan-cot",
       "image": "images/acupoints/0324-hoan-cot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX4M82K0GQYBQNZT9DMQ0.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPV7JM9VDF7330177N4YK4.webp",
+        "gp": "/_emdash/api/media/file/01M3DPV7VSYZBJTTKTVKEGBY4B.webp",
+        "lan": "/_emdash/api/media/file/01M3DPV8DZCANX9FCFK42FSA36.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPV8X57QVPXH5WZFBHRF30.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ ức – đòn – chũm, cơ đầu dài, cơ trâm lưỡi, cơ 2 thân."
+      },
       "international_code": "GB12",
       "code_dash": "GB-12",
       "chinese": "完骨",
@@ -14505,7 +15111,13 @@ window.ACUPOINTS = {
       "slug": "hoan-khieu",
       "image": "images/acupoints/0325-hoan-khieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX5CH25QK67E6V4JZ6E21.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPWCSVE8215M0JHHBQWBAG.webp",
+        "gp": "/_emdash/api/media/file/01M3DPWDDNPQER24M1GP928SG8.webp",
+        "lan": "/_emdash/api/media/file/01M3DPWE33XPC7WZAY44R291ZM.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPWENA083G86FJ3BZYYTA9.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ tháp, bờ trên cơ sinh đôi trên."
+      },
       "international_code": "GB30",
       "code_dash": "GB-30",
       "chinese": "環跳",
@@ -14630,7 +15242,13 @@ window.ACUPOINTS = {
       "slug": "hoang-du",
       "image": "images/acupoints/0328-hoang-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX5YRGNZAZD7EM28QC5XG.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQBB378A0YKW6C4BT9DXR.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQBH4P0G300XEPSH2C43J.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQC9QKGDR2BMJ7TS31AXA.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQCJSVKZ4ARJSZ0Y4CK9S.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang, bàng quang khi bí tiểu tiện nhiều, tử cung khi có thai 7 – 8 tháng."
+      },
       "international_code": "KI16",
       "code_dash": "KI-16",
       "chinese": "肓俞",
@@ -14722,7 +15340,13 @@ window.ACUPOINTS = {
       "slug": "hoang-mon",
       "image": "images/acupoints/0330-hoang-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX72S50FWK9SGN6V6N3R3.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPNADFDWTP2N2JHYMN89F2.webp",
+        "gp": "/_emdash/api/media/file/01M3DPNB06TJZ4TJA3VEGFY1XE.webp",
+        "lan": "/_emdash/api/media/file/01M3DPNBCB64W8S1FXXQBFF8C6.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPNC28N1FMH7R2CEK7TXE2.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ lưng lớn, cơ răng bé sau – dưới, cơ chậu – sườn – thắt lưng, cân thắt lưng, cơ vuông thắt lưng."
+      },
       "international_code": "BL51",
       "code_dash": "BL-51",
       "chinese": "肓門",
@@ -14816,7 +15440,13 @@ window.ACUPOINTS = {
       "slug": "hoanh-cot",
       "image": null,
       "anhCms": null,
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQ1NQ233Z010H6WPKXBFM.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQ1VRA82ZK332HPKFTK2J.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQ2H0J1NE11NM9PKX4WX3.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQ2Q2FM8EM1YDC6BXAYNM.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, cơ tháp, bờ trong cơ thẳng lớn, mạc ngang, bàng quang khi đầy, tử cung khi có thai."
+      },
       "international_code": "KI11",
       "code_dash": "KI-11",
       "chinese": "橫骨",
@@ -14974,7 +15604,13 @@ window.ACUPOINTS = {
       "slug": "hoat-nhuc-mon",
       "image": "images/acupoints/0336-hoat-nhuc-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHX8KMW279959AD8DJ5FSW.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPCMA1YR07ZXK0DCB8JQCQ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPCNBF7XQ6G396Y9AK0SCY.webp",
+        "lan": "/_emdash/api/media/file/01M3DPCPFE43E417F991SDSE79.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPCPRNCH4234BK7DE0ZHTJ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang, trong ổ bụng là ruột non, tử cung khi có thai đến ngày sinh."
+      },
       "international_code": "ST24",
       "code_dash": "ST-24",
       "chinese": "滑肉門",
@@ -15030,7 +15666,13 @@ window.ACUPOINTS = {
       "slug": "hoac-trung",
       "image": null,
       "anhCms": null,
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPR24WRQVCD7CXR863T51M.webp",
+        "gp": "/_emdash/api/media/file/01M3DPR3549EW3K3RWTFZ53MJA.webp",
+        "lan": "/_emdash/api/media/file/01M3DPR4CYXT08FGV5B1BFJKF6.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPR52ZSP51HA3TYBSA8863.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 1, sâu hơn có động mạch chủ (bên trái), tĩnh mạch thần kinh nách, dây thần kinh gian sườn 1."
+      },
       "international_code": "KI26",
       "code_dash": "KI-26",
       "chinese": "彧中",
@@ -15338,7 +15980,13 @@ window.ACUPOINTS = {
       "slug": "hoi-am",
       "image": "images/acupoints/0345-hoi-am.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXD51D951BVEM33MWH931.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPYANH959DDGWX3KB5MTYQ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPYBGVXF4B62ZAA14X5RSB.webp",
+        "lan": "/_emdash/api/media/file/01M3DPYBKWAH8PM8EQ39HD2H7S.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPYCRGTY4BJCY0Q30W588X.webp",
+        "ghiChu": "Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
+      },
       "international_code": "CV1",
       "code_dash": "CV-1",
       "chinese": "會陰",
@@ -15402,7 +16050,13 @@ window.ACUPOINTS = {
       "slug": "hoi-duong",
       "image": "images/acupoints/0346-hoi-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXBXRVQH8HAZ3R0YVNEEY.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPM5R2F2B66VG7R18KXTSZ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPM5WAX7DC5ZAG2YCNX2R2.webp",
+        "lan": "/_emdash/api/media/file/01M3DPM6P47P12YD8P9ZC127AX.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPM75B6ZDEHZEZW52P8132.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: khối mỡ nhão của hố ngồi – trực tràng, cơ nâng mông, cơ ngồi cụt."
+      },
       "international_code": "BL35",
       "code_dash": "BL-35",
       "chinese": "會陽",
@@ -15461,7 +16115,13 @@ window.ACUPOINTS = {
       "slug": "hoi-tong",
       "image": "images/acupoints/0347-hoi-tong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXEDPZP0V41K99MS96G71.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPSE6ATXGZ6TD11VS67NDQ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPSERNE6MC8KPMY5K6J7SG.webp",
+        "lan": "/_emdash/api/media/file/01M3DPSF8Y7NKEMWMNAE76BPFX.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPSFSKH1KR109AVSZ7TDYS.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi riêng ngón tay trỏ, bờ ngoài xương trụ."
+      },
       "international_code": "TE7",
       "code_dash": "TE-7",
       "chinese": "會宗",
@@ -15518,7 +16178,13 @@ window.ACUPOINTS = {
       "slug": "hon-mon",
       "image": "images/acupoints/0348-hon-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXESQYE7TBA5DEM8EP8MZ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPN27M5AZH0AN01MJ67S1G.webp",
+        "gp": "/_emdash/api/media/file/01M3DPN34JFH2JSFTF09HQRXDZ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPN37S54VWTNPJ0DDD80HT.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPN4GS0W84B0BW80X4BDCT.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ chậu – sườn – ngực, cơ gian sườn 9 rồi vào phổi."
+      },
       "international_code": "BL47",
       "code_dash": "BL-47",
       "chinese": "魂門",
@@ -15687,7 +16353,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPA3E7PXHDX6PSHG1TJWFE.webp",
         "lan": "/_emdash/api/media/file/01M3DPA4JERGV9GE4XKS99H835.webp",
         "kinh": "/_emdash/api/media/file/01M3DPA4NGDGB5R8D49CDE4CY6.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian cốt mu tay, bờ trên cơ khép ngón tay cái, bờ trong gân cơ duỗi dài ngón tay cái."
       },
       "international_code": "LI4",
       "code_dash": "LI-4",
@@ -15754,7 +16420,13 @@ window.ACUPOINTS = {
       "slug": "hop-duong",
       "image": "images/acupoints/0353-hop-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXJ33H94BE4NFCK9M5XWF.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPNJQD4VW0YGNQZSRP3BEM.webp",
+        "gp": "/_emdash/api/media/file/01M3DPNKRSRPBDBXCB2KG88SXM.webp",
+        "lan": "/_emdash/api/media/file/01M3DPNKYTBZGCC26G5X42C5RP.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPNMH1GQCE31510DRMTCJP.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: góc của 2 cơ sinh đôi, bờ trên cơ kheo, giữa mặt sau đầu trên xương chày."
+      },
       "international_code": "BL55",
       "code_dash": "BL-55",
       "chinese": "合陽",
@@ -15810,7 +16482,13 @@ window.ACUPOINTS = {
       "slug": "hung-huong",
       "image": "images/acupoints/0354-hung-huong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXJV6E6FVH5MAVS3WX99C.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPFTDYJFZKJ4G952NJTXGN.webp",
+        "gp": "/_emdash/api/media/file/01M3DPFTY5FQ6EZ003RFBA6A5Q.webp",
+        "lan": "/_emdash/api/media/file/01M3DPFV78T2DNDN3VR71JE99Z.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPFVSE9FREV3K9908KB69R.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ răng lớn, cơ gian sườn 4 rồi vào phổi."
+      },
       "international_code": "SP19",
       "code_dash": "SP-19",
       "chinese": "胸鄉",
@@ -15909,7 +16587,13 @@ window.ACUPOINTS = {
       "slug": "huyen-chung",
       "image": "images/acupoints/0356-huyen-chung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXJY6HMSWG9FJ35W2BZ95.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPWXDWVGHMNEXP68PDEY4E.webp",
+        "gp": "/_emdash/api/media/file/01M3DPWY9Q6VKK983CP3H6G1PN.webp",
+        "lan": "/_emdash/api/media/file/01M3DPWZ0KMHBG8K7PJS299GHE.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPX0QXB17920N061WGAJ64.webp",
+        "ghiChu": null
+      },
       "international_code": "GB39",
       "code_dash": "GB-39",
       "chinese": "懸鐘[d]",
@@ -15974,7 +16658,13 @@ window.ACUPOINTS = {
       "slug": "huyen-khu",
       "image": "images/acupoints/0357-huyen-khu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXNA3YE55Z679KF2AAEQH.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ035WNVS7MV43P3AGGVWZ.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ0429PMWE23W4X3NNNWX0.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ049034DKD45K09CGPDRV.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ04YTAV8WMWCV0ENK71Z5.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, chỗ bám của cơ răng bé sau – dưới, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
+      },
       "international_code": "GV5",
       "code_dash": "GV-5",
       "chinese": "懸樞",
@@ -16035,7 +16725,13 @@ window.ACUPOINTS = {
       "slug": "huyen-lu",
       "image": "images/acupoints/0358-huyen-lu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXNS4JQAF8WDG1N6TSQ35.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPTSV63W8B171KTVANHWRT.webp",
+        "gp": "/_emdash/api/media/file/01M3DPTTM3MZ15CJ8162GV5JRM.webp",
+        "lan": "/_emdash/api/media/file/01M3DPTTT5VSTVZFA53S14B0NZ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPTVCF9T758B6S5QQMWWNA.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
+      },
       "international_code": "GB5",
       "code_dash": "GB-5",
       "chinese": "懸顱",
@@ -16091,7 +16787,13 @@ window.ACUPOINTS = {
       "slug": "huyen-ly",
       "image": "images/acupoints/0359-huyen-ly.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXPH6H8EV93B69WSH3X4Q.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPTVVNY321DFF2FB75R6KM.webp",
+        "gp": "/_emdash/api/media/file/01M3DPTWDWV1CDG1AW8D1DBFKZ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPTWPZE7K1C4BMSKC8Y3G2.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPTX95461DS0JW419HKYCD.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
+      },
       "international_code": "GB6",
       "code_dash": "GB-6",
       "chinese": "懸厘",
@@ -16224,7 +16926,13 @@ window.ACUPOINTS = {
       "slug": "huyet-hai",
       "image": "images/acupoints/0362-huyet-hai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXR4CGTRCFXHERHCHB8WJ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPF857PE9FWVTP7633AWB8.webp",
+        "gp": "/_emdash/api/media/file/01M3DPF8TK77JD2MHMVKPZP6F8.webp",
+        "lan": "/_emdash/api/media/file/01M3DPF8XPTSHC4D3HS06SX8NK.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPF9N5HSEABQTREB9B2MC0.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ rộng giữa xương đùi."
+      },
       "international_code": "SP10",
       "code_dash": "SP-10",
       "chinese": "血海",
@@ -16645,7 +17353,13 @@ window.ACUPOINTS = {
       "slug": "khau-khu",
       "image": "images/acupoints/0373-khau-khu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXY4XTX7G4HDHTTBSRXF4.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPX0MKB95EC0S1SC9BS411.webp",
+        "gp": "/_emdash/api/media/file/01M3DPX1YR0X9Z3V0FE8XMZ9RG.webp",
+        "lan": "/_emdash/api/media/file/01M3DPX2EA1DP2QBKHBWHXX1ZG.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPX4HWBNMNG8A7GYX910D3.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi ngắn các ngón chân, bờ sau – ngoài cơ mác trước."
+      },
       "international_code": "GB40",
       "code_dash": "GB-40",
       "chinese": "丘墟",
@@ -16745,7 +17459,13 @@ window.ACUPOINTS = {
       "slug": "khe-mach",
       "image": "images/acupoints/0375-khe-mach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHXZF9DX0CEKM0Z3MY3PMX.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPT5QZJC8F3YCKE36X836X.webp",
+        "gp": "/_emdash/api/media/file/01M3DPT6K82E7H5J6S84FNB1MV.webp",
+        "lan": "/_emdash/api/media/file/01M3DPT7BHHRV752ECK1GV7C44.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPT7MM2AG485JWTZ2T6RA5.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ cơ ức – đòn – chũm, cơ đầu dài, cơ 2 thân bám vào mỏm xương chũm."
+      },
       "international_code": "TE18",
       "code_dash": "TE-18",
       "chinese": "契脈",
@@ -16874,7 +17594,13 @@ window.ACUPOINTS = {
       "slug": "khi-hai",
       "image": "images/acupoints/0378-khi-hai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY1HDDBK57Z3EXAHK5RFY.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPYQJ9NK4YNR0VCQ8AXBMS.webp",
+        "gp": "/_emdash/api/media/file/01M3DPYR4JVB1YDV6D9D85RMM7.webp",
+        "lan": "/_emdash/api/media/file/01M3DPYRGZR0G12FT4SKTB16NC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPYS6A70T1BX1P03XHXANH.webp",
+        "ghiChu": null
+      },
       "international_code": "CV6",
       "code_dash": "CV-6",
       "chinese": "氣海",
@@ -16948,7 +17674,13 @@ window.ACUPOINTS = {
       "slug": "khi-hai-du",
       "image": "images/acupoints/0379-khi-hai-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY1QEFATARCCFJ1N0NZNT.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPK7HBP62CA8V6ZA71E37J.webp",
+        "gp": "/_emdash/api/media/file/01M3DPK86KK9PMN1DNXSEV1GV4.webp",
+        "lan": "/_emdash/api/media/file/01M3DPK8JR6ETNAR66GB9YC3FC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPK91VPE6KSB390RK9FYTM.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, cơ lưng dài, cơ ngang – gai, cơ vuông thắt lưng, cơ đái – chậu."
+      },
       "international_code": "BL24",
       "code_dash": "BL-24",
       "chinese": "氣海俞",
@@ -17005,7 +17737,13 @@ window.ACUPOINTS = {
       "slug": "khi-ho",
       "image": "images/acupoints/0380-khi-ho.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY2RKCA9HJ7MDR0Q072QS.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPBY9VY8W98WDV0YJAMW4V.webp",
+        "gp": "/_emdash/api/media/file/01M3DPBZ5CS3SBQMPBPEXS8NVN.webp",
+        "lan": "/_emdash/api/media/file/01M3DPBZ8C70C7X4CE2JR5PYKN.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPC046X2WTX9D46ER5RPV7.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trên xương sườn 1, đỉnh phổi."
+      },
       "international_code": "ST13",
       "code_dash": "ST-13",
       "chinese": "氣戶",
@@ -17068,7 +17806,13 @@ window.ACUPOINTS = {
       "slug": "khi-huyet",
       "image": "images/acupoints/0381-khi-huyet.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY2VH4YJGS40KTRS8A2CX.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQ5JW1THX7RFB83712M15.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQ5NWTVWF5QGGG2NYW9V2.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQ6H5NEWXXCSV2YASKKNS.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQ6M68CPHMKM0816FPWA1.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang, bàng quang khi bí tiểu ít, tử cung khi có thai 4 – 5 tháng."
+      },
       "international_code": "KI13",
       "code_dash": "KI-13",
       "chinese": "氣穴",
@@ -17254,7 +17998,13 @@ window.ACUPOINTS = {
       "slug": "khi-xa",
       "image": "images/acupoints/0386-khi-xa.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY5THK0EFYMNNRPAVM2ZQ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPBTFR5JQ7W0W549TW8X0C.webp",
+        "gp": "/_emdash/api/media/file/01M3DPBVB1VBNGHM76FDEPN8H7.webp",
+        "lan": "/_emdash/api/media/file/01M3DPBVE28GHB46TBQGMQFPEC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPBW9ET77SC7EEXFHH7RTA.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ bó đòn, cơ ức – đòn – chũm, vào sâu là cơ ức – đòn – móng, ức – giáp."
+      },
       "international_code": "ST11",
       "code_dash": "ST-11",
       "chinese": "氣舍",
@@ -17317,7 +18067,13 @@ window.ACUPOINTS = {
       "slug": "khi-xung",
       "image": "images/acupoints/0387-khi-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY6PNC7NX5H117Z10V2N1.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPDAZ7NBM7HCQY8RYBNH56.webp",
+        "gp": "/_emdash/api/media/file/01M3DPDB2AZYGN742TA7PWPG34.webp",
+        "lan": "/_emdash/api/media/file/01M3DPDBR5ARSMBYGFW4RYJ2XN.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPDC8HPFD0HKTWH24AVMYJ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, bờ ngoài cơ thẳng lớn, cân cơ chéo bé của bụng, cơ ngang bụng, mạc ngang, phúc mạc; trong ổ bụng là ruột non, tử cung khi có thai 2 – 3 tháng, bàng quang khi đầy."
+      },
       "international_code": "ST30",
       "code_dash": "ST-30",
       "chinese": "氣沖",
@@ -17378,7 +18134,13 @@ window.ACUPOINTS = {
       "slug": "khich-mon",
       "image": "images/acupoints/0388-khich-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY6WP3DA5SKA1SE57TYCS.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPRD3DNAKQFZF4P5SYTPSE.webp",
+        "gp": "/_emdash/api/media/file/01M3DPREFVJ039F2924HTGD6ZQ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPRERY690760YWH0MS22E8.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPRFHGC6SQ50HNC5RPHAHC.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gan tay bé, cơ gấp dài ngón tay cái, cơ gấp chung nông, sâu."
+      },
       "international_code": "PC4",
       "code_dash": "PC-4",
       "chinese": "郄門",
@@ -17587,7 +18349,13 @@ window.ACUPOINTS = {
       "slug": "kho-phong",
       "image": "images/acupoints/0393-kho-phong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHY9SZGVFR46ADV5AZJVND.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPC06ZXGRCD7846RS44ZCP.webp",
+        "gp": "/_emdash/api/media/file/01M3DPC129QYK7K85C3CZAESJS.webp",
+        "lan": "/_emdash/api/media/file/01M3DPC15ACKGHCW27SCZFJYSJ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPC22F3KJ4M8CEPS5BZHEB.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 1, bờ trên xương sườn 2, đỉnh phổi."
+      },
       "international_code": "ST14",
       "code_dash": "ST-14",
       "chinese": "庫房",
@@ -17823,7 +18591,13 @@ window.ACUPOINTS = {
       "slug": "khuc-cot",
       "image": "images/acupoints/0398-khuc-cot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYCENEC69EBV4WS98S6PA.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPYCYHBNQ800RTNWRW202V.webp",
+        "gp": "/_emdash/api/media/file/01M3DPYDZWHPQG87MGFJWYPVNT.webp",
+        "lan": "/_emdash/api/media/file/01M3DPYE5YD3EPB3ZKZDDF5X28.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPYF4K662RFHZ72G12J3JS.webp",
+        "ghiChu": null
+      },
       "international_code": "CV2",
       "code_dash": "CV-2",
       "chinese": "曲骨",
@@ -17889,7 +18663,13 @@ window.ACUPOINTS = {
       "slug": "khuc-sai",
       "image": "images/acupoints/0399-khuc-sai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYD0J3RYMKZV9J2FB43YY.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJ144HRDQ9XNDS94YVCXT.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJ1PB39W4T2J2Q61CQF1E.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJ22E798CKXNWFADF3NYZ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJ2TN9696RZC04524TQGS.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của cơ trán vào cân sọ, dưới cân sọ là xương sọ."
+      },
       "international_code": "BL4",
       "code_dash": "BL-4",
       "chinese": "曲差",
@@ -17951,7 +18731,13 @@ window.ACUPOINTS = {
       "slug": "khuc-tan",
       "image": "images/acupoints/0400-khuc-tan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYE1M26W31RWADY4B5RV5.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPTXRA5GC6ZN4AYC99Y9PR.webp",
+        "gp": "/_emdash/api/media/file/01M3DPTYB05V9NCVH5QKZKDKQV.webp",
+        "lan": "/_emdash/api/media/file/01M3DPTYMAHJ0TC5F4A98NVASB.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPTZ6GRZ2E0X2AJEFC5SNT.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
+      },
       "international_code": "GB7",
       "code_dash": "GB-7",
       "chinese": "曲鬢",
@@ -18009,7 +18795,13 @@ window.ACUPOINTS = {
       "slug": "khuc-trach",
       "image": "images/acupoints/0401-khuc-trach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYE4M6C0VMT8Z8XCS3FY8.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPRAWHA6T0GE12F07CZ9JJ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPRBQY4M5FN55PNMXWFA58.webp",
+        "lan": "/_emdash/api/media/file/01M3DPRBV0TR4JJQEA95TWZMTC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPRCRZ8ZCK1XNHP8XJJ7A4.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong gân cơ 2 đầu cánh tay, co cánh tay trước, bờ trên cơ sấp tròn."
+      },
       "international_code": "PC3",
       "code_dash": "PC-3",
       "chinese": "曲澤",
@@ -18081,7 +18873,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPAMKSS97FE8M6DTSBWFGE.webp",
         "lan": "/_emdash/api/media/file/01M3DPANFSDBDG605551WZ3V7Q.webp",
         "kinh": "/_emdash/api/media/file/01M3DPAP9DBV8CVNQD5J3W338B.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của cơ ngửa dài, cơ quay 1, cơ ngửa ngắn khớp khủy."
       },
       "international_code": "LI11",
       "code_dash": "LI-11",
@@ -18180,7 +18972,13 @@ window.ACUPOINTS = {
       "slug": "khuc-tuyen",
       "image": "images/acupoints/0404-khuc-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYG9V4FKQTQSJV47S9WQK.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPXWN8ASVR3XTD4XAEMH0Q.webp",
+        "gp": "/_emdash/api/media/file/01M3DPXXGZSFWRB8FZGBZD0NR1.webp",
+        "lan": "/_emdash/api/media/file/01M3DPXXM0W2BHKK0E4VMJ5BRJ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPXYFEC6YV05FXKSQ9TW8J.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thẳng trong, đầu trên cơ sinh đôi trong."
+      },
       "international_code": "LR8",
       "code_dash": "LR-8",
       "chinese": "曲泉",
@@ -18241,7 +19039,13 @@ window.ACUPOINTS = {
       "slug": "khuc-vien",
       "image": "images/acupoints/0405-khuc-vien.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYH4W13GRFSVBYCCCSYVW.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPHE14WVNRD582Y3NPWPNH.webp",
+        "gp": "/_emdash/api/media/file/01M3DPHEWC29WSRPNRDJCNRAEC.webp",
+        "lan": "/_emdash/api/media/file/01M3DPHF5EAP1PDC3VYYSJEW3F.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPHFEMA6QKTYAKFJH0KRP4.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của cơ góc, góc trên – trong của xương bả vai."
+      },
       "international_code": "SI13",
       "code_dash": "SI-13",
       "chinese": "曲垣",
@@ -18334,7 +19138,13 @@ window.ACUPOINTS = {
       "slug": "khuyet-bon",
       "image": "images/acupoints/0407-khuyet-bon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYJBW4HDR7N69JVF91EHQ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPBWCFYTQ7SV08DHW0C4WN.webp",
+        "gp": "/_emdash/api/media/file/01M3DPBX8170J9NTAN3PCJNEC7.webp",
+        "lan": "/_emdash/api/media/file/01M3DPBXB1P65XD0RX5XQHDMK2.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPBY6R1RK8PXT9BCX2Y5EP.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: hố trên đòn, có các cơ bậc thang, cơ vai – móng."
+      },
       "international_code": "ST12",
       "code_dash": "ST-12",
       "chinese": "缺盆",
@@ -18561,7 +19371,13 @@ window.ACUPOINTS = {
       "slug": "kien-lieu",
       "image": "images/acupoints/0413-kien-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYKJRK9WHJAC18XME1B5C.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPSVMC993A8GV9ZE8KMFSS.webp",
+        "gp": "/_emdash/api/media/file/01M3DPSWS4BW5CJE1KEX4MRSD7.webp",
+        "lan": "/_emdash/api/media/file/01M3DPSXBAXJJ3YMYRA2QKW85N.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPSXXNXW8V7VQB1V4EPDP1.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bó gai sống của cơ delta, cơ trên sống, cơ dưới sống, đầu trên xương cánh tay."
+      },
       "international_code": "TE14",
       "code_dash": "TE-14",
       "chinese": "肩髎",
@@ -18622,7 +19438,13 @@ window.ACUPOINTS = {
       "slug": "kien-ngoai-du",
       "image": "images/acupoints/0414-kien-ngoai-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYMSNP4NR74YSM8C3BW8R.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPHG0T61A561S1SHT14RTE.webp",
+        "gp": "/_emdash/api/media/file/01M3DPHGW23BV72MTCJ5E0WJ60.webp",
+        "lan": "/_emdash/api/media/file/01M3DPHGZ46MXA7CPYH8HFMWWN.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPHHE9RDFCWCFD2XWDHNQG.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ góc, cơ răng bé sau – trên."
+      },
       "international_code": "SI14",
       "code_dash": "SI-14",
       "chinese": "肩外俞",
@@ -18688,7 +19510,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPAX2D8SF16RAYP7BZV8YH.webp",
         "lan": "/_emdash/api/media/file/01M3DPAXY3DWSXXFY7X61QF5B0.webp",
         "kinh": "/_emdash/api/media/file/01M3DPAY14HB778N3SD9SXH3RQ.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bó cùng vai của cơ delta."
       },
       "international_code": "LI15",
       "code_dash": "LI-15",
@@ -18921,7 +19743,13 @@ window.ACUPOINTS = {
       "slug": "kien-tinh",
       "image": "images/acupoints/0421-kien-tinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYPGGR40T85QD8EHQ8R12.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPVRY8KNR0QMEG4E2HKT12.webp",
+        "gp": "/_emdash/api/media/file/01M3DPVSBADM2S2SVKY348QJ82.webp",
+        "lan": "/_emdash/api/media/file/01M3DPVT3PS3VSCGV85VJK1JM5.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPVT6QJ5QR6PXP9N89BVEJ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trên sống, cơ góc."
+      },
       "international_code": "GB21",
       "code_dash": "GB-21",
       "chinese": "肩井",
@@ -18984,7 +19812,13 @@ window.ACUPOINTS = {
       "slug": "kien-trinh",
       "image": "images/acupoints/0422-kien-trinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYRFRS9VNFDZ677EH4PAJ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPH48787WJZ4HDXRY67KKK.webp",
+        "gp": "/_emdash/api/media/file/01M3DPH5CHGYVNW3GG537ZHHG3.webp",
+        "lan": "/_emdash/api/media/file/01M3DPH5JKKQT22VWEG7E5MVWT.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPH67TJ733BN3WBG7NW4E9.webp",
+        "ghiChu": null
+      },
       "international_code": "SI9",
       "code_dash": "SI-9",
       "chinese": "肩貞",
@@ -19078,7 +19912,13 @@ window.ACUPOINTS = {
       "slug": "kien-trung-du",
       "image": "images/acupoints/0424-kien-trung-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYRJRG38SH0910F253M5T.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPHHXP8PK4D2CKBXKSC2W7.webp",
+        "gp": "/_emdash/api/media/file/01M3DPHJNZ96CKEVR7ARY1KA2Y.webp",
+        "lan": "/_emdash/api/media/file/01M3DPHJS165JX818ZR8ARQNQC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPHKM9JGPH8KBAXB72HJ1Q.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ góc, cơ răng bé sau – trên, cơ chậu sườn đoạn lưng cổ, cơ ngang sườn, cơ gian mỏng ngang."
+      },
       "international_code": "SI15",
       "code_dash": "SI-15",
       "chinese": "肩中俞",
@@ -19136,7 +19976,13 @@ window.ACUPOINTS = {
       "slug": "kien-ly",
       "image": "images/acupoints/0425-kien-ly.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYSM0DCEEAP1K6JJ3PTMM.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZ15GWG6SWMY3Z9K5Q3RZ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZ1MNB0N87Q7KWXK03XTK.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZ23ZKHGFDEKCSSV09Y2Y.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZ2G5BTFAXCPKTB5XMAJ3.webp",
+        "ghiChu": null
+      },
       "international_code": "CV11",
       "code_dash": "CV-11",
       "chinese": "建里",
@@ -19339,7 +20185,13 @@ window.ACUPOINTS = {
       "slug": "kim-mon",
       "image": "images/acupoints/0430-kim-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYVWAD3S4BRCK64M8DGCQ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPP4GDD9T73FC2JBK0Z1AJ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPP52MD0YG7V5TKT6JTZC4.webp",
+        "lan": "/_emdash/api/media/file/01M3DPP5HS9TV84BH1QMGDZZ98.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPP63YFQZKGEPYMSM42ZE2.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ dạng ngón út, gân cơ mác bên dài, gân cơ mác bên ngắn, đầu xương bàn chân 5."
+      },
       "international_code": "BL63",
       "code_dash": "BL-63",
       "chinese": "金門",
@@ -19439,7 +20291,13 @@ window.ACUPOINTS = {
       "slug": "kinh-cot",
       "image": "images/acupoints/0432-kinh-cot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYW5B5BXGK1N4T49FSW9Z.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPP6D3VJKTB5X6P8K8ZNSX.webp",
+        "gp": "/_emdash/api/media/file/01M3DPP6ZBGS3M1PZV8CT6YT07.webp",
+        "lan": "/_emdash/api/media/file/01M3DPP7EMXN0M249THE6QH82X.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPP80YQ4XYPN787MRNCF4B.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ dạng ngón chân út, cùng xương bàn chân 5."
+      },
       "international_code": "BL64",
       "code_dash": "BL-64",
       "chinese": "京骨",
@@ -19576,7 +20434,13 @@ window.ACUPOINTS = {
       "slug": "kinh-mon",
       "image": "images/acupoints/0434-kinh-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYXV8C8CBTY2QVD21B547.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPW0ZYNJDAX6765PGCXQPG.webp",
+        "gp": "/_emdash/api/media/file/01M3DPW12Z791P9EQGTXXEQ2Y2.webp",
+        "lan": "/_emdash/api/media/file/01M3DPW1YHEJWP4GXJGFBQHJGG.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPW21HRY7SFC5VEYPQH5EJ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ chéo lớn của bụng, cơ chéo bé của bụng, cơ ngang bụng, đầu cụt xương sườn 12, mạc ngang."
+      },
       "international_code": "GB25",
       "code_dash": "GB-25",
       "chinese": "京門",
@@ -19778,7 +20642,13 @@ window.ACUPOINTS = {
       "slug": "ky-mon",
       "image": "images/acupoints/0439-ky-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHYZX6KSM4HTV489DB4B77.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPY8RT4BS988Z9BG31DH94.webp",
+        "gp": "/_emdash/api/media/file/01M3DPY9M2Z3V9G0XDSXSEY8K0.webp",
+        "lan": "/_emdash/api/media/file/01M3DPY9Q4XWRY0F0B0TEPQGVA.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPYAJH1VXB4R09XKF5ZEP5.webp",
+        "ghiChu": null
+      },
       "international_code": "LR14",
       "code_dash": "LR-14",
       "chinese": "期門",
@@ -20052,7 +20922,13 @@ window.ACUPOINTS = {
       "slug": "lac-khuoc",
       "image": "images/acupoints/0447-lac-khuoc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZ3CD8BV21MKBNBV5VGY8.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJ8ZV8QAT8YADBZAPFCYV.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJ9J0KZGB1D1Y42N0E0PH.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJ9V4M9Y48NGE8YS1DVKH.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJAGFWJBXT6JJRAVJKTE2.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, xương sọ."
+      },
       "international_code": "BL8",
       "code_dash": "BL-8",
       "chinese": "絡卻",
@@ -20113,7 +20989,13 @@ window.ACUPOINTS = {
       "slug": "lai-cau",
       "image": "images/acupoints/0448-lai-cau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZ41CTN80KDV2FTQGKD4B.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPXPXSY945DVHPB54XQA69.webp",
+        "gp": "/_emdash/api/media/file/01M3DPXQSXE3FAC97NJT5N33MV.webp",
+        "lan": "/_emdash/api/media/file/01M3DPXQWWG4CZEYVVYB86VT6C.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPXRR97TDK2G5D1NTF5WPC.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: mặt trước – trong của xương chầy."
+      },
       "international_code": "LR5",
       "code_dash": "LR-5",
       "chinese": "蠡溝",
@@ -20330,7 +21212,13 @@ window.ACUPOINTS = {
       "slug": "lao-cung",
       "image": "images/acupoints/0453-lao-cung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZ4WK80Y4J053CAH986PV.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPRSM3P7Q49QRTJ5KB2FPS.webp",
+        "gp": "/_emdash/api/media/file/01M3DPRTMBRQTP6W4BNYP3PMTH.webp",
+        "lan": "/_emdash/api/media/file/01M3DPRV945REG10RPA1NPSWVS.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPRYCPPRWEDAYR587TMKMS.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân tay giữa, cơ giun, phía trong gân gấp ngón giữa của cơ gấp chung ngón tay nông, sâu, cơ gian cốt gan tay, cơ gian cốt mu tay, bờ trong đầu dưới xương bàn tay 3."
+      },
       "international_code": "PC8",
       "code_dash": "PC-8",
       "chinese": "勞宮",
@@ -20786,7 +21674,13 @@ window.ACUPOINTS = {
       "slug": "lau-coc",
       "image": "images/acupoints/0465-lau-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZ5MJA7W1KHQDX98TJSNG.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPF1F6JAXH3R0RD766H9VE.webp",
+        "gp": "/_emdash/api/media/file/01M3DPF27GEYJJXSW95HABPACM.webp",
+        "lan": "/_emdash/api/media/file/01M3DPF2DKFTWZ24SN6TXDTR63.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPF2WS476AQ7Y7E3Q0HTZ3.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau – trong xương chầy, bờ trong cơ dép, cơ gấp dài các ngón chân, cơ cẳng sau chân."
+      },
       "international_code": "SP7",
       "code_dash": "SP-7",
       "chinese": "漏谷",
@@ -20851,7 +21745,13 @@ window.ACUPOINTS = {
       "slug": "le-doai",
       "image": "images/acupoints/0466-le-doai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZ6VZSDVJ3P9PN4HZYBNG.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPEHC9H25NYJ621Z13PGFD.webp",
+        "gp": "/_emdash/api/media/file/01M3DPEHVGV302A0FWAW8DRD2R.webp",
+        "lan": "/_emdash/api/media/file/01M3DPEJ7M1HSG0KT5YE3SZ8XY.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPEJWWB83K54ACQPVMCW8X.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: xương đốt 3 ngón chân thứ 2."
+      },
       "international_code": "ST45",
       "code_dash": "ST-45",
       "chinese": "厲兌",
@@ -20920,7 +21820,13 @@ window.ACUPOINTS = {
       "slug": "liem-tuyen",
       "image": "images/acupoints/0467-liem-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZ720FTD6F5JH8DE3KNPR.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZQYS57A6VWW5ZW3XH9WW.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZRGZA28V1NEPA72Y89VC.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZRT18NDTCSNEX7DCTV99.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZSC8SVQAXF3AXFXZT0GS.webp",
+        "ghiChu": null
+      },
       "international_code": "CV23",
       "code_dash": "CV-23",
       "chinese": "廉泉",
@@ -21125,7 +22031,13 @@ window.ACUPOINTS = {
       "slug": "linh-dai",
       "image": "images/acupoints/0471-linh-dai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZA8TKE5C24EEZG5R20BM.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ0CVSWQ29VZTZ0JC1JX5M.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ0DE0A5C1MBNPC4CBN10M.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ0DT3FVY33CCMHN10VXXZ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ0EJA9036JDE44JFM97SM.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, cân ngực – thắt lưng của cơ lưng lớn, cơ gai dài của lưng, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
+      },
       "international_code": "GV10",
       "code_dash": "GV-10",
       "chinese": "靈台",
@@ -21179,7 +22091,13 @@ window.ACUPOINTS = {
       "slug": "linh-dao",
       "image": "images/acupoints/0472-linh-dao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZATTFDM3R2SYZ1WT0RKE.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPG82ZXB142WA3M5EY079G.webp",
+        "gp": "/_emdash/api/media/file/01M3DPG863XQZFFES4HCYA9YWM.webp",
+        "lan": "/_emdash/api/media/file/01M3DPG91E5D8Y65HNY8CC7DBB.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPG94FRA8TMNTK9HWAAD29.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gấp chung nông các ngón tay ở ngoài, bờ trong gân cơ gấp chung sâu các ngón tay."
+      },
       "international_code": "HE4",
       "code_dash": "HE-4",
       "chinese": "靈道",
@@ -21235,7 +22153,13 @@ window.ACUPOINTS = {
       "slug": "linh-khu",
       "image": "images/acupoints/0473-linh-khu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZBJQV30W03CM0D9YQA7R.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQVCMPZTKJ4CY9Y33PVVW.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQW5A9DGTRNAZAE6HPREE.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQWXVHD972NDYM7X592ZZ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQXXZSM0X7J4FAWESFHVZ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 3."
+      },
       "international_code": "KI24",
       "code_dash": "KI-24",
       "chinese": "靈墟",
@@ -21751,7 +22675,13 @@ window.ACUPOINTS = {
       "slug": "lu-tuc",
       "image": "images/acupoints/0487-lu-tuc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZF83KBZVGAQNVAQXXVK5.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPT878BZGKGHWWGGHV2F8K.webp",
+        "gp": "/_emdash/api/media/file/01M3DPT8SHESHJ7EYCWE0K12RF.webp",
+        "lan": "/_emdash/api/media/file/01M3DPT9TV6M4Q6A5GHM9Z67CX.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPT9XV1WEX0K7ZW3XQSW5F.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai sau, cơ chẩm."
+      },
       "international_code": "TE19",
       "code_dash": "TE-19",
       "chinese": "顱息",
@@ -21842,7 +22772,13 @@ window.ACUPOINTS = {
       "slug": "luong-khau",
       "image": "images/acupoints/0489-luong-khau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZG3KQZEDS5PRGTQF6NE4.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPDMGAVS57YRHG6352QPTA.webp",
+        "gp": "/_emdash/api/media/file/01M3DPDN442WSSX0T44QH7TJQ3.webp",
+        "lan": "/_emdash/api/media/file/01M3DPDNG8N43258ECQKEW5Q0W.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPDPHPF048N24KKX32NDZ5.webp",
+        "ghiChu": null
+      },
       "international_code": "ST34",
       "code_dash": "ST-34",
       "chinese": "梁丘",
@@ -21900,7 +22836,13 @@ window.ACUPOINTS = {
       "slug": "luong-mon",
       "image": "images/acupoints/0490-luong-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZGAT8SS3JCXZ1AKCS2P9.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPCDRQM2ZNAJHEZSRT4B6B.webp",
+        "gp": "/_emdash/api/media/file/01M3DPCE7X3P1KF2Y57SMXP8MQ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPCEQ49MMBN13QJMJGVCKG.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPCF6SY8GQBE86KP8S6V80.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, mạc ngang, bên phải là gan, bên trái là dạ dày."
+      },
       "international_code": "ST21",
       "code_dash": "ST-21",
       "chinese": "梁門",
@@ -22556,7 +23498,13 @@ window.ACUPOINTS = {
       "slug": "menh-mon",
       "image": "images/acupoints/0508-menh-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZV5EENH3P9CGVY21KDNK.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ01968R50D6CWHTGCEKY8.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ024F78PVKDBMHBVXWX2T.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ02AHNZ6ANT9NY29EKB80.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ02ZVJWEVEGFQ11CQQ3CP.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, chỗ bám của cơ răng bé sau – dưới, cơ ngang gai, dây chằng gian gai, dây chằng trên gai, dây chằng vàng, ống sống."
+      },
       "international_code": "GV4",
       "code_dash": "GV-4",
       "chinese": "命門",
@@ -22621,7 +23569,13 @@ window.ACUPOINTS = {
       "slug": "mi-xung",
       "image": "images/acupoints/0509-mi-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZV8E9Y569MYDAED9VP8E.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPHZ7C3K2NH0KW94Z9V1WX.webp",
+        "gp": "/_emdash/api/media/file/01M3DPHZSJ7943MB24SMP7N3P4.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJ05T61FQJA5VJPZ7G60Y.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJ0Y2V4VKV44GFSTGGTAJ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ cơ trán bám vào cân sọ, dưới gân là xương sọ."
+      },
       "international_code": "BL3",
       "code_dash": "BL-3",
       "chinese": "眉衝",
@@ -22814,7 +23768,13 @@ window.ACUPOINTS = {
       "slug": "muc-song",
       "image": "images/acupoints/0514-muc-song.webp",
       "anhCms": "/_emdash/api/media/file/01M3CHZY0YZVCJ8XT4Q9AFSNQ5.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPVFD7NCMN5HD984BYZNPZ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPVFG82QDFCHAN1YBG919X.webp",
+        "lan": "/_emdash/api/media/file/01M3DPVFZEBVHTR4YGB533EYW1.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPVGEJKFNYC1RTGW00K21Z.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, đường khớp trán – đỉnh."
+      },
       "international_code": "GB16",
       "code_dash": "GB-16",
       "chinese": "目窗",
@@ -23084,7 +24044,13 @@ window.ACUPOINTS = {
       "slug": "nao-ho",
       "image": "images/acupoints/0521-nao-ho.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0005648R4RV2T3YYW1W4.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ0WJT5K5FWNA6W4PRPRPD.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ0X828B9WQQB4BDD5TZP3.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ0Y3CDE09E77SCN7EMXS6.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ0YNP000D0CSDRFHWY1NH.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân hộp sọ, chỗ bám của gân cơ thang, gân cơ rối lớn, mào chẩm ngoài của xương chẩm."
+      },
       "international_code": "GV17",
       "code_dash": "GV-17",
       "chinese": "腦戶",
@@ -23145,7 +24111,13 @@ window.ACUPOINTS = {
       "slug": "nao-khong",
       "image": "images/acupoints/0522-nao-khong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ00N4BF65FQHCSV9H533Z.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPVN4H7HSPCRRRB0MEC1WC.webp",
+        "gp": "/_emdash/api/media/file/01M3DPVNDMFM0WWQTC9G4X6EWC.webp",
+        "lan": "/_emdash/api/media/file/01M3DPVP7EJWZKFE5KD3K41C98.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPVPAF959TM9646721N824.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ cơ chẩm, cơ thang bám vào đường cong chẩm trên của xương chẩm."
+      },
       "international_code": "GB19",
       "code_dash": "GB-19",
       "chinese": "腦空",
@@ -23352,7 +24324,13 @@ window.ACUPOINTS = {
       "slug": "ngan-giao",
       "image": "images/acupoints/0527-ngan-giao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ02EEGN3XY9BDH3PQV90E.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ1J5AVN32A7ZYKJBBKM0W.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ1JXVBEWX35X3T7STGVGW.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ1K6YYSS2ZHHRHXGGSTKD.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ1KS7KP04PSWRA7DAYKEB.webp",
+        "ghiChu": null
+      },
       "international_code": "GV28",
       "code_dash": "GV-28",
       "chinese": "齦交",
@@ -23450,9 +24428,9 @@ window.ACUPOINTS = {
       "anh3d": {
         "da": "/_emdash/api/media/file/01M3DPB72RQF014YM3JSEDMH0K.webp",
         "gp": "/_emdash/api/media/file/01M3DPB75TGCYQ7FWR6A2VH2VR.webp",
-        "lan": null,
-        "kinh": null,
-        "ghiChu": null
+        "lan": "/_emdash/api/media/file/01M3DPB7Z2AYG73NXY57NNP01N.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPB8848REDG6DTCRWPSMT5.webp",
+        "ghiChu": "Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
       "international_code": "LI20",
       "code_dash": "LI-20",
@@ -23619,7 +24597,13 @@ window.ACUPOINTS = {
       "slug": "ngoai-khau",
       "image": "images/acupoints/0533-ngoai-khau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ04T14VRMCP3RCDYBYVHM.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPWQNZ2K56JGW136QEZCQN.webp",
+        "gp": "/_emdash/api/media/file/01M3DPWR65QEH3KKB49MS4MJ7P.webp",
+        "lan": "/_emdash/api/media/file/01M3DPWRRATCAW486E44MFQBY6.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPWS8R2EVJ03G7Q0EW2AME.webp",
+        "ghiChu": null
+      },
       "international_code": "GB36",
       "code_dash": "GB-36",
       "chinese": "外丘",
@@ -23917,7 +24901,13 @@ window.ACUPOINTS = {
       "slug": "ngoai-lang",
       "image": "images/acupoints/0541-ngoai-lang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ07YFA00VSM1VH0E0GXBT.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPCTZ73QYH3XEC6PMA4SY8.webp",
+        "gp": "/_emdash/api/media/file/01M3DPCVRJ12T9SPHGNYPBTFT2.webp",
+        "lan": "/_emdash/api/media/file/01M3DPD1Q90H0S9PKCJCRBKJDB.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPD20DNZA1CY8ZBB6Y0942.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang, trong ổ bụng là ruột non, tử cung khi có thai 6–7 tháng, bàng quang khi bí tiểu."
+      },
       "international_code": "ST26",
       "code_dash": "ST-26",
       "chinese": "外陵",
@@ -24045,7 +25035,13 @@ window.ACUPOINTS = {
       "slug": "ngoai-quan",
       "image": "images/acupoints/0544-ngoai-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ09N3NWMBGHHARFJEETWT.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPSA36Z82C9MTQPM6S0FQ3.webp",
+        "gp": "/_emdash/api/media/file/01M3DPSAJDQW92TA6AEEBMHZM4.webp",
+        "lan": "/_emdash/api/media/file/01M3DPSB1J90QFZ6HVV2MVKDKH.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPSBGRR3YYEKTF33WKS5FG.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi dài riêng ngón tay cái ở ngoài, với các cơ duỗi riêng ngón tay út, cơ duỗi riêng ngón tay trỏ ở trong, giữa màng gian cốt."
+      },
       "international_code": "TE5",
       "code_dash": "TE-5",
       "chinese": "外關",
@@ -24143,7 +25139,13 @@ window.ACUPOINTS = {
       "slug": "ngoc-cham",
       "image": "images/acupoints/0546-ngoc-cham.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0AA54MYY7XDXK3VZTWDB.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJAWK0HA5C2A6V6NM8S3B.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJBER6BTP15C7PP3X0VRR.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJBQXVQ47FCKDPKYY80YT.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJCA4D2D8T4VRRNHPEH5B.webp",
+        "ghiChu": null
+      },
       "international_code": "BL9",
       "code_dash": "BL-9",
       "chinese": "玉枕",
@@ -24277,7 +25279,13 @@ window.ACUPOINTS = {
       "slug": "ngoc-duong",
       "image": "images/acupoints/0549-ngoc-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0BHN06C9AFFX4F7AHRV4.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZEEMX8HQEC9WQYRT41XH.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZEXT317KRD7P9AGZ73EQ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZFD06NGXWC4R9ZKT61R8.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZFW6V8S88QCAW9J2EGTB.webp",
+        "ghiChu": null
+      },
       "international_code": "CV18",
       "code_dash": "CV-18",
       "chinese": "玉堂",
@@ -24546,7 +25554,13 @@ window.ACUPOINTS = {
       "slug": "ngu-khu",
       "image": "images/acupoints/0556-ngu-khu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0DBPA4M31NW2FP4VHTMX.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPW53M66380BJB5B1FXPF9.webp",
+        "gp": "/_emdash/api/media/file/01M3DPW5WW8G7YKT7E8JCYS23J.webp",
+        "lan": "/_emdash/api/media/file/01M3DPW65ZK4WSTER1D97QF110.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPW701PFP0KKXNN0M0584H.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ chéo lớn của bụng, cơ chéo bé của bụng, cơ ngang bụng, mạch ngang, đại trường."
+      },
       "international_code": "GB27",
       "code_dash": "GB-27",
       "chinese": "五樞",
@@ -24752,7 +25766,13 @@ window.ACUPOINTS = {
       "slug": "ngu-xu",
       "image": "images/acupoints/0561-ngu-xu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0E746HPA3D7512KPCZQZ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJ30QCAMEP3F4D8ZSMM01.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJ3JYXMJQQY92V0TMWHBY.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJ3Z2MKTWANS53PX7GS2T.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJ4MPHXKPXGQSAKJCXYFK.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, xương sọ."
+      },
       "international_code": "BL5",
       "code_dash": "BL-5",
       "chinese": "五處",
@@ -25128,7 +26148,13 @@ window.ACUPOINTS = {
       "slug": "nhan-nghenh",
       "image": "images/acupoints/0570-nhan-nghenh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0HWVG6F1C637ERYD9N8Q.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPBPQF6J4MT7EEHHDTG0WC.webp",
+        "gp": "/_emdash/api/media/file/01M3DPBQFRGKKV5SX491A037KW.webp",
+        "lan": "/_emdash/api/media/file/01M3DPBQJSJQ0GMF9SYTWYP9RN.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPBRCZ0FGW4H5EJ71ZTQXW.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trước cơ ức đòn chũm, bó mạch thần kinh cảnh, lớp sâu là cơ bậc thang, cơ cổ dài, cơ góc."
+      },
       "international_code": "ST9",
       "code_dash": "ST-9",
       "chinese": "人迎",
@@ -25190,7 +26216,13 @@ window.ACUPOINTS = {
       "slug": "nhan-trung",
       "image": "images/acupoints/0571-nhan-trung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0JBWSY2D5JBAM861RPE3.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ1EH79Q4MWV6ZXB5P97YH.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ1F0C82EK862XQNDVT67Y.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ1FFK6XTXFTEYM29JRSD4.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ1FYVGSJPNES4TZ1N67KJ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ vòng môi trên."
+      },
       "international_code": "GV26",
       "code_dash": "GV-26",
       "chinese": "人中",
@@ -25398,7 +26430,13 @@ window.ACUPOINTS = {
       "slug": "nhat-nguyet",
       "image": "images/acupoints/0576-nhat-nguyet.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0KA7SAQSNR2FRWKQ8R1J.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPVZ09T77N5KP0RPGZHKKT.webp",
+        "gp": "/_emdash/api/media/file/01M3DPVZ9BANWGM0G74996JYT9.webp",
+        "lan": "/_emdash/api/media/file/01M3DPW01HQE0BRH4N2Z1C2E3R.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPW04P05ZNWSXPV2MYXP9B.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ tiếp nối giữa phần thịt, phần cân của cơ chéo lớn của bụng, cơ gian sườn 7, bên phải là gan, bên trái là lách, dạ dầy."
+      },
       "international_code": "GB24",
       "code_dash": "GB-24",
       "chinese": "日月",
@@ -25601,7 +26639,13 @@ window.ACUPOINTS = {
       "slug": "nhi-mon",
       "image": null,
       "anhCms": null,
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPTCCTREYB1C4NVEJCZE2Z.webp",
+        "gp": "/_emdash/api/media/file/01M3DPTCW04Y6G8RZPDH8M41S2.webp",
+        "lan": "/_emdash/api/media/file/01M3DPTD8G2WH91MDZHVKHRATC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPTDXSNJ4F6A28N2SYW3CP.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trước."
+      },
       "international_code": "TE21",
       "code_dash": "TE-21",
       "chinese": "耳門",
@@ -25964,7 +27008,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DP9WSX2YKV7K7FFH0RMHKD.webp",
         "lan": "/_emdash/api/media/file/01M3DP9YABPJ7JCEJ69M533C7Z.webp",
         "kinh": "/_emdash/api/media/file/01M3DP9YDCHZ5B8TYDAAA498GQ.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gian cốt mu tay, xương."
       },
       "international_code": "LI2",
       "code_dash": "LI-2",
@@ -26200,7 +27244,13 @@ window.ACUPOINTS = {
       "slug": "nhien-coc",
       "image": "images/acupoints/0596-nhien-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0RWG4WFDPS8WSZCE1DPT.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPPG0ZQ700EPK8C4DNS8BJ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPPGK6PG04BTWW5PRKSE7M.webp",
+        "lan": "/_emdash/api/media/file/01M3DPPGZBGZZHB7YZS1WTXHG7.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPPHQM3C3MGDH1ZKE1R2EW.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ dạng ngón cái, cơ gấp ngắn ngón cái, chỗ bám của gân cơ cẳng chân sau, dưới bờ dưới của xương thuyền. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
+      },
       "international_code": "KI2",
       "code_dash": "KI-2",
       "chinese": "然谷",
@@ -26361,7 +27411,13 @@ window.ACUPOINTS = {
       "slug": "nhu-du",
       "image": "images/acupoints/0600-nhu-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0SEK027EXGM8Y49G00X1.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPH6KZAQHCKD9F9AYGM6ZE.webp",
+        "gp": "/_emdash/api/media/file/01M3DPH7VDCXVGBCBA06DS3WSS.webp",
+        "lan": "/_emdash/api/media/file/01M3DPH7YEVP9Z09HQS9B8C52R.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPH8KRJ1585GER29AXEAFN.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới gai, sống gai."
+      },
       "international_code": "SI10",
       "code_dash": "SI-10",
       "chinese": "臑俞",
@@ -26419,7 +27475,13 @@ window.ACUPOINTS = {
       "slug": "nhu-hoi",
       "image": "images/acupoints/0601-nhu-hoi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0SXZF52RPRHXAM0REXXM.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPSSQGQA34J9HK62J64Y86.webp",
+        "gp": "/_emdash/api/media/file/01M3DPSTK0XPNWTB5RW399HJSS.webp",
+        "lan": "/_emdash/api/media/file/01M3DPSTP2RW3DCNB4D9QJW9FT.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPSVHAN7XRVSJ9C128TN00.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau – dưới của cơ delta, phần rộng ngoài của cơ 3 đầu cánh tay."
+      },
       "international_code": "TE13",
       "code_dash": "TE-13",
       "chinese": "臑會",
@@ -26585,7 +27647,13 @@ window.ACUPOINTS = {
       "slug": "nhu-can",
       "image": "images/acupoints/0605-nhu-can.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0TT08WZQF1C4HJQHPSVW.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPC7ZKPBH8ZGW97014RHSD.webp",
+        "gp": "/_emdash/api/media/file/01M3DPC8HS2GJA2BZ3XXNR2JWP.webp",
+        "lan": "/_emdash/api/media/file/01M3DPC90YDG6HCT02YEKHNC7P.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPC9G3PDZ6M3QP98D8CFCV.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 5, bờ trên xương sườn 6, bên phải là phổi, bên trái là mỏm tim."
+      },
       "international_code": "ST18",
       "code_dash": "ST-18",
       "chinese": "乳根",
@@ -26707,7 +27775,13 @@ window.ACUPOINTS = {
       "slug": "nhu-trung",
       "image": "images/acupoints/0608-nhu-trung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0VC0PDZXRN43CZEP1ERR.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPC5ZRDFV15Q6KSSPZBVNP.webp",
+        "gp": "/_emdash/api/media/file/01M3DPC6V2V6QN1VS9FKGTKCGC.webp",
+        "lan": "/_emdash/api/media/file/01M3DPC6Y3E8M7XGEZHH3R11RE.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPC7SJEN9K7XG8XGYYW94V.webp",
+        "ghiChu": null
+      },
       "international_code": "ST17",
       "code_dash": "ST-17",
       "chinese": "乳中",
@@ -26967,7 +28041,13 @@ window.ACUPOINTS = {
       "slug": "noi-dinh",
       "image": "images/acupoints/0615-noi-dinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0X5QQ8RK7BCEECT0VK73.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPEEWXT0PA3Q3QFJJ0ZGEY.webp",
+        "gp": "/_emdash/api/media/file/01M3DPEFQ03V5R7RNFX9ZS24N5.webp",
+        "lan": "/_emdash/api/media/file/01M3DPEG98P2PX0JKWARH9PK5G.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPEH049HZ88TFZEP68PBXK.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: 3 của cơ duỗi dài, cơ duỗi ngắn các ngón chân, cơ gian cốt mu chân 2."
+      },
       "international_code": "ST44",
       "code_dash": "ST-44",
       "chinese": "内庭",
@@ -27326,7 +28406,13 @@ window.ACUPOINTS = {
       "slug": "noi-quan",
       "image": "images/acupoints/0624-noi-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ0ZDS1J4YCTQJ8GHACQBH.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPRJ38YDZP7YGSKYFWC788.webp",
+        "gp": "/_emdash/api/media/file/01M3DPRJZZHQXVBD2D2254PRND.webp",
+        "lan": "/_emdash/api/media/file/01M3DPRKFFWGVD1AC4YNK2WGH2.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPRMD0EFC9W90RCV5QF5VK.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gan tay bé, gân cơ gấp dài ngón tay cái, gân cơ gấp chung ngón tay nông, sâu, màng gian cốt quay, trụ."
+      },
       "international_code": "PC6",
       "code_dash": "PC-6",
       "chinese": "內關",
@@ -27651,7 +28737,13 @@ window.ACUPOINTS = {
       "slug": "oc-e",
       "image": "images/acupoints/0632-oc-e.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ128EAFR05HK3BJM7YSPH.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPC25G9QC04BM3W2ETV30Z.webp",
+        "gp": "/_emdash/api/media/file/01M3DPC30ZE5CBPZC6DPHHXZXT.webp",
+        "lan": "/_emdash/api/media/file/01M3DPC33Z0QSCG9A26K184N7S.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPC3ZYEPN7KZJTS82WX9Y3.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trên cơ ngực bé, cơ gian sườn 2, bờ trên xương sườn 3, trong sâu có phổi."
+      },
       "international_code": "ST15",
       "code_dash": "ST-15",
       "chinese": "屋翳",
@@ -27720,7 +28812,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPAA44CMMBDZZ3X2XMJVMY.webp",
         "lan": "/_emdash/api/media/file/01M3DPAAWDNJE6RW95925E3DF5.webp",
         "kinh": "/_emdash/api/media/file/01M3DPAAZEJFW834S5Y5208GKT.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ quay 1, cơ quay 2, cơ dạng dài ngón tay cái."
       },
       "international_code": "LI7",
       "code_dash": "LI-7",
@@ -27777,7 +28869,13 @@ window.ACUPOINTS = {
       "slug": "phach-ho",
       "image": "images/acupoints/0634-phach-ho.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ136HKT6KYZWEPA9A6702.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPMR8KZ744NCAB3GWG43VH.webp",
+        "gp": "/_emdash/api/media/file/01M3DPMRV374KKY9C2607N9F7H.webp",
+        "lan": "/_emdash/api/media/file/01M3DPMSAD1XXBAJ3EBVMNP4DC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPMT173EAWVEPTJH8VG7KR.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ răng bé sau – trên, cơ chậu sườn – ngực, cơ gian sườn 3, bên trong là phổi."
+      },
       "international_code": "BL42",
       "code_dash": "BL-42",
       "chinese": "魄戶",
@@ -27905,7 +29003,13 @@ window.ACUPOINTS = {
       "slug": "phe-du",
       "image": "images/acupoints/0637-phe-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ158S7T2KA70H1PR97WCJ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJJ9BJSGRGB9MRDS8EB1Z.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJK1T0JZCCPGSJETT2ECK.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJKATWWH0EW9G8RJR61A3.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJM33R2HZP39TNDXSV7PY.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ răng bé sau – trên, cơ lưng dài, cơ cổ dài, cơ bán gai của đầu, cơ bán gai của cổ, cơ ngang sườn, phổi."
+      },
       "international_code": "BL13",
       "code_dash": "BL-13",
       "chinese": "肺俞",
@@ -28002,7 +29106,13 @@ window.ACUPOINTS = {
       "slug": "phi-duong",
       "image": "images/acupoints/0639-phi-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ15TVWDWDKNFPFN6ZDJ57.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPNSZ8R01B57292CZPWQ7S.webp",
+        "gp": "/_emdash/api/media/file/01M3DPNTQH0R1KE0VAQT0T5DAQ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPNVDGAAGBAHCREG7RBT2C.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPNW2S57WCV4PHXT2SSQWD.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài chỗ tiếp nối giữa phần thịt với phần gân của cơ sinh đôi ngoài, cơ gấp dài ngón chân cái."
+      },
       "international_code": "BL58",
       "code_dash": "BL-58",
       "chinese": "飛陽",
@@ -28130,7 +29240,13 @@ window.ACUPOINTS = {
       "slug": "phong-long",
       "image": "images/acupoints/0642-phong-long.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ163V2C2WXW9VT08W5YY2.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPE0PE2N4090FEY3A6NK1W.webp",
+        "gp": "/_emdash/api/media/file/01M3DPE1HP10P70R3MHFRFMHAT.webp",
+        "lan": "/_emdash/api/media/file/01M3DPE1QRN3J8X1KHM34Y1WJB.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPE2A0HQE3ZRJ2S8ENES2P.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ mác bên ngắn, ở sâu là cơ duỗi dài riêng ngón chân cái. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
+      },
       "international_code": "ST40",
       "code_dash": "ST-40",
       "chinese": "豐隆",
@@ -28202,7 +29318,13 @@ window.ACUPOINTS = {
       "slug": "phong-mon",
       "image": "images/acupoints/0643-phong-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ17HXMW0BRN4C2P3KMF6A.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJGFP85MG4CWCAH845A07.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJH4YKFV3PEKCVNPKT3Y4.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJHE1Z875XRNFY9EFR562.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJJ6AK4EWVY9JXJKBX2JA.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám (hoặc cơ thoi), cơ răng bé sau – trên, cơ lưng dài, cơ cổ dài, cơ đầu dài, cơ bán gai của đầu, cơ ngang sườn, bên trong là phổi."
+      },
       "international_code": "BL12",
       "code_dash": "BL-12",
       "chinese": "風門",
@@ -28333,7 +29455,13 @@ window.ACUPOINTS = {
       "slug": "phong-phu",
       "image": "images/acupoints/0646-phong-phu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ18P0X23NXRX28AX1J68Q.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ0T6XEQR9N37TSD7F4AEY.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ0TS40GA3E248BN9HZMYA.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ0VTFRM846EM1R7V33JCF.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ0WCQPBM6PMAPM8AVM2V5.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, cơ rối lớn, cơ thẳng sau đầu bé, màng chẩm–đội sau, ống hành tủy."
+      },
       "international_code": "GV16",
       "code_dash": "GV-16",
       "chinese": "風府",
@@ -28433,7 +29561,13 @@ window.ACUPOINTS = {
       "slug": "phong-thi",
       "image": "images/acupoints/0648-phong-thi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ18YZAM2AHKTE26A165VX.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPWFDK794MMC0497764RNW.webp",
+        "gp": "/_emdash/api/media/file/01M3DPWFSRSQPJZSX0BCCBD115.webp",
+        "lan": "/_emdash/api/media/file/01M3DPWGG33WY6B7SV0X7ZY61R.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPWH2TS1EKR50XKR7AM98E.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cân đùi, cơ rộng ngoài bờ trước cơ 2 đầu đùi."
+      },
       "international_code": "GB31",
       "code_dash": "GB-31",
       "chinese": "風市",
@@ -28493,7 +29627,13 @@ window.ACUPOINTS = {
       "slug": "phong-tri",
       "image": "images/acupoints/0649-phong-tri.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1A986ANMSY3DEKBVECKZ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPVQ2PQ5A10S4MCQ01H88P.webp",
+        "gp": "/_emdash/api/media/file/01M3DPVQBR61MAJ6ZA4F1F3F5Q.webp",
+        "lan": "/_emdash/api/media/file/01M3DPVR5D3AQXANW04JBBPMP7.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPVRBGA9YV402XQCS6X62W.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: góc tạo nên bởi cơ thang, cơ ức – đòn – chũm, đáy là cơ gối đầu, cơ đầu dài, đáy hộp sọ."
+      },
       "international_code": "GB20",
       "code_dash": "GB-20",
       "chinese": "風池",
@@ -28597,7 +29737,13 @@ window.ACUPOINTS = {
       "slug": "phu-bach",
       "image": "images/acupoints/0651-phu-bach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1B49XGNBA59H4Q7FR4DZ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPV3M9PGJYY1SQP4EYFTTK.webp",
+        "gp": "/_emdash/api/media/file/01M3DPV43F9W7G4N2FDRNF6T9Y.webp",
+        "lan": "/_emdash/api/media/file/01M3DPV4JP0JD3VT2EN2HV8Y98.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPV51SVXCP30CN572EBRA4.webp",
+        "ghiChu": null
+      },
       "international_code": "GB10",
       "code_dash": "GB-10",
       "chinese": "浮白",
@@ -28722,7 +29868,13 @@ window.ACUPOINTS = {
       "slug": "phu-khich",
       "image": "images/acupoints/0653-phu-khich.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1DKB7BCWNY3P20CX6P89.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPMDTGCB5GT1ZXMC6RH9CH.webp",
+        "gp": "/_emdash/api/media/file/01M3DPMEC8FD83957AK6XMA0HG.webp",
+        "lan": "/_emdash/api/media/file/01M3DPMFR4Q0YP0QWK0VWZ5R33.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPMFVCZKEGXHC7WE5CYF9N.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: góc giữa 2 cơ bán mạc, cơ 2 đầu đùi, mặt sau đầu dưới xương đùi."
+      },
       "international_code": "BL38",
       "code_dash": "BL-38",
       "chinese": "浮郄",
@@ -28778,7 +29930,13 @@ window.ACUPOINTS = {
       "slug": "phu-xa",
       "image": "images/acupoints/0654-phu-xa.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1DSB57ZEP8ZYKNTQWQ8J.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPFDVHXNZHDDET94GKADA9.webp",
+        "gp": "/_emdash/api/media/file/01M3DPFEY0E8V4MF078GPTXN66.webp",
+        "lan": "/_emdash/api/media/file/01M3DPFF759Z1S7SPA6XRF58YC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPFFZDJEAE1P9QG4QY3XMM.webp",
+        "ghiChu": null
+      },
       "international_code": "SP13",
       "code_dash": "SP-13",
       "chinese": "府舍",
@@ -28837,7 +29995,13 @@ window.ACUPOINTS = {
       "slug": "phu-duong",
       "image": "images/acupoints/0655-phu-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1EBACJ7DJ6GHWA8STP0P.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPNWEX9VF73RZJC1FNXT7T.webp",
+        "gp": "/_emdash/api/media/file/01M3DPNX4EFMRMV3TYR2JC3562.webp",
+        "lan": "/_emdash/api/media/file/01M3DPNXSV63JB56AGTKPDGA4E.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPNYF3NWJSPBRWE1K1FNA4.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ mác bên ngắn cơ gấp dài ngón chân cái, bờ dưới cơ chày sau. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
+      },
       "international_code": "BL59",
       "code_dash": "BL-59",
       "chinese": "跗陽",
@@ -28896,7 +30060,13 @@ window.ACUPOINTS = {
       "slug": "phu-phan",
       "image": "images/acupoints/0656-phu-phan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1EXB097J5DYCFZRER6HH.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPMP7CEFGDDXMAN3WQSQXD.webp",
+        "gp": "/_emdash/api/media/file/01M3DPMPS3T44J06DRYD087NA8.webp",
+        "lan": "/_emdash/api/media/file/01M3DPMQCMNPNT5V9S3EFCWP1J.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPMQZAYX70HY6RJGVRJSEP.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ răng bé sau – trên, cơ chậu sườn – ngực, cơ gian sườn 2, bên trong là phổi."
+      },
       "international_code": "BL41",
       "code_dash": "BL-41",
       "chinese": "附分",
@@ -28957,7 +30127,13 @@ window.ACUPOINTS = {
       "slug": "phuc-ai",
       "image": "images/acupoints/0657-phuc-ai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1GSGYBT4N0TTVFA6S5WV.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPFM5RCCVC8SVTPQZQT72R.webp",
+        "gp": "/_emdash/api/media/file/01M3DPFMRHPD10M23NRBH3QM1F.webp",
+        "lan": "/_emdash/api/media/file/01M3DPFN4YG686ARPNREKTWN0N.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPFP5C3H0Z13D1R9MXFRXW.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ chéo lớn của bụng, cơ chéo bé của bụng, cơ ngang bụng, mạc ngang, đại trường ngang, bờ gan, bờ dưới lách."
+      },
       "international_code": "SP16",
       "code_dash": "SP-16",
       "chinese": "腹哀",
@@ -29018,7 +30194,13 @@ window.ACUPOINTS = {
       "slug": "phuc-ket",
       "image": "images/acupoints/0658-phuc-ket.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1HMH04WPG2F6T2MQ9N6S.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPFG2EZ0Y6Q8S1PN8GRYJJ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPFGV0JXPNBFHRQQ2GCYHV.webp",
+        "lan": "/_emdash/api/media/file/01M3DPFH47HXG12YZGYBQCXRR5.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPFHTB4T9NB17GG7TXPQGZ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ chéo lớn của bụng, mạc ngang, đại trường lên, xuống."
+      },
       "international_code": "SP14",
       "code_dash": "SP-14",
       "chinese": "腹結",
@@ -29182,7 +30364,13 @@ window.ACUPOINTS = {
       "slug": "phuc-luu",
       "image": "images/acupoints/0662-phuc-luu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1JCW927985H6RFPA7ZN8.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPPSY7299RRB1CEKYYPYT8.webp",
+        "gp": "/_emdash/api/media/file/01M3DPPT18TZBSNH367SZ7JPA8.webp",
+        "lan": "/_emdash/api/media/file/01M3DPPTSHCZTFX5GFNS7EDGRQ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPPV2M5XDNE1P3TP4YESFC.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: mặt sau cơ gấp dài ngón chân cái, mặt sau đầu dưới xương chầy."
+      },
       "international_code": "KI7",
       "code_dash": "KI-7",
       "chinese": "復溜",
@@ -29243,7 +30431,13 @@ window.ACUPOINTS = {
       "slug": "phuc-tho",
       "image": "images/acupoints/0663-phuc-tho.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1JJWEYREJMVCN43HPHWJ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPDGRGRS5EHD88EQHRSXMQ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPDH8XX6E4ZZB02RYT71HT.webp",
+        "lan": "/_emdash/api/media/file/01M3DPDHR6FQKNYD270XHGCJKW.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPDJAKWPNE37592JCVKQTF.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài cơ thẳng trước, bờ trong cơ rộng ngoài."
+      },
       "international_code": "ST32",
       "code_dash": "ST-32",
       "chinese": "伏兔",
@@ -29383,7 +30577,13 @@ window.ACUPOINTS = {
       "slug": "quan-mon",
       "image": "images/acupoints/0666-quan-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1MR0C0DMHWH0Q3EE0BT9.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPCFK1SJ9D0D5D9ZK55EP4.webp",
+        "gp": "/_emdash/api/media/file/01M3DPCG89KNJEJA13TEGMST8J.webp",
+        "lan": "/_emdash/api/media/file/01M3DPCGTMHXTYXAPA61RHZSF2.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPCHA7VNPT50NX3Y2GTYP0.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang, trong ổ bụng là đại tràng ngang."
+      },
       "international_code": "ST22",
       "code_dash": "ST-22",
       "chinese": "關門",
@@ -29510,7 +30710,13 @@ window.ACUPOINTS = {
       "slug": "quan-nguyen",
       "image": null,
       "anhCms": null,
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPYJKMY0WKP3WH8NY605J7.webp",
+        "gp": "/_emdash/api/media/file/01M3DPYKRR26VW7MSQC4946K3F.webp",
+        "lan": "/_emdash/api/media/file/01M3DPYKVT75NJA85H19GPGTS6.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPYN07JFK15G39CB37CK8T.webp",
+        "ghiChu": null
+      },
       "international_code": "CV4",
       "code_dash": "CV-4",
       "chinese": "關元",
@@ -29582,7 +30788,13 @@ window.ACUPOINTS = {
       "slug": "quan-nguyen-du",
       "image": "images/acupoints/0670-quan-nguyen-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1Q0V8WJXES08YE5R28RA.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPKCBAZMA7Q4J8JWA693H1.webp",
+        "gp": "/_emdash/api/media/file/01M3DPKCXT33NT0BEJWP1FNG40.webp",
+        "lan": "/_emdash/api/media/file/01M3DPKDS37PM6PYD6RAP369YP.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPKEDSR6S41DPDQ6BAAJ6Y.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, khối cơ chung của các cơ ở rãnh cột sống, xương sống."
+      },
       "international_code": "BL26",
       "code_dash": "BL-26",
       "chinese": "關元俞",
@@ -29709,7 +30921,13 @@ window.ACUPOINTS = {
       "slug": "quan-xung",
       "image": "images/acupoints/0673-quan-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1SDDYPA8RFY7C20P4XGB.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPS2B5T6DHEJHYA4A9AG9M.webp",
+        "gp": "/_emdash/api/media/file/01M3DPS2HANJ6YZGVHFZ3JFDZH.webp",
+        "lan": "/_emdash/api/media/file/01M3DPS2TDXGHTGSFKDB74779Y.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPS3TZ3C8AKJB04E9KMP2G.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: xương, ở giữa chỗ bám gân ngón đeo nhẫn của cơ gấp chung ngón tay sâu, cơ duỗi chung ngón tay, bờ trong của đốt 3 xương ngón tay đeo nhẫn."
+      },
       "international_code": "TE1",
       "code_dash": "TE-1",
       "chinese": "關衝",
@@ -29768,7 +30986,13 @@ window.ACUPOINTS = {
       "slug": "quang-minh",
       "image": "images/acupoints/0674-quang-minh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1SWCCTWK4RH05TYS73Y5.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPWSHW9K01F99F276QE1XE.webp",
+        "gp": "/_emdash/api/media/file/01M3DPWT42ECDAVJ2P8EXSZZ73.webp",
+        "lan": "/_emdash/api/media/file/01M3DPWTG8X814Y6A3CSEYGWNS.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPWV8HYMXTBMD71DEFFTA0.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ mác bên ngắn, bờ trước xương mác."
+      },
       "international_code": "GB37",
       "code_dash": "GB-37",
       "chinese": "光明",
@@ -29935,7 +31159,13 @@ window.ACUPOINTS = {
       "slug": "quy-lai",
       "image": null,
       "anhCms": null,
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPD917GEDYFAXP2AEVR5XE.webp",
+        "gp": "/_emdash/api/media/file/01M3DPD9481H088NMN0PDQT60H.webp",
+        "lan": "/_emdash/api/media/file/01M3DPD9SPZ74ZKKBC3BJGE4XF.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPDA903DR3JHFYFPSAJBM0.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, bờ ngoài cơ thẳng lớn, mạc ngang, trong ổ bụng là ruột non, tử cung khi có thai 3 – 4 tháng, đáy bàng quang khi đầy."
+      },
       "international_code": "ST29",
       "code_dash": "ST-29",
       "chinese": "歸來 (归来)",
@@ -30233,7 +31463,13 @@ window.ACUPOINTS = {
       "slug": "quyen-lieu",
       "image": "images/acupoints/0686-quyen-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ1YK15CFKECDF315CPCR5.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPHQGX6VT3563TXQDNHG60.webp",
+        "gp": "/_emdash/api/media/file/01M3DPHR9A7MZ1TYZVMFR88X47.webp",
+        "lan": "/_emdash/api/media/file/01M3DPHRJDXSJD00PN5QJ68HWM.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPHSAKRPEBGWBCWK0JGAJF.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trước cơ cắn, chỗ bám vào xương gò má."
+      },
       "international_code": "SI18",
       "code_dash": "SI-18",
       "chinese": "顴髎",
@@ -30330,7 +31566,13 @@ window.ACUPOINTS = {
       "slug": "quyet-am-du",
       "image": null,
       "anhCms": null,
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJM949P23HGRPSB422YMH.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJMVBF1M542424SMAG7FV.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJN7F05S8XGWX8Y1WKPNT.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJNX13JY44T06MMJNGJR1.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ răng bé sau – trên, cơ lưng dài, cơ cổ dài, cơ bán gai của đầu, cơ bán gai của cổ, cơ ngang – gai, cơ ngang – sườn, phổi."
+      },
       "international_code": "BL14",
       "code_dash": "BL-14",
       "chinese": "厥陰俞",
@@ -30532,7 +31774,13 @@ window.ACUPOINTS = {
       "slug": "suat-coc",
       "image": "images/acupoints/0693-suat-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ21S89DGRJ4EP8SB8YR12.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPTZSTB9WW0QRBYKMMV37W.webp",
+        "gp": "/_emdash/api/media/file/01M3DPV08ZN4J4NMD7Y3KCQSAP.webp",
+        "lan": "/_emdash/api/media/file/01M3DPV0R5TCV4VGB2BVQTESZR.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPV17AJQ20X0GVCTFH4S6E.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên, cơ thái dương."
+      },
       "international_code": "GB8",
       "code_dash": "GB-8",
       "chinese": "率谷",
@@ -30835,7 +32083,13 @@ window.ACUPOINTS = {
       "slug": "tam-am-giao",
       "image": "images/acupoints/0701-tam-am-giao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ25TP9ZDEMAFYJ4R44NNA.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPEYZXBBVK342W5AP93R2Q.webp",
+        "gp": "/_emdash/api/media/file/01M3DPEZN5ASGZHYZ9CHYGDDDN.webp",
+        "lan": "/_emdash/api/media/file/01M3DPEZYM34P04AABNQFCH4CX.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPF0KW32KZSJN58DPT8Q4X.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau – trong xương chầy, bờ trước cơ gấp dài các ngón chân, cơ cẳng chân sau."
+      },
       "international_code": "SP6",
       "code_dash": "SP-6",
       "chinese": "三陰交",
@@ -30911,7 +32165,13 @@ window.ACUPOINTS = {
       "slug": "tam-duong-lac",
       "image": "images/acupoints/0702-tam-duong-lac.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ266XMA7ZHXV92XBPS0QT.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPSGBQEDAA5S1HDNKDS9C0.webp",
+        "gp": "/_emdash/api/media/file/01M3DPSGTYMK3QD9W8YVWETZ8T.webp",
+        "lan": "/_emdash/api/media/file/01M3DPSH416X793444EG4TGXTN.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPSHP5ZPKAHG7KS537NKSP.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi riêng ngón tay út, giữa chỗ bám của cơ duỗi dài riêng, cơ duỗi ngắn riêng ngón tay cái ở trên màng gian cốt."
+      },
       "international_code": "TE8",
       "code_dash": "TE-8",
       "chinese": "三陽絡",
@@ -31018,7 +32278,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DP9ZDFNK33KV5SEGJHPM33.webp",
         "lan": "/_emdash/api/media/file/01M3DPA0NXKTFD4N2MJ6B82YHY.webp",
         "kinh": "/_emdash/api/media/file/01M3DPA0YKD93XN6SMN6J87ZAD.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian cốt mu tay, cơ khép ngón tay cái, xương."
       },
       "international_code": "LI3",
       "code_dash": "LI-3",
@@ -31185,7 +32445,13 @@ window.ACUPOINTS = {
       "slug": "tam-tieu-du",
       "image": "images/acupoints/0708-tam-tieu-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ28XZ66NDJVXVAT08SM8S.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPK3SZ201AKZBPP60BFE6T.webp",
+        "gp": "/_emdash/api/media/file/01M3DPK49694QBM62NBYC37H3Q.webp",
+        "lan": "/_emdash/api/media/file/01M3DPK4RMGB9WPNM0NBMYMPXD.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPK54ZK7HHQ20X9B1K6ABV.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, cơ răng bé sau – dưới, cơ lưng dài, cơ ngang gai, cơ vuông thắt lưng, cơ đái – chậu."
+      },
       "international_code": "BL22",
       "code_dash": "BL-22",
       "chinese": "三焦俞",
@@ -31327,7 +32593,13 @@ window.ACUPOINTS = {
       "slug": "tam-du",
       "image": "images/acupoints/0711-tam-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2AM66GQFCTVBQP8ZWQTA.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJP947P6P2Q4FAQ3WAQVH.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJPRAEDTCKREEAGK8DTN4.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJQ7F2BCNFYPKD5GRFKM6.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJQPN3R16F54KZ8GNDW8M.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ lưng dài, cơ bán gai của cổ, cơ ngang gai, cơ ngang sườn, vào trong là phổi."
+      },
       "international_code": "BL15",
       "code_dash": "BL-15",
       "chinese": "心俞",
@@ -31840,7 +33112,13 @@ window.ACUPOINTS = {
       "slug": "tat-quan",
       "image": "images/acupoints/0725-tat-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2EDF84VE68PMD58EA9KN.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPXTRG53TSF83HWSK7ZTM3.webp",
+        "gp": "/_emdash/api/media/file/01M3DPXVKT50QDZGTHA2S38558.webp",
+        "lan": "/_emdash/api/media/file/01M3DPXVPVP28GP55HA48B7AEA.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPXWJ7M8YMJCS8Z21ZYMHT.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: phần trên cơ sinh đôi trong, cơ kheo, chỗ bám của gân cơ bán mạc vào mặt sau xương chầy."
+      },
       "international_code": "LR7",
       "code_dash": "LR-7",
       "chinese": "膝關",
@@ -32077,7 +33355,13 @@ window.ACUPOINTS = {
       "slug": "thach-mon",
       "image": "images/acupoints/0731-thach-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2GQAJ7NKFGVX49RMV6MR.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPYN6CK52843Y9D6EYC87B.webp",
+        "gp": "/_emdash/api/media/file/01M3DPYP7SPMST736KHG8DN438.webp",
+        "lan": "/_emdash/api/media/file/01M3DPYPDVZH49E79BKW2MGAZ1.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPYQC77WSABG3BYY8DPKZX.webp",
+        "ghiChu": null
+      },
       "international_code": "CV5",
       "code_dash": "CV-5",
       "chinese": "石門",
@@ -32140,7 +33424,13 @@ window.ACUPOINTS = {
       "slug": "thach-quan",
       "image": "images/acupoints/0732-thach-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2HYDCSFGN6VR5QW6YX6B.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQFB4QBQG6BJR1DFS2922.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQFE5R2BDKPH1AZ00TFAF.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQFTCR3DDAH3RN8NC6HGV.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQGFRTV8EB3A25VWZDYZ3.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang, đại trường ngang."
+      },
       "international_code": "KI18",
       "code_dash": "KI-18",
       "chinese": "石關",
@@ -32270,7 +33560,13 @@ window.ACUPOINTS = {
       "slug": "thai-at",
       "image": "images/acupoints/0735-thai-at.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2JSANSS29NZNKRW3RFQH.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPCHGRQ9WVQFHM610NGCRX.webp",
+        "gp": "/_emdash/api/media/file/01M3DPCJNMCB3QKTKXM5XEXDWR.webp",
+        "lan": "/_emdash/api/media/file/01M3DPCM0VKK09YK6P94RD67BA.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPCM6ZYDEG01N2PT1KZ3J6.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang, trong ổ bụng là ruột non."
+      },
       "international_code": "ST23",
       "code_dash": "ST-23",
       "chinese": "太乙",
@@ -32327,7 +33623,13 @@ window.ACUPOINTS = {
       "slug": "thai-bach",
       "image": "images/acupoints/0736-thai-bach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2JZA116SP4MHVBDM2DEY.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPEQRD5097YQ8HB6MM3K7S.webp",
+        "gp": "/_emdash/api/media/file/01M3DPERDNWHX5JJHM8S6NMBAX.webp",
+        "lan": "/_emdash/api/media/file/01M3DPERGPQJ3W8EV63WZM2GK3.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPES5NTRZM97HMGQE00S6K.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gấp ngắn ngón cái, gân cơ gấp dài ngón chân cái, mặt dưới đùng trước xương bàn chân 1."
+      },
       "international_code": "SP3",
       "code_dash": "SP-3",
       "chinese": "太白",
@@ -32435,7 +33737,13 @@ window.ACUPOINTS = {
       "slug": "thai-khe",
       "image": "images/acupoints/0738-thai-khe.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2KXHPZHP2VJWM87GDTW6.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPPHXP84BPTYPM064HQAZ3.webp",
+        "gp": "/_emdash/api/media/file/01M3DPPJJ7S84SGBQ9ZY8KYSRH.webp",
+        "lan": "/_emdash/api/media/file/01M3DPPJYCRR49Z9F605CT49JQ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPPKKVRMVF6QYHEMH5M6EC.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gấp dài ngón chân cái, gân cơ gấp chung các ngón chân, gân cơ cẳng chân sau, ở trước mặt trong–sau đầu dưới xương chầy."
+      },
       "international_code": "KI3",
       "code_dash": "KI-3",
       "chinese": "太谿",
@@ -32573,7 +33881,13 @@ window.ACUPOINTS = {
       "slug": "thai-xung",
       "image": "images/acupoints/0740-thai-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2MWJCWHMED3GSEZS4P7K.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPXK0WVQE7JHFJHD8ZNKNV.webp",
+        "gp": "/_emdash/api/media/file/01M3DPXKY6QVXVCJFC7BYD0HGQ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPXM17MWMJPSFTA5DRHZ7V.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPXMWJ210Q7MJRXFAZCYVS.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ duỗi dài riêng ngón cái, cơ duỗi ngắn các ngón chân, cơ gian cốt mu chân."
+      },
       "international_code": "LR3",
       "code_dash": "LR-3",
       "chinese": "太沖",
@@ -32631,7 +33945,13 @@ window.ACUPOINTS = {
       "slug": "thanh-lanh-uyen",
       "image": "images/acupoints/0741-thanh-lanh-uyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2NMH1CMJBZQM13GCHJW7.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPSP00N19Y7X95S741E1DC.webp",
+        "gp": "/_emdash/api/media/file/01M3DPSPKGET6BAHGDQ4KNDG1E.webp",
+        "lan": "/_emdash/api/media/file/01M3DPSPZNZ7DQE7Y68EFR5WRK.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPSQQWZ9X5QHS78QYBB402.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ 3 đầu cánh tay, đầu dưới xương cánh tay."
+      },
       "international_code": "TE11",
       "code_dash": "TE-11",
       "chinese": "清冷淵",
@@ -32689,7 +34009,13 @@ window.ACUPOINTS = {
       "slug": "thanh-linh",
       "image": "images/acupoints/0742-thanh-linh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2P0H56GYY05EF01BYGV0.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPG26XDAQCT8QY0BGFCZ68.webp",
+        "gp": "/_emdash/api/media/file/01M3DPG29Z8NA6G1W597KWEQ9E.webp",
+        "lan": "/_emdash/api/media/file/01M3DPG3C2JFTGPGCST3EC04QA.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPG3WWT9FPG1EDCRB71356.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: rãnh cơ 2 đầu trong, cơ cánh tay trước, vách lên cơ trong."
+      },
       "international_code": "HE2",
       "code_dash": "HE-2",
       "chinese": "青靈",
@@ -32847,7 +34173,13 @@ window.ACUPOINTS = {
       "slug": "than-mach",
       "image": "images/acupoints/0746-than-mach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2PREWT4BK0NHPXW0Y11E.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPP2KZ9T2MT46E3C3P2P82.webp",
+        "gp": "/_emdash/api/media/file/01M3DPP333VFXS50HRNACF6RAJ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPP3J6Q5P3CZCFBCTRK3SQ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPP4ABCQQBDWEJPVB54C01.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ mác bên dài, gân cơ mác bên ngắn, chỗ bám của cơ duỗi ngắn các ngón chân, rãnh cơ mác của mặt ngoài xương gót chân."
+      },
       "international_code": "BL62",
       "code_dash": "BL-62",
       "chinese": "申脈",
@@ -32911,7 +34243,13 @@ window.ACUPOINTS = {
       "slug": "than-tru",
       "image": "images/acupoints/0747-than-tru.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2QDRMMGSDPQ7JNTJ3RZB.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ0GN1F8ZVA5965F6PHM0D.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ0H76QR50B614J4GB8B8G.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ0J047VCBJNPPTRGB8AA7.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ0JRBTJS6VXY8YQ2YQXST.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, gân cơ trám (hoặc cơ thoi), cơ gai dài của lưng, cơ ngang – gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
+      },
       "international_code": "GV12",
       "code_dash": "GV-12",
       "chinese": "身柱",
@@ -32974,7 +34312,13 @@ window.ACUPOINTS = {
       "slug": "than-dao",
       "image": "images/acupoints/0748-than-dao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2QX9HNHVTX9HXS6QZQ49.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ0ERC5D153FDRQ13NEN68.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ0FAJQY4EMQ0CHF3BBSAN.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ0FSQRD5CV9PYPCJ6CXMD.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ0GBX40JFK0PBBW1VGZ9S.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, cơ gai dài của lưng, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
+      },
       "international_code": "GV11",
       "code_dash": "GV-11",
       "chinese": "神道",
@@ -33038,7 +34382,13 @@ window.ACUPOINTS = {
       "slug": "than-dinh",
       "image": "images/acupoints/0749-than-dinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2S3R8TB2YTTFRX2GFE1P.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ1AQ3NZG1SM9YAF6324ZW.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ1B6A34Z8ZTM9FAX6FCC5.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ1BNEKD1ZC4X47HB9D3CQ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ1C4WMWRGEA35R57HW8T5.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ dưới cân sọ là xương sọ."
+      },
       "international_code": "GV24",
       "code_dash": "GV-24",
       "chinese": "神庭",
@@ -33102,7 +34452,13 @@ window.ACUPOINTS = {
       "slug": "than-duong",
       "image": "images/acupoints/0750-than-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2S9RXRB9RZ1FCCKPKXHQ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPMWBQKJNN0F2VGCNVDKEN.webp",
+        "gp": "/_emdash/api/media/file/01M3DPMWZYQZJ92DAY92MKXZ9Y.webp",
+        "lan": "/_emdash/api/media/file/01M3DPMX9D6M04CPMNWQMDC7J3.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPMXYKN6SDJH81JKJFFDA8.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trám, cơ chậu – sườn – ngực, cơ gian sườn 5, vào trong là phổi."
+      },
       "international_code": "BL44",
       "code_dash": "BL-44",
       "chinese": "神堂",
@@ -33200,7 +34556,13 @@ window.ACUPOINTS = {
       "slug": "than-khuyet",
       "image": "images/acupoints/0752-than-khuyet.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2SZ12HGBXHW20J3T86YM.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPYVF59VH3JK2F2KNGNVX0.webp",
+        "gp": "/_emdash/api/media/file/01M3DPYVYBBWD7RHPKYGK90A5C.webp",
+        "lan": "/_emdash/api/media/file/01M3DPYWDHMCYE3KC1PYB04KA3.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPYWWRWGACCXH60THJMBEN.webp",
+        "ghiChu": null
+      },
       "international_code": "CV8",
       "code_dash": "CV-8",
       "chinese": "神闕",
@@ -33296,7 +34658,13 @@ window.ACUPOINTS = {
       "slug": "than-mon",
       "image": "images/acupoints/0754-than-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2T50M61EP8N78ARN680H.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPGE7FY0P8WHF59XY86H3Q.webp",
+        "gp": "/_emdash/api/media/file/01M3DPGEAGG2PT2MJAJQ51QX0M.webp",
+        "lan": "/_emdash/api/media/file/01M3DPGF60XS3A2APKTRXDWM0M.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPGF90FP9M89K1P01ZYDQW.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ trụ trước."
+      },
       "international_code": "HE7",
       "code_dash": "HE-7",
       "chinese": "神門",
@@ -33344,7 +34712,13 @@ window.ACUPOINTS = {
       "slug": "than-phong",
       "image": "images/acupoints/0755-than-phong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2TYD38EYZARE6X7TK4H5.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQRSN7XCGN8PDRC9RCW0P.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQSHYBNVEVD88YB6TW8E2.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQT4E5E26Z1Q03F111583.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQTT5RCPBMT3JVGZZA828.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 4, cơ ngang ngực 4, sâu bên trong bên phải là phổi, bên trái là tim."
+      },
       "international_code": "K23",
       "code_dash": "K-23",
       "chinese": "神封",
@@ -33426,7 +34800,13 @@ window.ACUPOINTS = {
       "slug": "than-tang",
       "image": "images/acupoints/0757-than-tang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2V7CN29W1GS08EVNGD7H.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQY11Q8R07WNRCZRX6A2D.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQZ6SHNNZBPCKWVWK8W60.webp",
+        "lan": "/_emdash/api/media/file/01M3DPR0VXADSQZNXC6Q1268HG.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPR1V584J7W78VN37SDEAY.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 2, vào sâu hơn có phổi, bên trái có động mạch chủ, bên phải có tĩnh mạch chủ trên."
+      },
       "international_code": "KI25",
       "code_dash": "KI-25",
       "chinese": "神藏",
@@ -33516,7 +34896,13 @@ window.ACUPOINTS = {
       "slug": "than-du",
       "image": "images/acupoints/0759-than-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2VZ7HHMXRGGQN39MGWRZ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPK5TDWRKTERD2X7AX224Y.webp",
+        "gp": "/_emdash/api/media/file/01M3DPK63RZ8CPNA5ADVPCRV1Q.webp",
+        "lan": "/_emdash/api/media/file/01M3DPK6RYGKD3CTSAAF7MY636.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPK758ADQ23YGDDE3MBE96.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, cơ răng bé sau – dưới, cơ lưng dài, cơ ngang gai, cơ vuông thắt lưng, cơ đái – chậu."
+      },
       "international_code": "BL23",
       "code_dash": "BL-23",
       "chinese": "腎俞",
@@ -34045,7 +35431,13 @@ window.ACUPOINTS = {
       "slug": "thien-du",
       "image": "images/acupoints/0773-thien-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2ZKRSG6PZGEQPR13NQ26.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPT0TM7ZQY9GRDNGFJE456.webp",
+        "gp": "/_emdash/api/media/file/01M3DPT1QY7XR7V8N244FAT9A4.webp",
+        "lan": "/_emdash/api/media/file/01M3DPT210BGNBH2FZRXGZGPZX.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPT2ZP3672SZ9RM8H88EBW.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cơ ức – đòn – chũm, cơ đầu dài."
+      },
       "international_code": "TE16",
       "code_dash": "TE-16",
       "chinese": "天牖",
@@ -34103,7 +35495,13 @@ window.ACUPOINTS = {
       "slug": "thien-dung",
       "image": "images/acupoints/0774-thien-dung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ2ZWPYQVDZSX4G55NA9B4.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPHNM5FPR5C4H9MSG6ADPA.webp",
+        "gp": "/_emdash/api/media/file/01M3DPHPCGY9W87Q14QQ8PB7MD.webp",
+        "lan": "/_emdash/api/media/file/01M3DPHPNK1MGFJA3511H6GQXX.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPHQDWXVSD2QDA0GNEGZ08.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trước cơ ức – đòn – chũm, bờ sau của góc xương hàm dưới, phía dưới cơ 2 thân. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
+      },
       "international_code": "SI17",
       "code_dash": "SI-17",
       "chinese": "天容",
@@ -34171,7 +35569,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPB1HSB6AFQZS8D6XJXMPH.webp",
         "lan": "/_emdash/api/media/file/01M3DPB2AK1XME9VRP2R3RTZ7R.webp",
         "kinh": "/_emdash/api/media/file/01M3DPB2DMAY46M3XXD0Y98CR0.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cơ ức – đòn – chũm. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
       "international_code": "LI17",
       "code_dash": "LI-17",
@@ -34233,7 +35631,13 @@ window.ACUPOINTS = {
       "slug": "thien-dot",
       "image": "images/acupoints/0776-thien-dot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ30XJ8E1Z7S0J0AFZS8D7.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZP216NJAPY0B8QVP1ZWE.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZPM9Y7D5EDD3TTJ6K7NY.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZPXDSHX97X7K7NMJBRKD.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZQFM2AYKEQ37GFEB7EKY.webp",
+        "ghiChu": null
+      },
       "international_code": "CV22",
       "code_dash": "CV-22",
       "chinese": "天突",
@@ -34294,7 +35698,13 @@ window.ACUPOINTS = {
       "slug": "thien-khe",
       "image": "images/acupoints/0777-thien-khe.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ31FF2A67DCTMQM5V2F8P.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPFRH96JXKD0V0XE361Y7F.webp",
+        "gp": "/_emdash/api/media/file/01M3DPFS0G37522J6PMG75VKRB.webp",
+        "lan": "/_emdash/api/media/file/01M3DPFS9JTM4JMZC5SX2KC2SV.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPFSRR5YRBDPVKJG14FRNJ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ ngực lớn, phần gân cơ chéo lớn của bụng, cơ răng lớn, cơ gian sườn 5."
+      },
       "international_code": "SP18",
       "code_dash": "SP-18",
       "chinese": "天谿",
@@ -34360,7 +35770,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPA82N84D0WCGXEW8YEA90.webp",
         "lan": "/_emdash/api/media/file/01M3DPA8Y07QCJYCRX3CS28A7V.webp",
         "kinh": "/_emdash/api/media/file/01M3DPA911SPK95TDGYDH764Q5.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi ngắn ngón tay cái, cơ dạng dài ngón tay cái."
       },
       "international_code": "LI6",
       "code_dash": "LI-6",
@@ -34422,7 +35832,13 @@ window.ACUPOINTS = {
       "slug": "thien-lieu",
       "image": "images/acupoints/0779-thien-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ32AVFMCH7H2E21JZGR6Y.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPSY0Q371G559YYSNKC460.webp",
+        "gp": "/_emdash/api/media/file/01M3DPSZ6E5S0V5ZB2775MCKZ1.webp",
+        "lan": "/_emdash/api/media/file/01M3DPSZNMVAQADM09K7A1KD53.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPT0EET1FA4YKH2678J9T9.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trên sống, cơ góc."
+      },
       "international_code": "TE15",
       "code_dash": "TE-15",
       "chinese": "天髎",
@@ -34578,7 +35994,13 @@ window.ACUPOINTS = {
       "slug": "thien-song",
       "image": "images/acupoints/0782-thien-song.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ33JS8928SS7PTWY8JNXE.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPHKTCJ8KZ4CMTMF2AR6KY.webp",
+        "gp": "/_emdash/api/media/file/01M3DPHMFMDHZYSVMJR40J0BD5.webp",
+        "lan": "/_emdash/api/media/file/01M3DPHMNP6C4T0Y5GWYYAGNJM.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPHNH58NVGY7EE1HNDTZ77.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cơ ức – đòn – chũm."
+      },
       "international_code": "SI16",
       "code_dash": "SI-16",
       "chinese": "天窗",
@@ -34705,7 +36127,13 @@ window.ACUPOINTS = {
       "slug": "thien-tinh",
       "image": "images/acupoints/0785-thien-tinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ344Q17BPY29C1RJTFRH2.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPSKYZ5HNJR4NZ04360WXJ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPSMMVZPBCJWW3EZ89XJVQ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPSMXYKKWP74C901GJ62D9.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPSNSS831ASCQ62BDG4TCN.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ 3 đầu cánh tay, đầu dưới xương cánh tay."
+      },
       "international_code": "TE10",
       "code_dash": "TE-10",
       "chinese": "天井",
@@ -34765,7 +36193,13 @@ window.ACUPOINTS = {
       "slug": "thien-tong",
       "image": "images/acupoints/0786-thien-tong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ34KPJYYM80AHV12CVCPE.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPH8ZXEJ5C4RRZFNG8AJ3S.webp",
+        "gp": "/_emdash/api/media/file/01M3DPHA7AN45NSJFGF72YPKKW.webp",
+        "lan": "/_emdash/api/media/file/01M3DPHAAANYMMREK6KNYY3CEV.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPHAWFH422CYSGXPWMH0MQ.webp",
+        "ghiChu": null
+      },
       "international_code": "SI11",
       "code_dash": "SI-11",
       "chinese": "天宗",
@@ -34826,7 +36260,13 @@ window.ACUPOINTS = {
       "slug": "thien-tri",
       "image": "images/acupoints/0787-thien-tri.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ35BHJ8HPNJ7EX6HFGTEA.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPR734F259C00AJE1B5EXN.webp",
+        "gp": "/_emdash/api/media/file/01M3DPR7YDVT7V05VDZ4A4VCF9.webp",
+        "lan": "/_emdash/api/media/file/01M3DPR81D3MGBH6NHDEGPF82Q.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPR8WRZ7YJ1VWMAV0VJD3X.webp",
+        "ghiChu": null
+      },
       "international_code": "PC1",
       "code_dash": "PC-1",
       "chinese": "天池",
@@ -34875,7 +36315,13 @@ window.ACUPOINTS = {
       "slug": "thien-tru",
       "image": "images/acupoints/0788-thien-tru.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ35HGTTM1WV87Y2DN1D38.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJCS8AY5TXQC2652NNN5W.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJD8ETQVMJWJTR7BG4THA.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJDQKNWSBQ2KPNDA79RJC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJE6Q3KBHMFEPE7J0D62Y.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài cơ thang, cơ bán gai của đầu, cơ thẳng sau nhỏ, lớn của đầu, cơ chéo dưới của đầu."
+      },
       "international_code": "BL10",
       "code_dash": "BL-10",
       "chinese": "天柱",
@@ -34938,7 +36384,13 @@ window.ACUPOINTS = {
       "slug": "thien-tuyen",
       "image": "images/acupoints/0789-thien-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ363E9Y94QMGYJJ5WP77J.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPR8ZSQ9MK6KJ0RSKBYCX2.webp",
+        "gp": "/_emdash/api/media/file/01M3DPR9V1D5SK7QMP35T642HX.webp",
+        "lan": "/_emdash/api/media/file/01M3DPR9Y3AR0509QC1MJRTM6D.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPRASFTMX90VSD2BYCPTND.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: phần ngắn của cơ 2 đầu cánh tay, chỗ bám của cơ cánh tay trước, mặt trước xương cánh tay."
+      },
       "international_code": "PC2",
       "code_dash": "PC-2",
       "chinese": "天泉",
@@ -34997,7 +36449,13 @@ window.ACUPOINTS = {
       "slug": "thien-xu",
       "image": "images/acupoints/0790-thien-xu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ36FEPDVJ6Q4DC36DCB59.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPCQ1RCTYAZFFYJN445MKY.webp",
+        "gp": "/_emdash/api/media/file/01M3DPCR4KMWVCHAEV5G1CGQD7.webp",
+        "lan": "/_emdash/api/media/file/01M3DPCSFGP726K1ANWKVRWYWC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPCTCF3351R7YMZFGJ9YJ3.webp",
+        "ghiChu": null
+      },
       "international_code": "ST25",
       "code_dash": "ST-25",
       "chinese": "天樞",
@@ -35063,7 +36521,13 @@ window.ACUPOINTS = {
       "slug": "thien-xung",
       "image": "images/acupoints/0791-thien-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3779YWPJ18M3N2MFJSHJ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPV1QFW4RA7YJESKEPHS5B.webp",
+        "gp": "/_emdash/api/media/file/01M3DPV26KA5QZT9YB7FRJPMXT.webp",
+        "lan": "/_emdash/api/media/file/01M3DPV2JQHKBNDZE3ED680SE1.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPV3834MY53RPMRWGP7QJE.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trên."
+      },
       "international_code": "GB9",
       "code_dash": "GB-9",
       "chinese": "天沖",
@@ -35227,7 +36691,13 @@ window.ACUPOINTS = {
       "slug": "thieu-hai",
       "image": "images/acupoints/0795-thieu-hai.jpg",
       "anhCms": "/_emdash/api/media/file/01M3CJ391EQ0E6ASHJ6TYKC6BP.jpg",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPG51EQ6PVM7V33PWC68BF.webp",
+        "gp": "/_emdash/api/media/file/01M3DPG54ED3P7PN5EDY6M92TD.webp",
+        "lan": "/_emdash/api/media/file/01M3DPG65F1XS9GQY1DG1J3X45.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPG6JS08CXZE4J3816H3FZ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám vào xương của khối cơ trên ròng rọc, mặt trước mỏm trên ròng rọc (hoặc mỏm trên lồi cầu trong), phía trong khớp khủy."
+      },
       "international_code": "HE3",
       "code_dash": "HE-3",
       "chinese": "少海",
@@ -35283,7 +36753,13 @@ window.ACUPOINTS = {
       "slug": "thieu-phu",
       "image": "images/acupoints/0796-thieu-phu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ39AEWNGPK20DKJPFPK4Q.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPGG48BD5Y8JZR5M6M5QYD.webp",
+        "gp": "/_emdash/api/media/file/01M3DPGG79P91E096MJYCQJPJJ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPGH2J3PFR51TQ245S4ZES.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPGH5KVTQVHCENG5DK430D.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân gan tay giữa, cơ giun, bờ trong gân gấp ngón 4 của cơ gấp chung nông, sâu, cơ gian cốt gan tay, gian cốt mu tay, bờ trong đầu dưới xương bàn tay 4."
+      },
       "international_code": "HE8",
       "code_dash": "HE-8",
       "chinese": "少府",
@@ -35410,7 +36886,13 @@ window.ACUPOINTS = {
       "slug": "thieu-trach",
       "image": "images/acupoints/0798-thieu-trach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3ABTMY36BSEAF94V4B97.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPGKXQ5CCSQQKTY07KBE95.webp",
+        "gp": "/_emdash/api/media/file/01M3DPGM3SZJEDTGGNWK74ZRPV.webp",
+        "lan": "/_emdash/api/media/file/01M3DPGMP56TYDKV0347H1Q6JC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPGN5G5B741FF2JDXN2YQ6.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: giữa chỗ bám gân ngón 5 của cơ gấp chung sâu các ngón tay, gân ngón út của cơ duỗi chung các ngón tay, bờ trong của đốt 3 xương ngón tay 5."
+      },
       "international_code": "SI1",
       "code_dash": "SI-1",
       "chinese": "少澤",
@@ -35474,7 +36956,13 @@ window.ACUPOINTS = {
       "slug": "thieu-xung",
       "image": "images/acupoints/0799-thieu-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3AXR6FJ72N65XH8D93M6.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPGJ0ZF76W03C7QA3GDGHS.webp",
+        "gp": "/_emdash/api/media/file/01M3DPGJ40R66B50GMNMG5BQG2.webp",
+        "lan": "/_emdash/api/media/file/01M3DPGJW93J764S2ZZ6TCTPM6.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPGK5CAH513JM3M41CFDPP.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: giữa chỗ bám của gân ngón 5, cơ gấp chung sâu các ngón tay, gân ngón út, cơ duỗi chung các ngón tay, bờ ngoài của đốt 3 xương ngón tay út."
+      },
       "international_code": "HE9",
       "code_dash": "HE-9",
       "chinese": "少沖",
@@ -35530,7 +37018,13 @@ window.ACUPOINTS = {
       "slug": "thinh-cung",
       "image": "images/acupoints/0800-thinh-cung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3B6PY334W6FTE28YJR7F.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPHSGPAT2122X9KEQ1AMD7.webp",
+        "gp": "/_emdash/api/media/file/01M3DPHT2VW3N56PTE3P8SG358.webp",
+        "lan": "/_emdash/api/media/file/01M3DPHTEZ5T7XHT1S5WMWYDSF.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPHV76DDQCVJ123AB4ECYN.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau tuyến mang tai, bờ sau lồi cầu xương hàm dưới."
+      },
       "international_code": "SI19",
       "code_dash": "SI-19",
       "chinese": "聽宮",
@@ -35592,7 +37086,13 @@ window.ACUPOINTS = {
       "slug": "thinh-hoi",
       "image": "images/acupoints/0801-thinh-hoi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3BRMH1552BS6QJ4K9H05.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPTM2N51NDSBV3BAKRXN7B.webp",
+        "gp": "/_emdash/api/media/file/01M3DPTMMVQS1AHV71B0SV1PXT.webp",
+        "lan": "/_emdash/api/media/file/01M3DPTN45B6MHWMW2CF5DCSET.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPTNG9RQ6Z94F5VKV6BHY7.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau tuyến mang tai, bờ dưới mỏm tiếp xương thái dương, sau lồi cầu xương hàm dưới."
+      },
       "international_code": "GB2",
       "code_dash": "GB-2",
       "chinese": "聽會",
@@ -35728,7 +37228,13 @@ window.ACUPOINTS = {
       "slug": "thong-coc",
       "image": "images/acupoints/0804-thong-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3CSYJGRK2KYS7TX87GG1.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQK008F12PM7XHAWSZ1PF.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQKN8TJ0S4T6FSPQ7RDHB.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQKYHPV1WTDVQ122G9BYS.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQMKV7BNRDH1JAP0JCH7A.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang."
+      },
       "international_code": "KI20",
       "code_dash": "KI-20",
       "chinese": "腹通谷",
@@ -35789,7 +37295,13 @@ window.ACUPOINTS = {
       "slug": "thong-coc-ii",
       "image": "images/acupoints/0805-thong-coc-ii.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3D2XDC8S26SATC3P7T9N.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPPA6Q9QD2856RZ11H5PZB.webp",
+        "gp": "/_emdash/api/media/file/01M3DPPATKSRK8Y5YMTDWS48ZV.webp",
+        "lan": "/_emdash/api/media/file/01M3DPPB83NSQRW2T1ME2PY1G7.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPPBXBEQGKZ532NPW8WK95.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của gân cơ dạng ngón chân thứ 5, đầu sau đốt thứ nhất xương ngón chân thứ 5."
+      },
       "international_code": "BL66",
       "code_dash": "BL-66",
       "chinese": "足通谷",
@@ -35877,7 +37389,13 @@ window.ACUPOINTS = {
       "slug": "thong-ly",
       "image": "images/acupoints/0807-thong-ly.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3E0YB4560KTMR37KGP40.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPG9ZX7KSM87MGSWDQEX2Q.webp",
+        "gp": "/_emdash/api/media/file/01M3DPGA2ZZYJX8RFSGRTXTH4E.webp",
+        "lan": "/_emdash/api/media/file/01M3DPGAYMKB3NKC8JDTTDHW1J.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPGB27V022WM91JD7KXJTE.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ gấp chung sâu các ngón tay, cơ gấp vuông."
+      },
       "international_code": "HE5",
       "code_dash": "HE-5",
       "chinese": "通里",
@@ -35967,7 +37485,13 @@ window.ACUPOINTS = {
       "slug": "thong-thien",
       "image": "images/acupoints/0809-thong-thien.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3EVRYM6EXJDT37FZKPD2.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJ70QMEWGS2E4252RJPNN.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJ7GC3WB05H9DPKYXAV0W.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJ7ZQ9MMG33RF5S97FHTR.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJ8GMRBTKRM70NTFGK74R.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, xương sọ."
+      },
       "international_code": "BL7",
       "code_dash": "BL-7",
       "chinese": "通天",
@@ -36378,7 +37902,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPAS7WHD8WQAMDMDJP7ZBY.webp",
         "lan": "/_emdash/api/media/file/01M3DPAT3PHVBZF7JA7VJYVWKH.webp",
         "kinh": "/_emdash/api/media/file/01M3DPAT6P4R712PJ4A379CT89.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: phần rộng ngoài của cơ 3 đầu cánh tay, vách liên cơ ngoài. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
       "international_code": "LI13",
       "code_dash": "LI-13",
@@ -36446,7 +37970,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPAJ43QQGQE2M19PR7KFEE.webp",
         "lan": "/_emdash/api/media/file/01M3DPAK5H1FEZHRYDDAHG00CY.webp",
         "kinh": "/_emdash/api/media/file/01M3DPAKBJJFA0WTWWG5H24AQ3.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cơ ngửa dài, cơ ngửa ngắn."
       },
       "international_code": "LI10",
       "code_dash": "LI-10",
@@ -36749,7 +38273,13 @@ window.ACUPOINTS = {
       "slug": "thuc-cot",
       "image": "images/acupoints/0829-thuc-cot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3HNFERPH55ZV21WCTSJ9.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPP870J8ZH0C5JVNK4PRQC.webp",
+        "gp": "/_emdash/api/media/file/01M3DPP8Z8QEETQD4NEC9KT8FC.webp",
+        "lan": "/_emdash/api/media/file/01M3DPP98AW0C0BPPW2572VZHN.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPPA0M2JERW994B51Q9FFZ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ dạng ngón chân thứ 5, đầu trước xương bàn chân 5."
+      },
       "international_code": "BL65",
       "code_dash": "BL-65",
       "chinese": "束骨",
@@ -36808,7 +38338,13 @@ window.ACUPOINTS = {
       "slug": "thuy-dao",
       "image": "images/acupoints/0830-thuy-dao.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3HRED78Z1BQWXKAE1HCN.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPD6FFWMHV4N92EXHM6DCZ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPD6NHQSRMJ1C3ZZ3ZFFC9.webp",
+        "lan": "/_emdash/api/media/file/01M3DPD7WH3TPMVPCBZW0TVF36.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPD8BXA3NY6ADBK48M31KK.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang."
+      },
       "international_code": "ST28",
       "code_dash": "ST-28",
       "chinese": "水道",
@@ -36871,7 +38407,13 @@ window.ACUPOINTS = {
       "slug": "thuy-dot",
       "image": "images/acupoints/0831-thuy-dot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3JKAB12FSMEGNTAJQZZ9.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPBRP18F59D1KR5ZSP5RT4.webp",
+        "gp": "/_emdash/api/media/file/01M3DPBSE8G8JR317WHFGSE65V.webp",
+        "lan": "/_emdash/api/media/file/01M3DPBSH932B26DCTDM27GGCC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPBTCRBPT8ZRVFYEE8BNYY.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trước cơ ức – đòn – chũm, ức – móng, ức giáp, vào sâu có bó mạch thần kinh cảnh, cơ cổ dài."
+      },
       "international_code": "ST10",
       "code_dash": "ST-10",
       "chinese": "水突",
@@ -36931,7 +38473,13 @@ window.ACUPOINTS = {
       "slug": "thuy-phan",
       "image": "images/acupoints/0832-thuy-phan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3JP9FQHS3ESGGB533BT0.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPYXC1DXY9ZY5ED4K5K6W2.webp",
+        "gp": "/_emdash/api/media/file/01M3DPYXV7KG830ENNCVTAK63E.webp",
+        "lan": "/_emdash/api/media/file/01M3DPYYADKKGJWB0C2HTJEDSF.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPYYSNR6DPCKEYVFZXECFE.webp",
+        "ghiChu": null
+      },
       "international_code": "CV9",
       "code_dash": "CV-9",
       "chinese": "水分",
@@ -36985,7 +38533,13 @@ window.ACUPOINTS = {
       "slug": "thuy-tuyen",
       "image": "images/acupoints/0833-thuy-tuyen.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3KH5B7AXAXNCQ9T3M3AZ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPPNWZCDCVF4BQDXSK53YP.webp",
+        "gp": "/_emdash/api/media/file/01M3DPPPC5FZB0S0MN8KVVTM4Q.webp",
+        "lan": "/_emdash/api/media/file/01M3DPPPRBB5RZ9XK48113FBGV.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPPQDHB857P59ZEV5SZ7G4.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau gân gấp dài ngón chân cái, chỗ bám của cơ dạng ngón cái, gân gót chân, rãnh gót của xương gót chân."
+      },
       "international_code": "KI5",
       "code_dash": "KI-5",
       "chinese": "水泉",
@@ -37044,7 +38598,13 @@ window.ACUPOINTS = {
       "slug": "thu-lieu",
       "image": "images/acupoints/0834-thu-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3KM4GCHSFK12W5CN30XR.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPKWC1X3ZW65N6BXF03BRQ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPKWNEKYGGYNNDJX9F9QX2.webp",
+        "lan": "/_emdash/api/media/file/01M3DPKXRFQN9VNS2R58QP2ADW.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPKYA05T5412SH7M5M5HHK.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ ở rãnh cột sống, lỗ cùng 2."
+      },
       "international_code": "BL32",
       "code_dash": "BL-32",
       "chinese": "次髎",
@@ -37186,7 +38746,13 @@ window.ACUPOINTS = {
       "slug": "thua-can",
       "image": "images/acupoints/0837-thua-can.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3MF2DF0SWDW57PY4D620.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPNN3686Q1N01CZB4HVQSC.webp",
+        "gp": "/_emdash/api/media/file/01M3DPNP1H08HZCZ8QES7DRJST.webp",
+        "lan": "/_emdash/api/media/file/01M3DPNPGN5Q8GSZJPQK59EYME.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPNQ694BYPM1XXZEKGYEE2.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: trong."
+      },
       "international_code": "BL56",
       "code_dash": "BL-56",
       "chinese": "承筋",
@@ -37246,7 +38812,13 @@ window.ACUPOINTS = {
       "slug": "thua-khap",
       "image": "images/acupoints/0838-thua-khap.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3MJ2PGN0QNYXV7T77S6R.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPB90AGMTPM26MPS7RH2NG.webp",
+        "gp": "/_emdash/api/media/file/01M3DPB96DZ8FSY2BJ12C5HYNR.webp",
+        "lan": "/_emdash/api/media/file/01M3DPB9RJHRPHFZPMRZEQAFKR.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPBA4Q4QE6GTJ2PCD7VM5H.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ vòng mi (giữa phần ổ mắt, phần mi của cơ này), ở sâu là cơ thẳng dưới, cơ chéo bé của mắt, nhãn cầu."
+      },
       "international_code": "ST1",
       "code_dash": "ST-1",
       "chinese": "承泣",
@@ -37306,7 +38878,13 @@ window.ACUPOINTS = {
       "slug": "thua-linh",
       "image": "images/acupoints/0839-thua-linh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3NCZ9P8PEVJ6K4N12CA8.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPVK5KHJH8Z5PW0GK9MJ8M.webp",
+        "gp": "/_emdash/api/media/file/01M3DPVKBN7KSWSMMCKQHCSWT7.webp",
+        "lan": "/_emdash/api/media/file/01M3DPVM1S39M9MJ4M5ZCPFGJD.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPVM81SNC36D75J1YSRPFB.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, xương đỉnh sọ."
+      },
       "international_code": "GB18",
       "code_dash": "GB-18",
       "chinese": "承靈",
@@ -37365,7 +38943,13 @@ window.ACUPOINTS = {
       "slug": "thua-man",
       "image": "images/acupoints/0840-thua-man.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3NFYJ3XRJS4SX3VQKF47.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPCBVYZQZH50ED4J6KGMHV.webp",
+        "gp": "/_emdash/api/media/file/01M3DPCCB340XTY4DCTAJ84QGT.webp",
+        "lan": "/_emdash/api/media/file/01M3DPCCTAH3GRFSWW8VKPEKEQ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPCD9H09Z8YMJTQPC4QAN2.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn, cơ thẳng lớn, mạc ngang."
+      },
       "international_code": "ST20",
       "code_dash": "ST-20",
       "chinese": "承滿",
@@ -37478,7 +39062,13 @@ window.ACUPOINTS = {
       "slug": "thua-phu",
       "image": null,
       "anhCms": null,
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPM7YX3QWNQHR0QSSR9XY2.webp",
+        "gp": "/_emdash/api/media/file/01M3DPM884SJ7R9NAFFQRRS96B.webp",
+        "lan": "/_emdash/api/media/file/01M3DPM9NASYHKM1SVZR9ECN90.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPMABTSSM4AABH9BM6EQXH.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ mông lớn, bờ trong cơ 2 đầu đùi, bờ ngoài cơ bán gân, bờ ngoài cơ bán mạc, cơ khép lớ."
+      },
       "international_code": "BL36",
       "code_dash": "BL-36",
       "chinese": "承扶",
@@ -37538,7 +39128,13 @@ window.ACUPOINTS = {
       "slug": "thua-quang",
       "image": "images/acupoints/0844-thua-quang.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3PKRG4JTMR5CQ858M8BC.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJ4XVERH1EGBRM3RY9CNY.webp",
+        "gp": "/_emdash/api/media/file/01M3DPJ5K1A424ANKRZRH3BZ7D.webp",
+        "lan": "/_emdash/api/media/file/01M3DPJ60AD0NR7CD9JMCYBWDJ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPJ6CH1DJW3N3KSKQHDR6X.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, xương sọ."
+      },
       "international_code": "BL6",
       "code_dash": "BL-6",
       "chinese": "承光",
@@ -37598,7 +39194,13 @@ window.ACUPOINTS = {
       "slug": "thua-son",
       "image": "images/acupoints/0845-thua-son.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3Q5RAMPB2Q9QBFDG9AJJ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPNQJFAD57V6J8PZ6YEAX8.webp",
+        "gp": "/_emdash/api/media/file/01M3DPNRAV3X9CGJ9KSZSFHTC3.webp",
+        "lan": "/_emdash/api/media/file/01M3DPNRX241W40BREPBAKKK73.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPNSNVY7DN63NMPSSDXRM4.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: góc giữa cơ sinh đôi ngoài, trong, góc giữa cơ gấp dài các ngón chân, cơ gấp dài ngón chân cái."
+      },
       "international_code": "BL57",
       "code_dash": "BL-57",
       "chinese": "承山",
@@ -37660,7 +39262,13 @@ window.ACUPOINTS = {
       "slug": "thua-tuong",
       "image": "images/acupoints/0846-thua-tuong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3QERBJHGZBTFJ5XMP3P5.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZSVES38VCB7BWFRTFQBG.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZTDM43ATJKPWY46M0CY6.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZTQC6WJFXTF10B77CDJC.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZV9PC7DR2H3GHPAHY1K7.webp",
+        "ghiChu": null
+      },
       "international_code": "CV24",
       "code_dash": "CV-24",
       "chinese": "承漿",
@@ -37724,7 +39332,13 @@ window.ACUPOINTS = {
       "slug": "thuc-dau",
       "image": "images/acupoints/0847-thuc-dau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3R0PANWVKYB7YC7D12AJ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPFPHGCJBZGDMF51CKKV66.webp",
+        "gp": "/_emdash/api/media/file/01M3DPFQ3PRZPGXNA5QP4YKJW6.webp",
+        "lan": "/_emdash/api/media/file/01M3DPFQ9SP37FHBX6QT1JPWN5.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPFQZ68BD2V711GZ7XD8YX.webp",
+        "ghiChu": null
+      },
       "international_code": "SP17",
       "code_dash": "SP-17",
       "chinese": "食竇",
@@ -37934,7 +39548,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DP9TWQ01J8168ETCVS5BF9.webp",
         "lan": "/_emdash/api/media/file/01M3DP9VR48QGTABQ1QV7D088Z.webp",
         "kinh": "/_emdash/api/media/file/01M3DP9VV570DADAYF0V6GRPZG.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: phía ngoài chỗ bám gân duỗi ngón trỏ của cơ duỗi chung các ngón tay, bờ ngoài đốt 3 xương ngón tay trỏ."
       },
       "international_code": "LI1",
       "code_dash": "LI-1",
@@ -37999,7 +39613,13 @@ window.ACUPOINTS = {
       "slug": "thuong-khau",
       "image": "images/acupoints/0853-thuong-khau.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3S1FP1PCCMW6Y150PE55.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPEWJXZRSW8YVEN78ZTGER.webp",
+        "gp": "/_emdash/api/media/file/01M3DPEXB4C65KW6C8JVB5K8N6.webp",
+        "lan": "/_emdash/api/media/file/01M3DPEXJFNFYA1MQ4NDPSJFXG.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPEY1K7SWNHV6CCM6Q2EVA.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trên gân cơ cẳng chân sau, sát khe khớp sên – thuyền."
+      },
       "international_code": "SP5",
       "code_dash": "SP-5",
       "chinese": "商丘",
@@ -38061,7 +39681,13 @@ window.ACUPOINTS = {
       "slug": "thuong-khuc",
       "image": "images/acupoints/0854-thuong-khuc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3SAEQ1K2AR7H50B5AS90.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQDB5VN8YFDGZGKWSV5AV.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQDH6BCDTY7YZRQF8AMTJ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQE0D2NMGS55CYH1ZA8EQ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQEJNVE41DJT6NFK2RMJQ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang."
+      },
       "international_code": "KI17",
       "code_dash": "KI-17",
       "chinese": "商曲",
@@ -38189,7 +39815,13 @@ window.ACUPOINTS = {
       "slug": "thuong-cu-hu",
       "image": "images/acupoints/0857-thuong-cu-hu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3TXEGBN2ECYYABY4KWSN.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPDTVXHQJ4WNXZS3JEXNS3.webp",
+        "gp": "/_emdash/api/media/file/01M3DPDVEEMEW7389YCMWFEAPP.webp",
+        "lan": "/_emdash/api/media/file/01M3DPDVZYM37TM58V6CT6PWVF.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPDWSTWS0CCESJ8VJR5VTF.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài cơ cẳng thân trước, bờ trong cơ duỗi chung các ngón chân. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
+      },
       "international_code": "ST37",
       "code_dash": "ST-37",
       "chinese": "上巨虛",
@@ -38324,7 +39956,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPAF14G9Z762XJWEHZ3VY4.webp",
         "lan": "/_emdash/api/media/file/01M3DPAG7A37Q073EFTR6ANTBQ.webp",
         "kinh": "/_emdash/api/media/file/01M3DPAGDC0C27QY8M1JTRQ4M9.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cơ ngửa dài, bờ ngoài cơ quay 1, cơ ngửa ngắn."
       },
       "international_code": "LI9",
       "code_dash": "LI-9",
@@ -38419,7 +40051,13 @@ window.ACUPOINTS = {
       "slug": "thuong-lieu",
       "image": "images/acupoints/0862-thuong-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3VRAX5M132SR4TWT9ZEJ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPKRQCPBM7AV6RNJYH68TJ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPKRTDWVRCK3YNV6B4X3B0.webp",
+        "lan": "/_emdash/api/media/file/01M3DPKT9NMJDJH6ZE0FMCR9DF.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPKVJ9ZBA51MS9Y24DDGPE.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ rãnh cột sống, lỗ cùng 1."
+      },
       "international_code": "BL31",
       "code_dash": "BL-31",
       "chinese": "上髎",
@@ -38626,7 +40264,13 @@ window.ACUPOINTS = {
       "slug": "thuong-quan",
       "image": "images/acupoints/0867-thuong-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3W77487G737EH20ZJM50.webp",
-      "anh3d": null
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPTP5FP9KKSS0B1K0CVSWT.webp",
+        "gp": "/_emdash/api/media/file/01M3DPTPMPDY5SQQ569A3BB792.webp",
+        "lan": "/_emdash/api/media/file/01M3DPTPTRHJC2XRABD7NR6CWS.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPTQK63GE3SXN8C7GBWK2N.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ tai trước, cơ thái dương."
+      }
     },
     {
       "id": 868,
@@ -38676,7 +40320,13 @@ window.ACUPOINTS = {
       "slug": "thuong-quan",
       "image": "images/acupoints/0868-thuong-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3WSBPYN6RQ0RX2GXBXV2.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZ520NEYCMCPCJT5M89BW.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZ5B38AEJ07FV9YYBM5E3.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZ63B172MYECVT9QEZK94.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZ66C0RXN9CG6YBD76S8Z.webp",
+        "ghiChu": null
+      },
       "international_code": "CV13",
       "code_dash": "CV-13",
       "chinese": "上脘",
@@ -38739,7 +40389,13 @@ window.ACUPOINTS = {
       "slug": "thuong-tinh",
       "image": "images/acupoints/0869-thuong-tinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3X2988X9452CQASVES4F.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ18QF70SM213668E80NBG.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ199NH2JJSQYX2P8V9BEG.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ19RW936XEWFQG2BBERMN.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ1A82N4T72PA0SQN6MN3W.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, dưới cân sọ là xương sọ."
+      },
       "international_code": "GV23",
       "code_dash": "GV-23",
       "chinese": "上星",
@@ -39013,7 +40669,13 @@ window.ACUPOINTS = {
       "slug": "tich-trung",
       "image": "images/acupoints/0876-tich-trung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3XMER2J2YNWERP3B6TQ0.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ0553867MAQM3AR6MZM2Q.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ05X9K242K7ZDW8QK8087.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ069MYGS6RJVS90266PNJ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ06VT2EFQJ9G4RE9A7QMD.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của gân cơ thang, cân ngực – thắt lưng của cơ lưng lớn, cơ răng bé sau – dưới, cơ gai dài của lưng, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
+      },
       "international_code": "GV6",
       "code_dash": "GV-6",
       "chinese": "脊中",
@@ -39109,7 +40771,13 @@ window.ACUPOINTS = {
       "slug": "tien-coc",
       "image": "images/acupoints/0878-tien-coc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3Y3JKCQEJTCZ096VAP4P.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPGNQQ9G3FZEB18V2BQ4GN.webp",
+        "gp": "/_emdash/api/media/file/01M3DPGP0T0E4G4CAX7KZKBWZ7.webp",
+        "lan": "/_emdash/api/media/file/01M3DPGPNG6C037SPCE0D4861V.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPGQ1PKQK5GTRD29HE41RP.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của cơ dạng ngón thứ 5, cơ gấp ngắn ngón 5, bờ trong đầu trên đốt thứ nhất xương ngón 5."
+      },
       "international_code": "SI2",
       "code_dash": "SI-2",
       "chinese": "前谷",
@@ -39171,7 +40839,13 @@ window.ACUPOINTS = {
       "slug": "tien-dinh",
       "image": "images/acupoints/0879-tien-dinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3YNHSK72E7GV7VE633FT.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ14XY08FMC2W2BZT3JVH9.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ15D4XDNH3B38E1E3QMZJ.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ15WFXJ0AE5436F26RC60.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ16MS46B1YJQ6XV4C6480.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, dưới cân sọ là xương sọ."
+      },
       "international_code": "GV21",
       "code_dash": "GV-21",
       "chinese": "前頂",
@@ -39611,7 +41285,13 @@ window.ACUPOINTS = {
       "slug": "tieu-lac",
       "image": "images/acupoints/0891-tieu-lac.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3YYJ5MM4X924WNBVKT4J.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPSQTXY9SSRQ6DWN3QG4JS.webp",
+        "gp": "/_emdash/api/media/file/01M3DPSRP64WN79EM9D2GFAN1G.webp",
+        "lan": "/_emdash/api/media/file/01M3DPSRS63VSV2348JT14RATW.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPSSMH26J77HEG9J2S8R8D.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: phần rộng ngoài (xoay cánh tay ra trước sẽ làm hiện rõ khe của phần dài, rộng ngoài của cơ 3 đầu cánh tay)."
+      },
       "international_code": "TE12",
       "code_dash": "TE-12",
       "chinese": "消濼",
@@ -39930,7 +41610,13 @@ window.ACUPOINTS = {
       "slug": "tieu-hai",
       "image": "images/acupoints/0899-tieu-hai.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ3ZWNA9WV91AWAH7C0WQV.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPH1953XZXNCBBMEC6R0FN.webp",
+        "gp": "/_emdash/api/media/file/01M3DPH2AZT2KVY1PNAPD97T1F.webp",
+        "lan": "/_emdash/api/media/file/01M3DPH2H01Y6N86VX3TWAAV1E.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPH426H7P2ZAANVK9XAPBF.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ 3 đầu cánh tay, rãnh ròng rọc – khuỷu của mặt sau đầu dưới xương cánh tay (ở trong là mỏm trên ròng rọc của xương cánh tay, có gân cơ trụ trước, gân cơ gấp chung sâu các ngón tay bám gần nhất, ở ngoài là mỏm khuỷu của xương trụ, có gân cơ 3 đầu cánh tay bám)."
+      },
       "international_code": "SI8",
       "code_dash": "SI-8",
       "chinese": "小海",
@@ -40290,7 +41976,13 @@ window.ACUPOINTS = {
       "slug": "tieu-truong-du",
       "image": "images/acupoints/0908-tieu-truong-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ42PPZR7J35497PP5693T.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPKF01S5Z0MZXQG6TN7487.webp",
+        "gp": "/_emdash/api/media/file/01M3DPKFF7QVC6H793WQ9YYJXW.webp",
+        "lan": "/_emdash/api/media/file/01M3DPKGDG1CKCKNGYBXVABNCB.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPKGYGMN56JBNRNWBBA5HX.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ ở rãnh cột sống."
+      },
       "international_code": "BL27",
       "code_dash": "BL-27",
       "chinese": "小腸俞",
@@ -40356,7 +42048,13 @@ window.ACUPOINTS = {
       "slug": "tin-hoi",
       "image": "images/acupoints/0909-tin-hoi.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ435MSKD413YAPWS7PVM1.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ16TVHKBSX58FZDEPCVE5.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ17D12SA032W02NGKCV4B.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ17W603XQT7G55NYGQT8K.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ18ED8WY0CY4T9Q0KHKAW.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân sọ, dưới cân sọ là thóp trước, vết tích của thóp trước."
+      },
       "international_code": "GV22",
       "code_dash": "GV-22",
       "chinese": "囟會",
@@ -40451,7 +42149,13 @@ window.ACUPOINTS = {
       "slug": "tinh-minh",
       "image": "images/acupoints/0911-tinh-minh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ43TG6F7SGBANTBD0CBB6.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPHVA77M5SGFNE41ER6K86.webp",
+        "gp": "/_emdash/api/media/file/01M3DPHW2F8CDZ7NVV1VWAS2XQ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPHWBKNN5Z54CV3V6S1FX5.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPHX427R03VWQRADAV0B5A.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ vòng miệng dưới, chỗ bám của cơ tháp, cơ mày, trên chỗ bám của cơ nâng mũi, môi trên."
+      },
       "international_code": "BL1",
       "code_dash": "BL-1",
       "chinese": "睛明",
@@ -40656,7 +42360,13 @@ window.ACUPOINTS = {
       "slug": "toan-truc",
       "image": "images/acupoints/0916-toan-truc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ449MSQ0J4YHZYZC5Q2NS.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPHX74JVB5TT1M8T0DM17X.webp",
+        "gp": "/_emdash/api/media/file/01M3DPHXZNMGV91MMDQAR7C0AC.webp",
+        "lan": "/_emdash/api/media/file/01M3DPHY8SV9QPAQK9NJ0W4FP9.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPHZ1AW06TWJBKFD4KDGS5.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ trán, cơ mày, cơ tháp, bờ cơ vòng mi."
+      },
       "international_code": "BL2",
       "code_dash": "BL-2",
       "chinese": "攢竹",
@@ -40723,7 +42433,13 @@ window.ACUPOINTS = {
       "slug": "to-lieu",
       "image": "images/acupoints/0917-to-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ44JKH575AD4DY9FYF6WN.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ1CM1RSKXJZWWEY7JQ509.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ1D39CDBZFPQA8NRWY96Q.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ1DP1D127DVZG0T14ZC17.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ1DZ3G3KSG4AT3CS6ZQS3.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: ngành ngang sụn cánh mũi, chỗ tiếp khớp của góc dưới – trước sụn lá mía, sụn cánh mũi."
+      },
       "international_code": "GV25",
       "code_dash": "GV-25",
       "chinese": "素髎",
@@ -40921,7 +42637,13 @@ window.ACUPOINTS = {
       "slug": "trat-bien",
       "image": "images/acupoints/0922-trat-bien.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ466W09E16H4KPFF8DHHK.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPNG8B02RZV06Y1ZENJJAF.webp",
+        "gp": "/_emdash/api/media/file/01M3DPNH3RJ1NM466EZQ6KSXPV.webp",
+        "lan": "/_emdash/api/media/file/01M3DPNHFVXF0N677WT28685W9.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPNJ58HNZ8RHPD7VJRNEF7.webp",
+        "ghiChu": null
+      },
       "international_code": "BL54",
       "code_dash": "BL-54",
       "chinese": "秩邊",
@@ -41336,7 +43058,13 @@ window.ACUPOINTS = {
       "slug": "triep-can",
       "image": null,
       "anhCms": null,
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPVWVKYN3QWR8ARGFYPHW6.webp",
+        "gp": "/_emdash/api/media/file/01M3DPVX81NFN9ZHTE319DS63C.webp",
+        "lan": "/_emdash/api/media/file/01M3DPVY3KZF9EEX8E7Y4PEY41.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPVY6WCBBJYAGK8EGRX5K4.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của cơ răng lớn, bờ dưới cơ ngực lớn, cơ gian sườn 4, bên trong là phổi."
+      },
       "international_code": "GB23",
       "code_dash": "GB-23",
       "chinese": "輒筋",
@@ -41430,7 +43158,13 @@ window.ACUPOINTS = {
       "slug": "truc-tan",
       "image": "images/acupoints/0934-truc-tan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ47E8YR03V8JAHDJCX737.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPPXTE7R12VDS9Y3S79C4X.webp",
+        "gp": "/_emdash/api/media/file/01M3DPPXXEKQM3F81BHFBEF1NC.webp",
+        "lan": "/_emdash/api/media/file/01M3DPPYPCACWGPTK64BC4TKZW.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPPZ0Q0Y1JJEQW29BAT5V2.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi dài các ngón chân."
+      },
       "international_code": "KI9",
       "code_dash": "KI-9",
       "chinese": "築賓",
@@ -41627,7 +43361,13 @@ window.ACUPOINTS = {
       "slug": "trung-chu",
       "image": "images/acupoints/0939-trung-chu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ48C2GVTQS03RH431TA3P.webp",
-      "anh3d": null
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQ9HCH850AS7NFQ3EN6FY.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQ9MDK1RF33YYGQXBJ4K9.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQAFN605SRSSA6W4B606C.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQANY0F063AYRAV1PZFEA.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang, bàng quang khi bí tiểu tiện vừa, tử cung khi có thai 6 – 7 tháng."
+      }
     },
     {
       "id": 940,
@@ -41677,7 +43417,13 @@ window.ACUPOINTS = {
       "slug": "trung-chu",
       "image": "images/acupoints/0940-trung-chu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ48XXXWZ2WJ2JB7T0P088.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPS66YBB3WXFZ0EE6A9EA7.webp",
+        "gp": "/_emdash/api/media/file/01M3DPS6P3X39Q4DXE5Z7ZX8HK.webp",
+        "lan": "/_emdash/api/media/file/01M3DPS759D8TPKP1BXEATRFSZ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPS7HH7CMY41W1TS85WR6J.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi riêng ngón tay thứ 5, cơ gian cốt mu tay, cơ gian cốt gan tay, cơ giun, bờ trong đầu dưới xương bàn tay 4."
+      },
       "international_code": "TE3",
       "code_dash": "TE-3",
       "chinese": "中渚",
@@ -41781,7 +43527,13 @@ window.ACUPOINTS = {
       "slug": "trung-cuc",
       "image": "images/acupoints/0942-trung-cuc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ49CYEGJK8JXBSS0VV35M.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPYFKQTY12Z6X7VHQ282H4.webp",
+        "gp": "/_emdash/api/media/file/01M3DPYGNC5CF5WTP99B5R0AAZ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPYGVJT6FGYVWHJVY5Y2MS.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPYJ43BBZF4G2T605QJJ2F.webp",
+        "ghiChu": null
+      },
       "international_code": "CV3",
       "code_dash": "CV-3",
       "chinese": "中極",
@@ -41847,7 +43599,13 @@ window.ACUPOINTS = {
       "slug": "trung-dinh",
       "image": "images/acupoints/0943-trung-dinh.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ49Z2JST9HVB7NPZ6D7EW.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZAR88BTAPQQBVEYF1KTF.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZB4DAT1E827JFGC5DA1S.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZBPKMA1TJYG9WAETPQGV.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZBZP2PHNMWGFQ377HV7B.webp",
+        "ghiChu": null
+      },
       "international_code": "CV16",
       "code_dash": "CV-16",
       "chinese": "中庭",
@@ -41911,7 +43669,13 @@ window.ACUPOINTS = {
       "slug": "trung-do",
       "image": "images/acupoints/0944-trung-do.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4A81C3DXHMYNDQF0GX5T.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPXRVAHA52QRX890A5DDX3.webp",
+        "gp": "/_emdash/api/media/file/01M3DPXSQ487W3KAP13GM5K2EQ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPXST42716F0JWTQ5QTFZ0.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPXTNFKYHEKCY2DGDKR1NM.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: mặt trên – trong của xương chày."
+      },
       "international_code": "LR6",
       "code_dash": "LR-6",
       "chinese": "中都",
@@ -41970,7 +43734,13 @@ window.ACUPOINTS = {
       "slug": "trung-doc",
       "image": "images/acupoints/0945-trung-doc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ18YZAM2AHKTE26A165VX.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPWHY2XYWE8JT267MZJ5Z8.webp",
+        "gp": "/_emdash/api/media/file/01M3DPWJA6ZPHTF35VHF403C69.webp",
+        "lan": "/_emdash/api/media/file/01M3DPWJSAH1PW8Z7A6H824F7W.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPWK5E53FEQQFTHX8Y6060.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ sau cân đùi, bờ trước cơ 2 đầu đùi."
+      },
       "international_code": "GB32",
       "code_dash": "GB-32",
       "chinese": "中瀆",
@@ -42106,7 +43876,13 @@ window.ACUPOINTS = {
       "slug": "trung-khu",
       "image": "images/acupoints/0948-trung-khu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4C1AWF0XA9YW88RM6GCS.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DQ074YSVRR4KSATF6MTY28.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ07Q6SYMVGKSP2AN2K95D.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ086DJS3DDZRBY12FZWWD.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ08RQEDZVRZ011M1BNCAZ.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: gân cơ thang, cân ngực – thắt lưng của cơ lưng lớn, cơ gai dài của lưng, cơ ngang gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
+      },
       "international_code": "GV7",
       "code_dash": "GV-7",
       "chinese": "中樞",
@@ -42166,7 +43942,13 @@ window.ACUPOINTS = {
       "slug": "trung-lieu",
       "image": "images/acupoints/0949-trung-lieu.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4CG90XPVZXGYVPVBQ8BY.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPKZK79Y5GM2XSYXS126EF.webp",
+        "gp": "/_emdash/api/media/file/01M3DPKZP9X2TQC7MC5WXCXR3R.webp",
+        "lan": "/_emdash/api/media/file/01M3DPM0WXX4QYSXCVD0E8C6G0.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPM1CNRGY1CG0F6T9764GR.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ ở rãnh cột sống."
+      },
       "international_code": "BL33",
       "code_dash": "BL-33",
       "chinese": "中髎",
@@ -42225,7 +44007,13 @@ window.ACUPOINTS = {
       "slug": "trung-lu-du",
       "image": "images/acupoints/0950-trung-lu-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4D56V5J50J0RR6SYAPMB.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPKMSM3F28YQM7RVH2GBX3.webp",
+        "gp": "/_emdash/api/media/file/01M3DPKMWMX2NVK12SB32YKTVG.webp",
+        "lan": "/_emdash/api/media/file/01M3DPKNERGTKWYRG6PWVZ4VWV.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPKP1Q9FJVYA7M0BQGFGQ6.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân của cơ lưng lớn, khối cơ chung của các cơ rãnh cột sống."
+      },
       "international_code": "BL29",
       "code_dash": "BL-29",
       "chinese": "中膂俞",
@@ -42320,7 +44108,13 @@ window.ACUPOINTS = {
       "slug": "trung-phong",
       "image": "images/acupoints/0952-trung-phong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4E62CDCVJ0Z78GP4KJS4.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPXMZPEJ4B95HJX36TGDNJ.webp",
+        "gp": "/_emdash/api/media/file/01M3DPXNTY2GCVZH5MAHG78S1N.webp",
+        "lan": "/_emdash/api/media/file/01M3DPXNXZMGGMDF8RQ7XQV64Q.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPXPTRTNB30DS9MRC88JFF.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong gân cơ chày trước."
+      },
       "international_code": "LR4",
       "code_dash": "LR-4",
       "chinese": "中封",
@@ -42456,7 +44250,13 @@ window.ACUPOINTS = {
       "slug": "trung-quan",
       "image": "images/acupoints/0954-trung-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4EY386XQYPADTXZRK8Y8.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZ35DS1NFWYJ1RNR54MS5.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZ3EJBQ58D9TT2P1M162Y.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZ46S5QBW3JFM85P997N2.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZ49S3V58PXQ65ZHXTFYV.webp",
+        "ghiChu": null
+      },
       "international_code": "CV12",
       "code_dash": "CV-12",
       "chinese": "中脘",
@@ -42596,7 +44396,13 @@ window.ACUPOINTS = {
       "slug": "trung-xung",
       "image": "images/acupoints/0957-trung-xung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4GHCQAYXDT5Y4F9FHQHR.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPRYJVYNTZFMDQ9CJJ8QHW.webp",
+        "gp": "/_emdash/api/media/file/01M3DPRZ9WYG04JKD59J6GFF9P.webp",
+        "lan": "/_emdash/api/media/file/01M3DPRZK6X76JT3SD03Y11059.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPS284E33EKCAY27BSM5H4.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chỗ bám của gân ngón giữa, cơ gấp chung ngón tay sâu, đầu đốt 3 xương ngón tay giữa."
+      },
       "international_code": "PC9",
       "code_dash": "PC-9",
       "chinese": "中衝",
@@ -42857,7 +44663,13 @@ window.ACUPOINTS = {
       "slug": "truong-cuong",
       "image": "images/acupoints/0963-truong-cuong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4GQF4CZ4BWCSQ88KD8WZ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZVNTJ5QK3C9SGSB7HXE7.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZWE3TCNRPMAHHZSK1P6X.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZWM46NCPQ0YGT8976DX4.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZX9E4553ZY9334NJH9B3.webp",
+        "ghiChu": null
+      },
       "international_code": "GV1",
       "code_dash": "GV-1",
       "chinese": "長強",
@@ -43134,7 +44946,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPAQB53TDM2H8ZDT35ATD7.webp",
         "lan": "/_emdash/api/media/file/01M3DPAR3GC19B7R3N6M0SYP5W.webp",
         "kinh": "/_emdash/api/media/file/01M3DPARCKHRPMJGYEAWWV9VFK.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: rãnh giữa cơ 3 đầu cánh tay (phần rộng ngoài), chỗ bám của cơ ngửa dài, cơ quay 1. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
       "international_code": "LI12",
       "code_dash": "LI-12",
@@ -43379,7 +45191,13 @@ window.ACUPOINTS = {
       "slug": "tuc-khieu-am",
       "image": "images/acupoints/0976-tuc-khieu-am.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4MBYVHBG0Z6680AB1FVX.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPXCFRYBYG1H6MZQ7THSSN.webp",
+        "gp": "/_emdash/api/media/file/01M3DPXDD0HWPPCC83E9HCMFF2.webp",
+        "lan": "/_emdash/api/media/file/01M3DPXDXGNXHZXRD5SX2TY60C.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPXF3MA346CY1E5B465RVM.webp",
+        "ghiChu": null
+      },
       "international_code": "GB44",
       "code_dash": "GB-44",
       "chinese": "足竅陰",
@@ -43472,7 +45290,13 @@ window.ACUPOINTS = {
       "slug": "tuc-lam-khap",
       "image": "images/acupoints/0978-tuc-lam-khap.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4NCHENGFRAVFRP5S472V.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPX48JBC2FSXTV9SS894G9.webp",
+        "gp": "/_emdash/api/media/file/01M3DPX645YHYD59JPSQ2EZ3X0.webp",
+        "lan": "/_emdash/api/media/file/01M3DPX6DDMZA44TJJ5D8SY478.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPX78039Z3GG6CH3FF91CF.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài gân duỗi ngón chân thứ 5 của cơ duỗi chung các ngón chân, cơ gian cốt mu chân."
+      },
       "international_code": "GB41",
       "code_dash": "GB-41",
       "chinese": "足臨泣",
@@ -43570,7 +45394,13 @@ window.ACUPOINTS = {
       "slug": "tuc-ngu-ly",
       "image": "images/acupoints/0980-tuc-ngu-ly.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4PME3FK0F9MK5F4J9DBD.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPY0YKCQ3CMN9J6XCQR726.webp",
+        "gp": "/_emdash/api/media/file/01M3DPY1SYPM5D1GFPD3HZ3R48.webp",
+        "lan": "/_emdash/api/media/file/01M3DPY1X0P87F5KRMVH88DY3T.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPY2RB1KQYJY3EKBEJB49D.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ khép nhỡ."
+      },
       "international_code": "LR10",
       "code_dash": "LR-10",
       "chinese": "足五里",
@@ -43630,7 +45460,13 @@ window.ACUPOINTS = {
       "slug": "tuc-tam-ly",
       "image": "images/acupoints/0981-tuc-tam-ly.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4QJNR59A8E1G3JN4E1ZG.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPDRYXZPBK0Y06FG9N4V25.webp",
+        "gp": "/_emdash/api/media/file/01M3DPDSH197GWJFBPC0C92HWW.webp",
+        "lan": "/_emdash/api/media/file/01M3DPDSX5WRVW7P6793J3W5TJ.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPDTC8YMWHK407N726QB3V.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ cẳng chân trước, chỗ bám các thớ gân cơ 2 đầu đùi."
+      },
       "international_code": "ST36",
       "code_dash": "ST-36",
       "chinese": "足三里",
@@ -43910,7 +45746,13 @@ window.ACUPOINTS = {
       "slug": "tuyen-co",
       "image": "images/acupoints/0988-tuyen-co.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4S2A48PY5Y0AB7CHK0FP.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZM4X972EE43034163HAT.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZMQ9CCV2SQNA7C6E7XSA.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZN0FZ2RXBWJY1M3Z3VTT.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZNJR27SDCFRDG5H6TF0P.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: đầu trên xương ức."
+      },
       "international_code": "CV21",
       "code_dash": "CV-21",
       "chinese": "璇璣",
@@ -44072,7 +45914,13 @@ window.ACUPOINTS = {
       "slug": "tu-bach",
       "image": "images/acupoints/0992-tu-bach.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4V0PT0Q8KKA1D06VGKVE.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPBAV5N06VEQES2ZDQ5S3R.webp",
+        "gp": "/_emdash/api/media/file/01M3DPBB49328EMR8GA7H5P1S8.webp",
+        "lan": "/_emdash/api/media/file/01M3DPBBPKH1G7YK9BG50MNPCB.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPBC5VF41X79BM0MBN87TK.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ dưới cơ vòng mi (phần ổ mắt), trên chỗ bám của cơ gò má (một cơ thuộc cơ vuông môi trên), chỗ tiếp khớp của xương gò má với xương hàm trên. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
+      },
       "international_code": "ST2",
       "code_dash": "ST-2",
       "chinese": "四白",
@@ -44131,7 +45979,13 @@ window.ACUPOINTS = {
       "slug": "tu-doc",
       "image": "images/acupoints/0993-tu-doc.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4V3NNN8ZCZS4XB8X573Y.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPSJ2AKHM04KZS2XZYK3XS.webp",
+        "gp": "/_emdash/api/media/file/01M3DPSJTG1YXCMDKSPAB8KXN6.webp",
+        "lan": "/_emdash/api/media/file/01M3DPSK0KQ4RGCTNJD10442C0.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPSKJW9B7QG4DCBAGSMS9E.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ duỗi riêng ngón tay út, cơ dạng dài ngón cái."
+      },
       "international_code": "TE9",
       "code_dash": "TE-9",
       "chinese": "四瀆",
@@ -44299,7 +46153,13 @@ window.ACUPOINTS = {
       "slug": "tu-man",
       "image": "images/acupoints/0997-tu-man.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4WXRJSPWQRDKV1SWBH8V.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQ7H8BMZ488K099W3YQXY.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQ7M9QVESFZSA8FH5WR3D.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQ8G0XQ6YN89A2MAC7Y76.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQ8S5ES5VE3QBZG0GF9FN.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn mạc ngang, bàng quang khi bí tiểu ít, tử cung khi có thai 5 – 6 tháng."
+      },
       "international_code": "KI14",
       "code_dash": "KI-14",
       "chinese": "四滿",
@@ -44477,7 +46337,13 @@ window.ACUPOINTS = {
       "slug": "tu-cung",
       "image": "images/acupoints/1001-tu-cung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4XYRF7HS66HEDSEVYQNN.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZGBC3ZGPDW2CBDW7CP3R.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZGTKK6189PK4VXYP3C4A.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZH9TNNBRBADM1QZYTZ7J.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZHRZ2HJHE4V95W9VGCWA.webp",
+        "ghiChu": null
+      },
       "international_code": "CV19",
       "code_dash": "CV-19",
       "chinese": "紫宮",
@@ -44715,7 +46581,13 @@ window.ACUPOINTS = {
       "slug": "ty-truc-khong",
       "image": "images/acupoints/1007-ty-truc-khong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ4YWDFCP2363813R1PGB8.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPTG7N11ZB9VQDXD4FMQ0S.webp",
+        "gp": "/_emdash/api/media/file/01M3DPTGSYGAXPKRMX1F6NS216.webp",
+        "lan": "/_emdash/api/media/file/01M3DPTH9670CBW31GKV3645SD.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPTHYCP88FW9DFT3RYJHVP.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ ngoài cơ vòng mi, phần bám vào da cung mày của cơ trán."
+      },
       "international_code": "TE23",
       "code_dash": "TE-23",
       "chinese": "絲竹空",
@@ -44784,7 +46656,7 @@ window.ACUPOINTS = {
         "gp": "/_emdash/api/media/file/01M3DPAV513VKM05V3JGH9KSRV.webp",
         "lan": "/_emdash/api/media/file/01M3DPAW0G7088BWPRKMF6CA7E.webp",
         "kinh": "/_emdash/api/media/file/01M3DPAW3HBZEPJGBGH5BS5YT0.webp",
-        "ghiChu": null
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: đỉnh cơ delta, bờ ngoài cơ 2 đầu cánh tay, chỗ bám của cơ cánh tay trên vào xương, phía sau là phần rộng ngoài của cơ 3 đầu cánh tay. Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
       },
       "international_code": "LI14",
       "code_dash": "LI-14",
@@ -44952,7 +46824,13 @@ window.ACUPOINTS = {
       "slug": "ty-du",
       "image": null,
       "anhCms": null,
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPJZVK758C57JE9E7JT4E6.webp",
+        "gp": "/_emdash/api/media/file/01M3DPK0ARQSR91FBN6EW4D562.webp",
+        "lan": "/_emdash/api/media/file/01M3DPK0XHAF1AQ1PRT6ESW0V1.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPK19MG3W43BF5RM1AZSVB.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, cơ răng bé sau – dưới, cơ lưng dài, cơ bán gai của ngực, cơ ngang gai, cơ ngang sườn."
+      },
       "international_code": "BL20",
       "code_dash": "BL-20",
       "chinese": "脾俞",
@@ -45262,7 +47140,13 @@ window.ACUPOINTS = {
       "slug": "u-mon",
       "image": "images/acupoints/1020-u-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ51FSAYKEDG1MCXCYW8W0.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPQN04NKTEAMMK39DQAE0M.webp",
+        "gp": "/_emdash/api/media/file/01M3DPQNF78JCZ0R5FDV320A6P.webp",
+        "lan": "/_emdash/api/media/file/01M3DPQNYBVQWV0DYMWWR7X3K9.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPQPDGWJAXMVNHMT6991SB.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân cơ chéo lớn của bụng, bờ trong cơ thẳng lớn, mạc ngang."
+      },
       "international_code": "KI21",
       "code_dash": "KI-21",
       "chinese": "幽門",
@@ -45356,7 +47240,13 @@ window.ACUPOINTS = {
       "slug": "uy-duong",
       "image": "images/acupoints/1022-uy-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ51VN6JMX679SJY19BFQN.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPMJ3MAY0EFECA4250TN1A.webp",
+        "gp": "/_emdash/api/media/file/01M3DPMHTCF4E88FBY44QXB8K5.webp",
+        "lan": "/_emdash/api/media/file/01M3DPMJY55X9DA1TW3Q48G52Q.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPMKBP4NGEK19XJ4E69V1V.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: góc giữa 2 gân cơ 2 đầu đùi, cơ gan chân gầy, mặt sau lồi cầu ngoài xương đùi."
+      },
       "international_code": "BL39",
       "code_dash": "BL-39",
       "chinese": "委陽",
@@ -45421,7 +47311,13 @@ window.ACUPOINTS = {
       "slug": "uy-trung",
       "image": "images/acupoints/1023-uy-trung.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ52DK9XDWDW6C2B0NHJXP.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPMM7QA8ZY1Y1ETSSR7VB8.webp",
+        "gp": "/_emdash/api/media/file/01M3DPMMPXA3ERWEERJZ6AHEEJ.webp",
+        "lan": "/_emdash/api/media/file/01M3DPMN997NP5EVJDMEHSG1PM.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPMNJCXE63F91S1CXRYKFV.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: chính giữa vùng chám kheo."
+      },
       "international_code": "BL40",
       "code_dash": "BL-40",
       "chinese": "委中",
@@ -45524,7 +47420,13 @@ window.ACUPOINTS = {
       "slug": "uyen-dich",
       "image": "images/acupoints/1025-uyen-dich.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ52PR7DJRSZE5HA7KS5TA.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPVTZTCHFPEVVAJ11WNYNB.webp",
+        "gp": "/_emdash/api/media/file/01M3DPVV8ZVZ1PSMZ1P6NBAGA2.webp",
+        "lan": "/_emdash/api/media/file/01M3DPVW22PGEJ4JQA7NB32Z3C.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPVW8DV3YT1NTBDF7FBBRB.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trước cơ lưng lớn, cơ răng lớn, cơ gian sườn 4, phổi."
+      },
       "international_code": "GB22",
       "code_dash": "GB-22",
       "chinese": "淵腋",
@@ -45582,7 +47484,13 @@ window.ACUPOINTS = {
       "slug": "uyen-cot",
       "image": "images/acupoints/1026-uyen-cot.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ538K68MSNXMZ9Z31Y6GJ.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPGSGKEAAX7CMD0YKC3QNH.webp",
+        "gp": "/_emdash/api/media/file/01M3DPGSZSEDTZFC2M513YB90E.webp",
+        "lan": "/_emdash/api/media/file/01M3DPGTF16W7RAVMN8EYW6TR8.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPGTY5NVCXK4GCA69Y1KKM.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ da gan tay, cơ dạng ngón út, chỗ lõm giữa đầu trên xương bàn tay 5, đáy chỗ lõm là xương móc."
+      },
       "international_code": "SI4",
       "code_dash": "SI-4",
       "chinese": "腕骨",
@@ -45641,7 +47549,13 @@ window.ACUPOINTS = {
       "slug": "ung-song",
       "image": "images/acupoints/1027-ung-song.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ53QFM3GFA3WM3BZ160ZD.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPC42ZMGQJ2ZDJFVNRXW1A.webp",
+        "gp": "/_emdash/api/media/file/01M3DPC4Y9NZXKDXGYE28BT1J5.webp",
+        "lan": "/_emdash/api/media/file/01M3DPC51AZ01JMKFBEJY3JZQD.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPC5WPNKA0GV96FMDD6AZW.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ gian sườn 3, bờ trên xương sườn 4, bên trong có phổi, tim ở bên trái."
+      },
       "international_code": "ST16",
       "code_dash": "ST-16",
       "chinese": "膺窗",
@@ -45898,7 +47812,13 @@ window.ACUPOINTS = {
       "slug": "vi-du",
       "image": "images/acupoints/1033-vi-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ54J7PHWAK197VWFMA18Z.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPK1W13Y9WB7Z4EDG0SZ23.webp",
+        "gp": "/_emdash/api/media/file/01M3DPK2EZHZNT6CCTPKKH4SQF.webp",
+        "lan": "/_emdash/api/media/file/01M3DPK2VARR3B6VV9VMWMN4NM.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPK3AM6BNFDH36SSRR755N.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực-thắt lưng của cơ lưng lớn, cơ răng bé sau – dưới, cơ lưng dài, cơ ngang gai, cơ vuông thắt lưng, cơ đái – chậu."
+      },
       "international_code": "BL21",
       "code_dash": "BL-21",
       "chinese": "胃俞",
@@ -46100,7 +48020,13 @@ window.ACUPOINTS = {
       "slug": "vi-thuong",
       "image": "images/acupoints/1038-vi-thuong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ56A2B0P5DCS92SDVK08X.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPN8DNV51YHZ4QTCMC0SYE.webp",
+        "gp": "/_emdash/api/media/file/01M3DPN98X2FKXNB6B6D9QRF5G.webp",
+        "lan": "/_emdash/api/media/file/01M3DPN9BYRQ2DDG9ZRFB9HZ6W.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPNA7D9Y5XAT54TGJ9T5QC.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ răng bé sau – dưới, cơ chậu sườn – thắt lưng, cơ vuông thắt lưng."
+      },
       "international_code": "BL50",
       "code_dash": "BL-50",
       "chinese": "胃倉",
@@ -46340,7 +48266,13 @@ window.ACUPOINTS = {
       "slug": "xung-duong",
       "image": "images/acupoints/1043-xung-duong.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ58TSB4ZPD60HW6PTNY15.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPE6QHBKN1FS2GHWCSAT1K.webp",
+        "gp": "/_emdash/api/media/file/01M3DPE8Y7X9S6VQTY2XKQVDT6.webp",
+        "lan": "/_emdash/api/media/file/01M3DPE97RSE518SVM1CJEQTM5.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPEA6GX5EJCRCSYWBZ2JPC.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: bờ trong gân cơ duỗi ngón 2 của cơ duỗi chung các ngón chân, cơ duỗi ngắn ngón cái, sau khớp chêm – thuyền."
+      },
       "international_code": "ST42",
       "code_dash": "ST-42",
       "chinese": "沖陽",
@@ -46403,7 +48335,13 @@ window.ACUPOINTS = {
       "slug": "xung-mon",
       "image": "images/acupoints/1044-xung-mon.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ593ND09KPY8J182MQ05F.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPFC1G0SF7ENJR02RN4HQK.webp",
+        "gp": "/_emdash/api/media/file/01M3DPFCSWCDAEQRB3BBRQWJ01.webp",
+        "lan": "/_emdash/api/media/file/01M3DPFCWZTFT4TTTZ27XEACR4.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPFDRFZT37MJHQMGZGWJNP.webp",
+        "ghiChu": null
+      },
       "international_code": "SP12",
       "code_dash": "SP-12",
       "chinese": "衝門",
@@ -46459,7 +48397,13 @@ window.ACUPOINTS = {
       "slug": "y-hy",
       "image": "images/acupoints/1045-y-hy.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ59NDRGZSKE8R71YGXJ9E.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPMY7Q15XFFVXEDYRDEQGS.webp",
+        "gp": "/_emdash/api/media/file/01M3DPMZ06X7G1MJM4RM1S1T54.webp",
+        "lan": "/_emdash/api/media/file/01M3DPMZ379QNK6Y1F4N515ZJP.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPMZWWSN2H514H5XXD8ZK8.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ trám, cơ chậu – sườn – ngực, cơ gian sườn 6, vào trong là phổi."
+      },
       "international_code": "BL45",
       "code_dash": "BL-45",
       "chinese": "譩譆",
@@ -46550,7 +48494,13 @@ window.ACUPOINTS = {
       "slug": "y-xa",
       "image": "images/acupoints/1047-y-xa.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ5ANZHBZYW2VFDPCC8HY8.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPN6H5S5WKED1ATDYJD63V.webp",
+        "gp": "/_emdash/api/media/file/01M3DPN7CCD5RYJ9V5R851GKC2.webp",
+        "lan": "/_emdash/api/media/file/01M3DPN7FDR82T2AGSNZY46GHN.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPN8AMJ75XP3J9QT0795TA.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cơ lưng lớn, cơ răng bé sau – dưới, cơ chậu sườn – ngực, cơ gian sườn 11."
+      },
       "international_code": "BL49",
       "code_dash": "BL-49",
       "chinese": "意舍",
@@ -46680,7 +48630,13 @@ window.ACUPOINTS = {
       "slug": "yeu-du",
       "image": "images/acupoints/1050-yeu-du.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ5BZEZ04S7HH6H26X6M2K.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZXFHFQT49MRFTKZDDPMR.webp",
+        "gp": "/_emdash/api/media/file/01M3DPZYASXZ2MN8P269C7HXD1.webp",
+        "lan": "/_emdash/api/media/file/01M3DPZYGT6T6R8AWNSRW07G3J.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPZZ68B7TSN8RE9P4WMX3X.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, cân của khối cơ chung ở rãnh cột sống, dây chằng cùng – cụt, mỏm gai đốt sống cùng cụt."
+      },
       "international_code": "GV2",
       "code_dash": "GV-2",
       "chinese": "腰俞",
@@ -46743,7 +48699,13 @@ window.ACUPOINTS = {
       "slug": "yeu-duong-quan",
       "image": "images/acupoints/1051-yeu-duong-quan.webp",
       "anhCms": "/_emdash/api/media/file/01M3CJ5CH7SW4S6Q0H0NDR1M8G.webp",
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPZZCBW5FHYQ8EWPAXPYRK.webp",
+        "gp": "/_emdash/api/media/file/01M3DQ007MKBMZYX8EZ0EQJHFP.webp",
+        "lan": "/_emdash/api/media/file/01M3DQ00DP5ZM9KBE5YAKN3P4S.webp",
+        "kinh": "/_emdash/api/media/file/01M3DQ0134PWDK7C7V3WCXQ63Q.webp",
+        "ghiChu": "Mô hình 3D không chứa các cấu trúc sau nên ảnh không tô được, xem mục Giải Phẫu: cân ngực – thắt lưng của cơ lưng lớn, chỗ bám của cân khối cơ chung rãnh cột sống, cơ ngang – gai, dây chằng trên gai, dây chằng gian gai, dây chằng vàng, ống sống."
+      },
       "international_code": "GV3",
       "code_dash": "GV-3",
       "chinese": "腰陽關",
@@ -47047,7 +49009,13 @@ window.ACUPOINTS = {
       "slug": "tat-duong-quan",
       "image": null,
       "anhCms": null,
-      "anh3d": null,
+      "anh3d": {
+        "da": "/_emdash/api/media/file/01M3DPWKQQ26XFXYAQ1FNMTW16.webp",
+        "gp": "/_emdash/api/media/file/01M3DPWM6XS6MTFY5XEWSH00Z4.webp",
+        "lan": "/_emdash/api/media/file/01M3DPWMS2PZ1Y2GSF3YVEAZK7.webp",
+        "kinh": "/_emdash/api/media/file/01M3DPWN550DVDVQ0DK1J3QC18.webp",
+        "ghiChu": "Vị trí huyệt này do engine dựng, chưa có bằng chứng đối chiếu ngoài engine."
+      },
       "international_code": "GB33",
       "code_dash": "GB-33",
       "chinese": "膝陽關",
