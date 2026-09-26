@@ -33,9 +33,15 @@ docker compose build backend
 echo "==> [4/7] Build CMS (riêng)"
 # cms/.env KHÔNG nằm trong git (chứa mật khẩu DB riêng của CMS). Thiếu nó thì container
 # khởi động rồi chết vòng tròn — chặn ngay tại đây cho dễ hiểu hơn là để nó tự sập.
+#
+# ⚠️ Từ 26/09/2026 tệp này còn là SECRET của bước build FRONTEND ([5/7]): seo-cms.mjs và
+# nguon-cms.mjs cần nó để đọc kho `kinhlac_cms` (ghi đè SEO + chữ của mục nguồn). Docker
+# Compose KHÔNG cho secret tuỳ chọn, nên thiếu tệp là build frontend gãy cứng. Chốt này
+# đứng TRƯỚC [5/7] nên vẫn báo lỗi dễ hiểu — đừng đổi thứ tự các bước.
 if [ ! -f ./cms/.env ]; then
-  echo "    ✗ THIẾU ./cms/.env — CMS sẽ không nối được database."
+  echo "    ✗ THIẾU ./cms/.env — CMS không nối được database, VÀ build frontend sẽ gãy."
   echo "      Tạo file đó trên VPS với DB_HOST/DB_PORT/DB_USER/DB_PASSWORD/DB_NAME"
+  echo "      (hoặc PGHOST/PGPORT/PGUSER/PGPASSWORD/PGDATABASE — cả hai lối đặt tên đều nhận)"
   echo "      và EMDASH_ENCRYPTION_KEY, rồi chạy lại. (Xem DEPLOYMENT.md)"
   exit 1
 fi
