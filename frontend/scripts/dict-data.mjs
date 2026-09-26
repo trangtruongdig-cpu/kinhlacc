@@ -278,8 +278,26 @@ export function listDictPages() {
     { loc: '/kinh/', index: true, kind: 'index' }, // hub 20 đường kinh
     { loc: '/huyet/', index: true, kind: 'index' }, // hub tra cứu huyệt (đường vào cho kỳ huyệt)
   ]
-  for (const m of meridianList) if (m && m.ten) out.push({ loc: `/kinh/${kinhSlugOf(m)}/`, index: kinhIndexable(m), kind: 'kinh' })
-  for (const rec of records) if (rec && rec.ten) out.push({ loc: `/huyet/${rec._slug}/`, index: huyetIndexable(rec), kind: 'huyet' })
+  // `anh`: danh sách ảnh của trang, để gen-sitemap khai <image:image>. Không khai thì
+  // Google chỉ tìm được ảnh bằng cách bò vào từng trang — chậm và dễ sót với 1.795 ảnh.
+  // Đường dẫn ở đây là TƯƠNG ĐỐI; gen-sitemap nối DOMAIN vào (sitemap đòi URL tuyệt đối).
+  const ASSET = '/kinhmach3d/'
+  const anhKinh = (m) => {
+    const x = m.images && (m.images.chinh || m.images.sodo || m.images.gen)
+    return x ? [{ url: ASSET + String(x).replace(/^\/+/, ''), ten: `Sơ đồ ${m.ten}` }] : []
+  }
+  const anhHuyet = (rec) => {
+    // Ưu tiên bộ 4 ảnh 3D (đã là đường tĩnh có nghĩa); không có thì dùng ảnh sơ đồ cũ.
+    if (rec.anh3d) {
+      const nhan = { da: 'trên da', gp: 'trên giải phẫu', lan: 'huyệt lân cận', kinh: 'toàn đường kinh' }
+      return Object.entries(nhan)
+        .filter(([k]) => rec.anh3d[k])
+        .map(([k, v]) => ({ url: rec.anh3d[k], ten: `${rec.ten} — ${v}` }))
+    }
+    return rec.image ? [{ url: ASSET + String(rec.image).replace(/^\/+/, ''), ten: `Sơ đồ huyệt ${rec.ten}` }] : []
+  }
+  for (const m of meridianList) if (m && m.ten) out.push({ loc: `/kinh/${kinhSlugOf(m)}/`, index: kinhIndexable(m), kind: 'kinh', anh: anhKinh(m) })
+  for (const rec of records) if (rec && rec.ten) out.push({ loc: `/huyet/${rec._slug}/`, index: huyetIndexable(rec), kind: 'huyet', anh: anhHuyet(rec) })
   // Bệnh học + Châm cứu trị bệnh: mỗi bộ 1 hub mục lục + từng trang bệnh.
   for (const cfg of BENH_SETS) {
     const set = BENH[cfg.key]

@@ -55,9 +55,13 @@ for (const p of listDictPages()) {
     priority: p.kind === 'index' ? '0.8' : p.kind === 'kinh' ? '0.7' : '0.6',
     changefreq: 'monthly',
     lastmod: today,
+    anh: p.anh || [],
   })
   nDict++
 }
+
+// Tên ảnh vào XML phải thoát ký tự, nếu không một dấu & là hỏng cả sitemap.
+const escXml = (t) => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')
 
 const urls = routes
   .map(
@@ -65,13 +69,17 @@ const urls = routes
     <loc>${DOMAIN}${slashify(r.path)}</loc>
     <lastmod>${r.lastmod}</lastmod>
     <changefreq>${r.changefreq}</changefreq>
-    <priority>${r.priority}</priority>
+    <priority>${r.priority}</priority>${(r.anh || [])
+      .map((a) => `
+    <image:image><image:loc>${DOMAIN}${a.url}</image:loc><image:title>${escXml(a.ten)}</image:title></image:image>`)
+      .join('')}
   </url>`,
   )
   .join('\n')
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${urls}
 </urlset>
 `
