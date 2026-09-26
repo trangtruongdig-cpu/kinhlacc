@@ -119,6 +119,15 @@ export default defineConfig(({ command }) => ({
         '**/content/blog/**',
       ],
     },
+    // Máy thật: nginx đẩy /_emdash/ (khu quản trị + API + ảnh) sang CMS. Dev không có nginx nên phải
+    // tự proxy để ảnh anh3d (huyệt vị) và các asset CMS khác không 404 khi chạy `vite dev`.
+    // ⚠️ CMS chỉ lắng nghe trên ::1 — dùng localhost, KHÔNG dùng 127.0.0.1 (sẽ fetch failed).
+    proxy: {
+      '/_emdash': {
+        target: 'http://localhost:4321',
+        changeOrigin: true,
+      },
+    },
   },
   preview: {
     allowedHosts: [

@@ -31,6 +31,9 @@ const props = withDefaults(defineProps<{ mapRouteName?: string }>(), {
 
 // ───────────────────────── kiểu dữ liệu ─────────────────────────
 interface AcuSection { h: string; body: string }
+// 4 ảnh dựng từ mô hình giải phẫu 3D (chỉ 360/1059 huyệt có toạ độ 3D mới có; url là ĐƯỜNG DẪN TUYỆT ĐỐI
+// dạng /_emdash/api/media/file/<khoá>.webp — không qua assetUrl()). ghiChu = lời thú nhận giới hạn model.
+interface Anh3d { da?: string; gp?: string; lan?: string; kinh?: string; ghiChu?: string }
 interface AcuRecord {
   id: number
   ten: string
@@ -41,6 +44,7 @@ interface AcuRecord {
   sections?: AcuSection[]
   slug?: string
   image?: string | null
+  anh3d?: Anh3d | null
   // AcuKG fields
   international_code?: string   // WHO code: LU1, ST36…
   code_dash?: string            // LU-1, ST-36
@@ -656,6 +660,13 @@ const ACU_EXTRA: [keyof AcuRecord, string][] = [
   ['ghiChu', 'Ghi Chú'],
   ['thamKhao', 'Tham Khảo'],
 ]
+// nhãn ngắn cho 4 ảnh dựng 3D, đúng thứ tự da → giải phẫu → lân cận → đường kinh
+const ANH3D_LABELS: [keyof Omit<Anh3d, 'ghiChu'>, string][] = [
+  ['da', 'Trên Da'],
+  ['gp', 'Giải Phẫu'],
+  ['lan', 'Huyệt Lân Cận'],
+  ['kinh', 'Đường Kinh'],
+]
 // icon nhỏ cho mỗi mục → dễ quét bằng mắt khi nhiều chữ (khớp cả tên hoa lẫn tên thường)
 const SECTION_ICONS: Record<string, string> = {
   'TÊN HUYỆT': '🏷️', 'TÊN KHÁC': '🏷️', 'XUẤT XỨ': '📜', 'VỊ TRÍ': '📍', 'GIẢI PHẪU': '🦴',
@@ -709,6 +720,21 @@ const acuDetailHtml = computed<string>(() => {
   const imgSrc = r.image
   const photo = imgSrc
     ? `<img class="photo" src="${esc(assetUrl(imgSrc))}" alt="${esc(r.ten)}" onerror="this.style.display='none'">`
+    : ''
+
+  // 4 ảnh dựng từ mô hình 3D (chỉ 360 huyệt có toạ độ 3D) — url TUYỆT ĐỐI, KHÔNG qua assetUrl().
+  // Huyệt không có anh3d (698 kỳ huyệt/tân huyệt) giữ nguyên `photo` ở trên, không đổi gì.
+  const anh3d = r.anh3d
+  const anh3dCard = anh3d
+    ? `<section class="field anh3d-card"><h3><span class="fi">🖼️</span><span class="ft">Ảnh Dựng 3D</span></h3>` +
+      `<div class="anh3d-grid">${ANH3D_LABELS.map(([k, label]) => {
+        const src = anh3d[k]
+        return src
+          ? `<a class="anh3d-item" href="${esc(src)}" target="_blank" rel="noopener"><img loading="lazy" src="${esc(src)}" alt="${esc(r.ten)} — ${esc(label)}" onerror="this.parentElement.style.display='none'"><span class="anh3d-cap">${esc(label)}</span></a>`
+          : ''
+      }).join('')}</div>` +
+      (anh3d.ghiChu ? `<p class="anh3d-note">${esc(anh3d.ghiChu)}</p>` : '') +
+      `</section>`
     : ''
 
   const secCard = (s: AcuSection) => `<section class="field">${fieldH(s.h)}<div class="body">${formatBody(s.body)}</div></section>`
@@ -770,6 +796,7 @@ const acuDetailHtml = computed<string>(() => {
         </div>
       </div>
       ${viTriCard}
+      ${anh3dCard}
       ${benhRefCard}
       ${indCard}
       ${otherCards || (viTriCard ? '' : '<p class="empty-note">Chưa có nội dung chi tiết cho huyệt này.</p>')}
@@ -1678,6 +1705,13 @@ watch(() => [route.query.acu, route.query.mer], applyRouteQuery)
 .td-main :deep(.ind-chip):hover { background: #1a6e4a; color: #fff; border-color: #1a6e4a; }
 /* Pill lọc chỉ định */
 .ind-pill { display: inline-flex; align-items: center; gap: 6px; padding: 0 12px; background: #1a6e4a; color: #fff; font-weight: 700; font-size: 13px; }
+/* Ảnh dựng 3D: lưới gọn 4 ảnh (da/giải phẫu/lân cận/đường kinh) — bấm mở to ở tab mới, giống .mer-img */
+.td-main :deep(.anh3d-grid) { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-top: 4px; }
+.td-main :deep(.anh3d-item) { display: flex; flex-direction: column; align-items: center; gap: 5px; text-decoration: none; cursor: zoom-in; }
+.td-main :deep(.anh3d-item img) { width: 100%; display: block; border-radius: 10px; border: 1px solid var(--border); background: #fff; box-shadow: var(--shadow-sm); transition: box-shadow var(--transition-fast); }
+.td-main :deep(.anh3d-item:hover img) { box-shadow: 0 6px 18px rgba(58, 39, 21, 0.14); }
+.td-main :deep(.anh3d-cap) { font-size: 11.5px; font-weight: 700; color: var(--brown-600); text-align: center; }
+.td-main :deep(.anh3d-note) { margin: 10px 0 0; font-size: 12px; color: var(--brown-400); font-style: italic; line-height: 1.5; }
 .td-main :deep(.detail-head h2) { color: var(--brown-900, var(--brown-800)); font-size: 30px; font-weight: 800; line-height: 1.15; margin: 0 0 12px; letter-spacing: -0.2px; }
 .td-main :deep(.meta) { margin: 0; display: grid; gap: 7px; }
 .td-main :deep(.meta .m-row) { display: flex; gap: 14px; align-items: baseline; }
