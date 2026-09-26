@@ -110,6 +110,46 @@ nano backend/.env
 
 ## 5. Chạy schema migrations vào Aiven
 
+## ⚠️ ẢNH CỦA CMS KHÔNG ĐI THEO `git push`
+
+Đây là bẫy đã cắn thật (26/09/2026): deploy xong, trang huyệt hiện đủ chữ nhưng **bốn ảnh
+3D vỡ hết**, gọi ảnh trả `404`.
+
+Nguyên nhân là kiến trúc, không phải cấu hình sai: **CSDL dùng chung, tệp ảnh thì không.**
+
+- `cms/astro.config.mjs` cất ảnh bằng `storage: local({ directory: "./uploads" })`, và
+  `docker-compose.yml` gắn `./data/cms-uploads:/app/uploads`.
+- `cms/uploads/` nằm trong `.gitignore` → `git push` KHÔNG mang tệp ảnh đi.
+- Nhưng **bản ghi** ảnh nằm trong Postgres của Aiven, vốn dùng chung giữa máy lập trình và
+  VPS. Nên khâu build đọc được `storageKey` và nướng URL vào HTML, còn **byte của ảnh thì
+  không có trên VPS** → 404 mà trang vẫn dựng bình thường.
+
+**Cách đúng về lâu dài: nạp ảnh qua trang quản trị của SITE THẬT** (`/_emdash/admin` trên
+kinhlac.online), để tệp rơi thẳng vào `/opt/kinhlac/data/cms-uploads/`. Nạp ở máy lập
+trình là tự tạo việc đồng bộ tay.
+
+**Nếu đã nạp ở máy lập trình rồi** thì đẩy tệp lên trước khi build:
+
+```bash
+# trên VPS, tạo thư mục trước để nó không bị container tạo với quyền root
+mkdir -p /opt/kinhlac/data/cms-uploads
+
+# trên máy lập trình
+rsync -avz --progress cms/uploads/ <user>@<vps>:/opt/kinhlac/data/cms-uploads/
+```
+
+Kiểm sau khi đẩy — phải ra `200 · image/webp`, không phải `404 · application/json`:
+
+```bash
+curl -sI https://kinhlac.online/_emdash/api/media/file/<storageKey>.webp | head -1
+```
+
+Lấy một `storageKey` có thật từ chính trang đang lỗi:
+
+```bash
+curl -s https://kinhlac.online/huyet/khi-huyet/ | grep -o '/_emdash/api/media/file/[^"]*' | head -1
+```
+
 `backend/sql/` chứa các migration viết tay. Chạy lần đầu trên Aiven từ VPS:
 
 ```bash

@@ -308,6 +308,12 @@ Dược liệu không có đường lùi vì thêm `onerror` phải sửa compon
 lại nginx đệm ảnh CMS 365 ngày và ảnh đã đệm vẫn sống khi CMS sập (đã đo). Hoàn nguyên được:
 đường dẫn gốc cất ở `ec_duoc_lieu.anh_dai_dien_tinh`, `chuyen-anh-duoc-lieu.mjs --hoan`.
 
+⚠️ **Ảnh KHÔNG đi theo `git push`.** CSDL dùng chung (Aiven) nhưng tệp ảnh thì không:
+EmDash cất chúng ở `cms/uploads/` (đã `.gitignore`), VPS gắn `./data/cms-uploads`. Nạp ảnh
+ở máy lập trình rồi deploy là trang dựng đủ chữ mà ảnh trả 404 — bản ghi có, byte không có.
+Nạp ảnh qua trang quản trị của SITE THẬT, hoặc `rsync` tệp lên trước khi build. Xem
+`DEPLOYMENT.md`, mục "ẢNH CỦA CMS KHÔNG ĐI THEO git push".
+
 ⚠️ **Đổi ảnh dược liệu phải đổi Ở CMS rồi để `dong-bo-app.mjs` mang sang.** Đổi thẳng
 `vi_thuoc.anh_dai_dien` thì lần đồng bộ sau thấy 536 ô "lệch" rồi **đẩy đường dẫn cũ trở
 lại** — vừa mất thay đổi vừa phá tính chất "chưa ai sửa thì đồng bộ ra 0 ô".
