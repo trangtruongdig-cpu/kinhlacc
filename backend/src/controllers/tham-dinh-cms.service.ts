@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { Client } from 'pg';
 
 import { docCauHinhSsl } from '../utils/db-ssl.util';
+import { rutChu } from '../utils/tham-dinh-rut-chu.util';
 import type { MucKho } from '../utils/tham-dinh-muc.util';
 import type { NhanXetCoMuc } from '../utils/tham-dinh-cum.util';
 import type { HoSoMuc } from '../models/tham-dinh.dto';
@@ -125,23 +126,33 @@ export class ThamDinhCmsService {
   }
 
   /**
-   * Đọc một lô mục từ của một bộ, đã rút chữ khỏi portable text bằng hàm `td_chu`
-   * có sẵn trong CSDL (dựng bởi cms/sql/chi-muc-tra-cuu.sql).
+   * Đọc một lô mục từ của một bộ, lấy giá trị JSON THÔ rồi rút chữ bằng `rutChu` ở phía
+   * Node.
+   *
+   * ⚠️ KHÔNG nhờ `td_chu()` của CSDL rút hộ, dù nó có sẵn: hàm đó chỉ nhặt khoá `text`
+   * nên nuốt trắng cột hình MẢNG OBJECT — `ec_bai_thuoc.thanh_phan` là đúng hình đó, và
+   * 13.889 bài sẽ đi vào bot dưới dạng "trống". Xem chú thích dài trong tham-dinh-rut-chu.
    */
   async docLoMuc(bo: string, than: string[], tu: number, soLuong: number): Promise<MucKho[]> {
     const cot = than
-      .map((t) => `td_chu(to_jsonb(r.${JSON.stringify(t)})) AS ${JSON.stringify(t)}`)
+      .map((t) => `to_jsonb(r.${JSON.stringify(t)}) AS ${JSON.stringify(t)}`)
       .join(', ');
     const sql =
       `SELECT r.id AS ma, r.slug, r.title AS tieu_de${cot ? ', ' + cot : ''} ` +
       `FROM ${JSON.stringify('ec_' + bo)} r ` +
       `WHERE r.status = 'published' AND r.deleted_at IS NULL ` +
       `ORDER BY r.id LIMIT $1 OFFSET $2`;
-    const r = await this.phaiCo().query<Record<string, string>>(sql, [soLuong, tu]);
+    const r = await this.phaiCo().query<Record<string, unknown>>(sql, [soLuong, tu]);
     return r.rows.map((row) => {
       const truong: Record<string, string> = {};
-      for (const t of than) truong[t] = row[t] || '';
-      return { bo, ma: row.ma, slug: row.slug, tieuDe: row.tieu_de || '', truong };
+      for (const t of than) truong[t] = rutChu(row[t]);
+      return {
+        bo,
+        ma: String(row.ma),
+        slug: String(row.slug ?? ''),
+        tieuDe: typeof row.tieu_de === 'string' ? row.tieu_de : '',
+        truong,
+      };
     });
   }
 
