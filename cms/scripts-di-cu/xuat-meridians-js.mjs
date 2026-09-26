@@ -43,9 +43,9 @@ const IMAGE_LABELS = {
 // THỨ TỰ KHOÁ của bản ghi — đo từ tệp gốc, mỗi nhóm đúng MỘT kiểu. Sai thứ tự thì
 // JSON.stringify lệch dù chữ y nguyên.
 const KHOA_KINH = ["id", "type", "ten", "desc", "chinh", "can", "biet", "doc", "ngang",
-	"chuTri", "huyet", "images", "pointSummary", "code", "points", "slug", "anhCms"];
+	"chuTri", "huyet", "images", "pointSummary", "code", "points", "slug", "anhCms", "anhCmsWH"];
 const KHOA_MACH = ["id", "type", "ten", "dacTinh", "vanHanh", "trieuChung", "dieuTri",
-	"huyet", "nameAlt", "images", "pointSummary", "code", "points", "slug", "anhCms"];
+	"huyet", "nameAlt", "images", "pointSummary", "code", "points", "slug", "anhCms", "anhCmsWH"];
 
 const CHU = {
 	desc: "dai_cuong", chinh: "duong_chinh", can: "kinh_can", biet: "kinh_biet",
@@ -67,6 +67,13 @@ const rows = (await kho.query(
 	        ${Object.values(THO).join(", ")}, ${Object.values(CHU).join(", ")}
 	 FROM ec_kinh_mach WHERE deleted_at IS NULL AND status = 'published' ORDER BY loai DESC, ma_cu`,
 )).rows;
+// Kích thước THẬT của ảnh, lấy từ bảng media (2.559/2.561 bản ghi có width/height).
+// 20 ảnh kinh có 12 kích thước KHÁC NHAU nên không thể dùng một cặp số cứng; thiếu
+// width/height thì trang xô lệch lúc ảnh tải xong (hại điểm CLS).
+const kichThuoc = new Map();
+for (const m of (await kho.query(`SELECT id, width, height FROM media WHERE width IS NOT NULL`)).rows) {
+	kichThuoc.set(m.id, [m.width, m.height]);
+}
 await kho.end();
 
 const chu = (v) => {
@@ -87,10 +94,11 @@ const urlCms = (...vs) => {
 		let o = v;
 		if (typeof o === "string") { try { o = JSON.parse(o); } catch { continue; } }
 		const khoa = o?.meta?.storageKey;
-		if (khoa) return `/_emdash/api/media/file/${khoa}`;
+		if (khoa) return { url: `/_emdash/api/media/file/${khoa}`, id: o.id ?? null };
 	}
 	return null;
 };
+const anhCuaKinh = (x) => urlCms(x.anh_chinh, x.anh_so_do, x.anh_tong_quat);
 
 const dung = (x, thuTu) => {
 	const o = {};
@@ -99,7 +107,8 @@ const dung = (x, thuTu) => {
 		else if (k === "slug") o.slug = x.slug_goc || x.slug;
 		else if (k === "images") o.images = js(x.anh_goc) || {};
 		else if (k === "points") o.points = js(x.diem) || [];
-		else if (k === "anhCms") o.anhCms = urlCms(x.anh_chinh, x.anh_so_do, x.anh_tong_quat);
+		else if (k === "anhCms") o.anhCms = anhCuaKinh(x)?.url ?? null;
+		else if (k === "anhCmsWH") o.anhCmsWH = kichThuoc.get(anhCuaKinh(x)?.id) ?? null;
 		else if (k in THO) o[k] = x[THO[k]];
 		else if (k in CHU) o[k] = chu(x[CHU[k]]);
 	}

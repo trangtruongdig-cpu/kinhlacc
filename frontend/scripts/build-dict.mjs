@@ -387,7 +387,7 @@ function kinhPage(m) {
   const infobox = `<aside class="dl-info">
     <div class="dl-info-head">Hồ Sơ Đường Kinh</div>
     <div class="dl-info-body">
-      ${theAnh(m.anhCms, img, `Sơ đồ ${m.ten}`)}
+      ${theAnh(m.anhCms, img, `Sơ đồ ${m.ten}`, Array.isArray(m.anhCmsWH) ? ` width="${m.anhCmsWH[0]}" height="${m.anhCmsWH[1]}"` : '')}
       <table class="dl-info-tb"><tbody>${infoRows}</tbody></table>
     </div>
   </aside>`
