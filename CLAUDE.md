@@ -289,6 +289,26 @@ Và nhớ: trên nginx site thật, đường sai kiểu `/nguon_y_van/<slug>` *
 `index.html` của SPA (`try_files … /index.html`) — tức **ra trang chủ app, mã 200**. Lỗi
 đường dẫn ở đó không bao giờ tự lộ ra.
 
+⚠️ **SERVICE WORKER NUỐT TRANG TĨNH — và `curl` KHÔNG BAO GIỜ THẤY.** VitePWA
+(`frontend/vite.config.ts`) đăng ký `NavigationRoute(createHandlerBoundToURL("index.html"))`
+cho toàn scope `/`. Với người đã mở app một lần (service worker đã cài), MỌI trang không
+thuộc SPA bị trả về app shell — tức **hiện ra trang chủ, mã 200**. Chặn bằng
+`navigateFallbackDenylist`, và **mỗi nhóm trang tĩnh mới sinh ra PHẢI được thêm vào đó**.
+
+Đã cắn HAI lần: 25/09/2026 nuốt khu quản trị CMS ("Quản Trị Nội Dung" ra trang chủ), rồi
+26/09/2026 nuốt 2.045 trang `/nguon/` (danh sách lập lần trước bỏ sót đúng nhóm này).
+
+Điều làm nó nguy hiểm là **không phép đo nào từ máy chủ bắt được**: `curl` không chạy
+service worker, nên URL đúng, HTTP 200, HTML đúng nội dung, không redirect — tất cả đều
+báo ĐẠT trong khi người thật vẫn thấy trang chủ. Googlebot cũng không chạy service worker
+nên số liệu SEO im lặng luôn. Khi có người báo "bấm vào ra trang chủ" mà mọi phép đo đều
+đạt, hãy nghi cái này TRƯỚC, đừng đi đo lại đường dẫn lần nữa.
+
+Phép soát: đối chiếu các nhóm đường dẫn trong `dist/sitemap.xml` với danh sách denylist —
+nhóm nào có nhiều URL mà không nằm trong danh sách là nhóm đang bị nuốt. Trang vỏ SPA
+(`/thu-vien/`, `/ve-chung-toi/`, `/lien-he/`…) thì NGƯỢC LẠI: phải để service worker phục
+vụ, đưa vào denylist là hỏng.
+
 Tầng tra cứu trong CMS (ô tìm, lọc đặc tính, duyệt A–Z) nằm ở `cms/sql/chi-muc-tra-cuu.sql`
 + `cms/src/lib/traCuu.ts`. `search()` của EmDash KHÔNG dùng được: FTS5 là của SQLite, trên
 Postgres nó là lệnh rỗng — không báo lỗi, chỉ trả về rỗng.
