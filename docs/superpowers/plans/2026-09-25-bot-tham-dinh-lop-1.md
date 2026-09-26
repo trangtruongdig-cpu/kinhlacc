@@ -55,7 +55,7 @@
   - `export interface LoiChu { ma: MaLoiChu; trichDan: string; viTri: number }`
   - `export function doChu(s: string): LoiChu[]`
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Tạo `backend/src/utils/tham-dinh-chu.util.spec.ts`:
 
@@ -109,12 +109,12 @@ describe('doChu — rác di sản', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh-chu`
 Expected: FAIL — `Cannot find module './tham-dinh-chu.util'`
 
-- [ ] **Step 3: Viết bản cài đặt tối thiểu**
+- [x] **Step 3: Viết bản cài đặt tối thiểu**
 
 Tạo `backend/src/utils/tham-dinh-chu.util.ts`:
 
@@ -194,12 +194,12 @@ export function doChu(s: string): LoiChu[] {
 }
 ```
 
-- [ ] **Step 4: Chạy test cho tới khi xanh**
+- [x] **Step 4: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh-chu`
 Expected: PASS, 8 ca.
 
-- [ ] **Step 5: Kiểm kiểu rồi commit**
+- [x] **Step 5: Kiểm kiểu rồi commit**
 
 ```bash
 cd backend && npm run type-check && cd ..
@@ -223,7 +223,7 @@ git commit -m "feat(tham-dinh): phép dò rác di sản và dấu câu trên m�
   - `export const KHUNG_TRUONG: Record<string, { than: string[]; cotLoi: string[] }>`
   - `export function doMuc(m: MucKho): NhanXetTho[]`
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Tạo `backend/src/utils/tham-dinh-muc.util.spec.ts`:
 
@@ -308,12 +308,12 @@ describe('doMuc — chuyển tiếp lỗi chữ', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh-muc`
 Expected: FAIL — `Cannot find module './tham-dinh-muc.util'`
 
-- [ ] **Step 3: Viết bản cài đặt**
+- [x] **Step 3: Viết bản cài đặt**
 
 Tạo `backend/src/utils/tham-dinh-muc.util.ts`:
 
@@ -447,12 +447,12 @@ export function doMuc(m: MucKho): NhanXetTho[] {
 }
 ```
 
-- [ ] **Step 4: Chạy test cho tới khi xanh**
+- [x] **Step 4: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh-muc`
 Expected: PASS.
 
-- [ ] **Step 5: Kiểm kiểu rồi commit**
+- [x] **Step 5: Kiểm kiểu rồi commit**
 
 ```bash
 cd backend && npm run type-check && cd ..
@@ -476,7 +476,7 @@ git commit -m "feat(tham-dinh): khung trường 8 bộ + dò thiếu trường v
   - `export function gomCum(ds: NhanXetCoMuc[], duongDanBo: Record<string, string>): CumViec[]`
   - `export function vanTayNoiDung(truong: Record<string, string>, than: string[]): string`
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Tạo `backend/src/utils/tham-dinh-cum.util.spec.ts`:
 
@@ -567,12 +567,12 @@ describe('vanTayNoiDung', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh-cum`
 Expected: FAIL — không tìm thấy module.
 
-- [ ] **Step 3: Viết bản cài đặt**
+- [x] **Step 3: Viết bản cài đặt**
 
 Tạo `backend/src/utils/tham-dinh-cum.util.ts`:
 
@@ -678,12 +678,12 @@ export function vanTayNoiDung(truong: Record<string, string>, than: string[]): s
 }
 ```
 
-- [ ] **Step 4: Chạy test cho tới khi xanh**
+- [x] **Step 4: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh-cum`
 Expected: PASS, 10 ca.
 
-- [ ] **Step 5: Kiểm kiểu rồi commit**
+- [x] **Step 5: Kiểm kiểu rồi commit**
 
 ```bash
 cd backend && npm run type-check && cd ..
@@ -702,7 +702,7 @@ git commit -m "feat(tham-dinh): gom nhận xét thành cụm việc, vân tay n�
 - Consumes: `NhanXetCoMuc`, `CumViec` từ Task 3
 - Produces: `HoSoMuc`, `LuocKeCa`, `LocHoSo`, `ThongKeThamDinh`
 
-- [ ] **Step 1: Viết file kiểu**
+- [x] **Step 1: Viết file kiểu**
 
 Tạo `backend/src/models/tham-dinh.dto.ts`:
 
@@ -766,7 +766,7 @@ export interface ThongKeThamDinh {
 }
 ```
 
-- [ ] **Step 2: Kiểm kiểu rồi commit**
+- [x] **Step 2: Kiểm kiểu rồi commit**
 
 ```bash
 cd backend && npm run type-check && cd ..
@@ -794,7 +794,7 @@ git commit -m "feat(tham-dinh): kiểu dữ liệu bệnh án mục từ"
   - `ghiHoSo(h: HoSoMuc, nx: NhanXetCoMuc[]): Promise<void>`
   - `static readonly DDL: readonly string[]`
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Tạo `backend/src/controllers/tham-dinh-cms.service.spec.ts`:
 
@@ -851,12 +851,12 @@ describe('ThamDinhCmsService.daCauHinh', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh-cms`
 Expected: FAIL — không tìm thấy module.
 
-- [ ] **Step 3: Viết bản cài đặt**
+- [x] **Step 3: Viết bản cài đặt**
 
 Tạo `backend/src/controllers/tham-dinh-cms.service.ts`:
 
@@ -1037,12 +1037,12 @@ export class ThamDinhCmsService {
 }
 ```
 
-- [ ] **Step 4: Chạy test cho tới khi xanh**
+- [x] **Step 4: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh-cms`
 Expected: PASS, 6 ca.
 
-- [ ] **Step 5: Kiểm kiểu rồi commit**
+- [x] **Step 5: Kiểm kiểu rồi commit**
 
 ```bash
 cd backend && npm run type-check && cd ..
@@ -1065,7 +1065,7 @@ git commit -m "feat(tham-dinh): cửa sang kinhlac_cms + DDL bệnh án idempote
   - `chayCa(gioiHan?: number): Promise<LuocKeCa>`
   - `xepHangHoSo(soNhanXetNang: number, soNhanXet: number, doDay: number): HangHoSo`
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Tạo `backend/src/controllers/tham-dinh.controller.spec.ts`:
 
@@ -1103,12 +1103,12 @@ describe('ThamDinhService.chayCa — khi chưa cấu hình', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh.controller`
 Expected: FAIL — không tìm thấy module.
 
-- [ ] **Step 3: Viết bản cài đặt**
+- [x] **Step 3: Viết bản cài đặt**
 
 Tạo `backend/src/controllers/tham-dinh.controller.ts`:
 
@@ -1256,12 +1256,12 @@ export class ThamDinhService {
 }
 ```
 
-- [ ] **Step 4: Chạy test cho tới khi xanh**
+- [x] **Step 4: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh.controller`
 Expected: PASS, 5 ca.
 
-- [ ] **Step 5: Kiểm kiểu rồi commit**
+- [x] **Step 5: Kiểm kiểu rồi commit**
 
 ```bash
 cd backend && npm run type-check && cd ..
@@ -1282,7 +1282,7 @@ git commit -m "feat(tham-dinh): ca soi lớp 1 — quét kho, ghi bệnh án, n�
 - Consumes: `ThamDinhService` (Task 6), `ThamDinhCmsService` (Task 5)
 - Produces: ba endpoint dưới `/tham-dinh`
 
-- [ ] **Step 1: Viết router**
+- [x] **Step 1: Viết router**
 
 Tạo `backend/src/routers/tham-dinh.router.ts`:
 
@@ -1324,14 +1324,14 @@ export class ThamDinhRouter {
 }
 ```
 
-- [ ] **Step 2: Kiểm tên guard cho đúng**
+- [x] **Step 2: Kiểm tên guard cho đúng**
 
 Run: `ls backend/src/middlewares/auth/`
 Nếu không có `quan-tri.guard.ts`, tìm tên thật:
 Run: `grep -rn "QuanTriGuard" backend/src --include=*.ts | head -3`
 Sửa đường import trong router cho khớp tên file thật.
 
-- [ ] **Step 3: Đăng ký vào app.module.ts**
+- [x] **Step 3: Đăng ký vào app.module.ts**
 
 Mở `backend/src/app.module.ts`. Module này liệt kê thủ công, không tự dò. Thêm ba chỗ:
 
@@ -1352,7 +1352,7 @@ ThamDinhCmsService,
 Không thêm gì vào `TypeOrmModule.forFeature([...])` — hai bảng bệnh án nằm ở `kinhlac_cms`,
 không do TypeORM quản.
 
-- [ ] **Step 4: Kiểm kiểu và khởi động thử**
+- [x] **Step 4: Kiểm kiểu và khởi động thử**
 
 ```bash
 cd backend && npm run type-check
@@ -1365,7 +1365,7 @@ cd backend && timeout 40 npm run start:dev 2>&1 | tail -30
 Expected: thấy dòng ánh xạ route `/tham-dinh/chay`, không có lỗi khởi tạo.
 Ghi chú: macOS không có lệnh `timeout`; dùng `npm run start:dev` rồi Ctrl-C sau khi thấy log.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add backend/src/routers/tham-dinh.router.ts backend/src/app.module.ts
@@ -1393,7 +1393,7 @@ soạn bản bổ sung từ chữ đã có trong kho, mà muốn vậy phải bi
 Nó cũng tự nó đã có ích: vị thuốc trong bài mà không khớp mục dược liệu nào thường là **tên
 viết sai** hoặc **kho thiếu vị đó** — cả hai đều đáng biết.
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Thêm vào cuối `backend/src/utils/tham-dinh-muc.util.spec.ts`:
 
@@ -1466,12 +1466,12 @@ describe('doLienKet', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh-muc`
 Expected: FAIL — `dungChiMucTen is not a function`
 
-- [ ] **Step 3: Viết bản cài đặt**
+- [x] **Step 3: Viết bản cài đặt**
 
 Thêm vào cuối `backend/src/utils/tham-dinh-muc.util.ts`:
 
@@ -1596,12 +1596,12 @@ export function doLienKet(m: MucKho, chiMuc: ChiMucTen): NhanXetTho[] {
 }
 ```
 
-- [ ] **Step 4: Chạy test cho tới khi xanh**
+- [x] **Step 4: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh-muc`
 Expected: PASS — cả phần cũ lẫn 6 ca mới.
 
-- [ ] **Step 5: Nối vào ca soi**
+- [x] **Step 5: Nối vào ca soi**
 
 Trong `backend/src/controllers/tham-dinh.controller.ts`, sửa `chayCa`:
 
@@ -1635,7 +1635,7 @@ Và trong vòng lặp từng mục, đổi dòng tính `nx`:
             const nx = [...doMuc(m), ...doLienKet(m, chiMucTen)];
 ```
 
-- [ ] **Step 6: Kiểm kiểu, chạy toàn bộ test, commit**
+- [x] **Step 6: Kiểm kiểu, chạy toàn bộ test, commit**
 
 ```bash
 cd backend && npm run type-check && npm test -- tham-dinh && cd ..
@@ -1654,7 +1654,7 @@ git commit -m "feat(tham-dinh): dò liên kết hụt giữa các bộ + tên v�
 **Interfaces:**
 - Consumes: bảng `td_ho_so`, `td_nhan_xet` do ca soi sinh ra
 
-- [ ] **Step 1: Thêm cấu hình vào backend/.env**
+- [x] **Step 1: Thêm cấu hình vào backend/.env**
 
 Chép giá trị từ `cms/.env` sang `backend/.env` (đổi tiền tố):
 
@@ -1669,14 +1669,14 @@ CMS_DB_NAME=kinhlac_cms
 ⚠️ `backend/.env` có `CA_CERTIFICATE` là PEM nhiều dòng trong nháy kép — **đừng `source` cả
 file trong shell**, phải lọc dòng.
 
-- [ ] **Step 2: Chạy thử 50 mục**
+- [x] **Step 2: Chạy thử 50 mục**
 
 ```bash
 curl -s -X POST localhost:3001/tham-dinh/chay-thu -H "Authorization: Bearer $TOKEN" | head -40
 ```
 Expected: `soMucDoc: 50`, `soNhanXet` > 0, `loi: []`.
 
-- [ ] **Step 3: Viết script nghiệm thu**
+- [x] **Step 3: Viết script nghiệm thu**
 
 Tạo `backend/tmp/nghiem-thu-tham-dinh.mjs`:
 
@@ -1739,14 +1739,14 @@ Expected:
 - ③ bằng 0
 - ⑤ ra danh sách kiểu lỗi kèm số mục
 
-- [ ] **Step 5: Kiểm cụm việc trong tab Góp Ý & Lỗi**
+- [x] **Step 5: Kiểm cụm việc trong tab Góp Ý & Lỗi**
 
 Mở tab "Góp Ý & Lỗi", lọc lane `gop_y`. Kiểm bằng mắt:
 - Số cụm cỡ **hàng chục**, không phải hàng nghìn — nếu thấy hàng nghìn thì route đã kèm slug, quay lại Task 3.
 - Mỗi cụm có `×N` với N là số mục dính.
 - Bấm vào một cụm thấy danh sách đường dẫn mục trong phần mô tả.
 
-- [ ] **Step 6: Kiểm số kết nối Postgres không vượt trần**
+- [x] **Step 6: Kiểm số kết nối Postgres không vượt trần**
 
 Chạy trong lúc ca soi đang chạy:
 
@@ -1762,7 +1762,7 @@ c.connect().then(()=>c.query('SELECT count(*)::int n FROM pg_stat_activity')).th
 
 Expected: ≤ 14. Vượt thì kiểm lại `dongKetNoi()` có được gọi trong `finally` không.
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add backend/tmp/nghiem-thu-tham-dinh.mjs

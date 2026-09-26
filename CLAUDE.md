@@ -136,6 +136,42 @@ che dữ liệu và luật gom cụm chỉ viết một lần ở `backend/src/u
 - Telegram chỉ bật khi có `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`; push nhân viên cần
   `admins.fcm_token` (đăng ký qua nút trong tab). Thiếu cấu hình thì cả hai NẰM IM, không lỗi.
 
+### Bot thẩm định thư viện — lớp 1 (máy quét) ĐÃ CHẠY, lớp 2–3 chưa
+
+Thiết kế: `docs/superpowers/specs/2026-09-25-bot-tham-dinh-thu-vien-design.md`.
+Kế hoạch 1: `docs/superpowers/plans/2026-09-25-bot-tham-dinh-lop-1.md` (xong, trừ lượt
+chạy cả kho).
+
+Lớp 1 quét 18.416 mục, KHÔNG gọi mô hình ngôn ngữ, ghi bệnh án vào hai bảng
+`td_ho_so` / `td_nhan_xet` **ở `kinhlac_cms`** (không phải `defaultdb`, nên
+`SchemaBootstrapService` không dựng được — service tự chạy DDL idempotent của mình).
+Cụm việc nộp thẳng vào tab Góp Ý & Lỗi qua `SuCoService.ghiNhanLo()`, lane `gop_y`.
+
+Cần `CMS_DB_HOST/PORT/USER/PASSWORD/NAME` trong `backend/.env`; thiếu thì bot **nằm im**,
+không lỗi. API: `POST /tham-dinh/chay`, `/chay-thu` (50 mục), `GET /tham-dinh/trang-thai`
+— tất cả sau `QuanTriGuard`. Cron 02:00.
+
+**Bốn điều đã trả giá, đừng lặp:**
+
+- **`td_chu()` NUỐT TRẮNG `ec_bai_thuoc.thanh_phan`.** Cột đó là mảng object
+  `[{id, ten, lieu}, …]`, 13.889 bài có dữ liệu, td_chu rút ra **0 chữ** — không lỗi,
+  không cảnh báo. Bot vì thế có bộ rút chữ riêng `utils/tham-dinh-rut-chu.util.ts`;
+  `docLoMuc` lấy `to_jsonb()` thô rồi rút ở phía Node. Đừng "đơn giản hoá" nó về td_chu.
+- **Route của cụm phải là đường của BỘ** (`/huyet/`), không kèm slug. `chuanHoaRoute`
+  chỉ thay SỐ bằng `:id`; kèm slug là 484 mục thành 484 cụm.
+- **`ghiNhanLo` chỉ xử lý `slice(0, 50)`** rồi thôi, không đếm phần dư. Nộp cụm phải
+  chia lô — `ThamDinhService.nopCum` làm sẵn.
+- **`@nestjs/schedule` v12 là ESM thuần**, jest của repo chạy CJS. Spec nào chạm vào
+  chuỗi import có nó (kể cả gián tiếp qua `su-co.controller`) phải
+  `jest.mock('@nestjs/schedule', …)`, không thì gãy ngay khâu parse.
+
+Phép dò chạy trên 18.416 mục thì mẫu quá rộng **không** cho ra "vài cảnh báo thừa" — nó
+cho ra một cụm việc giả đứng đầu bảng. Lượt nghiệm thu đầu vu oan 47/50 mục
+(`Ôn cứu` → tcvn3, `0,5 thốn` → lỗi dấu câu). Mọi lần sửa phép dò: đọc `trich_dan`
+thật trong `td_nhan_xet` trước khi tin con số.
+
+Nghiệm thu: `node backend/tmp/nghiem-thu-tham-dinh.mjs` (chỉ đọc).
+
 ### BenhDongYExcel diagnostic engine
 
 `benh-dong-y-excel.*` implements a rule engine whose rules are stored as Excel-formula-like strings (`excelFormula`), a logic expression (`logicExpression`), and SQL CASE clauses (`sqlCaseText`, `sqlCaseBoolean`). Input cell refs (`C10`, `F15`, `D7`, etc.) match the layout in `map.md`. The `MeridianResultsView.vue` frontend renders these results with cell-reference highlighting; recent commits (`refToHint`, `splitCellRefs`) revolve around mapping rule cells back to the UI.
@@ -221,6 +257,23 @@ không thì tải trang ra nội dung tĩnh còn bấm link ra 404.
 
 `/duoc-lieu/nhom/…` (61 URL) do `build-nhom-duoc-ly.mjs` sinh, vẫn tĩnh.
 `gen-sitemap.mjs` + `kiem-sitemap.mjs` là cổng chặn số lượng URL.
+
+⚠️ **Nút "mở trang" trong trang quản trị CMS 404 ở local — đó là kiến trúc, không phải
+lỗi.** Nút đó (`contentUrl()` của `@emdash-cms/admin`) dựng link TƯƠNG ĐỐI với origin của
+chính CMS: lấy `url_pattern` của bộ, thiếu thì rơi về `/{tên_bộ}/{slug}`. Mà trang từ
+điển là HTML tĩnh do nginx phục vụ, CMS không có route nào cho chúng — nên ở
+`localhost:4321` nút ấy **luôn** 404, và trang 404 của CMS dùng chung layout blog nên
+trông như trang chủ. Trước khi đi sửa, phân định bằng ba phép đo:
+
+- `curl https://kinhlac.online/<đường-dẫn>/` — trên site thật link đúng phải ra 200.
+- Bảng `_emdash_404_log` (`path`, `referrer`, `last_seen_at`) ghi đúng đường vừa bấm;
+  `referrer = http://localhost:4321/…` là bằng chứng đang ở bản local.
+- Dạng `/kinh_mach/than` (gạch dưới) = `url_pattern` chưa khai; dạng `/kinh/than/` = đã
+  khai. Khai bằng `cms/scripts-di-cu/khai-url-pattern.mjs`.
+
+Và nhớ: trên nginx site thật, đường sai kiểu `/nguon_y_van/<slug>` **không ra 404** mà ra
+`index.html` của SPA (`try_files … /index.html`) — tức **ra trang chủ app, mã 200**. Lỗi
+đường dẫn ở đó không bao giờ tự lộ ra.
 
 Tầng tra cứu trong CMS (ô tìm, lọc đặc tính, duyệt A–Z) nằm ở `cms/sql/chi-muc-tra-cuu.sql`
 + `cms/src/lib/traCuu.ts`. `search()` của EmDash KHÔNG dùng được: FTS5 là của SQLite, trên
@@ -328,6 +381,16 @@ Thẻ SEO của 18.425 trang tĩnh ráp ở `frontend/scripts/seo-html.mjs`, n�
 builder tự sinh. Người biên tập ghi đè được qua bảng `_emdash_seo` của EmDash
 (`seo_title`, `seo_description`, `seo_image`, `seo_canonical`, `seo_no_index`) — mọi bộ
 đều khai `hasSeo: true` nên trang quản trị đã có ô nhập sẵn.
+
+⚠️ Câu trên **mới đúng từ 26/09/2026**. Trước đó `has_seo = 0` ở 5 trong 9 bộ —
+bai_thuoc (13.942 mục), nguon_y_van (2.139), duoc_lieu (1.045), cham_cuu_tri_benh và
+kinh_mach — tức **17.246 trang không có ô nhập**, và `_emdash_seo` rỗng hoàn toàn nên
+khâu ghi đè chạy mà không có gì để ghi đè, build vẫn xanh. Cột quyết định là `has_seo`
+(trang quản trị đọc `collectionConfig.hasSeo`); `supports` giữ cho khớp vì registry suy
+ngược `hasSeo ?? supports.includes("seo")`. Phép kiểm:
+`node cms/scripts-di-cu/khai-seo.mjs --thu` phải in ra 0 bộ.
+**Đừng thêm `"search"` vào `supports`** dù 4 bộ cũ có: `search()` của EmDash là FTS5 của
+SQLite, trên Postgres là lệnh rỗng.
 
 - `frontend/scripts/seo-cms.mjs` là khâu nối. Nó mở kết nối RIÊNG tới `kinhlac_cms`
   (builder nối `defaultdb`, hai kho không join chéo được) và đóng ngay — Aiven chỉ 20
