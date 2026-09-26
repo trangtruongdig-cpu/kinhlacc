@@ -9,57 +9,67 @@
 // người mới học đọc dễ, vừa để trang không bị Google xếp trùng lặp với bản PDF đang
 // lưu hành khắp các nhóm.
 //
-// LÔ 3/4: 89 huyệt bốn kinh PC (Tâm Bào, 9), TE (Tam Tiêu, 23), GB (Đởm, 44 huyệt có
-// trong nguồn nhưng BỎ GB29 → còn 43 — xem cảnh báo mã lệch bên dưới), LR (Can, 14).
-// Lô 1 (LI/ST/SP/HE, 93 huyệt) và lô 2 (SI/BL/KI, 113 huyệt) đã ghi xong — bản HO_SO
-// của hai lô đó không còn trong file này (xem lịch sử git nếu cần tra lại), theo đúng
-// quy ước "mỗi lô ghi qua bản HO_SO của chính lô đó" ở dưới. Lô 4/4 (dự kiến, chưa
-// làm): CV — Nhâm mạch (24), GV — Đốc mạch (28), khép đủ 359 huyệt của hoso.json. Mỗi
-// phần tử "nhom" ứng với một cụm gạch đầu dòng "●" trong nguyenVan của nguồn (đã tách
-// đúng theo nguyenVan — không dùng tacDung vì tacDung bị PDF-extract ngắt dòng giữa
-// câu, xuống dòng sai chỗ); vài huyệt nguồn không có bullet "●" (một đoạn văn liền) —
-// những huyệt đó chỉ có 1–2 phần tử "nhom" tách theo ý, không bịa thêm cụm.
+// LÔ 4/4 (LÔ CUỐI): 52 huyệt hai mạch CV — Nhâm mạch (24) và GV — Đốc mạch (28).
+// Lô 1 (LI/ST/SP/HE, 92), lô 2 (SI/BL/KI, 113), lô 3 (PC/TE/GB trừ GB29/LR, 89) đã ghi
+// xong — bản HO_SO của ba lô đó không còn trong file này (xem lịch sử git nếu cần tra
+// lại), theo đúng quy ước "mỗi lô ghi qua bản HO_SO của chính lô đó" ở dưới. Sau lô này
+// khép đủ 11 + 92 + 113 + 89 + 52 = 357 huyệt.
+//
+// ⚠️ NHÂM/ĐỐC LÀ MẠCH, KHÔNG PHẢI KINH CHÍNH: nhiều huyệt ở đây là huyệt Mộ hoặc huyệt
+// then chốt của cả một tạng phủ (CV4 Quan Nguyên, CV6 Khí Hải, CV12 Trung Quản, CV17
+// Chiên Trung/Đản Trung, GV4 Mệnh Môn, GV14 Đại Chuỳ, GV20 Bách Hội, GV26 Nhân Trung) —
+// đây là nhóm người mới học tra nhiều nhất trong cả bộ.
+//
+// Mỗi phần tử "nhom" ứng với một cụm gạch đầu dòng "●" trong nguyenVan của nguồn (đã
+// tách đúng theo nguyenVan — không dùng tacDung vì tacDung bị PDF-extract ngắt dòng
+// giữa câu, xuống dòng sai chỗ); một số huyệt nguồn không có bullet "●" (một đoạn văn
+// liền, ví dụ CV4, CV6, CV8, CV10, CV11, GV18, GV19, GV21, GV22, GV25, GV28) — những
+// huyệt đó chỉ có 1–2 phần tử "nhom" tách theo Ý của chính đoạn văn, không bịa thêm cụm.
 //
 // ⚠️ NHIỄU OCR trong nguồn: nhiều "nguyenVan" có chèn dòng chân trang giữa câu
 // ("Phùng Văn Chiến (Việt hoá, biên soạn, chế hình) HUYỆT VỊ CHÂM CỨU THƯỜNG DÙNG
 // <số trang>") do PDF ngắt trang giữa một gạch đầu dòng — đã lọc bỏ khi viết lại,
-// không phải sự kiện thật của huyệt. Nhiều huyệt GB (GB31/32/33/35/38/39) có kèm một
-// khối chú giải dài về "hội chứng Bi/Tý" (đau khớp/cơ, khó co duỗi) lặp lại gần như
-// nguyên văn ở mỗi huyệt — đó là một chú thích thuật ngữ dùng chung trong sách, KHÔNG
-// phải sự kiện riêng của từng huyệt, nên chỉ rút gọn còn "hội chứng tý (đau khớp/cơ,
-// khó co duỗi)" một lần, không chép lại cả khối 4 loại tý (Hành/Thống/Trước/Nhiệt tý)
-// ở mỗi huyệt — chép đủ 6 lần sẽ thành nội dung lặp, không thêm thông tin gì mới.
+// không phải sự kiện thật của huyệt. Nhiều huyệt (GV3, GV16) có kèm một khối chú giải
+// dài về "hội chứng Bi/Tý" (đau khớp/cơ, khó co duỗi) giống hệt lô 3 — chỉ rút gọn còn
+// "hội chứng tý (đau khớp/cơ, khó co duỗi)", không chép lại cả khối 4 loại tý.
+// Nhiều huyệt (CV3, CV5, CV7, CV13, GV5) có kèm định nghĩa dài "bôn đồn khí (ben tun qi
+// 奔豚气: heo con chạy...)" — rút gọn còn "khí nghịch từ bụng dưới xông lên ngực (bôn
+// đồn khí)", giữ đúng nghĩa lâm sàng, bỏ phần diễn giải ẩn dụ.
 //
-// ⚠️ MỘT CHỖ NGỜ SAI CỦA NGUỒN — đã né, không chép theo: PC6 (Nội Quan), tacDung ghi
-// "Mở mạch Âm kiều" — nhưng theo bát mạch giao hội chuẩn, Nội Quan (PC6) là huyệt giao
-// hội với mạch ÂM DUY, còn Âm Kiều giao hội ở Chiếu Hải (KI6). Không rõ đây là lỗi bản
-// dịch hay lỗi gốc của Focks; vì không chắc, bản ghi ở đây KHÔNG nêu tên mạch (bỏ luôn
-// "Âm kiều"/"Âm duy"), chỉ giữ lại các chỉ định lâm sàng thật (hồi hộp, lo âu, mất ngủ,
-// chức năng tim) — đó mới là sự kiện chắc chắn đúng, phần gán tên mạch mới là chỗ ngờ.
+// ⚠️ HAI CHỖ NGỜ SAI/NHIỄU CỦA NGUỒN — đã né, không chép nguyên văn:
+//   1. GV8 (Cân Súc): tacDung liệt "co thắt, bồn chồn, màng não, đau tim" — từ "màng
+//      não" (một danh từ giải phẫu) chen giữa các triệu chứng cơ năng không rõ liên hệ,
+//      nhiều khả năng là mảnh dịch lạc của thuật ngữ "Meningismus" (một triệu chứng,
+//      không phải bộ phận) trong bản gốc tiếng Đức — không chắc nên KHÔNG chép từ này,
+//      chỉ giữ các chỉ định lâm sàng rõ nghĩa còn lại.
+//   2. GV10/GV13/GV14: tacDung ghi "suy nhược cơ thể (ví dụ: bệnh loãng xương
+//      ("Knochendampferkrankung"))" — từ Đức "Knochendampf" (hơi/chưng xương) khớp
+//      nghĩa với "cốt chưng" (chứng sốt về chiều do Âm hư trong Đông Y) hơn là "loãng
+//      xương" (osteoporosis, nghĩa ngược lại). Vì đây là suy luận riêng, KHÔNG chắc
+//      chắn như trường hợp PC6/Âm Kiều ở lô 3 (có căn cứ bát mạch giao hội chuẩn), nên
+//      KHÔNG tự sửa thành "cốt chưng" — giữ nguyên "loãng xương" như bản dịch đã ghi
+//      (cùng cách dùng đã duyệt ở BL23 lô 2: "Bổ xương tuỷ: loãng xương, nhuyễn xương."),
+//      chỉ bỏ phần chú thích tiếng Đức trong ngoặc vì đó là nhiễu OCR/dịch, không phải
+//      sự kiện lâm sàng.
 //
-// ⚠️ GB29 (CỰ LIÊU) — CHỦ ĐỘNG LOẠI KHỎI LÔ NÀY, không ghi bất kỳ nội dung nào:
-//   CSDL có HAI hàng cùng tên "Cự Liêu" bị gán mã lẫn nhau (lỗi có sẵn trong từ điển
-//   gốc, đang chờ xử lý riêng — KHÔNG sửa ma_huyet trong việc này):
-//     slug='cu-lieu'   (vị trí hông, giữa gai chậu trước trên và mấu chuyển lớn, tự
-//       khai "huyệt thứ 29 kinh Đởm" — tức GB29 THẬT) — ma_huyet đang RỖNG (NULL).
-//     slug='cu-lieu-2' (vị trí mặt, dưới huyệt Tứ Bạch — Vi 2, tự khai "huyệt thứ 3
-//       kinh Vị" — tức ST3 THẬT) — ma_huyet đang lưu SAI thành 'GB29'.
-//   Nếu ghi theo mã ma_huyet='GB29' như các mã khác trong lô, nội dung huyệt HÔNG sẽ
-//   bị dán nhầm vào trang huyệt MẶT (slug='cu-lieu-2'/ST3). Không có cách ghi đúng nào
-//   trong phạm vi việc này (ghi theo slug='cu-lieu' cũng sai vì đó là sửa né tránh mã
-//   lệch, thuộc phạm vi việc sửa ma_huyet đang thống nhất riêng) — nên KHÔNG GHI GB29,
-//   không đưa vào HO_SO, không có trong BO_QUA_MA_LECH (không cần, vì không hề nằm
-//   trong danh sách 89 mã sẽ kiểm/ghi của lô này). Tương tự lý do bỏ ST3 ở lô 1.
+// ⚠️ CẢNH BÁO GIỮ LẠI TỪ NGUỒN (không tự thêm cảnh báo nguồn không có):
+//   - CV9 (Thuỷ Phân): nguồn ghi rõ trị cổ trướng "khi đó nên dùng cứu ngải" — giữ
+//     nguyên trong chỉ định.
+//   - CV15 (Cưu Vĩ): nguồn phân biệt Hư/Thực cho lạc mạch Nhâm ("Hư: ngứa da bụng.
+//     Thực: da bụng đau nhức") — giữ nguyên, không gộp chung.
+//   - GV26 (Nhân Trung): nguồn liệt huyệt này dùng khi "sốc cấp tính mất ý thức... gãy
+//     kim [khi châm]" — đây là huyệt cấp cứu kinh điển, giữ nguyên các chỉ định cấp cứu.
+//   - CV8 (Thần Khuyết): nguồn CHỈ ghi "Làm ấm, ổn định dương và ruột..." — KHÔNG có
+//     dòng nào nói "cấm châm, chỉ cứu" trong tacDung/nguyenVan đã bóc (đã kiểm lại toàn
+//     bộ object, chỉ có 5 khoá ma/ten/trang/tacDung/nguyenVan, không có trường cảnh báo
+//     riêng). Dù đây là kiến thức phổ biến trong Đông Y, nguồn KHÔNG nêu nên KHÔNG tự
+//     thêm — theo đúng luật "đừng tự thêm cảnh báo sách không có".
 //
-// ⚠️ MÃ CSDL — đã kiểm bằng truy vấn (--kiem) trước khi ghi, không giả định. 88/89 mã
-// khớp THẲNG theo ma_huyet. Một trường hợp lệch, PHÁT HIỆN KHI KIỂM (không phải chuyện
-// biết trước như GB29):
-//   GB3 (Thượng Quan, tr274): CSDL không có hàng nào mang ma_huyet='GB3' — hàng
-//     slug='thuong-quan' đúng vị trí/tên nhưng ma_huyet đang NULL (thiếu mã, không
-//     phải lệch mã liên kinh như GB29/ST3). Ghi theo slug (KHOP_THEO_SLUG), KHÔNG đụng
-//     cột ma_huyet.
-// BO_QUA_MA_LECH và KHOP_THEO_MA_KHAC rỗng ở lô này (không có ca nào cần dùng đến),
-// giữ biến để logic dùng chung với hai lô trước.
+// ⚠️ MÃ CSDL — đã kiểm bằng truy vấn (--kiem) trước khi ghi, không giả định "mọi mã
+// Đốc Mạch đều là GV" như yêu cầu. Kết quả: 52/52 mã (CV1…CV24, GV1…GV28) khớp THẲNG
+// theo ma_huyet, không có ca nào NULL hoặc lệch tiền tố kiểu GB3/GB29 ở lô 3. Vì vậy
+// BO_QUA_MA_LECH, KHOP_THEO_SLUG, KHOP_THEO_MA_KHAC đều RỖNG ở lô này — giữ biến để
+// logic ghi/kiểm dùng chung với ba lô trước.
 //
 // ⚠️ HÌNH DẠNG JSON — đã ĐO THẬT bằng cách gọi thẳng hàm td_chu() (cms/sql/chi-muc-
 // tra-cuu.sql) trước khi chốt ở lô 1, KHÔNG đoán:
@@ -73,14 +83,14 @@
 //
 //   node scripts-di-cu/nap-cong-dung.mjs --thu            # in ra, không ghi, không nối CSDL
 //   node scripts-di-cu/nap-cong-dung.mjs --kiem           # nối CSDL, chỉ đối chiếu mã huyệt, KHÔNG ghi
-//   node scripts-di-cu/nap-cong-dung.mjs --kinh=PC,TE     # giới hạn lô ghi theo kinh (mặc định: cả lô)
+//   node scripts-di-cu/nap-cong-dung.mjs --kinh=CV,GV     # giới hạn lô ghi theo kinh (mặc định: cả lô)
 //   node scripts-di-cu/nap-cong-dung.mjs
 //
-// ⚠️ Bốn lô (LI/ST/SP/HE, rồi SI/BL/KI, rồi PC/TE/GB/LR, rồi CV/GV dự kiến) đều ghi qua
-// bản HO_SO của CHÍNH LÔ ĐÓ — đừng chạy lại lô cũ sau khi đã thay HO_SO bằng lô mới,
-// dữ liệu lô cũ sẽ không được ghi lại (không mất, chỉ là không có tác dụng gì).
+// ⚠️ Bốn lô (LI/ST/SP/HE, rồi SI/BL/KI, rồi PC/TE/GB/LR, rồi CV/GV — LÔ NÀY) đều ghi
+// qua bản HO_SO của CHÍNH LÔ ĐÓ — đừng chạy lại lô cũ sau khi đã thay HO_SO bằng lô
+// mới, dữ liệu lô cũ sẽ không được ghi lại (không mất, chỉ là không có tác dụng gì).
 //
-// Đợi ĐỦ CẢ BỐN LÔ rồi mới chạy một lượt (không chạy giữa lô — tốn công vô ích):
+// ĐỦ CẢ BỐN LÔ rồi — bước tiếp theo (KHÔNG chạy trong việc này, người dùng tự chạy):
 //   node scripts-di-cu/dung-chi-muc.mjs huyet_vi
 //   node scripts-di-cu/xuat-huyet-js.mjs
 
@@ -109,636 +119,390 @@ const gioiHanKinh = (() => {
 })();
 const tienToKinh = (ma) => ma.replace(/[0-9]+$/, "");
 
-// Không có mã nào phải BỎ QUA vì lệch quy ước ở lô này (GB29 không nằm trong danh
-// sách 89 mã của lô — xem cảnh báo "GB29 — CHỦ ĐỘNG LOẠI KHỎI LÔ NÀY" ở trên; đây là
-// loại khỏi HO_SO hoàn toàn, khác với BO_QUA_MA_LECH vốn dùng cho mã CÓ mặt trong
-// HO_SO nhưng phải bỏ qua lúc ghi). Giữ ba biến này rỗng để logic ghi/kiểm dùng chung
-// với hai lô trước.
+// Không có mã nào phải BỎ QUA/KHỚP THEO SLUG/KHỚP THEO MÃ KHÁC ở lô này — đã kiểm bằng
+// --kiem trước khi chốt bản này: 52/52 mã CV/GV khớp thẳng theo ma_huyet. Giữ ba biến
+// này rỗng để logic ghi/kiểm dùng chung với ba lô trước.
 const BO_QUA_MA_LECH = {};
-// GB3 (Thượng Quan): ma_huyet đang NULL trong CSDL, hàng đúng vị trí nằm ở
-// slug='thuong-quan' — phát hiện khi chạy --kiem, không phải biết trước.
-const KHOP_THEO_SLUG = {
-	GB3: "thuong-quan",
-};
+const KHOP_THEO_SLUG = {};
 const KHOP_THEO_MA_KHAC = {};
 
-// Hồ sơ ĐÃ DUYỆT — lô 3: PC1…PC9, TE1…TE23, GB1…GB28+GB30…GB44 (43 mã, TRỪ GB29), LR1…
-// LR14. `trang` là số trang trong bản dịch Focks/Phùng Văn Chiến đã đối chiếu (để truy
+// Hồ sơ ĐÃ DUYỆT — lô 4 (LÔ CUỐI): CV1…CV24 (Nhâm mạch, 24), GV1…GV28 (Đốc mạch, 28).
+// `trang` là số trang trong bản dịch Focks/Phùng Văn Chiến đã đối chiếu (để truy
 // nguồn); mỗi phần tử của `nhom` là "Tên nhóm công dụng: chỉ định cụ thể" viết lại
 // bằng lời riêng, giữ nguyên SỰ KIỆN so với cms/.tam-focks/hoso.json.
 const HO_SO = {
-	// ── PC — Tâm Bào (9) ─────────────────────────────────────────
-	PC1: {
-		trang: 237,
+	// ── CV — Nhâm Mạch (24) ──────────────────────────────────────
+	CV1: {
+		trang: 339,
 		nhom: [
-			"Giáng nghịch khí ở Phế: ho, thở khò khè, hen phế quản.",
-			"Khai thông lồng ngực, điều khí, hoá đàm: tức ngực, đau dây thần kinh liên sườn (kể cả sau zona), sưng hạch và đau vùng nách, bồn chồn do co thắt cơ hoành.",
-			"Lợi sữa: rối loạn tiết sữa, viêm tuyến vú.",
+			"Điều hoà nhị tiện, trừ thấp nhiệt: rối loạn đại tiện và tiểu tiện, bí tiểu, viêm tuyến tiền liệt, bệnh ở cơ quan sinh dục ngoài, sa trực tràng, trĩ, đau vùng hậu môn, kinh nguyệt không đều hoặc vô kinh, sa tử cung, bệnh sán khí (thoát vị tạng bụng, bệnh sinh dục ngoài, đau bụng dữ dội kèm táo bón — bí tiểu).",
+			"An thần, hồi phục ý thức (một trong thập tam quỷ huyệt của Tôn Tư Mạc, dùng cấp cứu): động kinh, hưng cảm, sau khi ngạt nước (hỗ trợ đẩy nước ra khỏi phổi).",
 		],
 	},
-	PC2: {
-		trang: 239,
+	CV2: {
+		trang: 340,
 		nhom: [
-			"Khai thông lồng ngực: cảm giác tức ngực, căng tức.",
-			"Dưỡng huyết, hoạt huyết, giảm đau: đau thắt ngực, đau nhói vùng tim, đau lan cả lồng ngực — lưng và mặt trong cánh tay.",
-			"An thần: hồi hộp đánh trống ngực.",
+			"Lợi tiểu tiện, ôn dương bổ Thận: bệnh nam khoa — tiết niệu như tiểu khó, bí tiểu, tiểu không tự chủ, viêm đường tiết niệu, di tinh, liệt dương, bệnh sán khí; kiệt sức do cảm lạnh.",
+			"Điều hoà hạ tiêu: khó chịu vùng chậu, kinh nguyệt không đều, khí hư, bệnh ở cơ quan sinh dục ngoài.",
 		],
 	},
-	PC3: {
-		trang: 240,
+	CV3: {
+		trang: 341,
 		nhom: [
-			"Thanh nhiệt, tả hoả (thường chích nặn máu): sốt cao, say nắng.",
-			"Điều hoà Vị Trường, chỉ ẩu: rối loạn tiêu hoá như đau bụng, viêm dạ dày ruột cấp do nắng nóng mùa hè.",
-			"Thông kinh lạc, giảm đau: đau và co thắt vùng khuỷu — cánh tay, run tay, đau thắt ngực dọc đường kinh.",
+			"Hỗ trợ Bàng Quang, trừ thấp nhiệt, hỗ trợ hạ tiêu: bệnh tiết niệu — sinh dục như tiểu khó, phù nề, ngứa — đau — sưng vùng sinh dục, bệnh sán khí, viêm tuyến tiền liệt, rối loạn chức năng tình dục như liệt dương, di tinh.",
+			"Điều hoà kinh nguyệt: đau bụng kinh, khí nghịch từ bụng dưới xông lên ngực (bôn đồn khí).",
+			"Bổ Thận (thường dùng Quan Nguyên — CV4 — hơn): đau vùng thắt lưng.",
 		],
 	},
-	PC4: {
-		trang: 241,
+	CV4: {
+		trang: 342,
 		nhom: [
-			"Hành khí hoạt huyết, hoá ứ (Khích huyệt): giảm đau trong cơn đau thắt ngực cấp, rối loạn nhịp tim.",
-			"An thần: mất ngủ, bồn chồn lo lắng do huyết ứ.",
-			"Lương huyết, chỉ huyết: sốt cao, bệnh ngoài da.",
-			"Thông kinh lạc: các chứng dọc đường kinh.",
+			"Bồi bổ nguyên khí, ôn bổ Thận dương, ích tinh: suy nhược cơ thể, thể trạng kiệt sức cần dưỡng bệnh.",
+			"Kiện Tỳ, hỗ trợ tử cung, điều hoà sinh dục: bệnh phụ khoa, rối loạn chức năng tình dục, tiêu chảy, đại tiện không tự chủ ở người già, bệnh sán khí, bệnh tiết niệu như bí tiểu — tiểu khó — phù nề, đau và lạnh vùng thắt lưng.",
 		],
 	},
-	PC5: {
-		trang: 242,
+	CV5: {
+		trang: 343,
 		nhom: [
-			"Điều hoà trung tiêu, hoá đàm, an thần: cảm giác nghẹn ở họng (mai hạch khí), buồn nôn/nôn, tiêu chảy, rối loạn tâm lý do đờm như bồn chồn, hưng cảm, động kinh.",
-			"Điều hoà kinh nguyệt: kinh nguyệt không đều, đau bụng kinh, nhau bong non, khí hư.",
-			"Thông kinh lạc tại chỗ: hạch u, liệt, dị cảm (tê, kiến bò…) dọc đường kinh.",
+			"Điều hoà, thông lợi thuỷ đạo: rối loạn tiểu tiện như tiểu khó, bí tiểu, phù nề, tiêu chảy.",
+			"Điều khí hạ tiêu, giảm đau: đau vùng bụng dưới và quanh rốn, đau — ngứa vùng sinh dục, khí nghịch từ bụng dưới xông lên ngực (bôn đồn khí).",
+			"Điều hoà tử cung: khí hư kéo dài, rong huyết tử cung, khối u vùng bụng.",
 		],
 	},
-	PC6: {
-		trang: 243,
+	CV6: {
+		trang: 344,
 		nhom: [
-			"An thần, điều hoà Tâm: hồi hộp, lo âu, bồn chồn, mất ngủ, các vấn đề liên quan chức năng tim.",
-			"Khai thông lồng ngực, điều khí: đau ngực do tim, phổi hoặc xương ức.",
-			"Hoà Vị, giáng nghịch: buồn nôn, nôn, đầy bụng, đầy thượng vị.",
-			"Thanh nhiệt: sốt, tiểu khó, nứt lưỡi.",
-			"Thông kinh lạc tại chỗ: đau vùng cẳng tay (ống cổ tay) và cổ tay.",
+			"Bồi nguyên khí, bổ Thận (nhất là Thận dương), điều khí, điều huyết: kiệt sức và suy nhược mạn tính, bệnh phụ khoa như kinh nguyệt không đều (cả do huyết ứ), sa tử cung.",
+			"Bổ hạ tiêu: rối loạn sinh sản, khí hư, rối loạn chức năng tình dục như liệt dương — di tinh, bệnh tiết niệu, bệnh tiêu hoá.",
 		],
 	},
-	PC7: {
-		trang: 244,
+	CV7: {
+		trang: 345,
 		nhom: [
-			"Thanh Tâm nhiệt, an thần: bồn chồn lo âu, mất ngủ, tiểu khó và tiểu ra máu khi hoả từ Tâm dồn xuống Bàng Quang.",
-			"Điều hoà Vị Trường: rối loạn tiêu hoá.",
-			"Khoan khoái lồng ngực: đau vùng ngực và mạn sườn, khó thở.",
-			"Lương huyết: sốt cao, bệnh ngoài da do huyết nhiệt.",
-			"Thông kinh lạc tại chỗ: bệnh vùng cổ tay, ngón tay.",
+			"Điều hoà kinh nguyệt: kinh nguyệt không đều, vô kinh, rong huyết tử cung, khí hư kéo dài.",
+			"Điều khí vùng bụng dưới và sinh dục: đau quanh rốn, đau bụng dưới lan xuống sinh dục, bệnh sán khí, vô sinh, ngứa sinh dục, bí đại tiểu tiện, khó chịu vùng thắt lưng và chi dưới, khí nghịch từ bụng dưới xông lên ngực (bôn đồn khí).",
 		],
 	},
-	PC8: {
-		trang: 245,
+	CV8: {
+		trang: 346,
 		nhom: [
-			"Thanh Tâm và Tâm bào nhiệt, khai khiếu tỉnh thần, lương huyết, an thần: sốt cao, bất tỉnh, đột quỵ, tăng huyết áp, rối loạn tâm thần thể hưng cảm/kích động, động kinh, viêm miệng, bệnh ngoài da do huyết nhiệt; tại chỗ trị chàm, nấm da tay, ra mồ hôi tay, bong da, run tay.",
-			"Điều hoà và thanh nhiệt trung tiêu: nôn (có thể ra máu), viêm dạ dày.",
+			"Ôn dương, cố ruột: đau bụng và tiêu chảy do lạnh, đau quanh rốn, mất ý thức do dương khí suy sụp (thoát dương).",
 		],
 	},
-	PC9: {
-		trang: 246,
+	CV9: {
+		trang: 347,
 		nhom: [
-			"Khai khiếu, hồi tỉnh (huyệt Tỉnh, cấp cứu): bất tỉnh, sốc, suy sụp, say nắng, đột quỵ, động kinh ở trẻ em.",
-			"Thanh nhiệt (Tâm, Tâm bào), an thần: sốt cao kèm kích động, nhức đầu do nhiệt, đau thắt ngực, tăng trương lực cơ, mất ngôn ngữ, cứng/đau lưỡi, viêm miệng, tiêu chảy cấp mùa hè, trẻ hay giật mình sợ hãi ban đêm.",
+			"Điều hoà, thông lợi thuỷ đạo, tiêu phù: phù thũng, cổ trướng (khi đó nên dùng cứu ngải).",
+			"Điều hoà Trường Vị, tiêu tích trệ: chán ăn, ợ chua, nôn, đau quanh rốn, tiêu chảy.",
+			"Hỗ trợ trẻ nhỏ: thóp chậm đóng.",
 		],
 	},
-
-	// ── TE — Tam Tiêu (23) ───────────────────────────────────────
-	TE1: {
-		trang: 248,
+	CV10: {
+		trang: 348,
 		nhom: [
-			"Thanh nhiệt thượng tiêu (huyệt Tỉnh): sốt kèm kích động, nóng ngực, đau vùng tim, tức ngực.",
-			"Lợi tai lưỡi: ù tai, giảm thính lực, đau tai, cứng lưỡi, viêm lưỡi, rối loạn vị giác.",
-			"Thông kinh lạc, giảm đau (dùng cho đau cấp): đau khuỷu tay, vai, cổ, ngực nhất là khi xoay vặn.",
+			"Bổ khí, điều khí Tỳ Vị, tiêu tích trệ: chán ăn, buồn nôn, nôn, chướng bụng, đau vùng bụng trên, khó tiêu.",
 		],
 	},
-	TE2: {
-		trang: 249,
+	CV11: {
+		trang: 349,
 		nhom: [
-			"Thanh nhiệt thượng tiêu: nhức đầu, đau răng, đau họng, đỏ mặt và đầu, viêm nha chu.",
-			"Lợi tai, an thần khi có nhiệt: giảm thính lực (kể cả đột ngột), ù tai, đau tai, tim đập nhanh sau khi hoảng sợ, bồn chồn, ảo giác, hưng cảm, động kinh.",
-			"Thông kinh lạc, giảm đau: đau tay/cánh tay (có thể do viêm khớp), hội chứng vai — cánh tay, viêm khớp ngón tay, đau họng.",
+			"Điều hoà trung tiêu, điều khí: chán ăn, buồn nôn, nôn, đầy hơi chướng bụng, đau dạ dày, đau thắt ngực, phù nề.",
 		],
 	},
-	TE3: {
-		trang: 250,
+	CV12: {
+		trang: 350,
 		nhom: [
-			"Bổ tai, thanh nhiệt đầu mắt: bệnh về tai, nhức đầu một bên, chóng mặt, viêm kết mạc, sốt nhiễm trùng nhất là phong nhiệt, hội chứng Thiếu Dương.",
-			"Thông kinh lạc, giảm đau: các chứng ở chi trên, co thắt/liệt ngón tay.",
+			"Điều hoà, bồi bổ trung tiêu, giáng nghịch khí, giảm đau: các bệnh đường tiêu hoá nói chung.",
+			"Trừ thấp trọc: mệt mỏi, nặng nề toàn thân, đau âm ỉ cố định, tiết dịch đục.",
 		],
 	},
-	TE4: {
-		trang: 251,
+	CV13: {
+		trang: 351,
 		nhom: [
-			"Thanh nhiệt, thư cân, giảm đau: đau họng, nhức đầu một bên, bệnh về tai; huyệt viễn đạo trị khớp cổ chân; tại chỗ/theo kinh trị vai, cánh tay (nhất là đau vai) và cổ tay.",
+			"Hoà Vị, giáng nghịch khí: ợ nóng, buồn nôn, nôn, ợ chua, đau dạ dày, đầy bụng sau ăn, khí nghịch từ bụng dưới xông lên ngực (bôn đồn khí).",
+			"Điều hoà Tâm: đau vùng tim (chức năng), hồi hộp, bồn chồn vùng ngực.",
 		],
 	},
-	TE5: {
-		trang: 252,
+	CV14: {
+		trang: 352,
 		nhom: [
-			"Trừ phong, giải biểu, lợi đầu tai, thanh nhiệt, khai thông mạch Dương Duy: sốt kèm sợ lạnh, bệnh về tai, viêm kết mạc, đau dây thần kinh sinh ba, nhức đầu, hội chứng Thiếu Dương, tức ngực.",
-			"Thông kinh lạc, giảm đau: đau cổ/cột sống cổ nhất là khi khó cúi ngửa xoay, đau khuỷu tay, vai, cánh tay, bàn tay và ngón tay.",
+			"Điều hoà Tâm, khai thông lồng ngực, hạ khí Phế và Vị: đau ngực do tim — phổi — xương ức, ho, khó thở, rối loạn tiêu hoá.",
+			"Hoá đờm, an thần: mất ngủ, bồn chồn, hưng cảm liên quan Tâm; huyệt chính trị đau ngực do huyết ứ hoặc đờm trệ tại chỗ.",
 		],
 	},
-	TE6: {
-		trang: 253,
+	CV15: {
+		trang: 353,
 		nhom: [
-			"Điều khí, thanh nhiệt Tam Tiêu, lợi mạn sườn, thông đại tiện: táo bón, kiết lỵ cấp tính, đau vùng sườn ngoài/hạ sườn; dùng làm huyệt châm tê trong phẫu thuật lồng ngực.",
-			"Lợi họng, phục hồi giọng nói: mất tiếng cấp tính.",
-			"Thông kinh lạc, giảm đau: các chứng dọc đường kinh.",
+			"Điều hoà Tâm, an thần: lo âu, bồn chồn, trạng thái hưng cảm, động kinh.",
+			"Giáng khí Phế và Vị, khai thông lồng ngực: cảm giác đè nặng vùng tim — ngực, ho, khó thở, rối loạn tiêu hoá, trào ngược.",
+			"Lạc huyệt của mạch Nhâm: hư thì ngứa da bụng, thực thì da bụng đau nhức.",
 		],
 	},
-	TE7: {
-		trang: 254,
+	CV16: {
+		trang: 354,
 		nhom: [
-			"Thông kinh Tam Tiêu, lợi tai: ù tai, mất thính lực đột ngột, giảm thính lực; giảm đau và rối loạn cảm giác tại chỗ/theo kinh ở cánh tay.",
+			"Khai thông lồng ngực: tức ngực, đau trước tim, căng tức ngực và mạn sườn, khó nuốt.",
+			"Hoà Vị, giáng khí nghịch: buồn nôn, nôn.",
 		],
 	},
-	TE8: {
-		trang: 255,
+	CV17: {
+		trang: 355,
 		nhom: [
-			"Thông lợi kinh Tam Tiêu: mất giọng cấp, mất thính lực cấp, đau răng, sốt.",
-			"Thông kinh lạc, giảm đau: đau cánh tay và cột sống thắt lưng.",
+			"Điều khí, bổ khí, khai thông lồng ngực, giáng khí nghịch Phế và Vị: bệnh đường hô hấp, nôn, trào ngược, đau dây thần kinh liên sườn.",
+			"Hỗ trợ sản phụ: rối loạn tiết sữa, viêm tuyến vú.",
 		],
 	},
-	TE9: {
-		trang: 256,
+	CV18: {
+		trang: 356,
 		nhom: [
-			"Lợi họng tai: đau hàm dưới, đau răng họng, mất thính lực đột ngột, ù tai, mất giọng cấp.",
-			"Thông kinh lạc tại chỗ: đau cẳng tay.",
+			"Khai thông lồng ngực, điều khí, hạ khí nghịch: đau và tức vùng thượng vị — ngực — mạn sườn, đau họng, khó nuốt, ho, khó thở, hen phế quản, đau vùng trước tim, nôn, bệnh về vú.",
 		],
 	},
-	TE10: {
-		trang: 257,
+	CV19: {
+		trang: 357,
 		nhom: [
-			"Hoá đàm, tiêu u nhọt: ho có nhiều đờm, hạch bìu.",
-			"Điều khí, giáng nghịch: đầy tức ngực, chán ăn kèm cảm giác no.",
-			"An thần: động kinh, hưng phấn, bồn chồn, rối loạn nhịp tim, ngủ nhiều.",
-			"Thanh nhiệt kinh Tam Tiêu: viêm/đau vùng thái dương và họng, mày đay, trĩ.",
-			"Thông kinh lạc, giảm đau: đau dọc đường kinh (kèm teo cơ/co rút), đau nửa đầu, đau dây thần kinh liên sườn, đau thắt lưng sau chấn thương.",
+			"Khai thông lồng ngực: đau, căng cứng vùng ngực và xương ức.",
+			"Điều khí, hạ khí nghịch: ho, khó thở, hen phế quản, nôn, co thắt thực quản, khó nuốt, kích động, đau xương.",
 		],
 	},
-	TE11: {
-		trang: 258,
+	CV20: {
+		trang: 358,
 		nhom: [
-			"Trừ phong thấp, thông kinh lạc: nhức đầu, đau vai và cánh tay kèm nặng nề, đau hàm dưới.",
-			"Trừ thấp nhiệt: vàng da.",
+			"Khai thông lồng ngực: đau, căng tức ngực và mạn sườn, co thắt thực quản, khó nuốt.",
+			"Điều khí, hạ khí nghịch: ho, khó thở, hen phế quản.",
 		],
 	},
-	TE12: {
-		trang: 259,
+	CV21: {
+		trang: 359,
 		nhom: [
-			"Thông kinh lạc, giảm đau: nhức đầu, đau răng, đau cổ, đau cột sống ngực, đau cánh tay, cứng cổ, chóng mặt.",
+			"Khai thông lồng ngực: đau, tức ngực và mạn sườn.",
+			"Lợi họng: viêm họng.",
+			"Giáng khí nghịch: ho, khó thở, hen phế quản, đầy trệ do ăn uống, co thắt thực quản, khó nuốt.",
 		],
 	},
-	TE13: {
-		trang: 260,
+	CV22: {
+		trang: 360,
 		nhom: [
-			"Thông kinh lạc, giảm đau: đau, sưng, hạn chế vận động ở vai, cánh tay trên, xương bả vai.",
-			"Hành khí, hoá đàm, tán kết: bướu cổ, hạch cổ, động kinh, bệnh về mắt.",
+			"Giáng khí nghịch, chỉ ho, hạ đờm, lợi họng: bệnh đường hô hấp như ho — khó thở — hen phế quản — viêm phế quản — viêm thanh quản — viêm họng — bệnh dây thanh âm, sốt nhiễm trùng cấp (do phong nhiệt) kèm đau họng và cảm giác nghẹn, bướu cổ, co thắt thực quản, mụn nhọt, khó nuốt.",
 		],
 	},
-	TE14: {
-		trang: 261,
+	CV23: {
+		trang: 361,
 		nhom: [
-			"Trừ phong thấp, lợi khớp vai, thông kinh lạc, giảm đau: hạn chế vận động và đau vai nhất là khi giang tay, xoay ngoài; khó chịu và dị cảm ở chi trên.",
+			"Hỗ trợ lưỡi: đau hoặc viêm gốc lưỡi, lưỡi yếu hoặc co rút, mất ngôn ngữ (nhất là sau đột quỵ), khó nuốt.",
+			"Hạ khí, chỉ ho: khàn giọng, đau họng, khít hàm, khó thở.",
 		],
 	},
-	TE15: {
-		trang: 262,
+	CV24: {
+		trang: 362,
 		nhom: [
-			"Thông kinh lạc, giảm đau: đau vai, cổ, lưng trên, có thể hạn chế vận động.",
-			"Trừ phong thấp, khai thông lồng ngực, điều khí: sốt nhiễm trùng, tức ngực kèm bồn chồn.",
-		],
-	},
-	TE16: {
-		trang: 263,
-		nhom: [
-			"Lợi đầu và ngũ quan: giảm thính lực (kể cả đột ngột), giảm thị lực, giảm khứu giác và vị giác, viêm mũi.",
-			"Hạ khí: sưng mặt và cổ, chóng mặt, hạch bướu cổ.",
-			"Thông kinh lạc, giảm đau: nhức đầu vùng thái dương, đau cổ, cứng cổ.",
-		],
-	},
-	TE17: {
-		trang: 264,
-		nhom: [
-			"Trừ ngoại phong, lợi tai, thanh nhiệt, thông kinh lạc, giảm đau: bệnh về tai do mọi nguyên nhân, viêm tuyến mang tai, khít hàm, rối loạn khớp thái dương hàm, liệt mặt, đau dây thần kinh sinh ba.",
-		],
-	},
-	TE18: {
-		trang: 265,
-		nhom: [
-			"Trừ phong (và kinh phong ở trẻ): liệt mặt, động kinh, đau đầu, trẻ co giật do sợ hãi.",
-			"Lợi tai: giảm thính lực (kể cả đột ngột), ù tai.",
-		],
-	},
-	TE19: {
-		trang: 266,
-		nhom: [
-			"Trấn kinh, chống co giật: chóng mặt, nhức đầu, liệt mặt, động kinh trẻ em.",
-			"Lợi tai, thanh nhiệt: giảm thính lực đột ngột, ù tai.",
-		],
-	},
-	TE20: {
-		trang: 267,
-		nhom: [
-			"Thanh nhiệt, lợi tai răng môi: ù tai, giảm thính lực, viêm tai giữa, nhiễm trùng tai, bệnh về mắt, đau răng, sâu răng, viêm nha chu, viêm tuyến mang tai, khô miệng, cứng cổ.",
-		],
-	},
-	TE21: {
-		trang: 268,
-		nhom: [
-			"Thanh nhiệt, lợi tai: bệnh về tai, hội chứng Ménière (chóng mặt, buồn nôn, ù tai, nghe kém), khít hàm, đau răng, đau họng, nhức đầu, cứng môi, đau dây thần kinh sinh ba.",
-		],
-	},
-	TE22: {
-		trang: 269,
-		nhom: [
-			"Trừ phong: liệt mặt, ù tai, giảm thính lực đột ngột, viêm mũi.",
-			"Thông kinh lạc, giảm đau: nhức đầu kèm nặng đầu, cứng hàm, co thắt hàm dưới.",
-		],
-	},
-	TE23: {
-		trang: 270,
-		nhom: [
-			"Dưỡng mắt, trừ phong, giảm đau: rối loạn thị giác, viêm kết mạc, bệnh về mí mắt, liệt mặt và giật cơ mặt, nhức đầu nhất là một bên và vùng mắt, đau nửa đầu, chóng mặt, động kinh và co giật ở trẻ em.",
+			"Trừ phong, nâng đỡ mặt, điều hoà mạch Nhâm: liệt mặt, đau dây thần kinh sinh ba (nhánh 3), sưng đau hàm dưới, viêm nướu, loét miệng lưỡi, chảy nhiều nước bọt, đau răng cửa dưới hoặc đau khi nhổ răng.",
+			"Một trong thập tam quỷ huyệt của Tôn Tư Mạc: động kinh, hưng cảm.",
 		],
 	},
 
-	// ── GB — Đởm (44, TRỪ GB29 — xem BO_QUA_MA_LECH ở trên) ───────
-	GB1: {
-		trang: 272,
+	// ── GV — Đốc Mạch (28) ───────────────────────────────────────
+	GV1: {
+		trang: 364,
 		nhom: [
-			"Trừ phong, thanh nhiệt, dưỡng mắt: bệnh về mắt, nhức đầu, liệt mặt.",
+			"Hỗ trợ nhị tiện: tiểu khó, bí tiểu, trĩ, sa trực tràng, đại tiện đau khó, rối loạn cương dương, rối loạn chức năng tình dục.",
+			"Thông kinh lạc, giảm đau: đau thắt lưng cùng, nặng đầu, run.",
+			"An thần: hưng cảm, bồn chồn, co thắt, động kinh.",
 		],
 	},
-	GB2: {
-		trang: 273,
+	GV2: {
+		trang: 365,
 		nhom: [
-			"Trừ phong, thanh nhiệt, lợi tai và khớp hàm, thông kinh lạc, giảm đau: bệnh về tai do mọi nguyên nhân, hội chứng Ménière, đau răng, rối loạn khớp thái dương hàm, liệt mặt, đau dây thần kinh sinh ba.",
+			"Tăng cường sức mạnh vùng thắt lưng và chi dưới: đau thắt lưng cùng kèm hạn chế vận động, đau lưng do rễ thần kinh kèm teo cơ chi dưới.",
+			"Trừ phong thấp: kinh nguyệt không đều, trĩ, tiểu khó, khí hư.",
 		],
 	},
-	GB3: {
-		trang: 274,
+	GV3: {
+		trang: 366,
 		nhom: [
-			"Trừ phong, lợi tai, thông kinh lạc, giảm đau: nhức đầu, đau mặt và đau răng hàm trên, cứng môi, khít hàm, bệnh về tai (ù tai, giảm thính lực, viêm tai giữa), liệt mặt.",
+			"Trừ phong thấp, tăng cường sức mạnh vùng thắt lưng và chi dưới: hội chứng tý (đau khớp/cơ, khó co duỗi) ở lưng — chân, co rút gân.",
+			"Điều hoà khí hư: đau bụng kinh, khí hư (bạch đới), liệt dương, di tinh.",
 		],
 	},
-	GB4: {
-		trang: 275,
+	GV4: {
+		trang: 367,
 		nhom: [
-			"Trừ phong, thanh nhiệt, thông kinh lạc, giảm đau: nhức đầu một bên, chóng mặt, động kinh, bệnh về tai, liệt mặt, đau mặt ngoài mắt, khít hàm, đau cổ tay.",
+			"Bổ Thận dương, ôn ấm khí huyết (nhất là khi phối cứu ngải), điều hoà mạch Đốc, tăng cường vùng thắt lưng: bệnh tiết niệu, rối loạn chức năng tình dục, sa trực tràng, trĩ, suy nhược mạn tính do Thận dương hư hoặc thiếu tinh, bệnh cột sống thắt lưng mạn tính kèm yếu chi dưới.",
+			"Bình phong ở mạch Đốc: nhức đầu, động kinh.",
 		],
 	},
-	GB5: {
-		trang: 277,
+	GV5: {
+		trang: 368,
 		nhom: [
-			"Trừ phong, thanh nhiệt, thông kinh lạc, giảm đau: nhức đầu một bên, đau vùng ngoài mắt, đau răng, đau mặt, sưng đỏ mặt, viêm mũi, viêm xoang, sốt nhiễm trùng kèm co giật.",
+			"Tăng cường sức mạnh cột sống thắt lưng: cứng, đau vùng thắt lưng.",
+			"Điều hoà hạ tiêu: tiêu chảy, thức ăn không tiêu lẫn trong phân, bệnh sán khí, tinh hoàn lạc chỗ, khí nghịch từ bụng dưới xông lên ngực (bôn đồn khí).",
 		],
 	},
-	GB6: {
-		trang: 278,
+	GV6: {
+		trang: 369,
 		nhom: [
-			"Trừ phong, thanh nhiệt, thông kinh lạc, giảm đau: nhức đầu một bên, đỏ bừng mặt, đau vùng ngoài mắt, đau răng, ù tai, hắt hơi, nóng vùng thượng vị.",
+			"Kiện Tỳ, hoá thấp: chướng bụng, khối u vùng bụng, vàng da, tiêu chảy, trĩ, sa trực tràng.",
+			"Thông lợi cột sống: hạn chế vận động cột sống thắt lưng, động kinh.",
 		],
 	},
-	GB7: {
-		trang: 279,
+	GV7: {
+		trang: 370,
 		nhom: [
-			"Trừ phong, lợi miệng hàm: nhức đầu, sưng má, viêm tuyến mang tai, quai bị, cứng cổ, khít hàm, mất tiếng, liệt mặt, đau cơ.",
+			"Điều hoà trung tiêu: đầy bụng, chán ăn, vàng da, vô kinh.",
+			"Thông lợi cột sống: đau lưng.",
 		],
 	},
-	GB8: {
-		trang: 280,
+	GV8: {
+		trang: 371,
 		nhom: [
-			"Trừ phong, lợi đầu, giảm đau, điều hoà cơ hoành và Vị: đau đầu một bên nhất là kèm nôn (như đau nửa đầu hoặc do say rượu), liệt mặt, chóng mặt, bệnh về mắt.",
+			"Bình Can phong, giảm co thắt: vàng da, uất ức dễ nổi giận, đau dạ dày, co thắt cơ, bồn chồn, đau tim.",
+			"An thần: động kinh, trạng thái hưng cảm.",
 		],
 	},
-	GB9: {
-		trang: 281,
+	GV9: {
+		trang: 372,
 		nhom: [
-			"Thanh nhiệt kinh lạc, trấn kinh an thần: nhức đầu, ù tai, ngứa và ẩm sau tai, đau răng, sưng nướu, viêm nha chu, bướu cổ, dễ giật mình, động kinh.",
+			"Bổ Tỳ, trừ thấp và thấp nhiệt, điều hoà trung tiêu: đầy bụng hoặc cảm giác lạnh bụng, chán ăn, suy nhược kèm đau đớn, vàng da.",
+			"Khai thông lồng ngực: đau thắt ngực, căng tức vùng ngực và mạn sườn, ho, khó thở, các vấn đề cột sống.",
 		],
 	},
-	GB10: {
-		trang: 282,
+	GV10: {
+		trang: 373,
 		nhom: [
-			"Thanh nhiệt, lợi họng, thông kinh lạc, giảm đau: nhức đầu, đau họng, đau răng, sốt nhiễm trùng, ù tai, giảm thính lực (kể cả đột ngột), bướu cổ, đau và hạn chế vận động vai — cánh tay, chân yếu.",
+			"Giáng nghịch khí Phế, chỉ ho, bình suyễn: khó thở, hen phế quản, ho mạn tính, suy nhược cơ thể (như loãng xương).",
+			"Thanh nhiệt, giải độc: bệnh ngoài da như nhọt, mụn nhọt.",
+			"Thông kinh lạc tại chỗ: các chứng ở vùng cổ và lưng như đau, hạn chế vận động.",
 		],
 	},
-	GB11: {
-		trang: 283,
+	GV11: {
+		trang: 374,
 		nhom: [
-			"Làm nhẹ đầu, lợi ngũ quan, thông kinh lạc, giảm đau: nhức đầu, đau mắt, đau tai, đau họng, chóng mặt, lở loét, viêm tuyến mang tai, bệnh về tai (giảm thính lực, ù tai), cứng cổ, bướu cổ, ho, co rút gân tứ chi.",
+			"Bổ Tâm và Phế, an thần: khó thở, lo âu, hồi hộp, lú lẫn, suy giảm trí nhớ, tâm trạng chán nản, động kinh, bồn chồn, co thắt.",
+			"Thanh nhiệt, trừ phong: sốt nhiễm trùng kèm đau đầu, ho, chóng mặt.",
+			"Thông kinh lạc tại chỗ: các chứng vùng lưng trên.",
 		],
 	},
-	GB12: {
-		trang: 284,
+	GV12: {
+		trang: 375,
 		nhom: [
-			"Trừ phong, lợi đầu, giảm đau và sưng, an thần: nhức đầu, đau cổ, đau họng, đau răng, liệt mặt, sưng má, bệnh về tai (ù tai), mất ngủ, hưng cảm, động kinh.",
+			"Bình phong: chảy máu cam, sốt co giật, ngạt thở, động kinh.",
+			"An thần: kích động, trạng thái hưng cảm.",
+			"Thanh nhiệt Phế và Tâm: ho, khó thở, sốt, sốt nhiễm trùng.",
 		],
 	},
-	GB13: {
-		trang: 285,
+	GV13: {
+		trang: 376,
 		nhom: [
-			"Trừ phong đàm, an thần: nhức đầu, chóng mặt, ngủ gà, liệt mặt, động kinh, ngất xỉu.",
+			"Thanh nhiệt: sốt rét luân phiên (hàn nhiệt vãng lai), các hội chứng nhiệt, suy nhược cơ thể (như loãng xương).",
+			"Điều hoà: nhức đầu, đau lưng dọc đường giữa lưng, chóng mặt, co giật, kích động, lú lẫn.",
 		],
 	},
-	GB14: {
-		trang: 286,
+	GV14: {
+		trang: 377,
 		nhom: [
-			"Trừ phong (cả nội phong và ngoại phong), lợi đầu mắt, giảm đau: đau đầu vùng trán, dưới ổ mắt, thái dương, đỉnh đầu; đau dây thần kinh sinh ba nhánh 1; liệt mặt và giật cơ mặt (tic); bệnh về mắt và mí mắt.",
+			"Trừ ngoại phong, cố biểu: nhiễm trùng sốt, điều hoà ra mồ hôi (huyệt chính trị đổ mồ hôi bất thường).",
+			"Thanh nhiệt: sốt, các bệnh nhiệt, bệnh ngoài da do phong nhiệt, chảy máu cam, suy nhược cơ thể (như loãng xương).",
+			"Bình nội phong, an thần: mất ngủ, bồn chồn, động kinh, tăng huyết áp.",
+			"Bổ hư: trạng thái kiệt sức.",
+			"Hỗ trợ cột sống (nhất là cột sống cổ): hội chứng cột sống cổ, các vấn đề vùng cổ.",
 		],
 	},
-	GB15: {
-		trang: 287,
+	GV15: {
+		trang: 378,
 		nhom: [
-			"Trừ phong, lợi đầu mũi mắt, giảm đau: nhức đầu vùng trên hốc mắt, trán, chẩm; chóng mặt; bệnh về mắt; chảy nước mắt do gió; viêm mũi; viêm xoang; đột quỵ; động kinh.",
+			"Hỗ trợ lưỡi, thính giác, cổ và cột sống: cứng lưỡi, liệt lưỡi, mất ngôn ngữ, giảm thính lực, cứng cổ và cột sống.",
+			"Bình phong: phù thũng, động kinh, trạng thái hưng cảm.",
+			"Thanh dương nhiệt: sốt cao, cảm giác nóng bức, mất ý thức có dấu hiệu viêm, tiểu ít, nhịp tim nhanh, kích động, lú lẫn, chảy máu cam.",
 		],
 	},
-	GB16: {
-		trang: 288,
+	GV16: {
+		trang: 379,
 		nhom: [
-			"Trừ phong, dưỡng mắt, giảm đau: bệnh về mắt, viêm mũi, viêm xoang nhất là kèm đau đầu thái dương, sưng mặt và đầu, đau răng hàm trên, viêm nha chu, sốt nhiễm trùng, chóng mặt, động kinh.",
+			"Trừ ngoại phong: nhiễm trùng sốt, liệt mặt ngoại biên, hội chứng phong tý (đau buốt di chuyển không cố định, thường kèm sốt).",
+			"Bình nội phong, an thần: bệnh về thần kinh nhất là vùng đầu, đau đầu vùng chẩm — thái dương — trán, đau nửa đầu, choáng váng, chóng mặt, chảy máu cam, trạng thái hưng cảm, động kinh.",
+			"Bổ bể tuỷ, hỗ trợ đầu cổ: chóng mặt, ù tai, rối loạn thị giác, cứng cổ.",
 		],
 	},
-	GB17: {
-		trang: 289,
+	GV17: {
+		trang: 381,
 		nhom: [
-			"Lợi đầu, điều hoà Vị, giảm đau: nhức đầu một bên, đau răng hàm trên, chóng mặt, buồn nôn và nôn, cứng cổ, sợ gió lạnh.",
+			"Trừ phong, giảm đau: nặng đầu, đau đầu, sưng tấy vùng đầu, đau và cứng cổ.",
+			"Sáng mắt: rối loạn thị giác như cận thị, đau mắt, chảy nước mắt, vàng da.",
+			"An thần: trạng thái hưng cảm, mất ngôn ngữ, khít hàm.",
 		],
 	},
-	GB18: {
-		trang: 290,
+	GV18: {
+		trang: 382,
 		nhom: [
-			"Lợi đầu mũi, nhuận Phế, giảm đau: nhức đầu và đau mắt, chóng mặt, viêm mũi, chảy máu cam, sợ gió lạnh.",
+			"Trừ phong (nhất là nội phong), giảm đau, làm dịu triệu chứng: chóng mặt kèm buồn nôn — nôn, động kinh, các vấn đề vùng cổ, run đầu, co giật, kích động, mất ngủ, trạng thái hưng cảm.",
 		],
 	},
-	GB19: {
-		trang: 291,
+	GV19: {
+		trang: 383,
 		nhom: [
-			"Trừ phong, lợi mắt và đầu, tỉnh thần, thông kinh lạc, giảm đau: đau đầu cổ, cứng cổ, bệnh về mắt, sưng mắt, viêm mũi, chảy máu cam, giảm thính lực và ù tai, chóng mặt, lú lẫn do phong.",
+			"Trừ phong, giảm đau, làm dịu triệu chứng: chóng mặt, động kinh, đau đỉnh đầu, cứng cổ, run đầu, rối loạn giấc ngủ.",
 		],
 	},
-	GB20: {
-		trang: 292,
+	GV20: {
+		trang: 384,
 		nhom: [
-			"Trừ phong, lợi mắt và đầu, thanh lợi ngũ quan: nhức đầu, đau nửa đầu, chóng mặt, đau tai, bệnh về mắt và mũi, khít hàm, sưng mặt, mề đay, liệt mặt.",
-			"Thông kinh lạc, giảm đau, an thần: các chứng ở cột sống cổ — vai — lưng trên, tăng huyết áp, động kinh, mất ngủ, suy giảm trí nhớ.",
+			"Bình phong, bình dương, hỗ trợ trí não và các cơ quan cảm giác, an thần: chóng mặt, ù tai, nhức đầu, choáng váng, rối loạn tâm lý, rối loạn giấc ngủ, hội chứng cai nghiện.",
+			"Bồi bổ bể tuỷ, thăng dương: chóng mặt, sa các tạng.",
 		],
 	},
-	GB21: {
-		trang: 293,
+	GV21: {
+		trang: 385,
 		nhom: [
-			"Điều khí, hoá đàm, tán kết: \"bệnh đờm\" tích tụ, ho, khó thở, cơn hen cấp.",
-			"Thông kinh lạc, giảm đau: các chứng ở vai/cổ.",
-			"Trợ sinh, lợi sữa: hỗ trợ chuyển dạ, sổ nhau, lợi sữa, viêm tuyến vú.",
+			"Trừ nội phong, giảm co rút, làm dịu triệu chứng: chóng mặt, động kinh, viêm mũi chảy nhiều dịch trong, phù mặt, nhức đầu (đỉnh), sưng mặt (có thể hơi xanh), bồn chồn.",
 		],
 	},
-	GB22: {
-		trang: 294,
+	GV22: {
+		trang: 386,
 		nhom: [
-			"Điều khí, khai thông lồng ngực, lợi nách: ho, tức ngực, đau dây thần kinh liên sườn, sưng hạch nách, đau vai — cánh tay kèm hạn chế vận động.",
+			"Trừ phong (nội phong), hỗ trợ mũi và đầu: chóng mặt, động kinh, co giật, nhức đầu, các vấn đề về mũi như chảy máu cam — nghẹt mũi — polyp — mất khứu giác, bồn chồn, buồn ngủ.",
 		],
 	},
-	GB23: {
-		trang: 295,
+	GV23: {
+		trang: 387,
 		nhom: [
-			"Khai thông lồng ngực, điều hoà khí và Tam Tiêu: ho, khó thở, hen phế quản, tức ngực, buồn nôn, nôn, ợ hơi, ợ chua, mất ngủ, tâm trạng chán nản, đau cánh tay và mạn sườn, đau dây thần kinh liên sườn.",
+			"Trừ phong, hỗ trợ đầu — mặt — mũi — mắt, giảm sưng: các vấn đề về mũi như chảy máu cam — nghẹt mũi — polyp — viêm mũi — mất khứu giác, đỏ và sưng mặt, bệnh về mắt, chóng mặt.",
+			"An thần: trạng thái hưng cảm.",
 		],
 	},
-	GB24: {
-		trang: 297,
+	GV24: {
+		trang: 388,
 		nhom: [
-			"Lợi Đởm, sơ Can khí, trừ thấp nhiệt, giáng nghịch, điều hoà trung tiêu (Mộ huyệt của Đởm): bệnh gan mật, rối loạn tiêu hoá, đau mạn sườn và bụng, đau dây thần kinh liên sườn.",
+			"Hỗ trợ não và đầu, trừ nội phong, an thần: trạng thái hưng cảm, kích động tâm thần, bồn chồn, rối loạn giấc ngủ, suy giảm ý thức, động kinh, chóng mặt kèm nôn, đau đầu, ngất xỉu.",
+			"Hỗ trợ mắt và mũi: các vấn đề về mũi như chảy máu cam — nghẹt mũi — polyp — viêm mũi — mất khứu giác, chảy nước mắt, rối loạn thị giác.",
 		],
 	},
-	GB25: {
-		trang: 298,
+	GV25: {
+		trang: 389,
 		nhom: [
-			"Bổ Thận, điều hoà thuỷ đạo (Mộ huyệt của Thận): bệnh về thận và đường tiết niệu.",
-			"Bổ Tỳ, điều hoà đường ruột: bệnh về tiêu hoá.",
-			"Lợi vùng thắt lưng: các vấn đề thắt lưng — hông, đau bụng do thận.",
+			"Hỗ trợ mũi: các vấn đề về mũi như chảy máu cam, nghẹt mũi, polyp, viêm mũi, mất khứu giác.",
+			"Điều hoà khí: khó thở, tăng huyết áp.",
 		],
 	},
-	GB26: {
-		trang: 299,
+	GV26: {
+		trang: 390,
 		nhom: [
-			"Điều hoà mạch Đới, trừ thấp, điều hoà tử cung: khí hư, kinh nguyệt không đều, đau bụng kinh, hiếm muộn, sa tử cung.",
-			"Thông kinh lạc, giảm đau: đau vùng thắt lưng và mạn sườn, mót rặn, co thắt, bệnh sán khí (thoát vị, bệnh sinh dục ngoài).",
+			"Khai khiếu, hồi tỉnh (huyệt cấp cứu): sốc cấp mất ý thức, sốc do mất thể dịch, sốc nhiệt (say nắng), sự cố gãy kim khi châm, động kinh, hưng cảm, rối loạn tâm thần kèm mất ý thức.",
+			"Hỗ trợ mặt và mũi, trừ ngoại phong: các vấn đề về mũi, giật cơ mặt, khít hàm, liệt mặt, sưng mặt, phù toàn thân.",
+			"Hỗ trợ cột sống: đau thắt lưng cấp, nhất là khi đau ngay trên đường giữa cột sống.",
+			"Một trong thập tam quỷ huyệt của Tôn Tư Mạc: trạng thái hưng cảm, động kinh.",
 		],
 	},
-	GB27: {
-		trang: 300,
+	GV27: {
+		trang: 391,
 		nhom: [
-			"Điều hoà mạch Đới và hạ tiêu, trừ ứ trệ: khí hư, kinh nguyệt không đều, sa tử cung, đau vùng chậu, đau tinh hoàn, mót rặn, táo bón, đau lưng — thắt lưng — hồi tràng, co thắt, bệnh sán khí, các vấn đề khớp hông.",
+			"Thanh nhiệt, sinh tân dịch, hỗ trợ miệng: khát nước do nhiệt, khô miệng, viêm miệng, viêm nha chu, sưng hoặc cứng môi, chảy máu cam — nghẹt mũi.",
+			"An thần: trạng thái hưng cảm, động kinh, khít hàm.",
 		],
 	},
-	GB28: {
-		trang: 301,
+	GV28: {
+		trang: 392,
 		nhom: [
-			"Điều hoà mạch Đới và hạ tiêu, trừ ứ trệ: khí hư, kinh nguyệt không đều, sa tử cung, đau bụng dưới, đau thắt lưng — hồi tràng, bệnh sán khí.",
-		],
-	},
-	GB30: {
-		trang: 303,
-		nhom: [
-			"Thông kinh lạc, giảm đau, lợi chân và khớp hông, trừ phong thấp: các chứng ở thắt lưng, chậu, hông; đau thắt lưng lan xuống chân (đau thần kinh toạ); các chứng khớp cùng chậu và cơ hình lê; bệnh ngoài da như mề đay, chàm.",
-		],
-	},
-	GB31: {
-		trang: 304,
-		nhom: [
-			"Khu phong, giảm ngứa, thông kinh lạc, giảm đau: hội chứng tý (đau khớp/cơ, khó co duỗi) ở chi dưới, vùng thắt lưng và hông, đau thần kinh toạ, liệt nửa người, ngứa, mề đay.",
-		],
-	},
-	GB32: {
-		trang: 305,
-		nhom: [
-			"Khu phong, giảm ngứa, thông kinh lạc, giảm đau: hội chứng tý ở chi dưới, vùng thắt lưng và hông, đau thần kinh toạ, liệt nửa người, ngứa, mề đay.",
-		],
-	},
-	GB33: {
-		trang: 306,
-		nhom: [
-			"Trừ phong thấp, thư cân, lợi khớp: hội chứng tý ở vùng gối và cẳng chân, các vấn đề ở khớp gối (đau, dị cảm, hạn chế vận động).",
-		],
-	},
-	GB34: {
-		trang: 307,
-		nhom: [
-			"Lợi cân và khớp, thông kinh lạc, giảm đau (Hội huyệt của Cân): bệnh về gân như co rút, rối loạn vận động, cứng cơ, cứng khớp, hội chứng tý nhất là ở chi dưới; các chứng dọc đường kinh.",
-			"Thanh thấp nhiệt ở Can Đởm: bệnh túi mật, vàng da.",
-			"Điều hoà Thiếu Dương: hội chứng Thiếu Dương.",
-		],
-	},
-	GB35: {
-		trang: 309,
-		nhom: [
-			"Thông kinh lạc, giảm đau: hội chứng tý ở chi dưới, các vấn đề ở khớp gối.",
-			"Điều hoà Đởm khí, an thần: căng tức vùng mạn sườn và hạ sườn, lo lắng, cáu gắt, khó quyết định.",
-		],
-	},
-	GB36: {
-		trang: 310,
-		nhom: [
-			"Điều hoà Đởm khí và Can khí: co thắt cơ/đau ở chi dưới.",
-			"Trừ thấp nhiệt: co thắt dạ dày sau khi ăn đồ nóng, béo.",
-			"Thư cân: căng cứng cổ.",
-			"An thần: động kinh, hưng cảm.",
-		],
-	},
-	GB37: {
-		trang: 311,
-		nhom: [
-			"Dưỡng mắt: bệnh về mắt.",
-			"Trừ phong thấp, thông kinh lạc, giảm đau: bệnh vú, rối loạn tiết sữa, đau đầu một bên, đau nửa đầu, đau đầu gối, các chứng vùng cẳng chân.",
-		],
-	},
-	GB38: {
-		trang: 312,
-		nhom: [
-			"Thông kinh lạc, thanh nhiệt, giảm đau, lợi cân xương: nhức đầu một bên, đau nửa đầu, các chứng dọc đường kinh, sốt, đau khớp lan toả (hội chứng tý).",
-			"Điều hoà Thiếu Dương: hội chứng Thiếu Dương.",
-		],
-	},
-	GB39: {
-		trang: 314,
-		nhom: [
-			"Thông kinh lạc, lợi cân cốt, trừ phong thấp (Hội huyệt của Tuỷ): các chứng dọc đường kinh, hội chứng tý và chứng nuy (teo, liệt) mạn tính.",
-			"Thanh Đởm nhiệt: căng đầy vùng mạn sườn và bụng.",
-		],
-	},
-	GB40: {
-		trang: 315,
-		nhom: [
-			"Thông kinh lạc, giảm đau, lợi khớp (Nguyên huyệt của Đởm): các chứng dọc đường kinh, đau thần kinh toạ, nhức đầu một bên, đau khớp cổ chân tại chỗ.",
-			"Sơ Can khí, thanh thấp nhiệt ở Đởm: bệnh về mắt, đầy tức ngực và mạn sườn, mụn rộp (zona).",
-			"Điều hoà Thiếu Dương: hội chứng Thiếu Dương.",
-		],
-	},
-	GB41: {
-		trang: 316,
-		nhom: [
-			"Sơ Can khí, lợi mạn sườn — ngực — vú, hoá đàm tán kết: Can khí uất kết và các chứng dọc đường kinh, viêm tuyến vú, cai sữa.",
-			"Làm nhẹ đầu, dưỡng mắt: nhức đầu, chóng mặt, bệnh về mắt/tai.",
-		],
-	},
-	GB42: {
-		trang: 318,
-		nhom: [
-			"Điều hoà Can khí: nhức đầu, viêm kết mạc, ù tai, giảm thính lực, đau tại chỗ ở mu bàn chân.",
-			"Thanh Đởm nhiệt: đầy tức ngực và mạn sườn, sưng hạch nách, viêm tuyến vú.",
-		],
-	},
-	GB43: {
-		trang: 319,
-		nhom: [
-			"Thanh nhiệt, lợi mắt tai đầu, trừ thấp nhiệt kinh lạc, giảm sưng: bệnh về mắt và tai, đau mặt, nhức đỉnh đầu, viêm tuyến mang tai, viêm kết mạc, tăng trương lực, ù tai, mất thính lực đột ngột, đau dây thần kinh liên sườn, đầy tức vùng sườn — thượng vị, viêm tuyến vú, sốt nhiễm trùng, đau khớp lan toả, đau và co rút ngón chân.",
-		],
-	},
-	GB44: {
-		trang: 320,
-		nhom: [
-			"Thanh nhiệt, lợi đầu và ngực: đau nửa đầu, nhức đầu, đau mắt, chóng mặt, viêm kết mạc, ù tai, giảm thính lực đột ngột, đau họng, cứng lưỡi, căng tức vùng sườn, sốt nhiễm trùng.",
-			"An thần: mất ngủ, kích động.",
-		],
-	},
-
-	// ── LR — Can (14) ────────────────────────────────────────────
-	LR1: {
-		trang: 322,
-		nhom: [
-			"Điều hoà đường tiểu, lợi sinh dục, giảm đau: đau, viêm, phù nề vùng bụng dưới và sinh dục, bệnh sán khí, khó chịu ở tinh hoàn, tiểu khó, bí tiểu, đái dầm, tiểu buốt.",
-			"Sơ Can khí, cầm máu: rong huyết/băng huyết tử cung, kinh nguyệt không đều, sa tử cung.",
-			"Hồi dương, an thần (huyệt cấp cứu): bất tỉnh, choáng váng, động kinh.",
-		],
-	},
-	LR2: {
-		trang: 323,
-		nhom: [
-			"Thanh Can nhiệt, sơ Can khí, bình Can phong, cầm máu, lợi hạ tiêu: các chứng thực nhiệt vùng đầu như động kinh/co giật ở trẻ, nhức đầu nhất là đỉnh đầu, đau nửa đầu, tăng huyết áp, chóng mặt, ù tai, bồn chồn, hưng cảm, mất ngủ, bệnh về mắt, viêm đường tiết niệu, rối loạn kinh nguyệt như rong kinh, ngứa/đau vùng sinh dục ngoài, khí hư, bệnh sán khí.",
-		],
-	},
-	LR3: {
-		trang: 324,
-		nhom: [
-			"Sơ Can khí, sáng mắt, lợi đầu, dưỡng Can huyết và âm huyết, điều kinh, lợi hạ tiêu (Nguyên huyệt của Can): Can khí uất kết với cảm giác căng tức, đau nhức nhiều nơi (đầu, mắt, cổ, ngực, tim, tiêu hoá, sinh dục), rối loạn tâm lý — thần kinh thực vật, căng cơ/co thắt.",
-			"Trừ nội phong, bình Can dương: nhức đầu, chóng mặt, động kinh.",
-		],
-	},
-	LR4: {
-		trang: 325,
-		nhom: [
-			"Thông kinh lạc, sơ Can khí, thanh nhiệt kinh Can, điều hoà hạ tiêu: đau bụng dưới và sinh dục ngoài, tiểu khó, rối loạn xuất tinh, các vấn đề khớp cổ chân, bệnh sán khí.",
-		],
-	},
-	LR5: {
-		trang: 327,
-		nhom: [
-			"Điều hoà Can khí, lợi sinh dục, trừ thấp nhiệt hạ tiêu, điều kinh: bệnh đường sinh dục (ngứa/sưng/đau), rối loạn kinh nguyệt, khí hư, bệnh sán khí, rối loạn tiểu tiện, cảm giác nghẹn ở họng (mai hạch khí).",
-			"Thông kinh lạc tại chỗ: các chứng ở cẳng chân.",
-		],
-	},
-	LR6: {
-		trang: 328,
-		nhom: [
-			"Bổ Can khí, điều hoà hạ tiêu, điều huyết, trừ thấp: khí hư, rong huyết tử cung, dị cảm và teo cơ chi dưới nhất là do thấp nhiệt, bệnh sán khí.",
-		],
-	},
-	LR7: {
-		trang: 329,
-		nhom: [
-			"Lợi khớp gối, thư cân: đau và viêm vùng trong khớp gối.",
-			"Trừ phong thấp: sưng đau khớp gối, hạn chế vận động khớp gối.",
-		],
-	},
-	LR8: {
-		trang: 330,
-		nhom: [
-			"Trừ thấp nhiệt hạ tiêu (tác dụng chính), lợi sinh dục và tử cung: rối loạn tiết niệu, đau/sưng/ngứa vùng sinh dục ngoài, rối loạn chức năng tình dục.",
-			"Dưỡng âm huyết: nhức đầu, chóng mặt, rối loạn kinh nguyệt.",
-			"Thông kinh lạc tại chỗ: đau khớp gối và cẳng chân.",
-		],
-	},
-	LR9: {
-		trang: 331,
-		nhom: [
-			"Lợi hạ tiêu: tiểu khó, bí tiểu, tiểu không tự chủ, đái dầm, rối loạn kinh nguyệt.",
-			"Thông kinh lạc: đau, liệt, dị cảm vùng đùi, đau thắt lưng cùng lan xuống bụng.",
-		],
-	},
-	LR10: {
-		trang: 332,
-		nhom: [
-			"Thanh nhiệt, lợi tiểu tiện: khó chịu vùng chậu, viêm/u tuyến tiền liệt, chàm sinh dục, tiểu khó, bí tiểu, đái dầm.",
-			"Thư cân: đau và hạn chế vận động ở đùi.",
-		],
-	},
-	LR11: {
-		trang: 333,
-		nhom: [
-			"Lợi tử cung: rối loạn kinh nguyệt, hiếm muộn.",
-			"Thư cân: đau và hạn chế vận động vùng háng và đùi.",
-		],
-	},
-	LR12: {
-		trang: 334,
-		nhom: [
-			"Tán hàn kinh Can, lợi hạ tiêu: đau bụng dưới lan xuống sinh dục, đau háng, sa tử cung, bệnh sán khí.",
-		],
-	},
-	LR13: {
-		trang: 335,
-		nhom: [
-			"Điều hoà Can và Tỳ, sơ Can khí (nhất là trung — hạ tiêu), bổ Tỳ (Mộ huyệt của Tỳ, Hội huyệt của Tạng): bệnh tiêu hoá nhất là khi Can khí phạm Tỳ Vị, đau hạ sườn/ngực bên, các chứng cột sống hông — thắt lưng nhất là khi xoay người.",
-		],
-	},
-	LR14: {
-		trang: 336,
-		nhom: [
-			"Điều hoà Can khí và Can huyết (nhất là thượng — trung tiêu), lương huyết, tiêu tích, điều hoà Can — Vị (Mộ huyệt của Can): bệnh tiêu hoá, bệnh túi mật và gan, căng cứng ngực — vú — hạ sườn — bụng, ho, khó thở, đau dây thần kinh liên sườn, bệnh lý tuyến vú.",
+			"Thanh nhiệt, hỗ trợ nướu — mắt — mũi: bệnh về nướu như viêm nha chu — tụt nướu — chảy máu, viêm hoặc dị ứng mắt, các vấn đề về mũi như nghẹt mũi — polyp — viêm mũi — viêm xoang, đỏ mặt bồn chồn, vàng da, cứng khớp cổ.",
 		],
 	},
 };
@@ -746,14 +510,8 @@ let boSo = Object.entries(HO_SO);
 if (gioiHanKinh) boSo = boSo.filter(([ma]) => gioiHanKinh.has(tienToKinh(ma)));
 
 console.log(
-	`Hồ sơ đã duyệt (lô 3 — PC/TE/GB/LR): ${Object.keys(HO_SO).length} huyệt.` +
+	`Hồ sơ đã duyệt (lô 4 — CV/GV, LÔ CUỐI): ${Object.keys(HO_SO).length} huyệt.` +
 		(gioiHanKinh ? ` --kinh giới hạn còn ${boSo.length}.` : ""),
-);
-console.log(
-	"GB29 (Cự Liêu) CHỦ ĐỘNG LOẠI KHỎI danh sách sẽ ghi của lô này: " +
-		(boSo.some(([ma]) => ma === "GB29")
-			? "✗ VẪN CÒN trong HO_SO — LỖI, phải bỏ trước khi ghi."
-			: "✓ không có trong HO_SO/boSo (lý do: xem cảnh báo ở đầu file — ma_huyet='GB29' hiện đang gán cho hàng slug=cu-lieu-2, thực chất là ST3 ở mặt)."),
 );
 if (chiThu) {
 	for (const [ma, v] of boSo) console.log(`  ${ma.padEnd(5)} tr${v.trang}  ${v.nhom.length} nhóm`);
@@ -788,18 +546,16 @@ if (thieuTrongKho.length) {
 		else if (KHOP_THEO_MA_KHAC[ma]) console.log(`     · ${ma} (ghi theo mã khác='${KHOP_THEO_MA_KHAC[ma]}'): CSDL lưu mã lệch tiền tố, đã đối chiếu khớp huyệt này bằng title/slug.`);
 		else console.log(`     · ${ma}: KHÔNG có ánh xạ dự phòng — sẽ ghi trượt 0 hàng, cần soát tay.`);
 	}
-} else console.log("  ✓ khớp đủ, không lệch mã.");
+} else console.log("  ✓ khớp đủ, không lệch mã — 52/52 mã CV/GV khớp thẳng theo ma_huyet (không giả định 'mọi mã Đốc Mạch là GV', đã kiểm bằng truy vấn tiền tố riêng trước khi chốt bản này).");
 
-// Đối chiếu số huyệt bốn kinh này trong nguồn hoso.json so với số tìm được trong CSDL
-// (yêu cầu riêng của lô này — so PC/TE/GB/LR trong nguồn gốc, KHÔNG chỉ so với HO_SO
-// đã lọc GB29, để thấy rõ 90 huyệt nguồn → 89 sẽ ghi, chênh đúng 1 là GB29).
+// Đối chiếu số huyệt CV/GV trong nguồn hoso.json so với số tìm được trong CSDL.
 const hoso = JSON.parse(readFileSync(resolve(goc, "cms/.tam-focks/hoso.json"), "utf8"));
 const maTrongNguon = hoso
 	.map((h) => h.ma)
-	.filter((ma) => /^(PC|TE|GB|LR)[0-9]+$/.test(ma));
+	.filter((ma) => /^(CV|GV)[0-9]+$/.test(ma));
 console.log(
-	`\nĐối chiếu với nguồn hoso.json: ${maTrongNguon.length} huyệt PC/TE/GB/LR có trong nguồn` +
-		` (gồm cả GB29), ${maCanKiem.length} huyệt sẽ ghi ở lô này (đã trừ GB29) — chênh lệch ${maTrongNguon.length - maCanKiem.length} đúng bằng số mã GB29 bị loại.`,
+	`\nĐối chiếu với nguồn hoso.json: ${maTrongNguon.length} huyệt CV/GV có trong nguồn,` +
+		` ${maCanKiem.length} huyệt sẽ ghi ở lô này — chênh lệch ${maTrongNguon.length - maCanKiem.length} (kỳ vọng 0, không có ca loại trừ kiểu GB29 ở lô 3).`,
 );
 
 if (chiKiem) {
@@ -830,7 +586,7 @@ for (const [ma, v] of boSo) {
 await kho.query("ALTER TABLE ec_huyet_vi ENABLE TRIGGER USER").catch(() => {});
 console.log(`\nGhi cong_dung_nhom cho ${n} huyệt.` + (boQua.length ? ` Bỏ qua ${boQua.length}: ${boQua.join(", ")} (xem BO_QUA_MA_LECH ở đầu file).` : ""));
 
-// Phép kiểm 2 (SAU khi ghi): đếm theo kinh. GB phải là 43, không phải 44.
+// Phép kiểm 2 (SAU khi ghi): đếm theo kinh. CV phải là 24, GV phải là 28.
 const cacKinh = [...new Set(boSo.map(([ma]) => tienToKinh(ma)))];
 const demTheoKinh = await kho.query(
 	`SELECT substring(ma_huyet from '^[A-Za-z]+') AS kinh, count(*)::int n
@@ -840,7 +596,7 @@ const demTheoKinh = await kho.query(
 	 GROUP BY 1 ORDER BY 1`,
 	[cacKinh],
 );
-console.log("\nSố huyệt có cong_dung_nhom theo kinh (đếm theo tiền tố ma_huyet, KHÔNG gồm các mã ghi qua slug/mã khác — xem hai dòng dưới):");
+console.log("\nSố huyệt có cong_dung_nhom theo kinh (đếm theo tiền tố ma_huyet):");
 for (const row of demTheoKinh.rows) console.log(`  ${row.kinh}: ${row.n}`);
 const slugTargets = Object.values(KHOP_THEO_SLUG);
 if (slugTargets.length) {
@@ -859,40 +615,46 @@ if (maKhacTargets.length) {
 	for (const row of demTheoMaKhac.rows) console.log(`  (khớp theo mã khác, lệch tiền tố) ${row.ma_huyet}: ${row.co ? "đã ghi" : "chưa ghi"}`);
 }
 
-// Phép kiểm 3: in PC6 (Nội Quan), GB20 (Phong Trì) và LR3 (Thái Xung) để soát giọng
-// văn — ba huyệt người mới học tra rất nhiều trong lô này.
+// Phép kiểm 2b (yêu cầu riêng của lô CUỐI này): đếm TỔNG toàn bảng ec_huyet_vi, không
+// giới hạn theo kinh — kỳ vọng 357 = 11 (thí điểm Phế) + 92 (lô 1) + 113 (lô 2) +
+// 89 (lô 3) + 52 (lô 4, lô này).
+const demTong = await kho.query(
+	"SELECT count(*)::int n FROM ec_huyet_vi WHERE cong_dung_nhom IS NOT NULL AND deleted_at IS NULL",
+);
+console.log(
+	`\nTổng TOÀN BẢNG ec_huyet_vi có cong_dung_nhom: ${demTong.rows[0].n} (kỳ vọng 357).`,
+);
+
+// Phép kiểm 3: in CV4 (Quan Nguyên), CV17 (Chiên Trung/Đản Trung), GV20 (Bách Hội),
+// GV26 (Nhân Trung) để soát giọng văn — bốn huyệt người mới học tra nhiều nhất lô này.
 const mauSoat = await kho.query(
 	"SELECT ma_huyet, title, cong_dung_nhom FROM ec_huyet_vi WHERE ma_huyet = ANY($1::text[]) AND deleted_at IS NULL",
-	[["PC6", "GB20", "LR3"]],
+	[["CV4", "CV17", "GV20", "GV26"]],
 );
 console.log("\nMẫu soát giọng văn:");
 for (const row of mauSoat.rows) console.log(`  ${row.ma_huyet} ${row.title}:\n`, JSON.stringify(row.cong_dung_nhom, null, 2));
 
-// Phép kiểm 4: hình dạng — mọi cong_dung_nhom vừa ghi phải có "nhom" là mảng CHUỖI,
-// không được lẫn object con (đó là thứ làm td_chu() nuốt trắng mà không báo lỗi).
+// Phép kiểm 4: hình dạng trên TOÀN BỘ cột (không chỉ lô này) — mọi cong_dung_nhom hiện
+// có trong CẢ BẢNG phải có "nhom" là mảng CHUỖI, không được lẫn object con (đó là thứ
+// làm td_chu() nuốt trắng mà không báo lỗi).
 // ⚠️ Cột cong_dung_nhom là kiểu `json` (không phải `jsonb`) — dùng json_array_elements/
 // json_typeof, KHÔNG dùng bản jsonb_* (đã đo: jsonb_array_elements(json) báo lỗi 42883
 // "function ... does not exist", không lặng lẽ tự ép kiểu).
-const maThucTeDaGhi = boSo
-	.filter(([ma]) => !BO_QUA_MA_LECH[ma])
-	.map(([ma]) => KHOP_THEO_MA_KHAC[ma] || ma);
-const kiemHinh = await kho.query(
+const kiemHinhToanBang = await kho.query(
 	`SELECT coalesce(ma_huyet, slug) AS dinh_danh
 	 FROM ec_huyet_vi
 	 WHERE deleted_at IS NULL
-	   AND (ma_huyet = ANY($1::text[]) OR slug = ANY($2::text[]))
 	   AND cong_dung_nhom IS NOT NULL
 	   AND EXISTS (
 	     SELECT 1 FROM json_array_elements(cong_dung_nhom->'nhom') AS phan_tu
 	     WHERE json_typeof(phan_tu) <> 'string'
 	   )`,
-	[maThucTeDaGhi, slugTargets],
 );
 console.log(
-	`\nKiểm hình dạng: ${
-		kiemHinh.rows.length
-			? "✗ CÓ " + kiemHinh.rows.length + " huyệt lẫn object trong nhom: " + kiemHinh.rows.map((r) => r.dinh_danh).join(", ")
-			: "✓ tất cả cong_dung_nhom.nhom vừa ghi đều là mảng chuỗi, không lẫn object."
+	`\nKiểm hình dạng TOÀN BỘ cột cong_dung_nhom (357 huyệt kỳ vọng): ${
+		kiemHinhToanBang.rows.length
+			? "✗ CÓ " + kiemHinhToanBang.rows.length + " huyệt lẫn object trong nhom: " + kiemHinhToanBang.rows.map((r) => r.dinh_danh).join(", ")
+			: "✓ tất cả cong_dung_nhom.nhom hiện có trong toàn bảng đều là mảng chuỗi, không lẫn object."
 	}`,
 );
 
@@ -906,12 +668,12 @@ console.log("\nTrạng thái trigger USER trên ec_huyet_vi sau khi bật lại 
 if (trig.rows.length) for (const row of trig.rows) console.log(`  ${row.tgname}: tgenabled=${row.tgenabled}`);
 else console.log("  (không có trigger USER nào trên bảng — không có gì để bật/tắt)");
 
-// Phép kiểm 6 (riêng cho lô này): slug='cu-lieu-2' (ma_huyet='GB29', thực chất là ST3
-// ở mặt) phải VẪN CÒN NULL sau lô — xác nhận không có gì bị dán nhầm vào đó.
+// Phép kiểm 6 (kế thừa từ lô 3): slug='cu-lieu-2' (ma_huyet='GB29', thực chất là ST3
+// ở mặt) phải VẪN CÒN NULL — xác nhận lô CV/GV này không đụng gì tới huyệt GB/ST.
 const kiemCuLieu2 = await kho.query(
 	"SELECT slug, title, ma_huyet, cong_dung_nhom FROM ec_huyet_vi WHERE slug = 'cu-lieu-2' AND deleted_at IS NULL",
 );
-console.log("\nKiểm riêng cu-lieu-2 (phải còn NULL sau lô này):");
+console.log("\nKiểm riêng cu-lieu-2 (phải còn NULL):");
 for (const row of kiemCuLieu2.rows) {
 	console.log(
 		`  slug=${row.slug} title=${row.title} ma_huyet=${row.ma_huyet} cong_dung_nhom=${
@@ -921,7 +683,7 @@ for (const row of kiemCuLieu2.rows) {
 }
 if (!kiemCuLieu2.rows.length) console.log("  ✗ không tìm thấy hàng slug='cu-lieu-2' — cần soát tay.");
 
-console.log("\n→ Đợi ĐỦ CẢ BỐN LÔ rồi mới chạy một lượt (KHÔNG chạy giữa lô):");
+console.log("\n→ ĐỦ CẢ BỐN LÔ. Bước tiếp theo (người dùng tự chạy, không chạy trong việc này):");
 console.log("   node scripts-di-cu/dung-chi-muc.mjs huyet_vi");
 console.log("   node scripts-di-cu/xuat-huyet-js.mjs");
 await kho.end();
