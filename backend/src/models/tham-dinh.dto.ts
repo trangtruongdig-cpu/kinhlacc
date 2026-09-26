@@ -55,3 +55,20 @@ export interface ThongKeThamDinh {
   theoBo: Array<{ bo: string; soMuc: number; diemTrungBinh: number }>;
   soiLanCuoi: string | null;
 }
+
+/** Kết quả một ca soi lớp thầy thuốc. */
+export interface LuocKeCaThayThuoc {
+  batDau: string;
+  ketThuc: string;
+  /** Số mục thật sự gửi cho mô hình. */
+  soMucSoi: number;
+  /** Số mục đứng trong hàng đợi nhưng không tới lượt (hết trần hoặc hết hạn mức). */
+  soMucConLai: number;
+  soLoiPheNhan: number;
+  soLoiPheLoai: number;
+  soLuotGoiModel: number;
+  chamTran: boolean;
+  /** Ba lý do loại nhiều nhất — số liệu để chỉnh lời nhắc, không phải để vứt. */
+  lyDoLoai: Array<{ lyDo: string; soLan: number }>;
+  loi: string[];
+}

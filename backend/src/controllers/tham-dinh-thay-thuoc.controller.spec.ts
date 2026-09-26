@@ -52,3 +52,97 @@ describe('ThamDinhThayThuocService.lapThuoc — khi chưa cấu hình', () => {
     expect((await s.lapThuoc()).phienBan).toBeNull();
   });
 });
+
+import type { BoLuatVanPhong } from '../utils/tham-dinh-luat.util';
+
+const LUAT: BoLuatVanPhong = {
+  phienBan: 3, boApDung: ['huyet_vi'], daDuyet: true,
+  dieu: [
+    { ma: 'BC1', truc: 'bo_cuc', noiDung: 'Mở đầu bằng câu định vị.', viDu: 'Ở chỗ lõm…' },
+    { ma: 'PV1', truc: 'pham_vi_hanh_nghe', noiDung: 'Không dùng chữ hàm ý khám chữa bệnh.', viDu: '' },
+  ],
+};
+
+describe('ThamDinhThayThuocService.loiNhacSoi', () => {
+  const s = new ThamDinhThayThuocService(null as never, null as never, null as never);
+
+  it('nhúng đủ các điều luật kèm mã để lời phê quy chiếu được', () => {
+    const l = s.loiNhacSoi(LUAT);
+    expect(l).toContain('BC1');
+    expect(l).toContain('PV1');
+    expect(l).toContain('Mở đầu bằng câu định vị.');
+  });
+
+  it('đòi trichDan là NGUYÊN VĂN và nói rõ sẽ bị loại nếu không khớp', () => {
+    const l = s.loiNhacSoi(LUAT);
+    expect(l).toMatch(/nguyên văn/i);
+    expect(l).toMatch(/loại|bỏ/i);
+  });
+
+  it('cấm bậc 2 một cách tường minh', () => {
+    expect(s.loiNhacSoi(LUAT)).toMatch(/bậc 2|trí nhớ/i);
+  });
+
+  it('cho phép nói "cần người bổ sung" khi không đủ căn cứ — bậc 4', () => {
+    expect(s.loiNhacSoi(LUAT)).toMatch(/cần người bổ sung/i);
+  });
+});
+
+describe('ThamDinhThayThuocService.dungNoiDungSoi', () => {
+  const s = new ThamDinhThayThuocService(null as never, null as never, null as never);
+
+  it('gói thân bài theo từng trường, có nhãn trường', () => {
+    const r = s.dungNoiDungSoi(
+      { bo: 'huyet_vi', tieuDe: 'Thái Khê' },
+      { vi_tri: 'Ở chỗ lõm', chu_tri: 'Đau lưng' },
+      [],
+    );
+    expect(r).toContain('vi_tri');
+    expect(r).toContain('Ở chỗ lõm');
+  });
+
+  it('bỏ trường rỗng — đừng tốn token cho ô trống', () => {
+    const r = s.dungNoiDungSoi({ bo: 'huyet_vi', tieuDe: 'T' }, { vi_tri: 'A', ghi_chu: '' }, []);
+    expect(r).not.toContain('ghi_chu');
+  });
+
+  it('kèm chùm liên quan và nói rõ đó là NỀN, không phải bài đang soi', () => {
+    const r = s.dungNoiDungSoi(
+      { bo: 'huyet_vi', tieuDe: 'T' }, { vi_tri: 'A' },
+      [{ bo: 'kinh_mach', tieuDe: 'Kinh Can', tomTat: 'Kinh Can chạy từ…' }],
+    );
+    expect(r).toContain('Kinh Can');
+    expect(r).toMatch(/nền|tham khảo|không phải bài đang soi/i);
+  });
+});
+
+describe('ThamDinhThayThuocService.chayCaThayThuoc — rào chắn vào ca', () => {
+  function svc(over: Record<string, unknown> = {}) {
+    const cms = {
+      daCauHinh: () => true, moKetNoi: () => Promise.resolve(), dongKetNoi: () => Promise.resolve(),
+      dungBang: () => Promise.resolve(), docBoLuat: () => Promise.resolve(null),
+      ...over,
+    } as never;
+    const llm = { daCauHinh: () => true, moCa: () => undefined, soLuotDaGoi: () => 0 } as never;
+    return new ThamDinhThayThuocService(cms, llm, { get: () => undefined } as never);
+  }
+
+  /**
+   * Phép nghiệm thu số 2 của spec: bộ luật phải được người dùng duyệt TRƯỚC khi lớp 2
+   * chạy lần đầu. Chạy bằng thước chưa ai duyệt thì lời phê không có thẩm quyền nào.
+   */
+  it('chưa có bộ luật ĐÃ DUYỆT thì không soi mục nào', async () => {
+    const lk = await svc().chayCaThayThuoc();
+    expect(lk.soMucSoi).toBe(0);
+    expect(lk.loi[0]).toMatch(/bộ luật/i);
+  });
+
+  it('thiếu khoá mô hình thì nằm im', async () => {
+    const cms = { daCauHinh: () => true } as never;
+    const llm = { daCauHinh: () => false, moCa: () => undefined } as never;
+    const s = new ThamDinhThayThuocService(cms, llm, { get: () => undefined } as never);
+    const lk = await s.chayCaThayThuoc();
+    expect(lk.soMucSoi).toBe(0);
+    expect(lk.loi[0]).toMatch(/chưa cấu hình/i);
+  });
+});
