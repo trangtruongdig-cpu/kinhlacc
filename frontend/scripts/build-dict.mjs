@@ -18,7 +18,7 @@ import {
   meridianList, records, classify, recOfPoint, sec, kinhSlugOf, fold,
   LOAI_LABEL, HUYET_SECTIONS, KINH_SECTIONS, huyetIndexable, kinhIndexable,
   BENH, BENH_SETS, benhIndexable, benhCross, huyetLinkTargets,
-  traitsByAcuId,
+  traitsByAcuId, codeToId,
 } from './dict-data.mjs'
 import { napGhiDe, apGhiDe } from './seo-cms.mjs'
 import { moKetNoiCms } from './cms-ket-noi.mjs'
@@ -310,6 +310,169 @@ function congDungBlock(congDung) {
   </section>`
 }
 
+// ── "Huyệt Này Dùng Trong" (chiều ngược: 100 mục Châm Cứu Trị Bệnh → huyệt) ──
+// SUY LÚC DỰNG, KHÔNG lưu cột CSDL — tính lại mỗi lần build từ chính mục Điều Trị
+// (BENH.ccdt.records[].dieuTri) để cột và nguồn không bao giờ lệch nhau. KHÔNG dùng Bệnh Học
+// (mục "Biện Chứng Luận Trị" của nó không nêu huyệt cụ thể theo cùng quy ước viết).
+//
+// HAI TRỤC KHỚP, gộp cả hai vào 1 Set (không đếm trùng 1 cặp 2 lần):
+//  1) MÃ trong ngoặc theo quy ước từ điển này — "Tên huyệt (Vt Số)" kiểu "Thần môn (Tm.7)",
+//     "Hợp cốc (Đtr 4)". VIET_TAT_KINH suy bằng cách đối chiếu CHÉO body text của acupoints.js:
+//     tìm mẫu "Tên (Vt Số)" rồi so số với international_code của chính "Tên" khi tên đó khớp
+//     DUY NHẤT 1 huyệt — đo được ~4.980 lần khớp hợp lệ, mỗi viết tắt dưới đây chiếm ≥98% số lần
+//     khớp CỦA CHÍNH NÓ (biến thể hiếm/nhiễu <2% đã bỏ qua, xem lịch sử rà soát). Đây là TRỤC
+//     CHÍNH vì mã chắc hơn tên rất nhiều — chính văn hay viết tên rút gọn không kèm chữ đầu
+//     (vd "Tam lý" thay vì "Túc Tam Lý") nên tên đơn lẻ dễ bỏ sót hoặc lẫn dị bản chính tả
+//     ("Y Hy" chép "Y Hi") mà mã thì không. NHƯNG mã một mình vẫn không đủ tin: đo được viết tắt
+//     "Đ" lẫn giữa Đởm/GB (98,7%) và Đốc/GV (1,3%) NGAY TRONG chính văn bản nguồn (ví dụ có thật:
+//     "Tín hội (Đ 22)" phải là Đốc/GV22, không phải Đởm/GB22 "Uyên Dịch") — nên mọi mã giải ra
+//     đều phải XÁC NHẬN lại bằng tên huyệt đích có đứng ngay trước dấu "(" hay không (bỏ dấu, cửa
+//     sổ 40 ký tự); không xác nhận được thì BỎ, không nhận liều.
+//  2) TÊN VIẾT HOA TỪNG CHỮ không kèm mã — quét cụm DÀI NHẤT trước ("Hạ Quản" không bị cắt thành
+//     "Hạ Quan"), CHỈ quét phần NGOÀI ngoặc đơn — trong ngoặc phần lớn là trích dẫn sách/tạp
+//     chí/liều lượng, và đã đo bắt nhầm thật: "(Nam Kinh Trung y học viện học báo số 35–36/1986)"
+//     ghép hai chữ hoa cạnh nhau (của tên tạp chí) thành đúng tên huyệt có thật "Kinh Trung" nếu
+//     không chặn. Bỏ dấu để GOM tên nhưng nếu 1 khoá-bỏ-dấu trỏ ≥2 tên KHÁC NHAU (hoặc ≥2 huyệt
+//     khác id cùng chung 1 tên) thì loại CẢ HAI — thà bỏ sót còn hơn nối sai. Chỉ xét tên ≥2 âm
+//     tiết & ≥5 ký tự (cùng luật với huyetLinkTargets ở dict-data.mjs) + loại các tên trùng chữ
+//     với tên kinh/thời tiết/khái niệm (Thái Dương, Nhân Trung, Âm Dương…).
+const VIET_TAT_KINH = {
+  Th: 'KI', Vi: 'ST', Đc: 'GV', Đtr: 'LI', ĐTr: 'LI', Ty: 'SP', Đ: 'GB',
+  Bq: 'BL', Nh: 'CV', Ttr: 'SI', C: 'LR', Tb: 'PC', P: 'LU', Ttu: 'TE', Tm: 'HT',
+}
+// Cố ý LẶP với HUYET_NAME_BLOCK trong dict-data.mjs (xem ghi chú ở đó) — KHÔNG sửa dict-data.mjs
+// cho việc này, mỗi nơi tự giữ rào chắn riêng.
+const HUYET_TEN_CHAN = new Set([
+  'thai duong', 'nhan trung', 'thai am', 'thieu am', 'duong minh',
+  'am duong', 'trung binh', 'tu cung', 'thuong vi',
+])
+
+// Danh sách ứng viên AN TOÀN để khớp theo TÊN: bỏ tên <2 âm tiết/<5 ký tự, tên mơ hồ sau khi bỏ
+// dấu (trỏ ≥2 tên gốc khác nhau), tên gốc trùng ≥2 huyệt khác id, và tên trong HUYET_TEN_CHAN.
+function xayMucTieuHuyetBenh() {
+  const theoDauCach = new Map() // fold(ten) → Set<ten gốc> — để dò trùng sau khi bỏ dấu
+  const demTen = new Map() // ten gốc → số lần xuất hiện trong records
+  for (const r of records) {
+    if (!r.ten || !r._slug) continue
+    demTen.set(r.ten, (demTen.get(r.ten) || 0) + 1)
+  }
+  for (const r of records) {
+    if (!r.ten || !r._slug) continue
+    const soTu = r.ten.trim().split(/\s+/).length
+    if (soTu < 2 || r.ten.length < 5) continue
+    const k = fold(r.ten)
+    if (!theoDauCach.has(k)) theoDauCach.set(k, new Set())
+    theoDauCach.get(k).add(r.ten)
+  }
+  const out = []
+  for (const r of records) {
+    if (!r.ten || !r._slug) continue
+    const soTu = r.ten.trim().split(/\s+/).length
+    if (soTu < 2 || r.ten.length < 5) continue
+    const k = fold(r.ten)
+    if (theoDauCach.get(k).size > 1) continue // bỏ dấu ra trùng ≥2 tên khác nhau → mơ hồ, loại
+    if (HUYET_TEN_CHAN.has(k)) continue
+    if (demTen.get(r.ten) > 1) continue // tên gốc trùng ≥2 huyệt khác id → không biết trỏ đâu
+    out.push({ ten: r.ten, slug: r._slug, id: r.id, soTu, foldTen: k })
+  }
+  out.sort((a, b) => b.soTu - a.soTu || b.ten.length - a.ten.length) // cụm dài trước
+  return out
+}
+const MUC_TIEU_HUYET_BENH = xayMucTieuHuyetBenh()
+const TEN_DEN_MUC_TIEU = new Map(MUC_TIEU_HUYET_BENH.map((t) => [t.ten, t]))
+const ID_DEN_MUC_TIEU = new Map(MUC_TIEU_HUYET_BENH.map((t) => [t.id, t]))
+const SO_TU_DAI_NHAT = MUC_TIEU_HUYET_BENH.length ? MUC_TIEU_HUYET_BENH[0].soTu : 0
+
+// Quét TÊN viết-hoa-từng-chữ, cụm dài nhất trước, CHỈ trong phần NGOÀI ngoặc đơn (xem lý do ở
+// ghi chú lớn phía trên — trong ngoặc là trích dẫn sách/tạp chí/liều lượng, không phải huyệt).
+function timTenHuyetTrongVanBan(vanBanGoc) {
+  const vanBan = vanBanGoc.replace(/\([^()]*\)/gu, (s) => ' '.repeat(s.length)) // giữ độ dài, khỏi lệch chỉ số
+  const doan = vanBan.split(/([\p{L}\p{N}]+)/u)
+  const viTriTu = []
+  for (let i = 0; i < doan.length; i++) if (/[\p{L}\p{N}]/u.test(doan[i])) viTriTu.push(i)
+  const daDung = new Array(viTriTu.length).fill(false)
+  const ids = new Set()
+  for (let a = 0; a < viTriTu.length; a++) {
+    if (daDung[a]) continue
+    if (!/^\p{Lu}/u.test(doan[viTriTu[a]])) continue // phải bắt đầu bằng chữ hoa (rào chắn 1)
+    for (let n = Math.min(SO_TU_DAI_NHAT, viTriTu.length - a); n >= 2; n--) {
+      let veHoaHet = true
+      for (let k = 0; k < n; k++) {
+        if (!/^\p{Lu}/u.test(doan[viTriTu[a + k]])) { veHoaHet = false; break }
+      }
+      if (!veHoaHet) continue
+      const cum = doan.slice(viTriTu[a], viTriTu[a + n - 1] + 1).join('')
+      const dich = TEN_DEN_MUC_TIEU.get(cum) // khớp CHÍNH XÁC từng dấu (rào chắn 3)
+      if (dich) {
+        ids.add(dich.id)
+        for (let k = a; k < a + n; k++) daDung[k] = true
+        break // cụm dài nhất đã thắng ở vị trí này (rào chắn 2) — khỏi thử cụm ngắn hơn
+      }
+    }
+  }
+  return ids
+}
+
+// Quét MÃ trong ngoặc "(Vt Số)"/"(Vt.Số)", giải qua VIET_TAT_KINH + codeToId (bảng WHO dùng
+// chung với "Mã WHO" hiển thị trên trang huyệt), rồi XÁC NHẬN lại bằng tên huyệt đích có đứng
+// ngay trước dấu "(" hay không (xem lý do ở ghi chú lớn phía trên).
+const CUA_SO_XAC_NHAN_MA = 40
+function timMaHuyetTrongVanBan(vanBan) {
+  const ids = new Set()
+  const re = /\(([\p{L}]+)\.?\s*(\d{1,3})\)/gu
+  let m
+  while ((m = re.exec(vanBan))) {
+    const tienTo = VIET_TAT_KINH[m[1]]
+    if (!tienTo) continue
+    const id = codeToId.get(`${tienTo}${m[2]}`)
+    if (id == null) continue
+    const dich = ID_DEN_MUC_TIEU.get(id)
+    if (!dich) continue
+    const truoc = vanBan.slice(Math.max(0, m.index - CUA_SO_XAC_NHAN_MA), m.index)
+    if (!fold(truoc).includes(dich.foldTen)) continue // không thấy tên đích ngay trước mã → bỏ
+    ids.add(id)
+  }
+  return ids
+}
+
+function huyetDuocNhacTrongDieuTri(vanBan) {
+  const ids = new Set()
+  if (!vanBan) return ids
+  for (const id of timMaHuyetTrongVanBan(vanBan)) ids.add(id)
+  for (const id of timTenHuyetTrongVanBan(vanBan)) ids.add(id)
+  return ids
+}
+
+// Dựng 1 LẦN lúc nạp module: id huyệt → [{slug, ten} bệnh], sắp theo tên cho dễ quét mắt.
+function xayChiMucHuyetDenBenh() {
+  const map = new Map() // id huyệt → Map<slug bệnh, ten bệnh> (Map để khỏi trùng khi bệnh nhắc ≥2 lần)
+  const setCcdt = BENH.ccdt
+  if (!setCcdt || !Array.isArray(setCcdt.records)) return new Map()
+  for (const rec of setCcdt.records) {
+    if (!rec || !rec.ten || !rec._slug || !rec.dieuTri) continue
+    for (const id of huyetDuocNhacTrongDieuTri(rec.dieuTri)) {
+      const trong = map.get(id) || new Map()
+      trong.set(rec._slug, rec.ten)
+      map.set(id, trong)
+    }
+  }
+  const out = new Map()
+  for (const [id, trong] of map) {
+    out.set(id, [...trong.entries()].map(([slug, ten]) => ({ slug, ten }))
+      .sort((a, b) => fold(a.ten).localeCompare(fold(b.ten))))
+  }
+  return out
+}
+const HUYET_DEN_BENH = xayChiMucHuyetDenBenh()
+
+// Khối liệt kê trên trang huyệt — rỗng thì trả '' (không dựng khung rỗng), giống cungKinhHtml.
+function mucBenhDungHtml(rec) {
+  const ds = HUYET_DEN_BENH.get(rec.id)
+  if (!ds || !ds.length) return ''
+  return `<section class="dl-rel"><h2>Huyệt Này Dùng Trong (${ds.length})</h2><ul class="dl-rel-list">${ds
+    .map((b) => `<li><a href="/cham-cuu-tri-benh/${escAttr(b.slug)}/">${escText(b.ten)}</a></li>`).join('')}</ul></section>`
+}
+
 // ───────────────────────── TRANG HUYỆT ──────────────────────────────────────
 function leadHuyet(rec, cls) {
   let h
@@ -400,6 +563,10 @@ function huyetPage(rec) {
         .map((p) => `<li><a href="/huyet/${escAttr(p.slug)}/">${escText(p.ten)}</a></li>`).join('')}</ul></section>`
   }
 
+  // "Huyệt này dùng trong bệnh nào" (suy từ mục Điều Trị của 100 bài Châm Cứu Trị Bệnh, xem
+  // xayChiMucHuyetDenBenh ở trên) — rỗng thì không dựng khung.
+  const benhDungHtml = mucBenhDungHtml(rec)
+
   // ── Huyệt TRƯỚC / SAU dọc đường kinh (Việc 10 ①) ──
   // Suy từ THỨ TỰ huyệt trong cls.mer.points (đúng nguồn m.points đã dùng để dựng "Huyệt Cùng
   // Kinh" ở trên) — KHÔNG suy từ chuỗi mã huyệt (mã trong CSDL CMS lệch quy ước ở kinh Tâm
@@ -470,6 +637,7 @@ function huyetPage(rec) {
   <div class="bl-body">${body}</div>
   ${faqBlock(faq)}
   <div class="bl-cta"><a href="/xem-3d">Khám Phá Đồ Hình Kinh Lạc 3D →</a></div>
+  ${benhDungHtml}
   ${cungKinhHtml}
   ${prevNextHtml}
   ${cls.loai === 'kinh' ? `<p class="dl-up">↑ <a href="/kinh/${escAttr(cls.kinhSlug)}/">Về ${escText(cls.kinhTen)}</a></p>` : ''}
@@ -892,3 +1060,7 @@ for (const cfg of BENH_SETS) {
 console.log(`✓ build-dict bệnh: tổng ${nBenh} trang.`)
 console.log(`✓ internal link engine: đã tự nối ${_autolinkCount} link nội bộ (anchor = tên huyệt) trong thân bài.`)
 console.log(`✓ nối nguồn Phối Huyệt: ${_nguonLinkCount} link /nguon/ (${_nguonLinkedSlugs.size} nguồn khác nhau), từ ${nguonBySlug.size} nguồn nạp được.`)
+{
+  const tongCap = [...HUYET_DEN_BENH.values()].reduce((n, ds) => n + ds.length, 0)
+  console.log(`✓ "Huyệt này dùng trong": ${HUYET_DEN_BENH.size} huyệt có ≥1 bệnh, tổng ${tongCap} cặp (huyệt, bệnh) suy từ ${BENH.ccdt?.records?.length || 0} bài Châm Cứu Trị Bệnh.`)
+}
