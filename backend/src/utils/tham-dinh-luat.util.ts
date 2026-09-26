@@ -42,7 +42,9 @@ export function apDungCho(bo: BoLuatVanPhong, tenBo: string): boolean {
  * luật rút từ mẫu — không ai gỡ nó qua màn duyệt được.
  */
 export const LUAT_PHAM_VI_HANH_NGHE: DieuLuat = {
-  ma: 'PV1',
+  // PV0, không phải PV1: lời nhắc bảo mô hình đánh số từ 1, nên PV1 là mã nó sẽ tự dùng.
+  // Lượt lập thước đầu đã mất luật cứng đúng vì lý do đó.
+  ma: 'PV0',
   truc: 'pham_vi_hanh_nghe',
   noiDung:
     'Không dùng chữ hàm ý khám chữa bệnh. Bảng từ: khám → đo, phòng khám → phòng chẩn trị, ' +

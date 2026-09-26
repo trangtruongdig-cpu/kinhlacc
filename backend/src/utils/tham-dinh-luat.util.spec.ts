@@ -65,8 +65,13 @@ describe('doPhamViHanhNghe', () => {
     expect(doPhamViHanhNghe('Thầy thuốc đo kinh lạc tại phòng chẩn trị.')).toEqual([]);
   });
 
-  it('LUAT_PHAM_VI_HANH_NGHE có mã cố định để lời phê quy chiếu được', () => {
-    expect(LUAT_PHAM_VI_HANH_NGHE.ma).toBe('PV1');
+  /**
+   * Mã là PV0 chứ không phải PV1, và đó là bài học từ lượt lập thước đầu (26/09/2026):
+   * mô hình được bảo đánh số từ 1 nên nó tự sinh "PV1" cho một điều khác (về đơn vị
+   * "thốn"), mã bị chiếm, và luật cứng lặng lẽ không được chèn vào bộ luật.
+   */
+  it('LUAT_PHAM_VI_HANH_NGHE mang mã PV0 — mã mô hình không với tới', () => {
+    expect(LUAT_PHAM_VI_HANH_NGHE.ma).toBe('PV0');
     expect(LUAT_PHAM_VI_HANH_NGHE.truc).toBe('pham_vi_hanh_nghe');
   });
 });

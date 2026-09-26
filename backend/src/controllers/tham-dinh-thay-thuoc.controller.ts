@@ -146,21 +146,23 @@ export class ThamDinhThayThuocService {
         });
       }
 
-      // Luật cứng luôn có mặt, bất kể mô hình có rút ra được hay không. Người duyệt gỡ
+      // Luật cứng LUÔN đứng đầu, bất kể mô hình có rút ra được hay không. Người duyệt gỡ
       // các điều khác được, riêng điều này thì không.
-      if (!dieu.some((d) => d.ma === LUAT_PHAM_VI_HANH_NGHE.ma)) {
-        dieu.unshift(LUAT_PHAM_VI_HANH_NGHE);
-      }
+      //
+      // Loại trước rồi mới chèn: bản cũ chỉ chèn "nếu chưa có mã đó", và lượt lập thước
+      // đầu mô hình đã tự sinh một điều mang đúng mã ấy — luật cứng lặng lẽ biến mất.
+      const conLai = dieu.filter((d) => d.ma !== LUAT_PHAM_VI_HANH_NGHE.ma);
+      conLai.unshift(LUAT_PHAM_VI_HANH_NGHE);
 
       const phienBan = await this.cms.luuBoLuat({
         phienBan: 0,
         boApDung: [...new Set(ThamDinhThayThuocService.MUC_MAU.map((m) => m.bo))],
-        dieu,
+        dieu: conLai,
         daDuyet: false,
       });
 
-      this.logger.log(`lập thước xong: bản ${phienBan}, ${dieu.length} điều, CHỜ DUYỆT`);
-      return { phienBan, soDieu: dieu.length, loi };
+      this.logger.log(`lập thước xong: bản ${phienBan}, ${conLai.length} điều, CHỜ DUYỆT`);
+      return { phienBan, soDieu: conLai.length, loi };
     } catch (e) {
       loi.push((e as Error).message);
       return { phienBan: null, soDieu: 0, loi };
