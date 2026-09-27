@@ -44,6 +44,21 @@ describe('ThamDinhThayThuocService.loiNhacLapThuoc', () => {
     expect(l).toMatch(/###/);
     expect(l).toMatch(/kỹ thuật|bao bì|không phải văn phong/i);
   });
+
+  /**
+   * Bản bộ luật thứ ba (26/09/2026) ra ba điều không dùng được, và hai trong số đó tự
+   * mâu thuẫn với chính câu mẫu của nó: luật đòi "(Nh.4)" có dấu chấm trong khi mẫu là
+   * "(Ty 9)" không dấu chấm; luật nói "không dùng dấu hai chấm trước dẫn văn" trong khi
+   * mẫu có dấu hai chấm. Điều thứ ba chỉ MÔ TẢ ("văn bản dùng động từ trị") nên đem đo
+   * câu mới thì không phán được gì.
+   */
+  it('đòi điều luật PHÁN ĐƯỢC đúng/sai, không nhận nhận xét mô tả', () => {
+    expect(s.loiNhacLapThuoc()).toMatch(/phán|đo được|đúng\/sai/i);
+  });
+
+  it('đòi ví dụ là câu TUÂN THỦ điều luật, không phải câu vi phạm', () => {
+    expect(s.loiNhacLapThuoc()).toMatch(/tuân thủ|đúng luật|không.*vi phạm/i);
+  });
 });
 
 describe('ThamDinhThayThuocService.lapThuoc — khi chưa cấu hình', () => {
