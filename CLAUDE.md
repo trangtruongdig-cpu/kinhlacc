@@ -171,11 +171,12 @@ che dữ liệu và luật gom cụm chỉ viết một lần ở `backend/src/u
 - Telegram chỉ bật khi có `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`; push nhân viên cần
   `admins.fcm_token` (đăng ký qua nút trong tab). Thiếu cấu hình thì cả hai NẰM IM, không lỗi.
 
-### Bot thẩm định thư viện — lớp 1 (máy quét) ĐÃ CHẠY, lớp 2–3 chưa
+### Bot thẩm định thư viện — lớp 1 ĐÃ CHẠY, lớp 2 ĐÃ DỰNG (chờ duyệt thước), lớp 3 chưa
 
 Thiết kế: `docs/superpowers/specs/2026-09-25-bot-tham-dinh-thu-vien-design.md`.
-Kế hoạch 1: `docs/superpowers/plans/2026-09-25-bot-tham-dinh-lop-1.md` (xong, trừ lượt
-chạy cả kho).
+Kế hoạch 1: `docs/superpowers/plans/2026-09-25-bot-tham-dinh-lop-1.md` (xong).
+Kế hoạch 2: `docs/superpowers/plans/2026-09-26-bot-tham-dinh-lop-2.md` (mã xong, đang chờ
+người dùng duyệt bộ luật văn phong).
 
 Lớp 1 quét 18.416 mục, KHÔNG gọi mô hình ngôn ngữ, ghi bệnh án vào hai bảng
 `td_ho_so` / `td_nhan_xet` **ở `kinhlac_cms`** (không phải `defaultdb`, nên
@@ -220,6 +221,40 @@ D1–D6 bằng 0 mà vẫn còn ngần ấy — hai bộ dò không cùng tiêu 
 cả kho mất **3 giờ** (đã đo). `ghiHoSoLo` gói 200 mục vào 3 lượt trong một giao dịch.
 
 Nghiệm thu: `node backend/tmp/nghiem-thu-tham-dinh.mjs` (chỉ đọc).
+
+**Lớp 2 — thầy thuốc (LLM).** `POST /tham-dinh/lap-thuoc` rút bộ luật văn phong từ 10 mục
+viết đạt (`ThamDinhThayThuocService.MUC_MAU`), lưu vào `td_luat_van_phong` ở trạng thái
+CHỜ DUYỆT. `POST /tham-dinh/bo-luat/:phienBan/duyet` mới bật được ca soi
+(`POST /tham-dinh/soi-ky`) — `docBoLuat(true)` chỉ lấy bản đã duyệt, nên **thước chưa duyệt
+thì lớp 2 nằm im**. Cron 03:00.
+
+Hai tầng model: `YESCALE_MODEL` (gemini-2.5-flash-lite) sàng, `THAM_DINH_MODEL_KY`
+(claude-sonnet-5) đọc kỹ `THAM_DINH_SO_MUC_KY` mục đầu hàng đợi. Trần
+`THAM_DINH_TRAN_TIEN` tính bằng SỐ LƯỢT GỌI, và lượt HỎNG vẫn tính — không đếm nó thì một
+sự cố bên nhà cung cấp thành vòng lặp gọi vô hạn.
+
+**Bốn điều của lớp 2 phải nhớ:**
+
+- **SDK `openai` BỎ thân phản hồi của model Claude.** Yescale gắn `Content-Type: text/plain`
+  cho Claude (Gemini và GPT thì `application/json`), SDK chỉ parse khi là JSON — nên lời
+  gọi trông y như "mô hình không trả lời" dù thân JSON hợp lệ và đã bị tính tiền. Bot
+  `.asResponse()` rồi tự parse (`noiDungTuThan`). Đừng "đơn giản hoá" về `create()` trần.
+- **Timeout phải khai tay.** Mặc định SDK là 600s × 2 lần thử lại; đã đo một lượt treo
+  2005 giây khi mạng chập. Bot đặt `timeout: 180_000`, `maxRetries: 1`.
+- **Vân tay lớp 2 là cột RIÊNG** (`van_tay_thay_thuoc`). `van_tay_noi_dung` bị lớp 1 ghi đè
+  mỗi đêm; lấy nó làm mốc thì van tiết kiệm tiền không bao giờ đóng.
+- **Rào chắn chống bịa: trích dẫn phải KHỚP NGUYÊN VĂN** một đoạn trong thân bài (so sau khi
+  gộp khoảng trắng, tìm khắp mọi trường). Không khớp thì loại ở khâu ghi. Bậc căn cứ 2 (y
+  văn từ trí nhớ mô hình) bị cấm kể cả khi dẫn được tên sách. Tỉ lệ loại cao là tín hiệu
+  lời nhắc chưa rõ, **không phải** lý do nới rào.
+
+⚠️ **Lập thước là chỗ dễ ra rác nhất.** Bốn lượt đầu cho ra bốn dạng điều luật vô dụng:
+mô tả khung markdown của chính lời nhắc; luật ngược với câu mẫu của nó; chỉ mô tả mà không
+phán được gì; và ra luật về in nghiêng/in đậm — thứ `rutChu` đã bóc sạch nên mô hình chỉ
+đoán. Luôn đọc điều luật KÈM `viDu`: chỉ đọc phần luật thì cả bốn dạng đều trông hợp lý.
+Điều nào bác thì sửa `MUC_MAU` hoặc `loiNhacLapThuoc()` rồi lập lại, **đừng sửa tay trong
+CSDL** — lần chạy sau là mất.
+
 
 ### BenhDongYExcel diagnostic engine
 
