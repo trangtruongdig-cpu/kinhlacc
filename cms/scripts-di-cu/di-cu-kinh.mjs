@@ -9,6 +9,7 @@ import { parseEnv } from "node:util";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { SQL_MOC_ISO } from "./moc-iso.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const goc = resolve(here, "../..");
@@ -75,7 +76,7 @@ for (const m of ds) {
 		`INSERT INTO ec_kinh_mach
 			(id, slug, status, created_at, updated_at, published_at, version, locale, translation_group,
 			 title, ten_khac, ma, loai, huyet_ds, tom_tat_huyet, ${COT.join(", ")})
-		 VALUES ($1,$2,'published',now(),now(),now(),1,'en',$1,
+		 VALUES ($1,$2,'published',${SQL_MOC_ISO},${SQL_MOC_ISO},${SQL_MOC_ISO},1,'en',$1,
 			 $3,$4,$5,$6,$7,$8, ${COT.map((_, i) => `$${9 + i}`).join(", ")})`,
 		[
 			ulid(), slug,

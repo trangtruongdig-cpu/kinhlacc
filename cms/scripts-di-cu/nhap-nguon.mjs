@@ -13,6 +13,7 @@ import { parseEnv } from 'node:util'
 import { createRequire } from 'node:module'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { SQL_MOC_ISO } from './moc-iso.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const goc = resolve(here, '../..')
@@ -64,7 +65,7 @@ for (const r of ds) {
     `INSERT INTO ec_nguon_y_van
        (id, slug, status, created_at, updated_at, published_at, version, locale, translation_group,
         title, loai, tac_gia, nien_dai, ten_khac, ghi_chu, lien_ket)
-     VALUES ($1,$2,'published',now(),now(),now(),1,'en',$1,$3,$4,$5,$6,$7,$8,$9)`,
+     VALUES ($1,$2,'published',${SQL_MOC_ISO},${SQL_MOC_ISO},${SQL_MOC_ISO},1,'en',$1,$3,$4,$5,$6,$7,$8,$9)`,
     [id, slug, r.ten, r.loai, r.tac_gia, r.nien_dai, r.ten_khac, r.ghi_chu, r.link],
   )
   them++

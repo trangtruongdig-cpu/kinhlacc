@@ -11,6 +11,7 @@ import { parseEnv } from 'node:util'
 import { createRequire } from 'node:module'
 import { dirname, resolve, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { SQL_MOC_ISO } from './moc-iso.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const goc = resolve(here, '../..')
@@ -66,7 +67,7 @@ for (const f of readdirSync(NGUON).filter((x) => x.endsWith('.md'))) {
     if (!tid) { console.log(`  ✗ ${slug}: thiếu term ${ten}:${tslug}`); continue }
     await c.query(
       `INSERT INTO content_taxonomies (collection, entry_id, taxonomy_id, status, locale, published_at, created_at)
-       VALUES ($1,$2,$3,'published',$4, now(), now())
+       VALUES ($1,$2,$3,'published',$4, ${SQL_MOC_ISO}, ${SQL_MOC_ISO})
        ON CONFLICT DO NOTHING`,
       ['bai_viet', bai.id, tid, bai.locale || 'en'],
     )

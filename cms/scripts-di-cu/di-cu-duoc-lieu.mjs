@@ -16,6 +16,7 @@ import { parseEnv } from "node:util";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { SQL_MOC_ISO } from "./moc-iso.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const goc = resolve(here, "../..");
@@ -126,7 +127,7 @@ for (const r of rows) {
 			 title, ten_khac, ten_khoa_hoc, ten_han, ten_pinyin, ho_khoa_hoc, bo_phan_dung,
 			 tinh, vi, quy_kinh, lieu_dung, cong_dung_tom_tat, cong_dung_ds, kieng_ky_ds,
 			 anh_dai_dien, cho_index, ${VAN.map(([, c]) => c).join(", ")})
-		 VALUES ($1,$2,'published',now(),now(),now(),1,'en',$1,
+		 VALUES ($1,$2,'published',${SQL_MOC_ISO},${SQL_MOC_ISO},${SQL_MOC_ISO},1,'en',$1,
 			 $3,$4,$5,$6,$7,$8,$9,
 			 $10,$11,$12,$13,$14,$15,$16,
 			 $17,$18, ${VAN.map((_, i) => `$${19 + i}`).join(", ")})`,

@@ -12,6 +12,7 @@ import { parseEnv } from "node:util";
 import { createRequire } from "node:module";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { SQL_MOC_ISO } from "./moc-iso.mjs";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const goc = resolve(here, "../..");
@@ -95,7 +96,7 @@ const xaLo = async () => {
 	if (!lo.length) return;
 	const cot = 15;
 	const cho = lo.map((_, i) =>
-		`($${i * cot + 1},$${i * cot + 2},'published',now(),now(),now(),1,'en',$${i * cot + 1},` +
+		`($${i * cot + 1},$${i * cot + 2},'published',${SQL_MOC_ISO},${SQL_MOC_ISO},${SQL_MOC_ISO},1,'en',$${i * cot + 1},` +
 		Array.from({ length: cot - 2 }, (_, j) => `$${i * cot + 3 + j}`).join(",") + ")").join(",");
 	await kho.query(
 		`INSERT INTO ec_bai_thuoc
