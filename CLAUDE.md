@@ -171,12 +171,14 @@ che dữ liệu và luật gom cụm chỉ viết một lần ở `backend/src/u
 - Telegram chỉ bật khi có `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID`; push nhân viên cần
   `admins.fcm_token` (đăng ký qua nút trong tab). Thiếu cấu hình thì cả hai NẰM IM, không lỗi.
 
-### Bot thẩm định thư viện — lớp 1 ĐÃ CHẠY, lớp 2 ĐÃ DỰNG (chờ duyệt thước), lớp 3 chưa
+### Bot thẩm định thư viện — lớp 1 và 2 ĐÃ CHẠY, đường ghi vào kho ĐÃ MỞ, lớp 3 chưa
 
 Thiết kế: `docs/superpowers/specs/2026-09-25-bot-tham-dinh-thu-vien-design.md`.
 Kế hoạch 1: `docs/superpowers/plans/2026-09-25-bot-tham-dinh-lop-1.md` (xong).
-Kế hoạch 2: `docs/superpowers/plans/2026-09-26-bot-tham-dinh-lop-2.md` (mã xong, đang chờ
-người dùng duyệt bộ luật văn phong).
+Kế hoạch 2: `docs/superpowers/plans/2026-09-26-bot-tham-dinh-lop-2.md` (xong; bộ luật văn
+phong bản 5, 13 điều, đã duyệt).
+Kế hoạch 3: `docs/superpowers/plans/2026-09-27-bot-tham-dinh-lop-3-duyet.md` (xong phần
+backend + màn duyệt bản gọn; còn tô trích dẫn và chip nguồn trong tab Góp Ý & Lỗi).
 
 Lớp 1 quét 18.416 mục, KHÔNG gọi mô hình ngôn ngữ, ghi bệnh án vào hai bảng
 `td_ho_so` / `td_nhan_xet` **ở `kinhlac_cms`** (không phải `defaultdb`, nên
@@ -247,6 +249,27 @@ sự cố bên nhà cung cấp thành vòng lặp gọi vô hạn.
   gộp khoảng trắng, tìm khắp mọi trường). Không khớp thì loại ở khâu ghi. Bậc căn cứ 2 (y
   văn từ trí nhớ mô hình) bị cấm kể cả khi dẫn được tên sách. Tỉ lệ loại cao là tín hiệu
   lời nhắc chưa rõ, **không phải** lý do nới rào.
+
+**Duyệt và áp bản sửa.** `/app/tham-dinh` (Quản Trị). `POST /tham-dinh/nhan-xet/:id/ap` là
+chỗ **DUY NHẤT** trong cả bot ghi vào `ec_*`, và chỉ chạy khi có người bấm. Một giao dịch:
+ghi `revisions` trước → `UPDATE` cột + `version + 1` → để trigger `td_tr` dựng lại chỉ mục.
+
+⚠️ **Áp bản sửa khó hơn trông thấy, và ba lượt thử đầu đều thất bại vì ba lý do khác nhau:**
+
+- `rutChu` gộp khoảng trắng khi đưa bài cho mô hình, nên trích dẫn về tay ta ĐÃ GỘP còn
+  span gốc thì không. Phải dựng bản đồ chỉ số để cắt đúng đoạn trong gốc.
+- Trích dẫn thường **trải qua nhiều khối Portable Text** (rutChu nối khối bằng khoảng
+  trắng nên mô hình đọc liền một câu). Không span nào chứa trọn → phải áp theo đoạn KHÁC
+  BIỆT, và chỉ trong span là đoạn con của trích dẫn.
+- Một lời phê mang **nhiều thay đổi rải rác**. Phải diff theo từ, gộp cụm cách nhau ≤3
+  token, áp từng đoạn.
+
+⚠️ **HOẶC TRỌN VẸN, HOẶC KHÔNG GÌ.** Áp được 2/3 đoạn thì rollback và bảo người duyệt sửa
+tay. Ghi một nửa rồi báo thành công là để họ tưởng bản sửa đã vào đủ. Đoạn quá ngắn để định
+vị (vd "ẩu" hai ký tự) được **đánh dấu** chứ không lọc lặng, đúng vì lý do đó.
+
+Nghiệm thu: `node backend/tmp/nghiem-thu-ap.mjs` (chỉ đọc) — kiểm `version`, `revisions`
+giữ bản cũ, và tra cứu ra chữ mới (tức trigger đã chạy).
 
 ⚠️ **Lập thước là chỗ dễ ra rác nhất.** Bốn lượt đầu cho ra bốn dạng điều luật vô dụng:
 mô tả khung markdown của chính lời nhắc; luật ngược với câu mẫu của nó; chỉ mô tả mà không
@@ -395,6 +418,73 @@ trắng**. Hình JSON an toàn là **mảng chuỗi phẳng** hoặc Portable Te
 
 `dung-chi-muc.mjs` nay tự dò: cột nào có dữ liệu mà `td_chu()` trả rỗng ở quá nửa số dòng
 thì nó in cảnh báo ngay sau khi dựng chỉ mục, kèm cách sửa.
+
+## Mốc thời gian trong CMS: `now()` của Postgres KHÔNG phải ISO 8601
+
+EmDash cất **mọi** mốc thời gian vào cột **TEXT** và luôn ghi bằng `toISOString()`. Viết
+`VALUES (…, now(), now(), …)` thì Postgres ép timestamptz sang text và ra một dạng khác:
+
+```
+2026-09-25 14:56:41.321454+00   ← Postgres (dấu cách, +00 thiếu phút)
+2026-09-25T14:56:41.321Z        ← EmDash
+```
+
+Cột là text nên **không có lỗi nào lúc chèn**. Vết thương chỉ lộ khi người biên tập bấm
+**Publish**: `publish()` đọc lại `published_at` cũ, cho qua `normalizeDatetime`, và trả
+
+```
+Failed to publish
+Datetime "2026-09-25 14:18:14.08303+00" is not a valid ISO 8601 datetime
+```
+
+⚠️ **Câu đó không nhắc tới mục nào, nên rất dễ đoán nhầm sang "trùng slug/trùng link"** —
+đã xảy ra thật. Ngày 25/09/2026 có **18.205 mục ở 5 bộ** (bai_thuoc, nguon_y_van, huyet_vi,
+duoc_lieu, kinh_mach) nằm ngoài tầm với của nút Publish vì lỗi này; ba bộ nạp bằng đường
+khác thì sạch, nên nhìn qua tưởng chỉ hỏng một mục.
+
+- Chốt: `node scripts-di-cu/kiem-moc-thoi-gian.mjs` (chỉ đọc, mượn chính hàm gác cổng của
+  EmDash, mã thoát 1 khi còn sai). **Mọi cột phải sạch.**
+- Vá: `node scripts-di-cu/va-moc-thoi-gian.mjs --ghi` (chạy thử là mặc định). Nó cũng đổi
+  `DEFAULT CURRENT_TIMESTAMP` → công thức `to_char` ISO ở 61 cột, vì mặc định của EmDash
+  vẫn đẻ dạng sai khi có INSERT bỏ trống cột.
+- Script di cư phải dùng `SQL_MOC_ISO` trong `scripts-di-cu/moc-iso.mjs`, không dùng `now()`.
+
+⚠️ Vá phải theo **lô và gộp cột**: 25 lệnh UPDATE lẻ trên Aiven mất hơn 10 phút và giữ khoá
+đủ lâu để chặn cả lệnh dọn `auth_challenges` của CMS đang chạy.
+
+## Khu quản trị CMS: sửa ở tầng HTTP, đừng vá `node_modules`
+
+`cms/src/middleware.ts` gom bốn việc nhỏ mà gói `@emdash-cms/admin` không cho cắm vào:
+
+1. **Đường trang từ điển → site thật.** Chỉ bật khi có `URL_SITE_THAT` trong `cms/.env` —
+   biến này **chỉ khai ở máy lập trình**. Trên VPS, CMS cùng origin với site thật nên khai
+   vào là **vòng lặp chuyển hướng**. Đây là thứ chữa dứt điểm cái bẫy "nút mở trang của CMS
+   404 ở local": CMS không có route cho `/huyet/`, `/nguon/`… vì chúng là HTML tĩnh.
+2. **`/` → site thật** (cũng chỉ ở local): nút "View Site" có `href="/"` đóng cứng trong gói
+   admin, ở local nó dẫn tới trang blog mẫu mà không ai dùng.
+3. **Dịch lời từ chối của API sang tiếng Việt** — trùng slug (kèm tra tên mục đang giữ) và
+   mốc thời gian sai dạng. Logic thuần ở `src/lib/loi-tieng-viet.ts`, có phép kiểm:
+   `node --test src/lib/loi-tieng-viet.test.ts`.
+4. **Chèn `src/lib/tro-giup-admin.ts`** vào HTML khu quản trị: cảnh báo khi đổi slug của mục
+   đã đăng, báo trùng slug ngay lúc gõ, và trỏ nút "View Site" về trang của mục đang sửa.
+
+**Phải biết trước khi sửa:**
+
+- Middleware **không bao giờ được làm hỏng một request** — khu quản trị và đường đăng nhập
+  đi qua đây. Mọi nhánh nằm trong try/catch và trả nguyên phản hồi gốc khi lỗi.
+- Viết lại thân HTML thì **phải xoá `content-length`**, không thì trình duyệt cắt cụt trang.
+- Mảnh trợ giúp **nhúng thẳng**, không để thành tệp `.js` rời: nginx trên VPS chỉ đẩy
+  `/_emdash/`, `/_astro/`, `/trang/` sang container cms — tệp ở đường khác chạy ngon ở local
+  rồi 404 trên site thật. CSP của khu quản trị có `script-src 'self' 'unsafe-inline'` (đã đo).
+- Toàn bộ mảnh mã nằm trong **một template string**, nên trong đó **không được có dấu huyền**,
+  kể cả trong chú thích — một dấu lạc chỗ đóng chuỗi sớm và báo lỗi ở dòng chẳng liên quan.
+- Phần dò DOM là **chỗ mong manh nhất**: phép kiểm
+  `node --test src/lib/tro-giup-admin.test.mjs` chạy trên **trang giả** nên chứng minh logic
+  chứ **không** chứng minh selector khớp bản EmDash đang chạy. Dò trượt thì mảnh mã ghi
+  `console.warn` — im lặng ở đây nghĩa là cảnh báo biến mất mà không ai biết.
+- EmDash **đã** chặn trùng slug (`SLUG_CONFLICT`) và **đã** tự tạo 301 khi đổi slug. Nhưng
+  301 đó **nằm im** ở kiến trúc này: nginx phục vụ trang từ điển tĩnh, không qua CMS. Rủi ro
+  thật khi đổi slug là **trang cũ còn sống tới lần build sau, trang mới chưa có**.
 
 ## Cắm CMS: ba tệp SINH LẠI, hai bộ ĐẨY SANG
 
