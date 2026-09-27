@@ -124,6 +124,19 @@ describe('ThamDinhThayThuocService.loiNhacSoi', () => {
   it('cho phép nói "cần người bổ sung" khi không đủ căn cứ — bậc 4', () => {
     expect(s.loiNhacSoi(LUAT)).toMatch(/cần người bổ sung/i);
   });
+
+  /**
+   * Đo thật 27/09/2026: 1 trên 4 mục, mô hình trả markdown văn xuôi ("Đọc lại toàn bộ bài
+   * này, tôi thấy có một số vấn đề cần chỉ ra: ## Lỗi rõ ràng...") thay vì JSON. Yêu cầu
+   * định dạng khi đó nằm ở CUỐI một lời nhắc dài 2.000 ký tự.
+   *
+   * Đòi định dạng ngay dòng đầu, và nhắc lại ở cuối: mô hình đọc lời nhắc dài thì phần
+   * đầu và phần cuối là hai chỗ nó giữ chắc nhất.
+   */
+  it('đòi định dạng JSON ngay trong ba dòng đầu, không chỉ ở cuối', () => {
+    const dong = s.loiNhacSoi(LUAT).split('\n').slice(0, 3).join(' ');
+    expect(dong).toMatch(/JSON/);
+  });
 });
 
 describe('ThamDinhThayThuocService.dungNoiDungSoi', () => {

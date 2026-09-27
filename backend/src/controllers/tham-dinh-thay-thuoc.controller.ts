@@ -197,6 +197,9 @@ export class ThamDinhThayThuocService {
       .join('\n');
 
     return [
+      'CHỈ trả về một mảng JSON. Không lời dẫn, không tiêu đề markdown, không giải thích ngoài',
+      'mảng. Không thấy vấn đề gì thì trả về [] — đừng viết một câu nào khác.',
+      '',
       'Bạn là biên tập viên của một thư viện từ điển Đông y tiếng Việt. Bạn KHÔNG phải tác giả.',
       '',
       'BỘ LUẬT VĂN PHONG (bản ' + luat.phienBan + ') — thước đo duy nhất:',
