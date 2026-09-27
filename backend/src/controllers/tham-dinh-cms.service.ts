@@ -4,6 +4,7 @@ import { Client } from 'pg';
 
 import { docCauHinhSsl } from '../utils/db-ssl.util';
 import { rutChu } from '../utils/tham-dinh-rut-chu.util';
+import { thayTrongJson, apTheoDoanKhacBiet } from '../utils/tham-dinh-ap-sua.util';
 import { cauUpsertHoSo, cauChenNhanXet, type NhanXetGhi } from '../utils/tham-dinh-sql.util';
 import type { MucKho } from '../utils/tham-dinh-muc.util';
 import type { NhanXetCoMuc } from '../utils/tham-dinh-cum.util';
@@ -410,5 +411,152 @@ export class ThamDinhCmsService {
       `UPDATE td_luat_van_phong SET da_duyet = true, duyet_luc = now() WHERE phien_ban = $1`,
       [phienBan],
     );
+  }
+
+  // ══ Kế hoạch 3 — duyệt và áp bản sửa ════════════════════════════════════════════
+
+  /** Nhận xét chờ duyệt, kèm bản gốc của trường để màn duyệt đặt cạnh bản sửa. */
+  async docNhanXetDeDuyet(loc: {
+    bo?: string; kieu?: string; trangThai?: string; lop?: string; moiTrang?: number; trang?: number;
+  }): Promise<{ danhSach: unknown[]; tong: number }> {
+    const dk: string[] = [];
+    const ts: unknown[] = [];
+    const them = (sql: string, gt: unknown) => {
+      ts.push(gt);
+      dk.push(sql.replace('$?', `$${ts.length}`));
+    };
+    if (loc.bo) them('h.bo = $?', loc.bo);
+    if (loc.kieu) them('n.kieu = $?', loc.kieu);
+    them('n.trang_thai = $?', loc.trangThai || 'moi');
+    them('n.lop = $?', loc.lop || 'thay_thuoc');
+
+    const where = `WHERE ${dk.join(' AND ')}`;
+    const moiTrang = Math.min(Math.max(loc.moiTrang || 25, 1), 100);
+    const bo_qua = Math.max((loc.trang || 1) - 1, 0) * moiTrang;
+
+    const dem = await this.phaiCo().query<{ n: number }>(
+      `SELECT count(*)::int n FROM td_nhan_xet n JOIN td_ho_so h ON h.id = n.ho_so_id ${where}`,
+      ts,
+    );
+    const r = await this.phaiCo().query(
+      `SELECT n.id, n.lop, n.kieu, n.truong, n.trich_dan, n.nhan_xet, n.de_xuat,
+              n.bac_can_cu, n.trang_thai, n.created_at,
+              h.bo, h.ma, h.slug, h.tieu_de
+       FROM td_nhan_xet n JOIN td_ho_so h ON h.id = n.ho_so_id
+       ${where} ORDER BY h.bo, h.tieu_de, n.id LIMIT ${moiTrang} OFFSET ${bo_qua}`,
+      ts,
+    );
+    return { danhSach: r.rows, tong: dem.rows[0].n };
+  }
+
+  async doiTrangThaiNhanXet(id: number, trangThai: string, boi: string | null): Promise<boolean> {
+    const r = await this.phaiCo().query(
+      `UPDATE td_nhan_xet SET trang_thai = $2, duyet_boi = $3, duyet_luc = now() WHERE id = $1`,
+      [id, trangThai, boi],
+    );
+    return (r.rowCount || 0) > 0;
+  }
+
+  /**
+   * Áp một bản sửa vào kho nội dung. MỘT giao dịch, và thứ tự quan trọng:
+   *   1. Đọc bản cũ của CẢ bản ghi → ghi vào `revisions` (đường lùi duy nhất).
+   *   2. Thay tại chỗ trong cột đang sửa; `soLanThay = 0` thì HUỶ — trích dẫn không còn
+   *      trong bài nghĩa là có người đã sửa tay từ lúc bot soi.
+   *   3. UPDATE cột + `version = version + 1`, để trigger `td_tr` dựng lại chỉ mục.
+   *
+   * KHÔNG tắt trigger: duyệt lẻ từng nhận xét nên để nó chạy. Tắt trigger là lối của ghi LÔ.
+   */
+  async apBanSua(
+    id: number,
+    boi: string | null,
+  ): Promise<{ ok: boolean; lyDo?: string; soLanThay?: number }> {
+    const c = this.phaiCo();
+    const n = await c.query<{
+      bo: string; ma: string; truong: string | null; trich_dan: string; de_xuat: string | null;
+    }>(
+      `SELECT h.bo, h.ma, n.truong, n.trich_dan, n.de_xuat
+       FROM td_nhan_xet n JOIN td_ho_so h ON h.id = n.ho_so_id WHERE n.id = $1`,
+      [id],
+    );
+    if (!n.rows.length) return { ok: false, lyDo: 'Không tìm thấy nhận xét' };
+    const { bo, ma, truong, trich_dan, de_xuat } = n.rows[0];
+    if (!truong) return { ok: false, lyDo: 'Nhận xét không gắn với trường nào' };
+    if (!de_xuat || !de_xuat.trim()) return { ok: false, lyDo: 'Nhận xét không có bản sửa' };
+
+    const bang = JSON.stringify('ec_' + bo);
+    const cot = JSON.stringify(truong);
+
+    await c.query('BEGIN');
+    try {
+      const cu = await c.query<{ ban_ghi: Record<string, unknown>; gia_tri: unknown }>(
+        `SELECT to_jsonb(r) AS ban_ghi, to_jsonb(r.${cot}) AS gia_tri
+         FROM ${bang} r WHERE r.id = $1 FOR UPDATE`,
+        [ma],
+      );
+      if (!cu.rows.length) {
+        await c.query('ROLLBACK');
+        return { ok: false, lyDo: 'Không tìm thấy bản ghi trong kho' };
+      }
+
+      // Hai lối, theo thứ tự. Lối một: thay trọn trích dẫn — chỉ được khi nó nằm trong MỘT
+      // span. Lối hai: trích dẫn trải qua nhiều khối (ca thường gặp, vì `rutChu` nối các
+      // khối bằng khoảng trắng) nên chỉ thay đúng đoạn KHÁC BIỆT, và chỉ trong span thuộc
+      // đoạn bot đã đọc.
+      let { ketQua, soLanThay } = thayTrongJson(cu.rows[0].gia_tri, trich_dan, de_xuat);
+      if (soLanThay === 0) {
+        const lai = apTheoDoanKhacBiet(cu.rows[0].gia_tri, trich_dan, de_xuat);
+        // HOẶC TRỌN VẸN, HOẶC KHÔNG GÌ. Áp được 2 trên 3 đoạn rồi báo thành công là để
+        // người duyệt tưởng bản sửa đã vào đủ — tệ hơn hẳn so với bảo họ sửa tay.
+        if (lai.soDoan > 0 && lai.soDoanApDuoc === lai.soDoan) {
+          ketQua = lai.ketQua;
+          soLanThay = lai.soLanThay;
+        } else if (lai.soDoanApDuoc > 0) {
+          await c.query('ROLLBACK');
+          return {
+            ok: false,
+            soLanThay: 0,
+            lyDo:
+              `Bản sửa có ${lai.soDoan} thay đổi, chỉ ${lai.soDoanApDuoc} chỗ định vị được ` +
+              `trong bài. Không áp một nửa — sửa tay mục này.`,
+          };
+        }
+      }
+      if (soLanThay === 0) {
+        await c.query('ROLLBACK');
+        return {
+          ok: false,
+          soLanThay: 0,
+          lyDo:
+            'Không áp được: trích dẫn không nằm trong một span nào, và đoạn khác biệt giữa ' +
+            'bản gốc với bản sửa quá ngắn hoặc quá rộng để thay an toàn. Sửa tay mục này.',
+        };
+      }
+
+      // Đường lùi ghi TRƯỚC khi đụng nội dung.
+      await c.query(
+        `INSERT INTO revisions (id, collection, entry_id, data, author_id, created_at)
+         VALUES (md5(random()::text || clock_timestamp()::text), $1, $2, $3, $4, now()::text)`,
+        [bo, ma, JSON.stringify(cu.rows[0].ban_ghi), boi],
+      );
+
+      await c.query(
+        `UPDATE ${bang} SET ${cot} = $2::jsonb, version = COALESCE(version, 0) + 1,
+                            updated_at = now()::text
+         WHERE id = $1`,
+        [ma, JSON.stringify(ketQua)],
+      );
+
+      await c.query(
+        `UPDATE td_nhan_xet SET trang_thai = 'da_ap', duyet_boi = $2, duyet_luc = now()
+         WHERE id = $1`,
+        [id, boi],
+      );
+
+      await c.query('COMMIT');
+      return { ok: true, soLanThay };
+    } catch (e) {
+      await c.query('ROLLBACK').catch(() => undefined);
+      return { ok: false, lyDo: (e as Error).message };
+    }
   }
 }

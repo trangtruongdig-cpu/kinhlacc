@@ -1,4 +1,6 @@
-import { Controller, Get, Param, ParseIntPipe, Post, Query, UseGuards } from '@nestjs/common';
+import {
+  Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query, Req, UseGuards,
+} from '@nestjs/common';
 
 import { ThamDinhService } from '../controllers/tham-dinh.controller';
 import { ThamDinhThayThuocService } from '../controllers/tham-dinh-thay-thuoc.controller';
@@ -6,6 +8,7 @@ import { ThamDinhCmsService } from '../controllers/tham-dinh-cms.service';
 import { QuanTriGuard } from '../middlewares/auth/quan-tri.guard';
 import type { LuocKeCa, LuocKeCaThayThuoc } from '../models/tham-dinh.dto';
 import type { BoLuatVanPhong } from '../utils/tham-dinh-luat.util';
+import type { RequestDaXacThuc } from '../middlewares/auth/access.util';
 
 /**
  * Toàn bộ endpoint đều là của Quản Trị.
@@ -81,5 +84,67 @@ export class ThamDinhRouter {
   soiKy(@Query('gioiHan') gioiHan?: string): Promise<LuocKeCaThayThuoc> {
     const n = Number(gioiHan);
     return this.thayThuoc.chayCaThayThuoc(Number.isFinite(n) && n > 0 ? Math.floor(n) : 0);
+  }
+
+  // ══ Duyệt và áp bản sửa ══════════════════════════════════════════════════════════
+
+  /** Nhận xét chờ duyệt. Mặc định lớp thầy thuốc, trạng thái `moi`. */
+  @Get('nhan-xet')
+  async nhanXet(
+    @Query('bo') bo?: string,
+    @Query('kieu') kieu?: string,
+    @Query('trangThai') trangThai?: string,
+    @Query('lop') lop?: string,
+    @Query('trang') trang?: string,
+    @Query('moiTrang') moiTrang?: string,
+  ): Promise<{ danhSach: unknown[]; tong: number }> {
+    await this.cms.moKetNoi();
+    try {
+      await this.cms.dungBang();
+      return await this.cms.docNhanXetDeDuyet({
+        bo, kieu, trangThai, lop,
+        trang: Number(trang) || 1,
+        moiTrang: Number(moiTrang) || 25,
+      });
+    } finally {
+      await this.cms.dongKetNoi();
+    }
+  }
+
+  /** Đổi trạng thái một nhận xét: `da_duyet` | `bo_qua` | `moi`. */
+  @Patch('nhan-xet/:id')
+  async doiTrangThai(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: { trangThai?: string },
+    @Req() req: RequestDaXacThuc,
+  ): Promise<{ ok: boolean }> {
+    const hopLe = new Set(['moi', 'da_duyet', 'bo_qua']);
+    const tt = body?.trangThai || '';
+    if (!hopLe.has(tt)) return { ok: false };
+    await this.cms.moKetNoi();
+    try {
+      await this.cms.dungBang();
+      return { ok: await this.cms.doiTrangThaiNhanXet(id, tt, req.user?.username ?? null) };
+    } finally {
+      await this.cms.dongKetNoi();
+    }
+  }
+
+  /**
+   * Áp bản sửa vào kho. Đây là chỗ DUY NHẤT trong cả bot ghi vào bảng `ec_*`, và nó chỉ
+   * chạy khi có người bấm — bot không bao giờ tự gọi.
+   */
+  @Post('nhan-xet/:id/ap')
+  async apBanSua(
+    @Param('id', ParseIntPipe) id: number,
+    @Req() req: RequestDaXacThuc,
+  ): Promise<{ ok: boolean; lyDo?: string; soLanThay?: number }> {
+    await this.cms.moKetNoi();
+    try {
+      await this.cms.dungBang();
+      return await this.cms.apBanSua(id, req.user?.username ?? null);
+    } finally {
+      await this.cms.dongKetNoi();
+    }
   }
 }
