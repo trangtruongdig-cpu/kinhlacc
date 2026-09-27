@@ -59,6 +59,18 @@ describe('ThamDinhThayThuocService.loiNhacLapThuoc', () => {
   it('đòi ví dụ là câu TUÂN THỦ điều luật, không phải câu vi phạm', () => {
     expect(s.loiNhacLapThuoc()).toMatch(/tuân thủ|đúng luật|không.*vi phạm/i);
   });
+
+  /**
+   * Bản bộ luật thứ tư (27/09/2026) đòi "tên sách viết IN NGHIÊNG" trong khi bản thứ ba
+   * nói "không in nghiêng" — hai bản trái nhau, dấu hiệu mô hình đoán.
+   *
+   * Gốc: `rutChu` rút chữ thuần, bỏ sạch định dạng. Mô hình KHÔNG THỂ thấy in nghiêng,
+   * in đậm hay cỡ chữ, nên mọi điều luật về chúng đều là bịa — và bịa loại này khó bắt
+   * vì lời phê dựa vào nó nghe rất chuyên nghiệp.
+   */
+  it('nói rõ bản trích đã mất định dạng, đừng ra luật về in nghiêng hay in đậm', () => {
+    expect(s.loiNhacLapThuoc()).toMatch(/in nghiêng|in đậm|định dạng/i);
+  });
 });
 
 describe('ThamDinhThayThuocService.lapThuoc — khi chưa cấu hình', () => {
