@@ -183,6 +183,7 @@ const navItems: MucSidebar[] = [
   { name: 'Quản Lý Người Dùng', routeName: 'users', icon: 'users' },
   { name: 'SEO Radar', routeName: 'seo', icon: 'radar' },
   { name: 'Góp Ý & Lỗi', routeName: 'su-co', icon: 'bug' },
+  { name: 'Thẩm Định Thư Viện', routeName: 'tham-dinh', icon: 'bug' },
   // Mở CMS (EmDash). KHÔNG trỏ thẳng /_emdash/admin/ nữa — đi qua trang cầu nối để
   // lập phiên bên CMS trước, nhờ vậy không phải đăng nhập lần thứ hai. Xem VaoCmsView.vue.
   //

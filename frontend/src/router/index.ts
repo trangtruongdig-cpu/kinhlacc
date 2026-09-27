@@ -44,6 +44,7 @@ const TuDienView = () => import('@/views/TuDienView.vue')
 const UsersView = () => import('@/views/UsersView.vue')
 const SeoRadarView = () => import('@/views/SeoRadarView.vue')
 const SuCoView = () => import('@/views/SuCoView.vue')
+const ThamDinhView = () => import('@/views/ThamDinhView.vue')
 const VaoCmsView = () => import('@/views/VaoCmsView.vue')
 const ChanDoanLuoiView = () => import('@/views/ChanDoanLuoiView.vue')
 
@@ -356,6 +357,14 @@ const router = createRouter({
           name: 'su-co',
           component: SuCoView,
           meta: { page: 'su-co' },
+        },
+        {
+          // Cùng lối tự khoá như `su-co` ngay trên: 'tham-dinh' KHÔNG nằm trong APP_PAGES
+          // nên `authStore.can()` chỉ trả true cho Quản Trị.
+          path: 'tham-dinh',
+          name: 'tham-dinh',
+          component: ThamDinhView,
+          meta: { page: 'tham-dinh' },
         },
         {
           path: 'chan-doan-luoi',
