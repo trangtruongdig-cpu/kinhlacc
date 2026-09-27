@@ -80,7 +80,7 @@
   - `export const LUAT_PHAM_VI_HANH_NGHE: DieuLuat`
   - `export function doPhamViHanhNghe(s: string): Array<{ tu: string; thay: string; viTri: number }>`
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Tạo `backend/src/utils/tham-dinh-luat.util.spec.ts`:
 
@@ -159,12 +159,12 @@ describe('doPhamViHanhNghe', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh-luat`
 Expected: FAIL — `Cannot find module './tham-dinh-luat.util'`
 
-- [ ] **Step 3: Viết bản cài đặt**
+- [x] **Step 3: Viết bản cài đặt**
 
 Tạo `backend/src/utils/tham-dinh-luat.util.ts`:
 
@@ -247,12 +247,12 @@ export function doPhamViHanhNghe(
 }
 ```
 
-- [ ] **Step 4: Chạy test cho tới khi xanh**
+- [x] **Step 4: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh-luat`
 Expected: PASS, 10 ca.
 
-- [ ] **Step 5: Kiểm kiểu rồi commit**
+- [x] **Step 5: Kiểm kiểu rồi commit**
 
 ```bash
 cd backend && npm run type-check && cd ..
@@ -277,7 +277,7 @@ git commit -m "feat(tham-dinh): kiểu bộ luật văn phong + luật cứng ph
   - `export function bocJson(s: string): unknown`
   - `export function locLoiPhe(tho: unknown, truong: Record<string, string>, luat: BoLuatVanPhong): KetQuaLoc`
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Tạo `backend/src/utils/tham-dinh-loi-phe.util.spec.ts`:
 
@@ -423,12 +423,12 @@ describe('locLoiPhe — rào chắn', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh-loi-phe`
 Expected: FAIL — không tìm thấy module.
 
-- [ ] **Step 3: Viết bản cài đặt**
+- [x] **Step 3: Viết bản cài đặt**
 
 Tạo `backend/src/utils/tham-dinh-loi-phe.util.ts`:
 
@@ -571,12 +571,12 @@ export function locLoiPhe(
 }
 ```
 
-- [ ] **Step 4: Chạy test cho tới khi xanh**
+- [x] **Step 4: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh-loi-phe`
 Expected: PASS, 17 ca.
 
-- [ ] **Step 5: Kiểm kiểu rồi commit**
+- [x] **Step 5: Kiểm kiểu rồi commit**
 
 ```bash
 cd backend && npm run type-check && cd ..
@@ -600,7 +600,7 @@ git commit -m "feat(tham-dinh): bóc JSON phản hồi mô hình + bốn rào ch
   - `export function xepHangDoi(ds: UngVienSoi[], soLuong: number): UngVienSoi[]`
   - `export const DAY_TOI_THIEU = 800`
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Tạo `backend/src/utils/tham-dinh-hang-doi.util.spec.ts`:
 
@@ -674,12 +674,12 @@ describe('xepHangDoi', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh-hang-doi`
 Expected: FAIL — không tìm thấy module.
 
-- [ ] **Step 3: Viết bản cài đặt**
+- [x] **Step 3: Viết bản cài đặt**
 
 Tạo `backend/src/utils/tham-dinh-hang-doi.util.ts`:
 
@@ -737,12 +737,12 @@ export function xepHangDoi(ds: UngVienSoi[], soLuong: number): UngVienSoi[] {
 }
 ```
 
-- [ ] **Step 4: Chạy test cho tới khi xanh**
+- [x] **Step 4: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh-hang-doi`
 Expected: PASS, 11 ca.
 
-- [ ] **Step 5: Kiểm kiểu rồi commit**
+- [x] **Step 5: Kiểm kiểu rồi commit**
 
 ```bash
 cd backend && npm run type-check && cd ..
@@ -770,7 +770,7 @@ git commit -m "feat(tham-dinh): hàng đợi lớp 2 — van vân tay, ngưỡng
   - `docBoLuat(chiBanDaDuyet: boolean): Promise<BoLuatVanPhong | null>`
   - `duyetBoLuat(phienBan: number): Promise<void>`
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Thêm vào cuối `backend/src/controllers/tham-dinh-cms.service.spec.ts`:
 
@@ -803,12 +803,12 @@ describe('ThamDinhCmsService.DDL — phần của lớp 2', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh-cms`
 Expected: FAIL — 3 ca mới đỏ (chưa có `td_luat_van_phong`, chưa có `van_tay_thay_thuoc`).
 
-- [ ] **Step 3: Thêm DDL**
+- [x] **Step 3: Thêm DDL**
 
 Trong `backend/src/controllers/tham-dinh-cms.service.ts`, thêm vào CUỐI mảng `DDL` (giữ nguyên các câu đã có):
 
@@ -826,7 +826,7 @@ Trong `backend/src/controllers/tham-dinh-cms.service.ts`, thêm vào CUỐI mả
     `CREATE INDEX IF NOT EXISTS idx_td_luat_da_duyet ON td_luat_van_phong (da_duyet, phien_ban DESC)`,
 ```
 
-- [ ] **Step 4: Thêm các phép đọc/ghi**
+- [x] **Step 4: Thêm các phép đọc/ghi**
 
 Trong cùng file, thêm các phương thức sau vào lớp `ThamDinhCmsService` (đặt sau `ghiHoSoLo`):
 
@@ -985,12 +985,12 @@ import type { LoiPheSach } from '../utils/tham-dinh-loi-phe.util';
 import type { BoLuatVanPhong, DieuLuat } from '../utils/tham-dinh-luat.util';
 ```
 
-- [ ] **Step 5: Chạy test cho tới khi xanh**
+- [x] **Step 5: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh-cms`
 Expected: PASS, 10 ca (6 cũ + 4 mới).
 
-- [ ] **Step 6: Kiểm kiểu rồi commit**
+- [x] **Step 6: Kiểm kiểu rồi commit**
 
 ```bash
 cd backend && npm run type-check && cd ..
@@ -1015,7 +1015,7 @@ git commit -m "feat(tham-dinh): bảng bộ luật văn phong, vân tay lớp 2,
   - `goi(loiNhac: string, noiDung: string, doKy: boolean): Promise<string | null>`
   - `modelCuaTang(doKy: boolean): string`
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Tạo `backend/src/controllers/tham-dinh-llm.service.spec.ts`:
 
@@ -1117,12 +1117,12 @@ describe('ThamDinhLlmService — trần chi tiêu', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh-llm`
 Expected: FAIL — không tìm thấy module.
 
-- [ ] **Step 3: Viết bản cài đặt**
+- [x] **Step 3: Viết bản cài đặt**
 
 Tạo `backend/src/controllers/tham-dinh-llm.service.ts`:
 
@@ -1215,7 +1215,7 @@ export class ThamDinhLlmService {
 }
 ```
 
-- [ ] **Step 4: Chạy test cho tới khi xanh**
+- [x] **Step 4: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh-llm`
 Expected: PASS, 11 ca.
@@ -1223,7 +1223,7 @@ Expected: PASS, 11 ca.
 Ghi chú: test thay `goiThat` bằng cách gán đè lên thực thể. Nó là `protected` nên TypeScript
 không cho gán thẳng — test đã ép kiểu qua `as unknown as { goiThat: ... }`, đúng ý đồ.
 
-- [ ] **Step 5: Kiểm kiểu rồi commit**
+- [x] **Step 5: Kiểm kiểu rồi commit**
 
 ```bash
 cd backend && npm run type-check && cd ..
@@ -1265,7 +1265,7 @@ git commit -m "feat(tham-dinh): dịch vụ gọi mô hình hai tầng, trần c
 
 ⚠️ `duoc_lieu` dùng `slug` là SỐ (`80`, `101`) — đó là slug thật trong kho, không phải nhầm.
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Tạo `backend/src/controllers/tham-dinh-thay-thuoc.controller.spec.ts`:
 
@@ -1326,12 +1326,12 @@ describe('ThamDinhThayThuocService.lapThuoc — khi chưa cấu hình', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh-thay-thuoc`
 Expected: FAIL — không tìm thấy module.
 
-- [ ] **Step 3: Viết bản cài đặt (phần lập thước)**
+- [x] **Step 3: Viết bản cài đặt (phần lập thước)**
 
 Tạo `backend/src/controllers/tham-dinh-thay-thuoc.controller.ts`:
 
@@ -1501,7 +1501,7 @@ export class ThamDinhThayThuocService {
 }
 ```
 
-- [ ] **Step 4: Thêm `maTuSlug` vào ThamDinhCmsService**
+- [x] **Step 4: Thêm `maTuSlug` vào ThamDinhCmsService**
 
 Mục mẫu khai bằng `slug` cho người đọc, nhưng khoá của `td_ho_so` và `ec_*` là `id`. Thêm vào
 `backend/src/controllers/tham-dinh-cms.service.ts`:
@@ -1517,12 +1517,12 @@ Mục mẫu khai bằng `slug` cho người đọc, nhưng khoá của `td_ho_so
   }
 ```
 
-- [ ] **Step 5: Chạy test cho tới khi xanh**
+- [x] **Step 5: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh-thay-thuoc`
 Expected: PASS, 7 ca.
 
-- [ ] **Step 6: Kiểm kiểu rồi commit**
+- [x] **Step 6: Kiểm kiểu rồi commit**
 
 ```bash
 cd backend && npm run type-check && cd ..
@@ -1548,7 +1548,7 @@ git commit -m "feat(tham-dinh): Bước 0 — lập thước văn phong từ mư
   - `dungNoiDungSoi(m, than, chum): string`
   - `chayCaThayThuoc(gioiHan?: number): Promise<LuocKeCaThayThuoc>`
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Thêm vào cuối `backend/src/controllers/tham-dinh-thay-thuoc.controller.spec.ts`:
 
@@ -1648,12 +1648,12 @@ describe('ThamDinhThayThuocService.chayCaThayThuoc — rào chắn vào ca', () 
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh-thay-thuoc`
 Expected: FAIL — `loiNhacSoi is not a function`
 
-- [ ] **Step 3: Thêm kiểu lược kê vào DTO**
+- [x] **Step 3: Thêm kiểu lược kê vào DTO**
 
 Thêm vào `backend/src/models/tham-dinh.dto.ts`:
 
@@ -1676,7 +1676,7 @@ export interface LuocKeCaThayThuoc {
 }
 ```
 
-- [ ] **Step 4: Viết bản cài đặt**
+- [x] **Step 4: Viết bản cài đặt**
 
 Thêm vào `backend/src/controllers/tham-dinh-thay-thuoc.controller.ts` (giữ nguyên phần Task 6):
 
@@ -1856,12 +1856,12 @@ import { apDungCho, type BoLuatVanPhong } from '../utils/tham-dinh-luat.util';
 import type { LuocKeCaThayThuoc } from '../models/tham-dinh.dto';
 ```
 
-- [ ] **Step 5: Chạy test cho tới khi xanh**
+- [x] **Step 5: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh-thay-thuoc`
 Expected: PASS, 16 ca.
 
-- [ ] **Step 6: Kiểm kiểu, chạy toàn bộ test, commit**
+- [x] **Step 6: Kiểm kiểu, chạy toàn bộ test, commit**
 
 ```bash
 cd backend && npm run type-check && npm test -- tham-dinh && cd ..
@@ -1889,7 +1889,7 @@ chốt rõ: *"Bệnh án ghi lẻ, tab nhận gom."* Lớp 1 đã nộp cụm t�
 - Consumes: `gomCum` + `NhanXetCoMuc` (kế hoạch 1, `tham-dinh-cum.util.ts`), `ThamDinhService.nopCum` (kế hoạch 1)
 - Produces trên `ThamDinhCmsService`: `docNhanXetThayThuoc(): Promise<NhanXetCoMuc[]>`
 
-- [ ] **Step 1: Viết test thất bại**
+- [x] **Step 1: Viết test thất bại**
 
 Thêm vào cuối `backend/src/controllers/tham-dinh-thay-thuoc.controller.spec.ts`:
 
@@ -1936,12 +1936,12 @@ describe('ThamDinhThayThuocService — kết tinh cụm', () => {
 });
 ```
 
-- [ ] **Step 2: Chạy test cho chắc là nó hỏng**
+- [x] **Step 2: Chạy test cho chắc là nó hỏng**
 
 Run: `npm test --prefix backend -- tham-dinh-thay-thuoc`
 Expected: FAIL — `ketTinhCum is not a function`
 
-- [ ] **Step 3: Thêm phép đọc vào ThamDinhCmsService**
+- [x] **Step 3: Thêm phép đọc vào ThamDinhCmsService**
 
 ```typescript
   /** Mọi lời phê lớp thầy thuốc còn ở trạng thái `moi`, kèm khoá mục để gom cụm. */
@@ -1965,7 +1965,7 @@ Expected: FAIL — `ketTinhCum is not a function`
 Thêm import: `import type { NhanXetCoMuc } from '../utils/tham-dinh-cum.util';` (nếu file chưa
 có — kế hoạch 1 đã import kiểu này rồi, kiểm trước khi thêm trùng).
 
-- [ ] **Step 4: Thêm ketTinhCum vào ThamDinhThayThuocService**
+- [x] **Step 4: Thêm ketTinhCum vào ThamDinhThayThuocService**
 
 Sửa constructor để nhận thêm service của lớp 1 (nó giữ `nopCum`, đã chia lô 50 sẵn):
 
@@ -2032,17 +2032,17 @@ import { ThamDinhService } from './tham-dinh.controller';
 import { gomCum } from '../utils/tham-dinh-cum.util';
 ```
 
-- [ ] **Step 5: Sửa các test cũ cho khớp constructor mới**
+- [x] **Step 5: Sửa các test cũ cho khớp constructor mới**
 
 Mọi chỗ `new ThamDinhThayThuocService(a, b, c)` trong spec phải thêm tham số thứ tư
 `null as never`. Chạy test và sửa cho tới khi hết lỗi tham số.
 
-- [ ] **Step 6: Chạy test cho tới khi xanh**
+- [x] **Step 6: Chạy test cho tới khi xanh**
 
 Run: `npm test --prefix backend -- tham-dinh-thay-thuoc`
 Expected: PASS, 18 ca.
 
-- [ ] **Step 7: Kiểm kiểu rồi commit**
+- [x] **Step 7: Kiểm kiểu rồi commit**
 
 ```bash
 cd backend && npm run type-check && npm test -- tham-dinh && cd ..
@@ -2065,7 +2065,7 @@ git commit -m "feat(tham-dinh): kết tinh lời phê lớp 2 thành cụm việ
 - Consumes: `ThamDinhThayThuocService` (Task 6, 7), `ThamDinhCmsService` (Task 4)
 - Produces: bốn endpoint mới dưới `/tham-dinh`
 
-- [ ] **Step 1: Thêm endpoint vào router**
+- [x] **Step 1: Thêm endpoint vào router**
 
 Trong `backend/src/routers/tham-dinh.router.ts`, thêm vào lớp `ThamDinhRouter` (giữ nguyên ba
 endpoint đã có):
@@ -2137,7 +2137,7 @@ export class ThamDinhRouter {
   ) {}
 ```
 
-- [ ] **Step 2: Đăng ký vào app.module.ts**
+- [x] **Step 2: Đăng ký vào app.module.ts**
 
 Thêm hai import và hai provider (router đã đăng ký từ kế hoạch 1, không thêm lại):
 
@@ -2151,7 +2151,7 @@ ThamDinhThayThuocService,
 ThamDinhLlmService,
 ```
 
-- [ ] **Step 3: Khai cấu hình vào backend/.env**
+- [x] **Step 3: Khai cấu hình vào backend/.env**
 
 ⚠️ `backend/.env` có `CA_CERTIFICATE` là PEM nhiều dòng trong nháy kép — **đừng `source` cả
 file trong shell**. Nối thêm vào cuối:
@@ -2167,7 +2167,7 @@ THAM_DINH_TRAN_TIEN=300
 ENVEOF
 ```
 
-- [ ] **Step 4: Kiểm kiểu và khởi động thử**
+- [x] **Step 4: Kiểm kiểu và khởi động thử**
 
 ```bash
 cd backend && npm run type-check
@@ -2182,7 +2182,7 @@ Expected: thấy bốn dòng ánh xạ route `/tham-dinh/lap-thuoc`, `/tham-dinh
 Ghi chú: macOS không có lệnh `timeout`. Cổng 3001 bận thì tắt tiến trình cũ trước —
 `pkill -f "nest start --watch"`.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add backend/src/routers/tham-dinh.router.ts backend/src/app.module.ts
@@ -2199,7 +2199,7 @@ git commit -m "feat(tham-dinh): API lập thước, duyệt bộ luật, chạy 
 **Interfaces:**
 - Consumes: bảng `td_luat_van_phong`, `td_nhan_xet` (lớp `thay_thuoc`)
 
-- [ ] **Step 1: Lập thước và ĐỌC bộ luật**
+- [x] **Step 1: Lập thước và ĐỌC bộ luật**
 
 ```bash
 TOKEN=$(curl -s -X POST localhost:3001/auth/admin/login -H "Content-Type: application/json" \
@@ -2214,13 +2214,13 @@ Expected: `soDieu` trong khoảng 8–16, `loi: []`, và bộ luật có điều
 `MUC_MAU` hoặc `loiNhacLapThuoc()` rồi lập lại, **không** sửa tay bộ luật trong database —
 thước phải rút được lại từ mẫu, nếu không thì lần sau chạy lại là mất.
 
-- [ ] **Step 2: Duyệt bộ luật**
+- [x] **Step 2: Duyệt bộ luật**
 
 ```bash
 curl -s -X POST localhost:3001/tham-dinh/bo-luat/1/duyet -H "Authorization: Bearer $TOKEN"
 ```
 
-- [ ] **Step 3: Soi thử 5 mục**
+- [x] **Step 3: Soi thử 5 mục**
 
 ```bash
 curl -s -X POST "localhost:3001/tham-dinh/soi-ky?gioiHan=5" -H "Authorization: Bearer $TOKEN" \
@@ -2232,7 +2232,7 @@ Expected: `soMucSoi: 5`, `soLoiPheNhan` > 0, `loi: []`.
 ⚠️ Nhìn kỹ `lyDoLoai`. Tỉ lệ loại cao vì "trích dẫn không khớp nguyên văn" là tín hiệu
 lời nhắc chưa đủ rõ, **không phải** lý do để nới rào chắn. Nới rào là mở cửa cho bịa.
 
-- [ ] **Step 4: Viết script nghiệm thu**
+- [x] **Step 4: Viết script nghiệm thu**
 
 Tạo `backend/tmp/nghiem-thu-lop-2.mjs`:
 
