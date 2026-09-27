@@ -259,8 +259,8 @@ export class ThamDinhThayThuocService {
   async chayCaThayThuoc(gioiHan = 0): Promise<LuocKeCaThayThuoc> {
     const lk: LuocKeCaThayThuoc = {
       batDau: new Date().toISOString(), ketThuc: '', soMucSoi: 0, soMucConLai: 0,
-      soLoiPheNhan: 0, soLoiPheLoai: 0, soLuotGoiModel: 0, chamTran: false,
-      lyDoLoai: [], loi: [],
+      soLoiPheNhan: 0, soLoiPheLoai: 0, soLuotGoiModel: 0, soPhanHoiKhongDocDuoc: 0,
+      chamTran: false, lyDoLoai: [], loi: [],
     };
     const xong = () => {
       lk.ketThuc = new Date().toISOString();
@@ -321,7 +321,20 @@ export class ThamDinhThayThuocService {
         lk.soMucSoi += 1;
         if (!traLoi) continue;
 
-        const loc = locLoiPhe(bocJson(traLoi), than, luat);
+        // Phân biệt "mô hình bảo bài sạch" với "mô hình trả thứ ta không hiểu". Cả hai
+        // cho ra 0 lời phê, nhưng cái sau là HỎNG: đóng van cho nó là vĩnh viễn không
+        // đọc lại mục ấy nữa. Đã cắn một lần — 4/5 mục im lặng vì lý do này.
+        const tho = bocJson(traLoi);
+        if (!Array.isArray(tho)) {
+          lk.soPhanHoiKhongDocDuoc += 1;
+          this.logger.warn(
+            `[${u.bo}/${u.slug}] phản hồi không bóc được JSON, để lần sau soi lại: ` +
+              JSON.stringify(traLoi.slice(0, 120)),
+          );
+          continue;
+        }
+
+        const loc = locLoiPhe(tho, than, luat);
         for (const x of loc.loai) demLyDo.set(x.lyDo, (demLyDo.get(x.lyDo) || 0) + 1);
         lk.soLoiPheNhan += loc.nhan.length;
         lk.soLoiPheLoai += loc.loai.length;
@@ -355,7 +368,9 @@ export class ThamDinhThayThuocService {
 
     this.logger.log(
       `ca thầy thuốc xong: ${lk.soMucSoi} mục · nhận ${lk.soLoiPheNhan} / loại ${lk.soLoiPheLoai} ` +
-        `· ${lk.soLuotGoiModel} lượt gọi${lk.chamTran ? ' · CHẠM TRẦN' : ''}`,
+        `· ${lk.soLuotGoiModel} lượt gọi` +
+        (lk.soPhanHoiKhongDocDuoc ? ` · ${lk.soPhanHoiKhongDocDuoc} phản hồi không đọc được` : '') +
+        (lk.chamTran ? ' · CHẠM TRẦN' : ''),
     );
     return xong();
   }

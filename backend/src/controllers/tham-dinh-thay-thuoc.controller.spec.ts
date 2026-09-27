@@ -225,3 +225,67 @@ describe('ThamDinhThayThuocService — kết tinh cụm', () => {
     expect(goi).toBe(0);
   });
 });
+
+describe('ThamDinhThayThuocService — phản hồi không đọc được', () => {
+  /**
+   * Đo thật 27/09/2026: ca soi 5 mục ghi 8 lời phê trên MỘT mục và 0 trên bốn mục còn
+   * lại. Gọi lại một trong bốn mục đó thì nó cho ra 8 lời phê hợp lệ.
+   *
+   * Gốc: khi `bocJson` không bóc được JSON (mô hình trả văn xuôi), `locLoiPhe` trả
+   * nhận 0 / loại 0 — y như khi mô hình bảo "bài này sạch". Ca soi vẫn ĐÓNG VAN, nên mục
+   * đó vĩnh viễn không được đọc lại, và lược kê không hề nói có chuyện gì xảy ra.
+   *
+   * Hai thứ phải phân biệt: "mô hình đọc rồi bảo sạch" và "mô hình trả thứ ta không
+   * hiểu". Cái đầu là kết quả, cái sau là hỏng.
+   */
+  function svcVoi(traLoi: string | null) {
+    const ghiCho: Array<{ bo: string; vanTay: string; so: number }> = [];
+    const cms = {
+      daCauHinh: () => true, moKetNoi: () => Promise.resolve(), dongKetNoi: () => Promise.resolve(),
+      dungBang: () => Promise.resolve(),
+      docBoLuat: () => Promise.resolve({ phienBan: 1, boApDung: [], daDuyet: true,
+        dieu: [{ ma: 'BC1', truc: 'bo_cuc', noiDung: 'x', viDu: '' }] }),
+      docUngVienSoi: () => Promise.resolve([{
+        bo: 'benh_hoc', ma: 'm1', slug: 's1', tieuDe: 'T', doDay: 5000, soLoiMay: 0,
+        vanTayNoiDung: 'v9', vanTayThayThuoc: null, diemCoHoiSeo: 0,
+      }]),
+      docCauHinhBo: () => Promise.resolve([{ bo: 'benh_hoc', duongDan: '/benh-hoc/', than: ['dai_cuong'] }]),
+      docThanBai: () => Promise.resolve({ dai_cuong: 'Một câu có thật trong bài.' }),
+      docChumLienQuan: () => Promise.resolve([]),
+      ghiLoiPheThayThuoc: (bo: string, _ma: string, vanTay: string, ds: unknown[]) => {
+        ghiCho.push({ bo, vanTay, so: ds.length });
+        return Promise.resolve();
+      },
+    } as never;
+    const llm = {
+      daCauHinh: () => true, moCa: () => undefined, conHanMuc: () => true,
+      soLuotDaGoi: () => 1, goi: () => Promise.resolve(traLoi),
+    } as never;
+    const s = new ThamDinhThayThuocService(cms, llm, { get: () => undefined } as never, null as never);
+    return { s, ghiCho };
+  }
+
+  it('mô hình bảo bài sạch ([]) → đóng van, đếm là đã soi', async () => {
+    const { s, ghiCho } = svcVoi('[]');
+    const lk = await s.chayCaThayThuoc();
+    expect(lk.soMucSoi).toBe(1);
+    expect(lk.soPhanHoiKhongDocDuoc).toBe(0);
+    expect(ghiCho).toHaveLength(1);
+  });
+
+  it('mô hình trả văn xuôi → KHÔNG đóng van, và ĐẾM vào lược kê', async () => {
+    const { s, ghiCho } = svcVoi('Tôi đã đọc bài và thấy nội dung khá tốt.');
+    const lk = await s.chayCaThayThuoc();
+    expect(lk.soPhanHoiKhongDocDuoc).toBe(1);
+    expect(ghiCho).toHaveLength(0);
+  });
+
+  it('mô hình trả JSON có lời phê → đóng van kèm lời phê', async () => {
+    const { s, ghiCho } = svcVoi(
+      '[{"truong":"dai_cuong","kieu":"cau_cut","trichDan":"Một câu có thật","nhanXet":"x","bacCanCu":1}]',
+    );
+    const lk = await s.chayCaThayThuoc();
+    expect(lk.soLoiPheNhan).toBe(1);
+    expect(ghiCho[0].so).toBe(1);
+  });
+});

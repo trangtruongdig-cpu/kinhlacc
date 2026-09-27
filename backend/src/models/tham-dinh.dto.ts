@@ -67,6 +67,11 @@ export interface LuocKeCaThayThuoc {
   soLoiPheNhan: number;
   soLoiPheLoai: number;
   soLuotGoiModel: number;
+  /**
+   * Số mục mô hình trả về thứ KHÔNG bóc được JSON. Phải tách khỏi "mô hình bảo bài sạch":
+   * cái đầu là hỏng, cái sau là kết quả, mà cả hai đều cho ra 0 lời phê.
+   */
+  soPhanHoiKhongDocDuoc: number;
   chamTran: boolean;
   /** Ba lý do loại nhiều nhất — số liệu để chỉnh lời nhắc, không phải để vứt. */
   lyDoLoai: Array<{ lyDo: string; soLan: number }>;
