@@ -44,6 +44,7 @@ const TuDienView = () => import('@/views/TuDienView.vue')
 const UsersView = () => import('@/views/UsersView.vue')
 const SeoRadarView = () => import('@/views/SeoRadarView.vue')
 const SuCoView = () => import('@/views/SuCoView.vue')
+const VaoCmsView = () => import('@/views/VaoCmsView.vue')
 const ChanDoanLuoiView = () => import('@/views/ChanDoanLuoiView.vue')
 
 // --- Patient Routes ---
@@ -361,6 +362,17 @@ const router = createRouter({
           name: 'chan-doan-luoi',
           component: ChanDoanLuoiView,
           meta: { page: 'chan-doan-luoi' },
+        },
+        {
+          // Cầu nối sang khu quản trị nội dung (CMS). CỐ Ý không có `meta.page`:
+          // hai quyền mở được nó ('bien-tap-noi-dung' và 'quan-tri-noi-dung') là
+          // quan hệ HOẶC, mà guard chỉ nhận đúng một khoá. Chặn thật nằm ở backend
+          // (`POST /auth/ve-cms` trả 403) — một nguồn sự thật duy nhất, và là nguồn
+          // duy nhất không sửa được từ trình duyệt. Người không có quyền mở đường
+          // này sẽ thấy đúng lý do thay vì bị đá về trang chủ không lời giải thích.
+          path: 'vao-cms',
+          name: 'vao-cms',
+          component: VaoCmsView,
         },
         {
           path: 'patients/:id',

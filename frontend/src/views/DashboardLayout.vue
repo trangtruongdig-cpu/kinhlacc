@@ -156,10 +156,16 @@ onMounted(() => {
   }
 })
 
-const CMS_URL = import.meta.env.VITE_CMS_URL || '/_emdash/admin/'
-
-/** `ngoai` chỉ có ở mục mở ứng dụng KHÁC (CMS); mục thường đi qua router của Vue. */
-type MucSidebar = { name: string; routeName: string; icon: string; ngoai?: string }
+/**
+ * `quyen` để một mục mở được bởi NHIỀU quyền (quan hệ HOẶC); bỏ trống thì
+ * `routeName` chính là khoá quyền, như trước.
+ */
+type MucSidebar = {
+  name: string
+  routeName: string
+  icon: string
+  quyen?: string[]
+}
 
 const navItems: MucSidebar[] = [
   { name: 'Trang Chủ', routeName: 'home', icon: 'home' },
@@ -177,24 +183,31 @@ const navItems: MucSidebar[] = [
   { name: 'Quản Lý Người Dùng', routeName: 'users', icon: 'users' },
   { name: 'SEO Radar', routeName: 'seo', icon: 'radar' },
   { name: 'Góp Ý & Lỗi', routeName: 'su-co', icon: 'bug' },
-  // Mở CMS (EmDash) — app riêng, KHÔNG phải route Vue. Dev: cổng 4321; thật: cùng tên
-  // miền qua nginx. Khoá quyền 'cms' chưa nằm trong trangCho của vai trò nào nên mặc
-  // định chỉ quản trị viên thấy.
-  { name: 'Quản Trị Nội Dung', routeName: 'cms', icon: 'cms', ngoai: CMS_URL },
+  // Mở CMS (EmDash). KHÔNG trỏ thẳng /_emdash/admin/ nữa — đi qua trang cầu nối để
+  // lập phiên bên CMS trước, nhờ vậy không phải đăng nhập lần thứ hai. Xem VaoCmsView.vue.
+  //
+  // Trước đây mục này khoá bằng khoá quyền 'cms' (không có trong APP_PAGES nên chỉ Quản
+  // Trị thấy). Nay đã có ô tick thật trong tab Quản Lý Người Dùng, và mục hiện khi có
+  // MỘT TRONG HAI quyền.
+  {
+    name: 'Quản Trị Nội Dung',
+    routeName: 'vao-cms',
+    icon: 'cms',
+    quyen: ['quan-tri-noi-dung', 'bien-tap-noi-dung'],
+  },
 ]
 
-// Chỉ hiện những mục mà vai trò hiện tại được phép vào (routeName trùng key trang).
-const visibleNavItems = computed(() => navItems.filter((i) => authStore.can(i.routeName)))
+// Chỉ hiện những mục mà vai trò hiện tại được phép vào. Mặc định khoá quyền chính là
+// routeName; mục nào khai `quyen` thì cần MỘT trong số đó là đủ.
+const visibleNavItems = computed(() =>
+  navItems.filter((i) => (i.quyen ?? [i.routeName]).some((k) => authStore.can(k))),
+)
 
 const currentRouteName = computed(() => route.name)
 
 function navigate(routeName: string) {
-  const muc = navItems.find((i) => i.routeName === routeName)
-  if (muc?.ngoai) {
-    // CMS là ứng dụng khác, không phải route Vue → rời trang hẳn, không push vào history.
-    window.location.href = muc.ngoai
-    return
-  }
+  // Mọi mục nay đều là route Vue — kể cả "Quản Trị Nội Dung", vốn đi qua trang cầu nối
+  // /vao-cms rồi mới rời sang CMS. Nhánh mở-ứng-dụng-ngoài cũ đã bỏ vì không còn ai dùng.
   router.push({ name: routeName })
   isMobileOpen.value = false
 }

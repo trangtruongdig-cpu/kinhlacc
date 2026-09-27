@@ -6,6 +6,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import emdash, { local } from "emdash/astro";
 import { postgres } from "emdash/db";
+import { kinhlac } from "./src/auth-kinhlac/nha-cung-cap.ts";
 
 // Bộ S3 kéo theo @aws-sdk/client-s3 (gói nặng). Nạp ĐỘNG và chỉ khi có khai khoá, để
 // máy nào chưa cài gói đó vẫn chạy được config này — `import` tĩnh sẽ vỡ ngay cả khi
@@ -133,6 +134,14 @@ export default defineConfig({
 						directory: "./uploads",
 						baseUrl: "/_emdash/api/media/file",
 					}),
+			// ĐĂNG NHẬP MỘT LẦN từ app Kinh Lạc — THÊM một cách vào, không thay passkey.
+			// Người đã đăng nhập ở kinhlac.online và có quyền Biên Tập / Quản Trị Nội Dung
+			// thì vào thẳng đây. Cơ chế: app cấp vé sống 60 giây, route
+			// /_emdash/api/auth/kinhlac/vao đổi vé lấy phiên. Xem src/auth-kinhlac/.
+			//
+			// Cần CMS_SSO_SECRET (giống hệt bên backend/.env). Thiếu thì route trả 503 kèm
+			// lý do và passkey vẫn dùng được như cũ — không có gì chết lặng.
+			authProviders: [kinhlac()],
 			plugins: [auditLog],
 		}),
 	],

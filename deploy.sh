@@ -45,6 +45,26 @@ if [ ! -f ./cms/.env ]; then
   echo "      và EMDASH_ENCRYPTION_KEY, rồi chạy lại. (Xem DEPLOYMENT.md)"
   exit 1
 fi
+
+# CMS_SSO_SECRET phải GIỐNG HỆT ở backend/.env và cms/.env thì nút "Quản Trị Nội Dung"
+# mới vào thẳng được khu quản trị. Lệch hoặc thiếu thì người dùng bấm nút ra thông báo
+# "vé không hợp lệ", còn lý do thật chỉ nằm trong log của container cms — kiểu hỏng câm,
+# nên soi ngay ở đây.
+#
+# CẢNH BÁO chứ không chặn: thiếu nó thì chỉ mất lối đi tắt, passkey ở /_emdash/admin/login
+# vẫn đăng nhập được như cũ. Chặn cả lượt deploy vì một lối đi tắt là phản ứng quá tay.
+sso_backend="$(grep -E '^CMS_SSO_SECRET=' ./backend/.env 2>/dev/null | head -1 | cut -d= -f2-)"
+sso_cms="$(grep -E '^CMS_SSO_SECRET=' ./cms/.env 2>/dev/null | head -1 | cut -d= -f2-)"
+if [ -z "$sso_backend" ] || [ -z "$sso_cms" ]; then
+  echo "    ⚠ CMS_SSO_SECRET còn thiếu ở backend/.env và/hoặc cms/.env."
+  echo "      → Nút 'Quản Trị Nội Dung' sẽ báo lỗi; passkey vẫn dùng được. (Xem DEPLOYMENT.md)"
+elif [ "$sso_backend" != "$sso_cms" ]; then
+  echo "    ⚠ CMS_SSO_SECRET ở backend/.env KHÁC ở cms/.env — đăng nhập một lần sẽ hỏng."
+  echo "      → Dán cùng một chuỗi vào cả hai tệp rồi deploy lại."
+else
+  echo "    ✓ CMS_SSO_SECRET khớp giữa backend và cms."
+fi
+
 docker compose build cms
 
 echo "==> [5/7] Build FRONTEND (riêng)"

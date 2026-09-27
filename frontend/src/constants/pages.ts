@@ -24,6 +24,18 @@ export const APP_PAGES: AppPage[] = [
   { key: 'chan-doan-luoi', label: 'Chẩn Đoán Lưỡi', always: true },
   { key: 'users', label: 'Quản Lý Người Dùng' },
   { key: 'seo', label: 'SEO Radar' },
+  // Hai khoá dưới đây KHÔNG phải trang của app — chúng mở khu quản trị nội dung (CMS,
+  // ở /_emdash/admin/) bằng cách đăng nhập một lần. Đặt chung mảng này là có chủ ý: đây
+  // là nơi duy nhất tab Quản Lý Người Dùng dựng ô tick, nên khai ở đây là người quản trị
+  // cấp/thu quyền được ngay mà không phải sửa thêm giao diện nào.
+  //
+  // Bậc tương ứng bên CMS do `backend/src/utils/ve-cms.util.ts` quyết định:
+  //   bien-tap-noi-dung  → Editor (40): sửa nội dung, ảnh, danh mục.
+  //   quan-tri-noi-dung  → Admin  (50): thêm cả cài đặt, cấu trúc bộ, người dùng CMS,
+  //                                     và xoá vĩnh viễn.
+  // Vai trò có laQuanTri thì luôn là Admin CMS, không cần tick.
+  { key: 'bien-tap-noi-dung', label: 'Biên Tập Nội Dung' },
+  { key: 'quan-tri-noi-dung', label: 'Quản Trị Nội Dung' },
 ]
 
 // Các trang luôn mở cho người đã đăng nhập.

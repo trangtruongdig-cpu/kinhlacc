@@ -41,6 +41,41 @@ Kiểu của `req.user` là `NguoiDungDaXacThuc` / `RequestDaXacThuc` trong `acc
 
 Phép kiểm cho tầng này: `npm test -- access.util`.
 
+### Đăng nhập một lần sang khu quản trị nội dung (CMS)
+
+Đặc tả đầy đủ: `docs/superpowers/specs/2026-09-26-dang-nhap-mot-lan-cms-design.md`.
+
+Người đã đăng nhập app và có quyền **Biên Tập Nội Dung** (`bien-tap-noi-dung` → Editor 40)
+hoặc **Quản Trị Nội Dung** (`quan-tri-noi-dung` → Admin 50) vào thẳng `/_emdash/admin/`,
+không phải đăng nhập lần hai. Vai trò có `laQuanTri` luôn là Admin CMS. Hai khoá này nằm
+trong `APP_PAGES` (`frontend/src/constants/pages.ts`) nên tab Quản Lý Người Dùng tự dựng ô
+tick — **chúng KHÔNG phải trang của app**, đặt ở đó là có chủ ý.
+
+Đường đi: thanh bên → `/vao-cms` (`VaoCmsView.vue`) → `POST /auth/ve-cms` (vé JWT 60 giây,
+dùng một lần, ký bằng `CMS_SSO_SECRET`) → `POST /_emdash/api/auth/kinhlac/vao` → CMS lập
+phiên → `/_emdash/admin/`. Luật đổi quyền ở `backend/src/utils/ve-cms.util.ts`
+(`npm test --prefix backend -- ve-cms`), phần CMS ở `cms/src/auth-kinhlac/`.
+
+**Phải biết trước khi sửa:**
+
+- **`X-EmDash-Request: 1` trong lời gọi fetch là thứ CHỊU LỰC, không phải cho đẹp.** Bỏ nó
+  đi thì máy dev vẫn chạy ngon còn production trả **403 CSRF_REJECTED**. EmDash so `Origin`
+  với origin của chính request; trình duyệt gửi `https://…` còn CMS sau Caddy+nginx thấy
+  mình là `http://…` (`@astrojs/node` không đọc `X-Forwarded-Proto` — cùng gốc rễ với ghi
+  chú `EMDASH_SITE_URL` trong `docker-compose.yml`). Đã đo cả hai chiều.
+- **Dùng `authProviders` chứ KHÔNG dùng `auth:`.** `auth:` là chế độ xác thực trong suốt,
+  ở production nó nuốt luôn `/_emdash/admin/login` → mất passkey → app backend sập là không
+  ai vào được CMS nữa. `authProviders` chỉ THÊM một nút.
+- **`CMS_SSO_SECRET` phải giống hệt ở `backend/.env` và `cms/.env`**, và cố ý KHÔNG dùng lại
+  `JWT_SECRET`: CMS bị chiếm thì kẻ tấn công chỉ đúc được vé CMS, không đúc được token app.
+  Thiếu biến thì cả hai đầu trả 503 kèm lý do — không nằm im.
+- **Sổ chống dùng lại vé nằm trong bộ nhớ tiến trình** — chỉ đúng khi chạy MỘT container,
+  cùng lý lẽ với `@Cron` và `sse.service`.
+- **Thu hồi quyền không đá người đang mở CMS ra ngay** (phiên EmDash sống độc lập); muốn
+  chặn tức thì thì đặt `users.disabled = 1` bên CMS — khoá bên CMS thắng quyền bên app.
+- Nghiệm thu phải chạy trên **bản dựng** (`node ./dist/server/entry.mjs`), không phải
+  `astro dev`: middleware của EmDash có nhánh DEV đi đường khác hẳn.
+
 ### Kiểm đầu vào
 
 DTO là *type* TS thuần nên biến mất khi biên dịch — không có gì kiểm thân request. Các endpoint đụng tới người bệnh (phiếu đo, hồ sơ, đăng nhập/đăng ký) đã gắn `@Body(new ZodPipe(<lược đồ>))`; lược đồ ở `src/models/validation.schema.ts`, pipe ở `src/middlewares/validation/zod.pipe.ts`. Lược đồ dùng `.strict()` để chặn cả trường thừa. **Endpoint ghi mới nên gắn lược đồ ngay từ đầu** thay vì kiểm tay trong controller.

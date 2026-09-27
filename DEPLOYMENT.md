@@ -103,6 +103,7 @@ nano backend/.env
 | `FIREBASE_SERVICE_ACCOUNT` | Nội dung file service-account JSON từ Firebase (1 dòng, đã `JSON.stringify`). Để trống nếu chưa dùng FCM / Firebase.                     |
 | `JWT_SECRET`               | **BẮT BUỘC** đổi. Sinh bằng `openssl rand -hex 48`. Nếu bỏ trống, Nest rơi về `'fallback_secret_key'` — KHÔNG an toàn.                   |
 | `YESCALE_API_KEY`          | Key gateway AI. Để trống nếu chưa dùng AI suggest.                                                                                       |
+| `CMS_SSO_SECRET`           | Đăng nhập một lần sang `/_emdash/admin/`. Sinh bằng `openssl rand -hex 32`. **PHẢI dán y hệt sang `cms/.env`** — lệch một ký tự là nút "Quản Trị Nội Dung" báo vé sai. Thiếu thì trả 503 kèm lý do, passkey vẫn dùng được. |
 
 > **Lưu ý SSL với Aiven**: Aiven bắt buộc SSL. Mặc định `app.module.ts` đã set `ssl: { rejectUnauthorized: false }` khi `DB_SSL` không phải `false`, đủ để bắt tay. **Đừng** set `DB_SSL=false` trong `backend/.env` khi đang trỏ ra Aiven.
 >
