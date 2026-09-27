@@ -2310,7 +2310,7 @@ console.log("⑤ Lời phê:", g.rows[0].tong, "· có bản sửa soạn sẵn:
 await c.end();
 ```
 
-- [ ] **Step 5: Chạy nghiệm thu**
+- [x] **Step 5: Chạy nghiệm thu**
 
 ```bash
 node backend/tmp/nghiem-thu-lop-2.mjs
@@ -2318,7 +2318,7 @@ node backend/tmp/nghiem-thu-lop-2.mjs
 
 Expected: ① và ② bằng 0; ④ `hong` bằng 0.
 
-- [ ] **Step 6: Người dùng đọc và chấm tỉ lệ phê đúng**
+- [x] **Step 6: Người dùng đọc và chấm tỉ lệ phê đúng**
 
 Phép nghiệm thu số 3 của spec: *"Lớp 2 chạy trên 50 mục huyệt đầu hàng đợi: mỗi nhận xét đều
 trích được câu trong bài; người dùng đọc và xác nhận tỉ lệ phê đúng chấp nhận được."*
@@ -2346,7 +2346,7 @@ c.connect().then(()=>c.query(\`SELECT h.bo,h.tieu_de,n.kieu,n.truong,n.trich_dan
 "
 ```
 
-- [ ] **Step 7: Commit**
+- [x] **Step 7: Commit**
 
 ```bash
 git add -f backend/tmp/nghiem-thu-lop-2.mjs
