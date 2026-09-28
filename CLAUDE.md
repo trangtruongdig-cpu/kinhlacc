@@ -271,6 +271,22 @@ vị (vd "ẩu" hai ký tự) được **đánh dấu** chứ không lọc lặn
 Nghiệm thu: `node backend/tmp/nghiem-thu-ap.mjs` (chỉ đọc) — kiểm `version`, `revisions`
 giữ bản cũ, và tra cứu ra chữ mới (tức trigger đã chạy).
 
+**Nhịp tự hành (cron, chỉ chạy khi máy chủ bật — tức trên VPS, không phải máy dev):**
+
+| Giờ | Việc | Tốn |
+|---|---|---|
+| 02:00 | Lớp 1 quét cả kho, nộp cụm việc vào Góp Ý & Lỗi | 0đ |
+| 03:00 | Lớp 2 đọc kỹ `THAM_DINH_MOI_CA` mục đầu hàng đợi | vài đô/tháng |
+| 06:00 | `su-co` tự dựng hồ sơ chẩn đoán cho cụm lỗi mới (`SU_CO_TU_PHAN_TICH_MOI_CA`, mặc định 10) | vài xu |
+
+Mỗi ca ghi một dòng vào `td_ca_soi`; khối "Bot làm gì gần đây" đầu màn `/app/tham-dinh`
+đọc bảng đó. Không có nhật ký thì câu "đêm qua bot chạy chưa, có hỏng gì không" chỉ trả
+lời được bằng cách đọc log container.
+
+⚠️ Khối tổng kết đếm RIÊNG lớp `thay_thuoc`. Lớp `may` có 65.321 nhận xét và chúng đi qua
+tab Góp Ý & Lỗi dưới dạng cụm việc chứ không qua màn duyệt — gộp chung thì màn hình báo
+"65.321 lời phê chờ bạn duyệt".
+
 ⚠️ **Lập thước là chỗ dễ ra rác nhất.** Bốn lượt đầu cho ra bốn dạng điều luật vô dụng:
 mô tả khung markdown của chính lời nhắc; luật ngược với câu mẫu của nó; chỉ mô tả mà không
 phán được gì; và ra luật về in nghiêng/in đậm — thứ `rutChu` đã bóc sạch nên mô hình chỉ
