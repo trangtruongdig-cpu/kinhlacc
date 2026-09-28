@@ -70,6 +70,9 @@ const nodes = computed(() => HANHS.map((h, i) => {
     auraR: 9 + 3 * az / Z_CAP + 3 + 7 * (az / Z_CAP),
     auraA: 0.12 + 0.55 * (az / Z_CAP),
     label: pt(LABEL_R, h.deg), // nhãn tạng ở sát vành ngoài
+    // Node THỰC bị đẩy ra tới ~+24 → đè lên nhãn (nhãn đứng yên ở LABEL_R). Nhãn lùi ra ĐÚNG quãng
+    // node bị đẩy, nên khe node↔chữ luôn bằng lúc cân bằng. Node HƯ co vào thì nhãn giữ nguyên chỗ.
+    labelDay: { x: Math.sin(h.deg * D2R) * Math.max(0, r - PENTA_R), y: -Math.cos(h.deg * D2R) * Math.max(0, r - PENTA_R) },
     // DƯ (thực, đẩy ra ngoài mốc) / KHUYẾT (hư, co vào trong mốc) — như lớp Âm Dương
     duKhuyet: missing ? '' : (r > PENTA_R + 0.5 ? 'du' : r < PENTA_R - 0.5 ? 'khuyet' : ''),
   }
@@ -247,7 +250,8 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
       <circle class="vnh-rim" :cx="CX" :cy="CY" :r="RIM" />
 
       <!-- Nhãn tạng ở vành ngoài (GỌN: hành+tạng 1 dòng · phủ dòng nhỏ dưới; Hỏa có 2 tạng+2 phủ) -->
-      <g v-for="n in nodes" :key="'lb' + n.key" class="vnh-olabel" :class="{ toi: n.toi, sang: n.sang }" :style="{ '--hc': n.color }">
+      <g v-for="n in nodes" :key="'lb' + n.key" class="vnh-olabel" :class="{ toi: n.toi, sang: n.sang }"
+        :style="{ '--hc': n.color, transform: showMeo ? `translate(${N(n.labelDay.x)}px, ${N(n.labelDay.y)}px)` : 'none' }">
         <text :x="n.label.x" :y="n.label.y - 6" class="vnh-ol-tang"><tspan class="vnh-ol-hanh">{{ n.ten }} {{ n.han }}</tspan>  {{ n.tang }} {{ n.tangHan }}<template v-if="n.tang2"> · {{ n.tang2 }}</template></text>
         <text :x="n.label.x" :y="n.label.y + 8" class="vnh-ol-phu">{{ n.phu }}<template v-if="n.phu2"> · {{ n.phu2 }}</template></text>
       </g>
@@ -360,6 +364,7 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 }
 
 /* Nhãn vành ngoài — chữ hành + quầng KÉP (kem paint-order + mép tối drop-shadow) đọc cả 2 nửa */
+.vnh-olabel { transition: transform 0.35s ease; } /* lùi ra cùng nhịp với node (cx/cy 0.35s) */
 .vnh-olabel text { filter: drop-shadow(0 0 1px rgba(40, 26, 12, 0.85)); }
 .vnh-ol-hanh { font-size: 12.5px; font-weight: 800; fill: var(--hc); stroke: rgba(30, 20, 8, 0.7); stroke-width: 2.4px; paint-order: stroke; }
 .vnh-ol-tang { font-size: 10.5px; font-weight: 700; fill: #f2e6cc; stroke: rgba(30, 20, 8, 0.7); stroke-width: 2px; paint-order: stroke; }
