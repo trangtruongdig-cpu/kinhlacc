@@ -138,10 +138,43 @@ function trinhDuyet(): string {
   }
 }
 
+/**
+ * Tiếng ồn đã biết — KHÔNG phải lỗi của app, và chiếm chỗ của lỗi thật trên bảng.
+ *
+ * Đo trên kho sự cố thật (29/09/2026): cụm đứng đầu bảng là "ResizeObserver loop completed
+ * with undelivered notifications" với 61 lần, xếp hạng NẶNG. Nó là cảnh báo kinh điển của
+ * trình duyệt khi một callback ResizeObserver làm đổi layout ngay trong lượt quan sát —
+ * WebKit và Chromium đều bắn ra, không có gì hỏng, và không sửa được từ phía app khi thứ
+ * gây ra nó nằm trong thư viện 3D.
+ *
+ * ⚠️ Danh sách này phải NGẮN và mỗi dòng phải nêu được lý do. Nó là chỗ dễ lạm dụng nhất
+ * trong cả hệ thống báo lỗi: thêm một mẫu quá rộng là bịt mắt mình mà không ai biết.
+ */
+const TIENG_ON: Array<{ re: RegExp; vi: string }> = [
+  {
+    re: /resizeobserver loop (completed|limit)/i,
+    vi: 'cảnh báo vô hại của trình duyệt, không sửa được từ phía app',
+  },
+  {
+    // Trình duyệt huỷ request khi người dùng rời trang giữa chừng. Không phải lỗi mạng.
+    re: /the operation was aborted|aborterror|signal is aborted/i,
+    vi: 'người dùng rời trang khi request còn dở',
+  },
+  {
+    // Tiện ích trình duyệt và trình chặn quảng cáo tiêm script rồi tự ném.
+    re: /extension context invalidated|chrome-extension:|moz-extension:/i,
+    vi: 'lỗi của tiện ích trình duyệt, không phải của app',
+  },
+]
+
 /** Đẩy một tín hiệu vào hàng đợi. Mọi lối vào công khai đều đi qua đây. */
 function xepHang(t: TinHieu): void {
   try {
     if (demCaPhien >= TRAN_CA_PHIEN) return
+
+    const chu = String(t.thongDiep || '')
+    if (TIENG_ON.some((x) => x.re.test(chu))) return
+
     const vt = vanTayTho(t)
     const dem = demTheoVanTay.get(vt) || 0
     if (dem >= TRAN_MOI_VAN_TAY) return

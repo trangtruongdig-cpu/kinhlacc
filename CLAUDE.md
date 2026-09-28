@@ -91,6 +91,15 @@ DTO là *type* TS thuần nên biến mất khi biên dịch — không có gì 
 
 Connection pool tự nhận môi trường: `max: 1` + idle 1s khi có `VERCEL`/`AWS_LAMBDA_FUNCTION_NAME`, ngược lại `max: 10` + idle 30s + keepAlive (đè bằng `DB_POOL_MAX`, `DB_IDLE_TIMEOUT_MS`).
 
+⚠️ **Trần Aiven là 20, nhưng hệ thống của chính Aiven đã ăn 8** (đo 29/09/2026) — thực tế
+chỉ còn ~11 slot cho tất cả. Production để mặc định `max: 10`; máy dev chạy thêm một
+backend nữa với `max: 10` là vượt trần, và **production** nhận `remaining connection slots
+are reserved for roles with the SUPERUSER attribute` chứ không phải máy dev. Đã xảy ra
+thật lúc 00:42 ngày 29/09, bắt được qua tab Góp Ý & Lỗi.
+
+Nên `backend/.env` của máy dev đặt `DB_POOL_MAX=3`. Và nhớ: mỗi script `.mjs`/`ts-node`
+chạy tay cũng mở thêm một kết nối — chạy năm script song song là năm slot.
+
 TLS tới Postgres (`src/utils/db-ssl.util.ts`): xác minh chứng chỉ máy chủ được bật khi có cert, đọc theo thứ tự `DB_CA_CERT` (nội dung PEM) → `DB_CA_CERT_FILE` (đường dẫn) → **`CA_CERTIFICATE`** — tên Aiven tự đặt và là tên **đang có sẵn trong `backend/.env`**, nên trên môi trường thật xác minh bật mà không cần cấu hình thêm. Không có cert nào thì vẫn chạy nhưng rơi về `rejectUnauthorized: false` và ghi cảnh báo mỗi lần khởi động.
 
 Lưu ý về `backend/.env`: dùng `DB_HOST`/`DB_PORT`/`DB_USER`/`DB_PASSWORD`/`DB_NAME`, **không có** `DATABASE_URL`. `CA_CERTIFICATE` là PEM nhiều dòng đặt trong nháy kép — **đừng `source` cả file .env trong shell**, phải lọc dòng.
