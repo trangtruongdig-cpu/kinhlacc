@@ -96,7 +96,21 @@ export class ThamDinhCmsService {
   }
 
   async moKetNoi(): Promise<void> {
-    if (this.client) return;
+    // ⚠️ Không chỉ kiểm `this.client` khác null. Khi Aiven cắt kết nối (mạng chập, máy
+    // ngủ, hết giờ nhàn rỗi), client CHẾT nhưng vẫn khác null — và mọi request sau đó
+    // dùng lại xác chết rồi treo VÔ HẠN. Đã cắn thật: trang /app/tham-dinh kẹt ở "Đang
+    // tải…", request không bao giờ kết thúc, phải restart backend mới xong.
+    //
+    // Nên: có client thì ping một nhịp. Tốn một lượt đi-về (~90ms), đổi lấy việc không
+    // bao giờ treo.
+    if (this.client) {
+      try {
+        await this.client.query('SELECT 1');
+        return;
+      } catch {
+        await this.dongKetNoi();
+      }
+    }
     this.client = new Client({
       host: this.config.get<string>('CMS_DB_HOST'),
       port: Number(this.config.get<string>('CMS_DB_PORT')),
@@ -106,9 +120,18 @@ export class ThamDinhCmsService {
       // Cùng cụm Aiven với database chính, nên cùng cert và cùng luật xác minh.
       ssl: docCauHinhSsl(this.config),
       connectionTimeoutMillis: 10_000,
+      // Trần cho TỪNG truy vấn. Thiếu nó thì một truy vấn kẹt là kẹt luôn request HTTP,
+      // và người dùng chỉ thấy trang quay mãi không có lý do nào.
+      query_timeout: 60_000,
+      statement_timeout: 60_000,
     });
     // Không có listener 'error' thì pg ném ra process và sập cả backend khi Aiven cắt kết nối.
-    this.client.on('error', (e) => this.logger.error(`lỗi kết nối CMS: ${e.message}`));
+    // Và phải DỌN client ở đây: giữ lại một client đã chết là để lần mở sau tưởng còn dùng
+    // được rồi treo.
+    this.client.on('error', (e) => {
+      this.logger.error(`lỗi kết nối CMS: ${e.message}`);
+      this.client = null;
+    });
     await this.client.connect();
   }
 
