@@ -31,6 +31,9 @@ const loc_bo = ref('')
 const loc_trang_thai = ref('moi')
 const thong_bao = ref<{ id: number; chu: string; xau: boolean } | null>(null)
 const dang_xu_ly = ref<number | null>(null)
+const da_chon = ref<Set<number>>(new Set())
+const dang_chay_lo = ref(false)
+const ket_qua_lo = ref<{ xong: number; tu_choi: number; loi: string[] } | null>(null)
 
 const NHAN_BO: Record<string, string> = {
   huyet_vi: 'Huyệt Vị',
@@ -52,6 +55,8 @@ async function tai() {
     const r = await api.get<{ danhSach: NhanXet[]; tong: number }>(`/tham-dinh/nhan-xet?${q}`)
     danh_sach.value = r.danhSach || []
     tong.value = r.tong || 0
+    da_chon.value = new Set()
+    ket_qua_lo.value = null
   } catch (e) {
     thong_bao.value = { id: 0, chu: `Không tải được: ${(e as Error).message}`, xau: true }
   } finally {
@@ -95,6 +100,61 @@ async function ap(x: NhanXet) {
     thong_bao.value = { id: x.id, chu: (e as Error).message, xau: true }
   } finally {
     dang_xu_ly.value = null
+  }
+}
+
+function bat_tat(id: number) {
+  const t = new Set(da_chon.value)
+  if (t.has(id)) t.delete(id)
+  else t.add(id)
+  da_chon.value = t
+}
+
+const co_the_ap = computed(() => danh_sach.value.filter((x) => x.de_xuat))
+
+function chon_het_ap_duoc() {
+  da_chon.value = new Set(co_the_ap.value.map((x) => x.id))
+}
+
+function bo_chon_het() {
+  da_chon.value = new Set()
+}
+
+/**
+ * Áp hàng loạt. Chạy TUẦN TỰ, không song song: mỗi lượt áp là một giao dịch trên cùng
+ * một kết nối sang kho, bắn song song chỉ làm chúng xếp hàng sau nhau mà khó đọc lỗi hơn.
+ *
+ * Không dừng khi gặp một cái từ chối — cái bị từ chối là chuyện thường (bản sửa có nhiều
+ * thay đổi mà chỉ định vị được một phần), và dừng cả mẻ vì nó thì phí.
+ */
+async function ap_hang_loat() {
+  const ds = danh_sach.value.filter((x) => da_chon.value.has(x.id) && x.de_xuat)
+  if (!ds.length) return
+  dang_chay_lo.value = true
+  ket_qua_lo.value = { xong: 0, tu_choi: 0, loi: [] }
+  try {
+    for (const x of ds) {
+      try {
+        const r = await api.post<{ ok: boolean; lyDo?: string }>(
+          `/tham-dinh/nhan-xet/${x.id}/ap`,
+          {},
+        )
+        if (r.ok) {
+          ket_qua_lo.value.xong += 1
+          danh_sach.value = danh_sach.value.filter((y) => y.id !== x.id)
+          tong.value = Math.max(tong.value - 1, 0)
+        } else {
+          ket_qua_lo.value.tu_choi += 1
+          ket_qua_lo.value.loi.push(`${x.tieu_de}: ${r.lyDo || 'không áp được'}`)
+        }
+      } catch (e) {
+        ket_qua_lo.value.tu_choi += 1
+        ket_qua_lo.value.loi.push(`${x.tieu_de}: ${(e as Error).message}`)
+      }
+    }
+  } finally {
+    dang_chay_lo.value = false
+    da_chon.value = new Set()
   }
 }
 
@@ -142,6 +202,34 @@ onMounted(tai)
       {{ thong_bao.chu }}
     </p>
 
+    <div v-if="danh_sach.length" class="td-lo">
+      <label class="td-chon-het">
+        <input
+          type="checkbox"
+          :checked="da_chon.size > 0 && da_chon.size === co_the_ap.length"
+          :indeterminate="da_chon.size > 0 && da_chon.size < co_the_ap.length"
+          @change="da_chon.size === co_the_ap.length ? bo_chon_het() : chon_het_ap_duoc()"
+        />
+        Chọn {{ co_the_ap.length }} lời phê có bản sửa
+      </label>
+      <span class="td-dem">đã chọn {{ da_chon.size }}</span>
+      <button
+        type="button"
+        class="td-ap"
+        :disabled="!da_chon.size || dang_chay_lo"
+        @click="ap_hang_loat"
+      >
+        {{ dang_chay_lo ? 'Đang áp…' : `Áp ${da_chon.size} bản sửa vào kho` }}
+      </button>
+    </div>
+
+    <div v-if="ket_qua_lo" class="td-bao" :class="ket_qua_lo.tu_choi ? 'xau' : 'tot'">
+      Áp xong {{ ket_qua_lo.xong }} · từ chối {{ ket_qua_lo.tu_choi }}
+      <ul v-if="ket_qua_lo.loi.length" class="td-ly-do">
+        <li v-for="(l, i) in ket_qua_lo.loi" :key="i">{{ l }}</li>
+      </ul>
+    </div>
+
     <p class="td-tong">{{ tong }} lời phê</p>
 
     <p v-if="dang_tai" class="td-trong">Đang tải…</p>
@@ -149,6 +237,13 @@ onMounted(tai)
 
     <article v-for="x in danh_sach" :key="x.id" class="td-the">
       <div class="td-the-dau">
+        <input
+          v-if="x.de_xuat"
+          type="checkbox"
+          :checked="da_chon.has(x.id)"
+          :disabled="dang_chay_lo"
+          @change="bat_tat(x.id)"
+        />
         <a :href="duong_dan(x)" target="_blank" rel="noopener">{{ x.tieu_de }}</a>
         <span class="td-nhan">{{ NHAN_BO[x.bo] || x.bo }}</span>
         <span class="td-nhan td-kieu">{{ x.kieu }}</span>
@@ -299,12 +394,59 @@ onMounted(tai)
   margin-top: 0.75rem;
   flex-wrap: wrap;
 }
-.td-ap {
-  background: #6a8f5f;
-  color: #fff;
-  border-color: #5a7c50;
+/*
+ * ⚠️ Phải đủ mạnh để thắng style `button` toàn cục của app. Bản đầu chỉ đặt
+ * `background` + `color: #fff`; style chung đè mất màu nền, còn chữ trắng thì ở lại —
+ * ra một nút TRẮNG TRƠN không đọc được chữ, mà nhìn ảnh chụp thì tưởng nút thiếu nhãn.
+ */
+.tham-dinh button.td-ap,
+.tham-dinh button.td-ap:hover {
+  background-color: #6a8f5f !important;
+  color: #fff !important;
+  border-color: #5a7c50 !important;
 }
-.td-nut button:disabled {
+.tham-dinh button.td-ap:disabled {
+  background-color: #b9c9b3 !important;
+  border-color: #b9c9b3 !important;
+}
+.td-lo {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0.6rem 0.75rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--mau-vien, #d8cfc2);
+  border-radius: 8px;
+  background: var(--mau-nen-the, #fffdf9);
+}
+.td-chon-het {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  cursor: pointer;
+}
+.td-dem {
+  color: var(--mau-chu-nhat, #6b5d4f);
+  font-size: 0.88rem;
+}
+.td-lo button {
+  margin-left: auto;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--mau-vien, #d8cfc2);
+  border-radius: 6px;
+  font: inherit;
+  cursor: pointer;
+}
+.td-ly-do {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+}
+.td-ly-do li {
+  margin-bottom: 0.2rem;
+}
+.td-nut button:disabled,
+.td-lo button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }

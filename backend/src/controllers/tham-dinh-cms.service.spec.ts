@@ -75,3 +75,65 @@ describe('ThamDinhCmsService.DDL — phần của lớp 2', () => {
     expect(tao).not.toMatch(/\btimestamp\b(?!tz)/i);
   });
 });
+
+describe('ThamDinhCmsService — đếm người dùng kết nối', () => {
+  /**
+   * Đo thật 29/09/2026: người duyệt bấm hai nút cách nhau hai giây, request đầu xong thì
+   * `finally { dongKetNoi() }` đóng kết nối ngay dưới chân request thứ hai, và người kia
+   * nhận "Internal server error · Chưa mở kết nối CMS".
+   *
+   * Thiết kế "mở vào ca, đóng hết ca" đúng cho ca soi chạy tuần tự nhưng sai cho API.
+   * Đếm người dùng giữ được cả hai: vẫn MỘT kết nối (trần Aiven 20 slot), vẫn đóng khi
+   * hết người, nhưng không đóng giữa chừng.
+   */
+  function svcGia() {
+    const s = new ThamDinhCmsService({
+      get: (k: string) =>
+        ({ CMS_DB_HOST: 'h', CMS_DB_PORT: '1', CMS_DB_USER: 'u',
+           CMS_DB_PASSWORD: 'p', CMS_DB_NAME: 'd' })[k],
+    } as never);
+    let daDong = 0;
+    // Gắn sẵn một client giả: moKetNoi sẽ ping nó và thấy còn sống.
+    (s as unknown as { client: unknown }).client = {
+      query: () => Promise.resolve({ rows: [] }),
+      end: () => {
+        daDong += 1;
+        return Promise.resolve();
+      },
+      on: () => undefined,
+    };
+    return { s, conSong: () => (s as unknown as { client: unknown }).client !== null,
+             soLanDong: () => daDong };
+  }
+
+  it('hai người cùng dùng: người đầu đóng thì kết nối VẪN SỐNG cho người sau', async () => {
+    const { s, conSong, soLanDong } = svcGia();
+    await s.moKetNoi();
+    await s.moKetNoi();
+
+    await s.dongKetNoi();
+    expect(conSong()).toBe(true);
+    expect(soLanDong()).toBe(0);
+
+    await s.dongKetNoi();
+    expect(conSong()).toBe(false);
+    expect(soLanDong()).toBe(1);
+  });
+
+  it('đóng nhiều hơn mở cũng không làm số đếm âm', async () => {
+    const { s } = svcGia();
+    await s.moKetNoi();
+    await s.dongKetNoi();
+    await s.dongKetNoi();
+    await s.dongKetNoi();
+    // Mở lại sau đó vẫn phải dùng được, không bị kẹt ở số đếm âm.
+    (s as unknown as { client: unknown }).client = {
+      query: () => Promise.resolve({ rows: [] }),
+      end: () => Promise.resolve(),
+      on: () => undefined,
+    };
+    await s.moKetNoi();
+    await s.dongKetNoi();
+    expect((s as unknown as { client: unknown }).client).toBeNull();
+  });
+});

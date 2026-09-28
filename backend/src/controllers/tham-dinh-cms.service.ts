@@ -26,6 +26,20 @@ export class ThamDinhCmsService {
   private readonly logger = new Logger('ThamDinhCms');
   private client: Client | null = null;
 
+  /**
+   * Số người đang dùng kết nối. Thiết kế "mở vào ca, đóng hết ca" đúng cho ca soi chạy
+   * tuần tự, nhưng SAI cho API: hai người bấm cách nhau hai giây thì request đầu xong sẽ
+   * đóng kết nối ngay dưới chân request thứ hai, và người kia nhận "Internal server
+   * error". Đã cắn thật trên màn duyệt.
+   *
+   * Đếm người dùng giữ đúng cả hai: vẫn MỘT kết nối (trần Aiven 20 slot), vẫn đóng khi
+   * hết người, nhưng không đóng giữa chừng.
+   */
+  private soNguoiDung = 0;
+
+  /** Lời mở đang dở — để hai request cùng lúc không tạo hai client. */
+  private dangMo: Promise<void> | null = null;
+
   constructor(private readonly config: ConfigService) {}
 
   static readonly DDL: readonly string[] = [
@@ -96,22 +110,37 @@ export class ThamDinhCmsService {
   }
 
   async moKetNoi(): Promise<void> {
+    this.soNguoiDung += 1;
+
+    // Có người đang mở dở thì chờ chính lời mở đó, đừng tạo client thứ hai.
+    if (this.dangMo) {
+      await this.dangMo;
+      return;
+    }
+
     // ⚠️ Không chỉ kiểm `this.client` khác null. Khi Aiven cắt kết nối (mạng chập, máy
     // ngủ, hết giờ nhàn rỗi), client CHẾT nhưng vẫn khác null — và mọi request sau đó
     // dùng lại xác chết rồi treo VÔ HẠN. Đã cắn thật: trang /app/tham-dinh kẹt ở "Đang
     // tải…", request không bao giờ kết thúc, phải restart backend mới xong.
-    //
-    // Nên: có client thì ping một nhịp. Tốn một lượt đi-về (~90ms), đổi lấy việc không
-    // bao giờ treo.
     if (this.client) {
       try {
         await this.client.query('SELECT 1');
         return;
       } catch {
-        await this.dongKetNoi();
+        await this.dongKetNoiThat();
       }
     }
-    this.client = new Client({
+
+    this.dangMo = this.moThat();
+    try {
+      await this.dangMo;
+    } finally {
+      this.dangMo = null;
+    }
+  }
+
+  private async moThat(): Promise<void> {
+    const c = new Client({
       host: this.config.get<string>('CMS_DB_HOST'),
       port: Number(this.config.get<string>('CMS_DB_PORT')),
       user: this.config.get<string>('CMS_DB_USER'),
@@ -125,22 +154,33 @@ export class ThamDinhCmsService {
       query_timeout: 60_000,
       statement_timeout: 60_000,
     });
-    // Không có listener 'error' thì pg ném ra process và sập cả backend khi Aiven cắt kết nối.
-    // Và phải DỌN client ở đây: giữ lại một client đã chết là để lần mở sau tưởng còn dùng
-    // được rồi treo.
-    this.client.on('error', (e) => {
+    // Không có listener 'error' thì pg ném ra process và sập cả backend khi Aiven cắt kết
+    // nối. Và phải DỌN client ở đây: giữ lại một client đã chết là để lần mở sau tưởng còn
+    // dùng được rồi treo.
+    c.on('error', (e) => {
       this.logger.error(`lỗi kết nối CMS: ${e.message}`);
-      this.client = null;
+      if (this.client === c) this.client = null;
     });
-    await this.client.connect();
+    await c.connect();
+    this.client = c;
   }
 
+  /** Trả lại một suất dùng. Chỉ đóng thật khi không còn ai dùng. */
   async dongKetNoi(): Promise<void> {
-    if (!this.client) return;
+    this.soNguoiDung = Math.max(0, this.soNguoiDung - 1);
+    if (this.soNguoiDung > 0) return;
+    await this.dongKetNoiThat();
+  }
+
+  private async dongKetNoiThat(): Promise<void> {
+    const c = this.client;
+    this.client = null;
+    this.soNguoiDung = 0;
+    if (!c) return;
     try {
-      await this.client.end();
-    } finally {
-      this.client = null;
+      await c.end();
+    } catch {
+      /* đóng một kết nối đã chết thì không có gì để cứu */
     }
   }
 
