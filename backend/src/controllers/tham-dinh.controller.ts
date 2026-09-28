@@ -153,6 +153,26 @@ export class ThamDinhService {
     }
 
     lk.ketThuc = new Date().toISOString();
+
+    // Ghi nhật ký SAU khi đã đóng kết nối ở finally, nên phải mở lại một nhịp. Đổi lại,
+    // nhật ký ghi được cả những ca hỏng giữa chừng — vốn là loại ca đáng ghi nhất.
+    try {
+      await this.cms.moKetNoi();
+      await this.cms.ghiCaSoi({
+        lop: 'may',
+        batDau: lk.batDau,
+        ketThuc: lk.ketThuc,
+        soMuc: lk.soMucDoc,
+        soPhatHien: lk.soNhanXet,
+        soLieu: { soCum: lk.soCum, soCumNop: lk.soCumNop, soMucBoQua: lk.soMucBoQua },
+        loi: lk.loi,
+      });
+    } catch {
+      /* nhật ký hỏng không được làm hỏng ca */
+    } finally {
+      await this.cms.dongKetNoi();
+    }
+
     this.logger.log(
       `ca soi xong: ${lk.soMucDoc} mục · ${lk.soNhanXet} nhận xét · ${lk.soCumNop}/${lk.soCum} cụm`,
     );

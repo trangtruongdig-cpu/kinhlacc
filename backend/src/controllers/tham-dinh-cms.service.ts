@@ -99,6 +99,20 @@ export class ThamDinhCmsService {
        created_at  timestamptz NOT NULL DEFAULT now()
      )`,
     `CREATE INDEX IF NOT EXISTS idx_td_luat_da_duyet ON td_luat_van_phong (da_duyet, phien_ban DESC)`,
+    // Nhật ký từng ca. Không có nó thì "bot chạy đêm qua chưa, có hỏng gì không" chỉ trả
+    // lời được bằng cách đi đọc log của container — tức là không ai trả lời được.
+    `CREATE TABLE IF NOT EXISTS td_ca_soi (
+       id           SERIAL PRIMARY KEY,
+       lop          VARCHAR(12) NOT NULL,
+       bat_dau      timestamptz NOT NULL,
+       ket_thuc     timestamptz,
+       so_muc       INT NOT NULL DEFAULT 0,
+       so_phat_hien INT NOT NULL DEFAULT 0,
+       so_lieu      JSONB NOT NULL DEFAULT '{}'::jsonb,
+       loi          TEXT[] NOT NULL DEFAULT '{}',
+       created_at   timestamptz NOT NULL DEFAULT now()
+     )`,
+    `CREATE INDEX IF NOT EXISTS idx_td_ca_soi_lop ON td_ca_soi (lop, bat_dau DESC)`,
   ];
 
   daCauHinh(): boolean {
@@ -621,5 +635,74 @@ export class ThamDinhCmsService {
       await c.query('ROLLBACK').catch(() => undefined);
       return { ok: false, lyDo: (e as Error).message };
     }
+  }
+
+  // ══ Nhật ký ca ═══════════════════════════════════════════════════════════════════
+
+  /** Ghi lại một ca vừa chạy. Không bao giờ ném: hỏng nhật ký không được làm hỏng ca. */
+  async ghiCaSoi(ca: {
+    lop: string;
+    batDau: string;
+    ketThuc: string;
+    soMuc: number;
+    soPhatHien: number;
+    soLieu: Record<string, unknown>;
+    loi: string[];
+  }): Promise<void> {
+    try {
+      await this.phaiCo().query(
+        `INSERT INTO td_ca_soi (lop, bat_dau, ket_thuc, so_muc, so_phat_hien, so_lieu, loi)
+         VALUES ($1, $2::timestamptz, $3::timestamptz, $4, $5, $6::jsonb, $7)`,
+        [ca.lop, ca.batDau, ca.ketThuc, ca.soMuc, ca.soPhatHien,
+         JSON.stringify(ca.soLieu), ca.loi],
+      );
+    } catch (e) {
+      this.logger.warn(`không ghi được nhật ký ca: ${(e as Error).message}`);
+    }
+  }
+
+  /**
+   * Tổng kết cho khối "Đêm qua" trên màn duyệt: ca gần nhất của mỗi lớp, cộng số việc
+   * đang chờ người duyệt.
+   */
+  async docNhatKy(): Promise<{
+    caGanNhat: unknown[];
+    choDuyet: number;
+    coBanSua: number;
+    daAp: number;
+    mayPhatHien: number;
+    boLuat: { phienBan: number; daDuyet: boolean } | null;
+  }> {
+    const c = this.phaiCo();
+    const ca = await c.query(
+      `SELECT DISTINCT ON (lop) lop, bat_dau, ket_thuc, so_muc, so_phat_hien, so_lieu, loi
+       FROM td_ca_soi ORDER BY lop, bat_dau DESC`,
+    );
+    // ⚠️ Đếm RIÊNG lớp thầy thuốc. Lớp máy quét có 65.321 nhận xét (thiếu trường, liên kết
+    // hụt…) và chúng đi qua tab Góp Ý & Lỗi dưới dạng cụm việc, không qua màn duyệt này.
+    // Gộp chung thì khối tổng kết báo "65.321 lời phê chờ bạn duyệt" — con số vô nghĩa và
+    // làm người đọc tưởng mình có hàng vạn việc phải bấm.
+    const d = await c.query<{ cho_duyet: number; co_ban_sua: number; da_ap: number; may_cho: number }>(
+      `SELECT
+         count(*) FILTER (WHERE lop = 'thay_thuoc' AND trang_thai = 'moi')::int AS cho_duyet,
+         count(*) FILTER (WHERE lop = 'thay_thuoc' AND trang_thai = 'moi'
+                            AND de_xuat IS NOT NULL AND trim(de_xuat) <> '')::int AS co_ban_sua,
+         count(*) FILTER (WHERE trang_thai = 'da_ap')::int AS da_ap,
+         count(*) FILTER (WHERE lop = 'may')::int AS may_cho
+       FROM td_nhan_xet`,
+    );
+    const l = await c.query<{ phien_ban: number; da_duyet: boolean }>(
+      `SELECT phien_ban, da_duyet FROM td_luat_van_phong ORDER BY phien_ban DESC LIMIT 1`,
+    );
+    return {
+      caGanNhat: ca.rows,
+      choDuyet: d.rows[0].cho_duyet,
+      coBanSua: d.rows[0].co_ban_sua,
+      daAp: d.rows[0].da_ap,
+      mayPhatHien: d.rows[0].may_cho,
+      boLuat: l.rows.length
+        ? { phienBan: l.rows[0].phien_ban, daDuyet: l.rows[0].da_duyet }
+        : null,
+    };
   }
 }

@@ -9,7 +9,7 @@ import {
 import { ConfigService } from '@nestjs/config';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, LessThan, Repository } from 'typeorm';
+import { In, LessThan, Repository, IsNull} from 'typeorm';
 import { createHash } from 'crypto';
 import OpenAI from 'openai';
 
@@ -694,6 +694,68 @@ export class SuCoService {
       .update(`${muoi}|${id}`)
       .digest('hex')
       .slice(0, 16);
+  }
+
+  // ══ Tự hành: mỗi sáng tự dựng hồ sơ AI cho cụm mới đáng xem ══════════════════════
+
+  /** Số cụm tự phân tích mỗi ca. Có trần vì mỗi cụm là một lượt gọi mô hình tốn tiền. */
+  soCumTuPhanTichMoiCa(): number {
+    const n = Number(this.config.get<string>('SU_CO_TU_PHAN_TICH_MOI_CA'));
+    return Number.isFinite(n) && n > 0 ? Math.min(Math.floor(n), 50) : 10;
+  }
+
+  /**
+   * 06:00 mỗi sáng: dựng sẵn hồ sơ chẩn đoán cho các cụm MỚI đáng xem, để người mở tab
+   * thấy ngay nguyên nhân khả dĩ thay vì phải bấm từng cụm rồi ngồi đợi.
+   *
+   * Chọn cụm theo ba điều kiện, cả ba đều để KHỎI ĐỐT TIỀN vô ích:
+   *   · `trangThai = 'moi'` — cụm đã sửa hoặc đã bỏ qua thì phân tích làm gì.
+   *   · `hoSoAi IS NULL` — đã có hồ sơ rồi thì thôi.
+   *   · lane `loi` và hạng nặng/vừa — góp ý của người dùng không cần máy đoán nguyên nhân.
+   *
+   * Không ném lỗi ra ngoài: một ca hỏng không được làm chết scheduler của cả app.
+   */
+  @Cron('0 6 * * *')
+  async caTuPhanTich(): Promise<{ daLam: number; boQua: number; loi: string[] }> {
+    const ra = { daLam: 0, boQua: 0, loi: [] as string[] };
+    if (!this.config.get<string>('YESCALE_API_KEY')) {
+      ra.loi.push('Chưa cấu hình YESCALE_API_KEY — nằm im.');
+      return ra;
+    }
+
+    let ungVien: SuCoCum[] = [];
+    try {
+      ungVien = await this.cumRepo.find({
+        where: [
+          { trangThai: 'moi', hoSoAi: IsNull(), lane: 'loi', hang: 'nang' },
+          { trangThai: 'moi', hoSoAi: IsNull(), lane: 'loi', hang: 'vua' },
+        ],
+        order: { soLan: 'DESC', lanCuoi: 'DESC' },
+        take: this.soCumTuPhanTichMoiCa(),
+      });
+    } catch (e) {
+      ra.loi.push(`Không đọc được danh sách cụm: ${(e as Error).message}`);
+      return ra;
+    }
+
+    for (const c of ungVien) {
+      try {
+        await this.phanTichAi(c.id);
+        ra.daLam += 1;
+      } catch (e) {
+        ra.boQua += 1;
+        // Nhà cung cấp hỏng thì cả mẻ sẽ hỏng — dừng sớm thay vì gọi thêm chín lần nữa.
+        const chu = (e as Error).message || '';
+        ra.loi.push(`cụm ${c.id}: ${chu}`);
+        if (/Không gọi được AI|503|429/i.test(chu)) break;
+      }
+    }
+
+    this.logger.log(
+      `tự phân tích xong: ${ra.daLam} cụm có hồ sơ mới` +
+        (ra.boQua ? ` · ${ra.boQua} bỏ qua` : ''),
+    );
+    return ra;
   }
 }
 

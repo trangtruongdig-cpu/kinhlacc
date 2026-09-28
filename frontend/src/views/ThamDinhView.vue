@@ -35,6 +35,45 @@ const da_chon = ref<Set<number>>(new Set())
 const dang_chay_lo = ref(false)
 const ket_qua_lo = ref<{ xong: number; tu_choi: number; loi: string[] } | null>(null)
 
+interface CaSoi {
+  lop: string
+  bat_dau: string
+  ket_thuc: string | null
+  so_muc: number
+  so_phat_hien: number
+  so_lieu: Record<string, unknown>
+  loi: string[]
+}
+interface NhatKy {
+  caGanNhat: CaSoi[]
+  choDuyet: number
+  coBanSua: number
+  daAp: number
+  mayPhatHien: number
+  boLuat: { phienBan: number; daDuyet: boolean } | null
+}
+const nhat_ky = ref<NhatKy | null>(null)
+
+const NHAN_LOP: Record<string, string> = { may: 'Máy quét', thay_thuoc: 'Thầy thuốc (AI)' }
+
+function luc(s: string | null): string {
+  if (!s) return '—'
+  const d = new Date(s)
+  const cach = Date.now() - d.getTime()
+  const gio = Math.floor(cach / 3_600_000)
+  if (gio < 1) return `${Math.max(Math.floor(cach / 60_000), 1)} phút trước`
+  if (gio < 24) return `${gio} giờ trước`
+  return `${Math.floor(gio / 24)} ngày trước`
+}
+
+async function tai_nhat_ky() {
+  try {
+    nhat_ky.value = await api.get<NhatKy>('/tham-dinh/nhat-ky')
+  } catch {
+    nhat_ky.value = null
+  }
+}
+
 const NHAN_BO: Record<string, string> = {
   huyet_vi: 'Huyệt Vị',
   kinh_mach: 'Kinh Mạch',
@@ -170,7 +209,10 @@ function duong_dan(x: NhanXet): string {
   return `${tien_to[x.bo] || `/${x.bo}/`}${x.slug}/`
 }
 
-onMounted(tai)
+onMounted(() => {
+  void tai()
+  void tai_nhat_ky()
+})
 </script>
 
 <template>
@@ -201,6 +243,31 @@ onMounted(tai)
     <p v-if="thong_bao && thong_bao.id === 0" :class="['td-bao', thong_bao.xau ? 'xau' : 'tot']">
       {{ thong_bao.chu }}
     </p>
+
+    <section v-if="nhat_ky" class="td-dem-qua">
+      <h2>Bot làm gì gần đây</h2>
+      <div class="td-ca-hang">
+        <div v-for="c in nhat_ky.caGanNhat" :key="c.lop" class="td-ca">
+          <strong>{{ NHAN_LOP[c.lop] || c.lop }}</strong>
+          <span class="td-dem">{{ luc(c.ket_thuc || c.bat_dau) }}</span>
+          <span>đọc {{ c.so_muc }} mục · tìm ra {{ c.so_phat_hien }}</span>
+          <span v-if="c.loi && c.loi.length" class="td-ca-loi">⚠ {{ c.loi[0] }}</span>
+        </div>
+        <p v-if="!nhat_ky.caGanNhat.length" class="td-trong">
+          Chưa có ca nào chạy. Cron đặt 02:00 (quét) và 03:00 (đọc kỹ) — chỉ chạy khi máy chủ bật.
+        </p>
+      </div>
+      <p class="td-dem">
+        <strong>{{ nhat_ky.choDuyet }}</strong> lời phê thầy thuốc chờ bạn duyệt ·
+        <strong>{{ nhat_ky.coBanSua }}</strong> có bản sửa áp được ngay ·
+        đã áp vào kho <strong>{{ nhat_ky.daAp }}</strong> ·
+        máy quét tìm ra <strong>{{ nhat_ky.mayPhatHien }}</strong> (xem ở tab Góp Ý &amp; Lỗi)
+        <template v-if="nhat_ky.boLuat">
+          · bộ luật bản {{ nhat_ky.boLuat.phienBan }}
+          <span v-if="!nhat_ky.boLuat.daDuyet" class="td-ca-loi">(CHƯA DUYỆT — lớp 2 đang nằm im)</span>
+        </template>
+      </p>
+    </section>
 
     <div v-if="danh_sach.length" class="td-lo">
       <label class="td-chon-het">
@@ -408,6 +475,36 @@ onMounted(tai)
 .tham-dinh button.td-ap:disabled {
   background-color: #b9c9b3 !important;
   border-color: #b9c9b3 !important;
+}
+.td-dem-qua {
+  padding: 0.75rem 0.9rem;
+  margin-bottom: 0.9rem;
+  border: 1px solid var(--mau-vien, #d8cfc2);
+  border-radius: 8px;
+  background: var(--mau-nen-the, #fffdf9);
+}
+.td-dem-qua h2 {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--mau-chu-nhat, #6b5d4f);
+}
+.td-ca-hang {
+  display: flex;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.td-ca {
+  display: flex;
+  gap: 0.5rem;
+  align-items: baseline;
+  flex-wrap: wrap;
+  font-size: 0.9rem;
+}
+.td-ca-loi {
+  color: #8a3a2c;
 }
 .td-lo {
   display: flex;

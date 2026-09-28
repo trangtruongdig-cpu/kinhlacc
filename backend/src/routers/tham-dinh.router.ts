@@ -147,4 +147,16 @@ export class ThamDinhRouter {
       await this.cms.dongKetNoi();
     }
   }
+
+  /** Tổng kết "đêm qua bot làm gì" cho khối đầu màn duyệt. */
+  @Get('nhat-ky')
+  async nhatKy(): Promise<unknown> {
+    await this.cms.moKetNoi();
+    try {
+      await this.cms.dungBang();
+      return await this.cms.docNhatKy();
+    } finally {
+      await this.cms.dongKetNoi();
+    }
+  }
 }

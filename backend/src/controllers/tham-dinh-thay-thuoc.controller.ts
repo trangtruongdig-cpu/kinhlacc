@@ -369,6 +369,30 @@ export class ThamDinhThayThuocService {
       .sort((a, b) => b.soLan - a.soLan)
       .slice(0, 3);
 
+    try {
+      await this.cms.moKetNoi();
+      await this.cms.ghiCaSoi({
+        lop: 'thay_thuoc',
+        batDau: lk.batDau,
+        ketThuc: new Date().toISOString(),
+        soMuc: lk.soMucSoi,
+        soPhatHien: lk.soLoiPheNhan,
+        soLieu: {
+          soLoiPheLoai: lk.soLoiPheLoai,
+          soLuotGoiModel: lk.soLuotGoiModel,
+          soPhanHoiKhongDocDuoc: lk.soPhanHoiKhongDocDuoc,
+          chamTran: lk.chamTran,
+          soMucConLai: lk.soMucConLai,
+          lyDoLoai: lk.lyDoLoai,
+        },
+        loi: lk.loi,
+      });
+    } catch {
+      /* nhật ký hỏng không được làm hỏng ca */
+    } finally {
+      await this.cms.dongKetNoi();
+    }
+
     this.logger.log(
       `ca thầy thuốc xong: ${lk.soMucSoi} mục · nhận ${lk.soLoiPheNhan} / loại ${lk.soLoiPheLoai} ` +
         `· ${lk.soLuotGoiModel} lượt gọi` +
