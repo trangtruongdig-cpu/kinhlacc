@@ -7,7 +7,7 @@
  * Mô hình + hằng số đã qua workflow thẩm định (K=9 bảo thủ, smoothstep deadband, guard thiếu-đo/sd=0).
  * Quy ước máy dẫn-điện (Lê Văn Sửu/Ryodoraku): chỉ số CAO = thực (đẩy ra) · THẤP = hư (co vào).
  */
-import { computed, ref } from 'vue'
+import { computed, ref, useId } from 'vue'
 import AmDuongTaiji from './AmDuongTaiji.vue'
 import type { TongCuong } from '@/lib/meridianAnalysis'
 
@@ -33,12 +33,15 @@ function arrowHead(tip: { x: number; y: number }, dir: { x: number; y: number },
 
 // PENTA index [0]Hỏa [1]Thổ [2]Kim [3]Thủy [4]Mộc — thuận KĐH = vòng TƯƠNG SINH; i→i+2 = TƯƠNG KHẮC.
 // Hỏa gồm 2 cặp: Quân Hỏa (Tâm/Tiểu Trường) + Tướng Hỏa (Tâm Bào/Tam Tiêu) → tang2/phu2 cho ĐỦ lục tạng lục phủ.
-interface HanhDef { key: 'hoa' | 'tho' | 'kim' | 'thuy' | 'moc'; ten: string; han: string; tang: string; tangHan: string; tang2?: string; phu: string; phu2?: string; deg: number; color: string }
+// Màu chính thống: Kim = TRẮNG (sáng bạc, tách khỏi vàng của Thổ), Thủy = ĐEN (xanh đen — đen thuần
+// sẽ mất hút trên nền đá tối). toi = màu tối → chữ nhãn cần quầng SÁNG; sang = màu sáng → quầng tối DÀY hơn
+// (nhãn Kim hay rơi lên nửa kem của Thái Cực, quầng mỏng thì bạc-trên-kem không đọc được).
+interface HanhDef { key: 'hoa' | 'tho' | 'kim' | 'thuy' | 'moc'; ten: string; han: string; tang: string; tangHan: string; tang2?: string; phu: string; phu2?: string; deg: number; color: string; toi?: boolean; sang?: boolean }
 const HANHS: HanhDef[] = [
   { key: 'hoa', ten: 'Hỏa', han: '火', tang: 'Tâm', tangHan: '心', tang2: 'Tâm Bào', phu: 'Tiểu Trường', phu2: 'Tam Tiêu', deg: 0, color: '#b23a29' },
   { key: 'tho', ten: 'Thổ', han: '土', tang: 'Tỳ', tangHan: '脾', phu: 'Vị', deg: 72, color: '#b3872c' },
-  { key: 'kim', ten: 'Kim', han: '金', tang: 'Phế', tangHan: '肺', phu: 'Đại Trường', deg: 144, color: '#b39a55' },
-  { key: 'thuy', ten: 'Thủy', han: '水', tang: 'Thận', tangHan: '腎', phu: 'Bàng Quang', deg: 216, color: '#35638d' },
+  { key: 'kim', ten: 'Kim', han: '金', tang: 'Phế', tangHan: '肺', phu: 'Đại Trường', deg: 144, color: '#dcd8cc', sang: true },
+  { key: 'thuy', ten: 'Thủy', han: '水', tang: 'Thận', tangHan: '腎', phu: 'Bàng Quang', deg: 216, color: '#1d2b40', toi: true },
   { key: 'moc', ten: 'Mộc', han: '木', tang: 'Can', tangHan: '肝', phu: 'Đởm', deg: 288, color: '#4f7d39' },
 ]
 
@@ -85,6 +88,26 @@ const polyD = computed(() => {
   if (!first) return ''
   return `M${N(first.x)} ${N(first.y)} ` + rest.map((p) => `L${N(p.x)} ${N(p.y)}`).join(' ') + ' Z'
 })
+
+// ── CÁNH SAO: tam giác từ đỉnh i vào lòng sao, tô màu hành (đậm ở đỉnh → nhạt về tâm, chìm phía sau).
+//    Hai cạnh cánh = hai dây khắc qua đỉnh i; đáy = giao của chúng với dây (i−1)–(i+1). Tính trên toạ độ
+//    ĐANG HIỂN THỊ nên hành thực có cánh to ra, hành hư cánh teo lại — đọc lệch bằng diện tích. ──
+const uid = useId()
+const giao = (p1: { x: number; y: number }, p2: { x: number; y: number }, p3: { x: number; y: number }, p4: { x: number; y: number }) => {
+  const d = (p1.x - p2.x) * (p3.y - p4.y) - (p1.y - p2.y) * (p3.x - p4.x) || 1e-9
+  const a = p1.x * p2.y - p1.y * p2.x, b = p3.x * p4.y - p3.y * p4.x
+  return { x: (a * (p3.x - p4.x) - (p1.x - p2.x) * b) / d, y: (a * (p3.y - p4.y) - (p1.y - p2.y) * b) / d }
+}
+const canh = computed(() => nodes.value.map((n, i) => {
+  const P = (k: number) => posOf((i + k) % 5)
+  const a = P(0), trai = P(4), phai = P(1)
+  const b1 = giao(a, P(2), trai, phai), b2 = giao(a, P(3), trai, phai)
+  return {
+    key: n.key, color: n.color, gid: `${uid}-canh-${n.key}`,
+    d: `M${N(a.x)} ${N(a.y)} L${N(b1.x)} ${N(b1.y)} L${N(b2.x)} ${N(b2.y)} Z`,
+    x1: N(a.x), y1: N(a.y), x2: N((b1.x + b2.x) / 2), y2: N((b1.y + b2.y) / 2),
+  }
+}))
 
 // ── TƯƠNG KHẮC (dây i→i+2): tính thừa/vũ, chỉ tô tối đa 2 cạnh cường độ cao nhất ──
 const khacRaw = computed(() => {
@@ -211,6 +234,11 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
           <stop offset="66%" stop-color="#160f08" stop-opacity="0.5" />
           <stop offset="100%" stop-color="#160f08" stop-opacity="0" />
         </radialGradient>
+        <linearGradient v-for="c in canh" :id="c.gid" :key="c.gid" gradientUnits="userSpaceOnUse"
+          :x1="c.x1" :y1="c.y1" :x2="c.x2" :y2="c.y2">
+          <stop offset="0%" :stop-color="c.color" class="vnh-canh-dinh" />
+          <stop offset="100%" :stop-color="c.color" class="vnh-canh-day" />
+        </linearGradient>
       </defs>
 
       <!-- MÀN CHE: tối ở GIỮA (nơi ngũ hành ngự → nổi rõ), TRONG SUỐT ở RÌA (dư/khuyết taiji hiện rõ) -->
@@ -219,7 +247,7 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
       <circle class="vnh-rim" :cx="CX" :cy="CY" :r="RIM" />
 
       <!-- Nhãn tạng ở vành ngoài (GỌN: hành+tạng 1 dòng · phủ dòng nhỏ dưới; Hỏa có 2 tạng+2 phủ) -->
-      <g v-for="n in nodes" :key="'lb' + n.key" class="vnh-olabel" :style="{ '--hc': n.color }">
+      <g v-for="n in nodes" :key="'lb' + n.key" class="vnh-olabel" :class="{ toi: n.toi, sang: n.sang }" :style="{ '--hc': n.color }">
         <text :x="n.label.x" :y="n.label.y - 6" class="vnh-ol-tang"><tspan class="vnh-ol-hanh">{{ n.ten }} {{ n.han }}</tspan>  {{ n.tang }} {{ n.tangHan }}<template v-if="n.tang2"> · {{ n.tang2 }}</template></text>
         <text :x="n.label.x" :y="n.label.y + 8" class="vnh-ol-phu">{{ n.phu }}<template v-if="n.phu2"> · {{ n.phu2 }}</template></text>
       </g>
@@ -230,6 +258,9 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
       <!-- (1) MỐC CÂN BẰNG ngũ giác đều (per tạng) + mốc nhà → node NGOÀI = DƯ (thực), TRONG = KHUYẾT (hư). -->
       <polygon class="vnh-ref" :points="nodes.map((n) => `${N(n.home.x)},${N(n.home.y)}`).join(' ')" />
       <circle v-for="n in nodes" :key="'hm' + n.key" class="vnh-home" :cx="n.home.x" :cy="n.home.y" r="3" />
+
+      <!-- (1b) CÁNH SAO màu hành — nằm DƯỚI mọi nét (nan hoa, ngũ giác, dây thừa/vũ luôn nổi trên) -->
+      <path v-for="c in canh" :key="'cn' + c.key" class="vnh-canh" :d="c.d" :fill="`url(#${c.gid})`" />
 
       <!-- (2) NAN HOA mốc → node (đỏ = đẩy ra DƯ · lam = co vào KHUYẾT) -->
       <line v-for="n in nodes" :key="'sp' + n.key" class="vnh-spoke" :class="showMeo ? n.duKhuyet : ''"
@@ -332,7 +363,15 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 .vnh-olabel text { filter: drop-shadow(0 0 1px rgba(40, 26, 12, 0.85)); }
 .vnh-ol-hanh { font-size: 12.5px; font-weight: 800; fill: var(--hc); stroke: rgba(30, 20, 8, 0.7); stroke-width: 2.4px; paint-order: stroke; }
 .vnh-ol-tang { font-size: 10.5px; font-weight: 700; fill: #f2e6cc; stroke: rgba(30, 20, 8, 0.7); stroke-width: 2px; paint-order: stroke; }
+/* Hành màu TỐI (Thủy xanh đen): quầng đảo sang kem, không thì chữ chìm vào nền đá */
+.vnh-olabel.toi .vnh-ol-hanh { stroke: rgba(236, 226, 204, 0.9); stroke-width: 2.6px; }
+.vnh-olabel.sang .vnh-ol-hanh { stroke: rgba(22, 14, 6, 0.95); stroke-width: 3.4px; }
 .vnh-ol-phu { font-size: 8px; font-weight: 600; fill: #cdbb98; stroke: rgba(30, 20, 8, 0.6); stroke-width: 1.6px; paint-order: stroke; }
+
+/* Cánh sao — CHÌM phía sau: đậm vừa ở đỉnh, gần như tan vào lòng sao */
+.vnh-canh { transition: d 0.35s ease; }
+.vnh-canh-dinh { stop-opacity: 0.5; }
+.vnh-canh-day { stop-opacity: 0.1; }
 
 /* Mốc cân bằng ngũ giác (per tạng) + nan hoa — parchment sáng trên nền đá */
 .vnh-ref { fill: none; stroke: rgba(214, 195, 156, 0.32); stroke-width: 1.2; stroke-dasharray: 5 4; }
