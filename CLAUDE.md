@@ -271,6 +271,24 @@ vị (vd "ẩu" hai ký tự) được **đánh dấu** chứ không lọc lặn
 Nghiệm thu: `node backend/tmp/nghiem-thu-ap.mjs` (chỉ đọc) — kiểm `version`, `revisions`
 giữ bản cũ, và tra cứu ra chữ mới (tức trigger đã chạy).
 
+**Đường soi KHÔNG tốn tiền API: `backend/tmp/tham-dinh-thu-cong.ts`.** Bot dựng hồ sơ,
+Claude Code trong phiên đọc và phê — thay cho lượt gọi `claude-sonnet-5` qua Yescale.
+
+```bash
+npx ts-node tmp/tham-dinh-thu-cong.ts --xuat 3 --cat 4000 > /tmp/ho-so.md
+# Claude đọc, viết /tmp/loi-phe.json theo mẫu in sẵn trong hồ sơ
+npx ts-node tmp/tham-dinh-thu-cong.ts --nap /tmp/loi-phe.json
+```
+
+⚠️ Lời phê của Claude Code đi qua **ĐÚNG** rào chắn như lời phê của mô hình API: `locLoiPhe`
+kiểm trích dẫn khớp nguyên văn, cấm bậc căn cứ 2, điều luật phải có thật. Đã thử cố ý bịa
+một trích dẫn — bị loại đúng lý do. Đừng mở đường vòng cho "người nhà": rào chắn mất tác
+dụng ngay khi có một lối đi tránh nó.
+
+⚠️ **Hồ sơ rất lớn.** Đo thật: 2 mục bệnh học không cắt ra 62KB, riêng "Tiêu Chảy" đã
+30.202 ký tự. `--cat` mặc định 4000 ký tự mỗi trường là ĐÁNH ĐỔI (mất phần cuối bài), không
+phải cải tiến. Soi kỹ cả bài thì xuất 1 mục một lượt với `--cat 0`.
+
 **Nhịp tự hành (cron, chỉ chạy khi máy chủ bật — tức trên VPS, không phải máy dev):**
 
 | Giờ | Việc | Tốn |
