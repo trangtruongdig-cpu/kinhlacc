@@ -55,7 +55,7 @@ function arrowHead(tip: { x: number; y: number }, dir: { x: number; y: number },
 
 type HanhKey = 'thuy' | 'kim' | 'hoaT' | 'hoaQ' | 'tho' | 'moc'
 const HANH: Record<HanhKey, { fill: string; bright: string }> = {
-  thuy: { fill: 'rgba(92,154,184,.5)', bright: '#9fd0e8' },
+  thuy: { fill: 'rgba(52,82,128,.66)', bright: '#b0c4dc' }, // Thủy = xanh đen (khớp VongNguHanh)
   kim: { fill: 'rgba(224,210,176,.5)', bright: '#f3e8cc' },
   hoaT: { fill: 'rgba(216,124,74,.52)', bright: '#f6b294' },
   hoaQ: { fill: 'rgba(202,80,60,.55)', bright: '#f3937e' },

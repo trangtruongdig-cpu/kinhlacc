@@ -72,7 +72,7 @@ const HANH = {
   hoaQ: { fill: 'rgba(200,84,64,.46)', bright: '#f0907c' },
   tho: { fill: 'rgba(208,168,92,.44)', bright: '#f0cf82' },
   kim: { fill: 'rgba(228,216,184,.40)', bright: '#f3e8cc' },
-  thuy: { fill: 'rgba(92,154,184,.44)', bright: '#93c8e2' },
+  thuy: { fill: 'rgba(52,82,128,.6)', bright: '#a9bdd6' }, // Thủy = xanh đen (khớp VongNguHanh)
 }
 
 // Dữ liệu 6 Khí ở constants/lucKhi.ts (dùng chung với panel ThuongHanView).

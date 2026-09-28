@@ -91,8 +91,8 @@ const HANH = {
   hoaT: { fill: 'rgba(216,124,74,.46)', bright: '#f4ab8a', node: '#c06a34' },
   hoaQ: { fill: 'rgba(200,84,64,.48)', bright: '#f0907c', node: '#b23a29' },
   tho: { fill: 'rgba(208,168,92,.46)', bright: '#f0cf82', node: '#b3872c' },
-  kim: { fill: 'rgba(228,216,184,.42)', bright: '#f3e8cc', node: '#b39a55' },
-  thuy: { fill: 'rgba(92,154,184,.46)', bright: '#93c8e2', node: '#35638d' },
+  kim: { fill: 'rgba(228,216,184,.42)', bright: '#f3e8cc', node: '#dcd8cc' }, // Kim = TRẮNG (sáng bạc)
+  thuy: { fill: 'rgba(52,82,128,.62)', bright: '#a9bdd6', node: '#1d2b40' }, // Thủy = ĐEN (xanh đen); chữ giữ sáng để đọc trên nền đá
 }
 type HanhKey = keyof typeof HANH
 const DUONG = 'rgba(214,178,108,.22)'
