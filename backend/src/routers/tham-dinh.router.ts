@@ -1,5 +1,6 @@
 import {
-  Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query, Req, UseGuards,
+  Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query, Req,
+  ServiceUnavailableException, UseGuards,
 } from '@nestjs/common';
 
 import { ThamDinhService } from '../controllers/tham-dinh.controller';
@@ -24,6 +25,27 @@ export class ThamDinhRouter {
     private readonly thayThuoc: ThamDinhThayThuocService,
     private readonly cms: ThamDinhCmsService,
   ) {}
+
+  /**
+   * Mở kết nối sang kho, nhưng KIỂM CẤU HÌNH trước.
+   *
+   * ⚠️ Thiếu `CMS_DB_*` mà gọi thẳng `moKetNoi()` thì `pg` cố mở kết nối tới
+   * `host: undefined` và ném một lỗi chẳng liên quan gì — người dùng chỉ thấy
+   * "Internal server error" trên màn hình, không có cách nào đoán ra là thiếu biến môi
+   * trường. Đã xảy ra thật ngay lượt deploy đầu lên VPS.
+   *
+   * Ca soi thì NẰM IM khi thiếu cấu hình (đúng, vì nó chạy ngầm lúc 2 giờ sáng), còn API
+   * thì phải NÓI RA — có người đang đứng nhìn màn hình chờ câu trả lời.
+   */
+  private async moKho(): Promise<void> {
+    if (!this.cms.daCauHinh()) {
+      throw new ServiceUnavailableException(
+        'Máy chủ chưa khai CMS_DB_HOST/PORT/USER/PASSWORD/NAME trong backend/.env nên ' +
+          'chưa nối được sang kho nội dung. Bot thẩm định sẽ nằm im tới khi khai đủ.',
+      );
+    }
+    await this.cms.moKetNoi();
+  }
 
   /** Chạy tay một ca soi. `gioiHan` để thử trên một nhúm mục trước khi chạy cả kho. */
   @Post('chay')
@@ -54,7 +76,7 @@ export class ThamDinhRouter {
   /** Bộ luật mới nhất. `daDuyet=1` để lấy bản đang có hiệu lực. */
   @Get('bo-luat')
   async boLuat(@Query('daDuyet') daDuyet?: string): Promise<BoLuatVanPhong | null> {
-    await this.cms.moKetNoi();
+    await this.moKho();
     try {
       await this.cms.dungBang();
       return await this.cms.docBoLuat(daDuyet === '1');
@@ -69,7 +91,7 @@ export class ThamDinhRouter {
    */
   @Post('bo-luat/:phienBan/duyet')
   async duyetBoLuat(@Param('phienBan', ParseIntPipe) phienBan: number): Promise<{ ok: true }> {
-    await this.cms.moKetNoi();
+    await this.moKho();
     try {
       await this.cms.dungBang();
       await this.cms.duyetBoLuat(phienBan);
@@ -98,7 +120,7 @@ export class ThamDinhRouter {
     @Query('trang') trang?: string,
     @Query('moiTrang') moiTrang?: string,
   ): Promise<{ danhSach: unknown[]; tong: number }> {
-    await this.cms.moKetNoi();
+    await this.moKho();
     try {
       await this.cms.dungBang();
       return await this.cms.docNhanXetDeDuyet({
@@ -121,7 +143,7 @@ export class ThamDinhRouter {
     const hopLe = new Set(['moi', 'da_duyet', 'bo_qua']);
     const tt = body?.trangThai || '';
     if (!hopLe.has(tt)) return { ok: false };
-    await this.cms.moKetNoi();
+    await this.moKho();
     try {
       await this.cms.dungBang();
       return { ok: await this.cms.doiTrangThaiNhanXet(id, tt, req.user?.username ?? null) };
@@ -139,7 +161,7 @@ export class ThamDinhRouter {
     @Param('id', ParseIntPipe) id: number,
     @Req() req: RequestDaXacThuc,
   ): Promise<{ ok: boolean; lyDo?: string; soLanThay?: number }> {
-    await this.cms.moKetNoi();
+    await this.moKho();
     try {
       await this.cms.dungBang();
       return await this.cms.apBanSua(id, req.user?.username ?? null);
@@ -151,7 +173,7 @@ export class ThamDinhRouter {
   /** Tổng kết "đêm qua bot làm gì" cho khối đầu màn duyệt. */
   @Get('nhat-ky')
   async nhatKy(): Promise<unknown> {
-    await this.cms.moKetNoi();
+    await this.moKho();
     try {
       await this.cms.dungBang();
       return await this.cms.docNhatKy();
