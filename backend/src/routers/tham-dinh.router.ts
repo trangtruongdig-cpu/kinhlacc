@@ -47,11 +47,34 @@ export class ThamDinhRouter {
     await this.cms.moKetNoi();
   }
 
-  /** Chạy tay một ca soi. `gioiHan` để thử trên một nhúm mục trước khi chạy cả kho. */
+  /**
+   * Chạy tay một ca soi cả kho. Trả lời NGAY, ca chạy nền — kết quả xem ở `/nhat-ky`.
+   *
+   * ⚠️ Vì sao không đợi: ca cả kho mất 2–3 phút, mà tầng proxy trước backend bỏ cuộc ở
+   * khoảng 113 giây và trả **502** cho người bấm nút — trong khi ca vẫn chạy ngon bên
+   * trong. Đo thật trên production 29/09/2026. Người bấm thì tưởng hỏng, bấm lại, và
+   * lần này `dangChay` chặn nên họ càng tưởng hỏng thật.
+   *
+   * `gioiHan` nhỏ (dưới 200 mục) thì vẫn đợi, vì nó xong trong vài chục giây và người
+   * bấm muốn thấy số ngay.
+   */
   @Post('chay')
-  chay(@Query('gioiHan') gioiHan?: string): Promise<LuocKeCa> {
+  async chay(
+    @Query('gioiHan') gioiHan?: string,
+  ): Promise<LuocKeCa | { dangChay: true; batDau: string; ghiChu: string }> {
     const n = Number(gioiHan);
-    return this.thamDinh.chayCa(Number.isFinite(n) && n > 0 ? Math.floor(n) : 0);
+    const gh = Number.isFinite(n) && n > 0 ? Math.floor(n) : 0;
+    if (gh > 0 && gh <= 200) return this.thamDinh.chayCa(gh);
+
+    const batDau = new Date().toISOString();
+    // Cố ý KHÔNG await. Lỗi đã được chayCa nuốt vào `lk.loi` và ghi nhật ký, nên ở đây
+    // chỉ cần chặn promise trôi ra ngoài thành unhandledRejection.
+    void this.thamDinh.chayCa(gh).catch(() => undefined);
+    return {
+      dangChay: true,
+      batDau,
+      ghiChu: 'Ca soi cả kho chạy nền, mất vài phút. Xem kết quả ở khối "Bot làm gì gần đây".',
+    };
   }
 
   /** Thử trên 50 mục — dùng lúc nghiệm thu, không đụng cả kho. */
