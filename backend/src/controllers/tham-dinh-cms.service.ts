@@ -165,8 +165,13 @@ export class ThamDinhCmsService {
       connectionTimeoutMillis: 10_000,
       // Trần cho TỪNG truy vấn. Thiếu nó thì một truy vấn kẹt là kẹt luôn request HTTP,
       // và người dùng chỉ thấy trang quay mãi không có lý do nào.
-      query_timeout: 60_000,
-      statement_timeout: 60_000,
+      //
+      // ⚠️ 60 giây là QUÁ CHẶT — đã đo trên production: ca máy quét ghi xong lô 200 mục
+      // đầu (1.023 nhận xét trong một câu INSERT) thì chạm trần và cả ca chết với
+      // "Query read timeout". Ba phút vẫn chặn được treo vô hạn mà không cắt ngang việc
+      // ghi lô bình thường.
+      query_timeout: 180_000,
+      statement_timeout: 180_000,
     });
     // Không có listener 'error' thì pg ném ra process và sập cả backend khi Aiven cắt kết
     // nối. Và phải DỌN client ở đây: giữ lại một client đã chết là để lần mở sau tưởng còn
@@ -307,8 +312,14 @@ export class ThamDinhCmsService {
         }
       }
 
-      const cauNx = cauChenNhanXet(canGhi);
-      if (cauNx) await c.query(cauNx.sql, cauNx.thamSo as unknown[]);
+      // Chia nhỏ câu chèn. Một lô 200 mục sinh cỡ 1.000 nhận xét, và nhồi cả ngần ấy vào
+      // MỘT câu thì nó đủ chậm để chạm trần thời gian trên đường truyền tới Aiven — đã
+      // xảy ra thật trên production. Chia 400 dòng một câu vẫn giữ được cái lợi chính
+      // (ít lượt đi-về) mà không có câu nào quá nặng.
+      for (let i = 0; i < canGhi.length; i += 400) {
+        const cauNx = cauChenNhanXet(canGhi.slice(i, i + 400));
+        if (cauNx) await c.query(cauNx.sql, cauNx.thamSo as unknown[]);
+      }
 
       await c.query('COMMIT');
     } catch (e) {
@@ -337,13 +348,26 @@ export class ThamDinhCmsService {
       bo: string; ma: string; slug: string; tieu_de: string; do_day: number;
       so_loi_may: number; van_tay_noi_dung: string; van_tay_thay_thuoc: string | null;
     }>(
+      // ⚠️ Đếm bằng LEFT JOIN một bảng con, KHÔNG bằng subquery tương quan.
+      //
+      // Bản đầu viết `(SELECT count(*) … WHERE n.ho_so_id = h.id)` ngay trong danh sách
+      // cột — tức chạy lại một lần cho MỖI hồ sơ. Lúc viết nó nhanh vì td_nhan_xet mới
+      // có vài trăm dòng; sau lượt quét cả kho, bảng có 65.321 dòng và 18.416 hồ sơ, nên
+      // truy vấn này một mình làm cả ca lớp 2 chết với "Query read timeout" ngay sau mục
+      // đầu tiên. Đo thật trên production 29/09/2026.
+      //
+      // Bản này quét td_nhan_xet ĐÚNG MỘT LẦN rồi ghép.
       `SELECT h.bo, h.ma, h.slug, h.tieu_de, m.do_day,
-              (SELECT count(*)::int FROM td_nhan_xet n
-                 WHERE n.ho_so_id = h.id AND n.lop = 'may'
-                   AND n.kieu NOT IN ('lien_ket_dung_duoc', 'ten_vi_la')) AS so_loi_may,
+              COALESCE(d.so_loi, 0) AS so_loi_may,
               h.van_tay_noi_dung, h.van_tay_thay_thuoc
        FROM td_ho_so h
-       JOIN td_muc m ON m.bo = h.bo AND m.ma = h.ma`,
+       JOIN td_muc m ON m.bo = h.bo AND m.ma = h.ma
+       LEFT JOIN (
+         SELECT ho_so_id, count(*)::int AS so_loi
+         FROM td_nhan_xet
+         WHERE lop = 'may' AND kieu NOT IN ('lien_ket_dung_duoc', 'ten_vi_la')
+         GROUP BY ho_so_id
+       ) d ON d.ho_so_id = h.id`,
     );
     return r.rows.map((x) => ({
       bo: x.bo, ma: x.ma, slug: x.slug, tieuDe: x.tieu_de,

@@ -128,7 +128,25 @@ export class ThamDinhService {
             lk.soMucDoc++;
             if (gioiHan && lk.soMucDoc >= gioiHan) break;
           }
-          await this.cms.ghiHoSoLo(canGhi);
+          // ⚠️ Một lô hỏng KHÔNG được giết cả ca. Đo thật trên production 29/09/2026: ca
+          // máy quét ghi xong lô 200 mục đầu rồi chết với "Query read timeout" — 18.216
+          // mục còn lại không được đọc, và lược kê chỉ nói "200 mục" như thể đó là toàn
+          // bộ việc. Kết nối tới Aiven chập là chuyện sẽ còn xảy ra; ca soi phải sống
+          // qua được.
+          try {
+            await this.cms.ghiHoSoLo(canGhi);
+          } catch (e) {
+            lk.soMucBoQua += canGhi.length;
+            lk.soMucDoc -= canGhi.length;
+            lk.loi.push(`lô tại ${bo.bo}+${tu}: ${(e as Error).message}`);
+            // Kết nối có thể đã chết; moKetNoi tự ping và mở lại nếu cần.
+            try {
+              await this.cms.moKetNoi();
+            } catch {
+              lk.loi.push('không mở lại được kết nối — dừng ca.');
+              throw e;
+            }
+          }
           if (gioiHan && lk.soMucDoc >= gioiHan) break;
           tu += LO;
         }
