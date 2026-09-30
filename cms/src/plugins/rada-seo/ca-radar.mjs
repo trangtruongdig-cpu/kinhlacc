@@ -39,24 +39,28 @@ export async function xuHuongGanNhat(s) {
 	return ca.find((c) => c.loai === "radar" && c.ghi && Array.isArray(c.xuHuong))?.xuHuong ?? [];
 }
 
-/** Cửa sổ GSC (ngày) cho mỗi lần đo lại hạng: đủ dài để có số liệu, đủ ngắn để phản ánh bản sửa. */
-export const CUA_SO_DO_LAI_NGAY = 14;
-
 /**
- * Đo lại hạng các phiên leo top đã sửa tới mốc +14/+28 ngày (kho.phienCanDoLai). Không có
- * GSC thì BỎ QUA với một dòng thongTin — ca radar vẫn là việc chính, thiếu GSC không phải
- * lỗi của ca. Lỗi GSC của từng phiên vào ca.loi; phiên đó KHÔNG ghi mốc để đêm sau thử lại.
+ * Đo lại hạng các phiên leo top đã sửa tới mốc +14/+28 ngày (kho.phienCanDoLai, ngày lịch VN).
+ * CỬA SỔ GSC: mốc m đo bình quân (m − NGAY_TRE_GSC) ngày KẾT THÚC hôm nay — tức ngày sửa + 3 →
+ * ngày sửa + m khi ca chạy đúng đêm tới mốc. Bỏ 3 ngày đầu vì GSC trễ 2–3 ngày và Google chưa
+ * thu thập lại trang: tính chúng vào là trộn hạng CŨ vào số "sau khi sửa" và mốc 14 luôn báo
+ * thiếu. Mốc so sánh là `cuaSoBanDau` của phiên (28 ngày tính tới ngày mở phiên). Ca lỡ đêm
+ * mốc thì cửa sổ trượt theo hôm nay — vẫn hoàn toàn sau ngày sửa + 3. (gsc.layViTri chỉ nhận
+ * số ngày tính tới hôm nay, chưa nhận ngày kết thúc tuỳ ý.)
+ * Không có GSC thì BỎ QUA với một dòng thongTin — ca radar vẫn là việc chính, thiếu GSC không
+ * phải lỗi của ca. Lỗi GSC của từng phiên vào ca.loi; phiên đó KHÔNG ghi mốc để đêm sau thử lại.
  */
 async function doLaiLeoTop({ s, gsc, nowMs, ca }) {
 	if (!gsc || !gsc.coCauHinh()) {
 		ca.thongTin.push("Đo lại leo top: bỏ qua — plugin chưa cấu hình Search Console (biến GSC_OAUTH_* trong cms/.env)");
 		return;
 	}
-	const ngay = new Date(nowMs).toISOString().slice(0, 10);
+	const ngay = kho.ngayVN(nowMs);
 	for (const p of await kho.phienCanDoLai(s, nowMs)) {
 		try {
-			const r = await gsc.layViTri({ tuKhoa: p.tuKhoa, trang: p.trangMinh, ngay: CUA_SO_DO_LAI_NGAY });
-			if (await kho.ghiDoLai(s, p.id, { ngay, sauNgay: p.moc, viTri: r?.viTri ?? null, hienThi: r?.hienThi ?? 0 })) ca.soDoLai++;
+			const cuaSoNgay = p.moc - kho.NGAY_TRE_GSC;
+			const r = await gsc.layViTri({ tuKhoa: p.tuKhoa, trang: p.trangMinh, ngay: cuaSoNgay });
+			if (await kho.ghiDoLai(s, p.id, { ngay, sauNgay: p.moc, viTri: r?.viTri ?? null, hienThi: r?.hienThi ?? 0, cuaSoNgay })) ca.soDoLai++;
 		} catch (e) {
 			ca.loi.push(`đo lại leo top "${p.tuKhoa}": ${String(e?.message ?? e).slice(0, 300)}`);
 		}

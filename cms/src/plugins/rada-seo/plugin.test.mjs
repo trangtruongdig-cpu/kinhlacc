@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { createPlugin, LICH_RADAR, GIO_UTC_CHAY } from "./plugin.mjs";
 import * as kho from "./kho.mjs";
-import { taoKhoGia } from "./__test__/kho-gia.mjs";
+import { taoKhoGia, taoKvGia } from "./__test__/kho-gia.mjs";
 import { xoaDemChiMuc } from "./noi-bo/nap.mjs";
 import { DEM_KIEM_CHUNG } from "./noi-bo/kiem-duong.mjs";
 import { Y_DINH } from "./chien-luoc/viec.mjs";
@@ -471,6 +471,7 @@ test("route leo top: GSC → phiên → nộp SERP (tải trang thật qua ctx.h
 	const html = (y) => `<html><head><title>t</title></head><body><p>Huyệt thần môn: ${y}</p></body></html>`;
 	const ctx = {
 		...taoCtx(),
+		kv: taoKvGia(),
 		content: { async list() { return { items: [], hasMore: false }; } },
 		http: {
 			async fetch(url) {
@@ -498,6 +499,12 @@ test("route leo top: GSC → phiên → nộp SERP (tải trang thật qua ctx.h
 
 	const b = (url, y) => ({ url, y, cauTraLoiO: "dau", ruom: [], thieuCanCu: [], khoDung: [] });
 	const Y = ["Vị trí huyệt", "Cách bấm huyệt"];
+	// Thiếu trang đối thủ → 400 kèm lý do tiếng Việt, phiên vẫn cho_doc để gửi lại.
+	await assert.rejects(
+		p.routes["mcp-ghi-so-ho"].handler({ ...ctx, input: { phienId: id, trang: [b("https://a.vn/1", Y), b(MINH, Y)] } }),
+		(e) => e?.name === "PluginRouteError" && e.status === 400 && /1 trang đối thủ.*cần ít nhất 2/.test(e.message),
+	);
+	assert.equal((await ctx.storage.leo_top.get(id)).trangThai, "cho_doc");
 	const so = await p.routes["mcp-ghi-so-ho"].handler({
 		...ctx,
 		input: { phienId: id, trang: [b("https://a.vn/1", Y), b("https://b.vn/1", Y), b("https://c.vn/1", Y), b(MINH, ["Vị trí huyệt"])] },
@@ -510,9 +517,12 @@ test("route leo top: GSC → phiên → nộp SERP (tải trang thật qua ctx.h
 	assert.equal(tq.gscCoCauHinh, true);
 	assert.equal(tq.phien.length, 1);
 	assert.ok(tq.phien[0].serp.every((t) => t.chu === undefined));
-	const ds = await p.routes["leo-top-da-sua"].handler({ ...ctx, input: { id, ngay: "2026-10-02" } });
+	const homNay = new Date(Date.now() + 7 * 3600_000).toISOString().slice(0, 10);
+	const ds = await p.routes["leo-top-da-sua"].handler({ ...ctx, input: { id, ngay: homNay } });
 	assert.equal(ds.trangThai, "da_sua");
-	assert.equal(ds.ngaySua, "2026-10-02");
+	assert.equal(ds.ngaySua, homNay);
+	// Ngày tương lai bị bác bằng PluginRouteError 400.
+	await assert.rejects(p.routes["leo-top-da-sua"].handler({ ...ctx, input: { id, ngay: "2999-01-01" } }), (e) => e?.name === "PluginRouteError" && e.status === 400);
 	xoaDemChiMuc();
 }));
 
@@ -522,6 +532,7 @@ test("route leo top: thiếu biến GSC → lời báo tiếng Việt trong ph�
 	xoaDemChiMuc();
 	const ctx = {
 		...taoCtx(),
+		kv: taoKvGia(),
 		http: { async fetch() { goi++; return new Response(""); } },
 		content: { async list() { return { items: [], hasMore: false }; } },
 	};

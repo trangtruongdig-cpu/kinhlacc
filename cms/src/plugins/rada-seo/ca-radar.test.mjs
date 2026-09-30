@@ -109,11 +109,11 @@ test("van hàng chờ: > 80 trang chờ Claude đọc → không trích, vẫn g
 // ---- Đo lại hạng leo top (2D) ----
 
 const MINH = "https://kinhlac.online/huyet/than-mon/";
-const LUC = "2026-10-15T20:00:00.000Z"; // ngày sửa 2026-10-01 + 14 ngày
+const LUC = "2026-10-15T20:00:00.000Z"; // = 2026-10-16 03:00 giờ VN: ngày sửa 2026-10-01 + 15 ngày lịch VN
 const phienDaSua = async (s, tuKhoa, ngaySua = "2026-10-01") => {
 	const p = await kho.taoPhienLeoTop(s, { tuKhoa, trang: MINH, viTri: 9, hienThi: 100 }, "2026-09-30T00:00:00.000Z");
 	await s.leo_top.put(p.id, { ...(await s.leo_top.get(p.id)), trangThai: "co_phieu" });
-	await kho.datDaSua(s, p.id, ngaySua);
+	await kho.datDaSua(s, p.id, ngaySua, { nowMs: Date.parse(`${ngaySua}T05:00:00.000Z`) });
 	return p.id;
 };
 const gscGia = (tra = async () => ({ viTri: 5.5, hienThi: 140 })) => {
@@ -127,10 +127,11 @@ test("đo lại leo top: phiên da_sua tới mốc +14 → gọi GSC đúng cặ
 	await phienDaSua(s, "chưa tới hạn", "2026-10-10");
 	const gsc = gscGia();
 	const ca = await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc, now: () => LUC });
-	assert.deepEqual(gsc.goi, [{ tuKhoa: "huyệt thần môn", trang: MINH, ngay: 14 }]);
+	// Cửa sổ mốc 14 = 11 ngày tính tới hôm nay: bỏ 3 ngày đầu sau khi sửa (GSC trễ, chưa thu thập lại).
+	assert.deepEqual(gsc.goi, [{ tuKhoa: "huyệt thần môn", trang: MINH, ngay: 11 }]);
 	assert.equal(ca.soDoLai, 1);
 	const d = await s.leo_top.get(id);
-	assert.deepEqual(d.doLai, [{ ngay: "2026-10-15", sauNgay: 14, viTri: 5.5, hienThi: 140 }]);
+	assert.deepEqual(d.doLai, [{ ngay: "2026-10-16", sauNgay: 14, viTri: 5.5, hienThi: 140, cuaSoNgay: 11 }]);
 	assert.equal(d.trangThai, "da_sua");
 	await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc, now: () => LUC });
 	assert.equal(gsc.goi.length, 1, "mốc 14 đã đo → không gọi lại");
@@ -139,11 +140,24 @@ test("đo lại leo top: phiên da_sua tới mốc +14 → gọi GSC đúng cặ
 	assert.equal((await s.leo_top.get(id)).trangThai, "xong");
 });
 
+test("đo lại leo top: mốc tính theo NGÀY LỊCH VN — ca 19:30 UTC ngày 14/10 đã là 15/10 ở VN (ngày sửa 01/10 + 14)", async () => {
+	const s = taoKhoGia();
+	const id = await phienDaSua(s, "huyệt thần môn");
+	const gsc = gscGia();
+	await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc, now: () => "2026-10-14T19:30:00.000Z" });
+	const d = await s.leo_top.get(id);
+	assert.deepEqual(d.doLai.map((x) => [x.ngay, x.sauNgay, x.cuaSoNgay]), [["2026-10-15", 14, 11]]);
+	// Mốc 28: cửa sổ 25 ngày.
+	await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc, now: () => "2026-10-28T19:30:00.000Z" });
+	assert.deepEqual(gsc.goi.map((q) => q.ngay), [11, 25]);
+	assert.equal((await s.leo_top.get(id)).trangThai, "xong");
+});
+
 test("đo lại leo top: GSC không có số liệu → vẫn ghi mốc (viTri null) để không hỏi lại mỗi đêm", async () => {
 	const s = taoKhoGia();
 	const id = await phienDaSua(s, "huyệt thần môn");
 	await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc: gscGia(async () => null), now: () => LUC });
-	assert.deepEqual((await s.leo_top.get(id)).doLai, [{ ngay: "2026-10-15", sauNgay: 14, viTri: null, hienThi: 0 }]);
+	assert.deepEqual((await s.leo_top.get(id)).doLai, [{ ngay: "2026-10-16", sauNgay: 14, viTri: null, hienThi: 0, cuaSoNgay: 11 }]);
 });
 
 test("đo lại leo top: chưa cấu hình GSC → bỏ qua, MỘT dòng thongTin, không phải lỗi, ca vẫn xong", async () => {

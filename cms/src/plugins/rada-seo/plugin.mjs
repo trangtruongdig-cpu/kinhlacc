@@ -191,7 +191,7 @@ const KHUON_KE_HOACH = z.object({
 // Báo cáo ý do Claude đọc chữ trang lạ mà ra → trần độ dài như khuôn chiến lược.
 const KHUON_NOP_SERP = z.object({
 	phienId: ID,
-	urls: z.array(z.string().trim().url().max(2000)).min(1).max(10),
+	urls: z.array(z.string().trim().url().max(2000)).min(1).max(leoTop.TRAN_URL_SERP),
 });
 const KHUON_LAY_TRANG_SERP = z.object({ phienId: ID });
 const KHUON_SO_HO = z.object({
@@ -473,7 +473,7 @@ export function createPlugin() {
 			"mcp-lay-tu-khoa-leo-top": {
 				permission: "content:create",
 				input: KHUON_RONG,
-				handler: async (ctx) => leoTop.layTuKhoaLeoTop({ s: ctx.storage, gsc: gscCua(ctx) }),
+				handler: async (ctx) => leoTop.layTuKhoaLeoTop({ s: ctx.storage, kv: ctx.kv, gsc: gscCua(ctx) }),
 			},
 			"mcp-nop-serp": {
 				permission: "content:create",
@@ -507,10 +507,13 @@ export function createPlugin() {
 				input: KHUON_SO_HO,
 				handler: async (ctx) => {
 					try {
-						const chiMuc = await layChiMuc(ctx.content);
-						const kq = await leoTop.ghiSoHo({ s: ctx.storage, id: String(ctx.input?.phienId ?? ""), trang: ctx.input?.trang ?? [], chiMuc });
-						// loiNap: chỉ mục què thì phiếu thiếu "tài sản riêng" — phải lộ ra, không im lặng.
-						return { ...kq, loiNap: chiMuc.loiNap ?? [] };
+						// Chỉ mục (nặng) chỉ nạp SAU khi phiên qua kiểm trạng thái + đủ trang.
+						return await leoTop.ghiSoHo({
+							s: ctx.storage,
+							id: String(ctx.input?.phienId ?? ""),
+							trang: ctx.input?.trang ?? [],
+							layChiMuc: () => layChiMuc(ctx.content),
+						});
 					} catch (e) {
 						throw loiKho(e);
 					}
@@ -601,14 +604,14 @@ export function createPlugin() {
 				},
 				rada_lay_tu_khoa_leo_top: {
 					description:
-						"Rada SEO (leo top): lấy tối đa 5 từ khoá mới mà trang kinhlac.online đang đứng hạng 4–50 trên Google Search Console (bỏ từ khoá đã soi trong 28 ngày) và mở phiên cho mỗi từ khoá; trả kèm các phiên đang mở (cho_serp: cần gửi danh sách URL top; cho_doc: cần đọc trang) và lời dặn huongDan. Search Console chưa cấu hình thì trường loi nói rõ thiếu biến nào.",
+						"Rada SEO (leo top): trả các phiên đang mở, cũ nhất trước (dangMo — cho_serp: cần gửi danh sách URL top; cho_doc: cần đọc trang), rồi mở thêm tối đa 5 phiên mới cho từ khoá mà trang kinhlac.online đang đứng hạng 4–50 trên Google Search Console (moi) — không mở thêm khi đã có 10 phiên chưa xong, không mở lại cặp từ khoá–trang đang có phiên. Kèm lời dặn huongDan. Search Console chưa cấu hình thì trường loi nói rõ thiếu biến nào.",
 					route: "mcp-lay-tu-khoa-leo-top",
 					input: KHUON_RONG,
 					destructive: false,
 				},
 				rada_nop_serp: {
 					description:
-						"Rada SEO (leo top): gửi 1–10 URL kết quả tự nhiên hàng đầu (đúng thứ tự hạng) cho một phiên cho_serp, tìm bằng công cụ tìm web. Máy chủ bỏ URL trùng và giữ tối đa 2 URL mỗi tên miền, tự thêm trang của mình, tự tải và đo cấu trúc từng trang (tối đa 12 trang, 10 giây mỗi trang); phiên chuyển sang cho_doc. Trả danh sách trang kèm trang nào tải lỗi.",
+						"Rada SEO (leo top): gửi 1–10 URL kết quả tự nhiên hàng đầu (đúng thứ tự hạng) cho một phiên cho_serp, tìm bằng công cụ tìm web. Máy chủ bỏ URL trùng và giữ tối đa 2 URL mỗi tên miền, tự thêm trang của mình, tự tải và đo cấu trúc từng trang (tối đa 11 trang, 10 giây mỗi trang, cả lượt tối đa 60 giây — trang chưa xong khi hết giờ báo loi het_gio_tong); phiên chuyển sang cho_doc. Gửi lại khi phiên còn cho_doc thì thay danh sách cũ. Trả danh sách trang kèm trang nào tải lỗi.",
 					route: "mcp-nop-serp",
 					input: KHUON_NOP_SERP,
 					destructive: false,
@@ -622,7 +625,7 @@ export function createPlugin() {
 				},
 				rada_ghi_so_ho: {
 					description:
-						"Rada SEO (leo top): ghi báo cáo đọc từng trang của một phiên cho_doc — mỗi trang { url, y (tối đa 15 ý, tên ngắn 2–6 từ, cùng tên cho cùng ý giữa các trang), cauTraLoiO (dau/giua/cuoi/khong), ruom, thieuCanCu, khoDung (mỗi mảng tối đa 8) }, gửi mọi trang trong một lượt. Máy chủ tự gom ý, đếm ý cốt lõi (≥ 60% trang đối thủ) và dựng phiếu sửa cho trang mình; trả tóm tắt phiếu.",
+						"Rada SEO (leo top): ghi báo cáo đọc từng trang của một phiên cho_doc — mỗi trang { url, y (tối đa 15 ý, tên ngắn 2–6 từ, cùng tên cho cùng ý giữa các trang), cauTraLoiO (dau/giua/cuoi/khong), ruom, thieuCanCu, khoDung (mỗi mảng tối đa 8) }, gửi mọi trang trong một lượt. Cần báo cáo cho trang mình và ít nhất 2 trang đối thủ đã tải được, không thì bị từ chối và phiên giữ nguyên. Máy chủ tự gom ý, đếm ý cốt lõi và dựng phiếu sửa cho trang mình; trả tóm tắt phiếu (gửi lại đúng lượt đã ghi thì trả phiếu đã lưu).",
 					route: "mcp-ghi-so-ho",
 					input: KHUON_SO_HO,
 					destructive: false,

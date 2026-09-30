@@ -427,14 +427,37 @@ export async function datKeHoach(s, id, { trangThai, lyDoBo } = {}) {
 // Vòng đời một phiên: cho_serp (vừa lấy từ GSC, chờ Claude tìm web gửi danh sách URL top)
 // → cho_doc (máy chủ đã tải + đo từng trang, chờ Claude đọc báo ý) → co_phieu (máy chủ dựng
 // bản đồ sơ hở + phiếu sửa) → da_sua (người quản trị báo đã sửa trang) → xong (đã đo lại hạng
-// ở mốc +28 ngày). Mốc +14 là mốc giữa, không đóng phiên.
+// ở mốc +28 ngày). Mốc +14 là mốc giữa, không đóng phiên. Phiên cho_serp/cho_doc để yên quá
+// NGAY_BO_PHIEN ngày → bo (bỏ dở): không ai làm tiếp thì đừng giữ chỗ trong trần phiên mở.
 
-export const TRANG_THAI_LEO_TOP = ["cho_serp", "cho_doc", "co_phieu", "da_sua", "xong"];
+export const TRANG_THAI_LEO_TOP = ["cho_serp", "cho_doc", "co_phieu", "da_sua", "xong", "bo"];
+/** Trạng thái còn "mở" — tính vào trần TRAN_PHIEN_MO. da_sua chỉ chờ ca đo lại, không tốn lượt Claude. */
+export const TRANG_THAI_MO = ["cho_serp", "cho_doc", "co_phieu"];
+/** Trần phiên mở toàn kho: mỗi phiên kéo theo ~11 trang Claude phải đọc; gọi lặp không được đẻ thêm. */
+export const TRAN_PHIEN_MO = 10;
+/** cho_serp/cho_doc không ai đụng tới chừng này ngày → bo. */
+export const NGAY_BO_PHIEN = 7;
 /** Mốc đo lại hạng sau ngày sửa. Mốc cuối đóng phiên. */
 export const MOC_DO_LAI = [14, 28];
+/**
+ * GSC trễ 2–3 ngày và Google còn phải thu thập lại trang: số liệu mấy ngày đầu sau khi sửa
+ * vẫn là hạng CŨ. Cửa sổ đo lại bỏ chừng này ngày đầu.
+ */
+export const NGAY_TRE_GSC = 3;
+/** Cửa sổ GSC lúc mở phiên (mốc so sánh) — khớp mặc định `ngay` của gsc.layTuKhoaLeoTop. */
+export const CUA_SO_BAN_DAU_NGAY = 28;
 /** Cùng cặp (từ khoá, trang) soi lại trước chừng này ngày là quá sớm: Google chưa kịp phản ánh. */
 export const NGAY_KHONG_SOI_LAI = 28;
+/** Trang đối thủ tối thiểu (đo được VÀ có báo cáo) để bản đồ sơ hở có nghĩa. */
+export const TOI_THIEU_DOI_THU = 2;
 const NGAY_MS = 86_400_000;
+
+/** "2026-10-01" theo giờ Việt Nam (UTC+7). Ngày sửa, ngày đo lại, mốc hạn đều tính theo lịch VN. */
+export function ngayVN(ms) {
+	return new Date(ms + 7 * 3600 * 1000).toISOString().slice(0, 10);
+}
+/** Số ngày lịch giữa hai ngày "YYYY-MM-DD" (b − a). */
+const soNgayLich = (a, b) => Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / NGAY_MS);
 
 /** Khoá so URL: bỏ #, bỏ "/" cuối — Claude và GSC hay viết lệch nhau đúng hai chỗ đó. */
 export function khoaUrl(u) {
@@ -458,54 +481,87 @@ function canTrangThai(d, ds, viec) {
 		throw new Error(`Phiên đang ở trạng thái "${d.trangThai}" — ${viec} chỉ làm được khi ${ds.map((t) => `"${t}"`).join(" hoặc ")}`);
 }
 
+const boChu = (serp) => (serp ?? []).map(({ chu: _bo, ...t }) => t);
+
 /** Phiên mới (cho_serp). Id kèm mốc tạo: soi lại cùng cặp sau 28 ngày là phiên MỚI, không đè phiên cũ. */
 export async function taoPhienLeoTop(s, { tuKhoa, trang, viTri, hienThi }, now) {
 	const id = `lt_${bam(`${tuKhoa}|${trang}|${now}`)}`;
 	const data = {
 		tuKhoa, trangMinh: trang, viTriBanDau: viTri, hienThi, trangThai: "cho_serp",
-		serp: [], banDo: null, phieu: null, doLai: [], taoLuc: now,
+		// Mốc so sánh của lần đo lại: hạng ban đầu là bình quân CHỪNG NÀY ngày GSC tính tới ngày tạo.
+		cuaSoBanDau: { soNgay: CUA_SO_BAN_DAU_NGAY, den: String(now).slice(0, 10) },
+		serp: [], banDo: null, phieu: null, doLai: [], taoLuc: now, capNhatLuc: now,
 	};
 	await s.leo_top.put(id, data);
 	return { id, ...data };
 }
 
+/** Danh sách phiên, KHÔNG kèm chữ trang (`chu` chỉ để rada_lay_trang_serp đọc qua get). */
 export async function dsLeoTop(s, { trangThai } = {}) {
 	const r = await tatCa(s.leo_top, loc(trangThai && { trangThai }, { taoLuc: "desc" }));
-	return r.map((x) => ({ id: x.id, ...x.data }));
+	return r.map((x) => ({ id: x.id, ...x.data, serp: boChu(x.data.serp) }));
+}
+
+/** Số phiên đang mở (TRANG_THAI_MO) — đếm, không đọc bản ghi. */
+export async function demPhienMo(s) {
+	return s.leo_top.count({ trangThai: { in: TRANG_THAI_MO } });
 }
 
 /**
- * Khoá `tuKhoa|trang` KHÔNG được mở phiên mới: phiên tạo trong NGAY_KHONG_SOI_LAI ngày, và
- * phiên đang chờ đo lại (da_sua) dù cũ hơn — mở phiên mới lúc đó là soi đè lên bản sửa chưa có kết quả.
+ * cho_serp/cho_doc không được đụng (capNhatLuc) quá NGAY_BO_PHIEN ngày → bo, bỏ luôn chữ trang.
+ * @returns {Promise<number>} số phiên vừa bỏ
+ */
+export async function boPhienCu(s, nowMs, { ngay = NGAY_BO_PHIEN } = {}) {
+	const moc = nowMs - ngay * NGAY_MS;
+	const bo = [];
+	for (const r of await tatCa(s.leo_top, { where: { trangThai: { in: ["cho_serp", "cho_doc"] } } })) {
+		const t = Date.parse(r.data.capNhatLuc ?? r.data.taoLuc);
+		if (Number.isFinite(t) && t < moc)
+			bo.push({ id: r.id, data: { ...r.data, serp: boChu(r.data.serp), trangThai: "bo", boLuc: new Date(nowMs).toISOString() } });
+	}
+	if (bo.length) await ghiTheoLo(s.leo_top, bo);
+	return bo.length;
+}
+
+/**
+ * Khoá `tuKhoa|trang` KHÔNG được mở phiên mới: mọi phiên chưa kết thúc (khác xong/bo) dù cũ
+ * tới đâu — mở phiên thứ hai lúc đó là soi đè; và phiên xong/bo tạo trong NGAY_KHONG_SOI_LAI
+ * ngày — soi lại quá sớm Google chưa kịp phản ánh.
  */
 export async function tuKhoaDaSoi(s, nowMs, { ngay = NGAY_KHONG_SOI_LAI } = {}) {
 	const moc = nowMs - ngay * NGAY_MS;
 	const ra = new Set();
 	for (const r of await tatCa(s.leo_top)) {
 		const t = Date.parse(r.data.taoLuc);
-		if (r.data.trangThai === "da_sua" || (Number.isFinite(t) && t >= moc)) ra.add(`${r.data.tuKhoa}|${r.data.trangMinh}`);
+		const ketThuc = r.data.trangThai === "xong" || r.data.trangThai === "bo";
+		if (!ketThuc || (Number.isFinite(t) && t >= moc)) ra.add(`${r.data.tuKhoa}|${r.data.trangMinh}`);
 	}
 	return ra;
 }
 
 /** Lưu SERP đã tải + đo (thay lứa cũ nếu nộp lại khi còn cho_doc) → cho_doc. */
-export async function ghiSerp(s, id, serp) {
+export async function ghiSerp(s, id, serp, now = new Date().toISOString()) {
 	const d = await layPhien(s, id);
 	canTrangThai(d, ["cho_serp", "cho_doc"], "nộp SERP");
-	await s.leo_top.put(id, { ...d, serp, trangThai: "cho_doc" });
+	await s.leo_top.put(id, { ...d, serp, trangThai: "cho_doc", capNhatLuc: now });
+}
+
+/** Dấu vân tay của lượt báo cáo — gửi lại y hệt (thử lại sau khi mất phản hồi) thì trả phiếu đã lưu. */
+export const bamBaoCao = (baoCao) => bam(JSON.stringify(baoCao ?? []));
+
+/** Phiên đã co_phieu từ ĐÚNG lượt báo cáo này → kết quả đã lưu; không thì null. */
+export function soHoDaGhi(d, baoCao) {
+	if (d?.trangThai !== "co_phieu" || !d.soHo || d.soHo.bam !== bamBaoCao(baoCao)) return null;
+	const { bam: _b, ...kq } = d.soHo;
+	return { banDo: d.banDo, phieu: d.phieu, ...kq };
 }
 
 /**
- * Ghi báo cáo Claude đọc từng trang → máy chủ dựng bản đồ sơ hở + phiếu (dungBanDo) → co_phieu.
- * Chỉ trang ĐO ĐƯỢC (trangThai "ok") VÀ có báo cáo mới vào bản đồ: trang không báo ý mà vẫn
- * tính là "đã đo" thì hạ tỉ lệ mọi ý và ý cốt lõi thật rơi khỏi ngưỡng 60%. Bỏ `chu` của mọi
- * trang sau bước này — không ai cần nó nữa mà nó nặng nhất.
- * @param {{url: string, y: string[], cauTraLoiO: string, ruom: string[], thieuCanCu: string[], khoDung: string[]}[]} baoCao
- * @returns {Promise<{banDo: object, phieu: object, boQua: string[], thieuBaoCao: string[], soTrangDoiThu: number}>}
+ * Ghép báo cáo với SERP; ném (lý do tiếng Việt, KHÔNG đổi trạng thái) khi bản đồ sẽ vô nghĩa:
+ * trang mình không đo được / không có báo cáo, hoặc dưới TOI_THIEU_DOI_THU trang đối thủ vừa
+ * đo được vừa có báo cáo. Gỡ: gửi lại báo cáo đủ trang, hoặc nộp lại SERP (phiên vẫn cho_doc).
  */
-export async function ghiSoHo(s, id, baoCao, { chiMuc, nowMs = Date.now() } = {}) {
-	const d = await layPhien(s, id);
-	canTrangThai(d, ["cho_doc"], "ghi sơ hở");
+export function ghepBaoCao(d, baoCao) {
 	const theoUrl = new Map(d.serp.map((t, i) => [khoaUrl(t.url), i]));
 	const bc = new Map();
 	const boQua = [];
@@ -514,8 +570,33 @@ export async function ghiSoHo(s, id, baoCao, { chiMuc, nowMs = Date.now() } = {}
 		if (i === undefined || d.serp[i].trangThai !== "ok") boQua.push(b.url);
 		else bc.set(i, b);
 	}
-	const serp = d.serp.map((t, i) => {
-		const { chu: _bo, ...con } = t;
+	const goLai = "Phiên vẫn ở cho_doc: gửi lại báo cáo đủ trang, hoặc nộp lại danh sách URL bằng công cụ có tên kết thúc bằng rada_nop_serp.";
+	const iMinh = d.serp.findIndex((t) => t.laMinh);
+	if (iMinh < 0 || d.serp[iMinh].trangThai !== "ok")
+		throw new Error(`Chưa ghi được sơ hở: trang của mình không tải/đo được nên không có gì để so. ${goLai}`);
+	if (!bc.has(iMinh)) throw new Error(`Chưa ghi được sơ hở: thiếu báo cáo cho trang của mình (laMinh: true). ${goLai}`);
+	const soDoiThu = [...bc.keys()].filter((i) => !d.serp[i].laMinh).length;
+	if (soDoiThu < TOI_THIEU_DOI_THU)
+		throw new Error(`Chưa ghi được sơ hở: mới có ${soDoiThu} trang đối thủ vừa đo được vừa có báo cáo, cần ít nhất ${TOI_THIEU_DOI_THU}. ${goLai}`);
+	return { bc, boQua };
+}
+
+/**
+ * Ghi báo cáo Claude đọc từng trang → máy chủ dựng bản đồ sơ hở + phiếu (dungBanDo) → co_phieu.
+ * Chỉ trang ĐO ĐƯỢC (trangThai "ok") VÀ có báo cáo mới vào bản đồ: trang không báo ý mà vẫn
+ * tính là "đã đo" thì hạ tỉ lệ mọi ý và ý cốt lõi thật rơi khỏi ngưỡng 60%. Bỏ `chu` của mọi
+ * trang sau bước này — không ai cần nó nữa mà nó nặng nhất. Gửi lại đúng lượt báo cáo cũ khi
+ * đã co_phieu → trả kết quả đã lưu (không dựng lại, không ném).
+ * @param {{url: string, y: string[], cauTraLoiO: string, ruom: string[], thieuCanCu: string[], khoDung: string[]}[]} baoCao
+ * @returns {Promise<{banDo: object, phieu: object, boQua: string[], thieuBaoCao: string[], soTrangDoiThu: number}>}
+ */
+export async function ghiSoHo(s, id, baoCao, { chiMuc, nowMs = Date.now() } = {}) {
+	const d = await layPhien(s, id);
+	const cu = soHoDaGhi(d, baoCao);
+	if (cu) return cu;
+	canTrangThai(d, ["cho_doc"], "ghi sơ hở");
+	const { bc, boQua } = ghepBaoCao(d, baoCao);
+	const serp = boChu(d.serp).map((con, i) => {
 		const b = bc.get(i);
 		return b
 			? { ...con, y: b.y ?? [], cauTraLoiO: b.cauTraLoiO, ruom: b.ruom ?? [], thieuCanCu: b.thieuCanCu ?? [], khoDung: b.khoDung ?? [] }
@@ -524,34 +605,50 @@ export async function ghiSoHo(s, id, baoCao, { chiMuc, nowMs = Date.now() } = {}
 	const vao = serp.filter((_, i) => bc.has(i));
 	const thieuBaoCao = serp.filter((t, i) => t.trangThai === "ok" && !bc.has(i)).map((t) => t.url);
 	const { phieu, ...banDo } = dungBanDo({ tuKhoa: d.tuKhoa, trang: vao, chiMuc, now: nowMs });
-	await s.leo_top.put(id, { ...d, serp, banDo, phieu, trangThai: "co_phieu", soHoLuc: new Date(nowMs).toISOString() });
-	return { banDo, phieu, boQua, thieuBaoCao, soTrangDoiThu: vao.filter((t) => !t.laMinh).length };
+	const tomTat = { boQua, thieuBaoCao, soTrangDoiThu: vao.filter((t) => !t.laMinh).length };
+	const luc = new Date(nowMs).toISOString();
+	await s.leo_top.put(id, {
+		...d, serp, banDo, phieu, trangThai: "co_phieu", soHoLuc: luc, capNhatLuc: luc,
+		soHo: { bam: bamBaoCao(baoCao), ...tomTat },
+	});
+	return { banDo, phieu, ...tomTat };
 }
 
-const NGAY_HOP_LE = /^\d{4}-\d{2}-\d{2}$/;
+/** Ngày lịch thật "YYYY-MM-DD" (2026-02-31 bị bác — Date.parse tự dời nó sang 03-03). */
+const ngayThat = (x) => /^\d{4}-\d{2}-\d{2}$/.test(x) && Number.isFinite(Date.parse(`${x}T00:00:00Z`)) && new Date(`${x}T00:00:00Z`).toISOString().slice(0, 10) === x;
 
-/** Người quản trị báo đã sửa trang theo phiếu (hoặc chỉnh lại ngày khi còn da_sua). */
-export async function datDaSua(s, id, ngay) {
-	if (!NGAY_HOP_LE.test(String(ngay)) || !Number.isFinite(Date.parse(`${ngay}T00:00:00Z`)))
-		throw new Error("Ngày sửa phải có dạng YYYY-MM-DD");
+/**
+ * Người quản trị báo đã sửa trang theo phiếu (hoặc chỉnh lại ngày khi còn da_sua). Ngày tính
+ * theo lịch VN: không sau hôm nay, không trước ngày ra phiếu. Đổi ngày → xoá các lần đo lại
+ * cũ (chúng đo theo ngày sửa cũ).
+ */
+export async function datDaSua(s, id, ngay, { nowMs = Date.now() } = {}) {
+	const x = String(ngay);
+	if (!ngayThat(x)) throw new Error("Ngày sửa phải là ngày có thật, dạng YYYY-MM-DD");
 	const d = await layPhien(s, id);
 	canTrangThai(d, ["co_phieu", "da_sua"], "đặt đã sửa");
-	const moi = { ...d, trangThai: "da_sua", ngaySua: ngay };
+	const homNay = ngayVN(nowMs);
+	if (x > homNay) throw new Error(`Ngày sửa ${x} ở tương lai (hôm nay ${homNay} theo giờ Việt Nam)`);
+	const moc = d.soHoLuc ?? d.taoLuc;
+	const ngayPhieu = moc && Number.isFinite(Date.parse(moc)) ? ngayVN(Date.parse(moc)) : null;
+	if (ngayPhieu && x < ngayPhieu) throw new Error(`Ngày sửa ${x} trước ngày ra phiếu ${ngayPhieu}`);
+	const moi = { ...d, trangThai: "da_sua", ngaySua: x, doLai: d.ngaySua === x ? (d.doLai ?? []) : [] };
 	await s.leo_top.put(id, moi);
-	return { id, ...moi };
+	return { id, ...moi, serp: boChu(moi.serp) };
 }
 
 /**
- * Phiên da_sua tới hạn đo lại: mốc LỚN NHẤT đã qua mà chưa đo. Ca lỡ mốc 14 (vd máy chủ tắt
- * hai tuần) thì chỉ đo một lần ở mốc 28 — đo cả hai lúc đó ra cùng một con số.
+ * Phiên da_sua tới hạn đo lại: mốc LỚN NHẤT đã qua mà chưa đo, tính bằng NGÀY LỊCH VN từ ngày
+ * sửa. Ca lỡ mốc 14 (vd máy chủ tắt hai tuần) thì chỉ đo một lần ở mốc 28 — đo cả hai lúc đó
+ * ra cùng một con số.
  * @returns {Promise<{id: string, tuKhoa: string, trangMinh: string, moc: number}[]>}
  */
 export async function phienCanDoLai(s, nowMs) {
 	const ra = [];
+	const homNay = ngayVN(nowMs);
 	for (const r of await tatCa(s.leo_top, { where: { trangThai: "da_sua" } })) {
-		const sua = Date.parse(`${r.data.ngaySua}T00:00:00Z`);
-		if (!Number.isFinite(sua)) continue;
-		const soNgay = Math.floor((nowMs - sua) / NGAY_MS);
+		if (!ngayThat(String(r.data.ngaySua))) continue;
+		const soNgay = soNgayLich(r.data.ngaySua, homNay);
 		const moc = [...MOC_DO_LAI].reverse().find((m) => soNgay >= m);
 		if (moc === undefined || (r.data.doLai ?? []).some((x) => x.sauNgay === moc)) continue;
 		ra.push({ id: r.id, tuKhoa: r.data.tuKhoa, trangMinh: r.data.trangMinh, moc });
@@ -560,10 +657,12 @@ export async function phienCanDoLai(s, nowMs) {
 }
 
 /** Thêm một lần đo lại; mốc đã có thì bỏ qua. Mốc cuối → xong. @returns {Promise<boolean>} đã ghi */
-export async function ghiDoLai(s, id, { ngay, sauNgay, viTri, hienThi }) {
+export async function ghiDoLai(s, id, { ngay, sauNgay, viTri, hienThi, cuaSoNgay }) {
 	const d = await layPhien(s, id);
 	if (d.trangThai !== "da_sua" || (d.doLai ?? []).some((x) => x.sauNgay === sauNgay)) return false;
-	const doLai = [...(d.doLai ?? []), { ngay, sauNgay, viTri, hienThi }];
+	const lan = { ngay, sauNgay, viTri, hienThi };
+	if (cuaSoNgay !== undefined) lan.cuaSoNgay = cuaSoNgay;
+	const doLai = [...(d.doLai ?? []), lan];
 	const xong = sauNgay >= MOC_DO_LAI[MOC_DO_LAI.length - 1];
 	await s.leo_top.put(id, { ...d, doLai, trangThai: xong ? "xong" : "da_sua" });
 	return true;

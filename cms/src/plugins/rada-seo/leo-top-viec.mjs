@@ -1,47 +1,96 @@
 // Bốn việc Claude làm qua MCP cho "leo top" (2D): lấy từ khoá từ GSC → nộp danh sách URL top
 // (Claude tìm web; máy chủ KHÔNG cào Google) → lấy chữ từng trang đã tải → ghi báo cáo ý của
-// từng trang để máy chủ dựng bản đồ sơ hở + phiếu. Thuần: nhận `s` (storage), `gsc`, `docTrang`.
+// từng trang để máy chủ dựng bản đồ sơ hở + phiếu. Thuần: nhận `s` (storage), `kv`, `gsc`, `docTrang`.
 import * as kho from "./kho.mjs";
 import { urlDocDuoc } from "./lib/doc-web.mjs";
 import { doTrang } from "./leo-top/do-trang.mjs";
 import { LOI_NHAC_LEO_TOP, LOI_NHAC_SO_HO } from "./loi-dan.mjs";
 
-/** Phiên mới mỗi lượt gọi: mỗi phiên kéo theo ~11 trang Claude phải đọc — trần giữ hạn mức gói. */
+/** Phiên mới tối đa mỗi lượt gọi (còn bị chặn thêm bởi kho.TRAN_PHIEN_MO toàn kho). */
 export const TRAN_PHIEN_MOI = 5;
-/** Trần trang tải mỗi phiên (10 URL Claude gửi + trang mình, dư một). */
-export const TRAN_TRANG_SERP = 12;
+/** URL Claude gửi mỗi lượt (khuôn zod cũng chặn đúng số này). */
+export const TRAN_URL_SERP = 10;
+/** Trang tải mỗi phiên: 10 URL + trang mình. */
+export const TRAN_TRANG_SERP = TRAN_URL_SERP + 1;
 /** Tải đồng thời: CMS còn phục vụ người thật; lời gọi MCP có hạn chờ nên cũng không tải tuần tự. */
 export const DONG_THOI_TAI = 3;
 /** Một tên miền chiếm cả top (diễn đàn, báo lớn) thì bản đồ thành bản đồ của MỘT site. */
 export const TRAN_MOI_TEN_MIEN = 2;
 export const TRAN_CHU_TRANG = 6000;
-/** Hạn tải mỗi trang RIÊNG cho đường này (mặc định 30 s của doc-web giữ cho radar). */
+/** Hạn tải mỗi trang RIÊNG cho đường này, gồm cả đọc thân (mặc định 30 s của doc-web giữ cho radar). */
 export const HAN_TAI_MS = 10_000;
+/**
+ * Hạn CẢ lượt nộp SERP. nginx cắt /_emdash/ ở 120 s: quá đó Claude nhận 504, gọi lại, còn lượt
+ * đầu vẫn chạy và ghi — hai lứa tải chồng nhau. 60 s để dư cho GSC/kho và hạn chờ của máy khách MCP.
+ */
+export const HAN_TONG_MS = 60_000;
+export const LOI_HET_GIO_TONG = "het_gio_tong";
+/** Khoá KV quanh bước tạo phiên: hai lượt gọi cùng lúc không được cùng đọc "chưa soi" rồi cùng tạo. */
+export const KHOA_TAO_PHIEN = "leo_top:khoa_tao";
+const HAN_KHOA_TAO_MS = 150_000; // > 4 trang GSC × 30 s: khoá không được hết hạn giữa chừng
+
+/** Trần chuỗi số đo từ trang LẠ (tiêu đề/mô tả/JSON-LD là thứ trang thù địch tự đặt). */
+const TRAN_SO_DO = { tieuDe: 300, moTa: 300, ngayCapNhat: 40, soLoaiJsonLd: 20, loaiJsonLd: 60 };
+
+/** Bọc dữ liệu một dòng trong dấu mốc; "<<<"/">>>" bên trong bị đổi để không tự đóng vùng dữ liệu. */
+const thoat = (x) => String(x ?? "").replace(/<{3,}/g, "‹‹‹").replace(/>{3,}/g, "›››");
+/** Từ khoá GSC là chữ NGƯỜI LẠ gõ vào Google → đưa cho Claude trong dấu mốc như chữ trang. */
+export const bocTuKhoa = (t) => `<<<TU_KHOA>>>${thoat(t)}<<<HET_TU_KHOA>>>`;
 
 const tomTatPhien = (p) => ({
-	id: p.id, tuKhoa: p.tuKhoa, trangMinh: p.trangMinh, viTriBanDau: p.viTriBanDau, hienThi: p.hienThi, trangThai: p.trangThai,
+	id: p.id, tuKhoa: bocTuKhoa(p.tuKhoa), trangMinh: p.trangMinh, viTriBanDau: p.viTriBanDau, hienThi: p.hienThi, trangThai: p.trangThai,
 });
 
+/** cho_serp/cho_doc, CŨ NHẤT TRƯỚC: làm hết phiên đang dở rồi mới tới phiên mới. */
 async function phienDangMo(s) {
 	const ra = [];
 	for (const t of ["cho_serp", "cho_doc"]) ra.push(...(await kho.dsLeoTop(s, { trangThai: t })));
-	return ra.map(tomTatPhien);
+	return ra.sort((a, b) => String(a.taoLuc).localeCompare(String(b.taoLuc))).map(tomTatPhien);
+}
+
+/** @returns {Promise<string|null>} revision khoá vừa giành, null nếu lượt khác đang giữ. */
+async function giuKhoaTao(kv, nowMs) {
+	const cu = await kv.getVersioned(KHOA_TAO_PHIEN);
+	if (cu && cu.value?.het > nowMs) return null;
+	const r = await kv.compareAndSet(KHOA_TAO_PHIEN, cu?.revision ?? null, { het: nowMs + HAN_KHOA_TAO_MS });
+	return r?.applied ? r.revision : null;
 }
 
 /**
- * Tạo tối đa TRAN_PHIEN_MOI phiên mới từ GSC (bỏ cặp đã soi trong 28 ngày) + trả phiên đang mở.
- * GSC chưa cấu hình / lỗi → trường `loi` tiếng Việt, KHÔNG ném: phiên đang mở vẫn làm tiếp được.
+ * Trả phiên đang mở (cũ nhất trước) + tạo phiên mới từ GSC, nhưng chỉ tới khi tổng phiên mở
+ * (cho_serp/cho_doc/co_phieu) chạm kho.TRAN_PHIEN_MO. Gọi lặp (kể cả thử lại sau khi mất phản
+ * hồi) không đẻ thêm phiên. Trước đó bỏ (bo) phiên cho_serp/cho_doc để yên quá 7 ngày.
+ * GSC chưa cấu hình / lỗi / khoá bận → trường `loi` tiếng Việt, KHÔNG ném: phiên đang mở vẫn làm tiếp được.
  */
-export async function layTuKhoaLeoTop({ s, gsc, nowMs = Date.now() }) {
-	const ra = { moi: [], dangMo: [], huongDan: LOI_NHAC_LEO_TOP };
-	try {
-		const boQua = await kho.tuKhoaDaSoi(s, nowMs);
-		const ds = await gsc.layTuKhoaLeoTop({ toiDa: TRAN_PHIEN_MOI, boQua });
-		const now = new Date(nowMs).toISOString();
-		for (const x of ds.slice(0, TRAN_PHIEN_MOI))
-			ra.moi.push(tomTatPhien(await kho.taoPhienLeoTop(s, { tuKhoa: x.tuKhoa, trang: x.trang, viTri: x.viTri, hienThi: x.hienThi }, now)));
-	} catch (e) {
-		ra.loi = String(e?.message ?? e).slice(0, 600);
+export async function layTuKhoaLeoTop({ s, kv, gsc, nowMs = Date.now() }) {
+	const ra = { dangMo: [], moi: [], huongDan: LOI_NHAC_LEO_TOP };
+	const revision = await giuKhoaTao(kv, nowMs);
+	if (!revision) {
+		ra.loi = "Đang có một lượt lấy từ khoá leo top khác chạy — không mở thêm phiên lần này; các phiên đang mở bên dưới vẫn làm tiếp được.";
+	} else {
+		try {
+			await kho.boPhienCu(s, nowMs);
+			const mo = await kho.demPhienMo(s);
+			const conCho = Math.min(TRAN_PHIEN_MOI, kho.TRAN_PHIEN_MO - mo);
+			if (conCho <= 0) {
+				ra.ghiChu = `Đã có ${mo} phiên chưa xong (trần ${kho.TRAN_PHIEN_MO}) nên không mở phiên mới: làm tiếp các phiên đang mở; phiên co_phieu cần người quản trị sửa trang rồi báo đã sửa.`;
+			} else {
+				const boQua = await kho.tuKhoaDaSoi(s, nowMs);
+				const ds = await gsc.layTuKhoaLeoTop({ toiDa: conCho, boQua });
+				const now = new Date(nowMs).toISOString();
+				for (const x of ds) {
+					if (ra.moi.length >= conCho) break;
+					const k = `${x.tuKhoa}|${x.trang}`;
+					if (boQua.has(k)) continue;
+					boQua.add(k);
+					ra.moi.push(tomTatPhien(await kho.taoPhienLeoTop(s, { tuKhoa: x.tuKhoa, trang: x.trang, viTri: x.viTri, hienThi: x.hienThi }, now)));
+				}
+			}
+		} catch (e) {
+			ra.loi = String(e?.message ?? e).slice(0, 600);
+		} finally {
+			await kv.compareAndDelete(KHOA_TAO_PHIEN, revision);
+		}
 	}
 	ra.dangMo = await phienDangMo(s);
 	return ra;
@@ -63,12 +112,31 @@ async function chayDongThoi(ds, n, viec) {
 	return ra;
 }
 
+const HET = Symbol("het");
+/** `p` hoặc HET sau `ms`; lượt tải thua cuộc vẫn tự dừng ở hạn riêng của nó (HAN_TAI_MS). */
+function hoacHet(p, ms) {
+	let t;
+	const hen = new Promise((r) => (t = setTimeout(() => r(HET), ms)));
+	return Promise.race([p, hen]).finally(() => clearTimeout(t));
+}
+
+const cat = (x, n) => (x == null ? x : String(x).slice(0, n));
+/** Cắt các chuỗi số đo mà trang lạ tự đặt trước khi lưu kho và đưa cho Claude/quản trị. */
+export function gonSoDo(sd) {
+	const ra = { ...sd, tieuDe: cat(sd.tieuDe, TRAN_SO_DO.tieuDe), moTa: cat(sd.moTa, TRAN_SO_DO.moTa), ngayCapNhat: cat(sd.ngayCapNhat, TRAN_SO_DO.ngayCapNhat) };
+	if (Array.isArray(sd.loaiJsonLd)) ra.loaiJsonLd = sd.loaiJsonLd.slice(0, TRAN_SO_DO.soLoaiJsonLd).map((x) => cat(x, TRAN_SO_DO.loaiJsonLd));
+	return ra;
+}
+
 /**
- * Nhận danh sách URL top Claude tìm được, lọc (chống SSRF, trùng, ≤ 2/tên miền), thêm trang
- * mình nếu thiếu, tải + đo từng trang, lưu → cho_doc. `thuTu` là hạng trong danh sách GỬI LÊN
- * (URL bị loại vẫn giữ chỗ), trang mình thêm vào thì thuTu null.
+ * Nhận danh sách URL top Claude tìm được, lọc (chống SSRF sơ bộ, trùng, ≤ 2/tên miền), thêm
+ * trang mình nếu thiếu, tải + đo từng trang, lưu → cho_doc. Nộp lại khi còn cho_doc thì THAY
+ * lứa cũ (đường gỡ khi ghi sơ hở bị bác). `thuTu` là hạng trong danh sách GỬI LÊN (URL bị loại
+ * vẫn giữ chỗ), trang mình thêm vào thì thuTu null. Cả lượt có hạn `hanTongMs`: trang chưa xong
+ * lúc hết hạn → loi "het_gio_tong".
  */
-export async function nopSerp({ s, docTrang, id, urls }) {
+export async function nopSerp({ s, docTrang, id, urls, hanTongMs = HAN_TONG_MS }) {
+	const batDau = Date.now();
 	const d = await s.leo_top.get(id);
 	if (!d) throw new Error("Không có phiên leo top này");
 	if (!["cho_serp", "cho_doc"].includes(d.trangThai))
@@ -77,6 +145,7 @@ export async function nopSerp({ s, docTrang, id, urls }) {
 	const chon = [], boQua = [], daCo = new Set(), demMien = new Map();
 	urls.forEach((u, i) => {
 		const url = String(u ?? "").trim();
+		if (i >= TRAN_URL_SERP) return boQua.push({ url, lyDo: `quá ${TRAN_URL_SERP} URL mỗi lượt` });
 		if (!urlDocDuoc(url)) return boQua.push({ url, lyDo: "URL không đọc được (chỉ http/https tới tên miền công khai)" });
 		const k = kho.khoaUrl(url);
 		if (daCo.has(k)) return boQua.push({ url, lyDo: "trùng URL đã có" });
@@ -89,18 +158,24 @@ export async function nopSerp({ s, docTrang, id, urls }) {
 		chon.push({ url, thuTu: i + 1, laMinh });
 	});
 	if (!chon.some((t) => t.laMinh)) chon.push({ url: d.trangMinh, thuTu: null, laMinh: true });
-	// Trần trang: trang mình luôn giữ, cắt bớt trang đối thủ cuối danh sách.
-	const giu = new Set(chon.filter((t) => !t.laMinh).slice(0, TRAN_TRANG_SERP - 1));
-	const tai = chon.filter((t) => t.laMinh || giu.has(t));
-	for (const t of chon) if (!tai.includes(t)) boQua.push({ url: t.url, lyDo: `quá trần ${TRAN_TRANG_SERP} trang mỗi phiên` });
 
-	const serp = await chayDongThoi(tai, DONG_THOI_TAI, async (t) => {
-		const r = await docTrang(t.url);
+	const hanChot = batDau + hanTongMs;
+	const hetGio = (t) => ({ ...t, trangThai: "loi", loi: LOI_HET_GIO_TONG });
+	// Trang mình tải TRƯỚC: thiếu nó thì cả phiên vô nghĩa (ghiSoHo từ chối), nên nó không được
+	// là trang xếp hàng cuối rồi rơi vào het_gio_tong. Kết quả vẫn giữ thứ tự hạng.
+	const thuTuTai = [...chon.filter((t) => t.laMinh), ...chon.filter((t) => !t.laMinh)];
+	const daTai = await chayDongThoi(thuTuTai, DONG_THOI_TAI, async (t) => {
+		const conLai = hanChot - Date.now();
+		if (conLai <= 0) return hetGio(t);
+		const r = await hoacHet(Promise.resolve().then(() => docTrang(t.url)), conLai);
+		if (r === HET) return hetGio(t);
 		if (!r) return { ...t, trangThai: "loi", loi: `không tải được (quá hạn ${HAN_TAI_MS / 1000} s, bị chặn hoặc lỗi mạng)` };
 		if (r.status < 200 || r.status >= 300 || !r.html) return { ...t, trangThai: "loi", loi: `HTTP ${r.status}${r.html ? "" : ", trang rỗng"}` };
 		const { chu, ...soDo } = doTrang(r.html, { tuKhoa: d.tuKhoa, url: t.url });
-		return { ...t, trangThai: "ok", soDo: r.catBot ? { ...soDo, catBot: true } : soDo, chu: String(chu ?? "").slice(0, TRAN_CHU_TRANG) };
+		const sd = gonSoDo(soDo);
+		return { ...t, trangThai: "ok", soDo: r.catBot ? { ...sd, catBot: true } : sd, chu: String(chu ?? "").slice(0, TRAN_CHU_TRANG) };
 	});
+	const serp = chon.map((t) => daTai[thuTuTai.indexOf(t)]);
 	await kho.ghiSerp(s, id, serp);
 	return {
 		phienId: id,
@@ -111,9 +186,8 @@ export async function nopSerp({ s, docTrang, id, urls }) {
 	};
 }
 
-/** Bọc chữ trang trong dấu mốc; "<<<"/">>>" trong chữ bị đổi để trang không tự đóng vùng dữ liệu (như mcp-viec.mjs). */
-const boc = (id, chu) =>
-	`<<<TRANG_SERP id=${id}>>>\n${String(chu ?? "").replace(/<{3,}/g, "‹‹‹").replace(/>{3,}/g, "›››")}\n<<<HET_TRANG_SERP id=${id}>>>`;
+/** Bọc chữ trang trong dấu mốc (như mcp-viec.mjs). */
+const boc = (id, chu) => `<<<TRANG_SERP id=${id}>>>\n${thoat(chu)}\n<<<HET_TRANG_SERP id=${id}>>>`;
 
 /** Chữ các trang đo được của một phiên cho_doc, kèm lời dặn đọc. */
 export async function layTrangSerp({ s, id }) {
@@ -124,23 +198,38 @@ export async function layTrangSerp({ s, id }) {
 	d.serp.forEach((t, i) => {
 		if (t.trangThai === "ok") trang.push({ url: t.url, thuTu: t.thuTu, laMinh: !!t.laMinh, chu: boc(i + 1, t.chu) });
 	});
-	return { phienId: id, tuKhoa: d.tuKhoa, trangMinh: d.trangMinh, trang, huongDan: LOI_NHAC_SO_HO };
+	return { phienId: id, tuKhoa: bocTuKhoa(d.tuKhoa), trangMinh: d.trangMinh, trang, huongDan: LOI_NHAC_SO_HO };
 }
 
-/** Ghi báo cáo ý của từng trang → máy chủ dựng bản đồ + phiếu (kho.ghiSoHo) → tóm tắt cho Claude. */
-export async function ghiSoHo({ s, id, trang, chiMuc, nowMs = Date.now() }) {
+const tomTatSoHo = (id, d, kq, loiNap) => ({
+	phienId: id,
+	tuKhoa: bocTuKhoa(d.tuKhoa),
+	trangThai: "co_phieu",
+	soTrangDoiThu: kq.soTrangDoiThu,
+	yCotLoi: kq.banDo.yCotLoi.map((y) => `${y.ten} (${Math.round(y.tiLe * 100)}%)`),
+	dauHieuThang: kq.banDo.dauHieuThang,
+	ghiChu: kq.banDo.ghiChu,
+	phieu: kq.phieu,
+	boQua: kq.boQua,
+	thieuBaoCao: kq.thieuBaoCao,
+	loiNap,
+});
+
+/**
+ * Ghi báo cáo ý của từng trang → máy chủ dựng bản đồ + phiếu (kho.ghiSoHo) → tóm tắt cho Claude.
+ * Kiểm trạng thái + đủ trang TRƯỚC khi nạp chỉ mục (`layChiMuc`, nặng); gửi lại đúng lượt đã
+ * ghi → trả phiếu đã lưu.
+ * @param {{chiMuc?: object, layChiMuc?: () => Promise<object>}} o
+ */
+export async function ghiSoHo({ s, id, trang, chiMuc, layChiMuc, nowMs = Date.now() }) {
 	const d = await s.leo_top.get(id);
-	const kq = await kho.ghiSoHo(s, id, trang, { chiMuc, nowMs });
-	return {
-		phienId: id,
-		tuKhoa: d?.tuKhoa,
-		trangThai: "co_phieu",
-		soTrangDoiThu: kq.soTrangDoiThu,
-		yCotLoi: kq.banDo.yCotLoi.map((y) => `${y.ten} (${Math.round(y.tiLe * 100)}%)`),
-		dauHieuThang: kq.banDo.dauHieuThang,
-		ghiChu: kq.banDo.ghiChu,
-		phieu: kq.phieu,
-		boQua: kq.boQua,
-		thieuBaoCao: kq.thieuBaoCao,
-	};
+	if (!d) throw new Error("Không có phiên leo top này");
+	const cu = kho.soHoDaGhi(d, trang);
+	if (cu) return { ...tomTatSoHo(id, d, cu, []), daGhiTruoc: true };
+	if (d.trangThai !== "cho_doc") throw new Error(`Phiên đang ở trạng thái "${d.trangThai}" — ghi sơ hở chỉ làm được khi "cho_doc"`);
+	kho.ghepBaoCao(d, trang); // ném lý do tiếng Việt, trạng thái giữ nguyên
+	const cm = chiMuc ?? (layChiMuc ? await layChiMuc() : undefined);
+	const kq = await kho.ghiSoHo(s, id, trang, { chiMuc: cm, nowMs });
+	// loiNap: chỉ mục què thì phiếu thiếu "tài sản riêng" — phải lộ ra, không im lặng.
+	return tomTatSoHo(id, d, kq, cm?.loiNap ?? []);
 }

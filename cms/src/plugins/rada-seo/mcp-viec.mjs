@@ -11,10 +11,8 @@ import { BOI_CANH, LOI_NHAC_TRICH } from "./loi-dan.mjs";
 export const TRAN_TRANG_MOI_DEM = 40;
 export const TRAN_TRANG_MOI_LUOT = 10;
 
-/** "2026-10-01" theo giờ Việt Nam (UTC+7) — đêm 02:00 VN vẫn thuộc ngày đó. */
-export function ngayVN(ms) {
-	return new Date(ms + 7 * 3600 * 1000).toISOString().slice(0, 10);
-}
+/** "2026-10-01" theo giờ Việt Nam (UTC+7) — đêm 02:00 VN vẫn thuộc ngày đó. Một bản duy nhất ở kho.mjs. */
+export const ngayVN = kho.ngayVN;
 
 /** Trang giao chừng ấy đêm mà vẫn chưa được ghi thì coi như Claude không đọc được → 'loi'. */
 export const SO_LAN_GIAO_TOI_DA = 3;
