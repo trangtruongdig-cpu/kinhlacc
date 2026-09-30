@@ -64,7 +64,7 @@ test("xu hướng của ca radar gần nhất được lưu để lần tính l�
 	assert.ok((await xuHuongGanNhat(s)).length > 0, "ca thử không che xu hướng của ca thật");
 });
 
-test("hạn chốt đã qua: không trích trang nào, ghi chú vào nhật ký", async () => {
+test("hạn chót đã qua: không trích trang nào, ghi chú vào nhật ký", async () => {
 	const s = await khoiTao();
 	const ca = await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, hanChot: Date.now() - 1 });
 	assert.equal(ca.soTrich, 0);
