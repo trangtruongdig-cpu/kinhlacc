@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { urlDocDuoc, taoDocWeb, voiHanGio } from "./doc-web.mjs";
+import { urlDocDuoc, taoDocWeb, taoDocTrang, voiHanGio } from "./doc-web.mjs";
 
 test("urlDocDuoc chặn đường vào mạng nội bộ", () => {
 	assert.equal(urlDocDuoc("https://www.vinmec.com/a"), true);
@@ -25,4 +25,20 @@ test("taoDocWeb: trả chữ khi 200, rỗng khi lỗi/không 2xx/URL cấm, kh�
 
 test("voiHanGio ném khi quá hạn", async () => {
 	await assert.rejects(voiHanGio(new Promise(() => {}), 20, "thử"), /thử quá hạn 20ms/);
+});
+
+test("taoDocTrang: trả status + x-robots-tag + html kể cả khi không 2xx; URL cấm hay lỗi mạng → null", async () => {
+	const goi = [];
+	const fetchGia = async (url) => {
+		goi.push(url);
+		if (url.includes("hong")) throw new Error("mạng");
+		if (url.includes("404")) return new Response("mất", { status: 404 });
+		return new Response("<title>x</title>", { status: 200, headers: { "X-Robots-Tag": "noindex" } });
+	};
+	const doc = taoDocTrang(fetchGia);
+	assert.deepEqual(await doc("https://a.com/ok"), { status: 200, xRobots: "noindex", html: "<title>x</title>" });
+	assert.deepEqual(await doc("https://a.com/404"), { status: 404, xRobots: "", html: "mất" });
+	assert.equal(await doc("https://a.com/hong"), null);
+	assert.equal(await doc("http://127.0.0.1/huyet/"), null);
+	assert.deepEqual(goi, ["https://a.com/ok", "https://a.com/404", "https://a.com/hong"]);
 });

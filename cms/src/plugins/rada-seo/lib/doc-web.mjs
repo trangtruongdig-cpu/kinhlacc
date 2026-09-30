@@ -58,3 +58,27 @@ export function taoDocWeb(fetchFn, { hanGioMs = 30_000 } = {}) {
 		}
 	};
 }
+
+/**
+ * Như taoDocWeb nhưng trả CẢ trạng thái và header x-robots-tag, kể cả khi không 2xx — cho bộ
+ * kiểm đường nội bộ (noi-bo/kiem-duong.mjs). Cần header vì đã ĐO: trang bài thuốc/dược liệu
+ * KHÔNG tồn tại vẫn trả 200 (vỏ SPA) kèm `x-robots-tag: noindex`; chỉ nhìn mã 200 là gắn
+ * link chết. Cùng lớp chặn SSRF (urlDocDuoc); không bao giờ ném — hỏng thì null.
+ * @param {(url: string, init?: RequestInit) => Promise<Response>} fetchFn  ctx.http.fetch
+ * @returns {(url: string) => Promise<{status: number, xRobots: string, html: string} | null>}
+ */
+export function taoDocTrang(fetchFn, { hanGioMs = 30_000 } = {}) {
+	return async (url) => {
+		if (!urlDocDuoc(url)) return null;
+		try {
+			const res = await voiHanGio(
+				fetchFn(url, { redirect: "follow", headers: { "User-Agent": UA, Accept: "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8" } }),
+				hanGioMs,
+				"tải trang",
+			);
+			return { status: res.status, xRobots: res.headers.get("x-robots-tag") ?? "", html: await res.text() };
+		} catch {
+			return null;
+		}
+	};
+}
