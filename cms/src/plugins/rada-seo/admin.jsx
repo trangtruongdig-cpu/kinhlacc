@@ -19,6 +19,61 @@ const NHAN_CUM = { cho_viet: "Chờ viết", co_nhap: "Có nháp", da_dang: "Đ�
 const gio = (s) => (s ? new Date(s).toLocaleString("vi-VN") : "—");
 const o = { padding: "6px 8px", borderBottom: "1px solid #e5e5e5", textAlign: "left", verticalAlign: "top" };
 
+// ---- Nút ----
+// CSS của khu quản trị EmDash XOÁ SẠCH kiểu mặc định của <button>: không viền, không nền. Nút
+// trần hiện ra như chữ thường — người dùng đã không nhận ra "Bật lịch", "Chạy thật", "Lưu"… là
+// nút bấm được. MỌI nút trên màn này phải đi qua <Nut>, không dùng <button> trần.
+const NUT = {
+	display: "inline-block",
+	padding: "4px 12px",
+	margin: "2px 0",
+	border: "1px solid #d1d5db",
+	borderRadius: 6,
+	background: "#fff",
+	color: "#111827",
+	cursor: "pointer",
+	font: "inherit",
+	lineHeight: 1.4,
+	boxShadow: "0 1px 1px rgba(0,0,0,0.05)",
+};
+/** Việc chính của mỗi chỗ (Chạy thật, Lưu, Duyệt, Nhận…). */
+const NUT_CHINH = { background: "#1f2937", borderColor: "#1f2937", color: "#fff", fontWeight: 600 };
+/** Tab đang mở. */
+const NUT_DANG_CHON = { background: "#e5e7eb", borderColor: "#6b7280", fontWeight: 700 };
+const NUT_TAT = { opacity: 0.45, cursor: "not-allowed", boxShadow: "none" };
+
+function Nut({ chinh, dangChon, disabled, style, type = "button", ...con }) {
+	return (
+		<button
+			type={type}
+			disabled={disabled}
+			aria-pressed={dangChon === undefined ? undefined : !!dangChon}
+			style={{ ...NUT, ...(chinh && NUT_CHINH), ...(dangChon && NUT_DANG_CHON), ...(disabled && NUT_TAT), ...style }}
+			{...con}
+		/>
+	);
+}
+
+// Ô "máy đang tự làm gì" đầu tab Radar — câu do máy chủ tính (tinh-trang.mjs), ở đây chỉ vẽ.
+const DAU_TINH_TRANG = { ok: ["✓", "#15803d"], cho: ["•", "#92400e"], thieu: ["✗", "#b91c1c"] };
+function OTinhTrang({ ds }) {
+	if (!ds || ds.length === 0) return null;
+	return (
+		<div style={{ border: "1px solid #d1d5db", borderRadius: 8, padding: "10px 14px", margin: "8px 0 16px", background: "#f9fafb" }}>
+			<div style={{ fontWeight: 600, marginBottom: 4 }}>Máy đang tự làm gì</div>
+			{ds.map((x, i) => {
+				const [dau, mau] = DAU_TINH_TRANG[x.muc] ?? DAU_TINH_TRANG.cho;
+				return (
+					<div key={i} style={{ margin: "2px 0" }}>
+						<span style={{ color: mau, fontWeight: 700, display: "inline-block", width: 18 }}>{dau}</span>
+						{x.luc ? x.chu.replace("{luc}", gio(x.luc)) : x.chu}
+					</div>
+				);
+			})}
+		</div>
+	);
+}
+
 // ---- Thanh tab (2C-2) ----
 const TABS = [
 	{ key: "radar", label: "Radar" },
@@ -74,7 +129,7 @@ function HuongRow({ h, onNhan, onBo, onKhoiPhuc }) {
 		<>
 			<tr>
 				<td style={o}>
-					<button onClick={() => setMoRong(!moRong)}>{moRong ? "▾" : "▸"} {h.ten}</button>
+					<Nut onClick={() => setMoRong(!moRong)}>{moRong ? "▾" : "▸"} {h.ten}</Nut>
 				</td>
 				<td style={o}>{h.moTa}</td>
 				<td style={o}>
@@ -103,10 +158,10 @@ function HuongRow({ h, onNhan, onBo, onKhoiPhuc }) {
 							<option key={n} value={n}>{n}</option>
 						))}
 					</select>{" "}
-					<button onClick={() => onNhan(h.id, trongSo)}>Nhận</button>{" "}
+					<Nut chinh onClick={() => onNhan(h.id, trongSo)}>Nhận</Nut>{" "}
 					<input placeholder="lý do bỏ (bắt buộc)" value={lyDo} onChange={(e) => setLyDo(e.target.value)} style={{ width: 150 }} />{" "}
-					<button disabled={!lyDo.trim()} onClick={() => onBo(h.id, lyDo)}>Bỏ</button>{" "}
-					{h.trangThai !== "de_xuat" && <button onClick={() => onKhoiPhuc(h.id)}>Khôi phục</button>}
+					<Nut disabled={!lyDo.trim()} onClick={() => onBo(h.id, lyDo)}>Bỏ</Nut>{" "}
+					{h.trangThai !== "de_xuat" && <Nut onClick={() => onKhoiPhuc(h.id)}>Khôi phục</Nut>}
 				</td>
 			</tr>
 			{moRong && (
@@ -170,7 +225,7 @@ function KeHoachRow({ k, onDuyet, onBo }) {
 		<>
 			<tr>
 				<td style={o}>
-					<button onClick={() => setMoRong(!moRong)}>{moRong ? "▾" : "▸"} {k.tieuDeLamViec}</button>
+					<Nut onClick={() => setMoRong(!moRong)}>{moRong ? "▾" : "▸"} {k.tieuDeLamViec}</Nut>
 				</td>
 				<td style={o}>
 					{k.tuKhoaChinh}
@@ -202,9 +257,9 @@ function KeHoachRow({ k, onDuyet, onBo }) {
 				<td style={o}>
 					{suaDuoc ? (
 						<>
-							{k.trangThai !== "da_duyet" && <button onClick={() => onDuyet(k.id)}>Duyệt</button>}{" "}
+							{k.trangThai !== "da_duyet" && <Nut chinh onClick={() => onDuyet(k.id)}>Duyệt</Nut>}{" "}
 							<input placeholder="lý do bỏ (bắt buộc)" value={lyDo} onChange={(e) => setLyDo(e.target.value)} style={{ width: 130 }} />{" "}
-							{k.trangThai !== "bo_qua" && <button disabled={!lyDo.trim()} onClick={() => onBo(k.id, lyDo)}>Bỏ</button>}
+							{k.trangThai !== "bo_qua" && <Nut disabled={!lyDo.trim()} onClick={() => onBo(k.id, lyDo)}>Bỏ</Nut>}
 						</>
 					) : (
 						"—"
@@ -453,7 +508,7 @@ function PhienLeoTop({ p, onDaSua }) {
 				<p>
 					Ngày sửa (giờ Việt Nam):{" "}
 					<input type="date" value={ngay} max={ngayVN()} onChange={(e) => setNgay(e.target.value)} />{" "}
-					<button onClick={() => { if (p.trangThai === "da_sua" && (p.doLai ?? []).length > 0 && !window.confirm("Đổi ngày sửa sẽ xoá các lần đo lại đã có. Tiếp tục?")) return; onDaSua(p.id, ngay); }}>{p.trangThai === "da_sua" ? "Đổi ngày sửa" : "Đã sửa theo phiếu"}</button>
+					<Nut chinh={p.trangThai !== "da_sua"} onClick={() => { if (p.trangThai === "da_sua" && (p.doLai ?? []).length > 0 && !window.confirm("Đổi ngày sửa sẽ xoá các lần đo lại đã có. Tiếp tục?")) return; onDaSua(p.id, ngay); }}>{p.trangThai === "da_sua" ? "Đổi ngày sửa" : "Đã sửa theo phiếu"}</Nut>
 					{p.trangThai === "da_sua" && <span style={{ fontSize: 12, color: "#92400e" }}> · đổi ngày sẽ xoá các lần đo lại đã có</span>}
 				</p>
 			)}
@@ -533,7 +588,7 @@ function LeoTopTab({ dl, loi, onDaSua, onTai }) {
 				</div>
 			)}
 			<h2>
-				Phiên leo top ({phien.length}) <button onClick={onTai}>Tải lại</button>
+				Phiên leo top ({phien.length}) <Nut onClick={onTai}>Tải lại</Nut>
 			</h2>
 			<table style={{ borderCollapse: "collapse", width: "100%" }}>
 				<thead>
@@ -545,7 +600,7 @@ function LeoTopTab({ dl, loi, onDaSua, onTai }) {
 							<tr style={{ opacity: p.trangThai === "bo" ? 0.5 : 1 }}>
 								<td style={o}>
 									{/* tuKhoa là chữ người lạ gõ vào Google — chỉ hiển thị qua JSX text. */}
-									<button onClick={() => setMo(mo === p.id ? null : p.id)}>{mo === p.id ? "▾" : "▸"} {p.tuKhoa}</button>
+									<Nut onClick={() => setMo(mo === p.id ? null : p.id)}>{mo === p.id ? "▾" : "▸"} {p.tuKhoa}</Nut>
 									{(p.tuKhoaPhu ?? []).length > 0 && (
 										<div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>
 											Từ khoá khác của trang này:{" "}
@@ -589,6 +644,7 @@ function RadaSeo() {
 	const [cLoi, setCLoi] = useState("");
 	const [ltDl, setLtDl] = useState(null);
 	const [ltLoi, setLtLoi] = useState("");
+	const [thongBao, setThongBao] = useState("");
 
 	const tai = useCallback(() => goi("tong-quan").then((d) => { setDl(d); setLoi(""); }, (e) => setLoi(e.message)), []);
 	const taiCL = useCallback(() => goi("chien-luoc-tong-quan").then((d) => { setClDl(d); setCLoi(""); }, (e) => setCLoi(e.message)), []);
@@ -613,14 +669,9 @@ function RadaSeo() {
 			<h1>Rada SEO</h1>
 			<p>
 				{TABS.map((t) => (
-					<button
-						key={t.key}
-						onClick={() => doiTab(t.key)}
-						disabled={tab === t.key}
-						style={{ marginRight: 8, fontWeight: tab === t.key ? 700 : 400 }}
-					>
+					<Nut key={t.key} dangChon={tab === t.key} onClick={() => doiTab(t.key)} style={{ marginRight: 8 }}>
 						{t.label}
-					</button>
+					</Nut>
 				))}
 			</p>
 
@@ -629,6 +680,8 @@ function RadaSeo() {
 					<div>{loi || "Đang tải…"}</div>
 				) : (
 					<>
+						<OTinhTrang ds={dl.tinhTrang} />
+						{thongBao && <p style={{ color: "#15803d", fontWeight: 600 }}>{thongBao}</p>}
 						{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
 						{dl.canhBaoCaDem && <p style={{ color: "#b91c1c", fontWeight: 600 }}>⚠ Hơn 26 giờ chưa có ca radar thành công — xem nhật ký bên dưới.</p>}
 						{dl.canhBaoClaude && (
@@ -642,17 +695,26 @@ function RadaSeo() {
 						<p>
 							{/* Cron dò MỖI GIỜ và chỉ chạy ca ở tick 19:30 UTC (xem LICH_RADAR) → nextRunAt là tick kế, không phải ca kế. */}
 							Lịch đêm: {lichRadar ? `02:30 hằng ngày (cron dò mỗi giờ) · tick kế ${gio(lichRadar.nextRunAt)} · tick trước ${gio(lichRadar.lastRunAt)}` : "chưa bật"}{" "}
-							<button onClick={() => lam("lich-bat")}>{lichRadar ? "Hẹn lại" : "Bật lịch"}</button>{" "}
-							<button disabled={dl.dangChay} onClick={() => lam("ca-chay", { ghi: false }).then(() => setTimeout(tai, 2000))}>Chạy thử</button>{" "}
-							<button disabled={dl.dangChay || !dl.caDemBat} onClick={() => lam("ca-chay", { ghi: true }).then(() => setTimeout(tai, 2000))}>Chạy thật</button>{" "}
-							{dl.dangChay && "· đang chạy…"} <button onClick={tai}>Tải lại</button>
+							<Nut chinh={!lichRadar} onClick={() => lam("lich-bat")}>{lichRadar ? "Hẹn lại" : "Bật lịch"}</Nut>{" "}
+							<Nut disabled={dl.dangChay} onClick={() => lam("ca-chay", { ghi: false }).then(() => setTimeout(tai, 2000))}>Chạy thử</Nut>{" "}
+							<Nut chinh disabled={dl.dangChay || !dl.caDemBat} onClick={() => lam("ca-chay", { ghi: true }).then(() => setTimeout(tai, 2000))}>Chạy thật</Nut>{" "}
+							{dl.dangChay && "· đang chạy…"} <Nut onClick={tai}>Tải lại</Nut>
 						</p>
 
 						<h2>Đối thủ</h2>
 						<form
 							onSubmit={(e) => {
 								e.preventDefault();
-								lam("doi-thu-luu", form).then(() => setForm({ tenMien: "", ten: "", laCuaMinh: false }));
+								goi("doi-thu-luu", form).then(
+									(r) => {
+										setForm({ tenMien: "", ten: "", laCuaMinh: false });
+										setThongBao(r?.caDauTien ? "Đã bắt đầu ca radar đầu tiên — vài phút nữa bấm “Tải lại”." : "");
+										tai();
+										// Ca đầu vừa thả chạy nền: tải lại sau chốc lát để thấy "đang chạy".
+										if (r?.caDauTien) setTimeout(tai, 2000);
+									},
+									(e) => setLoi(e.message),
+								);
 							}}
 						>
 							<input placeholder="tên miền, vd vinmec.com" value={form.tenMien} onChange={(e) => setForm({ ...form, tenMien: e.target.value })} />{" "}
@@ -660,7 +722,7 @@ function RadaSeo() {
 							<label>
 								<input type="checkbox" checked={form.laCuaMinh} onChange={(e) => setForm({ ...form, laCuaMinh: e.target.checked })} /> site của mình
 							</label>{" "}
-							<button type="submit">Lưu</button>
+							<Nut chinh type="submit">Lưu</Nut>
 						</form>
 						<table style={{ borderCollapse: "collapse", width: "100%", marginTop: 8 }}>
 							<thead>
@@ -672,8 +734,8 @@ function RadaSeo() {
 										<td style={o}>{d.ten} {d.laCuaMinh && <b>(của mình)</b>}</td>
 										<td style={o}>{d.dem.cho}</td><td style={o}>{d.dem.cho_ai}</td><td style={o}>{d.dem.da_phan_tich}</td><td style={o}>{d.dem.ngoai_nganh}</td><td style={o}>{d.dem.loi}</td>
 										<td style={o}>
-												{d.dem.loi > 0 && <button onClick={() => lam("url-dat-lai", { tenMien: d.id })}>Thử lại URL lỗi</button>}{" "}
-												<button onClick={() => confirm(`Xoá ${d.id} và mọi URL của nó?`) && lam("doi-thu-xoa", { tenMien: d.id })}>Xoá</button>
+												{d.dem.loi > 0 && <Nut onClick={() => lam("url-dat-lai", { tenMien: d.id })}>Thử lại URL lỗi</Nut>}{" "}
+												<Nut onClick={() => confirm(`Xoá ${d.id} và mọi URL của nó?`) && lam("doi-thu-xoa", { tenMien: d.id })}>Xoá</Nut>
 											</td>
 									</tr>
 								))}
@@ -694,8 +756,8 @@ function RadaSeo() {
 										<td style={o}>{c.soDoiThu} / {c.soBai}</td>
 										<td style={o}>{NHAN_CUM[c.trangThai] ?? c.trangThai}</td>
 										<td style={o}>
-											{c.trangThai === "cho_viet" && <button onClick={() => lam("cum-trang-thai", { id: c.id, trangThai: "bo_qua" })}>Bỏ qua</button>}
-											{c.trangThai === "bo_qua" && <button onClick={() => lam("cum-trang-thai", { id: c.id, trangThai: "cho_viet" })}>Khôi phục</button>}
+											{c.trangThai === "cho_viet" && <Nut onClick={() => lam("cum-trang-thai", { id: c.id, trangThai: "bo_qua" })}>Bỏ qua</Nut>}
+											{c.trangThai === "bo_qua" && <Nut onClick={() => lam("cum-trang-thai", { id: c.id, trangThai: "cho_viet" })}>Khôi phục</Nut>}
 										</td>
 									</tr>
 								))}
