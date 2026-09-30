@@ -59,3 +59,51 @@ test("chữ dựng sẵn dạng NFD vẫn bị bắt", () => {
 test("không vu oan 'trị' trong chính trị, cấp/hoãn trị, trị giá", () => {
 	for (const s of ["Bàn chuyện chính trị", "cấp trị tiêu, hoãn trị bản", "Trị giá 5 triệu đồng"]) assert.deepEqual(ma(s), [], s);
 });
+
+// Lỗ "thăm khám" (đo 30/09/2026): MIEN_TRU cũ gỡ mọi thứ từ "thăm khám"/"tham khảo ý kiến" tới
+// dấu câu kế tiếp, nên ba câu dưới đây từng ra [] trọn vẹn.
+const maXep = (s) => ma(s).sort();
+
+test("thăm khám / tham khảo ý kiến KHÔNG còn là dấu hiệu miễn trừ", () => {
+	assert.deepEqual(maXep("Chúng tôi thăm khám và chữa mất ngủ bằng châm cứu."), ["chua", "kham_benh"]);
+	const r = timViPham("Y sỹ sẽ thăm khám cho bạn.");
+	assert.deepEqual(r.map((v) => v.ma), ["kham_benh"]);
+	assert.equal(r[0].tu, "thăm khám");
+	assert.equal(r[0].goiY, "đo kinh lạc / tư vấn");
+	assert.deepEqual(maXep("Tham khảo ý kiến thầy thuốc rồi châm cứu trị dứt điểm"), ["hua_khoi", "tri"]);
+});
+
+test("kham_benh: 'khám' đứng làm động từ", () => {
+	for (const s of [
+		"Hãy đi khám sớm.",
+		"Bạn sẽ được khám miễn phí.",
+		"Y sỹ khám cho người bệnh.",
+		"Chúng tôi khám và tư vấn.",
+		"Dịch vụ khám chữa bằng Đông Y.",
+		"Hãy đến khám bệnh sớm.",
+		"Lịch thăm khám mở cả tuần.",
+	]) assert.deepEqual(ma(s), s.includes("chữa") ? ["chua", "kham_benh"] : ["kham_benh"], s);
+});
+
+test("kham_benh: không bắt phòng khám, khám phá, khám nghiệm, khám bệnh nhân", () => {
+	for (const s of [
+		"Phần mềm cho phòng khám Đông Y.",
+		"Khám phá huyệt Túc Tam Lý.",
+		"Báo cáo khám nghiệm hiện trường.",
+		"Khách hàng dùng phần mềm để khám bệnh nhân và lưu hồ sơ",
+		"Phòng  khám mở cửa lúc 8 giờ.",
+	]) assert.deepEqual(ma(s), [], s);
+});
+
+test("miễn trừ CHỈ mệnh đề 'không (thể) thay thế' tới dấu câu kế tiếp", () => {
+	assert.deepEqual(ma("Châm cứu không thể thay thế việc thăm khám của thầy thuốc."), []);
+	// Phần sau dấu phẩy không còn nằm trong mệnh đề miễn trừ.
+	assert.deepEqual(ma("Bài này không thay thế thầy thuốc, nhưng châm cứu chữa được mất ngủ."), ["chua"]);
+});
+
+test("câu miễn trừ chuẩn của trang (KhungSeoBaiViet.astro) ra sạch", () => {
+	const s =
+		"Bài viết chỉ mang tính tham khảo & học tập theo lý luận Đông Y, không thay thế việc thăm khám, chẩn đoán hay điều trị của thầy thuốc có chuyên môn. Khi có vấn đề sức khoẻ, hãy đến cơ sở y tế.";
+	assert.deepEqual(timViPham(s), []);
+	assert.deepEqual(timViPham(s.normalize("NFD")), []);
+});
