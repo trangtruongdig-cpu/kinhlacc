@@ -30,3 +30,18 @@ test("thuThapUrl: robots → index → sitemap con; bỏ sitemap trỏ ra ngoài
 	assert.deepEqual((await thuThapUrl("a.com", web)).sort(), ["https://a.com/b1", "https://a.com/b2", "https://www.a.com/b3"]);
 	assert.equal((await thuThapUrl("a.com", web, { tranUrl: 2 })).length, 2);
 });
+
+test("thuThapUrl: lấy bài MỚI NHẤT trước khi áp trần (Yoast liệt kê cũ trước)", async () => {
+	const url = (loc, lastmod) => `<url><loc>${loc}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ""}</url>`;
+	const web = webGia({
+		// Sitemap con MỚI đứng THỨ HAI trong index; trong mỗi sitemap con, bài cũ đứng trước.
+		"https://a.com/sitemap.xml":
+			"<sitemapindex><sitemap><loc>https://a.com/s-cu.xml</loc><lastmod>2024-03-01</lastmod></sitemap>" +
+			"<sitemap><loc>https://a.com/s-moi.xml</loc><lastmod>2026-09-01T10:00:00+07:00</lastmod></sitemap></sitemapindex>",
+		"https://a.com/s-cu.xml": `<urlset>${url("https://a.com/p1", "2024-01-01")}${url("https://a.com/p2", "2024-02-01")}</urlset>`,
+		"https://a.com/s-moi.xml": `<urlset>${url("https://a.com/p3", "2026-01-01")}${url("https://a.com/khong-ngay")}${url("https://a.com/p4", "2026-03-01")}</urlset>`,
+	});
+	assert.deepEqual(await thuThapUrl("a.com", web, { tranUrl: 2 }), ["https://a.com/p4", "https://a.com/p3"]);
+	// Không trần: mục có ngày xếp mới→cũ, mục không ngày xếp sau, giữ thứ tự gặp.
+	assert.deepEqual(await thuThapUrl("a.com", web), ["https://a.com/p4", "https://a.com/p3", "https://a.com/p2", "https://a.com/p1", "https://a.com/khong-ngay"]);
+});
