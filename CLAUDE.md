@@ -666,6 +666,22 @@ SQLite, trên Postgres là lệnh rỗng.
 - Bài thuốc TRÙNG (cùng tập vị + cùng tên gốc hoặc cùng tác dụng) trỏ canonical về bản dày
   nhất, rời sitemap (`trung-lap-bai-thuoc.mjs`). Cùng tên mà KHÁC vị thì KHÔNG gom — đó là
   các phương khác nhau chung tên; tiêu đề kèm tên sách để khỏi trùng.
+- **View Vue KHÔNG được đè `document.title`/description khi trang tải thẳng từ HTML tĩnh**
+  — gọi `headTinhKhop()` (`frontend/src/lib/seoTinh.ts`) trước. Google index trang SAU khi
+  chạy JS; trước 30/09/2026 bốn view (bài thuốc, dược liệu, hai trang danh sách) đè head tĩnh
+  bằng tiêu đề 94–110 ký tự và mô tả khuôn chung → mọi sửa SEO ở builder và CMS vô hiệu.
+- Nội dung "làm dày" bài thuốc (`phan-tich-bai-thuoc.mjs`) ghi CẢ vào khối tĩnh LẪN
+  `dist/bai-thuoc/<slug>/phan-tich.json` cho `PhuongThuocDetailView` đọc — cùng lý do trên.
+  Chỉ đếm/liệt kê tính vị quy kinh, không sinh văn, không suy kết luận y học.
+- Đường vào kho cho bot: `MUC_LUC` (`seo-html.mjs`) ở chân mọi trang tĩnh + khối tĩnh của
+  trang chủ; mục lục A–Z tĩnh `/bai-thuoc/muc-luc/`, `/duoc-lieu/muc-luc/` (`muc-luc.mjs`).
+  Danh sách trong TuDienView là `@click`, bot không đi theo được — đừng trông vào nó.
+- nginx: `absolute_redirect off` (sau Caddy, không có nó thì mọi URL thiếu "/" bị đẩy về
+  http); nhóm trang độc lập (huyet/kinh/benh-hoc/cham-cuu-tri-benh/nguon) trả **404 thật**;
+  đường không có tệp tĩnh rơi về vỏ app kèm `X-Robots-Tag: noindex` (không 404 cứng được vì
+  /app/* và bài thuốc thêm sau lần build cần vỏ app).
+- Trang từ điển ghi "Biên soạn: Ban Biên Tập" (`bylineTuDien`), KHÔNG in "Đã rà soát chuyên
+  môn" — chỉ blog (qua cổng duyệt `blog:pre`, có `reviewedBy`) mới được in nhãn đó.
 - `frontend/scripts/seo-cms.mjs` là khâu nối. Nó mở kết nối RIÊNG tới `kinhlac_cms`
   (builder nối `defaultdb`, hai kho không join chéo được) và đóng ngay — Aiven chỉ 20
   slot. Ô nào để trống thì GIỮ bản tự sinh: ghi đè là bổ sung, không phải thay thế.

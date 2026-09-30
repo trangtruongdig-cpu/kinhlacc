@@ -123,24 +123,54 @@ export const topbar = `<header class="bl-top"><div class="bl-top-in">
   <nav class="bl-nav"><a href="/blog/">Cẩm Nang</a><a href="/thu-vien">Từ Điển</a><a href="/xem-3d">Đồ Hình 3D</a><a class="bl-nav-cta" href="/app">Vào Phần Mềm</a></nav>
 </div></header>`
 
+// Các trang MỤC LỤC của kho từ điển. Có mặt ở chân MỌI trang tĩnh và trong khối tĩnh của
+// trang chủ + /thu-vien/ (prerender-seo.mjs). Vì sao: đo 30/09/2026, theo HTML tĩnh trang chủ
+// không dẫn tới trang từ điển nào, và khi đã chạy JS thì 3.853 bài thuốc vẫn nằm ở độ sâu 6
+// — trang có trong sitemap mà không ai trỏ tới thường chỉ được "phát hiện", không được index.
+export const MUC_LUC = [
+  ['/huyet/', 'Huyệt Vị'],
+  ['/kinh/', 'Kinh Mạch'],
+  ['/benh-hoc/', 'Bệnh Học'],
+  ['/cham-cuu-tri-benh/', 'Châm Cứu Trị Bệnh'],
+  ['/bai-thuoc/muc-luc/', 'Bài Thuốc A–Z'],
+  ['/duoc-lieu/muc-luc/', 'Dược Liệu A–Z'],
+  ['/nguon/', 'Nguồn Y Văn'],
+  ['/blog/', 'Cẩm Nang'],
+]
+export const navMucLuc = `<nav aria-label="Mục lục từ điển">${MUC_LUC.map(([h, t]) => `<a href="${h}">${t}</a>`).join(' · ')}</nav>`
+
 export const footer = `<footer class="bl-foot"><div class="bl-foot-in">
   <p><strong>${SITE}</strong> — Đông Y nghìn năm, giờ đọc được bằng dữ liệu.</p>
   <p><a href="/">Trang Chủ</a> · <a href="/blog/">Cẩm Nang</a> · <a href="/huyet/">Tra Cứu Huyệt</a> · <a href="/kinh/">12 Đường Kinh</a> · <a href="/thu-vien">Từ Điển</a> · <a href="/xem-ket-qua-do">Demo Đo Kinh Lạc</a></p>
+  <p>Từ điển: ${navMucLuc}</p>
   <p class="bl-foot-note">Nội dung mang tính tham khảo theo lý luận Đông Y, không thay thế chẩn đoán/điều trị của thầy thuốc.</p>
 </div></footer>`
+
+/**
+ * Dòng tác giả của trang TỪ ĐIỂN. Trước 30/09/2026 mọi trang huyệt/kinh/bệnh/nguồn in
+ * "✔ Đã rà soát chuyên môn" + tên người duyệt — ~1.300 trang, không có dấu vết duyệt từng
+ * trang. Với nội dung y tế (YMYL), tuyên bố rà soát không kiểm chứng được là điểm yếu E-E-A-T,
+ * nên kho từ điển chỉ ghi điều có thật. Blog GIỮ nhãn: mỗi bài qua cổng duyệt của blog:pre
+ * và khai người duyệt riêng (reviewedBy trong JSON-LD).
+ */
+export const bylineTuDien = (ngay) =>
+  `<p class="dl-byline">Biên soạn: ${escText(DEFAULT_AUTHOR)} · Theo y văn cổ truyền · Cập nhật ${escText(ngay)}</p>`
 
 /**
  * Khối miễn trừ y tế (YMYL/E-E-A-T) — dùng chung blog + từ điển.
  * note: câu mở bài đầu (vd "Bài viết" cho blog, "Trang tra cứu này" cho từ điển).
  */
 export function disclaimer({
-  reviewer = DEFAULT_REVIEWER,
+  // null = trang CHƯA có người duyệt từng trang (mặc định cho kho từ điển) — xem bylineTuDien.
+  reviewer = null,
   reviewerTitle = DEFAULT_REVIEWER_TITLE,
   note = 'Nội dung',
 } = {}) {
   return `<aside class="bl-disclaimer" role="note">
     <p class="bl-disc-title">⚕️ Miễn Trừ Y Tế</p>
     <p>${escText(note)} được trích dẫn trung thành theo <strong>y văn cổ truyền</strong>, chỉ mang tính <strong>tham khảo &amp; học tập</strong>, không thay thế việc thăm khám, chẩn đoán hay điều trị của thầy thuốc/bác sỹ có chuyên môn. Khi có vấn đề sức khoẻ, hãy đến cơ sở y tế.</p>
-    <p class="bl-disc-meta">Rà soát chuyên môn: ${escText(reviewer)} (${escText(reviewerTitle)}) · Xem <a href="/quy-trinh-bien-tap">Quy Trình Biên Tập</a>.</p>
+    <p class="bl-disc-meta">${reviewer
+      ? `Rà soát chuyên môn: ${escText(reviewer)} (${escText(reviewerTitle)})`
+      : `Biên soạn: ${escText(DEFAULT_AUTHOR)}, trích theo y văn cổ truyền`} · Xem <a href="/quy-trinh-bien-tap">Quy Trình Biên Tập</a>.</p>
   </aside>`
 }

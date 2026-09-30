@@ -12,6 +12,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
+import { navMucLuc } from './seo-html.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const root = resolve(here, '..')
@@ -71,6 +72,8 @@ function injectStub(html, page) {
     `<h1>${escText(page.title)}</h1>` +
     `<p>${escText(page.description)}</p>` +
     `<nav aria-label="Trang công khai">${links}</nav>` +
+    // Mục lục từ điển — xem MUC_LUC trong seo-html.mjs (trước đây trang chủ không dẫn vào kho).
+    navMucLuc +
     `<p>Đang tải ứng dụng…</p>` +
     `</div>`
   return html.replace(/<div id="app">\s*<\/div>/i, `<div id="app">${stub}</div>`)

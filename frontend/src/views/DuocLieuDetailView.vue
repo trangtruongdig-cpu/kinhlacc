@@ -10,6 +10,7 @@ import ThuVienNav from '@/components/ThuVienNav.vue'
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue'
 import MedicalDisclaimer from '@/components/MedicalDisclaimer.vue'
 import { api } from '@/services/api'
+import { headTinhKhop } from '@/lib/seoTinh'
 import { useDictLinks } from '@/lib/dictLinks'
 const ViThuocDetail = defineAsyncComponent(() => import('@/components/ViThuocDetail.vue'))
 
@@ -30,6 +31,8 @@ async function loadBaiThuoc(viId: number) {
 watch(id, (v) => loadBaiThuoc(v), { immediate: true })
 
 function onLoaded(h: { id: number; ten: string }) {
+  // Tải thẳng từ HTML tĩnh → head đã đúng (kể cả chữ sửa tay trong CMS), đừng đè. Xem seoTinh.ts.
+  if (headTinhKhop()) return
   document.title = `${h.ten} — Vị thuốc Đông Y | Từ điển dược liệu`
   const m = document.querySelector('meta[name="description"]')
   if (m) m.setAttribute('content', `Tra cứu vị thuốc ${h.ten}: tính, vị, quy kinh, công dụng, chủ trị, kiêng kỵ và hình ảnh từ nguyên liệu đến thành phẩm.`)

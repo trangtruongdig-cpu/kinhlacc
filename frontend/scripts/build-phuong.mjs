@@ -29,6 +29,8 @@ try { require(join(BE, 'node_modules/dotenv')).config({ path: join(BE, '.env') }
 import { napGhiDe, seoTrang, luuTuSinh } from './seo-cms.mjs'
 import { tieuDeSeo, SITE, OG_IMAGE } from './seo-html.mjs'
 import { timTrung } from './trung-lap-bai-thuoc.mjs'
+import { dungMucLuc } from './muc-luc.mjs'
+import { tongHopTinhVi, timLienQuan, cauTomTat } from './phan-tich-bai-thuoc.mjs'
 
 // Ghi đè SEO người biên tập gõ trong CMS. Nạp một lần ở đây; không nối được kho thì
 // hàm trả null và trang dùng bản tự sinh (seo-cms.mjs đã kêu, đừng nuốt cảnh báo).
@@ -78,6 +80,22 @@ function apGhiDeBaiThuoc(gd, b, url, chinh, vi, tenHien, tenKhac) {
   })
 }
 
+// Khối "làm dày" bằng dữ liệu sẵn có (xem phan-tich-bai-thuoc.mjs). Chỉ đếm và liệt kê.
+function khoiPhanTich(pt, lq) {
+  let h = ''
+  if (pt) {
+    h += `<h2>Tính vị, quy kinh các vị</h2><p>${escText(cauTomTat(pt))}</p><table><thead><tr><th>Vị thuốc</th><th>Liều</th><th>Tính</th><th>Vị</th><th>Quy kinh</th></tr></thead><tbody>${pt.bang
+      .map((r) => `<tr><td>${r.id ? `<a href="/duoc-lieu/${escAttr(r.id)}/">${escText(r.ten)}</a>` : escText(r.ten)}</td><td>${escText(r.lieu)}</td><td>${escText(r.tinh)}</td><td>${escText(r.vi)}</td><td>${escText(r.kinh.join(', '))}</td></tr>`)
+      .join('')}</tbody></table>`
+  }
+  if (lq.length) {
+    h += `<h2>Bài thuốc có thành phần gần giống</h2><ul>${lq
+      .map((x) => `<li><a href="/bai-thuoc/${escAttr(x.slug)}/">${escText(x.ten)}</a> — chung ${x.chung} vị</li>`)
+      .join('')}</ul>`
+  }
+  return h
+}
+
 // Liên kết qua lại giữa bản chính và bản trùng — người đọc biết hai trang là một bài, và
 // bot đi theo được tới bản chính.
 function khoiTrung(b, chinh, banPhu, theoSlug) {
@@ -112,7 +130,7 @@ const chuNhinThay = (b) =>
 const duDay = (b) =>
   soVi(b) >= MIN_SO_VI && chuoi(b.tac_dung).length > 0 && chuNhinThay(b).length >= MIN_CHU_HIEN
 
-function stub(b, nguonCua, trungHtml = '') {
+function stub(b, nguonCua, trungHtml = '', phanTichHtml = '') {
   const tp = Array.isArray(b.thanh_phan) ? b.thanh_phan : []
   const ing = tp.map((t) => {
     const name = escText(t.ten) + (t.lieu ? ` <span>${escText(t.lieu)}</span>` : '')
@@ -134,6 +152,7 @@ function stub(b, nguonCua, trungHtml = '') {
         : '')
     + (b.tac_dung ? `<h2>Tác dụng</h2><p>${escText(b.tac_dung)}</p>` : '')
     + (ing ? `<h2>Thành phần (${tp.length} vị)</h2><ul>${ing}</ul>` : '')
+    + phanTichHtml
     + (b.cach_dung ? `<h2>Cách bào chế & sử dụng</h2><p>${escText(b.cach_dung)}</p>` : '')
     + (b.ghi_chu ? `<h2>Ghi chú</h2><p>${escText(b.ghi_chu)}</p>` : '')
     + `<p>Cổ phương tham khảo — không tự ý dùng, hãy hỏi thầy thuốc Y Học Cổ Truyền.</p>`
@@ -184,6 +203,15 @@ function stub(b, nguonCua, trungHtml = '') {
     // Bảng nối chưa có thì trang vẫn dựng, chỉ mất phần link — KHÔNG làm gãy build.
     console.warn('⚠ build-phuong: không đọc được nguon_phuong_thang (' + e.message + ') — bỏ khối liên kết nguồn.')
   }
+  // Tính / vị / quy kinh từng vị — cho khối phân tích (phan-tich-bai-thuoc.mjs).
+  const viTheoId = new Map()
+  try {
+    for (const r of (await client.query('SELECT id, ten_vi_thuoc, tinh, vi FROM vi_thuoc')).rows) viTheoId.set(r.id, { ...r, kinh: [] })
+    for (const r of (await client.query(`SELECT vkm.id_vi_thuoc, km.ten_kinh_mach AS ten FROM vi_thuoc_kinh_mach vkm
+        JOIN kinh_mach km ON km.id_kinh_mach = vkm.id_kinh_mach`)).rows) viTheoId.get(r.id_vi_thuoc)?.kinh.push(r.ten)
+  } catch (e) {
+    console.warn('⚠ build-phuong: không đọc được dữ liệu vị thuốc (' + e.message + ') — bỏ khối phân tích tính vị.')
+  }
   await client.end()
 
   // Bài TRÙNG (cùng tập vị + cùng tên gốc hoặc cùng tác dụng) → canonical về bản chính.
@@ -210,10 +238,17 @@ function stub(b, nguonCua, trungHtml = '') {
     return sach ? `${b.ten} (${sach}${thu > 1 ? `, bản ${thu}` : ''})` : thu > 1 ? `${b.ten} (bản ${thu})` : b.ten
   }
 
+  // Bài có thành phần gần giống — chỉ trỏ tới bài được index, không trỏ trong cùng nhóm trùng.
+  const ungVien = new Set(rows.filter((b) => duDay(b) && !veChinh.has(b.slug)).map((b) => b.slug))
+  const cungNhom = (a, c) => (veChinh.get(a) || a) === (veChinh.get(c) || c)
+  const lienQuan = timLienQuan(rows, ungVien, { boQua: cungNhom })
+  let nPhanTich = 0
+
   const urls = []
   let n = 0
   let nNoindex = 0
   let nCanonical = 0
+  const mucLuc = []
   for (const b of rows) {
     const gd = ghiDeSEO('bai_thuoc', b.slug)
     const url = `${DOMAIN}/bai-thuoc/${b.slug}/`
@@ -224,6 +259,8 @@ function stub(b, nguonCua, trungHtml = '') {
     const index = seo.index !== false && seo.canonical === url
     if (seo.canonical !== url) nCanonical++
     else if (!index) nNoindex++
+    const pt = viTheoId.size ? tongHopTinhVi(b.thanh_phan, viTheoId) : null
+    const lq = lienQuan.get(b.slug) || []
     const jsonLd = [
       {
         '@context': 'https://schema.org', '@type': 'MedicalWebPage', inLanguage: 'vi', url,
@@ -245,14 +282,31 @@ function stub(b, nguonCua, trungHtml = '') {
     // Không dùng \s* (chỉ khớp div RỖNG): nếu prerender-seo.mjs (route "/") chạy trước và đã
     // ghi đè dist/index.html với stub của TRANG CHỦ, div không còn rỗng nữa → [\s\S]*? khớp
     // được nội dung cũ và thay đúng, tránh mọi trang bài thuốc lặp lại nội dung trang chủ.
-    html = html.replace(/<div id="app">[\s\S]*?<\/div>/i, `<div id="app">${stub(b, nguonTheoBai.get(b.id) || [], khoiTrung(b, chinh, banPhu, theoSlug))}</div>`)
+    html = html.replace(/<div id="app">[\s\S]*?<\/div>/i, `<div id="app">${stub(b, nguonTheoBai.get(b.id) || [], khoiTrung(b, chinh, banPhu, theoSlug), khoiPhanTich(pt, lq))}</div>`)
 
     const outDir = join(distDir, 'bai-thuoc', b.slug)
     mkdirSync(outDir, { recursive: true })
     writeFileSync(join(outDir, 'index.html'), html, 'utf8')
-    if (index) urls.push(url)
+    // Cùng dữ liệu cho PhuongThuocDetailView.vue — Google index trang SAU khi Vue dựng.
+    if (pt || lq.length) {
+      writeFileSync(join(outDir, 'phan-tich.json'), JSON.stringify({ pt, lq: lq.map(({ slug, ten, chung }) => ({ slug, ten, chung })) }), 'utf8')
+      nPhanTich++
+    }
+    if (index) {
+      urls.push(url)
+      mucLuc.push({ ten: tenHienCua(b), url, phu: clipMoTa(cau(b.tac_dung), 110) })
+    }
     if (++n % 2000 === 0) console.log(`  …${n}/${rows.length}`)
   }
+
+  // Mục lục A–Z tĩnh — đường vào cho bot (danh sách trong app là @click, không có link).
+  const urlMucLuc = dungMucLuc({
+    distDir, dir: 'bai-thuoc', ten: 'Bài Thuốc', muc: mucLuc,
+    gioiThieu: 'Từ điển bài thuốc Đông Y: thành phần, tác dụng, cách dùng và xuất xứ theo y văn cổ truyền.',
+  })
+  urls.push(...urlMucLuc)
+  console.log(`  mục lục A–Z: ${urlMucLuc.length} trang, ${mucLuc.length} bài.`)
+  console.log(`  phân tích tính vị / bài liên quan: ${nPhanTich} bài có khối phân tích.`)
 
   // Nạp URL bài thuốc vào sitemap (chèn trước </urlset>); nếu chưa có sitemap thì bỏ qua.
   const smPath = resolve(distDir, 'sitemap.xml')

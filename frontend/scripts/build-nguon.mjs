@@ -28,7 +28,7 @@ import { createRequire } from 'node:module'
 import { sslConfig, HEN_GIO_DB } from './db-ssl.mjs'
 import {
   head, topbar, footer, disclaimer, ld, escText, escAttr,
-  DOMAIN, SITE, DEFAULT_REVIEWER, tieuDeSeo,
+  DOMAIN, SITE, DEFAULT_AUTHOR, tieuDeSeo,
 } from './seo-html.mjs'
 import { napGhiDe, seoTrang, luuTuSinh } from './seo-cms.mjs'
 import { napNguonCms } from './nguon-cms.mjs'
@@ -200,7 +200,7 @@ function trangNguon(n) {
 <main class="bl-main"><article class="bl-article dl-article">
   <nav class="bl-crumb"><a href="/">Trang Chủ</a> › <a href="/nguon/">Thư Mục Nguồn</a> › <span>${escText(n.ten)}</span></nav>
   <h1>${escText(n.ten)}</h1>
-  <p class="ng-meta">${escText(loai)} · Cập nhật ${escText(BUILD_DATE)} · Rà soát: ${escText(DEFAULT_REVIEWER)}</p>
+  <p class="ng-meta">${escText(loai)} · Cập nhật ${escText(BUILD_DATE)} · Biên soạn: ${escText(DEFAULT_AUTHOR)}</p>
   ${hang.length ? `<dl class="ng-info">${hang.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl>` : ''}
   ${n.mo_ta ? `<p>${escText(n.mo_ta)}</p>` : ''}
   ${

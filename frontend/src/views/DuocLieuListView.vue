@@ -10,6 +10,7 @@ import ThuVienNav from '@/components/ThuVienNav.vue'
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue'
 import { api, assetUrl } from '@/services/api'
 import { discGlyph, hanDiscClass, tenLenClass, tinhLabelClass, cardColorClass } from '@/lib/herbCard'
+import { headTinhKhop } from '@/lib/seoTinh'
 
 interface HerbLite {
   id: number
@@ -79,9 +80,11 @@ watch(page, load)
 
 onMounted(() => {
   loadThumbs()
-  document.title = 'Từ điển dược liệu — tra cứu vị thuốc Đông Y | Kinh Lạc Trương Gia'
-  const m = document.querySelector('meta[name="description"]')
-  if (m) m.setAttribute('content', 'Tra cứu vị thuốc Đông Y: tính, vị, quy kinh, công dụng, chủ trị, kiêng kỵ và hình ảnh từ nguyên liệu đến thành phẩm.')
+  if (!headTinhKhop()) {
+    document.title = 'Từ điển dược liệu — tra cứu vị thuốc Đông Y | Kinh Lạc Trương Gia'
+    const m = document.querySelector('meta[name="description"]')
+    if (m) m.setAttribute('content', 'Tra cứu vị thuốc Đông Y: tính, vị, quy kinh, công dụng, chủ trị, kiêng kỵ và hình ảnh từ nguyên liệu đến thành phẩm.')
+  }
   load()
 })
 </script>

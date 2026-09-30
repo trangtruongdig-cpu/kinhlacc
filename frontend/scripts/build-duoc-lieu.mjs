@@ -32,6 +32,7 @@ try { require(join(BE, 'node_modules/dotenv')).config({ path: join(BE, '.env') }
 
 import { napGhiDe, seoTrang, luuTuSinh } from './seo-cms.mjs'
 import { tieuDeSeo, toAbs, SITE, OG_IMAGE } from './seo-html.mjs'
+import { dungMucLuc } from './muc-luc.mjs'
 
 // Ghi đè SEO người biên tập gõ trong CMS. Nạp một lần ở đây; không nối được kho thì
 // hàm trả null và trang dùng bản tự sinh (seo-cms.mjs đã kêu, đừng nuốt cảnh báo).
@@ -256,6 +257,7 @@ function stub(v, rel) {
   const daBienSoan = (v) => VAN_XUOI.some((f) => String(v[f] ?? '').trim().length > 0)
 
   const urls = []
+  const mucLuc = []
   let n = 0
   let nNoindex = 0
   for (const v of rows) {
@@ -305,9 +307,20 @@ function stub(v, rel) {
     const outDir = join(distDir, 'duoc-lieu', String(v.id))
     mkdirSync(outDir, { recursive: true })
     writeFileSync(join(outDir, 'index.html'), html, 'utf8')
-    if (index) urls.push(url)
+    if (index) {
+      urls.push(url)
+      mucLuc.push({ ten: v.ten_vi_thuoc, url, phu: [v.ten_khoa_hoc, [v.tinh && `tính ${cau(v.tinh).toLowerCase()}`, v.vi && `vị ${cau(v.vi).toLowerCase()}`].filter(Boolean).join(', ')].filter(Boolean).join(' — ') })
+    }
     if (++n % 500 === 0) console.log(`  …${n}/${rows.length}`)
   }
+
+  // Mục lục A–Z tĩnh — xem muc-luc.mjs.
+  const urlMucLuc = dungMucLuc({
+    distDir, dir: 'duoc-lieu', ten: 'Dược Liệu', muc: mucLuc,
+    gioiThieu: 'Từ điển dược liệu Đông Y: tính vị, quy kinh, công dụng, chủ trị và bài thuốc có dùng vị đó.',
+  })
+  urls.push(...urlMucLuc)
+  console.log(`  mục lục A–Z: ${urlMucLuc.length} trang, ${mucLuc.length} vị.`)
 
   // Nạp URL dược liệu vào sitemap (chèn trước </urlset>); nếu chưa có sitemap thì bỏ qua.
   const smPath = resolve(distDir, 'sitemap.xml')

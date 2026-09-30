@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
 import {
   head, topbar, footer, disclaimer, ld, escText, escAttr,
-  DOMAIN, SITE, DEFAULT_REVIEWER, tieuDeSeo,
+  DOMAIN, SITE, tieuDeSeo, bylineTuDien, navMucLuc,
 } from './seo-html.mjs'
 import {
   meridianList, records, classify, recOfPoint, sec, kinhSlugOf, fold,
@@ -633,7 +633,7 @@ function huyetPage(rec) {
 <main class="bl-main"><article class="bl-article dl-article">
   ${crumbHtml}
   <h1>${escText(title)} ${badge}</h1>
-  <p class="dl-byline"><span class="bl-review-badge">✔ Đã rà soát chuyên môn</span> ${escText(DEFAULT_REVIEWER)} · Cập nhật ${escText(BUILD_DATE)}</p>
+  ${bylineTuDien(BUILD_DATE)}
   ${infobox}
   <p class="dl-lead">${escText(lead)}</p>
   ${anh3dBlock(anh3d, dispName)}
@@ -720,7 +720,7 @@ function kinhPage(m) {
 <main class="bl-main"><article class="bl-article dl-article">
   <nav class="bl-crumb"><a href="/">Trang Chủ</a> › <a href="/thu-vien">Từ Điển</a> › <span>${escText(m.ten)}</span></nav>
   <h1>${escText(m.ten)} <span class="dl-badge">${escText(m.code || 'Đường kinh')}</span></h1>
-  <p class="dl-byline"><span class="bl-review-badge">✔ Đã rà soát chuyên môn</span> ${escText(DEFAULT_REVIEWER)} · Cập nhật ${escText(BUILD_DATE)}</p>
+  ${bylineTuDien(BUILD_DATE)}
   ${infobox}
   <p class="dl-lead">${escText(lead)}</p>
   <div class="bl-body">${body}</div>
@@ -980,7 +980,7 @@ function benhPage(rec, set, cfg) {
 <main class="bl-main"><article class="bl-article dl-article">
   <nav class="bl-crumb"><a href="/">Trang Chủ</a> › <a href="/thu-vien">Từ Điển</a> › <a href="/${escAttr(cfg.dir)}/">${escText(set.title)}</a> › <span>${escText(title)}</span></nav>
   <h1>${escText(title)} <span class="dl-badge dl-badge-alt">${escText(set.title)}</span></h1>
-  <p class="dl-byline"><span class="bl-review-badge">✔ Đã rà soát chuyên môn</span> ${escText(DEFAULT_REVIEWER)} · Cập nhật ${escText(BUILD_DATE)}</p>
+  ${bylineTuDien(BUILD_DATE)}
   ${infobox}
   <p class="dl-lead">${escText(lead)}</p>
   ${crossHtml}
@@ -1090,4 +1090,22 @@ console.log(`✓ nối nguồn Phối Huyệt: ${_nguonLinkCount} link /nguon/ (
   const kq = doiChieuUrl(join(distDir, 'sitemap.xml'), TRANG_SM)
   if (kq) console.log(`✓ sitemap từ điển đối chiếu CMS: gỡ ${kq.go}, thêm ${kq.them} URL.`)
 }
+// ── Trang 404 (nginx error_page cho nhóm trang từ điển độc lập) ──
+// noindex + link mục lục: người lạc đường vẫn đi tiếp được, và URL sai không thành bản sao.
+writeFileSync(
+  join(distDir, '404.html'),
+  head({
+    title: `Không tìm thấy trang — ${SITE}`,
+    description: 'Trang bạn tìm không tồn tại hoặc đã đổi địa chỉ. Tra lại qua mục lục từ điển Đông Y.',
+    canonical: `${DOMAIN}/404.html`, index: false, extraHead: DICT_STYLE,
+  }) +
+    `<body>${topbar}
+<main class="bl-main"><article class="bl-article">
+  <h1>Không tìm thấy trang</h1>
+  <p>Trang bạn tìm không tồn tại hoặc đã đổi địa chỉ. Hãy tra lại qua mục lục:</p>
+  <p>${navMucLuc}</p>
+</article></main>
+${footer}</body></html>`,
+  'utf8',
+)
 luuTuSinh()

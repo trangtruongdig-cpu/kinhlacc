@@ -8,6 +8,7 @@ import PublicTopBar from '@/components/PublicTopBar.vue'
 import ThuVienNav from '@/components/ThuVienNav.vue'
 import AppBreadcrumb from '@/components/AppBreadcrumb.vue'
 import { api } from '@/services/api'
+import { headTinhKhop } from '@/lib/seoTinh'
 
 interface BaiLite {
   id: number
@@ -51,9 +52,11 @@ watch(q, () => {
 watch(page, load)
 
 onMounted(() => {
-  document.title = 'Từ điển bài thuốc Đông Y — 13.942 cổ phương | Kinh Lạc Trương Gia'
-  const m = document.querySelector('meta[name="description"]')
-  if (m) m.setAttribute('content', 'Tra cứu hơn 13.900 bài thuốc, cổ phương Đông Y: thành phần vị thuốc, liều lượng, cách dùng, tác dụng và xuất xứ.')
+  if (!headTinhKhop()) {
+    document.title = 'Từ điển bài thuốc Đông Y — 13.942 cổ phương | Kinh Lạc Trương Gia'
+    const m = document.querySelector('meta[name="description"]')
+    if (m) m.setAttribute('content', 'Tra cứu hơn 13.900 bài thuốc, cổ phương Đông Y: thành phần vị thuốc, liều lượng, cách dùng, tác dụng và xuất xứ.')
+  }
   load()
 })
 </script>
