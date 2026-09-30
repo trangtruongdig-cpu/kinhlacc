@@ -2,7 +2,8 @@
 // của bot thẩm định. Nguồn chỉ sống sót khi:
 // - có url: url đọc được (chống SSRF — urlDocDuoc), tải về mã 200 và KHÔNG noindex. Không tin
 //   mã 200 trần của site mình (vỏ SPA + noindex — xem noi-bo/kiem-duong.mjs), nên url cùng gốc
-//   đi qua bộ kiểm đường nội bộ;
+//   đi qua bộ kiểm đường nội bộ — và chỉ khi là /nguon/<slug>/ có tên khớp tiêu đề (không thì
+//   bỏ "khong_phai_nguon": trang huyệt hay trang chủ sống không phải nguồn tham khảo);
 // - không url: tên khớp ĐÚNG một trang /nguon/ trong chỉ mục nội bộ (tên hoặc tên khác — không
 //   nhận khớp một phần) và trang đó sống, đúng tên, trên site thật. Tên sách mô hình "nhớ ra"
 //   mà kho không có thì bị bỏ.
@@ -73,8 +74,18 @@ export async function xacMinhNguon(ds, { docTrang, chiMuc, kiemDuong, goc = "htt
 			if (url) {
 				const duong = duongNoiBo(url, goc);
 				if (duong) {
-					// Chỉ xét trang sống: tên Claude viết có thể kèm tác giả/năm, không so được với <title>.
-					const song = await trongHan(conLai, () => kiemDuong(duong));
+					// Rà soát I8: link về "/" hay "/huyet/x/" của chính site sống thì vẫn KHÔNG phải nguồn.
+					// Chỉ nhận /nguon/<slug>/ khi tiêu đề khớp đúng tên (hoặc tên khác) của CHÍNH mục đó.
+					const muc = /^\/nguon\/[^/]+\/$/.test(duong)
+						? timTrongChiMuc(chiMuc ?? { muc: [] }, title, { toiDa: 10 }).find(
+								(m) => m.loai === "nguon" && (m.khop === "dung" || m.khop === "ten_khac") && (m.duong ?? []).includes(duong),
+							)
+						: null;
+					if (!muc) {
+						boMuc("khong_phai_nguon");
+						continue;
+					}
+					const song = await trongHan(conLai, () => kiemDuong(duong, muc.ten));
 					if (song === HET_GIO) boMuc("het_gio_tong");
 					else if (!song) boMuc("trang_noi_bo_khong_song");
 					else {

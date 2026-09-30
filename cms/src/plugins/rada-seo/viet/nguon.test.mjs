@@ -154,5 +154,29 @@ test("url tương đối '/nguon/…' hoặc cùng gốc → đi qua kiemDuong v
 	assert.deepEqual(r.giu, [{ title: "Thương Hàn Luận", url: "https://kinhlac.online/nguon/thuong-han-luan/" }]);
 	assert.deepEqual(r.bo.map((x) => x.lyDo), ["trang_noi_bo_khong_song"]);
 	assert.equal(goi.length, 0);
-	assert.deepEqual(goiKiem[1], ["/nguon/hoang-de-noi-kinh/", undefined]); // tên Claude viết có thể kèm tác giả — chỉ xét trang sống
+	// Tên nguồn phải khớp mục /nguon/ đó (rà soát I8) — kiemDuong kiểm cả tên trên trang.
+	assert.deepEqual(goiKiem[1], ["/nguon/hoang-de-noi-kinh/", "Hoàng Đế Nội Kinh"]);
+});
+
+test("I8: url cùng site chỉ nhận khi là /nguon/<slug>/ VÀ tiêu đề khớp tên mục đó — còn lại 'khong_phai_nguon'", async () => {
+	const { doc } = docGia();
+	const { kiem, goi: goiKiem } = kiemGia(["/", "/huyet/than-mon/", "/nguon/thuong-han-luan/", "/nguon/hoang-de-noi-kinh/"]);
+	const r = await xacMinhNguon(
+		[
+			{ title: "Trang chủ Kinh Lạc", url: "/" },
+			{ title: "Thần Môn", url: "https://kinhlac.online/huyet/than-mon/" },
+			{ title: "Sách bịa gắn đường thật", url: "/nguon/thuong-han-luan/" },
+			{ title: "Thương Hàn Luận", url: "/nguon/hoang-de-noi-kinh/" },
+			{ title: "Nội Kinh", url: "/nguon/hoang-de-noi-kinh/?x=1" },
+		],
+		{ docTrang: doc, chiMuc: CHI_MUC, kiemDuong: kiem, goc: GOC },
+	);
+	assert.deepEqual(r.bo.map((x) => [x.title, x.lyDo]), [
+		["Trang chủ Kinh Lạc", "khong_phai_nguon"],
+		["Thần Môn", "khong_phai_nguon"],
+		["Sách bịa gắn đường thật", "khong_phai_nguon"],
+		["Thương Hàn Luận", "khong_phai_nguon"],
+	]);
+	assert.deepEqual(r.giu, [{ title: "Nội Kinh", url: "https://kinhlac.online/nguon/hoang-de-noi-kinh/" }]);
+	assert.deepEqual(goiKiem, [["/nguon/hoang-de-noi-kinh/", "Hoàng Đế Nội Kinh"]]);
 });
