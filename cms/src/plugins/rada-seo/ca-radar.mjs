@@ -39,16 +39,43 @@ export async function xuHuongGanNhat(s) {
 	return ca.find((c) => c.loai === "radar" && c.ghi && Array.isArray(c.xuHuong))?.xuHuong ?? [];
 }
 
+/** Cửa sổ GSC (ngày) cho mỗi lần đo lại hạng: đủ dài để có số liệu, đủ ngắn để phản ánh bản sửa. */
+export const CUA_SO_DO_LAI_NGAY = 14;
+
+/**
+ * Đo lại hạng các phiên leo top đã sửa tới mốc +14/+28 ngày (kho.phienCanDoLai). Không có
+ * GSC thì BỎ QUA với một dòng thongTin — ca radar vẫn là việc chính, thiếu GSC không phải
+ * lỗi của ca. Lỗi GSC của từng phiên vào ca.loi; phiên đó KHÔNG ghi mốc để đêm sau thử lại.
+ */
+async function doLaiLeoTop({ s, gsc, nowMs, ca }) {
+	if (!gsc || !gsc.coCauHinh()) {
+		ca.thongTin.push("Đo lại leo top: bỏ qua — plugin chưa cấu hình Search Console (biến GSC_OAUTH_* trong cms/.env)");
+		return;
+	}
+	const ngay = new Date(nowMs).toISOString().slice(0, 10);
+	for (const p of await kho.phienCanDoLai(s, nowMs)) {
+		try {
+			const r = await gsc.layViTri({ tuKhoa: p.tuKhoa, trang: p.trangMinh, ngay: CUA_SO_DO_LAI_NGAY });
+			if (await kho.ghiDoLai(s, p.id, { ngay, sauNgay: p.moc, viTri: r?.viTri ?? null, hienThi: r?.hienThi ?? 0 })) ca.soDoLai++;
+		} catch (e) {
+			ca.loi.push(`đo lại leo top "${p.tuKhoa}": ${String(e?.message ?? e).slice(0, 300)}`);
+		}
+	}
+}
+
 /**
  * @param {{s: object, docWeb: Function, ghi: boolean, tranMoiDoiThu?: number,
- *          nghi?: (ms: number) => Promise<void>, now?: () => string, hanChot?: number}} o
+ *          nghi?: (ms: number) => Promise<void>, now?: () => string, hanChot?: number,
+ *          gsc?: {coCauHinh: () => boolean, layViTri: Function}}} o
  *   hanChot: mốc epoch ms — quá mốc thì thôi trích (khoá ca sắp hết hạn)
+ *   gsc: leo-top/gsc.mjs — đo lại hạng phiên leo top đã sửa; thiếu thì bỏ qua bước đó
  */
-export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = cho, now = () => new Date().toISOString(), hanChot = Infinity }) {
+export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = cho, now = () => new Date().toISOString(), hanChot = Infinity, gsc }) {
 	const ca = {
 		loai: "radar", batDau: now(), ketThuc: null, ghi,
 		soUrlMoi: 0, soSeTrich: 0, soTrich: 0, soNgoaiNganh: 0, soLoiTrang: 0,
 		soXuHuong: 0, soCum: 0, xuHuong: [], loi: [], sitemapBo: [], dungTrich: false,
+		soDoLai: 0, thongTin: [],
 	};
 	const doiThu = await kho.dsDoiThu(s);
 	let dung = null;
@@ -95,6 +122,11 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 			ca.soCum = await capNhatKhoangTrong(s, { xuHuong: ca.xuHuong, now: now(), nghi });
 		} catch (e) {
 			ca.loi.push(`khoảng trống: ${String(e?.message ?? e).slice(0, 300)}`);
+		}
+		try {
+			await doLaiLeoTop({ s, gsc, nowMs: Date.parse(now()), ca });
+		} catch (e) {
+			ca.loi.push(`đo lại leo top: ${String(e?.message ?? e).slice(0, 300)}`);
 		}
 	}
 	ca.ketThuc = now();

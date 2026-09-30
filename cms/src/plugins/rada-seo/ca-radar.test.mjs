@@ -105,3 +105,75 @@ test("van hàng chờ: > 80 trang chờ Claude đọc → không trích, vẫn g
 	const dong = ca.loi.filter((l) => l.startsWith("Tạm ngừng trích"));
 	assert.deepEqual(dong, ["Tạm ngừng trích: hàng chờ Claude đọc đang 81 trang (> 80)"]);
 });
+
+// ---- Đo lại hạng leo top (2D) ----
+
+const MINH = "https://kinhlac.online/huyet/than-mon/";
+const LUC = "2026-10-15T20:00:00.000Z"; // ngày sửa 2026-10-01 + 14 ngày
+const phienDaSua = async (s, tuKhoa, ngaySua = "2026-10-01") => {
+	const p = await kho.taoPhienLeoTop(s, { tuKhoa, trang: MINH, viTri: 9, hienThi: 100 }, "2026-09-30T00:00:00.000Z");
+	await s.leo_top.put(p.id, { ...(await s.leo_top.get(p.id)), trangThai: "co_phieu" });
+	await kho.datDaSua(s, p.id, ngaySua);
+	return p.id;
+};
+const gscGia = (tra = async () => ({ viTri: 5.5, hienThi: 140 })) => {
+	const goi = [];
+	return { goi, coCauHinh: () => true, async layViTri(q) { goi.push(q); return tra(q); } };
+};
+
+test("đo lại leo top: phiên da_sua tới mốc +14 → gọi GSC đúng cặp, ghi doLai; ca sau không đo lặp", async () => {
+	const s = taoKhoGia();
+	const id = await phienDaSua(s, "huyệt thần môn");
+	await phienDaSua(s, "chưa tới hạn", "2026-10-10");
+	const gsc = gscGia();
+	const ca = await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc, now: () => LUC });
+	assert.deepEqual(gsc.goi, [{ tuKhoa: "huyệt thần môn", trang: MINH, ngay: 14 }]);
+	assert.equal(ca.soDoLai, 1);
+	const d = await s.leo_top.get(id);
+	assert.deepEqual(d.doLai, [{ ngay: "2026-10-15", sauNgay: 14, viTri: 5.5, hienThi: 140 }]);
+	assert.equal(d.trangThai, "da_sua");
+	await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc, now: () => LUC });
+	assert.equal(gsc.goi.length, 1, "mốc 14 đã đo → không gọi lại");
+	// Mốc 28 → xong.
+	await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc, now: () => "2026-10-29T20:00:00.000Z" });
+	assert.equal((await s.leo_top.get(id)).trangThai, "xong");
+});
+
+test("đo lại leo top: GSC không có số liệu → vẫn ghi mốc (viTri null) để không hỏi lại mỗi đêm", async () => {
+	const s = taoKhoGia();
+	const id = await phienDaSua(s, "huyệt thần môn");
+	await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc: gscGia(async () => null), now: () => LUC });
+	assert.deepEqual((await s.leo_top.get(id)).doLai, [{ ngay: "2026-10-15", sauNgay: 14, viTri: null, hienThi: 0 }]);
+});
+
+test("đo lại leo top: chưa cấu hình GSC → bỏ qua, MỘT dòng thongTin, không phải lỗi, ca vẫn xong", async () => {
+	for (const gsc of [undefined, { coCauHinh: () => false, async layViTri() { throw new Error("không được gọi"); } }]) {
+		const s = taoKhoGia();
+		const id = await phienDaSua(s, "huyệt thần môn");
+		const ca = await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc, now: () => LUC });
+		assert.equal(ca.loi.length, 0);
+		assert.equal(ca.thongTin.length, 1);
+		assert.match(ca.thongTin[0], /Search Console/);
+		assert.equal(ca.soDoLai, 0);
+		assert.deepEqual((await s.leo_top.get(id)).doLai, []);
+		assert.equal((await kho.dsCa(s)).length, 1);
+	}
+});
+
+test("đo lại leo top: lỗi GSC của một phiên vào ca.loi, phiên khác vẫn đo; chạy thử không đo", async () => {
+	const s = taoKhoGia();
+	const hong = await phienDaSua(s, "hỏng");
+	const tot = await phienDaSua(s, "tốt");
+	const gsc = gscGia(async (q) => {
+		if (q.tuKhoa === "hỏng") throw new Error("GSC truy vấn lỗi: denied");
+		return { viTri: 3, hienThi: 50 };
+	});
+	const thu = await chayCaRadar({ s, docWeb: WEB, ghi: false, nghi, gsc, now: () => LUC });
+	assert.equal(gsc.goi.length, 0);
+	assert.equal(thu.soDoLai, 0);
+	const ca = await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc, now: () => LUC });
+	assert.equal(ca.soDoLai, 1);
+	assert.ok(ca.loi.some((l) => /^đo lại leo top "hỏng": GSC truy vấn lỗi/.test(l)), ca.loi.join("|"));
+	assert.deepEqual((await s.leo_top.get(hong)).doLai, []);
+	assert.equal((await s.leo_top.get(tot)).doLai.length, 1);
+});

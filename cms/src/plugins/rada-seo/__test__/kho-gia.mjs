@@ -39,7 +39,7 @@ export function taoBoSuuTap() {
 export function taoKhoGia() {
 	return {
 		doi_thu: taoBoSuuTap(), url: taoBoSuuTap(), cum: taoBoSuuTap(), ca: taoBoSuuTap(),
-		huong: taoBoSuuTap(), cum_nghia: taoBoSuuTap(), ke_hoach: taoBoSuuTap(),
+		huong: taoBoSuuTap(), cum_nghia: taoBoSuuTap(), ke_hoach: taoBoSuuTap(), leo_top: taoBoSuuTap(),
 	};
 }
 

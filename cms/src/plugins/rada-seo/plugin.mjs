@@ -8,6 +8,7 @@ import { KHAI_BAO_KHO } from "./kho.mjs";
 import * as kho from "./kho.mjs";
 import { chuanTenMien } from "./radar/sitemap.mjs";
 import { chayCaRadar } from "./ca-radar.mjs";
+import { taoGsc } from "./leo-top/gsc.mjs";
 import { taoDocWeb, taoDocTrang } from "./lib/doc-web.mjs";
 import { layChiMuc, traBaiThuoc } from "./noi-bo/nap.mjs";
 import { taoKiemDuong, DEM_KIEM_CHUNG } from "./noi-bo/kiem-duong.mjs";
@@ -72,6 +73,8 @@ async function chayCa(ctx, ghi) {
 			docWeb: taoDocWeb(ctx.http.fetch.bind(ctx.http)),
 			ghi,
 			tranMoiDoiThu: soMoiTruong("RADA_SEO_TRAN_MOI_DOI_THU", 30),
+			// Đo lại hạng phiên leo top đã sửa (+14/+28 ngày). Thiếu biến GSC thì ca tự bỏ qua bước này.
+			gsc: taoGsc({ fetch: ctx.http.fetch.bind(ctx.http) }),
 		});
 	} catch (e) {
 		// Lỗi ngoài dự kiến (vd kho không ghi được) vẫn phải hiện trên màn điều khiển.
