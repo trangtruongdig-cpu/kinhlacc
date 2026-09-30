@@ -308,6 +308,7 @@ export class ThamDinhCmsService {
           canGhi.push({
             hoSoId: id, kieu: n.kieu, truong: n.truong,
             trichDan: n.trichDan, nhanXet: n.nhanXet, nang: n.nang,
+            deXuat: n.deXuat ?? null,
           });
         }
       }
@@ -728,5 +729,26 @@ export class ThamDinhCmsService {
         ? { phienBan: l.rows[0].phien_ban, daDuyet: l.rows[0].da_duyet }
         : null,
     };
+  }
+
+  /** Nhận xét lớp máy có bản sửa soạn sẵn, còn ở trạng thái `moi`. */
+  async docNhanXetTuSuaDuoc(
+    kieuChoPhep: string[],
+    gioiHan: number,
+  ): Promise<Array<{ id: number; bo: string; tieuDe: string; trichDan: string; deXuat: string }>> {
+    const r = await this.phaiCo().query<{
+      id: number; bo: string; tieu_de: string; trich_dan: string; de_xuat: string;
+    }>(
+      `SELECT n.id, h.bo, h.tieu_de, n.trich_dan, n.de_xuat
+       FROM td_nhan_xet n JOIN td_ho_so h ON h.id = n.ho_so_id
+       WHERE n.lop = 'may' AND n.trang_thai = 'moi'
+         AND n.kieu = ANY($1::text[])
+         AND n.de_xuat IS NOT NULL AND trim(n.de_xuat) <> ''
+       ORDER BY n.id LIMIT $2`,
+      [kieuChoPhep, gioiHan],
+    );
+    return r.rows.map((x) => ({
+      id: x.id, bo: x.bo, tieuDe: x.tieu_de, trichDan: x.trich_dan, deXuat: x.de_xuat,
+    }));
   }
 }

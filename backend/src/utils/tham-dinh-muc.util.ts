@@ -1,4 +1,5 @@
 import { doChu } from './tham-dinh-chu.util';
+import { suaHinhThuc, chiKhacHinhThuc } from './tham-dinh-sua-hinh-thuc.util';
 
 /** Một mục từ đã rút chữ khỏi portable text, sẵn sàng để soi. */
 export interface MucKho {
@@ -17,6 +18,11 @@ export interface NhanXetTho {
   nhanXet: string;
   /** Lỗi chặn người đọc hiểu được mục → nâng hạng cụm. */
   nang: boolean;
+  /**
+   * Bản sửa soạn sẵn. Lớp máy CHỈ sinh cho lỗi hình thức thuần (khoảng trắng, dấu câu) —
+   * những thứ sửa được bằng luật, không cần đọc hiểu.
+   */
+  deXuat?: string;
 }
 
 /**
@@ -82,12 +88,21 @@ export function doMuc(m: MucKho): NhanXetTho[] {
   // ── Lỗi chữ trong từng trường ──────────────────────────────────────────────
   for (const [ten, chu] of Object.entries(m.truong)) {
     for (const l of doChu(chu)) {
+      // Bản sửa CHỈ sinh cho lỗi dấu câu, và chỉ khi nó thật sự chỉ đụng hình thức.
+      // Rác mã hoá (mojibake, tcvn3, dấu thanh hỏng) thì phải người đọc mới biết chữ
+      // đúng là gì — máy đoán là hỏng thêm.
+      let deXuat: string | undefined;
+      if (l.ma === 'dau_cau_sai') {
+        const thu = suaHinhThuc(l.trichDan);
+        if (thu !== l.trichDan && chiKhacHinhThuc(l.trichDan, thu)) deXuat = thu;
+      }
       ra.push({
         kieu: l.ma,
         truong: ten,
         trichDan: l.trichDan,
         nhanXet: `Lỗi chữ trong trường "${ten}".`,
         nang: l.ma === 'rac_nhi_phan' || l.ma === 'mojibake' || l.ma === 'tcvn3',
+        deXuat,
       });
     }
   }

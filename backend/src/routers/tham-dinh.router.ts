@@ -7,7 +7,7 @@ import { ThamDinhService } from '../controllers/tham-dinh.controller';
 import { ThamDinhThayThuocService } from '../controllers/tham-dinh-thay-thuoc.controller';
 import { ThamDinhCmsService } from '../controllers/tham-dinh-cms.service';
 import { QuanTriGuard } from '../middlewares/auth/quan-tri.guard';
-import type { LuocKeCa, LuocKeCaThayThuoc } from '../models/tham-dinh.dto';
+import type { LuocKeCa, LuocKeCaThayThuoc, LuocKeTuSua } from '../models/tham-dinh.dto';
 import type { BoLuatVanPhong } from '../utils/tham-dinh-luat.util';
 import type { RequestDaXacThuc } from '../middlewares/auth/access.util';
 
@@ -208,5 +208,20 @@ export class ThamDinhRouter {
     } finally {
       await this.cms.dongKetNoi();
     }
+  }
+
+  /**
+   * Tự sửa lỗi hình thức. CHẠY THỬ là mặc định — phải `?ghi=1` mới ghi thật.
+   *
+   * Cùng lối với `dong-bo-app.mjs` của CMS: mọi thứ ghi vào kho đang phục vụ khách đều
+   * phải xem trước được, và phải gõ thêm một chữ mới ghi.
+   */
+  @Post('tu-sua')
+  tuSua(
+    @Query('ghi') ghi?: string,
+    @Query('gioiHan') gioiHan?: string,
+  ): Promise<LuocKeTuSua> {
+    const n = Number(gioiHan);
+    return this.thamDinh.tuSuaHinhThuc(ghi !== '1', Number.isFinite(n) && n > 0 ? Math.floor(n) : 200);
   }
 }

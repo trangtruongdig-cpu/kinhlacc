@@ -52,15 +52,25 @@ describe('cauChenNhanXet', () => {
     hoSoId, kieu, truong: 'vi_tri', trichDan: 'x', nhanXet: 'y', nang: false,
   });
 
-  it('một câu cho cả lô, mỗi nhận xét 6 tham số', () => {
+  it('một câu cho cả lô, mỗi nhận xét 7 tham số (kèm bản sửa)', () => {
     const r = cauChenNhanXet([nx(1, 'a'), nx(2, 'b')])!;
-    expect(r.thamSo).toHaveLength(12);
-    expect(r.sql).toMatch(/VALUES \(\$1,'may',\$2,\$3,\$4,\$5,\$6\), \(\$7,'may',\$8,\$9,\$10,\$11,\$12\)/);
+    expect(r.thamSo).toHaveLength(14);
+    expect(r.sql).toMatch(/\(\$1,'may',\$2,\$3,\$4,\$5,\$6,\$7\), \(\$8,'may',\$9,\$10,\$11,\$12,\$13,\$14\)/);
+  });
+
+  it('nhận xét không có bản sửa thì ghi null, không bỏ cột', () => {
+    const r = cauChenNhanXet([nx(1, 'a')])!;
+    expect(r.thamSo[6]).toBeNull();
   });
 
   it('cắt trích dẫn ở 2000 ký tự', () => {
     const r = cauChenNhanXet([{ ...nx(1, 'a'), trichDan: 'z'.repeat(5000) }])!;
     expect((r.thamSo[3] as string).length).toBe(2000);
+  });
+
+  it('giữ bản sửa khi có', () => {
+    const r = cauChenNhanXet([{ ...nx(1, 'a'), deXuat: 'đã sửa' }])!;
+    expect(r.thamSo[6]).toBe('đã sửa');
   });
 
   it('lô rỗng → null, để bên gọi khỏi bắn một truy vấn thừa', () => {

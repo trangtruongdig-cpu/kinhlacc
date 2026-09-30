@@ -77,3 +77,15 @@ export interface LuocKeCaThayThuoc {
   lyDoLoai: Array<{ lyDo: string; soLan: number }>;
   loi: string[];
 }
+
+/** Kết quả một ca tự sửa lỗi hình thức. */
+export interface LuocKeTuSua {
+  thu: boolean;
+  soXet: number;
+  soApDuoc: number;
+  soChan: number;
+  soHong: number;
+  viDu: Array<{ tieuDe: string; truoc: string; sau: string }>;
+  lyDoChan: Array<{ lyDo: string; soLan: number }>;
+  loi: string[];
+}

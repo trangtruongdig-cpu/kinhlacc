@@ -19,6 +19,7 @@ export interface NhanXetGhi {
   trichDan: string;
   nhanXet: string;
   nang: boolean;
+  deXuat?: string | null;
 }
 
 /** Trích dẫn dài hơn ngần này thì cắt — cột là TEXT nhưng bảng để người đọc, không để chứa cả bài. */
@@ -67,12 +68,12 @@ export function cauChenNhanXet(
   const nhom = ds.map((n) => {
     const i = thamSo.length;
     thamSo.push(n.hoSoId, n.kieu, n.truong, n.trichDan.slice(0, TRAN_TRICH_DAN),
-                n.nhanXet, n.nang);
-    return `($${i + 1},'may',$${i + 2},$${i + 3},$${i + 4},$${i + 5},$${i + 6})`;
+                n.nhanXet, n.nang, n.deXuat ?? null);
+    return `($${i + 1},'may',$${i + 2},$${i + 3},$${i + 4},$${i + 5},$${i + 6},$${i + 7})`;
   });
 
   const sql =
-    `INSERT INTO td_nhan_xet (ho_so_id, lop, kieu, truong, trich_dan, nhan_xet, nang) ` +
+    `INSERT INTO td_nhan_xet (ho_so_id, lop, kieu, truong, trich_dan, nhan_xet, nang, de_xuat) ` +
     `VALUES ${nhom.join(', ')}`;
 
   return { sql, thamSo };
