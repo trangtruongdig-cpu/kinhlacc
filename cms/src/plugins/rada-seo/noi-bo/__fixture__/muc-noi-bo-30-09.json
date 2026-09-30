@@ -1,0 +1,2258 @@
+{
+ "huyet_vi": [
+  {
+   "title": "Âm Khích",
+   "slug": "am-khich",
+   "slug_goc": "am-khich",
+   "ten_khac": "Âm Ky, Thạch Cung, Thiếu Âm Khích, Thủ Thiếu Âm."
+  },
+  {
+   "title": "Ẩm Khích",
+   "slug": "am-khich-2",
+   "slug_goc": "am-khich",
+   "ma_huyet": "HE6"
+  },
+  {
+   "title": "Bách Hội",
+   "slug": "bach-hoi",
+   "slug_goc": "bach-hoi",
+   "ma_huyet": "GV20",
+   "ten_khac": "Bá Hội, Duy Hội, Điên Thượng, Nê Hoàn Cung, Qủy Môn, Tam Dương, Tam Dương Ngũ Hội, Thiên Mãn, Thiên Sơn."
+  },
+  {
+   "title": "Cự Liêu",
+   "slug": "cu-lieu-2",
+   "slug_goc": "cu-lieu",
+   "ma_huyet": "ST3"
+  },
+  {
+   "title": "Hợp Cốc",
+   "slug": "hop-coc",
+   "slug_goc": "hop-coc",
+   "ma_huyet": "LI4",
+   "ten_khac": "Hổ Khẩu."
+  },
+  {
+   "title": "Nội Quan",
+   "slug": "noi-quan",
+   "slug_goc": "noi-quan",
+   "ma_huyet": "PC6"
+  },
+  {
+   "title": "Phong Trì",
+   "slug": "phong-tri",
+   "slug_goc": "phong-tri",
+   "ma_huyet": "GB20"
+  },
+  {
+   "title": "Quan Nguyên",
+   "slug": "quan-nguyen",
+   "slug_goc": "quan-nguyen",
+   "ma_huyet": "CV4",
+   "ten_khac": "Đại Trung Cực, Đan Điền, Đơn Điền, Hạ Kỷ, Tam Kết Giao, Thứ Môn."
+  },
+  {
+   "title": "Tam Âm Giao",
+   "slug": "tam-am-giao",
+   "slug_goc": "tam-am-giao",
+   "ma_huyet": "SP6",
+   "ten_khac": "Đại Âm, Hạ Tam Lý, Thừa Mạng, Thừa Mệnh."
+  },
+  {
+   "title": "Thái Xung",
+   "slug": "thai-xung",
+   "slug_goc": "thai-xung",
+   "ma_huyet": "LR3"
+  },
+  {
+   "title": "Thần Môn",
+   "slug": "than-mon",
+   "slug_goc": "than-mon",
+   "ma_huyet": "HE7",
+   "ten_khac": "Duệ Trung, Đoài Lệ, Đoài Xung, Trung Đô."
+  },
+  {
+   "title": "Túc Tam Lý",
+   "slug": "tuc-tam-ly",
+   "slug_goc": "tuc-tam-ly",
+   "ma_huyet": "ST36",
+   "ten_khac": "Hạ Lăng, Hạ Tam Lý, Quỷ Tà, Tam Lý."
+  },
+  {
+   "title": "Ách Nghịch",
+   "slug": "ach-nghich",
+   "slug_goc": "ach-nghich"
+  },
+  {
+   "title": "Âm Ủy 1",
+   "slug": "am-uy-1",
+   "slug_goc": "am-uy-1"
+  },
+  {
+   "title": "Bách Tức",
+   "slug": "bach-tuc",
+   "slug_goc": "bach-tuc"
+  },
+  {
+   "title": "Bát Hoa",
+   "slug": "bat-hoa",
+   "slug_goc": "bat-hoa"
+  },
+  {
+   "title": "Cách Quan",
+   "slug": "cach-quan",
+   "slug_goc": "cach-quan",
+   "ma_huyet": "BL46"
+  },
+  {
+   "title": "Châu Hoàn",
+   "slug": "chau-hoan",
+   "slug_goc": "chau-hoan"
+  },
+  {
+   "title": "Cơ Môn",
+   "slug": "co-mon",
+   "slug_goc": "co-mon",
+   "ma_huyet": "SP11"
+  },
+  {
+   "title": "Cung Trì",
+   "slug": "cung-tri",
+   "slug_goc": "cung-tri"
+  },
+  {
+   "title": "Đại Chỉ Tụ Mao",
+   "slug": "dai-chi-tu-mao",
+   "slug_goc": "dai-chi-tu-mao"
+  },
+  {
+   "title": "Đại Nghênh",
+   "slug": "dai-nghenh",
+   "slug_goc": "dai-nghenh",
+   "ma_huyet": "ST5",
+   "ten_khac": "Đại Nghinh, Tủy Khổng."
+  },
+  {
+   "title": "Đệ Nhị Thập Nhị Chùy Huyệt",
+   "slug": "de-nhi-thap-nhi-chuy-huyet",
+   "slug_goc": "de-nhi-thap-nhi-chuy-huyet"
+  },
+  {
+   "title": "Đinh Căn",
+   "slug": "dinh-can",
+   "slug_goc": "dinh-can"
+  },
+  {
+   "title": "Độc Âm",
+   "slug": "doc-am",
+   "slug_goc": "doc-am"
+  },
+  {
+   "title": "Dương Cương",
+   "slug": "duong-cuong",
+   "slug_goc": "duong-cuong",
+   "ma_huyet": "BL48"
+  },
+  {
+   "title": "Ế Minh",
+   "slug": "e-minh",
+   "slug_goc": "e-minh"
+  },
+  {
+   "title": "Giáp Xa",
+   "slug": "giap-xa",
+   "slug_goc": "giap-xa",
+   "ma_huyet": "ST6",
+   "ten_khac": "Cơ Quan, Khúc Nha, Quỷ Sàng."
+  },
+  {
+   "title": "Hãm Cốc",
+   "slug": "ham-coc",
+   "slug_goc": "ham-coc",
+   "ma_huyet": "ST43"
+  },
+  {
+   "title": "Hậu Thính Hội",
+   "slug": "hau-thinh-hoi",
+   "slug_goc": "hau-thinh-hoi",
+   "ten_khac": "Thượng Ế Phong, Trị Lung 2, Y Lung."
+  },
+  {
+   "title": "Hoành Cốt",
+   "slug": "hoanh-cot",
+   "slug_goc": "hoanh-cot",
+   "ma_huyet": "KI11",
+   "ten_khac": "Hạ Cực, Hạ Hoành, Khuất Cốt, Khúc Cốt, Tủy Không."
+  },
+  {
+   "title": "Hồng Âm",
+   "slug": "hong-am",
+   "slug_goc": "hong-am"
+  },
+  {
+   "title": "Huyết Môn",
+   "slug": "huyet-mon",
+   "slug_goc": "huyet-mon",
+   "ten_khac": "Thực Thương."
+  },
+  {
+   "title": "Khí Suyễn",
+   "slug": "khi-suyen",
+   "slug_goc": "khi-suyen"
+  },
+  {
+   "title": "Khúc Trì Đinh Tự Thích",
+   "slug": "khuc-tri-dinh-tu-thich",
+   "slug_goc": "khuc-tri-dinh-tu-thich"
+  },
+  {
+   "title": "Kiên Nội Lăng",
+   "slug": "kien-noi-lang",
+   "slug_goc": "kien-noi-lang"
+  },
+  {
+   "title": "Kỳ Môn",
+   "slug": "ky-mon",
+   "slug_goc": "ky-mon",
+   "ten_khac": "Can Mộ."
+  },
+  {
+   "title": "Lan Môn 2",
+   "slug": "lan-mon-2",
+   "slug_goc": "lan-mon-2"
+  },
+  {
+   "title": "Lỗi Lịch",
+   "slug": "loi-lich",
+   "slug_goc": "loi-lich",
+   "ten_khac": "Loa Lịch, Thủ Kim Môn."
+  },
+  {
+   "title": "Lý Ngoại",
+   "slug": "ly-ngoai",
+   "slug_goc": "ly-ngoai"
+  },
+  {
+   "title": "Mỗ Tử",
+   "slug": "mo-tu",
+   "slug_goc": "mo-tu"
+  },
+  {
+   "title": "Nghênh Hương",
+   "slug": "nghenh-huong",
+   "slug_goc": "nghenh-huong",
+   "ma_huyet": "LI20",
+   "ten_khac": "Nghinh Hương, Xung Dương."
+  },
+  {
+   "title": "Ngọc Dịch",
+   "slug": "ngoc-dich",
+   "slug_goc": "ngoc-dich"
+  },
+  {
+   "title": "Ngũ Xứ",
+   "slug": "ngu-xu",
+   "slug_goc": "ngu-xu",
+   "ma_huyet": "BL5",
+   "ten_khac": "Cự Xứ."
+  },
+  {
+   "title": "Nhiên Hậu",
+   "slug": "nhien-hau",
+   "slug_goc": "nhien-hau"
+  },
+  {
+   "title": "Nhũ Bàng",
+   "slug": "nhu-bang",
+   "slug_goc": "nhu-bang"
+  },
+  {
+   "title": "Nội Khỏa Tiêm",
+   "slug": "noi-khoa-tiem",
+   "slug_goc": "noi-khoa-tiem",
+   "ten_khac": "Nội Khỏa Thượng."
+  },
+  {
+   "title": "Phế Nhiệt Huyệt",
+   "slug": "phe-nhiet-huyet",
+   "slug_goc": "phe-nhiet-huyet"
+  },
+  {
+   "title": "Phúc Tứ Huyệt",
+   "slug": "phuc-tu-huyet",
+   "slug_goc": "phuc-tu-huyet"
+  },
+  {
+   "title": "Quan Thốn",
+   "slug": "quan-thon",
+   "slug_goc": "quan-thon"
+  },
+  {
+   "title": "Sùng Cốt",
+   "slug": "sung-cot",
+   "slug_goc": "sung-cot"
+  },
+  {
+   "title": "Tân Minh",
+   "slug": "tan-minh",
+   "slug_goc": "tan-minh"
+  },
+  {
+   "title": "Tề Trung Tứ Biên",
+   "slug": "te-trung-tu-bien",
+   "slug_goc": "te-trung-tu-bien"
+  },
+  {
+   "title": "Thận Hệ",
+   "slug": "than-he",
+   "slug_goc": "than-he"
+  },
+  {
+   "title": "Thất Miên",
+   "slug": "that-mien",
+   "slug_goc": "that-mien"
+  },
+  {
+   "title": "Thiên Trì",
+   "slug": "thien-tri",
+   "slug_goc": "thien-tri",
+   "ma_huyet": "PC1",
+   "ten_khac": "Thiên Hội."
+  },
+  {
+   "title": "Thông Cốc III",
+   "slug": "thong-coc-iii",
+   "slug_goc": "thong-coc-iii"
+  },
+  {
+   "title": "Thừa Tương",
+   "slug": "thua-tuong",
+   "slug_goc": "thua-tuong",
+   "ma_huyet": "CV24",
+   "ten_khac": "Huyền Tương, Quỷ Thị."
+  },
+  {
+   "title": "Thượng Cự Hư",
+   "slug": "thuong-cu-hu",
+   "slug_goc": "thuong-cu-hu",
+   "ma_huyet": "ST37",
+   "ten_khac": "Cự Hư Thượng Liêm, Túc Chi Thượng Liêm, Túc Thượng Liêm."
+  },
+  {
+   "title": "Thủ Tam Lý",
+   "slug": "thu-tam-ly",
+   "slug_goc": "thu-tam-ly",
+   "ma_huyet": "LI10",
+   "ten_khac": "Quỷ Tà, Thượng Tam Lý."
+  },
+  {
+   "title": "Tích Tụ Bỉ Khối",
+   "slug": "tich-tu-bi-khoi",
+   "slug_goc": "tich-tu-bi-khoi",
+   "ten_khac": "Huyết Phủ."
+  },
+  {
+   "title": "Tiểu Cốt Không",
+   "slug": "tieu-cot-khong",
+   "slug_goc": "tieu-cot-khong"
+  },
+  {
+   "title": "Tinh Tinh",
+   "slug": "tinh-tinh",
+   "slug_goc": "tinh-tinh",
+   "ten_khac": "Đoạt Mệnh, Hà Mô."
+  },
+  {
+   "title": "Trị Não V",
+   "slug": "tri-nao-v",
+   "slug_goc": "tri-nao-v"
+  },
+  {
+   "title": "Trung Không",
+   "slug": "trung-khong",
+   "slug_goc": "trung-khong"
+  },
+  {
+   "title": "Trửu Chùy",
+   "slug": "truu-chuy",
+   "slug_goc": "truu-chuy"
+  },
+  {
+   "title": "Túc Trung Bình",
+   "slug": "tuc-trung-binh",
+   "slug_goc": "tuc-trung-binh"
+  },
+  {
+   "title": "Tuyền Cơ",
+   "slug": "tuyen-co",
+   "slug_goc": "tuyen-co",
+   "ma_huyet": "CV21",
+   "ten_khac": "Toàn Cơ, Triền Cơ, Triển Cơ, Truyền Cơ."
+  },
+  {
+   "title": "Ưng Song",
+   "slug": "ung-song",
+   "slug_goc": "ung-song",
+   "ma_huyet": "ST16"
+  },
+  {
+   "title": "Xích Huyệt",
+   "slug": "xich-huyet",
+   "slug_goc": "xich-huyet"
+  },
+  {
+   "title": "Y Hy",
+   "slug": "y-hy",
+   "slug_goc": "y-hy",
+   "ma_huyet": "BL45"
+  }
+ ],
+ "kinh_mach": [
+  {
+   "title": "Kinh Thủ Dương Minh Đại Trường",
+   "slug": "dai-truong",
+   "slug_goc": "kinh-thu-duong-minh-dai-truong",
+   "ma": "LI"
+  },
+  {
+   "title": "Kinh Thủ Thái âm Phế",
+   "slug": "phe",
+   "slug_goc": "kinh-thu-thai-am-phe",
+   "ma": "LU"
+  },
+  {
+   "title": "Kinh Thủ Thái Dương Tiểu Trường",
+   "slug": "tieu-truong",
+   "slug_goc": "kinh-thu-thai-duong-tieu-truong",
+   "ma": "SI"
+  },
+  {
+   "title": "Kinh Thủ Thiếu Âm Tâm",
+   "slug": "tam",
+   "slug_goc": "kinh-thu-thieu-am-tam",
+   "ma": "HT"
+  },
+  {
+   "title": "Kinh Thủ Thiếu Âm Tâm Bào",
+   "slug": "tam-bao",
+   "slug_goc": "kinh-thu-thieu-am-tam-bao",
+   "ma": "PC"
+  },
+  {
+   "title": "Kinh Thủ Thiếu Dương Tam Tiêu",
+   "slug": "tam-tieu",
+   "slug_goc": "kinh-thu-thieu-duong-tam-tieu",
+   "ma": "TE"
+  },
+  {
+   "title": "Kinh Túc Dương Minh Vị",
+   "slug": "vi",
+   "slug_goc": "kinh-tuc-duong-minh-vi",
+   "ma": "ST"
+  },
+  {
+   "title": "Kinh Túc Quyết Âm Can",
+   "slug": "can",
+   "slug_goc": "kinh-tuc-quyet-am-can",
+   "ma": "LR"
+  },
+  {
+   "title": "Kinh Túc Thái Âm Tỳ",
+   "slug": "ty",
+   "slug_goc": "kinh-tuc-thai-am-ty",
+   "ma": "SP"
+  },
+  {
+   "title": "Kinh Túc Thái Dương Bàng Quang",
+   "slug": "bang-quang",
+   "slug_goc": "kinh-tuc-thai-duong-bang-quang",
+   "ma": "BL"
+  },
+  {
+   "title": "Kinh Túc Thiếu Âm Thận",
+   "slug": "than",
+   "slug_goc": "kinh-tuc-thieu-am-than",
+   "ma": "KI"
+  },
+  {
+   "title": "Kinh Túc Thiếu Dương Đởm",
+   "slug": "dom",
+   "slug_goc": "kinh-tuc-thieu-duong-dom",
+   "ma": "GB"
+  },
+  {
+   "title": "Mạch Âm Duy",
+   "slug": "mach-am-duy",
+   "slug_goc": "mach-am-duy",
+   "ten_khac": ""
+  },
+  {
+   "title": "Mạch Âm Kiều",
+   "slug": "mach-am-kieu",
+   "slug_goc": "mach-am-kieu",
+   "ten_khac": ""
+  },
+  {
+   "title": "Mạch Đốc",
+   "slug": "doc",
+   "slug_goc": "mach-doc",
+   "ten_khac": "Tu Mo, The Governing Vessel – Tou Mo, Vaisseau Gouverneur",
+   "ma": "GV"
+  },
+  {
+   "title": "Mạch Đới (Đái)",
+   "slug": "mach-doi",
+   "slug_goc": "mach-doi-dai",
+   "ten_khac": ""
+  },
+  {
+   "title": "Mạch Dương Duy",
+   "slug": "mach-duong-duy",
+   "slug_goc": "mach-duong-duy",
+   "ten_khac": ""
+  },
+  {
+   "title": "Mạch Dương Kiều",
+   "slug": "mach-duong-kieu",
+   "slug_goc": "mach-duong-kieu",
+   "ten_khac": ""
+  },
+  {
+   "title": "Mạch Nhâm",
+   "slug": "nham",
+   "slug_goc": "mach-nham",
+   "ten_khac": "Ren Mai – Jennmo – The Vessel of Conception – Vaisseau Conception",
+   "ma": "CV"
+  },
+  {
+   "title": "Mạch Xung",
+   "slug": "mach-xung",
+   "slug_goc": "mach-xung",
+   "ten_khac": ""
+  }
+ ],
+ "benh_hoc": [
+  {
+   "title": "Ác Hạch",
+   "slug": "ac-hach",
+   "slug_goc": "ac-hach",
+   "doi_chieu_benh_danh": "Kết Quan Tính Chỉ Mạc Viêm"
+  },
+  {
+   "title": "Alzheimer",
+   "slug": "alzheimer",
+   "slug_goc": "alzheimer"
+  },
+  {
+   "title": "Âm Đạo Viêm",
+   "slug": "am-dao-viem",
+   "slug_goc": "am-dao-viem"
+  },
+  {
+   "title": "Âm Dưỡng",
+   "slug": "am-duong",
+   "slug_goc": "am-duong",
+   "doi_chieu_benh_danh": "Cát Hồng Trửu Hậu Bị Cấp Phương"
+  },
+  {
+   "title": "Âm Sang",
+   "slug": "am-sang",
+   "slug_goc": "am-sang"
+  },
+  {
+   "title": "Áp Xe Phổi",
+   "slug": "ap-xe-phoi",
+   "slug_goc": "ap-xe-phoi",
+   "doi_chieu_benh_danh": "Phế Ung - Lungs Abcess"
+  },
+  {
+   "title": "Bại Liệt",
+   "slug": "bai-liet",
+   "slug_goc": "bai-liet",
+   "doi_chieu_benh_danh": "Nhuyễn Cước Ôn"
+  },
+  {
+   "title": "Băng Lậu",
+   "slug": "bang-lau",
+   "slug_goc": "bang-lau"
+  },
+  {
+   "title": "Bàng Quang Viêm Cấp",
+   "slug": "bang-quang-viem-cap",
+   "slug_goc": "bang-quang-viem-cap",
+   "doi_chieu_benh_danh": "Cystitis"
+  },
+  {
+   "title": "Bàng Quang Viêm Mạn",
+   "slug": "bang-quang-viem-man",
+   "slug_goc": "bang-quang-viem-man"
+  },
+  {
+   "title": "Bệnh Addison",
+   "slug": "benh-addison",
+   "slug_goc": "benh-addison",
+   "doi_chieu_benh_danh": "A Địch Sâm Thị Bệnh"
+  },
+  {
+   "title": "Bệnh Gout",
+   "slug": "benh-gout",
+   "slug_goc": "benh-gout",
+   "doi_chieu_benh_danh": "Thống Phong"
+  },
+  {
+   "title": "Béo Phì",
+   "slug": "beo-phi",
+   "slug_goc": "beo-phi",
+   "doi_chieu_benh_danh": "Phì Bán Bệnh - Obesity, Obésité"
+  },
+  {
+   "title": "Bể Thận Viêm",
+   "slug": "be-than-viem",
+   "slug_goc": "be-than-viem",
+   "doi_chieu_benh_danh": "Infection Of Renal Pelvis - Infection Au Basiner"
+  },
+  {
+   "title": "Bể Thận Viêm Cấp",
+   "slug": "be-than-viem-cap",
+   "slug_goc": "be-than-viem-cap"
+  },
+  {
+   "title": "Bí Tiểu",
+   "slug": "bi-tieu",
+   "slug_goc": "bi-tieu",
+   "doi_chieu_benh_danh": "Long Bế – Retension of Urine – Dysurria – Dysurie"
+  },
+  {
+   "title": "Bỏng",
+   "slug": "bong",
+   "slug_goc": "bong"
+  },
+  {
+   "title": "Bong Gân",
+   "slug": "bong-gan",
+   "slug_goc": "bong-gan",
+   "doi_chieu_benh_danh": "Thương Cân - Entorse Sprain"
+  },
+  {
+   "title": "Bụng Đau",
+   "slug": "bung-dau",
+   "slug_goc": "bung-dau"
+  },
+  {
+   "title": "Bướu Cổ",
+   "slug": "buou-co",
+   "slug_goc": "buou-co",
+   "doi_chieu_benh_danh": "Anh Khí - Goitre"
+  },
+  {
+   "title": "Cầu Thận Viêm Cấp",
+   "slug": "cau-than-viem-cap",
+   "slug_goc": "cau-than-viem-cap"
+  },
+  {
+   "title": "Cầu Thận Viêm Mạn",
+   "slug": "cau-than-viem-man",
+   "slug_goc": "cau-than-viem-man",
+   "doi_chieu_benh_danh": "Chronique Glomerulonephritis"
+  },
+  {
+   "title": "Chàm",
+   "slug": "cham",
+   "slug_goc": "cham",
+   "doi_chieu_benh_danh": "Thấp Chẩn - Eczema"
+  },
+  {
+   "title": "Cholesterol Máu",
+   "slug": "cholesterol-mau",
+   "slug_goc": "cholesterol-mau",
+   "doi_chieu_benh_danh": "Cao Chỉ Huyết Chứng - Hypercholesterolmia - Hypercholestérolémie"
+  },
+  {
+   "title": "Chóng Mặt",
+   "slug": "chong-mat",
+   "slug_goc": "chong-mat",
+   "doi_chieu_benh_danh": "Huyễn Vựng"
+  },
+  {
+   "title": "Cơn Đau Quặn Thận",
+   "slug": "con-dau-quan-than",
+   "slug_goc": "con-dau-quan-than",
+   "doi_chieu_benh_danh": "Thận Giảo Thống - Nephretic Colic - Colique Néphrétique"
+  },
+  {
+   "title": "Cơn Đau Thắt Ngực Và Thiếu Máu",
+   "slug": "con-dau-that-nguc-va-thieu-mau",
+   "slug_goc": "con-dau-that-nguc-va-thieu-mau",
+   "doi_chieu_benh_danh": "Angor Pectoris - Anginalsyndrome & Ischaemie Heart disease - Angine de poitrine"
+  },
+  {
+   "title": "Cơn Đau Tim",
+   "slug": "con-dau-tim",
+   "slug_goc": "con-dau-tim",
+   "doi_chieu_benh_danh": "Hung Tý - Angina Pectoris"
+  },
+  {
+   "title": "Cổ Trướng",
+   "slug": "co-truong",
+   "slug_goc": "co-truong",
+   "doi_chieu_benh_danh": "Ascites"
+  },
+  {
+   "title": "Cổ Vẹo",
+   "slug": "co-veo",
+   "slug_goc": "co-veo",
+   "doi_chieu_benh_danh": "LẠC CHẨM TORTICOLIS - STIFF NECK"
+  },
+  {
+   "title": "Cước Khí",
+   "slug": "cuoc-khi",
+   "slug_goc": "cuoc-khi"
+  },
+  {
+   "title": "Cuồng",
+   "slug": "cuong",
+   "slug_goc": "cuong",
+   "doi_chieu_benh_danh": "Depressive Syndrome"
+  },
+  {
+   "title": "Dạ Dày Đau",
+   "slug": "da-day-dau",
+   "slug_goc": "da-day-dau",
+   "doi_chieu_benh_danh": "Gastralgia- Gastralgie"
+  },
+  {
+   "title": "Dạ Dày Sa",
+   "slug": "da-day-sa",
+   "slug_goc": "da-day-sa",
+   "doi_chieu_benh_danh": "Vị Hạ Thùy - Gastrotose - Gastrotis"
+  },
+  {
+   "title": "Dạ Dày Tá Tràng Loét",
+   "slug": "da-day-ta-trang-loet",
+   "slug_goc": "da-day-ta-trang-loet",
+   "doi_chieu_benh_danh": "Ulcère Gastrique, Duodenal - Gastroduodenal Ulcer"
+  },
+  {
+   "title": "Dạ Dày Viêm Mạn Tính",
+   "slug": "da-day-viem-man-tinh",
+   "slug_goc": "da-day-viem-man-tinh",
+   "doi_chieu_benh_danh": "Chronic Stomachache"
+  },
+  {
+   "title": "Dạ Dày Xoắn",
+   "slug": "da-day-xoan",
+   "slug_goc": "da-day-xoan"
+  },
+  {
+   "title": "Đái Dầm",
+   "slug": "dai-dam",
+   "slug_goc": "dai-dam",
+   "doi_chieu_benh_danh": "Dạ Niệu - Enuresis (Bedwetting) - Enurésie"
+  },
+  {
+   "title": "Đái Hạ",
+   "slug": "dai-ha",
+   "slug_goc": "dai-ha"
+  },
+  {
+   "title": "Đầu Đau",
+   "slug": "dau-dau",
+   "slug_goc": "dau-dau"
+  },
+  {
+   "title": "Điên",
+   "slug": "dien",
+   "slug_goc": "dien",
+   "doi_chieu_benh_danh": "Alinetion"
+  },
+  {
+   "title": "Di Tinh",
+   "slug": "di-tinh",
+   "slug_goc": "di-tinh",
+   "doi_chieu_benh_danh": "Spermatorrhea - Spermatorrhée"
+  },
+  {
+   "title": "Động Kinh",
+   "slug": "dong-kinh",
+   "slug_goc": "dong-kinh",
+   "doi_chieu_benh_danh": "Giản Chứng - Epilepsie - Epileepsy"
+  },
+  {
+   "title": "Động Mạch Viêm Tắc",
+   "slug": "dong-mach-viem-tac",
+   "slug_goc": "dong-mach-viem-tac",
+   "doi_chieu_benh_danh": "Thromboarteritis - Thromboartérite"
+  },
+  {
+   "title": "Giãn Phế Quản",
+   "slug": "gian-phe-quan",
+   "slug_goc": "gian-phe-quan"
+  },
+  {
+   "title": "Giun Chui Ống Mật",
+   "slug": "giun-chui-ong-mat",
+   "slug_goc": "giun-chui-ong-mat",
+   "doi_chieu_benh_danh": "Round-Worms In The Biliary Tract"
+  },
+  {
+   "title": "Ho",
+   "slug": "ho",
+   "slug_goc": "ho",
+   "doi_chieu_benh_danh": "Khái Thấu - Cough - Toux"
+  },
+  {
+   "title": "Hoàng Đản",
+   "slug": "hoang-dan",
+   "slug_goc": "hoang-dan",
+   "doi_chieu_benh_danh": "Jaundice - Ictère"
+  },
+  {
+   "title": "Ho Gà",
+   "slug": "ho-ga",
+   "slug_goc": "ho-ga"
+  },
+  {
+   "title": "Hội Chứng Cushing",
+   "slug": "hoi-chung-cushing",
+   "slug_goc": "hoi-chung-cushing",
+   "doi_chieu_benh_danh": "Thượng Thận Tuyến Cơ Năng Cang Tiến Chứng - Cushing's Syndrome"
+  },
+  {
+   "title": "Hồi Hộp",
+   "slug": "hoi-hop",
+   "slug_goc": "hoi-hop"
+  },
+  {
+   "title": "Ho Ra Máu",
+   "slug": "ho-ra-mau",
+   "slug_goc": "ho-ra-mau",
+   "doi_chieu_benh_danh": "Khái Huyết - Hemoptysis - Hémoptysie"
+  },
+  {
+   "title": "Hư Lao",
+   "slug": "hu-lao",
+   "slug_goc": "hu-lao"
+  },
+  {
+   "title": "Hung Hiếp Thống",
+   "slug": "hung-hiep-thong",
+   "slug_goc": "hung-hiep-thong",
+   "doi_chieu_benh_danh": "Nevralgie Intercostale - Intercostal Neuralgia"
+  },
+  {
+   "title": "Huyết Áp Cao",
+   "slug": "huyet-ap-cao",
+   "slug_goc": "huyet-ap-cao",
+   "doi_chieu_benh_danh": "Áp Huyết Cao - Hypertension - High Blood Pressure"
+  },
+  {
+   "title": "Huyết Áp Thấp",
+   "slug": "huyet-ap-thap",
+   "slug_goc": "huyet-ap-thap",
+   "doi_chieu_benh_danh": "Hypotension - Arterial Hypotension"
+  },
+  {
+   "title": "Hysteria",
+   "slug": "hysteria",
+   "slug_goc": "hysteria",
+   "doi_chieu_benh_danh": "Ý Bệnh - Tạng Táo"
+  },
+  {
+   "title": "Kiết Lỵ",
+   "slug": "kiet-ly",
+   "slug_goc": "kiet-ly",
+   "doi_chieu_benh_danh": "Lỵ Tật - Dysenterie - Dysentery"
+  },
+  {
+   "title": "Kinh Bế",
+   "slug": "kinh-be",
+   "slug_goc": "kinh-be"
+  },
+  {
+   "title": "Kinh Nguyệt Đến Không Đúng Kỳ",
+   "slug": "kinh-nguyet-den-khong-dung-ky",
+   "slug_goc": "kinh-nguyet-den-khong-dung-ky",
+   "doi_chieu_benh_danh": "Kinh Nguyệt Bất Điều - Iregular Menstruation"
+  },
+  {
+   "title": "Kinh Nguyệt Đến Sau Kỳ",
+   "slug": "kinh-nguyet-den-sau-ky",
+   "slug_goc": "kinh-nguyet-den-sau-ky"
+  },
+  {
+   "title": "Kinh Nguyệt Đến Trước Kỳ",
+   "slug": "kinh-nguyet-den-truoc-ky",
+   "slug_goc": "kinh-nguyet-den-truoc-ky"
+  },
+  {
+   "title": "Kinh Nguyệt Ít",
+   "slug": "kinh-nguyet-it",
+   "slug_goc": "kinh-nguyet-it"
+  },
+  {
+   "title": "Kinh Nguyệt Không Dứt",
+   "slug": "kinh-nguyet-khong-dut",
+   "slug_goc": "kinh-nguyet-khong-dut",
+   "doi_chieu_benh_danh": "Kinh Đoạn Phục Lai"
+  },
+  {
+   "title": "Lâm Chứng",
+   "slug": "lam-chung",
+   "slug_goc": "lam-chung",
+   "doi_chieu_benh_danh": "Lâm Chứng - Stranguria"
+  },
+  {
+   "title": "Lao Phổi",
+   "slug": "lao-phoi",
+   "slug_goc": "lao-phoi",
+   "doi_chieu_benh_danh": "Phế Kết Hạch - Tuberculosis - Tuberculose"
+  },
+  {
+   "title": "Liệt Dương",
+   "slug": "liet-duong",
+   "slug_goc": "liet-duong",
+   "doi_chieu_benh_danh": "Impotence - Impuissance"
+  },
+  {
+   "title": "Liệt Nửa Người",
+   "slug": "liet-nua-nguoi",
+   "slug_goc": "liet-nua-nguoi",
+   "doi_chieu_benh_danh": "Bán Thân Bất Toại - Hémiplégie – Hemiplegy"
+  },
+  {
+   "title": "Lưng Đau",
+   "slug": "lung-dau",
+   "slug_goc": "lung-dau",
+   "doi_chieu_benh_danh": "Yêu Thống - Lumbago"
+  },
+  {
+   "title": "Luput Ban Đỏ",
+   "slug": "luput-ban-do",
+   "slug_goc": "luput-ban-do",
+   "doi_chieu_benh_danh": "Lupus Erythematosus, Lupus Erythemateux- LE"
+  },
+  {
+   "title": "Mất Ngủ",
+   "slug": "mat-ngu",
+   "slug_goc": "mat-ngu",
+   "doi_chieu_benh_danh": "Insomnia – Insomie"
+  },
+  {
+   "title": "Mất Tiếng",
+   "slug": "mat-tieng",
+   "slug_goc": "mat-tieng",
+   "doi_chieu_benh_danh": "Aphonia – Aphonie"
+  },
+  {
+   "title": "Mề Đay",
+   "slug": "me-day",
+   "slug_goc": "me-day",
+   "doi_chieu_benh_danh": "Urticaria - Urticaire"
+  },
+  {
+   "title": "Nấc",
+   "slug": "nac",
+   "slug_goc": "nac",
+   "doi_chieu_benh_danh": "Ách nghịch - Cách Cơ Kinh Luyến - Hoquet - Hiccough"
+  },
+  {
+   "title": "Nôn Mửa",
+   "slug": "non-mua",
+   "slug_goc": "non-mua",
+   "doi_chieu_benh_danh": "Ẩu Thổ - Vomissenment - Vomitting"
+  },
+  {
+   "title": "Parkinson",
+   "slug": "parkinson",
+   "slug_goc": "parkinson"
+  },
+  {
+   "title": "Sán Khí",
+   "slug": "san-khi",
+   "slug_goc": "san-khi",
+   "doi_chieu_benh_danh": "Hernia – Hernie"
+  },
+  {
+   "title": "Sỏi Mật",
+   "slug": "soi-mat",
+   "slug_goc": "soi-mat",
+   "doi_chieu_benh_danh": "Cholecystolithiasis"
+  },
+  {
+   "title": "Sỏi Thận - Sỏi Đường Tiểu",
+   "slug": "soi-than-soi-duong-tieu",
+   "slug_goc": "soi-than-soi-duong-tieu",
+   "doi_chieu_benh_danh": "Bí Niệu Tố Kết Thạch - Urolithiasis"
+  },
+  {
+   "title": "Sốt Xuất Huyết",
+   "slug": "sot-xuat-huyet",
+   "slug_goc": "sot-xuat-huyet"
+  },
+  {
+   "title": "Suy Nhược Thần Kinh",
+   "slug": "suy-nhuoc-than-kinh",
+   "slug_goc": "suy-nhuoc-than-kinh"
+  },
+  {
+   "title": "Tăng Năng Tuyến Giáp",
+   "slug": "tang-nang-tuyen-giap",
+   "slug_goc": "tang-nang-tuyen-giap",
+   "doi_chieu_benh_danh": "Cường Giáp - Giáp Kháng"
+  },
+  {
+   "title": "Táo Bón",
+   "slug": "tao-bon",
+   "slug_goc": "tao-bon",
+   "doi_chieu_benh_danh": "Bí Kết – Constipation"
+  },
+  {
+   "title": "Thần Kinh Tam Thoa Đau",
+   "slug": "than-kinh-tam-thoa-dau",
+   "slug_goc": "than-kinh-tam-thoa-dau",
+   "doi_chieu_benh_danh": "Tam Thoa Thần Kinh Thống - Nevralgie Trijumeau - Nevralgia Trigeminal"
+  },
+  {
+   "title": "Thần Kinh Tọa Đau",
+   "slug": "than-kinh-toa-dau",
+   "slug_goc": "than-kinh-toa-dau",
+   "doi_chieu_benh_danh": "Sciatica - Sciatique"
+  },
+  {
+   "title": "Tiền Liệt Tuyến Viêm",
+   "slug": "tien-liet-tuyen-viem",
+   "slug_goc": "tien-liet-tuyen-viem",
+   "doi_chieu_benh_danh": "Prostatitis – Prostatititeite"
+  },
+  {
+   "title": "Tiêu Chảy",
+   "slug": "tieu-chay",
+   "slug_goc": "tieu-chay",
+   "doi_chieu_benh_danh": "Tiết Tả - Diarrhée - Diarrhea"
+  },
+  {
+   "title": "Tiểu Đục",
+   "slug": "tieu-duc",
+   "slug_goc": "tieu-duc",
+   "doi_chieu_benh_danh": "Tiết Tả - Diarrhée - Diarrhea"
+  },
+  {
+   "title": "Tiểu Không Tự Chủ",
+   "slug": "tieu-khong-tu-chu",
+   "slug_goc": "tieu-khong-tu-chu",
+   "doi_chieu_benh_danh": "Di Niệu - Tiểu Tiện Thất Cấm"
+  },
+  {
+   "title": "Tiểu Ra Máu",
+   "slug": "tieu-ra-mau",
+   "slug_goc": "tieu-ra-mau",
+   "doi_chieu_benh_danh": "Niệu Huyết - Hematuria - Hématurie"
+  },
+  {
+   "title": "Tổ Đỉa",
+   "slug": "to-dia",
+   "slug_goc": "to-dia"
+  },
+  {
+   "title": "Túi Mật Viêm Cấp",
+   "slug": "tui-mat-viem-cap",
+   "slug_goc": "tui-mat-viem-cap",
+   "doi_chieu_benh_danh": "Acute Cholecystitis"
+  },
+  {
+   "title": "Túi Mật Viêm Mạn Tính",
+   "slug": "tui-mat-viem-man-tinh",
+   "slug_goc": "tui-mat-viem-man-tinh",
+   "doi_chieu_benh_danh": "Chronic Cholecystitis"
+  },
+  {
+   "title": "Vẩy Nến",
+   "slug": "vay-nen",
+   "slug_goc": "vay-nen",
+   "doi_chieu_benh_danh": "Psosiaris"
+  },
+  {
+   "title": "Viêm Đại Trường Mạn Tính",
+   "slug": "viem-dai-truong-man-tinh",
+   "slug_goc": "viem-dai-truong-man-tinh",
+   "doi_chieu_benh_danh": "Chronic Enteritis - Chronique Entérite"
+  },
+  {
+   "title": "Viêm Da Thần Kinh",
+   "slug": "viem-da-than-kinh",
+   "slug_goc": "viem-da-than-kinh",
+   "doi_chieu_benh_danh": "Ngưu Bì Tiên, Nhiếp Ảnh Sang, Can Tiên - Thần Kinh Tính Bì Viêm - NeurodermatitissViêm da thần kinh là"
+  },
+  {
+   "title": "Viêm Gan Siêu Vi",
+   "slug": "viem-gan-sieu-vi",
+   "slug_goc": "viem-gan-sieu-vi"
+  },
+  {
+   "title": "Xơ Gan",
+   "slug": "xo-gan",
+   "slug_goc": "xo-gan"
+  },
+  {
+   "title": "Xuất Huyết Não",
+   "slug": "xuat-huyet-nao",
+   "slug_goc": "xuat-huyet-nao",
+   "doi_chieu_benh_danh": "Hémorragie Cérébrale - Cerebral Hemorrhage"
+  },
+  {
+   "title": "Zona",
+   "slug": "zona",
+   "slug_goc": "zona",
+   "doi_chieu_benh_danh": "Herpes Zoster"
+  }
+ ],
+ "cham_cuu_tri_benh": [
+  {
+   "title": "Alzheimer",
+   "slug": "alzheimer",
+   "slug_goc": "alzheimer"
+  },
+  {
+   "title": "Âm Đạo Viêm",
+   "slug": "am-dao-viem",
+   "slug_goc": "am-dao-viem"
+  },
+  {
+   "title": "Âm Dưỡng",
+   "slug": "am-duong",
+   "slug_goc": "am-duong"
+  },
+  {
+   "title": "Amiđan Viêm Cấp",
+   "slug": "amidan-viem-cap",
+   "slug_goc": "amidan-viem-cap"
+  },
+  {
+   "title": "Bướu Cổ",
+   "slug": "buou-co",
+   "slug_goc": "buou-co"
+  },
+  {
+   "title": "Cảm (cúm)",
+   "slug": "cam-cum",
+   "slug_goc": "cam-cum"
+  },
+  {
+   "title": "Cận Thị",
+   "slug": "can-thi",
+   "slug_goc": "can-thi"
+  },
+  {
+   "title": "Chắp Lẹo",
+   "slug": "chap-leo",
+   "slug_goc": "chap-leo"
+  },
+  {
+   "title": "Chóng Mặt",
+   "slug": "chong-mat",
+   "slug_goc": "chong-mat"
+  },
+  {
+   "title": "Chứng Tý",
+   "slug": "chung-ty",
+   "slug_goc": "chung-ty"
+  },
+  {
+   "title": "Co Giật",
+   "slug": "co-giat",
+   "slug_goc": "co-giat"
+  },
+  {
+   "title": "Cơn Đau Quặn Thận",
+   "slug": "con-dau-quan-than",
+   "slug_goc": "con-dau-quan-than"
+  },
+  {
+   "title": "Cổ Vẹo",
+   "slug": "co-veo",
+   "slug_goc": "co-veo"
+  },
+  {
+   "title": "Dạ Dầy Đau",
+   "slug": "da-day-dau",
+   "slug_goc": "da-day-dau"
+  },
+  {
+   "title": "Dạ Dầy Sa",
+   "slug": "da-day-sa",
+   "slug_goc": "da-day-sa"
+  },
+  {
+   "title": "Đái Dầm",
+   "slug": "dai-dam",
+   "slug_goc": "dai-dam"
+  },
+  {
+   "title": "Đa Thần Kinh Viêm",
+   "slug": "da-than-kinh-viem",
+   "slug_goc": "da-than-kinh-viem"
+  },
+  {
+   "title": "Đầu Gối Đau",
+   "slug": "dau-goi-dau",
+   "slug_goc": "dau-goi-dau"
+  },
+  {
+   "title": "Điếc Câm",
+   "slug": "diec-cam",
+   "slug_goc": "diec-cam"
+  },
+  {
+   "title": "Đinh Nhọt",
+   "slug": "dinh-nhot",
+   "slug_goc": "dinh-nhot"
+  },
+  {
+   "title": "Di Tinh",
+   "slug": "di-tinh",
+   "slug_goc": "di-tinh"
+  },
+  {
+   "title": "Đới Hạ",
+   "slug": "doi-ha",
+   "slug_goc": "doi-ha"
+  },
+  {
+   "title": "Động Kinh",
+   "slug": "dong-kinh",
+   "slug_goc": "dong-kinh"
+  },
+  {
+   "title": "Đục Nhân Mắt",
+   "slug": "duc-nhan-mat",
+   "slug_goc": "duc-nhan-mat"
+  },
+  {
+   "title": "Đường Tiểu Viêm",
+   "slug": "duong-tieu-viem",
+   "slug_goc": "duong-tieu-viem"
+  },
+  {
+   "title": "Giun Chui Ống Mật",
+   "slug": "giun-chui-ong-mat",
+   "slug_goc": "giun-chui-ong-mat"
+  },
+  {
+   "title": "Hen Phế Quản (suyễn)",
+   "slug": "hen-phe-quan-suyen",
+   "slug_goc": "hen-phe-quan-suyen"
+  },
+  {
+   "title": "Ho",
+   "slug": "ho",
+   "slug_goc": "ho"
+  },
+  {
+   "title": "Hỏa Thống",
+   "slug": "hoa-thong",
+   "slug_goc": "hoa-thong"
+  },
+  {
+   "title": "Ho Gà",
+   "slug": "ho-ga",
+   "slug_goc": "ho-ga"
+  },
+  {
+   "title": "Hội Chứng Cushing",
+   "slug": "hoi-chung-cushing",
+   "slug_goc": "hoi-chung-cushing"
+  },
+  {
+   "title": "Hôn Mê",
+   "slug": "hon-me",
+   "slug_goc": "hon-me"
+  },
+  {
+   "title": "Huyết Áp Cao",
+   "slug": "huyet-ap-cao",
+   "slug_goc": "huyet-ap-cao"
+  },
+  {
+   "title": "Hysteria",
+   "slug": "hysteria",
+   "slug_goc": "hysteria"
+  },
+  {
+   "title": "Kết Mạc Viêm",
+   "slug": "ket-mac-viem",
+   "slug_goc": "ket-mac-viem"
+  },
+  {
+   "title": "Khớp Quanh Vai Viêm",
+   "slug": "khop-quanh-vai-viem",
+   "slug_goc": "khop-quanh-vai-viem"
+  },
+  {
+   "title": "Khuỷu Tay Viêm",
+   "slug": "khuyu-tay-viem",
+   "slug_goc": "khuyu-tay-viem"
+  },
+  {
+   "title": "Kiết Lỵ",
+   "slug": "kiet-ly",
+   "slug_goc": "kiet-ly"
+  },
+  {
+   "title": "Kinh Nguyệt Bế",
+   "slug": "kinh-nguyet-be",
+   "slug_goc": "kinh-nguyet-be"
+  },
+  {
+   "title": "Kinh Nguyệt Không Đều",
+   "slug": "kinh-nguyet-khong-deu",
+   "slug_goc": "kinh-nguyet-khong-deu"
+  },
+  {
+   "title": "Lao Hạch",
+   "slug": "lao-hach",
+   "slug_goc": "lao-hach"
+  },
+  {
+   "title": "Liệt Dương",
+   "slug": "liet-duong",
+   "slug_goc": "liet-duong"
+  },
+  {
+   "title": "Liệt Mặt",
+   "slug": "liet-mat",
+   "slug_goc": "liet-mat"
+  },
+  {
+   "title": "Liệt Nửa Người",
+   "slug": "liet-nua-nguoi",
+   "slug_goc": "liet-nua-nguoi"
+  },
+  {
+   "title": "Loãng Xương",
+   "slug": "loang-xuong",
+   "slug_goc": "loang-xuong"
+  },
+  {
+   "title": "Lưng Đau",
+   "slug": "lung-dau",
+   "slug_goc": "lung-dau"
+  },
+  {
+   "title": "Mai Hạch Khí",
+   "slug": "mai-hach-khi",
+   "slug_goc": "mai-hach-khi"
+  },
+  {
+   "title": "Mất Ngủ",
+   "slug": "mat-ngu",
+   "slug_goc": "mat-ngu"
+  },
+  {
+   "title": "Mắt Viêm Do Điện Quang",
+   "slug": "mat-viem-do-dien-quang",
+   "slug_goc": "mat-viem-do-dien-quang"
+  },
+  {
+   "title": "Mề Đay",
+   "slug": "me-day",
+   "slug_goc": "me-day"
+  },
+  {
+   "title": "Mũi Viêm Cấp Tính, Mạn Tính",
+   "slug": "mui-viem-cap-tinh-man-tinh",
+   "slug_goc": "mui-viem-cap-tinh-man-tinh"
+  },
+  {
+   "title": "Nấc",
+   "slug": "nac",
+   "slug_goc": "nac"
+  },
+  {
+   "title": "Ngất",
+   "slug": "ngat",
+   "slug_goc": "ngat"
+  },
+  {
+   "title": "Nôn Mửa",
+   "slug": "non-mua",
+   "slug_goc": "non-mua"
+  },
+  {
+   "title": "Nôn Mửa Lúc Có Thai",
+   "slug": "non-mua-luc-co-thai",
+   "slug_goc": "non-mua-luc-co-thai"
+  },
+  {
+   "title": "Parkinson",
+   "slug": "parkinson",
+   "slug_goc": "parkinson"
+  },
+  {
+   "title": "Phế Quản Viêm",
+   "slug": "phe-quan-viem",
+   "slug_goc": "phe-quan-viem"
+  },
+  {
+   "title": "Quai Bị",
+   "slug": "quai-bi",
+   "slug_goc": "quai-bi"
+  },
+  {
+   "title": "Răng Đau",
+   "slug": "rang-dau",
+   "slug_goc": "rang-dau"
+  },
+  {
+   "title": "Ruột Dư Viêm Cấp",
+   "slug": "ruot-du-viem-cap",
+   "slug_goc": "ruot-du-viem-cap"
+  },
+  {
+   "title": "Say Nắng",
+   "slug": "say-nang",
+   "slug_goc": "say-nang"
+  },
+  {
+   "title": "Sỏi Mật",
+   "slug": "soi-mat",
+   "slug_goc": "soi-mat"
+  },
+  {
+   "title": "Sốt Rét",
+   "slug": "sot-ret",
+   "slug_goc": "sot-ret"
+  },
+  {
+   "title": "Sữa Thiếu",
+   "slug": "sua-thieu",
+   "slug_goc": "sua-thieu"
+  },
+  {
+   "title": "Suy Tim",
+   "slug": "suy-tim",
+   "slug_goc": "suy-tim"
+  },
+  {
+   "title": "Tai Ù - Tai Điếc",
+   "slug": "tai-u-tai-diec",
+   "slug_goc": "tai-u-tai-diec"
+  },
+  {
+   "title": "Tâm Thần Phân Liệt",
+   "slug": "tam-than-phan-liet",
+   "slug_goc": "tam-than-phan-liet"
+  },
+  {
+   "title": "Tăng Năng Tuyến Giáp - Bazedow",
+   "slug": "tang-nang-tuyen-giap-bazedow",
+   "slug_goc": "tang-nang-tuyen-giap-bazedow"
+  },
+  {
+   "title": "Táo Bón",
+   "slug": "tao-bon",
+   "slug_goc": "tao-bon"
+  },
+  {
+   "title": "Thai Lệch",
+   "slug": "thai-lech",
+   "slug_goc": "thai-lech"
+  },
+  {
+   "title": "Thần Kinh Da Viêm",
+   "slug": "than-kinh-da-viem",
+   "slug_goc": "than-kinh-da-viem"
+  },
+  {
+   "title": "Thần Kinh Liên Sườn Đau",
+   "slug": "than-kinh-lien-suon-dau",
+   "slug_goc": "than-kinh-lien-suon-dau"
+  },
+  {
+   "title": "Thần Kinh Sinh Ba Đau",
+   "slug": "than-kinh-sinh-ba-dau",
+   "slug_goc": "than-kinh-sinh-ba-dau"
+  },
+  {
+   "title": "Thần Kinh Suy Nhược",
+   "slug": "than-kinh-suy-nhuoc",
+   "slug_goc": "than-kinh-suy-nhuoc"
+  },
+  {
+   "title": "Thần Kinh Thị Giác Teo",
+   "slug": "than-kinh-thi-giac-teo",
+   "slug_goc": "than-kinh-thi-giac-teo"
+  },
+  {
+   "title": "Thần Kinh Tọa Đau",
+   "slug": "than-kinh-toa-dau",
+   "slug_goc": "than-kinh-toa-dau"
+  },
+  {
+   "title": "Thấp Chẩn",
+   "slug": "thap-chan",
+   "slug_goc": "thap-chan"
+  },
+  {
+   "title": "Thấp Khớp",
+   "slug": "thap-khop",
+   "slug_goc": "thap-khop"
+  },
+  {
+   "title": "Thoái Hóa Đốt Sống Cổ",
+   "slug": "thoai-hoa-dot-song-co",
+   "slug_goc": "thoai-hoa-dot-song-co"
+  },
+  {
+   "title": "Thống Kinh",
+   "slug": "thong-kinh",
+   "slug_goc": "thong-kinh"
+  },
+  {
+   "title": "Thúc (giục)",
+   "slug": "thuc-giuc",
+   "slug_goc": "thuc-giuc"
+  },
+  {
+   "title": "Tiền Liệt Tuyến Viêm",
+   "slug": "tien-liet-tuyen-viem",
+   "slug_goc": "tien-liet-tuyen-viem"
+  },
+  {
+   "title": "Tiểu Bí",
+   "slug": "tieu-bi",
+   "slug_goc": "tieu-bi"
+  },
+  {
+   "title": "Tiểu Dầm",
+   "slug": "tieu-dam",
+   "slug_goc": "tieu-dam"
+  },
+  {
+   "title": "Tiểu Đường",
+   "slug": "tieu-duong",
+   "slug_goc": "tieu-duong"
+  },
+  {
+   "title": "Tiêu Hóa Rối Loạn",
+   "slug": "tieu-hoa-roi-loan",
+   "slug_goc": "tieu-hoa-roi-loan"
+  },
+  {
+   "title": "Tiểu Ra Máu",
+   "slug": "tieu-ra-mau",
+   "slug_goc": "tieu-ra-mau"
+  },
+  {
+   "title": "Tim Suy",
+   "slug": "tim-suy",
+   "slug_goc": "tim-suy"
+  },
+  {
+   "title": "Tĩnh Mạch Viêm Tắc",
+   "slug": "tinh-mach-viem-tac",
+   "slug_goc": "tinh-mach-viem-tac"
+  },
+  {
+   "title": "Trực Trường Sa",
+   "slug": "truc-truong-sa",
+   "slug_goc": "truc-truong-sa"
+  },
+  {
+   "title": "Tử Cung Sa",
+   "slug": "tu-cung-sa",
+   "slug_goc": "tu-cung-sa"
+  },
+  {
+   "title": "Tửu Tra Tỵ",
+   "slug": "tuu-tra-ty",
+   "slug_goc": "tuu-tra-ty"
+  },
+  {
+   "title": "Tuyến Vú Viêm",
+   "slug": "tuyen-vu-viem",
+   "slug_goc": "tuyen-vu-viem"
+  },
+  {
+   "title": "Vẩy Nến",
+   "slug": "vay-nen",
+   "slug_goc": "vay-nen"
+  },
+  {
+   "title": "Viêm Gan Cấp",
+   "slug": "viem-gan-cap",
+   "slug_goc": "viem-gan-cap"
+  },
+  {
+   "title": "Viêm Gan Mạn Tính",
+   "slug": "viem-gan-man-tinh",
+   "slug_goc": "viem-gan-man-tinh"
+  },
+  {
+   "title": "Viêm Gan Siêu Vi",
+   "slug": "viem-gan-sieu-vi",
+   "slug_goc": "viem-gan-sieu-vi"
+  },
+  {
+   "title": "Viêm Khớp Dạng Thấp",
+   "slug": "viem-khop-dang-thap",
+   "slug_goc": "viem-khop-dang-thap"
+  },
+  {
+   "title": "Xoang Mũi Viêm",
+   "slug": "xoang-mui-viem",
+   "slug_goc": "xoang-mui-viem"
+  },
+  {
+   "title": "Zona",
+   "slug": "zona",
+   "slug_goc": "zona"
+  }
+ ],
+ "duoc_lieu": [
+  {
+   "title": "Bạch Truật",
+   "slug": "23",
+   "ten_khac": "Truật, Truật sơn kế (Bản Kinh), Sơn khương, Sơn liên (Biệt lục), Dương phu, Phu kế, Mã kế (Bản Thảo Cương Mục), Sơn giới, Thiên đao (Ngô-Phổ bản thảo), Sơn tinh (Thần Dược Kinh), Ngật lực già (Nhật Ho"
+  },
+  {
+   "title": "Cam Thảo",
+   "slug": "25",
+   "ten_khac": "Quốc lão, Linh thảo, Lộ thảo (Bản Kinh), Mỹ thảo, Mật cam (Biệt Lục), Thảo thiệt (Thiệt Tịch Thông Dụng Giản Danh), Linh thông (Ký Sự Châu), Diêm Cam thảo, Phấn cam thảo (Trung Quốc Dược Học Đại Từ Đi"
+  },
+  {
+   "title": "Đương Quy",
+   "slug": "66",
+   "ten_khac": "Can quy (Bản Kinh), Sơn kỳ, Bạch kỳ (Nhĩ Nhã), Văn vô, Tần quy (Bản Thảo Cương Mục), Thảo đầu quy (Biệt Lục), Mã vĩ quy, Đại cần, Danh bệ, Tượng mã, Khích hy, Nữ nhị thiên, Địa tiên viên, Di linh chi,"
+  },
+  {
+   "title": "Hoàng Kỳ",
+   "slug": "21",
+   "ten_khac": "Đái thảm (Bản Kinh), Đái thâm, Thục chi, Bách bản, Ngải thảo, Kỵ thảo, Độc thầm (Biệt Lục), Vương tôn (Dược Tính Bản Thảo), Dương nhục (Nhật Hoa Tử Bản Thảo), Hoàng thị, Miên kỳ, Đái phấn (Bản Thảo Cư"
+  },
+  {
+   "title": "Long Nhãn",
+   "slug": "392",
+   "ten_khac": "Long Nhãn Nhục"
+  },
+  {
+   "title": "Nhân Sâm",
+   "slug": "18",
+   "ten_khac": "Bạch điều sâm, Hàn Quốc sâm, Hồng sâm, Biệt trực sâm, Triều tiên sâm, Bách tế sâm, Bạch sâm (Trung Quốc Dược Học Đại Từ Điển), Cát lâm sâm, Dã sơn sâm, Đại sâm (Đông Dược Học Thiết Yếu).; Nhâm Sâm"
+  },
+  {
+   "title": "Toan Táo Nhân",
+   "slug": "61",
+   "ten_khac": "Táo nhân (Dược Phẩm Hóa Nghĩa), Toan táo hạch (Giang Tô Tỉnh Thực Vật Dược Tài Trí), Nhị nhân, Sơn táo nhân, Điều thụy sam quân, Dương táo nhân (Trung Quốc Dược Học Đại Từ Điển).; Táo Nhân; Linh Từ Mạ"
+  },
+  {
+   "title": "Viễn Chí",
+   "slug": "57",
+   "ten_khac": "Khổ viễn chí (Trấn Nam Bản Thảo), Yêu nhiễu, Cứt quyển (Nhĩ Nhã), Nga quản chí thống, Chí nhục, Chí thông, Viễn chí nhục, Chích viễn chí, Khổ yêu, Dư lương, A chỉ thảo, Tĩnh tâm trượng (Trung Quốc Dượ"
+  },
+  {
+   "title": "A Giao",
+   "slug": "67",
+   "ten_khac": "A giao nhân, A tỉnh giao, A tỉnh lư bì giao, Bồ hoàng sao A giao (Trung Quốc Dược Học Đại Từ Điển), Bì giao, Bồn giao, Hiển minh bả, Ô giao, Phó tri giao, Phú bồn giao (Hòa Hán Dược Khảo), Cáp sao a g"
+  },
+  {
+   "title": "Bạch Cập",
+   "slug": "190",
+   "ten_khac": "Liên cập thảo, Cam căn (Bản Kinh), Bạch cấp (Biệt Lục), Bạch căn (Ngô Phổ Bản Thảo), Bạch căn, Trúc túc giao, Tuyết như lai, Tử tuệ căn, Tử lan căn, (Hòa Hán Dược Khảo), Nhược lan lan hoa, Từ lan (Quầ"
+  },
+  {
+   "title": "Bạch Liễm",
+   "slug": "1017"
+  },
+  {
+   "title": "Bạch Vi",
+   "slug": "1153",
+   "ten_khac": "Xuân thảo (Bản Kinh), Vi thảo, Bạch mạc (Biệt Lục), Nhị cốt mỹ (Bản Thảo Cương Mục)."
+  },
+  {
+   "title": "Bán hạ khúc",
+   "slug": "1037"
+  },
+  {
+   "title": "Biển Đậu",
+   "slug": "24"
+  },
+  {
+   "title": "Cam thảo chích",
+   "slug": "1114"
+  },
+  {
+   "title": "Cát Hạch",
+   "slug": "452"
+  },
+  {
+   "title": "Chi Tử",
+   "slug": "321",
+   "ten_khac": "Mộc ban (Bản Kinh), Việt đào (Biệt Lục), Tiên chi (Bản Thảo Cương Mục), Chi tử, Tiên tử, Trư đào, Việt đông, Sơn chi nhân, Lục chi tử, Hồng chi tử, Hoàng chi tử, Hoàng hương ảnh tử (Hòa Hán Dược Khảo)"
+  },
+  {
+   "title": "Cương Tàm",
+   "slug": "8"
+  },
+  {
+   "title": "Đại Huyết Đằng",
+   "slug": "971"
+  },
+  {
+   "title": "Dã Mã Truy",
+   "slug": "687"
+  },
+  {
+   "title": "Đậu Khấu",
+   "slug": "465"
+  },
+  {
+   "title": "Diên Hồ Sách",
+   "slug": "423",
+   "ten_khac": "Huyền hồ sách, Nguyên hồ sách, Khuê nguyên hồ, Sanh diên hồ, Sao diên hồ, Vũ hồ sách, Trích kim noãn (Trung Quốc Dược Học Đại Từ Điển)."
+  },
+  {
+   "title": "Đông Quỳ Tử",
+   "slug": "311"
+  },
+  {
+   "title": "Giá trùng",
+   "slug": "1049"
+  },
+  {
+   "title": "Hải Kim Sa",
+   "slug": "475"
+  },
+  {
+   "title": "Hà Thủ Ô",
+   "slug": "68",
+   "ten_khac": "Giao đằng, Dạ hợp, Địa tinh (Bản Truyện), Trần tri bạch (Khai Bảo Bản Thảo), Đào liễu đằng (Nhật Hoa Tử Bản Thảo), Sơn nô, Sơn ca, Sơn bá Sơn ông, Sơn tinh (Đồ Kinh Bản Thảo), Xích cát (Đẩu Môn), Mã c"
+  },
+  {
+   "title": "Hoàng Dược Tử",
+   "slug": "889"
+  },
+  {
+   "title": "Hòe Hoa",
+   "slug": "417",
+   "ten_khac": "Hòe Thực (Bản Kinh), Hòe Nhụy (Bản Thảo Đồ Kinh), Hòe nhụy (Bản Thảo Chính), Thái dụng (Nhật Hoa Tử Bản Thảo), Hòe mễ, Hòe hoa mễ, Hòa trần mễ (Hòa Hán Dược Khảo), Hòe hoa thán, Hòe mễ thán, Hòe nga, "
+  },
+  {
+   "title": "Hợp Hoan Bì",
+   "slug": "63"
+  },
+  {
+   "title": "Huyết Dư Thán",
+   "slug": "593"
+  },
+  {
+   "title": "Kha Tử",
+   "slug": "105",
+   "ten_khac": "A Tử, Hà Tử, Kha Lê Lặc, Kha Tử Nhục, Kha Tử Thán, Sáp Ông, Tùy Phong Tử (Trung Quốc Dược Học Đại Từ Điển), Chiêu Liêu, Chiều Liều (Việt Nam)."
+  },
+  {
+   "title": "Khương Hạ",
+   "slug": "596",
+   "ten_khac": "Khương Bán Hạ"
+  },
+  {
+   "title": "Kinh Giới Sao",
+   "slug": "376"
+  },
+  {
+   "title": "Lệ Chi",
+   "slug": "495"
+  },
+  {
+   "title": "Lộc Giác",
+   "slug": "1170"
+  },
+  {
+   "title": "Lục Anh",
+   "slug": "834"
+  },
+  {
+   "title": "Mạch Đông",
+   "slug": "394"
+  },
+  {
+   "title": "Mạn Kinh Tử",
+   "slug": "175"
+  },
+  {
+   "title": "Mã Vĩ Liên",
+   "slug": "816"
+  },
+  {
+   "title": "Mông Thạch",
+   "slug": "138"
+  },
+  {
+   "title": "Ngân Nhĩ",
+   "slug": "678"
+  },
+  {
+   "title": "Ngũ Chỉ Mao",
+   "slug": "718"
+  },
+  {
+   "title": "Nha Đảm Tử",
+   "slug": "1173",
+   "ten_khac": "Khổ sâm tử (Cương Mục Thập Di), Lão nha đởm (Sinh Thảo Dược Tính Bị Yếu), Nha đởm, Khổ tần tử (Cát Vân Bình Sa), Xoan rừng (Nam Dược Thần Hiệu), Áp noãn tử (Y Học Trung Trung Tham Tây Lục), Nha đởm tử"
+  },
+  {
+   "title": "Nhũ trấp",
+   "slug": "1071"
+  },
+  {
+   "title": "Phật Giáp Thảo",
+   "slug": "939"
+  },
+  {
+   "title": "Phượng Hoàng Y",
+   "slug": "942"
+  },
+  {
+   "title": "Quán Trúng",
+   "slug": "89"
+  },
+  {
+   "title": "Sao bồ hoàng",
+   "slug": "1123"
+  },
+  {
+   "title": "Sinh khương bì",
+   "slug": "1082"
+  },
+  {
+   "title": "Sơn Tra",
+   "slug": "273",
+   "ten_khac": "Xích qua tử, Thử tra, Dương cầu (Đường Bản Thảo), Hầu tra (Thế Y Đắc Hiệu phương), Mao tra (Nhật Dụng Bản Thảo), Phàm tử, Hệ mai (Nhĩ Nhã), Đường cầu tử (Bản Thảo Đồ Kinh), Sơn lý quả (Thực Liệu Bản T"
+  },
+  {
+   "title": "Tang Bì",
+   "slug": "611"
+  },
+  {
+   "title": "Tây Hà Liễu",
+   "slug": "715"
+  },
+  {
+   "title": "Thạch Nam Diệp",
+   "slug": "755"
+  },
+  {
+   "title": "Thanh Mộc Hương",
+   "slug": "541"
+  },
+  {
+   "title": "Thất Diệp Nhất Chi Hoa",
+   "slug": "786"
+  },
+  {
+   "title": "Thiên Nhiên Hoạt",
+   "slug": "544"
+  },
+  {
+   "title": "Thông Thảo",
+   "slug": "296",
+   "ten_khac": "Thông thoát mộc, Phương thông thảo, Bạch thông thảo, Ty thông thảo, Ngạnh thông thảo, Dáng thông thảo, Hoa phương thông, Hồng thông thảo, Hoạt duệ, Ly nam, Khấu thoát, Ỷ thương (Trung Quốc dược học đạ"
+  },
+  {
+   "title": "Thử phụ",
+   "slug": "1095"
+  },
+  {
+   "title": "Tiên sinh địa",
+   "slug": "1140"
+  },
+  {
+   "title": "Tô hợp hương",
+   "slug": "1096"
+  },
+  {
+   "title": "Trọng Lâu",
+   "slug": "662"
+  },
+  {
+   "title": "Tục Đoạn",
+   "slug": "44",
+   "ten_khac": "Long đậu, Vạn cân (Bản kinh), Tiếp cốt, Nam thảo (Biệt lục), Tiếp cốt thảo (Vệ sinh dị giản phương), Cổ chùy thảo, Hòa hướng đầu (Trấn Nam bản thảo), Xuyên đoạn (Lâm chứng chỉ nam), Xuyên la hạ căn, L"
+  },
+  {
+   "title": "Tử Thiêu Hoa",
+   "slug": "655"
+  },
+  {
+   "title": "Vấn Kinh",
+   "slug": "725"
+  },
+  {
+   "title": "Xà Thoái",
+   "slug": "762"
+  },
+  {
+   "title": "Xuyên Liên",
+   "slug": "628"
+  }
+ ],
+ "nguon_y_van": [
+  {
+   "title": "Bách Bệnh Châm Cứu Trị Nghiệm Phương",
+   "slug": "bach-benh-cham-cuu-tri-nghiem-phuong"
+  },
+  {
+   "title": "Châm Cứu Chân Tuỷ",
+   "slug": "cham-cuu-chan-tuy"
+  },
+  {
+   "title": "Châm Cứu Đại Thành",
+   "slug": "cham-cuu-dai-thanh"
+  },
+  {
+   "title": "Châm Cứu Du Huyệt Đồ",
+   "slug": "cham-cuu-du-huyet-do"
+  },
+  {
+   "title": "Châm Cứu Du Huyệt Học",
+   "slug": "cham-cuu-du-huyet-hoc"
+  },
+  {
+   "title": "Châm Cứu Học Giang Tô",
+   "slug": "cham-cuu-hoc-giang-to"
+  },
+  {
+   "title": "Châm Cứu Học Hong Kong",
+   "slug": "cham-cuu-hoc-hong-kong"
+  },
+  {
+   "title": "Châm Cứu Học Nhật Bản",
+   "slug": "cham-cuu-hoc-nhat-ban"
+  },
+  {
+   "title": "Châm Cứu Học Thượng Hải",
+   "slug": "cham-cuu-hoc-thuong-hai"
+  },
+  {
+   "title": "Châm Cứu Học Từ Điển",
+   "slug": "cham-cuu-hoc-tu-dien"
+  },
+  {
+   "title": "Châm Cứu Khổng Huyệt Cập Kỳ Liệu Pháp Tiện Lãm",
+   "slug": "cham-cuu-khong-huyet-cap-ky-lieu-phap-tien-lam"
+  },
+  {
+   "title": "Châm Cứu Kinh Huyệt Đồ Phổ",
+   "slug": "cham-cuu-kinh-huyet-do-pho"
+  },
+  {
+   "title": "Châm Cứu Kinh Ngoại Kỳ Huyệt Đồ Phổ",
+   "slug": "cham-cuu-kinh-ngoai-ky-huyet-do-pho"
+  },
+  {
+   "title": "Châm Cứu Tập Thành",
+   "slug": "cham-cuu-hoc-tap-thanh"
+  },
+  {
+   "title": "Châm Cứu Tiệp Hiệu Diễn Ca",
+   "slug": "cham-cuu-tiep-hieu-dien-ca"
+  },
+  {
+   "title": "Châm Cứu Tụ Anh",
+   "slug": "cham-cuu-tu-anh"
+  },
+  {
+   "title": "Chứng Trị Chuẩn Thằng (Thương Hàn)",
+   "slug": "chung-tri-chuan-thang-thuong-han"
+  },
+  {
+   "title": "Hoàng Đế Nội Kinh Tố Vấn",
+   "slug": "hoang-de-noi-kinh-to-van"
+  },
+  {
+   "title": "Lăng Thị Diễn Chương Châm Cứu Toàn Thư",
+   "slug": "lang-thi-dien-chuong-cham-cuu-toan-thu"
+  },
+  {
+   "title": "Linh Khu (Hoàng Đế Nội Kinh)",
+   "slug": "linh-khu"
+  },
+  {
+   "title": "Nội Kinh Thập Di Phương Luận",
+   "slug": "noi-kinh-thap-di-phuong-luan"
+  },
+  {
+   "title": "Nội Kinh Thập Di Phương Thư",
+   "slug": "noi-kinh-thap-di-phuong-thu"
+  },
+  {
+   "title": "Tân Biên Châm Cứu Trị Liệu Học",
+   "slug": "tan-bien-cham-cuu-tri-lieu-hoc"
+  },
+  {
+   "title": "Tăng Bổ Nội Kinh Bổ Di Phương Luận",
+   "slug": "tang-bo-noi-kinh-bo-di-phuong-luan"
+  },
+  {
+   "title": "Tăng Bổ Nội Kinh Thập Di Phương Luận",
+   "slug": "tang-bo-noi-kinh-thap-di-phuong-luan"
+  },
+  {
+   "title": "Thông Tục Thương Hàn Luận",
+   "slug": "thong-tuc-thuong-han-luan"
+  },
+  {
+   "title": "Thương Hàn Bảo Mệnh Tập",
+   "slug": "thuong-han-bao-menh-tap"
+  },
+  {
+   "title": "Thương Hàn Chân Cách Phương",
+   "slug": "thuong-han-chan-cach-phuong"
+  },
+  {
+   "title": "Thương Hàn Đại Bạch",
+   "slug": "thuong-han-dai-bach"
+  },
+  {
+   "title": "Thương Hàn Đại Thành",
+   "slug": "thuong-han-dai-thanh"
+  },
+  {
+   "title": "Thương Hàn Kinh Chú",
+   "slug": "thuong-han-kinh-chu"
+  },
+  {
+   "title": "Thương Hàn Luận",
+   "slug": "thuong-han-luan"
+  },
+  {
+   "title": "Thương Hàn Luận (Biện Dương Minh Bệnh Mạch Chứng Tịnh Trị)",
+   "slug": "thuong-han-luan-bien-duong-minh-benh-mach-chung-tinh-tri"
+  },
+  {
+   "title": "Thương Hàn Luận (Biện Thái Dương Bệnh Mạch Chứng Tịnh Trị)",
+   "slug": "thuong-han-luan-bien-thai-duong-benh-mach-chung-tinh-tri",
+   "ten_khac": "Thương Hàn Luận (BiệnThái Dương Bệnh Mạch Chứng Tịnh Trị)"
+  },
+  {
+   "title": "Thương Hàn Luận (Biện Thái Dương Bệnh Mạch Chứng Tịnh Trị Hạ)",
+   "slug": "thuong-han-luan-bien-thai-duong-benh-mach-chung-tinh-tri-ha"
+  },
+  {
+   "title": "Thương Hàn Luận (Biện Thái Dương Bệnh Mạch Chứng Tịsnh Trị)",
+   "slug": "thuong-han-luan-bien-thai-duong-benh-mach-chung-tisnh-tri"
+  },
+  {
+   "title": "Thương Hàn Luận (Biện Thái Dương Mạch Chứng Tịnh Trị)",
+   "slug": "thuong-han-luan-bien-thai-duong-mach-chung-tinh-tri"
+  },
+  {
+   "title": "Thương Hàn Lục Thư",
+   "slug": "thuong-han-luc-thu"
+  },
+  {
+   "title": "Thương Hàn Nhập Môn",
+   "slug": "thuong-han-nhap-mon"
+  },
+  {
+   "title": "Thương Hàn Ôn Dịch Điều Biện",
+   "slug": "thuong-han-on-dich-dieu-bien"
+  },
+  {
+   "title": "Thương Hàn Tiêu Bản",
+   "slug": "thuong-han-tieu-ban"
+  },
+  {
+   "title": "Thương Hàn Tiêu Bản Tâm Pháp Loại Túy",
+   "slug": "thuong-han-tieu-ban-tam-phap-loai-tuy"
+  },
+  {
+   "title": "Thương Hàn Tiểu Phẩm",
+   "slug": "thuong-han-tieu-pham"
+  },
+  {
+   "title": "Thương Hàn Tỏa Ngôn",
+   "slug": "thuong-han-toa-ngon"
+  },
+  {
+   "title": "Thương Hàn Toàn Sinh Tập",
+   "slug": "thuong-han-toan-sinh-tap"
+  },
+  {
+   "title": "Thương Hàn Trực Cách",
+   "slug": "thuong-han-truc-cach"
+  },
+  {
+   "title": "Tố Vấn (Hoàng Đế Nội Kinh)",
+   "slug": "to-van"
+  },
+  {
+   "title": "Trọng Đính Thông Tục Thương Hàn Luận",
+   "slug": "trong-dinh-thong-tuc-thuong-han-luan"
+  },
+  {
+   "title": "Trung Quốc Châm Cứu Học",
+   "slug": "trung-quoc-cham-cuu-hoc"
+  },
+  {
+   "title": "Trung Quốc Châm Cứu Học Đồ Giải Từ Điển",
+   "slug": "trung-quoc-cham-cuu-hoc-do-giai-tu-dien"
+  },
+  {
+   "title": "100 Y Án Thuốc Nam",
+   "slug": "100-y-an-thuoc-nam"
+  },
+  {
+   "title": "Bành Dụng Quang",
+   "slug": "banh-dung-quang"
+  },
+  {
+   "title": "Bất Cư Tập (Tập Thượng)",
+   "slug": "bat-cu-tap-tap-thuong",
+   "ten_khac": "Bất Cư Tập, Tập Thượng"
+  },
+  {
+   "title": "Cao Bỉnh Quân",
+   "slug": "cao-binh-quan"
+  },
+  {
+   "title": "Chứng Trị Chuẩn Thằng (Dương Y), Tập I",
+   "slug": "chung-tri-chuan-thang-duong-y-tap-i"
+  },
+  {
+   "title": "Cổ Kim Y Triệt",
+   "slug": "co-kim-y-triet"
+  },
+  {
+   "title": "Đan Khê Tâm Pháp",
+   "slug": "dan-khe-tam-phap"
+  },
+  {
+   "title": "Dị Viễn Chân Nhân",
+   "slug": "di-vien-chan-nhan"
+  },
+  {
+   "title": "Dương Kế Châu",
+   "slug": "duong-ke-chau"
+  },
+  {
+   "title": "Hà Bắc Dược Tài",
+   "slug": "ha-bac-duoc-tai"
+  },
+  {
+   "title": "Hiểu Nông, bệnh viện nhân dân huyện Từ Giang, tỉnh Giang Tây",
+   "slug": "hieu-nong-benh-vien-nhan-dan-huyen-tu-giang-tinh-giang-tay"
+  },
+  {
+   "title": "Hồ Ngọc",
+   "slug": "ho-ngoc"
+  },
+  {
+   "title": "Kinh Hiệu Sản Bảo",
+   "slug": "kinh-hieu-san-bao"
+  },
+  {
+   "title": "Lan Thất Bí Tàng (Khẩu Xỉ Yết Hầu Môn)",
+   "slug": "lan-that-bi-tang-khau-xi-yet-hau-mon"
+  },
+  {
+   "title": "Lôi Công Bào Chế Dược Tính Giải",
+   "slug": "loi-cong-bao-che-duoc-tinh-giai"
+  },
+  {
+   "title": "Lý Quốc Hiển, Bệnh viện trực thuộc Học viện y học tỉnh Giang Tây",
+   "slug": "ly-quoc-hien-benh-vien-truc-thuoc-hoc-vien-y-hoc-tinh-giang-tay"
+  },
+  {
+   "title": "Nam Kinh Trung Y Dược",
+   "slug": "nam-kinh-trung-y-duoc"
+  },
+  {
+   "title": "Ngô Cầu",
+   "slug": "ngo-cau"
+  },
+  {
+   "title": "Nguyện Tùng Viên Y Kính",
+   "slug": "nguyen-tung-vien-y-kinh"
+  },
+  {
+   "title": "Nữ Khoa Chỉ Yếu",
+   "slug": "nu-khoa-chi-yeu"
+  },
+  {
+   "title": "Phúc Kiến Trung Dược Chí",
+   "slug": "phuc-kien-trung-duoc-chi"
+  },
+  {
+   "title": "Quan Tụ Phương Yếu Bổ",
+   "slug": "quan-tu-phuong-yeu-bo"
+  },
+  {
+   "title": "Tam Nhân Cực - Bệnh Chứng Phương Luận Q.2",
+   "slug": "tam-nhan-cuc-benh-chung-phuong-luan-q-2"
+  },
+  {
+   "title": "Tạp Bệnh Nguyên Lưu Tê Chúc (Tạng Phủ)",
+   "slug": "tap-benh-nguyen-luu-te-chuc-tang-phu"
+  },
+  {
+   "title": "Thai Sản Toàn Thư",
+   "slug": "thai-san-toan-thu"
+  },
+  {
+   "title": "Thất Huyết Đại Pháp",
+   "slug": "that-huyet-dai-phap"
+  },
+  {
+   "title": "Thi Phát",
+   "slug": "thi-phat"
+  },
+  {
+   "title": "Thương Khoa Hối Toản",
+   "slug": "thuong-khoa-hoi-toan"
+  },
+  {
+   "title": "Toàn Quốc Trung Dược Thành Dược Xử Phương Tập (Hàng Châu)",
+   "slug": "toan-quoc-trung-duoc-thanh-duoc-xu-phuong-tap-hang-chau"
+  },
+  {
+   "title": "Trần Nghiên Phong",
+   "slug": "tran-nghien-phong"
+  },
+  {
+   "title": "Triết Giang Trung Y Tạp Chí 8, 1989",
+   "slug": "triet-giang-trung-y-tap-chi-8-1989"
+  },
+  {
+   "title": "Trung Quốc Dân Gian Bách Thảo Lương Phương",
+   "slug": "trung-quoc-dan-gian-bach-thao-luong-phuong"
+  },
+  {
+   "title": "Trung Y Phụ Khoa Học",
+   "slug": "trung-y-phu-khoa-hoc"
+  },
+  {
+   "title": "Trương Nguyên Tố",
+   "slug": "truong-nguyen-to"
+  },
+  {
+   "title": "Từ Xuân Phủ",
+   "slug": "tu-xuan-phu"
+  },
+  {
+   "title": "Vạn Thị Gia Sao Phương",
+   "slug": "van-thi-gia-sao-phuong"
+  },
+  {
+   "title": "Vương Khiết Cổ",
+   "slug": "vuong-khiet-co"
+  },
+  {
+   "title": "Yết Hầu Bí Tập",
+   "slug": "yet-hau-bi-tap"
+  },
+  {
+   "title": "Y Phương Dị Giản Tân Biên",
+   "slug": "y-phuong-di-gian-tan-bien"
+  }
+ ]
+}
