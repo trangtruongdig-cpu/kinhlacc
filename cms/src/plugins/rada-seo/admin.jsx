@@ -491,6 +491,9 @@ function PhienLeoTop({ p, onDaSua }) {
 					<p style={{ fontSize: 12, color: "#666" }}>
 						Cửa sổ ban đầu và cửa sổ đo lại dài khác nhau, nên chỉ so hạng bình quân và hiển thị MỖI NGÀY — không so tổng hiển thị.
 					</p>
+					<p style={{ fontSize: 12, color: "#92400e" }}>
+						Hiển thị/ngày tăng giảm còn do cả trang web lớn lên hay mùa vụ — đọc cùng hạng, đừng coi riêng số này là kết quả của bản sửa.
+					</p>
 				</>
 			)}
 		</div>
@@ -543,6 +546,12 @@ function LeoTopTab({ dl, loi, onDaSua, onTai }) {
 								<td style={o}>
 									{/* tuKhoa là chữ người lạ gõ vào Google — chỉ hiển thị qua JSX text. */}
 									<button onClick={() => setMo(mo === p.id ? null : p.id)}>{mo === p.id ? "▾" : "▸"} {p.tuKhoa}</button>
+									{(p.tuKhoaPhu ?? []).length > 0 && (
+										<div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>
+											Từ khoá khác của trang này:{" "}
+											{p.tuKhoaPhu.map((x) => `${x.tuKhoa} (hạng ${so(x.viTri)}, ${x.hienThi} hiển thị)`).join(" · ")}
+										</div>
+									)}
 								</td>
 								<td style={o}>
 									<a href={p.trangMinh} target="_blank" rel="noopener noreferrer">{p.trangMinh}</a>

@@ -83,16 +83,21 @@ gì khác.
 Làm theo thứ tự:
 1. Gọi rada_lay_tu_khoa_leo_top. Đọc huongDan — đó là quy tắc. Có trường loi hoặc ghiChu thì
    ghi lại cho báo cáo cuối và vẫn làm tiếp các phiên trong dangMo. Danh sách phiên cần làm =
-   dangMo (cũ nhất trước) rồi tới moi.
+   dangMo (cũ nhất trước) rồi tới moi — hai danh sách không trùng nhau, mỗi phiên làm một lần.
 2. Với MỖI phiên, theo trạng thái:
-   a. "cho_serp": dùng công cụ TÌM WEB tìm đúng từ khoá của phiên (chữ giữa <<<TU_KHOA>>> và
-      <<<HET_TU_KHOA>>>), tiếng Việt, ưu tiên kết quả Việt Nam. Lấy tối đa 10 URL kết quả tự
-      nhiên theo ĐÚNG thứ tự hạng — bỏ quảng cáo, video, hộp "Mọi người cũng hỏi", mạng xã
-      hội. KHÔNG mở các trang đó: máy chủ tự tải. Gọi rada_nop_serp (phienId, urls). Phiên
-      sang "cho_doc" — làm tiếp bước b cho phiên đó.
+   a. "cho_serp": mỗi phiên là MỘT trang của mình. Dùng công cụ TÌM WEB tìm đúng từ khoá chính
+      của phiên (tuKhoa, chữ giữa <<<TU_KHOA>>> và <<<HET_TU_KHOA>>>), tiếng Việt, ưu tiên kết
+      quả Việt Nam. tuKhoaPhu là các từ khoá khác người ta gõ mà cũng ra trang đó: khi xét kết
+      quả nào LIÊN QUAN (nói về đúng chủ đề người tìm cần), cân nhắc cả chúng — không tìm web
+      riêng cho từng từ khoá phụ. Gửi ĐỦ khoảng 10 URL kết quả tự nhiên tìm được, theo ĐÚNG thứ
+      tự hạng — bỏ quảng cáo, video, hộp "Mọi người cũng hỏi", mạng xã hội — đừng tự lọc bớt còn
+      5: với trang y học tiếng Việt thường chỉ khoảng một nửa tải được (chặn bot 403, tên miền
+      chết), gửi ít là thiếu trang đối thủ để kết luận. KHÔNG mở các trang đó: máy chủ tự tải.
+      Gọi rada_nop_serp (phienId, urls). Phiên sang "cho_doc" — làm tiếp bước b cho phiên đó.
    b. "cho_doc": gọi rada_lay_trang_serp (phienId). Đọc từng trang theo huongDan trong kết
       quả, rồi gọi rada_ghi_so_ho MỘT lần với mọi trang của phiên (kể cả trang mình, laMinh:
-      true). Bị từ chối vì thiếu trang (cần trang mình + ít nhất 2 trang đối thủ tải được):
+      true); khi đọc, ý nào trả lời một từ khoá trong tuKhoaPhu cũng là ý liên quan. Bị từ chối
+      vì thiếu trang (cần trang mình + ít nhất 2 trang đối thủ tải được):
       tìm lại từ khoá, gọi rada_nop_serp lần nữa với danh sách khác, rồi làm lại bước b —
       tối đa MỘT lần mỗi phiên.
 3. Kết thúc, báo cáo: số phiên đã nộp SERP, số phiên đã có phiếu (kèm từ khoá và các ý cốt
