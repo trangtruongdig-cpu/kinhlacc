@@ -37,7 +37,7 @@ export const bocDuLieu = (id, chu) =>
 const truong = (s) => String(s ?? "").replace(/\|/g, "/").trim();
 
 /** Bài của mình: blog đã đăng (chỉ mục CMS) + chủ đề Claude đã đọc từ site của mình. */
-async function layBaiMinh(s, chiMuc, doiThu) {
+export async function layBaiMinh(s, chiMuc, doiThu) {
 	const ra = (chiMuc?.muc ?? []).filter((m) => m.loai === "bai_viet").map((m) => ({ tieuDe: m.ten, tuKhoa: [] }));
 	for (const d of doiThu.filter((x) => x.laCuaMinh))
 		for (const r of await kho.tatCa(s.url, { where: { doiThuId: d.id, trangThai: "da_phan_tich" } }))
