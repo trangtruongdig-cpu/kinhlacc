@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { createPlugin, LICH_RADAR, GIO_UTC_CHAY } from "./plugin.mjs";
 import * as kho from "./kho.mjs";
 import { taoKhoGia } from "./__test__/kho-gia.mjs";
+import { xoaDemChiMuc } from "./noi-bo/nap.mjs";
 
 const taoCtx = () => {
 	const log = [];
@@ -89,10 +90,10 @@ test("url-dat-lai: tên miền sai → badRequest; đúng → đặt lại URL l
 	assert.deepEqual(await p.routes["url-dat-lai"].handler(ctx), { tenMien: "a.vn", soUrlDatLai: 1 });
 });
 
-test("MCP: 3 công cụ, mỗi cái trỏ route có thật, có permission bậc contributor và khuôn zod", () => {
+test("MCP: 4 công cụ, mỗi cái trỏ route có thật, có permission bậc contributor và khuôn zod", () => {
 	const p = createPlugin();
 	const tools = p.mcp.tools;
-	assert.deepEqual(Object.keys(tools).sort(), ["rada_ghi_phan_tich", "rada_lay_viec", "rada_xong_phan_tich"]);
+	assert.deepEqual(Object.keys(tools).sort(), ["rada_ghi_phan_tich", "rada_lay_viec", "rada_tim_lien_ket", "rada_xong_phan_tich"]);
 	for (const [ten, t] of Object.entries(tools)) {
 		const r = p.routes[t.route];
 		assert.ok(r, `${ten} → route ${t.route}`);
@@ -151,4 +152,54 @@ test("tong-quan: ca 'claude' đọc 0 trang KHÔNG tắt cảnh báo", async () 
 	const vua = new Date().toISOString();
 	await kho.ghiCa(ctx.storage, { loai: "claude", batDau: vua, ketThuc: vua, ghi: true, soDoc: 0, loi: [] });
 	assert.equal((await p.routes["tong-quan"].handler(ctx)).canhBaoClaude, true);
+});
+
+test("rada_tim_lien_ket: route content:read_drafts, khuôn chung, bác mảng rỗng và > 20 cụm; plugin có content:read", () => {
+	const p = createPlugin();
+	const t = p.mcp.tools.rada_tim_lien_ket;
+	assert.equal(t.route, "mcp-tim-lien-ket");
+	const r = p.routes[t.route];
+	assert.equal(r.permission, "content:read_drafts");
+	assert.equal(t.input, r.input);
+	assert.equal(t.destructive, false);
+	assert.match(t.description, /CÓ THẬT/);
+	assert.equal(r.input.safeParse({ cumTu: [] }).success, false);
+	assert.equal(r.input.safeParse({ cumTu: Array(21).fill("mất ngủ") }).success, false);
+	assert.equal(r.input.safeParse({ cumTu: ["x"] }).success, false);
+	assert.equal(r.input.safeParse({ cumTu: ["mất ngủ", "huyệt Tam Âm Giao"] }).success, true);
+	assert.ok(p.capabilities.includes("content:read"));
+	assert.ok(p.capabilities.includes("network:request:unrestricted"));
+});
+
+test("mcp-tim-lien-ket route: nối chỉ mục CMS + tra bài thuốc + kiểm trang thật", async () => {
+	xoaDemChiMuc();
+	const p = createPlugin();
+	const tai = [];
+	const ctx = {
+		...taoCtx(),
+		input: { cumTu: ["huyệt Tam Âm Giao", "Quy Tỳ Thang"] },
+		content: {
+			async list(bo, opts) {
+				assert.equal(opts.where.status, "published");
+				if (bo !== "huyet_vi") throw new Error("Collection not found");
+				return { items: [{ slug: "tam-am-giao", data: { title: "Tam Âm Giao", slug_goc: "tam-am-giao" } }], hasMore: false };
+			},
+		},
+		http: {
+			async fetch(url, init) {
+				tai.push(url);
+				if (url.endsWith("/api/tra-cuu/ten")) {
+					assert.deepEqual(JSON.parse(init.body).ten, ["Quy Tỳ Thang"]);
+					return Response.json({ "Quy Tỳ Thang": [{ loai: "bai_thuoc", ten: "Quy Tỳ Thang", slug: "quy-ty-thang" }] });
+				}
+				if (url === "https://kinhlac.online/huyet/tam-am-giao/") return new Response("<title>Huyệt Tam Âm Giao (SP6)</title>");
+				if (url === "https://kinhlac.online/bai-thuoc/quy-ty-thang/") return new Response("<h1>Quy Tỳ Thang</h1>");
+				return new Response("", { status: 404 });
+			},
+		},
+	};
+	const kq = await p.routes["mcp-tim-lien-ket"].handler(ctx);
+	assert.equal(kq.daCatBot, false);
+	assert.deepEqual(kq.ketQua.map((x) => x.ketQua.map((k) => k.duong)), [["/huyet/tam-am-giao/"], ["/bai-thuoc/quy-ty-thang/"]]);
+	xoaDemChiMuc();
 });

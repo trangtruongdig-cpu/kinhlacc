@@ -8,7 +8,10 @@ import { KHAI_BAO_KHO } from "./kho.mjs";
 import * as kho from "./kho.mjs";
 import { chuanTenMien } from "./radar/sitemap.mjs";
 import { chayCaRadar } from "./ca-radar.mjs";
-import { taoDocWeb } from "./lib/doc-web.mjs";
+import { taoDocWeb, taoDocTrang } from "./lib/doc-web.mjs";
+import { layChiMuc, traBaiThuoc } from "./noi-bo/nap.mjs";
+import { taoKiemDuong } from "./noi-bo/kiem-duong.mjs";
+import { timLienKet } from "./noi-bo/tim-lien-ket.mjs";
 import { z } from "zod";
 import { layViec, ghiPhanTich, xongPhanTich, TRAN_TRANG_MOI_LUOT } from "./mcp-viec.mjs";
 
@@ -118,6 +121,8 @@ const KHUON_GHI = z
 		message: "Cần ít nhất một mục trong ketQua hoặc boQua",
 	});
 const KHUON_RONG = z.object({});
+// 20 cụm × tối đa 5 ứng viên, nhưng tải trang thật bị chặn ở trần toiDaKiem của timLienKet.
+const KHUON_TIM = z.object({ cumTu: z.array(z.string().min(2).max(120)).min(1).max(20) });
 
 export function createPlugin() {
 	return definePlugin({
@@ -125,7 +130,8 @@ export function createPlugin() {
 		version: "0.1.0",
 		// Đối thủ do người quản trị thêm lúc chạy nên không liệt kê trước được tên miền;
 		// lớp chặn nằm ở doc-web.mjs (không IP/localhost) và sitemap.mjs (chỉ cùng tên miền).
-		capabilities: ["network:request:unrestricted"],
+		// content:read: rada_tim_lien_ket đọc tên/slug các bộ từ điển + blog qua ctx.content.list.
+		capabilities: ["network:request:unrestricted", "content:read"],
 		storage: KHAI_BAO_KHO,
 		// Mục "Rada SEO" ở thanh bên PHẢI khai ở đây. Với format:"native", EmDash 0.39.1 dựng
 		// manifest admin từ plugin.admin của definePlugin() và BỎ QUA adminPages của descriptor
@@ -259,6 +265,20 @@ export function createPlugin() {
 				input: KHUON_RONG,
 				handler: async (ctx) => xongPhanTich({ s: ctx.storage, kv: ctx.kv }),
 			},
+			"mcp-tim-lien-ket": {
+				permission: "content:read_drafts",
+				input: KHUON_TIM,
+				handler: async (ctx) => {
+					const fetchFn = ctx.http.fetch.bind(ctx.http);
+					const ketQua = await timLienKet({
+						chiMuc: await layChiMuc(ctx.content),
+						cumTu: ctx.input?.cumTu ?? [],
+						traBaiThuoc: (ten) => traBaiThuoc(fetchFn, ten),
+						kiemDuong: taoKiemDuong(taoDocTrang(fetchFn)),
+					});
+					return { ketQua, daCatBot: ketQua.some((x) => x.daCatBot) };
+				},
+			},
 			"ca-chay": {
 				// Chạy NỀN rồi trả ngay: một ca thật kéo dài nhiều phút, quá hạn chờ của nginx.
 				handler: async (ctx) => {
@@ -288,6 +308,13 @@ export function createPlugin() {
 						"Rada SEO: ghi kết quả đọc (ketQua: chuDe, tuKhoa, tomTat) cho các trang lấy từ công cụ có tên kết thúc bằng rada_lay_viec, tối đa 10 trang mỗi lượt, giữ nguyên id. Trang không đọc được thì đưa vào boQua ({ id, lyDo }). Cần ít nhất một trong hai mảng.",
 					route: "mcp-ghi-phan-tich",
 					input: KHUON_GHI,
+					destructive: false,
+				},
+				rada_tim_lien_ket: {
+					description:
+						"Rada SEO: với mỗi cụm từ (tối đa 20, ví dụ 'huyệt Tam Âm Giao', 'mất ngủ', 'Quy Tỳ Thang'), trả các trang CÓ THẬT của kinhlac.online khớp cụm đó — từ điển (huyệt, kinh, bệnh học, châm cứu trị bệnh, dược liệu, nguồn y văn), bài thuốc và blog — kèm đường dẫn nội bộ đã kiểm sống và đúng trang. Chỉ gắn liên kết nội bộ bằng đường trong kết quả này; cụm có ketQua rỗng thì không gắn link. daCatBot: true nghĩa là chạm trần kiểm, gọi lại với ít cụm hơn.",
+					route: "mcp-tim-lien-ket",
+					input: KHUON_TIM,
 					destructive: false,
 				},
 				rada_xong_phan_tich: {
