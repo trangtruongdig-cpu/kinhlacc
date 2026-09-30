@@ -560,3 +560,112 @@ test("leo-top-da-sua: không truyền ngày → lấy ngày hôm nay (giờ Vi�
 	const kq = await p.routes["leo-top-da-sua"].handler({ ...ctx, input: { id: phien.id } });
 	assert.equal(kq.ngaySua, new Date(Date.now() + 7 * 3600_000).toISOString().slice(0, 10));
 });
+
+// ---- Tự động hoá: tự hẹn lịch khi mở màn, tự chạy ca đầu khi lưu đối thủ ----
+const demHen = (ctx) => {
+	let n = 0;
+	const goc = ctx.cron.schedule.bind(ctx.cron);
+	ctx.cron.schedule = async (...a) => { n++; return goc(...a); };
+	return () => n;
+};
+const choNen = () => new Promise((r) => setTimeout(r, 30));
+
+test("tong-quan: máy chủ (RADA_SEO_CA_DEM=1) tự hẹn lịch 'radar' khi chưa có; có rồi thì không hẹn lại", coBien("RADA_SEO_CA_DEM", "1", async () => {
+	const p = createPlugin();
+	const ctx = taoCtx();
+	const soLan = demHen(ctx);
+	let kq = await p.routes["tong-quan"].handler(ctx);
+	assert.deepEqual(ctx.cron.lich, { ten: "radar", schedule: LICH_RADAR });
+	assert.equal(soLan(), 1);
+	assert.equal(kq.tuDongHenLich, true);
+	assert.ok(kq.lich.length === 1);
+	// EmDash list() trả { name, … }: khi đã có thì KHÔNG hẹn lại (hẹn lại là đẩy next_run_at).
+	ctx.cron.list = async () => [{ name: "radar", schedule: LICH_RADAR }];
+	kq = await p.routes["tong-quan"].handler(ctx);
+	assert.equal(soLan(), 1);
+	assert.equal(kq.tuDongHenLich, false);
+}));
+
+test("tong-quan: máy lập trình (không bật RADA_SEO_CA_DEM) KHÔNG hẹn lịch — bảng cron dùng chung", coBien("RADA_SEO_CA_DEM", undefined, async () => {
+	const p = createPlugin();
+	const ctx = taoCtx();
+	const soLan = demHen(ctx);
+	const kq = await p.routes["tong-quan"].handler(ctx);
+	assert.equal(soLan(), 0);
+	assert.equal(kq.tuDongHenLich, false);
+}));
+
+test("tong-quan: hẹn lịch hỏng không làm hỏng màn điều khiển", coBien("RADA_SEO_CA_DEM", "1", async () => {
+	const p = createPlugin();
+	const ctx = taoCtx();
+	ctx.cron.schedule = async () => { throw new Error("db"); };
+	const kq = await p.routes["tong-quan"].handler(ctx);
+	assert.equal(kq.tuDongHenLich, false);
+	assert.ok(ctx._log.some(([m]) => m === "error"));
+}));
+
+test("tong-quan: trả tinhTrang (lịch, ca gần nhất, trang chờ, Claude đã từng đọc chưa)", coBien("RADA_SEO_CA_DEM", undefined, async () => {
+	const p = createPlugin();
+	const ctx = taoCtx();
+	let kq = await p.routes["tong-quan"].handler(ctx);
+	assert.ok(Array.isArray(kq.tinhTrang));
+	assert.match(kq.tinhTrang.map((x) => x.chu).join("\n"), /cần tạo routine trên claude\.ai/);
+	// Một URL đã phân tích = Claude đã từng đọc, dù ca 'claude' đã trôi khỏi nhật ký.
+	await ctx.storage.url.put("u1", { doiThuId: "a.vn", url: "https://a.vn/1", trangThai: "da_phan_tich" });
+	kq = await p.routes["tong-quan"].handler(ctx);
+	assert.doesNotMatch(kq.tinhTrang.map((x) => x.chu).join("\n"), /cần tạo routine/);
+}));
+
+const ctxThat = () => ({ ...taoCtx(), kv: taoKvGia() });
+
+test("doi-thu-luu: máy chủ, chưa từng có ca radar thật → thả ca thật đầu tiên (qua khoá), trả caDauTien", coBien("RADA_SEO_CA_DEM", "1", async () => {
+	const p = createPlugin();
+	const ctx = ctxThat();
+	const kq = await p.routes["doi-thu-luu"].handler({ ...ctx, input: { tenMien: "a.vn", ten: "A" } });
+	assert.equal(kq.caDauTien, true);
+	await choNen();
+	// ctx không có http → chayCaRadar ném trong try → chayCa ghi dòng lỗi với ghi:true. Chứng minh
+	// đã gọi đúng chayCa(ctx, true), và khoá đã được nhả.
+	const ca = await kho.dsCa(ctx.storage);
+	assert.equal(ca.length, 1);
+	assert.equal(ca[0].ghi, true);
+	assert.equal(await ctx.kv.get("ca:dang-chay"), null);
+}));
+
+test("doi-thu-luu: KHÔNG thả ca khi máy không bật ca đêm / đã có ca thật thành công / đang có ca chạy", async () => {
+	const p = createPlugin();
+	await coBien("RADA_SEO_CA_DEM", undefined, async () => {
+		const ctx = ctxThat();
+		const kq = await p.routes["doi-thu-luu"].handler({ ...ctx, input: { tenMien: "a.vn" } });
+		assert.equal(kq.caDauTien, false);
+		await choNen();
+		assert.equal((await kho.dsCa(ctx.storage)).length, 0);
+	})();
+	await coBien("RADA_SEO_CA_DEM", "1", async () => {
+		const ctx = ctxThat();
+		const t = new Date().toISOString();
+		await kho.ghiCa(ctx.storage, { loai: "radar", batDau: t, ketThuc: t, ghi: true, soSeTrich: 5, loi: [] });
+		const kq = await p.routes["doi-thu-luu"].handler({ ...ctx, input: { tenMien: "a.vn" } });
+		assert.equal(kq.caDauTien, false);
+		await choNen();
+		assert.equal((await kho.dsCa(ctx.storage)).length, 1);
+	})();
+	await coBien("RADA_SEO_CA_DEM", "1", async () => {
+		const ctx = ctxThat();
+		await ctx.kv.set("ca:dang-chay", { tu: "x", het: Date.now() + 60_000 });
+		const kq = await p.routes["doi-thu-luu"].handler({ ...ctx, input: { tenMien: "a.vn" } });
+		assert.equal(kq.caDauTien, false);
+		await choNen();
+		assert.equal((await kho.dsCa(ctx.storage)).length, 0);
+	})();
+});
+
+test("doi-thu-luu: ca thử (ghi:false) không tính là ca thật — vẫn thả ca đầu", coBien("RADA_SEO_CA_DEM", "1", async () => {
+	const p = createPlugin();
+	const ctx = ctxThat();
+	const t = new Date(Date.now() - 1000).toISOString();
+	await kho.ghiCa(ctx.storage, { loai: "radar", batDau: t, ketThuc: t, ghi: false, soSeTrich: 5, loi: [] });
+	const kq = await p.routes["doi-thu-luu"].handler({ ...ctx, input: { tenMien: "a.vn" } });
+	assert.equal(kq.caDauTien, true);
+	await choNen();
+}));

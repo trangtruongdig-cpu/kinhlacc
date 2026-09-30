@@ -8,6 +8,7 @@ import { KHAI_BAO_KHO } from "./kho.mjs";
 import * as kho from "./kho.mjs";
 import { chuanTenMien } from "./radar/sitemap.mjs";
 import { chayCaRadar } from "./ca-radar.mjs";
+import { tinhTrangTuDong } from "./tinh-trang.mjs";
 import { taoGsc } from "./leo-top/gsc.mjs";
 import { taoDocWeb, taoDocTrang } from "./lib/doc-web.mjs";
 import { layChiMuc, traBaiThuoc } from "./noi-bo/nap.mjs";
@@ -89,6 +90,27 @@ async function chayCa(ctx, ghi) {
 		await ctx.kv.compareAndDelete(KHOA_CA, revision);
 	}
 }
+
+/** Nhìn khoá ca (cùng luật hết hạn với giuKhoa). Chỉ để BÁO — chốt chặn thật là giuKhoa trong chayCa. */
+async function coCaDangChay(kv) {
+	const khoa = await kv.get(KHOA_CA);
+	return !!(khoa && khoa.het > Date.now());
+}
+
+/**
+ * THẢ một ca chạy nền, không await: một ca thật kéo dài nhiều phút, quá hạn chờ của nginx và
+ * của hook. Dùng chung cho nút "Chạy thử/Chạy thật" và ca đầu tự chạy khi lưu đối thủ, nên cả
+ * hai đi qua cùng khoá KV (giuKhoa) và không chạy chồng được.
+ */
+function thaCaNen(ctx, ghi) {
+	chayCa(ctx, ghi).catch((e) => ctx.log.error("Rada SEO: ca nền hỏng", e));
+}
+
+/**
+ * "Ca radar thật thành công" = ca thật đi qua chayCaRadar (chỉ hàm đó gán soSeTrich, một số —
+ * dòng lỗi trước khi vào ca và dòng "nhả ca" đều KHÔNG có trường này).
+ */
+const laCaRadarThat = (c) => c.loai === "radar" && c.ghi && c.ketThuc && typeof c.soSeTrich === "number";
 
 const vao = (ctx) => (ctx.input && typeof ctx.input === "object" ? ctx.input : {});
 
@@ -278,20 +300,52 @@ export function createPlugin() {
 					// đòi rỗng làm cảnh báo "26 giờ" đỏ vĩnh viễn dù đêm nào ca cũng chạy xong. Tra
 					// trong 100 ca gần nhất (không phải 10 dòng hiển thị `ca`) để không bỏ sót.
 					const canhChe = await kho.dsCa(ctx.storage, 100);
-					const tuoiRadar = tuoiCa(canhChe, (c) => c.loai === "radar" && c.ghi && c.ketThuc && typeof c.soSeTrich === "number");
+					const tuoiRadar = tuoiCa(canhChe, laCaRadarThat);
 					// Chỉ ca Claude ĐỌC ĐƯỢC ít nhất một trang mới tính: lời gọi "xong" với 0 trang đọc
 					// (khoá RADA_SEO_MCP_TOKEN sai/mạng routine bị chặn, hoặc Claude chỉ gọi xong không
 					// đọc) không được tắt cảnh báo.
 					const tuoiClaude = tuoiCa(canhChe, (c) => c.loai === "claude" && c.ketThuc && (c.soDoc ?? 0) > 0);
 					const choAi = await kho.demChoAi(ctx.storage);
-					const khoa = await ctx.kv.get(KHOA_CA);
+					const dangChay = await coCaDangChay(ctx.kv);
+					// TỰ HẸN lịch đêm khi màn điều khiển mở: EmDash không chạy plugin:install với plugin
+					// khai trong config (đo ở bước 0), nên trước đây lịch chỉ có khi ai đó bấm "Bật lịch".
+					// CHỈ máy chạy ca đêm (RADA_SEO_CA_DEM=1, container VPS) được hẹn: bảng cron nằm trong
+					// kho CMS dùng chung. Chỉ hẹn khi CHƯA có — schedule là upsert và đặt lại next_run_at,
+					// hẹn mỗi lần mở màn là vô ích. Hỏng thì ghi log, không làm hỏng màn điều khiển; nút
+					// "Bật lịch" vẫn còn để hẹn tay.
+					let lich = (await ctx.cron?.list()) ?? [];
+					let tuDongHenLich = false;
+					if (caDemBat() && ctx.cron && !lich.some((l) => l.name === "radar")) {
+						try {
+							await ctx.cron.schedule("radar", { schedule: LICH_RADAR });
+							lich = await ctx.cron.list();
+							tuDongHenLich = true;
+						} catch (e) {
+							ctx.log.error("Rada SEO: tự hẹn lịch đêm hỏng", e);
+						}
+					}
+					const caRadar = canhChe.find(laCaRadarThat) ?? null;
+					const caClaude = canhChe.find((c) => c.loai === "claude" && c.ketThuc && (c.soDoc ?? 0) > 0);
+					// Ca 'claude' trôi khỏi 100 dòng nhật ký thì dựa vào URL đã phân tích (index trangThai).
+					const daTungDoc = !!caClaude || (await ctx.storage.url.count({ trangThai: "da_phan_tich" })) > 0;
 					return {
 						doiThu,
 						cum: await kho.dsCum(ctx.storage, 100),
 						ca,
-						lich: (await ctx.cron?.list()) ?? [],
+						lich,
+						tuDongHenLich,
+						tinhTrang: tinhTrangTuDong({
+							caDemBat: caDemBat(),
+							lichBat: lich.some((l) => l.name === "radar"),
+							soDoiThu: doiThu.length,
+							dangChay,
+							caRadar,
+							choAi,
+							daTungDoc,
+							lucClaudeDoc: caClaude?.ketThuc ?? null,
+						}),
 						caDemBat: caDemBat(),
-						dangChay: !!(khoa && khoa.het > Date.now()),
+						dangChay,
 						choAi,
 						canhBaoCaDem: caDemBat() && tuoiRadar > CANH_BAO_SAU_MS,
 						// Có trang chờ mà 26 giờ Claude không đọc: routine không chạy (xem lịch sử chạy ở
@@ -307,7 +361,19 @@ export function createPlugin() {
 					const tm = chuanTenMien(tenMien);
 					if (!tm) throw PluginRouteError.badRequest("Tên miền không hợp lệ");
 					await kho.luuDoiThu(ctx.storage, { tenMien: tm, ten: String(ten ?? "").trim(), laCuaMinh: !!laCuaMinh }, new Date().toISOString());
-					return { tenMien: tm };
+					// CA ĐẦU TỰ CHẠY: người dùng nhập đối thủ là mong thấy kết quả, không phải chờ tới
+					// 02:30 hay biết bấm "Chạy thật". Chỉ khi chưa từng có ca thật thành công (từ đó về
+					// sau ca đêm lo), không có ca đang chạy, và đúng máy chạy ca đêm. Cùng đường với
+					// route ca-chay (thaCaNen → chayCa → giuKhoa) nên hai lượt lưu liền nhau không chạy chồng.
+					let caDauTien = false;
+					if (caDemBat() && !(await coCaDangChay(ctx.kv))) {
+						const daCo = (await kho.dsCa(ctx.storage, 100)).some(laCaRadarThat);
+						if (!daCo) {
+							thaCaNen(ctx, true);
+							caDauTien = true;
+						}
+					}
+					return { tenMien: tm, caDauTien };
 				},
 			},
 			"doi-thu-xoa": {
@@ -545,9 +611,8 @@ export function createPlugin() {
 					// Nhìn trước khoá để báo thật cho người bấm (trước đây trả daBatDau:true dù ca bị
 					// chặn). Cùng luật hết hạn với giuKhoa. Đây chỉ là lời báo: chốt chặn thật vẫn là
 					// giuKhoa trong chayCa, vì hai lời gọi có thể cùng lọt qua bước nhìn này.
-					const khoa = await ctx.kv.get(KHOA_CA);
-					if (khoa && khoa.het > Date.now()) throw PluginRouteError.conflict("Đang có một ca chạy — chờ ca đó xong");
-					chayCa(ctx, ghi).catch((e) => ctx.log.error("Rada SEO: ca nền hỏng", e));
+					if (await coCaDangChay(ctx.kv)) throw PluginRouteError.conflict("Đang có một ca chạy — chờ ca đó xong");
+					thaCaNen(ctx, ghi);
 					return { daBatDau: true, ghi };
 				},
 			},

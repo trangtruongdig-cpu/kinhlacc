@@ -1,0 +1,42 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { tinhTrangTuDong } from "./tinh-trang.mjs";
+
+const goc = { caDemBat: true, lichBat: true, soDoiThu: 2, dangChay: false, caRadar: null, choAi: 0, daTungDoc: false, lucClaudeDoc: null };
+const chu = (ds) => ds.map((x) => x.chu).join("\n");
+
+test("tinhTrangTuDong: lịch đêm đã bật → báo tự chạy 02:30; chưa bật trên máy chủ → thiếu, chỉ nút Bật lịch", () => {
+	let ds = tinhTrangTuDong(goc);
+	assert.equal(ds[0].muc, "ok");
+	assert.match(ds[0].chu, /02:30/);
+	ds = tinhTrangTuDong({ ...goc, lichBat: false });
+	assert.equal(ds[0].muc, "thieu");
+	assert.match(ds[0].chu, /Bật lịch/);
+	// Máy lập trình: không phải lỗi, chỉ nói rõ ca đêm chạy ở máy chủ.
+	ds = tinhTrangTuDong({ ...goc, caDemBat: false, lichBat: false });
+	assert.equal(ds[0].muc, "cho");
+	assert.match(ds[0].chu, /máy chủ/);
+});
+
+test("tinhTrangTuDong: chưa có đối thủ → thiếu; đang chạy / chưa có ca / ca gần nhất", () => {
+	assert.ok(tinhTrangTuDong({ ...goc, soDoiThu: 0 }).some((x) => x.muc === "thieu" && /Chưa có đối thủ/.test(x.chu)));
+	assert.ok(tinhTrangTuDong({ ...goc, dangChay: true }).some((x) => /đang chạy/.test(x.chu)));
+	assert.ok(tinhTrangTuDong(goc).some((x) => /Chưa có ca radar/.test(x.chu)));
+	const ds = tinhTrangTuDong({ ...goc, caRadar: { ketThuc: "2026-09-30T19:40:00.000Z", soTrich: 12, loi: [] } });
+	const d = ds.find((x) => x.luc === "2026-09-30T19:40:00.000Z");
+	assert.ok(d && /\{luc\}/.test(d.chu) && /12 trang/.test(d.chu) && d.muc === "ok");
+	// Ca có lỗi vẫn hoàn tất → báo "cho" để người dùng xem nhật ký, không đỏ.
+	assert.equal(tinhTrangTuDong({ ...goc, caRadar: { ketThuc: "x", soTrich: 0, loi: ["a"] } }).find((x) => x.luc === "x").muc, "cho");
+});
+
+test("tinhTrangTuDong: Claude chưa từng đọc → câu chỉ đường routine; đã đọc → ok; có trang chờ thì báo số", () => {
+	let t = chu(tinhTrangTuDong(goc));
+	assert.match(t, /Phần Claude đọc bài chưa chạy: cần tạo routine trên claude\.ai \(một lần\) — xem DEPLOYMENT\.md mục Rada SEO/);
+	t = chu(tinhTrangTuDong({ ...goc, choAi: 7 }));
+	assert.match(t, /7 trang .*chờ Claude đọc/);
+	const ds = tinhTrangTuDong({ ...goc, daTungDoc: true, lucClaudeDoc: "L" });
+	assert.doesNotMatch(chu(ds), /cần tạo routine/);
+	assert.ok(ds.some((x) => x.muc === "ok" && x.luc === "L" && /Claude/.test(x.chu)));
+	// Đã đọc nhưng ngoài cửa sổ nhật ký: vẫn ok, không kèm giờ.
+	assert.ok(tinhTrangTuDong({ ...goc, daTungDoc: true }).some((x) => x.muc === "ok" && /Claude/.test(x.chu) && !x.luc));
+});
