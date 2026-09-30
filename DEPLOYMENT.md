@@ -331,11 +331,12 @@ khỏi `tools/list`, không báo lỗi gì, và routine 05:00 dừng ở "không
 1. Bật lại: `/_emdash/admin` → **Plugins** → **Rada SEO** → tắt rồi bật lại **MCP tools**;
    hoặc (tài khoản có `plugins:manage`)
    `PUT /_emdash/api/admin/plugins/rada-seo/mcp` với thân `{"enabled":true}`.
-2. Xác nhận: phản hồi của lệnh trên (hoặc trang Plugins) liệt kê đủ **12 công cụ** (từ 2D;
-   2C-2 có 8, trước đó 4) — `rada_lay_viec`, `rada_ghi_phan_tich`, `rada_tim_lien_ket`,
+2. Xác nhận: phản hồi của lệnh trên (hoặc trang Plugins) liệt kê đủ **14 công cụ** (từ 2C-3;
+   2D có 12, 2C-2 có 8, trước đó 4) — `rada_lay_viec`, `rada_ghi_phan_tich`, `rada_tim_lien_ket`,
    `rada_xong_phan_tich`, `rada_lay_du_lieu_chien_luoc`, `rada_de_xuat_huong`, `rada_ghi_cum`,
    `rada_de_xuat_ke_hoach`, `rada_lay_tu_khoa_leo_top`, `rada_nop_serp`, `rada_lay_trang_serp`,
-   `rada_ghi_so_ho`. Thiếu bốn cái cuối là dấu hiệu đồng ý MCP còn ở bản trước 2D.
+   `rada_ghi_so_ho`, `rada_lay_bai_can_viet`, `rada_nop_bai`. Thiếu hai cái cuối là dấu hiệu
+   đồng ý MCP còn ở bản trước 2C-3; thiếu sáu cái cuối là còn ở bản trước 2D.
 
 Plugin KHÔNG tự đọc được trạng thái này (ngữ cảnh plugin của EmDash không có API đọc trạng
 thái plugin của chính nó), nên màn Rada SEO không báo được — chỉ dải đỏ "Claude chưa đọc" sau
@@ -376,8 +377,8 @@ cuối routine trước.
    thì plugin không sập: công cụ `rada_lay_tu_khoa_leo_top` trả `loi` nêu thiếu biến nào, còn
    ca đêm ghi một dòng "Thông tin" trong Nhật ký ca và bỏ qua bước đo lại hạng.
 2. **Bật lại MCP tools** theo hai bước ở mục "Sau MỖI lần deploy có đổi công cụ MCP" ngay
-   trên — 2D thêm 4 công cụ, phải thấy đủ **12**. Không làm thì cả routine đọc đêm lẫn routine
-   chiến lược cũng gãy, không riêng leo top.
+   trên — 2D thêm 4 công cụ (lúc đó phải thấy đủ **12**; từ 2C-3 là **14**). Không làm thì cả
+   routine đọc đêm lẫn routine chiến lược cũng gãy, không riêng leo top.
 3. **Tạo routine Thứ Tư** theo `cms/src/plugins/rada-seo/routine/tuan-leo-top.md`: lịch
    **Thứ Tư 06:30 giờ Việt Nam**, trong một **MÔI TRƯỜNG RIÊNG** ("kinhlac-rada-leo-top"),
    KHÔNG dùng chung "kinhlac-rada". Routine này phải **tìm web**, nên môi trường của nó có thể
@@ -385,6 +386,30 @@ cuối routine trước.
    mạng chỉ `kinhlac.online`. Khoá `RADA_SEO_MCP_TOKEN` của môi trường mới: cùng scope hẹp
    `mcp:tools:rada-seo`, nên là khoá riêng để thu hồi độc lập. Không connector, không push,
    không Bash/tệp/git (chi tiết và lý do trong tệp routine).
+
+**Sau deploy 2C-3 (lò viết bài) — bốn việc, chỉ làm MỘT LẦN, theo đúng thứ tự:**
+
+1. **Bật lại MCP tools** theo hai bước ở mục "Sau MỖI lần deploy có đổi công cụ MCP" ở trên —
+   2C-3 thêm `rada_lay_bai_can_viet` và `rada_nop_bai`, phải thấy đủ **14**. Không làm thì cả
+   ba routine đang chạy (đọc đêm, chiến lược, leo top) cùng gãy, không riêng routine viết.
+2. **Quyền mới không cần bước đồng ý.** 2C-3 thêm `content:write`, `media:read` và
+   `hooks.content-policy:register` vào plugin; trên trang Plugins chỉ đổi nhãn quyền, không có
+   hộp "đồng ý" nào phải bấm (đã đo). Đừng đi tìm nút đồng ý.
+3. **Tạo routine viết** theo `cms/src/plugins/rada-seo/routine/dem-viet-bai.md`: lịch **mỗi ngày
+   05:30 giờ Việt Nam**, trong một **MÔI TRƯỜNG RIÊNG** ("kinhlac-rada-viet") với **khoá
+   `ec_pat_` RIÊNG** (scope chỉ `mcp:tools:rada-seo`), KHÔNG dùng chung "kinhlac-rada" hay
+   "kinhlac-rada-leo-top". Đây là môi trường rủi ro nhất: Claude phải tìm web VÀ mở đọc trang
+   nguồn, nên mạng không thể chỉ có `kinhlac.online` — khoá riêng để thu hồi độc lập khi nghi
+   lộ. Không connector, không push, không Bash/tệp/git (chi tiết và giới hạn của từng rào
+   trong tệp routine). Trước lần chạy đầu, tab **Kế hoạch** phải có bài dự kiến đã Duyệt.
+4. **Biết trước hai điều đổi hành vi:**
+   - **Publish bị chặn khi một `bai_viet` vượt phạm vi Y sỹ** (hook `content:beforePublish`) —
+     áp cho CẢ bài người viết, không riêng bài máy viết. Bài người viết soát chế độ THƯỜNG,
+     bài máy viết (có trong tab Nháp) soát chế độ NGHIÊM; thông báo khi chặn nêu đúng chữ nào
+     và gợi ý thay. Ai báo "không Publish được bài" thì đọc thông báo đó trước.
+   - **IndexNow CỐ Ý CHƯA bật.** Bài đã Publish nằm trong CMS, nhưng `/blog/` công khai vẫn
+     phục vụ trang tĩnh cũ cho tới khi `/blog/` chuyển sang đọc từ CMS (kế hoạch 3) — báo
+     IndexNow cho một URL chưa tồn tại trên site là có hại. Bật IndexNow cùng lúc với kế hoạch 3.
 
 **Kiểm một lần sau deploy — container CMS tự tải được site thật:** `rada_tim_lien_ket` kiểm
 từng liên kết bằng cách tải trang thật TỪ TRONG container. Nếu container không ra được
@@ -400,7 +425,8 @@ Phải in ra `200`.
 
 - **Đừng bấm "Chạy thử"/"Chạy thật" từ máy lập trình** khi VPS có thể đang chạy ca: khoá
   chống chạy chồng nằm trong kho dùng chung.
-- **Đừng deploy trong khoảng 02:30–05:30 giờ VN.** Một ca bị cắt ngang giữa chừng (deploy làm
+- **Đừng deploy trong khoảng 02:30–06:00 giờ VN** (từ 2C-3: routine viết chạy 05:30, một lượt
+  nộp bài có thể mất vài phút). Một ca bị cắt ngang giữa chừng (deploy làm
   container CMS tắt) giữ khoá `ca:dang-chay` tới 3 giờ — trong lúc đó nút "Chạy thật" bị khoá
   ("Đang có một ca chạy — chờ ca đó xong") dù ca thật đã chết theo container cũ.
 - Hai dải đỏ "26 giờ" là BÌNH THƯỜNG cho tới khi ca radar và lượt Claude đầu tiên chạy xong.

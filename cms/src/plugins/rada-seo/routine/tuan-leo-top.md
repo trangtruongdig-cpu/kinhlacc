@@ -36,7 +36,7 @@ khoá có thể là bất kỳ ai) và từ khoá do người lạ gõ vào Goog
 ## Cài đặt (làm một lần)
 
 1. Deploy bản có 2D, khai 3 biến GSC vào `cms/.env` trên VPS, và **bật lại MCP tools** —
-   theo mục "Rada SEO" ở `DEPLOYMENT.md`. Plugin phải liệt kê đủ **12 công cụ**.
+   theo mục "Rada SEO" ở `DEPLOYMENT.md`. Plugin phải liệt kê đủ **14 công cụ** (từ 2C-3; lúc dựng 2D là 12).
 2. Tạo khoá API trong CMS, scope **chỉ** `mcp:tools:rada-seo`, hạn khoảng 1 năm (như khoá của
    routine đọc đêm). Nên là một khoá **RIÊNG** cho routine này (cùng scope hẹp): môi trường này
    có mạng rộng hơn, nếu nghi khoá lộ thì thu hồi nó mà không làm gãy routine đọc đêm.
@@ -144,4 +144,4 @@ hồi/hết hạn, hoặc mạng của môi trường chặn. Riêng routine nà
 - **Đã đủ 10 phiên mở** — kết quả có `ghiChu`; thường là phiếu chờ bấm "Đã sửa theo phiếu".
 - **Tìm web không chạy** trong môi trường — phiên kẹt ở "Chờ Claude tìm top"; sau 7 ngày không
   ai đụng tới, máy chủ tự bỏ phiên (trạng thái "Bỏ dở").
-- **Đồng ý MCP lệch sau deploy đổi công cụ** — bật lại MCP tools, cần đủ 12 công cụ.
+- **Đồng ý MCP lệch sau deploy đổi công cụ** — bật lại MCP tools, cần đủ 14 công cụ (từ 2C-3).

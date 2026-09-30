@@ -2,7 +2,8 @@
 
 Ngày: 30/09/2026 · Trạng thái: **2C-1 và 2C-2 ĐÃ DỰNG** (mục 1–4, xem "Chia kế hoạch" cuối
 tài liệu; tên công cụ MCP dưới đây là tên THẬT đã cắm, không còn là đề xuất) · **2D (mục 8)
-ĐÃ DỰNG** · 2C-3 (mục 5) và mục 6–7 còn ở dạng thiết kế, chưa dựng. Thay cho "kế hoạch 2B-2 — lò viết" (gộp vào đây).
+ĐÃ DỰNG** · **2C-3 (mục 5) ĐÃ DỰNG (30/09/2026)**, khác thiết kế ở vài chỗ — xem đầu mục 5 ·
+mục 6 còn ở dạng thiết kế, chưa dựng. Thay cho "kế hoạch 2B-2 — lò viết" (gộp vào đây).
 Căn cứ: `2026-09-30-rada-seo-doi-chieu-n8n-ai5phut.md` (video + 3 workflow n8n) và đặc tả gốc
 `2026-09-30-radar-lo-viet-plugin-cms-design.md`.
 
@@ -136,7 +137,40 @@ không có thật. ≤ 10 đề xuất mỗi tuần.
 Màn Rada: tab **Kế hoạch** — mỗi dòng hiện tiêu đề, từ khoá chính/phụ, ý định, trụ cột, bằng
 chứng; nút **Duyệt** / **Bỏ** (kèm lý do ngắn, Claude đọc lại tuần sau để khỏi đề xuất lại).
 
-## 5. Viết bài (routine viết hằng đêm) — thay 2B-2
+## 5. Viết bài (routine viết hằng đêm) — thay 2B-2 — ĐÃ DỰNG (2C-3, 30/09/2026)
+
+> **Đã dựng.** Mã: `viet/` (`viec.mjs` — `layBaiCanViet`/`nopBai`; `nguon.mjs`, `lien-ket-than.mjs`,
+> `anh.mjs`, `pt-an-toan.mjs`, `dang.mjs`), luật ở `luat/` (khuôn bài, phạm vi Y sỹ, slug, trùng
+> lặp, SEO, YMYL), lời dặn `LOI_NHAC_VIET` trong `loi-dan.mjs`; hai công cụ MCP thật
+> `rada_lay_bai_can_viet`, `rada_nop_bai` (plugin nay có 14 công cụ); tab **Nháp** + khung
+> **Phiếu Rada** (`admin.editorPanels`); routine `routine/dem-viet-bai.md` (05:30 hằng đêm, môi
+> trường RIÊNG, khoá RIÊNG). Sau deploy: bật lại MCP tools — xem `DEPLOYMENT.md` mục "Rada SEO".
+>
+> **Khác thiết kế dưới đây (bản thật thắng):**
+> - **Ảnh: chỉ ảnh bìa** (`featured_image`, máy chủ chọn từ thư viện). KHÔNG chèn ảnh trong
+>   thân: khối ảnh Portable Text không được EmDash điền `asset.url` khi ghi (đo) — `_ref` trần
+>   ra 404. Markdown có ảnh thì bài bị trả lại.
+> - **IndexNow HOÃN** tới kế hoạch 3: bài Publish nằm trong CMS nhưng `/blog/` công khai vẫn là
+>   trang tĩnh — báo IndexNow cho URL chưa có trên site là có hại. `content:afterPublish` hiện
+>   chỉ chuyển trạng thái nháp/kế hoạch sang `da_dang`.
+> - **Không dùng `content:beforeSave`** (chỉ nhận trường đổi, chạy cả autosave, update của
+>   plugin không đi qua hook). Thay bằng cổng **`content:beforePublish`**
+>   (`hooks.content-policy:register`): chặn Publish khi vi phạm phạm vi Y sỹ (tiêu đề, mô tả,
+>   thân, FAQ) hoặc ảnh trong thân không hợp lệ — áp cho cả bài người viết.
+> - **Hai chế độ Y sỹ:** bài MÁY viết soát NGHIÊM (lúc nộp và ở cổng Publish), bài người viết
+>   soát THƯỜNG ở cổng Publish.
+> - **Slug:** `ctx.content.create` sinh slug từ tiêu đề và GIỮ dấu → tạo bằng tiêu đề KHÔNG
+>   DẤU (= slug mong muốn) rồi `update` tiêu đề thật; plugin nhớ những gì đã ghi (bảng `nhap`)
+>   thay vì đọc lại bằng `get` (cột vẫn không dấu tới khi Publish).
+> - **Trạng thái mới `can_xem`** ("Cần xem lại"): nộp 3 lượt đều trượt, hoặc giữ chỗ 36 giờ
+>   hết hạn lần thứ hai → chỉ người quản trị gỡ ("Duyệt lại" đặt lại bộ đếm, hoặc "Bỏ"). Thêm
+>   trần 25 nháp chờ duyệt: đủ thì thôi giao bài.
+> - **Khuôn bài:** "Mục lục" KHÔNG bắt buộc (trang CMS chưa dựng neo cho tiêu đề); FAQ, nguồn
+>   và miễn trừ là TRƯỜNG riêng, viết trong thân là bị trả lại; độ dài (900–2.200 từ) chỉ là
+>   cảnh báo ghi số trong phiếu, không chặn.
+> - Plugin có quyền `content:write` (để `nopBai` tạo nháp), nhưng KHOÁ của routine vẫn chỉ
+>   scope `mcp:tools:rada-seo`: bài vào CMS chỉ qua `rada_nop_bai`, các công cụ lõi
+>   `content_*` vẫn `[INSUFFICIENT_SCOPE]`.
 
 - `rada_lay_bai_can_viet`: trả ≤ N bài đã duyệt (mặc định N = 2/đêm; người dùng từng chọn 5 —
   nay bị chặn thêm bởi số bài đã tick và trần 25 nháp chờ duyệt).
@@ -186,8 +220,8 @@ Khi một bài được Publish: máy chủ tìm bài/trang cũ cùng cụm chư
 > MỖI NGÀY; phần "tổng hợp loại sửa nào hay giúp lên hạng" và "bản sửa nháp cho bài blog" (cần
 > 2C-3) CHƯA dựng. Mã: `leo-top/` (gsc, do-trang, ban-do), `leo-top-viec.mjs`, `kho.mjs`,
 > `ca-radar.mjs`; tab **Leo top** trong `admin.jsx`; routine `routine/tuan-leo-top.md` (môi trường
-> RIÊNG vì phải tìm web). Sau deploy: 3 biến GSC vào `cms/.env`, bật lại MCP tools (12 công cụ)
-> — xem `DEPLOYMENT.md` mục "Rada SEO".
+> RIÊNG vì phải tìm web). Sau deploy: 3 biến GSC vào `cms/.env`, bật lại MCP tools (12 công cụ;
+> từ 2C-3 là 14) — xem `DEPLOYMENT.md` mục "Rada SEO".
 
 **Nguồn:** hạng của CHÍNH MÌNH lấy đúng từ GSC. Trang đối thủ trên SERP do routine Claude tự
 tìm bằng công cụ tìm kiếm web có sẵn trong gói (người dùng chọn, 30/09/2026) — khoảng **top 10
@@ -248,8 +282,10 @@ chí trên màn Rada).
   xuất), bằng chứng + điểm (`chien-luoc/chi-so.mjs`), hai tab **Hướng nội dung** / **Kế
   hoạch** trong `admin.jsx`, routine chiến lược `routine/tuan-chien-luoc.md` (Chủ Nhật 06:00
   giờ VN). Sau deploy: bật lại MCP tools (8 công cụ, xem `DEPLOYMENT.md` mục "Rada SEO").
-- **2C-3** Viết: `rada_lay_bai_can_viet`, `rada_nop_bai` (rào + xác minh nguồn + link + ảnh +
-  md→PT + slug), phiếu chấm, beforeSave, IndexNow, routine viết.
+- **2C-3 ĐÃ DỰNG (30/09/2026)** Viết: `rada_lay_bai_can_viet`, `rada_nop_bai` (rào + xác minh
+  nguồn + link + ảnh bìa + md→PT + slug), phiếu chấm (tab Nháp + khung Phiếu Rada), cổng
+  `beforePublish` (thay beforeSave), routine viết `routine/dem-viet-bai.md`. IndexNow hoãn tới
+  kế hoạch 3. Khác thiết kế: đầu mục 5. Sau deploy: bật lại MCP tools (14 công cụ).
 - **2D ĐÃ DỰNG (30/09/2026)** Chiều 2 — leo top: GSC trong plugin, `rada_lay_tu_khoa_leo_top`, `rada_nop_serp`,
   máy đo trang, `rada_lay_trang_serp`, `rada_ghi_so_ho`, bản đồ sơ hở, phiếu, vòng học, tab Leo top,
   routine leo top. Dựng sau 2C-1 (dùng chung kho nội bộ + đường đọc trang).

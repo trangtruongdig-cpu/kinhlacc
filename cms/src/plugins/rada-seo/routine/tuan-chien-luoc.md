@@ -19,8 +19,8 @@ mới mà không cần đổi gì.
 
 ## Cài đặt (làm một lần)
 
-1. MCP tools của plugin phải đang bật và khớp đủ **12 công cụ** (từ 2D; 2C-2 có 8) — nếu vừa
-   deploy có đổi công cụ MCP (thêm 2C-2, thêm 2D là những lần như vậy), bật lại theo mục "Rada SEO" ở `DEPLOYMENT.md` TRƯỚC
+1. MCP tools của plugin phải đang bật và khớp đủ **14 công cụ** (từ 2C-3; 2D có 12, 2C-2 có 8) — nếu vừa
+   deploy có đổi công cụ MCP (thêm 2C-2, thêm 2D, thêm 2C-3 là những lần như vậy), bật lại theo mục "Rada SEO" ở `DEPLOYMENT.md` TRƯỚC
    khi tạo routine này.
 2. claude.ai/code/routines → New routine: repo `trangtruongdig-cpu/kinhlacc`, CÙNG môi
    trường "kinhlac-rada" đã tạo cho routine đọc đêm (biến bí mật `RADA_SEO_MCP_TOKEN`, Network
@@ -111,7 +111,7 @@ hoặc môi trường routine chặn mạng tới `kinhlac.online`. Riêng cho r
 khả năng:
 
 - **Đồng ý MCP lệch sau một lần deploy đổi công cụ** (xem mục "Rada SEO" ở `DEPLOYMENT.md`,
-  "tắt rồi bật lại MCP tools" — cần đủ 12 công cụ từ 2D).
+  "tắt rồi bật lại MCP tools" — cần đủ 14 công cụ từ 2C-3).
 - **Lần chạy đầu kho còn ít chủ đề đối thủ đã phân tích.** Routine đọc đêm tích luỹ dần
   (≤ 40 trang/đêm); chạy chiến lược khi kho mới có vài chục chủ đề vẫn hoạt động bình thường
   nhưng đề xuất sẽ mỏng — hầu hết hướng không qua được rào "≥ 3 bài đối thủ có thật làm bằng

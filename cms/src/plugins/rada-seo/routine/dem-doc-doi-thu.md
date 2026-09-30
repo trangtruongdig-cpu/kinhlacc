@@ -10,8 +10,8 @@ Chạy bằng gói Claude của chủ site (claude.ai/code/routines), KHÔNG dù
   **ADMIN**. Connector claude.ai đăng nhập bằng tài khoản không phải admin → KHÔNG gọi được
   công cụ Rada SEO nào mà VẪN gọi được `content_*` ghi bài. Đăng nhập bằng admin thì Claude
   cầm luôn quyền đăng/xoá bài. Cả hai đều sai.
-- Khoá `ec_pat_` với DUY NHẤT scope `mcp:tools:rada-seo` chỉ GỌI ĐƯỢC đúng 3 công cụ Rada
-  SEO. ⚠️ `tools/list` KHÔNG lọc theo scope: nó vẫn liệt kê đủ 62 công cụ (3 Rada + 59 công cụ
+- Khoá `ec_pat_` với DUY NHẤT scope `mcp:tools:rada-seo` chỉ GỌI ĐƯỢC các công cụ Rada
+  SEO (lúc đo có 3; từ 2C-3 là 14 — scope phủ cả plugin, không từng công cụ). ⚠️ `tools/list` KHÔNG lọc theo scope: nó vẫn liệt kê đủ 62 công cụ (3 Rada + 59 công cụ
   lõi `content_*`, `media_*`, `schema_*`, `settings_*`…), nhưng cả 59 công cụ lõi đều trả
   `[INSUFFICIENT_SCOPE] Insufficient scope: requires …` khi gọi (đo trên bàn thử, nghiệm thu
   2B-1). Một trang đối thủ có cài lệnh cũng không có công cụ nào làm theo được.
@@ -95,4 +95,4 @@ EmDash chỉ phơi công cụ của plugin khi đồng ý đã lưu khớp đún
 
 Sửa: `/_emdash/admin` → Plugins → Rada SEO → tắt rồi bật lại **MCP tools** (hoặc
 `PUT /_emdash/api/admin/plugins/rada-seo/mcp` `{"enabled":true}`), rồi xem danh sách công cụ
-có đủ bốn cái. Chi tiết ở `DEPLOYMENT.md`, mục "Rada SEO".
+có đủ 14 công cụ (từ 2C-3). Chi tiết ở `DEPLOYMENT.md`, mục "Rada SEO".
