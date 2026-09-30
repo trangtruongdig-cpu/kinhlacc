@@ -25,12 +25,12 @@ import { chenUrl } from './sitemap-chen.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
 import { createRequire } from 'node:module'
-import { sslConfig } from './db-ssl.mjs'
+import { sslConfig, HEN_GIO_DB } from './db-ssl.mjs'
 import {
   head, topbar, footer, disclaimer, ld, escText, escAttr,
-  DOMAIN, SITE, DEFAULT_REVIEWER,
+  DOMAIN, SITE, DEFAULT_REVIEWER, tieuDeSeo,
 } from './seo-html.mjs'
-import { napGhiDe, apGhiDe } from './seo-cms.mjs'
+import { napGhiDe, seoTrang, luuTuSinh } from './seo-cms.mjs'
 import { napNguonCms } from './nguon-cms.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -76,6 +76,7 @@ const kho = new Client({
   password: process.env.DB_PASSWORD || process.env.POSTGRES_PASSWORD,
   database: process.env.DB_NAME || process.env.POSTGRES_DATABASE,
   ssl: sslConfig(),
+  ...HEN_GIO_DB,
 })
 
 try {
@@ -138,14 +139,29 @@ function trangNguon(n) {
   const vi = viTheoNguon.get(n.id) || []
   const url = `${DOMAIN}/nguon/${n.slug}/`
   const loai = LOAI_NHAN[n.loai] || 'Nguồn'
-  // NOINDEX cho nguồn KHÔNG trích dẫn gì: trang chỉ có mỗi cái tên là trang mỏng,
-  // đẩy vào chỉ mục chỉ làm loãng. Đo thật: 95/2.139 nguồn rơi vào diện này.
-  const indexable = bai.length + vi.length > 0
+  // Chỉ mời index nguồn có GIÁ TRỊ RIÊNG: ≥3 trích dẫn, hoặc có mô tả. Trước 29/09/2026
+  // ngưỡng là ≥1 → 2.045 trang index, trung vị 47 từ, 973 trang mà hơn 70% chữ là khuôn
+  // ("sách X — 1 bài thuốc trích dẫn"). Trang dưới ngưỡng vẫn sống cho người đọc và liên
+  // kết nội bộ, chỉ không mời bot. Người biên tập bật lại được bằng công tắc noindex trong CMS.
+  const NGUONG_INDEX = 3
+  const indexable = bai.length + vi.length >= NGUONG_INDEX || !!String(n.mo_ta || '').trim()
 
-  const seoTitle = `${n.ten} — ${loai} Đông Y: ${bai.length} bài thuốc trích dẫn`
+  const demTrich = [bai.length && `${bai.length} Bài Thuốc`, vi.length && `${vi.length} Vị Thuốc`].filter(Boolean)
+  const seoTitle = tieuDeSeo(
+    n.ten,
+    ...(demTrich.length ? [`: ${demTrich.join(' & ')} Trích Dẫn`, `: ${demTrich[0]} Trích Dẫn`] : []),
+    ` — ${loai} Đông Y`,
+  )
+  // Nguồn chỉ trích 1–2 bài từng ra mô tả 60 ký tự ("Anh Nhi Luận. Thư mục nguồn y văn:
+  // 1 bài thuốc…", 279 trang). Nêu thẳng TÊN bài thuốc: đó chính là thứ người ta gõ tìm.
+  const tenBai = [...new Set(bai.map((b) => b.ten))]
   const metaDesc = clip(
-    `${n.ten}${n.tac_gia ? ` — ${n.tac_gia}` : ''}${n.nien_dai ? ` (${n.nien_dai})` : ''}. ` +
-      `Thư mục nguồn y văn: ${bai.length} bài thuốc${vi.length ? ` và ${vi.length} vị thuốc` : ''} trích từ tài liệu này.`,
+    [
+      `${n.ten}${n.tac_gia ? ` — ${n.tac_gia}` : ''}${n.nien_dai ? ` (${n.nien_dai})` : ''}.`,
+      n.mo_ta ? String(n.mo_ta).replace(/\s+/g, ' ').trim().replace(/[\s.;,:]+$/, '') + '.' : '',
+      `Nguồn y văn Đông Y: ${bai.length} bài thuốc${vi.length ? ` và ${vi.length} vị thuốc` : ''} trích từ ${n.loai === 'tac_gia' ? 'tác giả' : 'tài liệu'} này` +
+        (tenBai.length ? `, gồm ${tenBai.slice(0, 5).join(', ')}${tenBai.length > 5 ? '…' : '.'}` : '.'),
+    ].filter(Boolean).join(' '),
     158,
   )
 
@@ -175,10 +191,11 @@ function trangNguon(n) {
     ['Tên khác', n.ten_khac ? escText(n.ten_khac) : ''],
   ].filter((x) => x[1])
 
-  const htmlDoc = head(apGhiDe({
-    title: `${seoTitle} — ${SITE}`, description: metaDesc, canonical: url,
+  const seo = seoTrang(ghiDeSEO, 'nguon_y_van', n.slug, {
+    title: seoTitle, description: metaDesc, canonical: url,
     jsonLds, ogImage: GENERIC_OG, index: indexable, extraHead: NGUON_STYLE,
-  }, ghiDeSEO('nguon_y_van', n.slug))) +
+  })
+  const htmlDoc = head(seo) +
     `<body>${topbar}
 <main class="bl-main"><article class="bl-article dl-article">
   <nav class="bl-crumb"><a href="/">Trang Chủ</a> › <a href="/nguon/">Thư Mục Nguồn</a> › <span>${escText(n.ten)}</span></nav>
@@ -210,7 +227,7 @@ function trangNguon(n) {
   ${disclaimer({})}
 </article></main>${footer}</body></html>`
 
-  return { htmlDoc, indexable, url }
+  return { htmlDoc, indexable: seo.index !== false && seo.canonical === url, url }
 }
 
 function trangMucLuc() {
@@ -292,6 +309,7 @@ const smPath = join(distDir, 'sitemap.xml')
 if (urls.length) chenUrl(smPath, '/nguon/', [`${DOMAIN}/nguon/`, ...urls], { priority: '0.5' })
 
 console.log(
-  `✓ build-nguon: ${n} trang nguồn (${nNoindex} noindex: không mục nào trích dẫn) + 1 trang mục lục` +
+  `✓ build-nguon: ${n} trang nguồn (${nNoindex} noindex: dưới ngưỡng trích dẫn, không mô tả) + 1 trang mục lục` +
     `${urls.length ? ` + ${urls.length + 1} URL vào sitemap` : ''}`,
 )
+luuTuSinh()

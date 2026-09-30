@@ -109,3 +109,6 @@ cms/.tam-anh/
 
 # Hồ sơ nháp bóc từ sách Focks (chứa NGUYÊN VĂN sách, chờ người duyệt) — không commit.
 cms/.tam-focks/
+
+# Bản SEO tự sinh các builder để lại cho dong-bo-seo-cms.mjs
+frontend/.seo-tu-sinh/

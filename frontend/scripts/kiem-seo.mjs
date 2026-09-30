@@ -34,11 +34,17 @@ const NGUONG_TI_LE = {
   // cắt cứng ở 300 ký tự. Sửa gốc bằng clipMoTa() cắt ở ranh giới từ tại 158 → còn
   // 0,02%. Ngưỡng hạ theo số MỚI, đúng luật ghi ở đầu tệp: không hạ thì chốt vô dụng.
   moTaQuaDai: [1, 0.02], // mô tả > 165 ký tự: Google cắt cụt
-  moTaQuaNgan: [4, 2.81], // mô tả < 70 ký tự: không đủ chào mời
-  tieuDeTrung: [0.5, 0.12],
+  // 29/09/2026: 2,81% → 0,60% nhờ công thức mô tả ghép nhiều mảnh (nguồn, dược liệu, kinh).
+  moTaQuaNgan: [1, 0.6], // mô tả < 70 ký tự: không đủ chào mời
+  tieuDeTrung: [0.5, 0.03], // 0,12% → 0,03% (29/09/2026, tên đụng nhau kèm tên sách). Phần còn lại: huyệt trùng tên trong dữ liệu gốc (lac-cham ↔ lac-cham-2…)
   moTaTrung: [0.5, 0.11],
+  // Trước 29/09/2026: 99,5% (18.400/18.504) — mọi bộ ghép cứng đuôi + tên thương hiệu. Sau
+  // tieuDeSeo(): 0,57% (phần còn lại là tên riêng tự nó đã dài hơn 60 ký tự).
+  tieuDeQuaDai: [1, 0.57],
 }
 const DAI_TOI_DA = 165
+const TIEU_DE_TOI_DA = 60 // Google cắt tiêu đề ở ~60 ký tự (tieuDeSeo trong seo-html.mjs)
+const giaiMa = (t) => t.replace(/&amp;/g, '&').replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
 const NGAN_TOI_THIEU = 70
 
 const trang = []
@@ -62,7 +68,13 @@ const lay = (h, re) => {
 
 const demTieuDe = new Map()
 const demMoTa = new Map()
-const loi = { thieuTieuDe: [], thieuMoTa: [], thieuCanonical: [], thieuLd: [], canonicalLech: [] }
+const loi = { thieuTieuDe: [], thieuMoTa: [], thieuCanonical: [], thieuLd: [], canonicalLech: [], twitterLech: [] }
+// Canonical trỏ sang trang KHÁC là hợp lệ đúng một trường hợp: bản trùng trỏ về bản chính
+// (trung-lap-bai-thuoc.mjs). Kiểm ở cuối: đích phải tồn tại và tự trỏ về chính nó (không
+// chuỗi canonical), và trang nguồn không được nằm trong sitemap.
+const canonicalKhac = []
+const canonicalCua = new Map()
+let tieuDeQuaDai = 0
 let moTaQuaDai = 0
 let moTaQuaNgan = 0
 
@@ -74,6 +86,11 @@ for (const q of trang) {
   const canonical = lay(h, /<link rel="canonical" href="([^"]*)"/)
 
   if (!tieuDe.trim()) loi.thieuTieuDe.push(ten)
+  else if (giaiMa(tieuDe).length > TIEU_DE_TOI_DA) tieuDeQuaDai++
+  // twitter:title phải là của CHÍNH trang — trước 29/09/2026 15.056 trang vỏ SPA mang câu
+  // chào của trang chủ ở đây.
+  const twTitle = lay(h, /<meta name="twitter:title" content="([\s\S]*?)"/)
+  if (twTitle && tieuDe && giaiMa(twTitle) !== giaiMa(tieuDe)) loi.twitterLech.push(ten)
   if (!moTa.trim()) loi.thieuMoTa.push(ten)
   else {
     if (moTa.length > DAI_TOI_DA) moTaQuaDai++
@@ -88,10 +105,22 @@ for (const q of trang) {
     try { duong = new URL(canonical).pathname } catch { duong = canonical }
     const mong = ten.endsWith('/') ? ten : ten + '/'
     const thuc = duong.endsWith('/') ? duong : duong + '/'
-    if (thuc !== mong) loi.canonicalLech.push(`${ten} → ${duong}`)
+    canonicalCua.set(mong, thuc)
+    if (thuc !== mong) canonicalKhac.push([mong, thuc])
   }
   if (!/application\/ld\+json/.test(h)) loi.thieuLd.push(ten)
   if (tieuDe.trim()) demTieuDe.set(tieuDe, (demTieuDe.get(tieuDe) || 0) + 1)
+}
+
+const smXml = (() => { try { return readFileSync(join(distDir, 'sitemap.xml'), 'utf8') } catch { return '' } })()
+const trongSm = new Set([...smXml.matchAll(/<loc>([^<]*)<\/loc>/g)].map((m) => {
+  let d = m[1]; try { d = new URL(m[1]).pathname } catch {}
+  return d.endsWith('/') ? d : d + '/'
+}))
+for (const [nguon, dich] of canonicalKhac) {
+  if (!canonicalCua.has(dich)) loi.canonicalLech.push(`${nguon} → ${dich} (đích KHÔNG tồn tại)`)
+  else if (canonicalCua.get(dich) !== dich) loi.canonicalLech.push(`${nguon} → ${dich} → ${canonicalCua.get(dich)} (chuỗi canonical)`)
+  else if (trongSm.has(nguon)) loi.canonicalLech.push(`${nguon} → ${dich} (bản phụ vẫn nằm trong sitemap)`)
 }
 
 const soTrung = (m) => [...m.values()].filter((v) => v > 1).reduce((a, b) => a + b, 0)
@@ -101,9 +130,11 @@ const doDuoc = {
   moTaQuaNgan: tiLe(moTaQuaNgan),
   tieuDeTrung: tiLe(soTrung(demTieuDe)),
   moTaTrung: tiLe(soTrung(demMoTa)),
+  tieuDeQuaDai: tiLe(tieuDeQuaDai),
 }
 
 console.log(`── kiem-seo: ${trang.length} trang tĩnh trong ${relative(root, distDir) || 'dist'} ──`)
+console.log(`  · ${canonicalKhac.length} trang bản trùng trỏ canonical về bản chính (đã xác minh đích)`)
 
 let hong = 0
 const NHAN = {
@@ -112,6 +143,7 @@ const NHAN = {
   thieuCanonical: 'thiếu canonical',
   thieuLd: 'thiếu JSON-LD',
   canonicalLech: 'canonical TRỎ LỆCH',
+  twitterLech: 'twitter:title lệch title',
 }
 for (const [k, ds] of Object.entries(loi)) {
   const dat = ds.length === 0
@@ -125,6 +157,7 @@ const NHAN2 = {
   moTaQuaNgan: `mô tả < ${NGAN_TOI_THIEU} ký tự`,
   tieuDeTrung: 'tiêu đề trùng nhau',
   moTaTrung: 'mô tả trùng nhau',
+  tieuDeQuaDai: `tiêu đề > ${TIEU_DE_TOI_DA} ký tự`,
 }
 for (const [k, [tran, moc]] of Object.entries(NGUONG_TI_LE)) {
   const v = doDuoc[k]

@@ -11,7 +11,7 @@ import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
 import { chenUrl } from './sitemap-chen.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
-import { sslConfig } from './db-ssl.mjs'
+import { sslConfig, HEN_GIO_DB } from './db-ssl.mjs'
 import { createRequire } from 'node:module'
 import { head, topbar, footer, disclaimer, ld, escText, escAttr, DOMAIN, SITE, OG_IMAGE } from './seo-html.mjs'
 
@@ -118,6 +118,7 @@ function groupBy(rows, key) {
     password: process.env.DB_PASSWORD || process.env.POSTGRES_PASSWORD,
     database: process.env.DB_NAME || process.env.POSTGRES_DATABASE,
     ssl: sslConfig(),
+    ...HEN_GIO_DB,
   })
   try {
     await client.connect()

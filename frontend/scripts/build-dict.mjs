@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
 import {
   head, topbar, footer, disclaimer, ld, escText, escAttr,
-  DOMAIN, SITE, DEFAULT_REVIEWER,
+  DOMAIN, SITE, DEFAULT_REVIEWER, tieuDeSeo,
 } from './seo-html.mjs'
 import {
   meridianList, records, classify, recOfPoint, sec, kinhSlugOf, fold,
@@ -20,7 +20,8 @@ import {
   BENH, BENH_SETS, benhIndexable, benhCross, huyetLinkTargets,
   traitsByAcuId, codeToId,
 } from './dict-data.mjs'
-import { napGhiDe, apGhiDe } from './seo-cms.mjs'
+import { napGhiDe, seoTrang, luuTuSinh } from './seo-cms.mjs'
+import { doiChieuUrl } from './sitemap-chen.mjs'
 import { moKetNoiCms } from './cms-ket-noi.mjs'
 
 // Phần SEO người biên tập gõ trong CMS. Nạp ở cuối tệp, TRƯỚC các vòng sinh trang;
@@ -492,7 +493,8 @@ function huyetPage(rec) {
   const title = `${namePrefix}${rec.ten}${cls.loai === 'kinh' && cls.code ? ` (${cls.code})` : ''}`
   const dispName = `${namePrefix}${rec.ten}`
   // <title> SEO: chèn ý định tìm kiếm thật ("vị trí", "tác dụng", "cách châm cứu"). H1/breadcrumb/schema giữ tên NGẮN.
-  const seoTitle = `${title}: Vị Trí, Tác Dụng & Cách Châm Cứu`
+  // Đuôi dài nhất trước; tieuDeSeo lùi dần cho vừa 60 ký tự (xem seo-html.mjs).
+  const seoTitle = tieuDeSeo(title, ': Vị Trí, Tác Dụng & Cách Châm Cứu', ': Vị Trí, Tác Dụng & Cách Châm', ': Vị Trí & Tác Dụng')
   const faq = huyetFaq(rec, cls, dispName)
   const lead = leadHuyet(rec, cls)
   // Mô tả meta bám đúng cụm truy vấn dài đuôi (nằm ở đâu / tác dụng chủ trị / cách châm cứu – bấm).
@@ -622,10 +624,11 @@ function huyetPage(rec) {
     cls.loai === 'kinh' ? ` › <a href="/kinh/${escAttr(cls.kinhSlug)}/">${escText(cls.kinhTen)}</a>` : ''
   } › <span>${escText(rec.ten)}</span></nav>`
 
-  const htmlDoc = head(apGhiDe({
-    title: `${seoTitle} — ${SITE}`, description: metaDesc, canonical: url,
+  const seo = seoTrang(ghiDeSEO, 'huyet_vi', slug, {
+    title: seoTitle, description: metaDesc, canonical: url,
     jsonLds, ogImage: ogImg, index: indexable, extraHead: DICT_STYLE,
-  }, ghiDeSEO('huyet_vi', slug))) +
+  })
+  const htmlDoc = head(seo) +
     `<body>${topbar}
 <main class="bl-main"><article class="bl-article dl-article">
   ${crumbHtml}
@@ -644,7 +647,7 @@ function huyetPage(rec) {
   ${disclaimer({ note: 'Thông tin huyệt vị trên trang này' })}
 </article></main>
 ${footer}</body></html>`
-  return { htmlDoc, indexable, loai: cls.loai, hasImg: !!img || !!anh3d }
+  return { htmlDoc, url, indexable: seo.index !== false && seo.canonical === url, loai: cls.loai, hasImg: !!img || !!anh3d }
 }
 
 // ───────────────────────── TRANG KINH (TRỤ) ─────────────────────────────────
@@ -704,10 +707,15 @@ function kinhPage(m) {
     }),
   ]
 
-  const htmlDoc = head(apGhiDe({
-    title: `${m.ten} — Đồ Hình, Huyệt Vị & Chủ Trị — ${SITE}`,
-    description: clip(lead, 160), canonical: url, jsonLds, ogImage: ogImg, index: indexable, extraHead: DICT_STYLE,
-  }, ghiDeSEO('kinh_mach', slug))) +
+  const seo = seoTrang(ghiDeSEO, 'kinh_mach', slug, {
+    title: tieuDeSeo(m.ten, ': Đồ Hình, Huyệt Vị & Chủ Trị', ': Đồ Hình & Huyệt Vị', ' — Đồ Hình Đường Kinh'),
+    // 5 kinh chưa có desc/dacTinh từng ra mô tả ~65 ký tự — kể tên huyệt đầu kinh cho đủ ý.
+    description: clip(
+      [lead, pts.length ? `Các huyệt: ${pts.slice(0, 8).map((p) => p.ten).join(', ')}…` : ''].filter(Boolean).join(' '),
+      160,
+    ), canonical: url, jsonLds, ogImage: ogImg, index: indexable, extraHead: DICT_STYLE,
+  })
+  const htmlDoc = head(seo) +
     `<body>${topbar}
 <main class="bl-main"><article class="bl-article dl-article">
   <nav class="bl-crumb"><a href="/">Trang Chủ</a> › <a href="/thu-vien">Từ Điển</a> › <span>${escText(m.ten)}</span></nav>
@@ -721,7 +729,7 @@ function kinhPage(m) {
   ${disclaimer({ note: 'Thông tin đường kinh trên trang này' })}
 </article></main>
 ${footer}</body></html>`
-  return { htmlDoc, indexable }
+  return { htmlDoc, url, indexable: seo.index !== false && seo.canonical === url }
 }
 
 // ───────────────────────── CSS riêng cho từ điển ────────────────────────────
@@ -886,7 +894,11 @@ function benhPage(rec, set, cfg) {
   const faq = benhFaq(rec, set, cfg)
   // <title> SEO + meta theo ý định tìm kiếm thật ("[bệnh] là gì / triệu chứng / cách điều trị Đông Y").
   const seoSuffix = cfg.key === 'ccdt' ? 'Cách Châm Cứu Điều Trị' : 'Triệu Chứng & Điều Trị Đông Y'
-  const seoTitle = `${title}: ${seoSuffix}`
+  const seoTitle = tieuDeSeo(
+    title,
+    `: ${seoSuffix}`,
+    ...(cfg.key === 'ccdt' ? [': Cách Châm Cứu', ' — Châm Cứu Trị Bệnh'] : [': Triệu Chứng & Điều Trị', ' — Bệnh Học Đông Y']),
+  )
   const metaDesc = clip(
     `${rec.ten}${rec._meta ? ` (${rec._meta})` : ''}: triệu chứng, nguyên nhân và cách ${cfg.key === 'ccdt' ? 'châm cứu điều trị' : 'điều trị'} theo Đông Y.` +
       (firstBody ? ` ${clip(firstBody, 90)}` : ''),
@@ -959,10 +971,11 @@ function benhPage(rec, set, cfg) {
     ...(faq.length ? [faqLd(faq)] : []),
   ]
 
-  const htmlDoc = head(apGhiDe({
-    title: `${seoTitle} — ${SITE}`,
+  const seo = seoTrang(ghiDeSEO, cfg.key === 'ccdt' ? 'cham_cuu_tri_benh' : 'benh_hoc', slug, {
+    title: seoTitle,
     description: metaDesc, canonical: url, jsonLds, ogImage: GENERIC_OG, index: indexable, extraHead: DICT_STYLE,
-  }, ghiDeSEO(cfg.key === 'ccdt' ? 'cham_cuu_tri_benh' : 'benh_hoc', slug))) +
+  })
+  const htmlDoc = head(seo) +
     `<body>${topbar}
 <main class="bl-main"><article class="bl-article dl-article">
   <nav class="bl-crumb"><a href="/">Trang Chủ</a> › <a href="/thu-vien">Từ Điển</a> › <a href="/${escAttr(cfg.dir)}/">${escText(set.title)}</a> › <span>${escText(title)}</span></nav>
@@ -980,7 +993,7 @@ function benhPage(rec, set, cfg) {
   ${disclaimer({ note: `Thông tin về ${rec.ten} trên trang này` })}
 </article></main>
 ${footer}</body></html>`
-  return { htmlDoc, indexable }
+  return { htmlDoc, url, indexable: seo.index !== false && seo.canonical === url }
 }
 
 function benhIndexPage(set, cfg) {
@@ -1015,9 +1028,12 @@ writePage('huyet', '', huyetIndexPage())
 
 let nKinh = 0
 let nKinhNoindex = 0
+// Quyết định index CUỐI của từng trang (đã áp công tắc CMS) — đối chiếu với sitemap ở cuối tệp.
+const TRANG_SM = []
 for (const m of meridianList) {
   if (!m || !m.ten) continue
-  const { htmlDoc, indexable } = kinhPage(m)
+  const { htmlDoc, indexable, url } = kinhPage(m)
+  TRANG_SM.push({ loc: url, index: indexable })
   writePage('kinh', kinhSlugOf(m), htmlDoc)
   nKinh++
   if (!indexable) nKinhNoindex++
@@ -1028,7 +1044,8 @@ let nHuyet = 0
 const stat = { kinh: 0, ky: 0, athi: 0, noimg: 0, noindex: 0 }
 for (const rec of subset) {
   if (!rec || !rec.ten) continue
-  const { htmlDoc, indexable, loai, hasImg } = huyetPage(rec)
+  const { htmlDoc, indexable, loai, hasImg, url } = huyetPage(rec)
+  TRANG_SM.push({ loc: url, index: indexable })
   writePage('huyet', rec._slug, htmlDoc)
   nHuyet++
   stat[loai]++
@@ -1049,7 +1066,8 @@ for (const cfg of BENH_SETS) {
   let noindex = 0
   for (const rec of set.records) {
     if (!rec || !rec.ten) continue
-    const { htmlDoc, indexable } = benhPage(rec, set, cfg)
+    const { htmlDoc, indexable, url } = benhPage(rec, set, cfg)
+    TRANG_SM.push({ loc: url, index: indexable })
     writePage(cfg.dir, rec._slug, htmlDoc)
     n++
     nBenh++
@@ -1064,3 +1082,12 @@ console.log(`✓ nối nguồn Phối Huyệt: ${_nguonLinkCount} link /nguon/ (
   const tongCap = [...HUYET_DEN_BENH.values()].reduce((n, ds) => n + ds.length, 0)
   console.log(`✓ "Huyệt này dùng trong": ${HUYET_DEN_BENH.size} huyệt có ≥1 bệnh, tổng ${tongCap} cặp (huyệt, bệnh) suy từ ${BENH.ccdt?.records?.length || 0} bài Châm Cứu Trị Bệnh.`)
 }
+
+// ── Sitemap + CMS ─────────────────────────────────────────────────────────────
+// Phần từ điển của sitemap do gen-sitemap sinh TRƯỚC khi biết CMS nói gì; đối chiếu lại
+// để trang người biên tập tắt index (hoặc trỏ canonical đi nơi khác) rời sitemap.
+{
+  const kq = doiChieuUrl(join(distDir, 'sitemap.xml'), TRANG_SM)
+  if (kq) console.log(`✓ sitemap từ điển đối chiếu CMS: gỡ ${kq.go}, thêm ${kq.them} URL.`)
+}
+luuTuSinh()

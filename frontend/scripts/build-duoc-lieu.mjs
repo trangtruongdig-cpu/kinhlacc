@@ -8,9 +8,10 @@
 // (lấy toàn bộ), rồi group theo id_vi_thuoc trong JS trước khi ghép với hàng vi_thuoc.
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
 import { chenUrl } from './sitemap-chen.mjs'
+import { datMetaSeo, setJsonLd } from './seo-vo-spa.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
-import { sslConfig } from './db-ssl.mjs'
+import { sslConfig, HEN_GIO_DB } from './db-ssl.mjs'
 import { createRequire } from 'node:module'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -29,7 +30,8 @@ try {
 }
 try { require(join(BE, 'node_modules/dotenv')).config({ path: join(BE, '.env') }) } catch { /* env đã có sẵn từ môi trường runtime */ }
 
-import { napGhiDe } from './seo-cms.mjs'
+import { napGhiDe, seoTrang, luuTuSinh } from './seo-cms.mjs'
+import { tieuDeSeo, toAbs, SITE, OG_IMAGE } from './seo-html.mjs'
 
 // Ghi đè SEO người biên tập gõ trong CMS. Nạp một lần ở đây; không nối được kho thì
 // hàm trả null và trang dùng bản tự sinh (seo-cms.mjs đã kêu, đừng nuốt cảnh báo).
@@ -40,6 +42,22 @@ const ghiDeSEO = await napGhiDe()
 const clipMoTa = (t, max = 158) => {
   const s = String(t || '').replace(/\s+/g, ' ').trim()
   return s.length <= max ? s : s.slice(0, max - 1).replace(/\s+\S*$/, '') + '…'
+}
+// Mô tả ghép từ nhiều mảnh, mảnh nào có thì thêm. Trước đây vị chưa biên soạn chỉ ra
+// "Vị thuốc Tất Ma Tử." (195 trang dưới 70 ký tự) dù đã có sẵn quy kinh, công dụng,
+// số bài thuốc dùng vị đó — những thứ người tìm kiếm cần đọc thấy ngay ở kết quả.
+const cau = (t) => String(t || '').replace(/\s+/g, ' ').trim().replace(/[\s.;,:]+$/, '')
+const moTaViThuoc = (v, rel, congDung) => {
+  const tv = [v.tinh && `tính ${cau(v.tinh).toLowerCase()}`, v.vi && `vị ${cau(v.vi).toLowerCase()}`].filter(Boolean)
+  const phan = [`Vị thuốc ${v.ten_vi_thuoc}${v.ten_khoa_hoc ? ` (${cau(v.ten_khoa_hoc)})` : ''}${tv.length ? ': ' + tv.join(', ') : ''}.`]
+  const kinh = (rel.kinhMach.get(v.id) || []).map((r) => r.ten)
+  if (kinh.length) phan.push(`Quy kinh ${kinh.join(', ')}.`)
+  const vanXuoi = cau(v.mo_ta || v.chu_tri)
+  if (vanXuoi) phan.push(vanXuoi + '.')
+  else if (congDung.length) phan.push(`Công dụng: ${congDung.slice(0, 6).join(', ')}.`)
+  const soBai = new Set((rel.baiThuoc.get(v.id) || []).map((r) => r.slug)).size
+  if (soBai) phan.push(`Có mặt trong ${soBai} bài thuốc.`)
+  return clipMoTa(phan.join(' '))
 }
 
 
@@ -52,22 +70,6 @@ const baseHtml = readFileSync(indexPath, 'utf8')
 const escAttr = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 const escText = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
-function setTitle(h, t) { return h.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escText(t)}</title>`) }
-function setMeta(h, attr, key, content) {
-  const re = new RegExp(`(<meta\\s+${attr}="${key}"[^>]*\\scontent=")[^"]*(")`, 'i')
-  return re.test(h) ? h.replace(re, `$1${escAttr(content)}$2`)
-    : h.replace(/<\/head>/i, `    <meta ${attr}="${key}" content="${escAttr(content)}">\n  </head>`)
-}
-function setCanonical(h, href) {
-  const re = /(<link\s+rel="canonical"[^>]*\shref=")[^"]*(")/i
-  return re.test(h) ? h.replace(re, `$1${escAttr(href)}$2`)
-    : h.replace(/<\/head>/i, `    <link rel="canonical" href="${escAttr(href)}">\n  </head>`)
-}
-function setJsonLd(h, obj) {
-  const json = JSON.stringify(obj).replace(/</g, '\\u003c')
-  return h.replace(/\s*<script type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>/i, '')
-    .replace(/<\/head>/i, `    <script type="application/ld+json" id="seo-jsonld">${json}</script>\n  </head>`)
-}
 
 // Cắt text tự do thành các <p> theo dòng trống/xuống dòng (y văn thường nhiều đoạn).
 function paras(text) {
@@ -187,6 +189,7 @@ function stub(v, rel) {
     password: process.env.DB_PASSWORD || process.env.POSTGRES_PASSWORD,
     database: process.env.DB_NAME || process.env.POSTGRES_DATABASE,
     ssl: sslConfig(),
+    ...HEN_GIO_DB,
   })
   try {
     await client.connect()
@@ -199,7 +202,7 @@ function stub(v, rel) {
   // cùng client là hành vi deprecated (sẽ bị bỏ ở pg@9).
   const rowsQ = await client.query(`SELECT id, ten_vi_thuoc, tinh, vi, quy_kinh, lieu_dung, ten_khoa_hoc, ten_han, ten_pinyin,
       bo_phan_dung, xuat_xu, ho_khoa_hoc, ten_khac, mo_ta, thanh_phan, duoc_ly, tinh_vi_quy_kinh,
-      nuoi_duong, bao_che, don_thuoc, chu_tri, tham_khao FROM vi_thuoc ORDER BY id`)
+      nuoi_duong, bao_che, don_thuoc, chu_tri, tham_khao, anh_dai_dien FROM vi_thuoc ORDER BY id`)
   const congDungQ = await client.query(`SELECT vtc.id_vi_thuoc, cd.ten_cong_dung AS ten FROM vi_thuoc_cong_dung vtc
       JOIN cong_dung cd ON cd.id = vtc.id_cong_dung`)
   const chuTriQ = await client.query(`SELECT vtc.id_vi_thuoc, ct.ten_chu_tri AS ten FROM vi_thuoc_chu_tri vtc
@@ -256,33 +259,44 @@ function stub(v, rel) {
   let n = 0
   let nNoindex = 0
   for (const v of rows) {
-    const gd = ghiDeSEO('duoc_lieu', String(v.id))
-    const index = gd?.noIndex ? false : daBienSoan(v)
-    if (!index) nNoindex++
-    const url = gd?.canonical || `${DOMAIN}/duoc-lieu/${v.id}/`
+    const url = `${DOMAIN}/duoc-lieu/${v.id}/`
     const congDungNames = (rel.congDung.get(v.id) || []).map((r) => r.ten)
-    const title = gd?.title || `${v.ten_vi_thuoc} — Vị thuốc Đông Y${v.xuat_xu ? ' (' + v.xuat_xu + ')' : ''} | Kinh Lạc Trương Gia`
-    const descSrc = v.mo_ta || v.chu_tri || (congDungNames.length ? `Công dụng: ${congDungNames.join(', ')}.` : '')
-    const desc = gd?.description || clipMoTa(`Vị thuốc ${v.ten_vi_thuoc}${v.tinh || v.vi ? ` — tính ${v.tinh || '?'}, vị ${v.vi || '?'}` : ''}. ${descSrc}`)
-    const jsonLd = {
-      '@context': 'https://schema.org', '@type': 'MedicalWebPage', inLanguage: 'vi', url,
-      name: v.ten_vi_thuoc, description: desc, isAccessibleForFree: true,
-      about: {
-        '@type': 'Drug', name: v.ten_vi_thuoc,
-        ...(v.ten_khoa_hoc ? { alternateName: v.ten_khoa_hoc } : {}),
-        ...(v.mo_ta ? { description: v.mo_ta.slice(0, 500) } : {}),
-        ...(congDungNames.length ? { indication: congDungNames } : {}),
+    // Ảnh chia sẻ: ảnh đại diện của vị (URL CMS) khi có — trước đây cả 1.113 trang dùng
+    // ảnh mặc định dù 536 vị đã có ảnh riêng.
+    const anh = String(v.anh_dai_dien || '').trim()
+    const seo = seoTrang(ghiDeSEO, 'duoc_lieu', String(v.id), {
+      // Tên sách không vào tiêu đề (xem tieuDeSeo trong seo-html.mjs).
+      title: tieuDeSeo(v.ten_vi_thuoc, ': Tính Vị, Công Dụng & Cách Dùng', ' — Vị Thuốc Đông Y', ' — Vị Thuốc'),
+      description: moTaViThuoc(v, rel, congDungNames),
+      canonical: url,
+      ogImage: anh ? toAbs(anh) : OG_IMAGE,
+      index: daBienSoan(v),
+    })
+    const index = seo.index !== false && seo.canonical === url
+    if (!index) nNoindex++
+    const jsonLd = [
+      {
+        '@context': 'https://schema.org', '@type': 'MedicalWebPage', inLanguage: 'vi', url,
+        name: v.ten_vi_thuoc, description: seo.description, isAccessibleForFree: true,
+        image: seo.ogImage,
+        publisher: { '@type': 'Organization', name: SITE, logo: { '@type': 'ImageObject', url: `${DOMAIN}/logo-512.png` } },
+        about: {
+          '@type': 'Drug', name: v.ten_vi_thuoc,
+          ...(v.ten_khoa_hoc ? { alternateName: v.ten_khoa_hoc } : {}),
+          ...(v.mo_ta ? { description: v.mo_ta.slice(0, 500) } : {}),
+          ...(congDungNames.length ? { indication: congDungNames } : {}),
+        },
       },
-    }
-    let html = baseHtml
-    html = setTitle(html, title)
-    html = setMeta(html, 'name', 'description', desc)
-    html = setMeta(html, 'name', 'robots', index ? 'index, follow' : 'noindex, follow')
-    html = setCanonical(html, url)
-    html = setMeta(html, 'property', 'og:title', title)
-    html = setMeta(html, 'property', 'og:description', desc)
-    html = setMeta(html, 'property', 'og:type', 'article')
-    html = setMeta(html, 'property', 'og:url', url)
+      {
+        '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Trang Chủ', item: DOMAIN + '/' },
+          { '@type': 'ListItem', position: 2, name: 'Từ Điển Dược Liệu', item: `${DOMAIN}/duoc-lieu/` },
+          { '@type': 'ListItem', position: 3, name: v.ten_vi_thuoc, item: url },
+        ],
+      },
+    ]
+    let html = datMetaSeo(baseHtml, seo, url)
     html = setJsonLd(html, jsonLd)
     // Không dùng \s* (chỉ khớp div RỖNG) — xem chú thích cùng chỗ trong build-phuong.mjs:
     // prerender-seo.mjs chạy trước đã làm div không còn rỗng, [\s\S]*? khớp và thay đúng.
@@ -303,5 +317,6 @@ function stub(v, rel) {
     loaiTru: ['/duoc-lieu/nhom/'], lastmod: new Date().toISOString().slice(0, 10), priority: '0.6',
   })
 
+  luuTuSinh()
   console.log(`✓ build-duoc-lieu: ${n} trang dược liệu tĩnh (${nNoindex} noindex: chưa biên soạn văn xuôi) + ${urls.length} URL vào sitemap.`)
 })().catch((e) => { console.warn('⚠ build-duoc-lieu: lỗi khi prerender (' + (e && e.message) + ') — BỎ QUA, build vẫn tiếp tục.'); process.exit(0) })

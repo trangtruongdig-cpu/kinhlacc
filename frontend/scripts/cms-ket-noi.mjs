@@ -70,6 +70,6 @@ export function moKetNoiCms(tenModule) {
   if (existsSync(duongCa)) ssl = { ca: readFileSync(duongCa, 'utf8'), rejectUnauthorized: true }
   else console.warn(`⚠ ${tenModule}: không thấy chứng chỉ CA (${duongCa}) — nối kho CMS KHÔNG xác minh danh tính máy chủ.`)
 
-  const kho = new Client({ host, port: cong, user: nguoi, password: matKhau, database: csdl, ssl })
+  const kho = new Client({ host, port: cong, user: nguoi, password: matKhau, database: csdl, ssl, connectionTimeoutMillis: 30_000, query_timeout: 300_000, keepAlive: true })
   return { kho, dong: () => kho.end().catch(() => {}) }
 }

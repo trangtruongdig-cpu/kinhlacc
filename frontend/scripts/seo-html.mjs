@@ -32,6 +32,22 @@ export const ld = (obj) =>
 // Ảnh -> URL tuyệt đối cho og:image (social cần URL đầy đủ).
 export const toAbs = (s) => (/^https?:/.test(s) ? s : DOMAIN + (String(s).startsWith('/') ? s : '/' + s))
 
+// Ráp <title> cho vừa ô kết quả tìm kiếm. Google cắt tiêu đề ở ~60 ký tự; đo ngày
+// 29/09/2026 thấy 18.400/18.500 trang vượt mức đó vì mọi bộ sinh đều ghép cứng
+// "tên + đuôi mô tả + — Kinh Lạc Trương Gia", còn bài thuốc nhét cả tên sách (94–110 ký tự).
+// Thứ tự ưu tiên: TÊN (từ khoá chính) > đuôi mô tả > tên thương hiệu. `duoi` là các
+// phương án đuôi, dài nhất trước, đã kèm dấu nối (vd ': Vị Trí & Tác Dụng'). Không phương
+// án nào vừa thì trả về tên trần — thà dài còn hơn cắt cụt tên riêng.
+export const TIEU_DE_TOI_DA = 60
+export function tieuDeSeo(ten, ...duoi) {
+  for (const d of [...duoi, '']) {
+    const goc = `${ten}${d}`
+    if (`${goc} — ${SITE}`.length <= TIEU_DE_TOI_DA) return `${goc} — ${SITE}`
+    if (goc.length <= TIEU_DE_TOI_DA) return goc
+  }
+  return String(ten)
+}
+
 // Nhãn nút CTA về tính năng phần mềm (dùng chung blog + từ điển).
 export const CTA_LABELS = {
   '/xem-ket-qua-do': 'Xem Demo Kết Quả Đo Kinh Lạc →',

@@ -4,9 +4,10 @@
 // Chạy SAU vite build (cần dist/index.html). Cũng nạp URL bài thuốc vào dist/sitemap.xml.
 import { readFileSync, writeFileSync, mkdirSync, existsSync, appendFileSync } from 'node:fs'
 import { chenUrl } from './sitemap-chen.mjs'
+import { datMetaSeo, setJsonLd } from './seo-vo-spa.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
-import { sslConfig } from './db-ssl.mjs'
+import { sslConfig, HEN_GIO_DB } from './db-ssl.mjs'
 import { createRequire } from 'node:module'
 
 const here = dirname(fileURLToPath(import.meta.url))
@@ -25,7 +26,9 @@ try {
 }
 try { require(join(BE, 'node_modules/dotenv')).config({ path: join(BE, '.env') }) } catch { /* env đã có sẵn từ môi trường runtime */ }
 
-import { napGhiDe } from './seo-cms.mjs'
+import { napGhiDe, seoTrang, luuTuSinh } from './seo-cms.mjs'
+import { tieuDeSeo, SITE, OG_IMAGE } from './seo-html.mjs'
+import { timTrung } from './trung-lap-bai-thuoc.mjs'
 
 // Ghi đè SEO người biên tập gõ trong CMS. Nạp một lần ở đây; không nối được kho thì
 // hàm trả null và trang dùng bản tự sinh (seo-cms.mjs đã kêu, đừng nuốt cảnh báo).
@@ -36,6 +39,18 @@ const ghiDeSEO = await napGhiDe()
 const clipMoTa = (t, max = 158) => {
   const s = String(t || '').replace(/\s+/g, ' ').trim()
   return s.length <= max ? s : s.slice(0, max - 1).replace(/\s+\S*$/, '') + '…'
+}
+// Bỏ dấu câu cuối trước khi nối thêm "." — trước đây tac_dung vốn đã kết bằng dấu chấm
+// nên ra "Trị thủy thũng.. Thành phần: ." (45 trang), kèm cả nhãn thành phần rỗng.
+const cau = (t) => String(t || '').replace(/\s+/g, ' ').trim().replace(/[\s.;,:]+$/, '')
+const moTaBaiThuoc = (b, vi, tenKhac = []) => {
+  // Bản chính gom các bản trùng mang TÊN KHÁC (Tả Bạch Tán = Tả Phế Tán…): nêu tên khác
+  // ngay đầu mô tả, không thì canonical làm mất luôn từ khoá người ta gõ tìm.
+  const goiLa = tenKhac.length ? ` (còn gọi ${tenKhac.slice(0, 3).join(', ')})` : ''
+  const phan = [`Bài thuốc ${b.ten}${goiLa}${cau(b.tac_dung) ? ': ' + cau(b.tac_dung) : ''}.`]
+  if (vi.length) phan.push(`Thành phần: ${vi.slice(0, 8).join(', ')}${vi.length > 8 ? '…' : '.'}`)
+  if (cau(b.xuat_xu)) phan.push(`Xuất xứ: ${cau(b.xuat_xu)}.`)
+  return clipMoTa(phan.join(' '))
 }
 
 
@@ -48,21 +63,33 @@ const baseHtml = readFileSync(indexPath, 'utf8')
 const escAttr = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 const escText = (s) => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
 
-function setTitle(h, t) { return h.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escText(t)}</title>`) }
-function setMeta(h, attr, key, content) {
-  const re = new RegExp(`(<meta\\s+${attr}="${key}"[^>]*\\scontent=")[^"]*(")`, 'i')
-  return re.test(h) ? h.replace(re, `$1${escAttr(content)}$2`)
-    : h.replace(/<\/head>/i, `    <meta ${attr}="${key}" content="${escAttr(content)}">\n  </head>`)
+
+
+// Bản tự sinh → seoTrang (ghi nhận để điền ô CMS + áp phần người biên tập sửa tay).
+function apGhiDeBaiThuoc(gd, b, url, chinh, vi, tenHien, tenKhac) {
+  return seoTrang(() => gd, 'bai_thuoc', b.slug, {
+    // Tên sách không vào tiêu đề (đẩy lên 94–110 ký tự, Google cắt) — trừ khi tên ĐỤNG
+    // tên phương khác, lúc đó nó là thứ duy nhất phân biệt hai trang.
+    title: tieuDeSeo(tenHien, ' — Bài Thuốc Đông Y', ' — Bài Thuốc'),
+    description: moTaBaiThuoc(b, vi, tenKhac),
+    canonical: chinh ? `${DOMAIN}/bai-thuoc/${chinh}/` : url,
+    ogImage: OG_IMAGE,
+    index: duDay(b),
+  })
 }
-function setCanonical(h, href) {
-  const re = /(<link\s+rel="canonical"[^>]*\shref=")[^"]*(")/i
-  return re.test(h) ? h.replace(re, `$1${escAttr(href)}$2`)
-    : h.replace(/<\/head>/i, `    <link rel="canonical" href="${escAttr(href)}">\n  </head>`)
-}
-function setJsonLd(h, obj) {
-  const json = JSON.stringify(obj).replace(/</g, '\\u003c')
-  return h.replace(/\s*<script type="application\/ld\+json"[^>]*>[\s\S]*?<\/script>/i, '')
-    .replace(/<\/head>/i, `    <script type="application/ld+json" id="seo-jsonld">${json}</script>\n  </head>`)
+
+// Liên kết qua lại giữa bản chính và bản trùng — người đọc biết hai trang là một bài, và
+// bot đi theo được tới bản chính.
+function khoiTrung(b, chinh, banPhu, theoSlug) {
+  if (chinh) {
+    const c = theoSlug.get(chinh)
+    return `<p>Cùng bài thuốc (cùng thành phần) với <a href="/bai-thuoc/${escAttr(chinh)}/">${escText(c?.ten || chinh)}</a>${c?.xuat_xu ? ` — ${escText(cau(c.xuat_xu))}` : ''}.</p>`
+  }
+  const phu = banPhu.get(b.slug)
+  if (!phu?.length) return ''
+  return `<p>Bài này còn được chép ở: ${phu
+    .map((x) => `<a href="/bai-thuoc/${escAttr(x.slug)}/">${escText(x.ten)}</a>${x.xuat_xu ? ` (${escText(cau(x.xuat_xu))})` : ''}`)
+    .join(', ')}.</p>`
 }
 
 // ── Van chống thin/doorway trên site YMYL ───────────────────────────────────
@@ -85,7 +112,7 @@ const chuNhinThay = (b) =>
 const duDay = (b) =>
   soVi(b) >= MIN_SO_VI && chuoi(b.tac_dung).length > 0 && chuNhinThay(b).length >= MIN_CHU_HIEN
 
-function stub(b, nguonCua) {
+function stub(b, nguonCua, trungHtml = '') {
   const tp = Array.isArray(b.thanh_phan) ? b.thanh_phan : []
   const ing = tp.map((t) => {
     const name = escText(t.ten) + (t.lieu ? ` <span>${escText(t.lieu)}</span>` : '')
@@ -94,6 +121,7 @@ function stub(b, nguonCua) {
   return '<div data-seo-stub>'
     + `<nav aria-label="Breadcrumb"><a href="/">Trang Chủ</a> › <a href="/bai-thuoc/">Từ Điển Bài Thuốc</a> › ${escText(b.ten)}</nav>`
     + `<h1>${escText(b.ten)}</h1>`
+    + trungHtml
     + (b.xuat_xu ? `<p>Xuất xứ: <strong>${escText(b.xuat_xu)}</strong></p>` : '')
     + (b.tac_gia ? `<p>Tác giả: <strong>${escText(b.tac_gia)}</strong></p>` : '')
     // Liên kết VỀ NGUỒN. Trước đây xuất xứ chỉ là chữ chết trong <strong>: 13.937 trang
@@ -127,6 +155,7 @@ function stub(b, nguonCua) {
     password: process.env.DB_PASSWORD || process.env.POSTGRES_PASSWORD,
     database: process.env.DB_NAME || process.env.POSTGRES_DATABASE,
     ssl: sslConfig(),
+    ...HEN_GIO_DB,
   })
   try {
     await client.connect()
@@ -157,36 +186,66 @@ function stub(b, nguonCua) {
   }
   await client.end()
 
+  // Bài TRÙNG (cùng tập vị + cùng tên gốc hoặc cùng tác dụng) → canonical về bản chính.
+  // Luật và lý do ở trung-lap-bai-thuoc.mjs.
+  const { veChinh, banPhu } = timTrung(rows, (b) => chuNhinThay(b).length)
+  const theoSlug = new Map(rows.map((b) => [b.slug, b]))
+  console.log(`  trùng lặp: ${veChinh.size} bài trỏ canonical về ${banPhu.size} bản chính.`)
+  // Tên đụng nhau (phương KHÁC nhau chung tên) → kèm tên sách vào tiêu đề cho khỏi trùng.
+  const demTen = new Map()
+  for (const b of rows) { const k = chuoi(b.ten).toLowerCase(); demTen.set(k, (demTen.get(k) || 0) + 1) }
+  const sachNgan = (x) => clipMoTa(cau(String(x || '').split(/[,(;]/)[0]), 28)
+  // Cùng tên VÀ cùng sách mà khác vị (có thật: 10 cặp) → "bản 2", "bản 3" theo id.
+  const thuTuTenSach = new Map()
+  const demTenSach = new Map()
+  for (const b of [...rows].sort((a, c) => a.id - c.id)) {
+    const k = chuoi(b.ten).toLowerCase() + '|' + sachNgan(b.xuat_xu)
+    demTenSach.set(k, (demTenSach.get(k) || 0) + 1)
+    thuTuTenSach.set(b.slug, demTenSach.get(k))
+  }
+  const tenHienCua = (b) => {
+    if (!(demTen.get(chuoi(b.ten).toLowerCase()) > 1)) return b.ten
+    const sach = sachNgan(b.xuat_xu)
+    const thu = thuTuTenSach.get(b.slug)
+    return sach ? `${b.ten} (${sach}${thu > 1 ? `, bản ${thu}` : ''})` : thu > 1 ? `${b.ten} (bản ${thu})` : b.ten
+  }
+
   const urls = []
   let n = 0
   let nNoindex = 0
+  let nCanonical = 0
   for (const b of rows) {
     const gd = ghiDeSEO('bai_thuoc', b.slug)
-    const url = gd?.canonical || `${DOMAIN}/bai-thuoc/${b.slug}/`
-    const index = gd?.noIndex ? false : duDay(b)
-    if (!index) nNoindex++
+    const url = `${DOMAIN}/bai-thuoc/${b.slug}/`
+    const chinh = veChinh.get(b.slug)
     const vi = (Array.isArray(b.thanh_phan) ? b.thanh_phan : []).map((t) => t.ten).filter(Boolean)
-    const title = gd?.title || `${b.ten} — bài thuốc Đông Y${b.xuat_xu ? ' (' + b.xuat_xu + ')' : ''} | Kinh Lạc Trương Gia`
-    const desc = gd?.description || clipMoTa(`Bài thuốc ${b.ten}${b.tac_dung ? ' — ' + b.tac_dung : ''}. Thành phần: ${vi.slice(0, 8).join(', ')}.`)
-    const jsonLd = {
-      '@context': 'https://schema.org', '@type': 'MedicalWebPage', inLanguage: 'vi', url,
-      name: b.ten, description: desc, isAccessibleForFree: true,
-      about: { '@type': 'Drug', name: b.ten, ...(b.tac_dung ? { description: b.tac_dung } : {}), ...(vi.length ? { activeIngredient: vi } : {}) },
-    }
-    let html = baseHtml
-    html = setTitle(html, title)
-    html = setMeta(html, 'name', 'description', desc)
-    html = setMeta(html, 'name', 'robots', index ? 'index, follow' : 'noindex, follow')
-    html = setCanonical(html, url)
-    html = setMeta(html, 'property', 'og:title', title)
-    html = setMeta(html, 'property', 'og:description', desc)
-    html = setMeta(html, 'property', 'og:type', 'article')
-    html = setMeta(html, 'property', 'og:url', url)
+    const tenKhac = [...new Set((banPhu.get(b.slug) || []).map((x) => x.ten).filter((t) => chuoi(t).toLowerCase() !== chuoi(b.ten).toLowerCase()))]
+    const seo = apGhiDeBaiThuoc(gd, b, url, chinh, vi, tenHienCua(b), tenKhac)
+    const index = seo.index !== false && seo.canonical === url
+    if (seo.canonical !== url) nCanonical++
+    else if (!index) nNoindex++
+    const jsonLd = [
+      {
+        '@context': 'https://schema.org', '@type': 'MedicalWebPage', inLanguage: 'vi', url,
+        name: b.ten, description: seo.description, isAccessibleForFree: true,
+        publisher: { '@type': 'Organization', name: SITE, logo: { '@type': 'ImageObject', url: `${DOMAIN}/logo-512.png` } },
+        about: { '@type': 'Drug', name: b.ten, ...(tenKhac.length ? { alternateName: tenKhac } : {}), ...(b.tac_dung ? { description: b.tac_dung } : {}), ...(vi.length ? { activeIngredient: vi } : {}) },
+      },
+      {
+        '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Trang Chủ', item: DOMAIN + '/' },
+          { '@type': 'ListItem', position: 2, name: 'Từ Điển Bài Thuốc', item: `${DOMAIN}/bai-thuoc/` },
+          { '@type': 'ListItem', position: 3, name: b.ten, item: url },
+        ],
+      },
+    ]
+    let html = datMetaSeo(baseHtml, seo, url)
     html = setJsonLd(html, jsonLd)
     // Không dùng \s* (chỉ khớp div RỖNG): nếu prerender-seo.mjs (route "/") chạy trước và đã
     // ghi đè dist/index.html với stub của TRANG CHỦ, div không còn rỗng nữa → [\s\S]*? khớp
     // được nội dung cũ và thay đúng, tránh mọi trang bài thuốc lặp lại nội dung trang chủ.
-    html = html.replace(/<div id="app">[\s\S]*?<\/div>/i, `<div id="app">${stub(b, nguonTheoBai.get(b.id) || [])}</div>`)
+    html = html.replace(/<div id="app">[\s\S]*?<\/div>/i, `<div id="app">${stub(b, nguonTheoBai.get(b.id) || [], khoiTrung(b, chinh, banPhu, theoSlug))}</div>`)
 
     const outDir = join(distDir, 'bai-thuoc', b.slug)
     mkdirSync(outDir, { recursive: true })
@@ -202,5 +261,6 @@ function stub(b, nguonCua) {
     lastmod: new Date().toISOString().slice(0, 10), priority: '0.6',
   })
 
-  console.log(`✓ build-phuong: ${n} trang bài thuốc tĩnh (${nNoindex} noindex: <${MIN_SO_VI} vị / thiếu tác dụng / <${MIN_CHU_HIEN} ký tự) + ${urls.length} URL vào sitemap.`)
+  luuTuSinh()
+  console.log(`✓ build-phuong: ${n} trang bài thuốc tĩnh (${nNoindex} noindex: <${MIN_SO_VI} vị / thiếu tác dụng / <${MIN_CHU_HIEN} ký tự · ${nCanonical} canonical về bản chính) + ${urls.length} URL vào sitemap.`)
 })().catch((e) => { console.warn('⚠ build-phuong: lỗi khi prerender (' + (e && e.message) + ') — BỎ QUA, build vẫn tiếp tục.'); process.exit(0) })

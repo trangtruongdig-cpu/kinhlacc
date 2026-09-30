@@ -66,3 +66,40 @@ export function chenUrl(smPath, tienTo, urls, opts = {}) {
   writeFileSync(smPath, conLai.replace('</urlset>', them + '</urlset>'), 'utf8')
   return { xoa, chen: urls.length }
 }
+
+/**
+ * Đối chiếu sitemap với quyết định index CUỐI CÙNG của từng trang (sau khi áp công tắc
+ * noindex / canonical người biên tập đặt trong CMS). Dùng cho build-dict: phần từ điển của
+ * sitemap do gen-sitemap sinh từ tệp tĩnh TRƯỚC khi biết CMS nói gì, nên trang bị tắt
+ * index trong CMS vẫn nằm trong sitemap — tín hiệu mâu thuẫn mà Search Console báo lỗi.
+ *
+ * @param trang  [{ loc: URL tuyệt đối, index: boolean }]
+ * @returns      { go, them } hoặc null nếu không có sitemap
+ */
+export function doiChieuUrl(smPath, trang, opts = {}) {
+  if (!existsSync(smPath)) return null
+  const sm = readFileSync(smPath, 'utf8')
+  if (!sm.includes('</urlset>')) return null
+  const chuan = (loc) => {
+    let d = loc
+    try { d = new URL(loc).pathname } catch {}
+    return d.endsWith('/') ? d : d + '/'
+  }
+  const khongIndex = new Set(trang.filter((t) => !t.index).map((t) => chuan(t.loc)))
+  const coSan = new Set()
+  let go = 0
+  const conLai = sm.replace(/<url>[\s\S]*?<\/url>\s*/g, (khoi) => {
+    const m = khoi.match(/<loc>([^<]*)<\/loc>/)
+    if (!m) return khoi
+    const d = chuan(m[1])
+    if (khongIndex.has(d)) { go++; return '' }
+    coSan.add(d)
+    return khoi
+  })
+  const cf = opts.changefreq || 'monthly'
+  const pr = opts.priority || '0.6'
+  const moi = trang.filter((t) => t.index && !coSan.has(chuan(t.loc)))
+  const them = moi.map((t) => `<url><loc>${t.loc}</loc><changefreq>${cf}</changefreq><priority>${pr}</priority></url>`).join('')
+  writeFileSync(smPath, conLai.replace('</urlset>', them + '</urlset>'), 'utf8')
+  return { go, them: moi.length }
+}

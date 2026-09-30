@@ -629,6 +629,17 @@ ngược `hasSeo ?? supports.includes("seo")`. Phép kiểm:
 **Đừng thêm `"search"` vào `supports`** dù 4 bộ cũ có: `search()` của EmDash là FTS5 của
 SQLite, trên Postgres là lệnh rỗng.
 
+- ⚠️ **Từ 29/09/2026 ô SEO trong CMS LUÔN ĐẦY CHỮ, và phần lớn là chữ MÁY điền** (kiểu
+  Yoast). Bước cuối `blog:post` là `dong-bo-seo-cms.mjs`: điền bản tự sinh vào ô trống hoặc
+  ô còn đúng chữ máy điền lần trước, GIỮ ô người đã sửa. Phân biệt hai loại nhờ sổ
+  `kl_seo_tu_sinh` (kho `kinhlac_cms`); `seo-cms.mjs` đọc cùng sổ đó nên chỉ áp ô của
+  người. Chỉ ghi khi `SEO_GHI_CMS=1` (Dockerfile đặt) — build ở máy dev chỉ chạy thử.
+  Mọi trang thuộc bộ CMS phải ráp SEO qua **`seoTrang()`** (cửa duy nhất, ghi nhận bản tự
+  sinh); tự ghép chuỗi SEO trong builder là ô CMS của bộ đó thôi cập nhật.
+  Phép kiểm: `node --test scripts/dong-bo-seo-cms.test.mjs scripts/trung-lap-bai-thuoc.test.mjs`.
+- Bài thuốc TRÙNG (cùng tập vị + cùng tên gốc hoặc cùng tác dụng) trỏ canonical về bản dày
+  nhất, rời sitemap (`trung-lap-bai-thuoc.mjs`). Cùng tên mà KHÁC vị thì KHÔNG gom — đó là
+  các phương khác nhau chung tên; tiêu đề kèm tên sách để khỏi trùng.
 - `frontend/scripts/seo-cms.mjs` là khâu nối. Nó mở kết nối RIÊNG tới `kinhlac_cms`
   (builder nối `defaultdb`, hai kho không join chéo được) và đóng ngay — Aiven chỉ 20
   slot. Ô nào để trống thì GIỮ bản tự sinh: ghi đè là bổ sung, không phải thay thế.

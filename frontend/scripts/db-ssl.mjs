@@ -27,3 +27,9 @@ export function sslConfig() {
   }
   return { ca, rejectUnauthorized: true }
 }
+
+// Hẹn giờ cho MỌI kết nối DB của khâu build. pg mặc định chờ VÔ HẠN: ngày 29/09/2026 mạng
+// tới Aiven chập một nhịp (máy ngủ, TCP chết không báo) và build-phuong đứng im 3 giờ rồi
+// 7 giờ trước khi ra `read ETIMEDOUT`. Có hẹn giờ thì builder báo lỗi trong vòng một phút
+// và đi đường "BỎ QUA" đã có sẵn — kiem-sitemap sẽ chặn bản thiếu trang ở cuối.
+export const HEN_GIO_DB = { connectionTimeoutMillis: 30_000, query_timeout: 300_000, keepAlive: true }

@@ -41,11 +41,14 @@ COPY . .
 # ⚠️ Thiếu secret này thì build vẫn XANH, chỉ in cảnh báo, rồi trang nguồn lặng lẽ dùng chữ
 # của app và ghi đè SEO không có tác dụng — đúng kiểu "deploy thành công mà tính năng không
 # chạy". Vì vậy phải truyền, đừng bỏ.
+# SEO_GHI_CMS=1: bước cuối của blog:post (dong-bo-seo-cms.mjs) ĐIỀN ô SEO của CMS bằng bản
+# tự sinh — chỉ bản build deploy mới ghi; build thử ở máy lập trình chỉ chạy thử.
 # CA thì DÙNG LẠI /tmp/aiven-ca.pem trích từ db_env: đã đo, CA của CMS giống HỆT
 # CA_CERTIFICATE của backend (cùng 1.526 ký tự) vì cùng một cụm Aiven.
 RUN --mount=type=secret,id=db_env \
     --mount=type=secret,id=cms_env \
     if [ -f /run/secrets/cms_env ]; then export CMS_ENV_FILE=/run/secrets/cms_env; fi; \
+    export SEO_GHI_CMS=1; \
     if [ -f /run/secrets/db_env ]; then \
       grep -E '^(DB_HOST|DB_PORT|DB_USER|DB_PASSWORD|DB_NAME|DB_SSL)=' /run/secrets/db_env > /tmp/db.env || true; \
       set -a; . /tmp/db.env; set +a; rm -f /tmp/db.env; \
