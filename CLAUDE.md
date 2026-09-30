@@ -298,12 +298,38 @@ dụng ngay khi có một lối đi tránh nó.
 30.202 ký tự. `--cat` mặc định 4000 ký tự mỗi trường là ĐÁNH ĐỔI (mất phần cuối bài), không
 phải cải tiến. Soi kỹ cả bài thì xuất 1 mục một lượt với `--cat 0`.
 
+**Bot TỰ SỬA lỗi hình thức (cron 04:00).** Đây là chỗ DUY NHẤT bot đổi nội dung mà không
+có người bấm. Ba lớp chặn, phải qua cả ba:
+
+1. Chỉ kiểu `dau_cau_sai` (`ThamDinhService.KIEU_TU_SUA`). Rác mã hoá KHÔNG nằm trong đó
+   dù cũng là lỗi chữ: máy biết chữ hỏng nhưng không biết chữ đúng. Cả kho 21 chỗ — sửa
+   tay nhanh hơn dạy máy đoán.
+2. Bản sửa do LUẬT sinh (`suaHinhThuc`), không phải mô hình viết.
+3. `chiKhacHinhThuc`: bỏ hết khoảng trắng và dấu câu khỏi hai bản thì phần chữ còn lại
+   phải **giống hệt**. `"Bán hạ 6g" → "Bán hạ 8g"` bị chặn (liều là nội dung);
+   `"bổ Thận khí" → "bổ thận khí"` bị chặn (tạng phủ viết hoa có nghĩa).
+
+⚠️ Lớp 3 là lớp chịu lực, và lý do nó tồn tại rất cụ thể: lúc bàn chuyện tự sửa, phép dò
+dấu câu đang **vu oan 2.604 lượt**. Không có nó thì 2.604 chỗ viết đúng đã bị sửa thành
+sai trên 754 mục, và không ai đọc lại để biết. **Chưa đo tỉ lệ đúng của một phép dò thì
+chưa được cho nó tự sửa.**
+
+`POST /tham-dinh/tu-sua` mặc định CHẠY THỬ, phải `?ghi=1` mới ghi — cùng lối
+`dong-bo-app.mjs`.
+
+⚠️ **Ca soi phải NGHỈ giữa các lô** (`NGHI_GIUA_LO_MS`, 120ms). Không phải để chiều máy
+chủ mà để không giành backend với người đang xem web. Đo thật 30/09/2026: trong lúc ca
+chạy, `/demo/bai-thuoc/50` treo 12 giây rồi đứt; ca vừa xong thì chính nó trả 200 trong
+10ms. Tab Góp Ý & Lỗi đã ghi hậu quả: **172 lần "failed to fetch" và 27 lần lỗi 500 ở các
+trang `/demo/*`** — bot làm hỏng trang giới thiệu của chính mình.
+
 **Nhịp tự hành (cron, chỉ chạy khi máy chủ bật — tức trên VPS, không phải máy dev):**
 
 | Giờ | Việc | Tốn |
 |---|---|---|
 | 02:00 | Lớp 1 quét cả kho, nộp cụm việc vào Góp Ý & Lỗi | 0đ |
 | 03:00 | Lớp 2 đọc kỹ `THAM_DINH_MOI_CA` mục đầu hàng đợi | vài đô/tháng |
+| 04:00 | Tự sửa lỗi hình thức trong kho (chỉ `dau_cau_sai`, qua ba lớp chặn) | 0đ |
 | 06:00 | `su-co` tự dựng hồ sơ chẩn đoán cho cụm lỗi mới (`SU_CO_TU_PHAN_TICH_MOI_CA`, mặc định 10) | vài xu |
 
 Mỗi ca ghi một dòng vào `td_ca_soi`; khối "Bot làm gì gần đây" đầu màn `/app/tham-dinh`
