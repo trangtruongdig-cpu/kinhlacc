@@ -294,8 +294,15 @@ export class ThamDinhCmsService {
 
       const ids = [...idTheoKhoa.values()];
       if (ids.length) {
+        // ⚠️ CHỈ xoá nhận xét còn ở trạng thái `moi`.
+        //
+        // Bản đầu xoá sạch, và nó cuốn theo cả những cái người dùng đã bấm duyệt hoặc bot
+        // đã tự sửa. Đo thật 30/09/2026: 30 nhận xét `da_ap` biến mất sau một ca quét, và
+        // bên lớp thầy thuốc thì 11 `da_ap` còn 3. Tức công duyệt của người dùng bị xoá
+        // mỗi đêm, lặng lẽ, và `revisions` là thứ duy nhất còn lại để biết đã sửa gì.
         await c.query(
-          `DELETE FROM td_nhan_xet WHERE lop = 'may' AND ho_so_id = ANY($1::int[])`,
+          `DELETE FROM td_nhan_xet
+           WHERE lop = 'may' AND trang_thai = 'moi' AND ho_so_id = ANY($1::int[])`,
           [ids],
         );
       }
@@ -438,7 +445,12 @@ export class ThamDinhCmsService {
         return;
       }
       const id = r.rows[0].id;
-      await c.query(`DELETE FROM td_nhan_xet WHERE ho_so_id = $1 AND lop = 'thay_thuoc'`, [id]);
+      // Giữ nguyên cái đã duyệt / đã áp / đã bỏ qua — xem chú thích ở ghiHoSoLo.
+      await c.query(
+        `DELETE FROM td_nhan_xet
+         WHERE ho_so_id = $1 AND lop = 'thay_thuoc' AND trang_thai = 'moi'`,
+        [id],
+      );
       for (const n of ds) {
         await c.query(
           `INSERT INTO td_nhan_xet
