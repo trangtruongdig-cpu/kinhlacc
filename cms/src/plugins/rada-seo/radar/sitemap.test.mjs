@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { layLoc, chuanTenMien, laUrlNoiDung, thuThapUrl } from "./sitemap.mjs";
+import { layLoc, chuanTenMien, laUrlNoiDung, thuThapUrl, phanLoaiSitemap } from "./sitemap.mjs";
 import { webGia } from "../__test__/kho-gia.mjs";
 
 test("chuanTenMien", () => {
@@ -27,8 +27,8 @@ test("thuThapUrl: robots → index → sitemap con; bỏ sitemap trỏ ra ngoài
 		"https://a.com/s1.xml": "<urlset><url><loc>https://a.com/b1</loc></url><url><loc>https://a.com/b2</loc></url><url><loc>https://a.com/b1</loc></url><url><loc>https://a.com/</loc></url></urlset>",
 		"https://a.com/sitemap.xml": "<urlset><url><loc>https://www.a.com/b3</loc></url></urlset>",
 	});
-	assert.deepEqual((await thuThapUrl("a.com", web)).sort(), ["https://a.com/b1", "https://a.com/b2", "https://www.a.com/b3"]);
-	assert.equal((await thuThapUrl("a.com", web, { tranUrl: 2 })).length, 2);
+	assert.deepEqual((await thuThapUrl("a.com", web)).urls.sort(), ["https://a.com/b1", "https://a.com/b2", "https://www.a.com/b3"]);
+	assert.equal((await thuThapUrl("a.com", web, { tranUrl: 2 })).urls.length, 2);
 });
 
 test("thuThapUrl: lấy bài MỚI NHẤT trước khi áp trần (Yoast liệt kê cũ trước)", async () => {
@@ -41,7 +41,27 @@ test("thuThapUrl: lấy bài MỚI NHẤT trước khi áp trần (Yoast liệt 
 		"https://a.com/s-cu.xml": `<urlset>${url("https://a.com/p1", "2024-01-01")}${url("https://a.com/p2", "2024-02-01")}</urlset>`,
 		"https://a.com/s-moi.xml": `<urlset>${url("https://a.com/p3", "2026-01-01")}${url("https://a.com/khong-ngay")}${url("https://a.com/p4", "2026-03-01")}</urlset>`,
 	});
-	assert.deepEqual(await thuThapUrl("a.com", web, { tranUrl: 2 }), ["https://a.com/p4", "https://a.com/p3"]);
+	assert.deepEqual((await thuThapUrl("a.com", web, { tranUrl: 2 })).urls, ["https://a.com/p4", "https://a.com/p3"]);
 	// Không trần: mục có ngày xếp mới→cũ, mục không ngày xếp sau, giữ thứ tự gặp.
-	assert.deepEqual(await thuThapUrl("a.com", web), ["https://a.com/p4", "https://a.com/p3", "https://a.com/p2", "https://a.com/p1", "https://a.com/khong-ngay"]);
+	assert.deepEqual((await thuThapUrl("a.com", web)).urls, ["https://a.com/p4", "https://a.com/p3", "https://a.com/p2", "https://a.com/p1", "https://a.com/khong-ngay"]);
+});
+
+test("phanLoaiSitemap: giữ bài viết, bỏ bác sĩ/dịch vụ/danh mục, không rõ thì giữ", () => {
+	for (const u of ["https://a.vn/post-sitemap.xml", "https://a.vn/post-sitemap2.xml", "https://a.vn/tin-tuc-sitemap.xml", "https://a.vn/sitemap-blog.xml", "https://a.vn/cam-nang/sitemap.xml"])
+		assert.equal(phanLoaiSitemap(u), "bai_viet", u);
+	for (const u of ["https://a.vn/page-sitemap.xml", "https://a.vn/category-sitemap.xml", "https://a.vn/bac-si-sitemap.xml", "https://a.vn/chi-nhanh-sitemap.xml", "https://a.vn/dich-vu-sitemap.xml", "https://a.vn/tuyen-dung-sitemap.xml", "https://a.vn/post_tag-sitemap.xml", "https://a.vn/author-sitemap.xml"])
+		assert.equal(phanLoaiSitemap(u), "bo", u);
+	assert.equal(phanLoaiSitemap("https://a.vn/sitemap-3.xml"), "khong_ro");
+});
+
+test("thuThapUrl: bỏ sitemap con loại 'bo', trả danh sách đã bỏ", async () => {
+	const web = webGia({
+		"https://a.com/sitemap.xml": "<sitemapindex><sitemap><loc>https://a.com/post-sitemap.xml</loc></sitemap><sitemap><loc>https://a.com/bac-si-sitemap.xml</loc></sitemap><sitemap><loc>https://a.com/sitemap-9.xml</loc></sitemap></sitemapindex>",
+		"https://a.com/post-sitemap.xml": "<urlset><url><loc>https://a.com/bai-1</loc></url></urlset>",
+		"https://a.com/bac-si-sitemap.xml": "<urlset><url><loc>https://a.com/bs-an</loc></url></urlset>",
+		"https://a.com/sitemap-9.xml": "<urlset><url><loc>https://a.com/khac</loc></url></urlset>",
+	});
+	const kq = await thuThapUrl("a.com", web);
+	assert.deepEqual(kq.urls.sort(), ["https://a.com/bai-1", "https://a.com/khac"]);
+	assert.deepEqual(kq.sitemapBo, ["https://a.com/bac-si-sitemap.xml"]);
 });

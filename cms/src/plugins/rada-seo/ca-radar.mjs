@@ -40,13 +40,15 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 	const ca = {
 		loai: "radar", batDau: now(), ketThuc: null, ghi,
 		soUrlMoi: 0, soSeTrich: 0, soTrich: 0, soNgoaiNganh: 0, soLoiTrang: 0,
-		soXuHuong: 0, soCum: 0, xuHuong: [], loi: [],
+		soXuHuong: 0, soCum: 0, xuHuong: [], loi: [], sitemapBo: [],
 	};
 	const doiThu = await kho.dsDoiThu(s);
 	let dung = null;
 	for (const d of doiThu) {
 		try {
-			const urls = await thuThapUrl(d.tenMien, docWeb);
+			const { urls, sitemapBo } = await thuThapUrl(d.tenMien, docWeb);
+			// Nhật ký ghi tên sitemap đã bỏ để người quản trị soát luật phân loại (cắt 20 dòng).
+			ca.sitemapBo.push(...sitemapBo.slice(0, 20 - ca.sitemapBo.length));
 			const soMoi = await kho.themUrlMoi(s, d.tenMien, urls, { ghi, now: now(), nghi });
 			ca.soUrlMoi += soMoi;
 			const hang = await kho.layUrlCho(s, d.tenMien, tranMoiDoiThu);

@@ -70,3 +70,20 @@ test("hạn chót đã qua: không trích trang nào, ghi chú vào nhật ký",
 	assert.equal(ca.soTrich, 0);
 	assert.ok(ca.loi.includes("Dừng trích: chạm hạn ca"));
 });
+
+test("sitemap con loại 'bo' của mọi đối thủ ghi vào ca.sitemapBo (cắt 20)", async () => {
+	const s = taoKhoGia();
+	const bang = {};
+	for (const tm of ["a.vn", "b.vn"]) {
+		await kho.luuDoiThu(s, { tenMien: tm }, "t");
+		const con = Array.from({ length: 12 }, (_, i) => `https://${tm}/bac-si-sitemap${i}.xml`);
+		bang[`https://${tm}/sitemap.xml`] = `<sitemapindex>${[...con, `https://${tm}/post-sitemap.xml`].map((u) => `<sitemap><loc>${u}</loc></sitemap>`).join("")}</sitemapindex>`;
+		bang[`https://${tm}/post-sitemap.xml`] = `<urlset><url><loc>https://${tm}/bai</loc></url></urlset>`;
+	}
+	const ca = await chayCaRadar({ s, docWeb: webGia(bang), ghi: false, nghi });
+	assert.equal(ca.soUrlMoi, 2);
+	assert.equal(ca.sitemapBo.length, 20);
+	assert.ok(ca.sitemapBo.includes("https://a.vn/bac-si-sitemap0.xml"));
+	assert.ok(ca.sitemapBo.includes("https://b.vn/bac-si-sitemap0.xml"));
+	assert.equal((await kho.dsCa(s))[0].sitemapBo.length, 20);
+});

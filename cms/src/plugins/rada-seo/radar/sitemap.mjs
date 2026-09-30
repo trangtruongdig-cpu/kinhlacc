@@ -2,6 +2,8 @@
 // Chỉ đọc URL CÙNG TÊN MIỀN với đối thủ đã khai — một sitemap trỏ ra ngoài không kéo được
 // radar đi đọc nơi khác (lớp chống SSRF thứ hai, sau urlDocDuoc).
 
+import { boDau } from "../luat/chuan-hoa.mjs";
+
 export const TRAN_SITEMAP = 15;
 export const TRAN_URL = 300;
 
@@ -52,6 +54,34 @@ export function moiTruoc(muc) {
 	});
 }
 
+// Phân loại sitemap CON theo tên. Đối thủ là bệnh viện/phòng khám: ngoài bài viết họ còn
+// sitemap trang bác sĩ, chi nhánh, dịch vụ, tuyển dụng, danh mục… — quét chúng chỉ tốn trần
+// sitemap/URL rồi đổ rác vào hàng chờ Claude đọc. Nhóm "bo" xét TRƯỚC: "post_tag-sitemap"
+// chứa cả "post" lẫn "tag" nhưng là trang thẻ, không phải bài.
+const DAU_BO = ["page-sitemap", "category", "tag", "author", "product", "san-pham", "bac-si", "doctor", "chi-nhanh", "branch", "dich-vu", "service", "tuyen-dung", "career", "video", "image", "faq", "landing"];
+const DAU_BAI_VIET = ["post", "blog", "tin-tuc", "bai-viet", "news", "article", "kien-thuc", "cam-nang"];
+
+/**
+ * Loại sitemap con theo đường dẫn + tên tệp (chữ thường, bỏ dấu; KHÔNG xét tên miền).
+ * "khong_ro" vẫn quét: bỏ sót bài tệ hơn quét thừa, lọc ngách ở khâu trích lo phần rác.
+ * @returns {"bai_viet"|"bo"|"khong_ro"}
+ */
+export function phanLoaiSitemap(url) {
+	let duong;
+	try {
+		duong = new URL(url).pathname;
+	} catch {
+		duong = String(url ?? "");
+	}
+	try {
+		duong = decodeURIComponent(duong);
+	} catch {}
+	duong = boDau(duong);
+	if (DAU_BO.some((d) => duong.includes(d))) return "bo";
+	if (DAU_BAI_VIET.some((d) => duong.includes(d))) return "bai_viet";
+	return "khong_ro";
+}
+
 export function laSitemapIndex(xml) {
 	return /<sitemapindex[\s>]/i.test(String(xml ?? ""));
 }
@@ -89,9 +119,11 @@ export function laUrlNoiDung(url, tenMien) {
  * sitemap con cũ trước; áp trần theo thứ tự tài liệu thì radar kẹt mãi ở 300 bài cổ nhất.
  * Nên: đi sitemap con theo lastmod mới → cũ, gom mọi trang của sitemap đã đọc, xếp mới → cũ,
  * rồi mới cắt ở tranUrl.
+ * Sitemap CON loại "bo" (xem phanLoaiSitemap) không đọc; sitemap gốc (robots, /sitemap.xml,
+ * /sitemap_index.xml) luôn đọc.
  * @param {string} tenMien  đã qua chuanTenMien
  * @param {(url: string) => Promise<string>} docWeb
- * @returns {Promise<string[]>}
+ * @returns {Promise<{urls: string[], sitemapBo: string[]}>}  sitemapBo: sitemap con đã bỏ
  */
 export async function thuThapUrl(tenMien, docWeb, { tranSitemap = TRAN_SITEMAP, tranUrl = TRAN_URL } = {}) {
 	const hang = [];
@@ -100,6 +132,7 @@ export async function thuThapUrl(tenMien, docWeb, { tranSitemap = TRAN_SITEMAP, 
 	hang.push(`https://${tenMien}/sitemap.xml`, `https://${tenMien}/sitemap_index.xml`);
 
 	const daXem = new Set();
+	const sitemapBo = [];
 	/** url → mục (giữ lần gặp đầu; Map giữ thứ tự gặp cho các mục hoà nhau). */
 	const trang = new Map();
 	let daDoc = 0;
@@ -114,11 +147,18 @@ export async function thuThapUrl(tenMien, docWeb, { tranSitemap = TRAN_SITEMAP, 
 		if (!xml) continue;
 		if (laSitemapIndex(xml)) {
 			// Chen sitemap con lên ĐẦU hàng, mới nhất trước.
-			const con = moiTruoc(layMuc(xml)).map((m) => m.loc).filter((loc) => cungTenMien(loc, tenMien) && !daXem.has(loc));
+			const con = [];
+			for (const { loc } of moiTruoc(layMuc(xml))) {
+				if (!cungTenMien(loc, tenMien) || daXem.has(loc)) continue;
+				if (phanLoaiSitemap(loc) === "bo") {
+					daXem.add(loc);
+					sitemapBo.push(loc);
+				} else con.push(loc);
+			}
 			hang.unshift(...con);
 		} else {
 			for (const m of layMuc(xml)) if (laUrlNoiDung(m.loc, tenMien) && !trang.has(m.loc)) trang.set(m.loc, m);
 		}
 	}
-	return moiTruoc([...trang.values()]).slice(0, tranUrl).map((m) => m.loc);
+	return { urls: moiTruoc([...trang.values()]).slice(0, tranUrl).map((m) => m.loc), sitemapBo };
 }
