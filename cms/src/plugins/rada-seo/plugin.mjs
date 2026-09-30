@@ -3,7 +3,7 @@
 //
 // Dạng đăng ký đã ĐO ở bước 0 (docs/superpowers/plans/2026-09-30-rada-seo-ket-qua-buoc-0.md):
 // EmDash nạp module này qua descriptor native và gọi createPlugin(); default export KHÔNG dùng.
-import { definePlugin } from "emdash";
+import { definePlugin, PluginRouteError } from "emdash";
 import { KHAI_BAO_KHO } from "./kho.mjs";
 import * as kho from "./kho.mjs";
 import { chuanTenMien } from "./radar/sitemap.mjs";
@@ -31,15 +31,17 @@ const soMoiTruong = (ten, macDinh) => {
  */
 const caDemBat = () => process.env.RADA_SEO_CA_DEM === "1";
 
+/** @returns {Promise<string|null>} revision của khoá vừa giành được, null nếu đã có ca khác giữ. */
 async function giuKhoa(kv) {
 	const cu = await kv.getVersioned(KHOA_CA);
-	if (cu && cu.value?.het > Date.now()) return false;
+	if (cu && cu.value?.het > Date.now()) return null;
 	const r = await kv.compareAndSet(KHOA_CA, cu?.revision ?? null, { tu: new Date().toISOString(), het: Date.now() + HAN_KHOA_MS });
-	return r.applied;
+	return r.applied ? r.revision : null;
 }
 
 async function chayCa(ctx, ghi) {
-	if (!(await giuKhoa(ctx.kv))) {
+	const revision = await giuKhoa(ctx.kv);
+	if (!revision) {
 		ctx.log.warn("Rada SEO: đã có một ca đang chạy, bỏ qua lượt này");
 		return null;
 	}
@@ -61,7 +63,9 @@ async function chayCa(ctx, ghi) {
 		ctx.log.error("Rada SEO: ca hỏng", e);
 		return null;
 	} finally {
-		await ctx.kv.delete(KHOA_CA);
+		// So khớp đúng revision đã giành: một ca cũ quá hạn khoá (coi như đã chết, xem giuKhoa)
+		// không được xoá khoá của ca MỚI vừa giành lại — compareAndDelete chỉ xoá khi còn khớp.
+		await ctx.kv.compareAndDelete(KHOA_CA, revision);
 	}
 }
 
@@ -87,7 +91,13 @@ export function createPlugin() {
 					});
 					return;
 				}
-				await chayCa(ctx, true);
+				// THẢ ca chạy nền, không await: EmDash bọc mọi hook cron bằng executeWithTimeout
+				// (5 giây mặc định — resolveHook trong node_modules/emdash), và bộ lập lịch cron
+				// của Node chỉ lên dây lại SAU KHI hook resolve. Await trọn một ca radar (có thể
+				// vài giờ) sẽ vừa ghi "Hook timeout after 5000ms" giả mỗi đêm vừa treo mọi cron
+				// task khác của CMS cho tới khi ca xong. Khoá KV (giuKhoa/compareAndDelete ở
+				// chayCa) chống chạy chồng nếu một tick cron khác tới trước khi ca này xong.
+				chayCa(ctx, true).catch((e) => ctx.log.error("Rada SEO: ca đêm hỏng", e));
 			},
 		},
 		routes: {
@@ -96,7 +106,14 @@ export function createPlugin() {
 					const doiThu = await kho.dsDoiThu(ctx.storage);
 					for (const d of doiThu) d.dem = await kho.demUrl(ctx.storage, d.id);
 					const ca = await kho.dsCa(ctx.storage, 10);
-					const thanhCong = ca.find((c) => c.ghi && !c.loi?.length && c.ketThuc);
+					// "Thành công" = ca thật sự đi qua chayCaRadar (chỉ hàm đó gán soSePhanTich, một
+					// số — dòng lỗi trước khi vào ca và dòng "nhả ca" ở trên đều KHÔNG có trường này).
+					// Không đòi `loi` rỗng: một ca chạy đúng vẫn có thể đẩy ghi chú hết ngân sách
+					// (HetNganSach) hoặc lỗi sitemap của MỘT đối thủ vào `loi` mà cả ca vẫn hoàn tất —
+					// đòi rỗng làm cảnh báo "26 giờ" đỏ vĩnh viễn dù đêm nào ca cũng chạy xong. Tra
+					// trong 100 ca gần nhất (không phải 10 dòng hiển thị `ca`) để không bỏ sót.
+					const canhChe = await kho.dsCa(ctx.storage, 100);
+					const thanhCong = canhChe.find((c) => c.ghi && c.ketThuc && typeof c.soSePhanTich === "number");
 					const khoa = await ctx.kv.get(KHOA_CA);
 					return {
 						doiThu,
@@ -113,20 +130,29 @@ export function createPlugin() {
 				handler: async (ctx) => {
 					const { tenMien, ten, laCuaMinh } = vao(ctx);
 					const tm = chuanTenMien(tenMien);
-					if (!tm) throw new Error("Tên miền không hợp lệ");
+					if (!tm) throw PluginRouteError.badRequest("Tên miền không hợp lệ");
 					await kho.luuDoiThu(ctx.storage, { tenMien: tm, ten: String(ten ?? "").trim(), laCuaMinh: !!laCuaMinh }, new Date().toISOString());
 					return { tenMien: tm };
 				},
 			},
 			"doi-thu-xoa": {
-				handler: async (ctx) => ({ soUrlDaXoa: await kho.xoaDoiThu(ctx.storage, chuanTenMien(vao(ctx).tenMien)) }),
+				handler: async (ctx) => {
+					const tm = chuanTenMien(vao(ctx).tenMien);
+					if (!tm) throw PluginRouteError.badRequest("Tên miền không hợp lệ");
+					return { soUrlDaXoa: await kho.xoaDoiThu(ctx.storage, tm) };
+				},
 			},
 			"cum-trang-thai": {
 				handler: async (ctx) => {
 					const { id, trangThai } = vao(ctx);
 					// Màn điều khiển chỉ được bỏ qua / khôi phục; các trạng thái khác do lò viết đặt.
-					if (!["bo_qua", "cho_viet"].includes(trangThai)) throw new Error("Chỉ được đặt bo_qua hoặc cho_viet");
-					await kho.datTrangThaiCum(ctx.storage, String(id), trangThai);
+					if (!["bo_qua", "cho_viet"].includes(trangThai)) throw PluginRouteError.badRequest("Chỉ được đặt bo_qua hoặc cho_viet");
+					try {
+						await kho.datTrangThaiCum(ctx.storage, String(id), trangThai);
+					} catch (e) {
+						if (e?.message === "Không có cụm này") throw PluginRouteError.notFound("Không có cụm này");
+						throw e;
+					}
 					return { id, trangThai };
 				},
 			},
@@ -142,8 +168,8 @@ export function createPlugin() {
 				// Chạy NỀN rồi trả ngay: một ca thật kéo dài nhiều phút, quá hạn chờ của nginx.
 				handler: async (ctx) => {
 					const ghi = vao(ctx).ghi === true;
-					if (ghi && !caDemBat()) throw new Error("Máy này không bật RADA_SEO_CA_DEM — chỉ được chạy thử");
-					void chayCa(ctx, ghi);
+					if (ghi && !caDemBat()) throw PluginRouteError.badRequest("Máy này không bật RADA_SEO_CA_DEM — chỉ được chạy thử");
+					chayCa(ctx, ghi).catch((e) => ctx.log.error("Rada SEO: ca nền hỏng", e));
 					return { daBatDau: true, ghi };
 				},
 			},

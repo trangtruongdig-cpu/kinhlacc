@@ -24,7 +24,7 @@ function RadaSeo() {
 	const [loi, setLoi] = useState("");
 	const [form, setForm] = useState({ tenMien: "", ten: "", laCuaMinh: false });
 
-	const tai = useCallback(() => goi("tong-quan").then(setDl, (e) => setLoi(e.message)), []);
+	const tai = useCallback(() => goi("tong-quan").then((d) => { setDl(d); setLoi(""); }, (e) => setLoi(e.message)), []);
 	useEffect(() => {
 		tai();
 	}, [tai]);
@@ -41,8 +41,8 @@ function RadaSeo() {
 			<p>
 				Lịch đêm: {lichRadar ? `02:30 hằng ngày · lần tới ${gio(lichRadar.nextRunAt)} · lần trước ${gio(lichRadar.lastRunAt)}` : "chưa bật"}{" "}
 				<button onClick={() => lam("lich-bat")}>{lichRadar ? "Hẹn lại" : "Bật lịch"}</button>{" "}
-				<button disabled={dl.dangChay} onClick={() => lam("ca-chay", { ghi: false })}>Chạy thử</button>{" "}
-				<button disabled={dl.dangChay || !dl.caDemBat} onClick={() => lam("ca-chay", { ghi: true })}>Chạy thật</button>{" "}
+				<button disabled={dl.dangChay} onClick={() => lam("ca-chay", { ghi: false }).then(() => setTimeout(tai, 2000))}>Chạy thử</button>{" "}
+				<button disabled={dl.dangChay || !dl.caDemBat} onClick={() => lam("ca-chay", { ghi: true }).then(() => setTimeout(tai, 2000))}>Chạy thật</button>{" "}
 				{dl.dangChay && "· đang chạy…"} <button onClick={tai}>Tải lại</button>
 			</p>
 
@@ -85,7 +85,7 @@ function RadaSeo() {
 						<tr key={c.id} style={{ opacity: c.trangThai === "bo_qua" ? 0.5 : 1 }}>
 							<td style={o}>{c.diem}{c.coXuHuong && " 📈"}{c.viPham && " ⚠"}</td>
 							<td style={o}>{c.tenCum}</td>
-							<td style={o}>{c.tuKhoa.join(", ")}</td>
+							<td style={o}>{(c.tuKhoa ?? []).join(", ")}</td>
 							<td style={o}>{c.soDoiThu} / {c.soBai}</td>
 							<td style={o}>{NHAN_CUM[c.trangThai] ?? c.trangThai}</td>
 							<td style={o}>
