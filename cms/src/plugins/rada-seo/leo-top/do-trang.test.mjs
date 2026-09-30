@@ -1,0 +1,117 @@
+import { test } from "node:test";
+import assert from "node:assert/strict";
+import { doTrang } from "./do-trang.mjs";
+
+const TU_KHOA = "huyệt thần môn";
+
+// Trang A: trả lời ngay đoạn đầu, có bảng, FAQ (JSON-LD), tác giả, nguồn ngoài.
+const HTML_A = `<!doctype html><html><head>
+<title>Huyệt Thần Môn: vị trí và cách bấm</title>
+<meta content="Thần Môn nằm ở nếp gấp cổ tay." name="description">
+<meta name="author" content="Lương y A">
+<meta property="article:modified_time" content="2026-08-01T10:00:00+07:00">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+ {"@type":"Article","headline":"x","dateModified":"2026-07-01","author":{"@type":"Person","name":"A"}},
+ {"@type":["FAQPage"],"mainEntity":[]}]}</script>
+<style>.a{color:red}</style>
+</head><body>
+<header><nav><a href="https://menu.example/">Trang chủ menu rất nhiều chữ</a></nav></header>
+<main><article>
+<h1>Huyệt Thần Môn</h1>
+<p>Huyệt Thần Môn nằm ở nếp gấp cổ tay, phía xương đậu.</p>
+<h2>Vị trí</h2><h3>Cách xác định</h3>
+<table><tr><td>Kinh</td><td>Tâm</td></tr></table>
+<ul><li>Ngồi thẳng</li></ul><ol><li>Bấm nhẹ</li></ol>
+<img src="/a.png" alt="a"><img src="/b.png" alt="b">
+<p>Tham khảo <a href="https://pubmed.ncbi.nlm.nih.gov/1">PubMed</a>, <a href="https://who.int/x">WHO</a>,
+<a href="https://www.hs.vn/khac">trang mình</a>, <a href="/huyet/noi-bo/">nội bộ</a>, <a href="https://who.int/x">WHO lặp</a>.</p>
+<script>var x = "huyệt thần môn rác";</script>
+</article></main>
+<aside>Bài liên quan: huyệt thần môn ở aside</aside>
+<footer>Chân trang <a href="https://fb.com/x">fb</a></footer>
+</body></html>`;
+
+// Trang B: trả lời muộn, không nguồn, không tác giả, ngày chỉ có ở <time>.
+const LOI_DAN = Array.from({ length: 40 }, (_, i) => `chữ${i}`).join(" ");
+const HTML_B = `<html><head><title>Bài B</title></head><body>
+<h1>Mọi điều về giấc ngủ</h1>
+<p>${LOI_DAN}</p>
+<p>${LOI_DAN}</p>
+<time datetime="2023-01-05">5/1/2023</time>
+<h2>Câu hỏi thường gặp</h2>
+<p>Thần Môn là huyệt gì? Huyệt Thần Môn thuộc kinh Tâm.</p>
+<a href="https://b.vn/khac">nội bộ tuyệt đối</a>
+</body></html>`;
+
+test("trang A: trả lời sớm, bảng, FAQ, tác giả, nguồn ngoài", () => {
+	const d = doTrang(HTML_A, { tuKhoa: TU_KHOA, url: "https://hs.vn/huyet-than-mon" });
+	assert.equal(d.tieuDe, "Huyệt Thần Môn: vị trí và cách bấm");
+	assert.equal(d.moTa, "Thần Môn nằm ở nếp gấp cổ tay.");
+	// Chỉ có "Huyệt Thần Môn" (tiêu đề h1, 3 chữ) đứng trước đoạn trả lời.
+	assert.equal(d.viTriTraLoi, 3);
+	assert.equal(d.soH2, 1);
+	assert.equal(d.soH3, 1);
+	assert.equal(d.coBang, true);
+	assert.equal(d.soDanhSach, 2);
+	assert.equal(d.soHinh, 2);
+	assert.equal(d.coFaq, true);
+	assert.deepEqual([...d.loaiJsonLd].sort(), ["Article", "FAQPage", "Person"]);
+	// article:modified_time thắng JSON-LD dateModified.
+	assert.equal(d.ngayCapNhat, "2026-08-01T10:00:00+07:00");
+	assert.equal(d.coTacGia, true);
+	// pubmed + who.int (lặp tính một); www.hs.vn cùng miền; /huyet/ nội bộ; nav/footer không tính.
+	assert.equal(d.soNguonNgoai, 2);
+	assert.doesNotMatch(d.chu, /menu|aside|Chân trang|rác|color/);
+	assert.doesNotMatch(d.chu, /\s{2}/);
+	assert.equal(d.soChu, d.chu.split(" ").filter((w) => /[\p{L}\p{N}]/u.test(w)).length);
+	// Dấu câu không thành "chữ" lẻ khi bóc thẻ.
+	assert.match(d.chu, /PubMed, WHO/);
+});
+
+test("trang B: trả lời muộn, không nguồn, không tác giả, ngày từ <time>, FAQ theo tiêu đề", () => {
+	const d = doTrang(HTML_B, { tuKhoa: TU_KHOA, url: "https://b.vn/bai" });
+	// h1 5 chữ + 2 × 40 chữ + <time> 1 chữ + h2 4 chữ = 90 chữ đứng trước.
+	assert.equal(d.viTriTraLoi, 90);
+	assert.equal(d.coBang, false);
+	assert.equal(d.soNguonNgoai, 0);
+	assert.equal(d.coTacGia, false);
+	assert.equal(d.ngayCapNhat, "2023-01-05");
+	assert.equal(d.coFaq, true);
+	assert.deepEqual(d.loaiJsonLd, []);
+	assert.equal(d.moTa, "");
+});
+
+test("ngày: không có meta thì lấy JSON-LD dateModified; tác giả qua chữ 'Tham vấn'", () => {
+	const html = `<head><script type="application/ld+json">{"@type":"WebPage","dateModified":"2025-03-02"}</script></head>
+<body><p>Tham vấn chuyên môn: Y sỹ B</p><time datetime="2020-01-01">x</time></body>`;
+	const d = doTrang(html, { tuKhoa: TU_KHOA, url: "https://c.vn/" });
+	assert.equal(d.ngayCapNhat, "2025-03-02");
+	assert.equal(d.coTacGia, true);
+	assert.equal(d.viTriTraLoi, null);
+});
+
+test("trang rỗng / JSON-LD hỏng không ném lỗi", () => {
+	for (const html of ["", null, `<script type="application/ld+json">{hỏng</script>`]) {
+		const d = doTrang(html, { tuKhoa: TU_KHOA, url: "https://d.vn/" });
+		assert.equal(d.tieuDe, "");
+		assert.equal(d.soChu, 0);
+		assert.equal(d.chu, "");
+		assert.equal(d.viTriTraLoi, null);
+		assert.equal(d.soH2, 0);
+		assert.equal(d.coBang, false);
+		assert.equal(d.soDanhSach, 0);
+		assert.equal(d.soHinh, 0);
+		assert.equal(d.coFaq, false);
+		assert.deepEqual(d.loaiJsonLd, []);
+		assert.equal(d.ngayCapNhat, null);
+		assert.equal(d.coTacGia, false);
+		assert.equal(d.soNguonNgoai, 0);
+	}
+});
+
+test("so từ khoá bỏ dấu, cần ≥ 60% từ: 'than mon' trong đoạn đủ 2/3 từ", () => {
+	const html = `<body><h2>Mở đầu</h2><li>than mon o co tay</li></body>`;
+	assert.equal(doTrang(html, { tuKhoa: TU_KHOA, url: "https://e.vn/" }).viTriTraLoi, 2);
+	const html2 = `<body><p>chỉ có chữ môn</p></body>`;
+	assert.equal(doTrang(html2, { tuKhoa: TU_KHOA, url: "https://e.vn/" }).viTriTraLoi, null);
+});
