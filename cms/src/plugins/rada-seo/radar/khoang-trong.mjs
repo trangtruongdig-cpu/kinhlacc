@@ -5,11 +5,54 @@
 //        − 8 nếu tên/từ khoá cụm nghiêng chữa trị hay hứa kết quả.
 // Nhiều đối thủ cùng viết = có người tìm thật; đó là tín hiệu mạnh nhất nên nhân 3.
 import { boDau } from "../luat/chuan-hoa.mjs";
-import { doGiong, gomNhom, tapKhoa, timTrung } from "../luat/trung-lap.mjs";
+import { doGiong, tapKhoa, taoBoKhoa, timTrungBo, NGUONG_TRUNG } from "../luat/trung-lap.mjs";
 import { timViPham } from "../luat/pham-vi-y-sy.mjs";
 import { doYmyl } from "../luat/ymyl.mjs";
 
 export const TRAN_CUM = 50;
+
+/**
+ * Nhường vòng lặp sự kiện mỗi NHUONG_MOI vòng ngoài. Phép tính chạy TRONG tiến trình CMS đang
+ * phục vụ blog, ảnh và khu quản trị; một vòng O(n²) liền mạch trên vài nghìn chủ đề chặn mọi
+ * request tới khi xong (cùng bài học với ca soi của bot thẩm định: việc nền không được giành
+ * tiến trình với người thật).
+ */
+const NHUONG_MOI = 200;
+const nhuong = () => new Promise((r) => setImmediate(r));
+
+/** gomNhom của trung-lap.mjs viết lại: dùng tập khoá tính sẵn và nhường tiến trình. Cùng kết quả. */
+async function gomNhomAsync(bo, nguong = NGUONG_TRUNG) {
+	const { ds, tap } = bo;
+	const cha = ds.map((_, i) => i);
+	const goc = (i) => (cha[i] === i ? i : (cha[i] = goc(cha[i])));
+	for (let i = 0; i < ds.length; i++) {
+		if (i > 0 && i % NHUONG_MOI === 0) await nhuong();
+		for (let j = i + 1; j < ds.length; j++) if (doGiong(tap[i], tap[j]) >= nguong) cha[goc(i)] = goc(j);
+	}
+	const nhom = new Map();
+	ds.forEach((b, i) => {
+		const g = goc(i);
+		if (!nhom.has(g)) nhom.set(g, []);
+		nhom.get(g).push(b.id);
+	});
+	return [...nhom.values()].map((n) => n.sort((x, y) => (x > y ? 1 : -1)));
+}
+
+/**
+ * Lọc chủ đề đối thủ mình đã có rồi gom nhóm (id). Tách riêng để phép kiểm so được với
+ * timTrung + gomNhom gốc.
+ * @returns {Promise<(string|number)[][]>}
+ */
+export async function nhomKhoangTrong({ chuDeMinh, chuDeDoiThu }) {
+	const minh = taoBoKhoa(chuDeMinh.map((m, i) => ({ id: `m${i}`, tieuDe: m.chuDe, tuKhoa: m.tuKhoa })));
+	const thieu = [];
+	for (let i = 0; i < chuDeDoiThu.length; i++) {
+		if (i > 0 && i % NHUONG_MOI === 0) await nhuong();
+		const t = chuDeDoiThu[i];
+		if (!timTrungBo({ tieuDe: t.chuDe, tuKhoa: t.tuKhoa }, minh)) thieu.push(t);
+	}
+	return gomNhomAsync(taoBoKhoa(thieu.map((t) => ({ id: t.id, tieuDe: t.chuDe, tuKhoa: t.tuKhoa }))));
+}
 
 /** Chủ đề đại diện của nhóm: bài giống các bài còn lại nhất. */
 function daiDien(baiNhom) {
@@ -56,13 +99,11 @@ export function chamDiem({ soDoiThu, soBai, coXuHuong, viPham }) {
  *   chuDeDoiThu: {id: string, doiThuId: string, chuDe: string, tuKhoa: string[]}[],
  *   xuHuong: string[],
  * }} o
- * @returns {{tenCum: string, tuKhoa: string[], soDoiThu: number, soBai: number, coXuHuong: boolean, viPham: boolean, diem: number, viDu: string[]}[]}
+ * @returns {Promise<{tenCum: string, tuKhoa: string[], soDoiThu: number, soBai: number, coXuHuong: boolean, viPham: boolean, diem: number, viDu: string[]}[]>}
  */
-export function timKhoangTrong({ chuDeMinh, chuDeDoiThu, xuHuong }) {
-	const minh = chuDeMinh.map((m, i) => ({ id: `m${i}`, tieuDe: m.chuDe, tuKhoa: m.tuKhoa }));
-	const thieu = chuDeDoiThu.filter((t) => !timTrung({ tieuDe: t.chuDe, tuKhoa: t.tuKhoa }, minh));
-	const theoId = new Map(thieu.map((t) => [t.id, t]));
-	const nhom = gomNhom(thieu.map((t) => ({ id: t.id, tieuDe: t.chuDe, tuKhoa: t.tuKhoa })));
+export async function timKhoangTrong({ chuDeMinh, chuDeDoiThu, xuHuong }) {
+	const theoId = new Map(chuDeDoiThu.map((t) => [t.id, t]));
+	const nhom = await nhomKhoangTrong({ chuDeMinh, chuDeDoiThu });
 	const ra = nhom.map((ids) => {
 		const bai = ids.map((id) => theoId.get(id));
 		const tuKhoa = tuKhoaNhom(bai);

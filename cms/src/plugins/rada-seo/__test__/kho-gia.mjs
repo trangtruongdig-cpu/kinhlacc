@@ -22,7 +22,11 @@ export function taoBoSuuTap() {
 			let rows = [...m.entries()].filter(([, d]) => khop(d, where)).map(([id, data]) => ({ id, data: structuredClone(data) }));
 			if (orderBy) {
 				const [k, huong] = Object.entries(orderBy)[0];
-				rows.sort((a, b) => (a.data[k] < b.data[k] ? -1 : a.data[k] > b.data[k] ? 1 : 0) * (huong === "desc" ? -1 : 1));
+				// Như PluginStorageRepository của EmDash 0.39.1: xếp "hạng null" (thiếu khoá → 1) TRƯỚC
+				// theo cùng chiều, nên với "desc" dòng THIẾU khoá đứng ĐẦU.
+				const hang = (v) => (v === undefined || v === null ? 1 : 0);
+				const ss = (x, y) => (x < y ? -1 : x > y ? 1 : 0);
+				rows.sort((a, b) => (ss(hang(a.data[k]), hang(b.data[k])) || ss(a.data[k], b.data[k])) * (huong === "desc" ? -1 : 1));
 			}
 			const tu = cursor ? Number(cursor) : 0;
 			const trang = rows.slice(tu, tu + Math.min(limit, 100));

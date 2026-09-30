@@ -76,6 +76,26 @@ export function timTrung(moi, ds, nguong = NGUONG_TRUNG) {
 	return tot;
 }
 
+/**
+ * Tính sẵn tập khoá của một danh sách để so NHIỀU lần — timTrung dựng lại tapKhoa của mọi bài
+ * có sẵn ở mỗi lời gọi, nên lọc n chủ đề qua m bài tốn n×m lần tách từ thay vì m.
+ * @returns {{ds: object[], tap: Set<string>[]}}
+ */
+export function taoBoKhoa(ds) {
+	return { ds, tap: ds.map(tapKhoa) };
+}
+
+/** Như timTrung nhưng dùng bộ khoá tính sẵn (taoBoKhoa). Cùng kết quả. */
+export function timTrungBo(moi, bo, nguong = NGUONG_TRUNG) {
+	const a = tapKhoa(moi);
+	let tot = null;
+	for (let i = 0; i < bo.ds.length; i++) {
+		const v = doGiong(a, bo.tap[i]);
+		if (v >= nguong && (!tot || v > tot.doGiong)) tot = { id: bo.ds[i].id, doGiong: v };
+	}
+	return tot;
+}
+
 const TIEN_TO = /^(huyet|kinh|bai thuoc|vi thuoc|duoc lieu|cay|benh) /;
 
 /**

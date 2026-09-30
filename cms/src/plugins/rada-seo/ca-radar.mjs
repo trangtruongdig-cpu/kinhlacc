@@ -11,6 +11,14 @@ import * as kho from "./kho.mjs";
 /** Nghỉ giữa các lượt tải trang: CMS còn phục vụ ảnh, khu quản trị và blog cho người thật. */
 export const NGHI_GIUA_LUOT_MS = 300;
 
+/**
+ * Van hàng chờ: quá chừng này trang 'cho_ai' thì ca không trích thêm. Claude đọc tối đa 40
+ * trang/đêm (TRAN_TRANG_MOI_DEM) mà ca radar trích tới 30 trang MỖI đối thủ — trích tiếp chỉ
+ * chất chữ vào kho (trường `chu` nặng nhất) để rồi trang mốc meo tới lượt đọc. Vẫn quét
+ * sitemap và ghi URL mới ('cho'): rẻ, và khi hàng chờ vơi thì ca sau trích tiếp từ đó.
+ */
+export const NGUONG_HANG_CHO = 80;
+
 const cho = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /**
@@ -21,7 +29,7 @@ const cho = (ms) => new Promise((r) => setTimeout(r, ms));
 export async function capNhatKhoangTrong(s, { xuHuong, now, nghi }) {
 	const doiThu = await kho.dsDoiThu(s);
 	const { minh, doiThu: dt } = await kho.chuDeDaPhanTich(s, doiThu);
-	const cum = timKhoangTrong({ chuDeMinh: minh, chuDeDoiThu: dt, xuHuong });
+	const cum = await timKhoangTrong({ chuDeMinh: minh, chuDeDoiThu: dt, xuHuong });
 	return kho.thayCum(s, cum, now, { nghi });
 }
 
@@ -40,7 +48,7 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 	const ca = {
 		loai: "radar", batDau: now(), ketThuc: null, ghi,
 		soUrlMoi: 0, soSeTrich: 0, soTrich: 0, soNgoaiNganh: 0, soLoiTrang: 0,
-		soXuHuong: 0, soCum: 0, xuHuong: [], loi: [], sitemapBo: [],
+		soXuHuong: 0, soCum: 0, xuHuong: [], loi: [], sitemapBo: [], dungTrich: false,
 	};
 	const doiThu = await kho.dsDoiThu(s);
 	let dung = null;
@@ -56,6 +64,13 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 			// báo đúng số trang ca thật SẼ trích (vẫn chặn bởi trần mỗi đối thủ).
 			ca.soSeTrich += ghi ? hang.length : Math.min(tranMoiDoiThu, hang.length + soMoi);
 			if (!ghi || dung) continue;
+			if (ca.dungTrich) continue;
+			const choAi = await kho.demChoAi(s);
+			if (choAi > NGUONG_HANG_CHO) {
+				ca.dungTrich = true;
+				ca.loi.push(`Tạm ngừng trích: hàng chờ Claude đọc đang ${choAi} trang (> ${NGUONG_HANG_CHO})`);
+				continue;
+			}
 			for (const u of hang) {
 				if (Date.now() > hanChot) {
 					dung = "Dừng trích: chạm hạn ca";

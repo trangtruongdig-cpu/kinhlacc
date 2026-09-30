@@ -87,3 +87,21 @@ test("sitemap con loại 'bo' của mọi đối thủ ghi vào ca.sitemapBo (c�
 	assert.ok(ca.sitemapBo.includes("https://b.vn/bac-si-sitemap0.xml"));
 	assert.equal((await kho.dsCa(s))[0].sitemapBo.length, 20);
 });
+
+test("van hàng chờ: > 80 trang chờ Claude đọc → không trích, vẫn gom URL mới, ghi MỘT dòng", async () => {
+	const s = await khoiTao();
+	for (let i = 0; i < 81; i++) await s.url.put(`cu${i}`, { doiThuId: "z.vn", url: `https://z.vn/${i}`, trangThai: "cho_ai", chu: "x" });
+	let taiTrang = 0;
+	const web = async (u) => {
+		if (/^https:\/\/[ab]\.vn\/(?!sitemap|robots)/.test(u)) taiTrang++;
+		return BANG[u] ?? "";
+	};
+	const ca = await chayCaRadar({ s, docWeb: web, ghi: true, nghi });
+	assert.equal(ca.soTrich, 0);
+	assert.equal(taiTrang, 0);
+	assert.equal(ca.dungTrich, true);
+	assert.equal(ca.soUrlMoi, 4);
+	assert.equal(s.url._m.size, 85);
+	const dong = ca.loi.filter((l) => l.startsWith("Tạm ngừng trích"));
+	assert.deepEqual(dong, ["Tạm ngừng trích: hàng chờ Claude đọc đang 81 trang (> 80)"]);
+});

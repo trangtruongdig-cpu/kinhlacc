@@ -105,3 +105,23 @@ test("layUrlChoAi + ghiPhanTich: chỉ nhận URL đang 'cho_ai', bỏ trường
 	assert.equal((await s.url.get("u2")).chuDe, "cũ");
 	assert.deepEqual(await kho.layUrlChoAi(s, 0), []);
 });
+
+test("chuDeDaPhanTich: đối thủ chỉ lấy toiDa dòng MỚI NHẤT theo phanTichLuc, dòng không mốc xếp cuối; của mình lấy hết", async () => {
+	const s = taoKhoGia();
+	await kho.luuDoiThu(s, { tenMien: "a.vn" }, NOW);
+	await kho.luuDoiThu(s, { tenMien: "kinhlac.online", laCuaMinh: true }, NOW);
+	const moc = ["2026-09-01", "2026-09-05", "2026-09-03", "2026-09-04", "2026-09-02"];
+	for (const [i, m] of moc.entries())
+		await s.url.put(`d${i}`, { doiThuId: "a.vn", trangThai: "da_phan_tich", chuDe: `bài ${m}`, tuKhoa: ["k"], phanTichLuc: `${m}T00:00:00.000Z` });
+	await s.url.put("cu", { doiThuId: "a.vn", trangThai: "da_phan_tich", chuDe: "bài 2A", tuKhoa: [] });
+	await s.url.put("m1", { doiThuId: "kinhlac.online", trangThai: "da_phan_tich", chuDe: "của mình", tuKhoa: [], phanTichLuc: "2020-01-01T00:00:00.000Z" });
+	const doiThu = await kho.dsDoiThu(s);
+	const kq = await kho.chuDeDaPhanTich(s, doiThu, { toiDa: 3 });
+	assert.deepEqual(kq.doiThu.map((t) => t.chuDe), ["bài 2026-09-05", "bài 2026-09-04", "bài 2026-09-03"]);
+	assert.deepEqual(kq.minh.map((t) => t.chuDe), ["của mình"]);
+	// Đủ chỗ thì dòng cũ (2A, không mốc) vẫn được lấy, đứng cuối.
+	const het = await kho.chuDeDaPhanTich(s, doiThu, { toiDa: 10 });
+	assert.equal(het.doiThu.length, 6);
+	assert.equal(het.doiThu.at(-1).chuDe, "bài 2A");
+	assert.ok(kho.KHAI_BAO_KHO.url.indexes.includes("phanTichLuc"));
+});

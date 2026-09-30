@@ -5,7 +5,8 @@ import { timTrung } from "./luat/trung-lap.mjs";
 
 export const KHAI_BAO_KHO = {
 	doi_thu: { indexes: ["tenMien"] },
-	url: { indexes: ["doiThuId", "trangThai", ["doiThuId", "trangThai"]] },
+	// phanTichLuc: chuDeDaPhanTich xếp theo nó (EmDash chỉ cho orderBy trên trường có index).
+	url: { indexes: ["doiThuId", "trangThai", ["doiThuId", "trangThai"], "phanTichLuc"] },
 	cum: { indexes: ["trangThai", "diem"] },
 	ca: { indexes: ["batDau"] },
 };
@@ -203,16 +204,35 @@ export async function ghiPhanTich(s, items, now) {
 	return { daGhi: ghi.length, boQua };
 }
 
-/** Chủ đề đã phân tích, tách theo "của mình" hay đối thủ. */
-export async function chuDeDaPhanTich(s, doiThu) {
+/** Trần chủ đề đối thủ đưa vào tính khoảng trống — xem chuDeDaPhanTich. */
+export const TRAN_CHU_DE_DOI_THU = 1500;
+
+/**
+ * Chủ đề đã phân tích, tách theo "của mình" hay đối thủ.
+ * Đối thủ chỉ lấy `toiDa` dòng MỚI NHẤT theo phanTichLuc: timKhoangTrong so từng cặp (O(n²)),
+ * kho cứ lớn mỗi đêm thì phép tính cứ dài ra và giữ tiến trình CMS đang phục vụ người thật.
+ * Của mình thì lấy HẾT (ít bài, và cắt đi là thấy "khoảng trống" giả ở chính chỗ mình đã viết).
+ * Dòng cũ không có phanTichLuc vẫn được lấy nhưng xếp CUỐI. EmDash xếp dòng thiếu khoá lên
+ * ĐẦU khi "desc" (hạng null, PluginStorageRepository 0.39.1) nên phải gom riêng rồi nối sau,
+ * không trông vào thứ tự truy vấn.
+ */
+export async function chuDeDaPhanTich(s, doiThu, { toiDa = TRAN_CHU_DE_DOI_THU } = {}) {
 	const cuaMinh = new Set(doiThu.filter((d) => d.laCuaMinh).map((d) => d.id));
-	const rows = await tatCa(s.url, { where: { trangThai: "da_phan_tich" } });
-	const minh = [], doiThuTopics = [];
-	for (const r of rows) {
-		const t = { id: r.id, doiThuId: r.data.doiThuId, chuDe: r.data.chuDe, tuKhoa: r.data.tuKhoa ?? [] };
-		(cuaMinh.has(t.doiThuId) ? minh : doiThuTopics).push(t);
-	}
-	return { minh, doiThu: doiThuTopics };
+	const thanh = (r) => ({ id: r.id, doiThuId: r.data.doiThuId, chuDe: r.data.chuDe, tuKhoa: r.data.tuKhoa ?? [] });
+	const minh = [];
+	for (const id of cuaMinh)
+		for (const r of await tatCa(s.url, { where: { doiThuId: id, trangThai: "da_phan_tich" } })) minh.push(thanh(r));
+	const coMoc = [], khongMoc = [];
+	let cursor;
+	do {
+		const r = await s.url.query({ where: { trangThai: "da_phan_tich" }, orderBy: { phanTichLuc: "desc" }, limit: 100, cursor });
+		for (const x of r.items) {
+			if (cuaMinh.has(x.data.doiThuId)) continue;
+			(x.data.phanTichLuc ? coMoc : khongMoc).push(thanh(x));
+		}
+		cursor = r.hasMore && coMoc.length < toiDa ? r.cursor : undefined;
+	} while (cursor);
+	return { minh, doiThu: [...coMoc, ...khongMoc].slice(0, toiDa) };
 }
 
 export async function dsCum(s, n = 100) {
