@@ -183,13 +183,15 @@ function selectDay(day: typeof weekDays.value[0]) {
 }
 
 // ── My Appointments ──
+// MỌI vé chưa hoàn thành nằm ở đây, kể cả vé đã quá giờ (khách chưa tới) — chúng cần nút
+// Chuyển vé. Để lọt xuống "Lịch sử" là thành ngõ cụt không thao tác được gì.
 const upcomingSlots = computed(() =>
-  mySlots.value.filter(s => s.slotDate >= today && s.status === 'BOOKED')
+  mySlots.value.filter(s => s.status === 'BOOKED')
     .sort((a, b) => a.slotDate.localeCompare(b.slotDate) || a.slotTime.localeCompare(b.slotTime))
 )
 
 const pastSlots = computed(() =>
-  mySlots.value.filter(s => s.slotDate < today || s.status !== 'BOOKED')
+  mySlots.value.filter(s => s.status !== 'BOOKED')
     .sort((a, b) => b.slotDate.localeCompare(a.slotDate) || b.slotTime.localeCompare(a.slotTime))
 )
 
@@ -338,6 +340,79 @@ async function confirmCancel() {
     showToast('Lỗi kết nối. Vui lòng thử lại.', 'error')
   } finally {
     isCancelling.value = false
+  }
+}
+
+// ── Chuyển vé ── Khách bận / quá giờ chưa tới → tự dời sang ca trống khác.
+const movingSlot = ref<MyBooking | null>(null)
+const moveDate = ref('')
+const moveSlots = ref<PublicSlot[]>([])
+const moveTargetId = ref<number | null>(null)
+const isLoadingMove = ref(false)
+const isMoving = ref(false)
+
+const moveOptions = computed(() =>
+  moveSlots.value.filter(s => datDuoc(s) && s.id !== movingSlot.value?.slotId),
+)
+
+async function loadMoveSlots(date: string) {
+  if (!authStore.token) return
+  isLoadingMove.value = true
+  moveTargetId.value = null
+  try {
+    const res = await fetch(`${API_BASE}/appointment-slots/available?date=${date}`, {
+      headers: { Authorization: `Bearer ${authStore.token}` },
+    })
+    moveSlots.value = res.ok ? await res.json() : []
+  } catch {
+    moveSlots.value = []
+  } finally {
+    isLoadingMove.value = false
+  }
+}
+
+function openMoveModal(slot: MyBooking) {
+  movingSlot.value = slot
+  moveDate.value = slot.slotDate < todayYMD() ? todayYMD() : slot.slotDate
+  loadMoveSlots(moveDate.value)
+}
+
+function closeMoveModal() {
+  movingSlot.value = null
+  moveSlots.value = []
+  moveTargetId.value = null
+}
+
+watch(moveDate, (d) => {
+  if (movingSlot.value && d) loadMoveSlots(d)
+})
+
+async function confirmMove() {
+  if (!movingSlot.value || !moveTargetId.value || !authStore.token) return
+  isMoving.value = true
+  try {
+    const res = await fetch(`${API_BASE}/appointment-slots/${movingSlot.value.slotId}/my-move`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${authStore.token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ targetSlotId: moveTargetId.value }),
+    })
+    const payload = await res.json().catch(() => null)
+    if (res.ok) {
+      // `moved` = vé ở ca cũ (nay "Đã chuyển"), `booking` = vé ở ca mới.
+      patchMyBooking(payload?.moved)
+      patchMyBooking(payload?.booking)
+      patchAvailable(payload?.from)
+      patchAvailable(payload?.to)
+      closeMoveModal()
+      showToast('Đã chuyển vé sang ca mới.')
+    } else {
+      showToast(payload?.message || 'Không chuyển được vé. Vui lòng thử lại.', 'error')
+      loadMoveSlots(moveDate.value)
+    }
+  } catch {
+    showToast('Lỗi kết nối. Vui lòng thử lại.', 'error')
+  } finally {
+    isMoving.value = false
   }
 }
 
@@ -730,9 +805,13 @@ async function copyCalendarUrl() {
                 <div class="my-date">{{ formatDateVN(slot.slotDate) }}</div>
                 <div class="my-time">{{ formatSlotTime(slot.slotTime) }}</div>
                 <div v-if="slot.reason" class="my-reason">{{ slot.reason }}</div>
+                <div v-if="caDaQuaGio(slot.slotDate, slot.slotTime, nowMs)" class="my-overdue">
+                  Đã quá giờ hẹn — bạn có thể chuyển vé sang ca khác
+                </div>
               </div>
               <div class="my-card-right">
                 <span :class="['status-badge', statusClass(slot.status)]">{{ statusLabel(slot.status) }}</span>
+                <button class="btn-move-sm" @click="openMoveModal(slot)">Chuyển vé</button>
                 <!-- Qua giờ rồi thì không huỷ được nữa (phòng chẩn trị sẽ chuyển vé nếu khách bận). -->
                 <button
                   v-if="!caDaQuaGio(slot.slotDate, slot.slotTime, nowMs)"
@@ -829,6 +908,44 @@ async function copyCalendarUrl() {
             <button class="btn-danger" @click="confirmCancel" :disabled="isCancelling">
               <span v-if="isCancelling" class="spinner-sm"></span>
               {{ isCancelling ? 'Đang huỷ...' : 'Xác nhận huỷ' }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </Transition>
+
+    <!-- ═══ Modal: Chuyển vé ═══ -->
+    <Transition name="modal">
+      <div v-if="movingSlot" class="modal-overlay" @click.self="closeMoveModal">
+        <div class="modal-card">
+          <h3 class="modal-title">Chuyển vé sang ca khác</h3>
+          <div class="modal-body">
+            <div class="modal-info-row">
+              <span class="modal-label">Ca hiện tại:</span>
+              <span class="modal-value">{{ formatSlotTime(movingSlot.slotTime) }}, {{ formatDateVN(movingSlot.slotDate) }}</span>
+            </div>
+            <label class="modal-label move-label">Chọn ngày</label>
+            <input v-model="moveDate" type="date" class="move-date" :min="todayYMD()" />
+            <label class="modal-label move-label">Chọn ca trống</label>
+            <p v-if="isLoadingMove" class="modal-desc">Đang tải ca…</p>
+            <p v-else-if="moveOptions.length === 0" class="modal-desc">
+              Ngày này không còn ca trống. Vui lòng chọn ngày khác.
+            </p>
+            <div v-else class="move-grid">
+              <button
+                v-for="s in moveOptions"
+                :key="s.id"
+                type="button"
+                :class="['move-option', { 'is-selected': moveTargetId === s.id }]"
+                @click="moveTargetId = s.id"
+              >{{ formatSlotTime(s.slotTime) }}</button>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn-secondary" @click="closeMoveModal" :disabled="isMoving">Thôi</button>
+            <button class="btn-primary" @click="confirmMove" :disabled="isMoving || !moveTargetId">
+              <span v-if="isMoving" class="spinner-sm"></span>
+              {{ isMoving ? 'Đang chuyển...' : 'Chuyển vé' }}
             </button>
           </div>
         </div>
@@ -1301,6 +1418,18 @@ async function copyCalendarUrl() {
   transition: all var(--transition-fast);
 }
 .btn-cancel-sm:hover { background: var(--danger-bg); }
+.btn-move-sm {
+  padding: 4px 12px; border-radius: var(--radius-md); border: 1px solid var(--brown-300);
+  background: var(--white); color: var(--brown-700); font-size: var(--font-size-xs);
+  font-weight: 600; cursor: pointer;
+}
+.btn-move-sm:hover { background: var(--brown-50); }
+.my-overdue { margin-top: 4px; font-size: var(--font-size-xs); font-weight: 600; color: var(--warning-fg, #92400e); }
+.move-label { display: block; margin-top: var(--space-3); margin-bottom: 4px; }
+.move-date { width: 100%; padding: 8px 10px; border: 1px solid var(--gray-300); border-radius: var(--radius-md); font: inherit; }
+.move-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: 8px; }
+.move-option { padding: 8px 0; border: 1px solid var(--brown-200); border-radius: var(--radius-md); background: var(--white); color: var(--brown-700); font-weight: 700; cursor: pointer; }
+.move-option.is-selected { background: var(--brown-600); border-color: var(--brown-600); color: var(--white); }
 
 .btn-outline-sm {
   padding: 4px 12px;

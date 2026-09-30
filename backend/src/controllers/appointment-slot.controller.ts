@@ -558,10 +558,13 @@ export class AppointmentSlotsService {
   async move(
     id: number,
     targetId: number,
+    by: 'PATIENT' | 'STAFF' = 'STAFF',
   ): Promise<{
     from: AppointmentSlot;
     to: AppointmentSlot;
     booking: PatientBookingView;
+    /** Lượt đặt ở ca CŨ, nay là MOVED — để "Lịch của tôi" vá tại chỗ. */
+    moved: PatientBookingView;
   }> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -655,6 +658,11 @@ export class AppointmentSlotsService {
         type: 'SLOT_UPDATED',
         slot: toPublicSlot(s),
         staffSlot: s,
+        // Khách tự chuyển thì phòng chẩn trị phải biết ngay — gắn câu báo vào sự kiện ca MỚI.
+        staffMessage:
+          by === 'PATIENT' && s === savedTo
+            ? `Khách đã tự chuyển vé từ ${gioNgan(oldBooking.slotTime)} ngày ${oldBooking.slotDate} sang ${gioNgan(savedTo.slotTime)} ngày ${savedTo.slotDate}`
+            : undefined,
       });
     }
 
@@ -668,7 +676,17 @@ export class AppointmentSlotsService {
       from: savedFrom,
       to: savedTo,
       booking: toBookingView(newBooking),
+      moved: toBookingView(oldBooking),
     };
+  }
+
+  /** Khách tự chuyển vé CỦA MÌNH — cùng luật với nhân viên, kiểm chủ vé trước. */
+  async moveMy(id: number, patientId: number, targetId: number) {
+    const booking = await this.activeBooking(this.slotRepo.manager, id);
+    if (!booking || booking.patientId !== patientId) {
+      throw new ForbiddenException('Bạn không có quyền thao tác trên vé này');
+    }
+    return this.move(id, targetId, 'PATIENT');
   }
 
   async complete(id: number): Promise<AppointmentSlot> {

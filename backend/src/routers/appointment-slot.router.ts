@@ -14,6 +14,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { AppointmentSlotsService } from '../controllers/appointment-slot.controller';
+import { toPublicSlot } from '../controllers/sse.service';
 import {
   BookSlotDto,
   UpdateSlotDto,
@@ -64,6 +65,29 @@ export class AppointmentSlotsRouter {
   ) {
     const { slot, booking } = await this.service.cancelMy(id, req.user.id);
     return { success: true, data: booking, slot };
+  }
+
+  /** Khách tự chuyển vé của mình sang ca khác (kể cả khi vé đã quá giờ). */
+  @UseGuards(JwtAuthGuard)
+  @Put(':id/my-move')
+  async moveMy(
+    @Param('id', ParseIntPipe) id: number,
+    @Request() req: any,
+    @Body(new ZodPipe(chuyenVeSchema)) body: { targetSlotId: number },
+  ) {
+    const { from, to, booking, moved } = await this.service.moveMy(
+      id,
+      req.user.id,
+      body.targetSlotId,
+    );
+    // Khách chỉ nhận bản CÔNG KHAI của hai ca (không kèm patientId/lý do của ai khác).
+    return {
+      success: true,
+      from: toPublicSlot(from),
+      to: toPublicSlot(to),
+      booking,
+      moved,
+    };
   }
 
   /**
