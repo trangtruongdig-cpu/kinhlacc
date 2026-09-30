@@ -18,11 +18,14 @@ import {
   meridianList, records, classify, recOfPoint, sec, kinhSlugOf, fold,
   LOAI_LABEL, HUYET_SECTIONS, KINH_SECTIONS, huyetIndexable, kinhIndexable,
   BENH, BENH_SETS, benhIndexable, benhCross, huyetLinkTargets,
-  traitsByAcuId, codeToId,
+  traitsByAcuId, codeToId, COORDS3D_CODES,
 } from './dict-data.mjs'
 import { napGhiDe, seoTrang, luuTuSinh } from './seo-cms.mjs'
 import { doiChieuUrl } from './sitemap-chen.mjs'
 import { moKetNoiCms } from './cms-ket-noi.mjs'
+
+// Neo huyệt trên trang /kinh/: "ST32" → "st32" (nút "Xem Trên Đường Kinh" của trang huyệt trỏ vào).
+const maNeo = (code) => String(code).toLowerCase().replace(/[^a-z0-9-]+/g, '-')
 
 // Phần SEO người biên tập gõ trong CMS. Nạp ở cuối tệp, TRƯỚC các vòng sinh trang;
 // khai ở đây để ba hàm dựng trang dưới đây đọc được.
@@ -504,10 +507,11 @@ function huyetPage(rec) {
       (vtForDesc ? ` Vị trí: ${clip(vtForDesc, 80)}` : ''),
     160,
   )
-  // Ảnh 3D (4 tấm) thay thế ảnh webp 600px cũ khi có; ảnh cũ CHỈ dùng khi anh3d null
-  // (698 huyệt chưa có toạ độ 3D) — theo đúng thoả thuận với phiên kinhlacc-12.
+  // Ảnh đại diện (hình minh hoạ vị trí) LUÔN hiện trong Hồ Sơ Huyệt, giống khung chi tiết của
+  // TuDienView; bộ 4 ảnh dựng 3D là khối RIÊNG bên dưới. Trước 30/09/2026 ảnh đại diện bị bỏ hẳn
+  // khi có anh3d → 360 trang huyệt có 3D mất ảnh đầu trang so với bản trong tab.
   const anh3d = rec.anh3d || null
-  const img = !anh3d && rec.image ? ASSET_BASE + String(rec.image).replace(/^\/+/, '') : null
+  const img = rec.image ? ASSET_BASE + String(rec.image).replace(/^\/+/, '') : null
   // OG: ưu tiên ảnh "toàn đường kinh" của bộ anh3d — mỗi huyệt có ảnh chia sẻ riêng thay vì
   // dùng chung GENERIC_OG cho cả 1.059 trang (URL anh3d.* đã là đường dẫn tuyệt đối
   // /_emdash/api/media/file/<storageKey>, chỉ cần nối DOMAIN, KHÔNG qua ASSET_BASE).
@@ -535,11 +539,22 @@ function huyetPage(rec) {
     infoRow('Tiếng Anh', rec.english ? escText(rec.english) : ''),
     infoRow('Vị trí', escText(clip(sec(rec, 'VỊ TRÍ'), 140))),
   ].join('')
+  // Hai nút giống hệt khung chi tiết huyệt trong TuDienView: bay tới huyệt trên đồ hình 3D
+  // (/xem-3d đọc ?focus=<mã>, chỉ huyệt CÓ toạ độ 3D — cùng phép gác coords.points[code]) và
+  // mở đường kinh ở đúng chỗ huyệt này (neo #<mã> trên trang /kinh/, :target tô sáng).
+  const ma3d = cls.code && COORDS3D_CODES.has(cls.code) ? cls.code : ''
+  const nutHanhDong = [
+    ma3d ? `<a class="dl-act" href="/xem-3d?focus=${encodeURIComponent(ma3d)}">🧭 Xem Vị Trí Trên Đồ Hình 3D</a>` : '',
+    cls.loai === 'kinh' && cls.code
+      ? `<a class="dl-act" href="/kinh/${escAttr(cls.kinhSlug)}/#${escAttr(maNeo(cls.code))}">📖 Xem Trên Đường Kinh</a>`
+      : '',
+  ].join('')
   const infobox = `<aside class="dl-info">
     <div class="dl-info-head">Hồ Sơ Huyệt</div>
     <div class="dl-info-body">
-      ${theAnh(img, anh3d ? null : rec.anhCms, `Sơ đồ huyệt ${rec.ten}`, ' width="320" height="320"')}
+      ${theAnh(img, rec.anhCms, `Sơ đồ huyệt ${rec.ten}`, ' width="320" height="320"')}
       <table class="dl-info-tb"><tbody>${infoRows}</tbody></table>
+      ${nutHanhDong ? `<div class="dl-acts">${nutHanhDong}</div>` : ''}
     </div>
   </aside>`
 
@@ -639,7 +654,7 @@ function huyetPage(rec) {
   ${anh3dBlock(anh3d, dispName)}
   <div class="bl-body">${body}</div>
   ${faqBlock(faq)}
-  <div class="bl-cta"><a href="/xem-3d">Khám Phá Đồ Hình Kinh Lạc 3D →</a></div>
+  <div class="bl-cta"><a href="${ma3d ? `/xem-3d?focus=${encodeURIComponent(ma3d)}` : '/xem-3d'}">${ma3d ? `Xem Huyệt ${escText(rec.ten)} Trên Đồ Hình Kinh Lạc 3D →` : 'Khám Phá Đồ Hình Kinh Lạc 3D →'}</a></div>
   ${benhDungHtml}
   ${cungKinhHtml}
   ${prevNextHtml}
@@ -684,8 +699,8 @@ function kinhPage(m) {
   const ptsHtml = pts.length
     ? `<section class="dl-rel"><h2>Các Huyệt Trên ${escText(m.ten)}</h2><ul class="dl-rel-list">${pts
         .map((p) => p.rec
-          ? `<li><a href="/huyet/${escAttr(p.rec._slug)}/">${escText(p.rec.ten)}${p.code ? ` <small>${escText(p.code)}</small>` : ''}</a></li>`
-          : `<li>${escText(p.ten)}${p.code ? ` <small>${escText(p.code)}</small>` : ''}</li>`).join('')}</ul></section>`
+          ? `<li${p.code ? ` id="${escAttr(maNeo(p.code))}"` : ''}><a href="/huyet/${escAttr(p.rec._slug)}/">${escText(p.rec.ten)}${p.code ? ` <small>${escText(p.code)}</small>` : ''}</a></li>`
+          : `<li${p.code ? ` id="${escAttr(maNeo(p.code))}"` : ''}>${escText(p.ten)}${p.code ? ` <small>${escText(p.code)}</small>` : ''}</li>`).join('')}</ul></section>`
     : ''
 
   const indexable = kinhIndexable(m)
@@ -781,6 +796,11 @@ const DICT_STYLE = `<style>
   .dl-rel-list li a,.dl-rel-list li{display:inline-block;background:#f3ebdd;border-radius:8px;padding:.3rem .7rem;font-size:.92rem;text-decoration:none;color:#5a4427}
   .dl-rel-list li a:hover{background:#e7d8bf}
   .dl-rel-list small{opacity:.7}
+  .dl-rel-list li{scroll-margin-top:90px}
+  .dl-rel-list li:target a,.dl-rel-list li:target{background:#6b4423;color:#fff;box-shadow:0 0 0 3px #d4b896}
+  .dl-acts{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.9rem}
+  .dl-act{display:inline-flex;align-items:center;gap:.35rem;padding:.45rem .9rem;border:1px solid #d4b896;background:#f3ebdd;color:#5a4427;border-radius:999px;font-size:.88rem;font-weight:700;text-decoration:none}
+  .dl-act:hover{background:#6b4423;border-color:#6b4423;color:#fff}
   .dl-faq{margin-top:2rem;border-top:1px dashed #e3d6c2;padding-top:1.1rem}
   .dl-faq>h2{font-size:1.25rem;color:#5a4427;margin:0 0 .8rem}
   .dl-faq-item{margin:0 0 1rem}

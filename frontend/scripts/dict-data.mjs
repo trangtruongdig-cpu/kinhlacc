@@ -53,6 +53,14 @@ function loadGlobalJson(file) {
 export const ACU = loadGlobalJson('acupoints.js')
 export const MER = loadGlobalJson('meridians.js')
 export const IDX = loadGlobalJson('acu-index.js') // { codeToId, points:[{id,code,corrupt,hasViTri}], merVi }
+// Toạ độ 3D — CHỈ dùng để biết huyệt nào bay tới được trên /xem-3d?focus=<mã> (cùng phép gác
+// `coords.points[code]` của TuDienView). Chú thích đầu tệp có dấu '{' nên phải tìm sau tên biến.
+export const COORDS3D_CODES = (() => {
+  const txt = readFileSync(join(dataDir, 'acu-coords3d.js'), 'utf8')
+  const a = txt.indexOf('{', txt.indexOf('ACU_COORDS3D'))
+  const b = txt.lastIndexOf('}')
+  return new Set(Object.keys(JSON.parse(txt.slice(a, b + 1)).points || {}))
+})()
 
 // ───────────────────────── Chuẩn hoá tên (slug & dò A Thị) ──────────────────
 export const norm = (s) => (s || '').normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/đ/gi, 'd').toLowerCase()
