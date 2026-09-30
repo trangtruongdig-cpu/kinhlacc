@@ -145,13 +145,77 @@ test("layViTri lọc đúng từ khoá + trang trong 14 ngày; không có hàng 
 	const body = JSON.parse(fetch.goi.at(-1).init.body);
 	assert.equal(body.startDate, "2026-09-16");
 	const loc = body.dimensionFilterGroups[0].filters;
-	assert.deepEqual(
-		loc.map((f) => [f.dimension, f.operator, f.expression]),
-		[
-			["query", "equals", "huyệt thần môn"],
-			["page", "equals", "https://kinhlac.online/huyet/than-mon/"],
-		],
-	);
+	assert.deepEqual(loc.map((f) => [f.dimension, f.operator, f.expression]), [["query", "equals", "huyệt thần môn"]]);
 	const g0 = taoGsc({ fetch: taoFetch({ hangs: [] }), env: ENV, now: () => NOW });
 	assert.equal(await g0.layViTri({ tuKhoa: "x", trang: "y" }), null);
+});
+
+// ---- Fix round 1 ----
+test("phân trang: trang đủ 25.000 hàng thì hỏi tiếp startRow, tối đa 4 trang", async () => {
+	const goi = [];
+	const day = (n, tu) => Array.from({ length: n }, (_, i) => hang(`k${tu + i}`, `https://kinhlac.online/p${tu + i}/`, 10, 50));
+	const f = async (url, init = {}) => {
+		if (String(url).includes("oauth2")) return new Response(JSON.stringify({ access_token: "t", expires_in: 3600 }));
+		const b = JSON.parse(init.body);
+		goi.push(b.startRow ?? 0);
+		return new Response(JSON.stringify({ rows: day(b.startRow === 25000 ? 3 : 25000, b.startRow ?? 0) }));
+	};
+	const g = taoGsc({ fetch: f, env: ENV, now: () => NOW });
+	const ds = await g.layTuKhoaLeoTop({ toiDa: 100_000 });
+	assert.deepEqual(goi, [0, 25000]);
+	assert.equal(ds.length, 25003);
+	// Trang nào cũng đầy → dừng ở 4 trang.
+	goi.length = 0;
+	const f2 = async (url, init = {}) => {
+		if (String(url).includes("oauth2")) return new Response(JSON.stringify({ access_token: "t", expires_in: 3600 }));
+		goi.push(JSON.parse(init.body).startRow ?? 0);
+		return new Response(JSON.stringify({ rows: day(25000, 0) }));
+	};
+	await taoGsc({ fetch: f2, env: ENV, now: () => NOW }).layTuKhoaLeoTop({});
+	assert.deepEqual(goi, [0, 25000, 50000, 75000]);
+});
+
+test("hạn giờ 30 s cho cả lấy token và truy vấn: treo thì ném lỗi tiếng Việt, không treo ca", async () => {
+	const treo = () => new Promise(() => {});
+	const gTk = taoGsc({ fetch: treo, env: ENV, now: () => NOW, hanGioMs: 30 });
+	await assert.rejects(gTk.layTuKhoaLeoTop({}), /quá hạn 30ms/);
+	const f = async (url) => (String(url).includes("oauth2") ? new Response(JSON.stringify({ access_token: "t", expires_in: 3600 })) : treo());
+	const gQ = taoGsc({ fetch: f, env: ENV, now: () => NOW, hanGioMs: 30 });
+	await assert.rejects(gQ.layTuKhoaLeoTop({}), /quá hạn 30ms/);
+});
+
+test("hai lời gọi song song dùng CHUNG một lượt lấy token", async () => {
+	const fetch = taoFetch();
+	const g = taoGsc({ fetch, env: ENV, now: () => NOW });
+	await Promise.all([g.layTuKhoaLeoTop({}), g.layViTri({ tuKhoa: "a", trang: "b" }), g.layTuKhoaLeoTop({})]);
+	assert.equal(fetch.goi.filter((x) => x.url.includes("oauth2")).length, 1);
+	// Lượt lấy token hỏng không bị nhớ mãi: lần sau lấy lại.
+	let lan = 0;
+	const f = async (url) => {
+		if (String(url).includes("oauth2")) return ++lan === 1 ? new Response("{}", { status: 400 }) : new Response(JSON.stringify({ access_token: "t2", expires_in: 3600 }));
+		return new Response(JSON.stringify({ rows: [] }));
+	};
+	const g2 = taoGsc({ fetch: f, env: ENV, now: () => NOW });
+	await assert.rejects(g2.layTuKhoaLeoTop({}));
+	assert.deepEqual(await g2.layTuKhoaLeoTop({}), []);
+});
+
+test("boQua nhận cả mảng lẫn Set", async () => {
+	const g = taoGsc({ fetch: taoFetch(), env: ENV, now: () => NOW });
+	const ds = await g.layTuKhoaLeoTop({ boQua: ["mất ngủ đông y|https://kinhlac.online/blog/mat-ngu/"] });
+	assert.deepEqual(ds.map((x) => x.tuKhoa), ["huyệt thần môn", "bấm huyệt ngủ ngon"]);
+});
+
+test("layViTri chuẩn hoá URL trang: thiếu '/' cuối hay http/https vẫn khớp", async () => {
+	const fetch = taoFetch({
+		hangs: [
+			hang("huyệt thần môn", "https://kinhlac.online/huyet/khac/", 2, 999),
+			hang("huyệt thần môn", "https://kinhlac.online/huyet/than-mon/", 4.4, 120),
+		],
+	});
+	const g = taoGsc({ fetch, env: ENV, now: () => NOW });
+	assert.deepEqual(await g.layViTri({ tuKhoa: "huyệt thần môn", trang: "http://kinhlac.online/huyet/than-mon" }), { viTri: 4.4, hienThi: 120 });
+	const loc = JSON.parse(fetch.goi.at(-1).init.body).dimensionFilterGroups[0].filters;
+	assert.deepEqual(loc.map((f) => f.dimension), ["query"], "không lọc page bằng equals — so ở phía mình sau khi chuẩn hoá");
+	assert.equal(await g.layViTri({ tuKhoa: "huyệt thần môn", trang: "https://kinhlac.online/huyet/khong-co/" }), null);
 });
