@@ -1,0 +1,68 @@
+# Đo thử 2C-3: slug, ảnh, Markdown→Portable Text, hook kiểm duyệt, bảng cạnh trình soạn, capability ghi
+
+Đo ngày 30/09/2026 trên **bản dựng** (`node ./dist-thu/server/entry.mjs`) của EmDash 0.39.1, theo "Công
+thức cấu hình thay thế" trong `2026-09-30-rada-seo-ket-qua-buoc-0.md`. DB là libsql tệp và kho ảnh là
+`local`, cả hai nằm trong scratchpad. Build bằng `npx astro build --config astro.config.thu.mjs`, chạy bằng
+`env -i` với `PGHOST=127.0.0.1 PGPORT=1`, `PORT=4399`, `TZ=UTC`. Đăng nhập theo mục 5b: trình setup thật
+chạy qua Playwright với passkey ảo, **không** ký vé SSO. Seed `bai_viet` tự áp từ `cms/seed/seed.json`.
+
+Mã đo nằm trong một plugin native THỬ ở scratchpad, không đụng `cms/src/plugins/rada-seo/`.
+- `do-thu-2c3`: caps `content:read`, `content:write`, `media:read`, `hooks.content-policy:register`,
+  `admin.editor-draft:read`. Có 4 hook (`beforeSave`, `afterSave`, `beforePublish`, `afterPublish`) và
+  một `editorPanels` cho `bai_viet`.
+- `do-thu-2c3-r`: cùng entrypoint, `options` chỉ cho `content:read`, không hook, không panel. Dùng để so ở câu 6.
+
+Cả hai đăng ký bằng descriptor `{format:"native", entrypoint:<tuyệt đối>}`. Mỗi plugin có `options`
+riêng, và đo được là `createPlugin(options)` nhận đúng `options` của descriptor.
+
+⚠️ **Bẫy của bàn thử:** bỏ khối `fonts` khỏi cấu hình thử thì mọi trang `/blog/*` trả 500
+(`FontFamilyNotFound: … "--font-body"`), vì `Base.astro` dùng `<Font>`. Không muốn gọi Google Fonts thì
+khai `fontProviders.local()` trỏ vào một tệp `.woff2` đã có sẵn trong `node_modules/.astro/fonts/`.
+
+## Bảng kết quả
+
+| # | Câu hỏi | Kết quả | Số liệu / nguyên văn | Hệ quả cho thiết kế |
+|---|---|---|---|---|
+| 1a | Mẹo slug: `create` với title ASCII rồi `update` title có dấu | **ĐẠT, nhưng có điều kiện** | `create("bai_viet", {title:"cham-cuu-ho-tro-giac-ngu", …})` cho slug `cham-cuu-ho-tro-giac-ngu`, `status: "draft"`, `version 1`, `draftRevisionId: null`. `update("bai_viet", id, {title:"Châm cứu hỗ trợ giấc ngủ"})` (chữ ký thật: `update(collection, id, data)`, data PHẲNG, không bọc `{data:…}`) trả 200 và giữ nguyên slug. Nó **tạo 1 dòng `revisions`** (`data = {"title":"Châm cứu hỗ trợ giấc ngủ","description":"thử"}`), đặt `draft_revision_id`, và `version` lên 2. Nhưng cột `ec_bai_viet.title` **vẫn là ASCII** và `updated_at` không đổi. | Mẹo dùng được, và slug không dấu giữ nguyên qua cả lần xuất bản. Nhưng bài nằm ở "bản nháp có revision", nên xem 1b. |
+| 1b | Bài đó hiện ra sao | **ĐẠT, nhưng lệch giữa các màn** | Trình soạn admin hiện title `Ngủ ngon nhờ bấm huyệt`, slug `ngu-ngon-nho-bam-huyet`. Nhưng **danh sách** Bài Viết (`GET /content/bai_viet`) hiện title ASCII `ngu-ngon-nho-bam-huyet`. `ctx.content.get` của plugin cũng trả title ASCII, còn `GET /content/bai_viet/:id` của admin trả title có dấu. Sau khi Xuất bản, cột thành `Châm cứu hỗ trợ giấc ngủ`, slug vẫn ASCII, và `<title>` trang blog là `Châm cứu hỗ trợ giấc ngủ \| …`. | Người duyệt sẽ thấy tên ASCII trong danh sách cho tới lúc bấm Publish. Plugin đọc lại bài bằng `ctx.content.get` sẽ thấy bản cũ, nên muốn biết bản nháp thì phải tự nhớ dữ liệu đã ghi. Cách khác: đặt title ASCII tạm là một tên dễ nhận ra. |
+| 1c | Slug khi `create` thẳng title có dấu, và khi trùng | **ĐO ĐƯỢC** | Title `Châm cứu hỗ trợ giấc ngủ` cho slug **`châm-cứu-hỗ-trợ-giấc-ngủ`**, tức giữ dấu. Tạo thêm hai lần title ASCII trùng thì ra `cham-cuu-ho-tro-giac-ngu-1` và `cham-cuu-ho-tro-giac-ngu-2`. | Hậu tố trùng có dạng `-1`, `-2`, nên tính trước slug ở plugin (`slugKhongDau`) là đủ, EmDash tự lo trùng. |
+| 1d | Có đường nào khác để đổi slug không | **TRƯỢT** | `update(…, {slug:"thu-doi-slug"})` trả 200, `version` lên 2, nhưng **không** ghi revision và slug **không** đổi (bị bỏ qua lặng lẽ). `update(…, {_slug:"…"})` (khoá mà chính admin ghi vào revision) thì ném `IdentifierError: content field name must match /^[a-z][a-z0-9_]*$/ (got "_slug")`. | Plugin chỉ đặt được slug lúc `create`, qua title. Không có lối `update` nào đổi được slug. |
+| 2a | `ctx.media.list({limit:100})` (cap `media:read`) | **ĐẠT** | Mỗi mục có các trường `id, filename, mimeType, size, url, createdAt, width, height, alt, caption, focalX, focalY, blurhash, dominantColor, folderId, status`. alt đọc đúng `Huyệt Thần Môn`. **Không có `storageKey`.** `url` có dạng `/_emdash/api/media/asset/<id>/<filename>`, và đường này trả **401 khi không đăng nhập** (200 khi có phiên). `ctx.media.get(id)` cho đúng các trường đó. `ctx.media` chỉ có `get` và `list`. | Không được dùng `url` của media.list trong trang công khai: người đọc sẽ nhận 401. |
+| 2b | `featured_image` khi `create`: id trần hoặc `{id, provider:"local"}` | **ĐẠT, cả hai** | Cả hai dạng đều được **tự làm đầy** lúc ghi, thành `{provider:"local", id, filename, mimeType, width, height, blurhash, dominantColor, alt:"Huyệt Thần Môn", meta:{storageKey:"01M3SB41DRC7B9SQMJRP74P0JF.png", caption, …}}`. `ctx.content.get` của plugin đọc lại được `meta.storageKey`. Trang `/blog/<slug>/` trả 200, `<img src="…/_emdash/api/media/file/<storageKey>.png" alt="Huyệt Thần Môn" width=640 height=400>` kèm srcset, và `og:image` dùng cùng URL. URL file đó trả 200 khi không đăng nhập. | Ảnh bìa chỉ cần id. alt lấy từ thư viện ảnh, nên phải đặt alt ở thư viện. |
+| 2c | Ảnh trong thân bài (Portable Text) | **ĐẠT với đúng một dạng** | `{_type:"image", _key, asset:{_ref:id, url:"/_emdash/api/media/file/<storageKey>"}, alt, width, height}` render ra `<figure class="emdash-image"><img src="…/file/<storageKey>" alt=…>` và có `<figcaption>` khi có caption: **200**. Dạng `asset:{_ref:id}` (không url, hoặc kèm `provider:"local"`) render `src="/_emdash/api/media/file/<mediaId>"` và trả **404**, dù thẻ `<img>` vẫn có mặt. Dạng `asset.url` = url của media.list thì render ra URL `/asset/…`, **401** với người đọc. Khối ảnh PT **không** được làm đầy lúc ghi như `featured_image`. | Lò viết phải có `storageKey` để chèn ảnh vào thân bài. Lấy nó bằng cách đặt ảnh vào `featured_image` rồi đọc lại `meta.storageKey` (đã đo là được), hoặc đọc bảng `media`. Nên thêm một phép kiểm "mọi khối ảnh PT phải có `asset.url` dạng `/file/<key có đuôi>`". Nếu không, ảnh gãy 404 mà trang vẫn trông bình thường. |
+| 3 | `markdownToPortableText` từ `"emdash/client"` trong bundle server của plugin native | **ĐẠT (nạp được lúc chạy), nhưng kết quả nghèo** | `typeof === "function"`, 2 ms. Các phần tử được chuyển đúng: `## H2` thành `style:"h2"`, `- …` thành `listItem:"bullet", level:1`, `1. …` thành `listItem:"number"`, link thành `markDefs:[{_type:"link", href:"/huyet/than-mon/"}]` với span mang mark, `**đậm**` thành mark `strong`. Có ba chỗ hỏng. (1) **Một đoạn văn hai dòng bị tách thành 2 block** (`"Mất ngủ là … khó vào giấc"` và `"hoặc thức giấc sớm…"`). (2) **Bảng không được chuyển**: mỗi dòng thành một block văn bản trần (`"\| Huyệt \| Kinh \|"`, `"\|---\|---\|"`, …). (3) `*nghiêng*` giữ nguyên dấu sao. `_key` có dạng `k0`, `k1`… và chỉ duy nhất trong một lần gọi. | Phải nối dòng trước khi chuyển (đúng việc `chuanHoaMd` đang làm). Lò viết không được sinh bảng Markdown, hoặc phải tự dựng khối bảng PT. Nghiêng nên dùng `_x_` hoặc bỏ hẳn. Nếu ghép nhiều lần gọi vào một bài thì phải đổi `_key` cho khỏi trùng. |
+| 4a | `content:beforeSave`: có chạy khi plugin `create` không | **ĐẠT** | Chạy, event `{content:{title,…}, collection:"bai_viet", isNew:true}`, **không có** `actor` và `id`. Hook của chính plugin cũng được gọi. **`afterSave` KHÔNG chạy** khi plugin `create`. Ném `ContentSaveRejectedError` từ hook làm route plugin trả **500 `{"code":"INTERNAL_ERROR","message":"Plugin route error"}`**, và log ghi `Route handler failed: SAVE_REJECTED: …`. Không có dòng nào được ghi. | Rào phạm vi Y sỹ đặt ở beforeSave chặn được bài do lò viết TẠO. Route của lò phải bắt lỗi có `code === "SAVE_REJECTED"` để báo tiếng Việt, không thì người dùng chỉ thấy 500. |
+| 4b | `beforeSave` khi plugin `update` | **TRƯỢT: không chạy** | `update` từ plugin không kích hoạt `beforeSave` hay `afterSave`. Có cờ chặn bật mà title `CHAN sửa từ plugin` vẫn được ghi vào revision nháp. | Không trông vào hook để gác bản plugin SỬA. Lò viết phải tự gọi hàm kiểm trước mọi `update`. |
+| 4c | `beforeSave` khi lưu từ admin | **ĐẠT, nhưng chỉ thấy phần thay đổi** | Bấm Save cho ra event với `isNew:false`, `id`, `actor:{id, role:50}`, còn **`content` chỉ chứa trường vừa đổi** (`keys=title`). Hook chạy trước khi ghi, rồi `afterSave` theo sau khoảng 20–30 ms với toàn bộ mục (có `liveData`). **Autosave cũng gọi hook**. Ném lỗi thì hiện toast **"Autosave failed — Bài chưa qua kiểm phạm vi Y sỹ (thử 2C-3)"** và **"Failed to save — …"** (câu của mình giữ nguyên văn). Ô tiêu đề giữ chữ người gõ, nút lại thành "Save", và revision trong DB giữ bản trước. | Muốn kiểm cả bài ở beforeSave thì phải tự đọc bản đầy đủ, vì event chỉ có phần thay đổi. Lỗi đi qua autosave nên chặn ở đây sẽ bắn toast liên tục khi người biên tập đang gõ. Chỗ gác chính nên là beforePublish. |
+| 4d | `content:beforePublish` trả `{cancel:true, reason}` | **ĐẠT** | Bấm "Publish now" rồi xác nhận hộp thoại: `POST …/publish?locale=en` trả **422 `{"code":"PUBLISH_REJECTED","message":"Chưa đủ căn cứ y văn (thử 2C-3)"}`**, toast **"Failed to publish — Chưa đủ căn cứ y văn (thử 2C-3)"**, và bài vẫn là nháp. Event có `origin:{source:"api"}`, `actor:{id, role:50, source:"api"}` và `content` là **mục đầy đủ** (có `data`, `liveData`, `status:"draft"`). Publish từ admin còn lưu trước (chạy beforeSave và afterSave) rồi mới tới beforePublish. | Đây là chỗ đặt rào "không được lên site nếu vi phạm". Event có đủ dữ liệu để kiểm cả bài, và lý do hiện nguyên văn cho người duyệt. |
+| 4e | `content:afterPublish` | **ĐẠT** | Chạy khoảng 25 ms sau beforePublish. Event chỉ có `{content, collection}`, không có `actor`/`origin`. `content` có `status:"published"`, `liveRevisionId`, `publishedAt`, `data` đầy đủ kể cả `featured_image.meta.storageKey`. | Dùng được làm mốc "đã lên site" (ghi nhật ký, xếp đo lại). Muốn biết ai bấm thì lấy từ beforePublish. |
+| 5 | `admin.editorPanels` của plugin native | **ĐẠT** | Mục "Bảng thử 2C-3" hiện ở cột phải của trình soạn `bai_viet`, dưới SEO, **thu gọn sẵn**. Chỉ khi mở mới gọi `POST /_emdash/api/content/bai_viet/<id>/plugin-extensions/do-thu-2c3/panel/bang-thu?locale=en` (200). Route nhận `input = {type:"panel_load"}` và **không có `draft`**, dù đã khai `draft.read` kèm cap `admin.editor-draft:read`. `ctx.ui = {surface:"content-editor-panel", locale:"en", direction:"ltr", contentLocale:"en", extensionId:"bang-thu", entry:{collection:"bai_viet", id, locale:"en", version:1}}`. Có `ctx.user`. Block Kit `header` + `section` **render đúng** (đã chụp ảnh và tự xem). Route phải là private. Mã runtime **bỏ panel nếu `definePlugin({admin:{entry}})` có mặt**. Rada SEO chỉ khai `adminEntry` ở descriptor, không khai `admin.entry`, nên không dính. | Có thể làm "bảng Rada SEO cạnh bài": lấy id từ `ctx.ui.entry.id` rồi tự đọc bài và dữ liệu của plugin. Đừng trông vào `draft` lúc tải panel. Panel chỉ có ở mục đã lưu. Tiêu đề panel hơi lệch lề so với các mục khác. |
+| 6 | Thêm cap `content:write` có đổi gì nhìn thấy được không | **ĐO ĐƯỢC: chỉ đổi nhãn** | Trang Plugins (`/_emdash/admin/plugins-manager`): `do-thu-2c3` hiện "5 permissions", mở ra thấy nhãn **"Create, update, and delete content"**, cạnh "Read your content", "Access your media library", "Review and block publishing, scheduling, and unpublishing content", "Read selected unsaved editor content after you explicitly invoke the plugin". `do-thu-2c3-r` hiện "1 permission" / "Read your content". **Không** có hộp đồng ý, **không** có bước duyệt: plugin khai trong config ở `status:"active"`, `source:"config"` ngay. API `admin/plugins` cho cả hai: `mcpToolsEnabled:false`, `mcpTools:[]`. Công cụ MCP đến từ khai báo `mcp` của route, không đến từ capability. | Thêm `content:write` cho Rada SEO không cần thao tác gì trên VPS, và không bật hay tắt công cụ MCP nào (công tắc MCP vẫn là `PUT …/plugins/rada-seo/mcp`). Nó chỉ thêm một nhãn quyền trên trang Plugins. |
+
+## Điều phải biết thêm
+
+1. **Chữ ký trong brief sai ở hai chỗ.** `create(collection, data)` và `update(collection, id, data)` nhận
+   các trường PHẲNG. Viết `{data:{title}}` sẽ ghi một trường tên `data`.
+2. **`ctx.content.get` của plugin đọc CỘT, không đọc bản nháp.** Sau `update` nó vẫn trả title cũ, dù
+   admin thấy title mới. Muốn so bản mình vừa ghi thì đọc giá trị trả về của `update`.
+3. **Kích thước ảnh tin theo máy khách.** Tải lên kèm `width=640` thì ảnh thật 800×500 vẫn được ghi
+   640×400. Rada SEO nếu có tải ảnh thì phải gửi đúng kích thước.
+4. Cảnh báo phụ thấy trong console admin (không thuộc spike, ghi lại để phiên khác biết):
+   `[kinhlac-admin] KHÔNG dò ra ô đường dẫn trên trang sửa mục — hai cảnh báo slug đang TẮT … sửa hàm
+   timOSlug() trong cms/src/lib/tro-giup-admin.ts`. Ô slug của EmDash 0.39.1 nay nằm ở mục "URL &
+   language" bên cột phải.
+5. Cột `revisions.created_at` trên libsql có dạng `2026-09-30 14:21:39`, không phải ISO. Đây là dạng
+   sai đã biết (xem CLAUDE.md, mục mốc thời gian); cần kiểm lại trên Postgres nếu đọc cột đó.
+
+## Liên lạc ra ngoài
+
+Không có. Không gọi Google Fonts (dùng tệp font có sẵn trong cache), không mở trang bên thứ ba, không chạm
+Aiven hay DB app, không ký vé SSO. Log server có 0 dòng `aiven`/`ECONNREFUSED`, và
+`grep -rl aivencloud dist-thu/` ra 0 tệp.
+
+## Dọn
+
+Server đã dừng (cổng 4399 không còn nghe). Đã xoá `cms/astro.config.thu.mjs`, `cms/dist-thu/`, DB thử,
+thư mục ảnh, cookie và symlink `node_modules` trong scratchpad. `cd cms && npx astro sync` đưa
+`.emdash/migrations.json` về `"type": "postgres"`, **giống từng byte** bản chụp trước khi build (`cmp`).
+Plugin thử và ảnh chụp màn hình còn nằm trong scratchpad, ngoài repo.
