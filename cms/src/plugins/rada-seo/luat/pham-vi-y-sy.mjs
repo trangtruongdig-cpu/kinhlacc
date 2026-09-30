@@ -4,36 +4,88 @@
 //
 // GIỮ NGUYÊN (thuật ngữ YHCT chuẩn): điều trị, chẩn trị, pháp trị, chủ trị, luận trị, chẩn đoán, quản trị, sửa chữa, khám bệnh nhân.
 // "Phòng khám" KHÔNG chặn: trong blog nó gần như luôn nói về khách hàng mua phần mềm.
-// Mệnh đề miễn trừ ("không thay thế việc thăm khám…") được GỠ ra rồi mới soát phần còn lại
+// Cụm miễn trừ ("không thay thế việc thăm khám…") được GỠ ra rồi mới soát phần còn lại
 // của câu — nó nói về người KHÁC. Trước đây cả câu được miễn, nên "Châm cứu chữa khỏi hẳn mất
 // ngủ, nhưng bạn nên tham khảo ý kiến thầy thuốc." lọt qua trọn vẹn.
 // Dấu hiệu miễn trừ CHỈ còn "không (thể) thay thế". "thăm khám"/"tham khảo ý kiến" từng là dấu
 // hiệu, và chính nó là lỗ: "Chúng tôi thăm khám và chữa mất ngủ…" ra [] (đo 30/09/2026).
 // Bỏ sót ở đây là rủi ro pháp lý, bắt thừa chỉ tốn một lần viết lại — nghiêng về bắt thừa.
 
-const LUAT = [
-	{ ma: "chua", mau: /(?<!sửa )(?<!\p{L})chữa(?!\p{L})/u, goiY: "hỗ trợ / cải thiện / theo lý luận Đông Y" },
-	{
-		ma: "tri",
-		// Loại: điều trị, chẩn trị, pháp trị, chủ trị, luận trị, giá trị, cai trị, quản trị, chính trị,
-		// cấp trị / hoãn trị ("cấp trị tiêu, hoãn trị bản"); trị liệu, trị số, trị giá.
-		mau: /(?<!(?:điều|chẩn|pháp|chủ|luận|giá|cai|quản|chính|cấp|hoãn) )(?<!\p{L})trị(?!\p{L})(?! (?:liệu|số|giá)(?!\p{L}))/u,
-		goiY: "hỗ trợ / điều hoà",
-	},
-	{
-		ma: "kham_benh",
-		// "khám" đứng làm động từ: thăm khám, khám bệnh, khám chữa, đi/được khám, khám cho, khám và…
-		// Loại: phòng khám, khám phá, khám nghiệm, khám bệnh nhân (khách hàng dùng phần mềm khám bệnh
-		// nhân — xem đầu tệp). "thăm " được nuốt vào `tu` để gợi ý chỉ đúng cụm cần thay.
-		mau: /(?<!\p{L})(?:thăm )?(?<!phòng )khám(?!\p{L})(?! (?:phá|nghiệm|bệnh nhân)(?!\p{L}))/u,
-		goiY: "đo kinh lạc / tư vấn",
-	},
-	{ ma: "hua_khoi", mau: /(?<!\p{L})(?:khỏi (?:hẳn|bệnh|hoàn toàn)|dứt điểm)(?!\p{L})/u, goiY: "bỏ lời hứa kết quả" },
-	{ ma: "bac_si_minh", mau: /(?:đội ngũ bác s[ĩỹ]|bác s[ĩỹ] (?:của chúng tôi|kinh lạc))/u, goiY: "thầy thuốc / Y sỹ Y học cổ truyền" },
-];
+// Chế độ NGHIÊM (`{nghiem: true}`) dành cho bài MÁY viết (nopBai của lò viết, hook trước khi đăng
+// bài máy): chặn mọi "bác sĩ" (Y sỹ không được xưng/nhắc "bác sĩ" trong giọng của phòng chẩn trị),
+// bỏ ngoại lệ "khám bệnh nhân" (ngoại lệ đó viết cho bài về PHẦN MỀM, còn lò viết là giọng của
+// chính phòng chẩn trị), và bắt lời hứa rộng hơn. Chế độ thường giữ ngoại lệ cũ cho bài người viết.
 
-/** Mệnh đề miễn trừ: từ dấu hiệu tới dấu câu kế tiếp (gồm cả dấu đó) hoặc hết câu. */
-const MIEN_TRU = /không (?:thể )?thay thế[^,;.!?]*[,;.!?]?/gu;
+const HUA_KHOI_THUONG = "khỏi (?:hẳn|bệnh|hoàn toàn)|dứt điểm|tận gốc|đặc trị|khỏi \\d{1,3} ?%|cam kết khỏi";
+const HUA_KHOI_NGHIEM = `${HUA_KHOI_THUONG}|hết hẳn|đều khỏi|vĩnh viễn`;
+
+const luatChua = { ma: "chua", mau: /(?<!sửa )(?<!\p{L})chữa(?!\p{L})/u, goiY: "hỗ trợ / cải thiện / theo lý luận Đông Y" };
+const luatTri = {
+	ma: "tri",
+	// Loại: điều trị, chẩn trị, pháp trị, chủ trị, luận trị, giá trị, cai trị, quản trị, chính trị,
+	// cấp trị / hoãn trị ("cấp trị tiêu, hoãn trị bản"); trị liệu, trị số, trị giá.
+	mau: /(?<!(?:điều|chẩn|pháp|chủ|luận|giá|cai|quản|chính|cấp|hoãn) )(?<!\p{L})trị(?!\p{L})(?! (?:liệu|số|giá)(?!\p{L}))/u,
+	goiY: "hỗ trợ / điều hoà",
+};
+// "khám" đứng làm động từ: thăm khám, khám bệnh, khám chữa, đi/được khám, khám cho, khám và…
+// Loại: phòng khám (cả "Phòng-khám"), khám phá, khám nghiệm, và — chỉ ở chế độ thường — khám bệnh
+// nhân. "thăm " được nuốt vào `tu` để gợi ý chỉ đúng cụm cần thay.
+const luatKham = (nghiem) => ({
+	ma: "kham_benh",
+	mau: nghiem
+		? /(?<!\p{L})(?:thăm )?(?<!phòng[ -])khám(?!\p{L})(?! (?:phá|nghiệm)(?!\p{L}))/u
+		: /(?<!\p{L})(?:thăm )?(?<!phòng[ -])khám(?!\p{L})(?! (?:phá|nghiệm|bệnh nhân)(?!\p{L}))/u,
+	goiY: "đo kinh lạc / tư vấn",
+});
+const luatHua = (nghiem) => ({
+	ma: "hua_khoi",
+	mau: new RegExp(`(?<!\\p{L})(?:${nghiem ? HUA_KHOI_NGHIEM : HUA_KHOI_THUONG})(?!\\p{L})`, "u"),
+	goiY: "bỏ lời hứa kết quả",
+});
+const GOI_Y_BAC_SI = "thầy thuốc / Y sỹ Y học cổ truyền";
+
+const LUAT_THUONG = [
+	luatChua,
+	luatTri,
+	luatKham(false),
+	luatHua(false),
+	{ ma: "bac_si_minh", mau: /(?:đội ngũ bác s[ĩỹ]|bác s[ĩỹ] (?:của chúng tôi|kinh lạc))/u, goiY: GOI_Y_BAC_SI },
+];
+const LUAT_NGHIEM = [luatChua, luatTri, luatKham(true), luatHua(true), { ma: "bac_si", mau: /(?<!\p{L})bác s[ĩỹi](?!\p{L})/u, goiY: GOI_Y_BAC_SI }];
+
+/**
+ * Cụm danh từ của câu miễn trừ: "không (thể) thay thế [được] [cho] [việc] <danh sách>" với danh sách
+ * CHỈ gồm các danh từ dưới đây, nối bằng dấu phẩy / hay / hoặc / và. Miễn ĐÚNG cụm đó, không miễn
+ * phần câu phía sau: "không thay thế thuốc mà còn chữa khỏi hẳn…" không có danh từ nào trong danh
+ * sách nên không được miễn gì (lỗ đo 30/09/2026 — MIEN_TRU cũ nuốt tới dấu câu kế tiếp).
+ */
+const MUC_MIEN = "(?:thăm khám|khám|chẩn đoán|điều trị|tư vấn|ý kiến)(?!\\p{L})";
+const MIEN_TRU = new RegExp(`không (?:thể )?thay thế (?:được )?(?:cho )?(?:việc )?${MUC_MIEN}(?:(?:,? (?:hay|hoặc|và) |, )${MUC_MIEN})*`, "gu");
+/** Đuôi "của thầy thuốc…" tới hết câu — chỉ miễn khi chính nó không vi phạm luật nào. */
+const DUOI_MIEN = /^ của (?:thầy thuốc|bác s[ĩỹi]|nhân viên y tế)[^.!?]*/u;
+
+function goMienTru(thuong, luat) {
+	let ra = "", i = 0;
+	for (const m of thuong.matchAll(MIEN_TRU)) {
+		if (m.index < i) continue;
+		ra += `${thuong.slice(i, m.index)} `;
+		i = m.index + m[0].length;
+		const duoi = thuong.slice(i).match(DUOI_MIEN);
+		if (duoi && !luat.some((l) => l.mau.test(duoi[0]))) i += duoi[0].length;
+	}
+	return ra + thuong.slice(i);
+}
+
+/** Ký tự vô hình / gạch mềm: chèn vào giữa chữ ("ch\u200bữa") là lách được mọi mẫu. */
+const VO_HINH = /[\u200B-\u200D\u2060\u00AD\uFEFF]/gu;
+
+/**
+ * Chuẩn chữ trước MỌI phép soát luật: NFC (chữ dán từ macOS/Word có thể ở dạng NFD — "ư" = u +
+ * móc — và không khớp mẫu nào) và bỏ ký tự vô hình / gạch mềm.
+ */
+export function sachChu(s) {
+	return String(s ?? "").normalize("NFC").replace(VO_HINH, "");
+}
 
 /** Tách câu theo dấu kết câu và xuống dòng. */
 function tachCau(s) {
@@ -41,15 +93,17 @@ function tachCau(s) {
 }
 
 /**
+ * @param {string} vanBan
+ * @param {{nghiem?: boolean}} [tuyChon]  nghiem: bài máy viết (xem đầu tệp)
  * @returns {{ma:string, tu:string, cau:string, goiY:string}[]}
  */
-export function timViPham(vanBan) {
+export function timViPham(vanBan, { nghiem = false } = {}) {
+	const luat = nghiem ? LUAT_NGHIEM : LUAT_THUONG;
 	const ra = [];
-	// NFC trước: chữ dán từ macOS/Word có thể ở dạng NFD ("ư" = u + móc) và không khớp mẫu nào.
-	for (const cau of tachCau(String(vanBan ?? "").normalize("NFC"))) {
+	for (const cau of tachCau(sachChu(vanBan))) {
 		// Gộp khoảng trắng (kể cả NBSP) trước: "phòng  khám" hai dấu cách không được lọt ngoại lệ.
-		const thuong = cau.toLowerCase().replace(/\s+/gu, " ").replace(MIEN_TRU, " ");
-		for (const l of LUAT) {
+		const thuong = goMienTru(cau.toLowerCase().replace(/\s+/gu, " "), luat);
+		for (const l of luat) {
 			const m = thuong.match(l.mau);
 			if (m) ra.push({ ma: l.ma, tu: m[0], cau: cau.trim(), goiY: l.goiY });
 		}

@@ -28,7 +28,7 @@ test("không vu oan thuật ngữ YHCT và từ đồng dạng", () => {
 });
 
 test("câu miễn trừ nói về người khác được bỏ qua", () => {
-	assert.deepEqual(ma("Bài viết không thay thế việc thăm khám và chữa trị của bác sĩ có chuyên môn."), []);
+	assert.deepEqual(ma("Bài viết không thay thế việc thăm khám và điều trị của bác sĩ có chuyên môn."), []);
 });
 
 test("bắt khám bệnh, hứa khỏi, bác sĩ-của-mình", () => {
@@ -106,4 +106,61 @@ test("câu miễn trừ chuẩn của trang (KhungSeoBaiViet.astro) ra sạch", 
 		"Bài viết chỉ mang tính tham khảo & học tập theo lý luận Đông Y, không thay thế việc thăm khám, chẩn đoán hay điều trị của thầy thuốc có chuyên môn. Khi có vấn đề sức khoẻ, hãy đến cơ sở y tế.";
 	assert.deepEqual(timViPham(s), []);
 	assert.deepEqual(timViPham(s.normalize("NFD")), []);
+});
+
+// ---- Sửa sau rà soát 2C-3 ----
+
+test("C1: miễn trừ CHỈ đúng cụm danh từ của câu miễn trừ — câu không dấu phẩy không còn lọt", () => {
+	assert.deepEqual(maXep("Châm cứu không thay thế thuốc mà còn chữa khỏi hẳn mất ngủ"), ["chua", "hua_khoi"]);
+	assert.deepEqual(ma("Nó không thay thế được thuốc nhưng chữa được mất ngủ"), ["chua"]);
+	assert.deepEqual(maXep("Bài này không thay thế – mà chữa dứt điểm"), ["chua", "hua_khoi"]);
+	// Danh sách chỉ gồm các danh từ cho phép; "chữa trị" không nằm trong đó.
+	assert.deepEqual(maXep("Bài viết không thay thế việc thăm khám và chữa trị của bác sĩ có chuyên môn."), ["chua", "tri"]);
+	// Các dạng câu miễn trừ hợp lệ vẫn sạch.
+	for (const s of [
+		"Nội dung không thể thay thế cho việc khám, chẩn đoán và điều trị của nhân viên y tế.",
+		"Bài viết không thay thế tư vấn hoặc ý kiến của thầy thuốc.",
+		"Không thay thế việc thăm khám của bác sĩ.",
+	]) assert.deepEqual(ma(s), [], s);
+	// Đuôi "của thầy thuốc…" có vi phạm thì KHÔNG được miễn.
+	assert.deepEqual(ma("Không thay thế việc thăm khám của thầy thuốc chữa dứt điểm mất ngủ."), ["chua", "hua_khoi"]);
+});
+
+test("ký tự vô hình / gạch mềm không lách được luật", () => {
+	for (const c of ["​", "‌", "‍", "⁠", "­", "﻿"]) assert.deepEqual(ma(`Châm cứu ch${c}ữa mất ngủ`), ["chua"], JSON.stringify(c));
+});
+
+test("'Phòng-khám' (gạch nối) không bị bắt oan", () => {
+	assert.deepEqual(ma("Phần mềm cho Phòng-khám Đông Y."), []);
+});
+
+test("chế độ thường: thêm tận gốc / đặc trị / khỏi 100% / cam kết khỏi vào hua_khoi; giữ ngoại lệ cũ", () => {
+	for (const s of ["Châm cứu giúp hết tận gốc đau lưng", "Bài thuốc đặc trị mất ngủ", "Hiệu quả khỏi 100% sau 10 buổi", "Chúng tôi cam kết khỏi bệnh"])
+		assert.ok(ma(s).includes("hua_khoi"), s);
+	assert.deepEqual(ma("Khách hàng dùng phần mềm để khám bệnh nhân và lưu hồ sơ"), []);
+	assert.deepEqual(ma("Bác sĩ Đông y sẽ bắt mạch cho bạn."), []);
+});
+
+test("chế độ nghiêm (bài máy viết): mọi 'bác sĩ', 'khám bệnh nhân', lời hứa rộng", () => {
+	const mn = (s) => timViPham(s, { nghiem: true }).map((v) => v.ma).sort();
+	for (const s of ["Bác sĩ Đông y của phòng khám sẽ tư vấn", "Bác sỹ Nguyễn Văn A", "Hỏi bác si trước khi dùng"]) assert.ok(mn(s).includes("bac_si"), s);
+	assert.deepEqual(mn("Chúng tôi khám bệnh nhân miễn phí."), ["kham_benh"]);
+	for (const s of [
+		"Cam kết khỏi 100% sau 10 buổi",
+		"Hết hẳn đau lưng",
+		"Người bệnh đều khỏi",
+		"Chấm dứt mất ngủ vĩnh viễn",
+		"Giải quyết tận gốc",
+		"Bài thuốc đặc trị",
+		"Châm cứu trị tận gốc",
+		"Đông y chữa tận gốc",
+	])
+		assert.ok(mn(s).includes("hua_khoi"), s);
+	// Câu miễn trừ chuẩn vẫn sạch ở chế độ nghiêm; "Phòng-khám"/"phòng khám" vẫn không bị bắt.
+	const chuan =
+		"Bài viết chỉ mang tính tham khảo & học tập theo lý luận Đông Y, không thay thế việc thăm khám, chẩn đoán hay điều trị của thầy thuốc có chuyên môn. Khi có vấn đề sức khoẻ, hãy đến cơ sở y tế.";
+	assert.deepEqual(timViPham(chuan, { nghiem: true }), []);
+	assert.deepEqual(mn("Phần mềm cho Phòng-khám và phòng khám Đông Y."), []);
+	// Đuôi "của bác sĩ" ở chế độ nghiêm là vi phạm (máy không được viết "bác sĩ").
+	assert.deepEqual(mn("Không thay thế việc thăm khám của bác sĩ."), ["bac_si"]);
 });
