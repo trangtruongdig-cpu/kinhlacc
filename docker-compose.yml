@@ -120,7 +120,8 @@ services:
       # Rada SEO: CHỈ VPS được chạy ca đêm. Đặt ở ĐÂY, không trong cms/.env — tệp đó chép qua
       # lại máy dev, mà máy dev nhận ca đêm là chạy ca bằng mã của máy dev (bảng cron dùng chung).
       RADA_SEO_CA_DEM: "1"
-      # Cron của EmDash tính giờ theo múi giờ tiến trình; lịch Rada SEO "30 19 * * *" giả định UTC.
+      # Không còn CHỊU LỰC cho Rada SEO: lịch là "30 * * * *" (cùng mốc ở mọi múi giờ tròn giờ)
+      # và hook tự so getUTCHours() === 19. Giữ cho tường minh — giờ trong log container là UTC.
       TZ: UTC
     volumes:
       # Ảnh người biên tập tải lên — phải BỀN qua mỗi lần deploy.

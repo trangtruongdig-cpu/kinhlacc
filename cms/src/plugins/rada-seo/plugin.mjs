@@ -11,8 +11,18 @@ import { chayCaRadar } from "./ca-radar.mjs";
 import { taoDocWeb } from "./lib/doc-web.mjs";
 import { taoClaude, taoClientThat, taoNganSach } from "./lib/claude.mjs";
 
-/** 02:30 giờ Việt Nam = 19:30 UTC hôm trước (cron của EmDash chạy theo UTC). */
-export const LICH_RADAR = "30 19 * * *";
+/**
+ * Lịch cron: phút 30 MỖI GIỜ. Ca thật chỉ chạy ở tick có giờ UTC = GIO_UTC_CHAY (19:30 UTC =
+ * 02:30 giờ Việt Nam); 23 tick còn lại trả ngay, không ghi gì.
+ *
+ * Vì sao không hẹn thẳng "30 19 * * *": EmDash tính lại next_run_at SAU MỖI LƯỢT NHẬN, bằng
+ * croner KHÔNG kèm múi giờ → theo múi giờ của TIẾN TRÌNH ĐÃ NHẬN. Bảng _emdash_cron_tasks nằm
+ * trong kho CMS dùng chung, nên chỉ cần MỘT tick bị một tiến trình giờ VN (máy lập trình) nhận
+ * là ca đêm trôi 7 tiếng, và trôi mãi. "30 * * * *" cho ra cùng mốc ở mọi múi giờ tròn giờ,
+ * còn phép so giờ UTC trong hook thì không phụ thuộc múi giờ tiến trình.
+ */
+export const LICH_RADAR = "30 * * * *";
+export const GIO_UTC_CHAY = 19;
 /** Khoá chống chạy chồng: ca dài nhất đo được + dư. Quá hạn thì coi như ca trước đã chết. */
 const KHOA_CA = "ca:dang-chay";
 const HAN_KHOA_MS = 3 * 60 * 60 * 1000;
@@ -91,6 +101,9 @@ export function createPlugin() {
 		hooks: {
 			cron: async (event, ctx) => {
 				if (event.name !== "radar") return;
+				// 23/24 tick mỗi ngày dừng ở đây, IM LẶNG (xem LICH_RADAR). Phải đứng TRƯỚC phép kiểm
+				// công tắc: không thì máy lập trình ghi một dòng "nhả ca" mỗi giờ.
+				if (new Date().getUTCHours() !== GIO_UTC_CHAY) return;
 				if (!caDemBat()) {
 					ctx.log.warn("Rada SEO: máy này không bật RADA_SEO_CA_DEM — nhả ca đêm");
 					const bayGio = new Date().toISOString();
@@ -177,13 +190,11 @@ export function createPlugin() {
 				// plugin:install KHÔNG chạy với plugin khai trong config (đo ở bước 0) nên phải hẹn
 				// qua route. schedule là upsert: bấm lại vô hại.
 				handler: async (ctx) => {
-					// CHỈ hẹn từ tiến trình UTC có bật ca đêm (tức container VPS). nextCronTime của
-					// EmDash gọi croner KHÔNG kèm múi giờ → "30 19 * * *" được tính theo giờ của
-					// TIẾN TRÌNH. Hẹn từ máy giờ VN ra 12:30Z (= 19:30 VN, đo ở nghiệm thu 2A), mà
-					// dòng _emdash_cron_tasks nằm trong kho DÙNG CHUNG — VPS (UTC) chỉ tính lại sau
-					// mỗi lượt chạy, nên đêm đó ca chạy lệch 7 tiếng. Chỉ đúng khi hẹn từ tiến trình UTC.
-					if (!caDemBat() || new Date().getTimezoneOffset() !== 0)
-						throw PluginRouteError.badRequest("Chỉ hẹn lịch được trên máy chủ chạy ca đêm (RADA_SEO_CA_DEM=1) và theo giờ UTC — hẹn từ máy khác sẽ làm ca đêm lệch giờ");
+					// Chỉ hẹn từ máy chạy ca đêm (RADA_SEO_CA_DEM=1, tức container VPS). KHÔNG còn đòi
+					// tiến trình UTC: LICH_RADAR "30 * * * *" ra cùng mốc ở mọi múi giờ tròn giờ, và
+					// giờ chạy thật do phép so giờ UTC trong hook cron quyết định.
+					if (!caDemBat())
+						throw PluginRouteError.badRequest("Chỉ hẹn lịch được trên máy chủ chạy ca đêm (RADA_SEO_CA_DEM=1)");
 					await ctx.cron.schedule("radar", { schedule: LICH_RADAR });
 					return { lich: await ctx.cron.list() };
 				},
