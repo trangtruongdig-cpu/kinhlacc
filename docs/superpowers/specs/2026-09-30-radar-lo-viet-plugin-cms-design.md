@@ -70,31 +70,49 @@ thử nhỏ, chạy trên **bản dựng** (`node ./dist/server/entry.mjs`, khô
 Sửa `astro.config.mjs` có thể làm sập dev server của phiên khác — báo trước, thử trên tiến
 trình riêng.
 
-## Nguồn AI — đổi ngày 30/09/2026 (bỏ Yescale)
+## Nguồn AI — Claude trong tài khoản người dùng, qua MCP (chốt 30/09/2026)
 
-Người dùng chốt: bỏ Yescale, "đưa về chính Claude", **kết hợp hai đường**:
+Lịch sử quyết định: bỏ Yescale → (bản A) Haiku qua API + Claude Code → **bản B, đang dùng:
+không khoá API nào**. Người dùng chọn "tất cả qua tài khoản Claude, bỏ API". Bản A đã dựng xong
+và đã rà soát (kế hoạch 2A) rồi được thay ở kế hoạch 2B-1.
 
-| Việc | Ai làm | Vì sao |
-|---|---|---|
-| Phân tích từng trang đối thủ (vài trăm trang/đêm) | Plugin gọi **API Anthropic, `claude-haiku-4-5`**, SDK `@anthropic-ai/sdk`, đầu ra có cấu trúc (khuôn zod) | Lặp, số lượng lớn, cần tự hành trên VPS |
-| Tìm khoảng trống | **Luật trong plugin**, không gọi mô hình | So chủ đề đối thủ với chủ đề mình bằng chính thước chống trùng; đếm số đối thủ; cộng xu hướng |
-| Chọn đề tài + viết 5 bài/đêm | **Claude Code chạy theo lịch** đọc hồ sơ plugin dựng, nộp bài qua route của plugin | Cần chất lượng; không tốn API riêng |
+| Việc | Ai làm |
+|---|---|
+| Quét sitemap, tải trang, lọc ngách, **trích chữ** (≤5.000 ký tự) | Plugin, không gọi mô hình |
+| Đọc trang (chủ đề, từ khoá, tóm tắt) | **Routine Claude 03:00** trong tài khoản người dùng, qua connector MCP |
+| Tìm khoảng trống | Luật trong plugin (như cũ), tính lại khi Claude báo đọc xong |
+| Chọn đề tài + viết ≤5 bài/đêm | Routine Claude (kế hoạch 2B-2) |
 
-Bài Claude Code nộp đi qua **đúng** rào chắn luật như mọi bài khác (phạm vi Y sỹ, YMYL, nguồn,
-link, chống trùng) — không có đường vòng cho "người nhà" (cùng nguyên tắc `tham-dinh-thu-cong`).
-Chi tiết đường Claude Code (lịch ở đâu, xác thực bằng khoá `ec_pat_`) chốt ở kế hoạch 2B.
+**Đường nối:** EmDash có sẵn máy chủ MCP `/_emdash/api/mcp` + OAuth (kể cả đăng ký client
+động). Plugin khai công cụ riêng qua `definePlugin({ mcp: { tools } })`; route của công cụ phải
+có `permission` tường minh và `input` zod. Quản trị viên bật công cụ plugin bằng
+`PUT /_emdash/api/admin/plugins/rada-seo/mcp`. nginx phải chuyển `/.well-known/oauth-*` sang CMS.
 
-`ANTHROPIC_API_KEY` khai trong `cms/.env` (VPS). Thiếu khoá → ca radar ghi lỗi vào nhật ký,
-không nằm im.
+**Công cụ (2B-1):** `rada_lay_viec` (≤10 trang/lượt, kèm bối cảnh + lời dặn cách đọc do máy chủ
+giữ), `rada_ghi_phan_tich` (≤10 kết quả/lượt), `rada_xong_phan_tich` (tính lại khoảng trống,
+ghi nhật ký loại "claude"). **Trần phía máy chủ 40 trang/đêm** (giờ VN) — giữ hạn mức gói Claude;
+lời dặn trong routine có thể bị bỏ qua, trần thì không.
+
+**Rào an toàn không phụ thuộc Claude nghe lời:**
+- Tài khoản CMS của Claude ở vai **contributor** (bậc 20): `content:create`, `media:upload`,
+  đọc nháp; KHÔNG `publish_own` (vai author CÓ — đo trong `@emdash-cms/auth`), KHÔNG sửa.
+- 2B-2: hook `content:beforeSave` trên `bai_viet` chấm MỌI đường ghi (Claude gọi thẳng
+  `content_create` của EmDash cũng không lọt).
+
+**Rủi ro đã biết:** tài liệu Anthropic không bảo đảm token OAuth của connector tự làm mới khi
+routine chạy không người. Phát hiện: dải đỏ "26 giờ Claude chưa đọc" khi còn trang chờ. Đường
+lùi: khoá `ec_pat_` (scope `mcp:tools:rada-seo`) trong `.mcp.json` của routine + mở tên miền
+trong môi trường routine.
 
 ## Luồng ca đêm (giờ VN)
 
 ```
-02:30  radar (plugin): quét sitemap đối thủ → Haiku phân tích URL chờ (trần/ca) → dò xu hướng
-       → khoảng trống bằng luật → chấm điểm → cập nhật danh sách
-05:00  lò viết (Claude Code theo lịch): nếu nháp chưa duyệt ≥ 25 → nghỉ viết
-       đọc hồ sơ → chọn 5 khoảng trống, 5 cụm khác nhau → viết → nộp qua route plugin
-       → plugin: chống trùng → rào chắn → ảnh → content.create (nháp)
+02:30  radar (plugin, không AI): quét sitemap → trích chữ URL mới (trần/đối thủ) → dò xu hướng
+       → khoảng trống bằng luật (từ những gì Claude đã đọc)
+03:00  routine Claude (tài khoản người dùng, MCP): rada_lay_viec ↔ rada_ghi_phan_tich (≤40 trang)
+       → rada_xong_phan_tich (tính lại khoảng trống)
+       → [2B-2] nếu nháp chưa duyệt < 25: chọn ≤5 khoảng trống → viết → nộp qua công cụ plugin
+       → plugin: chống trùng → rào chắn → ảnh thật → content.create (nháp)
 ```
 
 - **Công tắc "chỉ VPS":** hook cron chỉ chạy khi `RADA_SEO_CA_DEM=1` (khai trong
@@ -104,10 +122,10 @@ không nằm im.
 - Mỗi ca ghi một dòng nhật ký (storage plugin): bắt đầu/kết thúc, URL mới, số phân tích,
   ngoài ngành, lượt gọi, số cụm, lỗi. Màn plugin báo đỏ khi > 26 giờ không có ca thành công.
 - **Nghỉ giữa các lượt** 300ms (cùng lý do `NGHI_GIUA_LO_MS` của bot thẩm định).
-- Trần chi phí tính bằng **số lượt gọi, kể cả lượt hỏng** (`RADA_SEO_TRAN_LUOT`, mặc định 200;
-  `RADA_SEO_TRAN_MOI_DOI_THU`, mặc định 30). Timeout 60s, thử lại 1 lần.
-- Chạy tay mặc định **chạy thử** (chỉ quét + đếm, không gọi Claude); "Chạy thật" chỉ bật
-  được trên máy có `RADA_SEO_CA_DEM=1`.
+- Trần: `RADA_SEO_TRAN_MOI_DOI_THU` (trích, mặc định 30/đối thủ/đêm) và 40 trang/đêm giao
+  cho Claude. Không còn trần lượt gọi API vì plugin không gọi mô hình.
+- Chạy tay mặc định **chạy thử** (chỉ quét + đếm); "Chạy thật" chỉ bật được trên máy có
+  `RADA_SEO_CA_DEM=1`.
 
 ## Chọn khoảng trống
 
@@ -141,13 +159,13 @@ Mỗi ca thay các cụm `cho_viet`; cụm đã khoá được giữ, cụm mớ
 Mô hình tự chấm YMYL chỉ là tín hiệu phụ — luật là lớp chặn chính. Kết quả hiện ở phiếu chấm
 (`editorPanels`) cạnh bài.
 
-## Ảnh
+## Ảnh — CHỈ ảnh thật trong thư viện CMS (người dùng chốt 30/09/2026)
 
-- Huyệt/kinh: **ảnh thật** trong thư viện CMS (653 huyệt, 20 kinh), chọn theo cách của
-  `frontend/scripts/cover-lib.mjs`. Ảnh AI vẽ vị trí huyệt gần như chắc sai giải phẫu.
-- Ảnh AI (chuỗi nhà cung cấp hiện có của app, chốt lại ở kế hoạch 2B vì Yescale đã bỏ) chỉ cho ảnh bìa
-  và minh hoạ không mang thông tin giải phẫu; lời nhắc cấm vẽ người kèm điểm/đường trên cơ thể.
-- Mọi ảnh qua `ctx.media.upload`, gán `featured_image` bằng `storageKey`.
+Không còn API ảnh (bỏ Yescale, Claude không vẽ ảnh). Ảnh bài máy viết chọn từ thư viện CMS
+đã có — 653 ảnh huyệt, 20 kinh, 1.440 ảnh huyệt 3D, 536 dược liệu — khớp theo từ khoá của bài,
+cách chọn như `frontend/scripts/cover-lib.mjs`. Đúng giải phẫu vì là ảnh của chính app (ảnh AI
+vẽ huyệt gần như chắc sai). Đề tài chung không có ảnh hợp thì để trống cho người duyệt chọn,
+không chèn ảnh lạc đề. Gán `featured_image` bằng `storageKey`.
 
 ## Chuyển `/blog/` sang CMS
 
