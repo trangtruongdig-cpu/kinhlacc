@@ -7,7 +7,13 @@
 
 const UA = "Mozilla/5.0 (compatible; KinhlacSEOBot/1.0; +https://kinhlac.online)";
 
-/** true nếu URL được phép đọc. */
+/**
+ * true nếu URL được phép đọc. Đây chỉ là lớp kiểm CHỮ (rẻ, trả lý do sớm). Lớp chặn thật với
+ * tên miền trỏ về IP nội bộ (`*.nip.io`, `localtest.me`) và chuyển hướng sang 127.0.0.1/169.254.x
+ * nằm ở `ctx.http.fetch` của plugin: đó là `ssrfSafeFetch` của EmDash — phân giải DNS qua DoH,
+ * chặn mọi IP không công khai, và kiểm lại TỪNG bước chuyển hướng (đã đo, rà soát 2C-3 M1).
+ * Đừng gọi `fetch` toàn cục thay cho nó.
+ */
 export function urlDocDuoc(url) {
 	let u;
 	try {

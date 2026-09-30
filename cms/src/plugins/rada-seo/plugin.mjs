@@ -245,7 +245,10 @@ function loiKho(e) {
 	return PluginRouteError.badRequest(m);
 }
 
-/** Màn duyệt chỉ đặt được các trạng thái này; dang_viet/co_nhap/da_dang là việc của lò viết. */
+/**
+ * Màn duyệt chỉ đặt được các trạng thái này; dang_viet/co_nhap/da_dang/can_xem là việc của lò viết.
+ * Bài can_xem ("Cần xem lại") chỉ đi về da_duyet hoặc bo_qua — luật đó nằm ở kho.datKeHoach.
+ */
 const KE_HOACH_MAN_DUYET = ["de_xuat", "da_duyet", "bo_qua"];
 
 export function createPlugin() {

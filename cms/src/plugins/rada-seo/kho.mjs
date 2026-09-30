@@ -287,7 +287,13 @@ export async function dsCa(s, n = 10) {
 // lại mỗi tuần, nên mọi hàm ghi lứa mới phải GIỮ quyết định người dùng đã đặt.
 
 export const TRANG_THAI_HUONG = ["de_xuat", "da_nhan", "bo_qua"];
-export const TRANG_THAI_KE_HOACH = ["de_xuat", "da_duyet", "bo_qua", "dang_viet", "co_nhap", "da_dang"];
+export const TRANG_THAI_KE_HOACH = ["de_xuat", "da_duyet", "bo_qua", "dang_viet", "co_nhap", "da_dang", "can_xem"];
+/**
+ * Trường lò viết (2C-3) ghi lên bài dự kiến. Claude đề xuất lại mỗi tuần: themKeHoach phải GIỮ
+ * chúng, không thì bộ đếm lượt nộp/lượt giao bị đặt lại lặng lẽ và kế hoạch hỏng được giao vô hạn.
+ * `can_xem` (nộp hết lượt đều trượt, hoặc giữ chỗ hết hạn lần 2) chỉ người quản trị gỡ được.
+ */
+export const TRUONG_LO_VIET = ["giuLuc", "soLanNop", "soLanGiao", "contentId", "slug", "loiCuoi", "lyDoCanXem"];
 /**
  * "cu": cụm bị lứa phân cụm mới thay đi nhưng còn bài dự kiến chưa bỏ → giữ để bài không mồ côi,
  * vẫn hiện trên màn, nhưng không nhận bài dự kiến MỚI.
@@ -394,7 +400,9 @@ export async function themKeHoach(s, ds, now, { nghi } = {}) {
 	const ghi = new Map();
 	ds.forEach((k, i) => {
 		const c = cu.get(ids[i]);
-		const giu = c ? { trangThai: c.trangThai, lyDoBo: c.lyDoBo, taoLuc: c.taoLuc } : { trangThai: "de_xuat", taoLuc: now };
+		const giu = c
+			? { trangThai: c.trangThai, lyDoBo: c.lyDoBo, taoLuc: c.taoLuc, ...Object.fromEntries(TRUONG_LO_VIET.map((x) => [x, c[x]])) }
+			: { trangThai: "de_xuat", taoLuc: now };
 		for (const x of Object.keys(giu)) if (giu[x] === undefined) delete giu[x];
 		ghi.set(ids[i], { ...k, ...giu, ...(c ? { capNhatLuc: now } : {}) });
 	});
@@ -416,7 +424,11 @@ export async function datKeHoach(s, id, { trangThai, lyDoBo } = {}) {
 	// Duyệt hai chỗ theo thứ tự: hướng bị bỏ (hoặc chưa nhận) thì bài trong đó chưa được duyệt.
 	if (trangThai === "da_duyet" && (await huongCuaKeHoach(s, cu))?.trangThai !== "da_nhan")
 		throw new Error("Hướng của bài dự kiến này chưa được nhận — nhận hướng trước rồi mới duyệt bài");
+	if (cu.trangThai === "can_xem" && !["da_duyet", "bo_qua"].includes(trangThai))
+		throw new Error("Bài dự kiến cần xem lại chỉ được duyệt lại (da_duyet) hoặc bỏ (bo_qua)");
 	const moi = { ...cu, trangThai };
+	// Duyệt lại sau can_xem: người quản trị đã xem → lò viết bắt đầu lại từ đầu (bộ đếm về 0).
+	if (cu.trangThai === "can_xem" && trangThai === "da_duyet") for (const x of ["giuLuc", "soLanNop", "soLanGiao", "loiCuoi", "lyDoCanXem"]) delete moi[x];
 	if (trangThai === "bo_qua") {
 		if (!lyDoSach(lyDoBo)) throw new Error("Bỏ bài dự kiến cần lý do");
 		moi.lyDoBo = lyDoSach(lyDoBo);

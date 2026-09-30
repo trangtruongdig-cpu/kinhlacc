@@ -102,10 +102,13 @@ function luuTab(tab) {
 // cùng giá trị mặc định với noi-bo/nap.mjs và noi-bo/kiem-duong.mjs.
 const TRANG_GOC = "https://kinhlac.online";
 const NHAN_HUONG = { de_xuat: "Đề xuất", da_nhan: "Đã nhận", bo_qua: "Đã bỏ" };
-const NHAN_KE_HOACH = { de_xuat: "Chờ duyệt", da_duyet: "Đã duyệt", bo_qua: "Đã bỏ", dang_viet: "Đang viết", co_nhap: "Có nháp", da_dang: "Đã đăng" };
+const NHAN_KE_HOACH = { de_xuat: "Chờ duyệt", da_duyet: "Đã duyệt", bo_qua: "Đã bỏ", dang_viet: "Đang viết", co_nhap: "Có nháp", da_dang: "Đã đăng", can_xem: "Cần xem lại" };
 const NHAN_Y_DINH = { tra_cuu: "Tra cứu", tim_hieu: "Tìm hiểu", so_sanh: "So sánh", huong_dan: "Hướng dẫn" };
-/** Chỉ ba trạng thái này màn duyệt được đặt (xem KE_HOACH_MAN_DUYET ở plugin.mjs); phần còn lại là việc của lò viết. */
-const KE_HOACH_SUA_DUOC = new Set(["de_xuat", "da_duyet", "bo_qua"]);
+/**
+ * Màn duyệt sửa được các bài ở những trạng thái này (đích đặt được: KE_HOACH_MAN_DUYET ở plugin.mjs).
+ * can_xem: lò viết bỏ cuộc (nộp hết lượt đều trượt / giữ chỗ hết hạn lần 2) — "Duyệt lại" hoặc "Bỏ".
+ */
+const KE_HOACH_SUA_DUOC = new Set(["de_xuat", "da_duyet", "bo_qua", "can_xem"]);
 
 /** Danh sách "chủ đề + link mở tab mới", dùng chung cho bằng chứng bài đối thủ và tài sản nội bộ. */
 function DanhSachLink({ ds, hienThi, toiDa = 5 }) {
@@ -253,11 +256,24 @@ function KeHoachRow({ k, onDuyet, onBo }) {
 				<td style={o}>
 					{NHAN_KE_HOACH[k.trangThai] ?? k.trangThai}
 					{k.trangThai === "bo_qua" && k.lyDoBo ? ` — ${k.lyDoBo}` : ""}
+					{k.trangThai === "can_xem" && (
+						// loiCuoi là lời máy chủ trả cho lượt nộp cuối — chữ thô, chỉ hiển thị qua JSX text.
+						<div style={{ fontSize: 12, color: "#92400e" }}>
+							{k.lyDoCanXem && <div>{k.lyDoCanXem}</div>}
+							{(k.loiCuoi ?? []).length > 0 && (
+								<ul style={{ margin: "4px 0 0", paddingLeft: 16 }}>
+									{k.loiCuoi.map((l, i) => (
+										<li key={i}>{l}</li>
+									))}
+								</ul>
+							)}
+						</div>
+					)}
 				</td>
 				<td style={o}>
 					{suaDuoc ? (
 						<>
-							{k.trangThai !== "da_duyet" && <Nut chinh onClick={() => onDuyet(k.id)}>Duyệt</Nut>}{" "}
+							{k.trangThai !== "da_duyet" && <Nut chinh onClick={() => onDuyet(k.id)}>{k.trangThai === "can_xem" ? "Duyệt lại" : "Duyệt"}</Nut>}{" "}
 							<input placeholder="lý do bỏ (bắt buộc)" value={lyDo} onChange={(e) => setLyDo(e.target.value)} style={{ width: 130 }} />{" "}
 							{k.trangThai !== "bo_qua" && <Nut disabled={!lyDo.trim()} onClick={() => onBo(k.id, lyDo)}>Bỏ</Nut>}
 						</>

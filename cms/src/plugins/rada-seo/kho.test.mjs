@@ -273,7 +273,7 @@ test("kế hoạch: themKeHoach đặt de_xuat; datKeHoach bác trạng thái l�
 	await kho.datKeHoach(s, ra[0].id, { trangThai: "bo_qua", lyDoBo: "trùng ý" });
 	const bo = await kho.dsKeHoach(s, { trangThai: "bo_qua" });
 	assert.deepEqual(bo.map((k) => [k.tieuDeLamViec, k.lyDoBo, k.taoLuc]), [["Một", "trùng ý", NOW]]);
-	assert.deepEqual(kho.TRANG_THAI_KE_HOACH, ["de_xuat", "da_duyet", "bo_qua", "dang_viet", "co_nhap", "da_dang"]);
+	assert.deepEqual(kho.TRANG_THAI_KE_HOACH, ["de_xuat", "da_duyet", "bo_qua", "dang_viet", "co_nhap", "da_dang", "can_xem"]);
 	for (const b of ["huong", "cum_nghia", "ke_hoach"]) assert.ok(kho.KHAI_BAO_KHO[b], b);
 	assert.ok(kho.KHAI_BAO_KHO.cum, "bộ cum cũ vẫn giữ");
 });
@@ -601,4 +601,34 @@ test("nhap: ghi theo contentId, đếm và liệt kê theo trạng thái", async
 
 test("nhap: contentId trống bị từ chối", async () => {
 	await assert.rejects(() => kho.themNhap(taoKhoGia(), { keHoachId: "k", contentId: "" }, NOW), /contentId/);
+});
+
+// ---- Sửa sau rà soát 2C-3 (I3): trạng thái can_xem ----
+
+test("can_xem: có trong TRANG_THAI_KE_HOACH; người quản trị chỉ đưa về da_duyet (đặt lại bộ đếm lò viết) hoặc bo_qua", async () => {
+	assert.ok(kho.TRANG_THAI_KE_HOACH.includes("can_xem"));
+	const s = taoKhoGia();
+	await s.huong.put("h_1", { ten: "H", trangThai: "da_nhan", trongSo: 3 });
+	await s.cum_nghia.put("c_1", { huongId: "h_1", ten: "C", trangThai: "de_xuat" });
+	const [k] = await kho.themKeHoach(s, [{ cumId: "c_1", huongId: "h_1", tieuDeLamViec: "Bài", tuKhoaChinh: "bài" }], NOW);
+	const cx = { ...(await s.ke_hoach.get(k.id)), trangThai: "can_xem", soLanNop: 3, soLanGiao: 2, giuLuc: NOW, loiCuoi: ["lien_ket: thiếu"], lyDoCanXem: "nộp 3 lượt đều trượt" };
+	await s.ke_hoach.put(k.id, cx);
+	await assert.rejects(kho.datKeHoach(s, k.id, { trangThai: "de_xuat" }), /cần xem lại/);
+	await kho.datKeHoach(s, k.id, { trangThai: "da_duyet" });
+	const r = await s.ke_hoach.get(k.id);
+	assert.equal(r.trangThai, "da_duyet");
+	for (const x of ["soLanNop", "soLanGiao", "giuLuc", "loiCuoi", "lyDoCanXem"]) assert.ok(!(x in r), x);
+	await s.ke_hoach.put(k.id, cx);
+	await kho.datKeHoach(s, k.id, { trangThai: "bo_qua", lyDoBo: "link đích chết" });
+	assert.equal((await s.ke_hoach.get(k.id)).trangThai, "bo_qua");
+});
+
+test("themKeHoach: đề xuất lại một bài đang ở lò viết → GIỮ bộ đếm, giữ chỗ, contentId, loiCuoi (không đặt lại lặng lẽ)", async () => {
+	const s = taoKhoGia();
+	const [k] = await kho.themKeHoach(s, [{ cumId: "c_1", tieuDeLamViec: "Trà hoa cúc", tuKhoaChinh: "trà hoa cúc" }], NOW);
+	const lo = { trangThai: "dang_viet", giuLuc: NOW, soLanNop: 2, soLanGiao: 1, contentId: "c9", slug: "tra", loiCuoi: ["x"], lyDoCanXem: "y" };
+	await s.ke_hoach.put(k.id, { ...(await s.ke_hoach.get(k.id)), ...lo });
+	await kho.themKeHoach(s, [{ cumId: "c_1", tieuDeLamViec: "trà hoa cúc!", tuKhoaChinh: "trà hoa cúc" }], "sau");
+	const r = await s.ke_hoach.get(k.id);
+	for (const [x, v] of Object.entries(lo)) assert.deepEqual(r[x], v, x);
 });

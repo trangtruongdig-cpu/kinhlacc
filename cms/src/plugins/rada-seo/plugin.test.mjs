@@ -298,6 +298,14 @@ test("route quản trị huong-dat / ke-hoach-dat gọi đúng hàm kho; lỗi �
 	await assert.rejects(p.routes["ke-hoach-dat"].handler({ ...ctx, input: { id: k.id, trangThai: "da_dang" } }), loiRoute(400));
 	await assert.rejects(p.routes["ke-hoach-dat"].handler({ ...ctx, input: { id: k.id, trangThai: "bo_qua" } }), loiRoute(400));
 	await assert.rejects(p.routes["ke-hoach-dat"].handler({ ...ctx, input: { id: "k_khong", trangThai: "da_duyet" } }), loiRoute(404));
+	// can_xem (lò viết bỏ cuộc): màn duyệt đưa về da_duyet ("Duyệt lại", đặt lại bộ đếm) hoặc bo_qua; không đặt can_xem tay.
+	await assert.rejects(p.routes["ke-hoach-dat"].handler({ ...ctx, input: { id: k.id, trangThai: "can_xem" } }), loiRoute(400));
+	await ctx.storage.ke_hoach.put(k.id, { ...(await ctx.storage.ke_hoach.get(k.id)), trangThai: "can_xem", soLanNop: 3, loiCuoi: ["x"] });
+	await assert.rejects(p.routes["ke-hoach-dat"].handler({ ...ctx, input: { id: k.id, trangThai: "de_xuat" } }), (e) => loiRoute(400)(e) && /cần xem lại/.test(e.message));
+	await p.routes["ke-hoach-dat"].handler({ ...ctx, input: { id: k.id, trangThai: "da_duyet" } });
+	const lai = await ctx.storage.ke_hoach.get(k.id);
+	assert.equal(lai.trangThai, "da_duyet");
+	assert.equal(lai.soLanNop, undefined);
 	for (const r of ["huong-dat", "ke-hoach-dat", "chien-luoc-tong-quan"]) assert.equal(p.routes[r].permission, undefined, `${r} giữ quyền mặc định plugins:manage`);
 
 	const tq = await p.routes["chien-luoc-tong-quan"].handler(ctx);
