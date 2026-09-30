@@ -217,11 +217,26 @@ export class ThamDinhRouter {
    * phải xem trước được, và phải gõ thêm một chữ mới ghi.
    */
   @Post('tu-sua')
-  tuSua(
+  async tuSua(
     @Query('ghi') ghi?: string,
     @Query('gioiHan') gioiHan?: string,
-  ): Promise<LuocKeTuSua> {
+  ): Promise<LuocKeTuSua | { dangChay: true; ghiChu: string }> {
     const n = Number(gioiHan);
-    return this.thamDinh.tuSuaHinhThuc(ghi !== '1', Number.isFinite(n) && n > 0 ? Math.floor(n) : 200);
+    const gh = Number.isFinite(n) && n > 0 ? Math.floor(n) : 200;
+    const thu = ghi !== '1';
+
+    // Chạy THỬ chỉ đọc nên nhanh — đợi luôn, người bấm muốn thấy ngay nó định sửa gì.
+    if (thu) return this.thamDinh.tuSuaHinhThuc(true, gh);
+
+    // Ghi thật thì mỗi chỗ là một giao dịch riêng qua mạng: 100 chỗ đã vượt kiên nhẫn
+    // của proxy. Cùng lỗi đã sửa cho ca quét, tôi lặp lại ở đây — việc dài không gọi
+    // qua HTTP mà đợi.
+    void this.thamDinh.tuSuaHinhThuc(false, gh).catch((e: unknown) => {
+      this.logger.error(`ca tự sửa nền chết: ${(e as Error)?.message || e}`);
+    });
+    return {
+      dangChay: true,
+      ghiChu: `Đang tự sửa tối đa ${gh} chỗ, chạy nền. Xem kết quả ở khối "Bot làm gì gần đây".`,
+    };
   }
 }
