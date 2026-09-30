@@ -99,7 +99,7 @@ export async function nopSerp({ s, docTrang, id, urls }) {
 		if (!r) return { ...t, trangThai: "loi", loi: `không tải được (quá hạn ${HAN_TAI_MS / 1000} s, bị chặn hoặc lỗi mạng)` };
 		if (r.status < 200 || r.status >= 300 || !r.html) return { ...t, trangThai: "loi", loi: `HTTP ${r.status}${r.html ? "" : ", trang rỗng"}` };
 		const { chu, ...soDo } = doTrang(r.html, { tuKhoa: d.tuKhoa, url: t.url });
-		return { ...t, trangThai: "ok", soDo, chu: String(chu ?? "").slice(0, TRAN_CHU_TRANG) };
+		return { ...t, trangThai: "ok", soDo: r.catBot ? { ...soDo, catBot: true } : soDo, chu: String(chu ?? "").slice(0, TRAN_CHU_TRANG) };
 	});
 	await kho.ghiSerp(s, id, serp);
 	return {

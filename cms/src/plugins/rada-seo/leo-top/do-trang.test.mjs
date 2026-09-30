@@ -115,3 +115,61 @@ test("so từ khoá bỏ dấu, cần ≥ 60% từ: 'than mon' trong đoạn đ�
 	const html2 = `<body><p>chỉ có chữ môn</p></body>`;
 	assert.equal(doTrang(html2, { tuKhoa: TU_KHOA, url: "https://e.vn/" }).viTriTraLoi, null);
 });
+
+// ---- Chống trang thù địch (fix round 1) ----
+const doGio = (f) => {
+	const t0 = performance.now();
+	const r = f();
+	return { r, ms: performance.now() - t0 };
+};
+const THU_DICH = {
+	"50k <a href=\"x không đóng": `<body><article>${'<a href="x'.repeat(50_000)}`,
+	"20k <p> không </p>": `<body><p>${"huyệt thần môn chữ <p>".repeat(20_000)}`,
+	"20k <p> thiếu từ khoá không </p>": `<body>${"<p>chữ ".repeat(20_000)}`,
+	"20k <h2> không đóng": `<body>${"<h2>x ".repeat(20_000)}`,
+	"20k <li> + <time + <meta không đóng": `<html><head>${'<meta name="author" content="x'.repeat(20_000)}</head><body>${"<li>x <time datetime=".repeat(20_000)}`,
+	"20k <script ld+json không đóng": `<body>${'<script type="application/ld+json">{"a":'.repeat(20_000)}`,
+	"20k <body không đóng": "<body x".repeat(20_000),
+	"20k <nav/<header không đóng": `<body>${"<nav><header>x".repeat(20_000)}`,
+};
+for (const [ten, html] of Object.entries(THU_DICH))
+	test(`doTrang tuyến tính: ${ten} < 500 ms`, () => {
+		const { ms } = doGio(() => doTrang(html, { tuKhoa: TU_KHOA, url: "https://x.vn/" }));
+		assert.ok(ms < 500, `${ms.toFixed(0)} ms`);
+	});
+
+test("JSON-LD lồng 20.000 tầng: không ném, không tràn ngăn xếp, vẫn đọc khối khác", () => {
+	// {"a":{"a":…}} 20.000 tầng ≈ 120 KB — dưới trần 200 KB nên thật sự được JSON.parse + duyệt.
+	const sau = '{"@type":"T","a":'.repeat(1) + '{"a":'.repeat(20_000) + "1" + "}".repeat(20_001);
+	assert.ok(sau.length < 200_000);
+	const html = `<script type="application/ld+json">${sau}</script>
+<script type="application/ld+json">{"@type":"Article","dateModified":"2026-01-02"}</script><body><p>x</p></body>`;
+	const { r, ms } = doGio(() => doTrang(html, { tuKhoa: TU_KHOA, url: "https://x.vn/" }));
+	assert.ok(ms < 500, `${ms.toFixed(0)} ms`);
+	assert.ok(r.loaiJsonLd.includes("T"), "khối sâu vẫn được đọc phần nông");
+	assert.ok(r.loaiJsonLd.includes("Article"));
+	assert.equal(r.ngayCapNhat, "2026-01-02");
+});
+
+test("JSON-LD: khối > 200 KB bị bỏ; mảng rất rộng dừng ở 5.000 nút; bọc CDATA vẫn đọc được", () => {
+	const to = `{"@type":"Recipe","x":"${"a".repeat(210_000)}"}`;
+	const rong = `[${Array.from({ length: 10_000 }, () => '{"@type":"Rong"}').join(",")},{"@type":"Cuoi"}]`;
+	const html = `<script type="application/ld+json">${to}</script>
+<script type="application/ld+json">${rong}</script>
+<script type="application/ld+json">/*<![CDATA[*/{"@type":"FAQPage"}/*]]>*/</script>
+<script type='application/ld+json'><![CDATA[{"@type":"HowTo"}]]></script>`;
+	assert.ok(rong.length < 200_000);
+	const { r, ms } = doGio(() => doTrang(html, { tuKhoa: TU_KHOA, url: "https://x.vn/" }));
+	assert.ok(ms < 500, `${ms.toFixed(0)} ms`);
+	assert.ok(!r.loaiJsonLd.includes("Recipe"));
+	assert.ok(r.loaiJsonLd.includes("Rong"));
+	assert.ok(!r.loaiJsonLd.includes("Cuoi"), "quá 5.000 nút thì dừng duyệt");
+	assert.equal(r.coFaq, true);
+	assert.ok(r.loaiJsonLd.includes("HowTo"));
+});
+
+test("doTrang không bao giờ ném: html kiểu lạ", () => {
+	for (const html of [{}, 12, "<p>&#99999999;</p>", `<script type="application/ld+json">null</script>`, `<script type="application/ld+json">"chuỗi"</script>`])
+		assert.doesNotThrow(() => doTrang(html, { tuKhoa: TU_KHOA, url: "rác" }));
+	assert.doesNotThrow(() => doTrang("<p>x</p>", {}));
+});

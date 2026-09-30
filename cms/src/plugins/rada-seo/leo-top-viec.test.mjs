@@ -104,6 +104,15 @@ test("nopSerp: trang mình đã có trong SERP thì đánh dấu laMinh tại ch
 	assert.deepEqual(d.serp.map((t) => [t.thuTu, t.laMinh]), [[1, false], [2, true]]);
 });
 
+test("nopSerp: trang bị cắt ở trần 1,5 MB thì số đo mang cờ catBot (trang khác không có)", async () => {
+	const s = taoKhoGia();
+	const p = await kho.taoPhienLeoTop(s, { tuKhoa: "k", trang: MINH, viTri: 9, hienThi: 50 }, new Date(T0).toISOString());
+	const docTrang = async (url) => ({ status: 200, xRobots: "", html: html("t", "k"), ...(url.includes("a.vn") ? { catBot: true } : {}) });
+	await nopSerp({ s, docTrang, id: p.id, urls: ["https://a.vn/1", "https://b.vn/1"] });
+	const d = await s.leo_top.get(p.id);
+	assert.deepEqual(d.serp.map((t) => t.soDo.catBot), [true, undefined, undefined]);
+});
+
 test("nopSerp: đồng thời ≤ 3 lượt tải, trần 12 trang; phiên sai trạng thái thì ném", async () => {
 	assert.equal(DONG_THOI_TAI, 3);
 	assert.equal(TRAN_TRANG_SERP, 12);

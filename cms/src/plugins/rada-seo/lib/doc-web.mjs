@@ -32,7 +32,67 @@ export function voiHanGio(promise, ms, tenViec = "yêu cầu") {
 }
 
 /**
- * Hạn chờ mỗi trang 30 s. Bản đầu là 15 s và đo ở nghiệm thu 2B-1: MỌI trang của
+ * Trần thân trang: 1,5 MB. Một trang (hay một sitemap trỏ nhầm tới tệp nén/video) nặng hàng
+ * trăm MB thì res.text() nuốt hết RAM của container CMS — mà container đó chính là khu quản
+ * trị. Quá trần thì dừng đọc và huỷ luồng; phần đã đọc vẫn dùng được (đầu trang có title,
+ * meta, đoạn mở đầu). Tính theo byte của luồng; bản lùi res.text() thì cắt theo ký tự.
+ */
+export const TRAN_BYTE_THAN = 1_500_000;
+
+/** Đọc thân tối đa `tran` byte. @returns {Promise<{html: string, catBot: boolean}>} */
+async function docThan(res, tran, huy) {
+	const reader = res.body && typeof res.body.getReader === "function" ? res.body.getReader() : null;
+	if (!reader) {
+		const t = String(await res.text());
+		return t.length > tran ? { html: t.slice(0, tran), catBot: true } : { html: t, catBot: false };
+	}
+	huy.reader = reader;
+	const giai = new TextDecoder("utf-8");
+	let html = "", da = 0, catBot = false;
+	for (;;) {
+		const { done, value } = await reader.read();
+		if (done) break;
+		let khoi = value;
+		if (da + khoi.byteLength > tran) {
+			khoi = khoi.subarray(0, tran - da);
+			catBot = true;
+		}
+		da += khoi.byteLength;
+		html += giai.decode(khoi, { stream: true });
+		if (catBot) {
+			reader.cancel().catch(() => {});
+			break;
+		}
+	}
+	html += giai.decode();
+	// Cắt ngang một ký tự nhiều byte để lại ký tự thay thế ở cuối — bỏ đi.
+	return { html: catBot ? html.replace(/\uFFFD+$/, "") : html, catBot };
+}
+
+/**
+ * Tải + đọc thân trong CÙNG một hạn giờ. Hạn chỉ bọc fetch() là chưa đủ: header về ngay
+ * còn thân nhỏ giọt thì res.text() treo cả ca. Hết hạn → huỷ yêu cầu và luồng.
+ */
+async function taiVaDoc(fetchFn, url, accept, hanGioMs) {
+	const ac = typeof AbortController === "function" ? new AbortController() : null;
+	const huy = { reader: null };
+	const viec = (async () => {
+		const res = await fetchFn(url, { redirect: "follow", signal: ac?.signal, headers: { "User-Agent": UA, Accept: accept } });
+		const than = await docThan(res, TRAN_BYTE_THAN, huy);
+		return { res, ...than };
+	})();
+	try {
+		return await voiHanGio(viec, hanGioMs, "tải trang");
+	} catch (e) {
+		ac?.abort();
+		huy.reader?.cancel().catch(() => {});
+		viec.catch(() => {});
+		throw e;
+	}
+}
+
+/**
+ * Hạn chờ mỗi trang 30 s (gồm cả đọc thân). Bản đầu là 15 s và đo ở nghiệm thu 2B-1: MỌI trang của
  * benhvienyhoccotruyentrunguong.vn tải mất ~16 s (curl 200 sau 16,0 s) nên cả đối thủ đó
  * thành 'loi' mà không trang nào tới được Claude. Ca radar đã có hạn chót nên chờ lâu hơn
  * không làm ca chạy chồng.
@@ -43,16 +103,8 @@ export function taoDocWeb(fetchFn, { hanGioMs = 30_000 } = {}) {
 	return async (url) => {
 		if (!urlDocDuoc(url)) return "";
 		try {
-			const res = await voiHanGio(
-				fetchFn(url, {
-					redirect: "follow",
-					headers: { "User-Agent": UA, Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" },
-				}),
-				hanGioMs,
-				"tải trang",
-			);
-			if (!res.ok) return "";
-			return await res.text();
+			const r = await taiVaDoc(fetchFn, url, "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", hanGioMs);
+			return r.res.ok ? r.html : "";
 		} catch {
 			return "";
 		}
@@ -64,19 +116,17 @@ export function taoDocWeb(fetchFn, { hanGioMs = 30_000 } = {}) {
  * kiểm đường nội bộ (noi-bo/kiem-duong.mjs). Cần header vì đã ĐO: trang bài thuốc/dược liệu
  * KHÔNG tồn tại vẫn trả 200 (vỏ SPA) kèm `x-robots-tag: noindex`; chỉ nhìn mã 200 là gắn
  * link chết. Cùng lớp chặn SSRF (urlDocDuoc); không bao giờ ném — hỏng thì null.
+ * Thân quá TRAN_BYTE_THAN thì bị cắt và kết quả có thêm `catBot: true`.
  * @param {(url: string, init?: RequestInit) => Promise<Response>} fetchFn  ctx.http.fetch
- * @returns {(url: string) => Promise<{status: number, xRobots: string, html: string} | null>}
+ * @returns {(url: string) => Promise<{status: number, xRobots: string, html: string, catBot?: true} | null>}
  */
 export function taoDocTrang(fetchFn, { hanGioMs = 30_000 } = {}) {
 	return async (url) => {
 		if (!urlDocDuoc(url)) return null;
 		try {
-			const res = await voiHanGio(
-				fetchFn(url, { redirect: "follow", headers: { "User-Agent": UA, Accept: "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8" } }),
-				hanGioMs,
-				"tải trang",
-			);
-			return { status: res.status, xRobots: res.headers.get("x-robots-tag") ?? "", html: await res.text() };
+			const r = await taiVaDoc(fetchFn, url, "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8", hanGioMs);
+			const kq = { status: r.res.status, xRobots: r.res.headers?.get?.("x-robots-tag") ?? "", html: r.html };
+			return r.catBot ? { ...kq, catBot: true } : kq;
 		} catch {
 			return null;
 		}

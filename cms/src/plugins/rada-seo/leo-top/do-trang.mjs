@@ -6,7 +6,7 @@
 // ban-do.mjs không dùng nó cho đề xuất nào: người dùng chốt trang đứng #1 là trang ít sơ hở
 // nhất, không phải trang dài nhất.
 import { boDau, chuanHoaManh } from "../luat/chuan-hoa.mjs";
-import { htmlSangChu } from "../radar/trang.mjs";
+import { htmlSangChu, boKhoi, boChuThich, thuocTinh, meta, reTheMo, timTiep } from "../radar/trang.mjs";
 
 /** Chữ của một mảnh HTML (dùng chung bộ bóc thẻ + giải mã thực thể của radar). */
 const chuCua = (frag) => htmlSangChu(`<body>${frag}</body>`).than.replace(/\s+([,.;:!?)\]])/g, "$1");
@@ -14,41 +14,82 @@ const chuCua = (frag) => htmlSangChu(`<body>${frag}</body>`).than.replace(/\s+([
 /** Đếm chữ: token có ít nhất một chữ cái/chữ số — dấu câu lẻ không tính. */
 const demChu = (s) => (s ? s.split(" ").filter((w) => /[\p{L}\p{N}]/u.test(w)).length : 0);
 
-/** Đọc thuộc tính của một thẻ bất kể thứ tự ("content" trước "name" vẫn gặp ở trang thật). */
-function thuocTinh(the, ten) {
-	const m = the.match(new RegExp(`\\s${ten}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, "i"));
-	return m ? (m[1] ?? m[2] ?? m[3] ?? "") : null;
-}
+/** Một khối không bao giờ dài hơn chừng này ký tự khi đo (đoạn văn thật ngắn hơn nhiều). */
+const TRAN_KHOI = 20_000;
 
-/** Nội dung của thẻ <meta> đầu tiên có `khoa`=`giaTri` (khoa: name | property). */
-function meta(html, khoa, giaTri) {
-	for (const the of html.match(/<meta\b[^>]*>/gi) || []) {
-		const v = thuocTinh(the, khoa);
-		if (v && v.toLowerCase() === giaTri) return thuocTinh(the, "content");
+/**
+ * Các khối <p>/<li>/<hN> theo thứ tự, quét TUYẾN TÍNH. Khối kết thúc ở thẻ đóng kế tiếp, hoặc
+ * ở thẻ MỞ cùng họ kế tiếp nếu nó đến trước (HTML thật hay bỏ </p>, </li> — trình duyệt tự
+ * đóng), hoặc ở TRAN_KHOI. Biểu thức cũ `<(p|li)[^>]*>([\s\S]*?)<\/\1>` quét tới cuối trang
+ * từ mỗi thẻ mở không đóng: 20k `<p>` mất 2 s.
+ * @returns {{a: number, trong: string}[]}  a = vị trí thẻ mở
+ */
+function quetKhoi(html, reMo, reDong) {
+	const mo = [...html.matchAll(reMo)];
+	const dong = [...html.matchAll(reDong)].map((m) => m.index);
+	const ra = [];
+	let j = 0;
+	for (let i = 0; i < mo.length; i++) {
+		const a = mo[i].index, b = a + mo[i][0].length;
+		while (j < dong.length && dong[j] < b) j++;
+		let het = j < dong.length ? dong[j] : html.length;
+		if (i + 1 < mo.length && mo[i + 1].index < het) het = mo[i + 1].index;
+		ra.push({ a, trong: html.slice(b, Math.min(het, b + TRAN_KHOI)) });
 	}
-	return null;
+	return ra;
 }
 
-/** Mọi khối JSON-LD đọc được; khối hỏng thì bỏ qua (trang thật hay có JSON sai cú pháp). */
+/** Trần cho JSON-LD: trang thật có khối vài KB; khối khổng lồ/lồng sâu là rác hoặc cố ý phá. */
+const TRAN_JSONLD_KY_TU = 200_000;
+const TRAN_JSONLD_SAU = 32;
+const TRAN_JSONLD_NUT = 5_000;
+
+/** Mọi khối JSON-LD đọc được; khối hỏng / quá 200 KB thì bỏ qua. Không bao giờ ném. */
 function docJsonLd(html) {
 	const ra = [];
-	const re = /<script\b[^>]*type\s*=\s*["']?application\/ld\+json["']?[^>]*>([\s\S]*?)<\/script>/gi;
-	for (const m of html.matchAll(re)) {
+	const thap = html.toLowerCase();
+	const dong = timTiep(thap, "</script");
+	const re = reTheMo("script");
+	let m;
+	while ((m = re.exec(html))) {
+		const tu = m.index + m[0].length;
+		const d = dong(tu);
+		if (d === -1) break;
+		re.lastIndex = d;
+		if (!/application\/ld\+json/i.test(thuocTinh(m[0], "type") ?? "")) continue;
+		if (d - tu > TRAN_JSONLD_KY_TU) continue;
+		const tho = html
+			.slice(tu, d)
+			.trim()
+			.replace(/^(?:\/\*\s*)?<!\[CDATA\[(?:\s*\*\/)?/, "")
+			.replace(/(?:\/\*\s*)?\]\]>(?:\s*\*\/)?$/, "")
+			.replace(/^<!--/, "")
+			.replace(/-->$/, "");
 		try {
-			ra.push(JSON.parse(m[1]));
+			ra.push(JSON.parse(tho));
 		} catch {
-			/* bỏ khối hỏng */
+			/* bỏ khối hỏng (trang thật hay có JSON sai cú pháp) */
 		}
 	}
 	return ra;
 }
 
-/** Duyệt mọi đối tượng lồng nhau trong JSON-LD (@graph, mainEntity, author…). */
-function duyet(x, f) {
-	if (Array.isArray(x)) for (const y of x) duyet(y, f);
-	else if (x && typeof x === "object") {
-		f(x);
-		for (const v of Object.values(x)) duyet(v, f);
+/**
+ * Duyệt mọi đối tượng lồng nhau trong JSON-LD (@graph, mainEntity, author…), KHÔNG đệ quy:
+ * sâu ≤ 32 tầng, tổng ≤ 5.000 nút. Bản đệ quy cũ tràn ngăn xếp với khối lồng 20.000 tầng.
+ * Thứ tự: tiền thứ tự như bản cũ (đối tượng cha trước con, anh trước em).
+ */
+function duyet(goc, f) {
+	const ngan = [[goc, 0]];
+	let nut = 0;
+	while (ngan.length && nut < TRAN_JSONLD_NUT) {
+		const [x, sau] = ngan.pop();
+		if (!x || typeof x !== "object") continue;
+		nut++;
+		if (!Array.isArray(x)) f(x);
+		if (sau >= TRAN_JSONLD_SAU) continue;
+		const con = Array.isArray(x) ? x : Object.values(x);
+		for (let i = con.length - 1; i >= 0; i--) if (con[i] && typeof con[i] === "object") ngan.push([con[i], sau + 1]);
 	}
 }
 
@@ -60,22 +101,46 @@ const tenMien = (u) => {
 	}
 };
 
+/** Phần <body> (không có thì cả trang trừ <head>) — bằng indexOf, không biểu thức tham lam. */
+function layBody(h) {
+	const thap = h.toLowerCase();
+	const mo = reTheMo("body").exec(h);
+	if (mo) {
+		const tu = mo.index + mo[0].length;
+		const d = thap.lastIndexOf("</body");
+		return d >= tu ? h.slice(tu, d) : h.slice(tu);
+	}
+	const a = thap.indexOf("<head");
+	const b = a === -1 ? -1 : thap.indexOf("</head", a);
+	return b === -1 ? h : `${h.slice(0, a)} ${h.slice(thap.indexOf(">", b) + 1 || h.length)}`;
+}
+
+const KET_QUA_RONG = Object.freeze({
+	tieuDe: "", moTa: "", soChu: 0, viTriTraLoi: null, soH2: 0, soH3: 0, coBang: false, soDanhSach: 0, soHinh: 0,
+	coFaq: false, loaiJsonLd: [], ngayCapNhat: null, coTacGia: false, soNguonNgoai: 0, chu: "",
+});
+
 /**
+ * Không bao giờ ném: trang là dữ liệu của người khác; một trang hỏng không được làm hỏng cả
+ * lượt nộp SERP. Lỗi bất ngờ → số đo rỗng.
  * @param {string} html
  * @param {{tuKhoa: string, url: string}} p
  */
-export function doTrang(html, { tuKhoa, url }) {
-	const h = String(html ?? "");
+export function doTrang(html, p = {}) {
+	try {
+		return doTrangTho(String(typeof html === "string" ? html : (html ?? "")), p ?? {});
+	} catch {
+		return { ...KET_QUA_RONG, loaiJsonLd: [] };
+	}
+}
+
+function doTrangTho(h, { tuKhoa = "", url = "" }) {
 	const { tieuDe } = htmlSangChu(h);
 	const moTaTho = meta(h, "name", "description") ?? meta(h, "property", "og:description") ?? "";
 	const moTa = chuCua(moTaTho);
 
-	// Thân bài: phần <body> (không có thì cả trang trừ <head>), bỏ khối không phải nội dung.
-	const body = h.match(/<body\b[^>]*>([\s\S]*)<\/body>/i)?.[1] ?? h.match(/<body\b[^>]*>([\s\S]*)$/i)?.[1] ?? h.replace(/<head\b[\s\S]*?<\/head>/i, " ");
-	const thanHtml = body
-		.replace(/<(script|style|noscript|svg|template)\b[\s\S]*?<\/\1>/gi, " ")
-		.replace(/<!--[\s\S]*?-->/g, " ")
-		.replace(/<(nav|header|footer|aside)\b[\s\S]*?<\/\1>/gi, " ");
+	// Thân bài: bỏ khối không phải nội dung.
+	const thanHtml = boKhoi(boChuThich(boKhoi(layBody(h), ["script", "style", "noscript", "svg", "template"])), ["nav", "header", "footer", "aside"]);
 	const chu = chuCua(thanHtml);
 
 	// Vị trí câu trả lời: số chữ đứng trước đoạn <p>/<li> đầu tiên chứa ≥ 60% từ của từ khoá.
@@ -83,11 +148,11 @@ export function doTrang(html, { tuKhoa, url }) {
 	const tuTk = [...new Set(chuanHoaManh(tuKhoa).split(" ").filter((w) => w.length >= 2))];
 	let viTriTraLoi = null;
 	if (tuTk.length) {
-		for (const m of thanHtml.matchAll(/<(p|li)\b[^>]*>([\s\S]*?)<\/\1>/gi)) {
-			const tu = new Set(chuanHoaManh(chuCua(m[2])).split(" "));
+		for (const k of quetKhoi(thanHtml, /<(?:p|li)\b[^<>]{0,2000}>/gi, /<\/(?:p|li)\s*>/gi)) {
+			const tu = new Set(chuanHoaManh(chuCua(k.trong)).split(" "));
 			const trung = tuTk.filter((w) => tu.has(w)).length;
 			if (trung / tuTk.length >= 0.6) {
-				viTriTraLoi = demChu(chuCua(thanHtml.slice(0, m.index)));
+				viTriTraLoi = demChu(chuCua(thanHtml.slice(0, k.a)));
 				break;
 			}
 		}
@@ -105,10 +170,10 @@ export function doTrang(html, { tuKhoa, url }) {
 		});
 	const loaiJsonLd = [...loai];
 
-	const tieuDeMuc = [...thanHtml.matchAll(/<h[1-6]\b[^>]*>([\s\S]*?)<\/h[1-6]>/gi)].map((m) => boDau(chuCua(m[1])));
+	const tieuDeMuc = quetKhoi(thanHtml, /<h[1-6]\b[^<>]{0,2000}>/gi, /<\/h[1-6]\s*>/gi).map((k) => boDau(chuCua(k.trong)));
 	const coFaq = loai.has("FAQPage") || tieuDeMuc.some((t) => t.includes("cau hoi thuong gap") || /\bfaq\b/.test(t));
 
-	const timeDau = h.match(/<time\b[^>]*>/i)?.[0];
+	const timeDau = reTheMo("time").exec(h)?.[0];
 	const ngayCapNhat = meta(h, "property", "article:modified_time") || dateModified || (timeDau && thuocTinh(timeDau, "datetime")) || null;
 
 	const chuBoDau = boDau(chu);
@@ -119,7 +184,7 @@ export function doTrang(html, { tuKhoa, url }) {
 	// cùng một đích nhắc lại chỉ tính một lần.
 	const mienMinh = tenMien(url);
 	const dich = new Set();
-	for (const m of thanHtml.matchAll(/<a\b[^>]*>/gi)) {
+	for (const m of thanHtml.matchAll(reTheMo("a"))) {
 		const href = thuocTinh(m[0], "href");
 		if (!href || !/^https?:\/\//i.test(href)) continue;
 		const mien = tenMien(href);

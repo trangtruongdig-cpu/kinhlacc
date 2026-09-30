@@ -22,24 +22,98 @@ function giaiMaHtml(s) {
 		.replace(/&gt;/gi, ">")
 		.replace(/&quot;/gi, '"')
 		.replace(/&(?:#39|apos);/gi, "'")
-		.replace(/&#(\d+);/g, (_, n) => String.fromCodePoint(Number(n)));
+		.replace(/&#(\d{1,7});/g, (x, n) => (Number(n) <= 0x10ffff ? String.fromCodePoint(Number(n)) : x));
+}
+
+// ---- Quét TUYẾN TÍNH ----
+// Trang đọc về là dữ liệu của người khác (có khi cố ý phá, có khi chỉ hỏng). Biểu thức kiểu
+// `<[^>]+>`, `<(script)[\s\S]*?<\/\1>` hay `<meta[^>]+…` quét tới CUỐI chuỗi từ MỖI thẻ mở
+// không đóng → bậc hai: đo 30/09/2026, 50k `<a href="x` mất 57,8 s, 20k `<meta` 32 s — cả ca
+// radar treo trên một trang. Mọi phép dưới đây hoặc có lớp ký tự bị chặn bởi "<" (dừng ở thẻ
+// kế tiếp), hoặc tìm thẻ đóng bằng indexOf có NHỚ vị trí (mỗi đoạn chuỗi chỉ quét một lần).
+
+/**
+ * Tìm lần xuất hiện kế tiếp của `kim` trong `chu` với các truy vấn có `tu` KHÔNG giảm; nhớ kết
+ * quả nên tổng công quét là O(n) dù gọi bao nhiêu lần. Không còn thì -1 mãi mãi.
+ */
+export function timTiep(chu, kim) {
+	let p = -2;
+	return (tu) => {
+		if (p === -1) return -1;
+		if (p === -2 || p < tu) p = chu.indexOf(kim, tu);
+		return p;
+	};
+}
+
+/**
+ * Thay mọi khối <ten …>…</ten> bằng `thay`. Thẻ mở không có thẻ đóng phía sau thì để nguyên
+ * (như biểu thức cũ: không nuốt phần còn lại của trang).
+ * @param {string} html
+ * @param {string[]} ten  tên thẻ, chữ thường
+ */
+export function boKhoi(html, ten, thay = " ") {
+	const thap = html.toLowerCase();
+	const reMo = new RegExp(`<(${ten.join("|")})\\b`, "gi");
+	const dong = Object.fromEntries(ten.map((t) => [t, timTiep(thap, `</${t}`)]));
+	const lon = timTiep(thap, ">");
+	let ra = "", tu = 0, m;
+	while ((m = reMo.exec(html))) {
+		const d = dong[m[1].toLowerCase()](m.index);
+		if (d === -1) continue;
+		const g = lon(d);
+		const cuoi = g === -1 ? html.length : g + 1;
+		ra += html.slice(tu, m.index) + thay;
+		tu = reMo.lastIndex = cuoi;
+	}
+	return ra + html.slice(tu);
+}
+
+/** Bỏ chú thích <!-- … -->; chú thích không đóng thì để nguyên. */
+export function boChuThich(html) {
+	const mo = timTiep(html, "<!--");
+	const dong = timTiep(html, "-->");
+	let ra = "", tu = 0;
+	for (;;) {
+		const a = mo(tu);
+		if (a === -1) break;
+		const b = dong(a + 4);
+		if (b === -1) break;
+		ra += html.slice(tu, a) + " ";
+		tu = b + 3;
+	}
+	return ra + html.slice(tu);
+}
+
+/** Đọc thuộc tính của một thẻ bất kể thứ tự ("content" trước "name" vẫn gặp ở trang thật). */
+export function thuocTinh(the, ten) {
+	const m = the.match(new RegExp(`\\s${ten}\\s*=\\s*(?:"([^"]*)"|'([^']*)'|([^\\s>]+))`, "i"));
+	return m ? (m[1] ?? m[2] ?? m[3] ?? "") : null;
+}
+
+/** Thẻ mở `<ten …>` (dài ≤ 2000 ký tự, không chứa "<"): mọi lần gặp, theo thứ tự. */
+export const reTheMo = (ten) => new RegExp(`<${ten}\\b[^<>]{0,2000}>`, "gi");
+
+/** Nội dung của thẻ <meta> đầu tiên có `khoa`=`giaTri` (khoa: name | property). */
+export function meta(html, khoa, giaTri) {
+	for (const the of html.match(reTheMo("meta")) || []) {
+		const v = thuocTinh(the, khoa);
+		if (v && v.toLowerCase() === giaTri) return thuocTinh(the, "content");
+	}
+	return null;
 }
 
 /** @returns {{tieuDe: string, moTa: string, than: string}} */
 export function htmlSangChu(html) {
 	const h = String(html ?? "");
-	const tieuDe = (h.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1] || "").trim();
-	const moTa = (
-		h.match(/<meta[^>]+name=["']description["'][^>]+content=["']([\s\S]*?)["']/i)?.[1] ||
-		h.match(/<meta[^>]+property=["']og:description["'][^>]+content=["']([\s\S]*?)["']/i)?.[1] ||
-		""
-	).trim();
-	const than = giaiMaHtml(
-		h
-			.replace(/<(script|style|noscript|svg)[\s\S]*?<\/\1>/gi, " ")
-			.replace(/<!--[\s\S]*?-->/g, " ")
-			.replace(/<[^>]+>/g, " "),
-	)
+	let tieuDe = "";
+	const mo = reTheMo("title").exec(h);
+	if (mo) {
+		const tu = mo.index + mo[0].length;
+		const d = h.toLowerCase().indexOf("</title", tu);
+		if (d !== -1) tieuDe = h.slice(tu, d).trim();
+	}
+	const moTa = (meta(h, "name", "description") || meta(h, "property", "og:description") || "").trim();
+	const than = giaiMaHtml(boChuThich(boKhoi(h, ["script", "style", "noscript", "svg"])).replace(/<[^<>]+>/g, " "))
 		.replace(/\s+/g, " ")
 		.trim();
 	return { tieuDe: giaiMaHtml(tieuDe), moTa: giaiMaHtml(moTa), than };
