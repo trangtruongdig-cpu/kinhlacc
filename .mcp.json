@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "kinhlac-rada": {
+      "type": "http",
+      "url": "https://kinhlac.online/_emdash/api/mcp",
+      "headers": {
+        "Authorization": "Bearer ${RADA_SEO_MCP_TOKEN:-}"
+      }
+    }
+  }
+}

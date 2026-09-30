@@ -287,40 +287,41 @@ Không mở `3001` ra ngoài — backend đã ở trong docker network nội b�
 
 ## Rada SEO (plugin CMS)
 
-Plugin `cms/src/plugins/rada-seo/` quét sitemap đối thủ mỗi đêm 02:30 giờ VN, gọi Claude
-(Haiku) phân tích bài mới, và dựng danh sách "khoảng trống" trong khu quản trị CMS.
+Plugin `cms/src/plugins/rada-seo/` quét sitemap đối thủ mỗi đêm 02:30 giờ VN và **trích sẵn
+chữ** các bài mới. Việc ĐỌC hiểu do **routine Claude trong tài khoản claude.ai của chủ site**
+làm qua MCP (03:00), không có khoá API Anthropic nào. Kết quả hiện ở mục **Rada SEO** trong khu quản trị.
 
 **Biến môi trường — đặt đúng chỗ:**
 
-- `ANTHROPIC_API_KEY` → `cms/.env` **trên VPS** (mẫu ở `cms/.env.example`). Thiếu thì ca
-  ghi một dòng lỗi vào nhật ký ca, không gọi được Claude.
-- `RADA_SEO_TRAN_LUOT` (trần lượt gọi mỗi ca, mặc định 200) và `RADA_SEO_TRAN_MOI_DOI_THU`
-  (mặc định 30) → cũng `cms/.env`.
 - `RADA_SEO_CA_DEM: "1"` và `TZ: UTC` → **`docker-compose.yml`**, KHÔNG phải `cms/.env`:
   tệp `.env` được chép qua lại máy dev, mà chỉ VPS được phép chạy ca đêm (bảng cron nằm
   trong kho CMS dùng chung).
+- `RADA_SEO_TRAN_MOI_DOI_THU` (số trang trích mỗi đối thủ mỗi đêm, mặc định 30) → `cms/.env`.
+- **Không còn** `ANTHROPIC_API_KEY` (bỏ 30/09/2026). Ai thấy biến này ở `cms/.env` thì xoá.
 
-**Sau lần deploy đầu:**
+**Sau lần deploy đầu — theo đúng thứ tự:**
 
-1. Mở `/_emdash/admin` → mục **Rada SEO** ở thanh bên → bấm **"Bật lịch"** (phải bấm trên
-   site thật; máy không có `RADA_SEO_CA_DEM=1` bị từ chối).
-2. Thêm site của mình (tick **"site của mình"**) rồi thêm các đối thủ.
-3. **Ca thật ĐẦU TIÊN phải chạy có kiểm soát:** chỉ MỘT đối thủ, đặt `RADA_SEO_TRAN_LUOT=5`
-   trong `cms/.env` trên VPS rồi `docker compose up -d cms` (`restart` KHÔNG đọc lại `.env`), bấm **"Chạy thật"**, đọc
-   **Nhật ký ca** (số phân tích, lượt gọi, cột Lỗi). Ổn rồi mới trả trần về mặc định, thêm
-   đối thủ và để lịch đêm tự chạy.
+1. `/_emdash/admin` → **Rada SEO** → **"Bật lịch"**; thêm site của mình (tick **"site của
+   mình"**) và các đối thủ; bấm **"Chạy thật"** một lần, đọc Nhật ký ca: cột "Trích" > 0.
+2. Nối Claude (routine đêm) theo `cms/src/plugins/rada-seo/routine/dem-doc-doi-thu.md`:
+   bật MCP tools của plugin → tạo khoá `ec_pat_` **chỉ** scope `mcp:tools:rada-seo` → môi
+   trường routine có biến bí mật `RADA_SEO_MCP_TOKEN` và mở mạng tới `kinhlac.online` →
+   routine 03:00 → "Run now" một lần, Nhật ký ca phải có dòng "Claude đọc".
+   ⚠️ **Đừng** nối bằng connector trong claude.ai Settings: OAuth của EmDash chỉ cấp
+   `mcp:tools` cho ADMIN, nên tài khoản thường không gọi được công cụ Rada SEO còn tài khoản
+   admin thì trao cho Claude quyền đăng/xoá bài (đo ở nghiệm thu 2B-1).
+3. **Theo dõi 2 đêm liền.** Dải đỏ "26 giờ qua Claude chưa đọc trang nào" = routine không
+   chạy, khoá sai/thu hồi, hoặc môi trường routine chặn tên miền.
 
 **Đừng:**
 
-- **Đừng bấm "Chạy thử" từ máy lập trình** khi VPS có thể đang chạy ca: khoá chống chạy
-  chồng nằm trong kho dùng chung, ca thử ở máy dev giữ khoá thì ca đêm của VPS bị bỏ qua.
-- Dải đỏ **"Hơn 26 giờ chưa có ca radar thành công"** là BÌNH THƯỜNG cho tới khi ca thật
-  đầu tiên chạy xong — không phải lỗi deploy.
+- **Đừng bấm "Chạy thử"/"Chạy thật" từ máy lập trình** khi VPS có thể đang chạy ca: khoá
+  chống chạy chồng nằm trong kho dùng chung.
+- Hai dải đỏ "26 giờ" là BÌNH THƯỜNG cho tới khi ca radar và lượt Claude đầu tiên chạy xong.
 
-URL nào bị đánh dấu lỗi (trang chặn tạm, mạng chập) không tự thử lại; dùng nút
-**"Thử lại URL lỗi"** ở dòng đối thủ. Lỗi phía Claude (quá tải, khoá sai) KHÔNG làm hỏng
-URL — chúng giữ trạng thái chờ tới đêm sau, và ca tự ngắt sau 3 lỗi mô hình liên tiếp
-hoặc ngay khi gặp 401/403/404.
+URL bị đánh dấu lỗi (trang chặn tạm, mạng chập) không tự thử lại; dùng nút **"Thử lại URL
+lỗi"** ở dòng đối thủ. Máy chủ giao cho Claude tối đa **40 trang mỗi đêm** — trần giữ hạn
+mức gói Claude, nằm ở `cms/src/plugins/rada-seo/mcp-viec.mjs`.
 
 ---
 
