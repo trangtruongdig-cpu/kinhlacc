@@ -1,6 +1,7 @@
 import node from "@astrojs/node";
 import react from "@astrojs/react";
 import auditLog from "@emdash-cms/plugin-audit-log";
+import { radaSeo } from "./src/plugins/rada-seo/descriptor.mjs";
 import { defineConfig, fontProviders, memoryCache } from "astro/config";
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
@@ -142,7 +143,9 @@ export default defineConfig({
 			// Cần CMS_SSO_SECRET (giống hệt bên backend/.env). Thiếu thì route trả 503 kèm
 			// lý do và passkey vẫn dùng được như cũ — không có gì chết lặng.
 			authProviders: [kinhlac()],
-			plugins: [auditLog],
+			// Rada SEO — radar đối thủ tự hành. Ca đêm CHỈ chạy nơi có RADA_SEO_CA_DEM=1
+			// (docker-compose trên VPS): bảng cron dùng chung kho, xem src/plugins/rada-seo/plugin.mjs.
+			plugins: [auditLog, radaSeo],
 		}),
 	],
 	fonts: [

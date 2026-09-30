@@ -117,6 +117,9 @@ services:
       #
       # Đổi tên miền thì phải sửa dòng này, nếu không passkey chết lặng y như cũ.
       EMDASH_SITE_URL: https://kinhlac.online
+      # Rada SEO: CHỈ VPS được chạy ca đêm. Đặt ở ĐÂY, không trong cms/.env — tệp đó chép qua
+      # lại máy dev, mà máy dev nhận ca đêm là chạy ca bằng mã của máy dev (bảng cron dùng chung).
+      RADA_SEO_CA_DEM: "1"
     volumes:
       # Ảnh người biên tập tải lên — phải BỀN qua mỗi lần deploy.
       - ./data/cms-uploads:/app/uploads
