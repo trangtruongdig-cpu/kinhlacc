@@ -1,5 +1,5 @@
 import {
-  Body, Controller, Get, Param, ParseIntPipe, Patch, Post, Query, Req,
+  Body, Controller, Get, Logger, Param, ParseIntPipe, Patch, Post, Query, Req,
   ServiceUnavailableException, UseGuards,
 } from '@nestjs/common';
 
@@ -20,6 +20,8 @@ import type { RequestDaXacThuc } from '../middlewares/auth/access.util';
 @Controller('tham-dinh')
 @UseGuards(QuanTriGuard)
 export class ThamDinhRouter {
+  private readonly logger = new Logger('ThamDinhRouter');
+
   constructor(
     private readonly thamDinh: ThamDinhService,
     private readonly thayThuoc: ThamDinhThayThuocService,
@@ -67,9 +69,12 @@ export class ThamDinhRouter {
     if (gh > 0 && gh <= 200) return this.thamDinh.chayCa(gh);
 
     const batDau = new Date().toISOString();
-    // Cố ý KHÔNG await. Lỗi đã được chayCa nuốt vào `lk.loi` và ghi nhật ký, nên ở đây
-    // chỉ cần chặn promise trôi ra ngoài thành unhandledRejection.
-    void this.thamDinh.chayCa(gh).catch(() => undefined);
+    // Cố ý KHÔNG await. Nhưng PHẢI log lỗi ở đây: `.catch(() => undefined)` trần nuốt
+    // mọi thứ, và một ca chạy nền chết im lặng là ca không để lại dấu vết nào — không
+    // log, không nhật ký, người bấm nút thì đã nhận "dangChay: true" và yên tâm chờ.
+    void this.thamDinh.chayCa(gh).catch((e: unknown) => {
+      this.logger.error(`ca soi nền chết: ${(e as Error)?.message || e}`);
+    });
     return {
       dangChay: true,
       batDau,
