@@ -285,6 +285,45 @@ Không mở `3001` ra ngoài — backend đã ở trong docker network nội b�
 
 ---
 
+## Rada SEO (plugin CMS)
+
+Plugin `cms/src/plugins/rada-seo/` quét sitemap đối thủ mỗi đêm 02:30 giờ VN, gọi Claude
+(Haiku) phân tích bài mới, và dựng danh sách "khoảng trống" trong khu quản trị CMS.
+
+**Biến môi trường — đặt đúng chỗ:**
+
+- `ANTHROPIC_API_KEY` → `cms/.env` **trên VPS** (mẫu ở `cms/.env.example`). Thiếu thì ca
+  ghi một dòng lỗi vào nhật ký ca, không gọi được Claude.
+- `RADA_SEO_TRAN_LUOT` (trần lượt gọi mỗi ca, mặc định 200) và `RADA_SEO_TRAN_MOI_DOI_THU`
+  (mặc định 30) → cũng `cms/.env`.
+- `RADA_SEO_CA_DEM: "1"` và `TZ: UTC` → **`docker-compose.yml`**, KHÔNG phải `cms/.env`:
+  tệp `.env` được chép qua lại máy dev, mà chỉ VPS được phép chạy ca đêm (bảng cron nằm
+  trong kho CMS dùng chung).
+
+**Sau lần deploy đầu:**
+
+1. Mở `/_emdash/admin` → mục **Rada SEO** ở thanh bên → bấm **"Bật lịch"** (phải bấm trên
+   site thật; máy không có `RADA_SEO_CA_DEM=1` bị từ chối).
+2. Thêm site của mình (tick **"site của mình"**) rồi thêm các đối thủ.
+3. **Ca thật ĐẦU TIÊN phải chạy có kiểm soát:** chỉ MỘT đối thủ, đặt `RADA_SEO_TRAN_LUOT=5`
+   trong `cms/.env` trên VPS rồi `docker compose up -d cms` (`restart` KHÔNG đọc lại `.env`), bấm **"Chạy thật"**, đọc
+   **Nhật ký ca** (số phân tích, lượt gọi, cột Lỗi). Ổn rồi mới trả trần về mặc định, thêm
+   đối thủ và để lịch đêm tự chạy.
+
+**Đừng:**
+
+- **Đừng bấm "Chạy thử" từ máy lập trình** khi VPS có thể đang chạy ca: khoá chống chạy
+  chồng nằm trong kho dùng chung, ca thử ở máy dev giữ khoá thì ca đêm của VPS bị bỏ qua.
+- Dải đỏ **"Hơn 26 giờ chưa có ca radar thành công"** là BÌNH THƯỜNG cho tới khi ca thật
+  đầu tiên chạy xong — không phải lỗi deploy.
+
+URL nào bị đánh dấu lỗi (trang chặn tạm, mạng chập) không tự thử lại; dùng nút
+**"Thử lại URL lỗi"** ở dòng đối thủ. Lỗi phía Claude (quá tải, khoá sai) KHÔNG làm hỏng
+URL — chúng giữ trạng thái chờ tới đêm sau, và ca tự ngắt sau 3 lỗi mô hình liên tiếp
+hoặc ngay khi gặp 401/403/404.
+
+---
+
 ## 9. Vận hành thường ngày
 
 ```bash
