@@ -1,0 +1,309 @@
+// Việc của routine CHIẾN LƯỢC hằng tuần (thuần): đưa dữ liệu đối thủ cho Claude, nhận đề
+// xuất HƯỚNG → CỤM → BÀI DỰ KIẾN, và chặn mọi thứ không qua rào TRƯỚC khi vào kho.
+//
+// Nguyên tắc: Claude đề xuất, máy chủ đo và chấm. Điểm Claude tự gắn bị bỏ; id bài đối thủ
+// phải có thật; link phải sống trên site thật; chữ phải trong phạm vi Y sỹ. Tên hướng/cụm/bài
+// do Claude sinh ra từ chữ đối thủ là dữ liệu KHÔNG tin cậy — trả lại cho routine thì bọc dấu mốc.
+import * as kho from "../kho.mjs";
+import { xuHuongGanNhat } from "../ca-radar.mjs";
+import { chuanHoaManh } from "../luat/chuan-hoa.mjs";
+import { timViPham, kiemPhamVi } from "../luat/pham-vi-y-sy.mjs";
+import { timTrung, trungTuDien } from "../luat/trung-lap.mjs";
+import { layChiMuc } from "../noi-bo/nap.mjs";
+import { tinhChiSo, diemHuong, diemCum } from "./chi-so.mjs";
+import { LOI_NHAC_DE_XUAT_HUONG, LOI_NHAC_PHAN_CUM, LOI_NHAC_LAP_KE_HOACH } from "../loi-dan.mjs";
+
+export const TRAN_HUONG_MOI_LUOT = 8;
+export const TRAN_CUM_MOI_LUOT = 20;
+export const TRAN_KE_HOACH_MOI_LUOT = 10;
+export const SO_BAI_DOI_THU_TOI_THIEU = 3;
+export const SO_LINK_DICH_TOI_THIEU = 5;
+/** Ý định tìm kiếm của bài dự kiến: tra cứu / tìm hiểu / so sánh / hướng dẫn. */
+export const Y_DINH = ["tra_cuu", "tim_hieu", "so_sanh", "huong_dan"];
+/** Số bài đối thủ tối đa gắn làm bằng chứng cho một hướng/cụm/bài dự kiến. */
+const SO_BAI_BANG_CHUNG = 5;
+/** Kiểm đồng thời tối đa chừng này trang: nginx site thật còn phục vụ người đọc (như tim-lien-ket). */
+const DONG_THOI = 3;
+
+/**
+ * Bọc dữ liệu không tin cậy trong dấu mốc, cùng cách thoát như chữ trang ở mcp-viec.mjs:
+ * "<<<"/">>>" trong dữ liệu bị đổi đi để không tự chèn được dấu kết thúc giả. Xuống dòng gộp
+ * thành khoảng trắng — mỗi mục đúng MỘT dòng.
+ */
+export const bocDuLieu = (id, chu) =>
+	`<<<DU_LIEU id=${id}>>>${String(chu ?? "").replace(/<{3,}/g, "‹‹‹").replace(/>{3,}/g, "›››").replace(/\s*\n\s*/g, " ")}<<<HET_DU_LIEU id=${id}>>>`;
+
+/** Một trường trong dòng "id|chủ đề|từ khoá|tên miền": "|" trong chữ đối thủ làm lệch cột. */
+const truong = (s) => String(s ?? "").replace(/\|/g, "/").trim();
+
+/** Bài của mình: blog đã đăng (chỉ mục CMS) + chủ đề Claude đã đọc từ site của mình. */
+async function layBaiMinh(s, chiMuc, doiThu) {
+	const ra = (chiMuc?.muc ?? []).filter((m) => m.loai === "bai_viet").map((m) => ({ tieuDe: m.ten, tuKhoa: [] }));
+	for (const d of doiThu.filter((x) => x.laCuaMinh))
+		for (const r of await kho.tatCa(s.url, { where: { doiThuId: d.id, trangThai: "da_phan_tich" } }))
+			ra.push({ tieuDe: r.data.chuDe ?? "", tuKhoa: r.data.tuKhoa ?? [] });
+	return ra;
+}
+
+/**
+ * Bài đối thủ theo id: chỉ id CÓ THẬT, đã phân tích, KHÔNG phải của mình. Đọc thẳng theo id
+ * (không nạp 1.500 chủ đề) — và lấy luôn URL cho phần bằng chứng.
+ * @returns {Promise<Map<string, {doiThuId: string, chuDe: string, tuKhoa: string[], url: string}>>}
+ */
+async function layBaiDoiThu(s, ids, doiThu) {
+	const minh = new Set(doiThu.filter((d) => d.laCuaMinh).map((d) => d.id));
+	const ds = [...new Set(ids.map(String))];
+	const rows = ds.length ? await s.url.getMany(ds) : new Map();
+	const ra = new Map();
+	for (const [id, d] of rows)
+		if (d.trangThai === "da_phan_tich" && !minh.has(d.doiThuId))
+			ra.set(id, { doiThuId: d.doiThuId, chuDe: d.chuDe ?? "", tuKhoa: d.tuKhoa ?? [], url: d.url });
+	return ra;
+}
+
+const baiBangChung = (ids, theoId) =>
+	[...new Set(ids)].map((id) => theoId.get(id)).filter(Boolean).slice(0, SO_BAI_BANG_CHUNG).map((b) => ({ url: b.url, chuDe: b.chuDe }));
+
+const sachMang = (a, n) => (Array.isArray(a) ? a.map((v) => String(v).trim()).filter(Boolean).slice(0, n) : []);
+
+/**
+ * Dữ liệu cho routine chiến lược. Chủ đề đối thủ: 1.500 dòng mới nhất (trần của
+ * chuDeDaPhanTich), chia trang `coTrang` dòng. Hướng/cụm/kế hoạch hiện có chỉ gửi ở trang 0.
+ */
+export async function layDuLieu({ s, content, chiMuc, trang = 0, coTrang = 500 }) {
+	const cm = chiMuc ?? (await layChiMuc(content));
+	const doiThu = await kho.dsDoiThu(s);
+	const { doiThu: dt } = await kho.chuDeDaPhanTich(s, doiThu, { toiDa: kho.TRAN_CHU_DE_DOI_THU });
+	const tu = trang * coTrang;
+	const chuDeDoiThu = dt
+		.slice(tu, tu + coTrang)
+		.map((t) => bocDuLieu(t.id, [t.id, truong(t.chuDe), (t.tuKhoa ?? []).slice(0, 3).map(truong).join("; "), t.doiThuId].join("|")));
+	const ra = {
+		chuDeDoiThu,
+		tongChuDe: dt.length,
+		conTrang: tu + coTrang < dt.length,
+		baiMinh: await layBaiMinh(s, cm, doiThu),
+		loiNhac: { deXuatHuong: LOI_NHAC_DE_XUAT_HUONG, phanCum: LOI_NHAC_PHAN_CUM, lapKeHoach: LOI_NHAC_LAP_KE_HOACH },
+	};
+	if (trang === 0) {
+		// Mục đã bỏ đi kèm lyDoBo (người quản trị viết) để Claude khỏi đề xuất lại.
+		ra.huong = (await kho.dsHuong(s)).map((h) => ({
+			id: h.id, ten: bocDuLieu(h.id, h.ten), trangThai: h.trangThai,
+			...(h.trongSo ? { trongSo: h.trongSo } : {}), ...(h.lyDoBo ? { lyDoBo: h.lyDoBo } : {}),
+		}));
+		ra.cum = (await kho.dsCumNghia(s)).map((c) => ({ id: c.id, huongId: c.huongId, ten: bocDuLieu(c.id, c.ten), trangThai: c.trangThai }));
+		ra.keHoach = (await kho.dsKeHoach(s)).map((k) => ({
+			id: k.id, cumId: k.cumId, tieuDeLamViec: bocDuLieu(k.id, k.tieuDeLamViec), trangThai: k.trangThai,
+			...(k.lyDoBo ? { lyDoBo: k.lyDoBo } : {}),
+		}));
+	}
+	return ra;
+}
+
+/** Tách phần trong trần và phần vượt trần (bác kèm lý do, không lặng lẽ bỏ). */
+function catTran(ds, tran, ten, nhan) {
+	const bac = ds.slice(tran).map((x) => ({ [ten]: x[ten], lyDo: `quá trần: tối đa ${tran} ${nhan}/lượt` }));
+	return { trong: ds.slice(0, tran), bac };
+}
+
+const viPhamChu = (...chu) => timViPham(chu.join(". "));
+
+/**
+ * @param {{s: object, ds: {ten: string, moTa: string, trongSoGoiY: number, lyDo: string,
+ *   idBaiDoiThu: string[], tuKhoa: string[]}[], chiMuc: object, now: string}} o
+ * @returns {Promise<{nhan: {id: string, ten: string, diem: number}[], bac: {ten: string, lyDo: string}[]}>}
+ */
+export async function deXuatHuong({ s, ds = [], chiMuc, now }) {
+	const { trong, bac } = catTran(ds, TRAN_HUONG_MOI_LUOT, "ten", "hướng");
+	const doiThu = await kho.dsDoiThu(s);
+	const theoId = await layBaiDoiThu(s, trong.flatMap((h) => h.idBaiDoiThu ?? []), doiThu);
+	const baiMinh = await layBaiMinh(s, chiMuc, doiThu);
+	const xuHuong = await xuHuongGanNhat(s);
+	const daBo = (await kho.dsHuong(s, { trangThai: "bo_qua" })).map((h) => ({ id: h.id, tieuDe: h.ten, tuKhoa: h.tuKhoa ?? [], lyDoBo: h.lyDoBo }));
+	const ghi = [];
+	for (const h of trong) {
+		const ten = String(h.ten ?? "").trim();
+		const tuKhoa = sachMang(h.tuKhoa, 8);
+		const vp = viPhamChu(ten, tuKhoa.join(", "));
+		if (vp.length) {
+			bac.unshift({ ten, lyDo: `vượt phạm vi Y sỹ: "${vp[0].tu}" — ${vp[0].goiY}` });
+			continue;
+		}
+		const ids = [...new Set(sachMang(h.idBaiDoiThu, 50))].filter((id) => theoId.has(id));
+		if (ids.length < SO_BAI_DOI_THU_TOI_THIEU) {
+			bac.unshift({ ten, lyDo: `cần ít nhất ${SO_BAI_DOI_THU_TOI_THIEU} bài đối thủ có thật làm bằng chứng (có ${ids.length})` });
+			continue;
+		}
+		const giong = timTrung({ tieuDe: ten, tuKhoa }, daBo);
+		if (giong) {
+			bac.unshift({ ten, lyDo: `đã bị bỏ: ${daBo.find((x) => x.id === giong.id)?.lyDoBo ?? ""}` });
+			continue;
+		}
+		const chiSo = tinhChiSo({ tuKhoa, idBaiDoiThu: ids, chuDeDoiThu: theoId, baiMinh, xuHuong, chiMuc });
+		ghi.push({
+			ten,
+			moTa: String(h.moTa ?? "").trim(),
+			lyDo: String(h.lyDo ?? "").trim(),
+			trongSoGoiY: Math.min(5, Math.max(1, Math.round(Number(h.trongSoGoiY) || 3))),
+			tuKhoa,
+			idBaiDoiThu: ids,
+			baiDoiThu: baiBangChung(ids, theoId),
+			chiSo,
+			diem: diemHuong(chiSo),
+		});
+	}
+	const nhan = ghi.length ? await kho.luuHuongMoi(s, ghi, now) : [];
+	return { nhan, bac: xepBac(bac, ds, "ten") };
+}
+
+/** Giữ thứ tự bác theo thứ tự đề xuất gửi lên — dễ đọc cho Claude khi đối chiếu. */
+function xepBac(bac, ds, ten) {
+	const viTri = new Map(ds.map((x, i) => [String(x[ten] ?? "").trim(), i]));
+	return [...bac].sort((a, b) => (viTri.get(a[ten]) ?? 0) - (viTri.get(b[ten]) ?? 0));
+}
+
+/**
+ * Cụm theo nghĩa trong các hướng ĐÃ NHẬN. Mỗi hướng: lứa cụm gửi lên THAY lứa cũ (kho.thayCumNghia).
+ * @returns {Promise<{nhan: {id: string, ten: string, huongId: string, diem: number}[], bac: {ten: string, lyDo: string}[]}>}
+ */
+export async function ghiCum({ s, ds = [], chiMuc, now }) {
+	const { trong, bac } = catTran(ds, TRAN_CUM_MOI_LUOT, "ten", "cụm");
+	const doiThu = await kho.dsDoiThu(s);
+	const theoId = await layBaiDoiThu(s, trong.flatMap((c) => c.idBaiDoiThu ?? []), doiThu);
+	const baiMinh = await layBaiMinh(s, chiMuc, doiThu);
+	const xuHuong = await xuHuongGanNhat(s);
+	const huongIds = [...new Set(trong.map((c) => String(c.huongId)))];
+	const huong = await s.huong.getMany(huongIds);
+	const theoHuong = new Map();
+	for (const c of trong) {
+		const ten = String(c.ten ?? "").trim();
+		const h = huong.get(String(c.huongId));
+		if (!h || h.trangThai !== "da_nhan") {
+			bac.unshift({ ten, lyDo: "hướng chưa được nhận (hoặc không có) — chỉ phân cụm trong hướng đã nhận" });
+			continue;
+		}
+		const tuKhoa = sachMang(c.tuKhoa, 8);
+		const vp = viPhamChu(ten, tuKhoa.join(", "));
+		if (vp.length) {
+			bac.unshift({ ten, lyDo: `vượt phạm vi Y sỹ: "${vp[0].tu}" — ${vp[0].goiY}` });
+			continue;
+		}
+		const ids = [...new Set(sachMang(c.idBaiDoiThu, 50))].filter((id) => theoId.has(id));
+		const chiSo = tinhChiSo({ tuKhoa, idBaiDoiThu: ids, chuDeDoiThu: theoId, baiMinh, xuHuong, chiMuc });
+		const huongId = String(c.huongId);
+		if (!theoHuong.has(huongId)) theoHuong.set(huongId, []);
+		theoHuong.get(huongId).push({
+			ten, moTa: String(c.moTa ?? "").trim(), tuKhoa, idBaiDoiThu: ids,
+			baiDoiThu: baiBangChung(ids, theoId), chiSo, diem: diemCum(chiSo, h.trongSo),
+		});
+	}
+	const nhan = [];
+	for (const [huongId, cum] of theoHuong)
+		for (const x of await kho.thayCumNghia(s, huongId, cum, now)) nhan.push({ ...x, huongId });
+	return { nhan, bac: xepBac(bac, ds, "ten") };
+}
+
+/**
+ * Bài dự kiến trong cụm thuộc hướng ĐÃ NHẬN. Rào theo thứ tự rẻ → đắt: cụm/hướng, ý định,
+ * phạm vi Y sỹ, trùng tên từ điển, trùng bài có sẵn / kế hoạch (kể cả đã bỏ), rồi mới tải
+ * trang thật để kiểm trụ cột và link đích.
+ * @param {{s: object, ds: object[], chiMuc: object, kiemDuong: (duong: string, ten?: string) => Promise<boolean>,
+ *   baiDaCo: {tieuDe: string, tuKhoa: string[]}[], now: string}} o
+ * @returns {Promise<{nhan: {id: string, tieuDeLamViec: string}[], bac: {tieuDeLamViec: string, lyDo: string}[]}>}
+ */
+export async function deXuatKeHoach({ s, ds = [], chiMuc, kiemDuong, baiDaCo = [], now }) {
+	const { trong, bac } = catTran(ds, TRAN_KE_HOACH_MOI_LUOT, "tieuDeLamViec", "bài");
+	const cum = await s.cum_nghia.getMany([...new Set(trong.map((k) => String(k.cumId)))]);
+	const huong = await s.huong.getMany([...new Set([...cum.values()].map((c) => c.huongId))]);
+	// Tên từ điển (không gồm blog — trùng blog do phép so bài có sẵn lo). Tên mục theo đường,
+	// để kiểm trang KÈM tên có dấu: "Âm Khích" và "Ẩm Khích" chung slug_goc.
+	const tenTuDien = new Set();
+	const tenTheoDuong = new Map();
+	for (const m of chiMuc?.muc ?? []) {
+		if (m.loai !== "bai_viet") tenTuDien.add(m.khoaTen);
+		for (const d of m.duong ?? []) if (!tenTheoDuong.has(d)) tenTheoDuong.set(d, m.ten);
+	}
+	const soSanh = [
+		...baiDaCo.map((b, i) => ({ id: `bai:${i}`, tieuDe: b.tieuDe ?? "", tuKhoa: b.tuKhoa ?? [] })),
+		...(await kho.dsKeHoach(s)).map((k) => ({ id: k.id, tieuDe: k.tieuDeLamViec, tuKhoa: [k.tuKhoaChinh, ...(k.tuKhoaPhu ?? [])].filter(Boolean), trangThai: k.trangThai, lyDoBo: k.lyDoBo })),
+	];
+	const kiem = async (d) => {
+		if (typeof d !== "string" || !d.startsWith("/")) return false;
+		try {
+			return await kiemDuong(d, tenTheoDuong.get(d));
+		} catch {
+			return false;
+		}
+	};
+	const ghi = [];
+	for (const k of trong) {
+		const tieuDeLamViec = String(k.tieuDeLamViec ?? "").trim();
+		const tuKhoaChinh = String(k.tuKhoaChinh ?? "").trim();
+		const tuKhoaPhu = sachMang(k.tuKhoaPhu, 8);
+		const bo = (lyDo) => bac.unshift({ tieuDeLamViec, lyDo });
+		const c = cum.get(String(k.cumId));
+		if (!c || huong.get(c.huongId)?.trangThai !== "da_nhan") {
+			bo(c ? "cụm thuộc hướng chưa được nhận" : "Không có cụm này — hoặc hướng của nó chưa được nhận");
+			continue;
+		}
+		if (!Y_DINH.includes(k.yDinh)) {
+			bo(`ý định phải là một trong: ${Y_DINH.join(", ")}`);
+			continue;
+		}
+		// Từ khoá phụ cũng soát: chúng đi vào tiêu đề SEO và đoạn đầu của bài.
+		const pv = kiemPhamVi({ tieuDe: tieuDeLamViec, moTa: [tuKhoaChinh, ...tuKhoaPhu].join(". ") });
+		if (pv.chan) {
+			bo(`vượt phạm vi Y sỹ: "${pv.viPhamDau[0].tu}" — ${pv.viPhamDau[0].goiY}`);
+			continue;
+		}
+		const tuDien = trungTuDien(tuKhoaChinh, tenTuDien);
+		if (tuDien) {
+			bo(`từ khoá chính trùng tên mục từ điển "${tuDien}" — trang từ điển đã phủ; nhắm ý định rộng hơn và link về trang đó`);
+			continue;
+		}
+		const trung = timTrung({ tieuDe: tieuDeLamViec, tuKhoa: [tuKhoaChinh, ...tuKhoaPhu] }, soSanh);
+		if (trung) {
+			const x = soSanh.find((y) => y.id === trung.id);
+			bo(x?.trangThai === "bo_qua" ? `đã bị bỏ: ${x.lyDoBo ?? ""}` : `trùng bài đã có hoặc bài dự kiến đang có: "${x?.tieuDe ?? ""}"`);
+			continue;
+		}
+		const truCot = String(k.trangTruCot ?? "").trim();
+		if (!(await kiem(truCot))) {
+			bo(`trang trụ cột ${truCot || "(trống)"} không sống hoặc không đúng trang trên kinhlac.online`);
+			continue;
+		}
+		// Trụ cột KHÔNG tính vào số link đích: bài phải link lên trụ cột VÀ ≥ 5 trang khác.
+		const dich = [...new Set(sachMang(k.lienKetDich, 12))].filter((d) => d !== truCot);
+		const song = new Array(dich.length).fill(false);
+		for (let i = 0; i < dich.length; i += DONG_THOI)
+			(await Promise.all(dich.slice(i, i + DONG_THOI).map(kiem))).forEach((v, j) => (song[i + j] = v));
+		const lienKetDich = dich.filter((_, i) => song[i]);
+		if (lienKetDich.length < SO_LINK_DICH_TOI_THIEU) {
+			bo(`chỉ còn ${lienKetDich.length} link đích sống (cần ≥ ${SO_LINK_DICH_TOI_THIEU}, không tính trụ cột) — lấy thêm từ rada_tim_lien_ket`);
+			continue;
+		}
+		const muc = {
+			cumId: String(k.cumId),
+			huongId: c.huongId,
+			tieuDeLamViec,
+			tuKhoaChinh,
+			tuKhoaPhu,
+			yDinh: k.yDinh,
+			trangTruCot: truCot,
+			lienKetDich,
+			linkBiGo: dich.filter((_, i) => !song[i]),
+			goiYNguon: sachMang(k.goiYNguon, 12),
+			bangChung: {
+				soDoiThu: c.chiSo?.soDoiThu ?? 0,
+				soBai: c.chiSo?.soBai ?? 0,
+				trungXuHuong: !!c.chiSo?.trungXuHuong,
+				baiDoiThu: (c.baiDoiThu ?? []).slice(0, SO_BAI_BANG_CHUNG),
+			},
+		};
+		ghi.push(muc);
+		// Hai bài trùng nhau trong CÙNG lượt: chỉ nhận bài đầu.
+		soSanh.push({ id: `moi:${ghi.length}`, tieuDe: tieuDeLamViec, tuKhoa: [tuKhoaChinh, ...tuKhoaPhu] });
+	}
+	const nhan = ghi.length ? await kho.themKeHoach(s, ghi, now) : [];
+	return { nhan, bac: xepBac(bac, ds, "tieuDeLamViec") };
+}
