@@ -750,3 +750,102 @@ test("M9: create xong mà ghi sổ nháp hỏng → contentId đã nằm trên k
 	assert.equal((await s.nhap.get("c1")).keHoachId, "k_a");
 	assert.equal((await s.ke_hoach.get("k_a")).trangThai, "co_nhap");
 });
+
+// ==================== Sửa nợ N3–N5 ====================
+
+test("N3: lượt cuối (3/3) create xong mà ghi sổ hỏng → lượt thử lại KHÔI PHỤC nháp, không sang can_xem, không tạo thêm", async () => {
+	const { s, ctx, content, deps } = await dungNop({ keHoach: { soLanNop: 2 } });
+	const putGoc = s.nhap.put;
+	s.nhap.put = async () => {
+		throw new Error("kho sập");
+	};
+	await assert.rejects(viec.nopBai(ctx, dauVaoMau(), deps), /kho sập/);
+	assert.equal((await s.ke_hoach.get("k_a")).soLanNop, 3);
+	s.nhap.put = putGoc;
+	const r = await viec.nopBai(ctx, dauVaoMau(), deps);
+	assert.equal(r.daTao, true, JSON.stringify(r.loi));
+	assert.equal(r.contentId, "c1");
+	assert.equal(content.tao.length, 1);
+	assert.equal((await s.nhap.get("c1")).keHoachId, "k_a");
+	const k = await s.ke_hoach.get("k_a");
+	assert.equal(k.trangThai, "co_nhap");
+	assert.equal(k.soLanNop, 3); // lượt khôi phục không tính thêm lượt
+});
+
+test("N3: lượt khôi phục (hết lượt, có contentId) mà bài trượt → can_xem, lyDoCanXem nhắc contentId; soLanNopConLai không âm", async () => {
+	const { s, ctx, content, deps } = await dungNop({ keHoach: { soLanNop: 3, contentId: "c9", slug: "s9" } });
+	const r = await viec.nopBai(ctx, dauVaoMau({ md: MD_DAT.replace("giấc ngủ.", "giấc ngủ, châm cứu chữa khỏi hẳn.") }), deps);
+	assert.equal(r.daTao, false);
+	assert.equal(r.soLanNopConLai, 0);
+	assert.equal(content.tao.length, 0);
+	const k = await s.ke_hoach.get("k_a");
+	assert.equal(k.trangThai, "can_xem");
+	assert.match(k.lyDoCanXem, /c9/);
+});
+
+test("N3: hết lượt, KHÔNG có contentId → vẫn can_xem 'het_luot_nop' như cũ", async () => {
+	const { s, ctx, content, deps } = await dungNop({ keHoach: { soLanNop: 3 } });
+	const r = await viec.nopBai(ctx, dauVaoMau(), deps);
+	assert.deepEqual(r.loi.map((l) => l.ma), ["het_luot_nop"]);
+	assert.equal(content.tao.length, 0);
+	assert.equal((await s.ke_hoach.get("k_a")).trangThai, "can_xem");
+});
+
+test("N4: đã có nháp mà kế hoạch còn kẹt dang_viet (hỏng giữa themNhap và put co_nhap) → nhánh daCo sửa kế hoạch sang co_nhap", async () => {
+	const { s, ctx, content, deps } = await dungNop();
+	const r1 = await viec.nopBai(ctx, dauVaoMau(), deps);
+	assert.equal(r1.daTao, true);
+	const k = await s.ke_hoach.get("k_a");
+	await s.ke_hoach.put("k_a", { ...k, trangThai: "dang_viet", contentId: undefined, slug: undefined });
+	const r2 = await viec.nopBai(ctx, dauVaoMau(), deps);
+	assert.equal(r2.daCo, true);
+	const sau = await s.ke_hoach.get("k_a");
+	assert.equal(sau.trangThai, "co_nhap");
+	assert.equal(sau.contentId, r1.contentId);
+	assert.equal(sau.slug, r1.slug);
+	assert.equal(content.tao.length, 1);
+	assert.equal(sau.soLanNop, 1);
+});
+
+test("N5: chỉ mục nội bộ nạp TRƯỚC khi giành khoá giao bài (nạp nguội lâu không ăn vào hạn khoá)", async () => {
+	const { xoaDemChiMuc } = await import("../noi-bo/nap.mjs");
+	xoaDemChiMuc();
+	const s = await dungKho({ keHoach: [{ id: "k_a" }] });
+	const kv = taoKvGia();
+	const thuTu = [];
+	const cas = kv.compareAndSet.bind(kv);
+	kv.compareAndSet = async (k, r, v) => (k === "viet:khoa-giao" && thuTu.push("khoa"), cas(k, r, v));
+	const content = { async list() { thuTu.push("chiMuc"); return { items: [], hasMore: false }; } };
+	await viec.layBaiCanViet({ storage: s, kv, content }, { now: NOW });
+	assert.ok(thuTu.includes("khoa"));
+	assert.ok(thuTu.lastIndexOf("chiMuc") < thuTu.indexOf("khoa"), thuTu.join(","));
+	xoaDemChiMuc();
+});
+
+test("N5: nhả khoá giao bài ném → vẫn trả danh sách bài đã giao (không nuốt kết quả), ghi log", async () => {
+	const s = await dungKho({ keHoach: [{ id: "k_a" }] });
+	const kv = taoKvGia();
+	kv.compareAndDelete = async () => {
+		throw new Error("kv sập");
+	};
+	const log = [];
+	const r = await viec.layBaiCanViet({ storage: s, kv, log: { warn: (...a) => log.push(a), error: (...a) => log.push(a) } }, { now: NOW, chiMuc: CHI_MUC });
+	assert.deepEqual(r.bai.map((b) => b.keHoachId), ["k_a"]);
+	assert.equal((await s.ke_hoach.get("k_a")).trangThai, "dang_viet");
+	assert.equal(log.length, 1);
+	// Không có ctx.log cũng không ném.
+	const s2 = await dungKho({ keHoach: [{ id: "k_b" }] });
+	const kv2 = taoKvGia();
+	kv2.compareAndDelete = kv.compareAndDelete;
+	const r2 = await viec.layBaiCanViet({ storage: s2, kv: kv2 }, { now: NOW, chiMuc: CHI_MUC });
+	assert.deepEqual(r2.bai.map((b) => b.keHoachId), ["k_b"]);
+});
+
+test("N5: nhả khoá nộp ném → vẫn trả kết quả nộp", async () => {
+	const { ctx, deps } = await dungNop();
+	ctx.kv.compareAndDelete = async () => {
+		throw new Error("kv sập");
+	};
+	const r = await viec.nopBai(ctx, dauVaoMau(), deps);
+	assert.equal(r.daTao, true, JSON.stringify(r.loi));
+});

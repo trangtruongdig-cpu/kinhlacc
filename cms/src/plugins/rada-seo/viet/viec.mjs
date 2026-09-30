@@ -69,6 +69,22 @@ async function giuKhoaKv(kv, khoa, nowMs, hanMs) {
 	return r.applied ? r.revision : null;
 }
 
+/**
+ * Nhả khoá KV trong `finally`: KHÔNG bao giờ ném. Ném ở đây sẽ nuốt kết quả của cả lượt (vd danh
+ * sách bài vừa chuyển dang_viet — kẹt 36 h, mất hạn ngạch). Khoá không nhả được thì tự hết hạn.
+ */
+async function nhaKhoaKv(ctx, khoa, rev) {
+	try {
+		await ctx.kv.compareAndDelete(khoa, rev);
+	} catch (e) {
+		try {
+			ctx.log?.warn?.(`Rada SEO: không nhả được khoá ${khoa} — sẽ tự hết hạn`, e);
+		} catch {
+			// Ghi log hỏng cũng không được làm hỏng lượt.
+		}
+	}
+}
+
 async function donKhoaGiaoCu(kv, nowMs) {
 	const han = kho.ngayVN(nowMs - GIU_KHOA_GIAO_NGAY * 24 * GIO_MS);
 	for (const { key } of await kv.list("viet:giao:")) {
@@ -186,7 +202,8 @@ function baiChoClaude(k, tenTheoDuong) {
  * Giao bài cho routine viết đêm nay. Cả lượt (thu hồi + chọn + ghi giữ chỗ) nằm trong khoá KV
  * KHOA_GIAO_BAI: hai lượt gọi đồng thời không chọn trùng một kế hoạch. Hạn ngạch đêm (giờ VN) giữ
  * bằng CAS TRƯỚC khi chọn, phần không dùng (hết kế hoạch, hoặc lỗi giữa chừng) được hoàn. Chỉ mục
- * nội bộ nạp TRƯỚC khi giữ chỗ: nạp hỏng thì chưa có kế hoạch nào kẹt dang_viet, hạn ngạch chưa mất.
+ * nội bộ nạp TRƯỚC khi giành khoá (N5): lần nạp nguội (~18k mục) có thể quá hạn khoá 2 phút, để
+ * lượt thứ hai giành khoá hợp lệ và chọn trùng kế hoạch; nạp hỏng thì chưa có gì bị giữ.
  * @param {{storage: object, kv: object, content?: object}} ctx
  * @param {{now?: number, chiMuc?: object}} [tuyChon]  now: mốc ms
  * @returns {Promise<{bai: object[], conLaiDemNay: number, soNhapChoDuyet: number, ghiChu?: string}>}
@@ -197,6 +214,7 @@ export async function layBaiCanViet(ctx, { now = Date.now(), chiMuc } = {}) {
 	const khoa = khoaGiao(kho.ngayVN(now));
 	const tran = await traBaiMoiDem(kv);
 	const conLai = async () => Math.max(0, tran - ((await kv.get(khoa)) ?? 0));
+	const bang = bangTenTheoDuong(chiMuc ?? (await layChiMuc(ctx.content)));
 
 	const rev = await giuKhoaKv(kv, KHOA_GIAO_BAI, now, HAN_KHOA_GIAO_MS);
 	if (!rev)
@@ -213,7 +231,6 @@ export async function layBaiCanViet(ctx, { now = Date.now(), chiMuc } = {}) {
 		if (soNhapChoDuyet >= TRAN_NHAP_CHO_DUYET)
 			return { bai: [], conLaiDemNay: await conLai(), soNhapChoDuyet, ghiChu: `đủ ${TRAN_NHAP_CHO_DUYET} nháp chờ duyệt — chờ người duyệt đọc bớt rồi mới viết tiếp` };
 
-		const bang = bangTenTheoDuong(chiMuc ?? (await layChiMuc(ctx.content)));
 		const giu = await giuCho(kv, khoa, Math.min(tran, TRAN_NHAP_CHO_DUYET - soNhapChoDuyet), tran);
 		const chon = [];
 		try {
@@ -239,7 +256,7 @@ export async function layBaiCanViet(ctx, { now = Date.now(), chiMuc } = {}) {
 		ra.bai = chon.map((k) => baiChoClaude(k, bang));
 		return ra;
 	} finally {
-		await kv.compareAndDelete(KHOA_GIAO_BAI, rev);
+		await nhaKhoaKv(ctx, KHOA_GIAO_BAI, rev);
 	}
 }
 
@@ -390,6 +407,11 @@ async function nhapCuaKeHoach(s, keHoachId) {
 	return x ? { id: x.id, ...x.data } : null;
 }
 
+/** Kế hoạch đã create nháp trong CMS mà chưa có bản ghi nhap: người quản trị phải biết nháp đó. */
+function ghiChuNhapMoCoi(k) {
+	return k.contentId ? `; đã có nháp mồ côi trong CMS (contentId ${k.contentId}${k.slug ? `, slug ${k.slug}` : ""}) — xem lại hoặc xoá nó` : "";
+}
+
 /**
  * Lượt nộp trượt: lưu loiCuoi (lỗi lượt này) lên kế hoạch; lượt cuối cùng trượt → can_xem.
  * Hạn ngạch đêm KHÔNG được hoàn khi một kế hoạch trượt hết lượt (M12, chấp nhận): chỗ đã giao là
@@ -401,7 +423,7 @@ async function ghiTruot(s, id, dsLoi) {
 	const moi = { ...hien, loiCuoi: dsLoi.slice(0, 20).map((l) => `${l.ma}: ${l.ghiChu}`.slice(0, 500)) };
 	if (hien.trangThai === "dang_viet" && (hien.soLanNop ?? 0) >= SO_LAN_NOP_TOI_DA) {
 		moi.trangThai = "can_xem";
-		moi.lyDoCanXem = `Nộp ${hien.soLanNop} lượt đều trượt — lỗi của lượt cuối ở loiCuoi`;
+		moi.lyDoCanXem = `Nộp ${hien.soLanNop} lượt đều trượt — lỗi của lượt cuối ở loiCuoi${ghiChuNhapMoCoi(hien)}`;
 		delete moi.giuLuc;
 	}
 	await s.ke_hoach.put(id, moi);
@@ -433,7 +455,7 @@ export async function nopBai(ctx, dauVao, phuThuoc = {}) {
 	try {
 		return await nopTrongKhoa(ctx, dv, { ...phuThuoc, now });
 	} finally {
-		await kv.compareAndDelete(k, rev);
+		await nhaKhoaKv(ctx, k, rev);
 	}
 }
 
@@ -442,7 +464,16 @@ async function nopTrongKhoa(ctx, dv, { now, markdownToPortableText, docTrang, ki
 	const id = dv.keHoachId;
 
 	const daCo = await nhapCuaKeHoach(s, id);
-	if (daCo) return { daTao: true, daCo: true, contentId: String(daCo.id), slug: String(daCo.slug ?? ""), adminUrl: adminUrl(daCo.id), phieu: daCo.phieu ?? {} };
+	if (daCo) {
+		// N4: hỏng giữa themNhap và put co_nhap → kế hoạch kẹt dang_viet; sửa luôn ở đây.
+		const kh = await s.ke_hoach.get(id);
+		if (kh?.trangThai === "dang_viet") {
+			const sua = { ...kh, trangThai: "co_nhap", contentId: String(daCo.contentId ?? daCo.id), slug: String(daCo.slug ?? "") };
+			delete sua.loiCuoi;
+			await s.ke_hoach.put(id, sua);
+		}
+		return { daTao: true, daCo: true, contentId: String(daCo.id), slug: String(daCo.slug ?? ""), adminUrl: adminUrl(daCo.id), phieu: daCo.phieu ?? {} };
+	}
 
 	const keHoach = await s.ke_hoach.get(id);
 	if (!keHoach) return { daTao: false, loi: [loi("khong_co_ke_hoach", `Không có bài dự kiến ${id}`)] };
@@ -451,15 +482,20 @@ async function nopTrongKhoa(ctx, dv, { now, markdownToPortableText, docTrang, ki
 	if (keHoach.trangThai !== "dang_viet")
 		return { daTao: false, loi: [loi("sai_trang_thai", `Bài dự kiến đang ở "${keHoach.trangThai}", không phải "dang_viet" — lấy bài qua layBaiCanViet trước`)] };
 	const daNop = keHoach.soLanNop ?? 0;
-	if (daNop >= SO_LAN_NOP_TOI_DA) {
+	// N3: kế hoạch đã có contentId mà chưa có nháp = lượt trước create xong rồi hỏng khi ghi sổ.
+	// Khôi phục chạy TRƯỚC phép kiểm hết lượt và không tính thêm lượt — không thì hỏng ở lượt cuối
+	// đẩy bài sang can_xem trong khi nháp nằm trong CMS mà tab Nháp không thấy. Chỉ được một lượt
+	// khôi phục: trượt thì ghiTruot đưa sang can_xem (soLanNop vẫn ≥ trần).
+	const khoiPhuc = daNop >= SO_LAN_NOP_TOI_DA && Boolean(keHoach.contentId);
+	if (daNop >= SO_LAN_NOP_TOI_DA && !khoiPhuc) {
 		// Kế hoạch cũ (trước khi có can_xem) kẹt ở đây: đưa sang người quản trị thay vì nằm im.
-		await s.ke_hoach.put(id, { ...keHoach, trangThai: "can_xem", lyDoCanXem: keHoach.lyDoCanXem ?? `Đã nộp ${daNop}/${SO_LAN_NOP_TOI_DA} lượt` });
+		await s.ke_hoach.put(id, { ...keHoach, trangThai: "can_xem", lyDoCanXem: keHoach.lyDoCanXem ?? `Đã nộp ${daNop}/${SO_LAN_NOP_TOI_DA} lượt${ghiChuNhapMoCoi(keHoach)}` });
 		return { daTao: false, loi: [loi("het_luot_nop", `Đã nộp ${daNop}/${SO_LAN_NOP_TOI_DA} lượt cho bài này — dừng, người quản trị sẽ xem lại`)], soLanNopConLai: 0 };
 	}
 	// Đếm lượt TRƯỚC khi chấm: lượt bị trả lỗi vẫn tính.
-	const kh = { ...keHoach, soLanNop: daNop + 1 };
-	await s.ke_hoach.put(id, kh);
-	const soLanNopConLai = SO_LAN_NOP_TOI_DA - kh.soLanNop;
+	const kh = { ...keHoach, soLanNop: khoiPhuc ? daNop : daNop + 1 };
+	if (!khoiPhuc) await s.ke_hoach.put(id, kh);
+	const soLanNopConLai = Math.max(0, SO_LAN_NOP_TOI_DA - kh.soLanNop);
 
 	const cm = chiMuc ?? (await layChiMuc(ctx.content));
 	const tuKhoaChinh = kh.tuKhoaChinh ?? dv.tuKhoa[0];

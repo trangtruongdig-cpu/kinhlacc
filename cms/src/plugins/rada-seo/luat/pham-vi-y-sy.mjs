@@ -17,7 +17,9 @@
 // chính phòng chẩn trị), và bắt lời hứa rộng hơn. Chế độ thường giữ ngoại lệ cũ cho bài người viết.
 
 const HUA_KHOI_THUONG = "khỏi (?:hẳn|bệnh|hoàn toàn)|dứt điểm|tận gốc|đặc trị|khỏi \\d{1,3} ?%|cam kết khỏi";
-const HUA_KHOI_NGHIEM = `${HUA_KHOI_THUONG}|hết hẳn|đều khỏi|vĩnh viễn`;
+// Chế độ nghiêm phải chặn ĐÚNG những gì LOI_NHAC_VIET (loi-dan.mjs, dòng "Không hứa kết quả") dặn
+// là máy chủ chặn — test "N2: lời dặn … nói cùng một thứ" ghim hai bên lại với nhau.
+const HUA_KHOI_NGHIEM = `${HUA_KHOI_THUONG}|hết hẳn|đều khỏi|vĩnh viễn|khỏi ngay|hết ngay|cam kết hiệu quả|hiệu quả \\d{1,3} ?%|hiệu quả tức thì`;
 
 const luatChua = { ma: "chua", mau: /(?<!sửa )(?<!\p{L})chữa(?!\p{L})/u, goiY: "hỗ trợ / cải thiện / theo lý luận Đông Y" };
 const luatTri = {
@@ -76,8 +78,12 @@ function goMienTru(thuong, luat) {
 	return ra + thuong.slice(i);
 }
 
-/** Ký tự vô hình / gạch mềm: chèn vào giữa chữ ("ch\u200bữa") là lách được mọi mẫu. */
-const VO_HINH = /[\u200B-\u200D\u2060\u00AD\uFEFF]/gu;
+/**
+ * Ký tự vô hình: chèn vào giữa chữ ("ch\u200bữa") là lách được mọi mẫu. Bỏ MỌI ký tự định dạng
+ * (\p{Cf}: gạch mềm, ZWSP/ZWJ, LRM/RLM, điều khiển hướng 202A–202E / 2066–2069, 2061–2064, BOM…)
+ * cộng CGJ (U+034F, loại Mn) và U+180E — liệt kê tay từng thiếu LRM, RLO, LRI (đo 30/09/2026).
+ */
+const VO_HINH = /[\p{Cf}\u034F\u180E]/gu;
 
 /**
  * Chuẩn chữ trước MỌI phép soát luật: NFC (chữ dán từ macOS/Word có thể ở dạng NFD — "ư" = u +

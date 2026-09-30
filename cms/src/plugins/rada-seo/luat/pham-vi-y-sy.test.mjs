@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { timViPham, kiemPhamVi } from "./pham-vi-y-sy.mjs";
+import { timViPham, kiemPhamVi, sachChu } from "./pham-vi-y-sy.mjs";
+import { LOI_NHAC_VIET } from "../loi-dan.mjs";
 
 const ma = (s) => timViPham(s).map((v) => v.ma);
 
@@ -163,4 +164,33 @@ test("chế độ nghiêm (bài máy viết): mọi 'bác sĩ', 'khám bệnh nh
 	assert.deepEqual(mn("Phần mềm cho Phòng-khám và phòng khám Đông Y."), []);
 	// Đuôi "của bác sĩ" ở chế độ nghiêm là vi phạm (máy không được viết "bác sĩ").
 	assert.deepEqual(mn("Không thay thế việc thăm khám của bác sĩ."), ["bac_si"]);
+});
+
+test("N1: mọi ký tự định dạng (\\p{Cf}) và CGJ bị bỏ — LRM, RLO, LRI, CGJ trong 'chữa' không lách được cả hai chế độ", () => {
+	for (const cp of [0x200e, 0x200f, 0x202a, 0x202e, 0x2061, 0x2066, 0x2069, 0x180e, 0x034f]) {
+		const c = String.fromCodePoint(cp);
+		const s = `Châm cứu ch${c}ữa mất ngủ`;
+		assert.deepEqual(ma(s), ["chua"], cp.toString(16));
+		assert.deepEqual(timViPham(s, { nghiem: true }).map((v) => v.ma), ["chua"], cp.toString(16));
+		assert.equal(sachChu(`ch${c}ữa`), "chữa", cp.toString(16));
+	}
+	// Vẫn chuẩn NFC.
+	assert.equal(sachChu("chu\u031b\u0303a"), "chữa");
+});
+
+const LOI_HUA_MOI = ["Cam kết hiệu quả sau 10 buổi", "Hiệu quả 100%", "Hiệu quả 90 % sau liệu trình", "Hiệu quả tức thì", "Đau lưng khỏi ngay sau một lần", "Mất ngủ hết ngay"];
+
+test("N2: chế độ nghiêm bắt 'cam kết hiệu quả', 'hiệu quả N%', 'hiệu quả tức thì', 'khỏi ngay', 'hết ngay'; chế độ thường không đổi", () => {
+	for (const s of LOI_HUA_MOI) {
+		assert.ok(timViPham(s, { nghiem: true }).some((v) => v.ma === "hua_khoi"), s);
+		assert.ok(!ma(s).includes("hua_khoi"), `thường: ${s}`);
+	}
+});
+
+test("N2: lời dặn LOI_NHAC_VIET và luật nghiêm nói cùng một thứ — mọi cụm 'không hứa kết quả' trong lời dặn đều bị chặn", () => {
+	const dong = LOI_NHAC_VIET.split("\n").find((d) => d.includes("Không hứa kết quả"));
+	assert.ok(dong, "thiếu dòng 'Không hứa kết quả'");
+	const cum = [...dong.matchAll(/"([^"]+)"/gu)].map((m) => m[1].replace(/\bN\b/u, "90"));
+	for (const x of ["khỏi ngay", "hết ngay", "cam kết hiệu quả", "hiệu quả tức thì", "hiệu quả 90%"]) assert.ok(cum.includes(x), `lời dặn thiếu "${x}"`);
+	for (const x of cum) assert.ok(timViPham(`Bài viết: ${x}.`, { nghiem: true }).some((v) => v.ma === "hua_khoi"), `luật không chặn "${x}" mà lời dặn hứa chặn`);
 });
