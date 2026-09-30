@@ -2,6 +2,7 @@
 // Mọi hàm nhận `s` = ctx.storage để thử được bằng kho giả.
 import { createHash } from "node:crypto";
 import { timTrung } from "./luat/trung-lap.mjs";
+import { chuanHoaManh } from "./luat/chuan-hoa.mjs";
 
 export const KHAI_BAO_KHO = {
 	doi_thu: { indexes: ["tenMien"] },
@@ -9,6 +10,10 @@ export const KHAI_BAO_KHO = {
 	url: { indexes: ["doiThuId", "trangThai", ["doiThuId", "trangThai"], "phanTichLuc"] },
 	cum: { indexes: ["trangThai", "diem"] },
 	ca: { indexes: ["batDau"] },
+	// Tầng chiến lược (2C-2). Bộ `cum` ở trên (khoảng trống bằng luật) GIỮ, nay chỉ là bằng chứng.
+	huong: { indexes: ["trangThai", "diem"] },
+	cum_nghia: { indexes: ["huongId", "trangThai", "diem"] },
+	ke_hoach: { indexes: ["cumId", "trangThai", "taoLuc"] },
 };
 
 export const TRANG_THAI_CUM = ["cho_viet", "co_nhap", "da_dang", "bo_qua", "phu_boi_tu_dien"];
@@ -270,4 +275,123 @@ export async function ghiCa(s, ca) {
 export async function dsCa(s, n = 10) {
 	const r = await s.ca.query({ orderBy: { batDau: "desc" }, limit: n });
 	return r.items.map((x) => x.data);
+}
+
+// ---- Hướng nội dung → cụm theo nghĩa → kế hoạch (bài dự kiến) — 2C-2 ----
+// Duyệt HAI chỗ: người quản trị nhận/bỏ HƯỚNG, rồi duyệt/bỏ từng BÀI DỰ KIẾN. Claude đề xuất
+// lại mỗi tuần, nên mọi hàm ghi lứa mới phải GIỮ quyết định người dùng đã đặt.
+
+export const TRANG_THAI_HUONG = ["de_xuat", "da_nhan", "bo_qua"];
+export const TRANG_THAI_KE_HOACH = ["de_xuat", "da_duyet", "bo_qua", "dang_viet", "co_nhap", "da_dang"];
+/** Bài dự kiến ở các trạng thái này đã qua tay người duyệt → cụm của nó không được thay đi. */
+const KE_HOACH_DA_DUYET = new Set(["da_duyet", "dang_viet", "co_nhap", "da_dang"]);
+
+/** Id theo tên chuẩn hoá mạnh: Claude viết lại "Mất ngủ theo Đông y!" tuần sau vẫn trúng dòng cũ. */
+export const idHuong = (ten) => `h_${bam(chuanHoaManh(ten))}`;
+export const idCumNghia = (huongId, ten) => `c_${bam(`${huongId}|${chuanHoaManh(ten)}`)}`;
+const idKeHoach = (cumId, tieuDe) => `k_${bam(`${cumId}|${chuanHoaManh(tieuDe)}`)}`;
+
+/** Không truyền `where: undefined` xuống storage thật — chỉ thêm khoá khi có điều kiện. */
+const loc = (where, orderBy) => (where ? { where, orderBy } : { orderBy });
+
+const lyDoSach = (x) => String(x ?? "").trim().slice(0, 300);
+
+export async function dsHuong(s, { trangThai } = {}) {
+	const r = await tatCa(s.huong, loc(trangThai && { trangThai }, { diem: "desc" }));
+	return r.map((x) => ({ id: x.id, ...x.data }));
+}
+
+/**
+ * Ghi lứa hướng Claude đề xuất (đã chấm điểm). Hướng cùng tên đã có → cập nhật chỉ số/điểm/
+ * mô tả, GIỮ trangThai/trongSo/lyDoBo/taoLuc — không thì mỗi tuần Claude đề xuất lại là xoá
+ * quyết định của người dùng. @returns {Promise<{id: string, ten: string, diem: number}[]>}
+ */
+export async function luuHuongMoi(s, ds, now, { nghi } = {}) {
+	const ids = ds.map((h) => idHuong(h.ten));
+	const cu = await s.huong.getMany(ids);
+	const ghi = new Map();
+	ds.forEach((h, i) => {
+		const c = cu.get(ids[i]);
+		const giu = c ? { trangThai: c.trangThai, trongSo: c.trongSo, lyDoBo: c.lyDoBo, taoLuc: c.taoLuc } : { trangThai: "de_xuat", taoLuc: now };
+		for (const k of Object.keys(giu)) if (giu[k] === undefined) delete giu[k];
+		ghi.set(ids[i], { ...h, ...giu, capNhatLuc: now });
+	});
+	await ghiTheoLo(s.huong, [...ghi].map(([id, data]) => ({ id, data })), { nghi });
+	return [...ghi].map(([id, d]) => ({ id, ten: d.ten, diem: d.diem }));
+}
+
+/** Người quản trị đặt trạng thái hướng. Nhận phải kèm trọng số 1..5; bỏ phải kèm lý do (Claude đọc lại). */
+export async function datHuong(s, id, { trangThai, trongSo, lyDoBo } = {}) {
+	if (!TRANG_THAI_HUONG.includes(trangThai)) throw new Error(`Trạng thái hướng không hợp lệ: ${trangThai}`);
+	const cu = await s.huong.get(id);
+	if (!cu) throw new Error("Không có hướng này");
+	const moi = { ...cu, trangThai };
+	if (trangThai === "da_nhan") {
+		if (!Number.isInteger(trongSo) || trongSo < 1 || trongSo > 5) throw new Error("Nhận hướng cần trọng số nguyên 1..5");
+		moi.trongSo = trongSo;
+	}
+	if (trangThai === "bo_qua") {
+		if (!lyDoSach(lyDoBo)) throw new Error("Bỏ hướng cần lý do");
+		moi.lyDoBo = lyDoSach(lyDoBo);
+	} else delete moi.lyDoBo;
+	await s.huong.put(id, moi);
+	return { id, ...moi };
+}
+
+export async function dsCumNghia(s, { huongId } = {}) {
+	const r = await tatCa(s.cum_nghia, loc(huongId && { huongId }, { diem: "desc" }));
+	return r.map((x) => ({ id: x.id, ...x.data }));
+}
+
+/**
+ * Thay lứa cụm của MỘT hướng. Giữ cụm đã có bài dự kiến qua duyệt (xoá đi là bài đã tick mồ
+ * côi). Cụm mới cùng tên một cụm cũ → cùng id, cập nhật chỉ số, giữ trạng thái. Cụm cũ bị thay
+ * thì bài dự kiến CHƯA duyệt của nó đi theo; bài đã bỏ (bo_qua) thì ở lại làm trí nhớ chống
+ * đề xuất lại. @returns {Promise<{id: string, ten: string, diem: number}[]>}
+ */
+export async function thayCumNghia(s, huongId, ds, now, { nghi } = {}) {
+	const cu = await tatCa(s.cum_nghia, { where: { huongId } });
+	const kh = cu.length ? await tatCa(s.ke_hoach, { where: { cumId: { in: cu.map((r) => r.id) } } }) : [];
+	const coDuyet = new Set(kh.filter((k) => KE_HOACH_DA_DUYET.has(k.data.trangThai)).map((k) => k.data.cumId));
+	const theoId = new Map(cu.map((r) => [r.id, r.data]));
+	const ghi = new Map();
+	for (const c of ds) {
+		const id = idCumNghia(huongId, c.ten);
+		const c0 = theoId.get(id);
+		ghi.set(id, { ...c, huongId, trangThai: c0?.trangThai ?? "de_xuat", taoLuc: c0?.taoLuc ?? now, capNhatLuc: now });
+	}
+	const xoa = cu.map((r) => r.id).filter((id) => !coDuyet.has(id) && !ghi.has(id));
+	if (xoa.length) {
+		const xoaSet = new Set(xoa);
+		const khXoa = kh.filter((k) => xoaSet.has(k.data.cumId) && k.data.trangThai === "de_xuat").map((k) => k.id);
+		if (khXoa.length) await s.ke_hoach.deleteMany(khXoa);
+		await s.cum_nghia.deleteMany(xoa);
+	}
+	await ghiTheoLo(s.cum_nghia, [...ghi].map(([id, data]) => ({ id, data })), { nghi });
+	return [...ghi].map(([id, d]) => ({ id, ten: d.ten, diem: d.diem }));
+}
+
+export async function dsKeHoach(s, { trangThai } = {}) {
+	const r = await tatCa(s.ke_hoach, loc(trangThai && { trangThai }, { taoLuc: "desc" }));
+	return r.map((x) => ({ id: x.id, ...x.data }));
+}
+
+/** Thêm bài dự kiến (đã qua rào ở chien-luoc/viec.mjs), trạng thái de_xuat. @returns {Promise<{id: string, tieuDeLamViec: string}[]>} */
+export async function themKeHoach(s, ds, now, { nghi } = {}) {
+	const items = ds.map((k) => ({ id: idKeHoach(k.cumId, k.tieuDeLamViec), data: { ...k, trangThai: "de_xuat", taoLuc: now } }));
+	await ghiTheoLo(s.ke_hoach, items, { nghi });
+	return items.map((x) => ({ id: x.id, tieuDeLamViec: x.data.tieuDeLamViec }));
+}
+
+export async function datKeHoach(s, id, { trangThai, lyDoBo } = {}) {
+	if (!TRANG_THAI_KE_HOACH.includes(trangThai)) throw new Error(`Trạng thái bài dự kiến không hợp lệ: ${trangThai}`);
+	const cu = await s.ke_hoach.get(id);
+	if (!cu) throw new Error("Không có bài dự kiến này");
+	const moi = { ...cu, trangThai };
+	if (trangThai === "bo_qua") {
+		if (!lyDoSach(lyDoBo)) throw new Error("Bỏ bài dự kiến cần lý do");
+		moi.lyDoBo = lyDoSach(lyDoBo);
+	} else delete moi.lyDoBo;
+	await s.ke_hoach.put(id, moi);
+	return { id, ...moi };
 }
