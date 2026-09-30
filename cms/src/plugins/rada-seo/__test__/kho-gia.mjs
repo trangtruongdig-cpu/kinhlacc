@@ -1,0 +1,40 @@
+// Kho giả cho phép kiểm: mô phỏng StorageCollection của EmDash (where khớp đúng / {in},
+// orderBy một khoá, limit, cursor là vị trí). Đủ cho kho.mjs, không hơn.
+function khop(data, where = {}) {
+	return Object.entries(where).every(([k, v]) =>
+		v && typeof v === "object" && Array.isArray(v.in) ? v.in.includes(data[k]) : data[k] === v,
+	);
+}
+
+export function taoBoSuuTap() {
+	const m = new Map();
+	return {
+		_m: m,
+		async get(id) { return m.has(id) ? structuredClone(m.get(id)) : null; },
+		async put(id, data) { m.set(id, structuredClone(data)); },
+		async delete(id) { return m.delete(id); },
+		async exists(id) { return m.has(id); },
+		async getMany(ids) { const r = new Map(); for (const id of ids) if (m.has(id)) r.set(id, structuredClone(m.get(id))); return r; },
+		async putMany(items) { for (const { id, data } of items) m.set(id, structuredClone(data)); },
+		async deleteMany(ids) { let n = 0; for (const id of ids) if (m.delete(id)) n++; return n; },
+		async count(where) { return [...m.values()].filter((d) => khop(d, where)).length; },
+		async query({ where, orderBy, limit = 50, cursor } = {}) {
+			let rows = [...m.entries()].filter(([, d]) => khop(d, where)).map(([id, data]) => ({ id, data: structuredClone(data) }));
+			if (orderBy) {
+				const [k, huong] = Object.entries(orderBy)[0];
+				rows.sort((a, b) => (a.data[k] < b.data[k] ? -1 : a.data[k] > b.data[k] ? 1 : 0) * (huong === "desc" ? -1 : 1));
+			}
+			const tu = cursor ? Number(cursor) : 0;
+			const trang = rows.slice(tu, tu + Math.min(limit, 100));
+			const hasMore = tu + trang.length < rows.length;
+			return { items: trang, hasMore, cursor: hasMore ? String(tu + trang.length) : undefined };
+		},
+	};
+}
+
+export function taoKhoGia() {
+	return { doi_thu: taoBoSuuTap(), url: taoBoSuuTap(), cum: taoBoSuuTap(), ca: taoBoSuuTap() };
+}
+
+/** docWeb giả từ một bảng URL → chữ. */
+export const webGia = (bang) => async (url) => bang[url] ?? "";
