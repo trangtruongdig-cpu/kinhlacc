@@ -10,9 +10,11 @@ Chạy bằng gói Claude của chủ site (claude.ai/code/routines), KHÔNG dù
   **ADMIN**. Connector claude.ai đăng nhập bằng tài khoản không phải admin → KHÔNG gọi được
   công cụ Rada SEO nào mà VẪN gọi được `content_*` ghi bài. Đăng nhập bằng admin thì Claude
   cầm luôn quyền đăng/xoá bài. Cả hai đều sai.
-- Khoá `ec_pat_` với DUY NHẤT scope `mcp:tools:rada-seo` chỉ mở đúng 3 công cụ Rada SEO;
-  `content_*`/`media_*` đòi `content:*`/`media:*` nên bị chặn. Một trang đối thủ có cài lệnh
-  cũng không có công cụ nào để làm theo.
+- Khoá `ec_pat_` với DUY NHẤT scope `mcp:tools:rada-seo` chỉ GỌI ĐƯỢC đúng 3 công cụ Rada
+  SEO. ⚠️ `tools/list` KHÔNG lọc theo scope: nó vẫn liệt kê đủ 62 công cụ (3 Rada + 59 công cụ
+  lõi `content_*`, `media_*`, `schema_*`, `settings_*`…), nhưng cả 59 công cụ lõi đều trả
+  `[INSUFFICIENT_SCOPE] Insufficient scope: requires …` khi gọi (đo trên bàn thử, nghiệm thu
+  2B-1). Một trang đối thủ có cài lệnh cũng không có công cụ nào làm theo được.
 
 ## Cài đặt (làm một lần)
 
