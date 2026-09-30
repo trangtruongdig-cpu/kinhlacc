@@ -32,10 +32,14 @@ export function voiHanGio(promise, ms, tenViec = "yêu cầu") {
 }
 
 /**
+ * Hạn chờ mỗi trang 30 s. Bản đầu là 15 s và đo ở nghiệm thu 2B-1: MỌI trang của
+ * benhvienyhoccotruyentrunguong.vn tải mất ~16 s (curl 200 sau 16,0 s) nên cả đối thủ đó
+ * thành 'loi' mà không trang nào tới được Claude. Ca radar đã có hạn chót nên chờ lâu hơn
+ * không làm ca chạy chồng.
  * @param {(url: string, init?: RequestInit) => Promise<Response>} fetchFn  ctx.http.fetch
  * @returns {(url: string) => Promise<string>}
  */
-export function taoDocWeb(fetchFn, { hanGioMs = 15_000 } = {}) {
+export function taoDocWeb(fetchFn, { hanGioMs = 30_000 } = {}) {
 	return async (url) => {
 		if (!urlDocDuoc(url)) return "";
 		try {

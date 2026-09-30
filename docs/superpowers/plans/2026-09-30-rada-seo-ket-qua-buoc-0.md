@@ -53,6 +53,10 @@ tới kho đều có thể nhận việc (xem "Khác biệt…"). Nên dựng m�
      -H 'Content-Type: application/json' -H 'X-EmDash-Request: 1' -d "{\"ve\":\"$VE\"}"
    ```
    (`/auth/ve-cms` trả `{ve, songGiay}`; vé sống 60 s, dùng một lần.) Route plugin đã gọi được ngay.
+5b. ⚠️ **Từ nghiệm thu 2B-1 (30/09/2026) lối SSO ở bước 5 KHÔNG còn chạy**: `admin/password123`
+   của app trả 401 (mật khẩu đã đổi). Đừng tự ký vé bằng `CMS_SSO_SECRET` — bí mật đó mở cả CMS
+   thật. Cách đã dùng: chạy trình cài đặt thật của EmDash (`/_emdash/admin/setup`) bằng Playwright
+   với passkey ảo của Chromium (CDP `WebAuthn.addVirtualAuthenticator`) trên DB thử.
 6. **Khu admin cần đánh dấu setup xong** — DB mới thì mọi `/_emdash/admin/*` đẩy về `/admin/setup`
    (wizard đòi passkey). Trên DB thử làm thay `finalizeSetup()`:
    `sqlite3 <SCRATCH>/thu.db "insert into options(name,value) values('emdash:setup_complete','true')"`.
