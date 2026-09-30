@@ -4,7 +4,7 @@
 
 **Goal:** Plugin `rada-seo` thôi gọi Claude Haiku qua API; nó chỉ trích sẵn chữ trang đối thủ, còn việc đọc do một routine Claude trong tài khoản claude.ai của người dùng làm qua ba công cụ MCP của plugin, có trần 40 trang/đêm phía máy chủ.
 
-**Architecture:** Đặc tả `docs/superpowers/specs/2026-09-30-radar-lo-viet-plugin-cms-design.md`, mục "Nguồn AI — Claude trong tài khoản người dùng, qua MCP". Vòng đời URL: `cho` → (ca radar trích) `cho_ai` → (Claude ghi) `da_phan_tich`. Công cụ MCP khai bằng `definePlugin({ mcp: { tools } })`, mỗi công cụ trỏ tới một route private có `permission` bậc contributor và `input` zod. Logic của công cụ ở `mcp-viec.mjs` (thuần, kiểm bằng kho giả + kv giả). EmDash đã có máy chủ MCP `/_emdash/api/mcp` + OAuth; nginx chỉ cần chuyển `/.well-known/oauth-*`.
+**Architecture:** Đặc tả `docs/superpowers/specs/2026-09-30-radar-lo-viet-plugin-cms-design.md`, mục "Nguồn AI — Claude trong tài khoản người dùng, qua MCP". Vòng đời URL: `cho` → (ca radar trích) `cho_ai` → (Claude ghi) `da_phan_tich`. Công cụ MCP khai bằng `definePlugin({ mcp: { tools } })`, mỗi công cụ trỏ tới một route private có `permission` bậc contributor và `input` zod. Logic của công cụ ở `mcp-viec.mjs` (thuần, kiểm bằng kho giả + kv giả). EmDash đã có máy chủ MCP `/_emdash/api/mcp`; routine nối bằng khoá `ec_pat_` chỉ scope `mcp:tools:rada-seo` (xem Task 3).
 
 **Tech Stack:** EmDash 0.39.1 plugin native, zod 4.6.5, `node:test`, React 19.
 
@@ -13,7 +13,7 @@
 - **Không khoá API nào**: gỡ `@anthropic-ai/sdk` và `lib/claude.mjs`. Plugin KHÔNG gọi mô hình.
 - Trần phía máy chủ: `TRAN_TRANG_MOI_DEM = 40` (ngày tính theo giờ VN, UTC+7), `TRAN_TRANG_MOI_LUOT = 10`.
 - Công cụ MCP: `rada_lay_viec` → route `mcp-lay-viec` (permission `content:read_drafts`); `rada_ghi_phan_tich` → `mcp-ghi-phan-tich` (`content:create`); `rada_xong_phan_tich` → `mcp-xong-phan-tich` (`content:create`). Tất cả `destructive: false`, route và công cụ dùng CHUNG một khuôn zod.
-- Tài khoản CMS của Claude là **contributor** (không phải author: author có `content:publish_own`).
+- Claude nối bằng khoá `ec_pat_` **chỉ scope `mcp:tools:rada-seo`** (không connector OAuth: OAuth chỉ cấp `mcp:tools` cho admin). Route vẫn khai permission bậc contributor.
 - Lời dặn cách đọc trang nằm ở máy chủ (`loi-dan.mjs`) và trả về trong `rada_lay_viec`.
 - Giữ nguyên mọi rào của 2A: công tắc `RADA_SEO_CA_DEM`, lịch `30 * * * *` + lọc giờ UTC 19, khoá KV `compareAndDelete`, `PluginRouteError`, ghi kho theo lô 20 + nghỉ 150ms, nghỉ 300ms giữa lượt tải, hạn chót ca.
 - Nghiệm thu chỉ trên **bàn thử** (cấu hình thay thế + libsql + `PGHOST` chết) theo công thức ở `docs/superpowers/plans/2026-09-30-rada-seo-ket-qua-buoc-0.md`; không `npm run build` trong `cms/`; sau build thử `npx astro sync`.
