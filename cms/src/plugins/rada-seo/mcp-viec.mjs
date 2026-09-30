@@ -19,6 +19,24 @@ export function ngayVN(ms) {
 /** Trang giao chừng ấy đêm mà vẫn chưa được ghi thì coi như Claude không đọc được → 'loi'. */
 export const SO_LAN_GIAO_TOI_DA = 3;
 
+/** Giữ kv `claude:giao:*` / `claude:doc:*` bấy nhiêu ngày VN — chỉ để xem lịch sử gần, dọn phần cũ hơn. */
+export const GIU_KHOA_NGAY = 7;
+
+/**
+ * Dọn kv `claude:giao:YYYY-MM-DD` / `claude:doc:YYYY-MM-DD` cũ hơn GIU_KHOA_NGAY ngày VN.
+ * Lỗi được ném lên cho người gọi tự quyết cách xử lý (xongPhanTich bắt và ghi vào `loi`,
+ * không để một lượt `kv.list` hỏng làm mất kết quả tính khoảng trống).
+ */
+async function donKhoaCu(kv, nowMs) {
+	const hanNgay = ngayVN(nowMs - GIU_KHOA_NGAY * 24 * 3600 * 1000);
+	const items = await kv.list("claude:");
+	const cu = items.filter(({ key }) => {
+		const m = /^claude:(giao|doc):(\d{4}-\d{2}-\d{2})$/.exec(key);
+		return m && m[2] < hanNgay;
+	});
+	for (const { key } of cu) await kv.delete(key);
+}
+
 /**
  * Cộng kv số nguyên, chịu tranh chấp (CAS, thử lại tối đa 5 lần). `them` có thể âm; kết quả
  * không xuống dưới 0.
@@ -55,7 +73,7 @@ async function giuCho(kv, khoa, muon) {
  * thoát ra ngoài vùng dữ liệu.
  */
 const boc = (id, chu) =>
-	`<<<TRANG_DOI_THU id=${id}>>>\n${String(chu ?? "").replace(/<{3,}/g, "‹‹‹").replace(/>{3,}/g, "›››")}\n<<<HET_TRANG>>>`;
+	`<<<TRANG_DOI_THU id=${id}>>>\n${String(chu ?? "").replace(/<{3,}/g, "‹‹‹").replace(/>{3,}/g, "›››")}\n<<<HET_TRANG id=${id}>>>`;
 
 /**
  * @returns {Promise<{trang: {id: string, url: string, chu: string}[], conLaiDemNay: number,
@@ -116,6 +134,11 @@ export async function xongPhanTich({ s, kv, nowMs = Date.now(), nghi }) {
 		ca.soCum = await capNhatKhoangTrong(s, { xuHuong: await xuHuongGanNhat(s), now: batDau, nghi });
 	} catch (e) {
 		ca.loi.push(`khoảng trống: ${String(e?.message ?? e).slice(0, 300)}`);
+	}
+	try {
+		await donKhoaCu(kv, nowMs);
+	} catch (e) {
+		ca.loi.push(`dọn khoá cũ: ${String(e?.message ?? e).slice(0, 300)}`);
 	}
 	ca.ketThuc = new Date(nowMs).toISOString();
 	await kho.ghiCa(s, ca);

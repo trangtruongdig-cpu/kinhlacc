@@ -39,7 +39,9 @@ function RadaSeo() {
 			{dl.canhBaoCaDem && <p style={{ color: "#b91c1c", fontWeight: 600 }}>⚠ Hơn 26 giờ chưa có ca radar thành công — xem nhật ký bên dưới.</p>}
 			{dl.canhBaoClaude && (
 				<p style={{ color: "#b91c1c", fontWeight: 600 }}>
-					⚠ {dl.choAi} trang chờ Claude đọc mà 26 giờ qua Claude chưa đọc trang nào — kiểm tra routine đêm và connector MCP trong claude.ai (có thể đã mất đăng nhập).
+					⚠ {dl.choAi} trang chờ Claude đọc mà 26 giờ qua Claude chưa đọc trang nào — khả năng: routine
+					không chạy (xem lịch sử chạy ở claude.ai/code/routines), khoá RADA_SEO_MCP_TOKEN sai/thu hồi/hết
+					hạn, hoặc môi trường routine chặn mạng tới kinhlac.online.
 				</p>
 			)}
 			{!dl.caDemBat && <p style={{ color: "#92400e" }}>Máy này không bật RADA_SEO_CA_DEM: chỉ chạy thử được, ca đêm thật chạy trên VPS.</p>}
@@ -68,7 +70,7 @@ function RadaSeo() {
 			</form>
 			<table style={{ borderCollapse: "collapse", width: "100%", marginTop: 8 }}>
 				<thead>
-					<tr><th style={o}>Tên miền</th><th style={o}>Chờ trích</th><th style={o}>Chờ Claude</th><th style={o}>Đã phân tích</th><th style={o}>Ngoài ngành</th><th style={o}>Lỗi</th><th style={o}></th></tr>
+					<tr><th style={o}>Tên miền</th><th style={o}>Chờ trích</th><th style={o}>Chờ Claude đọc</th><th style={o}>Đã phân tích</th><th style={o}>Ngoài ngành</th><th style={o}>Lỗi</th><th style={o}></th></tr>
 				</thead>
 				<tbody>
 					{dl.doiThu.map((d) => (

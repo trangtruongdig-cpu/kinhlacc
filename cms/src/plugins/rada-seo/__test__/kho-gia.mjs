@@ -61,5 +61,8 @@ export function taoKvGia() {
 			m.delete(k);
 			return { applied: true };
 		},
+		async list(prefix = "") {
+			return [...m.entries()].filter(([k]) => k.startsWith(prefix)).map(([key, v]) => ({ key, value: structuredClone(v.value) }));
+		},
 	};
 }
