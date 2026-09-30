@@ -108,6 +108,25 @@ test("MCP: 3 công cụ, mỗi cái trỏ route có thật, có permission bậc
 	assert.equal(ghi.safeParse({ ketQua: Array(11).fill(muc) }).success, false);
 	assert.equal(ghi.safeParse({ ketQua: [{ ...muc, tuKhoa: [] }] }).success, false);
 	assert.equal(ghi.safeParse({ ketQua: [muc] }).success, true);
+	// boQua: Claude chủ động bỏ trang; phải có ít nhất một trong hai mảng.
+	assert.equal(ghi.safeParse({ boQua: [{ id: "u", lyDo: "rác" }] }).success, true);
+	assert.equal(ghi.safeParse({ ketQua: [muc], boQua: [{ id: "v", lyDo: "rác" }] }).success, true);
+	assert.equal(ghi.safeParse({}).success, false);
+	assert.equal(ghi.safeParse({ ketQua: [], boQua: [] }).success, false);
+	assert.equal(ghi.safeParse({ boQua: [{ id: "u", lyDo: "" }] }).success, false);
+	assert.equal(ghi.safeParse({ boQua: [{ id: "u", lyDo: "x".repeat(201) }] }).success, false);
+	assert.equal(ghi.safeParse({ boQua: Array(11).fill({ id: "u", lyDo: "x" }) }).success, false);
+	// Mô tả công cụ không gọi tên trần của công cụ khác (EmDash thêm tiền tố rada-seo__).
+	assert.match(tools.rada_ghi_phan_tich.description, /kết thúc bằng rada_lay_viec/);
+});
+
+test("mcp-ghi-phan-tich route: chuyển boQua xuống ghiPhanTich", async () => {
+	const p = createPlugin();
+	const ctx = taoCtx();
+	await ctx.storage.url.put("u1", { doiThuId: "a.vn", url: "https://a.vn/1", trangThai: "cho_ai", chu: "x" });
+	const kq = await p.routes["mcp-ghi-phan-tich"].handler({ ...ctx, input: { boQua: [{ id: "u1", lyDo: "rác" }] } });
+	assert.equal(kq.soDaBoQua, 1);
+	assert.equal((await ctx.storage.url.get("u1")).trangThai, "loi");
 });
 
 test("tong-quan: báo đỏ Claude khi có trang chờ mà chưa có ca 'claude' trong 26 giờ", async () => {
@@ -121,4 +140,15 @@ test("tong-quan: báo đỏ Claude khi có trang chờ mà chưa có ca 'claude'
 	await kho.ghiCa(ctx.storage, { loai: "claude", batDau: vua, ketThuc: vua, ghi: true, soDoc: 3, loi: [] });
 	kq = await p.routes["tong-quan"].handler(ctx);
 	assert.equal(kq.canhBaoClaude, false);
+});
+
+test("tong-quan: ca 'claude' đọc 0 trang KHÔNG tắt cảnh báo", async () => {
+	const p = createPlugin();
+	const ctx = taoCtx();
+	await ctx.storage.url.put("u1", { doiThuId: "a.vn", url: "https://a.vn/1", trangThai: "cho_ai", chu: "x" });
+	const cu = new Date(Date.now() - 30 * 3600e3).toISOString();
+	await kho.ghiCa(ctx.storage, { loai: "claude", batDau: cu, ketThuc: cu, ghi: true, soDoc: 5, loi: [] });
+	const vua = new Date().toISOString();
+	await kho.ghiCa(ctx.storage, { loai: "claude", batDau: vua, ketThuc: vua, ghi: true, soDoc: 0, loi: [] });
+	assert.equal((await p.routes["tong-quan"].handler(ctx)).canhBaoClaude, true);
 });

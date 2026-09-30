@@ -117,6 +117,66 @@ export async function layUrlChoAi(s, n) {
 	return r.items.map((x) => ({ id: x.id, url: x.data.url, doiThuId: x.data.doiThuId, chu: x.data.chu }));
 }
 
+/**
+ * Chọn trang để giao cho Claude đêm `ngay`, và dọn trang kẹt gặp trên đường.
+ * - Bỏ qua trang đã giao trong đêm nay (`giaoDem === ngay`): giao lại trong cùng đêm chỉ tốn
+ *   hạn ngạch mà Claude vẫn đang (hoặc đã không thể) đọc nó.
+ * - Trang đã giao `soLanToiDa` lần ở các đêm trước mà vẫn 'cho_ai' → 'loi', bỏ `chu`. Không
+ *   có bước này thì một trang Claude không bao giờ xử lý được sẽ đứng đầu hàng đợi mãi.
+ * - Trang được chọn đóng dấu `giaoDem` và `soLanGiao + 1`.
+ * Storage không lọc được "khác", nên quét 'cho_ai' theo trang rồi lọc trong bộ nhớ; ghi dồn
+ * SAU khi quét để việc đổi trạng thái không làm lệch con trỏ phân trang.
+ * @returns {Promise<{trang: {id: string, url: string, doiThuId: string, chu: string}[], soChuyenLoi: number}>}
+ */
+export async function chonUrlChoAi(s, n, { ngay, soLanToiDa }) {
+	const chon = [], loi = [];
+	if (n <= 0) return { trang: [], soChuyenLoi: 0 };
+	const lo = Math.min(100, n * 5);
+	let cursor;
+	do {
+		const r = await s.url.query({ where: { trangThai: "cho_ai" }, limit: lo, cursor });
+		for (const x of r.items) {
+			const d = x.data;
+			if (d.giaoDem === ngay) continue;
+			if ((d.soLanGiao ?? 0) >= soLanToiDa) {
+				const { chu: _bo, ...con } = d;
+				loi.push({ id: x.id, data: { ...con, trangThai: "loi", loi: `Claude không đọc được sau ${soLanToiDa} lần giao` } });
+				continue;
+			}
+			if (chon.length < n) chon.push({ id: x.id, data: { ...d, giaoDem: ngay, soLanGiao: (d.soLanGiao ?? 0) + 1 } });
+		}
+		cursor = chon.length < n && r.hasMore ? r.cursor : undefined;
+	} while (cursor);
+	const ghi = [...chon, ...loi];
+	if (ghi.length) await s.url.putMany(ghi);
+	return {
+		trang: chon.map(({ id, data }) => ({ id, url: data.url, doiThuId: data.doiThuId, chu: data.chu })),
+		soChuyenLoi: loi.length,
+	};
+}
+
+/**
+ * Claude chủ động bỏ trang (rác, không đọc được). Chỉ với trang đang 'cho_ai'.
+ * @param {{id: string, lyDo: string}[]} items
+ * @returns {Promise<{daBoQua: number, khongHop: string[]}>}
+ */
+export async function boQuaUrlChoAi(s, items) {
+	if (!items.length) return { daBoQua: 0, khongHop: [] };
+	const cu = await s.url.getMany(items.map((x) => x.id));
+	const ghi = [], khongHop = [];
+	for (const x of items) {
+		const d = cu.get(x.id);
+		if (!d || d.trangThai !== "cho_ai") {
+			khongHop.push(x.id);
+			continue;
+		}
+		const { chu: _bo, ...con } = d;
+		ghi.push({ id: x.id, data: { ...con, trangThai: "loi", loi: `Claude bỏ qua: ${x.lyDo}` } });
+	}
+	if (ghi.length) await s.url.putMany(ghi);
+	return { daBoQua: ghi.length, khongHop };
+}
+
 export async function demChoAi(s) {
 	return s.url.count({ trangThai: "cho_ai" });
 }

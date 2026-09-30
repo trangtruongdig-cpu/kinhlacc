@@ -16,11 +16,17 @@ export function ngayVN(ms) {
 	return new Date(ms + 7 * 3600 * 1000).toISOString().slice(0, 10);
 }
 
-/** Cộng kv số nguyên, chịu tranh chấp (CAS, thử lại tối đa 5 lần). */
+/** Trang giao chừng ấy đêm mà vẫn chưa được ghi thì coi như Claude không đọc được → 'loi'. */
+export const SO_LAN_GIAO_TOI_DA = 3;
+
+/**
+ * Cộng kv số nguyên, chịu tranh chấp (CAS, thử lại tối đa 5 lần). `them` có thể âm; kết quả
+ * không xuống dưới 0.
+ */
 async function cong(kv, khoa, them) {
 	for (let i = 0; i < 5; i++) {
 		const cu = await kv.getVersioned(khoa);
-		const moi = (cu?.value ?? 0) + them;
+		const moi = Math.max(0, (cu?.value ?? 0) + them);
 		const r = await kv.compareAndSet(khoa, cu?.revision ?? null, moi);
 		if (r.applied) return moi;
 	}
@@ -28,19 +34,51 @@ async function cong(kv, khoa, them) {
 }
 
 /**
+ * Giữ chỗ trong hạn ngạch đêm TRƯỚC khi lấy trang (CAS): hai lượt gọi đồng thời không thể
+ * cùng thấy "còn 12" rồi cùng giao 10. @returns {Promise<number>} số chỗ đã giữ
+ */
+async function giuCho(kv, khoa, muon) {
+	for (let i = 0; i < 5; i++) {
+		const cu = await kv.getVersioned(khoa);
+		const daGiao = cu?.value ?? 0;
+		const them = Math.max(0, Math.min(muon, TRAN_TRANG_MOI_DEM - daGiao));
+		if (them === 0) return 0;
+		const r = await kv.compareAndSet(khoa, cu?.revision ?? null, daGiao + them);
+		if (r.applied) return them;
+	}
+	throw new Error("Không giữ được chỗ trong hạn ngạch đêm (tranh chấp)");
+}
+
+/**
+ * Bọc chữ trang đối thủ trong dấu ranh giới — lời dặn bảo Claude coi phần giữa là DỮ LIỆU.
+ * Chuỗi "<<<"/">>>" trong chữ trang bị đổi đi, để trang không tự chèn dấu kết thúc giả mà
+ * thoát ra ngoài vùng dữ liệu.
+ */
+const boc = (id, chu) =>
+	`<<<TRANG_DOI_THU id=${id}>>>\n${String(chu ?? "").replace(/<{3,}/g, "‹‹‹").replace(/>{3,}/g, "›››")}\n<<<HET_TRANG>>>`;
+
+/**
  * @returns {Promise<{trang: {id: string, url: string, chu: string}[], conLaiDemNay: number,
- *   conTrongHangCho: number, boiCanh: string, huongDan: string}>}
+ *   conTrongHangCho: number, soChuyenLoi: number, boiCanh: string, huongDan: string}>}
  */
 export async function layViec({ s, kv, nowMs = Date.now(), soTrang = TRAN_TRANG_MOI_LUOT }) {
-	const khoa = `claude:giao:${ngayVN(nowMs)}`;
+	const ngay = ngayVN(nowMs);
+	const khoa = `claude:giao:${ngay}`;
+	const muon = Math.max(0, Math.min(soTrang, TRAN_TRANG_MOI_LUOT));
+	const giu = muon ? await giuCho(kv, khoa, muon) : 0;
+	let trang = [], soChuyenLoi = 0;
+	try {
+		({ trang, soChuyenLoi } = await kho.chonUrlChoAi(s, giu, { ngay, soLanToiDa: SO_LAN_GIAO_TOI_DA }));
+	} finally {
+		// Hoàn phần giữ mà không dùng (hàng đợi hết, hoặc lỗi khi lấy).
+		if (giu > trang.length) await cong(kv, khoa, trang.length - giu);
+	}
 	const daGiao = (await kv.get(khoa)) ?? 0;
-	const duocLay = Math.max(0, Math.min(soTrang, TRAN_TRANG_MOI_LUOT, TRAN_TRANG_MOI_DEM - daGiao));
-	const trang = await kho.layUrlChoAi(s, duocLay);
-	const tong = trang.length ? await cong(kv, khoa, trang.length) : daGiao;
 	return {
-		trang: trang.map(({ id, url, chu }) => ({ id, url, chu })),
-		conLaiDemNay: TRAN_TRANG_MOI_DEM - tong,
+		trang: trang.map(({ id, url, chu }) => ({ id, url, chu: boc(id, chu) })),
+		conLaiDemNay: Math.max(0, TRAN_TRANG_MOI_DEM - daGiao),
 		conTrongHangCho: await kho.demChoAi(s),
+		soChuyenLoi,
 		boiCanh: BOI_CANH,
 		huongDan: LOI_NHAC_TRICH,
 	};
@@ -52,13 +90,21 @@ function chuan(x) {
 	return { id: String(x.id), chuDe: String(x.chuDe ?? "").trim(), tuKhoa: sach(x.tuKhoa, 8), tomTat: sach(x.tomTat, 8) };
 }
 
-/** @returns {Promise<{daGhi: number, boQua: string[]}>} */
-export async function ghiPhanTich({ s, kv, ketQua, nowMs = Date.now() }) {
+/**
+ * `ketQua`: trang đã đọc. `boQua` (đầu vào): trang Claude chủ động bỏ, kèm lý do → 'loi'.
+ * Kết quả `boQua`: các id KHÔNG xử lý được (lạ / không còn 'cho_ai') từ cả hai mảng.
+ * @returns {Promise<{daGhi: number, boQua: string[], soThieuChuDe: number, soDaBoQua: number}>}
+ */
+export async function ghiPhanTich({ s, kv, ketQua = [], boQua = [], nowMs = Date.now() }) {
 	const items = ketQua.map(chuan).filter((x) => x.chuDe && x.tuKhoa.length);
 	const hong = ketQua.length - items.length;
 	const kq = await kho.ghiPhanTich(s, items, new Date(nowMs).toISOString());
 	if (kq.daGhi) await cong(kv, `claude:doc:${ngayVN(nowMs)}`, kq.daGhi);
-	return { daGhi: kq.daGhi, boQua: kq.boQua, soThieuChuDe: hong };
+	const bo = boQua
+		.map((x) => ({ id: String(x.id), lyDo: String(x.lyDo ?? "").trim().slice(0, 200) }))
+		.filter((x) => x.lyDo);
+	const kqBo = await kho.boQuaUrlChoAi(s, bo);
+	return { daGhi: kq.daGhi, boQua: [...kq.boQua, ...kqBo.khongHop], soThieuChuDe: hong, soDaBoQua: kqBo.daBoQua };
 }
 
 /** Tính lại khoảng trống và ghi một dòng nhật ký loại "claude". */
@@ -71,7 +117,7 @@ export async function xongPhanTich({ s, kv, nowMs = Date.now(), nghi }) {
 	} catch (e) {
 		ca.loi.push(`khoảng trống: ${String(e?.message ?? e).slice(0, 300)}`);
 	}
-	ca.ketThuc = new Date().toISOString();
+	ca.ketThuc = new Date(nowMs).toISOString();
 	await kho.ghiCa(s, ca);
 	return { soDocDemNay: ca.soDoc, soCum: ca.soCum, conTrongHangCho: await kho.demChoAi(s), loi: ca.loi };
 }
