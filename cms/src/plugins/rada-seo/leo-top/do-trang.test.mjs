@@ -173,3 +173,69 @@ test("doTrang không bao giờ ném: html kiểu lạ", () => {
 		assert.doesNotThrow(() => doTrang(html, { tuKhoa: TU_KHOA, url: "rác" }));
 	assert.doesNotThrow(() => doTrang("<p>x</p>", {}));
 });
+
+// ---- Vị trí câu trả lời: bỏ mục lục + đoạn nhắc lại câu hỏi (fix round 1, mục 6) ----
+test("vị trí trả lời: bỏ qua mục lục (li chỉ có link neo) và đoạn chỉ nhắc lại câu hỏi", () => {
+	const html = `<body><article>
+<h1>Huyệt Thần Môn</h1>
+<ol class="toc"><li><a href="#vi-tri">Vị trí huyệt Thần Môn</a></li><li>1. <a href="#tac-dung">Tác dụng huyệt Thần Môn</a></li></ol>
+<p>Huyệt Thần Môn là gì?</p>
+<p>Tìm hiểu huyệt Thần Môn</p>
+<p>Huyệt Thần Môn nằm ở nếp gấp cổ tay, phía xương đậu.</p>
+</article></body>`;
+	const d = doTrang(html, { tuKhoa: TU_KHOA, url: "https://x.vn/" });
+	// Đứng trước: h1 (3) + mục lục (5 + 6, "1." là một chữ) + "Huyệt Thần Môn là gì?" (5) + "Tìm hiểu huyệt Thần Môn" (5).
+	assert.equal(d.viTriTraLoi, 24);
+});
+
+// ---- Tác giả: chỉ dòng ký tên (mục 7) ----
+test("tác giả: dòng ký tên trong <header> của bài vẫn bắt; 'tham vấn ý kiến' không phải ký tên", () => {
+	const coTG = (than, dau = "") => doTrang(`<html><head>${dau}</head><body>${than}</body></html>`, { tuKhoa: TU_KHOA, url: "https://x.vn/" }).coTacGia;
+	assert.equal(coTG(`<article><header><span>Tác giả: Lương y Minh</span></header><p>x</p></article>`), true);
+	assert.equal(coTG(`<main><header>Người viết: A</header><p>x</p></main>`), true);
+	assert.equal(coTG(`<p>Bài viết được Tham vấn y khoa bởi Y sỹ B</p>`), true);
+	assert.equal(coTG(`<p>Cố vấn chuyên môn: Lương y C</p>`), true);
+	assert.equal(coTG(`<p>Người duyệt: D</p>`), true);
+	assert.equal(coTG(`<p>Biên tập: E</p>`), true);
+	assert.equal(coTG(`<p>Nên tham vấn ý kiến thầy thuốc trước khi bấm huyệt.</p>`), false);
+	assert.equal(coTG(`<p>Theo tác giả của nghiên cứu, huyệt này…</p>`), false);
+	// meta author chung chung (admin, tên site) không tính.
+	assert.equal(coTG(`<p>x</p>`, `<meta name="author" content="admin">`), false);
+	assert.equal(coTG(`<p>x</p>`, `<meta name="author" content="Administrator">`), false);
+	assert.equal(coTG(`<p>x</p>`, `<meta property="og:site_name" content="Nhà Thuốc X"><meta name="author" content="Nhà thuốc X">`), false);
+	assert.equal(coTG(`<p>x</p>`, `<meta name="author" content="X.vn">`), false);
+	assert.equal(coTG(`<p>x</p>`, `<meta name="author" content="Lương y Minh">`), true);
+	// JSON-LD author là chính tổ chức/site → không tính; là người thật → tính.
+	const ld = (a) => `<script type="application/ld+json">${JSON.stringify({ "@type": "Article", author: a })}</script>`;
+	assert.equal(coTG(`<p>x</p>`, ld({ "@type": "Organization", name: "admin" })), false);
+	assert.equal(coTG(`<p>x</p>`, ld([{ "@type": "Person", name: "Y sỹ B" }])), true);
+	// header/footer NGOÀI bài vẫn bị bỏ khỏi chữ; TRONG <article> thì giữ.
+	const d = doTrang(`<body><header>Menu site</header><article><header>Tác giả: A</header><p>thân</p><footer>Nguồn: sách</footer></article><footer>Chân</footer></body>`, { tuKhoa: TU_KHOA, url: "https://x.vn/" });
+	assert.equal(d.chu, "Tác giả: A thân Nguồn: sách");
+});
+
+// ---- Nguồn ngoài (mục 8) ----
+test("nguồn ngoài: chỉ trong bài; bỏ mạng xã hội/nút chia sẻ, miền con của chính site, rel sponsored", () => {
+	const html = `<body><div class="sidebar"><a href="https://ngoai-bai.vn/x">quảng cáo bên</a></div><article>
+<p><a href="https://pubmed.ncbi.nlm.nih.gov/1">PubMed</a>
+<a href="https://www.facebook.com/sharer/sharer.php?u=x">fb</a> <a href="https://twitter.com/intent/tweet">tw</a> <a href="https://x.com/share">x</a>
+<a href="https://zalo.me/share">zalo</a> <a href="https://pinterest.com/pin/create">pin</a> <a href="https://www.linkedin.com/shareArticle">in</a>
+<a href="https://t.me/share/url">tg</a> <a href="https://www.youtube.com/share?x">yt</a> <a href="https://www.addtoany.com/share">a2a</a>
+<a href="https://ws.sharethis.com/x">st</a> <a href="https://cdn.hs.com.vn/a.pdf">miền con</a> <a href="https://shop.hs.com.vn/">shop</a>
+<a rel="nofollow sponsored" href="https://quang-cao.vn/">tài trợ</a> <a href="https://www.youtube.com/watch?v=1">video</a>
+<a href="https://moh.gov.vn/x">Bộ Y tế</a></p></article></body>`;
+	const d = doTrang(html, { tuKhoa: TU_KHOA, url: "https://www.hs.com.vn/bai" });
+	assert.equal(d.soNguonNgoai, 3); // pubmed, youtube watch, moh.gov.vn
+	// Không có <article>/<main> thì cả thân (trừ nav/header/footer/aside) như trước.
+	assert.equal(doTrang(`<body><p><a href="https://who.int/a">WHO</a></p></body>`, { tuKhoa: TU_KHOA, url: "https://x.vn/" }).soNguonNgoai, 1);
+});
+
+// ---- Ngày cập nhật (minor) ----
+test("ngày: <time> chỉ tính trong bài; đọc 'Cập nhật: dd/mm/yyyy' và dd/mm/yyyy trong <time>", () => {
+	const ng = (than) => doTrang(`<body>${than}</body>`, { tuKhoa: TU_KHOA, url: "https://x.vn/" }).ngayCapNhat;
+	assert.equal(ng(`<aside><time datetime="2026-09-01">x</time></aside><article><p>Cập nhật: 05/03/2024</p></article>`), "2024-03-05");
+	assert.equal(ng(`<article><p>Ngày cập nhật lần cuối 7-11-2025</p></article>`), "2025-11-07");
+	assert.equal(ng(`<article><time>12/08/2025</time></article>`), "2025-08-12");
+	assert.equal(ng(`<div><time datetime="2026-09-01">bài liên quan</time></div><article><p>x</p></article>`), null);
+	assert.equal(ng(`<article><p>Cập nhật: 31/02/2024</p></article>`), null, "ngày không có thật");
+});

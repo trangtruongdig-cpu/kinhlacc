@@ -134,30 +134,158 @@ export function doTrang(html, p = {}) {
 	}
 }
 
+/**
+ * Khối <article> đầu tiên (không có thì <main>), đếm lồng nhau tuyến tính.
+ * @returns {{a: number, b: number, c: number, d: number} | null}  a=thẻ mở, b..c=bên trong, d=sau thẻ đóng
+ */
+function vungBai(html) {
+	for (const ten of ["article", "main"]) {
+		const re = new RegExp(`<(\\/?)${ten}\\b[^<>]{0,2000}>`, "gi");
+		let m, sau = 0, a = -1, b = -1;
+		while ((m = re.exec(html))) {
+			if (!m[1]) {
+				if (sau++ === 0 && a === -1) [a, b] = [m.index, m.index + m[0].length];
+			} else if (sau > 0 && --sau === 0) return { a, b, c: m.index, d: m.index + m[0].length };
+		}
+		if (a !== -1) return { a, b, c: html.length, d: html.length };
+	}
+	return null;
+}
+
+const NGOAI_BAI = ["nav", "header", "footer", "aside"];
+/** Trong bài vẫn bỏ mục lục/khung bên; <header>/<footer> của BÀI thường là dòng ký tên, nguồn. */
+const TRONG_BAI = ["nav", "aside"];
+
+/**
+ * Dòng ký tên — KHÔNG phải mọi chữ "tác giả"/"tham vấn" ("nên tham vấn ý kiến thầy thuốc",
+ * "theo tác giả của nghiên cứu" từng được tính là có tác giả). So trên chữ bỏ dấu.
+ */
+const KY_TEN = [
+	/\btac gia\s*[:：]/,
+	/\bnguoi viet\s*[:：]/,
+	/\bnguoi duyet\s*[:：]/,
+	/\bbien tap\s*[:：]/,
+	/\btham van (y khoa|chuyen mon|y hoc)\b/,
+	/\bco van chuyen mon\b/,
+];
+
+const TAC_GIA_CHUNG = new Set(["admin", "administrator", "editor", "quan tri", "quan tri vien", "webmaster", "author", "user"]);
+
+/** Tên tác giả thật, không phải tài khoản chung hay chính tên site. */
+function tenTacGiaThat(ten, { tenSite, mien }) {
+	const k = chuanHoaManh(ten);
+	if (!k || TAC_GIA_CHUNG.has(k)) return false;
+	if (tenSite && k === chuanHoaManh(tenSite)) return false;
+	const goc = mien.split(".")[0];
+	const kLien = k.replace(/ /g, "");
+	return !(goc && (kLien === goc || kLien === mien.replace(/\./g, "")));
+}
+
+/** Tên tác giả trong JSON-LD: chuỗi, đối tượng {name} hay mảng các thứ đó. */
+const tenTacGiaJson = (a) => [].concat(a ?? []).map((x) => (typeof x === "string" ? x : typeof x?.name === "string" ? x.name : ""));
+
+/** Nút chia sẻ và trang mạng xã hội — không phải nguồn dẫn. */
+const MIEN_XA_HOI = [
+	"facebook.com", "fb.com", "fb.me", "twitter.com", "x.com", "zalo.me", "zalo.vn", "pinterest.com", "linkedin.com",
+	"t.me", "telegram.me", "addtoany.com", "sharethis.com", "instagram.com", "tiktok.com", "reddit.com", "api.whatsapp.com",
+];
+const thuocMien = (host, mien) => host === mien || host.endsWith(`.${mien}`);
+const laXaHoi = (u) => {
+	const h = u.hostname.toLowerCase();
+	if (MIEN_XA_HOI.some((m) => thuocMien(h, m)) || /(^|\.)pinterest\.[a-z.]+$/.test(h)) return true;
+	// YouTube: video (/watch, /embed, /shorts, youtu.be) có thể là nguồn; kênh/nút chia sẻ thì không.
+	if (thuocMien(h, "youtube.com")) return !/^\/(watch|embed|shorts)\b/.test(u.pathname);
+	return false;
+};
+
+/** Hậu tố cấp hai hay gặp: miền đăng ký là 3 nhãn cuối (hs.com.vn, bbc.co.uk). */
+const SLD = new Set(["com", "net", "org", "edu", "gov", "ac", "co", "info", "health", "int", "biz", "name", "pro", "or", "ne", "go"]);
+function mienDangKy(host) {
+	const n = String(host ?? "").toLowerCase().split(".").filter(Boolean);
+	if (n.length <= 2) return n.join(".");
+	const k = n.length >= 3 && n.at(-1).length === 2 && SLD.has(n.at(-2)) ? 3 : 2;
+	return n.slice(-k).join(".");
+}
+
+/** Chuỗi ngày "d/m/yyyy" (hay - .) → "yyyy-mm-dd"; ngày không có thật → null. */
+function ngayVn(d, m, y) {
+	const [dd, mm, yy] = [Number(d), Number(m), Number(y)];
+	const t = new Date(Date.UTC(yy, mm - 1, dd));
+	if (t.getUTCFullYear() !== yy || t.getUTCMonth() !== mm - 1 || t.getUTCDate() !== dd) return null;
+	return t.toISOString().slice(0, 10);
+}
+const RE_NGAY = /(\d{1,2})[/.-](\d{1,2})[/.-](\d{4})/;
+
+/** Ngày cập nhật trong vùng bài: <time datetime>, <time>dd/mm/yyyy</time>, rồi "Cập nhật: dd/mm/yyyy". */
+function ngayTrongBai(baiHtml) {
+	const re = reTheMo("time");
+	const m = re.exec(baiHtml);
+	if (m) {
+		const dt = thuocTinh(m[0], "datetime");
+		if (dt) return dt;
+		const sau = baiHtml.slice(re.lastIndex, re.lastIndex + 200).match(RE_NGAY);
+		const n = sau && ngayVn(sau[1], sau[2], sau[3]);
+		if (n) return n;
+	}
+	const chu = boDau(chuCua(baiHtml));
+	const c = chu.match(/cap nhat[^0-9]{0,30}?(\d{1,2})[/.-](\d{1,2})[/.-](\d{4})/);
+	return c ? ngayVn(c[1], c[2], c[3]) : null;
+}
+
+/** Khối chỉ là link (mục lục): bỏ chữ trong <a>…</a> thì không còn chữ cái nào. */
+function chiLaLink(trong) {
+	if (!/<a\b/i.test(trong)) return false;
+	return !/\p{L}/u.test(chuCua(trong.replace(/<a\b[^<>]{0,2000}>[^<]{0,2000}<\/a\s*>/gi, " ")));
+}
+
+/**
+ * Đoạn chỉ nhắc lại câu hỏi: kết thúc bằng "?", hoặc < 12 chữ mà ngoài từ khoá chỉ thêm ≤ 2 chữ
+ * ("Huyệt Thần Môn là gì", "Tìm hiểu huyệt Thần Môn"). Không cắt ở "< 12 chữ" trần: câu trả
+ * lời ngắn thật như "Thần Môn ở cổ tay" (thêm 3) hay "Huyệt Thần Môn nằm ở nếp gấp cổ tay,
+ * phía xương đậu" (11 chữ, thêm 8) vẫn phải được tính.
+ */
+function nhacLaiCauHoi(chu, tuTk) {
+	if (/\?\s*$/.test(chu)) return true;
+	const tu = chuanHoaManh(chu).split(" ").filter(Boolean);
+	return tu.length < 12 && tu.filter((w) => !tuTk.includes(w)).length <= 2;
+}
+
 function doTrangTho(h, { tuKhoa = "", url = "" }) {
 	const { tieuDe } = htmlSangChu(h);
 	const moTaTho = meta(h, "name", "description") ?? meta(h, "property", "og:description") ?? "";
 	const moTa = chuCua(moTaTho);
 
-	// Thân bài: bỏ khối không phải nội dung.
-	const thanHtml = boKhoi(boChuThich(boKhoi(layBody(h), ["script", "style", "noscript", "svg", "template"])), ["nav", "header", "footer", "aside"]);
+	// Thân: bỏ khối không phải nội dung. <header>/<footer> chỉ bỏ khi nằm NGOÀI <article>/<main>
+	// — trong bài chúng thường là dòng ký tên và phần nguồn tham khảo.
+	const bodyHtml = boChuThich(boKhoi(layBody(h), ["script", "style", "noscript", "svg", "template"]));
+	const vung = vungBai(bodyHtml);
+	const thanHtml = vung
+		? [boKhoi(bodyHtml.slice(0, vung.a), NGOAI_BAI), boKhoi(bodyHtml.slice(vung.a, vung.d), TRONG_BAI), boKhoi(bodyHtml.slice(vung.d), NGOAI_BAI)].join(" ")
+		: boKhoi(bodyHtml, NGOAI_BAI);
+	/** Vùng bài: nguồn ngoài và ngày chỉ tính ở đây (khung bên, bài liên quan có link và ngày của bài KHÁC). */
+	const baiHtml = vung ? boKhoi(bodyHtml.slice(vung.b, vung.c), TRONG_BAI) : thanHtml;
 	const chu = chuCua(thanHtml);
 
-	// Vị trí câu trả lời: số chữ đứng trước đoạn <p>/<li> đầu tiên chứa ≥ 60% từ của từ khoá.
-	// So bỏ dấu vì trang thật hay viết "than mon"; từ 1 ký tự bỏ đi vì không mang nghĩa.
+	// Vị trí câu trả lời: số chữ đứng trước đoạn <p>/<li> đầu tiên chứa ≥ 60% từ của từ khoá,
+	// trừ mục lục và đoạn chỉ nhắc lại câu hỏi. So bỏ dấu vì trang thật hay viết "than mon";
+	// từ 1 ký tự bỏ đi vì không mang nghĩa.
 	const tuTk = [...new Set(chuanHoaManh(tuKhoa).split(" ").filter((w) => w.length >= 2))];
 	let viTriTraLoi = null;
 	if (tuTk.length) {
-		for (const k of quetKhoi(thanHtml, /<(?:p|li)\b[^<>]{0,2000}>/gi, /<\/(?:p|li)\s*>/gi)) {
-			const tu = new Set(chuanHoaManh(chuCua(k.trong)).split(" "));
+		// Xét tối đa 2.000 khối: câu trả lời đứng sau chừng ấy đoạn thì coi như không có ở đầu bài,
+		// và trang 20k đoạn "nhắc lại câu hỏi" không được kéo ca đo đi hàng giây.
+		for (const k of quetKhoi(thanHtml, /<(?:p|li)\b[^<>]{0,2000}>/gi, /<\/(?:p|li)\s*>/gi).slice(0, 2000)) {
+			const chuKhoi = chuCua(k.trong);
+			const tu = new Set(chuanHoaManh(chuKhoi).split(" "));
 			const trung = tuTk.filter((w) => tu.has(w)).length;
-			if (trung / tuTk.length >= 0.6) {
-				viTriTraLoi = demChu(chuCua(thanHtml.slice(0, k.a)));
-				break;
-			}
+			if (trung / tuTk.length < 0.6 || chiLaLink(k.trong) || nhacLaiCauHoi(chuKhoi, tuTk)) continue;
+			viTriTraLoi = demChu(chuCua(thanHtml.slice(0, k.a)));
+			break;
 		}
 	}
 
+	const mienMinh = tenMien(url);
+	const tenSite = meta(h, "property", "og:site_name") ?? "";
 	const jsonLd = docJsonLd(h);
 	const loai = new Set();
 	let dateModified = null;
@@ -166,29 +294,38 @@ function doTrangTho(h, { tuKhoa = "", url = "" }) {
 		duyet(k, (o) => {
 			for (const t of [].concat(o["@type"] ?? [])) if (typeof t === "string" && t) loai.add(t);
 			if (!dateModified && typeof o.dateModified === "string" && o.dateModified) dateModified = o.dateModified;
-			if (o.author) jsonCoTacGia = true;
+			if (tenTacGiaJson(o.author).some((t) => tenTacGiaThat(t, { tenSite, mien: mienMinh }))) jsonCoTacGia = true;
 		});
 	const loaiJsonLd = [...loai];
 
 	const tieuDeMuc = quetKhoi(thanHtml, /<h[1-6]\b[^<>]{0,2000}>/gi, /<\/h[1-6]\s*>/gi).map((k) => boDau(chuCua(k.trong)));
 	const coFaq = loai.has("FAQPage") || tieuDeMuc.some((t) => t.includes("cau hoi thuong gap") || /\bfaq\b/.test(t));
 
-	const timeDau = reTheMo("time").exec(h)?.[0];
-	const ngayCapNhat = meta(h, "property", "article:modified_time") || dateModified || (timeDau && thuocTinh(timeDau, "datetime")) || null;
+	const ngayCapNhat = meta(h, "property", "article:modified_time") || dateModified || ngayTrongBai(baiHtml) || null;
 
-	const chuBoDau = boDau(chu);
+	// Ký tên dò trên chữ của CẢ thân trước khi bỏ header/footer (byline hay nằm ở đó).
+	const chuKyTen = boDau(chuCua(bodyHtml));
+	const tacGiaMeta = meta(h, "name", "author");
 	const coTacGia =
-		!!meta(h, "name", "author") || jsonCoTacGia || /\b(tac gia|tham van|nguoi duyet)\b/.test(chuBoDau);
+		(!!tacGiaMeta && tenTacGiaThat(tacGiaMeta, { tenSite, mien: mienMinh })) || jsonCoTacGia || KY_TEN.some((re) => re.test(chuKyTen));
 
-	// Nguồn ngoài: link tuyệt đối trong THÂN BÀI tới miền khác (www. coi như cùng miền);
-	// cùng một đích nhắc lại chỉ tính một lần.
-	const mienMinh = tenMien(url);
+	// Nguồn ngoài: link tuyệt đối trong BÀI tới miền khác — không tính miền con của chính site,
+	// mạng xã hội/nút chia sẻ, link tài trợ. Cùng một đích nhắc lại chỉ tính một lần.
+	const goc = mienDangKy(mienMinh);
 	const dich = new Set();
-	for (const m of thanHtml.matchAll(reTheMo("a"))) {
+	for (const m of baiHtml.matchAll(reTheMo("a"))) {
 		const href = thuocTinh(m[0], "href");
 		if (!href || !/^https?:\/\//i.test(href)) continue;
-		const mien = tenMien(href);
-		if (mien && mien !== mienMinh) dich.add(href);
+		if (/\bsponsored\b/i.test(thuocTinh(m[0], "rel") ?? "")) continue;
+		let u;
+		try {
+			u = new URL(href);
+		} catch {
+			continue;
+		}
+		const mien = u.hostname.toLowerCase().replace(/^www\./, "");
+		if (!mien || mien === mienMinh || (goc && mienDangKy(mien) === goc) || laXaHoi(u)) continue;
+		dich.add(href);
 	}
 
 	return {
