@@ -38,3 +38,28 @@ export function taoKhoGia() {
 
 /** docWeb giả từ một bảng URL → chữ. */
 export const webGia = (bang) => async (url) => bang[url] ?? "";
+
+/** KV giả: get/set/delete + getVersioned/compareAndSet/compareAndDelete như ctx.kv. */
+export function taoKvGia() {
+	const m = new Map();
+	let rev = 0;
+	return {
+		_m: m,
+		async get(k) { return m.has(k) ? structuredClone(m.get(k).value) : null; },
+		async set(k, v) { m.set(k, { value: structuredClone(v), revision: String(++rev) }); },
+		async delete(k) { return m.delete(k); },
+		async getVersioned(k) { return m.has(k) ? structuredClone(m.get(k)) : null; },
+		async compareAndSet(k, r, v) {
+			const cu = m.get(k);
+			if ((cu?.revision ?? null) !== r) return { applied: false };
+			const revision = String(++rev);
+			m.set(k, { value: structuredClone(v), revision });
+			return { applied: true, revision };
+		},
+		async compareAndDelete(k, r) {
+			if (m.get(k)?.revision !== r) return { applied: false };
+			m.delete(k);
+			return { applied: true };
+		},
+	};
+}

@@ -98,10 +98,49 @@ export async function datLaiUrlLoi(s, tenMien, { nghi } = {}) {
 	return rows.length;
 }
 
+/**
+ * Vòng đời một URL: cho (mới gom) → cho_ai (đã trích chữ, chờ Claude đọc qua MCP)
+ * → da_phan_tich (Claude đã ghi chủ đề). Nhánh cụt: ngoai_nganh, loi.
+ */
+export const TRANG_THAI_URL = ["cho", "cho_ai", "da_phan_tich", "ngoai_nganh", "loi"];
+
 export async function demUrl(s, tenMien) {
 	const ra = {};
-	for (const t of ["cho", "da_phan_tich", "ngoai_nganh", "loi"]) ra[t] = await s.url.count({ doiThuId: tenMien, trangThai: t });
+	for (const t of TRANG_THAI_URL) ra[t] = await s.url.count({ doiThuId: tenMien, trangThai: t });
 	return ra;
+}
+
+/** Trang đã trích chữ, chờ Claude đọc (mọi đối thủ). */
+export async function layUrlChoAi(s, n) {
+	if (n <= 0) return [];
+	const r = await s.url.query({ where: { trangThai: "cho_ai" }, limit: Math.min(n, 100) });
+	return r.items.map((x) => ({ id: x.id, url: x.data.url, doiThuId: x.data.doiThuId, chu: x.data.chu }));
+}
+
+export async function demChoAi(s) {
+	return s.url.count({ trangThai: "cho_ai" });
+}
+
+/**
+ * Ghi kết quả Claude đọc. Chỉ nhận URL đang 'cho_ai' — id lạ hay URL đã đọc rồi thì bỏ qua
+ * và báo lại, không ghi đè. Bỏ trường `chu` sau khi đọc: không ai cần nó nữa mà nó nặng nhất.
+ * @param {{id: string, chuDe: string, tuKhoa: string[], tomTat: string[]}[]} items
+ * @returns {Promise<{daGhi: number, boQua: string[]}>}
+ */
+export async function ghiPhanTich(s, items, now) {
+	const cu = await s.url.getMany(items.map((x) => x.id));
+	const ghi = [], boQua = [];
+	for (const x of items) {
+		const d = cu.get(x.id);
+		if (!d || d.trangThai !== "cho_ai") {
+			boQua.push(x.id);
+			continue;
+		}
+		const { chu: _bo, ...conLai } = d;
+		ghi.push({ id: x.id, data: { ...conLai, trangThai: "da_phan_tich", chuDe: x.chuDe, tuKhoa: x.tuKhoa, tomTat: x.tomTat, phanTichLuc: now } });
+	}
+	if (ghi.length) await s.url.putMany(ghi);
+	return { daGhi: ghi.length, boQua };
 }
 
 /** Chủ đề đã phân tích, tách theo "của mình" hay đối thủ. */
