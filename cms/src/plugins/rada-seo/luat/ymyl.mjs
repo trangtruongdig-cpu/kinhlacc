@@ -3,7 +3,7 @@
 
 const MAU = [
 	{ loai: "lieu", mau: /\d+(?:[.,]\d+)?\s?(?:g|gam|gram|mg|ml|viên|thang|chén)(?!\p{L})/giu },
-	{ loai: "phac_do", mau: /(?:ngày (?:uống|dùng|sắc)|mỗi ngày|liệu trình|phác đồ)[^.\n]{0,20}\d/giu },
+	{ loai: "phac_do", mau: /(?:ngày (?:uống|dùng|sắc)|mỗi ngày (?:uống|dùng|sắc)|liệu trình|phác đồ)[^.\n]{0,20}\d/giu },
 	{ loai: "hua_hen", mau: /điều trị[^.:;!?\n]{0,40}hiệu quả|cam kết|100\s?%/giu },
 ];
 

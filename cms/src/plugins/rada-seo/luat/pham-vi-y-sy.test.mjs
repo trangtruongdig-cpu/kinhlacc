@@ -21,6 +21,9 @@ test("không vu oan thuật ngữ YHCT và từ đồng dạng", () => {
 		"Hồ Sơ Chẩn Trị",
 		"vật lý trị liệu kết hợp châm cứu",
 		"Phần mềm Đông Y: Giải pháp Số hóa Toàn diện cho Phòng khám",
+		"Phần mềm giúp quản trị phòng chẩn trị hiệu quả hơn",
+		"Khách hàng dùng phần mềm để khám bệnh nhân và lưu hồ sơ",
+		"Kỹ thuật viên sửa chữa thiết bị đo kinh lạc định kỳ",
 	]) assert.deepEqual(ma(s), [], s);
 });
 

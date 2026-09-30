@@ -12,6 +12,7 @@ test("bắt liều lượng", () => {
 test("bắt phác đồ", () => {
 	assert.deepEqual(loai("Ngày uống 1 thang, chia 2 lần"), ["lieu", "phac_do"]);
 	assert.deepEqual(loai("liệu trình 10 ngày"), ["phac_do"]);
+	assert.deepEqual(loai("mỗi ngày uống 2 lần"), ["phac_do"]);
 });
 
 test("bắt lời hứa — đúng tiêu đề bài #6 đã đăng", () => {
@@ -20,4 +21,5 @@ test("bắt lời hứa — đúng tiêu đề bài #6 đã đăng", () => {
 
 test("không bắt số không phải liều", () => {
 	assert.deepEqual(loai("12 đường kinh và 24 tỉnh huyệt, năm 1983"), []);
+	assert.deepEqual(loai("Mỗi ngày cơ thể trải qua 24 giờ theo đồng hồ kinh lạc."), []);
 });

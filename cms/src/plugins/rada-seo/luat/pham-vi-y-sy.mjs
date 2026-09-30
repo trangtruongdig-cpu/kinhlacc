@@ -2,19 +2,19 @@
 // trong bài máy viết. Đây là LUẬT, không nhờ mô hình tự chấm — ngày 30/09/2026 mô hình đã
 // gắn "An toàn" cho "Ứng dụng châm cứu chữa bệnh hiệu quả…".
 //
-// GIỮ NGUYÊN (thuật ngữ YHCT chuẩn): điều trị, chẩn trị, pháp trị, chủ trị, luận trị, chẩn đoán.
+// GIỮ NGUYÊN (thuật ngữ YHCT chuẩn): điều trị, chẩn trị, pháp trị, chủ trị, luận trị, chẩn đoán, quản trị, sửa chữa, khám bệnh nhân.
 // "Phòng khám" KHÔNG chặn: trong blog nó gần như luôn nói về khách hàng mua phần mềm.
 // Câu miễn trừ ("không thay thế… thăm khám… bác sĩ") được bỏ qua — nó nói về người KHÁC.
 
 const LUAT = [
-	{ ma: "chua", mau: /(?<!\p{L})chữa(?!\p{L})/u, goiY: "hỗ trợ / cải thiện / theo lý luận Đông Y" },
+	{ ma: "chua", mau: /(?<!sửa )(?<!\p{L})chữa(?!\p{L})/u, goiY: "hỗ trợ / cải thiện / theo lý luận Đông Y" },
 	{
 		ma: "tri",
-		// Loại: điều trị, chẩn trị, pháp trị, chủ trị, luận trị, giá trị, cai trị; trị liệu, trị số.
-		mau: /(?<!(?:điều|chẩn|pháp|chủ|luận|giá|cai) )(?<!\p{L})trị(?!\p{L})(?! (?:liệu|số)(?!\p{L}))/u,
+		// Loại: điều trị, chẩn trị, pháp trị, chủ trị, luận trị, giá trị, cai trị, quản trị; trị liệu, trị số.
+		mau: /(?<!(?:điều|chẩn|pháp|chủ|luận|giá|cai|quản) )(?<!\p{L})trị(?!\p{L})(?! (?:liệu|số)(?!\p{L}))/u,
 		goiY: "hỗ trợ / điều hoà",
 	},
-	{ ma: "kham_benh", mau: /(?<!\p{L})khám (?:bệnh|chữa)(?!\p{L})/u, goiY: "đo kinh lạc / tư vấn" },
+	{ ma: "kham_benh", mau: /(?<!\p{L})khám (?:bệnh(?! nhân)|chữa)(?!\p{L})/u, goiY: "đo kinh lạc / tư vấn" },
 	{ ma: "hua_khoi", mau: /(?<!\p{L})(?:khỏi (?:hẳn|bệnh|hoàn toàn)|dứt điểm)(?!\p{L})/u, goiY: "bỏ lời hứa kết quả" },
 	{ ma: "bac_si_minh", mau: /(?:đội ngũ bác s[ĩỹ]|bác s[ĩỹ] (?:của chúng tôi|kinh lạc))/u, goiY: "thầy thuốc / Y sỹ Y học cổ truyền" },
 ];
