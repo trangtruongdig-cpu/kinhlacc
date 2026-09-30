@@ -9,5 +9,6 @@ export const radaSeo = {
 	format: "native",
 	entrypoint: fileURLToPath(new URL("./plugin.mjs", import.meta.url)),
 	adminEntry: "/src/plugins/rada-seo/admin.jsx",
-	adminPages: [{ path: "/rada", label: "Rada SEO", icon: "chart" }],
+	// KHÔNG khai adminPages ở đây: với format "native" EmDash 0.39.1 không đọc nó (đo ở nghiệm
+	// thu 2A — manifest vẫn ra adminPages:[]). Mục thanh bên khai trong definePlugin({admin}) ở plugin.mjs.
 };

@@ -79,6 +79,12 @@ export function createPlugin() {
 		// lớp chặn nằm ở doc-web.mjs (không IP/localhost) và sitemap.mjs (chỉ cùng tên miền).
 		capabilities: ["network:request:unrestricted"],
 		storage: KHAI_BAO_KHO,
+		// Mục "Rada SEO" ở thanh bên PHẢI khai ở đây. Với format:"native", EmDash 0.39.1 dựng
+		// manifest admin từ plugin.admin của definePlugin() và BỎ QUA adminPages của descriptor
+		// (chỉ plugin "standard"/sandbox mới đọc chỗ đó). Đo ở nghiệm thu 2A: thiếu khối này thì
+		// manifest ra adminPages:[] và thanh bên không có mục nào, dù trang vẫn mở được bằng URL.
+		// React component vẫn nạp qua adminEntry của descriptor (admin registry lúc build).
+		admin: { pages: [{ path: "/rada", label: "Rada SEO", icon: "chart" }] },
 		hooks: {
 			cron: async (event, ctx) => {
 				if (event.name !== "radar") return;
@@ -160,6 +166,13 @@ export function createPlugin() {
 				// plugin:install KHÔNG chạy với plugin khai trong config (đo ở bước 0) nên phải hẹn
 				// qua route. schedule là upsert: bấm lại vô hại.
 				handler: async (ctx) => {
+					// CHỈ hẹn từ tiến trình UTC có bật ca đêm (tức container VPS). nextCronTime của
+					// EmDash gọi croner KHÔNG kèm múi giờ → "30 19 * * *" được tính theo giờ của
+					// TIẾN TRÌNH. Hẹn từ máy giờ VN ra 12:30Z (= 19:30 VN, đo ở nghiệm thu 2A), mà
+					// dòng _emdash_cron_tasks nằm trong kho DÙNG CHUNG — VPS (UTC) chỉ tính lại sau
+					// mỗi lượt chạy, nên đêm đó ca chạy lệch 7 tiếng. Chỉ đúng khi hẹn từ tiến trình UTC.
+					if (!caDemBat() || new Date().getTimezoneOffset() !== 0)
+						throw PluginRouteError.badRequest("Chỉ hẹn lịch được trên máy chủ chạy ca đêm (RADA_SEO_CA_DEM=1) và theo giờ UTC — hẹn từ máy khác sẽ làm ca đêm lệch giờ");
 					await ctx.cron.schedule("radar", { schedule: LICH_RADAR });
 					return { lich: await ctx.cron.list() };
 				},
@@ -169,6 +182,11 @@ export function createPlugin() {
 				handler: async (ctx) => {
 					const ghi = vao(ctx).ghi === true;
 					if (ghi && !caDemBat()) throw PluginRouteError.badRequest("Máy này không bật RADA_SEO_CA_DEM — chỉ được chạy thử");
+					// Nhìn trước khoá để báo thật cho người bấm (trước đây trả daBatDau:true dù ca bị
+					// chặn). Cùng luật hết hạn với giuKhoa. Đây chỉ là lời báo: chốt chặn thật vẫn là
+					// giuKhoa trong chayCa, vì hai lời gọi có thể cùng lọt qua bước nhìn này.
+					const khoa = await ctx.kv.get(KHOA_CA);
+					if (khoa && khoa.het > Date.now()) throw PluginRouteError.conflict("Đang có một ca chạy — chờ ca đó xong");
 					chayCa(ctx, ghi).catch((e) => ctx.log.error("Rada SEO: ca nền hỏng", e));
 					return { daBatDau: true, ghi };
 				},

@@ -28,9 +28,12 @@ export async function chayCaRadar({ s, docWeb, claude, nganSach, ghi, tranMoiDoi
 	for (const d of doiThu) {
 		try {
 			const urls = await thuThapUrl(d.tenMien, docWeb);
-			ca.soUrlMoi += await kho.themUrlMoi(s, d.tenMien, urls, { ghi, now: now() });
+			const soMoi = await kho.themUrlMoi(s, d.tenMien, urls, { ghi, now: now() });
+			ca.soUrlMoi += soMoi;
 			const hang = await kho.layUrlCho(s, d.tenMien, tranMoiDoiThu);
-			ca.soSePhanTich += hang.length;
+			// Chạy thử không ghi URL mới nên layUrlCho không thấy chúng — cộng tay để bản xem trước
+			// báo đúng số trang ca thật SẼ phân tích (vẫn chặn bởi trần mỗi đối thủ).
+			ca.soSePhanTich += ghi ? hang.length : Math.min(tranMoiDoiThu, hang.length + soMoi);
 			if (!ghi || hetTien) continue;
 			for (const u of hang) {
 				let kq;

@@ -43,6 +43,11 @@ test("chạy thử: chỉ quét + đếm, không gọi Claude, không ghi URL/c�
 	assert.equal(s.url._m.size, 0);
 	assert.equal(s.cum._m.size, 0);
 	assert.equal((await kho.dsCa(s)).length, 1);
+	// Xem trước: a.vn 2 mới + b.vn 1 mới, trần 30 → 3.
+	assert.equal(ca.soSePhanTich, 3);
+	// Trần 1 mỗi đối thủ → 1 + 1 = 2.
+	const ca1 = await chayCaRadar({ s, docWeb: WEB, claude, nganSach: ns, ghi: false, tranMoiDoiThu: 1, nghi });
+	assert.equal(ca1.soSePhanTich, 2);
 });
 
 test("chạy thật: phân tích, lọc ngoài ngành không tốn lượt, ra khoảng trống 2 đối thủ", async () => {
