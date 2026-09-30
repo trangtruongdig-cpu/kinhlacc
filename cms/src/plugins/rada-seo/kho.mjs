@@ -223,7 +223,7 @@ export const TRAN_CHU_DE_DOI_THU = 1500;
  */
 export async function chuDeDaPhanTich(s, doiThu, { toiDa = TRAN_CHU_DE_DOI_THU } = {}) {
 	const cuaMinh = new Set(doiThu.filter((d) => d.laCuaMinh).map((d) => d.id));
-	const thanh = (r) => ({ id: r.id, doiThuId: r.data.doiThuId, chuDe: r.data.chuDe, tuKhoa: r.data.tuKhoa ?? [] });
+	const thanh = (r) => ({ id: r.id, doiThuId: r.data.doiThuId, chuDe: r.data.chuDe, tuKhoa: r.data.tuKhoa ?? [], url: r.data.url });
 	const minh = [];
 	for (const id of cuaMinh)
 		for (const r of await tatCa(s.url, { where: { doiThuId: id, trangThai: "da_phan_tich" } })) minh.push(thanh(r));
@@ -283,8 +283,11 @@ export async function dsCa(s, n = 10) {
 
 export const TRANG_THAI_HUONG = ["de_xuat", "da_nhan", "bo_qua"];
 export const TRANG_THAI_KE_HOACH = ["de_xuat", "da_duyet", "bo_qua", "dang_viet", "co_nhap", "da_dang"];
-/** Bài dự kiến ở các trạng thái này đã qua tay người duyệt → cụm của nó không được thay đi. */
-const KE_HOACH_DA_DUYET = new Set(["da_duyet", "dang_viet", "co_nhap", "da_dang"]);
+/**
+ * "cu": cụm bị lứa phân cụm mới thay đi nhưng còn bài dự kiến chưa bỏ → giữ để bài không mồ côi,
+ * vẫn hiện trên màn, nhưng không nhận bài dự kiến MỚI.
+ */
+export const TRANG_THAI_CUM_NGHIA = ["de_xuat", "cu"];
 
 /** Id theo tên chuẩn hoá mạnh: Claude viết lại "Mất ngủ theo Đông y!" tuần sau vẫn trúng dòng cũ. */
 export const idHuong = (ten) => `h_${bam(chuanHoaManh(ten))}`;
@@ -344,30 +347,29 @@ export async function dsCumNghia(s, { huongId } = {}) {
 }
 
 /**
- * Thay lứa cụm của MỘT hướng. Giữ cụm đã có bài dự kiến qua duyệt (xoá đi là bài đã tick mồ
- * côi). Cụm mới cùng tên một cụm cũ → cùng id, cập nhật chỉ số, giữ trạng thái. Cụm cũ bị thay
- * thì bài dự kiến CHƯA duyệt của nó đi theo; bài đã bỏ (bo_qua) thì ở lại làm trí nhớ chống
- * đề xuất lại. @returns {Promise<{id: string, ten: string, diem: number}[]>}
+ * Thay lứa cụm của MỘT hướng. Cụm cũ không có trong lứa mới: còn bài dự kiến ở trạng thái nào
+ * khác bo_qua (kể cả de_xuat CHƯA duyệt) → giữ, đặt trangThai "cu"; không còn → xoá (bài bo_qua
+ * của nó ở lại làm trí nhớ chống đề xuất lại). Không bài dự kiến nào bị xoá ở đây: trước đây
+ * Claude đổi tên một cụm (hoặc gửi cụm của một hướng qua hai lượt) là bài chưa duyệt biến mất
+ * trước khi người dùng kịp xem. Cụm mới cùng tên một cụm cũ → cùng id, cập nhật chỉ số, sống lại
+ * (de_xuat). @returns {Promise<{id: string, ten: string, diem: number}[]>}
  */
 export async function thayCumNghia(s, huongId, ds, now, { nghi } = {}) {
 	const cu = await tatCa(s.cum_nghia, { where: { huongId } });
 	const kh = cu.length ? await tatCa(s.ke_hoach, { where: { cumId: { in: cu.map((r) => r.id) } } }) : [];
-	const coDuyet = new Set(kh.filter((k) => KE_HOACH_DA_DUYET.has(k.data.trangThai)).map((k) => k.data.cumId));
+	const conBai = new Set(kh.filter((k) => k.data.trangThai !== "bo_qua").map((k) => k.data.cumId));
 	const theoId = new Map(cu.map((r) => [r.id, r.data]));
 	const ghi = new Map();
 	for (const c of ds) {
 		const id = idCumNghia(huongId, c.ten);
 		const c0 = theoId.get(id);
-		ghi.set(id, { ...c, huongId, trangThai: c0?.trangThai ?? "de_xuat", taoLuc: c0?.taoLuc ?? now, capNhatLuc: now });
+		ghi.set(id, { ...c, huongId, trangThai: "de_xuat", taoLuc: c0?.taoLuc ?? now, capNhatLuc: now });
 	}
-	const xoa = cu.map((r) => r.id).filter((id) => !coDuyet.has(id) && !ghi.has(id));
-	if (xoa.length) {
-		const xoaSet = new Set(xoa);
-		const khXoa = kh.filter((k) => xoaSet.has(k.data.cumId) && k.data.trangThai === "de_xuat").map((k) => k.id);
-		if (khXoa.length) await s.ke_hoach.deleteMany(khXoa);
-		await s.cum_nghia.deleteMany(xoa);
-	}
-	await ghiTheoLo(s.cum_nghia, [...ghi].map(([id, data]) => ({ id, data })), { nghi });
+	const biThay = cu.filter((r) => !ghi.has(r.id));
+	const xoa = biThay.filter((r) => !conBai.has(r.id)).map((r) => r.id);
+	const giu = biThay.filter((r) => conBai.has(r.id) && r.data.trangThai !== "cu").map((r) => ({ id: r.id, data: { ...r.data, trangThai: "cu", capNhatLuc: now } }));
+	if (xoa.length) await s.cum_nghia.deleteMany(xoa);
+	await ghiTheoLo(s.cum_nghia, [...[...ghi].map(([id, data]) => ({ id, data })), ...giu], { nghi });
 	return [...ghi].map(([id, d]) => ({ id, ten: d.ten, diem: d.diem }));
 }
 
@@ -376,17 +378,39 @@ export async function dsKeHoach(s, { trangThai } = {}) {
 	return r.map((x) => ({ id: x.id, ...x.data }));
 }
 
-/** Thêm bài dự kiến (đã qua rào ở chien-luoc/viec.mjs), trạng thái de_xuat. @returns {Promise<{id: string, tieuDeLamViec: string}[]>} */
+/**
+ * Thêm bài dự kiến (đã qua rào ở chien-luoc/viec.mjs), trạng thái de_xuat. Id đã có (cùng cụm,
+ * cùng tiêu đề chuẩn hoá) → cập nhật nội dung nhưng GIỮ trangThai/lyDoBo/taoLuc người dùng đã đặt.
+ * @returns {Promise<{id: string, tieuDeLamViec: string}[]>}
+ */
 export async function themKeHoach(s, ds, now, { nghi } = {}) {
-	const items = ds.map((k) => ({ id: idKeHoach(k.cumId, k.tieuDeLamViec), data: { ...k, trangThai: "de_xuat", taoLuc: now } }));
+	const ids = ds.map((k) => idKeHoach(k.cumId, k.tieuDeLamViec));
+	const cu = await s.ke_hoach.getMany(ids);
+	const ghi = new Map();
+	ds.forEach((k, i) => {
+		const c = cu.get(ids[i]);
+		const giu = c ? { trangThai: c.trangThai, lyDoBo: c.lyDoBo, taoLuc: c.taoLuc } : { trangThai: "de_xuat", taoLuc: now };
+		for (const x of Object.keys(giu)) if (giu[x] === undefined) delete giu[x];
+		ghi.set(ids[i], { ...k, ...giu, ...(c ? { capNhatLuc: now } : {}) });
+	});
+	const items = [...ghi].map(([id, data]) => ({ id, data }));
 	await ghiTheoLo(s.ke_hoach, items, { nghi });
 	return items.map((x) => ({ id: x.id, tieuDeLamViec: x.data.tieuDeLamViec }));
+}
+
+/** Hướng của một bài dự kiến: theo huongId đã lưu, không có thì qua cụm. */
+async function huongCuaKeHoach(s, k) {
+	const huongId = k.huongId ?? (await s.cum_nghia.get(k.cumId))?.huongId;
+	return huongId ? await s.huong.get(huongId) : null;
 }
 
 export async function datKeHoach(s, id, { trangThai, lyDoBo } = {}) {
 	if (!TRANG_THAI_KE_HOACH.includes(trangThai)) throw new Error(`Trạng thái bài dự kiến không hợp lệ: ${trangThai}`);
 	const cu = await s.ke_hoach.get(id);
 	if (!cu) throw new Error("Không có bài dự kiến này");
+	// Duyệt hai chỗ theo thứ tự: hướng bị bỏ (hoặc chưa nhận) thì bài trong đó chưa được duyệt.
+	if (trangThai === "da_duyet" && (await huongCuaKeHoach(s, cu))?.trangThai !== "da_nhan")
+		throw new Error("Hướng của bài dự kiến này chưa được nhận — nhận hướng trước rồi mới duyệt bài");
 	const moi = { ...cu, trangThai };
 	if (trangThai === "bo_qua") {
 		if (!lyDoSach(lyDoBo)) throw new Error("Bỏ bài dự kiến cần lý do");

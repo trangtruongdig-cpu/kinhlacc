@@ -44,14 +44,14 @@ export const LOI_NHAC_DE_XUAT_HUONG = `Bạn lập chiến lược nội dung SE
 2. Gom chủ đề theo NGHĨA (cùng nhu cầu của người tìm), không theo chữ trùng. Chỗ nhiều đối thủ khác nhau cùng viết nhiều bài là một hướng.
 3. Đối chiếu baiMinh: hướng mình đã viết kỹ thì xếp sau.
 4. Đọc "huong": đừng đề xuất lại hướng đã có; hướng trangThai "bo_qua" có lyDoBo — tôn trọng lý do đó.
-Mỗi hướng gửi bằng công cụ có tên kết thúc bằng rada_de_xuat_huong (tối đa 8/lượt): ten, moTa, tuKhoa (3–8 cụm người đọc thật sự gõ), idBaiDoiThu (≥ 3 id có thật trong dữ liệu, càng nhiều tên miền khác nhau càng tốt), trongSoGoiY (1–5), lyDo. Điểm do máy chủ tính từ số đo — đừng tự chấm.
+Mỗi hướng gửi bằng công cụ có tên kết thúc bằng rada_de_xuat_huong (tối đa 8/lượt): ten, moTa, tuKhoa (3–8 cụm CỤ THỂ từ 2 chữ trở lên mà người đọc thật sự gõ — cụm một chữ hay chung chung như "đông y", "bài thuốc" không được tính), idBaiDoiThu (id bài đối thủ minh hoạ), trongSoGoiY (1–5), lyDo. Máy chủ TỰ dò các chủ đề đối thủ khớp tên và từ khoá của hướng để đo nhu cầu (cần ≥ 3 bài khớp); id bạn dẫn chỉ là bằng chứng hiển thị, id không khớp bị bỏ. Hướng gần một hướng đang có được gộp vào hướng đó (trả trong "gop"). Điểm do máy chủ tính từ số đo — đừng tự chấm.
 ${TAI_SAN}
 ${PHAM_VI_Y_SY}
 ${AN_TOAN_CHIEN_LUOC}`;
 
 export const LOI_NHAC_PHAN_CUM = `Phân cụm theo nghĩa trong các hướng Đông y ĐÃ NHẬN (trangThai "da_nhan"); hướng khác bị máy chủ bác.
 - Một cụm = một nhóm bài phục vụ cùng một mảng nhu cầu, đủ để làm một trụ cột và các bài vệ tinh (vd trong hướng "mất ngủ": huyệt hỗ trợ giấc ngủ; mất ngủ theo thể bệnh; thảo dược an thần).
-- Mỗi cụm: huongId, ten, moTa, tuKhoa (≤ 8), idBaiDoiThu (bài đối thủ thuộc cụm).
+- Mỗi cụm: huongId, ten, moTa, tuKhoa (≤ 8 cụm cụ thể từ 2 chữ trở lên), idBaiDoiThu (bài đối thủ minh hoạ). Máy chủ tự đếm bài đối thủ khớp cụm, chỉ trong các bài thuộc hướng.
 - Gửi MỌI cụm của một hướng trong MỘT lượt gọi công cụ có tên kết thúc bằng rada_ghi_cum (tối đa 20 cụm/lượt): lượt sau cho cùng hướng sẽ THAY lứa cũ.
 ${TAI_SAN}
 ${PHAM_VI_Y_SY}
@@ -63,7 +63,7 @@ export const LOI_NHAC_LAP_KE_HOACH = `Phân tích khoảng trống trong từng 
 - tuKhoaPhu: 2–6 cụm;
 - yDinh: một trong tra_cuu, tim_hieu, so_sanh, huong_dan;
 - trangTruCot: 1 đường dẫn do rada_tim_lien_ket trả về (thường là trang kinh, bệnh học);
-- lienKetDich: ≥ 5 đường dẫn KHÁC trụ cột, lấy từ rada_tim_lien_ket (link không sống bị gỡ; còn dưới 5 là bị bác);
+- lienKetDich: ≥ 5 đường dẫn KHÁC trụ cột, lấy từ rada_tim_lien_ket (link không sống bị gỡ; còn dưới 5 là bị bác). Máy chủ chỉ kiểm được khoảng 40 trang mới mỗi lượt: daCatBot = true thì gửi lại các bài bị bác "hết lượt kiểm" ở lượt sau;
 - goiYNguon: vài URL gợi ý để nghiên cứu (không bắt buộc).
 Đừng đề xuất lại bài có trong "keHoach" — bài "bo_qua" kèm lyDoBo, tôn trọng lý do đó.
 ${TAI_SAN}

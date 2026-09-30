@@ -286,7 +286,11 @@ test("route quản trị huong-dat / ke-hoach-dat gọi đúng hàm kho; lỗi �
 	await p.routes["huong-dat"].handler({ ...ctx, input: { id: h.id, trangThai: "bo_qua", lyDoBo: "ngoài ngách" } });
 	assert.equal((await ctx.storage.huong.get(h.id)).lyDoBo, "ngoài ngách");
 
-	const [k] = await kho.themKeHoach(ctx.storage, [{ cumId: "c_1", tieuDeLamViec: "Bài", tuKhoaChinh: "bài" }], "t");
+	const [k] = await kho.themKeHoach(ctx.storage, [{ cumId: "c_1", huongId: "h_nhan", tieuDeLamViec: "Bài", tuKhoaChinh: "bài" }], "t");
+	// Hướng của bài chưa nhận → không duyệt được bài (400, lời tiếng Việt).
+	await ctx.storage.huong.put("h_nhan", { ten: "N", trangThai: "de_xuat" });
+	await assert.rejects(p.routes["ke-hoach-dat"].handler({ ...ctx, input: { id: k.id, trangThai: "da_duyet" } }), (e) => loiRoute(400)(e) && /chưa được nhận/.test(e.message));
+	await ctx.storage.huong.put("h_nhan", { ten: "N", trangThai: "da_nhan", trongSo: 3 });
 	await p.routes["ke-hoach-dat"].handler({ ...ctx, input: { id: k.id, trangThai: "da_duyet" } });
 	assert.equal((await ctx.storage.ke_hoach.get(k.id)).trangThai, "da_duyet");
 	// Màn duyệt chỉ duyệt / bỏ / khôi phục; các trạng thái viết do lò viết đặt.
@@ -296,8 +300,8 @@ test("route quản trị huong-dat / ke-hoach-dat gọi đúng hàm kho; lỗi �
 	for (const r of ["huong-dat", "ke-hoach-dat", "chien-luoc-tong-quan"]) assert.equal(p.routes[r].permission, undefined, `${r} giữ quyền mặc định plugins:manage`);
 
 	const tq = await p.routes["chien-luoc-tong-quan"].handler(ctx);
-	assert.deepEqual(tq.huong.map((x) => x.id), [h.id]);
-	assert.equal(tq.huong[0].diem, 50);
+	assert.deepEqual(tq.huong.map((x) => x.id).sort(), [h.id, "h_nhan"].sort());
+	assert.equal(tq.huong.find((x) => x.id === h.id).diem, 50);
 	assert.deepEqual(tq.keHoach.map((x) => x.id), [k.id]);
 	assert.deepEqual(tq.cum, []);
 });
@@ -347,7 +351,7 @@ test("route MCP chiến lược: nối kho + chỉ mục CMS + kiểm trang th�
 	// Hướng chưa nhận → cụm bị bác.
 	assert.equal((await p.routes["mcp-ghi-cum"].handler({ ...ctx, input: { cum: [{ ...CUM, huongId }] } })).bac.length, 1);
 	await p.routes["huong-dat"].handler({ ...ctx, input: { id: huongId, trangThai: "da_nhan", trongSo: 4 } });
-	const c = await p.routes["mcp-ghi-cum"].handler({ ...ctx, input: { cum: [{ ...CUM, huongId }] } });
+	const c = await p.routes["mcp-ghi-cum"].handler({ ...ctx, input: { cum: [{ ...CUM, tuKhoa: ["mất ngủ"], huongId }] } });
 	assert.equal(c.nhan.length, 1);
 
 	const kq = await p.routes["mcp-de-xuat-ke-hoach"].handler({ ...ctx, input: { keHoach: [{ ...KH, cumId: c.nhan[0].id }] } });
@@ -355,7 +359,8 @@ test("route MCP chiến lược: nối kho + chỉ mục CMS + kiểm trang th�
 	assert.equal(kq.nhan.length, 1);
 	assert.deepEqual(kq.loiNap, []);
 	const tq = await p.routes["chien-luoc-tong-quan"].handler(ctx);
-	assert.equal(tq.keHoach[0].bangChung.soDoiThu, 1);
+	assert.equal(tq.keHoach[0].bangChung.soDoiThu, 3, "máy chủ tự dò: 3 bài 'Mất ngủ' của 3 đối thủ, dù cụm chỉ dẫn 1 id");
+	assert.equal(kq.daCatBot, false);
 	xoaDemChiMuc();
 	DEM_KIEM_CHUNG.xoa();
 });
@@ -371,6 +376,39 @@ test("route MCP kế hoạch: link đích chết trên site thật → bài bị
 	const kq = await p.routes["mcp-de-xuat-ke-hoach"].handler({ ...ctx, input: { keHoach: [KH] } });
 	assert.equal(kq.nhan.length, 0);
 	assert.match(kq.bac[0].lyDo, /3 link đích/);
+	xoaDemChiMuc();
+	DEM_KIEM_CHUNG.xoa();
+});
+
+test("route MCP kế hoạch: ngân sách kiểm — ≤ 40 lượt tải trang chưa đệm mỗi lời gọi, trang đã đệm không tính", async () => {
+	xoaDemChiMuc();
+	DEM_KIEM_CHUNG.xoa();
+	const p = createPlugin();
+	const ctx = ctxChienLuoc({});
+	let soTai = 0;
+	const fetchGoc = ctx.http.fetch;
+	ctx.http.fetch = async (url) => {
+		soTai++;
+		const d = new URL(url).pathname;
+		return d.startsWith("/huyet/") ? fetchGoc(url) : new Response(`<title>x</title>`);
+	};
+	const s = ctx.storage;
+	await s.huong.put("h_1", { ten: "H", trangThai: "da_nhan", trongSo: 3 });
+	await s.cum_nghia.put("c_1", { huongId: "h_1", ten: "C", trangThai: "de_xuat", chiSo: {}, baiDoiThu: [] });
+	const ds = Array.from({ length: 10 }, (_, i) => ({
+		...KH, tieuDeLamViec: `Chủ đề riêng ${i} q${i}`, tuKhoaChinh: `chu de ${i} q${i}`,
+		trangTruCot: `/tru/${i}/`, lienKetDich: Array.from({ length: 5 }, (_, j) => `/lk/${i}-${j}/`),
+	}));
+	const kq = await p.routes["mcp-de-xuat-ke-hoach"].handler({ ...ctx, input: { keHoach: ds } });
+	assert.equal(soTai, 40);
+	assert.equal(kq.daCatBot, true);
+	assert.equal(kq.nhan.length, 6);
+	// Gọi lại: 36 trang đã đệm (bài đã nhận thì bị bác vì trùng, nhưng vẫn không tải lại).
+	soTai = 0;
+	const lai = await p.routes["mcp-de-xuat-ke-hoach"].handler({ ...ctx, input: { keHoach: ds.slice(6) } });
+	assert.equal(lai.daCatBot, false);
+	assert.equal(lai.nhan.length, 4);
+	assert.equal(soTai, 20, "4 trang của bài thứ 7 đã đệm từ lượt trước");
 	xoaDemChiMuc();
 	DEM_KIEM_CHUNG.xoa();
 });

@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { dungChiMuc } from "../noi-bo/chi-muc.mjs";
-import { tinhChiSo, diemHuong, diemCum, TU_SAN_PHAM } from "./chi-so.mjs";
+import { tinhChiSo, diemHuong, diemCum, TU_SAN_PHAM, timKhop, taoBoChuDe, laTuKhoaDai } from "./chi-so.mjs";
 
 const MAU = JSON.parse(readFileSync(new URL("../noi-bo/__fixture__/muc-noi-bo-30-09.json", import.meta.url), "utf8"));
 const CM = dungChiMuc(Object.entries(MAU).flatMap(([bo, a]) => a.map((m) => ({ bo, ...m }))));
@@ -19,12 +19,18 @@ const CHU_DE = new Map([
 const IDS = ["d1", "d2", "d3", "d4", "d5", "id-la"];
 const TK = ["mất ngủ", "huyệt thần môn", "an thần"];
 const BAI_KHAC = [{ tieuDe: "Đồng hồ kinh lạc: 12 đường kinh vượng theo giờ", tuKhoa: ["đồng hồ kinh lạc"] }];
-const co = (o = {}) => tinhChiSo({ tuKhoa: TK, idBaiDoiThu: IDS, chuDeDoiThu: CHU_DE, baiMinh: BAI_KHAC, xuHuong: [], chiMuc: CM, ...o });
+const co = (o = {}) => tinhChiSo({ ten: "Mất ngủ theo Đông y", tuKhoa: TK, idBaiDoiThu: IDS, chuDeDoiThu: CHU_DE, baiMinh: BAI_KHAC, xuHuong: [], chiMuc: CM, ...o });
 
-test("hướng 'mất ngủ': đếm đối thủ/bài trên id CÓ THẬT, tài sản từ điển thật, không vi phạm", () => {
+test("hướng 'mất ngủ': máy chủ TỰ dò chủ đề khớp (id dẫn chỉ là bằng chứng), tài sản từ điển thật, không vi phạm", () => {
 	const c = co();
 	assert.equal(c.soDoiThu, 3);
 	assert.equal(c.soBai, 5);
+	assert.deepEqual(c.idKhop, ["d1", "d2", "d3", "d4", "d5"], "d6 'Ngủ sâu giấc' không khớp");
+	assert.equal(c.soBangChungBoQua, 1, "id lạ bị bỏ, và đếm ra");
+	// Không dẫn id nào thì nhu cầu vẫn y hệt: số đo không phụ thuộc lời mô hình.
+	const khongDan = co({ idBaiDoiThu: [] });
+	assert.equal(khongDan.soBai, 5);
+	assert.equal(diemHuong(khongDan), diemHuong(c));
 	assert.equal(c.soBaiMinh, 0);
 	assert.equal(c.viPham, false);
 	assert.equal(c.ganSanPham, false);
@@ -34,6 +40,33 @@ test("hướng 'mất ngủ': đếm đối thủ/bài trên id CÓ THẬT, tài
 	assert.equal(c.soTaiSan, c.taiSan.length);
 	assert.equal(new Set(duong).size, duong.length, "khử trùng theo đường");
 	assert.ok(c.taiSan.every((x) => x.ten && x.loai));
+});
+
+test("mẫu dò 'Giảm cân nhanh': từ khoá chung chung + dẫn cả 6 id không liên quan → không có nhu cầu, không có tài sản", () => {
+	const c = co({ ten: "Giảm cân nhanh", tuKhoa: ["giảm cân", "huyệt", "ngủ", "đông y", "an"], idBaiDoiThu: [...CHU_DE.keys()] });
+	assert.equal(c.soBai, 0);
+	assert.equal(c.soDoiThu, 0);
+	assert.equal(c.soBangChungBoQua, 6);
+	assert.equal(c.soTaiSan, 0, "từ khoá một từ / toàn từ dừng không bão hoà số hạng tài sản");
+	assert.ok(diemHuong(c) <= 30, String(diemHuong(c)));
+	assert.equal(laTuKhoaDai("đông y"), false);
+	assert.equal(laTuKhoaDai("huyệt"), false);
+	assert.equal(laTuKhoaDai("mất ngủ"), true);
+});
+
+test("tài sản: ≤ 2 trang mỗi từ khoá, ≤ 10 cả hướng", () => {
+	const tk = ["huyệt thần môn", "mất ngủ", "an thần", "tam âm giao", "nội quan", "bách hội", "thái xung", "phong trì"];
+	const c = co({ tuKhoa: tk });
+	assert.ok(c.soTaiSan <= 10);
+	const mot = co({ tuKhoa: ["huyệt thần môn"] });
+	assert.ok(mot.soTaiSan <= 2, String(mot.soTaiSan));
+});
+
+test("timKhop: cụm đủ nghĩa nhưng có mặt ở quá 10% (và > 30) chủ đề thì không dùng làm phép chứa", () => {
+	const ds = Array.from({ length: 100 }, (_, i) => ({ id: `x${i}`, doiThuId: "a.vn", chuDe: `Bài thuốc số ${i} cho người già`, tuKhoa: [`bài thuốc ${i}`] }));
+	ds.push({ id: "mn", doiThuId: "b.vn", chuDe: "Bài thuốc an thần trị mất ngủ", tuKhoa: ["mất ngủ"] });
+	const bo = taoBoChuDe(ds);
+	assert.deepEqual(timKhop({ ten: "Bài thuốc", tuKhoa: ["bài thuốc", "mất ngủ"] }, bo).map((i) => ds[i].id), ["mn"]);
 });
 
 test("trungXuHuong dùng đúng luật của khoang-trong (từ khoá ≥ 2 từ)", () => {

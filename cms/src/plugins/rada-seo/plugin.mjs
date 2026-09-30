@@ -10,7 +10,7 @@ import { chuanTenMien } from "./radar/sitemap.mjs";
 import { chayCaRadar } from "./ca-radar.mjs";
 import { taoDocWeb, taoDocTrang } from "./lib/doc-web.mjs";
 import { layChiMuc, traBaiThuoc } from "./noi-bo/nap.mjs";
-import { taoKiemDuong } from "./noi-bo/kiem-duong.mjs";
+import { taoKiemDuong, DEM_KIEM_CHUNG } from "./noi-bo/kiem-duong.mjs";
 import { timLienKet } from "./noi-bo/tim-lien-ket.mjs";
 import { z } from "zod";
 import { layViec, ghiPhanTich, xongPhanTich, TRAN_TRANG_MOI_LUOT } from "./mcp-viec.mjs";
@@ -419,12 +419,19 @@ export function createPlugin() {
 				handler: async (ctx) => {
 					const s = ctx.storage;
 					const chiMuc = await layChiMuc(ctx.content);
+					const goc = process.env.RADA_SEO_SITE ?? "https://kinhlac.online";
 					const kq = await deXuatKeHoach({
 						s,
 						ds: ctx.input?.keHoach ?? [],
 						chiMuc,
-						// Cùng đệm kiểm dùng chung với rada_tim_lien_ket: link Claude vừa lấy từ đó không tải lại.
-						kiemDuong: taoKiemDuong(taoDocTrang(ctx.http.fetch.bind(ctx.http))),
+						// Cùng đệm kiểm dùng chung với rada_tim_lien_ket: link Claude vừa lấy từ đó không tải lại
+						// và không tốn ngân sách kiểm. Hạn 10 s mỗi trang RIÊNG cho đường này (mặc định 30 s giữ
+						// nguyên cho nơi khác): cả lời gọi chỉ có 80 s.
+						kiemDuong: taoKiemDuong(taoDocTrang(ctx.http.fetch.bind(ctx.http), { hanGioMs: 10_000 }), { goc }),
+						daDem: (d) => {
+							const x = DEM_KIEM_CHUNG.get(`${goc}${d}`);
+							return !!x && Date.now() < x.het;
+						},
 						baiDaCo: await layBaiMinh(s, chiMuc, await kho.dsDoiThu(s)),
 						now: new Date().toISOString(),
 					});
@@ -478,21 +485,21 @@ export function createPlugin() {
 				},
 				rada_de_xuat_huong: {
 					description:
-						"Rada SEO: đề xuất tối đa 8 hướng nội dung đi ra từ chỗ đối thủ dồn bài (ten, moTa, tuKhoa, idBaiDoiThu ≥ 3 id có thật, trongSoGoiY 1–5, lyDo). Máy chủ tự chấm điểm từ số đo và bác hướng vượt phạm vi Y sỹ, thiếu bằng chứng, hoặc giống hướng đã bị bỏ; trả nhan và bac kèm lý do.",
+						"Rada SEO: đề xuất tối đa 8 hướng nội dung đi ra từ chỗ đối thủ dồn bài (ten, moTa, tuKhoa là cụm cụ thể ≥ 2 chữ, idBaiDoiThu làm bằng chứng minh hoạ, trongSoGoiY 1–5, lyDo). Máy chủ tự dò bài đối thủ khớp hướng (cần ≥ 3), tự chấm điểm, bác hướng vượt phạm vi Y sỹ hoặc giống hướng đã bị bỏ, gộp hướng gần một hướng đang có; trả nhan, bac kèm lý do, và gop.",
 					route: "mcp-de-xuat-huong",
 					input: KHUON_HUONG,
 					destructive: false,
 				},
 				rada_ghi_cum: {
 					description:
-						"Rada SEO: ghi cụm theo nghĩa (tối đa 20) trong các hướng ĐÃ NHẬN — huongId, ten, moTa, tuKhoa, idBaiDoiThu. Lứa cụm gửi lên THAY lứa cụm chưa có bài duyệt của cùng hướng, nên gửi mọi cụm của một hướng trong một lượt. Máy chủ tự chấm điểm cụm.",
+						"Rada SEO: ghi cụm theo nghĩa (tối đa 20) trong các hướng ĐÃ NHẬN — huongId, ten, moTa, tuKhoa, idBaiDoiThu. Lứa cụm gửi lên THAY lứa cụm cũ của cùng hướng (cụm cũ còn bài dự kiến thì giữ ở trạng thái 'cu', không nhận bài mới), nên gửi mọi cụm của một hướng trong một lượt. Máy chủ tự đếm bài đối thủ khớp cụm và tự chấm điểm.",
 					route: "mcp-ghi-cum",
 					input: KHUON_CUM,
 					destructive: false,
 				},
 				rada_de_xuat_ke_hoach: {
 					description:
-						"Rada SEO: đề xuất tối đa 10 bài dự kiến trong các cụm thuộc hướng đã nhận — cumId, tieuDeLamViec, tuKhoaChinh, tuKhoaPhu, yDinh (tra_cuu/tim_hieu/so_sanh/huong_dan), trangTruCot, lienKetDich (≥ 5 đường khác trụ cột, lấy từ công cụ có tên kết thúc bằng rada_tim_lien_ket), goiYNguon. Máy chủ kiểm phạm vi Y sỹ, trùng từ điển/bài đã có, và tải từng link trên site thật; link chết bị gỡ.",
+						"Rada SEO: đề xuất tối đa 10 bài dự kiến trong các cụm thuộc hướng đã nhận — cumId, tieuDeLamViec, tuKhoaChinh, tuKhoaPhu, yDinh (tra_cuu/tim_hieu/so_sanh/huong_dan), trangTruCot, lienKetDich (≥ 5 đường khác trụ cột, lấy từ công cụ có tên kết thúc bằng rada_tim_lien_ket), goiYNguon. Máy chủ kiểm phạm vi Y sỹ, trùng từ điển/bài đã có, và tải từng link trên site thật; link chết bị gỡ. Mỗi lượt kiểm tối đa khoảng 40 trang mới: daCatBot: true thì gửi lại các bài bị bác 'hết lượt kiểm' ở lượt sau.",
 					route: "mcp-de-xuat-ke-hoach",
 					input: KHUON_KE_HOACH,
 					destructive: false,

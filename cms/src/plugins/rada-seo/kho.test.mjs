@@ -176,24 +176,86 @@ test("dsHuong xếp điểm giảm dần", async () => {
 	assert.deepEqual((await kho.dsHuong(s)).map((h) => h.ten), ["B", "C", "A"]);
 });
 
-test("thayCumNghia: thay cụm của đúng hướng; GIỮ cụm có bài dự kiến đã duyệt; cụm cùng tên giữ id", async () => {
+test("thayCumNghia: thay cụm của đúng hướng; cụm còn bài dự kiến (kể cả CHƯA duyệt) thành 'cu' chứ không xoá; cụm cùng tên giữ id", async () => {
 	const s = taoKhoGia();
+	await s.huong.put("h_1", { ten: "H", trangThai: "da_nhan", trongSo: 3 });
 	const c = (ten, diem = 1) => ({ ten, moTa: "", tuKhoa: [ten], idBaiDoiThu: [], chiSo: {}, diem });
-	const lan1 = await kho.thayCumNghia(s, "h_1", [c("Huyệt an thần"), c("Trà thảo dược"), c("Giấc ngủ trẻ em")], NOW);
+	const lan1 = await kho.thayCumNghia(s, "h_1", [c("Huyệt an thần"), c("Trà thảo dược"), c("Giấc ngủ trẻ em"), c("Ngủ ngày")], NOW);
 	await kho.thayCumNghia(s, "h_2", [c("Khác hướng")], NOW);
-	const [anThan, tra, treEm] = lan1.map((x) => x.id);
+	const [anThan, tra, treEm, nguNgay] = lan1.map((x) => x.id);
 	await kho.themKeHoach(s, [{ cumId: anThan, huongId: "h_1", tieuDeLamViec: "Huyệt an thần dễ bấm", tuKhoaChinh: "huyệt an thần" }], NOW);
 	const [kh] = await kho.dsKeHoach(s);
 	await kho.datKeHoach(s, kh.id, { trangThai: "da_duyet" });
 	await kho.themKeHoach(s, [{ cumId: tra, huongId: "h_1", tieuDeLamViec: "Trà hoa cúc", tuKhoaChinh: "trà hoa cúc" }], NOW);
+	const [kb] = await kho.themKeHoach(s, [{ cumId: nguNgay, huongId: "h_1", tieuDeLamViec: "Ngủ ngày nhiều", tuKhoaChinh: "ngủ ngày" }], NOW);
+	await kho.datKeHoach(s, kb.id, { trangThai: "bo_qua", lyDoBo: "ngoài ngách" });
 	const lan2 = await kho.thayCumNghia(s, "h_1", [c("Giấc ngủ trẻ em", 9), c("Ngủ trưa")], "sau");
 	assert.equal(lan2.find((x) => x.ten === "Giấc ngủ trẻ em").id, treEm);
-	const con = (await kho.dsCumNghia(s, { huongId: "h_1" })).map((x) => x.ten).sort();
-	assert.deepEqual(con, ["Giấc ngủ trẻ em", "Huyệt an thần", "Ngủ trưa"]);
+	const con = Object.fromEntries((await kho.dsCumNghia(s, { huongId: "h_1" })).map((x) => [x.ten, x.trangThai]));
+	// Trà thảo dược chỉ có bài CHƯA duyệt — trước đây bị xoá cùng bài; nay giữ ở dạng "cu".
+	// Ngủ ngày chỉ còn bài đã bỏ → cụm xoá, bài bo_qua ở lại làm trí nhớ.
+	assert.deepEqual(con, { "Giấc ngủ trẻ em": "de_xuat", "Huyệt an thần": "cu", "Ngủ trưa": "de_xuat", "Trà thảo dược": "cu" });
 	assert.equal((await s.cum_nghia.get(treEm)).diem, 9);
 	assert.equal((await kho.dsCumNghia(s, { huongId: "h_2" })).length, 1);
-	// Bài dự kiến chưa duyệt của cụm đã bị thay thì đi theo cụm; bài đã duyệt ở lại.
-	assert.deepEqual((await kho.dsKeHoach(s)).map((k) => k.tieuDeLamViec), ["Huyệt an thần dễ bấm"]);
+	assert.deepEqual((await kho.dsKeHoach(s)).map((k) => k.tieuDeLamViec).sort(), ["Huyệt an thần dễ bấm", "Ngủ ngày nhiều", "Trà hoa cúc"]);
+	assert.deepEqual(kho.TRANG_THAI_CUM_NGHIA, ["de_xuat", "cu"]);
+	// Tên cũ quay lại ở lứa sau → cụm "cu" sống lại (de_xuat), giữ id.
+	const lan3 = await kho.thayCumNghia(s, "h_1", [c("Trà thảo dược")], "sau nữa");
+	assert.equal(lan3[0].id, tra);
+	assert.equal((await s.cum_nghia.get(tra)).trangThai, "de_xuat");
+});
+
+test("thayCumNghia: đổi tên cụm không làm mất bài dự kiến chưa duyệt", async () => {
+	const s = taoKhoGia();
+	const [a] = await kho.thayCumNghia(s, "h_1", [{ ten: "Huyệt an thần", tuKhoa: [] }], NOW);
+	await kho.themKeHoach(s, [{ cumId: a.id, huongId: "h_1", tieuDeLamViec: "Bài A", tuKhoaChinh: "bài a" }], NOW);
+	await kho.thayCumNghia(s, "h_1", [{ ten: "Huyệt giúp an thần", tuKhoa: [] }], "sau");
+	assert.equal((await kho.dsKeHoach(s)).length, 1);
+	assert.equal((await s.cum_nghia.get(a.id)).trangThai, "cu");
+});
+
+test("thayCumNghia: routine gửi cụm của MỘT hướng qua hai lượt → cụm lượt đầu có bài vẫn còn", async () => {
+	const s = taoKhoGia();
+	const [a, b] = await kho.thayCumNghia(s, "h_1", [{ ten: "Cụm A", tuKhoa: [] }, { ten: "Cụm B", tuKhoa: [] }], NOW);
+	await kho.themKeHoach(s, [{ cumId: a.id, huongId: "h_1", tieuDeLamViec: "Bài A", tuKhoaChinh: "bài a" }], NOW);
+	await kho.thayCumNghia(s, "h_1", [{ ten: "Cụm C", tuKhoa: [] }], NOW);
+	const con = Object.fromEntries((await kho.dsCumNghia(s, { huongId: "h_1" })).map((x) => [x.id, x.trangThai]));
+	assert.equal(con[a.id], "cu");
+	assert.equal(con[b.id], undefined, "cụm không có bài thì bị thay như cũ");
+	assert.equal((await kho.dsKeHoach(s))[0].trangThai, "de_xuat");
+});
+
+test("themKeHoach: id đã có → GIỮ trạng thái / lý do bỏ / taoLuc của bài cũ", async () => {
+	const s = taoKhoGia();
+	const [k] = await kho.themKeHoach(s, [{ cumId: "c_1", tieuDeLamViec: "Trà hoa cúc", tuKhoaChinh: "trà hoa cúc" }], NOW);
+	await kho.datKeHoach(s, k.id, { trangThai: "bo_qua", lyDoBo: "ngoài ngách" });
+	await kho.themKeHoach(s, [{ cumId: "c_1", tieuDeLamViec: "trà hoa cúc!", tuKhoaChinh: "trà hoa cúc", lienKetDich: ["/x/"] }], "sau");
+	const r = await s.ke_hoach.get(k.id);
+	assert.equal(r.trangThai, "bo_qua");
+	assert.equal(r.lyDoBo, "ngoài ngách");
+	assert.equal(r.taoLuc, NOW);
+	assert.deepEqual(r.lienKetDich, ["/x/"]);
+});
+
+test("datKeHoach: không duyệt được bài thuộc hướng chưa nhận", async () => {
+	const s = taoKhoGia();
+	await s.huong.put("h_1", { ten: "H", trangThai: "de_xuat" });
+	await s.cum_nghia.put("c_1", { huongId: "h_1", ten: "C", trangThai: "de_xuat" });
+	const [k] = await kho.themKeHoach(s, [{ cumId: "c_1", tieuDeLamViec: "Bài", tuKhoaChinh: "bài" }], NOW);
+	await assert.rejects(kho.datKeHoach(s, k.id, { trangThai: "da_duyet" }), /chưa được nhận/);
+	// Bỏ thì vẫn được.
+	await kho.datKeHoach(s, k.id, { trangThai: "bo_qua", lyDoBo: "x" });
+	await kho.datHuong(s, "h_1", { trangThai: "da_nhan", trongSo: 3 });
+	await kho.datKeHoach(s, k.id, { trangThai: "da_duyet" });
+	assert.equal((await s.ke_hoach.get(k.id)).trangThai, "da_duyet");
+});
+
+test("chuDeDaPhanTich trả kèm url (bằng chứng đọc thẳng từ bộ đã nạp)", async () => {
+	const s = taoKhoGia();
+	await kho.luuDoiThu(s, { tenMien: "a.vn" }, NOW);
+	await s.url.put("d1", { doiThuId: "a.vn", url: "https://a.vn/1", trangThai: "da_phan_tich", chuDe: "x", tuKhoa: [], phanTichLuc: NOW });
+	const kq = await kho.chuDeDaPhanTich(s, await kho.dsDoiThu(s));
+	assert.equal(kq.doiThu[0].url, "https://a.vn/1");
 });
 
 test("kế hoạch: themKeHoach đặt de_xuat; datKeHoach bác trạng thái lạ, bỏ không lý do, id lạ; lọc theo trạng thái", async () => {
