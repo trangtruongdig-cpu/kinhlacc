@@ -680,15 +680,22 @@ test("doi-thu-luu: ca thử (ghi:false) không tính là ca thật — vẫn th�
 
 // ---- Lò viết (2C-3 việc 4) ----
 
-test("lò viết: quyền content:write + media:read + hooks.content-policy:register; hai hook publish không chặn khi hỏng, < 1 s", () => {
+test("lò viết: quyền content:write + media:read + content:revisions:read + hooks.content-policy:register; bốn hook không chặn khi hỏng", () => {
 	const p = createPlugin();
-	for (const q of ["content:read", "content:write", "media:read", "hooks.content-policy:register"]) assert.ok(p.capabilities.includes(q), q);
-	for (const ten of ["content:beforePublish", "content:afterPublish"]) {
+	for (const q of ["content:read", "content:write", "media:read", "content:revisions:read", "hooks.content-policy:register"]) assert.ok(p.capabilities.includes(q), q);
+	for (const ten of ["content:beforePublish", "content:beforeSchedule", "content:afterPublish", "content:afterUnpublish"]) {
 		const h = p.hooks[ten];
 		assert.equal(typeof h?.handler, "function", ten);
 		assert.equal(h.errorPolicy, "continue", `${ten}: hook hỏng/quá giờ không được khoá nút Publish`);
-		assert.ok(h.timeout <= 1000, `${ten} timeout ${h.timeout}`);
 	}
+	// Cổng: phần luật ~4 ms, chỉ phần tra sổ nháp (≤ 600 ms, Promise.race) có thể chậm → 4000.
+	assert.equal(p.hooks["content:beforePublish"].timeout, 4000);
+	assert.equal(p.hooks["content:beforeSchedule"].timeout, 4000);
+	assert.equal(p.hooks["content:beforeSchedule"].handler, p.hooks["content:beforePublish"].handler, "hẹn giờ qua ĐÚNG cổng đăng");
+	// Hook sau: EmDash không huỷ handler khi quá giờ, chỉ ghi "failed" — không khai, để resolveHook
+	// điền mặc định 5000 (definePlugin trả hook đã chuẩn hoá).
+	assert.equal(p.hooks["content:afterPublish"].timeout, 5000);
+	assert.equal(p.hooks["content:afterUnpublish"].timeout, 5000);
 	// Không dùng beforeSave (chỉ nhận trường đổi, chạy cả autosave — spike 4c).
 	assert.equal(p.hooks["content:beforeSave"], undefined);
 });
@@ -701,6 +708,12 @@ test("lò viết: công cụ rada_lay_bai_can_viet (content:read_drafts) / rada_
 	assert.match(t.rada_nop_bai.description, /dang_nop/);
 	assert.match(t.rada_nop_bai.description, /không tính/);
 	assert.match(t.rada_nop_bai.description, /kết thúc bằng rada_lay_bai_can_viet/);
+	// Ngữ nghĩa lượt: dau_vao (sai khuôn) KHÔNG tính; lượt đã qua khuôn mà trượt thì tính.
+	assert.match(t.rada_nop_bai.description, /dau_vao[^.]*không tính/);
+	assert.doesNotMatch(t.rada_nop_bai.description, /lượt trượt vẫn tính/);
+	// Khuôn MCP không mang min/max (passthrough) → mô tả là nguồn duy nhất của các trần.
+	for (const tran of [/40\.000/, /keHoachId[^,;]*64/, /tieuDe 30–70/, /moTa 100–170/, /tuKhoa 1–8[^,;]*120/, /q ≤ 300/, /a ≤ 2\.000/, /nguon 1–12/, /url[^,;]*2\.000/])
+		assert.match(t.rada_nop_bai.description, tran);
 	for (const ten of ["rada_lay_bai_can_viet", "rada_nop_bai"]) {
 		assert.doesNotMatch(t[ten].description, /(?<!kết thúc bằng )\brada_(?!lay_bai_can_viet|nop_bai)\w+/, `${ten} gọi tên trần công cụ khác`);
 		assert.equal(t[ten].destructive, false);
@@ -792,6 +805,12 @@ test("hook content:beforePublish qua plugin: chặn bai_viet vi phạm, cho qua 
 	await p.hooks["content:afterPublish"].handler({ collection: "bai_viet", content: { id: "c1" } }, ctx);
 	assert.equal((await ctx.storage.nhap.get("c1")).trangThai, "da_dang");
 	assert.equal((await ctx.storage.ke_hoach.get("k1")).trangThai, "da_dang");
+	await p.hooks["content:afterUnpublish"].handler({ collection: "bai_viet", content: { id: "c1" } }, ctx);
+	assert.equal((await ctx.storage.nhap.get("c1")).trangThai, "cho_duyet");
+	assert.equal((await ctx.storage.ke_hoach.get("k1")).trangThai, "co_nhap");
+	const hen = await p.hooks["content:beforeSchedule"].handler({ ...ev({ title: "Châm cứu chữa mất ngủ", content: [] }), scheduledAt: "2026-10-01T00:00:00.000Z" }, ctx);
+	assert.equal(hen.cancel, true);
+	assert.match(hen.reason, /hẹn giờ/);
 });
 
 test("khung 'Phiếu Rada': khai editorPanels cho bai_viet; route đọc ctx.ui.entry.id, trả Block Kit phiếu + soát", async () => {
@@ -803,6 +822,9 @@ test("khung 'Phiếu Rada': khai editorPanels cho bai_viet; route đọc ctx.ui.
 	const route = p.routes[panel.route];
 	assert.ok(route);
 	assert.equal(route.public, undefined);
+	// Mặc định plugins:manage = Admin → người duyệt (Editor 40) nhận 403. edit_own = AUTHOR (30);
+	// bộ điều phối khung cạnh trình soạn còn tự kiểm edit_own/edit_any theo chủ bài.
+	assert.equal(route.permission, "content:edit_own");
 	const ctx = taoCtx();
 	await kho.themNhap(ctx.storage, { keHoachId: "k1", contentId: "c1", slug: "s", tieuDe: "Tiêu đề có dấu", phieu: { seo: [{ ma: "x", dat: true }], soTu: 1000 } }, "2026-09-30T00:00:00.000Z");
 	const doc = [];

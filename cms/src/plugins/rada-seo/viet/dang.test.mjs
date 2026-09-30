@@ -209,3 +209,153 @@ test("dsNhapChoTab: nháp (mới trước) kèm tên kế hoạch + phiếu tóm
 	assert.equal(r.nhap[1].tenKeHoach, "");
 	assert.deepEqual(r.moCoi.map((k) => [k.id, k.contentId, k.adminUrl]), [["k2", "c2", "/_emdash/admin/content/bai_viet/c2"]]);
 });
+
+// ---- Sửa sau rà soát việc 4 ----
+
+test("truocKhiDang: vi phạm ở chế độ THƯỜNG → chặn ngay, KHÔNG chạm sổ nháp", async () => {
+	const ctx = ctxGia();
+	let goi = 0;
+	ctx.storage.nhap.get = async () => {
+		goi++;
+		return null;
+	};
+	ctx.storage.ke_hoach.query = async () => {
+		goi++;
+		return { items: [], hasMore: false };
+	};
+	const kq = await dang.truocKhiDang(suKien({ title: "Châm cứu chữa mất ngủ", content: [] }), ctx);
+	assert.equal(kq?.cancel, true);
+	assert.equal(goi, 0);
+});
+
+test("truocKhiDang: sổ nháp CHẬM → hết hạn tra thì giữ kết quả chế độ thường (cho qua), ghi warn, không đợi kho", async () => {
+	assert.equal(dang.HAN_TRA_NHAP_MS, 600);
+	const ctx = ctxGia();
+	ctx.storage.nhap.get = () => new Promise((r) => setTimeout(() => r({ keHoachId: "k1" }), 3000).unref());
+	const data = { title: "Tiêu đề sạch", description: "Nên hỏi bác sĩ.", content: [] };
+	const t0 = performance.now();
+	const kq = await dang.truocKhiDang(suKien(data), ctx, { hanTraMs: 40 });
+	assert.equal(kq, undefined, "hết hạn → chế độ thường, 'bác sĩ' trần được qua");
+	assert.ok(performance.now() - t0 < 500);
+	assert.ok(ctx.ghi.some((g) => g[0] === "warn"));
+	// Mặc định (600 ms) vẫn dưới timeout 4000 của hook.
+	const t1 = performance.now();
+	assert.equal(await dang.truocKhiDang(suKien(data), ctx), undefined);
+	const ms = performance.now() - t1;
+	assert.ok(ms >= 550 && ms < 1500, `${ms} ms`);
+});
+
+test("truocKhiDang: nháp MỒ CÔI (kế hoạch mang contentId, không có bản ghi nhap) cũng soát NGHIÊM", async () => {
+	const ctx = ctxGia();
+	const data = { title: "Tiêu đề sạch", description: "Nên hỏi bác sĩ.", content: [] };
+	await ctx.storage.ke_hoach.put("k2", { trangThai: "can_xem", contentId: "c1", taoLuc: "t" });
+	assert.equal((await dang.truocKhiDang(suKien(data), ctx))?.cancel, true);
+	const ctx2 = ctxGia();
+	await ctx2.storage.ke_hoach.put("k3", { trangThai: "dang_viet", contentId: "c1", taoLuc: "t" });
+	assert.equal((await dang.truocKhiDang(suKien(data), ctx2))?.cancel, true);
+	// Kế hoạch mang contentId KHÁC → bài người viết, thường.
+	assert.equal(await dang.truocKhiDang(suKien(data, { id: "c7" }), ctx), undefined);
+});
+
+test("truocKhiDang dùng cho content:beforeSchedule: event có scheduledAt → lời nói 'hẹn giờ', cùng hình {cancel, reason}", async () => {
+	const ev = { ...suKien({ title: "Châm cứu chữa mất ngủ", content: [] }), scheduledAt: "2026-10-01T00:00:00.000Z" };
+	const kq = await dang.truocKhiDang(ev, ctxGia());
+	assert.deepEqual(Object.keys(kq).sort(), ["cancel", "reason"]);
+	assert.match(kq.reason, /^Chưa hẹn giờ đăng được\./);
+	assert.match((await dang.truocKhiDang(suKien({ title: "Chữa" }), ctxGia())).reason, /^Chưa đăng được\./);
+});
+
+test("sauKhiGo (afterUnpublish): nháp da_dang → cho_duyet, kế hoạch da_dang → co_nhap; mồ côi → can_xem; bộ khác / lỗi kho không làm gì", async () => {
+	const ctx = ctxGia();
+	const s = ctx.storage;
+	await s.ke_hoach.put("k1", { trangThai: "da_dang", contentId: "c1", dangLuc: "x", taoLuc: "t" });
+	await kho.themNhap(s, { keHoachId: "k1", contentId: "c1", slug: "s", tieuDe: "A", phieu: {} }, "2026-09-30T00:00:00.000Z");
+	await s.nhap.put("c1", { ...(await s.nhap.get("c1")), trangThai: "da_dang", dangLuc: "2026-09-30T10:00:00.000Z" });
+	await dang.sauKhiGo({ collection: "huyet_vi", content: { id: "c1" } }, ctx);
+	assert.equal((await s.nhap.get("c1")).trangThai, "da_dang");
+	await dang.sauKhiGo({ collection: "bai_viet", content: { id: "c1", status: "draft" } }, ctx);
+	const n = await s.nhap.get("c1");
+	assert.equal(n.trangThai, "cho_duyet");
+	assert.equal(n.dangLuc, undefined);
+	const k = await s.ke_hoach.get("k1");
+	assert.equal(k.trangThai, "co_nhap");
+	assert.equal(k.dangLuc, undefined);
+	// Mồ côi: kế hoạch da_dang mang contentId, không có nhap → can_xem (để tab Nháp còn thấy nó).
+	await s.ke_hoach.put("k2", { trangThai: "da_dang", contentId: "c9", taoLuc: "t" });
+	await dang.sauKhiGo({ collection: "bai_viet", content: { id: "c9" } }, ctx);
+	const k2 = await s.ke_hoach.get("k2");
+	assert.equal(k2.trangThai, "can_xem");
+	assert.match(k2.lyDoCanXem, /gỡ/);
+	// Bài người viết: im lặng.
+	await dang.sauKhiGo({ collection: "bai_viet", content: { id: "zzz" } }, ctx);
+	assert.equal(ctx.ghi.filter((g) => g[0] === "error").length, 0);
+	const ctx2 = ctxGia();
+	ctx2.storage.nhap.get = async () => {
+		throw new Error("kho sập");
+	};
+	await dang.sauKhiGo({ collection: "bai_viet", content: { id: "c1" } }, ctx2);
+	assert.ok(ctx2.ghi.some((g) => g[0] === "error"));
+});
+
+const ctxPanel = (content, id = "c1") => ({ ...ctxGia(), content, ui: { entry: { collection: "bai_viet", id } } });
+
+test("taiPanel: có draftRevisionId + getRevision → soát trên CỘT trộn REVISION (bỏ khoá '_'), nhãn 'bản nháp đã lưu gần nhất'", async () => {
+	const goi = [];
+	const content = {
+		async get(bo, id) {
+			return { id, draftRevisionId: "r9", data: { title: "Tiêu đề chữa bệnh cũ", description: "Sạch.", content: [] } };
+		},
+		async getRevision(bo, id, rev) {
+			goi.push([bo, id, rev]);
+			return { id: rev, data: { title: "Tiêu đề đã sửa sạch", description: "Nên hỏi bác sĩ.", _slug: "chữa-bệnh" } };
+		},
+	};
+	const ctx = ctxPanel(content);
+	await kho.themNhap(ctx.storage, { keHoachId: "k1", contentId: "c1", slug: "s", tieuDe: "Tiêu đề máy viết", phieu: {} }, "2026-09-30T00:00:00.000Z");
+	const kq = await dang.taiPanel(ctx);
+	assert.deepEqual(goi, [["bai_viet", "c1", "r9"]]);
+	const chu = JSON.stringify(kq.blocks);
+	assert.doesNotMatch(chu, /"chữa"/, "chữ đã sửa trong revision không còn bị báo");
+	assert.match(chu, /bác sĩ/, "chữ mới thêm trong revision bị báo (bài máy viết → nghiêm)");
+	assert.match(chu, /bản nháp đã lưu gần nhất/);
+	assert.doesNotMatch(chu, /XUẤT BẢN/);
+});
+
+test("taiPanel: không có getRevision / getRevision hỏng / không draftRevisionId → soát trên cột, nhãn TRUNG THỰC; content.get null → 'Không tìm thấy bài'", async () => {
+	const cot = { title: "tieu-de-may-viet", description: "Sạch.", content: [] };
+	const nhanCot = /XUẤT BẢN \/ tạo lần đầu — bản nháp đang sửa có thể khác/;
+	// Thiếu quyền content:revisions:read → không có hàm getRevision.
+	const ctx = ctxPanel({ async get(bo, id) { return { id, draftRevisionId: "r1", data: cot }; } });
+	await kho.themNhap(ctx.storage, { keHoachId: "k1", contentId: "c1", slug: "tieu-de-may-viet", tieuDe: "Tiêu đề máy viết chữa bệnh", phieu: {} }, "2026-09-30T00:00:00.000Z");
+	const a = JSON.stringify((await dang.taiPanel(ctx)).blocks);
+	assert.match(a, nhanCot);
+	assert.match(a, /chữa/, "cột giữ tiêu đề không dấu → thay bằng nhap.tieuDe");
+	assert.doesNotMatch(a, /bản nháp đã lưu gần nhất/);
+	// getRevision ném → cùng lối lùi + warn.
+	const ctx2 = ctxPanel({ async get(bo, id) { return { id, draftRevisionId: "r1", data: cot }; }, async getRevision() { throw new Error("x"); } });
+	const b = JSON.stringify((await dang.taiPanel(ctx2)).blocks);
+	assert.match(b, nhanCot);
+	assert.ok(ctx2.ghi.some((g) => g[0] === "warn"));
+	// getRevision trả null → lối lùi.
+	const ctx3 = ctxPanel({ async get(bo, id) { return { id, draftRevisionId: "r1", data: cot }; }, async getRevision() { return null; } });
+	assert.match(JSON.stringify((await dang.taiPanel(ctx3)).blocks), nhanCot);
+	// Không draftRevisionId → không gọi getRevision, nhãn cột.
+	let goi = 0;
+	const ctx4 = ctxPanel({ async get(bo, id) { return { id, draftRevisionId: null, data: cot }; }, async getRevision() { goi++; return null; } });
+	assert.match(JSON.stringify((await dang.taiPanel(ctx4)).blocks), nhanCot);
+	assert.equal(goi, 0);
+	// Bài không có (đã xoá / id lạ).
+	const ctx5 = ctxPanel({ async get() { return null; } });
+	const e = await dang.taiPanel(ctx5);
+	const ce = JSON.stringify(e.blocks);
+	assert.match(ce, /Không tìm thấy bài/);
+	assert.doesNotMatch(ce, /Không thấy chữ vượt phạm vi/);
+});
+
+test("dsNhapChoTab: đường hiển thị — thiếu slug thì '(chưa có slug)', không '/undefined'", async () => {
+	const s = taoKhoGia();
+	await kho.themNhap(s, { keHoachId: "k1", contentId: "c1", slug: "mat-ngu", tieuDe: "A", phieu: {} }, "2026-09-29T00:00:00.000Z");
+	await s.nhap.put("c2", { keHoachId: "k2", contentId: "c2", tieuDe: "B", trangThai: "cho_duyet", taoLuc: "2026-09-28T00:00:00.000Z" });
+	const r = await dang.dsNhapChoTab(s);
+	assert.deepEqual(r.nhap.map((n) => n.duong), ["/mat-ngu", "(chưa có slug)"]);
+});

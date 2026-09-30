@@ -66,8 +66,11 @@ const catChu = (s, n) => {
 	return t.length > n ? `${t.slice(0, n - 1).join("")}…` : t.join("");
 };
 
-/** Lời từ chối tiếng Việt, ≤ TRAN_LY_DO ký tự; null khi không có gì để chặn. */
-export function lyDoChan({ viPham, anhHong: hong }) {
+/**
+ * Lời từ chối tiếng Việt, ≤ TRAN_LY_DO ký tự; null khi không có gì để chặn.
+ * @param {{hen?: boolean}} [tuyChon]  hen: lời cho content:beforeSchedule (hẹn giờ đăng)
+ */
+export function lyDoChan({ viPham, anhHong: hong }, { hen = false } = {}) {
 	const phan = [];
 	if (viPham.length) {
 		// Gộp theo chữ: "trị" hai lần là một việc phải sửa.
@@ -84,32 +87,80 @@ export function lyDoChan({ viPham, anhHong: hong }) {
 	if (hong.length)
 		phan.push(`Ảnh trong thân bài không hiện được cho người đọc (khối ${hong.slice(0, 5).join(", ")}${hong.length > 5 ? "…" : ""}): ảnh phải có đường /_emdash/api/media/file/<tệp> — xoá rồi chèn lại từ thư viện ảnh.`);
 	if (!phan.length) return null;
-	return catChu(`Chưa đăng được. ${phan.join(" ")}`, TRAN_LY_DO);
+	return catChu(`${hen ? "Chưa hẹn giờ đăng được." : "Chưa đăng được."} ${phan.join(" ")}`, TRAN_LY_DO);
 }
 
-/** Bài máy viết = có bản ghi `nhap` (id = contentId). Kho hỏng → coi như bài người viết (thường). */
+/** Hạn tra sổ nháp ở cổng đăng. Hook khai timeout 4000; phần luật chỉ ~4 ms. */
+export const HAN_TRA_NHAP_MS = 600;
+/** Trạng thái kế hoạch có thể mang contentId mà chưa có bản ghi nhap (nháp mồ côi). */
+const TRANG_THAI_MO_COI = ["can_xem", "dang_viet"];
+
+/** Kế hoạch (trong các trạng thái cho trước) mang contentId = id; không có → null. */
+async function keHoachMangContent(s, id, trangThais) {
+	for (const trangThai of trangThais) {
+		const k = (await kho.dsKeHoach(s, { trangThai })).find((x) => String(x.contentId ?? "") === String(id));
+		if (k) return k;
+	}
+	return null;
+}
+
+/**
+ * Bài máy viết = có bản ghi `nhap` (id = contentId), hoặc nháp MỒ CÔI (kế hoạch mang contentId mà
+ * chưa có nhap). Kho hỏng → coi như bài người viết (thường).
+ */
 async function laBaiMay(ctx, id) {
 	if (!id || !ctx?.storage?.nhap) return false;
 	try {
-		return !!(await ctx.storage.nhap.get(String(id)));
+		if (await ctx.storage.nhap.get(String(id))) return true;
+		return !!(ctx.storage.ke_hoach && (await keHoachMangContent(ctx.storage, id, TRANG_THAI_MO_COI)));
 	} catch (e) {
 		ctx.log?.warn?.("Rada SEO: không đọc được sổ nháp khi soát trước khi đăng — soát chế độ thường", e);
 		return false;
 	}
 }
 
+/** Chạy `viec` tối đa `ms`; hết hạn → `macDinh` (việc vẫn chạy nốt ở nền, lỗi của nó đã bị nuốt). */
+async function trongHan(viec, ms, macDinh, khiHet) {
+	let hen;
+	const het = new Promise((r) => {
+		hen = setTimeout(() => {
+			khiHet?.();
+			r(macDinh);
+		}, ms);
+		hen.unref?.();
+	});
+	try {
+		return await Promise.race([viec, het]);
+	} finally {
+		clearTimeout(hen);
+	}
+}
+
 /**
- * Handler content:beforePublish. Chỉ luật, không mạng. KHÔNG BAO GIỜ ném.
+ * Handler content:beforePublish VÀ content:beforeSchedule (cùng hợp đồng {cancel, reason} —
+ * runContentPolicyHooks của EmDash; event hẹn giờ mang thêm `scheduledAt`). Chỉ luật, không mạng.
+ * KHÔNG BAO GIỜ ném.
+ *
+ * Thứ tự là chịu lực: soát chế độ THƯỜNG (thuần, không DB) trước và chặn ngay nếu có vi phạm; chỉ
+ * khi qua được mới tra sổ nháp (pool CMS một kết nối — ca nền có thể giữ nó) trong HAN_TRA_NHAP_MS.
+ * Hết hạn thì giữ kết quả thường + warn: không bao giờ để việc tra kho chậm biến thành "không soát".
+ * @param {{hanTraMs?: number}} [tuyChon]  chỉ cho phép kiểm
  * @returns {Promise<undefined | {cancel: true, reason: string}>}
  */
-export async function truocKhiDang(event, ctx) {
+export async function truocKhiDang(event, ctx, { hanTraMs = HAN_TRA_NHAP_MS } = {}) {
 	try {
 		if (event?.collection !== BO) return undefined;
 		const content = event.content ?? {};
 		const data = content.data && typeof content.data === "object" ? content.data : content;
-		const nghiem = await laBaiMay(ctx, content.id);
-		const lyDo = lyDoChan(soatBai(data, { nghiem }));
-		return lyDo ? { cancel: true, reason: lyDo } : undefined;
+		const hen = "scheduledAt" in event;
+		const thuong = lyDoChan(soatBai(data), { hen });
+		if (thuong) return { cancel: true, reason: thuong };
+		const may = await trongHan(laBaiMay(ctx, content.id), hanTraMs, false, () =>
+			ctx?.log?.warn?.(`Rada SEO: tra sổ nháp quá ${hanTraMs} ms ở cổng đăng — giữ kết quả soát chế độ thường`),
+		);
+		if (!may) return undefined;
+		const nghiem = lyDoChan(soatBai(data, { nghiem: true }), { hen });
+		return nghiem ? { cancel: true, reason: nghiem } : undefined;
 	} catch (e) {
 		try {
 			ctx?.log?.error?.("Rada SEO: cổng trước khi đăng hỏng — cho qua để không khoá nút Publish", e);
@@ -135,10 +186,7 @@ export async function sauKhiDang(event, ctx) {
 		const nhap = await s.nhap.get(String(id));
 		let keHoachId = nhap?.keHoachId ?? null;
 		if (nhap && nhap.trangThai !== "da_dang") await s.nhap.put(String(id), { ...nhap, trangThai: "da_dang", dangLuc: luc });
-		if (!keHoachId) {
-			const moCoi = (await kho.dsKeHoach(s, { trangThai: "can_xem" })).find((k) => String(k.contentId ?? "") === String(id));
-			keHoachId = moCoi?.id ?? null;
-		}
+		if (!keHoachId) keHoachId = (await keHoachMangContent(s, id, TRANG_THAI_MO_COI))?.id ?? null;
 		if (!keHoachId) return;
 		const k = await s.ke_hoach.get(keHoachId);
 		if (k && k.trangThai !== "da_dang") {
@@ -149,6 +197,40 @@ export async function sauKhiDang(event, ctx) {
 	} catch (e) {
 		try {
 			ctx?.log?.error?.("Rada SEO: ghi 'đã đăng' hỏng (bài vẫn đã lên)", e);
+		} catch {
+			// bỏ qua
+		}
+	}
+}
+
+/**
+ * Handler content:afterUnpublish: bài bị gỡ xuống → nháp về cho_duyet, kế hoạch da_dang → co_nhap.
+ * Nháp mồ côi (không có bản ghi nhap) → kế hoạch về can_xem, không phải co_nhap: tab Nháp chỉ thấy
+ * mồ côi ở can_xem, co_nhap mà không có nhap là mất dấu. Không ném.
+ */
+export async function sauKhiGo(event, ctx) {
+	try {
+		if (event?.collection !== BO) return;
+		const id = event.content?.id;
+		if (!id) return;
+		const s = ctx.storage;
+		const nhap = await s.nhap.get(String(id));
+		if (nhap?.trangThai === "da_dang") {
+			const moi = { ...nhap, trangThai: "cho_duyet" };
+			delete moi.dangLuc;
+			await s.nhap.put(String(id), moi);
+		}
+		const k = nhap?.keHoachId ? { id: nhap.keHoachId, ...((await s.ke_hoach.get(nhap.keHoachId)) ?? {}) } : await keHoachMangContent(s, id, ["da_dang"]);
+		if (!k?.id || k.trangThai !== "da_dang") return;
+		const { id: khId, ...cu } = k;
+		const moi = nhap
+			? { ...cu, trangThai: "co_nhap" }
+			: { ...cu, trangThai: "can_xem", lyDoCanXem: `Bài đã đăng rồi bị gỡ xuống (Unpublish) mà không có bản ghi nháp — contentId ${id}, xem lại trong CMS` };
+		delete moi.dangLuc;
+		await s.ke_hoach.put(khId, moi);
+	} catch (e) {
+		try {
+			ctx?.log?.error?.("Rada SEO: ghi 'đã gỡ' hỏng (bài vẫn đã gỡ)", e);
 		} catch {
 			// bỏ qua
 		}
@@ -184,12 +266,13 @@ const gioVN = (s) => {
  * Block Kit cho khung "Phiếu Rada" (chỉ header/section/fields/context/divider/banner).
  * @param {{chuaLuu?: boolean, nhap?: object|null, soat?: {viPham: object[], anhHong: number[]}}} x
  */
-export function khoiPanel({ chuaLuu = false, nhap = null, soat = null, loiDoc = "" } = {}) {
+export function khoiPanel({ chuaLuu = false, nhap = null, soat = null, loiDoc = "", khongThay = false, tuRevision = false } = {}) {
 	const ra = [{ type: "header", text: "Phiếu Rada" }];
 	if (chuaLuu) {
 		ra.push({ type: "context", text: "Lưu bài một lần rồi mở lại khung này để xem phiếu." });
 		return ra;
 	}
+	if (khongThay) ra.push({ type: "banner", variant: "alert", title: "Không tìm thấy bài", description: "CMS không trả về bài này (đã xoá hoặc id lạ) — không có gì để soát." });
 	if (loiDoc) ra.push({ type: "banner", variant: "alert", title: "Không đọc được bài", description: loiDoc });
 	if (nhap) {
 		const t = tomTatPhieu(nhap.phieu);
@@ -229,7 +312,10 @@ export function khoiPanel({ chuaLuu = false, nhap = null, soat = null, loiDoc = 
 	}
 	ra.push({
 		type: "context",
-		text: "Soát trên bản đã LƯU (bản đang gõ chưa lưu thì chưa tính). Chốt thật chạy lại lúc bấm Publish, trên cả bản nháp.",
+		// Chỉ nói "đã lưu" khi thật sự đọc được revision nháp (content:revisions:read).
+		text: tuRevision
+			? "Soát trên bản nháp đã lưu gần nhất (chữ đang gõ chưa lưu thì chưa tính). Chốt thật chạy lại lúc bấm Publish."
+			: "Soát trên bản đã XUẤT BẢN / tạo lần đầu — bản nháp đang sửa có thể khác. Chốt thật chạy lại lúc bấm Publish, trên cả bản nháp.",
 	});
 	return ra;
 }
@@ -244,7 +330,7 @@ export async function dsNhapChoTab(s) {
 	return {
 		nhap: nhap.map(({ phieu, ...n }) => {
 			const k = khTheoId.get(n.keHoachId);
-			return { ...n, tenKeHoach: k?.tieuDeLamViec ?? "", trangThaiKeHoach: k?.trangThai ?? null, adminUrl: adminUrl(n.id), tomTat: tomTatPhieu(phieu) };
+			return { ...n, duong: n.slug ? `/${n.slug}` : "(chưa có slug)", tenKeHoach: k?.tieuDeLamViec ?? "", trangThaiKeHoach: k?.trangThai ?? null, adminUrl: adminUrl(n.id), tomTat: tomTatPhieu(phieu) };
 		}),
 		moCoi: keHoach
 			.filter((k) => k.trangThai === "can_xem" && k.contentId && !coNhap.has(String(k.contentId)))
@@ -260,11 +346,22 @@ export async function dsNhapChoTab(s) {
 	};
 }
 
+/** Trường của revision như hydrateDraftData của EmDash: bỏ khoá bắt đầu bằng "_" (vd `_slug`). */
+function truongRevision(data) {
+	const ra = {};
+	if (!data || typeof data !== "object") return ra;
+	for (const [k, v] of Object.entries(data)) if (!k.startsWith("_")) ra[k] = v;
+	return ra;
+}
+
 /**
  * Route của khung "Phiếu Rada". Nhận `{type: "panel_load"}` KHÔNG kèm bản nháp (spike 5): tự đọc
- * bài theo `ctx.ui.entry.id`. `ctx.content.get` đọc CỘT (bản đã Publish / lúc create), không đọc
- * revision nháp; bài máy viết thì tiêu đề thật lấy từ sổ nháp (cột giữ tiêu đề không dấu tới khi
- * Publish). Không bao giờ ném: khung hỏng thì hiện lời báo, không 500.
+ * bài theo `ctx.ui.entry.id`. `ctx.content.get` đọc CỘT (bản đã Publish / lúc create); mọi lần lưu
+ * sau đó chỉ ghi revision nháp (`item.draftRevisionId`). Có quyền content:revisions:read thì đọc
+ * revision đó bằng `ctx.content.getRevision(bộ, id, revisionId)` và trộn `{...cột, ...revision}`
+ * đúng như hydrateDraftData (revision có thể chỉ mang một phần trường). Không đọc được → soát trên
+ * cột và NÓI RÕ như vậy; bài máy viết thì khi đó tiêu đề lấy từ sổ nháp (cột giữ tiêu đề không dấu).
+ * Không bao giờ ném: khung hỏng thì hiện lời báo, không 500.
  */
 export async function taiPanel(ctx) {
 	const id = ctx?.ui?.entry?.id;
@@ -282,7 +379,21 @@ export async function taiPanel(ctx) {
 		ctx.log?.warn?.("Rada SEO: khung phiếu không đọc được bài", e);
 		return { blocks: khoiPanel({ nhap, loiDoc: `Không đọc được bài từ CMS (${catChu(String(e?.message ?? e), 120)}) — mở lại khung sau.` }) };
 	}
-	const data = { ...(item?.data ?? {}) };
-	if (nhap?.tieuDe && (!data.title || data.title === nhap.slug || data.title === slugKhongDau(nhap.tieuDe))) data.title = nhap.tieuDe;
-	return { blocks: khoiPanel({ nhap, soat: soatBai(data, { nghiem: !!nhap }) }) };
+	if (!item) return { blocks: khoiPanel({ nhap, khongThay: true }) };
+	const data = { ...(item.data ?? {}) };
+	let tuRevision = false;
+	const revId = typeof item.draftRevisionId === "string" && item.draftRevisionId ? item.draftRevisionId : null;
+	if (revId && typeof ctx.content.getRevision === "function") {
+		try {
+			const rev = await ctx.content.getRevision(BO, String(id), revId);
+			if (rev?.data && typeof rev.data === "object") {
+				Object.assign(data, truongRevision(rev.data));
+				tuRevision = true;
+			}
+		} catch (e) {
+			ctx.log?.warn?.("Rada SEO: khung phiếu không đọc được bản nháp (revision) — soát trên cột", e);
+		}
+	}
+	if (!tuRevision && nhap?.tieuDe && (!data.title || data.title === nhap.slug || data.title === slugKhongDau(nhap.tieuDe))) data.title = nhap.tieuDe;
+	return { blocks: khoiPanel({ nhap, soat: soatBai(data, { nghiem: !!nhap }), tuRevision }) };
 }

@@ -24,7 +24,7 @@ import {
 	TRAN_HUONG_MOI_LUOT, TRAN_CUM_MOI_LUOT, TRAN_KE_HOACH_MOI_LUOT,
 } from "./chien-luoc/viec.mjs";
 import { layBaiCanViet, nopBai } from "./viet/viec.mjs";
-import { truocKhiDang, sauKhiDang, taiPanel, dsNhapChoTab } from "./viet/dang.mjs";
+import { truocKhiDang, sauKhiDang, sauKhiGo, taiPanel, dsNhapChoTab } from "./viet/dang.mjs";
 
 /**
  * Lịch cron: phút 30 MỖI GIỜ. Ca thật chỉ chạy ở tick có giờ UTC = GIO_UTC_CHAY (19:30 UTC =
@@ -281,8 +281,11 @@ export function createPlugin() {
 		// content:read: rada_tim_lien_ket đọc tên/slug các bộ từ điển + blog qua ctx.content.list.
 		// content:write + media:read: lò viết tạo nháp bai_viet và chọn ảnh bìa (2C-3). Thêm quyền chỉ
 		// đổi nhãn trên trang Plugins, không có bước đồng ý (spike 2C-3 mục 6).
-		// hooks.content-policy:register: cổng content:beforePublish (content:afterPublish cần content:read).
-		capabilities: ["network:request:unrestricted", "content:read", "content:write", "media:read", "hooks.content-policy:register"],
+		// hooks.content-policy:register: cổng content:beforePublish + content:beforeSchedule
+		// (content:afterPublish/afterUnpublish cần content:read — HOOK_REQUIRED_CAPABILITY ở menus-*.mjs).
+		// content:revisions:read: khung "Phiếu Rada" đọc revision nháp bằng ctx.content.getRevision
+		// (chỉ có khi khai quyền này — context-*.mjs createContentAccess).
+		capabilities: ["network:request:unrestricted", "content:read", "content:write", "media:read", "content:revisions:read", "hooks.content-policy:register"],
 		storage: KHAI_BAO_KHO,
 		// Mục "Rada SEO" ở thanh bên PHẢI khai ở đây. Với format:"native", EmDash 0.39.1 dựng
 		// manifest admin từ plugin.admin của definePlugin() và BỎ QUA adminPages của descriptor
@@ -320,10 +323,17 @@ export function createPlugin() {
 			},
 			// Cổng ĐĂNG cho MỌI bài bai_viet (cả bài người viết): phạm vi Y sỹ + ảnh thân bài. Chỉ luật,
 			// không mạng. Handler tự nuốt lỗi; errorPolicy "continue" là lớp thứ hai — mặc định "abort"
-			// biến một lỗi/quá giờ của hook thành chặn Publish.
-			"content:beforePublish": { handler: truocKhiDang, timeout: 1000, errorPolicy: "continue" },
+			// biến một lỗi/quá giờ của hook thành chặn Publish. Phần luật chạy trước và ~4 ms; chỉ phần
+			// tra sổ nháp (≤ HAN_TRA_NHAP_MS = 600 ms, rồi giữ kết quả thường) có thể chậm → 4000.
+			"content:beforePublish": { handler: truocKhiDang, timeout: 4000, errorPolicy: "continue" },
+			// Hẹn giờ qua ĐÚNG cổng đó: cùng hợp đồng {cancel, reason} (runContentPolicyHooks), event có
+			// thêm scheduledAt. Không có thì bài vi phạm hẹn được, tới giờ bị huỷ lịch lặng lẽ.
+			"content:beforeSchedule": { handler: truocKhiDang, timeout: 4000, errorPolicy: "continue" },
 			// Đánh dấu nháp của lò viết + kế hoạch là da_dang. Chạy sau khi bài đã lên — hỏng thì chỉ log.
-			"content:afterPublish": { handler: sauKhiDang, timeout: 1000, errorPolicy: "continue" },
+			// Không khai timeout: EmDash không huỷ handler khi quá giờ, chỉ ghi "failed" giả.
+			"content:afterPublish": { handler: sauKhiDang, errorPolicy: "continue" },
+			// Gỡ bài xuống → nháp về cho_duyet, kế hoạch về co_nhap (mồ côi → can_xem).
+			"content:afterUnpublish": { handler: sauKhiGo, errorPolicy: "continue" },
 		},
 		routes: {
 			"tong-quan": {
@@ -662,7 +672,11 @@ export function createPlugin() {
 				},
 			},
 			"phieu-panel": {
-				// Khung cạnh trình soạn — route riêng tư (quyền mặc định), không vào MCP.
+				// Khung cạnh trình soạn — route riêng tư, không vào MCP. Quyền mặc định là plugins:manage
+				// (Admin) → người duyệt (Editor 40) nhận 403; edit_own = AUTHOR (Permissions ở
+				// @emdash-cms/auth), và dispatchPluginEditorExtensionApiRequest còn tự kiểm
+				// edit_own/edit_any theo chủ bài.
+				permission: "content:edit_own",
 				handler: async (ctx) => taiPanel(ctx),
 			},
 			"nhap-tong-quan": {
@@ -770,7 +784,7 @@ export function createPlugin() {
 				},
 				rada_nop_bai: {
 					description:
-						"Rada SEO (lò viết): nộp MỘT bài cho keHoachId lấy từ công cụ có tên kết thúc bằng rada_lay_bai_can_viet — tieuDe 30–70 ký tự, moTa 100–170, md (Markdown; không HTML, không bảng, không in nghiêng một dấu sao), tuKhoa 1–8, faq 3–6 cặp { q, a }, nguon 1–12 { title, url? }. Máy chủ kiểm khuôn bài, phạm vi Y sỹ, trùng lặp, nguồn và link nội bộ; đạt thì tạo NHÁP bai_viet chờ người duyệt (không tự đăng) và trả daTao: true kèm phiếu. Trượt thì trả daTao: false, loi (mọi lỗi của lượt, mỗi mục { ma, ghiChu }) và soLanNopConLai — sửa hết rồi nộp lại; tối đa 3 lượt mỗi bài, lượt trượt vẫn tính. Riêng loi có ma dang_nop: một lượt nộp khác cho bài này đang chạy — đợi vài phút rồi gọi lại, lượt đó không tính. Một lượt có thể mất tới vài phút vì máy chủ tải từng nguồn và từng link.",
+						"Rada SEO (lò viết): nộp MỘT bài cho keHoachId lấy từ công cụ có tên kết thúc bằng rada_lay_bai_can_viet — gồm tieuDe, moTa, md (Markdown; không HTML, không bảng, không in nghiêng một dấu sao), tuKhoa, faq (các cặp { q, a }), nguon (các mục { title, url? }). Máy chủ kiểm khuôn bài, phạm vi Y sỹ, trùng lặp, nguồn và link nội bộ; đạt thì tạo NHÁP bai_viet chờ người duyệt (không tự đăng) và trả daTao: true kèm phiếu. Trần từng trường (máy chủ kiểm, khuôn công cụ không mang): keHoachId 1–64 ký tự; tieuDe 30–70 ký tự; moTa 100–170 ký tự; md 1–40.000 ký tự; tuKhoa 1–8 mục (mỗi mục ≤ 120 ký tự); faq 3–6 cặp, q ≤ 300 và a ≤ 2.000 ký tự; nguon 1–12 mục, title ≤ 300, url ≤ 2.000 ký tự; không trường thừa. Sai khuôn thì trả loi có ma dau_vao (liệt kê từng trường) — lượt đó không tính và không kèm soLanNopConLai. Qua khuôn mà trượt các phép kiểm bài thì trả daTao: false, loi (mọi lỗi của lượt, mỗi mục { ma, ghiChu }) và soLanNopConLai — lượt đó CÓ tính; sửa hết rồi nộp lại, tối đa 3 lượt mỗi bài. Riêng loi có ma dang_nop: một lượt nộp khác cho bài này đang chạy — đợi vài phút rồi gọi lại, lượt đó không tính. Một lượt có thể mất tới vài phút vì máy chủ tải từng nguồn và từng link.",
 					route: "mcp-nop-bai",
 					input: KHUON_NOP_BAI,
 					destructive: false,

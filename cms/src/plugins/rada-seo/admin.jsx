@@ -697,7 +697,7 @@ function NhapTab({ dl, loi, onTai }) {
 							<td style={o}>
 								{/* tieuDe là chữ máy viết — chỉ hiển thị qua JSX text. */}
 								<a href={n.adminUrl}>{n.tieuDe || n.slug || n.id}</a>
-								<div style={{ fontSize: 12, color: "#6b7280" }}>/{n.slug}</div>
+								<div style={{ fontSize: 12, color: "#6b7280" }}>{n.duong ?? (n.slug ? `/${n.slug}` : "(chưa có slug)")}</div>
 							</td>
 							<td style={o}>
 								{n.tenKeHoach || n.keHoachId}
