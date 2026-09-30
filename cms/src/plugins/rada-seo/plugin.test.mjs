@@ -92,12 +92,13 @@ test("url-dat-lai: tên miền sai → badRequest; đúng → đặt lại URL l
 	assert.deepEqual(await p.routes["url-dat-lai"].handler(ctx), { tenMien: "a.vn", soUrlDatLai: 1 });
 });
 
-test("MCP: 8 công cụ, mỗi cái trỏ route có thật, có permission bậc contributor và khuôn zod", () => {
+test("MCP: 12 công cụ, mỗi cái trỏ route có thật, có permission bậc contributor và khuôn zod", () => {
 	const p = createPlugin();
 	const tools = p.mcp.tools;
 	assert.deepEqual(Object.keys(tools).sort(), [
-		"rada_de_xuat_huong", "rada_de_xuat_ke_hoach", "rada_ghi_cum", "rada_ghi_phan_tich",
-		"rada_lay_du_lieu_chien_luoc", "rada_lay_viec", "rada_tim_lien_ket", "rada_xong_phan_tich",
+		"rada_de_xuat_huong", "rada_de_xuat_ke_hoach", "rada_ghi_cum", "rada_ghi_phan_tich", "rada_ghi_so_ho",
+		"rada_lay_du_lieu_chien_luoc", "rada_lay_trang_serp", "rada_lay_tu_khoa_leo_top", "rada_lay_viec",
+		"rada_nop_serp", "rada_tim_lien_ket", "rada_xong_phan_tich",
 	]);
 	for (const [ten, t] of Object.entries(tools)) {
 		const r = p.routes[t.route];
@@ -411,4 +412,140 @@ test("route MCP kế hoạch: ngân sách kiểm — ≤ 40 lượt tải trang 
 	assert.equal(soTai, 20, "4 trang của bài thứ 7 đã đệm từ lượt trước");
 	xoaDemChiMuc();
 	DEM_KIEM_CHUNG.xoa();
+});
+
+// ---- Leo top (2D) ----
+
+const MINH = "https://kinhlac.online/huyet/than-mon/";
+const GSC_ENV = { GSC_OAUTH_CLIENT_ID: "cid", GSC_OAUTH_CLIENT_SECRET: "csec", GSC_OAUTH_REFRESH_TOKEN: "rt", GSC_SITE_URL: "https://kinhlac.online/" };
+/** Đặt/xoá nhiều biến môi trường trong lúc chạy fn. */
+const coEnv = (bang, fn) => async () => {
+	const cu = Object.fromEntries(Object.keys(bang).map((k) => [k, process.env[k]]));
+	for (const [k, v] of Object.entries(bang)) if (v === undefined) delete process.env[k]; else process.env[k] = v;
+	try { await fn(); } finally { for (const [k, v] of Object.entries(cu)) if (v === undefined) delete process.env[k]; else process.env[k] = v; }
+};
+const KHONG_GSC = Object.fromEntries(Object.keys(GSC_ENV).map((k) => [k, undefined]));
+
+test("công cụ leo top: route có thật, lấy chữ là content:read_drafts, ba công cụ ghi là content:create, mô tả không gọi tên trần", () => {
+	const p = createPlugin();
+	const t = p.mcp.tools;
+	const quyen = (ten) => p.routes[t[ten].route].permission;
+	assert.equal(quyen("rada_lay_trang_serp"), "content:read_drafts");
+	for (const ten of ["rada_lay_tu_khoa_leo_top", "rada_nop_serp", "rada_ghi_so_ho"]) assert.equal(quyen(ten), "content:create", ten);
+	for (const ten of ["rada_lay_tu_khoa_leo_top", "rada_nop_serp", "rada_lay_trang_serp", "rada_ghi_so_ho"]) {
+		assert.match(t[ten].description, /Rada SEO/);
+		assert.doesNotMatch(t[ten].description, /(?<!kết thúc bằng )\brada_\w+/, `${ten} gọi tên trần công cụ khác`);
+	}
+	assert.match(t.rada_lay_trang_serp.description, /<<<TRANG_SERP/);
+});
+
+test("khuôn leo top: nhận mẫu hợp lệ, bác vượt trần", () => {
+	const p = createPlugin();
+	const k = (ten) => p.routes[p.mcp.tools[ten].route].input;
+	const ok = (ten, v) => assert.equal(k(ten).safeParse(v).success, true, `${ten} phải nhận ${JSON.stringify(v).slice(0, 80)}`);
+	const sai = (ten, v) => assert.equal(k(ten).safeParse(v).success, false, `${ten} phải bác ${JSON.stringify(v).slice(0, 80)}`);
+	ok("rada_lay_tu_khoa_leo_top", {});
+	ok("rada_nop_serp", { phienId: "lt_1", urls: ["https://a.vn/1"] });
+	sai("rada_nop_serp", { phienId: "lt_1", urls: [] });
+	sai("rada_nop_serp", { phienId: "lt_1", urls: Array(11).fill("https://a.vn/1") });
+	sai("rada_nop_serp", { phienId: "lt_1", urls: ["không phải url"] });
+	sai("rada_nop_serp", { urls: ["https://a.vn/1"] });
+	ok("rada_lay_trang_serp", { phienId: "lt_1" });
+	sai("rada_lay_trang_serp", {});
+	const T = { url: "https://a.vn/1", y: ["Vị trí huyệt"], cauTraLoiO: "dau", ruom: [], thieuCanCu: [], khoDung: [] };
+	ok("rada_ghi_so_ho", { phienId: "lt_1", trang: [T] });
+	sai("rada_ghi_so_ho", { phienId: "lt_1", trang: [] });
+	sai("rada_ghi_so_ho", { phienId: "lt_1", trang: Array(13).fill(T) });
+	sai("rada_ghi_so_ho", { phienId: "lt_1", trang: [{ ...T, y: Array(16).fill("ý") }] });
+	sai("rada_ghi_so_ho", { phienId: "lt_1", trang: [{ ...T, ruom: Array(9).fill("r") }] });
+	sai("rada_ghi_so_ho", { phienId: "lt_1", trang: [{ ...T, thieuCanCu: Array(9).fill("r") }] });
+	sai("rada_ghi_so_ho", { phienId: "lt_1", trang: [{ ...T, khoDung: Array(9).fill("r") }] });
+	sai("rada_ghi_so_ho", { phienId: "lt_1", trang: [{ ...T, cauTraLoiO: "tren" }] });
+	sai("rada_ghi_so_ho", { phienId: "lt_1", trang: [{ ...T, y: ["x".repeat(121)] }] });
+});
+
+test("route leo top: GSC → phiên → nộp SERP (tải trang thật qua ctx.http) → lấy chữ → ghi sơ hở → phiếu", coEnv(GSC_ENV, async () => {
+	xoaDemChiMuc();
+	const p = createPlugin();
+	const tai = [];
+	const html = (y) => `<html><head><title>t</title></head><body><p>Huyệt thần môn: ${y}</p></body></html>`;
+	const ctx = {
+		...taoCtx(),
+		content: { async list() { return { items: [], hasMore: false }; } },
+		http: {
+			async fetch(url) {
+				url = String(url);
+				if (url.startsWith("https://oauth2.googleapis.com/")) return Response.json({ access_token: "tok", expires_in: 3600 });
+				if (url.startsWith("https://searchconsole.googleapis.com/"))
+					return Response.json({ rows: [{ keys: ["huyệt thần môn", MINH], position: 8, impressions: 300, clicks: 1 }] });
+				tai.push(url);
+				return new Response(html(url));
+			},
+		},
+	};
+	const kq = await p.routes["mcp-lay-tu-khoa-leo-top"].handler({ ...ctx, input: {} });
+	assert.equal(kq.loi, undefined);
+	assert.equal(kq.moi.length, 1);
+	const id = kq.moi[0].id;
+
+	const nop = await p.routes["mcp-nop-serp"].handler({ ...ctx, input: { phienId: id, urls: ["https://a.vn/1", "https://b.vn/1", "https://c.vn/1"] } });
+	assert.equal(nop.soTrangDo, 4);
+	assert.deepEqual(tai.sort(), ["https://a.vn/1", "https://b.vn/1", "https://c.vn/1", MINH].sort());
+
+	const chu = await p.routes["mcp-lay-trang-serp"].handler({ ...ctx, input: { phienId: id } });
+	assert.equal(chu.trang.length, 4);
+	assert.match(chu.huongDan, /PHẠM VI Y SỸ/);
+
+	const b = (url, y) => ({ url, y, cauTraLoiO: "dau", ruom: [], thieuCanCu: [], khoDung: [] });
+	const Y = ["Vị trí huyệt", "Cách bấm huyệt"];
+	const so = await p.routes["mcp-ghi-so-ho"].handler({
+		...ctx,
+		input: { phienId: id, trang: [b("https://a.vn/1", Y), b("https://b.vn/1", Y), b("https://c.vn/1", Y), b(MINH, ["Vị trí huyệt"])] },
+	});
+	assert.equal(so.trangThai, "co_phieu");
+	assert.deepEqual(so.phieu.themY, ["Cách bấm huyệt"]);
+
+	// Màn quản trị: tổng quan không kèm chữ trang; báo đã sửa.
+	const tq = await p.routes["leo-top-tong-quan"].handler(ctx);
+	assert.equal(tq.gscCoCauHinh, true);
+	assert.equal(tq.phien.length, 1);
+	assert.ok(tq.phien[0].serp.every((t) => t.chu === undefined));
+	const ds = await p.routes["leo-top-da-sua"].handler({ ...ctx, input: { id, ngay: "2026-10-02" } });
+	assert.equal(ds.trangThai, "da_sua");
+	assert.equal(ds.ngaySua, "2026-10-02");
+	xoaDemChiMuc();
+}));
+
+test("route leo top: thiếu biến GSC → lời báo tiếng Việt trong phản hồi, không ném; phiên sai bước → PluginRouteError", coEnv(KHONG_GSC, async () => {
+	const p = createPlugin();
+	let goi = 0;
+	xoaDemChiMuc();
+	const ctx = {
+		...taoCtx(),
+		http: { async fetch() { goi++; return new Response(""); } },
+		content: { async list() { return { items: [], hasMore: false }; } },
+	};
+	const kq = await p.routes["mcp-lay-tu-khoa-leo-top"].handler({ ...ctx, input: {} });
+	assert.match(kq.loi, /Chưa cấu hình Search Console/);
+	assert.equal(goi, 0, "không gọi mạng khi thiếu cấu hình");
+	assert.equal((await p.routes["leo-top-tong-quan"].handler(ctx)).gscCoCauHinh, false);
+
+	const loiRoute = (status) => (e) => e?.name === "PluginRouteError" && e.status === status;
+	await assert.rejects(p.routes["mcp-lay-trang-serp"].handler({ ...ctx, input: { phienId: "khong-co" } }), loiRoute(404));
+	const phien = await kho.taoPhienLeoTop(ctx.storage, { tuKhoa: "k", trang: MINH, viTri: 9, hienThi: 50 }, new Date().toISOString());
+	await assert.rejects(p.routes["mcp-lay-trang-serp"].handler({ ...ctx, input: { phienId: phien.id } }), loiRoute(400));
+	await assert.rejects(p.routes["mcp-nop-serp"].handler({ ...ctx, input: { phienId: "khong-co", urls: ["https://a.vn/1"] } }), loiRoute(404));
+	await assert.rejects(p.routes["mcp-ghi-so-ho"].handler({ ...ctx, input: { phienId: phien.id, trang: [] } }), loiRoute(400));
+	await assert.rejects(p.routes["leo-top-da-sua"].handler({ ...ctx, input: { id: phien.id } }), loiRoute(400));
+	await assert.rejects(p.routes["leo-top-da-sua"].handler({ ...ctx, input: { id: phien.id, ngay: "hôm qua" } }), loiRoute(400));
+	xoaDemChiMuc();
+}));
+
+test("leo-top-da-sua: không truyền ngày → lấy ngày hôm nay (giờ Việt Nam)", async () => {
+	const p = createPlugin();
+	const ctx = taoCtx();
+	const phien = await kho.taoPhienLeoTop(ctx.storage, { tuKhoa: "k", trang: MINH, viTri: 9, hienThi: 50 }, new Date().toISOString());
+	await ctx.storage.leo_top.put(phien.id, { ...(await ctx.storage.leo_top.get(phien.id)), trangThai: "co_phieu" });
+	const kq = await p.routes["leo-top-da-sua"].handler({ ...ctx, input: { id: phien.id } });
+	assert.equal(kq.ngaySua, new Date(Date.now() + 7 * 3600_000).toISOString().slice(0, 10));
 });
