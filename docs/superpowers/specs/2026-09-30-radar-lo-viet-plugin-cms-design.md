@@ -79,7 +79,7 @@ và đã rà soát (kế hoạch 2A) rồi được thay ở kế hoạch 2B-1.
 | Việc | Ai làm |
 |---|---|
 | Quét sitemap, tải trang, lọc ngách, **trích chữ** (≤5.000 ký tự) | Plugin, không gọi mô hình |
-| Đọc trang (chủ đề, từ khoá, tóm tắt) | **Routine Claude 03:00** trong tài khoản người dùng, qua connector MCP |
+| Đọc trang (chủ đề, từ khoá, tóm tắt) | **Routine Claude 05:00** trong tài khoản người dùng, qua `.mcp.json` + khoá `ec_pat_` (KHÔNG qua connector MCP của claude.ai) |
 | Tìm khoảng trống | Luật trong plugin (như cũ), tính lại khi Claude báo đọc xong |
 | Chọn đề tài + viết ≤5 bài/đêm | Routine Claude (kế hoạch 2B-2) |
 
@@ -95,7 +95,7 @@ cho ADMIN (`SCOPE_MIN_ROLE`) và không quảng bá `mcp:tools:<plugin>` — tà
 được công cụ Rada SEO mà vẫn có `content:write`; tài khoản admin thì trao quyền đăng/xoá bài.
 
 **Công cụ (2B-1):** `rada_lay_viec` (≤10 trang/lượt, chữ bọc `<<<TRANG_DOI_THU id=…>>>`…
-`<<<HET_TRANG>>>`, kèm bối cảnh + lời dặn do máy chủ giữ; không giao lại trang đã giao trong đêm;
+`<<<HET_TRANG id=…>>>`, kèm bối cảnh + lời dặn do máy chủ giữ; không giao lại trang đã giao trong đêm;
 trang giao 3 lần chưa đọc → `loi`), `rada_ghi_phan_tich` (≤10 kết quả + `boQua` kèm lý do),
 `rada_xong_phan_tich` (tính lại khoảng trống, ghi nhật ký "claude"). **Trần 40 trang/đêm** (giờ VN),
 giữ chỗ trước rồi hoàn phần thừa.
@@ -115,7 +115,7 @@ dải đỏ "26 giờ Claude chưa đọc" (tính theo ca "claude" có `soDoc > 
 ```
 02:30  radar (plugin, không AI): quét sitemap → trích chữ URL mới (trần/đối thủ) → dò xu hướng
        → khoảng trống bằng luật (từ những gì Claude đã đọc)
-03:00  routine Claude (tài khoản người dùng, MCP): rada_lay_viec ↔ rada_ghi_phan_tich (≤40 trang)
+05:00  routine Claude (tài khoản người dùng, .mcp.json + khoá): rada_lay_viec ↔ rada_ghi_phan_tich (≤40 trang)
        → rada_xong_phan_tich (tính lại khoảng trống)
        → [2B-2] nếu nháp chưa duyệt < 25: chọn ≤5 khoảng trống → viết → nộp qua công cụ plugin
        → plugin: chống trùng → rào chắn → ảnh thật → content.create (nháp)

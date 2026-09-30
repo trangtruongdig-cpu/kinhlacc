@@ -289,7 +289,12 @@ Không mở `3001` ra ngoài — backend đã ở trong docker network nội b�
 
 Plugin `cms/src/plugins/rada-seo/` quét sitemap đối thủ mỗi đêm 02:30 giờ VN và **trích sẵn
 chữ** các bài mới. Việc ĐỌC hiểu do **routine Claude trong tài khoản claude.ai của chủ site**
-làm qua MCP (03:00), không có khoá API Anthropic nào. Kết quả hiện ở mục **Rada SEO** trong khu quản trị.
+làm qua MCP (05:00), không có khoá API Anthropic nào. Kết quả hiện ở mục **Rada SEO** trong khu quản trị.
+
+⚠️ **Hai cửa MCP khác nhau, đừng lẫn.** `/api/mcp/<MCP_TOKEN>` (mục "Cửa MCP cho claude.ai"
+cuối file) là bot thẩm định của **backend**, dùng connector claude.ai là ĐÚNG. Cửa của Rada
+SEO là `/_emdash/api/mcp` (của **CMS**) — KHÔNG dùng connector, chỉ nối bằng routine +
+`.mcp.json` + `RADA_SEO_MCP_TOKEN` như mô tả dưới đây.
 
 **Biến môi trường — đặt đúng chỗ:**
 
@@ -306,7 +311,7 @@ làm qua MCP (03:00), không có khoá API Anthropic nào. Kết quả hiện �
 2. Nối Claude (routine đêm) theo `cms/src/plugins/rada-seo/routine/dem-doc-doi-thu.md`:
    bật MCP tools của plugin → tạo khoá `ec_pat_` **chỉ** scope `mcp:tools:rada-seo` → môi
    trường routine có biến bí mật `RADA_SEO_MCP_TOKEN` và mở mạng tới `kinhlac.online` →
-   routine 03:00 → "Run now" một lần, Nhật ký ca phải có dòng "Claude đọc".
+   routine 05:00 → "Run now" một lần, Nhật ký ca phải có dòng "Claude đọc".
    ⚠️ **Đừng** nối bằng connector trong claude.ai Settings: OAuth của EmDash chỉ cấp
    `mcp:tools` cho ADMIN, nên tài khoản thường không gọi được công cụ Rada SEO còn tài khoản
    admin thì trao cho Claude quyền đăng/xoá bài (đo ở nghiệm thu 2B-1).
@@ -317,6 +322,9 @@ làm qua MCP (03:00), không có khoá API Anthropic nào. Kết quả hiện �
 
 - **Đừng bấm "Chạy thử"/"Chạy thật" từ máy lập trình** khi VPS có thể đang chạy ca: khoá
   chống chạy chồng nằm trong kho dùng chung.
+- **Đừng deploy trong khoảng 02:30–05:30 giờ VN.** Một ca bị cắt ngang giữa chừng (deploy làm
+  container CMS tắt) giữ khoá `ca:dang-chay` tới 3 giờ — trong lúc đó nút "Chạy thật" bị khoá
+  ("Đang có một ca chạy — chờ ca đó xong") dù ca thật đã chết theo container cũ.
 - Hai dải đỏ "26 giờ" là BÌNH THƯỜNG cho tới khi ca radar và lượt Claude đầu tiên chạy xong.
 
 URL bị đánh dấu lỗi (trang chặn tạm, mạng chập) không tự thử lại; dùng nút **"Thử lại URL
@@ -364,10 +372,16 @@ PGPASSWORD='<DB_PASSWORD>' pg_dump \
 | Log backend cảnh báo `fallback_secret_key`        | Chưa đặt `JWT_SECRET` trong `backend/.env`.                                                       |
 | Firebase log `service account not found`          | Chưa điền `FIREBASE_SERVICE_ACCOUNT` (chuỗi JSON 1 dòng) trong `backend/.env`.                    |
 | claude.ai báo không kết nối được MCP              | Chưa đặt `MCP_TOKEN` trên VPS (cửa trả 404), hoặc token trong URL sai. Xem mục "Cửa MCP" cuối file. |
+| Màn Rada SEO báo đỏ "Claude chưa đọc"             | Routine đêm không chạy (xem lịch sử ở claude.ai/code/routines), khoá `RADA_SEO_MCP_TOKEN` sai/thu hồi/hết hạn, hoặc môi trường routine chặn `kinhlac.online`. Xem mục "Rada SEO" ở trên. |
 
 ---
 
 ## Cửa MCP cho claude.ai — sai bot từ điện thoại
+
+⚠️ **Cửa này khác cửa của Rada SEO.** `/api/mcp/<MCP_TOKEN>` dưới đây là bot thẩm định của
+**backend** — dùng connector claude.ai là ĐÚNG. Cửa `/_emdash/api/mcp` của **CMS** (Rada SEO,
+mục ở trên) thì NGƯỢC LẠI: KHÔNG dùng connector, chỉ nối bằng routine + `.mcp.json` +
+`RADA_SEO_MCP_TOKEN`.
 
 Sau khi cắm, mở [claude.ai](https://claude.ai) trên máy nào cũng được (kể cả điện thoại) và
 hỏi thẳng: *"bot thẩm định đêm qua tìm ra gì?"*, *"chạy quét cả kho"*, *"nhóm lỗi nào đang
