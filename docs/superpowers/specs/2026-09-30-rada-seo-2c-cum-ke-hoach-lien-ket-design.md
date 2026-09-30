@@ -1,8 +1,8 @@
 # Rada SEO 2C — phân cụm theo nghĩa, kế hoạch nội dung, mạng liên kết nội bộ
 
 Ngày: 30/09/2026 · Trạng thái: **2C-1 và 2C-2 ĐÃ DỰNG** (mục 1–4, xem "Chia kế hoạch" cuối
-tài liệu; tên công cụ MCP dưới đây là tên THẬT đã cắm, không còn là đề xuất) · 2C-3 và 2D
-(mục 5–8) còn ở dạng thiết kế, chưa dựng. Thay cho "kế hoạch 2B-2 — lò viết" (gộp vào đây).
+tài liệu; tên công cụ MCP dưới đây là tên THẬT đã cắm, không còn là đề xuất) · **2D (mục 8)
+ĐÃ DỰNG** · 2C-3 (mục 5) và mục 6–7 còn ở dạng thiết kế, chưa dựng. Thay cho "kế hoạch 2B-2 — lò viết" (gộp vào đây).
 Căn cứ: `2026-09-30-rada-seo-doi-chieu-n8n-ai5phut.md` (video + 3 workflow n8n) và đặc tả gốc
 `2026-09-30-radar-lo-viet-plugin-cms-design.md`.
 
@@ -175,7 +175,19 @@ Khi một bài được Publish: máy chủ tìm bài/trang cũ cùng cụm chư
 - Đề xuất (chưa bắt buộc): chạy routine từ một repo nhỏ riêng chỉ có `.mcp.json` + lời dặn —
   bớt quota (không nạp CLAUDE.md 40KB mỗi đêm) và bỏ `.mcp.json` khỏi repo chính.
 
-## 8. Chiều 2 — leo top: bản đồ sơ hở của trang đang thắng
+## 8. Chiều 2 — leo top: bản đồ sơ hở của trang đang thắng — ĐÃ DỰNG (2D, 30/09/2026)
+
+> **Đã dựng khác thiết kế dưới đây ở mấy chỗ (bản thật thắng):** tối đa **5** phiên mới mỗi lượt
+> và trần **10** phiên mở (co_phieu chỉ giữ chỗ 30 ngày kể từ lúc ra phiếu); cặp từ khoá–trang
+> không soi lại trong 28 ngày; ý cốt lõi ≥ 60% số trang ĐỐI THỦ (không tính trang mình), ý thừa
+> chỉ kết luận khi đo được ≥ 5 trang đối thủ; phiếu có thêm "khác biệt — giữ lại" và "căn cứ cần
+> bổ sung". Vòng học (bước 7) đo ở **+14 / +28 ngày sau ngày người quản trị bấm "Đã sửa theo
+> phiếu"** (không phải ngày đăng), cửa sổ GSC mở từ ngày sửa + 3, so hạng bình quân và hiển thị
+> MỖI NGÀY; phần "tổng hợp loại sửa nào hay giúp lên hạng" và "bản sửa nháp cho bài blog" (cần
+> 2C-3) CHƯA dựng. Mã: `leo-top/` (gsc, do-trang, ban-do), `leo-top-viec.mjs`, `kho.mjs`,
+> `ca-radar.mjs`; tab **Leo top** trong `admin.jsx`; routine `routine/tuan-leo-top.md` (môi trường
+> RIÊNG vì phải tìm web). Sau deploy: 3 biến GSC vào `cms/.env`, bật lại MCP tools (12 công cụ)
+> — xem `DEPLOYMENT.md` mục "Rada SEO".
 
 **Nguồn:** hạng của CHÍNH MÌNH lấy đúng từ GSC. Trang đối thủ trên SERP do routine Claude tự
 tìm bằng công cụ tìm kiếm web có sẵn trong gói (người dùng chọn, 30/09/2026) — khoảng **top 10
@@ -238,7 +250,7 @@ chí trên màn Rada).
   giờ VN). Sau deploy: bật lại MCP tools (8 công cụ, xem `DEPLOYMENT.md` mục "Rada SEO").
 - **2C-3** Viết: `rada_lay_bai_can_viet`, `rada_nop_bai` (rào + xác minh nguồn + link + ảnh +
   md→PT + slug), phiếu chấm, beforeSave, IndexNow, routine viết.
-- **2D** Chiều 2 — leo top: GSC trong plugin, `rada_lay_tu_khoa_leo_top`, `rada_nop_serp`,
+- **2D ĐÃ DỰNG (30/09/2026)** Chiều 2 — leo top: GSC trong plugin, `rada_lay_tu_khoa_leo_top`, `rada_nop_serp`,
   máy đo trang, `rada_lay_trang_serp`, `rada_ghi_so_ho`, bản đồ sơ hở, phiếu, vòng học, tab Leo top,
   routine leo top. Dựng sau 2C-1 (dùng chung kho nội bộ + đường đọc trang).
 - Sau: mạng nhện hai chiều; làm đẹp màn Rada theo bộ giao diện EmDash.

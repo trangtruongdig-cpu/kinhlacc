@@ -329,10 +329,11 @@ khỏi `tools/list`, không báo lỗi gì, và routine 05:00 dừng ở "không
 1. Bật lại: `/_emdash/admin` → **Plugins** → **Rada SEO** → tắt rồi bật lại **MCP tools**;
    hoặc (tài khoản có `plugins:manage`)
    `PUT /_emdash/api/admin/plugins/rada-seo/mcp` với thân `{"enabled":true}`.
-2. Xác nhận: phản hồi của lệnh trên (hoặc trang Plugins) liệt kê đủ **8 công cụ** (từ 2C-2,
-   trước đó chỉ có 4) — `rada_lay_viec`, `rada_ghi_phan_tich`, `rada_tim_lien_ket`,
+2. Xác nhận: phản hồi của lệnh trên (hoặc trang Plugins) liệt kê đủ **12 công cụ** (từ 2D;
+   2C-2 có 8, trước đó 4) — `rada_lay_viec`, `rada_ghi_phan_tich`, `rada_tim_lien_ket`,
    `rada_xong_phan_tich`, `rada_lay_du_lieu_chien_luoc`, `rada_de_xuat_huong`, `rada_ghi_cum`,
-   `rada_de_xuat_ke_hoach`. Thiếu bốn cái cuối là dấu hiệu đồng ý MCP còn ở bản trước 2C-2.
+   `rada_de_xuat_ke_hoach`, `rada_lay_tu_khoa_leo_top`, `rada_nop_serp`, `rada_lay_trang_serp`,
+   `rada_ghi_so_ho`. Thiếu bốn cái cuối là dấu hiệu đồng ý MCP còn ở bản trước 2D.
 
 Plugin KHÔNG tự đọc được trạng thái này (ngữ cảnh plugin của EmDash không có API đọc trạng
 thái plugin của chính nó), nên màn Rada SEO không báo được — chỉ dải đỏ "Claude chưa đọc" sau
@@ -340,8 +341,8 @@ thái plugin của chính nó), nên màn Rada SEO không báo được — ch�
 
 **Sau deploy 2C-2 (hướng nội dung + kế hoạch) — thêm hai việc, chỉ làm MỘT LẦN:**
 
-1. Bật lại MCP tools theo đúng hai bước ngay ở trên (thiếu bước này thì cả 8 công cụ đều
-   biến mất khỏi `tools/list`, không riêng 4 công cụ mới).
+1. Bật lại MCP tools theo đúng hai bước ngay ở trên (thiếu bước này thì mọi công cụ đều
+   biến mất khỏi `tools/list`, không riêng các công cụ mới).
 2. Tạo routine chiến lược hằng tuần theo
    `cms/src/plugins/rada-seo/routine/tuan-chien-luoc.md`: CÙNG môi trường "kinhlac-rada" và
    CÙNG khoá `RADA_SEO_MCP_TOKEN` đã tạo cho routine đọc đêm — không tạo môi trường hay khoá
@@ -353,6 +354,35 @@ thái plugin của chính nó), nên màn Rada SEO không báo được — ch�
 chủ đề vẫn không lỗi gì, nhưng phần lớn hướng đề xuất sẽ bị máy chủ bác vì chưa đủ "≥ 3 bài
 đối thủ có thật làm bằng chứng" — đừng vội kết luận routine hỏng, đọc mục "bac" trong báo cáo
 cuối routine trước.
+
+**Sau deploy 2D (leo top) — ba việc, chỉ làm MỘT LẦN, theo đúng thứ tự:**
+
+1. **Search Console cho plugin.** Plugin dùng CÙNG tài khoản OAuth mà backend đang dùng — chỉ
+   cần chép ba dòng từ `backend/.env` sang `cms/.env` trên VPS (trong thư mục repo), rồi dựng
+   lại container cms (đổi `env_file` phải tạo lại container, `restart` không nạp biến mới):
+
+   ```bash
+   [ -z "$(tail -c1 cms/.env)" ] || echo >> cms/.env   # dòng cuối thiếu xuống dòng thì dòng GSC dính vào nó
+   grep -E "^GSC_OAUTH_(CLIENT_ID|CLIENT_SECRET|REFRESH_TOKEN)=" backend/.env >> cms/.env
+   docker compose up -d --force-recreate cms
+   ```
+
+   Chạy `grep` MỘT lần thôi (chạy lại là dòng bị lặp). Đừng `cat`/in hai tệp `.env` ra màn
+   hình hay dán vào chat. `GSC_SITE_URL` không bắt buộc: thiếu thì mặc định
+   `https://kinhlac.online/` (property kiểu tiền tố URL, giống backend). Kiểm: tab **Leo top**
+   trong khu quản trị Rada SEO KHÔNG còn dòng vàng "chưa cấu hình Search Console". Thiếu biến
+   thì plugin không sập: công cụ `rada_lay_tu_khoa_leo_top` trả `loi` nêu thiếu biến nào, còn
+   ca đêm ghi một dòng "Thông tin" trong Nhật ký ca và bỏ qua bước đo lại hạng.
+2. **Bật lại MCP tools** theo hai bước ở mục "Sau MỖI lần deploy có đổi công cụ MCP" ngay
+   trên — 2D thêm 4 công cụ, phải thấy đủ **12**. Không làm thì cả routine đọc đêm lẫn routine
+   chiến lược cũng gãy, không riêng leo top.
+3. **Tạo routine Thứ Tư** theo `cms/src/plugins/rada-seo/routine/tuan-leo-top.md`: lịch
+   **Thứ Tư 05:00 giờ Việt Nam**, trong một **MÔI TRƯỜNG RIÊNG** ("kinhlac-rada-leo-top"),
+   KHÔNG dùng chung "kinhlac-rada". Routine này phải **tìm web**, nên môi trường của nó có thể
+   cần mạng rộng hơn — còn "kinhlac-rada" của routine đọc đêm và routine chiến lược phải giữ
+   mạng chỉ `kinhlac.online`. Khoá `RADA_SEO_MCP_TOKEN` của môi trường mới: cùng scope hẹp
+   `mcp:tools:rada-seo`, nên là khoá riêng để thu hồi độc lập. Không connector, không push,
+   không Bash/tệp/git (chi tiết và lý do trong tệp routine).
 
 **Kiểm một lần sau deploy — container CMS tự tải được site thật:** `rada_tim_lien_ket` kiểm
 từng liên kết bằng cách tải trang thật TỪ TRONG container. Nếu container không ra được

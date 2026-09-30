@@ -1,6 +1,6 @@
 // Màn điều khiển Rada SEO trong /_emdash/admin/plugins/rada-seo/rada.
 // Chỉ HIỂN THỊ và gọi route của plugin; mọi luật nằm phía máy chủ.
-import { useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useState } from "react";
 
 async function goi(route, body) {
 	const res = await fetch(`/_emdash/api/plugins/rada-seo/${route}`, {
@@ -24,6 +24,7 @@ const TABS = [
 	{ key: "radar", label: "Radar" },
 	{ key: "huong", label: "Hướng nội dung" },
 	{ key: "ke-hoach", label: "Kế hoạch" },
+	{ key: "leo-top", label: "Leo top" },
 ];
 const TAB_LS_KEY = "rada-seo:tab";
 function tabDaLuu() {
@@ -187,7 +188,8 @@ function KeHoachRow({ k, onDuyet, onBo }) {
 						<ul style={{ margin: "4px 0 0", paddingLeft: 16, fontSize: 12, color: "#92400e" }}>
 							{bc.canhBaoTrung.map((t, i) => (
 								<li key={i}>
-									⚠ gần giống: {t.tieuDe} (độ giống {Number(t.doGiong).toFixed(2)})
+									{/* 3 chữ số, làm tròn XUỐNG ở máy chủ: 0,296 không được hiện thành "0.30" = ngưỡng trùng. */}
+									⚠ gần giống: {t.tieuDe} (độ giống {Number(t.doGiong).toFixed(3)} — dưới ngưỡng trùng 0.30, vẫn nhận)
 								</li>
 							))}
 						</ul>
@@ -234,13 +236,17 @@ function KeHoachTab({ dl, loi, onDuyet, onBo }) {
 	const cumById = new Map(dl.cum.map((c) => [c.id, c]));
 	const items = dl.keHoach.filter((k) => locTrangThai === "tat_ca" || k.trangThai === locTrangThai);
 	const theoHuong = new Map();
-	for (const k of items) {
-		const hId = k.huongId ?? cumById.get(k.cumId)?.huongId ?? "?";
+	const nhomCum = (hId, cId) => {
 		if (!theoHuong.has(hId)) theoHuong.set(hId, new Map());
 		const theoCum = theoHuong.get(hId);
-		if (!theoCum.has(k.cumId)) theoCum.set(k.cumId, []);
-		theoCum.get(k.cumId).push(k);
-	}
+		if (!theoCum.has(cId)) theoCum.set(cId, []);
+		return theoCum.get(cId);
+	};
+	for (const k of items) nhomCum(k.huongId ?? cumById.get(k.cumId)?.huongId ?? "?", k.cumId).push(k);
+	// Cụm đang đề xuất mà CHƯA có bài dự kiến nào (ở mọi trạng thái): vẫn hiện, để người duyệt
+	// thấy cụm nào routine tuần chưa lập kế hoạch — trước đây chúng biến mất khỏi tab này.
+	const cumCoKeHoach = new Set(dl.keHoach.map((k) => k.cumId));
+	for (const c of dl.cum) if (c.trangThai !== "cu" && !cumCoKeHoach.has(c.id)) nhomCum(c.huongId ?? "?", c.id);
 	return (
 		<div>
 			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
@@ -255,6 +261,7 @@ function KeHoachTab({ dl, loi, onDuyet, onBo }) {
 				</select>
 			</p>
 			{theoHuong.size === 0 && <p>Không có bài dự kiến nào khớp bộ lọc.</p>}
+			{items.length === 0 && theoHuong.size > 0 && <p>Không có bài dự kiến nào khớp bộ lọc — bên dưới chỉ còn các cụm chưa có kế hoạch.</p>}
 			{[...theoHuong.entries()].map(([hId, theoCum]) => (
 				<div key={hId} style={{ marginBottom: 24 }}>
 					<h3>{huongById.get(hId)?.ten ?? `(hướng ${hId})`}</h3>
@@ -270,6 +277,9 @@ function KeHoachTab({ dl, loi, onDuyet, onBo }) {
 								{cu && <span style={{ fontWeight: 400, fontSize: 12 }}> — cụm cũ (đã được thay)</span>}
 								{boQua > 0 && <span style={{ fontWeight: 400, fontSize: 12, color: "#92400e" }}> · {boQua} bằng chứng không khớp đã loại</span>}
 							</h4>
+							{ds.length === 0 ? (
+								<p style={{ color: "#6b7280", fontStyle: "italic" }}>Chưa có kế hoạch.</p>
+							) : (
 							<table style={{ borderCollapse: "collapse", width: "100%" }}>
 								<thead>
 									<tr>
@@ -284,11 +294,279 @@ function KeHoachTab({ dl, loi, onDuyet, onBo }) {
 									))}
 								</tbody>
 							</table>
+							)}
 						</div>
 						);
 					})}
 				</div>
 			))}
+		</div>
+	);
+}
+
+// ---- Tab "Leo top" (2D) ----
+const NHAN_LEO_TOP = {
+	cho_serp: "Chờ Claude tìm top",
+	cho_doc: "Chờ Claude đọc trang",
+	co_phieu: "Có phiếu — chờ sửa",
+	da_sua: "Đã sửa — chờ đo lại",
+	xong: "Xong",
+	bo: "Bỏ dở",
+};
+/** Cùng giá trị với kho.MOC_DO_LAI / kho.NGAY_PHIEU_TINH_TRAN (admin.jsx chạy trong trình duyệt, không import kho). */
+const MOC_DO_LAI = [14, 28];
+const NGAY_PHIEU_TINH_TRAN = 30;
+const NGAY_MS = 86_400_000;
+/** "YYYY-MM-DD" theo giờ Việt Nam — khớp kho.ngayVN. */
+const ngayVN = (ms = Date.now()) => new Date(ms + 7 * 3600 * 1000).toISOString().slice(0, 10);
+const so = (x, n = 1) => (x == null || !Number.isFinite(Number(x)) ? "—" : Number(x).toFixed(n));
+/**
+ * Hiển thị/ngày của mốc ban đầu. Phiên tạo trước Task 6 chưa có trường này: chia cho số ngày
+ * lịch của cửa sổ (28 ngày lùi + hôm nay = 29) — như kho.taoPhienLeoTop.
+ */
+const soNgayBanDau = (p) => (p.cuaSoBanDau?.soNgay > 28 ? p.cuaSoBanDau.soNgay : 29);
+const hienThiNgayBanDau = (p) => p.hienThiNgay ?? (p.hienThi == null ? null : p.hienThi / soNgayBanDau(p));
+const hienThiNgayDoLai = (x) => x.hienThiNgay ?? (x.cuaSoNgay ? x.hienThi / x.cuaSoNgay : null);
+/** Nhãn cột trang trong bảng ý × trang. */
+const nhanTrang = (t) => (t?.laMinh ? "Mình" : t?.thuTu ? `#${t.thuTu}` : "?");
+const tenMienCua = (u) => {
+	try {
+		return new URL(u).hostname.replace(/^www\./, "");
+	} catch {
+		return u;
+	}
+};
+
+function DsChu({ ds, trong = "—" }) {
+	if (!ds || ds.length === 0) return <>{trong}</>;
+	return (
+		<ul style={{ margin: "2px 0", paddingLeft: 18 }}>
+			{ds.map((x, i) => (
+				<li key={i}>{x}</li>
+			))}
+		</ul>
+	);
+}
+
+function PhienLeoTop({ p, onDaSua }) {
+	const [ngay, setNgay] = useState(p.ngaySua ?? ngayVN());
+	const bd = p.banDo;
+	const ph = p.phieu;
+	const serpTheoUrl = new Map((p.serp ?? []).map((t) => [t.url, t]));
+	// Cột = các trang đã vào bản đồ (đo được + có báo cáo), theo thứ tự hạng; trang mình cuối.
+	const cot = (bd?.soHo ?? []).map((h) => ({ url: h.url, t: serpTheoUrl.get(h.url) }));
+	const hang = [
+		...(bd?.yCotLoi ?? []).map((y) => ({ ten: y.ten, loai: `cốt lõi ${Math.round(y.tiLe * 100)}%`, co: new Set(y.trangCo) })),
+		...(bd?.yThua ?? []).map((y) => ({ ten: y.ten, loai: `thừa ${Math.round(y.tiLe * 100)}%`, co: new Set(y.trangCo) })),
+		...(ph?.khacBiet ?? []).map((ten) => ({ ten, loai: "khác biệt (chỉ mình có)", co: new Set(cot.filter((c) => c.t?.laMinh).map((c) => c.url)) })),
+	];
+	const nen = (c) => (c.t?.laMinh ? { background: "#fef3c7", fontWeight: 600 } : {});
+	const suaDuoc = p.trangThai === "co_phieu" || p.trangThai === "da_sua";
+	return (
+		<div style={{ background: "#fafafa", padding: 12, border: "1px solid #e5e5e5" }}>
+			{(p.serp ?? []).some((t) => t.trangThai === "loi") && (
+				<p style={{ fontSize: 12, color: "#92400e" }}>
+					Trang không đo được:{" "}
+					{p.serp.filter((t) => t.trangThai === "loi").map((t) => `${nhanTrang(t)} ${tenMienCua(t.url)} (${t.loi})`).join(" · ")}
+				</p>
+			)}
+			{!bd ? (
+				<p>Chưa có bản đồ sơ hở — phiên đang ở bước "{NHAN_LEO_TOP[p.trangThai] ?? p.trangThai}".</p>
+			) : (
+				<>
+					<h4>Bảng ý × trang</h4>
+					<div style={{ overflowX: "auto" }}>
+						<table style={{ borderCollapse: "collapse" }}>
+							<thead>
+								<tr>
+									<th style={o}>Ý</th>
+									<th style={o}>Loại</th>
+									{cot.map((c) => (
+										<th key={c.url} style={{ ...o, ...nen(c) }} title={c.url}>
+											<a href={c.url} target="_blank" rel="noopener noreferrer">{nhanTrang(c.t)}</a>
+										</th>
+									))}
+								</tr>
+							</thead>
+							<tbody>
+								{hang.map((h, i) => (
+									<tr key={i}>
+										<td style={o}>{h.ten}</td>
+										<td style={{ ...o, fontSize: 12, color: "#6b7280" }}>{h.loai}</td>
+										{cot.map((c) => (
+											<td key={c.url} style={{ ...o, textAlign: "center", ...nen(c) }}>{h.co.has(c.url) ? "✓" : "—"}</td>
+										))}
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+					{(bd.ghiChu ?? []).length > 0 && <DsChu ds={bd.ghiChu} />}
+
+					<h4>Sơ hở từng trang</h4>
+					<table style={{ borderCollapse: "collapse", width: "100%" }}>
+						<thead>
+							<tr><th style={o}>Trang</th><th style={o}>Thiếu ý cốt lõi</th><th style={o}>Trải nghiệm</th><th style={o}>Thiếu căn cứ</th></tr>
+						</thead>
+						<tbody>
+							{bd.soHo.map((h, i) => {
+								const t = serpTheoUrl.get(h.url);
+								return (
+									<tr key={i} style={t?.laMinh ? { background: "#fef3c7" } : undefined}>
+										<td style={o}>
+											{nhanTrang(t)}{" "}
+											<a href={h.url} target="_blank" rel="noopener noreferrer">{tenMienCua(h.url)}</a>
+										</td>
+										<td style={o}><DsChu ds={h.thieuY} /></td>
+										<td style={o}><DsChu ds={h.traiNghiem} /></td>
+										<td style={o}><DsChu ds={h.thieuCanCu} /></td>
+									</tr>
+								);
+							})}
+						</tbody>
+					</table>
+
+					<h4>Dấu hiệu người thắng (top 3 đều có, hạng 4–10 phần lớn không)</h4>
+					<DsChu ds={bd.dauHieuThang} trong="Chưa đủ trang top 3 và hạng 4–10 để so, hoặc không có đặc điểm nào tách được." />
+				</>
+			)}
+
+			{ph && (
+				<>
+					<h4>Phiếu sửa trang của mình</h4>
+					<ol style={{ paddingLeft: 20 }}>
+						<li><b>Thêm ý cốt lõi còn thiếu:</b> <DsChu ds={ph.themY} trong="không thiếu ý nào" /></li>
+						<li><b>Đưa câu trả lời lên đầu bài:</b> {ph.duaTraLoiLenDau ? "Có — top 3 trả lời thẳng ở đầu, trang mình trả lời muộn." : "Không cần."}</li>
+						<li><b>Cắt đoạn rườm / ý thừa:</b> <DsChu ds={ph.cat} trong="không có" /></li>
+						<li><b>Trải nghiệm đọc:</b> <DsChu ds={ph.traiNghiem} trong="không có sơ hở" /></li>
+						<li><b>Tài sản riêng nên đưa vào:</b> <DsChu ds={ph.taiSanRieng} trong="không tìm thấy trong từ điển" /></li>
+					</ol>
+					<div><b>Ý khác biệt — giữ lại:</b> <DsChu ds={ph.khacBiet} trong="không có" /></div>
+					<div><b>Căn cứ cần bổ sung:</b> <DsChu ds={ph.boSungCanCu} trong="không có" /></div>
+					{(ph.ghiChu ?? []).length > 0 && (
+						<div style={{ color: "#92400e" }}><b>Ghi chú phạm vi Y sỹ:</b> <DsChu ds={ph.ghiChu} /></div>
+					)}
+				</>
+			)}
+
+			{suaDuoc && (
+				<p>
+					Ngày sửa (giờ Việt Nam):{" "}
+					<input type="date" value={ngay} max={ngayVN()} onChange={(e) => setNgay(e.target.value)} />{" "}
+					<button onClick={() => onDaSua(p.id, ngay)}>{p.trangThai === "da_sua" ? "Đổi ngày sửa" : "Đã sửa theo phiếu"}</button>
+					{p.trangThai === "da_sua" && <span style={{ fontSize: 12, color: "#92400e" }}> · đổi ngày sẽ xoá các lần đo lại đã có</span>}
+				</p>
+			)}
+
+			{(p.trangThai === "da_sua" || p.trangThai === "xong") && (
+				<>
+					<h4>Đo lại hạng (sửa ngày {p.ngaySua})</h4>
+					<table style={{ borderCollapse: "collapse" }}>
+						<thead>
+							<tr><th style={o}>Mốc</th><th style={o}>Ngày đo</th><th style={o}>Hạng: trước → sau</th><th style={o}>Hiển thị/ngày: trước → sau</th><th style={o}>Cửa sổ</th></tr>
+						</thead>
+						<tbody>
+							{MOC_DO_LAI.map((m) => {
+								const x = (p.doLai ?? []).find((d) => d.sauNgay === m);
+								return (
+									<tr key={m}>
+										<td style={o}>+{m} ngày</td>
+										{x ? (
+											<>
+												<td style={o}>{x.ngay}</td>
+												<td style={o}>{so(p.viTriBanDau)} → {x.viTri == null ? "không có số liệu" : so(x.viTri)}</td>
+												<td style={o}>{so(hienThiNgayBanDau(p), 2)} → {so(hienThiNgayDoLai(x), 2)}</td>
+												<td style={{ ...o, fontSize: 12, color: "#6b7280" }}>
+													{soNgayBanDau(p)} ngày → {x.cuaSoNgay ?? "?"} ngày
+												</td>
+											</>
+										) : (
+											<td style={{ ...o, color: "#6b7280" }} colSpan={4}>chưa tới hạn hoặc ca đêm chưa đo</td>
+										)}
+									</tr>
+								);
+							})}
+						</tbody>
+					</table>
+					<p style={{ fontSize: 12, color: "#666" }}>
+						Cửa sổ ban đầu và cửa sổ đo lại dài khác nhau, nên chỉ so hạng bình quân và hiển thị MỖI NGÀY — không so tổng hiển thị.
+					</p>
+				</>
+			)}
+		</div>
+	);
+}
+
+function LeoTopTab({ dl, loi, onDaSua, onTai }) {
+	const [mo, setMo] = useState(null);
+	if (!dl) return <div style={{ padding: 24 }}>{loi || "Đang tải…"}</div>;
+	const phien = dl.phien ?? [];
+	const now = Date.now();
+	const choSua = phien
+		.filter((p) => p.trangThai === "co_phieu")
+		.map((p) => {
+			const t = Date.parse(p.soHoLuc ?? p.taoLuc);
+			return { p, tuoi: Number.isFinite(t) ? Math.floor((now - t) / NGAY_MS) : null };
+		});
+	return (
+		<div>
+			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
+			{!dl.gscCoCauHinh && (
+				<p style={{ color: "#92400e" }}>
+					Plugin chưa cấu hình Search Console (biến GSC_OAUTH_* trong cms/.env): không lấy được từ khoá mới và ca đêm không đo lại hạng.
+				</p>
+			)}
+			{choSua.length > 0 && (
+				<div style={{ border: "1px solid #f59e0b", background: "#fffbeb", padding: 8, marginBottom: 12 }}>
+					<b>{choSua.length} phiếu chờ bấm "Đã sửa theo phiếu":</b>
+					<ul style={{ margin: "4px 0 0", paddingLeft: 18 }}>
+						{choSua.map(({ p, tuoi }) => (
+							<li key={p.id}>
+								{p.tuKhoa} — ra phiếu {tuoi == null ? "?" : `${tuoi} ngày trước`}
+								{tuoi != null && tuoi >= NGAY_PHIEU_TINH_TRAN && " (quá 30 ngày: không còn giữ chỗ trong trần 10 phiên mở, vẫn bấm đã sửa được)"}
+							</li>
+						))}
+					</ul>
+				</div>
+			)}
+			<h2>
+				Phiên leo top ({phien.length}) <button onClick={onTai}>Tải lại</button>
+			</h2>
+			<table style={{ borderCollapse: "collapse", width: "100%" }}>
+				<thead>
+					<tr><th style={o}>Từ khoá</th><th style={o}>Trang của mình</th><th style={o}>Hạng ban đầu</th><th style={o}>Hiển thị/ngày</th><th style={o}>Trạng thái</th><th style={o}>Tạo lúc</th></tr>
+				</thead>
+				<tbody>
+					{phien.map((p) => (
+						<Fragment key={p.id}>
+							<tr style={{ opacity: p.trangThai === "bo" ? 0.5 : 1 }}>
+								<td style={o}>
+									{/* tuKhoa là chữ người lạ gõ vào Google — chỉ hiển thị qua JSX text. */}
+									<button onClick={() => setMo(mo === p.id ? null : p.id)}>{mo === p.id ? "▾" : "▸"} {p.tuKhoa}</button>
+								</td>
+								<td style={o}>
+									<a href={p.trangMinh} target="_blank" rel="noopener noreferrer">{p.trangMinh}</a>
+								</td>
+								<td style={o}>{so(p.viTriBanDau)}</td>
+								<td style={o}>{so(hienThiNgayBanDau(p), 2)}</td>
+								<td style={o}>
+									{NHAN_LEO_TOP[p.trangThai] ?? p.trangThai}
+									{p.ngaySua && ` · sửa ${p.ngaySua}`}
+								</td>
+								<td style={o}>{gio(p.taoLuc)}</td>
+							</tr>
+							{mo === p.id && (
+								<tr>
+									<td colSpan={6} style={o}>
+										<PhienLeoTop p={p} onDaSua={onDaSua} />
+									</td>
+								</tr>
+							)}
+						</Fragment>
+					))}
+				</tbody>
+			</table>
+			{phien.length === 0 && <p>Chưa có phiên nào — routine thứ Tư sẽ lấy từ khoá hạng 4–50 từ Search Console.</p>}
 		</div>
 	);
 }
@@ -300,13 +578,17 @@ function RadaSeo() {
 	const [tab, setTab] = useState(tabDaLuu);
 	const [clDl, setClDl] = useState(null);
 	const [cLoi, setCLoi] = useState("");
+	const [ltDl, setLtDl] = useState(null);
+	const [ltLoi, setLtLoi] = useState("");
 
 	const tai = useCallback(() => goi("tong-quan").then((d) => { setDl(d); setLoi(""); }, (e) => setLoi(e.message)), []);
 	const taiCL = useCallback(() => goi("chien-luoc-tong-quan").then((d) => { setClDl(d); setCLoi(""); }, (e) => setCLoi(e.message)), []);
+	const taiLT = useCallback(() => goi("leo-top-tong-quan").then((d) => { setLtDl(d); setLtLoi(""); }, (e) => setLtLoi(e.message)), []);
 	useEffect(() => {
 		tai();
 		taiCL();
-	}, [tai, taiCL]);
+		taiLT();
+	}, [tai, taiCL, taiLT]);
 	const lam = (route, body) => goi(route, body).then(tai, (e) => setLoi(e.message));
 	const lamCL = (route, body) => goi(route, body).then(taiCL, (e) => setCLoi(e.message));
 
@@ -415,7 +697,7 @@ function RadaSeo() {
 						<h2>Nhật ký ca</h2>
 						<table style={{ borderCollapse: "collapse", width: "100%" }}>
 							<thead>
-								<tr><th style={o}>Bắt đầu</th><th style={o}>Ca</th><th style={o}>URL mới</th><th style={o}>Trích / Claude đọc</th><th style={o}>Ngoài ngành</th><th style={o}>Cụm</th><th style={o}>Lỗi</th></tr>
+								<tr><th style={o}>Bắt đầu</th><th style={o}>Ca</th><th style={o}>URL mới</th><th style={o}>Trích / Claude đọc</th><th style={o}>Ngoài ngành</th><th style={o}>Cụm</th><th style={o}>Đo lại leo top</th><th style={o}>Lỗi</th><th style={o}>Thông tin</th></tr>
 							</thead>
 							<tbody>
 								{dl.ca.map((c) => (
@@ -423,7 +705,10 @@ function RadaSeo() {
 										<td style={o}>{gio(c.batDau)}</td><td style={o}>{c.loai === "claude" ? "Claude đọc" : c.ghi ? "radar" : "radar (thử)"}</td>
 										<td style={o}>{c.soUrlMoi ?? "—"}</td><td style={o}>{c.loai === "claude" ? c.soDoc : c.soTrich ?? "—"}</td><td style={o}>{c.soNgoaiNganh ?? "—"}</td>
 										<td style={o}>{c.soCum ?? "—"}</td>
+										<td style={o}>{c.soDoLai ?? "—"}</td>
 										<td style={{ ...o, color: "#b91c1c" }}>{(c.loi ?? []).join(" · ")}</td>
+										{/* thongTin: điều ca cố ý bỏ qua (vd chưa cấu hình Search Console) — không phải lỗi. */}
+										<td style={{ ...o, color: "#6b7280" }}>{(c.thongTin ?? []).join(" · ")}</td>
 									</tr>
 								))}
 							</tbody>
@@ -447,6 +732,15 @@ function RadaSeo() {
 					loi={cLoi}
 					onDuyet={(id) => lamCL("ke-hoach-dat", { id, trangThai: "da_duyet" })}
 					onBo={(id, lyDo) => lamCL("ke-hoach-dat", { id, trangThai: "bo_qua", lyDoBo: lyDo })}
+				/>
+			)}
+
+			{tab === "leo-top" && (
+				<LeoTopTab
+					dl={ltDl}
+					loi={ltLoi}
+					onTai={taiLT}
+					onDaSua={(id, ngay) => goi("leo-top-da-sua", { id, ngay }).then(taiLT, (e) => setLtLoi(e.message))}
 				/>
 			)}
 		</div>
