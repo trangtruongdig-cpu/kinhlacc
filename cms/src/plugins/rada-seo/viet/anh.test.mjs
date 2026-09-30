@@ -188,3 +188,19 @@ test("maTheoTenTuChiMuc: rút mã huyệt từ chỉ mục nội bộ; trụ c�
 	assert.equal(r?.mediaId, "m-tam3d-da");
 	assert.match(r.lyDo, /3D/);
 });
+
+// Rà soát 2C-3 I7: "Thái Dương" vừa là huyệt ngoài kinh (ở thái dương) vừa là tên Lục kinh.
+test("chonAnhBia: tên kinh / Lục kinh Thương Hàn không bị hiểu thành huyệt trùng tên", () => {
+	const cm = dungChiMucAnh([...THU_VIEN, anh("m-td", "Huyệt Thái Dương"), anh("m-bq", "anh_chinh — Kinh Túc Thái dương Bàng quang")]);
+	// Cụm kinh dài hơn phủ lên tên huyệt → ảnh KINH.
+	assert.equal(chonAnhBia(cm, { tieuDe: "Kinh Thái Dương Bàng Quang và giấc ngủ" })?.mediaId, "m-bq");
+	assert.equal(chonAnhBia(cm, { tieuDe: "Thái Dương Bàng Quang và giấc ngủ" })?.mediaId, "m-bq");
+	// Lục kinh Thương Hàn, không có tên tạng phủ → không có ảnh nào đúng → null (không ảnh huyệt lạc đề).
+	assert.equal(chonAnhBia(cm, { tieuDe: "Bệnh Thái Dương trong Thương Hàn Luận" }), null);
+	assert.equal(chonAnhBia(cm, { tieuDe: "Thái Dương bệnh: đau đầu, sợ lạnh", tuKhoaChinh: "thái dương bệnh" }), null);
+	// Nói rõ "huyệt <tên>" → ảnh huyệt.
+	assert.equal(chonAnhBia(cm, { tieuDe: "Huyệt Thái Dương: vị trí và cách bấm" })?.mediaId, "m-td");
+	assert.equal(chonAnhBia(cm, { tieuDe: "Đau đầu", tuKhoaChinh: "bấm huyệt thái dương" })?.mediaId, "m-td");
+	// Huyệt không trùng tên kinh vẫn như cũ.
+	assert.equal(chonAnhBia(cm, { tieuDe: "Huyệt Thần Môn và giấc ngủ" })?.mediaId, "m-than");
+});

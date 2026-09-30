@@ -170,11 +170,11 @@ function timTen(bang, chu, { chanTruoc } = {}) {
 	const ra = [];
 	const xet = (khoa, lay) => {
 		if (!khoa) return;
-		if (tronCum.has(khoa)) return void ra.push({ muc: lay(), vt: 0, dai: khoa.length });
+		if (tronCum.has(khoa)) return void ra.push({ muc: lay(), vt: 0, dai: khoa.length, khoa });
 		if (soTu(khoa) < 2) return;
 		let vt = q.indexOf(` ${khoa} `);
 		while (vt >= 0 && chanTruoc?.test(q.slice(0, vt + 1))) vt = q.indexOf(` ${khoa} `, vt + 1);
-		if (vt >= 0) ra.push({ muc: lay(), vt, dai: khoa.length });
+		if (vt >= 0) ra.push({ muc: lay(), vt, dai: khoa.length, khoa });
 	};
 	if (coDau) for (const [k, m] of bang.coDau) xet(k, () => m);
 	else
@@ -208,6 +208,23 @@ function anhHuyet(chiMuc, muc) {
 
 const ketQua = (a, lyDo) => ({ mediaId: a.id, alt: a.alt, lyDo });
 
+/** Tên Lục kinh (Thương Hàn) — trùng tên vài huyệt ngoài kinh ("Thái Dương"). */
+const LUC_KINH = new Set(["thai duong", "duong minh", "thieu duong", "thai am", "thieu am", "quyet am"]);
+const CHAN_KINH = /(than|thần) $/;
+
+/**
+ * Tên huyệt khớp trong `chu` có thật là nói về HUYỆT không (rà soát 2C-3 I7): "Kinh Thái Dương Bàng
+ * Quang", "Bệnh Thái Dương" từng ra ảnh huyệt Thái Dương. Nhận khi có "huyệt <tên>" ngay trước;
+ * không thì loại khi tên trùng tên Lục kinh, hoặc nằm trong một cụm tên kinh khớp dài hơn.
+ */
+function laHuyetThat(chiMuc, chu, x) {
+	const coDau = coDauViet(chu);
+	const q = ` ${coDau ? khoaCoDau(chu) : chuanHoaManh(chu)} `;
+	if (q.includes(` ${coDau ? khoaCoDau("huyệt") : "huyet"} ${x.khoa} `)) return true;
+	if (LUC_KINH.has(chuanHoaManh(x.khoa))) return false;
+	return !timTen(chiMuc.kinh, chu, { chanTruoc: CHAN_KINH }).some((k) => k.khoa.length > x.khoa.length && ` ${k.khoa} `.includes(` ${x.khoa} `));
+}
+
 /** Tên của trụ cột: từ đối tượng {duong, ten}, hoặc mục cùng đường trong lienKetDich. */
 function truCot(trangTruCot, lienKetDich) {
 	const duong = typeof trangTruCot === "string" ? trangTruCot : trangTruCot?.duong;
@@ -217,8 +234,9 @@ function truCot(trangTruCot, lienKetDich) {
 }
 
 /**
- * Chọn ảnh bìa. Thứ tự: huyệt trụ cột → huyệt nêu trong từ khoá chính/tiêu đề → vị thuốc nêu
- * trong từ khoá chính/tiêu đề → kinh nêu trong tiêu đề/từ khoá (ảnh anh_chinh) → null.
+ * Chọn ảnh bìa. Thứ tự: huyệt trụ cột → huyệt nêu trong từ khoá chính/tiêu đề (trừ tên thật ra
+ * là tên kinh — laHuyetThat) → vị thuốc nêu trong từ khoá chính/tiêu đề → kinh nêu trong tiêu
+ * đề/từ khoá (ảnh anh_chinh) → null.
  * `trangTruCot`: "/huyet/<slug>/" hoặc {duong, ten}. `lienKetDich`: chuỗi hoặc {duong, ten}.
  * Tất định: cùng vào → cùng ra, không phụ thuộc thứ tự thư viện.
  * @returns {{mediaId: string, alt: string, lyDo: string} | null}
@@ -246,6 +264,7 @@ export function chonAnhBia(chiMuc, { tieuDe = "", tuKhoaChinh = "", tuKhoaPhu = 
 	for (const [nhan, chu] of chuChinh) {
 		const ung = [];
 		for (const x of timTen(chiMuc.huyet, chu)) {
+			if (!laHuyetThat(chiMuc, chu, x)) continue;
 			const a = anhHuyet(chiMuc, x.muc);
 			if (a) ung.push({ vt: x.vt, a, ten: x.muc.ten });
 		}
@@ -268,7 +287,7 @@ export function chonAnhBia(chiMuc, { tieuDe = "", tuKhoaChinh = "", tuKhoaPhu = 
 		...(Array.isArray(tuKhoaPhu) ? tuKhoaPhu : [tuKhoaPhu]).map((t) => ["từ khoá phụ", t]),
 	].filter(([, c]) => String(c ?? "").trim());
 	for (const [nhan, chu] of chuKinh) {
-		const x = timTen(chiMuc.kinh, chu, { chanTruoc: /(than|thần) $/ })[0];
+		const x = timTen(chiMuc.kinh, chu, { chanTruoc: CHAN_KINH })[0];
 		if (!x) continue;
 		const cot = COT_KINH.find((c) => x.muc.anh[c]?.length) ?? Object.keys(x.muc.anh).sort()[0];
 		if (cot) return ketQua(x.muc.anh[cot][0], `kinh ${x.muc.ten} nêu trong ${nhan} (${cot})`);
