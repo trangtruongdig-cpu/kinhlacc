@@ -15,7 +15,6 @@
     "typecheck": "astro check"
   },
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.129.0",
     "@astrojs/node": "^11.1.5",
     "@astrojs/react": "^6.0.5",
     "@aws-sdk/client-s3": "^3.1141.0",

@@ -9,7 +9,8 @@ import * as kho from "./kho.mjs";
 import { chuanTenMien } from "./radar/sitemap.mjs";
 import { chayCaRadar } from "./ca-radar.mjs";
 import { taoDocWeb } from "./lib/doc-web.mjs";
-import { taoClaude, taoClientThat, taoNganSach } from "./lib/claude.mjs";
+import { z } from "zod";
+import { layViec, ghiPhanTich, xongPhanTich, TRAN_TRANG_MOI_LUOT } from "./mcp-viec.mjs";
 
 /**
  * Lịch cron: phút 30 MỖI GIỜ. Ca thật chỉ chạy ở tick có giờ UTC = GIO_UTC_CHAY (19:30 UTC =
@@ -56,21 +57,17 @@ async function chayCa(ctx, ghi) {
 		return null;
 	}
 	try {
-		const nganSach = taoNganSach(soMoiTruong("RADA_SEO_TRAN_LUOT", 200));
-		const claude = ghi ? taoClaude({ client: taoClientThat(), nganSach }) : null;
 		return await chayCaRadar({
-			// Dừng phân tích 15 phút trước khi khoá hết hạn: quá hạn khoá thì một ca khác được
+			// Dừng trích 15 phút trước khi khoá hết hạn: quá hạn khoá thì một ca khác được
 			// giành khoá và chạy chồng lên ca này.
 			hanChot: Date.now() + HAN_KHOA_MS - 15 * 60 * 1000,
 			s: ctx.storage,
 			docWeb: taoDocWeb(ctx.http.fetch.bind(ctx.http)),
-			claude,
-			nganSach,
 			ghi,
 			tranMoiDoiThu: soMoiTruong("RADA_SEO_TRAN_MOI_DOI_THU", 30),
 		});
 	} catch (e) {
-		// Lỗi trước khi vào ca (vd thiếu ANTHROPIC_API_KEY) vẫn phải hiện trên màn điều khiển.
+		// Lỗi ngoài dự kiến (vd kho không ghi được) vẫn phải hiện trên màn điều khiển.
 		const bayGio = new Date().toISOString();
 		await kho.ghiCa(ctx.storage, { loai: "radar", batDau: bayGio, ketThuc: bayGio, ghi, loi: [String(e?.message ?? e)] });
 		ctx.log.error("Rada SEO: ca hỏng", e);
@@ -83,6 +80,31 @@ async function chayCa(ctx, ghi) {
 }
 
 const vao = (ctx) => (ctx.input && typeof ctx.input === "object" ? ctx.input : {});
+
+/** Tuổi (ms) của ca gần nhất thoả điều kiện trong 100 ca gần nhất; Infinity nếu không có. */
+function tuoiCa(dsCa, dieuKien) {
+	const c = dsCa.find(dieuKien);
+	return c ? Date.now() - Date.parse(c.ketThuc) : Infinity;
+}
+
+// ---- Công cụ MCP cho Claude (lịch đêm trong tài khoản người dùng) ----
+// Quyền: tài khoản của Claude là CONTRIBUTOR (tạo nháp được, không đăng được). Hai quyền dưới
+// đều có ở bậc đó. Route MCP phải khai `permission` tường minh và `input` bằng zod.
+const KHUON_LAY_VIEC = z.object({ soTrang: z.number().int().min(1).max(TRAN_TRANG_MOI_LUOT).optional() });
+const KHUON_GHI = z.object({
+	ketQua: z
+		.array(
+			z.object({
+				id: z.string().min(1).max(64),
+				chuDe: z.string().min(1).max(300),
+				tuKhoa: z.array(z.string().min(1).max(120)).min(1).max(8),
+				tomTat: z.array(z.string().max(400)).max(8),
+			}),
+		)
+		.min(1)
+		.max(TRAN_TRANG_MOI_LUOT),
+});
+const KHUON_RONG = z.object({});
 
 export function createPlugin() {
 	return definePlugin({
@@ -128,14 +150,16 @@ export function createPlugin() {
 					const doiThu = await kho.dsDoiThu(ctx.storage);
 					for (const d of doiThu) d.dem = await kho.demUrl(ctx.storage, d.id);
 					const ca = await kho.dsCa(ctx.storage, 10);
-					// "Thành công" = ca thật sự đi qua chayCaRadar (chỉ hàm đó gán soSePhanTich, một
+					// "Thành công" = ca thật sự đi qua chayCaRadar (chỉ hàm đó gán soSeTrich, một
 					// số — dòng lỗi trước khi vào ca và dòng "nhả ca" ở trên đều KHÔNG có trường này).
-					// Không đòi `loi` rỗng: một ca chạy đúng vẫn có thể đẩy ghi chú hết ngân sách
-					// (HetNganSach) hoặc lỗi sitemap của MỘT đối thủ vào `loi` mà cả ca vẫn hoàn tất —
+					// Không đòi `loi` rỗng: một ca chạy đúng vẫn có thể đẩy ghi chú chạm hạn ca
+					// hoặc lỗi sitemap của MỘT đối thủ vào `loi` mà cả ca vẫn hoàn tất —
 					// đòi rỗng làm cảnh báo "26 giờ" đỏ vĩnh viễn dù đêm nào ca cũng chạy xong. Tra
 					// trong 100 ca gần nhất (không phải 10 dòng hiển thị `ca`) để không bỏ sót.
 					const canhChe = await kho.dsCa(ctx.storage, 100);
-					const thanhCong = canhChe.find((c) => c.ghi && c.ketThuc && typeof c.soSePhanTich === "number");
+					const tuoiRadar = tuoiCa(canhChe, (c) => c.loai === "radar" && c.ghi && c.ketThuc && typeof c.soSeTrich === "number");
+					const tuoiClaude = tuoiCa(canhChe, (c) => c.loai === "claude" && c.ketThuc);
+					const choAi = await kho.demChoAi(ctx.storage);
 					const khoa = await ctx.kv.get(KHOA_CA);
 					return {
 						doiThu,
@@ -144,7 +168,12 @@ export function createPlugin() {
 						lich: (await ctx.cron?.list()) ?? [],
 						caDemBat: caDemBat(),
 						dangChay: !!(khoa && khoa.het > Date.now()),
-						canhBaoCaDem: caDemBat() && (!thanhCong || Date.now() - Date.parse(thanhCong.ketThuc) > CANH_BAO_SAU_MS),
+						choAi,
+						canhBaoCaDem: caDemBat() && tuoiRadar > CANH_BAO_SAU_MS,
+						// Có trang chờ mà 26 giờ Claude không đọc: routine không chạy, hoặc connector
+						// mất đăng nhập (token OAuth không tự làm mới khi không có người — chưa được
+						// tài liệu nào bảo đảm, xem đặc tả mục "Nguồn AI").
+						canhBaoClaude: choAi > 0 && tuoiClaude > CANH_BAO_SAU_MS,
 					};
 				},
 			},
@@ -199,6 +228,21 @@ export function createPlugin() {
 					return { lich: await ctx.cron.list() };
 				},
 			},
+			"mcp-lay-viec": {
+				permission: "content:read_drafts",
+				input: KHUON_LAY_VIEC,
+				handler: async (ctx) => layViec({ s: ctx.storage, kv: ctx.kv, soTrang: ctx.input?.soTrang }),
+			},
+			"mcp-ghi-phan-tich": {
+				permission: "content:create",
+				input: KHUON_GHI,
+				handler: async (ctx) => ghiPhanTich({ s: ctx.storage, kv: ctx.kv, ketQua: ctx.input.ketQua }),
+			},
+			"mcp-xong-phan-tich": {
+				permission: "content:create",
+				input: KHUON_RONG,
+				handler: async (ctx) => xongPhanTich({ s: ctx.storage, kv: ctx.kv }),
+			},
 			"ca-chay": {
 				// Chạy NỀN rồi trả ngay: một ca thật kéo dài nhiều phút, quá hạn chờ của nginx.
 				handler: async (ctx) => {
@@ -211,6 +255,31 @@ export function createPlugin() {
 					if (khoa && khoa.het > Date.now()) throw PluginRouteError.conflict("Đang có một ca chạy — chờ ca đó xong");
 					chayCa(ctx, ghi).catch((e) => ctx.log.error("Rada SEO: ca nền hỏng", e));
 					return { daBatDau: true, ghi };
+				},
+			},
+		},
+		mcp: {
+			tools: {
+				rada_lay_viec: {
+					description:
+						"Rada SEO: lấy tối đa 10 trang đối thủ đã trích chữ sẵn, đang chờ đọc. Kèm bối cảnh doanh nghiệp và lời dặn cách đọc. Trả mảng rỗng khi hết việc hoặc đã chạm trần 40 trang/đêm.",
+					route: "mcp-lay-viec",
+					input: KHUON_LAY_VIEC,
+					destructive: false,
+				},
+				rada_ghi_phan_tich: {
+					description:
+						"Rada SEO: ghi kết quả đọc (chuDe, tuKhoa, tomTat) cho các trang lấy từ rada_lay_viec, tối đa 10 trang mỗi lượt, giữ nguyên id.",
+					route: "mcp-ghi-phan-tich",
+					input: KHUON_GHI,
+					destructive: false,
+				},
+				rada_xong_phan_tich: {
+					description:
+						"Rada SEO: báo đã đọc xong đêm nay — máy chủ tính lại danh sách khoảng trống nội dung và ghi nhật ký.",
+					route: "mcp-xong-phan-tich",
+					input: KHUON_RONG,
+					destructive: false,
 				},
 			},
 		},

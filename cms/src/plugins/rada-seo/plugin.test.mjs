@@ -88,3 +88,37 @@ test("url-dat-lai: tên miền sai → badRequest; đúng → đặt lại URL l
 	await kho.capNhatUrl(ctx.storage, kho.idUrl("https://a.vn/1"), { trangThai: "loi" });
 	assert.deepEqual(await p.routes["url-dat-lai"].handler(ctx), { tenMien: "a.vn", soUrlDatLai: 1 });
 });
+
+test("MCP: 3 công cụ, mỗi cái trỏ route có thật, có permission bậc contributor và khuôn zod", () => {
+	const p = createPlugin();
+	const tools = p.mcp.tools;
+	assert.deepEqual(Object.keys(tools).sort(), ["rada_ghi_phan_tich", "rada_lay_viec", "rada_xong_phan_tich"]);
+	for (const [ten, t] of Object.entries(tools)) {
+		const r = p.routes[t.route];
+		assert.ok(r, `${ten} → route ${t.route}`);
+		assert.ok(["content:read_drafts", "content:create"].includes(r.permission), `${ten} permission`);
+		assert.equal(typeof r.input?.safeParse, "function", `${ten} route input zod`);
+		assert.equal(t.input, r.input, `${ten} dùng chung khuôn với route`);
+		assert.equal(t.destructive, false);
+		assert.match(ten, /^[A-Za-z0-9_-]+$/);
+	}
+	// Khuôn ghi chặn lô quá 10 và mục thiếu từ khoá.
+	const ghi = p.routes["mcp-ghi-phan-tich"].input;
+	const muc = { id: "u", chuDe: "x", tuKhoa: ["a"], tomTat: [] };
+	assert.equal(ghi.safeParse({ ketQua: Array(11).fill(muc) }).success, false);
+	assert.equal(ghi.safeParse({ ketQua: [{ ...muc, tuKhoa: [] }] }).success, false);
+	assert.equal(ghi.safeParse({ ketQua: [muc] }).success, true);
+});
+
+test("tong-quan: báo đỏ Claude khi có trang chờ mà chưa có ca 'claude' trong 26 giờ", async () => {
+	const p = createPlugin();
+	const ctx = taoCtx();
+	await ctx.storage.url.put("u1", { doiThuId: "a.vn", url: "https://a.vn/1", trangThai: "cho_ai", chu: "x" });
+	let kq = await p.routes["tong-quan"].handler(ctx);
+	assert.equal(kq.choAi, 1);
+	assert.equal(kq.canhBaoClaude, true);
+	const vua = new Date().toISOString();
+	await kho.ghiCa(ctx.storage, { loai: "claude", batDau: vua, ketThuc: vua, ghi: true, soDoc: 3, loi: [] });
+	kq = await p.routes["tong-quan"].handler(ctx);
+	assert.equal(kq.canhBaoClaude, false);
+});

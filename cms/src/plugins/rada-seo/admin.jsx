@@ -37,6 +37,11 @@ function RadaSeo() {
 			<h1>Rada SEO</h1>
 			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
 			{dl.canhBaoCaDem && <p style={{ color: "#b91c1c", fontWeight: 600 }}>⚠ Hơn 26 giờ chưa có ca radar thành công — xem nhật ký bên dưới.</p>}
+			{dl.canhBaoClaude && (
+				<p style={{ color: "#b91c1c", fontWeight: 600 }}>
+					⚠ {dl.choAi} trang chờ Claude đọc mà 26 giờ qua Claude chưa đọc trang nào — kiểm tra routine đêm và connector MCP trong claude.ai (có thể đã mất đăng nhập).
+				</p>
+			)}
 			{!dl.caDemBat && <p style={{ color: "#92400e" }}>Máy này không bật RADA_SEO_CA_DEM: chỉ chạy thử được, ca đêm thật chạy trên VPS.</p>}
 			<p>
 				{/* Cron dò MỖI GIỜ và chỉ chạy ca ở tick 19:30 UTC (xem LICH_RADAR) → nextRunAt là tick kế, không phải ca kế. */}
@@ -63,13 +68,13 @@ function RadaSeo() {
 			</form>
 			<table style={{ borderCollapse: "collapse", width: "100%", marginTop: 8 }}>
 				<thead>
-					<tr><th style={o}>Tên miền</th><th style={o}>Chờ</th><th style={o}>Đã phân tích</th><th style={o}>Ngoài ngành</th><th style={o}>Lỗi</th><th style={o}></th></tr>
+					<tr><th style={o}>Tên miền</th><th style={o}>Chờ trích</th><th style={o}>Chờ Claude</th><th style={o}>Đã phân tích</th><th style={o}>Ngoài ngành</th><th style={o}>Lỗi</th><th style={o}></th></tr>
 				</thead>
 				<tbody>
 					{dl.doiThu.map((d) => (
 						<tr key={d.id}>
 							<td style={o}>{d.ten} {d.laCuaMinh && <b>(của mình)</b>}</td>
-							<td style={o}>{d.dem.cho}</td><td style={o}>{d.dem.da_phan_tich}</td><td style={o}>{d.dem.ngoai_nganh}</td><td style={o}>{d.dem.loi}</td>
+							<td style={o}>{d.dem.cho}</td><td style={o}>{d.dem.cho_ai}</td><td style={o}>{d.dem.da_phan_tich}</td><td style={o}>{d.dem.ngoai_nganh}</td><td style={o}>{d.dem.loi}</td>
 							<td style={o}>
 									{d.dem.loi > 0 && <button onClick={() => lam("url-dat-lai", { tenMien: d.id })}>Thử lại URL lỗi</button>}{" "}
 									<button onClick={() => confirm(`Xoá ${d.id} và mọi URL của nó?`) && lam("doi-thu-xoa", { tenMien: d.id })}>Xoá</button>
@@ -105,14 +110,14 @@ function RadaSeo() {
 			<h2>Nhật ký ca</h2>
 			<table style={{ borderCollapse: "collapse", width: "100%" }}>
 				<thead>
-					<tr><th style={o}>Bắt đầu</th><th style={o}>Kiểu</th><th style={o}>URL mới</th><th style={o}>Phân tích</th><th style={o}>Ngoài ngành</th><th style={o}>Lượt gọi</th><th style={o}>Cụm</th><th style={o}>Lỗi</th></tr>
+					<tr><th style={o}>Bắt đầu</th><th style={o}>Ca</th><th style={o}>URL mới</th><th style={o}>Trích / Claude đọc</th><th style={o}>Ngoài ngành</th><th style={o}>Cụm</th><th style={o}>Lỗi</th></tr>
 				</thead>
 				<tbody>
 					{dl.ca.map((c) => (
 						<tr key={c.batDau}>
-							<td style={o}>{gio(c.batDau)}</td><td style={o}>{c.ghi ? "thật" : "thử"}</td>
-							<td style={o}>{c.soUrlMoi ?? "—"}</td><td style={o}>{c.soPhanTich ?? "—"}</td><td style={o}>{c.soNgoaiNganh ?? "—"}</td>
-							<td style={o}>{c.soLuotGoi ?? "—"}</td><td style={o}>{c.soCum ?? "—"}</td>
+							<td style={o}>{gio(c.batDau)}</td><td style={o}>{c.loai === "claude" ? "Claude đọc" : c.ghi ? "radar" : "radar (thử)"}</td>
+							<td style={o}>{c.soUrlMoi ?? "—"}</td><td style={o}>{c.loai === "claude" ? c.soDoc : c.soTrich ?? "—"}</td><td style={o}>{c.soNgoaiNganh ?? "—"}</td>
+							<td style={o}>{c.soCum ?? "—"}</td>
 							<td style={{ ...o, color: "#b91c1c" }}>{(c.loi ?? []).join(" · ")}</td>
 						</tr>
 					))}
