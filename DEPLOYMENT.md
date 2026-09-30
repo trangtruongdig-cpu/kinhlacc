@@ -377,7 +377,7 @@ cuối routine trước.
    trên — 2D thêm 4 công cụ, phải thấy đủ **12**. Không làm thì cả routine đọc đêm lẫn routine
    chiến lược cũng gãy, không riêng leo top.
 3. **Tạo routine Thứ Tư** theo `cms/src/plugins/rada-seo/routine/tuan-leo-top.md`: lịch
-   **Thứ Tư 05:00 giờ Việt Nam**, trong một **MÔI TRƯỜNG RIÊNG** ("kinhlac-rada-leo-top"),
+   **Thứ Tư 06:30 giờ Việt Nam**, trong một **MÔI TRƯỜNG RIÊNG** ("kinhlac-rada-leo-top"),
    KHÔNG dùng chung "kinhlac-rada". Routine này phải **tìm web**, nên môi trường của nó có thể
    cần mạng rộng hơn — còn "kinhlac-rada" của routine đọc đêm và routine chiến lược phải giữ
    mạng chỉ `kinhlac.online`. Khoá `RADA_SEO_MCP_TOKEN` của môi trường mới: cùng scope hẹp

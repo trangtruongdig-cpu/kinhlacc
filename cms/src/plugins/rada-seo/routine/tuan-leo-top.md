@@ -45,7 +45,7 @@ khoá có thể là bất kỳ ai) và từ khoá do người lạ gõ vào Goog
      Nếu báo cáo cuối nói công cụ tìm web bị chặn mạng thì mới đổi sang mạng mở. Mạng càng hẹp
      càng ít đường cho lệnh chèn.
 4. claude.ai/code/routines → New routine: repo `trangtruongdig-cpu/kinhlacc`, môi trường
-   "kinhlac-rada-leo-top", lịch **Thứ Tư 05:00** giờ Việt Nam, prompt là khung dưới.
+   "kinhlac-rada-leo-top", lịch **Thứ Tư 06:30** giờ Việt Nam, prompt là khung dưới.
 
    **Bắt buộc lúc tạo routine — cả ba, không thiếu cái nào:**
    - **Bỏ chọn MỌI connector.**
@@ -55,11 +55,11 @@ khoá có thể là bất kỳ ai) và từ khoá do người lạ gõ vào Goog
    mới. Phiên dừng ở "Chờ Claude tìm top" nghĩa là tìm web không chạy được (xem báo cáo cuối
    routine) — thường là mạng của môi trường.
 
-Vì sao Thứ Tư 05:00: ca radar (02:30) đã xong; Chủ Nhật đã có routine chiến lược, Thứ Tư cách
+Vì sao Thứ Tư 06:30: ca radar (02:30) đã xong; Chủ Nhật đã có routine chiến lược, Thứ Tư cách
 đều hai phía. Một tuần một lần là đủ vì mỗi phiên sau khi có phiếu còn phải chờ người sửa trang
 rồi chờ Google 14–28 ngày — mở thêm phiên nhanh hơn thế chỉ dồn phiếu chưa ai đọc (máy chủ
-cũng chặn ở 10 phiên mở). Routine đọc đêm cũng chạy 05:00 hằng ngày, ở môi trường khác; cả hai
-chỉ gọi CMS vài chục lượt nên chạy trùng giờ không sao.
+cũng chặn ở 10 phiên mở). Dời khỏi 05:00 để không chồng lên routine đọc đêm (05:00 hằng ngày): nộp SERP bắt CMS tải
+tới 11 trang trong 60 giây, không nên chạy cùng lúc với lượt giao việc của ca đêm.
 
 Cách đọc từng trang KHÔNG nằm ở đây mà do máy chủ trả về trong `huongDan` — sửa ở
 `cms/src/plugins/rada-seo/loi-dan.mjs`, không phải sửa routine.

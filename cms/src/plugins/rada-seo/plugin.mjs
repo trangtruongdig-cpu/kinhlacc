@@ -605,7 +605,7 @@ export function createPlugin() {
 				},
 				rada_lay_tu_khoa_leo_top: {
 					description:
-						"Rada SEO (leo top): trả các phiên đang mở, cũ nhất trước (dangMo — cho_serp: cần gửi danh sách URL top; cho_doc: cần đọc trang), rồi mở thêm tối đa 5 phiên mới cho từ khoá mà trang kinhlac.online đang đứng hạng 4–50 trên Google Search Console (moi) — không mở thêm khi đã có 10 phiên chưa xong, không mở lại cặp từ khoá–trang đang có phiên. Kèm lời dặn huongDan. Search Console chưa cấu hình thì trường loi nói rõ thiếu biến nào.",
+						"Rada SEO (leo top): trả các phiên đang mở, cũ nhất trước (dangMo — cho_serp: cần gửi danh sách URL top; cho_doc: cần đọc trang), rồi mở thêm tối đa 5 phiên mới cho từ khoá mà trang kinhlac.online đang đứng hạng 4–50 trên Google Search Console (moi) — không mở thêm khi đã có 10 phiên đang mở (phiếu quá 30 ngày chưa đánh dấu đã sửa thì không tính), không mở lại cặp từ khoá–trang đang có phiên. Kèm lời dặn huongDan. Search Console chưa cấu hình thì trường loi nói rõ thiếu biến nào.",
 					route: "mcp-lay-tu-khoa-leo-top",
 					input: KHUON_RONG,
 					destructive: false,
