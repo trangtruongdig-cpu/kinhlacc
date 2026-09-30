@@ -88,3 +88,23 @@ Build thử đã đổi `cms/.emdash/migrations.json` sang `"type": "sqlite"`; s
 tệp lại là `"type": "postgres"` và **giống từng byte** bản sao lưu chụp trước khi build.
 `git status --short` sạch trước khi thêm tệp này. Cổng 3001 (backend của phiên khác) chỉ được gọi
 `/auth/admin/login` + `/auth/ve-cms`, không dừng/khởi động lại.
+
+## Sửa vòng 1 — đo lại trên bàn thử
+
+Bàn thử dựng lại y công thức (DB libsql mới, `PGHOST` chết, 0 tệp nhắc `aivencloud` trong `dist-thu/`,
+0 dòng Aiven/ECONNREFUSED trong log), chạy hai lần: lần 1 giờ máy (`Asia/Saigon`), lần 2 thêm `TZ=UTC`.
+Phép kiểm đơn vị: `node --test "src/plugins/rada-seo/**/*.test.mjs"` → **46/46 đạt**.
+
+| # | Sửa | Kết quả | Số liệu / nguyên văn |
+|---|---|---|---|
+| S1 | `definePlugin({ admin: { pages: [{ path: "/rada", label: "Rada SEO", icon: "chart" }] } })`; bỏ `adminPages` khỏi descriptor (native không đọc nó), giữ `adminEntry` | **ĐẠT** | Manifest: `"rada-seo":{"version":"0.1.0","enabled":true,"adminMode":"blocks","adminPages":[{"path":"/rada","label":"Rada SEO","icon":"chart"}],"dashboardWidgets":[]}`. Thanh bên có `/_emdash/admin/plugins/rada-seo/rada :: Rada SEO`. Ảnh tự xem: nhóm "Plugins" có "Audit History" và **"Rada SEO"** (icon biểu đồ cột, đang tô sáng); bấm mục đó mở đúng trang React Rada SEO, không có lỗi trang. Lưu ý: `adminMode` giờ là `"blocks"` (không phải `"react"`) vì không khai `admin.entry`, nhưng trang React vẫn hiện đúng — thấy tận mắt. |
+| S2a | `lich-bat` bị từ chối dưới giờ `Asia/Saigon` | **ĐẠT** | `HTTP 400 {"success":false,"error":{"code":"BAD_REQUEST","message":"Chỉ hẹn lịch được trên máy chủ chạy ca đêm (RADA_SEO_CA_DEM=1) và theo giờ UTC — hẹn từ máy khác sẽ làm ca đêm lệch giờ"}}`; `_emdash_cron_tasks` = 0 dòng. |
+| S2b | `lich-bat` được nhận với `TZ=UTC` | **ĐẠT** | `200 … {"name":"radar","schedule":"30 19 * * *","nextRunAt":"2026-09-30T19:30:00.000Z"}`; dòng DB `rada-seo \| radar \| 30 19 * * * \| 2026-09-30T19:30:00.000Z \| idle` — nay đúng 02:30 giờ VN. `docker-compose.yml` (dịch vụ cms) thêm `TZ: UTC` ngay sau `RADA_SEO_CA_DEM`. Chưa đo nhánh "UTC nhưng tắt `RADA_SEO_CA_DEM`" (phải khởi động lại thêm lần nữa; logic là một phép HOẶC). |
+| S3 | `ca-chay` báo 409 khi đang có ca | **ĐẠT** | Lần 1 `200 {"daBatDau":true,"ghi":false}`; ngay sau đó cả `{"ghi":false}` và `{"ghi":true}` → `HTTP 409 {"success":false,"error":{"code":"CONFLICT","message":"Đang có một ca chạy — chờ ca đó xong"}}`. `giuKhoa` trong `chayCa` vẫn giữ làm chốt chặn thật. |
+| S4 | Chạy thử báo trước số trang sẽ phân tích | **ĐẠT** | Nhật ký ca: `soUrlMoi=600`, `soSePhanTich=8` (= 2 đối thủ × trần `RADA_SEO_TRAN_MOI_DOI_THU=4`), `soLuotGoi=0`, `loi=[]`, `dem.cho=0` cả hai. Lần này ca thử mất 30,6 s (lần trước 7,7 s — do mạng tới site đối thủ, không phải mã). |
+
+Chưa đo ở vòng này: lời 400 của `lich-bat` hiện trên màn điều khiển khi bấm nút (mã `lam()` đưa
+`e.message` vào dòng đỏ, nhưng không bấm thử bằng Playwright).
+
+Dọn: server dừng, xoá `cms/astro.config.thu.mjs` + `cms/dist-thu/`, `npx astro sync` → `migrations.json`
+là `"type": "postgres"`, giống từng byte bản sao lưu trước build.

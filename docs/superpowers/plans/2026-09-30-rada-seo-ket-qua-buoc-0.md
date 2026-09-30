@@ -79,6 +79,12 @@ tới kho đều có thể nhận việc (xem "Khác biệt…"). Nên dựng m�
   ```
   và module entrypoint phải **xuất `createPlugin(options)`** trả về `definePlugin({...})` (runtime sinh
   `import { createPlugin } from entrypoint; createPlugin(options)`). Default export không được dùng.
+  ⚠️ **Sửa lại (đo ở nghiệm thu 2A):** với `format:"native"`, mục ở thanh bên đến từ
+  `definePlugin({ admin: { pages: [...] } })`, **KHÔNG** từ `adminPages` của descriptor. EmDash 0.39.1
+  chỉ đọc `descriptor.adminPages` cho plugin `format:"standard"`/sandbox; manifest của plugin native
+  dựng từ `plugin.admin`. Rada SEO bản đầu chỉ khai ở descriptor → manifest `adminPages:[]`, thanh bên
+  không có mục (trang vẫn mở được bằng URL vì `adminEntry` của descriptor vẫn được nạp). Ví dụ
+  descriptor ở trên giữ `adminPages` chỉ để khớp với lần đo bước 0 — đừng chép theo.
   Kỹ năng `creating-plugins` gợi ý dạng này (descriptor + `admin.entry` dạng package) nhưng không nói
   đường dẫn tương đối gãy. `gui-mail-resend.mjs` hiện KHÔNG nằm trong mảng `plugins` nên không phải
   mẫu chứng minh dạng đăng ký.
