@@ -82,7 +82,12 @@ function HuongRow({ h, onNhan, onBo, onKhoiPhuc }) {
 					{cs.viPham && " ⚠"}
 					{cs.ganSanPham && " ★"}
 				</td>
-				<td style={o}>{cs.soDoiThu ?? 0} / {cs.soBai ?? 0}</td>
+				<td style={o}>
+					{cs.soDoiThu ?? 0} / {cs.soBai ?? 0}
+					{cs.soBangChungBoQua > 0 && (
+						<div style={{ fontSize: 12, color: "#92400e" }}>{cs.soBangChungBoQua} bằng chứng không khớp đã loại</div>
+					)}
+				</td>
 				<td style={o}>{cs.soBaiMinh ?? 0}</td>
 				<td style={o}>{cs.soTaiSan ?? 0}</td>
 				<td style={o}>{cs.trungXuHuong ? "Có" : "Không"}</td>
@@ -111,9 +116,13 @@ function HuongRow({ h, onNhan, onBo, onKhoiPhuc }) {
 							<DanhSachLink ds={cs.taiSan} toiDa={15} hienThi={(t) => ({ href: `${TRANG_GOC}${t.duong}`, nhan: t.ten })} />
 						</div>
 						<div>
-							<b>Bài đối thủ làm bằng chứng:</b>{" "}
+							{/* Máy chủ tự dò bài khớp hướng và BÙ vào danh sách — có thể có dù Claude không dẫn id nào. */}
+							<b>Bài đối thủ khớp hướng (máy chủ tìm):</b>{" "}
 							<DanhSachLink ds={h.baiDoiThu} toiDa={5} hienThi={(b) => ({ href: b.url, nhan: b.chuDe || b.url })} />
 						</div>
+						{cs.soBangChungBoQua > 0 && (
+							<div style={{ color: "#92400e" }}>{cs.soBangChungBoQua} bằng chứng không khớp đã loại</div>
+						)}
 						{h.lyDo && (
 							<div>
 								<b>Lý do Claude đề xuất:</b> {h.lyDo}
@@ -173,6 +182,16 @@ function KeHoachRow({ k, onDuyet, onBo }) {
 				<td style={o}>{(k.lienKetDich ?? []).length}</td>
 				<td style={o}>
 					{bc.soDoiThu ?? 0} đối thủ / {bc.soBai ?? 0} bài{bc.trungXuHuong && " 📈"}
+					{(bc.canhBaoTrung ?? []).length > 0 && (
+						// tieuDe là chữ thô từ kho — chỉ hiển thị qua JSX text, không bao giờ qua HTML.
+						<ul style={{ margin: "4px 0 0", paddingLeft: 16, fontSize: 12, color: "#92400e" }}>
+							{bc.canhBaoTrung.map((t, i) => (
+								<li key={i}>
+									⚠ gần giống: {t.tieuDe} (độ giống {Number(t.doGiong).toFixed(2)})
+								</li>
+							))}
+						</ul>
+					)}
 				</td>
 				<td style={o}>
 					{NHAN_KE_HOACH[k.trangThai] ?? k.trangThai}
@@ -198,7 +217,7 @@ function KeHoachRow({ k, onDuyet, onBo }) {
 							<DanhSachLink ds={k.lienKetDich} toiDa={12} hienThi={(d) => ({ href: `${TRANG_GOC}${d}`, nhan: d })} />
 						</div>
 						<div>
-							<b>Bài đối thủ làm bằng chứng:</b>{" "}
+							<b>Bài đối thủ khớp hướng (máy chủ tìm):</b>{" "}
 							<DanhSachLink ds={bc.baiDoiThu} toiDa={5} hienThi={(b) => ({ href: b.url, nhan: b.chuDe || b.url })} />
 						</div>
 					</td>
@@ -239,9 +258,18 @@ function KeHoachTab({ dl, loi, onDuyet, onBo }) {
 			{[...theoHuong.entries()].map(([hId, theoCum]) => (
 				<div key={hId} style={{ marginBottom: 24 }}>
 					<h3>{huongById.get(hId)?.ten ?? `(hướng ${hId})`}</h3>
-					{[...theoCum.entries()].map(([cId, ds]) => (
+					{[...theoCum.entries()].map(([cId, ds]) => {
+						const cum = cumById.get(cId);
+						const cu = cum?.trangThai === "cu";
+						const boQua = cum?.chiSo?.soBangChungBoQua ?? 0;
+						// Cụm "cu": lượt phân cụm sau đã thay, không nhận bài mới — nhưng bài của nó vẫn duyệt/bỏ được.
+						return (
 						<div key={cId} style={{ marginLeft: 16, marginBottom: 12 }}>
-							<h4>{cumById.get(cId)?.ten ?? `(cụm ${cId})`}</h4>
+							<h4 style={{ color: cu ? "#9ca3af" : undefined }}>
+								{cum?.ten ?? `(cụm ${cId})`}
+								{cu && <span style={{ fontWeight: 400, fontSize: 12 }}> — cụm cũ (đã được thay)</span>}
+								{boQua > 0 && <span style={{ fontWeight: 400, fontSize: 12, color: "#92400e" }}> · {boQua} bằng chứng không khớp đã loại</span>}
+							</h4>
 							<table style={{ borderCollapse: "collapse", width: "100%" }}>
 								<thead>
 									<tr>
@@ -257,7 +285,8 @@ function KeHoachTab({ dl, loi, onDuyet, onBo }) {
 								</tbody>
 							</table>
 						</div>
-					))}
+						);
+					})}
 				</div>
 			))}
 		</div>
