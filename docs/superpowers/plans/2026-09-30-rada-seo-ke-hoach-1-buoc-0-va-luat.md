@@ -808,7 +808,7 @@ export function locLink(md, duongCoThat) {
 
 - [ ] **Step 4: Chạy cả bộ luật**
 
-Run (trong `cms/`): `node --test src/plugins/rada-seo/luat/`
+Run (trong `cms/`): `node --test "src/plugins/rada-seo/luat/*.test.mjs"` (Node 26 không nhận đường dẫn thư mục)
 Expected: `pass 20`, `fail 0`.
 
 - [ ] **Step 5: Commit**
