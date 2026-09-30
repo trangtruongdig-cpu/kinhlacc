@@ -138,6 +138,7 @@ export async function ghiSoHo({ s, id, trang, chiMuc, nowMs = Date.now() }) {
 		soTrangDoiThu: kq.soTrangDoiThu,
 		yCotLoi: kq.banDo.yCotLoi.map((y) => `${y.ten} (${Math.round(y.tiLe * 100)}%)`),
 		dauHieuThang: kq.banDo.dauHieuThang,
+		ghiChu: kq.banDo.ghiChu,
 		phieu: kq.phieu,
 		boQua: kq.boQua,
 		thieuBaoCao: kq.thieuBaoCao,

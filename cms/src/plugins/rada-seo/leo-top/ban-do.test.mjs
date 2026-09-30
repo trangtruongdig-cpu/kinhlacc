@@ -31,15 +31,52 @@ const TRANG = [
 ];
 const VAO = { tuKhoa: "huyệt thần môn", trang: TRANG, chiMuc: CM, now: NOW };
 
-test("gom ý: Jaccard cặp từ ≥ 0,5; ý một từ so bằng đẳng thức", () => {
-	const nhom = gomY(["Vị trí huyệt Thần Môn", "vị trí huyệt", "Cách bấm huyệt", "cách bấm", "Lưu ý khi bấm", "lưu ý", "Mệnh", "mệnh", "Mệnh cung"]);
+test("gom ý: bỏ hư từ + từ của từ khoá, so bao hàm ≥ 0,6; ý một từ so đẳng thức", () => {
+	const TK = { tuKhoa: "huyệt thần môn" };
+	const nhom = gomY(["Vị trí huyệt Thần Môn", "vị trí huyệt", "Cách bấm huyệt", "cách bấm", "Lưu ý khi bấm", "lưu ý", "Mệnh", "mệnh", "Mệnh cung"], TK);
 	const tim = (s) => nhom.findIndex((n) => n.includes(s));
 	assert.equal(tim("Vị trí huyệt Thần Môn"), tim("vị trí huyệt"));
 	assert.equal(tim("Cách bấm huyệt"), tim("cách bấm"));
 	assert.notEqual(tim("Vị trí huyệt Thần Môn"), tim("Cách bấm huyệt"));
-	assert.notEqual(tim("Lưu ý khi bấm"), tim("lưu ý")); // {luu_y} vs 3 cặp → 1/3
+	assert.equal(tim("Lưu ý khi bấm"), tim("lưu ý")); // {luu, y, bam} ⊇ {luu, y}
 	assert.equal(tim("Mệnh"), tim("mệnh"));
 	assert.notEqual(tim("Mệnh"), tim("Mệnh cung"));
+});
+
+test("gom ý: các cách viết thật của cùng một ý về một nhóm", () => {
+	const cung = (ds, tuKhoa) => assert.equal(gomY(ds, { tuKhoa }).length, 1, ds.join(" | "));
+	cung(["vị trí huyệt", "vị trí của huyệt", "cách xác định vị trí huyệt"], "huyệt thần môn");
+	cung(["tác dụng", "tác dụng của huyệt"], "huyệt thần môn");
+	cung(["lưu ý khi bấm", "những lưu ý"], "huyệt thần môn");
+});
+
+test("gom ý: các mục của một bài thuốc KHÔNG bị gom chung (từ của tên bài bị bỏ trước khi so)", () => {
+	const nhom = gomY(["Thành phần", "Cách dùng", "Lưu ý khi dùng"], { tuKhoa: "bài thuốc Lục Vị Địa Hoàng Hoàn" });
+	assert.equal(nhom.length, 3);
+});
+
+test("gom ý: so với ĐẠI DIỆN nhóm, không bắc cầu", () => {
+	// A ⊂ B, C ⊂ B, nhưng A ∩ C chỉ 1/3 → A và C không được chung nhóm qua cầu B.
+	const nhom = gomY(["rễ thân cành", "rễ thân cành hoa quả", "cành hoa quả"], { tuKhoa: "" });
+	const tim = (s) => nhom.findIndex((n) => n.includes(s));
+	assert.equal(tim("rễ thân cành"), tim("rễ thân cành hoa quả"));
+	assert.notEqual(tim("rễ thân cành"), tim("cành hoa quả"));
+});
+
+test("đầu-cuối: đối thủ 'Vị trí huyệt' ×4, trang mình 'Vị trí của huyệt' → không đòi thêm, không đòi cắt", () => {
+	const vao = {
+		tuKhoa: "huyệt thần môn",
+		now: NOW,
+		trang: [
+			...[1, 2, 3, 4].map((i) => trang(`https://d${i}.vn/`, i, ["Vị trí huyệt"], TOT)),
+			trang("https://kinhlac.online/huyet/than-mon/", 9, ["Vị trí của huyệt"], TOT, { laMinh: true }),
+		],
+	};
+	const { phieu, yCotLoi } = dungBanDo(vao);
+	assert.equal(yCotLoi.length, 1);
+	assert.deepEqual(phieu.themY, []);
+	assert.deepEqual(phieu.cat, []);
+	assert.deepEqual(phieu.khacBiet, []);
 });
 
 test("ý cốt lõi ≥ 60% đối thủ (không tính trang mình); tên = cách viết nhiều nhất", () => {
@@ -57,13 +94,27 @@ test("ý cốt lõi ≥ 60% đối thủ (không tính trang mình); tên = các
 	assert.deepEqual(bd.yCotLoi.map((y) => y.tiLe), [...bd.yCotLoi.map((y) => y.tiLe)].sort((a, b) => b - a));
 });
 
-test("ý thừa ≤ 20%: 'phong thuỷ' (1 trang) và ý chỉ trang mình có", () => {
+test("ý thừa ≤ 20% (đủ 5 trang đối thủ); ý CHỈ trang mình có là khác biệt — giữ, không phải thừa", () => {
 	const bd = dungBanDo(VAO);
-	const thua = Object.fromEntries(bd.yThua.map((y) => [y.ten, y]));
-	assert.deepEqual(Object.keys(thua).sort(), ["Lịch sử tên gọi", "Phong thuỷ"]);
-	assert.equal(thua["Phong thuỷ"].tiLe, 0.2);
-	assert.deepEqual(thua["Phong thuỷ"].trangCo, ["https://d.vn/4"]);
-	assert.equal(thua["Lịch sử tên gọi"].tiLe, 0);
+	assert.deepEqual(bd.yThua.map((y) => y.ten), ["Phong thuỷ"]);
+	assert.equal(bd.yThua[0].tiLe, 0.2);
+	assert.deepEqual(bd.yThua[0].trangCo, ["https://d.vn/4"]);
+	assert.deepEqual(bd.phieu.khacBiet, ["Lịch sử tên gọi"]);
+	assert.ok(!bd.phieu.cat.includes("Lịch sử tên gọi"));
+	assert.deepEqual(bd.ghiChu, []);
+});
+
+test("dưới 5 trang đối thủ: không kết luận ý thừa, ghi chú lý do", () => {
+	const bd = dungBanDo({ ...VAO, trang: TRANG.filter((t) => t.thuTu !== 5) });
+	assert.deepEqual(bd.yThua, []);
+	assert.equal(bd.ghiChu.length, 1);
+	assert.match(bd.ghiChu[0], /4 trang đối thủ/);
+	// Trang mình có ý hiếm cũng không bị đòi cắt khi chưa đủ căn cứ.
+	const t2 = TRANG.filter((t) => t.thuTu !== 5).map((t) => (t.laMinh ? { ...t, y: [...t.y, "Phong thuỷ"] } : t));
+	assert.ok(!dungBanDo({ ...VAO, trang: t2 }).phieu.cat.includes("Phong thuỷ"));
+	// Đủ 5 trang thì ý hiếm trang mình có (và 1 đối thủ có) mới vào mục cắt.
+	const t3 = TRANG.map((t) => (t.laMinh ? { ...t, y: [...t.y, "Phong thuỷ"] } : t));
+	assert.ok(dungBanDo({ ...VAO, trang: t3 }).phieu.cat.includes("Phong thuỷ"));
 });
 
 test("sơ hở từng trang: ý cốt lõi thiếu + sơ hở trải nghiệm đo được", () => {
@@ -100,14 +151,17 @@ test("dấu hiệu thắng: cả top 3 có, còn < 50% trang hạng 4–10 có",
 
 test("phiếu cho trang mình", () => {
 	const { phieu } = dungBanDo(VAO);
-	assert.equal(phieu.themY.length, 2);
-	assert.ok(phieu.themY.includes("Lưu ý"));
-	// Ý cốt lõi mang tính chữa trị được ghi chú phạm vi Y sỹ.
-	assert.ok(phieu.themY.includes("Tác dụng chữa mất ngủ (diễn đạt theo phạm vi Y sỹ)"));
-	assert.deepEqual(phieu.cat, ["Đoạn mở đầu kể chuyện không liên quan", "Lịch sử tên gọi"]);
+	// "Tác dụng chữa mất ngủ" vượt phạm vi Y sỹ → không vào themY, chỉ ghi chú cách diễn đạt.
+	assert.deepEqual(phieu.themY, ["Lưu ý"]);
+	assert.equal(phieu.ghiChu.length, 1);
+	assert.match(phieu.ghiChu[0], /Tác dụng chữa mất ngủ/);
+	assert.match(phieu.ghiChu[0], /hỗ trợ/);
+	assert.deepEqual(phieu.cat, ["Đoạn mở đầu kể chuyện không liên quan"]);
+	assert.deepEqual(phieu.khacBiet, ["Lịch sử tên gọi"]);
 	assert.equal(phieu.duaTraLoiLenDau, true);
 	assert.equal(phieu.traiNghiem.length, 3);
-	assert.ok(phieu.taiSanRieng.some((t) => t.includes("/huyet/than-mon/") && /3D/.test(t)));
+	// Trang mình CHÍNH LÀ trang huyệt Thần Môn → không tự gợi ý liên kết tới chính nó (xem phép riêng bên dưới).
+	assert.ok(!phieu.taiSanRieng.some((t) => t.includes("(/huyet/than-mon/)")));
 	// Không có chỉ mục thì không bịa tài sản.
 	assert.deepEqual(dungBanDo({ ...VAO, chiMuc: undefined }).phieu.taiSanRieng, []);
 	// Trang mình trả lời muộn nhưng top 3 cũng không trả lời ở đầu → không đòi đưa lên.
@@ -131,6 +185,57 @@ test("KHÔNG mục nào dựa trên độ dài: đổi số chữ/chữ thân b�
 
 test("không có trang mình: phiếu rỗng, không ném lỗi", () => {
 	const bd = dungBanDo({ ...VAO, trang: TRANG.filter((t) => !t.laMinh) });
-	assert.deepEqual(bd.phieu, { themY: [], duaTraLoiLenDau: false, cat: [], traiNghiem: [], taiSanRieng: [] });
+	assert.deepEqual(bd.phieu, { themY: [], duaTraLoiLenDau: false, cat: [], khacBiet: [], traiNghiem: [], boSungCanCu: [], taiSanRieng: [], ghiChu: [] });
 	assert.equal(bd.yCotLoi.length, 4);
+});
+
+test("ý điều trị/chủ trị (thuật ngữ chuẩn) vẫn vào themY kèm nhắc phạm vi", () => {
+	const t = TRANG.map((x) => (x.laMinh ? x : { ...x, y: [...x.y, "Chủ trị"] }));
+	assert.ok(dungBanDo({ ...VAO, trang: t }).phieu.themY.includes("Chủ trị (diễn đạt theo phạm vi Y sỹ)"));
+});
+
+test("thiếu căn cứ: vào soHo từng trang, của trang mình vào phiếu boSungCanCu", () => {
+	const t = TRANG.map((x) =>
+		x.laMinh ? { ...x, thieuCanCu: ["Bấm 5 phút mỗi ngày hết mất ngủ", " "] } : x.thuTu === 1 ? { ...x, thieuCanCu: ["Liều 10g"] } : x,
+	);
+	const bd = dungBanDo({ ...VAO, trang: t });
+	const ho = Object.fromEntries(bd.soHo.map((s) => [s.url, s]));
+	assert.deepEqual(ho["https://a.vn/1"].thieuCanCu, ["Liều 10g"]);
+	assert.deepEqual(ho["https://b.vn/2"].thieuCanCu, []);
+	assert.deepEqual(bd.phieu.boSungCanCu, ["Bấm 5 phút mỗi ngày hết mất ngủ"]);
+});
+
+test("trả lời muộn của trang mình: chỉ kết luận khi Claude và số đo cùng nói muộn (hoặc Claude không báo)", () => {
+	const voi = (cauTraLoiO, viTriTraLoi) =>
+		dungBanDo({ ...VAO, trang: TRANG.map((x) => (x.laMinh ? { ...x, cauTraLoiO, soDo: { ...x.soDo, viTriTraLoi } } : x)) }).phieu;
+	// Số đo 400 chữ nhưng Claude đọc thấy trả lời ở đầu (số đo vướng mục lục lạ) → không đòi.
+	assert.equal(voi("dau", 400).duaTraLoiLenDau, false);
+	assert.ok(!voi("dau", 400).traiNghiem.some((t) => /muộn|trả lời thẳng/.test(t)));
+	// Claude nói giữa bài nhưng số đo thấy ở chữ thứ 20 → hai tín hiệu lệch → không kết luận.
+	assert.equal(voi("giua", 20).duaTraLoiLenDau, false);
+	// Cùng nói muộn → đòi.
+	assert.equal(voi("giua", 400).duaTraLoiLenDau, true);
+	// Claude không báo → theo số đo.
+	assert.equal(voi(undefined, 400).duaTraLoiLenDau, true);
+	assert.equal(voi(undefined, 20).duaTraLoiLenDau, false);
+});
+
+test("bỏ mục Claude báo có chữ vượt phạm vi Y sỹ hoặc khuyên độ dài trước khi vào cat/themY", () => {
+	const t = TRANG.map((x) =>
+		x.laMinh
+			? { ...x, ruom: ["Đoạn mở đầu kể chuyện không liên quan", "Cần viết dài hơn phần vị trí", "Thêm chữ cho phần tác dụng", "Đoạn hứa chữa khỏi hẳn mất ngủ"] }
+			: { ...x, y: [...x.y, "Viết dày phần lịch sử"] },
+	);
+	const { phieu } = dungBanDo({ ...VAO, trang: t });
+	assert.deepEqual(phieu.cat, ["Đoạn mở đầu kể chuyện không liên quan"]);
+	assert.ok(!phieu.themY.some((y) => /dày/.test(y)));
+});
+
+test("tài sản riêng không trỏ về chính trang mình", () => {
+	const minh = TRANG.find((t) => t.laMinh);
+	const tai = dungBanDo(VAO).phieu.taiSanRieng;
+	assert.ok(!tai.some((x) => x.includes(`(${new URL(minh.url).pathname})`)));
+	// Trang mình ở đường khác → tài sản trang huyệt được gợi ý.
+	const khac = TRANG.map((t) => (t.laMinh ? { ...t, url: "https://kinhlac.online/blog/mat-ngu/" } : t));
+	assert.ok(dungBanDo({ ...VAO, trang: khac }).phieu.taiSanRieng.some((x) => x.includes("/huyet/than-mon/")));
 });

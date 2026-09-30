@@ -7,61 +7,100 @@
 // phải trang dài nhất. Nên ở đây không có phép tính nào đọc `soChu`/`chu`, và phiếu không bao
 // giờ khuyên "viết dài hơn". Phép kiểm "đổi số chữ mọi trang → kết quả y hệt" giữ luật này.
 import { chuanHoaManh } from "../luat/chuan-hoa.mjs";
-import { doGiong } from "../luat/trung-lap.mjs";
 import { timViPham } from "../luat/pham-vi-y-sy.mjs";
 import { timTrongChiMuc } from "../noi-bo/chi-muc.mjs";
 
-export const NGUONG_Y = 0.5;
+/** Hai ý chung nhóm khi |A∩B| / min(|A|,|B|) ≥ ngưỡng này (và chung ≥ 1 từ). */
+export const NGUONG_Y = 0.6;
 export const NGUONG_COT_LOI = 0.6;
 export const NGUONG_THUA = 0.2;
 /** Câu trả lời đứng sau quá chừng này chữ thì người đọc phải cuộn mới thấy. */
 export const TRAN_TRA_LOI_DAU = 150;
 const THANG_CU = 24;
 const HANG_TAI_SAN = new Set(["dung", "ten_khac", "chua"]);
+/** Dưới chừng này trang đối thủ thì "≤ 20% trang có" là 0 hay 1 trang — chưa đủ để gọi là thừa. */
+export const SO_TRANG_KET_LUAN_THUA = 5;
 
 /**
- * Tập cặp từ của một ý. KHÔNG dùng tapKhoa/tachTu của thước chống trùng: tập từ dừng của nó
- * bỏ "vi tri", "cach", "luu y" — đúng những chữ làm nên tên ý ("Vị trí huyệt", "Lưu ý").
+ * Hư từ: không mang nghĩa của TÊN ý ("vị trí CỦA huyệt", "NHỮNG lưu ý", "CÁCH xác định…").
+ * KHÔNG dùng tập từ dừng của thước chống trùng: nó bỏ cả "vi tri", "luu y" — đúng tên ý.
  */
-function khoaY(ten) {
-	const k = chuanHoaManh(ten);
-	const tu = k ? k.split(" ") : [];
-	const cap = new Set();
-	for (let i = 0; i < tu.length - 1; i++) cap.add(`${tu[i]}_${tu[i + 1]}`);
-	return { k, motTu: tu.length === 1, cap };
+const HU_TU = new Set(["cua", "nhung", "cac", "khi", "la", "ve", "va", "cho", "trong", "voi", "cach"]);
+
+/**
+ * Tập từ của một ý, đã bỏ hư từ và từ của TỪ KHOÁ: mọi trang trong SERP đều nói về từ khoá,
+ * nên "vị trí HUYỆT" và "vị trí" là một ý; và với "bài thuốc Lục Vị Địa Hoàng Hoàn", các mục
+ * "Thành phần"/"Cách dùng" không được dính nhau qua tên bài. Bỏ hết mà rỗng (ý chính là từ
+ * khoá) thì giữ nguyên tập từ để còn so đẳng thức.
+ */
+function khoaY(ten, boTu) {
+	const tatCa = chuanHoaManh(ten).split(" ").filter(Boolean);
+	const loc = tatCa.filter((w) => !HU_TU.has(w) && !boTu.has(w));
+	const tu = new Set(loc.length ? loc : tatCa);
+	return { tu, chuoi: [...tu].sort().join(" ") };
 }
 
-function giongY(a, b) {
-	if (!a.k || !b.k) return false;
-	if (a.motTu || b.motTu) return a.k === b.k; // ý một từ không có cặp → so đẳng thức
-	return doGiong(a.cap, b.cap) >= NGUONG_Y;
+/** Độ giống: bao hàm |A∩B|/min; ý một từ chỉ so đẳng thức (một từ chung thì bao hàm luôn = 1). */
+function doGiongY(a, b) {
+	if (!a.tu.size || !b.tu.size) return 0;
+	if (a.tu.size === 1 || b.tu.size === 1) return a.chuoi === b.chuoi ? 1 : 0;
+	let chung = 0;
+	for (const w of a.tu) if (b.tu.has(w)) chung++;
+	return chung ? chung / Math.min(a.tu.size, b.tu.size) : 0;
 }
 
-/** Gom liên kết đơn (bắc cầu); trả chỉ số nhóm cho từng phần tử, nhóm đánh số theo lần gặp đầu. */
-function gomChiSo(ds) {
-	const khoa = ds.map(khoaY);
-	const cha = ds.map((_, i) => i);
-	const goc = (i) => (cha[i] === i ? i : (cha[i] = goc(cha[i])));
-	for (let i = 0; i < ds.length; i++)
-		for (let j = i + 1; j < ds.length; j++) if (giongY(khoa[i], khoa[j])) cha[goc(j)] = goc(i);
-	const so = new Map();
-	return ds.map((_, i) => {
-		const g = goc(i);
-		if (!so.has(g)) so.set(g, so.size);
-		return so.get(g);
+const tuCuaTuKhoa = (tuKhoa) => new Set(chuanHoaManh(tuKhoa).split(" ").filter(Boolean));
+
+/**
+ * Gom theo ĐẠI DIỆN nhóm (phần tử đầu tiên), không bắc cầu: gom liên kết đơn từng để
+ * "bấm" ~ "bấm xoa" ~ "xoa" kéo hai ý không chung chữ nào về một nhóm. Mỗi ý vào nhóm có
+ * đại diện giống nhất (≥ NGUONG_Y), không có thì mở nhóm mới.
+ * @returns {number[]} chỉ số nhóm cho từng phần tử, đánh số theo lần gặp đầu
+ */
+function gomChiSo(ds, tuKhoa = "") {
+	const bo = tuCuaTuKhoa(tuKhoa);
+	const daiDien = [];
+	return ds.map((ten) => {
+		const k = khoaY(ten, bo);
+		let tot = -1, diem = 0;
+		daiDien.forEach((d, i) => {
+			const g = doGiongY(k, d);
+			if (g >= NGUONG_Y && g > diem) [tot, diem] = [i, g];
+		});
+		if (tot === -1) {
+			daiDien.push(k);
+			return daiDien.length - 1;
+		}
+		return tot;
 	});
 }
 
 /** Gom các cách viết của cùng một ý. @returns {string[][]} */
-export function gomY(ds) {
+export function gomY(ds, { tuKhoa = "" } = {}) {
 	const nhom = [];
-	gomChiSo(ds).forEach((g, i) => (nhom[g] ??= []).push(ds[i]));
+	gomChiSo(ds, tuKhoa).forEach((g, i) => (nhom[g] ??= []).push(ds[i]));
 	return nhom;
 }
 
-const traLoiMuon = (sd) => sd?.viTriTraLoi == null || sd.viTriTraLoi > TRAN_TRA_LOI_DAU;
+/** Cụm khuyên độ dài — phiếu không bao giờ nói "viết dài hơn" (triết lý người dùng chốt). */
+const CUM_DO_DAI = ["dài hơn", "thêm chữ", "số chữ", "viết dày", "viết dài", "độ dài", "dài thêm"];
+const khuyenDoDai = (s) => {
+	const t = String(s).normalize("NFC").toLowerCase();
+	return CUM_DO_DAI.some((c) => t.includes(c));
+};
+/** Mục Claude báo được dùng cho phiếu: không rỗng, không khuyên độ dài, không vượt phạm vi Y sỹ. */
+const mucDung = (s) => !!String(s ?? "").trim() && !khuyenDoDai(s) && !timViPham(s).length;
+const sach = (ds) => (Array.isArray(ds) ? ds : []).map((x) => String(x ?? "").trim()).filter(Boolean);
+
+const doMuon = (sd) => sd?.viTriTraLoi == null || sd.viTriTraLoi > TRAN_TRA_LOI_DAU;
+/**
+ * "Trả lời muộn" chỉ khi Claude (đã ĐỌC trang) và số đo cùng nói thế, hoặc Claude không báo.
+ * Số đo một mình dễ trượt (mục lục lạ, đoạn mở đầu kiểu câu hỏi) — đã gặp phiếu đòi "đưa câu
+ * trả lời lên đầu" cho trang trả lời ngay câu thứ hai.
+ */
+const traLoiMuon = (t) => (t.cauTraLoiO ? t.cauTraLoiO !== "dau" && doMuon(t.soDo) : doMuon(t.soDo));
 /** "Trả lời ở đầu": nhận định của Claude nếu có, không thì theo số đo. */
-const traLoiDau = (t) => (t.cauTraLoiO ? t.cauTraLoiO === "dau" : !traLoiMuon(t.soDo));
+const traLoiDau = (t) => (t.cauTraLoiO ? t.cauTraLoiO === "dau" : !doMuon(t.soDo));
 
 function soThang(ngay, now) {
 	const ms = Date.parse(String(ngay ?? ""));
@@ -76,8 +115,10 @@ const moiCapNhat = (sd, now) => {
 function soHoTraiNghiem(t, now) {
 	const sd = t.soDo ?? {};
 	const ra = [];
-	if (sd.viTriTraLoi == null) ra.push("Không có đoạn trả lời thẳng từ khoá");
-	else if (sd.viTriTraLoi > TRAN_TRA_LOI_DAU) ra.push(`Trả lời muộn: đoạn trả lời đứng sau ${sd.viTriTraLoi} chữ`);
+	if (traLoiMuon(t)) {
+		if (sd.viTriTraLoi == null) ra.push("Không có đoạn trả lời thẳng từ khoá");
+		else ra.push(`Trả lời muộn: đoạn trả lời đứng sau ${sd.viTriTraLoi} chữ`);
+	}
 	if (!sd.coBang && (t.khoDung?.length ?? 0) >= 3) ra.push("Không có bảng dù có ≥ 3 ý dạng so sánh/liệt kê");
 	if (!sd.soNguonNgoai) ra.push("Không dẫn nguồn ngoài nào");
 	if (!sd.coTacGia) ra.push("Không ghi tác giả/người duyệt");
@@ -96,16 +137,26 @@ const DAC_DIEM = [
 	{ ten: "Cập nhật trong 24 tháng", co: (t, now) => moiCapNhat(t.soDo, now) },
 ];
 
-/** Ý mang tính chữa trị: phiếu vẫn giữ ý nhưng nhắc diễn đạt trong phạm vi Y sỹ. */
+/** Ý dùng thuật ngữ chuẩn "điều trị/chủ trị": giữ, nhắc diễn đạt trong phạm vi Y sỹ. */
 function ghiChuPhamVi(ten) {
 	const s = String(ten).normalize("NFC").toLowerCase();
-	return timViPham(ten).length || /điều trị|chủ trị/.test(s) ? `${ten} (diễn đạt theo phạm vi Y sỹ)` : ten;
+	return /điều trị|chủ trị/.test(s) ? `${ten} (diễn đạt theo phạm vi Y sỹ)` : ten;
 }
 
-function taiSan(chiMuc, tuKhoa) {
+const duongCua = (u) => {
+	try {
+		return new URL(u).pathname.replace(/\/+$/, "") || "/";
+	} catch {
+		return String(u ?? "").replace(/\/+$/, "");
+	}
+};
+
+/** Tài sản riêng của site cho từ khoá — trừ chính trang đang được sửa (tự liên kết tới mình là vô nghĩa). */
+function taiSan(chiMuc, tuKhoa, urlMinh) {
 	if (!chiMuc) return [];
+	const minh = duongCua(urlMinh);
 	return timTrongChiMuc(chiMuc, tuKhoa, { toiDa: 5 })
-		.filter((m) => HANG_TAI_SAN.has(m.khop))
+		.filter((m) => HANG_TAI_SAN.has(m.khop) && duongCua(m.duong[0]) !== minh)
 		.map((m) => {
 			const d = m.duong[0];
 			if (m.loai === "huyet") return `Ảnh huyệt 3D + liên kết trang huyệt ${m.ten} (${d})`;
@@ -124,16 +175,21 @@ const lamTron = (x) => Math.round(x * 100) / 100;
 export function dungBanDo({ tuKhoa, trang = [], chiMuc, now = Date.now() }) {
 	const doiThu = trang.filter((t) => !t.laMinh);
 	const minh = trang.find((t) => t.laMinh) ?? null;
+	const ghiChu = [];
 
 	// Mọi lần nhắc ý, của mọi trang (kể cả trang mình), gom một lượt để cùng một bộ nhóm.
+	// Ý khuyên độ dài ("viết dày phần…") là nhận xét lạc chỗ, không phải ý của trang → bỏ.
 	const lanNhac = [];
 	trang.forEach((t, ti) => {
 		for (const y of t.y ?? []) {
 			const ten = String(y ?? "").trim();
-			if (chuanHoaManh(ten)) lanNhac.push({ ti, ten });
+			if (chuanHoaManh(ten) && !khuyenDoDai(ten)) lanNhac.push({ ti, ten });
 		}
 	});
-	const nhomCua = gomChiSo(lanNhac.map((x) => x.ten));
+	const nhomCua = gomChiSo(
+		lanNhac.map((x) => x.ten),
+		tuKhoa,
+	);
 	const nhom = [];
 	lanNhac.forEach((x, i) => {
 		const n = (nhom[nhomCua[i]] ??= { trang: new Set(), cachViet: new Map() });
@@ -144,13 +200,20 @@ export function dungBanDo({ tuKhoa, trang = [], chiMuc, now = Date.now() }) {
 		let ten = "", nhieu = 0;
 		for (const [c, so] of n.cachViet) if (so > nhieu) [ten, nhieu] = [c, so]; // hoà → cách viết gặp trước
 		const coDoiThu = [...n.trang].filter((ti) => !trang[ti].laMinh).length;
-		return { ten, trang: n.trang, tiLe: doiThu.length ? lamTron(coDoiThu / doiThu.length) : 0 };
+		return { ten, trang: n.trang, coDoiThu, tiLe: doiThu.length ? lamTron(coDoiThu / doiThu.length) : 0 };
 	});
 	const urlCo = (y) => trang.filter((_, ti) => y.trang.has(ti)).map((t) => t.url);
 	const theoTiLe = (a, b) => b.tiLe - a.tiLe;
 
 	const cotLoi = doiThu.length ? Y.filter((y) => y.tiLe >= NGUONG_COT_LOI).sort(theoTiLe) : [];
-	const thua = doiThu.length ? Y.filter((y) => y.tiLe <= NGUONG_THUA && y.tiLe < NGUONG_COT_LOI).sort(theoTiLe) : [];
+	// Ý thừa: đối thủ CÓ nói nhưng hiếm (≤ 20%). Ý không đối thủ nào có là của riêng trang
+	// mình — khác biệt, giữ — không bao giờ là thừa. Ít hơn 5 trang đối thủ thì chưa kết luận.
+	const duThua = doiThu.length >= SO_TRANG_KET_LUAN_THUA;
+	if (doiThu.length && !duThua)
+		ghiChu.push(
+			`Chỉ đo được ${doiThu.length} trang đối thủ (cần ≥ ${SO_TRANG_KET_LUAN_THUA}) — chưa kết luận ý nào là thừa.`,
+		);
+	const thua = duThua ? Y.filter((y) => y.coDoiThu > 0 && y.tiLe <= NGUONG_THUA && y.tiLe < NGUONG_COT_LOI).sort(theoTiLe) : [];
 
 	const yCotLoi = cotLoi.map((y) => ({
 		ten: y.ten,
@@ -164,6 +227,7 @@ export function dungBanDo({ tuKhoa, trang = [], chiMuc, now = Date.now() }) {
 		url: t.url,
 		thieuY: cotLoi.filter((y) => !y.trang.has(ti)).map((y) => y.ten),
 		traiNghiem: soHoTraiNghiem(t, now),
+		thieuCanCu: sach(t.thieuCanCu),
 	}));
 
 	// Dấu hiệu thắng: cần đủ 3 trang top và ít nhất một trang hạng 4–10 để có cái mà so.
@@ -176,18 +240,28 @@ export function dungBanDo({ tuKhoa, trang = [], chiMuc, now = Date.now() }) {
 				)
 			: [];
 
-	let phieu = { themY: [], duaTraLoiLenDau: false, cat: [], traiNghiem: [], taiSanRieng: [] };
+	let phieu = { themY: [], duaTraLoiLenDau: false, cat: [], khacBiet: [], traiNghiem: [], boSungCanCu: [], taiSanRieng: [], ghiChu: [] };
 	if (minh) {
 		const im = trang.indexOf(minh);
-		const cat = [...(minh.ruom ?? []), ...thua.filter((y) => y.trang.has(im)).map((y) => y.ten)];
+		const phieuGhiChu = [];
+		const themY = [];
+		for (const ten of soHo[im].thieuY) {
+			const vp = timViPham(ten);
+			if (vp.length) phieuGhiChu.push(`Ý cốt lõi "${ten}" có chữ vượt phạm vi Y sỹ — nếu thêm, diễn đạt: ${vp[0].goiY}.`);
+			else if (!khuyenDoDai(ten)) themY.push(ghiChuPhamVi(ten));
+		}
+		const cat = [...sach(minh.ruom).filter(mucDung), ...thua.filter((y) => y.trang.has(im)).map((y) => y.ten).filter(mucDung)];
 		phieu = {
-			themY: soHo[im].thieuY.map(ghiChuPhamVi),
-			duaTraLoiLenDau: traLoiMuon(minh.soDo) && top3.filter(traLoiDau).length >= 2,
+			themY,
+			duaTraLoiLenDau: traLoiMuon(minh) && top3.filter(traLoiDau).length >= 2,
 			cat: [...new Set(cat)],
+			khacBiet: Y.filter((y) => y.coDoiThu === 0 && y.trang.has(im)).map((y) => y.ten),
 			traiNghiem: soHo[im].traiNghiem,
-			taiSanRieng: taiSan(chiMuc, tuKhoa),
+			boSungCanCu: soHo[im].thieuCanCu,
+			taiSanRieng: taiSan(chiMuc, tuKhoa, minh.url),
+			ghiChu: phieuGhiChu,
 		};
 	}
 
-	return { yCotLoi, yThua, soHo, dauHieuThang, phieu };
+	return { yCotLoi, yThua, soHo, dauHieuThang, ghiChu, phieu };
 }

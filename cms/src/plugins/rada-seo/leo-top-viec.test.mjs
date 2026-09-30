@@ -177,6 +177,8 @@ test("ghiSoHo: dựng bản đồ + phiếu, trả tóm tắt; phiên → co_phi
 	assert.equal(kq.soTrangDoiThu, 3);
 	assert.deepEqual(kq.yCotLoi, ["Vị trí huyệt (100%)", "Cách bấm (67%)"]);
 	assert.deepEqual(kq.phieu.themY, ["Cách bấm"]);
+	// 3 trang đối thủ < 5 → chưa kết luận ý thừa, và Claude được báo lý do.
+	assert.match(kq.ghiChu[0], /3 trang đối thủ/);
 	assert.deepEqual(kq.thieuBaoCao, []);
 	assert.equal((await s.leo_top.get(p.id)).trangThai, "co_phieu");
 });
