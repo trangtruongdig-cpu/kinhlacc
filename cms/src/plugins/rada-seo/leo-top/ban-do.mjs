@@ -37,12 +37,32 @@ function khoaY(ten, boTu) {
 	const tatCa = chuanHoaManh(ten).split(" ").filter(Boolean);
 	const loc = tatCa.filter((w) => !HU_TU.has(w) && !boTu.has(w));
 	const tu = new Set(loc.length ? loc : tatCa);
-	return { tu, chuoi: [...tu].sort().join(" ") };
+	return { tu, chuoi: [...tu].sort().join(" "), cuc: cucCua(tatCa) };
+}
+
+/**
+ * Từ ĐẢO NGHĨA / hạn định của một ý (chữ bỏ dấu). "Chỉ định" và "Chống chỉ định", "Tác dụng" và
+ * "Tác dụng phụ", "nên dùng" và "không nên dùng" chung gần hết chữ nên phép bao hàm gộp làm một —
+ * và trang mình có "Chỉ định" là phiếu im lặng về mục CHỐNG chỉ định mà 60% đối thủ có. Trên
+ * trang Đông Y đó là mục an toàn, mất nó là mất thứ tệ nhất. Hai ý khác nhau ở bất kỳ từ nào dưới
+ * đây thì KHÔNG bao giờ chung nhóm. Đọc trên CẢ tập từ (trước khi bỏ từ khoá), để từ khoá
+ * "… không nên ăn gì" không xoá mất chữ "không" của ý.
+ * Chấp nhận: "phu" (phụ nữ), "cam" (cảm), "ky" (chu kỳ) cũng tính — chỉ làm tách thêm nhóm,
+ * không bao giờ gộp nhầm.
+ */
+const TU_CUC = new Set(["chong", "khong", "phu", "ky", "cam", "kieng", "tranh"]);
+const CUM_CUC = ["tac hai", "rui ro", "bien chung"];
+function cucCua(tatCa) {
+	const c = tatCa.filter((w) => TU_CUC.has(w));
+	const noi = ` ${tatCa.join(" ")} `;
+	for (const cum of CUM_CUC) if (noi.includes(` ${cum} `)) c.push(cum);
+	return [...new Set(c)].sort().join("|");
 }
 
 /** Độ giống: bao hàm |A∩B|/min; ý một từ chỉ so đẳng thức (một từ chung thì bao hàm luôn = 1). */
 function doGiongY(a, b) {
 	if (!a.tu.size || !b.tu.size) return 0;
+	if (a.cuc !== b.cuc) return 0; // khác cực (chống/không/phụ/kiêng…) → hai ý khác nhau
 	if (a.tu.size === 1 || b.tu.size === 1) return a.chuoi === b.chuoi ? 1 : 0;
 	let chung = 0;
 	for (const w of a.tu) if (b.tu.has(w)) chung++;
@@ -263,6 +283,16 @@ export function dungBanDo({ tuKhoa, trang = [], chiMuc, now = Date.now() }) {
 			taiSanRieng: taiSan(chiMuc, tuKhoa, minh.url),
 			ghiChu: phieuGhiChu,
 		};
+		// Khác biệt (khuyên GIỮ) và căn cứ cần bổ sung cũng là chữ đi vào bài: mục vượt phạm vi Y sỹ
+		// ("Chữa khỏi mất ngủ") không được khuyên giữ nguyên — sang ghiChu kèm cách diễn đạt.
+		const quaRao = (ds, nhan) =>
+			ds.filter((x) => {
+				const vp = timViPham(x);
+				if (vp.length) phieuGhiChu.push(`${nhan} "${x}" có chữ vượt phạm vi Y sỹ — diễn đạt lại: ${vp[0].goiY}.`);
+				return !vp.length;
+			});
+		phieu.khacBiet = quaRao(phieu.khacBiet, "Ý khác biệt");
+		phieu.boSungCanCu = quaRao(phieu.boSungCanCu, "Căn cứ cần bổ sung");
 	}
 
 	return { yCotLoi, yThua, soHo, dauHieuThang, ghiChu, phieu };

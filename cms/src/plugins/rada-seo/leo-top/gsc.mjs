@@ -51,7 +51,18 @@ export function taoGsc({ fetch, env = process.env, now = Date.now, hanGioMs = HA
 	const siteUrl = () => bien("GSC_SITE_URL") || SITE_MAC_DINH;
 	let token = null; // { giaTri, hetHan }
 	let dangLay = null; // lượt lấy token đang bay — lời gọi song song dùng chung, không đổi token hai lần
-	const goi = (url, init, viec) => voiHanGio(Promise.resolve().then(() => fetch(url, init)), hanGioMs, `GSC: ${viec}`);
+	/** Hết hạn thì HUỶ luôn fetch bên dưới (không chỉ bỏ chờ): không thì socket còn treo sau khi ca đã báo lỗi. */
+	const goi = (url, init, viec) => {
+		const ac = typeof AbortController === "function" ? new AbortController() : null;
+		const p = Promise.resolve().then(() => fetch(url, ac ? { ...init, signal: ac.signal } : init));
+		return voiHanGio(p, hanGioMs, `GSC: ${viec}`).catch((e) => {
+			if (/quá hạn/.test(e?.message ?? "")) {
+				ac?.abort();
+				p.catch(() => {});
+			}
+			throw e;
+		});
+	};
 
 	function kiemCauHinh() {
 		const t = thieu();

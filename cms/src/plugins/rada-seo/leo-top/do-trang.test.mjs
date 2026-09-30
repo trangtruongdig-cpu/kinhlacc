@@ -239,3 +239,32 @@ test("ngày: <time> chỉ tính trong bài; đọc 'Cập nhật: dd/mm/yyyy' v�
 	assert.equal(ng(`<div><time datetime="2026-09-01">bài liên quan</time></div><article><p>x</p></article>`), null);
 	assert.equal(ng(`<article><p>Cập nhật: 31/02/2024</p></article>`), null, "ngày không có thật");
 });
+
+// ---- Fix round 2 ----
+test("I2 tác giả: chỉ NHÃN ký tên (đầu dòng/khối + ':' hay '–' + tên), không câu khuyên, không khung chân trang", () => {
+	const coTG = (than) => doTrang(`<html><body>${than}</body></html>`, { tuKhoa: TU_KHOA, url: "https://x.vn/" }).coTacGia;
+	assert.equal(coTG(`<p>Cần tham vấn y khoa nếu đau.</p>`), false);
+	assert.equal(coTG(`<p>Bạn nên tham vấn chuyên môn trước khi bấm huyệt.</p>`), false);
+	assert.equal(coTG(`<p>Hãy tham vấn y học cổ truyền.</p>`), false);
+	assert.equal(coTG(`<p>x</p><footer><p>Tổng biên tập: Nguyễn Văn A</p><p>Giấy phép số 12/GP-BTTTT</p></footer>`), false);
+	// Khung chân trang nằm trong khối thường (không có <footer>) vẫn không tính.
+	assert.equal(coTG(`<p>x</p><div class="ft"><p>Tổng biên tập: Nguyễn Văn A</p><p>Phó tổng biên tập: Trần B</p><p>Chịu trách nhiệm nội dung: Lê C</p></div>`), false);
+	assert.equal(coTG(`<article><p>Tham vấn y khoa: ThS.BS Trần B</p><p>x</p></article>`), true);
+	assert.equal(coTG(`<p>Tác giả: Lê C</p>`), true);
+	assert.equal(coTG(`<p><strong>Tác giả:</strong> Lê C</p>`), true);
+	assert.equal(coTG(`<p>Tác giả – BS. Lê C</p>`), true);
+	assert.equal(coTG(`<p>Người viết: lương y Minh</p>`), true);
+	assert.equal(coTG(`<p>Chúng tôi có đội ngũ cố vấn chuyên môn giàu kinh nghiệm.</p>`), false);
+	assert.equal(coTG(`<p>Cố vấn chuyên môn: giàu kinh nghiệm</p>`), false, "sau nhãn phải là tên");
+	assert.equal(coTG(`<p>Xem thêm tác giả: Lê C</p>`), false, "nhãn phải đứng đầu dòng");
+	// Có <article> thì chỉ soi trong bài: ký tên ở khung bên ngoài không tính.
+	assert.equal(coTG(`<div>Tác giả: Lê C</div><article><p>x</p></article>`), false);
+});
+
+test("M2 trả lời ngắn kiểu 'Từ khoá: cụm ngắn' được tính; đoạn kết thúc '?' chỉ là nhắc lại khi ≤ 12 chữ", () => {
+	const vt = (than) => doTrang(`<body><h1>Mở</h1>${than}</body>`, { tuKhoa: TU_KHOA, url: "https://x.vn/" }).viTriTraLoi;
+	assert.equal(vt(`<p>Huyệt Thần Môn: cổ tay</p>`), 1);
+	assert.equal(vt(`<p>Huyệt Thần Môn: là gì</p>`), null, "sau dấu hai chấm chỉ có hư từ → vẫn là nhắc lại");
+	assert.equal(vt(`<p>Huyệt Thần Môn nằm ở nếp gấp cổ tay, phía xương đậu, bạn đã biết chưa?</p>`), 1);
+	assert.equal(vt(`<p>Huyệt Thần Môn nằm ở đâu trên cổ tay?</p>`), null);
+});

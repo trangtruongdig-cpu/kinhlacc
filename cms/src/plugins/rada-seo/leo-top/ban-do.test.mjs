@@ -245,3 +245,36 @@ test("tài sản riêng không trỏ về chính trang mình", () => {
 	const khac = TRANG.map((t) => (t.laMinh ? { ...t, url: "https://kinhlac.online/blog/mat-ngu/" } : t));
 	assert.ok(dungBanDo({ ...VAO, trang: khac }).phieu.taiSanRieng.some((x) => x.includes("/huyet/than-mon/")));
 });
+
+// ---- Fix round 2 ----
+test("I1 gom ý KHÔNG gộp hai ý ngược nghĩa (chống/không/phụ/kiêng…)", () => {
+	const tach = (a, b) => assert.equal(gomY([a, b], { tuKhoa: "huyệt thần môn" }).length, 2, `${a} | ${b}`);
+	tach("Chỉ định", "Chống chỉ định");
+	tach("Chống chỉ định", "Chỉ định");
+	tach("Tác dụng", "Tác dụng phụ");
+	tach("Đối tượng nên dùng", "Đối tượng không nên dùng");
+	tach("Kiêng", "Không kiêng");
+	tach("Cách dùng", "Cấm dùng khi");
+	tach("Lưu ý khi dùng", "Tác hại khi dùng");
+	tach("Biến chứng khi dùng", "Khi dùng");
+	// Cùng cực thì vẫn gom như cũ.
+	assert.equal(gomY(["Chống chỉ định", "Các chống chỉ định"], { tuKhoa: "" }).length, 1);
+});
+
+test("I1 đầu-cuối: đối thủ có 'Chống chỉ định' ×3, trang mình chỉ có 'Chỉ định' → đòi thêm 'Chống chỉ định'", () => {
+	const t = TRANG.map((x) =>
+		x.laMinh ? { ...x, y: [...x.y, "Chỉ định"] } : x.thuTu <= 3 ? { ...x, y: [...x.y, "Chống chỉ định"] } : x,
+	);
+	const { phieu } = dungBanDo({ ...VAO, trang: t });
+	assert.ok(phieu.themY.includes("Chống chỉ định"), JSON.stringify(phieu.themY));
+});
+
+test("M7 khacBiet và boSungCanCu cũng qua rào phạm vi Y sỹ: mục vi phạm sang ghiChu kèm cách diễn đạt", () => {
+	const t = TRANG.map((x) => (x.laMinh ? { ...x, y: [...x.y, "Bài gia truyền chữa dứt điểm"], thieuCanCu: ["Khám bệnh miễn phí", "Liều 10g"] } : x));
+	const { phieu } = dungBanDo({ ...VAO, trang: t });
+	assert.ok(!phieu.khacBiet.some((y) => /gia truyền/.test(y)));
+	assert.ok(phieu.khacBiet.includes("Lịch sử tên gọi"));
+	assert.deepEqual(phieu.boSungCanCu, ["Liều 10g"]);
+	assert.ok(phieu.ghiChu.some((g) => /Bài gia truyền chữa dứt điểm/.test(g) && /hỗ trợ/.test(g)), JSON.stringify(phieu.ghiChu));
+	assert.ok(phieu.ghiChu.some((g) => /Khám bệnh miễn phí/.test(g) && /đo kinh lạc/.test(g)), JSON.stringify(phieu.ghiChu));
+});

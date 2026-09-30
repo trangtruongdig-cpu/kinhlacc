@@ -35,14 +35,30 @@ export function voiHanGio(promise, ms, tenViec = "yêu cầu") {
  * Trần thân trang: 1,5 MB. Một trang (hay một sitemap trỏ nhầm tới tệp nén/video) nặng hàng
  * trăm MB thì res.text() nuốt hết RAM của container CMS — mà container đó chính là khu quản
  * trị. Quá trần thì dừng đọc và huỷ luồng; phần đã đọc vẫn dùng được (đầu trang có title,
- * meta, đoạn mở đầu). Tính theo byte của luồng; bản lùi res.text() thì cắt theo ký tự.
+ * meta, đoạn mở đầu). Tính theo byte của luồng; bản lùi res.text() (không có luồng) thì cắt theo
+ * ký tự và chỉ chạy khi content-length ≤ TRAN_BYTE_KHONG_LUONG.
  */
 export const TRAN_BYTE_THAN = 1_500_000;
+
+/**
+ * Không có luồng thì res.text() nuốt CẢ thân rồi mới cắt được — trần 1,5 MB không bảo vệ gì. Nên
+ * chỉ đi đường đó khi header content-length khai ≤ 5 MB; lớn hơn hay KHÔNG khai (không biết
+ * trước) thì từ chối: taoDocWeb trả "", taoDocTrang trả null.
+ */
+export const TRAN_BYTE_KHONG_LUONG = 5_000_000;
+
+/** Lỗi "trang quá lớn" (loi = "qua_lon") — đọc về là hỏng, như lỗi mạng. */
+function loiQuaLon(len) {
+	return Object.assign(new Error(`thân không có luồng, content-length ${len ?? "không khai"} — từ chối đọc`), { loi: "qua_lon" });
+}
 
 /** Đọc thân tối đa `tran` byte. @returns {Promise<{html: string, catBot: boolean}>} */
 async function docThan(res, tran, huy) {
 	const reader = res.body && typeof res.body.getReader === "function" ? res.body.getReader() : null;
 	if (!reader) {
+		const khai = res.headers?.get?.("content-length");
+		const len = khai == null || String(khai).trim() === "" ? NaN : Number(khai);
+		if (!Number.isFinite(len) || len < 0 || len > TRAN_BYTE_KHONG_LUONG) throw loiQuaLon(khai);
 		const t = String(await res.text());
 		return t.length > tran ? { html: t.slice(0, tran), catBot: true } : { html: t, catBot: false };
 	}

@@ -46,13 +46,29 @@ export function timTiep(chu, kim) {
 }
 
 /**
+ * Chữ thường GIỮ NGUYÊN ĐỘ DÀI, để vị trí tìm trên bản chữ thường dùng cắt được bản gốc.
+ * `toLowerCase()` trần đổi "İ" (U+0130) thành HAI đơn vị mã → mọi chỉ số phía sau trôi, và
+ * boKhoi từng cắt mất phần đuôi trang. Ký tự nào chữ thường dài khác 1 thì giữ nguyên.
+ */
+export function thuongGiuDo(s) {
+	const t = s.toLowerCase();
+	if (t.length === s.length) return t;
+	const ra = new Array(s.length);
+	for (let i = 0; i < s.length; i++) {
+		const l = s[i].toLowerCase();
+		ra[i] = l.length === 1 ? l : s[i];
+	}
+	return ra.join("");
+}
+
+/**
  * Thay mọi khối <ten …>…</ten> bằng `thay`. Thẻ mở không có thẻ đóng phía sau thì để nguyên
  * (như biểu thức cũ: không nuốt phần còn lại của trang).
  * @param {string} html
  * @param {string[]} ten  tên thẻ, chữ thường
  */
 export function boKhoi(html, ten, thay = " ") {
-	const thap = html.toLowerCase();
+	const thap = thuongGiuDo(html);
 	const reMo = new RegExp(`<(${ten.join("|")})\\b`, "gi");
 	const dong = Object.fromEntries(ten.map((t) => [t, timTiep(thap, `</${t}`)]));
 	const lon = timTiep(thap, ">");
@@ -109,7 +125,7 @@ export function htmlSangChu(html) {
 	const mo = reTheMo("title").exec(h);
 	if (mo) {
 		const tu = mo.index + mo[0].length;
-		const d = h.toLowerCase().indexOf("</title", tu);
+		const d = thuongGiuDo(h).indexOf("</title", tu);
 		if (d !== -1) tieuDe = h.slice(tu, d).trim();
 	}
 	const moTa = (meta(h, "name", "description") || meta(h, "property", "og:description") || "").trim();

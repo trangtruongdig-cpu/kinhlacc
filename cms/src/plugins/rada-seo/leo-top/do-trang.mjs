@@ -6,7 +6,7 @@
 // ban-do.mjs không dùng nó cho đề xuất nào: người dùng chốt trang đứng #1 là trang ít sơ hở
 // nhất, không phải trang dài nhất.
 import { boDau, chuanHoaManh } from "../luat/chuan-hoa.mjs";
-import { htmlSangChu, boKhoi, boChuThich, thuocTinh, meta, reTheMo, timTiep } from "../radar/trang.mjs";
+import { htmlSangChu, boKhoi, boChuThich, thuocTinh, meta, reTheMo, timTiep, thuongGiuDo } from "../radar/trang.mjs";
 
 /** Chữ của một mảnh HTML (dùng chung bộ bóc thẻ + giải mã thực thể của radar). */
 const chuCua = (frag) => htmlSangChu(`<body>${frag}</body>`).than.replace(/\s+([,.;:!?)\]])/g, "$1");
@@ -47,7 +47,7 @@ const TRAN_JSONLD_NUT = 5_000;
 /** Mọi khối JSON-LD đọc được; khối hỏng / quá 200 KB thì bỏ qua. Không bao giờ ném. */
 function docJsonLd(html) {
 	const ra = [];
-	const thap = html.toLowerCase();
+	const thap = thuongGiuDo(html);
 	const dong = timTiep(thap, "</script");
 	const re = reTheMo("script");
 	let m;
@@ -103,7 +103,7 @@ const tenMien = (u) => {
 
 /** Phần <body> (không có thì cả trang trừ <head>) — bằng indexOf, không biểu thức tham lam. */
 function layBody(h) {
-	const thap = h.toLowerCase();
+	const thap = thuongGiuDo(h);
 	const mo = reTheMo("body").exec(h);
 	if (mo) {
 		const tu = mo.index + mo[0].length;
@@ -157,17 +157,46 @@ const NGOAI_BAI = ["nav", "header", "footer", "aside"];
 const TRONG_BAI = ["nav", "aside"];
 
 /**
- * Dòng ký tên — KHÔNG phải mọi chữ "tác giả"/"tham vấn" ("nên tham vấn ý kiến thầy thuốc",
- * "theo tác giả của nghiên cứu" từng được tính là có tác giả). So trên chữ bỏ dấu.
+ * Dòng ký tên phải có HÌNH NHÃN: nhãn đứng ĐẦU dòng/khối, theo sau là ":" hoặc "–"/"-", rồi
+ * một TÊN. Bản trước chỉ cần cụm chữ, nên "Cần tham vấn y khoa nếu đau", "đội ngũ cố vấn
+ * chuyên môn giàu kinh nghiệm" và khung chân trang "Tổng biên tập: …" (mọi báo/trang sức khoẻ
+ * Việt đều có) đều thành "có tác giả". So nhãn trên chữ bỏ dấu, tên trên chữ gốc (cần chữ hoa).
  */
-const KY_TEN = [
-	/\btac gia\s*[:：]/,
-	/\bnguoi viet\s*[:：]/,
-	/\bnguoi duyet\s*[:：]/,
-	/\bbien tap\s*[:：]/,
-	/\btham van (y khoa|chuyen mon|y hoc)\b/,
-	/\bco van chuyen mon\b/,
-];
+const NHAN_KY_TEN =
+	/^(?:tac gia|nguoi viet|nguoi duyet|bien tap(?: vien)?|(?:tham|co|tu) van (?:y khoa|chuyen mon|y hoc))\s*([:：\-–—])/;
+/** "Bài viết được tham vấn y khoa bởi BS. …" — dạng câu ký tên phổ biến, vẫn phải có TÊN theo sau. */
+const CAU_KY_TEN_BOI = /^(?:bai viet )?(?:duoc )?(?:tham|co|tu) van (?:y khoa|chuyen mon|y hoc) boi\s/;
+/** Khung chân trang của báo (masthead) — không phải người viết bài. */
+const MASTHEAD = /^(?:pho )?tong bien tap|^giay phep|^chiu trach nhiem noi dung/;
+/** Danh xưng nghề đứng đầu tên (có khi viết thường). Cờ i nên KHÔNG đặt \p{Lu} ở đây: với i nó khớp cả chữ thường. */
+const DAU_TEN = /^(?:(?:bs|ths|ts|pgs|gs|ck[12i]*)\.|lương y|y s[ĩỹ]|dược s[ĩỹ]|bác s[ĩỹ])/iu;
+const laTen = (s) => /^\p{Lu}/u.test(s) || DAU_TEN.test(s);
+/** Thẻ nội dòng nối liền chữ ("<strong>Tác giả:</strong> Lê C"); thẻ khác là ranh giới dòng. */
+const THE_NOI_DONG = /<\/?(?:strong|b|em|i|u|span|a|small|font|abbr|time|mark|cite)\b[^<>]{0,2000}>/gi;
+
+/** Có dòng ký tên trong mảnh HTML (đã bỏ script/style/chú thích). Quét tuyến tính. */
+function coDongKyTen(frag) {
+	const dong = frag.replace(THE_NOI_DONG, " ").replace(/<[^<>]{0,2000}>/g, "\n").split("\n");
+	for (const tho of dong) {
+		const goc = tho.replace(/&nbsp;|&#160;/gi, " ").replace(/\s+/g, " ").trim().slice(0, 300);
+		if (goc.length < 4) continue;
+		const bd = boDau(goc);
+		if (MASTHEAD.test(bd)) continue;
+		const m = bd.match(NHAN_KY_TEN);
+		if (m) {
+			// Nhãn không chứa dấu tách nên lần đầu gặp dấu đó trong chữ gốc chính là sau nhãn.
+			const sau = goc.slice(goc.indexOf(m[1]) + 1).trim();
+			if (laTen(sau)) return true;
+			continue;
+		}
+		const b = bd.match(CAU_KY_TEN_BOI);
+		if (b) {
+			const i = boDau(goc).indexOf(" boi ");
+			if (i !== -1 && laTen(goc.slice(i + 5).trim())) return true;
+		}
+	}
+	return false;
+}
 
 const TAC_GIA_CHUNG = new Set(["admin", "administrator", "editor", "quan tri", "quan tri vien", "webmaster", "author", "user"]);
 
@@ -238,15 +267,29 @@ function chiLaLink(trong) {
 	return !/\p{L}/u.test(chuCua(trong.replace(/<a\b[^<>]{0,2000}>[^<]{0,2000}<\/a\s*>/gi, " ")));
 }
 
+/** Chữ không mang nội dung trả lời: đuôi câu hỏi và hư từ ("… : là gì", "… : ở đâu"). */
+const TU_RONG = new Set(["la", "gi", "o", "dau", "nao", "the", "sao", "nhu", "bao", "nhieu", "co", "khong", "va", "cua", "cac", "nhung", "ve", "cho", "voi", "trong", "khi"]);
+
 /**
- * Đoạn chỉ nhắc lại câu hỏi: kết thúc bằng "?", hoặc < 12 chữ mà ngoài từ khoá chỉ thêm ≤ 2 chữ
- * ("Huyệt Thần Môn là gì", "Tìm hiểu huyệt Thần Môn"). Không cắt ở "< 12 chữ" trần: câu trả
- * lời ngắn thật như "Thần Môn ở cổ tay" (thêm 3) hay "Huyệt Thần Môn nằm ở nếp gấp cổ tay,
- * phía xương đậu" (11 chữ, thêm 8) vẫn phải được tính.
+ * Đoạn chỉ nhắc lại câu hỏi: kết thúc bằng "?" mà ≤ 12 chữ, hoặc < 12 chữ mà ngoài từ khoá chỉ
+ * thêm ≤ 2 chữ ("Huyệt Thần Môn là gì", "Tìm hiểu huyệt Thần Môn"). Không cắt ở "< 12 chữ" trần:
+ * câu trả lời ngắn thật như "Thần Môn ở cổ tay" (thêm 3) vẫn phải được tính. Hai ngoại lệ:
+ * - "Từ khoá: cụm ngắn" là câu TRẢ LỜI khi sau dấu hai chấm có ≥ 1 chữ nội dung ("Huyệt Thần
+ *   Môn: cổ tay"), dù chỉ thêm 2 chữ.
+ * - Câu trả lời dài kết bằng câu hỏi tu từ ("…nằm ở cổ tay, bạn đã biết chưa?") không phải
+ *   nhắc lại — chỉ đoạn "?" ngắn (≤ 12 chữ) mới là.
  */
 function nhacLaiCauHoi(chu, tuTk) {
-	if (/\?\s*$/.test(chu)) return true;
 	const tu = chuanHoaManh(chu).split(" ").filter(Boolean);
+	if (/\?\s*$/.test(chu)) {
+		if (tu.length <= 12) return true;
+	} else {
+		const hc = chu.search(/[:：]/);
+		if (hc > 0) {
+			const sau = chuanHoaManh(chu.slice(hc + 1)).split(" ").filter(Boolean);
+			if (sau.some((w) => !tuTk.includes(w) && !TU_RONG.has(w))) return false;
+		}
+	}
 	return tu.length < 12 && tu.filter((w) => !tuTk.includes(w)).length <= 2;
 }
 
@@ -303,11 +346,12 @@ function doTrangTho(h, { tuKhoa = "", url = "" }) {
 
 	const ngayCapNhat = meta(h, "property", "article:modified_time") || dateModified || ngayTrongBai(baiHtml) || null;
 
-	// Ký tên dò trên chữ của CẢ thân trước khi bỏ header/footer (byline hay nằm ở đó).
-	const chuKyTen = boDau(chuCua(bodyHtml));
+	// Ký tên: có <article>/<main> thì chỉ soi TRONG đó (gồm <header>/<footer> của bài — dòng
+	// ký tên hay nằm ở đó); không có thì cả thân trừ header/footer/nav của SITE (masthead).
+	const vungKyTen = vung ? bodyHtml.slice(vung.a, vung.d) : boKhoi(bodyHtml, ["header", "footer", "nav"]);
 	const tacGiaMeta = meta(h, "name", "author");
 	const coTacGia =
-		(!!tacGiaMeta && tenTacGiaThat(tacGiaMeta, { tenSite, mien: mienMinh })) || jsonCoTacGia || KY_TEN.some((re) => re.test(chuKyTen));
+		(!!tacGiaMeta && tenTacGiaThat(tacGiaMeta, { tenSite, mien: mienMinh })) || jsonCoTacGia || coDongKyTen(vungKyTen);
 
 	// Nguồn ngoài: link tuyệt đối trong BÀI tới miền khác — không tính miền con của chính site,
 	// mạng xã hội/nút chia sẻ, link tài trợ. Cùng một đích nhắc lại chỉ tính một lần.

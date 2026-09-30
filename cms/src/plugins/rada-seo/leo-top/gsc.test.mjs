@@ -219,3 +219,16 @@ test("layViTri chuẩn hoá URL trang: thiếu '/' cuối hay http/https vẫn k
 	assert.deepEqual(loc.map((f) => f.dimension), ["query"], "không lọc page bằng equals — so ở phía mình sau khi chuẩn hoá");
 	assert.equal(await g.layViTri({ tuKhoa: "huyệt thần môn", trang: "https://kinhlac.online/huyet/khong-co/" }), null);
 });
+
+test("M6 hết hạn giờ thì HUỶ lời gọi fetch bên dưới (AbortSignal), không để socket treo", async () => {
+	const tin = [];
+	const fetch = (url, init = {}) => {
+		tin.push(init.signal);
+		return new Promise(() => {});
+	};
+	const gsc = taoGsc({ fetch, env: ENV, now: () => NOW, hanGioMs: 30 });
+	await assert.rejects(gsc.layTuKhoaLeoTop(), /quá hạn/);
+	assert.equal(tin.length, 1);
+	assert.ok(tin[0], "phải truyền signal vào fetch");
+	assert.equal(tin[0].aborted, true);
+});

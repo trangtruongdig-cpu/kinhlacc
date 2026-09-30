@@ -81,8 +81,8 @@ test("taoDocWeb / taoDocTrang: đọc tối đa 1,5 MB rồi huỷ luồng; taoD
 	assert.deepEqual(await taoDocTrang(async () => c.res)("https://a.com/nho"), { status: 200, xRobots: "", html: "a".repeat(20) });
 });
 
-test("thân không có luồng (fetch giả chỉ có text()) vẫn bị cắt ở trần", async () => {
-	const res = { ok: true, status: 200, headers: new Headers(), body: null, text: async () => "b".repeat(TRAN_BYTE_THAN + 10) };
+test("thân không có luồng (fetch giả chỉ có text()) vẫn bị cắt ở trần (khi content-length khai ≤ 5 MB)", async () => {
+	const res = { ok: true, status: 200, headers: new Headers({ "content-length": String(TRAN_BYTE_THAN + 10) }), body: null, text: async () => "b".repeat(TRAN_BYTE_THAN + 10) };
 	assert.equal((await taoDocWeb(async () => res)("https://a.com/x")).length, TRAN_BYTE_THAN);
 	const r = await taoDocTrang(async () => res)("https://a.com/x");
 	assert.equal(r.html.length, TRAN_BYTE_THAN);
@@ -97,4 +97,20 @@ test("hạn giờ phủ cả khâu đọc thân: header về ngay mà thân treo
 	assert.equal(await taoDocTrang(async () => b.res, { hanGioMs: 80 })("https://a.com/treo"), null);
 	assert.ok(Date.now() - t0 < 1000);
 	assert.equal(b.dem.huy, true, "hết hạn thì huỷ luồng, không để nó chạy ngầm");
+});
+
+test("M5 không có luồng: content-length > 5 MB thì từ chối (không gọi text()); ≤ 5 MB thì đọc rồi cắt", async () => {
+	let goiText = 0;
+	const to = { ok: true, status: 200, headers: new Headers({ "content-length": String(6_000_000) }), body: null, text: async () => (goiText++, "x") };
+	assert.equal(await taoDocWeb(async () => to)("https://a.com/to"), "");
+	assert.equal(await taoDocTrang(async () => to)("https://a.com/to"), null);
+	assert.equal(goiText, 0, "không được nuốt cả thân vào RAM");
+	// Không khai độ dài thì không biết trước → cũng từ chối.
+	const khongRo = { ok: true, status: 200, headers: new Headers(), body: null, text: async () => (goiText++, "x") };
+	assert.equal(await taoDocTrang(async () => khongRo)("https://a.com/khong-ro"), null);
+	assert.equal(goiText, 0);
+	const vua = { ok: true, status: 200, headers: new Headers({ "content-length": String(TRAN_BYTE_THAN + 10) }), body: null, text: async () => "b".repeat(TRAN_BYTE_THAN + 10) };
+	const r = await taoDocTrang(async () => vua)("https://a.com/vua");
+	assert.equal(r.html.length, TRAN_BYTE_THAN);
+	assert.equal(r.catBot, true);
 });
