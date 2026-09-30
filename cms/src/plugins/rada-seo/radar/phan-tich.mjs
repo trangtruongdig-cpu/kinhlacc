@@ -15,7 +15,7 @@ Nhiệm vụ: phân tích NỘI DUNG một bài blog của đối thủ (đã đ
 Hãy xác định:
 - chu_de: chủ đề chính của bài blog (1 câu ngắn).
 - tu_khoa: 3 từ khoá SEO hàng đầu trong bài, liên quan tới lĩnh vực kinh doanh của chúng tôi. Kết hợp từ khoá dài (long tail) và ngắn (short tail). Từ khoá phải thực sự xuất hiện/đúng trọng tâm bài.
-- tom_tat: các ý phụ khác nhau của bài, mỗi phần tử một ý ngắn gọn.
+- tom_tat: các ý phụ khác nhau của bài, tối đa 6 ý, mỗi phần tử một ý ngắn gọn.
 
 Tiếng Việt có dấu, viết hoa chữ cái đầu. Nếu nội dung quá mỏng, vẫn suy luận từ tiêu đề & mô tả; tuyệt đối không bịa số liệu.`;
 
@@ -43,7 +43,9 @@ export async function phanTichTrang({ url, docWeb, claude, epBuoc = false }) {
 	if (chu.replace(/\s/g, "").length < 40) return { trangThai: "loi", loi: "Trang gần như không có chữ" };
 	if (!epBuoc && !laDongY(`${url}\n${tieuDe}\n${moTa}`)) return { trangThai: "ngoai_nganh" };
 	const user = `${BOI_CANH}\n\nURL bài blog đối thủ: ${url}\n\nNỘI DUNG ĐÃ TRÍCH:\n"""\n${chu}\n"""`;
-	const kq = await claude.traJson(LOI_NHAC_TRICH, user, KHUON_TRICH, 800);
+	// 1500 chứ không 800: tiếng Việt có dấu tốn token; 800 dễ cắt cụt JSON khi bài nhiều ý (max_tokens
+	// → lượt hỏng mà vẫn trừ ngân sách). Lời nhắc giới hạn tom_tat 6 ý để khỏi phình.
+	const kq = await claude.traJson(LOI_NHAC_TRICH, user, KHUON_TRICH, 1500);
 	return {
 		trangThai: "da_phan_tich",
 		chuDe: kq.chu_de.trim(),

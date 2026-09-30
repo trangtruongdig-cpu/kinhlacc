@@ -49,6 +49,9 @@ async function chayCa(ctx, ghi) {
 		const nganSach = taoNganSach(soMoiTruong("RADA_SEO_TRAN_LUOT", 200));
 		const claude = ghi ? taoClaude({ client: taoClientThat(), nganSach }) : null;
 		return await chayCaRadar({
+			// Dừng phân tích 15 phút trước khi khoá hết hạn: quá hạn khoá thì một ca khác được
+			// giành khoá và chạy chồng lên ca này.
+			hanChot: Date.now() + HAN_KHOA_MS - 15 * 60 * 1000,
 			s: ctx.storage,
 			docWeb: taoDocWeb(ctx.http.fetch.bind(ctx.http)),
 			claude,
@@ -146,6 +149,14 @@ export function createPlugin() {
 					const tm = chuanTenMien(vao(ctx).tenMien);
 					if (!tm) throw PluginRouteError.badRequest("Tên miền không hợp lệ");
 					return { soUrlDaXoa: await kho.xoaDoiThu(ctx.storage, tm) };
+				},
+			},
+			"url-dat-lai": {
+				// URL 'loi' (trang chặn tạm, mạng chập) không tự thử lại; nút này đưa chúng về 'cho'.
+				handler: async (ctx) => {
+					const tm = chuanTenMien(vao(ctx).tenMien);
+					if (!tm) throw PluginRouteError.badRequest("Tên miền không hợp lệ");
+					return { tenMien: tm, soUrlDatLai: await kho.datLaiUrlLoi(ctx.storage, tm) };
 				},
 			},
 			"cum-trang-thai": {

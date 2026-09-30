@@ -40,3 +40,48 @@ test("thayCum: giữ cụm đã bỏ qua và không thêm lại cụm giống n�
 	assert.equal(ds.filter((c) => c.trangThai === "bo_qua").length, 1);
 	await assert.rejects(kho.datTrangThaiCum(s, dau.id, "linh_tinh"), /không hợp lệ/);
 });
+
+test("ghiTheoLo: 45 mục → 3 lượt putMany (20/20/5), nghỉ GIỮA các lô", async () => {
+	const s = taoKhoGia();
+	const lo = [];
+	const goc = s.url.putMany;
+	s.url.putMany = async (items) => { lo.push(items.length); return goc(items); };
+	let nghi = 0;
+	const items = Array.from({ length: 45 }, (_, i) => ({ id: `u${i}`, data: { i } }));
+	await kho.ghiTheoLo(s.url, items, { nghi: async (ms) => { assert.equal(ms, kho.NGHI_GIUA_LO_MS); nghi++; } });
+	assert.deepEqual(lo, [20, 20, 5]);
+	assert.equal(nghi, 2);
+	assert.equal(s.url._m.size, 45);
+});
+
+test("themUrlMoi và thayCum ghi theo lô 20", async () => {
+	const s = taoKhoGia();
+	const lo = [];
+	for (const col of [s.url, s.cum]) {
+		const goc = col.putMany;
+		col.putMany = async (items) => { lo.push(items.length); return goc(items); };
+	}
+	const nghi = async () => {};
+	const urls = Array.from({ length: 45 }, (_, i) => `https://a.vn/${i}`);
+	assert.equal(await kho.themUrlMoi(s, "a.vn", urls, { ghi: true, now: NOW, nghi }), 45);
+	assert.deepEqual(lo, [20, 20, 5]);
+	lo.length = 0;
+	const cum = Array.from({ length: 25 }, (_, i) => ({ tenCum: `Cụm số ${i} riêng biệt ${"x".repeat(i)}`, tuKhoa: [`khoa${i}`], diem: i }));
+	assert.equal(await kho.thayCum(s, cum, NOW, { nghi }), 25);
+	assert.deepEqual(lo, [20, 5]);
+});
+
+test("datLaiUrlLoi: chỉ URL 'loi' của đúng đối thủ về 'cho'", async () => {
+	const s = taoKhoGia();
+	await kho.themUrlMoi(s, "a.vn", ["https://a.vn/1", "https://a.vn/2", "https://a.vn/3"], { ghi: true, now: NOW });
+	await kho.themUrlMoi(s, "b.vn", ["https://b.vn/1"], { ghi: true, now: NOW });
+	await kho.capNhatUrl(s, kho.idUrl("https://a.vn/1"), { trangThai: "loi", loi: "x" });
+	await kho.capNhatUrl(s, kho.idUrl("https://a.vn/2"), { trangThai: "loi", loi: "y" });
+	await kho.capNhatUrl(s, kho.idUrl("https://a.vn/3"), { trangThai: "da_phan_tich" });
+	await kho.capNhatUrl(s, kho.idUrl("https://b.vn/1"), { trangThai: "loi" });
+	assert.equal(await kho.datLaiUrlLoi(s, "a.vn", { nghi: async () => {} }), 2);
+	assert.deepEqual(await kho.demUrl(s, "a.vn"), { cho: 2, da_phan_tich: 1, ngoai_nganh: 0, loi: 0 });
+	assert.deepEqual(await kho.demUrl(s, "b.vn"), { cho: 0, da_phan_tich: 0, ngoai_nganh: 0, loi: 1 });
+	const r = await s.url.get(kho.idUrl("https://a.vn/1"));
+	assert.equal(r.loi, undefined);
+});

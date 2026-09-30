@@ -12,6 +12,23 @@ export const KHAI_BAO_KHO = {
 
 export const TRANG_THAI_CUM = ["cho_viet", "co_nhap", "da_dang", "bo_qua", "phu_boi_tu_dien"];
 
+/**
+ * Nghỉ giữa hai lô ghi. CMS chỉ có MỘT kết nối trong pool (astro.config: max 1, chờ tối đa
+ * 10 s). putMany của EmDash chạy một INSERT mỗi dòng trong MỘT giao dịch; ở RTT ~88 ms tới
+ * Aiven, 300 dòng giữ kết nối đó ~26 s → blog và khu quản trị hết hạn chờ. Chia lô 20 dòng
+ * (~1,8 s) và nghỉ giữa các lô để request của người thật chen vào được.
+ */
+export const NGHI_GIUA_LO_MS = 150;
+const choThat = (ms) => new Promise((r) => setTimeout(r, ms));
+
+/** putMany theo lô `co` mục, nghỉ NGHI_GIUA_LO_MS giữa hai lô (không nghỉ sau lô cuối). */
+export async function ghiTheoLo(col, items, { nghi = choThat, co = 20 } = {}) {
+	for (let i = 0; i < items.length; i += co) {
+		if (i > 0) await nghi(NGHI_GIUA_LO_MS);
+		await col.putMany(items.slice(i, i + co));
+	}
+}
+
 const bam = (s) => createHash("sha1").update(s).digest("hex").slice(0, 24);
 export const idUrl = (url) => bam(url);
 
@@ -45,12 +62,12 @@ export async function xoaDoiThu(s, tenMien) {
 }
 
 /** Thêm URL chưa có; trả số URL mới. `ghi=false` chỉ đếm. */
-export async function themUrlMoi(s, tenMien, urls, { ghi, now }) {
+export async function themUrlMoi(s, tenMien, urls, { ghi, now, nghi }) {
 	const ids = urls.map(idUrl);
 	const daCo = await s.url.getMany(ids);
 	const moi = urls.filter((u, i) => !daCo.has(ids[i]));
 	if (ghi && moi.length)
-		await s.url.putMany(moi.map((url) => ({ id: idUrl(url), data: { doiThuId: tenMien, url, trangThai: "cho", taoLuc: now } })));
+		await ghiTheoLo(s.url, moi.map((url) => ({ id: idUrl(url), data: { doiThuId: tenMien, url, trangThai: "cho", taoLuc: now } })), { nghi });
 	return moi.length;
 }
 
@@ -62,6 +79,23 @@ export async function layUrlCho(s, tenMien, n) {
 export async function capNhatUrl(s, id, patch) {
 	const cu = await s.url.get(id);
 	if (cu) await s.url.put(id, { ...cu, ...patch });
+}
+
+/**
+ * Đưa mọi URL 'loi' của một đối thủ về 'cho' để ca sau thử lại (lỗi mạng tạm, trang chặn
+ * nhất thời). Bỏ trường `loi` cũ. @returns {Promise<number>} số URL đã đặt lại
+ */
+export async function datLaiUrlLoi(s, tenMien, { nghi } = {}) {
+	const rows = await tatCa(s.url, { where: { doiThuId: tenMien, trangThai: "loi" } });
+	await ghiTheoLo(
+		s.url,
+		rows.map((r) => {
+			const { loi: _bo, ...con } = r.data;
+			return { id: r.id, data: { ...con, trangThai: "cho" } };
+		}),
+		{ nghi },
+	);
+	return rows.length;
 }
 
 export async function demUrl(s, tenMien) {
@@ -93,13 +127,13 @@ export async function dsCum(s, n = 100) {
  * có tác dụng qua các đêm dù tên cụm mỗi đêm hơi khác.
  * @returns {Promise<number>} số cụm đã ghi
  */
-export async function thayCum(s, cumMoi, now) {
+export async function thayCum(s, cumMoi, now, { nghi } = {}) {
 	const cu = await tatCa(s.cum);
 	const khoa = cu.filter((r) => r.data.trangThai !== "cho_viet").map((r) => ({ id: r.id, tieuDe: r.data.tenCum, tuKhoa: r.data.tuKhoa }));
 	const xoa = cu.filter((r) => r.data.trangThai === "cho_viet").map((r) => r.id);
 	if (xoa.length) await s.cum.deleteMany(xoa);
 	const ghi = cumMoi.filter((c) => !timTrung({ tieuDe: c.tenCum, tuKhoa: c.tuKhoa }, khoa));
-	if (ghi.length) await s.cum.putMany(ghi.map((c) => ({ id: bam(c.tenCum), data: { ...c, trangThai: "cho_viet", capNhatLuc: now } })));
+	if (ghi.length) await ghiTheoLo(s.cum, ghi.map((c) => ({ id: bam(c.tenCum), data: { ...c, trangThai: "cho_viet", capNhatLuc: now } })), { nghi });
 	return ghi.length;
 }
 

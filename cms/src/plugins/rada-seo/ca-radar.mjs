@@ -13,40 +13,73 @@ export const NGHI_GIUA_LUOT_MS = 300;
 
 const cho = (ms) => new Promise((r) => setTimeout(r, ms));
 
+/** Lỗi mô hình liên tiếp tới mức này thì ngắt phân tích cả ca (cầu dao). */
+export const TRAN_LOI_MO_HINH_LIEN_TIEP = 3;
+/** Khoá sai / không có quyền / không có model: gọi tiếp chỉ đốt lượt, dừng ngay. */
+const MA_DUNG_NGAY = new Set([401, 403, 404]);
+
 /**
  * @param {{s: object, docWeb: Function, claude: {traJson: Function}|null, nganSach: {daDung: number},
- *          ghi: boolean, tranMoiDoiThu?: number, nghi?: (ms: number) => Promise<void>, now?: () => string}} o
+ *          ghi: boolean, tranMoiDoiThu?: number, nghi?: (ms: number) => Promise<void>, now?: () => string,
+ *          hanChot?: number}} o  hanChot: mốc epoch ms — quá mốc thì thôi phân tích (khoá ca sắp hết hạn)
  */
-export async function chayCaRadar({ s, docWeb, claude, nganSach, ghi, tranMoiDoiThu = 30, nghi = cho, now = () => new Date().toISOString() }) {
+export async function chayCaRadar({ s, docWeb, claude, nganSach, ghi, tranMoiDoiThu = 30, nghi = cho, now = () => new Date().toISOString(), hanChot = Infinity }) {
 	const ca = {
 		loai: "radar", batDau: now(), ketThuc: null, ghi,
-		soUrlMoi: 0, soSePhanTich: 0, soPhanTich: 0, soNgoaiNganh: 0, soLoiTrang: 0,
+		soUrlMoi: 0, soSePhanTich: 0, soPhanTich: 0, soNgoaiNganh: 0, soLoiTrang: 0, soLoiMoHinh: 0,
 		soXuHuong: 0, soCum: 0, soLuotGoi: 0, loi: [],
 	};
 	const doiThu = await kho.dsDoiThu(s);
-	let hetTien = false;
+	// Lý do thôi phân tích cho CẢ ca (hết tiền, cầu dao, hết hạn). Vẫn quét sitemap và tính khoảng trống.
+	let dung = null;
+	let loiLienTiep = 0;
 	for (const d of doiThu) {
 		try {
 			const urls = await thuThapUrl(d.tenMien, docWeb);
-			const soMoi = await kho.themUrlMoi(s, d.tenMien, urls, { ghi, now: now() });
+			const soMoi = await kho.themUrlMoi(s, d.tenMien, urls, { ghi, now: now(), nghi });
 			ca.soUrlMoi += soMoi;
 			const hang = await kho.layUrlCho(s, d.tenMien, tranMoiDoiThu);
 			// Chạy thử không ghi URL mới nên layUrlCho không thấy chúng — cộng tay để bản xem trước
 			// báo đúng số trang ca thật SẼ phân tích (vẫn chặn bởi trần mỗi đối thủ).
 			ca.soSePhanTich += ghi ? hang.length : Math.min(tranMoiDoiThu, hang.length + soMoi);
-			if (!ghi || hetTien) continue;
+			if (!ghi || dung) continue;
 			for (const u of hang) {
+				if (Date.now() > hanChot) {
+					dung = "Dừng phân tích: chạm hạn ca";
+					ca.loi.push(dung);
+					break;
+				}
 				let kq;
 				try {
 					kq = await phanTichTrang({ url: u.url, docWeb, claude });
 				} catch (e) {
 					if (e instanceof HetNganSach) {
-						hetTien = true;
+						dung = e.message;
 						ca.loi.push(e.message);
 						break;
 					}
-					kq = { trangThai: "loi", loi: String(e?.message ?? e).slice(0, 300) };
+					// Lỗi TẢI/ĐỌC trang được phanTichTrang TRẢ VỀ ({trangThai:"loi"}), không ném —
+					// cái bị ném ở đây là lời gọi Claude (quá tải, khoá sai, bị cắt…). Đó là lỗi của
+					// PHÍA TA, không phải của trang: KHÔNG đánh dấu URL, để nó 'cho' tới đêm sau.
+					// (Trước đây URL bị đặt 'loi' vĩnh viễn — một đêm Anthropic sập là mất trọn lứa.)
+					const thongDiep = String(e?.message ?? e).slice(0, 300);
+					ca.soLoiMoHinh++;
+					loiLienTiep++;
+					if (ca.soLoiMoHinh === 1) ca.loi.push(`Lỗi mô hình: ${thongDiep}`);
+					if (MA_DUNG_NGAY.has(e?.status)) {
+						dung = `Dừng ca: ${thongDiep}`;
+						ca.loi.push(dung);
+						break;
+					}
+					if (loiLienTiep >= TRAN_LOI_MO_HINH_LIEN_TIEP) {
+						dung = `Dừng ca: ${TRAN_LOI_MO_HINH_LIEN_TIEP} lỗi mô hình liên tiếp`;
+						ca.loi.push(dung);
+						break;
+					}
+					await nghi(NGHI_GIUA_LUOT_MS);
+					continue;
 				}
+				loiLienTiep = 0;
 				await kho.capNhatUrl(s, u.id, { ...kq, phanTichLuc: now() });
 				if (kq.trangThai === "da_phan_tich") ca.soPhanTich++;
 				else if (kq.trangThai === "ngoai_nganh") ca.soNgoaiNganh++;
@@ -63,7 +96,7 @@ export async function chayCaRadar({ s, docWeb, claude, nganSach, ghi, tranMoiDoi
 			ca.soXuHuong = xuHuong.length;
 			const { minh, doiThu: dt } = await kho.chuDeDaPhanTich(s, doiThu);
 			const cum = timKhoangTrong({ chuDeMinh: minh, chuDeDoiThu: dt, xuHuong });
-			ca.soCum = await kho.thayCum(s, cum, now());
+			ca.soCum = await kho.thayCum(s, cum, now(), { nghi });
 		} catch (e) {
 			ca.loi.push(`khoảng trống: ${String(e?.message ?? e).slice(0, 300)}`);
 		}

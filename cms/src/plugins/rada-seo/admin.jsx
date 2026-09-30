@@ -69,7 +69,10 @@ function RadaSeo() {
 						<tr key={d.id}>
 							<td style={o}>{d.ten} {d.laCuaMinh && <b>(của mình)</b>}</td>
 							<td style={o}>{d.dem.cho}</td><td style={o}>{d.dem.da_phan_tich}</td><td style={o}>{d.dem.ngoai_nganh}</td><td style={o}>{d.dem.loi}</td>
-							<td style={o}><button onClick={() => confirm(`Xoá ${d.id} và mọi URL của nó?`) && lam("doi-thu-xoa", { tenMien: d.id })}>Xoá</button></td>
+							<td style={o}>
+									{d.dem.loi > 0 && <button onClick={() => lam("url-dat-lai", { tenMien: d.id })}>Thử lại URL lỗi</button>}{" "}
+									<button onClick={() => confirm(`Xoá ${d.id} và mọi URL của nó?`) && lam("doi-thu-xoa", { tenMien: d.id })}>Xoá</button>
+								</td>
 						</tr>
 					))}
 				</tbody>

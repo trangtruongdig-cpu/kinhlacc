@@ -23,7 +23,7 @@ export function docGoiY(chu) {
 export async function timXuHuong({ docWeb, hatGiong = HAT_GIONG, tran = 50 }) {
 	const gap = new Map();
 	for (const h of hatGiong.slice(0, 12)) {
-		const url = `https://suggestqueries.google.com/complete/search?client=firefox&hl=vi&gl=vn&q=${encodeURIComponent(h)}`;
+		const url = `https://suggestqueries.google.com/complete/search?client=firefox&hl=vi&gl=vn&ie=utf-8&oe=utf-8&q=${encodeURIComponent(h)}`;
 		for (const g of docGoiY(await docWeb(url))) {
 			const k = boDau(g).trim();
 			if (k && !gap.has(k)) gap.set(k, g.trim());
