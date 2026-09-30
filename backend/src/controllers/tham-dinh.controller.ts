@@ -4,7 +4,7 @@ import { Cron } from '@nestjs/schedule';
 
 import { ThamDinhCmsService } from './tham-dinh-cms.service';
 import { SuCoService } from './su-co.controller';
-import { doMuc, dungChiMucTen, doLienKet } from '../utils/tham-dinh-muc.util';
+import { doMuc, dungChiMucTen, doLienKet, type MucKho } from '../utils/tham-dinh-muc.util';
 import { gomCum, vanTayNoiDung, type CumViec, type NhanXetCoMuc } from '../utils/tham-dinh-cum.util';
 import { chiKhacHinhThuc } from '../utils/tham-dinh-sua-hinh-thuc.util';
 import type { HangHoSo, HoSoMuc, LuocKeCa, LuocKeTuSua } from '../models/tham-dinh.dto';
@@ -112,7 +112,35 @@ export class ThamDinhService {
         duongDanBo[bo.bo] = bo.duongDan;
         let tu = 0;
         for (;;) {
-          const lo = await this.cms.docLoMuc(bo.bo, bo.than, tu, LO);
+          // ⚠️ Đọc lô cũng phải chịu được lô NẶNG, không chỉ lô hỏng.
+          //
+          // Đo thật 30/09/2026: ca dừng ở đúng mục thứ 1.179 = 1.059 huyệt + 20 kinh mạch
+          // + 100 châm cứu, tức ngay khi sang bộ BỆNH HỌC — nơi mục dày 16–30 nghìn ký tự.
+          // Đọc 200 mục như thế trong một câu là vài chục MB JSONB, quá trần thời gian.
+          //
+          // Thử lô to trước cho nhanh, gặp lỗi thì nhỏ dần. Bộ nào mục mỏng vẫn chạy lô
+          // 200; chỉ bộ nặng mới trả giá bằng thêm vài lượt đi-về.
+          let lo: MucKho[] = [];
+          let coLoi: Error | null = null;
+          for (const co of [LO, 50, 10, 2]) {
+            try {
+              lo = await this.cms.docLoMuc(bo.bo, bo.than, tu, co);
+              coLoi = null;
+              if (co !== LO) {
+                lk.loi.push(`đọc ${bo.bo}+${tu} phải hạ lô xuống ${co}`);
+              }
+              break;
+            } catch (e) {
+              coLoi = e as Error;
+              await this.cms.moKetNoi().catch(() => undefined);
+            }
+          }
+          if (coLoi) {
+            lk.loi.push(`bỏ qua ${bo.bo}+${tu}: ${coLoi.message}`);
+            this.logger.warn(`bỏ qua lô ${bo.bo}+${tu}: ${coLoi.message}`);
+            tu += LO;
+            continue;
+          }
           if (!lo.length) break;
 
           // Soi cả lô trong bộ nhớ trước, rồi ghi MỘT LẦN. Ghi lẻ từng mục tốn 8 lượt
@@ -164,7 +192,9 @@ export class ThamDinhService {
             }
           }
           if (gioiHan && lk.soMucDoc >= gioiHan) break;
-          tu += LO;
+          // Tiến theo số THỰC ĐỌC: nếu vừa phải hạ lô xuống 10, cộng 200 là nhảy cóc mất
+          // 190 mục.
+          tu += lo.length;
         }
         if (gioiHan && lk.soMucDoc >= gioiHan) break;
       }
