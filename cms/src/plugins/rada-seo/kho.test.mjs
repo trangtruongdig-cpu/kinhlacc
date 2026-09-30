@@ -376,20 +376,21 @@ test("leo top: vòng đời cho_serp → cho_doc → co_phieu → da_sua; sai b�
 	assert.equal((await s.leo_top.get(p.id)).ngaySua, "2026-10-03");
 });
 
-test("leo top: dsLeoTop xếp mới nhất trước, lọc theo trạng thái; tuKhoaDaSoi bỏ cặp soi trong 28 ngày và phiên đang chờ đo lại", async () => {
+const trangSo = (x) => `https://kinhlac.online/huyet/${x}/`;
+
+test("leo top: dsLeoTop xếp mới nhất trước, lọc theo trạng thái; trangDaSoi chặn TRANG soi trong 28 ngày và trang đang chờ đo lại", async () => {
 	const s = taoKhoGia();
 	const iso = (ngay) => new Date(T0 - ngay * NGAY_MS).toISOString();
-	const cu = await kho.taoPhienLeoTop(s, { ...PHIEN, tuKhoa: "cũ" }, iso(40));
+	const cu = await kho.taoPhienLeoTop(s, { ...PHIEN, tuKhoa: "cũ", trang: trangSo("cu") }, iso(40));
 	await s.leo_top.put(cu.id, { ...(await s.leo_top.get(cu.id)), trangThai: "xong" });
-	const moi = await kho.taoPhienLeoTop(s, { ...PHIEN, tuKhoa: "mới" }, iso(3));
-	const cho = await kho.taoPhienLeoTop(s, { ...PHIEN, tuKhoa: "chờ đo" }, iso(35));
+	const moi = await kho.taoPhienLeoTop(s, { ...PHIEN, tuKhoa: "mới", trang: trangSo("moi") }, iso(3));
+	const cho = await kho.taoPhienLeoTop(s, { ...PHIEN, tuKhoa: "chờ đo", trang: trangSo("cho") }, iso(35));
 	await s.leo_top.put(cho.id, { ...(await s.leo_top.get(cho.id)), trangThai: "da_sua", ngaySua: "2026-09-20" });
 	assert.deepEqual((await kho.dsLeoTop(s)).map((p) => p.tuKhoa), ["mới", "chờ đo", "cũ"]);
 	assert.deepEqual((await kho.dsLeoTop(s, { trangThai: "da_sua" })).map((p) => p.id), [cho.id]);
-	const bo = await kho.tuKhoaDaSoi(s, T0);
-	assert.ok(bo.has(`mới|${MINH}`));
-	assert.ok(bo.has(`chờ đo|${MINH}`));
-	assert.ok(!bo.has(`cũ|${MINH}`));
+	const bo = await kho.trangDaSoi(s, T0);
+	// Khoá là khoaUrl của trang (bỏ "/" cuối), không kèm từ khoá.
+	assert.deepEqual(bo, new Set([kho.khoaUrl(trangSo("moi")), kho.khoaUrl(trangSo("cho"))]));
 	// Cùng từ khoá soi lại sau 28 ngày → phiên MỚI, không đè phiên cũ.
 	const lai = await kho.taoPhienLeoTop(s, { ...PHIEN, tuKhoa: "cũ" }, iso(0));
 	assert.notEqual(lai.id, cu.id);
@@ -427,15 +428,15 @@ test("leo top: ca bỏ lỡ mốc 14 (đã qua 30 ngày) → chỉ đo MỘT l�
 	assert.deepEqual((await kho.phienCanDoLai(s, T0 + 30 * NGAY_MS)).map((x) => x.moc), [28]);
 });
 
-test("leo top: tuKhoaDaSoi chặn MỌI phiên chưa kết thúc dù cũ (co_phieu 40 ngày, cho_doc); phiên bo/xong cũ thì mở lại được", async () => {
+test("leo top: trangDaSoi chặn MỌI phiên chưa kết thúc dù cũ (co_phieu 40 ngày, cho_doc); phiên bo/xong cũ thì mở lại được", async () => {
 	const s = taoKhoGia();
 	const iso = (ngay) => new Date(T0 - ngay * NGAY_MS).toISOString();
 	for (const [tuKhoa, trangThai] of [["phiếu cũ", "co_phieu"], ["đọc dở", "cho_doc"], ["bỏ dở", "bo"], ["xong rồi", "xong"]]) {
-		const p = await kho.taoPhienLeoTop(s, { ...PHIEN, tuKhoa }, iso(40));
+		const p = await kho.taoPhienLeoTop(s, { ...PHIEN, tuKhoa, trang: trangSo(trangThai) }, iso(40));
 		await s.leo_top.put(p.id, { ...(await s.leo_top.get(p.id)), trangThai });
 	}
-	const bo = await kho.tuKhoaDaSoi(s, T0);
-	assert.deepEqual(bo, new Set([`đọc dở|${MINH}`, `phiếu cũ|${MINH}`]));
+	const bo = await kho.trangDaSoi(s, T0);
+	assert.deepEqual(bo, new Set([kho.khoaUrl(trangSo("cho_doc")), kho.khoaUrl(trangSo("co_phieu"))]));
 });
 
 test("leo top: boPhienCu — cho_serp/cho_doc không đụng > 7 ngày → bo (bỏ chữ trang); phiên vừa nộp SERP và co_phieu cũ giữ nguyên; demPhienMo", async () => {
@@ -527,8 +528,8 @@ test("leo top: demPhienMo chỉ tính co_phieu ra phiếu trong 30 ngày; co_phi
 	await s.leo_top.put(khongMoc.id, { ...(await s.leo_top.get(khongMoc.id)), trangThai: "co_phieu" });
 	assert.equal(await kho.demPhienMo(s, T0), 2, "chờ serp + phiếu mới");
 	assert.equal((await s.leo_top.get(cu.id)).trangThai, "co_phieu", "không tự đổi trạng thái");
-	const bo = await kho.tuKhoaDaSoi(s, T0);
-	assert.ok(bo.has(`phiếu cũ|${MINH}`), "cặp của phiếu cũ vẫn bị chặn soi lại");
+	const bo = await kho.trangDaSoi(s, T0);
+	assert.ok(bo.has(kho.khoaUrl(MINH)), "trang của phiếu cũ vẫn bị chặn soi lại");
 	// Vẫn đánh dấu đã sửa được.
 	await kho.datDaSua(s, cu.id, "2026-10-01", { nowMs: T0 + 12 * 3600_000 });
 	assert.equal((await s.leo_top.get(cu.id)).trangThai, "da_sua");
@@ -563,4 +564,17 @@ test("leo top: phienCanDoLai trả kèm ngaySua (để ghiDoLai so lại)", asyn
 	await s.leo_top.put(p.id, { ...(await s.leo_top.get(p.id)), trangThai: "da_sua", ngaySua: "2026-10-01" });
 	const [x] = await kho.phienCanDoLai(s, T0 + 14 * NGAY_MS + 3600_000);
 	assert.equal(x.ngaySua, "2026-10-01");
+});
+
+// ---- Sửa sau nghiệm thu 2D ----
+
+test("leo top: taoPhienLeoTop lưu tuKhoaPhu (≤ 5, chỉ tuKhoa/viTri/hienThi); thiếu thì mảng rỗng", async () => {
+	const s = taoKhoGia();
+	const phu = Array.from({ length: 7 }, (_, i) => ({ tuKhoa: `phụ ${i}`, viTri: 9.123, hienThi: 50 - i, trang: "x", coHoi: 3 }));
+	const p = await kho.taoPhienLeoTop(s, { ...PHIEN, tuKhoaPhu: phu }, new Date(T0).toISOString());
+	const d = await s.leo_top.get(p.id);
+	assert.equal(d.tuKhoaPhu.length, 5);
+	assert.deepEqual(d.tuKhoaPhu[0], { tuKhoa: "phụ 0", viTri: 9.12, hienThi: 50 });
+	const k = await kho.taoPhienLeoTop(s, { ...PHIEN, tuKhoa: "khác" }, new Date(T0 + 1).toISOString());
+	assert.deepEqual(k.tuKhoaPhu, []);
 });

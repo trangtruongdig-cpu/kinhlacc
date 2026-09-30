@@ -268,3 +268,18 @@ test("M2 trả lời ngắn kiểu 'Từ khoá: cụm ngắn' được tính; đ
 	assert.equal(vt(`<p>Huyệt Thần Môn nằm ở nếp gấp cổ tay, phía xương đậu, bạn đã biết chưa?</p>`), 1);
 	assert.equal(vt(`<p>Huyệt Thần Môn nằm ở đâu trên cổ tay?</p>`), null);
 });
+
+// ---- Sửa sau nghiệm thu 2D ----
+test("ngày: dạng ISO sau 'Cập nhật' (có/không dấu hai chấm) — đúng dòng byline trang từ điển của mình", () => {
+	const ng = (than, head = "") => doTrang(`<html><head>${head}</head><body>${than}</body></html>`, { tuKhoa: TU_KHOA, url: "https://kinhlac.online/huyet/ha-quan/" }).ngayCapNhat;
+	assert.equal(ng(`<p class="dl-byline">Biên soạn: Ban Biên Tập · Theo y văn cổ truyền · Cập nhật 2026-09-30</p>`), "2026-09-30");
+	// Bố cục thật của build-dict.mjs: byline nằm trong <main><article> ngay dưới h1.
+	assert.equal(ng(`<main class="bl-main"><article class="bl-article dl-article"><nav>Trang chủ › Huyệt</nav><h1>Hạ Quan</h1><p class="dl-byline">Biên soạn: Ban Biên Tập · Theo y văn cổ truyền · Cập nhật 2026-09-30</p><p class="dl-lead">x</p></article></main>`), "2026-09-30");
+	assert.equal(ng(`<article><p>Ngày cập nhật: 2025-3-7</p></article>`), "2025-03-07");
+	assert.equal(ng(`<article><p>Cập nhật lần cuối 2024-12-01</p></article>`), "2024-12-01");
+	assert.equal(ng(`<article><p>Cập nhật 2026-02-31</p></article>`), null, "ngày không có thật");
+	// dd/mm/yyyy vẫn đọc như cũ.
+	assert.equal(ng(`<article><p>Cập nhật: 05/03/2024</p></article>`), "2024-03-05");
+	// Chỉ có <meta property="article:modified_time">.
+	assert.equal(ng(`<p>x</p>`, `<meta property="article:modified_time" content="2026-09-30T08:00:00+07:00">`), "2026-09-30T08:00:00+07:00");
+});

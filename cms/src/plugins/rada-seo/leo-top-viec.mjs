@@ -42,9 +42,43 @@ const thoat = (x) => String(x ?? "").replace(/<{3,}/g, "‹‹‹").replace(/>{3
 /** Từ khoá GSC là chữ NGƯỜI LẠ gõ vào Google → đưa cho Claude trong dấu mốc như chữ trang. */
 export const bocTuKhoa = (t) => `<<<TU_KHOA>>>${thoat(t)}<<<HET_TU_KHOA>>>`;
 
+/** Từ khoá phụ của phiên, mỗi từ khoá bọc dấu mốc như từ khoá chính. */
+const bocTuKhoaPhu = (p) => (p.tuKhoaPhu ?? []).map((x) => ({ ...x, tuKhoa: bocTuKhoa(x.tuKhoa) }));
+
 const tomTatPhien = (p) => ({
-	id: p.id, tuKhoa: bocTuKhoa(p.tuKhoa), trangMinh: p.trangMinh, viTriBanDau: p.viTriBanDau, hienThi: p.hienThi, trangThai: p.trangThai,
+	id: p.id, tuKhoa: bocTuKhoa(p.tuKhoa), tuKhoaPhu: bocTuKhoaPhu(p), trangMinh: p.trangMinh, viTriBanDau: p.viTriBanDau, hienThi: p.hienThi, trangThai: p.trangThai,
 });
+
+/**
+ * Gom hàng GSC (từ khoá × trang) theo TRANG (kho.khoaUrl): mỗi trang một ứng viên phiên. Từ
+ * khoá chính = nhiều hiển thị nhất (hoà → hạng tốt hơn); các từ khoá còn lại của trang, xếp theo
+ * hiển thị, vào `tuKhoaPhu` (≤ kho.TRAN_TU_KHOA_PHU). Trang trong `trangBoQua` bị bỏ cả trang.
+ * Trang xếp theo tổng `coHoi` của mọi từ khoá (hàng GSC đã xếp theo coHoi; hoà giữ thứ tự đó).
+ */
+export function gomTheoTrang(ds, trangBoQua = new Set()) {
+	const nhom = new Map();
+	for (const x of ds) {
+		const k = kho.khoaUrl(x.trang);
+		if (trangBoQua.has(k)) continue;
+		if (!nhom.has(k)) nhom.set(k, []);
+		nhom.get(k).push(x);
+	}
+	const ra = [];
+	for (const hang of nhom.values()) {
+		const xep = [...hang].sort((a, b) => b.hienThi - a.hienThi || a.viTri - b.viTri);
+		const [chinh, ...khac] = xep;
+		const daCo = new Set([chinh.tuKhoa]);
+		const phu = [];
+		for (const x of khac) {
+			if (daCo.has(x.tuKhoa)) continue;
+			daCo.add(x.tuKhoa);
+			if (phu.length < kho.TRAN_TU_KHOA_PHU) phu.push({ tuKhoa: x.tuKhoa, viTri: x.viTri, hienThi: x.hienThi });
+		}
+		const diem = hang.reduce((t, x) => t + (Number(x.coHoi) || 0), 0);
+		ra.push({ tuKhoa: chinh.tuKhoa, trang: chinh.trang, viTri: chinh.viTri, hienThi: chinh.hienThi, tuKhoaPhu: phu, diem });
+	}
+	return ra.sort((a, b) => b.diem - a.diem);
+}
 
 /** cho_serp/cho_doc, CŨ NHẤT TRƯỚC: làm hết phiên đang dở rồi mới tới phiên mới. */
 async function phienDangMo(s) {
@@ -84,19 +118,17 @@ export async function layTuKhoaLeoTop({ s, kv, gsc, nowMs = Date.now() }) {
 			if (conCho <= 0) {
 				ra.ghiChu = `Đã có ${mo} phiên chưa xong (trần ${kho.TRAN_PHIEN_MO}) nên không mở phiên mới: làm tiếp các phiên đang mở; phiên co_phieu (ra phiếu trong ${kho.NGAY_PHIEU_TINH_TRAN} ngày) chờ người quản trị sửa trang rồi báo đã sửa.`;
 			} else {
-				const boQua = await kho.tuKhoaDaSoi(s, nowMs);
-				const ds = await gsc.layTuKhoaLeoTop({ toiDa: conCho, boQua });
+				const boQua = await kho.trangDaSoi(s, nowMs);
+				// Lấy HẾT hàng đủ điều kiện (gsc đã đọc hết mọi trang truy vấn; cắt chỉ là cắt
+				// trong bộ nhớ) rồi gom theo trang ở đây: cắt trước khi gom là mất trang.
+				const ds = gomTheoTrang(await gsc.layTuKhoaLeoTop({ toiDa: Infinity }), boQua);
 				const now = new Date(nowMs).toISOString();
 				// GSC có thể chậm hơn cả hạn khoá: lượt khác đã giành khoá thì nó cũng đang tạo
 				// phiên từ cùng danh sách — ghi tiếp là đẻ cặp trùng.
 				if (ds.length && !(await conGiuKhoa(kv, khoa.token)))
 					throw new Error("Lượt này đã mất khoá tạo phiên (GSC trả lời quá lâu, lượt khác đã giành) — không mở phiên mới; gọi lại sau.");
-				for (const x of ds) {
-					if (ra.moi.length >= conCho) break;
-					const k = `${x.tuKhoa}|${x.trang}`;
-					if (boQua.has(k)) continue;
-					boQua.add(k);
-					ra.moi.push(tomTatPhien(await kho.taoPhienLeoTop(s, { tuKhoa: x.tuKhoa, trang: x.trang, viTri: x.viTri, hienThi: x.hienThi }, now)));
+				for (const x of ds.slice(0, conCho)) {
+					ra.moi.push(tomTatPhien(await kho.taoPhienLeoTop(s, { tuKhoa: x.tuKhoa, trang: x.trang, viTri: x.viTri, hienThi: x.hienThi, tuKhoaPhu: x.tuKhoaPhu }, now)));
 				}
 			}
 		} catch (e) {
@@ -105,7 +137,10 @@ export async function layTuKhoaLeoTop({ s, kv, gsc, nowMs = Date.now() }) {
 			await kv.compareAndDelete(KHOA_TAO_PHIEN, khoa.revision);
 		}
 	}
-	ra.dangMo = await phienDangMo(s);
+	// dangMo = chỉ phiên đã mở TRƯỚC lượt này: phiên vừa tạo đã nằm trong moi, lặp lại ở đây thì
+	// một mô hình đọc máy móc làm mỗi phiên hai lần (nghiệm thu 2D).
+	const vuaTao = new Set(ra.moi.map((p) => p.id));
+	ra.dangMo = (await phienDangMo(s)).filter((p) => !vuaTao.has(p.id));
 	return ra;
 }
 
@@ -185,7 +220,9 @@ export async function nopSerp({ s, docTrang, id, urls, hanTongMs = HAN_TONG_MS }
 		try {
 			const r = await hoacHet(Promise.resolve().then(() => docTrang(t.url)), conLai);
 			if (r === HET) return hetGio(t);
-			if (!r) return { ...t, trangThai: "loi", loi: `không tải được (quá hạn ${HAN_TAI_MS / 1000} s, bị chặn hoặc lỗi mạng)` };
+			// docTrang (taoDocTrang traLyDo) nói đúng nguyên nhân: quá hạn / tên miền / giao thức / chuyển hướng.
+			if (!r) return { ...t, trangThai: "loi", loi: "không tải được (không rõ lý do)" };
+			if (r.loi && r.status == null) return { ...t, trangThai: "loi", loi: `không tải được: ${String(r.loi).slice(0, 200)}` };
 			if (r.status < 200 || r.status >= 300 || !r.html) return { ...t, trangThai: "loi", loi: `HTTP ${r.status}${r.html ? "" : ", trang rỗng"}` };
 			const { chu, ...soDo } = doTrang(r.html, { tuKhoa: d.tuKhoa, url: t.url });
 			const sd = gonSoDo(soDo);
@@ -217,7 +254,7 @@ export async function layTrangSerp({ s, id }) {
 	d.serp.forEach((t, i) => {
 		if (t.trangThai === "ok") trang.push({ url: t.url, thuTu: t.thuTu, laMinh: !!t.laMinh, chu: boc(i + 1, t.chu) });
 	});
-	return { phienId: id, tuKhoa: bocTuKhoa(d.tuKhoa), trangMinh: d.trangMinh, trang, huongDan: LOI_NHAC_SO_HO };
+	return { phienId: id, tuKhoa: bocTuKhoa(d.tuKhoa), tuKhoaPhu: bocTuKhoaPhu(d), trangMinh: d.trangMinh, trang, huongDan: LOI_NHAC_SO_HO };
 }
 
 const tomTatSoHo = (id, d, kq, loiNap) => ({

@@ -512,14 +512,25 @@ function canTrangThai(d, ds, viec) {
 const boChu = (serp) => (serp ?? []).map(({ chu: _bo, ...t }) => t);
 
 /** Phiên mới (cho_serp). Id kèm mốc tạo: soi lại cùng cặp sau 28 ngày là phiên MỚI, không đè phiên cũ. */
-export async function taoPhienLeoTop(s, { tuKhoa, trang, viTri, hienThi }, now) {
+/** Từ khoá PHỤ tối đa mỗi phiên: các biến thể khác của cùng trang, chỉ để Claude cân nhắc khi tìm/đọc SERP. */
+export const TRAN_TU_KHOA_PHU = 5;
+const lamTron2 = (x) => (Number.isFinite(Number(x)) ? Math.round(Number(x) * 100) / 100 : null);
+
+/**
+ * Mỗi phiên là một TRANG (tuKhoa = từ khoá chính của trang đó); `tuKhoaPhu` là các từ khoá GSC
+ * khác của cùng trang (≤ TRAN_TU_KHOA_PHU). Đo lại hạng vẫn theo từ khoá chính.
+ */
+export async function taoPhienLeoTop(s, { tuKhoa, trang, viTri, hienThi, tuKhoaPhu = [] }, now) {
 	const id = `lt_${bam(`${tuKhoa}|${trang}|${now}`)}`;
 	// Mốc so sánh của lần đo lại: hạng ban đầu là bình quân cửa sổ GSC [den − 28, den] (ngày UTC,
 	// như gsc.mjs tính) — 29 ngày lịch.
 	const den = String(now).slice(0, 10);
 	const soNgay = CUA_SO_BAN_DAU_NGAY + 1;
 	const data = {
-		tuKhoa, trangMinh: trang, viTriBanDau: viTri, hienThi, hienThiNgay: hienThiMoiNgay(hienThi, soNgay), trangThai: "cho_serp",
+		tuKhoa, trangMinh: trang, viTriBanDau: viTri, hienThi,
+		tuKhoaPhu: (Array.isArray(tuKhoaPhu) ? tuKhoaPhu : []).slice(0, TRAN_TU_KHOA_PHU)
+			.map((x) => ({ tuKhoa: String(x?.tuKhoa ?? ""), viTri: lamTron2(x?.viTri), hienThi: Number(x?.hienThi) || 0 })),
+		hienThiNgay: hienThiMoiNgay(hienThi, soNgay), trangThai: "cho_serp",
 		cuaSoBanDau: { soNgay, tu: congNgay(den, -CUA_SO_BAN_DAU_NGAY), den },
 		serp: [], banDo: null, phieu: null, doLai: [], taoLuc: now, capNhatLuc: now,
 	};
@@ -569,17 +580,20 @@ export async function boPhienCu(s, nowMs, { ngay = NGAY_BO_PHIEN } = {}) {
 }
 
 /**
- * Khoá `tuKhoa|trang` KHÔNG được mở phiên mới: mọi phiên chưa kết thúc (khác xong/bo) dù cũ
- * tới đâu — mở phiên thứ hai lúc đó là soi đè; và phiên xong/bo tạo trong NGAY_KHONG_SOI_LAI
- * ngày — soi lại quá sớm Google chưa kịp phản ánh.
+ * TRANG (khoaUrl) KHÔNG được mở phiên mới: trang có phiên chưa kết thúc (khác xong/bo) dù cũ
+ * tới đâu — mở phiên thứ hai lúc đó là soi đè; và trang có phiên xong/bo tạo trong
+ * NGAY_KHONG_SOI_LAI ngày — soi lại quá sớm Google chưa kịp phản ánh.
+ * Đơn vị là TRANG, không phải cặp từ khoá–trang: nghiệm thu 2D với GSC thật ra 10 phiên cho
+ * 5 trang ("hạ quan", "huyệt hạ quan", "huyệt hạ quan ở đâu" … cùng /huyet/ha-quan/) —
+ * ba phiếu cho một trang, cùng một việc SERP làm ba lần.
  */
-export async function tuKhoaDaSoi(s, nowMs, { ngay = NGAY_KHONG_SOI_LAI } = {}) {
+export async function trangDaSoi(s, nowMs, { ngay = NGAY_KHONG_SOI_LAI } = {}) {
 	const moc = nowMs - ngay * NGAY_MS;
 	const ra = new Set();
 	for (const r of await tatCa(s.leo_top)) {
 		const t = Date.parse(r.data.taoLuc);
 		const ketThuc = r.data.trangThai === "xong" || r.data.trangThai === "bo";
-		if (!ketThuc || (Number.isFinite(t) && t >= moc)) ra.add(`${r.data.tuKhoa}|${r.data.trangMinh}`);
+		if (!ketThuc || (Number.isFinite(t) && t >= moc)) ra.add(khoaUrl(r.data.trangMinh));
 	}
 	return ra;
 }

@@ -114,3 +114,37 @@ test("M5 không có luồng: content-length > 5 MB thì từ chối (không gọ
 	assert.equal(r.html.length, TRAN_BYTE_THAN);
 	assert.equal(r.catBot, true);
 });
+
+// ---- Sửa sau nghiệm thu 2D: lý do tải hỏng phải là lý do THẬT ----
+/** Lỗi kiểu undici: TypeError("fetch failed") với cause mang mã lỗi. */
+const loiUndici = (code, message = code) => Object.assign(new TypeError("fetch failed"), { cause: Object.assign(new Error(message), { code }) });
+/** Lỗi kiểu ctx.http.fetch của EmDash: bọc SsrfError. */
+const loiEmdash = (host, msg) => {
+	const ssrf = Object.assign(new Error(msg), { name: "SsrfError", code: "SSRF_BLOCKED" });
+	return new Error(`Plugin "rada-seo": blocked fetch to "${host}": ${msg}`, { cause: ssrf });
+};
+
+test("taoDocTrang traLyDo: lỗi tải trả { loi } nói đúng nguyên nhân bằng tiếng Việt; mặc định vẫn null", async () => {
+	const ca = [
+		["https://het.vn/", () => new Promise(() => {}), "quá hạn 0.05 s"],
+		["https://amp.chet.vn/", () => Promise.reject(loiEmdash("amp.chet.vn", "Could not resolve hostname: NXDOMAIN")), "không phân giải được tên miền"],
+		["https://dns.vn/", () => Promise.reject(loiUndici("ENOTFOUND", "getaddrinfo ENOTFOUND dns.vn")), "không phân giải được tên miền"],
+		["https://h2.vn/", () => Promise.reject(loiUndici("ERR_HTTP2_STREAM_ERROR", "Stream closed with error code NGHTTP2_PROTOCOL_ERROR")), "lỗi giao thức"],
+		["https://hpe.vn/", () => Promise.reject(loiUndici("HPE_INVALID_HEADER_TOKEN", "Invalid header value char")), "lỗi giao thức"],
+		// Chuyển hướng sang tên miền khác rồi bị lớp SSRF chặn: tên miền trong lời báo khác URL gửi.
+		["https://tapchi.vn/a", () => Promise.reject(loiEmdash("dongy.example", "Hostname resolves to a non-public IP address")), "chuyển hướng sang tên miền khác bị chặn (dongy.example)"],
+		["https://vong.vn/", () => Promise.reject(new Error('Plugin "rada-seo": too many redirects (max 5)')), "chuyển hướng quá nhiều lần"],
+		["https://noi.vn/", () => Promise.reject(loiEmdash("noi.vn", "Hostname resolves to a non-public IP address")), "bị chặn (địa chỉ nội bộ)"],
+		["https://tuchoi.vn/", () => Promise.reject(loiUndici("ECONNREFUSED")), "máy chủ từ chối kết nối"],
+		["https://ngat.vn/", () => Promise.reject(loiUndici("ECONNRESET")), "kết nối bị ngắt giữa chừng"],
+		["https://la.vn/", () => Promise.reject(new Error("điều gì đó lạ")), "lỗi mạng: điều gì đó lạ"],
+	];
+	for (const [url, hanh, mong] of ca) {
+		const fetchGia = () => hanh();
+		assert.deepEqual(await taoDocTrang(fetchGia, { hanGioMs: 50, traLyDo: true })(url), { loi: mong }, url);
+		assert.equal(await taoDocTrang(fetchGia, { hanGioMs: 50 })(url), null, `${url} — mặc định giữ null cho kiem-duong`);
+	}
+	assert.deepEqual(await taoDocTrang(async () => new Response("x"), { traLyDo: true })("http://127.0.0.1/"), { loi: "bị chặn (địa chỉ nội bộ)" });
+	// HTTP 403 vẫn là phản hồi: trả status như cũ.
+	assert.equal((await taoDocTrang(async () => new Response("cấm", { status: 403 }), { traLyDo: true })("https://lc.vn/")).status, 403);
+});

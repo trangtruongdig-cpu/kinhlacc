@@ -127,24 +127,69 @@ export function taoDocWeb(fetchFn, { hanGioMs = 30_000 } = {}) {
 	};
 }
 
+/** Mã lỗi của cả chuỗi `cause` (undici gói lỗi thật trong TypeError "fetch failed"). */
+function chuoiLoi(e) {
+	const ra = [];
+	for (let x = e, i = 0; x && i < 6; x = x.cause, i++) ra.push({ code: String(x.code ?? ""), msg: String(x.message ?? x), name: String(x.name ?? "") });
+	return ra;
+}
+
+/**
+ * Lý do tải hỏng bằng tiếng Việt, đúng NGUYÊN NHÂN. Bản đầu gộp mọi lỗi thành "quá hạn 10 s, bị
+ * chặn hoặc lỗi mạng" — nghiệm thu 2D đo được lượt 1,2 s mà vẫn báo quá hạn, trong khi thật ra là
+ * HTTP/2 PROTOCOL_ERROR, tên miền AMP đã chết, hay chuyển hướng sang tên miền khác.
+ * Nguồn lỗi: voiHanGio (quá hạn), ctx.http.fetch của EmDash ('blocked fetch to "host": <SsrfError>',
+ * 'too many redirects'), và undici (TypeError "fetch failed" + cause.code).
+ * @param {unknown} e  @param {string} url  URL đã gửi (so tên miền để nhận ra chuyển hướng)
+ */
+export function lyDoLoiTai(e, url, hanGioMs) {
+	if (e?.loi === "qua_lon") return "trang quá lớn (không khai cỡ)";
+	const ds = chuoiLoi(e);
+	const co = (re) => ds.some((x) => re.test(x.code) || re.test(x.msg));
+	if (ds.some((x) => /quá hạn/.test(x.msg))) return `quá hạn ${hanGioMs / 1000} s`;
+	const chan = ds.map((x) => x.msg.match(/blocked fetch to "([^"]*)": ([\s\S]*)/)).find(Boolean);
+	if (chan) {
+		let hostGui = "";
+		try {
+			hostGui = new URL(url).hostname.toLowerCase();
+		} catch {}
+		if (/could not resolve hostname|resolved to no addresses/i.test(chan[2])) return "không phân giải được tên miền";
+		if (chan[1] && chan[1].toLowerCase() !== hostGui) return `chuyển hướng sang tên miền khác bị chặn (${chan[1]})`;
+		return "bị chặn (địa chỉ nội bộ)";
+	}
+	if (co(/too many redirects/i)) return "chuyển hướng quá nhiều lần";
+	if (co(/not allowed to fetch from host|redirect mode/i)) return "chuyển hướng sang tên miền khác bị chặn";
+	if (co(/^(ENOTFOUND|EAI_AGAIN|EAI_NONAME|EAI_NODATA)$/) || co(/could not resolve hostname/i)) return "không phân giải được tên miền";
+	if (ds.some((x) => x.code === "SSRF_BLOCKED" || x.name === "SsrfError")) return "bị chặn (địa chỉ nội bộ)";
+	if (co(/^(HPE_|ERR_HTTP2|ERR_INVALID_HTTP|UND_ERR_INFO)/) || co(/PROTOCOL_ERROR|protocol error/i)) return "lỗi giao thức";
+	if (ds.some((x) => x.name === "AbortError" || x.name === "TimeoutError") || co(/^(ETIMEDOUT|UND_ERR_CONNECT_TIMEOUT|UND_ERR_HEADERS_TIMEOUT|UND_ERR_BODY_TIMEOUT)$/))
+		return "quá hạn kết nối";
+	if (co(/^ECONNREFUSED$/)) return "máy chủ từ chối kết nối";
+	if (co(/^(ECONNRESET|UND_ERR_SOCKET|EPIPE)$/)) return "kết nối bị ngắt giữa chừng";
+	if (co(/CERT|SSL|TLS/i)) return "lỗi chứng chỉ TLS";
+	const cuoi = ds[ds.length - 1];
+	return `lỗi mạng: ${(cuoi?.code || cuoi?.msg || "không rõ").slice(0, 120)}`;
+}
+
 /**
  * Như taoDocWeb nhưng trả CẢ trạng thái và header x-robots-tag, kể cả khi không 2xx — cho bộ
  * kiểm đường nội bộ (noi-bo/kiem-duong.mjs). Cần header vì đã ĐO: trang bài thuốc/dược liệu
  * KHÔNG tồn tại vẫn trả 200 (vỏ SPA) kèm `x-robots-tag: noindex`; chỉ nhìn mã 200 là gắn
  * link chết. Cùng lớp chặn SSRF (urlDocDuoc); không bao giờ ném — hỏng thì null.
  * Thân quá TRAN_BYTE_THAN thì bị cắt và kết quả có thêm `catBot: true`.
+ * `traLyDo: true` (đường leo top): hỏng thì trả `{ loi }` — lý do tiếng Việt (lyDoLoiTai) — thay cho null.
  * @param {(url: string, init?: RequestInit) => Promise<Response>} fetchFn  ctx.http.fetch
  * @returns {(url: string) => Promise<{status: number, xRobots: string, html: string, catBot?: true} | null>}
  */
-export function taoDocTrang(fetchFn, { hanGioMs = 30_000 } = {}) {
+export function taoDocTrang(fetchFn, { hanGioMs = 30_000, traLyDo = false } = {}) {
 	return async (url) => {
-		if (!urlDocDuoc(url)) return null;
+		if (!urlDocDuoc(url)) return traLyDo ? { loi: "bị chặn (địa chỉ nội bộ)" } : null;
 		try {
 			const r = await taiVaDoc(fetchFn, url, "text/html,application/xhtml+xml;q=0.9,*/*;q=0.8", hanGioMs);
 			const kq = { status: r.res.status, xRobots: r.res.headers?.get?.("x-robots-tag") ?? "", html: r.html };
 			return r.catBot ? { ...kq, catBot: true } : kq;
-		} catch {
-			return null;
+		} catch (e) {
+			return traLyDo ? { loi: lyDoLoiTai(e, url, hanGioMs) } : null;
 		}
 	};
 }

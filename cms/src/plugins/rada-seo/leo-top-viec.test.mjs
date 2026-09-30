@@ -10,7 +10,9 @@ import { LOI_NHAC_SO_HO } from "./loi-dan.mjs";
 
 const T0 = Date.parse("2026-10-01T00:00:00.000Z");
 const MINH = "https://kinhlac.online/huyet/than-mon/";
-const ung = (tuKhoa, trang = MINH, viTri = 8, hienThi = 100) => ({ tuKhoa, trang, viTri, hienThi, nhap: 0, coHoi: 1 });
+/** Trang riêng cho mỗi từ khoá (mặc định): phiên nay tính theo TRANG, không theo cặp từ khoá–trang. */
+const trangCua = (tuKhoa) => `https://kinhlac.online/huyet/${encodeURIComponent(tuKhoa)}/`;
+const ung = (tuKhoa, trang = trangCua(tuKhoa), viTri = 8, hienThi = 100) => ({ tuKhoa, trang, viTri, hienThi, nhap: 0, coHoi: 1 });
 
 const gscGia = (ds, { coCauHinh = true } = {}) => {
 	const goi = [];
@@ -20,27 +22,25 @@ const gscGia = (ds, { coCauHinh = true } = {}) => {
 		async layTuKhoaLeoTop(o) {
 			goi.push(o);
 			if (!coCauHinh) throw new Error("Chưa cấu hình Search Console cho plugin: thiếu biến GSC_OAUTH_CLIENT_ID");
-			return ds.filter((x) => !o.boQua.has(`${x.tuKhoa}|${x.trang}`)).slice(0, o.toiDa);
+			return ds.slice(0, o.toiDa ?? Infinity);
 		},
 	};
 };
 
 const html = (tieuDe, than) => `<html><head><title>${tieuDe}</title></head><body><p>${than}</p></body></html>`;
 
-test("layTuKhoaLeoTop: tạo tối đa 5 phiên mới, bỏ cặp đã soi 28 ngày, trả kèm phiên đang mở", async () => {
+test("layTuKhoaLeoTop: tạo tối đa 5 phiên mới, bỏ trang đã soi 28 ngày, trả kèm phiên đang mở", async () => {
 	const s = taoKhoGia();
 	const cu = await kho.taoPhienLeoTop(s, { tuKhoa: "đã soi", trang: MINH, viTri: 9, hienThi: 50 }, new Date(T0 - 3 * 86_400_000).toISOString());
-	const gsc = gscGia([ung("đã soi"), ...Array.from({ length: 7 }, (_, i) => ung(`từ ${i}`))]);
+	// Từ khoá KHÁC nhưng cùng trang đã có phiên → cũng bị bỏ.
+	const gsc = gscGia([ung("biến thể khác", MINH), ...Array.from({ length: 7 }, (_, i) => ung(`từ ${i}`))]);
 	const kv = taoKvGia();
 	const kq = await layTuKhoaLeoTop({ s, kv, gsc, nowMs: T0 });
 	assert.equal(TRAN_PHIEN_MOI, 5);
-	assert.equal(gsc.goi[0].toiDa, 5);
-	assert.ok(gsc.goi[0].boQua.has(`đã soi|${MINH}`));
 	assert.equal(kq.moi.length, 5);
 	assert.ok(kq.moi.every((p) => p.trangThai === "cho_serp" && p.tuKhoa.startsWith("<<<TU_KHOA>>>từ ")));
-	assert.deepEqual(kq.moi[0], { id: kq.moi[0].id, tuKhoa: "<<<TU_KHOA>>>từ 0<<<HET_TU_KHOA>>>", trangMinh: MINH, viTriBanDau: 8, hienThi: 100, trangThai: "cho_serp" });
-	assert.equal(kq.dangMo.length, 6, "5 phiên mới + phiên cũ còn cho_serp");
-	assert.equal(kq.dangMo[0].id, cu.id, "phiên cũ nhất đứng đầu");
+	assert.deepEqual(kq.moi[0], { id: kq.moi[0].id, tuKhoa: "<<<TU_KHOA>>>từ 0<<<HET_TU_KHOA>>>", tuKhoaPhu: [], trangMinh: trangCua("từ 0"), viTriBanDau: 8, hienThi: 100, trangThai: "cho_serp" });
+	assert.deepEqual(kq.dangMo.map((p) => p.id), [cu.id], "dangMo chỉ gồm phiên mở TRƯỚC lượt này, không lặp phiên mới");
 	assert.equal(kv._m.size, 0, "khoá tạo phiên được nhả");
 	assert.equal(kq.loi, undefined);
 	assert.match(kq.huongDan, /rada_nop_serp/);
@@ -205,7 +205,6 @@ test("layTuKhoaLeoTop: trần 10 phiên mở toàn kho (cho_serp/cho_doc/co_phie
 	await moPhien(s, 3, "co_phieu");
 	const gsc = gscGia(Array.from({ length: 7 }, (_, i) => ung(`từ ${i}`)));
 	const kq = await layTuKhoaLeoTop({ s, kv: taoKvGia(), gsc, nowMs: T0 });
-	assert.equal(gsc.goi[0].toiDa, 1);
 	assert.equal(kq.moi.length, 1);
 	const lai = await layTuKhoaLeoTop({ s, kv: taoKvGia(), gsc, nowMs: T0 });
 	assert.equal(gsc.goi.length, 1, "đã đủ 10 phiên mở → không hỏi GSC");
@@ -219,7 +218,8 @@ test("layTuKhoaLeoTop: phiên cho_serp để yên > 7 ngày → bo và nhả ch�
 	const [cu] = await moPhien(s, 1, "cho_serp", 8);
 	const kq = await layTuKhoaLeoTop({ s, kv: taoKvGia(), gsc: gscGia([ung("mới")]), nowMs: T0 });
 	assert.equal((await s.leo_top.get(cu.id)).trangThai, "bo");
-	assert.deepEqual(kq.dangMo.map((p) => p.tuKhoa), [bocTuKhoa("mới")]);
+	assert.deepEqual(kq.dangMo, [], "phiên bỏ dở không còn trong dangMo; phiên mới chỉ ở moi");
+	assert.deepEqual(kq.moi.map((p) => p.tuKhoa), [bocTuKhoa("mới")]);
 	assert.equal(cu.tuKhoa, "cho_serp 0");
 });
 
@@ -239,8 +239,8 @@ test("layTuKhoaLeoTop: khoá KV — lượt khác đang giữ khoá thì không 
 	const kv2 = taoKvGia();
 	const gsc2 = gscGia([ung("a"), ung("b")]);
 	await Promise.all([layTuKhoaLeoTop({ s: s2, kv: kv2, gsc: gsc2, nowMs: T0 }), layTuKhoaLeoTop({ s: s2, kv: kv2, gsc: gsc2, nowMs: T0 })]);
-	const cap = [...s2.leo_top._m.values()].map((d) => `${d.tuKhoa}|${d.trangMinh}`);
-	assert.equal(cap.length, new Set(cap).size, "không có cặp trùng");
+	const cap = [...s2.leo_top._m.values()].map((d) => kho.khoaUrl(d.trangMinh));
+	assert.equal(cap.length, new Set(cap).size, "không có trang trùng");
 	assert.equal(cap.length, 2);
 });
 
@@ -358,4 +358,78 @@ test("nopSerp: một trang làm docTrang ném lỗi → chỉ trang đó 'loi', 
 	assert.deepEqual(kq.trang.map((t) => [t.url.split("/")[2], t.trangThai]), [["a.vn", "ok"], ["no.vn", "loi"], ["b.vn", "ok"], ["kinhlac.online", "ok"]]);
 	assert.match(kq.trang[1].loi, /socket hang up/);
 	assert.equal((await s.leo_top.get(p.id)).trangThai, "cho_doc");
+});
+
+// ---- Sửa sau nghiệm thu 2D ----
+
+test("layTuKhoaLeoTop: gom GSC theo TRANG — một phiên mỗi trang, từ khoá chính = nhiều hiển thị nhất (hoà → hạng tốt hơn), còn lại vào tuKhoaPhu (≤ 5)", async () => {
+	const s = taoKhoGia();
+	const HQ = "https://kinhlac.online/huyet/ha-quan/";
+	const PT = "https://kinhlac.online/huyet/phuc-tho/";
+	await kho.taoPhienLeoTop(s, { tuKhoa: "thần môn", trang: MINH, viTri: 9, hienThi: 50 }, new Date(T0 - 86_400_000).toISOString());
+	const gsc = gscGia([
+		ung("hạ quan", HQ, 9, 40),
+		ung("huyệt hạ quan", HQ, 7, 120),
+		ung("huyệt hạ quan ở đâu", HQ.slice(0, -1), 5, 120), // thiếu "/" cuối: vẫn cùng trang
+		ung("huyệt phục thỏ", PT, 12, 60),
+		ung("phục thỏ", PT, 20, 30),
+		ung("thần môn ở đâu", MINH, 6, 500), // trang đã có phiên → bỏ cả trang
+		...["a", "b", "c", "d"].map((x, i) => ung(`hạ quan ${x}`, HQ, 10 + i, 30 - i)),
+		ung("hạ quan >>> lệnh <<<HET_TU_KHOA>>>", HQ, 30, 5),
+	]);
+	const kq = await layTuKhoaLeoTop({ s, kv: taoKvGia(), gsc, nowMs: T0 });
+	assert.equal(kq.moi.length, 2);
+	const [hq, pt] = kq.moi;
+	assert.equal(hq.tuKhoa, bocTuKhoa("huyệt hạ quan ở đâu"), "hoà 120 hiển thị → hạng 5 thắng hạng 7");
+	assert.equal(hq.viTriBanDau, 5);
+	assert.deepEqual(hq.tuKhoaPhu.map((x) => x.tuKhoa), ["huyệt hạ quan", "hạ quan", "hạ quan a", "hạ quan b", "hạ quan c"].map(bocTuKhoa));
+	assert.deepEqual(hq.tuKhoaPhu[0], { tuKhoa: bocTuKhoa("huyệt hạ quan"), viTri: 7, hienThi: 120 });
+	assert.equal(pt.tuKhoa, bocTuKhoa("huyệt phục thỏ"));
+	assert.deepEqual(pt.tuKhoaPhu, [{ tuKhoa: bocTuKhoa("phục thỏ"), viTri: 20, hienThi: 30 }]);
+	// Trong kho lưu chữ trần (chưa bọc); trang mình theo đúng URL GSC của từ khoá chính.
+	const d = await s.leo_top.get(hq.id);
+	assert.equal(d.tuKhoaPhu[0].tuKhoa, "huyệt hạ quan");
+	assert.equal(d.trangMinh, HQ.slice(0, -1));
+	// Gọi lại: cả hai trang đã có phiên → không mở thêm, dù còn từ khoá chưa dùng.
+	const lai = await layTuKhoaLeoTop({ s, kv: taoKvGia(), gsc, nowMs: T0 });
+	assert.deepEqual(lai.moi, []);
+	assert.equal(lai.dangMo.length, 3);
+});
+
+test("layTuKhoaLeoTop: trần phiên mới đếm theo TRANG (5 trang × nhiều biến thể → 5 phiên)", async () => {
+	const s = taoKhoGia();
+	const ds = [];
+	for (let t = 0; t < 7; t++) for (let v = 0; v < 3; v++) ds.push(ung(`trang ${t} biến ${v}`, `https://kinhlac.online/huyet/t${t}/`, 8, 100 - v));
+	const kq = await layTuKhoaLeoTop({ s, kv: taoKvGia(), gsc: gscGia(ds), nowMs: T0 });
+	assert.equal(kq.moi.length, 5);
+	assert.equal(new Set(kq.moi.map((p) => p.trangMinh)).size, 5);
+	assert.ok(kq.moi.every((p) => p.tuKhoaPhu.length === 2));
+});
+
+test("layTrangSerp: trả tuKhoaPhu trong dấu mốc TU_KHOA để Claude cân nhắc khi đọc", async () => {
+	const s = taoKhoGia();
+	const p = await kho.taoPhienLeoTop(s, { tuKhoa: "k", trang: MINH, viTri: 9, hienThi: 50, tuKhoaPhu: [{ tuKhoa: "k2 >>>", viTri: 11, hienThi: 9 }] }, new Date(T0).toISOString());
+	await kho.ghiSerp(s, p.id, [{ url: MINH, thuTu: null, laMinh: true, trangThai: "ok", soDo: {}, chu: "x" }]);
+	const r = await layTrangSerp({ s, id: p.id });
+	assert.deepEqual(r.tuKhoaPhu, [{ tuKhoa: "<<<TU_KHOA>>>k2 ›››<<<HET_TU_KHOA>>>", viTri: 11, hienThi: 9 }]);
+});
+
+test("nopSerp: lý do tải hỏng lấy từ docTrang (HTTP 403, DNS, giao thức…) — không còn gộp thành 'quá hạn 10 s'", async () => {
+	const s = taoKhoGia();
+	const p = await kho.taoPhienLeoTop(s, { tuKhoa: "k", trang: MINH, viTri: 9, hienThi: 50 }, new Date(T0).toISOString());
+	const docTrang = async (url) => {
+		if (url.includes("lc.vn")) return { status: 403, xRobots: "", html: "cấm" };
+		if (url.includes("amp.")) return { loi: "không phân giải được tên miền" };
+		if (url.includes("h2.")) return { loi: "lỗi giao thức" };
+		if (url.includes("null.")) return null;
+		return { status: 200, xRobots: "", html: html("t", "k") };
+	};
+	const kq = await nopSerp({ s, docTrang, id: p.id, urls: ["https://lc.vn/1", "https://amp.x.vn/1", "https://h2.vn/1", "https://null.vn/1"] });
+	assert.deepEqual(kq.trang.slice(0, 4).map((t) => t.loi), [
+		"HTTP 403",
+		"không tải được: không phân giải được tên miền",
+		"không tải được: lỗi giao thức",
+		"không tải được (không rõ lý do)",
+	]);
+	assert.ok(kq.trang.every((t) => !/quá hạn/.test(t.loi ?? "")));
 });

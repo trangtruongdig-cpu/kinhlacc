@@ -245,7 +245,7 @@ function ngayVn(d, m, y) {
 }
 const RE_NGAY = /(\d{1,2})[/.-](\d{1,2})[/.-](\d{4})/;
 
-/** Ngày cập nhật trong vùng bài: <time datetime>, <time>dd/mm/yyyy</time>, rồi "Cập nhật: dd/mm/yyyy". */
+/** Ngày cập nhật trong vùng bài: <time datetime>, <time>dd/mm/yyyy</time>, rồi "Cập nhật: dd/mm/yyyy" / "Cập nhật yyyy-mm-dd". */
 function ngayTrongBai(baiHtml) {
 	const re = reTheMo("time");
 	const m = re.exec(baiHtml);
@@ -256,9 +256,13 @@ function ngayTrongBai(baiHtml) {
 		const n = sau && ngayVn(sau[1], sau[2], sau[3]);
 		if (n) return n;
 	}
+	// "Cập nhật: dd/mm/yyyy" hoặc dạng ISO "Cập nhật 2026-09-30" (không dấu hai chấm) — dạng thứ hai
+	// là chính dòng byline của trang từ điển kinhlac.online (seo-html.mjs); thiếu nó thì mọi trang
+	// từ điển bị phiếu báo "Không ghi ngày cập nhật" (nghiệm thu 2D).
 	const chu = boDau(chuCua(baiHtml));
-	const c = chu.match(/cap nhat[^0-9]{0,30}?(\d{1,2})[/.-](\d{1,2})[/.-](\d{4})/);
-	return c ? ngayVn(c[1], c[2], c[3]) : null;
+	const c = chu.match(/cap nhat[^0-9]{0,30}?(?:(\d{4})-(\d{1,2})-(\d{1,2})(?!\d)|(\d{1,2})[/.-](\d{1,2})[/.-](\d{4}))/);
+	if (!c) return null;
+	return c[1] ? ngayVn(c[3], c[2], c[1]) : ngayVn(c[4], c[5], c[6]);
 }
 
 /** Khối chỉ là link (mục lục): bỏ chữ trong <a>…</a> thì không còn chữ cái nào. */
