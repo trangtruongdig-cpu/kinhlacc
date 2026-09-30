@@ -9,7 +9,8 @@ const MAU = [
 
 /** @returns {{loai:'lieu'|'phac_do'|'hua_hen', doan:string}[]} */
 export function doYmyl(vanBan) {
-	const s = String(vanBan ?? "");
+	// NFC: chữ dạng NFD (dán từ macOS/Word) không khớp mẫu nào.
+	const s = String(vanBan ?? "").normalize("NFC");
 	const ra = [];
 	for (const { loai, mau } of MAU) for (const m of s.matchAll(mau)) ra.push({ loai, doan: m[0] });
 	return ra;

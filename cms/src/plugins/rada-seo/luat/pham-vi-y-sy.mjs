@@ -4,14 +4,17 @@
 //
 // GIỮ NGUYÊN (thuật ngữ YHCT chuẩn): điều trị, chẩn trị, pháp trị, chủ trị, luận trị, chẩn đoán, quản trị, sửa chữa, khám bệnh nhân.
 // "Phòng khám" KHÔNG chặn: trong blog nó gần như luôn nói về khách hàng mua phần mềm.
-// Câu miễn trừ ("không thay thế… thăm khám… bác sĩ") được bỏ qua — nó nói về người KHÁC.
+// Mệnh đề miễn trừ ("không thay thế… thăm khám… bác sĩ") được GỠ ra rồi mới soát phần còn lại
+// của câu — nó nói về người KHÁC. Trước đây cả câu được miễn, nên "Châm cứu chữa khỏi hẳn mất
+// ngủ, nhưng bạn nên tham khảo ý kiến thầy thuốc." lọt qua trọn vẹn.
 
 const LUAT = [
 	{ ma: "chua", mau: /(?<!sửa )(?<!\p{L})chữa(?!\p{L})/u, goiY: "hỗ trợ / cải thiện / theo lý luận Đông Y" },
 	{
 		ma: "tri",
-		// Loại: điều trị, chẩn trị, pháp trị, chủ trị, luận trị, giá trị, cai trị, quản trị; trị liệu, trị số.
-		mau: /(?<!(?:điều|chẩn|pháp|chủ|luận|giá|cai|quản) )(?<!\p{L})trị(?!\p{L})(?! (?:liệu|số)(?!\p{L}))/u,
+		// Loại: điều trị, chẩn trị, pháp trị, chủ trị, luận trị, giá trị, cai trị, quản trị, chính trị,
+		// cấp trị / hoãn trị ("cấp trị tiêu, hoãn trị bản"); trị liệu, trị số, trị giá.
+		mau: /(?<!(?:điều|chẩn|pháp|chủ|luận|giá|cai|quản|chính|cấp|hoãn) )(?<!\p{L})trị(?!\p{L})(?! (?:liệu|số|giá)(?!\p{L}))/u,
 		goiY: "hỗ trợ / điều hoà",
 	},
 	{ ma: "kham_benh", mau: /(?<!\p{L})khám (?:bệnh(?! nhân)|chữa)(?!\p{L})/u, goiY: "đo kinh lạc / tư vấn" },
@@ -19,7 +22,8 @@ const LUAT = [
 	{ ma: "bac_si_minh", mau: /(?:đội ngũ bác s[ĩỹ]|bác s[ĩỹ] (?:của chúng tôi|kinh lạc))/u, goiY: "thầy thuốc / Y sỹ Y học cổ truyền" },
 ];
 
-const MIEN_TRU = /không thay thế|thăm khám|tham khảo ý kiến/u;
+/** Mệnh đề miễn trừ: từ dấu hiệu tới dấu câu kế tiếp (gồm cả dấu đó) hoặc hết câu. */
+const MIEN_TRU = /(?:không thay thế|thăm khám|tham khảo ý kiến)[^,;.!?]*[,;.!?]?/gu;
 
 /** Tách câu theo dấu kết câu và xuống dòng. */
 function tachCau(s) {
@@ -31,9 +35,9 @@ function tachCau(s) {
  */
 export function timViPham(vanBan) {
 	const ra = [];
-	for (const cau of tachCau(vanBan)) {
-		const thuong = cau.toLowerCase();
-		if (MIEN_TRU.test(thuong)) continue;
+	// NFC trước: chữ dán từ macOS/Word có thể ở dạng NFD ("ư" = u + móc) và không khớp mẫu nào.
+	for (const cau of tachCau(String(vanBan ?? "").normalize("NFC"))) {
+		const thuong = cau.toLowerCase().replace(MIEN_TRU, " ");
 		for (const l of LUAT) {
 			const m = thuong.match(l.mau);
 			if (m) ra.push({ ma: l.ma, tu: m[0], cau: cau.trim(), goiY: l.goiY });

@@ -23,3 +23,7 @@ test("không bắt số không phải liều", () => {
 	assert.deepEqual(loai("12 đường kinh và 24 tỉnh huyệt, năm 1983"), []);
 	assert.deepEqual(loai("Mỗi ngày cơ thể trải qua 24 giờ theo đồng hồ kinh lạc."), []);
 });
+
+test("chữ dạng NFD vẫn bị bắt", () => {
+	assert.deepEqual(loai("liệu trình 10 ngày".normalize("NFD")), ["phac_do"]);
+});

@@ -43,3 +43,19 @@ test("kiemPhamVi: chặn khi lỗi ở tiêu đề, chỉ cờ khi lỗi ở th�
 	assert.equal(r.chan, false);
 	assert.equal(r.viPhamThan.length, 1);
 });
+
+test("câu miễn trừ chỉ gỡ ĐÚNG mệnh đề miễn trừ; phần còn lại của câu vẫn bị soát", () => {
+	const r = ma("Châm cứu chữa khỏi hẳn mất ngủ, nhưng bạn nên tham khảo ý kiến thầy thuốc.");
+	assert.ok(r.includes("chua") && r.includes("hua_khoi"), r.join(","));
+	assert.deepEqual(ma("Bạn nên tham khảo ý kiến thầy thuốc, vì bấm huyệt trị dứt điểm mất ngủ."), ["tri", "hua_khoi"]);
+});
+
+test("chữ dựng sẵn dạng NFD vẫn bị bắt", () => {
+	const nfd = "Châm cứu chữa bệnh hiệu quả".normalize("NFD");
+	assert.notEqual(nfd, "Châm cứu chữa bệnh hiệu quả");
+	assert.deepEqual(ma(nfd), ["chua"]);
+});
+
+test("không vu oan 'trị' trong chính trị, cấp/hoãn trị, trị giá", () => {
+	for (const s of ["Bàn chuyện chính trị", "cấp trị tiêu, hoãn trị bản", "Trị giá 5 triệu đồng"]) assert.deepEqual(ma(s), [], s);
+});
