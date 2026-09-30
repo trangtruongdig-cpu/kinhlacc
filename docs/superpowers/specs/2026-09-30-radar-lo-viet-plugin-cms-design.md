@@ -35,7 +35,7 @@ API của `emdash@0.39.1` (`types-*.d.mts`) có đủ:
 |---|---|
 | Bảng riêng | `storage` |
 | Chạy mỗi đêm | `ctx.cron.schedule()` |
-| Gọi Yescale / đọc sitemap đối thủ | `network:request` + `allowedHosts` |
+| Gọi Claude / đọc sitemap đối thủ | `network:request:unrestricted` (đối thủ thêm lúc chạy) + chặn IP/localhost + chỉ cùng tên miền |
 | Tạo nháp `bai_viet` | `ctx.content.create()` (`ContentAccessWithWrite`) |
 | Nạp ảnh | `ctx.media.upload()` → `{mediaId, storageKey, url}` |
 | Màn điều khiển | `admin.pages` (React, qua `admin.entry`) |
@@ -70,31 +70,54 @@ thử nhỏ, chạy trên **bản dựng** (`node ./dist/server/entry.mjs`, khô
 Sửa `astro.config.mjs` có thể làm sập dev server của phiên khác — báo trước, thử trên tiến
 trình riêng.
 
+## Nguồn AI — đổi ngày 30/09/2026 (bỏ Yescale)
+
+Người dùng chốt: bỏ Yescale, "đưa về chính Claude", **kết hợp hai đường**:
+
+| Việc | Ai làm | Vì sao |
+|---|---|---|
+| Phân tích từng trang đối thủ (vài trăm trang/đêm) | Plugin gọi **API Anthropic, `claude-haiku-4-5`**, SDK `@anthropic-ai/sdk`, đầu ra có cấu trúc (khuôn zod) | Lặp, số lượng lớn, cần tự hành trên VPS |
+| Tìm khoảng trống | **Luật trong plugin**, không gọi mô hình | So chủ đề đối thủ với chủ đề mình bằng chính thước chống trùng; đếm số đối thủ; cộng xu hướng |
+| Chọn đề tài + viết 5 bài/đêm | **Claude Code chạy theo lịch** đọc hồ sơ plugin dựng, nộp bài qua route của plugin | Cần chất lượng; không tốn API riêng |
+
+Bài Claude Code nộp đi qua **đúng** rào chắn luật như mọi bài khác (phạm vi Y sỹ, YMYL, nguồn,
+link, chống trùng) — không có đường vòng cho "người nhà" (cùng nguyên tắc `tham-dinh-thu-cong`).
+Chi tiết đường Claude Code (lịch ở đâu, xác thực bằng khoá `ec_pat_`) chốt ở kế hoạch 2B.
+
+`ANTHROPIC_API_KEY` khai trong `cms/.env` (VPS). Thiếu khoá → ca radar ghi lỗi vào nhật ký,
+không nằm im.
+
 ## Luồng ca đêm (giờ VN)
 
 ```
-02:30  radar: quét sitemap đối thủ → phân tích URL chờ theo lô (trần/ca) → dò xu hướng
-       → tìm khoảng trống → chấm điểm → cập nhật danh sách
-05:00  lò viết: nếu nháp chưa duyệt ≥ 25 → nghỉ viết (radar vẫn chạy)
-       chọn 5 khoảng trống điểm cao nhất, 5 cụm khác nhau
-       → chống trùng → viết thân + meta/FAQ/nguồn → rào chắn → ảnh → content.create (nháp)
+02:30  radar (plugin): quét sitemap đối thủ → Haiku phân tích URL chờ (trần/ca) → dò xu hướng
+       → khoảng trống bằng luật → chấm điểm → cập nhật danh sách
+05:00  lò viết (Claude Code theo lịch): nếu nháp chưa duyệt ≥ 25 → nghỉ viết
+       đọc hồ sơ → chọn 5 khoảng trống, 5 cụm khác nhau → viết → nộp qua route plugin
+       → plugin: chống trùng → rào chắn → ảnh → content.create (nháp)
 ```
 
-- Mỗi ca ghi một dòng nhật ký (bảng plugin, cùng ý `td_ca_soi`): bắt đầu/kết thúc, số URL,
-  số khoảng trống, số bài, số lượt gọi, lỗi. Màn plugin có khối "Bot làm gì gần đây".
-- Ca hỏng → báo `POST /su-co/bao` của app (lane lỗi hệ thống).
-- **Nghỉ giữa các lô** (cùng lý do `NGHI_GIUA_LO_MS` của bot thẩm định): CMS còn phục vụ
-  ảnh + khu quản trị + blog.
-- Trần chi phí tính bằng **số lượt gọi, kể cả lượt hỏng**. Timeout khai tay; Claude qua
-  Yescale trả `text/plain` → tự parse thân phản hồi (xem `tham-dinh-llm.service.ts`).
-- Endpoint chạy tay mặc định **chạy thử**, `?ghi=1` mới ghi.
+- **Công tắc "chỉ VPS":** hook cron chỉ chạy khi `RADA_SEO_CA_DEM=1` (khai trong
+  `docker-compose.yml`, KHÔNG trong `cms/.env` vì tệp đó chép qua lại máy dev). Tiến trình
+  không bật mà nhận ca → ghi dòng nhật ký báo "đêm nay không chạy", không nằm im. Lý do: bảng
+  `_emdash_cron_tasks` dùng chung kho, đo ở bước 0.
+- Mỗi ca ghi một dòng nhật ký (storage plugin): bắt đầu/kết thúc, URL mới, số phân tích,
+  ngoài ngành, lượt gọi, số cụm, lỗi. Màn plugin báo đỏ khi > 26 giờ không có ca thành công.
+- **Nghỉ giữa các lượt** 300ms (cùng lý do `NGHI_GIUA_LO_MS` của bot thẩm định).
+- Trần chi phí tính bằng **số lượt gọi, kể cả lượt hỏng** (`RADA_SEO_TRAN_LUOT`, mặc định 200;
+  `RADA_SEO_TRAN_MOI_DOI_THU`, mặc định 30). Timeout 60s, thử lại 1 lần.
+- Chạy tay mặc định **chạy thử** (chỉ quét + đếm, không gọi Claude); "Chạy thật" chỉ bật
+  được trên máy có `RADA_SEO_CA_DEM=1`.
 
 ## Chọn khoảng trống
 
-Điểm = số đối thủ đã viết + tín hiệu xu hướng + mức kho nội bộ để liên kết (huyệt, bài
-thuốc, dược liệu) − điểm phạt nghiêng chữa trị/liều lượng. Khoảng trống ngoài ngành bị loại
-ở khâu phân tích. Trạng thái khoảng trống: `cho_viet` / `co_nhap` / `da_dang` / `bo_qua` /
-`phu_boi_tu_dien`. Nút "Bỏ qua" trên màn plugin.
+Chủ đề đối thủ nào không giống (≥ 0,30) chủ đề nào của mình thì là "thiếu"; các chủ đề thiếu
+gom nhóm bằng cùng thước. Điểm = 3 × số đối thủ cùng viết (tối đa 3) + số bài (tối đa 5) + 3
+nếu trúng xu hướng − 8 nếu tên/từ khoá cụm nghiêng chữa trị hay hứa kết quả. (Điểm "kho nội bộ
+để liên kết" dời sang lò viết, nơi đã nạp danh mục từ điển.) Khoảng trống ngoài ngành bị loại ở
+khâu phân tích. Trạng thái: `cho_viet` / `co_nhap` / `da_dang` / `bo_qua` / `phu_boi_tu_dien`.
+Mỗi ca thay các cụm `cho_viet`; cụm đã khoá được giữ, cụm mới giống cụm đã khoá không thêm lại
+— nhờ vậy "Bỏ qua" có tác dụng qua các đêm.
 
 ## Chống trùng — ba lớp, chạy TRƯỚC khi gọi mô hình
 
@@ -122,7 +145,7 @@ Mô hình tự chấm YMYL chỉ là tín hiệu phụ — luật là lớp ch�
 
 - Huyệt/kinh: **ảnh thật** trong thư viện CMS (653 huyệt, 20 kinh), chọn theo cách của
   `frontend/scripts/cover-lib.mjs`. Ảnh AI vẽ vị trí huyệt gần như chắc sai giải phẫu.
-- Ảnh AI (chuỗi nhà cung cấp hiện có: Yescale → HuggingFace → Pollinations) chỉ cho ảnh bìa
+- Ảnh AI (chuỗi nhà cung cấp hiện có của app, chốt lại ở kế hoạch 2B vì Yescale đã bỏ) chỉ cho ảnh bìa
   và minh hoạ không mang thông tin giải phẫu; lời nhắc cấm vẽ người kèm điểm/đường trên cơ thể.
 - Mọi ảnh qua `ctx.media.upload`, gán `featured_image` bằng `storageKey`.
 
