@@ -23,8 +23,9 @@ bộ** → **sản xuất**. Rada hiện chỉ có đầu vào (gom + đọc tra
 Hằng đêm 02:30  radar (plugin): sitemap BÀI VIẾT → trích chữ (có van hàng chờ)
 Hằng đêm 05:00  routine ĐỌC (Claude): đọc ≤40 trang đối thủ → chủ đề/từ khoá/tóm tắt
 Hằng tuần CN 06:00  routine CHIẾN LƯỢC (Claude):
-    rada_lay_du_lieu_chien_luoc → PHÂN CỤM (đối thủ + mình) → PHÂN TÍCH KHOẢNG TRỐNG có trọng
-    số dịch vụ → rada_ghi_cum + rada_de_xuat_ke_hoach (≤10 bài dự kiến/tuần)
+    rada_lay_du_lieu_chien_luoc → ĐỀ XUẤT HƯỚNG từ cụm đối thủ (trọng số gợi ý) → PHÂN CỤM
+    trong hướng đã nhận → KHOẢNG TRỐNG → rada_ghi_cum + rada_de_xuat_ke_hoach (≤10 bài/tuần)
+Người quản trị   tab "Hướng nội dung": Nhận / chỉnh trọng số / Bỏ
     → máy chủ gắn BẰNG CHỨNG (số đối thủ, xu hướng, trùng, phạm vi Y sỹ) + kiểm link đích
 Người quản trị   màn Rada SEO → tab "Kế hoạch": tick Duyệt / Bỏ từng bài dự kiến
 Hằng đêm 05:30  routine VIẾT (Claude): nếu nháp chờ duyệt < 25 và có bài đã tick:
@@ -43,31 +44,43 @@ Người quản trị   CMS: đọc nháp + phiếu chấm → sửa → Publish
   (≈ 2 đêm đọc). Nhờ vậy chữ không cũ đi hàng tuần và kho không phình.
 - **Site của mình KHÔNG cần quét sitemap nữa**: kho của mình lấy thẳng từ CMS (mục 3).
 
-## 2. Phân cụm theo nghĩa + khoảng trống có trọng số (routine chiến lược hằng tuần)
+## 2. Hướng nội dung đi ra TỪ ĐỐI THỦ, phân cụm theo nghĩa (routine chiến lược hằng tuần)
 
-**Trọng số dịch vụ** — bảng mới trong plugin, người quản trị sửa trên màn Rada:
+> Sửa theo góp ý người dùng (30/09/2026): KHÔNG khai cứng "trọng số dịch vụ" (đo kinh lạc, phần
+> mềm, từ điển…) — như thế là tự nhốt vào ngách quá nhỏ. Trọng số phải **do dữ liệu đối thủ đề
+> xuất**, người dùng duyệt.
 
-| Dịch vụ (mặc định) | Trọng số 1–5 |
+**Hướng nội dung** (bảng mới `huong`) thay cho bảng dịch vụ cố định. Mỗi tuần routine chiến
+lược đọc các cụm đối thủ và ĐỀ XUẤT hướng (vd "mất ngủ theo Đông y", "xương khớp theo YHCT",
+"dưỡng sinh theo mùa"), kèm trọng số gợi ý và lý do. Không có hướng gieo sẵn.
+
+**Máy chủ chấm điểm hướng** từ tín hiệu ĐO ĐƯỢC (mô hình không tự chấm):
+
+| Tín hiệu | Đo bằng |
 |---|---|
-| Đo nhiệt độ kinh lạc / chẩn đoán kinh lạc | 5 |
-| Huyệt vị, đường kinh, châm cứu (tra cứu + 3D) | 4 |
-| Bài thuốc, vị thuốc (tính vị quy kinh) | 4 |
-| Biện chứng luận trị | 3 |
-| Phần mềm quản lý phòng chẩn trị Đông y | 3 |
+| Nhu cầu thị trường | số đối thủ + số bài đối thủ trong hướng, trúng xu hướng tìm kiếm |
+| Khoảng trống của mình | số bài blog / trang của mình đã có trong hướng (ít → điểm cao) |
+| **Tài sản nội bộ** | số trang từ điển liên quan (huyệt, bài thuốc, dược liệu, bệnh học) — lợi thế riêng: bài vừa sâu vừa dẫn traffic vào 18.425 trang từ điển |
+| Rủi ro phạm vi Y sỹ | hướng nghiêng chữa trị/hứa kết quả → trừ nặng hoặc loại |
+| Gần sản phẩm (điểm cộng NHỎ) | có đường dẫn tự nhiên về đo kinh lạc / phần mềm / từ điển — không phải điều kiện |
+
+**Người dùng duyệt hướng** (tab "Hướng nội dung"): mỗi hướng hiện bằng chứng (đối thủ nào,
+bao nhiêu bài, trang từ điển nào liên quan) và trọng số gợi ý → **Nhận** (trọng số dùng được
+chỉnh 1–5) / **Bỏ** (kèm lý do; tuần sau không đề xuất lại). Cụm và bài dự kiến chỉ sinh trong
+hướng đã nhận.
 
 **Công cụ `rada_lay_du_lieu_chien_luoc`** trả gọn: chủ đề đối thủ đã đọc (id, chủ đề, từ khoá,
 đối thủ) — CHỈ 1.500 dòng mới nhất (rà soát I4: tính toàn kho tăng theo bình phương); kho của
-mình (tiêu đề + từ khoá bài blog đã đăng, tên các trang trụ cột); trọng số dịch vụ; các cụm và
-bài dự kiến đang có (để không đề xuất lại cái đã bỏ). Kèm HAI lời nhắc do máy chủ giữ
-(`loi-dan.mjs`): **phân tích cụm** và **phân tích khoảng trống** (chuyển ý từ 2 prompt của
-video, thêm ràng buộc Đông y + phạm vi Y sỹ).
+mình (tiêu đề + từ khoá bài blog đã đăng, tên trang trụ cột); các hướng (đã nhận / đã bỏ + lý
+do); cụm và bài dự kiến đang có. Kèm BA lời nhắc do máy chủ giữ (`loi-dan.mjs`): **đề xuất
+hướng**, **phân tích cụm**, **phân tích khoảng trống** (chuyển ý từ 2 prompt của video, thêm
+ràng buộc Đông y + phạm vi Y sỹ).
 
-**Claude trả về** (`rada_ghi_cum`): các cụm — tên, mô tả, danh sách id bài đối thủ thuộc cụm,
-bài của mình thuộc cụm, dịch vụ liên quan, nhận xét "đối thủ dồn lực / mình còn trống".
-
-**Máy chủ tính điểm cụm** (không để mô hình tự chấm): số đối thủ có bài trong cụm, số bài đối
-thủ, số bài của mình, trọng số dịch vụ, trúng xu hướng → điểm. Luật trùng-chữ cũ hạ xuống làm
-**bằng chứng**, không còn là sản phẩm cuối.
+**Claude trả về:** `rada_de_xuat_huong` (hướng mới + trọng số gợi ý + lý do + id bài đối thủ làm
+bằng chứng) và `rada_ghi_cum` (cụm trong các hướng đã nhận — tên, mô tả, id bài đối thủ thuộc
+cụm, bài của mình thuộc cụm). **Máy chủ tính điểm cụm** = điểm hướng × (nhu cầu + khoảng trống
++ tài sản nội bộ) của riêng cụm. Luật trùng-chữ cũ hạ xuống làm **bằng chứng**, không còn là
+sản phẩm cuối.
 
 ## 3. Kho nội bộ = đích liên kết
 
@@ -154,8 +167,9 @@ chí trên màn Rada).
 ## Chia kế hoạch
 
 - **2C-1** Nguồn + kho nội bộ: sitemap bài viết, van hàng chờ, kho nội bộ + `rada_tim_lien_ket`.
-- **2C-2** Chiến lược: trọng số dịch vụ, `rada_lay_du_lieu_chien_luoc`, `rada_ghi_cum`,
-  `rada_de_xuat_ke_hoach`, bằng chứng + điểm, tab Kế hoạch, routine chiến lược.
+- **2C-2** Chiến lược: hướng nội dung (đề xuất từ đối thủ + chấm điểm đo được + tab duyệt),
+  `rada_lay_du_lieu_chien_luoc`, `rada_de_xuat_huong`, `rada_ghi_cum`, `rada_de_xuat_ke_hoach`,
+  bằng chứng + điểm, tab Kế hoạch, routine chiến lược.
 - **2C-3** Viết: `rada_lay_bai_can_viet`, `rada_nop_bai` (rào + xác minh nguồn + link + ảnh +
   md→PT + slug), phiếu chấm, beforeSave, IndexNow, routine viết.
 - Sau: mạng nhện hai chiều; làm đẹp màn Rada theo bộ giao diện EmDash.
