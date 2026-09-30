@@ -578,3 +578,27 @@ test("leo top: taoPhienLeoTop lưu tuKhoaPhu (≤ 5, chỉ tuKhoa/viTri/hienThi)
 	const k = await kho.taoPhienLeoTop(s, { ...PHIEN, tuKhoa: "khác" }, new Date(T0 + 1).toISOString());
 	assert.deepEqual(k.tuKhoaPhu, []);
 });
+
+// ---- Nháp lò viết (2C-3) ----
+test("nhap: khai báo bộ + trạng thái", () => {
+	assert.deepEqual(kho.KHAI_BAO_KHO.nhap, { indexes: ["keHoachId", "trangThai", "taoLuc"] });
+	assert.deepEqual(kho.TRANG_THAI_NHAP, ["cho_duyet", "da_dang"]);
+	assert.ok(taoKhoGia().nhap, "kho giả phải có bộ nhap");
+});
+
+test("nhap: ghi theo contentId, đếm và liệt kê theo trạng thái", async () => {
+	const s = taoKhoGia();
+	await kho.themNhap(s, { keHoachId: "k_1", contentId: "c1", slug: "a", tieuDe: "A", tuKhoa: ["x"], phieu: {} }, NOW);
+	await kho.themNhap(s, { keHoachId: "k_2", contentId: "c2", slug: "b", tieuDe: "B", tuKhoa: [], phieu: {} }, NOW);
+	await s.nhap.put("c3", { keHoachId: "k_3", contentId: "c3", trangThai: "da_dang", taoLuc: NOW });
+	const c1 = await s.nhap.get("c1");
+	assert.equal(c1.trangThai, "cho_duyet");
+	assert.equal(c1.taoLuc, NOW);
+	assert.equal(await kho.demNhap(s, "cho_duyet"), 2);
+	assert.equal((await kho.dsNhap(s)).length, 3);
+	assert.deepEqual((await kho.dsNhap(s, { trangThai: "da_dang" })).map((n) => n.id), ["c3"]);
+});
+
+test("nhap: contentId trống bị từ chối", async () => {
+	await assert.rejects(() => kho.themNhap(taoKhoGia(), { keHoachId: "k", contentId: "" }, NOW), /contentId/);
+});

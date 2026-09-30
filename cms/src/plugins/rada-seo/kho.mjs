@@ -17,6 +17,8 @@ export const KHAI_BAO_KHO = {
 	ke_hoach: { indexes: ["cumId", "trangThai", "taoLuc"] },
 	// Leo top (2D): một phiên = một cặp (từ khoá, trang mình) đang đứng hạng 4–50 trên GSC.
 	leo_top: { indexes: ["trangThai", "taoLuc"] },
+	// Lò viết (2C-3): một dòng = một nháp bai_viet plugin đã tạo, id = contentId của CMS.
+	nhap: { indexes: ["keHoachId", "trangThai", "taoLuc"] },
 };
 
 export const TRANG_THAI_CUM = ["cho_viet", "co_nhap", "da_dang", "bo_qua", "phu_boi_tu_dien"];
@@ -421,6 +423,29 @@ export async function datKeHoach(s, id, { trangThai, lyDoBo } = {}) {
 	} else delete moi.lyDoBo;
 	await s.ke_hoach.put(id, moi);
 	return { id, ...moi };
+}
+
+// ---- Nháp lò viết (2C-3) ----
+// cho_duyet: plugin đã tạo nháp bai_viet, chờ người duyệt; da_dang: đã Publish.
+// Bản ghi giữ những gì plugin ĐÃ GHI (tiêu đề có dấu, từ khoá): update của EmDash chỉ ghi
+// revision nháp, đọc lại bằng content.get vẫn thấy tiêu đề không dấu tới khi Publish.
+export const TRANG_THAI_NHAP = ["cho_duyet", "da_dang"];
+
+/** @param {{keHoachId: string, contentId: string, slug: string, tieuDe: string, tuKhoa?: string[], phieu: object}} n */
+export async function themNhap(s, n, now) {
+	if (!n?.contentId) throw new Error("Nháp thiếu contentId");
+	const data = { ...n, trangThai: "cho_duyet", taoLuc: now };
+	await s.nhap.put(String(n.contentId), data);
+	return { id: String(n.contentId), ...data };
+}
+
+export async function demNhap(s, trangThai) {
+	return s.nhap.count(trangThai ? { trangThai } : undefined);
+}
+
+export async function dsNhap(s, { trangThai } = {}) {
+	const r = await tatCa(s.nhap, loc(trangThai && { trangThai }, { taoLuc: "desc" }));
+	return r.map((x) => ({ id: x.id, ...x.data }));
 }
 
 // ---- Leo top (2D) ----
