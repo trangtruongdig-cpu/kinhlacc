@@ -306,8 +306,10 @@ SEO là `/_emdash/api/mcp` (của **CMS**) — KHÔNG dùng connector, chỉ n�
 
 **Sau lần deploy đầu — theo đúng thứ tự:**
 
-1. `/_emdash/admin` → **Rada SEO** → **"Bật lịch"**; thêm site của mình (tick **"site của
-   mình"**) và các đối thủ; bấm **"Chạy thật"** một lần, đọc Nhật ký ca: cột "Trích" > 0.
+1. `/_emdash/admin` → **Rada SEO**: mở trang là lịch đêm TỰ bật (chỉ khi `RADA_SEO_CA_DEM=1`,
+   tức trên VPS). Thêm site của mình (tick **"site của mình"**) và các đối thủ — lưu đối thủ
+   lần đầu là ca radar đầu tiên TỰ chạy nền. Vài phút sau bấm "Tải lại": Nhật ký ca có dòng,
+   cột "Trích" > 0. Nút "Bật lịch" / "Chạy thật" chỉ còn là đường dự phòng.
 2. Nối Claude (routine đêm) theo `cms/src/plugins/rada-seo/routine/dem-doc-doi-thu.md`:
    bật MCP tools của plugin → tạo khoá `ec_pat_` **chỉ** scope `mcp:tools:rada-seo` → môi
    trường routine có biến bí mật `RADA_SEO_MCP_TOKEN` và mở mạng tới `kinhlac.online` →
