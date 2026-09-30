@@ -19,6 +19,7 @@ const props = defineProps<{
   chuyenBien?: { vaoLy?: { slug?: string | null } | null; raBieu?: { slug?: string | null } | null } | null // mũi tên vào lý / ra biểu
   trajectory?: TrajInput[] | null // TRUYỀN BIẾN THỰC ĐO (chỉ đợt hiện tại): chuỗi lần đo cũ→mới
   currentId?: number | null // id lần đo ĐANG XEM (nổi bật nhất)
+  compact?: boolean // bản thu nhỏ (dải mốc lịch sử đo): chỉ giữ hình, bỏ nút/chú giải, không bắt chuột
 }>()
 // Lát cắt tối thiểu của 1 lần đo để vẽ đường đo (cha map từ lucKinhTrajectory, chỉ đợt hiện tại).
 interface TrajInput {
@@ -289,7 +290,7 @@ const trajSegs = computed(() => {
 </script>
 
 <template>
-  <div class="vlk" :class="{ 'traj-on': showTraj && trajLocatedCount >= 2 }">
+  <div class="vlk" :class="{ 'traj-on': showTraj && trajLocatedCount >= 2, 'vlk--compact': compact }">
     <svg class="vlk-svg" viewBox="0 0 420 420" role="img" aria-label="Đồ hình Lục Kinh Thương Hàn: truyền biến, biểu-lý (Trung kiến), khai-hạp-xu, nối Tạng Phủ · Lục Khí · Lục Kinh">
       <defs>
         <radialGradient id="vlk-stone" cx="50%" cy="42%" r="62%">
@@ -377,6 +378,7 @@ const trajSegs = computed(() => {
       <circle :cx="CX" :cy="CY" :r="RIM" fill="none" stroke="url(#vlk-rim)" stroke-width="2.4" stroke-opacity=".92" />
     </svg>
 
+    <template v-if="!compact">
     <!-- Nút Tam Dương / Tam Âm (hiệu ứng sáng nửa vòng) -->
     <div class="vlk-halfbtns">
       <button type="button" class="hb duong" :class="{ on: halfHi === 'duong' }"
@@ -419,10 +421,15 @@ const trajSegs = computed(() => {
            nên ở đó mũi tên "vào lý" đi NGƯỢC chiều số — nói rõ để khỏi bị đọc là lỗi vẽ. -->
       <span class="lg-note">Thiếu Dương ③ nông hơn Dương Minh ②, nên ③→② vẫn là <b>vào lý</b></span>
     </div>
+    </template>
   </div>
 </template>
 
 <style scoped>
+/* Bản thu nhỏ: cỡ do nơi dùng quyết định; chuột đi xuyên để thẻ cha (RouterLink) vẫn bấm được —
+   các nút chọn trong SVG có @click.stop, để nguyên thì bấm vào hình là thẻ không mở. */
+.vlk--compact { max-width: none; gap: 0; pointer-events: none; }
+.vlk--compact .vlk-svg { filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.25)); }
 .vlk { width: 100%; max-width: min(100%, 62vh); margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 10px; }
 .vlk-svg { width: 100%; height: auto; display: block; overflow: visible; filter: drop-shadow(0 8px 22px rgba(0, 0, 0, 0.3)); }
 .vlk-svg text { font-family: var(--font-family, 'Inter', sans-serif); text-anchor: middle; dominant-baseline: middle; paint-order: stroke; stroke-linejoin: round; user-select: none; pointer-events: none; }

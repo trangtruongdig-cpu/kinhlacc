@@ -15,8 +15,10 @@ import {
   computeDiagnosis,
   computeTongCuong,
   computeAffectedOrgans,
+  nguHanhZTuRows,
   type InputData,
   type TongCuong,
+  type NguHanhZ,
 } from './meridianAnalysis'
 import { locateLucKinh, type LucKinhVerdict, type TheKinhMap } from './lucKinh'
 
@@ -44,6 +46,8 @@ export interface TomTat {
   viTri: string // 'Biểu' | 'Lý' | 'Biểu Lý' | ''
   tinhChat: string // 'Hàn' | 'Nhiệt' | 'Hàn Nhiệt lẫn lộn' | ''
   tongCuong: TongCuong | null
+  /** z Ngũ Hành (lớp 3 Tạng Phủ) — cùng hàm với trang Kết Quả Đo, để vẽ sao méo ở dải mốc. */
+  nguHanhZ: NguHanhZ | null
   /** Mô hình bệnh YHCT — tên các thể đo được, thể chắc chắn nhất đứng trước. */
   theBenh: string[]
   lucKinh: LucKinhVerdict | null
@@ -87,6 +91,7 @@ export function tomTatCaDo(e: CaDoInput, theKinhMap?: TheKinhMap | null): TomTat
       viTri: '',
       tinhChat: '',
       tongCuong: null,
+      nguHanhZ: null,
       theBenh,
       lucKinh: locateLucKinh(theBenh, null, theKinhMap ?? null),
     }
@@ -120,6 +125,7 @@ export function tomTatCaDo(e: CaDoInput, theKinhMap?: TheKinhMap | null): TomTat
     viTri: tongCuong.viTri,
     tinhChat: tongCuong.tinhChat,
     tongCuong,
+    nguHanhZ: nguHanhZTuRows(upperRows, lowerRows, upperStats, lowerStats),
     theBenh,
     lucKinh: locateLucKinh(theBenh, tongCuong, theKinhMap ?? null),
   }

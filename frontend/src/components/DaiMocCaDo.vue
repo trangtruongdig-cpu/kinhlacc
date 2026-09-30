@@ -11,9 +11,12 @@
  */
 import { computed } from 'vue'
 import AmDuongTaiji from '@/components/AmDuongTaiji.vue'
+import VongNguHanh from '@/components/VongNguHanh.vue'
+import VongLucKinh from '@/components/VongLucKinh.vue'
 import { tomTatCaDo, soSanhCaDo, type CaDoInput, type TomTat, type ChuyenBien } from '@/lib/tomTatCaDo'
-import type { TongCuong } from '@/lib/meridianAnalysis'
-import { dinhViChac, type TheKinhMap } from '@/lib/lucKinh'
+import type { TongCuong, NguHanhZ } from '@/lib/meridianAnalysis'
+import { dinhViChac, type LucKinhVerdict, type TheKinhMap } from '@/lib/lucKinh'
+import { truyenBienCua } from '@/lib/lucKinhTruyenBien'
 
 const props = withDefaults(
   defineProps<{
@@ -37,6 +40,10 @@ interface Moc {
   kinhHan: string
   chips: { nhan: string; cuc: 'duong' | 'am' | 'trung' }[]
   tongCuong: TongCuong | null
+  /** Lớp 3 Tạng Phủ — sao Ngũ Hành méo. */
+  nguHanhZ: NguHanhZ | null
+  /** Lớp 5 Lục Kinh — đúng bộ props trang Kết Quả Đo truyền cho VongLucKinh. */
+  lk: DoHinhLucKinh | null
   moiNhat: boolean
   /** So với mốc liền trước (null ở mốc đầu). */
   cb: ChuyenBien | null
@@ -44,6 +51,29 @@ interface Moc {
   cbNgo: boolean
   /** Vì sao ngờ — nêu đích danh mốc hụt và Bát Cương đo được của nó. */
   cbNgoLyDo: string
+}
+
+interface DoHinhLucKinh {
+  counts: Record<string, number>
+  caseSet: string[]
+  troiKinh: string
+  chuyenBien: ReturnType<typeof truyenBienCua> | null
+}
+
+/**
+ * Dựng props đồ hình Lục Kinh y như `bienChung` ở MeridianResultsView: đếm thể theo kinh, kinh
+ * trội = kết luận, và CHỈ suy chuyển biến (viền dự đoán vào lý/ra biểu) khi định vị đủ chắc.
+ */
+function doHinhLucKinh(v: LucKinhVerdict | null): DoHinhLucKinh | null {
+  if (!v) return null
+  const counts: Record<string, number> = {}
+  for (const t of v.theThuongHan) counts[t.kinh] = (counts[t.kinh] ?? 0) + 1
+  return {
+    counts,
+    caseSet: Object.keys(counts),
+    troiKinh: v.kinh.slug,
+    chuyenBien: dinhViChac(v) ? truyenBienCua(v.kinh.slug, { nhietHoa: /nhiệt hóa/.test(v.giaiDoan) }) : null,
+  }
 }
 
 /** Dải phải đi cũ → mới ở khâu TÍNH (để `cb` đúng ngữ nghĩa), dù bày ra thì ngược lại. */
@@ -80,6 +110,8 @@ const mocs = computed<Moc[]>(() => {
     kinhHan: t.lucKinh ? t.lucKinh.kinh.han : '',
     chips: chipsTheChat(t),
     tongCuong: t.tongCuong,
+    nguHanhZ: t.nguHanhZ,
+    lk: doHinhLucKinh(t.lucKinh),
     moiNhat: i === arr.length - 1,
     cb: i > 0 ? soSanhCaDo(arr[i - 1]!, t) : null,
     cbNgo: i > 0 && (!dinhViChac(arr[i - 1]!.lucKinh) || !dinhViChac(t.lucKinh)),
@@ -161,15 +193,45 @@ function nhanKhoangCach(cb: ChuyenBien): string {
           {{ m.kinhTen }} <i v-if="m.kinhHan">{{ m.kinhHan }}</i>
         </span>
 
-        <!-- Tổng cương: đưa NGUYÊN đồ hình Thái Cực dư/khuyết của trang Kết Quả Đo ra đây -->
+        <!-- Tổng cương: nhãn chữ đứng trên, ba đồ hình bên dưới -->
         <span v-if="m.tongCuong && m.tongCuong.amDuong" class="mach-tc">
-          <AmDuongTaiji :tong-cuong="m.tongCuong" compact class="mach-taiji" />
           <span class="mach-tc-chu">
             <!-- TỔNG CƯƠNG (Dương thịnh / Âm hư / Dương hư / Âm thịnh) là cương TỔNG QUÁT, đứng
                  trên cùng trong Bát Cương — nên nó là dòng chính. Hội chứng ba cương đầy đủ
                  ("Biểu Hư Hàn") là phần diễn giải chi tiết, làm dòng phụ. -->
             <b class="mach-tc-nhan">{{ m.tongCuong.amDuong || m.tongCuong.hoiChung }}</b>
             <i v-if="m.tongCuong.hoiChung && m.tongCuong.amDuong" class="mach-tc-phu">{{ m.tongCuong.hoiChung }}</i>
+          </span>
+        </span>
+
+        <!-- BA ĐỒ HÌNH của trang Kết Quả Đo, thu nhỏ, cùng một hàng để so mốc này với mốc kia:
+             ① Âm Dương (Thái Cực dư/khuyết) · ② Tạng Phủ (sao Ngũ Hành méo, lớp 3 của Tab 3)
+             · ③ Lục Kinh (kinh trội + viền dự đoán, lớp 5). Cùng component, cùng dữ liệu —
+             chỉ bỏ nút và chú giải, nên hình ở đây luôn khớp hình ở trang chi tiết. -->
+        <span class="mach-dh">
+          <span class="mach-dh-o" title="Âm Dương — Thái Cực dư/khuyết">
+            <AmDuongTaiji v-if="m.tongCuong && m.tongCuong.amDuong" :tong-cuong="m.tongCuong" compact class="mach-taiji" />
+            <span v-else class="mach-dh-trong">—</span>
+            <small>Âm Dương</small>
+          </span>
+          <span class="mach-dh-o" title="Tạng Phủ — sao Ngũ Hành: đỉnh co vào = hư, đẩy ra = thực">
+            <VongNguHanh v-if="m.nguHanhZ" :z="m.nguHanhZ" :tong-cuong="m.tongCuong" compact class="mach-vong" />
+            <span v-else class="mach-dh-trong">—</span>
+            <small>Tạng Phủ</small>
+          </span>
+          <span class="mach-dh-o" :title="`Lục Kinh — ${m.kinhTen}`">
+            <!-- Chưa định vị vẫn vẽ vòng (không tô kinh nào, nhạt đi): ô trống dễ bị đọc thành
+                 "thiếu hình", còn vòng nhạt nói đúng điều đang xảy ra — đo rồi mà chưa định vị. -->
+            <VongLucKinh
+              :counts="m.lk?.counts"
+              :case-set="m.lk?.caseSet ?? null"
+              :troi-kinh="m.lk?.troiKinh ?? null"
+              :chuyen-bien="m.lk?.chuyenBien ?? null"
+              compact
+              class="mach-vong"
+              :class="{ 'mach-vong--chua': !m.lk }"
+            />
+            <small>Lục Kinh</small>
           </span>
         </span>
 
@@ -315,12 +377,57 @@ function nhanKhoangCach(cb: ChuyenBien): string {
   color: var(--text-subtle);
   border: 1px solid var(--gray-200);
 }
-/* Tổng cương = đồ hình Thái Cực + nhãn */
+/* Tổng cương = nhãn chữ */
 .mach-tc {
   display: flex;
   align-items: center;
   gap: var(--space-2);
   width: 100%;
+}
+/* Hàng ba đồ hình — ba ô vuông bằng nhau, và ĐĨA của ba hình cũng phải bằng nhau.
+   Ba component vẽ đĩa ở tỉ lệ khác nhau so với khung của chính nó (đo theo toạ độ gốc):
+   Thái Cực R=92 trong khung 280 → đĩa 66% · Ngũ Hành và Lục Kinh rìa 191 trong khung 420 → 91%.
+   Để khung bằng nhau thì Thái Cực trông nhỏ hẳn, nên quy cả ba về đĩa = --dh của ô. */
+.mach-dh {
+  --dh: 0.8;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  width: 100%;
+}
+.mach-dh-o {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.mach-dh-o small {
+  font-size: var(--font-size-2xs);
+  font-weight: 600;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.mach-vong {
+  /* 91% khung → --dh ô */
+  width: calc(var(--dh) / 0.91 * 100%);
+  aspect-ratio: 1;
+  /* bù phần thu nhỏ bằng lề trên/dưới → khung chiếm trọn ô như Thái Cực, ba nhãn thẳng hàng */
+  margin-block: calc((1 - var(--dh) / 0.91) * 50%);
+}
+.mach-vong--chua {
+  opacity: 0.45;
+  filter: saturate(0.4);
+}
+.mach-dh-trong {
+  width: calc(var(--dh) * 100%);
+  margin-block: calc((1 - var(--dh)) * 50%);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px dashed var(--gray-300);
+  color: var(--text-subtle);
 }
 /* AmDuongTaiji bản compact vốn to 240px cho đồ hình bóc lớp — ở đây chỉ cần một hình nhỏ cạnh
    nhãn, nên ghi đè cả khung thẻ lẫn cỡ SVG bên trong. */
@@ -331,9 +438,28 @@ function nhanKhoangCach(cb: ChuyenBien): string {
   border: none;
   border-radius: 0;
 }
+.mach-taiji {
+  width: 100%;
+  aspect-ratio: 1;
+  display: block;
+  overflow: visible;
+}
+/* 66% khung → --dh ô: phóng khung SVG to hơn ô rồi kéo lề âm cho tâm về giữa ô
+   (lề % tính theo bề RỘNG nên dùng chung cho cả trên/dưới). Vòng dư/khuyết lệch ra ngoài
+   nằm trong phần khung dư của SVG nên không bị cắt. */
+.mach-taiji :deep(.ad-fig) {
+  width: 100%;
+  /* chặn lề âm của SVG lọt ra ngoài (margin collapse) — không có nó khung cao 121/99 và nhãn
+     "Âm Dương" tụt thấp hơn hai nhãn kia */
+  display: flow-root;
+}
 .mach-taiji :deep(.ad-svg) {
-  width: 64px;
-  height: 64px;
+  --k: calc(var(--dh) / 0.657);
+  display: block;
+  width: calc(var(--k) * 100%);
+  height: auto;
+  aspect-ratio: 1;
+  margin: calc((1 - var(--k)) * 50%);
 }
 .mach-tc-chu {
   display: flex;
@@ -446,7 +572,7 @@ function nhanKhoangCach(cb: ChuyenBien): string {
     flex: 0 0 auto;
   }
   .mach-cell {
-    width: 232px;
+    width: 340px;
   }
   .mach-the {
     font-size: var(--font-size-xs);

@@ -16,6 +16,7 @@ const props = defineProps<{
   z: { hoa: number | null; tho: number | null; kim: number | null; thuy: number | null; moc: number | null } | null
   tongCuong?: TongCuong | null // Thái Cực NỀN (dư/khuyết âm dương tổng) — ngũ tạng lệch làm âm dương dư/khuyết
   reversePolarity?: boolean // máy đo TRỞ KHÁNG (đảo cao↔thấp) — cần thầy thuốc xác nhận
+  compact?: boolean // bản thu nhỏ (dải mốc lịch sử đo): chỉ giữ hình, bỏ nút/chú giải, không bắt chuột
 }>()
 
 const CX = 210, CY = 210, D2R = Math.PI / 180
@@ -222,7 +223,7 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
 </script>
 
 <template>
-  <div class="vnh">
+  <div class="vnh" :class="{ 'vnh--compact': compact }">
     <div class="vnh-stage">
       <!-- NỀN ĐÁ TỐI (đồng bộ lớp 4/5) → ngũ hành sáng nổi bật, tương phản mạnh. -->
       <div class="vnh-stone-bg"></div>
@@ -312,6 +313,7 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
     </svg>
     </div>
 
+    <template v-if="!compact">
     <div class="vnh-ctrls">
       <button type="button" class="vnh-btn" :class="{ on: showMeo }" @click="showMeo = !showMeo">
         {{ showMeo ? '◉' : '○' }} Sao méo (thực tế) <small>{{ showMeo ? '· đang so mốc chuẩn' : '· đang xem chuẩn cân bằng' }}</small>
@@ -333,10 +335,14 @@ const toneName = (t: string | null) => (t === 'thuc' ? 'thực (dư)' : t === 'h
       Dây <b style="color:#b23a29">đỏ mũi tên to</b> = tương thừa (khắc quá) · <b style="color:#8a2f4f">mận ngược</b> = tương vũ (phản khắc);
       viền <b style="color:#c99a2e">vàng</b> = tạng GỐC. Hư do bị khắc ≠ gốc bệnh — đối chiếu tứ chẩn.
     </p>
+    </template>
   </div>
 </template>
 
 <style scoped>
+/* Bản thu nhỏ: cỡ do nơi dùng quyết định; chuột đi xuyên để thẻ cha (RouterLink) vẫn bấm được. */
+.vnh--compact { max-width: none; gap: 0; pointer-events: none; }
+.vnh--compact .vnh-stone-bg { box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25); }
 .vnh { width: 100%; max-width: min(100%, 62vh); margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 10px; }
 /* Sân khấu vuông: NỀN ĐÁ TỐI + Thái Cực motif (mờ) + ngôi sao SVG chồng lên trên */
 .vnh-stage { position: relative; width: 100%; }
