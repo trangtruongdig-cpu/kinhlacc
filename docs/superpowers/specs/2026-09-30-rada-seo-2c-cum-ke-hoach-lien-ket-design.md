@@ -4,11 +4,17 @@ Ngày: 30/09/2026 · Trạng thái: thiết kế chờ người dùng duyệt ·
 viết" (gộp vào đây). Căn cứ: `2026-09-30-rada-seo-doi-chieu-n8n-ai5phut.md` (video + 3 workflow
 n8n) và đặc tả gốc `2026-09-30-radar-lo-viet-plugin-cms-design.md`.
 
-## Mục tiêu
+## Mục tiêu — Radar do thám HAI CHIỀU (người dùng chốt 30/09/2026)
 
-Làm đủ 4 việc agency SEO làm (theo video): **cụm** → **bản đồ nội dung** → **mạng liên kết nội
-bộ** → **sản xuất**. Rada hiện chỉ có đầu vào (gom + đọc trang đối thủ) và một danh sách
-"khoảng trống" dựa trên trùng chữ.
+1. **Chiều 1 — chiếm đất:** lấy toàn bộ thông tin đối thủ → tìm khoảng trống CHƯA AI LÀM (hoặc
+   mình chưa làm) → đề xuất hướng nội dung để viết. (Mục 1–5 dưới.)
+2. **Chiều 2 — leo top:** từ khoá của mình đã VÀO bảng xếp hạng (GSC) → soi các trang đang đứng
+   đầu → tìm SƠ HỞ của từng trang → đắp vào trang mình để thành trang **ít sơ hở nhất, trải
+   nghiệm tốt nhất**. Quan điểm của người dùng: top 1 không phải trang đầy đủ nhất mà là trang
+   ít sơ hở nhất — nên Rada **không** khuyên viết dày thêm; nó tìm chỗ người khác thiếu, thừa,
+   rườm, chậm. (Mục 8.)
+
+Hai chiều dùng chung: đường đọc trang qua Claude (MCP, dấu mốc), máy chấm luật, kho nội bộ.
 
 ## Quyết định đã chốt với người dùng
 
@@ -158,6 +164,51 @@ Khi một bài được Publish: máy chủ tìm bài/trang cũ cùng cụm chư
 - Đề xuất (chưa bắt buộc): chạy routine từ một repo nhỏ riêng chỉ có `.mcp.json` + lời dặn —
   bớt quota (không nạp CLAUDE.md 40KB mỗi đêm) và bỏ `.mcp.json` khỏi repo chính.
 
+## 8. Chiều 2 — leo top: bản đồ sơ hở của trang đang thắng
+
+**Nguồn:** hạng của CHÍNH MÌNH lấy đúng từ GSC. Trang đối thủ trên SERP do routine Claude tự
+tìm bằng công cụ tìm kiếm web có sẵn trong gói (người dùng chọn, 30/09/2026) — khoảng **top 10
+ước lượng**, không phải hạng chính xác từng vị trí, không tới top 50. KHÔNG cào Google bằng bot
+né CAPTCHA (trái điều khoản Google; chạy từ IP VPS đang phục vụ site thật — bị chặn là vạ lây
+cả GSC/IndexNow; và hỏng im lặng khi Google đổi cách chặn). Khoá Google Custom Search hiện có
+trả 403 "project chưa có quyền dùng Custom Search JSON API" (đo 30/09/2026). Nâng cấp sau nếu
+cần hạng thật tới top 50: DataForSEO (trả phí theo lượt).
+
+**GSC trong plugin:** plugin gọi thẳng Search Console API bằng cùng bộ OAuth của backend
+(`GSC_OAUTH_CLIENT_ID/SECRET/REFRESH_TOKEN` khai thêm vào `cms/.env`) — lặp ~60 dòng của
+`GscService.strikingDistance` nhưng giữ plugin tự đứng, không mở cửa gọi chéo sang backend.
+
+**Nhịp (hằng tuần, routine LEO TOP, thứ Tư 05:00):**
+
+1. `rada_lay_tu_khoa_leo_top` → 3–5 từ khoá: trang của mình ở hạng 4–50, có lượt hiển thị,
+   xếp theo cơ hội (hiển thị × khoảng cách tới top 3); bỏ từ khoá đã soi trong 4 tuần gần nhất.
+2. Claude tìm web từ khoá đó → gửi `rada_nop_serp` (danh sách ~10 URL theo thứ tự thấy được).
+3. **Máy đo từng trang (không AI)** qua `ctx.http` + chống SSRF: vị trí câu trả lời (số chữ
+   trước đoạn trả lời trực tiếp đầu tiên), số chữ, số mục H2/H3, bảng, danh sách, hình, FAQ,
+   JSON-LD, ngày cập nhật, tác giả/người duyệt, số nguồn dẫn ra ngoài; cùng số đo cho trang
+   của mình. (Tốc độ tải: PageSpeed API miễn phí, chỉ top 3 + mình — tuỳ chọn.)
+4. `rada_lay_trang_serp` → Claude đọc chữ từng trang (bọc dấu mốc, như routine đọc) →
+   `rada_ghi_so_ho`: các Ý trang trả lời (tên ý ngắn), câu trả lời chính nằm ở đâu, đoạn rườm,
+   chỗ thiếu căn cứ, chỗ khó dùng.
+5. **Máy chủ dựng bản đồ sơ hở** (không để mô hình tự chấm):
+   - **Ý cốt lõi** = ý mà ≥ 60% trang soi được cùng trả lời → người tìm thật sự cần. Trang
+     nào thiếu = sơ hở "thiếu ý".
+   - **Ý thừa** = ý ≤ 20% trang có và không khớp ý định → rườm; KHÔNG khuyên học theo.
+   - **Sơ hở trải nghiệm**: trả lời muộn (câu trả lời sau N chữ), không tóm tắt/bảng khi ý có
+     dạng so sánh/liệt kê, không nguồn, cũ, không tác giả, chậm.
+   - **Dấu hiệu người thắng**: đặc điểm chung của 3 trang đầu mà các trang sau không có.
+6. **Phiếu leo top** cho trang của mình: ý cốt lõi còn thiếu (viết NGẮN), câu trả lời đưa lên
+   đầu, phần nên cắt, yếu tố trải nghiệm nên thêm — ưu tiên tài sản riêng đối thủ không có (ảnh
+   huyệt 3D, đồ hình kinh, liên kết từ điển). Mục tiêu "đủ ý cốt lõi, ngắn nhất, dễ dùng nhất".
+   - Bài blog (CMS): routine viết (2C-3) dựng **bản sửa nháp** theo phiếu → người duyệt.
+   - Trang từ điển (HTML tĩnh do builder sinh): phiếu là **đề xuất** trên màn Rada; áp tay
+     trong CMS rồi build lại.
+7. **Vòng học:** 2 và 4 tuần sau khi bản sửa được đăng, đọc lại hạng GSC của từ khoá → ghi
+   "đã lên / đứng yên / tụt" vào phiếu; màn Rada tổng hợp loại sửa nào hay giúp lên hạng.
+
+Màn Rada: tab **Leo top** — từ khoá, hạng hiện tại, bản đồ sơ hở (bảng ý × trang), phiếu,
+kết quả đo lại.
+
 ## Ngoài phạm vi 2C
 
 Google Trends có điểm (cần SerpAPI trả phí — giữ Google Suggest); chấm độ khó từ khoá / lượng
@@ -172,4 +223,7 @@ chí trên màn Rada).
   bằng chứng + điểm, tab Kế hoạch, routine chiến lược.
 - **2C-3** Viết: `rada_lay_bai_can_viet`, `rada_nop_bai` (rào + xác minh nguồn + link + ảnh +
   md→PT + slug), phiếu chấm, beforeSave, IndexNow, routine viết.
+- **2D** Chiều 2 — leo top: GSC trong plugin, `rada_lay_tu_khoa_leo_top`, `rada_nop_serp`,
+  máy đo trang, `rada_lay_trang_serp`, `rada_ghi_so_ho`, bản đồ sơ hở, phiếu, vòng học, tab Leo top,
+  routine leo top. Dựng sau 2C-1 (dùng chung kho nội bộ + đường đọc trang).
 - Sau: mạng nhện hai chiều; làm đẹp màn Rada theo bộ giao diện EmDash.
