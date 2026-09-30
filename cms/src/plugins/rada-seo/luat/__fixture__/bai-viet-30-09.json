@@ -1,0 +1,275 @@
+[
+ {
+  "id": 1,
+  "tieuDe": "Chẩn Đoán Kinh Lạc Bằng Đo Nhiệt Độ: Phương Pháp 24 Tỉnh Huyệt",
+  "tuKhoa": [
+   "đo nhiệt độ kinh lạc",
+   "chẩn đoán kinh lạc",
+   "24 tỉnh huyệt",
+   "phương pháp đo kinh lạc",
+   "thiết bị đo kinh lạc",
+   "y học cổ truyền",
+   "đông y"
+  ],
+  "trangThai": "da_dang"
+ },
+ {
+  "id": 2,
+  "tieuDe": "Biện Chứng Luận Trị Theo Kinh Lạc: Chìa Khóa Chẩn Đoán Và Điều Trị Đông Y",
+  "tuKhoa": [
+   "biện chứng luận trị kinh lạc",
+   "chẩn đoán theo kinh lạc",
+   "điều trị theo kinh lạc",
+   "nguyên tắc biện chứng luận trị đông y",
+   "đo kinh lạc",
+   "huyệt vị",
+   "bài thuốc đông y"
+  ],
+  "trangThai": "da_dang"
+ },
+ {
+  "id": 3,
+  "tieuDe": "Phần mềm Đông Y: Giải pháp Số hóa Toàn diện cho Phòng khám",
+  "tuKhoa": [
+   "phần mềm đông y",
+   "quản lý phòng khám đông y",
+   "số hóa phòng khám đông y",
+   "phần mềm y học cổ truyền",
+   "tính năng phần mềm đông y",
+   "lợi ích số hóa phòng khám đông y"
+  ],
+  "trangThai": "da_dang"
+ },
+ {
+  "id": 4,
+  "tieuDe": "Khám Phá Bài Thuốc Xương Khớp Đông Y Hiệu Quả Từ Thiên Nhiên",
+  "tuKhoa": [
+   "bài thuốc xương khớp đông y",
+   "trị đau khớp bằng đông y",
+   "thuốc nam trị xương khớp",
+   "đông y chữa thoái hóa khớp",
+   "bệnh xương khớp",
+   "y học cổ truyền"
+  ],
+  "trangThai": "da_dang"
+ },
+ {
+  "id": 5,
+  "tieuDe": "Vitamin và Khoáng Chất: Kiến Thức Đông Y Về Dinh Dưỡng Thiết Yếu",
+  "tuKhoa": [
+   "vitamin B12",
+   "độ pH cơ thể",
+   "vai trò canxi",
+   "vitamin nhóm B",
+   "sức khỏe con người",
+   "Đông Y",
+   "dinh dưỡng"
+  ],
+  "trangThai": "da_dang"
+ },
+ {
+  "id": 6,
+  "tieuDe": "Bệnh Hô Hấp Đông Y: Chẩn Đoán, Điều Trị Ho, Viêm Phế Quản Hiệu Quả",
+  "tuKhoa": [
+   "bệnh hô hấp đông y",
+   "điều trị ho theo đông y",
+   "viêm phế quản đông y",
+   "thuốc nam trị ho",
+   "huyệt vị điều trị hô hấp",
+   "phòng ngừa bệnh hô hấp đông y"
+  ],
+  "trangThai": "da_dang"
+ },
+ {
+  "id": 7,
+  "tieuDe": "Phân biệt thầy thuốc Đông Y chân chính và tránh xa Đông Y giả",
+  "tuKhoa": [
+   "thầy thuốc đông y chân chính",
+   "phân biệt đông y giả",
+   "chuyên môn đông y",
+   "đạo đức y học cổ truyền",
+   "chẩn đoán đông y"
+  ],
+  "trangThai": "da_dang"
+ },
+ {
+  "id": 8,
+  "tieuDe": "Vị thuốc Đông Y: Kho báu thiên nhiên cho sức khỏe và bài thuốc quý",
+  "tuKhoa": [
+   "vị thuốc đông y",
+   "thảo dược",
+   "công dụng vị thuốc",
+   "dược liệu quý",
+   "y học cổ truyền",
+   "tính vị quy kinh",
+   "bài thuốc dân gian"
+  ],
+  "trangThai": "da_dang"
+ },
+ {
+  "id": 10,
+  "tieuDe": "Châm Cứu Là Gì? Khám Phá Các Kỹ Thuật Từ Cổ Truyền Đến Hiện Đại",
+  "tuKhoa": [
+   "châm cứu",
+   "kỹ thuật châm cứu",
+   "cứu ngải",
+   "điện châm",
+   "thủy châm",
+   "nguyên lý châm cứu",
+   "huyệt vị",
+   "kinh lạc"
+  ],
+  "trangThai": "da_dang"
+ },
+ {
+  "id": 11,
+  "tieuDe": "Progesterone: Vai trò, rối loạn và góc nhìn Đông Y",
+  "tuKhoa": [
+   "progesterone",
+   "hormone sinh dục nữ",
+   "điều hòa kinh nguyệt",
+   "sức khỏe phụ nữ",
+   "Đông Y",
+   "cân bằng nội tiết tố"
+  ],
+  "trangThai": "da_dang"
+ },
+ {
+  "id": 12,
+  "tieuDe": "Huyệt Quan Nguyên (CV4): Bồi Bổ Nguyên Khí, Tăng Cường Sinh Lực Theo Đông Y",
+  "tuKhoa": [
+   "huyệt quan nguyên",
+   "vị trí quan nguyên",
+   "tác dụng quan nguyên",
+   "CV4",
+   "bồi bổ nguyên khí"
+  ],
+  "trangThai": "nhap"
+ },
+ {
+  "id": 13,
+  "tieuDe": "Khám phá phương pháp đo nhiệt độ kinh lạc theo 24 tỉnh huyệt",
+  "tuKhoa": [
+   "đo nhiệt độ kinh lạc",
+   "chẩn đoán kinh lạc",
+   "24 tỉnh huyệt",
+   "phương pháp đo kinh lạc",
+   "thiết bị đo kinh lạc"
+  ],
+  "trangThai": "nhap"
+ },
+ {
+  "id": 14,
+  "tieuDe": "Huyệt Túc Tam Lý: Vị Trí, Tác Dụng Bồi Bổ Và Cách Xác Định Chuẩn",
+  "tuKhoa": [
+   "huyệt túc tam lý",
+   "vị trí túc tam lý",
+   "tác dụng túc tam lý",
+   "huyệt ST36",
+   "kiện tỳ bổ khí"
+  ],
+  "trangThai": "nhap"
+ },
+ {
+  "id": 15,
+  "tieuDe": "Kinh Vị (Túc Dương Minh): Đường Đi Và Các Huyệt Quan Trọng Cho Hệ Tiêu Hóa",
+  "tuKhoa": [
+   "kinh vị",
+   "kinh túc dương minh",
+   "đường kinh vị",
+   "huyệt túc tam lý",
+   "chủ trị tiêu hoá"
+  ],
+  "trangThai": "nhap"
+ },
+ {
+  "id": 16,
+  "tieuDe": "Đo kinh lạc bằng công nghệ số hóa: Giải pháp hiện đại cho phòng khám Đông y",
+  "tuKhoa": [
+   "đo kinh lạc",
+   "đo nhiệt độ kinh lạc",
+   "24 tỉnh huyệt",
+   "số hóa phòng khám Đông y",
+   "chẩn đoán kinh lạc"
+  ],
+  "trangThai": "nhap"
+ },
+ {
+  "id": 17,
+  "tieuDe": "Máy đo kinh lạc Đinh Lai Thịnh và giải pháp số hóa phòng khám Đông Y",
+  "tuKhoa": [
+   "máy đo kinh lạc Đinh Lai Thịnh",
+   "đo kinh lạc 24 tỉnh huyệt",
+   "số hóa phòng khám Đông Y",
+   "chẩn đoán kinh lạc"
+  ],
+  "trangThai": "nhap"
+ },
+ {
+  "id": 18,
+  "tieuDe": "Đồng Hồ Kinh Lạc: 12 Đường Kinh Vượng Theo Giờ Trong Ngày",
+  "tuKhoa": [
+   "đồng hồ kinh lạc",
+   "giờ kinh lạc",
+   "12 đường kinh",
+   "nhịp sinh học đông y"
+  ],
+  "trangThai": "nhap"
+ },
+ {
+  "id": 19,
+  "tieuDe": "Chẩn đoán kinh lạc bằng phương pháp đo nhiệt độ 24 tỉnh huyệt",
+  "tuKhoa": [
+   "chẩn đoán kinh lạc",
+   "đo nhiệt độ kinh lạc",
+   "24 tỉnh huyệt",
+   "phương pháp kinh lạc",
+   "biểu đồ kinh lạc"
+  ],
+  "trangThai": "nhap"
+ },
+ {
+  "id": 20,
+  "tieuDe": "Ứng dụng châm cứu chữa bệnh hiệu quả và kỹ thuật châm cứu an toàn",
+  "tuKhoa": [
+   "châm cứu chữa bệnh",
+   "huyệt vị châm cứu",
+   "kỹ thuật châm cứu",
+   "điều trị Đông Y"
+  ],
+  "trangThai": "da_dang"
+ },
+ {
+  "id": 21,
+  "tieuDe": "Công nghệ chẩn đoán Đông y: Phương pháp đo nhiệt độ 24 tỉnh huyệt hiện đại",
+  "tuKhoa": [
+   "đo nhiệt độ kinh lạc",
+   "chẩn đoán 24 tỉnh huyệt",
+   "máy đo kinh lạc",
+   "công nghệ chẩn đoán đông y"
+  ],
+  "trangThai": "nhap"
+ },
+ {
+  "id": 22,
+  "tieuDe": "Đo nhiệt độ kinh lạc và phương pháp chẩn đoán 24 tỉnh huyệt trong Đông Y",
+  "tuKhoa": [
+   "đo nhiệt độ kinh lạc",
+   "chẩn đoán kinh lạc",
+   "24 tỉnh huyệt",
+   "biểu đồ kinh lạc",
+   "máy đo kinh lạc"
+  ],
+  "trangThai": "nhap"
+ },
+ {
+  "id": 23,
+  "tieuDe": "Huyệt Tam Âm Giao: Vị Trí, Tác Dụng và Lưu Ý Quan Trọng",
+  "tuKhoa": [
+   "huyệt tam âm giao",
+   "vị trí tam âm giao",
+   "tác dụng tam âm giao"
+  ],
+  "trangThai": "nhap"
+ }
+]
