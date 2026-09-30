@@ -6,7 +6,7 @@ import { ThamDinhCmsService } from './tham-dinh-cms.service';
 import { SuCoService } from './su-co.controller';
 import { doMuc, dungChiMucTen, doLienKet, type MucKho } from '../utils/tham-dinh-muc.util';
 import { gomCum, vanTayNoiDung, type CumViec, type NhanXetCoMuc } from '../utils/tham-dinh-cum.util';
-import { chiKhacHinhThuc } from '../utils/tham-dinh-sua-hinh-thuc.util';
+import { chiKhacHinhThuc, sauKhiSuaConLoi } from '../utils/tham-dinh-sua-hinh-thuc.util';
 import type { HangHoSo, HoSoMuc, LuocKeCa, LuocKeTuSua } from '../models/tham-dinh.dto';
 
 const LO = 200;
@@ -301,6 +301,16 @@ export class ThamDinhService {
           lk.soChan += 1;
           demChan.set('bản sửa đụng vào chữ, không chỉ hình thức',
             (demChan.get('bản sửa đụng vào chữ, không chỉ hình thức') || 0) + 1);
+          continue;
+        }
+
+        // Cổng thứ hai: sửa xong phải ĐỠ HƠN, không chỉ là "khác đi".
+        // Cổng trên hỏi "có đụng vào chữ không"; cổng này hỏi "phép dò còn bắt được không".
+        // Thiếu nó thì bản biến ",," thành ", ," đi qua êm — đã ghi vào 20 mục (30/09/2026).
+        if (sauKhiSuaConLoi(x.deXuat)) {
+          lk.soChan += 1;
+          demChan.set('sửa xong phép dò vẫn bắt được — để người sửa tay',
+            (demChan.get('sửa xong phép dò vẫn bắt được — để người sửa tay') || 0) + 1);
           continue;
         }
 

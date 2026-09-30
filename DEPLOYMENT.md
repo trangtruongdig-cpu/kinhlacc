@@ -362,3 +362,72 @@ PGPASSWORD='<DB_PASSWORD>' pg_dump \
 | F5 trang lại văng về `/login`                     | Nginx thiếu SPA fallback — đã xử lý sẵn trong `frontend/nginx.conf` (`try_files … /index.html`).  |
 | Log backend cảnh báo `fallback_secret_key`        | Chưa đặt `JWT_SECRET` trong `backend/.env`.                                                       |
 | Firebase log `service account not found`          | Chưa điền `FIREBASE_SERVICE_ACCOUNT` (chuỗi JSON 1 dòng) trong `backend/.env`.                    |
+| claude.ai báo không kết nối được MCP              | Chưa đặt `MCP_TOKEN` trên VPS (cửa trả 404), hoặc token trong URL sai. Xem mục "Cửa MCP" cuối file. |
+
+---
+
+## Cửa MCP cho claude.ai — sai bot từ điện thoại
+
+Sau khi cắm, mở [claude.ai](https://claude.ai) trên máy nào cũng được (kể cả điện thoại) và
+hỏi thẳng: *"bot thẩm định đêm qua tìm ra gì?"*, *"chạy quét cả kho"*, *"nhóm lỗi nào đang
+nặng nhất?"*. Không cần mở web app, không cần SSH.
+
+### 1. Đặt token trên VPS
+
+`MCP_TOKEN` là hàng rào DUY NHẤT của cửa này, nên nó phải dài và ngẫu nhiên:
+
+```bash
+ssh -p 24700 root@103.56.163.42
+cd /root/kinhlacc
+openssl rand -hex 32                      # sinh 64 ký tự
+echo 'MCP_TOKEN=<dán-chuỗi-vừa-sinh>' >> backend/.env
+docker compose up -d --build backend
+```
+
+⚠️ **`backend/.env` không đi theo `git push`** (đã `.gitignore`), nên token trên VPS phải đặt
+tay — token ở máy lập trình không tự sang. Thiếu biến thì cửa trả **404**, không mở toang.
+
+### 2. Cắm vào claude.ai
+
+Settings → Connectors → **Add custom connector**, dán:
+
+```
+https://kinhlac.online/api/mcp/<MCP_TOKEN>
+```
+
+Không có bước đăng nhập nào: token nằm trong chính đường dẫn.
+
+⚠️ **Đường dẫn CHÍNH LÀ mật khẩu.** Đừng dán nó vào chat, ảnh chụp màn hình hay issue. Lỡ
+lộ thì đổi `MCP_TOKEN` rồi `docker compose up -d --build backend` — cửa cũ chết ngay.
+
+### 3. Sáu công cụ, và ranh giới của chúng
+
+| Công cụ | Làm gì |
+|---|---|
+| `nhat_ky_bot` | Các ca quét gần nhất, số lời phê chờ duyệt, số đã áp, trạng thái bộ luật |
+| `loi_phe_cho_duyet` | Lời phê của lớp thầy thuốc + trích dẫn nguyên văn + bản sửa đề xuất |
+| `nhom_loi_phan_mem` | Cụm lỗi trong tab Góp Ý & Lỗi, GOM THEO NGUYÊN NHÂN, kèm id cụm nặng nhất |
+| `ho_so_loi` | Hồ sơ sửa lỗi đầy đủ của một cụm (stack, file liên quan, biểu đồ theo giờ) |
+| `chay_quet` | Khởi động ca quét lớp 1 cả kho — chạy nền, không tốn tiền mô hình |
+| `thu_tu_sua` | Chạy THỬ việc tự sửa hình thức: báo sẽ sửa gì, **không ghi** |
+
+⚠️ **KHÔNG công cụ nào ghi vào kho nội dung.** Áp bản sửa vẫn phải qua `/app/tham-dinh`, nơi
+bản gốc và bản sửa nằm cạnh nhau để người duyệt nhìn thấy. Ranh giới này là cố ý và nên giữ:
+đây là đường mà một dịch vụ bên ngoài gọi vào qua URL công khai. Chạy ca sai thì tốn ít thời
+gian máy; ghi sai vào 18.416 mục thì phải lần từng bản `revisions`.
+
+### 4. Ba chỗ đã trả giá, đừng lặp
+
+- **CORS miễn trừ riêng cho `/mcp/`** (`main.ts`). claude.ai gọi từ máy chủ của họ nên không
+  có origin nào khai trước được; allowlist cứng sẽ ném lỗi và người dùng chỉ thấy "không kết
+  nối được", còn lý do nằm trong log backend. Miễn trừ này hẹp: `credentials: false`, và chỉ
+  đúng đường `/mcp/`. Phép kiểm: gọi `/tra-cuu/ten` với `Origin: https://evil.example.com`
+  vẫn phải bị chặn.
+- **`/.well-known/oauth-*` phải trả 404 THẬT** (`frontend/nginx.conf`). Máy khách MCP thăm dò
+  đường đó trước khi kết nối, mà `try_files … /index.html` sẽ trả app shell kèm **mã 200** —
+  máy khách nhận HTML rồi tưởng có OAuth. Cùng cái bẫy "đường sai ra trang chủ, mã 200" đã
+  ghi trong CLAUDE.md, chỉ khác là nạn nhân lần này là máy.
+- **Cửa không giữ trạng thái** (`sessionIdGenerator: undefined`). Bản có phiên phải giữ
+  transport trong Map theo `mcp-session-id`, và Map đó chỉ đúng khi chạy MỘT container —
+  cùng lý lẽ với `@Cron` và `sse.service`. Không trạng thái thì thêm container thứ hai cũng
+  không hỏng.

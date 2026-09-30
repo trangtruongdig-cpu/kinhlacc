@@ -90,7 +90,10 @@ function docRoute(tep: string): Route[] {
       }
 
     for (let i = idx; i < ket; i++) {
-      const m = /^\s*@(Post|Put|Patch|Delete)\(\s*'?([^')]*)'?/.exec(L[i]);
+      // `@All` PHẢI nằm trong danh sách: nó nhận cả POST, nên là route GHI. Bỏ sót nó là
+      // để một route ghi công khai lọt khỏi lưới mà bài kiểm vẫn xanh (đo 30/09/2026, khi
+      // thêm cửa MCP).
+      const m = /^\s*@(Post|Put|Patch|Delete|All)\(\s*'?([^')]*)'?/.exec(L[i]);
       if (!m) continue;
       const khoi = khoiDecoratorTren(L, i);
       ra.push({
@@ -133,6 +136,9 @@ describe('Phủ quyền trên route GHI', () => {
     // sách này phải là quyết định có ý thức, kèm trần thân request riêng (xem main.ts).
     expect(ck).toEqual([
       'auth.router.ts:admin/login', // đăng nhập nhân viên
+      // Cửa MCP. @Public() vì claude.ai không có JWT người dùng nào để gửi; hàng rào là
+      // MCP_TOKEN 64 ký tự trong đường dẫn, và thiếu biến thì cửa trả 404 chứ không mở.
+      'mcp.router.ts::token',
       'patient-auth.router.ts:login', // đăng nhập bệnh nhân
       'patient-auth.router.ts:register', // đăng ký bệnh nhân
       'patient-auth.router.ts:request-deletion', // yêu cầu xoá tài khoản (Google Play đòi)

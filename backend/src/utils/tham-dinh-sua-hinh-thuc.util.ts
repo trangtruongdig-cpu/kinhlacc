@@ -10,6 +10,8 @@
  * mà không có phép kiểm này, 2.604 chỗ đúng đã thành sai và không ai đọc lại để biết.
  */
 
+import { doChu } from './tham-dinh-chu.util';
+
 /** Chỉ khoảng trắng NGANG. Tab là canh cột trong mục tham_khao, đừng đụng. */
 const TRANG_NGANG = '[ \\u00a0]';
 
@@ -19,10 +21,18 @@ export function suaHinhThuc(s: string): string {
     s
       // "đau đầu , chóng mặt" → "đau đầu, chóng mặt"
       .replace(new RegExp(`${TRANG_NGANG}+([,;:.!?])`, 'g'), '$1')
+      // "Tuyên phế,," → "Tuyên phế,". Phải đứng TRƯỚC luật thêm khoảng trắng: bản cũ
+      // không có bước này nên biến ",," thành ", ," — xấu hơn gốc, và đã ghi vào 20 mục.
+      .replace(/([,;])[,;]+/g, '$1')
+      // "mầu trắng,." → "mầu trắng." — dấu ngắt câu thắng dấu phẩy đứng trước nó.
+      .replace(/[,;]+([.!?:])/g, '$1')
       // "3 lát,Táo" → "3 lát, Táo". Chừa dấu phẩy thập phân: chỉ thêm cách khi ký tự
       // trước KHÔNG phải chữ số, hoặc ký tự sau không phải chữ số.
-      .replace(/(?<=\D)([,;])(?=\S)/g, '$1 ')
-      .replace(/(?<=\d)([,;])(?=[^\s\d])/g, '$1 ')
+      // ⚠️ Cả hai vế đều PHẢI loại dấu câu khỏi lookahead. Chen khoảng trắng vào giữa hai
+      // dấu là sinh ra ", ," và ", ." — vừa không chữa được gì vừa qua được chặn cửa, vì
+      // `chiKhacHinhThuc` bóc sạch dấu câu nên hai bản trông y như nhau.
+      .replace(/(?<=\D)([,;])(?=[^\s,;:.!?)\]])/g, '$1 ')
+      .replace(/(?<=\d)([,;])(?=[^\s\d,;:.!?)\]])/g, '$1 ')
       // "( trên 90% )" → "(trên 90%)"
       .replace(new RegExp(`\\(${TRANG_NGANG}+`, 'g'), '(')
       .replace(new RegExp(`${TRANG_NGANG}+\\)`, 'g'), ')')
@@ -41,4 +51,21 @@ export function chiKhacHinhThuc(goc: string, sua: string): boolean {
   if (!sua.trim()) return false;
   const bocVo = (x: string) => x.replace(/[\s,;:.!?()[\]"'`–—-]/g, '');
   return bocVo(goc) === bocVo(sua) && bocVo(goc).length > 0;
+}
+
+/**
+ * Bản sửa còn lỗi dấu câu không? — CỔNG CHẶN THỨ HAI trước khi bot ghi vào kho.
+ *
+ * Đem bản sửa cho CHÍNH phép dò đã bắt lỗi xem lại. Còn bắt được nghĩa là chưa sửa xong,
+ * và bot không được ghi nửa vời rồi bảo là đã chữa.
+ *
+ * ⚠️ Vì sao cần cổng này khi đã có `chiKhacHinhThuc`: hai cổng hỏi hai câu khác nhau.
+ * `chiKhacHinhThuc` hỏi "có đụng vào chữ không" — bản biến ",," thành ", ," trả lời KHÔNG
+ * nên đi qua, rồi ghi vào 20 mục thật (đo 30/09/2026). Cổng này hỏi "sửa xong có đỡ hơn
+ * không", là câu còn thiếu. Dùng lại `doChu` chứ không sao chép biểu thức: hai bản sao sẽ
+ * lệch nhau, và lúc đó cổng lại gác một tiêu chí khác với phép dò.
+ */
+export function sauKhiSuaConLoi(sua: string): boolean {
+  if (typeof sua !== 'string') return true;
+  return doChu(sua).some((l) => l.ma === 'dau_cau_sai');
 }

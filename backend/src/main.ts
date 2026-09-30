@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import type { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { json, urlencoded } from 'express';
 import { join } from 'path';
@@ -57,8 +58,8 @@ async function bootstrap() {
     allowedOrigins.push('http://localhost:8080');
   }
 
-  app.enableCors({
-    origin: (origin, callback) => {
+  const corsChung = {
+    origin: (origin: string | undefined, callback: (e: Error | null, ok?: boolean) => void) => {
       // Origin undefined = same-origin request (ví dụ server-side render)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
@@ -70,6 +71,34 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
     optionsSuccessStatus: 204,
+  };
+
+  /**
+   * Cửa MCP (`/mcp/<token>`) MIỄN allowlist — và đây là ngoại lệ có chủ ý, không phải nới lỏng.
+   *
+   * claude.ai gọi vào từ máy chủ của họ, không phải từ trình duyệt, nên không có origin nào
+   * để khai trước. Nếu họ gửi kèm `Origin` thì allowlist sẽ ném lỗi và người dùng chỉ thấy
+   * "không kết nối được", còn lý do nằm trong log backend — đúng cái bẫy đã ghi trong CLAUDE.md.
+   *
+   * An toàn vì hai lẽ: đường này không dùng cookie (hàng rào là `MCP_TOKEN` 64 ký tự trong
+   * đường dẫn, xem `McpService.kiemToken`), và `credentials: false` nên trình duyệt không
+   * đính cookie vào được kể cả khi có trang nào đó thử.
+   */
+  app.enableCors((req: { path?: string; url?: string }, cb: (e: null, o: CorsOptions) => void) => {
+    const duong = req.path || req.url || '';
+    if (duong.startsWith('/mcp/')) {
+      cb(null, {
+        origin: true,
+        methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
+        // MCP gửi hai header riêng; thiếu chúng thì tiền kiểm OPTIONS của trình duyệt trượt.
+        allowedHeaders: ['Content-Type', 'Accept', 'Mcp-Session-Id', 'MCP-Protocol-Version'],
+        exposedHeaders: ['Mcp-Session-Id'],
+        credentials: false,
+        optionsSuccessStatus: 204,
+      });
+      return;
+    }
+    cb(null, corsChung);
   });
 
   const port = process.env.APP_PORT ?? 3001;

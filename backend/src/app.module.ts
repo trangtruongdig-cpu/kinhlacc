@@ -63,7 +63,9 @@ import { SuCoCum } from './models/su-co-cum.model';
 import { SuCoRouter } from './routers/su-co.router';
 import { SuCoService } from './controllers/su-co.controller';
 import { ThamDinhRouter } from './routers/tham-dinh.router';
+import { McpRouter } from './routers/mcp.router';
 import { ThamDinhService } from './controllers/tham-dinh.controller';
+import { McpService } from './controllers/mcp.controller';
 import { ThamDinhCmsService } from './controllers/tham-dinh-cms.service';
 import { ThamDinhThayThuocService } from './controllers/tham-dinh-thay-thuoc.controller';
 import { ThamDinhLlmService } from './controllers/tham-dinh-llm.service';
@@ -408,6 +410,7 @@ import { docCauHinhSsl } from './utils/db-ssl.util';
     SseController,
     SuCoRouter,
     ThamDinhRouter,
+    McpRouter,
   ],
   providers: [
     { provide: APP_GUARD, useClass: JwtAuthGuard },
@@ -465,6 +468,7 @@ import { docCauHinhSsl } from './utils/db-ssl.util';
     SseService,
     SuCoService,
     ThamDinhService,
+    McpService,
     ThamDinhCmsService,
     ThamDinhThayThuocService,
     ThamDinhLlmService,

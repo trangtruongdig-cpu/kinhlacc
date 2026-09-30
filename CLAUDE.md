@@ -259,6 +259,14 @@ sự cố bên nhà cung cấp thành vòng lặp gọi vô hạn.
   văn từ trí nhớ mô hình) bị cấm kể cả khi dẫn được tên sách. Tỉ lệ loại cao là tín hiệu
   lời nhắc chưa rõ, **không phải** lý do nới rào.
 
+⚠️ **Tự sửa phải qua HAI cổng, và cổng thứ hai mới là cổng hỏi đúng câu.** `chiKhacHinhThuc`
+hỏi "bản sửa có đụng vào chữ không"; `sauKhiSuaConLoi` hỏi "sửa xong phép dò còn bắt được
+không". Thiếu cổng hai thì bản biến `,,` thành `, ,` đi qua êm ru — xấu hơn gốc mà vẫn được
+ghi, vì cổng một bóc sạch dấu câu nên thấy hai bản y như nhau. Đã ghi như thế vào 20 mục
+(đo 30/09/2026); chúng tự lành ở lượt quét đêm sau vì phép dò bắt lại được dạng `, ,`.
+Cổng hai dùng lại `doChu` chứ không sao chép biểu thức — hai bản sao sẽ lệch, và lúc đó cổng
+lại gác một tiêu chí khác với phép dò. Phép kiểm: `npm test -- sua-hinh-thuc`.
+
 **Duyệt và áp bản sửa.** `/app/tham-dinh` (Quản Trị). `POST /tham-dinh/nhan-xet/:id/ap` là
 chỗ **DUY NHẤT** trong cả bot ghi vào `ec_*`, và chỉ chạy khi có người bấm. Một giao dịch:
 ghi `revisions` trước → `UPDATE` cột + `version + 1` → để trigger `td_tr` dựng lại chỉ mục.
@@ -347,6 +355,37 @@ phán được gì; và ra luật về in nghiêng/in đậm — thứ `rutChu` 
 Điều nào bác thì sửa `MUC_MAU` hoặc `loiNhacLapThuoc()` rồi lập lại, **đừng sửa tay trong
 CSDL** — lần chạy sau là mất.
 
+
+### Cửa MCP cho claude.ai — `/api/mcp/<token>`
+
+`routers/mcp.router.ts` + `controllers/mcp.controller.ts`. Sáu công cụ để hỏi và sai bot
+thẩm định từ claude.ai (điện thoại cũng được). Cách cắm: `DEPLOYMENT.md`, mục "Cửa MCP".
+
+**Phải biết trước khi sửa:**
+
+- **KHÔNG công cụ nào ghi vào kho nội dung** — chỉ đọc và chạy ca. Ranh giới cố ý: đây là
+  đường một dịch vụ BÊN NGOÀI gọi vào qua URL công khai. Áp bản sửa vẫn qua `/app/tham-dinh`.
+- **`MCP_TOKEN` (64 ký tự, trong chính đường dẫn) là hàng rào DUY NHẤT.** Route buộc phải
+  `@Public()` vì claude.ai không có JWT người dùng nào để gửi. Thiếu biến thì cửa trả **404**
+  chứ không mở toang; so sánh token hằng thời gian. Phép kiểm: `npm test -- mcp.controller`.
+- **CORS có miễn trừ riêng cho `/mcp/`** (`main.ts` dùng delegate theo đường dẫn). claude.ai
+  gọi từ máy chủ của họ nên không khai trước được origin; allowlist cứng sẽ ném lỗi và người
+  dùng chỉ thấy "không kết nối được", lý do thì nằm trong log backend. Miễn trừ hẹp:
+  `credentials: false`, chỉ đúng `/mcp/`. Sửa chỗ này phải đo lại rằng `Origin` lạ trên route
+  thường VẪN bị chặn.
+- **Không giữ trạng thái** (`sessionIdGenerator: undefined`), nên thêm container thứ hai không
+  hỏng — khác `@Cron` và `sse.service`.
+- **Body phải truyền tay**: `transport.handleRequest(req, res, req.body)`. Bỏ tham số thứ ba
+  thì transport tự đọc luồng, mà `express.json()` của Nest đã đọc xong — luồng rỗng, request
+  treo tới khi claude.ai bỏ cuộc. Không có lỗi nào được ném.
+- **SDK nạp bằng `require`**, không `import`: gói phát hành ESM+CJS kép và `import` tĩnh dưới
+  SWC chết ở `exports` map.
+- **`/.well-known/oauth-*` trả 404 ở nginx.** Máy khách MCP thăm dò đường đó trước khi kết
+  nối; `try_files … /index.html` sẽ trả app shell kèm mã 200 — đúng cái bẫy "đường sai ra
+  trang chủ, mã 200" ở mục thư viện bên dưới, chỉ khác là nạn nhân là máy.
+- **Lưới `quyen-route-ghi.spec.ts` nay soi cả `@All`.** Trước đó nó chỉ soi
+  `@Post|@Put|@Patch|@Delete`, nên một route `@All` công khai (nhận cả POST) lọt qua mà bài
+  kiểm vẫn xanh. Đã vá cùng lúc với việc thêm cửa này.
 
 ### BenhDongYExcel diagnostic engine
 

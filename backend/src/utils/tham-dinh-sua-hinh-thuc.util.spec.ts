@@ -1,4 +1,8 @@
-import { suaHinhThuc, chiKhacHinhThuc } from './tham-dinh-sua-hinh-thuc.util';
+import {
+  suaHinhThuc,
+  chiKhacHinhThuc,
+  sauKhiSuaConLoi,
+} from './tham-dinh-sua-hinh-thuc.util';
 
 describe('suaHinhThuc', () => {
   it('bỏ khoảng trắng thừa trước dấu câu', () => {
@@ -21,6 +25,44 @@ describe('suaHinhThuc', () => {
   /** TAB trong mục tham_khao là canh cột, không phải lỗi gõ — đã chốt ở phép dò. */
   it('KHÔNG đụng TAB trước dấu hai chấm', () => {
     expect(suaHinhThuc('Liệt Khuyết\t: thiên về giải Phế vệ.')).toBe('Liệt Khuyết\t: thiên về giải Phế vệ.');
+  });
+
+  /**
+   * ⚠️ Dấu câu ĐÔI. Đo thật 30/09/2026: bản cũ biến "Tuyên phế,," thành "Tuyên phế, ,"
+   * — xấu hơn bản gốc — và đã ghi như thế vào 20 mục trong kho. Lỗi lọt được vì
+   * `chiKhacHinhThuc` bóc sạch dấu câu nên hai bên vẫn "giống nhau", và vì phép dò
+   * `dau_cau_sai` chỉ hỏi "có sai không", không hỏi "sửa xong có đỡ hơn không".
+   */
+  it('gộp dấu phẩy đôi thành một', () => {
+    expect(suaHinhThuc('Tuyên phế,, bình suyễn, thanh nhiệt.')).toBe(
+      'Tuyên phế, bình suyễn, thanh nhiệt.',
+    );
+    expect(suaHinhThuc('Thanh nhiệt, trừ thấp,, ích khí.')).toBe('Thanh nhiệt, trừ thấp, ích khí.');
+  });
+
+  it('bỏ dấu phẩy đứng ngay trước dấu kết câu', () => {
+    expect(suaHinhThuc('mặt cắt ngang không bằng phẳng, mầu trắng,.')).toBe(
+      'mặt cắt ngang không bằng phẳng, mầu trắng.',
+    );
+    expect(suaHinhThuc('hòa dầu (mè, dừa, phộng,.')).toBe('hòa dầu (mè, dừa, phộng.');
+  });
+
+  it('gộp được cả khi hai dấu đã bị chen khoảng trắng', () => {
+    // Đây chính là 20 mục đã ghi hỏng: lượt quét sau sẽ bắt lại chúng ở dạng này.
+    expect(suaHinhThuc('Tuyên phế, , bình suyễn.')).toBe('Tuyên phế, bình suyễn.');
+    expect(suaHinhThuc('mầu trắng, .')).toBe('mầu trắng.');
+  });
+
+  it('KHÔNG BAO GIỜ chen khoảng trắng vào giữa hai dấu câu', () => {
+    // Bất biến: đầu ra không được chứa "dấu + khoảng trắng + dấu".
+    for (const x of ['a,,b', 'a,.', 'a;;b', 'a,;b', 'a, ,b', 'phế,,bình']) {
+      expect(suaHinhThuc(x)).not.toMatch(/[,;][ \u00a0]+[,;.!?]/);
+    }
+  });
+
+  it('gộp dấu câu vẫn là đổi HÌNH THỨC, nên chặn cửa cho qua', () => {
+    const goc = 'Tuyên phế,, bình suyễn.';
+    expect(chiKhacHinhThuc(goc, suaHinhThuc(goc))).toBe(true);
   });
 
   it('câu đã sạch thì giữ nguyên từng ký tự', () => {
@@ -67,5 +109,42 @@ describe('chiKhacHinhThuc', () => {
 
   it('bản sửa rỗng → CHẶN', () => {
     expect(chiKhacHinhThuc('có chữ', '')).toBe(false);
+  });
+});
+
+/**
+ * CỔNG CHẶN THỨ HAI, và là thứ làm cả một LỚP lỗi không tái diễn được.
+ *
+ * `chiKhacHinhThuc` chỉ hỏi "bản sửa có đụng vào chữ không". Nó KHÔNG hỏi "sửa xong có đỡ
+ * hơn không" — nên bản biến ",," thành ", ," đi qua nó êm ru và ghi vào 20 mục thật.
+ * Cổng này hỏi đúng câu còn thiếu: đem bản sửa cho chính phép dò xem lại, còn bắt được
+ * thì chưa sửa xong, không được ghi.
+ */
+describe('sauKhiSuaConLoi', () => {
+  it('bản sửa sạch thì cho qua', () => {
+    expect(sauKhiSuaConLoi('Tuyên phế, bình suyễn, thanh nhiệt.')).toBe(false);
+  });
+
+  it('CHẶN đúng cái bản cũ từng ghi vào kho', () => {
+    expect(sauKhiSuaConLoi('Tuyên phế, , bình suyễn.')).toBe(true);
+    expect(sauKhiSuaConLoi('mầu trắng, .')).toBe(true);
+  });
+
+  it('chặn cả dạng bot không tự chữa nổi', () => {
+    // "phộng,)" — gộp không ra, thêm cách cũng không ra. Người sửa tay thì đúng hơn.
+    expect(sauKhiSuaConLoi('hòa dầu (mè, dừa, phộng,)')).toBe(true);
+  });
+
+  it('mọi bản do suaHinhThuc sinh ra từ ca thật đều qua được cổng', () => {
+    for (const x of [
+      'Tuyên phế,, bình suyễn, thanh nhiệt.',
+      'Thanh nhiệt, trừ thấp,, ích khí.',
+      'mặt cắt ngang không bằng phẳng, mầu trắng,.',
+      'Chủ trị : đau đầu , chóng mặt',
+      '3 lát,Táo 2 quả',
+      'Châm thẳng 0,5 – 1 thốn.',
+    ]) {
+      expect(sauKhiSuaConLoi(suaHinhThuc(x))).toBe(false);
+    }
   });
 });
