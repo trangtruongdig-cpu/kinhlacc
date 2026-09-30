@@ -80,6 +80,7 @@ const TABS = [
 	{ key: "huong", label: "Hướng nội dung" },
 	{ key: "ke-hoach", label: "Kế hoạch" },
 	{ key: "leo-top", label: "Leo top" },
+	{ key: "nhap", label: "Nháp" },
 ];
 const TAB_LS_KEY = "rada-seo:tab";
 function tabDaLuu() {
@@ -651,6 +652,108 @@ function LeoTopTab({ dl, loi, onDaSua, onTai }) {
 	);
 }
 
+// ---- Tab "Nháp" (2C-3): bài lò viết đã tạo, chờ người duyệt ----
+const NHAN_NHAP = { cho_duyet: "Chờ duyệt", da_dang: "Đã đăng" };
+
+/** Phiếu tóm tắt do máy chủ tính (viet/dang.mjs tomTatPhieu) — chỉ con số, không lời khuyên độ dài. */
+function PhieuTomTat({ t }) {
+	if (!t) return "—";
+	return (
+		<div style={{ fontSize: 12 }}>
+			<div>
+				SEO {t.seo} · {t.soTu == null ? "?" : t.soTu} từ · YMYL {t.ymyl} · nguồn bỏ {t.nguonBo} · link gỡ {t.linkGo} · ảnh bìa: {t.anh ?? "không"}
+			</div>
+			{(t.seoTruot ?? []).length > 0 && <div style={{ color: "#92400e" }}>SEO chưa đạt: {t.seoTruot.join("; ")}</div>}
+			{(t.canhBao ?? []).length > 0 && <div style={{ color: "#92400e" }}>Cảnh báo: {t.canhBao.join("; ")}</div>}
+			{t.loiCapNhat && <div style={{ color: "#b91c1c" }}>{t.loiCapNhat}</div>}
+			{t.khoiPhuc && <div style={{ color: "#6b7280" }}>{t.khoiPhuc}</div>}
+		</div>
+	);
+}
+
+function NhapTab({ dl, loi, onTai }) {
+	if (!dl) return <div style={{ padding: 24 }}>{loi || "Đang tải…"}</div>;
+	const nhap = dl.nhap ?? [];
+	const moCoi = dl.moCoi ?? [];
+	return (
+		<div>
+			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
+			<div style={{ border: "1px solid #d1d5db", borderRadius: 8, padding: "10px 14px", margin: "8px 0 16px", background: "#f9fafb" }}>
+				Bài máy viết luôn là <b>nháp</b>: đọc, sửa trong trình soạn rồi tự bấm Publish. Khung "Phiếu Rada" ở cột phải trình
+				soạn có phiếu đầy đủ. Publish bị chặn nếu còn chữ vượt phạm vi Y sỹ hoặc ảnh hỏng.
+				<br />
+				<b>Lưu ý:</b> bài đã Publish nằm trong CMS; trang /blog/ công khai chưa đọc từ CMS cho tới kế hoạch 3.
+			</div>
+			<h2>
+				Nháp của lò viết ({nhap.length}) <Nut onClick={onTai}>Tải lại</Nut>
+			</h2>
+			<table style={{ borderCollapse: "collapse", width: "100%" }}>
+				<thead>
+					<tr><th style={o}>Tiêu đề</th><th style={o}>Bài dự kiến</th><th style={o}>Ngày tạo</th><th style={o}>Trạng thái</th><th style={o}>Phiếu</th></tr>
+				</thead>
+				<tbody>
+					{nhap.map((n) => (
+						<tr key={n.id}>
+							<td style={o}>
+								{/* tieuDe là chữ máy viết — chỉ hiển thị qua JSX text. */}
+								<a href={n.adminUrl}>{n.tieuDe || n.slug || n.id}</a>
+								<div style={{ fontSize: 12, color: "#6b7280" }}>/{n.slug}</div>
+							</td>
+							<td style={o}>
+								{n.tenKeHoach || n.keHoachId}
+								{n.trangThaiKeHoach && <div style={{ fontSize: 12, color: "#6b7280" }}>{NHAN_KE_HOACH[n.trangThaiKeHoach] ?? n.trangThaiKeHoach}</div>}
+							</td>
+							<td style={o}>{gio(n.taoLuc)}</td>
+							<td style={o}>
+								{NHAN_NHAP[n.trangThai] ?? n.trangThai}
+								{n.dangLuc && <div style={{ fontSize: 12, color: "#6b7280" }}>{gio(n.dangLuc)}</div>}
+							</td>
+							<td style={o}>
+								<PhieuTomTat t={n.tomTat} />
+							</td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+			{nhap.length === 0 && <p>Chưa có nháp nào — routine viết đêm sẽ lấy các bài dự kiến đã duyệt ở tab Kế hoạch.</p>}
+			{moCoi.length > 0 && (
+				<>
+					<h2>Nháp của bài "Cần xem lại" ({moCoi.length})</h2>
+					<p style={{ fontSize: 13, color: "#6b7280" }}>
+						Lò viết đã tạo nháp trong CMS nhưng chưa ghi sổ xong thì bài dự kiến chuyển sang "Cần xem lại". Mở nháp để xem, rồi
+						Publish hoặc xoá trong CMS; xử lý bài dự kiến ở tab Kế hoạch.
+					</p>
+					<table style={{ borderCollapse: "collapse", width: "100%" }}>
+						<thead>
+							<tr><th style={o}>Bài dự kiến</th><th style={o}>Nháp</th><th style={o}>Lý do</th></tr>
+						</thead>
+						<tbody>
+							{moCoi.map((k) => (
+								<tr key={k.id}>
+									<td style={o}>{k.tenKeHoach || k.id}</td>
+									<td style={o}>
+										<a href={k.adminUrl}>{k.slug ? `/${k.slug}` : k.contentId}</a>
+									</td>
+									<td style={{ ...o, fontSize: 12, color: "#92400e" }}>
+										{k.lyDoCanXem}
+										{(k.loiCuoi ?? []).length > 0 && (
+											<ul style={{ margin: "4px 0 0", paddingLeft: 16 }}>
+												{k.loiCuoi.map((l, i) => (
+													<li key={i}>{l}</li>
+												))}
+											</ul>
+										)}
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</>
+			)}
+		</div>
+	);
+}
+
 function RadaSeo() {
 	const [dl, setDl] = useState(null);
 	const [loi, setLoi] = useState("");
@@ -661,15 +764,19 @@ function RadaSeo() {
 	const [ltDl, setLtDl] = useState(null);
 	const [ltLoi, setLtLoi] = useState("");
 	const [thongBao, setThongBao] = useState("");
+	const [nhDl, setNhDl] = useState(null);
+	const [nhLoi, setNhLoi] = useState("");
 
 	const tai = useCallback(() => goi("tong-quan").then((d) => { setDl(d); setLoi(""); }, (e) => setLoi(e.message)), []);
 	const taiCL = useCallback(() => goi("chien-luoc-tong-quan").then((d) => { setClDl(d); setCLoi(""); }, (e) => setCLoi(e.message)), []);
 	const taiLT = useCallback(() => goi("leo-top-tong-quan").then((d) => { setLtDl(d); setLtLoi(""); }, (e) => setLtLoi(e.message)), []);
+	const taiNh = useCallback(() => goi("nhap-tong-quan").then((d) => { setNhDl(d); setNhLoi(""); }, (e) => setNhLoi(e.message)), []);
 	useEffect(() => {
 		tai();
 		taiCL();
 		taiLT();
-	}, [tai, taiCL, taiLT]);
+		taiNh();
+	}, [tai, taiCL, taiLT, taiNh]);
 	const lam = (route, body) => goi(route, body).then(tai, (e) => setLoi(e.message));
 	const lamCL = (route, body) => goi(route, body).then(taiCL, (e) => setCLoi(e.message));
 
@@ -830,6 +937,8 @@ function RadaSeo() {
 					onDaSua={(id, ngay) => goi("leo-top-da-sua", { id, ngay }).then(taiLT, (e) => setLtLoi(e.message))}
 				/>
 			)}
+
+			{tab === "nhap" && <NhapTab dl={nhDl} loi={nhLoi} onTai={taiNh} />}
 		</div>
 	);
 }

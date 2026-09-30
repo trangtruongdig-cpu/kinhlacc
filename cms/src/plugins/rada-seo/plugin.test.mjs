@@ -92,13 +92,13 @@ test("url-dat-lai: tên miền sai → badRequest; đúng → đặt lại URL l
 	assert.deepEqual(await p.routes["url-dat-lai"].handler(ctx), { tenMien: "a.vn", soUrlDatLai: 1 });
 });
 
-test("MCP: 12 công cụ, mỗi cái trỏ route có thật, có permission bậc contributor và khuôn zod", () => {
+test("MCP: 14 công cụ, mỗi cái trỏ route có thật, có permission bậc contributor và khuôn zod", () => {
 	const p = createPlugin();
 	const tools = p.mcp.tools;
 	assert.deepEqual(Object.keys(tools).sort(), [
 		"rada_de_xuat_huong", "rada_de_xuat_ke_hoach", "rada_ghi_cum", "rada_ghi_phan_tich", "rada_ghi_so_ho",
-		"rada_lay_du_lieu_chien_luoc", "rada_lay_trang_serp", "rada_lay_tu_khoa_leo_top", "rada_lay_viec",
-		"rada_nop_serp", "rada_tim_lien_ket", "rada_xong_phan_tich",
+		"rada_lay_bai_can_viet", "rada_lay_du_lieu_chien_luoc", "rada_lay_trang_serp", "rada_lay_tu_khoa_leo_top", "rada_lay_viec",
+		"rada_nop_bai", "rada_nop_serp", "rada_tim_lien_ket", "rada_xong_phan_tich",
 	]);
 	for (const [ten, t] of Object.entries(tools)) {
 		const r = p.routes[t.route];
@@ -677,3 +677,157 @@ test("doi-thu-luu: ca thử (ghi:false) không tính là ca thật — vẫn th�
 	assert.equal(kq.caDauTien, true);
 	await choNen();
 }));
+
+// ---- Lò viết (2C-3 việc 4) ----
+
+test("lò viết: quyền content:write + media:read + hooks.content-policy:register; hai hook publish không chặn khi hỏng, < 1 s", () => {
+	const p = createPlugin();
+	for (const q of ["content:read", "content:write", "media:read", "hooks.content-policy:register"]) assert.ok(p.capabilities.includes(q), q);
+	for (const ten of ["content:beforePublish", "content:afterPublish"]) {
+		const h = p.hooks[ten];
+		assert.equal(typeof h?.handler, "function", ten);
+		assert.equal(h.errorPolicy, "continue", `${ten}: hook hỏng/quá giờ không được khoá nút Publish`);
+		assert.ok(h.timeout <= 1000, `${ten} timeout ${h.timeout}`);
+	}
+	// Không dùng beforeSave (chỉ nhận trường đổi, chạy cả autosave — spike 4c).
+	assert.equal(p.hooks["content:beforeSave"], undefined);
+});
+
+test("lò viết: công cụ rada_lay_bai_can_viet (content:read_drafts) / rada_nop_bai (content:create); mô tả nói dang_nop = đợi rồi gọi lại", () => {
+	const p = createPlugin();
+	const t = p.mcp.tools;
+	assert.equal(p.routes[t.rada_lay_bai_can_viet.route].permission, "content:read_drafts");
+	assert.equal(p.routes[t.rada_nop_bai.route].permission, "content:create");
+	assert.match(t.rada_nop_bai.description, /dang_nop/);
+	assert.match(t.rada_nop_bai.description, /không tính/);
+	assert.match(t.rada_nop_bai.description, /kết thúc bằng rada_lay_bai_can_viet/);
+	for (const ten of ["rada_lay_bai_can_viet", "rada_nop_bai"]) {
+		assert.doesNotMatch(t[ten].description, /(?<!kết thúc bằng )\brada_(?!lay_bai_can_viet|nop_bai)\w+/, `${ten} gọi tên trần công cụ khác`);
+		assert.equal(t[ten].destructive, false);
+	}
+	// Khuôn route chỉ kiểm KIỂU và giữ khoá lạ: nopBai tự kiểm độ dài + strict để trả lời tiếng Việt
+	// (khuôn route trượt thì EmDash trả "Invalid request body" tiếng Anh).
+	const r = p.routes["mcp-nop-bai"].input;
+	assert.equal(r.safeParse({ keHoachId: "k", tieuDe: "ngắn", moTa: "m", md: "x", tuKhoa: [], faq: [], nguon: [], la: 1 }).data.la, 1);
+	assert.equal(r.safeParse({ keHoachId: 5 }).success, false);
+});
+
+/** Kho có một kế hoạch đã duyệt trong hướng đã nhận. */
+async function khoLoViet(ctx, them = {}) {
+	await ctx.storage.huong.put("h1", { ten: "H", trangThai: "da_nhan", trongSo: 3, diem: 1 });
+	await ctx.storage.cum_nghia.put("c1", { ten: "C", huongId: "h1", trangThai: "de_xuat", diem: 50 });
+	await ctx.storage.ke_hoach.put("k1", {
+		cumId: "c1", huongId: "h1", trangThai: "da_duyet", taoLuc: "2026-09-29T00:00:00.000Z",
+		tieuDeLamViec: "Mất ngủ theo Đông y", tuKhoaChinh: "mất ngủ theo đông y", tuKhoaPhu: [], yDinh: "tim_hieu",
+		trangTruCot: "/benh-hoc/mat-ngu/", lienKetDich: ["/huyet/a/", "/huyet/b/", "/huyet/c/", "/huyet/d/", "/huyet/e/"], goiYNguon: [],
+		...them,
+	});
+}
+
+test("route mcp-lay-bai-can-viet: nối kv + kho + chỉ mục CMS → giao bài, kế hoạch dang_viet", async () => {
+	xoaDemChiMuc();
+	const p = createPlugin();
+	const ctx = { ...ctxChienLuoc({}), kv: taoKvGia() };
+	await khoLoViet(ctx);
+	const r = await p.routes["mcp-lay-bai-can-viet"].handler(ctx);
+	assert.deepEqual(r.bai.map((b) => b.keHoachId), ["k1"]);
+	assert.ok(r.bai[0].khuonBai);
+	assert.match(r.bai[0].khuonBai, /rada_nop_bai/);
+	assert.equal((await ctx.storage.ke_hoach.get("k1")).trangThai, "dang_viet");
+	xoaDemChiMuc();
+});
+
+test("route mcp-nop-bai: nối bộ chuyển Markdown THẬT + tải trang + kiểm đường; trượt → daTao:false tiếng Việt, không ném", async () => {
+	xoaDemChiMuc();
+	DEM_KIEM_CHUNG.xoa();
+	const p = createPlugin();
+	const tai = [];
+	const base = ctxChienLuoc({});
+	const ctx = {
+		...base,
+		kv: taoKvGia(),
+		media: { async list() { return { items: [], hasMore: false }; } },
+		http: { async fetch(url, init) { tai.push(String(url)); return base.http.fetch(url, init); } },
+	};
+	await khoLoViet(ctx, { trangThai: "dang_viet", giuLuc: new Date().toISOString() });
+	const input = {
+		keHoachId: "k1",
+		tieuDe: "Mất ngủ theo Đông y: nguyên nhân và cách hỗ trợ",
+		moTa: "Mất ngủ theo Đông y là gì, vì sao Tâm Tỳ hư làm khó ngủ, và các huyệt thường dùng để hỗ trợ giấc ngủ theo lý luận y học cổ truyền.",
+		md: "Châm cứu chữa mất ngủ.\n\n## Huyệt\n\nXem [Huyệt A](/huyet/a/), [Huyệt Z](/huyet/z/) và [mất ngủ](/benh-hoc/mat-ngu/).",
+		tuKhoa: ["mất ngủ theo đông y"],
+		faq: [{ q: "a?", a: "b" }, { q: "c?", a: "d" }, { q: "e?", a: "f" }],
+		nguon: [{ title: "Sách X" }],
+		thua: true,
+	};
+	const r = await p.routes["mcp-nop-bai"].handler({ ...ctx, input: p.routes["mcp-nop-bai"].input.parse(input) });
+	assert.equal(r.daTao, false);
+	// Khoá lạ bị nopBai bắt bằng lời tiếng Việt, không đếm lượt.
+	assert.equal(r.loi[0].ma, "dau_vao");
+	assert.equal((await ctx.storage.ke_hoach.get("k1")).soLanNop, undefined);
+	delete input.thua;
+	const r2 = await p.routes["mcp-nop-bai"].handler({ ...ctx, input });
+	assert.equal(r2.daTao, false);
+	const ma = r2.loi.map((l) => l.ma);
+	assert.ok(ma.includes("pham_vi"), ma.join(",")); // chạy trên PT do bộ chuyển thật sinh
+	assert.ok(ma.includes("nguon_thieu"), ma.join(","));
+	assert.ok(ma.includes("lien_ket"), ma.join(","));
+	// Link ngoài kế hoạch (/huyet/z/) được kiểm trên site thật qua ctx.http.fetch; link trong kế hoạch thì không.
+	assert.ok(tai.some((u) => u.endsWith("/huyet/z/")), JSON.stringify(tai));
+	assert.equal(r2.soLanNopConLai, 2);
+	xoaDemChiMuc();
+	DEM_KIEM_CHUNG.xoa();
+});
+
+test("hook content:beforePublish qua plugin: chặn bai_viet vi phạm, cho qua bài sạch và bộ khác; hook afterPublish ghi da_dang", async () => {
+	const p = createPlugin();
+	const ctx = taoCtx();
+	const ev = (data, collection = "bai_viet") => ({ collection, content: { id: "c1", data }, origin: { source: "api" } });
+	const chan = await p.hooks["content:beforePublish"].handler(ev({ title: "Châm cứu chữa mất ngủ", content: [] }), ctx);
+	assert.equal(chan.cancel, true);
+	assert.equal(await p.hooks["content:beforePublish"].handler(ev({ title: "Sạch", content: [] }), ctx), undefined);
+	assert.equal(await p.hooks["content:beforePublish"].handler(ev({ title: "Chữa" }, "posts"), ctx), undefined);
+	await ctx.storage.ke_hoach.put("k1", { trangThai: "co_nhap", contentId: "c1" });
+	await kho.themNhap(ctx.storage, { keHoachId: "k1", contentId: "c1", slug: "s", tieuDe: "t", phieu: {} }, "2026-09-30T00:00:00.000Z");
+	await p.hooks["content:afterPublish"].handler({ collection: "bai_viet", content: { id: "c1" } }, ctx);
+	assert.equal((await ctx.storage.nhap.get("c1")).trangThai, "da_dang");
+	assert.equal((await ctx.storage.ke_hoach.get("k1")).trangThai, "da_dang");
+});
+
+test("khung 'Phiếu Rada': khai editorPanels cho bai_viet; route đọc ctx.ui.entry.id, trả Block Kit phiếu + soát", async () => {
+	const p = createPlugin();
+	const panel = p.admin.editorPanels?.find((x) => x.id === "phieu-rada");
+	assert.ok(panel);
+	assert.deepEqual(panel.collections, ["bai_viet"]);
+	assert.equal(panel.draft, undefined, "không trông vào draft — panel_load không mang draft (spike 5)");
+	const route = p.routes[panel.route];
+	assert.ok(route);
+	assert.equal(route.public, undefined);
+	const ctx = taoCtx();
+	await kho.themNhap(ctx.storage, { keHoachId: "k1", contentId: "c1", slug: "s", tieuDe: "Tiêu đề có dấu", phieu: { seo: [{ ma: "x", dat: true }], soTu: 1000 } }, "2026-09-30T00:00:00.000Z");
+	const doc = [];
+	const content = { async get(bo, id) { doc.push([bo, id]); return { id, data: { title: "tieu-de-khong-dau", description: "Đội ngũ bác sĩ tận tâm.", content: [] } }; } };
+	const kq = await route.handler({ ...ctx, content, input: { type: "panel_load" }, ui: { surface: "content-editor-panel", entry: { collection: "bai_viet", id: "c1", locale: "en", version: 2 } } });
+	assert.deepEqual(doc, [["bai_viet", "c1"]]);
+	assert.equal(kq.blocks[0].type, "header");
+	const chu = JSON.stringify(kq.blocks);
+	assert.match(chu, /1\/1/);
+	assert.match(chu, /bác sĩ/);
+	// Không có entry (mục chưa lưu) → lời nhắc, không ném.
+	const rong = await route.handler({ ...ctx, content, input: { type: "panel_load" }, ui: {} });
+	assert.match(JSON.stringify(rong.blocks), /Lưu bài/);
+	// Đọc CMS hỏng → vẫn trả khung (có lời báo), không 500.
+	const hong = await route.handler({ ...ctx, content: { async get() { throw new Error("x"); } }, input: { type: "panel_load" }, ui: { entry: { id: "c1" } } });
+	assert.match(JSON.stringify(hong.blocks), /Không đọc được/);
+});
+
+test("route nhap-tong-quan: danh sách nháp + mồ côi cho tab Nháp (quyền quản trị mặc định)", async () => {
+	const p = createPlugin();
+	const ctx = taoCtx();
+	await ctx.storage.ke_hoach.put("k1", { trangThai: "co_nhap", tieuDeLamViec: "A", contentId: "c1", taoLuc: "t" });
+	await kho.themNhap(ctx.storage, { keHoachId: "k1", contentId: "c1", slug: "s", tieuDe: "t", phieu: {} }, "2026-09-30T00:00:00.000Z");
+	const r = await p.routes["nhap-tong-quan"].handler(ctx);
+	assert.equal(p.routes["nhap-tong-quan"].permission, undefined);
+	assert.deepEqual(r.nhap.map((n) => [n.id, n.tenKeHoach]), [["c1", "A"]]);
+	assert.deepEqual(r.moCoi, []);
+});
