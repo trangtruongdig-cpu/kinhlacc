@@ -329,12 +329,30 @@ khỏi `tools/list`, không báo lỗi gì, và routine 05:00 dừng ở "không
 1. Bật lại: `/_emdash/admin` → **Plugins** → **Rada SEO** → tắt rồi bật lại **MCP tools**;
    hoặc (tài khoản có `plugins:manage`)
    `PUT /_emdash/api/admin/plugins/rada-seo/mcp` với thân `{"enabled":true}`.
-2. Xác nhận: phản hồi của lệnh trên (hoặc trang Plugins) liệt kê đủ bốn công cụ
-   `rada_lay_viec`, `rada_ghi_phan_tich`, `rada_tim_lien_ket`, `rada_xong_phan_tich`.
+2. Xác nhận: phản hồi của lệnh trên (hoặc trang Plugins) liệt kê đủ **8 công cụ** (từ 2C-2,
+   trước đó chỉ có 4) — `rada_lay_viec`, `rada_ghi_phan_tich`, `rada_tim_lien_ket`,
+   `rada_xong_phan_tich`, `rada_lay_du_lieu_chien_luoc`, `rada_de_xuat_huong`, `rada_ghi_cum`,
+   `rada_de_xuat_ke_hoach`. Thiếu bốn cái cuối là dấu hiệu đồng ý MCP còn ở bản trước 2C-2.
 
 Plugin KHÔNG tự đọc được trạng thái này (ngữ cảnh plugin của EmDash không có API đọc trạng
 thái plugin của chính nó), nên màn Rada SEO không báo được — chỉ dải đỏ "Claude chưa đọc" sau
 26 giờ. Đừng trông vào dải đỏ: làm bước này ngay khi deploy.
+
+**Sau deploy 2C-2 (hướng nội dung + kế hoạch) — thêm hai việc, chỉ làm MỘT LẦN:**
+
+1. Bật lại MCP tools theo đúng hai bước ngay ở trên (thiếu bước này thì cả 8 công cụ đều
+   biến mất khỏi `tools/list`, không riêng 4 công cụ mới).
+2. Tạo routine chiến lược hằng tuần theo
+   `cms/src/plugins/rada-seo/routine/tuan-chien-luoc.md`: CÙNG môi trường "kinhlac-rada" và
+   CÙNG khoá `RADA_SEO_MCP_TOKEN` đã tạo cho routine đọc đêm — không tạo môi trường hay khoá
+   riêng — lịch **Chủ Nhật 06:00 giờ Việt Nam**. Bấm "Run now" một lần, xem tab **Hướng nội
+   dung** trong khu quản trị Rada SEO có hướng mới ở trạng thái "Đề xuất".
+
+⚠️ **Lần chạy đầu cần kho đã có ít nhất vài trăm chủ đề đối thủ `da_phan_tich`** (routine đọc
+đêm tích luỹ dần, ≤ 40 trang/đêm — xem mục ngay trên). Chạy routine chiến lược khi kho còn ít
+chủ đề vẫn không lỗi gì, nhưng phần lớn hướng đề xuất sẽ bị máy chủ bác vì chưa đủ "≥ 3 bài
+đối thủ có thật làm bằng chứng" — đừng vội kết luận routine hỏng, đọc mục "bac" trong báo cáo
+cuối routine trước.
 
 **Kiểm một lần sau deploy — container CMS tự tải được site thật:** `rada_tim_lien_ket` kiểm
 từng liên kết bằng cách tải trang thật TỪ TRONG container. Nếu container không ra được

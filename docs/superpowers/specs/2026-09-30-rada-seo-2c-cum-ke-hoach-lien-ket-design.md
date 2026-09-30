@@ -1,8 +1,10 @@
 # Rada SEO 2C — phân cụm theo nghĩa, kế hoạch nội dung, mạng liên kết nội bộ
 
-Ngày: 30/09/2026 · Trạng thái: thiết kế chờ người dùng duyệt · Thay cho "kế hoạch 2B-2 — lò
-viết" (gộp vào đây). Căn cứ: `2026-09-30-rada-seo-doi-chieu-n8n-ai5phut.md` (video + 3 workflow
-n8n) và đặc tả gốc `2026-09-30-radar-lo-viet-plugin-cms-design.md`.
+Ngày: 30/09/2026 · Trạng thái: **2C-1 và 2C-2 ĐÃ DỰNG** (mục 1–4, xem "Chia kế hoạch" cuối
+tài liệu; tên công cụ MCP dưới đây là tên THẬT đã cắm, không còn là đề xuất) · 2C-3 và 2D
+(mục 5–8) còn ở dạng thiết kế, chưa dựng. Thay cho "kế hoạch 2B-2 — lò viết" (gộp vào đây).
+Căn cứ: `2026-09-30-rada-seo-doi-chieu-n8n-ai5phut.md` (video + 3 workflow n8n) và đặc tả gốc
+`2026-09-30-radar-lo-viet-plugin-cms-design.md`.
 
 ## Mục tiêu — Radar do thám HAI CHIỀU (người dùng chốt 30/09/2026)
 
@@ -50,7 +52,12 @@ Người quản trị   CMS: đọc nháp + phiếu chấm → sửa → Publish
   (≈ 2 đêm đọc). Nhờ vậy chữ không cũ đi hàng tuần và kho không phình.
 - **Site của mình KHÔNG cần quét sitemap nữa**: kho của mình lấy thẳng từ CMS (mục 3).
 
-## 2. Hướng nội dung đi ra TỪ ĐỐI THỦ, phân cụm theo nghĩa (routine chiến lược hằng tuần)
+## 2. Hướng nội dung đi ra TỪ ĐỐI THỦ, phân cụm theo nghĩa (routine chiến lược hằng tuần) — ĐÃ DỰNG
+
+Dựng đúng như mô tả dưới: `chien-luoc/chi-so.mjs` (chấm điểm đo được), `kho.mjs` (bảng `huong`
++ `cum_nghia`), `chien-luoc/viec.mjs` (`deXuatHuong`/`ghiCum`/`layDuLieu`, mọi rào), route +
+công cụ MCP thật trong `plugin.mjs`, hai tab duyệt trong `admin.jsx`. Routine chạy nó:
+`routine/tuan-chien-luoc.md` (Chủ Nhật 06:00 giờ VN).
 
 > Sửa theo góp ý người dùng (30/09/2026): KHÔNG khai cứng "trọng số dịch vụ" (đo kinh lạc, phần
 > mềm, từ điển…) — như thế là tự nhốt vào ngách quá nhỏ. Trọng số phải **do dữ liệu đối thủ đề
@@ -101,7 +108,11 @@ mỗi bài dự kiến chỉ định MỘT trụ cột, bài viết phải link 
 Công cụ **`rada_tim_lien_ket`** (cụm từ → các đường dẫn có thật + tên + loại): Claude dùng khi
 lập kế hoạch và khi viết. Máy chủ **kiểm lại mọi link** ở cả hai khâu (link chết bị gỡ như cũ).
 
-## 4. Kế hoạch nội dung (bài dự kiến)
+## 4. Kế hoạch nội dung (bài dự kiến) — ĐÃ DỰNG
+
+Dựng đúng như mô tả dưới: bảng `ke_hoach` trong `kho.mjs` (`themKeHoach`/`datKeHoach`), rào
+đủ 3 lớp trong `chien-luoc/viec.mjs` (`deXuatKeHoach`), công cụ MCP thật `rada_de_xuat_ke_hoach`,
+tab **Kế hoạch** trong `admin.jsx` (nhóm theo hướng → cụm, nút Duyệt/Bỏ, lọc trạng thái).
 
 Bảng mới `ke_hoach`, mỗi dòng một bài:
 
@@ -217,10 +228,14 @@ chí trên màn Rada).
 
 ## Chia kế hoạch
 
-- **2C-1** Nguồn + kho nội bộ: sitemap bài viết, van hàng chờ, kho nội bộ + `rada_tim_lien_ket`.
-- **2C-2** Chiến lược: hướng nội dung (đề xuất từ đối thủ + chấm điểm đo được + tab duyệt),
-  `rada_lay_du_lieu_chien_luoc`, `rada_de_xuat_huong`, `rada_ghi_cum`, `rada_de_xuat_ke_hoach`,
-  bằng chứng + điểm, tab Kế hoạch, routine chiến lược.
+- **2C-1 ĐÃ DỰNG** Nguồn + kho nội bộ: sitemap bài viết, van hàng chờ, kho nội bộ +
+  `rada_tim_lien_ket`. Nghiệm thu: `2026-09-30-rada-seo-nghiem-thu-2c1.md`.
+- **2C-2 ĐÃ DỰNG (30/09/2026)** Chiến lược: hướng nội dung (đề xuất từ đối thủ + chấm điểm đo
+  được + tab duyệt), bốn công cụ MCP thật `rada_lay_du_lieu_chien_luoc`, `rada_de_xuat_huong`,
+  `rada_ghi_cum`, `rada_de_xuat_ke_hoach` (đã cắm trong `plugin.mjs`, không còn là tên đề
+  xuất), bằng chứng + điểm (`chien-luoc/chi-so.mjs`), hai tab **Hướng nội dung** / **Kế
+  hoạch** trong `admin.jsx`, routine chiến lược `routine/tuan-chien-luoc.md` (Chủ Nhật 06:00
+  giờ VN). Sau deploy: bật lại MCP tools (8 công cụ, xem `DEPLOYMENT.md` mục "Rada SEO").
 - **2C-3** Viết: `rada_lay_bai_can_viet`, `rada_nop_bai` (rào + xác minh nguồn + link + ảnh +
   md→PT + slug), phiếu chấm, beforeSave, IndexNow, routine viết.
 - **2D** Chiều 2 — leo top: GSC trong plugin, `rada_lay_tu_khoa_leo_top`, `rada_nop_serp`,
