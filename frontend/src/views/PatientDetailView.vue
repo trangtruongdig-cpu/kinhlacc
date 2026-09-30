@@ -77,7 +77,7 @@ async function loadExaminations() {
 }
 
 // ---- Lịch trị liệu (appointment slots) của bệnh nhân này ----
-type SlotStatus = 'OPEN' | 'CLOSED' | 'BOOKED' | 'COMPLETED' | 'CANCELLED'
+type SlotStatus = 'OPEN' | 'CLOSED' | 'BOOKED' | 'COMPLETED' | 'CANCELLED' | 'MOVED'
 interface AppointmentSlot {
   id: number
   slotDate: string
@@ -86,6 +86,8 @@ interface AppointmentSlot {
   patientId: number | null
   reason: string | null
   notes: string | null
+  movedToDate?: string | null
+  movedToTime?: string | null
 }
 
 const slots = ref<AppointmentSlot[]>([])
@@ -176,6 +178,8 @@ const earlierCompletedSlots = computed(() =>
     : [],
 )
 const cancelledSlots = computed(() => slots.value.filter((s) => s.status === 'CANCELLED'))
+// Vé khách xin đổi giờ (thường là bận không tới) — đếm riêng để thầy thuốc thấy khách hay dời hẹn.
+const movedSlots = computed(() => slots.value.filter((s) => s.status === 'MOVED'))
 
 function slotStatusLabel(s: SlotStatus) {
   switch (s) {
@@ -189,6 +193,8 @@ function slotStatusLabel(s: SlotStatus) {
       return 'Hoàn Thành'
     case 'CANCELLED':
       return 'Đã Huỷ'
+    case 'MOVED':
+      return 'Đã Chuyển'
   }
 }
 
@@ -802,6 +808,22 @@ function goToLuoiDiagnosis() {
                   <span class="treat-time">{{ s.slotTime }}</span>
                 </div>
                 <span class="treat-status st-cancelled">{{ slotStatusLabel(s.status) }}</span>
+              </div>
+            </div>
+          </div>
+          <!-- Đã chuyển vé sang ca khác -->
+          <div v-if="movedSlots.length" class="slot-group">
+            <h4 class="slot-group-title">Đã Chuyển Vé ({{ movedSlots.length }})</h4>
+            <div class="treat-list">
+              <div v-for="s in movedSlots" :key="s.id" class="treat-row treat-cancelled">
+                <div class="treat-when">
+                  <span class="treat-date">{{ formatSlotDate(s.slotDate) }}</span>
+                  <span class="treat-time">{{ s.slotTime }}</span>
+                  <span v-if="s.movedToDate" class="treat-time">
+                    ⇢ {{ (s.movedToTime || '').slice(0, 5) }} {{ formatSlotDate(s.movedToDate) }}
+                  </span>
+                </div>
+                <span class="treat-status st-completed">{{ slotStatusLabel(s.status) }}</span>
               </div>
             </div>
           </div>

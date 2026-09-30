@@ -6,6 +6,7 @@ import type { Patient } from '@/stores/patient'
 import { useAuthStore } from '@/stores/auth'
 import { useRealtimeStore } from '@/stores/realtime'
 import { maskHoTen, maskSdt } from '@/lib/maskThongTin'
+import { caDaQuaGio, useDongHo } from '@/lib/caDaQua'
 
 const authStore = useAuthStore()
 const realtime = useRealtimeStore()
@@ -297,10 +298,13 @@ interface SlotBooking {
   patientId: number
   slotDate: string
   slotTime: string
-  status: 'BOOKED' | 'CANCELLED' | 'COMPLETED'
+  status: 'BOOKED' | 'CANCELLED' | 'COMPLETED' | 'MOVED'
   reason: string | null
   cancelledBy: 'PATIENT' | 'STAFF' | null
   cancelledAt: string | null
+  movedToDate?: string | null
+  movedToTime?: string | null
+  movedAt?: string | null
 }
 
 // Lượt đặt của ngày đang xem. Ô giờ nay LUÔN về OPEN sau khi huỷ, nên nhìn ô giờ không còn biết
@@ -321,6 +325,25 @@ const cancelledBySlot = computed<Record<number, SlotBooking[]>>(() => {
 
 function cancelledOf(slotId: number): SlotBooking[] {
   return cancelledBySlot.value[Number(slotId)] || []
+}
+
+/** Vé CHUYỂN ĐI từ ca này (mới nhất) — để thẻ ca cũ còn ghi "⇢ đã chuyển sang 17:45 30/09". */
+const movedBySlot = computed<Record<number, SlotBooking>>(() => {
+  const out: Record<number, SlotBooking> = {}
+  for (const b of dayBookings.value) {
+    if (b.status !== 'MOVED') continue
+    const key = Number(b.slotId)
+    const cu = out[key]
+    if (!cu || (b.movedAt || '') > (cu.movedAt || '')) out[key] = b
+  }
+  return out
+})
+
+function movedLabel(b: SlotBooking): string {
+  const gio = (b.movedToTime || '').slice(0, 5)
+  if (!b.movedToDate) return gio
+  const [, m, d] = b.movedToDate.split('-')
+  return b.movedToDate === selectedDate.value ? gio : `${gio} ngày ${d}/${m}`
 }
 
 function openCancelledDetail(slot: AppointmentSlot) {
@@ -347,6 +370,15 @@ const daySlots = computed<AppointmentSlot[]>(
   () => slotsByDate.value[selectedDate.value] || []
 )
 
+const nowMs = useDongHo()
+
+/** Ca chưa có người đặt mà đã tới/qua giờ → không đặt, không mở lại được nữa.
+ *  Ca BOOKED qua giờ vẫn giữ nút Hoàn thành / Huỷ: nhân viên chốt ca SAU khi đo xong. */
+function daQua(slot: AppointmentSlot): boolean {
+  return (slot.status === 'OPEN' || slot.status === 'CLOSED' || slot.status === 'CANCELLED')
+    && caDaQuaGio(slot.slotDate, slot.slotTime, nowMs.value)
+}
+
 const dayStats = computed<DaySummary>(() => {
   const base: DaySummary = {
     OPEN: 0,
@@ -356,7 +388,8 @@ const dayStats = computed<DaySummary>(() => {
     CANCELLED: 0,
   }
   if (!daySlots.value) return base
-  for (const s of daySlots.value) base[s.status]++
+  // Ca trống đã qua giờ không còn là "Trống" nữa — đếm vào "Đóng".
+  for (const s of daySlots.value) base[daQua(s) ? 'CLOSED' : s.status]++
   return base
 })
 
@@ -366,7 +399,7 @@ function isToday(ymd: string) {
 
 // --- Actions ---
 async function generateForDate() {
-  if (!confirm('Sinh vé đo cho ngày ' + selectedDate.value + ' ?')) return
+  if (!confirm('Sinh ca cho ngày ' + selectedDate.value + ' ?')) return
   actionLoading.value = true
   actionType.value = 'gen-day'
   try {
@@ -374,7 +407,7 @@ async function generateForDate() {
       `/clinic-schedule/generate/${selectedDate.value}`,
       {},
     )
-    alert(`Đã sinh ${res.created} vé mới (tổng ${res.total} vé/ngày)`)
+    alert(`Đã sinh ${res.created} ca mới (tổng ${res.total} ca/ngày)`)
     await loadDay(selectedDate.value)
   } catch (err: any) {
     alert('Lỗi: ' + err.message)
@@ -392,7 +425,7 @@ async function generateForWeek() {
   end.setDate(end.getDate() + 6)
   const from = formatYMD(start)
   const to = formatYMD(end)
-  if (!confirm(`Sinh vé cho tuần ${from} → ${to}?`)) return
+  if (!confirm(`Sinh ca cho tuần ${from} → ${to}?`)) return
   actionLoading.value = true
   actionType.value = 'gen-week'
   try {
@@ -401,7 +434,7 @@ async function generateForWeek() {
       {},
     )
     const total = res.reduce((s, r) => s + r.created, 0)
-    alert(`Đã sinh ${total} vé mới trong tuần`)
+    alert(`Đã sinh ${total} ca mới trong tuần`)
     await loadDay(selectedDate.value)
   } catch (err: any) {
     alert('Lỗi: ' + err.message)
@@ -459,6 +492,79 @@ async function completeSlot(slot: AppointmentSlot) {
 
 function isSlotBusy(slot: AppointmentSlot) {
   return actionSlotId.value === slot.id
+}
+
+// ── Chuyển vé ── Đưa vé của khách sang ca khác, giữ nguyên khách/lý do/ghi chú.
+const moveModal = ref<{ slot: AppointmentSlot } | null>(null)
+const moveDate = ref('')
+const moveSlots = ref<AppointmentSlot[]>([])
+const moveTargetId = ref<number | null>(null)
+const moveLoading = ref(false)
+
+/** Chỉ ca TRỐNG và CHƯA tới giờ mới nhận vé chuyển tới (backend kiểm lại y hệt). */
+const moveOptions = computed(() =>
+  moveSlots.value.filter(
+    s => s.status === 'OPEN' && s.id !== moveModal.value?.slot.id
+      && !caDaQuaGio(s.slotDate, s.slotTime, nowMs.value),
+  ),
+)
+
+async function loadMoveSlots(date: string) {
+  moveLoading.value = true
+  moveTargetId.value = null
+  try {
+    const rows = await api.get<AppointmentSlot[]>(`/appointment-slots?date=${date}`)
+    moveSlots.value = (rows || []).map(normalizeSlot)
+  } catch {
+    moveSlots.value = []
+  } finally {
+    moveLoading.value = false
+  }
+}
+
+function openMoveModal(slot: AppointmentSlot) {
+  moveModal.value = { slot }
+  // Ca cũ đã qua ngày thì gợi ý hôm nay, không thì bắt đầu từ chính ngày đang xem.
+  moveDate.value = selectedDate.value < todayYMD() ? todayYMD() : selectedDate.value
+  loadMoveSlots(moveDate.value)
+}
+
+function closeMoveModal() {
+  moveModal.value = null
+  moveSlots.value = []
+  moveTargetId.value = null
+}
+
+watch(moveDate, (d) => {
+  if (moveModal.value && d) loadMoveSlots(d)
+})
+
+async function confirmMove() {
+  if (!moveModal.value || !moveTargetId.value) return
+  const slot = moveModal.value.slot
+  actionLoading.value = true
+  actionSlotId.value = slot.id
+  actionType.value = 'move'
+  try {
+    const res = await api.put<{ success: boolean; from: AppointmentSlot; to: AppointmentSlot }>(
+      `/appointment-slots/${slot.id}/move`,
+      { targetSlotId: moveTargetId.value },
+    )
+    closeMoveModal()
+    if (res?.from) patchSlotLocal(res.from)
+    if (res?.to) patchSlotLocal(res.to)
+    // Dấu "⇢ đã chuyển sang…" đọc từ lịch sử lượt đặt → nạp lại lịch sử của ngày đang xem.
+    dayBookings.value = await api
+      .get<SlotBooking[]>(`/appointment-slots/bookings?date=${selectedDate.value}`)
+      .catch(() => dayBookings.value)
+  } catch (err: any) {
+    alert('Lỗi: ' + err.message)
+    if (moveModal.value) loadMoveSlots(moveDate.value)
+  } finally {
+    actionLoading.value = false
+    actionSlotId.value = null
+    actionType.value = null
+  }
 }
 
 function openBookModal(slot: AppointmentSlot) {
@@ -619,7 +725,7 @@ function goToPatient(id: number) {
             @click="generateForDate"
           >
             <span v-if="actionType === 'gen-day'" class="inline-spinner inline-spinner-light"></span>
-            {{ actionType === 'gen-day' ? 'Đang sinh vé...' : 'Sinh vé cho ngày này' }}
+            {{ actionType === 'gen-day' ? 'Đang sinh ca...' : 'Sinh ca cho ngày này' }}
           </button>
           <button
             class="btn btn-secondary"
@@ -627,7 +733,7 @@ function goToPatient(id: number) {
             @click="generateForWeek"
           >
             <span v-if="actionType === 'gen-week'" class="inline-spinner"></span>
-            {{ actionType === 'gen-week' ? 'Đang sinh vé...' : 'Sinh vé cho cả tuần' }}
+            {{ actionType === 'gen-week' ? 'Đang sinh ca...' : 'Sinh ca cho cả tuần' }}
           </button>
         </div>
 
@@ -641,8 +747,8 @@ function goToPatient(id: number) {
         </div>
 
         <div v-else-if="daySlots.length === 0" class="empty">
-          <p>Chưa có vé nào cho ngày này.</p>
-          <p class="empty-hint">Nhấn "Sinh vé cho ngày này" để tạo theo cấu hình.</p>
+          <p>Chưa có ca nào cho ngày này.</p>
+          <p class="empty-hint">Nhấn "Sinh ca cho ngày này" để tạo theo cấu hình.</p>
         </div>
 
         <div v-else class="slots-grid" :class="{ 'is-loading': isLoadingDay }">
@@ -650,11 +756,11 @@ function goToPatient(id: number) {
             v-for="slot in daySlots"
             :key="slot.id"
             class="slot-card"
-            :class="['slot-' + slot.status.toLowerCase(), { 'is-busy': isSlotBusy(slot) }]"
+            :class="[daQua(slot) ? 'slot-closed slot-past' : 'slot-' + slot.status.toLowerCase(), { 'is-busy': isSlotBusy(slot) }]"
           >
             <div class="slot-head">
               <span class="slot-time">{{ slot.slotTime }}</span>
-              <span class="slot-status">{{ statusLabel(slot.status) }}</span>
+              <span class="slot-status">{{ daQua(slot) ? 'Đã qua giờ' : statusLabel(slot.status) }}</span>
             </div>
 
             <div v-if="slot.patientId" class="slot-patient">
@@ -676,17 +782,33 @@ function goToPatient(id: number) {
               @click="openCancelledDetail(slot)"
             >⟲ {{ cancelledOf(slot.id).length }} lượt huỷ</button>
 
+            <div v-if="movedBySlot[slot.id]" class="slot-moved-mark">
+              ⇢ Vé đã chuyển sang {{ movedLabel(movedBySlot[slot.id]!) }}
+            </div>
+
+            <div v-if="slot.status === 'BOOKED' && caDaQuaGio(slot.slotDate, slot.slotTime, nowMs)" class="slot-overdue">
+              Đã qua giờ — chưa hoàn thành
+            </div>
+
             <div class="slot-actions">
-              <template v-if="slot.status === 'OPEN'">
-                <button class="btn-sm btn-primary" :disabled="actionLoading" @click="openBookModal(slot)">Đặt</button>
-                <button class="btn-sm btn-ghost" :disabled="actionLoading" @click="closeSlot(slot)">Đóng vé</button>
+              <template v-if="daQua(slot)"></template>
+              <template v-else-if="slot.status === 'OPEN'">
+                <button class="btn-sm btn-primary" :disabled="actionLoading" @click="openBookModal(slot)">Đặt vé</button>
+                <button class="btn-sm btn-ghost" :disabled="actionLoading" @click="closeSlot(slot)">Đóng ca</button>
               </template>
               <template v-else-if="slot.status === 'CLOSED'">
                 <button class="btn-sm btn-primary" :disabled="actionLoading" @click="openSlot(slot)">Mở lại</button>
               </template>
               <template v-else-if="slot.status === 'BOOKED'">
                 <button class="btn-sm btn-success" :disabled="actionLoading" @click="completeSlot(slot)">Hoàn thành</button>
-                <button class="btn-sm btn-danger" :disabled="actionLoading" @click="cancelSlot(slot)">Huỷ</button>
+                <button class="btn-sm btn-ghost" :disabled="actionLoading" @click="openMoveModal(slot)">Chuyển vé</button>
+                <!-- Qua giờ thì không còn Huỷ: khách đã đo → Hoàn thành, không tới → Chuyển vé. -->
+                <button
+                  v-if="!caDaQuaGio(slot.slotDate, slot.slotTime, nowMs)"
+                  class="btn-sm btn-danger"
+                  :disabled="actionLoading"
+                  @click="cancelSlot(slot)"
+                >Huỷ</button>
               </template>
               <!-- 'CANCELLED' là DỮ LIỆU CŨ. Huỷ nay trả ô giờ thẳng về OPEN, nên nhánh này chỉ
                    còn gặp ở vé huỷ TRƯỚC khi migration chạy (hoặc khi backend chưa kịp deploy).
@@ -736,6 +858,45 @@ function goToPatient(id: number) {
           <button class="btn btn-primary" :disabled="actionLoading || !bookPatientId" @click="confirmBook">
             <span v-if="actionLoading && bookModal" class="inline-spinner inline-spinner-light"></span>
             {{ actionLoading && bookModal ? 'Đang đặt...' : 'Đặt vé' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══ Chuyển vé sang ca khác ═══ -->
+    <div v-if="moveModal" class="modal-overlay" @click.self="closeMoveModal">
+      <div class="modal">
+        <h3 class="modal-title">Chuyển vé {{ moveModal.slot.slotTime }} – {{ moveModal.slot.slotDate }}</h3>
+        <p v-if="moveModal.slot.patientId" class="muted-note">
+          Khách: <strong>{{ patientsMap[moveModal.slot.patientId]?.fullName ? displayName(patientsMap[moveModal.slot.patientId]?.fullName) : 'BN #' + moveModal.slot.patientId }}</strong>
+          <span v-if="moveModal.slot.reason"> · {{ moveModal.slot.reason }}</span>
+        </p>
+        <div class="form-group">
+          <label>Ngày của ca mới</label>
+          <input v-model="moveDate" type="date" class="input" :min="todayYMD()" />
+        </div>
+        <div class="form-group">
+          <label>Chọn ca trống</label>
+          <div v-if="moveLoading" class="muted-note">Đang tải ca…</div>
+          <div v-else-if="moveOptions.length === 0" class="muted-note">
+            Ngày này không còn ca trống nào sắp tới. Chọn ngày khác.
+          </div>
+          <div v-else class="move-grid">
+            <button
+              v-for="s in moveOptions"
+              :key="s.id"
+              type="button"
+              class="move-option"
+              :class="{ 'is-selected': moveTargetId === s.id }"
+              @click="moveTargetId = s.id"
+            >{{ s.slotTime }}</button>
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" @click="closeMoveModal">Thôi</button>
+          <button class="btn btn-primary" :disabled="actionLoading || !moveTargetId" @click="confirmMove">
+            <span v-if="actionType === 'move'" class="inline-spinner inline-spinner-light"></span>
+            {{ actionType === 'move' ? 'Đang chuyển...' : 'Chuyển vé' }}
           </button>
         </div>
       </div>
@@ -950,6 +1111,12 @@ function goToPatient(id: number) {
   cursor: pointer;
 }
 .slot-cancelled-mark:hover { background: #fde68a; }
+.slot-moved-mark { font-size: var(--font-size-xs); color: var(--brown-700); background: var(--brown-50); border: 1px dashed var(--brown-300); border-radius: var(--radius-sm); padding: 2px 8px; }
+.slot-overdue { font-size: var(--font-size-xs); font-weight: 600; color: var(--warning-fg, #92400e); }
+.move-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(72px, 1fr)); gap: var(--space-2); }
+.move-option { padding: 6px 0; border: 1px solid var(--brown-200); border-radius: var(--radius-md); background: var(--white); color: var(--brown-700); font-weight: 700; cursor: pointer; }
+.move-option:hover { background: var(--brown-50); }
+.move-option.is-selected { background: var(--brown-600); border-color: var(--brown-600); color: var(--white); }
 
 .cancelled-list {
   list-style: none;

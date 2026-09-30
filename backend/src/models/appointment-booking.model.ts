@@ -8,7 +8,15 @@ import {
 } from 'typeorm';
 import { ymdDateTransformer } from './_date-transformer';
 
-export type AppointmentBookingStatus = 'BOOKED' | 'CANCELLED' | 'COMPLETED';
+/**
+ * MOVED = vé đã CHUYỂN sang ca khác (khách bận, xin đổi giờ). Khác hẳn CANCELLED: vé vẫn sống,
+ * chỉ là dòng này ghi lại ca CŨ; vé ở ca mới là dòng khác có `movedFromId` trỏ về đây.
+ */
+export type AppointmentBookingStatus =
+  | 'BOOKED'
+  | 'CANCELLED'
+  | 'COMPLETED'
+  | 'MOVED';
 
 /**
  * LƯỢT ĐẶT VÉ — tách khỏi `appointment_slots` (Ô GIỜ).
@@ -62,6 +70,24 @@ export class AppointmentBooking {
   // thẳng từ cột timestamptz sang sẽ quy đổi theo múi giờ phiên làm việc và lệch 7 tiếng.
   @Column({ type: 'timestamptz', nullable: true })
   cancelledAt: Date | null;
+
+  // ── Chuyển vé ── Dòng ca cũ ghi nơi vé đi tới (ẢNH CHỤP giờ lúc chuyển, như slotDate/slotTime),
+  // dòng ca mới ghi nơi vé đi từ. Giữ cả hai chiều để thẻ ca cũ hiện được "đã chuyển sang 17:45"
+  // mà không phải nạp ngày khác.
+  @Column({ type: 'int', nullable: true })
+  movedToId: number | null;
+
+  @Column({ type: 'date', nullable: true, transformer: ymdDateTransformer })
+  movedToDate: string | null;
+
+  @Column({ type: 'time', nullable: true })
+  movedToTime: string | null;
+
+  @Column({ type: 'int', nullable: true })
+  movedFromId: number | null;
+
+  @Column({ type: 'timestamptz', nullable: true })
+  movedAt: Date | null;
 
   @CreateDateColumn({ type: 'timestamptz' })
   createdAt: Date;

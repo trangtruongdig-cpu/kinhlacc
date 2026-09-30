@@ -160,3 +160,8 @@ export const dangKyBenhNhanSchema = z
     gender: z.string().max(20).nullable().optional(),
   })
   .strict();
+
+/** PUT /appointment-slots/:id/move — chuyển vé sang ca khác. */
+export const chuyenVeSchema = z
+  .object({ targetSlotId: z.number().int().positive() })
+  .strict();

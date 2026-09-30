@@ -22,6 +22,7 @@ import { SseService, toPublicSlot, PublicSlotView } from './sse.service';
 import { ClinicScheduleService } from './clinic-schedule.controller';
 import { buildIcsCalendar, IcsEvent, IcsAlarm } from './ics.util';
 import { randomBytes, timingSafeEqual } from 'crypto';
+import { caDaQuaGio, lyDoKhongChuyenDuoc } from '../utils/ve-da-qua.util';
 
 /**
  * So khớp khoá theo thời gian HẰNG ĐỊNH.
@@ -62,6 +63,11 @@ export interface PatientBookingView {
   notes: string | null;
   cancelledBy: 'PATIENT' | 'STAFF' | null;
   cancelledAt: Date | null;
+  movedToId: number | null;
+  movedToDate: string | null;
+  movedToTime: string | null;
+  movedFromId: number | null;
+  movedAt: Date | null;
   createdAt: Date;
 }
 
@@ -89,6 +95,11 @@ const REMINDER_ALARMS: IcsAlarm[] = [
   },
 ];
 
+/** '17:45:00' → '17:45' cho câu thông báo. */
+function gioNgan(t: string): string {
+  return (t || '').slice(0, 5);
+}
+
 function toBookingView(b: AppointmentBooking): PatientBookingView {
   return {
     id: b.id,
@@ -101,6 +112,11 @@ function toBookingView(b: AppointmentBooking): PatientBookingView {
     notes: b.notes,
     cancelledBy: b.cancelledBy,
     cancelledAt: b.cancelledAt,
+    movedToId: b.movedToId ?? null,
+    movedToDate: b.movedToDate ?? null,
+    movedToTime: b.movedToTime ?? null,
+    movedFromId: b.movedFromId ?? null,
+    movedAt: b.movedAt ?? null,
     createdAt: b.createdAt,
   };
 }
@@ -186,7 +202,7 @@ export class AppointmentSlotsService {
 
   async findOne(id: number): Promise<AppointmentSlot> {
     const slot = await this.slotRepo.findOneBy({ id });
-    if (!slot) throw new NotFoundException(`Vé #${id} không tồn tại`);
+    if (!slot) throw new NotFoundException(`Ca #${id} không tồn tại`);
     return slot;
   }
 
@@ -240,7 +256,7 @@ export class AppointmentSlotsService {
         where: { id },
         lock: { mode: 'pessimistic_write' },
       });
-      if (!slot) throw new NotFoundException(`Vé #${id} không tồn tại`);
+      if (!slot) throw new NotFoundException(`Ca #${id} không tồn tại`);
 
       const result = await fn(slot, queryRunner.manager);
       const saved = await queryRunner.manager.save(slot);
@@ -264,6 +280,9 @@ export class AppointmentSlotsService {
       if (slot.status === 'COMPLETED') {
         throw new ConflictException('Vé đã hoàn thành, không thể đóng');
       }
+      if (caDaQuaGio(slot.slotDate, slot.slotTime)) {
+        throw new ConflictException('Ca này đã qua giờ');
+      }
       slot.status = 'CLOSED';
     });
     this.sseService.emitEvent({
@@ -284,6 +303,9 @@ export class AppointmentSlotsService {
           throw new ConflictException(
             `Không thể mở lại vé đang ở trạng thái ${slot.status}`,
           );
+        }
+        if (caDaQuaGio(slot.slotDate, slot.slotTime)) {
+          throw new ConflictException('Ca này đã qua giờ, không mở lại được');
         }
         // Phòng xa: vé cũ có thể còn lượt đặt treo. Đóng nó lại rồi mới mở ô giờ, không thì
         // unique index chặn lượt đặt mới và không ai đặt được ô này nữa.
@@ -337,7 +359,7 @@ export class AppointmentSlotsService {
       });
 
       if (!slot) {
-        throw new NotFoundException(`Vé #${id} không tồn tại`);
+        throw new NotFoundException(`Ca #${id} không tồn tại`);
       }
 
       // CHỈ nhận OPEN. Trước đây nhận cả 'CANCELLED', mà ô giờ CANCELLED vẫn còn giữ
@@ -345,8 +367,15 @@ export class AppointmentSlotsService {
       // về OPEN và dọn sạch, nên không còn lý do gì để nhận CANCELLED nữa.
       if (slot.status !== 'OPEN') {
         throw new ConflictException(
-          `Vé không khả dụng (trạng thái: ${slot.status})`,
+          `Ca không còn trống (trạng thái: ${slot.status})`,
         );
+      }
+
+      // Ca đã vào giờ (hoặc qua rồi) thì không nhận đặt, dù ô giờ vẫn OPEN trong DB. Không đổi
+      // trạng thái thành CLOSED: "đã qua" là suy từ đồng hồ, còn CLOSED là nhân viên chủ động
+      // đóng — gộp hai thứ là mất dấu vết ca nào bị đóng tay.
+      if (caDaQuaGio(slot.slotDate, slot.slotTime)) {
+        throw new ConflictException('Ca này đã qua giờ, không đặt được nữa');
       }
 
       slot.patientId = dto.patientId;
@@ -381,7 +410,7 @@ export class AppointmentSlotsService {
       await queryRunner.rollbackTransaction();
       if ((err as { code?: string }).code === '23505') {
         throw new ConflictException(
-          'Vé vừa có người khác đặt mất, mời chọn giờ khác',
+          'Ca vừa có người khác đặt mất, mời chọn ca khác',
         );
       }
       throw err;
@@ -436,10 +465,17 @@ export class AppointmentSlotsService {
         where: { id },
         lock: { mode: 'pessimistic_write' },
       });
-      if (!slot) throw new NotFoundException(`Vé #${id} không tồn tại`);
+      if (!slot) throw new NotFoundException(`Ca #${id} không tồn tại`);
       if (slot.status !== 'BOOKED') {
         throw new ConflictException(
           `Chỉ có thể huỷ vé đang BOOKED (hiện: ${slot.status})`,
+        );
+      }
+      // Qua giờ rồi thì không còn "huỷ" nữa: khách đã đo thì Hoàn thành, khách không tới thì
+      // CHUYỂN VÉ sang ca khác. Huỷ vé đã qua giờ là xoá mất dấu vết khách bỏ hẹn.
+      if (caDaQuaGio(slot.slotDate, slot.slotTime)) {
+        throw new ConflictException(
+          'Ca này đã qua giờ, không huỷ được nữa — hoàn thành hoặc chuyển vé',
         );
       }
 
@@ -509,6 +545,132 @@ export class AppointmentSlotsService {
     return { slot: res.slot, booking: res.booking };
   }
 
+  /**
+   * CHUYỂN VÉ sang ca khác — khách bận, xin đổi giờ (kể cả khi ca cũ đã qua giờ).
+   *
+   * Không phải "huỷ rồi đặt mới": vé giữ nguyên khách, lý do đến, ghi chú. Dòng lượt đặt ở ca
+   * cũ thành MOVED (ghi nơi vé đi tới), dòng mới ở ca đích mang `movedFromId`.
+   *
+   * Khoá CẢ HAI ca trong một giao dịch, theo thứ tự id tăng dần — hai nhân viên chuyển chéo
+   * nhau (A→B và B→A) mà khoá theo thứ tự bấm thì kẹt chết. Làm hai bước riêng thì có lúc vé
+   * đã rời ca cũ mà ca đích lại bị người khác giành mất.
+   */
+  async move(
+    id: number,
+    targetId: number,
+  ): Promise<{
+    from: AppointmentSlot;
+    to: AppointmentSlot;
+    booking: PatientBookingView;
+  }> {
+    const queryRunner = this.dataSource.createQueryRunner();
+    await queryRunner.connect();
+    await queryRunner.startTransaction();
+
+    let savedFrom: AppointmentSlot;
+    let savedTo: AppointmentSlot;
+    let oldBooking: AppointmentBooking;
+    let newBooking: AppointmentBooking;
+    try {
+      const m = queryRunner.manager;
+      const locked: Record<number, AppointmentSlot> = {};
+      for (const sid of [id, targetId].sort((a, b) => a - b)) {
+        const s = await m.findOne(AppointmentSlot, {
+          where: { id: sid },
+          lock: { mode: 'pessimistic_write' },
+        });
+        if (!s) throw new NotFoundException(`Ca #${sid} không tồn tại`);
+        locked[sid] = s;
+      }
+      const from = locked[id];
+      const to = locked[targetId];
+
+      const lyDo = lyDoKhongChuyenDuoc(from, to);
+      if (lyDo) throw new ConflictException(lyDo);
+
+      const booking = await this.activeBooking(m, id);
+      if (!booking) {
+        throw new ConflictException('Không tìm thấy vé đang hiệu lực ở ca này');
+      }
+      const now = new Date();
+
+      // Ca đích nhận vé TRƯỚC khi ca cũ nhả — lượt đặt mới có unique index riêng theo slotId
+      // nên thứ tự này không đụng nhau, và nếu chèn lỗi thì cả giao dịch lùi về như cũ.
+      to.patientId = booking.patientId;
+      to.reason = booking.reason;
+      to.notes = booking.notes;
+      to.status = 'BOOKED';
+      to.reminded1h = false;
+      to.reminded30m = false;
+      to.reminded15m = false;
+      savedTo = await m.save(to);
+
+      newBooking = await m.save(
+        m.create(AppointmentBooking, {
+          slotId: to.id,
+          patientId: booking.patientId,
+          slotDate: to.slotDate,
+          slotTime: to.slotTime,
+          status: 'BOOKED' as AppointmentBookingStatus,
+          reason: booking.reason,
+          notes: booking.notes,
+          cancelledBy: null,
+          cancelledAt: null,
+          movedFromId: booking.id,
+        }),
+      );
+
+      booking.status = 'MOVED';
+      booking.movedToId = newBooking.id;
+      booking.movedToDate = to.slotDate;
+      booking.movedToTime = to.slotTime;
+      booking.movedAt = now;
+      oldBooking = await m.save(booking);
+
+      // Ca cũ nhả ra. Nếu đã qua giờ thì nó tự hiện "Đã qua giờ" và không ai đặt được nữa.
+      from.status = 'OPEN';
+      from.patientId = null;
+      from.reason = null;
+      from.notes = null;
+      from.reminded1h = false;
+      from.reminded30m = false;
+      from.reminded15m = false;
+      savedFrom = await m.save(from);
+
+      await queryRunner.commitTransaction();
+    } catch (err) {
+      await queryRunner.rollbackTransaction();
+      if ((err as { code?: string }).code === '23505') {
+        throw new ConflictException(
+          'Ca mới vừa có người khác đặt mất, mời chọn ca khác',
+        );
+      }
+      throw err;
+    } finally {
+      await queryRunner.release();
+    }
+
+    for (const s of [savedFrom, savedTo]) {
+      this.sseService.emitEvent({
+        type: 'SLOT_UPDATED',
+        slot: toPublicSlot(s),
+        staffSlot: s,
+      });
+    }
+
+    this.guiThongBao(
+      oldBooking.patientId,
+      `Vé của bạn đã chuyển từ ${gioNgan(oldBooking.slotTime)} ngày ${oldBooking.slotDate} sang ${gioNgan(savedTo.slotTime)} ngày ${savedTo.slotDate}`,
+      savedTo.id,
+    );
+
+    return {
+      from: savedFrom,
+      to: savedTo,
+      booking: toBookingView(newBooking),
+    };
+  }
+
   async complete(id: number): Promise<AppointmentSlot> {
     const queryRunner = this.dataSource.createQueryRunner();
     await queryRunner.connect();
@@ -521,7 +683,7 @@ export class AppointmentSlotsService {
         where: { id },
         lock: { mode: 'pessimistic_write' },
       });
-      if (!slot) throw new NotFoundException(`Vé #${id} không tồn tại`);
+      if (!slot) throw new NotFoundException(`Ca #${id} không tồn tại`);
       if (slot.status !== 'BOOKED') {
         throw new ConflictException(
           `Chỉ có thể hoàn thành vé đang BOOKED (hiện: ${slot.status})`,
@@ -709,11 +871,15 @@ export class AppointmentSlotsService {
     const events: IcsEvent[] = [];
     for (const b of bookings) {
       if (b.status === 'COMPLETED') continue; // buổi đã đo xong, không cần nằm trên lịch nữa
-      const cancelled = b.status === 'CANCELLED';
+      // Vé đã CHUYỂN: sự kiện ở giờ cũ phải biến khỏi lịch của khách y như huỷ. Giờ mới là
+      // lượt đặt khác (UID khác) nên tự hiện ra.
+      const cancelled = b.status === 'CANCELLED' || b.status === 'MOVED';
       if (cancelled) {
         const at = b.cancelledAt
           ? new Date(b.cancelledAt)
-          : new Date(b.updatedAt);
+          : b.movedAt
+            ? new Date(b.movedAt)
+            : new Date(b.updatedAt);
         if (at < cutoff) continue;
       }
       events.push({
@@ -756,6 +922,14 @@ export class AppointmentSlotsService {
     slotId: number,
     status: AppointmentSlotStatus,
   ): void {
+    this.guiThongBao(
+      patientId,
+      `Lịch hẹn ngày ${slotDate} lúc ${slotTime} của bạn đã chuyển sang: ${this.getStatusText(status)}`,
+      slotId,
+    );
+  }
+
+  private guiThongBao(patientId: number, body: string, slotId: number): void {
     void (async () => {
       try {
         const patient = await this.patientsService.findOne(patientId);
@@ -763,7 +937,7 @@ export class AppointmentSlotsService {
         await this.firebaseService.sendNotification(
           patient.fcmToken,
           'Cập nhật lịch hẹn',
-          `Lịch hẹn ngày ${slotDate} lúc ${slotTime} của bạn đã chuyển sang: ${this.getStatusText(status)}`,
+          body,
           { slotId: String(slotId), type: 'APPOINTMENT_UPDATE' },
         );
       } catch (error) {

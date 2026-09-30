@@ -151,7 +151,7 @@ export class SchemaBootstrapService implements OnApplicationBootstrap {
        "createdAt"   TIMESTAMPTZ NOT NULL DEFAULT now(),
        "updatedAt"   TIMESTAMPTZ NOT NULL DEFAULT now(),
        CONSTRAINT appointment_bookings_status_check
-         CHECK (status IN ('BOOKED', 'CANCELLED', 'COMPLETED'))
+         CHECK (status IN ('BOOKED', 'CANCELLED', 'COMPLETED', 'MOVED'))
      )`,
     `CREATE INDEX IF NOT EXISTS idx_appt_booking_slot ON appointment_bookings ("slotId")`,
     `CREATE INDEX IF NOT EXISTS idx_appt_booking_patient ON appointment_bookings ("patientId", "slotDate" DESC)`,
@@ -173,6 +173,25 @@ export class SchemaBootstrapService implements OnApplicationBootstrap {
       WHERE s."patientId" IS NOT NULL
         AND s.status IN ('BOOKED','COMPLETED','CANCELLED')
         AND NOT EXISTS (SELECT 1 FROM appointment_bookings b WHERE b."slotId" = s.id)`,
+
+    // Chuyển vé sang ca khác (xem appointment-booking.model.ts). Nới CHECK chỉ khi nó còn thiếu
+    // 'MOVED' — DROP+ADD vô điều kiện thì mỗi lần khởi động lại quét lại cả bảng.
+    `ALTER TABLE appointment_bookings ADD COLUMN IF NOT EXISTS "movedToId"   INTEGER`,
+    `ALTER TABLE appointment_bookings ADD COLUMN IF NOT EXISTS "movedToDate" DATE`,
+    `ALTER TABLE appointment_bookings ADD COLUMN IF NOT EXISTS "movedToTime" TIME`,
+    `ALTER TABLE appointment_bookings ADD COLUMN IF NOT EXISTS "movedFromId" INTEGER`,
+    `ALTER TABLE appointment_bookings ADD COLUMN IF NOT EXISTS "movedAt"     TIMESTAMPTZ`,
+    `DO $$ BEGIN
+       IF NOT EXISTS (
+         SELECT 1 FROM pg_constraint
+          WHERE conname = 'appointment_bookings_status_check'
+            AND pg_get_constraintdef(oid) LIKE '%MOVED%'
+       ) THEN
+         ALTER TABLE appointment_bookings DROP CONSTRAINT IF EXISTS appointment_bookings_status_check;
+         ALTER TABLE appointment_bookings ADD CONSTRAINT appointment_bookings_status_check
+           CHECK (status IN ('BOOKED', 'CANCELLED', 'COMPLETED', 'MOVED'));
+       END IF;
+     END $$`,
 
     // Khoá bí mật cho đường dẫn lịch .ics bệnh nhân đăng ký (xem patient.model.ts).
     `ALTER TABLE patients ADD COLUMN IF NOT EXISTS "icsToken" TEXT`,

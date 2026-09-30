@@ -22,6 +22,8 @@ import type { Response } from 'express';
 import { JwtAuthGuard } from '../middlewares/auth/jwt-auth.guard';
 import { Public } from '../middlewares/auth/public.decorator';
 import { NhanVienGuard } from '../middlewares/auth/nhan-vien.guard';
+import { ZodPipe } from '../middlewares/validation/zod.pipe';
+import { chuyenVeSchema } from '../models/validation.schema';
 
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 function assertDate(date: string) {
@@ -218,6 +220,20 @@ export class AppointmentSlotsRouter {
     // khỏi gọi lại cả ngày. `booking` là lượt đặt vừa bị huỷ, giữ lại cho lịch sử.
     const { slot, booking } = await this.service.cancel(id, 'STAFF');
     return { success: true, data: slot, booking };
+  }
+
+  /** Chuyển vé ở ca `:id` sang ca `targetSlotId` (khách bận, xin đổi giờ). */
+  @UseGuards(NhanVienGuard)
+  @Put(':id/move')
+  async move(
+    @Param('id', ParseIntPipe) id: number,
+    @Body(new ZodPipe(chuyenVeSchema)) body: { targetSlotId: number },
+  ) {
+    const { from, to, booking } = await this.service.move(
+      id,
+      body.targetSlotId,
+    );
+    return { success: true, from, to, booking };
   }
 
   @UseGuards(NhanVienGuard)

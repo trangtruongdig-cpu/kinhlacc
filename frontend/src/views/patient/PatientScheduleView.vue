@@ -2,6 +2,7 @@
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue'
 import { usePatientAuthStore } from '@/stores/patientAuth'
 import { useRealtimeStore } from '@/stores/realtime'
+import { caDaQuaGio, useDongHo } from '@/lib/caDaQua'
 import { enablePush, isPushConfigured, pushPermission } from '@/services/push'
 
 const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:3001'
@@ -31,10 +32,12 @@ interface MyBooking {
   slotId: number
   slotDate: string
   slotTime: string
-  status: 'BOOKED' | 'CANCELLED' | 'COMPLETED'
+  status: 'BOOKED' | 'CANCELLED' | 'COMPLETED' | 'MOVED'
   patientId: number
   reason: string | null
   notes: string | null
+  movedToDate?: string | null
+  movedToTime?: string | null
 }
 
 interface EffectiveSchedule {
@@ -74,6 +77,13 @@ function showToast(message: string, type: 'success' | 'error' = 'success') {
   toast.value = { message, type }
   if (toastTimer) clearTimeout(toastTimer)
   toastTimer = setTimeout(() => { toast.value = null }, 3000)
+}
+
+const nowMs = useDongHo()
+
+/** Chỉ ca OPEN và CHƯA tới giờ mới đặt được. Backend cũng chặn — đây là để nút khớp. */
+function datDuoc(slot: { slotDate: string; slotTime: string; status: SlotStatus }): boolean {
+  return slot.status === 'OPEN' && !caDaQuaGio(slot.slotDate, slot.slotTime, nowMs.value)
 }
 
 // ── Date / Week logic ──
@@ -179,7 +189,7 @@ const upcomingSlots = computed(() =>
 )
 
 const pastSlots = computed(() =>
-  mySlots.value.filter(s => s.slotDate < today || s.status === 'COMPLETED' || s.status === 'CANCELLED')
+  mySlots.value.filter(s => s.slotDate < today || s.status !== 'BOOKED')
     .sort((a, b) => b.slotDate.localeCompare(a.slotDate) || b.slotTime.localeCompare(a.slotTime))
 )
 
@@ -342,20 +352,22 @@ function formatDateVN(ymd: string) {
   return `${dayNames[d.getDay()]}, ${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()}`
 }
 
-function statusLabel(status: SlotStatus) {
+function statusLabel(status: SlotStatus | MyBooking['status']) {
   switch (status) {
     case 'BOOKED': return 'Đã đặt'
     case 'COMPLETED': return 'Hoàn thành'
     case 'CANCELLED': return 'Đã huỷ'
+    case 'MOVED': return 'Đã chuyển'
     default: return status
   }
 }
 
-function statusClass(status: SlotStatus) {
+function statusClass(status: SlotStatus | MyBooking['status']) {
   switch (status) {
     case 'BOOKED': return 'badge-booked'
     case 'COMPLETED': return 'badge-completed'
     case 'CANCELLED': return 'badge-cancelled'
+    case 'MOVED': return 'badge-completed'
     default: return ''
   }
 }
@@ -668,13 +680,13 @@ async function copyCalendarUrl() {
         <button
           v-for="slot in availableSlots"
           :key="slot.id"
-          :class="['slot-card', slot.status === 'OPEN' ? '' : 'slot-disabled']"
-          :disabled="slot.status !== 'OPEN'"
-          @click="slot.status === 'OPEN' ? openBookModal(slot) : null"
+          :class="['slot-card', datDuoc(slot) ? '' : 'slot-disabled']"
+          :disabled="!datDuoc(slot)"
+          @click="datDuoc(slot) ? openBookModal(slot) : null"
         >
           <span class="slot-time">{{ formatSlotTime(slot.slotTime) }}</span>
-          <span v-if="slot.status === 'OPEN'" class="slot-status-open">Trống</span>
-          <span v-else-if="slot.status === 'CLOSED'" class="slot-status-closed">Đã đóng</span>
+          <span v-if="datDuoc(slot)" class="slot-status-open">Trống</span>
+          <span v-else-if="slot.status === 'OPEN' || slot.status === 'CLOSED'" class="slot-status-closed">Đã đóng</span>
           <span v-else class="slot-status-booked">Đã Đặt</span>
         </button>
       </div>
@@ -721,7 +733,12 @@ async function copyCalendarUrl() {
               </div>
               <div class="my-card-right">
                 <span :class="['status-badge', statusClass(slot.status)]">{{ statusLabel(slot.status) }}</span>
-                <button class="btn-cancel-sm" @click="openCancelModal(slot)">Huỷ lịch</button>
+                <!-- Qua giờ rồi thì không huỷ được nữa (phòng chẩn trị sẽ chuyển vé nếu khách bận). -->
+                <button
+                  v-if="!caDaQuaGio(slot.slotDate, slot.slotTime, nowMs)"
+                  class="btn-cancel-sm"
+                  @click="openCancelModal(slot)"
+                >Huỷ lịch</button>
                 <button class="btn-outline-sm mt-1" @click="openSyncModal(slot)">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-1" style="vertical-align:-2px"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
                   Lưu Lịch
@@ -742,6 +759,9 @@ async function copyCalendarUrl() {
               <div class="my-card-left">
                 <div class="my-date">{{ formatDateVN(slot.slotDate) }}</div>
                 <div class="my-time">{{ formatSlotTime(slot.slotTime) }}</div>
+                <div v-if="slot.status === 'MOVED' && slot.movedToDate && slot.movedToTime" class="my-reason">
+                  ⇢ Đã chuyển sang {{ formatSlotTime(slot.movedToTime) }}, {{ formatDateVN(slot.movedToDate) }}
+                </div>
               </div>
               <div class="my-card-right">
                 <span :class="['status-badge', statusClass(slot.status)]">{{ statusLabel(slot.status) }}</span>
