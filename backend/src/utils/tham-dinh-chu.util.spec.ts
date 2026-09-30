@@ -76,6 +76,30 @@ describe('doChu — chữ tiếng Việt hợp lệ, KHÔNG được báo', () =
     expect(doChu('Cứu 3,Ôn châm 5 phút').map((l) => l.ma)).toContain('dau_cau_sai');
   });
 
+  /**
+   * Đo trên kho thật 30/09/2026: `dau_cau_sai` có 2.604 lượt, và phần lớn là câu ĐÚNG
+   * chính tả kiểu "Đã trị 47 ca, khỏi hoàn toàn 41, có hiệu quả 5". Vế `(?<=\d)[,;](?=\D)`
+   * viết để bắt "3,Cứu" — phẩy sau số mà dính CHỮ — nhưng `\D` khớp cả KHOẢNG TRẮNG, nên
+   * mọi "41, có" đều dính.
+   *
+   * Loại sai này nguy gấp bội khi bot được phép tự sửa: 2.604 chỗ viết đúng sẽ bị "sửa"
+   * thành sai, và không ai đọc lại 754 mục để phát hiện.
+   */
+  it('"47 ca, khỏi hoàn toàn 41, có hiệu quả 5" là ĐÚNG, không được báo', () => {
+    expect(doChu('Đã trị 47 ca, khỏi hoàn toàn 41, có hiệu quả 5, không hiệu quả 1.')
+      .map((l) => l.ma)).not.toContain('dau_cau_sai');
+  });
+
+  it('"1967, 15: 1254" trong trích dẫn tạp chí cũng đúng', () => {
+    expect(doChu('(Kitagawa I và cộng sự, Chem Pharm Bull 1967, 15: 1254).')
+      .map((l) => l.ma)).not.toContain('dau_cau_sai');
+  });
+
+  it('nhưng "3 lát,Táo 2 quả" — phẩy dính CHỮ — thì vẫn bắt', () => {
+    expect(doChu('Thêm Ổi khương 3 lát,Táo 2 quả, sắc uống.')
+      .map((l) => l.ma)).toContain('dau_cau_sai');
+  });
+
   it('TAB trước dấu hai chấm là canh cột, không phải lỗi gõ', () => {
     // Mục tham_khao của huyệt vị trình bày dạng bảng: "Liệt Khuyết<TAB>: thiên về…".
     expect(doChu('Liệt Khuyết\t: thiên về giải Phế vệ.').map((l) => l.ma))

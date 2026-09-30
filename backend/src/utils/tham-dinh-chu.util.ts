@@ -62,7 +62,10 @@ const RE_VIET = /[a-zà-ỹ]/i;
 // dính CHỮ ("Cứu 3,Ôn châm") thì vẫn là lỗi.
 // Vế đầu chỉ tính khoảng trắng NGANG thường, không tính TAB: mục tham_khao trình bày
 // dạng bảng "Liệt Khuyết<TAB>: thiên về…", tab ở đó là canh cột chứ không phải lỗi gõ.
-const RE_DAU_CAU = /[ \u00a0]+[,;:.!?]|(?<!\d)[,;](?=\S)|(?<=\d)[,;](?=\D)/;
+// ⚠️ Vế ba là `(?=[^\\s\\d])`, KHÔNG phải `(?=\\D)`. `\\D` khớp cả khoảng trắng, nên
+// "41, có" — viết hoàn toàn đúng — cũng bị bắt. Đo thật: 2.604 lượt báo, phần lớn là
+// câu đúng chính tả. Vế này chỉ nhắm "3,Cứu": phẩy sau số mà DÍNH CHỮ.
+const RE_DAU_CAU = /[ \u00a0]+[,;:.!?]|(?<!\d)[,;](?=\S)|(?<=\d)[,;](?=[^\s\d])/;
 
 export function doChu(s: string): LoiChu[] {
   if (typeof s !== 'string' || !s.trim()) return [];
