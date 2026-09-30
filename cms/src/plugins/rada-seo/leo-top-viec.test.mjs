@@ -4,7 +4,7 @@ import * as kho from "./kho.mjs";
 import { taoKhoGia, taoKvGia } from "./__test__/kho-gia.mjs";
 import {
 	layTuKhoaLeoTop, nopSerp, layTrangSerp, ghiSoHo,
-	TRAN_PHIEN_MOI, TRAN_TRANG_SERP, DONG_THOI_TAI, TRAN_CHU_TRANG, KHOA_TAO_PHIEN, bocTuKhoa, gonSoDo,
+	TRAN_PHIEN_MOI, TRAN_TRANG_SERP, DONG_THOI_TAI, TRAN_CHU_TRANG, KHOA_TAO_PHIEN, HAN_KHOA_TAO_MS, bocTuKhoa, gonSoDo,
 } from "./leo-top-viec.mjs";
 import { LOI_NHAC_SO_HO } from "./loi-dan.mjs";
 
@@ -315,4 +315,47 @@ test("ghiSoHo: kiểm trạng thái + đủ trang TRƯỚC khi nạp chỉ mục
 	assert.equal(lai.daGhiTruoc, true);
 	assert.deepEqual(lai.phieu, dau.phieu);
 	assert.equal(lai.tuKhoa, bocTuKhoa("huyệt thần môn"));
+});
+
+// ---- Task 6 ----
+
+test("layTuKhoaLeoTop: khoá tạo phiên sống 330 s (GSC token + 4 trang × 30 s + đọc json); khoá bị lượt khác giành giữa chừng → không ghi phiên nào", async () => {
+	assert.equal(HAN_KHOA_TAO_MS, 330_000);
+	const s = taoKhoGia();
+	const kv = taoKvGia();
+	const gsc = gscGia([ung("a"), ung("b")]);
+	const goc = gsc.layTuKhoaLeoTop.bind(gsc);
+	// Giả lập: GSC chậm quá hạn khoá, lượt khác giành khoá trong lúc ta còn chờ.
+	gsc.layTuKhoaLeoTop = async (o) => {
+		const r = await goc(o);
+		await kv.set(KHOA_TAO_PHIEN, { het: T0 + 999_999, token: "luot-khac" });
+		return r;
+	};
+	const kq = await layTuKhoaLeoTop({ s, kv, gsc, nowMs: T0 });
+	assert.deepEqual(kq.moi, []);
+	assert.equal(s.leo_top._m.size, 0, "không ghi phiên nào khi đã mất khoá");
+	assert.match(kq.loi, /mất khoá/);
+	assert.equal((await kv.get(KHOA_TAO_PHIEN)).token, "luot-khac", "không xoá khoá của lượt khác");
+});
+
+test("layTuKhoaLeoTop: co_phieu ra phiếu ≥ 30 ngày không giữ chỗ trong trần 10", async () => {
+	const s = taoKhoGia();
+	await moPhien(s, 10, "co_phieu", 31);
+	const gsc = gscGia([ung("mới")]);
+	const kq = await layTuKhoaLeoTop({ s, kv: taoKvGia(), gsc, nowMs: T0 });
+	assert.equal(kq.moi.length, 1);
+	assert.equal(kq.ghiChu, undefined);
+});
+
+test("nopSerp: một trang làm docTrang ném lỗi → chỉ trang đó 'loi', các trang khác vẫn đo và ghi", async () => {
+	const s = taoKhoGia();
+	const p = await kho.taoPhienLeoTop(s, { tuKhoa: "k", trang: MINH, viTri: 9, hienThi: 50 }, new Date(T0).toISOString());
+	const docTrang = async (url) => {
+		if (url.includes("no.vn")) throw new Error("socket hang up");
+		return { status: 200, xRobots: "", html: html("t", "k") };
+	};
+	const kq = await nopSerp({ s, docTrang, id: p.id, urls: ["https://a.vn/1", "https://no.vn/1", "https://b.vn/1"] });
+	assert.deepEqual(kq.trang.map((t) => [t.url.split("/")[2], t.trangThai]), [["a.vn", "ok"], ["no.vn", "loi"], ["b.vn", "ok"], ["kinhlac.online", "ok"]]);
+	assert.match(kq.trang[1].loi, /socket hang up/);
+	assert.equal((await s.leo_top.get(p.id)).trangThai, "cho_doc");
 });

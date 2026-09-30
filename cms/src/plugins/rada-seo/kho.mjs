@@ -444,8 +444,18 @@ export const MOC_DO_LAI = [14, 28];
  * vẫn là hạng CŨ. Cửa sổ đo lại bỏ chừng này ngày đầu.
  */
 export const NGAY_TRE_GSC = 3;
-/** Cửa sổ GSC lúc mở phiên (mốc so sánh) — khớp mặc định `ngay` của gsc.layTuKhoaLeoTop. */
+/**
+ * Cửa sổ GSC lúc mở phiên (mốc so sánh) — khớp mặc định `ngay` của gsc.layTuKhoaLeoTop. Lưu ý
+ * gsc.mjs lấy [hôm nay − ngay, hôm nay] CẢ HAI ĐẦU, tức ngay + 1 ngày lịch: số hiển thị/ngày
+ * phải chia cho số ngày lịch thật, không phải cho tham số.
+ */
 export const CUA_SO_BAN_DAU_NGAY = 28;
+/**
+ * Phiên co_phieu chỉ giữ chỗ trong trần phiên mở chừng này ngày kể từ lúc ra phiếu. Quá hạn
+ * mà người quản trị chưa bấm "Đã sửa theo phiếu" thì nó vẫn là co_phieu (vẫn đánh dấu đã sửa
+ * được, cặp từ khoá vẫn không bị soi đè) nhưng thôi chặn phiên mới.
+ */
+export const NGAY_PHIEU_TINH_TRAN = 30;
 /** Cùng cặp (từ khoá, trang) soi lại trước chừng này ngày là quá sớm: Google chưa kịp phản ánh. */
 export const NGAY_KHONG_SOI_LAI = 28;
 /** Trang đối thủ tối thiểu (đo được VÀ có báo cáo) để bản đồ sơ hở có nghĩa. */
@@ -458,6 +468,19 @@ export function ngayVN(ms) {
 }
 /** Số ngày lịch giữa hai ngày "YYYY-MM-DD" (b − a). */
 const soNgayLich = (a, b) => Math.round((Date.parse(`${b}T00:00:00Z`) - Date.parse(`${a}T00:00:00Z`)) / NGAY_MS);
+
+/** Cộng `n` ngày lịch vào "YYYY-MM-DD". */
+export const congNgay = (x, n) => new Date(Date.parse(`${x}T00:00:00Z`) + n * NGAY_MS).toISOString().slice(0, 10);
+export { soNgayLich };
+
+/**
+ * Hiển thị bình quân MỖI NGÀY (2 chữ số lẻ). Cửa sổ mốc ban đầu (29 ngày) và cửa sổ đo lại
+ * (11 / 25 ngày) dài khác nhau: so TỔNG hiển thị là so táo với cam — chỉ so con số này.
+ */
+export function hienThiMoiNgay(hienThi, soNgay) {
+	if (hienThi == null || !Number.isFinite(Number(hienThi)) || !(soNgay > 0)) return null;
+	return Math.round((Number(hienThi) / soNgay) * 100) / 100;
+}
 
 /** Khoá so URL: bỏ #, bỏ "/" cuối — Claude và GSC hay viết lệch nhau đúng hai chỗ đó. */
 export function khoaUrl(u) {
@@ -486,10 +509,13 @@ const boChu = (serp) => (serp ?? []).map(({ chu: _bo, ...t }) => t);
 /** Phiên mới (cho_serp). Id kèm mốc tạo: soi lại cùng cặp sau 28 ngày là phiên MỚI, không đè phiên cũ. */
 export async function taoPhienLeoTop(s, { tuKhoa, trang, viTri, hienThi }, now) {
 	const id = `lt_${bam(`${tuKhoa}|${trang}|${now}`)}`;
+	// Mốc so sánh của lần đo lại: hạng ban đầu là bình quân cửa sổ GSC [den − 28, den] (ngày UTC,
+	// như gsc.mjs tính) — 29 ngày lịch.
+	const den = String(now).slice(0, 10);
+	const soNgay = CUA_SO_BAN_DAU_NGAY + 1;
 	const data = {
-		tuKhoa, trangMinh: trang, viTriBanDau: viTri, hienThi, trangThai: "cho_serp",
-		// Mốc so sánh của lần đo lại: hạng ban đầu là bình quân CHỪNG NÀY ngày GSC tính tới ngày tạo.
-		cuaSoBanDau: { soNgay: CUA_SO_BAN_DAU_NGAY, den: String(now).slice(0, 10) },
+		tuKhoa, trangMinh: trang, viTriBanDau: viTri, hienThi, hienThiNgay: hienThiMoiNgay(hienThi, soNgay), trangThai: "cho_serp",
+		cuaSoBanDau: { soNgay, tu: congNgay(den, -CUA_SO_BAN_DAU_NGAY), den },
 		serp: [], banDo: null, phieu: null, doLai: [], taoLuc: now, capNhatLuc: now,
 	};
 	await s.leo_top.put(id, data);
@@ -502,9 +528,23 @@ export async function dsLeoTop(s, { trangThai } = {}) {
 	return r.map((x) => ({ id: x.id, ...x.data, serp: boChu(x.data.serp) }));
 }
 
-/** Số phiên đang mở (TRANG_THAI_MO) — đếm, không đọc bản ghi. */
-export async function demPhienMo(s) {
-	return s.leo_top.count({ trangThai: { in: TRANG_THAI_MO } });
+/** Mốc ra phiếu của một phiên (soHoLuc; bản ghi cũ thiếu thì taoLuc), epoch ms hoặc NaN. */
+const mocPhieu = (d) => Date.parse(d.soHoLuc ?? d.taoLuc);
+
+/**
+ * Số phiên đang giữ chỗ trong trần: cho_serp/cho_doc (đếm, không đọc bản ghi) + co_phieu ra
+ * phiếu trong NGAY_PHIEU_TINH_TRAN ngày. co_phieu quá hạn không tự đổi trạng thái — chỉ thôi
+ * chặn phiên mới (không thì một người quản trị bận là trần đầy mãi).
+ */
+export async function demPhienMo(s, nowMs = Date.now()) {
+	const dang = await s.leo_top.count({ trangThai: { in: ["cho_serp", "cho_doc"] } });
+	const moc = nowMs - NGAY_PHIEU_TINH_TRAN * NGAY_MS;
+	let phieu = 0;
+	for (const r of await tatCa(s.leo_top, { where: { trangThai: "co_phieu" } })) {
+		const t = mocPhieu(r.data);
+		if (!Number.isFinite(t) || t > moc) phieu++;
+	}
+	return dang + phieu;
 }
 
 /**
@@ -651,17 +691,26 @@ export async function phienCanDoLai(s, nowMs) {
 		const soNgay = soNgayLich(r.data.ngaySua, homNay);
 		const moc = [...MOC_DO_LAI].reverse().find((m) => soNgay >= m);
 		if (moc === undefined || (r.data.doLai ?? []).some((x) => x.sauNgay === moc)) continue;
-		ra.push({ id: r.id, tuKhoa: r.data.tuKhoa, trangMinh: r.data.trangMinh, moc });
+		ra.push({ id: r.id, tuKhoa: r.data.tuKhoa, trangMinh: r.data.trangMinh, moc, ngaySua: r.data.ngaySua });
 	}
 	return ra;
 }
 
-/** Thêm một lần đo lại; mốc đã có thì bỏ qua. Mốc cuối → xong. @returns {Promise<boolean>} đã ghi */
-export async function ghiDoLai(s, id, { ngay, sauNgay, viTri, hienThi, cuaSoNgay }) {
+/**
+ * Thêm một lần đo lại; mốc đã có thì bỏ qua. Mốc cuối → xong. `ngaySua`: ngày sửa mà ca đã
+ * dùng để tính mốc + cửa sổ — người quản trị đổi ngày giữa lúc ca đọc và lúc ghi thì con số
+ * thuộc về ngày cũ, KHÔNG ghi (ca sau tính lại theo ngày mới).
+ * @returns {Promise<boolean>} đã ghi
+ */
+export async function ghiDoLai(s, id, { ngaySua, ngay, sauNgay, viTri, hienThi, cuaSoNgay }) {
 	const d = await layPhien(s, id);
 	if (d.trangThai !== "da_sua" || (d.doLai ?? []).some((x) => x.sauNgay === sauNgay)) return false;
+	if (ngaySua !== undefined && d.ngaySua !== ngaySua) return false;
 	const lan = { ngay, sauNgay, viTri, hienThi };
-	if (cuaSoNgay !== undefined) lan.cuaSoNgay = cuaSoNgay;
+	if (cuaSoNgay !== undefined) {
+		lan.cuaSoNgay = cuaSoNgay;
+		lan.hienThiNgay = hienThiMoiNgay(hienThi, cuaSoNgay);
+	}
 	const doLai = [...(d.doLai ?? []), lan];
 	const xong = sauNgay >= MOC_DO_LAI[MOC_DO_LAI.length - 1];
 	await s.leo_top.put(id, { ...d, doLai, trangThai: xong ? "xong" : "da_sua" });

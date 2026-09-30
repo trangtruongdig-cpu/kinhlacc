@@ -31,6 +31,11 @@ const SO_BAI_BANG_CHUNG = 5;
 export const NGAN_SACH_KIEM = { dongThoi: 4, toiDaKiem: 40, hanMs: 80_000 };
 /** Giống trong khoảng này (dưới ngưỡng trùng) thì nhận nhưng ghi cảnh báo cho người duyệt. */
 const NGUONG_CANH_BAO_TRUNG = 0.2;
+/**
+ * Độ giống để HIỂN THỊ cạnh ngưỡng trùng 0,30: làm tròn XUỐNG 3 chữ số. Làm tròn thường 2 chữ
+ * số thì 0,296 hiện "0.30" — người duyệt tưởng đã chạm ngưỡng mà máy vẫn nhận.
+ */
+export const soGiongHienThi = (v) => Math.floor(v * 1000 + 1e-9) / 1000;
 /** Hướng mới trùng tập chủ đề đối thủ với một hướng đã bỏ từ chừng này trở lên → cùng hướng. */
 const NGUONG_JACCARD_BO = 0.5;
 
@@ -324,10 +329,11 @@ export async function deXuatKeHoach({ s, ds = [], chiMuc, kiemDuong, daDem = () 
 	const huong = await s.huong.getMany([...new Set([...cum.values()].map((c) => c.huongId))]);
 	// Tên từ điển (không gồm blog — trùng blog do phép so bài có sẵn lo). Tên mục theo đường,
 	// để kiểm trang KÈM tên có dấu: "Âm Khích" và "Ẩm Khích" chung slug_goc.
-	const tenTuDien = new Set();
+	// khoá chuẩn hoá → tên gốc: lời bác phải in "Thần Môn", không in khoá "than mon".
+	const tenTuDien = new Map();
 	const tenTheoDuong = new Map();
 	for (const m of chiMuc?.muc ?? []) {
-		if (m.loai !== "bai_viet") tenTuDien.add(m.khoaTen);
+		if (m.loai !== "bai_viet" && !tenTuDien.has(m.khoaTen)) tenTuDien.set(m.khoaTen, m.ten);
 		for (const d of m.duong ?? []) if (!tenTheoDuong.has(d)) tenTheoDuong.set(d, m.ten);
 	}
 	const keHoachCo = await kho.dsKeHoach(s);
@@ -373,7 +379,7 @@ export async function deXuatKeHoach({ s, ds = [], chiMuc, kiemDuong, daDem = () 
 		}
 		const tuDien = trungTuDien(tuKhoaChinh, tenTuDien);
 		if (tuDien) {
-			bo(`từ khoá chính trùng tên mục từ điển "${tuDien}" — trang từ điển đã phủ; nhắm ý định rộng hơn và link về trang đó`);
+			bo(`từ khoá chính trùng tên mục từ điển "${tenTuDien.get(tuDien) ?? tuDien}" — trang từ điển đã phủ; nhắm ý định rộng hơn và link về trang đó`);
 			continue;
 		}
 		const daBo = tkChinhBo.get(chuanHoaManh(tuKhoaChinh));
@@ -395,7 +401,7 @@ export async function deXuatKeHoach({ s, ds = [], chiMuc, kiemDuong, daDem = () 
 			.filter(({ v }) => v >= NGUONG_CANH_BAO_TRUNG && v < NGUONG_TRUNG)
 			.sort((a, b) => b.v - a.v)
 			.slice(0, 3)
-			.map(({ y, v }) => ({ tieuDe: y.tieuDe, doGiong: Math.round(v * 100) / 100 }));
+			.map(({ y, v }) => ({ tieuDe: y.tieuDe, doGiong: soGiongHienThi(v) }));
 		const truCot = String(k.trangTruCot ?? "").trim();
 		if (!truCot.startsWith("/")) {
 			bo(`trang trụ cột ${truCot || "(trống)"} không sống hoặc không đúng trang trên kinhlac.online`);

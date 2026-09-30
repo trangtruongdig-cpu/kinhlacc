@@ -41,12 +41,17 @@ export async function xuHuongGanNhat(s) {
 
 /**
  * Đo lại hạng các phiên leo top đã sửa tới mốc +14/+28 ngày (kho.phienCanDoLai, ngày lịch VN).
- * CỬA SỔ GSC: mốc m đo bình quân (m − NGAY_TRE_GSC) ngày KẾT THÚC hôm nay — tức ngày sửa + 3 →
- * ngày sửa + m khi ca chạy đúng đêm tới mốc. Bỏ 3 ngày đầu vì GSC trễ 2–3 ngày và Google chưa
- * thu thập lại trang: tính chúng vào là trộn hạng CŨ vào số "sau khi sửa" và mốc 14 luôn báo
- * thiếu. Mốc so sánh là `cuaSoBanDau` của phiên (28 ngày tính tới ngày mở phiên). Ca lỡ đêm
- * mốc thì cửa sổ trượt theo hôm nay — vẫn hoàn toàn sau ngày sửa + 3. (gsc.layViTri chỉ nhận
- * số ngày tính tới hôm nay, chưa nhận ngày kết thúc tuỳ ý.)
+ *
+ * CỬA SỔ GSC — tính bằng ngày lịch, CẢ HAI ĐẦU (gsc.mjs lấy [hôm nay UTC − n, hôm nay UTC]):
+ *   mở  = ngày sửa + NGAY_TRE_GSC (bỏ 3 ngày đầu: GSC trễ 2–3 ngày và Google chưa thu thập lại
+ *         trang — tính vào là trộn hạng CŨ vào số "sau khi sửa");
+ *   đóng = hôm nay theo UTC (ngày GSC mới nhất có thể có).
+ *   n = số ngày lịch từ "mở" tới "đóng"; cửa sổ dài n + 1 ngày (lưu vào `cuaSoNgay`).
+ * Ca chạy 02:30 VN = 19:30 UTC HÔM TRƯỚC, nên đúng đêm mốc m (VN = sửa + m) thì UTC = sửa + m − 1
+ * → n = m − NGAY_TRE_GSC − 1 (10 / 24) → cửa sổ [sửa + 3, sửa + m − 1] = 11 / 25 ngày. (Trước đây
+ * lùi m − 3 ngày từ ngày UTC nên cửa sổ mở ở sửa + 2 — lẫn một ngày hạng cũ.) Ca lỡ đêm mốc thì
+ * cửa sổ DÀI ra phía sau, vẫn mở ở sửa + 3. Mốc so sánh là `cuaSoBanDau` của phiên (29 ngày lịch
+ * tính tới ngày mở phiên) — cửa sổ dài khác nhau nên chỉ so hạng và hiển thị/ngày (`hienThiNgay`).
  * Không có GSC thì BỎ QUA với một dòng thongTin — ca radar vẫn là việc chính, thiếu GSC không
  * phải lỗi của ca. Lỗi GSC của từng phiên vào ca.loi; phiên đó KHÔNG ghi mốc để đêm sau thử lại.
  */
@@ -56,11 +61,15 @@ async function doLaiLeoTop({ s, gsc, nowMs, ca }) {
 		return;
 	}
 	const ngay = kho.ngayVN(nowMs);
+	const homNayUtc = new Date(nowMs).toISOString().slice(0, 10);
 	for (const p of await kho.phienCanDoLai(s, nowMs)) {
 		try {
-			const cuaSoNgay = p.moc - kho.NGAY_TRE_GSC;
-			const r = await gsc.layViTri({ tuKhoa: p.tuKhoa, trang: p.trangMinh, ngay: cuaSoNgay });
-			if (await kho.ghiDoLai(s, p.id, { ngay, sauNgay: p.moc, viTri: r?.viTri ?? null, hienThi: r?.hienThi ?? 0, cuaSoNgay })) ca.soDoLai++;
+			const mo = kho.congNgay(p.ngaySua, kho.NGAY_TRE_GSC);
+			const n = Math.max(1, kho.soNgayLich(mo, homNayUtc));
+			const cuaSoNgay = n + 1;
+			const r = await gsc.layViTri({ tuKhoa: p.tuKhoa, trang: p.trangMinh, ngay: n });
+			// ngaySua: người quản trị đổi ngày sửa trong lúc chờ GSC → con số thuộc ngày cũ, không ghi.
+			if (await kho.ghiDoLai(s, p.id, { ngaySua: p.ngaySua, ngay, sauNgay: p.moc, viTri: r?.viTri ?? null, hienThi: r?.hienThi ?? 0, cuaSoNgay })) ca.soDoLai++;
 		} catch (e) {
 			ca.loi.push(`đo lại leo top "${p.tuKhoa}": ${String(e?.message ?? e).slice(0, 300)}`);
 		}

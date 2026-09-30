@@ -102,7 +102,8 @@ function tuoiCa(dsCa, dieuKien) {
 // Quyền: route MCP khai permission ở bậc contributor (content:read_drafts, content:create).
 // Nhưng khoá ec_pat_ mang vai trò của người TẠO khoá — chỉ ADMIN tạo được token, nên khoá
 // thực chất cầm quyền admin. Thứ giới hạn thật là SCOPE `mcp:tools:rada-seo`: khoá chỉ gọi
-// được 3 công cụ của plugin này; mọi công cụ content_*/media_* lõi đòi content:*/media:* đều
+// được các công cụ của plugin này (12 công cụ tính tới 2D: đọc đêm, chiến lược, leo top — scope
+// phủ cả plugin, không từng công cụ); mọi công cụ content_*/media_* lõi đòi content:*/media:* đều
 // bị [INSUFFICIENT_SCOPE] dù khoá "có" quyền admin (đo ở nghiệm thu 2B-1). Route MCP vẫn phải
 // khai `permission` tường minh và `input` bằng zod.
 const KHUON_LAY_VIEC = z.object({ soTrang: z.number().int().min(1).max(TRAN_TRANG_MOI_LUOT).optional() });

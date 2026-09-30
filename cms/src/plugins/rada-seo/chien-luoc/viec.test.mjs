@@ -5,7 +5,7 @@ import { dungChiMuc } from "../noi-bo/chi-muc.mjs";
 import * as kho from "../kho.mjs";
 import { taoKhoGia } from "../__test__/kho-gia.mjs";
 import { tinhChiSo, diemHuong, diemCum } from "./chi-so.mjs";
-import { layDuLieu, deXuatHuong, ghiCum, deXuatKeHoach, Y_DINH } from "./viec.mjs";
+import { layDuLieu, deXuatHuong, ghiCum, deXuatKeHoach, Y_DINH, soGiongHienThi } from "./viec.mjs";
 
 const MAU = JSON.parse(readFileSync(new URL("../noi-bo/__fixture__/muc-noi-bo-30-09.json", import.meta.url), "utf8"));
 const CM = dungChiMuc([
@@ -244,7 +244,7 @@ test("deXuatKeHoach: ca đạt — gỡ link chết, gắn bằng chứng của 
 	const cum = await s.cum_nghia.get(cumId);
 	assert.deepEqual(kh.bangChung, {
 		soDoiThu: cum.chiSo.soDoiThu, soBai: cum.chiSo.soBai, trungXuHuong: cum.chiSo.trungXuHuong, baiDoiThu: cum.baiDoiThu,
-		canhBaoTrung: [{ tieuDe: "Mất ngủ về đêm ở người già", doGiong: 0.28 }],
+		canhBaoTrung: [{ tieuDe: "Mất ngủ về đêm ở người già", doGiong: 0.277 }],
 	});
 	assert.deepEqual(kh.bangChung.baiDoiThu.map((b) => b.url), ["https://a.vn/d2", "https://c.vn/d5"]);
 	// Trụ cột là trang bệnh học "Mất Ngủ" → kiểm kèm tên CÓ DẤU (chống trang trỏ nhầm).
@@ -285,7 +285,7 @@ test("deXuatKeHoach: mỗi luật bác một ca", async () => {
 	assert.match(lyDo["Cụm ma 1"], /chưa được nhận|Không có cụm/);
 	assert.match(lyDo[ca.cumCu.tieuDeLamViec], /cụm đã cũ/);
 	assert.match(lyDo[ca.phamVi.tieuDeLamViec], /phạm vi Y sỹ/);
-	assert.match(lyDo[ca.tuDien.tieuDeLamViec], /trùng tên mục từ điển/);
+	assert.match(lyDo[ca.tuDien.tieuDeLamViec], /trùng tên mục từ điển "Thần Môn"/, "tên mục GỐC, không phải khoá chuẩn hoá 'than mon'");
 	assert.match(lyDo[ca.baiCo.tieuDeLamViec], /trùng bài/);
 	assert.match(lyDo[ca.baiCo.tieuDeLamViec], /<<<DU_LIEU id=bai:0>>>Đồng hồ kinh lạc: 12 đường kinh vượng theo giờ<<<HET_DU_LIEU id=bai:0>>>/, "tiêu đề đã lưu bọc dấu mốc");
 	assert.match(lyDo[ca.daBo.tieuDeLamViec], /đã bị bỏ: không hợp ngách/);
@@ -430,4 +430,11 @@ test("lời nhắc chiến lược: đủ các ràng buộc bắt buộc", async
 	assert.match(LOI_NHAC_LAP_KE_HOACH, /2–6/);
 	assert.match(LOI_NHAC_LAP_KE_HOACH, /≥ 5/);
 	for (const y of Y_DINH) assert.ok(LOI_NHAC_LAP_KE_HOACH.includes(y), y);
+});
+
+test("soGiongHienThi: làm tròn XUỐNG 3 chữ số — 0,2996 không bao giờ hiện thành 0,30 (bằng ngưỡng trùng)", () => {
+	assert.equal(soGiongHienThi(0.2996), 0.299);
+	assert.equal(soGiongHienThi(0.296), 0.296);
+	assert.ok(soGiongHienThi(0.29999999) < 0.3);
+	assert.equal(soGiongHienThi(0.2), 0.2);
 });

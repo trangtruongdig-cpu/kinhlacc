@@ -27,7 +27,12 @@ export const HAN_TONG_MS = 60_000;
 export const LOI_HET_GIO_TONG = "het_gio_tong";
 /** Khoá KV quanh bước tạo phiên: hai lượt gọi cùng lúc không được cùng đọc "chưa soi" rồi cùng tạo. */
 export const KHOA_TAO_PHIEN = "leo_top:khoa_tao";
-const HAN_KHOA_TAO_MS = 150_000; // > 4 trang GSC × 30 s: khoá không được hết hạn giữa chừng
+/**
+ * Hạn khoá tạo phiên, đo theo trường hợp XẤU NHẤT của gsc.mjs: lấy token 30 s + 4 trang truy
+ * vấn × 30 s + đọc json (cũng có hạn 30 s mỗi lượt) ≈ 270 s, cộng dư cho kho → 330 s. Khoá
+ * vẫn có thể hết hạn (máy treo) nên ngay trước khi ghi phiên còn kiểm lại mình còn giữ khoá.
+ */
+export const HAN_KHOA_TAO_MS = 330_000;
 
 /** Trần chuỗi số đo từ trang LẠ (tiêu đề/mô tả/JSON-LD là thứ trang thù địch tự đặt). */
 const TRAN_SO_DO = { tieuDe: 300, moTa: 300, ngayCapNhat: 40, soLoaiJsonLd: 20, loaiJsonLd: 60 };
@@ -48,36 +53,44 @@ async function phienDangMo(s) {
 	return ra.sort((a, b) => String(a.taoLuc).localeCompare(String(b.taoLuc))).map(tomTatPhien);
 }
 
-/** @returns {Promise<string|null>} revision khoá vừa giành, null nếu lượt khác đang giữ. */
+/** @returns {Promise<{revision: string, token: string}|null>} khoá vừa giành, null nếu lượt khác đang giữ. */
 async function giuKhoaTao(kv, nowMs) {
 	const cu = await kv.getVersioned(KHOA_TAO_PHIEN);
 	if (cu && cu.value?.het > nowMs) return null;
-	const r = await kv.compareAndSet(KHOA_TAO_PHIEN, cu?.revision ?? null, { het: nowMs + HAN_KHOA_TAO_MS });
-	return r?.applied ? r.revision : null;
+	const token = globalThis.crypto.randomUUID();
+	const r = await kv.compareAndSet(KHOA_TAO_PHIEN, cu?.revision ?? null, { het: nowMs + HAN_KHOA_TAO_MS, token });
+	return r?.applied ? { revision: r.revision, token } : null;
 }
+
+/** Khoá còn là của mình? (hết hạn giữa chừng rồi bị lượt khác giành thì không). */
+const conGiuKhoa = async (kv, token) => (await kv.get(KHOA_TAO_PHIEN))?.token === token;
 
 /**
  * Trả phiên đang mở (cũ nhất trước) + tạo phiên mới từ GSC, nhưng chỉ tới khi tổng phiên mở
- * (cho_serp/cho_doc/co_phieu) chạm kho.TRAN_PHIEN_MO. Gọi lặp (kể cả thử lại sau khi mất phản
+ * (cho_serp/cho_doc + co_phieu ra phiếu trong 30 ngày, xem kho.demPhienMo) chạm kho.TRAN_PHIEN_MO. Gọi lặp (kể cả thử lại sau khi mất phản
  * hồi) không đẻ thêm phiên. Trước đó bỏ (bo) phiên cho_serp/cho_doc để yên quá 7 ngày.
  * GSC chưa cấu hình / lỗi / khoá bận → trường `loi` tiếng Việt, KHÔNG ném: phiên đang mở vẫn làm tiếp được.
  */
 export async function layTuKhoaLeoTop({ s, kv, gsc, nowMs = Date.now() }) {
 	const ra = { dangMo: [], moi: [], huongDan: LOI_NHAC_LEO_TOP };
-	const revision = await giuKhoaTao(kv, nowMs);
-	if (!revision) {
+	const khoa = await giuKhoaTao(kv, nowMs);
+	if (!khoa) {
 		ra.loi = "Đang có một lượt lấy từ khoá leo top khác chạy — không mở thêm phiên lần này; các phiên đang mở bên dưới vẫn làm tiếp được.";
 	} else {
 		try {
 			await kho.boPhienCu(s, nowMs);
-			const mo = await kho.demPhienMo(s);
+			const mo = await kho.demPhienMo(s, nowMs);
 			const conCho = Math.min(TRAN_PHIEN_MOI, kho.TRAN_PHIEN_MO - mo);
 			if (conCho <= 0) {
-				ra.ghiChu = `Đã có ${mo} phiên chưa xong (trần ${kho.TRAN_PHIEN_MO}) nên không mở phiên mới: làm tiếp các phiên đang mở; phiên co_phieu cần người quản trị sửa trang rồi báo đã sửa.`;
+				ra.ghiChu = `Đã có ${mo} phiên chưa xong (trần ${kho.TRAN_PHIEN_MO}) nên không mở phiên mới: làm tiếp các phiên đang mở; phiên co_phieu (ra phiếu trong ${kho.NGAY_PHIEU_TINH_TRAN} ngày) chờ người quản trị sửa trang rồi báo đã sửa.`;
 			} else {
 				const boQua = await kho.tuKhoaDaSoi(s, nowMs);
 				const ds = await gsc.layTuKhoaLeoTop({ toiDa: conCho, boQua });
 				const now = new Date(nowMs).toISOString();
+				// GSC có thể chậm hơn cả hạn khoá: lượt khác đã giành khoá thì nó cũng đang tạo
+				// phiên từ cùng danh sách — ghi tiếp là đẻ cặp trùng.
+				if (ds.length && !(await conGiuKhoa(kv, khoa.token)))
+					throw new Error("Lượt này đã mất khoá tạo phiên (GSC trả lời quá lâu, lượt khác đã giành) — không mở phiên mới; gọi lại sau.");
 				for (const x of ds) {
 					if (ra.moi.length >= conCho) break;
 					const k = `${x.tuKhoa}|${x.trang}`;
@@ -89,7 +102,7 @@ export async function layTuKhoaLeoTop({ s, kv, gsc, nowMs = Date.now() }) {
 		} catch (e) {
 			ra.loi = String(e?.message ?? e).slice(0, 600);
 		} finally {
-			await kv.compareAndDelete(KHOA_TAO_PHIEN, revision);
+			await kv.compareAndDelete(KHOA_TAO_PHIEN, khoa.revision);
 		}
 	}
 	ra.dangMo = await phienDangMo(s);
@@ -167,13 +180,19 @@ export async function nopSerp({ s, docTrang, id, urls, hanTongMs = HAN_TONG_MS }
 	const daTai = await chayDongThoi(thuTuTai, DONG_THOI_TAI, async (t) => {
 		const conLai = hanChot - Date.now();
 		if (conLai <= 0) return hetGio(t);
-		const r = await hoacHet(Promise.resolve().then(() => docTrang(t.url)), conLai);
-		if (r === HET) return hetGio(t);
-		if (!r) return { ...t, trangThai: "loi", loi: `không tải được (quá hạn ${HAN_TAI_MS / 1000} s, bị chặn hoặc lỗi mạng)` };
-		if (r.status < 200 || r.status >= 300 || !r.html) return { ...t, trangThai: "loi", loi: `HTTP ${r.status}${r.html ? "" : ", trang rỗng"}` };
-		const { chu, ...soDo } = doTrang(r.html, { tuKhoa: d.tuKhoa, url: t.url });
-		const sd = gonSoDo(soDo);
-		return { ...t, trangThai: "ok", soDo: r.catBot ? { ...sd, catBot: true } : sd, chu: String(chu ?? "").slice(0, TRAN_CHU_TRANG) };
+		// Một trang ném (fetch hỏng kiểu lạ, máy đo gặp HTML dị) chỉ hỏng trang đó, không hỏng
+		// cả lượt: mất cả lứa nghĩa là Claude phải tìm web lại từ đầu.
+		try {
+			const r = await hoacHet(Promise.resolve().then(() => docTrang(t.url)), conLai);
+			if (r === HET) return hetGio(t);
+			if (!r) return { ...t, trangThai: "loi", loi: `không tải được (quá hạn ${HAN_TAI_MS / 1000} s, bị chặn hoặc lỗi mạng)` };
+			if (r.status < 200 || r.status >= 300 || !r.html) return { ...t, trangThai: "loi", loi: `HTTP ${r.status}${r.html ? "" : ", trang rỗng"}` };
+			const { chu, ...soDo } = doTrang(r.html, { tuKhoa: d.tuKhoa, url: t.url });
+			const sd = gonSoDo(soDo);
+			return { ...t, trangThai: "ok", soDo: r.catBot ? { ...sd, catBot: true } : sd, chu: String(chu ?? "").slice(0, TRAN_CHU_TRANG) };
+		} catch (e) {
+			return { ...t, trangThai: "loi", loi: `lỗi khi tải/đo: ${String(e?.message ?? e).slice(0, 200)}` };
+		}
 	});
 	const serp = chon.map((t) => daTai[thuTuTai.indexOf(t)]);
 	await kho.ghiSerp(s, id, serp);
