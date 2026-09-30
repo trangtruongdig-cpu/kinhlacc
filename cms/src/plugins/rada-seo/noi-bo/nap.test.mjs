@@ -36,6 +36,10 @@ test("napMucNoiBo: đọc hết các trang, chỉ bản đã xuất bản; bộ 
 	assert.ok(cm.loiNap.some((l) => l.bo === "nguon_y_van"));
 	assert.ok(!cm.loiNap.some((l) => l.bo === "huyet_vi" || l.bo === "kinh_mach"));
 	assert.equal(content.goi.filter((g) => g.bo === "huyet_vi").length, 2);
+	// Thống kê dựng: thời gian + số mục đọc được MỖI bộ (bộ lỗi không có mặt → 0/vắng).
+	assert.equal(typeof cm.thongKe.msDung, "number");
+	assert.ok(cm.thongKe.msDung >= 0);
+	assert.deepEqual(cm.thongKe.soMuc, { huyet_vi: 2, kinh_mach: 1 });
 	for (const g of content.goi) {
 		assert.equal(g.opts.where?.status, "published", g.bo);
 		assert.ok(g.opts.limit <= 100);

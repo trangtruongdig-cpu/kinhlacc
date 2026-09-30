@@ -31,12 +31,26 @@ test("timLienKet: chỉ mục trước, cụm chưa khớp gom tra bài thuốc 
 	assert.ok(kq.every((x) => !x.daCatBot));
 });
 
-test("timLienKet: chỉ trả ứng viên có đường ĐẠT — Âm Khích trượt đường am-khich thì bị bỏ, Ẩm Khích giữ", async () => {
+test("timLienKet: chỉ trả ứng viên có đường ĐẠT; cụm có dấu không lẫn Âm Khích / Ẩm Khích", async () => {
 	const g = gia();
-	const [a] = await timLienKet({ chiMuc: CM, cumTu: ["Âm Khích"], traBaiThuoc: g.traBaiThuoc, kiemDuong: g.kiemDuong });
-	assert.ok(!a.ketQua.some((x) => x.duong === "/huyet/am-khich/"));
-	assert.ok(a.ketQua.some((x) => x.ten === "Ẩm Khích" && x.duong === "/huyet/am-khich-2/"));
+	const [a, b] = await timLienKet({ chiMuc: CM, cumTu: ["Âm Khích", "Ẩm Khích"], traBaiThuoc: g.traBaiThuoc, kiemDuong: g.kiemDuong });
+	// Âm Khích chỉ có đường /huyet/am-khich/ và đường đó trượt → rỗng; KHÔNG được thay bằng Ẩm Khích.
+	assert.deepEqual(a.ketQua, []);
+	assert.deepEqual(b.ketQua.map((x) => [x.ten, x.duong]), [["Ẩm Khích", "/huyet/am-khich-2/"]]);
 	assert.deepEqual(g.goiTra, [], "cụm đã khớp đúng tên thì không tra bài thuốc");
+});
+
+test("timLienKet: tra bài thuốc gửi cả bản bỏ tiền tố; khớp kết quả theo khoá đã gấp (hoa/thường, khoảng trắng)", async () => {
+	const goiTra = [];
+	const [a] = await timLienKet({
+		chiMuc: CM,
+		cumTu: ["bài thuốc Quy Tỳ Thang"],
+		// API trả khoá khác chữ hoa + thừa khoảng trắng so với cụm gửi đi.
+		traBaiThuoc: async (ten) => { goiTra.push(ten); return { "quy tỳ  thang ": [{ ten: "Quy Tỳ Thang", loai: "bai_thuoc", duong: "/bai-thuoc/quy-ty-thang/" }] }; },
+		kiemDuong: async () => true,
+	});
+	assert.deepEqual(goiTra, [["bài thuốc Quy Tỳ Thang", "Quy Tỳ Thang"]]);
+	assert.deepEqual(a.ketQua.map((x) => x.duong), ["/bai-thuoc/quy-ty-thang/"]);
 });
 
 test("timLienKet: trần toiDaKiem → dừng kiểm, đánh daCatBot", async () => {

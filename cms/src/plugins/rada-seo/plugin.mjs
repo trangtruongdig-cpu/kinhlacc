@@ -270,13 +270,18 @@ export function createPlugin() {
 				input: KHUON_TIM,
 				handler: async (ctx) => {
 					const fetchFn = ctx.http.fetch.bind(ctx.http);
+					const chiMuc = await layChiMuc(ctx.content);
 					const ketQua = await timLienKet({
-						chiMuc: await layChiMuc(ctx.content),
+						chiMuc,
 						cumTu: ctx.input?.cumTu ?? [],
 						traBaiThuoc: (ten) => traBaiThuoc(fetchFn, ten),
+						// Bộ kiểm mới mỗi lời gọi nhưng đệm kết quả là đệm DÙNG CHUNG của module
+						// (DEM_KIEM_CHUNG trong kiem-duong.mjs) → lượt đêm gọi nhiều lần không tải lại.
 						kiemDuong: taoKiemDuong(taoDocTrang(fetchFn)),
 					});
-					return { ketQua, daCatBot: ketQua.some((x) => x.daCatBot) };
+					// loiNap/thongKe: chỉ mục rỗng hay thiếu bộ phải LỘ ra ở phản hồi — không thì
+					// "ketQua rỗng" đọc nhầm thành "không có trang nào khớp".
+					return { ketQua, daCatBot: ketQua.some((x) => x.daCatBot), loiNap: chiMuc.loiNap ?? [], thongKe: chiMuc.thongKe ?? null };
 				},
 			},
 			"ca-chay": {

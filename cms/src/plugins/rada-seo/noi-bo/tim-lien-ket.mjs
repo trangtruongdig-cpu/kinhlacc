@@ -4,8 +4,11 @@
 //
 // Chỉ trả ứng viên ĐÃ KIỂM ĐẠT: một link nội bộ chết (hay trỏ nhầm "Âm Khích" sang trang
 // "Ẩm Khích") tệ hơn không có link — Claude sẽ tin kết quả này mà không tự mở trang.
-import { timTrongChiMuc } from "./chi-muc.mjs";
+import { timTrongChiMuc, bienThe } from "./chi-muc.mjs";
 import { chonDuong } from "./kiem-duong.mjs";
+
+/** Khoá gấp để khớp tên trả về của API: NFC, chữ thường, gộp khoảng trắng — GIỮ dấu. */
+const gap = (s) => String(s ?? "").normalize("NFC").toLowerCase().replace(/\s+/g, " ").trim();
 
 /** Kiểm đồng thời tối đa chừng này trang: nginx site thật phục vụ cả người đọc. */
 const DONG_THOI = 3;
@@ -24,16 +27,31 @@ export async function timLienKet({ chiMuc, cumTu, traBaiThuoc, kiemDuong, toiDaM
 	const ungVien = cumTu.map((c) => timTrongChiMuc(chiMuc, c, { toiDa: toiDaMoiCum }));
 
 	// Cụm chưa có kết quả khớp tên/tên khác trong chỉ mục → có thể là bài thuốc/vị thuốc/nguồn.
-	const canTra = cumTu.filter((_, i) => !ungVien[i].some((x) => x.khop === "dung" || x.khop === "ten_khac"));
-	if (canTra.length) {
+	// Gửi cả bản bỏ tiền tố ("bài thuốc Quy Tỳ Thang" → "Quy Tỳ Thang"): API khớp NGUYÊN tên.
+	const canTra = cumTu.map((c, i) => (ungVien[i].some((x) => x.khop === "dung" || x.khop === "ten_khac") ? [] : bienThe(c)));
+	const tenTra = [...new Set(canTra.flat())];
+	if (tenTra.length) {
 		let tra = {};
 		try {
-			tra = (await traBaiThuoc(canTra)) ?? {};
+			tra = (await traBaiThuoc(tenTra)) ?? {};
 		} catch {
 			// tra hỏng thì chỉ mất phần bài thuốc, phần từ điển vẫn trả
 		}
-		cumTu.forEach((c, i) => {
-			const them = (tra[c] ?? []).map((x) => ({ ten: x.ten, loai: x.loai, duong: [x.duong], khop: "dung" }));
+		// Khoá của API có thể khác chữ hoa/khoảng trắng so với tên gửi đi → tra theo khoá đã gấp.
+		const theoKhoa = new Map();
+		for (const [k, v] of Object.entries(tra)) {
+			const kk = gap(k);
+			theoKhoa.set(kk, [...(theoKhoa.get(kk) ?? []), ...(v ?? [])]);
+		}
+		canTra.forEach((bt, i) => {
+			const daCo = new Set();
+			const them = [];
+			for (const t of bt)
+				for (const x of theoKhoa.get(gap(t)) ?? [])
+					if (!daCo.has(x.duong)) {
+						daCo.add(x.duong);
+						them.push({ ten: x.ten, loai: x.loai, duong: [x.duong], khop: "dung" });
+					}
 			// API khớp NGUYÊN tên nên đứng trước các khớp "chua" của chỉ mục.
 			if (them.length) ungVien[i] = [...them, ...ungVien[i]].slice(0, toiDaMoiCum);
 		});

@@ -86,3 +86,13 @@ Luật:
 Routine không chạy (xem lịch sử chạy ở claude.ai/code/routines), khoá `RADA_SEO_MCP_TOKEN`
 sai/thu hồi/hết hạn (tạo khoá mới, sửa biến `RADA_SEO_MCP_TOKEN`), hoặc môi trường routine
 chặn mạng tới `kinhlac.online`.
+
+## Khi routine báo "không thấy công cụ rada_*" / "kinhlac-rada không kết nối"
+
+Trước khi nghi khoá hay mạng: nếu vừa deploy CMS, gần như chắc chắn là **đồng ý MCP đã lệch**.
+EmDash chỉ phơi công cụ của plugin khi đồng ý đã lưu khớp đúng danh sách công cụ hiện tại
+(tên, mô tả, route, quyền, khuôn input). Thêm/sửa một công cụ là mọi công cụ `rada_*` biến mất.
+
+Sửa: `/_emdash/admin` → Plugins → Rada SEO → tắt rồi bật lại **MCP tools** (hoặc
+`PUT /_emdash/api/admin/plugins/rada-seo/mcp` `{"enabled":true}`), rồi xem danh sách công cụ
+có đủ bốn cái. Chi tiết ở `DEPLOYMENT.md`, mục "Rada SEO".

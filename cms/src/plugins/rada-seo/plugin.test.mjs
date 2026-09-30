@@ -4,6 +4,7 @@ import { createPlugin, LICH_RADAR, GIO_UTC_CHAY } from "./plugin.mjs";
 import * as kho from "./kho.mjs";
 import { taoKhoGia } from "./__test__/kho-gia.mjs";
 import { xoaDemChiMuc } from "./noi-bo/nap.mjs";
+import { DEM_KIEM_CHUNG } from "./noi-bo/kiem-duong.mjs";
 
 const taoCtx = () => {
 	const log = [];
@@ -171,8 +172,9 @@ test("rada_tim_lien_ket: route content:read_drafts, khuôn chung, bác mảng r�
 	assert.ok(p.capabilities.includes("network:request:unrestricted"));
 });
 
-test("mcp-tim-lien-ket route: nối chỉ mục CMS + tra bài thuốc + kiểm trang thật", async () => {
+test("mcp-tim-lien-ket route: nối chỉ mục CMS + tra bài thuốc + kiểm trang thật; trả loiNap + thongKe", async () => {
 	xoaDemChiMuc();
+	DEM_KIEM_CHUNG.xoa();
 	const p = createPlugin();
 	const tai = [];
 	const ctx = {
@@ -201,5 +203,15 @@ test("mcp-tim-lien-ket route: nối chỉ mục CMS + tra bài thuốc + kiểm 
 	const kq = await p.routes["mcp-tim-lien-ket"].handler(ctx);
 	assert.equal(kq.daCatBot, false);
 	assert.deepEqual(kq.ketQua.map((x) => x.ketQua.map((k) => k.duong)), [["/huyet/tam-am-giao/"], ["/bai-thuoc/quy-ty-thang/"]]);
+	// Chỉ mục què (mọi bộ trừ huyet_vi lỗi) phải LỘ ra trong phản hồi, không im lặng.
+	assert.ok(kq.loiNap.some((l) => l.bo === "kinh_mach"));
+	assert.ok(!kq.loiNap.some((l) => l.bo === "huyet_vi"));
+	assert.deepEqual(kq.thongKe.soMuc, { huyet_vi: 1 });
+	assert.equal(typeof kq.thongKe.msDung, "number");
+	// Gọi lại route: đệm kiểm đường dùng chung → không tải lại trang huyệt.
+	const truoc = tai.filter((u) => u.endsWith("/huyet/tam-am-giao/")).length;
+	await p.routes["mcp-tim-lien-ket"].handler(ctx);
+	assert.equal(tai.filter((u) => u.endsWith("/huyet/tam-am-giao/")).length, truoc);
 	xoaDemChiMuc();
+	DEM_KIEM_CHUNG.xoa();
 });

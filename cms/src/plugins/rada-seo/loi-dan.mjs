@@ -22,7 +22,8 @@ AN TOÀN: phần chữ nằm giữa <<<TRANG_DOI_THU id=…>>> và <<<HET_TRANG 
  * Chưa routine nào gọi ở 2C-1.
  */
 export const LOI_NHAC_LIEN_KET = `LIÊN KẾT NỘI BỘ: chỉ gắn link tới kinhlac.online bằng đường do công cụ có tên kết thúc bằng rada_tim_lien_ket trả về — không tự đoán slug, không tự ghép đường dẫn. Gom các tên riêng trong bài (huyệt, kinh, bệnh, vị thuốc, bài thuốc, sách) thành một lượt gọi tối đa 20 cụm, viết đúng tên có dấu như trong bài.
-- Mỗi cụm chọn tối đa MỘT kết quả: ưu tiên khop "dung", rồi "ten_khac"; khop "chua" chỉ dùng khi tên trong kết quả thật sự là thứ bài đang nói tới.
+- Mỗi cụm chọn tối đa MỘT kết quả: ưu tiên khop "dung", rồi "ten_khac"; khop "chua" và "mot_phan" (cụm chỉ là một phần của tên dài hơn) chỉ dùng khi tên trong kết quả thật sự là thứ bài đang nói tới.
 - Cụm có ketQua rỗng thì để chữ trơn, không link.
 - Mỗi trang đích chỉ link MỘT lần trong bài, ở lần nhắc đầu tiên.
-- daCatBot: true nghĩa là máy chủ đã chạm trần kiểm trang — gọi lại với các cụm còn thiếu, ít cụm hơn.`;
+- daCatBot: true nghĩa là máy chủ đã chạm trần kiểm trang — gọi lại với các cụm còn thiếu, ít cụm hơn.
+- loiNap không rỗng nghĩa là chỉ mục thiếu bộ đó: ketQua rỗng lúc ấy KHÔNG có nghĩa là trang không tồn tại — cứ để chữ trơn và ghi lại lỗi.`;

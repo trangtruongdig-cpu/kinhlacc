@@ -57,8 +57,10 @@ export function moiTruoc(muc) {
 // Phân loại sitemap CON theo tên. Đối thủ là bệnh viện/phòng khám: ngoài bài viết họ còn
 // sitemap trang bác sĩ, chi nhánh, dịch vụ, tuyển dụng, danh mục… — quét chúng chỉ tốn trần
 // sitemap/URL rồi đổ rác vào hàng chờ Claude đọc. Nhóm "bo" xét TRƯỚC: "post_tag-sitemap"
-// chứa cả "post" lẫn "tag" nhưng là trang thẻ, không phải bài.
-const DAU_BO = ["page-sitemap", "category", "tag", "author", "product", "san-pham", "bac-si", "doctor", "chi-nhanh", "branch", "dich-vu", "service", "tuyen-dung", "career", "video", "image", "faq", "landing"];
+// chứa cả "post" lẫn "tag" nhưng là trang thẻ, không phải bài. "_" được đổi thành "-" trước khi
+// so (post type WordPress hay dùng gạch dưới: wp-sitemap-posts-dich_vu-1.xml), và sitemap lõi
+// WordPress (wp-sitemap-posts-<loại>-N.xml) chứa "posts" ở MỌI loại nên phải chặn theo loại.
+const DAU_BO = ["page-sitemap", "posts-page", "-page-", "users", "elementor-library", "chuyen-gia", "category", "tag", "author", "product", "san-pham", "bac-si", "doctor", "chi-nhanh", "branch", "dich-vu", "service", "tuyen-dung", "career", "video", "image", "faq", "landing"];
 const DAU_BAI_VIET = ["post", "blog", "tin-tuc", "bai-viet", "news", "article", "kien-thuc", "cam-nang"];
 
 /**
@@ -76,7 +78,7 @@ export function phanLoaiSitemap(url) {
 	try {
 		duong = decodeURIComponent(duong);
 	} catch {}
-	duong = boDau(duong);
+	duong = boDau(duong).replace(/_/g, "-");
 	if (DAU_BO.some((d) => duong.includes(d))) return "bo";
 	if (DAU_BAI_VIET.some((d) => duong.includes(d))) return "bai_viet";
 	return "khong_ro";

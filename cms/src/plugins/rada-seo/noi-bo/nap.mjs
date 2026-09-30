@@ -13,16 +13,21 @@ const TRAN_TRANG_MOI_BO = 200;
  * Đọc mọi mục ĐÃ XUẤT BẢN của các bộ trong MUC_BO rồi dựng chỉ mục. `where.status` là bắt buộc:
  * đã đo — không truyền thì content.list trả cả nháp, và link tới bản nháp là link 404.
  * Bộ nào lỗi (vd bàn thử không có bộ đó) thì bỏ qua, ghi vào `loiNap` — không ném.
- * @returns {Promise<{muc: object[], loiNap: {bo: string, loi: string}[], dungLuc: number}>}
+ * thongKe: thời gian dựng và số mục đọc được mỗi bộ — để thấy một chỉ mục rỗng/què từ phản hồi.
+ * @returns {Promise<{muc: object[], loiNap: {bo: string, loi: string}[], dungLuc: number,
+ *   thongKe: {msDung: number, soMuc: Record<string, number>}}>}
  */
 export async function napMucNoiBo(content, { now = Date.now } = {}) {
-	const ds = [], loiNap = [];
+	const batDau = now();
+	const ds = [], loiNap = [], soMuc = {};
 	for (const bo of Object.keys(MUC_BO)) {
 		try {
+			soMuc[bo] = 0; // bộ đọc được mà rỗng vẫn hiện 0; bộ lỗi ngay trang đầu thì vắng
 			let cursor, soTrang = 0;
 			do {
 				const r = await content.list(bo, { limit: 100, cursor, where: { status: "published" } });
 				for (const it of r.items ?? []) {
+					soMuc[bo]++;
 					const d = it.data ?? {};
 					ds.push({
 						bo,
@@ -38,10 +43,12 @@ export async function napMucNoiBo(content, { now = Date.now } = {}) {
 				cursor = r.hasMore && r.cursor && ++soTrang < TRAN_TRANG_MOI_BO ? r.cursor : undefined;
 			} while (cursor);
 		} catch (e) {
+			if (!soMuc[bo]) delete soMuc[bo];
 			loiNap.push({ bo, loi: String(e?.message ?? e).slice(0, 200) });
 		}
 	}
-	return { ...dungChiMuc(ds), loiNap, dungLuc: now() };
+	const dungLuc = now();
+	return { ...dungChiMuc(ds), loiNap, dungLuc, thongKe: { msDung: dungLuc - batDau, soMuc } };
 }
 
 /**

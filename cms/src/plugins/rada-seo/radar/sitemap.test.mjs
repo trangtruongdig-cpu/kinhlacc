@@ -54,6 +54,21 @@ test("phanLoaiSitemap: giữ bài viết, bỏ bác sĩ/dịch vụ/danh mục, 
 	assert.equal(phanLoaiSitemap("https://a.vn/sitemap-3.xml"), "khong_ro");
 });
 
+test("phanLoaiSitemap: sitemap lõi WordPress (wp-sitemap-*) và tên có gạch dưới", () => {
+	for (const u of [
+		"https://a.vn/wp-sitemap-posts-page-1.xml",
+		"https://a.vn/wp-sitemap-posts-dich_vu-1.xml",
+		"https://a.vn/wp-sitemap-posts-bac_si-1.xml",
+		"https://a.vn/wp-sitemap-posts-chi_nhanh-1.xml",
+		"https://a.vn/wp-sitemap-posts-chuyen_gia-1.xml",
+		"https://a.vn/wp-sitemap-users-1.xml",
+		"https://a.vn/wp-sitemap-posts-elementor_library-1.xml",
+		"https://a.vn/wp-sitemap-taxonomies-category-1.xml",
+	])
+		assert.equal(phanLoaiSitemap(u), "bo", u);
+	assert.equal(phanLoaiSitemap("https://a.vn/wp-sitemap-posts-post-1.xml"), "bai_viet");
+});
+
 test("thuThapUrl: bỏ sitemap con loại 'bo', trả danh sách đã bỏ", async () => {
 	const web = webGia({
 		"https://a.com/sitemap.xml": "<sitemapindex><sitemap><loc>https://a.com/post-sitemap.xml</loc></sitemap><sitemap><loc>https://a.com/bac-si-sitemap.xml</loc></sitemap><sitemap><loc>https://a.com/sitemap-9.xml</loc></sitemap></sitemapindex>",

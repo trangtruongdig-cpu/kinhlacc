@@ -37,36 +37,84 @@ function tieuDeTrang(html) {
 	return ra.map(chuanCoDau);
 }
 
+const thoatRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+/** `ten` có mặt trong `chu` theo RANH GIỚI TỪ: "ho" không khớp trong "hoàng kỳ". */
+function coTenTron(chu, ten) {
+	return new RegExp(`(?<![\\p{L}\\p{N}\\p{M}])${thoatRegex(ten)}(?![\\p{L}\\p{N}\\p{M}])`, "u").test(chu);
+}
+
+/**
+ * Đệm LRU có trần cho kết quả tải trang: khoá = URL, giá trị = { v: {song, tieuDe} | null, het }.
+ * CHỈ giữ cờ sống + tiêu đề đã rút — không bao giờ giữ HTML (2.000 trang HTML là hàng chục MB).
+ */
+export function taoDemKiem({ toiDa = 2000 } = {}) {
+	const m = new Map();
+	return {
+		get(k) {
+			const x = m.get(k);
+			if (x) {
+				m.delete(k);
+				m.set(k, x);
+			}
+			return x;
+		},
+		set(k, x) {
+			m.delete(k);
+			m.set(k, x);
+			while (m.size > toiDa) m.delete(m.keys().next().value);
+		},
+		kichThuoc: () => m.size,
+		giaTri: () => [...m.values()].map((x) => x.v),
+		xoa: () => m.clear(),
+	};
+}
+
+/**
+ * Đệm DÙNG CHUNG của tiến trình: route mcp-tim-lien-ket dựng bộ kiểm mới mỗi lời gọi, nhưng
+ * lượt đêm gọi nhiều lần với các cụm lặp lại — đệm ở mức module mới tránh tải lại. Một container
+ * CMS, cùng giả định với chỉ mục (nap.mjs) và khoá ca.
+ */
+export const DEM_KIEM_CHUNG = taoDemKiem();
+
+/** Lỗi mạng (null) chỉ nhớ ngắn: một lần chập mạng không được xoá link cả đêm. */
+const TTL_LOI_MANG_MS = 5 * 60 * 1000;
+
 /**
  * @param {(url: string) => Promise<{status: number, xRobots: string, html: string} | null>} docTrang
+ *   null = lỗi mạng / không tải được
  * @returns {(duong: string, tenMong?: string) => Promise<boolean>}
  */
-export function taoKiemDuong(docTrang, { goc = process.env.RADA_SEO_SITE ?? "https://kinhlac.online", ttlMs = 24 * 3600 * 1000, now = Date.now } = {}) {
-	/** `duong|tenMong` → { kq: Promise<boolean>, het }. Đệm cả trượt: trang chết không tải lại cả đêm. */
-	const dem = new Map();
-	/** duong → { p: Promise<trang>, het }: cùng đường mà khác tên mong (hai mục chung slug_goc) tải MỘT lần. */
-	const demTrang = new Map();
-	const tai = (duong) => {
-		const cu = demTrang.get(duong);
-		if (cu && now() < cu.het) return cu.p;
-		const p = docTrang(`${goc}${duong}`);
-		demTrang.set(duong, { p, het: now() + ttlMs });
+export function taoKiemDuong(
+	docTrang,
+	{ goc = process.env.RADA_SEO_SITE ?? "https://kinhlac.online", ttlMs = 24 * 3600 * 1000, ttlLoiMs = TTL_LOI_MANG_MS, now = Date.now, dem = DEM_KIEM_CHUNG } = {},
+) {
+	/** url → promise đang tải: lời gọi đồng thời cho cùng trang (Âm/Ẩm Khích chung slug_goc) chờ chung. */
+	const dangTai = new Map();
+	const tai = (url) => {
+		const cu = dem.get(url);
+		if (cu && now() < cu.het) return Promise.resolve(cu.v);
+		if (dangTai.has(url)) return dangTai.get(url);
+		const p = Promise.resolve()
+			.then(() => docTrang(url))
+			.catch(() => null)
+			.then((trang) => {
+				const v = trang
+					? { song: trang.status === 200 && !/noindex/i.test(trang.xRobots ?? ""), tieuDe: tieuDeTrang(trang.html ?? "") }
+					: null;
+				dem.set(url, { v, het: now() + (v ? ttlMs : ttlLoiMs) });
+				return v;
+			})
+			.finally(() => dangTai.delete(url));
+		dangTai.set(url, p);
 		return p;
 	};
-	const kiem = async (duong, tenMong) => {
-		const trang = await tai(duong);
-		if (!trang || trang.status !== 200 || /noindex/i.test(trang.xRobots ?? "")) return false;
+	return async (duong, tenMong) => {
+		const v = await tai(`${goc}${duong}`);
+		if (!v || !v.song) return false;
 		if (!tenMong) return true;
 		const ten = chuanCoDau(tenMong);
-		return tieuDeTrang(trang.html ?? "").some((t) => t.includes(ten));
-	};
-	return (duong, tenMong) => {
-		const khoa = `${duong}|${tenMong ?? ""}`;
-		const cu = dem.get(khoa);
-		if (cu && now() < cu.het) return cu.kq;
-		const kq = kiem(duong, tenMong).catch(() => false);
-		dem.set(khoa, { kq, het: now() + ttlMs });
-		return kq;
+		return v.tieuDe.some((t) => coTenTron(t, ten));
 	};
 }
 

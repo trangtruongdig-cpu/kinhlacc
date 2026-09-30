@@ -318,6 +318,34 @@ SEO là `/_emdash/api/mcp` (của **CMS**) — KHÔNG dùng connector, chỉ n�
 3. **Theo dõi 2 đêm liền.** Dải đỏ "26 giờ qua Claude chưa đọc trang nào" = routine không
    chạy, khoá sai/thu hồi, hoặc môi trường routine chặn tên miền.
 
+**Sau MỖI lần deploy có đổi công cụ MCP của plugin — BẮT BUỘC, không thì routine đêm gãy:**
+
+EmDash chỉ phơi công cụ MCP của một plugin khi "đồng ý" đã lưu KHỚP ĐÚNG danh sách công cụ
+hiện tại (`serializePluginMcpConsent`: tên, mô tả, route, quyền, destructive, khuôn input —
+đo trong mã EmDash 0.39.1). Thêm công cụ (vd `rada_tim_lien_ket`) hoặc sửa MỘT chữ trong mô tả
+hay khuôn input của bất kỳ công cụ nào là đồng ý cũ lệch → **TẤT CẢ công cụ `rada_*` biến mất**
+khỏi `tools/list`, không báo lỗi gì, và routine 05:00 dừng ở "không thấy công cụ rada_*".
+
+1. Bật lại: `/_emdash/admin` → **Plugins** → **Rada SEO** → tắt rồi bật lại **MCP tools**;
+   hoặc (tài khoản có `plugins:manage`)
+   `PUT /_emdash/api/admin/plugins/rada-seo/mcp` với thân `{"enabled":true}`.
+2. Xác nhận: phản hồi của lệnh trên (hoặc trang Plugins) liệt kê đủ bốn công cụ
+   `rada_lay_viec`, `rada_ghi_phan_tich`, `rada_tim_lien_ket`, `rada_xong_phan_tich`.
+
+Plugin KHÔNG tự đọc được trạng thái này (ngữ cảnh plugin của EmDash không có API đọc trạng
+thái plugin của chính nó), nên màn Rada SEO không báo được — chỉ dải đỏ "Claude chưa đọc" sau
+26 giờ. Đừng trông vào dải đỏ: làm bước này ngay khi deploy.
+
+**Kiểm một lần sau deploy — container CMS tự tải được site thật:** `rada_tim_lien_ket` kiểm
+từng liên kết bằng cách tải trang thật TỪ TRONG container. Nếu container không ra được
+`kinhlac.online` (DNS, tường lửa, hairpin NAT) thì mọi cụm trả `ketQua` rỗng mà không lỗi.
+
+```bash
+docker compose exec cms node -e "fetch('https://kinhlac.online/huyet/am-khich/').then(r=>console.log(r.status))"
+```
+
+Phải in ra `200`.
+
 **Đừng:**
 
 - **Đừng bấm "Chạy thử"/"Chạy thật" từ máy lập trình** khi VPS có thể đang chạy ca: khoá
