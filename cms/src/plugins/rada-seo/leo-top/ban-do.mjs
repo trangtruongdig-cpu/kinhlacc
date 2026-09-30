@@ -250,7 +250,9 @@ export function dungBanDo({ tuKhoa, trang = [], chiMuc, now = Date.now() }) {
 			if (vp.length) phieuGhiChu.push(`Ý cốt lõi "${ten}" có chữ vượt phạm vi Y sỹ — nếu thêm, diễn đạt: ${vp[0].goiY}.`);
 			else if (!khuyenDoDai(ten)) themY.push(ghiChuPhamVi(ten));
 		}
-		const cat = [...sach(minh.ruom).filter(mucDung), ...thua.filter((y) => y.trang.has(im)).map((y) => y.ten).filter(mucDung)];
+		// Đoạn rườm là thứ CẮT đi: đoạn "chữa khỏi hẳn" vượt phạm vi Y sỹ càng phải cắt, nên chỉ lọc
+		// lời khuyên độ dài, KHÔNG lọc phạm vi Y sỹ ở đây (lọc đó giữ cho ý THÊM vào).
+		const cat = [...sach(minh.ruom).filter((x) => !khuyenDoDai(x)), ...thua.filter((y) => y.trang.has(im)).map((y) => y.ten).filter(mucDung)];
 		phieu = {
 			themY,
 			duaTraLoiLenDau: traLoiMuon(minh) && top3.filter(traLoiDau).length >= 2,

@@ -220,15 +220,21 @@ test("trả lời muộn của trang mình: chỉ kết luận khi Claude và s�
 	assert.equal(voi(undefined, 20).duaTraLoiLenDau, false);
 });
 
-test("bỏ mục Claude báo có chữ vượt phạm vi Y sỹ hoặc khuyên độ dài trước khi vào cat/themY", () => {
+test("cat bỏ mục khuyên độ dài nhưng GIỮ đoạn rườm vượt phạm vi Y sỹ (đó chính là đoạn phải cắt); themY bỏ ý khuyên độ dài", () => {
 	const t = TRANG.map((x) =>
 		x.laMinh
 			? { ...x, ruom: ["Đoạn mở đầu kể chuyện không liên quan", "Cần viết dài hơn phần vị trí", "Thêm chữ cho phần tác dụng", "Đoạn hứa chữa khỏi hẳn mất ngủ"] }
 			: { ...x, y: [...x.y, "Viết dày phần lịch sử"] },
 	);
 	const { phieu } = dungBanDo({ ...VAO, trang: t });
-	assert.deepEqual(phieu.cat, ["Đoạn mở đầu kể chuyện không liên quan"]);
+	assert.deepEqual(phieu.cat, ["Đoạn mở đầu kể chuyện không liên quan", "Đoạn hứa chữa khỏi hẳn mất ngủ"]);
 	assert.ok(!phieu.themY.some((y) => /dày/.test(y)));
+});
+
+test("ruom: chỉ lọc bốn kiểu khuyên độ dài; đoạn 'chữa khỏi hẳn', 'cam kết 100%' vẫn vào cat", () => {
+	const ruom = ["Mở bài dài hơn cần thiết", "Nên thêm chữ", "Số chữ quá ít", "Viết dày thêm", "Khẳng định chữa khỏi hẳn", "Cam kết khỏi 100%"];
+	const t = TRANG.map((x) => (x.laMinh ? { ...x, ruom } : x));
+	assert.deepEqual(dungBanDo({ ...VAO, trang: t }).phieu.cat, ["Khẳng định chữa khỏi hẳn", "Cam kết khỏi 100%"]);
 });
 
 test("tài sản riêng không trỏ về chính trang mình", () => {
