@@ -201,7 +201,7 @@ cần hạng thật tới top 50: DataForSEO (trả phí theo lượt).
 (`GSC_OAUTH_CLIENT_ID/SECRET/REFRESH_TOKEN` khai thêm vào `cms/.env`) — lặp ~60 dòng của
 `GscService.strikingDistance` nhưng giữ plugin tự đứng, không mở cửa gọi chéo sang backend.
 
-**Nhịp (hằng tuần, routine LEO TOP, thứ Tư 05:00):**
+**Nhịp (hằng tuần, routine LEO TOP, thứ Tư 06:30):**
 
 1. `rada_lay_tu_khoa_leo_top` → 3–5 từ khoá: trang của mình ở hạng 4–50, có lượt hiển thị,
    xếp theo cơ hội (hiển thị × khoảng cách tới top 3); bỏ từ khoá đã soi trong 4 tuần gần nhất.

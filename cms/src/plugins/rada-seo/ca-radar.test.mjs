@@ -132,7 +132,7 @@ test("đo lại leo top: phiên da_sua tới mốc +14 → gọi GSC đúng cặ
 	assert.deepEqual(gsc.goi, [{ tuKhoa: "huyệt thần môn", trang: MINH, ngay: 11 }]);
 	assert.equal(ca.soDoLai, 1);
 	const d = await s.leo_top.get(id);
-	assert.deepEqual(d.doLai, [{ ngay: "2026-10-16", sauNgay: 14, viTri: 5.5, hienThi: 140, cuaSoNgay: 12, hienThiNgay: 11.67 }]);
+	assert.deepEqual(d.doLai, [{ ngay: "2026-10-16", sauNgay: 14, viTri: 5.5, hienThi: 140, cuaSoNgay: 12, hienThiNgay: 14 }]);
 	assert.equal(d.trangThai, "da_sua");
 	await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc, now: () => LUC });
 	assert.equal(gsc.goi.length, 1, "mốc 14 đã đo → không gọi lại");
@@ -212,12 +212,12 @@ test("đo lại leo top: cửa sổ GSC THẬT (gsc.mjs, ngày hai đầu) bắt
 		const gsc = taoGsc({ fetch, env, now: () => Date.parse(luc) });
 		await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc, now: () => luc });
 		assert.deepEqual([body[0].startDate, body[0].endDate], [tu, den], luc);
-		// Số ngày lịch gồm cả hai đầu = số lưu trong cuaSoNgay (mẫu số của hienThiNgay).
+		// Số ngày lịch gồm cả hai đầu = số lưu trong cuaSoNgay (mẫu số của hienThiNgay trừ đi NGAY_GSC_CHUA_CO).
 		const soNgayLich = (Date.parse(den) - Date.parse(tu)) / 86_400_000 + 1;
 		assert.equal(soNgayLich, soNgay);
 		const [lan] = (await s.leo_top.get(id)).doLai;
 		assert.equal(lan.cuaSoNgay, soNgay);
-		assert.equal(lan.hienThiNgay, Math.round((110 / soNgay) * 100) / 100);
+		assert.equal(lan.hienThiNgay, Math.round((110 / (soNgay - kho.NGAY_GSC_CHUA_CO)) * 100) / 100);
 	}
 });
 

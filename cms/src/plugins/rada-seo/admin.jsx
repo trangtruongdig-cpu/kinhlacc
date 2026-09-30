@@ -356,8 +356,8 @@ function PhienLeoTop({ p, onDaSua }) {
 	// Cột = các trang đã vào bản đồ (đo được + có báo cáo), theo thứ tự hạng; trang mình cuối.
 	const cot = (bd?.soHo ?? []).map((h) => ({ url: h.url, t: serpTheoUrl.get(h.url) }));
 	const hang = [
-		...(bd?.yCotLoi ?? []).map((y) => ({ ten: y.ten, loai: `cốt lõi ${Math.round(y.tiLe * 100)}%`, co: new Set(y.trangCo) })),
-		...(bd?.yThua ?? []).map((y) => ({ ten: y.ten, loai: `thừa ${Math.round(y.tiLe * 100)}%`, co: new Set(y.trangCo) })),
+		...(bd?.yCotLoi ?? []).map((y) => ({ ten: y.ten, loai: `cốt lõi ${Math.round((y.tiLe ?? 0) * 100)}%`, co: new Set(y.trangCo) })),
+		...(bd?.yThua ?? []).map((y) => ({ ten: y.ten, loai: `thừa ${Math.round((y.tiLe ?? 0) * 100)}%`, co: new Set(y.trangCo) })),
 		...(ph?.khacBiet ?? []).map((ten) => ({ ten, loai: "khác biệt (chỉ mình có)", co: new Set(cot.filter((c) => c.t?.laMinh).map((c) => c.url)) })),
 	];
 	const nen = (c) => (c.t?.laMinh ? { background: "#fef3c7", fontWeight: 600 } : {});
@@ -409,7 +409,7 @@ function PhienLeoTop({ p, onDaSua }) {
 							<tr><th style={o}>Trang</th><th style={o}>Thiếu ý cốt lõi</th><th style={o}>Trải nghiệm</th><th style={o}>Thiếu căn cứ</th></tr>
 						</thead>
 						<tbody>
-							{bd.soHo.map((h, i) => {
+							{(bd?.soHo ?? []).map((h, i) => {
 								const t = serpTheoUrl.get(h.url);
 								return (
 									<tr key={i} style={t?.laMinh ? { background: "#fef3c7" } : undefined}>
@@ -453,7 +453,7 @@ function PhienLeoTop({ p, onDaSua }) {
 				<p>
 					Ngày sửa (giờ Việt Nam):{" "}
 					<input type="date" value={ngay} max={ngayVN()} onChange={(e) => setNgay(e.target.value)} />{" "}
-					<button onClick={() => onDaSua(p.id, ngay)}>{p.trangThai === "da_sua" ? "Đổi ngày sửa" : "Đã sửa theo phiếu"}</button>
+					<button onClick={() => { if (p.trangThai === "da_sua" && (p.doLai ?? []).length > 0 && !window.confirm("Đổi ngày sửa sẽ xoá các lần đo lại đã có. Tiếp tục?")) return; onDaSua(p.id, ngay); }}>{p.trangThai === "da_sua" ? "Đổi ngày sửa" : "Đã sửa theo phiếu"}</button>
 					{p.trangThai === "da_sua" && <span style={{ fontSize: 12, color: "#92400e" }}> · đổi ngày sẽ xoá các lần đo lại đã có</span>}
 				</p>
 			)}

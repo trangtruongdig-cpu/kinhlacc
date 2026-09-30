@@ -538,8 +538,10 @@ test("leo top: hiển thị/ngày — mốc ban đầu chia cho số ngày LỊC
 	const s = taoKhoGia();
 	const p = await kho.taoPhienLeoTop(s, { ...PHIEN, hienThi: 290 }, new Date(T0).toISOString());
 	assert.deepEqual(p.cuaSoBanDau, { soNgay: 29, tu: "2026-09-03", den: "2026-10-01" });
-	assert.equal(p.hienThiNgay, 10);
-	assert.equal(kho.hienThiMoiNgay(100, 11), 9.09);
+	assert.equal(p.hienThiNgay, 10.74); // 290 / (29 − 2 ngày GSC chưa có số)
+	assert.equal(kho.hienThiMoiNgay(100, 11), 11.11); // 100 / (11 − 2 ngày GSC chưa có số)
+	assert.equal(kho.hienThiMoiNgay(29, 29), 1.07);
+	assert.equal(kho.hienThiMoiNgay(10, 2), 10);
 	assert.equal(kho.hienThiMoiNgay(5, 0), null);
 	assert.equal(kho.hienThiMoiNgay(null, 11), null);
 });
@@ -552,7 +554,7 @@ test("leo top: ghiDoLai lưu hienThiNgay; bỏ qua khi ngày sửa của phiên 
 	assert.equal(await kho.ghiDoLai(s, p.id, { ngaySua: "2026-10-01", ngay: "2026-10-15", sauNgay: 14, viTri: 5, hienThi: 110, cuaSoNgay: 11 }), false);
 	assert.deepEqual((await s.leo_top.get(p.id)).doLai, []);
 	assert.equal(await kho.ghiDoLai(s, p.id, { ngaySua: "2026-10-05", ngay: "2026-10-19", sauNgay: 14, viTri: 5, hienThi: 110, cuaSoNgay: 11 }), true);
-	assert.deepEqual((await s.leo_top.get(p.id)).doLai, [{ ngay: "2026-10-19", sauNgay: 14, viTri: 5, hienThi: 110, cuaSoNgay: 11, hienThiNgay: 10 }]);
+	assert.deepEqual((await s.leo_top.get(p.id)).doLai, [{ ngay: "2026-10-19", sauNgay: 14, viTri: 5, hienThi: 110, cuaSoNgay: 11, hienThiNgay: 12.22 }]);
 });
 
 test("leo top: phienCanDoLai trả kèm ngaySua (để ghiDoLai so lại)", async () => {

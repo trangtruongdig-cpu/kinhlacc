@@ -477,9 +477,14 @@ export { soNgayLich };
  * Hiển thị bình quân MỖI NGÀY (2 chữ số lẻ). Cửa sổ mốc ban đầu (29 ngày) và cửa sổ đo lại
  * (11 / 25 ngày) dài khác nhau: so TỔNG hiển thị là so táo với cam — chỉ so con số này.
  */
+/** GSC chưa có số cho ~2 ngày cuối cửa sổ (cửa sổ luôn kết thúc hôm nay) — bỏ khỏi mẫu số,
+ * không thì cửa sổ ngắn (+14: 11 ngày) bị hạ 8–20% còn cửa sổ gốc 29 ngày chỉ 3–10%, bản sửa
+ * trông như tụt dù không tụt. */
+export const NGAY_GSC_CHUA_CO = 2;
 export function hienThiMoiNgay(hienThi, soNgay) {
 	if (hienThi == null || !Number.isFinite(Number(hienThi)) || !(soNgay > 0)) return null;
-	return Math.round((Number(hienThi) / soNgay) * 100) / 100;
+	const ngayCo = Math.max(1, soNgay - NGAY_GSC_CHUA_CO);
+	return Math.round((Number(hienThi) / ngayCo) * 100) / 100;
 }
 
 /** Khoá so URL: bỏ #, bỏ "/" cuối — Claude và GSC hay viết lệch nhau đúng hai chỗ đó. */
