@@ -3,7 +3,7 @@
 Ngày: 30/09/2026 · Trạng thái: **2C-1 và 2C-2 ĐÃ DỰNG** (mục 1–4, xem "Chia kế hoạch" cuối
 tài liệu; tên công cụ MCP dưới đây là tên THẬT đã cắm, không còn là đề xuất) · **2D (mục 8)
 ĐÃ DỰNG** · **2C-3 (mục 5) ĐÃ DỰNG (30/09/2026)**, khác thiết kế ở vài chỗ — xem đầu mục 5 ·
-mục 6 còn ở dạng thiết kế, chưa dựng. Thay cho "kế hoạch 2B-2 — lò viết" (gộp vào đây).
+**mục 6 ĐÃ DỰNG (02/10/2026)** — xem đầu mục 6. Thay cho "kế hoạch 2B-2 — lò viết" (gộp vào đây).
 Căn cứ: `2026-09-30-rada-seo-doi-chieu-n8n-ai5phut.md` (video + 3 workflow n8n) và đặc tả gốc
 `2026-09-30-radar-lo-viet-plugin-cms-design.md`.
 
@@ -191,7 +191,24 @@ chứng; nút **Duyệt** / **Bỏ** (kèm lý do ngắn, Claude đọc lại tu
 - Bài vào CMS **chỉ** qua `rada_nop_bai` (khoá không có `content:write`). Hook
   `content:beforeSave` trên `bai_viet` chấm cả bài người biên tập tự tạo.
 
-## 6. Mạng nhện hai chiều (giai đoạn sau, không chặn 2C)
+## 6. Mạng nhện hai chiều — ĐÃ DỰNG (02/10/2026)
+
+> **Đã dựng.** Mã: `viet/lien-ket-nguoc.mjs` (thuần + phần I/O), bộ kho `goi_y_nguoc` (khoá theo
+> contentId của bài CŨ), `thaMangNhen` trong `content:afterPublish` (chạy nền như `thaIndexNow`),
+> khối "Nên trỏ sang bài mới" trong khung Phiếu Rada. Phép kiểm: `lien-ket-nguoc.test.mjs` (10) +
+> một phép kiểm panel trong `dang.test.mjs`.
+>
+> **Khác thiết kế dưới đây (bản thật thắng):**
+> - **Neo phải CÓ THẬT trong bài cũ.** Nếu không cụm từ khoá nào của bài mới xuất hiện trong chữ
+>   bài cũ thì đề xuất vẫn ra nhưng gắn cờ `canVietThem`, khung hiện dấu ✎ và nói rõ "phải viết
+>   thêm một câu". Bài có neo sẵn xếp TRƯỚC vì việc rẻ hơn. Không có luật này thì đề xuất thành
+>   việc THÊM chứ không phải việc đỡ.
+> - **Chọn theo cùng cụm HOẶC từ khoá trùng ≥ `NGUONG_TRUNG`** (dùng lại thước chống trùng, không
+>   phát minh thước thứ hai) — vì bài người biên tập tự viết không có `cumId`.
+> - **Hai trần:** 5 bài cũ mỗi bài mới (đủ để Google thấy, chưa thành cụm link bất thường) và 3 đề
+>   xuất mỗi bài cũ (quá nhiều thì không ai bấm, bài cũ thành bãi link).
+> - Bỏ qua bài đã trỏ sang rồi; phép dò nhận cả dạng thiếu "/" cuối nhưng KHÔNG nhận slug dài hơn
+>   cùng tiền tố (`…-phan-2`).
 
 Khi một bài được Publish: máy chủ tìm bài/trang cũ cùng cụm chưa link tới bài mới → gợi ý
 "chèn link ngược" trong phiếu chấm của bài cũ (người biên tập bấm mới chèn). Video và workflow
@@ -218,7 +235,11 @@ Khi một bài được Publish: máy chủ tìm bài/trang cũ cùng cụm chư
 > bổ sung". Vòng học (bước 7) đo ở **+14 / +28 ngày sau ngày người quản trị bấm "Đã sửa theo
 > phiếu"** (không phải ngày đăng), cửa sổ GSC mở từ ngày sửa + 3, so hạng bình quân và hiển thị
 > MỖI NGÀY; phần "tổng hợp loại sửa nào hay giúp lên hạng" và "bản sửa nháp cho bài blog" (cần
-> 2C-3) CHƯA dựng. Mã: `leo-top/` (gsc, do-trang, ban-do), `leo-top-viec.mjs`, `kho.mjs`,
+> 2C-3) CHƯA dựng — **phần "tổng hợp loại sửa" ĐÃ DỰNG 02/10/2026** (`leo-top/vong-hoc.mjs`,
+> route `leo-top-tong-quan` trả `tongHop`, khối thu gọn trong tab Leo top). ⚠️ Nó gom theo MỤC của
+> phiếu, không theo chữ trong `traiNghiem` (câu tự do — khớp chuỗi sẽ hỏng im lặng khi đổi diễn
+> đạt), dưới 5 phiên thì không kết luận, và ghi chú "đồng xuất hiện ≠ nhân quả" LUÔN in ra vì một
+> phiếu mang nhiều loại sửa cùng lúc. Mã: `leo-top/` (gsc, do-trang, ban-do, ctr, vong-hoc), `leo-top-viec.mjs`, `kho.mjs`,
 > `ca-radar.mjs`; tab **Leo top** trong `admin.jsx`; routine `routine/tuan-leo-top.md` (môi trường
 > RIÊNG vì phải tìm web). Sau deploy: 3 biến GSC vào `cms/.env`, bật lại MCP tools (12 công cụ;
 > từ 2C-3 là 14) — xem `DEPLOYMENT.md` mục "Rada SEO".

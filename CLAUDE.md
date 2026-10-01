@@ -844,6 +844,33 @@ theo **số nhấp đang mất**, hiện qua route `leo-top-viec-tieu-de` + bả
 (nạp theo yêu cầu). Đây là **route của người**, không phải công cụ MCP — nên không cần bật lại
 MCP tools sau deploy.
 
+### Mạng nhện HAI CHIỀU (`viet/lien-ket-nguoc.mjs`, 02/10/2026)
+
+Lò viết chèn link mới → cũ; chiều cũ → mới thì bài cũ không bao giờ biết có bài mới, nên bài
+mới nhận 0 link nội bộ đúng lúc cần nhất. Khi Publish, `thaMangNhen` (chạy nền trong
+`content:afterPublish`, cùng lối `thaIndexNow`) dựng gợi ý và ghi vào bộ kho `goi_y_nguoc`
+**khoá theo contentId của bài CŨ** — vì khung Phiếu Rada mở theo bài đang sửa.
+
+⚠️ **KHÔNG tự chèn.** Chỉ đề xuất; người biên tập bấm mới chèn. Tự sửa thân bài đã đăng là đổi
+nội dung người đọc đang xem mà không ai duyệt.
+
+⚠️ **Neo phải CÓ THẬT trong bài cũ.** Không cụm nào của bài mới xuất hiện trong chữ bài cũ thì
+đề xuất vẫn ra nhưng gắn cờ `canVietThem`, khung hiện dấu ✎ và nói rõ "phải viết thêm một câu";
+bài có neo sẵn xếp TRƯỚC vì việc rẻ hơn. Thiếu luật này thì đề xuất thành việc THÊM, không
+phải việc đỡ. Trần: 5 bài cũ mỗi bài mới, 3 đề xuất mỗi bài cũ.
+
+### Vòng học: loại sửa nào hay giúp lên hạng (`leo-top/vong-hoc.mjs`, 02/10/2026)
+
+⚠️ **ĐỒNG XUẤT HIỆN, KHÔNG PHẢI NHÂN QUẢ** — và đây là ràng buộc thiết kế, không phải lời rào
+đón. Một phiếu mang nhiều loại sửa cùng lúc và người quản trị sửa cả gói rồi mới bấm "Đã sửa",
+nên khi hạng lên không có cách nào quy công cho một loại. Vì vậy ghi chú đó LUÔN in ra (có phép
+kiểm), dưới 5 phiên thì `duKetLuan: false` và hàng mờ đi, bảng xếp theo SỐ PHIÊN chứ không theo
+tỉ lệ lên (1/1 = 100% mà chẳng nói gì), và bảng rỗng nói rõ là THIẾU DỮ LIỆU.
+
+⚠️ **Gom theo MỤC của phiếu, không theo chữ.** Cờ trong `phieu.traiNghiem` là CÂU tự do do
+`ban-do.mjs` dựng; khớp chuỗi để chia nhỏ sẽ hỏng IM LẶNG ngay lần đầu ai sửa diễn đạt — và
+hỏng theo kiểu tệ nhất: bảng vẫn ra số, chỉ là số của nhóm rỗng.
+
 ### Quảng cáo và khối dính (`leo-top/do-trang.mjs`)
 
 Đáng đo vì đây là nhóm bằng chứng mạnh nhất mà mình lại sẵn lợi thế (site không có quảng cáo):
