@@ -6,7 +6,7 @@
 // Mỗi bài -> dist/blog/<slug>/index.html (đủ meta + Open Graph + JSON-LD Article/Breadcrumb/FAQ).
 // Trang danh sách -> dist/blog/index.html.
 import { writeFileSync, mkdirSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
 import { marked } from 'marked'
 import { readArticles } from './blog-lib.mjs'
@@ -21,7 +21,7 @@ const root = resolve(here, '..')
 const distDir = process.env.DIST_DIR ? resolve(process.env.DIST_DIR) : resolve(root, 'dist')
 const blogOut = join(distDir, 'blog')
 
-function articlePage(a, all) {
+export function articlePage(a, all) {
   const url = `${DOMAIN}/blog/${a.slug}/`
   const bodyHtml = marked.parse(a.bodyMarkdown || '')
   const faq = Array.isArray(a.faq) ? a.faq : []
@@ -141,7 +141,7 @@ ${footer}</body></html>`
   )
 }
 
-function indexPage(all) {
+export function indexPage(all) {
   const url = `${DOMAIN}/blog/`
   const cards = all
     .map(
@@ -190,21 +190,26 @@ ${footer}</body></html>`
   )
 }
 
-const all = readArticles()
-if (!all.length) {
-  console.log('… chưa có bài blog nào trong content/blog — bỏ qua build-blog.')
-  process.exit(0)
+// Chỉ chạy khâu ghi tệp khi được gọi TRỰC TIẾP (node scripts/build-blog.mjs). Khi bị import —
+// phép kiểm chống lệch của cms/src/lib/khung-blog.test.mjs mượn articlePage/indexPage để so
+// khuôn — thì không đọc content/ và không ghi dist/.
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
+  const all = readArticles()
+  if (!all.length) {
+    console.log('… chưa có bài blog nào trong content/blog — bỏ qua build-blog.')
+    process.exit(0)
+  }
+  // index:false = bản nháp/chờ duyệt → vẫn sinh trang (để duyệt) nhưng noindex + không vào index/sitemap.
+  const published = all.filter((a) => a.index !== false)
+  mkdirSync(blogOut, { recursive: true })
+  writeFileSync(join(blogOut, 'index.html'), indexPage(published), 'utf8')
+  let n = 0
+  for (const a of all) {
+    const dir = join(blogOut, a.slug)
+    mkdirSync(dir, { recursive: true })
+    writeFileSync(join(dir, 'index.html'), articlePage(a, published), 'utf8')
+    n++
+  }
+  const drafts = all.length - published.length
+  console.log(`✓ build-blog: ${n} trang (${published.length} hiển thị${drafts ? ` + ${drafts} noindex` : ''}) + index /blog/`)
 }
-// index:false = bản nháp/chờ duyệt → vẫn sinh trang (để duyệt) nhưng noindex + không vào index/sitemap.
-const published = all.filter((a) => a.index !== false)
-mkdirSync(blogOut, { recursive: true })
-writeFileSync(join(blogOut, 'index.html'), indexPage(published), 'utf8')
-let n = 0
-for (const a of all) {
-  const dir = join(blogOut, a.slug)
-  mkdirSync(dir, { recursive: true })
-  writeFileSync(join(dir, 'index.html'), articlePage(a, published), 'utf8')
-  n++
-}
-const drafts = all.length - published.length
-console.log(`✓ build-blog: ${n} trang (${published.length} hiển thị${drafts ? ` + ${drafts} noindex` : ''}) + index /blog/`)
