@@ -627,7 +627,7 @@ test("tong-quan: trả tinhTrang (lịch, ca gần nhất, trang chờ, Claude �
 	await ctx.storage.ke_hoach.put("kx1", { trangThai: "can_xem", tieuDeLamViec: "A", taoLuc: "t" });
 	await ctx.storage.ke_hoach.put("kx2", { trangThai: "da_duyet", tieuDeLamViec: "B", taoLuc: "t" });
 	kq = await p.routes["tong-quan"].handler(ctx);
-	assert.match(kq.tinhTrang.map((x) => x.chu).join("\n"), /1 bài máy viết không đạt sau 3 lượt — cần bạn xem lại/);
+	assert.match(kq.tinhTrang.map((x) => x.chu).join("\n"), /1 bài máy viết chưa đạt — cần bạn xem lại/);
 }));
 
 const ctxThat = () => ({ ...taoCtx(), kv: taoKvGia() });

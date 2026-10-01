@@ -349,7 +349,7 @@ function KeHoachTab({ dl, loi, onDuyet, onBo }) {
 			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
 			{soCanXem > 0 && (
 				<div role="alert" style={{ border: "1px solid #f59e0b", background: "#fffbeb", borderRadius: 8, padding: "8px 12px", marginBottom: 12 }}>
-					<b>⚠ {soCanXem} bài máy viết không đạt sau 3 lượt — cần bạn xem lại.</b>{" "}
+					<b>⚠ {soCanXem} bài máy viết chưa đạt — cần bạn xem lại.</b>{" "}
 					{locTrangThai === "can_xem" ? (
 						<span>Đang hiện bên dưới: đọc lý do ở cột Trạng thái rồi bấm “Duyệt lại” hoặc “Bỏ”.</span>
 					) : (

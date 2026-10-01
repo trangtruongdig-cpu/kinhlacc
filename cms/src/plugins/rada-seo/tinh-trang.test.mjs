@@ -43,7 +43,7 @@ test("tinhTrangTuDong: Claude chưa từng đọc → câu chỉ đường routi
 
 test("tinhTrangTuDong: có bài can_xem → dòng 'thiếu' nêu số bài và chỉ sang tab Kế hoạch; 0 thì không có dòng", () => {
 	const ds = tinhTrangTuDong({ ...goc, soCanXem: 2 });
-	const d = ds.find((x) => /2 bài máy viết không đạt sau 3 lượt — cần bạn xem lại/.test(x.chu));
+	const d = ds.find((x) => /2 bài máy viết chưa đạt — cần bạn xem lại/.test(x.chu));
 	assert.ok(d, chu(ds));
 	assert.equal(d.muc, "thieu");
 	assert.match(d.chu, /Kế hoạch/);

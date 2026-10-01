@@ -45,7 +45,7 @@ export function tinhTrangTuDong(v) {
 	else ds.push({ muc: "ok", chu: "Claude đã từng đọc bài đối thủ." });
 
 	if (v.soCanXem > 0)
-		ds.push({ muc: "thieu", chu: `${v.soCanXem} bài máy viết không đạt sau 3 lượt — cần bạn xem lại ở tab Kế hoạch (lọc “Cần xem lại”).` });
+		ds.push({ muc: "thieu", chu: `${v.soCanXem} bài máy viết chưa đạt — cần bạn xem lại ở tab Kế hoạch (lọc “Cần xem lại”).` });
 
 	return ds;
 }
