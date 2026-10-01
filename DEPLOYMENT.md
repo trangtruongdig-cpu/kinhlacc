@@ -486,8 +486,14 @@ ra trang chủ".
 - **Sửa một trong 11 bài cũ trong CMS CHƯA đổi trang công khai** — bản tĩnh thắng, cho tới
   khi `build-blog` đọc từ CMS (việc để sau). Bài mới chỉ có trong CMS thì sửa là thấy ngay.
 - **CMS sập hoặc đang khởi động lại**: 11 bài tĩnh và trang danh sách vẫn sống; bài chỉ có
-  trong CMS thì rơi sang backend cũ và ra **404** cho tới khi CMS lên lại. Vì vậy đừng để
-  container `cms` chết lâu, và đừng deploy `cms` đúng lúc vừa Publish bài.
+  trong CMS thì trả **503 + `Retry-After: 30`** (đo trên nginx thật 01/10/2026) — Google coi là
+  "thử lại sau", không phải trang chết. Slug không tồn tại và `/blog/sitemap.xml` lúc đó cũng
+  ra 503, nên đừng chạy `kiem-blog-song.mjs` đúng lúc `cms` đang khởi động lại.
+- **Sửa bài đã đăng mà chỉ bấm Save thì trang công khai CHƯA đổi** — phải Publish lại. Ô SEO
+  "no index" thì có hiệu lực ngay khi Save.
+- **Sau deploy đọc log container `cms`**: không được có dòng `[blog] không tra được …` (hai
+  truy vấn noindex/ảnh bìa mới đo trên libsql, chưa đo trên Postgres; hỏng thì trang vẫn dựng
+  nhưng mất phần đó).
 - **IndexNow chỉ báo khi Publish trên VPS, và chỉ sau khi trang trả 200** (xem mục Rada SEO
   ở trên). Publish mà nginx cũ còn chạy thì trang 404 → không báo, có ghi lỗi ở tab Nháp.
 - **Đừng thêm `^~` vào `location /blog/`.** `/blog/blog.css` là tệp mọi trang tĩnh (~7.000
