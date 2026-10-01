@@ -17,6 +17,14 @@ export const NGUONG_THUA = 0.2;
 /** Câu trả lời đứng sau quá chừng này chữ thì người đọc phải cuộn mới thấy. */
 export const TRAN_TRA_LOI_DAU = 150;
 const THANG_CU = 24;
+/**
+ * Một khối quảng cáo lẻ (vd một banner đầu bài) là chuyện thường của trang tin; chỉ từ HAI
+ * khối trở lên mới đáng gọi là sơ hở. Đặt ngưỡng chứ không bắt lỗi từ khối đầu tiên vì phép
+ * đếm chỉ nhận dấu hiệu CHẮC CHẮN (mạng quảng cáo đã biết) nên nó đã nghiêng về đếm thiếu.
+ */
+export const NGUONG_QUANG_CAO = 2;
+/** Khối dính: một thanh điều hướng dính là bình thường; từ hai khối trở lên mới là che nội dung. */
+export const NGUONG_DINH = 2;
 const HANG_TAI_SAN = new Set(["dung", "ten_khac", "chua"]);
 /** Dưới chừng này trang đối thủ thì "≤ 20% trang có" là 0 hay 1 trang — chưa đủ để gọi là thừa. */
 export const SO_TRANG_KET_LUAN_THUA = 5;
@@ -141,6 +149,11 @@ function soHoTraiNghiem(t, now) {
 	}
 	if (!sd.coBang && (t.khoDung?.length ?? 0) >= 3) ra.push("Không có bảng dù có ≥ 3 ý dạng so sánh/liệt kê");
 	if (!sd.soNguonNgoai) ra.push("Không dẫn nguồn ngoài nào");
+	// FI_ADV (−0,2509) là hình phạt đơn lẻ nặng nhất trong bộ trọng số Yandex bị lộ — nặng hơn
+	// cả phần thưởng của PageRank; Google có clutterScore cùng hướng. kinhlac.online không có
+	// quảng cáo nào nên đây gần như luôn là sơ hở của phía bên kia, không phải của mình.
+	if (sd.soQuangCao >= NGUONG_QUANG_CAO) ra.push(`Có ${sd.soQuangCao} khối quảng cáo trên trang`);
+	if (sd.soDinh >= NGUONG_DINH) ra.push(`Có ${sd.soDinh} khối dính/che nội dung khi cuộn`);
 	if (!sd.coTacGia) ra.push("Không ghi tác giả/người duyệt");
 	const thang = soThang(sd.ngayCapNhat, now);
 	if (thang == null) ra.push("Không ghi ngày cập nhật");
@@ -155,6 +168,7 @@ const DAC_DIEM = [
 	{ ten: "Dẫn nguồn ngoài", co: (t) => (t.soDo?.soNguonNgoai ?? 0) > 0 },
 	{ ten: "Ghi tác giả/người duyệt", co: (t) => !!t.soDo?.coTacGia },
 	{ ten: "Cập nhật trong 24 tháng", co: (t, now) => moiCapNhat(t.soDo, now) },
+	{ ten: "Không có quảng cáo chen nội dung", co: (t) => (t.soDo?.soQuangCao ?? 0) < NGUONG_QUANG_CAO },
 ];
 
 /** Ý dùng thuật ngữ chuẩn "điều trị/chủ trị": giữ, nhắc diễn đạt trong phạm vi Y sỹ. */

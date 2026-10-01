@@ -278,3 +278,26 @@ test("M7 khacBiet và boSungCanCu cũng qua rào phạm vi Y sỹ: mục vi ph�
 	assert.ok(phieu.ghiChu.some((g) => /Bài gia truyền chữa dứt điểm/.test(g) && /hỗ trợ/.test(g)), JSON.stringify(phieu.ghiChu));
 	assert.ok(phieu.ghiChu.some((g) => /Khám bệnh miễn phí/.test(g) && /đo kinh lạc/.test(g)), JSON.stringify(phieu.ghiChu));
 });
+
+// ── Quảng cáo & khối dính (01/10/2026) ────────────────────────────────────────────────────
+test("quảng cáo của đối thủ thành sơ hở trải nghiệm, trang sạch thì không", () => {
+	const bd = dungBanDo({
+		...VAO,
+		trang: TRANG.map((t) => (t.url === "https://d.vn/4" ? { ...t, soDo: { ...t.soDo, soQuangCao: 4, soDinh: 3 } } : t)),
+		now: NOW,
+	});
+	const ban = bd.soHo.find((x) => x.url === "https://d.vn/4").traiNghiem.join(" | ");
+	assert.match(ban, /4 khối quảng cáo/);
+	assert.match(ban, /3 khối dính/);
+	const sach = bd.soHo.find((x) => x.url === "https://a.vn/1").traiNghiem.join(" | ");
+	assert.doesNotMatch(sach, /quảng cáo|dính/);
+});
+
+test("một khối quảng cáo lẻ chưa phải sơ hở (ngưỡng 2)", () => {
+	const bd = dungBanDo({
+		...VAO,
+		trang: TRANG.map((t) => (t.url === "https://d.vn/4" ? { ...t, soDo: { ...t.soDo, soQuangCao: 1, soDinh: 1 } } : t)),
+		now: NOW,
+	});
+	assert.doesNotMatch(bd.soHo.find((x) => x.url === "https://d.vn/4").traiNghiem.join(" | "), /quảng cáo|dính/);
+});

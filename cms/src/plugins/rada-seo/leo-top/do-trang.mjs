@@ -117,8 +117,42 @@ function layBody(h) {
 
 const KET_QUA_RONG = Object.freeze({
 	tieuDe: "", moTa: "", soChu: 0, viTriTraLoi: null, soH2: 0, soH3: 0, coBang: false, soDanhSach: 0, soHinh: 0,
-	coFaq: false, loaiJsonLd: [], ngayCapNhat: null, coTacGia: false, soNguonNgoai: 0, chu: "",
+	coFaq: false, loaiJsonLd: [], ngayCapNhat: null, coTacGia: false, soNguonNgoai: 0, soQuangCao: 0, soDinh: 0, chu: "",
 });
+
+// ── Quảng cáo và khối dính ────────────────────────────────────────────────────────────────
+// VÌ SAO ĐO: trong bộ trọng số tuyến tính của Yandex bị lộ, FI_ADV (−0,2509) là hình phạt
+// NẶNG NHẤT cho một yếu tố đơn lẻ — lớn hơn cả phần thưởng của FI_PAGE_RANK (+0,183). Phía
+// Google, leak Content Warehouse có clutterScore ("tài nguyên gây rối", và điểm này LAN sang
+// các trang cùng khuôn) cùng hai cờ khung chen trên di động. kinhlac.online không có quảng
+// cáo nào, nên đây là một sơ hở có thật của đối thủ mà bản đồ sơ hở đang bỏ qua.
+//
+// ⚠️ CHỈ ĐẾM THỨ CHẮC CHẮN. Ta chỉ có HTML thô: không chạy JS, không đọc CSS ngoài, nên
+// KHÔNG biết một <div class="banner"> có thật là quảng cáo không. Đếm theo TÊN LỚP sẽ vu oan
+// hàng loạt (lớp "ads" hay dùng cho khung giới thiệu nội bộ). Vì vậy chỉ nhận hai dấu hiệu
+// không thể nhầm: tài nguyên tải từ MẠNG QUẢNG CÁO đã biết, và thẻ <ins class="adsbygoogle">.
+// Đếm thiếu thì phiếu im lặng; đếm thừa thì phiếu bảo người ta gỡ một khối không phải quảng
+// cáo — cái sau tệ hơn.
+const MIEN_QUANG_CAO = [
+	"googlesyndication.com", "doubleclick.net", "googleadservices.com", "adservice.google.com",
+	"amazon-adsystem.com", "adnxs.com", "criteo.com", "taboola.com", "outbrain.com", "mgid.com",
+	"admicro.vn", "adtima.vn", "eclick.vn", "ambient.vn", "novanet.vn", "vdo.ai", "yandex.ru/ads",
+];
+/** Thuộc tính style nội tuyến có position:fixed|sticky — khối dính duy nhất đọc được từ HTML thô. */
+const RE_DINH = /style\s*=\s*["'][^"']{0,400}position\s*:\s*(fixed|sticky)/gi;
+
+/** Số khối quảng cáo đếm được trên HTML THÔ (cần cả <script>/<iframe>, nên không dùng bản đã bóc). */
+function demQuangCao(h) {
+	const dich = new Set();
+	for (const m of h.matchAll(/\b(?:src|data-src|href)\s*=\s*["']([^"']{1,2000})["']/gi)) {
+		const u = m[1].toLowerCase();
+		const mien = MIEN_QUANG_CAO.find((d) => u.includes(d));
+		// Cùng một mạng nhắc nhiều lần trong một khối vẫn là MỘT khối; gom theo mạng + vị trí thô.
+		if (mien) dich.add(`${mien}|${Math.floor(m.index / 2000)}`);
+	}
+	const ins = (h.match(/<ins\b[^<>]{0,500}adsbygoogle/gi) || []).length;
+	return dich.size + ins;
+}
 
 /**
  * Không bao giờ ném: trang là dữ liệu của người khác; một trang hỏng không được làm hỏng cả
@@ -391,6 +425,11 @@ function doTrangTho(h, { tuKhoa = "", url = "" }) {
 		ngayCapNhat: ngayCapNhat || null,
 		coTacGia,
 		soNguonNgoai: dich.size,
+		// Đo trên HTML THÔ: khối quảng cáo nằm ngoài <article> và cần cả thẻ script/iframe
+		// (bodyHtml đã bóc mất chúng). Khối dính đếm trên thân đã bóc script để không dính
+		// chuỗi "position:fixed" nằm trong mã JS.
+		soQuangCao: demQuangCao(h),
+		soDinh: (bodyHtml.match(RE_DINH) || []).length,
 		chu,
 	};
 }

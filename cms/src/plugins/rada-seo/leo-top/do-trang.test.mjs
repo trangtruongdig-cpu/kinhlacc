@@ -283,3 +283,38 @@ test("ngày: dạng ISO sau 'Cập nhật' (có/không dấu hai chấm) — đ�
 	// Chỉ có <meta property="article:modified_time">.
 	assert.equal(ng(`<p>x</p>`, `<meta property="article:modified_time" content="2026-09-30T08:00:00+07:00">`), "2026-09-30T08:00:00+07:00");
 });
+
+// ── Quảng cáo & khối dính (01/10/2026) ────────────────────────────────────────────────────
+// FI_ADV là hình phạt đơn lẻ nặng nhất trong bộ trọng số Yandex bị lộ, nên đáng đo. Nhưng ta
+// chỉ có HTML thô: bẫy ở đây là VU OAN, không phải đếm thiếu.
+test("đếm khối quảng cáo từ mạng quảng cáo đã biết", () => {
+	const h = `<html><body>
+		<script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+		<ins class="adsbygoogle" data-ad-slot="1"></ins>
+		<iframe src="https://ad.doubleclick.net/x"></iframe>
+		<p>Nội dung thật</p></body></html>`;
+	assert.ok(doTrang(h, { tuKhoa: "x", url: "https://a.vn/" }).soQuangCao >= 3);
+});
+
+test("KHÔNG vu oan: lớp tên 'ads'/'banner' của chính site không phải quảng cáo", () => {
+	const h = `<html><body>
+		<div class="ads-noi-bo"><a href="/khoa-hoc/">Khoá học của chúng tôi</a></div>
+		<div class="banner"><img src="/img/bia.jpg" alt="bìa"></div>
+		<p>Nội dung thật</p></body></html>`;
+	assert.equal(doTrang(h, { tuKhoa: "x", url: "https://a.vn/" }).soQuangCao, 0);
+});
+
+test("khối dính đếm theo style nội tuyến, không đếm chuỗi nằm trong JS", () => {
+	const h = `<html><body>
+		<div style="position:fixed;bottom:0">thanh dính</div>
+		<div style="position: sticky; top: 0">thanh dính 2</div>
+		<script>var css = "position:fixed"; var x = "position:sticky"</script>
+		<p>Nội dung</p></body></html>`;
+	assert.equal(doTrang(h, { tuKhoa: "x", url: "https://a.vn/" }).soDinh, 2);
+});
+
+test("trang sạch → 0 quảng cáo, 0 khối dính", () => {
+	const r = doTrang(`<html><body><article><p>Chữ sạch</p></article></body></html>`, { tuKhoa: "x", url: "https://a.vn/" });
+	assert.equal(r.soQuangCao, 0);
+	assert.equal(r.soDinh, 0);
+});
