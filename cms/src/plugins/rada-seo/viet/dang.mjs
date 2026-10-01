@@ -15,6 +15,7 @@ import { chuTuPt } from "./pt-an-toan.mjs";
 import { slugKhongDau } from "../luat/slug.mjs";
 import { kemCauNguon, kemCauLink, trichHref } from "./ly-do.mjs";
 import { chuIndexNow } from "./indexnow.mjs";
+import { docGoiYNguoc, duongBai } from "./lien-ket-nguoc.mjs";
 
 const BO = "bai_viet";
 /** Trần reason của EmDash là 500 code point; chừa lề. */
@@ -305,7 +306,7 @@ const gioVN = (s) => {
  * Block Kit cho khung "Phiếu Rada" (chỉ header/section/fields/context/divider/banner).
  * @param {{chuaLuu?: boolean, nhap?: object|null, soat?: {viPham: object[], anhHong: number[]}}} x
  */
-export function khoiPanel({ chuaLuu = false, nhap = null, soat = null, loiDoc = "", khongThay = false, tuRevision = false } = {}) {
+export function khoiPanel({ chuaLuu = false, nhap = null, soat = null, loiDoc = "", khongThay = false, tuRevision = false, goiYNguoc = [] } = {}) {
 	const ra = [{ type: "header", text: "Phiếu Rada" }];
 	if (chuaLuu) {
 		ra.push({ type: "context", text: "Lưu bài một lần rồi mở lại khung này để xem phiếu." });
@@ -378,6 +379,24 @@ export function khoiPanel({ chuaLuu = false, nhap = null, soat = null, loiDoc = 
 			? "Soát trên bản nháp đã lưu gần nhất (chữ đang gõ chưa lưu thì chưa tính). Chốt thật chạy lại lúc bấm Publish."
 			: "Soát trên bản đã XUẤT BẢN / tạo lần đầu — bản nháp đang sửa có thể khác. Chốt thật chạy lại lúc bấm Publish, trên cả bản nháp.",
 	});
+	// Mạng nhện chiều cũ → mới (2C mục 6). Máy chỉ ĐỀ XUẤT: tự chèn link vào thân bài đã đăng
+	// là đổi nội dung người đọc đang xem mà không ai duyệt.
+	if (Array.isArray(goiYNguoc) && goiYNguoc.length) {
+		ra.push({ type: "header", text: "Nên trỏ sang bài mới" });
+		for (const g of goiYNguoc) {
+			ra.push({
+				type: "context",
+				text:
+					`${g.canVietThem ? "✎" : "→"} ${duongBai(g.slug)} — ${g.tieuDe}` +
+					`${g.neo ? ` · chữ neo sẵn có: “${g.neo}”` : ""} · ${g.lyDo}`,
+			});
+		}
+		ra.push({
+			type: "context",
+			text: "Dấu ✎ nghĩa là bài này chưa có cụm nào của bài mới trong chữ — phải viết thêm một câu rồi mới gắn link.",
+		});
+	}
+
 	return ra;
 }
 
@@ -433,6 +452,8 @@ export async function taiPanel(ctx) {
 	} catch (e) {
 		ctx.log?.warn?.("Rada SEO: khung phiếu không đọc được sổ nháp", e);
 	}
+	// Gợi ý chèn link ngược: sổ khoá theo contentId của bài CŨ, tức chính bài đang sửa.
+	const goiYNguoc = await docGoiYNguoc(ctx.storage, id);
 	let item;
 	try {
 		item = await ctx.content.get(BO, String(id));
@@ -456,5 +477,5 @@ export async function taiPanel(ctx) {
 		}
 	}
 	if (!tuRevision && nhap?.tieuDe && (!data.title || data.title === nhap.slug || data.title === slugKhongDau(nhap.tieuDe))) data.title = nhap.tieuDe;
-	return { blocks: khoiPanel({ nhap, soat: soatBai(data, { nghiem: !!nhap }), tuRevision }) };
+	return { blocks: khoiPanel({ nhap, soat: soatBai(data, { nghiem: !!nhap }), tuRevision, goiYNguoc }) };
 }

@@ -26,6 +26,7 @@ import {
 import { layBaiCanViet, nopBai } from "./viet/viec.mjs";
 import { truocKhiDang, sauKhiDang, sauKhiGo, taiPanel, dsNhapChoTab } from "./viet/dang.mjs";
 import { thaIndexNow } from "./viet/indexnow.mjs";
+import { thaMangNhen } from "./viet/lien-ket-nguoc.mjs";
 
 /**
  * Lịch cron: phút 30 MỖI GIỜ. Ca thật chỉ chạy ở tick có giờ UTC = GIO_UTC_CHAY (19:30 UTC =
@@ -339,6 +340,10 @@ export function createPlugin() {
 				handler: async (event, ctx) => {
 					await sauKhiDang(event, ctx);
 					thaIndexNow(event, ctx, "dang");
+					// Mạng nhện chiều cũ → mới: dựng gợi ý "chèn link ngược" cho các bài cũ cùng
+					// cụm. Cũng chạy nền (liệt kê mọi bài đã đăng mất vài giây) và KHÔNG tự chèn —
+					// gợi ý hiện trong khung Phiếu Rada của bài cũ, người biên tập bấm mới chèn.
+					thaMangNhen(event, ctx);
 				},
 				errorPolicy: "continue",
 			},

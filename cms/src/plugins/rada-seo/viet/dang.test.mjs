@@ -443,3 +443,25 @@ test("dsNhapChoTab: nháp đã báo IndexNow mang chữ hiển thị sẵn (inde
 	const theo = Object.fromEntries(r.nhap.map((n) => [n.id, n.indexNowChu]));
 	assert.deepEqual(theo, { c1: "IndexNow: đã báo 14:05 01/10", c2: "IndexNow: lỗi HTTP 403: sai khoá", c3: "" });
 });
+
+// Mang nhen chieu cu -> moi (2C muc 6): khung Phieu Rada cua bai CU hien goi y chen link nguoc.
+test("khoiPanel: hien goi y chen link nguoc, phan biet bai phai viet them cau", () => {
+	const chu = JSON.stringify(
+		dang.khoiPanel({
+			nhap: null,
+			soat: { viPham: [], anhHong: [] },
+			goiYNguoc: [
+				{ slug: "bai-moi-a", tieuDe: "Bai moi A", neo: "huyet Than Mon", canVietThem: false, lyDo: "Cung cum noi dung" },
+				{ slug: "bai-moi-b", tieuDe: "Bai moi B", neo: null, canVietThem: true, lyDo: "Tu khoa trung 40%" },
+			],
+		}),
+	);
+	assert.match(chu, /\/blog\/bai-moi-a\//);
+	assert.match(chu, /\/blog\/bai-moi-b\//);
+	assert.match(chu, /huyet Than Mon/);
+	// Bai phai viet them cau mang dau khac han, va co mot dong giai thich dau do.
+	assert.match(chu, /\u270e/);
+	assert.match(chu, /\u2192/);
+	// Khong co goi y thi KHONG duoc hien khoi nao (tranh khung rong gay nhieu).
+	assert.doesNotMatch(JSON.stringify(dang.khoiPanel({ nhap: null, soat: { viPham: [], anhHong: [] } })), /tro sang bai moi/i);
+});

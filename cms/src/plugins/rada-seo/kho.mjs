@@ -19,6 +19,10 @@ export const KHAI_BAO_KHO = {
 	leo_top: { indexes: ["trangThai", "taoLuc"] },
 	// Lò viết (2C-3): một dòng = một nháp bai_viet plugin đã tạo, id = contentId của CMS.
 	nhap: { indexes: ["keHoachId", "trangThai", "taoLuc"] },
+	// Mạng nhện hai chiều (2C mục 6): một dòng = MỘT BÀI CŨ, id = contentId của nó, chứa các
+	// bài mới mà nó nên trỏ sang. Khoá theo bài CŨ vì khung Phiếu Rada mở theo bài đang sửa.
+	// Không index: chỉ tra bằng get(id) khi mở khung.
+	goi_y_nguoc: {},
 };
 
 export const TRANG_THAI_CUM = ["cho_viet", "co_nhap", "da_dang", "bo_qua", "phu_boi_tu_dien"];
