@@ -32,7 +32,8 @@ export default defineConfig(({ command }) => ({
           /^\/_emdash\//,            // khu quản trị + API + ảnh của CMS
           /^\/_astro\//,             // asset của Astro
           /^\/api\//,                // API backend
-          /^\/blog\//,               // bài viết (bản tĩnh hoặc backend render)
+          /^\/blog\//,               // bài viết (bản tĩnh, CMS dựng trực tiếp, hoặc backend render)
+          /^\/blog$/,                // thiếu "/" cuối: để nginx trả 301 → /blog/ (app không có route /blog)
           /^\/huyet\//,              // 662 trang huyệt vị
           /^\/kinh\//,               // 21 trang đường kinh
           /^\/benh-hoc\//,           // 101 trang bệnh học

@@ -175,6 +175,14 @@ không chèn ảnh lạc đề. Gán `featured_image` bằng `storageKey`.
 
 ## Chuyển `/blog/` sang CMS
 
+> ⚠️ **Ghi chú 01/10/2026 — quyết định ĐÃ ĐỔI, mục này không còn là cách làm.** Không proxy
+> cả `/blog/` sang CMS và không xoá `dist/blog/`. Đo thật cho thấy làm vậy là đổi giao diện
+> 11 bài đã index, mất `/blog/blog.css` (tệp mọi trang tĩnh đang nạp) và gãy hai chốt build.
+> Cách đang dùng: **tĩnh trước, CMS đỡ sau, backend cũ đỡ chót**; `dist/sitemap.xml` giữ
+> nguyên, `/blog/sitemap.xml` khai thêm trong `robots.txt`. Xem
+> `docs/superpowers/plans/2026-10-01-ke-hoach-3-blog-len-cms.md`. Các gạch đầu dòng dưới đây
+> giữ lại làm dấu vết của quyết định cũ.
+
 - nginx: khối `/blog/` → `proxy_pass` sang cms (bộ directive đã ghi chú sẵn trong
   `frontend/nginx.conf`).
 - Gỡ `build-blog.mjs` khỏi `blog:post`, xoá `dist/blog/` (bản tĩnh sẽ che bản CMS).

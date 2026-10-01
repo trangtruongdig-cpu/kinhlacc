@@ -470,6 +470,27 @@ CSDL, trong khi route đó đơn giản là không còn tồn tại.
 Trang độc lập không cần route Vue. Trang vỏ SPA thì **bắt buộc** phải có route Vue khớp,
 không thì tải trang ra nội dung tĩnh còn bấm link ra 404.
 
+### `/blog/` — tĩnh trước, CMS đỡ sau, backend cũ đỡ chót (từ 01/10/2026)
+
+Ngoại lệ DUY NHẤT của câu "không có đường thư viện nào sang CMS". Kế hoạch:
+`docs/superpowers/plans/2026-10-01-ke-hoach-3-blog-len-cms.md`; vận hành: `DEPLOYMENT.md`,
+mục "Blog: tĩnh trước, CMS đỡ sau".
+
+- `/blog/<slug>/`: tệp tĩnh trong `dist/blog/` (11 bài cũ, y nguyên từng byte) → không có
+  thì CMS dựng trực tiếp (`@blog_cms` — bài vừa Publish hiện ngay) → CMS trả 404 hoặc sập
+  thì backend cũ (`@blog_render`, `seo-blog.router.ts`) → 404 thật.
+- `/blog/` và `/blog/sitemap.xml` do CMS dựng; `/blog/` có bản tĩnh dự phòng khi CMS sập.
+- ⚠️ **Sửa một trong 11 bài cũ trong CMS chưa đổi trang công khai** — bản tĩnh thắng, cho
+  tới khi `build-blog` đọc từ CMS. Ai báo "sửa rồi mà trang không đổi" thì kiểm slug đó có
+  thư mục trong `dist/blog/` không trước khi nghi bộ đệm.
+- ⚠️ **`location /blog/` không bao giờ được thành `^~`.** `/blog/blog.css` là tệp MỌI trang
+  tĩnh (~7.000 trang) nạp, và phải do khối regex đuôi tệp của nginx phục vụ.
+- Không `proxy_cache` trên `/blog/`: IndexNow (plugin Rada SEO, chỉ trên VPS) chờ trang trả
+  200 rồi mới báo, và bài gỡ phải biến mất ngay.
+- Trang blog của CMS phải ra ĐÚNG khuôn bản tĩnh (`cms/src/lib/khung-blog.mjs` là bản chép
+  của khuôn `build-blog.mjs` + `seo-html.mjs`, vì `cms/` build với context riêng nên không
+  import được từ `frontend/`). Sửa khuôn một bên thì sửa bên kia.
+
 `/duoc-lieu/nhom/…` (61 URL) do `build-nhom-duoc-ly.mjs` sinh, vẫn tĩnh.
 `gen-sitemap.mjs` + `kiem-sitemap.mjs` là cổng chặn số lượng URL.
 

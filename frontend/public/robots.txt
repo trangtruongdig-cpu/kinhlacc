@@ -39,3 +39,5 @@ Allow: /
 
 # Bản đồ trang (sinh tự động khi build: npm run sitemap)
 Sitemap: https://kinhlac.online/sitemap.xml
+# Bài blog Publish trong CMS (chưa có trong sitemap tĩnh ở trên) — CMS sinh động.
+Sitemap: https://kinhlac.online/blog/sitemap.xml

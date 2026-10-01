@@ -407,9 +407,12 @@ cuối routine trước.
      áp cho CẢ bài người viết, không riêng bài máy viết. Bài người viết soát chế độ THƯỜNG,
      bài máy viết (có trong tab Nháp) soát chế độ NGHIÊM; thông báo khi chặn nêu đúng chữ nào
      và gợi ý thay. Ai báo "không Publish được bài" thì đọc thông báo đó trước.
-   - **IndexNow CỐ Ý CHƯA bật.** Bài đã Publish nằm trong CMS, nhưng `/blog/` công khai vẫn
-     phục vụ trang tĩnh cũ cho tới khi `/blog/` chuyển sang đọc từ CMS (kế hoạch 3) — báo
-     IndexNow cho một URL chưa tồn tại trên site là có hại. Bật IndexNow cùng lúc với kế hoạch 3.
+   - **IndexNow ĐÃ bật từ kế hoạch 3 (01/10/2026)** — trước đó cố ý tắt vì bài Publish trong
+     CMS chưa lên được `/blog/`. Nay Publish một `bai_viet` thì plugin chờ trang công khai
+     `https://kinhlac.online/blog/<slug>/` trả **200** rồi mới báo; trang chưa lên thì ghi
+     lỗi và KHÔNG báo. Unpublish cũng báo, để bot quay lại thấy bài đã gỡ. Chỉ chạy trên VPS (`RADA_SEO_CA_DEM=1`), máy lập trình không
+     báo. Điều kiện để nó chạy được là nginx mới đã lên — xem mục "Blog: tĩnh trước, CMS đỡ
+     sau" ngay dưới.
 
 ⚠️ **Ảnh nạp qua API mất `alt`:** `alt` gửi kèm lúc tải ảnh lên (multipart) bị bỏ, phải `PUT` riêng — mà lò viết chọn ảnh bìa THEO alt, nên ảnh nạp cho lò viết phải có alt đặt trong thư viện ảnh (Media), không thì không bao giờ được chọn.
 
@@ -436,6 +439,65 @@ Phải in ra `200`.
 URL bị đánh dấu lỗi (trang chặn tạm, mạng chập) không tự thử lại; dùng nút **"Thử lại URL
 lỗi"** ở dòng đối thủ. Máy chủ giao cho Claude tối đa **40 trang mỗi đêm** — trần giữ hạn
 mức gói Claude, nằm ở `cms/src/plugins/rada-seo/mcp-viec.mjs`.
+
+---
+
+## Blog: tĩnh trước, CMS đỡ sau
+
+Kế hoạch: `docs/superpowers/plans/2026-10-01-ke-hoach-3-blog-len-cms.md`. Bài Publish trong
+CMS hiện ở `/blog/<slug>/` NGAY, không chờ build; 11 bài cũ vẫn là tệp tĩnh, không đổi một byte.
+
+**Cách chạy** (`frontend/nginx.conf`, các khối blog):
+
+| Đường | Ai trả lời |
+|---|---|
+| `/blog/<slug>/` | tệp tĩnh trong `dist/blog/` nếu có → không có thì **CMS** dựng trực tiếp → CMS trả 404 thì **backend cũ** (`@blog_render`, bài chỉ có trong DB app) → 404 thật |
+| `/blog/` | **CMS** dựng trực tiếp (danh sách luôn mới); CMS sập thì trả `dist/blog/index.html` của lần build gần nhất (header `X-Blog-Nguon: tinh-du-phong`) |
+| `/blog/sitemap.xml` | CMS sinh động; đã khai trong `robots.txt` bên cạnh `/sitemap.xml` |
+| `/blog`, `/blog/<slug>` (thiếu `/`) | 301 thêm `/` |
+| `/blog/blog.css`, ảnh, js | tệp tĩnh, như cũ (khối đuôi tệp của nginx) |
+
+Không có lớp đệm nginx nào trên `/blog/` — cố ý: thêm 60 giây đệm là bài vừa Publish hiện
+chậm một phút và bài vừa gỡ còn sống thêm một phút.
+
+**Thứ tự deploy — image `cms` TRƯỚC, `frontend` (nginx) SAU.** Ngược lại thì trong khoảng
+giữa hai lần build, nginx mới đẩy `/blog/` sang CMS cũ — CMS cũ trả trang blog mẫu tiếng Anh
+không có CSS.
+
+```bash
+cd ~/kinhlacc && git pull
+docker compose build cms      && docker compose up -d cms        # 1. trang blog đúng khuôn
+docker compose build frontend && docker compose up -d frontend   # 2. nginx mới + robots.txt
+```
+
+**Kiểm sau deploy** (chỉ đọc, chạy từ máy nào cũng được):
+
+```bash
+node frontend/scripts/kiem-blog-song.mjs
+```
+
+Nó kiểm 11 slug cũ vẫn 200 và giống bản tĩnh, `/blog/` 200 đủ bài, `/blog/sitemap.xml` hợp
+lệ, `/blog/khong-co/` là 404 thật, `/blog/blog.css` là 200 `text/css`. Kiểm tay thêm một lần
+trong **cửa sổ ẩn danh**: `curl` không chạy service worker nên không thấy được cảnh "bấm vào
+ra trang chủ".
+
+**Biết trước:**
+
+- **Sửa một trong 11 bài cũ trong CMS CHƯA đổi trang công khai** — bản tĩnh thắng, cho tới
+  khi `build-blog` đọc từ CMS (việc để sau). Bài mới chỉ có trong CMS thì sửa là thấy ngay.
+- **CMS sập hoặc đang khởi động lại**: 11 bài tĩnh và trang danh sách vẫn sống; bài chỉ có
+  trong CMS thì rơi sang backend cũ và ra **404** cho tới khi CMS lên lại. Vì vậy đừng để
+  container `cms` chết lâu, và đừng deploy `cms` đúng lúc vừa Publish bài.
+- **IndexNow chỉ báo khi Publish trên VPS, và chỉ sau khi trang trả 200** (xem mục Rada SEO
+  ở trên). Publish mà nginx cũ còn chạy thì trang 404 → không báo, có ghi lỗi ở tab Nháp.
+- **Đừng thêm `^~` vào `location /blog/`.** `/blog/blog.css` là tệp mọi trang tĩnh (~7.000
+  trang) đang nạp và phải do khối đuôi tệp phục vụ.
+
+**Lùi lại:** trong `frontend/nginx.conf` có khối chú thích "ĐƯỜNG LÙI" ngay dưới các khối
+blog — xoá bốn khối mới, bỏ dấu `#` ở khối cũ, dựng lại image `frontend`. Về đúng như trước:
+tĩnh trước, backend sau; bài chỉ có trong CMS thành 404 (nên lùi xong thì đừng Publish bài
+mới — IndexNow sẽ không báo vì trang không lên 200, nhưng người đọc cũng không thấy bài).
+Không cần lùi image `cms`.
 
 ---
 
