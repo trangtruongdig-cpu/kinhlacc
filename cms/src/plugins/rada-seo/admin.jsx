@@ -754,6 +754,8 @@ function NhapTab({ dl, loi, onTai }) {
 							<td style={o}>
 								{NHAN_NHAP[n.trangThai] ?? n.trangThai}
 								{n.dangLuc && <div style={{ fontSize: 12, color: "#6b7280" }}>{gio(n.dangLuc)}</div>}
+								{/* Chữ do máy chủ dựng (viet/indexnow.mjs chuIndexNow): "IndexNow: đã báo HH:mm DD/MM" hoặc "IndexNow: lỗi …". */}
+								{n.indexNowChu && <div style={{ fontSize: 12, color: n.indexNow?.ok ? "#15803d" : "#b91c1c" }}>{n.indexNowChu}</div>}
 							</td>
 							<td style={{ ...o, whiteSpace: "nowrap" }}>{n.tomTat?.soTu == null ? "—" : n.tomTat.soTu}</td>
 							<td style={o}>
@@ -949,8 +951,8 @@ function RadaSeo() {
 							</thead>
 							<tbody>
 								{dl.ca.map((c) => (
-									<tr key={c.batDau}>
-										<td style={o}>{gio(c.batDau)}</td><td style={o}>{c.loai === "claude" ? "Claude đọc" : c.ghi ? "radar" : "radar (thử)"}</td>
+									<tr key={`${c.batDau}-${c.loai}-${c.kieu ?? ""}-${c.slug ?? ""}`}>
+										<td style={o}>{gio(c.batDau)}</td><td style={o}>{c.loai === "indexnow" ? (c.kieu === "go" ? "IndexNow (gỡ bài)" : "IndexNow (đăng bài)") : c.loai === "claude" ? "Claude đọc" : c.ghi ? "radar" : "radar (thử)"}</td>
 										<td style={o}>{c.soUrlMoi ?? "—"}</td><td style={o}>{c.loai === "claude" ? c.soDoc : c.soTrich ?? "—"}</td><td style={o}>{c.soNgoaiNganh ?? "—"}</td>
 										<td style={o}>{c.soCum ?? "—"}</td>
 										<td style={o}>{c.soDoLai ?? "—"}</td>

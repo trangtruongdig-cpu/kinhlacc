@@ -861,3 +861,61 @@ test("route nhap-tong-quan: danh sách nháp + mồ côi cho tab Nháp — đọ
 	assert.deepEqual(r.nhap.map((n) => [n.id, n.tenKeHoach]), [["c1", "A"]]);
 	assert.deepEqual(r.moCoi, []);
 });
+
+// ---- IndexNow khi Publish (kế hoạch 3 việc 2) ----
+
+const ctxIndexNow = () => {
+	const goi = [];
+	const ctx = {
+		...taoCtx(),
+		kv: taoKvGia(),
+		http: {
+			async fetch(url, init = {}) {
+				goi.push({ url: String(url), method: init.method ?? "GET", body: init.body });
+				return new Response("", { status: 200 });
+			},
+		},
+	};
+	return { ctx, goi };
+};
+const choNhatKy = async (ctx, n) => {
+	for (let i = 0; i < 200 && (await kho.dsCa(ctx.storage, 10)).length < n; i++) await new Promise((r) => setImmediate(r));
+	return kho.dsCa(ctx.storage, 10);
+};
+
+test("hook afterPublish/afterUnpublish: máy không bật RADA_SEO_CA_DEM thì KHÔNG gọi mạng", coBien("RADA_SEO_CA_DEM", undefined, async () => {
+	const p = createPlugin();
+	const { ctx, goi } = ctxIndexNow();
+	await p.hooks["content:afterPublish"].handler({ collection: "bai_viet", content: { id: "c1", slug: "bai-a" } }, ctx);
+	await p.hooks["content:afterUnpublish"].handler({ collection: "bai_viet", content: { id: "c1", slug: "bai-a" } }, ctx);
+	await new Promise((r) => setTimeout(r, 20));
+	assert.equal(goi.length, 0);
+	assert.equal((await kho.dsCa(ctx.storage, 10)).length, 0);
+}));
+
+test("hook afterPublish: bật ca đêm → vẫn ghi da_dang, rồi báo IndexNow ở NỀN bằng ctx.http.fetch; afterUnpublish cũng báo", coBien("RADA_SEO_CA_DEM", "1", async () => {
+	const p = createPlugin();
+	const { ctx, goi } = ctxIndexNow();
+	await ctx.storage.ke_hoach.put("k1", { trangThai: "co_nhap", contentId: "c1" });
+	await kho.themNhap(ctx.storage, { keHoachId: "k1", contentId: "c1", slug: "bai-a", tieuDe: "t", phieu: {} }, "2026-09-30T00:00:00.000Z");
+	const kq = await p.hooks["content:afterPublish"].handler({ collection: "bai_viet", content: { id: "c1", slug: "bai-a" } }, ctx);
+	assert.equal(kq, undefined, "hook không trả promise của việc nền");
+	assert.equal((await ctx.storage.nhap.get("c1")).trangThai, "da_dang");
+	const ca = await choNhatKy(ctx, 1);
+	assert.equal(ca[0].loai, "indexnow");
+	assert.equal(ca[0].ok, true);
+	const gui = goi.filter((g) => g.method === "POST");
+	assert.equal(gui.length, 1);
+	assert.equal(gui[0].url, "https://api.indexnow.org/indexnow");
+	assert.deepEqual(JSON.parse(gui[0].body).urlList.map((u) => new URL(u).pathname), ["/blog/bai-a/", "/blog/"]);
+	const n = await ctx.storage.nhap.get("c1");
+	assert.equal(n.indexNow.ok, true);
+	assert.equal(n.trangThai, "da_dang", "ghi indexNow không đè trạng thái");
+	await p.hooks["content:afterUnpublish"].handler({ collection: "bai_viet", content: { id: "c1", slug: "bai-a" } }, ctx);
+	const ca2 = await choNhatKy(ctx, 2);
+	assert.equal(ca2.filter((c) => c.kieu === "go").length, 1);
+	assert.equal(goi.filter((g) => g.method === "POST").length, 2);
+	// Dòng indexnow không được tính là ca radar / ca Claude ở màn tổng quan.
+	const tq = await p.routes["tong-quan"].handler(ctx);
+	assert.equal(tq.ca.filter((c) => c.loai === "indexnow").length, 2);
+}));

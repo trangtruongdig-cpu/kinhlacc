@@ -632,3 +632,14 @@ test("themKeHoach: đề xuất lại một bài đang ở lò viết → GIỮ 
 	const r = await s.ke_hoach.get(k.id);
 	for (const [x, v] of Object.entries(lo)) assert.deepEqual(r[x], v, x);
 });
+
+test("ghiCa: dòng có slug (kiểu indexnow) mang khoá riêng theo kiểu + slug — hai bài báo cùng mili-giây không đè nhau; ca radar giữ khoá cũ", async () => {
+	const s = taoKhoGia();
+	const luc = "2026-10-01T07:05:00.000Z";
+	await kho.ghiCa(s, { loai: "indexnow", kieu: "dang", slug: "a", batDau: luc });
+	await kho.ghiCa(s, { loai: "indexnow", kieu: "dang", slug: "b", batDau: luc });
+	await kho.ghiCa(s, { loai: "indexnow", kieu: "go", slug: "a", batDau: luc });
+	await kho.ghiCa(s, { loai: "radar", batDau: luc });
+	assert.equal((await kho.dsCa(s, 10)).length, 4);
+	assert.ok(await s.ca.get(`${luc}-radar`), "khoá ca radar không đổi");
+});

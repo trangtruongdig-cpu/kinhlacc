@@ -14,6 +14,7 @@ import { timViPham } from "../luat/pham-vi-y-sy.mjs";
 import { chuTuPt } from "./pt-an-toan.mjs";
 import { slugKhongDau } from "../luat/slug.mjs";
 import { kemCauNguon, kemCauLink, trichHref } from "./ly-do.mjs";
+import { chuIndexNow } from "./indexnow.mjs";
 
 const BO = "bai_viet";
 /** Trần reason của EmDash là 500 code point; chừa lề. */
@@ -390,7 +391,7 @@ export async function dsNhapChoTab(s) {
 	return {
 		nhap: nhap.map(({ phieu, ...n }) => {
 			const k = khTheoId.get(n.keHoachId);
-			return { ...n, duong: n.slug ? `/${n.slug}` : "(chưa có slug)", tenKeHoach: k?.tieuDeLamViec ?? "", trangThaiKeHoach: k?.trangThai ?? null, adminUrl: adminUrl(n.id), tomTat: tomTatPhieu(phieu) };
+			return { ...n, duong: n.slug ? `/${n.slug}` : "(chưa có slug)", tenKeHoach: k?.tieuDeLamViec ?? "", trangThaiKeHoach: k?.trangThai ?? null, adminUrl: adminUrl(n.id), tomTat: tomTatPhieu(phieu), indexNowChu: chuIndexNow(n.indexNow) };
 		}),
 		moCoi: keHoach
 			.filter((k) => k.trangThai === "can_xem" && k.contentId && !coNhap.has(String(k.contentId)))

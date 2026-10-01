@@ -431,3 +431,15 @@ test("taiPanel: revision nháp mang featured_image id trần (plugin ghi) hoặc
 	assert.match(await dung("m8"), /Ảnh bìa của bản đang soát: có/);
 	assert.match(await dung(undefined), /Ảnh bìa của bản đang soát: không có/);
 });
+
+test("dsNhapChoTab: nháp đã báo IndexNow mang chữ hiển thị sẵn (indexNowChu); chưa báo → chuỗi rỗng", async () => {
+	const s = taoKhoGia();
+	await kho.themNhap(s, { keHoachId: "k1", contentId: "c1", slug: "a", tieuDe: "A", phieu: {} }, "2026-09-30T00:00:00.000Z");
+	await kho.themNhap(s, { keHoachId: "k2", contentId: "c2", slug: "b", tieuDe: "B", phieu: {} }, "2026-09-30T01:00:00.000Z");
+	await kho.themNhap(s, { keHoachId: "k3", contentId: "c3", slug: "c", tieuDe: "C", phieu: {} }, "2026-09-30T02:00:00.000Z");
+	await s.nhap.put("c1", { ...(await s.nhap.get("c1")), indexNow: { luc: "2026-10-01T07:05:00.000Z", ok: true, ma: 200 } });
+	await s.nhap.put("c2", { ...(await s.nhap.get("c2")), indexNow: { luc: "2026-10-01T07:05:00.000Z", ok: false, ma: 403, loi: "HTTP 403: sai khoá" } });
+	const r = await dang.dsNhapChoTab(s);
+	const theo = Object.fromEntries(r.nhap.map((n) => [n.id, n.indexNowChu]));
+	assert.deepEqual(theo, { c1: "IndexNow: đã báo 14:05 01/10", c2: "IndexNow: lỗi HTTP 403: sai khoá", c3: "" });
+});

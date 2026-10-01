@@ -25,6 +25,7 @@ import {
 } from "./chien-luoc/viec.mjs";
 import { layBaiCanViet, nopBai } from "./viet/viec.mjs";
 import { truocKhiDang, sauKhiDang, sauKhiGo, taiPanel, dsNhapChoTab } from "./viet/dang.mjs";
+import { thaIndexNow } from "./viet/indexnow.mjs";
 
 /**
  * Lịch cron: phút 30 MỖI GIỜ. Ca thật chỉ chạy ở tick có giờ UTC = GIO_UTC_CHAY (19:30 UTC =
@@ -331,9 +332,25 @@ export function createPlugin() {
 			"content:beforeSchedule": { handler: truocKhiDang, timeout: 4000, errorPolicy: "continue" },
 			// Đánh dấu nháp của lò viết + kế hoạch là da_dang. Chạy sau khi bài đã lên — hỏng thì chỉ log.
 			// Không khai timeout: EmDash không huỷ handler khi quá giờ, chỉ ghi "failed" giả.
-			"content:afterPublish": { handler: sauKhiDang, errorPolicy: "continue" },
-			// Gỡ bài xuống → nháp về cho_duyet, kế hoạch về co_nhap (mồ côi → can_xem).
-			"content:afterUnpublish": { handler: sauKhiGo, errorPolicy: "continue" },
+			// Xong phần sổ thì THẢ việc báo IndexNow chạy nền (không await — chờ trang lên 200 có thể
+			// mất 9 s, quá hạn 5 s của hook; cùng lối thaCaNen). Chỉ máy bật RADA_SEO_CA_DEM mới báo.
+			// thaIndexNow đọc nhap SAU sauKhiDang nên không đè trạng thái da_dang vừa ghi.
+			"content:afterPublish": {
+				handler: async (event, ctx) => {
+					await sauKhiDang(event, ctx);
+					thaIndexNow(event, ctx, "dang");
+				},
+				errorPolicy: "continue",
+			},
+			// Gỡ bài xuống → nháp về cho_duyet, kế hoạch về co_nhap (mồ côi → can_xem); rồi báo
+			// IndexNow cùng hai URL (IndexNow nhận cả URL vừa gỡ) để máy tìm kiếm tới đọc lại.
+			"content:afterUnpublish": {
+				handler: async (event, ctx) => {
+					await sauKhiGo(event, ctx);
+					thaIndexNow(event, ctx, "go");
+				},
+				errorPolicy: "continue",
+			},
 		},
 		routes: {
 			"tong-quan": {

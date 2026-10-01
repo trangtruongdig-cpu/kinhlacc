@@ -274,7 +274,9 @@ export async function datTrangThaiCum(s, id, trangThai) {
 }
 
 export async function ghiCa(s, ca) {
-	await s.ca.put(`${ca.batDau}-${ca.loai}`, ca);
+	// Dòng kiểu "indexnow" (mỗi lần Publish/Unpublish một dòng) mang thêm kiểu + slug trong khoá:
+	// hai bài báo trong cùng mili-giây không được đè nhau. Ca radar/claude không có slug → khoá cũ.
+	await s.ca.put(`${ca.batDau}-${ca.loai}${ca.slug ? `-${ca.kieu ?? ""}-${ca.slug}` : ""}`, ca);
 }
 
 export async function dsCa(s, n = 10) {
