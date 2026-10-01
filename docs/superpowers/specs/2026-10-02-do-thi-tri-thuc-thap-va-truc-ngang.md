@@ -1,6 +1,6 @@
 # Đồ thị tri thức: tháp dọc + trục ngang
 
-Ngày: 02/10/2026 · Trạng thái: **THIẾT KẾ, chờ người dùng chốt hai điều ở mục 7** ·
+Ngày: 02/10/2026 · Trạng thái: **THIẾT KẾ — hai điều ở mục 7 ĐÃ CHỐT; GĐ 0 ĐÃ DỰNG; GĐ 1 đã đo lại (mục 6b)** ·
 Thay cho mục 6 "mạng nhện hai chiều" của `2026-09-30-rada-seo-2c-cum-ke-hoach-lien-ket-design.md`
 (phần đã dựng hôm 02/10 chỉ là **một ca riêng rất nhỏ** của thiết kế này — xem mục 6).
 
@@ -131,7 +131,60 @@ người đọc từ truy vấn rộng vào tháp.
 Giữ nguyên, không gỡ. Nhưng đừng coi nó là "mạng nhện đã xong" — nó không chạm tới 34.693 cạnh
 trích dẫn, không chạm tầng triệu chứng, và không biết gì về tháp.
 
-## 7. Hai điều cần người dùng chốt
+## 6b. ĐO GĐ 1 (02/10/2026): lỗ "nguồn → kinh" nhỏ hơn tưởng, và vì sao
+
+GĐ 1 được xếp đầu vì "rẻ nhất": 21 trang kinh đều dẫn y văn, rút tên sách rồi khớp `/nguon/`.
+**Đo xong thì giả định đó sai một nửa** — ghi lại để không ai xếp lại nó lên đầu.
+
+Phép đo 1 — khớp cả 2.138 tên nguồn vào chữ của 12 kinh: ra 10 cạnh. **Phần lớn là khớp bừa:**
+
+| Cụm "khớp" | Thực tế trong chữ |
+|---|---|
+| Thi Phát | …thực chứng **thì phát** cuồng… |
+| Thi Sơ | …kinh khí suy **thì s**ợ lạnh… |
+| Dư Lâm · Chu Tiêu | không tìm thấy — khớp bắc qua ranh giới hai mục |
+
+Đây đúng cái bẫy CLAUDE.md đã ghi ở mục liên kết chéo: khớp tên vào toàn văn thì `(30g)` và
+`(Spongilla fragilis)` cũng thành link. Chuẩn hoá bỏ dấu thanh làm "thì phát" hoá "thi phat".
+
+Phép đo 2 — **rút theo VỊ TRÍ** (cụm trong ngoặc đơn, bỏ cụm bắt đầu bằng số và cụm có đơn vị
+liều), rồi khớp `/nguon/` bằng chuẩn hoá mạnh — tức dùng lại đúng cách hệ liên kết chéo đã làm:
+
+- 134 cụm trong ngoặc → **9 khớp**, **6/12 kinh**, 2 sách: `Châm Cứu Đại Thành` (6),
+  `Châm Cứu Học Thượng Hải` (3). **Không cạnh nào sai.**
+- Cụm không khớp là mã huyệt (`Nh 3`, `Ty 4`, `C 13`, `Đtr`), ghi chú giải phẫu, giải thích Ngũ
+  Hành — loại đúng.
+
+**Kết luận: đỉnh tháp nhánh kinh chỉ có 9 cạnh thật**, vì thân bài trang kinh vốn ít dẫn sách,
+không phải vì phép dò kém. Dựng cả một đường ống cho 9 cạnh là không xứng công; làm tay 21 mục
+thì xong trong một buổi và chính xác hơn.
+
+**Thu hoạch phụ, đáng giá hơn chính cạnh:** cụm `Châm cứu lâm sàng biện chứng luận trị` xuất
+hiện **8 lần** trong các trang kinh mà **không khớp mục `/nguon/` nào** — tức thư mục nguồn
+2.139 mục đang THIẾU một quyển đang được kho của mình dẫn. Phép rút-theo-vị-trí này vì vậy nên
+chạy cho CẢ kho (huyệt, bài thuốc, bệnh học), không chỉ cho kinh: nó là bộ dò **nguồn còn
+thiếu trong thư mục**, và đó là việc nuôi đỉnh tháp từ gốc.
+
+→ **Đề nghị đổi thứ tự trong GĐ 1:** (1) chạy bộ dò "cụm trong ngoặc không khớp nguồn" trên cả
+kho để biết thư mục thiếu bao nhiêu quyển; (2) bổ sung các quyển đó; (3) khi ấy nguồn → kinh và
+nguồn → vị thuốc cùng tăng, thay vì vá từng nhánh một.
+
+## 7. Hai điều người dùng ĐÃ CHỐT (02/10/2026)
+
+> **Q1 → (b) Nhóm trang mới cho TẤT CẢ:** `/trieu-chung/<slug>/` 1.033 trang +
+> `/phap-tri/<slug>/` 380 trang.
+>
+> ⚠️ Người dùng chọn phương án mạnh nhất về SEO, nên phải tự chặn đúng rủi ro đi kèm: 478/1.033
+> triệu chứng đang mồ côi. Cách chặn là **luật index** như bài thuốc đã làm — trang vẫn SỐNG cho
+> người đọc và cho liên kết nội bộ, chỉ **không vào sitemap** khi dưới ngưỡng cạnh. Đúng lối bước
+> 3 kế hoạch 29/09 ("Trang không đạt vẫn sống, không bị xoá") và đúng luật "chỉ index trang có
+> giá trị riêng". Ngưỡng cạnh chốt bằng SỐ ĐO khi làm, không chốt bằng cảm giác.
+>
+> **Q2 → thứ tự kinh → vị thuốc → triệu chứng/huyệt.** Nhưng xem mục 6b: đo xong thì nhánh kinh
+> chỉ còn 9 cạnh thật, nên bước đầu của GĐ 1 chuyển thành "dò nguồn còn thiếu trong thư mục trên
+> cả kho" — nó nuôi cả nhánh kinh lẫn nhánh vị thuốc cùng lúc.
+
+### Phương án đã bị loại (giữ lại để không bàn lại)
 
 **Q1. Tầng T3/T4 lên trang công khai bằng cách nào?**
 
@@ -181,11 +234,16 @@ cả phần huyệt và rất khó lần ngược.
 
 ## 9. Chia giai đoạn
 
-- **GĐ 0 — chốt danh tính và đo (chặn mọi thứ sau).** Một tệp khai không gian id của từng cạnh;
-  phép kiểm bắt được join sai không gian; bảng số đo độ phủ chạy được bằng một lệnh, để mọi con
-  số trong tài liệu này kiểm lại được.
-- **GĐ 1 — đóng đỉnh tháp.** Vá nguồn → kinh (21 mục). Dựng khối "Y văn dẫn mục này" trên trang
-  huyệt/kinh/vị thuốc/bài thuốc theo một bộ sinh dùng chung, thay vì bốn chỗ ghép chuỗi riêng.
+- **GĐ 0 — ĐÃ DỰNG (02/10/2026).** `backend/tmp/do-do-thi-tri-thuc.mjs` (chỉ đọc, mã thoát 1 khi
+  trượt): khai không gian id của từng cạnh ở MỘT chỗ, in lại mọi con số của tài liệu này bằng một
+  lệnh, và kiểm rằng nối sai không gian vẫn cho số KHÁC nối đúng — hai cách cho cùng số thì phép
+  kiểm mất tác dụng và nó báo trượt.
+- **GĐ 1 — đóng đỉnh tháp, thứ tự đã đổi theo số đo (mục 6b).** (1) Bộ dò "cụm trong ngoặc đơn
+  không khớp mục `/nguon/`" chạy trên CẢ kho → danh sách quyển thư mục còn thiếu; (2) bổ sung
+  các quyển đó; (3) nguồn → kinh làm TAY 21 mục (9 cạnh dò được, không xứng một đường ống);
+  (4) nguồn → vị thuốc (836 vị chưa có nguồn) — đây mới là phần khối lượng. Rồi dựng khối "Y văn
+  dẫn mục này" trên trang huyệt/kinh/vị thuốc/bài thuốc bằng MỘT bộ sinh dùng chung, thay vì bốn
+  chỗ ghép chuỗi riêng.
 - **GĐ 2 — T3/T4 lên trang** theo phương án Q1 đã chốt, kèm luật index đo bằng số.
 - **GĐ 3 — trục ngang.** Chỉ mục ngữ nghĩa từ `chu_tri`/`cong_dung`; trang bậc dài nối lên bậc
   ngắn và xuống thực thể.
