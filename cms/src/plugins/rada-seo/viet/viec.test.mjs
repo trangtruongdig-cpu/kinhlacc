@@ -288,7 +288,7 @@ test("nopBai: bài đạt → create bằng tiêu đề KHÔNG dấu, update ti�
 	assert.deepEqual(u.data.nguon_tham_khao, NGUON);
 	assert.equal(u.data.tac_gia, "Ban Biên Tập Kinh Lạc");
 	assert.equal(u.data.cta, "/xem-ket-qua-do");
-	assert.equal(u.data.cho_index, false);
+	assert.equal(u.data.cho_index, true);
 	assert.ok(!("nguoi_duyet" in u.data));
 	assert.ok(!("featured_image" in u.data)); // không có ảnh bìa
 	assert.equal(r.slug, content.tao[0].data.title);

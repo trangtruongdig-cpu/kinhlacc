@@ -600,7 +600,7 @@ async function nopTrongKhoa(ctx, dv, { now, markdownToPortableText, docTrang, ki
 		nguon_tham_khao: nguon.giu,
 		tac_gia: TAC_GIA,
 		cta: CTA,
-		cho_index: false,
+		cho_index: true, // nháp không công khai; người duyệt bấm Publish = chấp thuận cho index (trang blog coi false là noindex)
 	};
 	let contentId, slug;
 	if (hienTai.contentId) {
