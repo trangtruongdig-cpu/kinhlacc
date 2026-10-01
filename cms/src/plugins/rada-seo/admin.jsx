@@ -608,6 +608,55 @@ function PhienLeoTop({ p, onDaSua }) {
 }
 
 /**
+ * Vòng học (2D bước 7): loại sửa nào hay ĐI CÙNG việc lên hạng.
+ * ⚠️ Giao diện BẮT BUỘC in ghi chú của máy chủ: đây là đồng xuất hiện trên cỡ mẫu nhỏ, không
+ * phải nhân quả. Bỏ ghi chú đi là mời người đọc kết luận sai trên 1–2 phiên.
+ */
+function TongHopVongHoc({ th }) {
+	const [mo, setMo] = useState(false);
+	const co = (th.bang ?? []).length > 0;
+	return (
+		<div style={{ border: "1px solid #d4d4d8", padding: 8, marginBottom: 12 }}>
+			<b>Loại sửa nào hay đi cùng việc lên hạng</b>{" "}
+			<button type="button" onClick={() => setMo(!mo)} style={{ marginLeft: 6 }}>
+				{mo ? "Thu lại" : `Xem (${th.soPhienDoDuoc ?? 0} phiên đã đo xong)`}
+			</button>
+			{mo && (
+				<>
+					{co ? (
+						<table style={{ borderCollapse: "collapse", fontSize: 13, marginTop: 6, width: "100%" }}>
+							<thead>
+								<tr style={{ textAlign: "left", borderBottom: "1px solid #e4e4e7" }}>
+									<th>Loại sửa</th><th>Phiên</th><th>Lên</th><th>Đứng yên</th><th>Tụt</th><th>Hạng đổi (trung vị)</th>
+								</tr>
+							</thead>
+							<tbody>
+								{th.bang.map((r) => (
+									<tr key={r.ma} style={{ borderBottom: "1px solid #f4f4f5", opacity: r.duKetLuan ? 1 : 0.65 }}>
+										<td>
+											{r.ten}
+											{!r.duKetLuan && <span style={{ color: "#92400e" }}> · quá ít phiên</span>}
+										</td>
+										<td>{r.soPhien}</td>
+										<td style={{ color: "#166534" }}>{r.len}</td>
+										<td>{r.yen}</td>
+										<td style={{ color: "#b91c1c" }}>{r.tut}</td>
+										<td>{r.doiTrungVi == null ? "—" : r.doiTrungVi > 0 ? `lên ${so(r.doiTrungVi, 2)}` : r.doiTrungVi < 0 ? `tụt ${so(-r.doiTrungVi, 2)}` : "0"}</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					) : null}
+					{(th.ghiChu ?? []).map((g, i) => (
+						<p key={i} style={{ margin: "6px 0 0", color: "#92400e", fontSize: 13 }}>{g}</p>
+					))}
+				</>
+			)}
+		</div>
+	);
+}
+
+/**
  * Việc RẺ: trang người ta THẤY mà không bấm (CTR thấp hơn hẳn mức thường thấy Ở CÙNG HẠNG).
  * Tách khỏi ca soi SERP vì ca soi không chữa được lỗi tiêu đề — xem leo-top/ctr.mjs.
  * Nạp theo YÊU CẦU (mỗi lần bấm là một lượt gọi Search Console), không nạp cùng tab.
@@ -687,6 +736,7 @@ function LeoTopTab({ dl, loi, onDaSua, onTai }) {
 					Plugin chưa cấu hình Search Console (biến GSC_OAUTH_* trong cms/.env): không lấy được từ khoá mới và ca đêm không đo lại hạng.
 				</p>
 			)}
+			{dl.tongHop && <TongHopVongHoc th={dl.tongHop} />}
 			{dl.gscCoCauHinh && <ViecTieuDe />}
 			{choSua.length > 0 && (
 				<div style={{ border: "1px solid #f59e0b", background: "#fffbeb", padding: 8, marginBottom: 12 }}>

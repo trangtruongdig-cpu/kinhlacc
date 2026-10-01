@@ -27,6 +27,7 @@ import { layBaiCanViet, nopBai } from "./viet/viec.mjs";
 import { truocKhiDang, sauKhiDang, sauKhiGo, taiPanel, dsNhapChoTab } from "./viet/dang.mjs";
 import { thaIndexNow } from "./viet/indexnow.mjs";
 import { thaMangNhen } from "./viet/lien-ket-nguoc.mjs";
+import { tongHopLoaiSua } from "./leo-top/vong-hoc.mjs";
 
 /**
  * Lịch cron: phút 30 MỖI GIỜ. Ca thật chỉ chạy ở tick có giờ UTC = GIO_UTC_CHAY (19:30 UTC =
@@ -658,10 +659,17 @@ export function createPlugin() {
 				},
 			},
 			"leo-top-tong-quan": {
-				handler: async (ctx) => ({
-					phien: (await kho.dsLeoTop(ctx.storage)).map(phienNhe),
-					gscCoCauHinh: gscCua(ctx).coCauHinh(),
-				}),
+				handler: async (ctx) => {
+					const ds = await kho.dsLeoTop(ctx.storage);
+					return {
+						phien: ds.map(phienNhe),
+						gscCoCauHinh: gscCua(ctx).coCauHinh(),
+						// Vòng học (2D bước 7): loại sửa nào hay ĐI CÙNG việc lên hạng. Tính ở máy
+						// chủ như mọi phép đo khác của plugin, và cố ý KÈM ghi chú cảnh báo — đây là
+						// đồng xuất hiện trên cỡ mẫu nhỏ, không phải nhân quả.
+						tongHop: tongHopLoaiSua(ds),
+					};
+				},
 			},
 			// Hàng đợi RẺ, tách khỏi ca soi SERP: trang người ta THẤY mà không bấm. Không gọi
 			// mô hình, không tải trang đối thủ — người quản trị đọc rồi sửa tiêu đề/mô tả.
