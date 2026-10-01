@@ -8,7 +8,9 @@
 /**
  * @param {{ caDemBat: boolean, lichBat: boolean, soDoiThu: number, dangChay: boolean,
  *   caRadar: { ketThuc: string, soTrich?: number, loi?: string[] } | null,
- *   choAi: number, daTungDoc: boolean, lucClaudeDoc: string | null }} v
+ *   choAi: number, daTungDoc: boolean, lucClaudeDoc: string | null, soCanXem?: number }} v
+ *   soCanXem: số bài dự kiến ở "can_xem" (lò viết bỏ cuộc) — tab Kế hoạch mở ở bộ lọc "Chờ duyệt"
+ *   nên không có dòng này thì chúng nằm im không ai thấy (nghiệm thu 2C-3, Bất ngờ 2).
  */
 export function tinhTrangTuDong(v) {
 	const ds = [];
@@ -41,6 +43,9 @@ export function tinhTrangTuDong(v) {
 		ds.push({ muc: "thieu", chu: "Phần Claude đọc bài chưa chạy: cần tạo routine trên claude.ai (một lần) — xem DEPLOYMENT.md mục Rada SEO." });
 	else if (v.lucClaudeDoc) ds.push({ muc: "ok", chu: "Claude đã đọc bài đối thủ, lần gần nhất lúc {luc}.", luc: v.lucClaudeDoc });
 	else ds.push({ muc: "ok", chu: "Claude đã từng đọc bài đối thủ." });
+
+	if (v.soCanXem > 0)
+		ds.push({ muc: "thieu", chu: `${v.soCanXem} bài máy viết không đạt sau 3 lượt — cần bạn xem lại ở tab Kế hoạch (lọc “Cần xem lại”).` });
 
 	return ds;
 }

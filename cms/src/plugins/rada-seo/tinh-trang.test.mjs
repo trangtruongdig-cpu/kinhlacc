@@ -40,3 +40,13 @@ test("tinhTrangTuDong: Claude chưa từng đọc → câu chỉ đường routi
 	// Đã đọc nhưng ngoài cửa sổ nhật ký: vẫn ok, không kèm giờ.
 	assert.ok(tinhTrangTuDong({ ...goc, daTungDoc: true }).some((x) => x.muc === "ok" && /Claude/.test(x.chu) && !x.luc));
 });
+
+test("tinhTrangTuDong: có bài can_xem → dòng 'thiếu' nêu số bài và chỉ sang tab Kế hoạch; 0 thì không có dòng", () => {
+	const ds = tinhTrangTuDong({ ...goc, soCanXem: 2 });
+	const d = ds.find((x) => /2 bài máy viết không đạt sau 3 lượt — cần bạn xem lại/.test(x.chu));
+	assert.ok(d, chu(ds));
+	assert.equal(d.muc, "thieu");
+	assert.match(d.chu, /Kế hoạch/);
+	assert.doesNotMatch(chu(tinhTrangTuDong({ ...goc, soCanXem: 0 })), /cần bạn xem lại/);
+	assert.doesNotMatch(chu(tinhTrangTuDong(goc)), /cần bạn xem lại/);
+});

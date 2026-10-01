@@ -44,6 +44,16 @@ const luatHua = (nghiem) => ({
 	mau: new RegExp(`(?<!\\p{L})(?:${nghiem ? HUA_KHOI_NGHIEM : HUA_KHOI_THUONG})(?!\\p{L})`, "u"),
 	goiY: "bỏ lời hứa kết quả",
 });
+// "khỏi" làm KẾT QUẢ ("chữa khỏi mất ngủ", "hỗ trợ khỏi mất ngủ", "bệnh sẽ khỏi") — nghiệm thu 2C-3,
+// Bất ngờ 4: trước đây "chữa khỏi" chỉ báo chữ "chữa", người sửa thay bằng "hỗ trợ" là qua cổng.
+// Nhận diện bằng chữ ĐỨNG TRƯỚC (động từ chữa/giúp, phó từ thời) chứ không cấm mọi "khỏi": làm giới
+// từ ("ra khỏi", "tránh khỏi", "thoát khỏi", "khỏi phải", "khỏi bị") nó rất thường gặp và vô hại.
+// Cụm luật hứa-khỏi đã bắt ("khỏi hẳn", "khỏi bệnh"…) không báo lần hai — timViPham lọc chồng lấn.
+const luatKhoi = {
+	ma: "khoi_benh",
+	mau: /(?<=(?<!\p{L})(?:chữa|trị|hỗ trợ|giúp|mau|nhanh|chóng|sẽ|đã|sắp|tự|có thể|bệnh) )khỏi(?!\p{L})(?! (?:phải|cần|lo|nói|bàn|bị|mất công|tốn)(?!\p{L}))/u,
+	goiY: "bỏ lời hứa kết quả",
+};
 const GOI_Y_BAC_SI = "thầy thuốc / Y sỹ Y học cổ truyền";
 
 const LUAT_THUONG = [
@@ -51,9 +61,10 @@ const LUAT_THUONG = [
 	luatTri,
 	luatKham(false),
 	luatHua(false),
+	luatKhoi,
 	{ ma: "bac_si_minh", mau: /(?:đội ngũ bác s[ĩỹ]|bác s[ĩỹ] (?:của chúng tôi|kinh lạc))/u, goiY: GOI_Y_BAC_SI },
 ];
-const LUAT_NGHIEM = [luatChua, luatTri, luatKham(true), luatHua(true), { ma: "bac_si", mau: /(?<!\p{L})bác s[ĩỹi](?!\p{L})/u, goiY: GOI_Y_BAC_SI }];
+const LUAT_NGHIEM = [luatChua, luatTri, luatKham(true), luatHua(true), luatKhoi, { ma: "bac_si", mau: /(?<!\p{L})bác s[ĩỹi](?!\p{L})/u, goiY: GOI_Y_BAC_SI }];
 
 /**
  * Cụm danh từ của câu miễn trừ: "không (thể) thay thế [được] [cho] [việc] <danh sách>" với danh sách
@@ -109,9 +120,14 @@ export function timViPham(vanBan, { nghiem = false } = {}) {
 	for (const cau of tachCau(sachChu(vanBan))) {
 		// Gộp khoảng trắng (kể cả NBSP) trước: "phòng  khám" hai dấu cách không được lọt ngoại lệ.
 		const thuong = goMienTru(cau.toLowerCase().replace(/\s+/gu, " "), luat);
+		let hua = null; // khoảng [đầu, cuối) của cụm hứa-khỏi trong câu này
 		for (const l of luat) {
 			const m = thuong.match(l.mau);
-			if (m) ra.push({ ma: l.ma, tu: m[0], cau: cau.trim(), goiY: l.goiY });
+			if (!m) continue;
+			if (l.ma === "hua_khoi") hua = [m.index, m.index + m[0].length];
+			// "khỏi" nằm trong cụm hứa-khỏi vừa báo ("giúp khỏi hẳn") là MỘT chỗ sửa, không phải hai.
+			if (l === luatKhoi && hua && m.index >= hua[0] && m.index < hua[1]) continue;
+			ra.push({ ma: l.ma, tu: m[0], cau: cau.trim(), goiY: l.goiY });
 		}
 	}
 	return ra;

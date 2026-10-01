@@ -28,6 +28,7 @@ import { layChiMuc } from "../noi-bo/nap.mjs";
 import { layChiMucAnh, maTheoTenTuChiMuc, chonAnhBia } from "./anh.mjs";
 import { xacMinhNguon } from "./nguon.mjs";
 import { kiemLienKetThan } from "./lien-ket-than.mjs";
+import { kemCauNguon, kemCauLink, hrefDayDu, trichHref } from "./ly-do.mjs";
 import { timHtmlTho, kiemPtAnToan, chuTuPt, ptSangMd } from "./pt-an-toan.mjs";
 
 export const KHOA_CAI_DAT_BAI_MOI_DEM = "cai_dat:bai_moi_dem";
@@ -515,7 +516,7 @@ async function nopTrongKhoa(ctx, dv, { now, markdownToPortableText, docTrang, ki
 	const ptTho = markdownToPortableText(chuanHoaMd(dv.md));
 	const lk = await kiemLienKetThan(ptTho, { keHoach: { trangTruCot: kh.trangTruCot, lienKetDich: kh.lienKetDich }, kiemDuong });
 	if (lk.nguyHiem.length)
-		dsLoi.push(loi("lien_ket_nguy_hiem", `Link không được phép (chỉ dùng đường nội bộ dạng /duong/): ${lk.nguyHiem.slice(0, 5).map((x) => `"${catCau(x.href)}"`).join(", ")}`));
+		dsLoi.push(loi("lien_ket_nguy_hiem", `Link không được phép (chỉ dùng đường nội bộ dạng /duong/): ${lk.nguyHiem.slice(0, 5).map((x) => `"${trichHref(hrefDayDu(dv.md, x.href))}"`).join(", ")}`));
 	const loiPt = kiemPtAnToan(lk.pt);
 	if (loiPt.length) dsLoi.push(loi("khuon:khoi_la", `Thân bài sau khi chuyển có thành phần không được phép: ${loiPt.slice(0, 8).join("; ")}`));
 	dsLoi.push(...soatPhamVi(dv, chuTuPt(lk.pt)));
@@ -542,15 +543,18 @@ async function nopTrongKhoa(ctx, dv, { now, markdownToPortableText, docTrang, ki
 
 	// Rào tốn mạng — vẫn chạy khi đã có lỗi, để Claude sửa mọi thứ trong MỘT lượt viết lại.
 	const nguon = await xacMinhNguon(dv.nguon, { docTrang, chiMuc: cm, kiemDuong });
+	// Lý do ra CÂU tiếng Việt, mã giữ ở `ma` (viet/ly-do.mjs): lời bác tới Claude, loiCuoi và phiếu dùng chung.
+	const nguonBo = nguon.bo.map(kemCauNguon);
+	const linkGo = lk.goBo.map(kemCauLink);
 	if (nguon.giu.length < SO_NGUON_TOI_THIEU) {
-		const bo = nguon.bo.map((b) => `${b.title}${b.url ? ` (${b.url})` : ""}: ${b.chiTiet ?? b.lyDo}`).join("; ");
+		const bo = nguonBo.map((b) => `${b.title}${b.url ? ` (${b.url})` : ""}: ${b.lyDo} [${b.ma}]`).join("; ");
 		dsLoi.push(loi("nguon_thieu", `Chỉ giữ được ${nguon.giu.length} nguồn (cần ≥ ${SO_NGUON_TOI_THIEU}). Bị bỏ: ${bo || "không có"}`));
 	}
 	if (!lk.dat) {
 		const thieu = [];
 		if (!lk.coTruCot) thieu.push(`thiếu link tới trang trụ cột ${kh.trangTruCot}`);
 		if (lk.soDich < 5) thieu.push(`chỉ ${lk.soDich} link tới trang đích của bài dự kiến (cần ≥ 5, không tính trụ cột)`);
-		dsLoi.push(loi("lien_ket", `${thieu.join("; ")}. Link bị gỡ: ${lk.goBo.map((g) => `${g.href} (${g.lyDo})`).join(", ") || "không có"}`));
+		dsLoi.push(loi("lien_ket", `${thieu.join("; ")}. Link bị gỡ: ${linkGo.map((g) => `${trichHref(g.href)}: ${g.lyDo} [${g.ma}]`).join("; ") || "không có"}`));
 	}
 
 	if (dsLoi.length) {
@@ -579,8 +583,8 @@ async function nopTrongKhoa(ctx, dv, { now, markdownToPortableText, docTrang, ki
 		seo: chamSeo({ tieuDe: dv.tieuDe, moTa: dv.moTa, noiDungMd: mdCuoi, tuKhoaChinh, faq: dv.faq }),
 		ymyl: doYmyl([mdCuoi, ...dv.faq.map((f) => f.a)].join("\n")),
 		khuonCanhBao: khuon.canhBao,
-		nguonBo: nguon.bo,
-		linkGo: lk.goBo,
+		nguonBo,
+		linkGo,
 		anh: anh ?? null,
 		soTu: khuon.soTu,
 	};

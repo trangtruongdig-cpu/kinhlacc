@@ -194,3 +194,33 @@ test("N2: lời dặn LOI_NHAC_VIET và luật nghiêm nói cùng một thứ �
 	for (const x of ["khỏi ngay", "hết ngay", "cam kết hiệu quả", "hiệu quả tức thì", "hiệu quả 90%"]) assert.ok(cum.includes(x), `lời dặn thiếu "${x}"`);
 	for (const x of cum) assert.ok(timViPham(`Bài viết: ${x}.`, { nghiem: true }).some((v) => v.ma === "hua_khoi"), `luật không chặn "${x}" mà lời dặn hứa chặn`);
 });
+
+test("'chữa khỏi' báo CẢ HAI chữ; thay 'chữa' bằng 'hỗ trợ'/'giúp' thì 'khỏi' vẫn bị bắt — cả hai chế độ", () => {
+	for (const nghiem of [false, true]) {
+		const tu = (s) => timViPham(s, { nghiem }).map((v) => v.tu);
+		assert.deepEqual(tu("Xoa chân buổi tối chữa khỏi mất ngủ cho mọi người."), ["chữa", "khỏi"]);
+		assert.deepEqual(tu("Xoa chân buổi tối hỗ trợ khỏi mất ngủ cho mọi người."), ["khỏi"]);
+		assert.deepEqual(timViPham("Xoa chân hỗ trợ khỏi mất ngủ.", { nghiem }).map((v) => [v.ma, v.goiY]), [["khoi_benh", "bỏ lời hứa kết quả"]]);
+		// Cụm đã có luật hứa-khỏi bắt thì KHÔNG báo trùng lần hai.
+		assert.deepEqual(tu("Bài tập hỗ trợ khỏi bệnh sau một tuần."), ["khỏi bệnh"]);
+		assert.deepEqual(tu("Day huyệt giúp khỏi hẳn chứng mất ngủ."), ["khỏi hẳn"]);
+		assert.deepEqual(tu("Kiên trì thì bệnh sẽ khỏi."), ["khỏi"]);
+		assert.deepEqual(tu("Sau ba tuần người bệnh đã khỏi."), ["khỏi"]);
+	}
+});
+
+test("'khỏi' làm giới từ KHÔNG bị bắt: ra khỏi, khỏi phải, tránh khỏi, thoát khỏi, rời khỏi, giúp khỏi phải…", () => {
+	for (const nghiem of [false, true])
+		for (const s of [
+			"Bước ra khỏi phòng sau khi đo.",
+			"Cách này giúp bạn khỏi phải thức khuya.",
+			"Không tránh khỏi vài đêm khó ngủ.",
+			"Giúp cơ thể thoát khỏi căng thẳng.",
+			"Rời khỏi màn hình trước giờ ngủ.",
+			"Ghi chép giúp khỏi phải nhớ từng huyệt.",
+			"Thở chậm giúp khỏi bị giật mình giữa đêm.",
+			"Đưa tay ra khỏi chăn rồi xoa huyệt.",
+			"Đã khỏi phải nói, giấc ngủ rất quan trọng.",
+		])
+			assert.deepEqual(timViPham(s, { nghiem }), [], s);
+});

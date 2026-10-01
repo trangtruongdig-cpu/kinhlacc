@@ -11,8 +11,31 @@ async function goi(route, body) {
 		body: JSON.stringify(body ?? {}),
 	});
 	const j = await res.json().catch(() => null);
-	if (!res.ok || j?.success === false) throw new Error(j?.error?.message ?? `Lỗi ${res.status}`);
+	if (!res.ok || j?.success === false) {
+		const e = new Error(j?.error?.message ?? `Lỗi ${res.status}`);
+		// Mã HTTP đi kèm để màn hình phân biệt "không đủ quyền" (403) với lỗi thật.
+		e.status = res.status;
+		throw e;
+	}
 	return j?.data ?? j;
+}
+
+// Người duyệt bậc Editor (40) thấy trang này nhưng chỉ route của tab Nháp cho họ đọc; các tab còn
+// lại trả 403 (plugins:manage). Lời báo phải nói được điều đó thay vì in lỗi thô của máy chủ.
+const CHI_QUAN_TRI = "Tab này chỉ dành cho quản trị viên.";
+const KHONG_QUYEN_NHAP = "Tài khoản của bạn chưa có quyền xem danh sách nháp (cần quyền sửa bài).";
+const loiCua = (e, khi403 = CHI_QUAN_TRI) => (e?.status === 403 ? khi403 : e?.message ?? "Lỗi không rõ");
+
+/** Chỗ của một tab khi chưa có dữ liệu: đang tải, lỗi thật (đỏ), hoặc không đủ quyền (khung xám). */
+function ChuaCoDuLieu({ loi }) {
+	if (loi === CHI_QUAN_TRI || loi === KHONG_QUYEN_NHAP)
+		return (
+			<div style={{ border: "1px solid #d1d5db", borderRadius: 8, padding: "12px 16px", margin: "8px 0", background: "#f9fafb", maxWidth: 640 }}>
+				<b>{loi}</b>
+				{loi === CHI_QUAN_TRI && <div style={{ marginTop: 4 }}>Bạn vẫn dùng được tab “Nháp” và khung “Phiếu Rada” ở cột phải trình soạn bài.</div>}
+			</div>
+		);
+	return <div style={{ padding: 24, color: loi ? "#b91c1c" : undefined }}>{loi || "Đang tải…"}</div>;
 }
 
 const NHAN_CUM = { cho_viet: "Chờ viết", co_nhap: "Có nháp", da_dang: "Đã đăng", bo_qua: "Bỏ qua", phu_boi_tu_dien: "Từ điển đã phủ" };
@@ -196,7 +219,7 @@ function HuongRow({ h, onNhan, onBo, onKhoiPhuc }) {
 }
 
 function HuongTab({ dl, loi, onNhan, onBo, onKhoiPhuc }) {
-	if (!dl) return <div style={{ padding: 24 }}>{loi || "Đang tải…"}</div>;
+	if (!dl) return <ChuaCoDuLieu loi={loi} />;
 	return (
 		<div>
 			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
@@ -303,7 +326,9 @@ function KeHoachRow({ k, onDuyet, onBo }) {
 
 function KeHoachTab({ dl, loi, onDuyet, onBo }) {
 	const [locTrangThai, setLocTrangThai] = useState("de_xuat");
-	if (!dl) return <div style={{ padding: 24 }}>{loi || "Đang tải…"}</div>;
+	if (!dl) return <ChuaCoDuLieu loi={loi} />;
+	// Tab mở ở bộ lọc "Chờ duyệt" nên bài lò viết bỏ cuộc (can_xem) không hiện — dải này báo chúng.
+	const soCanXem = dl.keHoach.filter((k) => k.trangThai === "can_xem").length;
 	const huongById = new Map(dl.huong.map((h) => [h.id, h]));
 	const cumById = new Map(dl.cum.map((c) => [c.id, c]));
 	const items = dl.keHoach.filter((k) => locTrangThai === "tat_ca" || k.trangThai === locTrangThai);
@@ -322,6 +347,16 @@ function KeHoachTab({ dl, loi, onDuyet, onBo }) {
 	return (
 		<div>
 			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
+			{soCanXem > 0 && (
+				<div role="alert" style={{ border: "1px solid #f59e0b", background: "#fffbeb", borderRadius: 8, padding: "8px 12px", marginBottom: 12 }}>
+					<b>⚠ {soCanXem} bài máy viết không đạt sau 3 lượt — cần bạn xem lại.</b>{" "}
+					{locTrangThai === "can_xem" ? (
+						<span>Đang hiện bên dưới: đọc lý do ở cột Trạng thái rồi bấm “Duyệt lại” hoặc “Bỏ”.</span>
+					) : (
+						<Nut chinh onClick={() => setLocTrangThai("can_xem")}>Xem {soCanXem} bài này</Nut>
+					)}
+				</div>
+			)}
 			<h2>Kế hoạch ({dl.keHoach.length})</h2>
 			<p>
 				Lọc theo trạng thái:{" "}
@@ -574,7 +609,7 @@ function PhienLeoTop({ p, onDaSua }) {
 
 function LeoTopTab({ dl, loi, onDaSua, onTai }) {
 	const [mo, setMo] = useState(null);
-	if (!dl) return <div style={{ padding: 24 }}>{loi || "Đang tải…"}</div>;
+	if (!dl) return <ChuaCoDuLieu loi={loi} />;
 	const phien = dl.phien ?? [];
 	const now = Date.now();
 	const choSua = phien
@@ -661,8 +696,19 @@ function PhieuTomTat({ t }) {
 	return (
 		<div style={{ fontSize: 12 }}>
 			<div>
-				SEO {t.seo} · {t.soTu == null ? "?" : t.soTu} từ · YMYL {t.ymyl} · nguồn bỏ {t.nguonBo} · link gỡ {t.linkGo} · ảnh bìa: {t.anh ?? "không"}
+				SEO {t.seo} · YMYL {t.ymyl} · nguồn bỏ {t.nguonBo} · link gỡ {t.linkGo} · ảnh bìa: {t.anh ?? "không"}
 			</div>
+			{(t.canXemKy ?? []).length > 0 && (
+				// Cờ do máy chủ tính (tomTatPhieu.canXemKy) — chỉ nêu SỐ, không khuyên gì về độ dài.
+				<div style={{ margin: "4px 0", padding: "4px 8px", border: "1px solid #f59e0b", background: "#fffbeb", borderRadius: 6, color: "#92400e" }}>
+					<b>⚠ Cần đọc kỹ</b>
+					<ul style={{ margin: "2px 0 0", paddingLeft: 16 }}>
+						{t.canXemKy.map((c) => (
+							<li key={c.ma}>{c.chu}</li>
+						))}
+					</ul>
+				</div>
+			)}
 			{(t.seoTruot ?? []).length > 0 && <div style={{ color: "#92400e" }}>SEO chưa đạt: {t.seoTruot.join("; ")}</div>}
 			{(t.canhBao ?? []).length > 0 && <div style={{ color: "#92400e" }}>Cảnh báo: {t.canhBao.join("; ")}</div>}
 			{t.loiCapNhat && <div style={{ color: "#b91c1c" }}>{t.loiCapNhat}</div>}
@@ -672,7 +718,7 @@ function PhieuTomTat({ t }) {
 }
 
 function NhapTab({ dl, loi, onTai }) {
-	if (!dl) return <div style={{ padding: 24 }}>{loi || "Đang tải…"}</div>;
+	if (!dl) return <ChuaCoDuLieu loi={loi} />;
 	const nhap = dl.nhap ?? [];
 	const moCoi = dl.moCoi ?? [];
 	return (
@@ -689,12 +735,13 @@ function NhapTab({ dl, loi, onTai }) {
 			</h2>
 			<table style={{ borderCollapse: "collapse", width: "100%" }}>
 				<thead>
-					<tr><th style={o}>Tiêu đề</th><th style={o}>Bài dự kiến</th><th style={o}>Ngày tạo</th><th style={o}>Trạng thái</th><th style={o}>Phiếu</th></tr>
+					<tr><th style={o}>Tiêu đề</th><th style={o}>Bài dự kiến</th><th style={o}>Ngày tạo</th><th style={o}>Trạng thái</th><th style={o}>Số từ</th><th style={o}>Phiếu</th></tr>
 				</thead>
 				<tbody>
 					{nhap.map((n) => (
 						<tr key={n.id}>
 							<td style={o}>
+								{(n.tomTat?.canXemKy ?? []).length > 0 && <span title="Phiếu có cờ — xem cột Phiếu" style={{ color: "#b45309", fontWeight: 700 }}>⚠ </span>}
 								{/* tieuDe là chữ máy viết — chỉ hiển thị qua JSX text. */}
 								<a href={n.adminUrl}>{n.tieuDe || n.slug || n.id}</a>
 								<div style={{ fontSize: 12, color: "#6b7280" }}>{n.duong ?? (n.slug ? `/${n.slug}` : "(chưa có slug)")}</div>
@@ -708,6 +755,7 @@ function NhapTab({ dl, loi, onTai }) {
 								{NHAN_NHAP[n.trangThai] ?? n.trangThai}
 								{n.dangLuc && <div style={{ fontSize: 12, color: "#6b7280" }}>{gio(n.dangLuc)}</div>}
 							</td>
+							<td style={{ ...o, whiteSpace: "nowrap" }}>{n.tomTat?.soTu == null ? "—" : n.tomTat.soTu}</td>
 							<td style={o}>
 								<PhieuTomTat t={n.tomTat} />
 							</td>
@@ -767,25 +815,31 @@ function RadaSeo() {
 	const [nhDl, setNhDl] = useState(null);
 	const [nhLoi, setNhLoi] = useState("");
 
-	const tai = useCallback(() => goi("tong-quan").then((d) => { setDl(d); setLoi(""); }, (e) => setLoi(e.message)), []);
-	const taiCL = useCallback(() => goi("chien-luoc-tong-quan").then((d) => { setClDl(d); setCLoi(""); }, (e) => setCLoi(e.message)), []);
-	const taiLT = useCallback(() => goi("leo-top-tong-quan").then((d) => { setLtDl(d); setLtLoi(""); }, (e) => setLtLoi(e.message)), []);
-	const taiNh = useCallback(() => goi("nhap-tong-quan").then((d) => { setNhDl(d); setNhLoi(""); }, (e) => setNhLoi(e.message)), []);
+	// `tai` trả true khi route tổng quan từ chối vì quyền (403) — xem useEffect bên dưới.
+	const tai = useCallback(() => goi("tong-quan").then((d) => { setDl(d); setLoi(""); return false; }, (e) => { setLoi(loiCua(e)); return e?.status === 403; }), []);
+	const taiCL = useCallback(() => goi("chien-luoc-tong-quan").then((d) => { setClDl(d); setCLoi(""); }, (e) => setCLoi(loiCua(e))), []);
+	const taiLT = useCallback(() => goi("leo-top-tong-quan").then((d) => { setLtDl(d); setLtLoi(""); }, (e) => setLtLoi(loiCua(e))), []);
+	const taiNh = useCallback(() => goi("nhap-tong-quan").then((d) => { setNhDl(d); setNhLoi(""); }, (e) => setNhLoi(loiCua(e, KHONG_QUYEN_NHAP))), []);
 	useEffect(() => {
-		tai();
+		// Không phải quản trị viên (Editor): mở thẳng tab Nháp — tab duy nhất họ đọc được. Không ghi
+		// vào localStorage: cùng trình duyệt đăng nhập lại bằng tài khoản quản trị vẫn về tab đã lưu.
+		tai().then((khongQuyen) => {
+			if (khongQuyen) setTab("nhap");
+		});
 		taiCL();
 		taiLT();
 		taiNh();
 	}, [tai, taiCL, taiLT, taiNh]);
-	const lam = (route, body) => goi(route, body).then(tai, (e) => setLoi(e.message));
-	const lamCL = (route, body) => goi(route, body).then(taiCL, (e) => setCLoi(e.message));
+	const lam = (route, body) => goi(route, body).then(tai, (e) => setLoi(loiCua(e)));
+	const lamCL = (route, body) => goi(route, body).then(taiCL, (e) => setCLoi(loiCua(e)));
 
 	const doiTab = (t) => {
 		setTab(t);
 		luuTab(t);
 	};
 
-	if (!dl && !clDl && tab === "radar") return <div style={{ padding: 24 }}>{loi || "Đang tải…"}</div>;
+	// Không trả sớm khi chưa có dữ liệu: thanh tab phải luôn hiện, không thì người không đủ quyền
+	// xem tab Radar bị kẹt ở một dòng lỗi, không có lối sang tab Nháp.
 	const lichRadar = dl?.lich?.find((l) => l.name === "radar");
 	return (
 		<div style={{ padding: 24, maxWidth: 1200 }}>
@@ -800,7 +854,7 @@ function RadaSeo() {
 
 			{tab === "radar" &&
 				(!dl ? (
-					<div>{loi || "Đang tải…"}</div>
+					<ChuaCoDuLieu loi={loi} />
 				) : (
 					<>
 						<OTinhTrang ds={dl.tinhTrang} />
@@ -836,7 +890,7 @@ function RadaSeo() {
 										// Ca đầu vừa thả chạy nền: tải lại sau chốc lát để thấy "đang chạy".
 										if (r?.caDauTien) setTimeout(tai, 2000);
 									},
-									(e) => setLoi(e.message),
+									(e) => setLoi(loiCua(e)),
 								);
 							}}
 						>
@@ -934,7 +988,7 @@ function RadaSeo() {
 					dl={ltDl}
 					loi={ltLoi}
 					onTai={taiLT}
-					onDaSua={(id, ngay) => goi("leo-top-da-sua", { id, ngay }).then(taiLT, (e) => setLtLoi(e.message))}
+					onDaSua={(id, ngay) => goi("leo-top-da-sua", { id, ngay }).then(taiLT, (e) => setLtLoi(loiCua(e)))}
 				/>
 			)}
 

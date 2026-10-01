@@ -359,3 +359,75 @@ test("dsNhapChoTab: đường hiển thị — thiếu slug thì '(chưa có slu
 	const r = await dang.dsNhapChoTab(s);
 	assert.deepEqual(r.nhap.map((n) => n.duong), ["/mat-ngu", "(chưa có slug)"]);
 });
+
+// ---- Dọn sau nghiệm thu 2C-3 ----
+
+test("tomTatPhieu.canXemKy: cờ cho tab Nháp — độ dài ngoài khoảng (chỉ SỐ), YMYL, nguồn bỏ, link gỡ, không ảnh bìa; phiếu sạch → rỗng", () => {
+	const t = dang.tomTatPhieu({ ...PHIEU, linkGo: [{ href: "https://x.vn/", neo: "x", lyDo: "link_ngoai" }], anh: null });
+	assert.deepEqual(t.canXemKy.map((x) => x.ma), ["do_dai", "ymyl", "nguon_bo", "link_go", "khong_anh_bia"]);
+	assert.match(t.canXemKy[0].chu, /800 từ/);
+	const chu = JSON.stringify(t);
+	assert.doesNotMatch(chu, /dài hơn|viết thêm|quá ngắn|ngắn quá/);
+	const sach = dang.tomTatPhieu({ seo: [], ymyl: [], khuonCanhBao: [], nguonBo: [], linkGo: [], anh: { mediaId: "m", alt: "A" }, soTu: 1200 });
+	assert.deepEqual(sach.canXemKy, []);
+	// Cảnh báo khuôn khác do_dai (từ khoá trong đoạn dẫn) không phải cờ "đọc kỹ".
+	assert.deepEqual(dang.tomTatPhieu({ khuonCanhBao: [{ ma: "tu_khoa_doan_dan", ghiChu: "x" }], anh: { mediaId: "m" } }).canXemKy, []);
+});
+
+test("khoiPanel: nguồn bị bỏ / link bị gỡ hiện CÂU tiếng Việt kèm mã — cả phiếu mới (có ma) lẫn phiếu cũ (lyDo là mã)", () => {
+	const phieu = {
+		...PHIEU,
+		nguonBo: [
+			{ title: "Sách bịa", lyDo: "khong_co_trang_nguon" }, // phiếu cũ
+			{ title: "Trang chết", url: "https://example.com/mat/", ma: "http_404", lyDo: "máy chủ của nguồn trả mã 404 (cần 200)" }, // phiếu mới
+		],
+		linkGo: [{ href: "https://x.vn/a", neo: "x", lyDo: "vuot_tran" }],
+	};
+	const chu = dang.khoiPanel({ nhap: { trangThai: "cho_duyet", taoLuc: "2026-09-30T00:00:00.000Z", phieu }, soat: { viPham: [], anhHong: [] } }).map((b) => b.text ?? "").join("\n");
+	assert.match(chu, /Sách bịa — [^\n]*\/nguon\/[^\n]*\(khong_co_trang_nguon\)/);
+	assert.match(chu, /Trang chết[^\n]*404[^\n]*\(http_404\)/);
+	assert.match(chu, /https:\/\/x\.vn\/a — [^\n]*\(vuot_tran\)/);
+});
+
+test("anhBiaTu: featured_image là id trần HOẶC object (hoặc chuỗi JSON của object) đều đọc được; rỗng → null", () => {
+	assert.deepEqual(dang.anhBiaTu("01M3SFW56A0T"), { id: "01M3SFW56A0T", alt: "" });
+	assert.deepEqual(dang.anhBiaTu({ id: "01M3SFW56A0T", alt: "Huyệt Thần Môn", src: "/_emdash/api/media/file/k.webp", meta: { storageKey: "k.webp" } }), { id: "01M3SFW56A0T", alt: "Huyệt Thần Môn" });
+	assert.deepEqual(dang.anhBiaTu('{"id":"m9","alt":"A"}'), { id: "m9", alt: "A" });
+	// Object không có id nhưng có src (hình { src, alt } của trang công khai) vẫn là "có ảnh".
+	assert.deepEqual(dang.anhBiaTu({ src: "/_emdash/api/media/file/k.webp", alt: "B" }), { id: "", alt: "B" });
+	for (const x of [undefined, null, "", "  ", {}, [], 0, "{hỏng"]) {
+		const kq = dang.anhBiaTu(x);
+		if (x === "{hỏng") assert.deepEqual(kq, { id: "{hỏng", alt: "" });
+		else assert.equal(kq, null, JSON.stringify(x));
+	}
+});
+
+test("soatBai + truocKhiDang: ảnh bìa ở cả hai hình không làm cổng đăng ném hay chặn; soatBai trả anhBia", async () => {
+	const nen = { title: "Sạch", description: "Sạch", content: [khoi("Sạch."), ANH_DUNG] };
+	for (const fi of ["01M3SFW56A0T", { id: "01M3SFW56A0T", alt: "Huyệt Thần Môn" }]) {
+		const ctx = ctxGia();
+		assert.equal(await dang.truocKhiDang(suKien({ ...nen, featured_image: fi }), ctx), undefined);
+		assert.equal(ctx.ghi.length, 0, "không log lỗi");
+		assert.equal(dang.soatBai({ ...nen, featured_image: fi }).anhBia.id, "01M3SFW56A0T");
+	}
+	assert.equal(dang.soatBai(nen).anhBia, null);
+});
+
+test("taiPanel: revision nháp mang featured_image id trần (plugin ghi) hoặc object (trình soạn ghi) → khung đều báo có ảnh bìa; không có → 'không có ảnh bìa'", async () => {
+	const dung = async (fi) => {
+		const content = {
+			async get(bo, id) { return { id, draftRevisionId: "r1", data: { title: "Sạch", description: "Sạch.", content: [] } }; },
+			async getRevision() { return { id: "r1", data: fi === undefined ? { title: "Sạch" } : { title: "Sạch", featured_image: fi } }; },
+		};
+		const ctx = ctxPanel(content);
+		await kho.themNhap(ctx.storage, { keHoachId: "k1", contentId: "c1", slug: "s", tieuDe: "Sạch", phieu: { anh: { mediaId: "m1", alt: "Huyệt Thần Môn" } } }, "2026-09-30T00:00:00.000Z");
+		const kq = await dang.taiPanel(ctx);
+		assert.ok(!ctx.ghi.some((g) => g[0] === "warn" || g[0] === "error"), JSON.stringify(ctx.ghi));
+		return kq.blocks.map((b) => b.text ?? "").join("\n");
+	};
+	// Id trần trùng ảnh máy chọn → mượn alt của phiếu.
+	assert.match(await dung("m1"), /Ảnh bìa của bản đang soát: có \(Huyệt Thần Môn\)/);
+	assert.match(await dung({ id: "m7", alt: "Kinh Tâm" }), /Ảnh bìa của bản đang soát: có \(Kinh Tâm\)/);
+	assert.match(await dung("m8"), /Ảnh bìa của bản đang soát: có/);
+	assert.match(await dung(undefined), /Ảnh bìa của bản đang soát: không có/);
+});

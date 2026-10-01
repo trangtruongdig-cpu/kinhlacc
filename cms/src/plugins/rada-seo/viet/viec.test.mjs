@@ -507,7 +507,7 @@ test("nopBai: cờ KHÔNG chặn vào phiếu — YMYL, SEO, cảnh báo khuôn,
 	assert.ok(Array.isArray(r.phieu.seo) && r.phieu.seo.every((x) => "dat" in x));
 	assert.ok(r.phieu.khuonCanhBao.some((c) => c.ma === "do_dai"));
 	assert.equal(r.phieu.nguonBo.length, 1);
-	assert.ok(r.phieu.linkGo.some((g) => g.lyDo === "link_ngoai"));
+	assert.ok(r.phieu.linkGo.some((g) => g.ma === "link_ngoai"));
 	// Link ngoài đã gỡ khỏi thân trước khi thành Portable Text.
 	assert.ok(!ctx.content.sua[0].data.content.flatMap((b) => b.markDefs ?? []).some((m) => /wikipedia/.test(m.href)));
 	assert.deepEqual(ctx.content.sua[0].data.nguon_tham_khao, NGUON);
@@ -848,4 +848,40 @@ test("N5: nhả khoá nộp ném → vẫn trả kết quả nộp", async () =>
 	};
 	const r = await viec.nopBai(ctx, dauVaoMau(), deps);
 	assert.equal(r.daTao, true, JSON.stringify(r.loi));
+});
+
+// ---- Dọn sau nghiệm thu 2C-3 ----
+
+test("nopBai: lý do bỏ nguồn / gỡ link trả cho Claude là CÂU tiếng Việt kèm mã; loiCuoi lưu cùng câu đó", async () => {
+	const { ctx, deps } = await dungNop();
+	const md = MD_DAT.replace("[kinh Tỳ](/kinh/ty/)", "kinh Tỳ").replace("tính an thần.", "tính an thần. Xem [Wikipedia](https://vi.wikipedia.org/wiki/X).");
+	const r = await viec.nopBai(ctx, dauVaoMau({ md, nguon: [NGUON[0], { title: "Sách không có trong kho" }] }), deps);
+	const n = r.loi.find((x) => x.ma === "nguon_thieu");
+	assert.ok(n, JSON.stringify(r.loi));
+	assert.match(n.ghiChu, /Sách không có trong kho: [^;]*\/nguon\/[^;]*\[khong_co_trang_nguon\]/);
+	const l = r.loi.find((x) => x.ma === "lien_ket");
+	assert.match(l.ghiChu, /vi\.wikipedia\.org\/wiki\/X: [^;]*\[link_ngoai\]/);
+	assert.doesNotMatch(l.ghiChu, /\(link_ngoai\)/);
+	const k = await ctx.storage.ke_hoach.get(dauVaoMau().keHoachId);
+	assert.ok(k.loiCuoi.some((c) => /\[khong_co_trang_nguon\]/.test(c) && /\/nguon\//.test(c)), JSON.stringify(k.loiCuoi));
+});
+
+test("nopBai: phiếu giữ mã ở `ma`, lyDo là câu (nguồn bỏ + link gỡ)", async () => {
+	const { ctx, deps } = await dungNop();
+	const md = MD_DAT.replace("tính an thần.", "tính an thần. Xem [Wikipedia](https://vi.wikipedia.org/wiki/X).");
+	const r = await viec.nopBai(ctx, dauVaoMau({ md, nguon: [...NGUON, { title: "Chết", url: "https://example.com/mat/" }] }), deps);
+	assert.equal(r.daTao, true, JSON.stringify(r.loi));
+	const g = r.phieu.linkGo.find((x) => x.ma === "link_ngoai");
+	assert.ok(g && !/_/.test(g.lyDo), JSON.stringify(r.phieu.linkGo));
+	const b = r.phieu.nguonBo[0];
+	assert.ok(b.ma && b.lyDo && b.lyDo !== b.ma && b.title === "Chết", JSON.stringify(b));
+});
+
+test("nopBai: lien_ket_nguy_hiem trích href ĐỦ (không cụt ở ngoặc đóng đầu), cắt 120 ký tự", async () => {
+	const { ctx, deps } = await dungNop();
+	const r = await viec.nopBai(ctx, dauVaoMau({ md: `${MD_DAT}\nXem [x](javascript:alert(1)) và [y](javascript:${"a".repeat(300)}) nhé.\n` }), deps);
+	const l = r.loi.find((x) => x.ma === "lien_ket_nguy_hiem");
+	assert.ok(l, JSON.stringify(r.loi));
+	assert.ok(l.ghiChu.includes('"javascript:alert(1)"'), l.ghiChu);
+	assert.ok(l.ghiChu.length < 400, String(l.ghiChu.length));
 });

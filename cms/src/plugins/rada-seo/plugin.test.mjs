@@ -622,6 +622,12 @@ test("tong-quan: trả tinhTrang (lịch, ca gần nhất, trang chờ, Claude �
 	await ctx.storage.url.put("u1", { doiThuId: "a.vn", url: "https://a.vn/1", trangThai: "da_phan_tich" });
 	kq = await p.routes["tong-quan"].handler(ctx);
 	assert.doesNotMatch(kq.tinhTrang.map((x) => x.chu).join("\n"), /cần tạo routine/);
+	// Bài can_xem: đếm vào ô "Máy đang tự làm gì".
+	assert.doesNotMatch(kq.tinhTrang.map((x) => x.chu).join("\n"), /cần bạn xem lại/);
+	await ctx.storage.ke_hoach.put("kx1", { trangThai: "can_xem", tieuDeLamViec: "A", taoLuc: "t" });
+	await ctx.storage.ke_hoach.put("kx2", { trangThai: "da_duyet", tieuDeLamViec: "B", taoLuc: "t" });
+	kq = await p.routes["tong-quan"].handler(ctx);
+	assert.match(kq.tinhTrang.map((x) => x.chu).join("\n"), /1 bài máy viết không đạt sau 3 lượt — cần bạn xem lại/);
 }));
 
 const ctxThat = () => ({ ...taoCtx(), kv: taoKvGia() });
@@ -843,13 +849,15 @@ test("khung 'Phiếu Rada': khai editorPanels cho bai_viet; route đọc ctx.ui.
 	assert.match(JSON.stringify(hong.blocks), /Không đọc được/);
 });
 
-test("route nhap-tong-quan: danh sách nháp + mồ côi cho tab Nháp (quyền quản trị mặc định)", async () => {
+test("route nhap-tong-quan: danh sách nháp + mồ côi cho tab Nháp — đọc được với content:edit_own (Editor), các route tab khác vẫn chỉ quản trị", async () => {
 	const p = createPlugin();
 	const ctx = taoCtx();
 	await ctx.storage.ke_hoach.put("k1", { trangThai: "co_nhap", tieuDeLamViec: "A", contentId: "c1", taoLuc: "t" });
 	await kho.themNhap(ctx.storage, { keHoachId: "k1", contentId: "c1", slug: "s", tieuDe: "t", phieu: {} }, "2026-09-30T00:00:00.000Z");
 	const r = await p.routes["nhap-tong-quan"].handler(ctx);
-	assert.equal(p.routes["nhap-tong-quan"].permission, undefined);
+	assert.equal(p.routes["nhap-tong-quan"].permission, "content:edit_own");
+	assert.equal(p.routes["nhap-tong-quan"].permission, p.routes["phieu-panel"].permission);
+	for (const ten of ["tong-quan", "chien-luoc-tong-quan", "leo-top-tong-quan", "ke-hoach-dat", "huong-dat", "ca-chay"]) assert.equal(p.routes[ten].permission, undefined, `${ten} giữ plugins:manage`);
 	assert.deepEqual(r.nhap.map((n) => [n.id, n.tenKeHoach]), [["c1", "A"]]);
 	assert.deepEqual(r.moCoi, []);
 });

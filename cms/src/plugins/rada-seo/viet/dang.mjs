@@ -13,6 +13,7 @@ import * as kho from "../kho.mjs";
 import { timViPham } from "../luat/pham-vi-y-sy.mjs";
 import { chuTuPt } from "./pt-an-toan.mjs";
 import { slugKhongDau } from "../luat/slug.mjs";
+import { kemCauNguon, kemCauLink, trichHref } from "./ly-do.mjs";
 
 const BO = "bai_viet";
 /** Trần reason của EmDash là 500 code point; chừa lề. */
@@ -42,10 +43,35 @@ export function anhHong(pt) {
 const chuoi = (x) => (typeof x === "string" ? x : "");
 
 /**
+ * Ảnh bìa từ trường `featured_image`, ở MỌI hình đã đo (nghiệm thu 2C-3, Bất ngờ 10): id trần do
+ * plugin ghi vào revision nháp ("01M3SFW…"), object do trình soạn ghi ({id, alt, src, meta…}), hoặc
+ * chuỗi JSON của object đó (cột kiểu image là TEXT khi đọc thô). Không có ảnh → null. Không ném.
+ * @returns {{id: string, alt: string} | null}
+ */
+export function anhBiaTu(v) {
+	let x = v;
+	if (typeof x === "string") {
+		const s = x.trim();
+		if (!s) return null;
+		if (!s.startsWith("{")) return { id: s, alt: "" };
+		try {
+			x = JSON.parse(s);
+		} catch {
+			return { id: s, alt: "" };
+		}
+	}
+	if (!x || typeof x !== "object" || Array.isArray(x)) return null;
+	const id = chuoi(x.id) || chuoi(x.mediaId);
+	const co = id || chuoi(x.src) || chuoi(x.url) || chuoi(x.meta?.storageKey);
+	return co ? { id, alt: chuoi(x.alt) } : null;
+}
+
+/**
  * Soát phạm vi Y sỹ + ảnh trên dữ liệu một bài bai_viet.
  * @param {Record<string, unknown>} data  trường của bài (title, description, content PT, faq)
  * @param {{nghiem?: boolean}} [tuyChon]  nghiem: bài MÁY viết (luat/pham-vi-y-sy.mjs)
- * @returns {{viPham: {cho: string, ma: string, tu: string, cau: string, goiY: string}[], anhHong: number[]}}
+ * @returns {{viPham: {cho: string, ma: string, tu: string, cau: string, goiY: string}[], anhHong: number[],
+ *   anhBia: {id: string, alt: string} | null}}  anhBia chỉ để HIỂN THỊ (khung phiếu) — thiếu ảnh bìa không chặn đăng
  */
 export function soatBai(data, { nghiem = false } = {}) {
 	const d = data && typeof data === "object" ? data : {};
@@ -58,7 +84,7 @@ export function soatBai(data, { nghiem = false } = {}) {
 	soat("thân bài", chuTuPt(d.content));
 	// FAQ cũng in ra trang công khai (và vào JSON-LD) — ngoài chữ của đặc tả nhưng cùng lý do pháp lý.
 	for (const f of Array.isArray(d.faq) ? d.faq : []) soat("FAQ", `${chuoi(f?.q)}\n${chuoi(f?.a)}`);
-	return { viPham, anhHong: anhHong(d.content) };
+	return { viPham, anhHong: anhHong(d.content), anhBia: anhBiaTu(d.featured_image) };
 }
 
 const catChu = (s, n) => {
@@ -237,12 +263,24 @@ export async function sauKhiGo(event, ctx) {
 	}
 }
 
-/** Tóm tắt phiếu cho tab Nháp / khung cạnh bài. Chỉ con số và tên tiêu chí — không lời khuyên độ dài. */
+/**
+ * Tóm tắt phiếu cho tab Nháp / khung cạnh bài. Chỉ con số và tên tiêu chí — không lời khuyên độ dài.
+ * `canXemKy`: các cờ khiến người duyệt phải đọc kỹ nháp này (nghiệm thu 2C-3, Bất ngờ 3: bài 334 từ
+ * thành nháp mà tab Nháp không đánh dấu gì). Mỗi cờ `{ma, chu}`, `chu` chỉ nêu SỐ.
+ */
 export function tomTatPhieu(phieu) {
 	const p = phieu && typeof phieu === "object" ? phieu : {};
 	const seo = Array.isArray(p.seo) ? p.seo : [];
 	const mang = (x) => (Array.isArray(x) ? x : []);
+	const canXemKy = [];
+	const doDai = mang(p.khuonCanhBao).find((x) => x?.ma === "do_dai");
+	if (doDai) canXemKy.push({ ma: "do_dai", chu: `Độ dài: ${String(doDai.ghiChu ?? "ngoài khoảng")}` });
+	if (mang(p.ymyl).length) canXemKy.push({ ma: "ymyl", chu: `${mang(p.ymyl).length} đoạn YMYL (liều, phác đồ, hứa hẹn)` });
+	if (mang(p.nguonBo).length) canXemKy.push({ ma: "nguon_bo", chu: `${mang(p.nguonBo).length} nguồn bị bỏ` });
+	if (mang(p.linkGo).length) canXemKy.push({ ma: "link_go", chu: `${mang(p.linkGo).length} link bị gỡ` });
+	if (!p.anh) canXemKy.push({ ma: "khong_anh_bia", chu: "Không có ảnh bìa" });
 	return {
+		canXemKy,
 		seo: `${seo.filter((x) => x?.dat).length}/${seo.length}`,
 		seoTruot: seo.filter((x) => x && !x.dat).map((x) => String(x.ghiChu ?? x.ma ?? "")),
 		ymyl: mang(p.ymyl).length,
@@ -290,12 +328,34 @@ export function khoiPanel({ chuaLuu = false, nhap = null, soat = null, loiDoc = 
 		});
 		if (t.seoTruot.length) ra.push({ type: "section", text: `SEO chưa đạt: ${t.seoTruot.join("; ")}` });
 		if (t.canhBao.length) ra.push({ type: "section", text: `Cảnh báo khuôn bài: ${t.canhBao.join("; ")}` });
+		// Lý do từng nguồn bị bỏ / link bị gỡ: câu tiếng Việt, mã trong ngoặc (phiếu cũ lưu mã ở lyDo).
+		const p = nhap.phieu && typeof nhap.phieu === "object" ? nhap.phieu : {};
+		const laMuc = (x) => x && typeof x === "object";
+		const nguonBo = (Array.isArray(p.nguonBo) ? p.nguonBo : []).filter(laMuc).map(kemCauNguon);
+		if (nguonBo.length)
+			ra.push({
+				type: "section",
+				text: `Nguồn bị bỏ:\n${nguonBo.slice(0, 12).map((b) => `• ${catChu(b.title || b.url || "(không tên)", 80)} — ${catChu(b.lyDo, 220)} (${b.ma})`).join("\n")}`,
+			});
+		const linkGo = (Array.isArray(p.linkGo) ? p.linkGo : []).filter(laMuc).map(kemCauLink);
+		if (linkGo.length)
+			ra.push({
+				type: "section",
+				text: `Link bị gỡ khỏi thân bài (chữ vẫn giữ):\n${linkGo.slice(0, 12).map((g) => `• ${trichHref(g.href)} — ${g.lyDo} (${g.ma})`).join("\n")}${linkGo.length > 12 ? "\n…" : ""}`,
+			});
 		if (t.loiCapNhat) ra.push({ type: "banner", variant: "alert", title: "Nháp chưa cập nhật đủ", description: t.loiCapNhat });
 	} else {
 		ra.push({ type: "context", text: "Bài này không do Rada SEO viết — chỉ có phần soát bên dưới." });
 	}
 	ra.push({ type: "divider" });
 	if (!soat) return ra;
+	// Ảnh bìa của BẢN ĐANG SOÁT (người duyệt có thể đã đổi/gỡ ảnh máy chọn). Chỉ có khi soát đọc được
+	// trường featured_image; id trần trùng ảnh máy chọn thì mượn alt của phiếu.
+	if ("anhBia" in soat) {
+		const a = soat.anhBia;
+		const alt = a ? a.alt || (a.id && a.id === nhap?.phieu?.anh?.mediaId ? String(nhap.phieu.anh.alt ?? "") : "") : "";
+		ra.push({ type: "section", text: `Ảnh bìa của bản đang soát: ${a ? `có${alt ? ` (${catChu(alt, 80)})` : ""}` : "không có"}.` });
+	}
 	if (!soat.viPham.length && !soat.anhHong.length) {
 		ra.push({ type: "section", text: "Không thấy chữ vượt phạm vi Y sỹ, ảnh trong thân bài đều hiện được." });
 	} else {

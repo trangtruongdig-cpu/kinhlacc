@@ -391,6 +391,7 @@ export function createPlugin() {
 							choAi,
 							daTungDoc,
 							lucClaudeDoc: caClaude?.ketThuc ?? null,
+							soCanXem: (await kho.dsKeHoach(ctx.storage, { trangThai: "can_xem" })).length,
 						}),
 						caDemBat: caDemBat(),
 						dangChay,
@@ -680,6 +681,9 @@ export function createPlugin() {
 				handler: async (ctx) => taiPanel(ctx),
 			},
 			"nhap-tong-quan": {
+				// Người duyệt bậc Editor (40) làm việc ở tab Nháp: cùng quyền với khung "Phiếu Rada". Chỉ ĐỌC
+				// (tiêu đề nháp, phiếu tóm tắt). Các tab khác giữ quyền mặc định plugins:manage.
+				permission: "content:edit_own",
 				handler: async (ctx) => dsNhapChoTab(ctx.storage),
 			},
 			"ca-chay": {

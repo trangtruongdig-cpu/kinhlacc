@@ -411,6 +411,8 @@ cuối routine trước.
      phục vụ trang tĩnh cũ cho tới khi `/blog/` chuyển sang đọc từ CMS (kế hoạch 3) — báo
      IndexNow cho một URL chưa tồn tại trên site là có hại. Bật IndexNow cùng lúc với kế hoạch 3.
 
+⚠️ **Ảnh nạp qua API mất `alt`:** `alt` gửi kèm lúc tải ảnh lên (multipart) bị bỏ, phải `PUT` riêng — mà lò viết chọn ảnh bìa THEO alt, nên ảnh nạp cho lò viết phải có alt đặt trong thư viện ảnh (Media), không thì không bao giờ được chọn.
+
 **Kiểm một lần sau deploy — container CMS tự tải được site thật:** `rada_tim_lien_ket` kiểm
 từng liên kết bằng cách tải trang thật TỪ TRONG container. Nếu container không ra được
 `kinhlac.online` (DNS, tường lửa, hairpin NAT) thì mọi cụm trả `ketQua` rỗng mà không lỗi.
