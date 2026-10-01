@@ -8,6 +8,7 @@
 // backend đang dùng thật; service account của backend là đường lùi cũ.
 
 import { voiHanGio } from "../lib/doc-web.mjs";
+import { duongCongCtr, gan } from "./ctr.mjs";
 
 const URL_TOKEN = "https://oauth2.googleapis.com/token";
 const URL_API = "https://searchconsole.googleapis.com/webmasters/v3/sites/";
@@ -162,20 +163,24 @@ export function taoGsc({ fetch, env = process.env, now = Date.now, hanGioMs = HA
 		async layTuKhoaLeoTop({ ngay = 28, viTriMin = 4, viTriMax = 50, hienThiMin = 5, toiDa = 5, boQua = new Set() } = {}) {
 			const bo = boQua instanceof Set ? boQua : new Set(Array.isArray(boQua) ? boQua : []);
 			const rows = await truyVanHet({ ...khoang(ngay), dimensions: ["query", "page"], rowLimit: TRAN_HANG, dataState: "all" });
-			return rows
-				.map((r) => {
-					const viTri = Number(r.position) || 0;
-					const hienThi = Number(r.impressions) || 0;
-					return {
-						tuKhoa: r.keys?.[0] ?? "",
-						trang: r.keys?.[1] ?? "",
-						viTri,
-						hienThi,
-						nhap: Number(r.clicks) || 0,
-						// Như backend: nhiều người tìm + càng gần top → đáng làm TRƯỚC.
-						coHoi: Math.round(hienThi * (viTriMax + 1 - viTri)),
-					};
-				})
+			const hang = rows.map((r) => {
+				const viTri = Number(r.position) || 0;
+				const hienThi = Number(r.impressions) || 0;
+				return {
+					tuKhoa: r.keys?.[0] ?? "",
+					trang: r.keys?.[1] ?? "",
+					viTri,
+					hienThi,
+					nhap: Number(r.clicks) || 0,
+					// Như backend: nhiều người tìm + càng gần top → đáng làm TRƯỚC.
+					coHoi: Math.round(hienThi * (viTriMax + 1 - viTri)),
+				};
+			});
+			// Đường cong CTR kỳ vọng dựng trên TOÀN BỘ hàng, kể cả hạng 1–3 và hàng bị lọc bỏ
+			// bên dưới: càng nhiều mẫu thì kỳ vọng từng bậc càng vững, và chính hạng 1–3 là
+			// phần neo đầu đường cong. Lọc trước rồi mới dựng là tự cắt mất mẫu.
+			const duongCong = duongCongCtr(hang);
+			return gan(hang, duongCong)
 				.filter(
 					(x) =>
 						x.tuKhoa &&
@@ -185,8 +190,44 @@ export function taoGsc({ fetch, env = process.env, now = Date.now, hanGioMs = HA
 						x.hienThi >= hienThiMin &&
 						!bo.has(`${x.tuKhoa}|${x.trang}`),
 				)
-				.sort((a, b) => b.coHoi - a.coHoi)
+				// Xếp theo `uuTien` (cơ hội × trọng số loại việc), không theo `coHoi` trần: ca
+				// soi SERP không chữa được lỗi tiêu đề, nên trang "tieu_de" phải nhường chỗ cho
+				// trang "noi_dung" dù cơ hội bằng nhau. Hoà thì giữ thứ tự cơ hội như cũ.
+				.sort((a, b) => b.uuTien - a.uuTien || b.coHoi - a.coHoi)
 				.slice(0, Math.max(1, toiDa));
+		},
+
+		/**
+		 * HÀNG ĐỢI RẺ: trang người ta THẤY mà không bấm. Không cần ca soi SERP, không tốn lượt
+		 * mô hình — người quản trị đọc rồi sửa tiêu đề/mô tả là xong.
+		 *
+		 * Xếp theo `nhapDangMat` (hiển thị × phần CTR thiếu so với kỳ vọng) chứ không theo CTR
+		 * thấp nhất: một từ khoá CTR 0% trên 25 hiển thị không đáng bằng từ khoá mất 300 lượt
+		 * nhấp mỗi tháng.
+		 */
+		async layViecTieuDe({ ngay = 28, viTriMin = 1, viTriMax = 50, toiDa = 20 } = {}) {
+			const rows = await truyVanHet({ ...khoang(ngay), dimensions: ["query", "page"], rowLimit: TRAN_HANG, dataState: "all" });
+			const hang = rows.map((r) => ({
+				tuKhoa: r.keys?.[0] ?? "",
+				trang: r.keys?.[1] ?? "",
+				viTri: Number(r.position) || 0,
+				hienThi: Number(r.impressions) || 0,
+				nhap: Number(r.clicks) || 0,
+				coHoi: 0,
+			}));
+			const duongCong = duongCongCtr(hang);
+			const ds = gan(hang, duongCong)
+				.filter((x) => x.tuKhoa && x.trang && x.loaiViec === "tieu_de" && x.viTri >= viTriMin && x.viTri <= viTriMax)
+				.sort((a, b) => b.nhapDangMat - a.nhapDangMat)
+				.slice(0, Math.max(1, toiDa));
+			return {
+				ds,
+				soBacDuongCong: duongCong.soBac,
+				// Đường cong rỗng nghĩa là KHÔNG kết luận được gì, khác hẳn với "không có việc nào".
+				ghiChu: duongCong.soBac
+					? `Đường cong CTR dựng từ ${duongCong.soBac} bậc vị trí có đủ mẫu.`
+					: "CHƯA dựng được đường cong CTR (không bậc vị trí nào đủ mẫu) — danh sách này rỗng vì thiếu căn cứ, không phải vì không có việc.",
+			};
 		},
 
 		/**

@@ -658,6 +658,20 @@ export function createPlugin() {
 					gscCoCauHinh: gscCua(ctx).coCauHinh(),
 				}),
 			},
+			// Hàng đợi RẺ, tách khỏi ca soi SERP: trang người ta THẤY mà không bấm. Không gọi
+			// mô hình, không tải trang đối thủ — người quản trị đọc rồi sửa tiêu đề/mô tả.
+			// Trước 01/10/2026 hai loại việc này nằm chung một hàng đợi và cùng tốn một ca soi.
+			"leo-top-viec-tieu-de": {
+				handler: async (ctx) => {
+					const gsc = gscCua(ctx);
+					if (!gsc.coCauHinh()) return { ds: [], ghiChu: "Chưa cấu hình Search Console (thiếu GSC_OAUTH_*) — không có dữ liệu CTR." };
+					try {
+						return await gsc.layViecTieuDe({});
+					} catch (e) {
+						return { ds: [], ghiChu: `Không đọc được Search Console: ${e?.message ?? e}` };
+					}
+				},
+			},
 			"leo-top-da-sua": {
 				handler: async (ctx) => {
 					const { id, ngay } = vao(ctx);

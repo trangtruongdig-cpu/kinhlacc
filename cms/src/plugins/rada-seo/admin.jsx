@@ -607,6 +607,67 @@ function PhienLeoTop({ p, onDaSua }) {
 	);
 }
 
+/**
+ * Việc RẺ: trang người ta THẤY mà không bấm (CTR thấp hơn hẳn mức thường thấy Ở CÙNG HẠNG).
+ * Tách khỏi ca soi SERP vì ca soi không chữa được lỗi tiêu đề — xem leo-top/ctr.mjs.
+ * Nạp theo YÊU CẦU (mỗi lần bấm là một lượt gọi Search Console), không nạp cùng tab.
+ */
+function ViecTieuDe() {
+	const [dl, setDl] = useState(null);
+	const [dangTai, setDangTai] = useState(false);
+	const [loi, setLoi] = useState("");
+	const tai = () => {
+		setDangTai(true);
+		setLoi("");
+		goi("leo-top-viec-tieu-de")
+			.then((d) => setDl(d), (e) => setLoi(loiCua(e)))
+			.finally(() => setDangTai(false));
+	};
+	const pt = (x) => (x == null ? "—" : `${(x * 100).toFixed(1)}%`);
+	return (
+		<div style={{ border: "1px solid #d4d4d8", padding: 8, marginBottom: 12 }}>
+			<b>Sửa tiêu đề/mô tả — không cần soi SERP</b>{" "}
+			<button type="button" onClick={tai} disabled={dangTai} style={{ marginLeft: 6 }}>
+				{dangTai ? "Đang đọc Search Console…" : dl ? "Đọc lại" : "Xem danh sách"}
+			</button>
+			<p style={{ margin: "4px 0 0", color: "#52525b", fontSize: 13 }}>
+				Trang có lượt hiển thị bình thường mà ít người bấm, so với mức thường thấy Ở CÙNG HẠNG của chính site này.
+				CTR thô vô dụng vì hạng 1 luôn được nhấp nhiều hơn hạng 10 — ở đây đã trừ phần đó.
+			</p>
+			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
+			{dl && (
+				<>
+					{dl.ghiChu && <p style={{ margin: "6px 0 0", color: "#92400e", fontSize: 13 }}>{dl.ghiChu}</p>}
+					{dl.ds?.length ? (
+						<table style={{ borderCollapse: "collapse", fontSize: 13, marginTop: 6, width: "100%" }}>
+							<thead>
+								<tr style={{ textAlign: "left", borderBottom: "1px solid #e4e4e7" }}>
+									<th>Từ khoá</th><th>Trang</th><th>Hạng</th><th>Hiển thị</th><th>CTR</th><th>Mức thường</th><th>Ước mất</th>
+								</tr>
+							</thead>
+							<tbody>
+								{dl.ds.map((x) => (
+									<tr key={`${x.tuKhoa}|${x.trang}`} style={{ borderBottom: "1px solid #f4f4f5" }}>
+										<td>{x.tuKhoa}</td>
+										<td style={{ maxWidth: 240, overflowWrap: "anywhere" }}>{x.trang}</td>
+										<td>{so(x.viTri)}</td>
+										<td>{x.hienThi}</td>
+										<td style={{ color: "#b91c1c" }}>{pt(x.ctr)}</td>
+										<td>{pt(x.ctrKyVong)}</td>
+										<td><b>{x.nhapDangMat}</b> lượt</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					) : (
+						<p style={{ margin: "6px 0 0", fontSize: 13 }}>Không có trang nào rơi vào loại này.</p>
+					)}
+				</>
+			)}
+		</div>
+	);
+}
+
 function LeoTopTab({ dl, loi, onDaSua, onTai }) {
 	const [mo, setMo] = useState(null);
 	if (!dl) return <ChuaCoDuLieu loi={loi} />;
@@ -626,6 +687,7 @@ function LeoTopTab({ dl, loi, onDaSua, onTai }) {
 					Plugin chưa cấu hình Search Console (biến GSC_OAUTH_* trong cms/.env): không lấy được từ khoá mới và ca đêm không đo lại hạng.
 				</p>
 			)}
+			{dl.gscCoCauHinh && <ViecTieuDe />}
 			{choSua.length > 0 && (
 				<div style={{ border: "1px solid #f59e0b", background: "#fffbeb", padding: 8, marginBottom: 12 }}>
 					<b>{choSua.length} phiếu chờ bấm "Đã sửa theo phiếu":</b>
