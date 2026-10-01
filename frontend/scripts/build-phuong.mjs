@@ -31,6 +31,7 @@ import { tieuDeSeo, SITE, OG_IMAGE } from './seo-html.mjs'
 import { timTrung } from './trung-lap-bai-thuoc.mjs'
 import { dungMucLuc } from './muc-luc.mjs'
 import { tongHopTinhVi, timLienQuan, cauTomTat } from './phan-tich-bai-thuoc.mjs'
+import { napNgayCms, lastmodTheoSlug } from './ngay-cms.mjs'
 
 // Ghi đè SEO người biên tập gõ trong CMS. Nạp một lần ở đây; không nối được kho thì
 // hàm trả null và trang dùng bản tự sinh (seo-cms.mjs đã kêu, đừng nuốt cảnh báo).
@@ -311,8 +312,12 @@ function stub(b, nguonCua, trungHtml = '', phanTichHtml = '') {
   // Nạp URL bài thuốc vào sitemap (chèn trước </urlset>); nếu chưa có sitemap thì bỏ qua.
   const smPath = resolve(distDir, 'sitemap.xml')
   // chenUrl XOÁ phần cũ của /bai-thuoc/ rồi chèn lại — chạy lại không nhân đôi.
+  // lastmod = ngày SỬA THẬT trong CMS, không phải ngày build: 5.448 URL ở đây là phần lớn
+  // của 6.634 URL từng mang cùng ngày build, và Google bỏ qua lastmod khi nó luôn đổi.
+  // Tra không ra thì URL đó KHÔNG có lastmod (xem ngay-cms.mjs).
+  const ngayCms = await napNgayCms()
   chenUrl(smPath, '/bai-thuoc/', urls, {
-    lastmod: new Date().toISOString().slice(0, 10), priority: '0.6',
+    lastmod: lastmodTheoSlug(ngayCms, 'bai_thuoc'), priority: '0.6',
   })
 
   luuTuSinh()

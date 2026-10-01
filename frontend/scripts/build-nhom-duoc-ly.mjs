@@ -236,7 +236,9 @@ function groupBy(rows, key) {
   // Nạp URL vào sitemap (chèn trước </urlset>); nếu chưa có sitemap thì bỏ qua.
   const smPath = resolve(distDir, 'sitemap.xml')
   chenUrl(smPath, '/duoc-lieu/nhom/', urls, {
-    lastmod: new Date().toISOString().slice(0, 10), priority: '0.6',
+    // Trang nhóm dược lý là trang GOM do builder tự dựng, không có mục CMS nào để lấy ngày
+    // sửa — nên bỏ lastmod thay vì điền ngày build (xem ngay-cms.mjs).
+    priority: '0.6',
   })
 
   console.log(`✓ build-nhom-duoc-ly: 1 hub + ${nLon} nhóm lớn + ${nNho} nhóm nhỏ (${nNhoNoindex} noindex, <3 vị) + ${urls.length} URL vào sitemap.`)

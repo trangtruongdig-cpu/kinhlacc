@@ -59,9 +59,17 @@ export function chenUrl(smPath, tienTo, urls, opts = {}) {
 
   const cf = opts.changefreq || 'monthly'
   const pr = opts.priority || '0.5'
-  const lm = opts.lastmod ? `<lastmod>${opts.lastmod}</lastmod>` : ''
+  // `lastmod` nhận chuỗi (một ngày cho cả lô) HOẶC hàm (loc) => ngày — xem ngay-cms.mjs.
+  // Hàm trả rỗng thì URL đó KHÔNG có thẻ <lastmod>: thiếu lastmod chỉ là thiếu một gợi ý,
+  // còn điền ngày build cho mọi trang là nói dối bộ máy tìm kiếm (đo 01/10/2026: 6.634 URL
+  // cùng ngày build, nên Google bỏ qua lastmod của cả kho).
+  const lmCua = typeof opts.lastmod === 'function' ? opts.lastmod : () => opts.lastmod
+  const the = (u) => {
+    const d = lmCua(u)
+    return d ? `<lastmod>${d}</lastmod>` : ''
+  }
   const them = urls
-    .map((u) => `<url><loc>${u}</loc>${lm}<changefreq>${cf}</changefreq><priority>${pr}</priority></url>`)
+    .map((u) => `<url><loc>${u}</loc>${the(u)}<changefreq>${cf}</changefreq><priority>${pr}</priority></url>`)
     .join('')
   writeFileSync(smPath, conLai.replace('</urlset>', them + '</urlset>'), 'utf8')
   return { xoa, chen: urls.length }

@@ -21,6 +21,7 @@ import {
   traitsByAcuId, codeToId, COORDS3D_CODES,
 } from './dict-data.mjs'
 import { napGhiDe, seoTrang, luuTuSinh } from './seo-cms.mjs'
+import { napNgayCms } from './ngay-cms.mjs'
 import { doiChieuUrl } from './sitemap-chen.mjs'
 import { moKetNoiCms } from './cms-ket-noi.mjs'
 
@@ -30,6 +31,14 @@ const maNeo = (code) => String(code).toLowerCase().replace(/[^a-z0-9-]+/g, '-')
 // Phần SEO người biên tập gõ trong CMS. Nạp ở cuối tệp, TRƯỚC các vòng sinh trang;
 // khai ở đây để ba hàm dựng trang dưới đây đọc được.
 let ghiDeSEO = () => null
+
+// Ngày sửa THẬT của từng mục (CMS). Dòng "Cập nhật <ngày>" trong byline là thứ Google đọc
+// thành `semanticDate`; trước 01/10/2026 nó in BUILD_DATE nên cả 1.300 trang từ điển đều
+// khai "sửa hôm nay" sau mỗi lần phát hành — cùng một lời nói sai với `lastmod` của sitemap.
+// Khác sitemap ở một điểm: chỗ này là chữ NGƯỜI ĐỌC thấy, nên tra không ra thì rơi về
+// BUILD_DATE (bỏ trống sẽ thành dòng byline cụt), còn sitemap thì bỏ hẳn thẻ lastmod.
+let ngayCmsTrang = () => null
+const ngayTrang = (bo, slug) => ngayCmsTrang(bo, slug) || BUILD_DATE
 // Thư mục nguồn y văn (ec_nguon_y_van) để nối tên sách trong Phối Huyệt → /nguon/<slug>/
 // (Việc 10 ③). Nạp CÙNG LÚC với ghiDeSEO, TRƯỚC vòng sinh trang huyệt. fold(title) → {slug,
 // ten} — đã đo 2.139/2.139 mục có khoá chuẩn hoá DUY NHẤT (không mục nào trùng), nên khớp
@@ -648,7 +657,7 @@ function huyetPage(rec) {
 <main class="bl-main"><article class="bl-article dl-article">
   ${crumbHtml}
   <h1>${escText(title)} ${badge}</h1>
-  ${bylineTuDien(BUILD_DATE)}
+  ${bylineTuDien(ngayTrang('huyet_vi', slug))}
   ${infobox}
   <p class="dl-lead">${escText(lead)}</p>
   ${anh3dBlock(anh3d, dispName)}
@@ -735,7 +744,7 @@ function kinhPage(m) {
 <main class="bl-main"><article class="bl-article dl-article">
   <nav class="bl-crumb"><a href="/">Trang Chủ</a> › <a href="/thu-vien">Từ Điển</a> › <span>${escText(m.ten)}</span></nav>
   <h1>${escText(m.ten)} <span class="dl-badge">${escText(m.code || 'Đường kinh')}</span></h1>
-  ${bylineTuDien(BUILD_DATE)}
+  ${bylineTuDien(ngayTrang('kinh_mach', slug))}
   ${infobox}
   <p class="dl-lead">${escText(lead)}</p>
   <div class="bl-body">${body}</div>
@@ -1000,7 +1009,7 @@ function benhPage(rec, set, cfg) {
 <main class="bl-main"><article class="bl-article dl-article">
   <nav class="bl-crumb"><a href="/">Trang Chủ</a> › <a href="/thu-vien">Từ Điển</a> › <a href="/${escAttr(cfg.dir)}/">${escText(set.title)}</a> › <span>${escText(title)}</span></nav>
   <h1>${escText(title)} <span class="dl-badge dl-badge-alt">${escText(set.title)}</span></h1>
-  ${bylineTuDien(BUILD_DATE)}
+  ${bylineTuDien(ngayTrang(cfg.key === 'ccdt' ? 'cham_cuu_tri_benh' : 'benh_hoc', slug))}
   ${infobox}
   <p class="dl-lead">${escText(lead)}</p>
   ${crossHtml}
@@ -1038,6 +1047,7 @@ function writePage(kind, slug, html) {
 // Nạp ghi-đè SEO TRƯỚC mọi vòng sinh trang. Không nối được kho thì hàm trả null và
 // mọi trang lặng lẽ dùng bản tự sinh — seo-cms.mjs đã in cảnh báo, đừng nuốt thêm.
 ghiDeSEO = await napGhiDe()
+ngayCmsTrang = await napNgayCms()
 // Nạp thư mục nguồn TRƯỚC vòng sinh trang huyệt (Việc 10 ③) — không nối được kho thì
 // nguonBySlug rỗng và Phối Huyệt lặng lẽ không có link /nguon/ nào (napNguon() đã kêu to).
 nguonBySlug = await napNguon()

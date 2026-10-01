@@ -17,6 +17,7 @@ import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
 import { readArticles } from './blog-lib.mjs'
 import { listDictPages } from './dict-data.mjs'
+import { napNgayCms } from './ngay-cms.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const seo = JSON.parse(readFileSync(resolve(here, '../src/seo/route-seo.json'), 'utf8'))
@@ -27,14 +28,37 @@ const DOMAIN = seo.domain
 const slashify = (p) => (p === '/' ? '/' : '/' + p.replace(/^\/+|\/+$/g, '') + '/')
 const today = process.env.SITEMAP_DATE || new Date().toISOString().slice(0, 10)
 
+// Ngày sửa THẬT từ CMS. Trước 01/10/2026 mọi URL ở tệp này mang `lastmod = today`, tức ngày
+// build — Google bỏ qua lastmod khi nó đổi mỗi lần phát hành, nên cả kho phát một tín hiệu
+// rỗng. Nay: tra được thì dùng ngày sửa thật, không tra được thì BỎ HẲN lastmod.
+const ngayCms = await napNgayCms()
+// Đường dẫn → bộ trong CMS. Khớp theo tiền tố nên không phụ thuộc `kind` của listDictPages.
+const BO_THEO_DUONG = [
+  ['/huyet/', 'huyet_vi'],
+  ['/kinh/', 'kinh_mach'],
+  ['/benh-hoc/', 'benh_hoc'],
+  ['/cham-cuu-tri-benh/', 'cham_cuu_tri_benh'],
+]
+function ngayCuaDuong(p) {
+  const d = p.endsWith('/') ? p : p + '/'
+  for (const [tienTo, bo] of BO_THEO_DUONG) {
+    if (!d.startsWith(tienTo)) continue
+    const slug = d.slice(tienTo.length).replace(/\/+$/, '')
+    // Trang GOM (/huyet/) không có slug → không có mục CMS nào, bỏ lastmod.
+    return slug ? ngayCms(bo, slug) : null
+  }
+  return null
+}
+
 // 1) Trang công khai của app — BỎ trang noindex (vd /xoa-tai-khoan) khỏi sitemap để khớp robots meta.
+// KHÔNG có lastmod: đây là trang của SPA, nội dung đổi theo mã nguồn chứ không theo mục CMS
+// nào, nên không có ngày sửa thật để khai.
 const routes = seo.pages
   .filter((p) => p.index !== false)
   .map((p) => ({
     path: p.path,
     priority: p.priority || '0.8',
     changefreq: p.changefreq || 'monthly',
-    lastmod: today,
   }))
 
 // 2) Blog (trang index + từng bài). Bỏ bài index:false (bản nháp/chờ duyệt) khỏi sitemap.
@@ -54,7 +78,7 @@ for (const p of listDictPages()) {
     path: p.loc,
     priority: p.kind === 'index' ? '0.8' : p.kind === 'kinh' ? '0.7' : '0.6',
     changefreq: 'monthly',
-    lastmod: today,
+    lastmod: ngayCuaDuong(p.loc),
     anh: p.anh || [],
   })
   nDict++
@@ -66,8 +90,8 @@ const escXml = (t) => String(t ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;
 const urls = routes
   .map(
     (r) => `  <url>
-    <loc>${DOMAIN}${slashify(r.path)}</loc>
-    <lastmod>${r.lastmod}</lastmod>
+    <loc>${DOMAIN}${slashify(r.path)}</loc>${r.lastmod ? `
+    <lastmod>${r.lastmod}</lastmod>` : ''}
     <changefreq>${r.changefreq}</changefreq>
     <priority>${r.priority}</priority>${(r.anh || [])
       .map((a) => `

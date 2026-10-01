@@ -327,7 +327,10 @@ function stub(v, rel) {
   // ⚠️ loaiTru: /duoc-lieu/ chứa cả /duoc-lieu/nhom/ của build-nhom-duoc-ly — không loại
   // ra thì bước này xoá mất 62 URL nhóm dược lý mỗi lần chạy.
   chenUrl(smPath, '/duoc-lieu/', urls, {
-    loaiTru: ['/duoc-lieu/nhom/'], lastmod: new Date().toISOString().slice(0, 10), priority: '0.6',
+    // KHÔNG còn lastmod = ngày build (xem ngay-cms.mjs): đường dẫn ở đây là /duoc-lieu/<id>/
+    // theo id của app, còn CMS khoá theo slug — chưa có bảng nối nên chưa tra được ngày sửa
+    // thật. Bỏ hẳn thẻ lastmod tốt hơn là điền một ngày luôn đổi mỗi lần phát hành.
+    loaiTru: ['/duoc-lieu/nhom/'], priority: '0.6',
   })
 
   luuTuSinh()

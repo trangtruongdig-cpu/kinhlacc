@@ -68,6 +68,33 @@ if (soTrung) {
   if (trung.length > 5) console.log(`      … và ${trung.length - 5} URL nữa`)
 }
 
+// LASTMOD BẰNG NGÀY BUILD — ngưỡng 50%. Đo 01/10/2026 trên site thật: 6.634/7.400 URL mang
+// cùng một lastmod = ngày build, vì bốn builder đều truyền `new Date()`. Google bỏ qua
+// lastmod khi nó đổi mỗi lần phát hành, nên cả kho phát một tín hiệu RỖNG mà không gì báo.
+//
+// ⚠️ Chốt này canh "bằng NGÀY BUILD", KHÔNG canh "nhiều URL trùng ngày". Kho này trùng ngày
+// là bình thường và ĐÚNG: `updated_at` của CMS phần lớn là 2026-09-25, ngày nhập liệu hàng
+// loạt (ec_bai_thuoc 13.898/13.942 mục). Một chốt kiểu "quá 60% cùng lastmod thì gãy" sẽ
+// gãy oan ngay lần chạy đầu — đã tính và bỏ.
+const homNay = process.env.BUILD_DATE || new Date().toISOString().slice(0, 10)
+const lastmods = sm.match(/<lastmod>[^<]*<\/lastmod>/g) || []
+const soNgayBuild = lastmods.filter((l) => l.includes(homNay)).length
+const tiLe = locs.length ? soNgayBuild / locs.length : 0
+const TRAN_NGAY_BUILD = 0.5
+console.log('── kiem-sitemap: lastmod có mang tin không ──')
+const datNgay = tiLe < TRAN_NGAY_BUILD
+console.log(
+  `  ${datNgay ? '✓' : '✗'} lastmod = ngày build  ${String(soNgayBuild).padStart(6)}` +
+  `  (${(tiLe * 100).toFixed(1)}% số URL, phải dưới ${TRAN_NGAY_BUILD * 100}%)`,
+)
+if (!datNgay) {
+  hong++
+  console.log(
+    `      Builder nào đó đang truyền ngày build làm lastmod. Ngày sửa thật lấy qua` +
+    `\n      scripts/ngay-cms.mjs (updated_at của CMS); tra không ra thì BỎ HẲN thẻ lastmod.`,
+  )
+}
+
 console.log('── kiem-sitemap: đối chiếu với ngưỡng tối thiểu ──')
 for (const [nhan, mau, min, lucDo] of NGUONG) {
   const n = dem(mau)
