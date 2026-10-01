@@ -470,6 +470,32 @@ CSDL, trong khi route đó đơn giản là không còn tồn tại.
 Trang độc lập không cần route Vue. Trang vỏ SPA thì **bắt buộc** phải có route Vue khớp,
 không thì tải trang ra nội dung tĩnh còn bấm link ra 404.
 
+⚠️ **MÃ WHO của trang huyệt lấy từ `p.code` của ĐƯỜNG KINH, không từ `IDX.points[].code`.**
+`acu-index.js` có HAI nguồn mã và chúng lệch nhau: `codeToId` đủ 361 mã và đúng, còn
+`points[].code` (bản sinh 08/09/2026, script sinh ra nó đã không còn trong repo) thiếu 30 mã
+và sai 1 mã. Hậu quả đo được 02/10/2026: 30 trang huyệt mất cả hàng "Mã WHO" lẫn hai nút
+"🧭 Xem Vị Trí Trên Đồ Hình 3D" / "📖 Xem Trên Đường Kinh" (Trung Phủ LU1, Thái Khê KI3,
+Phế Du BL13, Trung Quản CV12, Hợp Cốc… — toàn huyệt lớn), và trang Khí Xung có đủ nút nhưng
+**bay tới Hạ Cự Hư** vì đeo mã ST39. Tab Từ Điển trong app vốn đã đi đường đúng (`acuIdToCode`
+dựng từ `p.code`) nên nhìn trong app thấy bình thường — chỉ trang tĩnh hỏng.
+Phép kiểm: `node --test frontend/scripts/dict-ma-who.test.mjs` (4 chốt: đủ mã · mã khớp
+`codeToId` · mã có toạ độ 3D · neo `#<mã>` có thật trên trang `/kinh/`).
+
+⚠️ **Cờ rác chữ nay ĐO TỪ NỘI DUNG mỗi lần build (`coRacChu`), không đọc `corrupt` của
+`acu-index.js` nữa.** Cờ cũ là ảnh chụp 08/09/2026, không tự cập nhật, nên sau đợt dọn rác
+18/09 nó sai cả hai chiều: chôn noindex 33 trang bài đầy đủ (Hợp Cốc 6.092 ký tự, Quan Nguyên
+6.385, Thừa Sơn, Phong Phủ, Thiếu Thương…) đồng thời bỏ sót mục còn rác thật. Sửa 02/10/2026:
+noindex huyệt 398 → 366 (bật 33, tắt 1).
+
+Phép dò cố ý HẸP — ở đây vu oan đắt hơn bỏ sót, vì một lần gắn nhầm là chôn vĩnh viễn một bài
+y văn đầy đủ mà không ai đọc lại để biết. Số đo toàn kho 1.059 mục: 0 U+FFFD, 0 mojibake, 0
+chữ Hán; chỉ còn 9 ký tự nhóm `¼½¾` mà **6 là phân số viết đúng** ("bỏ đi ¼, lấy ¾") — nên
+luật TCVN3 đòi ký hiệu phải DÍNH LIỀN chữ/số. Đừng nới nó ra mà không đếm lại tỉ lệ vu oan.
+
+Còn đúng **1 mục có rác thật**: Dương Trì (TE4) có đuôi `: 31v¼9:` ở mục GIẢI PHẪU → đang
+noindex. Dọn một dòng đó trong CMS rồi chạy lại `cms/scripts-di-cu/xuat-huyet-js.mjs` là trang
+tự bật lại, không phải sửa mã.
+
 ### `/blog/` — tĩnh trước, CMS đỡ sau, backend cũ đỡ chót (từ 01/10/2026)
 
 Ngoại lệ DUY NHẤT của câu "không có đường thư viện nào sang CMS". Kế hoạch:

@@ -70,8 +70,9 @@ export function slugify(s) {
 }
 
 // ───────────────────────── Chỉ mục theo ID (chuẩn, hết nhập nhằng dấu) ───────
+// ⚠️ KHÔNG lấy `p.corrupt` ra khỏi đây: xem coRacChu() bên dưới — cờ rác nay ĐO từ nội dung.
 export const idxById = new Map()
-for (const p of IDX.points || []) idxById.set(p.id, { code: p.code || '', corrupt: !!p.corrupt, hasViTri: !!p.hasViTri })
+for (const p of IDX.points || []) idxById.set(p.id, { code: p.code || '', hasViTri: !!p.hasViTri })
 export const codeToId = new Map(Object.entries(IDX.codeToId || {}).map(([c, id]) => [c.toUpperCase(), id]))
 
 // id huyệt → bản ghi ACU (kèm slug DUY NHẤT). records giữ nguyên thứ tự để build & sitemap khớp.
@@ -102,20 +103,28 @@ export const kinhSlugOf = (m) => KINH_SLUG_BY_CODE[m.code] || KINH_SLUG_OVERRIDE
 // 12 chính kinh TRƯỚC để huyệt dùng chung gán về kinh chính (không vào kỳ kinh bát mạch).
 export const meridianList = [...(MER.kinh || []), ...(MER.circuits || [])]
 
-// id huyệt → { kinhTen, kinhSlug, mer } — khớp point→huyệt qua MÃ WHO (codeToId), KHÔNG qua tên.
+// id huyệt → { code, kinhTen, kinhSlug, mer } — khớp point→huyệt qua MÃ WHO (codeToId), KHÔNG qua tên.
+// ⚠️ MÃ WHO lấy từ CHÍNH p.code của đường kinh, KHÔNG lấy từ IDX.points[].code. Hai nguồn này
+// lệch nhau: `codeToId` đủ 361 mã và đúng, còn `IDX.points[].code` (bản sinh 08/09/2026, script
+// sinh ra nó đã không còn trong repo) thiếu 30 mã và SAI 1 mã (Khí Xung ghi ST39, thật là ST30).
+// Đã trả giá: 30 trang huyệt mất cả hàng "Mã WHO" lẫn hai nút "Xem Vị Trí Trên Đồ Hình 3D" /
+// "Xem Trên Đường Kinh" (Trung Phủ LU1, Thái Khê KI3, Phế Du BL13, Trung Quản CV12…), và trang
+// Khí Xung thì có nút nhưng bay tới Hạ Cự Hư. Dùng p.code còn khiến neo #<mã> khớp tuyệt đối
+// với id mà trang /kinh/ dựng (cũng từ p.code) — tab Từ Điển trong app vốn đã làm đúng như vậy.
 export const merByAcuId = new Map()
 for (const m of meridianList) {
   const kinhSlug = kinhSlugOf(m)
   for (const p of m.points || []) {
-    const id = p.code ? codeToId.get(String(p.code).toUpperCase()) : null
-    if (id != null && !merByAcuId.has(id)) merByAcuId.set(id, { kinhTen: m.ten, kinhSlug, mer: m })
+    const code = p.code ? String(p.code).toUpperCase() : ''
+    const id = code ? codeToId.get(code) : null
+    if (id != null && !merByAcuId.has(id)) merByAcuId.set(id, { code, kinhTen: m.ten, kinhSlug, mer: m })
   }
 }
 
 export function classify(rec) {
   const meta = idxById.get(rec.id) || {}
   const mer = merByAcuId.get(rec.id)
-  if (mer) return { loai: 'kinh', code: meta.code || '', kinhTen: mer.kinhTen, kinhSlug: mer.kinhSlug, mer: mer.mer }
+  if (mer) return { loai: 'kinh', code: mer.code || meta.code || '', kinhTen: mer.kinhTen, kinhSlug: mer.kinhSlug, mer: mer.mer }
   if (/^a thi\b/.test(fold(rec.ten))) return { loai: 'athi', code: meta.code || '' }
   return { loai: 'ky', code: meta.code || '' }
 }
@@ -132,7 +141,7 @@ export function sec(rec, h) {
   return s ? String(s.body || '').trim() : ''
 }
 
-// ───────────────────────── Quyết định noindex (corrupt / thin) ───────────────
+// ───────────────────────── Quyết định noindex (rác chữ / thin) ───────────────
 // bodyLen TÍNH ĐÚNG bộ field mà build-dict render → sitemap/IndexNow & trang khớp tuyệt đối.
 export function huyetBodyLen(rec) {
   let n = 0
@@ -141,9 +150,48 @@ export function huyetBodyLen(rec) {
   if (rec.ghiChu) n += rec.ghiChu.length
   return n
 }
+
+// Chữ mà build-dict thật sự IN RA trang — phép dò rác phải soi đúng ngần ấy, không hơn.
+function chuHienThi(rec) {
+  const ph = []
+  for (const [h] of HUYET_SECTIONS) { const b = sec(rec, h); if (b) ph.push(b) }
+  if (rec.phoiHuyet) ph.push(String(rec.phoiHuyet))
+  if (rec.ghiChu) ph.push(String(rec.ghiChu))
+  if (rec.thamKhao) ph.push(String(rec.thamKhao))
+  return ph.join('\n')
+}
+
+// Dấu hiệu rác chữ di sản từ app Windows cũ. MỖI dòng là một dạng KHÔNG BAO GIỜ xuất hiện
+// trong văn bản viết đúng — cố ý hẹp, vì ở đây vu oan tốn đắt hơn bỏ sót: một lần gắn nhầm
+// là chôn vĩnh viễn một bài y văn đầy đủ khỏi bộ máy tìm kiếm, mà không ai đọc lại để biết.
+const DAU_HIEU_RAC = [
+  /\uFFFD/,                          // ký tự thay thế — giải mã hỏng
+  /[^\P{Cc}\t\n\r]/u,                // ký tự điều khiển, chừa \t \n \r (phủ định kép: \P{Cc} = KHÔNG phải điều khiển)
+  /Ã[\u0080-\u00BF]|Ä[\u0080-\u00BF]|á»|Æ°|â€|Ð/, // mojibake UTF-8 đọc nhầm thành Latin-1
+  /[\u4E00-\u9FFF]/,                // chữ Hán lẫn trong thân bài (Hán tự có cột RIÊNG)
+  /[0-9A-Za-zÀ-ỹ][¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿]|[¡¢£¤¥¦§¨©ª«¬®¯°±²³´µ¶·¸¹º»¼½¾¿][0-9A-Za-zÀ-ỹ]/, // tàn dư TCVN3/VNI
+]
+
+/**
+ * Bài có rác chữ không — ĐO LẠI TỪ NỘI DUNG mỗi lần build.
+ *
+ * ⚠️ KHÔNG đọc cờ `corrupt` của acu-index.js nữa. Cờ đó là ẢNH CHỤP ngày 08/09/2026, không
+ * tự cập nhật, và script sinh ra nó đã không còn trong repo — nên sau đợt dọn rác chữ 18/09
+ * nó sai cả hai chiều: gắn cờ 45 mục nay đã SẠCH (chôn noindex 33 trang bài đầy đủ, trong đó
+ * Hợp Cốc 6.092 ký tự và Quan Nguyên 6.385), đồng thời BỎ SÓT mục còn rác thật (Dương Trì TE4
+ * có đuôi ": 31v¼9:"). Đo lại từ nội dung thì cờ tự đúng theo kho, khỏi phải nhớ chạy lại gì.
+ *
+ * Số đo 02/10/2026 trên cả 1.059 mục: toàn kho chỉ còn 9 ký tự thuộc nhóm ¼½¾, trong đó 6 là
+ * phân số viết đúng ("bỏ đi ¼, lấy ¾", "lấy ½ dây đó đo") — nên luật TCVN3 đòi ký hiệu phải
+ * DÍNH LIỀN chữ/số. Không mục nào còn U+FFFD, mojibake hay chữ Hán.
+ */
+export function coRacChu(rec) {
+  const t = chuHienThi(rec)
+  return DAU_HIEU_RAC.some((re) => re.test(t))
+}
+
 export function huyetIndexable(rec) {
-  const meta = idxById.get(rec.id) || {}
-  return !meta.corrupt && huyetBodyLen(rec) >= MIN_BODY_CHARS
+  return !coRacChu(rec) && huyetBodyLen(rec) >= MIN_BODY_CHARS
 }
 export function kinhBodyLen(m) {
   let n = 0

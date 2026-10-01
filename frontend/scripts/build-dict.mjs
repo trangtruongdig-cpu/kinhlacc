@@ -1084,7 +1084,7 @@ for (const rec of subset) {
 }
 
 console.log(`✓ build-dict: ${nKinh} trang kinh (${nKinhNoindex} noindex) + ${nHuyet} trang huyệt → ${distDir}`)
-console.log(`  Huyệt: Kinh ${stat.kinh} · Kỳ ${stat.ky} · A Thị ${stat.athi} | noindex (corrupt/mỏng) ${stat.noindex} · thiếu ảnh ${stat.noimg}`)
+console.log(`  Huyệt: Kinh ${stat.kinh} · Kỳ ${stat.ky} · A Thị ${stat.athi} | noindex (rác chữ/mỏng) ${stat.noindex} · thiếu ảnh ${stat.noimg}`)
 
 // ── Bệnh học + Châm cứu trị bệnh (2 nhánh riêng) ──
 let nBenh = 0
