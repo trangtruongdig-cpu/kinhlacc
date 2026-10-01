@@ -740,6 +740,12 @@ SQLite, trên Postgres là lệnh rỗng.
   http); nhóm trang độc lập (huyet/kinh/benh-hoc/cham-cuu-tri-benh/nguon) trả **404 thật**;
   đường không có tệp tĩnh rơi về vỏ app kèm `X-Robots-Tag: noindex` (không 404 cứng được vì
   /app/* và bài thuốc thêm sau lần build cần vỏ app).
+- ⚠️ **`add_header` trong `location` THAY, không kế thừa `add_header` ở `server`.** Nên mọi
+  header an toàn (gồm `Strict-Transport-Security`, thêm 01/10/2026) phải lặp ở CẢ BỐN khối
+  phục vụ HTML công khai: `/`, `@vo_spa`, nhóm trang từ điển độc lập, `@blog_danh_sach_tinh`.
+  Thêm vào `server` rồi tưởng xong là mất header trên đúng những trang cần nó nhất. HSTS cố ý
+  KHÔNG có `includeSubDomains` (www chưa phân giải; subdomain thiếu TLS mà trúng HSTS là không
+  có cách vào lại) và KHÔNG có `preload` (gần như không rút lại được).
 - Trang từ điển ghi "Biên soạn: Ban Biên Tập" (`bylineTuDien`), KHÔNG in "Đã rà soát chuyên
   môn" — chỉ blog (qua cổng duyệt `blog:pre`, có `reviewedBy`) mới được in nhãn đó.
 - `frontend/scripts/seo-cms.mjs` là khâu nối. Nó mở kết nối RIÊNG tới `kinhlac_cms`
@@ -759,6 +765,28 @@ Hai chốt chạy cuối `npm run blog:post`, **cả hai đều gãy build khi k
   Bốn phép TỈ LỆ (mô tả quá dài/ngắn, tiêu đề/mô tả trùng) đặt theo số đo thật.
   ⚠️ Sửa được thật thì phải HẠ ngưỡng xuống theo, không thì chốt hết tác dụng canh chừng.
 
+### `lastmod` phải là ngày SỬA THẬT, không phải ngày build (01/10/2026)
+
+Bốn builder từng truyền `new Date()` làm `lastmod`, nên **6.634/7.400 URL mang cùng ngày
+build**; dòng byline "Cập nhật <ngày>" trên trang từ điển (thứ Google đọc thành
+`semanticDate`) cũng vậy. Google **bỏ qua lastmod khi nó đổi mỗi lần phát hành** — cả kho
+phát một tín hiệu rỗng mà không gì báo. Nay ngày lấy từ `updated_at` của CMS qua
+`frontend/scripts/ngay-cms.mjs`; `chenUrl` nhận `lastmod` dạng chuỗi HOẶC hàm `(loc) => ngày`.
+
+⚠️ **Đừng kỳ vọng nó "làm mới" kho.** `updated_at` phần lớn là ngày NHẬP LIỆU HÀNG LOẠT
+25/09/2026: `ec_bai_thuoc` 13.898/13.942 mục, `ec_nguon_y_van` 2.139/2.139. Cái này mua được
+là hai thứ khác: ngày **thôi đổi** mỗi lần build, và mục nào sửa thật thì có ngày riêng từ
+nay. Số đo lượt đầu: 899/911 URL mang ngày build (98,7%) → còn 24 (2,6%).
+
+⚠️ **Tra không ra thì BỎ HẲN thẻ `lastmod`**, không điền ngày build: thiếu lastmod chỉ là
+thiếu một gợi ý, lastmod sai là nói dối bộ máy tìm kiếm. Vì vậy trang vỏ SPA, trang gom, và
+`/duoc-lieu/<id>/` (URL theo id của app còn CMS khoá theo slug — chưa có bảng nối) đều không
+có lastmod. Riêng byline thì NGƯỢC LẠI: đó là chữ người đọc thấy nên rơi về `BUILD_DATE`.
+
+⚠️ Chốt thứ ba trong `kiem-sitemap` canh **"lastmod bằng NGÀY BUILD ≥ 50%"**, KHÔNG canh
+"nhiều URL trùng ngày" — kho này trùng ngày là bình thường và đúng, một chốt kiểu đó gãy oan
+ngay lần chạy đầu. Đã tính và bỏ.
+
 ⚠️ **`vite build` LUÔN đặt lại `dist/sitemap.xml`.** `gen-sitemap.mjs` ghi ra
 `public/sitemap.xml` (911 URL gốc), và Vite chép cả `public/` đè lên `dist/`. Phần 9.206 URL
 đầy đủ chỉ có sau khi `build-phuong` / `build-duoc-lieu` / `build-nhom-duoc-ly` / `build-nguon`
@@ -771,6 +799,74 @@ trang): engine nối tên huyệt trong thân bài (`build-dict.mjs`), thành ph
 dược liệu, và `/nguon/` ↔ bài thuốc/vị thuốc qua bảng nối `nguon_phuong_thang` /
 `nguon_vi_thuoc` (33.516 liên kết). **Đừng khớp xuất xứ bằng chuỗi** — cột `xuat_xu` có
 3.217 biến thể cho cùng chừng ấy sách.
+
+## Rada SEO (`cms/src/plugins/rada-seo/`) — hai chiều, và HAI hàng đợi khác nhau
+
+Plugin native EmDash, 14 công cụ MCP, chạy trong tiến trình CMS. Đặc tả:
+`docs/superpowers/specs/2026-09-30-rada-seo-2c-cum-ke-hoach-lien-ket-design.md` và
+`…-radar-lo-viet-plugin-cms-design.md`. Chiều 1 "chiếm đất" (radar đối thủ → hướng → cụm →
+kế hoạch → lò viết), chiều 2 "leo top" (GSC → SERP → bản đồ sơ hở → phiếu sửa).
+
+**Triết lý người dùng chốt, có phép kiểm neo lại:** trang #1 là trang **ít sơ hở nhất**, không
+phải trang dài nhất. `leo-top/ban-do.mjs` vì thế không có phép tính nào đọc `soChu`, phiếu
+không bao giờ khuyên "viết dài hơn" (`CUM_DO_DAI` lọc đi), và phép kiểm vàng là "đổi số chữ
+mọi trang → kết quả y hệt". Đừng tối ưu hoá đi mất tính chất đó.
+
+**Máy chủ đo, mô hình KHÔNG tự chấm.** Lý do ghi ngay trong `chien-luoc/chi-so.mjs`: ngày
+30/09/2026 mô hình đã gắn "An toàn" cho tiêu đề vượt phạm vi Y sỹ. Mô hình chỉ báo "trang này
+nói những ý gì"; gom ý, đếm tỉ lệ, so với trang mình là việc đếm của máy chủ.
+
+### CTR phải so với KỲ VỌNG THEO VỊ TRÍ (`leo-top/ctr.mjs`, 01/10/2026)
+
+⚠️ **CTR thô vô dụng** — chỗ dễ sai nhất của cả plugin. Hạng 1 luôn được nhấp nhiều hơn hạng
+10, nên "CTR thấp" ở hạng xa là chuyện bình thường; chỉ phần LỆCH so với kỳ vọng của CHÍNH
+hạng đó mới là tín hiệu. Phép kiểm neo đúng bẫy này: **CTR 1% ở hạng 20 KHÔNG bị kết tội,
+cùng 1% ở hạng 1 thì có**.
+
+- Đường cong kỳ vọng dựng từ dữ liệu của **chính site**, không mượn bảng CTR ngành khác: ngách
+  Đông y tiếng Việt có hình SERP riêng, bảng vay mượn sẽ vu oan hàng loạt.
+- **Trung vị** CTR từng hàng, không phải tổng nhấp/tổng hiển thị — một từ khoá thương hiệu đổ
+  hàng nghìn hiển thị sẽ một mình định nghĩa cả bậc nếu tính theo tổng.
+- Không bậc nào đủ mẫu → đường cong **RỖNG**, mọi hàng thành `chua_ro`. Thà không kết luận.
+  Dưới 20 lượt hiển thị cũng không phân loại (1 nhấp trên 7 hiển thị ra 14%).
+
+**HAI hàng đợi, đừng gộp lại.** Trước đó cả hai loại việc dùng chung một hàng và cùng tốn một
+ca soi SERP:
+
+| Loại | Dấu hiệu | Chữa bằng |
+|---|---|---|
+| `tieu_de` | thấy mà không bấm (CTR ≤ 60% kỳ vọng) | sửa tiêu đề/mô tả, **không cần soi SERP** |
+| `noi_dung` | bấm bình thường (≥ 90% kỳ vọng) mà hạng không lên | ca soi SERP |
+
+`layTuKhoaLeoTop` xếp theo `uuTien` = cơ hội × trọng số loại (noi_dung 1 · chua_ro 0,7 ·
+tieu_de 0,25); `coHoi` giữ nghĩa cũ để số cũ còn đọc được. `layViecTieuDe` là hàng đợi rẻ, xếp
+theo **số nhấp đang mất**, hiện qua route `leo-top-viec-tieu-de` + bảng trong tab Leo top
+(nạp theo yêu cầu). Đây là **route của người**, không phải công cụ MCP — nên không cần bật lại
+MCP tools sau deploy.
+
+### Quảng cáo và khối dính (`leo-top/do-trang.mjs`)
+
+Đáng đo vì đây là nhóm bằng chứng mạnh nhất mà mình lại sẵn lợi thế (site không có quảng cáo):
+`FI_ADV` (−0,2509) là hình phạt đơn lẻ **nặng nhất** trong bộ trọng số Yandex bị lộ — lớn hơn
+cả phần thưởng của `FI_PAGE_RANK` (+0,183); Google leak có `clutterScore` cùng hướng.
+
+⚠️ **Bẫy là VU OAN, không phải đếm thiếu.** Chỉ có HTML thô: không chạy JS, không đọc CSS
+ngoài, nên KHÔNG biết `<div class="banner">` có thật là quảng cáo không. Đếm theo tên lớp sẽ
+kết tội cả khung giới thiệu nội bộ. Chỉ nhận hai dấu hiệu không thể nhầm: tài nguyên từ **17
+mạng quảng cáo đã biết** (có cả mạng Việt) và thẻ `<ins class="adsbygoogle">`. Khối dính chỉ
+đếm style NỘI TUYẾN, trên thân đã bóc script để không dính chuỗi trong mã JS. Ngưỡng 2 khối.
+
+### Ngưỡng tiêu đề/mô tả khai MỘT chỗ
+
+`NGUONG` trong `luat/seo.mjs` là chỗ duy nhất; `LOI_NHAC_VIET` nhúng `CAU_NGUONG` thay vì gõ
+lại số. Trước 01/10/2026 lời dặn nói 30–70/100–170 còn phiếu chấm đạt 30–60/120–160 — bài viết
+ĐÚNG lời dặn vẫn bị báo trượt hai mục, và **một phiếu báo sai thì người duyệt học cách bỏ qua
+cả phiếu**, kể cả mục phạm vi Y sỹ bên cạnh. Rào cứng `KHUON_NOP` cố ý rộng hơn dải đạt: bài
+hơi lệch phải được NHẬN rồi hiện vàng, không bị trả lại và tốn một lượt nộp.
+
+**Phép kiểm:** `node --test "cms/src/plugins/rada-seo/**/*.test.mjs"` — 510 phép kiểm.
+⚠️ Chạy song song mặc định làm hai phép kiểm nhạy thời gian trượt giả (một phép đo hiệu năng
+có ngân sách 500 ms); dùng `--test-concurrency=2` khi cần tín hiệu sạch.
 
 ## Deployment paths
 
