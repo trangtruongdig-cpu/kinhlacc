@@ -362,6 +362,55 @@ test("nopBai: ảnh bìa — tự nạp chỉ mục ảnh từ ctx.media với b
 	assert.match(r.phieu.anh.lyDo, /Tam Âm Giao/);
 });
 
+// Đo trên bàn thử kế hoạch 3 (01/10/2026): create chuẩn hoá featured_image thành object có
+// meta.storageKey, còn update thì ghi NGUYÊN id trần vào revision nháp. Publish chép revision đó
+// lên cột → trang /blog/ (chỉ dựng ảnh khi có storageKey) mất ảnh bìa.
+function dungNopAnh(caiContent) {
+	return dungNop({ keHoach: { trangTruCot: "/huyet/tam-am-giao/" }, chiMucAnh: dungChiMucAnh([{ id: "m1", alt: "Huyệt Tam Âm Giao" }]) }).then((x) => {
+		caiContent(x.content);
+		return x;
+	});
+}
+const ANH_DAY = { id: "m1", provider: "local", alt: "Huyệt Tam Âm Giao", meta: { storageKey: "KHOA1.webp" } };
+
+test("nopBai: ảnh bìa — update dùng lại object ĐÃ CHUẨN HOÁ mà create trả về (không ghi id trần vào revision)", async () => {
+	const { ctx, content, deps } = await dungNopAnh((content) => {
+		const goc = content.create;
+		content.create = async (col, data) => ({ ...(await goc(col, data)), data: { ...data, featured_image: ANH_DAY } });
+	});
+	const r = await viec.nopBai(ctx, dauVaoMau(), deps);
+	assert.equal(r.daTao, true, JSON.stringify(r.loi));
+	assert.equal(content.tao[0].data.featured_image, "m1"); // create nhận id trần để EmDash tự chuẩn hoá
+	assert.deepEqual(content.sua[0].data.featured_image, ANH_DAY);
+	assert.equal(r.phieu.anh.mediaId, "m1");
+});
+
+test("nopBai: ảnh bìa — create không trả object thì đọc lại bằng content.get; vẫn không có / khác ảnh / get ném → giữ id trần", async () => {
+	for (const [ten, layVe, mong] of [
+		["get trả object đầy đủ", async () => ({ data: { featured_image: ANH_DAY } }), ANH_DAY],
+		["get trả chuỗi JSON (cột TEXT)", async () => ({ data: { featured_image: JSON.stringify(ANH_DAY) } }), ANH_DAY],
+		["get trả id trần", async () => ({ data: { featured_image: "m1" } }), "m1"],
+		["get trả object của ảnh KHÁC", async () => ({ data: { featured_image: { ...ANH_DAY, id: "khac" } } }), "m1"],
+		["get trả object thiếu storageKey", async () => ({ data: { featured_image: { id: "m1" } } }), "m1"],
+		["get ném", async () => { throw new Error("hỏng"); }, "m1"],
+		["get trả null", async () => null, "m1"],
+	]) {
+		const { ctx, content, deps } = await dungNopAnh((content) => { content.get = layVe; });
+		const r = await viec.nopBai(ctx, dauVaoMau(), deps);
+		assert.equal(r.daTao, true, ten + JSON.stringify(r.loi));
+		assert.deepEqual(content.sua[0].data.featured_image, mong, ten);
+	}
+});
+
+test("nopBai: ảnh bìa — dùng lại nháp lượt trước (khôi phục) cũng đọc lại object đã chuẩn hoá", async () => {
+	const { ctx, content, deps } = await dungNop({ keHoach: { trangTruCot: "/huyet/tam-am-giao/", contentId: "cu1", slug: "slug-cu" }, chiMucAnh: dungChiMucAnh([{ id: "m1", alt: "Huyệt Tam Âm Giao" }]) });
+	content.get = async (col, id) => (id === "cu1" ? { data: { featured_image: ANH_DAY } } : null);
+	const r = await viec.nopBai(ctx, dauVaoMau(), deps);
+	assert.equal(r.daTao, true, JSON.stringify(r.loi));
+	assert.equal(content.tao.length, 0);
+	assert.deepEqual(content.sua[0].data.featured_image, ANH_DAY);
+});
+
 test("nopBai: khuôn đầu vào sai (strict, độ dài) → lỗi tiếng Việt, không đếm lượt, không tạo", async () => {
 	const { s, ctx, content, deps } = await dungNop();
 	const r = await viec.nopBai(ctx, { ...dauVaoMau({ tieuDe: "Ngắn", faq: FAQ.slice(0, 2) }), thua: 1 }, deps);

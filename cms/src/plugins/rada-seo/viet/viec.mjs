@@ -430,6 +430,34 @@ async function ghiTruot(s, id, dsLoi) {
 	await s.ke_hoach.put(id, moi);
 }
 
+/** Trường ảnh đã chuẩn hoá (object của ĐÚNG mediaId, có meta.storageKey) hoặc null. */
+function anhDay(v, mediaId) {
+	if (typeof v === "string" && v.trim().startsWith("{")) {
+		try {
+			v = JSON.parse(v);
+		} catch {
+			return null;
+		}
+	}
+	if (!v || typeof v !== "object" || String(v.id ?? "") !== String(mediaId)) return null;
+	return typeof v.meta?.storageKey === "string" && v.meta.storageKey ? v : null;
+}
+
+/**
+ * Object ảnh bìa mà EmDash đã chuẩn hoá lúc create: lấy từ item create trả về, không có thì đọc
+ * lại nháp. Không bao giờ ném — không lấy được thì trả null, nơi gọi lùi về id trần như cũ.
+ */
+async function anhDaChuanHoa(ctx, contentId, mediaId, daTao) {
+	const tuTao = anhDay(daTao?.data?.featured_image, mediaId);
+	if (tuTao) return tuTao;
+	try {
+		const item = await ctx.content.get?.(BO, contentId);
+		return anhDay(item?.data?.featured_image, mediaId);
+	} catch {
+		return null;
+	}
+}
+
 /**
  * Nhận bài Claude viết. Lỗi trả về (không ném) dạng `{daTao: false, loi: [{ma, ghiChu}], soLanNopConLai}`.
  * Lặp an toàn: kế hoạch đã có nháp → trả lại nháp đó (`daCo: true`). Cả lượt nằm trong khoá KV
@@ -603,6 +631,7 @@ async function nopTrongKhoa(ctx, dv, { now, markdownToPortableText, docTrang, ki
 		cho_index: true, // nháp không công khai; người duyệt bấm Publish = chấp thuận cho index (trang blog coi false là noindex)
 	};
 	let contentId, slug;
+	let daTao = null; // item mà create trả về (nếu lượt này có tạo)
 	if (hienTai.contentId) {
 		// Lượt trước đã create rồi hỏng trước khi ghi sổ (M9): dùng lại nháp đó, không tạo cái thứ hai.
 		contentId = String(hienTai.contentId);
@@ -611,11 +640,17 @@ async function nopTrongKhoa(ctx, dv, { now, markdownToPortableText, docTrang, ki
 	} else {
 		// Slug sinh từ title và GIỮ dấu → tạo bằng tiêu đề không dấu rồi update tiêu đề thật.
 		const tao = await ctx.content.create(BO, { title: slugTieuDe, ...truong });
+		daTao = tao;
 		contentId = String(tao.id);
 		slug = String(tao.slug ?? slugTieuDe);
 		// Ghi contentId lên kế hoạch TRƯỚC mọi bước có thể hỏng: lượt sau khôi phục được nháp.
 		await s.ke_hoach.put(id, { ...hienTai, contentId, slug });
 	}
+	// Ảnh bìa: create CHUẨN HOÁ id trần thành object có meta.storageKey, update thì KHÔNG — nó ghi
+	// nguyên id trần vào revision nháp, Publish chép revision đó lên cột, và trang /blog/ (chỉ dựng
+	// <img> khi có storageKey, vì /file/<id> trả 404) mất ảnh bìa. Đo trên bàn thử kế hoạch 3
+	// (01/10/2026). Nên đưa lại cho update đúng object mà create đã chuẩn hoá.
+	if (anh) truong.featured_image = (await anhDaChuanHoa(ctx, contentId, anh.mediaId, daTao)) ?? anh.mediaId;
 	try {
 		await ctx.content.update(BO, contentId, { title: dv.tieuDe, ...truong });
 	} catch (e) {
