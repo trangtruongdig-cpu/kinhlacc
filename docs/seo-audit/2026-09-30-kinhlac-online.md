@@ -1,5 +1,33 @@
 # Rà soát SEO kinhlac.online — 30/09/2026
 
+> ## ⚠️ ĐO LẠI SITE THẬT 01/10/2026 — PHẦN LỚN PHÁT HIỆN DƯỚI ĐÂY ĐÃ SỬA XONG
+>
+> Bản rà soát này viết khi `328a0a4` **chưa deploy**. Nay đã deploy. Đọc nguyên văn phần
+> "Phát hiện" bên dưới mà không đọc bảng này sẽ dẫn tới **làm lại việc đã xong** — đã suýt
+> xảy ra một lần.
+>
+> | Phát hiện | Trạng thái 01/10/2026 | Phép đo |
+> |---|---|---|
+> | #1 Chuyển hướng thêm "/" hạ xuống http | **XONG** | `curl -sI /huyet` → `301 location: /huyet/` (tương đối) |
+> | #2 Trang chủ không tới được trang từ điển | **XONG** | Trang chủ có 20 link tĩnh: `/huyet/` `/bai-thuoc/` `/duoc-lieu/` `/nguon/` `/kinh/` `/benh-hoc/`… |
+> | #2 Bài thuốc ở độ sâu 6 | **XONG** | `/bai-thuoc/muc-luc/` + `/duoc-lieu/muc-luc/` trả 200 → độ sâu 2–3 |
+> | #2 Trang mồ côi | **XONG** | Đo đồ thị `dist/`: 1.310/1.316 trang ở độ sâu 1–2; 6 trang không có link vào đều là `kinhmach3d`/`404.html` |
+> | #3 Nhãn "Đã rà soát chuyên môn" hàng loạt | **XONG (đã gỡ)** | `grep` trên trang huyệt + bài thuốc: 0 lần. Còn thiếu `reviewedBy`/`lastReviewed` |
+> | #4 Tiêu đề bị cắt / trùng | **XONG** | `/huyet/tam-am-giao/` → tiêu đề 57 ký tự |
+> | #5 Soft 404 | **XONG phần chịu lực** | Nhóm độc lập (`/huyet/` `/nguon/` `/benh-hoc/`) → **404 thật**; vỏ SPA → 200 + `X-Robots-Tag: noindex`. Trang thật KHÔNG bị noindex (đã kiểm 10 URL). Còn sót: HTML vỏ SPA vẫn in `<meta robots="index, follow">` + canonical về `/` — header nghiêm hơn nên thắng, nhưng là tín hiệu tự mâu thuẫn |
+> | #6 Trang mỏng (2.107 bài thuốc) | **MỘT PHẦN** | Khối "Tính vị, quy kinh các vị" đã có trong HTML tĩnh (341 từ/bài, bảng từng vị) — bước 4 đã làm. Luật siết index bài thuốc còn nợ |
+> | #7 `lastmod` không mang tin | **ĐÃ SỬA TRONG MÃ, CHỜ DEPLOY** | Đo trước: 6.634/7.400 URL cùng ngày build. Nay lấy `updated_at` của CMS qua `frontend/scripts/ngay-cms.mjs`; chốt mới trong `kiem-sitemap` gãy khi ≥50% URL mang ngày build |
+> | #9 Không có HSTS | **ĐÃ SỬA TRONG MÃ, CHỜ DEPLOY** | `Strict-Transport-Security: max-age=31536000` ở `frontend/nginx.conf` (server + 4 khối phục vụ HTML). Cố ý KHÔNG `includeSubDomains`/`preload` |
+> | #3 Siết index trang nguồn | **XONG** | Sitemap còn 769 URL `/nguon/` (từ 2.045) |
+>
+> **Còn lại, chưa làm:** CTR từ GSC vẫn bị bỏ (`leo-top/gsc.mjs:174` lấy `clicks` rồi không
+> dùng; `coHoi = hienThi × (51 − viTri)`); không có cờ quảng cáo/khung chen khi đo trang đối
+> thủ; `reviewedBy`/`lastReviewed`; `citation`/`sameAs` trong JSON-LD; `/duoc-lieu/<id>/` chưa
+> tra được ngày sửa vì URL theo id của app còn CMS khoá theo slug.
+>
+> Căn cứ và cơ chế: artifact **Bản Đồ Tín Hiệu Xếp Hạng** (đối chiếu leak Google + Yandex,
+> 164 bằng sáng chế) — xem memory `ban-do-tin-hieu-xep-hang`.
+
 Phạm vi: site thật (https://kinhlac.online, bản đang chạy) + bản build mới ở máy dev (commit
 `328a0a4`, CHƯA deploy). Không có dữ liệu Search Console, CrUX, backlink (chưa cấu hình API);
 PageSpeed API hết hạn mức ngày → phần hiệu năng đo tay (TTFB, dung lượng), không có điểm Lighthouse.
