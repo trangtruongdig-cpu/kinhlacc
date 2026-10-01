@@ -2,6 +2,9 @@
 // `rada_lay_viec`, nên routine luôn đọc bản ĐANG CHẠY trên máy chủ — sửa ở đây là đủ,
 // không phải sửa lời dặn đã dán trong claude.ai.
 
+// Dải tiêu đề/mô tả lấy từ chính luật chấm — đừng gõ lại con số ở đây (xem NGUONG trong luat/seo.mjs).
+import { CAU_NGUONG } from "./luat/seo.mjs";
+
 export const BOI_CANH = `Lĩnh vực kinh doanh của chúng tôi (Kinhlac): Y học cổ truyền / Đông Y, tập trung ngách:
 - Đo nhiệt độ kinh lạc / chẩn đoán kinh lạc (phương pháp 24 tỉnh huyệt)
 - Huyệt vị, đường kinh, châm cứu (tra cứu + đồ hình 3D)
@@ -111,7 +114,7 @@ LIÊN KẾT TRONG THÂN: gắn ít nhất 5 link tới các trang trong lienKetD
 
 NGUỒN (trường nguon, 1–12 mục {title, url?}): chỉ URL bạn đã thật sự mở và đọc, hoặc tên sách có trang /nguon/ trên kinhlac.online (khi đó bỏ trống url). Máy chủ tải lại từng URL và tra từng tên sách; nguồn không kiểm được bị bỏ, còn dưới 2 nguồn là bài bị trả lại. Không bịa tên sách, không bịa số liệu.
 
-TIÊU ĐỀ, MÔ TẢ, TỪ KHOÁ: tieuDe 30–70 ký tự, có từ khoá chính; moTa 100–170 ký tự; tuKhoa 1–8 cụm, cụm đầu là từ khoá chính.
+TIÊU ĐỀ, MÔ TẢ, TỪ KHOÁ: ${CAU_NGUONG}; tuKhoa 1–8 cụm, cụm đầu là từ khoá chính. Hai dải này là dải phiếu chấm ĐẠT — viết ngoài dải thì bài vẫn được nhận nhưng phiếu hiện vàng.
 
 PHẠM VI Y SỸ (ràng buộc pháp lý — áp cho tiêu đề, mô tả, từ khoá, tên nguồn, thân bài và FAQ):
 - "khám", "thăm khám", "khám bệnh" → "đo kinh lạc" hoặc "tư vấn".

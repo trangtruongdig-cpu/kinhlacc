@@ -2,6 +2,27 @@
 // trong vài giây, khác với lỗi phạm vi Y sỹ.
 import { boDau } from "./chuan-hoa.mjs";
 
+/**
+ * Dải ĐẠT của phiếu chấm, theo chỗ Google hay cắt trên SERP. Đây là CHỖ DUY NHẤT khai dải
+ * này: lời dặn cho mô hình (`loi-dan.mjs`) đọc từ đây, nên lời dặn và phiếu không thể lệch.
+ *
+ * ⚠️ Trước 01/10/2026 hai chỗ khai hai dải khác nhau: lời dặn nói tiêu đề 30–70 và mô tả
+ * 100–170, còn phiếu chấm đạt 30–60 và 120–160. Bài viết ĐÚNG lời dặn (tiêu đề 65 ký tự,
+ * mô tả 110) vẫn bị phiếu báo trượt hai mục. Một phiếu báo sai thì người duyệt học cách bỏ
+ * qua cả phiếu — kể cả những mục quan trọng như phạm vi Y sỹ nằm ngay bên cạnh.
+ *
+ * Rào CỨNG lúc nộp (`KHUON_NOP` trong `viet/viec.mjs`) rộng hơn dải này một biên, có ý:
+ * bài 63 ký tự phải được NHẬN rồi hiện vàng, không bị trả lại và tốn một lượt nộp.
+ * Phép kiểm `seo.test.mjs` canh rào cứng luôn chứa trọn dải đạt.
+ */
+export const NGUONG = Object.freeze({ tieuDe: [30, 60], moTa: [120, 160] });
+
+const dai = (k) => `${NGUONG[k][0]}–${NGUONG[k][1]}`;
+const trongDai = (s, k) => s.length >= NGUONG[k][0] && s.length <= NGUONG[k][1];
+
+/** Câu mô tả dải cho lời dặn — để lời dặn không gõ lại con số. */
+export const CAU_NGUONG = `tieuDe ${dai("tieuDe")} ký tự, có từ khoá chính; moTa ${dai("moTa")} ký tự`;
+
 const co = (vanBan, tuKhoa) => boDau(vanBan).includes(boDau(tuKhoa));
 
 /** Đoạn văn đầu tiên không phải tiêu đề mục, không phải ảnh. */
@@ -20,8 +41,8 @@ function doanDau(md) {
 export function chamSeo({ tieuDe = "", moTa = "", noiDungMd = "", tuKhoaChinh = "", faq = [], soAnhThieuAlt = 0 }) {
 	const soH2 = (String(noiDungMd).match(/^## /gm) || []).length;
 	return [
-		{ ma: "tieu_de_dai", dat: tieuDe.length >= 30 && tieuDe.length <= 60, ghiChu: `tiêu đề ${tieuDe.length} ký tự (30–60)` },
-		{ ma: "mo_ta_dai", dat: moTa.length >= 120 && moTa.length <= 160, ghiChu: `mô tả ${moTa.length} ký tự (120–160)` },
+		{ ma: "tieu_de_dai", dat: trongDai(tieuDe, "tieuDe"), ghiChu: `tiêu đề ${tieuDe.length} ký tự (${dai("tieuDe")})` },
+		{ ma: "mo_ta_dai", dat: trongDai(moTa, "moTa"), ghiChu: `mô tả ${moTa.length} ký tự (${dai("moTa")})` },
 		{ ma: "tu_khoa_tieu_de", dat: !!tuKhoaChinh && co(tieuDe, tuKhoaChinh), ghiChu: `từ khoá chính "${tuKhoaChinh}" trong tiêu đề` },
 		{ ma: "tu_khoa_doan_dau", dat: !!tuKhoaChinh && co(doanDau(noiDungMd), tuKhoaChinh), ghiChu: "từ khoá chính trong đoạn đầu" },
 		{ ma: "co_h2", dat: soH2 >= 2, ghiChu: `${soH2} mục H2 (≥2)` },

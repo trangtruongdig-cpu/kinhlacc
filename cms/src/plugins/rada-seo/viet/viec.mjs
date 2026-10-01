@@ -263,6 +263,9 @@ export async function layBaiCanViet(ctx, { now = Date.now(), chiMuc } = {}) {
 
 // ---- nopBai ----
 
+// Rào CỨNG: rộng hơn dải đạt của phiếu (NGUONG trong luat/seo.mjs) một biên, có ý — bài hơi
+// lệch dải phải được NHẬN rồi hiện vàng, không bị trả lại và tốn một lượt nộp. Đổi con số ở
+// đây mà không đổi NGUONG (hoặc ngược lại) thì seo.test.mjs gãy.
 export const KHUON_NOP = z
 	.object({
 		keHoachId: z.string().min(1).max(64),
