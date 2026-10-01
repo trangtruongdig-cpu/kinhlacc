@@ -8,8 +8,12 @@ import type { APIRoute } from "astro";
 import { sitemapBlog } from "../../lib/khung-blog.mjs";
 import { docBaiDaDang, gocBlog } from "../../lib/doc-bai-blog";
 
-export const GET: APIRoute = async () => {
-	const { bai } = await docBaiDaDang();
+export const GET: APIRoute = async ({ cache }) => {
+	const { bai, cacheHint } = await docBaiDaDang();
+	// PHẢI gắn tag của bộ bai_viet: đường này khớp routeRules "/blog/[...slug]" nên bị đệm
+	// 1 giờ (+1 ngày swr). Không có tag thì Publish/Unpublish không xoá được bản đệm — đo
+	// trên bàn thử 01/10/2026: bài đã lên danh sách mà sitemap vẫn chỉ có /blog/.
+	if (cache?.enabled) cache.set(cacheHint);
 	return new Response(sitemapBlog(bai, { domain: gocBlog() }), {
 		headers: {
 			"Content-Type": "application/xml; charset=utf-8",

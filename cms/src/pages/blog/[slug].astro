@@ -9,14 +9,21 @@
 import { getEmDashEntry, decodeSlug } from "emdash";
 
 import { baiTuEntry, trangBai, trang404 } from "../../lib/khung-blog.mjs";
-import { docBaiDaDang, nhanPhanLoai, gocBlog, gaIdBlog } from "../../lib/doc-bai-blog";
+import { docBaiDaDang, lamDayAnhBia, nhanPhanLoai, gocBlog, gaIdBlog } from "../../lib/doc-bai-blog";
 
 const opt = { domain: gocBlog(), gaId: gaIdBlog() };
 
 // 404 THẬT (mã 404 + thân tiếng Việt cùng khung, noindex). Không redirect sang /404:
 // 302 → trang 200 là "soft 404", Google giữ URL chết trong chỉ mục.
-const khongThay = () =>
-	new Response(trang404(opt), {
+//
+// ⚠️ Astro.cache.set(false) ở đây là thứ CHỊU LỰC (đo trên bàn thử 01/10/2026). routeRules
+// "/blog/[...slug]" đệm MỌI phản hồi của route này 1 giờ (+1 ngày swr), kể cả 404 và kể cả khi
+// thân mang "Cache-Control: no-store". Bản 404 không mang tag nào nên Publish không xoá được
+// nó: ai (hay bot nào) mở URL lúc bài còn nháp thì bài đăng rồi vẫn 404 — đo được > 90 giây,
+// trong khi danh sách /blog/ đã có bài. set(false) tắt đệm cho riêng phản hồi này.
+const khongThay = () => {
+	if (Astro.cache?.enabled) Astro.cache.set(false);
+	return new Response(trang404(opt), {
 		status: 404,
 		headers: {
 			"Content-Type": "text/html; charset=utf-8",
@@ -24,6 +31,7 @@ const khongThay = () =>
 			"Cache-Control": "no-store",
 		},
 	});
+};
 
 const slug = decodeSlug(Astro.params.slug);
 if (!slug) return khongThay();
@@ -34,7 +42,8 @@ const { entry: post, cacheHint, isPreview } = await getEmDashEntry("bai_viet", s
 if (!post) return khongThay();
 
 // Không được cache trang xem trước: cache lại thì bản nháp rò ra cho người đọc thường.
-if (Astro.cache?.enabled && !isPreview) Astro.cache.set(cacheHint);
+// Không gọi set() là CHƯA đủ: routeRules vẫn đệm theo URL (kèm ?_preview=…), phải set(false).
+if (Astro.cache?.enabled) Astro.cache.set(isPreview ? false : cacheHint);
 
 // Bài liên quan chọn trong các bài đã đăng VÀ được index (như bản tĩnh: `published`).
 // Đọc danh sách hỏng thì vẫn dựng trang, chỉ thiếu khối "Bài Liên Quan".
@@ -46,7 +55,9 @@ try {
 }
 
 const phanLoai = (await nhanPhanLoai([post.data.id])).get(post.data.id);
-const bai = baiTuEntry(post, phanLoai);
+// Ảnh bìa là id trần (nháp lò viết đời đầu) → tra storage_key để vẫn dựng được ảnh.
+const [postDay] = await lamDayAnhBia([post]);
+const bai = baiTuEntry(postDay, phanLoai);
 
 const html = trangBai(bai, daDang, { ...opt, xemTruoc: Boolean(isPreview) });
 
