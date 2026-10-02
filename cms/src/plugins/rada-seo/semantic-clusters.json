@@ -1,0 +1,702 @@
+[
+  {
+    "id": 1,
+    "tenCum": "Cảm mạo & Ngoại cảm",
+    "soChuTri": 8,
+    "soCongDung": 12,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 2,
+    "tenCum": "Ho, Suyễn & Bệnh lý Hô hấp",
+    "soChuTri": 42,
+    "soCongDung": 26,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 3,
+    "tenCum": "Đau nhức xương khớp & Phong thấp",
+    "soChuTri": 17,
+    "soCongDung": 24,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 4,
+    "tenCum": "Hư chứng & Suy nhược",
+    "soChuTri": 8,
+    "soCongDung": 11,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 5,
+    "tenCum": "Đau bụng & Bệnh lý Tiêu hóa (Hàn)",
+    "soChuTri": 3,
+    "soCongDung": 6,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 6,
+    "tenCum": "Ngộ độc thực phẩm",
+    "soChuTri": 1,
+    "soCongDung": 0,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 7,
+    "tenCum": "Sởi & Ban chẩn trẻ em",
+    "soChuTri": 1,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 8,
+    "tenCum": "Xuất huyết (Chảy máu)",
+    "soChuTri": 11,
+    "soCongDung": 9,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 9,
+    "tenCum": "Co giật & Chứng phong",
+    "soChuTri": 2,
+    "soCongDung": 2,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 10,
+    "tenCum": "Đau đầu",
+    "soChuTri": 7,
+    "soCongDung": 0,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 11,
+    "tenCum": "Đau răng, Họng & Miệng",
+    "soChuTri": 5,
+    "soCongDung": 1,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 12,
+    "tenCum": "Viêm mũi xoang",
+    "soChuTri": 1,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 13,
+    "tenCum": "Đau bụng & Rối loạn tiêu hóa chung",
+    "soChuTri": 6,
+    "soCongDung": 0,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 14,
+    "tenCum": "Tâm thần kinh & Mất ngủ",
+    "soChuTri": 8,
+    "soCongDung": 3,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 15,
+    "tenCum": "Can uất & Đau sườn",
+    "soChuTri": 2,
+    "soCongDung": 0,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 16,
+    "tenCum": "Sốt cao & Thực nhiệt",
+    "soChuTri": 5,
+    "soCongDung": 0,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 17,
+    "tenCum": "Hoàng đản & Bệnh lý Gan mật",
+    "soChuTri": 5,
+    "soCongDung": 2,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 18,
+    "tenCum": "Bệnh lý Tiết niệu & Phù thũng",
+    "soChuTri": 8,
+    "soCongDung": 10,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 19,
+    "tenCum": "Can hỏa & Mắt đỏ",
+    "soChuTri": 2,
+    "soCongDung": 3,
+    "soBaiCanVa": 0
+  },
+  {
+    "id": 20,
+    "tenCum": "Sản phụ khoa",
+    "soChuTri": 17,
+    "soCongDung": 5,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 21,
+    "tenCum": "Bệnh ngoài da & Mụn nhọt",
+    "soChuTri": 5,
+    "soCongDung": 11,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 22,
+    "tenCum": "Phát ban & Huyết nhiệt",
+    "soChuTri": 5,
+    "soCongDung": 0,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 23,
+    "tenCum": "Quai bị",
+    "soChuTri": 1,
+    "soCongDung": 0,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 24,
+    "tenCum": "Táo bón",
+    "soChuTri": 4,
+    "soCongDung": 3,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 25,
+    "tenCum": "Ăn kém",
+    "soChuTri": 1,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 26,
+    "tenCum": "Tỳ Vị hư nhược & Tiêu hóa kém",
+    "soChuTri": 17,
+    "soCongDung": 19,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 27,
+    "tenCum": "Tiêu chảy mạn tính & Sa tạng",
+    "soChuTri": 4,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 28,
+    "tenCum": "Khí huyết hư & Suy nhược cơ thể",
+    "soChuTri": 6,
+    "soCongDung": 0,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 29,
+    "tenCum": "Ho & Bệnh lý Hô hấp",
+    "soChuTri": 9,
+    "soCongDung": 0,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 30,
+    "tenCum": "Tân dịch hư tổn & Chứng khô",
+    "soChuTri": 3,
+    "soCongDung": 6,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 31,
+    "tenCum": "Can Thận âm/dương hư & Đau nhức xương khớp",
+    "soChuTri": 11,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 32,
+    "tenCum": "Sinh lý Nam khoa & Di tinh",
+    "soChuTri": 4,
+    "soCongDung": 5,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 33,
+    "tenCum": "Sản Phụ khoa & Vô sinh",
+    "soChuTri": 12,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 34,
+    "tenCum": "Táo bón người già",
+    "soChuTri": 2,
+    "soCongDung": 0,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 35,
+    "tenCum": "Chấn thương & Gãy xương",
+    "soChuTri": 3,
+    "soCongDung": 14,
+    "soBaiCanVa": 0
+  },
+  {
+    "id": 36,
+    "tenCum": "Da liễu & Mụn nhọt",
+    "soChuTri": 4,
+    "soCongDung": 0,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 37,
+    "tenCum": "Xuất huyết & Huyết học",
+    "soChuTri": 4,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 38,
+    "tenCum": "Sốt rét & Chứng ngoại cảm khác",
+    "soChuTri": 3,
+    "soCongDung": 0,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 39,
+    "tenCum": "Phù thũng & Đàm ẩm",
+    "soChuTri": 4,
+    "soCongDung": 0,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 40,
+    "tenCum": "Ngộ độc & Trúng độc",
+    "soChuTri": 2,
+    "soCongDung": 0,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 41,
+    "tenCum": "Thần kinh & Phong đòn gánh",
+    "soChuTri": 5,
+    "soCongDung": 0,
+    "soBaiCanVa": 0
+  },
+  {
+    "id": 42,
+    "tenCum": "Ký sinh trùng đường ruột",
+    "soChuTri": 9,
+    "soCongDung": 4,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 43,
+    "tenCum": "Triệu chứng khác",
+    "soChuTri": 6,
+    "soCongDung": 6,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 44,
+    "tenCum": "Huyết chứng (Chảy máu)",
+    "soChuTri": 10,
+    "soCongDung": 0,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 45,
+    "tenCum": "Bệnh lý tiêu hóa & Đại tiểu tiện",
+    "soChuTri": 13,
+    "soCongDung": 0,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 46,
+    "tenCum": "Khối u & Báng tích",
+    "soChuTri": 6,
+    "soCongDung": 2,
+    "soBaiCanVa": 0
+  },
+  {
+    "id": 47,
+    "tenCum": "Bệnh ký sinh trùng",
+    "soChuTri": 5,
+    "soCongDung": 0,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 48,
+    "tenCum": "Khử mùi",
+    "soChuTri": 1,
+    "soCongDung": 0,
+    "soBaiCanVa": 0
+  },
+  {
+    "id": 49,
+    "tenCum": "Hàn trệ & Khí trệ",
+    "soChuTri": 4,
+    "soCongDung": 0,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 50,
+    "tenCum": "Sốt rét (Sốt nóng lạnh)",
+    "soChuTri": 5,
+    "soCongDung": 0,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 51,
+    "tenCum": "Bệnh hệ hô hấp",
+    "soChuTri": 7,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 52,
+    "tenCum": "Tâm thần & Thần kinh",
+    "soChuTri": 5,
+    "soCongDung": 0,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 53,
+    "tenCum": "Bệnh lý phụ khoa",
+    "soChuTri": 14,
+    "soCongDung": 0,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 54,
+    "tenCum": "Đầu mặt & Ngũ quan",
+    "soChuTri": 8,
+    "soCongDung": 0,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 55,
+    "tenCum": "Phong tà & Chấn thương ứ huyết",
+    "soChuTri": 5,
+    "soCongDung": 0,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 56,
+    "tenCum": "Trúng phong",
+    "soChuTri": 5,
+    "soCongDung": 0,
+    "soBaiCanVa": 0
+  },
+  {
+    "id": 57,
+    "tenCum": "Ôn bệnh, Sốt cao & Viêm nhiễm",
+    "soChuTri": 14,
+    "soCongDung": 0,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 58,
+    "tenCum": "Âm hư & Hư nhiệt",
+    "soChuTri": 6,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 59,
+    "tenCum": "Mụn nhọt & Ngoại khoa",
+    "soChuTri": 3,
+    "soCongDung": 33,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 60,
+    "tenCum": "Bệnh lý Hô hấp (Ho, Suyễn, Phế lao)",
+    "soChuTri": 12,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 61,
+    "tenCum": "Bệnh lý Ngoài da và Ung nhọt",
+    "soChuTri": 18,
+    "soCongDung": 0,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 62,
+    "tenCum": "Chấn thương, Ứ huyết và Đau nhức",
+    "soChuTri": 12,
+    "soCongDung": 21,
+    "soBaiCanVa": 0
+  },
+  {
+    "id": 63,
+    "tenCum": "Bệnh lý Tiết niệu và Sinh dục",
+    "soChuTri": 13,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 64,
+    "tenCum": "Bệnh lý Tiêu hóa và Gan mật",
+    "soChuTri": 13,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 65,
+    "tenCum": "Suy nhược và Thần kinh - Tâm thần",
+    "soChuTri": 8,
+    "soCongDung": 0,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 66,
+    "tenCum": "Phụ khoa (Kinh nguyệt và Sản hậu)",
+    "soChuTri": 4,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 67,
+    "tenCum": "Cảm mạo, Trúng phong và Nhiệt bệnh",
+    "soChuTri": 16,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 68,
+    "tenCum": "Đau đầu, Chóng mặt, Ù tai",
+    "soChuTri": 11,
+    "soCongDung": 0,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 69,
+    "tenCum": "Phong thấp, Đau nhức gân cốt, Liệt",
+    "soChuTri": 15,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 70,
+    "tenCum": "Phù thũng, Trục thủy",
+    "soChuTri": 6,
+    "soCongDung": 0,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 71,
+    "tenCum": "Tỳ vị hư hàn, Tiêu hóa kém",
+    "soChuTri": 6,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 72,
+    "tenCum": "Mụn nhọt, Lở ngứa, Ung thư (Ung nhọt)",
+    "soChuTri": 19,
+    "soCongDung": 12,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 73,
+    "tenCum": "Hư suyễn, Suy nhược, Bổ dưỡng",
+    "soChuTri": 9,
+    "soCongDung": 0,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 74,
+    "tenCum": "Nhiệt chứng, Viêm nhiễm cấp tính",
+    "soChuTri": 10,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 75,
+    "tenCum": "Giải độc, Rắn cắn",
+    "soChuTri": 3,
+    "soCongDung": 0,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 76,
+    "tenCum": "Phân loại y thư cổ và các chứng khác",
+    "soChuTri": 20,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 77,
+    "tenCum": "Bệnh lý ngoài da, mụn nhọt, lở ngứa",
+    "soChuTri": 17,
+    "soCongDung": 0,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 78,
+    "tenCum": "Bổ dưỡng, hư tổn và bồi bổ cơ thể",
+    "soChuTri": 4,
+    "soCongDung": 0,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 79,
+    "tenCum": "Bệnh lý đường tiêu hóa và tiết niệu, sinh dục",
+    "soChuTri": 10,
+    "soCongDung": 0,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 80,
+    "tenCum": "Đau nhức cơ xương khớp, phong thấp, cước khí",
+    "soChuTri": 16,
+    "soCongDung": 0,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 81,
+    "tenCum": "Đau đầu, chóng mặt và các chứng phong",
+    "soChuTri": 2,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 82,
+    "tenCum": "Thần kinh, tâm thần và ý thức",
+    "soChuTri": 7,
+    "soCongDung": 0,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 83,
+    "tenCum": "Hô hấp và ngực bụng (Ho, suyễn, nghịch khí)",
+    "soChuTri": 9,
+    "soCongDung": 0,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 84,
+    "tenCum": "Phụ khoa (Kinh nguyệt, huyết sản phụ)",
+    "soChuTri": 5,
+    "soCongDung": 0,
+    "soBaiCanVa": 0
+  },
+  {
+    "id": 85,
+    "tenCum": "Trẻ em (Cam tích, giun sán)",
+    "soChuTri": 3,
+    "soCongDung": 0,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 86,
+    "tenCum": "Huyết trệ, đau tức ngực sườn, bỉ khối",
+    "soChuTri": 8,
+    "soCongDung": 0,
+    "soBaiCanVa": 0
+  },
+  {
+    "id": 87,
+    "tenCum": "Nam khoa, sinh lý và âm hàn hạ tiêu",
+    "soChuTri": 9,
+    "soCongDung": 0,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 88,
+    "tenCum": "Các triệu chứng khác (Răng, họng, mắt)",
+    "soChuTri": 6,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 89,
+    "tenCum": "Giải độc chung",
+    "soChuTri": 1,
+    "soCongDung": 0,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 90,
+    "tenCum": "Triệu chứng chung",
+    "soChuTri": 1,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  },
+  {
+    "id": 91,
+    "tenCum": "Ho, Suyễn & Bệnh đường hô hấp",
+    "soChuTri": 37,
+    "soCongDung": 6,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 92,
+    "tenCum": "Đau đầu, Chóng mặt & Thần kinh",
+    "soChuTri": 11,
+    "soCongDung": 4,
+    "soBaiCanVa": 0
+  },
+  {
+    "id": 93,
+    "tenCum": "Động kinh, Co giật & Kinh phong",
+    "soChuTri": 6,
+    "soCongDung": 0,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 94,
+    "tenCum": "Bệnh lý Tiêu hóa & Đau bụng",
+    "soChuTri": 7,
+    "soCongDung": 0,
+    "soBaiCanVa": 5
+  },
+  {
+    "id": 95,
+    "tenCum": "Kiết lỵ, Tiêu chảy & Bệnh đường ruột",
+    "soChuTri": 6,
+    "soCongDung": 9,
+    "soBaiCanVa": 1
+  },
+  {
+    "id": 96,
+    "tenCum": "Rối loạn tiểu tiện & Phù thũng",
+    "soChuTri": 2,
+    "soCongDung": 0,
+    "soBaiCanVa": 0
+  },
+  {
+    "id": 97,
+    "tenCum": "Sưng đau họng, Miệng lở & Nhiệt độc",
+    "soChuTri": 3,
+    "soCongDung": 7,
+    "soBaiCanVa": 3
+  },
+  {
+    "id": 98,
+    "tenCum": "Sán khí & Tiểu trường khí",
+    "soChuTri": 3,
+    "soCongDung": 0,
+    "soBaiCanVa": 0
+  },
+  {
+    "id": 99,
+    "tenCum": "Sốt, Cảm mạo & Ngoại cảm",
+    "soChuTri": 3,
+    "soCongDung": 0,
+    "soBaiCanVa": 2
+  },
+  {
+    "id": 100,
+    "tenCum": "Ung nhọt, Nhũ nga & Lở loét ngoài da",
+    "soChuTri": 7,
+    "soCongDung": 0,
+    "soBaiCanVa": 4
+  }
+]

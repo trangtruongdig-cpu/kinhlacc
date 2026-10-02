@@ -1,6 +1,7 @@
 // Màn điều khiển Rada SEO trong /_emdash/admin/plugins/rada-seo/rada.
 // Chỉ HIỂN THỊ và gọi route của plugin; mọi luật nằm phía máy chủ.
 import { Fragment, useCallback, useEffect, useState } from "react";
+import semanticClusters from "./semantic-clusters.json";
 
 async function goi(route, body) {
 	const res = await fetch(`/_emdash/api/plugins/rada-seo/${route}`, {
@@ -220,13 +221,7 @@ function HuongRow({ h, onNhan, onBo, onKhoiPhuc }) {
 
 // --- Giao diện mới cho Hướng nội dung (Giai đoạn 3: Semantic) ---
 function HuongTab({ dl, loi, onNhan, onBo, onKhoiPhuc }) {
-	// Dữ liệu mẫu (Mock data) thể hiện kết quả phân cụm Semantic GĐ 3
-	const mockClusters = [
-		{ id: 1, tenCum: "Mất ngủ & Tâm thần kinh", soChuTri: 12, soCongDung: 8, soBaiCanVa: 3 },
-		{ id: 2, tenCum: "Ho, Suyễn & Hô hấp", soChuTri: 7, soCongDung: 5, soBaiCanVa: 1 },
-		{ id: 3, tenCum: "Cảm mạo & Ngoại cảm", soChuTri: 8, soCongDung: 4, soBaiCanVa: 5 },
-		{ id: 4, tenCum: "Đau nhức xương khớp", soChuTri: 14, soCongDung: 10, soBaiCanVa: 0 },
-	];
+	const mockClusters = semanticClusters;
 
 	const [dangThamDinh, setDangThamDinh] = useState({});
 
