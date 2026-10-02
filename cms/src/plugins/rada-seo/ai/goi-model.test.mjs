@@ -129,7 +129,7 @@ test("sinhAnh: đi đường GỐC của Google, ký bằng x-goog-api-key, tr�
 });
 
 test("sinhAnh: phản hồi không có ảnh là LỖI nói rõ, không trả ảnh rỗng", async () => {
-	const g = taoGoiModel({ fetch: async () => tra(JSON.stringify({ candidates: [{ content: { parts: [{ text: "tôi không vẽ được" }] } }] })), env: ENV });
+	const g = taoGoiModel({ fetch: async () => tra(JSON.stringify({ candidates: [{ content: { parts: [{ text: "tôi không vẽ được" }] } }] })), env: { ...ENV, GRAVITY_MODEL_ANH: "gemini-3.1-flash-lite-image" } });
 	const r = await g.sinhAnh("x");
 	assert.equal(r.ok, false);
 	assert.equal(r.anh, null);
@@ -141,4 +141,15 @@ test("mặc định trỏ Google AI Studio khi không khai GRAVITY_API_URL", asy
 	const g = taoGoiModel({ fetch: async (x) => { u = x; return tra(JSON.stringify({ choices: [{ message: { content: "ok" } }] })) }, env: { GRAVITY_API_KEY: "k", GRAVITY_MODEL_MAC_DINH: "gemini-2.5-flash" } });
 	await g.goi("doc_trang", "a", "b");
 	assert.match(u, /generativelanguage\.googleapis\.com\/v1beta\/openai\/chat\/completions$/);
+});
+
+// Bắt được từ lượt gọi THẬT 02/10/2026: để trống GRAVITY_MODEL_ANH thì sinhAnh rơi về model
+// CHỮ, và model chữ trả về một bài văn mô tả ảnh — tốn một lượt gọi để nhận lỗi gây hiểu nhầm.
+test("sinhAnh: chưa khai GRAVITY_MODEL_ANH thì TỪ CHỐI, không rơi về model chữ", async () => {
+	let goi = 0;
+	const g = taoGoiModel({ fetch: async () => { goi++; return tra("{}") }, env: { GRAVITY_API_KEY: "k", GRAVITY_MODEL_MAC_DINH: "gemini-3.6-flash" } });
+	const r = await g.sinhAnh("x");
+	assert.equal(r.ok, false);
+	assert.match(r.loi, /chưa khai GRAVITY_MODEL_ANH/);
+	assert.deepEqual([goi, g.soLuotDaGoi()], [0, 0], "không gọi mạng và KHÔNG tính lượt");
 });

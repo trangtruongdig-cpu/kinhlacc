@@ -152,7 +152,12 @@ export function taoGoiModel({ fetch: nap, env = process.env, log }) {
 		 */
 		async sinhAnh(loiNhac, { hanGioMs } = {}) {
 			const c = VIEC.sinh_anh;
-			const model = modelCua("sinh_anh") || "gemini-2.5-flash-image";
+			// ⚠️ KHÔNG rơi về model mặc định. Đo thật 02/10/2026: để trống GRAVITY_MODEL_ANH thì
+			// nó rơi về model CHỮ, và model chữ trả lời bằng một bài văn MÔ TẢ ảnh — `ok: false`
+			// kèm lý do "không có ảnh", tức tốn một lượt gọi để nhận một lỗi gây hiểu nhầm. Thiếu
+			// khai thì từ chối ngay, nói rõ tên biến, và KHÔNG tính lượt.
+			const model = bien("GRAVITY_MODEL_ANH");
+			if (!model) return { ok: false, anh: null, loi: "chưa khai GRAVITY_MODEL_ANH (bậc miễn phí của Google không có quota sinh ảnh — phải bật thanh toán)", model: "" };
 			if (!khoa) return { ok: false, anh: null, loi: "chưa cấu hình GRAVITY_API_KEY", model };
 			if (!this.conHanMuc()) return { ok: false, anh: null, loi: `đã chạm trần ${tran} lượt gọi`, model };
 			daGoi++;
