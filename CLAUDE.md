@@ -786,10 +786,22 @@ Hai chốt chạy cuối `npm run blog:post`, **cả hai đều gãy build khi k
 
 - `kiem-sitemap.mjs` — đếm URL theo nhóm. Có vì các builder đều "bỏ qua, build vẫn tiếp
   tục" khi mất kết nối, và đã giấu lỗi mất 15.054 trang suốt nhiều tháng.
-- `kiem-seo.mjs` — 9 phép kiểm thẻ. Năm phép TUYỆT ĐỐI (ngưỡng 0): thiếu
-  title/description/canonical/JSON-LD, và **canonical trỏ lệch** chính đường dẫn của nó.
-  Bốn phép TỈ LỆ (mô tả quá dài/ngắn, tiêu đề/mô tả trùng) đặt theo số đo thật.
+- `kiem-seo.mjs` — 11 phép kiểm thẻ, và HAI HẠNG ĐẾM TRÊN HAI MẪU KHÁC NHAU. Sáu phép
+  TUYỆT ĐỐI (ngưỡng 0): thiếu title/description/canonical/JSON-LD, **canonical trỏ lệch**
+  chính đường dẫn của nó, `twitter:title` lệch `title` — tính trên MỌI trang. Năm phép TỈ LỆ
+  (mô tả quá dài/ngắn, tiêu đề quá dài, tiêu đề/mô tả trùng) đặt theo số đo thật và **chỉ
+  tính trên trang ĐƯỢC INDEX**.
   ⚠️ Sửa được thật thì phải HẠ ngưỡng xuống theo, không thì chốt hết tác dụng canh chừng.
+  ⚠️ **Mẫu "chỉ trang được index" mới có từ 02/10/2026, và nó là chỗ chốt từng gãy oan.**
+  Nhóm trang mới `/trieu-chung/` noindex 478 trang mồ côi (luật "đủ dày" của chính builder),
+  mô tả của chúng ngắn → `moTaQuaNgan` nhảy 0,6% → 2,46% và **gãy build trên VPS** dù không
+  trang nào được index bị ảnh hưởng: 430/492 mô tả ngắn nằm ở trang noindex, thứ không bao
+  giờ lên SERP. Cách chữa SAI (đã bị bác ở `84c2e24`) là nới trần 1% → 3%; cách đúng là đếm
+  đúng mẫu rồi sửa dữ liệu thật — 53 pháp trị có bài thuốc mà không có cạnh triệu chứng, nay
+  mô tả ghép thêm lục kinh + kinh mạch + tác dụng bài thuốc (0,69% → 0,10%).
+  ⚠️ **Đổi mẫu là đổi MỌI tỉ lệ**: chia cho 9.025 trang index thay vì 19.998 trang làm ba
+  mốc TĂNG mà chất lượng không tụt (`tieuDeTrung` 0,03 → 0,27, biên còn 0,23 điểm). Phép
+  kiểm neo hai hạng: `node --test frontend/scripts/kiem-seo.test.mjs`.
 
 ### `lastmod` phải là ngày SỬA THẬT, không phải ngày build (01/10/2026)
 

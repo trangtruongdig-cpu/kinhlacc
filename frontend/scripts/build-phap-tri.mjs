@@ -36,6 +36,11 @@ import { dungMucLuc } from './muc-luc.mjs'
 
 const ghiDeSEO = await napGhiDe()
 
+// Gộp khoảng trắng và BỎ dấu câu cuối cụm: `tac_dung` trong kho hay kết thúc bằng dấu
+// chấm, ghép thẳng vào mô tả thì ra `… màng đen..` — chính dạng mà phép dò `dau_cau_sai`
+// của bot thẩm định bắt được, tức mình tự sinh ra lỗi cho mình.
+const gonCum = (t) => String(t || '').replace(/\s+/g, ' ').trim().replace(/[.,;:]+$/, '')
+
 const clipMoTa = (t, max = 158) => {
   const s = String(t || '').replace(/\s+/g, ' ').trim()
   return s.length <= max ? s : s.slice(0, max - 1).replace(/\s+\S*$/, '') + '…'
@@ -211,11 +216,19 @@ function stub(pt, rel, baiThuoc) {
     seenSlugs.add(slug)
     const url = `${DOMAIN}/phap-tri/${slug}/`
     const tcNames = (rel.trieuChung.get(pt.id) || []).map((tc) => tc.ten_trieu_chung)
+    const kmNames = (rel.kinhMach.get(pt.id) || []).map((km) => km.ten_kinh_mach)
     const bt = pt.id_bai_thuoc != null ? baiThuocById.get(pt.id_bai_thuoc) : null
+    // Ghép NHIỀU MẢNH, xếp theo thứ tự người tra cần trước (clipMoTa cắt phần đuôi):
+    // thể bệnh+pháp trị → triệu chứng → bài thuốc kèm tác dụng → lục kinh → kinh mạch.
+    // Vì sao cần đuôi: 53 pháp trị có bài thuốc mà KHÔNG có cạnh triệu chứng, mô tả chỉ
+    // còn 53–69 ký tự (Google không đủ chữ hiển thị). Lục kinh/kinh mạch/tác dụng là dữ
+    // liệu THẬT của chính mục, đã in trong khối tĩnh — không phải chữ khuôn nhồi thêm.
     const moTa = clipMoTa(
       `${pt.the_benh}${pt.nguyen_tac ? ' — ' + pt.nguyen_tac : ''}. `
       + (tcNames.length ? `Triệu chứng: ${tcNames.slice(0, 6).join(', ')}. ` : '')
-      + (bt ? `Bài thuốc: ${bt.ten}.` : ''),
+      + (bt ? `Bài thuốc: ${bt.ten}${bt.tac_dung ? ' — ' + gonCum(bt.tac_dung) : ''}. ` : '')
+      + (pt.luc_kinh ? `Lục kinh: ${pt.luc_kinh}. ` : '')
+      + (kmNames.length ? `Kinh mạch: ${kmNames.slice(0, 3).join(', ')}.` : ''),
     )
     const seo = seoTrang(ghiDeSEO, 'phap_tri', slug, {
       title: tieuDeSeo(pt.the_benh, `: ${pt.nguyen_tac || 'Pháp Trị'}`, ' — Pháp Trị Đông Y', ' — Pháp Trị'),

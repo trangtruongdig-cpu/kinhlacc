@@ -5,10 +5,14 @@
 // sitemap mà vẫn mất sạch thẻ canonical, hoặc dùng chung một mô tả. Không có chốt này
 // thì mọi câu "đã tối ưu SEO" chỉ là cảm tính.
 //
-// HAI HẠNG PHÉP KIỂM
+// HAI HẠNG PHÉP KIỂM — và chúng đếm trên HAI MẪU KHÁC NHAU
 //   · TUYỆT ĐỐI (ngưỡng 0) — thiếu title/description/canonical/JSON-LD, hoặc canonical
-//     trỏ sai chính đường dẫn của nó. Đây là hỏng, không phải "chưa tối ưu".
-//   · TỈ LỆ — mô tả quá dài/quá ngắn, tiêu đề hoặc mô tả trùng nhau. Đặt theo SỐ ĐO
+//     trỏ sai chính đường dẫn của nó. Đây là hỏng, không phải "chưa tối ưu". Tính trên
+//     MỌI trang, kể cả noindex: thẻ hỏng là thẻ hỏng.
+//   · TỈ LỆ — mô tả quá dài/quá ngắn, tiêu đề hoặc mô tả trùng nhau. Chỉ tính trên trang
+//     ĐƯỢC INDEX, vì đây là chất lượng của chữ HIỆN TRÊN SERP: trang noindex không bao
+//     giờ hiện ra nên mô tả của nó không phán được gì. ⚠️ Mẫu này là phần CHỊU LỰC của
+//     chốt — đổi nó phải ĐO LẠI cả 5 ngưỡng, đừng đổi một mình. Đặt theo SỐ ĐO
 //     THẬT tại thời điểm viết cộng biên, để giữ CHỐT XUÔI: trạng thái hôm nay đi lọt,
 //     mọi bước lùi thì gãy. Dùng TỈ LỆ chứ không dùng số tuyệt đối vì số trang còn
 //     tăng (vừa thêm 2.139 trang nguồn); ngưỡng tuyệt đối sẽ tự hỏng theo.
@@ -33,14 +37,22 @@ const NGUONG_TI_LE = {
   // Đo lần đầu: 53,1% mô tả quá dài, gần hết là /bai-thuoc/ (8.492/13.943) do generator
   // cắt cứng ở 300 ký tự. Sửa gốc bằng clipMoTa() cắt ở ranh giới từ tại 158 → còn
   // 0,02%. Ngưỡng hạ theo số MỚI, đúng luật ghi ở đầu tệp: không hạ thì chốt vô dụng.
-  moTaQuaDai: [1, 0.02], // mô tả > 165 ký tự: Google cắt cụt
+  moTaQuaDai: [1, 0.03], // mô tả > 165 ký tự: Google cắt cụt
   // 29/09/2026: 2,81% → 0,60% nhờ công thức mô tả ghép nhiều mảnh (nguồn, dược liệu, kinh).
-  moTaQuaNgan: [1, 0.6], // mô tả < 70 ký tự: không đủ chào mời
-  tieuDeTrung: [0.5, 0.03], // 0,12% → 0,03% (29/09/2026, tên đụng nhau kèm tên sách). Phần còn lại: huyệt trùng tên trong dữ liệu gốc (lac-cham ↔ lac-cham-2…)
-  moTaTrung: [0.5, 0.11],
+  // 02/10/2026: chốt gãy build VPS ở 2,46%. Đo ra: 492 mô tả ngắn, 430 trong số đó nằm ở
+  // trang NOINDEX (/trieu-chung/ mồ côi, builder mới). Chữa bằng cách đếm đúng mẫu (chỉ
+  // trang được index) — KHÔNG nới trần — rồi sửa tiếp công thức mô tả /phap-tri/.
+  // 02/10/2026 (mẫu mới): 0,69% → 0,10% sau khi build-phap-tri ghép thêm lục kinh, kinh
+  // mạch và tác dụng bài thuốc — 53 pháp trị có bài thuốc mà không có cạnh triệu chứng.
+  moTaQuaNgan: [1, 0.1], // mô tả < 70 ký tự: không đủ chào mời
+  // ⚠️ Mốc của BA phép dưới TĂNG ngày 02/10/2026 mà chất lượng KHÔNG tụt: mẫu chia đổi từ
+  // 19.998 trang sang 9.025 trang được index, cùng một số trang lỗi thì tỉ lệ cao hơn.
+  // Biên của tieuDeTrung nay chỉ còn 0,23 điểm — nhóm trang mới nào mang tên trùng là gãy.
+  tieuDeTrung: [0.5, 0.27],
+  moTaTrung: [0.5, 0.13],
   // Trước 29/09/2026: 99,5% (18.400/18.504) — mọi bộ ghép cứng đuôi + tên thương hiệu. Sau
   // tieuDeSeo(): 0,57% (phần còn lại là tên riêng tự nó đã dài hơn 60 ký tự).
-  tieuDeQuaDai: [1, 0.57],
+  tieuDeQuaDai: [1, 0.69],
 }
 const DAI_TOI_DA = 165
 const TIEU_DE_TOI_DA = 60 // Google cắt tiêu đề ở ~60 ký tự (tieuDeSeo trong seo-html.mjs)
@@ -77,6 +89,7 @@ const canonicalCua = new Map()
 let tieuDeQuaDai = 0
 let moTaQuaDai = 0
 let moTaQuaNgan = 0
+let soIndex = 0
 
 for (const q of trang) {
   const h = readFileSync(q, 'utf8')
@@ -84,15 +97,19 @@ for (const q of trang) {
   const tieuDe = lay(h, /<title>([\s\S]*?)<\/title>/)
   const moTa = lay(h, /<meta name="description" content="([\s\S]*?)"/)
   const canonical = lay(h, /<link rel="canonical" href="([^"]*)"/)
+  // Mẫu của hạng TỈ LỆ: trang mời bot vào. `noindex` ở đây là thẻ robots do chính builder
+  // ghi (luật "đủ dày" của từng bộ) — trang mồ côi vẫn sống cho liên kết nội bộ.
+  const laIndex = !/<meta name="robots"[^>]*noindex/i.test(h)
+  if (laIndex) soIndex++
 
   if (!tieuDe.trim()) loi.thieuTieuDe.push(ten)
-  else if (giaiMa(tieuDe).length > TIEU_DE_TOI_DA) tieuDeQuaDai++
+  else if (laIndex && giaiMa(tieuDe).length > TIEU_DE_TOI_DA) tieuDeQuaDai++
   // twitter:title phải là của CHÍNH trang — trước 29/09/2026 15.056 trang vỏ SPA mang câu
   // chào của trang chủ ở đây.
   const twTitle = lay(h, /<meta name="twitter:title" content="([\s\S]*?)"/)
   if (twTitle && tieuDe && giaiMa(twTitle) !== giaiMa(tieuDe)) loi.twitterLech.push(ten)
   if (!moTa.trim()) loi.thieuMoTa.push(ten)
-  else {
+  else if (laIndex) {
     if (moTa.length > DAI_TOI_DA) moTaQuaDai++
     if (moTa.length < NGAN_TOI_THIEU) moTaQuaNgan++
     demMoTa.set(moTa, (demMoTa.get(moTa) || 0) + 1)
@@ -109,7 +126,7 @@ for (const q of trang) {
     if (thuc !== mong) canonicalKhac.push([mong, thuc])
   }
   if (!/application\/ld\+json/.test(h)) loi.thieuLd.push(ten)
-  if (tieuDe.trim()) demTieuDe.set(tieuDe, (demTieuDe.get(tieuDe) || 0) + 1)
+  if (tieuDe.trim() && laIndex) demTieuDe.set(tieuDe, (demTieuDe.get(tieuDe) || 0) + 1)
 }
 
 const smXml = (() => { try { return readFileSync(join(distDir, 'sitemap.xml'), 'utf8') } catch { return '' } })()
@@ -124,7 +141,8 @@ for (const [nguon, dich] of canonicalKhac) {
 }
 
 const soTrung = (m) => [...m.values()].filter((v) => v > 1).reduce((a, b) => a + b, 0)
-const tiLe = (n) => (n / trang.length) * 100
+// Chia cho SỐ TRANG ĐƯỢC INDEX, không chia cho tổng số trang: xem ghi chú đầu tệp.
+const tiLe = (n) => (soIndex ? (n / soIndex) * 100 : 0)
 const doDuoc = {
   moTaQuaDai: tiLe(moTaQuaDai),
   moTaQuaNgan: tiLe(moTaQuaNgan),
@@ -133,7 +151,12 @@ const doDuoc = {
   tieuDeQuaDai: tiLe(tieuDeQuaDai),
 }
 
-console.log(`── kiem-seo: ${trang.length} trang tĩnh trong ${relative(root, distDir) || 'dist'} ──`)
+console.log(
+  `── kiem-seo: ${trang.length} trang tĩnh trong ${relative(root, distDir) || 'dist'}`
+  + ` — ${soIndex} được index, ${trang.length - soIndex} noindex ──`,
+)
+console.log('  · phép TUYỆT ĐỐI tính trên mọi trang · phép TỈ LỆ chỉ trên trang được index')
+if (!soIndex) console.log('  ⚠ KHÔNG có trang nào được index — mọi phép tỉ lệ thành 0, chốt không phán được gì.')
 console.log(`  · ${canonicalKhac.length} trang bản trùng trỏ canonical về bản chính (đã xác minh đích)`)
 
 let hong = 0
