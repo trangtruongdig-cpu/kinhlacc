@@ -41,77 +41,55 @@ không tìm web được thì bước này phải đi đường khác (API tìm 
 đừng để model "nhớ ra" 10 URL, vì nó sẽ bịa URL trông hợp lý. Đây là tác vụ DUY NHẤT trong
 bảng không chuyển thẳng sang prompt được.
 
-## 2b. "Gravity" thật ra là gì — đo trên máy 02/10/2026
+## 2b. "Gravity" là gì, và vì sao nó KHÔNG chạy được ca đêm (đo 02/10/2026)
 
-Dò máy: `/Applications/Antigravity IDE.app` + `~/.gemini/antigravity-ide/`. Tức **Gravity =
-Antigravity IDE**, một IDE tác tử — **nó KHÔNG phơi ra API model nào** để cron gọi.
+**Gravity = Antigravity IDE** (`/Applications/Antigravity IDE.app`, `~/.gemini/antigravity-ide/`).
+Dò tới cùng thì nó CÓ cửa headless, và cửa đó phơi đúng ba bậc model:
 
-Cái đang "chạy tự hành" là một daemon trong thư mục NHÁP của một phiên IDE:
-`~/.gemini/antigravity-ide/brain/<id>/scratch/run-wf1-daemon.mjs`, và nó gọi
-**`https://api.yescale.vip/v1`** với `gemini-2.5-flash`.
+```
+~/.gemini/antigravity-ide/bin/agentapi
+  new-conversation [--model=<flash_lite|flash|pro>] [--title=] [--profile=] <prompt>
+```
 
-⚠️ **Bốn vấn đề của chỗ đặt đó**, phải chuyển vào plugin:
-- Ngoài repo → không version control, không phép kiểm, không ai soát được.
-- Bỏ qua toàn bộ rào của plugin: công tắc `RADA_SEO_CA_DEM`, khoá chống chạy chồng, nhật ký `ca`.
-  Nên màn Rada không biết nó đang chạy, và hai ca có thể chồng nhau.
-- Thư mục `scratch` của phiên IDE bị dọn là "tự hành" **chết im lặng**.
-- Nó dùng Yescale, trong khi quyết định 30/09 là *"bỏ Yescale, không khoá API nào"* — quyết định
-  cũ đã bị đảo mà không ai ghi lại. Nay ghi: **dùng Yescale làm nhà cung cấp**, vì đó là đường
-  duy nhất gọi được model theo lịch.
+Nối được tới đâu (đã thử thật):
 
-Tin tốt: Yescale là **OpenAI-compatible** (`/v1/chat/completions`, trả `application/json`) — đã
-thử thật, HTTP 200, đúng dạng mà `ai/goi-model.mjs` nói. Nên chỉ cần trỏ `GRAVITY_API_URL` vào
-đó, không sửa mã.
+| Bước | Kết quả |
+|---|---|
+| `agentapi` không có biến môi trường | `ANTIGRAVITY_LS_ADDRESS is not set` |
+| Trỏ đúng cổng language server (`127.0.0.1:61014`) | `Unauthenticated: missing CSRF token` |
+| Thêm `ANTIGRAVITY_CSRF_TOKEN` (lấy từ `--csrf_token` của tiến trình đang chạy) | **qua được xác thực** |
+| Gọi `new-conversation` | `project_id is required when providing project_env_config` |
 
-## 2c. Kho model khoá này mở được (99 model, đo 02/10/2026)
+⚠️ **Dừng ở đây CÓ CHỦ Ý, và đây là kết luận kiến trúc quan trọng nhất của tài liệu này:**
 
-| Họ | Có | Đáng dùng |
-|---|---|---|
-| Gemini | 15 | `gemini-2.5-flash-lite`, `gemini-2.5-flash`, `gemini-2.5-pro` |
-| Claude | 13 | `claude-sonnet-5`, `claude-haiku-4-5` |
-| GPT | 28 | `gpt-5-mini`, `gpt-4.1-mini` (dự phòng khác họ) |
-| DeepSeek · Grok · GLM · Qwen · Kimi · MiniMax | 36 | `deepseek-v3.2` (dự phòng rẻ) |
-| **Nhúng (embedding)** | 3 | **`text-embedding-3-small` / `-3-large`** ← xem mục 2d |
-| TTS · Whisper | 5 | chưa dùng tới |
-| Nhìn ảnh | 1 | `qwen2.5-vl-72b-instruct` |
-| **Sinh ảnh** | **0** | ← **THIẾU**, xem mục 2e |
+1. `agentapi` chỉ sống **khi IDE đang mở** — nó nói chuyện với language server của một phiên IDE
+   qua cổng ngẫu nhiên + CSRF token của phiên đó. Đóng IDE là ca đêm chết.
+2. Đó là **binary nội bộ không có tài liệu**. Cron dựa vào nó sẽ gãy ở mỗi lần Antigravity cập
+   nhật, và gãy im lặng lúc 2 giờ sáng.
+3. **Quyết định nhất: ca đêm chạy trên VPS, mà VPS sẽ KHÔNG BAO GIỜ có Antigravity IDE.**
+   Antigravity là IDE trên máy lập trình. Dù có gỡ xong `project_id` thì cũng chỉ chạy được trên
+   chiếc Mac này, lúc nó đang mở — tức không phải "tự hành".
 
-⚠️ **Ca tự hành KHÔNG dùng model `-preview`.** Kho có `gemini-3-pro-preview`,
-`gemini-3.1-*-preview`… Tên preview bị gỡ là ca đêm **chết im lặng** lúc 2 giờ sáng và không ai
-biết cho tới khi nhìn nhật ký. Chọn bản ổn định, nâng cấp có chủ đích.
+**Gemini CLI cũng đã bị chặn.** `/opt/homebrew/bin/gemini` (0.55.1) có `-p` chạy headless và tài
+khoản đã đăng nhập (tier *Gemini Code Assist for individuals*), nhưng Google đã cắt:
+`IneligibleTierError: This client is no longer supported … please migrate to the Antigravity
+suite of products`. Đường này đóng, không phải cấu hình sai.
 
-## 2d. ĐỀ XUẤT LỚN NHẤT: dùng embedding, không ai đang dùng
+## 2c. Vậy lấy model ở đâu — ba đường, và đường nên đi
 
-Khoá này mở `text-embedding-3-small`/`-large` mà chưa chỗ nào trong repo gọi tới. Đây là mảnh
-còn thiếu của **cả hai** việc đang dở:
+| Đường | Chạy 24/7 trên VPS? | Tốn thêm tiền? | Rủi ro |
+|---|---|---|---|
+| **A. Antigravity `agentapi`** | ❌ chỉ khi IDE mở, chỉ trên Mac | không | Binary nội bộ, gãy mỗi lần IDE cập nhật |
+| **B. Google AI Studio API** (`generativelanguage.googleapis.com`) | ✅ | có bậc miễn phí | Hạn mức bậc free |
+| **C. Yescale** | ✅ | có | Người dùng đã bỏ (02/10/2026) |
 
-1. **Phân cụm theo NGHĨA.** Thước hiện tại là Jaccard trên tập CẶP TỪ (`trung-lap.mjs`), và
-   chính tài liệu đối chiếu n8n đã ghi hạn chế: *"bấm huyệt trị mất ngủ" và "an thần bằng huyệt
-   Thần Môn" là một cụm nhưng thước chữ không thấy*. Embedding thấy — bằng cosine, **không gọi
-   LLM**, nên rẻ và cho kết quả LẶP LẠI ĐƯỢC (cùng đầu vào → cùng cụm), khác hẳn nhờ mô hình gom.
-2. **Trục ngang ngữ nghĩa + rào bán kính chủ đề.** Dựng nhúng cho site (trọng tâm) rồi đo khoảng
-   cách từng trang → đúng cơ chế `siteFocusScore` / `siteRadius` trong leak Google, và đúng cái
-   rào mình đề xuất để Rada không tự kéo site ra khỏi ngách (ca "Giảm cân nhanh" 78 điểm).
+→ **Đề xuất đường B.** Lý do: nó cho **đúng ba bậc model mà Antigravity đang phơi ra** —
+`gemini-flash-lite` / `gemini-flash` / `gemini-pro` — tức vẫn là "AI của Gravity" về mặt model,
+nhưng qua giao diện CHÍNH THỨC, có tài liệu, chạy được trên VPS nơi cron thật sự sống. Một khoá
+`GEMINI_API_KEY` lấy ở aistudio.google.com, không dính Claude, không dính Yescale.
 
-Giá: `text-embedding-3-small` rẻ hơn một lượt gọi LLM vài bậc; nhúng 1.500 chủ đề đối thủ + kho
-của mình là việc làm MỘT lần rồi cache theo vân tay nội dung.
-
-## 2e. THIẾU: model sinh ảnh
-
-Đường `/v1/images/generations` **có tồn tại** (trả 400 "model không khả dụng", không phải 404),
-nhưng khoá chưa được cấp model ảnh nào. Đã thử 7 tên: `gpt-image-1`, `imagen-3.0-generate-002`,
-`imagen-4.0-generate-001`, `flux-schnell`, `nano-banana`, `seedream-3.0`,
-`gemini-2.5-flash-image` — tất cả đều *"not available in any configured auto group"*.
-
-→ **Việc cần làm (của người dùng):** xin Yescale bật MỘT model ảnh trên khoá này. Ưu tiên theo
-thứ tự: `imagen-4.0-generate-001` hoặc `gpt-image-1` (chất lượng ảnh bối cảnh tốt, an toàn nội
-dung) → `flux-schnell` (rẻ, nhanh, đủ cho ảnh minh hoạ). Chỉ cần MỘT model là khâu ảnh H2 chạy.
-
-Nếu Yescale không bật được thì cắm nhà cung cấp ảnh riêng; `goi-model.mjs` đã tách tác vụ
-`sinh_anh` thành đường riêng nên đổi nhà cung cấp chỉ sửa một hàm.
-
-Trong lúc chưa có: bài vẫn ra được, chỉ thiếu ảnh bối cảnh — **không** lấp bằng ảnh huyệt (sẽ
-quay lại đúng cái khô khan mà người dùng phàn nàn) và **không** lấy ảnh trên mạng.
+`ai/goi-model.mjs` đã tách cấu hình ra biến môi trường nên đổi sang đường B chỉ là đổi
+`GRAVITY_API_URL` + cách ký (Google dùng `x-goog-api-key` thay vì `Bearer`) — một hàm.
 
 ## 3. Phân vai: tác vụ ↔ model cụ thể
 
