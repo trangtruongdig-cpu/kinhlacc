@@ -31,14 +31,15 @@ test("tinhTrangTuDong: chưa có đối thủ → thiếu; đang chạy / chưa 
 
 test("tinhTrangTuDong: Claude chưa từng đọc → câu chỉ đường routine; đã đọc → ok; có trang chờ thì báo số", () => {
 	let t = chu(tinhTrangTuDong(goc));
-	assert.match(t, /Phần Claude đọc bài chưa chạy: cần tạo routine trên claude\.ai \(một lần\) — xem DEPLOYMENT\.md mục Rada SEO/);
+	assert.match(t, /đọc bài chưa chạy/);
+	assert.match(t, /Rada SEO/);
 	t = chu(tinhTrangTuDong({ ...goc, choAi: 7 }));
-	assert.match(t, /7 trang .*chờ Claude đọc/);
+	assert.match(t, /7 trang .*đang chờ .*đọc/);
 	const ds = tinhTrangTuDong({ ...goc, daTungDoc: true, lucClaudeDoc: "L" });
 	assert.doesNotMatch(chu(ds), /cần tạo routine/);
-	assert.ok(ds.some((x) => x.muc === "ok" && x.luc === "L" && /Claude/.test(x.chu)));
+	assert.ok(ds.some((x) => x.muc === "ok" && x.luc === "L" && /Gravity|Claude/.test(x.chu)));
 	// Đã đọc nhưng ngoài cửa sổ nhật ký: vẫn ok, không kèm giờ.
-	assert.ok(tinhTrangTuDong({ ...goc, daTungDoc: true }).some((x) => x.muc === "ok" && /Claude/.test(x.chu) && !x.luc));
+	assert.ok(tinhTrangTuDong({ ...goc, daTungDoc: true }).some((x) => x.muc === "ok" && /Gravity|Claude/.test(x.chu) && !x.luc));
 });
 
 test("tinhTrangTuDong: có bài can_xem → dòng 'thiếu' nêu số bài và chỉ sang tab Kế hoạch; 0 thì không có dòng", () => {

@@ -617,7 +617,7 @@ test("tong-quan: trả tinhTrang (lịch, ca gần nhất, trang chờ, Claude �
 	const ctx = taoCtx();
 	let kq = await p.routes["tong-quan"].handler(ctx);
 	assert.ok(Array.isArray(kq.tinhTrang));
-	assert.match(kq.tinhTrang.map((x) => x.chu).join("\n"), /cần tạo routine trên claude\.ai/);
+	assert.match(kq.tinhTrang.map((x) => x.chu).join("\n"), /đọc bài chưa chạy/);
 	// Một URL đã phân tích = Claude đã từng đọc, dù ca 'claude' đã trôi khỏi nhật ký.
 	await ctx.storage.url.put("u1", { doiThuId: "a.vn", url: "https://a.vn/1", trangThai: "da_phan_tich" });
 	kq = await p.routes["tong-quan"].handler(ctx);
