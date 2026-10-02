@@ -105,21 +105,40 @@ nhưng qua giao diện CHÍNH THỨC, có tài liệu, chạy được trên VPS
 | Sinh ảnh H2 | *(chưa có)* | Xem mục 2e |
 | Tìm SERP | *(không phải tác vụ prompt)* | Cần web thật — xem cảnh báo mục 2 |
 
-### Khai vào `cms/.env`
+### Khai vào `cms/.env` (chốt 02/10/2026 — Google AI Studio)
 
 ```
-GRAVITY_API_URL=https://api.yescale.vip/v1
-GRAVITY_API_KEY=<khoá — đã có sẵn trong backend/.env dưới tên YESCALE_API_KEY>
+# Lấy khoá ở aistudio.google.com. KHÔNG cần GRAVITY_API_URL: mã đã mặc định trỏ Google.
+GRAVITY_API_KEY=<khoá AI Studio>
 GRAVITY_TRAN_LUOT=300
 GRAVITY_MODEL_MAC_DINH=gemini-2.5-flash
-GRAVITY_MODEL_DOC_TRANG=gemini-2.5-flash-lite
-GRAVITY_MODEL_DOC_SERP=gemini-2.5-flash
-GRAVITY_MODEL_CHIEN_LUOC=gemini-2.5-pro
-GRAVITY_MODEL_VIET=claude-sonnet-5
-GRAVITY_MODEL_THAM_DINH=claude-sonnet-5
-GRAVITY_MODEL_NHUNG=text-embedding-3-small
-GRAVITY_MODEL_ANH=            # để trống tới khi Yescale bật một model ảnh
+GRAVITY_MODEL_DOC_TRANG=gemini-2.5-flash-lite   # 40 lượt/đêm — việc nhiều nhất, model rẻ nhất
+GRAVITY_MODEL_DOC_SERP=gemini-2.5-flash         # phải gọi cùng một ý bằng cùng một tên
+GRAVITY_MODEL_CHIEN_LUOC=gemini-2.5-pro         # 1.500 dòng vào, 1 lượt/tuần
+GRAVITY_MODEL_VIET=gemini-2.5-pro               # bài 1.200–2.000 từ
+GRAVITY_MODEL_THAM_DINH=gemini-2.5-pro
+GRAVITY_MODEL_NHUNG=text-embedding-004          # phân cụm theo nghĩa + bán kính chủ đề
+GRAVITY_MODEL_ANH=gemini-2.5-flash-image        # ảnh BỐI CẢNH cho từng H2
 ```
+
+Ba bậc `flash-lite | flash | pro` là đúng ba bậc mà `agentapi` của Antigravity phơi ra — tức
+vẫn là model của Gravity, chỉ đi cửa chính thức.
+
+⚠️ **Chưa chạy thật bao giờ.** Lớp gọi có 13 phép kiểm nhưng toàn bộ chạy trên `fetch` giả. Khi
+có khoá, việc ĐẦU TIÊN là một lượt gọi thật cho mỗi đường (chat, nhúng, ảnh) rồi mới bật ca —
+đặc biệt là ảnh, vì tên model ảnh của Google đổi nhiều lần.
+
+### Rủi ro đã được chấp nhận (người dùng chốt 02/10/2026)
+
+Mật khẩu kho `kinhlac_cms` đã nằm trong lịch sử git của một repo **CÔNG KHAI**
+(`github.com/trangtruongdig-cpu/kinhlacc`, commit 1b64f79 · e67b154 · fc81599). Đã gỡ khỏi bản
+hiện tại, nhưng lịch sử còn. Người dùng quyết **KHÔNG đổi mật khẩu** — ghi lại ở đây để phiên
+sau không nêu lại như lỗi chưa biết.
+
+Cách giảm rủi ro mà không cần đổi mật khẩu: **giới hạn IP ở Aiven** (chỉ cho IP của VPS kết nối)
+— mật khẩu lộ cũng không dùng được từ ngoài. Đã kiểm: `backend/.env` và `cms/.env` KHÔNG bị
+commit; `JWT_SECRET` trong repo chỉ là chữ mẫu (`your-s…`); `frontend/.env` đã commit nhưng chỉ
+chứa URL, không có bí mật.
 
 ## 4. ⚠️ Bốn bẫy mang từ thời Yescale — đã trả giá, không dựng lại
 

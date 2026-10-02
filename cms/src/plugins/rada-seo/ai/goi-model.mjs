@@ -1,4 +1,22 @@
-// Gọi model AI của Gravity — MỘT cửa duy nhất cho mọi tác vụ AI của Radar SEO.
+// Gọi model AI — MỘT cửa duy nhất cho mọi tác vụ AI của Radar SEO.
+//
+// NHÀ CUNG CẤP: **Google AI Studio** (`generativelanguage.googleapis.com`), chốt 02/10/2026.
+// Vì sao không phải hai đường kia:
+//   · Antigravity IDE CÓ cửa headless (`bin/agentapi`, ba bậc flash_lite|flash|pro) nhưng nó chỉ
+//     sống khi IDE đang mở, là binary nội bộ không tài liệu, và CA ĐÊM CHẠY TRÊN VPS — nơi sẽ
+//     không bao giờ có Antigravity. Xem đặc tả mục 2b.
+//   · Gemini CLI đã bị Google cắt cho tier cá nhân (IneligibleTierError).
+//   · Yescale: người dùng bỏ.
+// Google AI Studio cho ĐÚNG ba bậc model mà Antigravity phơi ra (flash-lite | flash | pro), qua
+// giao diện chính thức, chạy được trên VPS.
+//
+// ⚠️ HAI ĐƯỜNG GỌI, CÓ CHỦ Ý:
+//   · CHỮ (chat, embedding) đi qua lớp **OpenAI-compatible** của Google
+//     (`/v1beta/openai/chat/completions`, ký bằng `Bearer`) — nhờ vậy mã này không phải viết
+//     riêng cho Google, và đổi nhà cung cấp sau chỉ là đổi `GRAVITY_API_URL`.
+//   · ẢNH đi qua đường **gốc của Google** (`…/models/<model>:generateContent`), vì lớp
+//     OpenAI-compatible không hứa có `/images/generations`. Ảnh trả về là base64 trong
+//     `inlineData`, không phải URL.
 //
 // Đặc tả: docs/superpowers/specs/2026-10-02-rada-seo-tu-hanh-gan-model.md
 //
@@ -52,7 +70,9 @@ const soNguyen = (x, md) => {
  */
 export function taoGoiModel({ fetch: nap, env = process.env, log }) {
 	const bien = (k) => String(env?.[k] ?? "").trim();
-	const goc = bien("GRAVITY_API_URL") || "";
+	const goc = bien("GRAVITY_API_URL") || "https://generativelanguage.googleapis.com/v1beta/openai";
+	/** Đường GỐC của Google, chỉ dùng cho ảnh — xem ghi chú đầu tệp. */
+	const gocAnh = bien("GRAVITY_API_URL_ANH") || "https://generativelanguage.googleapis.com/v1beta";
 	const khoa = bien("GRAVITY_API_KEY") || "";
 	/** Trần SỐ LƯỢT GỌI mỗi tiến trình (lượt hỏng VẪN tính — bẫy 3). */
 	const tran = soNguyen(bien("GRAVITY_TRAN_LUOT"), 300);
@@ -75,6 +95,90 @@ export function taoGoiModel({ fetch: nap, env = process.env, log }) {
 		soLuotDaGoi: () => daGoi,
 		conHanMuc: () => daGoi < tran,
 		modelCua,
+
+		/**
+		 * NHÚNG (embedding) — phân cụm theo NGHĨA và đo bán kính chủ đề.
+		 *
+		 * Vì sao đáng có: thước cụm hiện tại là Jaccard trên tập CẶP TỪ, và chính tài liệu đối
+		 * chiếu n8n đã ghi hạn chế — "bấm huyệt trị mất ngủ" và "an thần bằng huyệt Thần Môn" là
+		 * một cụm mà thước chữ không thấy. Nhúng thấy, KHÔNG gọi mô hình sinh, nên rẻ và cho kết
+		 * quả LẶP LẠI ĐƯỢC (cùng đầu vào → cùng vector → cùng cụm). Nó cũng là cách dựng
+		 * siteFocusScore/siteRadius của leak Google: trọng tâm của site, rồi khoảng cách từng trang.
+		 *
+		 * @returns {Promise<{ok: boolean, vec: number[][], loi: string, model: string}>}
+		 */
+		async nhung(chuoi, { hanGioMs = 60_000 } = {}) {
+			const ds = (Array.isArray(chuoi) ? chuoi : [chuoi]).map((x) => String(x ?? "")).filter(Boolean);
+			const model = bien("GRAVITY_MODEL_NHUNG") || "text-embedding-004";
+			const thieu = thieuCauHinh();
+			if (thieu.length) return { ok: false, vec: [], loi: `chưa cấu hình ${thieu.join(", ")}`, model };
+			if (!ds.length) return { ok: true, vec: [], loi: "", model };
+			if (!this.conHanMuc()) return { ok: false, vec: [], loi: `đã chạm trần ${tran} lượt gọi`, model };
+			daGoi++;
+			const bo = new AbortController();
+			const hen = setTimeout(() => bo.abort(), hanGioMs);
+			try {
+				const res = await nap(`${goc.replace(/\/+$/, "")}/embeddings`, {
+					method: "POST",
+					headers: { "content-type": "application/json", authorization: `Bearer ${khoa}` },
+					signal: bo.signal,
+					body: JSON.stringify({ model, input: ds }),
+				});
+				const than = await res.text();
+				if (!res.ok) return { ok: false, vec: [], loi: `HTTP ${res.status}: ${than.slice(0, 200)}`, model };
+				let j;
+				try { j = JSON.parse(than) } catch { return { ok: false, vec: [], loi: "thân không phải JSON", model } }
+				const vec = (j?.data ?? []).map((x) => (Array.isArray(x?.embedding) ? x.embedding : null)).filter(Boolean);
+				// Thiếu vector là LỖI, không phải "không có gì" (bẫy 4): cụm sai còn tệ hơn không cụm.
+				if (vec.length !== ds.length) return { ok: false, vec: [], loi: `nhận ${vec.length}/${ds.length} vector`, model };
+				return { ok: true, vec, loi: "", model };
+			} catch (e) {
+				return { ok: false, vec: [], loi: e?.name === "AbortError" ? `quá hạn ${hanGioMs} ms` : String(e?.message ?? e), model };
+			} finally {
+				clearTimeout(hen);
+			}
+		},
+
+		/**
+		 * SINH ẢNH minh hoạ cho một mục H2. Đi đường GỐC của Google (xem ghi chú đầu tệp); ảnh
+		 * trả về là **base64**, người gọi tự nạp lên thư viện CMS qua `ctx.media.upload`.
+		 *
+		 * ⚠️ CHỈ DÙNG CHO ẢNH BỐI CẢNH. Ảnh giải phẫu (vị trí huyệt, đường kinh, hình vị thuốc)
+		 * BẮT BUỘC lấy từ thư viện CMS — ảnh sinh ra gần như chắc sai vị trí huyệt, và sai giải
+		 * phẫu trên trang y khoa là loại sai tệ nhất. Hàm này KHÔNG được gọi cho mục "Vị trí",
+		 * "Cách châm cứu" hay bất cứ mục nào mô tả giải phẫu.
+		 *
+		 * @returns {Promise<{ok: boolean, anh: {base64: string, kieu: string}|null, loi: string, model: string}>}
+		 */
+		async sinhAnh(loiNhac, { hanGioMs } = {}) {
+			const c = VIEC.sinh_anh;
+			const model = modelCua("sinh_anh") || "gemini-2.5-flash-image";
+			if (!khoa) return { ok: false, anh: null, loi: "chưa cấu hình GRAVITY_API_KEY", model };
+			if (!this.conHanMuc()) return { ok: false, anh: null, loi: `đã chạm trần ${tran} lượt gọi`, model };
+			daGoi++;
+			const bo = new AbortController();
+			const hen = setTimeout(() => bo.abort(), hanGioMs ?? c.hanGioMs);
+			try {
+				const res = await nap(`${gocAnh.replace(/\/+$/, "")}/models/${encodeURIComponent(model)}:generateContent`, {
+					method: "POST",
+					headers: { "content-type": "application/json", "x-goog-api-key": khoa },
+					signal: bo.signal,
+					body: JSON.stringify({ contents: [{ role: "user", parts: [{ text: String(loiNhac ?? "") }] }] }),
+				});
+				const than = await res.text();
+				if (!res.ok) return { ok: false, anh: null, loi: `HTTP ${res.status}: ${than.slice(0, 200)}`, model };
+				let j;
+				try { j = JSON.parse(than) } catch { return { ok: false, anh: null, loi: "thân không phải JSON", model } }
+				const parts = j?.candidates?.[0]?.content?.parts ?? [];
+				const p = parts.find((x) => x?.inlineData?.data);
+				if (!p) return { ok: false, anh: null, loi: `phản hồi không có ảnh (${than.slice(0, 160)})`, model };
+				return { ok: true, anh: { base64: p.inlineData.data, kieu: p.inlineData.mimeType || "image/png" }, loi: "", model };
+			} catch (e) {
+				return { ok: false, anh: null, loi: e?.name === "AbortError" ? `quá hạn ${hanGioMs ?? c.hanGioMs} ms` : String(e?.message ?? e), model };
+			} finally {
+				clearTimeout(hen);
+			}
+		},
 
 		/**
 		 * Gọi một tác vụ. KHÔNG BAO GIỜ NÉM — trả `{ ok, chu, loi, model }`.

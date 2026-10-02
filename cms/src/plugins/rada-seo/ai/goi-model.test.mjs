@@ -25,10 +25,11 @@ test("tự parse thân, KHÔNG tin content-type", () => {
 
 test("thiếu cấu hình thì NÓI RÕ thiếu biến nào, không nằm im", async () => {
 	const g = taoGoiModel({ fetch: async () => tra("{}"), env: {} });
-	assert.deepEqual(g.thieuCauHinh(), ["GRAVITY_API_URL", "GRAVITY_API_KEY"]);
+	// GRAVITY_API_URL có mặc định (Google AI Studio) nên chỉ KHOÁ là bắt buộc.
+	assert.deepEqual(g.thieuCauHinh(), ["GRAVITY_API_KEY"]);
 	const r = await g.goi("doc_trang", "x", "y");
 	assert.equal(r.ok, false);
-	assert.match(r.loi, /GRAVITY_API_URL/);
+	assert.match(r.loi, /GRAVITY_API_KEY/);
 });
 
 test("mỗi tác vụ một model; chưa khai thì rơi về mặc định", () => {
@@ -90,4 +91,54 @@ test("jsonTuChu: bóc được JSON trong ```json, có lời dẫn, và trả nu
 	assert.deepEqual(jsonTuChu('{"c":3}'), { c: 3 });
 	assert.equal(jsonTuChu("không có json"), null, "null để người gọi phân biệt với mảng rỗng");
 	assert.equal(jsonTuChu(""), null);
+});
+
+// ── Nhúng (embedding) ─────────────────────────────────────────────────────────────────────
+test("nhung: trả đúng số vector; THIẾU vector là LỖI, không phải 'không có gì'", async () => {
+	const du = taoGoiModel({ fetch: async () => tra(JSON.stringify({ data: [{ embedding: [1, 2] }, { embedding: [3, 4] }] })), env: ENV });
+	const a = await du.nhung(["x", "y"]);
+	assert.deepEqual([a.ok, a.vec.length], [true, 2]);
+	// Nhận thiếu vector mà coi là thành công thì cụm sẽ sai im lặng — tệ hơn không cụm.
+	const thieu = taoGoiModel({ fetch: async () => tra(JSON.stringify({ data: [{ embedding: [1] }] })), env: ENV });
+	const b = await thieu.nhung(["x", "y"]);
+	assert.equal(b.ok, false);
+	assert.match(b.loi, /1\/2 vector/);
+});
+
+test("nhung: mảng rỗng thì KHÔNG gọi mạng, và không tính lượt", async () => {
+	let goi = 0;
+	const g = taoGoiModel({ fetch: async () => { goi++; return tra("{}") }, env: ENV });
+	const r = await g.nhung([]);
+	assert.deepEqual([r.ok, r.vec.length, goi, g.soLuotDaGoi()], [true, 0, 0, 0]);
+});
+
+// ── Sinh ảnh ──────────────────────────────────────────────────────────────────────────────
+test("sinhAnh: đi đường GỐC của Google, ký bằng x-goog-api-key, trả base64", async () => {
+	let thay = null;
+	const g = taoGoiModel({
+		fetch: async (u, o) => {
+			thay = { u, h: o.headers };
+			return tra(JSON.stringify({ candidates: [{ content: { parts: [{ inlineData: { data: "QUJD", mimeType: "image/png" } }] } }] }));
+		},
+		env: { ...ENV, GRAVITY_MODEL_ANH: "gemini-2.5-flash-image" },
+	});
+	const r = await g.sinhAnh("tách trà thảo mộc trên bàn gỗ");
+	assert.deepEqual([r.ok, r.anh.base64, r.anh.kieu], [true, "QUJD", "image/png"]);
+	assert.match(thay.u, /\/models\/gemini-2\.5-flash-image:generateContent$/);
+	assert.ok(thay.h["x-goog-api-key"], "ảnh phải ký bằng x-goog-api-key, không phải Bearer");
+});
+
+test("sinhAnh: phản hồi không có ảnh là LỖI nói rõ, không trả ảnh rỗng", async () => {
+	const g = taoGoiModel({ fetch: async () => tra(JSON.stringify({ candidates: [{ content: { parts: [{ text: "tôi không vẽ được" }] } }] })), env: ENV });
+	const r = await g.sinhAnh("x");
+	assert.equal(r.ok, false);
+	assert.equal(r.anh, null);
+	assert.match(r.loi, /không có ảnh/);
+});
+
+test("mặc định trỏ Google AI Studio khi không khai GRAVITY_API_URL", async () => {
+	let u = "";
+	const g = taoGoiModel({ fetch: async (x) => { u = x; return tra(JSON.stringify({ choices: [{ message: { content: "ok" } }] })) }, env: { GRAVITY_API_KEY: "k", GRAVITY_MODEL_MAC_DINH: "gemini-2.5-flash" } });
+	await g.goi("doc_trang", "a", "b");
+	assert.match(u, /generativelanguage\.googleapis\.com\/v1beta\/openai\/chat\/completions$/);
 });
