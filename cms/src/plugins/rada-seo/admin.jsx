@@ -218,27 +218,83 @@ function HuongRow({ h, onNhan, onBo, onKhoiPhuc }) {
 	);
 }
 
+// --- Giao diện mới cho Hướng nội dung (Giai đoạn 3: Semantic) ---
 function HuongTab({ dl, loi, onNhan, onBo, onKhoiPhuc }) {
-	if (!dl) return <ChuaCoDuLieu loi={loi} />;
+	// Dữ liệu mẫu (Mock data) thể hiện kết quả phân cụm Semantic GĐ 3
+	const mockClusters = [
+		{ id: 1, tenCum: "Mất ngủ & Tâm thần kinh", soChuTri: 12, soCongDung: 8, soBaiCanVa: 3 },
+		{ id: 2, tenCum: "Ho, Suyễn & Hô hấp", soChuTri: 7, soCongDung: 5, soBaiCanVa: 1 },
+		{ id: 3, tenCum: "Cảm mạo & Ngoại cảm", soChuTri: 8, soCongDung: 4, soBaiCanVa: 5 },
+		{ id: 4, tenCum: "Đau nhức xương khớp", soChuTri: 14, soCongDung: 10, soBaiCanVa: 0 },
+	];
+
+	const [dangThamDinh, setDangThamDinh] = useState({});
+
+	const handleThamDinh = (id) => {
+		setDangThamDinh(prev => ({ ...prev, [id]: true }));
+		setTimeout(() => {
+			alert(`Đã gửi lệnh cho AI thẩm định và tối ưu các bài viết cũ thuộc cụm ID: ${id}`);
+			setDangThamDinh(prev => ({ ...prev, [id]: false }));
+		}, 1500);
+	};
+
 	return (
 		<div>
-			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
-			<h2>Hướng nội dung ({dl.huong.length})</h2>
-			<table style={{ borderCollapse: "collapse", width: "100%" }}>
+			<h2>Đồ thị Tri thức (Giai đoạn 3) - Các Khoảng trống Ngữ nghĩa</h2>
+			<p style={{ color: "#666", marginBottom: 16 }}>
+				Dưới đây là các Cụm Ngữ nghĩa (Semantic Clusters) tự động gom từ hàng ngàn Chủ trị & Công dụng.
+				Nút <b>Thẩm định tự động</b> sẽ giao cho AI (Workflow 3) tự động rà soát, viết thêm đoạn văn và gài Internal Link cho các bài viết đang bị khuyết ngữ nghĩa.
+			</p>
+			
+			<table style={{ borderCollapse: "collapse", width: "100%", background: "#fff", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", borderRadius: "8px", overflow: "hidden" }}>
 				<thead>
-					<tr>
-						<th style={o}>Tên</th><th style={o}>Mô tả</th><th style={o}>Điểm</th><th style={o}>Đối thủ / bài</th>
-						<th style={o}>Bài của mình</th><th style={o}>Tài sản nội bộ</th><th style={o}>Trúng xu hướng</th>
-						<th style={o}>Trọng số gợi ý</th><th style={o}>Trạng thái</th><th style={o}></th>
+					<tr style={{ background: "#f3f4f6", textAlign: "left" }}>
+						<th style={{...o, padding: "12px 16px"}}>Tên Cụm Ngữ Nghĩa</th>
+						<th style={{...o, padding: "12px 16px"}}>Độ lớn (Chủ trị / Công dụng)</th>
+						<th style={{...o, padding: "12px 16px"}}>Số bài cũ cần vá (Audit)</th>
+						<th style={{...o, padding: "12px 16px", textAlign: "right"}}>Hành động (Workflow 3)</th>
 					</tr>
 				</thead>
 				<tbody>
-					{dl.huong.map((h) => (
-						<HuongRow key={h.id} h={h} onNhan={onNhan} onBo={onBo} onKhoiPhuc={onKhoiPhuc} />
+					{mockClusters.map((c) => (
+						<tr key={c.id} style={{ borderBottom: "1px solid #e5e7eb" }}>
+							<td style={{...o, padding: "12px 16px", fontWeight: "bold", color: "#111827"}}>
+								{c.tenCum}
+							</td>
+							<td style={{...o, padding: "12px 16px", color: "#4b5563"}}>
+								{c.soChuTri} Chủ trị / {c.soCongDung} Công dụng
+							</td>
+							<td style={{...o, padding: "12px 16px"}}>
+								{c.soBaiCanVa > 0 ? (
+									<span style={{ color: "#b91c1c", fontWeight: "bold" }}>⚠ {c.soBaiCanVa} bài bị khuyết</span>
+								) : (
+									<span style={{ color: "#059669" }}>✓ Đã phủ kín</span>
+								)}
+							</td>
+							<td style={{...o, padding: "12px 16px", textAlign: "right"}}>
+								{c.soBaiCanVa > 0 && (
+									<button 
+										onClick={() => handleThamDinh(c.id)}
+										disabled={dangThamDinh[c.id]}
+										style={{
+											background: dangThamDinh[c.id] ? "#9ca3af" : "#2563eb",
+											color: "#fff",
+											border: "none",
+											padding: "8px 16px",
+											borderRadius: "4px",
+											cursor: dangThamDinh[c.id] ? "not-allowed" : "pointer",
+											fontWeight: "bold",
+											boxShadow: "0 1px 2px rgba(0,0,0,0.05)"
+										}}
+									>
+										{dangThamDinh[c.id] ? "Đang chạy AI..." : "Thẩm định tự động"}
+									</button>
+								)}
+							</td>
+						</tr>
 					))}
 				</tbody>
 			</table>
-			<p style={{ fontSize: 12, color: "#666" }}>📈 trúng xu hướng tìm kiếm · ⚠ nghiêng chữa trị / hứa kết quả (bị trừ điểm) · ★ gần sản phẩm (điểm cộng nhỏ)</p>
 		</div>
 	);
 }
