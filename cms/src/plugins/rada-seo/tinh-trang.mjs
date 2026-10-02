@@ -37,12 +37,12 @@ export function tinhTrangTuDong(v) {
 				: "Chưa có ca radar nào chạy xong trên máy chủ.",
 		});
 
-	if (v.choAi > 0) ds.push({ muc: "cho", chu: `${v.choAi} trang đã lấy chữ, đang chờ Claude đọc.` });
+	if (v.choAi > 0) ds.push({ muc: "cho", chu: `${v.choAi} trang đã lấy chữ, đang chờ Gravity đọc.` });
 
 	if (!v.daTungDoc)
-		ds.push({ muc: "thieu", chu: "Phần Claude đọc bài chưa chạy: cần tạo routine trên claude.ai (một lần) — xem DEPLOYMENT.md mục Rada SEO." });
-	else if (v.lucClaudeDoc) ds.push({ muc: "ok", chu: "Claude đã đọc bài đối thủ, lần gần nhất lúc {luc}.", luc: v.lucClaudeDoc });
-	else ds.push({ muc: "ok", chu: "Claude đã từng đọc bài đối thủ." });
+		ds.push({ muc: "thieu", chu: "Phần Gravity đọc bài chưa chạy: cần sử dụng /goal để khởi động Workflow 1 (hoặc xem DEPLOYMENT.md mục Rada SEO)." });
+	else if (v.lucClaudeDoc) ds.push({ muc: "ok", chu: "Gravity đã đọc bài đối thủ, lần gần nhất lúc {luc}.", luc: v.lucClaudeDoc });
+	else ds.push({ muc: "ok", chu: "Gravity đã từng đọc bài đối thủ." });
 
 	if (v.soCanXem > 0)
 		ds.push({ muc: "thieu", chu: `${v.soCanXem} bài máy viết chưa đạt — cần bạn xem lại ở tab Kế hoạch (lọc “Cần xem lại”).` });

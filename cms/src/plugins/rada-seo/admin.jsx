@@ -209,7 +209,7 @@ function HuongRow({ h, onNhan, onBo, onKhoiPhuc }) {
 						)}
 						{h.lyDo && (
 							<div>
-								<b>Lý do Claude đề xuất:</b> {h.lyDo}
+								<b>Lý do Gravity đề xuất:</b> {h.lyDo}
 							</div>
 						)}
 					</td>
@@ -464,8 +464,8 @@ function KeHoachTab({ dl, loi, onDuyet, onBo }) {
 
 // ---- Tab "Leo top" (2D) ----
 const NHAN_LEO_TOP = {
-	cho_serp: "Chờ Claude tìm top",
-	cho_doc: "Chờ Claude đọc trang",
+	cho_serp: "Chờ Gravity tìm top",
+	cho_doc: "Chờ Gravity đọc trang",
 	co_phieu: "Có phiếu — chờ sửa",
 	da_sua: "Đã sửa — chờ đo lại",
 	xong: "Xong",
@@ -1028,7 +1028,7 @@ function RadaSeo() {
 						{dl.canhBaoCaDem && <p style={{ color: "#b91c1c", fontWeight: 600 }}>⚠ Hơn 26 giờ chưa có ca radar thành công — xem nhật ký bên dưới.</p>}
 						{dl.canhBaoClaude && (
 							<p style={{ color: "#b91c1c", fontWeight: 600 }}>
-								⚠ {dl.choAi} trang chờ Claude đọc mà 26 giờ qua Claude chưa đọc trang nào — khả năng: routine
+								⚠ {dl.choAi} trang chờ Gravity đọc mà 26 giờ qua Gravity chưa đọc trang nào — khả năng: routine
 								không chạy (xem lịch sử chạy ở claude.ai/code/routines), khoá RADA_SEO_MCP_TOKEN sai/thu hồi/hết
 								hạn, hoặc môi trường routine chặn mạng tới kinhlac.online.
 							</p>
@@ -1068,7 +1068,7 @@ function RadaSeo() {
 						</form>
 						<table style={{ borderCollapse: "collapse", width: "100%", marginTop: 8 }}>
 							<thead>
-								<tr><th style={o}>Tên miền</th><th style={o}>Chờ trích</th><th style={o}>Chờ Claude đọc</th><th style={o}>Đã phân tích</th><th style={o}>Ngoài ngành</th><th style={o}>Lỗi</th><th style={o}></th></tr>
+								<tr><th style={o}>Tên miền</th><th style={o}>Chờ trích</th><th style={o}>Chờ Gravity đọc</th><th style={o}>Đã phân tích</th><th style={o}>Ngoài ngành</th><th style={o}>Lỗi</th><th style={o}></th></tr>
 							</thead>
 							<tbody>
 								{dl.doiThu.map((d) => (
@@ -1110,12 +1110,12 @@ function RadaSeo() {
 						<h2>Nhật ký ca</h2>
 						<table style={{ borderCollapse: "collapse", width: "100%" }}>
 							<thead>
-								<tr><th style={o}>Bắt đầu</th><th style={o}>Ca</th><th style={o}>URL mới</th><th style={o}>Trích / Claude đọc</th><th style={o}>Ngoài ngành</th><th style={o}>Cụm</th><th style={o}>Đo lại leo top</th><th style={o}>Lỗi</th><th style={o}>Thông tin</th></tr>
+								<tr><th style={o}>Bắt đầu</th><th style={o}>Ca</th><th style={o}>URL mới</th><th style={o}>Trích / Gravity đọc</th><th style={o}>Ngoài ngành</th><th style={o}>Cụm</th><th style={o}>Đo lại leo top</th><th style={o}>Lỗi</th><th style={o}>Thông tin</th></tr>
 							</thead>
 							<tbody>
 								{dl.ca.map((c) => (
 									<tr key={`${c.batDau}-${c.loai}-${c.kieu ?? ""}-${c.slug ?? ""}`}>
-										<td style={o}>{gio(c.batDau)}</td><td style={o}>{c.loai === "indexnow" ? (c.kieu === "go" ? "IndexNow (gỡ bài)" : "IndexNow (đăng bài)") : c.loai === "claude" ? "Claude đọc" : c.ghi ? "radar" : "radar (thử)"}</td>
+										<td style={o}>{gio(c.batDau)}</td><td style={o}>{c.loai === "indexnow" ? (c.kieu === "go" ? "IndexNow (gỡ bài)" : "IndexNow (đăng bài)") : c.loai === "claude" ? "Gravity đọc" : c.ghi ? "radar" : "radar (thử)"}</td>
 										<td style={o}>{c.soUrlMoi ?? "—"}</td><td style={o}>{c.loai === "claude" ? c.soDoc : c.soTrich ?? "—"}</td><td style={o}>{c.soNgoaiNganh ?? "—"}</td>
 										<td style={o}>{c.soCum ?? "—"}</td>
 										<td style={o}>{c.soDoLai ?? "—"}</td>
