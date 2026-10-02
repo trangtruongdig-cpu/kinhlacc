@@ -102,10 +102,10 @@ server.tool(
   async ({ soLuong }) => {
     const k = await getClient();
     try {
-      // Mock logic: Lấy ec_duoc_lieu (vị thuốc) chưa được thẩm định
+      // Mock logic: Lấy vi_thuoc (vị thuốc) chưa được thẩm định
       const res = await k.query(`
-        SELECT id, tieu_de, noi_dung 
-        FROM ec_duoc_lieu 
+        SELECT id, ten_vi_thuoc as tieu_de, mo_ta as noi_dung 
+        FROM vi_thuoc 
         LIMIT $1
       `, [soLuong]);
       
@@ -139,7 +139,7 @@ server.tool(
     const k = await getClient();
     try {
       // Mock update
-      await k.query(`UPDATE ec_duoc_lieu SET noi_dung = $1 WHERE id = $2`, [noiDungMoi, id]);
+      await k.query(`UPDATE vi_thuoc SET mo_ta = $1 WHERE id = $2`, [noiDungMoi, id]);
       return { content: [{ type: "text", text: JSON.stringify({ success: true, id, message: "Đã cập nhật bài viết chuẩn SEO Semantic" }) }] };
     } catch(e) {
       return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }) }] };

@@ -159,8 +159,13 @@ function stub(tc, phapTris, baiThuocById) {
   const mucLuc = []
   let n = 0
   let nNoindex = 0
+  const seenSlugs = new Set()
   for (const tc of rows) {
-    const slug = slugify(tc.ten_trieu_chung)
+    let slug = slugify(tc.ten_trieu_chung) || `trieu-chung-${tc.id}`
+    if (seenSlugs.has(slug)) {
+      slug = `${slug}-${tc.id}`
+    }
+    seenSlugs.add(slug)
     const url = `${DOMAIN}/trieu-chung/${slug}/`
     const pts = phapTriByTC.get(tc.id) || []
     const nhomLabel = TEN_NHOM[tc.nhom] || tc.nhom || ''
