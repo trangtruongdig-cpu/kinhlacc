@@ -95,6 +95,60 @@ server.tool(
   }
 );
 
+server.tool(
+  "rada_lay_bai_can_tham_dinh",
+  "Lấy một bài viết/vị thuốc cần thẩm định ngữ nghĩa",
+  { soLuong: z.number().optional().default(1) },
+  async ({ soLuong }) => {
+    const k = await getClient();
+    try {
+      // Mock logic: Lấy ec_duoc_lieu (vị thuốc) chưa được thẩm định
+      const res = await k.query(`
+        SELECT id, tieu_de, noi_dung 
+        FROM ec_duoc_lieu 
+        LIMIT $1
+      `, [soLuong]);
+      
+      const baiViet = res.rows.map(r => ({
+        id: r.id,
+        tieuDe: r.tieu_de,
+        noiDung: r.noi_dung,
+        // Giả lập danh sách cụm ngữ nghĩa cần gài gắm (dựa vào DB GĐ 3)
+        cumNguNghiaThieu: ["Giải độc & Điều hoà", "Ho, Suyễn & Hô hấp"]
+      }));
+      
+      return { content: [{ type: "text", text: JSON.stringify(baiViet) }] };
+    } catch(e) {
+      // Bỏ qua lỗi nếu bảng chưa tồn tại
+      return { content: [{ type: "text", text: JSON.stringify([]) }] };
+    } finally {
+      await k.end();
+    }
+  }
+);
+
+server.tool(
+  "rada_ghi_bai_da_toi_uu",
+  "Lưu lại bài viết đã được AI tối ưu và gài gắm ngữ nghĩa",
+  {
+    id: z.string(),
+    noiDungMoi: z.string(),
+    doanThem: z.array(z.string()).optional()
+  },
+  async ({ id, noiDungMoi, doanThem }) => {
+    const k = await getClient();
+    try {
+      // Mock update
+      await k.query(`UPDATE ec_duoc_lieu SET noi_dung = $1 WHERE id = $2`, [noiDungMoi, id]);
+      return { content: [{ type: "text", text: JSON.stringify({ success: true, id, message: "Đã cập nhật bài viết chuẩn SEO Semantic" }) }] };
+    } catch(e) {
+      return { content: [{ type: "text", text: JSON.stringify({ success: false, error: e.message }) }] };
+    } finally {
+      await k.end();
+    }
+  }
+);
+
 async function main() {
   const transport = new StdioServerTransport();
   await server.connect(transport);

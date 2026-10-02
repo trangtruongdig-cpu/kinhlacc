@@ -2,6 +2,6 @@
   "name": "rada-seo-workflows",
   "description": "Rada SEO N8N-like workflows separated by AI difficulty",
   "version": "1.0.0",
-  "skills": ["rada-seo-boc-tach", "rada-seo-lap-ke-hoach", "rada-seo-viet-bai"],
+  "skills": ["rada-seo-boc-tach", "rada-seo-lap-ke-hoach", "rada-seo-tham-dinh-toi-uu"],
   "rules": []
 }
