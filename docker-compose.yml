@@ -120,6 +120,10 @@ services:
       # Rada SEO: CHỈ VPS được chạy ca đêm. Đặt ở ĐÂY, không trong cms/.env — tệp đó chép qua
       # lại máy dev, mà máy dev nhận ca đêm là chạy ca bằng mã của máy dev (bảng cron dùng chung).
       RADA_SEO_CA_DEM: "1"
+      # Gốc backend cho Rada SEO: gọi THẲNG container backend, không vòng ra nginx. Đặt ở ĐÂY
+      # (environment thắng env_file) vì cms/.env chép qua lại với máy lập trình, nơi giá trị
+      # đúng là http://localhost:3001. Không kèm /api — tiền tố đó do nginx thêm.
+      RADA_SEO_API: "http://backend:3000"
       # Không còn CHỊU LỰC cho Rada SEO: lịch là "30 * * * *" (cùng mốc ở mọi múi giờ tròn giờ)
       # và hook tự so getUTCHours() === 19. Giữ cho tường minh — giờ trong log container là UTC.
       TZ: UTC

@@ -110,6 +110,42 @@ function tachCau(s) {
 }
 
 /**
+ * Chữ neo của link trỏ tới /bai-thuoc/ là TÊN RIÊNG trong y văn, không phải lời hứa chữa bệnh.
+ * Thay nó bằng "bài thuốc" trước khi soát.
+ *
+ * ⚠️ Vì sao cần: bài máy viết dẫn "[Bát Bảo Trị Hồng Đơn](/bai-thuoc/bat-bao-tri-hong-don/)" và
+ * luật `tri` bắt chữ "Trị" trong đó (đo 02/10/2026). Tên sách thuốc cổ không đổi được, nên một
+ * bài càng dẫn nhiều bài thuốc càng dễ bị trả lại — ngược hẳn điều mình muốn.
+ *
+ * CỐ Ý HẸP: chỉ miễn chữ NEO, và chỉ với /bai-thuoc/. Câu mô tả như "55 bài thuốc trị chảy máu
+ * cam" VẪN bị bắt, vì đó là lời của người viết chứ không phải tên riêng.
+ */
+export function cheTenRiengBaiThuoc(s) {
+	return String(s ?? "")
+		.replace(/\[([^\]\n]{1,120})\]\((\/bai-thuoc\/[^)\s]*)\)/gu, "[bài thuốc]($2)")
+		// Tên SÁCH cổ cũng vậy: "Chứng Trị Chuẩn Thằng", "Ngoại Khoa Chứng Trị Toàn Sinh Tập".
+		.replace(/\[([^\]\n]{1,120})\]\((\/nguon\/[^)\s]*)\)/gu, "[sách y văn]($2)");
+}
+
+/**
+ * KHUYÊN NGƯỜI ĐỌC ĐI KHÁM Ở NƠI KHÁC — miễn trừ, và đây là chỗ luật tự mâu thuẫn nếu không có.
+ *
+ * Phạm vi Y sỹ cấm mình nhận là "khám bệnh". Nhưng mục "khi nào cần tới cơ sở y tế ngay" thì
+ * BẮT BUỘC phải bảo người đọc đi khám — đó chính là điều an toàn nhất bài có thể nói. Đo thật
+ * 02/10/2026: bài máy viết có mục cấp cứu đúng chuẩn vẫn bị luật `kham_benh` đánh trượt ở câu
+ * "Bạn nên đi khám ngay nếu:". Chặn câu đó là ép bài bỏ mục cấp cứu đi.
+ *
+ * CỐ Ý RẤT HẸP: chỉ miễn khi câu chỉ ĐÍCH DANH một nơi khác — cơ sở y tế, bệnh viện, cấp cứu.
+ * "Hãy đi khám sớm" KHÔNG được miễn và không bao giờ nên miễn: đó là lời mời khám ở chỗ mình,
+ * đúng thứ luật này sinh ra để chặn. Bản nới rộng đầu tiên miễn cả "đi khám" và làm đỏ hai phép
+ * kiểm cũ — chúng đúng, miễn trừ sai.
+ *
+ * Hệ quả cho lò viết: bài phải viết "đến cơ sở y tế ngay", không viết "đi khám ngay". Lời nhắc
+ * trong khoang-trong/ho-so.mjs đã dặn đúng câu đó.
+ */
+const KHUYEN_DI_KHAM = /(?:nên |cần |hãy |phải )?(?:đi|tới|đến) (?:cơ sở y tế|bệnh viện|cấp cứu|chuyên khoa)[^.!?]{0,60}/gu;
+
+/**
  * @param {string} vanBan
  * @param {{nghiem?: boolean}} [tuyChon]  nghiem: bài máy viết (xem đầu tệp)
  * @returns {{ma:string, tu:string, cau:string, goiY:string}[]}
@@ -117,9 +153,9 @@ function tachCau(s) {
 export function timViPham(vanBan, { nghiem = false } = {}) {
 	const luat = nghiem ? LUAT_NGHIEM : LUAT_THUONG;
 	const ra = [];
-	for (const cau of tachCau(sachChu(vanBan))) {
+	for (const cau of tachCau(cheTenRiengBaiThuoc(sachChu(vanBan)))) {
 		// Gộp khoảng trắng (kể cả NBSP) trước: "phòng  khám" hai dấu cách không được lọt ngoại lệ.
-		const thuong = goMienTru(cau.toLowerCase().replace(/\s+/gu, " "), luat);
+		const thuong = goMienTru(cau.toLowerCase().replace(/\s+/gu, " "), luat).replace(KHUYEN_DI_KHAM, " ");
 		let hua = null; // khoảng [đầu, cuối) của cụm hứa-khỏi trong câu này
 		for (const l of luat) {
 			const m = thuong.match(l.mau);

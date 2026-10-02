@@ -711,7 +711,7 @@ test("H1: link bộ chuyển nhận mà regex md bỏ sót ([a]b](//evil.com)) �
 	assert.equal(content.tao.length, 0);
 });
 
-test("chế độ nghiêm ở nopBai: 'bác sĩ' ở mô tả, từ khoá, tên nguồn; 'khám bệnh nhân'; ký tự vô hình", async () => {
+test("chế độ nghiêm ở nopBai: 'bác sĩ' ở mô tả, từ khoá; 'khám bệnh nhân'; ký tự vô hình", async () => {
 	const { ctx, deps } = await dungNop();
 	const r = await viec.nopBai(
 		ctx,
@@ -726,7 +726,11 @@ test("chế độ nghiêm ở nopBai: 'bác sĩ' ở mô tả, từ khoá, tên 
 	const noi = r.loi.filter((l) => l.ma === "pham_vi").map((l) => l.ghiChu).join("\n");
 	assert.match(noi, /mô tả: "bác sĩ"/);
 	assert.match(noi, /từ khoá 2: "đặc trị"/);
-	assert.match(noi, /nguồn 2: "chữa"/);
+	// TÊN SÁCH y văn KHÔNG bị soát phạm vi: "Chứng Trị Chuẩn Thằng" là danh từ riêng, model
+	// không có quyền sửa, mà luật `tri` thì bắt — bài trượt cả 3 lượt vì một thứ không sửa được
+	// (đo 02/10/2026). Nguồn đã có rào chặt hơn: xacMinhNguon đòi tên khớp một trang /nguon/ CÓ
+	// THẬT trong kho, nên tên bịa bị loại ở đó chứ không cần luật phạm vi gác thêm.
+	assert.doesNotMatch(noi, /nguồn \d/);
 	assert.match(noi, /thân bài: "khám"/);
 	assert.match(noi, /thân bài: "chữa"/);
 });
@@ -933,4 +937,21 @@ test("nopBai: lien_ket_nguy_hiem trích href ĐỦ (không cụt ở ngoặc đ�
 	assert.ok(l, JSON.stringify(r.loi));
 	assert.ok(l.ghiChu.includes('"javascript:alert(1)"'), l.ghiChu);
 	assert.ok(l.ghiChu.length < 400, String(l.ghiChu.length));
+});
+
+test("bấm tay (boHanNgach) KHÔNG bị hạn ngạch đêm chặn, nhưng vẫn tôn trọng trần nháp chờ duyệt", async () => {
+	// Hạn ngạch sinh ra để chặn ca TỰ ĐỘNG; chặn người đang chủ động xem kết quả là chặn nhầm
+	// đối tượng (đo 02/10/2026: người dùng bấm "Viết ngay" và nhận "hết hạn ngạch bài đêm nay").
+	const s = await dungKho({ keHoach: [{ id: "k1" }] });
+	const kv = taoKvGia();
+	const ctx = { storage: s, kv, content: { list: async () => ({ items: [], hasMore: false }) } };
+	// tiêu sạch hạn ngạch đêm
+	await kv.set(`viet:giao:${kho.ngayVN(NOW)}`, 99);
+
+	const thuong = await viec.layBaiCanViet(ctx, { now: NOW });
+	assert.equal(thuong.bai.length, 0, "đường tự động vẫn bị hạn ngạch chặn");
+	assert.match(thuong.ghiChu, /hết hạn ngạch/);
+
+	const tay = await viec.layBaiCanViet(ctx, { now: NOW, boHanNgach: true });
+	assert.equal(tay.bai.length, 1, "đường bấm tay phải nhận được bài");
 });

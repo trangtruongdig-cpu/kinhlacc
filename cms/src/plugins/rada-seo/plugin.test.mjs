@@ -34,9 +34,10 @@ test("lịch chạy mỗi giờ phút 30 (giống nhau ở mọi múi giờ trò
 	assert.equal(GIO_UTC_CHAY, 19);
 });
 
-test("cron: ngoài giờ 19 UTC thì trả ngay, không ghi, không log — kể cả máy không bật ca đêm", coBien("RADA_SEO_CA_DEM", undefined, async (t) => {
+// Hai giờ có việc: 19 UTC ca radar, 20 UTC ca lò viết (02:30 và 03:30 giờ Việt Nam).
+test("cron: ngoài hai giờ có việc thì trả ngay, không ghi, không log — kể cả máy không bật ca đêm", coBien("RADA_SEO_CA_DEM", undefined, async (t) => {
 	const p = createPlugin();
-	for (const gioLech of [0, 5, 12, 18, 20, 23]) {
+	for (const gioLech of [0, 5, 12, 18, 21, 23]) {
 		const ctx = taoCtx();
 		const goc = Date.prototype.getUTCHours;
 		Date.prototype.getUTCHours = () => gioLech;
@@ -918,4 +919,20 @@ test("hook afterPublish: bật ca đêm → vẫn ghi da_dang, rồi báo IndexN
 	// Dòng indexnow không được tính là ca radar / ca Claude ở màn tổng quan.
 	const tq = await p.routes["tong-quan"].handler(ctx);
 	assert.equal(tq.ca.filter((c) => c.loai === "indexnow").length, 2);
+}));
+
+test("cron: giờ lò viết trên máy KHÔNG bật ca đêm thì im lặng, không ghi dòng 'nhả ca'", coBien("RADA_SEO_CA_DEM", undefined, async () => {
+	// Ghi ở cả hai giờ thì máy lập trình đẻ hai dòng rác mỗi đêm, làm bẩn đúng bảng dùng để biết
+	// đêm qua chạy ra sao. Dòng "nhả ca" chỉ thuộc về giờ ca radar.
+	const p = createPlugin();
+	const ctx = taoCtx();
+	const goc = Date.prototype.getUTCHours;
+	Date.prototype.getUTCHours = () => 20;
+	try {
+		await p.hooks.cron.handler({ name: "radar" }, ctx);
+	} finally {
+		Date.prototype.getUTCHours = goc;
+	}
+	assert.equal(ctx.storage.ca._m.size, 0);
+	assert.equal(ctx._log.length, 0);
 }));

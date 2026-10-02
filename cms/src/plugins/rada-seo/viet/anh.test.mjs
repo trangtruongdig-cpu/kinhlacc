@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { napThuVienAnh, dungChiMucAnh, chonAnhBia, docAlt, layChiMucAnh, xoaDemChiMucAnh, maTheoTenTuChiMuc } from "./anh.mjs";
+import { napThuVienAnh, dungChiMucAnh, chonAnhBia, docAlt, layChiMucAnh, xoaDemChiMucAnh, maTheoTenTuChiMuc, anhChoMucH2, chenAnhVaoPortableText } from "./anh.mjs";
 import { dungChiMuc } from "../noi-bo/chi-muc.mjs";
 
 // Dạng alt THẬT trong thư viện (cms/scripts-di-cu/anh-huyet.mjs, anh-huyet-3d.mjs,
@@ -203,4 +203,72 @@ test("chonAnhBia: tên kinh / Lục kinh Thương Hàn không bị hiểu thành
 	assert.equal(chonAnhBia(cm, { tieuDe: "Đau đầu", tuKhoaChinh: "bấm huyệt thái dương" })?.mediaId, "m-td");
 	// Huyệt không trùng tên kinh vẫn như cũ.
 	assert.equal(chonAnhBia(cm, { tieuDe: "Huyệt Thần Môn và giấc ngủ" })?.mediaId, "m-than");
+});
+
+// ---- Ảnh cho từng mục H2 ----
+const chiMucMucH2 = () =>
+	dungChiMucAnh(
+		[
+			{ id: "m1", alt: "Vị thuốc Bạch truật" },
+			{ id: "m2", alt: "Vị thuốc Nhân sâm" },
+			{ id: "m3", alt: "Huyệt Túc Tam Lý" },
+			{ id: "m4", alt: "anh_chinh — Kinh Túc Thái âm Tỳ" },
+		],
+		{ maTheoTen: {} },
+	);
+
+const MD_MUC = `Mở đầu.
+
+## Thể tỳ hư
+Dùng [Bạch truật](/duoc-lieu/23/) và [Nhân sâm](/duoc-lieu/18/).
+
+## Huyệt thường dùng
+Bấm [Túc Tam Lý](/huyet/tuc-tam-ly/).
+
+## Đường kinh liên quan
+Xem [Kinh Túc Thái âm Tỳ](/kinh/ty/).
+
+## Khi nào cần tới cơ sở y tế
+Không có link nội bộ nào ở mục này.`;
+
+test("mỗi mục H2 lấy ảnh theo CHỮ NEO của link nội bộ trong chính mục đó", () => {
+	const ra = anhChoMucH2(MD_MUC, chiMucMucH2());
+	assert.deepEqual(ra.map((x) => x.tieuDe), ["Thể tỳ hư", "Huyệt thường dùng", "Đường kinh liên quan"]);
+	assert.equal(ra[0].mediaId, "m1"); // link ĐẦU của mục, không phải link bất kỳ
+	assert.equal(ra[1].mediaId, "m3");
+	assert.equal(ra[2].mediaId, "m4");
+	// Mục không có link nội bộ thì KHÔNG đoán ảnh từ tiêu đề: ảnh lạc đề tệ hơn không ảnh.
+	assert.ok(!ra.some((x) => /cơ sở y tế/.test(x.tieuDe)));
+});
+
+test("không dùng lại ảnh bìa, và mỗi ảnh chỉ một lần trong bài", () => {
+	const ra = anhChoMucH2(MD_MUC, chiMucMucH2(), { boQuaMediaId: ["m1"] });
+	assert.equal(ra[0].mediaId, "m2", "ảnh bìa đã dùng m1 → mục lấy ảnh kế tiếp của mục đó");
+	assert.equal(new Set(ra.map((x) => x.mediaId)).size, ra.length);
+});
+
+test("chữ neo kèm tính vị trong ngoặc vẫn tra được", () => {
+	const ra = anhChoMucH2("## A\n[Bạch truật (Ôn, Cam)](/duoc-lieu/23/)", chiMucMucH2());
+	assert.equal(ra[0]?.mediaId, "m1");
+});
+
+test("chenAnhVaoPortableText đặt ảnh NGAY SAU tiêu đề mục, không đụng khối khác", () => {
+	const pt = [
+		{ _type: "block", style: "h2", children: [{ text: "Thể tỳ hư" }] },
+		{ _type: "block", style: "normal", children: [{ text: "nội dung" }] },
+		{ _type: "block", style: "h2", children: [{ text: "Mục khác" }] },
+	];
+	const ra = chenAnhVaoPortableText(pt, [{ tieuDe: "Thể tỳ hư", mediaId: "m1", alt: "Vị thuốc Bạch truật" }]);
+	assert.equal(ra.length, 4);
+	assert.equal(ra[1]._type, "image");
+	assert.equal(ra[1].asset._ref, "m1");
+	assert.equal(ra[1].alt, "Vị thuốc Bạch truật");
+	assert.equal(ra[2].children[0].text, "nội dung");
+});
+
+test("không có ảnh thì trả nguyên khối, không ném", () => {
+	const pt = [{ _type: "block", style: "h2", children: [{ text: "A" }] }];
+	assert.equal(chenAnhVaoPortableText(pt, []), pt);
+	assert.deepEqual(anhChoMucH2("", chiMucMucH2()), []);
+	assert.deepEqual(anhChoMucH2(MD_MUC, null), []);
 });

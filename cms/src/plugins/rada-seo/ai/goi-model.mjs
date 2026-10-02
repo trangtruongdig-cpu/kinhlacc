@@ -53,11 +53,14 @@ export const VIEC = Object.freeze({
 	// Gom chủ đề đối thủ theo NGHĨA: vào 1.500 dòng, cần suy luận thật. 1 lượt/tuần.
 	chien_luoc: { bien: "GRAVITY_MODEL_CHIEN_LUOC", hanGioMs: 180_000, toiDaRa: 4_000, nhiet: 0.2 },
 	// Viết bài: ra 1.200–2.000 từ, cần văn phong. 2 lượt/đêm.
-	viet_bai: { bien: "GRAVITY_MODEL_VIET", hanGioMs: 300_000, toiDaRa: 8_000, nhiet: 0.4 },
+	viet_bai: { bien: "GRAVITY_MODEL_VIET", duPhong: "GRAVITY_MODEL_VIET_DU_PHONG", hanGioMs: 300_000, toiDaRa: 8_000, nhiet: 0.4 },
 	// Thẩm định / chèn đoạn lấp khoảng trống: ra ít chữ nhưng rào chặt.
 	tham_dinh: { bien: "GRAVITY_MODEL_THAM_DINH", hanGioMs: 180_000, toiDaRa: 2_500, nhiet: 0.3 },
 	// Sinh ảnh minh hoạ cho từng H2 (ảnh BỐI CẢNH, không phải ảnh giải phẫu — xem đặc tả).
-	sinh_anh: { bien: "GRAVITY_MODEL_ANH", hanGioMs: 120_000, toiDaRa: 0, nhiet: 0, laAnh: true },
+	// Hạn 45 s MỖI ảnh, không phải 120 s: một bài sinh tới 7 ảnh và cả khâu nằm TRONG khoá nộp
+	// bài (HAN_KHOA_NOP_MS = 5 phút). 7 × 120 s = 14 phút thì khoá hết hạn giữa chừng, một lượt
+	// nộp khác giành được khoá và tạo nháp thứ hai cho cùng kế hoạch.
+	sinh_anh: { bien: "GRAVITY_MODEL_ANH", hanGioMs: 45_000, toiDaRa: 0, nhiet: 0, laAnh: true },
 });
 
 const soNguyen = (x, md) => {
@@ -87,6 +90,14 @@ export function taoGoiModel({ fetch: nap, env = process.env, log }) {
 
 	/** Model của một tác vụ; chưa khai thì rơi về GRAVITY_MODEL_MAC_DINH. */
 	const modelCua = (viec) => bien(VIEC[viec]?.bien ?? "") || bien("GRAVITY_MODEL_MAC_DINH");
+	/**
+	 * Model DỰ PHÒNG cho tác vụ, dùng khi model chính trả 5xx.
+	 *
+	 * ⚠️ Bậc miễn phí của Google AI Studio trả 503 "high demand" khá thường — đo 02/10/2026: ba
+	 * lượt liên tiếp cho cùng một bài, tức một bài hỏng vì lý do chẳng liên quan tới nội dung.
+	 * Model nhẹ hơn thường còn chỗ. Chưa khai thì không có dự phòng (trả chuỗi rỗng).
+	 */
+	const modelDuPhong = (viec) => bien(VIEC[viec]?.duPhong ?? "");
 
 	return {
 		/** Thiếu cấu hình thì nói rõ thiếu biến nào — KHÔNG nằm im (bẫy 4). */
@@ -95,6 +106,7 @@ export function taoGoiModel({ fetch: nap, env = process.env, log }) {
 		soLuotDaGoi: () => daGoi,
 		conHanMuc: () => daGoi < tran,
 		modelCua,
+		modelDuPhong,
 
 		/**
 		 * NHÚNG (embedding) — phân cụm theo NGHĨA và đo bán kính chủ đề.
@@ -192,12 +204,12 @@ export function taoGoiModel({ fetch: nap, env = process.env, log }) {
 		 * @param loiNhac lời dặn hệ thống (lấy từ loi-dan.mjs — prompt đã có sẵn, dùng lại)
 		 * @param chu     dữ liệu người dùng; LUÔN là vai "user", không trộn vào lời dặn
 		 */
-		async goi(viec, loiNhac, chu, { hanGioMs, toiDaRa } = {}) {
+		async goi(viec, loiNhac, chu, { hanGioMs, toiDaRa, model: modelDe, hoiThoai } = {}) {
 			const c = VIEC[viec];
 			if (!c) return { ok: false, chu: "", loi: `tác vụ lạ: ${viec}`, model: "" };
 			const thieu = thieuCauHinh();
 			if (thieu.length) return { ok: false, chu: "", loi: `chưa cấu hình ${thieu.join(", ")}`, model: "" };
-			const model = modelCua(viec);
+			const model = modelDe || modelCua(viec);
 			if (!model) return { ok: false, chu: "", loi: `chưa khai model cho tác vụ ${viec} (${c.bien} hoặc GRAVITY_MODEL_MAC_DINH)`, model: "" };
 			if (!this.conHanMuc()) return { ok: false, chu: "", loi: `đã chạm trần ${tran} lượt gọi trong tiến trình này`, model };
 
@@ -214,10 +226,16 @@ export function taoGoiModel({ fetch: nap, env = process.env, log }) {
 						model,
 						temperature: c.nhiet,
 						max_tokens: toiDaRa ?? c.toiDaRa,
-						messages: [
-							{ role: "system", content: String(loiNhac ?? "") },
-							{ role: "user", content: String(chu ?? "") },
-						],
+						// `hoiThoai` cho người gọi dựng HỘI THOẠI THẬT (user → assistant → user) khi cần
+						// model sửa bản trước. Nhồi câu trả lời cũ của model vào một `user` duy nhất
+						// làm nó tưởng phải viết tiếp văn bản đó và trả về thứ không phải JSON — đo
+						// 02/10/2026: lượt sửa thứ 2 và 3 đều hỏng vì lý do này.
+						messages: Array.isArray(hoiThoai) && hoiThoai.length
+							? [{ role: "system", content: String(loiNhac ?? "") }, ...hoiThoai]
+							: [
+									{ role: "system", content: String(loiNhac ?? "") },
+									{ role: "user", content: String(chu ?? "") },
+								],
 					}),
 				});
 				// Đọc text rồi TỰ parse — không tin content-type (bẫy 1).

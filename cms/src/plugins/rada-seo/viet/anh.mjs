@@ -325,3 +325,101 @@ export function xoaDemChiMucAnh() {
 	dem = null;
 	dang = null;
 }
+
+// ---- Ảnh cho TỪNG MỤC H2 (02/10/2026) ----
+
+/**
+ * Chọn ảnh minh hoạ cho mỗi mục "##" của bài, LẤY TỪ THƯ VIỆN CMS — không sinh ảnh.
+ *
+ * ⚠️ VÌ SAO KHÔNG SINH ẢNH Ở ĐÂY. Ảnh giải phẫu (vị trí huyệt, đường kinh, hình vị thuốc) sinh
+ * ra gần như chắc sai, và sai giải phẫu trên trang y khoa là loại sai tệ nhất. Thư viện CMS có
+ * 1.312 ảnh huyệt/kinh và 536 ảnh dược liệu — đúng thứ các mục này cần. `sinhAnh` trong
+ * goi-model.mjs chỉ dành cho ảnh BỐI CẢNH và hiện chưa nối (bậc miễn phí không có quota).
+ *
+ * Căn cứ chọn là CHỮ NEO của link nội bộ trong chính mục đó: bài đã dẫn "[Bạch truật](/duoc-lieu/23/)"
+ * thì ảnh Bạch truật là ảnh đúng cho mục ấy. Không đoán từ tiêu đề mục — đoán sai ra ảnh lạc đề,
+ * mà ảnh lạc đề trên trang y văn tệ hơn là không có ảnh.
+ *
+ * Mỗi ảnh chỉ dùng MỘT lần trong bài, và không dùng lại ảnh bìa.
+ *
+ * @param {string} md thân bài Markdown
+ * @param {ReturnType<typeof dungChiMucAnh>} chiMuc
+ * @param {{boQuaMediaId?: string[]}} [tuyChon]
+ * @returns {{tieuDe: string, mediaId: string, alt: string, viSao: string}[]} theo thứ tự mục
+ */
+export function anhChoMucH2(md, chiMuc, { boQuaMediaId = [] } = {}) {
+	if (!chiMuc || !md) return [];
+	const daDung = new Set(boQuaMediaId.map(String));
+	const ra = [];
+	// Cắt theo mục "##" (không tính "###"): giữ cả tiêu đề mục và phần thân của nó.
+	const khuc = String(md).split(/\n(?=##\s)/u);
+	for (const k of khuc) {
+		const m = k.match(/^##\s+(.+)$/mu);
+		if (!m) continue;
+		const tieuDe = m[1].trim();
+		for (const [, neo, duong] of k.matchAll(/\[([^\]\n]{1,120})\]\((\/[^)\s]*)\)/gu)) {
+			const chon = anhTheoNeo(chiMuc, neo, duong, daDung);
+			if (!chon) continue;
+			daDung.add(chon.mediaId);
+			ra.push({ tieuDe, ...chon });
+			break; // một ảnh mỗi mục là đủ; nhiều ảnh làm loãng mục
+		}
+	}
+	return ra;
+}
+
+/** Tra một link nội bộ ra ảnh: huyệt → vị thuốc → kinh, theo chữ neo. */
+function anhTheoNeo(chiMuc, neo, duong, daDung) {
+	const ten = nfc(String(neo).replace(/\s*\([^)]*\)\s*$/u, "")); // bỏ phần "(Hàn, Cam)" ở cuối
+	const khoa = khoaCoDau(ten);
+	const lay = (ds, viSao) => {
+		const a = (ds ?? []).find((x) => !daDung.has(String(x.id)));
+		return a ? { mediaId: String(a.id), alt: a.alt, viSao } : null;
+	};
+	if (/^\/huyet\//u.test(duong)) {
+		const muc = chiMuc.huyet.coDau.get(khoa);
+		const thang = lay(muc?.anh, `huyệt ${muc?.ten ?? ten}`);
+		if (thang) return thang;
+		const ma = chiMuc.ma.get(khoa);
+		if (ma && chiMuc.huyet3d.has(ma)) {
+			const a = chiMuc.huyet3d.get(ma).find((x) => !daDung.has(String(x.id)));
+			if (a) return { mediaId: String(a.id), alt: a.alt, viSao: `huyệt ${ten} (ảnh 3D: ${a.kieu})` };
+		}
+		return null;
+	}
+	if (/^\/duoc-lieu\//u.test(duong)) return lay(chiMuc.viThuoc.coDau.get(khoa)?.anh, `vị thuốc ${ten}`);
+	if (/^\/kinh\//u.test(duong)) {
+		const muc = chiMuc.kinh.coDau.get(khoa);
+		if (!muc) return null;
+		const cot = COT_KINH.find((c) => muc.anh[c]?.length) ?? Object.keys(muc.anh).sort()[0];
+		return cot ? lay(muc.anh[cot], `kinh ${muc.ten} (${cot})`) : null;
+	}
+	return null;
+}
+
+/**
+ * Chèn ảnh vào Portable Text: ngay SAU tiêu đề mục tương ứng.
+ *
+ * ⚠️ Chèn ở tầng Portable Text, KHÔNG phải Markdown: khuôn bài cấm ảnh trong `md` (kiemKhuon
+ * đánh trượt dòng có "![") và luật đó phải giữ — nó chặn model tự nhét ảnh ngoài thư viện.
+ * Ảnh là việc của máy chủ, thêm vào sau khi bài đã qua mọi cổng.
+ *
+ * @param {object[]} pt khối Portable Text từ markdownToPortableText
+ * @param {{tieuDe: string, mediaId: string, alt: string}[]} anh
+ * @returns {object[]} khối mới (không sửa mảng gốc)
+ */
+export function chenAnhVaoPortableText(pt, anh) {
+	if (!Array.isArray(pt) || !anh?.length) return pt ?? [];
+	const theoTieuDe = new Map(anh.map((a) => [nfc(a.tieuDe).toLowerCase(), a]));
+	const ra = [];
+	for (const kh of pt) {
+		ra.push(kh);
+		if (kh?.style !== "h2") continue;
+		const chu = nfc((kh.children ?? []).map((c) => c?.text ?? "").join("")).toLowerCase();
+		const a = theoTieuDe.get(chu);
+		if (!a) continue;
+		theoTieuDe.delete(chu); // mỗi mục một ảnh, kể cả khi hai mục trùng tên
+		ra.push({ _type: "image", _key: `anh${a.mediaId}`.slice(0, 32), asset: { _ref: a.mediaId }, alt: a.alt });
+	}
+	return ra;
+}

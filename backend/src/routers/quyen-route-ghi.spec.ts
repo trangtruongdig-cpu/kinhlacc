@@ -29,6 +29,8 @@ const MIEN_TRU: Record<string, string> = {
     'Bệnh nhân tự đặt vé cho CHÍNH MÌNH; service kiểm chủ sở hữu theo token.',
   'appointment-slot.router.ts::id/my-cancel':
     'Bệnh nhân tự huỷ vé của chính mình.',
+  'appointment-slot.router.ts::id/my-move':
+    'Bệnh nhân tự chuyển vé của chính mình sang ca khác; service nhận req.user.id và kiểm chủ sở hữu.',
   'appointment-slot.router.ts:my-calendar-url/reset':
     'Bệnh nhân tự đổi liên kết lịch .ics của chính mình.',
   'patient.router.ts::id':
@@ -142,6 +144,11 @@ describe('Phủ quyền trên route GHI', () => {
       'patient-auth.router.ts:login', // đăng nhập bệnh nhân
       'patient-auth.router.ts:register', // đăng ký bệnh nhân
       'patient-auth.router.ts:request-deletion', // yêu cầu xoá tài khoản (Google Play đòi)
+      // Hồ sơ cụm cho Rada SEO. Dùng POST vì thân mang mảng biến thể từ vựng Đông y (tên có dấu,
+      // tới 8 cụm) — nhồi vào query string thì vượt giới hạn độ dài URL, cùng lý do với
+      // 'tra-cuu.router.ts:ten'. Route CHỈ ĐỌC: không ghi bảng nào, chỉ dựng hồ sơ từ kho từ điển
+      // vốn đã công khai trên site. Phía gọi là tiến trình CMS, không có JWT người dùng để gửi.
+      'rada-ho-so.router.ts:ho-so-cum',
       'su-co.router.ts:bao', // khách chưa đăng nhập vẫn báo được lỗi; trần riêng 128kb
       'tra-cuu.router.ts:ten', // liên kết chéo từ điển cho trang công khai; route CHỈ ĐỌC
     ]);

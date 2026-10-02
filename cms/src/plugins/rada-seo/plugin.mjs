@@ -20,16 +20,20 @@ import { z } from "zod";
 import { layViec, ghiPhanTich, xongPhanTich, TRAN_TRANG_MOI_LUOT, ngayVN } from "./mcp-viec.mjs";
 import * as leoTop from "./leo-top-viec.mjs";
 import {
-	layDuLieu, deXuatHuong, ghiCum, deXuatKeHoach, layBaiMinh, Y_DINH,
+	layDuLieu, deXuatHuong, ghiCum, deXuatKeHoach, layBaiMinh,
 	TRAN_HUONG_MOI_LUOT, TRAN_CUM_MOI_LUOT, TRAN_KE_HOACH_MOI_LUOT,
 } from "./chien-luoc/viec.mjs";
-import { layBaiCanViet, nopBai } from "./viet/viec.mjs";
+import { chuoi, ID, TU_KHOA, DUONG, KHUON_HUONG, KHUON_CUM, KHUON_KE_HOACH } from "./chien-luoc/khuon.mjs";
+import { layBaiCanViet, nopBai, traBaiMoiDem, KHOA_CAI_DAT_BAI_MOI_DEM, BAI_MOI_DEM_TOI_DA } from "./viet/viec.mjs";
 import { truocKhiDang, sauKhiDang, sauKhiGo, taiPanel, dsNhapChoTab } from "./viet/dang.mjs";
 import { thaIndexNow } from "./viet/indexnow.mjs";
 import { thaMangNhen } from "./viet/lien-ket-nguoc.mjs";
 import { taoGoiModel } from "./ai/goi-model.mjs";
 import { tuDocTrang } from "./ai/tu-doc-trang.mjs";
+import { tuLapChienLuoc } from "./ai/tu-lap-chien-luoc.mjs";
+import { chayLoViet } from "./ai/tu-viet-bai.mjs";
 import { tongHopLoaiSua } from "./leo-top/vong-hoc.mjs";
+import { layUngVien, layHoSoCum, xepUngVien, taoKeHoachTuHoSo, napTrangNhuCau, layCumNguNghia, trangDaCo } from "./khoang-trong/ho-so.mjs";
 
 /**
  * Lịch cron: phút 30 MỖI GIỜ. Ca thật chỉ chạy ở tick có giờ UTC = GIO_UTC_CHAY (19:30 UTC =
@@ -43,6 +47,17 @@ import { tongHopLoaiSua } from "./leo-top/vong-hoc.mjs";
  */
 export const LICH_RADAR = "30 * * * *";
 export const GIO_UTC_CHAY = 19;
+/**
+ * Giờ UTC của CA LÒ VIẾT — 20:30 UTC = 03:30 giờ Việt Nam, tức một giờ sau ca radar.
+ *
+ * Tách khỏi ca radar có chủ ý: ca radar quét sitemap và đọc trang, dài và hay chạm hạn; nhét
+ * thêm việc gọi model viết bài vào đó là một ca hỏng kéo theo cả hai. Lò viết cũng cần ca radar
+ * xong trước để bảng khoảng trống của đêm đã được tính lại.
+ *
+ * ⚠️ Thiếu ca này thì bài dự kiến "Đã duyệt" nằm im vĩnh viễn — lò viết chỉ chạy khi có người
+ * bấm "Viết ngay". Đúng câu hỏi "đã duyệt xong đi đâu?" của người dùng ngày 02/10/2026.
+ */
+export const GIO_UTC_VIET = 20;
 /** Khoá chống chạy chồng: ca dài nhất đo được + dư. Quá hạn thì coi như ca trước đã chết. */
 const KHOA_CA = "ca:dang-chay";
 const HAN_KHOA_MS = 3 * 60 * 60 * 1000;
@@ -100,6 +115,15 @@ async function chayCa(ctx, ghi) {
 			kv: ctx.kv,
 			goiModel: taoGoiModel({ fetch: ctx.http.fetch.bind(ctx.http), log: ctx.log }),
 			tuDoc: tuDocTrang,
+			// Lập chiến lược MỖI TUẦN, ngay trong ca (chỉ có một task cron). `content` để khâu đó
+			// tự dựng chỉ mục liên kết nội bộ — bước lập bài dự kiến phải chọn đường CÓ THẬT.
+			tuChienLuoc: tuLapChienLuoc,
+			content: ctx.content,
+			// Dựng GIỐNG route mcp-de-xuat-ke-hoach: cùng `goc` (thiếu nó thì đường nội bộ không
+			// phân giải được) và cùng hạn 10 s mỗi trang, dùng chung đệm DEM_KIEM_CHUNG.
+			kiemDuong: taoKiemDuong(taoDocTrang(ctx.http.fetch.bind(ctx.http), { hanGioMs: 10_000 }), {
+				goc: process.env.RADA_SEO_SITE ?? "https://kinhlac.online",
+			}),
 			log: ctx.log,
 		});
 	} catch (e) {
@@ -180,59 +204,9 @@ const KHUON_RONG = z.object({});
 const KHUON_TIM = z.object({ cumTu: z.array(z.string().min(2).max(120)).min(1).max(20) });
 
 // ---- Khuôn của routine CHIẾN LƯỢC (2C-2) ----
-// Chữ trong các khuôn này do Claude sinh từ chữ đối thủ → trần độ dài chặn một lượt gọi nhồi
-// cả trang vào kho. Trần số lượng trùng trần trong chien-luoc/viec.mjs (lớp phòng thủ thứ hai).
-const chuoi = (n) => z.string().trim().min(1).max(n);
-const ID = chuoi(64);
-const TU_KHOA = z.array(chuoi(80)).max(8);
-const DUONG = chuoi(300);
+// Khuôn chiến lược + bốn trợ thủ zod nay ở `chien-luoc/khuon.mjs`: ca tự lập chiến lược gọi
+// thẳng deXuatHuong/ghiCum/deXuatKeHoach nên nó phải đi qua CÙNG khuôn với route MCP.
 const KHUON_LAY_DU_LIEU = z.object({ trang: z.number().int().min(0).max(100).optional() });
-const KHUON_HUONG = z.object({
-	huong: z
-		.array(
-			z.object({
-				ten: chuoi(120),
-				moTa: z.string().max(400),
-				trongSoGoiY: z.number().int().min(1).max(5),
-				lyDo: z.string().max(400),
-				idBaiDoiThu: z.array(ID).max(50),
-				tuKhoa: TU_KHOA.min(1),
-			}),
-		)
-		.min(1)
-		.max(TRAN_HUONG_MOI_LUOT),
-});
-const KHUON_CUM = z.object({
-	cum: z
-		.array(
-			z.object({
-				huongId: ID,
-				ten: chuoi(120),
-				moTa: z.string().max(400),
-				tuKhoa: TU_KHOA.min(1),
-				idBaiDoiThu: z.array(ID).max(50),
-			}),
-		)
-		.min(1)
-		.max(TRAN_CUM_MOI_LUOT),
-});
-const KHUON_KE_HOACH = z.object({
-	keHoach: z
-		.array(
-			z.object({
-				cumId: ID,
-				tieuDeLamViec: chuoi(120),
-				tuKhoaChinh: chuoi(80),
-				tuKhoaPhu: TU_KHOA,
-				yDinh: z.enum(Y_DINH),
-				trangTruCot: DUONG,
-				lienKetDich: z.array(DUONG).max(12),
-				goiYNguon: z.array(DUONG).max(12).optional(),
-			}),
-		)
-		.min(1)
-		.max(TRAN_KE_HOACH_MOI_LUOT),
-});
 
 // ---- Khuôn leo top (2D) ----
 // Báo cáo ý do Claude đọc chữ trang lạ mà ra → trần độ dài như khuôn chiến lược.
@@ -299,13 +273,14 @@ export function createPlugin() {
 		// Đối thủ do người quản trị thêm lúc chạy nên không liệt kê trước được tên miền;
 		// lớp chặn nằm ở doc-web.mjs (không IP/localhost) và sitemap.mjs (chỉ cùng tên miền).
 		// content:read: rada_tim_lien_ket đọc tên/slug các bộ từ điển + blog qua ctx.content.list.
-		// content:write + media:read: lò viết tạo nháp bai_viet và chọn ảnh bìa (2C-3). Thêm quyền chỉ
+		// content:write + media:read: lò viết tạo nháp bai_viet và chọn ảnh bìa (2C-3). media:write:
+		// nạp ảnh model sinh cho bìa và từng mục "##" (02/10/2026). Thêm quyền chỉ
 		// đổi nhãn trên trang Plugins, không có bước đồng ý (spike 2C-3 mục 6).
 		// hooks.content-policy:register: cổng content:beforePublish + content:beforeSchedule
 		// (content:afterPublish/afterUnpublish cần content:read — HOOK_REQUIRED_CAPABILITY ở menus-*.mjs).
 		// content:revisions:read: khung "Phiếu Rada" đọc revision nháp bằng ctx.content.getRevision
 		// (chỉ có khi khai quyền này — context-*.mjs createContentAccess).
-		capabilities: ["network:request:unrestricted", "content:read", "content:write", "media:read", "content:revisions:read", "hooks.content-policy:register"],
+		capabilities: ["network:request:unrestricted", "content:read", "content:write", "media:read", "media:write", "content:revisions:read", "hooks.content-policy:register"],
 		storage: KHAI_BAO_KHO,
 		// Mục "Rada SEO" ở thanh bên PHẢI khai ở đây. Với format:"native", EmDash 0.39.1 dựng
 		// manifest admin từ plugin.admin của definePlugin() và BỎ QUA adminPages của descriptor
@@ -323,14 +298,52 @@ export function createPlugin() {
 				if (event.name !== "radar") return;
 				// 23/24 tick mỗi ngày dừng ở đây, IM LẶNG (xem LICH_RADAR). Phải đứng TRƯỚC phép kiểm
 				// công tắc: không thì máy lập trình ghi một dòng "nhả ca" mỗi giờ.
-				if (new Date().getUTCHours() !== GIO_UTC_CHAY) return;
+				const gio = new Date().getUTCHours();
+				if (gio !== GIO_UTC_CHAY && gio !== GIO_UTC_VIET) return;
 				if (!caDemBat()) {
+					// Chỉ ghi nhật ký ở giờ ca RADAR. Giờ ca lò viết mà cũng ghi thì máy lập trình đẻ
+					// hai dòng "nhả ca" mỗi đêm, làm bẩn đúng cái bảng dùng để biết đêm qua chạy ra sao.
+					if (gio !== GIO_UTC_CHAY) return;
 					ctx.log.warn("Rada SEO: máy này không bật RADA_SEO_CA_DEM — nhả ca đêm");
 					const bayGio = new Date().toISOString();
 					await kho.ghiCa(ctx.storage, {
 						loai: "radar", batDau: bayGio, ketThuc: bayGio, ghi: false,
 						loi: ["Ca đêm bị một tiến trình KHÔNG bật RADA_SEO_CA_DEM nhận — đêm nay radar không chạy"],
 					});
+					return;
+				}
+				if (gio === GIO_UTC_VIET) {
+					// Ca lò viết: lấy bài đã duyệt rồi gọi model viết. Thả chạy nền như ca radar —
+					// mỗi bài 40–90 giây, vượt xa hạn 5 giây của hook.
+					const fetchFn = ctx.http.fetch.bind(ctx.http);
+					const goc = process.env.RADA_SEO_SITE ?? "https://kinhlac.online";
+					const goiModel = taoGoiModel({ fetch: fetchFn, log: ctx.log });
+					chayLoViet({
+						goiModel,
+						log: ctx.log,
+						layBai: () =>
+							layBaiCanViet(
+								{ storage: ctx.storage, kv: ctx.kv, content: ctx.content },
+								{
+									now: Date.now(),
+									layHoSo: async (cum, bienThe) => {
+										const r = await layHoSoCum(undefined, cum, bienThe);
+										return r.ok ? r.hoSo : null;
+									},
+								},
+							),
+						nopMot: (dauVao) =>
+							nopBai({ storage: ctx.storage, kv: ctx.kv, content: ctx.content, media: ctx.media }, dauVao, {
+								now: Date.now(),
+								goiModel,
+								markdownToPortableText,
+								docTrang: taoDocTrang(fetchFn, { traLyDo: true }),
+								kiemDuong: taoKiemDuong(taoDocTrang(fetchFn, { hanGioMs: 10_000 }), { goc }),
+							}),
+					}).then(
+						(r) => ctx.log.info(`Rada SEO ca lò viết: ${r.daTao}/${r.soBai} bài${r.ghiChu.length ? ` — ${r.ghiChu.join(" | ")}` : ""}`),
+						(e) => ctx.log.error("Rada SEO ca lò viết hỏng", e),
+					);
 					return;
 				}
 				// THẢ ca chạy nền, không await: EmDash bọc mọi hook cron bằng executeWithTimeout
@@ -681,6 +694,151 @@ export function createPlugin() {
 					}
 				},
 			},
+			// ---- Khoảng trống theo CHIỀU CAO THÁP (02/10/2026) ----
+			// Ba giỏ, KHÔNG gộp thành một bảng xếp hạng: viết mới / leo top / chờ người xác nhận
+			// nghĩa. Gộp lại thì cụm đã có trang sẽ bị giao cho lò viết viết trùng chính mình —
+			// cụm "mất ngủ" đã có sẵn trang bệnh học 47.211 ký tự.
+			"khoang-trong-tong-quan": {
+				handler: async (ctx) => {
+					// KHÔNG dùng ctx.http.fetch: bộ chặn SSRF của EmDash cấm host nội bộ — xem ho-so.mjs.
+					const uv = await layUngVien();
+					// Không hỏi được app KHÁC HẲN "không có cụm nào" — phải lộ ra, không im lặng.
+					if (!uv.ok) return { loi: `Không hỏi được kho app: ${uv.loi}`, choViet: [], leoTop: [], choXacNhan: [], soUngVien: 0 };
+					// Chỉ nạp hai bộ trang-nhắm-nhu-cầu (~172 mục), KHÔNG nạp cả chỉ mục 18.400 mục.
+					const chiMuc = await napTrangNhuCau(ctx.content);
+					return { ...xepUngVien(uv.ds, chiMuc), loi: "", soUngVien: uv.ds.length, loiNap: chiMuc.loiNap };
+				},
+			},
+			// Tab Hướng nội dung: 657 cụm ngữ nghĩa thật, thay cho bảng tĩnh semantic-clusters.json.
+			"cum-ngu-nghia": {
+				handler: async (ctx) => {
+					const r = await layCumNguNghia();
+					if (!r.ok) return { loi: `Không hỏi được kho app: ${r.loi}`, ds: [] };
+					const chiMuc = await napTrangNhuCau(ctx.content);
+					// Trang mình đã có cho cụm: thử theo TÊN CỤM và theo từng chủ trị trong cụm.
+					const ds = r.ds.map((c) => {
+						const t = [c.ten, ...(c.chuTri ?? [])].map((x) => trangDaCo(x, chiMuc)).find((x) => x.daCo);
+						return { ...c, ...(t ?? { daCo: false }) };
+					});
+					return { ds, loi: "", loiNap: chiMuc.loiNap };
+				},
+			},
+			"khoang-trong-ho-so": {
+				handler: async (ctx) => {
+					const { cum, bienThe } = vao(ctx);
+					if (!String(cum ?? "").trim()) throw PluginRouteError.badRequest("Thiếu tên cụm");
+					const r = await layHoSoCum(undefined, String(cum).trim(), Array.isArray(bienThe) ? bienThe : []);
+					if (!r.ok) throw PluginRouteError.badRequest(`Không dựng được hồ sơ: ${r.loi}`);
+					return r.hoSo;
+				},
+			},
+			// Nút "Giao cho lò viết" ở tab Khoảng trống: dựng hồ sơ rồi ghi MỘT bài dự kiến đã duyệt.
+			// Chỉ chạy khi người quản trị bấm — không cron nào gọi.
+			"khoang-trong-giao-viec": {
+				handler: async (ctx) => {
+					const { cum, bienThe } = vao(ctx);
+					const ten = String(cum ?? "").trim();
+					if (!ten) throw PluginRouteError.badRequest("Thiếu tên cụm");
+					const bt = Array.isArray(bienThe) ? bienThe : [];
+					const r = await layHoSoCum(undefined, ten, bt);
+					if (!r.ok) throw PluginRouteError.badRequest(`Không dựng được hồ sơ: ${r.loi}`);
+					try {
+						const k = await taoKeHoachTuHoSo(ctx.storage, { cum: ten, bienThe: bt, hoSo: r.hoSo, now: new Date().toISOString() });
+						return { id: k.id, tieuDeLamViec: k.tieuDeLamViec, soLienKet: (k.lienKetDich?.length ?? 0) + 1, trangThai: k.trangThai, daCoSan: !!k.daCoSan };
+					} catch (e) {
+						throw PluginRouteError.badRequest(String(e?.message ?? e));
+					}
+				},
+			},
+			// LÒ VIẾT TỰ CHẠY. Chuỗi trước đây dừng ở "đã tạo bài dự kiến" vì không ai gọi lò viết.
+			// Route này gọi model viết rồi nộp qua ĐÚNG cổng kiểm của nopBai, kể cả vòng sửa 3 lượt.
+			// Chạy NỀN và trả ngay: một bài mất 40–90 giây, quá hạn chờ của nginx.
+			// Hạn ngạch bài mỗi đêm. Có route riêng vì khi nó cạn, lò viết từ chối LẶNG LẼ và không
+			// có cách nào chỉnh ngoài việc chờ sang ngày — đúng chỗ người dùng kẹt lúc chạy thử.
+			// Thu hồi giữ chỗ NGAY. Tự thu hồi mất GIO_GIU_CHO = 36 giờ — đúng cho ca đêm, nhưng
+			// người đang xem kết quả không chờ được, và một bài kẹt "Đang viết" trông như hỏng.
+			// Lần chạy lò viết gần nhất — tab Kế hoạch hiện nó, vì route trả lời TRƯỚC khi ca xong.
+			"lo-viet-ca-gan-nhat": {
+				handler: async (ctx) => ({ ca: (await ctx.kv.get("lo_viet:ca_gan_nhat")) ?? null }),
+			},
+			"ke-hoach-thu-hoi": {
+				handler: async (ctx) => {
+					const id = String(vao(ctx).id ?? "").trim();
+					if (!id) throw PluginRouteError.badRequest("Thiếu id");
+					const k = await ctx.storage.ke_hoach.get(id);
+					if (!k) throw PluginRouteError.notFound("Không có bài dự kiến này");
+					if (k.trangThai !== "dang_viet") throw PluginRouteError.badRequest("Chỉ thu hồi được bài đang viết");
+					const { giuLuc: _bo, ...con } = k;
+					await ctx.storage.ke_hoach.put(id, { ...con, trangThai: "da_duyet" });
+					return { id, trangThai: "da_duyet" };
+				},
+			},
+			"lo-viet-han-ngach": {
+				handler: async (ctx) => {
+					const { so } = vao(ctx);
+					if (so !== undefined) {
+						const n = Number(so);
+						if (!Number.isFinite(n) || n < 0 || n > BAI_MOI_DEM_TOI_DA)
+							throw PluginRouteError.badRequest(`Hạn ngạch phải là số từ 0 đến ${BAI_MOI_DEM_TOI_DA}`);
+						await ctx.kv.set(KHOA_CAI_DAT_BAI_MOI_DEM, Math.trunc(n));
+					}
+					return { so: await traBaiMoiDem(ctx.kv), toiDa: BAI_MOI_DEM_TOI_DA };
+				},
+			},
+			"lo-viet-chay": {
+				handler: async (ctx) => {
+					const fetchFn = ctx.http.fetch.bind(ctx.http);
+					const goc = process.env.RADA_SEO_SITE ?? "https://kinhlac.online";
+					const { keHoachId } = vao(ctx);
+					const goiModel = taoGoiModel({ fetch: fetchFn, log: ctx.log });
+					if (!goiModel.coCauHinh())
+						throw PluginRouteError.badRequest(`Chưa gọi được model: thiếu ${goiModel.thieuCauHinh().join(", ")}`);
+					// LẤY BÀI trước và CHỜ: khâu này chỉ mất vài giây và là chỗ hay từ chối lặng lẽ
+					// (hết hạn ngạch đêm, đủ nháp chờ duyệt, không còn bài đã duyệt). Trả "đã bắt đầu"
+					// trong khi thật ra không bài nào được giao là báo sai cho người bấm.
+					const giao = await layBaiCanViet(
+						{ storage: ctx.storage, kv: ctx.kv, content: ctx.content },
+						{
+							now: Date.now(),
+							uuTienId: keHoachId ? String(keHoachId) : undefined,
+							// Route này CHỈ chạy khi người quản trị bấm — xem ghi chú ở layBaiCanViet.
+							boHanNgach: true,
+							layHoSo: async (cum, bienThe) => {
+								const r = await layHoSoCum(undefined, cum, bienThe);
+								return r.ok ? r.hoSo : null;
+							},
+						},
+					);
+					if (!giao.bai.length)
+						return { daBatDau: false, soBai: 0, ghiChu: giao.ghiChu ?? "không có bài dự kiến nào được giao", conLaiDemNay: giao.conLaiDemNay, soNhapChoDuyet: giao.soNhapChoDuyet };
+					const viec = chayLoViet({
+						goiModel,
+						log: ctx.log,
+						layBai: async () => giao,
+						// Nhật ký ca: màn hình đọc dòng này để biết lần viết gần nhất ra sao.
+						ghiCa: (ca) => ctx.kv.set("lo_viet:ca_gan_nhat", ca),
+						thuHoi: async (id) => {
+							const k = await ctx.storage.ke_hoach.get(id);
+							if (!k || k.trangThai !== "dang_viet") return;
+							const { giuLuc: _bo, ...con } = k;
+							await ctx.storage.ke_hoach.put(id, { ...con, trangThai: "da_duyet" });
+						},
+						nopMot: (dauVao) =>
+							nopBai({ storage: ctx.storage, kv: ctx.kv, content: ctx.content, media: ctx.media }, dauVao, {
+								now: Date.now(),
+								goiModel,
+								markdownToPortableText,
+								docTrang: taoDocTrang(fetchFn, { traLyDo: true }),
+								kiemDuong: taoKiemDuong(taoDocTrang(fetchFn, { hanGioMs: 10_000 }), { goc }),
+							}),
+					});
+					viec.then(
+						(r) => ctx.log.info(`Rada SEO lò viết: ${r.daTao}/${r.soBai} bài tạo được, ${r.soLuotModel} lượt model${r.ghiChu.length ? ` — ${r.ghiChu.join(" | ")}` : ""}`),
+						(e) => ctx.log.error("Rada SEO lò viết hỏng", e),
+					);
+					return { daBatDau: true, soBai: giao.bai.length, model: goiModel.modelCua("viet_bai"), conLaiDemNay: giao.conLaiDemNay };
+				},
+			},
 			"leo-top-tong-quan": {
 				handler: async (ctx) => {
 					const ds = await kho.dsLeoTop(ctx.storage);
@@ -722,7 +880,19 @@ export function createPlugin() {
 			"mcp-lay-bai-can-viet": {
 				permission: "content:read_drafts",
 				input: KHUON_RONG,
-				handler: async (ctx) => layBaiCanViet({ storage: ctx.storage, kv: ctx.kv, content: ctx.content }, { now: Date.now() }),
+				handler: async (ctx) => {
+					return layBaiCanViet(
+						{ storage: ctx.storage, kv: ctx.kv, content: ctx.content },
+						{
+							now: Date.now(),
+							// Bài đi ra từ tab Khoảng trống mang `cumChuTri` → lấy hồ sơ để viết sâu.
+							layHoSo: async (cum, bienThe) => {
+								const r = await layHoSoCum(undefined, cum, bienThe);
+								return r.ok ? r.hoSo : null;
+							},
+						},
+					);
+				},
 			},
 			"mcp-nop-bai": {
 				permission: "content:create",
@@ -732,6 +902,7 @@ export function createPlugin() {
 					const goc = process.env.RADA_SEO_SITE ?? "https://kinhlac.online";
 					return nopBai({ storage: ctx.storage, kv: ctx.kv, content: ctx.content, media: ctx.media }, ctx.input, {
 						now: Date.now(),
+						goiModel: taoGoiModel({ fetch: fetchFn, log: ctx.log }),
 						markdownToPortableText,
 						docTrang: taoDocTrang(fetchFn, { traLyDo: true }),
 						// Cùng lối dựng + đệm dùng chung với rada_de_xuat_ke_hoach: link đã kiểm lúc lập kế hoạch không tải lại.

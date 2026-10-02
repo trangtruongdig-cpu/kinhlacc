@@ -113,6 +113,7 @@ import { DuocLieuRouter } from './routers/duoc-lieu.router';
 import { PhuongThangRouter } from './routers/phuong-thang.router';
 import { NguonRouter } from './routers/nguon.router';
 import { TraCuuRouter } from './routers/tra-cuu.router';
+import { RadaHoSoRouter } from './routers/rada-ho-so.router';
 import {
   TheBenhRouter,
   TheBenhPhuongHuyetRouter,
@@ -164,6 +165,7 @@ import { BaiThuocService } from './controllers/bai-thuoc.controller';
 import { PhuongThangService } from './controllers/phuong-thang.controller';
 import { NguonService } from './controllers/nguon.controller';
 import { TraCuuService } from './controllers/tra-cuu.controller';
+import { RadaHoSoService } from './controllers/rada-ho-so.controller';
 import {
   TheBenhService,
   TheBenhPhuongHuyetService,
@@ -403,6 +405,7 @@ import { docCauHinhSsl } from './utils/db-ssl.util';
     PhuongThangRouter,
     NguonRouter,
     TraCuuRouter,
+    RadaHoSoRouter,
     ThuongHanRouter,
     NhhtCongThucRouter,
     ThuongHanChungRouter,
@@ -460,6 +463,7 @@ import { docCauHinhSsl } from './utils/db-ssl.util';
     PhuongThangService,
     NguonService,
     TraCuuService,
+    RadaHoSoService,
     ThuongHanService,
     NhhtCongThucService,
     ThuongHanChungService,

@@ -909,6 +909,67 @@ kết tội cả khung giới thiệu nội bộ. Chỉ nhận hai dấu hiệu 
 mạng quảng cáo đã biết** (có cả mạng Việt) và thẻ `<ins class="adsbygoogle">`. Khối dính chỉ
 đếm style NỘI TUYẾN, trên thân đã bóc script để không dính chuỗi trong mã JS. Ngưỡng 2 khối.
 
+### Chiều 3 — KHOẢNG TRỐNG theo CHIỀU CAO THÁP (02/10/2026)
+
+Trục thứ ba, cạnh "chiếm đất" và "leo top". Không đếm "đối thủ có bài gì mình chưa có" (lối
+n8n) mà đo **mình có bao nhiêu vị thuốc, bài thuốc, nguồn y văn đứng sau một nhu cầu, trong khi
+đối thủ chỉ có một bài rời**. Đo thật trên cụm "chảy máu cam": Vinmec, Long Châu, Pharmacity,
+Tâm Anh đều có bài và đều viết theo y học hiện đại; kho này có 55 bài thuốc, 150 vị, 8 bộ sách.
+
+**Tháp sống ở `defaultdb`, plugin sống ở `kinhlac_cms`** — hai kho không join chéo và mở pool
+thứ hai tới Aiven là đường sập. Nên backend có `rada-ho-so.controller.ts` dựng hồ sơ, plugin hỏi
+qua HTTP: `POST /rada/ho-so-cum`, `GET /rada/ung-vien`, `GET /rada/cum-ngu-nghia`.
+
+⚠️ **Đường này KHÔNG đi qua `ctx.http.fetch`.** Bộ chặn SSRF của EmDash cấm mọi host nội bộ và
+không có lối cấu hình; nó đúng cho chỗ nó sinh ra (tải trang đối thủ — URL từ dữ liệu người
+dùng), nhưng `RADA_SEO_API` là hằng số của người vận hành. Plugin là `format: "native"` nên dùng
+`fetch` toàn cục cho **đúng** đường này; mọi lời gọi tải trang ngoài vẫn qua `ctx.http.fetch`.
+Gốc API khai KHÔNG kèm `/api` (tiền tố đó do nginx thêm): máy dev `http://localhost:3001` trong
+`cms/.env`, VPS `http://backend:3000` trong `docker-compose.yml`.
+
+**Bốn điều đã trả giá:**
+
+- **Đảo chiều thô thì vô dụng.** Hỏi thẳng "chủ đề nào mình có mà đối thủ chưa có" cho ra
+  64/64 = 100% trang của mình, kể cả "Chính sách quyền riêng tư". Ở tầng BÀI VIẾT hai bên không
+  bao giờ gặp nhau; phép so chỉ có nghĩa ở tầng CỤM.
+- **Tháp cao chưa chắc là khoảng trống.** "Mất ngủ" có 113 bài thuốc nhưng đã có sẵn trang bệnh
+  học 47.211 ký tự — viết thêm là tự trùng. `napTrangNhuCau` lọc qua hai bộ CMS (~200 mục);
+  ⚠️ KHÔNG dùng `layChiMuc` ở đây, nó nạp 18.400 mục và treo màn hình ở "Đang tải…".
+- **Tra bằng tiếng Việt hiện đại là hụt tháp.** "chảy máu cam" ra 6 mục chủ trị; thêm "nục
+  huyết" + "tỵ nục" ra 17, vị thuốc nhảy 25 → 55. "vai gáy" ra 0 nên từng bị kết luận nhầm là
+  "không có đất", trong khi kho có 6 mục chứa "gáy". Vì vậy tab **Hướng nội dung** đọc 657 cụm
+  trong `kl_seo_semantic_cluster`: danh sách chủ trị của cụm CHÍNH LÀ biến thể, không phải đoán.
+- **Hỏi "vị nào THỰC SỰ có trong bài thuốc", không hỏi "vị nào mang nhãn chủ trị".** Theo nhãn
+  ra Bạch Đầu Ông, Châu Tử Sâm (ít dùng); theo tần suất thật ra Đương quy 19/55, Bạch thược 18.
+  Thể bệnh rút từ pháp trị của chính bài thuốc (`tachTacDung`) — ⚠️ KHÔNG dùng `\b` trong regex:
+  "ị" không phải `\w` nên `\bTrị\b` không bao giờ khớp và bảng thể bệnh ra RỖNG mà không lỗi.
+
+**Lò viết tự chạy** (`ai/tu-viet-bai.mjs`): cron 03:30 giờ VN, tách khỏi ca radar 02:30. Dùng lại
+`layBaiCanViet`/`nopBai` nên mọi trần và cổng kiểm giữ nguyên, kể cả vòng sửa 3 lượt — vòng đó là
+phần CHỊU LỰC, lượt đầu của model thường trượt phạm vi Y sỹ. Người bấm "Viết ngay" thì
+`boHanNgach: true`: hạn ngạch 2 bài/đêm sinh ra để chặn ca TỰ ĐỘNG, áp cho người đang xem kết quả
+là chặn nhầm đối tượng.
+
+⚠️ **Lỗi phía nhà cung cấp phải phân biệt**: 5xx là nghẽn tạm → chờ rồi thử lại; **429 là hết
+quota → đổi NGAY sang `GRAVITY_MODEL_VIET_DU_PHONG`**, chờ cùng model là vô ích. Lò viết chết
+giữa chừng mà chưa nộp lần nào thì TRẢ bài về "chờ viết" — không để kẹt `GIO_GIU_CHO` = 36 giờ.
+
+⚠️ **Vòng sửa phải là HỘI THOẠI THẬT** (user → assistant → user). Nhồi bản cũ của model vào một
+`user` duy nhất thì nó tưởng phải viết tiếp văn bản đó và trả về thứ không phải JSON.
+
+⚠️ **Tên riêng y văn KHÔNG bị soát phạm vi Y sỹ**: chữ neo link `/bai-thuoc/` và `/nguon/`, và
+`nguon[].title`. "Chứng Trị Chuẩn Thằng" dính luật `tri` làm bài trượt cả 3 lượt vì một thứ model
+không có quyền sửa. Nguồn đã có rào chặt hơn ở `xacMinhNguon`. Ngược lại, câu mô tả của người
+viết ("55 bài thuốc trị chảy máu cam") VẪN bị bắt.
+
+**Ảnh bài viết** (`ai/sinh-anh-bai.mjs`): sinh bằng model từ lời nhắc mô tả nội dung từng mục
+`##`, nạp vào thư viện CMS (`media:write`), chèn ở tầng Portable Text — khuôn bài cấm ảnh trong
+`md` và luật đó giữ, vì nó chặn model tự nhét ảnh ngoài. ⚠️ Lời nhắc CẤM vẽ sơ đồ huyệt, đường
+kinh, hình giải phẫu: model không biết huyệt nằm ở đâu, và một sơ đồ sai trông đáng tin hơn là
+không có ảnh. ⚠️ Đo 02/10/2026: **cả 6 model ảnh của Google đều trả 429 ở bậc miễn phí** — phải
+bật thanh toán. Đường lùi `viet/anh.mjs` (chọn theo alt thư viện) hiện cũng **không dùng được**:
+2.561 ảnh trong CMS đều có `alt` RỖNG.
+
 ### Ngưỡng tiêu đề/mô tả khai MỘT chỗ
 
 `NGUONG` trong `luat/seo.mjs` là chỗ duy nhất; `LOI_NHAC_VIET` nhúng `CAU_NGUONG` thay vì gõ

@@ -16,6 +16,7 @@ import { z } from "zod";
 import * as kho from "../kho.mjs";
 import { bocDuLieu } from "../chien-luoc/viec.mjs";
 import { LOI_NHAC_VIET } from "../loi-dan.mjs";
+import { loiNhacTuHoSo } from "../khoang-trong/ho-so.mjs";
 import { kiemKhuon } from "../luat/khuon-bai.mjs";
 import { chuanHoaMd } from "../luat/md-sang-pt.mjs";
 import { slugKhongDau } from "../luat/slug.mjs";
@@ -25,7 +26,8 @@ import { doYmyl } from "../luat/ymyl.mjs";
 import { chamSeo } from "../luat/seo.mjs";
 import { taoBoKhoa, timTrungBo, trungTuDien } from "../luat/trung-lap.mjs";
 import { layChiMuc } from "../noi-bo/nap.mjs";
-import { layChiMucAnh, maTheoTenTuChiMuc, chonAnhBia } from "./anh.mjs";
+import { layChiMucAnh, maTheoTenTuChiMuc, chonAnhBia, anhChoMucH2, chenAnhVaoPortableText } from "./anh.mjs";
+import { sinhAnhChoBai } from "../ai/sinh-anh-bai.mjs";
 import { xacMinhNguon } from "./nguon.mjs";
 import { kiemLienKetThan } from "./lien-ket-than.mjs";
 import { kemCauNguon, kemCauLink, hrefDayDu, trichHref } from "./ly-do.mjs";
@@ -168,7 +170,7 @@ function kemTenBoc(bang, duong, id) {
  * `cum.diem` ĐÃ gồm trọng số hướng (chien-luoc/chi-so.mjs: diemHuong × (0,6 + 0,1·trọngSố)) —
  * nhân thêm trongSo ở đây là tính hai lần.
  */
-async function xepKeHoach(s) {
+async function xepKeHoach(s, uuTienId) {
 	const ds = await kho.dsKeHoach(s, { trangThai: "da_duyet" });
 	const cum = await s.cum_nghia.getMany([...new Set(ds.map((k) => k.cumId).filter(Boolean))]);
 	const huongIds = new Set(ds.map((k) => k.huongId ?? cum.get(k.cumId)?.huongId).filter(Boolean));
@@ -179,12 +181,16 @@ async function xepKeHoach(s) {
 			return { k, h, diem: Number(cum.get(k.cumId)?.diem) || 0 };
 		})
 		.filter(({ h }) => !h || h.trangThai === "da_nhan")
-		.sort((a, b) => b.diem - a.diem || String(a.k.taoLuc).localeCompare(String(b.k.taoLuc)))
+		// `uuTienId` lên đầu: người quản trị vừa bấm "Viết ngay" cho ĐÚNG cụm đó, không phải cho
+		// bài cũ nhất trong hàng đợi. Thiếu luật này thì bấm Viết ngay ra một bài hoàn toàn khác
+		// và trông như nút không ăn (đo 02/10/2026).
+		.sort((a, b) => (b.k.id === uuTienId) - (a.k.id === uuTienId) || b.diem - a.diem || String(a.k.taoLuc).localeCompare(String(b.k.taoLuc)))
 		.map(({ k }) => k);
 }
 
-function baiChoClaude(k, tenTheoDuong) {
+function baiChoClaude(k, tenTheoDuong, hoSo) {
 	const id = k.id;
+	const nhacHoSo = hoSo ? loiNhacTuHoSo(hoSo) : "";
 	return {
 		keHoachId: id,
 		tieuDeLamViec: bocDuLieu(id, k.tieuDeLamViec),
@@ -194,7 +200,11 @@ function baiChoClaude(k, tenTheoDuong) {
 		goiYNguon: (k.goiYNguon ?? []).map((t, i) => bocDuLieu(`${id}:nguon${i}`, t)),
 		trangTruCot: kemTenBoc(tenTheoDuong, k.trangTruCot, `${id}:truCot`),
 		lienKetDich: (k.lienKetDich ?? []).map((d, i) => kemTenBoc(tenTheoDuong, d, `${id}:dich${i}`)),
-		khuonBai: LOI_NHAC_VIET,
+		// Hồ sơ cụm nối vào SAU khuôn chung: khuôn nói cách viết, hồ sơ nói viết BẰNG GÌ. Đo hai
+		// lượt viết thật trên cùng cụm — không hồ sơ ra 605 từ và 7 link, có hồ sơ ra 1.623 từ và
+		// 33 link, và giải thích được vì sao từng vị hợp từng thể bằng tính vị quy kinh trong kho.
+		khuonBai: nhacHoSo ? `${LOI_NHAC_VIET}\n\n${nhacHoSo}` : LOI_NHAC_VIET,
+		...(hoSo ? { hoSoCum: hoSo } : {}),
 		soLanNopConLai: Math.max(0, SO_LAN_NOP_TOI_DA - (k.soLanNop ?? 0)),
 	};
 }
@@ -209,7 +219,7 @@ function baiChoClaude(k, tenTheoDuong) {
  * @param {{now?: number, chiMuc?: object}} [tuyChon]  now: mốc ms
  * @returns {Promise<{bai: object[], conLaiDemNay: number, soNhapChoDuyet: number, ghiChu?: string}>}
  */
-export async function layBaiCanViet(ctx, { now = Date.now(), chiMuc } = {}) {
+export async function layBaiCanViet(ctx, { now = Date.now(), chiMuc, layHoSo, uuTienId, boHanNgach = false } = {}) {
 	kiemNow(now);
 	const s = ctx.storage, kv = ctx.kv;
 	const khoa = khoaGiao(kho.ngayVN(now));
@@ -232,12 +242,19 @@ export async function layBaiCanViet(ctx, { now = Date.now(), chiMuc } = {}) {
 		if (soNhapChoDuyet >= TRAN_NHAP_CHO_DUYET)
 			return { bai: [], conLaiDemNay: await conLai(), soNhapChoDuyet, ghiChu: `đủ ${TRAN_NHAP_CHO_DUYET} nháp chờ duyệt — chờ người duyệt đọc bớt rồi mới viết tiếp` };
 
-		const giu = await giuCho(kv, khoa, Math.min(tran, TRAN_NHAP_CHO_DUYET - soNhapChoDuyet), tran);
+		// NGƯỜI BẤM TAY thì KHÔNG tính hạn ngạch đêm. Hạn ngạch sinh ra để chặn ca TỰ ĐỘNG viết
+		// tràn lan qua đêm; áp nó cho người quản trị đang chủ động xem kết quả là chặn nhầm đối
+		// tượng — họ bấm "Viết ngay" rồi nhận "hết hạn ngạch bài đêm nay" mà không hiểu vì sao.
+		// Trần nháp chờ duyệt và khoá chống giao trùng VẪN giữ: chúng bảo vệ người duyệt, không
+		// phải bảo vệ ví tiền.
+		const giu = boHanNgach
+			? Math.max(0, Math.min(1, TRAN_NHAP_CHO_DUYET - soNhapChoDuyet))
+			: await giuCho(kv, khoa, Math.min(tran, TRAN_NHAP_CHO_DUYET - soNhapChoDuyet), tran);
 		const chon = [];
 		try {
 			if (giu > 0) {
 				const giuLuc = new Date(now).toISOString();
-				for (const k of (await xepKeHoach(s)).slice(0, giu)) {
+				for (const k of (await xepKeHoach(s, uuTienId)).slice(0, giu)) {
 					const { id, ...data } = k;
 					const moi = { ...data, trangThai: "dang_viet", giuLuc, soLanGiao: (data.soLanGiao ?? 0) + 1 };
 					await s.ke_hoach.put(id, moi);
@@ -245,16 +262,31 @@ export async function layBaiCanViet(ctx, { now = Date.now(), chiMuc } = {}) {
 				}
 			}
 		} finally {
-			if (giu > chon.length) await cong(kv, khoa, chon.length - giu);
+			// Chỉ hoàn phần chưa dùng khi lượt này CÓ giữ hạn ngạch; lượt bấm tay không đụng bộ đếm.
+			if (!boHanNgach && giu > chon.length) await cong(kv, khoa, chon.length - giu);
 		}
 		const ra = { bai: [], conLaiDemNay: await conLai(), soNhapChoDuyet };
 		if (!chon.length) {
-			if (giu === 0 && tran > 0) ra.ghiChu = "hết hạn ngạch bài đêm nay";
+			if (giu === 0 && boHanNgach) ra.ghiChu = `đã có ${soNhapChoDuyet} nháp chờ duyệt (trần ${TRAN_NHAP_CHO_DUYET}) — duyệt bớt rồi viết tiếp`;
+			else if (giu === 0 && tran > 0) ra.ghiChu = "hết hạn ngạch bài đêm nay";
 			else if (tran === 0) ra.ghiChu = "trần bài mỗi đêm đang đặt 0";
 			else ra.ghiChu = "không còn bài dự kiến đã duyệt nào";
 			return ra;
 		}
-		ra.bai = chon.map((k) => baiChoClaude(k, bang));
+		// Hồ sơ cụm chỉ lấy cho kế hoạch ĐI RA TỪ tab Khoảng trống (có `cumChuTri`). Hỏng một bài
+		// thì bài đó viết bằng khuôn chung, KHÔNG làm hỏng cả lượt giao — kế hoạch đã bị giữ chỗ rồi.
+		const hoSoCua = new Map();
+		if (layHoSo)
+			for (const k of chon) {
+				if (!k.cumChuTri) continue;
+				try {
+					const h = await layHoSo(k.cumChuTri, k.bienThe ?? []);
+					if (h) hoSoCua.set(k.id, h);
+				} catch {
+					// mạng chập / app không trả lời: viết bằng khuôn chung
+				}
+			}
+		ra.bai = chon.map((k) => baiChoClaude(k, bang, hoSoCua.get(k.id)));
 		return ra;
 	} finally {
 		await nhaKhoaKv(ctx, KHOA_GIAO_BAI, rev);
@@ -392,8 +424,11 @@ function soatPhamVi(dv, chuThan) {
 			[`FAQ ${i + 1} (hỏi)`, f.q],
 			[`FAQ ${i + 1} (đáp)`, f.a],
 		]),
-		...dv.nguon.map((n, i) => [`nguồn ${i + 1}`, n.title]),
 	];
+	// ⚠️ KHÔNG soát `nguon[].title`: đó là TÊN SÁCH y văn, danh từ riêng không đổi được.
+	// "Chứng Trị Chuẩn Thằng", "Ngoại Khoa Chứng Trị Toàn Sinh Tập" đều dính luật `tri` và làm
+	// bài bị trả lại vì một thứ model không có quyền sửa (đo 02/10/2026 — bài trượt cả 3 lượt).
+	// Nguồn đã có rào riêng chặt hơn ở xacMinhNguon: tên phải khớp một trang /nguon/ có thật.
 	const ra = [];
 	const baoCao = (noi, v) => ra.push(loi("pham_vi", `${noi}: "${v.tu}" trong câu "${catCau(v.cau)}" — ${v.goiY}`));
 	for (const [noi, chu] of cho) for (const v of timViPham(chu, nghiem)) baoCao(noi, v);
@@ -491,7 +526,7 @@ export async function nopBai(ctx, dauVao, phuThuoc = {}) {
 	}
 }
 
-async function nopTrongKhoa(ctx, dv, { now, markdownToPortableText, docTrang, kiemDuong, chiMuc, chiMucAnh }) {
+async function nopTrongKhoa(ctx, dv, { now, markdownToPortableText, docTrang, kiemDuong, chiMuc, chiMucAnh, goiModel }) {
 	const s = ctx.storage;
 	const id = dv.keHoachId;
 
@@ -610,22 +645,47 @@ async function nopTrongKhoa(ctx, dv, { now, markdownToPortableText, docTrang, ki
 		trangTruCot: kemTen(bangTen, kh.trangTruCot),
 		lienKetDich: (kh.lienKetDich ?? []).map((d) => kemTen(bangTen, d)),
 	});
+	// ẢNH: SINH bằng model từ chính nội dung từng mục (người dùng chốt 02/10/2026). Thư viện CMS
+	// chỉ còn là đường lùi khi chưa có quota sinh ảnh — không ảnh gì cả còn tệ hơn.
+	// Chèn Ở ĐÂY, sau khi bài đã qua mọi cổng: khuôn bài cấm ảnh trong `md` và luật đó phải giữ.
+	let anhBia = anh;
+	let anhMuc = [];
+	const anhLoi = [];
+	if (goiModel?.sinhAnh) {
+		const sinh = await sinhAnhChoBai({
+			goiModel,
+			media: ctx.media,
+			tieuDe: dv.tieuDe,
+			moTa: dv.moTa,
+			md: mdCuoi,
+			slug: slugKhongDau(dv.tieuDe).slice(0, 40),
+		});
+		anhLoi.push(...sinh.loi);
+		if (sinh.bia) anhBia = { mediaId: sinh.bia.mediaId, viSao: "ảnh sinh theo chủ đề bài" };
+		anhMuc = sinh.muc;
+	}
+	// Chưa sinh được ảnh mục nào → lấy ảnh thư viện theo link nội bộ trong mục.
+	if (!anhMuc.length) anhMuc = anhChoMucH2(mdCuoi, cmAnh, { boQuaMediaId: anhBia ? [anhBia.mediaId] : [] });
+
 	const phieu = {
 		seo: chamSeo({ tieuDe: dv.tieuDe, moTa: dv.moTa, noiDungMd: mdCuoi, tuKhoaChinh, faq: dv.faq }),
 		ymyl: doYmyl([mdCuoi, ...dv.faq.map((f) => f.a)].join("\n")),
 		khuonCanhBao: khuon.canhBao,
 		nguonBo,
 		linkGo,
-		anh: anh ?? null,
+		anh: anhBia ?? null,
+		anhMuc: anhMuc.map((a) => ({ tieuDe: a.tieuDe, viSao: a.viSao ?? "ảnh sinh theo nội dung mục" })),
+		...(anhLoi.length ? { anhLoi } : {}),
 		soTu: khuon.soTu,
 	};
 
+
 	const slugTieuDe = slugKhongDau(dv.tieuDe);
-	const content = doiKhoa(lk.pt, slugTieuDe);
+	const content = doiKhoa(chenAnhVaoPortableText(lk.pt, anhMuc), slugTieuDe);
 	const truong = {
 		description: dv.moTa,
 		content,
-		...(anh ? { featured_image: anh.mediaId } : {}),
+		...(anhBia ? { featured_image: anhBia.mediaId } : {}),
 		tu_khoa: dv.tuKhoa,
 		faq: dv.faq,
 		nguon_tham_khao: nguon.giu,
@@ -653,7 +713,7 @@ async function nopTrongKhoa(ctx, dv, { now, markdownToPortableText, docTrang, ki
 	// nguyên id trần vào revision nháp, Publish chép revision đó lên cột, và trang /blog/ (chỉ dựng
 	// <img> khi có storageKey, vì /file/<id> trả 404) mất ảnh bìa. Đo trên bàn thử kế hoạch 3
 	// (01/10/2026). Nên đưa lại cho update đúng object mà create đã chuẩn hoá.
-	if (anh) truong.featured_image = (await anhDaChuanHoa(ctx, contentId, anh.mediaId, daTao)) ?? anh.mediaId;
+	if (anhBia) truong.featured_image = (await anhDaChuanHoa(ctx, contentId, anhBia.mediaId, daTao)) ?? anhBia.mediaId;
 	try {
 		await ctx.content.update(BO, contentId, { title: dv.tieuDe, ...truong });
 	} catch (e) {

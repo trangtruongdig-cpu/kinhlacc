@@ -1,7 +1,6 @@
 // Màn điều khiển Rada SEO trong /_emdash/admin/plugins/rada-seo/rada.
 // Chỉ HIỂN THỊ và gọi route của plugin; mọi luật nằm phía máy chủ.
 import { Fragment, useCallback, useEffect, useState } from "react";
-import semanticClusters from "./semantic-clusters.json";
 
 async function goi(route, body) {
 	const res = await fetch(`/_emdash/api/plugins/rada-seo/${route}`, {
@@ -41,6 +40,16 @@ function ChuaCoDuLieu({ loi }) {
 
 const NHAN_CUM = { cho_viet: "Chờ viết", co_nhap: "Có nháp", da_dang: "Đã đăng", bo_qua: "Bỏ qua", phu_boi_tu_dien: "Từ điển đã phủ" };
 const gio = (s) => (s ? new Date(s).toLocaleString("vi-VN") : "—");
+/** "2 phút trước" — đủ để biết lò viết mới chạy hay đã kẹt, không cần đồng hồ chính xác. */
+function lucTruoc(iso) {
+	const ms = Date.now() - Date.parse(iso);
+	if (!Number.isFinite(ms) || ms < 0) return "vừa xong";
+	const giay = Math.round(ms / 1000);
+	if (giay < 60) return `${giay} giây trước`;
+	const phut = Math.round(giay / 60);
+	if (phut < 60) return `${phut} phút trước`;
+	return `${Math.round(phut / 60)} giờ trước`;
+}
 const o = { padding: "6px 8px", borderBottom: "1px solid #e5e5e5", textAlign: "left", verticalAlign: "top" };
 
 // ---- Nút ----
@@ -101,6 +110,7 @@ function OTinhTrang({ ds }) {
 // ---- Thanh tab (2C-2) ----
 const TABS = [
 	{ key: "radar", label: "Radar" },
+	{ key: "khoang-trong", label: "Khoảng trống" },
 	{ key: "huong", label: "Hướng nội dung" },
 	{ key: "ke-hoach", label: "Kế hoạch" },
 	{ key: "leo-top", label: "Leo top" },
@@ -126,7 +136,6 @@ function luuTab(tab) {
 // Site thật — admin.jsx chạy trong trình duyệt nên không đọc được RADA_SEO_SITE của máy chủ;
 // cùng giá trị mặc định với noi-bo/nap.mjs và noi-bo/kiem-duong.mjs.
 const TRANG_GOC = "https://kinhlac.online";
-const NHAN_HUONG = { de_xuat: "Đề xuất", da_nhan: "Đã nhận", bo_qua: "Đã bỏ" };
 const NHAN_KE_HOACH = { de_xuat: "Chờ duyệt", da_duyet: "Đã duyệt", bo_qua: "Đã bỏ", dang_viet: "Đang viết", co_nhap: "Có nháp", da_dang: "Đã đăng", can_xem: "Cần xem lại" };
 const NHAN_Y_DINH = { tra_cuu: "Tra cứu", tim_hieu: "Tìm hiểu", so_sanh: "So sánh", huong_dan: "Hướng dẫn" };
 /**
@@ -148,192 +157,171 @@ function DanhSachLink({ ds, hienThi, toiDa = 5 }) {
 	));
 }
 
-function HuongRow({ h, onNhan, onBo, onKhoiPhuc }) {
-	const [trongSo, setTrongSo] = useState(h.trongSo ?? h.trongSoGoiY ?? 3);
-	const [lyDo, setLyDo] = useState("");
-	const [moRong, setMoRong] = useState(false);
-	const cs = h.chiSo ?? {};
-	return (
-		<>
-			<tr>
-				<td style={o}>
-					<Nut onClick={() => setMoRong(!moRong)}>{moRong ? "▾" : "▸"} {h.ten}</Nut>
-				</td>
-				<td style={o}>{h.moTa}</td>
-				<td style={o}>
-					{h.diem}
-					{cs.trungXuHuong && " 📈"}
-					{cs.viPham && " ⚠"}
-					{cs.ganSanPham && " ★"}
-				</td>
-				<td style={o}>
-					{cs.soDoiThu ?? 0} / {cs.soBai ?? 0}
-					{cs.soBangChungBoQua > 0 && (
-						<div style={{ fontSize: 12, color: "#92400e" }}>{cs.soBangChungBoQua} bằng chứng không khớp đã loại</div>
-					)}
-				</td>
-				<td style={o}>{cs.soBaiMinh ?? 0}</td>
-				<td style={o}>{cs.soTaiSan ?? 0}</td>
-				<td style={o}>{cs.trungXuHuong ? "Có" : "Không"}</td>
-				<td style={o}>{h.trongSoGoiY ?? "—"}</td>
-				<td style={o}>
-					{NHAN_HUONG[h.trangThai] ?? h.trangThai}
-					{h.trangThai === "bo_qua" && h.lyDoBo ? ` — ${h.lyDoBo}` : ""}
-				</td>
-				<td style={o}>
-					<select value={trongSo} onChange={(e) => setTrongSo(Number(e.target.value))}>
-						{[1, 2, 3, 4, 5].map((n) => (
-							<option key={n} value={n}>{n}</option>
-						))}
-					</select>{" "}
-					<Nut chinh onClick={() => onNhan(h.id, trongSo)}>Nhận</Nut>{" "}
-					<input placeholder="lý do bỏ (bắt buộc)" value={lyDo} onChange={(e) => setLyDo(e.target.value)} style={{ width: 150 }} />{" "}
-					<Nut disabled={!lyDo.trim()} onClick={() => onBo(h.id, lyDo)}>Bỏ</Nut>{" "}
-					{h.trangThai !== "de_xuat" && <Nut onClick={() => onKhoiPhuc(h.id)}>Khôi phục</Nut>}
-				</td>
-			</tr>
-			{moRong && (
-				<tr>
-					<td colSpan={10} style={{ ...o, background: "#fafafa" }}>
-						<div>
-							<b>Tài sản nội bộ ({cs.soTaiSan ?? 0}):</b>{" "}
-							<DanhSachLink ds={cs.taiSan} toiDa={15} hienThi={(t) => ({ href: `${TRANG_GOC}${t.duong}`, nhan: t.ten })} />
-						</div>
-						<div>
-							{/* Máy chủ tự dò bài khớp hướng và BÙ vào danh sách — có thể có dù Claude không dẫn id nào. */}
-							<b>Bài đối thủ khớp hướng (máy chủ tìm):</b>{" "}
-							<DanhSachLink ds={h.baiDoiThu} toiDa={5} hienThi={(b) => ({ href: b.url, nhan: b.chuDe || b.url })} />
-						</div>
-						{cs.soBangChungBoQua > 0 && (
-							<div style={{ color: "#92400e" }}>{cs.soBangChungBoQua} bằng chứng không khớp đã loại</div>
-						)}
-						{h.lyDo && (
-							<div>
-								<b>Lý do Gravity đề xuất:</b> {h.lyDo}
-							</div>
-						)}
-					</td>
-				</tr>
-			)}
-		</>
-	);
-}
+function CumNguNghiaTab({ dl, loi, onTai, onSangTab }) {
+	const [cumMo, setCumMo] = useState(null);
+	const [hoSo, setHoSo] = useState(null);
+	const [hoSoLoi, setHoSoLoi] = useState("");
+	const [dangTai, setDangTai] = useState(null);
+	const [dangGiao, setDangGiao] = useState(false);
+	const [giaoKq, setGiaoKq] = useState(null);
+	const [giaoLoi, setGiaoLoi] = useState("");
+	const [dangViet, setDangViet] = useState(false);
+	const [vietKq, setVietKq] = useState(null);
+	if (!dl) return <ChuaCoDuLieu loi={loi} />;
 
-// --- Giao diện mới cho Hướng nội dung (Giai đoạn 3: Semantic) ---
-function HuongTab({ dl, loi, onNhan, onBo, onKhoiPhuc }) {
-	const mockClusters = semanticClusters;
-
-	const [dangThamDinh, setDangThamDinh] = useState({});
-
-	const handleThamDinh = (id) => {
-		setDangThamDinh(prev => ({ ...prev, [id]: true }));
-		setTimeout(() => {
-			alert(`Đã gửi lệnh cho AI thẩm định và tối ưu các bài viết cũ thuộc cụm ID: ${id}`);
-			setDangThamDinh(prev => ({ ...prev, [id]: false }));
-		}, 1500);
+	const cum = dl.ds ?? [];
+	// Hồ sơ dựng theo TÊN CHỦ TRỊ ĐẦU của cụm, các chủ trị còn lại làm biến thể.
+	const batDauHoSo = (c) => {
+		if (cumMo === c.id) return setCumMo(null);
+		setDangTai(c.id); setHoSoLoi(""); setHoSo(null); setGiaoKq(null); setGiaoLoi(""); setVietKq(null);
+		const ten = c.chuTri?.[0] ?? c.ten;
+		goi("khoang-trong-ho-so", { cum: ten, bienThe: (c.chuTri ?? []).slice(1, 8) })
+			.then((h) => { setHoSo(h); setCumMo(c.id); })
+			.catch((e) => { setHoSoLoi(loiCua(e)); setCumMo(c.id); })
+			.finally(() => setDangTai(null));
+	};
+	const giaoViec = (c) => {
+		setDangGiao(true); setGiaoLoi(""); setGiaoKq(null);
+		goi("khoang-trong-giao-viec", { cum: c.chuTri?.[0] ?? c.ten, bienThe: (c.chuTri ?? []).slice(1, 8) })
+			.then(setGiaoKq)
+			.catch((e) => setGiaoLoi(loiCua(e)))
+			.finally(() => setDangGiao(false));
+	};
+	const vietNgay = () => {
+		setDangViet(true); setVietKq(null);
+		goi("lo-viet-chay", { keHoachId: giaoKq?.id })
+			.then(setVietKq)
+			.catch((e) => setGiaoLoi(loiCua(e)))
+			.finally(() => setDangViet(false));
 	};
 
 	return (
 		<div>
-			<h2>Đồ thị Tri thức (Giai đoạn 3) - Các Khoảng trống Ngữ nghĩa</h2>
-			<p style={{ color: "#666", marginBottom: 16 }}>
-				Dưới đây là các Cụm Ngữ nghĩa (Semantic Clusters) tự động gom từ hàng ngàn Chủ trị & Công dụng.
-				Nút <b>Thẩm định tự động</b> sẽ giao cho AI (Workflow 3) tự động rà soát, viết thêm đoạn văn và gài Internal Link cho các bài viết đang bị khuyết ngữ nghĩa.
-			</p>
-			
-			<table style={{ borderCollapse: "collapse", width: "100%", background: "#fff", boxShadow: "0 1px 3px rgba(0,0,0,0.1)", borderRadius: "8px", overflow: "hidden" }}>
-				<thead>
-					<tr style={{ background: "#f3f4f6", textAlign: "left" }}>
-						<th style={{...o, padding: "12px 16px"}}>Tên Cụm Ngữ Nghĩa</th>
-						<th style={{...o, padding: "12px 16px"}}>Độ lớn (Chủ trị / Công dụng)</th>
-						<th style={{...o, padding: "12px 16px"}}>Số bài cũ cần vá (Audit)</th>
-						<th style={{...o, padding: "12px 16px", textAlign: "right"}}>Hành động (Workflow 3)</th>
-					</tr>
-				</thead>
-				<tbody>
-					{mockClusters.map((c) => (
-						<tr key={c.id} style={{ borderBottom: "1px solid #e5e7eb" }}>
-							<td style={{...o, padding: "12px 16px", fontWeight: "bold", color: "#111827"}}>
-								{c.tenCum}
-							</td>
-							<td style={{...o, padding: "12px 16px", color: "#4b5563"}}>
-								{c.soChuTri} Chủ trị / {c.soCongDung} Công dụng
-							</td>
-							<td style={{...o, padding: "12px 16px"}}>
-								{c.soBaiCanVa > 0 ? (
-									<span style={{ color: "#b91c1c", fontWeight: "bold" }}>⚠ {c.soBaiCanVa} bài bị khuyết</span>
-								) : (
-									<span style={{ color: "#059669" }}>✓ Đã phủ kín</span>
-								)}
-							</td>
-							<td style={{...o, padding: "12px 16px", textAlign: "right"}}>
-								{c.soBaiCanVa > 0 && (
-									<button 
-										onClick={() => handleThamDinh(c.id)}
-										disabled={dangThamDinh[c.id]}
-										style={{
-											background: dangThamDinh[c.id] ? "#9ca3af" : "#2563eb",
-											color: "#fff",
-											border: "none",
-											padding: "8px 16px",
-											borderRadius: "4px",
-											cursor: dangThamDinh[c.id] ? "not-allowed" : "pointer",
-											fontWeight: "bold",
-											boxShadow: "0 1px 2px rgba(0,0,0,0.05)"
-										}}
-									>
-										{dangThamDinh[c.id] ? "Đang chạy AI..." : "Thẩm định tự động"}
-									</button>
-								)}
-							</td>
+			<div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 6 }}>
+				<Nut onClick={onTai}>Tải lại</Nut>
+				<span style={{ color: "#666", fontSize: 13 }}>
+					{cum.length} cụm ngữ nghĩa đạt ngưỡng tháp. Mỗi cụm gom nhiều chủ trị cùng nghĩa — đây là
+					tầng trên của tab Khoảng trống, nơi mỗi chủ trị đứng một dòng riêng.
+				</span>
+			</div>
+			{dl.loi && <div style={{ color: "#b91c1c", marginBottom: 10 }}>{dl.loi}</div>}
+			{!cum.length && !dl.loi && <p style={{ color: "#6b7280" }}>Chưa có cụm nào đạt ngưỡng.</p>}
+
+			{cum.length > 0 && (
+				<table style={{ borderCollapse: "collapse", width: "100%", maxWidth: 1100 }}>
+					<thead>
+						<tr>
+							<th style={o}>Cụm ngữ nghĩa</th>
+							<th style={o}>Tháp của mình</th>
+							<th style={o}>Trang mình</th>
+							<th style={o} />
 						</tr>
-					))}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{cum.map((c) => (
+							<Fragment key={c.id}>
+								<tr>
+									<td style={o}>
+										<div style={{ fontWeight: 600 }}>{c.ten}</div>
+										<div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>
+											{c.soChuTri} chủ trị: {(c.chuTri ?? []).slice(0, 5).join(" · ")}
+											{c.soChuTri > 5 && " …"}
+										</div>
+									</td>
+									<td style={o}>{c.soBai} bài · {c.soVi} vị</td>
+									<td style={o}>
+										{c.daCo ? (
+											<a href={`${TRANG_GOC}/${c.bo === "benh_hoc" ? "benh-hoc" : "cham-cuu-tri-benh"}/${c.slug}/`} target="_blank" rel="noopener noreferrer">đã có</a>
+										) : (
+											<span style={{ color: "#15803d" }}>chưa có</span>
+										)}
+									</td>
+									<td style={o}>
+										<Nut onClick={() => batDauHoSo(c)} disabled={dangTai === c.id} dangChon={cumMo === c.id}>
+											{dangTai === c.id ? "Đang dựng…" : cumMo === c.id ? "Đóng hồ sơ" : "Mở hồ sơ"}
+										</Nut>
+									</td>
+								</tr>
+								{cumMo === c.id && (
+									<tr>
+										<td colSpan={4} style={{ ...o, background: "#fafafa" }}>
+											{hoSoLoi ? (
+												<div style={{ color: "#b91c1c" }}>{hoSoLoi}</div>
+											) : (
+												<HoSoCum
+													hoSo={hoSo}
+													onGiao={() => giaoViec(c)}
+													dangGiao={dangGiao}
+													giaoKq={giaoKq}
+													giaoLoi={giaoLoi}
+													onSangTab={onSangTab}
+													daCo={c.daCo}
+													onViet={vietNgay}
+													dangViet={dangViet}
+													vietKq={vietKq}
+												/>
+											)}
+										</td>
+									</tr>
+								)}
+							</Fragment>
+						))}
+					</tbody>
+				</table>
+			)}
 		</div>
 	);
 }
 
-function KeHoachRow({ k, onDuyet, onBo }) {
-	const [lyDo, setLyDo] = useState("");
+/**
+ * Thứ tự VIỆC, không phải thứ tự vòng đời: trạng thái nào đang chờ NGƯỜI làm thì đứng trước.
+ * Tab mở ở chip đầu tiên CÓ BÀI, nên việc gấp nhất là thứ hiện ra mặc định — không phải thứ
+ * người dùng phải tự mò trong ô chọn (đo 02/10/2026: bộ lọc nằm trong <select> nên không ai thấy).
+ */
+const CHIP_KE_HOACH = [
+	{ key: "can_xem", nhan: "Cần xem lại", mau: "#b91c1c", mo: "Máy viết hết lượt mà chưa đạt. Đọc lý do rồi duyệt lại hoặc bỏ." },
+	{ key: "de_xuat", nhan: "Chờ duyệt", mau: "#92400e", mo: "Bài dự kiến chờ bạn đồng ý trước khi máy viết." },
+	{ key: "da_duyet", nhan: "Chờ viết", mau: "#15803d", mo: "Đã duyệt. Bấm “Viết ngay”, hoặc để ca đêm 03:30 tự viết." },
+	{ key: "dang_viet", nhan: "Đang viết", mau: "#6b7280", mo: "Lò viết đang giữ chỗ. Nếu kẹt (model hỏng giữa chừng) thì bấm “Thu hồi ngay” để viết lại." },
+	{ key: "co_nhap", nhan: "Có nháp", mau: "#1d4ed8", mo: "Máy viết xong rồi. Bấm “Mở nháp để sửa & đăng” — trình soạn của CMS mở ra, sửa xong bấm Publish ở đó." },
+	{ key: "da_dang", nhan: "Đã đăng", mau: "#6b7280", mo: "Xong." },
+	{ key: "bo_qua", nhan: "Đã bỏ", mau: "#9ca3af", mo: "" },
+];
+
+function TheTrangThai({ tt }) {
+	const c = CHIP_KE_HOACH.find((x) => x.key === tt);
+	return (
+		<span style={{ fontSize: 12, fontWeight: 600, color: c?.mau ?? "#6b7280", border: `1px solid ${c?.mau ?? "#d1d5db"}`, borderRadius: 999, padding: "2px 8px", whiteSpace: "nowrap" }}>
+			{NHAN_KE_HOACH[tt] ?? tt}
+		</span>
+	);
+}
+
+function KeHoachRow({ k, tenCum, onDuyet, onBo, onViet, dangViet, vietKq, onThuHoi }) {
 	const [moRong, setMoRong] = useState(false);
 	const bc = k.bangChung ?? {};
 	const suaDuoc = KE_HOACH_SUA_DUOC.has(k.trangThai);
 	return (
 		<>
 			<tr>
+				{/* Cột 1 gánh phần nhận dạng: tiêu đề là thứ người đọc tìm, không phải danh sách từ khoá. */}
 				<td style={o}>
-					<Nut onClick={() => setMoRong(!moRong)}>{moRong ? "▾" : "▸"} {k.tieuDeLamViec}</Nut>
+					<div style={{ fontWeight: 600 }}>{k.tieuDeLamViec}</div>
+					<div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>
+						{(tenCum ?? k.cumChuTri) && <>{tenCum ?? k.cumChuTri} · </>}
+						{k.tuKhoaChinh}
+						{k.nguonGoc === "khoang_trong" && <> · từ Khoảng trống</>}
+					</div>
+					<Nut onClick={() => setMoRong(!moRong)} style={{ marginTop: 6, fontSize: 12, padding: "2px 8px" }}>
+						{moRong ? "▾ Thu gọn" : "▸ Chi tiết"}
+					</Nut>
 				</td>
 				<td style={o}>
-					{k.tuKhoaChinh}
-					{(k.tuKhoaPhu ?? []).length > 0 && <> / {k.tuKhoaPhu.join(", ")}</>}
-				</td>
-				<td style={o}>{NHAN_Y_DINH[k.yDinh] ?? k.yDinh}</td>
-				<td style={o}>
-					<a href={`${TRANG_GOC}${k.trangTruCot}`} target="_blank" rel="noopener noreferrer">{k.trangTruCot}</a>
-				</td>
-				<td style={o}>{(k.lienKetDich ?? []).length}</td>
-				<td style={o}>
-					{bc.soDoiThu ?? 0} đối thủ / {bc.soBai ?? 0} bài{bc.trungXuHuong && " 📈"}
-					{(bc.canhBaoTrung ?? []).length > 0 && (
-						// tieuDe là chữ thô từ kho — chỉ hiển thị qua JSX text, không bao giờ qua HTML.
-						<ul style={{ margin: "4px 0 0", paddingLeft: 16, fontSize: 12, color: "#92400e" }}>
-							{bc.canhBaoTrung.map((t, i) => (
-								<li key={i}>
-									{/* 3 chữ số, làm tròn XUỐNG ở máy chủ: 0,296 không được hiện thành "0.30" = ngưỡng trùng. */}
-									⚠ gần giống: {t.tieuDe} (độ giống {Number(t.doGiong).toFixed(3)} — dưới ngưỡng trùng 0.30, vẫn nhận)
-								</li>
-							))}
-						</ul>
-					)}
-				</td>
-				<td style={o}>
-					{NHAN_KE_HOACH[k.trangThai] ?? k.trangThai}
-					{k.trangThai === "bo_qua" && k.lyDoBo ? ` — ${k.lyDoBo}` : ""}
+					<TheTrangThai tt={k.trangThai} />
+					{k.trangThai === "bo_qua" && k.lyDoBo ? <div style={{ fontSize: 12, color: "#6b7280", marginTop: 4 }}>{k.lyDoBo}</div> : null}
 					{k.trangThai === "can_xem" && (
 						// loiCuoi là lời máy chủ trả cho lượt nộp cuối — chữ thô, chỉ hiển thị qua JSX text.
-						<div style={{ fontSize: 12, color: "#92400e" }}>
+						<div style={{ fontSize: 12, color: "#92400e", marginTop: 4 }}>
 							{k.lyDoCanXem && <div>{k.lyDoCanXem}</div>}
 							{(k.loiCuoi ?? []).length > 0 && (
 								<ul style={{ margin: "4px 0 0", paddingLeft: 16 }}>
@@ -345,29 +333,97 @@ function KeHoachRow({ k, onDuyet, onBo }) {
 						</div>
 					)}
 				</td>
+				{/* Cột "Việc tiếp theo": MỘT nút chính cho mỗi trạng thái. Trước đây nút Duyệt, ô lý do
+				    và nút Bỏ nằm chen nhau nên không rõ việc nào mới là việc nên làm. */}
 				<td style={o}>
 					{suaDuoc ? (
-						<>
-							{k.trangThai !== "da_duyet" && <Nut chinh onClick={() => onDuyet(k.id)}>{k.trangThai === "can_xem" ? "Duyệt lại" : "Duyệt"}</Nut>}{" "}
-							<input placeholder="lý do bỏ (bắt buộc)" value={lyDo} onChange={(e) => setLyDo(e.target.value)} style={{ width: 130 }} />{" "}
-							{k.trangThai !== "bo_qua" && <Nut disabled={!lyDo.trim()} onClick={() => onBo(k.id, lyDo)}>Bỏ</Nut>}
-						</>
+						<div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
+							{k.trangThai !== "da_duyet" && (
+								<Nut chinh onClick={() => onDuyet(k.id)}>{k.trangThai === "can_xem" ? "Duyệt lại" : "Duyệt"}</Nut>
+							)}
+							{k.trangThai === "da_duyet" && (
+								<Nut chinh onClick={() => onViet?.(k.id)} disabled={!!dangViet}>
+									{dangViet === k.id ? "Đang viết…" : "Viết ngay"}
+								</Nut>
+							)}
+							{k.trangThai !== "bo_qua" && (
+								// MỘT nút, bấm là bỏ. Bắt gõ lý do là một bước thừa cho việc hay làm nhất ở
+								// bảng này; máy chủ vẫn đòi lý do nên gửi kèm câu mặc định, và nó hiện lại ở
+								// cột Trạng thái. Muốn ghi lý do riêng thì sửa sau trong chi tiết.
+								<Nut onClick={() => onBo(k.id, "Người quản trị bỏ")} style={{ fontSize: 12, padding: "3px 8px" }}>Bỏ</Nut>
+							)}
+							{vietKq?.id === k.id && (
+								<div style={{ flexBasis: "100%", fontSize: 13, color: vietKq.daBatDau ? "#1d4ed8" : "#92400e" }}>
+									{vietKq.daBatDau
+										? `Lò viết đang viết bằng ${vietKq.model} — bài đạt sẽ thành nháp ở tab Nháp (40–90 giây).`
+										: `Lò viết không nhận bài: ${vietKq.ghiChu}`}
+								</div>
+							)}
+						</div>
+					) : k.trangThai === "dang_viet" ? (
+						// Trạng thái trung gian VẪN phải chỉ đường: "—" làm người dùng tưởng bài chết ở đây.
+						<div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
+							{/* KHÔNG có phần trăm: model viết một lượt rồi trả cả bài, không báo tiến độ từng
+							    phần. Thứ đo được là ĐÃ GIỮ BAO LÂU và ĐANG Ở LƯỢT NỘP THỨ MẤY — nói đúng
+							    cái mình biết, không vẽ thanh tiến trình giả. */}
+							<span style={{ fontSize: 12, color: "#6b7280" }}>
+								{k.giuLuc ? `Bắt đầu ${lucTruoc(k.giuLuc)}` : "Lò viết đang giữ"}
+								{(k.soLanNop ?? 0) > 0 && ` · lượt nộp ${k.soLanNop}/3`}
+								{" · "}một bài mất 40–90 giây
+							</span>
+							<Nut onClick={() => onThuHoi?.(k.id)} style={{ fontSize: 12, padding: "3px 8px" }}>Thu hồi ngay</Nut>
+						</div>
+					) : k.trangThai === "co_nhap" && k.contentId ? (
+						<div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
+							<a
+								href={`/_emdash/admin/content/bai_viet/${k.contentId}`}
+								style={{ fontSize: 13, fontWeight: 600 }}
+							>
+								Mở nháp để sửa &amp; đăng →
+							</a>
+							<span style={{ fontSize: 12, color: "#6b7280" }}>Sửa trong trình soạn rồi bấm Publish ở đó.</span>
+						</div>
+					) : k.trangThai === "da_dang" && k.slug ? (
+						<a href={`${TRANG_GOC}/blog/${k.slug}/`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13 }}>
+							Xem bài đã đăng →
+						</a>
 					) : (
-						"—"
+						<span style={{ color: "#9ca3af" }}>—</span>
 					)}
 				</td>
 			</tr>
 			{moRong && (
 				<tr>
-					<td colSpan={8} style={{ ...o, background: "#fafafa" }}>
+					<td colSpan={3} style={{ ...o, background: "#fafafa", fontSize: 13 }}>
+						<div><b>Ý định:</b> {NHAN_Y_DINH[k.yDinh] ?? k.yDinh}</div>
+						{(k.tuKhoaPhu ?? []).length > 0 && <div><b>Từ khoá phụ:</b> {k.tuKhoaPhu.join(", ")}</div>}
+						<div>
+							<b>Trụ cột:</b>{" "}
+							<a href={`${TRANG_GOC}${k.trangTruCot}`} target="_blank" rel="noopener noreferrer">{k.trangTruCot}</a>
+						</div>
 						<div>
 							<b>Link đích ({(k.lienKetDich ?? []).length}):</b>{" "}
 							<DanhSachLink ds={k.lienKetDich} toiDa={12} hienThi={(d) => ({ href: `${TRANG_GOC}${d}`, nhan: d })} />
 						</div>
 						<div>
-							<b>Bài đối thủ khớp hướng (máy chủ tìm):</b>{" "}
-							<DanhSachLink ds={bc.baiDoiThu} toiDa={5} hienThi={(b) => ({ href: b.url, nhan: b.chuDe || b.url })} />
+							<b>Bằng chứng:</b> {bc.soDoiThu ?? 0} đối thủ / {bc.soBai ?? 0} bài{bc.trungXuHuong && " 📈"}
 						</div>
+						{(bc.canhBaoTrung ?? []).length > 0 && (
+							<ul style={{ margin: "4px 0 0", paddingLeft: 16, fontSize: 12, color: "#92400e" }}>
+								{bc.canhBaoTrung.map((t, i) => (
+									<li key={i}>
+										{/* 3 chữ số, làm tròn XUỐNG ở máy chủ: 0,296 không được hiện thành "0.30" = ngưỡng trùng. */}
+										⚠ gần giống: {t.tieuDe} (độ giống {Number(t.doGiong).toFixed(3)} — dưới ngưỡng trùng 0.30, vẫn nhận)
+									</li>
+								))}
+							</ul>
+						)}
+						{(bc.baiDoiThu ?? []).length > 0 && (
+							<div>
+								<b>Bài đối thủ khớp hướng:</b>{" "}
+								<DanhSachLink ds={bc.baiDoiThu} toiDa={5} hienThi={(b) => ({ href: b.url, nhan: b.chuDe || b.url })} />
+							</div>
+						)}
 					</td>
 				</tr>
 			)}
@@ -375,89 +431,97 @@ function KeHoachRow({ k, onDuyet, onBo }) {
 	);
 }
 
-function KeHoachTab({ dl, loi, onDuyet, onBo }) {
-	const [locTrangThai, setLocTrangThai] = useState("de_xuat");
+function KeHoachTab({ dl, loi, onDuyet, onBo, onViet, dangViet, vietKq, onThuHoi, onTai }) {
+	// Lò viết chạy NỀN ở máy chủ: không có sự kiện đẩy về, nên trang phải tự hỏi lại. Thiếu cái
+	// này thì người bấm "Viết ngay" nhìn mãi một màn hình "Đang viết" mà không biết đã xong chưa
+	// (đo 02/10/2026). Chỉ hỏi khi CÒN bài đang viết, và dừng ngay khi hết — không hỏi vô cớ.
+	const soDangViet = (dl?.keHoach ?? []).filter((k) => k.trangThai === "dang_viet").length;
+	const [caViet, setCaViet] = useState(null);
+	const taiCa = useCallback(() => goi("lo-viet-ca-gan-nhat").then((r) => setCaViet(r.ca), () => {}), []);
+	useEffect(() => {
+		taiCa();
+	}, [taiCa, dl]);
+	useEffect(() => {
+		if (!soDangViet || !onTai) return;
+		const h = setInterval(() => {
+			onTai();
+			taiCa();
+		}, 10_000);
+		return () => clearInterval(h);
+	}, [soDangViet, onTai, taiCa]);
+	const dem = {};
+	for (const k of dl?.keHoach ?? []) dem[k.trangThai] = (dem[k.trangThai] ?? 0) + 1;
+	// Mặc định = chip đầu tiên CÓ BÀI theo thứ tự việc. Người mở tab thấy ngay việc gấp nhất.
+	const macDinh = CHIP_KE_HOACH.find((c) => dem[c.key])?.key ?? "tat_ca";
+	const [loc, setLoc] = useState(null);
 	if (!dl) return <ChuaCoDuLieu loi={loi} />;
-	// Tab mở ở bộ lọc "Chờ duyệt" nên bài lò viết bỏ cuộc (can_xem) không hiện — dải này báo chúng.
-	const soCanXem = dl.keHoach.filter((k) => k.trangThai === "can_xem").length;
-	const huongById = new Map(dl.huong.map((h) => [h.id, h]));
+	const chon = loc ?? macDinh;
 	const cumById = new Map(dl.cum.map((c) => [c.id, c]));
-	const items = dl.keHoach.filter((k) => locTrangThai === "tat_ca" || k.trangThai === locTrangThai);
-	const theoHuong = new Map();
-	const nhomCum = (hId, cId) => {
-		if (!theoHuong.has(hId)) theoHuong.set(hId, new Map());
-		const theoCum = theoHuong.get(hId);
-		if (!theoCum.has(cId)) theoCum.set(cId, []);
-		return theoCum.get(cId);
-	};
-	for (const k of items) nhomCum(k.huongId ?? cumById.get(k.cumId)?.huongId ?? "?", k.cumId).push(k);
-	// Cụm đang đề xuất mà CHƯA có bài dự kiến nào (ở mọi trạng thái): vẫn hiện, để người duyệt
-	// thấy cụm nào routine tuần chưa lập kế hoạch — trước đây chúng biến mất khỏi tab này.
-	const cumCoKeHoach = new Set(dl.keHoach.map((k) => k.cumId));
-	for (const c of dl.cum) if (c.trangThai !== "cu" && !cumCoKeHoach.has(c.id)) nhomCum(c.huongId ?? "?", c.id);
+	const items = dl.keHoach.filter((k) => chon === "tat_ca" || k.trangThai === chon);
+	const moTa = CHIP_KE_HOACH.find((c) => c.key === chon)?.mo ?? "";
 	return (
 		<div>
 			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
-			{soCanXem > 0 && (
-				<div role="alert" style={{ border: "1px solid #f59e0b", background: "#fffbeb", borderRadius: 8, padding: "8px 12px", marginBottom: 12 }}>
-					<b>⚠ {soCanXem} bài máy viết chưa đạt — cần bạn xem lại.</b>{" "}
-					{locTrangThai === "can_xem" ? (
-						<span>Đang hiện bên dưới: đọc lý do ở cột Trạng thái rồi bấm “Duyệt lại” hoặc “Bỏ”.</span>
-					) : (
-						<Nut chinh onClick={() => setLocTrangThai("can_xem")}>Xem {soCanXem} bài này</Nut>
-					)}
+			<h2 style={{ marginBottom: 8 }}>Kế hoạch ({dl.keHoach.length})</h2>
+			{/* Bộ lọc là CHIP CÓ SỐ, không phải <select>: trạng thái nào đang có việc phải thấy ngay
+			    mà không cần mở ra xem. Chip rỗng vẫn hiện (mờ) để biết vòng đời có những chặng nào. */}
+			<div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 6 }}>
+				{CHIP_KE_HOACH.map((c) => {
+					const n = dem[c.key] ?? 0;
+					return (
+						<Nut key={c.key} dangChon={chon === c.key} onClick={() => setLoc(c.key)} style={{ opacity: n ? 1 : 0.45 }}>
+							<span style={{ color: n ? c.mau : undefined, fontWeight: 600 }}>{c.nhan}</span> ({n})
+						</Nut>
+					);
+				})}
+				<Nut dangChon={chon === "tat_ca"} onClick={() => setLoc("tat_ca")}>Tất cả ({dl.keHoach.length})</Nut>
+			</div>
+			{moTa && <p style={{ color: "#6b7280", fontSize: 13, margin: "0 0 4px" }}>{moTa}</p>}
+			<p style={{ color: "#6b7280", fontSize: 12, margin: "0 0 8px", display: "flex", gap: 8, alignItems: "center" }}>
+				{soDangViet > 0 && <span>⟳ Đang tự hỏi lại mỗi 10 giây vì còn {soDangViet} bài đang viết.</span>}
+				<Nut onClick={onTai} style={{ fontSize: 12, padding: "2px 8px" }}>Tải lại</Nut>
+			</p>
+			{/* Lý do lò viết thất bại nằm ở MÁY CHỦ (route trả lời trước khi ca xong), nên phải đọc
+			    lại nhật ký ca. Không có khối này thì người dùng chỉ thấy bài quay về "Chờ viết" mà
+			    không biết vì sao — đo 02/10/2026: nguyên nhân thật là hết quota API, chỉ log mới có. */}
+			{caViet && caViet.daTao === 0 && (caViet.ghiChu ?? []).length > 0 && (
+				<div style={{ border: "1px solid #fcd34d", background: "#fffbeb", borderRadius: 8, padding: "8px 12px", margin: "0 0 12px", fontSize: 13 }}>
+					<b>Lần viết gần nhất không ra bài</b> ({gio(caViet.luc)}):
+					<ul style={{ margin: "4px 0 0", paddingLeft: 18 }}>
+						{caViet.ghiChu.slice(0, 3).map((g, i) => (
+							<li key={i}>{/HTTP 429/.test(g) ? "Hết quota API của Google AI Studio hôm nay — đổi model trong cms/.env hoặc bật thanh toán." : g.slice(0, 220)}</li>
+						))}
+					</ul>
 				</div>
 			)}
-			<h2>Kế hoạch ({dl.keHoach.length})</h2>
-			<p>
-				Lọc theo trạng thái:{" "}
-				<select value={locTrangThai} onChange={(e) => setLocTrangThai(e.target.value)}>
-					<option value="tat_ca">Tất cả</option>
-					{Object.entries(NHAN_KE_HOACH).map(([k, n]) => (
-						<option key={k} value={k}>{n}</option>
-					))}
-				</select>
-			</p>
-			{theoHuong.size === 0 && <p>Không có bài dự kiến nào khớp bộ lọc.</p>}
-			{items.length === 0 && theoHuong.size > 0 && <p>Không có bài dự kiến nào khớp bộ lọc — bên dưới chỉ còn các cụm chưa có kế hoạch.</p>}
-			{[...theoHuong.entries()].map(([hId, theoCum]) => (
-				<div key={hId} style={{ marginBottom: 24 }}>
-					<h3>{huongById.get(hId)?.ten ?? `(hướng ${hId})`}</h3>
-					{[...theoCum.entries()].map(([cId, ds]) => {
-						const cum = cumById.get(cId);
-						const cu = cum?.trangThai === "cu";
-						const boQua = cum?.chiSo?.soBangChungBoQua ?? 0;
-						// Cụm "cu": lượt phân cụm sau đã thay, không nhận bài mới — nhưng bài của nó vẫn duyệt/bỏ được.
-						return (
-						<div key={cId} style={{ marginLeft: 16, marginBottom: 12 }}>
-							<h4 style={{ color: cu ? "#9ca3af" : undefined }}>
-								{cum?.ten ?? `(cụm ${cId})`}
-								{cu && <span style={{ fontWeight: 400, fontSize: 12 }}> — cụm cũ (đã được thay)</span>}
-								{boQua > 0 && <span style={{ fontWeight: 400, fontSize: 12, color: "#92400e" }}> · {boQua} bằng chứng không khớp đã loại</span>}
-							</h4>
-							{ds.length === 0 ? (
-								<p style={{ color: "#6b7280", fontStyle: "italic" }}>Chưa có kế hoạch.</p>
-							) : (
-							<table style={{ borderCollapse: "collapse", width: "100%" }}>
-								<thead>
-									<tr>
-										<th style={o}>Tiêu đề tạm</th><th style={o}>Từ khoá chính / phụ</th><th style={o}>Ý định</th>
-										<th style={o}>Trụ cột</th><th style={o}>Link đích</th><th style={o}>Bằng chứng</th>
-										<th style={o}>Trạng thái</th><th style={o}></th>
-									</tr>
-								</thead>
-								<tbody>
-									{ds.map((k) => (
-										<KeHoachRow key={k.id} k={k} onDuyet={onDuyet} onBo={onBo} />
-									))}
-								</tbody>
-							</table>
-							)}
-						</div>
-						);
-					})}
-				</div>
-			))}
+			{items.length === 0 ? (
+				<p style={{ color: "#6b7280" }}>Không có bài dự kiến nào ở trạng thái này.</p>
+			) : (
+				<table style={{ borderCollapse: "collapse", width: "100%", maxWidth: 1000 }}>
+					<thead>
+						<tr>
+							<th style={o}>Bài dự kiến</th>
+							<th style={o}>Trạng thái</th>
+							<th style={o}>Việc tiếp theo</th>
+						</tr>
+					</thead>
+					<tbody>
+						{items.map((k) => (
+							<KeHoachRow
+								key={k.id}
+								k={k}
+								tenCum={cumById.get(k.cumId)?.ten}
+								onDuyet={onDuyet}
+								onBo={onBo}
+								onViet={onViet}
+								dangViet={dangViet}
+								vietKq={vietKq}
+								onThuHoi={onThuHoi}
+							/>
+						))}
+					</tbody>
+				</table>
+			)}
 		</div>
 	);
 }
@@ -967,6 +1031,260 @@ function NhapTab({ dl, loi, onTai }) {
 	);
 }
 
+// ---- Tab Khoảng trống (02/10/2026) ----
+// Trục: CHIỀU CAO THÁP, không phải số bài đối thủ. Ba giỏ tách bạch vì là ba loại VIỆC:
+// viết mới / leo top / chờ người xác nhận nghĩa. Xem khoang-trong/ho-so.mjs.
+const KHUNG_O = { border: "1px solid #e5e5e5", borderRadius: 8, padding: "10px 12px", background: "#fafafa" };
+
+function HoSoCum({ hoSo, onGiao, dangGiao, giaoKq, giaoLoi, onSangTab, daCo, onViet, dangViet, vietKq, onNangHanNgach }) {
+	if (!hoSo) return null;
+	return (
+		<div style={{ ...KHUNG_O, marginTop: 10 }}>
+			<div style={{ marginBottom: 8 }}>
+				<b>Hồ sơ cụm — {hoSo.cum}</b>{" "}
+				<span style={{ color: "#666" }}>
+					{hoSo.soBaiThuoc} bài thuốc · {hoSo.soViKhacNhau} vị · {hoSo.theBenh?.length ?? 0} thể bệnh · {hoSo.nguonYVan?.length ?? 0} nguồn
+				</span>
+				{hoSo.bienThe?.length > 1 && <div style={{ color: "#666", fontSize: 12 }}>Gom theo từ vựng Đông y: {hoSo.bienThe.join(" · ")}</div>}
+			</div>
+
+			{(hoSo.canhBao ?? []).map((c, i) => (
+				<div key={i} style={{ color: "#b91c1c", marginBottom: 6 }}>⚠ {c}</div>
+			))}
+
+			{(hoSo.theBenh ?? []).map((t, i) => (
+				<div key={i} style={{ ...KHUNG_O, background: "#fff", marginBottom: 8 }}>
+					<div><b>{t.phapTri}</b> <span style={{ color: "#666" }}>— {t.soBai} bài thuốc</span></div>
+					{t.chungTrangTheoYVan?.[0] && <div style={{ color: "#444", fontSize: 13, margin: "4px 0" }}>{t.chungTrangTheoYVan[0]}</div>}
+					<div style={{ fontSize: 13 }}>
+						Vị chính:{" "}
+						<DanhSachLink ds={t.viThuocChinh} toiDa={6} hienThi={(v) => ({ href: `${TRANG_GOC}${v.duong}`, nhan: `${v.ten}${v.tinhVi ? ` (${v.tinhVi})` : ""}` })} />
+					</div>
+					<div style={{ fontSize: 13 }}>
+						Bài tiêu biểu: <DanhSachLink ds={t.baiThuocTieuBieu} toiDa={3} hienThi={(b) => ({ href: `${TRANG_GOC}${b.duong}`, nhan: b.ten })} />
+					</div>
+				</div>
+			))}
+
+			<div style={{ fontSize: 13, marginBottom: 6 }}>
+				Vị hay dùng nhất:{" "}
+				<DanhSachLink ds={hoSo.viHayDung} toiDa={12} hienThi={(v) => ({ href: `${TRANG_GOC}${v.duong}`, nhan: `${v.ten} (${v.soBaiDung})` })} />
+			</div>
+			<div style={{ fontSize: 13 }}>
+				Nguồn y văn:{" "}
+				<DanhSachLink ds={hoSo.nguonYVan} toiDa={8} hienThi={(n) => ({ href: `${TRANG_GOC}${n.duong}`, nhan: `${n.ten}${n.nienDai ? ` [${n.nienDai}]` : ""} ×${n.soBaiDan}` })} />
+			</div>
+
+			<div style={{ marginTop: 10, display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+				{daCo ? (
+					// Cụm đã có trang: viết bài mới là tự trùng chính mình — đẩy sang việc leo top.
+					<Nut onClick={() => onSangTab?.("leo-top")}>Trang đã có — sang tab Leo top</Nut>
+				) : (
+					<Nut chinh onClick={onGiao} disabled={dangGiao || !hoSo.theBenh?.length}>
+						{dangGiao ? "Đang giao…" : "Giao cho lò viết"}
+					</Nut>
+				)}
+				<span style={{ color: "#666", fontSize: 12 }}>
+					{daCo ? "Cụm này đã có trang nhắm nhu cầu; việc còn lại là nâng hạng trang đó." : "Tạo một bài dự kiến đã duyệt; lò viết nhận ở ca sau, bài nộp về tab Nháp — không tự đăng."}
+				</span>
+			</div>
+			{giaoKq && (
+				<div style={{ ...KHUNG_O, background: "#f0fdf4", borderColor: "#86efac", marginTop: 8, display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+					<span>
+						{giaoKq.daCoSan ? "Cụm này đã có bài dự kiến" : "✓ Đã tạo bài dự kiến"} <b>{giaoKq.tieuDeLamViec}</b> ({giaoKq.soLienKet} liên kết nội bộ)
+						{giaoKq.daCoSan && " — không tạo thêm bài trùng."}
+					</span>
+					<Nut chinh onClick={onViet} disabled={dangViet}>{dangViet ? "Đang gọi model…" : "Viết ngay"}</Nut>
+					<Nut onClick={() => onSangTab?.("ke-hoach")}>Mở tab Kế hoạch</Nut>
+				</div>
+			)}
+			{vietKq &&
+				(vietKq.daBatDau ? (
+					<div style={{ ...KHUNG_O, background: "#eff6ff", borderColor: "#93c5fd", marginTop: 8, display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+						<span>
+							Lò viết nhận <b>{vietKq.soBai}</b> bài, đang viết bằng <b>{vietKq.model}</b>. Một bài mất 40–90 giây
+							(có vòng sửa tối đa 3 lượt); bài đạt thành <b>nháp chờ duyệt</b>, không tự đăng.
+						</span>
+						<Nut onClick={() => onSangTab?.("nhap")}>Mở tab Nháp</Nut>
+					</div>
+				) : (
+					// Lò viết từ chối lặng lẽ ở nhiều chỗ (hết hạn ngạch đêm, đủ nháp chờ duyệt…).
+					// Nói thẳng lý do thay vì báo "đã bắt đầu" rồi để người dùng đợi một bài không tới.
+					<div style={{ ...KHUNG_O, background: "#fffbeb", borderColor: "#fcd34d", marginTop: 8 }}>
+						<div>
+							Lò viết <b>không nhận bài nào</b>: {vietKq.ghiChu}.
+							{typeof vietKq.conLaiDemNay === "number" && ` Hạn ngạch còn lại đêm nay: ${vietKq.conLaiDemNay} bài.`}
+						</div>
+						{/^hết hạn ngạch/.test(vietKq.ghiChu ?? "") && (
+							<div style={{ marginTop: 8, display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap" }}>
+								<span style={{ fontSize: 13 }}>Nâng hạn ngạch đêm nay:</span>
+								{[3, 4, 5].map((n) => (
+									<Nut key={n} onClick={() => onNangHanNgach?.(n)}>{n} bài</Nut>
+								))}
+							</div>
+						)}
+					</div>
+				))}
+			{giaoLoi && <div style={{ color: "#b91c1c", marginTop: 8 }}>{giaoLoi}</div>}
+
+			{/* Lỗ thủng tháp là việc cho NGƯỜI: bot không tự viết được một mục từ điển mới. */}
+			{hoSo.loThung?.length > 0 && (
+				<div style={{ ...KHUNG_O, background: "#fff7ed", borderColor: "#fdba74", marginTop: 10 }}>
+					<b style={{ color: "#9a3412" }}>Lỗ thủng tháp — việc cho người</b>
+					<div style={{ fontSize: 13, marginTop: 4 }}>
+						Vị dùng nhiều trong cụm này mà <b>chưa có mục từ điển</b>:{" "}
+						{hoSo.loThung.map((v) => `${v.ten} (${v.soBaiDung} bài)`).join(", ")}
+					</div>
+				</div>
+			)}
+		</div>
+	);
+}
+
+function GioCum({ ten, mo, ds, mau, hienHoSo, cumMo, hoSo, hoSoLoi, dangTai, onGiao, dangGiao, giaoKq, giaoLoi, onSangTab, onViet, dangViet, vietKq, onNangHanNgach }) {
+	if (!ds?.length) return null;
+	return (
+		<div style={{ marginBottom: 18 }}>
+			<h3 style={{ margin: "0 0 2px", color: mau }}>{ten} <span style={{ color: "#666", fontWeight: 400 }}>({ds.length})</span></h3>
+			<div style={{ color: "#666", fontSize: 13, marginBottom: 6 }}>{mo}</div>
+			<table style={{ borderCollapse: "collapse", width: "100%", maxWidth: 860 }}>
+				<thead>
+					<tr>
+						<th style={o}>Cụm</th>
+						<th style={o}>Tháp</th>
+						<th style={o}>Trang mình</th>
+						<th style={o} />
+					</tr>
+				</thead>
+				<tbody>
+					{ds.map((x) => (
+						<Fragment key={x.ten}>
+							<tr>
+								<td style={o}><b>{x.ten}</b>{x.lyDo && <div style={{ color: "#92400e", fontSize: 12 }}>⚠ {x.lyDo}</div>}</td>
+								<td style={o}>{x.soBai} bài · {x.soVi} vị</td>
+								<td style={o}>
+									{x.daCo ? (
+										<a href={`${TRANG_GOC}/${x.bo === "benh_hoc" ? "benh-hoc" : "cham-cuu-tri-benh"}/${x.slug}/`} target="_blank" rel="noopener noreferrer">đã có</a>
+									) : (
+										<span style={{ color: "#15803d" }}>chưa có</span>
+									)}
+								</td>
+								<td style={o}>
+									<Nut onClick={() => hienHoSo(x.ten)} disabled={dangTai === x.ten} dangChon={cumMo === x.ten}>
+										{dangTai === x.ten ? "Đang dựng…" : cumMo === x.ten ? "Đóng hồ sơ" : "Mở hồ sơ"}
+									</Nut>
+								</td>
+							</tr>
+							{/* Hồ sơ bung NGAY DƯỚI hàng được bấm. Đặt sau cả bảng thì bấm hàng đầu của một
+							    bảng 25 dòng là hồ sơ hiện ngoài tầm nhìn, trông y như nút không ăn. */}
+							{cumMo === x.ten && (
+								<tr>
+									<td style={{ ...o, background: "#fafafa" }} colSpan={4}>
+										{hoSoLoi ? (
+											<div style={{ color: "#b91c1c" }}>{hoSoLoi}</div>
+										) : (
+											<HoSoCum hoSo={hoSo} onGiao={onGiao} dangGiao={dangGiao} giaoKq={giaoKq} giaoLoi={giaoLoi} onSangTab={onSangTab} daCo={x.daCo} onViet={onViet} dangViet={dangViet} vietKq={vietKq} onNangHanNgach={onNangHanNgach} />
+										)}
+									</td>
+								</tr>
+							)}
+						</Fragment>
+					))}
+				</tbody>
+			</table>
+		</div>
+	);
+}
+
+function KhoangTrongTab({ dl, loi, onTai, onSangTab }) {
+	const [cumMo, setCumMo] = useState(null);
+	const [hoSo, setHoSo] = useState(null);
+	const [hoSoLoi, setHoSoLoi] = useState("");
+	const [dangTai, setDangTai] = useState(null);
+	const [dangGiao, setDangGiao] = useState(false);
+	const [giaoKq, setGiaoKq] = useState(null);
+	const [giaoLoi, setGiaoLoi] = useState("");
+	const [dangViet, setDangViet] = useState(false);
+	const [vietKq, setVietKq] = useState(null);
+	if (!dl)
+		return loi ? (
+			<ChuaCoDuLieu loi={loi} />
+		) : (
+			// Lượt đầu mất hơn 10 giây (hỏi kho app + nạp trang bệnh học); nói rõ đang chờ gì,
+			// không để người dùng nhìn "Đang tải…" trơ mà tưởng hỏng.
+			<div style={{ padding: 24, color: "#666" }}>Đang hỏi kho app và đối chiếu trang đã có… lượt đầu mất khoảng 10–15 giây.</div>
+		);
+
+	const hienHoSo = (ten) => {
+		if (cumMo === ten) { setCumMo(null); return; }
+		setDangTai(ten); setHoSoLoi(""); setHoSo(null);
+		setGiaoKq(null); setGiaoLoi(""); setVietKq(null);
+		goi("khoang-trong-ho-so", { cum: ten, bienThe: [] })
+			.then((h) => { setHoSo(h); setCumMo(ten); })
+			.catch((e) => { setHoSoLoi(loiCua(e)); setCumMo(ten); })
+			.finally(() => setDangTai(null));
+	};
+
+	const giaoViec = () => {
+		if (!cumMo) return;
+		setDangGiao(true); setGiaoLoi(""); setGiaoKq(null);
+		goi("khoang-trong-giao-viec", { cum: cumMo, bienThe: [] })
+			.then(setGiaoKq)
+			.catch((e) => setGiaoLoi(loiCua(e)))
+			.finally(() => setDangGiao(false));
+	};
+	// Lò viết chạy NỀN ở máy chủ: route trả ngay, bài xuất hiện ở tab Nháp sau vài phút.
+	const vietNgay = () => {
+		setDangViet(true);
+		setVietKq(null);
+		goi("lo-viet-chay", { keHoachId: giaoKq?.id })
+			.then(setVietKq)
+			.catch((e) => setGiaoLoi(loiCua(e)))
+			.finally(() => setDangViet(false));
+	};
+	const nangHanNgach = (n) => {
+		setDangViet(true);
+		goi("lo-viet-han-ngach", { so: n })
+			.then(() => goi("lo-viet-chay", { keHoachId: giaoKq?.id }))
+			.then(setVietKq)
+			.catch((e) => setGiaoLoi(loiCua(e)))
+			.finally(() => setDangViet(false));
+	};
+	const phu = { hienHoSo, cumMo, hoSo, hoSoLoi, dangTai, onGiao: giaoViec, dangGiao, giaoKq, giaoLoi, onSangTab, onViet: vietNgay, dangViet, vietKq, onNangHanNgach: nangHanNgach };
+
+	return (
+		<div>
+			<div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 10 }}>
+				<Nut onClick={onTai}>Tải lại</Nut>
+				<span style={{ color: "#666", fontSize: 13 }}>
+					{dl.soUngVien} cụm có tháp dày trong kho. Trục đo là chiều cao tháp (vị thuốc, bài thuốc, nguồn y văn đứng sau), không phải số bài đối thủ.
+				</span>
+			</div>
+			{dl.loi && <div style={{ color: "#b91c1c", marginBottom: 10 }}>{dl.loi}</div>}
+
+			<GioCum
+				ten="Chờ viết" mau="#15803d"
+				mo="Có tháp, chưa có trang nhắm nhu cầu. Đây là việc của lò viết."
+				ds={dl.choViet} {...phu}
+			/>
+			<GioCum
+				ten="Đã có trang — việc leo top" mau="#92400e"
+				mo="Trang đã tồn tại. Viết bài mới ở đây là tự trùng chính mình; đưa sang tab Leo top."
+				ds={dl.leoTop} {...phu}
+			/>
+			<GioCum
+				ten="Chờ bạn xác nhận nghĩa" mau="#b45309"
+				mo="Cụm có nghĩa kép giữa Đông y và tiếng Việt thường dùng. Máy KHÔNG tự xếp hạng — tháp đo được có thể thuộc nghĩa khác với điều người đọc đang tìm."
+				ds={dl.choXacNhan} {...phu}
+			/>
+
+			{!dl.choViet?.length && !dl.leoTop?.length && !dl.choXacNhan?.length && !dl.loi && (
+				<div style={{ color: "#666" }}>Chưa có cụm nào đạt ngưỡng tháp.</div>
+			)}
+		</div>
+	);
+}
+
 function RadaSeo() {
 	const [dl, setDl] = useState(null);
 	const [loi, setLoi] = useState("");
@@ -979,10 +1297,19 @@ function RadaSeo() {
 	const [thongBao, setThongBao] = useState("");
 	const [nhDl, setNhDl] = useState(null);
 	const [nhLoi, setNhLoi] = useState("");
+	const [ktDl, setKtDl] = useState(null);
+	const [ktLoi, setKtLoi] = useState("");
+	const [khDangViet, setKhDangViet] = useState(null);
+	const [cnDl, setCnDl] = useState(null);
+	const [cnLoi, setCnLoi] = useState("");
+	const [khVietKq, setKhVietKq] = useState(null);
 
 	// `tai` trả true khi route tổng quan từ chối vì quyền (403) — xem useEffect bên dưới.
 	const tai = useCallback(() => goi("tong-quan").then((d) => { setDl(d); setLoi(""); return false; }, (e) => { setLoi(loiCua(e)); return e?.status === 403; }), []);
 	const taiCL = useCallback(() => goi("chien-luoc-tong-quan").then((d) => { setClDl(d); setCLoi(""); }, (e) => setCLoi(loiCua(e))), []);
+	// Tải theo yêu cầu: route này hỏi sang app và quét bảng bài thuốc, không nên chạy khi mở màn.
+	const taiCN = useCallback(() => goi("cum-ngu-nghia").then((d) => { setCnDl(d); setCnLoi(""); }, (e) => setCnLoi(loiCua(e))), []);
+	const taiKT = useCallback(() => goi("khoang-trong-tong-quan").then((d) => { setKtDl(d); setKtLoi(""); }, (e) => setKtLoi(loiCua(e))), []);
 	const taiLT = useCallback(() => goi("leo-top-tong-quan").then((d) => { setLtDl(d); setLtLoi(""); }, (e) => setLtLoi(loiCua(e))), []);
 	const taiNh = useCallback(() => goi("nhap-tong-quan").then((d) => { setNhDl(d); setNhLoi(""); }, (e) => setNhLoi(loiCua(e, KHONG_QUYEN_NHAP))), []);
 	useEffect(() => {
@@ -1001,7 +1328,23 @@ function RadaSeo() {
 	const doiTab = (t) => {
 		setTab(t);
 		luuTab(t);
+		// Tab Khoảng trống hỏi sang kho app và quét bảng bài thuốc (vài giây), nên chỉ tải khi
+		// người dùng mở nó, và chỉ lần đầu — nút "Tải lại" lo phần làm mới.
+		if (t === "khoang-trong" && !ktDl) taiKT();
+		if (t === "huong" && !cnDl) taiCN();
+		// Sang tab Kế hoạch thì tải lại: bài dự kiến vừa tạo từ tab Khoảng trống phải hiện ngay,
+		// không bắt người dùng tự bấm "Tải lại" rồi tưởng nút Giao không ăn.
+		if (t === "ke-hoach") taiCL();
+		if (t === "nhap") taiNh();
 	};
+
+	// ⚠️ PHẢI có effect này, không chỉ dựa vào doiTab: tab được KHÔI PHỤC từ localStorage lúc mở
+	// màn (useState(tabDaLuu)) chứ không đi qua doiTab, nên người mở lại trang khi đang ở tab
+	// Khoảng trống sẽ kẹt ở "Đang tải…" vĩnh viễn — route chưa bao giờ được gọi. Đã cắn 02/10/2026.
+	useEffect(() => {
+		if (tab === "khoang-trong" && !ktDl && !ktLoi) taiKT();
+		if (tab === "huong" && !cnDl && !cnLoi) taiCN();
+	}, [tab, ktDl, ktLoi, taiKT, cnDl, cnLoi, taiCN]);
 
 	// Không trả sớm khi chưa có dữ liệu: thanh tab phải luôn hiện, không thì người không đủ quyền
 	// xem tab Radar bị kẹt ở một dòng lỗi, không có lối sang tab Nháp.
@@ -1129,15 +1472,7 @@ function RadaSeo() {
 					</>
 				))}
 
-			{tab === "huong" && (
-				<HuongTab
-					dl={clDl}
-					loi={cLoi}
-					onNhan={(id, trongSo) => lamCL("huong-dat", { id, trangThai: "da_nhan", trongSo })}
-					onBo={(id, lyDo) => lamCL("huong-dat", { id, trangThai: "bo_qua", lyDoBo: lyDo })}
-					onKhoiPhuc={(id) => lamCL("huong-dat", { id, trangThai: "de_xuat" })}
-				/>
-			)}
+			{tab === "huong" && <CumNguNghiaTab dl={cnDl} loi={cnLoi} onTai={taiCN} onSangTab={doiTab} />}
 
 			{tab === "ke-hoach" && (
 				<KeHoachTab
@@ -1145,6 +1480,21 @@ function RadaSeo() {
 					loi={cLoi}
 					onDuyet={(id) => lamCL("ke-hoach-dat", { id, trangThai: "da_duyet" })}
 					onBo={(id, lyDo) => lamCL("ke-hoach-dat", { id, trangThai: "bo_qua", lyDoBo: lyDo })}
+					dangViet={khDangViet}
+					vietKq={khVietKq}
+					onTai={taiCL}
+					onThuHoi={(id) => lamCL("ke-hoach-thu-hoi", { id })}
+					onViet={(id) => {
+						setKhDangViet(id);
+						setKhVietKq(null);
+						goi("lo-viet-chay", { keHoachId: id })
+							.then((r) => setKhVietKq({ ...r, id }))
+							.catch((e) => setKhVietKq({ id, daBatDau: false, ghiChu: loiCua(e) }))
+							.finally(() => {
+								setKhDangViet(null);
+								taiCL();
+							});
+					}}
 				/>
 			)}
 
@@ -1156,6 +1506,8 @@ function RadaSeo() {
 					onDaSua={(id, ngay) => goi("leo-top-da-sua", { id, ngay }).then(taiLT, (e) => setLtLoi(loiCua(e)))}
 				/>
 			)}
+
+			{tab === "khoang-trong" && <KhoangTrongTab dl={ktDl} loi={ktLoi} onTai={taiKT} onSangTab={doiTab} />}
 
 			{tab === "nhap" && <NhapTab dl={nhDl} loi={nhLoi} onTai={taiNh} />}
 		</div>

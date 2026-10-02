@@ -23,7 +23,22 @@ const trongDai = (s, k) => s.length >= NGUONG[k][0] && s.length <= NGUONG[k][1];
 /** Câu mô tả dải cho lời dặn — để lời dặn không gõ lại con số. */
 export const CAU_NGUONG = `tieuDe ${dai("tieuDe")} ký tự, có từ khoá chính; moTa ${dai("moTa")} ký tự`;
 
-const co = (vanBan, tuKhoa) => boDau(vanBan).includes(boDau(tuKhoa));
+/**
+ * Từ khoá "có mặt" trong văn bản: khớp nguyên cụm, HOẶC đủ mọi từ của cụm (mỗi từ là một từ
+ * trọn vẹn, không phải khớp giữa chữ).
+ *
+ * ⚠️ Vì sao không chỉ `includes` nguyên cụm: tiêu đề "Chảy máu cam: Nguyên nhân và cách hỗ trợ
+ * theo Đông y" chứa đủ từ khoá "chảy máu cam theo đông y" nhưng không liền mạch, nên phép chấm
+ * cũ báo TRƯỢT một tiêu đề đúng (đo 02/10/2026). Phiếu báo sai thì người duyệt học cách bỏ qua
+ * cả phiếu — kể cả mục phạm vi Y sỹ nằm ngay bên cạnh.
+ */
+const co = (vanBan, tuKhoa) => {
+	const v = boDau(vanBan);
+	const k = boDau(tuKhoa).trim();
+	if (!k) return false;
+	if (v.includes(k)) return true;
+	return k.split(/\s+/).every((tu) => new RegExp(`(?:^|[^a-z0-9])${tu.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:[^a-z0-9]|$)`).test(v));
+};
 
 /** Đoạn văn đầu tiên không phải tiêu đề mục, không phải ảnh. */
 function doanDau(md) {

@@ -535,6 +535,13 @@
     <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0035-an-duong.webp</image:loc><image:title>Sơ đồ huyệt Ấn Đường</image:title></image:image>
   </url>
   <url>
+    <loc>https://kinhlac.online/huyet/ba-hoi-thap-tu-thich/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0036-ba-hoi-thap-tu-thich.webp</image:loc><image:title>Sơ đồ huyệt Bá Hội Thập Tự Thích</image:title></image:image>
+  </url>
+  <url>
     <loc>https://kinhlac.online/huyet/bach-chung-phong/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -638,6 +645,12 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0054-bat-du.webp</image:loc><image:title>Sơ đồ huyệt Bát Du</image:title></image:image>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/bat-hoa/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/bat-lieu/</loc>
@@ -750,6 +763,12 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0072-boi-giap-trung-gian.webp</image:loc><image:title>Sơ đồ huyệt Bối Giáp Trung Gian</image:title></image:image>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/boi-lam/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/boi-phung/</loc>
@@ -1286,16 +1305,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://kinhlac.online/huyet/duong-tri/</loc>
-    <lastmod>2026-09-25</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-    <image:image><image:loc>https://kinhlac.online/anh/huyet/duong-tri-tren-da.webp</image:loc><image:title>Dương Trì — trên da</image:title></image:image>
-    <image:image><image:loc>https://kinhlac.online/anh/huyet/duong-tri-tren-giai-phau.webp</image:loc><image:title>Dương Trì — trên giải phẫu</image:title></image:image>
-    <image:image><image:loc>https://kinhlac.online/anh/huyet/duong-tri-huyet-lan-can.webp</image:loc><image:title>Dương Trì — huyệt lân cận</image:title></image:image>
-    <image:image><image:loc>https://kinhlac.online/anh/huyet/duong-tri-toan-duong-kinh.webp</image:loc><image:title>Dương Trì — toàn đường kinh</image:title></image:image>
-  </url>
-  <url>
     <loc>https://kinhlac.online/huyet/duong-lao/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -1353,6 +1362,16 @@
     <image:image><image:loc>https://kinhlac.online/anh/huyet/dai-chung-tren-giai-phau.webp</image:loc><image:title>Đại Chung — trên giải phẫu</image:title></image:image>
     <image:image><image:loc>https://kinhlac.online/anh/huyet/dai-chung-huyet-lan-can.webp</image:loc><image:title>Đại Chung — huyệt lân cận</image:title></image:image>
     <image:image><image:loc>https://kinhlac.online/anh/huyet/dai-chung-toan-duong-kinh.webp</image:loc><image:title>Đại Chung — toàn đường kinh</image:title></image:image>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/dai-chuy/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/dai-chuy-tren-da.webp</image:loc><image:title>Đại Chùy — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/dai-chuy-tren-giai-phau.webp</image:loc><image:title>Đại Chùy — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/dai-chuy-huyet-lan-can.webp</image:loc><image:title>Đại Chùy — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/dai-chuy-toan-duong-kinh.webp</image:loc><image:title>Đại Chùy — toàn đường kinh</image:title></image:image>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/dai-cu/</loc>
@@ -1594,6 +1613,16 @@
     <image:image><image:loc>https://kinhlac.online/anh/huyet/doc-du-tren-giai-phau.webp</image:loc><image:title>Đốc Du — trên giải phẫu</image:title></image:image>
     <image:image><image:loc>https://kinhlac.online/anh/huyet/doc-du-huyet-lan-can.webp</image:loc><image:title>Đốc Du — huyệt lân cận</image:title></image:image>
     <image:image><image:loc>https://kinhlac.online/anh/huyet/doc-du-toan-duong-kinh.webp</image:loc><image:title>Đốc Du — toàn đường kinh</image:title></image:image>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/doc-ty/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/doc-ty-tren-da.webp</image:loc><image:title>Độc Tỵ — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/doc-ty-tren-giai-phau.webp</image:loc><image:title>Độc Tỵ — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/doc-ty-huyet-lan-can.webp</image:loc><image:title>Độc Tỵ — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/doc-ty-toan-duong-kinh.webp</image:loc><image:title>Độc Tỵ — toàn đường kinh</image:title></image:image>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/don-trung/</loc>
@@ -1883,6 +1912,16 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://kinhlac.online/huyet/hanh-gian/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/hanh-gian-tren-da.webp</image:loc><image:title>Hành Gian — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/hanh-gian-tren-giai-phau.webp</image:loc><image:title>Hành Gian — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/hanh-gian-huyet-lan-can.webp</image:loc><image:title>Hành Gian — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/hanh-gian-toan-duong-kinh.webp</image:loc><image:title>Hành Gian — toàn đường kinh</image:title></image:image>
+  </url>
+  <url>
     <loc>https://kinhlac.online/huyet/hau-dinh/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -1966,6 +2005,16 @@
     <image:image><image:loc>https://kinhlac.online/anh/huyet/hoa-lieu-tren-giai-phau.webp</image:loc><image:title>Hòa Liêu — trên giải phẫu</image:title></image:image>
     <image:image><image:loc>https://kinhlac.online/anh/huyet/hoa-lieu-huyet-lan-can.webp</image:loc><image:title>Hòa Liêu — huyệt lân cận</image:title></image:image>
     <image:image><image:loc>https://kinhlac.online/anh/huyet/hoa-lieu-toan-duong-kinh.webp</image:loc><image:title>Hòa Liêu — toàn đường kinh</image:title></image:image>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/hoa-lieu-2/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/hoa-lieu-2-tren-da.webp</image:loc><image:title>Hòa Liêu — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/hoa-lieu-2-tren-giai-phau.webp</image:loc><image:title>Hòa Liêu — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/hoa-lieu-2-huyet-lan-can.webp</image:loc><image:title>Hòa Liêu — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/hoa-lieu-2-toan-duong-kinh.webp</image:loc><image:title>Hòa Liêu — toàn đường kinh</image:title></image:image>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/hoan-cot/</loc>
@@ -2128,6 +2177,16 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0350-hong-am.webp</image:loc><image:title>Sơ đồ huyệt Hồng Âm</image:title></image:image>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/hop-coc/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/hop-coc-tren-da.webp</image:loc><image:title>Hợp Cốc — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/hop-coc-tren-giai-phau.webp</image:loc><image:title>Hợp Cốc — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/hop-coc-huyet-lan-can.webp</image:loc><image:title>Hợp Cốc — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/hop-coc-toan-duong-kinh.webp</image:loc><image:title>Hợp Cốc — toàn đường kinh</image:title></image:image>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/hop-duong/</loc>
@@ -2416,6 +2475,16 @@
     <image:image><image:loc>https://kinhlac.online/anh/huyet/khuc-cot-toan-duong-kinh.webp</image:loc><image:title>Khúc Cốt — toàn đường kinh</image:title></image:image>
   </url>
   <url>
+    <loc>https://kinhlac.online/huyet/khuc-sai/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/khuc-sai-tren-da.webp</image:loc><image:title>Khúc Sai — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/khuc-sai-tren-giai-phau.webp</image:loc><image:title>Khúc Sai — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/khuc-sai-huyet-lan-can.webp</image:loc><image:title>Khúc Sai — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/khuc-sai-toan-duong-kinh.webp</image:loc><image:title>Khúc Sai — toàn đường kinh</image:title></image:image>
+  </url>
+  <url>
     <loc>https://kinhlac.online/huyet/khuc-tan/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -2621,6 +2690,12 @@
     <image:image><image:loc>https://kinhlac.online/anh/huyet/kim-mon-toan-duong-kinh.webp</image:loc><image:title>Kim Môn — toàn đường kinh</image:title></image:image>
   </url>
   <url>
+    <loc>https://kinhlac.online/huyet/kim-tan-ngoc-dich/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://kinhlac.online/huyet/kinh-cot/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -2685,6 +2760,13 @@
     <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0442-lac-canh.webp</image:loc><image:title>Sơ đồ huyệt Lạc Cảnh</image:title></image:image>
   </url>
   <url>
+    <loc>https://kinhlac.online/huyet/lac-cham/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0443-lac-cham.webp</image:loc><image:title>Sơ đồ huyệt Lạc Chẩm</image:title></image:image>
+  </url>
+  <url>
     <loc>https://kinhlac.online/huyet/lac-dia/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -2721,6 +2803,13 @@
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/lan-vi/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0451-lan-vi.webp</image:loc><image:title>Sơ đồ huyệt Lan Vĩ</image:title></image:image>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/lan-vi-diem/</loc>
@@ -2858,6 +2947,31 @@
     <image:image><image:loc>https://kinhlac.online/anh/huyet/linh-khu-toan-duong-kinh.webp</image:loc><image:title>Linh Khư — toàn đường kinh</image:title></image:image>
   </url>
   <url>
+    <loc>https://kinhlac.online/huyet/luc-hoa/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/luc-phung/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0482-luc-phung.webp</image:loc><image:title>Sơ đồ huyệt Lục Phùng</image:title></image:image>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/lung-huyet/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/lu-thuong/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://kinhlac.online/huyet/lu-tuc/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -2866,6 +2980,13 @@
     <image:image><image:loc>https://kinhlac.online/anh/huyet/lu-tuc-tren-giai-phau.webp</image:loc><image:title>Lư Tức — trên giải phẫu</image:title></image:image>
     <image:image><image:loc>https://kinhlac.online/anh/huyet/lu-tuc-huyet-lan-can.webp</image:loc><image:title>Lư Tức — huyệt lân cận</image:title></image:image>
     <image:image><image:loc>https://kinhlac.online/anh/huyet/lu-tuc-toan-duong-kinh.webp</image:loc><image:title>Lư Tức — toàn đường kinh</image:title></image:image>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/lu-thuong-2/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0488-lu-thuong.webp</image:loc><image:title>Sơ đồ huyệt Lữ Thượng</image:title></image:image>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/luong-khau/</loc>
@@ -3594,10 +3715,30 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://kinhlac.online/huyet/phong-phu/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/phong-phu-tren-da.webp</image:loc><image:title>Phong Phủ — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/phong-phu-tren-giai-phau.webp</image:loc><image:title>Phong Phủ — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/phong-phu-huyet-lan-can.webp</image:loc><image:title>Phong Phủ — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/phong-phu-toan-duong-kinh.webp</image:loc><image:title>Phong Phủ — toàn đường kinh</image:title></image:image>
+  </url>
+  <url>
     <loc>https://kinhlac.online/huyet/phong-quac/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/phong-thi/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/phong-thi-tren-da.webp</image:loc><image:title>Phong Thị — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/phong-thi-tren-giai-phau.webp</image:loc><image:title>Phong Thị — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/phong-thi-huyet-lan-can.webp</image:loc><image:title>Phong Thị — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/phong-thi-toan-duong-kinh.webp</image:loc><image:title>Phong Thị — toàn đường kinh</image:title></image:image>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/phong-tri/</loc>
@@ -3723,6 +3864,19 @@
     <image:image><image:loc>https://kinhlac.online/anh/huyet/phuc-tho-toan-duong-kinh.webp</image:loc><image:title>Phục Thố — toàn đường kinh</image:title></image:image>
   </url>
   <url>
+    <loc>https://kinhlac.online/huyet/phung-tuong-co-van-dong-diem/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/phuong-nhan/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0665-phuong-nhan.webp</image:loc><image:title>Sơ đồ huyệt Phượng Nhãn</image:title></image:image>
+  </url>
+  <url>
     <loc>https://kinhlac.online/huyet/quan-mon/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -3738,6 +3892,16 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0668-quan-nghi.webp</image:loc><image:title>Sơ đồ huyệt Quan Nghi</image:title></image:image>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/quan-nguyen/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/quan-nguyen-tren-da.webp</image:loc><image:title>Quan Nguyên — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/quan-nguyen-tren-giai-phau.webp</image:loc><image:title>Quan Nguyên — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/quan-nguyen-huyet-lan-can.webp</image:loc><image:title>Quan Nguyên — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/quan-nguyen-toan-duong-kinh.webp</image:loc><image:title>Quan Nguyên — toàn đường kinh</image:title></image:image>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/quan-nguyen-du/</loc>
@@ -3920,6 +4084,16 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
     <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0707-tam-thuong.webp</image:loc><image:title>Sơ đồ huyệt Tam Thương</image:title></image:image>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/tam-tieu-du/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/tam-tieu-du-tren-da.webp</image:loc><image:title>Tam Tiêu Du — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/tam-tieu-du-tren-giai-phau.webp</image:loc><image:title>Tam Tiêu Du — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/tam-tieu-du-huyet-lan-can.webp</image:loc><image:title>Tam Tiêu Du — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/tam-tieu-du-toan-duong-kinh.webp</image:loc><image:title>Tam Tiêu Du — toàn đường kinh</image:title></image:image>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/tam-tri/</loc>
@@ -4185,6 +4359,16 @@
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/than-khuyet/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/than-khuyet-tren-da.webp</image:loc><image:title>Thần Khuyết — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/than-khuyet-tren-giai-phau.webp</image:loc><image:title>Thần Khuyết — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/than-khuyet-huyet-lan-can.webp</image:loc><image:title>Thần Khuyết — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/than-khuyet-toan-duong-kinh.webp</image:loc><image:title>Thần Khuyết — toàn đường kinh</image:title></image:image>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/than-ly/</loc>
@@ -4456,6 +4640,16 @@
     <image:image><image:loc>https://kinhlac.online/anh/huyet/thieu-phu-tren-giai-phau.webp</image:loc><image:title>Thiếu Phủ — trên giải phẫu</image:title></image:image>
     <image:image><image:loc>https://kinhlac.online/anh/huyet/thieu-phu-huyet-lan-can.webp</image:loc><image:title>Thiếu Phủ — huyệt lân cận</image:title></image:image>
     <image:image><image:loc>https://kinhlac.online/anh/huyet/thieu-phu-toan-duong-kinh.webp</image:loc><image:title>Thiếu Phủ — toàn đường kinh</image:title></image:image>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/thieu-thuong/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/thieu-thuong-tren-da.webp</image:loc><image:title>Thiếu Thương — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/thieu-thuong-tren-giai-phau.webp</image:loc><image:title>Thiếu Thương — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/thieu-thuong-huyet-lan-can.webp</image:loc><image:title>Thiếu Thương — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/thieu-thuong-toan-duong-kinh.webp</image:loc><image:title>Thiếu Thương — toàn đường kinh</image:title></image:image>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/thieu-trach/</loc>
@@ -4734,6 +4928,16 @@
     <image:image><image:loc>https://kinhlac.online/anh/huyet/thua-quang-toan-duong-kinh.webp</image:loc><image:title>Thừa Quang — toàn đường kinh</image:title></image:image>
   </url>
   <url>
+    <loc>https://kinhlac.online/huyet/thua-son/</loc>
+    <lastmod>2026-09-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/thua-son-tren-da.webp</image:loc><image:title>Thừa Sơn — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/thua-son-tren-giai-phau.webp</image:loc><image:title>Thừa Sơn — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/thua-son-huyet-lan-can.webp</image:loc><image:title>Thừa Sơn — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/thua-son-toan-duong-kinh.webp</image:loc><image:title>Thừa Sơn — toàn đường kinh</image:title></image:image>
+  </url>
+  <url>
     <loc>https://kinhlac.online/huyet/thua-tuong/</loc>
     <lastmod>2026-09-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -5001,6 +5205,16 @@
     <image:image><image:loc>https://kinhlac.online/kinhmach3d/images/acupoints/0898-tieu-cot-khong.webp</image:loc><image:title>Sơ đồ huyệt Tiểu Cốt Không</image:title></image:image>
   </url>
   <url>
+    <loc>https://kinhlac.online/huyet/tieu-hai/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/tieu-hai-tren-da.webp</image:loc><image:title>Tiểu Hải — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/tieu-hai-tren-giai-phau.webp</image:loc><image:title>Tiểu Hải — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/tieu-hai-huyet-lan-can.webp</image:loc><image:title>Tiểu Hải — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/tieu-hai-toan-duong-kinh.webp</image:loc><image:title>Tiểu Hải — toàn đường kinh</image:title></image:image>
+  </url>
+  <url>
     <loc>https://kinhlac.online/huyet/tieu-nhi-cam-ly/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
@@ -5083,6 +5297,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://kinhlac.online/huyet/toan-tri/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://kinhlac.online/huyet/toan-truc/</loc>
     <lastmod>2026-09-30</lastmod>
     <changefreq>monthly</changefreq>
@@ -5107,6 +5327,16 @@
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/trat-bien/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/trat-bien-tren-da.webp</image:loc><image:title>Trật Biên — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/trat-bien-tren-giai-phau.webp</image:loc><image:title>Trật Biên — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/trat-bien-huyet-lan-can.webp</image:loc><image:title>Trật Biên — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/trat-bien-toan-duong-kinh.webp</image:loc><image:title>Trật Biên — toàn đường kinh</image:title></image:image>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/tri-chuyen-can/</loc>
@@ -5147,6 +5377,12 @@
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/tri-nao-v/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/tri-nao-tung-tuyen-yeu-huyet/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -5277,6 +5513,16 @@
     <image:image><image:loc>https://kinhlac.online/anh/huyet/trung-phong-tren-giai-phau.webp</image:loc><image:title>Trung Phong — trên giải phẫu</image:title></image:image>
     <image:image><image:loc>https://kinhlac.online/anh/huyet/trung-phong-huyet-lan-can.webp</image:loc><image:title>Trung Phong — huyệt lân cận</image:title></image:image>
     <image:image><image:loc>https://kinhlac.online/anh/huyet/trung-phong-toan-duong-kinh.webp</image:loc><image:title>Trung Phong — toàn đường kinh</image:title></image:image>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/trung-phu/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/trung-phu-tren-da.webp</image:loc><image:title>Trung Phủ — trên da</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/trung-phu-tren-giai-phau.webp</image:loc><image:title>Trung Phủ — trên giải phẫu</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/trung-phu-huyet-lan-can.webp</image:loc><image:title>Trung Phủ — huyệt lân cận</image:title></image:image>
+    <image:image><image:loc>https://kinhlac.online/anh/huyet/trung-phu-toan-duong-kinh.webp</image:loc><image:title>Trung Phủ — toàn đường kinh</image:title></image:image>
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/trung-quan/</loc>
@@ -5526,6 +5772,18 @@
   </url>
   <url>
     <loc>https://kinhlac.online/huyet/tu-cung-canh/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/tu-cung-xuat-huyet-diem/</loc>
+    <lastmod>2026-09-25</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://kinhlac.online/huyet/tu-ho/</loc>
     <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -6412,7 +6670,7 @@
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/ac-hach/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -6454,7 +6712,7 @@
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/bang-lau/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -6496,7 +6754,7 @@
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/beo-phi/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -6550,7 +6808,7 @@
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/cholesterol-mau/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -6562,7 +6820,7 @@
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/co-truong/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -6712,7 +6970,7 @@
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/hoi-chung-cushing/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -6850,13 +7108,13 @@
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/nac/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/non-mua/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -6874,13 +7132,13 @@
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/soi-mat/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/soi-than-soi-duong-tieu/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -6892,7 +7150,7 @@
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/suy-nhuoc-than-kinh/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -6904,7 +7162,7 @@
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/tao-bon/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -6916,7 +7174,7 @@
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/than-kinh-toa-dau/</loc>
-    <lastmod>2026-10-01</lastmod>
+    <lastmod>2026-10-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -6946,37 +7204,37 @@
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/tieu-ra-mau/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/to-dia/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/tui-mat-viem-cap/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/tui-mat-viem-man-tinh/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/vay-nen/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/viem-da-than-kinh/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
@@ -6994,19 +7252,19 @@
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/xo-gan/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/xuat-huyet-nao/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://kinhlac.online/benh-hoc/zona/</loc>
-    <lastmod>2026-09-25</lastmod>
+    <lastmod>2026-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>

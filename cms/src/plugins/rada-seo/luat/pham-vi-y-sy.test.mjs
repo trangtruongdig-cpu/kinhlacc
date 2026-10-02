@@ -224,3 +224,21 @@ test("'khỏi' làm giới từ KHÔNG bị bắt: ra khỏi, khỏi phải, tr�
 		])
 			assert.deepEqual(timViPham(s, { nghiem }), [], s);
 });
+
+test("tên riêng trong link (bài thuốc, sách y văn) không bị bắt oan", () => {
+	// Tên sách thuốc cổ không đổi được. Một bài càng dẫn nhiều bài thuốc càng dễ trượt oan —
+	// ngược hẳn điều mình muốn (đo 02/10/2026 trên bài máy viết thật).
+	assert.deepEqual(ma("Các [Bát Bảo Trị Hồng Đơn](/bai-thuoc/bat-bao-tri-hong-don/) thường được dùng."), []);
+	assert.deepEqual(ma("Theo [Chứng Trị Chuẩn Thằng](/nguon/chung-tri-chuan-thang/), hỏa nhiệt tích tụ."), []);
+	// nhưng câu MÔ TẢ của người viết vẫn bị bắt
+	assert.deepEqual(ma("Kho có 55 bài thuốc trị chảy máu cam."), ["tri"]);
+});
+
+test("khuyên tới cơ sở y tế được miễn; mời khám ở chỗ mình thì KHÔNG", () => {
+	// Mục "khi nào cần cấp cứu" là điều an toàn nhất bài có thể nói — chặn nó là ép bài bỏ mục đó.
+	assert.deepEqual(ma("Hãy đến cơ sở y tế gần nhất nếu máu không cầm."), []);
+	assert.deepEqual(ma("Cần tới bệnh viện ngay khi thấy chóng mặt."), []);
+	// Miễn trừ CỐ Ý không phủ "đi khám": đó là lời mời khám ở chỗ mình.
+	assert.deepEqual(ma("Hãy đi khám sớm."), ["kham_benh"]);
+	assert.deepEqual(ma("Bạn nên đi khám ngay nếu máu không cầm."), ["kham_benh"]);
+});
