@@ -62,7 +62,11 @@ const CANH = [
 	{ tang: "T1", ten: "nguồn → bài thuốc", bang: "nguon_phuong_thang", trai: "nguon_id", phai: "phuong_thang_id", goc: "phuong_thang", gocKhoa: "id", kg: null },
 	{ tang: "T1", ten: "nguồn → vị thuốc", bang: "nguon_vi_thuoc", trai: "nguon_id", phai: "vi_thuoc_id", goc: "vi_thuoc", gocKhoa: "id", kg: null },
 	{ tang: "T1", ten: "nguồn → huyệt", bang: "nguon_huyet", trai: "nguon_id", phai: "huyet_id", goc: null, gocKhoa: null, kg: "tu_dien" },
-	{ tang: "T1", ten: "nguồn → KINH", bang: null, trai: null, phai: null, goc: "kinh_mach", gocKhoa: "id", kg: null, lo: "bảng không tồn tại — đỉnh tháp hụt một nhánh" },
+	// Ba cạnh dưới KHOÁ BẰNG SLUG (không gian tệp tĩnh), không có khoá ngoại — xem ghi chú
+	// trong schema-bootstrap.service.ts. Dựng 02/10/2026 bởi tmp/ghi-canh-nguon.mjs.
+	{ tang: "T1", ten: "nguồn → kinh", bang: "nguon_kinh", trai: "nguon_id", phai: "slug", goc: null, gocKhoa: null, kg: "slug" },
+	{ tang: "T1", ten: "nguồn → bệnh học", bang: "nguon_benh_hoc", trai: "nguon_id", phai: "slug", goc: null, gocKhoa: null, kg: "slug" },
+	{ tang: "T1", ten: "nguồn → châm cứu trị bệnh", bang: "nguon_cham_cuu", trai: "nguon_id", phai: "slug", goc: null, gocKhoa: null, kg: "slug" },
 	// ── T2 tầng nền nối nhau ──
 	{ tang: "T2", ten: "vị thuốc → quy kinh", bang: "vi_thuoc_kinh_mach", trai: "id_kinh_mach", phai: "id_vi_thuoc", goc: "vi_thuoc", gocKhoa: "id", kg: null },
 	{ tang: "T2", ten: "vị thuốc → chủ trị", bang: "vi_thuoc_chu_tri", trai: "id_chu_tri", phai: "id_vi_thuoc", goc: "vi_thuoc", gocKhoa: "id", kg: null },
@@ -113,7 +117,7 @@ async function main() {
 				const tong = n0((await q(`SELECT count(*)::int n FROM ${c.goc}`))[0].n);
 				phu = `${co} / ${tong} = ${tong ? Math.round((co / tong) * 100) : 0}%`;
 			} else {
-				phu = `${co} mục (không gian ${c.kg})`;
+				phu = `${co} mục (khoá ${c.kg})`;
 			}
 		}
 		console.log(`  ${c.tang}    ${c.ten.padEnd(30)}  ${String(soCanh).padStart(7)}   ${phu}`);

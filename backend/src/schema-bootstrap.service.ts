@@ -270,6 +270,41 @@ export class SchemaBootstrapService implements OnApplicationBootstrap {
     `CREATE INDEX IF NOT EXISTS idx_su_co_xay_ra_luc ON su_co (xay_ra_luc DESC)`,
     // Token thiết bị của nhân viên — để đẩy cảnh báo sự cố hạng nặng ra điện thoại.
     `ALTER TABLE admins ADD COLUMN IF NOT EXISTS fcm_token TEXT`,
+
+    // ── Đỉnh tháp đồ thị tri thức: y văn dẫn mục nào ───────────────────────────────────
+    // Đặc tả: docs/superpowers/specs/2026-10-02-do-thi-tri-thuc-thap-va-truc-ngang.md
+    // Trước đây chỉ có nguon_phuong_thang, nguon_vi_thuoc, nguon_huyet. Ba bảng dưới đây
+    // đóng nốt đỉnh tháp cho kinh mạch và HAI bộ bệnh — hai bộ này trước nay KHÔNG có cạnh
+    // nguồn nào, dù chúng dẫn y văn dày nhất (đo 02/10/2026: 2.194 cạnh dò được).
+    //
+    // ⚠️ KHOÁ BẰNG SLUG, CỐ Ý KHÁC nguon_huyet (khoá bằng id). Lý do: id của bệnh học,
+    // châm cứu trị bệnh và kinh trong tệp tĩnh là SỐ THỨ TỰ 1–100 / 1–12, và hai bộ bệnh
+    // TRÙNG dải id của nhau. Sinh lại benh.js mà thứ tự đổi là mọi cạnh lặng lẽ trỏ sang
+    // bệnh khác — không lỗi, không cảnh báo, chỉ sai. Slug thì ổn định, là chính đường dẫn
+    // công khai, nên kiểm lại được bằng `curl`. nguon_huyet giữ id để khỏi phá 1.177 dòng
+    // đã có; đừng nhân bản lối khoá đó cho bảng mới.
+    //
+    // ⚠️ KHÔNG có khoá ngoại ở cột slug: đầu kia nằm trong tệp tĩnh / kho CMS, không phải
+    // bảng của app. Nghĩa là Postgres KHÔNG canh giúp — phép kiểm phải nằm ở bộ ghi cạnh
+    // (đối chiếu slug với danh mục tĩnh trước khi chèn).
+    `CREATE TABLE IF NOT EXISTS nguon_benh_hoc (
+       nguon_id INTEGER NOT NULL REFERENCES nguon(id) ON DELETE CASCADE,
+       slug     VARCHAR(200) NOT NULL,
+       PRIMARY KEY (nguon_id, slug)
+     )`,
+    `CREATE INDEX IF NOT EXISTS idx_nguon_benh_hoc_slug ON nguon_benh_hoc (slug)`,
+    `CREATE TABLE IF NOT EXISTS nguon_cham_cuu (
+       nguon_id INTEGER NOT NULL REFERENCES nguon(id) ON DELETE CASCADE,
+       slug     VARCHAR(200) NOT NULL,
+       PRIMARY KEY (nguon_id, slug)
+     )`,
+    `CREATE INDEX IF NOT EXISTS idx_nguon_cham_cuu_slug ON nguon_cham_cuu (slug)`,
+    `CREATE TABLE IF NOT EXISTS nguon_kinh (
+       nguon_id INTEGER NOT NULL REFERENCES nguon(id) ON DELETE CASCADE,
+       slug     VARCHAR(200) NOT NULL,
+       PRIMARY KEY (nguon_id, slug)
+     )`,
+    `CREATE INDEX IF NOT EXISTS idx_nguon_kinh_slug ON nguon_kinh (slug)`,
   ];
 
   async onApplicationBootstrap(): Promise<void> {
