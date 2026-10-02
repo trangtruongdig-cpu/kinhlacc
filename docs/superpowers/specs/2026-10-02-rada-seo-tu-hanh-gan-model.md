@@ -41,20 +41,107 @@ không tìm web được thì bước này phải đi đường khác (API tìm 
 đừng để model "nhớ ra" 10 URL, vì nó sẽ bịa URL trông hợp lý. Đây là tác vụ DUY NHẤT trong
 bảng không chuyển thẳng sang prompt được.
 
-## 3. Cấu hình: đổi model là đổi biến môi trường, không sửa mã
+## 2b. "Gravity" thật ra là gì — đo trên máy 02/10/2026
+
+Dò máy: `/Applications/Antigravity IDE.app` + `~/.gemini/antigravity-ide/`. Tức **Gravity =
+Antigravity IDE**, một IDE tác tử — **nó KHÔNG phơi ra API model nào** để cron gọi.
+
+Cái đang "chạy tự hành" là một daemon trong thư mục NHÁP của một phiên IDE:
+`~/.gemini/antigravity-ide/brain/<id>/scratch/run-wf1-daemon.mjs`, và nó gọi
+**`https://api.yescale.vip/v1`** với `gemini-2.5-flash`.
+
+⚠️ **Bốn vấn đề của chỗ đặt đó**, phải chuyển vào plugin:
+- Ngoài repo → không version control, không phép kiểm, không ai soát được.
+- Bỏ qua toàn bộ rào của plugin: công tắc `RADA_SEO_CA_DEM`, khoá chống chạy chồng, nhật ký `ca`.
+  Nên màn Rada không biết nó đang chạy, và hai ca có thể chồng nhau.
+- Thư mục `scratch` của phiên IDE bị dọn là "tự hành" **chết im lặng**.
+- Nó dùng Yescale, trong khi quyết định 30/09 là *"bỏ Yescale, không khoá API nào"* — quyết định
+  cũ đã bị đảo mà không ai ghi lại. Nay ghi: **dùng Yescale làm nhà cung cấp**, vì đó là đường
+  duy nhất gọi được model theo lịch.
+
+Tin tốt: Yescale là **OpenAI-compatible** (`/v1/chat/completions`, trả `application/json`) — đã
+thử thật, HTTP 200, đúng dạng mà `ai/goi-model.mjs` nói. Nên chỉ cần trỏ `GRAVITY_API_URL` vào
+đó, không sửa mã.
+
+## 2c. Kho model khoá này mở được (99 model, đo 02/10/2026)
+
+| Họ | Có | Đáng dùng |
+|---|---|---|
+| Gemini | 15 | `gemini-2.5-flash-lite`, `gemini-2.5-flash`, `gemini-2.5-pro` |
+| Claude | 13 | `claude-sonnet-5`, `claude-haiku-4-5` |
+| GPT | 28 | `gpt-5-mini`, `gpt-4.1-mini` (dự phòng khác họ) |
+| DeepSeek · Grok · GLM · Qwen · Kimi · MiniMax | 36 | `deepseek-v3.2` (dự phòng rẻ) |
+| **Nhúng (embedding)** | 3 | **`text-embedding-3-small` / `-3-large`** ← xem mục 2d |
+| TTS · Whisper | 5 | chưa dùng tới |
+| Nhìn ảnh | 1 | `qwen2.5-vl-72b-instruct` |
+| **Sinh ảnh** | **0** | ← **THIẾU**, xem mục 2e |
+
+⚠️ **Ca tự hành KHÔNG dùng model `-preview`.** Kho có `gemini-3-pro-preview`,
+`gemini-3.1-*-preview`… Tên preview bị gỡ là ca đêm **chết im lặng** lúc 2 giờ sáng và không ai
+biết cho tới khi nhìn nhật ký. Chọn bản ổn định, nâng cấp có chủ đích.
+
+## 2d. ĐỀ XUẤT LỚN NHẤT: dùng embedding, không ai đang dùng
+
+Khoá này mở `text-embedding-3-small`/`-large` mà chưa chỗ nào trong repo gọi tới. Đây là mảnh
+còn thiếu của **cả hai** việc đang dở:
+
+1. **Phân cụm theo NGHĨA.** Thước hiện tại là Jaccard trên tập CẶP TỪ (`trung-lap.mjs`), và
+   chính tài liệu đối chiếu n8n đã ghi hạn chế: *"bấm huyệt trị mất ngủ" và "an thần bằng huyệt
+   Thần Môn" là một cụm nhưng thước chữ không thấy*. Embedding thấy — bằng cosine, **không gọi
+   LLM**, nên rẻ và cho kết quả LẶP LẠI ĐƯỢC (cùng đầu vào → cùng cụm), khác hẳn nhờ mô hình gom.
+2. **Trục ngang ngữ nghĩa + rào bán kính chủ đề.** Dựng nhúng cho site (trọng tâm) rồi đo khoảng
+   cách từng trang → đúng cơ chế `siteFocusScore` / `siteRadius` trong leak Google, và đúng cái
+   rào mình đề xuất để Rada không tự kéo site ra khỏi ngách (ca "Giảm cân nhanh" 78 điểm).
+
+Giá: `text-embedding-3-small` rẻ hơn một lượt gọi LLM vài bậc; nhúng 1.500 chủ đề đối thủ + kho
+của mình là việc làm MỘT lần rồi cache theo vân tay nội dung.
+
+## 2e. THIẾU: model sinh ảnh
+
+Đường `/v1/images/generations` **có tồn tại** (trả 400 "model không khả dụng", không phải 404),
+nhưng khoá chưa được cấp model ảnh nào. Đã thử 7 tên: `gpt-image-1`, `imagen-3.0-generate-002`,
+`imagen-4.0-generate-001`, `flux-schnell`, `nano-banana`, `seedream-3.0`,
+`gemini-2.5-flash-image` — tất cả đều *"not available in any configured auto group"*.
+
+→ **Việc cần làm (của người dùng):** xin Yescale bật MỘT model ảnh trên khoá này. Ưu tiên theo
+thứ tự: `imagen-4.0-generate-001` hoặc `gpt-image-1` (chất lượng ảnh bối cảnh tốt, an toàn nội
+dung) → `flux-schnell` (rẻ, nhanh, đủ cho ảnh minh hoạ). Chỉ cần MỘT model là khâu ảnh H2 chạy.
+
+Nếu Yescale không bật được thì cắm nhà cung cấp ảnh riêng; `goi-model.mjs` đã tách tác vụ
+`sinh_anh` thành đường riêng nên đổi nhà cung cấp chỉ sửa một hàm.
+
+Trong lúc chưa có: bài vẫn ra được, chỉ thiếu ảnh bối cảnh — **không** lấp bằng ảnh huyệt (sẽ
+quay lại đúng cái khô khan mà người dùng phàn nàn) và **không** lấy ảnh trên mạng.
+
+## 3. Phân vai: tác vụ ↔ model cụ thể
+
+| Tác vụ | Model | Vì sao chọn nó |
+|---|---|---|
+| Đọc trang đối thủ (40/đêm) | `gemini-2.5-flash-lite` | Rẻ nhất, ngữ cảnh lớn, ổn định. Việc nhiều nhất nên phải rẻ nhất |
+| Đọc trang SERP → ý | `gemini-2.5-flash` | `ban-do.mjs` **đếm ý theo TÊN**, nên cần model gọi cùng một ý bằng cùng một tên; bản lite dễ lệch tên |
+| Đề xuất hướng · phân cụm · lập kế hoạch | `gemini-2.5-pro` | Vào 1.500 dòng, cần gom theo nghĩa; 1 lượt/tuần nên giá không đáng kể |
+| Viết bài (2/đêm) | `claude-sonnet-5` | Văn phong Việt và tuân khuôn bài chặt nhất (khuôn có 8 ràng buộc, lệch một cái là bài bị trả) |
+| Thẩm định / lấp khoảng trống | `claude-sonnet-5` | Rào đòi **trích dẫn khớp nguyên văn**; cần model tuân ràng buộc tốt nhất |
+| Phân cụm theo nghĩa, bán kính chủ đề | `text-embedding-3-small` | Không gọi LLM, lặp lại được, rẻ — xem mục 2d |
+| Dự phòng khi Gemini lỗi | `gpt-5-mini` hoặc `deepseek-v3.2` | **Khác họ** có chủ đích: sự cố một nhà không chặn cả ca |
+| Sinh ảnh H2 | *(chưa có)* | Xem mục 2e |
+| Tìm SERP | *(không phải tác vụ prompt)* | Cần web thật — xem cảnh báo mục 2 |
+
+### Khai vào `cms/.env`
 
 ```
-GRAVITY_API_URL          # gốc API, dạng OpenAI-compatible (…/v1)
-GRAVITY_API_KEY
-GRAVITY_TRAN_LUOT        # trần SỐ LƯỢT GỌI mỗi tiến trình (mặc định 300)
-GRAVITY_MODEL_MAC_DINH   # dùng khi tác vụ chưa khai riêng
-GRAVITY_MODEL_DOC_TRANG  GRAVITY_MODEL_DOC_SERP      # việc nhiều · nhẹ → model rẻ
-GRAVITY_MODEL_CHIEN_LUOC GRAVITY_MODEL_VIET          # việc ít · nặng → model mạnh
-GRAVITY_MODEL_THAM_DINH  GRAVITY_MODEL_ANH
+GRAVITY_API_URL=https://api.yescale.vip/v1
+GRAVITY_API_KEY=<khoá — đã có sẵn trong backend/.env dưới tên YESCALE_API_KEY>
+GRAVITY_TRAN_LUOT=300
+GRAVITY_MODEL_MAC_DINH=gemini-2.5-flash
+GRAVITY_MODEL_DOC_TRANG=gemini-2.5-flash-lite
+GRAVITY_MODEL_DOC_SERP=gemini-2.5-flash
+GRAVITY_MODEL_CHIEN_LUOC=gemini-2.5-pro
+GRAVITY_MODEL_VIET=claude-sonnet-5
+GRAVITY_MODEL_THAM_DINH=claude-sonnet-5
+GRAVITY_MODEL_NHUNG=text-embedding-3-small
+GRAVITY_MODEL_ANH=            # để trống tới khi Yescale bật một model ảnh
 ```
-
-Hạn giờ và trần token khai theo TÁC VỤ trong `VIEC` của `ai/goi-model.mjs` (đọc trang 60 s /
-1.200 token ra; viết bài 300 s / 8.000) — vì chúng là tính chất của việc, không phải của model.
 
 ## 4. ⚠️ Bốn bẫy mang từ thời Yescale — đã trả giá, không dựng lại
 
