@@ -22,15 +22,53 @@ export const NGUONG_HANG_CHO = 80;
 const cho = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /**
- * Tính lại danh sách khoảng trống từ các URL Claude đã đọc. Dùng ở cuối ca radar VÀ khi
- * Claude báo đọc xong (mcp-viec.mjs) — nên tách riêng.
- * @returns {Promise<number>} số cụm đã ghi
+ * Tính lại danh sách khoảng trống từ các URL đã đọc. Dùng ở cuối ca radar VÀ khi routine ngoài
+ * báo đọc xong (mcp-viec.mjs) — nên tách riêng.
+ *
+ * ⚠️ TRẢ VỀ CẢ SỐ ĐẦU VÀO, không chỉ số cụm đã ghi. Lý do đã trả giá: ngày 02/10/2026 khâu này
+ * ghi `soCum: 0` suốt 5 ca liền và con số đó KHÔNG phân biệt được ba chuyện khác nhau hẳn —
+ * chưa trang nào được đọc (đầu vào rỗng), luật không tìm ra cụm nào, hay cụm tính ra rồi mà
+ * khâu ghi lọc sạch vì trùng cụm đã khoá. Phải đọc nhật ký container mới lần ra được, và
+ * nhật ký thì cuộn mất. Một con số cho ba trạng thái là một con số vô dụng.
+ *
+ * @returns {Promise<{soCum: number, soChuDeMinh: number, soChuDeDoiThu: number, soCumTinh: number}>}
  */
 export async function capNhatKhoangTrong(s, { xuHuong, now, nghi }) {
 	const doiThu = await kho.dsDoiThu(s);
 	const { minh, doiThu: dt } = await kho.chuDeDaPhanTich(s, doiThu);
 	const cum = await timKhoangTrong({ chuDeMinh: minh, chuDeDoiThu: dt, xuHuong });
-	return kho.thayCum(s, cum, now, { nghi });
+	const soCum = await kho.thayCum(s, cum, now, { nghi });
+	return { soCum, soChuDeMinh: minh.length, soChuDeDoiThu: dt.length, soCumTinh: cum.length };
+}
+
+/** Trần dòng lỗi tải giữ lại trong một ca — chỉ để đọc, không để thống kê. */
+export const TRAN_LOI_TAI = 300;
+
+/**
+ * Gom các lượt tải hỏng theo LÝ DO, không liệt kê từng URL: 12 lượt Google suggest cùng hỏng vì
+ * "lỗi giao thức" là MỘT chuyện, không phải 12 chuyện. Kèm một URL làm ví dụ để tra lại được.
+ * @param {{url: string, lyDo: string}[]} ds
+ */
+export function tomTatLoiTai(ds) {
+	const theo = new Map();
+	for (const { url, lyDo } of ds) {
+		const o = theo.get(lyDo) ?? { n: 0, viDu: url };
+		o.n++;
+		theo.set(lyDo, o);
+	}
+	const phan = [...theo.entries()]
+		.sort((a, b) => b[1].n - a[1].n)
+		.map(([lyDo, o]) => `${o.n}× ${lyDo} (vd ${o.viDu})`);
+	return `Tải hỏng ${ds.length} lượt: ${phan.join(" · ")}`;
+}
+
+/** Câu giải thích vì sao ra bao nhiêu cụm — vào `ca.thongTin` để không phải đi đọc log. */
+export function cauKhoangTrong({ soCum, soChuDeMinh, soChuDeDoiThu, soCumTinh }) {
+	const dau = `khoảng trống: đọc được ${soChuDeDoiThu} chủ đề đối thủ + ${soChuDeMinh} của mình → tính ra ${soCumTinh} cụm → ghi ${soCum}`;
+	if (!soChuDeDoiThu) return `${dau}. Chưa trang ĐỐI THỦ nào được đọc, nên 0 cụm là đúng — không phải lỗi của luật.`;
+	if (!soCumTinh) return `${dau}. Có đầu vào mà luật không ra cụm nào — xem lại ngưỡng gom nhóm.`;
+	if (!soCum) return `${dau}. Tính ra cụm nhưng khâu ghi lọc sạch (trùng cụm đã khoá) — không phải thiếu đầu vào.`;
+	return dau;
 }
 
 /** Xu hướng mà ca radar gần nhất (có ghi) đã dò — để lần tính lại sau đó dùng tiếp. */
@@ -83,12 +121,14 @@ async function doLaiLeoTop({ s, gsc, nowMs, ca }) {
  *   hanChot: mốc epoch ms — quá mốc thì thôi trích (khoá ca sắp hết hạn)
  *   gsc: leo-top/gsc.mjs — đo lại hạng phiên leo top đã sửa; thiếu thì bỏ qua bước đó
  */
-export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = cho, now = () => new Date().toISOString(), hanChot = Infinity, gsc, kv, goiModel, tuDoc, log }) {
+export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = cho, now = () => new Date().toISOString(), hanChot = Infinity, gsc, kv, goiModel, tuDoc, log, loiTai }) {
 	const ca = {
 		loai: "radar", batDau: now(), ketThuc: null, ghi,
 		soUrlMoi: 0, soSeTrich: 0, soTrich: 0, soNgoaiNganh: 0, soLoiTrang: 0,
 		soXuHuong: 0, soCum: 0, xuHuong: [], loi: [], sitemapBo: [], dungTrich: false,
 		soDoLai: 0, thongTin: [],
+		// Số ĐẦU VÀO của khâu khoảng trống — xem capNhatKhoangTrong.
+		soChuDeDoiThu: 0, soChuDeMinh: 0, soCumTinh: 0,
 		// Khâu TỰ ĐỌC bằng model (02/10/2026) — trước đây phải chờ routine bên ngoài kéo việc.
 		soDocAi: 0, soLuotModel: 0, soLoiModel: 0,
 	};
@@ -130,24 +170,16 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 			ca.loi.push(`${d.tenMien}: ${String(e?.message ?? e).slice(0, 300)}`);
 		}
 	}
-	if (ghi) {
-		try {
-			ca.xuHuong = await timXuHuong({ docWeb });
-			ca.soXuHuong = ca.xuHuong.length;
-			ca.soCum = await capNhatKhoangTrong(s, { xuHuong: ca.xuHuong, now: now(), nghi });
-		} catch (e) {
-			ca.loi.push(`khoảng trống: ${String(e?.message ?? e).slice(0, 300)}`);
-		}
-		try {
-			await doLaiLeoTop({ s, gsc, nowMs: Date.parse(now()), ca });
-		} catch (e) {
-			ca.loi.push(`đo lại leo top: ${String(e?.message ?? e).slice(0, 300)}`);
-		}
-	}
 	// ── Tự đọc trang bằng model, NGAY TRONG CA ─────────────────────────────────────────
 	// Chỉ chạy khi ca được phép GHI và có đủ ba thứ: kv (sổ giữ chỗ), goiModel, hàm tuDoc.
 	// Thiếu thứ nào thì ghi một dòng thông tin — im lặng ở đây nghĩa là hàng đợi đứng mà
 	// nhật ký vẫn báo ca thành công.
+	//
+	// ⚠️ PHẢI ĐỨNG TRƯỚC khâu tính khoảng trống. `capNhatKhoangTrong` chỉ nhìn URL đã
+	// 'da_phan_tich', nên đọc SAU nó thì 40 trang vừa đọc không vào bảng khoảng trống cho tới
+	// đêm hôm sau — ca vẫn báo đủ số, chỉ là chậm một ngày mà không chỗ nào nói ra. (Thứ tự cũ
+	// đúng khi việc đọc nằm ngoài ca: lúc ấy routine gọi `xongPhanTich` để tính lại.)
+	// Khoá ca dài HAN_KHOA_MS = 3 giờ, đọc 40 trang hết chừng 2 phút, nên dời lên không chạm hạn.
 	if (ghi && tuDoc && goiModel && kv) {
 		try {
 			const d = await tuDoc({ s, kv, goiModel, log, nowMs: Date.parse(ca.batDau) || Date.now() });
@@ -161,6 +193,34 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 	} else if (ghi) {
 		ca.thongTin.push("Khâu tự đọc trang KHÔNG chạy (thiếu kv / goiModel) — hàng đợi sẽ đứng.");
 	}
+
+	if (ghi) {
+		try {
+			ca.xuHuong = await timXuHuong({ docWeb });
+			ca.soXuHuong = ca.xuHuong.length;
+			// 0 xu hướng KHÔNG phải chuyện nhỏ: điểm cụm mất phần thưởng "trúng xu hướng" (+3) nên
+			// thứ tự việc đổi hẳn. Và nó từng ra 0 vì lời gọi hỏng chứ không vì hết xu hướng — đo
+			// 02/10/2026: ngoài ca ra 50 xu hướng trong 844 ms, trong ca ra 0 và nhật ký sạch bong.
+			if (!ca.soXuHuong) ca.thongTin.push("Dò xu hướng ra 0 — chạy ngoài ca thì ra ~50, nên nghi lời gọi hỏng chứ không phải hết xu hướng.");
+			const kt = await capNhatKhoangTrong(s, { xuHuong: ca.xuHuong, now: now(), nghi });
+			ca.soCum = kt.soCum;
+			ca.soChuDeDoiThu = kt.soChuDeDoiThu;
+			ca.soChuDeMinh = kt.soChuDeMinh;
+			ca.soCumTinh = kt.soCumTinh;
+			ca.thongTin.push(cauKhoangTrong(kt));
+		} catch (e) {
+			ca.loi.push(`khoảng trống: ${String(e?.message ?? e).slice(0, 300)}`);
+		}
+		try {
+			await doLaiLeoTop({ s, gsc, nowMs: Date.parse(now()), ca });
+		} catch (e) {
+			ca.loi.push(`đo lại leo top: ${String(e?.message ?? e).slice(0, 300)}`);
+		}
+	}
+
+	// Lượt tải hỏng mà docWeb đã NUỐT (nó trả chuỗi rỗng) — gom vào nhật ký, không thì
+	// "0 xu hướng" và "0 sitemap" vĩnh viễn không giải thích được. Xem taoDocWeb.
+	if (loiTai?.length) ca.thongTin.push(tomTatLoiTai(loiTai.slice(0, TRAN_LOI_TAI)));
 
 	ca.ketThuc = now();
 	await kho.ghiCa(s, ca);

@@ -643,3 +643,20 @@ test("ghiCa: dòng có slug (kiểu indexnow) mang khoá riêng theo kiểu + sl
 	assert.equal((await kho.dsCa(s, 10)).length, 4);
 	assert.ok(await s.ca.get(`${luc}-radar`), "khoá ca radar không đổi");
 });
+
+// Khoá của cụm là băm của TÊN, nên hai cụm trùng tên đè nhau. Bản cũ trả về số mục NỘP: ngày
+// 02/10/2026 nó báo "ghi 27" trong khi kho chỉ có 24 dòng. Con số phải khớp số dòng thật.
+test("thayCum: cụm trùng tên gộp lại, trả về số DÒNG thật và giữ bản điểm cao hơn", async () => {
+	const s = taoKhoGia();
+	const n = await kho.thayCum(s, [
+		{ tenCum: "Đau lưng", tuKhoa: ["đau lưng"], diem: 4, soBai: 1 },
+		{ tenCum: "Đau lưng", tuKhoa: ["đau lưng", "thoát vị"], diem: 9, soBai: 5 },
+		{ tenCum: "Mất ngủ", tuKhoa: ["mất ngủ"], diem: 6, soBai: 2 },
+	], "2026-10-02T00:00:00.000Z", { nghi: async () => {} });
+	const trong = (await s.cum.query({ limit: 100 })).items;
+	assert.equal(n, 2, "phải đếm số dòng thật, không đếm số mục nộp");
+	assert.equal(trong.length, n, "số trả về PHẢI khớp số dòng trong kho");
+	const dauLung = trong.find((x) => x.data.tenCum === "Đau lưng");
+	assert.equal(dauLung.data.diem, 9, "cùng tên thì giữ bản điểm cao hơn");
+	assert.deepEqual(dauLung.data.tuKhoa, ["đau lưng", "thoát vị"]);
+});

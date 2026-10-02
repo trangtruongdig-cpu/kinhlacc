@@ -9,7 +9,7 @@ import { markdownToPortableText } from "emdash/client";
 import { KHAI_BAO_KHO } from "./kho.mjs";
 import * as kho from "./kho.mjs";
 import { chuanTenMien } from "./radar/sitemap.mjs";
-import { chayCaRadar } from "./ca-radar.mjs";
+import { chayCaRadar, TRAN_LOI_TAI } from "./ca-radar.mjs";
 import { tinhTrangTuDong } from "./tinh-trang.mjs";
 import { taoGsc } from "./leo-top/gsc.mjs";
 import { taoDocWeb, taoDocTrang } from "./lib/doc-web.mjs";
@@ -75,13 +75,21 @@ async function chayCa(ctx, ghi) {
 		ctx.log.warn("Rada SEO: đã có một ca đang chạy, bỏ qua lượt này");
 		return null;
 	}
+	// Sổ lượt tải hỏng của CẢ ca. docWeb trả chuỗi rỗng khi hỏng, nên không có sổ này thì
+	// "0 xu hướng" / "0 sitemap" không bao giờ giải thích được — đo 02/10/2026, mất một ca.
+	const loiTai = [];
 	try {
 		return await chayCaRadar({
 			// Dừng trích 15 phút trước khi khoá hết hạn: quá hạn khoá thì một ca khác được
 			// giành khoá và chạy chồng lên ca này.
 			hanChot: Date.now() + HAN_KHOA_MS - 15 * 60 * 1000,
 			s: ctx.storage,
-			docWeb: taoDocWeb(ctx.http.fetch.bind(ctx.http)),
+			docWeb: taoDocWeb(ctx.http.fetch.bind(ctx.http), {
+				ghiLoi: (x) => {
+					if (loiTai.length < TRAN_LOI_TAI) loiTai.push(x);
+				},
+			}),
+			loiTai,
 			ghi,
 			tranMoiDoiThu: soMoiTruong("RADA_SEO_TRAN_MOI_DOI_THU", 30),
 			// Đo lại hạng phiên leo top đã sửa (+14/+28 ngày). Thiếu biến GSC thì ca tự bỏ qua bước này.

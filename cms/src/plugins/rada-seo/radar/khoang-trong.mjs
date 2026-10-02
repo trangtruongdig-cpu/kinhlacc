@@ -94,6 +94,52 @@ export function chamDiem({ soDoiThu, soBai, coXuHuong, viPham }) {
 }
 
 /**
+ * Tin nội bộ của cơ quan: thư mời báo giá, đoàn công tác, thi đua, tuyển dụng… Đối thủ ở đây
+ * phần lớn là BỆNH VIỆN, nên sitemap của họ đầy loại trang này; chúng qua được phép lọc
+ * 'ngoai_nganh' vì có nhắc Y học cổ truyền, rồi thành "khoảng trống nội dung".
+ *
+ * ⚠️ Đo thật 02/10/2026: hai cụm ĐẦU BẢNG là "Thư mời báo giá dịch vụ truyền thông" (8đ) và
+ * "Đoàn công tác … tham dự hội nghị quốc tế tại Thụy Sĩ" (8đ) — tức khâu lập kế hoạch sẽ cử
+ * bot đi viết bài về thư mời báo giá. Một việc giả đứng đầu bảng tệ hơn bảng ngắn đi hai dòng.
+ *
+ * Chỉ khớp trên TÊN cụm (lấy từ tiêu đề trang), không khớp trên từ khoá: từ khoá của một bài
+ * chuyên môn hay có tên bệnh viện, và tên cơ quan KHÔNG phải dấu hiệu tin nội bộ —
+ * "Hướng dẫn thực hành châm cứu tại Bệnh viện Y học cổ truyền Trung ương" là bài chuyên môn.
+ */
+const TIN_NOI_BO = [
+	"thư mời", "báo giá", "mời thầu", "đấu thầu", "chào giá", "gói thầu",
+	"tuyển dụng", "trúng tuyển", "tuyển sinh", "xét tuyển",
+	"đoàn công tác", "hội nghị", "hội thảo", "tập huấn", "lễ ", "kỷ niệm", "đại hội",
+	"thi đua", "khen thưởng", "phát động", "ra quân", "tình nguyện", "hiến máu",
+	"chi bộ", "đảng bộ", "công đoàn", "đoàn thanh niên",
+	"lịch nghỉ", "lịch trực", "thông báo nghỉ", "giá dịch vụ", "quyết định số",
+	// Văn bản pháp quy và quản trị nội bộ — cùng loại, bắt được ở lượt đo thứ hai.
+	"nghị định", "thông tư", "nghị quyết", "quy chế", "nội quy", "đề án",
+	"công khai tài chính", "ngân sách", "viên chức", "vị trí việc làm",
+	"chống lãng phí", "tiết kiệm", "cải cách hành chính", "chuyển đổi số",
+	"hợp tác quốc tế", "hợp tác y tế", "ký kết", "biên bản ghi nhớ",
+	// Trang "về chúng tôi" của cơ quan. "giới thiệu" phải đi KÈM đơn vị — "Giới thiệu huyệt
+	// Tam Âm Giao" là bài chuyên môn.
+	"tri ân", "cơ cấu tổ chức", "ban giám đốc", "lịch sử phát triển",
+	"giới thiệu phòng", "giới thiệu khoa", "giới thiệu trung tâm", "giới thiệu bệnh viện",
+];
+export function laTinNoiBo(tenCum) {
+	const t = boDau(String(tenCum ?? "")).toLowerCase();
+	return TIN_NOI_BO.some((x) => t.includes(boDau(x).toLowerCase()));
+}
+
+/**
+ * Tên cụm rỗng nghĩa — không dùng được làm việc viết. "Khác" là chủ đề mà MÔ HÌNH trả về khi
+ * nó không đọc ra chủ đề; chúng có thật trong kho (đợt đọc qua mcp-bridge). Giữ lại thì bảng
+ * việc có mấy dòng tên "Khác" mà không ai biết phải viết gì.
+ */
+const TEN_RONG = new Set(["khac", "khong ro", "chua ro", "tin tuc", "tong hop", "chu de khac", "khong xac dinh"]);
+export function laTenRong(tenCum) {
+	const t = boDau(String(tenCum ?? "")).trim().toLowerCase().replace(/[.,;:!?]+$/, "");
+	return !t || TEN_RONG.has(t);
+}
+
+/**
  * @param {{
  *   chuDeMinh: {chuDe: string, tuKhoa: string[]}[],
  *   chuDeDoiThu: {id: string, doiThuId: string, chuDe: string, tuKhoa: string[]}[],
@@ -123,5 +169,9 @@ export async function timKhoangTrong({ chuDeMinh, chuDeDoiThu, xuHuong }) {
 			viDu: bai.slice(0, 5).map((b) => b.chuDe),
 		};
 	});
-	return ra.sort((a, b) => b.diem - a.diem || b.soBai - a.soBai).slice(0, TRAN_CUM);
+	// Bỏ cụm không dùng được làm việc viết. Bỏ HẲN, không hạ điểm: hạ điểm thì nó vẫn nằm trong
+	// bảng và vẫn có ngày trôi lên đầu khi kho vơi. Bảng này được lập lại mỗi đêm nên bỏ sai
+	// chỉ mất một đêm, còn một việc giả đứng đầu bảng thì có người thật đi viết theo.
+	const dung = ra.filter((c) => !laTinNoiBo(c.tenCum) && !laTenRong(c.tenCum));
+	return dung.sort((a, b) => b.diem - a.diem || b.soBai - a.soBai).slice(0, TRAN_CUM);
 }

@@ -11,6 +11,12 @@
 // sổ giữ chỗ theo ngày, đếm số lần giao một URL (3 lần chưa đọc → 'loi'), và luật chuẩn hoá
 // kết quả. Viết đường ghi thứ hai là có hai bộ luật, và bộ thứ hai sẽ lệch.
 //
+// ⚠️ PHẢI LẤY VIỆC THEO LÔ. `layViec` kẹp cứng TRAN_TRANG_MOI_LUOT = 10 trang mỗi lượt gọi (nó
+// sinh ra cho routine bên ngoài gọi nhiều lượt). Gọi nó MỘT lần rồi xin 40 thì nhận đúng 10 —
+// ca đêm đọc một phần tư hạn mức và `TRAN_MOI_CA` thành số chết. Bắt được bằng lượt chạy thử
+// thật 02/10/2026; phép kiểm KHÔNG bắt được vì chúng tiêm `layViec` giả không có cái kẹp đó.
+// Bài học chung: hằng số trần của mình vô nghĩa nếu hàm được gọi có trần riêng nhỏ hơn.
+//
 // ⚠️ MỘT TRANG MỘT LƯỢT GỌI, không nhồi 10 trang vào một prompt. Lý do đã đo ở bot thẩm định:
 // nhồi nhiều mục vào một lời gọi thì một mục hỏng làm hỏng cả lô, và model hay bỏ bớt mục ở
 // cuối. Model rẻ nên 40 lượt/đêm không đáng kể.
@@ -54,63 +60,84 @@ export const loiNhac = () =>
 /**
  * Đọc hết trang đang chờ bằng model, rồi ghi bằng `ghiPhanTich`.
  *
+ * Lấy việc THEO LÔ cho tới khi hết hạn mức ca, hết hàng đợi, hoặc chạm trần lượt gọi model.
+ * Mỗi lô ghi ngay sau khi đọc xong — ca bị ngắt giữa đường thì phần đã đọc không mất.
+ *
  * `layViec`/`ghiPhanTich` tiêm được để phép kiểm chạy vòng lặp thật mà không cần kho —
  * mặc định là hai hàm thật của `mcp-viec.mjs`.
  *
  * @param {{s: object, kv: object, goiModel: object, log?: object, nowMs?: number,
  *   soTrang?: number, nghiMs?: number, layViec?: Function, ghiPhanTich?: Function}} p
  * @returns {Promise<{daDoc: number, daGhi: number, loi: number, boQua: number, luotGoi: number,
- *   conTrongHangCho: number, ghiChu: string[]}>}
+ *   soLo: number, conTrongHangCho: number, ghiChu: string[]}>}
  */
 export async function tuDocTrang({ s, kv, goiModel, log, nowMs = Date.now(), soTrang = TRAN_MOI_CA, nghiMs = NGHI_GIUA_LUOT_MS, layViec = layViecThat, ghiPhanTich = ghiPhanTichThat }) {
-	const ra = { daDoc: 0, daGhi: 0, loi: 0, boQua: 0, luotGoi: 0, conTrongHangCho: 0, ghiChu: [] };
+	const ra = { daDoc: 0, daGhi: 0, loi: 0, boQua: 0, luotGoi: 0, soLo: 0, conTrongHangCho: 0, ghiChu: [] };
 	if (!goiModel?.coCauHinh?.()) {
 		const thieu = goiModel?.thieuCauHinh?.() ?? ["goiModel"];
 		ra.ghiChu.push(`Chưa gọi được model: thiếu ${thieu.join(", ")} — hàng đợi đứng, KHÔNG phải hết việc.`);
 		return ra;
 	}
-	const viec = await layViec({ s, kv, nowMs, soTrang });
-	ra.conTrongHangCho = viec.conTrongHangCho ?? 0;
-	if (!viec.trang?.length) {
-		ra.ghiChu.push(viec.conLaiDemNay <= 0 ? "Đã chạm trần trang/đêm." : "Hàng đợi trống — không có trang nào chờ đọc.");
-		return ra;
-	}
 
 	const nhac = loiNhac();
-	const ketQua = [];
-	const boQua = [];
-	for (const t of viec.trang) {
+	let conLai = Math.max(0, soTrang);
+	let hetHanMuc = false;
+	while (conLai > 0 && !hetHanMuc) {
+		// Nhìn hạn mức TRƯỚC khi lấy lô: `layViec` đánh dấu trang là "đã giao đêm nay" và cộng
+		// soLanGiao, nên lấy một lô rồi không đọc nổi là đốt oan một lượt giao (3 lượt chưa đọc
+		// thì trang bị xếp 'loi'). Lô tối đa 10 trang nên phần đốt oan nhiều nhất là 10.
 		if (!goiModel.conHanMuc()) {
-			ra.ghiChu.push(`Dừng giữa ca: đã chạm trần lượt gọi (${goiModel.soLuotDaGoi()}). Trang còn lại giữ trong hàng đợi.`);
+			hetHanMuc = true;
 			break;
 		}
-		const r = await goiModel.goi("doc_trang", nhac, t.chu);
-		ra.luotGoi++;
-		if (!r.ok) {
-			ra.loi++;
-			// KHÔNG đưa vào boQua: lỗi của phía mình (mạng, trần, nhà cung cấp) thì trang phải
-			// được giao lại đêm sau. boQua là dành cho trang THẬT SỰ không đọc được.
-			log?.warn?.(`Rada SEO: đọc trang ${t.id} hỏng — ${r.loi}`);
-		} else {
-			const kq = docKetQua(r.chu, t.id);
-			if (kq) {
-				ketQua.push(kq);
-				ra.daDoc++;
-			} else {
-				// Model trả lời mà không ra ba trường → trang này không đọc được, nói rõ lý do.
-				boQua.push({ id: t.id, lyDo: `Model trả lời không đúng dạng JSON ba trường (${String(r.chu).slice(0, 80)})` });
-			}
+		const viec = await layViec({ s, kv, nowMs, soTrang: conLai });
+		ra.conTrongHangCho = viec.conTrongHangCho ?? 0;
+		if (!viec.trang?.length) {
+			// Chỉ nói "trống/chạm trần" khi chưa lấy được lô nào — hết hàng đợi giữa ca là bình
+			// thường, nói "trống" lúc đó là báo sai cho người đọc nhật ký.
+			if (!ra.soLo) ra.ghiChu.push(viec.conLaiDemNay <= 0 ? "Đã chạm trần trang/đêm." : "Hàng đợi trống — không có trang nào chờ đọc.");
+			break;
 		}
-		if (nghiMs) await nghi(nghiMs);
+		ra.soLo++;
+
+		const ketQua = [];
+		const boQua = [];
+		for (const t of viec.trang) {
+			if (!goiModel.conHanMuc()) {
+				hetHanMuc = true;
+				break;
+			}
+			const r = await goiModel.goi("doc_trang", nhac, t.chu);
+			ra.luotGoi++;
+			if (!r.ok) {
+				ra.loi++;
+				// KHÔNG đưa vào boQua: lỗi của phía mình (mạng, trần, nhà cung cấp) thì trang phải
+				// được giao lại đêm sau. boQua là dành cho trang THẬT SỰ không đọc được.
+				log?.warn?.(`Rada SEO: đọc trang ${t.id} hỏng — ${r.loi}`);
+			} else {
+				const kq = docKetQua(r.chu, t.id);
+				if (kq) {
+					ketQua.push(kq);
+					ra.daDoc++;
+				} else {
+					// Model trả lời mà không ra ba trường → trang này không đọc được, nói rõ lý do.
+					boQua.push({ id: t.id, lyDo: `Model trả lời không đúng dạng JSON ba trường (${String(r.chu).slice(0, 80)})` });
+				}
+			}
+			if (nghiMs) await nghi(nghiMs);
+		}
+
+		if (ketQua.length || boQua.length) {
+			const g = await ghiPhanTich({ s, kv, ketQua, boQua, nowMs });
+			ra.daGhi += g.daGhi;
+			ra.boQua += g.soDaBoQua;
+			if (g.soThieuChuDe) ra.ghiChu.push(`${g.soThieuChuDe} kết quả bị bỏ vì thiếu chủ đề/từ khoá.`);
+			if (g.boQua?.length) ra.ghiChu.push(`${g.boQua.length} id không ghi được (lạ hoặc không còn chờ đọc).`);
+		}
+		conLai -= viec.trang.length;
 	}
 
-	if (ketQua.length || boQua.length) {
-		const g = await ghiPhanTich({ s, kv, ketQua, boQua, nowMs });
-		ra.daGhi = g.daGhi;
-		ra.boQua = g.soDaBoQua;
-		if (g.soThieuChuDe) ra.ghiChu.push(`${g.soThieuChuDe} kết quả bị bỏ vì thiếu chủ đề/từ khoá.`);
-		if (g.boQua?.length) ra.ghiChu.push(`${g.boQua.length} id không ghi được (lạ hoặc không còn chờ đọc).`);
-	}
+	if (hetHanMuc) ra.ghiChu.push(`Dừng giữa ca: đã chạm trần lượt gọi (${goiModel.soLuotDaGoi()}). Trang còn lại giữ trong hàng đợi.`);
 	if (ra.loi) ra.ghiChu.push(`${ra.loi} lượt gọi model hỏng — những trang đó GIỮ trong hàng đợi, sẽ đọc lại.`);
 	return ra;
 }

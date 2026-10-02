@@ -5,7 +5,7 @@
 // thứ giữ hạn mức gói Claude của người dùng — lời dặn trong routine có thể bị bỏ qua, trần
 // ở đây thì không.
 import * as kho from "./kho.mjs";
-import { capNhatKhoangTrong, xuHuongGanNhat } from "./ca-radar.mjs";
+import { capNhatKhoangTrong, cauKhoangTrong, xuHuongGanNhat } from "./ca-radar.mjs";
 import { BOI_CANH, LOI_NHAC_TRICH } from "./loi-dan.mjs";
 
 export const TRAN_TRANG_MOI_DEM = 40;
@@ -127,9 +127,14 @@ export async function ghiPhanTich({ s, kv, ketQua = [], boQua = [], nowMs = Date
 export async function xongPhanTich({ s, kv, nowMs = Date.now(), nghi }) {
 	const batDau = new Date(nowMs).toISOString();
 	const ngay = ngayVN(nowMs);
-	const ca = { loai: "claude", batDau, ketThuc: null, ghi: true, soDoc: (await kv.get(`claude:doc:${ngay}`)) ?? 0, soCum: 0, loi: [] };
+	const ca = { loai: "claude", batDau, ketThuc: null, ghi: true, soDoc: (await kv.get(`claude:doc:${ngay}`)) ?? 0, soCum: 0, loi: [], thongTin: [] };
 	try {
-		ca.soCum = await capNhatKhoangTrong(s, { xuHuong: await xuHuongGanNhat(s), now: batDau, nghi });
+		const kt = await capNhatKhoangTrong(s, { xuHuong: await xuHuongGanNhat(s), now: batDau, nghi });
+		ca.soCum = kt.soCum;
+		ca.soChuDeDoiThu = kt.soChuDeDoiThu;
+		ca.soChuDeMinh = kt.soChuDeMinh;
+		ca.soCumTinh = kt.soCumTinh;
+		ca.thongTin.push(cauKhoangTrong(kt));
 	} catch (e) {
 		ca.loi.push(`khoảng trống: ${String(e?.message ?? e).slice(0, 300)}`);
 	}

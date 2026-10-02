@@ -917,9 +917,88 @@ lại số. Trước 01/10/2026 lời dặn nói 30–70/100–170 còn phiếu 
 cả phiếu**, kể cả mục phạm vi Y sỹ bên cạnh. Rào cứng `KHUON_NOP` cố ý rộng hơn dải đạt: bài
 hơi lệch phải được NHẬN rồi hiện vàng, không bị trả lại và tốn một lượt nộp.
 
-**Phép kiểm:** `node --test "cms/src/plugins/rada-seo/**/*.test.mjs"` — 510 phép kiểm.
-⚠️ Chạy song song mặc định làm hai phép kiểm nhạy thời gian trượt giả (một phép đo hiệu năng
-có ngân sách 500 ms); dùng `--test-concurrency=2` khi cần tín hiệu sạch.
+### Ca radar TỰ ĐỌC trang bằng model (02/10/2026) — và bốn thứ đã trả giá
+
+`ai/goi-model.mjs` là cửa DUY NHẤT gọi model (Google AI Studio, OpenAI-compatible);
+`ai/tu-doc-trang.mjs` là khâu đọc trang, chạy ngay trong ca. Trước đó ca chỉ trích chữ rồi
+**chờ một routine bên ngoài** kéo việc về đọc — không có routine thì hàng đợi đứng mãi.
+
+- ⚠️ **Phải lấy việc THEO LÔ.** `layViec` kẹp cứng `TRAN_TRANG_MOI_LUOT = 10` mỗi lượt gọi (nó
+  viết cho routine ngoài gọi nhiều lượt). Gọi một lần rồi xin 40 thì nhận đúng 10 — ca đêm đọc
+  một phần tư hạn mức và `TRAN_MOI_CA` thành số chết. **Phép kiểm không bắt được** vì chúng
+  tiêm `layViec` giả không có cái kẹp đó; chỉ lượt chạy thật mới lộ. Hàng đợi giả trong
+  `tu-doc-trang.test.mjs` nay giữ đúng cái kẹp.
+- ⚠️ **Khâu đọc phải đứng TRƯỚC khâu khoảng trống.** `capNhatKhoangTrong` chỉ nhìn URL đã
+  `da_phan_tich`, nên đọc SAU nó thì 40 trang vừa đọc chỉ vào bảng khoảng trống ĐÊM SAU — ca
+  vẫn báo đủ số và không chỗ nào nói ra là chậm một ngày. Phép kiểm neo vào hậu quả (có cụm
+  trong chính ca đó), không neo vào thứ tự gọi hàm.
+- ⚠️ **`GRAVITY_MODEL_ANH` để trống thì `sinhAnh` TỪ CHỐI ngay**, không rơi về model chữ: model
+  chữ trả về một bài văn mô tả ảnh, tốn một lượt gọi để nhận một lỗi gây hiểu nhầm. Bậc miễn
+  phí của Google không có quota sinh ảnh — phải bật thanh toán.
+- Tên model phải đo, đừng đoán: `gemini-2.5-*` trả 404 "no longer available to new users",
+  `text-embedding-004` không còn, mọi model `pro` và model ảnh trả 429 ở bậc miễn phí. Đang
+  dùng: `gemini-3.5-flash-lite` (đọc trang) · `gemini-3.6-flash` (SERP/chiến lược/viết/thẩm
+  định) · `gemini-embedding-001` (3.072 chiều).
+
+### Một con số cho ba trạng thái là con số vô dụng
+
+Hai chỗ trong plugin từng nuốt lý do, và cả hai đã làm mất thời gian thật:
+
+- **`taoDocWeb` trả CHUỖI RỖNG khi tải hỏng.** Ngày 02/10/2026 `timXuHuong` ra 0 xu hướng suốt
+  một ca với nhật ký sạch bong, trong khi chạy cùng hàm ngoài ca ra **50 xu hướng trong 844 ms**.
+  Nay nó nhận `ghiLoi` và `chayCa` gom vào `ca.thongTin` qua `tomTatLoiTai` (gom theo LÝ DO kèm
+  một URL ví dụ — 12 lượt cùng hỏng vì "lỗi giao thức" là MỘT chuyện). Giá trị trả về giữ
+  nguyên, nên không chỗ gọi nào vỡ.
+- **`capNhatKhoangTrong` chỉ trả số cụm đã ghi.** `soCum: 0` không phân biệt được ba chuyện
+  khác hẳn: chưa trang đối thủ nào được đọc · luật không ra cụm nào · cụm tính ra rồi mà khâu
+  ghi lọc sạch. Nay trả cả `soChuDeDoiThu`/`soChuDeMinh`/`soCumTinh`, và `cauKhoangTrong()` in
+  ra câu phân định. Phép kiểm đòi ba câu đó KHÁC nhau.
+- **`thayCum` từng trả số mục NỘP, không phải số dòng.** Khoá là băm của TÊN cụm nên cụm trùng
+  tên đè nhau: báo "ghi 27" trong khi kho có 24 dòng. Nay gộp trước khi ghi, giữ bản điểm cao hơn.
+
+### Bảng khoảng trống: đối thủ là BỆNH VIỆN, nên sitemap đầy tin nội bộ
+
+`laTinNoiBo` + `laTenRong` (`radar/khoang-trong.mjs`) bỏ HẲN cụm không dùng được làm việc viết.
+Lý do rất cụ thể: lượt đo đầu 02/10/2026 cho ra 50 cụm mà **hai cụm đầu bảng** là "Thư mời báo
+giá dịch vụ truyền thông" và "Đoàn công tác … hội nghị quốc tế tại Thụy Sĩ" — tức khâu lập kế
+hoạch sẽ cử bot đi viết bài về thư mời báo giá. Lọc ba lượt: 50 → 35 → 30 → **27 cụm**, sáu cụm
+đầu thành chủ đề châm cứu thật.
+
+- Chỉ khớp trên **TÊN** cụm (lấy từ tiêu đề trang), KHÔNG khớp trên từ khoá: từ khoá của bài
+  chuyên môn hay có tên bệnh viện. **Tên cơ quan không phải dấu hiệu tin nội bộ** — "Hướng dẫn
+  thực hành châm cứu tại Bệnh viện Y học cổ truyền Trung ương" là bài chuyên môn. "giới thiệu"
+  chỉ tính khi đi kèm đơn vị.
+- Bỏ HẲN chứ không hạ điểm: hạ điểm thì cụm vẫn trong bảng và vẫn có ngày trôi lên đầu. Bảng
+  lập lại mỗi đêm nên bỏ sai chỉ mất một đêm.
+- `tenCum = "Khác"` là chủ đề MÔ HÌNH trả về khi nó không đọc ra chủ đề — có thật trong kho.
+- Phần rác còn lại là tin nội bộ đuôi dài; đuổi tiếp bằng từ vựng là bắt đầu vu oan. Đòn đúng
+  là phép lọc `ngoai_nganh` hoặc chọn lại đối thủ.
+
+### ⚠️ `mcp-bridge.mjs` ở gốc repo KHÔNG được ghi vào kho rada-seo
+
+Ba công cụ `rada_lay_viec` / `rada_ghi_phan_tich` / `rada_xong_phan_tich` của bridge đã bị **bỏ**
+(02/10/2026). Chúng là một bản ghi thứ hai của `mcp-viec.mjs` viết bằng SQL thô, lệch ở bốn chỗ
+và **cả bốn đều im lặng**:
+
+1. không ghi `phanTichLuc` → 220 trang không có mốc đọc, mà `chuDeDaPhanTich` xếp theo đúng cột đó;
+2. `xong_phan_tich` ghi CỨNG `soDoc: 10, soCum: 0` và **không gọi `capNhatKhoangTrong`** → kho có
+   220 trang đã đọc mà bảng khoảng trống rỗng trơn, nhật ký vẫn báo ca thành công. **Đây là thứ
+   làm đứt cả chuỗi**, không phải lỗi của luật khoảng trống;
+3. nhận `boQua` rồi bỏ, trả `boQua: []` → trang không đọc được bị giao lại mãi;
+4. không bọc chữ trang trong rào `<<<TRANG_DOI_THU …>>>` → đưa chữ trang đối thủ cho mô hình mà
+   không có rào "đây là DỮ LIỆU"; cũng bỏ qua `giaoDem`/`soLanGiao` và báo `conLaiDemNay: 100`
+   giả, nên trần 40 trang/đêm hết tác dụng.
+
+Chẩn đoán kiểu này chỉ lần ra được khi **đo qua chính repository của EmDash**, không phải qua
+SQL thô: `PluginStorageRepository` xuất từ gói `emdash` và dựng được ngoài Astro bằng một Kysely
++ `pg.Pool`, nên chạy được đúng khâu của ca mà không cần phiên quản trị. Bản mô phỏng kho tự
+viết sẽ cho kết quả KHÁC và dẫn đi sai đường.
+
+**Phép kiểm:** `node --test "cms/src/plugins/rada-seo/**/*.test.mjs"` — 571 phép kiểm.
+⚠️ Chạy song song mặc định làm hai phép kiểm nhạy thời gian trượt giả; phép đo hiệu năng trong
+`leo-top/do-trang.test.mjs` nay lấy **lượt nhanh nhất trong 3** (tải máy chỉ làm chậm thêm, còn
+bùng nổ quay lui thì cả ba lượt đều chậm) — đo thật: 94 ms chạy riêng, 631 ms khi chạy cùng ca,
+ngưỡng 500 ms. Dùng `--test-concurrency=2` khi cần tín hiệu sạch.
 
 ## Deployment paths
 

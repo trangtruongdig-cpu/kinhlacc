@@ -132,10 +132,24 @@ const THU_DICH = {
 	"20k <body không đóng": "<body x".repeat(20_000),
 	"20k <nav/<header không đóng": `<body>${"<nav><header>x".repeat(20_000)}`,
 };
+/**
+ * Nhanh NHẤT trong 3 lượt. Chốt này canh BÙNG NỔ QUAY LUI của biểu thức, nhưng đo bằng đồng hồ
+ * treo tường — và tải máy chỉ làm chậm thêm, không bao giờ làm nhanh hơn, nên `min` là số gần
+ * sự thật nhất. Bùng nổ thì CẢ BA lượt đều chậm, chốt vẫn bắt.
+ *
+ * ⚠️ Đừng quay về đo một lượt: đo thật 02/10/2026 cùng một phép, cùng một máy — 94 ms khi chạy
+ * riêng, 631 ms khi chạy cùng ca radar. Ngưỡng 500 ms hoá ra đỏ vì máy có việc khác, và một
+ * chốt hay vu oan thì người ta thôi đọc màu đỏ.
+ */
+const doGioNhanhNhat = (f, lan = 3) => {
+	let min = Infinity;
+	for (let i = 0; i < lan; i++) min = Math.min(min, doGio(f).ms);
+	return min;
+};
 for (const [ten, html] of Object.entries(THU_DICH))
 	test(`doTrang tuyến tính: ${ten} < 500 ms`, () => {
-		const { ms } = doGio(() => doTrang(html, { tuKhoa: TU_KHOA, url: "https://x.vn/" }));
-		assert.ok(ms < 500, `${ms.toFixed(0)} ms`);
+		const ms = doGioNhanhNhat(() => doTrang(html, { tuKhoa: TU_KHOA, url: "https://x.vn/" }));
+		assert.ok(ms < 500, `${ms.toFixed(0)} ms (nhanh nhất trong 3 lượt)`);
 	});
 
 test("JSON-LD lồng 20.000 tầng: không ném, không tràn ngăn xếp, vẫn đọc khối khác", () => {

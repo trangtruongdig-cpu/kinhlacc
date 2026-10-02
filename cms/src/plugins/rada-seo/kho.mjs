@@ -22,7 +22,7 @@ export const KHAI_BAO_KHO = {
 	// Mạng nhện hai chiều (2C mục 6): một dòng = MỘT BÀI CŨ, id = contentId của nó, chứa các
 	// bài mới mà nó nên trỏ sang. Khoá theo bài CŨ vì khung Phiếu Rada mở theo bài đang sửa.
 	// Không index: chỉ tra bằng get(id) khi mở khung.
-	goi_y_nguoc: {},
+	goi_y_nguoc: { indexes: [] },
 };
 
 export const TRANG_THAI_CUM = ["cho_viet", "co_nhap", "da_dang", "bo_qua", "phu_boi_tu_dien"];
@@ -266,8 +266,19 @@ export async function thayCum(s, cumMoi, now, { nghi } = {}) {
 	const xoa = cu.filter((r) => r.data.trangThai === "cho_viet").map((r) => r.id);
 	if (xoa.length) await s.cum.deleteMany(xoa);
 	const ghi = cumMoi.filter((c) => !timTrung({ tieuDe: c.tenCum, tuKhoa: c.tuKhoa }, khoa));
-	if (ghi.length) await ghiTheoLo(s.cum, ghi.map((c) => ({ id: bam(c.tenCum), data: { ...c, trangThai: "cho_viet", capNhatLuc: now } })), { nghi });
-	return ghi.length;
+	// Khoá là BĂM CỦA TÊN cụm, nên hai cụm trùng tên đè nhau. Phải gộp TRƯỚC khi ghi và đếm
+	// theo số dòng THẬT: bản cũ trả về số mục nộp, nên ngày 02/10/2026 nó báo "ghi 27" trong khi
+	// kho chỉ có 24 dòng. Một con số không khớp hiện thực thì không dùng để canh được gì.
+	// Giữ bản điểm cao hơn: cùng tên thì bản nhiều đối thủ/nhiều bài hơn là bản đáng viết.
+	const theoId = new Map();
+	for (const c of ghi) {
+		const id = bam(c.tenCum);
+		const cu = theoId.get(id);
+		if (!cu || (c.diem ?? 0) > (cu.data.diem ?? 0)) theoId.set(id, { id, data: { ...c, trangThai: "cho_viet", capNhatLuc: now } });
+	}
+	const dong = [...theoId.values()];
+	if (dong.length) await ghiTheoLo(s.cum, dong, { nghi });
+	return dong.length;
 }
 
 export async function datTrangThaiCum(s, id, trangThai) {

@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { chayCaRadar, xuHuongGanNhat } from "./ca-radar.mjs";
+import { chayCaRadar, xuHuongGanNhat, cauKhoangTrong, tomTatLoiTai } from "./ca-radar.mjs";
 import * as kho from "./kho.mjs";
 import { taoKhoGia, webGia } from "./__test__/kho-gia.mjs";
 
@@ -235,4 +235,82 @@ test("đo lại leo top: người quản trị đổi ngày sửa trong lúc ca 
 	const d = await s.leo_top.get(id);
 	assert.equal(d.ngaySua, "2026-10-10");
 	assert.deepEqual(d.doLai, []);
+});
+
+// Thứ tự các khâu là thứ CHỊU LỰC, không phải chuyện sắp xếp cho đẹp: `capNhatKhoangTrong` chỉ
+// nhìn URL đã 'da_phan_tich', nên đọc trang SAU nó thì 40 trang vừa đọc chỉ vào bảng khoảng
+// trống ở đêm hôm sau — ca vẫn báo đủ số và không chỗ nào nói ra là chậm một ngày. Phép kiểm
+// neo vào HẬU QUẢ quan sát được (có cụm trong chính ca đó), không neo vào thứ tự gọi hàm.
+test("tự đọc trang chạy TRƯỚC khâu khoảng trống: trang đọc trong ca vào bảng khoảng trống NGAY ca đó", async () => {
+	const s = await khoiTao();
+	// tuDoc giả làm đúng việc của bản thật: chuyển trang 'cho_ai' thành 'da_phan_tich' kèm chủ đề.
+	const tuDoc = async ({ s }) => {
+		const r = await s.url.query({ where: { trangThai: "cho_ai" }, limit: 50 });
+		const items = r.items.map((x, i) => ({ id: x.id, chuDe: `Bấm huyệt chữa mất ngủ ${i}`, tuKhoa: ["bấm huyệt", "mất ngủ"], tomTat: [] }));
+		const kq = await kho.ghiPhanTich(s, items, LUC);
+		return { daDoc: kq.daGhi, daGhi: kq.daGhi, loi: 0, boQua: 0, luotGoi: kq.daGhi, soLo: 1, conTrongHangCho: 0, ghiChu: [] };
+	};
+	const ca = await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, kv: {}, goiModel: {}, tuDoc, now: () => LUC });
+	assert.ok(ca.soDocAi > 0, "phải đọc được ít nhất một trang vừa trích trong ca");
+	assert.ok(ca.soCum > 0, `khoảng trống của chính ca này phải thấy trang vừa đọc, soCum=${ca.soCum}`);
+});
+
+test("thiếu goiModel/kv thì NÓI RA là hàng đợi sẽ đứng, không im lặng báo ca thành công", async () => {
+	const s = await khoiTao();
+	const ca = await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, now: () => LUC });
+	assert.deepEqual([ca.soDocAi, ca.soLuotModel], [0, 0]);
+	assert.ok(ca.thongTin.some((x) => /tự đọc trang KHÔNG chạy/.test(x)), ca.thongTin.join("|"));
+});
+
+// ── Số 0 phải tự giải thích ────────────────────────────────────────────────────────────────
+// Ngày 02/10/2026 khâu khoảng trống ghi soCum=0 suốt 5 ca liền. Con số đó đúng ở 4 ca (chưa
+// trang nào được đọc) và SAI ở ca thứ 5, mà không cách nào phân biệt từ nhật ký. Ba câu dưới
+// là thứ phân biệt được, nên chúng phải khác nhau rõ ràng.
+test("cauKhoangTrong: ba trạng thái của số 0 ra ba câu KHÁC nhau", () => {
+	const chuaDoc = cauKhoangTrong({ soCum: 0, soChuDeMinh: 60, soChuDeDoiThu: 0, soCumTinh: 0 });
+	const luatTrong = cauKhoangTrong({ soCum: 0, soChuDeMinh: 60, soChuDeDoiThu: 160, soCumTinh: 0 });
+	const bILoc = cauKhoangTrong({ soCum: 0, soChuDeMinh: 60, soChuDeDoiThu: 160, soCumTinh: 50 });
+	assert.match(chuaDoc, /Chưa trang ĐỐI THỦ nào được đọc/);
+	assert.match(chuaDoc, /không phải lỗi của luật/);
+	assert.match(luatTrong, /luật không ra cụm nào/);
+	assert.match(bILoc, /khâu ghi lọc sạch/);
+	assert.equal(new Set([chuaDoc, luatTrong, bILoc]).size, 3);
+	// Ca bình thường thì chỉ nêu số, không phán gì.
+	const thuong = cauKhoangTrong({ soCum: 50, soChuDeMinh: 60, soChuDeDoiThu: 160, soCumTinh: 50 });
+	assert.match(thuong, /160 chủ đề đối thủ/);
+	assert.doesNotMatch(thuong, /không phải|lọc sạch/);
+});
+
+test("tomTatLoiTai: gom theo LÝ DO kèm ví dụ, không liệt kê từng URL", () => {
+	const c = tomTatLoiTai([
+		{ url: "https://a/1", lyDo: "lỗi giao thức" },
+		{ url: "https://a/2", lyDo: "lỗi giao thức" },
+		{ url: "https://b/1", lyDo: "quá hạn 30 s" },
+	]);
+	assert.match(c, /Tải hỏng 3 lượt/);
+	assert.match(c, /2× lỗi giao thức \(vd https:\/\/a\/1\)/);
+	assert.match(c, /1× quá hạn 30 s/);
+	// Lý do nhiều lượt nhất đứng trước.
+	assert.ok(c.indexOf("lỗi giao thức") < c.indexOf("quá hạn"), c);
+});
+
+test("ca ghi lại lượt tải HỎNG mà docWeb đã nuốt", async () => {
+	const s = await khoiTao();
+	const loiTai = [];
+	// docWeb hỏng mọi thứ, y như taoDocWeb khi gọi hỏng: trả chuỗi rỗng rồi báo qua ghiLoi.
+	const hong = async (u) => {
+		loiTai.push({ url: u, lyDo: "lỗi giao thức" });
+		return "";
+	};
+	const ca = await chayCaRadar({ s, docWeb: hong, ghi: true, nghi, loiTai, now: () => LUC });
+	assert.ok(ca.thongTin.some((x) => /Tải hỏng \d+ lượt.*lỗi giao thức/.test(x)), ca.thongTin.join("|"));
+	// Và khâu khoảng trống vẫn nói ra vì sao nó ra 0.
+	assert.ok(ca.thongTin.some((x) => /Chưa trang ĐỐI THỦ nào được đọc/.test(x)), ca.thongTin.join("|"));
+});
+
+test("xu hướng ra 0 thì ca NÓI RA là nghi lời gọi hỏng", async () => {
+	const s = await khoiTao();
+	const ca = await chayCaRadar({ s, docWeb: async () => "", ghi: true, nghi, now: () => LUC });
+	assert.equal(ca.soXuHuong, 0);
+	assert.ok(ca.thongTin.some((x) => /nghi lời gọi hỏng/.test(x)), ca.thongTin.join("|"));
 });

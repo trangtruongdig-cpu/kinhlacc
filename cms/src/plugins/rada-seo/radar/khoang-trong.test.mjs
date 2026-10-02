@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { timKhoangTrong, chamDiem, trungXuHuong, nhomKhoangTrong } from "./khoang-trong.mjs";
+import { timKhoangTrong, chamDiem, trungXuHuong, nhomKhoangTrong, laTinNoiBo, laTenRong } from "./khoang-trong.mjs";
 import { gomNhom, timTrung } from "../luat/trung-lap.mjs";
 
 // "Của mình" = 22 bài thật ngày 30/09/2026.
@@ -70,4 +70,54 @@ test("nhường tiến trình: 1.000 chủ đề đối thủ → gọi setImmed
 		globalThis.setImmediate = goc;
 	}
 	assert.ok(dem >= 4, `chỉ nhường ${dem} lần`);
+});
+
+// ── Cụm không dùng được làm việc viết ─────────────────────────────────────────────────────
+// Đo thật 02/10/2026 trên 160 chủ đề đối thủ: hai cụm ĐẦU BẢNG là tin nội bộ bệnh viện. Phép
+// kiểm neo vào chính những tên đó, và quan trọng hơn — neo vào những tên PHẢI ĐƯỢC GIỮ.
+test("laTinNoiBo: bắt tin nội bộ, KHÔNG bắt bài chuyên môn có tên bệnh viện", () => {
+	for (const x of [
+		"Thư mời báo giá dịch vụ truyền thông",
+		"Đoàn công tác Bệnh viện Y học cổ truyền Trung ương tham dự hội nghị quốc tế tại Thụy Sĩ",
+		"Bệnh viện phát động phong trào thi đua chào mừng 69 năm thành lập",
+		"Thông báo tuyển dụng bác sĩ y học cổ truyền",
+		"Hoạt động tình nguyện khám chữa bệnh của Đoàn Thanh niên",
+	]) assert.equal(laTinNoiBo(x), true, x);
+
+	// Tên cơ quan KHÔNG phải dấu hiệu tin nội bộ — đây là chỗ dễ vu oan nhất.
+	for (const x of [
+		"Hướng dẫn thực hành châm cứu tại Bệnh viện Y học cổ truyền Trung ương",
+		"Nhân thời chế nghi trong điều trị châm cứu",
+		"Y học cổ truyền - Vấn đề bổ âm tả dương trong châm cứu",
+		"Bấm huyệt trị mất ngủ",
+		"Đau dạ dày",
+		"Truyền thông dinh dưỡng trong phòng ngừa và điều trị bệnh loãng xương",
+		// "giới thiệu" chỉ là tin nội bộ khi đi KÈM đơn vị.
+		"Giới thiệu huyệt Tam Âm Giao",
+	]) assert.equal(laTinNoiBo(x), false, x);
+
+	// Trang "về chúng tôi" và văn bản pháp quy — bắt được ở lượt đo thứ hai và thứ ba.
+	for (const x of [
+		"Công khai tài chính, ngân sách bệnh viện",
+		"Nghị định 232/2026/NĐ-CP về vị trí việc làm và quản lý viên chức",
+		"Thực hành tiết kiệm, chống lãng phí năm 2026",
+		"Hợp tác y tế giữa Bệnh viện Y học cổ truyền Trung ương và WHO",
+		"Giới thiệu Phòng Kế hoạch tổng hợp - Bệnh viện Y học cổ truyền Trung ương",
+		"Tri ân y bác sĩ",
+	]) assert.equal(laTinNoiBo(x), true, x);
+});
+
+test("laTenRong: 'Khác' và bạn bè không thành việc viết", () => {
+	for (const x of ["Khác", "khác", "Khác.", "Không rõ", "Tổng hợp", "", "   "]) assert.equal(laTenRong(x), true, JSON.stringify(x));
+	for (const x of ["Mất ngủ", "Huyệt Tam Âm Giao", "Khác biệt giữa châm và cứu"]) assert.equal(laTenRong(x), false, x);
+});
+
+test("timKhoangTrong BỎ HẲN cụm tin nội bộ và cụm tên rỗng", async () => {
+	const dt = [
+		{ id: "a", doiThuId: "bv.vn", chuDe: "Thư mời báo giá dịch vụ truyền thông", tuKhoa: ["thư mời", "báo giá"] },
+		{ id: "b", doiThuId: "bv.vn", chuDe: "Khác", tuKhoa: ["tuyến thượng thận", "hormon"] },
+		{ id: "c", doiThuId: "bv.vn", chuDe: "Bấm huyệt trị mất ngủ", tuKhoa: ["bấm huyệt", "mất ngủ"] },
+	];
+	const cum = await timKhoangTrong({ chuDeMinh: [], chuDeDoiThu: dt, xuHuong: [] });
+	assert.deepEqual(cum.map((c) => c.tenCum), ["Bấm huyệt trị mất ngủ"]);
 });

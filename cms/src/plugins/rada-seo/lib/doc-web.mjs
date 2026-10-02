@@ -118,16 +118,37 @@ async function taiVaDoc(fetchFn, url, accept, hanGioMs) {
  * benhvienyhoccotruyentrunguong.vn tải mất ~16 s (curl 200 sau 16,0 s) nên cả đối thủ đó
  * thành 'loi' mà không trang nào tới được Claude. Ca radar đã có hạn chót nên chờ lâu hơn
  * không làm ca chạy chồng.
+ * ⚠️ Hàm này trả CHUỖI RỖNG khi tải hỏng, nên người gọi không phân biệt được "trang rỗng" với
+ * "không đọc được". Đã trả giá đúng chỗ đó: ngày 02/10/2026 `timXuHuong` ra 0 xu hướng suốt một
+ * ca, nhật ký ca sạch bong, mà chạy cùng hàm ngoài ca thì ra 50 xu hướng trong 844 ms. Phải đọc
+ * log container mới lần ra, và log thì cuộn mất.
+ *
+ * Giá trị trả về GIỮ NGUYÊN (mọi chỗ gọi đang dựa vào chuỗi rỗng); lý do đi ra qua `ghiLoi`.
+ * Chỗ gọi nào có nhật ký thì PHẢI truyền `ghiLoi` — xem `chayCa` trong plugin.mjs.
+ *
  * @param {(url: string, init?: RequestInit) => Promise<Response>} fetchFn  ctx.http.fetch
+ * @param {{hanGioMs?: number, ghiLoi?: (x: {url: string, lyDo: string}) => void}} [o]
  * @returns {(url: string) => Promise<string>}
  */
-export function taoDocWeb(fetchFn, { hanGioMs = 30_000 } = {}) {
+export function taoDocWeb(fetchFn, { hanGioMs = 30_000, ghiLoi } = {}) {
+	const bao = (url, lyDo) => {
+		// Bản thân việc báo lỗi không bao giờ được làm hỏng lượt đọc.
+		try {
+			ghiLoi?.({ url, lyDo });
+		} catch {}
+	};
 	return async (url) => {
-		if (!urlDocDuoc(url)) return "";
+		if (!urlDocDuoc(url)) {
+			bao(url, "đường dẫn không đọc được (địa chỉ nội bộ hay giao thức lạ)");
+			return "";
+		}
 		try {
 			const r = await taiVaDoc(fetchFn, url, "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8", hanGioMs);
-			return r.res.ok ? r.html : "";
-		} catch {
+			if (r.res.ok) return r.html;
+			bao(url, `HTTP ${r.res.status}`);
+			return "";
+		} catch (e) {
+			bao(url, lyDoLoiTai(e, url, hanGioMs));
 			return "";
 		}
 	};

@@ -148,3 +148,29 @@ test("taoDocTrang traLyDo: lỗi tải trả { loi } nói đúng nguyên nhân b
 	// HTTP 403 vẫn là phản hồi: trả status như cũ.
 	assert.equal((await taoDocTrang(async () => new Response("cấm", { status: 403 }), { traLyDo: true })("https://lc.vn/")).status, 403);
 });
+
+// Hàm này trả chuỗi rỗng khi hỏng, nên chỗ gọi không phân biệt được "trang rỗng" với "không đọc
+// được". Ngày 02/10/2026 đúng chỗ đó làm mất một ca radar: timXuHuong ra 0 xu hướng, nhật ký ca
+// sạch bong, chạy cùng hàm ngoài ca thì ra 50. `ghiLoi` là đường để lý do đi ra ngoài.
+test("taoDocWeb: báo LÝ DO qua ghiLoi, mà vẫn trả chuỗi rỗng như cũ", async () => {
+	const thu = [];
+	const fetchGia = async (url) => {
+		if (url.includes("hong")) throw new Error("mạng");
+		return new Response("x", { status: url.includes("503") ? 503 : 200 });
+	};
+	const doc = taoDocWeb(fetchGia, { ghiLoi: (x) => thu.push(x) });
+	assert.equal(await doc("https://a.com/ok"), "x", "lượt thành công KHÔNG báo gì");
+	assert.deepEqual(thu, []);
+	assert.equal(await doc("https://a.com/503"), "");
+	assert.equal(await doc("https://a.com/hong"), "");
+	assert.equal(await doc("http://localhost/x"), "");
+	assert.deepEqual(thu.map((x) => x.lyDo), ["HTTP 503", "lỗi mạng: mạng", "đường dẫn không đọc được (địa chỉ nội bộ hay giao thức lạ)"]);
+	assert.equal(thu[0].url, "https://a.com/503");
+});
+
+test("taoDocWeb: ghiLoi tự ném cũng KHÔNG làm hỏng lượt đọc", async () => {
+	const doc = taoDocWeb(async () => new Response("x", { status: 500 }), {
+		ghiLoi: () => { throw new Error("sổ hỏng") },
+	});
+	assert.equal(await doc("https://a.com/x"), "", "báo lỗi hỏng thì vẫn phải trả như cũ");
+});
