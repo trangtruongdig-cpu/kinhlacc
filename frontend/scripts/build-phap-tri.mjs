@@ -202,8 +202,13 @@ function stub(pt, rel, baiThuoc) {
   const mucLuc = []
   let n = 0
   let nNoindex = 0
+  const seenSlugs = new Set()
   for (const pt of rows) {
-    const slug = slugify(pt.the_benh)
+    let slug = slugify(pt.the_benh) || slugify(pt.nguyen_tac) || `phap-tri-${pt.id}`
+    if (seenSlugs.has(slug)) {
+      slug = `${slug}-${pt.id}`
+    }
+    seenSlugs.add(slug)
     const url = `${DOMAIN}/phap-tri/${slug}/`
     const tcNames = (rel.trieuChung.get(pt.id) || []).map((tc) => tc.ten_trieu_chung)
     const bt = pt.id_bai_thuoc != null ? baiThuocById.get(pt.id_bai_thuoc) : null
