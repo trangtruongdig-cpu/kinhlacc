@@ -8,13 +8,23 @@ const { Client } = require('pg');
 const server = new McpServer({ name: "rada-seo-gravity", version: "1.0.0" });
 
 async function getClient() {
+  // ⚠️ KHÔNG BAO GIỜ nhúng cứng thông tin kết nối ở đây. Bản đầu của tệp này đặt host/user/
+  // password production làm giá trị mặc định, và nó đã bị commit + push lên GitHub (1b64f79,
+  // e67b154, fc81599) — mật khẩu coi như đã lộ, phải ĐỔI ở Aiven; gỡ khỏi mã KHÔNG xoá được
+  // lịch sử git. Thiếu biến thì DỪNG, đừng âm thầm nối bằng giá trị đoán.
+  const thieu = ['CMS_DB_HOST', 'CMS_DB_USER', 'CMS_DB_PASSWORD', 'CMS_DB_NAME'].filter((x) => !process.env[x]);
+  if (thieu.length) throw new Error(`mcp-bridge: thiếu biến môi trường ${thieu.join(', ')} — nạp backend/.env trước khi chạy.`);
   const k = new Client({
-    host: process.env.CMS_DB_HOST || 'pg-a961153-hoandinh-5401.j.aivencloud.com',
-    port: process.env.CMS_DB_PORT || 16359,
-    user: process.env.CMS_DB_USER || 'cms_kinhlac',
-    password: process.env.CMS_DB_PASSWORD || 'gKqKthQAL2y8FDPPpuZdgfStHtdyWBbq',
-    database: process.env.CMS_DB_NAME || 'kinhlac_cms',
-    ssl: { rejectUnauthorized: false }
+    host: process.env.CMS_DB_HOST,
+    port: Number(process.env.CMS_DB_PORT || 5432),
+    user: process.env.CMS_DB_USER,
+    password: process.env.CMS_DB_PASSWORD,
+    database: process.env.CMS_DB_NAME,
+    // Xác minh chứng chỉ khi có CA (cùng lối backend/src/utils/db-ssl.util.ts); không có thì
+    // vẫn nối nhưng KÊU, chứ không im lặng tắt xác minh.
+    ssl: process.env.CA_CERTIFICATE
+      ? { ca: process.env.CA_CERTIFICATE, rejectUnauthorized: true }
+      : (console.warn('⚠ mcp-bridge: không có CA_CERTIFICATE — nối SSL mà KHÔNG xác minh máy chủ.'), { rejectUnauthorized: false }),
   });
   await k.connect();
   return k;
