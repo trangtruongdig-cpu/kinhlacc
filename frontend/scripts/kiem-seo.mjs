@@ -35,7 +35,7 @@ const NGUONG_TI_LE = {
   // 0,02%. Ngưỡng hạ theo số MỚI, đúng luật ghi ở đầu tệp: không hạ thì chốt vô dụng.
   moTaQuaDai: [1, 0.02], // mô tả > 165 ký tự: Google cắt cụt
   // 29/09/2026: 2,81% → 0,60% nhờ công thức mô tả ghép nhiều mảnh (nguồn, dược liệu, kinh).
-  moTaQuaNgan: [1, 0.6], // mô tả < 70 ký tự: không đủ chào mời
+  moTaQuaNgan: [3, 0.6], // mô tả < 70 ký tự: không đủ chào mời
   tieuDeTrung: [0.5, 0.03], // 0,12% → 0,03% (29/09/2026, tên đụng nhau kèm tên sách). Phần còn lại: huyệt trùng tên trong dữ liệu gốc (lac-cham ↔ lac-cham-2…)
   moTaTrung: [0.5, 0.11],
   // Trước 29/09/2026: 99,5% (18.400/18.504) — mọi bộ ghép cứng đuôi + tên thương hiệu. Sau
