@@ -162,14 +162,16 @@ test("đo lại leo top: GSC không có số liệu → vẫn ghi mốc (viTri n
 	assert.deepEqual((await s.leo_top.get(id)).doLai, [{ ngay: "2026-10-16", sauNgay: 14, viTri: null, hienThi: 0, cuaSoNgay: 12, hienThiNgay: 0 }]);
 });
 
-test("đo lại leo top: chưa cấu hình GSC → bỏ qua, MỘT dòng thongTin, không phải lỗi, ca vẫn xong", async () => {
+test("đo lại leo top: chưa cấu hình GSC → bỏ qua, có dòng thongTin, không phải lỗi, ca vẫn xong", async () => {
 	for (const gsc of [undefined, { coCauHinh: () => false, async layViTri() { throw new Error("không được gọi"); } }]) {
 		const s = taoKhoGia();
 		const id = await phienDaSua(s, "huyệt thần môn");
 		const ca = await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, gsc, now: () => LUC });
 		assert.equal(ca.loi.length, 0);
-		assert.equal(ca.thongTin.length, 1);
-		assert.match(ca.thongTin[0], /Search Console/);
+		// Kiểm CÓ dòng nói về Search Console, không kiểm TỔNG SỐ dòng: ca còn ghi thông tin của
+		// các khâu khác (vd khâu tự đọc trang không chạy vì thiếu GRAVITY_API_KEY), và đếm tổng
+		// làm phép kiểm gãy mỗi lần thêm một khâu — gãy vì lý do không liên quan đến điều nó canh.
+		assert.equal(ca.thongTin.filter((x) => /Search Console/.test(x)).length, 1);
 		assert.equal(ca.soDoLai, 0);
 		assert.deepEqual((await s.leo_top.get(id)).doLai, []);
 		assert.equal((await kho.dsCa(s)).length, 1);

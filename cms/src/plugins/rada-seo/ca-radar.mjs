@@ -83,12 +83,14 @@ async function doLaiLeoTop({ s, gsc, nowMs, ca }) {
  *   hanChot: mốc epoch ms — quá mốc thì thôi trích (khoá ca sắp hết hạn)
  *   gsc: leo-top/gsc.mjs — đo lại hạng phiên leo top đã sửa; thiếu thì bỏ qua bước đó
  */
-export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = cho, now = () => new Date().toISOString(), hanChot = Infinity, gsc }) {
+export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = cho, now = () => new Date().toISOString(), hanChot = Infinity, gsc, kv, goiModel, tuDoc, log }) {
 	const ca = {
 		loai: "radar", batDau: now(), ketThuc: null, ghi,
 		soUrlMoi: 0, soSeTrich: 0, soTrich: 0, soNgoaiNganh: 0, soLoiTrang: 0,
 		soXuHuong: 0, soCum: 0, xuHuong: [], loi: [], sitemapBo: [], dungTrich: false,
 		soDoLai: 0, thongTin: [],
+		// Khâu TỰ ĐỌC bằng model (02/10/2026) — trước đây phải chờ routine bên ngoài kéo việc.
+		soDocAi: 0, soLuotModel: 0, soLoiModel: 0,
 	};
 	const doiThu = await kho.dsDoiThu(s);
 	let dung = null;
@@ -142,6 +144,24 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 			ca.loi.push(`đo lại leo top: ${String(e?.message ?? e).slice(0, 300)}`);
 		}
 	}
+	// ── Tự đọc trang bằng model, NGAY TRONG CA ─────────────────────────────────────────
+	// Chỉ chạy khi ca được phép GHI và có đủ ba thứ: kv (sổ giữ chỗ), goiModel, hàm tuDoc.
+	// Thiếu thứ nào thì ghi một dòng thông tin — im lặng ở đây nghĩa là hàng đợi đứng mà
+	// nhật ký vẫn báo ca thành công.
+	if (ghi && tuDoc && goiModel && kv) {
+		try {
+			const d = await tuDoc({ s, kv, goiModel, log, nowMs: Date.parse(ca.batDau) || Date.now() });
+			ca.soDocAi = d.daGhi;
+			ca.soLuotModel = d.luotGoi;
+			ca.soLoiModel = d.loi;
+			for (const g of d.ghiChu ?? []) ca.thongTin.push(`đọc trang: ${g}`);
+		} catch (e) {
+			ca.loi.push(`Khâu tự đọc trang hỏng: ${String(e?.message ?? e)} — phần quét vẫn xong`);
+		}
+	} else if (ghi) {
+		ca.thongTin.push("Khâu tự đọc trang KHÔNG chạy (thiếu kv / goiModel) — hàng đợi sẽ đứng.");
+	}
+
 	ca.ketThuc = now();
 	await kho.ghiCa(s, ca);
 	return ca;

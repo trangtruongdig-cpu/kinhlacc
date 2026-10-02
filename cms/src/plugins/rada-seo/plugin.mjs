@@ -27,6 +27,8 @@ import { layBaiCanViet, nopBai } from "./viet/viec.mjs";
 import { truocKhiDang, sauKhiDang, sauKhiGo, taiPanel, dsNhapChoTab } from "./viet/dang.mjs";
 import { thaIndexNow } from "./viet/indexnow.mjs";
 import { thaMangNhen } from "./viet/lien-ket-nguoc.mjs";
+import { taoGoiModel } from "./ai/goi-model.mjs";
+import { tuDocTrang } from "./ai/tu-doc-trang.mjs";
 import { tongHopLoaiSua } from "./leo-top/vong-hoc.mjs";
 
 /**
@@ -84,6 +86,13 @@ async function chayCa(ctx, ghi) {
 			tranMoiDoiThu: soMoiTruong("RADA_SEO_TRAN_MOI_DOI_THU", 30),
 			// Đo lại hạng phiên leo top đã sửa (+14/+28 ngày). Thiếu biến GSC thì ca tự bỏ qua bước này.
 			gsc: taoGsc({ fetch: ctx.http.fetch.bind(ctx.http) }),
+			// Tự đọc trang bằng model NGAY TRONG CA (02/10/2026): trước đây ca chỉ quét và trích
+			// chữ, rồi chờ một routine bên ngoài KÉO việc về đọc — không có routine thì hàng đợi
+			// đứng mãi. Thiếu GRAVITY_API_KEY thì khâu này tự bỏ qua và ghi một dòng thông tin.
+			kv: ctx.kv,
+			goiModel: taoGoiModel({ fetch: ctx.http.fetch.bind(ctx.http), log: ctx.log }),
+			tuDoc: tuDocTrang,
+			log: ctx.log,
 		});
 	} catch (e) {
 		// Lỗi ngoài dự kiến (vd kho không ghi được) vẫn phải hiện trên màn điều khiển.
