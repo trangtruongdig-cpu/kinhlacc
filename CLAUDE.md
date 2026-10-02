@@ -940,6 +940,44 @@ hơi lệch phải được NHẬN rồi hiện vàng, không bị trả lại v
   dùng: `gemini-3.5-flash-lite` (đọc trang) · `gemini-3.6-flash` (SERP/chiến lược/viết/thẩm
   định) · `gemini-embedding-001` (3.072 chiều).
 
+### Ca tự LẬP CHIẾN LƯỢC (`ai/tu-lap-chien-luoc.mjs`, 02/10/2026)
+
+Khoảng trống → HƯỚNG → cụm nghĩa → bài dự kiến. Chạy **mỗi tuần một lần** trong chính ca radar
+(chỉ có MỘT task cron), ngày chọn bằng `denLuotChienLuoc` — hàm thuần theo **giờ UTC**, cùng lý
+lẽ với `GIO_UTC_CHAY`: bảng cron dùng chung nên mọi phép so phải độc lập với múi giờ tiến trình.
+
+- ⚠️ **CỔNG NGƯỜI Ở GIỮA, ĐỪNG BỎ.** `deXuatHuong` ghi hướng ở `de_xuat`; `ghiCum` chỉ nhận cụm
+  thuộc hướng `da_nhan`. Nên bước 2 và 3 nằm im tới khi có người nhận hướng, và ca nói ra điều
+  đó thay vì báo 0. Đừng "tối ưu" bằng cách tự nhận hướng: hướng quyết định cả tháng nội dung,
+  và mô hình đã từng gắn nhãn "An toàn" cho tiêu đề vượt phạm vi Y sỹ.
+- ⚠️ **Phải `layDuLieu` LẠI giữa các bước** — bước phân cụm phải thấy hướng bước trước vừa ghi.
+  Nhưng chỉ dựng chỉ mục liên kết nội bộ MỘT lần (ba lần là ba lượt liệt kê cả kho từ điển).
+- ⚠️ **Khuôn zod là TẦNG KIỂM THỨ NHẤT**, và nó từng chỉ nằm trên route MCP. `chien-luoc/viec.mjs`
+  tự gọi mình là "lớp phòng thủ thứ hai" nên không thay được lớp một. Khuôn nay ở
+  `chien-luoc/khuon.mjs`, dùng chung cho cả route MCP và ca tự hành.
+- ⚠️ **"Mảng rỗng" KHÁC "sai dạng".** `.min(1)` của khuôn có vì route MCP đòi ít nhất một mục;
+  với ca tự hành thì `{"huong": []}` là một câu trả lời hợp lệ. Đã xảy ra thật ở lượt chạy đầu —
+  gộp hai thứ lại là đi sửa lời nhắc cho một chuyện không hỏng. Mảng rỗng KHÔNG tính vào `loi`.
+- Phần máy chủ **BÁC** (kèm lý do) phải lên `ca.thongTin`: tỉ lệ bác cao là tín hiệu lời nhắc
+  chưa rõ, im lặng ở đây thì không ai biết để sửa lời nhắc.
+
+**Số đo lượt chạy đầu (02/10/2026, `gemini-3.5-flash-lite`):** bước phân cụm ra 6 cụm nghĩa dùng
+được ("Đo nhiệt độ kinh lạc đánh giá xương khớp", "Huyệt châm cứu an thần định chí", "Thảo dược
+và bài thuốc dưỡng tâm an thần"). Bước lập bài dự kiến bị khuôn loại vì mô hình bỏ hẳn khoá
+`lienKetDich` — bước đó cần chỉ mục liên kết nội bộ THẬT, tức phải chạy trong tiến trình CMS.
+
+⚠️ **Quota của bậc miễn phí tính RIÊNG theo từng model, và đó là trần chịu lực.** Cùng lúc đó
+`gemini-3.6-flash` trả **429 hết quota ngày** (khâu viết đã dùng hết) còn `gemini-3.5-flash-lite`
+vẫn chạy. Nên khâu viết và khâu chiến lược **không được dùng chung một model**. `*_DU_PHONG` hiện
+chỉ bắt 5xx — 429 KHÔNG kích hoạt nó.
+
+⚠️ **Vòng import có thật, và lỗi nó sinh ra trỏ sai chỗ.** `ca-radar.mjs` → `ai/tu-lap-chien-luoc.mjs`
+→ `chien-luoc/khuon.mjs` → `chien-luoc/viec.mjs` → … → `ca-radar.mjs` làm `khuon.mjs` đọc
+`TRAN_HUONG_MOI_LUOT` khi `viec.mjs` chưa khởi tạo xong: **ba tệp phép kiểm chết hẳn lúc nạp**
+với `ReferenceError: Cannot access … before initialization`, báo ở dòng chẳng liên quan tới
+nguyên nhân. Trần nay ở `chien-luoc/tran.mjs` — **tệp đó KHÔNG được import gì**, có phép kiểm
+canh đúng điều đó; `viec.mjs` xuất lại nên chỗ gọi cũ không phải sửa.
+
 ### Một con số cho ba trạng thái là con số vô dụng
 
 Hai chỗ trong plugin từng nuốt lý do, và cả hai đã làm mất thời gian thật:
@@ -994,11 +1032,14 @@ SQL thô: `PluginStorageRepository` xuất từ gói `emdash` và dựng đượ
 + `pg.Pool`, nên chạy được đúng khâu của ca mà không cần phiên quản trị. Bản mô phỏng kho tự
 viết sẽ cho kết quả KHÁC và dẫn đi sai đường.
 
-**Phép kiểm:** `node --test "cms/src/plugins/rada-seo/**/*.test.mjs"` — 571 phép kiểm.
+**Phép kiểm:** `node --test "cms/src/plugins/rada-seo/**/*.test.mjs"` — 618 phép kiểm.
 ⚠️ Chạy song song mặc định làm hai phép kiểm nhạy thời gian trượt giả; phép đo hiệu năng trong
 `leo-top/do-trang.test.mjs` nay lấy **lượt nhanh nhất trong 3** (tải máy chỉ làm chậm thêm, còn
 bùng nổ quay lui thì cả ba lượt đều chậm) — đo thật: 94 ms chạy riêng, 631 ms khi chạy cùng ca,
 ngưỡng 500 ms. Dùng `--test-concurrency=2` khi cần tín hiệu sạch.
+⚠️ Min-của-3 vẫn trượt khi máy BÃO HOÀ (đo: load average 8,7 → 2.741 ms; chạy riêng 269 ms). Đó
+là giới hạn của mọi chốt đo đồng hồ treo tường, KHÔNG phải lý do nới ngưỡng — nới là chốt hết
+tác dụng canh chừng. Đỏ một mình phép đó thì xem `uptime` trước khi nghi mã.
 
 ## Deployment paths
 

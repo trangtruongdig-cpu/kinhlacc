@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { chayCaRadar, xuHuongGanNhat, cauKhoangTrong, tomTatLoiTai } from "./ca-radar.mjs";
+import { denLuotChienLuoc } from "./ai/tu-lap-chien-luoc.mjs";
 import * as kho from "./kho.mjs";
 import { taoKhoGia, webGia } from "./__test__/kho-gia.mjs";
 
@@ -313,4 +314,62 @@ test("xu hướng ra 0 thì ca NÓI RA là nghi lời gọi hỏng", async () =>
 	const ca = await chayCaRadar({ s, docWeb: async () => "", ghi: true, nghi, now: () => LUC });
 	assert.equal(ca.soXuHuong, 0);
 	assert.ok(ca.thongTin.some((x) => /nghi lời gọi hỏng/.test(x)), ca.thongTin.join("|"));
+});
+
+// ── Lập chiến lược: việc TUẦN nằm trong ca ĐÊM ─────────────────────────────────────────────
+test("denLuotChienLuoc: đúng một ngày UTC trong tuần", () => {
+	// 2026-10-05 là thứ Hai. Giờ 19:30 UTC để giống mốc ca thật.
+	assert.equal(denLuotChienLuoc(Date.parse("2026-10-05T19:30:00Z")), true);
+	for (const d of ["04", "06", "07", "08", "09", "10"])
+		assert.equal(denLuotChienLuoc(Date.parse(`2026-10-${d}T19:30:00Z`)), false, d);
+	// Đổi ngày được, để không phải sửa mã khi muốn chạy ngày khác.
+	assert.equal(denLuotChienLuoc(Date.parse("2026-10-07T19:30:00Z"), 3), true);
+});
+
+test("ca ĐÊM THƯỜNG không chạy chiến lược; đúng ngày thì chạy và cộng số vào nhật ký", async () => {
+	const s = await khoiTao();
+	let goi = 0;
+	const tuChienLuoc = async () => {
+		goi++;
+		return { soHuong: 2, soCumNghia: 5, soKeHoach: 3, luotGoi: 3, loi: 1, ghiChu: ["bác 1/2 — vượt phạm vi"] };
+	};
+	// Thứ Ba — không phải ngày chiến lược.
+	const thuong = await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, goiModel: {}, tuChienLuoc, now: () => "2026-10-06T19:30:00.000Z" });
+	assert.deepEqual([goi, thuong.soHuong, thuong.soCumNghia], [0, 0, 0]);
+
+	// Thứ Hai — đến lượt.
+	const s2 = await khoiTao();
+	const ca = await chayCaRadar({ s: s2, docWeb: WEB, ghi: true, nghi, goiModel: {}, tuChienLuoc, now: () => "2026-10-05T19:30:00.000Z" });
+	assert.equal(goi, 1);
+	assert.deepEqual([ca.soHuong, ca.soCumNghia, ca.soKeHoachMoi], [2, 5, 3]);
+	assert.deepEqual([ca.soLuotModel, ca.soLoiModel], [3, 1], "lượt gọi của chiến lược phải CỘNG vào tổng của ca");
+	assert.ok(ca.thongTin.some((x) => /^chiến lược: bác 1\/2/.test(x)), ca.thongTin.join("|"));
+});
+
+test("khâu chiến lược ném lỗi thì ca VẪN xong và vẫn ghi nhật ký", async () => {
+	const s = await khoiTao();
+	const ca = await chayCaRadar({
+		s, docWeb: WEB, ghi: true, nghi, goiModel: {},
+		tuChienLuoc: async () => { throw new Error("kho sập") },
+		now: () => "2026-10-05T19:30:00.000Z",
+	});
+	assert.ok(ca.ketThuc, "ca phải hoàn tất");
+	assert.ok(ca.loi.some((x) => /lập chiến lược hỏng: kho sập/.test(x)), ca.loi.join("|"));
+	assert.equal((await kho.dsCa(s)).length, 1);
+});
+
+// Vòng ca-radar → tu-lap-chien-luoc → khuon → viec → … → ca-radar đã làm BA tệp phép kiểm chết
+// hẳn lúc nạp với `ReferenceError: Cannot access … before initialization` ở chỗ chẳng liên quan.
+// Trần nay ở `chien-luoc/tran.mjs` (tệp không import gì). Chốt này bắt lại nếu ai nối vòng mới.
+test("chien-luoc/tran.mjs KHÔNG import gì — đó là thứ cắt vòng import", async () => {
+	const { readFile } = await import("node:fs/promises");
+	const chu = await readFile(new URL("./chien-luoc/tran.mjs", import.meta.url), "utf8");
+	assert.doesNotMatch(chu, /^\s*import\s/m, "thêm import vào tệp này là nối lại vòng");
+	const t = await import("./chien-luoc/tran.mjs");
+	for (const k of ["TRAN_HUONG_MOI_LUOT", "TRAN_CUM_MOI_LUOT", "TRAN_KE_HOACH_MOI_LUOT", "Y_DINH"])
+		assert.ok(t[k] !== undefined, `thiếu ${k}`);
+	// Và `viec.mjs` vẫn xuất lại, nên chỗ gọi cũ không vỡ.
+	const v = await import("./chien-luoc/viec.mjs");
+	assert.equal(v.TRAN_HUONG_MOI_LUOT, t.TRAN_HUONG_MOI_LUOT);
+	assert.deepEqual(v.Y_DINH, t.Y_DINH);
 });

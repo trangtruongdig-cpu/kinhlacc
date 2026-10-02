@@ -7,6 +7,7 @@ import { trichTrang } from "./radar/trich.mjs";
 import { timXuHuong } from "./radar/xu-huong.mjs";
 import { timKhoangTrong } from "./radar/khoang-trong.mjs";
 import * as kho from "./kho.mjs";
+import { denLuotChienLuoc } from "./ai/tu-lap-chien-luoc.mjs";
 
 /** Nghỉ giữa các lượt tải trang: CMS còn phục vụ ảnh, khu quản trị và blog cho người thật. */
 export const NGHI_GIUA_LUOT_MS = 300;
@@ -121,7 +122,7 @@ async function doLaiLeoTop({ s, gsc, nowMs, ca }) {
  *   hanChot: mốc epoch ms — quá mốc thì thôi trích (khoá ca sắp hết hạn)
  *   gsc: leo-top/gsc.mjs — đo lại hạng phiên leo top đã sửa; thiếu thì bỏ qua bước đó
  */
-export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = cho, now = () => new Date().toISOString(), hanChot = Infinity, gsc, kv, goiModel, tuDoc, log, loiTai }) {
+export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = cho, now = () => new Date().toISOString(), hanChot = Infinity, gsc, kv, goiModel, tuDoc, log, loiTai, tuChienLuoc, content, chiMuc, kiemDuong }) {
 	const ca = {
 		loai: "radar", batDau: now(), ketThuc: null, ghi,
 		soUrlMoi: 0, soSeTrich: 0, soTrich: 0, soNgoaiNganh: 0, soLoiTrang: 0,
@@ -131,6 +132,9 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 		soChuDeDoiThu: 0, soChuDeMinh: 0, soCumTinh: 0,
 		// Khâu TỰ ĐỌC bằng model (02/10/2026) — trước đây phải chờ routine bên ngoài kéo việc.
 		soDocAi: 0, soLuotModel: 0, soLoiModel: 0,
+		// Khâu LẬP CHIẾN LƯỢC (tuần). `soKeHoachMoi` chứ không phải `soKeHoach`: màn điều khiển
+		// đã dùng tên sau cho TỔNG kế hoạch trong kho, trùng tên là hai số đè nhau.
+		soHuong: 0, soCumNghia: 0, soKeHoachMoi: 0,
 	};
 	const doiThu = await kho.dsDoiThu(s);
 	let dung = null;
@@ -192,6 +196,28 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 		}
 	} else if (ghi) {
 		ca.thongTin.push("Khâu tự đọc trang KHÔNG chạy (thiếu kv / goiModel) — hàng đợi sẽ đứng.");
+	}
+
+	// ── Lập chiến lược, MỖI TUẦN MỘT LẦN ───────────────────────────────────────────────
+	// Đứng SAU khâu tự đọc trang, vì `layDuLieu` đọc CHỦ ĐỀ ĐỐI THỦ (bảng `url`, trạng thái
+	// 'da_phan_tich') — chạy trước là lập chiến lược trên kho thiếu phần vừa đọc đêm nay.
+	// Nó KHÔNG đọc bảng `cum` (khoảng trống): bảng đó nay chỉ là bằng chứng, nên thứ tự so với
+	// khâu khoảng trống không quan trọng. Chỉ có một task cron nên phép chọn ngày nằm trong
+	// `denLuotChienLuoc` (hàm thuần, kiểm được mà không phải chờ tới thứ Hai).
+	// Hỏng thì ghi vào `ca.loi` rồi đi tiếp: chiến lược là việc tuần, mất một tuần không làm
+	// hỏng việc đêm.
+	if (ghi && tuChienLuoc && goiModel && denLuotChienLuoc(Date.parse(ca.batDau) || Date.now())) {
+		try {
+			const c = await tuChienLuoc({ s, content, chiMuc, kiemDuong, goiModel, log, now: now() });
+			ca.soHuong = c.soHuong;
+			ca.soCumNghia = c.soCumNghia;
+			ca.soKeHoachMoi = c.soKeHoach;
+			ca.soLuotModel += c.luotGoi;
+			ca.soLoiModel += c.loi;
+			for (const g of c.ghiChu ?? []) ca.thongTin.push(`chiến lược: ${g}`);
+		} catch (e) {
+			ca.loi.push(`Khâu lập chiến lược hỏng: ${String(e?.message ?? e).slice(0, 300)} — phần còn lại của ca vẫn xong`);
+		}
 	}
 
 	if (ghi) {

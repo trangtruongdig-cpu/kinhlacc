@@ -12,14 +12,17 @@ import { timTrung, trungTuDien, tapKhoa, doGiong, NGUONG_TRUNG } from "../luat/t
 import { layChiMuc } from "../noi-bo/nap.mjs";
 import { tinhChiSo, diemHuong, diemCum, taoBoChuDe, timKhop, laTuKhoaDai } from "./chi-so.mjs";
 import { LOI_NHAC_DE_XUAT_HUONG, LOI_NHAC_PHAN_CUM, LOI_NHAC_LAP_KE_HOACH } from "../loi-dan.mjs";
+import {
+	TRAN_HUONG_MOI_LUOT, TRAN_CUM_MOI_LUOT, TRAN_KE_HOACH_MOI_LUOT,
+	SO_BAI_DOI_THU_TOI_THIEU, SO_LINK_DICH_TOI_THIEU, Y_DINH,
+} from "./tran.mjs";
 
-export const TRAN_HUONG_MOI_LUOT = 8;
-export const TRAN_CUM_MOI_LUOT = 20;
-export const TRAN_KE_HOACH_MOI_LUOT = 10;
-export const SO_BAI_DOI_THU_TOI_THIEU = 3;
-export const SO_LINK_DICH_TOI_THIEU = 5;
-/** Ý định tìm kiếm của bài dự kiến: tra cứu / tìm hiểu / so sánh / hướng dẫn. */
-export const Y_DINH = ["tra_cuu", "tim_hieu", "so_sanh", "huong_dan"];
+// Trần nay ở `./tran.mjs` (tệp không import gì) để cắt vòng import — xem ghi chú ở đó.
+// Xuất lại để mọi chỗ gọi cũ không phải sửa.
+export {
+	TRAN_HUONG_MOI_LUOT, TRAN_CUM_MOI_LUOT, TRAN_KE_HOACH_MOI_LUOT,
+	SO_BAI_DOI_THU_TOI_THIEU, SO_LINK_DICH_TOI_THIEU, Y_DINH,
+} from "./tran.mjs";
 /** Số bài đối thủ tối đa gắn làm bằng chứng cho một hướng/cụm/bài dự kiến. */
 const SO_BAI_BANG_CHUNG = 5;
 /**
