@@ -9,6 +9,7 @@
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs'
 import { chenUrl } from './sitemap-chen.mjs'
 import { datMetaSeo, setJsonLd } from './seo-vo-spa.mjs'
+import { napCanhNguon, khoiYVan, napNguonSlug, foldTen } from './nguon-canh.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
 import { sslConfig, HEN_GIO_DB } from './db-ssl.mjs'
@@ -103,7 +104,7 @@ function groupBy(rows, key) {
   return m
 }
 
-function stub(v, rel) {
+function stub(v, rel, yVanHtml) {
   const congDung = rel.congDung.get(v.id) || []
   const chuTriLinks = rel.chuTri.get(v.id) || []
   const kiengKy = rel.kiengKy.get(v.id) || []
@@ -112,7 +113,6 @@ function stub(v, rel) {
   const anh = rel.anh.get(v.id) || []
   const baiThuoc = rel.baiThuoc.get(v.id) || []
   const nhom = rel.nhom.get(v.id) || []
-  const nguon = rel.nguon.get(v.id) || []
 
   const chipList = (label, rows, field) => rows.length
     ? `<h2>${label}</h2><ul>${rows.map((r) => `<li>${escText(r[field])}</li>`).join('')}</ul>`
@@ -148,9 +148,6 @@ function stub(v, rel) {
 
   return '<div data-seo-stub>'
     + `<nav aria-label="Breadcrumb"><a href="/">Trang Chủ</a> › <a href="/duoc-lieu/">Từ Điển Dược Liệu</a> › ${escText(v.ten_vi_thuoc)}</nav>`
-    + (nguon.length
-        ? `<p>Nguồn y văn: ${nguon.map((g) => `<a href="/nguon/${escAttr(g.slug)}/">${escText(g.ten)}</a>`).join(', ')}</p>`
-        : '')
     + `<h1>${escText(v.ten_vi_thuoc)}</h1>`
     + (idBlock ? `<p>${idBlock}</p>` : '')
     + (tvqk ? `<p>${tvqk}</p>` : '')
@@ -169,6 +166,7 @@ function stub(v, rel) {
     + (v.bao_che ? `<h2>Bào chế</h2>${paras(v.bao_che)}` : '')
     + (v.don_thuoc ? `<h2>Đơn thuốc tham khảo</h2>${paras(v.don_thuoc)}` : '')
     + (v.tham_khao ? `<h2>Tham khảo</h2>${paras(v.tham_khao)}` : '')
+    + yVanHtml
     + gallery
     + baiThuocLinks
     + `<p>Thông tin tra cứu Đông Y — không tự ý dùng, hãy hỏi thầy thuốc Y Học Cổ Truyền.</p>`
@@ -221,18 +219,18 @@ function stub(v, rel) {
       JOIN nhom_nho_duoc_ly nn ON nn.id = nnv.id_nhom_nho
       JOIN nhom_lon_duoc_ly nl ON nl.id = nn.id_nhom_lon`)
 
-  // Liên kết VỀ NGUỒN. Trước đây trang dược liệu không trỏ về thư mục nguồn nào.
-  // Quan hệ lấy từ bảng nối nguon_vi_thuoc (1.322 liên kết), KHÔNG khớp chuỗi.
-  let nguonQ = { rows: [] }
-  try {
-    nguonQ = await client.query(
-      `SELECT nv.vi_thuoc_id AS id_vi_thuoc, n.slug, n.ten FROM nguon_vi_thuoc nv
-       JOIN nguon n ON n.id = nv.nguon_id
-       WHERE n.slug IS NOT NULL AND n.slug <> '' ORDER BY n.ten`)
-  } catch (e) {
-    console.warn('⚠ build-duoc-lieu: không đọc được nguon_vi_thuoc (' + e.message + ') — bỏ khối liên kết nguồn.')
-  }
+  // Cạnh y văn (nguon_vi_thuoc) và bản đồ tên→slug giờ đi qua nguon-canh.mjs — cùng
+  // hàm khoiYVan() mà build-dict dùng, không ghép chuỗi riêng. Cầu nối tên→slug qua CMS
+  // (napNguonSlug), không dùng nguon.slug từ DB app — xem nguon-canh.mjs L7-10.
   await client.end()
+
+  // ── Cạnh y văn + bản đồ tên→slug (CMS) ────────────────────────────────────
+  // napCanhNguon() trả Map<vi_thuoc_id, tên_sách[]> — cùng nguồn với build-dict.
+  // napNguonSlug() trả Map<fold(tên), slug> từ CMS — cầu nối duy nhất.
+  const canhNguon = await napCanhNguon()
+  const nguonSlugMap = await napNguonSlug()
+  const ESC = { text: escText, attr: escAttr }
+  const slugNguon = (ten) => nguonSlugMap.get(foldTen(ten)) ?? null
 
   const rows = rowsQ.rows
   const rel = {
@@ -244,7 +242,6 @@ function stub(v, rel) {
     anh: groupBy(anhQ.rows, 'id_vi_thuoc'),
     baiThuoc: groupBy(baiThuocQ.rows, 'id_vi_thuoc'),
     nhom: groupBy(nhomQ.rows, 'id_vi_thuoc'),
-    nguon: groupBy(nguonQ.rows, 'id_vi_thuoc'),
   }
 
   // ── Van chống thin/doorway trên site YMYL ─────────────────────────────────
@@ -300,9 +297,7 @@ function stub(v, rel) {
     ]
     let html = datMetaSeo(baseHtml, seo, url)
     html = setJsonLd(html, jsonLd)
-    // Không dùng \s* (chỉ khớp div RỖNG) — xem chú thích cùng chỗ trong build-phuong.mjs:
-    // prerender-seo.mjs chạy trước đã làm div không còn rỗng, [\s\S]*? khớp và thay đúng.
-    html = html.replace(/<div id="app">[\s\S]*?<\/div>/i, `<div id="app">${stub(v, rel)}</div>`)
+    html = html.replace(/<div id="app">[\s\S]*?<\/div>/i, `<div id="app">${stub(v, rel, khoiYVan(canhNguon.viThuoc.get(v.id), slugNguon, ESC))}</div>`)
 
     const outDir = join(distDir, 'duoc-lieu', String(v.id))
     mkdirSync(outDir, { recursive: true })

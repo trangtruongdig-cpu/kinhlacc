@@ -144,6 +144,13 @@ async function main() {
 			if (k) loc.add(k);
 		}
 	}
+	// Vị thuốc: chữ nằm trong DB app, không ở tệp tĩnh. Đưa vào đây vì đo 02/10/2026 cho thấy
+	// nhánh nguồn→vị thuốc KHÔNG thiếu cạnh mà thiếu DỮ LIỆU: chỉ 196/1.045 vị có xuat_xu, và
+	// 1.955 trích dẫn trong tham_khao trỏ tới những quyển thư mục chưa có.
+	const viThuoc = (await kho.query(
+		`SELECT ten_vi_thuoc AS ten, tham_khao, don_thuoc, chu_tri FROM vi_thuoc`,
+	)).rows;
+
 	await kho.end();
 
 	// ── Chữ của cả kho từ điển tĩnh ────────────────────────────────────────────────────
@@ -165,7 +172,11 @@ async function main() {
 		}
 	}
 
-	console.log(`Quét ${mucs.length} mục từ điển (huyệt ${huyet.length}, kinh ${Object.keys(d.MER.kinh).length}, hai bộ bệnh ${Object.values(d.BENH).reduce((a, v) => a + Object.keys(v.records).length, 0)})`);
+	for (const v of viThuoc) {
+		mucs.push({ bo: "duoc_lieu", ten: String(v.ten ?? ""), chu: [v.tham_khao, v.don_thuoc, v.chu_tri].filter(Boolean).join("\n") });
+	}
+
+	console.log(`Quét ${mucs.length} mục từ điển (huyệt ${huyet.length}, kinh ${Object.keys(d.MER.kinh).length}, hai bộ bệnh ${Object.values(d.BENH).reduce((a, v) => a + Object.keys(v.records).length, 0)}, dược liệu ${viThuoc.length})`);
 	console.log(`Bộ lọc: ${nguon.size} tên nguồn đã có + ${loc.size} tên huyệt/vị/bài/kinh/chủ trị/triệu chứng\n`);
 
 	// ── Gom ứng viên ───────────────────────────────────────────────────────────────────

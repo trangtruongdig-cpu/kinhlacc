@@ -22,6 +22,8 @@ import pg from "pg";
 const GOC = "/Users/truongtrang/Desktop/kinhlacc";
 const GHI = process.argv.includes("--ghi");
 const TAO_BANG = process.argv.includes("--tao-bang");
+/** Số dòng mỗi lô INSERT — xem ghi chú ở khâu ghi. */
+const LO = 200;
 
 /**
  * DDL ba bảng mới. ⚠️ PHẢI GIỐNG HỆT khối trong `src/schema-bootstrap.service.ts` — service đó
@@ -136,6 +138,26 @@ async function main() {
 			process.exit(1);
 		}
 	}
+	// ── Vị thuốc: chữ nằm trong DB, và bảng có cột `context` ghi NGUỒN GỐC BẰNG CHỨNG
+	// (`ten_khac` 1.122 · `xuat_xu` 200 dòng đã có). Cạnh dò từ trích dẫn nên context =
+	// "tham_khao": cùng cặp (nguồn, vị) đến từ hai đường khác nhau là HAI bằng chứng độc lập,
+	// không phải trùng — khối hiển thị tự khử trùng theo tên sách.
+	{
+		const vt = (await kho.query(`SELECT id, tham_khao, don_thuoc, chu_tri FROM vi_thuoc`)).rows;
+		const canh = new Map();
+		const hopLe = new Set();
+		for (const v of vt) {
+			hopLe.add(String(v.id));
+			for (const c of cumDan([v.tham_khao, v.don_thuoc, v.chu_tri].filter(Boolean).join("\n"))) {
+				const n = nguon.get(chuan(c));
+				if (!n) continue;
+				if (!canh.has(String(n.id))) canh.set(String(n.id), new Set());
+				canh.get(String(n.id)).add(Number(v.id));
+			}
+		}
+		bo.push({ bang: "nguon_vi_thuoc", cot: "vi_thuoc_id", canh, hopLe, context: "tham_khao" });
+	}
+
 	console.log(`${GHI ? "GHI THẬT" : "CHẠY THỬ (thêm --ghi để ghi)"} · thư mục nguồn: ${nguon.size} quyển\n`);
 	let tong = 0;
 	let hong = 0;
@@ -161,15 +183,21 @@ async function main() {
 	await kho.query("BEGIN");
 	try {
 		for (const b of bo) {
+			// ⚠️ GHI THEO LÔ. Lần đầu tệp này chèn lẻ từng dòng: 4.149 lượt đi-về × RTT 88ms tới
+			// Aiven = hơn 6 phút mỗi lượt chạy (đã vấp thật 02/10/2026). Cùng bài học với
+			// `ghiHoSoLo` của bot thẩm định. Mỗi lô 200 dòng, vẫn trong MỘT giao dịch.
+			const hang = [];
+			for (const [nguonId, tap] of b.canh)
+				for (const k of tap) hang.push([Number(nguonId), b.cot === "slug" ? String(k) : Number(k)]);
 			let moi = 0;
-			for (const [nguonId, tap] of b.canh) {
-				for (const k of tap) {
-					const r = await kho.query(
-						`INSERT INTO ${b.bang} (nguon_id, ${b.cot}) VALUES ($1, $2) ON CONFLICT DO NOTHING`,
-						[Number(nguonId), b.cot === "slug" ? String(k) : Number(k)],
-					);
-					moi += r.rowCount ?? 0;
-				}
+			for (let i = 0; i < hang.length; i += LO) {
+				const lo = hang.slice(i, i + LO);
+				const cot = b.context ? `(nguon_id, ${b.cot}, context)` : `(nguon_id, ${b.cot})`;
+				const n = b.context ? 3 : 2;
+				const cho = lo.map((_, j) => `($${j * n + 1}, $${j * n + 2}${b.context ? `, $${j * n + 3}` : ""})`).join(",");
+				const tham = lo.flatMap((x) => (b.context ? [...x, b.context] : x));
+				const r = await kho.query(`INSERT INTO ${b.bang} ${cot} VALUES ${cho} ON CONFLICT DO NOTHING`, tham);
+				moi += r.rowCount ?? 0;
 			}
 			console.log(`  ✓ ${b.bang.padEnd(16)} chèn mới ${moi} (số còn lại đã có sẵn)`);
 		}

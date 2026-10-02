@@ -20,7 +20,7 @@ const require = createRequire(import.meta.url)
 /** Mỗi mục hiện tối đa chừng này sách — trang huyệt dày nhất có 61 quyển, liệt kê hết là lạc đề. */
 export const TRAN_MOI_MUC = 12
 
-const RONG = { huyet: new Map(), kinh: new Map(), benhhoc: new Map(), ccdt: new Map(), so: 0 }
+const RONG = { huyet: new Map(), kinh: new Map(), benhhoc: new Map(), ccdt: new Map(), viThuoc: new Map(), so: 0 }
 
 /**
  * @returns {Promise<{huyet: Map<number,string[]>, kinh: Map<string,string[]>,
@@ -50,7 +50,7 @@ export async function napCanhNguon() {
     ssl: sslConfig(),
     ...HEN_GIO_DB,
   })
-  const ra = { huyet: new Map(), kinh: new Map(), benhhoc: new Map(), ccdt: new Map(), so: 0 }
+  const ra = { huyet: new Map(), kinh: new Map(), benhhoc: new Map(), ccdt: new Map(), viThuoc: new Map(), so: 0 }
   try {
     await kho.connect()
     // Bảng chưa có (chưa khởi động backend sau khi thêm DDL) → coi như không có cạnh, không gãy.
@@ -72,6 +72,7 @@ export async function napCanhNguon() {
     await doc('nguon_kinh', 'slug', ra.kinh, false)
     await doc('nguon_benh_hoc', 'slug', ra.benhhoc, false)
     await doc('nguon_cham_cuu', 'slug', ra.ccdt, false)
+    await doc('nguon_vi_thuoc', 'vi_thuoc_id', ra.viThuoc, true)
   } catch (e) {
     console.warn(`⚠ nguon-canh: không đọc được cạnh nguồn (${e.message}) — khối "Y văn dẫn mục này" sẽ KHÔNG hiện.`)
     return RONG
@@ -79,7 +80,7 @@ export async function napCanhNguon() {
     try { await kho.end() } catch { /* đóng được thì tốt, không thì thôi */ }
   }
   console.log(
-    `✓ nguon-canh: ${ra.so} cạnh y văn (huyệt ${ra.huyet.size} mục · kinh ${ra.kinh.size} · bệnh học ${ra.benhhoc.size} · châm cứu ${ra.ccdt.size}).`,
+    `✓ nguon-canh: ${ra.so} cạnh y văn (huyệt ${ra.huyet.size} · kinh ${ra.kinh.size} · bệnh học ${ra.benhhoc.size} · châm cứu ${ra.ccdt.size} · dược liệu ${ra.viThuoc.size} mục).`,
   )
   return ra
 }
@@ -108,4 +109,35 @@ export function khoiYVan(tenSach, slugCua, esc, { tran = TRAN_MOI_MUC } = {}) {
     (con > 0 ? `<p class="dl-yvan-con">… và ${con} y văn khác.</p>` : '') +
     `</section>`
   )
+}
+
+/** Chuẩn hoá mạnh để khớp tên sách giữa hai kho (bỏ dấu thanh + mọi dấu câu). */
+export const foldTen = (x) =>
+  String(x ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+
+/**
+ * Bản đồ fold(tên sách) → slug trang /nguon/, đọc từ CMS. build-dict đã có bản riêng cho Phối
+ * Huyệt; hàm này để các builder KHÁC (build-duoc-lieu) không phải chép lại.
+ * Không nối được thì trả Map rỗng và kêu — khối sẽ hiện chữ trơn, không link chết.
+ */
+export async function napNguonSlug() {
+  const { moKetNoiCms } = await import('./cms-ket-noi.mjs')
+  const map = new Map()
+  const kn = moKetNoiCms('nguon-canh-slug')
+  if (!kn) {
+    console.warn('  Khối "Y văn dẫn mục này" sẽ hiện chữ TRƠN (không nối được kho CMS để lấy slug).')
+    return map
+  }
+  try {
+    await kn.kho.connect()
+    for (const r of (await kn.kho.query(`SELECT slug, title FROM ec_nguon_y_van WHERE deleted_at IS NULL`)).rows) {
+      const k = foldTen(r.title)
+      if (k && r.slug && !map.has(k)) map.set(k, String(r.slug))
+    }
+  } catch (e) {
+    console.warn(`⚠ nguon-canh: không đọc được ec_nguon_y_van (${e.message}) — khối hiện chữ trơn.`)
+  } finally {
+    await kn.dong()
+  }
+  return map
 }
