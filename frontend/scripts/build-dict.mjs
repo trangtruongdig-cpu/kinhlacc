@@ -23,6 +23,7 @@ import {
 import { napGhiDe, seoTrang, luuTuSinh } from './seo-cms.mjs'
 import { napNgayCms } from './ngay-cms.mjs'
 import { doiChieuUrl } from './sitemap-chen.mjs'
+import { napCanhNguon, khoiYVan } from './nguon-canh.mjs'
 import { moKetNoiCms } from './cms-ket-noi.mjs'
 
 // Neo huyệt trên trang /kinh/: "ST32" → "st32" (nút "Xem Trên Đường Kinh" của trang huyệt trỏ vào).
@@ -44,6 +45,12 @@ const ngayTrang = (bo, slug) => ngayCmsTrang(bo, slug) || BUILD_DATE
 // ten} — đã đo 2.139/2.139 mục có khoá chuẩn hoá DUY NHẤT (không mục nào trùng), nên khớp
 // đơn giản bằng Map là đủ, khỏi cần "chọn bản trích nhiều nhất" như tra-cuu-ten.
 let nguonBySlug = new Map()
+// Cạnh "y văn dẫn mục này" (DB app) — xem nguon-canh.mjs. Rỗng thì khối không hiện, không gãy.
+let canhNguon = { huyet: new Map(), kinh: new Map(), benhhoc: new Map(), ccdt: new Map(), so: 0 }
+const ESC = { text: (x) => escText(x), attr: (x) => escAttr(x) }
+/** Tên sách → slug trang /nguon/, qua đúng bản đồ mà Phối Huyệt đang dùng. */
+const slugNguon = (ten) => nguonBySlug.get(fold(ten))?.slug ?? null
+const yVan = (ds) => khoiYVan(ds, slugNguon, ESC)
 
 const here = dirname(fileURLToPath(import.meta.url))
 const root = resolve(here, '..')
@@ -574,6 +581,7 @@ function huyetPage(rec) {
   }
   body += bodySectionHtml('Phối Huyệt', phoiHuyetHtml(rec.phoiHuyet)) // nối tên sách trong ngoặc → /nguon/
   body += bodySection('Ghi Chú', rec.ghiChu, false)
+  body += yVan(canhNguon.huyet.get(Number(rec.id)))
   if (rec.thamKhao) body += `<section class="dl-sec dl-ref"><h2>Tham Khảo</h2>${para(rec.thamKhao)}</section>`
   body = autolinkHtml(body, slug) // nối tên huyệt nhắc trong bài (Chủ Trị, Phối Huyệt…) → trang huyệt đó
 
@@ -702,6 +710,7 @@ function kinhPage(m) {
 
   let body = ''
   for (const [k, label, caution] of KINH_SECTIONS) body += bodySection(label, m[k], caution)
+  body += yVan(canhNguon.kinh.get(String(kinhSlugOf(m))))
   body = autolinkHtml(body, kinhSlugOf(m)) // nối tên huyệt nhắc trong mô tả đường kinh → trang huyệt
 
   const pts = (m.points || []).map((p) => ({ rec: recOfPoint(p), ten: p.ten, code: p.code }))
@@ -823,6 +832,11 @@ const DICT_STYLE = `<style>
   .dl-pn-empty{flex:0 0 1px}
   @media(max-width:560px){.dl-prevnext{justify-content:center;text-align:center}.dl-pn-mid{order:-1;flex:1 0 100%;margin-bottom:.3rem}}
   .dl-ref{font-size:.9rem;color:#6a5a45}
+  /* Khối "Y văn dẫn mục này" (đồ thị tri thức, 02/10/2026) — mượn khuôn dl-sec, bỏ bớt lề. */
+  .dl-yvan{margin:1.4rem 0 0}
+  .dl-yvan h2{font-size:1.05rem;margin:0 0 .4rem}
+  .dl-yvan-ds{margin:0;padding-left:1.1rem;font-size:.92rem;line-height:1.75}
+  .dl-yvan-con{margin:.35rem 0 0;font-size:.85rem;color:#6a5a45}
   .dl-trait-chip{display:inline-block;background:#f3ebdd;border:1px solid #d4b896;border-radius:6px;padding:.1em .55em;font-size:.85rem;color:#5a4427;margin:.1em .2em .1em 0}
   .dl-cn-char{font-size:1.15rem;font-weight:700;color:#3d2b0e}
   .dl-cn-pinyin{font-size:.88rem;color:#7a6a55;font-style:italic}
@@ -940,6 +954,10 @@ function benhPage(rec, set, cfg) {
     if (!rec[k]) continue
     body += bodySection(label, rec[k], cfg.cautionKey === k)
   }
+  {
+    const bo = cfg.key === 'ccdt' ? canhNguon.ccdt : canhNguon.benhhoc
+    body += yVan(bo.get(String(rec._slug ?? rec.slug)))
+  }
   body = autolinkHtml(body, slug) // nối tên huyệt nhắc trong bài bệnh → trang huyệt tương ứng
 
   // Bệnh liên quan cùng bộ (lân cận trong danh mục) — tăng liên kết nội bộ + độ sâu crawl.
@@ -1051,6 +1069,7 @@ ngayCmsTrang = await napNgayCms()
 // Nạp thư mục nguồn TRƯỚC vòng sinh trang huyệt (Việc 10 ③) — không nối được kho thì
 // nguonBySlug rỗng và Phối Huyệt lặng lẽ không có link /nguon/ nào (napNguon() đã kêu to).
 nguonBySlug = await napNguon()
+canhNguon = await napCanhNguon()
 
 // Hai trang HUB mục lục ("đường vào") — nhất là cho 727 kỳ huyệt vốn không nằm trên kinh nào.
 writePage('kinh', '', kinhIndexPage())
