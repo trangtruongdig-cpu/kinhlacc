@@ -7,6 +7,7 @@
 // Đầu ra trùng khít build-blog.mjs hiện tại (cùng <head>, cùng /blog/blog.css) nên về
 // sau có thể refactor build-blog import thẳng từ đây mà KHÔNG đổi HTML xuất ra.
 import { readFileSync } from 'node:fs'
+import { loiNhacHoiAi } from './ban-cho-ai.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve } from 'node:path'
 
@@ -152,7 +153,12 @@ export const MUC_LUC = [
  */
 export const khoiHoiAi = (duong, tieuDe) => {
   const url = toAbs(duong)
-  const nhac = `Tóm tắt nội dung trang này và cho biết nó trả lời được câu hỏi gì: ${url}`
+  // ⚠️ Trỏ vào BẢN MÁY ĐỌC (`index.md`), KHÔNG trỏ vào trang HTML. Trỏ vào HTML thì trợ lý
+  // nhận cả thanh điều hướng, CSS, khối ảnh 3D, chân trang rồi tự đoán đâu là nội dung —
+  // mình không kiểm soát được nó lấy gì. Bản .md là thứ MÌNH CHỌN để mớm, và nó tự đổi theo
+  // mỗi lần build (FAQ trong đó sinh từ câu người ta gõ thật).
+  const urlMd = `${url.replace(/\/+$/, '')}/index.md`
+  const nhac = loiNhacHoiAi(urlMd, url, tieuDe || url)
   const q = encodeURIComponent(nhac)
   const nut = [
     ['Hỏi ChatGPT', `https://chatgpt.com/?q=${q}`],
@@ -160,12 +166,12 @@ export const khoiHoiAi = (duong, tieuDe) => {
     ['Google AI Mode', `https://www.google.com/search?udm=50&q=${q}`],
   ]
   return (
-    `<aside class="dl-ai" aria-label="Tóm tắt bằng AI">` +
-    `<b>Tóm tắt trang này bằng AI</b>` +
+    `<aside class="dl-ai" aria-label="Hỏi trợ lý AI về trang này">` +
+    `<b>Hỏi trợ lý AI về trang này</b>` +
     `<div class="dl-ai-nut">${nut
       .map(([t, h]) => `<a href="${escAttr(h)}" target="_blank" rel="nofollow noopener">${escText(t)}</a>`)
       .join('')}</div>` +
-    `<span class="dl-ai-ghi">Mở trợ lý AI kèm đường dẫn trang${tieuDe ? ` “${escText(tieuDe)}”` : ''} để hỏi tiếp.</span>` +
+    `<span class="dl-ai-ghi">Trợ lý sẽ đọc <a href="${escAttr(urlMd)}" rel="nofollow">bản rút gọn cho máy</a> của trang này rồi trả lời kèm nguồn.</span>` +
     `</aside>`
   )
 }

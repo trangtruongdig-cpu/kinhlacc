@@ -9,6 +9,7 @@
 // Chạy SAU `vite build` (cần dist/), hoặc DIST_DIR=… để thử. LIMIT_HUYET=N → sinh thử N huyệt.
 import { writeFileSync, mkdirSync, readFileSync } from 'node:fs'
 import { tronCauHoiThat } from './faq-that.mjs'
+import { banChoAi } from './ban-cho-ai.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
 import { khoiHoiAi, cssHoiAi,
@@ -708,7 +709,29 @@ function huyetPage(rec) {
   ${disclaimer({ note: 'Thông tin huyệt vị trên trang này' })}
 </article></main>
 ${footer}</body></html>`
-  return { htmlDoc, url, indexable: seo.index !== false && seo.canonical === url, loai: cls.loai, hasImg: !!img || !!anh3d }
+  // Bản máy đọc: cùng chữ với trang HTML, chỉ khác THỨ TỰ — câu trả lời nhanh lên trước.
+  const md = banChoAi({
+    tieuDe: title,
+    url,
+    loai: 'Huyệt vị',
+    ngayCapNhat: ngayTrang('huyet_vi', slug),
+    matTruoc: [
+      ['Mã WHO', cls.code || ''],
+      ['Đường kinh', cls.loai === 'kinh' ? cls.kinhTen || '' : ''],
+      ['Tên khác', sec(rec, 'TÊN KHÁC')],
+      ['Vị trí', sec(rec, 'VỊ TRÍ')],
+      ['Chủ trị', sec(rec, 'CHỦ TRỊ') || sec(rec, 'TÁC DỤNG')],
+      ['Cách châm cứu', sec(rec, 'CHÂM CỨU')],
+    ],
+    mucNoiDung: [
+      ['Ý nghĩa tên huyệt', sec(rec, 'Ý NGHĨA TÊN HUYỆT')],
+      ['Đặc tính', sec(rec, 'ĐẶC TÍNH')],
+      ['Giải phẫu', sec(rec, 'GIẢI PHẪU')],
+      ['Phối huyệt', sec(rec, 'PHỐI HUYỆT')],
+    ],
+    faq,
+  })
+  return { htmlDoc, md, url, indexable: seo.index !== false && seo.canonical === url, loai: cls.loai, hasImg: !!img || !!anh3d }
 }
 
 // ───────────────────────── TRANG KINH (TRỤ) ─────────────────────────────────
@@ -1071,7 +1094,17 @@ function benhPage(rec, set, cfg) {
   ${disclaimer({ note: `Thông tin về ${rec.ten} trên trang này` })}
 </article></main>
 ${footer}</body></html>`
-  return { htmlDoc, url, indexable: seo.index !== false && seo.canonical === url }
+  // Bản máy đọc cho trang bệnh: lấy thẳng các mục của chính bộ, giữ nguyên thứ tự khai báo.
+  const md = banChoAi({
+    tieuDe: title,
+    url,
+    loai: set.title,
+    ngayCapNhat: ngayTrang(cfg.key === 'ccdt' ? 'cham_cuu_tri_benh' : 'benh_hoc', slug),
+    matTruoc: [[set.metaLabel || 'Phân loại', rec._meta || '']],
+    mucNoiDung: set.fields.map(([k, l]) => [l, rec[k] || '']),
+    faq,
+  })
+  return { htmlDoc, md, url, indexable: seo.index !== false && seo.canonical === url }
 }
 
 function benhIndexPage(set, cfg) {
@@ -1087,10 +1120,14 @@ function benhIndexPage(set, cfg) {
 }
 
 // ───────────────────────── Chạy ─────────────────────────────────────────────
-function writePage(kind, slug, html) {
+function writePage(kind, slug, html, md) {
   const dir = join(distDir, kind, slug)
   mkdirSync(dir, { recursive: true })
   writeFileSync(join(dir, 'index.html'), html, 'utf8')
+  // BẢN MÁY ĐỌC đi kèm trang, cùng thư mục. Nút "hỏi AI" trỏ vào đây chứ không vào HTML —
+  // xem ban-cho-ai.mjs. Trang nào không dựng được bản này thì nút vẫn trỏ tới và nginx trả
+  // 404; nên chỉ chèn nút ở đúng hai loại trang CÓ sinh .md (huyệt và bệnh).
+  if (md) writeFileSync(join(dir, 'index.md'), md, 'utf8')
 }
 
 // Nạp ghi-đè SEO TRƯỚC mọi vòng sinh trang. Không nối được kho thì hàm trả null và
@@ -1124,9 +1161,9 @@ let nHuyet = 0
 const stat = { kinh: 0, ky: 0, athi: 0, noimg: 0, noindex: 0 }
 for (const rec of subset) {
   if (!rec || !rec.ten) continue
-  const { htmlDoc, indexable, loai, hasImg, url } = huyetPage(rec)
+  const { htmlDoc, md, indexable, loai, hasImg, url } = huyetPage(rec)
   TRANG_SM.push({ loc: url, index: indexable })
-  writePage('huyet', rec._slug, htmlDoc)
+  writePage('huyet', rec._slug, htmlDoc, md)
   nHuyet++
   stat[loai]++
   if (!hasImg) stat.noimg++
@@ -1146,9 +1183,9 @@ for (const cfg of BENH_SETS) {
   let noindex = 0
   for (const rec of set.records) {
     if (!rec || !rec.ten) continue
-    const { htmlDoc, indexable, url } = benhPage(rec, set, cfg)
+    const { htmlDoc, md, indexable, url } = benhPage(rec, set, cfg)
     TRANG_SM.push({ loc: url, index: indexable })
-    writePage(cfg.dir, rec._slug, htmlDoc)
+    writePage(cfg.dir, rec._slug, htmlDoc, md)
     n++
     nBenh++
     if (!indexable) noindex++
