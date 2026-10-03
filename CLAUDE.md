@@ -897,6 +897,22 @@ nội dung người đọc đang xem mà không ai duyệt.
 bài có neo sẵn xếp TRƯỚC vì việc rẻ hơn. Thiếu luật này thì đề xuất thành việc THÊM, không
 phải việc đỡ. Trần: 5 bài cũ mỗi bài mới, 3 đề xuất mỗi bài cũ.
 
+### Tab Mạng nhện — sổ gợi ý link ngược, nhìn thành SƠ ĐỒ
+
+Kho `goi_y_nguoc` khoá theo contentId bài **CŨ** (vì khung Phiếu Rada mở theo bài đang sửa), nên
+đọc thẳng chỉ thấy từng mẩu rời. `viet/mang-nhen-xem.mjs` lật ngược: mỗi **bài MỚI** là một trung
+tâm, các bài cũ nên trỏ về nó là nan hoa; route `mang-nhen-tong-quan`; tab "Mạng nhện".
+
+⚠️ **Mọi con số ở đó là ĐỀ XUẤT CHỜ NGƯỜI BẤM, không phải link đã có trên trang.** Màn hình đếm
+20 "đề xuất" mà người đọc tưởng 20 link đã chèn thì mọi phép đo sau đó đều lệch — nên khung vàng
+nói thẳng điều này, và nan vẽ hai màu: xanh = bài cũ đã có sẵn cụm để bọc thành link, vàng = phải
+viết thêm một câu (việc đắt hơn, xếp sau).
+
+Tên bài cũ tra từ sổ `nhap` trước (rẻ), thiếu thì hỏi CMS tối đa 60 mục; **không tra ra thì để
+trống chứ không đoán** — bài cũ có thể do người viết tay, không nằm trong sổ nháp của lò viết.
+`toaDoNanHoa` là hàm THUẦN và có phép kiểm: vẽ hình mà không kiểm thì lệch một nan cũng không ai
+biết.
+
 ### Vòng học: loại sửa nào hay giúp lên hạng (`leo-top/vong-hoc.mjs`, 02/10/2026)
 
 ⚠️ **ĐỒNG XUẤT HIỆN, KHÔNG PHẢI NHÂN QUẢ** — và đây là ràng buộc thiết kế, không phải lời rào

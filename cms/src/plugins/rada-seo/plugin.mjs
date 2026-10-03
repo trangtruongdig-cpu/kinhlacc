@@ -29,6 +29,7 @@ import { tranTrangDem } from "./mcp-viec.mjs";
 import { truocKhiDang, sauKhiDang, sauKhiGo, taiPanel, dsNhapChoTab } from "./viet/dang.mjs";
 import { thaIndexNow } from "./viet/indexnow.mjs";
 import { thaMangNhen } from "./viet/lien-ket-nguoc.mjs";
+import { gomMangNhen } from "./viet/mang-nhen-xem.mjs";
 import { taoGoiModel } from "./ai/goi-model.mjs";
 import { tuDocTrang } from "./ai/tu-doc-trang.mjs";
 import { tuLapChienLuoc } from "./ai/tu-lap-chien-luoc.mjs";
@@ -1252,6 +1253,34 @@ export function createPlugin() {
 				// edit_own/edit_any theo chủ bài.
 				permission: "content:edit_own",
 				handler: async (ctx) => taiPanel(ctx),
+			},
+			/**
+			 * SƠ ĐỒ MẠNG NHỆN NGƯỢC — bài cũ nào nên trỏ sang bài mới nào.
+			 *
+			 * Sổ `goi_y_nguoc` khoá theo contentId bài CŨ (khung Phiếu Rada mở theo bài đang sửa),
+			 * nên đọc thẳng chỉ thấy từng mẩu. Route này lật ngược thành trung tâm–nan hoa.
+			 *
+			 * ⚠️ Mọi con số ở đây là ĐỀ XUẤT CHỜ NGƯỜI BẤM, không phải link đã có trên trang.
+			 */
+			"mang-nhen-tong-quan": {
+				handler: async (ctx) => {
+					const so = (await kho.tatCa(ctx.storage.goi_y_nguoc)).map((r) => ({ id: r.id, ...r.data }));
+					// Tên bài cũ: hỏi bộ nháp trước (rẻ, đã có sẵn), thiếu thì để trống — KHÔNG đoán.
+					const ten = new Map();
+					for (const n of await kho.tatCa(ctx.storage.nhap)) ten.set(String(n.id), { tieuDe: n.data?.tieuDe ?? "", slug: n.data?.slug ?? "" });
+					const thieu = so.map((x) => String(x.id)).filter((id) => !ten.has(id));
+					// Phần còn lại hỏi CMS theo lô nhỏ: bài cũ có thể là bài người viết tay, không
+					// nằm trong sổ nháp của lò viết.
+					for (const id of thieu.slice(0, 60)) {
+						try {
+							const c = await ctx.content.get("bai_viet", id);
+							if (c) ten.set(id, { tieuDe: c.data?.title ?? "", slug: c.slug ?? "" });
+						} catch {
+							// Bài đã xoá hoặc id lạ — để trống, sơ đồ vẫn vẽ được.
+						}
+					}
+					return { ...gomMangNhen(so, ten), soChuaTraDuocTen: thieu.length };
+				},
 			},
 			"nhap-tong-quan": {
 				// Người duyệt bậc Editor (40) làm việc ở tab Nháp: cùng quyền với khung "Phiếu Rada". Chỉ ĐỌC

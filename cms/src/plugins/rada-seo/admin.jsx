@@ -1,6 +1,7 @@
 // Màn điều khiển Rada SEO trong /_emdash/admin/plugins/rada-seo/rada.
 // Chỉ HIỂN THỊ và gọi route của plugin; mọi luật nằm phía máy chủ.
 import { Fragment, useCallback, useEffect, useState } from "react";
+import { toaDoNanHoa } from "./viet/mang-nhen-xem.mjs";
 
 async function goi(route, body) {
 	const res = await fetch(`/_emdash/api/plugins/rada-seo/${route}`, {
@@ -129,6 +130,7 @@ const TABS = [
 	{ key: "huong", label: "Hướng nội dung" },
 	{ key: "ke-hoach", label: "Kế hoạch" },
 	{ key: "leo-top", label: "Leo top" },
+	{ key: "mang-nhen", label: "Mạng nhện" },
 	{ key: "nhap", label: "Nháp" },
 ];
 const TAB_LS_KEY = "rada-seo:tab";
@@ -1233,6 +1235,105 @@ function LeoTopTab({ dl, loi, onDaSua, onTai, onSangTab }) {
 	);
 }
 
+/**
+ * SƠ ĐỒ MẠNG NHỆN NGƯỢC. Mỗi bài MỚI là một trung tâm, các bài cũ nên trỏ về nó là nan hoa.
+ *
+ * ⚠️ Đây là ĐỀ XUẤT CHỜ NGƯỜI BẤM, không phải link đã có trên trang. Gọi nó là "liên kết" trên
+ * màn hình là nói dối — người biên tập chèn trong khung Phiếu Rada ở trình soạn.
+ */
+function SoDoNanHoa({ t }) {
+	const n = t.nan.length;
+	const toa = toaDoNanHoa(n);
+	return (
+		<svg viewBox="0 0 320 260" style={{ width: "100%", maxWidth: 340, height: "auto" }} role="img" aria-label={`Sơ đồ ${n} bài cũ trỏ về ${t.tieuDe}`}>
+			{toa.map((p, i) => (
+				<line key={`l${i}`} x1="160" y1="130" x2={p.x} y2={p.y} stroke={t.nan[i].canVietThem ? "#fcd34d" : "#86efac"} strokeWidth="2" />
+			))}
+			{toa.map((p, i) => (
+				<g key={`n${i}`}>
+					<circle cx={p.x} cy={p.y} r="7" fill={t.nan[i].canVietThem ? "#fef3c7" : "#dcfce7"} stroke={t.nan[i].canVietThem ? "#d97706" : "#16a34a"} />
+					<title>{`${t.nan[i].tieuDeCu || t.nan[i].id}${t.nan[i].canVietThem ? " — phải viết thêm một câu" : ` — neo sẵn: ${t.nan[i].neo}`}`}</title>
+				</g>
+			))}
+			<circle cx="160" cy="130" r="16" fill="#1d4ed8" />
+			<text x="160" y="135" textAnchor="middle" fill="#fff" fontSize="13" fontWeight="700">{n}</text>
+		</svg>
+	);
+}
+
+function MangNhenTab({ dl, loi, onTai }) {
+	const [mo, setMo] = useState(null);
+	if (!dl) return loi ? <ChuaCoDuLieu loi={loi} /> : <ChoMotChut viec="Đang đọc sổ gợi ý link ngược" />;
+	const tt = dl.trungTam ?? [];
+	return (
+		<div>
+			<div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+				<Nut onClick={onTai}>Tải lại</Nut>
+				<span style={{ color: "#666", fontSize: 13 }}>
+					Lò viết chèn link mới → cũ. Chiều ngược lại (cũ → mới) thì bài cũ không bao giờ tự biết có bài mới, nên bài mới nhận 0
+					link nội bộ đúng lúc cần nhất. Đây là sổ gợi ý cho chiều đó.
+				</span>
+			</div>
+			<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 8, margin: "0 0 14px", maxWidth: 760 }}>
+				<ODo so={tt.length} nhan="bài mới được đỡ" />
+				<ODo so={dl.soDeXuat ?? 0} nhan="đề xuất chờ bấm" mau="#1d4ed8" />
+				<ODo so={dl.soBaiCu ?? 0} nhan="bài cũ liên quan" />
+				<ODo so={dl.soCanVietThem ?? 0} nhan="phải viết thêm câu" mau={dl.soCanVietThem ? "#92400e" : undefined} />
+			</div>
+			{/* Nói rõ đây là đề xuất: màn hình đếm 20 "đề xuất" mà người đọc tưởng 20 link đã chèn
+			    thì mọi phép đo sau đó đều lệch. */}
+			<div style={{ ...KHUNG_O, background: "#fffbeb", borderColor: "#fcd34d", fontSize: 13, marginBottom: 12 }}>
+				Đây là <b>đề xuất chờ bấm</b>, chưa phải link đã có trên trang. Người biên tập chèn trong khung <b>Phiếu Rada</b> ở cột
+				phải trình soạn bài. Nan <span style={{ color: "#16a34a" }}>xanh</span> là bài cũ đã có sẵn cụm để bọc thành link; nan{" "}
+				<span style={{ color: "#d97706" }}>vàng</span> là phải viết thêm một câu — việc đắt hơn nên xếp sau.
+			</div>
+			{!tt.length && (
+				<p style={{ color: "#6b7280" }}>
+					Sổ còn trống. Nó được ghi khi một bài của lò viết được <b>Publish</b> — lúc đó `thaMangNhen` dò các bài cũ nên trỏ sang
+					bài vừa đăng.
+				</p>
+			)}
+			{tt.map((t) => (
+				<div key={t.slug} style={{ ...KHUNG_O, background: "#fff", marginBottom: 10 }}>
+					<div style={{ display: "flex", gap: 14, alignItems: "flex-start", flexWrap: "wrap" }}>
+						<div style={{ flex: "1 1 320px", minWidth: 260 }}>
+							<div style={{ fontWeight: 600 }}>
+								<a href={`${TRANG_GOC}/blog/${t.slug}/`} target="_blank" rel="noopener noreferrer">{t.tieuDe}</a>
+							</div>
+							<div style={{ fontSize: 13, color: "#6b7280", margin: "2px 0 6px" }}>
+								{t.soNan} bài cũ nên trỏ về đây{t.soCanVietThem ? ` · ${t.soCanVietThem} bài phải viết thêm câu` : ""}
+							</div>
+							<Nut onClick={() => setMo(mo === t.slug ? null : t.slug)} style={{ fontSize: 12, padding: "3px 8px" }}>
+								{mo === t.slug ? "Thu danh sách" : "Xem từng bài cũ"}
+							</Nut>
+							{mo === t.slug && (
+								<ul style={{ margin: "6px 0 0", paddingLeft: 18, fontSize: 13 }}>
+									{t.nan.map((x, i) => (
+										<li key={i} style={{ marginBottom: 3 }}>
+											{x.tieuDeCu || <span style={{ color: "#9ca3af" }}>(không tra ra tên, id {x.id})</span>}
+											{x.canVietThem ? (
+												<span style={{ color: "#92400e" }}> — ✎ phải viết thêm một câu{x.lyDo ? ` (${x.lyDo})` : ""}</span>
+											) : (
+												<span style={{ color: "#15803d" }}> — neo sẵn: “{x.neo}”</span>
+											)}
+										</li>
+									))}
+								</ul>
+							)}
+						</div>
+						<div style={{ flex: "0 0 auto" }}>
+							<SoDoNanHoa t={t} />
+						</div>
+					</div>
+				</div>
+			))}
+			{dl.soChuaTraDuocTen > 0 && (
+				<p style={{ fontSize: 12, color: "#9ca3af" }}>{dl.soChuaTraDuocTen} bài cũ không có trong sổ nháp của lò viết — tên tra từ CMS.</p>
+			)}
+		</div>
+	);
+}
+
 // ---- Tab "Nháp" (2C-3): bài lò viết đã tạo, chờ người duyệt ----
 const NHAN_NHAP = { cho_duyet: "Chờ duyệt", da_dang: "Đã đăng" };
 
@@ -2001,6 +2102,8 @@ function RadaSeo() {
 	const [thongBao, setThongBao] = useState("");
 	const [nhDl, setNhDl] = useState(null);
 	const [nhLoi, setNhLoi] = useState("");
+	const [mnDl, setMnDl] = useState(null);
+	const [mnLoi, setMnLoi] = useState("");
 	const [ktDl, setKtDl] = useState(null);
 	const [ktLoi, setKtLoi] = useState("");
 	const [khDangViet, setKhDangViet] = useState(null);
@@ -2015,6 +2118,7 @@ function RadaSeo() {
 	const taiCN = useCallback(() => goi("cum-ngu-nghia").then((d) => { setCnDl(d); setCnLoi(""); }, (e) => setCnLoi(loiCua(e))), []);
 	const taiKT = useCallback(() => goi("khoang-trong-tong-quan").then((d) => { setKtDl(d); setKtLoi(""); }, (e) => setKtLoi(loiCua(e))), []);
 	const taiLT = useCallback(() => goi("leo-top-tong-quan").then((d) => { setLtDl(d); setLtLoi(""); }, (e) => setLtLoi(loiCua(e))), []);
+	const taiMn = useCallback(() => goi("mang-nhen-tong-quan").then((d) => { setMnDl(d); setMnLoi(""); }, (e) => setMnLoi(loiCua(e))), []);
 	const taiNh = useCallback(() => goi("nhap-tong-quan").then((d) => { setNhDl(d); setNhLoi(""); }, (e) => setNhLoi(loiCua(e, KHONG_QUYEN_NHAP))), []);
 	useEffect(() => {
 		// Không phải quản trị viên (Editor): mở thẳng tab Nháp — tab duy nhất họ đọc được. Không ghi
@@ -2047,6 +2151,7 @@ function RadaSeo() {
 		// Sang tab Kế hoạch thì tải lại: bài dự kiến vừa tạo từ tab Khoảng trống phải hiện ngay,
 		// không bắt người dùng tự bấm "Tải lại" rồi tưởng nút Giao không ăn.
 		if (t === "ke-hoach") taiCL();
+		if (t === "mang-nhen") taiMn();
 		if (t === "nhap") taiNh();
 	};
 
@@ -2138,6 +2243,8 @@ function RadaSeo() {
 			)}
 
 			{tab === "khoang-trong" && <KhoangTrongTab dl={ktDl} loi={ktLoi} onTai={taiKT} onSangTab={doiTab} />}
+
+			{tab === "mang-nhen" && <MangNhenTab dl={mnDl} loi={mnLoi} onTai={taiMn} />}
 
 			{tab === "nhap" && <NhapTab dl={nhDl} loi={nhLoi} onTai={taiNh} />}
 		</div>
