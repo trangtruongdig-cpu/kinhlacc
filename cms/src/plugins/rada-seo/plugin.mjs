@@ -9,7 +9,7 @@ import { markdownToPortableText } from "emdash/client";
 import { KHAI_BAO_KHO } from "./kho.mjs";
 import * as kho from "./kho.mjs";
 import { chuanTenMien, TRAN_SITEMAP, TRAN_URL } from "./radar/sitemap.mjs";
-import { chayCaRadar, TRAN_LOI_TAI } from "./ca-radar.mjs";
+import { chayCaRadar, TRAN_LOI_TAI, nguongHangCho } from "./ca-radar.mjs";
 import { tinhTrangTuDong } from "./tinh-trang.mjs";
 import { taoGsc } from "./leo-top/gsc.mjs";
 import { taoDocWeb, taoDocTrang } from "./lib/doc-web.mjs";
@@ -25,6 +25,7 @@ import {
 } from "./chien-luoc/viec.mjs";
 import { chuoi, ID, TU_KHOA, DUONG, KHUON_HUONG, KHUON_CUM, KHUON_KE_HOACH } from "./chien-luoc/khuon.mjs";
 import { layBaiCanViet, nopBai, traBaiMoiDem, KHOA_CAI_DAT_BAI_MOI_DEM, BAI_MOI_DEM_TOI_DA } from "./viet/viec.mjs";
+import { tranTrangDem } from "./mcp-viec.mjs";
 import { truocKhiDang, sauKhiDang, sauKhiGo, taiPanel, dsNhapChoTab } from "./viet/dang.mjs";
 import { thaIndexNow } from "./viet/indexnow.mjs";
 import { thaMangNhen } from "./viet/lien-ket-nguoc.mjs";
@@ -74,6 +75,49 @@ const KHOA_TIEN_DO = "ca:tien-do";
  */
 const KHOA_GSC_TRANG = "leo-top:gsc-trang";
 const HAN_GSC_TRANG_MS = 30 * 60 * 1000;
+/** Hàng đợi leo top (từ khoá hạng 4–50) — cùng lý do đệm, và nó quét tới 100k hàng GSC. */
+const KHOA_GSC_UNG_VIEN = "leo-top:ung-vien";
+
+/**
+ * Số Search Console theo TRANG, đệm chung cho mọi tab.
+ *
+ * Vì sao dùng chung: trang của mình xuất hiện ở BA chỗ — "Trang mình" của tab Khoảng trống và
+ * tab Hướng nội dung, và "bài đã đăng" của tab Leo top. Mỗi tab tự hỏi Google là ba vòng mạng
+ * cho đúng một bảng số, mà bảng ấy chỉ đổi mỗi ngày.
+ *
+ * KHÔNG BAO GIỜ ném: thiếu Search Console thì các tab vẫn phải dùng được, chỉ là không có số.
+ * @returns {Promise<{banDo: Map|null, ghiChu: string}>}
+ */
+async function gscTheoTrang(ctx) {
+	const gsc = gscCua(ctx);
+	if (!gsc.coCauHinh()) return { banDo: null, ghiChu: "Chưa cấu hình Search Console (GSC_OAUTH_*) — không có số hạng của trang mình." };
+	try {
+		const cu = await ctx.kv.get(KHOA_GSC_TRANG).catch(() => null);
+		if (cu && Date.now() - cu.luc < HAN_GSC_TRANG_MS)
+			return {
+				banDo: new Map(cu.hang),
+				ghiChu: `Số Search Console lấy lúc ${new Date(cu.luc).toLocaleString("vi-VN")} (đệm ${Math.round(HAN_GSC_TRANG_MS / 60000)} phút).`,
+			};
+		const banDo = await gsc.layTheoTrang({ ngay: 28 });
+		await ctx.kv.set(KHOA_GSC_TRANG, { luc: Date.now(), hang: [...banDo] }).catch(() => {});
+		return { banDo, ghiChu: "" };
+	} catch (e) {
+		return { banDo: null, ghiChu: `Không đọc được Search Console: ${String(e?.message ?? e).slice(0, 300)}` };
+	}
+}
+
+/**
+ * Gắn số Search Console vào một cụm ĐÃ CÓ TRANG. Đây là chỗ biến "đã có" (một chữ) thành việc
+ * đọc được: đã có trang mà hạng 37 với 6 lượt hiển thị là việc LEO TOP, còn hạng 2 thì để yên.
+ */
+function ganSoTrang(c, banDo, chuanHoa, goc) {
+	if (!c.daCo || !c.slug || !banDo) return c;
+	const duong = `/${c.bo === "benh_hoc" ? "benh-hoc" : "cham-cuu-tri-benh"}/${c.slug}/`;
+	const so = banDo.get(chuanHoa(`${goc}${duong}`)) ?? null;
+	// `so = null` nghĩa là Search Console KHÔNG có dòng nào cho trang này trong 28 ngày — tức
+	// 0 lượt hiển thị. Khác hẳn "chưa hỏi được Google", nên hai thứ phải đi bằng hai trường.
+	return { ...c, duongTrang: duong, so };
+}
 const HAN_KHOA_MS = 3 * 60 * 60 * 1000;
 /** Ca thành công gần nhất cũ hơn mức này thì màn điều khiển báo đỏ. */
 const CANH_BAO_SAU_MS = 26 * 60 * 60 * 1000;
@@ -302,6 +346,26 @@ const layHoSoCoDuong = (ctx) => async (cum, bienThe) => {
 	return r.ok ? ganDuongHuyet(r.hoSo, await slugHuyet(ctx)) : null;
 };
 
+/**
+ * HÂM SẴN kho app. Người mở Rada SEO luôn rơi vào tab Radar trước, rồi mới bấm sang Khoảng
+ * trống / Hướng nội dung — hai tab đó hỏi backend và lượt NGUỘI tốn 1,4 s và 3,0 s (đo
+ * 03/10/2026; trước khi thay phép dò nhiều mẫu là 10,2 s). Gọi trước ngay lúc mở tab Radar thì
+ * tới lúc bấm sang, đệm 10 phút của backend đã ấm.
+ *
+ * KHÔNG `await`: tab Radar không được chờ thứ nó không dùng. Lỗi nuốt gọn — đây là việc làm
+ * sẵn, hỏng thì tab kia tự gọi lại như trước.
+ */
+let hamLuc = 0;
+const HAN_HAM_MS = 5 * 60 * 1000;
+function hamKhoApp(ctx) {
+	if (Date.now() - hamLuc < HAN_HAM_MS) return;
+	hamLuc = Date.now();
+	Promise.allSettled([layUngVien(), layCumNguNghia()]).then((kq) => {
+		const hong = kq.filter((x) => x.status === "rejected" || x.value?.ok === false);
+		if (hong.length) ctx.log?.warn?.(`Rada SEO: hâm kho app không xong (${hong.length}/2) — tab Khoảng trống sẽ tự gọi lại.`);
+	});
+}
+
 /** Gốc của site thật — cùng một mặc định ở mọi chỗ cần dựng URL công khai. */
 const gocSite = () => process.env.RADA_SEO_SITE ?? "https://kinhlac.online";
 
@@ -442,6 +506,7 @@ export function createPlugin() {
 		routes: {
 			"tong-quan": {
 				handler: async (ctx) => {
+					hamKhoApp(ctx);
 					const doiThu = await kho.dsDoiThu(ctx.storage);
 					// ⚠️ ĐỆM, vì pool CSDL của CMS là max:1 và RTT tới Aiven 98,9 ms: 5 lượt đếm ×
 					// 7 đối thủ = 35 lượt ≈ 3,5 s, và NÚT NÀO cũng gọi lại route này. Xem demUrlTatCa.
@@ -516,6 +581,9 @@ export function createPlugin() {
 						// "số đứng yên vì ca chưa làm gì".
 						demTuDem: tuDem,
 						choAi,
+						// Nhịp đọc hiện hành, để màn hình tự tính được "hàng đợi này cần mấy đêm" —
+						// không có con số đó thì "1.178 trang chờ" là một con số không dùng được.
+						nhipDoc: { tranDem: tranTrangDem(), nguongHangCho: nguongHangCho() },
 						canhBaoCaDem: caDemBat() && tuoiRadar > CANH_BAO_SAU_MS,
 						// Có trang chờ mà 26 giờ Claude không đọc: routine không chạy (xem lịch sử chạy ở
 						// claude.ai/code/routines), khoá RADA_SEO_MCP_TOKEN sai/thu hồi/hết hạn, hoặc
@@ -773,7 +841,13 @@ export function createPlugin() {
 					if (!uv.ok) return { loi: `Không hỏi được kho app: ${uv.loi}`, choViet: [], leoTop: [], choXacNhan: [], soUngVien: 0 };
 					// Chỉ nạp hai bộ trang-nhắm-nhu-cầu (~172 mục), KHÔNG nạp cả chỉ mục 18.400 mục.
 					const chiMuc = await napTrangNhuCau(ctx.content);
-					return { ...xepUngVien(uv.ds, chiMuc), loi: "", soUngVien: uv.ds.length, loiNap: chiMuc.loiNap };
+					const gio = xepUngVien(uv.ds, chiMuc);
+					// Giỏ "đã có trang" mà không có số hạng thì không nói được gì: nó chỉ đẩy người
+					// dùng sang tab Leo top rồi để họ tự tra. Gắn số vào ngay đây.
+					const { banDo, ghiChu } = await gscTheoTrang(ctx);
+					const goc = gocSite();
+					for (const k of ["choViet", "leoTop", "choXacNhan"]) gio[k] = gio[k].map((c) => ganSoTrang(c, banDo, chuanHoaUrlTrang, goc));
+					return { ...gio, loi: "", soUngVien: uv.ds.length, loiNap: chiMuc.loiNap, gscGhiChu: ghiChu, coGsc: !!banDo };
 				},
 			},
 			// Tab Hướng nội dung: 657 cụm ngữ nghĩa thật, thay cho bảng tĩnh semantic-clusters.json.
@@ -783,11 +857,13 @@ export function createPlugin() {
 					if (!r.ok) return { loi: `Không hỏi được kho app: ${r.loi}`, ds: [] };
 					const chiMuc = await napTrangNhuCau(ctx.content);
 					// Trang mình đã có cho cụm: thử theo TÊN CỤM và theo từng chủ trị trong cụm.
+					const { banDo, ghiChu } = await gscTheoTrang(ctx);
+					const goc = gocSite();
 					const ds = r.ds.map((c) => {
 						const t = [c.ten, ...(c.chuTri ?? [])].map((x) => trangDaCo(x, chiMuc)).find((x) => x.daCo);
-						return { ...c, ...(t ?? { daCo: false }) };
+						return ganSoTrang({ ...c, ...(t ?? { daCo: false }) }, banDo, chuanHoaUrlTrang, goc);
 					});
-					return { ds, loi: "", loiNap: chiMuc.loiNap };
+					return { ds, loi: "", loiNap: chiMuc.loiNap, gscGhiChu: ghiChu, coGsc: !!banDo };
 				},
 			},
 			"khoang-trong-ho-so": {
@@ -920,18 +996,9 @@ export function createPlugin() {
 						// gọi Google mất vài giây (hạn chờ tới 30 s) chỉ để nhận lại đúng con số cũ.
 						// Lỗi ở đây KHÔNG được làm sập tab: phần phiên và phần phiếu không liên quan
 						// gì tới Search Console.
-						try {
-							const cu = await ctx.kv.get(KHOA_GSC_TRANG).catch(() => null);
-							if (cu && Date.now() - cu.luc < HAN_GSC_TRANG_MS) {
-								theoTrang = new Map(cu.hang);
-								baiMoiGhiChu = `Số của Search Console lấy lúc ${new Date(cu.luc).toLocaleString("vi-VN")} (đệm ${Math.round(HAN_GSC_TRANG_MS / 60000)} phút).`;
-							} else {
-								theoTrang = await gsc.layTheoTrang({ ngay: 28 });
-								await ctx.kv.set(KHOA_GSC_TRANG, { luc: Date.now(), hang: [...theoTrang] }).catch(() => {});
-							}
-						} catch (e) {
-							baiMoiGhiChu = `Không đọc được Search Console: ${String(e?.message ?? e).slice(0, 300)}`;
-						}
+						const r = await gscTheoTrang(ctx);
+						theoTrang = r.banDo;
+						baiMoiGhiChu = r.ghiChu;
 					} else {
 						baiMoiGhiChu = "Chưa cấu hình Search Console (GSC_OAUTH_*) — chưa đo được hạng của bài mới đăng.";
 					}
@@ -966,6 +1033,37 @@ export function createPlugin() {
 						return await gsc.layViecTieuDe({});
 					} catch (e) {
 						return { ds: [], ghiChu: `Không đọc được Search Console: ${e?.message ?? e}` };
+					}
+				},
+			},
+			/**
+			 * HÀNG ĐỢI leo top: từ khoá hạng 4–50 của chính site mình, xếp theo ưu tiên — đúng
+			 * danh sách mà ca đêm thứ Tư sẽ lấy 5 mục đầu.
+			 *
+			 * Vì sao phải có route của NGƯỜI: trước đây danh sách này chỉ tồn tại bên trong ca
+			 * đêm, nên muốn biết "tuần này sẽ soi từ khoá nào, còn bao nhiêu từ khoá đang chờ"
+			 * thì phải đợi tới thứ Tư rồi đọc nhật ký. Có số liệu mà không ai nhìn thấy thì
+			 * không theo dõi được, cũng không leo được.
+			 *
+			 * Đệm 30 phút: truy vấn này quét tới 100.000 hàng GSC.
+			 */
+			"leo-top-ung-vien": {
+				handler: async (ctx) => {
+					const gsc = gscCua(ctx);
+					if (!gsc.coCauHinh()) return { ds: [], ghiChu: "Chưa cấu hình Search Console (thiếu GSC_OAUTH_*)." };
+					const cu = await ctx.kv.get(KHOA_GSC_UNG_VIEN).catch(() => null);
+					if (cu && Date.now() - cu.luc < HAN_GSC_TRANG_MS)
+						return { ...cu.kq, ghiChu: `${cu.kq.ghiChu ?? ""} Lấy lúc ${new Date(cu.luc).toLocaleString("vi-VN")} (đệm 30 phút).`.trim() };
+					try {
+						// BỎ QUA cặp đã có phiên: chúng đang được theo dõi rồi, để trong hàng đợi
+						// chỉ làm người đọc tưởng còn việc chưa ai nhận.
+						const daCo = new Set((await kho.dsLeoTop(ctx.storage)).map((p) => `${p.tuKhoa}|${p.trangMinh}`));
+						const ds = await gsc.layTuKhoaLeoTop({ toiDa: 30, boQua: daCo });
+						const kq = { ds, soDangTheoDoi: daCo.size, ghiChu: "" };
+						await ctx.kv.set(KHOA_GSC_UNG_VIEN, { luc: Date.now(), kq }).catch(() => {});
+						return kq;
+					} catch (e) {
+						return { ds: [], ghiChu: `Không đọc được Search Console: ${String(e?.message ?? e).slice(0, 300)}` };
 					}
 				},
 			},

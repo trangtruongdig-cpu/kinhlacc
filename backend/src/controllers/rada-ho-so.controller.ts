@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { DoNhieuMau } from '../utils/da-mau.util';
 
 /**
  * RadaHoSoService — dựng HỒ SƠ CỤM cho Rada SEO (plugin trong CMS gọi sang).
@@ -373,10 +374,7 @@ export class RadaHoSoService {
     )) as { id_chu_tri: number; n: string }[])
       soViTheoChuTri.set(r.id_chu_tri, Number(r.n));
 
-    const tacDung: { tac_dung: string }[] = await this.dataSource.query(
-      `SELECT tac_dung FROM phuong_thang WHERE tac_dung IS NOT NULL`,
-    );
-    const kho = tacDung.map((r) => boDau(r.tac_dung));
+    const kho = await this.khoTacDung();
 
     const cum = new Map<number, { id: number; ten: string; slug: string; moTa: string | null; chuTri: { ten: string; khoa: string }[]; soVi: number }>();
     for (const r of dong) {
@@ -389,10 +387,21 @@ export class RadaHoSoService {
     // Một bài thuốc chỉ đếm MỘT lần cho mỗi cụm, dù khớp nhiều chủ trị của cụm đó. Huyệt cũng
     // vậy, và phải gộp bằng Set: cụm có 17 chủ trị thì một huyệt dễ trúng nhiều chủ trị cùng lúc.
     const banDoHuyet = await this.huyetTheoTen();
+    // Dò MỘT lượt cho mọi khoá của mọi cụm, rồi HỢP TẬP theo cụm. Kết quả giống hệt
+    // `kho.filter((x) => khoaCum.some((k) => x.includes(k))).length` — đó chính là lực lượng
+    // của hợp — nhưng không phải quét lại kho cho từng khoá.
+    const moiKhoa = [...new Set([...cum.values()].flatMap((c) => c.chuTri.map((x) => x.khoa)))];
+    const viTriKhoa = new Map(moiKhoa.map((k, i) => [k, i]));
+    const theoKhoa = new DoNhieuMau(moiKhoa).theoMau(kho);
     const ds = [...cum.values()]
       .map((c) => {
         const khoaCum = [...new Set(c.chuTri.map((x) => x.khoa))];
-        const soBai = kho.filter((x) => khoaCum.some((k) => x.includes(k))).length;
+        const hop = new Set<number>();
+        for (const k of khoaCum) {
+          const i = viTriKhoa.get(k);
+          if (i !== undefined) for (const j of theoKhoa[i]) hop.add(j);
+        }
+        const soBai = hop.size;
         const { soHuyet, soKinh, khopQua } = this.gopHuyet(
           c.chuTri.map((x) => x.ten),
           banDoHuyet,
@@ -428,6 +437,20 @@ export class RadaHoSoService {
    * lần và thổi tháp lên — đo thật: "Khí hư" khớp 9 phác đồ, cộng dồn ra 103 huyệt.
    */
   private demHuyetTheoTen: { luc: number; ds: { ten: string; huyet: number[]; kinh: number[] }[] } | null = null;
+  /**
+   * `tac_dung` của 13.911 bài thuốc, đã `boDau`, dùng chung cho `ungVien` và `cumNguNghia`.
+   * Mỗi lượt lấy là ~1,7 MB chữ qua mạng tới Aiven; hai phương thức tự lấy riêng là trả tiền
+   * hai lần cho đúng một kho. Đệm cùng hạn với các đệm khác (10 phút).
+   */
+  private demKho: { luc: number; kho: string[] } | null = null;
+  private async khoTacDung(): Promise<string[]> {
+    if (this.demKho && Date.now() - this.demKho.luc < RadaHoSoService.HAN_DEM_MS) return this.demKho.kho;
+    const r: { tac_dung: string }[] = await this.dataSource.query(`SELECT tac_dung FROM phuong_thang WHERE tac_dung IS NOT NULL`);
+    const kho = r.map((x) => boDau(x.tac_dung));
+    this.demKho = { luc: Date.now(), kho };
+    return kho;
+  }
+
   private async huyetTheoTen(): Promise<{ ten: string; huyet: number[]; kinh: number[] }[]> {
     if (this.demHuyetTheoTen && Date.now() - this.demHuyetTheoTen.luc < RadaHoSoService.HAN_DEM_MS) return this.demHuyetTheoTen.ds;
     const hang: { ten: string; id_huyet: number; id_kinh_mach: number | null }[] = await this.dataSource.query(
@@ -454,6 +477,13 @@ export class RadaHoSoService {
   /**
    * Gộp tập huyệt/kinh của MỌI tên khớp với bất kỳ cách gọi nào trong `cach`.
    * Gộp bằng Set — xem ghi chú ở `huyetTheoTen`.
+   *
+   * ⚠️ ĐÃ THỬ VÀ ĐÃ BỎ một cờ "lạc đàn": gắn cờ khi cả nhánh huyệt của một cụm nhiều chủ trị
+   * chỉ đến từ MỘT chủ trị. Đo 03/10/2026: nó bắn **38/62 cụm**, và phần lớn là vu oan —
+   * "Đau nhức xương khớp & Phong thấp" ← "Yêu Thống" là ĐÚNG, chỉ là trong 16 chủ trị của cụm
+   * chỉ một cái có phác đồ (cả kho chỉ có 110 + 139 tên phác đồ). Một chủ trị khớp lẻ loi KHÔNG
+   * phải bằng chứng xếp nhầm cụm. Chỗ xếp nhầm thật ("Yêu Thống" nằm trong cụm đau đầu) phải
+   * nhìn bằng nghĩa, không đếm được bằng cách này — `khopQua` hiện ra là đủ để người tự thấy.
    */
   private gopHuyet(cach: string[], banDo: { ten: string; huyet: number[]; kinh: number[] }[]) {
     const huyet = new Set<number>();
@@ -600,15 +630,15 @@ export class RadaHoSoService {
         GROUP BY 1, 2 HAVING COUNT(*) >= $1 ORDER BY n DESC`,
       [toiThieuVi],
     );
-    const tacDung: { tac_dung: string }[] = await this.dataSource.query(
-      `SELECT tac_dung FROM phuong_thang WHERE tac_dung IS NOT NULL`,
-    );
-    const kho = tacDung.map((r) => boDau(r.tac_dung));
+    const kho = await this.khoTacDung();
     const banDoHuyet = await this.huyetTheoTen();
+    // MỘT lượt dò cho mọi chủ trị. Quét thẳng tay là (số chủ trị × 13.911) phép so chuỗi —
+    // xem ghi chú ở da-mau.util.ts, chính nó làm màn Khoảng trống chờ 10 giây.
+    const khoaChuTri = ct.map((r) => boDau(r.ten_chu_tri));
+    const theoKhoa = new DoNhieuMau(khoaChuTri).theoMau(kho);
     const ds = ct
-      .map((r) => {
-        const k = boDau(r.ten_chu_tri);
-        const soBai = kho.filter((x) => x.includes(k)).length;
+      .map((r, i) => {
+        const soBai = theoKhoa[i].size;
         // ⚠️ `soKinh` KHÔNG cộng vào tháp: cả kho chỉ có 18 đường kinh nên nó gần như là hằng
         // số — cộng vào chỉ làm mọi con số to lên đều nhau mà thứ tự không đổi. Nó ở đây để
         // người đọc biết cụm chạm tới mấy đường kinh, không phải để xếp hạng.

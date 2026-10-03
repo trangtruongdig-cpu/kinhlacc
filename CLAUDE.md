@@ -1149,6 +1149,53 @@ Và nhớ: máy lập trình chạy `astro dev` thì mỗi lời gọi admin cò
 Vite — đo tốc độ thật phải trên bản dựng (`node ./dist/server/entry.mjs`), cùng lý do với mục
 đăng nhập một lần.
 
+### Số Search Console dùng chung cho MỌI tab, và hàng đợi leo top phải xem được
+
+Trước 03/10/2026 GSC chỉ sống trong ca đêm và tab Leo top, nên tab Khoảng trống / Hướng nội dung
+chỉ ghi được chữ "đã có" — không nói được trang đó đang hạng mấy, tức không biết cái gì đáng leo.
+
+- `gscTheoTrang(ctx)` là cửa DUY NHẤT lấy số theo trang, đệm KV 30 phút (GSC cập nhật theo NGÀY
+  và chậm 2–3 ngày). Ba tab dùng chung một bảng số.
+- Cột "Trang mình" nay in `hạng · hiển thị · nhấp` và gắn nhãn **đúng dải leo top** khi hạng 4–50.
+  ⚠️ `so = null` nghĩa là **0 lượt hiển thị trong 28 ngày**, KHÁC HẲN "chưa hỏi được Google"
+  (`coGsc` false) — hai thứ đi bằng hai trường và nói hai câu khác nhau.
+- Route `leo-top-ung-vien` mở hàng đợi ra cho NGƯỜI xem: đúng danh sách ca đêm thứ Tư sẽ lấy 5
+  mục đầu, bỏ qua cặp đã có phiên. Trước đó danh sách này chỉ tồn tại bên trong ca đêm — có số
+  liệu mà không ai nhìn thấy thì không theo dõi được, cũng không leo được.
+
+Số đo cho thấy kho này sống ở đâu (28 ngày, 455 trang có số): **`/huyet/` 341 trang · 3.913 hiển
+thị · 117 nhấp** — 76% lượt hiển thị toàn site. Hai bộ trang nhu cầu (`benh-hoc`,
+`cham-cuu-tri-benh`) chỉ có 14 trang có số.
+
+### Màn Khoảng trống chờ 10 giây: thủ phạm là CPU, không phải CSDL
+
+`cumNguNghia` làm `kho.filter((x) => khoaCum.some((k) => x.includes(k)))` cho từng cụm — 277 cụm
+× ~8 khoá × 13.911 bài ≈ **30 triệu phép so chuỗi**. Đo: lời gọi nguội **10,2 giây**.
+
+Nay dò bằng Aho–Corasick (`backend/src/utils/da-mau.util.ts`): một lượt qua từng văn bản, bắt mọi
+mẫu cùng lúc. Cộng với việc gộp kho `tac_dung` (1,7 MB, trước đây hai phương thức tự lấy riêng):
+**10,2 s → 3,0 s**, `ungVien` 1,6 s → 1,3 s.
+
+⚠️ **Ngữ nghĩa phải giống hệt `String.includes`** — khớp chuỗi con, không ranh giới từ. Đổi nó là
+lặng lẽ đổi mọi con số tháp; có phép kiểm đối chiếu với bản quét thẳng tay trên dữ liệu ngẫu nhiên.
+
+`tong-quan` còn HÂM SẴN kho app (gọi `layUngVien`/`layCumNguNghia` không `await`, tối đa 5 phút
+một lần): người mở Rada SEO luôn rơi vào tab Radar trước, nên tới lúc bấm sang Khoảng trống thì
+đệm 10 phút của backend đã ấm.
+
+⚠️ **Nút mới hiện ra mà route trả "Plugin route not found" = tiến trình CMS đang chạy mã cũ.**
+Gói admin được nạp lại (nên thấy nút), còn module plugin phía máy chủ thì không — phải khởi động
+lại CMS. Đừng đi tìm lỗi đăng ký route: `node -e "import('./plugin.mjs').then(m => …)"` liệt kê
+route trong vài giây và nói ngay có hay không.
+
+### Nhịp đọc là NÚT VẶN TIỀN, và màn hình phải in ra số đêm
+
+`RADA_SEO_TRAN_DOC_DEM` (mặc định 40 trang/đêm) và `RADA_SEO_NGUONG_HANG_CHO` (mặc định 80).
+Mỗi trang là một lượt gọi model. Đo 03/10/2026: hàng đợi 1.178 trang → **30 đêm**. Tab Radar in
+thẳng "hàng đợi N · nhịp M/đêm → ~K đêm", vì "1.178 trang chờ" là con số không quyết được gì.
+⚠️ Nâng trần đọc mà quên nâng ngưỡng hàng chờ thì khâu trích vẫn đứng ở 80 và hàng đợi không bao
+giờ dài ra để mà đọc nhanh.
+
 ### Lời báo lỗi của đường hỏi kho app phải kèm GỐC ĐÃ GỌI
 
 `fetch` của Node trả đúng hai chữ "fetch failed" cho MỌI lỗi mạng — sai tên host, container chưa

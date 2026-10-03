@@ -26,12 +26,14 @@
 
 import { jsonTuChu } from "./goi-model.mjs";
 import { LOI_NHAC_TRICH, BOI_CANH } from "../loi-dan.mjs";
-import { layViec as layViecThat, ghiPhanTich as ghiPhanTichThat } from "../mcp-viec.mjs";
+import { layViec as layViecThat, ghiPhanTich as ghiPhanTichThat, tranTrangDem } from "../mcp-viec.mjs";
 
 /** Nghỉ giữa hai lượt gọi — không phải để chiều nhà cung cấp mà để nhường tiến trình CMS. */
 export const NGHI_GIUA_LUOT_MS = 400;
 /** Trang mỗi lượt chạy; `layViec` còn trần riêng 40 trang/đêm nên đây chỉ là trần của một ca. */
 export const TRAN_MOI_CA = 40;
+/** Cùng nút vặn với trần đêm: đọc ít hơn trần đêm thì phần dư không ai tiêu. */
+export const tranMoiCa = () => tranTrangDem();
 
 const nghi = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -71,7 +73,7 @@ export const loiNhac = () =>
  * @returns {Promise<{daDoc: number, daGhi: number, loi: number, boQua: number, luotGoi: number,
  *   soLo: number, conTrongHangCho: number, ghiChu: string[]}>}
  */
-export async function tuDocTrang({ s, kv, goiModel, log, nowMs = Date.now(), soTrang = TRAN_MOI_CA, nghiMs = NGHI_GIUA_LUOT_MS, layViec = layViecThat, ghiPhanTich = ghiPhanTichThat, doiThuId }) {
+export async function tuDocTrang({ s, kv, goiModel, log, nowMs = Date.now(), soTrang = tranMoiCa(), nghiMs = NGHI_GIUA_LUOT_MS, layViec = layViecThat, ghiPhanTich = ghiPhanTichThat, doiThuId }) {
 	const ra = { daDoc: 0, daGhi: 0, loi: 0, boQua: 0, luotGoi: 0, soLo: 0, conTrongHangCho: 0, ghiChu: [] };
 	if (!goiModel?.coCauHinh?.()) {
 		const thieu = goiModel?.thieuCauHinh?.() ?? ["goiModel"];

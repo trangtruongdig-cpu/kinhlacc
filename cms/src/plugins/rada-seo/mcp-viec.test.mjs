@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { layViec, ghiPhanTich, xongPhanTich, ngayVN, TRAN_TRANG_MOI_DEM, SO_LAN_GIAO_TOI_DA, GIU_KHOA_NGAY } from "./mcp-viec.mjs";
+import { tranTrangDem, layViec, ghiPhanTich, xongPhanTich, ngayVN, TRAN_TRANG_MOI_DEM, SO_LAN_GIAO_TOI_DA, GIU_KHOA_NGAY } from "./mcp-viec.mjs";
 import * as kho from "./kho.mjs";
 import { taoKhoGia, taoKvGia } from "./__test__/kho-gia.mjs";
 
@@ -199,4 +199,29 @@ test("layViec({doiThuId}): ca chạy riêng một site chỉ nhận trang CỦA 
 	// Không lọc thì lượt sau vẫn lấy được trang của b.vn — tức hàng đợi chung vẫn nguyên.
 	const v2 = await layViec({ s, kv, nowMs: DEM, soTrang: 10 });
 	assert.ok(v2.trang.length > 0);
+});
+
+test("trần đọc mỗi đêm vặn được bằng RADA_SEO_TRAN_DOC_DEM — đây là nút vặn TIỀN", async () => {
+	// Mỗi trang là một lượt gọi model. Đo 03/10/2026: hàng đợi 1.178 trang, nhịp 40/đêm = 30
+	// đêm. Nâng nhanh hơn thì tốn thêm đúng theo tỉ lệ, nên phải vặn được mà không sửa mã.
+	const cu = process.env.RADA_SEO_TRAN_DOC_DEM;
+	try {
+		delete process.env.RADA_SEO_TRAN_DOC_DEM;
+		assert.equal(tranTrangDem(), TRAN_TRANG_MOI_DEM);
+		process.env.RADA_SEO_TRAN_DOC_DEM = "200";
+		assert.equal(tranTrangDem(), 200);
+		const s = await khoCo(60);
+		const kv = taoKvGia();
+		for (let i = 0; i < 5; i++) await layViec({ s, kv, nowMs: DEM, soTrang: 10 });
+		// Trần cũ là 40 nên lượt thứ 5 đã phải rỗng; với trần 200 thì vẫn còn việc.
+		assert.ok((await layViec({ s, kv, nowMs: DEM, soTrang: 10 })).conLaiDemNay > 0);
+		// Số rác thì rơi về mặc định, không được thành 0 (0 là đứng im cả đêm mà không báo).
+		process.env.RADA_SEO_TRAN_DOC_DEM = "không phải số";
+		assert.equal(tranTrangDem(), TRAN_TRANG_MOI_DEM);
+		process.env.RADA_SEO_TRAN_DOC_DEM = "0";
+		assert.equal(tranTrangDem(), TRAN_TRANG_MOI_DEM);
+	} finally {
+		if (cu === undefined) delete process.env.RADA_SEO_TRAN_DOC_DEM;
+		else process.env.RADA_SEO_TRAN_DOC_DEM = cu;
+	}
 });

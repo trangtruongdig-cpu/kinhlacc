@@ -104,7 +104,7 @@ test("van hàng chờ: > 80 trang chờ Claude đọc → không trích, vẫn g
 	assert.equal(ca.soUrlMoi, 4);
 	assert.equal(s.url._m.size, 85);
 	const dong = ca.loi.filter((l) => l.startsWith("Tạm ngừng trích"));
-	assert.deepEqual(dong, ["Tạm ngừng trích: hàng chờ Claude đọc đang 81 trang (> 80)"]);
+	assert.deepEqual(dong, ["Tạm ngừng trích: hàng chờ model đọc đang 81 trang (> 80)"]);
 });
 
 // ---- Đo lại hạng leo top (2D) ----

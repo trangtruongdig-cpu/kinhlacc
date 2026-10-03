@@ -9,6 +9,18 @@ import { capNhatKhoangTrong, cauKhoangTrong, xuHuongGanNhat } from "./ca-radar.m
 import { BOI_CANH, LOI_NHAC_TRICH } from "./loi-dan.mjs";
 
 export const TRAN_TRANG_MOI_DEM = 40;
+/**
+ * Trần thật dùng khi chạy — đè bằng `RADA_SEO_TRAN_DOC_DEM`.
+ *
+ * ⚠️ Đây là NÚT VẶN TIỀN, không phải hằng số kỹ thuật: mỗi trang là một lượt gọi model. Đo
+ * 03/10/2026: hàng đợi 1.178 trang, nhịp 40 trang/đêm → **30 đêm**. Nâng lên thì nhanh hơn
+ * đúng theo tỉ lệ và tốn thêm đúng theo tỉ lệ, nên để người vận hành quyết, và màn điều khiển
+ * phải in ra con số đêm để quyết được mà không cần tính nhẩm.
+ */
+export const tranTrangDem = () => {
+	const n = Number(process.env.RADA_SEO_TRAN_DOC_DEM);
+	return Number.isFinite(n) && n > 0 ? Math.floor(n) : TRAN_TRANG_MOI_DEM;
+};
 export const TRAN_TRANG_MOI_LUOT = 10;
 
 /** "2026-10-01" theo giờ Việt Nam (UTC+7) — đêm 02:00 VN vẫn thuộc ngày đó. Một bản duy nhất ở kho.mjs. */
@@ -57,7 +69,7 @@ async function giuCho(kv, khoa, muon) {
 	for (let i = 0; i < 5; i++) {
 		const cu = await kv.getVersioned(khoa);
 		const daGiao = cu?.value ?? 0;
-		const them = Math.max(0, Math.min(muon, TRAN_TRANG_MOI_DEM - daGiao));
+		const them = Math.max(0, Math.min(muon, tranTrangDem() - daGiao));
 		if (them === 0) return 0;
 		const r = await kv.compareAndSet(khoa, cu?.revision ?? null, daGiao + them);
 		if (r.applied) return them;
@@ -92,7 +104,7 @@ export async function layViec({ s, kv, nowMs = Date.now(), soTrang = TRAN_TRANG_
 	const daGiao = (await kv.get(khoa)) ?? 0;
 	return {
 		trang: trang.map(({ id, url, chu }) => ({ id, url, chu: boc(id, chu) })),
-		conLaiDemNay: Math.max(0, TRAN_TRANG_MOI_DEM - daGiao),
+		conLaiDemNay: Math.max(0, tranTrangDem() - daGiao),
 		conTrongHangCho: await kho.demChoAi(s),
 		soChuyenLoi,
 		boiCanh: BOI_CANH,

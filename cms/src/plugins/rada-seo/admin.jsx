@@ -182,7 +182,7 @@ function CumNguNghiaTab({ dl, loi, onTai, onSangTab }) {
 	const [giaoLoi, setGiaoLoi] = useState("");
 	const [dangViet, setDangViet] = useState(false);
 	const [vietKq, setVietKq] = useState(null);
-	if (!dl) return <ChuaCoDuLieu loi={loi} />;
+	if (!dl) return loi ? <ChuaCoDuLieu loi={loi} /> : <ChoMotChut viec="Đang hỏi 657 cụm ngữ nghĩa trong kho app" />;
 
 	const cum = dl.ds ?? [];
 	// Hồ sơ dựng theo TÊN CHỦ TRỊ ĐẦU của cụm, các chủ trị còn lại làm biến thể.
@@ -222,6 +222,7 @@ function CumNguNghiaTab({ dl, loi, onTai, onSangTab }) {
 				</span>
 			</div>
 			{dl.loi && <div style={{ color: "#b91c1c", marginBottom: 10 }}>{dl.loi}</div>}
+			{dl.gscGhiChu && <div style={{ color: "#6b7280", fontSize: 12, marginBottom: 8 }}>{dl.gscGhiChu}</div>}
 			{!cum.length && !dl.loi && <p style={{ color: "#6b7280" }}>Chưa có cụm nào đạt ngưỡng.</p>}
 
 			{cum.length > 0 && (
@@ -265,13 +266,7 @@ function CumNguNghiaTab({ dl, loi, onTai, onSangTab }) {
 											</>
 										)}
 									</td>
-									<td style={o}>
-										{c.daCo ? (
-											<a href={`${TRANG_GOC}/${c.bo === "benh_hoc" ? "benh-hoc" : "cham-cuu-tri-benh"}/${c.slug}/`} target="_blank" rel="noopener noreferrer">đã có</a>
-										) : (
-											<span style={{ color: "#15803d" }}>chưa có</span>
-										)}
-									</td>
+									<td style={o}><SoTrangGsc c={c} coGsc={dl.coGsc} /></td>
 									<td style={o}>
 										<Nut onClick={() => batDauHoSo(c)} disabled={dangTai === c.id} dangChon={cumMo === c.id}>
 											{dangTai === c.id ? "Đang dựng…" : cumMo === c.id ? "Đóng hồ sơ" : "Mở hồ sơ"}
@@ -957,6 +952,79 @@ function BaiMoiDang({ ds, dem, ghiChu, onSangTab }) {
 	);
 }
 
+/**
+ * HÀNG ĐỢI leo top — từ khoá hạng 4–50 của chính site mình, xếp theo ưu tiên. Đúng danh sách ca
+ * đêm thứ Tư sẽ lấy 5 mục đầu.
+ *
+ * Trước 03/10/2026 danh sách này chỉ tồn tại BÊN TRONG ca đêm: muốn biết tuần này sẽ soi từ khoá
+ * nào, hay còn bao nhiêu từ khoá đang chờ, thì phải đợi tới thứ Tư rồi đọc nhật ký. Có số liệu
+ * Search Console mà không ai nhìn thấy thì không theo dõi được, cũng không leo được.
+ *
+ * Nạp theo YÊU CẦU: truy vấn quét tới 100.000 hàng GSC (máy chủ đệm 30 phút).
+ */
+function HangDoiLeoTop() {
+	const [dl, setDl] = useState(null);
+	const [dangTai, setDangTai] = useState(false);
+	const [loi, setLoi] = useState("");
+	const tai = () => {
+		setDangTai(true);
+		setLoi("");
+		goi("leo-top-ung-vien")
+			.then(setDl, (e) => setLoi(loiCua(e)))
+			.finally(() => setDangTai(false));
+	};
+	const nhan = { tieu_de: "sửa tiêu đề", noi_dung: "soi SERP", chua_ro: "chưa rõ" };
+	return (
+		<div style={{ border: "1px solid #d4d4d8", padding: 8, marginBottom: 12 }}>
+			<b>Hàng đợi leo top — từ khoá hạng 4–50 của mình</b>{" "}
+			<Nut onClick={tai} disabled={dangTai} style={{ marginLeft: 6 }}>
+				{dangTai ? "Đang đọc Search Console…" : dl ? "Đọc lại" : "Xem hàng đợi"}
+			</Nut>
+			<p style={{ margin: "4px 0 0", color: "#52525b", fontSize: 13 }}>
+				Ca đêm thứ Tư lấy 5 mục đầu danh sách này. Cột <b>Loại việc</b> nói chữa bằng cách nào: “sửa tiêu đề”
+				là thấy mà không bấm (không cần soi SERP), “soi SERP” là bấm bình thường mà hạng không lên.
+			</p>
+			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
+			{dl && (
+				<>
+					{dl.ghiChu && <p style={{ margin: "6px 0 0", color: "#92400e", fontSize: 13 }}>{dl.ghiChu}</p>}
+					{dl.soDangTheoDoi > 0 && (
+						<p style={{ margin: "4px 0 0", color: "#6b7280", fontSize: 12 }}>
+							{dl.soDangTheoDoi} cặp đã có phiên nên không nằm trong hàng đợi.
+						</p>
+					)}
+					{dl.ds?.length ? (
+						<table style={{ borderCollapse: "collapse", fontSize: 13, marginTop: 6, width: "100%" }}>
+							<thead>
+								<tr style={{ textAlign: "left", borderBottom: "1px solid #e4e4e7" }}>
+									<th>Từ khoá</th><th>Trang</th><th>Hạng</th><th>Hiển thị</th><th>Nhấp</th><th>Loại việc</th><th>Ưu tiên</th>
+								</tr>
+							</thead>
+							<tbody>
+								{dl.ds.map((x, i) => (
+									// tuKhoa là chữ người lạ gõ vào Google — chỉ hiển thị qua JSX text.
+									<tr key={`${x.tuKhoa}|${x.trang}`} style={{ borderBottom: "1px solid #f4f4f5", background: i < 5 ? "#f0fdf4" : undefined }}>
+										<td>{x.tuKhoa}</td>
+										<td style={{ maxWidth: 240, overflowWrap: "anywhere" }}>{x.trang}</td>
+										<td>{so(x.viTri)}</td>
+										<td>{x.hienThi}</td>
+										<td>{x.nhap}</td>
+										<td>{nhan[x.loaiViec] ?? x.loaiViec}</td>
+										<td>{x.uuTien == null ? "—" : Math.round(x.uuTien)}</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					) : (
+						<p style={{ margin: "6px 0 0", fontSize: 13 }}>Không có từ khoá nào ở hạng 4–50 đủ lượt hiển thị.</p>
+					)}
+					{dl.ds?.length > 0 && <p style={{ margin: "4px 0 0", color: "#6b7280", fontSize: 12 }}>5 dòng tô xanh là phần ca đêm sẽ nhận.</p>}
+				</>
+			)}
+		</div>
+	);
+}
+
 function LeoTopTab({ dl, loi, onDaSua, onTai, onSangTab }) {
 	const [mo, setMo] = useState(null);
 	if (!dl) return <ChuaCoDuLieu loi={loi} />;
@@ -1005,6 +1073,7 @@ function LeoTopTab({ dl, loi, onDaSua, onTai, onSangTab }) {
 			)}
 
 			<BaiMoiDang ds={baiMoi} dem={dl.demBaiMoi} ghiChu={dl.baiMoiGhiChu} onSangTab={onSangTab} />
+			{dl.gscCoCauHinh && <HangDoiLeoTop />}
 			{dl.gscCoCauHinh && <ViecTieuDe />}
 			{dl.tongHop && <TongHopVongHoc th={dl.tongHop} />}
 
@@ -1333,7 +1402,7 @@ function HoSoCum({ hoSo, onGiao, dangGiao, giaoKq, giaoLoi, onSangTab, daCo, onV
 	);
 }
 
-function GioCum({ ten, mo, ds, mau, hienHoSo, cumMo, hoSo, hoSoLoi, dangTai, onGiao, dangGiao, giaoKq, giaoLoi, onSangTab, onViet, dangViet, vietKq, onNangHanNgach }) {
+function GioCum({ ten, mo, ds, mau, coGsc, hienHoSo, cumMo, hoSo, hoSoLoi, dangTai, onGiao, dangGiao, giaoKq, giaoLoi, onSangTab, onViet, dangViet, vietKq, onNangHanNgach }) {
 	if (!ds?.length) return null;
 	return (
 		<div style={{ marginBottom: 18 }}>
@@ -1362,13 +1431,7 @@ function GioCum({ ten, mo, ds, mau, hienHoSo, cumMo, hoSo, hoSoLoi, dangTai, onG
 										<span style={{ color: "#9ca3af" }}>—</span>
 									)}
 								</td>
-								<td style={o}>
-									{x.daCo ? (
-										<a href={`${TRANG_GOC}/${x.bo === "benh_hoc" ? "benh-hoc" : "cham-cuu-tri-benh"}/${x.slug}/`} target="_blank" rel="noopener noreferrer">đã có</a>
-									) : (
-										<span style={{ color: "#15803d" }}>chưa có</span>
-									)}
-								</td>
+								<td style={o}><SoTrangGsc c={x} coGsc={coGsc} /></td>
 								<td style={o}>
 									<Nut onClick={() => hienHoSo(x.ten)} disabled={dangTai === x.ten} dangChon={cumMo === x.ten}>
 										{dangTai === x.ten ? "Đang dựng…" : cumMo === x.ten ? "Đóng hồ sơ" : "Mở hồ sơ"}
@@ -1396,6 +1459,52 @@ function GioCum({ ten, mo, ds, mau, hienHoSo, cumMo, hoSo, hoSoLoi, dangTai, onG
 	);
 }
 
+/**
+ * Số Search Console của TRANG MÌNH cho một cụm. Đây là thứ biến chữ "đã có" thành việc đọc
+ * được: đã có trang mà hạng 37 với 6 lượt hiển thị là việc LEO TOP; hạng 2 thì để yên.
+ *
+ * `so == null` nghĩa là Search Console không có dòng nào cho trang này trong 28 ngày — tức 0
+ * lượt hiển thị, KHÁC HẲN "chưa hỏi được Google" (lúc đó `coGsc` false). Hai thứ nói hai câu.
+ */
+function SoTrangGsc({ c, coGsc }) {
+	if (!c.daCo) return <span style={{ color: "#15803d" }}>chưa có</span>;
+	const duong = c.duongTrang ?? `/${c.bo === "benh_hoc" ? "benh-hoc" : "cham-cuu-tri-benh"}/${c.slug}/`;
+	const s = c.so;
+	// Hạng 4–50 là dải ca soi SERP nhận việc; ngoài dải đó thì việc khác hẳn.
+	const dangLeo = s && s.viTri >= 4 && s.viTri <= 50;
+	return (
+		<>
+			<a href={`${TRANG_GOC}${duong}`} target="_blank" rel="noopener noreferrer">đã có</a>
+			{!coGsc ? null : s ? (
+				<div style={{ fontSize: 12, color: dangLeo ? "#92400e" : "#6b7280", marginTop: 2 }}>
+					hạng {so(s.viTri)} · {s.hienThi} hiển thị · {s.nhap} nhấp
+					{dangLeo && <div style={{ fontWeight: 600 }}>đúng dải leo top</div>}
+				</div>
+			) : (
+				<div style={{ fontSize: 12, color: "#b91c1c", marginTop: 2 }}>0 lượt hiển thị trong 28 ngày</div>
+			)}
+		</>
+	);
+}
+
+/**
+ * Màn chờ có ĐỒNG HỒ. Một dòng chữ đứng im không phân biệt được "đang chạy" với "đã treo";
+ * thấy giây nhảy là biết nó còn sống, và biết luôn đã chờ bao lâu để mà kêu.
+ */
+function ChoMotChut({ viec }) {
+	const [giay, setGiay] = useState(0);
+	useEffect(() => {
+		const h = setInterval(() => setGiay((x) => x + 1), 1000);
+		return () => clearInterval(h);
+	}, []);
+	return (
+		<div style={{ padding: 24, color: "#666" }}>
+			{viec}… <b>{giay}s</b>
+			{giay > 12 && <div style={{ color: "#92400e", marginTop: 6 }}>Lâu hơn thường lệ — kho app có thể đang nguội hoặc không nối được.</div>}
+		</div>
+	);
+}
+
 function KhoangTrongTab({ dl, loi, onTai, onSangTab }) {
 	const [cumMo, setCumMo] = useState(null);
 	const [hoSo, setHoSo] = useState(null);
@@ -1410,9 +1519,10 @@ function KhoangTrongTab({ dl, loi, onTai, onSangTab }) {
 		return loi ? (
 			<ChuaCoDuLieu loi={loi} />
 		) : (
-			// Lượt đầu mất hơn 10 giây (hỏi kho app + nạp trang bệnh học); nói rõ đang chờ gì,
-			// không để người dùng nhìn "Đang tải…" trơ mà tưởng hỏng.
-			<div style={{ padding: 24, color: "#666" }}>Đang hỏi kho app và đối chiếu trang đã có… lượt đầu mất khoảng 10–15 giây.</div>
+			// Nói rõ đang chờ gì, không để người dùng nhìn "Đang tải…" trơ mà tưởng hỏng. Lượt
+			// nguội nay ~1,5 giây (trước là 10 giây, xem da-mau.util.ts), và tab Radar đã hâm sẵn
+			// kho app nên thường tới đây là đã ấm.
+			<ChoMotChut viec="Đang hỏi kho app và đối chiếu trang đã có" />
 		);
 
 	const hienHoSo = (ten) => {
@@ -1450,7 +1560,7 @@ function KhoangTrongTab({ dl, loi, onTai, onSangTab }) {
 			.catch((e) => setGiaoLoi(loiCua(e)))
 			.finally(() => setDangViet(false));
 	};
-	const phu = { hienHoSo, cumMo, hoSo, hoSoLoi, dangTai, onGiao: giaoViec, dangGiao, giaoKq, giaoLoi, onSangTab, onViet: vietNgay, dangViet, vietKq, onNangHanNgach: nangHanNgach };
+	const phu = { hienHoSo, cumMo, hoSo, hoSoLoi, dangTai, onGiao: giaoViec, dangGiao, giaoKq, giaoLoi, onSangTab, onViet: vietNgay, dangViet, vietKq, onNangHanNgach: nangHanNgach, coGsc: dl.coGsc };
 
 	return (
 		<div>
@@ -1461,6 +1571,7 @@ function KhoangTrongTab({ dl, loi, onTai, onSangTab }) {
 				</span>
 			</div>
 			{dl.loi && <div style={{ color: "#b91c1c", marginBottom: 10 }}>{dl.loi}</div>}
+			{dl.gscGhiChu && <div style={{ color: "#6b7280", fontSize: 12, marginBottom: 8 }}>{dl.gscGhiChu}</div>}
 
 			<GioCum
 				ten="Chờ viết" mau="#15803d"
@@ -1609,10 +1720,20 @@ function RadarTab({ dl, loi, thongBao, lichRadar, form, setForm, onTai, onLam, o
 				<ODo so={dl.doiThu.length} nhan="đối thủ theo dõi" />
 				<ODo so={tong("cho").toLocaleString("vi-VN")} nhan="URL chờ trích" mau="#92400e" />
 				<ODo so={tong("da_phan_tich").toLocaleString("vi-VN")} nhan="trang đã đọc" mau="#15803d" />
-				<ODo so={dl.choAi} nhan="chờ model đọc" mau={dl.choAi > 80 ? "#b91c1c" : undefined} />
+				<ODo so={dl.choAi} nhan="chờ model đọc" mau={dl.choAi > (dl.nhipDoc?.nguongHangCho ?? 80) ? "#b91c1c" : undefined} />
 				<ODo so={tong("ngoai_nganh").toLocaleString("vi-VN")} nhan="ngoài ngành" />
 				<ODo so={caCuoi ? gio(caCuoi.batDau).split(" ")[1] ?? "—" : "—"} nhan="ca radar gần nhất" />
 			</div>
+			{/* Hàng đợi chỉ có nghĩa khi đi kèm NHỊP: "1.178 trang chờ" không nói được gì, còn
+			    "1.178 trang · 40 trang/đêm → 30 đêm" thì quyết được có nâng trần hay không. */}
+			{dl.choAi > 0 && dl.nhipDoc?.tranDem > 0 && (
+				<div style={{ fontSize: 13, color: dl.choAi / dl.nhipDoc.tranDem > 7 ? "#92400e" : "#6b7280", margin: "-6px 0 10px" }}>
+					Hàng đợi {dl.choAi.toLocaleString("vi-VN")} trang · nhịp {dl.nhipDoc.tranDem} trang/đêm →{" "}
+					<b>~{Math.ceil(dl.choAi / dl.nhipDoc.tranDem)} đêm</b> mới đọc hết. Nâng bằng{" "}
+					<code>RADA_SEO_TRAN_DOC_DEM</code> (và <code>RADA_SEO_NGUONG_HANG_CHO</code>, đang {dl.nhipDoc.nguongHangCho}) — mỗi
+					trang là một lượt gọi model.
+				</div>
+			)}
 			{dl.demTuDem && (
 				// "Số không nhúc nhích" khác hẳn "số đứng yên vì ca chưa làm gì" — nói ra để khỏi
 				// phải đoán. Đệm 10 giây, nhịp tải lại 5 giây.

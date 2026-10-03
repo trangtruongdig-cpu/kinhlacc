@@ -19,6 +19,12 @@ export const NGHI_GIUA_LUOT_MS = 300;
  * sitemap và ghi URL mới ('cho'): rẻ, và khi hàng chờ vơi thì ca sau trích tiếp từ đó.
  */
 export const NGUONG_HANG_CHO = 80;
+/** Ngưỡng thật dùng khi chạy — đè bằng `RADA_SEO_NGUONG_HANG_CHO`. Nâng trần đọc mà quên nâng
+ *  cái này thì khâu trích vẫn đứng ở 80 trang và hàng đợi không bao giờ dài ra để mà đọc nhanh. */
+export const nguongHangCho = () => {
+	const n = Number(process.env.RADA_SEO_NGUONG_HANG_CHO);
+	return Number.isFinite(n) && n > 0 ? Math.floor(n) : NGUONG_HANG_CHO;
+};
 
 const cho = (ms) => new Promise((r) => setTimeout(r, ms));
 
@@ -190,9 +196,9 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, tranSite
 			if (!ghi || dung) continue;
 			if (ca.dungTrich) continue;
 			const choAi = await kho.demChoAi(s);
-			if (choAi > NGUONG_HANG_CHO) {
+			if (choAi > nguongHangCho()) {
 				ca.dungTrich = true;
-				ca.loi.push(`Tạm ngừng trích: hàng chờ Claude đọc đang ${choAi} trang (> ${NGUONG_HANG_CHO})`);
+				ca.loi.push(`Tạm ngừng trích: hàng chờ model đọc đang ${choAi} trang (> ${nguongHangCho()})`);
 				continue;
 			}
 			await baoAnToan({ pha: "trich", site: d.id, siteSo: iDoiThu + 1, soSite: doiThu.length, da: 0, tong: hang.length });
