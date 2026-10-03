@@ -1188,6 +1188,45 @@ Gói admin được nạp lại (nên thấy nút), còn module plugin phía má
 lại CMS. Đừng đi tìm lỗi đăng ký route: `node -e "import('./plugin.mjs').then(m => …)"` liệt kê
 route trong vài giây và nói ngay có hay không.
 
+### Đọc CÁI ĐÁNG ĐỌC trước, chứ không đọc nhanh hơn (`luat/diem-nganh.mjs`, 03/10/2026)
+
+Sau khi đào sâu sitemap, một đối thủ đưa về hàng chục nghìn URL trong khi ca chỉ trích 30
+trang/đối thủ và model đọc 40 trang/đêm. Lấy "30 trang đầu hàng" là lấy ngẫu nhiên.
+
+`layUrlCho` nay xếp theo **điểm ngách** (chấm từ đường dẫn) rồi mới cắt. Số đo trên 35.710 URL
+của vinmec: 4.009 URL dương · 31.546 bằng 0 · 155 âm, và **4 URL châm cứu nhảy từ chỗ đứng
+3.095 / 18.599 / 19.493 / 19.826 lên 1 / 2 / 18 / 19**. Cùng một nhịp đọc, cùng số tiền.
+
+⚠️ **CHẤM ĐIỂM ĐỂ XẾP THỨ TỰ, TUYỆT ĐỐI KHÔNG ĐỂ LOẠI BỎ.** Đường dẫn là tín hiệu nghèo: slug bỏ
+dấu nên "huyệt" và "huyết" trộn làm một (270 URL "huyet" của vinmec là huyết áp / sốt xuất huyết),
+và bài Đông y hay có thể nằm dưới slug chẳng gợi gì. Loại theo slug là vu oan có hệ thống mà
+không ai đọc lại để biết. Mọi URL vẫn vào hàng đợi, chỉ khác chỗ đứng — có phép kiểm neo đúng
+điều đó. Điểm **0** là "không biết gì", khác điểm âm, và cả hai đều ở lại.
+
+Quét rộng ở bảng `cho` thì RẺ (dòng chưa có `chu`); đừng bê cách này sang bảng `cho_ai` vốn mang
+cả thân trang.
+
+### Chủ trị nằm ở HAI cụm là BÌNH THƯỜNG — chỗ sai là cụm sọt gom
+
+Đo 03/10/2026: 16 chủ trị nằm ở 2 cụm ngữ nghĩa, và **phần lớn là đúng** — "Đau thần kinh tọa"
+thuộc cả cơ xương khớp lẫn thần kinh; "Ung thư dạ dày" thuộc cả tiêu hoá lẫn ung bướu. Trùng cụm
+tự nó không phải lỗi, nên **đừng dựng phép dò "chủ trị trùng cụm"**.
+
+Chỗ sai thật là cụm #492 "Vị trí và triệu chứng đặc thù (Đau đầu, nhiệt, vị quản)" — một SỌT GOM
+mà mô tả của chính nó là danh sách phẳng trộn đau đầu + vị nhiệt + vị hàn + yêu thống + hạc khí.
+Hai thành viên cơ xương khớp của nó ("Yêu Thống", "Hạc Khí") đã có nhà đúng ở cụm #3. Hậu quả:
+cụm #492 nhận 71 huyệt đau lưng và đứng nhóm đầu bảng khoảng trống.
+
+Đã gỡ 2 cạnh bằng `backend/tmp/go-chu-tri-trung-cum.mjs` (chạy thử mặc định, `--ghi` mới ghi, in
+sẵn câu hoàn nguyên). Sau khi gỡ: cụm #492 còn **0 huyệt, tháp 25** (trước 71 huyệt / tháp 98).
+Chốt an toàn trong script: **không gỡ nếu chủ trị không còn cụm nào khác** — gỡ dòng cuối là làm
+mồ côi chủ trị.
+
+⚠️ Và đã THỬ RỒI BỎ một phép dò tự động cho việc này: gắn cờ khi cả nhánh huyệt của một cụm chỉ
+đến từ MỘT chủ trị. Nó bắn 38/62 cụm, phần lớn vu oan — cả kho chỉ có 110 + 139 tên phác đồ nên
+một chủ trị khớp lẻ loi là chuyện thường. Chỗ xếp nhầm phải nhìn bằng nghĩa; dòng truy nguyên
+"chủ trị X → phác đồ Y" đã đủ để người tự thấy.
+
 ### Nhịp đọc là NÚT VẶN TIỀN, và màn hình phải in ra số đêm
 
 `RADA_SEO_TRAN_DOC_DEM` (mặc định 40 trang/đêm) và `RADA_SEO_NGUONG_HANG_CHO` (mặc định 80).

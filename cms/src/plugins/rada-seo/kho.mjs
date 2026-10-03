@@ -3,6 +3,7 @@
 import { createHash } from "node:crypto";
 import { timTrung } from "./luat/trung-lap.mjs";
 import { chuanHoaManh } from "./luat/chuan-hoa.mjs";
+import { xepTheoNganh } from "./luat/diem-nganh.mjs";
 import { dungBanDo } from "./leo-top/ban-do.mjs";
 
 export const KHAI_BAO_KHO = {
@@ -123,9 +124,28 @@ export async function themUrlMoi(s, tenMien, urls, { ghi, now, nghi }) {
 	return moi.length;
 }
 
-export async function layUrlCho(s, tenMien, n) {
-	const r = await s.url.query({ where: { doiThuId: tenMien, trangThai: "cho" }, limit: Math.min(n, 100) });
-	return r.items.map((x) => ({ id: x.id, ...x.data }));
+/**
+ * Trang CHƯA TRÍCH của một đối thủ, **xếp theo điểm ngách** rồi mới cắt ở `n`.
+ *
+ * ⚠️ Vì sao phải xếp: sau khi đào sâu sitemap, một đối thủ đưa về hàng chục nghìn URL
+ * (vinmec 35.710) trong khi ca chỉ trích 30 trang/đối thủ và model chỉ đọc 40 trang/đêm. Lấy
+ * "30 trang đầu hàng" là lấy ngẫu nhiên, mà trong 35.710 URL đó chỉ có 4 URL châm cứu — xác
+ * suất chạm vào thứ đáng đọc gần bằng không. Xếp trước khi cắt là đòn RẺ nhất: không tốn thêm
+ * một lượt gọi model nào, và không bỏ URL nào (xem `diemNganh`).
+ *
+ * Đọc được tới `tranXem` dòng để xếp. Dòng 'cho' rất nhẹ (chưa có `chu`), nên quét rộng ở đây
+ * rẻ — khác hẳn bảng 'cho_ai' vốn mang cả thân trang.
+ */
+export const TRAN_XEM_CHO = 2000;
+export async function layUrlCho(s, tenMien, n, { tranXem = TRAN_XEM_CHO } = {}) {
+	const ds = [];
+	let cursor;
+	do {
+		const r = await s.url.query({ where: { doiThuId: tenMien, trangThai: "cho" }, limit: 100, cursor });
+		ds.push(...r.items.map((x) => ({ id: x.id, ...x.data })));
+		cursor = r.hasMore && ds.length < tranXem ? r.cursor : undefined;
+	} while (cursor);
+	return xepTheoNganh(ds).slice(0, n);
 }
 
 export async function capNhatUrl(s, id, patch) {

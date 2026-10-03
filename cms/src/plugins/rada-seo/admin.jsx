@@ -1729,7 +1729,8 @@ function RadarTab({ dl, loi, thongBao, lichRadar, form, setForm, onTai, onLam, o
 			{dl.choAi > 0 && dl.nhipDoc?.tranDem > 0 && (
 				<div style={{ fontSize: 13, color: dl.choAi / dl.nhipDoc.tranDem > 7 ? "#92400e" : "#6b7280", margin: "-6px 0 10px" }}>
 					Hàng đợi {dl.choAi.toLocaleString("vi-VN")} trang · nhịp {dl.nhipDoc.tranDem} trang/đêm →{" "}
-					<b>~{Math.ceil(dl.choAi / dl.nhipDoc.tranDem)} đêm</b> mới đọc hết. Nâng bằng{" "}
+					<b>~{Math.ceil(dl.choAi / dl.nhipDoc.tranDem)} đêm</b> mới đọc hết — nhưng trang <b>đúng ngách được trích trước</b>,
+					nên phần đáng đọc tới sớm hơn nhiều con số đó. Muốn nhanh hơn nữa thì nâng{" "}
 					<code>RADA_SEO_TRAN_DOC_DEM</code> (và <code>RADA_SEO_NGUONG_HANG_CHO</code>, đang {dl.nhipDoc.nguongHangCho}) — mỗi
 					trang là một lượt gọi model.
 				</div>

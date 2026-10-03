@@ -735,3 +735,21 @@ test("KV hỏng thì vẫn ra số — đệm không được làm sập màn đ
 	assert.equal(r.tuDem, false);
 	assert.ok(r.dem["a.vn"]);
 });
+
+test("layUrlCho xếp trang ĐÚNG NGÁCH lên trước rồi mới cắt — không bỏ trang nào", async () => {
+	// Sau khi đào sâu sitemap, "30 trang đầu hàng" là 30 trang ngẫu nhiên trong hàng chục nghìn.
+	const s = taoKhoGia();
+	await kho.luuDoiThu(s, { tenMien: "a.vn" }, "t");
+	await kho.themUrlMoi(
+		s,
+		"a.vn",
+		["https://a.vn/tuyen-dung", "https://a.vn/khong-ro", "https://a.vn/bam-huyet-tri-mat-ngu", "https://a.vn/dong-y-dau-lung"],
+		{ ghi: true, now: "t" },
+	);
+	const hai = await kho.layUrlCho(s, "a.vn", 2);
+	assert.deepEqual(hai.map((x) => x.url.split("/").pop()), ["bam-huyet-tri-mat-ngu", "dong-y-dau-lung"]);
+	// Trang bị trừ điểm vẫn CÒN trong kho, chỉ đứng sau — xếp lại chỗ, không loại bỏ.
+	const het = await kho.layUrlCho(s, "a.vn", 10);
+	assert.equal(het.length, 4);
+	assert.equal(het.at(-1).url.split("/").pop(), "tuyen-dung");
+});
