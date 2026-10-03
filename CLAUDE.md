@@ -1167,6 +1167,38 @@ Số đo cho thấy kho này sống ở đâu (28 ngày, 455 trang có số): **
 thị · 117 nhấp** — 76% lượt hiển thị toàn site. Hai bộ trang nhu cầu (`benh-hoc`,
 `cham-cuu-tri-benh`) chỉ có 14 trang có số.
 
+### BỐN TRỤC, và trục thứ tư RẺ NHẤT — đừng mặc định là phải viết bài mới
+
+Ba trục đầu đều hỏi "nên VIẾT GÌ MỚI": radar đối thủ, khoảng trống theo tháp, cụm semantic. Trục
+thứ tư đi ngược: **người ta đang hỏi gì mà trang mình CÓ câu trả lời nhưng máy không nhặt ra**.
+
+Bằng chứng mở đầu (đo 03/10/2026 trên `/huyet/phuc-tho/`, 97 lượt hiển thị/28 ngày): trang ĐÃ có
+`FAQPage` JSON-LD với câu *"Huyệt Phục Thố **nằm ở đâu**?"*, câu trả lời đúng nằm ngay hồ sơ đầu
+trang. Nhưng người ta gõ *"huyệt phục thỏ **ở đâu**"* và *"**vị trí** huyệt phục thỏ"* — không
+khớp nguyên cụm với câu nào trong FAQ. **51/97 lượt hiển thị đang chờ một dòng FAQ hoặc một tiêu
+đề mục; KHÔNG có việc viết lại nào.**
+
+`leo-top/so-ho-ai.mjs` + route `leo-top-sua-nho` dựng phiếu, xếp **RẺ TRƯỚC**:
+
+| Việc | Khi nào | Giá |
+|---|---|---|
+| `them_faq` | thân bài đã có nguyên cụm, FAQ/tiêu đề chưa có | 1 |
+| `them_tieu_de` | mọi TỪ của truy vấn đều có trong bài, chỉ khác diễn đạt | 2 |
+| `thieu_noi_dung` | trang thật sự không trả lời — **đây mới là việc viết** | 3 |
+
+⚠️ **Xếp rẻ trước là phần chịu lực, không phải trang trí.** Một phiếu nói "viết lại bài" thì
+người ta để đó; phiếu nói "thêm một dòng FAQ" thì làm trong hai phút. Phân loại sai về phía đắt
+là giết chính cái phiếu.
+
+⚠️ **Khớp NGUYÊN CỤM sau chuẩn hoá mạnh, không khớp lỏng theo từ.** "huyệt phục thỏ ở đâu" và
+"huyệt phục thố nằm ở đâu" dùng chung gần hết số từ, nhưng cái sau KHÔNG chứa nguyên cụm cái
+trước — và đó đúng là lý do câu hỏi của người dùng không được nhặt. Khớp lỏng ở đây là tự xoá
+mất cái mình đang đi tìm.
+
+⚠️ JSON-LD hỏng trên trang thật là chuyện thường — bỏ qua khối đó, không gãy cả phép đo.
+⚠️ Route tải THẬT từng trang của site mình: trần 15 trang/lượt, nghỉ 150 ms giữa các lượt (cùng
+lý lẽ với ca soi), đệm KV 30 phút.
+
 ### CẦU đi cùng CUNG: tháp nói mình CÓ gì, Search Console nói người ta HỎI gì
 
 Tháp (`ungVien`, `cumNguNghia`) chỉ đo CUNG. Một cụm tháp cao mà không ai hỏi là phỏng đoán; một

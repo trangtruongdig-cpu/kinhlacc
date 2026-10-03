@@ -1025,6 +1025,93 @@ function HangDoiLeoTop() {
 	);
 }
 
+/**
+ * PHIẾU SỬA NHỎ — việc rẻ nhất trong cả hệ thống, và là trục ngược chiều với "viết bài mới".
+ *
+ * Người ta hỏi gì mà trang mình CÓ câu trả lời nhưng máy không nhặt ra được. Đo thật trên
+ * `/huyet/phuc-tho/`: 51/97 lượt hiển thị chờ một dòng FAQ hoặc một tiêu đề mục — không có
+ * việc viết lại nào. Phiếu xếp RẺ TRƯỚC: phiếu nói "viết lại bài" thì người ta để đó.
+ */
+function SuaNho({ nhanViec }) {
+	const [dl, setDl] = useState(null);
+	const [dangTai, setDangTai] = useState(false);
+	const [loi, setLoi] = useState("");
+	const [mo, setMo] = useState(null);
+	const tai = () => {
+		setDangTai(true);
+		setLoi("");
+		goi("leo-top-sua-nho")
+			.then(setDl, (e) => setLoi(loiCua(e)))
+			.finally(() => setDangTai(false));
+	};
+	const mau = { them_faq: "#15803d", them_tieu_de: "#92400e", thieu_noi_dung: "#b91c1c" };
+	return (
+		<div style={{ border: "1px solid #86efac", background: "#f0fdf4", padding: 8, marginBottom: 12 }}>
+			<b>Sửa nhỏ để máy nhặt được câu trả lời</b>{" "}
+			<Nut onClick={tai} disabled={dangTai} style={{ marginLeft: 6 }}>
+				{dangTai ? "Đang soi trang…" : dl ? "Soi lại" : "Soi trang của mình"}
+			</Nut>
+			<p style={{ margin: "4px 0 0", color: "#52525b", fontSize: 13 }}>
+				Trang mình ĐÃ trả lời nhưng không trùng chữ người ta gõ, nên máy không nhặt ra. Phần lớn chỉ cần thêm một dòng FAQ
+				hoặc một tiêu đề mục — rẻ hơn viết bài mới một bậc.
+			</p>
+			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
+			{dl && (
+				<>
+					{dl.ghiChu && <p style={{ margin: "6px 0 0", color: "#92400e", fontSize: 13 }}>{dl.ghiChu}</p>}
+					{(dl.loi ?? []).length > 0 && <p style={{ margin: "4px 0 0", color: "#b91c1c", fontSize: 12 }}>{dl.loi.join(" · ")}</p>}
+					{dl.ds?.length ? (
+						<table style={{ borderCollapse: "collapse", fontSize: 13, marginTop: 6, width: "100%" }}>
+							<thead>
+								<tr style={{ textAlign: "left", borderBottom: "1px solid #e4e4e7" }}>
+									<th>Trang</th><th>Hiển thị đang chờ</th><th>FAQ hiện có</th><th>Việc</th><th />
+								</tr>
+							</thead>
+							<tbody>
+								{dl.ds.map((p) => (
+									<Fragment key={p.trang}>
+										<tr style={{ borderBottom: "1px solid #f4f4f5" }}>
+											<td style={{ maxWidth: 260, overflowWrap: "anywhere" }}>
+												<a href={p.trang} target="_blank" rel="noopener noreferrer">{p.trang.replace(/^https?:\/\/[^/]+/, "")}</a>
+											</td>
+											<td><b>{p.hienThiChoSua}</b></td>
+											<td>{p.coFaq ? `${p.soCauHoiFaq} câu` : <span style={{ color: "#b91c1c" }}>chưa có</span>}</td>
+											<td>{p.dong.length} việc</td>
+											<td>
+												<Nut onClick={() => setMo(mo === p.trang ? null : p.trang)} style={{ fontSize: 12, padding: "2px 8px" }}>
+													{mo === p.trang ? "Thu" : "Xem"}
+												</Nut>
+											</td>
+										</tr>
+										{mo === p.trang && (
+											<tr>
+												<td colSpan={5} style={{ background: "#fff", padding: 8 }}>
+													{p.dong.map((d, i) => (
+														// tuKhoa là chữ người lạ gõ vào Google — chỉ hiển thị qua JSX text.
+														<div key={i} style={{ marginBottom: 4 }}>
+															<span style={{ color: mau[d.viec] ?? "#374151", fontWeight: 600 }}>
+																{nhanViec?.[d.viec]?.nhan ?? d.viec}
+															</span>{" "}
+															<span style={{ color: "#6b7280" }}>{d.hienThi} hiển thị</span> — “{d.tuKhoa}”
+															<div style={{ fontSize: 12, color: "#6b7280" }}>{nhanViec?.[d.viec]?.mo}</div>
+														</div>
+													))}
+												</td>
+											</tr>
+										)}
+									</Fragment>
+								))}
+							</tbody>
+						</table>
+					) : (
+						<p style={{ margin: "6px 0 0", fontSize: 13 }}>Đã soi {dl.soTrangSoi ?? 0} trang — không trang nào còn việc sửa nhỏ.</p>
+					)}
+				</>
+			)}
+		</div>
+	);
+}
+
 function LeoTopTab({ dl, loi, onDaSua, onTai, onSangTab }) {
 	const [mo, setMo] = useState(null);
 	if (!dl) return <ChuaCoDuLieu loi={loi} />;
@@ -1086,6 +1173,7 @@ function LeoTopTab({ dl, loi, onDaSua, onTai, onSangTab }) {
 				</div>
 			)}
 
+			{dl.gscCoCauHinh && <SuaNho nhanViec={dl.nhanViec} />}
 			<BaiMoiDang ds={baiMoi} dem={dl.demBaiMoi} ghiChu={dl.baiMoiGhiChu} onSangTab={onSangTab} />
 			{dl.gscCoCauHinh && <HangDoiLeoTop />}
 			{dl.gscCoCauHinh && <ViecTieuDe />}

@@ -35,6 +35,7 @@ import { tuLapChienLuoc } from "./ai/tu-lap-chien-luoc.mjs";
 import { chayLoViet } from "./ai/tu-viet-bai.mjs";
 import { tongHopLoaiSua } from "./leo-top/vong-hoc.mjs";
 import { gomCau } from "./leo-top/y-dinh.mjs";
+import { phieuSuaNho, xepPhieu, VIEC as VIEC_SUA_NHO } from "./leo-top/so-ho-ai.mjs";
 import { boDau as boDauCum } from "./luat/chuan-hoa.mjs";
 import { xepBaiMoi, demTheoHang, banDoTrangCum } from "./leo-top/bai-moi.mjs";
 import { chuanHoaUrlTrang } from "./leo-top/gsc.mjs";
@@ -81,6 +82,10 @@ const HAN_GSC_TRANG_MS = 30 * 60 * 1000;
 const KHOA_GSC_UNG_VIEN = "leo-top:ung-vien";
 /** Truy vấn thật theo TRANG — phần CẦU, đi cùng phần cung là tháp. */
 const KHOA_GSC_TU_KHOA = "gsc:tu-khoa";
+const KHOA_SUA_NHO = "leo-top:sua-nho";
+/** Mỗi lượt soi tải thật chừng này trang của site mình. */
+const TRAN_TRANG_SUA_NHO = 15;
+const NGHI_SUA_NHO_MS = 150;
 
 /**
  * Truy vấn thật (từ khoá × trang) 28 ngày, gom theo TRANG, đệm KV 30 phút.
@@ -1099,6 +1104,7 @@ export function createPlugin() {
 						// CẦU của cả site: người ta hỏi gì khi tới đây. Số này quyết định viết cái gì —
 						// đo 03/10/2026: 70% lượt hiển thị là TRA TÊN, 25% hỏi VỊ TRÍ, ~1% hỏi tác dụng.
 						cauToanSite: gomCau([...((await gscTuKhoa(ctx)).theoTrang?.values() ?? [])].flat()),
+						nhanViec: Object.fromEntries(Object.entries(VIEC_SUA_NHO).map(([k, v]) => [k, v])),
 					};
 				},
 			},
@@ -1145,6 +1151,57 @@ export function createPlugin() {
 					} catch (e) {
 						return { ds: [], ghiChu: `Không đọc được Search Console: ${String(e?.message ?? e).slice(0, 300)}` };
 					}
+				},
+			},
+			/**
+			 * PHIẾU SỬA NHỎ — trục thứ tư, ngược chiều ba trục kia.
+			 *
+			 * Radar / khoảng trống / semantic đều hỏi "nên VIẾT GÌ MỚI". Cái này hỏi: **người ta
+			 * đang hỏi gì mà trang mình CÓ câu trả lời nhưng máy không nhặt ra được**. Đo thật
+			 * trên `/huyet/phuc-tho/`: 51/97 lượt hiển thị đang chờ một dòng FAQ hoặc một tiêu đề
+			 * mục, KHÔNG có việc viết lại nào.
+			 *
+			 * Nạp theo YÊU CẦU và có đệm: nó tải thật từng trang của site mình.
+			 */
+			"leo-top-sua-nho": {
+				handler: async (ctx) => {
+					const { theoTrang, ghiChu } = await gscTuKhoa(ctx);
+					if (!theoTrang) return { ds: [], ghiChu: ghiChu || "Chưa cấu hình Search Console (thiếu GSC_OAUTH_*)." };
+					const cu = await ctx.kv.get(KHOA_SUA_NHO).catch(() => null);
+					if (cu && Date.now() - cu.luc < HAN_GSC_TRANG_MS)
+						return { ...cu.kq, ghiChu: `Lấy lúc ${new Date(cu.luc).toLocaleString("vi-VN")} (đệm 30 phút).` };
+
+					const goc = gocSite();
+					// Chỉ soi trang CỦA MÌNH, và chỉ những trang đáng soi nhất: tải trang là việc nặng
+					// nhất ở đây, mà phần lớn lượt hiển thị dồn vào ít trang.
+					const trang = [...theoTrang.entries()]
+						.map(([khoa, ds]) => ({ khoa, ds, hienThi: ds.reduce((n, x) => n + x.hienThi, 0) }))
+						.filter((x) => x.khoa.startsWith(chuanHoaUrlTrang(goc)))
+						.sort((a, b) => b.hienThi - a.hienThi)
+						.slice(0, TRAN_TRANG_SUA_NHO);
+
+					const doc = taoDocTrang(ctx.http.fetch.bind(ctx.http), { hanGioMs: 15_000 });
+					const ds = [];
+					const loi = [];
+					for (const t of trang) {
+						// NGHỈ giữa các lượt: cùng lý lẽ với ca soi — việc nền không được giành máy chủ
+						// với người đang xem web.
+						await new Promise((r) => setTimeout(r, NGHI_SUA_NHO_MS));
+						const duong = `https://${t.khoa}`;
+						try {
+							const html = await doc(duong);
+							if (!html) {
+								loi.push(`${t.khoa}: không tải được`);
+								continue;
+							}
+							ds.push(phieuSuaNho({ trang: duong, html, truyVan: t.ds }));
+						} catch (e) {
+							loi.push(`${t.khoa}: ${String(e?.message ?? e).slice(0, 120)}`);
+						}
+					}
+					const kq = { ds: xepPhieu(ds), soTrangSoi: trang.length, loi, ghiChu: "" };
+					await ctx.kv.set(KHOA_SUA_NHO, { luc: Date.now(), kq }).catch(() => {});
+					return kq;
 				},
 			},
 			"leo-top-da-sua": {
