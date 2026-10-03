@@ -268,3 +268,24 @@ test("HTTP 404 kèm đường đã gọi — 404 ở đây gần như luôn là 
 	const r = await layUngVien(async () => ({ ok: false, status: 404 }));
 	assert.match(r.loi, /HTTP 404 từ .*\/rada\/ung-vien/);
 });
+
+test("lời nhắc dặn theo DẠNG HỎI THẬT khi hồ sơ có phần cầu", () => {
+	// Tháp nói mình CÓ gì; phần cầu nói người ta HỎI gì. Thiếu nó thì bài viết ra là đoán.
+	const cau = {
+		soTuKhoa: 3,
+		hienThi: 100,
+		nhap: 4,
+		yDinh: [
+			{ ma: "vi_tri", nhan: "hỏi vị trí", soTuKhoa: 2, hienThi: 80 },
+			{ ma: "tra_ten", nhan: "tra tên", soTuKhoa: 1, hienThi: 20 },
+		],
+		dauBang: [{ tuKhoa: "huyệt hạ quan ở đâu", hienThi: 80 }],
+	};
+	const n = loiNhacTuHoSo({ ...hoSoMau, cau });
+	assert.match(n, /hỏi vị trí \(80%\)/);
+	assert.match(n, /"huyệt hạ quan ở đâu"/);
+	assert.match(n, /Mục "##" ĐẦU TIÊN phải trả lời thẳng dạng hỏi đông nhất/);
+	// Không có số thật thì KHÔNG dặn — dặn suông là bảo model tự nghĩ ra câu hỏi.
+	assert.equal(/NGƯỜI ĐỌC ĐANG HỎI GÌ/.test(loiNhacTuHoSo(hoSoMau)), false);
+	assert.equal(/NGƯỜI ĐỌC ĐANG HỎI GÌ/.test(loiNhacTuHoSo({ ...hoSoMau, cau: { soTuKhoa: 0 } })), false);
+});

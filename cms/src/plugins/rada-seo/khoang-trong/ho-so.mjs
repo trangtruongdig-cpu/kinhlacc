@@ -335,6 +335,18 @@ export function loiNhacTuHoSo(hoSo) {
 		`- Dùng tính vị quy kinh có sẵn để giải thích VÌ SAO vị đó hợp với thể đó. Không bịa tính vị.`,
 		`- Gắn ít nhất ${Math.min(12, Math.max(6, Math.floor(soLink * 0.4)))} liên kết nội bộ, chỉ dùng đường dẫn có trong hồ sơ. Không tự ghép đường dẫn, không link ra trang ngoài.`,
 		`- Nêu số bài thuốc trong kho ghi lại cho chứng này (${hoSo.soBaiThuoc} bài) như một lát cắt y văn.`,
+		...(hoSo.cau?.soTuKhoa
+			? [
+					``,
+					`NGƯỜI ĐỌC ĐANG HỎI GÌ (số thật từ Search Console, 28 ngày — ${hoSo.cau.hienThi} lượt hiển thị):`,
+					`- Dạng hỏi theo thứ tự đông nhất: ${hoSo.cau.yDinh.map((y) => `${y.nhan} (${Math.round((y.hienThi / hoSo.cau.hienThi) * 100)}%)`).join(", ")}.`,
+					`- Câu họ gõ: ${hoSo.cau.dauBang.map((x) => `"${x.tuKhoa}"`).join(", ")}.`,
+					// Đây là chỗ bài viết thôi đoán. Dạng hỏi đông nhất phải được đáp NGAY phần đầu,
+					// không chôn dưới một mục dẫn nhập.
+					`- Mục "##" ĐẦU TIÊN phải trả lời thẳng dạng hỏi đông nhất ở trên, trong 2–3 câu đầu, bằng chính chữ người ta gõ. Phần dẫn nhập chung chung để sau.`,
+					`- Mỗi dạng hỏi chiếm từ 10% trở lên nên có một mục "##" riêng.`,
+				]
+			: []),
 		...(hoSo.huyet?.length
 			? [
 					// Nhánh huyệt là thứ các cổng y tế tổng hợp KHÔNG có — đo 03/10/2026: vinmec có

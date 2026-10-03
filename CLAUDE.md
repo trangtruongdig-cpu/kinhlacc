@@ -1167,6 +1167,33 @@ Số đo cho thấy kho này sống ở đâu (28 ngày, 455 trang có số): **
 thị · 117 nhấp** — 76% lượt hiển thị toàn site. Hai bộ trang nhu cầu (`benh-hoc`,
 `cham-cuu-tri-benh`) chỉ có 14 trang có số.
 
+### CẦU đi cùng CUNG: tháp nói mình CÓ gì, Search Console nói người ta HỎI gì
+
+Tháp (`ungVien`, `cumNguNghia`) chỉ đo CUNG. Một cụm tháp cao mà không ai hỏi là phỏng đoán; một
+cụm có người hỏi mà trang mỏng là việc rõ ràng. `leo-top/y-dinh.mjs` phân loại truy vấn theo
+DẠNG CÂU và `gscTuKhoa(ctx)` (đệm KV 30 phút) gắn phần cầu vào ba chỗ: cột "Trang mình" của hai
+tab cụm, hồ sơ cụm, và **lời nhắc viết bài**.
+
+**Số đo 03/10/2026 (28 ngày, 135 cặp từ khoá × trang, 989 lượt hiển thị) — và nó đổi cách viết:**
+
+| Dạng hỏi | Hiển thị | Tỉ lệ |
+|---|---|---|
+| tra tên ("huyệt phục thỏ", "lãi câu") | 692 | **70%** |
+| hỏi vị trí ("huyệt hạ quan ở đâu", "vị trí huyệt phục thỏ") | 252 | **25%** |
+| hỏi định nghĩa | 28 | 3% |
+| hỏi tác dụng | 8 | 1% |
+
+Tức **95% nhu cầu là "huyệt này là gì, nằm ở đâu"**, gần như không ai hỏi "chữa bệnh gì". Trang
+huyệt phải đáp CHỖ NẰM ngay 2–3 câu đầu; viết thêm một mục chủ trị dài không kéo được lượt nhấp
+nào. Lời nhắc viết bài nay dặn đúng điều đó bằng chính số thật, và **không dặn gì khi không có
+số** — dặn suông là bảo model tự nghĩ ra câu hỏi của người đọc.
+
+⚠️ **`tra_ten` là một ý định, không phải "khác".** Lượt phân loại đầu dồn 70% lượt hiển thị vào
+rọ "khác" vì thiếu đúng dạng đông nhất — bức tranh cầu khi đó mất phần lớn nhất của nó.
+⚠️ **Thứ tự xét dạng có nghĩa**: "cách bấm huyệt X ở đâu" là hỏi CÁCH LÀM, không phải vị trí.
+⚠️ GSC chỉ ghi truy vấn của trang ĐÃ TỪNG HIỆN, và ẩn phần lớn truy vấn ít lượt: 989/5.000 lượt
+hiển thị có từ khoá kèm theo. Đây là mẫu, không phải toàn bộ cầu.
+
 ### Màn Khoảng trống chờ 10 giây: thủ phạm là CPU, không phải CSDL
 
 `cumNguNghia` làm `kho.filter((x) => khoaCum.some((k) => x.includes(k)))` cho từng cụm — 277 cụm

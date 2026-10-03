@@ -1072,6 +1072,20 @@ function LeoTopTab({ dl, loi, onDaSua, onTai, onSangTab }) {
 				</div>
 			)}
 
+			{/* CẦU TOÀN SITE. Đây là câu trả lời cho "viết gì cho thu hút": không đoán, mà đọc từ
+			    chính truy vấn người ta đã gõ. Đo 03/10/2026: 70% tra tên, 25% hỏi vị trí. */}
+			{dl.cauToanSite?.soTuKhoa > 0 && (
+				<div style={{ border: "1px solid #93c5fd", background: "#eff6ff", padding: 8, marginBottom: 12 }}>
+					<b>Người ta hỏi gì khi tới site này (28 ngày)</b>
+					<KhoiCau cau={dl.cauToanSite} />
+					<div style={{ fontSize: 12, color: "#1e40af", marginTop: 4 }}>
+						Dạng hỏi đông nhất: <b>{dl.cauToanSite.yDinh[0]?.nhan}</b>
+						{dl.cauToanSite.yDinh[1] && <> rồi tới <b>{dl.cauToanSite.yDinh[1].nhan}</b></>}. Trang nào cũng phải đáp đúng hai
+						dạng đó ngay phần đầu; viết thêm phần không ai hỏi thì không kéo được lượt nhấp nào.
+					</div>
+				</div>
+			)}
+
 			<BaiMoiDang ds={baiMoi} dem={dl.demBaiMoi} ghiChu={dl.baiMoiGhiChu} onSangTab={onSangTab} />
 			{dl.gscCoCauHinh && <HangDoiLeoTop />}
 			{dl.gscCoCauHinh && <ViecTieuDe />}
@@ -1294,6 +1308,18 @@ function HoSoCum({ hoSo, onGiao, dangGiao, giaoKq, giaoLoi, onSangTab, daCo, onV
 				<DanhSachLink ds={hoSo.nguonYVan} toiDa={8} hienThi={(n) => ({ href: `${TRANG_GOC}${n.duong}`, nhan: `${n.ten}${n.nienDai ? ` [${n.nienDai}]` : ""} ×${n.soBaiDan}` })} />
 			</div>
 
+			{/* CẦU THẬT của trang đang có. Không có khối này thì hồ sơ chỉ nói mình CÓ gì, và bài
+			    viết ra là đoán xem người đọc muốn gì. */}
+			{hoSo.cau?.soTuKhoa > 0 && (
+				<div style={{ ...KHUNG_O, background: "#eff6ff", borderColor: "#93c5fd", marginTop: 8 }}>
+					<div style={{ fontSize: 13, fontWeight: 600, marginBottom: 2 }}>Người ta đang hỏi gì (28 ngày, Search Console)</div>
+					<KhoiCau cau={hoSo.cau} />
+					<div style={{ fontSize: 12, color: "#1e40af", marginTop: 4 }}>
+						Dạng hỏi đông nhất là <b>{hoSo.cau.yDinh[0]?.nhan}</b> — bài phải trả lời đúng cái đó ngay phần đầu.
+					</div>
+				</div>
+			)}
+
 			{/* Nhánh HUYỆT — thứ các cổng y tế tổng hợp không có. Đo 03/10/2026: vinmec có 4 URL
 			    châm cứu trên 35.710. `phacDoKhop` hiện ra để người đọc tự thấy phép khớp tên
 			    đúng hay trật, vì đó là chỗ dễ vu oan nhất của nhánh này. */}
@@ -1466,6 +1492,26 @@ function GioCum({ ten, mo, ds, mau, coGsc, hienHoSo, cumMo, hoSo, hoSoLoi, dangT
  * `so == null` nghĩa là Search Console không có dòng nào cho trang này trong 28 ngày — tức 0
  * lượt hiển thị, KHÁC HẲN "chưa hỏi được Google" (lúc đó `coGsc` false). Hai thứ nói hai câu.
  */
+/**
+ * CẦU — người ta gõ gì để tới trang này, hỏi theo dạng nào. Đây là nửa còn thiếu bên cạnh tháp:
+ * tháp nói mình CÓ gì, cái này nói người ta HỎI gì. Chỗ hai thứ gặp nhau mới là việc đáng viết.
+ */
+function KhoiCau({ cau, gon }) {
+	if (!cau?.soTuKhoa) return null;
+	return (
+		<div style={{ fontSize: 12, marginTop: 3 }}>
+			<span style={{ color: "#1d4ed8", fontWeight: 600 }}>
+				{cau.soTuKhoa} truy vấn · {cau.hienThi} hiển thị · {cau.nhap} nhấp
+			</span>
+			<div style={{ color: "#6b7280" }}>{cau.yDinh.map((y) => `${y.nhan} ${Math.round((y.hienThi / cau.hienThi) * 100)}%`).join(" · ")}</div>
+			{!gon && (
+				// Chữ người lạ gõ vào Google — chỉ hiển thị qua JSX text, không dựng HTML.
+				<div style={{ color: "#374151", marginTop: 2 }}>{cau.dauBang.map((x) => `“${x.tuKhoa}” (${x.hienThi})`).join(" · ")}</div>
+			)}
+		</div>
+	);
+}
+
 function SoTrangGsc({ c, coGsc }) {
 	if (!c.daCo) return <span style={{ color: "#15803d" }}>chưa có</span>;
 	const duong = c.duongTrang ?? `/${c.bo === "benh_hoc" ? "benh-hoc" : "cham-cuu-tri-benh"}/${c.slug}/`;
@@ -1483,6 +1529,7 @@ function SoTrangGsc({ c, coGsc }) {
 			) : (
 				<div style={{ fontSize: 12, color: "#b91c1c", marginTop: 2 }}>0 lượt hiển thị trong 28 ngày</div>
 			)}
+			<KhoiCau cau={c.cau} gon />
 		</>
 	);
 }

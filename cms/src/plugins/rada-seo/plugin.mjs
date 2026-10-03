@@ -34,6 +34,8 @@ import { tuDocTrang } from "./ai/tu-doc-trang.mjs";
 import { tuLapChienLuoc } from "./ai/tu-lap-chien-luoc.mjs";
 import { chayLoViet } from "./ai/tu-viet-bai.mjs";
 import { tongHopLoaiSua } from "./leo-top/vong-hoc.mjs";
+import { gomCau } from "./leo-top/y-dinh.mjs";
+import { boDau as boDauCum } from "./luat/chuan-hoa.mjs";
 import { xepBaiMoi, demTheoHang, banDoTrangCum } from "./leo-top/bai-moi.mjs";
 import { chuanHoaUrlTrang } from "./leo-top/gsc.mjs";
 import { layUngVien, layHoSoCum, xepUngVien, taoKeHoachTuHoSo, napTrangNhuCau, layCumNguNghia, trangDaCo, napSlugHuyet, ganDuongHuyet } from "./khoang-trong/ho-so.mjs";
@@ -77,6 +79,68 @@ const KHOA_GSC_TRANG = "leo-top:gsc-trang";
 const HAN_GSC_TRANG_MS = 30 * 60 * 1000;
 /** Hàng đợi leo top (từ khoá hạng 4–50) — cùng lý do đệm, và nó quét tới 100k hàng GSC. */
 const KHOA_GSC_UNG_VIEN = "leo-top:ung-vien";
+/** Truy vấn thật theo TRANG — phần CẦU, đi cùng phần cung là tháp. */
+const KHOA_GSC_TU_KHOA = "gsc:tu-khoa";
+
+/**
+ * Truy vấn thật (từ khoá × trang) 28 ngày, gom theo TRANG, đệm KV 30 phút.
+ *
+ * Đây là nửa còn thiếu của bài toán: tháp đo CUNG (kho mình có gì đứng sau một nhu cầu), còn
+ * cái này đo CẦU (người ta thật sự gõ gì để tới trang đó). Một cụm tháp cao mà không ai hỏi là
+ * phỏng đoán; một cụm có người hỏi mà trang mỏng là việc rõ ràng.
+ *
+ * KHÔNG BAO GIỜ ném — thiếu Search Console thì mọi tab vẫn dùng được, chỉ là không có phần cầu.
+ * @returns {Promise<{theoTrang: Map<string, object[]>|null, ghiChu: string}>}
+ */
+/**
+ * Truy vấn thật khớp theo TÊN CỤM (và mọi biến thể), không theo trang.
+ *
+ * Khác `ganSoTrang` ở chỗ: nó trả lời được cả khi cụm CHƯA có trang nào — đúng thứ cần cho một
+ * khoảng trống. Khớp bằng chuỗi con trên bản bỏ dấu, cùng thước với phần còn lại của hồ sơ.
+ */
+function cauCuaCum(theoTrang, cach) {
+	if (!theoTrang) return null;
+	const k = (cach ?? []).map((x) => boDauCum(x)).filter((x) => x.length >= 3);
+	if (!k.length) return null;
+	const thay = new Map();
+	for (const ds of theoTrang.values())
+		for (const x of ds) {
+			const t = boDauCum(x.tuKhoa);
+			if (!k.some((c) => t.includes(c))) continue;
+			// Một truy vấn có thể trúng nhiều trang; gộp theo CHỮ truy vấn để không đếm hai lần.
+			const o = thay.get(t) ?? { tuKhoa: x.tuKhoa, hienThi: 0, nhap: 0, viTri: x.viTri };
+			o.hienThi += x.hienThi;
+			o.nhap += x.nhap;
+			thay.set(t, o);
+		}
+	return gomCau([...thay.values()]);
+}
+
+async function gscTuKhoa(ctx) {
+	const gsc = gscCua(ctx);
+	if (!gsc.coCauHinh()) return { theoTrang: null, ghiChu: "" };
+	const gom = (ds) => {
+		const m = new Map();
+		for (const x of ds) {
+			const k = chuanHoaUrlTrang(x.trang);
+			if (!m.has(k)) m.set(k, []);
+			m.get(k).push({ tuKhoa: x.tuKhoa, hienThi: x.hienThi, nhap: x.nhap, viTri: x.viTri });
+		}
+		return m;
+	};
+	try {
+		const cu = await ctx.kv.get(KHOA_GSC_TU_KHOA).catch(() => null);
+		if (cu && Date.now() - cu.luc < HAN_GSC_TRANG_MS) return { theoTrang: gom(cu.ds), ghiChu: "" };
+		// Lấy MỌI cặp, không lọc hạng: phần cầu cần cả truy vấn đang đứng hạng 1 (để biết trang
+		// nào đã thắng) lẫn hạng 80 (để biết người ta hỏi gì mà mình chưa đáp nổi).
+		const ds = await gsc.layTuKhoaLeoTop({ ngay: 28, viTriMin: 0, viTriMax: 1000, hienThiMin: 0, toiDa: 100000 });
+		const gon = ds.map((x) => ({ tuKhoa: x.tuKhoa, trang: x.trang, hienThi: x.hienThi, nhap: x.nhap, viTri: x.viTri }));
+		await ctx.kv.set(KHOA_GSC_TU_KHOA, { luc: Date.now(), ds: gon }).catch(() => {});
+		return { theoTrang: gom(gon), ghiChu: "" };
+	} catch (e) {
+		return { theoTrang: null, ghiChu: `Không đọc được truy vấn Search Console: ${String(e?.message ?? e).slice(0, 200)}` };
+	}
+}
 
 /**
  * Số Search Console theo TRANG, đệm chung cho mọi tab.
@@ -110,13 +174,16 @@ async function gscTheoTrang(ctx) {
  * Gắn số Search Console vào một cụm ĐÃ CÓ TRANG. Đây là chỗ biến "đã có" (một chữ) thành việc
  * đọc được: đã có trang mà hạng 37 với 6 lượt hiển thị là việc LEO TOP, còn hạng 2 thì để yên.
  */
-function ganSoTrang(c, banDo, chuanHoa, goc) {
-	if (!c.daCo || !c.slug || !banDo) return c;
+function ganSoTrang(c, banDo, chuanHoa, goc, tuKhoaTheoTrang) {
+	if (!c.daCo || !c.slug) return c;
 	const duong = `/${c.bo === "benh_hoc" ? "benh-hoc" : "cham-cuu-tri-benh"}/${c.slug}/`;
-	const so = banDo.get(chuanHoa(`${goc}${duong}`)) ?? null;
+	const khoa = chuanHoa(`${goc}${duong}`);
 	// `so = null` nghĩa là Search Console KHÔNG có dòng nào cho trang này trong 28 ngày — tức
 	// 0 lượt hiển thị. Khác hẳn "chưa hỏi được Google", nên hai thứ phải đi bằng hai trường.
-	return { ...c, duongTrang: duong, so };
+	const so = banDo ? (banDo.get(khoa) ?? null) : null;
+	// CẦU: người ta gõ gì để tới đúng trang này, và hỏi theo dạng nào.
+	const cau = tuKhoaTheoTrang ? gomCau(tuKhoaTheoTrang.get(khoa) ?? []) : null;
+	return { ...c, duongTrang: duong, so, cau };
 }
 const HAN_KHOA_MS = 3 * 60 * 60 * 1000;
 /** Ca thành công gần nhất cũ hơn mức này thì màn điều khiển báo đỏ. */
@@ -343,7 +410,12 @@ async function slugHuyet(ctx) {
  */
 const layHoSoCoDuong = (ctx) => async (cum, bienThe) => {
 	const r = await layHoSoCum(undefined, cum, bienThe);
-	return r.ok ? ganDuongHuyet(r.hoSo, await slugHuyet(ctx)) : null;
+	if (!r.ok) return null;
+	const hoSo = ganDuongHuyet(r.hoSo, await slugHuyet(ctx));
+	// Lò viết phải thấy phần CẦU, không chỉ phần cung: bài viết ra là để trả lời câu người ta
+	// thật sự gõ, không phải để trình bày những gì kho mình có.
+	const { theoTrang } = await gscTuKhoa(ctx);
+	return { ...hoSo, cau: cauCuaCum(theoTrang, hoSo.bienThe ?? [cum]) };
 };
 
 /**
@@ -845,8 +917,9 @@ export function createPlugin() {
 					// Giỏ "đã có trang" mà không có số hạng thì không nói được gì: nó chỉ đẩy người
 					// dùng sang tab Leo top rồi để họ tự tra. Gắn số vào ngay đây.
 					const { banDo, ghiChu } = await gscTheoTrang(ctx);
+					const { theoTrang: tk } = await gscTuKhoa(ctx);
 					const goc = gocSite();
-					for (const k of ["choViet", "leoTop", "choXacNhan"]) gio[k] = gio[k].map((c) => ganSoTrang(c, banDo, chuanHoaUrlTrang, goc));
+					for (const k of ["choViet", "leoTop", "choXacNhan"]) gio[k] = gio[k].map((c) => ganSoTrang(c, banDo, chuanHoaUrlTrang, goc, tk));
 					return { ...gio, loi: "", soUngVien: uv.ds.length, loiNap: chiMuc.loiNap, gscGhiChu: ghiChu, coGsc: !!banDo };
 				},
 			},
@@ -858,10 +931,11 @@ export function createPlugin() {
 					const chiMuc = await napTrangNhuCau(ctx.content);
 					// Trang mình đã có cho cụm: thử theo TÊN CỤM và theo từng chủ trị trong cụm.
 					const { banDo, ghiChu } = await gscTheoTrang(ctx);
+					const { theoTrang: tk } = await gscTuKhoa(ctx);
 					const goc = gocSite();
 					const ds = r.ds.map((c) => {
 						const t = [c.ten, ...(c.chuTri ?? [])].map((x) => trangDaCo(x, chiMuc)).find((x) => x.daCo);
-						return ganSoTrang({ ...c, ...(t ?? { daCo: false }) }, banDo, chuanHoaUrlTrang, goc);
+						return ganSoTrang({ ...c, ...(t ?? { daCo: false }) }, banDo, chuanHoaUrlTrang, goc, tk);
 					});
 					return { ds, loi: "", loiNap: chiMuc.loiNap, gscGhiChu: ghiChu, coGsc: !!banDo };
 				},
@@ -874,7 +948,10 @@ export function createPlugin() {
 					if (!r.ok) throw PluginRouteError.badRequest(`Không dựng được hồ sơ: ${r.loi}`);
 					// Đường trang huyệt chỉ CMS mới biết (slug tên, có bản khử trùng) — backend cố ý
 					// không đoán. Tra hỏng thì hồ sơ vẫn ra, chỉ là huyệt không có link.
-					return ganDuongHuyet(r.hoSo, await slugHuyet(ctx));
+					const hoSo = ganDuongHuyet(r.hoSo, await slugHuyet(ctx));
+					// CẦU: thêm vào hồ sơ để cả màn hình lẫn lò viết đều thấy người ta hỏi gì.
+					const { theoTrang } = await gscTuKhoa(ctx);
+					return { ...hoSo, cau: cauCuaCum(theoTrang, hoSo.bienThe ?? [String(cum).trim()]) };
 				},
 			},
 			// Nút "Giao cho lò viết" ở tab Khoảng trống: dựng hồ sơ rồi ghi MỘT bài dự kiến đã duyệt.
@@ -1019,6 +1096,9 @@ export function createPlugin() {
 						// chủ như mọi phép đo khác của plugin, và cố ý KÈM ghi chú cảnh báo — đây là
 						// đồng xuất hiện trên cỡ mẫu nhỏ, không phải nhân quả.
 						tongHop: tongHopLoaiSua(ds),
+						// CẦU của cả site: người ta hỏi gì khi tới đây. Số này quyết định viết cái gì —
+						// đo 03/10/2026: 70% lượt hiển thị là TRA TÊN, 25% hỏi VỊ TRÍ, ~1% hỏi tác dụng.
+						cauToanSite: gomCau([...((await gscTuKhoa(ctx)).theoTrang?.values() ?? [])].flat()),
 					};
 				},
 			},
