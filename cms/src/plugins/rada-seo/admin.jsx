@@ -38,8 +38,23 @@ function ChuaCoDuLieu({ loi }) {
 	return <div style={{ padding: 24, color: loi ? "#b91c1c" : undefined }}>{loi || "Đang tải…"}</div>;
 }
 
-const NHAN_CUM = { cho_viet: "Chờ viết", co_nhap: "Có nháp", da_dang: "Đã đăng", bo_qua: "Bỏ qua", phu_boi_tu_dien: "Từ điển đã phủ" };
 const gio = (s) => (s ? new Date(s).toLocaleString("vi-VN") : "—");
+/**
+ * Lý do lò viết hỏng mà NGƯỜI phải xử — trả câu tiếng Việt, hoặc "" nếu không có.
+ *
+ * Lỗi nội dung (model trả sai dạng JSON, vướng phạm vi Y sỹ) KHÔNG lọt qua đây: vòng sửa 3 lượt
+ * sinh ra để lo đúng những thứ đó, và bài trượt hẳn thì đã nằm ở chip "Cần xem lại". In lời máy
+ * ra màn hình chỉ bắt người đọc lọc nhiễu.
+ */
+function cheoNguoi(ghiChu) {
+	const ds = ghiChu ?? [];
+	if (ds.some((g) => /HTTP 429|quota/i.test(g))) return "Hết quota API của Google AI Studio — đổi model trong cms/.env hoặc bật thanh toán.";
+	if (ds.some((g) => /thiếu GRAVITY|chưa khai model|chưa cấu hình/i.test(g))) return "Chưa cấu hình model viết — xem GRAVITY_* trong cms/.env.";
+	if (ds.some((g) => /hết hạn ngạch/i.test(g))) return "Hết hạn ngạch bài đêm nay. Bấm “Viết ngay” ở một bài cụ thể thì không bị trần này.";
+	if (ds.some((g) => /nháp chờ duyệt/i.test(g))) return "Đủ nháp chờ duyệt — duyệt bớt ở tab Nháp rồi viết tiếp.";
+	return "";
+}
+
 /** "2 phút trước" — đủ để biết lò viết mới chạy hay đã kẹt, không cần đồng hồ chính xác. */
 function lucTruoc(iso) {
 	const ms = Date.now() - Date.parse(iso);
@@ -201,7 +216,9 @@ function CumNguNghiaTab({ dl, loi, onTai, onSangTab }) {
 				<Nut onClick={onTai}>Tải lại</Nut>
 				<span style={{ color: "#666", fontSize: 13 }}>
 					{cum.length} cụm ngữ nghĩa đạt ngưỡng tháp. Mỗi cụm gom nhiều chủ trị cùng nghĩa — đây là
-					tầng trên của tab Khoảng trống, nơi mỗi chủ trị đứng một dòng riêng.
+					tầng trên của tab Khoảng trống, nơi mỗi chủ trị đứng một dòng riêng. Tháp đếm bài thuốc,
+					vị thuốc và huyệt (huyệt khớp qua tên phác đồ châm cứu; rê chuột vào số huyệt để xem khớp
+					qua phác đồ nào). Đường kinh KHÔNG cộng vào tháp — cả kho chỉ có 18 đường.
 				</span>
 			</div>
 			{dl.loi && <div style={{ color: "#b91c1c", marginBottom: 10 }}>{dl.loi}</div>}
@@ -228,7 +245,26 @@ function CumNguNghiaTab({ dl, loi, onTai, onSangTab }) {
 											{c.soChuTri > 5 && " …"}
 										</div>
 									</td>
-									<td style={o}>{c.soBai} bài · {c.soVi} vị</td>
+									<td style={o}>
+										{c.soBai} bài · {c.soVi} vị
+										{/* Nhánh huyệt gộp bằng Set ở máy chủ. HIỆN LUÔN cả hai đầu của phép khớp
+										    (chủ trị nào → phác đồ nào): cụm ngữ nghĩa gom tới 17 chủ trị, nên một chủ
+										    trị lạc vào cụm là kéo trọn phác đồ của nó sang. Giấu vào tooltip thì con
+										    số trông như sự thật và không ai lần ngược được. */}
+										{c.soHuyet > 0 && (
+											<>
+												<div style={{ color: "#15803d", fontWeight: 600 }}>
+													{c.soHuyet} huyệt{c.soKinh ? ` · ${c.soKinh} kinh` : ""}
+												</div>
+												<div style={{ fontSize: 11, color: "#6b7280", marginTop: 2 }}>
+													{(c.khopQua ?? []).slice(0, 2).map((k, i) => (
+														<div key={i}>“{k.chuTri}” → {k.ten} ({k.soHuyet})</div>
+													))}
+													{(c.khopQua ?? []).length > 2 && <div>… +{c.khopQua.length - 2} phác đồ</div>}
+												</div>
+											</>
+										)}
+									</td>
 									<td style={o}>
 										{c.daCo ? (
 											<a href={`${TRANG_GOC}/${c.bo === "benh_hoc" ? "benh-hoc" : "cham-cuu-tri-benh"}/${c.slug}/`} target="_blank" rel="noopener noreferrer">đã có</a>
@@ -438,9 +474,12 @@ function KeHoachTab({ dl, loi, onDuyet, onBo, onViet, dangViet, vietKq, onThuHoi
 	const soDangViet = (dl?.keHoach ?? []).filter((k) => k.trangThai === "dang_viet").length;
 	const [caViet, setCaViet] = useState(null);
 	const taiCa = useCallback(() => goi("lo-viet-ca-gan-nhat").then((r) => setCaViet(r.ca), () => {}), []);
+	// ⚠️ Phụ thuộc vào SỐ BÀI ĐANG VIẾT, không phải vào cả `dl`. Để `dl` ở đây thì mỗi lượt tải
+	// lại (nhịp 10 giây) sinh một đối tượng mới → effect chạy lại → thêm một vòng mạng nữa cho
+	// một con số không đổi.
 	useEffect(() => {
 		taiCa();
-	}, [taiCa, dl]);
+	}, [taiCa, soDangViet]);
 	useEffect(() => {
 		if (!soDangViet || !onTai) return;
 		const h = setInterval(() => {
@@ -481,17 +520,12 @@ function KeHoachTab({ dl, loi, onDuyet, onBo, onViet, dangViet, vietKq, onThuHoi
 				{soDangViet > 0 && <span>⟳ Đang tự hỏi lại mỗi 10 giây vì còn {soDangViet} bài đang viết.</span>}
 				<Nut onClick={onTai} style={{ fontSize: 12, padding: "2px 8px" }}>Tải lại</Nut>
 			</p>
-			{/* Lý do lò viết thất bại nằm ở MÁY CHỦ (route trả lời trước khi ca xong), nên phải đọc
-			    lại nhật ký ca. Không có khối này thì người dùng chỉ thấy bài quay về "Chờ viết" mà
-			    không biết vì sao — đo 02/10/2026: nguyên nhân thật là hết quota API, chỉ log mới có. */}
-			{caViet && caViet.daTao === 0 && (caViet.ghiChu ?? []).length > 0 && (
+			{/* CHỈ báo thứ NGƯỜI phải xử: hết quota, thiếu cấu hình. Lỗi nội dung (model trả sai dạng,
+			    phạm vi Y sỹ) là việc vòng sửa 3 lượt tự lo; trượt hẳn thì bài đã sang "Cần xem lại"
+			    và có chip riêng — in thêm lời máy ở đây chỉ làm người đọc phải lọc nhiễu. */}
+			{caViet?.daTao === 0 && cheoNguoi(caViet.ghiChu) && (
 				<div style={{ border: "1px solid #fcd34d", background: "#fffbeb", borderRadius: 8, padding: "8px 12px", margin: "0 0 12px", fontSize: 13 }}>
-					<b>Lần viết gần nhất không ra bài</b> ({gio(caViet.luc)}):
-					<ul style={{ margin: "4px 0 0", paddingLeft: 18 }}>
-						{caViet.ghiChu.slice(0, 3).map((g, i) => (
-							<li key={i}>{/HTTP 429/.test(g) ? "Hết quota API của Google AI Studio hôm nay — đổi model trong cms/.env hoặc bật thanh toán." : g.slice(0, 220)}</li>
-						))}
-					</ul>
+					{cheoNguoi(caViet.ghiChu)}
 				</div>
 			)}
 			{items.length === 0 ? (
@@ -832,7 +866,98 @@ function ViecTieuDe() {
 	);
 }
 
-function LeoTopTab({ dl, loi, onDaSua, onTai }) {
+/**
+ * Hạng của bài mới đăng — nhãn cho mã `hang` do máy chủ tính (leo-top/bai-moi.mjs HANG_BAI).
+ * Chép nhãn sang đây vì admin.jsx chạy trong trình duyệt, không import mã plugin (xem ghi chú
+ * ở NGAY_PHIEU_TINH_TRAN). Phán định thì KHÔNG chép — nó ở máy chủ và có phép kiểm.
+ */
+const HANG_BAI_MOI = {
+	tam_leo: { nhan: "Đúng tầm leo top", mau: "#15803d" },
+	chua_hien: { nhan: "Chưa có hiển thị", mau: "#b91c1c" },
+	ngoai_50: { nhan: "Ngoài top 50", mau: "#92400e" },
+	dau_bang: { nhan: "Đầu bảng", mau: "#1d4ed8" },
+	moi: { nhan: "Còn non", mau: "#6b7280" },
+};
+
+/**
+ * Bài lò viết ĐÃ ĐĂNG, kèm số thật của Search Console — khâu nối Khoảng trống → Kế hoạch →
+ * Nháp → Leo top. Mỗi dòng nói được: bài này ra từ cụm nào, đăng bao lâu, Google đã cho hạng
+ * mấy, và còn việc gì.
+ *
+ * ⚠️ Cột "Việc" KHÔNG bao giờ nói bài còn non là bài kém — xem ghi chú ở leo-top/bai-moi.mjs.
+ */
+function BaiMoiDang({ ds, dem, ghiChu, onSangTab }) {
+	const [moHet, setMoHet] = useState(false);
+	if (!ds?.length) return null;
+	// Mặc định chỉ hiện phần có việc: còn non và đầu bảng thì không phải làm gì.
+	const coViec = ds.filter((x) => x.hang !== "moi" && x.hang !== "dau_bang");
+	const hien = moHet || !coViec.length ? ds : coViec;
+	return (
+		<div style={{ marginBottom: 16 }}>
+			<h3 style={{ margin: "0 0 2px" }}>
+				Bài đã đăng từ lò viết <span style={{ color: "#666", fontWeight: 400 }}>({ds.length})</span>
+			</h3>
+			<div style={{ color: "#666", fontSize: 13, marginBottom: 6 }}>
+				Vòng khép lại: khoảng trống → kế hoạch → nháp → đăng → hạng thật. Số lấy từ Search Console 28 ngày gần nhất.
+			</div>
+			{ghiChu && <div style={{ color: "#92400e", fontSize: 13, marginBottom: 6 }}>{ghiChu}</div>}
+			<div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 6 }}>
+				{Object.entries(HANG_BAI_MOI).map(([k, v]) =>
+					dem?.[k] ? (
+						<span key={k} style={{ fontSize: 12, border: `1px solid ${v.mau}`, color: v.mau, borderRadius: 999, padding: "1px 8px" }}>
+							{v.nhan}: <b>{dem[k]}</b>
+						</span>
+					) : null,
+				)}
+				{hien.length < ds.length && (
+					<Nut onClick={() => setMoHet(true)} style={{ fontSize: 12, padding: "2px 8px" }}>Hiện cả {ds.length} bài</Nut>
+				)}
+				{moHet && coViec.length > 0 && (
+					<Nut onClick={() => setMoHet(false)} style={{ fontSize: 12, padding: "2px 8px" }}>Chỉ bài có việc</Nut>
+				)}
+			</div>
+			<table style={{ borderCollapse: "collapse", width: "100%" }}>
+				<thead>
+					<tr>
+						<th style={o}>Bài</th><th style={o}>Từ cụm</th><th style={o}>Đăng</th><th style={o}>Hiển thị</th><th style={o}>Nhấp</th><th style={o}>Hạng</th><th style={o}>Việc</th>
+					</tr>
+				</thead>
+				<tbody>
+					{hien.map((x) => {
+						const h = HANG_BAI_MOI[x.hang] ?? { nhan: x.hang, mau: "#6b7280" };
+						return (
+							<tr key={x.keHoachId}>
+								<td style={o}>
+									<a href={`${TRANG_GOC}${x.duong}`} target="_blank" rel="noopener noreferrer">{x.tieuDe}</a>
+								</td>
+								<td style={o}>{x.cum || "—"}</td>
+								<td style={o}>{x.tuoi == null ? "—" : `${x.tuoi} ngày`}</td>
+								<td style={o}>{x.so ? x.so.hienThi.toLocaleString("vi-VN") : "—"}</td>
+								<td style={o}>{x.so ? x.so.nhap.toLocaleString("vi-VN") : "—"}</td>
+								<td style={o}>{x.so ? so(x.so.viTri) : "—"}</td>
+								<td style={o}>
+									<span style={{ color: h.mau, fontWeight: 600 }}>{h.nhan}</span>
+									{x.hang === "chua_hien" && (
+										<div style={{ fontSize: 12, color: "#6b7280" }}>Kiểm index ở Search Console trước khi sửa nội dung.</div>
+									)}
+									{x.hang === "ngoai_50" && (
+										<div style={{ fontSize: 12, color: "#6b7280" }}>
+											Việc của nội dung, chưa phải việc leo top.{" "}
+											<Nut onClick={() => onSangTab?.("khoang-trong")} style={{ fontSize: 11, padding: "1px 6px" }}>Mở Khoảng trống</Nut>
+										</div>
+									)}
+									{x.hang === "tam_leo" && <div style={{ fontSize: 12, color: "#6b7280" }}>Ca đêm thứ Tư sẽ nhận từ khoá của trang này.</div>}
+								</td>
+							</tr>
+						);
+					})}
+				</tbody>
+			</table>
+		</div>
+	);
+}
+
+function LeoTopTab({ dl, loi, onDaSua, onTai, onSangTab }) {
 	const [mo, setMo] = useState(null);
 	if (!dl) return <ChuaCoDuLieu loi={loi} />;
 	const phien = dl.phien ?? [];
@@ -843,16 +968,28 @@ function LeoTopTab({ dl, loi, onDaSua, onTai }) {
 			const t = Date.parse(p.soHoLuc ?? p.taoLuc);
 			return { p, tuoi: Number.isFinite(t) ? Math.floor((now - t) / NGAY_MS) : null };
 		});
+	const demTT = {};
+	for (const p of phien) demTT[p.trangThai] = (demTT[p.trangThai] ?? 0) + 1;
+	const dangSoi = (demTT.cho_serp ?? 0) + (demTT.cho_doc ?? 0);
+	const baiMoi = dl.baiMoi ?? [];
 	return (
 		<div>
 			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
 			{!dl.gscCoCauHinh && (
 				<p style={{ color: "#92400e" }}>
-					Plugin chưa cấu hình Search Console (biến GSC_OAUTH_* trong cms/.env): không lấy được từ khoá mới và ca đêm không đo lại hạng.
+					Plugin chưa cấu hình Search Console (biến GSC_OAUTH_* trong cms/.env): không lấy được từ khoá mới, không đo lại hạng, và không biết bài mới đăng đang ở đâu.
 				</p>
 			)}
-			{dl.tongHop && <TongHopVongHoc th={dl.tongHop} />}
-			{dl.gscCoCauHinh && <ViecTieuDe />}
+
+			<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 8, margin: "0 0 14px", maxWidth: 900 }}>
+				<ODo so={choSua.length} nhan="phiếu chờ bấm đã sửa" mau={choSua.length ? "#92400e" : undefined} />
+				<ODo so={dangSoi} nhan="phiên đang soi" />
+				<ODo so={demTT.da_do_lai ?? 0} nhan="phiên đã đo lại" mau="#15803d" />
+				<ODo so={baiMoi.length} nhan="bài lò viết đã đăng" />
+				<ODo so={dl.demBaiMoi?.tam_leo ?? 0} nhan="bài đúng tầm leo top" mau="#15803d" />
+				<ODo so={dl.demBaiMoi?.chua_hien ?? 0} nhan="bài chưa có hiển thị" mau={dl.demBaiMoi?.chua_hien ? "#b91c1c" : undefined} />
+			</div>
+
 			{choSua.length > 0 && (
 				<div style={{ border: "1px solid #f59e0b", background: "#fffbeb", padding: 8, marginBottom: 12 }}>
 					<b>{choSua.length} phiếu chờ bấm "Đã sửa theo phiếu":</b>
@@ -866,9 +1003,14 @@ function LeoTopTab({ dl, loi, onDaSua, onTai }) {
 					</ul>
 				</div>
 			)}
-			<h2>
+
+			<BaiMoiDang ds={baiMoi} dem={dl.demBaiMoi} ghiChu={dl.baiMoiGhiChu} onSangTab={onSangTab} />
+			{dl.gscCoCauHinh && <ViecTieuDe />}
+			{dl.tongHop && <TongHopVongHoc th={dl.tongHop} />}
+
+			<h3 style={{ margin: "0 0 6px" }}>
 				Phiên leo top ({phien.length}) <Nut onClick={onTai}>Tải lại</Nut>
-			</h2>
+			</h3>
 			<table style={{ borderCollapse: "collapse", width: "100%" }}>
 				<thead>
 					<tr><th style={o}>Từ khoá</th><th style={o}>Trang của mình</th><th style={o}>Hạng ban đầu</th><th style={o}>Hiển thị/ngày</th><th style={o}>Trạng thái</th><th style={o}>Tạo lúc</th></tr>
@@ -880,6 +1022,8 @@ function LeoTopTab({ dl, loi, onDaSua, onTai }) {
 								<td style={o}>
 									{/* tuKhoa là chữ người lạ gõ vào Google — chỉ hiển thị qua JSX text. */}
 									<Nut onClick={() => setMo(mo === p.id ? null : p.id)}>{mo === p.id ? "▾" : "▸"} {p.tuKhoa}</Nut>
+									{/* tuCum do máy chủ gắn: trang này là bài lò viết viết từ cụm đó. */}
+									{p.tuCum && <div style={{ fontSize: 12, color: "#15803d", marginTop: 2 }}>bài của lò viết · cụm “{p.tuCum}”</div>}
 									{(p.tuKhoaPhu ?? []).length > 0 && (
 										<div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>
 											Từ khoá khác của trang này:{" "}
@@ -909,7 +1053,11 @@ function LeoTopTab({ dl, loi, onDaSua, onTai }) {
 					))}
 				</tbody>
 			</table>
-			{phien.length === 0 && <p>Chưa có phiên nào — routine thứ Tư sẽ lấy từ khoá hạng 4–50 từ Search Console.</p>}
+			{phien.length === 0 && (
+				<p style={{ color: "#666" }}>
+					Chưa có phiên nào — ca đêm thứ Tư lấy từ khoá hạng 4–50 từ Search Console. Bài mới đăng cần vài tuần mới vào dải đó.
+				</p>
+			)}
 		</div>
 	);
 }
@@ -1044,6 +1192,8 @@ function HoSoCum({ hoSo, onGiao, dangGiao, giaoKq, giaoLoi, onSangTab, daCo, onV
 				<b>Hồ sơ cụm — {hoSo.cum}</b>{" "}
 				<span style={{ color: "#666" }}>
 					{hoSo.soBaiThuoc} bài thuốc · {hoSo.soViKhacNhau} vị · {hoSo.theBenh?.length ?? 0} thể bệnh · {hoSo.nguonYVan?.length ?? 0} nguồn
+					{hoSo.huyet?.length ? ` · ${hoSo.huyet.length} huyệt` : ""}
+					{hoSo.kinhTheoHuyet?.length ? ` · ${hoSo.kinhTheoHuyet.length} đường kinh` : ""}
 				</span>
 				{hoSo.bienThe?.length > 1 && <div style={{ color: "#666", fontSize: 12 }}>Gom theo từ vựng Đông y: {hoSo.bienThe.join(" · ")}</div>}
 			</div>
@@ -1074,6 +1224,48 @@ function HoSoCum({ hoSo, onGiao, dangGiao, giaoKq, giaoLoi, onSangTab, daCo, onV
 				Nguồn y văn:{" "}
 				<DanhSachLink ds={hoSo.nguonYVan} toiDa={8} hienThi={(n) => ({ href: `${TRANG_GOC}${n.duong}`, nhan: `${n.ten}${n.nienDai ? ` [${n.nienDai}]` : ""} ×${n.soBaiDan}` })} />
 			</div>
+
+			{/* Nhánh HUYỆT — thứ các cổng y tế tổng hợp không có. Đo 03/10/2026: vinmec có 4 URL
+			    châm cứu trên 35.710. `phacDoKhop` hiện ra để người đọc tự thấy phép khớp tên
+			    đúng hay trật, vì đó là chỗ dễ vu oan nhất của nhánh này. */}
+			{hoSo.huyet?.length > 0 && (
+				<div style={{ ...KHUNG_O, background: "#fff", marginTop: 8 }}>
+					<div style={{ fontSize: 13, marginBottom: 4 }}>
+						<b>Phương huyệt ({hoSo.huyet.length})</b>{" "}
+						<span style={{ color: "#666" }}>
+							khớp qua: {(hoSo.phacDoKhop ?? []).map((p) => `${p.ten} (${p.soHuyet})`).join(" · ") || "—"}
+						</span>
+					</div>
+					<div style={{ fontSize: 13 }}>
+						{hoSo.huyet.slice(0, 16).map((h, i) => (
+							<span key={`${h.ten}-${i}`}>
+								{i > 0 && " · "}
+								{h.duong ? (
+									<a href={`${TRANG_GOC}${h.duong}`} target="_blank" rel="noopener noreferrer">{h.ten}</a>
+								) : (
+									<span title="Chưa tra ra slug trang huyệt trong CMS">{h.ten}</span>
+								)}
+								<span style={{ color: "#6b7280" }}>
+									{h.ma ? ` ${h.ma}` : ""}{h.kinh ? ` · ${h.kinh}` : ""}{h.soNguonDan ? ` · ${h.soNguonDan} nguồn` : ""}
+								</span>
+							</span>
+						))}
+					</div>
+				</div>
+			)}
+
+			{/* HAI đường đo kinh độc lập nhau. Để cạnh nhau chính là ý đáng viết: chỗ hai bảng
+			    gặp nhau là chỗ thuốc và huyệt cùng nói một đường kinh. */}
+			{(hoSo.kinhTheoHuyet?.length > 0 || hoSo.kinhTheoViThuoc?.length > 0) && (
+				<div style={{ fontSize: 13, marginTop: 6, color: "#374151" }}>
+					{hoSo.kinhTheoHuyet?.length > 0 && (
+						<div>Kinh của huyệt: {hoSo.kinhTheoHuyet.slice(0, 6).map((k) => `${k.ten} (${k.so})`).join(" · ")}</div>
+					)}
+					{hoSo.kinhTheoViThuoc?.length > 0 && (
+						<div>Quy kinh của vị thuốc: {hoSo.kinhTheoViThuoc.slice(0, 6).map((k) => `${k.ten} (${k.so})`).join(" · ")}</div>
+					)}
+				</div>
+			)}
 
 			<div style={{ marginTop: 10, display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
 				{daCo ? (
@@ -1152,6 +1344,7 @@ function GioCum({ ten, mo, ds, mau, hienHoSo, cumMo, hoSo, hoSoLoi, dangTai, onG
 					<tr>
 						<th style={o}>Cụm</th>
 						<th style={o}>Tháp</th>
+						<th style={o}>Huyệt</th>
 						<th style={o}>Trang mình</th>
 						<th style={o} />
 					</tr>
@@ -1162,6 +1355,13 @@ function GioCum({ ten, mo, ds, mau, hienHoSo, cumMo, hoSo, hoSoLoi, dangTai, onG
 							<tr>
 								<td style={o}><b>{x.ten}</b>{x.lyDo && <div style={{ color: "#92400e", fontSize: 12 }}>⚠ {x.lyDo}</div>}</td>
 								<td style={o}>{x.soBai} bài · {x.soVi} vị</td>
+								<td style={o}>
+									{x.soHuyet ? (
+										<span title={(x.khopTen ?? []).join(" · ")}>{x.soHuyet} huyệt{x.soKinh ? ` · ${x.soKinh} kinh` : ""}</span>
+									) : (
+										<span style={{ color: "#9ca3af" }}>—</span>
+									)}
+								</td>
 								<td style={o}>
 									{x.daCo ? (
 										<a href={`${TRANG_GOC}/${x.bo === "benh_hoc" ? "benh-hoc" : "cham-cuu-tri-benh"}/${x.slug}/`} target="_blank" rel="noopener noreferrer">đã có</a>
@@ -1179,7 +1379,7 @@ function GioCum({ ten, mo, ds, mau, hienHoSo, cumMo, hoSo, hoSoLoi, dangTai, onG
 							    bảng 25 dòng là hồ sơ hiện ngoài tầm nhìn, trông y như nút không ăn. */}
 							{cumMo === x.ten && (
 								<tr>
-									<td style={{ ...o, background: "#fafafa" }} colSpan={4}>
+									<td style={{ ...o, background: "#fafafa" }} colSpan={5}>
 										{hoSoLoi ? (
 											<div style={{ color: "#b91c1c" }}>{hoSoLoi}</div>
 										) : (
@@ -1285,6 +1485,253 @@ function KhoangTrongTab({ dl, loi, onTai, onSangTab }) {
 	);
 }
 
+// ---- Tab Radar: gọn lại (02/10/2026) ----
+//
+// Bỏ bảng "Khoảng trống" cũ (bộ `cum` tính bằng luật): tab Khoảng trống đo theo chiều cao tháp
+// đã thay nó, để hai bảng cạnh nhau thì người dùng không biết tin bảng nào. Thay bằng một dòng
+// dẫn sang tab đó — cùng lối liên thông với các tab khác.
+//
+// Nhật ký ca rút từ 9 cột còn 4: thứ cần liếc là ca nào, lúc nào, làm được bao nhiêu, có lỗi
+// không. Chi tiết nằm trong dòng mở rộng.
+function ODo({ so, nhan, mau }) {
+	return (
+		<div style={{ border: "1px solid #e5e5e5", borderRadius: 8, padding: "8px 12px", minWidth: 0, background: "#fff" }}>
+			<div style={{ fontSize: 20, fontWeight: 700, color: mau, fontVariantNumeric: "tabular-nums" }}>{so}</div>
+			<div style={{ fontSize: 12, color: "#6b7280" }}>{nhan}</div>
+		</div>
+	);
+}
+
+/** Thanh tiến trình gọn — chỉ vẽ khi biết TỔNG, không thì một thanh chạy mãi nói dối. */
+function Thanh({ da, tong }) {
+	if (!tong) return null;
+	const pt = Math.min(100, Math.round((da / tong) * 100));
+	return (
+		<div style={{ height: 6, background: "#e5e7eb", borderRadius: 999, overflow: "hidden", minWidth: 90 }}>
+			<div style={{ width: `${pt}%`, height: "100%", background: "#15803d" }} />
+		</div>
+	);
+}
+
+const PHA = { "thu-thap": "đang lấy sitemap", trich: "đang trích chữ", doc: "đang đọc bằng model", xong: "đang kết ca" };
+
+/** Dòng tiến độ của ca đang chạy. `tienDo` chỉ có khi máy chủ báo có ca (xem KHOA_TIEN_DO). */
+function TienDoCa({ td }) {
+	if (!td) return null;
+	const ten = PHA[td.pha] ?? td.pha;
+	return (
+		<span style={{ display: "inline-flex", alignItems: "center", gap: 8, color: "#92400e", fontSize: 13 }}>
+			{td.site ? `${td.site}: ` : ""}{ten}
+			{td.tong ? ` ${td.da}/${td.tong}` : ""}
+			{td.soSite > 1 ? ` · site ${td.siteSo}/${td.soSite}` : ""}
+			<Thanh da={td.da} tong={td.tong} />
+		</span>
+	);
+}
+
+function DongCa({ c }) {
+	const [mo, setMo] = useState(false);
+	const ten =
+		c.loai === "indexnow"
+			? c.kieu === "go"
+				? "IndexNow (gỡ)"
+				: "IndexNow (đăng)"
+			: c.loai === "claude"
+				? "Đọc trang"
+				: // Ca một site phải NÓI TÊN SITE: nhật ký toàn dòng "Ca radar" thì không ai phân biệt
+					// được lượt bấm cho VinMEC với ca đêm chạy cả kho.
+					c.tenMien
+					? `Ca riêng · ${c.tenMien}`
+					: c.ghi
+						? "Ca radar (cả kho)"
+						: "Chạy thử";
+	const lam = [
+		c.soUrlMoi ? `${c.soUrlMoi} URL mới` : "",
+		c.soSitemapDaDoc ? `${c.soSitemapDaDoc} sitemap đọc xong` : "",
+		c.soSitemapBoQua ? `${c.soSitemapBoQua} sitemap đã có trong sổ` : "",
+		c.soTrich ? `${c.soTrich} trang trích` : "",
+		c.loai === "claude" && c.soDoc ? `${c.soDoc} trang đọc` : "",
+		c.soDocAi ? `${c.soDocAi} trang đọc bằng model` : "",
+		c.soCum ? `${c.soCum} cụm` : "",
+		c.soDoLai ? `${c.soDoLai} phiên đo lại` : "",
+	].filter(Boolean);
+	const coLoi = (c.loi ?? []).length > 0;
+	const coTin = (c.thongTin ?? []).length > 0;
+	return (
+		<>
+			<tr>
+				<td style={o}>{gio(c.batDau)}</td>
+				<td style={o}>{ten}</td>
+				<td style={o}>{lam.join(" · ") || "—"}</td>
+				<td style={o}>
+					{coLoi ? <span style={{ color: "#b91c1c" }}>{(c.loi ?? []).length} lỗi</span> : <span style={{ color: "#15803d" }}>✓</span>}
+					{(coLoi || coTin) && (
+						<Nut onClick={() => setMo(!mo)} style={{ fontSize: 11, padding: "2px 6px", marginLeft: 6 }}>{mo ? "▾" : "▸"}</Nut>
+					)}
+				</td>
+			</tr>
+			{mo && (
+				<tr>
+					<td colSpan={4} style={{ ...o, background: "#fafafa", fontSize: 12 }}>
+						{(c.loi ?? []).map((x, k) => (
+							<div key={`l${k}`} style={{ color: "#b91c1c" }}>{x}</div>
+						))}
+						{/* thongTin: điều ca cố ý bỏ qua (vd chưa cấu hình Search Console) — không phải lỗi. */}
+						{(c.thongTin ?? []).map((x, k) => (
+							<div key={`t${k}`} style={{ color: "#6b7280" }}>{x}</div>
+						))}
+					</td>
+				</tr>
+			)}
+		</>
+	);
+}
+
+function RadarTab({ dl, loi, thongBao, lichRadar, form, setForm, onTai, onLam, onSangTab, onLuuDoiThu }) {
+	// Ca chạy NỀN ở máy chủ: không tự tải lại thì bảng đứng im suốt vài phút và trông như hỏng.
+	// 5 giây, khớp với hạn đệm đếm URL (10 s) ở máy chủ: cứ hai nhịp thì một nhịp có số mới, nhịp
+	// kia gần như không tốn gì. Nhanh hơn nữa chỉ làm kẹt cái pool max:1 mà số vẫn y nguyên.
+	useEffect(() => {
+		if (!dl.dangChay) return;
+		const h = setInterval(onTai, 5000);
+		return () => clearInterval(h);
+	}, [dl.dangChay, onTai]);
+	const tong = (k) => dl.doiThu.reduce((n, d) => n + (d.dem?.[k] ?? 0), 0);
+	const caCuoi = (dl.ca ?? []).find((c) => c.loai === "radar" && c.ghi);
+	return (
+		<div>
+			<OTinhTrang ds={dl.tinhTrang} />
+			{thongBao && <p style={{ color: "#15803d", fontWeight: 600 }}>{thongBao}</p>}
+			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
+
+			{/* Số đo thật của kho, thay cho các dòng cảnh báo rời rạc trước đây. */}
+			<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 8, margin: "10px 0 14px", maxWidth: 900 }}>
+				<ODo so={dl.doiThu.length} nhan="đối thủ theo dõi" />
+				<ODo so={tong("cho").toLocaleString("vi-VN")} nhan="URL chờ trích" mau="#92400e" />
+				<ODo so={tong("da_phan_tich").toLocaleString("vi-VN")} nhan="trang đã đọc" mau="#15803d" />
+				<ODo so={dl.choAi} nhan="chờ model đọc" mau={dl.choAi > 80 ? "#b91c1c" : undefined} />
+				<ODo so={tong("ngoai_nganh").toLocaleString("vi-VN")} nhan="ngoài ngành" />
+				<ODo so={caCuoi ? gio(caCuoi.batDau).split(" ")[1] ?? "—" : "—"} nhan="ca radar gần nhất" />
+			</div>
+			{dl.demTuDem && (
+				// "Số không nhúc nhích" khác hẳn "số đứng yên vì ca chưa làm gì" — nói ra để khỏi
+				// phải đoán. Đệm 10 giây, nhịp tải lại 5 giây.
+				<div style={{ fontSize: 12, color: "#9ca3af", margin: "-8px 0 10px" }}>Số URL lấy từ bản đệm (làm mới mỗi 10 giây).</div>
+			)}
+
+			{dl.canhBaoCaDem && <p style={{ color: "#b91c1c", fontWeight: 600 }}>⚠ Hơn 26 giờ chưa có ca radar thành công — xem nhật ký bên dưới.</p>}
+			{dl.canhBaoClaude && (
+				<p style={{ color: "#b91c1c", fontWeight: 600 }}>
+					⚠ {dl.choAi} trang chờ đọc mà 26 giờ qua chưa đọc được trang nào — kiểm GRAVITY_API_KEY trong cms/.env
+					và hạn mức của khoá.
+				</p>
+			)}
+			{!dl.caDemBat && <p style={{ color: "#92400e", fontSize: 13 }}>Máy này không bật RADA_SEO_CA_DEM: chỉ chạy thử được, ca đêm thật chạy trên VPS.</p>}
+
+			<div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 16 }}>
+				{/* Cron dò MỖI GIỜ, chỉ chạy ca ở tick 19:30 UTC (xem LICH_RADAR) → nextRunAt là tick kế, không phải ca kế. */}
+				<span style={{ fontSize: 13, color: "#6b7280" }}>
+					Lịch đêm: {lichRadar ? `02:30 hằng ngày · tick kế ${gio(lichRadar.nextRunAt)}` : "chưa bật"}
+				</span>
+				<Nut chinh={!lichRadar} onClick={() => onLam("lich-bat")}>{lichRadar ? "Hẹn lại" : "Bật lịch"}</Nut>
+				<Nut disabled={dl.dangChay} onClick={() => onLam("ca-chay", { ghi: false }).then(() => setTimeout(onTai, 2000))}>Chạy thử</Nut>
+				<Nut chinh disabled={dl.dangChay || !dl.caDemBat} onClick={() => onLam("ca-chay", { ghi: true }).then(() => setTimeout(onTai, 2000))}>Chạy thật</Nut>
+				<Nut onClick={onTai}>Tải lại</Nut>
+				{dl.dangChay && (dl.tienDo ? <TienDoCa td={dl.tienDo} /> : <span style={{ color: "#92400e" }}>· đang chạy…</span>)}
+			</div>
+
+			<h3 style={{ margin: "0 0 6px" }}>Đối thủ</h3>
+			<form onSubmit={(e) => { e.preventDefault(); onLuuDoiThu(); }} style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 8 }}>
+				<input placeholder="tên miền, vd vinmec.com" value={form.tenMien} onChange={(e) => setForm({ ...form, tenMien: e.target.value })} style={{ width: 200 }} />
+				<input placeholder="tên hiển thị" value={form.ten} onChange={(e) => setForm({ ...form, ten: e.target.value })} style={{ width: 150 }} />
+				<label style={{ fontSize: 13 }}>
+					<input type="checkbox" checked={form.laCuaMinh} onChange={(e) => setForm({ ...form, laCuaMinh: e.target.checked })} /> site của mình
+				</label>
+				<Nut chinh type="submit">Thêm</Nut>
+			</form>
+			{/* Tiến độ THEO SITE: lịch đêm chạy chung cả kho, nên bảng này phải tự nói site nào
+			    xong tới đâu, và mỗi dòng có nút chạy riêng. Luồng URL: chờ trích → chờ đọc →
+			    đã đọc (ngoài ngành / lỗi là hai lối ra). */}
+			<table style={{ borderCollapse: "collapse", width: "100%", maxWidth: 1000, marginBottom: 18 }}>
+				<thead>
+					<tr>
+						<th style={o}>Tên miền</th><th style={o}>Chờ trích</th><th style={o}>Chờ đọc</th><th style={o}>Đã đọc</th>
+						<th style={o}>Ngoài ngành</th><th style={o}>Lỗi</th><th style={o}>Tiến độ</th><th style={o} />
+					</tr>
+				</thead>
+				<tbody>
+					{dl.doiThu.map((d) => {
+						const m = d.dem ?? {};
+						const xong = (m.da_phan_tich ?? 0) + (m.ngoai_nganh ?? 0) + (m.loi ?? 0);
+						const tongUrl = xong + (m.cho ?? 0) + (m.cho_ai ?? 0);
+						const dangLam = dl.tienDo?.site === d.id;
+						return (
+							<tr key={d.id} style={dangLam ? { background: "#fffbeb" } : undefined}>
+								<td style={o}>{d.ten} {d.laCuaMinh && <b style={{ color: "#1d4ed8" }}>(của mình)</b>}</td>
+								<td style={o}>{m.cho ?? 0}</td>
+								<td style={o}>{m.cho_ai ?? 0}</td>
+								<td style={o}>{m.da_phan_tich ?? 0}</td>
+								<td style={o}>{m.ngoai_nganh ?? 0}</td>
+								<td style={o}>{m.loi || "—"}</td>
+								<td style={o}>
+									{tongUrl ? (
+										<>
+											{/* Mẫu số là URL ĐÃ BIẾT, không phải cả site: mỗi ca đào sâu thêm nên số này còn tăng. */}
+											<div style={{ fontSize: 12, color: "#6b7280" }}>{xong}/{tongUrl} URL đã biết</div>
+											<Thanh da={xong} tong={tongUrl} />
+										</>
+									) : (
+										<span style={{ color: "#6b7280", fontSize: 12 }}>chưa quét</span>
+									)}
+									{dangLam && <div style={{ fontSize: 12, color: "#92400e" }}>{PHA[dl.tienDo.pha] ?? dl.tienDo.pha}{dl.tienDo.tong ? ` ${dl.tienDo.da}/${dl.tienDo.tong}` : ""}</div>}
+								</td>
+								<td style={o}>
+									<Nut
+										chinh
+										disabled={dl.dangChay || !dl.caDemBat}
+										onClick={() => onLam("ca-chay", { ghi: true, tenMien: d.id }).then(() => setTimeout(onTai, 1500))}
+										style={{ fontSize: 12, padding: "3px 8px" }}
+										title={dl.caDemBat ? `Quét, trích và đọc riêng ${d.id}` : "Máy này không bật RADA_SEO_CA_DEM"}
+									>
+										Chạy
+									</Nut>{" "}
+									{d.dem.loi > 0 && <Nut onClick={() => onLam("url-dat-lai", { tenMien: d.id })} style={{ fontSize: 12, padding: "3px 8px" }}>Thử lại</Nut>}{" "}
+									<Nut onClick={() => confirm(`Xoá ${d.id} và mọi URL của nó?`) && onLam("doi-thu-xoa", { tenMien: d.id })} style={{ fontSize: 12, padding: "3px 8px" }}>Xoá</Nut>
+								</td>
+							</tr>
+						);
+					})}
+				</tbody>
+			</table>
+			<p style={{ color: "#6b7280", fontSize: 13, margin: "-10px 0 18px" }}>
+				Nút <b>Chạy</b> ở mỗi dòng chỉ làm việc của site đó: lấy sitemap, trích chữ, đọc bằng model.
+				Các việc toàn kho (dò xu hướng, tính lại khoảng trống, chiến lược tuần, đo lại leo top) vẫn thuộc ca đêm và nút “Chạy thật” ở trên.
+			</p>
+
+			{/* Bảng cụm cũ (tính bằng luật) đã bỏ: tab Khoảng trống đo theo chiều cao tháp thay nó. */}
+			<div style={{ ...KHUNG_O, display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap", marginBottom: 18 }}>
+				<span style={{ fontSize: 13 }}>
+					Chủ đề đối thủ đã đọc được dùng ở <b>tab Khoảng trống</b> (đo theo chiều cao tháp) và <b>tab Hướng nội dung</b> (657 cụm ngữ nghĩa).
+				</span>
+				<Nut onClick={() => onSangTab("khoang-trong")}>Mở Khoảng trống</Nut>
+				<Nut onClick={() => onSangTab("huong")}>Mở Hướng nội dung</Nut>
+			</div>
+
+			<h3 style={{ margin: "0 0 6px" }}>Nhật ký ca</h3>
+			<table style={{ borderCollapse: "collapse", width: "100%", maxWidth: 900 }}>
+				<thead>
+					<tr><th style={o}>Lúc</th><th style={o}>Ca</th><th style={o}>Làm được</th><th style={o}>Kết quả</th></tr>
+				</thead>
+				<tbody>
+					{(dl.ca ?? []).map((c) => (
+						<DongCa key={`${c.batDau}-${c.loai}-${c.kieu ?? ""}-${c.slug ?? ""}`} c={c} />
+					))}
+				</tbody>
+			</table>
+		</div>
+	);
+}
+
 function RadaSeo() {
 	const [dl, setDl] = useState(null);
 	const [loi, setLoi] = useState("");
@@ -1322,8 +1769,16 @@ function RadaSeo() {
 		taiLT();
 		taiNh();
 	}, [tai, taiCL, taiLT, taiNh]);
-	const lam = (route, body) => goi(route, body).then(tai, (e) => setLoi(loiCua(e)));
-	const lamCL = (route, body) => goi(route, body).then(taiCL, (e) => setCLoi(loiCua(e)));
+	// ⚠️ Mọi nút đều là "gọi route rồi tải lại cả màn", và lượt tải lại đó đi qua CSDL dùng chung
+	// (pool max:1, RTT 98,9 ms). Không có dấu hiệu BẬN thì người bấm thấy màn đứng im và bấm tiếp
+	// — mỗi lần bấm thêm là thêm một lượt tải lại nữa xếp hàng sau.
+	const [dangBan, setDangBan] = useState(false);
+	const banTrongKhi = (p) => {
+		setDangBan(true);
+		return p.finally(() => setDangBan(false));
+	};
+	const lam = (route, body) => banTrongKhi(goi(route, body).then(tai, (e) => setLoi(loiCua(e))));
+	const lamCL = (route, body) => banTrongKhi(goi(route, body).then(taiCL, (e) => setCLoi(loiCua(e))));
 
 	const doiTab = (t) => {
 		setTab(t);
@@ -1358,118 +1813,35 @@ function RadaSeo() {
 						{t.label}
 					</Nut>
 				))}
+				{dangBan && <span style={{ color: "#92400e", fontSize: 13 }}>⏳ đang xử lý…</span>}
 			</p>
 
 			{tab === "radar" &&
 				(!dl ? (
 					<ChuaCoDuLieu loi={loi} />
 				) : (
-					<>
-						<OTinhTrang ds={dl.tinhTrang} />
-						{thongBao && <p style={{ color: "#15803d", fontWeight: 600 }}>{thongBao}</p>}
-						{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
-						{dl.canhBaoCaDem && <p style={{ color: "#b91c1c", fontWeight: 600 }}>⚠ Hơn 26 giờ chưa có ca radar thành công — xem nhật ký bên dưới.</p>}
-						{dl.canhBaoClaude && (
-							<p style={{ color: "#b91c1c", fontWeight: 600 }}>
-								⚠ {dl.choAi} trang chờ Gravity đọc mà 26 giờ qua Gravity chưa đọc trang nào — khả năng: routine
-								không chạy (xem lịch sử chạy ở claude.ai/code/routines), khoá RADA_SEO_MCP_TOKEN sai/thu hồi/hết
-								hạn, hoặc môi trường routine chặn mạng tới kinhlac.online.
-							</p>
-						)}
-						{!dl.caDemBat && <p style={{ color: "#92400e" }}>Máy này không bật RADA_SEO_CA_DEM: chỉ chạy thử được, ca đêm thật chạy trên VPS.</p>}
-						<p>
-							{/* Cron dò MỖI GIỜ và chỉ chạy ca ở tick 19:30 UTC (xem LICH_RADAR) → nextRunAt là tick kế, không phải ca kế. */}
-							Lịch đêm: {lichRadar ? `02:30 hằng ngày (cron dò mỗi giờ) · tick kế ${gio(lichRadar.nextRunAt)} · tick trước ${gio(lichRadar.lastRunAt)}` : "chưa bật"}{" "}
-							<Nut chinh={!lichRadar} onClick={() => lam("lich-bat")}>{lichRadar ? "Hẹn lại" : "Bật lịch"}</Nut>{" "}
-							<Nut disabled={dl.dangChay} onClick={() => lam("ca-chay", { ghi: false }).then(() => setTimeout(tai, 2000))}>Chạy thử</Nut>{" "}
-							<Nut chinh disabled={dl.dangChay || !dl.caDemBat} onClick={() => lam("ca-chay", { ghi: true }).then(() => setTimeout(tai, 2000))}>Chạy thật</Nut>{" "}
-							{dl.dangChay && "· đang chạy…"} <Nut onClick={tai}>Tải lại</Nut>
-						</p>
-
-						<h2>Đối thủ</h2>
-						<form
-							onSubmit={(e) => {
-								e.preventDefault();
-								goi("doi-thu-luu", form).then(
-									(r) => {
-										setForm({ tenMien: "", ten: "", laCuaMinh: false });
-										setThongBao(r?.caDauTien ? "Đã bắt đầu ca radar đầu tiên — vài phút nữa bấm “Tải lại”." : "");
-										tai();
-										// Ca đầu vừa thả chạy nền: tải lại sau chốc lát để thấy "đang chạy".
-										if (r?.caDauTien) setTimeout(tai, 2000);
-									},
-									(e) => setLoi(loiCua(e)),
-								);
-							}}
-						>
-							<input placeholder="tên miền, vd vinmec.com" value={form.tenMien} onChange={(e) => setForm({ ...form, tenMien: e.target.value })} />{" "}
-							<input placeholder="tên hiển thị" value={form.ten} onChange={(e) => setForm({ ...form, ten: e.target.value })} />{" "}
-							<label>
-								<input type="checkbox" checked={form.laCuaMinh} onChange={(e) => setForm({ ...form, laCuaMinh: e.target.checked })} /> site của mình
-							</label>{" "}
-							<Nut chinh type="submit">Lưu</Nut>
-						</form>
-						<table style={{ borderCollapse: "collapse", width: "100%", marginTop: 8 }}>
-							<thead>
-								<tr><th style={o}>Tên miền</th><th style={o}>Chờ trích</th><th style={o}>Chờ Gravity đọc</th><th style={o}>Đã phân tích</th><th style={o}>Ngoài ngành</th><th style={o}>Lỗi</th><th style={o}></th></tr>
-							</thead>
-							<tbody>
-								{dl.doiThu.map((d) => (
-									<tr key={d.id}>
-										<td style={o}>{d.ten} {d.laCuaMinh && <b>(của mình)</b>}</td>
-										<td style={o}>{d.dem.cho}</td><td style={o}>{d.dem.cho_ai}</td><td style={o}>{d.dem.da_phan_tich}</td><td style={o}>{d.dem.ngoai_nganh}</td><td style={o}>{d.dem.loi}</td>
-										<td style={o}>
-												{d.dem.loi > 0 && <Nut onClick={() => lam("url-dat-lai", { tenMien: d.id })}>Thử lại URL lỗi</Nut>}{" "}
-												<Nut onClick={() => confirm(`Xoá ${d.id} và mọi URL của nó?`) && lam("doi-thu-xoa", { tenMien: d.id })}>Xoá</Nut>
-											</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-
-						<h2>Khoảng trống ({dl.cum.length})</h2>
-						<table style={{ borderCollapse: "collapse", width: "100%" }}>
-							<thead>
-								<tr><th style={o}>Điểm</th><th style={o}>Cụm chủ đề</th><th style={o}>Từ khoá</th><th style={o}>Đối thủ / bài</th><th style={o}>Trạng thái</th><th style={o}></th></tr>
-							</thead>
-							<tbody>
-								{dl.cum.map((c) => (
-									<tr key={c.id} style={{ opacity: c.trangThai === "bo_qua" ? 0.5 : 1 }}>
-										<td style={o}>{c.diem}{c.coXuHuong && " 📈"}{c.viPham && " ⚠"}</td>
-										<td style={o}>{c.tenCum}</td>
-										<td style={o}>{(c.tuKhoa ?? []).join(", ")}</td>
-										<td style={o}>{c.soDoiThu} / {c.soBai}</td>
-										<td style={o}>{NHAN_CUM[c.trangThai] ?? c.trangThai}</td>
-										<td style={o}>
-											{c.trangThai === "cho_viet" && <Nut onClick={() => lam("cum-trang-thai", { id: c.id, trangThai: "bo_qua" })}>Bỏ qua</Nut>}
-											{c.trangThai === "bo_qua" && <Nut onClick={() => lam("cum-trang-thai", { id: c.id, trangThai: "cho_viet" })}>Khôi phục</Nut>}
-										</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-						<p style={{ fontSize: 12, color: "#666" }}>📈 trúng xu hướng tìm kiếm · ⚠ nghiêng chữa trị / hứa kết quả (bị trừ điểm)</p>
-
-						<h2>Nhật ký ca</h2>
-						<table style={{ borderCollapse: "collapse", width: "100%" }}>
-							<thead>
-								<tr><th style={o}>Bắt đầu</th><th style={o}>Ca</th><th style={o}>URL mới</th><th style={o}>Trích / Gravity đọc</th><th style={o}>Ngoài ngành</th><th style={o}>Cụm</th><th style={o}>Đo lại leo top</th><th style={o}>Lỗi</th><th style={o}>Thông tin</th></tr>
-							</thead>
-							<tbody>
-								{dl.ca.map((c) => (
-									<tr key={`${c.batDau}-${c.loai}-${c.kieu ?? ""}-${c.slug ?? ""}`}>
-										<td style={o}>{gio(c.batDau)}</td><td style={o}>{c.loai === "indexnow" ? (c.kieu === "go" ? "IndexNow (gỡ bài)" : "IndexNow (đăng bài)") : c.loai === "claude" ? "Gravity đọc" : c.ghi ? "radar" : "radar (thử)"}</td>
-										<td style={o}>{c.soUrlMoi ?? "—"}</td><td style={o}>{c.loai === "claude" ? c.soDoc : c.soTrich ?? "—"}</td><td style={o}>{c.soNgoaiNganh ?? "—"}</td>
-										<td style={o}>{c.soCum ?? "—"}</td>
-										<td style={o}>{c.soDoLai ?? "—"}</td>
-										<td style={{ ...o, color: "#b91c1c" }}>{(c.loi ?? []).join(" · ")}</td>
-										{/* thongTin: điều ca cố ý bỏ qua (vd chưa cấu hình Search Console) — không phải lỗi. */}
-										<td style={{ ...o, color: "#6b7280" }}>{(c.thongTin ?? []).join(" · ")}</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</>
+					<RadarTab
+						dl={dl}
+						loi={loi}
+						thongBao={thongBao}
+						lichRadar={lichRadar}
+						form={form}
+						setForm={setForm}
+						onTai={tai}
+						onLam={lam}
+						onSangTab={doiTab}
+						onLuuDoiThu={() =>
+							goi("doi-thu-luu", form).then(
+								(r) => {
+									setForm({ tenMien: "", ten: "", laCuaMinh: false });
+									setThongBao(r?.caDauTien ? "Đã bắt đầu ca radar đầu tiên — vài phút nữa bấm “Tải lại”." : "");
+									tai();
+									if (r?.caDauTien) setTimeout(tai, 2000);
+								},
+								(e) => setLoi(loiCua(e)),
+							)
+						}
+					/>
 				))}
 
 			{tab === "huong" && <CumNguNghiaTab dl={cnDl} loi={cnLoi} onTai={taiCN} onSangTab={doiTab} />}
@@ -1504,6 +1876,7 @@ function RadaSeo() {
 					loi={ltLoi}
 					onTai={taiLT}
 					onDaSua={(id, ngay) => goi("leo-top-da-sua", { id, ngay }).then(taiLT, (e) => setLtLoi(loiCua(e)))}
+					onSangTab={doiTab}
 				/>
 			)}
 

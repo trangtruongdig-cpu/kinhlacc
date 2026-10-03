@@ -66,7 +66,44 @@ export async function dsDoiThu(s) {
 /** Khoá tự nhiên là tên miền → thêm lại cùng tên miền chỉ cập nhật. */
 export async function luuDoiThu(s, { tenMien, ten, laCuaMinh }, now) {
 	const cu = await s.doi_thu.get(tenMien);
-	await s.doi_thu.put(tenMien, { tenMien, ten: ten || tenMien, laCuaMinh: !!laCuaMinh, taoLuc: cu?.taoLuc ?? now });
+	// GIỮ `smDaDoc`: đó là sổ đào sâu sitemap, mất nó là radar quay lại quét 300 URL mới nhất.
+	await s.doi_thu.put(tenMien, {
+		tenMien,
+		ten: ten || tenMien,
+		laCuaMinh: !!laCuaMinh,
+		taoLuc: cu?.taoLuc ?? now,
+		...(cu?.smDaDoc ? { smDaDoc: cu.smDaDoc } : {}),
+	});
+}
+
+/** Sổ sitemap con đã đọc xong của một đối thủ: `{ [url]: { lastmod, luc, soUrl } }`. */
+export async function soSitemap(s, tenMien) {
+	return (await s.doi_thu.get(tenMien))?.smDaDoc ?? {};
+}
+
+/**
+ * Ghi thêm vào sổ sitemap đã đọc; `conSot` (đọc dở vì chạm trần URL) bị XOÁ khỏi sổ để ca sau
+ * đọc lại. Trần MỤC để sổ không phình vô hạn trên site có hàng nghìn sitemap con — bỏ mục cũ
+ * nhất, chúng chỉ tốn một lượt đọc lại.
+ */
+export async function ghiSoSitemap(s, tenMien, { daDoc = [], conSot = [] }, now = Date.now(), tranMuc = 2000) {
+	const d = await s.doi_thu.get(tenMien);
+	if (!d) return 0;
+	const so = { ...(d.smDaDoc ?? {}) };
+	for (const x of conSot) delete so[x];
+	for (const { loc, lastmod, soUrl } of daDoc) so[loc] = { lastmod: lastmod ?? null, luc: now, soUrl };
+	const muc = Object.entries(so);
+	const giu = muc.length > tranMuc ? muc.sort((a, b) => (b[1].luc ?? 0) - (a[1].luc ?? 0)).slice(0, tranMuc) : muc;
+	await s.doi_thu.put(tenMien, { ...d, smDaDoc: Object.fromEntries(giu) });
+	return giu.length;
+}
+
+/** Lọc ra URL CHƯA có trong kho (một lượt getMany cho cả lô). */
+export async function locUrlMoi(s, urls) {
+	if (!urls.length) return [];
+	const ids = urls.map(idUrl);
+	const daCo = await s.url.getMany(ids);
+	return urls.filter((_u, i) => !daCo.has(ids[i]));
 }
 
 export async function xoaDoiThu(s, tenMien) {
@@ -119,6 +156,35 @@ export async function datLaiUrlLoi(s, tenMien, { nghi } = {}) {
  */
 export const TRANG_THAI_URL = ["cho", "cho_ai", "da_phan_tich", "ngoai_nganh", "loi"];
 
+/**
+ * Đếm URL theo trạng thái cho TẤT CẢ đối thủ, có ĐỆM trong KV.
+ *
+ * ⚠️ Vì sao phải đệm: pool CSDL của CMS là `max: 1` (xem astro.config.mjs — Aiven chỉ còn ~7
+ * slot), nên mọi truy vấn xếp hàng trên MỘT kết nối; song song hoá không nhanh hơn một mili
+ * giây nào. RTT tới Aiven đo được **98,9 ms**, mà `demUrl` là 5 lượt đếm cho mỗi đối thủ — 7
+ * đối thủ là 35 lượt ≈ **3,5 giây cho MỖI lần bấm nút**, vì nút nào cũng gọi lại `tong-quan`.
+ *
+ * Đệm là số đo CHẬM vài giây, không phải số đo sai: bảng URL chỉ đổi khi có ca chạy, và lúc đó
+ * màn hình tự tải lại theo nhịp. Hạn ngắn hơn nhịp tải lại thì vẫn thấy số nhúc nhích.
+ */
+export const HAN_DEM_URL_MS = 10_000;
+export async function demUrlTatCa(s, kv, dsTenMien, { hanMs = HAN_DEM_URL_MS, now = Date.now() } = {}) {
+	const khoa = "dem:url";
+	try {
+		const cu = await kv.get(khoa);
+		// Đổi danh sách đối thủ (thêm/xoá) thì đệm cũ vô nghĩa — so khoá chứ không chỉ so mốc.
+		if (cu && now - cu.luc < hanMs && cu.khoaDoiThu === dsTenMien.join("|")) return { dem: cu.dem, tuDem: true };
+	} catch {
+		// KV hỏng thì vẫn đếm được, chỉ là chậm — không để nó làm sập cả màn điều khiển.
+	}
+	const dem = {};
+	for (const t of dsTenMien) dem[t] = await demUrl(s, t);
+	try {
+		await kv.set(khoa, { luc: now, khoaDoiThu: dsTenMien.join("|"), dem });
+	} catch {}
+	return { dem, tuDem: false };
+}
+
 export async function demUrl(s, tenMien) {
 	const ra = {};
 	for (const t of TRANG_THAI_URL) ra[t] = await s.url.count({ doiThuId: tenMien, trangThai: t });
@@ -139,17 +205,20 @@ export async function layUrlChoAi(s, n) {
  * - Trang đã giao `soLanToiDa` lần ở các đêm trước mà vẫn 'cho_ai' → 'loi', bỏ `chu`. Không
  *   có bước này thì một trang Claude không bao giờ xử lý được sẽ đứng đầu hàng đợi mãi.
  * - Trang được chọn đóng dấu `giaoDem` và `soLanGiao + 1`.
+ * - `doiThuId`: chỉ lấy trang của đúng site đó (ca chạy riêng cho một site).
  * Storage không lọc được "khác", nên quét 'cho_ai' theo trang rồi lọc trong bộ nhớ; ghi dồn
  * SAU khi quét để việc đổi trạng thái không làm lệch con trỏ phân trang.
  * @returns {Promise<{trang: {id: string, url: string, doiThuId: string, chu: string}[], soChuyenLoi: number}>}
  */
-export async function chonUrlChoAi(s, n, { ngay, soLanToiDa }) {
+export async function chonUrlChoAi(s, n, { ngay, soLanToiDa, doiThuId }) {
 	const chon = [], loi = [];
 	if (n <= 0) return { trang: [], soChuyenLoi: 0 };
 	const lo = Math.min(100, n * 5);
+	// doiThuId: ca chạy cho MỘT site chỉ đọc trang của site đó (có index kép ["doiThuId","trangThai"]).
+	const dieu = doiThuId ? { doiThuId, trangThai: "cho_ai" } : { trangThai: "cho_ai" };
 	let cursor;
 	do {
-		const r = await s.url.query({ where: { trangThai: "cho_ai" }, limit: lo, cursor });
+		const r = await s.url.query({ where: dieu, limit: lo, cursor });
 		for (const x of r.items) {
 			const d = x.data;
 			if (d.giaoDem === ngay) continue;

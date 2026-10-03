@@ -936,3 +936,41 @@ test("cron: giờ lò viết trên máy KHÔNG bật ca đêm thì im lặng, kh
 	assert.equal(ctx.storage.ca._m.size, 0);
 	assert.equal(ctx._log.length, 0);
 }));
+
+test("tong-quan KHÔNG đếm URL lại cho mỗi lần bấm — pool CSDL của CMS là max:1", async () => {
+	// Vì sao có phép kiểm này: mọi nút trên màn đều "gọi route rồi tải lại tong-quan". Mỗi đối
+	// thủ tốn 5 lượt đếm, RTT tới Aiven đo được 98,9 ms, và pool là max:1 nên chúng xếp hàng —
+	// 7 đối thủ là ~3,5 giây cho MỖI lần bấm. Đệm ở `demUrlTatCa` cắt phần đó.
+	const p = createPlugin();
+	const ctx = taoCtx();
+	ctx.kv = taoKvGia();
+	for (const t of ["a.vn", "b.vn", "c.vn"]) await kho.luuDoiThu(ctx.storage, { tenMien: t }, "t");
+	let soDem = 0;
+	const dem = ctx.storage.url.count.bind(ctx.storage.url);
+	ctx.storage.url.count = (w) => (soDem++, dem(w));
+
+	await p.routes["tong-quan"].handler(ctx);
+	const lan1 = soDem;
+	assert.ok(lan1 >= 3 * 5, `lượt đầu phải đếm thật: ${lan1}`);
+	await p.routes["tong-quan"].handler(ctx);
+	// Lượt hai chỉ còn các phép đếm KHÔNG đệm được (choAi, da_phan_tich) — đó là hai con số
+	// phải chính xác, xem ghi chú trong route.
+	assert.ok(soDem - lan1 <= 3, `lượt hai chỉ được thêm vài phép đếm, thực tế thêm ${soDem - lan1}`);
+	assert.equal((await p.routes["tong-quan"].handler(ctx)).demTuDem, true);
+});
+
+test("tong-quan: 10 dòng nhật ký là phần đầu của 100 dòng canh cảnh báo, không đọc hai lần", async () => {
+	const p = createPlugin();
+	const ctx = taoCtx();
+	ctx.kv = taoKvGia();
+	for (let i = 0; i < 12; i++) {
+		const luc = new Date(Date.now() - i * 60_000).toISOString();
+		await kho.ghiCa(ctx.storage, { loai: "radar", batDau: luc, ketThuc: luc, ghi: true, soSeTrich: 1, loi: [] });
+	}
+	let soHoi = 0;
+	const q = ctx.storage.ca.query.bind(ctx.storage.ca);
+	ctx.storage.ca.query = (o) => (soHoi++, q(o));
+	const kq = await p.routes["tong-quan"].handler(ctx);
+	assert.equal(kq.ca.length, 10);
+	assert.equal(soHoi, 1, "hỏi bảng nhật ký hai lần là tốn thêm một vòng mạng cho đúng dữ liệu đó");
+});

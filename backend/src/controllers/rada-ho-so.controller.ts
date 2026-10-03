@@ -61,6 +61,53 @@ export function veCua(phap: string): string[] {
     .filter((x) => x.length >= 4);
 }
 
+/**
+ * Khớp tên cụm vào một TÊN CÓ KIỂM SOÁT (tên bệnh `benh_dong_y.tieuket`, tên phác đồ
+ * `phac_do_chuan.ten`) — đường duy nhất đưa HUYỆT vào tháp, vì `huyet_vi` không có bảng nối
+ * nào tới `chu_tri` (đo 03/10/2026: 445 huyệt, 0 bảng nối; chủ trị của huyệt nằm trong văn
+ * xuôi `tac_dung`, mà `tac_dung` của huyệt là PHÁP TRỊ — "Thanh thần trí, cố biểu" — chứ không
+ * phải chứng trạng).
+ *
+ * Khớp theo DÃY TỪ LIỀN NHAU sau khi bỏ dấu, không phải `includes` trên chuỗi: "đau lưng" ⊂
+ * "Yêu thống (bệnh đau lưng)" ✓, "tiêu chảy" ⊂ "Viêm ruột / Tiêu chảy / Kiết lỵ" ✓, nhưng
+ * "ho" KHÔNG được khớp "hô hấp".
+ *
+ * ⚠️ **PHẢI CÓ ÍT NHẤT HAI TỪ.** Đây là luật đắt nhất ở đây, và nó có vì số đo chứ không vì
+ * lo xa. Đo 03/10/2026 khi cho cụm một từ được khớp: cụm "Ung nhọt, Lở loét & Da liễu" nhận
+ * **98 huyệt** qua đúng một chủ trị "Phong" — khớp vào "Trúng Phong (Kẹt Động Mạch Não)",
+ * "Thể Phong đàm", "Âm hư động phong". "Phong" trong da liễu là phong ngứa, không phải trúng
+ * phong; bài da liễu sẽ mọc ra một mục phương huyệt chữa tai biến. "Viêm" cũng vậy: nó trúng
+ * mọi phác đồ "Viêm ...". Hai từ trở lên thì "Yêu Thống" → "Yêu thống (bệnh đau lưng)" ✓ và
+ * "huyết ứ" → "Thể Huyết ứ" ✓ vẫn chạy, còn "Phong" và "Viêm" bị loại.
+ *
+ * `TOI_THIEU_KY_TU` giữ thêm cho trường hợp hai từ mà đều rất ngắn.
+ */
+const TOI_THIEU_KY_TU = 4;
+const TOI_THIEU_TU = 2;
+
+const tachTu = (s: unknown): string[] => boDau(s).replace(/[^a-z0-9]+/g, ' ').trim().split(' ').filter(Boolean);
+
+export function khopTenNhuCau(cum: string, ten: string): boolean {
+  const a = tachTu(cum);
+  const b = tachTu(ten);
+  if (a.length < TOI_THIEU_TU || !b.length || a.join('').length < TOI_THIEU_KY_TU) return false;
+  for (let i = 0; i + a.length <= b.length; i++) if (a.every((t, k) => b[i + k] === t)) return true;
+  return false;
+}
+
+export interface HuyetTrongHoSo {
+  ten: string;
+  ma: string | null;
+  kinh: string | null;
+  vaiTro: string | null;
+  soNguonDan: number;
+}
+export interface KinhTrongHoSo {
+  ten: string;
+  maSo: string | null;
+  so: number;
+}
+
 export interface ViTrongHoSo {
   ten: string;
   id: number | null;
@@ -86,6 +133,13 @@ export interface HoSoCum {
   viHayDung: ViTrongHoSo[];
   nguonYVan: { ten: string; duong: string; nienDai: string | null; soBaiDan: number }[];
   loThung: { ten: string; soBaiDung: number }[];
+  /** Huyệt rút từ phác đồ châm cứu của cụm — nhánh thứ hai của tháp, cạnh nhánh thuốc. */
+  huyet: HuyetTrongHoSo[];
+  /** Tên bệnh / phác đồ đã khớp. Hiện ra để người đọc tự thấy phép khớp đúng hay sai. */
+  phacDoKhop: { ten: string; nguon: 'benh' | 'phac_do'; soHuyet: number }[];
+  /** Kinh của các huyệt trên, và quy kinh của các vị thuốc — HAI đường đo độc lập. */
+  kinhTheoHuyet: KinhTrongHoSo[];
+  kinhTheoViThuoc: KinhTrongHoSo[];
   canhBao: string[];
 }
 
@@ -107,7 +161,7 @@ export class RadaHoSoService {
    * `@Cron` và `sse.service` (xem CLAUDE.md, mục Deployment).
    */
   private static readonly HAN_DEM_MS = 10 * 60 * 1000;
-  private demUngVien: { khoa: string; luc: number; ds: { ten: string; soVi: number; soBai: number; thap: number }[] } | null = null;
+  private demUngVien: { khoa: string; luc: number; ds: Awaited<ReturnType<RadaHoSoService['ungVien']>> } | null = null;
   private demCum: { khoa: string; luc: number; ds: Awaited<ReturnType<RadaHoSoService["cumNguNghia"]>> } | null = null;
 
   /**
@@ -255,7 +309,12 @@ export class RadaHoSoService {
     // "Sinh địa thán", "Sinh địa trấp", "Can địa hoàng".
     const loThung = viHayDung.filter((v) => !v.duong && v.soBaiDung >= 3).slice(0, 10).map((v) => ({ ten: v.ten, soBaiDung: v.soBaiDung }));
 
+    // Nhánh huyệt + kinh. Chạy SAU khi đã có `demVi` (cần id vị thuốc để lấy quy kinh).
+    const nhanhHuyet = await this.huyetVaKinh(bt, [...new Set([...demVi.values()].map((v) => v.id).filter((x): x is number => x != null))]);
+
     if (!bai.length) canhBao.push('Không có bài thuốc nào khớp cụm — kiểm lại biến thể từ vựng Đông y.');
+    if (!nhanhHuyet.huyet.length)
+      canhBao.push('Không có phác đồ châm cứu nào mang tên cụm này — nhánh huyệt của tháp rỗng (chỉ 110 tên bệnh và 139 phác đồ có huyệt).');
     if (!theBenh.length && bai.length) canhBao.push('Có bài thuốc nhưng không rút được thể bệnh nào từ pháp trị.');
     if (!nguon.length && bai.length) canhBao.push('Không có nguồn y văn nào nối với các bài thuốc này.');
 
@@ -268,6 +327,7 @@ export class RadaHoSoService {
       viHayDung: viHayDung.filter((v) => v.duong).slice(0, 12),
       nguonYVan: nguon.map((n) => ({ ten: n.ten, duong: `/nguon/${n.slug}/`, nienDai: n.nien_dai, soBaiDan: Number(n.so) })),
       loThung,
+      ...nhanhHuyet,
       canhBao,
     };
   }
@@ -281,7 +341,20 @@ export class RadaHoSoService {
    * `ungVien` (xem HAN_DEM_MS).
    */
   async cumNguNghia(toiThieuThap = 20): Promise<
-    { id: number; ten: string; slug: string; moTa: string | null; soChuTri: number; soVi: number; soBai: number; thap: number; chuTri: string[] }[]
+    {
+      id: number;
+      ten: string;
+      slug: string;
+      moTa: string | null;
+      soChuTri: number;
+      soVi: number;
+      soBai: number;
+      soHuyet: number;
+      soKinh: number;
+      khopQua: { chuTri: string; ten: string; soHuyet: number }[];
+      thap: number;
+      chuTri: string[];
+    }[]
   > {
     const khoa = `cum:${toiThieuThap}`;
     if (this.demCum && this.demCum.khoa === khoa && Date.now() - this.demCum.luc < RadaHoSoService.HAN_DEM_MS) return this.demCum.ds;
@@ -313,11 +386,17 @@ export class RadaHoSoService {
       cum.set(r.id, c);
     }
 
-    // Một bài thuốc chỉ đếm MỘT lần cho mỗi cụm, dù khớp nhiều chủ trị của cụm đó.
+    // Một bài thuốc chỉ đếm MỘT lần cho mỗi cụm, dù khớp nhiều chủ trị của cụm đó. Huyệt cũng
+    // vậy, và phải gộp bằng Set: cụm có 17 chủ trị thì một huyệt dễ trúng nhiều chủ trị cùng lúc.
+    const banDoHuyet = await this.huyetTheoTen();
     const ds = [...cum.values()]
       .map((c) => {
         const khoaCum = [...new Set(c.chuTri.map((x) => x.khoa))];
         const soBai = kho.filter((x) => khoaCum.some((k) => x.includes(k))).length;
+        const { soHuyet, soKinh, khopQua } = this.gopHuyet(
+          c.chuTri.map((x) => x.ten),
+          banDoHuyet,
+        );
         return {
           id: c.id,
           ten: c.ten,
@@ -326,7 +405,11 @@ export class RadaHoSoService {
           soChuTri: c.chuTri.length,
           soVi: c.soVi,
           soBai,
-          thap: c.soVi + soBai,
+          soHuyet,
+          soKinh,
+          // Xếp theo số huyệt giảm dần: dòng kéo nhiều huyệt nhất là dòng đáng soi trước.
+          khopQua: [...khopQua].sort((a, b) => b.soHuyet - a.soHuyet).slice(0, 8),
+          thap: c.soVi + soBai + soHuyet,
           chuTri: c.chuTri.map((x) => x.ten).slice(0, 12),
         };
       })
@@ -337,13 +420,176 @@ export class RadaHoSoService {
   }
 
   /**
+   * Tên bệnh / tên phác đồ → TẬP huyệt và TẬP kinh của nó. 110 + 139 tên, chừng 1.800 cạnh —
+   * nhỏ và ít đổi, nên đệm chung một hạn với `ungVien`.
+   *
+   * ⚠️ Trả TẬP chứ không trả số đếm. Một huyệt nằm trong nhiều phác đồ của cùng một cụm là
+   * chuyện thường (Túc Tam Lý có mặt khắp nơi); cộng số đếm của từng phác đồ là đếm nó nhiều
+   * lần và thổi tháp lên — đo thật: "Khí hư" khớp 9 phác đồ, cộng dồn ra 103 huyệt.
+   */
+  private demHuyetTheoTen: { luc: number; ds: { ten: string; huyet: number[]; kinh: number[] }[] } | null = null;
+  private async huyetTheoTen(): Promise<{ ten: string; huyet: number[]; kinh: number[] }[]> {
+    if (this.demHuyetTheoTen && Date.now() - this.demHuyetTheoTen.luc < RadaHoSoService.HAN_DEM_MS) return this.demHuyetTheoTen.ds;
+    const hang: { ten: string; id_huyet: number; id_kinh_mach: number | null }[] = await this.dataSource.query(
+      `SELECT b.tieuket AS ten, p.id_huyet, h.id_kinh_mach
+         FROM benh_dong_y b JOIN phac_do_dieu_tri p ON p.id_benh = b.id JOIN huyet_vi h ON h.id_huyet = p.id_huyet
+        WHERE b.tieuket IS NOT NULL
+       UNION ALL
+       SELECT c.ten, x.id_huyet, h.id_kinh_mach
+         FROM phac_do_chuan c JOIN phac_do_chuan_huyet x ON x.id_phac_do_chuan = c.id JOIN huyet_vi h ON h.id_huyet = x.id_huyet
+        WHERE c.ten IS NOT NULL`,
+    );
+    const theo = new Map<string, { huyet: Set<number>; kinh: Set<number> }>();
+    for (const r of hang) {
+      const o = theo.get(r.ten) ?? { huyet: new Set<number>(), kinh: new Set<number>() };
+      o.huyet.add(Number(r.id_huyet));
+      if (r.id_kinh_mach != null) o.kinh.add(Number(r.id_kinh_mach));
+      theo.set(r.ten, o);
+    }
+    const ds = [...theo].map(([ten, o]) => ({ ten, huyet: [...o.huyet], kinh: [...o.kinh] }));
+    this.demHuyetTheoTen = { luc: Date.now(), ds };
+    return ds;
+  }
+
+  /**
+   * Gộp tập huyệt/kinh của MỌI tên khớp với bất kỳ cách gọi nào trong `cach`.
+   * Gộp bằng Set — xem ghi chú ở `huyetTheoTen`.
+   */
+  private gopHuyet(cach: string[], banDo: { ten: string; huyet: number[]; kinh: number[] }[]) {
+    const huyet = new Set<number>();
+    const kinh = new Set<number>();
+    const khopTen: string[] = [];
+    const khopQua: { chuTri: string; ten: string; soHuyet: number }[] = [];
+    for (const t of banDo) {
+      // ⚠️ Ghi lại CẢ HAI ĐẦU của phép khớp. Cụm ngữ nghĩa gom tới 17 chủ trị, nên một chủ trị
+      // lạc vào cụm là kéo trọn phác đồ của nó sang — đo 03/10/2026: cụm "Ung nhọt, Lở loét &
+      // Da liễu" nhận 98 huyệt qua "Trúng Phong" và "Gout (Thống phong)". Không ghi lại đầu
+      // CHỦ TRỊ thì con số 98 trông như sự thật và không ai lần ngược được.
+      const qua = cach.find((c) => khopTenNhuCau(c, t.ten));
+      if (!qua) continue;
+      khopTen.push(t.ten);
+      khopQua.push({ chuTri: qua, ten: t.ten, soHuyet: t.huyet.length });
+      for (const h of t.huyet) huyet.add(h);
+      for (const k of t.kinh) kinh.add(k);
+    }
+    return { soHuyet: huyet.size, soKinh: kinh.size, khopTen, khopQua };
+  }
+
+  /**
+   * Nhánh HUYỆT + KINH của tháp. Trước 03/10/2026 hồ sơ chỉ có thuốc, nên trên một site Đông y
+   * có 445 huyệt và 18 đường kinh, KHÔNG cụm huyệt nào có thể thành khoảng trống — xem ghi chú
+   * ở `khopTenNhuCau`.
+   *
+   * Hai đường vào, cả hai đều là KHOÁ NGOẠI thật, không đoán:
+   *   phác đồ điều trị (`benh_dong_y` → `phac_do_dieu_tri`) và phác đồ chuẩn (`phac_do_chuan`).
+   * Chỉ phép khớp TÊN BỆNH ↔ TÊN CỤM là so chữ, và nó so hai danh mục ngắn có kiểm soát
+   * (110 + 139 tên), không so vào văn xuôi.
+   *
+   * @param idVi id vị thuốc đang có mặt trong các bài thuốc của cụm — để lấy quy kinh.
+   */
+  private async huyetVaKinh(
+    bt: string[],
+    idVi: number[],
+  ): Promise<Pick<HoSoCum, 'huyet' | 'phacDoKhop' | 'kinhTheoHuyet' | 'kinhTheoViThuoc'>> {
+    const [benh, phacDo]: [{ id: number; ten: string }[], { id: number; ten: string }[]] = await Promise.all([
+      this.dataSource.query(`SELECT id, tieuket AS ten FROM benh_dong_y WHERE tieuket IS NOT NULL`),
+      this.dataSource.query(`SELECT id, ten FROM phac_do_chuan WHERE ten IS NOT NULL`),
+    ]);
+    const hop = (ds: { id: number; ten: string }[]) => ds.filter((x) => bt.some((c) => khopTenNhuCau(c, x.ten)));
+    const benhKhop = hop(benh);
+    const phacDoKhop = hop(phacDo);
+    if (!benhKhop.length && !phacDoKhop.length)
+      return { huyet: [], phacDoKhop: [], kinhTheoHuyet: [], kinhTheoViThuoc: await this.kinhCuaVi(idVi) };
+
+    type Hang = { id_huyet: number; ten_huyet: string; ma_huyet: string | null; kinh: string | null; vai_tro: string | null; tu: number };
+    const hang: Hang[] = [];
+    if (benhKhop.length)
+      hang.push(
+        ...(await this.dataSource.query(
+          `SELECT h.id_huyet, h.ten_huyet, h.ma_huyet, k.ten_kinh_mach AS kinh, p.vai_tro_huyet AS vai_tro, p.id_benh AS tu
+             FROM phac_do_dieu_tri p
+             JOIN huyet_vi h ON h.id_huyet = p.id_huyet
+             LEFT JOIN kinh_mach k ON k.id_kinh_mach = h.id_kinh_mach
+            WHERE p.id_benh = ANY($1)`,
+          [benhKhop.map((x) => x.id)],
+        )),
+      );
+    if (phacDoKhop.length)
+      hang.push(
+        ...(await this.dataSource.query(
+          `SELECT h.id_huyet, h.ten_huyet, h.ma_huyet, k.ten_kinh_mach AS kinh, c.vai_tro_huyet AS vai_tro, c.id_phac_do_chuan AS tu
+             FROM phac_do_chuan_huyet c
+             JOIN huyet_vi h ON h.id_huyet = c.id_huyet
+             LEFT JOIN kinh_mach k ON k.id_kinh_mach = h.id_kinh_mach
+            WHERE c.id_phac_do_chuan = ANY($1)`,
+          [phacDoKhop.map((x) => x.id)],
+        )),
+      );
+
+    // Nguồn y văn đứng sau từng huyệt (`nguon_huyet`, 2.505 cạnh) — chiều cao tháp của nhánh này.
+    const idH = [...new Set(hang.map((h) => h.id_huyet))];
+    const demNguon = new Map<number, number>();
+    if (idH.length)
+      for (const r of (await this.dataSource.query(
+        `SELECT huyet_id, COUNT(*)::int AS n FROM nguon_huyet WHERE huyet_id = ANY($1) GROUP BY 1`,
+        [idH],
+      )) as { huyet_id: number; n: number }[])
+        demNguon.set(Number(r.huyet_id), Number(r.n));
+
+    const theoHuyet = new Map<number, HuyetTrongHoSo>();
+    const demKinh = new Map<string, number>();
+    for (const h of hang) {
+      if (!theoHuyet.has(h.id_huyet))
+        theoHuyet.set(h.id_huyet, {
+          ten: h.ten_huyet,
+          ma: h.ma_huyet,
+          // ⚠️ KHÔNG dựng đường `/huyet/...` ở đây. Trang huyệt tĩnh khoá theo SLUG TÊN
+          // ("Á Môn" → /huyet/a-mon/), và slug đó do CMS giữ — có cả bản khử trùng
+          // ("a-huyet-1", "a-huyet-2"). Suy slug từ tên ở phía backend là đoán, mà đoán trật
+          // thì sinh link chết trong bài viết. Plugin tra slug thật trong bộ CMS rồi gắn.
+          kinh: h.kinh,
+          vaiTro: h.vai_tro,
+          soNguonDan: demNguon.get(Number(h.id_huyet)) ?? 0,
+        });
+      if (h.kinh) demKinh.set(h.kinh, (demKinh.get(h.kinh) ?? 0) + 1);
+    }
+    const demTheoPhacDo = (ds: { id: number; ten: string }[], nguon: 'benh' | 'phac_do') =>
+      ds.map((x) => ({ ten: x.ten, nguon, soHuyet: new Set(hang.filter((h) => h.tu === x.id).map((h) => h.id_huyet)).size }));
+
+    return {
+      huyet: [...theoHuyet.values()].sort((a, b) => b.soNguonDan - a.soNguonDan).slice(0, 24),
+      phacDoKhop: [...demTheoPhacDo(benhKhop, 'benh'), ...demTheoPhacDo(phacDoKhop, 'phac_do')].sort((a, b) => b.soHuyet - a.soHuyet),
+      kinhTheoHuyet: [...demKinh].map(([ten, so]) => ({ ten, maSo: null, so })).sort((a, b) => b.so - a.so),
+      kinhTheoViThuoc: await this.kinhCuaVi(idVi),
+    };
+  }
+
+  /**
+   * Quy kinh của các vị thuốc trong cụm — đường đo kinh ĐỘC LẬP với đường huyệt. Hai bảng
+   * xếp cạnh nhau chính là thứ đáng viết: "thuốc quy kinh Phế, huyệt cũng nằm trên kinh Phế".
+   */
+  private async kinhCuaVi(idVi: number[]): Promise<KinhTrongHoSo[]> {
+    if (!idVi.length) return [];
+    const r: { ten: string; ky_hieu: string | null; n: number }[] = await this.dataSource.query(
+      `SELECT k.ten_kinh_mach AS ten, k.ky_hieu_quoc_te AS ky_hieu, COUNT(*)::int AS n
+         FROM vi_thuoc_kinh_mach v JOIN kinh_mach k ON k.id_kinh_mach = v.id_kinh_mach
+        WHERE v.id_vi_thuoc = ANY($1) GROUP BY 1, 2 ORDER BY n DESC`,
+      [idVi],
+    );
+    return r.map((x) => ({ ten: x.ten, maSo: x.ky_hieu, so: Number(x.n) }));
+  }
+
+  /**
    * Ứng viên khoảng trống: chủ trị có THÁP DÀY. Lọc "đã có trang nhắm nhu cầu" là việc của
    * plugin (nó biết các bộ CMS); ở đây chỉ đo tháp.
    *
    * Đếm vị thuốc bằng bảng nối (nhanh), đếm bài thuốc bằng một lượt quét duy nhất trong Node —
    * subquery ILIKE theo từng dòng chủ trị là 3.588 lượt quét toàn bảng, đã đo quá 120 giây.
    */
-  async ungVien(toiThieuVi = 8, toiThieuThap = 25): Promise<{ ten: string; soVi: number; soBai: number; thap: number }[]> {
+  async ungVien(
+    toiThieuVi = 8,
+    toiThieuThap = 25,
+  ): Promise<{ ten: string; soVi: number; soBai: number; soHuyet: number; soKinh: number; thap: number; khopTen: string[] }[]> {
     const khoa = `${toiThieuVi}:${toiThieuThap}`;
     if (this.demUngVien && this.demUngVien.khoa === khoa && Date.now() - this.demUngVien.luc < RadaHoSoService.HAN_DEM_MS)
       return this.demUngVien.ds;
@@ -358,11 +604,18 @@ export class RadaHoSoService {
       `SELECT tac_dung FROM phuong_thang WHERE tac_dung IS NOT NULL`,
     );
     const kho = tacDung.map((r) => boDau(r.tac_dung));
+    const banDoHuyet = await this.huyetTheoTen();
     const ds = ct
       .map((r) => {
         const k = boDau(r.ten_chu_tri);
         const soBai = kho.filter((x) => x.includes(k)).length;
-        return { ten: r.ten_chu_tri, soVi: Number(r.n), soBai, thap: Number(r.n) + soBai };
+        // ⚠️ `soKinh` KHÔNG cộng vào tháp: cả kho chỉ có 18 đường kinh nên nó gần như là hằng
+        // số — cộng vào chỉ làm mọi con số to lên đều nhau mà thứ tự không đổi. Nó ở đây để
+        // người đọc biết cụm chạm tới mấy đường kinh, không phải để xếp hạng.
+        // `khopTen` hiện ra trên màn: phép khớp tên là chỗ dễ vu oan nhất của nhánh này, nên
+        // người đọc phải thấy được NÓ ĐÃ KHỚP VÀO ĐÂU mà không phải mở CSDL.
+        const { soHuyet, soKinh, khopTen } = this.gopHuyet([r.ten_chu_tri], banDoHuyet);
+        return { ten: r.ten_chu_tri, soVi: Number(r.n), soBai, soHuyet, soKinh, thap: Number(r.n) + soBai + soHuyet, khopTen: khopTen.slice(0, 6) };
       })
       .filter((x) => x.thap >= toiThieuThap)
       .sort((a, b) => b.thap - a.thap);

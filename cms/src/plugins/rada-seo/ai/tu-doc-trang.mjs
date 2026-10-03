@@ -71,7 +71,7 @@ export const loiNhac = () =>
  * @returns {Promise<{daDoc: number, daGhi: number, loi: number, boQua: number, luotGoi: number,
  *   soLo: number, conTrongHangCho: number, ghiChu: string[]}>}
  */
-export async function tuDocTrang({ s, kv, goiModel, log, nowMs = Date.now(), soTrang = TRAN_MOI_CA, nghiMs = NGHI_GIUA_LUOT_MS, layViec = layViecThat, ghiPhanTich = ghiPhanTichThat }) {
+export async function tuDocTrang({ s, kv, goiModel, log, nowMs = Date.now(), soTrang = TRAN_MOI_CA, nghiMs = NGHI_GIUA_LUOT_MS, layViec = layViecThat, ghiPhanTich = ghiPhanTichThat, doiThuId }) {
 	const ra = { daDoc: 0, daGhi: 0, loi: 0, boQua: 0, luotGoi: 0, soLo: 0, conTrongHangCho: 0, ghiChu: [] };
 	if (!goiModel?.coCauHinh?.()) {
 		const thieu = goiModel?.thieuCauHinh?.() ?? ["goiModel"];
@@ -90,7 +90,7 @@ export async function tuDocTrang({ s, kv, goiModel, log, nowMs = Date.now(), soT
 			hetHanMuc = true;
 			break;
 		}
-		const viec = await layViec({ s, kv, nowMs, soTrang: conLai });
+		const viec = await layViec({ s, kv, nowMs, soTrang: conLai, doiThuId });
 		ra.conTrongHangCho = viec.conTrongHangCho ?? 0;
 		if (!viec.trang?.length) {
 			// Chỉ nói "trống/chạm trần" khi chưa lấy được lô nào — hết hàng đợi giữa ca là bình

@@ -909,6 +909,141 @@ tỉ lệ lên (1/1 = 100% mà chẳng nói gì), và bảng rỗng nói rõ là
 `ban-do.mjs` dựng; khớp chuỗi để chia nhỏ sẽ hỏng IM LẶNG ngay lần đầu ai sửa diễn đạt — và
 hỏng theo kiểu tệ nhất: bảng vẫn ra số, chỉ là số của nhóm rỗng.
 
+### Ca radar chạy cho MỘT site (03/10/2026)
+
+Nút **Chạy** ở từng dòng đối thủ → `ca-chay` kèm `tenMien` → `chayCaRadar({ chiTenMien })`.
+
+- Ca một site **BỎ các khâu toàn kho**: dò xu hướng, tính lại khoảng trống, chiến lược tuần, đo
+  lại hạng leo top. Chúng đọc dữ liệu của MỌI đối thủ; chạy chúng trong một ca hẹp thì số vẫn
+  đúng nhưng nhật ký đọc ra như thể site đó sinh ra chúng. Ca đêm vẫn làm đủ.
+- **Khâu đọc bằng model phải lọc theo `doiThuId`** (`chonUrlChoAi` có index kép
+  `["doiThuId","trangThai"]`). Thiếu nó thì bấm "chạy cho VinMEC" lại đi đọc trang Medlatec và
+  bảng tiến độ của VinMEC đứng im — hỏng kiểu không ai nghi ngờ.
+- Tiến độ ghi vào KV `ca:tien-do` (pha · site · da/tong), **xoá ở `finally`** cùng chỗ nhả khoá;
+  `tong-quan` chỉ trả nó khi thật sự có ca đang chạy, không thì bản ghi sót làm màn hình báo
+  "đang chạy" mãi. Lượt báo tiến độ ném lỗi **không được làm đứt ca** (`baoAnToan`).
+- Màn điều khiển tự tải lại mỗi 4 s khi có ca — ca chạy nền, không có nhịp này thì bảng đứng im
+  vài phút và trông như hỏng.
+
+Phép kiểm: `node --test cms/src/plugins/rada-seo/ca-radar.test.mjs mcp-viec.test.mjs`.
+
+### Đào sâu sitemap — trần 300 URL từng là trần của CẢ KHO (03/10/2026)
+
+`thuThapUrl` cũ luôn trả về **đúng 300 URL mới nhất**, nên ca đêm thứ hai trở đi gom lại y
+nguyên danh sách cũ và `themUrlMoi` đếm 0. Kho đứng ở 300 trang/đối thủ vĩnh viễn, và không
+chỗ nào báo: nhật ký ghi "0 URL mới" trông hệt như "đối thủ không đăng bài mới".
+
+⚠️ **Số đo thật 03/10/2026: `vinmec.com` có 35.710 URL trong sitemap** (39 sitemap con sau khi
+`phanLoaiSitemap` bỏ 138 cái). Kho đang giữ 300 — tức **0,84%**.
+
+Hai thứ chữa nó, phải có CẢ HAI:
+
+- **`locMoi`** — URL đã trong kho không ăn vào trần, nên mỗi ca lấy 300 (nay 1.000) URL THẬT SỰ
+  mới. Lọc theo LÔ (`getMany` một lượt mỗi sitemap), không hỏi lẻ từng URL.
+- **Sổ `smDaDoc`** trong bản ghi `doi_thu` — sitemap con đã đọc xong kèm `lastmod`. Ca sau bỏ
+  qua chúng và đi tiếp xuống phần chưa đọc. Không có sổ thì trần `tranSitemap` giữ radar quanh
+  quẩn ở 15 sitemap mới nhất.
+
+⚠️ **Chỉ ghi sổ khi MỌI URL mới của sitemap đó lọt qua lát cắt `tranUrl`.** Cắt mất một phần rồi
+vẫn ghi "đã đọc xong" là bỏ rơi phần đó vĩnh viễn — `conSot` xoá nó khỏi sổ để ca sau đọc lại.
+⚠️ **Ca CHẠY THỬ không được ghi sổ** (nó không ghi URL): ca thật sau đó sẽ tưởng đã đọc xong
+những sitemap mà kho chưa có lấy một URL.
+⚠️ Sitemap **GỐC** (robots, /sitemap.xml, /sitemap_index.xml) luôn đọc lại — đó là chỗ bài mới
+xuất hiện. Sổ chỉ áp cho sitemap CON trong một index; index không khai `lastmod` thì đọc lại
+theo `HAN_DOC_LAI_MS` (7 ngày).
+
+Trần mới: `TRAN_SITEMAP = 40`, `TRAN_URL = 1000` mỗi ca mỗi đối thủ (đè bằng
+`RADA_SEO_TRAN_SITEMAP` / `RADA_SEO_TRAN_URL`).
+
+⚠️ **Đào sâu KHÔNG tự thành chủ đề.** Nút thắt kế tiếp là khâu đọc: trích 30 trang/đối thủ/ca,
+model đọc `TRAN_TRANG_MOI_DEM = 40` trang/đêm, và `NGUONG_HANG_CHO = 80` làm ngừng trích khi
+hàng chờ đầy. Thêm 35.000 URL vào kho là thêm BẢN ĐỒ, không phải thêm chủ đề đã đọc.
+
+⚠️ **Và đừng suy "đối thủ lớn thì có nội dung ngách".** Đo cùng lượt: trong 35.710 URL của
+vinmec chỉ có **4** URL về châm cứu/bấm huyệt, 42 về Đông y; 270 URL chứa "huyet" là **huyết áp
+/ sốt xuất huyết / huyết học** — slug bỏ dấu nên "huyệt" và "huyết" trộn làm một. Đếm bằng chuỗi
+`huyet` là vu oan hàng loạt.
+
+### Nhánh HUYỆT + KINH của tháp (03/10/2026)
+
+Trước đó `ungVien()` chỉ đếm `vi_thuoc_chu_tri` và `phuong_thang.tac_dung` — tháp **chỉ gồm vị
+thuốc và bài thuốc**, nên trên một site Đông y có 445 huyệt và 18 đường kinh, **không cụm huyệt
+nào có thể thành khoảng trống**. Đó là lý do thật của câu "hơn 300 huyệt mà chưa ra khoảng trống
+huyệt nào", không phải radar quét nông.
+
+⚠️ **`huyet_vi` KHÔNG có bảng nối nào tới `chu_tri`** (chỉ `vi_thuoc_chu_tri`,
+`nhom_nho_chu_tri`, `kl_seo_semantic_chu_tri` nối tới nó), và `huyet_vi.tac_dung` là **PHÁP TRỊ**
+("Thanh thần trí, cố biểu, giải nhiệt") chứ không phải chứng trạng — khớp chuỗi chủ trị vào đó
+là vu oan.
+
+Đường vào là **phác đồ**, hai bảng, cả hai đều là khoá ngoại thật:
+
+| Đường | Cạnh | Tên để khớp |
+|---|---|---|
+| `benh_dong_y` → `phac_do_dieu_tri` | 684 (58 bệnh · 200 huyệt) | `benh_dong_y.tieuket` (110 tên) |
+| `phac_do_chuan` → `phac_do_chuan_huyet` | 1.116 (180 huyệt) | `phac_do_chuan.ten` (139 tên) |
+
+Chỉ phép khớp TÊN CỤM ↔ TÊN BỆNH là so chữ (`khopTenNhuCau`), và nó so hai danh mục NGẮN có
+kiểm soát, không so vào văn xuôi: khớp theo **dãy từ liền nhau** sau khi bỏ dấu, nên "đau lưng"
+⊂ "Yêu thống (bệnh đau lưng)" ✓ còn "ho" ⊄ "hô hấp".
+
+⚠️ **CHỦ TRỊ MỘT TỪ KHÔNG BAO GIỜ KHỚP** (`TOI_THIEU_TU = 2`) — luật đắt nhất ở đây, và nó có vì
+số đo. Lượt đầu cho một từ khớp: cụm **"Ung nhọt, Lở loét & Da liễu" nhận 98 huyệt qua đúng một
+chủ trị "Phong"**, khớp vào "Trúng Phong (Kẹt Động Mạch Não)", "Thể Phong đàm", "Âm hư động
+phong" — "phong" trong da liễu là phong ngứa, nên bài da liễu sẽ mọc ra mục phương huyệt chữa
+tai biến. "Viêm" cũng trúng mọi phác đồ "Viêm …". Siết xuống hai từ: 70 → **62 cụm** có huyệt,
+và các cụm còn lại khớp đúng ("Yêu Thống" → yêu thống, "huyết ứ" → thể huyết ứ, "Bán thân bất
+toại" → di chứng nhồi máu não).
+
+⚠️ **Gộp bằng SET, không cộng số đếm**: cụm ngữ nghĩa gom tới 17 chủ trị nên một huyệt dễ trúng
+nhiều phác đồ cùng lúc (Túc Tam Lý có mặt khắp nơi).
+
+⚠️ **Hiện CẢ HAI ĐẦU của phép khớp** (`khopQua`: chủ trị nào → phác đồ nào, mấy huyệt), ngay trên
+bảng chứ không giấu trong tooltip. Một chủ trị lạc vào cụm là kéo trọn phác đồ của nó sang; giấu
+đi thì con số trông như sự thật và không ai lần ngược được. Đang còn một chỗ như thế và nó là lỗi
+PHÂN CỤM chứ không phải lỗi phép khớp: "Yêu Thống" nằm trong cụm "Vị trí và triệu chứng đặc thù
+(Đau đầu, nhiệt, vị quản)".
+
+Nhánh này có ở CẢ BA chỗ: hồ sơ cụm (`huyet`, `phacDoKhop`, `kinhTheoHuyet`, `kinhTheoViThuoc`),
+`ungVien` (tab Khoảng trống) và `cumNguNghia` (tab Hướng nội dung) — thiếu chỗ nào là chỗ đó vẫn
+báo "không có huyệt". **Hai bảng kinh đo
+độc lập nhau** (kinh của huyệt ← `huyet_vi.id_kinh_mach`; quy kinh của vị ← `vi_thuoc_kinh_mach`)
+— chỗ chúng gặp nhau là ý đáng viết, chỗ lệch thì nói là lệch. Số đo thật: "mất ngủ" 27 huyệt
+(Tam Âm Giao SP6 ×8 nguồn, Dũng Tuyền, Nội Quan), "đau lưng" 71 huyệt (Ủy Trung BL40 ×11 nguồn),
+"tiêu chảy" 12 huyệt.
+
+⚠️ `soKinh` KHÔNG cộng vào `thap`: cả kho chỉ có 18 đường kinh nên nó gần như hằng số — cộng vào
+chỉ làm mọi số to lên đều nhau mà thứ tự không đổi.
+
+⚠️ **Backend KHÔNG dựng đường `/huyet/...`.** Trang huyệt khoá theo slug TÊN và CMS giữ cả bản
+khử trùng (`trung-chu`, `trung-chu-2`); suy slug ở backend là đoán, đoán trật là link chết trong
+bài đã đăng. Plugin tra slug thật trong bộ CMS `huyet_vi` (`napSlugHuyet`, đệm 10 phút) và mọi
+chỗ đưa hồ sơ cho lò viết đi qua `layHoSoCoDuong`.
+
+⚠️ **Tra bằng MÃ WHO trước, TÊN sau.** Bỏ dấu thanh làm "Trung Chú" (KI15) và "Trung Chử" (TE3)
+thành một. Số đo trên 445 huyệt: mã 351 · rơi xuống tên 75 · không ra 19 → **426/445 (96%)**, so
+với 406 (91%) nếu chỉ tra tên. Có đúng một chỗ hai đường lệch nhau — Thông Cốc (BL66): mã →
+`thong-coc-ii`, tên → `thong-coc` (của KI20) — tức mã đúng, tên sai. Khoá trùng thì bỏ cả hai.
+
+Lời nhắc viết bài chỉ dặn mục phương huyệt KHI hồ sơ có huyệt (dặn suông thì model bịa huyệt từ
+trí nhớ), và **cấm hướng dẫn thao tác châm, độ sâu kim, liệu trình** — đó là việc của thầy thuốc
+tại chỗ.
+
+### Tab Leo top: khép vòng khoảng trống → bài đã đăng (`leo-top/bai-moi.mjs`, 03/10/2026)
+
+Bài lò viết đã đăng (`ke_hoach` trạng thái `da_dang`, có `slug`) hiện ngay trong tab Leo top kèm
+số thật của Search Console — một lời gọi `layTheoTrang` cho cả danh sách, không hỏi từng trang.
+
+⚠️ **ĐỪNG KẾT TỘI BÀI CÒN NON.** Số GSC chậm 2–3 ngày và trang mới cần nhiều tuần mới ổn hạng,
+nên bài dưới `TUOI_DU_KET_LUAN` (14 ngày) luôn là hạng `moi` — không phán xét, kể cả khi 0 hiển
+thị. Chưa cấu hình GSC cũng về `moi` chứ KHÔNG phải `chua_hien`: thiếu căn cứ khác hẳn với
+"Google không cho hiển thị". Cùng lý lẽ với các phép dò khác của repo: vu oan đắt hơn bỏ sót.
+
+Phiên leo top của một trang do lò viết đăng được gắn `tuCum` (tên cụm sinh ra nó) — bản đồ dựng
+bằng `chuanHoaUrlTrang` nên khớp cả `http/https`, `www`, thiếu "/" cuối.
+
+Phép kiểm: `node --test cms/src/plugins/rada-seo/leo-top/bai-moi.test.mjs`.
+
 ### Quảng cáo và khối dính (`leo-top/do-trang.mjs`)
 
 Đáng đo vì đây là nhóm bằng chứng mạnh nhất mà mình lại sẵn lợi thế (site không có quảng cáo):
@@ -981,6 +1116,47 @@ kinh, hình giải phẫu: model không biết huyệt nằm ở đâu, và mộ
 không có ảnh. ⚠️ Đo 02/10/2026: **cả 6 model ảnh của Google đều trả 429 ở bậc miễn phí** — phải
 bật thanh toán. Đường lùi `viet/anh.mjs` (chọn theo alt thư viện) hiện cũng **không dùng được**:
 2.561 ảnh trong CMS đều có `alt` RỖNG.
+
+### Màn điều khiển chậm: nút nào cũng tải lại cả màn, mà pool CSDL là `max: 1`
+
+Số đo 03/10/2026: **RTT tới Aiven 98,9 ms**, pool của CMS **`max: 1`** (xem `astro.config.mjs` —
+Aiven chỉ còn ~7 slot). Nên mọi truy vấn của plugin **xếp hàng trên MỘT kết nối**: song song hoá
+bằng `Promise.all` không nhanh hơn một mili giây nào, **chỉ giảm SỐ truy vấn mới nhanh**.
+
+`tong-quan` từng tốn ~44 lượt đi-về ≈ **4 giây cho MỖI lần bấm nút** (nút nào cũng gọi route rồi
+tải lại cả màn). Đã cắt còn ~8 lượt khi ấm:
+
+- `demUrlTatCa` đệm trong KV 10 giây — 5 lượt đếm × mỗi đối thủ là phần nặng nhất. Màn hình nói
+  rõ "số lấy từ bản đệm" vì *số không nhúc nhích* khác hẳn *số đứng yên vì ca chưa làm gì*.
+- `dsCa(10)` bỏ đi: 10 dòng hiện trên màn là phần đầu của 100 dòng vốn đã đọc để canh cảnh báo.
+- `dsCum(100)` bỏ hẳn — tab Radar không còn bảng cụm cũ, còn tab Kế hoạch đọc `cum_nghia` từ
+  route khác.
+- Số GSC theo trang (tab Leo top) đệm KV 30 phút: Search Console cập nhật theo NGÀY, hỏi lại mỗi
+  lần mở tab là trả một vòng mạng ra Google để nhận đúng con số cũ.
+
+⚠️ **ĐỪNG suy `choAi` bằng cách cộng bảng đếm theo đối thủ.** Đã thử và phép kiểm bắt được: URL
+có `doiThuId` không còn bản ghi đối thủ (mồ côi) biến mất khỏi phép cộng, nên hàng đợi báo 0
+trong khi vẫn còn trang chờ — mà `choAi` bật/tắt cảnh báo đỏ lẫn ngưỡng ngừng trích. Một vòng
+mạng rẻ hơn một con số sai. Cùng lý lẽ cho `da_phan_tich`.
+
+⚠️ **`useEffect` đừng phụ thuộc vào cả object `dl`**: mỗi lượt tải lại sinh đối tượng mới nên
+effect chạy lại, thành một vòng mạng nữa cho con số không đổi (đã có ở tab Kế hoạch).
+
+Phép kiểm neo lại: `plugin.test.mjs` đếm số lượt `url.count` giữa hai lần gọi `tong-quan`, và
+đòi nhật ký chỉ được hỏi MỘT lần.
+
+Và nhớ: máy lập trình chạy `astro dev` thì mỗi lời gọi admin còn tốn thêm phần biên dịch lại của
+Vite — đo tốc độ thật phải trên bản dựng (`node ./dist/server/entry.mjs`), cùng lý do với mục
+đăng nhập một lần.
+
+### Lời báo lỗi của đường hỏi kho app phải kèm GỐC ĐÃ GỌI
+
+`fetch` của Node trả đúng hai chữ "fetch failed" cho MỌI lỗi mạng — sai tên host, container chưa
+chạy, cổng đóng, TLS hỏng đều ra một câu. Đo 03/10/2026 trên VPS: tab Khoảng trống chỉ hiện
+"Không hỏi được kho app: fetch failed", không cách nào biết nó gọi vào đâu. Nay `goiApp` kèm gốc
+đã gọi, mã lỗi hệ thống (`ENOTFOUND`/`ECONNREFUSED`), và khi `RADA_SEO_API` chưa khai thì nói
+thẳng là đang hỏi vòng ra tên miền công khai. `HTTP 404` cũng kèm đường — 404 ở đó gần như luôn
+là "backend chưa deploy bản có `/rada/*`".
 
 ### Ngưỡng tiêu đề/mô tả khai MỘT chỗ
 

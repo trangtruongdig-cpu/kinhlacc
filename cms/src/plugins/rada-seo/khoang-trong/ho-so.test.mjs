@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { layHoSoCum, layUngVien, laNghiaKep, trangDaCo, xepUngVien, loiNhacTuHoSo, napTrangNhuCau } from "./ho-so.mjs";
+import { napSlugHuyet, ganDuongHuyet, slugCuaHuyet, layHoSoCum, layUngVien, laNghiaKep, trangDaCo, xepUngVien, loiNhacTuHoSo, napTrangNhuCau } from "./ho-so.mjs";
 
 const chiMuc = {
 	muc: [
@@ -186,4 +186,85 @@ test("MỘT CỤM MỘT BÀI: bấm giao lần hai trả lại bài cũ, không 
 	assert.equal(b.id, a.id, "lần hai phải trả lại đúng bài cũ");
 	assert.equal(b.daCoSan, true);
 	assert.equal(s._m.size, 1, "chỉ được ghi MỘT bài");
+});
+
+// ---- Nhánh HUYỆT (03/10/2026) ----
+
+const cmsGia = (ds) => ({
+	list: async () => ({ items: ds.map((x) => ({ slug: x.slug, data: { title: x.ten, ma_huyet: x.ma } })), hasMore: false }),
+});
+
+test("napSlugHuyet: MÃ trước TÊN sau — hai huyệt khác nhau trùng tên sau khi bỏ dấu vẫn trỏ đúng", async () => {
+	// Đo thật: "Trung Chú" (KI15) và "Trung Chử" (TE3) bỏ dấu thành một; tra bằng tên thì hai
+	// huyệt khác hẳn nhau trỏ chung một trang.
+	const banDo = await napSlugHuyet(cmsGia([
+		{ ten: "Trung Chú", slug: "trung-chu", ma: "KI15" },
+		{ ten: "Trung Chử", slug: "trung-chu-2", ma: "TE3" },
+		{ ten: "Hậu Khê", slug: "hau-khe", ma: "SI3" },
+		{ ten: "A Thị Huyệt", slug: "a-thi-huyet", ma: "" },
+	]));
+	assert.equal(slugCuaHuyet({ ten: "Trung Chú", ma: "KI15" }, banDo), "trung-chu");
+	assert.equal(slugCuaHuyet({ ten: "Trung Chử", ma: "TE3" }, banDo), "trung-chu-2");
+	// Không có mã thì rơi xuống tên — và tên này không trùng ai.
+	assert.equal(slugCuaHuyet({ ten: "A Thị Huyệt", ma: null }, banDo), "a-thi-huyet");
+	// Mất mã mà tên lại trùng → BỎ, dẫn tới nhầm huyệt tệ hơn là không có link.
+	assert.equal(slugCuaHuyet({ ten: "Trung Chú", ma: null }, banDo), null);
+	assert.equal(slugCuaHuyet({ ten: "Không Có Trong Kho", ma: "ZZ9" }, banDo), null);
+});
+
+test("ganDuongHuyet: chỉ gắn khi tra ra slug — KHÔNG suy slug từ tên", async () => {
+	const banDo = await napSlugHuyet(cmsGia([{ ten: "Á Môn", slug: "a-mon", ma: "GV15" }]));
+	const r = ganDuongHuyet({ huyet: [{ ten: "Á Môn", ma: "GV15" }, { ten: "Hợp Cốc", ma: "LI4" }] }, banDo);
+	assert.equal(r.huyet[0].duong, "/huyet/a-mon/");
+	assert.equal(r.huyet[1].duong, null, "không tra ra thì để trống, đoán là sinh link chết");
+	assert.deepEqual(ganDuongHuyet({ huyet: [] }, banDo).huyet, []);
+});
+
+test("duongTuHoSo kể cả đường huyệt — nhánh huyệt phải đếm vào số link của bài", () => {
+	const co = duongTuHoSo({ ...hoSoMau, huyet: [{ ten: "Á Môn", duong: "/huyet/a-mon/" }, { ten: "X", duong: null }] });
+	const khong = duongTuHoSo(hoSoMau);
+	assert.equal(co.length, khong.length + 1);
+	assert.ok(co.some((x) => x.duong === "/huyet/a-mon/"));
+});
+
+test("lời nhắc: có huyệt thì DẶN viết mục phương huyệt và CẤM dạy thao tác châm", () => {
+	const n = loiNhacTuHoSo({ ...hoSoMau, huyet: [{ ten: "Á Môn", kinh: "Đốc Mạch" }] });
+	assert.match(n, /phương huyệt/);
+	assert.match(n, /KHÔNG hướng dẫn thao tác châm/);
+	// Không có huyệt thì không dặn — dặn suông làm model bịa huyệt từ trí nhớ.
+	assert.equal(/phương huyệt/.test(loiNhacTuHoSo(hoSoMau)), false);
+});
+
+test("hai bảng đường kinh chỉ được nhắc khi CÓ CẢ HAI — một bảng thì không có gì để đối chiếu", () => {
+	const hai = loiNhacTuHoSo({ ...hoSoMau, kinhTheoHuyet: [{ ten: "Phế", so: 3 }], kinhTheoViThuoc: [{ ten: "Phế", so: 9 }] });
+	assert.match(hai, /HAI bảng đường kinh/);
+	assert.equal(/HAI bảng đường kinh/.test(loiNhacTuHoSo({ ...hoSoMau, kinhTheoViThuoc: [{ ten: "Phế", so: 9 }] })), false);
+});
+
+test("lỗi mạng phải NÓI RA đã gọi vào đâu — 'fetch failed' trần là không chẩn đoán được", async () => {
+	// Đo 03/10/2026 trên VPS: tab chỉ hiện "Không hỏi được kho app: fetch failed". fetch của
+	// Node trả đúng hai chữ đó cho MỌI lỗi mạng (sai host, container chưa chạy, cổng đóng).
+	const cu = process.env.RADA_SEO_API;
+	process.env.RADA_SEO_API = "http://backend:3000";
+	const hong = async () => {
+		throw Object.assign(new Error("fetch failed"), { cause: { code: "ENOTFOUND" } });
+	};
+	const r = await layUngVien(hong);
+	assert.equal(r.ok, false);
+	assert.match(r.loi, /http:\/\/backend:3000/);
+	assert.match(r.loi, /ENOTFOUND/);
+	// Có khai biến thì KHÔNG dặn khai lại — lời dặn sai chỗ làm người đọc đi sửa thứ đã đúng.
+	assert.equal(/RADA_SEO_API chưa khai/.test(r.loi), false);
+
+	delete process.env.RADA_SEO_API;
+	const r2 = await layUngVien(hong);
+	assert.match(r2.loi, /RADA_SEO_API chưa khai/);
+	assert.match(r2.loi, /kinhlac\.online\/api/);
+	if (cu === undefined) delete process.env.RADA_SEO_API;
+	else process.env.RADA_SEO_API = cu;
+});
+
+test("HTTP 404 kèm đường đã gọi — 404 ở đây gần như luôn là backend chưa deploy bản mới", async () => {
+	const r = await layUngVien(async () => ({ ok: false, status: 404 }));
+	assert.match(r.loi, /HTTP 404 từ .*\/rada\/ung-vien/);
 });

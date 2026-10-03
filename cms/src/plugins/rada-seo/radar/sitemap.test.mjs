@@ -80,3 +80,57 @@ test("thuThapUrl: bỏ sitemap con loại 'bo', trả danh sách đã bỏ", asy
 	assert.deepEqual(kq.urls.sort(), ["https://a.com/bai-1", "https://a.com/khac"]);
 	assert.deepEqual(kq.sitemapBo, ["https://a.com/bac-si-sitemap.xml"]);
 });
+
+// ---- Đào sâu: ca sau phải đi TIẾP, không gom lại 300 URL cũ (03/10/2026) ----
+
+const webSau = (chiMuc, con) => async (u) => (u.endsWith("robots.txt") ? "" : u.includes("sitemap_index") ? chiMuc : (con[u] ?? ""));
+const sm = (loc, lastmod) => `<sitemap><loc>${loc}</loc>${lastmod ? `<lastmod>${lastmod}</lastmod>` : ""}</sitemap>`;
+const bai = (...u) => `<urlset>${u.map((x) => `<url><loc>${x}</loc></url>`).join("")}</urlset>`;
+
+test("URL đã có trong kho KHÔNG ăn vào trần — ca sau lấy được URL thật sự mới", async () => {
+	const web = webSau(`<sitemapindex>${sm("https://a.com/post-sitemap1.xml", "2026-10-01")}</sitemapindex>`, {
+		"https://a.com/post-sitemap1.xml": bai("https://a.com/p1", "https://a.com/p2", "https://a.com/p3", "https://a.com/p4"),
+	});
+	// Lượt 1: trần 2 → lấy 2 bài, sitemap KHÔNG được ghi sổ vì còn sót.
+	const l1 = await thuThapUrl("a.com", web, { tranUrl: 2 });
+	assert.equal(l1.urls.length, 2);
+	assert.deepEqual(l1.daDoc, [], "cắt mất một phần thì KHÔNG được ghi 'đã đọc xong'");
+	assert.deepEqual(l1.conSot, ["https://a.com/post-sitemap1.xml"]);
+	// Lượt 2: hai URL kia đã vào kho → trần dành cho hai URL còn lại, và giờ mới ghi sổ.
+	const daCo = new Set(l1.urls);
+	const l2 = await thuThapUrl("a.com", web, { tranUrl: 2, locMoi: (ds) => ds.filter((x) => !daCo.has(x)) });
+	assert.equal(l2.urls.length, 2);
+	assert.equal(l2.urls.some((u) => daCo.has(u)), false, "ca sau không được gom lại URL cũ");
+	assert.equal(l2.daDoc.length, 1);
+});
+
+test("sổ sitemap: bỏ qua sitemap đã đọc xong, nhờ đó trần sitemap dành cho phần CHƯA đọc", async () => {
+	const chiMuc = `<sitemapindex>${sm("https://a.com/s1.xml", "2026-09-01")}${sm("https://a.com/s2.xml", "2026-09-02")}</sitemapindex>`;
+	const daTai = [];
+	const web = async (u) => {
+		daTai.push(u);
+		return u.endsWith("robots.txt") ? "" : u.includes("sitemap_index") ? chiMuc : u.includes("s1") ? bai("https://a.com/a1") : bai("https://a.com/b1");
+	};
+	const kq = await thuThapUrl("a.com", web, { daDocSitemap: { "https://a.com/s1.xml": { lastmod: Date.parse("2026-09-01"), luc: Date.now() } } });
+	assert.equal(kq.soSitemapBoQua, 1);
+	assert.equal(daTai.includes("https://a.com/s1.xml"), false, "sitemap đã đọc xong và không đổi thì không tải lại");
+	assert.deepEqual(kq.urls, ["https://a.com/b1"]);
+});
+
+test("sitemap đã đọc xong nhưng lastmod MỚI HƠN thì phải đọc lại — không thì bỏ sót bài mới", async () => {
+	const chiMuc = `<sitemapindex>${sm("https://a.com/s1.xml", "2026-10-02")}</sitemapindex>`;
+	const web = webSau(chiMuc, { "https://a.com/s1.xml": bai("https://a.com/moi") });
+	const kq = await thuThapUrl("a.com", web, { daDocSitemap: { "https://a.com/s1.xml": { lastmod: Date.parse("2026-09-01"), luc: Date.now() } } });
+	assert.deepEqual(kq.urls, ["https://a.com/moi"]);
+	assert.equal(kq.soSitemapBoQua, 0);
+});
+
+test("index KHÔNG khai lastmod: đọc lại theo chu kỳ, không phải mỗi đêm", async () => {
+	const chiMuc = `<sitemapindex>${sm("https://a.com/s1.xml")}</sitemapindex>`;
+	const web = webSau(chiMuc, { "https://a.com/s1.xml": bai("https://a.com/x1") });
+	const now = Date.parse("2026-10-03T00:00:00Z");
+	const moi = { "https://a.com/s1.xml": { lastmod: null, luc: now - 2 * 86_400_000 } };
+	assert.equal((await thuThapUrl("a.com", web, { daDocSitemap: moi, now })).soSitemapBoQua, 1, "đọc 2 ngày trước thì chưa cần đọc lại");
+	const cu = { "https://a.com/s1.xml": { lastmod: null, luc: now - 9 * 86_400_000 } };
+	assert.deepEqual((await thuThapUrl("a.com", web, { daDocSitemap: cu, now })).urls, ["https://a.com/x1"], "quá HAN_DOC_LAI_MS thì đọc lại");
+});

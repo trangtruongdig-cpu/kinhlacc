@@ -77,14 +77,14 @@ const boc = (id, chu) =>
  * @returns {Promise<{trang: {id: string, url: string, chu: string}[], conLaiDemNay: number,
  *   conTrongHangCho: number, soChuyenLoi: number, boiCanh: string, huongDan: string}>}
  */
-export async function layViec({ s, kv, nowMs = Date.now(), soTrang = TRAN_TRANG_MOI_LUOT }) {
+export async function layViec({ s, kv, nowMs = Date.now(), soTrang = TRAN_TRANG_MOI_LUOT, doiThuId }) {
 	const ngay = ngayVN(nowMs);
 	const khoa = `claude:giao:${ngay}`;
 	const muon = Math.max(0, Math.min(soTrang, TRAN_TRANG_MOI_LUOT));
 	const giu = muon ? await giuCho(kv, khoa, muon) : 0;
 	let trang = [], soChuyenLoi = 0;
 	try {
-		({ trang, soChuyenLoi } = await kho.chonUrlChoAi(s, giu, { ngay, soLanToiDa: SO_LAN_GIAO_TOI_DA }));
+		({ trang, soChuyenLoi } = await kho.chonUrlChoAi(s, giu, { ngay, soLanToiDa: SO_LAN_GIAO_TOI_DA, doiThuId }));
 	} finally {
 		// Hoàn phần giữ mà không dùng (hàng đợi hết, hoặc lỗi khi lấy).
 		if (giu > trang.length) await cong(kv, khoa, trang.length - giu);

@@ -231,6 +231,33 @@ export function taoGsc({ fetch, env = process.env, now = Date.now, hanGioMs = HA
 		},
 
 		/**
+		 * Số liệu theo TRANG (không theo từ khoá) trong `ngay` ngày — MỘT lời gọi cho cả danh sách
+		 * trang mình quan tâm. Dùng cho khối "bài mới đăng": hỏi từng trang một là N lời gọi và
+		 * cùng một hạn mức API, trong khi số hàng theo trang của site này chỉ cỡ nghìn.
+		 *
+		 * `dataState: "all"` cố ý: bỏ nó đi thì 2–3 ngày gần nhất biến mất, mà bài mới đăng thì
+		 * ĐÚNG mấy ngày đó mới có số — bài vừa lên trông như "Google chưa thấy".
+		 *
+		 * @returns {Promise<Map<string, {nhap: number, hienThi: number, viTri: number, ctr: number}>>}
+		 *   khoá là `chuanHoaUrlTrang(url)`.
+		 */
+		async layTheoTrang({ ngay = 28 } = {}) {
+			const rows = await truyVanHet({ ...khoang(ngay), dimensions: ["page"], rowLimit: TRAN_HANG, dataState: "all" });
+			const m = new Map();
+			for (const r of rows) {
+				const k = chuanHoaUrlTrang(r.keys?.[0]);
+				if (!k) continue;
+				m.set(k, {
+					nhap: Number(r.clicks) || 0,
+					hienThi: Number(r.impressions) || 0,
+					viTri: Math.round((Number(r.position) || 0) * 100) / 100,
+					ctr: Number(r.ctr) || 0,
+				});
+			}
+			return m;
+		},
+
+		/**
 		 * Hạng trung bình của đúng cặp (từ khoá, trang) trong `ngay` ngày; không có số liệu → null.
 		 * Lọc từ khoá ở Google, còn TRANG so ở phía mình sau khi chuẩn hoá: filter "equals" của
 		 * GSC so chuỗi y nguyên, nên trang lưu thiếu "/" cuối hay khác http/https là ra null mãi.

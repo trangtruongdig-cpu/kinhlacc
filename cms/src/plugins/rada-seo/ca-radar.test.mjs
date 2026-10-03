@@ -373,3 +373,87 @@ test("chien-luoc/tran.mjs KHÔNG import gì — đó là thứ cắt vòng impor
 	assert.equal(v.TRAN_HUONG_MOI_LUOT, t.TRAN_HUONG_MOI_LUOT);
 	assert.deepEqual(v.Y_DINH, t.Y_DINH);
 });
+
+// ---- Ca chạy cho MỘT site (nút "Chạy" ở từng dòng đối thủ, 03/10/2026) ----
+
+test("chiTenMien: chỉ đụng tới site đó, site kia không bị tải một trang nào", async () => {
+	const s = await khoiTao();
+	const daTai = [];
+	const web = async (u) => {
+		daTai.push(u);
+		return BANG[u] ?? "";
+	};
+	const ca = await chayCaRadar({ s, docWeb: web, ghi: true, nghi, chiTenMien: "a.vn" });
+	assert.equal(ca.tenMien, "a.vn");
+	assert.equal(ca.motSite, true);
+	assert.ok(!daTai.some((u) => u.includes("b.vn")), `không được chạm b.vn: ${daTai.filter((u) => u.includes("b.vn")).join()}`);
+	assert.equal(ca.soUrlMoi, 2);
+	// URL của b.vn chưa từng được ghi → chạy cho một site không âm thầm quét cả kho.
+	assert.equal(await s.url.count({ doiThuId: "b.vn" }), 0);
+});
+
+test("ca một site BỎ các khâu toàn kho (xu hướng, khoảng trống, chiến lược) và nói rõ trong nhật ký", async () => {
+	const s = await khoiTao();
+	let goiChienLuoc = 0;
+	const web = async (u) => (u.startsWith("https://suggestqueries") ? '["q",["bấm huyệt trị mất ngủ"]]' : BANG[u] ?? "");
+	const ca = await chayCaRadar({
+		s, docWeb: web, ghi: true, nghi, chiTenMien: "a.vn",
+		goiModel: { coCauHinh: () => true },
+		tuChienLuoc: async () => (goiChienLuoc++, { soHuong: 1, soCumNghia: 1, soKeHoach: 1, luotGoi: 1, loi: 0 }),
+	});
+	assert.equal(ca.soXuHuong, 0);
+	assert.equal(goiChienLuoc, 0, "chiến lược tuần là việc toàn kho, không chạy trong ca một site");
+	assert.ok(ca.thongTin.some((t) => /bỏ qua dò xu hướng/.test(t)));
+});
+
+test("tên miền lạ: ca vẫn kết thúc và NÓI RA, không im lặng chạy 0 việc", async () => {
+	const s = await khoiTao();
+	const ca = await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, chiTenMien: "khong-co.vn" });
+	assert.ok(ca.ketThuc);
+	assert.ok(ca.loi.some((x) => /Không có đối thủ "khong-co.vn"/.test(x)));
+	assert.equal(ca.soUrlMoi, 0);
+});
+
+test("khâu đọc bằng model nhận ĐÚNG doiThuId của ca một site", async () => {
+	const s = await khoiTao();
+	let nhan;
+	await chayCaRadar({
+		s, docWeb: WEB, ghi: true, nghi, chiTenMien: "a.vn",
+		kv: { get: async () => null, set: async () => {} },
+		goiModel: { coCauHinh: () => true },
+		tuDoc: async (o) => {
+			nhan = o.doiThuId;
+			return { daGhi: 1, luotGoi: 1, loi: 0, ghiChu: [] };
+		},
+	});
+	assert.equal(nhan, "a.vn", "hàng đợi chung thì bấm chạy cho site này lại đi đọc trang site khác");
+});
+
+test("tiến độ: báo từng pha kèm tên site, và lỗi khi báo KHÔNG làm đứt ca", async () => {
+	const s = await khoiTao();
+	const pha = [];
+	const ca = await chayCaRadar({
+		s, docWeb: WEB, ghi: true, nghi, chiTenMien: "a.vn",
+		bao: (x) => {
+			pha.push(x.pha);
+			throw new Error("KV hỏng");
+		},
+		log: { warn() {} },
+	});
+	assert.ok(ca.ketThuc, "ca phải xong dù mọi lượt báo tiến độ đều ném");
+	assert.deepEqual([...new Set(pha)], ["thu-thap", "trich", "xong"]);
+	assert.equal(ca.soTrich, 1);
+});
+
+test("đào sâu: ca THẬT ghi sổ sitemap, ca THỬ thì KHÔNG (ca thử không ghi URL)", async () => {
+	const s = await khoiTao();
+	await chayCaRadar({ s, docWeb: WEB, ghi: false, nghi, chiTenMien: "a.vn" });
+	assert.deepEqual(await kho.soSitemap(s, "a.vn"), {}, "ca thử ghi sổ thì ca thật sau tưởng đã đọc xong mà kho trống");
+	const ca = await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, chiTenMien: "a.vn" });
+	assert.ok(Object.keys(await kho.soSitemap(s, "a.vn")).length > 0);
+	assert.ok(ca.soSitemapDaDoc > 0);
+	// Ca kế: không URL mới nào. (Sitemap GỐC luôn được đọc lại — nó là chỗ bài mới xuất hiện;
+	// phần bỏ qua nhờ sổ chỉ áp cho sitemap CON trong một index, xem radar/sitemap.test.mjs.)
+	const ca2 = await chayCaRadar({ s, docWeb: WEB, ghi: true, nghi, chiTenMien: "a.vn" });
+	assert.equal(ca2.soUrlMoi, 0);
+});

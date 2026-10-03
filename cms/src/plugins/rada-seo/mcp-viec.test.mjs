@@ -188,3 +188,15 @@ test("xongPhanTich: dọn kv claude:giao:*/claude:doc:* cũ hơn GIU_KHOA_NGAY n
 	assert.equal(await kv.get("claude:doc:2026-10-01"), 2);
 	assert.equal(await kv.get("khac:khong-lien-quan"), 1);
 });
+
+test("layViec({doiThuId}): ca chạy riêng một site chỉ nhận trang CỦA SITE ĐÓ", async () => {
+	// khoCo rải xen kẽ a.vn / b.vn, nên lọc sai là lộ ra ngay ở lượt đầu.
+	const s = await khoCo(20);
+	const kv = taoKvGia();
+	const v = await layViec({ s, kv, nowMs: DEM, soTrang: 10, doiThuId: "a.vn" });
+	assert.equal(v.trang.length, 10);
+	for (const t of v.trang) assert.equal((await s.url.get(t.id)).doiThuId, "a.vn");
+	// Không lọc thì lượt sau vẫn lấy được trang của b.vn — tức hàng đợi chung vẫn nguyên.
+	const v2 = await layViec({ s, kv, nowMs: DEM, soTrang: 10 });
+	assert.ok(v2.trang.length > 0);
+});

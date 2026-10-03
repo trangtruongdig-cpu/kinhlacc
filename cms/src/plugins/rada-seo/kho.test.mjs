@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import * as kho from "./kho.mjs";
-import { taoKhoGia } from "./__test__/kho-gia.mjs";
+import { taoKvGia, taoKhoGia } from "./__test__/kho-gia.mjs";
 
 const NOW = "2026-10-01T00:00:00.000Z";
 
@@ -659,4 +659,79 @@ test("thayCum: cụm trùng tên gộp lại, trả về số DÒNG thật và g
 	const dauLung = trong.find((x) => x.data.tenCum === "Đau lưng");
 	assert.equal(dauLung.data.diem, 9, "cùng tên thì giữ bản điểm cao hơn");
 	assert.deepEqual(dauLung.data.tuKhoa, ["đau lưng", "thoát vị"]);
+});
+
+// ---- Sổ đào sâu sitemap (03/10/2026) ----
+
+test("sổ sitemap: ghi mục đọc xong, XOÁ mục còn sót, và luuDoiThu không được làm mất sổ", async () => {
+	const s = taoKhoGia();
+	await kho.luuDoiThu(s, { tenMien: "a.vn" }, "t");
+	await kho.ghiSoSitemap(s, "a.vn", { daDoc: [{ loc: "s1", lastmod: 10, soUrl: 3 }, { loc: "s2", lastmod: null, soUrl: 1 }] }, 100);
+	assert.deepEqual(Object.keys(await kho.soSitemap(s, "a.vn")).sort(), ["s1", "s2"]);
+	assert.deepEqual((await kho.soSitemap(s, "a.vn")).s1, { lastmod: 10, luc: 100, soUrl: 3 });
+	// Ca sau đọc dở s2 → phải rời sổ để còn đọc lại.
+	await kho.ghiSoSitemap(s, "a.vn", { daDoc: [], conSot: ["s2"] }, 200);
+	assert.deepEqual(Object.keys(await kho.soSitemap(s, "a.vn")), ["s1"]);
+	// Sửa tên hiển thị không được xoá sổ — nếu mất, radar quay lại quét 300 URL mới nhất.
+	await kho.luuDoiThu(s, { tenMien: "a.vn", ten: "Tên mới" }, "t2");
+	assert.deepEqual(Object.keys(await kho.soSitemap(s, "a.vn")), ["s1"]);
+});
+
+test("sổ sitemap có trần mục: giữ bản mới nhất", async () => {
+	const s = taoKhoGia();
+	await kho.luuDoiThu(s, { tenMien: "a.vn" }, "t");
+	await kho.ghiSoSitemap(s, "a.vn", { daDoc: [{ loc: "cu", lastmod: 1, soUrl: 1 }] }, 100, 2);
+	await kho.ghiSoSitemap(s, "a.vn", { daDoc: [{ loc: "m1", lastmod: 1, soUrl: 1 }, { loc: "m2", lastmod: 1, soUrl: 1 }] }, 200, 2);
+	assert.deepEqual(Object.keys(await kho.soSitemap(s, "a.vn")).sort(), ["m1", "m2"]);
+});
+
+test("locUrlMoi chỉ trả URL chưa có trong kho", async () => {
+	const s = taoKhoGia();
+	await kho.luuDoiThu(s, { tenMien: "a.vn" }, "t");
+	await kho.themUrlMoi(s, "a.vn", ["https://a.vn/1", "https://a.vn/2"], { ghi: true, now: "t" });
+	assert.deepEqual(await kho.locUrlMoi(s, ["https://a.vn/1", "https://a.vn/3"]), ["https://a.vn/3"]);
+	assert.deepEqual(await kho.locUrlMoi(s, []), []);
+});
+
+// ---- Đệm đếm URL (03/10/2026): pool max:1 + RTT 98,9 ms nên 35 lượt đếm là 3,5 s mỗi lần bấm ----
+
+test("demUrlTatCa: lượt hai lấy từ đệm, KHÔNG hỏi lại kho", async () => {
+	const s = taoKhoGia();
+	await kho.luuDoiThu(s, { tenMien: "a.vn" }, "t");
+	await kho.themUrlMoi(s, "a.vn", ["https://a.vn/1", "https://a.vn/2"], { ghi: true, now: "t" });
+	const kv = taoKvGia();
+	let soDem = 0;
+	const dem = s.url.count.bind(s.url);
+	s.url.count = (w) => (soDem++, dem(w));
+
+	const r1 = await kho.demUrlTatCa(s, kv, ["a.vn"], { now: 1000 });
+	assert.equal(r1.tuDem, false);
+	assert.equal(r1.dem["a.vn"].cho, 2);
+	const sauLan1 = soDem;
+	const r2 = await kho.demUrlTatCa(s, kv, ["a.vn"], { now: 1000 + 5000 });
+	assert.equal(r2.tuDem, true);
+	assert.equal(soDem, sauLan1, "trong hạn đệm thì không được đếm lại");
+	// Hết hạn thì đếm lại thật.
+	const r3 = await kho.demUrlTatCa(s, kv, ["a.vn"], { now: 1000 + kho.HAN_DEM_URL_MS + 1 });
+	assert.equal(r3.tuDem, false);
+	assert.ok(soDem > sauLan1);
+});
+
+test("đổi danh sách đối thủ thì BỎ đệm — không thì đối thủ vừa thêm hiện ra không có số", async () => {
+	const s = taoKhoGia();
+	for (const t of ["a.vn", "b.vn"]) await kho.luuDoiThu(s, { tenMien: t }, "t");
+	const kv = taoKvGia();
+	await kho.demUrlTatCa(s, kv, ["a.vn"], { now: 1000 });
+	const r = await kho.demUrlTatCa(s, kv, ["a.vn", "b.vn"], { now: 1100 });
+	assert.equal(r.tuDem, false);
+	assert.deepEqual(Object.keys(r.dem).sort(), ["a.vn", "b.vn"]);
+});
+
+test("KV hỏng thì vẫn ra số — đệm không được làm sập màn điều khiển", async () => {
+	const s = taoKhoGia();
+	await kho.luuDoiThu(s, { tenMien: "a.vn" }, "t");
+	const kvHong = { get: async () => { throw new Error("kv chết"); }, set: async () => { throw new Error("kv chết"); } };
+	const r = await kho.demUrlTatCa(s, kvHong, ["a.vn"]);
+	assert.equal(r.tuDem, false);
+	assert.ok(r.dem["a.vn"]);
 });

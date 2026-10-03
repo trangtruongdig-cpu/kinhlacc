@@ -1,4 +1,4 @@
-import { boDau, tachTacDung, veCua } from './rada-ho-so.controller';
+import { khopTenNhuCau, boDau, tachTacDung, veCua } from './rada-ho-so.controller';
 
 describe('rada-ho-so: tách pháp trị khỏi chứng trạng', () => {
   it('tách được câu y văn thường gặp', () => {
@@ -56,5 +56,39 @@ describe('rada-ho-so: chuẩn hoá', () => {
    *  bắt buộc nhận mảng biến thể chứ không nhận một từ. */
   it('"nục huyết" và "chảy máu cam" KHÔNG tự khớp nhau', () => {
     expect(boDau('nục huyết')).not.toBe(boDau('chảy máu cam'));
+  });
+});
+
+describe('khopTenNhuCau — đường DUY NHẤT đưa huyệt vào tháp', () => {
+  it('khớp dãy từ liền nhau trong tên bệnh / tên phác đồ thật', () => {
+    expect(khopTenNhuCau('đau lưng', 'Yêu thống (bệnh đau lưng)')).toBe(true);
+    expect(khopTenNhuCau('tiêu chảy', 'Viêm ruột / Tiêu chảy / Kiết lỵ')).toBe(true);
+    expect(khopTenNhuCau('cảm cúm', 'Bệnh Cảm Cúm')).toBe(true);
+  });
+
+  it('KHÔNG khớp khi chỉ trùng một phần từ — "ho" không phải "hô hấp"', () => {
+    expect(khopTenNhuCau('ho', 'Bệnh hô hấp')).toBe(false);
+    expect(khopTenNhuCau('', 'Bệnh Cảm Cúm')).toBe(false);
+  });
+
+  it('CHỦ TRỊ MỘT TỪ không bao giờ khớp — đây là luật chịu lực', () => {
+    // Đo 03/10/2026: cho một từ khớp thì cụm "Ung nhọt, Lở loét & Da liễu" nhận 98 huyệt qua
+    // đúng chủ trị "Phong" — khớp vào các phác đồ TRÚNG PHONG (tai biến). Bài da liễu sẽ mọc
+    // ra một mục phương huyệt chữa tai biến mà không ai đọc lại để biết.
+    expect(khopTenNhuCau('Phong', 'Trúng Phong (Kẹt Động Mạch Não)')).toBe(false);
+    expect(khopTenNhuCau('Viêm', 'Viêm gan / Viêm túi mật / Sỏi mật')).toBe(false);
+    expect(khopTenNhuCau('sốt', 'Sốt xuất huyết')).toBe(false);
+    // Hai từ thì vẫn chạy — luật này không giết nhánh huyệt.
+    expect(khopTenNhuCau('huyết ứ', 'Liệt Dây Thần Kinh Mặt - Thể Huyết ứ')).toBe(true);
+    expect(khopTenNhuCau('Yêu Thống', 'Yêu thống (bệnh đau lưng)')).toBe(true);
+  });
+
+  it('các từ phải LIỀN NHAU và đúng thứ tự, không phải "có mặt đâu đó"', () => {
+    expect(khopTenNhuCau('đau lưng', 'Đau đầu và mỏi lưng')).toBe(false);
+    expect(khopTenNhuCau('lưng đau', 'Yêu thống (bệnh đau lưng)')).toBe(false);
+  });
+
+  it('bỏ dấu và dấu câu hai bên: "Tiêu Chảy" ≡ "tiêu-chảy"', () => {
+    expect(khopTenNhuCau('Tiêu Chảy', 'viêm ruột, tiêu-chảy')).toBe(true);
   });
 });

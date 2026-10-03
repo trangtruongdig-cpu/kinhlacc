@@ -54,15 +54,41 @@ const HAN_GIO_MS = 30_000;
  */
 const fetchNoiBo = (u, i) => fetch(u, i);
 
+/**
+ * Lời báo lỗi phải nói ĐỦ để chẩn đoán mà không cần SSH.
+ *
+ * `fetch` của Node trả đúng hai chữ "fetch failed" cho MỌI lỗi mạng — sai tên host, container
+ * chưa chạy, cổng đóng, TLS hỏng đều ra một câu. Đo 03/10/2026 trên VPS: tab Khoảng trống chỉ
+ * hiện "Không hỏi được kho app: fetch failed", không có cách nào biết nó đã gọi vào đâu.
+ * Nên: kèm GỐC ĐÃ GỌI và, khi gốc đang là mặc định công khai, nói thẳng biến nào còn thiếu.
+ */
+function loiMang(e, goc, hanGioMs) {
+	if (e?.name === "AbortError") return `quá hạn ${hanGioMs} ms khi gọi ${goc}`;
+	const chu = String(e?.message ?? e).slice(0, 160);
+	const nguyen = String(e?.cause?.code ?? e?.code ?? "");
+	const macDinh = !process.env.RADA_SEO_API;
+	return [
+		`${chu}${nguyen ? ` (${nguyen})` : ""} — gọi tới ${goc}`,
+		macDinh
+			? "RADA_SEO_API chưa khai nên đang hỏi vòng ra tên miền công khai. Trong container hãy khai RADA_SEO_API=http://backend:3000 (docker-compose), máy lập trình thì http://localhost:3001 (cms/.env)."
+			: "",
+	]
+		.filter(Boolean)
+		.join(" ");
+}
+
 async function goiApp(fetchFn = fetchNoiBo, duong, init, hanGioMs = HAN_GIO_MS) {
 	const bo = typeof AbortController === "function" ? new AbortController() : null;
 	const hen = bo ? setTimeout(() => bo.abort(), hanGioMs) : null;
+	const goc = GOC_API().replace(/\/+$/, "");
 	try {
-		const res = await fetchFn(`${GOC_API().replace(/\/+$/, "")}${duong}`, bo ? { ...init, signal: bo.signal } : init);
-		if (!res.ok) return { ok: false, loi: `HTTP ${res.status}`, du: null };
+		const res = await fetchFn(`${goc}${duong}`, bo ? { ...init, signal: bo.signal } : init);
+		// Mã HTTP cũng phải kèm đường: 404 ở đây gần như luôn là "backend chưa deploy bản có
+		// /rada/*", mà câu "HTTP 404" trần thì đọc ra như lỗi của plugin.
+		if (!res.ok) return { ok: false, loi: `HTTP ${res.status} từ ${goc}${duong}`, du: null };
 		return { ok: true, loi: "", du: await res.json() };
 	} catch (e) {
-		return { ok: false, loi: e?.name === "AbortError" ? `quá hạn ${hanGioMs} ms` : String(e?.message ?? e).slice(0, 200), du: null };
+		return { ok: false, loi: loiMang(e, goc, hanGioMs), du: null };
 	} finally {
 		if (hen) clearTimeout(hen);
 	}
@@ -127,6 +153,8 @@ export function trangDaCo(ten, chiMuc) {
 
 /** Hai bộ duy nhất mà `trangDaCo` nhìn tới. */
 export const BO_NHU_CAU = ["benh_hoc", "cham_cuu_tri_benh"];
+/** Bộ CMS giữ SLUG THẬT của trang huyệt — thứ duy nhất dựng được đường `/huyet/<slug>/`. */
+export const BO_HUYET = "huyet_vi";
 
 /**
  * Nạp RIÊNG hai bộ trang-nhắm-nhu-cầu (~172 mục), KHÔNG dùng `layChiMuc`.
@@ -154,6 +182,64 @@ export async function napTrangNhuCau(content, { tranTrang = 50 } = {}) {
 		}
 	}
 	return { muc, loiNap };
+}
+
+/**
+ * Bản đồ tra slug trang huyệt, lấy từ bộ CMS `huyet_vi`. HAI bản đồ: theo **mã WHO** trước,
+ * theo tên sau.
+ *
+ * ⚠️ Backend CỐ Ý không trả đường dẫn huyệt. Trang huyệt khoá theo slug TÊN ("Á Môn" →
+ * `/huyet/a-mon/`) và CMS giữ cả bản khử trùng ("trung-chu", "trung-chu-2"); suy slug từ tên ở
+ * phía backend là đoán, đoán trật thì sinh LINK CHẾT trong bài đã đăng.
+ *
+ * ⚠️ MÃ TRƯỚC, TÊN SAU — không đảo. Bỏ dấu thanh làm "Trung Chú" (KI15) và "Trung Chử" (TE3)
+ * thành một; tra bằng tên thì hai huyệt khác hẳn nhau trỏ chung một trang. Số đo 03/10/2026
+ * trên 445 huyệt của app: tra bằng mã 351 · rơi xuống tên 75 · không tra ra 19 (96%), so với
+ * 406 (91%) nếu chỉ tra bằng tên. Và có đúng một chỗ hai đường trỏ lệch nhau — Thông Cốc
+ * (BL66): mã → `thong-coc-ii`, tên → `thong-coc` (của KI20) — tức mã đúng, tên sai.
+ *
+ * Khoá trùng nhau (hai mục cùng mã, hoặc cùng tên sau khi bỏ dấu) thì BỎ CẢ HAI: dẫn người đọc
+ * tới nhầm huyệt tệ hơn là không có link.
+ */
+export async function napSlugHuyet(content, { tranTrang = 20 } = {}) {
+	const theoMa = new Map();
+	const theoTen = new Map();
+	let cursor, soTrang = 0;
+	do {
+		const r = await content.list(BO_HUYET, { limit: 100, cursor, where: { status: "published" } });
+		for (const it of r.items ?? []) {
+			const d = it.data ?? {};
+			const slug = it.slug ?? d.slug;
+			if (!slug) continue;
+			const ma = String(d.ma_huyet ?? "").trim().toUpperCase();
+			if (ma) theoMa.set(ma, theoMa.has(ma) ? null : slug);
+			const ten = d.title ?? d.ten;
+			if (ten) {
+				const k = boDau(ten);
+				theoTen.set(k, theoTen.has(k) ? null : slug);
+			}
+		}
+		cursor = r.hasMore && r.cursor && ++soTrang < tranTrang ? r.cursor : undefined;
+	} while (cursor);
+	return { theoMa, theoTen };
+}
+
+/** Slug của MỘT huyệt: mã trước, tên sau. Không tra ra thì null — KHÔNG đoán. */
+export function slugCuaHuyet(h, banDo) {
+	const ma = String(h?.ma ?? "").trim().toUpperCase();
+	return (ma && banDo?.theoMa?.get(ma)) || banDo?.theoTen?.get(boDau(h?.ten)) || null;
+}
+
+/** Gắn `duong` cho từng huyệt trong hồ sơ. Không tra ra slug thì để null, KHÔNG đoán. */
+export function ganDuongHuyet(hoSo, banDo) {
+	if (!hoSo?.huyet?.length) return hoSo;
+	return {
+		...hoSo,
+		huyet: hoSo.huyet.map((h) => {
+			const slug = slugCuaHuyet(h, banDo);
+			return { ...h, duong: slug ? `/huyet/${slug}/` : null };
+		}),
+	};
 }
 
 /**
@@ -185,6 +271,7 @@ export function duongTuHoSo(hoSo) {
 		for (const b of t.baiThuocTieuBieu ?? []) if (b.duong) ds.push({ duong: b.duong, ten: b.ten });
 	}
 	for (const n of hoSo?.nguonYVan ?? []) if (n.duong) ds.push({ duong: n.duong, ten: n.ten });
+	for (const h of hoSo?.huyet ?? []) if (h.duong) ds.push({ duong: h.duong, ten: h.ten });
 	const thay = new Set();
 	return ds.filter((x) => !thay.has(x.duong) && thay.add(x.duong));
 }
@@ -248,6 +335,19 @@ export function loiNhacTuHoSo(hoSo) {
 		`- Dùng tính vị quy kinh có sẵn để giải thích VÌ SAO vị đó hợp với thể đó. Không bịa tính vị.`,
 		`- Gắn ít nhất ${Math.min(12, Math.max(6, Math.floor(soLink * 0.4)))} liên kết nội bộ, chỉ dùng đường dẫn có trong hồ sơ. Không tự ghép đường dẫn, không link ra trang ngoài.`,
 		`- Nêu số bài thuốc trong kho ghi lại cho chứng này (${hoSo.soBaiThuoc} bài) như một lát cắt y văn.`,
+		...(hoSo.huyet?.length
+			? [
+					// Nhánh huyệt là thứ các cổng y tế tổng hợp KHÔNG có — đo 03/10/2026: vinmec có
+					// 4 URL châm cứu trên 35.710. Có hồ sơ huyệt mà không viết tới là bỏ đúng chỗ hơn người.
+					`- Thêm MỘT mục "##" về phương huyệt: nêu các huyệt trong hồ sơ kèm đường kinh của chúng và vai trò (quân/thần/tá/sứ) nếu hồ sơ có ghi. Chỉ dùng huyệt CÓ TRONG hồ sơ, không thêm huyệt từ trí nhớ.`,
+					`- KHÔNG hướng dẫn thao tác châm, độ sâu kim, thời gian lưu kim hay liệu trình: đó là việc của thầy thuốc tại chỗ, không phải của bài viết.`,
+				]
+			: []),
+		...(hoSo.kinhTheoViThuoc?.length && hoSo.kinhTheoHuyet?.length
+			? [
+					`- Hồ sơ có HAI bảng đường kinh đo độc lập nhau (quy kinh của vị thuốc, và kinh của các huyệt). Chỗ hai bảng gặp nhau là ý đáng viết; chỗ lệch nhau thì nói là lệch, đừng san bằng.`,
+				]
+			: []),
 		`- Thân bài 1.200–1.800 từ.`,
 		// Phải dặn ĐÚNG CỤM: luật phạm vi Y sỹ bắt "đi khám" (lời mời khám ở chỗ mình) và chỉ miễn
 		// khi câu chỉ đích danh nơi khác. Không dặn thì model viết "đi khám ngay" và bài trượt cổng.

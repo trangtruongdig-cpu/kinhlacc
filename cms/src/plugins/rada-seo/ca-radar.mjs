@@ -121,13 +121,22 @@ async function doLaiLeoTop({ s, gsc, nowMs, ca }) {
  *          gsc?: {coCauHinh: () => boolean, layViTri: Function}}} o
  *   hanChot: mốc epoch ms — quá mốc thì thôi trích (khoá ca sắp hết hạn)
  *   gsc: leo-top/gsc.mjs — đo lại hạng phiên leo top đã sửa; thiếu thì bỏ qua bước đó
+ *   chiTenMien: chỉ chạy cho MỘT site (nút "Chạy" ở từng dòng đối thủ)
+ *   bao: báo tiến độ ra ngoài (ghi vào KV) — không bao giờ được ném, xem baoAnToan
+ *
+ * ⚠️ CA MỘT SITE BỎ các khâu TOÀN KHO: dò xu hướng, tính lại khoảng trống, lập chiến lược
+ * tuần, đo lại hạng leo top. Chúng đọc dữ liệu của MỌI đối thủ, nên chạy chúng trong một ca
+ * hẹp là lấy kết quả toàn kho gắn vào một lượt bấm của một site — số đúng nhưng đọc nhật ký
+ * thì tưởng site đó sinh ra chúng. Ca đêm vẫn làm đủ.
  */
-export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = cho, now = () => new Date().toISOString(), hanChot = Infinity, gsc, kv, goiModel, tuDoc, log, loiTai, tuChienLuoc, content, chiMuc, kiemDuong }) {
+export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, tranSitemap, tranUrlMoiDoiThu, nghi = cho, now = () => new Date().toISOString(), hanChot = Infinity, gsc, kv, goiModel, tuDoc, log, loiTai, tuChienLuoc, content, chiMuc, kiemDuong, chiTenMien = "", bao }) {
 	const ca = {
 		loai: "radar", batDau: now(), ketThuc: null, ghi,
 		soUrlMoi: 0, soSeTrich: 0, soTrich: 0, soNgoaiNganh: 0, soLoiTrang: 0,
 		soXuHuong: 0, soCum: 0, xuHuong: [], loi: [], sitemapBo: [], dungTrich: false,
 		soDoLai: 0, thongTin: [],
+		// Đào sâu sitemap: bao nhiêu sitemap con đọc xong (ghi sổ) và bao nhiêu bỏ qua vì sổ đã có.
+		soSitemapDaDoc: 0, soSitemapBoQua: 0,
 		// Số ĐẦU VÀO của khâu khoảng trống — xem capNhatKhoangTrong.
 		soChuDeDoiThu: 0, soChuDeMinh: 0, soCumTinh: 0,
 		// Khâu TỰ ĐỌC bằng model (02/10/2026) — trước đây phải chờ routine bên ngoài kéo việc.
@@ -136,15 +145,44 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 		// đã dùng tên sau cho TỔNG kế hoạch trong kho, trùng tên là hai số đè nhau.
 		soHuong: 0, soCumNghia: 0, soKeHoachMoi: 0,
 	};
-	const doiThu = await kho.dsDoiThu(s);
-	let dung = null;
-	for (const d of doiThu) {
+	const tatCaDoiThu = await kho.dsDoiThu(s);
+	const doiThu = chiTenMien ? tatCaDoiThu.filter((d) => d.id === chiTenMien || d.tenMien === chiTenMien) : tatCaDoiThu;
+	if (chiTenMien) {
+		ca.tenMien = chiTenMien;
+		ca.motSite = true;
+		if (!doiThu.length) ca.loi.push(`Không có đối thủ "${chiTenMien}" trong kho — ca không làm gì.`);
+	}
+	// Báo tiến độ KHÔNG được làm hỏng ca: một lỗi KV lúc ghi tiến độ mà làm đứt ca là đổi một
+	// thứ để xem lấy chính thứ cần xem.
+	const baoAnToan = async (x) => {
 		try {
-			const { urls, sitemapBo } = await thuThapUrl(d.tenMien, docWeb);
+			await bao?.({ tenMien: chiTenMien || null, luc: now(), ...x });
+		} catch (e) {
+			log?.warn?.(`Rada SEO: không ghi được tiến độ — ${String(e?.message ?? e)}`);
+		}
+	};
+	let dung = null;
+	for (const [iDoiThu, d] of doiThu.entries()) {
+		await baoAnToan({ pha: "thu-thap", site: d.id, siteSo: iDoiThu + 1, soSite: doiThu.length, da: 0, tong: 0 });
+		try {
+			// ĐÀO SÂU: bỏ qua sitemap con đã đọc xong ở ca trước, và không để URL đã có trong kho
+			// ăn vào trần. Thiếu hai thứ này thì ca nào cũng gom lại đúng 300 URL mới nhất và
+			// `themUrlMoi` đếm 0 — kho đứng ở 300 trang/đối thủ trong khi site có hàng nghìn bài.
+			const { urls, sitemapBo, daDoc, conSot, soSitemapBoQua } = await thuThapUrl(d.tenMien, docWeb, {
+				tranSitemap,
+				tranUrl: tranUrlMoiDoiThu,
+				daDocSitemap: await kho.soSitemap(s, d.tenMien),
+				locMoi: (ds) => kho.locUrlMoi(s, ds),
+			});
 			// Nhật ký ghi tên sitemap đã bỏ để người quản trị soát luật phân loại (cắt 20 dòng).
 			ca.sitemapBo.push(...sitemapBo.slice(0, 20 - ca.sitemapBo.length));
+			ca.soSitemapDaDoc += daDoc.length;
+			ca.soSitemapBoQua += soSitemapBoQua;
 			const soMoi = await kho.themUrlMoi(s, d.tenMien, urls, { ghi, now: now(), nghi });
 			ca.soUrlMoi += soMoi;
+			// Chỉ ghi sổ khi ca được phép GHI: chạy thử không ghi URL, ghi sổ thì ca thật sau đó
+			// tưởng đã đọc xong những sitemap mà kho chưa có một URL nào của chúng.
+			if (ghi) await kho.ghiSoSitemap(s, d.tenMien, { daDoc, conSot }, Date.parse(ca.batDau) || Date.now());
 			const hang = await kho.layUrlCho(s, d.tenMien, tranMoiDoiThu);
 			// Chạy thử không ghi URL mới nên layUrlCho không thấy chúng — cộng tay để bản xem trước
 			// báo đúng số trang ca thật SẼ trích (vẫn chặn bởi trần mỗi đối thủ).
@@ -157,6 +195,8 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 				ca.loi.push(`Tạm ngừng trích: hàng chờ Claude đọc đang ${choAi} trang (> ${NGUONG_HANG_CHO})`);
 				continue;
 			}
+			await baoAnToan({ pha: "trich", site: d.id, siteSo: iDoiThu + 1, soSite: doiThu.length, da: 0, tong: hang.length });
+			let daTrich = 0;
 			for (const u of hang) {
 				if (Date.now() > hanChot) {
 					dung = "Dừng trích: chạm hạn ca";
@@ -168,6 +208,8 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 				if (kq.trangThai === "cho_ai") ca.soTrich++;
 				else if (kq.trangThai === "ngoai_nganh") ca.soNgoaiNganh++;
 				else ca.soLoiTrang++;
+				daTrich++;
+				await baoAnToan({ pha: "trich", site: d.id, siteSo: iDoiThu + 1, soSite: doiThu.length, da: daTrich, tong: hang.length });
 				await nghi(NGHI_GIUA_LUOT_MS);
 			}
 		} catch (e) {
@@ -186,7 +228,10 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 	// Khoá ca dài HAN_KHOA_MS = 3 giờ, đọc 40 trang hết chừng 2 phút, nên dời lên không chạm hạn.
 	if (ghi && tuDoc && goiModel && kv) {
 		try {
-			const d = await tuDoc({ s, kv, goiModel, log, nowMs: Date.parse(ca.batDau) || Date.now() });
+			await baoAnToan({ pha: "doc", site: chiTenMien || null, da: 0, tong: 0 });
+			// Ca một site chỉ đọc trang CỦA SITE ĐÓ: hàng đợi chung thì lượt bấm "chạy cho VinMEC"
+			// lại đi đọc trang của Medlatec, và bảng tiến độ của VinMEC đứng im.
+			const d = await tuDoc({ s, kv, goiModel, log, nowMs: Date.parse(ca.batDau) || Date.now(), doiThuId: chiTenMien || undefined });
 			ca.soDocAi = d.daGhi;
 			ca.soLuotModel = d.luotGoi;
 			ca.soLoiModel = d.loi;
@@ -206,7 +251,7 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 	// `denLuotChienLuoc` (hàm thuần, kiểm được mà không phải chờ tới thứ Hai).
 	// Hỏng thì ghi vào `ca.loi` rồi đi tiếp: chiến lược là việc tuần, mất một tuần không làm
 	// hỏng việc đêm.
-	if (ghi && tuChienLuoc && goiModel && denLuotChienLuoc(Date.parse(ca.batDau) || Date.now())) {
+	if (ghi && !chiTenMien && tuChienLuoc && goiModel && denLuotChienLuoc(Date.parse(ca.batDau) || Date.now())) {
 		try {
 			const c = await tuChienLuoc({ s, content, chiMuc, kiemDuong, goiModel, log, now: now() });
 			ca.soHuong = c.soHuong;
@@ -220,7 +265,10 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 		}
 	}
 
-	if (ghi) {
+	if (ghi && chiTenMien) {
+		ca.thongTin.push("Ca một site: bỏ qua dò xu hướng, tính lại khoảng trống, chiến lược tuần và đo lại leo top — đó là việc toàn kho của ca đêm.");
+	}
+	if (ghi && !chiTenMien) {
 		try {
 			ca.xuHuong = await timXuHuong({ docWeb });
 			ca.soXuHuong = ca.xuHuong.length;
@@ -249,6 +297,7 @@ export async function chayCaRadar({ s, docWeb, ghi, tranMoiDoiThu = 30, nghi = c
 	if (loiTai?.length) ca.thongTin.push(tomTatLoiTai(loiTai.slice(0, TRAN_LOI_TAI)));
 
 	ca.ketThuc = now();
+	await baoAnToan({ pha: "xong", site: chiTenMien || null, da: 0, tong: 0 });
 	await kho.ghiCa(s, ca);
 	return ca;
 }
