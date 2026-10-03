@@ -27,7 +27,7 @@ import * as kho from "../kho.mjs";
  * hoặc container-tới-container trên VPS) phải khai `RADA_SEO_API` KHÔNG kèm `/api`:
  *
  *   máy lập trình → RADA_SEO_API=http://localhost:3001   (đặt trong cms/.env)
- *   VPS           → RADA_SEO_API=http://backend:3000     (đặt trong docker-compose, KHÔNG phải
+ *   VPS           → RADA_SEO_API=http://backend:3001     (đặt trong docker-compose, KHÔNG phải
  *                                                         cms/.env — tệp đó chép qua lại hai máy)
  *
  * Thiếu khai thì plugin hỏi site thật, và site thật chỉ trả lời khi backend MỚI đã deploy.
@@ -70,7 +70,7 @@ function loiMang(e, goc, hanGioMs) {
 	return [
 		`${chu}${nguyen ? ` (${nguyen})` : ""} — gọi tới ${goc}`,
 		macDinh
-			? "RADA_SEO_API chưa khai nên đang hỏi vòng ra tên miền công khai. Trong container hãy khai RADA_SEO_API=http://backend:3000 (docker-compose), máy lập trình thì http://localhost:3001 (cms/.env)."
+			? "RADA_SEO_API chưa khai nên đang hỏi vòng ra tên miền công khai. Trong container hãy khai RADA_SEO_API=http://backend:3001 (docker-compose), máy lập trình thì http://localhost:3001 (cms/.env)."
 			: "",
 	]
 		.filter(Boolean)

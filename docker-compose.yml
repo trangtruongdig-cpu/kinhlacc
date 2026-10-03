@@ -123,7 +123,10 @@ services:
       # Gốc backend cho Rada SEO: gọi THẲNG container backend, không vòng ra nginx. Đặt ở ĐÂY
       # (environment thắng env_file) vì cms/.env chép qua lại với máy lập trình, nơi giá trị
       # đúng là http://localhost:3001. Không kèm /api — tiền tố đó do nginx thêm.
-      RADA_SEO_API: "http://backend:3000"
+      # ⚠️ 3001, KHÔNG phải 3000. Backend trong Docker chạy APP_PORT=3001 (xem service backend
+      # ở trên) và nginx cũng proxy tới backend:3001. Ghi 3000 thì container cms nhận
+      # ECONNREFUSED — đã xảy ra thật 03/10/2026.
+      RADA_SEO_API: "http://backend:3001"
       # Không còn CHỊU LỰC cho Rada SEO: lịch là "30 * * * *" (cùng mốc ở mọi múi giờ tròn giờ)
       # và hook tự so getUTCHours() === 19. Giữ cho tường minh — giờ trong log container là UTC.
       TZ: UTC

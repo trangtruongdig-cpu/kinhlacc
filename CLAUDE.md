@@ -1095,7 +1095,7 @@ không có lối cấu hình; nó đúng cho chỗ nó sinh ra (tải trang đ�
 dùng), nhưng `RADA_SEO_API` là hằng số của người vận hành. Plugin là `format: "native"` nên dùng
 `fetch` toàn cục cho **đúng** đường này; mọi lời gọi tải trang ngoài vẫn qua `ctx.http.fetch`.
 Gốc API khai KHÔNG kèm `/api` (tiền tố đó do nginx thêm): máy dev `http://localhost:3001` trong
-`cms/.env`, VPS `http://backend:3000` trong `docker-compose.yml`.
+`cms/.env`, VPS `http://backend:3001` trong `docker-compose.yml`.
 
 **Bốn điều đã trả giá:**
 
@@ -1495,4 +1495,9 @@ tác dụng canh chừng. Đỏ một mình phép đó thì xem `uptime` trướ
 2. **PM2** (`ecosystem.config.cjs`) — stale, references a Nuxt-style `.output/server/index.mjs`; the frontend is a Vite SPA. Does not work as-is.
 3. ~~**Vercel**~~ — removed 2026-09-18 (deployment no longer existed; the stale config kept causing wrong conclusions about cron and SSE). Restore with `git checkout 18d0a92 -- backend/vercel.json backend/api/index.ts` if ever needed. `frontend/vercel.json` is kept (inert SPA rewrites).
 
-The backend port differs between contexts (3000 in Docker, 3001 local). When fixing CORS, redirects, or links between services, confirm which one is in play.
+⚠️ **Backend nghe cổng 3001 ở CẢ HAI nơi** — `docker-compose.yml` đặt `APP_PORT: "3001"` cho
+container và `frontend/nginx.conf` proxy tới `backend:3001`. Dòng cũ ở đây ghi "3000 in Docker"
+là SAI, và nó đã lừa được một lượt: `RADA_SEO_API` khai `http://backend:3000` nên container cms
+nhận `ECONNREFUSED` trên production (03/10/2026) trong khi máy dev chạy ngon. Khi sửa CORS,
+chuyển hướng hay đường gọi giữa các service, đọc `docker-compose.yml` và `nginx.conf` chứ đừng
+tin trí nhớ — kể cả dòng này.
