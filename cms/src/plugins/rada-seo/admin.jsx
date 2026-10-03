@@ -1263,12 +1263,32 @@ function SoDoNanHoa({ t }) {
 
 function MangNhenTab({ dl, loi, onTai }) {
 	const [mo, setMo] = useState(null);
+	const [dangDo, setDangDo] = useState(false);
+	const [doKq, setDoKq] = useState(null);
+	const doLai = () => {
+		setDangDo(true);
+		setDoKq(null);
+		goi("mang-nhen-do-lai")
+			.then((r) => {
+				setDoKq(r);
+				onTai();
+			}, (e) => setDoKq({ ghiChu: loiCua(e) }))
+			.finally(() => setDangDo(false));
+	};
 	if (!dl) return loi ? <ChuaCoDuLieu loi={loi} /> : <ChoMotChut viec="Đang đọc sổ gợi ý link ngược" />;
 	const tt = dl.trungTam ?? [];
 	return (
 		<div>
-			<div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+			<div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8, flexWrap: "wrap" }}>
 				<Nut onClick={onTai}>Tải lại</Nut>
+				{/* Sổ chỉ được ghi lúc Publish, nên bài đăng TRƯỚC khi có tính năng này không bao giờ
+				    vào sổ. Nút dò lại lấp đúng chỗ đó; chạy lại nhiều lần không đẻ đề xuất trùng. */}
+				<Nut chinh disabled={dangDo} onClick={doLai}>{dangDo ? "Đang dò…" : "Dò lại cho bài đã đăng"}</Nut>
+				{doKq && (
+					<span style={{ fontSize: 13, color: doKq.ghiChu ? "#92400e" : "#15803d" }}>
+						{doKq.ghiChu || `Đã dò ${doKq.soBai} bài · ghi ${doKq.daGhi} đề xuất.`}
+					</span>
+				)}
 				<span style={{ color: "#666", fontSize: 13 }}>
 					Lò viết chèn link mới → cũ. Chiều ngược lại (cũ → mới) thì bài cũ không bao giờ tự biết có bài mới, nên bài mới nhận 0
 					link nội bộ đúng lúc cần nhất. Đây là sổ gợi ý cho chiều đó.
@@ -1289,8 +1309,8 @@ function MangNhenTab({ dl, loi, onTai }) {
 			</div>
 			{!tt.length && (
 				<p style={{ color: "#6b7280" }}>
-					Sổ còn trống. Nó được ghi khi một bài của lò viết được <b>Publish</b> — lúc đó `thaMangNhen` dò các bài cũ nên trỏ sang
-					bài vừa đăng.
+					Sổ còn trống. Nó tự ghi khi một bài được <b>Publish</b>, nên bài đăng <b>trước</b> khi có tính năng này không có trong
+					đó — bấm <b>“Dò lại cho bài đã đăng”</b> ở trên để lấp.
 				</p>
 			)}
 			{tt.map((t) => (

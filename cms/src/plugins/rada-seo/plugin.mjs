@@ -28,7 +28,9 @@ import { layBaiCanViet, nopBai, traBaiMoiDem, KHOA_CAI_DAT_BAI_MOI_DEM, BAI_MOI_
 import { tranTrangDem } from "./mcp-viec.mjs";
 import { truocKhiDang, sauKhiDang, sauKhiGo, taiPanel, dsNhapChoTab } from "./viet/dang.mjs";
 import { thaIndexNow } from "./viet/indexnow.mjs";
-import { thaMangNhen } from "./viet/lien-ket-nguoc.mjs";
+import { thaMangNhen, dungGoiYNguoc, docBaiDaDang } from "./viet/lien-ket-nguoc.mjs";
+/** Trần bài mỗi lượt dò lại — mỗi bài là một lượt so với toàn bộ bài còn lại. */
+const TRAN_DO_LAI_MANG_NHEN = 60;
 import { gomMangNhen } from "./viet/mang-nhen-xem.mjs";
 import { taoGoiModel } from "./ai/goi-model.mjs";
 import { tuDocTrang } from "./ai/tu-doc-trang.mjs";
@@ -1280,6 +1282,34 @@ export function createPlugin() {
 						}
 					}
 					return { ...gomMangNhen(so, ten), soChuaTraDuocTen: thieu.length };
+				},
+			},
+			/**
+			 * DÒ LẠI mạng nhện cho MỌI bài đã đăng.
+			 *
+			 * `thaMangNhen` chỉ chạy ở `content:afterPublish`, nên bài đăng TRƯỚC khi có tính năng
+			 * này không bao giờ vào sổ — tab Mạng nhện vì thế rỗng trơn dù site đã có bài. Nút này
+			 * lấp đúng chỗ đó, và chạy lại được bất cứ lúc nào: `tronSo` khử trùng theo slug nên
+			 * dò hai lần không đẻ đề xuất trùng.
+			 */
+			"mang-nhen-do-lai": {
+				handler: async (ctx) => {
+					// Liệt kê MỘT lần rồi dùng lại cho mọi bài: mỗi lượt liệt kê kéo về cả thân bài.
+					const ds = await docBaiDaDang(ctx.content);
+					if (!ds.length) return { soBai: 0, daGhi: 0, ghiChu: "Chưa có bài nào đã đăng trong bộ bai_viet." };
+					let daGhi = 0;
+					for (const b of ds.slice(0, TRAN_DO_LAI_MANG_NHEN)) {
+						const r = await dungGoiYNguoc(
+							// Dựng lại đúng hình sự kiện Publish. `tu_khoa` lấy từ bản liệt kê; không có
+							// `seo` nên bài noindex KHÔNG bị loại ở đây — chấp nhận, vì đây là ĐỀ XUẤT
+							// chờ người bấm chứ không phải link đã chèn.
+							{ collection: "bai_viet", content: { id: b.id, slug: b.slug, title: b.tieuDe, tu_khoa: b.tuKhoa } },
+							ctx,
+							{ cuSan: ds },
+						);
+						daGhi += r.daGhi;
+					}
+					return { soBai: Math.min(ds.length, TRAN_DO_LAI_MANG_NHEN), daGhi, ghiChu: "" };
 				},
 			},
 			"nhap-tong-quan": {

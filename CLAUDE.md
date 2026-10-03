@@ -913,6 +913,13 @@ trống chứ không đoán** — bài cũ có thể do người viết tay, kh�
 `toaDoNanHoa` là hàm THUẦN và có phép kiểm: vẽ hình mà không kiểm thì lệch một nan cũng không ai
 biết.
 
+⚠️ **Sổ chỉ tự ghi ở `content:afterPublish`, nên bài đăng TRƯỚC khi có tính năng này không bao
+giờ vào sổ** — tab rỗng trơn dù kho đã có 15 bài đã đăng, và cái rỗng đó đọc ra như "chưa có việc"
+chứ không như "chưa ai dò". Nút **"Dò lại cho bài đã đăng"** (`mang-nhen-do-lai`) lấp đúng chỗ đó;
+`tronSo` khử trùng theo slug nên dò nhiều lần không đẻ đề xuất trùng.
+⚠️ Khâu dò lại **liệt kê bài đã đăng MỘT lần** rồi truyền vào `dungGoiYNguoc({cuSan})`: để nó tự
+liệt kê cho từng bài là N lượt liệt kê, mà mỗi lượt kéo về cả thân bài.
+
 ### Vòng học: loại sửa nào hay giúp lên hạng (`leo-top/vong-hoc.mjs`, 02/10/2026)
 
 ⚠️ **ĐỒNG XUẤT HIỆN, KHÔNG PHẢI NHÂN QUẢ** — và đây là ràng buộc thiết kế, không phải lời rào

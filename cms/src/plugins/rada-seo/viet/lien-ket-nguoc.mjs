@@ -126,7 +126,7 @@ const TRAN_TRANG = 200;
  * Mọi bài ĐÃ ĐĂNG, kèm chữ thuần (chọn neo) và thân markdown (dò link đã có). Bài nháp không
  * tính: đề xuất chèn link vào một bài chưa ai đọc là việc vô ích.
  */
-async function docBaiDaDang(content) {
+export async function docBaiDaDang(content) {
 	const ra = [];
 	let cursor, trang = 0;
 	do {
@@ -172,7 +172,12 @@ async function cumCuaBai(s, id) {
  * Không ném: bài đã lên rồi, một lỗi ở đây không được làm gì hỏng thêm.
  * @returns {Promise<{soBaiCu: number, daGhi: number}>}
  */
-export async function dungGoiYNguoc(event, ctx) {
+/**
+ * @param {{cuSan?: object[]}} o  `cuSan`: danh sách bài đã đăng lấy SẴN từ ngoài. Có để khâu dò
+ *   lại hàng loạt không phải liệt kê cả kho cho TỪNG bài — N bài là N lượt liệt kê, mà mỗi lượt
+ *   kéo về cả thân bài.
+ */
+export async function dungGoiYNguoc(event, ctx, { cuSan } = {}) {
 	const ra = { soBaiCu: 0, daGhi: 0 };
 	try {
 		if (event?.collection !== BO || !ctx) return ra;
@@ -182,7 +187,7 @@ export async function dungGoiYNguoc(event, ctx) {
 		// Bài đặt noindex thì đừng nhờ bài khác trỏ sang: chính mình đang bảo bot bỏ qua nó.
 		if (c.seo?.noIndex === true) return ra;
 		const s = ctx.storage;
-		const cu = (await docBaiDaDang(ctx.content)).filter((b) => b.id !== String(c.id ?? ""));
+		const cu = (cuSan ?? (await docBaiDaDang(ctx.content))).filter((b) => b.id !== String(c.id ?? ""));
 		ra.soBaiCu = cu.length;
 		const moi = {
 			slug,
