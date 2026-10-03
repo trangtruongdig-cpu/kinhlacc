@@ -7,10 +7,11 @@
 // "Hồ sơ đóng hộp" (infobox-top). Mô hình TRỤ–NHÁNH: /kinh/<slug>/ ↔ /huyet/<slug>/.
 //
 // Chạy SAU `vite build` (cần dist/), hoặc DIST_DIR=… để thử. LIMIT_HUYET=N → sinh thử N huyệt.
-import { writeFileSync, mkdirSync } from 'node:fs'
+import { writeFileSync, mkdirSync, readFileSync } from 'node:fs'
+import { tronCauHoiThat } from './faq-that.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
-import {
+import { khoiHoiAi, cssHoiAi,
   head, topbar, footer, disclaimer, ld, escText, escAttr,
   DOMAIN, SITE, tieuDeSeo, bylineTuDien, navMucLuc,
 } from './seo-html.mjs'
@@ -194,6 +195,20 @@ function faqLd(faq) {
     })),
   })
 }
+// ── CÂU HỎI THẬT (Search Console) ────────────────────────────────────────────────────────
+// FAQ dựng bằng câu mẫu đóng cứng thì đúng nghĩa nhưng KHÔNG trùng chữ người ta gõ, nên máy
+// không nhặt ra. Đo 03/10/2026 trên /huyet/phuc-tho/: 51/97 lượt hiển thị chờ đúng việc này.
+// Tệp do `scripts/cau-hoi-gsc.mjs` kéo về; KHÔNG có tệp thì mọi thứ chạy y như trước.
+const CAU_HOI_THAT = (() => {
+  try {
+    return JSON.parse(readFileSync(new URL('./du-lieu/cau-hoi-that.json', import.meta.url), 'utf8'))
+  } catch {
+    return {}
+  }
+})()
+let _soFaqThem = 0
+export const soFaqThemTuGsc = () => _soFaqThem
+
 function huyetFaq(rec, cls, dispName) {
   const out = []
   const vt = sec(rec, 'VỊ TRÍ')
@@ -207,7 +222,20 @@ function huyetFaq(rec, cls, dispName) {
       q: `${dispName} thuộc đường kinh nào?`,
       a: `${dispName}${cls.code ? ` (${cls.code})` : ''} thuộc ${cls.kinhTen}.`,
     })
-  return out
+  // Trộn câu người ta GÕ THẬT, ghép với chính các mục nội dung ở trên — không sinh câu trả lời
+  // mới, không đụng thân bài. Trang vì thế tự khớp dần theo nhu cầu mỗi lần build.
+  const { faq, daThem } = tronCauHoiThat({
+    faq: out,
+    cauHoiThat: CAU_HOI_THAT[`/huyet/${rec._slug}/`] ?? [],
+    mucTheoY: {
+      vi_tri: vt,
+      tac_dung: ct,
+      cach_lam: cc,
+      dinh_nghia: cls.loai === 'kinh' && cls.kinhTen ? `${dispName}${cls.code ? ` (${cls.code})` : ''} thuộc ${cls.kinhTen}.` : sec(rec, 'Ý NGHĨA TÊN HUYỆT'),
+    },
+  })
+  _soFaqThem += daThem.length
+  return faq
 }
 function benhFaq(rec, set, cfg) {
   const out = []
@@ -670,6 +698,7 @@ function huyetPage(rec) {
   <p class="dl-lead">${escText(lead)}</p>
   ${anh3dBlock(anh3d, dispName)}
   <div class="bl-body">${body}</div>
+  ${khoiHoiAi(url, title)}
   ${faqBlock(faq)}
   <div class="bl-cta"><a href="${ma3d ? `/xem-3d?focus=${encodeURIComponent(ma3d)}` : '/xem-3d'}">${ma3d ? `Xem Huyệt ${escText(rec.ten)} Trên Đồ Hình Kinh Lạc 3D →` : 'Khám Phá Đồ Hình Kinh Lạc 3D →'}</a></div>
   ${benhDungHtml}
@@ -819,6 +848,7 @@ const DICT_STYLE = `<style>
   .dl-acts{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.9rem}
   .dl-act{display:inline-flex;align-items:center;gap:.35rem;padding:.45rem .9rem;border:1px solid #d4b896;background:#f3ebdd;color:#5a4427;border-radius:999px;font-size:.88rem;font-weight:700;text-decoration:none}
   .dl-act:hover{background:#6b4423;border-color:#6b4423;color:#fff}
+${cssHoiAi}
   .dl-faq{margin-top:2rem;border-top:1px dashed #e3d6c2;padding-top:1.1rem}
   .dl-faq>h2{font-size:1.25rem;color:#5a4427;margin:0 0 .8rem}
   .dl-faq-item{margin:0 0 1rem}
@@ -1032,6 +1062,7 @@ function benhPage(rec, set, cfg) {
   <p class="dl-lead">${escText(lead)}</p>
   ${crossHtml}
   <div class="bl-body">${body}</div>
+  ${khoiHoiAi(url, title)}
   ${faqBlock(faq)}
   <div class="bl-cta"><a href="/xem-ket-qua-do">Đo Kinh Lạc — Đọc Kết Quả Thành Biểu Đồ →</a></div>
   ${huyetRelHtml}

@@ -1,0 +1,414 @@
+{
+ "/kinh/": [
+  {
+   "tuKhoa": "kinh lạc trương gia",
+   "hienThi": 16,
+   "viTri": 1
+  }
+ ],
+ "/": [
+  {
+   "tuKhoa": "kinh lạc trương gia",
+   "hienThi": 14,
+   "viTri": 3.4
+  },
+  {
+   "tuKhoa": "dokinhlac",
+   "hienThi": 9,
+   "viTri": 4.9
+  },
+  {
+   "tuKhoa": "app 12 đường kinh",
+   "hienThi": 7,
+   "viTri": 7.1
+  }
+ ],
+ "/huyet/": [
+  {
+   "tuKhoa": "tra cứu huyệt vị",
+   "hienThi": 14,
+   "viTri": 7.9
+  },
+  {
+   "tuKhoa": "kinh lạc trương gia",
+   "hienThi": 3,
+   "viTri": 1
+  }
+ ],
+ "/huyet/ha-quan/": [
+  {
+   "tuKhoa": "huyệt hạ quan ở đâu",
+   "hienThi": 52,
+   "viTri": 7.3
+  },
+  {
+   "tuKhoa": "hạ quan",
+   "hienThi": 47,
+   "viTri": 10.1
+  },
+  {
+   "tuKhoa": "hạ quan là gì",
+   "hienThi": 27,
+   "viTri": 9.3
+  },
+  {
+   "tuKhoa": "vị trí huyệt hạ quan",
+   "hienThi": 12,
+   "viTri": 8.6
+  },
+  {
+   "tuKhoa": "cách xác định huyệt hạ quan",
+   "hienThi": 11,
+   "viTri": 9.5
+  },
+  {
+   "tuKhoa": "huyệt hạ quan",
+   "hienThi": 7,
+   "viTri": 12.7
+  },
+  {
+   "tuKhoa": "huyệt hạ quan nằm ở đâu",
+   "hienThi": 7,
+   "viTri": 8.4
+  },
+  {
+   "tuKhoa": "hạ quan huyệt",
+   "hienThi": 7,
+   "viTri": 11
+  }
+ ],
+ "/huyet/lai-cau/": [
+  {
+   "tuKhoa": "huyệt lãi câu",
+   "hienThi": 51,
+   "viTri": 8.5
+  },
+  {
+   "tuKhoa": "huyệt lãi câu nằm ở đâu",
+   "hienThi": 22,
+   "viTri": 9.2
+  },
+  {
+   "tuKhoa": "lãi câu",
+   "hienThi": 16,
+   "viTri": 7.9
+  },
+  {
+   "tuKhoa": "lãi câu huyệt",
+   "hienThi": 6,
+   "viTri": 9.5
+  }
+ ],
+ "/huyet/hac-dinh/": [
+  {
+   "tuKhoa": "huyệt hạc đỉnh",
+   "hienThi": 13,
+   "viTri": 8.3
+  },
+  {
+   "tuKhoa": "hạc đỉnh huyệt",
+   "hienThi": 3,
+   "viTri": 5.7
+  }
+ ],
+ "/huyet/ngach-trung/": [
+  {
+   "tuKhoa": "huyệt ngạch trung",
+   "hienThi": 13,
+   "viTri": 5.3
+  }
+ ],
+ "/huyet/nhien-coc/": [
+  {
+   "tuKhoa": "huyệt nhiên cốc",
+   "hienThi": 17,
+   "viTri": 10.2
+  },
+  {
+   "tuKhoa": "huyệt nhiên cốc ở đâu",
+   "hienThi": 11,
+   "viTri": 10.5
+  },
+  {
+   "tuKhoa": "huyệt nhiên cốc có tác dụng gì",
+   "hienThi": 8,
+   "viTri": 8.6
+  },
+  {
+   "tuKhoa": "huyệt nhiên cốc nằm ở đâu",
+   "hienThi": 4,
+   "viTri": 11
+  }
+ ],
+ "/huyet/phuc-ket/": [
+  {
+   "tuKhoa": "huyệt phúc kết",
+   "hienThi": 10,
+   "viTri": 8.2
+  }
+ ],
+ "/huyet/phuc-tho/": [
+  {
+   "tuKhoa": "huyệt phục thỏ",
+   "hienThi": 61,
+   "viTri": 6.7
+  },
+  {
+   "tuKhoa": "phục thỏ",
+   "hienThi": 26,
+   "viTri": 8.3
+  },
+  {
+   "tuKhoa": "huyệt phục thố ở đâu",
+   "hienThi": 22,
+   "viTri": 5.6
+  },
+  {
+   "tuKhoa": "huyệt phục thố",
+   "hienThi": 17,
+   "viTri": 4.5
+  },
+  {
+   "tuKhoa": "phục thố",
+   "hienThi": 17,
+   "viTri": 3.9
+  },
+  {
+   "tuKhoa": "vị trí huyệt phục thỏ",
+   "hienThi": 15,
+   "viTri": 8.3
+  },
+  {
+   "tuKhoa": "phục thỏ huyệt",
+   "hienThi": 14,
+   "viTri": 8.3
+  },
+  {
+   "tuKhoa": "huyệt phục thỏ nằm ở đâu",
+   "hienThi": 7,
+   "viTri": 7.7
+  }
+ ],
+ "/huyet/thieu-hai/": [
+  {
+   "tuKhoa": "huyệt thiếu hải",
+   "hienThi": 15,
+   "viTri": 7.9
+  },
+  {
+   "tuKhoa": "huyệt thiếu hải nằm ở đâu",
+   "hienThi": 7,
+   "viTri": 7.7
+  },
+  {
+   "tuKhoa": "thiếu hải",
+   "hienThi": 3,
+   "viTri": 3
+  }
+ ],
+ "/blog/huyet-tuc-tam-ly/": [
+  {
+   "tuKhoa": "huyệt túc tam lý",
+   "hienThi": 9,
+   "viTri": 36.2
+  },
+  {
+   "tuKhoa": "túc tam lý",
+   "hienThi": 3,
+   "viTri": 19.7
+  }
+ ],
+ "/huyet/dai-chung/": [
+  {
+   "tuKhoa": "huyệt đại chung",
+   "hienThi": 24,
+   "viTri": 7
+  },
+  {
+   "tuKhoa": "huyệt đại chung ở đâu",
+   "hienThi": 10,
+   "viTri": 6.1
+  },
+  {
+   "tuKhoa": "huyệt đại trung",
+   "hienThi": 6,
+   "viTri": 8.2
+  },
+  {
+   "tuKhoa": "đại chung huyệt",
+   "hienThi": 3,
+   "viTri": 5.3
+  }
+ ],
+ "/lien-he/": [
+  {
+   "tuKhoa": "kinh lạc trương gia",
+   "hienThi": 14,
+   "viTri": 2.5
+  }
+ ],
+ "/huyet/thieu-phu/": [
+  {
+   "tuKhoa": "vị trí huyệt thiếu phủ",
+   "hienThi": 9,
+   "viTri": 10.1
+  },
+  {
+   "tuKhoa": "huyệt thiếu phủ nằm ở đâu",
+   "hienThi": 6,
+   "viTri": 10.8
+  },
+  {
+   "tuKhoa": "thiếu phủ",
+   "hienThi": 5,
+   "viTri": 10.2
+  }
+ ],
+ "/huyet/thuong-cu-hu/": [
+  {
+   "tuKhoa": "huyệt thượng cự hư",
+   "hienThi": 31,
+   "viTri": 4.8
+  },
+  {
+   "tuKhoa": "thượng cự hư",
+   "hienThi": 16,
+   "viTri": 5.1
+  },
+  {
+   "tuKhoa": "huyệt cự hư",
+   "hienThi": 11,
+   "viTri": 7.9
+  },
+  {
+   "tuKhoa": "thượng cự hư huyệt",
+   "hienThi": 8,
+   "viTri": 5.6
+  }
+ ],
+ "/huyet/khuyet-bon/": [
+  {
+   "tuKhoa": "huyệt khuyết bồn",
+   "hienThi": 8,
+   "viTri": 8.9
+  },
+  {
+   "tuKhoa": "huyệt khuyết bồn nằm ở đâu",
+   "hienThi": 5,
+   "viTri": 9.4
+  }
+ ],
+ "/huyet/khi-ho/": [
+  {
+   "tuKhoa": "huyệt khí hộ",
+   "hienThi": 3,
+   "viTri": 2
+  }
+ ],
+ "/kinh/doc/": [
+  {
+   "tuKhoa": "mạch đốc",
+   "hienThi": 3,
+   "viTri": 34.3
+  }
+ ],
+ "/huyet/quan-xung/": [
+  {
+   "tuKhoa": "huyệt quan xung",
+   "hienThi": 4,
+   "viTri": 8.5
+  }
+ ],
+ "/huyet/thien-tong/": [
+  {
+   "tuKhoa": "vị trí huyệt thiên tông",
+   "hienThi": 12,
+   "viTri": 10.3
+  },
+  {
+   "tuKhoa": "huyệt thiên tông ở đâu",
+   "hienThi": 9,
+   "viTri": 10.6
+  },
+  {
+   "tuKhoa": "huyệt thiên tông vị trí",
+   "hienThi": 7,
+   "viTri": 9.9
+  },
+  {
+   "tuKhoa": "huyệt thiên tông",
+   "hienThi": 3,
+   "viTri": 7.3
+  }
+ ],
+ "/huyet/trung-phong/": [
+  {
+   "tuKhoa": "huyệt trung phong",
+   "hienThi": 30,
+   "viTri": 9.2
+  }
+ ],
+ "/huyet/trung-doc/": [
+  {
+   "tuKhoa": "huyệt trung độc",
+   "hienThi": 4,
+   "viTri": 6
+  }
+ ],
+ "/huyet/truc-tan/": [
+  {
+   "tuKhoa": "huyệt trúc tân",
+   "hienThi": 16,
+   "viTri": 4.4
+  }
+ ],
+ "/huyet/dia-thuong/": [
+  {
+   "tuKhoa": "huyệt địa thương",
+   "hienThi": 7,
+   "viTri": 9
+  }
+ ],
+ "/huyet/oc-e/": [
+  {
+   "tuKhoa": "huyệt ốc ế",
+   "hienThi": 8,
+   "viTri": 4.5
+  }
+ ],
+ "/xem-3d/": [
+  {
+   "tuKhoa": "hình ảnh 12 đường kinh lạc",
+   "hienThi": 3,
+   "viTri": 73.3
+  }
+ ],
+ "/huyet/kinh-cot/": [
+  {
+   "tuKhoa": "vị trí huyệt kinh cốt",
+   "hienThi": 3,
+   "viTri": 9.7
+  }
+ ],
+ "/chinh-sach-bao-mat/": [
+  {
+   "tuKhoa": "kinh lạc trương gia",
+   "hienThi": 4,
+   "viTri": 1
+  }
+ ],
+ "/quy-trinh-bien-tap/": [
+  {
+   "tuKhoa": "kinh lạc trương gia",
+   "hienThi": 11,
+   "viTri": 2.5
+  }
+ ],
+ "/huyet/thua-tuong/": [
+  {
+   "tuKhoa": "vị trí huyệt thừa tương",
+   "hienThi": 3,
+   "viTri": 11
+  }
+ ]
+}

@@ -137,6 +137,49 @@ export const MUC_LUC = [
   ['/nguon/', 'Nguồn Y Văn'],
   ['/blog/', 'Cẩm Nang'],
 ]
+/**
+ * Khối "Tóm tắt trang này bằng AI" — ba nút mở thẳng ChatGPT / Claude / Google AI Mode với lời
+ * nhắc đã điền sẵn và URL của chính trang.
+ *
+ * VÌ SAO CÓ: người đọc nay hỏi trợ lý AI thay vì đọc hết trang, và trợ lý chỉ lấy được nội dung
+ * nào nó TÌM RA. Nút này là đường ngắn nhất từ trang của mình vào ngữ cảnh của AI — người dùng
+ * bấm, AI tải đúng URL này, và phần trả lời dẫn lại nguồn.
+ *
+ * ⚠️ CHỈ LÀ LIÊN KẾT, không chạy JS, không gọi API, không gửi gì đi. Trang từ điển là HTML tĩnh
+ * và phải giữ nguyên như vậy.
+ * ⚠️ `rel="nofollow noopener"`: đây là link ra ngoài do người dùng bấm, không phải link biên
+ * tập — để nó truyền tín hiệu xếp hạng sang ba tên miền đó là không có lý do gì.
+ */
+export const khoiHoiAi = (duong, tieuDe) => {
+  const url = toAbs(duong)
+  const nhac = `Tóm tắt nội dung trang này và cho biết nó trả lời được câu hỏi gì: ${url}`
+  const q = encodeURIComponent(nhac)
+  const nut = [
+    ['Hỏi ChatGPT', `https://chatgpt.com/?q=${q}`],
+    ['Hỏi Claude', `https://claude.ai/new?q=${q}`],
+    ['Google AI Mode', `https://www.google.com/search?udm=50&q=${q}`],
+  ]
+  return (
+    `<aside class="dl-ai" aria-label="Tóm tắt bằng AI">` +
+    `<b>Tóm tắt trang này bằng AI</b>` +
+    `<div class="dl-ai-nut">${nut
+      .map(([t, h]) => `<a href="${escAttr(h)}" target="_blank" rel="nofollow noopener">${escText(t)}</a>`)
+      .join('')}</div>` +
+    `<span class="dl-ai-ghi">Mở trợ lý AI kèm đường dẫn trang${tieuDe ? ` “${escText(tieuDe)}”` : ''} để hỏi tiếp.</span>` +
+    `</aside>`
+  )
+}
+
+/** CSS của khối trên — nhúng cùng chỗ với CSS trang tĩnh, không thêm tệp rời. */
+export const cssHoiAi = `
+  .dl-ai{margin:1rem 0;padding:.7rem .9rem;border:1px solid #e3d6c2;border-radius:10px;background:#faf6ef}
+  .dl-ai>b{display:block;font-size:.95rem;color:#5a4427;margin-bottom:.45rem}
+  .dl-ai-nut{display:flex;flex-wrap:wrap;gap:.45rem}
+  .dl-ai-nut a{display:inline-block;padding:.35rem .7rem;border:1px solid #d9c9ad;border-radius:999px;background:#fff;color:#6b4423;text-decoration:none;font-size:.88rem}
+  .dl-ai-nut a:hover{background:#f3e9d9}
+  .dl-ai-ghi{display:block;margin-top:.4rem;font-size:.8rem;color:#8a7a63}
+`
+
 export const navMucLuc = `<nav aria-label="Mục lục từ điển">${MUC_LUC.map(([h, t]) => `<a href="${h}">${t}</a>`).join(' · ')}</nav>`
 
 export const footer = `<footer class="bl-foot"><div class="bl-foot-in">

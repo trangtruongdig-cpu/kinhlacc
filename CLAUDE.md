@@ -1167,6 +1167,34 @@ Số đo cho thấy kho này sống ở đâu (28 ngày, 455 trang có số): **
 thị · 117 nhấp** — 76% lượt hiển thị toàn site. Hai bộ trang nhu cầu (`benh-hoc`,
 `cham-cuu-tri-benh`) chỉ có 14 trang có số.
 
+### Trang TỰ THÍCH NGHI: FAQ sinh từ câu người ta GÕ THẬT (03/10/2026)
+
+⚠️ **KHÔNG chèn gì vào trang đã đăng — sửa ở KHÂU SINH RA NÓ.** Trang từ điển là HTML tĩnh do
+`build-dict.mjs` dựng; FAQ đến từ `huyetFaq`/`benhFaq` bằng câu mẫu đóng cứng ("{tên} nằm ở
+đâu?"). Câu mẫu đúng nghĩa nhưng không trùng chữ người ta gõ, nên máy không nhặt ra.
+
+Vòng tự hành: `scripts/cau-hoi-gsc.mjs` kéo truy vấn thật về `scripts/du-lieu/cau-hoi-that.json`
+(chạy trong `blog:post`, NGAY TRƯỚC `build-dict`) → `scripts/faq-that.mjs` trộn vào FAQ, mỗi câu
+ghép với **mục nội dung ĐÃ CÓ** của trang. Mỗi lần build, FAQ tự khớp lại theo nhu cầu 28 ngày
+gần nhất. Không ai phải sửa tay, không câu trả lời nào được sinh mới.
+
+Đo trên `/huyet/ha-quan/`: FAQ từ 2 câu mẫu lên 6, thêm đúng *"Huyệt hạ quan ở đâu?"* (52 lượt),
+*"Hạ quan là gì?"* (27), *"Vị trí huyệt hạ quan?"* (12), *"Cách xác định huyệt hạ quan?"* (11).
+
+- ⚠️ **`tra_ten` KHÔNG thành câu hỏi.** 70% truy vấn của site là gõ tên để tra; biến chúng thành
+  FAQ là ra câu rỗng nghĩa ("Phục thỏ huyệt?") và chính FAQ thành rác.
+- ⚠️ **Không có mục nội dung tương ứng thì KHÔNG thêm** — tuyệt đối không bịa câu trả lời.
+- ⚠️ Thiếu biến `GSC_OAUTH_*` thì script NẰM IM, giữ tệp cũ, build chạy y như trước.
+- `faq-that.mjs` là **bản sao ý tưởng** của `leo-top/y-dinh.mjs` (frontend và cms không import
+  chéo được, cùng lý do với `cms/src/lib/khung-blog.mjs`) — sửa một bên thì sửa bên kia.
+
+### Nút "Tóm tắt trang này bằng AI" (`khoiHoiAi` trong `seo-html.mjs`)
+
+Ba nút mở ChatGPT / Claude / Google AI Mode kèm lời nhắc và URL của chính trang. Người đọc nay
+hỏi trợ lý thay vì đọc hết trang, mà trợ lý chỉ lấy được nội dung nó tìm ra.
+⚠️ CHỈ LÀ LIÊN KẾT — không JS, không gọi API, không gửi gì đi; trang tĩnh phải giữ nguyên là
+tĩnh. `rel="nofollow noopener"` vì đây là link người dùng bấm, không phải link biên tập.
+
 ### BỐN TRỤC, và trục thứ tư RẺ NHẤT — đừng mặc định là phải viết bài mới
 
 Ba trục đầu đều hỏi "nên VIẾT GÌ MỚI": radar đối thủ, khoảng trống theo tháp, cụm semantic. Trục
