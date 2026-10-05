@@ -10,6 +10,7 @@
 import { writeFileSync, mkdirSync, readFileSync } from 'node:fs'
 import { tronCauHoiThat } from './faq-that.mjs'
 import { banChoAi } from './ban-cho-ai.mjs'
+import { khoaMuc, sapThanBai, khoiChonDoiTuong, cssDoiTuong, jsDoiTuong } from './doi-tuong-doc.mjs'
 import { fileURLToPath } from 'node:url'
 import { dirname, resolve, join } from 'node:path'
 import { khoiHoiAi, cssHoiAi,
@@ -90,12 +91,13 @@ function bodySection(label, body, caution) {
   const note = caution
     ? `<p class="dl-caution-note">⚠️ Thủ thuật châm/cứu phải do người có chuyên môn thực hiện; thông tin liều lượng dưới đây chỉ để <strong>tra cứu học thuật</strong>, không tự áp dụng.</p>`
     : ''
-  return `<section class="dl-sec${caution ? ' dl-caution' : ''}"><h2>${escText(label)}</h2>${note}${para(body)}</section>`
+  // data-muc: khoá ổn định của mục, để lớp "động theo đối tượng đọc" sắp lại thứ tự bằng CSS.
+  return `<section class="dl-sec${caution ? ' dl-caution' : ''}" data-muc="${khoaMuc(label)}"><h2>${escText(label)}</h2>${note}${para(body)}</section>`
 }
 // Biến thể của bodySection cho thân bài ĐÃ CÓ HTML dựng sẵn (link nối nguồn) — không para() lại.
 function bodySectionHtml(label, html) {
   if (!html) return ''
-  return `<section class="dl-sec"><h2>${escText(label)}</h2>${html}</section>`
+  return `<section class="dl-sec" data-muc="${khoaMuc(label)}"><h2>${escText(label)}</h2>${html}</section>`
 }
 
 // ── Nối tên sách trong Phối Huyệt → /nguon/<slug>/ (Việc 10 ③) ───────────────
@@ -196,6 +198,7 @@ function faqLd(faq) {
     })),
   })
 }
+
 // ── CÂU HỎI THẬT (Search Console) ────────────────────────────────────────────────────────
 // FAQ dựng bằng câu mẫu đóng cứng thì đúng nghĩa nhưng KHÔNG trùng chữ người ta gõ, nên máy
 // không nhặt ra. Đo 03/10/2026 trên /huyet/phuc-tho/: 51/97 lượt hiển thị chờ đúng việc này.
@@ -698,7 +701,8 @@ function huyetPage(rec) {
   ${infobox}
   <p class="dl-lead">${escText(lead)}</p>
   ${anh3dBlock(anh3d, dispName)}
-  <div class="bl-body">${body}</div>
+  ${khoiChonDoiTuong()}
+  <div class="bl-body">${sapThanBai(body)}</div>
   ${khoiHoiAi(url, title)}
   ${faqBlock(faq)}
   <div class="bl-cta"><a href="${ma3d ? `/xem-3d?focus=${encodeURIComponent(ma3d)}` : '/xem-3d'}">${ma3d ? `Xem Huyệt ${escText(rec.ten)} Trên Đồ Hình Kinh Lạc 3D →` : 'Khám Phá Đồ Hình Kinh Lạc 3D →'}</a></div>
@@ -708,7 +712,7 @@ function huyetPage(rec) {
   ${cls.loai === 'kinh' ? `<p class="dl-up">↑ <a href="/kinh/${escAttr(cls.kinhSlug)}/">Về ${escText(cls.kinhTen)}</a></p>` : ''}
   ${disclaimer({ note: 'Thông tin huyệt vị trên trang này' })}
 </article></main>
-${footer}</body></html>`
+${footer}${jsDoiTuong()}</body></html>`
   // Bản máy đọc: cùng chữ với trang HTML, chỉ khác THỨ TỰ — câu trả lời nhanh lên trước.
   const md = banChoAi({
     tieuDe: title,
@@ -813,7 +817,7 @@ function kinhPage(m) {
   <div class="bl-cta"><a href="/xem-3d">Khám Phá ${escText(m.ten)} Trên Mô Hình 3D →</a></div>
   ${disclaimer({ note: 'Thông tin đường kinh trên trang này' })}
 </article></main>
-${footer}</body></html>`
+${footer}${jsDoiTuong()}</body></html>`
   return { htmlDoc, url, indexable: seo.index !== false && seo.canonical === url }
 }
 
@@ -871,7 +875,7 @@ const DICT_STYLE = `<style>
   .dl-acts{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.9rem}
   .dl-act{display:inline-flex;align-items:center;gap:.35rem;padding:.45rem .9rem;border:1px solid #d4b896;background:#f3ebdd;color:#5a4427;border-radius:999px;font-size:.88rem;font-weight:700;text-decoration:none}
   .dl-act:hover{background:#6b4423;border-color:#6b4423;color:#fff}
-${cssHoiAi}
+${cssHoiAi}${cssDoiTuong()}
   .dl-faq{margin-top:2rem;border-top:1px dashed #e3d6c2;padding-top:1.1rem}
   .dl-faq>h2{font-size:1.25rem;color:#5a4427;margin:0 0 .8rem}
   .dl-faq-item{margin:0 0 1rem}
@@ -936,7 +940,7 @@ function hubDoc({ title, h1, badge, intro, top = '', sections, url, desc }) {
   <div class="bl-cta"><a href="/xem-3d">Khám Phá Đồ Hình Kinh Lạc 3D →</a></div>
   ${disclaimer({ note: 'Thông tin kinh lạc – huyệt vị trên trang này' })}
 </article></main>
-${footer}</body></html>`
+${footer}${jsDoiTuong()}</body></html>`
 }
 
 function kinhIndexPage() {
@@ -1093,7 +1097,7 @@ function benhPage(rec, set, cfg) {
   <p class="dl-up">↑ <a href="/${escAttr(cfg.dir)}/">Về danh mục ${escText(set.title)}</a></p>
   ${disclaimer({ note: `Thông tin về ${rec.ten} trên trang này` })}
 </article></main>
-${footer}</body></html>`
+${footer}${jsDoiTuong()}</body></html>`
   // Bản máy đọc cho trang bệnh: lấy thẳng các mục của chính bộ, giữ nguyên thứ tự khai báo.
   const md = banChoAi({
     tieuDe: title,
@@ -1222,7 +1226,7 @@ writeFileSync(
   <p>Trang bạn tìm không tồn tại hoặc đã đổi địa chỉ. Hãy tra lại qua mục lục:</p>
   <p>${navMucLuc}</p>
 </article></main>
-${footer}</body></html>`,
+${footer}${jsDoiTuong()}</body></html>`,
   'utf8',
 )
 luuTuSinh()

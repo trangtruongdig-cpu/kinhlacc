@@ -1211,6 +1211,34 @@ gần nhất. Không ai phải sửa tay, không câu trả lời nào được 
 - `faq-that.mjs` là **bản sao ý tưởng** của `leo-top/y-dinh.mjs` (frontend và cms không import
   chéo được, cùng lý do với `cms/src/lib/khung-blog.mjs`) — sửa một bên thì sửa bên kia.
 
+### Trang ĐỘNG theo đối tượng đọc (`frontend/scripts/doi-tuong-doc.mjs`, 06/10/2026)
+
+Trang huyệt vốn là MỘT bản cho tất cả: mã WHO, ý nghĩa tên, đặc tính, vị trí, giải phẫu, chủ
+trị, cách châm, phối huyệt, xuất xứ — đổ hết theo một thứ tự cố định. Nhưng GSC nói người đọc
+không đồng nhất và tỉ lệ rất lệch: **70% gõ tên để tra, 25% hỏi vị trí**. Người tra nhanh phải
+lội qua ý nghĩa tên và đặc tính mới tới chỗ cần.
+
+Ba nhóm: **Tra nhanh** (mặc định) · **Học viên** · **Thầy thuốc**. Mỗi nhóm có `uuTien` — danh
+sách mục kéo lên trước, và mỗi nhóm phải nêu được CĂN CỨ chứ không phải khẩu vị người viết mã.
+
+⚠️ **CHỈ SẮP LẠI, TUYỆT ĐỐI KHÔNG ẨN.** Dùng `order` của flexbox, không `display:none`. Ba lý
+do, mỗi lý do đủ để một mình quyết định: (1) trợ lý AI và bot đọc DOM — ẩn là tự xoá nội dung
+khỏi mắt chúng; (2) người nhóm này vẫn có quyền đọc phần của nhóm kia; (3) ẩn y văn theo "đoán
+xem bạn là ai" là quyết định thay người đọc. Có phép kiểm cấm `display:none`/`visibility:hidden`.
+
+⚠️ **THỨ TỰ DOM = nhóm mặc định**, sắp ở khâu DỰNG (`sapThanBai`), không phải bằng CSS. Bot và
+người tắt JS nhận đúng thứ tự phục vụ 95% nhu cầu đo được; hai nhóm kia mới đổi bằng CSS.
+
+⚠️ **Flex CHỈ bật khi đã chọn nhóm** (`.bl-body[data-doc]`). `order` đòi flex, mà flex THÔI GỘP
+margin giữa các khối — bật sẵn là đổi khoảng cách trên 100% số trang để phục vụ một tính năng
+vài người bấm. Đường mặc định và mọi bot vì thế không đụng gì tới.
+
+⚠️ `sapThanBai` cắt–nối HTML bằng regex nên là chỗ dễ MẤT NỘI DUNG nhất: phần chen GIỮA hai
+section (khối "Công Dụng" dán cạnh mục Tác Dụng) phải đi theo section ĐỨNG TRƯỚC nó. Có phép
+kiểm riêng cho đúng điều đó; dưới hai mục thì trả nguyên, không đụng vào cái không cần đụng.
+⚠️ Hàm nằm ở `doi-tuong-doc.mjs` chứ KHÔNG ở `build-dict.mjs`: import `build-dict` là chạy cả
+một lượt build thật (đo: 32 giây mỗi lần chạy phép kiểm).
+
 ### Nút "Tóm tắt trang này bằng AI" (`khoiHoiAi` trong `seo-html.mjs`)
 
 Ba nút mở ChatGPT / Claude / Google AI Mode kèm lời nhắc và URL của chính trang. Người đọc nay
