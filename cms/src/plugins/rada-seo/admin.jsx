@@ -3,6 +3,7 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { toaDoNanHoa } from "./viet/mang-nhen-xem.mjs";
 import { ROUTE_MO_MAN, routeChoTab, TAI_LAI_KHI_SANG } from "./lib/tai-man.mjs";
+import { datDong } from "./lib/bo-dong.mjs";
 
 async function goi(route, body) {
 	const res = await fetch(`/_emdash/api/plugins/rada-seo/${route}`, {
@@ -2485,8 +2486,27 @@ function RadaSeo() {
 				<KeHoachTab
 					dl={clDl}
 					loi={cLoi}
-					onDuyet={(id) => lamCL("ke-hoach-dat", { id, trangThai: "da_duyet" })}
-					onBo={(id, lyDo) => lamCL("ke-hoach-dat", { id, trangThai: "bo_qua", lyDoBo: lyDo })}
+					// ⚠️ Cập nhật CỤC BỘ, không gọi lại `chien-luoc-tong-quan` (3 lượt đọc kho trên pool
+					// max:1) để biết điều phản hồi đã nói. Và cố ý KHÔNG optimistic update: state đổi
+					// chỉ khi máy chủ xác nhận — duyệt là ghi thật, báo xong khi chưa xong là để
+					// người duyệt tưởng bài đã vào hàng viết.
+					//
+					// ⚠️ `datDong` (ĐỔI trạng thái) chứ KHÔNG `boDong` (xoá dòng): tab này có bộ lọc
+					// theo trạng thái và bộ đếm theo trạng thái, nên xoá dòng là làm bài vừa duyệt
+					// biến mất khỏi nhóm "Đã duyệt" lẫn "Tất cả", và bộ đếm sai theo. Route trả bản
+					// ghi đầy đủ với trangThai mới nên truyền thẳng được.
+					onDuyet={(id) =>
+						goi("ke-hoach-dat", { id, trangThai: "da_duyet" }).then(
+							(r) => setClDl((d) => (d ? { ...d, keHoach: datDong(d.keHoach, id, r) } : d)),
+							(e) => setCLoi(loiCua(e)),
+						)
+					}
+					onBo={(id, lyDo) =>
+						goi("ke-hoach-dat", { id, trangThai: "bo_qua", lyDoBo: lyDo }).then(
+							(r) => setClDl((d) => (d ? { ...d, keHoach: datDong(d.keHoach, id, r) } : d)),
+							(e) => setCLoi(loiCua(e)),
+						)
+					}
 					dangViet={khDangViet}
 					vietKq={khVietKq}
 					onTai={taiCL}
@@ -2510,7 +2530,17 @@ function RadaSeo() {
 					dl={ltDl}
 					loi={ltLoi}
 					onTai={taiLT}
-					onDaSua={(id, ngay) => goi("leo-top-da-sua", { id, ngay }).then(taiLT, (e) => setLtLoi(loiCua(e)))}
+					// ⚠️ Chỗ ĐẮT NHẤT: `leo-top-tong-quan` tốn `dsLeoTop` + `dsKeHoach` + HAI lượt GSC,
+					// mà việc chỉ là đổi trạng thái MỘT phiếu. Dòng KHÔNG rời bảng (nó chỉ đổi trạng
+					// thái, và người vừa bấm cần thấy mốc vừa chụp), nên dùng `datDong`: nó GỘP vào
+					// dòng cũ nên `tuCum` — thứ chỉ `leo-top-tong-quan` gắn, route này không trả —
+					// giữ nguyên, và các cột hạng/hiển thị/nhấp không phải hỏi GSC lại.
+					onDaSua={(id, ngay) =>
+						goi("leo-top-da-sua", { id, ngay }).then(
+							(r) => setLtDl((d) => (d ? { ...d, phien: datDong(d.phien, id, r) } : d)),
+							(e) => setLtLoi(loiCua(e)),
+						)
+					}
 					onSangTab={doiTab}
 				/>
 			)}
