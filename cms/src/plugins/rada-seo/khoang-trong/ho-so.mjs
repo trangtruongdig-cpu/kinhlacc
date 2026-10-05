@@ -62,6 +62,31 @@ const fetchNoiBo = (u, i) => fetch(u, i);
  * hiện "Không hỏi được kho app: fetch failed", không có cách nào biết nó đã gọi vào đâu.
  * Nên: kèm GỐC ĐÃ GỌI và, khi gốc đang là mặc định công khai, nói thẳng biến nào còn thiếu.
  */
+/**
+ * VIỆC phải làm, suy từ MÃ LỖI — không phải mô tả lại lỗi.
+ *
+ * ⚠️ Đo 06/10/2026 trên máy lập trình: tab Khoảng trống hiện "fetch failed (ECONNREFUSED) — gọi
+ * tới http://localhost:3001". `RADA_SEO_API` khai ĐÚNG, host đúng, nên nhánh "chưa khai biến"
+ * nằm im — người đọc còn lại đúng một mã lỗi của Node và KHÔNG CÓ VIỆC NÀO để làm.
+ *
+ * Hai mã hay gặp nhất chỉ ra hai chuyện khác hẳn, và gộp chúng lại là bảo người ta đi làm việc
+ * không liên quan:
+ *   ECONNREFUSED — host CÓ, không ai nghe ở cổng đó → bật tiến trình lên
+ *   ENOTFOUND    — tên host không phân giải → sai TÊN; bật backend không chữa được gì
+ *
+ * Và câu phải khác nhau theo NƠI chạy: dặn `npm run start:dev` cho một container là dặn sai chỗ.
+ */
+function viecCanLam(nguyen, goc) {
+	const laMayDev = /\/\/(localhost|127\.0\.0\.1)(:|\/|$)/.test(goc);
+	if (nguyen === "ECONNREFUSED")
+		return laMayDev
+			? "Có host nhưng KHÔNG AI NGHE ở cổng đó — backend chưa chạy. Bật: cd backend && npm run start:dev (kiểm bằng lsof -nP -iTCP:3001 -sTCP:LISTEN)."
+			: "Có host nhưng KHÔNG AI NGHE ở cổng đó — container backend chưa chạy hoặc nghe cổng khác. Kiểm docker compose ps; APP_PORT phải là 3001, cùng cổng mà nginx.conf proxy tới.";
+	if (nguyen === "ENOTFOUND")
+		return "Không phân giải được tên host — sai TÊN, bật backend không chữa được. Máy lập trình dùng localhost, trong container dùng backend (tên service trong docker-compose.yml).";
+	return "";
+}
+
 function loiMang(e, goc, hanGioMs) {
 	if (e?.name === "AbortError") return `quá hạn ${hanGioMs} ms khi gọi ${goc}`;
 	const chu = String(e?.message ?? e).slice(0, 160);
@@ -69,6 +94,7 @@ function loiMang(e, goc, hanGioMs) {
 	const macDinh = !process.env.RADA_SEO_API;
 	return [
 		`${chu}${nguyen ? ` (${nguyen})` : ""} — gọi tới ${goc}`,
+		viecCanLam(nguyen, goc),
 		macDinh
 			? "RADA_SEO_API chưa khai nên đang hỏi vòng ra tên miền công khai. Trong container hãy khai RADA_SEO_API=http://backend:3001 (docker-compose), máy lập trình thì http://localhost:3001 (cms/.env)."
 			: "",

@@ -289,3 +289,35 @@ test("lời nhắc dặn theo DẠNG HỎI THẬT khi hồ sơ có phần cầu"
 	assert.equal(/NGƯỜI ĐỌC ĐANG HỎI GÌ/.test(loiNhacTuHoSo(hoSoMau)), false);
 	assert.equal(/NGƯỜI ĐỌC ĐANG HỎI GÌ/.test(loiNhacTuHoSo({ ...hoSoMau, cau: { soTuKhoa: 0 } })), false);
 });
+
+test("ECONNREFUSED và ENOTFOUND dẫn tới HAI việc khác nhau — nói mã lỗi suông là chưa chẩn đoán", async () => {
+	// Đo 06/10/2026 trên máy lập trình: tab Khoảng trống hiện "fetch failed (ECONNREFUSED) — gọi
+	// tới http://localhost:3001". Biến RADA_SEO_API khai ĐÚNG, host đúng, nên nhánh "chưa khai
+	// biến" im — người đọc còn lại đúng một mã lỗi của Node và không có việc nào để làm.
+	//
+	// Hai mã này chỉ ra hai chuyện khác hẳn:
+	//   ECONNREFUSED — host có, KHÔNG AI NGHE ở cổng đó → bật backend lên
+	//   ENOTFOUND    — tên host không phân giải → sai TÊN, bật backend không giúp gì
+	// Gộp hai câu lại là bảo người ta đi làm việc không liên quan.
+	const cu = process.env.RADA_SEO_API;
+	const nem = (ma) => async () => {
+		throw Object.assign(new Error("fetch failed"), { cause: { code: ma } });
+	};
+
+	process.env.RADA_SEO_API = "http://localhost:3001";
+	const dev = (await layUngVien(nem("ECONNREFUSED"))).loi;
+	assert.match(dev, /npm run start:dev/, "máy lập trình: phải nói đúng lệnh bật backend");
+	assert.match(dev, /ECONNREFUSED/);
+
+	process.env.RADA_SEO_API = "http://backend:3001";
+	const dock = (await layUngVien(nem("ECONNREFUSED"))).loi;
+	assert.match(dock, /container/i, "trong container: phải nói container backend chưa chạy");
+	assert.equal(/npm run start:dev/.test(dock), false, "dặn chạy npm trong container là dặn sai chỗ");
+
+	const sai = (await layUngVien(nem("ENOTFOUND"))).loi;
+	assert.match(sai, /tên host/i, "ENOTFOUND là lỗi TÊN, không phải lỗi tiến trình");
+	assert.equal(/npm run start:dev/.test(sai), false, "bật backend không chữa được tên host sai");
+
+	if (cu === undefined) delete process.env.RADA_SEO_API;
+	else process.env.RADA_SEO_API = cu;
+});
