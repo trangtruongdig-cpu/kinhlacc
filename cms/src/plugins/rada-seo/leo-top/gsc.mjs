@@ -258,6 +258,51 @@ export function taoGsc({ fetch, env = process.env, now = Date.now, hanGioMs = HA
 		},
 
 		/**
+		 * SOI MỘT URL bằng URL Inspection API — trả lời câu "Google đã index chưa".
+		 *
+		 * ⚠️ Đây là thứ phân định được hai trạng thái mà `layTheoTrang` KHÔNG phân biệt nổi:
+		 * một trang 0 lượt hiển thị có thể là **chưa được index** (việc kỹ thuật) hoặc **đã index
+		 * mà không ai tìm tới** (việc nội dung). Trước đó tab Leo top chỉ dám nói "0 lượt hiển
+		 * thị" rồi dừng — đúng nhưng không dùng được.
+		 *
+		 * ⚠️ HẠN MỨC RIÊNG, KHÁC searchAnalytics: 2.000 lượt/ngày và 600 lượt/phút cho mỗi
+		 * property. Nên đây là đường gọi THEO YÊU CẦU, có trần và có đệm — không bao giờ quét cả
+		 * site. Gọi lẻ từng URL, API không nhận lô.
+		 *
+		 * @returns {Promise<{ketLuan, trangThai, robots, lanCrawlCuoi, canonicalGoogle, canonicalMinh}|null>}
+		 */
+		async soiUrl(url) {
+			kiemCauHinh();
+			const tk = await layToken();
+			const r = await goi(
+				"https://searchconsole.googleapis.com/v1/urlInspection/index:inspect",
+				{
+					method: "POST",
+					headers: { authorization: `Bearer ${tk}`, "content-type": "application/json" },
+					body: JSON.stringify({ inspectionUrl: url, siteUrl: siteUrl(), languageCode: "vi" }),
+				},
+				"soi URL",
+			);
+			const j = await voiHanGio(r.json(), hanGioMs, "GSC: đọc kết quả soi URL").catch(thanHongThanhRong);
+			if (!r.ok) {
+				const m = j?.error?.message || `HTTP ${r.status}`;
+				// 403 ở ĐÂY khác 403 của searchAnalytics: URL Inspection đòi property khớp CHÍNH
+				// XÁC, và `sc-domain:` không soi được URL của property tiền tố và ngược lại.
+				throw new Error(`GSC soi URL lỗi: ${m}${r.status === 403 ? ` — kiểm GSC_SITE_URL ("${siteUrl()}") có đúng property chứa URL này không.` : ""}`);
+			}
+			const k = j?.inspectionResult?.indexStatusResult;
+			if (!k) return null;
+			return {
+				ketLuan: k.verdict ?? "",
+				trangThai: k.coverageState ?? "",
+				robots: k.robotsTxtState ?? "",
+				lanCrawlCuoi: k.lastCrawlTime ?? null,
+				canonicalGoogle: k.googleCanonical ?? "",
+				canonicalMinh: k.userCanonical ?? "",
+			};
+		},
+
+		/**
 		 * Hạng trung bình của đúng cặp (từ khoá, trang) trong `ngay` ngày; không có số liệu → null.
 		 * Lọc từ khoá ở Google, còn TRANG so ở phía mình sau khi chuẩn hoá: filter "equals" của
 		 * GSC so chuỗi y nguyên, nên trang lưu thiếu "/" cuối hay khác http/https là ra null mãi.

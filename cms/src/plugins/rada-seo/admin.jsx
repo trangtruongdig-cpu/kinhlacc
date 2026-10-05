@@ -992,6 +992,19 @@ const HANG_BAI_MOI = {
  */
 function BaiMoiDang({ ds, dem, ghiChu, onSangTab }) {
 	const [moHet, setMoHet] = useState(false);
+	// SOI INDEX: phân định "chưa index" (việc kỹ thuật) với "đã index mà không ai tìm" (việc nội
+	// dung). Trước đó cột Việc chỉ dám nói "0 lượt hiển thị" rồi dừng — đúng nhưng không quyết
+	// được gì. Đắt (7,5 s/trang) nên chỉ soi theo yêu cầu, và chỉ nhóm "chưa có hiển thị".
+	const [soi, setSoi] = useState(null);
+	const [dangSoi, setDangSoi] = useState(false);
+	const canSoi = (ds ?? []).filter((x) => x.hang === "chua_hien").map((x) => x.duong);
+	const soiIndex = () => {
+		setDangSoi(true);
+		goi("leo-top-soi-index", { duong: canSoi })
+			.then(setSoi, (e) => setSoi({ ds: [], ghiChu: loiCua(e) }))
+			.finally(() => setDangSoi(false));
+	};
+	const traSoi = new Map((soi?.ds ?? []).map((x) => [x.duong, x]));
 	if (!ds?.length) return null;
 	// Mặc định chỉ hiện phần có việc: còn non và đầu bảng thì không phải làm gì.
 	const coViec = ds.filter((x) => x.hang !== "moi" && x.hang !== "dau_bang");
@@ -1019,7 +1032,14 @@ function BaiMoiDang({ ds, dem, ghiChu, onSangTab }) {
 				{moHet && coViec.length > 0 && (
 					<Nut onClick={() => setMoHet(false)} style={{ fontSize: 12, padding: "2px 8px" }}>Chỉ bài có việc</Nut>
 				)}
+				{canSoi.length > 0 && (
+					<Nut chinh disabled={dangSoi} onClick={soiIndex} style={{ fontSize: 12, padding: "2px 8px" }}>
+						{dangSoi ? `Đang hỏi Google… (~${Math.ceil(canSoi.length * 8)}s)` : `Kiểm index ${Math.min(canSoi.length, 8)} bài`}
+					</Nut>
+				)}
 			</div>
+			{soi?.ghiChu && <div style={{ color: "#92400e", fontSize: 12, marginBottom: 6 }}>{soi.ghiChu}</div>}
+			{(soi?.loi ?? []).length > 0 && <div style={{ color: "#b91c1c", fontSize: 12, marginBottom: 6 }}>{soi.loi.join(" · ")}</div>}
 			<table style={{ borderCollapse: "collapse", width: "100%" }}>
 				<thead>
 					<tr>
@@ -1041,9 +1061,29 @@ function BaiMoiDang({ ds, dem, ghiChu, onSangTab }) {
 								<td style={o}>{x.so ? so(x.so.viTri) : "—"}</td>
 								<td style={o}>
 									<span style={{ color: h.mau, fontWeight: 600 }}>{h.nhan}</span>
-									{x.hang === "chua_hien" && (
-										<div style={{ fontSize: 12, color: "#6b7280" }}>Kiểm index ở Search Console trước khi sửa nội dung.</div>
-									)}
+									{x.hang === "chua_hien" &&
+										(traSoi.has(x.duong) ? (
+											// Có câu trả lời thật thì nói thẳng VIỆC NÀO, không khuyên chung chung nữa.
+											(() => {
+												const k = traSoi.get(x.duong);
+												const daIndex = k.ketLuan === "PASS";
+												return (
+													<div style={{ fontSize: 12, color: daIndex ? "#92400e" : "#b91c1c" }}>
+														{daIndex ? "Đã index" : "CHƯA index"} — {k.trangThai || k.ketLuan || "không rõ"}
+														{k.robots && k.robots !== "ALLOWED" && <> · robots: {k.robots}</>}
+														{k.lanCrawlCuoi && <div style={{ color: "#9ca3af" }}>Google ghé lần cuối {gio(k.lanCrawlCuoi)}</div>}
+														{k.canonicalGoogle && k.canonicalMinh && k.canonicalGoogle !== k.canonicalMinh && (
+															<div style={{ color: "#b91c1c" }}>⚠ Google chọn canonical khác: {k.canonicalGoogle}</div>
+														)}
+														<div style={{ color: "#6b7280" }}>
+															{daIndex ? "Đã vào chỉ mục mà không ai tìm tới — việc của NỘI DUNG." : "Chưa vào chỉ mục — việc KỸ THUẬT, không phải viết lại."}
+														</div>
+													</div>
+												);
+											})()
+										) : (
+											<div style={{ fontSize: 12, color: "#6b7280" }}>Chưa biết đã index hay chưa — bấm “Kiểm index” ở trên.</div>
+										))}
 									{x.hang === "ngoai_50" && (
 										<div style={{ fontSize: 12, color: "#6b7280" }}>
 											Việc của nội dung, chưa phải việc leo top.{" "}

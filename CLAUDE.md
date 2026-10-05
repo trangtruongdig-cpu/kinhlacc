@@ -1052,6 +1052,39 @@ Lời nhắc viết bài chỉ dặn mục phương huyệt KHI hồ sơ có huy
 trí nhớ), và **cấm hướng dẫn thao tác châm, độ sâu kim, liệu trình** — đó là việc của thầy thuốc
 tại chỗ.
 
+### "0 lượt hiển thị" là HAI chuyện khác nhau — URL Inspection phân định (06/10/2026)
+
+`layTheoTrang` không phân biệt nổi **chưa được index** (việc KỸ THUẬT: robots, canonical,
+sitemap) với **đã index mà không ai tìm tới** (việc NỘI DUNG). Tab Leo top vì thế chỉ dám nói
+"0 lượt hiển thị trong 28 ngày" rồi dừng — đúng nhưng không quyết được gì.
+
+`gsc.soiUrl(url)` gọi URL Inspection API; route `leo-top-soi-index`; nút "Kiểm index" trong khối
+*Bài đã đăng từ lò viết*, chỉ soi nhóm `chua_hien`. Có trả lời rồi thì cột Việc nói thẳng việc
+nào, không khuyên chung chung nữa. Kèm cảnh báo khi **Google chọn canonical khác** bản mình khai.
+
+⚠️ **ĐẮT, và hạn mức RIÊNG, khác `searchAnalytics`**: đo thật **7,5 giây mỗi URL**, và API chỉ
+cho **2.000 lượt/ngày · 600/phút** mỗi property. Nên: theo yêu cầu, trần 8 trang mỗi lượt bấm
+(≈1 phút, vừa sức chờ), nghỉ 300 ms giữa các lượt, đệm MỖI URL **24 giờ** — trạng thái index đổi
+theo ngày chứ không theo phút. Tuyệt đối không quét cả site.
+
+⚠️ **403 ở đây khác 403 của `searchAnalytics`**: URL Inspection đòi property khớp CHÍNH XÁC —
+`sc-domain:` không soi được URL của property tiền tố và ngược lại. Câu lỗi nói thẳng
+`GSC_SITE_URL` đang là gì để khỏi đi đo lại quyền OAuth.
+
+### Ảnh trong CMS: 2.561 ảnh, 0 ảnh có alt (đo 06/10/2026)
+
+`cms/scripts-di-cu/dien-alt-anh.mjs` điền **2.073/2.561** ô alt từ CẤU TRÚC TÊN TỆP — dữ liệu
+thật, không đoán: `<MÃ WHO>-<vai trò>` (LI4-da) · `kinh-<NN>-<kiểu>` · `<số>-<slug>`. Alt dùng
+ĐÚNG CHỮ của `ANH3D_NHAN` trong `build-dict` để alt trong CMS và alt trên trang tĩnh không nói
+hai kiểu.
+
+⚠️ Trang từ điển TĨNH **không hỏng** — `build-dict` tự dựng alt từ tên mục. Chỗ thủng là bản ghi
+trong CMS, tức mọi nơi đọc alt từ kho (đường lùi chọn ảnh của lò viết đã chết vì đúng lý do này).
+⚠️ Còn **375 ảnh tên toàn số** + 113 ảnh không tra ra mục: **KHÔNG đặt alt bằng tên tệp**. Đổi
+một ô rỗng lấy một ô vô nghĩa thì sau đó không ai phân biệt được "chưa điền" với "đã điền bằng
+rác". Để người đặt tay.
+⚠️ Chỉ đụng ô ĐANG RỖNG ở cả khâu chọn lẫn mệnh đề `UPDATE` — chữ của người không bị ghi đè.
+
 ### Tab Leo top: khép vòng khoảng trống → bài đã đăng (`leo-top/bai-moi.mjs`, 03/10/2026)
 
 Bài lò viết đã đăng (`ke_hoach` trạng thái `da_dang`, có `slug`) hiện ngay trong tab Leo top kèm

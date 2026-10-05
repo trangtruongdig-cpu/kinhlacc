@@ -87,6 +87,12 @@ const KHOA_GSC_UNG_VIEN = "leo-top:ung-vien";
 const KHOA_GSC_TU_KHOA = "gsc:tu-khoa";
 const KHOA_SUA_NHO = "leo-top:sua-nho";
 const KHOA_VIEC_DEM = "viec:dem";
+const KHOA_SOI_INDEX = "gsc:soi-index";
+/** Trạng thái index đổi theo NGÀY, không theo phút — và mỗi lượt soi tốn 7,5 giây. */
+const HAN_SOI_INDEX_MS = 24 * 60 * 60 * 1000;
+/** Mỗi lượt bấm soi tối đa chừng này trang: 8 × 7,5 s ≈ 1 phút, vừa sức chờ của một lần bấm. */
+const TRAN_SOI_INDEX = 8;
+const NGHI_SOI_INDEX_MS = 300;
 const HAN_VIEC_DEM_MS = 60_000;
 /** Mỗi lượt soi tải thật chừng này trang của site mình. */
 const TRAN_TRANG_SUA_NHO = 15;
@@ -1207,6 +1213,49 @@ export function createPlugin() {
 					const kq = { ds: xepPhieu(ds), soTrangSoi: trang.length, loi, ghiChu: "" };
 					await ctx.kv.set(KHOA_SUA_NHO, { luc: Date.now(), kq }).catch(() => {});
 					return kq;
+				},
+			},
+			/**
+			 * SOI INDEX cho một nhúm trang — phân định "chưa index" với "đã index mà không ai tìm".
+			 *
+			 * Đây là chỗ tab Leo top trước nay chỉ dám nói "0 lượt hiển thị" rồi dừng: đúng nhưng
+			 * không quyết được gì. Chưa index là việc KỸ THUẬT (robots, canonical, sitemap); đã
+			 * index mà 0 hiển thị là việc NỘI DUNG.
+			 *
+			 * ⚠️ ĐẮT VÀ CÓ HẠN MỨC RIÊNG: đo thật 7,5 giây mỗi URL, và URL Inspection chỉ cho
+			 * 2.000 lượt/ngày. Nên: theo yêu cầu, trần `TRAN_SOI_INDEX` mỗi lượt bấm, nghỉ giữa
+			 * các lượt, và đệm MỖI URL 24 giờ (trạng thái index đổi theo ngày, không theo phút).
+			 */
+			"leo-top-soi-index": {
+				handler: async (ctx) => {
+					const gsc = gscCua(ctx);
+					if (!gsc.coCauHinh()) return { ds: [], ghiChu: "Chưa cấu hình Search Console (thiếu GSC_OAUTH_*)." };
+					const v = vao(ctx);
+					const duong = (Array.isArray(v.duong) ? v.duong : []).map((x) => String(x)).filter(Boolean).slice(0, TRAN_SOI_INDEX);
+					if (!duong.length) return { ds: [], ghiChu: "Không có trang nào để soi." };
+					const goc = gocSite();
+					const ds = [];
+					const loi = [];
+					for (const d of duong) {
+						const url = d.startsWith("http") ? d : `${goc}${d}`;
+						const khoa = `${KHOA_SOI_INDEX}:${chuanHoaUrlTrang(url)}`;
+						const cu = await ctx.kv.get(khoa).catch(() => null);
+						if (cu && Date.now() - cu.luc < HAN_SOI_INDEX_MS) {
+							ds.push({ ...cu.kq, duong: d, tuDem: true });
+							continue;
+						}
+						// Nghỉ giữa các lượt: hạn mức 600/phút, và đây là việc nền không được giành
+						// đường với người đang xem web — cùng lý lẽ với ca soi.
+						if (ds.length) await new Promise((r) => setTimeout(r, NGHI_SOI_INDEX_MS));
+						try {
+							const kq = (await gsc.soiUrl(url)) ?? { ketLuan: "", trangThai: "Google không trả về trạng thái" };
+							await ctx.kv.set(khoa, { luc: Date.now(), kq }).catch(() => {});
+							ds.push({ ...kq, duong: d, tuDem: false });
+						} catch (e) {
+							loi.push(`${d}: ${String(e?.message ?? e).slice(0, 200)}`);
+						}
+					}
+					return { ds, loi, ghiChu: "" };
 				},
 			},
 			"leo-top-da-sua": {
