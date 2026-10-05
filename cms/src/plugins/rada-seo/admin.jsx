@@ -105,6 +105,35 @@ function Nut({ chinh, dangChon, disabled, style, type = "button", ...con }) {
 	);
 }
 
+/**
+ * Nút TỰ giữ trạng thái bận của chính nó.
+ *
+ * ⚠️ Vì sao không dùng một cờ toàn cục: cờ `dangBan` cũ in "⏳ đang xử lý…" ở CUỐI THANH QUY
+ * TRÌNH, tức chỗ mắt người vừa bấm một nút giữa bảng không nhìn tới. Nên nó không ngăn được cú
+ * bấm thứ hai — mà cú bấm thứ hai mới là thứ xếp thêm một lượt tải lại vào hàng trên pool max:1.
+ *
+ * `onBam` phải trả Promise. Không trả (ví dụ người bấm Cancel ở hộp xác nhận) thì nút nhả ngay —
+ * đúng hành vi muốn có, nhưng nghĩa là chống bấm đôi chỉ hiệu lực khi có việc thật đang chạy.
+ */
+function NutBan({ onBam, chuBan = "Đang gửi…", children, ...con }) {
+	const [ban, setBan] = useState(false);
+	return (
+		<Nut
+			{...con}
+			disabled={ban || con.disabled}
+			onClick={() => {
+				if (ban) return;
+				setBan(true);
+				// `finally` chứ không `then`: lỗi cũng phải nhả nút, không thì một lần hỏng là nút
+				// chết hẳn tới khi tải lại trang.
+				Promise.resolve(onBam?.()).finally(() => setBan(false));
+			}}
+		>
+			{ban ? `⏳ ${chuBan}` : children}
+		</Nut>
+	);
+}
+
 // Ô "máy đang tự làm gì" đầu tab Radar — câu do máy chủ tính (tinh-trang.mjs), ở đây chỉ vẽ.
 const DAU_TINH_TRANG = { ok: ["✓", "#15803d"], cho: ["•", "#92400e"], thieu: ["✗", "#b91c1c"] };
 function OTinhTrang({ ds }) {
@@ -223,7 +252,7 @@ function ChangQuyTrinh({ t, dangChon, dem, onChon }) {
 }
 
 /** Thanh quy trình: hai vòng, có mũi tên giữa các chặng để thấy cái nào đẻ ra cái nào. */
-function ThanhQuyTrinh({ tab, dem, onChon, dangBan }) {
+function ThanhQuyTrinh({ tab, dem, onChon }) {
 	const nhom = (v) => TABS.filter((t) => t.vong === v);
 	return (
 		<div style={{ margin: "0 0 16px" }}>
@@ -236,7 +265,6 @@ function ThanhQuyTrinh({ tab, dem, onChon, dangBan }) {
 							<ChangQuyTrinh t={t} dangChon={tab === t.key} dem={dem?.[t.key] ?? 0} onChon={() => onChon(t.key)} />
 						</Fragment>
 					))}
-					{v === "giu" && dangBan && <span style={{ color: "#92400e", fontSize: 13, marginLeft: 8 }}>⏳ đang xử lý…</span>}
 				</div>
 			))}
 		</div>
@@ -481,7 +509,7 @@ function KeHoachRow({ k, tenCum, onDuyet, onBo, onViet, dangViet, vietKq, onThuH
 					{suaDuoc ? (
 						<div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
 							{k.trangThai !== "da_duyet" && (
-								<Nut chinh onClick={() => onDuyet(k.id)}>{k.trangThai === "can_xem" ? "Duyệt lại" : "Duyệt"}</Nut>
+								<NutBan chinh onBam={() => onDuyet(k.id)} chuBan="Đang duyệt…">{k.trangThai === "can_xem" ? "Duyệt lại" : "Duyệt"}</NutBan>
 							)}
 							{k.trangThai === "da_duyet" && (
 								<Nut chinh onClick={() => onViet?.(k.id)} disabled={!!dangViet}>
@@ -492,7 +520,7 @@ function KeHoachRow({ k, tenCum, onDuyet, onBo, onViet, dangViet, vietKq, onThuH
 								// MỘT nút, bấm là bỏ. Bắt gõ lý do là một bước thừa cho việc hay làm nhất ở
 								// bảng này; máy chủ vẫn đòi lý do nên gửi kèm câu mặc định, và nó hiện lại ở
 								// cột Trạng thái. Muốn ghi lý do riêng thì sửa sau trong chi tiết.
-								<Nut onClick={() => onBo(k.id, "Người quản trị bỏ")} style={{ fontSize: 12, padding: "3px 8px" }}>Bỏ</Nut>
+								<NutBan onBam={() => onBo(k.id, "Người quản trị bỏ")} chuBan="Đang bỏ…" style={{ fontSize: 12, padding: "3px 8px" }}>Bỏ</NutBan>
 							)}
 							{vietKq?.id === k.id && (
 								<div style={{ flexBasis: "100%", fontSize: 13, color: vietKq.daBatDau ? "#1d4ed8" : "#92400e" }}>
@@ -513,7 +541,7 @@ function KeHoachRow({ k, tenCum, onDuyet, onBo, onViet, dangViet, vietKq, onThuH
 								{(k.soLanNop ?? 0) > 0 && ` · lượt nộp ${k.soLanNop}/3`}
 								{" · "}một bài mất 40–90 giây
 							</span>
-							<Nut onClick={() => onThuHoi?.(k.id)} style={{ fontSize: 12, padding: "3px 8px" }}>Thu hồi ngay</Nut>
+							<NutBan onBam={() => onThuHoi?.(k.id)} chuBan="Đang thu hồi…" style={{ fontSize: 12, padding: "3px 8px" }}>Thu hồi ngay</NutBan>
 						</div>
 					) : k.trangThai === "co_nhap" && k.contentId ? (
 						<div style={{ display: "flex", gap: 6, alignItems: "center", flexWrap: "wrap" }}>
@@ -815,7 +843,18 @@ function PhienLeoTop({ p, onDaSua }) {
 				<p>
 					Ngày sửa (giờ Việt Nam):{" "}
 					<input type="date" value={ngay} max={ngayVN()} onChange={(e) => setNgay(e.target.value)} />{" "}
-					<Nut chinh={p.trangThai !== "da_sua"} onClick={() => { if (p.trangThai === "da_sua" && (p.doLai ?? []).length > 0 && !window.confirm("Đổi ngày sửa sẽ xoá các lần đo lại đã có. Tiếp tục?")) return; onDaSua(p.id, ngay); }}>{p.trangThai === "da_sua" ? "Đổi ngày sửa" : "Đã sửa theo phiếu"}</Nut>
+					<NutBan
+						chinh={p.trangThai !== "da_sua"}
+						chuBan="Đang ghi mốc…"
+						onBam={() => {
+							// Người bấm Cancel thì KHÔNG trả Promise — nút nhả ngay, không nhá "đang ghi
+							// mốc…" cho một việc không xảy ra.
+							if (p.trangThai === "da_sua" && (p.doLai ?? []).length > 0 && !window.confirm("Đổi ngày sửa sẽ xoá các lần đo lại đã có. Tiếp tục?")) return undefined;
+							return onDaSua(p.id, ngay);
+						}}
+					>
+						{p.trangThai === "da_sua" ? "Đổi ngày sửa" : "Đã sửa theo phiếu"}
+					</NutBan>
 					{p.trangThai === "da_sua" && <span style={{ fontSize: 12, color: "#92400e" }}> · đổi ngày sẽ xoá các lần đo lại đã có</span>}
 				</p>
 			)}
@@ -2244,7 +2283,7 @@ function RadarTab({ dl, loi, thongBao, lichRadar, form, setForm, onTai, onLam, o
 				<span style={{ fontSize: 13, color: "#6b7280" }}>
 					Lịch đêm: {lichRadar ? `02:30 hằng ngày · tick kế ${gio(lichRadar.nextRunAt)}` : "chưa bật"}
 				</span>
-				<Nut chinh={!lichRadar} onClick={() => onLam("lich-bat")}>{lichRadar ? "Hẹn lại" : "Bật lịch"}</Nut>
+				<NutBan chinh={!lichRadar} onBam={() => onLam("lich-bat")} chuBan="Đang hẹn…">{lichRadar ? "Hẹn lại" : "Bật lịch"}</NutBan>
 				<Nut disabled={dl.dangChay} onClick={() => onLam("ca-chay", { ghi: false }).then(() => setTimeout(onTai, 2000))}>Chạy thử</Nut>
 				<Nut chinh disabled={dl.dangChay || !dl.caDemBat} onClick={() => onLam("ca-chay", { ghi: true }).then(() => setTimeout(onTai, 2000))}>Chạy thật</Nut>
 				<Nut onClick={onTai}>Tải lại</Nut>
@@ -2306,8 +2345,15 @@ function RadarTab({ dl, loi, thongBao, lichRadar, form, setForm, onTai, onLam, o
 									>
 										Chạy
 									</Nut>{" "}
-									{d.dem.loi > 0 && <Nut onClick={() => onLam("url-dat-lai", { tenMien: d.id })} style={{ fontSize: 12, padding: "3px 8px" }}>Thử lại</Nut>}{" "}
-									<Nut onClick={() => confirm(`Xoá ${d.id} và mọi URL của nó?`) && onLam("doi-thu-xoa", { tenMien: d.id })} style={{ fontSize: 12, padding: "3px 8px" }}>Xoá</Nut>
+									{d.dem.loi > 0 && <NutBan onBam={() => onLam("url-dat-lai", { tenMien: d.id })} chuBan="Đang đặt lại…" style={{ fontSize: 12, padding: "3px 8px" }}>Thử lại</NutBan>}{" "}
+									<NutBan
+										chuBan="Đang xoá…"
+										// Bấm Cancel thì KHÔNG trả Promise — nút nhả ngay, không nhá "đang xoá…".
+										onBam={() => (confirm(`Xoá ${d.id} và mọi URL của nó?`) ? onLam("doi-thu-xoa", { tenMien: d.id }) : undefined)}
+										style={{ fontSize: 12, padding: "3px 8px" }}
+									>
+										Xoá
+									</NutBan>
 								</td>
 							</tr>
 						);
@@ -2416,16 +2462,13 @@ function RadaSeo() {
 		});
 		for (const r of ROUTE_MO_MAN) if (r !== "tong-quan") taiRoute(r);
 	}, [taiRoute]);
-	// ⚠️ Mọi nút đều là "gọi route rồi tải lại cả màn", và lượt tải lại đó đi qua CSDL dùng chung
-	// (pool max:1, RTT 98,9 ms). Không có dấu hiệu BẬN thì người bấm thấy màn đứng im và bấm tiếp
-	// — mỗi lần bấm thêm là thêm một lượt tải lại nữa xếp hàng sau.
-	const [dangBan, setDangBan] = useState(false);
-	const banTrongKhi = (p) => {
-		setDangBan(true);
-		return p.finally(() => setDangBan(false));
-	};
-	const lam = (route, body) => banTrongKhi(goi(route, body).then(tai, (e) => setLoi(loiCua(e))));
-	const lamCL = (route, body) => banTrongKhi(goi(route, body).then(taiCL, (e) => setCLoi(loiCua(e))));
+	// ⚠️ Những nút CÒN tải lại cả màn: chúng đổi nhiều dòng cùng lúc (xoá đối thủ, đặt lại URL)
+	// nên phản hồi không nói đủ. Dấu hiệu bận nằm ở CHÍNH NÚT (xem `NutBan`), không phải một cờ
+	// toàn cục in ở cuối thanh quy trình — chỗ đó mắt người vừa bấm một nút giữa bảng không nhìn
+	// tới, nên nó không ngăn được cú bấm thứ hai, mà cú bấm thứ hai mới là thứ xếp thêm một lượt
+	// tải lại vào hàng trên pool max:1.
+	const lam = (route, body) => goi(route, body).then(tai, (e) => setLoi(loiCua(e)));
+	const lamCL = (route, body) => goi(route, body).then(taiCL, (e) => setCLoi(loiCua(e)));
 
 	const doiTab = (t) => {
 		setTab(t);
@@ -2450,7 +2493,7 @@ function RadaSeo() {
 	return (
 		<div style={{ padding: 24, maxWidth: 1200 }}>
 			<h1>Rada SEO</h1>
-			<ThanhQuyTrinh tab={tab} dem={viecDem} onChon={doiTab} dangBan={dangBan} />
+			<ThanhQuyTrinh tab={tab} dem={viecDem} onChon={doiTab} />
 
 			{tab === "radar" &&
 				(!dl ? (
