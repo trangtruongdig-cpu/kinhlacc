@@ -6,6 +6,7 @@ import { taoKhoGia, taoKvGia } from "./__test__/kho-gia.mjs";
 import { xoaDemChiMuc } from "./noi-bo/nap.mjs";
 import { DEM_KIEM_CHUNG } from "./noi-bo/kiem-duong.mjs";
 import { Y_DINH } from "./chien-luoc/viec.mjs";
+import { ROUTE_MO_MAN } from "./lib/tai-man.mjs";
 
 const taoCtx = () => {
 	const log = [];
@@ -973,4 +974,47 @@ test("tong-quan: 10 dòng nhật ký là phần đầu của 100 dòng canh cả
 	const kq = await p.routes["tong-quan"].handler(ctx);
 	assert.equal(kq.ca.length, 10);
 	assert.equal(soHoi, 1, "hỏi bảng nhật ký hai lần là tốn thêm một vòng mạng cho đúng dữ liệu đó");
+});
+
+test("mở màn hỏi kho ÍT lượt — đếm thật trên các route trong ROUTE_MO_MAN", async () => {
+	// Phép kiểm này đo cái mà `tai-man.test.mjs` không đo được: `tai-man.mjs` chỉ nói GỌI MẤY
+	// ROUTE, còn đây đếm MỖI ROUTE TỐN MẤY LƯỢT đọc kho. Hai con số khác nhau và cả hai đều
+	// trôi được.
+	//
+	// ⚠️ Ngưỡng đặt theo SỐ ĐO (22 lượt với 3 đối thủ, 06/10/2026), biên 2. Sửa được thật thì
+	// HẠ ngưỡng xuống theo; nới nó ra là chốt hết tác dụng canh chừng.
+	const p = createPlugin();
+	const ctx = taoCtx();
+	ctx.kv = taoKvGia();
+	for (const t of ["a.vn", "b.vn", "c.vn"]) await kho.luuDoiThu(ctx.storage, { tenMien: t }, "t");
+
+	let soLuot = 0;
+	let soKeHoach = 0;
+	for (const bo of ["ke_hoach", "leo_top", "huong", "goi_y_nguoc", "url", "ca", "cum", "doi_thu"]) {
+		const b = ctx.storage[bo];
+		if (!b) continue;
+		for (const m of ["query", "count", "get"]) {
+			if (typeof b[m] !== "function") continue;
+			const goc = b[m].bind(b);
+			b[m] = (...a) => (soLuot++, bo === "ke_hoach" && m === "query" && soKeHoach++, goc(...a));
+		}
+	}
+
+	for (const r of ROUTE_MO_MAN) await p.routes[r].handler(ctx);
+	assert.ok(soLuot <= 24, `mở màn hỏi kho ${soLuot} lượt (ngưỡng 24) — route nào vừa thêm lượt đọc?`);
+	// `dsKeHoach` từng bị đọc BỐN lần trong một lượt mở màn: `tong-quan` (soCanXem),
+	// `chien-luoc-tong-quan`, `leo-top-tong-quan`, `viec-dem`. Nay còn HAI — `tong-quan` và
+	// `viec-dem`.
+	//
+	// ⚠️ Hai, không phải một, và chỗ thứ hai là `tong-quan` dòng ~665: `soCanXem` cho cảnh báo ở
+	// tab Radar. `viec-dem` đã đọc TOÀN BỘ `ke_hoach` nên về lý tính được `soCanXem` từ đó, nhưng
+	// hai route không chia nhau dữ liệu được (trừ qua KV, mà `tong-quan` chạy TRƯỚC `viec-dem`
+	// lúc mở màn nên đệm chưa có). Gộp hai chỗ này thuộc phần A, khi `viec-dem` nhập vào `viec`.
+	// Chốt ở ĐÚNG 2: thành 3 là có route mới lọt vào đường mở màn.
+	assert.equal(soKeHoach, 2, `ke_hoach.query gọi ${soKeHoach} lần trong một lượt mở màn`);
+
+	// Lượt hai: đệm phải ăn. `viec-dem` đệm 60 giây, `demUrlTatCa` đệm 10 giây.
+	const sauLan1 = soLuot;
+	for (const r of ROUTE_MO_MAN) await p.routes[r].handler(ctx);
+	assert.ok(soLuot - sauLan1 < sauLan1, `lượt hai (${soLuot - sauLan1}) phải ít hơn lượt đầu (${sauLan1}) — đệm không ăn`);
 });

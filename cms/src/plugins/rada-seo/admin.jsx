@@ -1,7 +1,8 @@
 // Màn điều khiển Rada SEO trong /_emdash/admin/plugins/rada-seo/rada.
 // Chỉ HIỂN THỊ và gọi route của plugin; mọi luật nằm phía máy chủ.
-import { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { toaDoNanHoa } from "./viet/mang-nhen-xem.mjs";
+import { ROUTE_MO_MAN, routeChoTab, TAI_LAI_KHI_SANG } from "./lib/tai-man.mjs";
 
 async function goi(route, body) {
 	const res = await fetch(`/_emdash/api/plugins/rada-seo/${route}`, {
@@ -2375,17 +2376,45 @@ function RadaSeo() {
 	const taiDem = useCallback(() => goi("viec-dem").then(setViecDem, () => {}), []);
 	const taiMn = useCallback(() => goi("mang-nhen-tong-quan").then((d) => { setMnDl(d); setMnLoi(""); }, (e) => setMnLoi(loiCua(e))), []);
 	const taiNh = useCallback(() => goi("nhap-tong-quan").then((d) => { setNhDl(d); setNhLoi(""); }, (e) => setNhLoi(loiCua(e, KHONG_QUYEN_NHAP))), []);
+	// Bảng tra route → hàm tải. `admin.jsx` giữ phần GỌI, `lib/tai-man.mjs` giữ phần LUẬT (route
+	// nào lúc nào) — chỉ phần luật là kiểm được, vì JSX không có hạ tầng test ở repo này.
+	const theoRoute = {
+		"tong-quan": tai,
+		"viec-dem": taiDem,
+		"chien-luoc-tong-quan": taiCL,
+		"cum-ngu-nghia": taiCN,
+		"khoang-trong-tong-quan": taiKT,
+		"leo-top-tong-quan": taiLT,
+		"mang-nhen-tong-quan": taiMn,
+		"nhap-tong-quan": taiNh,
+	};
+	const daTai = useRef(new Set());
+	// ⚠️ `theoRoute` dựng lại MỖI lượt render. Đưa nó vào mảng phụ thuộc của effect thì effect
+	// chạy lại mỗi lượt render — một vòng mạng nữa cho con số không đổi. Đã có lỗi đúng kiểu này
+	// ở tab Kế hoạch (useEffect phụ thuộc cả object `dl`). Nên giữ trong ref, `taiRoute` phụ
+	// thuộc RỖNG.
+	const theoRouteRef = useRef(theoRoute);
+	theoRouteRef.current = theoRoute;
+	const taiRoute = useCallback((r) => {
+		const f = theoRouteRef.current[r];
+		if (!f) return Promise.resolve();
+		daTai.current.add(r);
+		return f();
+	}, []);
+
 	useEffect(() => {
-		// Không phải quản trị viên (Editor): mở thẳng tab Nháp — tab duy nhất họ đọc được. Không ghi
-		// vào localStorage: cùng trình duyệt đăng nhập lại bằng tài khoản quản trị vẫn về tab đã lưu.
-		tai().then((khongQuyen) => {
+		// ⚠️ Chỉ HAI route lúc mở màn (xem `lib/tai-man.mjs`). Trước 06/10/2026 là NĂM, mà pool
+		// CSDL là max:1 nên chúng xếp hàng: ~19 lượt đi-về ≈ 1,9 giây, và người xem tab Radar trả
+		// tiền cho bốn tab chưa mở.
+		//
+		// Không phải quản trị viên (Editor): mở thẳng tab Nháp — tab duy nhất họ đọc được. Không
+		// ghi vào localStorage: cùng trình duyệt đăng nhập lại bằng tài khoản quản trị vẫn về tab
+		// đã lưu.
+		taiRoute("tong-quan").then((khongQuyen) => {
 			if (khongQuyen) setTab("nhap");
 		});
-		taiCL();
-		taiLT();
-		taiNh();
-		taiDem();
-	}, [tai, taiCL, taiLT, taiNh, taiDem]);
+		for (const r of ROUTE_MO_MAN) if (r !== "tong-quan") taiRoute(r);
+	}, [taiRoute]);
 	// ⚠️ Mọi nút đều là "gọi route rồi tải lại cả màn", và lượt tải lại đó đi qua CSDL dùng chung
 	// (pool max:1, RTT 98,9 ms). Không có dấu hiệu BẬN thì người bấm thấy màn đứng im và bấm tiếp
 	// — mỗi lần bấm thêm là thêm một lượt tải lại nữa xếp hàng sau.
@@ -2400,24 +2429,19 @@ function RadaSeo() {
 	const doiTab = (t) => {
 		setTab(t);
 		luuTab(t);
-		// Tab Khoảng trống hỏi sang kho app và quét bảng bài thuốc (vài giây), nên chỉ tải khi
-		// người dùng mở nó, và chỉ lần đầu — nút "Tải lại" lo phần làm mới.
-		if (t === "khoang-trong" && !ktDl) taiKT();
-		if (t === "huong" && !cnDl) taiCN();
-		// Sang tab Kế hoạch thì tải lại: bài dự kiến vừa tạo từ tab Khoảng trống phải hiện ngay,
-		// không bắt người dùng tự bấm "Tải lại" rồi tưởng nút Giao không ăn.
-		if (t === "ke-hoach") taiCL();
-		if (t === "mang-nhen") taiMn();
-		if (t === "nhap") taiNh();
+		// Tab nào cần route gì thì `lib/tai-man.mjs` nói. Chỉ tải LẦN ĐẦU — nút "Tải lại" trong
+		// từng tab lo phần làm mới; tải lại mỗi lần sang là trả một vòng mạng để nhận đúng con số
+		// đang hiện. Riêng Kế hoạch tải lại MỖI lần sang (TAI_LAI_KHI_SANG): bài dự kiến vừa giao
+		// từ tab Khoảng trống phải hiện ngay, không thì người dùng tưởng nút Giao không ăn.
+		for (const r of routeChoTab(t)) if (TAI_LAI_KHI_SANG.has(t) || !daTai.current.has(r)) taiRoute(r);
 	};
 
 	// ⚠️ PHẢI có effect này, không chỉ dựa vào doiTab: tab được KHÔI PHỤC từ localStorage lúc mở
 	// màn (useState(tabDaLuu)) chứ không đi qua doiTab, nên người mở lại trang khi đang ở tab
 	// Khoảng trống sẽ kẹt ở "Đang tải…" vĩnh viễn — route chưa bao giờ được gọi. Đã cắn 02/10/2026.
 	useEffect(() => {
-		if (tab === "khoang-trong" && !ktDl && !ktLoi) taiKT();
-		if (tab === "huong" && !cnDl && !cnLoi) taiCN();
-	}, [tab, ktDl, ktLoi, taiKT, cnDl, cnLoi, taiCN]);
+		for (const r of routeChoTab(tab)) if (!daTai.current.has(r)) taiRoute(r);
+	}, [tab, taiRoute]);
 
 	// Không trả sớm khi chưa có dữ liệu: thanh tab phải luôn hiện, không thì người không đủ quyền
 	// xem tab Radar bị kẹt ở một dòng lỗi, không có lối sang tab Nháp.
