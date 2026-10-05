@@ -124,15 +124,122 @@ function OTinhTrang({ ds }) {
 }
 
 // ---- Thanh tab (2C-2) ----
+/**
+ * BẢY TAB NÀY LÀ MỘT QUY TRÌNH, không phải bảy ngăn rời.
+ *
+ * Trước 06/10/2026 chúng là bảy cái nút phẳng xếp ngang: không thấy thứ tự, không thấy chặng
+ * nào đẻ ra chặng nào, và không biết chặng nào đang có việc nếu chưa bấm vào. Tư duy thì
+ * đúng mà màn hình không nói ra được — người dùng phải tự nhớ.
+ *
+ * Nay chia theo HAI VÒNG, vì chúng thật sự là hai việc khác nhau:
+ *   CHIẾM ĐẤT  — tìm chỗ chưa có rồi viết mới (radar → khoảng trống → hướng → kế hoạch → nháp)
+ *   GIỮ ĐẤT    — nâng cái đã có (leo top → mạng nhện)
+ * `moTa` hiện thành chú thích dưới số thứ tự: một dòng nói chặng đó LÀM GÌ, để người mới
+ * không phải đoán từ cái tên.
+ */
 const TABS = [
-	{ key: "radar", label: "Radar" },
-	{ key: "khoang-trong", label: "Khoảng trống" },
-	{ key: "huong", label: "Hướng nội dung" },
-	{ key: "ke-hoach", label: "Kế hoạch" },
-	{ key: "leo-top", label: "Leo top" },
-	{ key: "mang-nhen", label: "Mạng nhện" },
-	{ key: "nhap", label: "Nháp" },
+	{ key: "radar", label: "Radar", so: 1, vong: "chiem", moTa: "Quét đối thủ" },
+	{ key: "khoang-trong", label: "Khoảng trống", so: 2, vong: "chiem", moTa: "Chỗ mình có tháp" },
+	{ key: "huong", label: "Hướng nội dung", so: 3, vong: "chiem", moTa: "Gom thành cụm" },
+	{ key: "ke-hoach", label: "Kế hoạch", so: 4, vong: "chiem", moTa: "Bài dự kiến" },
+	{ key: "nhap", label: "Nháp", so: 5, vong: "chiem", moTa: "Chờ duyệt, đăng" },
+	{ key: "leo-top", label: "Leo top", so: 6, vong: "giu", moTa: "Nâng trang đã có" },
+	{ key: "mang-nhen", label: "Mạng nhện", so: 7, vong: "giu", moTa: "Link cũ → mới" },
 ];
+const VONG = {
+	chiem: { ten: "Chiếm đất — viết mới", mau: "#1d4ed8", nen: "#eff6ff", vien: "#bfdbfe" },
+	giu: { ten: "Giữ đất — nâng cái đã có", mau: "#15803d", nen: "#f0fdf4", vien: "#bbf7d0" },
+};
+
+/**
+ * Một chặng trong thanh quy trình. Huy hiệu số là VIỆC ĐANG CHỜ ở chặng đó (route `viec-dem`),
+ * không phải tổng số bản ghi — người ta cần biết chỗ nào phải động tay, không cần biết kho to
+ * cỡ nào.
+ */
+function ChangQuyTrinh({ t, dangChon, dem, onChon }) {
+	const v = VONG[t.vong];
+	return (
+		<button
+			type="button"
+			onClick={onChon}
+			title={t.moTa}
+			style={{
+				display: "flex",
+				alignItems: "center",
+				gap: 8,
+				padding: "6px 10px",
+				border: `1px solid ${dangChon ? v.mau : "#e5e7eb"}`,
+				borderRadius: 10,
+				background: dangChon ? v.nen : "#fff",
+				cursor: "pointer",
+				font: "inherit",
+				textAlign: "left",
+				boxShadow: dangChon ? `inset 0 0 0 1px ${v.vien}` : "none",
+			}}
+		>
+			<span
+				style={{
+					width: 22,
+					height: 22,
+					borderRadius: "50%",
+					background: dangChon ? v.mau : "#f3f4f6",
+					color: dangChon ? "#fff" : "#6b7280",
+					display: "inline-flex",
+					alignItems: "center",
+					justifyContent: "center",
+					fontSize: 12,
+					fontWeight: 700,
+					flex: "0 0 auto",
+				}}
+			>
+				{t.so}
+			</span>
+			<span style={{ lineHeight: 1.15 }}>
+				<span style={{ fontWeight: dangChon ? 700 : 500, fontSize: 14 }}>{t.label}</span>
+				<span style={{ display: "block", fontSize: 11, color: "#9ca3af" }}>{t.moTa}</span>
+			</span>
+			{dem > 0 && (
+				// Chỉ hiện khi CÓ việc. Huy hiệu "0" khắp nơi làm mắt thôi nhìn vào huy hiệu.
+				<span
+					style={{
+						marginLeft: 2,
+						minWidth: 20,
+						padding: "1px 6px",
+						borderRadius: 999,
+						background: v.mau,
+						color: "#fff",
+						fontSize: 11,
+						fontWeight: 700,
+						textAlign: "center",
+					}}
+				>
+					{dem}
+				</span>
+			)}
+		</button>
+	);
+}
+
+/** Thanh quy trình: hai vòng, có mũi tên giữa các chặng để thấy cái nào đẻ ra cái nào. */
+function ThanhQuyTrinh({ tab, dem, onChon, dangBan }) {
+	const nhom = (v) => TABS.filter((t) => t.vong === v);
+	return (
+		<div style={{ margin: "0 0 16px" }}>
+			{["chiem", "giu"].map((v) => (
+				<div key={v} style={{ display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap", marginBottom: 6 }}>
+					<span style={{ fontSize: 11, color: VONG[v].mau, fontWeight: 700, width: 128, flex: "0 0 auto" }}>{VONG[v].ten}</span>
+					{nhom(v).map((t, i) => (
+						<Fragment key={t.key}>
+							{i > 0 && <span style={{ color: "#d1d5db", fontSize: 13 }}>→</span>}
+							<ChangQuyTrinh t={t} dangChon={tab === t.key} dem={dem?.[t.key] ?? 0} onChon={() => onChon(t.key)} />
+						</Fragment>
+					))}
+					{v === "giu" && dangBan && <span style={{ color: "#92400e", fontSize: 13, marginLeft: 8 }}>⏳ đang xử lý…</span>}
+				</div>
+			))}
+		</div>
+	);
+}
 const TAB_LS_KEY = "rada-seo:tab";
 function tabDaLuu() {
 	try {
@@ -2123,6 +2230,9 @@ function RadaSeo() {
 	const [nhDl, setNhDl] = useState(null);
 	const [nhLoi, setNhLoi] = useState("");
 	const [mnDl, setMnDl] = useState(null);
+	// Huy hiệu việc chờ trên thanh quy trình. Route riêng, đệm 60 giây ở máy chủ — KHÔNG gộp vào
+	// `tong-quan` vì đó là đường nóng (mọi nút bấm gọi lại nó) và pool CSDL là max:1.
+	const [viecDem, setViecDem] = useState(null);
 	const [mnLoi, setMnLoi] = useState("");
 	const [ktDl, setKtDl] = useState(null);
 	const [ktLoi, setKtLoi] = useState("");
@@ -2138,6 +2248,7 @@ function RadaSeo() {
 	const taiCN = useCallback(() => goi("cum-ngu-nghia").then((d) => { setCnDl(d); setCnLoi(""); }, (e) => setCnLoi(loiCua(e))), []);
 	const taiKT = useCallback(() => goi("khoang-trong-tong-quan").then((d) => { setKtDl(d); setKtLoi(""); }, (e) => setKtLoi(loiCua(e))), []);
 	const taiLT = useCallback(() => goi("leo-top-tong-quan").then((d) => { setLtDl(d); setLtLoi(""); }, (e) => setLtLoi(loiCua(e))), []);
+	const taiDem = useCallback(() => goi("viec-dem").then(setViecDem, () => {}), []);
 	const taiMn = useCallback(() => goi("mang-nhen-tong-quan").then((d) => { setMnDl(d); setMnLoi(""); }, (e) => setMnLoi(loiCua(e))), []);
 	const taiNh = useCallback(() => goi("nhap-tong-quan").then((d) => { setNhDl(d); setNhLoi(""); }, (e) => setNhLoi(loiCua(e, KHONG_QUYEN_NHAP))), []);
 	useEffect(() => {
@@ -2149,7 +2260,8 @@ function RadaSeo() {
 		taiCL();
 		taiLT();
 		taiNh();
-	}, [tai, taiCL, taiLT, taiNh]);
+		taiDem();
+	}, [tai, taiCL, taiLT, taiNh, taiDem]);
 	// ⚠️ Mọi nút đều là "gọi route rồi tải lại cả màn", và lượt tải lại đó đi qua CSDL dùng chung
 	// (pool max:1, RTT 98,9 ms). Không có dấu hiệu BẬN thì người bấm thấy màn đứng im và bấm tiếp
 	// — mỗi lần bấm thêm là thêm một lượt tải lại nữa xếp hàng sau.
@@ -2189,14 +2301,7 @@ function RadaSeo() {
 	return (
 		<div style={{ padding: 24, maxWidth: 1200 }}>
 			<h1>Rada SEO</h1>
-			<p>
-				{TABS.map((t) => (
-					<Nut key={t.key} dangChon={tab === t.key} onClick={() => doiTab(t.key)} style={{ marginRight: 8 }}>
-						{t.label}
-					</Nut>
-				))}
-				{dangBan && <span style={{ color: "#92400e", fontSize: 13 }}>⏳ đang xử lý…</span>}
-			</p>
+			<ThanhQuyTrinh tab={tab} dem={viecDem} onChon={doiTab} dangBan={dangBan} />
 
 			{tab === "radar" &&
 				(!dl ? (

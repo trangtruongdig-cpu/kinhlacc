@@ -86,6 +86,8 @@ const KHOA_GSC_UNG_VIEN = "leo-top:ung-vien";
 /** Truy vấn thật theo TRANG — phần CẦU, đi cùng phần cung là tháp. */
 const KHOA_GSC_TU_KHOA = "gsc:tu-khoa";
 const KHOA_SUA_NHO = "leo-top:sua-nho";
+const KHOA_VIEC_DEM = "viec:dem";
+const HAN_VIEC_DEM_MS = 60_000;
 /** Mỗi lượt soi tải thật chừng này trang của site mình. */
 const TRAN_TRANG_SUA_NHO = 15;
 const NGHI_SUA_NHO_MS = 150;
@@ -1310,6 +1312,37 @@ export function createPlugin() {
 						daGhi += r.daGhi;
 					}
 					return { soBai: Math.min(ds.length, TRAN_DO_LAI_MANG_NHEN), daGhi, ghiChu: "" };
+				},
+			},
+			/**
+			 * ĐẾM VIỆC ĐANG CHỜ ở từng chặng — để thanh quy trình đeo được con số.
+			 *
+			 * Tách khỏi `tong-quan` có chủ ý: `tong-quan` là đường NÓNG (mọi nút bấm đều gọi lại
+			 * nó) và pool CSDL của CMS là `max: 1`, nên thêm 4 lượt đếm vào đó là +0,4 s cho MỖI
+			 * lần bấm. Ở đây gọi một lần lúc mở màn, đệm KV 60 giây.
+			 *
+			 * Không có con số thì thanh quy trình chỉ là bảy cái nút — người dùng phải vào từng
+			 * tab mới biết chặng nào đang có việc.
+			 */
+			"viec-dem": {
+				handler: async (ctx) => {
+					const cu = await ctx.kv.get(KHOA_VIEC_DEM).catch(() => null);
+					if (cu && Date.now() - cu.luc < HAN_VIEC_DEM_MS) return cu.dem;
+					const dem = {};
+					try {
+						const kh = await kho.dsKeHoach(ctx.storage);
+						dem["ke-hoach"] = kh.filter((k) => k.trangThai === "de_xuat").length;
+						dem.nhap = kh.filter((k) => k.trangThai === "co_nhap" || k.trangThai === "can_xem").length;
+						const lt = await kho.dsLeoTop(ctx.storage);
+						dem["leo-top"] = lt.filter((p) => p.trangThai === "co_phieu").length;
+						const mn = await kho.tatCa(ctx.storage.goi_y_nguoc);
+						dem["mang-nhen"] = mn.reduce((n, r) => n + (r.data?.ds?.length ?? 0), 0);
+					} catch (e) {
+						// Đếm hỏng KHÔNG được làm sập màn: thiếu con số thì thanh quy trình vẫn vẽ.
+						ctx.log?.warn?.(`Rada SEO: đếm việc hỏng — ${String(e?.message ?? e).slice(0, 160)}`);
+					}
+					await ctx.kv.set(KHOA_VIEC_DEM, { luc: Date.now(), dem }).catch(() => {});
+					return dem;
 				},
 			},
 			"nhap-tong-quan": {
