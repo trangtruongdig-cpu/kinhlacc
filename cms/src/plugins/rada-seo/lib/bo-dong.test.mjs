@@ -37,3 +37,12 @@ test("datDong với `thay` rỗng/undefined không làm mất dòng", () => {
 	assert.deepEqual(datDong(ds, "b", undefined)[1], { id: "b", t: 2 });
 	assert.deepEqual(datDong(ds, "b", {})[1], { id: "b", t: 2 });
 });
+
+test("so theo TRƯỜNG KHÁC khi danh sách có khoá riêng — hàng đợi việc dùng `khoa`", () => {
+	// Hàng đợi việc gom nhiều nguồn nên `id` trùng được; khoá duy nhất của nó là `khoa`.
+	const hd = [{ khoa: "a|1", id: "1" }, { khoa: "b|1", id: "1" }];
+	assert.deepEqual(boDong(hd, "b|1", "khoa").map((x) => x.khoa), ["a|1"]);
+	assert.deepEqual(boDong(hd, "1").length, 0, "so theo id thì xoá CẢ HAI — đúng lý do cần tham số này");
+	assert.equal(datDong(hd, "b|1", { xong: true }, "khoa")[1].xong, true);
+	assert.equal(datDong(hd, "b|1", { xong: true }, "khoa")[0].xong, undefined);
+});

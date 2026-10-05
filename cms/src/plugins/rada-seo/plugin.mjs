@@ -37,6 +37,7 @@ import { tuDocTrang } from "./ai/tu-doc-trang.mjs";
 import { tuLapChienLuoc } from "./ai/tu-lap-chien-luoc.mjs";
 import { chayLoViet } from "./ai/tu-viet-bai.mjs";
 import { tongHopLoaiSua } from "./leo-top/vong-hoc.mjs";
+import { xepHangDoi } from "./lib/xep-viec.mjs";
 import { gomCau } from "./leo-top/y-dinh.mjs";
 import { phieuSuaNho, xepPhieu, VIEC as VIEC_SUA_NHO } from "./leo-top/so-ho-ai.mjs";
 import { boDau as boDauCum } from "./luat/chuan-hoa.mjs";
@@ -86,7 +87,8 @@ const KHOA_GSC_UNG_VIEN = "leo-top:ung-vien";
 /** Truy vấn thật theo TRANG — phần CẦU, đi cùng phần cung là tháp. */
 const KHOA_GSC_TU_KHOA = "gsc:tu-khoa";
 const KHOA_SUA_NHO = "leo-top:sua-nho";
-const KHOA_VIEC_DEM = "viec:dem";
+// Hàng đợi việc của màn Việc (phần A). Khoá RIÊNG với `viec:dem` để bản đệm cũ không đọc ra sai dạng.
+const KHOA_VIEC = "viec:hang-doi";
 const KHOA_SOI_INDEX = "gsc:soi-index";
 /** Trạng thái index đổi theo NGÀY, không theo phút — và mỗi lượt soi tốn 7,5 giây. */
 const HAN_SOI_INDEX_MS = 24 * 60 * 60 * 1000;
@@ -1424,25 +1426,42 @@ export function createPlugin() {
 			 * Không có con số thì thanh quy trình chỉ là bảy cái nút — người dùng phải vào từng
 			 * tab mới biết chặng nào đang có việc.
 			 */
-			"viec-dem": {
+			/**
+			 * HÀNG ĐỢI VIỆC của màn Việc — route DUY NHẤT mà màn gọi lúc mở.
+			 *
+			 * Thay cho `viec-dem`, vốn chỉ ĐẾM mà vẫn đọc đúng dsKeHoach + dsLeoTop + goi_y_nguoc
+			 * mà hàng đợi cần đọc. Huy hiệu trên thanh quy trình nay lấy từ `demTab` của chính
+			 * hàng đợi, nên bỏ được 3 lượt đi-về mỗi lần mở màn (pool CSDL là max:1).
+			 *
+			 * ⚠️ Phiếu sửa nhỏ chỉ ĐỌC TỪ ĐỆM KV, không tự dò: route `leo-top-sua-nho` tải THẬT
+			 * 15 trang của site mình và nghỉ 150 ms mỗi lượt. Gọi nó ở đây là phá đúng cái vừa
+			 * cắt được — và tệ hơn, là giành backend với người đang xem web (đã đo 30/09/2026:
+			 * 172 lần "failed to fetch" ở các trang /demo/* trong lúc ca soi chạy).
+			 *
+			 * ⚠️ Lỗi kho KHÔNG được làm rỗng hàng đợi trong im lặng: `loiKho` đi vào `cauRong` để
+			 * màn nói "chưa hỏi được" thay vì "hết việc" — hai chuyện khác hẳn nhau.
+			 */
+			viec: {
 				handler: async (ctx) => {
-					const cu = await ctx.kv.get(KHOA_VIEC_DEM).catch(() => null);
-					if (cu && Date.now() - cu.luc < HAN_VIEC_DEM_MS) return cu.dem;
-					const dem = {};
+					const cu = await ctx.kv.get(KHOA_VIEC).catch(() => null);
+					if (cu && Date.now() - cu.luc < HAN_VIEC_DEM_MS) return { ...cu.kq, tuDem: true };
+					const vao = { huong: [], keHoach: [], leoTop: [], goiYNguoc: [], suaNho: null, loiKho: "" };
 					try {
-						const kh = await kho.dsKeHoach(ctx.storage);
-						dem["ke-hoach"] = kh.filter((k) => k.trangThai === "de_xuat").length;
-						dem.nhap = kh.filter((k) => k.trangThai === "co_nhap" || k.trangThai === "can_xem").length;
-						const lt = await kho.dsLeoTop(ctx.storage);
-						dem["leo-top"] = lt.filter((p) => p.trangThai === "co_phieu").length;
-						const mn = await kho.tatCa(ctx.storage.goi_y_nguoc);
-						dem["mang-nhen"] = mn.reduce((n, r) => n + (r.data?.ds?.length ?? 0), 0);
+						vao.huong = await kho.dsHuong(ctx.storage);
+						vao.keHoach = await kho.dsKeHoach(ctx.storage);
+						vao.leoTop = await kho.dsLeoTop(ctx.storage);
+						vao.goiYNguoc = await kho.tatCa(ctx.storage.goi_y_nguoc);
 					} catch (e) {
-						// Đếm hỏng KHÔNG được làm sập màn: thiếu con số thì thanh quy trình vẫn vẽ.
-						ctx.log?.warn?.(`Rada SEO: đếm việc hỏng — ${String(e?.message ?? e).slice(0, 160)}`);
+						vao.loiKho = String(e?.message ?? e).slice(0, 160);
+						ctx.log?.warn?.(`Rada SEO: đọc kho việc hỏng — ${vao.loiKho}`);
 					}
-					await ctx.kv.set(KHOA_VIEC_DEM, { luc: Date.now(), dem }).catch(() => {});
-					return dem;
+					// Đệm phiếu sửa nhỏ: có thì dùng, quá hạn 30 phút thì coi như CHƯA DÒ (dòng
+					// khởi động) — số cũ hơn thế đã lệch với lần build gần nhất.
+					const sn = await ctx.kv.get(KHOA_SUA_NHO).catch(() => null);
+					vao.suaNho = sn && Date.now() - sn.luc < HAN_GSC_TRANG_MS ? sn : null;
+					const kq = xepHangDoi(vao);
+					await ctx.kv.set(KHOA_VIEC, { luc: Date.now(), kq }).catch(() => {});
+					return kq;
 				},
 			},
 			"nhap-tong-quan": {

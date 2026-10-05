@@ -40,6 +40,9 @@ export function taoKhoGia() {
 	return {
 		doi_thu: taoBoSuuTap(), url: taoBoSuuTap(), cum: taoBoSuuTap(), ca: taoBoSuuTap(),
 		huong: taoBoSuuTap(), cum_nghia: taoBoSuuTap(), ke_hoach: taoBoSuuTap(), leo_top: taoBoSuuTap(), nhap: taoBoSuuTap(),
+		// ⚠️ Thiếu bộ này thì route `viec` đi vào nhánh CATCH (kho.tatCa(undefined) ném) và phép
+		// kiểm hoá ra đang đo đường lỗi chứ không phải đường thường — lượt đọc đếm thiếu một.
+		goi_y_nguoc: taoBoSuuTap(),
 	};
 }
 

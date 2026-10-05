@@ -9,15 +9,22 @@
  * `dsKeHoach` bị đọc BA lần trong cùng lượt đó. Người xem tab Radar trả tiền cho bốn tab chưa mở.
  */
 
-/** Gọi khi mở màn, bất kể tab nào đang mở. `tong-quan` cho tab Radar, `viec-dem` cho huy hiệu. */
-export const ROUTE_MO_MAN = ["tong-quan", "viec-dem"];
+/**
+ * Gọi khi mở màn, bất kể tab nào đang mở. ĐÚNG MỘT route.
+ *
+ * `viec` trả cả hàng đợi việc (cho màn Việc, tab mặc định) lẫn `demTab` (cho huy hiệu trên thanh
+ * quy trình), nên nó thay cả `viec-dem` lẫn `tong-quan` ở đường mở màn. `tong-quan` xuống thành
+ * route của tab Radar — người mở màn Việc không phải trả tiền cho bảng đối thủ họ chưa xem.
+ */
+export const ROUTE_MO_MAN = ["viec"];
 
 /**
  * Route mà việc MỞ tab đó cần. KHÔNG kể route đã có trong `ROUTE_MO_MAN` — khai lại là tải hai
  * lần cho đúng dữ liệu đó.
  */
 const THEO_TAB = {
-	radar: [], // sống bằng `tong-quan`, đã ở ROUTE_MO_MAN
+	viec: [], // sống bằng `viec`, đã ở ROUTE_MO_MAN
+	radar: ["tong-quan"],
 	"khoang-trong": ["khoang-trong-tong-quan"],
 	huong: ["cum-ngu-nghia"],
 	"ke-hoach": ["chien-luoc-tong-quan"],

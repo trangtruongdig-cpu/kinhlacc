@@ -18,8 +18,8 @@
  * các bảng có bộ lọc/bộ đếm theo trạng thái — tab Kế hoạch là một: xoá dòng ở đó làm bài vừa
  * duyệt biến mất khỏi nhóm "Đã duyệt" lẫn "Tất cả" và bộ đếm sai theo. Chỗ đó dùng `datDong`.
  */
-export function boDong(ds, id) {
-	return (Array.isArray(ds) ? ds : []).filter((x) => x?.id !== id);
+export function boDong(ds, id, truong = "id") {
+	return (Array.isArray(ds) ? ds : []).filter((x) => x?.[truong] !== id);
 }
 
 /**
@@ -28,6 +28,6 @@ export function boDong(ds, id) {
  * `thay` rỗng hoặc undefined thì dòng còn nguyên — route trả `{ ok: true }` thay vì bản ghi đã
  * cập nhật là chuyện thường, và lúc đó mất dòng còn tệ hơn là không cập nhật gì.
  */
-export function datDong(ds, id, thay) {
-	return (Array.isArray(ds) ? ds : []).map((x) => (x?.id === id ? { ...x, ...thay } : x));
+export function datDong(ds, id, thay, truong = "id") {
+	return (Array.isArray(ds) ? ds : []).map((x) => (x?.[truong] === id ? { ...x, ...thay } : x));
 }

@@ -2,11 +2,11 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { ROUTE_MO_MAN, routeChoTab, TAI_LAI_KHI_SANG } from "./tai-man.mjs";
 
-test("mở màn chỉ gọi tong-quan và viec-dem — ba route tổng quan kia tải khi mở tab", () => {
+test("mở màn gọi ĐÚNG MỘT route — mọi route tổng quan đều tải khi mở tab", () => {
 	// Vì sao có phép kiểm này: trước 06/10/2026 useEffect mở màn gọi NĂM route, mà pool CSDL là
-	// max:1 nên chúng xếp hàng — người xem tab Radar trả tiền cho bốn tab chưa mở. Chốt này gãy
-	// ngay khi ai thêm một route vào đường mở màn.
-	assert.deepEqual([...ROUTE_MO_MAN].sort(), ["tong-quan", "viec-dem"]);
+	// max:1 nên chúng xếp hàng (~19 lượt đi-về ≈ 1,9 giây) — người xem tab Radar trả tiền cho
+	// bốn tab chưa mở. Chốt này gãy ngay khi ai thêm một route vào đường mở màn.
+	assert.deepEqual(ROUTE_MO_MAN, ["viec"]);
 });
 
 test("mỗi tab khai đúng route của nó, và không khai lại route mở màn", () => {
@@ -16,9 +16,10 @@ test("mỗi tab khai đúng route của nó, và không khai lại route mở m�
 	assert.deepEqual(routeChoTab("nhap"), ["nhap-tong-quan"]);
 	assert.deepEqual(routeChoTab("leo-top"), ["leo-top-tong-quan"]);
 	assert.deepEqual(routeChoTab("mang-nhen"), ["mang-nhen-tong-quan"]);
-	// Tab Radar sống bằng `tong-quan`, đã có trong ROUTE_MO_MAN — khai lại là tải hai lần.
-	assert.deepEqual(routeChoTab("radar"), []);
-	for (const t of ["khoang-trong", "huong", "ke-hoach", "nhap", "leo-top", "mang-nhen", "radar"])
+	assert.deepEqual(routeChoTab("radar"), ["tong-quan"]);
+	// Màn Việc sống bằng `viec`, đã có trong ROUTE_MO_MAN — khai lại là tải hai lần.
+	assert.deepEqual(routeChoTab("viec"), []);
+	for (const t of ["khoang-trong", "huong", "ke-hoach", "nhap", "leo-top", "mang-nhen", "radar", "viec"])
 		for (const r of routeChoTab(t)) assert.ok(!ROUTE_MO_MAN.includes(r), `${t} khai lại route mở màn: ${r}`);
 });
 

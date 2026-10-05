@@ -3,7 +3,7 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { toaDoNanHoa } from "./viet/mang-nhen-xem.mjs";
 import { ROUTE_MO_MAN, routeChoTab, TAI_LAI_KHI_SANG } from "./lib/tai-man.mjs";
-import { datDong } from "./lib/bo-dong.mjs";
+import { boDong, datDong } from "./lib/bo-dong.mjs";
 
 async function goi(route, body) {
 	const res = await fetch(`/_emdash/api/plugins/rada-seo/${route}`, {
@@ -251,6 +251,51 @@ function ChangQuyTrinh({ t, dangChon, dem, onChon }) {
 	);
 }
 
+/**
+ * Nút MÀN VIỆC — đứng TRÊN thanh quy trình, không nằm trong nó.
+ *
+ * Thanh quy trình trả lời "hệ thống gồm những gì"; màn Việc trả lời "giờ tôi làm gì". Hai câu
+ * khác nhau nên hai chỗ khác nhau, và câu thứ hai đứng trước vì đó là câu người dùng mở màn để
+ * hỏi (họ chốt điều đó 06/10/2026).
+ */
+function NutManViec({ tab, tong, onChon }) {
+	const dangChon = tab === "viec";
+	return (
+		<button
+			type="button"
+			onClick={() => onChon("viec")}
+			style={{
+				display: "flex",
+				alignItems: "center",
+				gap: 10,
+				width: "100%",
+				maxWidth: 420,
+				padding: "10px 14px",
+				margin: "0 0 14px",
+				border: `1px solid ${dangChon ? "#92400e" : "#e5e7eb"}`,
+				borderRadius: 10,
+				background: dangChon ? "#fffbeb" : "#fff",
+				cursor: "pointer",
+				font: "inherit",
+				textAlign: "left",
+			}}
+		>
+			<span style={{ fontSize: 18 }}>📋</span>
+			<span style={{ lineHeight: 1.2 }}>
+				<span style={{ fontWeight: 700, fontSize: 15 }}>Hôm nay làm gì</span>
+				<span style={{ display: "block", fontSize: 11, color: "#9ca3af" }}>Việc đang chờ bạn, xếp việc chặn dây chuyền trước</span>
+			</span>
+			<span style={{ flex: 1 }} />
+			{/* Chỉ hiện khi CÓ việc — huy hiệu "0" khắp nơi làm mắt thôi nhìn vào huy hiệu. */}
+			{tong > 0 && (
+				<span style={{ minWidth: 24, padding: "2px 8px", borderRadius: 999, background: "#92400e", color: "#fff", fontSize: 12, fontWeight: 700, textAlign: "center" }}>
+					{tong}
+				</span>
+			)}
+		</button>
+	);
+}
+
 /** Thanh quy trình: hai vòng, có mũi tên giữa các chặng để thấy cái nào đẻ ra cái nào. */
 function ThanhQuyTrinh({ tab, dem, onChon }) {
 	const nhom = (v) => TABS.filter((t) => t.vong === v);
@@ -271,12 +316,17 @@ function ThanhQuyTrinh({ tab, dem, onChon }) {
 	);
 }
 const TAB_LS_KEY = "rada-seo:tab";
+/**
+ * ⚠️ Tab ĐÃ LƯU thắng tab mặc định. `viec` chỉ là giá trị rơi về khi localStorage trống hoặc giữ
+ * một key không còn tồn tại — người đang làm dở ở tab Leo top mở lại trang phải về Leo top, không
+ * bị kéo về màn Việc.
+ */
 function tabDaLuu() {
 	try {
 		const v = localStorage.getItem(TAB_LS_KEY);
-		return TABS.some((t) => t.key === v) ? v : "radar";
+		return v === "viec" || TABS.some((t) => t.key === v) ? v : "viec";
 	} catch {
-		return "radar";
+		return "viec";
 	}
 }
 function luuTab(tab) {
@@ -297,6 +347,99 @@ const NHAN_Y_DINH = { tra_cuu: "Tra cứu", tim_hieu: "Tìm hiểu", so_sanh: "S
  * can_xem: lò viết bỏ cuộc (nộp hết lượt đều trượt / giữ chỗ hết hạn lần 2) — "Duyệt lại" hoặc "Bỏ".
  */
 const KE_HOACH_SUA_DUOC = new Set(["de_xuat", "da_duyet", "bo_qua", "can_xem"]);
+
+/**
+ * MÀN VIỆC — "giờ tôi làm gì", tab mặc định.
+ *
+ * Người dùng chốt 06/10/2026: mở Rada SEO ra, điều cần biết trong 5 giây đầu là một danh sách
+ * việc bấm-là-xong, không phải bảy ngăn dữ liệu để tự đi tìm.
+ *
+ * Luật gom/xếp/lý do nằm ở `lib/xep-viec.mjs` (có phép kiểm); ở đây chỉ VẼ và gọi route.
+ */
+
+/** Mã hành động → nhãn nút. Mã do `lib/xep-viec.mjs` khai, bảng này là phần UI của nó. */
+const NHAN_HANH_DONG = {
+	nhan: "Nhận",
+	bo: "Bỏ",
+	duyet: "Duyệt",
+	mo_nhap: "Mở để duyệt ↗",
+	xem_phieu: "Xem phiếu ↗",
+	da_sua: "Đã sửa",
+	mo_bai_cu: "Mở bài cũ ↗",
+	do: "Dò sơ hở ↗",
+};
+/** Hành động nào GHI (cần nút tự báo bận + dòng rời hàng đợi), hành động nào chỉ điều hướng. */
+const HANH_DONG_GHI = new Set(["nhan", "bo", "duyet", "da_sua"]);
+/** Việc loại nào thì nút điều hướng dẫn sang tab nào. */
+const TAB_DICH = { mo_nhap: "nhap", xem_phieu: "leo-top", mo_bai_cu: "mang-nhen", do: "leo-top" };
+
+function DongViec({ v, onGhi, onSangTab }) {
+	const [loi, setLoi] = useState("");
+	return (
+		<li style={{ listStyle: "none", padding: "10px 0", borderTop: "1px solid #f3f4f6" }}>
+			<div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
+				<span style={{ fontWeight: 700, fontSize: 14 }}>{v.nhan}</span>
+				<span style={{ fontSize: 14 }}>{v.ten}</span>
+				{v.duong && (
+					<a href={v.duong.startsWith("http") ? v.duong : `${TRANG_GOC}${v.duong}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12 }}>
+						{v.duong}
+					</a>
+				)}
+				{v.hienThi > 0 && v.loai !== "nhan_huong" && <span style={{ fontSize: 12, color: "#6b7280" }}>{v.hienThi} lượt hiển thị đang chờ</span>}
+				<span style={{ flex: 1 }} />
+				{v.hanhDong.map((h) =>
+					HANH_DONG_GHI.has(h) ? (
+						<NutBan
+							key={h}
+							chinh={h === "nhan" || h === "duyet"}
+							chuBan="Đang gửi…"
+							style={{ fontSize: 12, padding: "3px 10px" }}
+							onBam={() => {
+								setLoi("");
+								return onGhi(v, h).catch((e) => setLoi(loiCua(e)));
+							}}
+						>
+							{NHAN_HANH_DONG[h]}
+						</NutBan>
+					) : (
+						<Nut key={h} onClick={() => onSangTab(TAB_DICH[h] ?? "radar")} style={{ fontSize: 12, padding: "3px 10px" }}>
+							{NHAN_HANH_DONG[h]}
+						</Nut>
+					),
+				)}
+			</div>
+			{/* Câu VÌ SAO — chỗ chữa "không hiểu nó đang làm gì". Lời giải thích đi kèm TỪNG việc. */}
+			<div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>{v.viSao}</div>
+			{loi && <div style={{ fontSize: 12, color: "#b91c1c", marginTop: 2 }}>{loi}</div>}
+		</li>
+	);
+}
+
+function ManViecTab({ dl, loi, onTai, onSangTab, onGhi }) {
+	if (!dl) return loi ? <ChuaCoDuLieu loi={loi} /> : <ChoMotChut viec="Đang gom việc đang chờ bạn" />;
+	const ds = dl.viec ?? [];
+	return (
+		<div>
+			<div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+				<Nut onClick={onTai}>Tải lại</Nut>
+				<span style={{ color: "#666", fontSize: 13 }}>
+					{ds.length > 0 ? `${ds.length} việc đang chờ bạn, xếp việc CHẶN dây chuyền trước rồi việc rẻ sau.` : "Không có việc nào chờ bạn."}
+					{dl.tuDem && " (số lấy từ bản đệm 60 giây)"}
+				</span>
+			</div>
+			{/* ⚠️ Rỗng phải nói VÌ SAO rỗng: "hết việc", "chưa dò" và "chưa hỏi được kho" là ba
+			    chuyện khác hẳn nhau, và rỗng trơn thì cả ba đọc ra như "không có việc". */}
+			{ds.length === 0 && dl.cauRong && (
+				<div style={{ border: "1px solid #d1d5db", borderRadius: 8, padding: "10px 14px", background: "#f9fafb", maxWidth: 760 }}>{dl.cauRong}</div>
+			)}
+			<ul style={{ margin: 0, padding: 0, maxWidth: 980 }}>
+				{ds.map((v) => (
+					<DongViec key={`${v.loai}|${v.id}`} v={v} onGhi={onGhi} onSangTab={onSangTab} />
+				))}
+			</ul>
+		</div>
+	);
+}
 
 /** Danh sách "chủ đề + link mở tab mới", dùng chung cho bằng chứng bài đối thủ và tài sản nội bộ. */
 function DanhSachLink({ ds, hienThi, toiDa = 5 }) {
@@ -2402,9 +2545,11 @@ function RadaSeo() {
 	const [nhDl, setNhDl] = useState(null);
 	const [nhLoi, setNhLoi] = useState("");
 	const [mnDl, setMnDl] = useState(null);
-	// Huy hiệu việc chờ trên thanh quy trình. Route riêng, đệm 60 giây ở máy chủ — KHÔNG gộp vào
-	// `tong-quan` vì đó là đường nóng (mọi nút bấm gọi lại nó) và pool CSDL là max:1.
-	const [viecDem, setViecDem] = useState(null);
+	// Hàng đợi việc + huy hiệu trên thanh quy trình, cùng MỘT route `viec` (đệm 60 giây ở máy
+	// chủ). Trước 06/10/2026 huy hiệu có route `viec-dem` riêng, mà nó đọc lại đúng dsKeHoach +
+	// dsLeoTop + goi_y_nguoc mà hàng đợi cần — 3 lượt đi-về cho dữ liệu đã có.
+	const [vcDl, setVcDl] = useState(null);
+	const [vcLoi, setVcLoi] = useState("");
 	const [mnLoi, setMnLoi] = useState("");
 	const [ktDl, setKtDl] = useState(null);
 	const [ktLoi, setKtLoi] = useState("");
@@ -2420,14 +2565,18 @@ function RadaSeo() {
 	const taiCN = useCallback(() => goi("cum-ngu-nghia").then((d) => { setCnDl(d); setCnLoi(""); }, (e) => setCnLoi(loiCua(e))), []);
 	const taiKT = useCallback(() => goi("khoang-trong-tong-quan").then((d) => { setKtDl(d); setKtLoi(""); }, (e) => setKtLoi(loiCua(e))), []);
 	const taiLT = useCallback(() => goi("leo-top-tong-quan").then((d) => { setLtDl(d); setLtLoi(""); }, (e) => setLtLoi(loiCua(e))), []);
-	const taiDem = useCallback(() => goi("viec-dem").then(setViecDem, () => {}), []);
+	// Trả true khi route từ chối vì quyền (403) — Editor chỉ đọc được tab Nháp.
+	const taiViec = useCallback(
+		() => goi("viec").then((d) => { setVcDl(d); setVcLoi(""); return false; }, (e) => { setVcLoi(loiCua(e)); return e?.status === 403; }),
+		[],
+	);
 	const taiMn = useCallback(() => goi("mang-nhen-tong-quan").then((d) => { setMnDl(d); setMnLoi(""); }, (e) => setMnLoi(loiCua(e))), []);
 	const taiNh = useCallback(() => goi("nhap-tong-quan").then((d) => { setNhDl(d); setNhLoi(""); }, (e) => setNhLoi(loiCua(e, KHONG_QUYEN_NHAP))), []);
 	// Bảng tra route → hàm tải. `admin.jsx` giữ phần GỌI, `lib/tai-man.mjs` giữ phần LUẬT (route
 	// nào lúc nào) — chỉ phần luật là kiểm được, vì JSX không có hạ tầng test ở repo này.
 	const theoRoute = {
+		viec: taiViec,
 		"tong-quan": tai,
-		"viec-dem": taiDem,
 		"chien-luoc-tong-quan": taiCL,
 		"cum-ngu-nghia": taiCN,
 		"khoang-trong-tong-quan": taiKT,
@@ -2457,10 +2606,10 @@ function RadaSeo() {
 		// Không phải quản trị viên (Editor): mở thẳng tab Nháp — tab duy nhất họ đọc được. Không
 		// ghi vào localStorage: cùng trình duyệt đăng nhập lại bằng tài khoản quản trị vẫn về tab
 		// đã lưu.
-		taiRoute("tong-quan").then((khongQuyen) => {
+		taiRoute("viec").then((khongQuyen) => {
 			if (khongQuyen) setTab("nhap");
 		});
-		for (const r of ROUTE_MO_MAN) if (r !== "tong-quan") taiRoute(r);
+		for (const r of ROUTE_MO_MAN) if (r !== "viec") taiRoute(r);
 	}, [taiRoute]);
 	// ⚠️ Những nút CÒN tải lại cả màn: chúng đổi nhiều dòng cùng lúc (xoá đối thủ, đặt lại URL)
 	// nên phản hồi không nói đủ. Dấu hiệu bận nằm ở CHÍNH NÚT (xem `NutBan`), không phải một cờ
@@ -2493,7 +2642,8 @@ function RadaSeo() {
 	return (
 		<div style={{ padding: 24, maxWidth: 1200 }}>
 			<h1>Rada SEO</h1>
-			<ThanhQuyTrinh tab={tab} dem={viecDem} onChon={doiTab} />
+			<NutManViec tab={tab} tong={vcDl?.tong ?? 0} onChon={doiTab} />
+			<ThanhQuyTrinh tab={tab} dem={vcDl?.demTab} onChon={doiTab} />
 
 			{tab === "radar" &&
 				(!dl ? (
@@ -2522,6 +2672,29 @@ function RadaSeo() {
 						}
 					/>
 				))}
+
+			{tab === "viec" && (
+				<ManViecTab
+					dl={vcDl}
+					loi={vcLoi}
+					onTai={taiViec}
+					onSangTab={doiTab}
+					onGhi={(v, h) => {
+						// Dòng rời hàng đợi CHỈ KHI máy chủ xác nhận — cố ý không optimistic update.
+						const roiHangDoi = () =>
+							setVcDl((d) => (d ? { ...d, viec: boDong(d.viec, v.khoa, "khoa"), tong: Math.max(0, (d.tong ?? 1) - 1) } : d));
+						const xong = (p) => p.then(roiHangDoi);
+						if (v.loai === "nhan_huong")
+							return xong(goi("huong-dat", h === "nhan" ? { id: v.id, trangThai: "da_nhan" } : { id: v.id, trangThai: "bo_qua", lyDoBo: "Người quản trị bỏ" }));
+						if (v.loai === "duyet_ke_hoach")
+							return xong(goi("ke-hoach-dat", h === "duyet" ? { id: v.id, trangThai: "da_duyet" } : { id: v.id, trangThai: "bo_qua", lyDoBo: "Người quản trị bỏ" }));
+						if (v.loai === "lam_phieu_leo_top") return xong(goi("leo-top-da-sua", { id: v.id }));
+						// Việc sửa nhỏ: bản vá ĐÃ tự chạy trong vòng build (cau-hoi-gsc → faq-that),
+						// nên nút này ghi MỐC để sau còn so hạng, không phải "đi sửa".
+						return xong(goi("leo-top-sua-nho-danh-dau", { duong: v.meta?.trang ?? v.duong }));
+					}}
+				/>
+			)}
 
 			{tab === "huong" && <CumNguNghiaTab dl={cnDl} loi={cnLoi} onTai={taiCN} onSangTab={doiTab} />}
 
