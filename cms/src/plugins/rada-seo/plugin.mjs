@@ -93,6 +93,8 @@ const HAN_SOI_INDEX_MS = 24 * 60 * 60 * 1000;
 /** Mỗi lượt bấm soi tối đa chừng này trang: 8 × 7,5 s ≈ 1 phút, vừa sức chờ của một lần bấm. */
 const TRAN_SOI_INDEX = 8;
 const NGHI_SOI_INDEX_MS = 300;
+/** Dưới chừng này ngày thì chưa kết luận gì về một bản sửa — cùng mốc với `bai-moi.mjs`. */
+const NGAY_DU_KET_LUAN_SUA = 14;
 const HAN_VIEC_DEM_MS = 60_000;
 /** Mỗi lượt soi tải thật chừng này trang của site mình. */
 const TRAN_TRANG_SUA_NHO = 15;
@@ -1200,11 +1202,18 @@ export function createPlugin() {
 						await new Promise((r) => setTimeout(r, NGHI_SUA_NHO_MS));
 						const duong = `https://${t.khoa}`;
 						try {
-							const html = await doc(duong);
+							// ⚠️ `taoDocTrang` trả OBJECT `{status, xRobots, html}`, không phải chuỗi.
+							// Truyền nguyên object vào `phieuSuaNho` là mọi truy vấn thành "thiếu nội
+							// dung" mà phiếu vẫn trông như thật — đã cắn đúng một lần.
+							const r = await doc(duong);
+							const html = typeof r === "string" ? r : r?.html;
 							if (!html) {
-								loi.push(`${t.khoa}: không tải được`);
+								loi.push(`${t.khoa}: không tải được${r?.status ? ` (HTTP ${r.status})` : ""}${r?.loi ? ` — ${r.loi}` : ""}`);
 								continue;
 							}
+							// Trang bị cắt bớt thì phần cuối không có trong `html`; nói ra chứ đừng để
+							// nó thành "thiếu nội dung" giả.
+							if (r?.catBot) loi.push(`${t.khoa}: trang bị cắt bớt khi tải, kết quả có thể thiếu`);
 							ds.push(phieuSuaNho({ trang: duong, html, truyVan: t.ds }));
 						} catch (e) {
 							loi.push(`${t.khoa}: ${String(e?.message ?? e).slice(0, 120)}`);
@@ -1256,6 +1265,48 @@ export function createPlugin() {
 						}
 					}
 					return { ds, loi, ghiChu: "" };
+				},
+			},
+			/**
+			 * ĐÁNH DẤU một trang đã đưa vào sửa, chụp số TRƯỚC để sau còn so.
+			 *
+			 * ⚠️ Với việc `them_faq`/`them_tieu_de` thì bản vá ĐÃ TỰ CHẠY: vòng
+			 * `cau-hoi-gsc.mjs → faq-that.mjs` kéo câu người ta gõ vào FAQ ở MỖI lần build. Nút
+			 * này vì thế không phải "đi sửa" — nó ghi MỐC. Không có mốc trước thì câu "sửa xong
+			 * có lên hạng không" vĩnh viễn không trả lời được, vì sau khi sửa số cũ đã mất.
+			 */
+			"leo-top-sua-nho-danh-dau": {
+				handler: async (ctx) => {
+					const duong = String(vao(ctx).duong ?? "").trim();
+					if (!duong) throw PluginRouteError.badRequest("Thiếu đường trang");
+					const { banDo } = await gscTheoTrang(ctx);
+					const khoa = chuanHoaUrlTrang(duong.startsWith("http") ? duong : `${gocSite()}${duong}`);
+					// Số TRƯỚC lấy từ chính bảng đã đệm — không gọi thêm Google cho một lần bấm.
+					const truoc = banDo?.get(khoa) ?? null;
+					const r = await kho.danhDauSuaNho(ctx.storage, duong, truoc);
+					return { duong: r.duong, ghiLuc: r.ghiLuc, truoc: r.truoc, daCo: r.daCo };
+				},
+			},
+			/**
+			 * Bảng theo dõi: số TRƯỚC (đã chụp) so với số BÂY GIỜ.
+			 *
+			 * ⚠️ Dưới `NGAY_DU_KET_LUAN` ngày thì KHÔNG kết luận — Search Console chậm 2–3 ngày
+			 * và hạng cần vài tuần mới ổn. Cùng lý lẽ với `bai-moi.mjs`: vu oan đắt hơn bỏ sót,
+			 * và ở đây "vu oan" là kết luận một bản sửa vô dụng khi nó chưa kịp có tác dụng.
+			 */
+			"leo-top-sua-nho-theo-doi": {
+				handler: async (ctx) => {
+					const ds = await kho.dsSuaNho(ctx.storage);
+					if (!ds.length) return { ds: [] };
+					const { banDo } = await gscTheoTrang(ctx);
+					const goc = gocSite();
+					return {
+						ds: ds.map((x) => {
+							const bayGio = banDo?.get(chuanHoaUrlTrang(`${goc}${x.duong}`)) ?? null;
+							const tuoi = Math.floor((Date.now() - (Date.parse(x.ghiLuc) || Date.now())) / 86_400_000);
+							return { ...x, bayGio, tuoi, duKetLuan: tuoi >= NGAY_DU_KET_LUAN_SUA };
+						}),
+					};
 				},
 			},
 			"leo-top-da-sua": {

@@ -72,3 +72,21 @@ test("xepPhieu bỏ trang không còn việc, xếp theo lượt hiển thị đ
 	const c = { trang: "/c/", hienThiChoSua: 0, dong: [] };
 	assert.deepEqual(xepPhieu([a, b, c]).map((x) => x.trang), ["/b/", "/a/"]);
 });
+
+test("KHÔNG phân loại khi không đọc được HTML — phải NÓI RA, không đoán", () => {
+	// Đã cắn 06/10/2026: route truyền cả object {status, xRobots, html} của `taoDocTrang` vào
+	// đây. String(obj) = "[object Object]" nên không thấy FAQ, không thấy thân bài, và MỌI truy
+	// vấn rơi vào rọ ĐẮT NHẤT (`thieu_noi_dung`). Phiếu trông y như một phát hiện thật.
+	const tv = [{ tuKhoa: "huyệt phục thỏ", hienThi: 70 }];
+	for (const xau of [{ status: 200, html: "<html>…</html>" }, null, undefined, "", "   ", 42]) {
+		const p = phieuSuaNho({ trang: "/x/", html: xau, truyVan: tv });
+		assert.equal(p.dong.length, 0, `${JSON.stringify(xau)} không được sinh việc`);
+		assert.match(p.loi, /không đọc được HTML/);
+		assert.equal(p.hienThiChoSua, 0);
+	}
+	// Chuỗi HTML thật thì vẫn chạy như cũ.
+	const ok = phieuSuaNho({ trang: "/x/", html: "<h2>Vị Trí</h2><p>huyệt phục thỏ nằm ở đùi</p>", truyVan: tv });
+	assert.equal(ok.loi, undefined);
+	assert.equal(ok.dong.length, 1);
+	assert.equal(ok.dong[0].viec, "them_faq");
+});

@@ -1186,6 +1186,21 @@ function SuaNho({ nhanViec }) {
 	const [dangTai, setDangTai] = useState(false);
 	const [loi, setLoi] = useState("");
 	const [mo, setMo] = useState(null);
+	// Theo dõi: chụp số TRƯỚC khi sửa, rồi so với số bây giờ. Không có mốc trước thì câu "sửa
+	// xong có lên hạng không" vĩnh viễn không trả lời được.
+	const [theoDoi, setTheoDoi] = useState(null);
+	const [dangDanh, setDangDanh] = useState(null);
+	const taiTheoDoi = () => goi("leo-top-sua-nho-theo-doi").then(setTheoDoi, () => {});
+	const danhDau = (duong) => {
+		setDangDanh(duong);
+		goi("leo-top-sua-nho-danh-dau", { duong })
+			.then(taiTheoDoi, (e) => setLoi(loiCua(e)))
+			.finally(() => setDangDanh(null));
+	};
+	useEffect(() => {
+		taiTheoDoi();
+	}, []);
+	const daDanh = new Set((theoDoi?.ds ?? []).map((x) => x.duong));
 	const tai = () => {
 		setDangTai(true);
 		setLoi("");
@@ -1193,7 +1208,9 @@ function SuaNho({ nhanViec }) {
 			.then(setDl, (e) => setLoi(loiCua(e)))
 			.finally(() => setDangTai(false));
 	};
-	const mau = { them_faq: "#15803d", them_tieu_de: "#92400e", thieu_noi_dung: "#b91c1c" };
+		const mau = { them_faq: "#15803d", them_tieu_de: "#92400e", thieu_noi_dung: "#b91c1c" };
+	/** Trang trong phiếu là URL đầy đủ; sổ theo dõi khoá theo ĐƯỜNG DẪN. */
+	const duongCua = (u) => String(u ?? "").replace(/^https?:\/\/[^/]+/, "");
 	return (
 		<div style={{ border: "1px solid #86efac", background: "#f0fdf4", padding: 8, marginBottom: 12 }}>
 			<b>Sửa nhỏ để máy nhặt được câu trả lời</b>{" "}
@@ -1226,10 +1243,23 @@ function SuaNho({ nhanViec }) {
 											<td><b>{p.hienThiChoSua}</b></td>
 											<td>{p.coFaq ? `${p.soCauHoiFaq} câu` : <span style={{ color: "#b91c1c" }}>chưa có</span>}</td>
 											<td>{p.dong.length} việc</td>
-											<td>
+											<td style={{ whiteSpace: "nowrap" }}>
 												<Nut onClick={() => setMo(mo === p.trang ? null : p.trang)} style={{ fontSize: 12, padding: "2px 8px" }}>
 													{mo === p.trang ? "Thu" : "Xem"}
-												</Nut>
+												</Nut>{" "}
+												{daDanh.has(duongCua(p.trang)) ? (
+													<span style={{ fontSize: 12, color: "#15803d" }}>đang theo dõi</span>
+												) : (
+													<Nut
+														chinh
+														disabled={dangDanh === duongCua(p.trang)}
+														onClick={() => danhDau(duongCua(p.trang))}
+														style={{ fontSize: 12, padding: "2px 8px" }}
+														title="Chụp số hiện tại để sau so được"
+													>
+														{dangDanh === duongCua(p.trang) ? "…" : "Theo dõi"}
+													</Nut>
+												)}
 											</td>
 										</tr>
 										{mo === p.trang && (
@@ -1256,6 +1286,60 @@ function SuaNho({ nhanViec }) {
 						<p style={{ margin: "6px 0 0", fontSize: 13 }}>Đã soi {dl.soTrangSoi ?? 0} trang — không trang nào còn việc sửa nhỏ.</p>
 					)}
 				</>
+			)}
+
+			{/* Vì sao KHÔNG có nút "sửa ngay": với `them_faq`/`them_tieu_de` thì bản vá ĐÃ tự
+			    chạy ở khâu build. Nút "Theo dõi" ghi MỐC để sau còn so — thứ duy nhất không tự
+			    có được, vì sau khi sửa thì số cũ đã mất. */}
+			<div style={{ ...KHUNG_O, background: "#fff", marginTop: 10, fontSize: 13 }}>
+				<b>Việc “thêm dòng FAQ” TỰ SỬA ở lần build tới.</b> Vòng <code>cau-hoi-gsc</code> → <code>faq-that</code> kéo đúng
+				câu người ta gõ vào FAQ của trang, ghép với mục nội dung đã có — không ai phải sửa tay, không câu trả lời nào
+				được sinh mới. Bấm <b>Theo dõi</b> để chụp số hiện tại, rồi quay lại sau 14 ngày xem có lên hạng không.
+			</div>
+
+			{theoDoi?.ds?.length > 0 && (
+				<div style={{ marginTop: 10 }}>
+					<b style={{ fontSize: 13 }}>Đang theo dõi ({theoDoi.ds.length})</b>
+					<table style={{ borderCollapse: "collapse", fontSize: 13, marginTop: 4, width: "100%" }}>
+						<thead>
+							<tr style={{ textAlign: "left", borderBottom: "1px solid #e4e4e7" }}>
+								<th>Trang</th><th>Đánh dấu</th><th>Hạng trước → nay</th><th>Hiển thị trước → nay</th><th>Kết luận</th>
+							</tr>
+						</thead>
+						<tbody>
+							{theoDoi.ds.map((x) => {
+								const t = x.truoc, b = x.bayGio;
+								const doi = t && b ? t.viTri - b.viTri : null; // dương = LÊN hạng (số nhỏ hơn)
+								return (
+									<tr key={x.duong} style={{ borderBottom: "1px solid #f4f4f5" }}>
+										<td style={{ maxWidth: 260, overflowWrap: "anywhere" }}>{x.duong}</td>
+										<td>{x.tuoi} ngày trước</td>
+										<td>{t ? so(t.viTri) : "—"} → {b ? so(b.viTri) : "—"}</td>
+										<td>{t ? t.hienThi : "—"} → {b ? b.hienThi : "—"}</td>
+										<td>
+											{!x.duKetLuan ? (
+												// Cùng lý lẽ với bài còn non: vu oan ở đây là kết luận một bản sửa
+												// vô dụng khi nó chưa kịp có tác dụng.
+												<span style={{ color: "#6b7280" }}>chưa đủ 14 ngày</span>
+											) : doi == null ? (
+												<span style={{ color: "#6b7280" }}>thiếu số liệu</span>
+											) : doi > 0.3 ? (
+												<span style={{ color: "#15803d", fontWeight: 600 }}>lên {so(doi)} bậc</span>
+											) : doi < -0.3 ? (
+												<span style={{ color: "#b91c1c" }}>tụt {so(-doi)} bậc</span>
+											) : (
+												<span style={{ color: "#6b7280" }}>gần như không đổi</span>
+											)}
+										</td>
+									</tr>
+								);
+							})}
+						</tbody>
+					</table>
+					<p style={{ fontSize: 12, color: "#9ca3af", margin: "4px 0 0" }}>
+						⚠️ Đây là ĐỒNG XUẤT HIỆN, không phải nhân quả — cùng lúc đó Google cũng đổi thuật toán và đối thủ cũng sửa bài.
+					</p>
+				</div>
 			)}
 		</div>
 	);

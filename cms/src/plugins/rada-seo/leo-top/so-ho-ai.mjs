@@ -88,6 +88,17 @@ export function xetTruyVan(truyVan, { faq, tieuDe, than }) {
  * @param {{trang: string, html: string, truyVan: {tuKhoa: string, hienThi: number, nhap: number, viTri: number}[]}} p
  */
 export function phieuSuaNho({ trang, html, truyVan }) {
+	// ⚠️ CHẶN Ở CỬA, đừng phân loại bừa. Đã cắn một lần (06/10/2026): route truyền nhầm cả
+	// object `{status, xRobots, html}` của `taoDocTrang` vào đây; `String(obj)` ra
+	// "[object Object]" nên không thấy FAQ, không thấy thân bài, và MỌI truy vấn rơi vào rọ
+	// `thieu_noi_dung` — tức rọ ĐẮT NHẤT. Phiếu trông như một phát hiện thật: `/huyet/phuc-tho/`
+	// báo "chưa có FAQ, 9 việc viết thật" trong khi trang đó CÓ FAQPage và CÓ câu trả lời.
+	//
+	// Không đọc được trang thì NÓI RA, không được đoán — một phiếu báo sai thì người duyệt học
+	// cách bỏ qua cả phiếu.
+	if (typeof html !== "string" || !html.trim()) {
+		return { trang, coFaq: false, soCauHoiFaq: 0, soTruyVan: (truyVan ?? []).length, hienThiChoSua: 0, dong: [], loi: "không đọc được HTML của trang" };
+	}
 	const { faq, tieuDe } = docCauHoi(html);
 	const than = chuTran(html);
 	const dong = (truyVan ?? []).map((t) => {

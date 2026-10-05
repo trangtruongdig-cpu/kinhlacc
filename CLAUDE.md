@@ -1311,6 +1311,27 @@ mất cái mình đang đi tìm.
 ⚠️ Route tải THẬT từng trang của site mình: trần 15 trang/lượt, nghỉ 150 ms giữa các lượt (cùng
 lý lẽ với ca soi), đệm KV 30 phút.
 
+⚠️ **`taoDocTrang` trả OBJECT `{status, xRobots, html}`, KHÔNG phải chuỗi.** Truyền nguyên
+object vào `phieuSuaNho` thì `String(obj)` ra `"[object Object]"`: không thấy FAQ, không thấy
+thân bài, và **MỌI truy vấn rơi vào rọ ĐẮT NHẤT** (`thieu_noi_dung`). Phiếu trông y như một
+phát hiện thật — `/huyet/phuc-tho/` báo "chưa có FAQ, 9 việc viết thật" trong khi trang đó CÓ
+`FAQPage` và CÓ câu trả lời (đã cắn 06/10/2026). `phieuSuaNho` nay CHẶN Ở CỬA: không phải chuỗi
+có nội dung thì trả `loi` chứ không phân loại, và có phép kiểm neo đúng bẫy đó.
+
+### Sửa nhỏ: KHÔNG có nút "sửa ngay", vì bản vá đã TỰ chạy — thứ thiếu là MỐC ĐO
+
+Với `them_faq`/`them_tieu_de` thì vòng `cau-hoi-gsc.mjs → faq-that.mjs` đã kéo đúng câu người ta
+gõ vào FAQ ở MỖI lần build. Nút cần có không phải "đi sửa" mà là **"Theo dõi"**: chụp số TRƯỚC
+khi sửa vào bộ kho `sua_nho` (khoá theo đường trang), rồi bảng so với số bây giờ.
+
+⚠️ **Không có ảnh chụp trước thì câu "sửa xong có lên hạng không" vĩnh viễn không trả lời được**
+— sau khi sửa, số cũ đã mất. Đó là lý do duy nhất sổ này tồn tại. Đánh dấu lại cùng một trang
+thì GIỮ mốc đầu.
+⚠️ Dưới **14 ngày** thì KHÔNG kết luận (cùng mốc với `bai-moi.mjs`): ở đây "vu oan" là kết luận
+một bản sửa vô dụng khi nó chưa kịp có tác dụng.
+⚠️ Bảng luôn in câu **ĐỒNG XUẤT HIỆN, không phải nhân quả** — cùng lúc đó Google đổi thuật toán
+và đối thủ cũng sửa bài. Cùng ràng buộc với `leo-top/vong-hoc.mjs`.
+
 ### CẦU đi cùng CUNG: tháp nói mình CÓ gì, Search Console nói người ta HỎI gì
 
 Tháp (`ungVien`, `cumNguNghia`) chỉ đo CUNG. Một cụm tháp cao mà không ai hỏi là phỏng đoán; một

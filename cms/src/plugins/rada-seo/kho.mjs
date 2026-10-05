@@ -24,6 +24,8 @@ export const KHAI_BAO_KHO = {
 	// bài mới mà nó nên trỏ sang. Khoá theo bài CŨ vì khung Phiếu Rada mở theo bài đang sửa.
 	// Không index: chỉ tra bằng get(id) khi mở khung.
 	goi_y_nguoc: { indexes: [] },
+	// Sổ theo dõi "sửa nhỏ": id = đường trang. Chụp số TRƯỚC khi sửa để sau còn so được.
+	sua_nho: { indexes: ["ghiLuc"] },
 };
 
 export const TRANG_THAI_CUM = ["cho_viet", "co_nhap", "da_dang", "bo_qua", "phu_boi_tu_dien"];
@@ -682,6 +684,26 @@ export async function taoPhienLeoTop(s, { tuKhoa, trang, viTri, hienThi, tuKhoaP
 }
 
 /** Danh sách phiên, KHÔNG kèm chữ trang (`chu` chỉ để rada_lay_trang_serp đọc qua get). */
+/**
+ * Đánh dấu một trang ĐÃ ĐƯA VÀO SỬA, kèm ảnh chụp số liệu TRƯỚC khi sửa.
+ *
+ * ⚠️ Không có ảnh chụp trước thì câu "sửa xong có lên hạng không" vĩnh viễn không trả lời được
+ * — sau khi sửa, số cũ đã mất. Đây là lý do duy nhất sổ này tồn tại.
+ * Đánh dấu lại cùng một trang thì GIỮ mốc đầu: mốc đầu mới là cái để so.
+ */
+export async function danhDauSuaNho(s, duong, truoc, now = new Date().toISOString()) {
+	const id = String(duong);
+	const cu = await s.sua_nho.get(id).catch(() => null);
+	if (cu) return { id, ...cu, daCo: true };
+	const data = { duong: id, ghiLuc: now, truoc: truoc ?? null };
+	await s.sua_nho.put(id, data);
+	return { id, ...data, daCo: false };
+}
+
+export async function dsSuaNho(s) {
+	return (await tatCa(s.sua_nho, { orderBy: { ghiLuc: "desc" } })).map((r) => ({ id: r.id, ...r.data }));
+}
+
 export async function dsLeoTop(s, { trangThai } = {}) {
 	const r = await tatCa(s.leo_top, loc(trangThai && { trangThai }, { taoLuc: "desc" }));
 	return r.map((x) => ({ id: x.id, ...x.data, serp: boChu(x.data.serp) }));
