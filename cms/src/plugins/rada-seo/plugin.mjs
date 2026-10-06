@@ -39,6 +39,7 @@ import { chayLoViet } from "./ai/tu-viet-bai.mjs";
 import { tongHopLoaiSua } from "./leo-top/vong-hoc.mjs";
 import { xepHangDoi, tomTatTuan } from "./lib/xep-viec.mjs";
 import { viecHeThong } from "./lib/suc-khoe-bot.mjs";
+import { chayCaLeoTop, GIO_UTC_LEO_TOP } from "./ai/tu-leo-top.mjs";
 import { canhBaoCaDem as tinhCanhBaoCaDem, canhBaoDocTrang } from "./lib/canh-bao.mjs";
 import { gomCau } from "./leo-top/y-dinh.mjs";
 import { phieuSuaNho, xepPhieu, VIEC as VIEC_SUA_NHO } from "./leo-top/so-ho-ai.mjs";
@@ -511,7 +512,7 @@ export function createPlugin() {
 				// 23/24 tick mỗi ngày dừng ở đây, IM LẶNG (xem LICH_RADAR). Phải đứng TRƯỚC phép kiểm
 				// công tắc: không thì máy lập trình ghi một dòng "nhả ca" mỗi giờ.
 				const gio = new Date().getUTCHours();
-				if (gio !== GIO_UTC_CHAY && gio !== GIO_UTC_VIET) return;
+				if (gio !== GIO_UTC_CHAY && gio !== GIO_UTC_VIET && gio !== GIO_UTC_LEO_TOP) return;
 				if (!caDemBat()) {
 					// Chỉ ghi nhật ký ở giờ ca RADAR. Giờ ca lò viết mà cũng ghi thì máy lập trình đẻ
 					// hai dòng "nhả ca" mỗi đêm, làm bẩn đúng cái bảng dùng để biết đêm qua chạy ra sao.
@@ -572,6 +573,39 @@ export function createPlugin() {
 					}).then(
 						(r) => ctx.log.info(`Rada SEO ca lò viết: ${r.daTao}/${r.soBai} bài${r.ghiChu.length ? ` — ${r.ghiChu.join(" | ")}` : ""}`),
 						(e) => ctx.log.error("Rada SEO ca lò viết hỏng", e),
+					);
+					return;
+				}
+				if (gio === GIO_UTC_LEO_TOP) {
+					// CA LEO TOP (04:30 giờ VN) — SAU ca radar 02:30 và lò viết 03:30, vì nó đọc kho
+					// trang đối thủ mà ca radar vừa bổ sung.
+					//
+					// ⚠️ Trước 06/10/2026 trục này KHÔNG có đường tự hành nào: cả bốn khâu chỉ gọi
+					// được qua route MCP, nên `leo_top` rỗng vĩnh viễn và bảng Vòng học nói "cần qua
+					// mốc +28 ngày" — đọc ra là "cứ chờ" trong khi sự thật là "chưa ai tạo phiên".
+					//
+					// ⚠️ NGUỒN "SERP" ở đây KHÔNG phải top 10 Google — xem `leo-top/nguon-serp.mjs`.
+					const fetchLt = ctx.http.fetch.bind(ctx.http);
+					chayCaLeoTop(
+						{
+							layTuKhoa: () => leoTop.layTuKhoaLeoTop({ s: ctx.storage, kv: ctx.kv, gsc: gscCua(ctx) }),
+							// Chỉ trang ĐÃ ĐỌC mới có `chuDe`/`tuKhoa` để khớp — trang mới trích chưa có.
+							khoDoiThu: async () =>
+								(await kho.tatCa(ctx.storage.url, { where: { trangThai: "da_phan_tich" } })).map((r) => ({
+									url: r.data?.url,
+									chuDe: r.data?.chuDe,
+									tuKhoa: r.data?.tuKhoa ?? [],
+								})),
+							nopSerp: ({ id, urls }) => leoTop.nopSerp({ s: ctx.storage, docTrang: taoDocTrang(fetchLt, { traLyDo: true }), id, urls }),
+							layTrang: ({ id }) => leoTop.layTrangSerp({ s: ctx.storage, id }),
+							goiModel: ({ viec, bai }) => taoGoiModel({ fetch: fetchLt, log: ctx.log }).goi(viec, JSON.stringify(bai)),
+							ghiSoHo: ({ id, trang }) => leoTop.ghiSoHo({ s: ctx.storage, id, trang, layChiMuc: () => layChiMuc(ctx.content) }),
+							log: ctx.log,
+						},
+						{ tranPhien: Number(process.env.RADA_SEO_TRAN_LEO_TOP) || undefined },
+					).then(
+						(r) => ctx.log.info(`Rada SEO ca leo top: ${r.soPhieu}/${r.soPhien} phiếu${r.ghiChu.length ? ` — ${r.ghiChu.join(" | ")}` : ""}`),
+						(e) => ctx.log.error("Rada SEO ca leo top hỏng", e),
 					);
 					return;
 				}

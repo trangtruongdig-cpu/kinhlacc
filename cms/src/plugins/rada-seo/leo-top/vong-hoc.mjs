@@ -118,7 +118,15 @@ export function tongHopLoaiSua(phien = []) {
 		.sort((a, b) => b.soPhien - a.soPhien || b.len - a.len);
 	const ghiChu = [];
 	if (!doDuoc) {
-		ghiChu.push("Chưa phiên nào có số đo cuối (cần qua mốc +28 ngày kể từ ngày bấm “Đã sửa theo phiếu”) — bảng còn rỗng vì chưa có dữ liệu, không phải vì các việc đó vô ích.");
+		// ⚠️ HAI trạng thái, HAI câu. "Chưa có phiên nào" và "có phiên nhưng chưa tới mốc" khác hẳn
+		// nhau: câu thứ hai bảo người ta CHỜ, câu thứ nhất bảo người ta ĐI TẠO PHIÊN. Trước
+		// 06/10/2026 chỉ có câu thứ hai, và nó in ra cả khi chưa ai từng tạo phiên — tức bảo chờ
+		// một thứ sẽ không bao giờ tới. Cùng bệnh với tab Mạng nhện ("rỗng vì chưa ai dò").
+		ghiChu.push(
+			phien.length === 0
+				? "Chưa có phiên leo top nào trong kho — bảng rỗng vì CHƯA AI TẠO PHIÊN, không phải vì chờ dữ liệu. Ca leo top 04:30 sẽ tự mở phiên; muốn có ngay thì mở từ hàng đợi ứng viên ở tab Leo top."
+				: "Chưa phiên nào có số đo cuối (cần qua mốc +28 ngày kể từ ngày bấm “Đã sửa theo phiếu”) — bảng còn rỗng vì chưa có dữ liệu, không phải vì các việc đó vô ích.",
+		);
 	} else if (!bang.some((x) => x.duKetLuan)) {
 		ghiChu.push(`Mọi loại sửa đều dưới ${TOI_THIEU_KET_LUAN} phiên — đọc để biết đã làm gì, ĐỪNG kết luận loại nào hiệu quả hơn.`);
 	}

@@ -13,8 +13,19 @@ const taoCtx = () => {
 	const log = [];
 	return {
 		storage: taoKhoGia(),
-		log: { warn: (m) => log.push(["warn", m]), error: (m) => log.push(["error", m]), info: (m) => log.push(["info", m]) },
+		// ⚠️ `error` phải giữ CẢ tham số thứ hai. Mã gọi `ctx.log.error("… hỏng", e)`, nên bản cũ
+		// chỉ nhận `m` đã NUỐT lý do thật — một phép kiểm dò lỗi trong log vì thế xanh cả khi mã
+		// hỏng. Đã cắn khi dựng chốt cho nhánh cron leo top.
+		log: {
+			warn: (m, e) => log.push(["warn", e ? `${m} ${e?.message ?? e}` : m]),
+			error: (m, e) => log.push(["error", e ? `${m} ${e?.message ?? e}` : m]),
+			info: (m) => log.push(["info", m]),
+		},
 		_log: log,
+		// ⚠️ Bàn thử PHẢI có `http`: mọi nhánh cron đều mở đầu bằng `ctx.http.fetch.bind(ctx.http)`,
+		// nên thiếu nó thì hook ném ĐỒNG BỘ và nhánh đó chưa bao giờ được phép kiểm nào chạm tới.
+		// Cùng lỗ với việc bàn thử từng thiếu bộ `goi_y_nguoc`.
+		http: { fetch: async () => ({ ok: false, status: 599, text: async () => "", headers: new Map() }) },
 		kv: {
 			async get() { return null; },
 			async getVersioned() { return null; },
@@ -1082,4 +1093,46 @@ test("ca lò viết ĐÊM phải nhận đủ tham số như đường bấm tay
 	assert.equal(khoi.length, 2, `phải có đúng 2 đường gọi chayLoViet, thấy ${khoi.length}`);
 	for (const bat of ["ghiCa:", "thuHoi:", "layBai:", "nopMot:", "goiModel"])
 		for (const [i, k] of khoi.entries()) assert.ok(k.includes(bat), `đường gọi chayLoViet #${i + 1} thiếu \`${bat}\``);
+});
+
+test("nhánh cron LEO TOP chạy được thật — không ném, không treo", async () => {
+	// ⚠️ Nhánh cron nằm trong closure của createPlugin() nên KHÔNG phép kiểm nào chạm tới nó, và
+	// đó là lý do hai lỗi "thiếu tham số" / "biến ngoài scope" từng sống trong mã này. Phép kiểm
+	// này gọi hook THẬT ở giờ UTC của ca leo top và đòi nó không ném.
+	const p = createPlugin();
+	const ctx = taoCtx();
+	ctx.kv = taoKvGia();
+	const goc = Date.prototype.getUTCHours;
+	const caDemCu = process.env.RADA_SEO_CA_DEM;
+	// ⚠️ Hook thoát ngay ở `if (!caDemBat()) return` — công tắc "chỉ VPS". Không bật nó thì phép
+	// kiểm này XANH mà chẳng chạy gì, tức một chốt trang trí. (Đã cắn: bản đầu xanh cả trên bản
+	// cố ý làm hỏng.)
+	process.env.RADA_SEO_CA_DEM = "1";
+	Date.prototype.getUTCHours = () => 21; // GIO_UTC_LEO_TOP
+	try {
+		await p.hooks.cron.handler({ name: "radar" }, ctx);
+	} finally {
+		Date.prototype.getUTCHours = goc;
+		if (caDemCu === undefined) delete process.env.RADA_SEO_CA_DEM;
+		else process.env.RADA_SEO_CA_DEM = caDemCu;
+	}
+	// ⚠️ Ca thả chạy NỀN nên hook trả ngay. CHỜ TỚI KHI ca ghi log, đừng đoán một con số
+	// mili-giây: bản đầu chờ 300 ms và XANH cả trên bản cố ý làm hỏng — tức một chốt trang trí.
+	const coDong = () => ctx._log.some(([, m]) => /ca leo top/i.test(String(m)));
+	for (let i = 0; i < 60 && !coDong(); i++) await new Promise((r) => setTimeout(r, 50));
+
+	// ⚠️ "Không ném" là tiêu chí SAI ở đây, và tôi đã kiểm chứng: `chayCaLeoTop` cố ý NUỐT lỗi
+	// từng phiên vào `ghiChu` (một phiên hỏng không được làm đứt ca), nên một tham chiếu sai
+	// hoàn toàn vẫn cho `fail 0`. Phải neo vào DÒNG LOG của ca — nơi `ghiChu` đi ra.
+	const dong = ctx._log.map(([, m]) => String(m)).join(" | ");
+	assert.match(dong, /ca leo top/i, `nhánh cron leo top không chạy tới nơi — log: ${dong.slice(0, 200)}`);
+	assert.equal(/is not defined|is not a function|Cannot read/i.test(dong), false, `nhánh cron leo top có tham chiếu hỏng: ${dong.slice(0, 300)}`);
+
+	// ⚠️ GIỚI HẠN ĐÃ ĐO của chốt này, ghi ra để không ai tưởng nó gác cả nhánh: bàn thử không có
+	// từ khoá GSC nên `layTuKhoaLeoTop` trả `moi: []` và ca kết thúc ngay sau khâu ĐẦU. Đã kiểm
+	// chứng hai kiểu làm hỏng:
+	//   · hỏng `layTuKhoa` (khâu đầu)   → ĐỎ ✓
+	//   · hỏng `ghiSoHo`   (khâu cuối)  → vẫn XANH ✗ — vòng lặp không chạy tới đó
+	// Bốn khâu sau được gác bởi `ai/tu-leo-top.test.mjs` (tiêm cổng giả, chạy trọn chuỗi). Chốt
+	// này chỉ chứng minh NHÁNH CRON nối đúng và chạy tới nơi.
 });
