@@ -1173,6 +1173,40 @@ không có ảnh. ⚠️ Đo 02/10/2026: **cả 6 model ảnh của Google đề
 bật thanh toán. Đường lùi `viet/anh.mjs` (chọn theo alt thư viện) hiện cũng **không dùng được**:
 2.561 ảnh trong CMS đều có `alt` RỖNG.
 
+### ⚠️ Sửa `admin.jsx` xong PHẢI build rồi grep GÓI ĐÃ BUILD (06/10/2026)
+
+`admin.jsx` là JSX và repo này **không có hạ tầng test cho nó**. Hệ quả: một lỗi làm trắng cả
+tab vẫn đi qua được MỌI lớp kiểm hiện có.
+
+Đã xảy ra thật: thiếu một dòng `import`, tab Radar sẽ ném `ReferenceError` ngay khi mở. Ba lớp
+kiểm đều ĐẠT với bản hỏng đó:
+
+| Lớp kiểm | Vì sao không bắt được |
+|---|---|
+| 742 phép kiểm `node --test` | không phép nào chạm `admin.jsx` |
+| `esbuild --bundle` | **im lặng** với biến chưa định nghĩa, vẫn in "Done" |
+| `oxlint`, kể cả `--deny no-undef` | đã kiểm chứng bằng cách bỏ import ra — oxlint im |
+
+**Phép kiểm duy nhất bắt được**, và dấu hiệu của nó rất đặc trưng:
+
+```bash
+cd cms && npm run build
+F=$(ls -t dist/client/_astro/PluginRegistry.*.js | head -1)
+grep -c "<chuỗi vừa thêm>" "$F"      # phải > 0
+grep -c "<tênHàmVừaImport>" "$F"     # phải = 0
+```
+
+⚠️ **Tên hàm còn NGUYÊN VẸN trong gói đã minify = nó là biến ngoài scope**, tức module không
+được bundle vào. Mọi biến local quanh nó đã thành `e`, `f`, `p` mà riêng nó giữ tên — đó là lúc
+phải đi tìm dòng `import` bị thiếu. Sau khi sửa, tên đó biến mất khỏi gói (đã minify) và các
+chuỗi trong thân hàm xuất hiện.
+
+Và nhớ **đọc TOÀN BỘ output của esbuild**, đừng `| tail -2`: cảnh báo nằm ở đầu.
+
+**Lỗi gốc đáng nhớ hơn cả lỗi này:** phép thay chuỗi bằng script (`sed`, `python .replace`)
+**thất bại IM LẶNG khi không khớp**. Mọi lần sửa file bằng script phải `assert` rằng chuỗi cũ
+có thật trước khi thay — thiếu một `assert` là file không đổi mà lệnh vẫn báo thành công.
+
 ### MÀN VIỆC là tab mặc định, và mở màn gọi ĐÚNG MỘT route (06/10/2026)
 
 Đặc tả: `docs/superpowers/specs/2026-10-06-rada-seo-man-viec-design.md`. Người dùng chốt: mở Rada
