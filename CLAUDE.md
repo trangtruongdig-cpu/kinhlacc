@@ -1182,15 +1182,35 @@ giữ được đất**. Bốn trụ: Tháp · Nguồn · Semantic · Chữ.
 **`GET /rada/suc-khoe-nen`** (`rada-ho-so.router.ts`, `@Public`, CHỈ ĐỌC, đệm 10 phút, không nhận
 tham số). Plugin hỏi qua `RADA_SEO_API` như các route `/rada/*` khác.
 
-**Số đo thật 06/10/2026 — trụ Nguồn là lỗ lớn nhất của kho:**
+**Số đo thật 06/10/2026 — BỐN trụ, và trụ Nguồn là lỗ lớn nhất của kho:**
 
-| Bộ | Dẫn được sách | Tổng | |
+| Bộ (trụ NGUỒN) | Dẫn được sách | Tổng | |
 |---|---|---|---|
-| Bài thuốc | 13.939 | 32.197 | 43,3% |
-| Huyệt | 433 | 1.053 | 41,1% |
 | **Vị thuốc** | **205** | **4.085** | **5,0%** |
+| Huyệt | 433 | 1.053 | 41,1% |
+| Bài thuốc | 13.939 | 32.197 | 43,3% |
+| Bệnh học | 79 | 100 | 79% |
+| Châm cứu trị bệnh | 82 | 100 | 82% |
 
-Semantic: 657 cụm · 14 chủ trị nằm ở nhiều cụm.
+- **Trụ CHỮ** (bot thẩm định, `td_ho_so` ở `kinhlac_cms`): tạm được 13.625 · yếu 2.859 · hỏng
+  1.744 · tốt 188 → **4.603/18.416 = 25% kho cần sửa chữ**.
+- **Trụ SEMANTIC**: 657 cụm · 14 chủ trị nằm ở nhiều cụm.
+
+⚠️ **Mẫu số của Bệnh học và Châm cứu phải lấy từ `kinhlac_cms`**: `nguon_benh_hoc` /
+`nguon_cham_cuu` khoá bằng **slug**, và kho app không có bảng nào mang slug của hai bộ đó.
+`ThamDinhCmsService.demSucKhoeNen()` lấy CẢ hạng lẫn mẫu số trong MỘT lượt mở kết nối — Aiven
+trần 20 slot và hệ thống của chính Aiven đã ăn 8.
+
+⚠️ **"tạm được" KHÔNG tính là việc** ở trụ Chữ: gọi 13.625 mục là việc thì bảng thành vô nghĩa.
+Hạng LẠ vẫn vào TỔNG (nuốt nó là làm tỉ lệ đẹp lên mà không ai biết); bảng rỗng trả
+`ptCanSua: null` chứ không 0 — "bot chưa quét lần nào" khác hẳn "quét rồi và kho sạch".
+
+⚠️ **Trụ Chữ DỰ SẮP XẾP cùng các bộ nguồn**, quy về cùng thang ("25% cần sửa" = "75% ổn"). Lượt
+dựng đầu `push` nó vào cuối mảng nên nó rơi ra ngoài trần 3 dòng — khoang nền hiện ba bộ đã gần
+đủ và GIẤU MẤT việc đáng làm nhất.
+
+⚠️ **Việc sửa chữ dẫn sang `/app/tham-dinh`, KHÔNG sang CMS.** Màn duyệt của bot thẩm định nằm ở
+app; dẫn sang CMS là bắt người đi tìm một màn không tồn tại ở đó.
 
 ⚠️ **Tên cột của ba bảng nối KHÔNG cùng quy ước** — đã đoán sai một lượt:
 `nguon_phuong_thang(nguon_id, phuong_thang_id)`, `nguon_vi_thuoc(nguon_id, vi_thuoc_id)`,
@@ -1210,9 +1230,9 @@ bằng **slug**. Khoá chính của `huyet_vi` là `id_huyet`, không phải `id
   hạng "hỏng"; trộn vào là nhấn chìm hàng đợi chính — đúng cái bẫy "65.321 lời phê chờ bạn duyệt".
   "Tối đa 3" là trần HIỂN THỊ, không phải hạn ngạch theo ngày.
 
-**Hai thứ route này CỐ Ý không đo**, và nói thẳng trong `chuaDo` (im lặng ở đó đọc ra như "trụ
-đó đã sạch"): trụ **Chữ** (bot thẩm định, bảng `td_ho_so` ở kho `kinhlac_cms` — không join chéo)
-và tầng **Bệnh học / Châm cứu** của tháp (bộ CMS, đo ở phía plugin).
+**`chuaDo` nói THẲNG cái gì chưa đo được và vì sao** — im lặng ở đó đọc ra như "trụ đó đã sạch".
+Hiện nó RỖNG (cả bốn trụ đo được); nó đầy trở lại khi thiếu `CMS_DB_*` hoặc kho CMS không hỏi
+được, và lúc đó `chu: null` — KHÁC HẲN "kho đã sạch".
 
 ⚠️ `laySucKhoeNen` dùng hạn giờ **5 giây**, khác mặc định: route này nằm trên đường MỞ MÀN của
 màn Việc, nên backend chết phải trả lỗi NHANH để hàng đợi việc vẫn hiện. Hỏng thì ghi `loiNen`
