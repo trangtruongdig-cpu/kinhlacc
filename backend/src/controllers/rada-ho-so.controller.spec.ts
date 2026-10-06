@@ -1,4 +1,4 @@
-import { khopTenNhuCau, boDau, tachTacDung, veCua, tyLeNguon, xepLoNguon } from './rada-ho-so.controller';
+import { khopTenNhuCau, boDau, tachTacDung, veCua, tyLeNguon, xepLoNguon, tomTatChu } from './rada-ho-so.controller';
 
 describe('rada-ho-so: tách pháp trị khỏi chứng trạng', () => {
   it('tách được câu y văn thường gặp', () => {
@@ -126,5 +126,32 @@ describe('rada-ho-so: sức khoẻ NỀN — xếp lỗ theo mức mỏng', () =
     const ds = xepLoNguon({ bai: { co: 10, tong: 10 }, vi: { co: 1, tong: 10 } });
     expect(ds.map((x) => x.ma)).toEqual(['vi', 'bai']);
     expect(ds[1].pt).toBe(100);
+  });
+});
+
+describe('rada-ho-so: trụ CHỮ — hạng của bot thẩm định', () => {
+  it('gộp hạng thành con số quyết được việc: bao nhiêu mục CẦN SỬA', () => {
+    // Số đo thật 06/10/2026. "tạm được" KHÔNG tính là cần sửa — 13.625 mục mà gọi là việc thì
+    // bảng thành vô nghĩa; chỉ "hỏng" và "yếu" mới là việc.
+    const r = tomTatChu({ tot: 188, tam_duoc: 13625, yeu: 2859, hong: 1744 });
+    expect(r.tong).toBe(18416);
+    expect(r.canSua).toBe(4603);
+    expect(r.ptCanSua).toBe(25);
+    expect(r.hong).toBe(1744);
+  });
+
+  it('hạng lạ trong CSDL vẫn vào TỔNG, không bị nuốt', () => {
+    // Nuốt hạng lạ là làm tổng nhỏ đi và tỉ lệ đẹp lên mà không ai biết.
+    const r = tomTatChu({ hong: 10, hang_moi_nao_do: 90 });
+    expect(r.tong).toBe(100);
+    expect(r.canSua).toBe(10);
+  });
+
+  it('bảng rỗng → tổng 0 và ptCanSua null, KHÔNG phải 0%', () => {
+    // "Bot chưa quét lần nào" khác hẳn "quét rồi và kho sạch".
+    const r = tomTatChu({});
+    expect(r.tong).toBe(0);
+    expect(r.ptCanSua).toBe(null);
+    expect(tomTatChu(undefined).tong).toBe(0);
   });
 });

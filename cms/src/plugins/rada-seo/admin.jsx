@@ -370,13 +370,19 @@ const NHAN_HANH_DONG = {
 	do: "Dò sơ hở ↗",
 	mo_radar: "Mở Radar ↗",
 	mo_cms: "Mở CMS ↗",
+	mo_tham_dinh: "Mở màn thẩm định ↗",
 };
 /** Hành động nào GHI (cần nút tự báo bận + dòng rời hàng đợi), hành động nào chỉ điều hướng. */
 const HANH_DONG_GHI = new Set(["nhan", "bo", "duyet", "da_sua"]);
 /** Việc loại nào thì nút điều hướng dẫn sang tab nào. */
 const TAB_DICH = { mo_nhap: "nhap", xem_phieu: "leo-top", mo_bai_cu: "mang-nhen", do: "leo-top", mo_radar: "radar" };
 /** Hành động mở một trang NGOÀI màn này (khu quản trị CMS), không phải đổi tab. */
-const DUONG_NGOAI = { mo_cms: "/_emdash/admin/collections/nguon_y_van" };
+const DUONG_NGOAI = {
+	mo_cms: "/_emdash/admin/collections/nguon_y_van",
+	// ⚠️ Việc sửa chữ làm ở APP, không ở CMS: màn duyệt của bot thẩm định nằm tại /app/tham-dinh.
+	// Dẫn sang CMS là bắt người đi tìm một màn không tồn tại ở đó.
+	mo_tham_dinh: `${TRANG_GOC}/app/tham-dinh`,
+};
 
 function DongViec({ v, onGhi, onSangTab, onXong }) {
 	const [loi, setLoi] = useState("");

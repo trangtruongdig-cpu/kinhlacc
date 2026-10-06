@@ -253,12 +253,46 @@ function khoangVaNen(v) {
 			heQua: "Bổ sung trong CMS (bộ nguon_y_van và bảng nối), rồi chạy lại đồng bộ. Số này tính lại sau 10 phút.",
 			hanhDong: ["mo_cms"],
 			hienThi: 0,
+			pt: b.pt,
 		});
 	}
-	// Mỏng nhất lên đầu (máy chủ đã xếp sẵn), rồi cắt theo trần hiển thị.
+	// TRỤ CHỮ — MỘT dòng, không phải 4.603 dòng.
+	// ⚠️ Luật chịu lực của khoang này: 1.744 mục hạng "hỏng" + 2.859 "yếu" đổ từng mục vào hàng
+	// đợi là nhấn chìm mọi thứ. Một dòng nói con số và dẫn sang chỗ làm việc đó.
+	const chu = nen.chu;
+	if (chu && chu.canSua > 0)
+		ds.push({
+			loai: "va_nen_chu",
+			khoa: "va_nen_chu|td",
+			id: "chu",
+			bac: 100,
+			nhan: "Sửa chữ hỏng trong kho",
+			ten: `${chu.hong.toLocaleString("vi-VN")} mục hỏng · ${chu.yeu.toLocaleString("vi-VN")} mục yếu (${chu.canSua.toLocaleString("vi-VN")}/${chu.tong.toLocaleString("vi-VN")} = ${chu.ptCanSua}%)`,
+			viSao: `Bot thẩm định đã chấm cả kho: ${chu.ptCanSua}% số mục cần sửa chữ. Hạng "tạm được" KHÔNG tính là việc — chỉ hỏng và yếu mới tính, không thì bảng thành vô nghĩa.`,
+			heQua: "Mở màn duyệt của bot thẩm định, đọc lời phê rồi bấm Áp từng bản sửa. Bot KHÔNG tự ghi vào kho trừ lỗi dấu câu (ca 04:00).",
+			// ⚠️ Việc sửa chữ làm ở app thẩm định, KHÔNG ở CMS — dẫn nhầm chỗ là bắt người đi tìm.
+			hanhDong: ["mo_tham_dinh"],
+			hienThi: 0,
+			// ⚠️ Đưa trụ Chữ về CÙNG THANG với các bộ nguồn để nó dự sắp xếp: "25% cần sửa" là
+			// "75% ổn". Không quy đổi thì nó nằm cuối mảng và rơi ra ngoài trần 3 dòng — khoang
+			// nền khi đó hiện ba bộ đã gần đủ và giấu mất việc đáng làm nhất (đo 06/10/2026:
+			// Chữ 75% đứng TRƯỚC Bệnh học 79% và Châm cứu 82%).
+			mucOn: 100 - (chu.ptCanSua ?? 0),
+		});
+
+	// Mỏng nhất lên đầu. Bộ nguồn mang `pt`, trụ Chữ mang `mucOn` — cùng thang "bao nhiêu phần
+	// trăm đã ổn", nên xếp chung được.
+	ds.sort((a, b) => (a.mucOn ?? a.pt ?? 0) - (b.mucOn ?? b.pt ?? 0));
+	const con = ds.length - TRAN_VA_NEN;
+	const chuaDo = mang(nen.chuaDo).join(" ");
 	return {
 		ds: ds.slice(0, TRAN_VA_NEN),
-		cau: ds.length > TRAN_VA_NEN ? `Còn ${ds.length - TRAN_VA_NEN} việc nền nữa — hiện 3 việc một lúc để khoang này không nuốt mất hàng đợi chính.` : "",
+		cau: [
+			con > 0 ? `Còn ${con} việc nền nữa — hiện ${TRAN_VA_NEN} việc một lúc để khoang này không nuốt mất hàng đợi chính.` : "",
+			chuaDo,
+		]
+			.filter(Boolean)
+			.join(" "),
 	};
 }
 

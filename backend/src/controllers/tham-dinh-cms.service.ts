@@ -763,4 +763,32 @@ export class ThamDinhCmsService {
       id: x.id, bo: x.bo, tieuDe: x.tieu_de, trichDan: x.trich_dan, deXuat: x.de_xuat,
     }));
   }
+  /**
+   * Số liệu cho VÒNG NỀN của Rada SEO: hạng của bot thẩm định (trụ Chữ) và số mục của hai bộ
+   * nội dung mà kho app không có mẫu số (`nguon_benh_hoc` / `nguon_cham_cuu` khoá bằng slug,
+   * còn danh mục bệnh học và châm cứu thì sống ở CMS).
+   *
+   * ⚠️ MỘT lượt mở kết nối cho cả hai việc. Aiven trần 20 slot và hệ thống của chính Aiven đã
+   * ăn 8 — mở hai lần cho hai câu hỏi cùng đích là tự nuốt slot của mình.
+   *
+   * Chưa cấu hình CMS_DB_* thì trả `null` chứ KHÔNG ném: vòng NỀN phải hiện được ba trụ còn lại.
+   */
+  async demSucKhoeNen(): Promise<{ hang: Record<string, number>; bo: { benhHoc: number; chamCuu: number } } | null> {
+    if (!this.daCauHinh()) return null;
+    await this.moKetNoi();
+    try {
+      const c = this.client;
+      if (!c) return null;
+      const h = await c.query<{ hang: string; n: number }>('SELECT hang, COUNT(*)::int n FROM td_ho_so GROUP BY hang');
+      const b = await c.query<{ benh_hoc: number; cham_cuu: number }>(
+        'SELECT (SELECT COUNT(*)::int FROM ec_benh_hoc) benh_hoc, (SELECT COUNT(*)::int FROM ec_cham_cuu_tri_benh) cham_cuu',
+      );
+      const hang: Record<string, number> = {};
+      for (const r of h.rows) hang[String(r.hang)] = Number(r.n);
+      return { hang, bo: { benhHoc: Number(b.rows[0]?.benh_hoc ?? 0), chamCuu: Number(b.rows[0]?.cham_cuu ?? 0) } };
+    } finally {
+      await this.dongKetNoi();
+    }
+  }
+
 }

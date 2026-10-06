@@ -335,3 +335,58 @@ test("vá nền: không hỏi được nền thì KHÔNG im lặng, nói ra là 
 	const sach = xepHangDoi({ ...rong, nen: { nguon: [], semantic: { soCum: 657, chuTriNhieuCum: 0 } } });
 	assert.notEqual(sach.cauNen, r.cauNen);
 });
+
+test("vá nền: trụ CHỮ thành MỘT dòng, không phải 1.744 dòng", () => {
+	// ⚠️ Luật chịu lực. 1.744 mục hạng "hỏng" + 2.859 "yếu" là 4.603 việc; đổ từng mục vào hàng
+	// đợi là nhấn chìm mọi thứ. Một dòng nói con số và dẫn sang chỗ làm việc đó.
+	const r = xepHangDoi({
+		...rong,
+		nen: {
+			nguon: [],
+			semantic: { soCum: 657, chuTriNhieuCum: 14 },
+			chu: { tong: 18416, tot: 188, tamDuoc: 13625, yeu: 2859, hong: 1744, canSua: 4603, ptCanSua: 25 },
+		},
+	});
+	assert.equal(r.vaNen.length, 1);
+	assert.equal(r.vaNen[0].loai, "va_nen_chu");
+	assert.match(r.vaNen[0].ten, /1\.744|4\.603/);
+	// Việc sửa chữ làm ở app thẩm định, KHÔNG ở CMS — dẫn nhầm chỗ là bắt người đi tìm.
+	assert.deepEqual(r.vaNen[0].hanhDong, ["mo_tham_dinh"]);
+});
+
+test("vá nền: trụ CHỮ sạch thì KHÔNG thành việc", () => {
+	const r = xepHangDoi({
+		...rong,
+		nen: { nguon: [], semantic: { soCum: 657, chuTriNhieuCum: 0 }, chu: { tong: 100, tot: 100, tamDuoc: 0, yeu: 0, hong: 0, canSua: 0, ptCanSua: 0 } },
+	});
+	assert.deepEqual(r.vaNen, []);
+});
+
+test("vá nền: chưa hỏi được trụ CHỮ (chu = null) KHÔNG thành việc, nhưng cũng không im lặng", () => {
+	// `chu: null` = chưa cấu hình CMS_DB_* hoặc hỏi hỏng — KHÁC HẲN "kho đã sạch". Backend nói
+	// lý do trong `chuaDo`, màn hình phải in nó ra.
+	const r = xepHangDoi({ ...rong, nen: { nguon: [], semantic: { soCum: 1, chuTriNhieuCum: 0 }, chu: null, chuaDo: ["Trụ CHỮ: chưa khai CMS_DB_*"] } });
+	assert.deepEqual(r.vaNen, []);
+	assert.match(r.cauNen, /CMS_DB_/);
+});
+
+test("vá nền: trụ CHỮ dự SẮP XẾP cùng các bộ nguồn, không bị đẩy xuống cuối", () => {
+	// Đo thật 06/10/2026: trụ Chữ 25% kho cần sửa (tức 75% ổn) phải đứng TRƯỚC Bệnh học 79% và
+	// Châm cứu 82%. Push nó vào cuối mảng là để một việc lớn nằm ngoài trần 3 dòng — khoang nền
+	// khi đó hiện ba bộ đã gần đủ và giấu mất việc đáng làm nhất.
+	const r = xepHangDoi({
+		...rong,
+		nen: {
+			nguon: [
+				{ ma: "vi", ten: "Vị thuốc", co: 205, tong: 4085, pt: 5, chuaCoMuc: false },
+				{ ma: "benhHoc", ten: "Bệnh học", co: 79, tong: 100, pt: 79, chuaCoMuc: false },
+				{ ma: "chamCuu", ten: "Châm cứu trị bệnh", co: 82, tong: 100, pt: 82, chuaCoMuc: false },
+			],
+			semantic: { soCum: 657, chuTriNhieuCum: 14 },
+			chu: { tong: 18416, tot: 188, tamDuoc: 13625, yeu: 2859, hong: 1744, canSua: 4603, ptCanSua: 25 },
+		},
+	});
+	assert.deepEqual(r.vaNen.map((v) => v.loai), ["va_nen_nguon", "va_nen_chu", "va_nen_nguon"]);
+	assert.match(r.vaNen[0].ten, /Vị thuốc/);
+	assert.match(r.vaNen[2].ten, /Bệnh học/);
+});

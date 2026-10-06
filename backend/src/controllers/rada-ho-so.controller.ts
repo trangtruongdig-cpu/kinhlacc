@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { DoNhieuMau } from '../utils/da-mau.util';
+import { ThamDinhCmsService } from './tham-dinh-cms.service';
 
 /**
  * RadaHoSoService — dựng HỒ SƠ CỤM cho Rada SEO (plugin trong CMS gọi sang).
@@ -57,6 +58,8 @@ export function tachTacDung(s: unknown): { phap: string; chung: string } {
 export type SucKhoeNen = {
   nguon: { ma: string; ten: string; co: number; tong: number; pt: number | null; chuaCoMuc: boolean }[];
   semantic: { soCum: number; chuTriNhieuCum: number };
+  /** Trụ CHỮ. `null` = chưa cấu hình CMS_DB_* hoặc hỏi không được — KHÁC HẲN "kho đã sạch". */
+  chu: { tong: number; tot: number; tamDuoc: number; yeu: number; hong: number; canSua: number; ptCanSua: number | null } | null;
   chuaDo: string[];
   tuDem: boolean;
 };
@@ -101,6 +104,44 @@ export function xepLoNguon(bo: Record<string, DemNguon>): { ma: string; ten: str
       if (a.chuaCoMuc !== b.chuaCoMuc) return a.chuaCoMuc ? 1 : -1;
       return (a.pt ?? 0) - (b.pt ?? 0);
     });
+}
+
+/**
+ * TRỤ CHỮ — gộp hạng của bot thẩm định (`td_ho_so` ở kho `kinhlac_cms`) thành con số quyết được
+ * việc: bao nhiêu mục CẦN SỬA.
+ *
+ * ⚠️ "tạm được" KHÔNG tính là cần sửa. Số đo 06/10/2026: tạm được 13.625 · yếu 2.859 · hỏng
+ * 1.744 · tốt 188. Gọi 13.625 mục là việc thì bảng thành vô nghĩa — đúng cái bẫy "65.321 lời
+ * phê chờ bạn duyệt".
+ *
+ * ⚠️ Hạng LẠ vẫn vào TỔNG. Nuốt nó đi là làm tổng nhỏ lại và tỉ lệ đẹp lên mà không ai biết.
+ * ⚠️ Bảng rỗng trả `ptCanSua: null` chứ không 0 — "bot chưa quét lần nào" khác hẳn "quét rồi và
+ * kho sạch".
+ */
+export function tomTatChu(dem: Record<string, number> | undefined): {
+  tong: number;
+  tot: number;
+  tamDuoc: number;
+  yeu: number;
+  hong: number;
+  canSua: number;
+  ptCanSua: number | null;
+} {
+  const d = dem ?? {};
+  const lay = (k: string) => Number(d[k] ?? 0);
+  const tong = Object.values(d).reduce((a, b) => a + Number(b ?? 0), 0);
+  const hong = lay('hong');
+  const yeu = lay('yeu');
+  const canSua = hong + yeu;
+  return {
+    tong,
+    tot: lay('tot'),
+    tamDuoc: lay('tam_duoc'),
+    yeu,
+    hong,
+    canSua,
+    ptCanSua: tong > 0 ? Math.round((canSua / tong) * 1000) / 10 : null,
+  };
 }
 
 /** Các VẾ pháp trị: "Dưỡng âm, thanh nhiệt" → ["duong am", "thanh nhiet"].
@@ -196,7 +237,10 @@ export interface HoSoCum {
 
 @Injectable()
 export class RadaHoSoService {
-  constructor(@InjectDataSource() private readonly dataSource: DataSource) {}
+  constructor(
+    @InjectDataSource() private readonly dataSource: DataSource,
+    private readonly cms: ThamDinhCmsService,
+  ) {}
 
   /** Trần biến thể: mỗi biến thể là một mệnh đề ILIKE, nhiều quá thì quét bảng lâu. */
   private static readonly TRAN_BIEN_THE = 8;
@@ -744,14 +788,45 @@ export class RadaHoSoService {
       'select (select count(*)::int from kl_seo_semantic_cluster) so_cum, (select count(*)::int from (select chu_tri_id from kl_seo_semantic_chu_tri group by chu_tri_id having count(*) > 1) t) chu_tri_nhieu_cum',
     )) as Array<{ so_cum: number; chu_tri_nhieu_cum: number }>;
 
+    // TRỤ CHỮ + mẫu số hai bộ CMS. MỘT lượt mở kết nối tới `kinhlac_cms` cho cả hai việc.
+    // ⚠️ Hỏng thì ghi vào `chuaDo` và để `chu: null`, KHÔNG ném: ba trụ kia vẫn phải hiện được.
+    const chuaDo: string[] = [];
+    let chu: SucKhoeNen['chu'] = null;
+    let canhBo: { benhHoc: number; chamCuu: number } | null = null;
+    try {
+      const n = await this.cms.demSucKhoeNen();
+      if (n) {
+        chu = tomTatChu(n.hang);
+        canhBo = n.bo;
+      } else chuaDo.push('Trụ CHỮ: chưa khai CMS_DB_* trong backend/.env nên không hỏi được bảng td_ho_so của bot thẩm định.');
+    } catch (e) {
+      chuaDo.push(`Trụ CHỮ: không hỏi được kho kinhlac_cms — ${String((e as Error)?.message ?? e).slice(0, 120)}`);
+    }
+
+    // Hai bộ này khoá nguồn bằng SLUG và danh mục sống ở CMS, nên mẫu số phải lấy từ đó —
+    // kho app không có bảng nào mang slug của bệnh học/châm cứu.
+    if (canhBo) {
+      const canh = (await this.dataSource.query(
+        'select (select count(distinct slug)::int from nguon_benh_hoc) benh_hoc, (select count(distinct slug)::int from nguon_cham_cuu) cham_cuu',
+      )) as Array<{ benh_hoc: number; cham_cuu: number }>;
+      nguon.push(
+        ...xepLoNguon({
+          benhHoc: { co: Number(canh?.[0]?.benh_hoc ?? 0), tong: canhBo.benhHoc },
+          chamCuu: { co: Number(canh?.[0]?.cham_cuu ?? 0), tong: canhBo.chamCuu },
+        }),
+      );
+      nguon.sort((a, b) => {
+        if (a.chuaCoMuc !== b.chuaCoMuc) return a.chuaCoMuc ? 1 : -1;
+        return (a.pt ?? 0) - (b.pt ?? 0);
+      });
+    } else chuaDo.push('Tầng Bệnh học và Châm cứu trị bệnh: mẫu số nằm ở CMS, chưa hỏi được nên hai bộ này vắng khỏi trụ Nguồn.');
+
     const kq: SucKhoeNen = {
       nguon,
       semantic: { soCum: Number(sem?.[0]?.so_cum ?? 0), chuTriNhieuCum: Number(sem?.[0]?.chu_tri_nhieu_cum ?? 0) },
+      chu,
       // ⚠️ Nói THẲNG cái gì chưa đo được và vì sao — im lặng ở đây đọc ra như "trụ đó đã sạch".
-      chuaDo: [
-        'Trụ CHỮ (bot thẩm định: mục hạng hỏng/yếu) sống ở kho kinhlac_cms, không join chéo với kho app — xem ở /app/tham-dinh.',
-        'Tầng Bệnh học và Châm cứu trị bệnh của tháp đo ở phía CMS (bộ benh_hoc, cham_cuu_tri_benh), không ở đây.',
-      ],
+      chuaDo,
       tuDem: false,
     };
     this.demNen = { luc: Date.now(), kq };
