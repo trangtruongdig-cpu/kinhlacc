@@ -1253,9 +1253,24 @@ kiểm đều ĐẠT với bản hỏng đó:
 |---|---|
 | 742 phép kiểm `node --test` | không phép nào chạm `admin.jsx` |
 | `esbuild --bundle` | **im lặng** với biến chưa định nghĩa, vẫn in "Done" |
-| `oxlint`, kể cả `--deny no-undef` | đã kiểm chứng bằng cách bỏ import ra — oxlint im |
+| `oxlint` chạy trần | mặc định không bật `no-undef` |
 
-**Phép kiểm duy nhất bắt được**, và dấu hiệu của nó rất đặc trưng:
+⚠️ **SỬA LẠI 06/10/2026 — bản trước của mục này nói "oxlint không bắt được" và ĐIỀU ĐÓ SAI.**
+`oxlint --deny no-undef` **CÓ** bắt, 46 ms, chỉ đúng dòng. Lượt kiểm chứng đầu của tôi dùng cờ
+`--env browser`, mà **oxlint 1.60 KHÔNG có cờ đó** — phải khai qua tệp cấu hình. Cờ không hợp lệ
+nên nó im, và tôi kết luận nhầm là công cụ bất lực. Phản biện độc lập bác lại, tôi đo lại và xác
+nhận. Bài học: **"công cụ im" có hai nghĩa — không có lỗi, hoặc mình gọi sai cách.**
+
+```bash
+cat > cms/.oxlintrc.json <<'EOF'
+{ "env": { "browser": true, "es2024": true }, "rules": { "no-undef": "error" } }
+EOF
+frontend/node_modules/.bin/oxlint -c cms/.oxlintrc.json --deny no-undef cms/src/plugins/rada-seo/admin.jsx
+```
+(cms không cài oxlint; mượn bản của frontend. ⚠️ KHÔNG gọi qua `npm run lint` — nó có `--fix`.)
+
+**Lưới thứ hai, bắt được thứ `no-undef` không bắt** (tên biến có thật nhưng thiếu khoá trong thân
+request, sai chữ ký): grep gói đã build. Dấu hiệu rất đặc trưng:
 
 ```bash
 cd cms && npm run build
@@ -1334,8 +1349,10 @@ trong sổ (phải tra sang CMS). Hai dòng việc vì thế từng hiện "(kh�
 ⚠️ Cùng lượt đó phát hiện bàn thử `taoKhoGia` **thiếu bộ `goi_y_nguoc`**, nên route `viec` từng
 được kiểm qua nhánh CATCH chứ không phải nhánh thường.
 
-**Còn nợ:** vòng **NỀN** (trụ Tháp · Nguồn · Semantic · Chữ) — phần D của đặc tả, chưa dựng. Nó
-cần route backend `GET /rada/suc-khoe-nen` nên là phần duy nhất đụng vào app, không chỉ CMS.
+**Vòng NỀN ĐÃ DỰNG** (06/10/2026) — xem mục riêng ở trên. ⚠️ Nhưng `sucKhoeNen` hiện đo BA
+trụ (Nguồn · Semantic · Chữ), **chưa có trụ Tháp** trong payload: tháp sống ở `ungVien` /
+`cumNguNghia` là route khác, và tab Nền không render nó. Câu "bốn trụ" ở các mục trên là nói về
+THIẾT KẾ, không phải thứ màn hình đang hiện.
 
 ### Màn điều khiển chậm: nút nào cũng tải lại cả màn, mà pool CSDL là `max: 1`
 
