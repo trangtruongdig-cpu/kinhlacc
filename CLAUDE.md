@@ -1173,6 +1173,68 @@ không có ảnh. ⚠️ Đo 02/10/2026: **cả 6 model ảnh của Google đề
 bật thanh toán. Đường lùi `viet/anh.mjs` (chọn theo alt thư viện) hiện cũng **không dùng được**:
 2.561 ảnh trong CMS đều có `alt` RỖNG.
 
+### MÀN VIỆC là tab mặc định, và mở màn gọi ĐÚNG MỘT route (06/10/2026)
+
+Đặc tả: `docs/superpowers/specs/2026-10-06-rada-seo-man-viec-design.md`. Người dùng chốt: mở Rada
+SEO ra, điều cần biết trong 5 giây đầu là **"giờ tôi làm gì"**, không phải bảy ngăn dữ liệu để tự
+đi tìm. Thanh bảy chặng tụt xuống điều hướng phụ.
+
+⚠️ **Mục "Màn điều khiển chậm" bên dưới nói về `tong-quan`, và nó KHÔNG còn là đường mở màn.**
+`useEffect` mở màn từng gọi NĂM route (`tong-quan` + `chien-luoc` + `leo-top` + `nhap` +
+`viec-dem`) — pool CSDL là `max: 1` nên chúng XẾP HÀNG: **19→22 lượt đi-về ≈ 1,9 giây**, và
+`dsKeHoach` bị đọc **bốn lần** trong cùng lượt đó. Nay đúng **một route `viec`, 4 lượt**;
+`tong-quan` xuống thành route của tab Radar.
+
+| | Trước | Sau |
+|---|---|---|
+| Route lúc mở màn | 5 | **1** |
+| Lượt đọc kho lúc mở màn | 19–22 | **4** |
+| `ke_hoach.query` mỗi lượt mở màn | 4 | **1** |
+
+- **Luật "route nào lúc nào" ở `lib/tai-man.mjs`**, không ở `admin.jsx` — JSX không có hạ tầng
+  test ở repo này (cùng lối `viet/mang-nhen-xem.mjs`). HAI phép kiểm đo HAI thứ và cả hai đều
+  trôi được: `tai-man.test.mjs` đếm SỐ ROUTE, `plugin.test.mjs` đếm SỐ LƯỢT đọc kho.
+- **Xếp "CHẶN trước, RẺ sau"** (`lib/xep-viec.mjs`), khác "rẻ trước" thuần của `so-ho-ai.mjs`:
+  một hướng không nhận là bot đứng im cả tuần (`ghiCum` chỉ nhận cụm thuộc hướng `da_nhan`) dù
+  việc chỉ mất 10 giây. Trong cùng bậc thì nhiều lượt hiển thị trước, nhưng `hienThi` KHÔNG kéo
+  việc đắt lên đầu.
+- **Mỗi dòng mang câu VÌ SAO và câu HỆ QUẢ.** Vì sao = tại sao việc này đáng làm; hệ quả = cú bấm
+  vừa khởi động cái gì và bao giờ thấy kết quả ("ca 02:30 sẽ phân cụm", "lò viết 03:30 sẽ viết").
+  Phép kiểm cấm câu hệ quả là "Đã lưu".
+- ⚠️ **Phiếu sửa nhỏ chỉ ĐỌC ĐỆM KV, không tự dò.** `leo-top-sua-nho` tải THẬT 15 trang của site
+  mình, nghỉ 150 ms mỗi lượt. Gọi nó ở đường mở màn là vừa phá cái vừa cắt được, vừa giành
+  backend với người đang xem web. Chưa dò thì hiện MỘT dòng khởi động — im lặng ở đây đọc ra như
+  "không có việc".
+- ⚠️ **Hàng đợi rỗng phải nói VÌ SAO rỗng**: "hết việc" / "chưa dò" / "chưa hỏi được kho" là ba
+  chuyện khác hẳn. Có phép kiểm đòi ba câu KHÁC nhau.
+- ⚠️ **Khoá dòng là `${loai}|${id}`**, không phải `id`: một trang vừa cần thêm FAQ vừa cần thêm
+  tiêu đề, nên xoá theo `id` là xoá nhầm dòng người dùng chưa làm.
+- ⚠️ **Nhận hướng BẮT BUỘC có `trongSo` 1..5** (`kho.datHuong`). Màn Việc là chỗ ĐẦU TIÊN trong
+  UI gọi `huong-dat` — trước đó hướng chỉ nhận được qua công cụ MCP, nên không có tiền lệ nào
+  trong `admin.jsx` để đối chiếu, và lượt dựng đầu quên gửi nó. Ô chọn mặc định 3.
+- **Sổ việc tuần ghi MỐC, KHÔNG ghi AI.** `datKeHoach`/`datHuong` nay ghi `datLuc`; `ctx` của
+  plugin EmDash không mang thông tin người dùng (đã đo), nên câu là "Tuần này: N việc", không
+  phải "bạn làm N việc". ⚠️ Sổ chỉ tính từ 06/10/2026 và màn hình nói ra điều đó — việc làm
+  trước đó không có mốc nên tuần đầu số thấp là GIẢ.
+- **Nút tự báo bận**, không dùng cờ toàn cục: cờ cũ in "⏳ đang xử lý…" ở cuối thanh quy trình,
+  chỗ mắt người vừa bấm một nút giữa bảng không nhìn tới — nên nó không ngăn được cú bấm thứ
+  hai, mà cú bấm thứ hai mới là thứ xếp thêm một lượt tải lại vào hàng.
+- Hành động ghi cập nhật CỤC BỘ, không gọi lại route tổng quan. ⚠️ Nhưng bảng nào có **bộ lọc
+  hoặc bộ đếm theo trạng thái** thì dùng `datDong` (đổi trạng thái), KHÔNG `boDong` (xoá dòng) —
+  tab Kế hoạch là một: xoá dòng ở đó làm bài vừa duyệt biến mất khỏi nhóm "Đã duyệt" lẫn "Tất
+  cả" và bộ đếm sai theo.
+
+**Nghiệm thu trên dữ liệu THẬT:** `node cms/scripts-di-cu/nghiem-thu-hang-doi-viec.mjs` (chỉ đọc,
+dựng `PluginStorageRepository` ngoài Astro bằng Kysely + `pg.Pool`). ⚠️ Nó bắt được một lỗi mà
+731 phép kiểm không bắt: tên trường của sổ `goi_y_nguoc` bị đoán sai. Cấu trúc thật là
+`{ slug, tieuDe, neo, canVietThem, lyDo }` và `tieuDe` là bài **MỚI** — tên bài **CŨ** không nằm
+trong sổ (phải tra sang CMS). Hai dòng việc vì thế từng hiện "(không tra ra tên bài cũ)".
+⚠️ Cùng lượt đó phát hiện bàn thử `taoKhoGia` **thiếu bộ `goi_y_nguoc`**, nên route `viec` từng
+được kiểm qua nhánh CATCH chứ không phải nhánh thường.
+
+**Còn nợ:** vòng **NỀN** (trụ Tháp · Nguồn · Semantic · Chữ) — phần D của đặc tả, chưa dựng. Nó
+cần route backend `GET /rada/suc-khoe-nen` nên là phần duy nhất đụng vào app, không chỉ CMS.
+
 ### Màn điều khiển chậm: nút nào cũng tải lại cả màn, mà pool CSDL là `max: 1`
 
 Số đo 03/10/2026: **RTT tới Aiven 98,9 ms**, pool của CMS **`max: 1`** (xem `astro.config.mjs` —
