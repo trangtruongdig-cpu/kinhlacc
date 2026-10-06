@@ -367,11 +367,12 @@ const NHAN_HANH_DONG = {
 	da_sua: "Đã sửa",
 	mo_bai_cu: "Mở bài cũ ↗",
 	do: "Dò sơ hở ↗",
+	mo_radar: "Mở Radar ↗",
 };
 /** Hành động nào GHI (cần nút tự báo bận + dòng rời hàng đợi), hành động nào chỉ điều hướng. */
 const HANH_DONG_GHI = new Set(["nhan", "bo", "duyet", "da_sua"]);
 /** Việc loại nào thì nút điều hướng dẫn sang tab nào. */
-const TAB_DICH = { mo_nhap: "nhap", xem_phieu: "leo-top", mo_bai_cu: "mang-nhen", do: "leo-top" };
+const TAB_DICH = { mo_nhap: "nhap", xem_phieu: "leo-top", mo_bai_cu: "mang-nhen", do: "leo-top", mo_radar: "radar" };
 
 function DongViec({ v, onGhi, onSangTab, onXong }) {
 	const [loi, setLoi] = useState("");
@@ -380,10 +381,24 @@ function DongViec({ v, onGhi, onSangTab, onXong }) {
 	// việc hay làm phải là mặc định, không thêm một bước bắt buộc cho nó.
 	const [trongSo, setTrongSo] = useState(3);
 	const laNhanHuong = v.loai === "nhan_huong";
+	// Việc HỆ THỐNG nổi bật: nó không phải việc nội dung, và nó chặn mọi thứ phía sau. Nhưng vẫn
+	// là một dòng trong cùng hàng đợi — tách ra một khối cảnh báo riêng là quay lại đúng cái bệnh
+	// "cảnh báo nằm một chỗ, việc nằm chỗ khác".
+	const laHeThong = v.loai === "he_thong_ket";
 	return (
-		<li style={{ listStyle: "none", padding: "10px 0", borderTop: "1px solid #f3f4f6" }}>
+		<li
+			style={{
+				listStyle: "none",
+				padding: laHeThong ? "10px 12px" : "10px 0",
+				borderTop: "1px solid #f3f4f6",
+				...(laHeThong && { background: "#fef2f2", border: "1px solid #fecaca", borderRadius: 8, marginBottom: 6 }),
+			}}
+		>
 			<div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
-				<span style={{ fontWeight: 700, fontSize: 14 }}>{v.nhan}</span>
+				<span style={{ fontWeight: 700, fontSize: 14, color: laHeThong ? "#b91c1c" : undefined }}>
+					{laHeThong && "⚠ "}
+					{v.nhan}
+				</span>
 				<span style={{ fontSize: 14 }}>{v.ten}</span>
 				{v.duong && (
 					<a href={v.duong.startsWith("http") ? v.duong : `${TRANG_GOC}${v.duong}`} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12 }}>
@@ -2357,11 +2372,11 @@ function KhoangTrongTab({ dl, loi, onTai, onSangTab }) {
 //
 // Nhật ký ca rút từ 9 cột còn 4: thứ cần liếc là ca nào, lúc nào, làm được bao nhiêu, có lỗi
 // không. Chi tiết nằm trong dòng mở rộng.
-function ODo({ so, nhan, mau }) {
+function ODo({ so, nhan, mau, lon }) {
 	return (
-		<div style={{ border: "1px solid #e5e5e5", borderRadius: 8, padding: "8px 12px", minWidth: 0, background: "#fff" }}>
-			<div style={{ fontSize: 20, fontWeight: 700, color: mau, fontVariantNumeric: "tabular-nums" }}>{so}</div>
-			<div style={{ fontSize: 12, color: "#6b7280" }}>{nhan}</div>
+		<div style={{ border: "1px solid #e5e5e5", borderRadius: 8, padding: lon ? "12px 16px" : "8px 12px", minWidth: 0, background: "#fff" }}>
+			<div style={{ fontSize: lon ? 32 : 20, fontWeight: 700, color: mau, fontVariantNumeric: "tabular-nums", lineHeight: 1.1 }}>{so}</div>
+			<div style={{ fontSize: lon ? 13 : 12, color: "#6b7280" }}>{nhan}</div>
 		</div>
 	);
 }
@@ -2462,31 +2477,56 @@ function RadarTab({ dl, loi, thongBao, lichRadar, form, setForm, onTai, onLam, o
 	}, [dl.dangChay, onTai]);
 	const tong = (k) => dl.doiThu.reduce((n, d) => n + (d.dem?.[k] ?? 0), 0);
 	const caCuoi = (dl.ca ?? []).find((c) => c.loai === "radar" && c.ghi);
+	/**
+	 * Site này ĐÃ chạy ca riêng mà vẫn 0 URL? Tra trong 10 dòng nhật ký đang hiện.
+	 * ⚠️ Chỉ KHẲNG ĐỊNH được chiều dương: không thấy dòng nào không có nghĩa là chưa chạy (ca có
+	 * thể đã trôi khỏi 10 dòng). Nên câu mặc định vẫn là "chưa quét lần nào" — vu oan một site
+	 * đang chạy tốt đắt hơn là bỏ sót một site hỏng, vì người ta sẽ đi tìm lỗi không có thật.
+	 */
+	const caLoiCuaSite = (tenMien) => (dl.ca ?? []).some((c) => c.tenMien === tenMien && (c.loi ?? []).length > 0);
+	const loiGom = gomLoiCa(dl.ca);
 	return (
 		<div>
+			{/* ⚠️ CẢNH BÁO LÊN ĐẦU, trước mọi con số. Trước 06/10/2026 chúng nằm DƯỚI sáu ô số và
+			    một đoạn văn bốn dòng — "26 giờ chưa đọc được trang nào" chìm nghỉm giữa những con
+			    số trông vẫn to và khoẻ. */}
+			{dl.canhBaoCaDem && <p style={{ color: "#b91c1c", fontWeight: 600, margin: "0 0 6px" }}>⚠ Hơn 26 giờ chưa có ca radar thành công — xem Nhật ký ca cuối trang.</p>}
+			{dl.canhBaoClaude && (
+				<p style={{ color: "#b91c1c", fontWeight: 600, margin: "0 0 6px" }}>
+					⚠ {dl.choAi} trang chờ đọc mà 26 giờ qua chưa đọc được trang nào — kiểm GRAVITY_API_KEY trong cms/.env và hạn mức của khoá.
+				</p>
+			)}
 			<OTinhTrang ds={dl.tinhTrang} />
 			{thongBao && <p style={{ color: "#15803d", fontWeight: 600 }}>{thongBao}</p>}
 			{loi && <p style={{ color: "#b91c1c" }}>{loi}</p>}
 
-			{/* Số đo thật của kho, thay cho các dòng cảnh báo rời rạc trước đây. */}
-			<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: 8, margin: "10px 0 14px", maxWidth: 900 }}>
-				<ODo so={dl.doiThu.length} nhan="đối thủ theo dõi" />
-				<ODo so={tong("cho").toLocaleString("vi-VN")} nhan="URL chờ trích" mau="#92400e" />
-				<ODo so={tong("da_phan_tich").toLocaleString("vi-VN")} nhan="trang đã đọc" mau="#15803d" />
-				<ODo so={dl.choAi} nhan="chờ model đọc" mau={dl.choAi > (dl.nhipDoc?.nguongHangCho ?? 80) ? "#b91c1c" : undefined} />
-				<ODo so={tong("ngoai_nganh").toLocaleString("vi-VN")} nhan="ngoài ngành" />
-				<ODo so={caCuoi ? gio(caCuoi.batDau).split(" ")[1] ?? "—" : "—"} nhan="ca radar gần nhất" />
+			{/* HAI ô lớn, bốn số nhỏ. Sáu ô bằng nhau là sáu con số KHÁC LOẠI mà mắt phải tự phân
+			    hạng: "7 đối thủ theo dõi" là cấu hình, "104 chờ model đọc" là hàng đợi có thể đang
+			    kẹt, "392 ngoài ngành" là chất lượng nguồn. Chỉ hai số đầu quyết được việc gì. */}
+			<div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 220px))", gap: 10, margin: "10px 0 8px" }}>
+				<ODo lon so={dl.choAi} nhan="chờ model đọc" mau={dl.choAi > (dl.nhipDoc?.nguongHangCho ?? 80) ? "#b91c1c" : "#92400e"} />
+				<ODo lon so={tong("da_phan_tich").toLocaleString("vi-VN")} nhan="trang đã đọc" mau="#15803d" />
+			</div>
+			<div style={{ fontSize: 13, color: "#6b7280", margin: "0 0 10px" }}>
+				{dl.doiThu.length} đối thủ · {tong("cho").toLocaleString("vi-VN")} URL chờ trích · {tong("ngoai_nganh").toLocaleString("vi-VN")} ngoài ngành · ca gần
+				nhất {caCuoi ? gio(caCuoi.batDau) : "—"}
 			</div>
 			{/* Hàng đợi chỉ có nghĩa khi đi kèm NHỊP: "1.178 trang chờ" không nói được gì, còn
-			    "1.178 trang · 40 trang/đêm → 30 đêm" thì quyết được có nâng trần hay không. */}
+			    "1.178 trang · 40 trang/đêm → 30 đêm" thì quyết được có nâng trần hay không.
+			    ⚠️ Phần GIẢI THÍCH gấp lại: nội dung giữ nguyên vì nó thật sự hữu ích, chỉ không
+			    được chặn đường mắt — bốn dòng văn nằm giữa màn thì người ta bỏ qua cả khối. */}
 			{dl.choAi > 0 && dl.nhipDoc?.tranDem > 0 && (
-				<div style={{ fontSize: 13, color: dl.choAi / dl.nhipDoc.tranDem > 7 ? "#92400e" : "#6b7280", margin: "-6px 0 10px" }}>
-					Hàng đợi {dl.choAi.toLocaleString("vi-VN")} trang · nhịp {dl.nhipDoc.tranDem} trang/đêm →{" "}
-					<b>~{Math.ceil(dl.choAi / dl.nhipDoc.tranDem)} đêm</b> mới đọc hết — nhưng trang <b>đúng ngách được trích trước</b>,
-					nên phần đáng đọc tới sớm hơn nhiều con số đó. Muốn nhanh hơn nữa thì nâng{" "}
-					<code>RADA_SEO_TRAN_DOC_DEM</code> (và <code>RADA_SEO_NGUONG_HANG_CHO</code>, đang {dl.nhipDoc.nguongHangCho}) — mỗi
-					trang là một lượt gọi model.
-				</div>
+				<details style={{ fontSize: 13, color: dl.choAi / dl.nhipDoc.tranDem > 7 ? "#92400e" : "#6b7280", margin: "0 0 12px" }}>
+					<summary style={{ cursor: "pointer" }}>
+						Hàng đợi {dl.choAi.toLocaleString("vi-VN")} trang · nhịp {dl.nhipDoc.tranDem} trang/đêm →{" "}
+						<b>~{Math.ceil(dl.choAi / dl.nhipDoc.tranDem)} đêm</b> mới đọc hết
+					</summary>
+					<div style={{ marginTop: 4 }}>
+						Trang <b>đúng ngách được trích trước</b>, nên phần đáng đọc tới sớm hơn nhiều con số đó. Muốn nhanh hơn nữa thì
+						nâng <code>RADA_SEO_TRAN_DOC_DEM</code> (và <code>RADA_SEO_NGUONG_HANG_CHO</code>, đang{" "}
+						{dl.nhipDoc.nguongHangCho}) — mỗi trang là một lượt gọi model.
+					</div>
+				</details>
 			)}
 			{dl.demTuDem && (
 				// "Số không nhúc nhích" khác hẳn "số đứng yên vì ca chưa làm gì" — nói ra để khỏi
@@ -2494,13 +2534,6 @@ function RadarTab({ dl, loi, thongBao, lichRadar, form, setForm, onTai, onLam, o
 				<div style={{ fontSize: 12, color: "#9ca3af", margin: "-8px 0 10px" }}>Số URL lấy từ bản đệm (làm mới mỗi 10 giây).</div>
 			)}
 
-			{dl.canhBaoCaDem && <p style={{ color: "#b91c1c", fontWeight: 600 }}>⚠ Hơn 26 giờ chưa có ca radar thành công — xem nhật ký bên dưới.</p>}
-			{dl.canhBaoClaude && (
-				<p style={{ color: "#b91c1c", fontWeight: 600 }}>
-					⚠ {dl.choAi} trang chờ đọc mà 26 giờ qua chưa đọc được trang nào — kiểm GRAVITY_API_KEY trong cms/.env
-					và hạn mức của khoá.
-				</p>
-			)}
 			{!dl.caDemBat && <p style={{ color: "#92400e", fontSize: 13 }}>Máy này không bật RADA_SEO_CA_DEM: chỉ chạy thử được, ca đêm thật chạy trên VPS.</p>}
 
 			<div style={{ display: "flex", gap: 8, alignItems: "center", flexWrap: "wrap", marginBottom: 16 }}>
@@ -2555,8 +2588,13 @@ function RadarTab({ dl, loi, thongBao, lichRadar, form, setForm, onTai, onLam, o
 											<div style={{ fontSize: 12, color: "#6b7280" }}>{xong}/{tongUrl} URL đã biết</div>
 											<Thanh da={xong} tong={tongUrl} />
 										</>
+									) : caLoiCuaSite(d.id) ? (
+										// ⚠️ HAI cái 0 khác hẳn nhau. "Chưa quét lần nào" là chuyện bình thường của site vừa
+										// thêm; "quét rồi mà 0 URL" là hỏng và cần người đi xem. Gọi cả hai là "chưa quét" là
+										// đúng cái bệnh "một con số cho hai trạng thái" repo đã ghi hai lần.
+										<span style={{ color: "#b91c1c", fontSize: 12 }}>đã chạy nhưng 0 URL — xem Nhật ký ca</span>
 									) : (
-										<span style={{ color: "#6b7280", fontSize: 12 }}>chưa quét</span>
+										<span style={{ color: "#6b7280", fontSize: 12 }}>chưa quét lần nào</span>
 									)}
 									{dangLam && <div style={{ fontSize: 12, color: "#92400e" }}>{PHA[dl.tienDo.pha] ?? dl.tienDo.pha}{dl.tienDo.tong ? ` ${dl.tienDo.da}/${dl.tienDo.tong}` : ""}</div>}
 								</td>
@@ -2599,6 +2637,9 @@ function RadarTab({ dl, loi, thongBao, lichRadar, form, setForm, onTai, onLam, o
 				<Nut onClick={() => onSangTab("huong")}>Mở Hướng nội dung</Nut>
 			</div>
 
+			{/* ⚠️ Một câu thay cho việc bấm ▸ bảy lần: bảng dưới ghi "1 lỗi" ở mỗi dòng mà không nói
+			    lỗi gì, nên không thấy được bảy dòng đó là CÙNG một lỗi. */}
+			{loiGom.cau && <div style={{ fontSize: 13, color: "#b91c1c", margin: "0 0 6px" }}>⚠ {loiGom.cau}</div>}
 			<h3 style={{ margin: "0 0 6px" }}>Nhật ký ca</h3>
 			<table style={{ borderCollapse: "collapse", width: "100%", maxWidth: 900 }}>
 				<thead>

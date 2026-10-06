@@ -170,6 +170,9 @@ export function xepHangDoi(vao) {
 			);
 
 	ds.push(...viecSuaNho(v.suaNho));
+	// Việc HỆ THỐNG (bậc 0) đứng trên mọi việc nội dung — xem `lib/suc-khoe-bot.mjs`. Truyền vào
+	// chứ không tính ở đây: luật cảnh báo sống ở route `tong-quan` và không được có bản thứ hai.
+	ds.push(...mang(v.heThong));
 
 	// Bậc quyết định thứ tự; trong cùng bậc thì nhiều lượt hiển thị trước. `hienThi` KHÔNG được
 	// kéo việc đắt lên đầu — một phiếu "viết lại bài" với 900 lượt hiển thị vẫn là việc người ta
@@ -189,6 +192,8 @@ export function xepHangDoi(vao) {
  * báo "có việc" trong khi chưa biết có việc hay không.
  */
 const TAB_CUA_LOAI = {
+	// `he_thong_ket` KHÔNG có tab: nó không phải việc của một chặng nào, và đội huy hiệu lên
+	// thanh quy trình thì người đọc tưởng chặng đó có việc nội dung.
 	nhan_huong: "huong",
 	duyet_ke_hoach: "ke-hoach",
 	duyet_nhap: "nhap",

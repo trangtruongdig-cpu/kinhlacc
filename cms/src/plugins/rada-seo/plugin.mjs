@@ -38,6 +38,7 @@ import { tuLapChienLuoc } from "./ai/tu-lap-chien-luoc.mjs";
 import { chayLoViet } from "./ai/tu-viet-bai.mjs";
 import { tongHopLoaiSua } from "./leo-top/vong-hoc.mjs";
 import { xepHangDoi, tomTatTuan } from "./lib/xep-viec.mjs";
+import { viecHeThong } from "./lib/suc-khoe-bot.mjs";
 import { gomCau } from "./leo-top/y-dinh.mjs";
 import { phieuSuaNho, xepPhieu, VIEC as VIEC_SUA_NHO } from "./leo-top/so-ho-ai.mjs";
 import { boDau as boDauCum } from "./luat/chuan-hoa.mjs";
@@ -1459,6 +1460,26 @@ export function createPlugin() {
 					// khởi động) — số cũ hơn thế đã lệch với lần build gần nhất.
 					const sn = await ctx.kv.get(KHOA_SUA_NHO).catch(() => null);
 					vao.suaNho = sn && Date.now() - sn.luc < HAN_GSC_TRANG_MS ? sn : null;
+					// SỨC KHOẺ BOT → việc bậc 0. Người dùng cần biết bot có kẹt không nhưng ÍT MỞ
+					// tab Radar (họ nói thẳng 06/10/2026), nên tín hiệu phải sang tab mặc định.
+					//
+					// ⚠️ Hai lượt đọc kho THÊM (`dsCa` + `demChoAi`) là cái giá, và nó là đánh đổi
+					// có chủ ý chứ không phải trôi: mở màn 4 → 6 lượt (~200 ms) để màn mặc định trả
+					// lời được "bot có đang chạy không". Dùng LẠI luật của `tong-quan`, không viết
+					// bản thứ hai — xem ghi chú trong `lib/suc-khoe-bot.mjs`.
+					try {
+						const canhChe = await kho.dsCa(ctx.storage, 100);
+						const choAi = await kho.demChoAi(ctx.storage);
+						vao.heThong = viecHeThong({
+							canhBaoCaDem: caDemBat() && tuoiCa(canhChe, laCaRadarThat) > CANH_BAO_SAU_MS,
+							canhBaoClaude: choAi > 0 && tuoiCa(canhChe, (c) => c.loai === "claude" && c.ketThuc && (c.soDoc ?? 0) > 0) > CANH_BAO_SAU_MS,
+							choAi,
+							coModel: !!process.env.GRAVITY_API_KEY,
+						});
+					} catch (e) {
+						// Đọc sức khoẻ hỏng KHÔNG được làm rỗng hàng đợi việc nội dung.
+						ctx.log?.warn?.(`Rada SEO: đọc sức khoẻ bot hỏng — ${String(e?.message ?? e).slice(0, 160)}`);
+					}
 					const kq = xepHangDoi(vao);
 					// Hiệu quả thấy được (phần C): sổ việc đã làm trong 7 ngày, và vòng học — loại
 					// sửa nào hay ĐI CÙNG việc lên hạng. Cả hai tính từ dữ liệu ĐÃ đọc ở trên, không

@@ -1001,10 +1001,15 @@ test("mở màn hỏi kho ÍT lượt — đếm thật trên các route trong R
 	}
 
 	for (const r of ROUTE_MO_MAN) await p.routes[r].handler(ctx);
-	// ⚠️ Ngưỡng đặt theo SỐ ĐO (4 lượt, 06/10/2026: dsHuong + dsKeHoach + dsLeoTop + goi_y_nguoc),
-	// biên 1. Sửa được thật thì HẠ ngưỡng xuống theo — nới ra là chốt hết tác dụng canh chừng.
-	// Số này ĐỘC LẬP với số đối thủ: route `viec` không đếm URL, khác `tong-quan`.
-	assert.ok(soLuot <= 5, `mở màn hỏi kho ${soLuot} lượt (ngưỡng 5) — route nào vừa thêm lượt đọc?`);
+	// ⚠️ Ngưỡng đặt theo SỐ ĐO, biên 1. Sửa được thật thì HẠ xuống theo — nới ra là chốt hết tác
+	// dụng canh chừng. Số này ĐỘC LẬP với số đối thủ: route `viec` không đếm URL, khác `tong-quan`.
+	//
+	// Lịch sử ngưỡng, để lần sau ai nâng nữa phải viết ra lý do như hai dòng này:
+	//   4 lượt (06/10) — dsHuong + dsKeHoach + dsLeoTop + goi_y_nguoc
+	//   6 lượt (06/10) — thêm dsCa + demChoAi cho SỨC KHOẺ BOT. Đánh đổi có chủ ý: người dùng cần
+	//     biết bot có kẹt không nhưng ÍT MỞ tab Radar, nên tín hiệu phải nằm ở tab mặc định. Hai
+	//     lượt ≈ 200 ms đổi lấy câu trả lời "bot có đang chạy không" ngay khi mở màn.
+	assert.ok(soLuot <= 7, `mở màn hỏi kho ${soLuot} lượt (ngưỡng 7) — route nào vừa thêm lượt đọc, và vì sao?`);
 	// `dsKeHoach` từng bị đọc BỐN lần trong một lượt mở màn: tong-quan (soCanXem),
 	// chien-luoc-tong-quan, leo-top-tong-quan, viec-dem. Nay ĐÚNG MỘT — `tong-quan` xuống thành
 	// route của tab Radar, và `viec` thay `viec-dem`.

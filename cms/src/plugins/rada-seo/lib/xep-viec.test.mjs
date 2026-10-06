@@ -273,3 +273,16 @@ test("câu hệ quả của việc chặn dây chuyền phải nêu CA NÀO sẽ
 	assert.match(LOAI_VIEC.nhan_huong.heQua, /02:30/);
 	assert.match(LOAI_VIEC.duyet_ke_hoach.heQua, /03:30/);
 });
+
+test("việc HỆ THỐNG đứng trên mọi việc nội dung, và không đội huy hiệu tab nào", () => {
+	// Hàng đợi không chảy thì mọi thứ phía sau đứng theo — kể cả việc "nhận hướng" vốn là thứ
+	// chặn dây chuyền nội dung.
+	const r = xepHangDoi({
+		...rong,
+		huong: [{ id: "h1", ten: "H", trangThai: "de_xuat" }],
+		heThong: [{ loai: "he_thong_ket", khoa: "he_thong_ket|x", id: "x", bac: 0, nhan: "Hệ thống kẹt", ten: "Bot không đọc được", viSao: "…", hanhDong: ["mo_radar"] }],
+	});
+	assert.deepEqual(r.viec.map((v) => v.loai), ["he_thong_ket", "nhan_huong"]);
+	assert.equal(r.demTab.huong, 1);
+	assert.equal(Object.values(r.demTab).reduce((a, b) => a + b, 0), 1, "việc hệ thống không được đội huy hiệu chặng nào");
+});
