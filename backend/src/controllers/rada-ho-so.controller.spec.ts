@@ -1,4 +1,4 @@
-import { khopTenNhuCau, boDau, tachTacDung, veCua } from './rada-ho-so.controller';
+import { khopTenNhuCau, boDau, tachTacDung, veCua, tyLeNguon, xepLoNguon } from './rada-ho-so.controller';
 
 describe('rada-ho-so: tách pháp trị khỏi chứng trạng', () => {
   it('tách được câu y văn thường gặp', () => {
@@ -90,5 +90,41 @@ describe('khopTenNhuCau — đường DUY NHẤT đưa huyệt vào tháp', () =
 
   it('bỏ dấu và dấu câu hai bên: "Tiêu Chảy" ≡ "tiêu-chảy"', () => {
     expect(khopTenNhuCau('Tiêu Chảy', 'viêm ruột, tiêu-chảy')).toBe(true);
+  });
+});
+
+describe('rada-ho-so: sức khoẻ NỀN — xếp lỗ theo mức mỏng', () => {
+  it('tỉ lệ tính đúng, và tổng = 0 KHÔNG được ra NaN', () => {
+    // Bộ rỗng là chuyện thật (bảng chưa nạp), và NaN% trên màn thì người đọc không phân biệt
+    // được với 0% — hai chuyện khác hẳn: "chưa có mục nào" vs "có mục mà không mục nào dẫn nguồn".
+    expect(tyLeNguon({ co: 205, tong: 4085 }).pt).toBe(5);
+    expect(tyLeNguon({ co: 0, tong: 0 }).pt).toBe(null);
+    expect(tyLeNguon({ co: 0, tong: 0 }).chuaCoMuc).toBe(true);
+    expect(tyLeNguon({ co: 0, tong: 10 }).chuaCoMuc).toBe(false);
+  });
+
+  it('xếp MỎNG NHẤT lên đầu — đó là chỗ đáng vá trước', () => {
+    const ds = xepLoNguon({
+      bai: { co: 13939, tong: 32197 },
+      vi: { co: 205, tong: 4085 },
+      huyet: { co: 433, tong: 1053 },
+    });
+    expect(ds[0].ma).toBe('vi');
+    expect(ds[0].pt).toBe(5);
+    expect(ds.map((x) => x.ma)).toEqual(['vi', 'huyet', 'bai']);
+  });
+
+  it('bộ CHƯA CÓ MỤC NÀO xếp CUỐI, không xếp đầu dù tỉ lệ là 0', () => {
+    // 0/0 không phải "mỏng nhất" — nó là "chưa nạp dữ liệu". Xếp nó lên đầu là cử người đi vá
+    // một bảng rỗng trong khi 4.085 vị thuốc thật đang thiếu nguồn.
+    const ds = xepLoNguon({ bai: { co: 0, tong: 0 }, vi: { co: 205, tong: 4085 } });
+    expect(ds[0].ma).toBe('vi');
+    expect(ds[ds.length - 1].ma).toBe('bai');
+  });
+
+  it('bộ ĐẦY ĐỦ (100%) vẫn có trong danh sách, chỉ xuống cuối', () => {
+    const ds = xepLoNguon({ bai: { co: 10, tong: 10 }, vi: { co: 1, tong: 10 } });
+    expect(ds.map((x) => x.ma)).toEqual(['vi', 'bai']);
+    expect(ds[1].pt).toBe(100);
   });
 });

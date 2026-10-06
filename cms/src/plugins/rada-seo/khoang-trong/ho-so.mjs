@@ -147,6 +147,20 @@ export async function layCumNguNghia(fetchFn = fetchNoiBo, { toiThieuThap = 20 }
 	return { ok: r.ok, loi: r.loi, ds: Array.isArray(r.du) ? r.du : [] };
 }
 
+/**
+ * SỨC KHOẺ NỀN — bốn trụ của vòng NỀN (xem `GET /rada/suc-khoe-nen`).
+ *
+ * ⚠️ Hạn giờ NGẮN (5 giây) và cố ý khác các lời gọi khác: route này nằm trên đường MỞ MÀN của
+ * màn Việc. Backend chết thì phải trả lỗi nhanh để hàng đợi việc vẫn hiện — chờ hết hạn mặc định
+ * là biến một backend hỏng thành một màn hình treo.
+ *
+ * @returns {Promise<{ok: boolean, loi: string, nen: object|null}>}
+ */
+export async function laySucKhoeNen(fetchFn = fetchNoiBo) {
+	const r = await goiApp(fetchFn, "/rada/suc-khoe-nen", { headers: { Accept: "application/json" } }, 5_000);
+	return { ok: r.ok, loi: r.loi, nen: r.du };
+}
+
 /** Chủ trị có tháp dày, chưa lọc theo trang đã có. */
 export async function layUngVien(fetchFn = fetchNoiBo, { toiThieuVi = 8, toiThieuThap = 25 } = {}) {
 	const r = await goiApp(fetchFn, `/rada/ung-vien?toiThieuVi=${toiThieuVi}&toiThieuThap=${toiThieuThap}`, { headers: { Accept: "application/json" } }, 60_000);

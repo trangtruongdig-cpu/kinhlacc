@@ -12,6 +12,7 @@ import { RadaHoSoService } from '../controllers/rada-ho-so.controller';
  *   POST /rada/ho-so-cum   body { cum, bienThe[] } -> hồ sơ cụm (thể bệnh, vị, bài, nguồn)
  *   GET  /rada/ung-vien?toiThieuVi=&toiThieuThap=  -> chủ trị có tháp dày
  *   GET  /rada/cum-ngu-nghia?toiThieuThap=         -> 657 cụm ngữ nghĩa, gom nhiều chủ trị
+ *   GET  /rada/suc-khoe-nen                        -> bốn trụ của vòng NỀN (tháp, nguồn, semantic, chữ)
  */
 @Controller('rada')
 export class RadaHoSoRouter {
@@ -28,6 +29,16 @@ export class RadaHoSoRouter {
   cumNguNghia(@Query('toiThieuThap') toiThieuThap?: string) {
     const n = Number(toiThieuThap);
     return this.service.cumNguNghia(Number.isFinite(n) && n > 0 ? Math.floor(n) : 20);
+  }
+
+  /**
+   * Vòng NỀN của Rada SEO. CHỈ ĐỌC, và cố ý không nhận tham số nào: nó là ảnh chụp sức khoẻ kho,
+   * không phải truy vấn tuỳ biến. Đệm 10 phút ở service — ba trụ quét vài bảng lớn.
+   */
+  @Public()
+  @Get('suc-khoe-nen')
+  sucKhoeNen() {
+    return this.service.sucKhoeNen();
   }
 
   @Public()

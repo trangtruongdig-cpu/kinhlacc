@@ -53,6 +53,56 @@ export function tachTacDung(s: unknown): { phap: string; chung: string } {
     : { phap: '', chung: t };
 }
 
+/** Kết quả của `sucKhoeNen` — vòng NỀN của Rada SEO. */
+export type SucKhoeNen = {
+  nguon: { ma: string; ten: string; co: number; tong: number; pt: number | null; chuaCoMuc: boolean }[];
+  semantic: { soCum: number; chuTriNhieuCum: number };
+  chuaDo: string[];
+  tuDem: boolean;
+};
+
+/** Một bộ của trụ NGUỒN: bao nhiêu mục dẫn được về một cuốn sách. */
+export type DemNguon = { co: number; tong: number };
+
+/**
+ * Tỉ lệ có nguồn.
+ *
+ * ⚠️ `tong = 0` trả `pt: null` chứ KHÔNG trả 0: "chưa có mục nào trong bộ" và "có mục mà không
+ * mục nào dẫn được nguồn" là hai chuyện khác hẳn, và 0% trên màn thì người đọc không phân biệt
+ * được. Cùng lý lẽ với mọi chỗ khác trong repo: một con số cho hai trạng thái là con số vô dụng.
+ */
+export function tyLeNguon(d: DemNguon): { co: number; tong: number; pt: number | null; chuaCoMuc: boolean } {
+  const co = Number(d?.co ?? 0);
+  const tong = Number(d?.tong ?? 0);
+  return { co, tong, pt: tong > 0 ? Math.round((co / tong) * 1000) / 10 : null, chuaCoMuc: tong === 0 };
+}
+
+/** Tên người đọc của từng bộ trong trụ Nguồn. */
+const TEN_BO_NGUON: Record<string, string> = {
+  bai: 'Bài thuốc',
+  vi: 'Vị thuốc',
+  huyet: 'Huyệt',
+  benhHoc: 'Bệnh học',
+  chamCuu: 'Châm cứu trị bệnh',
+  kinh: 'Kinh mạch',
+};
+
+/**
+ * Xếp các bộ theo mức MỎNG — bộ ít nguồn nhất lên đầu, vì đó là chỗ đáng vá trước.
+ *
+ * ⚠️ Bộ CHƯA CÓ MỤC NÀO (`tong = 0`) xuống CUỐI, không lên đầu dù tỉ lệ là 0. 0/0 không phải
+ * "mỏng nhất", nó là "chưa nạp dữ liệu" — xếp nó lên đầu là cử người đi vá một bảng rỗng trong
+ * khi 4.085 vị thuốc thật đang thiếu nguồn (số đo 06/10/2026: vị thuốc 205/4.085 = 5%).
+ */
+export function xepLoNguon(bo: Record<string, DemNguon>): { ma: string; ten: string; co: number; tong: number; pt: number | null; chuaCoMuc: boolean }[] {
+  return Object.entries(bo ?? {})
+    .map(([ma, d]) => ({ ma, ten: TEN_BO_NGUON[ma] ?? ma, ...tyLeNguon(d) }))
+    .sort((a, b) => {
+      if (a.chuaCoMuc !== b.chuaCoMuc) return a.chuaCoMuc ? 1 : -1;
+      return (a.pt ?? 0) - (b.pt ?? 0);
+    });
+}
+
 /** Các VẾ pháp trị: "Dưỡng âm, thanh nhiệt" → ["duong am", "thanh nhiet"].
  *  Gom theo VẾ chứ không theo cả cụm — gom cả cụm thì mỗi bài thành một thể và bảng ra rỗng. */
 export function veCua(phap: string): string[] {
@@ -652,4 +702,60 @@ export class RadaHoSoService {
     this.demUngVien = { khoa, luc: Date.now(), ds };
     return ds;
   }
+  /** Đệm sức khoẻ nền: ba trụ dưới đây quét vài bảng lớn, không nên tính lại cho mỗi lần mở tab. */
+  private demNen: { luc: number; kq: SucKhoeNen } | null = null;
+  private static readonly HAN_NEN_MS = 10 * 60 * 1000;
+
+  /**
+   * SỨC KHOẺ NỀN — bốn trụ của kho tri thức (vòng NỀN của Rada SEO).
+   *
+   * Người dùng chốt 06/10/2026: "kho đầy đủ và có hệ thống" đo bằng Tháp · Nguồn · Semantic ·
+   * Chữ. Ba trụ đầu sống ở `defaultdb` nên tính ngay đây; trụ Chữ sống ở `kinhlac_cms` (bảng
+   * `td_ho_so` của bot thẩm định) và KHÔNG join chéo được, nên nó đi đường riêng — xem `chuaDo`.
+   *
+   * ⚠️ Số đo thật 06/10/2026, để lần sau ai thấy số lạ thì biết mốc: bài thuốc 13.939/32.197
+   * (43,3%), vị thuốc 205/4.085 (5,0%), huyệt 433/1.053 (41,1%). Vị thuốc là lỗ lớn nhất.
+   */
+  async sucKhoeNen(): Promise<SucKhoeNen> {
+    if (this.demNen && Date.now() - this.demNen.luc < RadaHoSoService.HAN_NEN_MS)
+      return { ...this.demNen.kq, tuDem: true };
+
+    const mot = async (sql: string): Promise<DemNguon> => {
+      const r = (await this.dataSource.query(sql)) as Array<{ co: number; tong: number }>;
+      return { co: Number(r?.[0]?.co ?? 0), tong: Number(r?.[0]?.tong ?? 0) };
+    };
+
+    // TRỤ NGUỒN — mỗi mục có dẫn được về một cuốn sách không. Đây là trụ E-E-A-T thật của site,
+    // và là thứ đối thủ bệnh viện không có.
+    const nguon = xepLoNguon({
+      bai: await mot(
+        'select count(*)::int tong, count(distinct n.phuong_thang_id)::int co from phuong_thang p left join nguon_phuong_thang n on n.phuong_thang_id = p.id',
+      ),
+      vi: await mot('select count(*)::int tong, count(distinct n.vi_thuoc_id)::int co from vi_thuoc v left join nguon_vi_thuoc n on n.vi_thuoc_id = v.id'),
+      huyet: await mot(
+        'select count(*)::int tong, count(distinct n.huyet_id)::int co from huyet_vi h left join nguon_huyet n on n.huyet_id = h.id_huyet',
+      ),
+    });
+
+    // TRỤ SEMANTIC — 657 cụm. Chủ trị nằm ở HAI cụm là BÌNH THƯỜNG ("Đau thần kinh tọa" thuộc
+    // cả cơ xương khớp lẫn thần kinh), nên con số này KHÔNG phải lỗi; nó là chỗ đáng NHÌN BẰNG
+    // NGHĨA. Đừng dựng phép dò tự động ở đây — đã thử và bắn 38/62 cụm, phần lớn vu oan.
+    const sem = (await this.dataSource.query(
+      'select (select count(*)::int from kl_seo_semantic_cluster) so_cum, (select count(*)::int from (select chu_tri_id from kl_seo_semantic_chu_tri group by chu_tri_id having count(*) > 1) t) chu_tri_nhieu_cum',
+    )) as Array<{ so_cum: number; chu_tri_nhieu_cum: number }>;
+
+    const kq: SucKhoeNen = {
+      nguon,
+      semantic: { soCum: Number(sem?.[0]?.so_cum ?? 0), chuTriNhieuCum: Number(sem?.[0]?.chu_tri_nhieu_cum ?? 0) },
+      // ⚠️ Nói THẲNG cái gì chưa đo được và vì sao — im lặng ở đây đọc ra như "trụ đó đã sạch".
+      chuaDo: [
+        'Trụ CHỮ (bot thẩm định: mục hạng hỏng/yếu) sống ở kho kinhlac_cms, không join chéo với kho app — xem ở /app/tham-dinh.',
+        'Tầng Bệnh học và Châm cứu trị bệnh của tháp đo ở phía CMS (bộ benh_hoc, cham_cuu_tri_benh), không ở đây.',
+      ],
+      tuDem: false,
+    };
+    this.demNen = { luc: Date.now(), kq };
+    return kq;
+  }
+
 }

@@ -286,3 +286,52 @@ test("việc HỆ THỐNG đứng trên mọi việc nội dung, và không đ�
 	assert.equal(r.demTab.huong, 1);
 	assert.equal(Object.values(r.demTab).reduce((a, b) => a + b, 0), 1, "việc hệ thống không được đội huy hiệu chặng nào");
 });
+
+test("khoang VÁ NỀN tách riêng và trần 3 dòng — không trộn vào hàng đợi SEO", () => {
+	// ⚠️ Luật chịu lực của vòng NỀN. Trụ Chữ một mình có 1.744 mục hạng "hỏng"; trộn vào là nhấn
+	// chìm cả hàng đợi — đúng cái bẫy CLAUDE.md đã ghi: màn hình báo "65.321 lời phê chờ bạn
+	// duyệt" thì người ta thôi đọc cả màn hình.
+	const nen = {
+		nguon: [
+			{ ma: "vi", ten: "Vị thuốc", co: 205, tong: 4085, pt: 5, chuaCoMuc: false },
+			{ ma: "huyet", ten: "Huyệt", co: 433, tong: 1053, pt: 41.1, chuaCoMuc: false },
+			{ ma: "bai", ten: "Bài thuốc", co: 13939, tong: 32197, pt: 43.3, chuaCoMuc: false },
+		],
+		semantic: { soCum: 657, chuTriNhieuCum: 16 },
+	};
+	const r = xepHangDoi({ ...rong, huong: [{ id: "h1", ten: "H", trangThai: "de_xuat" }], nen });
+	// Hàng đợi SEO KHÔNG đổi.
+	assert.deepEqual(r.viec.map((v) => v.loai), ["nhan_huong"]);
+	// Khoang nền là mảng RIÊNG.
+	assert.ok(Array.isArray(r.vaNen));
+	assert.ok(r.vaNen.length <= 3, `trần 3 dòng, thực tế ${r.vaNen.length}`);
+	// Mỏng nhất lên đầu.
+	assert.match(r.vaNen[0].ten, /Vị thuốc/);
+	assert.match(r.vaNen[0].viSao, /5%|5 %/);
+});
+
+test("vá nền: bộ ĐỦ NGUỒN không thành việc — chỉ bộ còn mỏng mới vào khoang", () => {
+	const r = xepHangDoi({
+		...rong,
+		nen: { nguon: [{ ma: "bai", ten: "Bài thuốc", co: 10, tong: 10, pt: 100, chuaCoMuc: false }], semantic: { soCum: 657, chuTriNhieuCum: 0 } },
+	});
+	assert.deepEqual(r.vaNen, []);
+});
+
+test("vá nền: bộ CHƯA CÓ MỤC NÀO không thành việc — 0/0 là chưa nạp, không phải mỏng", () => {
+	// Cử người đi vá một bảng rỗng là việc giả. Cùng luật với `xepLoNguon` ở backend.
+	const r = xepHangDoi({
+		...rong,
+		nen: { nguon: [{ ma: "kinh", ten: "Kinh mạch", co: 0, tong: 0, pt: null, chuaCoMuc: true }], semantic: { soCum: 0, chuTriNhieuCum: 0 } },
+	});
+	assert.deepEqual(r.vaNen, []);
+});
+
+test("vá nền: không hỏi được nền thì KHÔNG im lặng, nói ra là chưa hỏi được", () => {
+	const r = xepHangDoi({ ...rong, nen: null, loiNen: "fetch failed (ECONNREFUSED)" });
+	assert.deepEqual(r.vaNen, []);
+	assert.match(r.cauNen, /ECONNREFUSED/);
+	// Chưa hỏi KHÁC đã hỏi và nền sạch.
+	const sach = xepHangDoi({ ...rong, nen: { nguon: [], semantic: { soCum: 657, chuTriNhieuCum: 0 } } });
+	assert.notEqual(sach.cauNen, r.cauNen);
+});

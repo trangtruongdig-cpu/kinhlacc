@@ -15,6 +15,7 @@ import pg from "pg";
 import { PluginStorageRepository } from "emdash";
 import { xepHangDoi, tomTatTuan } from "../src/plugins/rada-seo/lib/xep-viec.mjs";
 import { tongHopLoaiSua } from "../src/plugins/rada-seo/leo-top/vong-hoc.mjs";
+import { laySucKhoeNen } from "../src/plugins/rada-seo/khoang-trong/ho-so.mjs";
 import * as kho from "../src/plugins/rada-seo/kho.mjs";
 import { KHAI_BAO_KHO } from "../src/plugins/rada-seo/kho.mjs";
 
@@ -68,6 +69,20 @@ try {
 		if (r.tong > 12) console.log(`  … và ${r.tong - 12} việc nữa`);
 		console.log(`  huy hiệu theo tab: ${JSON.stringify(r.demTab)}`);
 	}
+
+	// VÒNG NỀN — hỏi sang backend. Hỏng thì NÓI RA, không im lặng.
+	const n = await laySucKhoeNen();
+	if (n.ok) vao.nen = n.nen;
+	else vao.loiNen = n.loi;
+	const rNen = xepHangDoi(vao);
+	console.log("\nVÒNG NỀN:");
+	if (n.ok) {
+		for (const b of n.nen?.nguon ?? []) console.log(`  ${b.ten.padEnd(12)} ${String(b.co).padStart(6)}/${String(b.tong).padEnd(7)} ${b.pt === null ? "chưa có mục" : b.pt + "%"}`);
+		console.log(`  semantic: ${n.nen?.semantic?.soCum} cụm · ${n.nen?.semantic?.chuTriNhieuCum} chủ trị nằm nhiều cụm`);
+	} else console.log(`  ⚠️ ${n.loi}`);
+	console.log(`  KHOANG VÁ NỀN: ${rNen.vaNen.length} việc (trần 3)`);
+	for (const v of rNen.vaNen) console.log(`    · ${v.ten}`);
+	if (rNen.cauNen) console.log(`    ${rNen.cauNen}`);
 
 	const tuan = tomTatTuan(vao);
 	console.log(`\nSỔ VIỆC TUẦN: ${tuan.cau}`);

@@ -369,11 +369,14 @@ const NHAN_HANH_DONG = {
 	mo_bai_cu: "Mở bài cũ ↗",
 	do: "Dò sơ hở ↗",
 	mo_radar: "Mở Radar ↗",
+	mo_cms: "Mở CMS ↗",
 };
 /** Hành động nào GHI (cần nút tự báo bận + dòng rời hàng đợi), hành động nào chỉ điều hướng. */
 const HANH_DONG_GHI = new Set(["nhan", "bo", "duyet", "da_sua"]);
 /** Việc loại nào thì nút điều hướng dẫn sang tab nào. */
 const TAB_DICH = { mo_nhap: "nhap", xem_phieu: "leo-top", mo_bai_cu: "mang-nhen", do: "leo-top", mo_radar: "radar" };
+/** Hành động mở một trang NGOÀI màn này (khu quản trị CMS), không phải đổi tab. */
+const DUONG_NGOAI = { mo_cms: "/_emdash/admin/collections/nguon_y_van" };
 
 function DongViec({ v, onGhi, onSangTab, onXong }) {
 	const [loi, setLoi] = useState("");
@@ -436,6 +439,12 @@ function DongViec({ v, onGhi, onSangTab, onXong }) {
 						>
 							{NHAN_HANH_DONG[h]}
 						</NutBan>
+					) : DUONG_NGOAI[h] ? (
+						// Mở một trang NGOÀI màn này (khu quản trị CMS): dùng <a> chứ không phải nút đổi
+						// tab — bấm giữa/Cmd phải mở được tab mới, và người đọc thấy trước nó dẫn đi đâu.
+						<a key={h} href={DUONG_NGOAI[h]} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12 }} onClick={() => onXong?.(v.heQua ?? "")}>
+							{NHAN_HANH_DONG[h]}
+						</a>
 					) : (
 						<Nut
 							key={h}
@@ -497,6 +506,24 @@ function ManViecTab({ dl, loi, onTai, onSangTab, onGhi }) {
 					<DongViec key={v.khoa} v={v} onGhi={onGhi} onSangTab={onSangTab} onXong={setHeQua} />
 				))}
 			</ul>
+			{/* KHOANG VÁ NỀN — tách HẲN khỏi hàng đợi trên, trần 3 dòng.
+			    ⚠️ Trụ Chữ một mình có 1.744 mục hạng "hỏng". Trộn vào hàng đợi SEO là nhấn chìm nó
+			    — đúng cái bẫy "65.321 lời phê chờ bạn duyệt" đã ghi trong CLAUDE.md. */}
+			{(dl.vaNen?.length > 0 || dl.cauNen) && (
+				<div style={{ marginTop: 18, maxWidth: 980 }}>
+					<div style={{ fontWeight: 600, fontSize: 14 }}>Vá nền — kho tri thức</div>
+					<div style={{ fontSize: 12, color: "#9ca3af", marginBottom: 4 }}>
+						Việc không gấp nhưng chặn về lâu dài: nền mỏng thì mọi bài viết đứng trên nó cũng mỏng theo.
+					</div>
+					<ul style={{ margin: 0, padding: 0 }}>
+						{(dl.vaNen ?? []).map((v) => (
+							<DongViec key={v.khoa} v={v} onGhi={onGhi} onSangTab={onSangTab} onXong={setHeQua} />
+						))}
+					</ul>
+					{dl.cauNen && <div style={{ fontSize: 12, color: "#92400e", marginTop: 4 }}>{dl.cauNen}</div>}
+				</div>
+			)}
+
 			{/* VÒNG HỌC — loại sửa nào hay đi cùng việc lên hạng. ⚠️ Ghi chú đồng-xuất-hiện do máy
 			    chủ tính kèm và LUÔN in: một phiếu mang nhiều loại sửa cùng lúc, người quản trị sửa
 			    cả gói rồi mới bấm, nên không quy công cho loại nào được. */}

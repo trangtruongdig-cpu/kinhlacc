@@ -181,7 +181,8 @@ export function xepHangDoi(vao) {
 
 	const theoLoai = {};
 	for (const x of ds) theoLoai[x.loai] = (theoLoai[x.loai] ?? 0) + 1;
-	return { viec: ds, tong: ds.length, cauRong: ds.length ? "" : cauRong(v), theoLoai, demTab: demTheoTab(ds) };
+	const nen = khoangVaNen(v);
+	return { viec: ds, tong: ds.length, cauRong: ds.length ? "" : cauRong(v), theoLoai, demTab: demTheoTab(ds), vaNen: nen.ds, cauNen: nen.cau };
 }
 
 /**
@@ -213,6 +214,52 @@ function demTheoTab(ds) {
 		if (t) d[t] = (d[t] ?? 0) + 1;
 	}
 	return d;
+}
+
+
+/** Trần HIỂN THỊ của khoang vá nền. Xem ghi chú trong `khoangVaNen`. */
+export const TRAN_VA_NEN = 3;
+
+/**
+ * KHOANG VÁ NỀN — tách hẳn khỏi hàng đợi việc SEO.
+ *
+ * ⚠️ Luật chịu lực của vòng NỀN: KHÔNG trộn vào hàng đợi SEO. Trụ Chữ một mình có 1.744 mục hạng
+ * "hỏng"; trộn vào là nhấn chìm cả hàng đợi — đúng cái bẫy đã ghi trong CLAUDE.md: màn hình báo
+ * "65.321 lời phê chờ bạn duyệt" thì người ta thôi đọc cả màn hình.
+ *
+ * "Tối đa 3" là trần HIỂN THỊ, không phải hạn ngạch theo ngày: làm xong một việc thì việc kế
+ * tiếp lên thay ở lượt tải sau. Cố ý không đếm "hôm nay đã làm mấy việc nền" — bộ đếm theo ngày
+ * cần mốc theo người dùng, mà `ctx` của plugin không có người dùng.
+ */
+function khoangVaNen(v) {
+	// Chưa hỏi được nền KHÁC HẲN nền đã sạch. Im lặng ở đây đọc ra như "trụ đó không có việc".
+	if (v.loiNen) return { ds: [], cau: `Chưa hỏi được sức khoẻ nền: ${v.loiNen}. Đây KHÔNG phải "nền đã đủ" — chưa hỏi được thì chưa biết.` };
+	const nen = v.nen;
+	if (!nen) return { ds: [], cau: "" };
+
+	const ds = [];
+	for (const b of mang(nen.nguon)) {
+		// ⚠️ Bỏ qua bộ ĐỦ NGUỒN và bộ CHƯA CÓ MỤC NÀO. 0/0 là "chưa nạp dữ liệu", không phải
+		// "mỏng nhất" — cử người đi vá một bảng rỗng là việc giả.
+		if (b?.chuaCoMuc || b?.pt === null || b?.pt >= 100) continue;
+		ds.push({
+			loai: "va_nen_nguon",
+			khoa: `va_nen_nguon|${b.ma}`,
+			id: b.ma,
+			bac: 100, // ngoài thang của hàng đợi SEO: khoang riêng, không bao giờ trộn thứ tự
+			nhan: `Bổ sung nguồn: ${b.ten}`,
+			ten: `${b.ten} — ${b.co.toLocaleString("vi-VN")}/${b.tong.toLocaleString("vi-VN")} mục dẫn được sách`,
+			viSao: `Mới ${b.pt}% số mục trỏ về được một cuốn sách. Nguồn y văn là trụ E-E-A-T thật của site và là thứ đối thủ bệnh viện không có — mỏng ở đây thì mọi bài viết trên đó cũng mỏng theo.`,
+			heQua: "Bổ sung trong CMS (bộ nguon_y_van và bảng nối), rồi chạy lại đồng bộ. Số này tính lại sau 10 phút.",
+			hanhDong: ["mo_cms"],
+			hienThi: 0,
+		});
+	}
+	// Mỏng nhất lên đầu (máy chủ đã xếp sẵn), rồi cắt theo trần hiển thị.
+	return {
+		ds: ds.slice(0, TRAN_VA_NEN),
+		cau: ds.length > TRAN_VA_NEN ? `Còn ${ds.length - TRAN_VA_NEN} việc nền nữa — hiện 3 việc một lúc để khoang này không nuốt mất hàng đợi chính.` : "",
+	};
 }
 
 /**

@@ -44,7 +44,7 @@ import { phieuSuaNho, xepPhieu, VIEC as VIEC_SUA_NHO } from "./leo-top/so-ho-ai.
 import { boDau as boDauCum } from "./luat/chuan-hoa.mjs";
 import { xepBaiMoi, demTheoHang, banDoTrangCum } from "./leo-top/bai-moi.mjs";
 import { chuanHoaUrlTrang } from "./leo-top/gsc.mjs";
-import { layUngVien, layHoSoCum, xepUngVien, taoKeHoachTuHoSo, napTrangNhuCau, layCumNguNghia, trangDaCo, napSlugHuyet, ganDuongHuyet } from "./khoang-trong/ho-so.mjs";
+import { layUngVien, layHoSoCum, xepUngVien, taoKeHoachTuHoSo, napTrangNhuCau, layCumNguNghia, trangDaCo, napSlugHuyet, ganDuongHuyet, laySucKhoeNen } from "./khoang-trong/ho-so.mjs";
 
 /**
  * Lịch cron: phút 30 MỖI GIỜ. Ca thật chỉ chạy ở tick có giờ UTC = GIO_UTC_CHAY (19:30 UTC =
@@ -1479,6 +1479,16 @@ export function createPlugin() {
 					} catch (e) {
 						// Đọc sức khoẻ hỏng KHÔNG được làm rỗng hàng đợi việc nội dung.
 						ctx.log?.warn?.(`Rada SEO: đọc sức khoẻ bot hỏng — ${String(e?.message ?? e).slice(0, 160)}`);
+					}
+					// VÒNG NỀN — hỏi sang kho app (backend đệm 10 phút; hạn giờ 5 giây ở phía này).
+					// ⚠️ Hỏng thì ghi `loiNen` chứ KHÔNG im lặng: "chưa hỏi được nền" và "nền đã đủ"
+					// là hai chuyện khác hẳn, và khoang nền rỗng trơn đọc ra như chuyện thứ hai.
+					try {
+						const n = await laySucKhoeNen();
+						if (n.ok) vao.nen = n.nen;
+						else vao.loiNen = n.loi;
+					} catch (e) {
+						vao.loiNen = String(e?.message ?? e).slice(0, 160);
 					}
 					const kq = xepHangDoi(vao);
 					// Hiệu quả thấy được (phần C): sổ việc đã làm trong 7 ngày, và vòng học — loại
