@@ -36,6 +36,55 @@ export const boDau = (s: unknown): string =>
     .trim();
 
 /**
+ * Mẩu BỊ CẮT CỤT, không phải chủ trị.
+ *
+ * ⚠️ Đo 06/10/2026: cụm "Phân loại y thư cổ và các chứng khác" có tháp **5.841** — gấp ba cụm
+ * đứng đầu — vì chủ trị `đau…` khớp MỌI bài có từ "đau" (5.829 bài). Cùng dạng: `suy…`, `hóa…`,
+ * `tai…`, `phù…`, `ích…`, `có công hiệu cho nên…`. Đây là rác phân tách của dữ liệu di sản,
+ * 27/3.588 mục.
+ *
+ * ⚠️ Dấu chấm CUỐI thì KHÔNG phải cắt cụt: 168/3.588 mục kết thúc bằng `.` và chúng là bệnh thật
+ * (`ho.`, `lỵ .`). Bỏ chúng là bỏ bệnh; `khoaKhop` đã biến dấu câu thành ranh giới từ nên chúng
+ * vô hại. Phân biệt hai dạng này là chỗ dễ vu oan nhất ở đây.
+ */
+export function laChuTriCatCut(s: unknown): boolean {
+  const t = String(s ?? '').trim();
+  return !t || t.includes('…') || /\.\.\.$/.test(t);
+}
+
+/**
+ * KHOÁ KHỚP chủ trị ↔ `tac_dung`: GIỮ DẤU THANH, bọc ranh giới từ.
+ *
+ * ⚠️ Hai lỗi đã đo 06/10/2026 trên kho thật, và chúng là lý do hàm này tồn tại:
+ *
+ *   1. BỎ DẤU gây trùng. "Trĩ" → "tri" = "trị", mà "trị" có trong `tac_dung` của gần như mọi
+ *      bài ("Trị cảm mạo…"). Chủ trị "Trĩ" vì thế khớp **13.516/13.911 bài = 97% toàn kho**.
+ *      Giữ dấu đưa về **102**. Cùng bệnh: Lỵ 779→429, Chàm 57→19.
+ *   2. KHÔNG RANH GIỚI TỪ. "ho" khớp trong "hoàng", "kho", "nho" → **9.365** bài; ranh giới từ
+ *      đưa về **904**.
+ *
+ * ⚠️ Và đây là chỗ một phép sửa "hợp lý" sẽ làm hỏng: luật ≥2 từ của nhánh HUYỆT
+ * (`khopTenNhuCau`) KHÔNG áp được cho nhánh bài thuốc. Chỉ 56/3.588 chủ trị có một từ, nhưng
+ * chúng là bệnh THẬT — Lỵ (59 vị), Chàm (23), Trĩ (18), Bỏng, sởi, Zona. Cấm chúng là bỏ mất 56
+ * bệnh, và vẫn KHÔNG chữa được "Trĩ" vì lỗi nằm ở dấu thanh chứ không ở số từ.
+ *
+ * ⚠️ Chuỗi rỗng trả về "" chứ KHÔNG trả " ": " " là chuỗi con của mọi văn bản, nên một chủ trị
+ * rỗng sẽ kéo cả kho.
+ *
+ * Cái hàm này KHÔNG chữa được: chủ trị quá chung. "Phong" vẫn khớp 1.804 bài sau khi giữ dấu và
+ * bọc ranh giới, vì từ đó thật sự có trong `tac_dung` của ngần ấy bài ("khu phong", "trừ phong",
+ * "phong thấp"). Đó là việc nhìn bằng nghĩa, không phải việc của phép khớp.
+ */
+export function khoaKhop(s: unknown): string {
+  const t = String(s ?? '')
+    .toLowerCase()
+    // Mọi thứ không phải chữ/số thành khoảng trắng → dấu câu trở thành ranh giới từ.
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .trim();
+  return t ? ` ${t} ` : '';
+}
+
+/**
  * Tách `tac_dung` thành PHÁP TRỊ và CHỨNG TRẠNG.
  * "Lương huyết, chỉ huyết. Trị bên trên có nhiệt, chảy máu cam"
  *   → { phap: "Lương huyết, chỉ huyết", chung: "Trị bên trên có nhiệt, chảy máu cam" }
@@ -483,7 +532,9 @@ export class RadaHoSoService {
     const cum = new Map<number, { id: number; ten: string; slug: string; moTa: string | null; chuTri: { ten: string; khoa: string }[]; soVi: number }>();
     for (const r of dong) {
       const c = cum.get(r.id) ?? { id: r.id, ten: r.ten, slug: r.slug, moTa: r.mo_ta, chuTri: [], soVi: 0 };
-      c.chuTri.push({ ten: r.ten_chu_tri, khoa: boDau(r.ten_chu_tri) });
+      // Mẩu bị cắt cụt không tham gia khớp (xem `laChuTriCatCut`), nhưng VẪN hiện trong danh
+      // sách chủ trị của cụm — người đọc cần thấy cụm đang gom cái gì.
+      c.chuTri.push({ ten: r.ten_chu_tri, khoa: laChuTriCatCut(r.ten_chu_tri) ? '' : khoaKhop(r.ten_chu_tri) });
       c.soVi += soViTheoChuTri.get(r.chu_tri_id) ?? 0;
       cum.set(r.id, c);
     }
@@ -550,7 +601,8 @@ export class RadaHoSoService {
   private async khoTacDung(): Promise<string[]> {
     if (this.demKho && Date.now() - this.demKho.luc < RadaHoSoService.HAN_DEM_MS) return this.demKho.kho;
     const r: { tac_dung: string }[] = await this.dataSource.query(`SELECT tac_dung FROM phuong_thang WHERE tac_dung IS NOT NULL`);
-    const kho = r.map((x) => boDau(x.tac_dung));
+    // ⚠️ GIỮ DẤU (xem `khoaKhop`): bỏ dấu làm "Trĩ" khớp 97% kho vì nó thành "trị".
+    const kho = r.map((x) => khoaKhop(x.tac_dung));
     this.demKho = { luc: Date.now(), kho };
     return kho;
   }
@@ -738,7 +790,7 @@ export class RadaHoSoService {
     const banDoHuyet = await this.huyetTheoTen();
     // MỘT lượt dò cho mọi chủ trị. Quét thẳng tay là (số chủ trị × 13.911) phép so chuỗi —
     // xem ghi chú ở da-mau.util.ts, chính nó làm màn Khoảng trống chờ 10 giây.
-    const khoaChuTri = ct.map((r) => boDau(r.ten_chu_tri));
+    const khoaChuTri = ct.map((r) => (laChuTriCatCut(r.ten_chu_tri) ? '' : khoaKhop(r.ten_chu_tri)));
     const theoKhoa = new DoNhieuMau(khoaChuTri).theoMau(kho);
     const ds = ct
       .map((r, i) => {

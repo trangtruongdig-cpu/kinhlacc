@@ -1,4 +1,5 @@
 import { test } from "node:test";
+import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import { createPlugin, LICH_RADAR, GIO_UTC_CHAY } from "./plugin.mjs";
 import * as kho from "./kho.mjs";
@@ -1064,4 +1065,21 @@ test("HAI route phải cho CÙNG cờ cảnh báo với cùng đầu vào — lu
 	const vDoc = (v.viec ?? []).some((x) => x.id === "model-khong-doc");
 	assert.equal(vCaDem, !!tq.canhBaoCaDem, `tong-quan nói caDem=${tq.canhBaoCaDem} còn viec nói ${vCaDem}`);
 	assert.equal(vDoc, !!tq.canhBaoClaude, `tong-quan nói docTrang=${tq.canhBaoClaude} còn viec nói ${vDoc}`);
+});
+
+test("ca lò viết ĐÊM phải nhận đủ tham số như đường bấm tay — đường tự hành không được thiếu", () => {
+	// ⚠️ Lỗi thật: cron truyền 4 tham số, route bấm tay truyền 6. Hai thiếu là `thuHoi` (không có
+	// nó thì một lượt 503 của Google đẩy bài vào `can_xem`, cần người gỡ) và `ghiCa` (không có nó
+	// thì ca đêm không để lại dấu vết ở BẤT KỲ đâu — màn hình đọc `lo_viet:ca_gan_nhat` và thấy
+	// lần BẤM TAY gần nhất, mãi mãi).
+	//
+	// Phép kiểm đọc MÃ NGUỒN vì cả hai đường nằm trong closure của createPlugin() — cùng lối
+	// `quyen-route-ghi.spec.ts` đọc thư mục router từ đĩa. Neo vào ĐỐI XỨNG giữa hai đường, không
+	// neo vào `chayLoViet` (hàm đó đã có test riêng; lỗi nằm ở chỗ GỌI).
+	const src = readFileSync(new URL("./plugin.mjs", import.meta.url), "utf8");
+	// Cắt theo VỊ TRÍ chứ không bắt cặp ngoặc bằng regex — thân hai khối có ngoặc lồng nhau.
+	const khoi = [...src.matchAll(/chayLoViet\(\{/g)].map((m) => src.slice(m.index, m.index + 2000));
+	assert.equal(khoi.length, 2, `phải có đúng 2 đường gọi chayLoViet, thấy ${khoi.length}`);
+	for (const bat of ["ghiCa:", "thuHoi:", "layBai:", "nopMot:", "goiModel"])
+		for (const [i, k] of khoi.entries()) assert.ok(k.includes(bat), `đường gọi chayLoViet #${i + 1} thiếu \`${bat}\``);
 });

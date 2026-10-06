@@ -1,4 +1,4 @@
-import { khopTenNhuCau, boDau, tachTacDung, veCua, tyLeNguon, xepLoNguon, tomTatChu } from './rada-ho-so.controller';
+import { khopTenNhuCau, boDau, tachTacDung, veCua, tyLeNguon, xepLoNguon, tomTatChu, khoaKhop, laChuTriCatCut } from './rada-ho-so.controller';
 
 describe('rada-ho-so: tách pháp trị khỏi chứng trạng', () => {
   it('tách được câu y văn thường gặp', () => {
@@ -182,5 +182,58 @@ describe('rada-ho-so: trụ Nguồn — bất biến chống lỗi MẪU SỐ', 
     });
     expect(ds[0].ma).toBe('vi');
     expect(ds[ds.length - 1].ma).toBe('hong');
+  });
+});
+
+describe('rada-ho-so: khoá khớp chủ trị — GIỮ DẤU + ranh giới từ', () => {
+  it('GIỮ DẤU: "Trĩ" không được khớp chữ "trị"', () => {
+    // ⚠️ Lỗi đã đo 06/10/2026: bỏ dấu biến "Trĩ" thành "tri", mà "trị" có trong tac_dung của gần
+    // như mọi bài ("Trị cảm mạo…") → chủ trị "Trĩ" khớp 13.516/13.911 bài = 97% toàn kho. Giữ
+    // dấu đưa về 102 bài. Đây là lỗi NẶNG NHẤT của thước tháp.
+    const than = khoaKhop('Trị cảm mạo phong hàn, nhức đầu');
+    expect(than.includes(khoaKhop('Trĩ').trim())).toBe(false);
+    expect(khoaKhop('Chữa bệnh trĩ nội').includes(khoaKhop('Trĩ').trim())).toBe(true);
+  });
+
+  it('RANH GIỚI TỪ: "ho" không được khớp trong "hoàng", "kho"', () => {
+    // Đo thật: "ho" khớp chuỗi con 9.365 bài → ranh giới từ còn 904. Vu oan 90%.
+    const ho = khoaKhop('ho').trim();
+    expect(khoaKhop('Hoàng liên, kho dược').includes(` ${ho} `)).toBe(false);
+    expect(khoaKhop('Trị ho khan, viêm họng').includes(` ${ho} `)).toBe(true);
+  });
+
+  it('dấu câu thành ranh giới — "ho." và "ho," vẫn khớp', () => {
+    const ho = khoaKhop('ho').trim();
+    for (const cau of ['Trị ho.', 'Trị ho, suyễn', 'ho;đờm', '(ho)']) expect(khoaKhop(cau).includes(` ${ho} `)).toBe(true);
+  });
+
+  it('không phân biệt HOA/thường, và gộp khoảng trắng', () => {
+    expect(khoaKhop('  Chảy   MÁU  cam ')).toBe(' chảy máu cam ');
+  });
+
+  it('chuỗi rỗng/null không thành khoá khớp mọi thứ', () => {
+    // ⚠️ Nếu trả " " thì nó là chuỗi con của MỌI văn bản → một chủ trị rỗng kéo cả kho.
+    expect(khoaKhop('')).toBe('');
+    expect(khoaKhop(null)).toBe('');
+    expect(khoaKhop('   ')).toBe('');
+  });
+});
+
+describe('rada-ho-so: chủ trị BỊ CẮT CỤT không được tham gia khớp', () => {
+  it('mẩu có "…" là mẩu bị cắt, KHÔNG phải chủ trị', () => {
+    // ⚠️ Đo 06/10/2026: cụm "Phân loại y thư cổ và các chứng khác" có tháp 5.841 — gấp 3 cụm
+    // đứng đầu — vì chủ trị `đau…` khớp MỌI bài có từ "đau" (5.829 bài). Cùng dạng: `suy…`,
+    // `hóa…`, `tai…`, `phù…`, `ích…`. Đây là rác phân tách của dữ liệu di sản, 27/3.588 mục.
+    for (const x of ['đau…', 'suy…', 'hóa…', 'có công hiệu cho nên…']) expect(laChuTriCatCut(x)).toBe(true);
+  });
+
+  it('dấu chấm cuối KHÔNG phải cắt cụt — "ho." và "lỵ ." là bệnh thật', () => {
+    // 168/3.588 mục kết thúc bằng dấu chấm. Bỏ chúng là bỏ bệnh thật; `khoaKhop` đã biến dấu
+    // câu thành ranh giới từ nên chúng vô hại.
+    for (const x of ['ho.', 'lỵ .', 'Trĩ nội.', 'Chàm']) expect(laChuTriCatCut(x)).toBe(false);
+  });
+
+  it('chuỗi rỗng/null coi như cắt cụt — không được thành khoá khớp mọi thứ', () => {
+    for (const x of ['', '   ', null, undefined]) expect(laChuTriCatCut(x)).toBe(true);
   });
 });

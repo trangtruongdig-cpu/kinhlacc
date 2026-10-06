@@ -549,6 +549,26 @@ export function createPlugin() {
 								docTrang: taoDocTrang(fetchFn, { traLyDo: true }),
 								kiemDuong: taoKiemDuong(taoDocTrang(fetchFn, { hanGioMs: 10_000 }), { goc }),
 							}),
+						// ⚠️ HAI tham số dưới đây từng CHỈ có ở đường bấm tay — tức lỗi được vá đúng
+						// cho đường ÍT CẦN NÓ NHẤT (người bấm còn tự dùng nút "Thu hồi" được).
+						//
+						// `ghiCa`: route trả lời ngay khi ca bắt đầu, nên lý do thất bại (hết quota,
+						// model trả sai dạng) không bao giờ về tới màn hình nếu không lưu. Thiếu nó,
+						// `lo-viet-ca-gan-nhat` trả về lần BẤM TAY gần nhất mãi mãi — hoặc null, và
+						// màn hình nói "chưa chạy lần nào" trong khi bot viết bài mỗi đêm.
+						ghiCa: (ca) => ctx.kv.set("lo_viet:ca_gan_nhat", ca),
+						// `thuHoi`: lò viết chết vì lỗi phía NHÀ CUNG CẤP (Google 503 "high demand" —
+						// đo ba lượt liên tiếp 02/10/2026) thì `nopBai` chưa từng chạy, không ai trả
+						// kế hoạch về. Nó treo hết `GIO_GIU_CHO` = 36 giờ; đêm sau chưa quá hạn nên bị
+						// bỏ qua; đêm thứ ba thu hồi thì `soLanGiao >= 2` đẩy bài vào `can_xem` — chỉ
+						// người quản trị gỡ được. Tức HAI lượt 503 biến hàng đợi tự hành thành việc
+						// của người, vì một lý do chẳng liên quan tới nội dung bài.
+						thuHoi: async (id) => {
+							const k = await ctx.storage.ke_hoach.get(id);
+							if (!k || k.trangThai !== "dang_viet") return;
+							const { giuLuc: _bo, ...con } = k;
+							await ctx.storage.ke_hoach.put(id, { ...con, trangThai: "da_duyet" });
+						},
 					}).then(
 						(r) => ctx.log.info(`Rada SEO ca lò viết: ${r.daTao}/${r.soBai} bài${r.ghiChu.length ? ` — ${r.ghiChu.join(" | ")}` : ""}`),
 						(e) => ctx.log.error("Rada SEO ca lò viết hỏng", e),
