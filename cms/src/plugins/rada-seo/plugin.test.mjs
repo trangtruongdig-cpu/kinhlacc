@@ -1025,3 +1025,22 @@ test("mở màn hỏi kho ÍT lượt — đếm thật trên các route trong R
 	for (const r of ROUTE_MO_MAN) await p.routes[r].handler(ctx);
 	assert.ok(soLuot - sauLan1 < sauLan1, `lượt hai (${soLuot - sauLan1}) phải ít hơn lượt đầu (${sauLan1}) — đệm không ăn`);
 });
+
+test("nhận hướng BẮT BUỘC có trongSo 1..5 — màn Việc là chỗ duy nhất gọi route này từ UI", async () => {
+	// Vì sao có phép kiểm này: `kho.datHuong` đòi trongSo nguyên 1..5 khi nhận, và màn Việc (phần
+	// A) là chỗ ĐẦU TIÊN trong UI gọi `huong-dat` — trước đó hướng chỉ nhận được qua công cụ MCP.
+	// Lượt dựng đầu quên gửi trongSo nên nút "Nhận" báo lỗi đúng câu đó. Chốt lại để lần sau ai
+	// bỏ ô chọn mức ưu tiên đi thì gãy ở đây, không gãy trước mặt người dùng.
+	const p = createPlugin();
+	const ctx = taoCtx();
+	await kho.luuHuongMoi(ctx.storage, [{ ten: "Châm cứu dân văn phòng", diem: 80 }], new Date().toISOString());
+	const id = (await kho.dsHuong(ctx.storage))[0].id;
+
+	ctx.input = { id, trangThai: "da_nhan" };
+	await assert.rejects(() => p.routes["huong-dat"].handler(ctx), /trọng số nguyên 1\.\.5/);
+
+	ctx.input = { id, trangThai: "da_nhan", trongSo: 3 };
+	const r = await p.routes["huong-dat"].handler(ctx);
+	assert.equal(r.trangThai, "da_nhan");
+	assert.equal(r.trongSo, 3);
+});

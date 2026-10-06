@@ -375,6 +375,11 @@ const TAB_DICH = { mo_nhap: "nhap", xem_phieu: "leo-top", mo_bai_cu: "mang-nhen"
 
 function DongViec({ v, onGhi, onSangTab }) {
 	const [loi, setLoi] = useState("");
+	// ⚠️ `datHuong` đòi `trongSo` nguyên 1..5 khi nhận hướng (kho.mjs) — thiếu nó thì route trả
+	// "Nhận hướng cần trọng số nguyên 1..5". Mặc định 3 (giữa thang) để "bấm là xong" vẫn đúng:
+	// việc hay làm phải là mặc định, không thêm một bước bắt buộc cho nó.
+	const [trongSo, setTrongSo] = useState(3);
+	const laNhanHuong = v.loai === "nhan_huong";
 	return (
 		<li style={{ listStyle: "none", padding: "10px 0", borderTop: "1px solid #f3f4f6" }}>
 			<div style={{ display: "flex", alignItems: "baseline", gap: 10, flexWrap: "wrap" }}>
@@ -387,6 +392,18 @@ function DongViec({ v, onGhi, onSangTab }) {
 				)}
 				{v.hienThi > 0 && v.loai !== "nhan_huong" && <span style={{ fontSize: 12, color: "#6b7280" }}>{v.hienThi} lượt hiển thị đang chờ</span>}
 				<span style={{ flex: 1 }} />
+				{laNhanHuong && (
+					<label style={{ fontSize: 12, color: "#6b7280" }}>
+						Mức ưu tiên{" "}
+						<select value={trongSo} onChange={(e) => setTrongSo(Number(e.target.value))} style={{ font: "inherit", fontSize: 12 }}>
+							{[1, 2, 3, 4, 5].map((n) => (
+								<option key={n} value={n}>
+									{n}
+								</option>
+							))}
+						</select>
+					</label>
+				)}
 				{v.hanhDong.map((h) =>
 					HANH_DONG_GHI.has(h) ? (
 						<NutBan
@@ -396,7 +413,7 @@ function DongViec({ v, onGhi, onSangTab }) {
 							style={{ fontSize: 12, padding: "3px 10px" }}
 							onBam={() => {
 								setLoi("");
-								return onGhi(v, h).catch((e) => setLoi(loiCua(e)));
+								return onGhi(v, h, { trongSo }).catch((e) => setLoi(loiCua(e)));
 							}}
 						>
 							{NHAN_HANH_DONG[h]}
@@ -2679,13 +2696,21 @@ function RadaSeo() {
 					loi={vcLoi}
 					onTai={taiViec}
 					onSangTab={doiTab}
-					onGhi={(v, h) => {
+					onGhi={(v, h, them) => {
 						// Dòng rời hàng đợi CHỈ KHI máy chủ xác nhận — cố ý không optimistic update.
 						const roiHangDoi = () =>
 							setVcDl((d) => (d ? { ...d, viec: boDong(d.viec, v.khoa, "khoa"), tong: Math.max(0, (d.tong ?? 1) - 1) } : d));
 						const xong = (p) => p.then(roiHangDoi);
 						if (v.loai === "nhan_huong")
-							return xong(goi("huong-dat", h === "nhan" ? { id: v.id, trangThai: "da_nhan" } : { id: v.id, trangThai: "bo_qua", lyDoBo: "Người quản trị bỏ" }));
+							return xong(
+								goi(
+									"huong-dat",
+									h === "nhan"
+										? // trongSo BẮT BUỘC khi nhận (kho.datHuong đòi nguyên 1..5).
+											{ id: v.id, trangThai: "da_nhan", trongSo: them?.trongSo ?? 3 }
+										: { id: v.id, trangThai: "bo_qua", lyDoBo: "Người quản trị bỏ" },
+								),
+							);
 						if (v.loai === "duyet_ke_hoach")
 							return xong(goi("ke-hoach-dat", h === "duyet" ? { id: v.id, trangThai: "da_duyet" } : { id: v.id, trangThai: "bo_qua", lyDoBo: "Người quản trị bỏ" }));
 						if (v.loai === "lam_phieu_leo_top") return xong(goi("leo-top-da-sua", { id: v.id }));
