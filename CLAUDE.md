@@ -1173,6 +1173,54 @@ không có ảnh. ⚠️ Đo 02/10/2026: **cả 6 model ảnh của Google đề
 bật thanh toán. Đường lùi `viet/anh.mjs` (chọn theo alt thư viện) hiện cũng **không dùng được**:
 2.561 ảnh trong CMS đều có `alt` RỖNG.
 
+### Vòng NỀN — kho tri thức là trụ thứ BA, đứng trước hai vòng kia (06/10/2026)
+
+Rada SEO từng có hai vòng: **chiếm đất** (viết mới) và **giữ đất** (nâng cái đã có). Người dùng
+chỉ ra thiếu vòng thứ ba, và nó đứng TRƯỚC về nhân quả: **nền vững → tháp cao → chiếm được đất →
+giữ được đất**. Bốn trụ: Tháp · Nguồn · Semantic · Chữ.
+
+**`GET /rada/suc-khoe-nen`** (`rada-ho-so.router.ts`, `@Public`, CHỈ ĐỌC, đệm 10 phút, không nhận
+tham số). Plugin hỏi qua `RADA_SEO_API` như các route `/rada/*` khác.
+
+**Số đo thật 06/10/2026 — trụ Nguồn là lỗ lớn nhất của kho:**
+
+| Bộ | Dẫn được sách | Tổng | |
+|---|---|---|---|
+| Bài thuốc | 13.939 | 32.197 | 43,3% |
+| Huyệt | 433 | 1.053 | 41,1% |
+| **Vị thuốc** | **205** | **4.085** | **5,0%** |
+
+Semantic: 657 cụm · 14 chủ trị nằm ở nhiều cụm.
+
+⚠️ **Tên cột của ba bảng nối KHÔNG cùng quy ước** — đã đoán sai một lượt:
+`nguon_phuong_thang(nguon_id, phuong_thang_id)`, `nguon_vi_thuoc(nguon_id, vi_thuoc_id)`,
+`nguon_huyet(nguon_id, huyet_id)`, còn `nguon_benh_hoc` / `nguon_cham_cuu` / `nguon_kinh` khoá
+bằng **slug**. Khoá chính của `huyet_vi` là `id_huyet`, không phải `id`.
+
+**Bốn luật chịu lực:**
+
+- ⚠️ **`tong = 0` trả `pt: null`, KHÔNG trả 0.** "Chưa có mục nào trong bộ" và "có mục mà không
+  mục nào dẫn được nguồn" là hai chuyện khác hẳn; 0% trên màn thì người đọc không phân biệt được.
+- ⚠️ **Bộ chưa có mục nào xếp CUỐI**, dù tỉ lệ là 0. 0/0 là "chưa nạp dữ liệu", không phải "mỏng
+  nhất" — xếp lên đầu là cử người đi vá một bảng rỗng trong khi 4.085 vị thuốc thật đang thiếu.
+- ⚠️ **Chủ trị nằm ở HAI cụm là BÌNH THƯỜNG** ("Đau thần kinh tọa" thuộc cả cơ xương khớp lẫn
+  thần kinh). Con số 14 không phải lỗi, và **không được dựng phép dò tự động** — đã thử, bắn
+  38/62 cụm, phần lớn vu oan. Chỗ xếp nhầm phải nhìn bằng nghĩa.
+- ⚠️ **Khoang "Vá nền" tách HẲN khỏi hàng đợi SEO, trần 3 dòng.** Trụ Chữ một mình có 1.744 mục
+  hạng "hỏng"; trộn vào là nhấn chìm hàng đợi chính — đúng cái bẫy "65.321 lời phê chờ bạn duyệt".
+  "Tối đa 3" là trần HIỂN THỊ, không phải hạn ngạch theo ngày.
+
+**Hai thứ route này CỐ Ý không đo**, và nói thẳng trong `chuaDo` (im lặng ở đó đọc ra như "trụ
+đó đã sạch"): trụ **Chữ** (bot thẩm định, bảng `td_ho_so` ở kho `kinhlac_cms` — không join chéo)
+và tầng **Bệnh học / Châm cứu** của tháp (bộ CMS, đo ở phía plugin).
+
+⚠️ `laySucKhoeNen` dùng hạn giờ **5 giây**, khác mặc định: route này nằm trên đường MỞ MÀN của
+màn Việc, nên backend chết phải trả lỗi NHANH để hàng đợi việc vẫn hiện. Hỏng thì ghi `loiNen`
+và khoang nền nói "chưa hỏi được", KHÔNG để rỗng trơn.
+
+Nghiệm thu: `node cms/scripts-di-cu/nghiem-thu-hang-doi-viec.mjs` (chỉ đọc) in cả hàng đợi việc
+lẫn vòng nền.
+
 ### ⚠️ Sửa `admin.jsx` xong PHẢI build rồi grep GÓI ĐÃ BUILD (06/10/2026)
 
 `admin.jsx` là JSX và repo này **không có hạ tầng test cho nó**. Hệ quả: một lỗi làm trắng cả
