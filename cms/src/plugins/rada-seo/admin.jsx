@@ -4,6 +4,7 @@ import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import { toaDoNanHoa } from "./viet/mang-nhen-xem.mjs";
 import { ROUTE_MO_MAN, routeChoTab, TAI_LAI_KHI_SANG } from "./lib/tai-man.mjs";
 import { boDong, datDong } from "./lib/bo-dong.mjs";
+import { gomLoiCa } from "./lib/gom-loi-ca.mjs";
 
 async function goi(route, body) {
 	const res = await fetch(`/_emdash/api/plugins/rada-seo/${route}`, {
