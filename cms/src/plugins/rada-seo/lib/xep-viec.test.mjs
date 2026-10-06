@@ -390,3 +390,25 @@ test("vá nền: trụ CHỮ dự SẮP XẾP cùng các bộ nguồn, không b�
 	assert.match(r.vaNen[0].ten, /Vị thuốc/);
 	assert.match(r.vaNen[2].ten, /Bệnh học/);
 });
+
+test("route trả CẢ số liệu nền thô, không chỉ việc vá — màn Nền cần số để vẽ", () => {
+	// Khoang "Vá nền" trả lời "phải vá gì"; bảng bốn trụ trả lời "nền đang đứng đâu". Hai câu
+	// khác nhau, và người dùng chốt cả bốn trụ làm THƯỚC ĐO chứ không chỉ làm nguồn sinh việc.
+	const nen = {
+		nguon: [{ ma: "vi", ten: "Vị thuốc", co: 205, tong: 4085, pt: 5, chuaCoMuc: false }],
+		semantic: { soCum: 657, chuTriNhieuCum: 14 },
+		chu: { tong: 18416, tot: 188, tamDuoc: 13625, yeu: 2859, hong: 1744, canSua: 4603, ptCanSua: 25 },
+		chuaDo: [],
+	};
+	const r = xepHangDoi({ ...rong, nen });
+	assert.equal(r.nen?.semantic?.soCum, 657);
+	assert.equal(r.nen?.chu?.canSua, 4603);
+	assert.equal(r.nen?.nguon?.length, 1);
+});
+
+test("chưa hỏi được nền thì `nen` là null và lý do đi kèm — không trả object rỗng", () => {
+	// Object rỗng vẽ ra một bảng toàn số 0, đọc ra như "nền trống trơn" thay vì "chưa hỏi được".
+	const r = xepHangDoi({ ...rong, nen: null, loiNen: "ECONNREFUSED" });
+	assert.equal(r.nen, null);
+	assert.match(r.cauNen, /ECONNREFUSED/);
+});

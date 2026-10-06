@@ -182,7 +182,12 @@ export function xepHangDoi(vao) {
 	const theoLoai = {};
 	for (const x of ds) theoLoai[x.loai] = (theoLoai[x.loai] ?? 0) + 1;
 	const nen = khoangVaNen(v);
-	return { viec: ds, tong: ds.length, cauRong: ds.length ? "" : cauRong(v), theoLoai, demTab: demTheoTab(ds), vaNen: nen.ds, cauNen: nen.cau };
+	// `nen` thô đi kèm để màn Nền vẽ được BẢNG bốn trụ. Khoang `vaNen` trả lời "phải vá gì";
+	// bảng trả lời "nền đang đứng đâu" — hai câu khác nhau, và người dùng chốt cả bốn trụ làm
+	// THƯỚC ĐO chứ không chỉ làm nguồn sinh việc.
+	// ⚠️ Chưa hỏi được thì `null`, KHÔNG phải object rỗng: object rỗng vẽ ra bảng toàn số 0 và
+	// đọc ra như "nền trống trơn" thay vì "chưa hỏi được".
+	return { viec: ds, tong: ds.length, cauRong: ds.length ? "" : cauRong(v), theoLoai, demTab: demTheoTab(ds), vaNen: nen.ds, cauNen: nen.cau, nen: v.nen ?? null };
 }
 
 /**

@@ -19,7 +19,10 @@ test("mỗi tab khai đúng route của nó, và không khai lại route mở m�
 	assert.deepEqual(routeChoTab("radar"), ["tong-quan"]);
 	// Màn Việc sống bằng `viec`, đã có trong ROUTE_MO_MAN — khai lại là tải hai lần.
 	assert.deepEqual(routeChoTab("viec"), []);
-	for (const t of ["khoang-trong", "huong", "ke-hoach", "nhap", "leo-top", "mang-nhen", "radar", "viec"])
+	// Màn Nền vẽ từ dữ liệu route `viec` đã trả — thêm route riêng ở đây là thêm một lượt đi-về
+	// cho con số đã có trong tay.
+	assert.deepEqual(routeChoTab("nen"), []);
+	for (const t of ["khoang-trong", "huong", "ke-hoach", "nhap", "leo-top", "mang-nhen", "radar", "viec", "nen"])
 		for (const r of routeChoTab(t)) assert.ok(!ROUTE_MO_MAN.includes(r), `${t} khai lại route mở màn: ${r}`);
 });
 
@@ -34,4 +37,12 @@ test("Kế hoạch tải lại MỖI lần sang, các tab khác chỉ lần đ�
 	assert.ok(TAI_LAI_KHI_SANG.has("ke-hoach"));
 	assert.ok(!TAI_LAI_KHI_SANG.has("khoang-trong"));
 	assert.ok(!TAI_LAI_KHI_SANG.has("huong"));
+});
+
+test("tab `nen` phải có thật trong danh sách tab — nó là vòng ⓪ của thanh quy trình", () => {
+	// Vòng NỀN đứng ĐẦU vì hai vòng kia đứng TRÊN nó về nhân quả: nền vững → tháp cao → chiếm
+	// được đất → giữ được đất. Chốt này gãy nếu ai bỏ tab đi mà quên thanh quy trình, hoặc
+	// ngược lại — hai chỗ khai ở hai file khác nhau (`tai-man.mjs` và `admin.jsx`).
+	assert.deepEqual(routeChoTab("nen"), [], "màn Nền vẽ từ dữ liệu route `viec`, không có route riêng");
+	assert.ok(!TAI_LAI_KHI_SANG.has("nen"), "sang tab Nền không được tải lại: số đã có trong tay");
 });

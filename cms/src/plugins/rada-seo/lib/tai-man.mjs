@@ -24,6 +24,8 @@ export const ROUTE_MO_MAN = ["viec"];
  */
 const THEO_TAB = {
 	viec: [], // sống bằng `viec`, đã ở ROUTE_MO_MAN
+	// Màn Nền vẽ từ `nen` mà route `viec` đã trả — không có route riêng, không thêm lượt đi-về.
+	nen: [],
 	radar: ["tong-quan"],
 	"khoang-trong": ["khoang-trong-tong-quan"],
 	huong: ["cum-ngu-nghia"],

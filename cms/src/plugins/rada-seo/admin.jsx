@@ -170,6 +170,9 @@ function OTinhTrang({ ds }) {
  * không phải đoán từ cái tên.
  */
 const TABS = [
+	// ⓪ NỀN đứng ĐẦU vì hai vòng kia đứng TRÊN nó về nhân quả: nền vững → tháp cao → chiếm được
+	// đất → giữ được đất. Người dùng bổ sung vòng này 06/10/2026.
+	{ key: "nen", label: "Nền", so: 0, vong: "nen", moTa: "Kho tri thức" },
 	{ key: "radar", label: "Radar", so: 1, vong: "chiem", moTa: "Quét đối thủ" },
 	{ key: "khoang-trong", label: "Khoảng trống", so: 2, vong: "chiem", moTa: "Chỗ mình có tháp" },
 	{ key: "huong", label: "Hướng nội dung", so: 3, vong: "chiem", moTa: "Gom thành cụm" },
@@ -179,6 +182,7 @@ const TABS = [
 	{ key: "mang-nhen", label: "Mạng nhện", so: 7, vong: "giu", moTa: "Link cũ → mới" },
 ];
 const VONG = {
+	nen: { ten: "Nền — kho tri thức", mau: "#92400e", nen: "#fffbeb", vien: "#fde68a" },
 	chiem: { ten: "Chiếm đất — viết mới", mau: "#1d4ed8", nen: "#eff6ff", vien: "#bfdbfe" },
 	giu: { ten: "Giữ đất — nâng cái đã có", mau: "#15803d", nen: "#f0fdf4", vien: "#bbf7d0" },
 };
@@ -302,7 +306,7 @@ function ThanhQuyTrinh({ tab, dem, onChon }) {
 	const nhom = (v) => TABS.filter((t) => t.vong === v);
 	return (
 		<div style={{ margin: "0 0 16px" }}>
-			{["chiem", "giu"].map((v) => (
+			{["nen", "chiem", "giu"].map((v) => (
 				<div key={v} style={{ display: "flex", alignItems: "center", gap: 4, flexWrap: "wrap", marginBottom: 6 }}>
 					<span style={{ fontSize: 11, color: VONG[v].mau, fontWeight: 700, width: 128, flex: "0 0 auto" }}>{VONG[v].ten}</span>
 					{nhom(v).map((t, i) => (
@@ -471,6 +475,114 @@ function DongViec({ v, onGhi, onSangTab, onXong }) {
 			<div style={{ fontSize: 12, color: "#6b7280", marginTop: 2 }}>{v.viSao}</div>
 			{loi && <div style={{ fontSize: 12, color: "#b91c1c", marginTop: 2 }}>{loi}</div>}
 		</li>
+	);
+}
+
+/**
+ * MÀN NỀN — bốn trụ của kho tri thức, trả lời "nền đang đứng đâu".
+ *
+ * Khác khoang "Vá nền" ở màn Việc: khoang đó trả lời "phải vá gì" (3 dòng việc), màn này là
+ * THƯỚC ĐO. Người dùng chốt cả bốn trụ làm thước 06/10/2026.
+ *
+ * Vẽ từ `dl.nen` mà route `viec` đã trả — KHÔNG gọi route riêng, không thêm lượt đi-về nào.
+ */
+function ThanhTyLe({ pt }) {
+	// Thang màu theo mức ổn, không theo khẩu vị: dưới 30% là mỏng thật (vị thuốc 5%), trên 80%
+	// coi như đủ. Không vẽ gì khi `pt` là null — "chưa có mục nào" không có tỉ lệ để vẽ.
+	if (pt === null || pt === undefined) return <span style={{ fontSize: 12, color: "#9ca3af" }}>chưa có mục nào</span>;
+	const mau = pt < 30 ? "#b91c1c" : pt < 80 ? "#92400e" : "#15803d";
+	return (
+		<span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+			<span style={{ display: "inline-block", width: 120, height: 8, background: "#f3f4f6", borderRadius: 999, overflow: "hidden" }}>
+				<span style={{ display: "block", width: `${Math.min(100, Math.max(0, pt))}%`, height: "100%", background: mau }} />
+			</span>
+			<b style={{ color: mau, fontVariantNumeric: "tabular-nums" }}>{pt}%</b>
+		</span>
+	);
+}
+
+function NenTab({ dl, loi, onTai, onSangTab }) {
+	if (!dl) return loi ? <ChuaCoDuLieu loi={loi} /> : <ChoMotChut viec="Đang đọc sức khoẻ nền" />;
+	const nen = dl.nen;
+	return (
+		<div style={{ maxWidth: 980 }}>
+			<div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 8 }}>
+				<Nut onClick={onTai}>Tải lại</Nut>
+				<span style={{ color: "#666", fontSize: 13 }}>
+					Hai vòng kia (Chiếm đất, Giữ đất) đứng TRÊN kho này: nền mỏng thì mọi bài viết đứng trên nó cũng mỏng theo.
+				</span>
+			</div>
+
+			{/* ⚠️ Chưa hỏi được KHÁC HẲN nền trống. Nói ra lý do thay vì vẽ một bảng toàn số 0. */}
+			{!nen && (
+				<div style={{ border: "1px solid #fecaca", background: "#fef2f2", borderRadius: 8, padding: "10px 14px", color: "#b91c1c" }}>
+					{dl.cauNen || "Chưa hỏi được sức khoẻ nền."}
+				</div>
+			)}
+
+			{nen && (
+				<>
+					<div style={{ fontWeight: 700, fontSize: 14, margin: "14px 0 4px" }}>Trụ NGUỒN — mỗi mục có dẫn được về một cuốn sách không</div>
+					<div style={{ fontSize: 12, color: "#6b7280", marginBottom: 6 }}>
+						Đây là trụ E-E-A-T thật của site, và là thứ các cổng y tế tổng hợp không có. Mỏng nhất xếp trước.
+					</div>
+					<table style={{ borderCollapse: "collapse", fontSize: 13, width: "100%", maxWidth: 680 }}>
+						<tbody>
+							{(nen.nguon ?? []).map((b) => (
+								<tr key={b.ma}>
+									<td style={{ padding: "3px 12px 3px 0", whiteSpace: "nowrap" }}>{b.ten}</td>
+									<td style={{ padding: "3px 12px 3px 0", color: "#6b7280", fontVariantNumeric: "tabular-nums", whiteSpace: "nowrap" }}>
+										{b.co.toLocaleString("vi-VN")}/{b.tong.toLocaleString("vi-VN")}
+									</td>
+									<td style={{ padding: "3px 0" }}>
+										<ThanhTyLe pt={b.pt} />
+									</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+
+					<div style={{ fontWeight: 700, fontSize: 14, margin: "18px 0 4px" }}>Trụ CHỮ — bot thẩm định đã chấm cả kho</div>
+					{nen.chu ? (
+						<div style={{ fontSize: 13 }}>
+							<ThanhTyLe pt={nen.chu.ptCanSua === null ? null : 100 - nen.chu.ptCanSua} />{" "}
+							<span style={{ color: "#6b7280" }}>
+								đã ổn — còn <b style={{ color: "#b91c1c" }}>{nen.chu.canSua.toLocaleString("vi-VN")}</b> mục cần sửa trên{" "}
+								{nen.chu.tong.toLocaleString("vi-VN")} (hỏng {nen.chu.hong.toLocaleString("vi-VN")} · yếu {nen.chu.yeu.toLocaleString("vi-VN")} · tốt{" "}
+								{nen.chu.tot.toLocaleString("vi-VN")})
+							</span>
+							<div style={{ fontSize: 12, color: "#9ca3af", marginTop: 2 }}>
+								Hạng “tạm được” ({nen.chu.tamDuoc.toLocaleString("vi-VN")} mục) KHÔNG tính là việc — gọi ngần ấy là việc thì bảng thành vô nghĩa.
+							</div>
+						</div>
+					) : (
+						<div style={{ fontSize: 13, color: "#92400e" }}>Chưa hỏi được bảng thẩm định (cần CMS_DB_* trong backend/.env). Đây KHÔNG phải “kho đã sạch”.</div>
+					)}
+
+					<div style={{ fontWeight: 700, fontSize: 14, margin: "18px 0 4px" }}>Trụ SEMANTIC — cụm ngữ nghĩa</div>
+					<div style={{ fontSize: 13 }}>
+						{nen.semantic?.soCum?.toLocaleString("vi-VN")} cụm ·{" "}
+						<b>{nen.semantic?.chuTriNhieuCum}</b> chủ trị nằm ở nhiều cụm
+						<div style={{ fontSize: 12, color: "#9ca3af", marginTop: 2 }}>
+							⚠️ Nằm ở HAI cụm là BÌNH THƯỜNG (“Đau thần kinh tọa” thuộc cả cơ xương khớp lẫn thần kinh) — con số này
+							không phải lỗi. Chỗ xếp nhầm phải nhìn bằng nghĩa; phép dò tự động đã thử và bắn 38/62 cụm, phần lớn vu oan.
+						</div>
+					</div>
+
+					{(nen.chuaDo ?? []).length > 0 && (
+						<div style={{ marginTop: 16, fontSize: 12, color: "#92400e" }}>
+							{nen.chuaDo.map((x, i) => (
+								<div key={i}>⚠️ {x}</div>
+							))}
+						</div>
+					)}
+
+					<div style={{ marginTop: 18 }}>
+						<Nut onClick={() => onSangTab("viec")}>Xem việc vá nền ở màn Việc →</Nut>
+					</div>
+				</>
+			)}
+		</div>
 	);
 }
 
@@ -2860,6 +2972,8 @@ function RadaSeo() {
 					}}
 				/>
 			)}
+
+			{tab === "nen" && <NenTab dl={vcDl} loi={vcLoi} onTai={taiViec} onSangTab={doiTab} />}
 
 			{tab === "huong" && <CumNguNghiaTab dl={cnDl} loi={cnLoi} onTai={taiCN} onSangTab={doiTab} />}
 
