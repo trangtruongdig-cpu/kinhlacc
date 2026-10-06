@@ -753,3 +753,27 @@ test("layUrlCho xếp trang ĐÚNG NGÁCH lên trước rồi mới cắt — kh
 	assert.equal(het.length, 4);
 	assert.equal(het.at(-1).url.split("/").pop(), "tuyen-dung");
 });
+
+test("datKeHoach và datHuong ghi MỐC `datLuc` — không có mốc thì không đếm được việc đã làm", async () => {
+	// Vì sao: màn Việc muốn nói "tuần này bạn làm 14 việc", mà `{ ...cu, trangThai }` không để lại
+	// dấu vết thời gian nào. Ghi MỐC, không ghi AI — `ctx` của plugin EmDash không mang thông tin
+	// người dùng (đã kiểm 06/10/2026), nên câu phải là "tuần này 14 việc", không phải "bạn làm".
+	const s = taoKhoGia();
+	const luc = "2026-10-06T10:00:00.000Z";
+
+	await kho.luuHuongMoi(s, [{ ten: "H", diem: 9 }], luc);
+	const hId = (await kho.dsHuong(s))[0].id;
+	const h = await kho.datHuong(s, hId, { trangThai: "da_nhan", trongSo: 3 }, { now: luc });
+	assert.equal(h.datLuc, luc);
+
+	await kho.themKeHoach(s, [{ cumId: "c1", tieuDeLamViec: "Bài A" }], luc);
+	const kId = (await kho.dsKeHoach(s))[0].id;
+	const k = await kho.datKeHoach(s, kId, { trangThai: "bo_qua", lyDoBo: "thử" }, { now: luc });
+	assert.equal(k.datLuc, luc);
+
+	// Không truyền `now` thì tự lấy giờ hiện tại, dạng ISO (EmDash dùng TEXT + toISOString khắp
+	// nơi). Dùng `bo_qua` chứ không `da_duyet`: duyệt bài đòi hướng của nó đã được nhận, và bài
+	// thử này không thuộc hướng nào — luật đó đúng, phép kiểm không được lách qua.
+	const k2 = await kho.datKeHoach(s, kId, { trangThai: "bo_qua", lyDoBo: "thử lần hai" });
+	assert.match(k2.datLuc, /^\d{4}-\d{2}-\d{2}T[\d:.]+Z$/);
+});

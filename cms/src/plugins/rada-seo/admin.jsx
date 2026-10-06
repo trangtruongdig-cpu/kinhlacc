@@ -373,7 +373,7 @@ const HANH_DONG_GHI = new Set(["nhan", "bo", "duyet", "da_sua"]);
 /** Việc loại nào thì nút điều hướng dẫn sang tab nào. */
 const TAB_DICH = { mo_nhap: "nhap", xem_phieu: "leo-top", mo_bai_cu: "mang-nhen", do: "leo-top" };
 
-function DongViec({ v, onGhi, onSangTab }) {
+function DongViec({ v, onGhi, onSangTab, onXong }) {
 	const [loi, setLoi] = useState("");
 	// ⚠️ `datHuong` đòi `trongSo` nguyên 1..5 khi nhận hướng (kho.mjs) — thiếu nó thì route trả
 	// "Nhận hướng cần trọng số nguyên 1..5". Mặc định 3 (giữa thang) để "bấm là xong" vẫn đúng:
@@ -413,13 +413,24 @@ function DongViec({ v, onGhi, onSangTab }) {
 							style={{ fontSize: 12, padding: "3px 10px" }}
 							onBam={() => {
 								setLoi("");
-								return onGhi(v, h, { trongSo }).catch((e) => setLoi(loiCua(e)));
+								return onGhi(v, h, { trongSo })
+									.then(() => onXong?.(v.heQua ?? ""))
+									.catch((e) => setLoi(loiCua(e)));
 							}}
 						>
 							{NHAN_HANH_DONG[h]}
 						</NutBan>
 					) : (
-						<Nut key={h} onClick={() => onSangTab(TAB_DICH[h] ?? "radar")} style={{ fontSize: 12, padding: "3px 10px" }}>
+						<Nut
+							key={h}
+							onClick={() => {
+								// Nút điều hướng cũng nói hệ quả: người bấm "Mở để duyệt" cần biết ở đó
+								// phải làm gì, không chỉ bị đẩy sang một tab khác.
+								onXong?.(v.heQua ?? "");
+								onSangTab(TAB_DICH[h] ?? "radar");
+							}}
+							style={{ fontSize: 12, padding: "3px 10px" }}
+						>
 							{NHAN_HANH_DONG[h]}
 						</Nut>
 					),
@@ -433,6 +444,9 @@ function DongViec({ v, onGhi, onSangTab }) {
 }
 
 function ManViecTab({ dl, loi, onTai, onSangTab, onGhi }) {
+	// Câu HỆ QUẢ của cú bấm vừa rồi. Dòng đã rời hàng đợi nên câu này hiện ở đầu màn — nó trả lời
+	// "tôi vừa khởi động cái gì, bao giờ thấy kết quả", thay cho một chữ "Đã lưu".
+	const [heQua, setHeQua] = useState("");
 	if (!dl) return loi ? <ChuaCoDuLieu loi={loi} /> : <ChoMotChut viec="Đang gom việc đang chờ bạn" />;
 	const ds = dl.viec ?? [];
 	return (
@@ -444,6 +458,19 @@ function ManViecTab({ dl, loi, onTai, onSangTab, onGhi }) {
 					{dl.tuDem && " (số lấy từ bản đệm 60 giây)"}
 				</span>
 			</div>
+			{heQua && (
+				<div style={{ border: "1px solid #bbf7d0", background: "#f0fdf4", borderRadius: 8, padding: "8px 12px", marginBottom: 10, fontSize: 13, maxWidth: 860 }}>
+					✓ {heQua}
+				</div>
+			)}
+			{/* Sổ việc đã làm. ⚠️ "Tuần này", KHÔNG phải "bạn làm": ctx của plugin không mang thông
+			    tin người dùng nên sổ chỉ biết MỐC, không biết AI. */}
+			{dl.tuan && (
+				<div style={{ fontSize: 13, color: "#374151", marginBottom: 10 }}>
+					{dl.tuan.cau}
+					{dl.tuan.tong > 0 && <span style={{ color: "#9ca3af" }}> Sổ tính từ {dl.tuan.tuNgayCoMoc}.</span>}
+				</div>
+			)}
 			{/* ⚠️ Rỗng phải nói VÌ SAO rỗng: "hết việc", "chưa dò" và "chưa hỏi được kho" là ba
 			    chuyện khác hẳn nhau, và rỗng trơn thì cả ba đọc ra như "không có việc". */}
 			{ds.length === 0 && dl.cauRong && (
@@ -451,9 +478,47 @@ function ManViecTab({ dl, loi, onTai, onSangTab, onGhi }) {
 			)}
 			<ul style={{ margin: 0, padding: 0, maxWidth: 980 }}>
 				{ds.map((v) => (
-					<DongViec key={`${v.loai}|${v.id}`} v={v} onGhi={onGhi} onSangTab={onSangTab} />
+					<DongViec key={v.khoa} v={v} onGhi={onGhi} onSangTab={onSangTab} onXong={setHeQua} />
 				))}
 			</ul>
+			{/* VÒNG HỌC — loại sửa nào hay đi cùng việc lên hạng. ⚠️ Ghi chú đồng-xuất-hiện do máy
+			    chủ tính kèm và LUÔN in: một phiếu mang nhiều loại sửa cùng lúc, người quản trị sửa
+			    cả gói rồi mới bấm, nên không quy công cho loại nào được. */}
+			{dl.vongHoc?.bang?.length > 0 && (
+				<div style={{ marginTop: 18, maxWidth: 860 }}>
+					<div style={{ fontWeight: 600, fontSize: 14, marginBottom: 4 }}>Sửa xong có lên hạng không</div>
+					<table style={{ borderCollapse: "collapse", fontSize: 13 }}>
+						<thead>
+							<tr style={{ textAlign: "left", color: "#6b7280" }}>
+								<th style={{ padding: "2px 10px 2px 0" }}>Loại sửa</th>
+								<th style={{ padding: "2px 10px 2px 0" }}>Phiên</th>
+								<th style={{ padding: "2px 10px 2px 0" }}>Lên</th>
+								<th style={{ padding: "2px 10px 2px 0" }}>Yên</th>
+								<th style={{ padding: "2px 10px 2px 0" }}>Tụt</th>
+							</tr>
+						</thead>
+						<tbody>
+							{dl.vongHoc.bang.map((x) => (
+								// Dưới 5 phiên thì MỜ: 1/1 = 100% chẳng nói gì.
+								<tr key={x.ma} style={{ opacity: x.duKetLuan ? 1 : 0.45 }}>
+									<td style={{ padding: "2px 10px 2px 0" }}>{x.ten}</td>
+									<td style={{ padding: "2px 10px 2px 0" }}>{x.soPhien}</td>
+									<td style={{ padding: "2px 10px 2px 0" }}>{x.len}</td>
+									<td style={{ padding: "2px 10px 2px 0" }}>{x.yen}</td>
+									<td style={{ padding: "2px 10px 2px 0" }}>{x.tut}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+					{/* ⚠️ `ghiChu` là MẢNG chuỗi (xem vong-hoc.mjs), không phải một chuỗi — render thẳng
+					    thì các câu nối liền không khoảng cách. */}
+					{(dl.vongHoc.ghiChu ?? []).map((g, i) => (
+						<div key={i} style={{ fontSize: 12, color: "#92400e", marginTop: 4 }}>
+							⚠️ {g}
+						</div>
+					))}
+				</div>
+			)}
 		</div>
 	);
 }

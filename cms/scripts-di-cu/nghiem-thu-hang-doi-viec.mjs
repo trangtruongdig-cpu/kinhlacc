@@ -13,7 +13,8 @@
 import { Kysely, PostgresDialect } from "kysely";
 import pg from "pg";
 import { PluginStorageRepository } from "emdash";
-import { xepHangDoi } from "../src/plugins/rada-seo/lib/xep-viec.mjs";
+import { xepHangDoi, tomTatTuan } from "../src/plugins/rada-seo/lib/xep-viec.mjs";
+import { tongHopLoaiSua } from "../src/plugins/rada-seo/leo-top/vong-hoc.mjs";
 import * as kho from "../src/plugins/rada-seo/kho.mjs";
 import { KHAI_BAO_KHO } from "../src/plugins/rada-seo/kho.mjs";
 
@@ -67,6 +68,12 @@ try {
 		if (r.tong > 12) console.log(`  … và ${r.tong - 12} việc nữa`);
 		console.log(`  huy hiệu theo tab: ${JSON.stringify(r.demTab)}`);
 	}
+
+	const tuan = tomTatTuan(vao);
+	console.log(`\nSỔ VIỆC TUẦN: ${tuan.cau}`);
+	const vh = tongHopLoaiSua(vao.leoTop);
+	console.log(`VÒNG HỌC: ${vh.bang.length} loại sửa có số đo · ${vh.soPhienDoDuoc} phiên đo được · ${vh.soPhienChuaDu} phiên chưa đủ`);
+	for (const g of vh.ghiChu ?? []) console.log(`  ⚠️ ${g}`);
 } finally {
 	await db.destroy();
 }

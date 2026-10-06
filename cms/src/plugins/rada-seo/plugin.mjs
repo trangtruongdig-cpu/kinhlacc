@@ -37,7 +37,7 @@ import { tuDocTrang } from "./ai/tu-doc-trang.mjs";
 import { tuLapChienLuoc } from "./ai/tu-lap-chien-luoc.mjs";
 import { chayLoViet } from "./ai/tu-viet-bai.mjs";
 import { tongHopLoaiSua } from "./leo-top/vong-hoc.mjs";
-import { xepHangDoi } from "./lib/xep-viec.mjs";
+import { xepHangDoi, tomTatTuan } from "./lib/xep-viec.mjs";
 import { gomCau } from "./leo-top/y-dinh.mjs";
 import { phieuSuaNho, xepPhieu, VIEC as VIEC_SUA_NHO } from "./leo-top/so-ho-ai.mjs";
 import { boDau as boDauCum } from "./luat/chuan-hoa.mjs";
@@ -1460,6 +1460,13 @@ export function createPlugin() {
 					const sn = await ctx.kv.get(KHOA_SUA_NHO).catch(() => null);
 					vao.suaNho = sn && Date.now() - sn.luc < HAN_GSC_TRANG_MS ? sn : null;
 					const kq = xepHangDoi(vao);
+					// Hiệu quả thấy được (phần C): sổ việc đã làm trong 7 ngày, và vòng học — loại
+					// sửa nào hay ĐI CÙNG việc lên hạng. Cả hai tính từ dữ liệu ĐÃ đọc ở trên, không
+					// thêm lượt đi-về nào.
+					kq.tuan = tomTatTuan(vao);
+					// ⚠️ `tongHopLoaiSua` tự mang ghi chú "đồng xuất hiện, KHÔNG phải nhân quả" và tự
+					// mờ hàng dưới 5 phiên. Đừng bóc ghi chú ra khỏi nó.
+					kq.vongHoc = tongHopLoaiSua(vao.leoTop);
 					await ctx.kv.set(KHOA_VIEC, { luc: Date.now(), kq }).catch(() => {});
 					return kq;
 				},

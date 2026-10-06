@@ -23,54 +23,63 @@ export const LOAI_VIEC = {
 		nhan: "Nhận hướng",
 		hanhDong: ["nhan", "bo"],
 		viSao: "Bot đang đứng chờ — chưa nhận hướng thì khâu phân cụm, lập bài và lò viết nằm im cả tuần.",
+		heQua: "Đã nhận hướng → ca radar 02:30 đêm nay sẽ phân cụm nghĩa cho nó, sáng mai tab Kế hoạch có bài dự kiến.",
 	},
 	duyet_nhap: {
 		bac: 2,
 		nhan: "Duyệt nháp",
 		hanhDong: ["mo_nhap"],
 		viSao: "Model đã viết xong và đã tốn tiền gọi API. Chưa duyệt thì khoản đó nằm im, không ai đọc được bài.",
+		heQua: "Mở ở khu quản trị bài viết: đọc, sửa nếu cần, rồi bấm Publish. Bài lên là mạng nhện tự dò link ngược.",
 	},
 	duyet_ke_hoach: {
 		bac: 3,
 		nhan: "Duyệt bài dự kiến",
 		hanhDong: ["duyet", "bo"],
 		viSao: "Duyệt rồi thì ca lò viết 03:30 mới viết bài này; chưa duyệt thì nó không vào hàng.",
+		heQua: "Đã duyệt → lò viết 03:30 sẽ viết bài này, sáng mai có nháp chờ bạn đọc.",
 	},
 	them_faq: {
 		bac: 4,
 		nhan: "Thêm 1 dòng FAQ",
 		hanhDong: ["xem_phieu", "da_sua"],
 		viSao: "Thân bài ĐÃ trả lời câu này, chỉ thiếu một dòng FAQ bằng đúng chữ người ta gõ. Việc hai phút.",
+		heQua: "Đã ghi mốc hạng hôm nay. Bản vá FAQ tự vào ở lần build sau; hạng đo lại sau 7 · 14 · 28 ngày.",
 	},
 	them_tieu_de: {
 		bac: 5,
 		nhan: "Thêm tiêu đề mục",
 		hanhDong: ["xem_phieu", "da_sua"],
 		viSao: "Mọi từ của truy vấn đều có trong bài, chỉ khác diễn đạt nên máy không nhặt ra được.",
+		heQua: "Đã ghi mốc hạng hôm nay. Sửa tiêu đề mục trong CMS rồi build; hạng đo lại sau 7 · 14 · 28 ngày.",
 	},
 	lam_phieu_leo_top: {
 		bac: 6,
 		nhan: "Làm theo phiếu leo top",
 		hanhDong: ["xem_phieu", "da_sua"],
 		viSao: "Ca soi SERP đã dựng phiếu sơ hở cho trang này — sửa rồi bấm Đã sửa để chụp mốc hạng mà so sau.",
+		heQua: "Đã chụp mốc hạng trước khi sửa — không có mốc này thì câu “sửa xong có lên hạng không” vĩnh viễn không trả lời được.",
 	},
 	mang_nhen_co_neo: {
 		bac: 7,
 		nhan: "Chèn link sang bài này (có neo sẵn)",
 		hanhDong: ["mo_bai_cu"],
 		viSao: "Một bài cũ đã có sẵn cụm để bọc thành link trỏ sang bài này — chỉ cần bọc, không phải viết thêm.",
+		heQua: "Mở bài cũ, bọc cụm đã có sẵn thành link. Plugin KHÔNG tự chèn: sửa thân bài đã đăng là đổi nội dung người đọc đang xem.",
 	},
 	mang_nhen_can_viet: {
 		bac: 8,
 		nhan: "Chèn link sang bài này (phải viết thêm câu)",
 		hanhDong: ["mo_bai_cu"],
 		viSao: "Bài cũ không có cụm nào khớp để bọc, nên phải viết thêm một câu rồi mới chèn được link sang bài này. Việc đắt hơn.",
+		heQua: "Mở bài cũ, viết thêm một câu rồi bọc link. Plugin KHÔNG tự chèn vào bài đã đăng.",
 	},
 	thieu_noi_dung: {
 		bac: 9,
 		nhan: "Viết thêm nội dung",
 		hanhDong: ["xem_phieu"],
 		viSao: "Trang thật sự không trả lời câu này — đây mới là việc viết, nên nó xếp cuối hàng đợi.",
+		heQua: "Xem phiếu để biết truy vấn nào đang không được trả lời, rồi viết thêm mục cho trang đó.",
 	},
 	do_so_ho: {
 		bac: 10,
@@ -211,4 +220,48 @@ function cauRong(v) {
 	if (v.suaNho === null || v.suaNho === undefined)
 		return "Chưa dò sơ hở AI lần nào, nên phần việc rẻ nhất (thêm một dòng FAQ) chưa được tính. Bấm Dò sơ hở để biết.";
 	return "Không có việc nào chờ bạn. Ca đêm vẫn chạy: 02:30 quét đối thủ, 03:30 lò viết, 04:00 tự sửa lỗi hình thức.";
+}
+
+/**
+ * Ngày `datLuc` bắt đầu được ghi. Việc làm TRƯỚC đó không có mốc nên không bao giờ vào sổ — tuần
+ * đầu sổ ghi số thấp GIẢ, và màn hình phải nói ra điều đó. Cùng cái bẫy tab Mạng nhện đã cắn:
+ * rỗng vì chưa ai dò, mà đọc ra như "chưa có việc".
+ */
+export const TU_NGAY_CO_MOC = "06/10/2026";
+
+const trong = (iso, tuLuc) => {
+	const t = Date.parse(iso);
+	return Number.isFinite(t) && t >= tuLuc;
+};
+
+/**
+ * SỔ VIỆC ĐÃ LÀM trong `soNgay` ngày gần nhất.
+ *
+ * ⚠️ Chỉ đếm được MỐC, không biết AI: `ctx` của plugin EmDash không mang thông tin người dùng
+ * (đã kiểm 06/10/2026). Nên câu là "tuần này 14 việc", KHÔNG phải "bạn làm 14 việc" — câu thứ
+ * hai là lời hứa dữ liệu không đỡ được. Có phép kiểm cấm chữ đó.
+ *
+ * @returns {{tong: number, huong: number, keHoach: number, trangDaSua: number, cau: string, tuNgayCoMoc: string}}
+ */
+export function tomTatTuan(vao, { now = Date.now(), soNgay = 7 } = {}) {
+	const v = vao ?? {};
+	const tuLuc = now - soNgay * 86400000;
+	const huong = mang(v.huong).filter((h) => trong(h?.datLuc, tuLuc)).length;
+	const keHoach = mang(v.keHoach).filter((k) => trong(k?.datLuc, tuLuc)).length;
+	// Phiên leo top ghi `ngaySua` dạng "YYYY-MM-DD" (giờ VN) chứ không phải ISO đầy đủ —
+	// Date.parse đọc được cả hai, nhưng đừng đổi nó sang ISO ở đây: cột đó là NGÀY người sửa
+	// khai, và `datDaSua` xoá `doLai` khi ngày đổi.
+	const trangDaSua = mang(v.leoTop).filter((p) => trong(p?.ngaySua, tuLuc)).length;
+	const tong = huong + keHoach + trangDaSua;
+	const phan = [huong && `${huong} hướng đã quyết`, keHoach && `${keHoach} bài đã duyệt/bỏ`, trangDaSua && `${trangDaSua} trang đã sửa`].filter(Boolean);
+	return {
+		tong,
+		huong,
+		keHoach,
+		trangDaSua,
+		tuNgayCoMoc: TU_NGAY_CO_MOC,
+		cau: tong
+			? `Tuần này: ${tong} việc — ${phan.join(" · ")}.`
+			: `Tuần này chưa có việc nào được ghi mốc. Sổ chỉ tính từ ${TU_NGAY_CO_MOC}, nên việc làm trước đó không vào sổ.`,
+	};
 }

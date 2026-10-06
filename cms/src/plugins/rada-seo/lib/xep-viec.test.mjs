@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { xepHangDoi, LOAI_VIEC } from "./xep-viec.mjs";
+import { xepHangDoi, LOAI_VIEC, tomTatTuan } from "./xep-viec.mjs";
 
 // `rong` = ĐÃ DÒ sơ hở nhưng không có việc nào. KHÁC với "chưa dò" (`suaNho: null`), thứ có test
 // riêng bên dưới — gộp hai trạng thái này là đúng cái bẫy tab Mạng nhện đã cắn.
@@ -218,4 +218,58 @@ test("mạng nhện: dòng việc nói tên bài MỚI (thứ biết được), 
 test("mạng nhện: thiếu `tieuDe` thì nói THẲNG là chưa tra ra, không bịa", () => {
 	const r = xepHangDoi({ ...rong, goiYNguoc: [{ id: "01CU", data: { ds: [{ slug: "01MOI", canVietThem: true }] } }] });
 	assert.match(r.viec[0].ten, /chưa tra ra/i);
+});
+
+test("sổ việc tuần đếm theo MỐC, và nói rõ mốc chỉ có từ ngày cài", () => {
+	// ⚠️ Giới hạn không tránh được: `datLuc` chỉ ghi từ 06/10/2026, nên việc làm trước đó không
+	// bao giờ vào sổ — tuần đầu dòng này ghi số thấp GIẢ. Phải nói ra, đúng cái bẫy tab Mạng nhện
+	// đã cắn (rỗng vì chưa ai dò, mà đọc ra như "không có việc").
+	const now = Date.parse("2026-10-10T09:00:00.000Z");
+	const d = (n) => new Date(now - n * 86400000).toISOString();
+	const r = tomTatTuan(
+		{
+			huong: [{ id: "h1", datLuc: d(2) }, { id: "h2", datLuc: d(9) }, { id: "h3" }],
+			keHoach: [{ id: "k1", datLuc: d(1) }, { id: "k2", datLuc: d(3) }, { id: "k3", datLuc: d(20) }],
+			leoTop: [{ id: "p1", ngaySua: "2026-10-08" }, { id: "p2", ngaySua: "2026-09-01" }],
+		},
+		{ now },
+	);
+	assert.equal(r.huong, 1, "hướng quyết trong 7 ngày");
+	assert.equal(r.keHoach, 2, "bài duyệt/bỏ trong 7 ngày");
+	assert.equal(r.trangDaSua, 1);
+	assert.equal(r.tong, 4);
+	assert.ok(r.tuNgayCoMoc, "phải nói mốc chỉ có từ ngày nào");
+	assert.match(r.cau, /tuần này/i);
+	// KHÔNG nói "bạn làm": ctx của plugin không mang thông tin người dùng, nên sổ không biết ai.
+	assert.equal(/bạn làm|anh làm/i.test(r.cau), false);
+});
+
+test("sổ việc tuần: chưa có việc nào có mốc thì nói THẲNG là chưa có mốc, không nói 0 việc", () => {
+	const r = tomTatTuan({ huong: [{ id: "h1" }], keHoach: [{ id: "k1" }], leoTop: [] }, { now: Date.parse("2026-10-10T00:00:00Z") });
+	assert.equal(r.tong, 0);
+	assert.match(r.cau, /chưa có việc nào/i);
+	assert.match(r.cau, /mốc/i, "phải nói ra là vì chưa ghi mốc, không phải vì chưa làm gì");
+});
+
+test("sổ việc tuần chịu được dữ liệu thiếu", () => {
+	assert.equal(tomTatTuan({}, {}).tong, 0);
+	assert.equal(tomTatTuan(undefined, undefined).tong, 0);
+	assert.equal(tomTatTuan({ keHoach: [{ datLuc: "không-phải-ngày" }] }, { now: Date.now() }).tong, 0);
+});
+
+test("mỗi loại việc nói ra HỆ QUẢ của cú bấm, không phải 'Đã lưu'", () => {
+	// "Đã lưu" không nói được điều gì. Người bấm cần biết việc vừa làm khởi động cái gì và khi
+	// nào thấy kết quả — đó là nửa còn lại của việc chữa "không hiểu nó đang làm gì".
+	for (const [k, v] of Object.entries(LOAI_VIEC)) {
+		if (k === "do_so_ho") continue; // chỉ điều hướng, không ghi gì
+		assert.ok(v.heQua?.length > 15, `${k} thiếu câu hệ quả`);
+		assert.equal(/đã lưu|thành công/i.test(v.heQua), false, `${k}: câu hệ quả không được là "đã lưu"`);
+	}
+});
+
+test("câu hệ quả của việc chặn dây chuyền phải nêu CA NÀO sẽ chạy tiếp", () => {
+	// Nhận hướng xong thì ca 02:30 phân cụm; duyệt bài xong thì lò viết 03:30 viết. Không nói giờ
+	// thì người bấm không biết bao giờ quay lại xem.
+	assert.match(LOAI_VIEC.nhan_huong.heQua, /02:30/);
+	assert.match(LOAI_VIEC.duyet_ke_hoach.heQua, /03:30/);
 });

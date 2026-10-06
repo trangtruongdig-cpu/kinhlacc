@@ -443,7 +443,14 @@ export async function luuHuongMoi(s, ds, now, { nghi } = {}) {
 }
 
 /** Người quản trị đặt trạng thái hướng. Nhận phải kèm trọng số 1..5; bỏ phải kèm lý do (Claude đọc lại). */
-export async function datHuong(s, id, { trangThai, trongSo, lyDoBo } = {}) {
+/**
+ * ⚠️ Ghi MỐC `datLuc`, không ghi AI. `ctx` của plugin EmDash không mang thông tin người dùng (đã
+ * kiểm 06/10/2026), nên sổ việc ở màn Việc nói "tuần này 14 việc", KHÔNG nói "bạn làm 14 việc" —
+ * câu thứ hai là lời hứa dữ liệu không đỡ được.
+ *
+ * `now` khai được để phép kiểm neo mốc; bỏ trống thì lấy giờ hiện tại dạng ISO.
+ */
+export async function datHuong(s, id, { trangThai, trongSo, lyDoBo } = {}, { now } = {}) {
 	if (!TRANG_THAI_HUONG.includes(trangThai)) throw new Error(`Trạng thái hướng không hợp lệ: ${trangThai}`);
 	const cu = await s.huong.get(id);
 	if (!cu) throw new Error("Không có hướng này");
@@ -456,6 +463,7 @@ export async function datHuong(s, id, { trangThai, trongSo, lyDoBo } = {}) {
 		if (!lyDoSach(lyDoBo)) throw new Error("Bỏ hướng cần lý do");
 		moi.lyDoBo = lyDoSach(lyDoBo);
 	} else delete moi.lyDoBo;
+	moi.datLuc = now ?? new Date().toISOString();
 	await s.huong.put(id, moi);
 	return { id, ...moi };
 }
@@ -525,7 +533,7 @@ async function huongCuaKeHoach(s, k) {
 	return huongId ? await s.huong.get(huongId) : null;
 }
 
-export async function datKeHoach(s, id, { trangThai, lyDoBo } = {}) {
+export async function datKeHoach(s, id, { trangThai, lyDoBo } = {}, { now } = {}) {
 	if (!TRANG_THAI_KE_HOACH.includes(trangThai)) throw new Error(`Trạng thái bài dự kiến không hợp lệ: ${trangThai}`);
 	const cu = await s.ke_hoach.get(id);
 	if (!cu) throw new Error("Không có bài dự kiến này");
@@ -541,6 +549,9 @@ export async function datKeHoach(s, id, { trangThai, lyDoBo } = {}) {
 		if (!lyDoSach(lyDoBo)) throw new Error("Bỏ bài dự kiến cần lý do");
 		moi.lyDoBo = lyDoSach(lyDoBo);
 	} else delete moi.lyDoBo;
+	// Mốc để đếm việc đã làm (xem ghi chú ở `datHuong`). Ghi cho MỌI trạng thái màn duyệt đặt
+	// được, kể cả `bo_qua`: bỏ một bài cũng là một quyết định đã làm.
+	moi.datLuc = now ?? new Date().toISOString();
 	await s.ke_hoach.put(id, moi);
 	return { id, ...moi };
 }
